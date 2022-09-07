@@ -159,16 +159,16 @@ Door::Door(relive::Path_Door* pTlvData, const Guid& tlvId)
         }
     }
 
-    if (field_FE_start_state == eOpen_0)
+    if (field_FE_start_state == relive::Path_Door::DoorStates::eOpen)
     {
         if (SwitchStates_Get(field_100_switch_id))
         {
             // Its open but the switch id is on which causes it to close
-            field_FC_current_state = eClosed_1;
+            field_FC_current_state = relive::Path_Door::DoorStates::eClosed;
         }
         else
         {
-            field_FC_current_state = eOpen_0;
+            field_FC_current_state = relive::Path_Door::DoorStates::eOpen;
         }
     }
     else
@@ -176,18 +176,18 @@ Door::Door(relive::Path_Door* pTlvData, const Guid& tlvId)
         if (SwitchStates_Get(field_100_switch_id))
         {
             // Its closed but the id is on which causes it to open
-            field_FC_current_state = eOpen_0;
+            field_FC_current_state = relive::Path_Door::DoorStates::eOpen;
         }
         else
         {
-            field_FC_current_state = eClosed_1;
+            field_FC_current_state = relive::Path_Door::DoorStates::eClosed;
         }
     }
 
-    if ((sActiveHero->mCurrentMotion == eAbeMotions::Motion_114_DoorEnter_459470 || sActiveHero->mCurrentMotion == eAbeMotions::Motion_115_DoorExit_459A40) && field_FC_current_state == eClosed_1 && field_FA_door_number == sActiveHero->field_1A0_door_id)
+    if ((sActiveHero->mCurrentMotion == eAbeMotions::Motion_114_DoorEnter_459470 || sActiveHero->mCurrentMotion == eAbeMotions::Motion_115_DoorExit_459A40) && field_FC_current_state == relive::Path_Door::DoorStates::eClosed && field_FA_door_number == sActiveHero->field_1A0_door_id)
     {
         // Force open is abe is in the door
-        field_FC_current_state = eOpen_0;
+        field_FC_current_state = relive::Path_Door::DoorStates::eOpen;
     }
 
     if (field_F8_door_type == relive::Path_Door::DoorTypes::eTasksDoorWithSecretMusic)
@@ -214,7 +214,7 @@ Door::Door(relive::Path_Door* pTlvData, const Guid& tlvId)
         return;
     }
 
-    if (field_FC_current_state == eOpen_0)
+    if (field_FC_current_state == relive::Path_Door::DoorStates::eOpen)
     {
         if (gMap.mOverlayId == 108)
         {
@@ -301,7 +301,7 @@ Door::Door(relive::Path_Door* pTlvData, const Guid& tlvId)
     }
     *yOff += yAdjustHack;
 
-    if (field_FC_current_state == eOpen_0)
+    if (field_FC_current_state == relive::Path_Door::DoorStates::eOpen)
     {
         mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
     }
@@ -312,23 +312,23 @@ Door::Door(relive::Path_Door* pTlvData, const Guid& tlvId)
 
 bool Door::vIsOpen()
 {
-    return field_FC_current_state == eOpen_0;
+    return field_FC_current_state == relive::Path_Door::DoorStates::eOpen;
 }
 
 void Door::vOpen()
 {
-    if (field_FC_current_state != eOpen_0)
+    if (field_FC_current_state != relive::Path_Door::DoorStates::eOpen)
     {
-        field_FC_current_state = eOpening_2;
+        field_FC_current_state = relive::Path_Door::DoorStates::eOpening;
     }
 }
 
 void Door::vClose()
 {
-    if (field_FC_current_state != eClosed_1)
+    if (field_FC_current_state != relive::Path_Door::DoorStates::eClosed)
     {
         field_FE_start_state = relive::Path_Door::DoorStates::eClosed;
-        field_FC_current_state = eClosing_3;
+        field_FC_current_state = relive::Path_Door::DoorStates::eClosing;
         relive::Path_TLV* pTlv = sPathInfo->TLV_From_Offset_Lvl_Cam(field_F4_tlvInfo);
         pTlv->mTlvSpecificMeaning = 1;
     }
@@ -336,12 +336,12 @@ void Door::vClose()
 
 void Door::vSetOpen()
 {
-    field_FC_current_state = eOpen_0;
+    field_FC_current_state = relive::Path_Door::DoorStates::eOpen;
 }
 
 void Door::vSetClosed()
 {
-    field_FC_current_state = eClosed_1;
+    field_FC_current_state = relive::Path_Door::DoorStates::eClosed;
 }
 
 void Door::PlaySound()
@@ -374,10 +374,10 @@ void Door::VUpdate()
 
     if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_114_DoorEnter_459470 || sActiveHero->mCurrentMotion == eAbeMotions::Motion_115_DoorExit_459A40)
     {
-        if (field_FC_current_state == DoorStates::eClosed_1 && field_FA_door_number == sActiveHero->field_1A0_door_id)
+        if (field_FC_current_state == relive::Path_Door::DoorStates::eClosed && field_FA_door_number == sActiveHero->field_1A0_door_id)
         {
             mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
-            field_FC_current_state = DoorStates::eOpen_0;
+            field_FC_current_state = relive::Path_Door::DoorStates::eOpen;
         }
     }
     else
@@ -408,13 +408,13 @@ void Door::VUpdate()
         }
         switch (field_FC_current_state)
         {
-            case DoorStates::eOpen_0:
+            case relive::Path_Door::DoorStates::eOpen:
                 mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
 
                 if ((!field_FE_start_state && SwitchStates_Get(field_100_switch_id))
-                    || (field_FE_start_state == DoorStates::eClosed_1 && !SwitchStates_Get(field_100_switch_id)))
+                    || (field_FE_start_state == relive::Path_Door::DoorStates::eClosed && !SwitchStates_Get(field_100_switch_id)))
                 {
-                    field_FC_current_state = DoorStates::eClosing_3;
+                    field_FC_current_state = relive::Path_Door::DoorStates::eClosing;
                     if (gMap.mOverlayId == 108)
                     {
                         mAnim.Set_Animation_Data(AnimId::Door_BarracksMetal_Open, nullptr);
@@ -429,13 +429,13 @@ void Door::VUpdate()
                 }
                 break;
 
-            case DoorStates::eClosed_1:
+            case relive::Path_Door::DoorStates::eClosed:
                 mAnim.mFlags.Set(AnimFlags::eBit3_Render);
                 mAnim.mFlags.Set(AnimFlags::eBit2_Animate);
 
-                if ((field_FE_start_state == DoorStates::eClosed_1 && SwitchStates_Get(field_100_switch_id)) || (field_FE_start_state == DoorStates::eOpen_0 && !SwitchStates_Get(field_100_switch_id)))
+                if ((field_FE_start_state == relive::Path_Door::DoorStates::eClosed && SwitchStates_Get(field_100_switch_id)) || (field_FE_start_state == relive::Path_Door::DoorStates::eOpen && !SwitchStates_Get(field_100_switch_id)))
                 {
-                    field_FC_current_state = DoorStates::eOpening_2;
+                    field_FC_current_state = relive::Path_Door::DoorStates::eOpening;
                     if (gMap.mOverlayId == 108)
                     {
                         mAnim.Set_Animation_Data(AnimId::Door_BarracksMetal_Open, nullptr);
@@ -452,23 +452,23 @@ void Door::VUpdate()
                 }
                 break;
 
-            case DoorStates::eOpening_2:
+            case relive::Path_Door::DoorStates::eOpening:
                 mAnim.mFlags.Set(AnimFlags::eBit3_Render);
                 mAnim.mFlags.Set(AnimFlags::eBit2_Animate);
 
                 if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
                 {
-                    field_FC_current_state = DoorStates::eOpen_0;
+                    field_FC_current_state = relive::Path_Door::DoorStates::eOpen;
                 }
                 break;
 
-            case DoorStates::eClosing_3:
+            case relive::Path_Door::DoorStates::eClosing:
                 mAnim.mFlags.Set(AnimFlags::eBit3_Render);
                 mAnim.mFlags.Set(AnimFlags::eBit2_Animate);
 
                 if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
                 {
-                    field_FC_current_state = DoorStates::eClosed_1;
+                    field_FC_current_state = relive::Path_Door::DoorStates::eClosed;
                     PlaySound();
                 }
                 break;
@@ -507,20 +507,20 @@ TrainDoor::TrainDoor(relive::Path_TrainDoor* pTlv, const Guid& tlvId)
     if (pTlv->mTlvSpecificMeaning)
     {
         mAnim.Set_Animation_Data(AnimId::Door_Train_Closed, 0);
-        field_FC_current_state = eClosed_1;
+        field_FC_current_state = relive::Path_Door::DoorStates::eClosed;
     }
     else
     {
         mAnim.mFlags.Clear(AnimFlags::eBit2_Animate);
         mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
-        field_FC_current_state = eOpen_0;
+        field_FC_current_state = relive::Path_Door::DoorStates::eOpen;
     }
     mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pTlv->mDirection == relive::reliveXDirection::eRight);
 }
 
 TrainDoor::~TrainDoor()
 {
-    if (field_FC_current_state == eOpen_0)
+    if (field_FC_current_state == relive::Path_Door::DoorStates::eOpen)
     {
         Path::TLV_Reset(field_F4_tlvInfo, -1, 0, 0);
     }
@@ -532,7 +532,7 @@ TrainDoor::~TrainDoor()
 
 void TrainDoor::VUpdate()
 {
-    if (field_FC_current_state == eOpen_0)
+    if (field_FC_current_state == relive::Path_Door::DoorStates::eOpen)
     {
         // Wait for Abe to GTFO
         if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_115_DoorExit_459A40 && sActiveHero->mCurrentMotion != eAbeMotions::Motion_114_DoorEnter_459470)
@@ -541,7 +541,7 @@ void TrainDoor::VUpdate()
             mAnim.Set_Animation_Data(AnimId::Door_Train_Closing, nullptr);
             mAnim.mFlags.Set(AnimFlags::eBit2_Animate);
             mAnim.mFlags.Set(AnimFlags::eBit3_Render);
-            field_FC_current_state = eClosed_1;
+            field_FC_current_state = relive::Path_Door::DoorStates::eClosed;
         }
     }
 

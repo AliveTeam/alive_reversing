@@ -4,17 +4,6 @@
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
 
-struct Path_SecurityDoor final : public Path_TLV
-{
-    Scale_short mScale;
-    s16 mSwitchId;
-    s16 mCode1;
-    s16 mCode2;
-    s16 mXPos;
-    s16 mYPos;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SecurityDoor, 0x1C);
-
 enum class SecurityDoorStates : s16
 {
     eInactive_0 = 0,

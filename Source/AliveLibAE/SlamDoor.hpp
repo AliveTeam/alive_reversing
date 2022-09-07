@@ -14,17 +14,6 @@ enum SlamDoorFlags
     eDelete = 0x10,
 };
 
-struct Path_SlamDoor final : public Path_TLV
-{
-    Choice_short mStartClosed;
-    Scale_short mScale;
-    s16 mSwitchId;
-    Choice_short mFlipY;
-    Choice_short mDelete;
-    s16 padding;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SlamDoor, 0x1C);
-
 class SlamDoor final : public BaseAliveGameObject
 {
 public:

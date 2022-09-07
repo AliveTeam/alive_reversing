@@ -13,17 +13,6 @@ struct FallingItem_Data final
 };
 ALIVE_ASSERT_SIZEOF(FallingItem_Data, 0xC);
 
-struct Path_FallingItem final : public Path_TLV
-{
-    s16 mSwitchId;
-    Scale_short mScale;
-    s16 mFallInterval;
-    s16 mMaxFallingItems;
-    Choice_short mResetSwitchIdAfterUse;
-    s16 field_20_pad;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FallingItem, 0x1C);
-
 class FallingItem final : public BaseAliveGameObject
 {
 public:

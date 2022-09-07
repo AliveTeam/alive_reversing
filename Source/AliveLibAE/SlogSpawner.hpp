@@ -4,25 +4,6 @@
 #include "Path.hpp"
 #include "../AliveLibCommon/Function.hpp"
 
-enum class StartDirection : s16
-{
-    eRight_0 = 0,
-    eLeft_1 = 1
-};
-
-struct Path_SlogSpawner final : public Path_TLV
-{
-    Scale_short mScale;
-    s16 mMaxSlogs;
-    s16 mMaxSlogsAtATime;
-    StartDirection mStartDirection;
-    s16 mSlogSpawnInterval;
-    s16 mSpawnerSwitchId;
-    Choice_short mListenToSligs;
-    s16 mChaseDelay;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SlogSpawner, 0x20);
-
 class SlogSpawner final : public BaseGameObject
 {
 public:

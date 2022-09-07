@@ -5,21 +5,6 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "SwitchStates.hpp"
 
-struct Path_MultiSwitchController final : public Path_TLV
-{
-    s16 mOutputSwitchId;
-    SwitchOp mAction;
-    u16 mOnOffDelay;
-    u16 mInputSwitchId1;
-    u16 mInputSwitchId2;
-    u16 mInputSwitchId3;
-    u16 mInputSwitchId4;
-    u16 mInputSwitchId5;
-    u16 mInputSwitchId6;
-    s16 padding;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MultiSwitchController, 0x24);
-
 class MultiSwitchController final : public BaseGameObject
 {
 public:

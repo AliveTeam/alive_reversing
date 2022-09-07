@@ -4,15 +4,6 @@
 #include "Path.hpp"
 #include "../AliveLibCommon/Function.hpp"
 
-struct Path_Greeter final : public Path_TLV
-{
-    Scale_short mScale;
-    s16 mMotionDetectorSpeed;
-    XDirection_short mFacing;
-    s16 field_16_pad;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Greeter, 0x18);
-
 enum class GreeterBrainStates : s16
 {
     eBrain_0_Patrol,

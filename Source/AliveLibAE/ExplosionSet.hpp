@@ -5,21 +5,6 @@
 #include "../relive_lib/BaseGameObject.hpp"
 #include "../relive_lib/Primitives.hpp"
 
-struct Path_ExplosionSet final : public Path_TLV
-{
-    Choice_short mStartEnabled;
-    s16 mSwitchId;
-    Choice_short mSpawnAssets;
-    s16 mStartDelay;
-    XDirection_short mStartDirection;
-    s16 mAssetInterval;
-    s16 mGridSpacing;
-    s16 mIncreasingGridSpacing;
-    Scale_short mScale;
-    s16 padding;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ExplosionSet, 0x24);
-
 class ExplosionSet final : public BaseGameObject
 {
 public:

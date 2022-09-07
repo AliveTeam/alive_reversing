@@ -5,6 +5,7 @@
 #include "Path.hpp"
 #include "../relive_lib/MapWrapper.hpp"
 #include "FlyingSligSpawner.hpp"
+#include "../relive_lib/data_conversion/PathTlvsAE.hpp"
 
 #define SLIG_MOTIONS_ENUM_AE(ENTRY)         \
     ENTRY(M_StandIdle_0_4B4EC0)          \
@@ -91,136 +92,7 @@ enum class SligSfx : s16
     ePadding_16 = 16
 };
 
-struct Path_ZSligCover final : public Path_TLV
-{
-    // Empty
-};
 
-struct Path_SligGetWings final : public Path_TLV
-{
-    Scale_short mScale;
-    Path_FlyingSlig_Data::SpawnDelayStates mSpawnDelayState;
-    s16 mSpawnMoveDelay;
-    s16 mPatrolPauseMin;
-    s16 mPatrolPauseMax;
-    XDirection_short mFacing;
-    s16 mPanicDelay;
-    s16 mGiveUpChaseDelay;
-    s16 mPrechaseDelay;
-    s16 mSligBoundId;
-    s16 mAlertedListenTime;
-    s16 mSpawnerSwitchId;
-    s16 mGrenadeDelay;
-    s16 mMaxVelocity;
-    s16 mLaunchGrenadeSwitchId;
-    Choice_short mPersistant;
-};
-// TODO: size
-
-struct Path_Slig final : public Path_TLV
-{
-    Scale_short mScale;
-
-    // TODO: Check these - GameEnder is probably only AO for instance ?
-    enum class StartState : s16
-    {
-        Listening_0 = 0,
-        Patrol_1 = 1,
-        Sleeping_2 = 2,
-        Chase_3 = 3,
-        ChaseAndDisappear_4 = 4,
-        Unused_5 = 5,
-        ListeningToGlukkon_6 = 6,
-    };
-    StartState mStartState;
-
-    s16 mPauseTime;
-    s16 mPauseLeftMin;
-    s16 mPauseLeftMax;
-    s16 mPauseRightMin;
-    s16 mPauseRightMax;
-    enum class ShootPossessedSligs : s16
-    {
-        eYes_0 = 0,
-        eYes_1 = 1,
-        eNo_3 = 3, // used in an OG level, breaks lvl exporting if removed
-    };
-    ShootPossessedSligs mShootPossessedSligs;
-    s16 mShootOnSightDelay;
-    s16 mNumTimesToShoot;
-    s16 field_24_unused; // unused
-    s16 mCode1;
-    s16 mCode2;
-    Choice_short mChaseAbeWhenSpotted;
-    XDirection_short mFacing;
-    s16 mPanicTimeout;
-    s16 field_30_num_panic_sounds; // unused
-    s16 field_32_panic_sound_timeout; // unused
-    s16 mStopChaseDelay;
-    s16 mTimeToWaitBeforeChase;
-    s16 mSligBoundId;
-    s16 mAlertedListenTime;
-    s16 mPercentSayWhat;
-    s16 mPercentBeatMud;
-    s16 field_40_talk_to_abe; // unused
-    s16 field_42_dont_shoot; // unused
-    s16 mZShootDelay;
-    Choice_short mStayAwake;
-    s16 mDisabledResources;
-    s16 mNoiseWakeUpDistance;
-    s16 mSligSpawnerSwitchId;
-    Choice_short mUnlimitedSpawns;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slig, 0x50);
-
-struct Path_SligGetPants final : public Path_TLV
-{
-    Scale_short Scale;
-    Path_Slig::StartState start_state;
-    s16 pause_time;
-    s16 pause_left_min;
-    s16 pause_left_max;
-    s16 pause_right_min;
-    s16 pause_right_max;
-    Path_Slig::ShootPossessedSligs shoot_possessed_sligs;
-    s16 shoot_on_sight_delay;
-    s16 num_times_to_shoot;
-    s16 padding;
-    s16 code1;
-    s16 code2;
-    Choice_short chase_abe_when_spotted;
-    XDirection_short start_direction;
-    s16 panic_timeout;
-    s16 amount_of_panic_sounds;
-    s16 panic_sounds_timeout;
-    s16 stop_chase_delay;
-    s16 time_to_wait_before_chase;
-    s16 slig_bound_id;
-    s16 alerted_listen_time;
-    s16 percent_say_what;
-    s16 percent_beat_mud;
-    s16 talk_to_abe;
-    s16 dont_shoot;
-    s16 z_shoot_delay;
-    Choice_short stay_awake;
-    s16 disable_resources;
-    s16 noise_wake_up_distance;
-    s16 mSligSpawnerSwitchId;
-    Choice_short unlimited_spawns;
-};
-// TODO: size
-
-// This is a left bound, right bound and a persist.
-struct Path_SligBound final : public Path_TLV
-{
-    s16 mSligBoundId;
-    s16 mDisabledResources;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SligBound, 0x14);
-
-using Path_SligBoundLeft = Path_SligBound;
-using Path_SligBoundRight = Path_SligBound;
-using Path_SligPersist = Path_SligBound;
 
 
 enum class LevelIds : s16;

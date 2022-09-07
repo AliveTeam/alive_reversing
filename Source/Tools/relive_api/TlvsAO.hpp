@@ -2,7 +2,7 @@
 
 #include "TlvObjectBaseAO.hpp"
 #include "TlvObjectBaseMacros.hpp"
-#include "../../relive_lib/data_conversion/ao_tlvs.hpp"
+#include "../../relive_lib/data_conversion/PathTlvsAO.hpp"
 #include "../../AliveLibAO/HoistRocksEffect.hpp"
 #include "../../AliveLibAO/Abe.hpp"
 #include "../../AliveLibAO/Door.hpp"

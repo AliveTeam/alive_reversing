@@ -5,12 +5,6 @@
 #include "Path.hpp"
 #include "Scrab.hpp"
 
-struct Path_ScrabSpawner final : public Path_Scrab
-{
-    s16 mSpawnerSwitchId;
-    ScrabSpawnDirection mFacing;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ScrabSpawner, 0x30);
 
 enum class ScrabSpawnerStates : s32
 {

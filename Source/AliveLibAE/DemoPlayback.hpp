@@ -4,11 +4,6 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "Path.hpp"
 
-struct Path_DemoSpawnPoint final : public Path_TLV
-{
-    // Empty
-};
-
 class DemoPlayback final : public BaseGameObject
 {
 public:

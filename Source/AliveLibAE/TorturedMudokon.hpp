@@ -11,13 +11,6 @@ enum class TorturedMudokonState : s16
     eReleased_2 = 2
 };
 
-struct Path_TorturedMudokon final : public Path_TLV
-{
-    s16 mKillSwitchId;
-    s16 mReleaseSwitchId;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TorturedMudokon, 0x14);
-
 class TorturedMudokon final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:

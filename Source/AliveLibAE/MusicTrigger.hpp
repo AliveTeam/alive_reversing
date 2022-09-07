@@ -5,32 +5,6 @@
 #include "Path.hpp"
 #include "MusicController.hpp"
 
-enum class MusicTriggerMusicType : s16
-{
-    eDrumAmbience_0 = 0,
-    eDeathDrumShort_1 = 1,
-    eSecretAreaLong_2 = 2,
-    eSoftChase_3 = 3,
-    eIntenseChase_4 = 4,
-    eChime_5 = 5,
-    eSecretAreaShort_6 = 6
-};
-
-enum class TriggeredBy : s16
-{
-    eTimer_0 = 0,
-    eTouching_1 = 1
-};
-
-struct Path_MusicTrigger final : public Path_TLV
-{
-    MusicTriggerMusicType mMusicType;
-    TriggeredBy mTriggeredBy;
-    s16 mMusicDelay;
-    s16 field_16_pad;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MusicTrigger, 0x18);
-
 class MusicTrigger final : public BaseGameObject
 {
 public:

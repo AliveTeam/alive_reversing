@@ -57,32 +57,6 @@ enum eParamiteMotions : s32
 };
 
 class Meat;
-
-struct Path_Paramite final : public Path_TLV
-{
-    Scale_short mScale;
-    enum class EntranceType : s16
-    {
-        ePatrol_0 = 0,
-        eSurpriseWeb_1 = 1,
-        eSlightlyHigherSpawnSurpriseWeb_2 = 2,
-        eUnused_ScaleToLeftGridSize_3 = 3,
-        eUnused_ScaleToRightGridSize_4 = 4,
-    };
-    EntranceType mEntranceType;
-    s16 mAloneChaseDelay;
-    s16 mSurpriseWebDelayTimer;
-    s16 mMeatEatingTime;
-    u16 mGroupChaseDelay;
-    s16 field_1C_disabled_resources; // // Unused
-    s16 mSurpriseWebSwitchId;
-    Choice_short mHissBeforeAttack;
-    Choice_short mDeleteWhenOutOfSight;
-    Choice_short mAttackFleeches;
-    s16 field_26_padding;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Paramite, 0x28);
-
 class Paramite;
 using TParamiteBrainFn = s16 (Paramite::*)();
 using TParamiteMotionFn = void (Paramite::*)();

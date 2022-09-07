@@ -22,17 +22,6 @@ struct WorkWheel_SaveState final
 };
 //ALIVE_ASSERT_SIZEOF_ALWAYS(WorkWheel_SaveState, 0x10);
 
-struct Path_WorkWheel final : public Path_TLV
-{
-    Scale_short mScale;
-    s16 mSwitchId;
-    s16 mActivationTime;
-    s16 mTurnOffTime;
-    Choice_short mTurnOffWhenStopped;
-    s16 padding;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_WorkWheel, 0x1C);
-
 class WorkWheel final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:

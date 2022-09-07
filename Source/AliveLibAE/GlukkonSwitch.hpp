@@ -4,22 +4,6 @@
 #include "Path.hpp"
 #include "../AliveLibCommon/Function.hpp"
 
-struct Path_GlukkonSwitch final : public Path_TLV
-{
-    enum class Scale : s16
-    {
-        eHalf_0 = 0,
-        eFull_1 = 1,
-    };
-    Scale mScale;
-    s16 mOkSwitchId;
-    s16 mFailSwitchId;
-    u16 mXPos;
-    u16 mYPos;
-    s16 field_1A_pad;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_GlukkonSwitch, 0x1C);
-
 class GlukkonSwitch final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:

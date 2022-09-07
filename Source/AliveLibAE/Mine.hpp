@@ -7,16 +7,6 @@
 #include "Factory.hpp"
 #include "../relive_lib/Animation.hpp"
 
-struct Path_Mine final : public Path_TLV
-{
-    s16 field_10_num_patterns; // unused
-    s16 field_12_pattern; // unused
-    Scale_short mScale;
-    s16 mDisabledResources;
-    Choice_short mPersistOffscreen;
-    s16 pad;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Mine, 0x1C);
 
 enum Mine_Flags_1BC
 {

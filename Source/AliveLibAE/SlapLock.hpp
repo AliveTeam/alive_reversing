@@ -3,19 +3,6 @@
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
 
-struct Path_SlapLock final : public Path_TLV
-{
-    Scale_short mScale;
-    s16 mTargetTombSwitchId1;
-    s16 mTargetTombSwitchId2;
-    Choice_short mPersistant; // unused
-    Choice_short mHasGhost;
-    Choice_short mGiveInvisibilityPowerup;
-    s16 mInvisibilityDuration;
-    s16 mSlapOutputSwitchId;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SlapLock, 0x20);
-
 enum class SlapLockStates : s16
 {
     eShaking_0 = 0,

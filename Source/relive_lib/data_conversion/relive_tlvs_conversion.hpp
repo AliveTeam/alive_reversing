@@ -1,139 +1,71 @@
 #pragma once
 
 #include "relive_tlvs_serialization.hpp"
-#include "ao_tlvs.hpp"
-#include "ae_tlvs.hpp"
+#include "PathTlvsAO.hpp"
+#include "PathTlvsAE.hpp"
+#include "../AliveLibAE/SwitchStates.hpp"
+
 #include "../AliveLibAO/SecurityOrb.hpp"
-#include "../AliveLibAE/SecurityOrb.hpp"
-#include "../AliveLibAE/Path.hpp"
-#include "../AliveLibAE/Abe.hpp"
 #include "../AliveLibAO/Abe.hpp"
-#include "../AliveLibAE/LiftPoint.hpp"
 #include "../AliveLibAO/LiftPoint.hpp"
-#include "../AliveLibAE/Dove.hpp"
 #include "../AliveLibAO/Dove.hpp"
-#include "../AliveLibAE/RockSack.hpp"
 #include "../AliveLibAO/RockSack.hpp"
 #include "../AliveLibAO/ZBall.hpp"
-#include "../AliveLibAE/FallingItem.hpp"
 #include "../AliveLibAO/FallingItem.hpp"
 #include "../AliveLibAO/PullRingRope.hpp"
-#include "../AliveLibAE/PullRingRope.hpp"
 #include "../AliveLibAO/TimedMine.hpp"
-#include "../AliveLibAE/TimedMine.hpp"
 #include "../AliveLibAO/HoistRocksEffect.hpp"
 #include "../AliveLibAO/TrapDoor.hpp"
-#include "../AliveLibAE/TrapDoor.hpp"
 #include "../AliveLibAO/LCDScreen.hpp"
-#include "../AliveLibAE/LCDScreen.hpp"
-#include "../AliveLibAE/Mine.hpp"
 #include "../AliveLibAO/Mine.hpp"
-#include "../AliveLibAE/InvisibleSwitch.hpp"
 #include "../AliveLibAO/InvisibleSwitch.hpp"
-#include "../AliveLibAE/ElectricWall.hpp"
 #include "../AliveLibAO/ElectricWall.hpp"
-#include "../AliveLibAE/BoomMachine.hpp"
 #include "../AliveLibAO/BoomMachine.hpp"
-#include "../AliveLibAE/UXB.hpp"
 #include "../AliveLibAO/UXB.hpp"
 #include "../AliveLibAO/MeatSaw.hpp"
 #include "../AliveLibAO/Lever.hpp"
-#include "../AliveLibAE/Lever.hpp"
-#include "../AliveLibAE/BirdPortal.hpp"
 #include "../AliveLibAO/BirdPortal.hpp"
 #include "../AliveLibAO/DoorLight.hpp"
 #include "../AliveLibAO/MusicTrigger.hpp"
-#include "../AliveLibAE/MusicTrigger.hpp"
 #include "../AliveLibAO/LiftMover.hpp"
-#include "../AliveLibAE/LiftMover.hpp"
 #include "../AliveLibAO/HintFly.hpp"
 #include "../AliveLibAO/TimerTrigger.hpp"
-#include "../AliveLibAE/TimerTrigger.hpp"
 #include "../AliveLibAO/FlintLockFire.hpp"
 #include "../AliveLibAO/HoneySack.hpp"
 #include "../AliveLibAO/Bat.hpp"
 #include "../AliveLibAO/RollingBallStopper.hpp"
 #include "../AliveLibAO/RollingBall.hpp"
-#include "../AliveLibAE/MotionDetector.hpp"
 #include "../AliveLibAO/MotionDetector.hpp"
 #include "../AliveLibAO/BellHammer.hpp"
 #include "../AliveLibAO/Slig.hpp"
-#include "../AliveLibAE/Slig.hpp"
 #include "../AliveLibAO/BackgroundAnimation.hpp"
-#include "../AliveLibAE/BackgroundAnimation.hpp"
-#include "../AliveLibAE/MainMenu.hpp"
 #include "../AliveLibAO/MainMenu.hpp"
 #include "../AliveLibAO/Elum.hpp"
 #include "../AliveLibAO/Scrab.hpp"
-#include "../AliveLibAE/Scrab.hpp"
 #include "../AliveLibAO/HoneyDrip.hpp"
 #include "../AliveLibAO/ChimeLock.hpp"
 #include "../AliveLibAO/LCDStatusBoard.hpp"
-#include "../AliveLibAE/LCDStatusBoard.hpp"
-#include "../AliveLibAE/CreditsController.hpp"
 #include "../AliveLibAO/CreditsController.hpp"
-#include "../AliveLibAE/Meat.hpp"
 #include "../AliveLibAO/Meat.hpp"
 #include "../AliveLibAO/Honey.hpp"
 #include "../AliveLibAO/BeeSwarmHole.hpp"
-#include "../AliveLibAE/Door.hpp"
 #include "../AliveLibAO/Door.hpp"
 #include "../AliveLibAO/MovingBomb.hpp"
-#include "../AliveLibAE/MovingBomb.hpp"
 #include "../AliveLibAO/DoorFlame.hpp"
-#include "../AliveLibAE/DoorFlame.hpp"
-#include "../AliveLibAE/Mudokon.hpp"
 #include "../AliveLibAO/Mudokon.hpp"
 #include "../AliveLibAO/SecurityClaw.hpp"
 #include "../AliveLibAO/SlingMudokon.hpp"
-#include "../AliveLibAE/FootSwitch.hpp"
 #include "../AliveLibAO/FootSwitch.hpp"
 #include "../AliveLibAO/Paramite.hpp"
-#include "../AliveLibAE/Paramite.hpp"
 #include "../AliveLibAO/ZzzSpawner.hpp"
-#include "../AliveLibAE/ZzzSpawner.hpp"
 #include "../AliveLibAO/BackgroundGlukkon.hpp"
 #include "../AliveLibAO/GasEmitter.hpp"
-#include "../AliveLibAE/GasEmitter.hpp"
-#include "../AliveLibAE/GasCountDown.hpp"
 #include "../AliveLibAO/GasCountDown.hpp"
-#include "../AliveLibAE/SecurityDoor.hpp"
 #include "../AliveLibAO/SecurityDoor.hpp"
 #include "../AliveLibAO/Well.hpp"
 #include "../AliveLibAO/Slog.hpp"
-#include "../AliveLibAE/Slog.hpp"
 #include "../AliveLibAO/SlogSpawner.hpp"
-#include "../AliveLibAE/SlogSpawner.hpp"
 #include "../AliveLibAO/SligSpawner.hpp"
-#include "../AliveLibAE/SligSpawner.hpp"
-#include "../AliveLibAE/TorturedMudokon.hpp"
-#include "../AliveLibAE/DoorBlocker.hpp"
-#include "../AliveLibAE/GlukkonSwitch.hpp"
-#include "../AliveLibAE/Greeter.hpp"
-#include "../AliveLibAE/BrewMachine.hpp"
-#include "../AliveLibAE/ParamiteWebLine.hpp"
-#include "../AliveLibAE/SlapLock.hpp"
-#include "../AliveLibAE/StatusLight.hpp"
-#include "../AliveLibAE/MultiSwitchController.hpp"
-#include "../AliveLibAE/ExplosionSet.hpp"
-#include "../AliveLibAE/Bone.hpp"
-#include "../AliveLibAE/MineCar.hpp"
-#include "../AliveLibAE/ColourfulMeter.hpp"
-#include "../AliveLibAE/DemoPlayback.hpp"
-#include "../AliveLibAE/LevelLoader.hpp"
-#include "../AliveLibAE/SlamDoor.hpp"
-#include "../AliveLibAE/Slurg.hpp"
-#include "../AliveLibAE/LaughingGas.hpp"
-#include "../AliveLibAE/WorkWheel.hpp"
-#include "../AliveLibAE/Water.hpp"
-#include "../AliveLibAE/WheelSyncer.hpp"
-#include "../AliveLibAE/Fleech.hpp"
-#include "../AliveLibAE/SlurgSpawner.hpp"
-#include "../AliveLibAE/Drill.hpp"
-#include "../AliveLibAE/Glukkon.hpp"
-#include "../AliveLibAE/CrawlingSligButton.hpp"
-#include "../AliveLibAE/ScrabSpawner.hpp"
-#include "../AliveLibAE/CrawlingSlig.hpp"
 #include "../AliveLibAO/BeeNest.hpp"
 
 // Convert an AO or AE TLV to a relive TLV
@@ -320,15 +252,15 @@ public:
     }
 
 private:
-    static Path_ShadowZone::Scale From(::ShadowZoneScale aeScale)
+    static Path_ShadowZone::Scale From(::Path_ShadowZone::ShadowZoneScale aeScale)
     {
         switch (aeScale)
         {
-            case ::ShadowZoneScale::eHalf_1:
+            case ::Path_ShadowZone::ShadowZoneScale::eHalf_1:
                 return Path_ShadowZone::Scale::eHalf;
-            case ::ShadowZoneScale::eFull_2:
+            case ::Path_ShadowZone::ShadowZoneScale::eFull_2:
                 return Path_ShadowZone::Scale::eFull;
-            case ::ShadowZoneScale::eBoth_0:
+            case ::Path_ShadowZone::ShadowZoneScale::eBoth_0:
                 return Path_ShadowZone::Scale::eBoth;
         }
         ALIVE_FATAL("Bad AE shadow scale");
@@ -469,19 +401,19 @@ private:
         ALIVE_FATAL("Bad lift point stop type");
     }
 
-    static relive::Path_LiftPoint::LiftPointStopType From(::LiftPointStopType stopType)
+    static relive::Path_LiftPoint::LiftPointStopType From(::Path_LiftPoint::LiftPointStopType stopType)
     {
         switch (stopType)
         {
-            case ::LiftPointStopType::eTopFloor_0:
+            case ::Path_LiftPoint::LiftPointStopType::eTopFloor_0:
                 return relive::Path_LiftPoint::LiftPointStopType::eTopFloor;
-            case ::LiftPointStopType::eBottomFloor_1:
+            case ::Path_LiftPoint::LiftPointStopType::eBottomFloor_1:
                 return relive::Path_LiftPoint::LiftPointStopType::eBottomFloor;
-            case ::LiftPointStopType::eMiddleFloor_2:
+            case ::Path_LiftPoint::LiftPointStopType::eMiddleFloor_2:
                 return relive::Path_LiftPoint::LiftPointStopType::eMiddleFloor;
-            case ::LiftPointStopType::eMiddleLockFloor_3:
+            case ::Path_LiftPoint::LiftPointStopType::eMiddleLockFloor_3:
                 return relive::Path_LiftPoint::LiftPointStopType::eMiddleLockFloor;
-            case ::LiftPointStopType::eStartPointOnly_4:
+            case ::Path_LiftPoint::LiftPointStopType::eStartPointOnly_4:
                 return relive::Path_LiftPoint::LiftPointStopType::eStartPointOnly;
         }
         ALIVE_FATAL("Bad lift point stop type");
@@ -673,31 +605,31 @@ private:
         ALIVE_FATAL("Bad pull ring sound direction");
     }
 
-    static relive::Path_PullRingRope::PullRingSwitchSound From(::PullRingSwitchSound switchSound)
+    static relive::Path_PullRingRope::PullRingSwitchSound From(::Path_PullRingRope::PullRingSwitchSound switchSound)
     {
         switch (switchSound)
         {
-        case ::PullRingSwitchSound::eNone_0:
+        case ::Path_PullRingRope::PullRingSwitchSound::eNone_0:
             return relive::Path_PullRingRope::PullRingSwitchSound::eNone;
-        case ::PullRingSwitchSound::eWellExit_1:
+        case ::Path_PullRingRope::PullRingSwitchSound::eWellExit_1:
             return relive::Path_PullRingRope::PullRingSwitchSound::eWellExit;
-        case ::PullRingSwitchSound::eRingBellHammer_2:
+        case ::Path_PullRingRope::PullRingSwitchSound::eRingBellHammer_2:
             return relive::Path_PullRingRope::PullRingSwitchSound::eRingBellHammer;
-        case ::PullRingSwitchSound::eDoorEffect_3:
+        case ::Path_PullRingRope::PullRingSwitchSound::eDoorEffect_3:
             return relive::Path_PullRingRope::PullRingSwitchSound::eDoorEffect;
         }
         ALIVE_FATAL("Bad pull ring switch sound");
     }
 
-    static relive::Path_PullRingRope::PullRingSoundDirection From(::PullRingSoundDirection soundDir)
+    static relive::Path_PullRingRope::PullRingSoundDirection From(::Path_PullRingRope::PullRingSoundDirection soundDir)
     {
         switch (soundDir)
         {
-        case ::PullRingSoundDirection::eLeftAndRight_0:
+        case ::Path_PullRingRope::PullRingSoundDirection::eLeftAndRight_0:
             return relive::Path_PullRingRope::PullRingSoundDirection::eLeftAndRight;
-        case ::PullRingSoundDirection::eLeft_1:
+        case ::Path_PullRingRope::PullRingSoundDirection::eLeft_1:
             return relive::Path_PullRingRope::PullRingSoundDirection::eLeft;
-        case ::PullRingSoundDirection::eRight_2:
+        case ::Path_PullRingRope::PullRingSoundDirection::eRight_2:
             return relive::Path_PullRingRope::PullRingSoundDirection::eRight;
         }
         ALIVE_FATAL("Bad pull ring sound direction");
@@ -960,15 +892,15 @@ private:
         ALIVE_FATAL("Bad invisible switch scale");
     }
 
-    static relive::Path_InvisibleSwitch::InvisibleSwitchScale From(::InvisibleSwitchScale scale)
+    static relive::Path_InvisibleSwitch::InvisibleSwitchScale From(::Path_InvisibleSwitch::InvisibleSwitchScale scale)
     {
         switch (scale)
         {
-            case ::InvisibleSwitchScale::eHalf_0:
+            case ::Path_InvisibleSwitch::InvisibleSwitchScale::eHalf_0:
                 return relive::Path_InvisibleSwitch::InvisibleSwitchScale::eHalf;
-            case ::InvisibleSwitchScale::eFull_1:
+            case ::Path_InvisibleSwitch::InvisibleSwitchScale::eFull_1:
                 return relive::Path_InvisibleSwitch::InvisibleSwitchScale::eFull;
-            case ::InvisibleSwitchScale::eAny_2:
+            case ::Path_InvisibleSwitch::InvisibleSwitchScale::eAny_2:
                 return relive::Path_InvisibleSwitch::InvisibleSwitchScale::eAny;
         }
         ALIVE_FATAL("Bad invisible switch scale");
@@ -1011,13 +943,13 @@ private:
         ALIVE_FATAL("Bad electric wall start state");
     }
 
-    static relive::Path_ElectricWall::ElectricWallStartState From(::ElectricWallStartState startState)
+    static relive::Path_ElectricWall::ElectricWallStartState From(::Path_ElectricWall::ElectricWallStartState startState)
     {
         switch (startState)
         {
-            case ::ElectricWallStartState::eOff_0:
+            case ::Path_ElectricWall::ElectricWallStartState::eOff_0:
                 return relive::Path_ElectricWall::ElectricWallStartState::eOff;
-            case ::ElectricWallStartState::eOn_1:
+            case ::Path_ElectricWall::ElectricWallStartState::eOn_1:
                 return relive::Path_ElectricWall::ElectricWallStartState::eOn;
         }
         ALIVE_FATAL("Bad electric wall start state");
@@ -1243,37 +1175,37 @@ private:
         ALIVE_FATAL("Bad lever sound direction");
     }
 
-    static relive::Path_Lever::LeverSoundType From(::LeverSoundType soundType)
+    static relive::Path_Lever::LeverSoundType From(::Path_Lever::LeverSoundType soundType)
     {
         switch (soundType)
         {
-            case ::LeverSoundType::eNone:
+            case ::Path_Lever::LeverSoundType::eNone:
                 return relive::Path_Lever::LeverSoundType::eNone;
-            case ::LeverSoundType::eWell_1:
+            case ::Path_Lever::LeverSoundType::eWell_1:
                 return relive::Path_Lever::LeverSoundType::eWell;
-            case ::LeverSoundType::eSwitchBellHammer_2:
+            case ::Path_Lever::LeverSoundType::eSwitchBellHammer_2:
                 return relive::Path_Lever::LeverSoundType::eSwitchBellHammer;
-            case ::LeverSoundType::eDoor_3:
+            case ::Path_Lever::LeverSoundType::eDoor_3:
                 return relive::Path_Lever::LeverSoundType::eDoor;
-            case ::LeverSoundType::eElectricWall_4:
+            case ::Path_Lever::LeverSoundType::eElectricWall_4:
                 return relive::Path_Lever::LeverSoundType::eElectricWall;
-            case ::LeverSoundType::eSecurityOrb_5:
+            case ::Path_Lever::LeverSoundType::eSecurityOrb_5:
                 return relive::Path_Lever::LeverSoundType::eSecurityOrb;
-            case ::LeverSoundType::eLift_6:
+            case ::Path_Lever::LeverSoundType::eLift_6:
                 return relive::Path_Lever::LeverSoundType::eLift;
         }
         ALIVE_FATAL("Bad lever sound type");
     }
 
-    static relive::Path_Lever::LeverSoundDirection From(::LeverSoundDirection soundDir)
+    static relive::Path_Lever::LeverSoundDirection From(::Path_Lever::LeverSoundDirection soundDir)
     {
         switch (soundDir)
         {
-            case ::LeverSoundDirection::eLeftAndRight_0:
+            case ::Path_Lever::LeverSoundDirection::eLeftAndRight_0:
                 return relive::Path_Lever::LeverSoundDirection::eLeftAndRight;
-            case ::LeverSoundDirection::eLeft_1:
+            case ::Path_Lever::LeverSoundDirection::eLeft_1:
                 return relive::Path_Lever::LeverSoundDirection::eLeft;
-            case ::LeverSoundDirection::eRight_2:
+            case ::Path_Lever::LeverSoundDirection::eRight_2:
                 return relive::Path_Lever::LeverSoundDirection::eRight;
         }
         ALIVE_FATAL("Bad lever sound direction");
@@ -1408,15 +1340,15 @@ private:
         ALIVE_FATAL("Bad bird portal type");
     }
 
-    static relive::Path_BirdPortal::PortalType From(::PortalType portalType)
+    static relive::Path_BirdPortal::PortalType From(::Path_BirdPortal::PortalType portalType)
     {
         switch (portalType)
         {
-            case ::PortalType::eAbe_0:
+            case ::Path_BirdPortal::PortalType::eAbe_0:
                 return relive::Path_BirdPortal::PortalType::eAbe;
-            case ::PortalType::eWorker_1:
+            case ::Path_BirdPortal::PortalType::eWorker_1:
                 return relive::Path_BirdPortal::PortalType::eWorker;
-            case ::PortalType::eShrykull_2:
+            case ::Path_BirdPortal::PortalType::eShrykull_2:
                 return relive::Path_BirdPortal::PortalType::eShrykull;
         }
         ALIVE_FATAL("Bad bird portal type");
@@ -1544,35 +1476,35 @@ private:
         ALIVE_FATAL("Bad music trigger triggered by value");
     }
 
-    static relive::Path_MusicTrigger::MusicTriggerMusicType From(const ::MusicTriggerMusicType musicType)
+    static relive::Path_MusicTrigger::MusicTriggerMusicType From(const ::Path_MusicTrigger::MusicTriggerMusicType musicType)
     {
         switch (musicType)
         {
-            case ::MusicTriggerMusicType::eDrumAmbience_0:
+            case ::Path_MusicTrigger::MusicTriggerMusicType::eDrumAmbience_0:
                 return relive::Path_MusicTrigger::MusicTriggerMusicType::eDrumAmbience;
-            case ::MusicTriggerMusicType::eDeathDrumShort_1:
+            case ::Path_MusicTrigger::MusicTriggerMusicType::eDeathDrumShort_1:
                 return relive::Path_MusicTrigger::MusicTriggerMusicType::eDeathDrumShort;
-            case ::MusicTriggerMusicType::eSecretAreaLong_2:
+            case ::Path_MusicTrigger::MusicTriggerMusicType::eSecretAreaLong_2:
                 return relive::Path_MusicTrigger::MusicTriggerMusicType::eSecretAreaLong;
-            case ::MusicTriggerMusicType::eSoftChase_3:
+            case ::Path_MusicTrigger::MusicTriggerMusicType::eSoftChase_3:
                 return relive::Path_MusicTrigger::MusicTriggerMusicType::eSoftChase;
-            case ::MusicTriggerMusicType::eIntenseChase_4:
+            case ::Path_MusicTrigger::MusicTriggerMusicType::eIntenseChase_4:
                 return relive::Path_MusicTrigger::MusicTriggerMusicType::eIntenseChase;
-            case ::MusicTriggerMusicType::eChime_5:
+            case ::Path_MusicTrigger::MusicTriggerMusicType::eChime_5:
                 return relive::Path_MusicTrigger::MusicTriggerMusicType::eChime;
-            case ::MusicTriggerMusicType::eSecretAreaShort_6:
+            case ::Path_MusicTrigger::MusicTriggerMusicType::eSecretAreaShort_6:
                 return relive::Path_MusicTrigger::MusicTriggerMusicType::eSecretAreaShort;
         }
         ALIVE_FATAL("Bad music trigger music type");
     }
 
-    static relive::Path_MusicTrigger::TriggeredBy From(const ::TriggeredBy triggeredBy)
+    static relive::Path_MusicTrigger::TriggeredBy From(const ::Path_MusicTrigger::TriggeredBy triggeredBy)
     {
         switch (triggeredBy)
         {
-            case ::TriggeredBy::eTimer_0:
+            case ::Path_MusicTrigger::TriggeredBy::eTimer_0:
                 return relive::Path_MusicTrigger::TriggeredBy::eTimer;
-            case ::TriggeredBy::eTouching_1:
+            case ::Path_MusicTrigger::TriggeredBy::eTouching_1:
                 return relive::Path_MusicTrigger::TriggeredBy::eTouching;
         }
         ALIVE_FATAL("Bad music trigger triggered by value");
@@ -2502,17 +2434,17 @@ public:
         return r;
     }
 private:
-    static Path_Door::DoorStates From(::DoorStates state)
+    static Path_Door::DoorStates From(::Path_Door::DoorStates state)
     {
         switch (state)
         {
-            case ::DoorStates::eOpen_0:
+            case ::Path_Door::DoorStates::eOpen_0:
                 return Path_Door::DoorStates::eOpen;
-            case ::DoorStates::eClosed_1:
+            case ::Path_Door::DoorStates::eClosed_1:
                 return Path_Door::DoorStates::eClosed;
-            case ::DoorStates::eOpening_2:
+            case ::Path_Door::DoorStates::eOpening_2:
                 return Path_Door::DoorStates::eOpening;
-            case ::DoorStates::eClosing_3:
+            case ::Path_Door::DoorStates::eClosing_3:
                 return Path_Door::DoorStates::eClosing;
         }
         ALIVE_FATAL("Bad door state");
@@ -2532,15 +2464,15 @@ private:
         ALIVE_FATAL("Bad door type");
     }
 
-    static Path_Door::DoorTypes From(::DoorTypes type)
+    static Path_Door::DoorTypes From(::Path_Door::DoorTypes type)
     {
         switch (type)
         {
-            case ::DoorTypes::eBasicDoor_0:
+            case ::Path_Door::DoorTypes::eBasicDoor_0:
                 return Path_Door::DoorTypes::eBasicDoor;
-            case ::DoorTypes::eTasksDoorWithSecretMusic_2:
+            case ::Path_Door::DoorTypes::eTasksDoorWithSecretMusic_2:
                 return Path_Door::DoorTypes::eTasksDoorWithSecretMusic;
-            case ::DoorTypes::eTasksDoor_3:
+            case ::Path_Door::DoorTypes::eTasksDoor_3:
                 return Path_Door::DoorTypes::eTasksDoor;
         }
         ALIVE_FATAL("Bad door type");
@@ -2743,37 +2675,37 @@ private:
         ALIVE_FATAL("Bad mudokon job");
     }
 
-    static Path_Mudokon::MudJobs From(::MudJobs job)
+    static Path_Mudokon::MudJobs From(::Path_Mudokon::MudJobs job)
     {
         switch (job)
         {
-            case ::MudJobs::eChisle_0:
+            case ::Path_Mudokon::MudJobs::eChisle_0:
                 return Path_Mudokon::MudJobs::eChisle;
-            case ::MudJobs::eSitScrub_1:
+            case ::Path_Mudokon::MudJobs::eSitScrub_1:
                 return Path_Mudokon::MudJobs::eSitScrub;
-            case ::MudJobs::eAngryWorker_2:
+            case ::Path_Mudokon::MudJobs::eAngryWorker_2:
                 return Path_Mudokon::MudJobs::eAngryWorker;
-            case ::MudJobs::eDamageRingGiver_3:
+            case ::Path_Mudokon::MudJobs::eDamageRingGiver_3:
                 return Path_Mudokon::MudJobs::eDamageRingGiver;
-            case ::MudJobs::eHealthRingGiver_4:
+            case ::Path_Mudokon::MudJobs::eHealthRingGiver_4:
                 return Path_Mudokon::MudJobs::eHealthRingGiver;
         }
         ALIVE_FATAL("Bad mudokon job");
     }
     
-    static Path_Mudokon::Mud_TLV_Emotion From(::Mud_TLV_Emotion emotion)
+    static Path_Mudokon::Mud_TLV_Emotion From(::Path_Mudokon::Mud_TLV_Emotion emotion)
     {
         switch (emotion)
         {
-            case ::Mud_TLV_Emotion::eNormal_0:
+            case ::Path_Mudokon::Mud_TLV_Emotion::eNormal_0:
                 return Path_Mudokon::Mud_TLV_Emotion::eNormal;
-            case ::Mud_TLV_Emotion::eAngry_1:
+            case ::Path_Mudokon::Mud_TLV_Emotion::eAngry_1:
                 return Path_Mudokon::Mud_TLV_Emotion::eAngry;
-            case ::Mud_TLV_Emotion::eSad_2:
+            case ::Path_Mudokon::Mud_TLV_Emotion::eSad_2:
                 return Path_Mudokon::Mud_TLV_Emotion::eSad;
-            case ::Mud_TLV_Emotion::eWired_3:
+            case ::Path_Mudokon::Mud_TLV_Emotion::eWired_3:
                 return Path_Mudokon::Mud_TLV_Emotion::eWired;
-            case ::Mud_TLV_Emotion::eSick_4:
+            case ::Path_Mudokon::Mud_TLV_Emotion::eSick_4:
                 return Path_Mudokon::Mud_TLV_Emotion::eSick;
         }
         ALIVE_FATAL("Bad mudokon emotion");
@@ -2917,13 +2849,13 @@ private:
         ALIVE_FATAL("Bad foot switch triggered by value");
     }
 
-    static Path_FootSwitch::FootSwitchTriggerBy From(::FootSwitchTriggerBy triggerdBy)
+    static Path_FootSwitch::FootSwitchTriggerBy From(::Path_FootSwitch::FootSwitchTriggerBy triggerdBy)
     {
         switch (triggerdBy)
         {
-            case ::FootSwitchTriggerBy::eAbe_0:
+            case ::Path_FootSwitch::FootSwitchTriggerBy::eAbe_0:
                 return Path_FootSwitch::FootSwitchTriggerBy::eAbe;
-            case ::FootSwitchTriggerBy::eAnyone_1:
+            case ::Path_FootSwitch::FootSwitchTriggerBy::eAnyone_1:
                 return Path_FootSwitch::FootSwitchTriggerBy::eAnyone;
         }
         ALIVE_FATAL("Bad foot switch triggered by value");
@@ -3049,19 +2981,19 @@ public:
         return r;
     }
 private:
-    static Path_GasEmitter::GasColour From(::GasColour colour)
+    static Path_GasEmitter::GasColour From(::Path_GasEmitter::GasColour colour)
     {
         switch (colour)
         {
-            case ::GasColour::Yellow_0:
+            case ::Path_GasEmitter::GasColour::Yellow_0:
                 return Path_GasEmitter::GasColour::eYellow;
-            case ::GasColour::Red_1:
+            case ::Path_GasEmitter::GasColour::Red_1:
                 return Path_GasEmitter::GasColour::eRed;
-            case ::GasColour::Green_2:
+            case ::Path_GasEmitter::GasColour::Green_2:
                 return Path_GasEmitter::GasColour::eGreen;
-            case ::GasColour::Blue_3:
+            case ::Path_GasEmitter::GasColour::Blue_3:
                 return Path_GasEmitter::GasColour::eBlue;
-            case ::GasColour::White_4:
+            case ::Path_GasEmitter::GasColour::White_4:
                 return Path_GasEmitter::GasColour::eWhite;
         }
         ALIVE_FATAL("Bad gas emitter gas colour");
@@ -3414,13 +3346,13 @@ private:
         ALIVE_FATAL("Bad slog spawner start direction");
     }
 
-    static Path_SlogSpawner::StartDirection From(::StartDirection startDir)
+    static Path_SlogSpawner::StartDirection From(::Path_SlogSpawner::StartDirection startDir)
     {
         switch (startDir)
         {
-            case ::StartDirection::eRight_0:
+            case ::Path_SlogSpawner::StartDirection::eRight_0:
                 return Path_SlogSpawner::StartDirection::eRight;
-            case ::StartDirection::eLeft_1:
+            case ::Path_SlogSpawner::StartDirection::eLeft_1:
                 return Path_SlogSpawner::StartDirection::eLeft;
         }
         ALIVE_FATAL("Bad slog spawner start direction");
@@ -4122,17 +4054,17 @@ public:
         return r;
     }
 private:
-    static Path_WheelSyncer::OutputRequirement From(::WheelSyncerOutputRequirement requirement)
+    static Path_WheelSyncer::OutputRequirement From(::Path_WheelSyncer::WheelSyncerOutputRequirement requirement)
     {
         switch (requirement)
         {
-            case WheelSyncerOutputRequirement::eAllOn_0:
+            case ::Path_WheelSyncer::WheelSyncerOutputRequirement::eAllOn_0:
                 return Path_WheelSyncer::OutputRequirement::eAllOn;
-            case WheelSyncerOutputRequirement::e1OnAnd2Off_1:
+            case ::Path_WheelSyncer::WheelSyncerOutputRequirement::e1OnAnd2Off_1:
                 return Path_WheelSyncer::OutputRequirement::e1OnAnd2Off;
-            case WheelSyncerOutputRequirement::e1Or2On_2:
+            case ::Path_WheelSyncer::WheelSyncerOutputRequirement::e1Or2On_2:
                 return Path_WheelSyncer::OutputRequirement::e1Or2On;
-            case WheelSyncerOutputRequirement::e1OnOr2Off_3:
+            case ::Path_WheelSyncer::WheelSyncerOutputRequirement::e1OnOr2Off_3:
                 return Path_WheelSyncer::OutputRequirement::e1OnOr2Off;
         }
         ALIVE_FATAL("Bad wheel syncer output requirement");
@@ -4198,29 +4130,29 @@ public:
         return r;
     }
 private:
-    static Path_Drill::DrillDirection From(::DrillDirection direction)
+    static Path_Drill::DrillDirection From(::Path_Drill_Data::DrillDirection direction)
     {
         switch (direction)
         {
-            case ::DrillDirection::eDown_0:
+            case ::Path_Drill_Data::DrillDirection::eDown_0:
                 return Path_Drill::DrillDirection::eDown;
-            case ::DrillDirection::eRight_1:
+            case ::Path_Drill_Data::DrillDirection::eRight_1:
                 return Path_Drill::DrillDirection::eRight;
-            case ::DrillDirection::eLeft_2:
+            case ::Path_Drill_Data::DrillDirection::eLeft_2:
                 return Path_Drill::DrillDirection::eLeft;
         }
         ALIVE_FATAL("Bad drill direction");
     }
 
-    static Path_Drill::DrillBehavior From(::DrillBehavior behavior)
+    static Path_Drill::DrillBehavior From(::Path_Drill_Data::DrillBehavior behavior)
     {
         switch (behavior)
         {
-            case ::DrillBehavior::eNotInteractable_0:
+            case ::Path_Drill_Data::DrillBehavior::eNotInteractable_0:
                 return Path_Drill::DrillBehavior::eNotInteractable;
-            case ::DrillBehavior::eToggle_1:
+            case ::Path_Drill_Data::DrillBehavior::eToggle_1:
                 return Path_Drill::DrillBehavior::eToggle;
-            case ::DrillBehavior::eUse_2:
+            case ::Path_Drill_Data::DrillBehavior::eUse_2:
                 return Path_Drill::DrillBehavior::eUse;
         }
         ALIVE_FATAL("Bad drill behavior");
@@ -4312,19 +4244,19 @@ private:
         ALIVE_FATAL("Bad glukkon spawn type");
     }
 
-    static Path_Glukkon::GlukkonTypes From(::GlukkonTypes spawnType)
+    static Path_Glukkon::GlukkonTypes From(::Path_Glukkon::GlukkonTypes spawnType)
     {
         switch (spawnType)
         {
-            case ::GlukkonTypes::eNormal_0:
-            case ::GlukkonTypes::eNormal_4:
-            case ::GlukkonTypes::eNormal_5:
+            case ::Path_Glukkon::GlukkonTypes::eNormal_0:
+            case ::Path_Glukkon::GlukkonTypes::eNormal_4:
+            case ::Path_Glukkon::GlukkonTypes::eNormal_5:
                 return Path_Glukkon::GlukkonTypes::eNormal;
-            case ::GlukkonTypes::eStoryAslik_1:
+            case ::Path_Glukkon::GlukkonTypes::eStoryAslik_1:
                 return Path_Glukkon::GlukkonTypes::eStoryAslik;
-            case ::GlukkonTypes::eStoryDripik_2:
+            case ::Path_Glukkon::GlukkonTypes::eStoryDripik_2:
                 return Path_Glukkon::GlukkonTypes::eStoryDripik;
-            case ::GlukkonTypes::eStoryPhleg_3:
+            case ::Path_Glukkon::GlukkonTypes::eStoryPhleg_3:
                 return Path_Glukkon::GlukkonTypes::eStoryPhleg;
         }
         ALIVE_FATAL("Bad glukkon spawn type");
@@ -4347,23 +4279,23 @@ public:
         return r;
     }
 private:
-    static Path_CrawlingSligButton::ButtonSounds From(::CrawlingSligButtonSounds sound)
+    static Path_CrawlingSligButton::ButtonSounds From(::Path_CrawlingSligButton::CrawlingSligButtonSounds sound)
     {
         switch (sound)
         {
-            case ::CrawlingSligButtonSounds::None_0:
+            case ::Path_CrawlingSligButton::CrawlingSligButtonSounds::None_0:
                 return Path_CrawlingSligButton::ButtonSounds::None;
-            case ::CrawlingSligButtonSounds::SackHit_1:
+            case ::Path_CrawlingSligButton::CrawlingSligButtonSounds::SackHit_1:
                 return Path_CrawlingSligButton::ButtonSounds::SackHit1;
-            case ::CrawlingSligButtonSounds::FallingItemPresence2_2:
+            case ::Path_CrawlingSligButton::CrawlingSligButtonSounds::FallingItemPresence2_2:
                 return Path_CrawlingSligButton::ButtonSounds::FallingItemPresence2;
-            case ::CrawlingSligButtonSounds::SecurityOrb_3:
+            case ::Path_CrawlingSligButton::CrawlingSligButtonSounds::SecurityOrb_3:
                 return Path_CrawlingSligButton::ButtonSounds::SecurityOrb;
-            case ::CrawlingSligButtonSounds::SackHit_4:
+            case ::Path_CrawlingSligButton::CrawlingSligButtonSounds::SackHit_4:
                 return Path_CrawlingSligButton::ButtonSounds::SackHit2;
-            case ::CrawlingSligButtonSounds::Bullet1_5:
+            case ::Path_CrawlingSligButton::CrawlingSligButtonSounds::Bullet1_5:
                 return Path_CrawlingSligButton::ButtonSounds::Bullet1;
-            case ::CrawlingSligButtonSounds::AbeGenericMovement_6:
+            case ::Path_CrawlingSligButton::CrawlingSligButtonSounds::AbeGenericMovement_6:
                 return Path_CrawlingSligButton::ButtonSounds::AbeGenericMovement;
         }
         ALIVE_FATAL("Bad crawling slig button sound");
@@ -4462,15 +4394,15 @@ public:
         return r;
     }
 private:
-    static Path_ScrabSpawner::SpawnDirection From(::ScrabSpawnDirection spawnDirection)
+    static Path_ScrabSpawner::SpawnDirection From(::Path_ScrabSpawner::ScrabSpawnDirection spawnDirection)
     {
         switch (spawnDirection)
         {
-            case ::ScrabSpawnDirection::eNone_0:
+            case ::Path_ScrabSpawner::ScrabSpawnDirection::eNone_0:
                 return Path_ScrabSpawner::SpawnDirection::eNone;
-            case ::ScrabSpawnDirection::eLeft_1:
+            case ::Path_ScrabSpawner::ScrabSpawnDirection::eLeft_1:
                 return Path_ScrabSpawner::SpawnDirection::eLeft;
-            case ::ScrabSpawnDirection::eRight_2:
+            case ::Path_ScrabSpawner::ScrabSpawnDirection::eRight_2:
                 return Path_ScrabSpawner::SpawnDirection::eRight;
         }
         ALIVE_FATAL("Bad scrab spawner spawn direction");

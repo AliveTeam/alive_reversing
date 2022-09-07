@@ -20,23 +20,6 @@ struct Water_Res final
 };
 ALIVE_ASSERT_SIZEOF(Water_Res, 0x78);
 
-struct Path_Water_Data final
-{
-    s16 mMaxDrops;
-    s16 mSwitchId;
-    s16 mSplashTime;
-    s16 mSplashVelX;
-    s16 mSplashVelY; // unused
-    s16 mWaterDuration;
-};
-ALIVE_ASSERT_SIZEOF(Path_Water_Data, 0xC);
-
-struct Path_Water final : public Path_TLV
-{
-    Path_Water_Data mWaterData;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Water, 0x1C);
-
 class Water final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:

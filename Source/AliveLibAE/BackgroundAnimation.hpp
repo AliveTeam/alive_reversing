@@ -7,18 +7,6 @@
 #include "Factory.hpp"
 #include "../relive_lib/Layer.hpp"
 
-struct Path_BackgroundAnimation final : public Path_TLV
-{
-    u16 mAnimId;
-    Choice_short mIsSemiTrans;
-    TPageAbr mSemiTransMode;
-    // pad
-    s16 field_16_sound_effect; // unused
-    s16 field_18_id; // probably also unused
-    Layer mLayer;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BackgroundAnimation, 0x1C);
-
 class BackgroundAnimation final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:

@@ -4,11 +4,6 @@
 #include "../relive_lib/BaseGameObject.hpp"
 #include "Path.hpp"
 
-struct Path_CreditsController final : public Path_TLV
-{
-    // Empty
-};
-
 #pragma pack(push)
 #pragma pack(2)
 class CreditsController final : public BaseGameObject

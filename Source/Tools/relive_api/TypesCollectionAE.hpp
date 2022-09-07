@@ -6,6 +6,8 @@
 #include <memory>
 #include <string>
 
+#include "../../relive_lib/data_conversion/PathTlvsAE.hpp"
+
 namespace ReliveAPI {
 class TlvObjectBase;
 

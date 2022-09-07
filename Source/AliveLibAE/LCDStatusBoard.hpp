@@ -5,14 +5,6 @@
 #include "Path.hpp"
 #include "Font.hpp"
 
-struct Path_LCDStatusBoard final : public Path_TLV
-{
-    s16 mNumberOfMuds;
-    s16 mZulagNumber;
-    Choice_int mHideBoard;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LCDStatusBoard, 0x18);
-
 class LCDStatusBoard final : public BaseGameObject
 {
 public:

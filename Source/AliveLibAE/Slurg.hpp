@@ -16,20 +16,6 @@ struct Slurg_Step_Watch_Points final
 };
 ALIVE_ASSERT_SIZEOF(Slurg_Step_Watch_Points, 0x14);
 
-struct Slurg_Path_Data final
-{
-    s16 mMovingTimer;
-    XDirection_short mFacing;
-    Scale_short mScale;
-    s16 mSwitchId;
-};
-
-struct Path_Slurg : public Path_TLV
-{
-    Slurg_Path_Data mSlurgData;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slurg, 0x18);
-
 enum class SlurgStates : s16
 {
     eMoving_0 = 0,

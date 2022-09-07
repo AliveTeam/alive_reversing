@@ -66,42 +66,6 @@ enum class ScrabSounds : u8
     eYell_8 = 8,
 };
 
-enum class ScrabSpawnDirection : s16
-{
-    eNone_0 = 0,
-    eLeft_1 = 1,
-    eRight_2 = 2,
-};
-
-struct Path_ScrabBoundLeft final : public Path_TLV
-{
-    // Empty
-};
-
-struct Path_ScrabBoundRight final : public Path_TLV
-{
-    // Empty
-};
-
-struct Path_Scrab : public Path_TLV
-{
-    Scale_short mScale;
-    s16 mAttackDelay;
-    s16 mPatrolTypeRunOrWalkChance;
-    s16 mPauseLeftMin;
-    s16 mPauseLeftMax;
-    s16 mPauseRightMin;
-    s16 mPauseRightMax;
-    u16 mPauseAfterChaseTime;
-    s16 mDisabledResources;
-    Choice_short mRoarRandomly;
-    Choice_short mPersistant;
-    s16 mPossessedMaxWhirlAttackDuration;
-    s16 field_28_unused;
-    Choice_short mKillEnemy;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Scrab, 0x2C);
-
 enum class LevelIds : s16;
 enum class GameSpeakEvents : s16;
 

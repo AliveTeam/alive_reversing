@@ -6,15 +6,6 @@
 #include "../relive_lib/Primitives.hpp"
 #include "Path.hpp"
 
-struct Path_ColourfulMeter final : public Path_TLV
-{
-    s16 mSwitchId;
-    s16 mNumberOfMeterBars;
-    s16 mMinesAlarmCountdown;
-    Choice_short mStartFilled;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ColourfulMeter, 0x18);
-
 constexpr s16 kMeterBarsXCount = 20;
 
 class ColourfulMeter final : public BaseGameObject

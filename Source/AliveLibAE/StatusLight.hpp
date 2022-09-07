@@ -4,19 +4,6 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "Path.hpp"
 
-struct Path_StatusLight final : public Path_TLV
-{
-    s16 mInputSwitchId;
-    Scale_short mScale;
-    s16 mLinkedStatusLightSwitchId1;
-    s16 mLinkedStatusLightSwitchId2;
-    s16 mLinkedStatusLightSwitchId3;
-    s16 mLinkedStatusLightSwitchId4;
-    s16 mLinkedStatusLightSwitchId5;
-    Choice_short mIgnoreGridSnapping;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_StatusLight, 0x20);
-
 class StatusLight final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:

@@ -7,21 +7,6 @@
 
 class BaseAliveGameObject;
 
-enum class FootSwitchTriggerBy : s16
-{
-    eAbe_0 = 0,
-    eAnyone_1 = 1,
-};
-
-struct Path_FootSwitch final : public Path_TLV
-{
-    s16 mSwitchId;
-    Scale_short mScale;
-    SwitchOp mAction;
-    FootSwitchTriggerBy mTriggeredBy;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_FootSwitch, 0x18);
-
 struct FootSwitch_Data final
 {
     s32 field_0_frameTableOffset;

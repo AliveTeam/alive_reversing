@@ -11,6 +11,8 @@
 #include <utility>
 #include <vector>
 
+#include "../../relive_lib/data_conversion/PathTlvsAE.hpp"
+
 namespace jsonxx {
 class Object;
 }

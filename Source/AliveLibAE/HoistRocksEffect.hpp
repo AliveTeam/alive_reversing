@@ -17,8 +17,6 @@ struct HoistRockParticle final
 };
 ALIVE_ASSERT_SIZEOF(HoistRockParticle, 0xA8);
 
-struct Path_Hoist;
-
 class HoistRocksEffect final : public BaseGameObject
 {
 public:

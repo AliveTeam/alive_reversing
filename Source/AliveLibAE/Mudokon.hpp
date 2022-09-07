@@ -7,45 +7,6 @@
 #include "AbilityRing.hpp"
 #include "Abe.hpp" // MudSounds only
 
-enum class MudJobs : s16
-{
-    eChisle_0 = 0,
-    eSitScrub_1 = 1,
-    eAngryWorker_2 = 2,
-    eDamageRingGiver_3 = 3,
-    eHealthRingGiver_4 = 4,
-};
-
-enum class Mud_TLV_Emotion : s16
-{
-    eNormal_0 = 0,
-    eAngry_1 = 1,
-    eSad_2 = 2,
-    eWired_3 = 3,
-    eSick_4 = 4
-};
-
-struct Path_Mudokon final : public Path_TLV
-{
-    Scale_short mScale;
-    MudJobs mJob;
-    XDirection_short mFacing;
-    s16 mVoicePitch;
-    s16 mRescueSwitchId;
-    Choice_short mDeaf;
-    s16 mDisabledResources;
-    Choice_short mPersistAndResetOffscreen;
-    Mud_TLV_Emotion mEmotion;
-    Choice_short mBlind;
-    s16 mAngrySwitchId;
-    Choice_short mWorkAfterTurningWheel;
-    Choice_short mGetsDepressed;
-    s16 mRingPulseInterval;
-    Choice_short mGiveRingWithoutPassword;
-    s16 field_2E_padding;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Mudokon, 0x30);
-
 enum class Mud_Emotion : s16
 {
     eNormal_0 = 0,

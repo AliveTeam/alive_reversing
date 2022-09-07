@@ -7,41 +7,8 @@
 enum class LevelIds : s16;
 enum class CameraSwapEffects : s16;
 
-enum class PortalType : s16
-{
-    eAbe_0 = 0,
-    eWorker_1 = 1,
-    eShrykull_2 = 2,
-    // eMudTeleport_3 = 3, // TODO: not used ??
-};
 
-enum class PortalSide : s16
-{
-    eRight_0 = 0,
-    eLeft_1 = 1,
-};
 
-struct Path_BirdPortal final : public Path_TLV
-{
-    PortalSide mEnterSide;
-    LevelIds mExitLevel;
-    s16 mExitPath;
-    s16 mExitCamera;
-    Scale_short mScale;
-    s16 mMovieId;
-    PortalType mPortalType;
-    s16 mMudCountForShrykull;
-    s16 mCreatePortalSwitchId;
-    s16 mDeletePortalSwitchId;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BirdPortal, 0x24);
-
-struct Path_BirdPortalExit final : public Path_TLV
-{
-    PortalSide mExitSide;
-    Scale_short mScale;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BirdPortal, 0x24);
 
 struct BirdPortal_State final
 {

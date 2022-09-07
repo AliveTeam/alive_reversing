@@ -5,13 +5,6 @@
 #include "Font.hpp"
 #include "../AliveLibCommon/Function.hpp"
 
-struct Path_BrewMachine final : public Path_TLV
-{
-    s16 mBrewCount;
-    s16 field_12_pad;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BrewMachine, 0x14);
-
 class BrewMachine final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:

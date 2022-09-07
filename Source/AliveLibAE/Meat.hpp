@@ -82,17 +82,6 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Meat, 0x134);
 
-struct Path_MeatSack final : public Path_TLV
-{
-    XDirection_short mMeatFallDirection;
-    u16 mVelX;
-    u16 mVelY;
-    Scale_short mScale;
-    s16 mMeatAmount;
-    s16 field_1A_pad;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MeatSack, 0x1C);
-
 class MeatSack final : public BaseAliveGameObject
 {
 public:

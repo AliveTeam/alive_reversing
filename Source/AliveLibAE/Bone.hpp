@@ -81,17 +81,6 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(Bone, 0x134);
 
-struct Path_BoneBag final : public Path_TLV
-{
-    XDirection_short mBoneFallDirection;
-    u16 mVelX;
-    u16 mVelY;
-    Scale_short mScale;
-    s16 mBoneAmount;
-    s16 padding;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BoneBag, 0x1C);
-
 class BoneBag final : public BaseAliveGameObject
 {
 public:

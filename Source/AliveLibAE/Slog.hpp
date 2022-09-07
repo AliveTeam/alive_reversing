@@ -6,21 +6,6 @@
 
 class Bone;
 
-struct Path_Slog final : public Path_TLV
-{
-    Scale_short mScale;
-    XDirection_short mFacing;
-    Choice_short mAsleep;
-    s16 mWakeUpAnger;
-    s16 mBarkAnger;
-    s16 mChaseAnger;
-    s16 mChaseDelay;
-    s16 mDisabledResources;
-    s16 mAngerSwitchId;
-    s16 mBoneEatingTime;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Slog, 0x24);
-
 enum class SlogSound : s32
 {
     Padding_0 = 0,

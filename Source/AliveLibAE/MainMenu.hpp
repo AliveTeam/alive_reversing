@@ -14,11 +14,6 @@
 
 enum class LevelIds : s16;
 
-struct Path_MainMenuController final : public Path_TLV
-{
-    // Empty
-};
-
 struct MenuFMV final
 {
     const char_type* field_0_name;

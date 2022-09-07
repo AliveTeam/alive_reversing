@@ -5,31 +5,6 @@
 #include "BaseAliveGameObject.hpp"
 #include "Sfx.hpp"
 
-struct Path_CrawlingSlig final : public Path_TLV
-{
-    Scale_short mScale;
-    XDirection_short mFacing; // unused
-
-    enum class StartState : s16
-    {
-        eSleeping_0 = 0,
-        eSleeping_1 = 1,
-        eAwake_2 = 2,
-    };
-    StartState mStartState;
-
-    enum class CrawlDirection : s16
-    {
-        eLeft_0 = 0,
-        eRight_1 = 1,
-        eRandom_2 = 2,
-    };
-    CrawlDirection mCrawlDirection;
-    s16 mPanicSwitchId;
-    Choice_short mRespawnOnDeath;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_CrawlingSlig, 0x1C);
-
 class CrawlingSlig;
 
 using TCrawlingSligBrainFn = s16 (CrawlingSlig::*)();

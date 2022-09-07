@@ -4,31 +4,9 @@
 #include "PlatformBase.hpp"
 #include "Path.hpp"
 
-enum class LiftPointStopType : s16
-{
-    eTopFloor_0 = 0,
-    eBottomFloor_1 = 1,
-    eMiddleFloor_2 = 2,
-    eMiddleLockFloor_3 = 3,
-    eStartPointOnly_4 = 4,
-};
 
-struct Path_Pulley final : public Path_TLV
-{
-    s16 field_10_unused1;
-    s16 field_12_unused2;
-};
 
-struct Path_LiftPoint final : public Path_TLV
-{
-    s16 mLiftPointId;
-    Choice_short mIsStartPoint;
-    s16 field_14_lift_type; // TODO: Not actually used
-    LiftPointStopType mLiftPointStopType;
-    Scale_short mScale;
-    Choice_short mIgnoreLiftMover;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LiftPoint, 0x1C);
+
 
 struct LiftPoint_State final
 {

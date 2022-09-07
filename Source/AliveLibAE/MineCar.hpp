@@ -5,14 +5,6 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "Input.hpp"
 
-
-struct Path_MineCar final : public Path_TLV
-{
-    Scale_short mScale;
-    s16 mMaxDamage; // unused
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MineCar, 0x14);
-
 enum class MineCarStates : s16
 {
     eParkedWithoutAbe_0 = 0,

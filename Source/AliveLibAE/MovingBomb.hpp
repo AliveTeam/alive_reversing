@@ -4,26 +4,6 @@
 #include "Path.hpp"
 #include "../AliveLibCommon/Function.hpp"
 
-struct Path_MovingBomb final : public Path_TLV
-{
-    u16 mSpeed;
-    s16 mStartMovingSwitchId;
-    Choice_short mTriggeredByAlarm;
-    Scale_short mScale;
-    s16 field_18_max_rise; // seems unused
-    s16 mDisabledResources;
-    u16 mStartSpeed;
-    Choice_short mPersistOffscreen;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MovingBomb, 0x20);
-
-struct Path_MovingBombStopper final : public Path_TLV
-{
-    s16 mMinDelay;
-    s16 mMaxDelay;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_MovingBombStopper, 0x14);
-
 class MovingBomb final : public BaseAliveGameObject
 {
 public:

@@ -10,6 +10,7 @@
 #include "../../AliveLibCommon/logger.hpp"
 
 #include "../../relive_lib/data_conversion/guid.hpp"
+#include "../../relive_lib/data_conversion/PathTlvsAE.hpp"
 
 #include "LvlReaderWriter.hpp"
 #include "CamConverter.hpp"

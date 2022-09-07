@@ -38,16 +38,6 @@ enum eGlukkonMotions : s32
     GLUKKON_MOTIONS_ENUM(MAKE_ENUM)
 };
 
-enum class GlukkonTypes : s16
-{
-    eNormal_0 = 0,
-    eStoryAslik_1 = 1,
-    eStoryDripik_2 = 2,
-    eStoryPhleg_3 = 3,
-    eNormal_4 = 4,
-    eNormal_5 = 5,
-};
-
 enum class GlukkonSpeak : s8
 {
     None = -1,
@@ -67,42 +57,6 @@ enum class GlukkonSpeak : s8
     Unused_13 = 13,
     Unused_14 = 14
 };
-
-struct Path_Glukkon final : public Path_TLV
-{
-    Scale_short mScale;
-    enum class Facing : s16
-    {
-        eRight_0 = 0,
-        eLeft_1 = 1,
-    };
-    Facing mFacing;
-    enum class Behavior : s16
-    {
-        eIgnoreWalls_0 = 0,
-        eCheckForWalls_1 = 1
-    };
-    Behavior mBehavior;
-    s16 mScreamHelpDelay;
-    s16 mHelpSwitchId;
-    s16 mToCalmDelay;
-    s16 mSpawnSwitchId;
-    enum class SpawnType : s16
-    {
-        eRegularSpawn_0 = 0,
-        eFacingLeft_1 = 1,
-        eFacingRight_2 = 2,
-        eFullSpawnEffects_3 = 3
-    };
-    SpawnType mSpawnType;
-    s16 mSpawnDelay;
-    GlukkonTypes mGlukkonType;
-    s16 mDeathSwitchId;
-    s16 mPlayMovieSwitchId;
-    s16 mMovieId;
-    s16 padding;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Glukkon, 0x2C);
 
 enum class LevelIds : s16;
 

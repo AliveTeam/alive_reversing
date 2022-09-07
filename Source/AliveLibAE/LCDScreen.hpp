@@ -6,15 +6,6 @@
 #include "Path.hpp"
 #include "Factory.hpp"
 
-struct Path_LCDScreen final : public Path_TLV
-{
-    s16 mMessageId1;
-    s16 mMessageRandMinId;
-    s16 mMessageRandMaxId;
-    s16 mMessageId2;
-    s32 mToggleMessageSwitchId;
-};
-
 struct StringTable;
 void SetLcdMessagesForLvl(const StringTable& msgs, LevelIds lvl, u32 pathId);
 

@@ -4,24 +4,6 @@
 #include "PlatformBase.hpp"
 #include "Path.hpp"
 
-struct Path_TrapDoor final : public Path_TLV
-{
-    s16 mSwitchId;
-    enum StartState : s16
-    {
-        eOpen_0 = 0,
-        eClosed_1 = 1,
-    };
-    StartState mStartState;
-    Choice_short mSelfClosing;
-    Scale_short mScale;
-    s16 field_18_dest_level;
-    XDirection_short mDirection;
-    s16 mXOff;
-    s16 mStayOpenTime;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TrapDoor, 0x20);
-
 enum class TrapDoorState : s16
 {
     eClosed_0 = 0,

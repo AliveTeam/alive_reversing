@@ -4,22 +4,6 @@
 #include "Path.hpp"
 #include "../AliveLibCommon/Function.hpp"
 
-enum class GasColour : s16
-{
-    Yellow_0,
-    Red_1,
-    Green_2,
-    Blue_3,
-    White_4
-};
-
-struct Path_GasEmitter final : public Path_TLV
-{
-    s16 mSwitchId;
-    GasColour mColour;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_GasEmitter, 0x14);
-
 class GasEmitter final : public BaseGameObject
 {
 public:

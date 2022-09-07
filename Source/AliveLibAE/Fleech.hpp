@@ -26,26 +26,7 @@ enum class FleechSound : u8
     CrawlRNG3_16 = 16,
 };
 
-struct Path_Fleech final : public Path_TLV
-{
-    Scale_short mScale;
-    XDirection_short mFacing;
-    Choice_short mAsleep;
-    s16 padding1;
-    s16 padding2;
-    s16 mAttackAngerIncreaser;
-    s16 padding3;
-    s16 mWakeUpSwitchId;
-    Choice_short mHanging;
-    s16 mLostTargetTimeout;
-    Choice_short mGoesToSleep;
-    s16 mPatrolRangeInGrids;
-    s16 mWakeUpSwitchAngerValue;
-    s16 mCanWakeUpSwitchId;
-    Choice_short mPersistant;
-    s16 padding4;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Fleech, 0x30);
+
 
 struct Fleech_State final
 {

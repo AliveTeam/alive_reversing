@@ -5,19 +5,6 @@
 #include "Path.hpp"
 #include "../relive_lib/MapWrapper.hpp"
 
-enum class LevelIds : s16;
-
-struct Path_LevelLoader final : public Path_TLV
-{
-    s16 mSwitchId;
-    LevelIds mDestLevel;
-    s16 mDestPath;
-    s16 mDestCamera;
-    s16 mMovieId;
-    s16 padding;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LevelLoader, 0x1C);
-
 class LevelLoader final : public BaseGameObject
 {
 public:

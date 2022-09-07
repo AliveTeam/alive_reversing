@@ -7,28 +7,6 @@
 
 enum class SwitchOp : s16;
 
-enum class CrawlingSligButtonSounds : s16
-{
-    None_0 = 0,
-    SackHit_1 = 1,
-    FallingItemPresence2_2 = 2,
-    SecurityOrb_3 = 3,
-    SackHit_4 = 4,
-    Bullet1_5 = 5,
-    AbeGenericMovement_6 = 6,
-};
-
-struct Path_CrawlingSligButton final : public Path_TLV
-{
-    Scale_short mScale;
-    s16 mSwitchId;
-    SwitchOp mAction;
-    CrawlingSligButtonSounds mOnSound;
-    CrawlingSligButtonSounds mOffSound;
-    s16 mSoundDirection;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_CrawlingSligButton, 0x1C);
-
 class CrawlingSligButton final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:

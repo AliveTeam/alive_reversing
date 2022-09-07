@@ -4,15 +4,6 @@
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
 
-struct Path_DoorFlame final : public Path_TLV
-{
-    s16 mSwitchId;
-    Scale_short mScale;
-    s16 field_14_colour;
-    s16 field_16_pad;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_DoorFlame, 0x18);
-
 class DoorFlame final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:

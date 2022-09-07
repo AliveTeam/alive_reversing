@@ -16,20 +16,7 @@ enum class UXBState : u16
     eDeactivated = 3
 };
 
-struct Path_UXB final : public Path_TLV
-{
-    enum class StartState : s16
-    {
-        eOn = 0,
-        eOff = 1,
-    };
-    s16 mPatternLength;
-    s16 mPattern;
-    Scale_short mScale;
-    StartState mStartState;
-    s32 mDisabledResources;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_UXB, 0x1c);
+
 
 struct SaveState_UXB final
 {

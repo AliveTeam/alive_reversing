@@ -4,13 +4,6 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "Path.hpp"
 
-struct Path_ParamiteWebLine final : public Path_TLV
-{
-    Scale_short mScale;
-    s16 field_12_pad;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_ParamiteWebLine, 0x14);
-
 class ParamiteWebLine final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:

@@ -5,15 +5,6 @@
 #include "../relive_lib/BaseGameObject.hpp"
 #include "Font.hpp"
 
-struct Path_GasCountDown final : public Path_TLV
-{
-    s16 mStartTimerSwitchId;
-    u16 mGasCountdownTimer;
-    s16 mStopTimerSwitchId;
-    s16 field_16_pad;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_GasCountDown, 0x18);
-
 class GasCountDown final : public BaseGameObject
 {
 public:

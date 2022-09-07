@@ -6,23 +6,9 @@
 #include "Psx.hpp"
 #include "SwitchStates.hpp"
 
-enum class InvisibleSwitchScale : s16
-{
-    eHalf_0 = 0,
-    eFull_1 = 1,
-    eAny_2 = 2,
-};
 
-struct Path_InvisibleSwitch final : public Path_TLV
-{
-    s16 mSwitchId;
-    SwitchOp mAction;
-    s16 mActivationDelay;
-    Choice_short mSetOffAlarm;
-    InvisibleSwitchScale mScale;
-    s16 field_1A_pad;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_InvisibleSwitch, 0x1C);
+
+
 
 class InvisibleSwitch final : public BaseGameObject
 {

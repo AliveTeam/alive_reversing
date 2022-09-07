@@ -7,16 +7,6 @@
 #include "Factory.hpp"
 #include "../relive_lib/Animation.hpp"
 
-struct Path_TimedMine final : public Path_TLV
-{
-    s16 mSwitchId;
-    s16 mState;
-    Scale_short mScale;
-    s16 mTicksUntilExplosion;
-    s32 mDisabledResources;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TimedMine, 0x1C);
-
 enum TimedMineFlags
 {
     eStickToLiftPoint = 0x1,

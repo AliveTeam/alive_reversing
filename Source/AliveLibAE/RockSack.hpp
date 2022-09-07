@@ -3,17 +3,6 @@
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
 
-struct Path_RockSack final : public Path_TLV
-{
-    XDirection_short mRockFallDirection;
-    u16 mVelX;
-    u16 mVelY;
-    Scale_short mScale;
-    s16 mRockAmount;
-    s16 field_1A_padding;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_RockSack, 0x1C);
-
 class RockSack final : public BaseAliveGameObject
 {
 public:

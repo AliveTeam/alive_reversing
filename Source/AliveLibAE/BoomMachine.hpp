@@ -4,20 +4,6 @@
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Path.hpp"
 
-struct Path_BoomMachine final : public Path_TLV
-{
-    Scale_short mScale;
-    enum class NozzleSide : s16
-    {
-        eRight_0 = 0,
-        eLeft_1 = 1
-    };
-    NozzleSide mNozzleSide;
-    s16 mDisabledResources;
-    s16 mGrenadeAmount;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BoomMachine, 0x18);
-
 enum class BoomMachineStates : s16
 {
     eInactive_0,

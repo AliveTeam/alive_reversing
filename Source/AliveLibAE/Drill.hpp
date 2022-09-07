@@ -5,37 +5,6 @@
 #include "../AliveLibCommon/BitField.hpp"
 #include "../AliveLibCommon/Function.hpp"
 
-enum class DrillDirection : s16
-{
-    eDown_0 = 0,
-    eRight_1 = 1,
-    eLeft_2 = 2,
-};
-
-enum class DrillBehavior : s16
-{
-    eNotInteractable_0 = 0,
-    eToggle_1 = 1,
-    eUse_2 = 2
-};
-
-struct Path_Drill_Data final
-{
-    Scale_short mScale;
-    s16 mOnMinPauseTime;
-    s16 mOnMaxPauseTime;
-    s16 mSwitchId;
-    DrillBehavior mDrillBehavior;
-    s16 mOnSpeed;
-    Choice_short mStartStateOn;
-    s16 mOffSpeed;
-    s16 mOffMinPauseTime;
-    s16 mOffMaxPauseTime;
-    Choice_short mStartPositionBottom;
-    DrillDirection mDirection;
-};
-ALIVE_ASSERT_SIZEOF(Path_Drill_Data, 0x18);
-
 enum class DrillStates : s16
 {
     State_0_Restart_Cycle = 0,
@@ -54,13 +23,6 @@ struct Drill_State final
     s16 field_12_xyoff;
 };
 //ALIVE_ASSERT_SIZEOF_ALWAYS(Drill_State, 0x14);
-
-
-struct Path_Drill final : public Path_TLV
-{
-    Path_Drill_Data mDrillData;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Drill, 0x28);
 
 class Drill final : public ::BaseAnimatedWithPhysicsGameObject
 {

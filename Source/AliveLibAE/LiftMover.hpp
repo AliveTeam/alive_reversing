@@ -25,20 +25,6 @@ struct LiftMover_State final
 };
 //ALIVE_ASSERT_SIZEOF_ALWAYS(LiftMover_State, 0xC);
 
-struct Path_LiftMover final : public Path_TLV
-{
-    s16 mLiftMoverSwitchId;
-    s16 mTargetLiftPointId;
-    enum class YDirection : s16
-    {
-        eDown_0 = 0,
-        eUp_1 = 1,
-    };
-    YDirection mMoveDirection;
-    s16 field_16_pad;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LiftMover, 0x18);
-
 class LiftMover final : public BaseGameObject
 {
 public:

@@ -2,80 +2,7 @@
 
 #include "TlvObjectBaseAE.hpp"
 #include "TlvObjectBaseMacros.hpp"
-#include "../../relive_lib/data_conversion/ae_tlvs.hpp"
-#include "../../AliveLibAE/Map.hpp"
-#include "../../AliveLibAE/Path.hpp"
-#include "../../AliveLibAE/Lever.hpp"
-#include "../../AliveLibAE/ElectricWall.hpp"
-#include "../../AliveLibAE/Mudokon.hpp"
-#include "../../AliveLibAE/BirdPortal.hpp"
-#include "../../AliveLibAE/LCDStatusBoard.hpp"
-#include "../../AliveLibAE/Door.hpp"
-#include "../../AliveLibAE/BoomMachine.hpp"
-#include "../../AliveLibAE/Slig.hpp"
-#include "../../AliveLibAE/Fleech.hpp"
-#include "../../AliveLibAE/UXB.hpp"
-#include "../../AliveLibAE/LCDScreen.hpp"
-#include "../../AliveLibAE/StatusLight.hpp"
-//#include "../../AliveLibAE/ShadowZone.hpp"
-#include "../../AliveLibAE/WorkWheel.hpp"
-#include "../../AliveLibAE/MusicTrigger.hpp"
-#include "../../AliveLibAE/SlamDoor.hpp"
-#include "../../AliveLibAE/LaughingGas.hpp"
-#include "../../AliveLibAE/InvisibleSwitch.hpp"
-#include "../../AliveLibAE/Water.hpp"
-#include "../../AliveLibAE/GasEmitter.hpp"
-#include "../../AliveLibAE/BackgroundAnimation.hpp"
-#include "../../AliveLibAE/LiftPoint.hpp"
-#include "../../AliveLibAE/PullRingRope.hpp"
-#include "../../AliveLibAE/MultiSwitchController.hpp"
-#include "../../AliveLibAE/SecurityOrb.hpp"
-#include "../../AliveLibAE/Abe.hpp"
-#include "../../AliveLibAE/WheelSyncer.hpp"
-#include "../../AliveLibAE/LevelLoader.hpp"
-#include "../../AliveLibAE/FlyingSligSpawner.hpp"
-#include "../../AliveLibAE/BrewMachine.hpp"
-#include "../../AliveLibAE/Drill.hpp"
-#include "../../AliveLibAE/Mine.hpp"
-#include "../../AliveLibAE/Slog.hpp"
-#include "../../AliveLibAE/TrapDoor.hpp"
-#include "../../AliveLibAE/LiftMover.hpp"
-#include "../../AliveLibAE/RockSack.hpp"
-#include "../../AliveLibAE/TimerTrigger.hpp"
-#include "../../AliveLibAE/TimedMine.hpp"
-#include "../../AliveLibAE/MotionDetector.hpp"
-#include "../../AliveLibAE/MineCar.hpp"
-#include "../../AliveLibAE/ExplosionSet.hpp"
-#include "../../AliveLibAE/ColourfulMeter.hpp"
-#include "../../AliveLibAE/SlapLock.hpp"
-#include "../../AliveLibAE/Slurg.hpp"
-#include "../../AliveLibAE/DoorBlocker.hpp"
-#include "../../AliveLibAE/Dove.hpp"
-#include "../../AliveLibAE/DoorFlame.hpp"
-#include "../../AliveLibAE/Greeter.hpp"
-#include "../../AliveLibAE/MovingBomb.hpp"
-#include "../../AliveLibAE/SecurityDoor.hpp"
-#include "../../AliveLibAE/CrawlingSlig.hpp"
-#include "../../AliveLibAE/CrawlingSligButton.hpp"
-#include "../../AliveLibAE/Glukkon.hpp"
-#include "../../AliveLibAE/GlukkonSwitch.hpp"
-#include "../../AliveLibAE/GasCountDown.hpp"
-#include "../../AliveLibAE/FallingItem.hpp"
-#include "../../AliveLibAE/Bone.hpp"
-#include "../../AliveLibAE/FootSwitch.hpp"
-#include "../../AliveLibAE/ZzzSpawner.hpp"
-#include "../../AliveLibAE/SlogSpawner.hpp"
-#include "../../AliveLibAE/Scrab.hpp"
-#include "../../AliveLibAE/ScrabSpawner.hpp"
-#include "../../AliveLibAE/SlurgSpawner.hpp"
-#include "../../AliveLibAE/Paramite.hpp"
-#include "../../AliveLibAE/ParamiteWebLine.hpp"
-#include "../../AliveLibAE/Meat.hpp"
-#include "../../AliveLibAE/TorturedMudokon.hpp"
-#include "../../AliveLibAE/SligSpawner.hpp"
-#include "../../AliveLibAE/DemoPlayback.hpp"
-#include "../../AliveLibAE/MainMenu.hpp"
-#include "../../AliveLibAE/CreditsController.hpp"
+#include "../../relive_lib/data_conversion/PathTlvsAE.hpp"
 
 #define CTOR_AE(className, objectTypeName, tlvEnumType)\
     className() : TlvObjectBaseAE(sizeof(::className), tlvEnumType, objectTypeName, &mTlv)\
@@ -127,10 +54,10 @@ struct Path_ElectricWall final : public ReliveAPI::TlvObjectBaseAE
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
-        types.AddEnum<::ElectricWallStartState>("Enum_ElectricWallStartState",
+        types.AddEnum<::Path_ElectricWall::ElectricWallStartState>("Enum_ElectricWallStartState",
         {
-            {::ElectricWallStartState::eOff_0, "Off"},
-            {::ElectricWallStartState::eOn_1, "On"},
+            {::Path_ElectricWall::ElectricWallStartState::eOff_0, "Off"},
+            {::Path_ElectricWall::ElectricWallStartState::eOn_1, "On"},
         });
     }
 
@@ -145,22 +72,22 @@ struct Path_Mudokon final : public ReliveAPI::TlvObjectBaseAE
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
-        types.AddEnum<::Mud_TLV_Emotion>("Enum_Mud_TLV_Emotion",
+        types.AddEnum<::Path_Mudokon::Mud_TLV_Emotion>("Enum_Mud_TLV_Emotion",
         {
-            {::Mud_TLV_Emotion::eNormal_0, "Normal"},
-            {::Mud_TLV_Emotion::eAngry_1, "Angry"},
-            {::Mud_TLV_Emotion::eSad_2, "Sad"},
-            {::Mud_TLV_Emotion::eWired_3, "Wired"},
-            {::Mud_TLV_Emotion::eSick_4, "Sick"}
+            {::Path_Mudokon::Mud_TLV_Emotion::eNormal_0, "Normal"},
+            {::Path_Mudokon::Mud_TLV_Emotion::eAngry_1, "Angry"},
+            {::Path_Mudokon::Mud_TLV_Emotion::eSad_2, "Sad"},
+            {::Path_Mudokon::Mud_TLV_Emotion::eWired_3, "Wired"},
+            {::Path_Mudokon::Mud_TLV_Emotion::eSick_4, "Sick"}
         });
 
-        types.AddEnum<::MudJobs>("Enum_Mud_State",
+        types.AddEnum<::Path_Mudokon::MudJobs>("Enum_Mud_State",
         {
-            {::MudJobs::eChisle_0, "Chisle"},
-            {::MudJobs::eSitScrub_1, "Scrub"},
-            {::MudJobs::eAngryWorker_2, "Angry Worker"},
-            {::MudJobs::eDamageRingGiver_3, "Damage Ring Giver"},
-            {::MudJobs::eHealthRingGiver_4, "Health Ring Giver"},
+            {::Path_Mudokon::MudJobs::eChisle_0, "Chisle"},
+            {::Path_Mudokon::MudJobs::eSitScrub_1, "Scrub"},
+            {::Path_Mudokon::MudJobs::eAngryWorker_2, "Angry Worker"},
+            {::Path_Mudokon::MudJobs::eDamageRingGiver_3, "Damage Ring Giver"},
+            {::Path_Mudokon::MudJobs::eHealthRingGiver_4, "Health Ring Giver"},
         });
     }
 
@@ -188,11 +115,11 @@ struct Path_BirdPortal final : public ReliveAPI::TlvObjectBaseAE
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
-        types.AddEnum<::PortalType>("Enum_PortalType",
+        types.AddEnum<::Path_BirdPortal::PortalType>("Enum_PortalType",
         {
-            {::PortalType::eAbe_0, "Abe"},
-            {::PortalType::eWorker_1, "Worker"},
-            {::PortalType::eShrykull_2, "Shrykull"},
+            {::Path_BirdPortal::PortalType::eAbe_0, "Abe"},
+            {::Path_BirdPortal::PortalType::eWorker_1, "Worker"},
+            {::Path_BirdPortal::PortalType::eShrykull_2, "Shrykull"},
         });
 
         types.AddEnum<::PortalSide>("Enum_PortalSide",
@@ -231,20 +158,20 @@ struct Path_Door final : public ReliveAPI::TlvObjectBaseAE
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
-        types.AddEnum<::DoorStates>("Enum_DoorStates",
+        types.AddEnum<::Path_Door::DoorStates>("Enum_DoorStates",
         {
-            {::DoorStates::eOpen_0, "Open"},
-            {::DoorStates::eClosed_1, "Closed"},
-            {::DoorStates::eOpening_2, "Opening"},
-            {::DoorStates::eClosing_3, "Closing"}
+            {::Path_Door::DoorStates::eOpen_0, "Open"},
+            {::Path_Door::DoorStates::eClosed_1, "Closed"},
+            {::Path_Door::DoorStates::eOpening_2, "Opening"},
+            {::Path_Door::DoorStates::eClosing_3, "Closing"}
         });
 
-        types.AddEnum<::DoorTypes>("Enum_DoorTypes",
+        types.AddEnum<::Path_Door::DoorTypes>("Enum_DoorTypes",
         {
-            {::DoorTypes::eBasicDoor_0, "Basic Door"},
-            {::DoorTypes::eDoorPadding_1, "Padding (ignore)"},
-            {::DoorTypes::eTasksDoorWithSecretMusic_2, "Tasks Door With Secret Music"},
-            {::DoorTypes::eTasksDoor_3, "Tasks Door"}
+            {::Path_Door::DoorTypes::eBasicDoor_0, "Basic Door"},
+            {::Path_Door::DoorTypes::eDoorPadding_1, "Padding (ignore)"},
+            {::Path_Door::DoorTypes::eTasksDoorWithSecretMusic_2, "Tasks Door With Secret Music"},
+            {::Path_Door::DoorTypes::eTasksDoor_3, "Tasks Door"}
         });
     }
 
@@ -283,22 +210,22 @@ struct Path_Lever final : public ReliveAPI::TlvObjectBaseAE
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
-        types.AddEnum<::LeverSoundType>("Enum_LeverSoundType",
+        types.AddEnum<::Path_Lever::LeverSoundType>("Enum_LeverSoundType",
         {
-            {::LeverSoundType::eNone, "None"},
-            {::LeverSoundType::eWell_1, "Well"},
-            {::LeverSoundType::eSwitchBellHammer_2, "Unknown"},
-            {::LeverSoundType::eDoor_3, "Door"},
-            {::LeverSoundType::eElectricWall_4, "Electric Wall"},
-            {::LeverSoundType::eSecurityOrb_5, "Security Orb"},
-            {::LeverSoundType::eLift_6, "Lift"}
+            {::Path_Lever::LeverSoundType::eNone, "None"},
+            {::Path_Lever::LeverSoundType::eWell_1, "Well"},
+            {::Path_Lever::LeverSoundType::eSwitchBellHammer_2, "Unknown"},
+            {::Path_Lever::LeverSoundType::eDoor_3, "Door"},
+            {::Path_Lever::LeverSoundType::eElectricWall_4, "Electric Wall"},
+            {::Path_Lever::LeverSoundType::eSecurityOrb_5, "Security Orb"},
+            {::Path_Lever::LeverSoundType::eLift_6, "Lift"}
         });
 
-        types.AddEnum<::LeverSoundDirection>("Enum_LeverSoundDirection",
+        types.AddEnum<::Path_Lever::LeverSoundDirection>("Enum_LeverSoundDirection",
         {
-            {::LeverSoundDirection::eLeftAndRight_0, "Left And Right"},
-            {::LeverSoundDirection::eLeft_1, "Left"},
-            {::LeverSoundDirection::eRight_2, "Right"},
+            {::Path_Lever::LeverSoundDirection::eLeftAndRight_0, "Left And Right"},
+            {::Path_Lever::LeverSoundDirection::eLeft_1, "Left"},
+            {::Path_Lever::LeverSoundDirection::eRight_2, "Right"},
         });
     }
 
@@ -573,11 +500,11 @@ struct Path_ShadowZone final : public ReliveAPI::TlvObjectBaseAE
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
-        types.AddEnum<::ShadowZoneScale>("Enum_ShadowZoneScale",
+        types.AddEnum<::Path_ShadowZone::ShadowZoneScale>("Enum_ShadowZoneScale",
         {
-            {::ShadowZoneScale::eBoth_0, "Both"},
-            {::ShadowZoneScale::eHalf_1, "Half"},
-            {::ShadowZoneScale::eFull_2, "Full"},
+            {::Path_ShadowZone::ShadowZoneScale::eBoth_0, "Both"},
+            {::Path_ShadowZone::ShadowZoneScale::eHalf_1, "Half"},
+            {::Path_ShadowZone::ShadowZoneScale::eFull_2, "Full"},
         });
     }
 
@@ -609,21 +536,21 @@ struct Path_MusicTrigger final : public ReliveAPI::TlvObjectBaseAE
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
-        types.AddEnum<::MusicTriggerMusicType>("Enum_MusicTriggerMusicType",
+        types.AddEnum<::Path_MusicTrigger::MusicTriggerMusicType>("Enum_MusicTriggerMusicType",
         {
-            {::MusicTriggerMusicType::eDrumAmbience_0, "Drum Ambience"},
-            {::MusicTriggerMusicType::eDeathDrumShort_1, "Death Drum Short"},
-            {::MusicTriggerMusicType::eSecretAreaLong_2, "Secret Area Long"},
-            {::MusicTriggerMusicType::eSoftChase_3, "Soft Chase"},
-            {::MusicTriggerMusicType::eIntenseChase_4, "Intense Chase"},
-            {::MusicTriggerMusicType::eChime_5, "Chime"},
-            {::MusicTriggerMusicType::eSecretAreaShort_6, "Secret Area Short"},
+            {::Path_MusicTrigger::MusicTriggerMusicType::eDrumAmbience_0, "Drum Ambience"},
+            {::Path_MusicTrigger::MusicTriggerMusicType::eDeathDrumShort_1, "Death Drum Short"},
+            {::Path_MusicTrigger::MusicTriggerMusicType::eSecretAreaLong_2, "Secret Area Long"},
+            {::Path_MusicTrigger::MusicTriggerMusicType::eSoftChase_3, "Soft Chase"},
+            {::Path_MusicTrigger::MusicTriggerMusicType::eIntenseChase_4, "Intense Chase"},
+            {::Path_MusicTrigger::MusicTriggerMusicType::eChime_5, "Chime"},
+            {::Path_MusicTrigger::MusicTriggerMusicType::eSecretAreaShort_6, "Secret Area Short"},
         });
 
-        types.AddEnum<::TriggeredBy>("Enum_MusicTriggeredBy",
+        types.AddEnum<::Path_MusicTrigger::TriggeredBy>("Enum_MusicTriggeredBy",
         {
-            {::TriggeredBy::eTimer_0, "Timer"},
-            {::TriggeredBy::eTouching_1, "Touching"},
+            {::Path_MusicTrigger::TriggeredBy::eTimer_0, "Timer"},
+            {::Path_MusicTrigger::TriggeredBy::eTouching_1, "Touching"},
         });
     }
 
@@ -720,11 +647,11 @@ struct Path_InvisibleSwitch final : public ReliveAPI::TlvObjectBaseAE
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
-        types.AddEnum<::InvisibleSwitchScale>("Enum_InvisibleSwitchScale",
+        types.AddEnum<::Path_InvisibleSwitch::InvisibleSwitchScale>("Enum_InvisibleSwitchScale",
         {
-            {::InvisibleSwitchScale::eHalf_0, "Half"},
-            {::InvisibleSwitchScale::eFull_1, "Full"},
-            {::InvisibleSwitchScale::eAny_2, "Any"},
+            {::Path_InvisibleSwitch::InvisibleSwitchScale::eHalf_0, "Half"},
+            {::Path_InvisibleSwitch::InvisibleSwitchScale::eFull_1, "Full"},
+            {::Path_InvisibleSwitch::InvisibleSwitchScale::eAny_2, "Any"},
         });
     }
 
@@ -755,13 +682,13 @@ struct Path_GasEmitter final : public ReliveAPI::TlvObjectBaseAE
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
-        types.AddEnum<::GasColour>("Enum_GasColour",
+        types.AddEnum<::Path_GasEmitter::GasColour>("Enum_GasColour",
         {
-            {::GasColour::Yellow_0, "Yellow"},
-            {::GasColour::Red_1, "Red"},
-            {::GasColour::Green_2, "Green"},
-            {::GasColour::Blue_3, "Blue"},
-            {::GasColour::White_4, "White"},
+            {::Path_GasEmitter::GasColour::Yellow_0, "Yellow"},
+            {::Path_GasEmitter::GasColour::Red_1, "Red"},
+            {::Path_GasEmitter::GasColour::Green_2, "Green"},
+            {::Path_GasEmitter::GasColour::Blue_3, "Blue"},
+            {::Path_GasEmitter::GasColour::White_4, "White"},
         });
     }
 
@@ -847,13 +774,13 @@ struct Path_LiftPoint final : public ReliveAPI::TlvObjectBaseAE
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
-        types.AddEnum<::LiftPointStopType>("Enum_LiftPointStopType",
+        types.AddEnum<::Path_LiftPoint::LiftPointStopType>("Enum_LiftPointStopType",
         {
-            {::LiftPointStopType::eTopFloor_0, "Top Floor"},
-            {::LiftPointStopType::eBottomFloor_1, "Bottom Floor"},
-            {::LiftPointStopType::eMiddleFloor_2, "Middle Floor"},
-            {::LiftPointStopType::eMiddleLockFloor_3, "Middle Lock Floor"},
-            {::LiftPointStopType::eStartPointOnly_4, "Start Point Only"},
+            {::Path_LiftPoint::LiftPointStopType::eTopFloor_0, "Top Floor"},
+            {::Path_LiftPoint::LiftPointStopType::eBottomFloor_1, "Bottom Floor"},
+            {::Path_LiftPoint::LiftPointStopType::eMiddleFloor_2, "Middle Floor"},
+            {::Path_LiftPoint::LiftPointStopType::eMiddleLockFloor_3, "Middle Lock Floor"},
+            {::Path_LiftPoint::LiftPointStopType::eStartPointOnly_4, "Start Point Only"},
         });
     }
 
@@ -872,19 +799,19 @@ struct Path_PullRingRope final : public ReliveAPI::TlvObjectBaseAE
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
-        types.AddEnum<::PullRingSwitchSound>("Enum_PullRingSwitchSound",
+        types.AddEnum<::Path_PullRingRope::PullRingSwitchSound>("Enum_PullRingSwitchSound",
         {
-            {::PullRingSwitchSound::eNone_0, "None"},
-            {::PullRingSwitchSound::eWellExit_1, "Well Exit"},
-            {::PullRingSwitchSound::eRingBellHammer_2, "Ring Unknown Trigger"},
-            {::PullRingSwitchSound::eDoorEffect_3, "Door Effect"},
+            {::Path_PullRingRope::PullRingSwitchSound::eNone_0, "None"},
+            {::Path_PullRingRope::PullRingSwitchSound::eWellExit_1, "Well Exit"},
+            {::Path_PullRingRope::PullRingSwitchSound::eRingBellHammer_2, "Ring Unknown Trigger"},
+            {::Path_PullRingRope::PullRingSwitchSound::eDoorEffect_3, "Door Effect"},
         });
 
-        types.AddEnum<::PullRingSoundDirection>("Enum_PullRingSoundDirection",
+        types.AddEnum<::Path_PullRingRope::PullRingSoundDirection>("Enum_PullRingSoundDirection",
         {
-            {::PullRingSoundDirection::eLeftAndRight_0, "Left And Right"},
-            {::PullRingSoundDirection::eLeft_1, "Left"},
-            {::PullRingSoundDirection::eRight_2, "Right"},
+            {::Path_PullRingRope::PullRingSoundDirection::eLeftAndRight_0, "Left And Right"},
+            {::Path_PullRingRope::PullRingSoundDirection::eLeft_1, "Left"},
+            {::Path_PullRingRope::PullRingSoundDirection::eRight_2, "Right"},
         });
     }
 
@@ -956,12 +883,12 @@ struct Path_WheelSyncer final : public ReliveAPI::TlvObjectBaseAE
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
-        types.AddEnum<::WheelSyncerOutputRequirement>("Enum_WheelSyncerOutputRequirement",
+        types.AddEnum<::Path_WheelSyncer::WheelSyncerOutputRequirement>("Enum_WheelSyncerOutputRequirement",
         {
-            {::WheelSyncerOutputRequirement::eAllOn_0, "All On"},
-            {::WheelSyncerOutputRequirement::e1OnAnd2Off_1, "1 On And 2 Off"},
-            {::WheelSyncerOutputRequirement::e1Or2On_2, "1 Or 2 On"},
-            {::WheelSyncerOutputRequirement::e1OnOr2Off_3, "1 On Or 2 Off"},
+            {::Path_WheelSyncer::WheelSyncerOutputRequirement::eAllOn_0, "All On"},
+            {::Path_WheelSyncer::WheelSyncerOutputRequirement::e1OnAnd2Off_1, "1 On And 2 Off"},
+            {::Path_WheelSyncer::WheelSyncerOutputRequirement::e1Or2On_2, "1 Or 2 On"},
+            {::Path_WheelSyncer::WheelSyncerOutputRequirement::e1OnOr2Off_3, "1 On Or 2 Off"},
         });
     }
 
@@ -1165,18 +1092,18 @@ struct Path_Drill final : public ReliveAPI::TlvObjectBaseAE
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
-        types.AddEnum<::DrillBehavior>("Enum_DrillBehavior",
+        types.AddEnum<::Path_Drill_Data::DrillBehavior>("Enum_DrillBehavior",
         {
-            {::DrillBehavior::eNotInteractable_0, "Not Interactable"},
-            {::DrillBehavior::eToggle_1, "Toggle"},
-            {::DrillBehavior::eUse_2, "Use"},
+            {::Path_Drill_Data::DrillBehavior::eNotInteractable_0, "Not Interactable"},
+            {::Path_Drill_Data::DrillBehavior::eToggle_1, "Toggle"},
+            {::Path_Drill_Data::DrillBehavior::eUse_2, "Use"},
         });
 
-        types.AddEnum<::DrillDirection>("Enum_DrillDirection",
+        types.AddEnum<::Path_Drill_Data::DrillDirection>("Enum_DrillDirection",
         {
-            {::DrillDirection::eDown_0, "Down"},
-            {::DrillDirection::eRight_1, "Right"},
-            {::DrillDirection::eLeft_2, "Left"},
+            {::Path_Drill_Data::DrillDirection::eDown_0, "Down"},
+            {::Path_Drill_Data::DrillDirection::eRight_1, "Right"},
+            {::Path_Drill_Data::DrillDirection::eLeft_2, "Left"},
         });
     }
 
@@ -1711,15 +1638,15 @@ struct Path_CrawlingSligButton final : public ReliveAPI::TlvObjectBaseAE
     {
         // this probably shouldn't be here since the sound/sound direction implementation is extremely scuffed
         // but maybe someone wants to use it anyway
-        types.AddEnum<::CrawlingSligButtonSounds>("Enum_CrawlingSligButtonSounds",
+        types.AddEnum<::Path_CrawlingSligButton::CrawlingSligButtonSounds>("Enum_CrawlingSligButtonSounds",
         {
-            {::CrawlingSligButtonSounds::None_0, "None"},
-            {::CrawlingSligButtonSounds::SackHit_1, "Sack Hit"},
-            {::CrawlingSligButtonSounds::FallingItemPresence2_2, "Falling Item Presence 2"},
-            {::CrawlingSligButtonSounds::SecurityOrb_3, "Security Orb"},
-            {::CrawlingSligButtonSounds::SackHit_4, "Sack Hit (duplicate)"},
-            {::CrawlingSligButtonSounds::Bullet1_5, "Bullet"},
-            {::CrawlingSligButtonSounds::AbeGenericMovement_6, "Abe Generic Movement"},
+            {::Path_CrawlingSligButton::CrawlingSligButtonSounds::None_0, "None"},
+            {::Path_CrawlingSligButton::CrawlingSligButtonSounds::SackHit_1, "Sack Hit"},
+            {::Path_CrawlingSligButton::CrawlingSligButtonSounds::FallingItemPresence2_2, "Falling Item Presence 2"},
+            {::Path_CrawlingSligButton::CrawlingSligButtonSounds::SecurityOrb_3, "Security Orb"},
+            {::Path_CrawlingSligButton::CrawlingSligButtonSounds::SackHit_4, "Sack Hit (duplicate)"},
+            {::Path_CrawlingSligButton::CrawlingSligButtonSounds::Bullet1_5, "Bullet"},
+            {::Path_CrawlingSligButton::CrawlingSligButtonSounds::AbeGenericMovement_6, "Abe Generic Movement"},
         });
     }
     CTOR_AE(Path_CrawlingSligButton, "CrawlingSligButton", TlvTypes::CrawlingSligButton_107)
@@ -1740,14 +1667,14 @@ struct Path_Glukkon final : public ReliveAPI::TlvObjectBaseAE
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
-        types.AddEnum<::GlukkonTypes>("Enum_GlukkonTypes",
+        types.AddEnum<::Path_Glukkon::GlukkonTypes>("Enum_GlukkonTypes",
         {
-            {::GlukkonTypes::eNormal_0, "Normal"},
-            {::GlukkonTypes::eStoryAslik_1, "Story Aslik"},
-            {::GlukkonTypes::eStoryDripik_2, "Story Dripik"},
-            {::GlukkonTypes::eStoryPhleg_3, "Story Phleg"},
-            {::GlukkonTypes::eNormal_4, "Normal 4"},
-            {::GlukkonTypes::eNormal_5, "Normal 5"},
+            {::Path_Glukkon::GlukkonTypes::eNormal_0, "Normal"},
+            {::Path_Glukkon::GlukkonTypes::eStoryAslik_1, "Story Aslik"},
+            {::Path_Glukkon::GlukkonTypes::eStoryDripik_2, "Story Dripik"},
+            {::Path_Glukkon::GlukkonTypes::eStoryPhleg_3, "Story Phleg"},
+            {::Path_Glukkon::GlukkonTypes::eNormal_4, "Normal 4"},
+            {::Path_Glukkon::GlukkonTypes::eNormal_5, "Normal 5"},
         });
 
         types.AddEnum<::Path_Glukkon::Facing>("Enum_GlukkonStartDirection",
@@ -1872,10 +1799,10 @@ struct Path_FootSwitch final : public ReliveAPI::TlvObjectBaseAE
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
-        types.AddEnum<::FootSwitchTriggerBy>("Enum_FootSwitchTriggeredBy",
+        types.AddEnum<::Path_FootSwitch::FootSwitchTriggerBy>("Enum_FootSwitchTriggeredBy",
         {
-            {::FootSwitchTriggerBy::eAbe_0, "Abe"},
-            {::FootSwitchTriggerBy::eAnyone_1, "Anyone"},
+            {::Path_FootSwitch::FootSwitchTriggerBy::eAbe_0, "Abe"},
+            {::Path_FootSwitch::FootSwitchTriggerBy::eAnyone_1, "Anyone"},
         });
     }
 
@@ -1902,10 +1829,10 @@ struct Path_SlogSpawner final : public ReliveAPI::TlvObjectBaseAE
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
-        types.AddEnum<::StartDirection>("Enum_SlogSpawnerStartDirection",
+        types.AddEnum<::Path_SlogSpawner::StartDirection>("Enum_SlogSpawnerStartDirection",
             {
-                {::StartDirection::eRight_0, "Right"},
-                {::StartDirection::eLeft_1, "Left"},
+                {::Path_SlogSpawner::StartDirection::eRight_0, "Right"},
+                {::Path_SlogSpawner::StartDirection::eLeft_1, "Left"},
             });
     }
 
@@ -1997,11 +1924,11 @@ struct Path_ScrabSpawner final : public ReliveAPI::TlvObjectBaseAE
 {
     void AddTypes(ReliveAPI::TypesCollectionBase& types) override
     {
-        types.AddEnum<::ScrabSpawnDirection>("Enum_ScrabSpawnDirection",
+        types.AddEnum<::Path_ScrabSpawner::ScrabSpawnDirection>("Enum_ScrabSpawnDirection",
         {
-            {::ScrabSpawnDirection::eNone_0, "None"},
-            {::ScrabSpawnDirection::eLeft_1, "Left"},
-            {::ScrabSpawnDirection::eRight_2, "Right"},
+            {::Path_ScrabSpawner::ScrabSpawnDirection::eNone_0, "None"},
+            {::Path_ScrabSpawner::ScrabSpawnDirection::eLeft_1, "Left"},
+            {::Path_ScrabSpawner::ScrabSpawnDirection::eRight_2, "Right"},
         });
     }
 

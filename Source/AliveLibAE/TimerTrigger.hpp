@@ -4,17 +4,6 @@
 #include "Path.hpp"
 #include "../AliveLibCommon/Function.hpp"
 
-struct Path_TimerTrigger final : public Path_TLV
-{
-    s16 mInputSwitchId;
-    u16 mActivationDelay;
-    s16 mOutputSwitchId1;
-    s16 mOutputSwitchId2;
-    s16 mOutputSwitchId3;
-    s16 mOutputSwitchId4;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_TimerTrigger, 0x1C);
-
 enum class TimerTriggerStates : s16
 {
     eWaitForEnabled_0 = 0,

@@ -4,13 +4,6 @@
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
 
-struct Path_DoorBlocker final : public Path_TLV
-{
-    Scale_short mScale;
-    s16 mSwitchId;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_DoorBlocker, 0x14);
-
 class DoorBlocker final : public BaseAliveGameObject
 {
 public:

@@ -17,18 +17,6 @@ struct Path_LaughingGas_Data final
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LaughingGas_Data, 0xC);
 
-struct Path_LaughingGas final : public Path_TLV
-{
-    Choice_short mLaughingGas;
-    s16 mLaughingGasSwitchId;
-    s16 mRedPercent;
-    s16 mGreenPercent;
-    s16 mBluePercent;
-    s16 padding;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_LaughingGas, 0x1C);
-
-
 class LaughingGas final : public BaseGameObject
 {
 public:

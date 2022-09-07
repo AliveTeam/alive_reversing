@@ -39,18 +39,6 @@ struct CameraName final
 };
 ALIVE_ASSERT_SIZEOF(CameraName, 8);
 
-
-struct Path_PathTransition final : public Path_TLV
-{
-    LevelIds mNextLevel;
-    s16 mNextPath;
-    s16 mNextCamera;
-    s16 mMovieId;
-    s16 mWipeEffect;
-    Scale_short mNextPathScale;
-};
-ALIVE_ASSERT_SIZEOF_ALWAYS(Path_PathTransition, 0x1C);
-
 enum class LoadMode : s16;
 
 class Map final : public IMap
