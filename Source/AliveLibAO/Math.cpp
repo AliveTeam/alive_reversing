@@ -29,6 +29,7 @@ ALIVE_ARY(1, 0x4BBE30, u8, 256, sRandomBytes_4BBE30,
 });
 // clang-format on
 
+
 u8 Math_NextRandom()
 {
     return ::Math_NextRandom(); // Ae ver

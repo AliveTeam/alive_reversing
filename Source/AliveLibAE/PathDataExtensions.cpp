@@ -103,6 +103,8 @@ void Path_Set_NewData_FromLvls()
                             if (!rBlyRec.field_4_pPathData)
                             {
                                 rBlyRec.field_4_pPathData = &GetPathData(lvlIdx)[pExt->mPathId];
+                                // HACK: Set throwable type in this path to grenades
+                                rBlyRec.field_C_overlay_id = 100;
                                 rPath.field_18_num_paths++;
                             }
                             PathData& rPathData = *rBlyRec.field_4_pPathData;
