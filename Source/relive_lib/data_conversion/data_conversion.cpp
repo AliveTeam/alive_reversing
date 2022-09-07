@@ -1306,12 +1306,14 @@ const char_type* AnimRecName(AnimId anim)
 }
 
 
-static void ReadLvlFileInto(ReliveAPI::LvlReader& archive, const char_type* fileName, std::vector<u8>& fileBuffer)
+static bool ReadLvlFileInto(ReliveAPI::LvlReader& archive, const char_type* fileName, std::vector<u8>& fileBuffer)
 {
     if (!archive.ReadFileInto(fileBuffer, fileName))
     {
-        // TODO
+        fileBuffer.clear();
+        return false;
     }
+    return true;
 }
 
 static bool endsWith(const std::string& str, const std::string& suffix)
@@ -2218,25 +2220,46 @@ static void ConvertAnimations(const FileSystem::Path& dataDir, FileSystem& fs, s
         {
             if ((isAo && rec.mAoLvl == reliveLvl) || (!isAo && rec.mAeLvl == reliveLvl))
             {
-                FileSystem::Path filePath = dataDir;
-                filePath.Append("animations");
+                // Not every file is in every LVL - we might get it from a later LVL
+                if (ReadLvlFileInto(lvlReader, animDetails.mBanName, fileBuffer))
+                {
+                    LOG_INFO("Converting: " << magic_enum::enum_name(rec.mAnimId));
 
-                // e.g "abe"
-                filePath.Append(ToString(rec.mGroup));
+                    FileSystem::Path filePath = dataDir;
+                    filePath.Append("animations");
 
-                // Ensure the containing directory exists
-                fs.CreateDirectory(filePath);
+                    // e.g "abe"
+                    filePath.Append(ToString(rec.mGroup));
+
+                    // Ensure the containing directory exists
+                    fs.CreateDirectory(filePath);
 
 
-                // e.g "arm_gib"
-                const char_type* enum_name = magic_enum::enum_name(rec.mAnimId).data();
-                filePath.Append(enum_name);
+                    // e.g "arm_gib"
+                    const char_type* enum_name = magic_enum::enum_name(rec.mAnimId).data();
+                    filePath.Append(enum_name);
 
-                ReadLvlFileInto(lvlReader, animDetails.mBanName, fileBuffer);
-                AnimationConverter animationConverter(filePath, animDetails, fileBuffer, isAo);
+                    AnimationConverter animationConverter(filePath, animDetails, fileBuffer, isAo);
 
-                // Track what is converted so we know what is missing at the end
-                rec.mConverted = true;
+                    // Track what is converted so we know what is missing at the end
+                    rec.mConverted = true;
+                }
+            }
+        }
+    }
+}
+
+static void LogNonConvertedAnims(bool isAo)
+{
+    // Log skippeed/missing anims
+    for (auto& rec : kAnimRecConversionInfo)
+    {
+        const auto& animDetails = isAo ? AO::AnimRec(rec.mAnimId) : AnimRec(rec.mAnimId);
+        if (animDetails.mFrameTableOffset != 0)
+        {
+            if (!rec.mConverted)
+            {
+                LOG_INFO("Didn't convert " << magic_enum::enum_name(rec.mAnimId));
             }
         }
     }
@@ -2362,6 +2385,7 @@ void DataConversion::ConvertDataAO()
 
         ConvertFilesInLvl<AO::LevelIds, AO::Path_TLV>(dataDir, fs, lvlReader, fileBuffer, lvlIdxAsLvl, reliveLvl, true);
     }
+    LogNonConvertedAnims(true);
 }
 
 void DataConversion::ConvertDataAE()
@@ -2398,4 +2422,5 @@ void DataConversion::ConvertDataAE()
 
         ConvertFilesInLvl<::LevelIds, ::Path_TLV>(dataDir, fs, lvlReader, fileBuffer, lvlIdxAsLvl, reliveLvl, false);
     }
+    LogNonConvertedAnims(false);
 }

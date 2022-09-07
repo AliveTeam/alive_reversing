@@ -116,7 +116,7 @@ AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const
         const FrameHeader* pFrameHeader = GetFrame(pAnimationHeader, i);
 
         // TODO: HACK ignore broken type for now
-        if (pFrameHeader->field_7_compression_type != CompressionType::eType_3_RLE_Blocks)
+        //if (pFrameHeader->field_7_compression_type != CompressionType::eType_3_RLE_Blocks)
         {
             DecompressAnimFrame(decompressionBuffer, pFrameHeader);
     
@@ -126,7 +126,8 @@ AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const
             {
                 for (u32 y = 0; y < pFrameHeader->field_5_height; y++)
                 {
-                    spriteSheetBuffer[(y * sheetWidth) + (x + (bestMaxSize.mMaxW * i))] = decompressionBuffer[(y * imageWidth) + x];
+                    const u8 value = decompressionBuffer[(y * imageWidth) + x];
+                    spriteSheetBuffer[(y * sheetWidth) + (x + (bestMaxSize.mMaxW * i))] = value;
                 }
             }
         }
@@ -356,6 +357,7 @@ u32 AnimationConverter::CalcDecompressionBufferSize(const AnimRecord& rec, const
         case 4:
         {
             decompression_width = (rec.mMaxW % 2) + (rec.mMaxW / 2);
+            decompression_width *= 2; // 4 to 8 bit
         }
         break;
 

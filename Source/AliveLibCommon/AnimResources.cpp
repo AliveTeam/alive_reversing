@@ -447,7 +447,7 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
      {"ABEWELL.BAN", 19476, 135, 80, AO::kAbewellAOResID, PalId::Default}},
     {AnimId::Mudokon_FallLandDie,
         { "ABENOELM.BND", 8104, 135, 80, kAbesmashResID, PalId::Default},
-     {"ABENOELM.BND", 7880, 135, 80, AO::kAbesmashAOResID, PalId::Default}},
+     {"ABEKNFD.BND", 7880, 135, 80, AO::kAbesmashAOResID, PalId::Default}},
     {AnimId::Mudokon_Fall,
         { "ABENOELM.BND", 5724, 135, 80, kAbefallResID, PalId::Default},
      {"ABENOELM.BND", 5560, 135, 80, AO::kAbefallAOResID, PalId::Default}},
@@ -513,7 +513,7 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
      {"ABEDOOR.BAN", 17568, 135, 80, AO::kAbedoorAOResID, PalId::Default}},
     {AnimId::Mudokon_ToShrykull, 
         { "ABEMORPH.BAN", 8732, 135, 80, kAbemorphResID, PalId::Default},
-        { "ABEMORPH.BAN", 92004, 121, 79, AO::kShrmorphAOResID, PalId::Default}
+        { "SHRMORPH.BAN", 92004, 121, 79, AO::kShrmorphAOResID, PalId::Default}
     },
     {AnimId::Mudokon_EndShrykull,
         { "ABEMORPH.BAN", 8772, 135, 80, kAbemorphResID, PalId::Default},
