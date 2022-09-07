@@ -32,6 +32,11 @@ ALIVE_ARY(1, 0x546744, u8, 256, sRandomBytes_546744,
 
 ALIVE_VAR(1, 0x5D1E10, u8, sRandomSeed_5D1E10, 0);
 
+EXPORT void AE_SetRndSeed(u8 v)
+{
+    sRandomSeed_5D1E10 = v;
+}
+
 EXPORT u32 CC Math_FixedPoint_Multiply_496C50(s32 op1, s32 op2)
 {
     u32 op1a;   // ecx
