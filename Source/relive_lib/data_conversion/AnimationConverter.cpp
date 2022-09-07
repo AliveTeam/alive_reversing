@@ -116,21 +116,25 @@ AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const
         const FrameHeader* pFrameHeader = GetFrame(pAnimationHeader, i);
 
         // TODO: HACK ignore broken type for now
-        //if (pFrameHeader->field_7_compression_type != CompressionType::eType_3_RLE_Blocks)
+        if (pFrameHeader->field_7_compression_type == CompressionType::eType_0_NoCompression)
         {
-            DecompressAnimFrame(decompressionBuffer, pFrameHeader);
-    
-            // Add frame to the sprite sheet
-            const u32 imageWidth = CalcImageWidth(pFrameHeader);
-            for (u32 x = 0; x < pFrameHeader->field_4_width; x++)
+            LOG_WARNING("TODO: Type 0 compression");
+            continue;
+        }
+
+        DecompressAnimFrame(decompressionBuffer, pFrameHeader);
+
+        // Add frame to the sprite sheet
+        const u32 imageWidth = CalcImageWidth(pFrameHeader);
+        for (u32 x = 0; x < pFrameHeader->field_4_width; x++)
+        {
+            for (u32 y = 0; y < pFrameHeader->field_5_height; y++)
             {
-                for (u32 y = 0; y < pFrameHeader->field_5_height; y++)
-                {
-                    const u8 value = decompressionBuffer[(y * imageWidth) + x];
-                    spriteSheetBuffer[(y * sheetWidth) + (x + (bestMaxSize.mMaxW * i))] = value;
-                }
+                const u8 value = decompressionBuffer[(y * imageWidth) + x];
+                spriteSheetBuffer[(y * sheetWidth) + (x + (bestMaxSize.mMaxW * i))] = value;
             }
         }
+    
 
         perFrameInfos[i].mWidth = pFrameHeader->field_4_width;
         perFrameInfos[i].mHeight = pFrameHeader->field_5_height;
