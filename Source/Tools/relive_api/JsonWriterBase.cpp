@@ -5,6 +5,8 @@
 #include "../../AliveLibAO/Map.hpp"
 #include "LvlReaderWriter.hpp"
 #include "CamConverter.hpp"
+#include "../../relive_lib/data_conversion/PathTlvsAE.hpp"
+#include "../../relive_lib/data_conversion/PathTlvsAO.hpp"
 
 namespace ReliveAPI {
 
