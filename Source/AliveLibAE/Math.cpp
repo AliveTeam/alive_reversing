@@ -27,7 +27,7 @@ ALIVE_ARY(1, 0x546744, u8, 256, sRandomBytes_546744,
 });
 // clang-format on
 
-ALIVE_VAR(1, 0x5D1E10, u8, sRandomSeed_5D1E10, 0);
+u8 sRandomSeed = 0;
 
 u32 Math_FixedPoint_Multiply_496C50(s32 op1, s32 op2)
 {
@@ -107,7 +107,7 @@ s16 Math_RandomRange(s16 min, s16 max)
     if (rangeSize >= 256)
     {
         const s32 randByte = (257 * Math_NextRandom());
-        sRandomSeed_5D1E10 += 1;
+        sRandomSeed += 1;
         result = static_cast<s16>(result + randByte % (rangeSize + 1));
     }
     else
@@ -121,7 +121,7 @@ s16 Math_RandomRange(s16 min, s16 max)
 // This seems to have been inlined a lot
 u8 Math_NextRandom()
 {
-    const u8 random = sRandomBytes_546744[sRandomSeed_5D1E10++];
+    const u8 random = sRandomBytes_546744[sRandomSeed++];
     return static_cast<u8>(GetGameAutoPlayer().Rng(random));
 }
 

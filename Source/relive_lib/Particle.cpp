@@ -15,6 +15,12 @@ Particle::Particle(FP xpos, FP ypos, AnimId animId, u8** ppAnimData, bool explos
     ResourceManagerWrapper::Inc_Ref_Count(ppAnimData);
     field_10_resources_array.Push_Back(ppAnimData);
 
+    if (GetGameType() == GameType::eAo)
+    {
+        // mAnim takes ownership in AO so +1 for that
+        ResourceManagerWrapper::Inc_Ref_Count(ppAnimData);
+    }
+
     mRGB.SetRGB(128, 128, 128);
 
     if (!explosionSizeHack)

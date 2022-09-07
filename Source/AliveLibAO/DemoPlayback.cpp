@@ -10,9 +10,9 @@
 #include "Abe.hpp"
 #include "MainMenu.hpp"
 
-namespace AO {
+extern u8 sRandomSeed; //Math.cpp
 
-ALIVE_VAR_EXTERN(u8, sRandomSeed_50A228); //Math.cpp
+namespace AO {
 
 DemoPlayback::DemoPlayback(u8** ppPlaybackData, s32 bFromHandStone)
     : BaseGameObject(TRUE, 0)
@@ -39,7 +39,7 @@ DemoPlayback::DemoPlayback(u8** ppPlaybackData, s32 bFromHandStone)
     auto pd = reinterpret_cast<PlaybackData*>(*ppPlaybackData);
     ResourceManager::Set_Header_Flags_4557D0(ppPlaybackData, ResourceManager::ResourceHeaderFlags::eLocked);
     SaveGame::LoadFromMemory(&pd->saveData, 1);
-    sRandomSeed_50A228 = pd->randomSeed;
+    sRandomSeed = pd->randomSeed;
     field_10_state = States::eState_0_Init;
     field_14_ppDemoRes = ppPlaybackData;
     mBaseGameObjectUpdateDelay = 1;

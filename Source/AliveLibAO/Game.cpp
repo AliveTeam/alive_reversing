@@ -160,8 +160,6 @@ void Sys_SetWindowProc_Filter_48E950(TFilter)
 #endif
 
 
-ALIVE_VAR(1, 0x507670, u32, sGnFrame, 0);
-
 ALIVE_VAR(1, 0x50766C, DynamicArrayT<BaseGameObject>*, ObjListPlatforms_50766C, nullptr);
 
 void Game_ForceLink()

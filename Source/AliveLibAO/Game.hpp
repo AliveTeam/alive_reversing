@@ -8,10 +8,11 @@ void Game_ForceLink();
 class BaseGameObject;
 class AnimationBase;
 
+extern u32 sGnFrame; // NOTE: Points to AE copy till moved to common lib
+
 namespace AO {
 
 
-ALIVE_VAR_EXTERN(u32, sGnFrame);
 ALIVE_VAR_EXTERN(s16, gAttract_507698);
 ALIVE_VAR_EXTERN(s16, sBreakGameLoop_507B78);
 ALIVE_VAR_EXTERN(s8, gDDCheatMode_508BF8);

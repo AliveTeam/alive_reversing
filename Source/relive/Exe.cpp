@@ -107,7 +107,7 @@ extern "C"
         &AO::gMap.mCurrentLevel,
         &AO::gMap.mCurrentPath,
         &AO::gMap.mCurrentCamera,
-        &AO::sGnFrame,
+        &::sGnFrame,
         &AO::sActiveHero,
         offsetof(AO::Abe, mYPos) + sizeof(s16), // +2 for exp only
         &AO::sDisableFontFlicker_5080E4,
