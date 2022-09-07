@@ -375,7 +375,7 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
     // TODO: correct BAN/BND's and resourceID's for AO
     {AnimId::Mudokon_ToSpeak,
         { "ABEBSIC1.BAN", 59112, 135, 80, kAbebsic1ResID, PalId::Default},
-     {"ABEBSIC1.BAN", 256136, 135, 80, AO::kAbebsic1AOResID, PalId::Default}},
+     {"ABEBSIC.BAN", 256136, 135, 80, AO::kAbebasicAOResID, PalId::Default}},
     {AnimId::Mudokon_Null, { "ABEBSIC.BAN", 270240, 135, 80, kAbebasicResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Mudokon_CrouchSpeak, { "ABEBSIC.BAN", 271080, 135, 80, kAbebasicResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Mudokon_ToCrouchSpeak, { "ABEBSIC.BAN", 271120, 135, 80, kAbebasicResID, PalId::Default}, kNullAnimDetails },
@@ -567,14 +567,14 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
         { "ABEBSIC1.BAN", 58748, 135, 80, kAbebsic1ResID, PalId::Default},
      {"ABEBSIC1.BAN", 55828, 135, 80, AO::kAbebsic1AOResID, PalId::Default}},
 
-    {AnimId::Mudokon_AO_Null, kNullAnimDetails, {"ABEBSIC1.BAN", 21744, 135, 80, AO::kAbebsic1AOResID, PalId::Default}},
+    {AnimId::Mudokon_AO_Null, kNullAnimDetails, {"ABELIFT.BAN", 21744, 135, 80, AO::kAbeliftAOResID, PalId::Default}},
 
     {AnimId::Mudokon_LeverUse,
         { "ABEPULL.BAN", 11396, 135, 80, kAbepullResID, PalId::Default}, 
         {"ABEPULL.BAN", 10988, 135, 80, AO::kAbepullAOResID, PalId::Default}},
     {AnimId::Mudokon_CrouchScrub,
         { "MUDSCRUB.BAN", 9388, 135, 80, kMudscrubResID, PalId::Default},
-     {"MUDWORK.BND", 9056, 135, 80, AO::kMudscrubAOResID, PalId::Default}},
+     {"MUDSCRUB.BAN", 9056, 135, 80, AO::kMudscrubAOResID, PalId::Default}},
     {AnimId::Mudokon_CrouchIdle,
         { "ABEBSIC.BAN", 270092, 135, 80, kAbebasicResID, PalId::Default},
      {"ABEBSIC.BAN", 255600, 135, 80, AO::kAbebasicAOResID, PalId::Default}},
@@ -589,7 +589,7 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
      {"ABEBSIC.BAN", 255568, 135, 80, AO::kAbebasicAOResID, PalId::Default}},
     {AnimId::Mudokon_WalkToRun,
         { "ABEBSIC.BAN", 270120, 135, 80, kAbebasicResID, PalId::Default},
-     {"MUDLOTUS.BND", 255628, 96, 55, AO::kAbebasicAOResID, PalId::Default}},
+     {"ABEBSIC.BAN", 255628, 96, 55, AO::kAbebasicAOResID, PalId::Default}},
     {AnimId::Mudokon_MidWalkToRun,
         { "ABEBSIC.BAN", 270268, 135, 80, kAbebasicResID, PalId::Default},
      {"ABEBSIC.BAN", 255808, 135, 80, AO::kAbebasicAOResID, PalId::Default}},
@@ -646,7 +646,7 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
     // 11396 for AO means no frametableoffset specified yet
     {AnimId::Mudokon_StandToRun,
         { "ABEBSIC.BAN", 270252, 135, 80, kAbebasicResID, PalId::Default},
-     {"MUDLOTUS.BND", 255788, 96, 55, AO::kAbebasicAOResID, PalId::Default}},
+     {"ABEBSIC.BAN", 255788, 96, 55, AO::kAbebasicAOResID, PalId::Default}},
 
     {AnimId::Mudokon_HoistBegin,
         { "ABEBSIC.BAN", 269976, 135, 80, kAbebasicResID, PalId::Default},
@@ -700,7 +700,7 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
      {"MUDWORK.BND", 5140, 135, 80, AO::kMudoduckAOResID, PalId::Default}},
     {AnimId::Mudokon_DuckKnockback,
         { "MUDBTLNK.BAN", 5328, 135, 80, kMudbtlnkResID, PalId::Default},
-     {"MUDWORK.BND", 5224, 135, 80, AO::kMudbtlnkAOResID, PalId::Default}},
+     {"MUDBTLNK.BAN", 5224, 135, 80, AO::kMudbtlnkAOResID, PalId::Default}},
 
 
 
@@ -725,12 +725,12 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
     {AnimId::Mudokon_CrouchChantToStruggle, kNullAnimDetails, {"MUDLOTUS.BND", 10996, 96, 55, AO::kMudltusAOResID, PalId::Default}},
 
      // DunnoMid only exists in AO for some reason
-    {AnimId::Mudokon_DunnoMid, kNullAnimDetails, {"MUDLOTUS.BND", 255688, 135, 80, kMudltusResID, PalId::Default}}, // todo ban/bnd 
+    {AnimId::Mudokon_DunnoMid, kNullAnimDetails, {"ABEBSIC.BAN", 255688, 135, 80, AO::kAbebasicAOResID, PalId::Default}},
 
-    {AnimId::Mudokon_AO_M_15_Null, kNullAnimDetails, {"MUDLOTUS.BND", 255776, 135, 80, AO::kMudltusAOResID, PalId::Default}}, // todo ban/bnd
+    {AnimId::Mudokon_AO_M_15_Null, kNullAnimDetails, {"ABEBSIC.BAN", 255776, 135, 80, AO::kAbebasicAOResID, PalId::Default}},
 
-    {AnimId::Mudokon_CrouchSpeak1, kNullAnimDetails, {"MUDLOTUS.BND", 256660, 135, 80, kMudltusResID, PalId::Default}}, // todo ban/bnd
-    {AnimId::Mudokon_CrouchSpeak2, kNullAnimDetails, {"MUDLOTUS.BND", 256700, 135, 80, AO::kMudltusAOResID, PalId::Default}}, // todo ban/bnd
+    {AnimId::Mudokon_CrouchSpeak1, kNullAnimDetails, {"ABEBSIC.BAN", 256660, 135, 80, AO::kAbebasicAOResID, PalId::Default}},
+    {AnimId::Mudokon_CrouchSpeak2, kNullAnimDetails, {"ABEBSIC.BAN", 256700, 135, 80, AO::kAbebasicAOResID, PalId::Default}},
 
     {AnimId::Mudokon_ElumWalkLoop, kNullAnimDetails, {"ABEWELM.BND", 144920, 135, 80, AO::kAbeWElmAOResID_100, PalId::Default}},
     {AnimId::Mudokon_ElumIdle, kNullAnimDetails, {"ABEWELM.BND", 145132, 135, 80, AO::kAbeWElmAOResID_100, PalId::Default}},
@@ -775,8 +775,8 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
     {AnimId::Mudokon_Idle_StretchArms, kNullAnimDetails, {"ABESIZE.BAN", 13152, 135, 80, AO::kAbesizeAOResID, PalId::Default}},
     {AnimId::Mudokon_Idle_Yawn, kNullAnimDetails, {"ABEYAWN.BAN", 12392, 135, 80, AO::kAbeyawnAOResID, PalId::Default}},
 
-    {AnimId::Mudokon_AO_ToShrykull, kNullAnimDetails, {"MUDLOTUS.BND", 8240, 135, 80, AO::kMudltusAOResID, PalId::Default}}, // todo ban/bnd + resource id
-    {AnimId::Mudokon_AO_ShrykullEnd, kNullAnimDetails, {"MUDLOTUS.BND", 8280, 135, 80, AO::kMudltusAOResID, PalId::Default}}, // todo ban/bnd + resource id
+    {AnimId::Mudokon_AO_ToShrykull, kNullAnimDetails, {"ABEMORPH.BAN", 8240, 135, 80, AO::kAbemorphAOResID, PalId::Default}},
+    {AnimId::Mudokon_AO_ShrykullEnd, kNullAnimDetails, {"ABEMORPH.BAN", 8280, 135, 80, AO::kAbemorphAOResID, PalId::Default}},
 
     {AnimId::Mudokon_KnockForward,
      {"ABEKNFD.BAN", 17240, 135, 80, kAbeknfdResID, PalId::Default},
@@ -1066,13 +1066,13 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
      {"SLGSLEEP.BAN", 32744, 160, 68, AO::kSlgsleepAOResID, PalId::Default}},
     {AnimId::Slig_Knockback,
         { "SLIG.BND", 33184, 160, 68, kSlgknbkResID, PalId::Default},
-     {"SLIG.BND", 32240, 160, 68, AO::kSlgknbkAOResID, PalId::Default}},
+     {"SLGKNBK.BAN", 32240, 160, 68, AO::kSlgknbkAOResID, PalId::Default}},
     {AnimId::Slig_KnockbackToStand,
         { "SLIG.BND", 33228, 160, 68, kSlgknbkResID, PalId::Default},
-     {"SLIG.BND", 32284, 160, 68, AO::kSlgknbkAOResID, PalId::Default}},
+     {"SLGKNBK.BAN", 32284, 160, 68, AO::kSlgknbkAOResID, PalId::Default}},
     {AnimId::Slig_PossessShake,
         { "SLIG.BND", 33348, 160, 68, kSlgknbkResID, PalId::Default},
-     {"SLIG.BND", 32388, 160, 68, AO::kSlgknbkAOResID, PalId::Default}},
+     {"SLGKNBK.BAN", 32388, 160, 68, AO::kSlgknbkAOResID, PalId::Default}},
     {AnimId::Slig_OutToFall,
         { "SLGEDGE.BAN", 30560, 160, 68, kSlgedgeResID, PalId::Default},
      {"SLGEDGE.BAN", 29708, 160, 68, AO::kSlgedgeAOResID, PalId::Default}},
@@ -1087,10 +1087,10 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
      {"SLGSMASH.BAN", 9080, 160, 68, AO::kSlgsmashAOResID, PalId::Default}},
     {AnimId::Slig_ShootZ,
         { "SLIGZ.BND", 9208, 160, 68, kSlgzshotResID, PalId::Default},
-     {"SLIGZ.BND", 8844, 160, 68, AO::kSlgzshotAOResID, PalId::Default}},
+     {"SLGZSHOT.BAN", 8844, 160, 68, AO::kSlgzshotAOResID, PalId::Default}},
     {AnimId::Slig_ShootZtoStand,
         { "SLIGZ.BND", 9260, 160, 68, kSlgzshotResID, PalId::Default},
-     {"SLIGZ.BND", 8888, 160, 68, AO::kSlgzshotAOResID, PalId::Default}},
+     {"SLGZSHOT.BAN", 8888, 160, 68, AO::kSlgzshotAOResID, PalId::Default}},
     {AnimId::Slig_Smash,
         { "SLGKNFD.BAN", 13016, 160, 68, kSlgknfdResID, PalId::Default},
      {"SLGKNFD.BAN", 12752, 160, 68, AO::kSlgknfdAOResID, PalId::Default}},
@@ -1315,10 +1315,10 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
 
     {AnimId::BirdPortal_Sparks,
         {"PORTAL.BND", 4256, 32, 69, kPortliteResID, PalId::Default},
-     {"PORTAL.BND", 3708, 31, 69, AO::kPortliteAOResID, PalId::Default}},
+     {"PORTLITE.BAN", 3708, 31, 69, AO::kPortliteAOResID, PalId::Default}},
     {AnimId::BirdPortal_Flash,
         {"PORTAL.BND", 13576, 145, 74, kPortlitResID, PalId::Default},
-     {"PORTAL.BND", 13352, 145, 74, AO::kPortlitAOResID, PalId::Default}},
+     {"PORTLIT.BAN", 13352, 145, 74, AO::kPortlitAOResID, PalId::Default}},
 
     {AnimId::BirdPortal_TerminatorShrink,
         {"PORTAL.BND", 4168, 32, 18, kPortalTerminatorResID, PalId::Default},
