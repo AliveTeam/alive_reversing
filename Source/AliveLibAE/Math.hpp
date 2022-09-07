@@ -7,6 +7,8 @@ using FP = FixedPoint;
 
 void Math_ForceLink();
 
+EXPORT void AE_SetRndSeed(u8 v);
+
 EXPORT u32 CC Math_FixedPoint_Multiply_496C50(s32 op1, s32 op2);
 EXPORT u32 CC Math_FixedPoint_Divide_496B70(s32 op1, s32 op2);
 EXPORT s16 CC Math_RandomRange_496AB0(s16 min, s16 max);
