@@ -122,6 +122,12 @@ AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const
             continue;
         }
 
+        if (pFrameHeader->field_7_compression_type == CompressionType::eType_2_ThreeToFourBytes)
+        {
+            LOG_WARNING("TODO: Type 2 compression");
+            continue;
+        }
+
         DecompressAnimFrame(decompressionBuffer, pFrameHeader);
 
         // Add frame to the sprite sheet

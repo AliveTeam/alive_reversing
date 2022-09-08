@@ -1354,7 +1354,7 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
     //{AnimId::Explosion_Bone, {"LEGBONE.BAN", 1976, 45, 25, kStickGibResID, PalId::Default}, kNullAnimDetails }, // unused bone gib anim
     {AnimId::Mine_Flash,
         {"MINE.BND", 400, 36, 8, kMineflshResID, PalId::Default},
-        {"MINE.BND", 772, 36, 8, AO::kMineflshAOResID, PalId::Default}},
+        {"MINEFLSH.BAN", 772, 36, 8, AO::kMineflshAOResID, PalId::Default}},
     {AnimId::OptionChantOrb_Particle,
         {"STARTANM.BND", 4176, 92, 47, kOptionFlareResID, PalId::Default},
         {"STARTANM.BND", 7152, 92, 47, AO::kOptionFlareAOResID, PalId::Default}},
@@ -1506,7 +1506,7 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
         {"EXPLO2.BAN", 27376, 200, 91, AO::kExplo2AOResID, PalId::Default}},
     {AnimId::Explosion_Mine, 
         {"EXPLODE.BND", 51588, 214, 49, kBgexpldResID, PalId::Default},
-        {"EXPLODE.BND", 51600, 214, 49, AO::kBgexpldAOResID, PalId::Default}},
+        {"BGEXPLD.BAN", 51600, 214, 49, AO::kBgexpldAOResID, PalId::Default}},
 
     {AnimId::Explosion_Small, { "SMEXP.BAN", 14108, 99, 46, kSmallExplo2ResID, PalId::Default}, kNullAnimDetails },
     {AnimId::FallingCrate_Falling, { "FALLBONZ.BAN", 8076, 86, 47, kF2rockResID, PalId::Default}, kNullAnimDetails },
@@ -1531,7 +1531,7 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
     {AnimId::Foot_Switch_Vault_Pressed, { "VLTTRIGR.BAN", 992, 72, 18, kTriggerResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Grenade, 
         { "GTHROW.BND", 1252, 17, 11, kGrenadeResID, PalId::Default},
-        { "GTHROW.BND", 1132, 17, 11, AO::kGrenadeAOResID, PalId::Default}
+        { "GRENADE.BAN", 1132, 17, 11, AO::kGrenadeAOResID, PalId::Default}
     },
     {AnimId::BoomMachine_Button_Off,
         { "GMACHINE.BND", 1736, 26, 17, kR1buttonResID, PalId::Default},
