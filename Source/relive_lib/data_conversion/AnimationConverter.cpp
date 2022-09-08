@@ -89,17 +89,18 @@ AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const
     : mFileData(fileData)
     , mIsAoData(isAoData)
 {
-    const auto pAnimationFileHeader = reinterpret_cast<const AnimationFileHeader*>(&mFileData[0]);
-
-    // Get the CLUT/pal
-    AnimationPal pal;
-    ConvertPalToTGAFormat(pAnimationFileHeader, pal);
-
     // Get the animation for this record (each has its own frame table offset)
     const auto pAnimationHeader = reinterpret_cast<const AnimationHeader*>(&mFileData[rec.mFrameTableOffset]);
 
+    const FrameHeader* pFirstFrame = GetFrame(pAnimationHeader, 0);
+
+    // Get the CLUT/pal
+    AnimationPal pal;
+    ConvertPalToTGAFormat(fileData, pFirstFrame->field_0_clut_offset, pal);
+
+
     // Get the size required to decompres a single frame
-    const u32 decompressionBufferSize = CalcDecompressionBufferSize(rec, GetFrame(pAnimationHeader, 0));
+    const u32 decompressionBufferSize = CalcDecompressionBufferSize(rec, pFirstFrame);
 
     std::vector<u8> decompressionBuffer(decompressionBufferSize);
 
@@ -201,14 +202,17 @@ AnimationConverter::MaxWH AnimationConverter::CalcMaxWH(const AnimationHeader* p
     return maxSize;
 }
 
-void AnimationConverter::ConvertPalToTGAFormat(const AnimationFileHeader* pAnimationFileHeader, AnimationPal& pal)
+void AnimationConverter::ConvertPalToTGAFormat(const std::vector<u8>& fileData, u32 clutOffset, AnimationPal& pal)
 {
-    for (u32 i = 0; i < pAnimationFileHeader->mClutSize; i++)
+    const u32 clutSize = *reinterpret_cast<const u32*>(fileData.data() + clutOffset);
+    const u16* pClutData = reinterpret_cast<const u16*>(fileData.data() + clutOffset + sizeof(u32));
+
+    for (u32 i = 0; i < clutSize; i++)
     {
-        const u8 r = pAnimationFileHeader->mClutData[i] & 31;
-        const u8 g = (pAnimationFileHeader->mClutData[i] >> 5) & 31;
-        const u8 b = (pAnimationFileHeader->mClutData[i] >> 10) & 31;
-        const u8 semiTrans = (pAnimationFileHeader->mClutData[i] >> 15) & 1;
+        const u8 r = pClutData[i] & 31;
+        const u8 g = (pClutData[i] >> 5) & 31;
+        const u8 b = (pClutData[i] >> 10) & 31;
+        const u8 semiTrans = (pClutData[i] >> 15) & 1;
 
         //  color value: x[RRRRR][GG GGG][BBBBB] 1,5,5,5
         const u16 pixel = (b) | (g << 5) | (r << 10) | (semiTrans << 15);

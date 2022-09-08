@@ -26,7 +26,7 @@ private:
     // at least for a single animation in a BAN file
     MaxWH CalcMaxWH(const AnimationHeader* pAnimationHeader);
 
-    void ConvertPalToTGAFormat(const AnimationFileHeader* pAnimationFileHeader, AnimationPal& pal);
+    void ConvertPalToTGAFormat(const std::vector<u8>& fileData, u32 clutOffset, AnimationPal& pal);
 
     void DecompressAnimFrame(std::vector<u8>& decompressionBuffer, const FrameHeader* pFrameHeader);
 
