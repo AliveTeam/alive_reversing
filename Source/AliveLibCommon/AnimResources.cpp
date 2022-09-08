@@ -885,8 +885,8 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
     {AnimId::Paramite_Attack, { "PARAMITE.BND", 10948, 137, 65u, kArjscrchResID, PalId::Default}, kNullAnimDetails },
 
 
-    {AnimId::Paramite_Struggle, kNullAnimDetails, {"PARAMITE.BND", 11076, 138, 49, AO::kArjscrchAOResID, PalId::Default}}, // same as Paramite_Squawk?
-    {AnimId::Paramite_AO_M_7_Unknown, kNullAnimDetails, {"PARAMITE.BND", 57340, 138, 49, AO::kArjscrchAOResID, PalId::Default}},
+    {AnimId::Paramite_Struggle, kNullAnimDetails, {"PARAMITE.BND", 11076, 138, 49, AO::kArjfalrkAOResID, PalId::Default}}, // same as Paramite_Squawk?
+    {AnimId::Paramite_AO_M_7_Unknown, kNullAnimDetails, {"PARAMITE.BND", 57340, 138, 49, AO::kArjbasicAOResID, PalId::Default}},
     {AnimId::Paramite_AO_M_22_Unknown, kNullAnimDetails, {"PARAMITE.BND", 10520, 138, 49, AO::kArjscrchAOResID, PalId::Default}},
 
     // TODO: check AO ResourceID's

@@ -2223,26 +2223,31 @@ static void ConvertAnimations(const FileSystem::Path& dataDir, FileSystem& fs, s
                 // Not every file is in every LVL - we might get it from a later LVL
                 if (ReadLvlFileInto(lvlReader, animDetails.mBanName, fileBuffer))
                 {
-                    LOG_INFO("Converting: " << magic_enum::enum_name(rec.mAnimId));
+                    // A BAN/BND can have multiple chunks, make sure we pick the right one
+                    ReliveAPI::ChunkedLvlFile animFile(fileBuffer);
+                    auto res = animFile.ChunkById(animDetails.mResourceId);
+                    if (res)
+                    {
+                        LOG_INFO("Converting: " << magic_enum::enum_name(rec.mAnimId));
 
-                    FileSystem::Path filePath = dataDir;
-                    filePath.Append("animations");
+                        FileSystem::Path filePath = dataDir;
+                        filePath.Append("animations");
 
-                    // e.g "abe"
-                    filePath.Append(ToString(rec.mGroup));
+                        // e.g "abe"
+                        filePath.Append(ToString(rec.mGroup));
 
-                    // Ensure the containing directory exists
-                    fs.CreateDirectory(filePath);
+                        // Ensure the containing directory exists
+                        fs.CreateDirectory(filePath);
 
+                        // e.g "arm_gib"
+                        const char_type* enum_name = magic_enum::enum_name(rec.mAnimId).data();
+                        filePath.Append(enum_name);
 
-                    // e.g "arm_gib"
-                    const char_type* enum_name = magic_enum::enum_name(rec.mAnimId).data();
-                    filePath.Append(enum_name);
+                        AnimationConverter animationConverter(filePath, animDetails, res->Data(), isAo);
 
-                    AnimationConverter animationConverter(filePath, animDetails, fileBuffer, isAo);
-
-                    // Track what is converted so we know what is missing at the end
-                    rec.mConverted = true;
+                        // Track what is converted so we know what is missing at the end
+                        rec.mConverted = true;
+                    }
                 }
             }
         }

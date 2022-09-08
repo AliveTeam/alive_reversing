@@ -89,14 +89,14 @@ AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const
     : mFileData(fileData)
     , mIsAoData(isAoData)
 {
-    const auto pAnimationFileHeader = reinterpret_cast<const AnimationFileHeader*>(&mFileData[kResHeaderSize]);
+    const auto pAnimationFileHeader = reinterpret_cast<const AnimationFileHeader*>(&mFileData[0]);
 
     // Get the CLUT/pal
     AnimationPal pal;
     ConvertPalToTGAFormat(pAnimationFileHeader, pal);
 
     // Get the animation for this record (each has its own frame table offset)
-    const auto pAnimationHeader = reinterpret_cast<const AnimationHeader*>(&mFileData[rec.mFrameTableOffset + kResHeaderSize]);
+    const auto pAnimationHeader = reinterpret_cast<const AnimationHeader*>(&mFileData[rec.mFrameTableOffset]);
 
     // Get the size required to decompres a single frame
     const u32 decompressionBufferSize = CalcDecompressionBufferSize(rec, GetFrame(pAnimationHeader, 0));
@@ -275,7 +275,7 @@ void AnimationConverter::DecompressAnimFrame(std::vector<u8>& decompressionBuffe
             ALIVE_FATAL("Unknown compression type");
             break;
     }
-
+    
     const u32 imageWidth = CalcImageWidth(pFrameHeader);
     const u32 originalWidth = pFrameHeader->field_4_width;
     const u32 compressionPadding = std::abs(static_cast<s32>(originalWidth - imageWidth));
@@ -367,7 +367,7 @@ u32 AnimationConverter::CalcDecompressionBufferSize(const AnimRecord& rec, const
         case 4:
         {
             decompression_width = (rec.mMaxW % 2) + (rec.mMaxW / 2);
-            decompression_width *= 2; // 4 to 8 bit
+            decompression_width *= 4; // 4 to 8 bit
         }
         break;
 
@@ -397,13 +397,13 @@ u32 AnimationConverter::CalcDecompressionBufferSize(const AnimRecord& rec, const
 const FrameInfoHeader* AnimationConverter::GetFrameInfoHeader(const AnimationHeader* pAnimationHeader, u32 idx)
 {
     const u32 frameOffset = pAnimationHeader->mFrameOffsets[idx];
-    auto pFrameInfoHeader = reinterpret_cast<const FrameInfoHeader*>(&mFileData[frameOffset + kResHeaderSize]);
+    auto pFrameInfoHeader = reinterpret_cast<const FrameInfoHeader*>(&mFileData[frameOffset]);
     return pFrameInfoHeader;
 }
 
 const FrameHeader* AnimationConverter::GetFrame(const AnimationHeader* pAnimationHeader, u32 idx)
 {
     const FrameInfoHeader* pFrameInfoHeader = GetFrameInfoHeader(pAnimationHeader, idx);
-    auto pFrameHeader = reinterpret_cast<const FrameHeader*>(&mFileData[pFrameInfoHeader->field_0_frame_header_offset + kResHeaderSize]);
+    auto pFrameHeader = reinterpret_cast<const FrameHeader*>(&mFileData[pFrameInfoHeader->field_0_frame_header_offset]);
     return pFrameHeader;
 }
