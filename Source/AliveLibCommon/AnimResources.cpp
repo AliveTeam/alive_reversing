@@ -447,7 +447,7 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
      {"ABEWELL.BAN", 19476, 135, 80, AO::kAbewellAOResID, PalId::Default}},
     {AnimId::Mudokon_FallLandDie,
         { "ABENOELM.BND", 8104, 135, 80, kAbesmashResID, PalId::Default},
-     {"ABEKNFD.BND", 7880, 135, 80, AO::kAbesmashAOResID, PalId::Default}},
+     {"ABENOELM.BND", 7880, 135, 80, AO::kAbesmashAOResID, PalId::Default}},
     {AnimId::Mudokon_Fall,
         { "ABENOELM.BND", 5724, 135, 80, kAbefallResID, PalId::Default},
      {"ABENOELM.BND", 5560, 135, 80, AO::kAbefallAOResID, PalId::Default}},
@@ -758,8 +758,8 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
     {AnimId::Mudokon_ElumMidWalkEnd, kNullAnimDetails, {"ABEWELM.BND", 145668, 135, 80, AO::kAbeWElmAOResID_100, PalId::Default}},
     {AnimId::Mudokon_ElumBeesStruggling, kNullAnimDetails, {"ABEWELM.BND", 145860, 135, 80, AO::kAbeWElmAOResID_100, PalId::Default}},
 
-    {AnimId::Mudokon_ElumMountEnd, kNullAnimDetails, {"ABEWELM.BND", 23568, 135, 80, AO::kElumUnknownAOResID_110, PalId::Default}}, // todo ban/bnd
-    {AnimId::Mudokon_ElumUnmountBegin, kNullAnimDetails, {"ANEMNT.BAN", 13716, 135, 80, AO::kElumUnknownAOResID_112, PalId::Default}}, // todo ban/bnd
+    {AnimId::Mudokon_ElumMountEnd, kNullAnimDetails, {"ANEMOUNT.BND", 23568, 135, 80, AO::kElumUnknownAOResID_110, PalId::Default}},
+    {AnimId::Mudokon_ElumUnmountBegin, kNullAnimDetails, {"ABEWELM.BND", 13716, 135, 80, AO::kElumUnknownAOResID_112, PalId::Default}},
 
     {AnimId::Mudokon_ElumUnmountEnd, kNullAnimDetails, {"ANEDSMNT.BND", 34676, 135, 80, AO::kAbeANEDSMNTAOResID_113, PalId::Default} },
     {AnimId::Mudokon_ElumMountBegin, kNullAnimDetails, {"ANEPRMNT.BAN", 16256, 135, 80, AO::kAneprmntAOResID, PalId::Default}},
@@ -878,7 +878,7 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
      {"PARAMITE.BND", 14728, 138, 49, AO::kArjeatAOResID, PalId::Default}},
     {AnimId::Paramite_Death,
         { "PARAMITE.BND", 8108, 137, 65u, kArjfalrkResID, PalId::Default},
-     {"PARAMITE.BND", 9132, 138, 49, AO::kArjfalrkAOResID, PalId::Default}},
+     {"PARAMITE.BND", 9132, 138, 49, AO::kArjwaspAOResID, PalId::Default}},
     {AnimId::Paramite_Squawk,
         { "PARAMITE.BND", 9636, 137, 65u, kArjwaspResID, PalId::Default},
         kNullAnimDetails },
@@ -930,7 +930,7 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
     {AnimId::Scrab_Knockback, { "SCRAB.BND", 225208, 156, 69, kArsbasicResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Scrab_GetEaten,
         { "SCRAB.BND", 225280, 156, 69, kArsbasicResID, PalId::Default},
-     {"SCRAB.BND", 1324, 168, 69, AO::kArsbasicAOResID, PalId::Default}},
+     {"SCRAB.BND", 1324, 168, 69, AO::kArsdeadAOResID, PalId::Default}},
     {AnimId::Scrab_Stamp,
         { "SCRAB.BND", 24480, 156, 69, kArsdanceResID, PalId::Default},
      {"SCRAB.BND", 24136, 168, 69, AO::kArsdanceAOResID, PalId::Default}},
@@ -967,9 +967,9 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
         { "SCRAB.BND", 15600, 156, 69, kArscrshResID, PalId::Default},
      {"SCRAB.BND", 12724, 168, 69, AO::kArscrshAOResID, PalId::Default}},
 
-    {AnimId::Scrab_AO_ToFall, kNullAnimDetails, {"SCRAB.BND", 168992, 168, 69, AO::kArseatAOResID, PalId::Default}},
+    {AnimId::Scrab_AO_ToFall, kNullAnimDetails, {"SCRAB.BND", 168992, 168, 69, AO::kArsbasicAOResID, PalId::Default}},
     {AnimId::Scrab_AO_ToFeed, kNullAnimDetails, {"SCRAB.BND", 19544, 168, 69, AO::kArseatAOResID, PalId::Default}},
-    {AnimId::Scrab_AO_M_19_Unused, kNullAnimDetails, {"SCRAB.BND", 11060, 168, 69, AO::kArseatAOResID, PalId::Default}},
+    {AnimId::Scrab_AO_M_19_Unused, kNullAnimDetails, {"SCRAB.BND", 11060, 168, 69, AO::kArsgrwlAOResID, PalId::Default}},
 
     { AnimId::CrawlingSlig_Idle, { "CRAWLSLG.BND", 53684, 109, 37, kCrawlingSligResID_449, PalId::Default}, kNullAnimDetails },
     { AnimId::CrawlingSlig_UsingButton, { "CRAWLSLG.BND", 53852, 109, 37, kCrawlingSligResID_449, PalId::Default}, kNullAnimDetails },
@@ -1066,13 +1066,13 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
      {"SLGSLEEP.BAN", 32744, 160, 68, AO::kSlgsleepAOResID, PalId::Default}},
     {AnimId::Slig_Knockback,
         { "SLIG.BND", 33184, 160, 68, kSlgknbkResID, PalId::Default},
-     {"SLGKNBK.BAN", 32240, 160, 68, AO::kSlgknbkAOResID, PalId::Default}},
+     {"SLIG.BND", 32240, 160, 68, AO::kSlgknbkAOResID, PalId::Default}},
     {AnimId::Slig_KnockbackToStand,
         { "SLIG.BND", 33228, 160, 68, kSlgknbkResID, PalId::Default},
-     {"SLGKNBK.BAN", 32284, 160, 68, AO::kSlgknbkAOResID, PalId::Default}},
+     {"SLIG.BND", 32284, 160, 68, AO::kSlgknbkAOResID, PalId::Default}},
     {AnimId::Slig_PossessShake,
         { "SLIG.BND", 33348, 160, 68, kSlgknbkResID, PalId::Default},
-     {"SLGKNBK.BAN", 32388, 160, 68, AO::kSlgknbkAOResID, PalId::Default}},
+     {"SLIG.BND", 32388, 160, 68, AO::kSlgknbkAOResID, PalId::Default}},
     {AnimId::Slig_OutToFall,
         { "SLGEDGE.BAN", 30560, 160, 68, kSlgedgeResID, PalId::Default},
      {"SLGEDGE.BAN", 29708, 160, 68, AO::kSlgedgeAOResID, PalId::Default}},
@@ -1087,10 +1087,10 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
      {"SLGSMASH.BAN", 9080, 160, 68, AO::kSlgsmashAOResID, PalId::Default}},
     {AnimId::Slig_ShootZ,
         { "SLIGZ.BND", 9208, 160, 68, kSlgzshotResID, PalId::Default},
-     {"SLGZSHOT.BAN", 8844, 160, 68, AO::kSlgzshotAOResID, PalId::Default}},
+     {"SLIGZ.BND", 8844, 160, 68, AO::kSlgzshotAOResID, PalId::Default}},
     {AnimId::Slig_ShootZtoStand,
         { "SLIGZ.BND", 9260, 160, 68, kSlgzshotResID, PalId::Default},
-     {"SLGZSHOT.BAN", 8888, 160, 68, AO::kSlgzshotAOResID, PalId::Default}},
+     {"SLIGZ.BND", 8888, 160, 68, AO::kSlgzshotAOResID, PalId::Default}},
     {AnimId::Slig_Smash,
         { "SLGKNFD.BAN", 13016, 160, 68, kSlgknfdResID, PalId::Default},
      {"SLGKNFD.BAN", 12752, 160, 68, AO::kSlgknfdAOResID, PalId::Default}},
@@ -1412,7 +1412,7 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
     // TODO: check if AO blood.ban is blood or blood drop
     {AnimId::BloodDrop, {"BLOODROP.BAN", 308, 11, 7, kBloodropResID, PalId::Default}, kNullAnimDetails},
 
-    {AnimId::Blood, kNullAnimDetails, { "BLOOD.BAN", 276, 6, 7, AO::kBloodropAOResID, PalId::Default} },
+    {AnimId::Blood, kNullAnimDetails, { "BLOODROP.BAN", 276, 6, 7, AO::kBloodropAOResID, PalId::Default} },
     {AnimId::Bone, { "BTHROW.BND", 456, 15, 9, kBoneResID, PalId::Default}, kNullAnimDetails },
     {AnimId::BoneBag_Idle, { "BONEBAG.BAN", 8748, 64, 60, kBoneBagResID_590, PalId::Default}, kNullAnimDetails },
     {AnimId::BoneBag_HardHit, { "BONEBAG.BAN", 8708, 64, 60, kBoneBagResID_590, PalId::Default}, kNullAnimDetails },
@@ -1589,7 +1589,7 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
 
     {AnimId::MovingBomb, 
         { "MOVEBOMB.BAN", 17548, 76, 30, kMovebombResID, PalId::Default},
-        { "MOVEBOMB.BAN", 17140, 76, 30, AO::kMovebombAOResID, PalId::Default}
+        { "D1MBOMB.BAN", 17140, 76, 30, AO::kMovebombAOResID, PalId::Default}
     },
 
     {AnimId::ParamiteWeb, 
@@ -1755,7 +1755,7 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
 
     {AnimId::GoldGlow, kNullAnimDetails, {"GOLDGLOW.BAN", 236, 19, 15, AO::kGoldGlowAOResID_6011, PalId::Default}},
     {AnimId::GreenGlow, kNullAnimDetails, {"GRENGLOW.BAN", 96, 5, 6, AO::kGreenGlowAOResID_6010, PalId::Default}},
-    {AnimId::FlintGlow, kNullAnimDetails, {"FLNT.BAN", 756, 59, 54, AO::kFlintGlowAOResID_6028, PalId::Default}},
+    {AnimId::FlintGlow, kNullAnimDetails, {"FLNTGLOW.BAN", 756, 59, 54, AO::kFlintGlowAOResID_6028, PalId::Default}},
 
     {AnimId::GreenDoorLight, kNullAnimDetails, {"HUBLIGHT.BAN", 448, 20, 11, AO::kGreenDoorLightAOResID_6031, PalId::Default}},
     {AnimId::GreenHubLight, kNullAnimDetails, {"HUBLIGHT.BAN", 460, 20, 11, AO::kGreenDoorLightAOResID_6031, PalId::Default}},
