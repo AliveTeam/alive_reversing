@@ -139,7 +139,7 @@ static const char* ToString(EAnimGroup animGroup)
         case EAnimGroup::MineCar:
             return "mine_car";
         case EAnimGroup::Paramite:
-            return "paramtie";
+            return "paramite";
         case EAnimGroup::Scrab:
             return "scrab";
         case EAnimGroup::CrawlingSlig:
@@ -1236,7 +1236,7 @@ AnimRecConversionInfo kAnimRecConversionInfo[] = {
     { AnimId::MenuDoor, EAnimGroup::Ungrouped, EReliveLevelIds::eMenu, EReliveLevelIds::eMenu, false },
     { AnimId::AbeIntro, EAnimGroup::Ungrouped, EReliveLevelIds::eMenu, EReliveLevelIds::eMenu, false },
     { AnimId::BloodDrop, EAnimGroup::Ungrouped, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
-    { AnimId::Scoopz, EAnimGroup::Ungrouped, EReliveLevelIds::eMines, EReliveLevelIds::eNone, false },
+    { AnimId::Scoopz, EAnimGroup::Ungrouped, EReliveLevelIds::eBonewerkz, EReliveLevelIds::eNone, false },
     { AnimId::FlintGlow, EAnimGroup::Ungrouped, EReliveLevelIds::eMines, EReliveLevelIds::eForestTemple, false },
     { AnimId::GreenGlow, EAnimGroup::Ungrouped, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::GoldGlow, EAnimGroup::Ungrouped, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },

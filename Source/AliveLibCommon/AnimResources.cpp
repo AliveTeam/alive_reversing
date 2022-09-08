@@ -819,7 +819,7 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
     {AnimId::Paramite_Hop,
         { "PARAMITE.BND", 96728, 137, 65u, kArjbasicResID, PalId::Default},
      {"PARAMITE.BND", 57176, 138, 49, AO::kArjbasicAOResID, PalId::Default}},
-    {AnimId::Paramite_Unused, { "PARAMITE.BND", 97164, 137, 65u, kArjbasicResID, PalId::Default}, kNullAnimDetails }, // crashes the game when used
+    {AnimId::Paramite_Unused, { "PARAMITE.BND", 97164, 137, 65u, kArjjumpResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Paramite_WalkRunTransition,
         { "PARAMITE.BND", 97172, 137, 65u, kArjbasicResID, PalId::Default},
      {"PARAMITE.BND", 57348, 138, 49, AO::kArjbasicAOResID, PalId::Default}},
@@ -1397,10 +1397,9 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
     {AnimId::LiftBottomWheel_Necrum, {"NELIFT.BND", 8664, 69, 34, kLiftWheelsResID, PalId::Default}, kNullAnimDetails},
     {AnimId::LiftTopWheel_Necrum, {"NELIFT.BND", 8700, 69, 34, kLiftWheelsResID, PalId::Default}, kNullAnimDetails},
 
-    // TODO: figure out if this is the correct BAN/BND
     {AnimId::ShrykullStart, {"SHRYPORT.BND", 82676, 123, 79, kShrmorphResID, PalId::Default}, kNullAnimDetails},
-    {AnimId::ShrykullTransform, {"SHRYPORT.BND", 82712, 123, 79, kAbemorphResID, PalId::Default}, kNullAnimDetails},
-    {AnimId::ShrykullDetransform, {"SHRYPORT.BND", 82824, 123, 79, kAbemorphResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::ShrykullTransform, {"SHRYPORT.BND", 82712, 123, 79, kShrmorphResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::ShrykullDetransform, {"SHRYPORT.BND", 82824, 123, 79, kShrmorphResID, PalId::Default}, kNullAnimDetails},
 
     {AnimId::NormalMudIcon, {"EMONORM.BAN", 1248, 54, 47, kNormaliconResID, PalId::Default}, kNullAnimDetails},
     {AnimId::AngryMudIcon, {"EMOANGRY.BAN", 1076, 54, 47, kAngryiconResID, PalId::Default}, kNullAnimDetails},
