@@ -28,8 +28,7 @@ void Recorder::SaveObjectStates()
         BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
         while (pObj->Type() == ReliveTypes::eLoadingFile)
         {
-            i++;
-            pObj = gBaseGameObjects->ItemAt(i);
+            continue;
         }
 
         const s16 objType = static_cast<s16>(BaseGameObject::ToAO(pObj->mBaseGameObjectTypeId));
@@ -108,18 +107,17 @@ bool Player::ValidateObjectStates()
         // TODO: This can be smarter and try to validate the list until the obj types no longer match
         for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
         {
-            s16 objType = 0;
-            mFile.Read(objType);
-            // Convert to relive type
-            ReliveTypes reliveObjType = BaseGameObject::FromAO(static_cast<AOTypes>(objType));
-
             BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
             // Skip loading files
             while (pObj->Type() == ReliveTypes::eLoadingFile)
             {
-                i++;
-                pObj = gBaseGameObjects->ItemAt(i);
+                continue;
             }
+
+            s16 objType = 0;
+            mFile.Read(objType);
+            // Convert to relive type
+            ReliveTypes reliveObjType = BaseGameObject::FromAO(static_cast<AOTypes>(objType));
 
             if (pObj->mBaseGameObjectTypeId != reliveObjType)
             {
@@ -148,20 +146,19 @@ bool Player::ValidateObjectStates()
     {
         for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
         {
+            BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
+
+            // Skip loading files
+            if (pObj->Type() == ReliveTypes::eLoadingFile)
+            {
+                continue;
+            }
+
             s16 objType = 0;
             mFile.Read(objType);
 
             // Convert to relive type
             ReliveTypes reliveObjType = BaseGameObject::FromAO(static_cast<AOTypes>(objType));
-
-            BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
-
-            // Skip loading files
-            while (pObj->Type() == ReliveTypes::eLoadingFile)
-            {
-                i++;
-                pObj = gBaseGameObjects->ItemAt(i);
-            }
 
             if (pObj->mBaseGameObjectTypeId != reliveObjType)
             {
