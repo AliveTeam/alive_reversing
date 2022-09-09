@@ -119,14 +119,14 @@ AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const
         // TODO: HACK ignore broken type for now
         if (pFrameHeader->field_7_compression_type == CompressionType::eType_0_NoCompression)
         {
-            LOG_WARNING("TODO: Type 0 compression");
-            continue;
+           // LOG_WARNING("TODO: Type 0 compression");
+            //continue;
         }
 
         if (pFrameHeader->field_7_compression_type == CompressionType::eType_2_ThreeToFourBytes)
         {
-            LOG_WARNING("TODO: Type 2 compression");
-            continue;
+            //LOG_WARNING("TODO: Type 2 compression");
+           // continue;
         }
 
         DecompressAnimFrame(decompressionBuffer, pFrameHeader);
@@ -242,14 +242,11 @@ void AnimationConverter::DecompressAnimFrame(std::vector<u8>& decompressionBuffe
             break;
 
         case CompressionType::eType_2_ThreeToFourBytes:
-            /*
             CompressionType2_Decompress_40AA50(
                 reinterpret_cast<const u8*>(&pFrameHeader[1]),
-                *mDbuf,
-                width_bpp_adjusted * pFrameHeader->field_5_height * 2);
+                decompressionBuffer.data(),
+                CalcWidthAdjustedForBPP(pFrameHeader) * pFrameHeader->field_5_height * 2);
             // AnimFlagsToBitDepth(mFlags)
-            */
-            ALIVE_FATAL("todo");
             break;
 
         case CompressionType::eType_3_RLE_Blocks:
