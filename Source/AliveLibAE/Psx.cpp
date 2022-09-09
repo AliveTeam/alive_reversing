@@ -863,8 +863,6 @@ void PSX_Prevent_Rendering_4945B0()
 // If mode is 1, game doesn't frame cap at all. If it is greater than 1, then it caps to (60 / mode) fps.
 void PSX_VSync_4F6170(s32 mode)
 {
-    //mode = 1;
-
     SsSeqCalledTbyT_4FDC80();
 
     const s32 currentTime = SYS_GetTicks();
@@ -874,7 +872,13 @@ void PSX_VSync_4F6170(s32 mode)
         sVSyncLastMillisecond_BD0F2C = currentTime;
     }
 
-    if (mode == 1 || (GetGameAutoPlayer().IsPlaying() && GetGameAutoPlayer().NoFpsLimitPlayBack())) // Ignore Frame cap
+    if (GetGameAutoPlayer().IsPlaying() && GetGameAutoPlayer().NoFpsLimitPlayBack())
+    {
+        // Uncapped playback
+        return;
+    }
+
+    if (mode == 1) // Ignore Frame cap
     {
         // Do nothing
     }
@@ -884,29 +888,34 @@ void PSX_VSync_4F6170(s32 mode)
     }
     else
     {
-        s32 frameTimeInMilliseconds = currentTime - sVSyncLastMillisecond_BD0F2C;
-        if (mode > 0 && frameTimeInMilliseconds < 1000 * mode / 60)
+        // During recording or playback do not call SsSeqCalledTbyT_4FDC80 an undeterminate
+        // amount of times as this can leak to de-syncs.
+        if (GetGameAutoPlayer().IsRecording() || GetGameAutoPlayer().IsPlaying())
         {
-            s32 timeSinceLastFrame = 0;
-
-            do
+            s32 frameTimeInMilliseconds = currentTime - sVSyncLastMillisecond_BD0F2C;
+            if (mode > 0 && frameTimeInMilliseconds < 1000 * mode / 60)
             {
-                timeSinceLastFrame = SYS_GetTicks() - sVSyncLastMillisecond_BD0F2C;
-                SsSeqCalledTbyT_4FDC80();
-                
-                // Prevent max CPU usage, will probably cause stuttering on weaker machines
-                if (gLatencyHack)
+                s32 timeSinceLastFrame = 0;
+
+                do
                 {
-                    SDL_Delay(1);
+                    timeSinceLastFrame = SYS_GetTicks() - sVSyncLastMillisecond_BD0F2C;
+                    SsSeqCalledTbyT_4FDC80();
+
+                    // Prevent max CPU usage, will probably cause stuttering on weaker machines
+                    if (gLatencyHack)
+                    {
+                        SDL_Delay(1);
+                    }
                 }
+                while (timeSinceLastFrame < 1000 * mode / 60);
+
+                frameTimeInMilliseconds = 1000 * mode / 60;
             }
-            while (timeSinceLastFrame < 1000 * mode / 60);
 
-            frameTimeInMilliseconds = 1000 * mode / 60;
+            sVSyncLastMillisecond_BD0F2C += frameTimeInMilliseconds;
+            sLastFrameTimestampMilliseconds_BD0F24 = currentTime + frameTimeInMilliseconds;
         }
-
-        sVSyncLastMillisecond_BD0F2C += frameTimeInMilliseconds;
-        sLastFrameTimestampMilliseconds_BD0F24 = currentTime + frameTimeInMilliseconds;
     }
 }
 

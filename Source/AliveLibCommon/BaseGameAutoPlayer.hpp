@@ -34,6 +34,8 @@ enum SyncPoints : u32
     MainLoopExit = 13,
     RenderOT = 14,
     PumpEventsEnd = 17,
+    LoadingLoopStart = 18,
+    LoadingLoopEnd = 19,
 };
 
 struct RecordedEvent final
@@ -253,6 +255,8 @@ public:
     u32 SysGetTicks();
 
     void SyncPoint(u32 syncPointId);
+    void DisableRecorder();
+    void EnableRecorder();
 
 private:
 
@@ -264,6 +268,7 @@ private:
         Done
     };
     Mode mMode = Mode::None;
+    bool mDisabled = false;
 
     BaseRecorder& mRecorder;
     BasePlayer& mPlayer;

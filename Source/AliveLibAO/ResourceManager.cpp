@@ -12,6 +12,7 @@
 #include "Map.hpp"
 #include "Sys.hpp"
 #include "Camera.hpp"
+#include "GameAutoPlayer.hpp"
 
 namespace AO {
 
@@ -500,6 +501,9 @@ void ResourceManager::WaitForPendingResources_41EA60(BaseGameObject* pObj)
 
 void ResourceManager::LoadingLoop_41EAD0(s16 bShowLoadingIcon)
 {
+    GetGameAutoPlayer().SyncPoint(LoadingLoopStart);
+    GetGameAutoPlayer().DisableRecorder();
+
     while (gFilesPending_507714 > 0)
     {
         SYS_EventsPump_44FF90();
@@ -540,6 +544,9 @@ void ResourceManager::LoadingLoop_41EAD0(s16 bShowLoadingIcon)
             }
         }
     }
+
+    GetGameAutoPlayer().EnableRecorder();
+    GetGameAutoPlayer().SyncPoint(LoadingLoopEnd);
 }
 
 void ResourceManager::Free_Resources_For_Camera_447170(Camera* pCamera)

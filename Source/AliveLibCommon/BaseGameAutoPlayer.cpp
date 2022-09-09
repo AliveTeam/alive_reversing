@@ -208,7 +208,7 @@ RecordTypes BaseGameAutoPlayer::PeekNextType()
 
 void BaseGameAutoPlayer::RecordEvent(const RecordedEvent& event)
 {
-    if (IsRecording())
+    if (!mDisabled && IsRecording())
     {
         mRecorder.SaveEvent(event);
     }
@@ -217,7 +217,7 @@ void BaseGameAutoPlayer::RecordEvent(const RecordedEvent& event)
 RecordedEvent BaseGameAutoPlayer::GetEvent()
 {
     RecordedEvent event = {};
-    if (IsPlaying())
+    if (!mDisabled && IsPlaying())
     {
         event = mPlayer.ReadEvent();
     }
@@ -226,100 +226,133 @@ RecordedEvent BaseGameAutoPlayer::GetEvent()
 
 u32 BaseGameAutoPlayer::GetInput(u32 padIdx)
 {
-    if (mMode == Mode::Play)
+    if (!mDisabled)
     {
-        Pads data = mPlayer.ReadInput();
-        return data.mPads[padIdx];
-    }
-    else
-    {
-        Pads data = {};
-        data.mPads[padIdx] = ReadInput(padIdx);
-        if (mMode == Mode::Record)
+        if (mMode == Mode::Play)
         {
-            mRecorder.SaveInput(data);
+            Pads data = mPlayer.ReadInput();
+            return data.mPads[padIdx];
         }
-        return data.mPads[padIdx];
+        else
+        {
+            Pads data = {};
+            data.mPads[padIdx] = ReadInput(padIdx);
+            if (mMode == Mode::Record)
+            {
+                mRecorder.SaveInput(data);
+            }
+            return data.mPads[padIdx];
+        }
     }
+    return 0;
 }
 
 void BaseGameAutoPlayer::ValidateObjectStates()
 {
-    if (mMode == Mode::Play)
+    if (!mDisabled)
     {
-        if (!mPlayer.ValidateObjectStates())
+        if (mMode == Mode::Play)
         {
-            if (!mIgnoreDesyncs)
+            if (!mPlayer.ValidateObjectStates())
             {
-                ALIVE_FATAL("Play back de-synced, see console log for details");
-            }
-            else
-            {
-                static bool warned = false;
-                if (!warned)
+                if (!mIgnoreDesyncs)
                 {
-                    LOG_ERROR("!!!! Play back has de-synced, attempting to carry on");
-                    warned = true;
+                    ALIVE_FATAL("Play back de-synced, see console log for details");
+                }
+                else
+                {
+                    static bool warned = false;
+                    if (!warned)
+                    {
+                        LOG_ERROR("!!!! Play back has de-synced, attempting to carry on");
+                        warned = true;
+                    }
                 }
             }
         }
-    }
-    else if (mMode == Mode::Record)
-    {
-        mRecorder.SaveObjectStates();
+        else if (mMode == Mode::Record)
+        {
+            mRecorder.SaveObjectStates();
+        }
     }
 }
 
 s32 BaseGameAutoPlayer::Rng(s32 rng)
 {
-    if (IsRecording())
+    if (!mDisabled)
     {
-        mRecorder.SaveRng(rng);
-        return rng;
-    }
-    else if (IsPlaying())
-    {
-        const s32 readRng = mPlayer.ReadRng();
-        if (readRng != rng)
+        if (IsRecording())
         {
-            LOG_ERROR("Rng de-sync! Expected " << rng << " but got " << readRng);
-            ALIVE_FATAL("Rng de-sync");
+            mRecorder.SaveRng(rng);
+            return rng;
         }
-        return readRng;
+        else if (IsPlaying())
+        {
+            const s32 readRng = mPlayer.ReadRng();
+            if (readRng != rng)
+            {
+                LOG_ERROR("Rng de-sync! Expected " << rng << " but got " << readRng);
+                ALIVE_FATAL("Rng de-sync");
+            }
+            return readRng;
+        }
     }
     return rng;
 }
 
 u32 BaseGameAutoPlayer::SysGetTicks()
 {
-    if (IsRecording())
+    if (!mDisabled)
     {
-        const u32 ticks = SYS_GetTicks();
-        mRecorder.SaveTicks(ticks);
-        return ticks;
+        if (IsRecording())
+        {
+            const u32 ticks = SYS_GetTicks();
+            mRecorder.SaveTicks(ticks);
+            return ticks;
+        }
+        else if (IsPlaying())
+        {
+            const u32 readTicks = mPlayer.ReadTicks();
+            return readTicks;
+        }
     }
-    else if (IsPlaying())
-    {
-        const u32 readTicks = mPlayer.ReadTicks();
-        return readTicks;
-    }
-    
     return SYS_GetTicks();
 }
 
 void BaseGameAutoPlayer::SyncPoint(u32 syncPointId)
 {
-    if (IsRecording())
+    if (!mDisabled)
     {
-        mRecorder.SaveSyncPoint(syncPointId);
-    }
-    else if (IsPlaying())
-    {
-        const u32 readSyncPoint = mPlayer.ReadSyncPoint();
-        if (readSyncPoint != syncPointId)
+        if (IsRecording())
         {
-            LOG_ERROR("Sync point de-sync! Expected " << syncPointId << " but got " << readSyncPoint);
-            ALIVE_FATAL("Sync point de-sync");
+            mRecorder.SaveSyncPoint(syncPointId);
         }
+        else if (IsPlaying())
+        {
+            const u32 readSyncPoint = mPlayer.ReadSyncPoint();
+            if (readSyncPoint != syncPointId)
+            {
+                LOG_ERROR("Sync point de-sync! Expected " << syncPointId << " but got " << readSyncPoint);
+                ALIVE_FATAL("Sync point de-sync");
+            }
+        }
+    }
+}
+
+void BaseGameAutoPlayer::DisableRecorder()
+{
+    if (!mDisabled)
+    {
+        LOG_INFO("Auto player state paused");
+        mDisabled = true;
+    }
+}
+
+void BaseGameAutoPlayer::EnableRecorder()
+{
+    if (mDisabled)
+    {
+        mDisabled = false;
+        LOG_INFO("Auto player state resumed");
     }
 }

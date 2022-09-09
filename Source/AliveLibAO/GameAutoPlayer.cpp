@@ -76,18 +76,31 @@ bool Player::ValidateBaseAliveGameObject(BaseGameObject* pObj)
     return true;
 }
 
+static s32 CountWithOutLoadingFiles()
+{
+    s32 ret = 0;
+    for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
+    {
+        if (gBaseGameObjects->ItemAt(i)->Type() != ReliveTypes::eLoadingFile)
+        {
+            ret++;
+        }
+    }
+    return ret;
+}
+
 bool Player::ValidateObjectStates()
 {
     u32 objCount = 0;
     mFile.Read(objCount);
 
     bool validateFailed = false;
-    if (static_cast<u32>(gBaseGameObjects->Size()) != objCount)
+    if (CountWithOutLoadingFiles() != static_cast<s32>(objCount))
     {
-        LOG_ERROR("Got " << gBaseGameObjects->Size() << " objects but expected " << objCount);
+        LOG_ERROR("Got " << CountWithOutLoadingFiles() << " objects but expected " << objCount);
         validateFailed = true;
         // TODO: This can be smarter and try to validate the list until the obj types no longer match
-        for (u32 i = 0; i < objCount; i++)
+        for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
         {
             s16 objType = 0;
             mFile.Read(objType);
@@ -95,6 +108,12 @@ bool Player::ValidateObjectStates()
             ReliveTypes reliveObjType = BaseGameObject::FromAO(static_cast<AOTypes>(objType));
 
             BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
+            // Skip loading files
+            while (pObj->Type() == ReliveTypes::eLoadingFile)
+            {
+                pObj = gBaseGameObjects->ItemAt(i);
+            }
+
             if (pObj->mBaseGameObjectTypeId != reliveObjType)
             {
                 LOG_ERROR("Got " << static_cast<s16>(BaseGameObject::ToAO(pObj->mBaseGameObjectTypeId)) << " type but expected " << objType);
@@ -102,12 +121,17 @@ bool Player::ValidateObjectStates()
             ValidateBaseAliveGameObject(nullptr);
         }
 
-        if (gBaseGameObjects->Size() > static_cast<s32>(objCount))
+        if (CountWithOutLoadingFiles() > static_cast<s32>(objCount))
         {
             // What extra stuff is knocking about?
             for (s32 i = objCount; i < gBaseGameObjects->Size(); i++)
             {
                 const BaseGameObject* pExtraObj = gBaseGameObjects->ItemAt(i);
+                // Skip loading files
+                while (pExtraObj->Type() == ReliveTypes::eLoadingFile)
+                {
+                    pExtraObj = gBaseGameObjects->ItemAt(i);
+                }
                 const s32 aoType = static_cast<s32>(BaseGameObject::ToAO(pExtraObj->Type()));
                 LOG_INFO("Extra obj type is : " << aoType);
             }
@@ -115,7 +139,7 @@ bool Player::ValidateObjectStates()
     }
     else
     {
-        for (u32 i = 0; i < objCount; i++)
+        for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
         {
             s16 objType = 0;
             mFile.Read(objType);
@@ -124,6 +148,13 @@ bool Player::ValidateObjectStates()
             ReliveTypes reliveObjType = BaseGameObject::FromAO(static_cast<AOTypes>(objType));
 
             BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
+
+            // Skip loading files
+            while (pObj->Type() == ReliveTypes::eLoadingFile)
+            {
+                pObj = gBaseGameObjects->ItemAt(i);
+            }
+
             if (pObj->mBaseGameObjectTypeId != reliveObjType)
             {
                 LOG_ERROR("Got " << static_cast<s16>(BaseGameObject::ToAO(pObj->mBaseGameObjectTypeId)) << " type but expected " << objType);
