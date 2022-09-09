@@ -537,7 +537,6 @@ void ResourceManager::LoadResourceFile_465460(const char_type* filename, Camera*
 
 void ResourceManager::LoadingLoop_465590(s16 bShowLoadingIcon)
 {
-    GetGameAutoPlayer().SyncPoint(LoadingLoopStart);
     GetGameAutoPlayer().DisableRecorder();
 
     while (!field_20_files_pending_loading.IsEmpty())
@@ -554,7 +553,6 @@ void ResourceManager::LoadingLoop_465590(s16 bShowLoadingIcon)
     }
 
     GetGameAutoPlayer().EnableRecorder();
-    GetGameAutoPlayer().SyncPoint(LoadingLoopEnd);
 }
 
 void ResourceManager::Shutdown_465610()
