@@ -108,7 +108,7 @@ AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const
     const MaxWH bestMaxSize = CalcMaxWH(pAnimationHeader);
 
     const u32 sheetWidth = bestMaxSize.mMaxW * pAnimationHeader->field_2_num_frames;
-    std::vector<u8> spriteSheetBuffer(sheetWidth * bestMaxSize.mMaxH);
+    std::vector<u8> spriteSheetBuffer(sheetWidth * bestMaxSize.mMaxH * (pFirstFrame->field_6_colour_depth == 16 ? 2 : 1));
 
     // Add each frame
     std::vector<PerFrameInfo> perFrameInfos(pAnimationHeader->field_2_num_frames);
@@ -137,8 +137,20 @@ AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const
         {
             for (u32 y = 0; y < pFrameHeader->field_5_height; y++)
             {
-                const u8 value = decompressionBuffer[(y * imageWidth) + x];
-                spriteSheetBuffer[(y * sheetWidth) + (x + (bestMaxSize.mMaxW * i))] = value;
+                switch (pFirstFrame->field_6_colour_depth)
+                {
+                    case 4: // 4bit indcies converted to 8bit in decompress frame
+                    case 8:
+                    {
+                        const u8 value = decompressionBuffer[(y * imageWidth) + x];
+                        spriteSheetBuffer[(y * sheetWidth) + (x + (bestMaxSize.mMaxW * i))] = value;
+                        break;
+                    }
+
+                    case 16:
+                        LOG_ERROR("16 bpp not implemented");
+                        break;
+                }
             }
         }
     
@@ -154,7 +166,8 @@ AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const
         perFrameInfos[i].mSpriteSheetY = 0;
 
         // Clear because the buffer is re-used to reduce memory allocs
-        memset(decompressionBuffer.data(), 0, decompressionBuffer.size());
+        decompressionBuffer.clear();
+        decompressionBuffer.resize(decompressionBufferSize);
     }
 
     TgaFile tgaFile;
@@ -280,6 +293,22 @@ void AnimationConverter::DecompressAnimFrame(std::vector<u8>& decompressionBuffe
             break;
     }
     
+    // Convert 4bit to 8bit pal indecies
+    if (pFrameHeader->field_6_colour_depth == 4)
+    {
+        std::vector<u8> newData(decompressionBuffer.size() * 2);
+
+        // Expand 4bit to 8bit
+        std::size_t src = 0;
+        std::size_t dst = 0;
+        while (dst < newData.size())
+        {
+            newData[dst++] = (decompressionBuffer[src] & 0xF);
+            newData[dst++] = ((decompressionBuffer[src++] & 0xF0) >> 4);
+        }
+        decompressionBuffer = newData;
+    }
+
     const u32 imageWidth = CalcImageWidth(pFrameHeader);
     const u32 originalWidth = pFrameHeader->field_4_width;
     const u32 compressionPadding = std::abs(static_cast<s32>(originalWidth - imageWidth));
@@ -371,7 +400,6 @@ u32 AnimationConverter::CalcDecompressionBufferSize(const AnimRecord& rec, const
         case 4:
         {
             decompression_width = (rec.mMaxW % 2) + (rec.mMaxW / 2);
-            decompression_width *= 4; // 4 to 8 bit
         }
         break;
 
