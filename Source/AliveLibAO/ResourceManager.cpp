@@ -537,7 +537,6 @@ void CC ResourceManager::WaitForPendingResources_41EA60(BaseGameObject* pObj)
 
 EXPORT void CC ResourceManager::LoadingLoop_41EAD0(s16 bShowLoadingIcon)
 {
-    GetGameAutoPlayer().SyncPoint(LoadingLoopStart);
     GetGameAutoPlayer().DisableRecorder();
 
     while (gFilesPending_507714 > 0)
@@ -582,7 +581,6 @@ EXPORT void CC ResourceManager::LoadingLoop_41EAD0(s16 bShowLoadingIcon)
     }
 
      GetGameAutoPlayer().EnableRecorder();
-     GetGameAutoPlayer().SyncPoint(LoadingLoopEnd);
 }
 
 void CC ResourceManager::Free_Resources_For_Camera_447170(Camera* pCamera)
