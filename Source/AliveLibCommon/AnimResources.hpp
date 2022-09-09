@@ -1417,11 +1417,15 @@ enum AEResourceID
     kR1sdoorResID = 6006,
     kR1buttonResID = 6008,
     kR1bpipeResID = 6009,
+    kGreenGlowResID_6010,
+    kGoldGlowResID_6011 = 6011,
     kBayrollResID_6013 = 6013,
     kBrewButtonResID_6016 = 6016,
     kEvilFartResID = 6017,
     kR1sdosResID_6027 = 6027,
-
+    kFlintGlowResID_6028 = 6028,
+    kGreenDoorLightResID_6031 = 6031,
+    kRedDoorLightResID_6032 = 6032,
     kTwnkleResID = 7012,
 
     kControlsResID = 8000,

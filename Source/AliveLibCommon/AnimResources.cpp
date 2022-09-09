@@ -1651,7 +1651,9 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
 
     // smoother version of ChantOrb_Particle_Small with more frames
     {AnimId::AE_ZapSpark, { "SPARKS.BAN", 808, 19, 11, kSparksResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Star, kNullAnimDetails, { "STAR.BAN", 748, 20, 12, AO::kBGStarAOResID, PalId::Default} },
+    {AnimId::Star,
+        { "STAR.BAN", 772, 19, 12, kBGStarResID, PalId::Default}, // STAR.BAN doesn't exist in any AE level
+        { "STAR.BAN", 748, 20, 12, AO::kBGStarAOResID, PalId::Default} },
 
     {AnimId::Status_Light_Green, { "STATUSLT.BAN", 240, 14, 9u, kStatusLightResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Status_Light_Red, { "STATUSLT.BAN", 252, 14, 9u, kStatusLightResID, PalId::Default}, kNullAnimDetails },
@@ -1767,16 +1769,31 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
         {"OMMFLARE.BAN", 1672, 39, 21, kOmmflareResID, PalId::Default},
         {"OMMFLARE.BAN", 1532, 38, 21, kOmmflareResID, PalId::Default}},
 
-    {AnimId::GoldGlow, kNullAnimDetails, {"GOLDGLOW.BAN", 236, 19, 15, AO::kGoldGlowAOResID_6011, PalId::Default}},
-    {AnimId::GreenGlow, kNullAnimDetails, {"GRENGLOW.BAN", 96, 5, 6, AO::kGreenGlowAOResID_6010, PalId::Default}},
+    {AnimId::GoldGlow,
+        {"GOLDGLOW.BAN", 356, 33, 15, kGoldGlowResID_6011, PalId::Default},
+        {"GOLDGLOW.BAN", 236, 19, 15, AO::kGoldGlowAOResID_6011, PalId::Default}},
+
+    {AnimId::GreenGlow,
+        {"GRENGLOW.BAN", 112, 8, 6, kGreenGlowResID_6010, PalId::Default},
+        {"GRENGLOW.BAN", 96, 5, 6, AO::kGreenGlowAOResID_6010, PalId::Default}},
+
     {AnimId::FlintGlow, kNullAnimDetails, {"FLNTGLOW.BAN", 756, 59, 54, AO::kFlintGlowAOResID_6028, PalId::Default}},
 
-    {AnimId::GreenDoorLight, kNullAnimDetails, {"HUBLIGHT.BAN", 448, 20, 11, AO::kGreenDoorLightAOResID_6031, PalId::Default}},
-    {AnimId::GreenHubLight, kNullAnimDetails, {"HUBLIGHT.BAN", 460, 20, 11, AO::kGreenDoorLightAOResID_6031, PalId::Default}},
+    {AnimId::GreenDoorLight,
+        {"HUBLIGHT.BAN", 244, 16, 10, kGreenDoorLightResID_6031, PalId::Default},
+        {"HUBLIGHT.BAN", 448, 20, 11, AO::kGreenDoorLightAOResID_6031, PalId::Default}},
 
-    {AnimId::RedDoorLight, kNullAnimDetails, {"HUBRED.BAN", 460, 20, 11, AO::kRedDoorLightAOResID_6032, PalId::Default}},
-    {AnimId::RedHubLight, kNullAnimDetails, {"HUBRED.BAN", 448, 20, 11, AO::kRedDoorLightAOResID_6032, PalId::Default}},
+    {AnimId::GreenHubLight,
+        {"HUBLIGHT.BAN", 256, 16, 10, kGreenDoorLightResID_6031, PalId::Default},
+        {"HUBLIGHT.BAN", 460, 20, 11, AO::kGreenDoorLightAOResID_6031, PalId::Default}},
 
+    {AnimId::RedDoorLight,
+        {"HUBRED.BAN", 256, 16, 10, kRedDoorLightResID_6032, PalId::Default},
+        {"HUBRED.BAN", 460, 20, 11, AO::kRedDoorLightAOResID_6032, PalId::Default}},
+
+    {AnimId::RedHubLight,
+        {"HUBRED.BAN", 244, 16, 10, kRedDoorLightResID_6032, PalId::Default},
+        {"HUBRED.BAN", 448, 20, 11, AO::kRedDoorLightAOResID_6032, PalId::Default}},
 
     {AnimId::FlintLock_Hammers_Activating, kNullAnimDetails, {"F2FLINT.BAN", 11848, 125, 59, AO::kFlintLockAOResID, PalId::Default}},
     {AnimId::FlintLock_Hammers_Disabled, kNullAnimDetails, {"F2FLINT.BAN", 11836, 125, 59, AO::kFlintLockAOResID, PalId::Default}},
