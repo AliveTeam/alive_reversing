@@ -311,8 +311,7 @@ void TimedMine::VOnPickUpOrSlapped()
             mSingleTickTimer = mTicksUntilExplosion >> 2;
         }
         mOldGnFrame = sGnFrame;
-        // TODO: missing animid
-        mAnim.Set_Animation_Data(804, nullptr);
+        mAnim.Set_Animation_Data(AnimId::TimedMine_Activated, nullptr);
         mExplosionTimer = sGnFrame + mTicksUntilExplosion;
         mTickAnim.Set_Animation_Data(AnimId::Bomb_Flash, nullptr);
         SfxPlayMono(relive::SoundEffects::GreenTick, 0);

@@ -373,9 +373,9 @@ const AnimId sAbeMotionAnimIds[166] = {
     AnimId::Mudokon_SlapBomb,
     AnimId::Mudokon_KnockForward,
     AnimId::Mudokon_RollingKnockForward,
-    AnimId::Mudokon_Idle, // knock forward get up?
-    AnimId::Mudokon_AO_Null, // lift use up
-    AnimId::Mudokon_AO_LiftUse, // lift use down
+    AnimId::Mudokon_Idle,
+    AnimId::Mudokon_LiftUseUp,
+    AnimId::Mudokon_LiftUseDown,
     AnimId::Mudokon_LiftGrabBegin,
     AnimId::Mudokon_LiftGrabEnd,
     AnimId::Mudokon_LiftGrabIdle,
@@ -405,8 +405,8 @@ const AnimId sAbeMotionAnimIds[166] = {
     AnimId::Mudokon_Idle_RubEyes,
     AnimId::Mudokon_Idle_StretchArms,
     AnimId::Mudokon_Idle_Yawn,
-    AnimId::Mudokon_AO_ToShrykull,
-    AnimId::Mudokon_AO_ShrykullEnd,
+    AnimId::Mudokon_ToShrykull,
+    AnimId::Mudokon_EndShrykull,
     AnimId::Mudokon_PoisonGasDeath,
     AnimId::None};
 

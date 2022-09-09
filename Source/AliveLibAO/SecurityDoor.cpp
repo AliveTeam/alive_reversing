@@ -33,9 +33,9 @@ SecurityDoor::SecurityDoor(relive::Path_SecurityDoor* pTlv, const Guid& tlvId)
     field_108_max_idx = 0;
     field_10A_event_idx = -1;
 
-    const AnimRecord rec = AO::AnimRec(AnimId::Security_Door);
+    const AnimRecord rec = AO::AnimRec(AnimId::Security_Door_Idle);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::Security_Door, ppRes);
+    Animation_Init(AnimId::Security_Door_Idle, ppRes);
 
     mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
 
@@ -137,7 +137,7 @@ void SecurityDoor::VUpdate()
 
         case SecurityDoorStates::eSayingHi_2:
             Slig::Slig_GameSpeak_SFX_46F560(SligSpeak::eHi_0, 127, -200, 0);
-            mAnim.Set_Animation_Data(992, 0);
+            mAnim.Set_Animation_Data(AnimId::Security_Door_Speak, nullptr);
             field_E8_state = SecurityDoorStates::eListeningForHi_3;
             field_114_timer = sGnFrame + 150;
             break;
@@ -209,8 +209,7 @@ void SecurityDoor::VUpdate()
                     break;
             }
 
-            // TODO: missing anim id
-            mAnim.Set_Animation_Data(992, 0);
+            mAnim.Set_Animation_Data(AnimId::Security_Door_Speak, nullptr);
 
             field_118_max_idx++;
             if (field_118_max_idx >= field_F0_code_len)

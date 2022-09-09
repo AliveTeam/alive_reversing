@@ -46,9 +46,9 @@ Shrykull::Shrykull()
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
     mBaseGameObjectTypeId = ReliveTypes::eShrykull;
     
-    const AnimRecord rec = AO::AnimRec(AnimId::Mudokon_ToShrykull);
+    const AnimRecord rec = AO::AnimRec(AnimId::ShrykullStart);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::Mudokon_ToShrykull, ppRes);
+    Animation_Init(AnimId::ShrykullStart, ppRes);
     field_118_zap_line = nullptr;
     field_11C_obj_being_zapped = nullptr;
 
@@ -122,8 +122,7 @@ void Shrykull::VUpdate()
 
             if (mAnim.mFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
             {
-                // TODO: missing anim id
-                mAnim.Set_Animation_Data(92040, nullptr);
+                mAnim.Set_Animation_Data(AnimId::ShrykullTransform, nullptr);
                 field_10C_state = State::eZapTargets_1;
             }
             break;
@@ -231,8 +230,7 @@ void Shrykull::VUpdate()
         case State::eDetransform_2:
             if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                // TODO: missing anim id
-                mAnim.Set_Animation_Data(92152, nullptr);
+                mAnim.Set_Animation_Data(AnimId::ShrykullDetransform, nullptr);
                 field_10C_state = State::eFinish_3;
             }
             break;

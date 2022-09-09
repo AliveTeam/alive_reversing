@@ -73,6 +73,7 @@ enum class EAnimGroup
     CrawlingSligButton,
     BellHammer,
     DoorLock,
+    RollingBall,
 };
 
 const char_type* AnimBaseName(AnimId id);

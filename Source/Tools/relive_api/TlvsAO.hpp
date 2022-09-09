@@ -1293,7 +1293,7 @@ struct Path_SecurityDoor final : public ReliveAPI::TlvObjectBaseAO
         ADD("X Position", mTlv.mXPos);
         ADD("Y Position", mTlv.mYPos);
 
-        ADD_RESOURCE(AnimId::Security_Door, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::Security_Door_Idle, ReliveAPI::AddResourceTo::File);
     }
 };
 

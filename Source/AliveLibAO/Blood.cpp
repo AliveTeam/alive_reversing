@@ -24,9 +24,9 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
 {
     mSpriteScale = scale;
 
-    const AnimRecord rec = AO::AnimRec(AnimId::Blood);
+    const AnimRecord rec = AO::AnimRec(AnimId::BloodDrop);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::Blood, ppRes);
+    Animation_Init(AnimId::BloodDrop, ppRes);
 
     mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
     mAnim.mRed = 127;

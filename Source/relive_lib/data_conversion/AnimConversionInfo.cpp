@@ -62,11 +62,10 @@ AnimRecConversionInfo kAnimRecConversionInfo[910] = {
     { AnimId::Mudokon_RollingKnockback, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::Mudokon_RollingKnockForward, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::Mudokon_LiftGrabIdle, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
-    { AnimId::Mudokon_LiftUseDown, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eNone, false },
-    { AnimId::Mudokon_AO_LiftUse, EAnimGroup::Abe, EReliveLevelIds::eNone, EReliveLevelIds::eRuptureFarms, false },
+    { AnimId::Mudokon_LiftUseDown, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::Mudokon_LiftGrabEnd, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::Mudokon_LiftGrabBegin, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
-    { AnimId::Mudokon_LiftUseUp, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eNone, false },
+    { AnimId::Mudokon_LiftUseUp, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::Mudokon_MineCarEnter, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eNone, false },
     { AnimId::Mudokon_MineCarExit, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eNone, false },
     { AnimId::Mudokon_PushWall, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
@@ -79,13 +78,12 @@ AnimRecConversionInfo kAnimRecConversionInfo[910] = {
     { AnimId::Mudokon_RollingEnd_Unused, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::Mudokon_RollBegin, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::Mudokon_DunnoEnd, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
-    { AnimId::Mudokon_EndShrykull, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eNone, false },
+    { AnimId::Mudokon_EndShrykull, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::Mudokon_ToShrykull, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::Mudokon_SlapBomb, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::Mudokon_Sorry, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eNone, false },
     { AnimId::Mudokon_AfterSorry, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eNone, false },
     { AnimId::Mudokon_ToSpeak, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
-    { AnimId::Mudokon_Null, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eNone, false },
     { AnimId::Mudokon_RunJumpLand, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::Mudokon_RunTurnToWalk, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::Mudokon_RunJumpLandRun, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
@@ -184,8 +182,6 @@ AnimRecConversionInfo kAnimRecConversionInfo[910] = {
     { AnimId::Mudokon_Idle_RubEyes, EAnimGroup::Abe, EReliveLevelIds::eNone, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::Mudokon_Idle_StretchArms, EAnimGroup::Abe, EReliveLevelIds::eNone, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::Mudokon_Idle_Yawn, EAnimGroup::Abe, EReliveLevelIds::eNone, EReliveLevelIds::eRuptureFarms, false },
-    { AnimId::Mudokon_AO_ToShrykull, EAnimGroup::Abe, EReliveLevelIds::eNone, EReliveLevelIds::eRuptureFarms, false },
-    { AnimId::Mudokon_AO_ShrykullEnd, EAnimGroup::Abe, EReliveLevelIds::eNone, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::Mudokon_AO_HoistBegin_Long, EAnimGroup::Abe, EReliveLevelIds::eNone, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::Mudokon_AO_LandSoft_Long, EAnimGroup::Abe, EReliveLevelIds::eNone, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::Mudokon_Sneak, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
@@ -199,7 +195,6 @@ AnimRecConversionInfo kAnimRecConversionInfo[910] = {
     { AnimId::Mudokon_WalkBegin, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::Mudokon_WalkToIdle, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::Mudokon_MidWalkToIdle, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
-    { AnimId::Mudokon_AO_Null, EAnimGroup::Abe, EReliveLevelIds::eNone, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::Mudokon_StartChisel, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eNone, false },
     { AnimId::Mudokon_StopChisel, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eNone, false },
     { AnimId::Mudokon_WalkToRun, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
@@ -535,9 +530,9 @@ AnimRecConversionInfo kAnimRecConversionInfo[910] = {
     { AnimId::CrawlingSligButton, EAnimGroup::CrawlingSligButton, EReliveLevelIds::eBarracks, EReliveLevelIds::eNone, false },
     { AnimId::CrawlingSligButtonUse, EAnimGroup::CrawlingSligButton, EReliveLevelIds::eBarracks, EReliveLevelIds::eNone, false },
 
-    { AnimId::ShrykullStart, EAnimGroup::Shrykull, EReliveLevelIds::eBarracks, EReliveLevelIds::eNone, false },
-    { AnimId::ShrykullTransform, EAnimGroup::Shrykull, EReliveLevelIds::eBarracks, EReliveLevelIds::eNone, false },
-    { AnimId::ShrykullDetransform, EAnimGroup::Shrykull, EReliveLevelIds::eBarracks, EReliveLevelIds::eNone, false },
+    { AnimId::ShrykullStart, EAnimGroup::Shrykull, EReliveLevelIds::eBarracks, EReliveLevelIds::eLines, false },
+    { AnimId::ShrykullTransform, EAnimGroup::Shrykull, EReliveLevelIds::eBarracks, EReliveLevelIds::eLines, false },
+    { AnimId::ShrykullDetransform, EAnimGroup::Shrykull, EReliveLevelIds::eBarracks, EReliveLevelIds::eLines, false },
 
     { AnimId::NormalMudIcon, EAnimGroup::Icons, EReliveLevelIds::eMines, EReliveLevelIds::eNone, false },
     { AnimId::AngryMudIcon, EAnimGroup::Icons, EReliveLevelIds::eMines, EReliveLevelIds::eNone, false },
@@ -716,9 +711,8 @@ AnimRecConversionInfo kAnimRecConversionInfo[910] = {
     { AnimId::Security_Claw_Upper_Rotating, EAnimGroup::SecurityClaw, EReliveLevelIds::eNone, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::Security_Claw_Upper_NoRotation, EAnimGroup::SecurityClaw, EReliveLevelIds::eNone, EReliveLevelIds::eRuptureFarms, false },
 
-    { AnimId::Security_Door, EAnimGroup::SecurityDoor, EReliveLevelIds::eNone, EReliveLevelIds::eRuptureFarmsReturn, false },
-    { AnimId::Security_Door_Idle, EAnimGroup::SecurityDoor, EReliveLevelIds::eBarracks, EReliveLevelIds::eNone, false },
-    { AnimId::Security_Door_Speak, EAnimGroup::SecurityDoor, EReliveLevelIds::eBarracks, EReliveLevelIds::eNone, false },
+    { AnimId::Security_Door_Idle, EAnimGroup::SecurityDoor, EReliveLevelIds::eBarracks, EReliveLevelIds::eRuptureFarmsReturn, false },
+    { AnimId::Security_Door_Speak, EAnimGroup::SecurityDoor, EReliveLevelIds::eBarracks, EReliveLevelIds::eRuptureFarmsReturn, false },
 
     { AnimId::Security_Orb, EAnimGroup::SecurityOrb, EReliveLevelIds::eMines, EReliveLevelIds::eStockYards, false },
 
@@ -758,7 +752,7 @@ AnimRecConversionInfo kAnimRecConversionInfo[910] = {
     { AnimId::Lines_Lever_Pull_Right, EAnimGroup::Lever, EReliveLevelIds::eNone, EReliveLevelIds::eLines, false },
     { AnimId::Lines_Lever_Pull_Release_Right, EAnimGroup::Lever, EReliveLevelIds::eNone, EReliveLevelIds::eLines, false },
 
-    { AnimId::TimedMine_Activated, EAnimGroup::TimedMine, EReliveLevelIds::eMines, EReliveLevelIds::eNone, false },
+    { AnimId::TimedMine_Activated, EAnimGroup::TimedMine, EReliveLevelIds::eMines, EReliveLevelIds::eForest, false },
     { AnimId::TimedMine_Idle, EAnimGroup::TimedMine, EReliveLevelIds::eMines, EReliveLevelIds::eForest, false },
 
     { AnimId::Tortured_Mudokon, EAnimGroup::TorturedMudokon, EReliveLevelIds::eBrewery, EReliveLevelIds::eNone, false },
@@ -967,7 +961,6 @@ AnimRecConversionInfo kAnimRecConversionInfo[910] = {
     { AnimId::DeathFlare_1, EAnimGroup::Ungrouped, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::DeathFlare_2, EAnimGroup::Ungrouped, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::Bullet_Shell, EAnimGroup::Ungrouped, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
-    { AnimId::Blood, EAnimGroup::Ungrouped, EReliveLevelIds::eNone, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::MenuDoor, EAnimGroup::Ungrouped, EReliveLevelIds::eMenu, EReliveLevelIds::eMenu, false },
     { AnimId::AbeIntro, EAnimGroup::Ungrouped, EReliveLevelIds::eMenu, EReliveLevelIds::eMenu, false },
     { AnimId::BloodDrop, EAnimGroup::Ungrouped, EReliveLevelIds::eMines, EReliveLevelIds::eNone, false },
@@ -979,7 +972,8 @@ AnimRecConversionInfo kAnimRecConversionInfo[910] = {
     { AnimId::Well_Leaf, EAnimGroup::Ungrouped, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::Bomb_RedGreenTick, EAnimGroup::Ungrouped, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::Bomb_Flash, EAnimGroup::Ungrouped, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
-    { AnimId::Stone_Ball, EAnimGroup::Ungrouped, EReliveLevelIds::eNone, EReliveLevelIds::eRuptureFarms, false },
+    { AnimId::Stone_Ball_Rolling, EAnimGroup::RollingBall, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
+    { AnimId::Stone_Ball, EAnimGroup::RollingBall, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::Stone_Ball_Stopper, EAnimGroup::Ungrouped, EReliveLevelIds::eNone, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::Star, EAnimGroup::Ungrouped, EReliveLevelIds::eNone, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::AE_ZapSpark, EAnimGroup::Ungrouped, EReliveLevelIds::eMines, EReliveLevelIds::eNone, false },
@@ -1178,6 +1172,8 @@ const char* ToString(EAnimGroup animGroup)
         return "bell_hammer";
     case EAnimGroup::DoorLock:
         return "door_lock";
+    case EAnimGroup::RollingBall:
+        return "rolling_ball";
     default:
         ALIVE_FATAL("unknown group");
     }

@@ -372,7 +372,6 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
     {AnimId::Mine_Car_Tread_Move_B, { "BAYROLL.BAN", 20788, 130, 62u, kBayrollResID_6013, PalId::Default}, kNullAnimDetails },
 
     // The Mudokon section includes all of abe's animations as well since they share many animations
-    // TODO: correct BAN/BND's and resourceID's for AO
     {AnimId::Mudokon_ToSpeak,
         { "ABEBSIC1.BAN", 59112, 135, 80, kAbebsic1ResID, PalId::Default},
      {"ABEBSIC.BAN", 256136, 135, 80, AO::kAbebasicAOResID, PalId::Default}},
@@ -513,11 +512,12 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
      {"ABEDOOR.BAN", 17568, 135, 80, AO::kAbedoorAOResID, PalId::Default}},
     {AnimId::Mudokon_ToShrykull, 
         { "ABEMORPH.BAN", 8732, 135, 80, kAbemorphResID, PalId::Default},
-        { "SHRMORPH.BAN", 92004, 121, 79, AO::kShrmorphAOResID, PalId::Default}
+        { "ABEMORPH.BAN", 8240, 135, 80, AO::kAbemorphAOResID, PalId::Default}
     },
     {AnimId::Mudokon_EndShrykull,
         { "ABEMORPH.BAN", 8772, 135, 80, kAbemorphResID, PalId::Default},
-            kNullAnimDetails },
+        { "ABEMORPH.BAN", 8280, 135, 80, AO::kAbemorphAOResID, PalId::Default}
+    },
 
     {AnimId::Mudokon_LiftGrabBegin,
         { "ABELIFT.BAN", 22548, 135, 80, kAbeliftResID, PalId::Default},
@@ -528,10 +528,14 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
     {AnimId::Mudokon_LiftGrabIdle,
         { "ABELIFT.BAN", 22464, 135, 80, kAbeliftResID, PalId::Default},
      {"ABELIFT.BAN", 21612, 135, 80, AO::kAbeliftAOResID, PalId::Default}},
-    {AnimId::Mudokon_LiftUseUp, { "ABELIFT.BAN", 22596, 135, 80, kAbeliftResID, PalId::Default}, kNullAnimDetails },
-    {AnimId::Mudokon_LiftUseDown, { "ABELIFT.BAN", 22496, 135, 80, AO::kAbeliftAOResID, PalId::Default}, kNullAnimDetails },
-
-    {AnimId::Mudokon_AO_LiftUse, kNullAnimDetails, {"ABELIFT.BAN", 21644, 135, 80, AO::kAbeliftAOResID, PalId::Default}},
+    {AnimId::Mudokon_LiftUseUp, 
+        { "ABELIFT.BAN", 22596, 135, 80, kAbeliftResID, PalId::Default},
+        {"ABELIFT.BAN", 21744, 135, 80, AO::kAbeliftAOResID, PalId::Default}
+     },
+    {AnimId::Mudokon_LiftUseDown, 
+        { "ABELIFT.BAN", 22496, 135, 80, AO::kAbeliftAOResID, PalId::Default},
+        {"ABELIFT.BAN", 21644, 135, 80, AO::kAbeliftAOResID, PalId::Default}
+    },
 
     {AnimId::Mudokon_PoisonGasDeath,
         { "ABEGAS.BAN", 28824, 135, 80, kAbegasResID, PalId::Default},
@@ -566,8 +570,6 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
     {AnimId::Mudokon_MidWalkToIdle,
         { "ABEBSIC1.BAN", 58748, 135, 80, kAbebsic1ResID, PalId::Default},
      {"ABEBSIC1.BAN", 55828, 135, 80, AO::kAbebsic1AOResID, PalId::Default}},
-
-    {AnimId::Mudokon_AO_Null, kNullAnimDetails, {"ABELIFT.BAN", 21744, 135, 80, AO::kAbeliftAOResID, PalId::Default}},
 
     {AnimId::Mudokon_LeverUse,
         { "ABEPULL.BAN", 11396, 135, 80, kAbepullResID, PalId::Default}, 
@@ -775,13 +777,9 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
     {AnimId::Mudokon_Idle_StretchArms, kNullAnimDetails, {"ABESIZE.BAN", 13152, 135, 80, AO::kAbesizeAOResID, PalId::Default}},
     {AnimId::Mudokon_Idle_Yawn, kNullAnimDetails, {"ABEYAWN.BAN", 12392, 135, 80, AO::kAbeyawnAOResID, PalId::Default}},
 
-    {AnimId::Mudokon_AO_ToShrykull, kNullAnimDetails, {"ABEMORPH.BAN", 8240, 135, 80, AO::kAbemorphAOResID, PalId::Default}},
-    {AnimId::Mudokon_AO_ShrykullEnd, kNullAnimDetails, {"ABEMORPH.BAN", 8280, 135, 80, AO::kAbemorphAOResID, PalId::Default}},
-
     {AnimId::Mudokon_KnockForward,
      {"ABEKNFD.BAN", 17240, 135, 80, kAbeknfdResID, PalId::Default},
      {"ABEKNFD.BAN", 16772, 135, 80, AO::kAbeknfdAOResID, PalId::Default}},
-
 
     {AnimId::Mudokon_MineCarEnter, {"ABECAR.BAN", 8540, 135, 80, kAbeCarResId, PalId::Default}, kNullAnimDetails},
     {AnimId::Mudokon_MineCarExit, {"ABECAR.BAN", 8588, 135, 80, kAbeCarResId, PalId::Default}, kNullAnimDetails},
@@ -799,8 +797,6 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
 
     // AE only end
 
-
-    // TODO: check AO ResourceID's
     {AnimId::Paramite_Idle,
         { "PARAMITE.BND", 96696, 137, 65u, kArjbasicResID, PalId::Default},
      {"PARAMITE.BND", 57152, 138, 49, AO::kArjbasicAOResID, PalId::Default}},
@@ -889,7 +885,6 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
     {AnimId::Paramite_AO_M_7_Unknown, kNullAnimDetails, {"PARAMITE.BND", 57340, 138, 49, AO::kArjbasicAOResID, PalId::Default}},
     {AnimId::Paramite_AO_M_22_Unknown, kNullAnimDetails, {"PARAMITE.BND", 10520, 138, 49, AO::kArjscrchAOResID, PalId::Default}},
 
-    // TODO: check AO ResourceID's
     {AnimId::Scrab_Idle,
         { "SCRAB.BND", 224764, 156, 69, kArsbasicResID, PalId::Default},
      {"SCRAB.BND", 168644, 168, 69, AO::kArsbasicAOResID, PalId::Default}},
@@ -1228,7 +1223,6 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
         {"ABEINTRO.BAN", 25888, 233, 125, kAbeintroResID, PalId::Default },
         {"ABEINTRO.BAN", 37364, 134, 90, AO::kAbeintroAOResID, PalId::Default}},
 
-    // TODO: check AO ResourceID's
     {AnimId::Slog_Idle,
         { "SLOG.BND", 96464, 121, 57, kDogbasicResID, PalId::Default},
      {"SLOG.BND", 94456, 121, 57, AO::kDogbasicAOResID, PalId::Default}},
@@ -1397,9 +1391,18 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
     {AnimId::LiftBottomWheel_Necrum, {"NELIFT.BND", 8664, 69, 34, kLiftWheelsResID, PalId::Default}, kNullAnimDetails},
     {AnimId::LiftTopWheel_Necrum, {"NELIFT.BND", 8700, 69, 34, kLiftWheelsResID, PalId::Default}, kNullAnimDetails},
 
-    {AnimId::ShrykullStart, {"SHRYPORT.BND", 82676, 123, 79, kShrmorphResID, PalId::Default}, kNullAnimDetails},
-    {AnimId::ShrykullTransform, {"SHRYPORT.BND", 82712, 123, 79, kShrmorphResID, PalId::Default}, kNullAnimDetails},
-    {AnimId::ShrykullDetransform, {"SHRYPORT.BND", 82824, 123, 79, kShrmorphResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::ShrykullStart,
+        {"SHRYPORT.BND", 82676, 123, 79, kShrmorphResID, PalId::Default}, 
+        {"SHRMORPH.BAN", 92004, 121, 79, AO::kShrmorphAOResID, PalId::Default}
+    },
+    {AnimId::ShrykullTransform,
+        {"SHRYPORT.BND", 82712, 123, 79, kShrmorphResID, PalId::Default},
+        {"SHRMORPH.BAN", 92040, 121, 79, AO::kShrmorphAOResID, PalId::Default}
+        },
+    {AnimId::ShrykullDetransform, 
+        {"SHRYPORT.BND", 82824, 123, 79, kShrmorphResID, PalId::Default}, 
+        {"SHRMORPH.BAN", 92152, 121, 79, AO::kShrmorphAOResID, PalId::Default}
+    },
 
     {AnimId::NormalMudIcon, {"EMONORM.BAN", 1248, 54, 47, kNormaliconResID, PalId::Default}, kNullAnimDetails},
     {AnimId::AngryMudIcon, {"EMOANGRY.BAN", 1076, 54, 47, kAngryiconResID, PalId::Default}, kNullAnimDetails},
@@ -1407,11 +1410,11 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
 
     {AnimId::SpotLight, {"SPOTLITE.BAN", 1536, 57, 32, kSpotliteResID, PalId::Default}, kNullAnimDetails},
         
-    // blood drop and blood are not the same animations.
-    // TODO: check if AO blood.ban is blood or blood drop
-    {AnimId::BloodDrop, {"BLOODROP.BAN", 308, 11, 7, kBloodropResID, PalId::Default}, kNullAnimDetails},
+    {AnimId::BloodDrop,
+        {"BLOODROP.BAN", 308, 11, 7, kBloodropResID, PalId::Default}, 
+        { "BLOODROP.BAN", 276, 6, 7, AO::kBloodropAOResID, PalId::Default}
+    },
 
-    {AnimId::Blood, kNullAnimDetails, { "BLOODROP.BAN", 276, 6, 7, AO::kBloodropAOResID, PalId::Default} },
     {AnimId::Bone, { "BTHROW.BND", 456, 15, 9, kBoneResID, PalId::Default}, kNullAnimDetails },
     {AnimId::BoneBag_Idle, { "BONEBAG.BAN", 8748, 64, 60, kBoneBagResID_590, PalId::Default}, kNullAnimDetails },
     {AnimId::BoneBag_HardHit, { "BONEBAG.BAN", 8708, 64, 60, kBoneBagResID_590, PalId::Default}, kNullAnimDetails },
@@ -1554,7 +1557,6 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
     {AnimId::HoneySack_FallingToSmashed, kNullAnimDetails, { "HIVE.BND", 9280, 140, 38, AO::kP2c3HiveAOResID, PalId::Default} },
     {AnimId::HoneySack_OnGround, kNullAnimDetails, { "HIVE.BND", 9360, 140, 38, AO::kP2c3HiveAOResID, PalId::Default} },
     {AnimId::AE_Rope, { "ROPES.BAN", 748, 9, 16, kRopesResID, PalId::Default}, kNullAnimDetails },
-    // TODO: more rope BAN'S?
 
     {AnimId::Meat, 
         { "MTHROW.BND", 488, 17, 9, kMeatResID, PalId::Default},
@@ -1626,9 +1628,12 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
     {AnimId::Security_Claw_Lower_Idle, kNullAnimDetails, { "F2EYEORB.BAN", 22468, 152, 31, AO::kF2eyeorbAOResID, PalId::Default} },
     {AnimId::Security_Claw_Upper_Rotating, kNullAnimDetails, { "F2EYEORB.BAN", 22480, 152, 31, AO::kF2eyeorbAOResID, PalId::Default} },
     {AnimId::Security_Claw_Upper_NoRotation, kNullAnimDetails, { "F2EYEORB.BAN", 22616, 152, 31, AO::kF2eyeorbAOResID, PalId::Default} },
-    {AnimId::Security_Door, kNullAnimDetails, { "R1SDOS.BAN", 976, 70, 19, AO::kR1sdosAOResID_6027, PalId::Default} },
-    {AnimId::Security_Door_Idle, { "SECDOOR.BAN", 1512, 70, 19u, kR1sdosResID_6027, PalId::Default}, kNullAnimDetails },
-    {AnimId::Security_Door_Speak, { "SECDOOR.BAN", 1528, 70, 19u, kR1sdosResID_6027, PalId::Default}, kNullAnimDetails },
+    {AnimId::Security_Door_Idle, 
+        { "SECDOOR.BAN", 1512, 70, 19u, kR1sdosResID_6027, PalId::Default},
+        { "R1SDOS.BAN", 976, 70, 19, AO::kR1sdosAOResID_6027, PalId::Default} },
+    {AnimId::Security_Door_Speak, 
+        { "SECDOOR.BAN", 1528, 70, 19u, kR1sdosResID_6027, PalId::Default},
+        { "R1SDOS.BAN", 992, 70, 19, AO::kR1sdosAOResID_6027, PalId::Default} },
     {AnimId::Security_Orb, 
         { "MAIMORB.BAN", 2228, 53, 28u, kMaimGameResID, PalId::Default},
         { "F2MAMORB.BAN", 10864, 53, 28, AO::kMaimGameAOResID, PalId::Default}
@@ -1650,8 +1655,15 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
 
     {AnimId::Status_Light_Green, { "STATUSLT.BAN", 240, 14, 9u, kStatusLightResID, PalId::Default}, kNullAnimDetails },
     {AnimId::Status_Light_Red, { "STATUSLT.BAN", 252, 14, 9u, kStatusLightResID, PalId::Default}, kNullAnimDetails },
-
-    {AnimId::Stone_Ball, kNullAnimDetails, { "F2STNBAL.BAN", 15596, 131, 64, AO::kF2stnbalAOResID, PalId::Default} },
+        
+    // It appears that ROLLROCK.BAN is only present in the demo version of AE
+    {AnimId::Stone_Ball, 
+        { "ROLLROCK.BAN", 15728, 132, 64, kF2stnbalResID, PalId::Default},
+        { "F2STNBAL.BAN", 15596, 131, 64, AO::kF2stnbalAOResID, PalId::Default} },
+    {AnimId::Stone_Ball_Rolling,
+        { "ROLLROCK.BAN", 15740, 132, 64, kF2stnbalResID, PalId::Default},
+        { "F2STNBAL.BAN", 15608, 131, 64, AO::kF2stnbalAOResID, PalId::Default} 
+    },
     {AnimId::Stone_Ball_Stopper, kNullAnimDetails, { "F2STNSCK.BAN", 1256, 106, 73, AO::kF2stnsckAOResID, PalId::Default} },
     {AnimId::Swinging_Ball_Fast, kNullAnimDetails, { "F2ZBALL.BAN", 72288, 143, 182, AO::kF2zballAOResID, PalId::Default} },
     {AnimId::Swinging_Ball_Normal, kNullAnimDetails, { "F2ZBALL.BAN", 72172, 143, 182, AO::kF2zballAOResID, PalId::Default} },
@@ -1685,7 +1697,10 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
     {AnimId::Lines_Lever_Pull_Right, kNullAnimDetails, {"L1SWITCH.BAN", 5488, 66, 41, AO::kLeverAOResID, PalId::Default}},
     {AnimId::Lines_Lever_Pull_Release_Right, kNullAnimDetails, {"L1SWITCH.BAN", 5540, 66, 41, AO::kLeverAOResID, PalId::Default}},
 
-    {AnimId::TimedMine_Activated, { "BOMB.BND", 848, 35, 17, kBombResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::TimedMine_Activated,
+        { "BOMB.BND", 848, 35, 17, kBombResID, PalId::Default},
+        { "BOMB.BND", 804, 35, 17, AO::kBombAOResID, PalId::Default}
+        },
     {AnimId::TimedMine_Idle, 
         { "BOMB.BND", 836, 35, 17, kBombResID, PalId::Default},
         { "BOMB.BND", 792, 35, 17, AO::kBombAOResID, PalId::Default}

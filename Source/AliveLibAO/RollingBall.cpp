@@ -129,8 +129,7 @@ void RollingBall::VUpdate()
             {
                 mVelY = FP_FromDouble(2.5);
                 mState = States::eStartRolling;
-                // TODO: missing anim id
-                mAnim.Set_Animation_Data(15608, 0);
+                mAnim.Set_Animation_Data(AnimId::Stone_Ball_Rolling, nullptr);
                 mRollingBallShaker = relive_new RollingBallShaker();
                 if (mRollingBallShaker)
                 {
