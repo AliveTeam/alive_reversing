@@ -27,10 +27,9 @@ void Recorder::SaveObjectStates()
     for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
     {
         BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
-        while (pObj->field_4_typeId == AO::Types::eLoadingFile_39)
+        if (pObj->field_4_typeId == AO::Types::eLoadingFile_39)
         {
-            i++;
-            pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
+            continue;
         }
 
         const s16 objType = static_cast<s16>(pObj->field_4_typeId);
@@ -118,22 +117,22 @@ bool Player::ValidateObjectStates()
 
     for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
     {
-        s16 objType = 0;
-        mFile.Read(objType);
-
         BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
         // Skip loading files
-        while (pObj->field_4_typeId == AO::Types::eLoadingFile_39)
+        if (pObj->field_4_typeId == AO::Types::eLoadingFile_39)
         {
-            i++;
-            pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
+            continue;
         }
+
+        s16 objType = 0;
+        mFile.Read(objType);
 
         if (static_cast<s16>(pObj->field_4_typeId) != objType)
         {
             LOG_ERROR("Got " << static_cast<s16>(pObj->field_4_typeId) << " type but expected " << objType);
             validateFailed |= true;
         }
+
         if (!ValidateBaseAliveGameObject(pObj))
         {
             validateFailed |= true;
