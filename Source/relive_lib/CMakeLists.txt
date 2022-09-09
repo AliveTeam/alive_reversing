@@ -83,6 +83,8 @@ SET(relive_lib_src
     data_conversion/relive_tlvs_serialization.hpp
     data_conversion/PathTlvsAE.hpp
     data_conversion/PathTlvsAO.hpp
+    data_conversion/AnimConversionInfo.hpp
+    data_conversion/AnimConversionInfo.cpp
     Layer.hpp
     stdafx.h
 )
