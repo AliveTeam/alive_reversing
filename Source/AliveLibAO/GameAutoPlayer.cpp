@@ -5,14 +5,33 @@
 #include "Input.hpp"
 
 namespace AO {
+static s32 CountWithOutLoadingFiles()
+{
+    s32 ret = 0;
+    for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
+    {
+        if (gBaseGameObjects->ItemAt(i)->Type() != ReliveTypes::eLoadingFile)
+        {
+            ret++;
+        }
+    }
+    return ret;
+}
+
 void Recorder::SaveObjectStates()
 {
-    const u32 objCount = gBaseGameObjects->Size();
+    const u32 objCount = CountWithOutLoadingFiles();
     mFile.Write(objCount);
 
-    for (u32 i = 0; i < objCount; i++)
+    for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
     {
         BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
+        while (pObj->Type() == ReliveTypes::eLoadingFile)
+        {
+            i++;
+            pObj = gBaseGameObjects->ItemAt(i);
+        }
+
         const s16 objType = static_cast<s16>(BaseGameObject::ToAO(pObj->mBaseGameObjectTypeId));
         ::fwrite(&objType, sizeof(s16), 1, mFile.GetFile());
 
@@ -76,19 +95,6 @@ bool Player::ValidateBaseAliveGameObject(BaseGameObject* pObj)
     return true;
 }
 
-static s32 CountWithOutLoadingFiles()
-{
-    s32 ret = 0;
-    for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
-    {
-        if (gBaseGameObjects->ItemAt(i)->Type() != ReliveTypes::eLoadingFile)
-        {
-            ret++;
-        }
-    }
-    return ret;
-}
-
 bool Player::ValidateObjectStates()
 {
     u32 objCount = 0;
@@ -111,6 +117,7 @@ bool Player::ValidateObjectStates()
             // Skip loading files
             while (pObj->Type() == ReliveTypes::eLoadingFile)
             {
+                i++;
                 pObj = gBaseGameObjects->ItemAt(i);
             }
 
@@ -152,6 +159,7 @@ bool Player::ValidateObjectStates()
             // Skip loading files
             while (pObj->Type() == ReliveTypes::eLoadingFile)
             {
+                i++;
                 pObj = gBaseGameObjects->ItemAt(i);
             }
 

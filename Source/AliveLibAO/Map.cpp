@@ -1640,6 +1640,7 @@ void Map::GoTo_Camera()
 
         // TODO: Jayson!
         //ResourceManager::LoadResourceFile_455270(Path_Get_BndName(mNextLevel), nullptr);
+        ResourceManager::LoadingLoop_41EAD0(0); // TODO: required to prevent de-sync
 
 
         // TODO: Load level_info.json so we know which path jsons to load for this level

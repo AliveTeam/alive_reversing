@@ -33,9 +33,7 @@ enum SyncPoints : u32
     IncrementFrame = 12,
     MainLoopExit = 13,
     RenderOT = 14,
-    PumpEventsEnd = 17,
-    LoadingLoopStart = 18,
-    LoadingLoopEnd = 19,
+    PumpEventsEnd = 17
 };
 
 struct RecordedEvent final
