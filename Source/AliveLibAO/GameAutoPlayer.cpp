@@ -24,7 +24,7 @@ void Recorder::SaveObjectStates()
     const u32 objCount = CountWithOutLoadingFiles();
     mFile.Write(objCount);
 
-    for (u32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+    for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
     {
         BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
         while (pObj->field_4_typeId == AO::Types::eLoadingFile_39)
