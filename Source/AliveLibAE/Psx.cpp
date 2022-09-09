@@ -879,7 +879,13 @@ EXPORT s32 CC PSX_VSync_4F6170(s32 mode)
         sVSyncLastMillisecond_BD0F2C = currentTime;
     }
 
-    if (mode == 1 || (GetGameAutoPlayer().IsPlaying() && GetGameAutoPlayer().NoFpsLimitPlayBack())) // Ignore Frame cap
+    if (GetGameAutoPlayer().IsPlaying() && GetGameAutoPlayer().NoFpsLimitPlayBack())
+    {
+        // Uncapped playback
+        return 0;
+    }
+
+    if (mode == 1) // Ignore Frame cap
     {
         sVSync_Unused_578325 = 1;
         const s32 v3 = (s32)((s64)(1172812403ULL * (s32)(240 * (currentTime - sVSyncLastMillisecond_BD0F2C))) >> 32) >> 14;
@@ -893,32 +899,39 @@ EXPORT s32 CC PSX_VSync_4F6170(s32 mode)
     }
     else
     {
-        s32 frameTimeInMilliseconds = currentTime - sVSyncLastMillisecond_BD0F2C;
-        if (mode > 0 && frameTimeInMilliseconds < 1000 * mode / 60)
+        // During recording or playback do not call SsSeqCalledTbyT_4FDC80 an undeterminate
+        // amount of times as this can leak to de-syncs.
+        if (GetGameAutoPlayer().IsRecording() || GetGameAutoPlayer().IsPlaying())
         {
-            s32 timeSinceLastFrame = 0;
-            sVSync_Unused_578325 = 1;
-
-            do
+            s32 frameTimeInMilliseconds = currentTime - sVSyncLastMillisecond_BD0F2C;
+            if (mode > 0 && frameTimeInMilliseconds < 1000 * mode / 60)
             {
-                timeSinceLastFrame = SYS_GetTicks() - sVSyncLastMillisecond_BD0F2C;
-                SsSeqCalledTbyT_4FDC80();
-                
-                // Prevent max CPU usage, will probably cause stuttering on weaker machines
-                if (gLatencyHack)
+                s32 timeSinceLastFrame = 0;
+                sVSync_Unused_578325 = 1;
+
+                do
                 {
-                    SDL_Delay(1);
+                    timeSinceLastFrame = SYS_GetTicks() - sVSyncLastMillisecond_BD0F2C;
+                    SsSeqCalledTbyT_4FDC80();
+
+                    // Prevent max CPU usage, will probably cause stuttering on weaker machines
+                    if (gLatencyHack)
+                    {
+                        SDL_Delay(1);
+                    }
                 }
+                while (timeSinceLastFrame < 1000 * mode / 60);
+
+                frameTimeInMilliseconds = 1000 * mode / 60;
             }
-            while (timeSinceLastFrame < 1000 * mode / 60);
 
-            frameTimeInMilliseconds = 1000 * mode / 60;
+
+            sVSyncLastMillisecond_BD0F2C += frameTimeInMilliseconds;
+            sLastFrameTimestampMilliseconds_BD0F24 = currentTime + frameTimeInMilliseconds;
+
+            return 240 * frameTimeInMilliseconds / 60000;
         }
-
-        sVSyncLastMillisecond_BD0F2C += frameTimeInMilliseconds;
-        sLastFrameTimestampMilliseconds_BD0F24 = currentTime + frameTimeInMilliseconds;
-
-        return 240 * frameTimeInMilliseconds / 60000;
+        return 0;
     }
 }
 

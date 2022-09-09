@@ -76,18 +76,31 @@ bool Player::ValidateBaseAliveGameObject(BaseGameObject* pObj)
     return true;
 }
 
+static s32 CountWithOutLoadingFiles()
+{
+    s32 ret = 0;
+    for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
+    {
+        if (gBaseGameObject_list_9F2DF0->ItemAt(i)->field_4_typeId != AO::Types::eLoadingFile_39)
+        {
+            ret++;
+        }
+    }
+    return ret;
+}
+
 bool Player::ValidateObjectStates()
 {
     u32 objCount = 0;
     mFile.Read(objCount);
 
     bool validateFailed = false;
-    if (static_cast<u32>(gBaseGameObject_list_9F2DF0->Size()) != objCount)
+    if (CountWithOutLoadingFiles() != static_cast<s32>(objCount))
     {
-        LOG_ERROR("Got " << gBaseGameObject_list_9F2DF0->Size() << " objects but expected " << objCount);
+        LOG_ERROR("Got " << CountWithOutLoadingFiles() << " objects but expected " << objCount);
         validateFailed = true;
         // TODO: This can be smarter and try to validate the list until the obj types no longer match
-        for (u32 i = 0; i < objCount; i++)
+        for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
         {
             s16 objType = 0;
             mFile.Read(objType);
@@ -96,12 +109,18 @@ bool Player::ValidateObjectStates()
         return validateFailed;
     }
 
-    for (u32 i = 0; i < objCount; i++)
+    for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
     {
         s16 objType = 0;
         mFile.Read(objType);
 
         BaseGameObject* pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
+        // Skip loading files
+        while (pObj->field_4_typeId == AO::Types::eLoadingFile_39)
+        {
+            pObj = gBaseGameObject_list_9F2DF0->ItemAt(i);
+        }
+
         if (static_cast<s16>(pObj->field_4_typeId) != objType)
         {
             LOG_ERROR("Got " << static_cast<s16>(pObj->field_4_typeId) << " type but expected " << objType);
