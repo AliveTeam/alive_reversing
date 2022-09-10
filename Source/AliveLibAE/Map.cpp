@@ -674,10 +674,7 @@ void Map::GoTo_Camera()
             Display_Full_Screen_Message_Blocking(Path_Get_Unknown(mNextLevel), MessageType::eLongTitle_0);
         }
 
-        // Open Path BND
-       // ResourceManager::LoadResourceFile_49C170(Path_Get_BndName(mNextLevel), nullptr);
-        pResourceManager_5C1BB0->LoadingLoop_465590(0); // prevent desync
-        
+
         // TODO: Load level_info.json so we know which path jsons to load for this level
         FileSystem::Path pathDir;
         pathDir.Append("relive_data").Append("ae").Append(ToString(MapWrapper::ToAE(mNextLevel))).Append("paths");
