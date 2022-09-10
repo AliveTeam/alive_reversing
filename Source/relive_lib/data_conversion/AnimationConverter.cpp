@@ -3,6 +3,7 @@
 #include "../../AliveLibCommon/BaseGameAutoPlayer.hpp"
 #include "../Compression.hpp"
 #include "../../AliveLibAE/Compression.hpp" // TODO: combine with common compression files
+#include "../PsxDisplay.hpp" // PsxToPCX
 
 struct PerFrameInfo final
 {
@@ -116,6 +117,7 @@ AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const
     {
         const FrameHeader* pFrameHeader = GetFrame(pAnimationHeader, i);
 
+
         // TODO: HACK ignore broken type for now
         if (pFrameHeader->field_7_compression_type == CompressionType::eType_0_NoCompression)
         {
@@ -159,7 +161,14 @@ AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const
         perFrameInfos[i].mHeight = pFrameHeader->field_5_height;
 
         const FrameInfoHeader* pFrameInfoHeader = GetFrameInfoHeader(pAnimationHeader, i);
-        perFrameInfos[i].mXOffset = pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.x;
+        if (mIsAoData)
+        {
+            perFrameInfos[i].mXOffset = PsxToPCX(pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.x);
+        }
+        else
+        {
+            perFrameInfos[i].mXOffset = pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.x;
+        }
         perFrameInfos[i].mYOffset = pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.y;
 
         perFrameInfos[i].mSpriteSheetX = bestMaxSize.mMaxW * i;
