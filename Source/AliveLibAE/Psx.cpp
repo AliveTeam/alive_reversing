@@ -899,19 +899,19 @@ EXPORT s32 CC PSX_VSync_4F6170(s32 mode)
     }
     else
     {
-        // During recording or playback do not call SsSeqCalledTbyT_4FDC80 an undeterminate
-        // amount of times as this can leak to de-syncs.
-        if (GetGameAutoPlayer().IsRecording() || GetGameAutoPlayer().IsPlaying())
+        s32 frameTimeInMilliseconds = currentTime - sVSyncLastMillisecond_BD0F2C;
+        if (mode > 0 && frameTimeInMilliseconds < 1000 * mode / 60)
         {
-            s32 frameTimeInMilliseconds = currentTime - sVSyncLastMillisecond_BD0F2C;
-            if (mode > 0 && frameTimeInMilliseconds < 1000 * mode / 60)
-            {
-                s32 timeSinceLastFrame = 0;
-                sVSync_Unused_578325 = 1;
+            s32 timeSinceLastFrame = 0;
+            sVSync_Unused_578325 = 1;
 
-                do
+            do
+            {
+                timeSinceLastFrame = SYS_GetTicks() - sVSyncLastMillisecond_BD0F2C;
+                // During recording or playback do not call SsSeqCalledTbyT_4FDC80 an undeterminate
+                // amount of times as this can leak to de-syncs.
+                if (!GetGameAutoPlayer().IsRecording() && !GetGameAutoPlayer().IsPlaying())
                 {
-                    timeSinceLastFrame = SYS_GetTicks() - sVSyncLastMillisecond_BD0F2C;
                     SsSeqCalledTbyT_4FDC80();
 
                     // Prevent max CPU usage, will probably cause stuttering on weaker machines
@@ -920,18 +920,16 @@ EXPORT s32 CC PSX_VSync_4F6170(s32 mode)
                         SDL_Delay(1);
                     }
                 }
-                while (timeSinceLastFrame < 1000 * mode / 60);
-
-                frameTimeInMilliseconds = 1000 * mode / 60;
             }
+            while (timeSinceLastFrame < 1000 * mode / 60);
 
-
-            sVSyncLastMillisecond_BD0F2C += frameTimeInMilliseconds;
-            sLastFrameTimestampMilliseconds_BD0F24 = currentTime + frameTimeInMilliseconds;
-
-            return 240 * frameTimeInMilliseconds / 60000;
+            frameTimeInMilliseconds = 1000 * mode / 60;
         }
-        return 0;
+
+        sVSyncLastMillisecond_BD0F2C += frameTimeInMilliseconds;
+        sLastFrameTimestampMilliseconds_BD0F24 = currentTime + frameTimeInMilliseconds;
+
+        return 240 * frameTimeInMilliseconds / 60000;
     }
 }
 
