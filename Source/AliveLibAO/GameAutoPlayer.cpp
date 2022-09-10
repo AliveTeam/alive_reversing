@@ -26,7 +26,7 @@ void Recorder::SaveObjectStates()
     for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
     {
         BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
-        while (pObj->Type() == ReliveTypes::eLoadingFile)
+        if (pObj->Type() == ReliveTypes::eLoadingFile)
         {
             continue;
         }
@@ -109,7 +109,7 @@ bool Player::ValidateObjectStates()
         {
             BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
             // Skip loading files
-            while (pObj->Type() == ReliveTypes::eLoadingFile)
+            if (pObj->Type() == ReliveTypes::eLoadingFile)
             {
                 continue;
             }
@@ -133,9 +133,9 @@ bool Player::ValidateObjectStates()
             {
                 const BaseGameObject* pExtraObj = gBaseGameObjects->ItemAt(i);
                 // Skip loading files
-                while (pExtraObj->Type() == ReliveTypes::eLoadingFile)
+                if (pExtraObj->Type() == ReliveTypes::eLoadingFile)
                 {
-                    pExtraObj = gBaseGameObjects->ItemAt(i);
+                    continue;
                 }
                 const s32 aoType = static_cast<s32>(BaseGameObject::ToAO(pExtraObj->Type()));
                 LOG_INFO("Extra obj type is : " << aoType);
