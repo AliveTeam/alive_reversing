@@ -89,6 +89,14 @@ struct AnimRecConversionInfo final
     bool mConverted;
 };
 
+struct BgAnimRecConversionInfo final
+{
+    u32 mBgAnimId;
+    EReliveLevelIds mAeLvl; // LVL this anim exists in for AE
+    EReliveLevelIds mAoLvl; // LVL this anim exists in for AO
+    bool mConverted;
+};
+
 struct AnimRecNames final
 {
     AnimId mAnimId;
