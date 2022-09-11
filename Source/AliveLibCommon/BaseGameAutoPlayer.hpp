@@ -103,6 +103,13 @@ public:
         return ::fread(&value, sizeof(TypeToRead), 1, mFile) == 1;
     }
 
+    template <typename TypeToRead>
+    bool Read(std::vector<TypeToRead>& value)
+    {
+        static_assert(std::is_pod<TypeToRead>::value, "std::vector<TypeToRead> must be pod");
+        return ::fread(value.data(), sizeof(TypeToRead), value.size(), mFile) == 1;
+    }
+
     u32 PeekU32();
 
     u32 ReadU32() const;

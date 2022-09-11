@@ -61,13 +61,40 @@ public:
 
     std::string LoadToString(const Path& path)
     {
-        FILE* pFile = ::fopen(path.GetPath().c_str(), "rb");
+        return LoadToString(path.GetPath().c_str());
+    }
+
+    std::string LoadToString(const char* path)
+    {
+        FILE* pFile = ::fopen(path, "rb");
         if (pFile)
         {
             ::fseek(pFile, 0, SEEK_END);
             const auto fsize = ftell(pFile);
             ::fseek(pFile, 0, SEEK_SET);
             std::string r;
+            r.resize(fsize);
+            ::fread(r.data(), 1, fsize, pFile);
+            ::fclose(pFile);
+            return r;
+        }
+        return {};
+    }
+
+    std::vector<u8> LoadToVec(const Path& path)
+    {
+        return LoadToVec(path.GetPath().c_str());
+    }
+
+    std::vector<u8> LoadToVec(const char* path)
+    {
+        FILE* pFile = ::fopen(path, "rb");
+        if (pFile)
+        {
+            ::fseek(pFile, 0, SEEK_END);
+            const auto fsize = ftell(pFile);
+            ::fseek(pFile, 0, SEEK_SET);
+            std::vector<u8> r;
             r.resize(fsize);
             ::fread(r.data(), 1, fsize, pFile);
             ::fclose(pFile);

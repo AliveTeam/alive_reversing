@@ -956,11 +956,12 @@ static void ConvertAnimations(const FileSystem::Path& dataDir, FileSystem& fs, s
                         FileSystem::Path filePath = dataDir;
                         filePath.Append("animations");
 
-                        // e.g "abe"
-                        filePath.Append(ToString(rec.mGroup));
-
                         // Ensure the containing directory exists
                         fs.CreateDirectory(filePath);
+
+                        // TODO: FIX ME
+                        // e.g "abe"
+                        // filePath.Append(ToString(rec.mGroup));
 
                         // e.g "arm_gib"
                         const char_type* enum_name = magic_enum::enum_name(rec.mAnimId).data();

@@ -6,6 +6,40 @@
 //#include "BaseAliveGameObject.hpp"
 #include "GameType.hpp"
 
+// TODO: Make this the only ctor
+Particle::Particle(FP xpos, FP ypos, AnimId animId, bool explosionSizeHack)
+    : BaseAnimatedWithPhysicsGameObject(0)
+{
+    SetType(ReliveTypes::eParticle);
+
+    AnimResource res = ResourceManagerWrapper::LoadAnimation(animId);
+    //mAnims.push_back(res); // TODO: Might need this 
+
+    mRGB.SetRGB(128, 128, 128);
+
+    if (!explosionSizeHack)
+    {
+        // TODO
+        //Animation_Init(res);
+    }
+    else
+    {
+        // AnimId::Explosion_Small and AnimId::Explosion have different width/height but for some reason
+        // OG inits both with the AnimId::Explosion width and height in Explosion.cpp
+        // TODO
+        //Animation_Init(res, 202, 91);
+    }
+
+    if (mBaseGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
+    {
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    }
+
+    mXPos = xpos;
+    mYPos = ypos;
+    field_F4_scale_amount = FP_FromInteger(0);
+}
+
 Particle::Particle(FP xpos, FP ypos, AnimId animId, u8** ppAnimData, bool explosionSizeHack)
     : BaseAnimatedWithPhysicsGameObject(0)
 {

@@ -1,6 +1,87 @@
 #pragma once
 
 #include "../AliveLibCommon/Types.hpp"
+#include "../AliveLibCommon/AnimResources.hpp"
+#include "data_conversion/AnimationConverter.hpp" // TODO: Don't depend on this
+#include <memory>
+#include <map>
+
+enum class AnimId;
+
+struct TgaData final
+{
+    AnimationPal mPal;
+    std::vector<u8> mPixels;
+    u32 mWidth;
+    u32 mHeight;
+};
+
+struct Point32 final
+{
+    s32 x = 0;
+    s32 y = 0;
+};
+
+struct PerFrameInfo final
+{
+    s32 mXOffset = 0;
+    s32 mYOffset = 0;
+    u32 mWidth = 0;
+    u32 mHeight = 0;
+    u32 mSpriteSheetX = 0;
+    u32 mSpriteSheetY = 0;
+    Point32 mBoundMin;
+    Point32 mBoundMax;
+    u32 mPointCount = 0;
+    Point32 mPoints[2] = {};
+};
+
+struct AnimAttributes final
+{
+    u32 mFrameRate;
+    bool mFlipX;
+    bool mFlipY;
+    bool mLoop;
+    u32 mLoopStartFrame;
+    u32 mMaxWidth;
+    u32 mMaxHeight;
+};
+
+class AnimationAttributesAndFrames final
+{
+public:
+    explicit AnimationAttributesAndFrames(const std::string& jsonData);
+    AnimAttributes mAttributes;
+    std::vector<PerFrameInfo> mFrames;
+};
+
+class AnimResource final
+{
+public:
+    AnimResource()
+    {
+
+    }
+
+    AnimResource(AnimId id, std::shared_ptr<AnimationAttributesAndFrames>& jsonRes, std::shared_ptr<TgaData>& tgaRes)
+        : mId(id)
+        , mJsonPtr(jsonRes)
+        , mTgaPtr(tgaRes)
+    {
+    }
+
+    void Clear()
+    {
+        mId = AnimId::None;
+        mJsonPtr = nullptr;
+        mTgaPtr = nullptr;
+    }
+
+public:
+    AnimId mId = AnimId::None;
+    std::shared_ptr<AnimationAttributesAndFrames> mJsonPtr;
+    std::shared_ptr<TgaData> mTgaPtr;
+};
 
 // Temp adapter interface
 class ResourceManagerWrapper
@@ -50,5 +131,15 @@ public:
 
     static void Inc_Ref_Count(u8** ppRes);
     static Header* Get_Header(u8** ppRes);
+
+    // == new res manager interface ==
+
+
+    // TODO: needs to be async like og
+    static AnimResource LoadAnimation(AnimId anim);
+
+private:
+    // TODO: don't use stl directly
+    static std::map<AnimId, std::pair<std::weak_ptr<AnimationAttributesAndFrames>, std::weak_ptr<TgaData>>> mAnims;
 };
 

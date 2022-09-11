@@ -43,6 +43,7 @@
 #include "GameAutoPlayer.hpp"
 #include "Function.hpp"
 #include "../relive_lib/ShadowZone.hpp"
+#include "../relive_lib/ResourceManagerWrapper.hpp"
 #include <string>
 
 using TExitGameCallBack = AddPointer_t<void CC()>;
@@ -426,8 +427,12 @@ void DDCheat_Allocate_415320()
 void Game_Loop_467230();
 
 
+static AnimResource gLoadingResource;
+
 void Game_Init_LoadingIcon_482CD0()
 {
+    //gLoadingResource = ResourceManagerWrapper::LoadAnimation(AnimId::Mudokon_FallLandDie);
+
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kLoadingResID, 1u, 0);
     if (!ppRes)
     {
@@ -439,6 +444,8 @@ void Game_Init_LoadingIcon_482CD0()
 
 void Game_Free_LoadingIcon_482D40()
 {
+    //gLoadingResource.Clear();
+    
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kLoadingResID, 0, 0);
     if (ppRes)
     {

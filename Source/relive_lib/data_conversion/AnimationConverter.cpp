@@ -4,18 +4,17 @@
 #include "../Compression.hpp"
 #include "../../AliveLibAE/Compression.hpp" // TODO: combine with common compression files
 #include "../PsxDisplay.hpp" // PsxToPCX
+#include "ResourceManagerWrapper.hpp"
 
-struct PerFrameInfo final
+inline void to_json(nlohmann::json& j, const Point32& p)
 {
-    s32 mXOffset = 0;
-    s32 mYOffset = 0;
-    u32 mWidth = 0;
-    u32 mHeight = 0;
-    u32 mSpriteSheetX = 0;
-    u32 mSpriteSheetY = 0;
-};
+    j = nlohmann::json{
+        {"x", p.x},
+        {"y", p.y},
+    };
+}
 
-void to_json(nlohmann::json& j, const PerFrameInfo& p)
+inline void to_json(nlohmann::json& j, const PerFrameInfo& p)
 {
     j = nlohmann::json{
         {"x_offset", p.mXOffset},
@@ -24,67 +23,152 @@ void to_json(nlohmann::json& j, const PerFrameInfo& p)
         {"height", p.mHeight},
         {"sprite_sheet_x", p.mSpriteSheetX},
         {"sprite_sheet_y", p.mSpriteSheetY},
-
+        {"bound_max", p.mBoundMax},
+        {"bound_min", p.mBoundMin},
+        {"points_count", p.mPointCount},
     };
+
+    if (p.mPointCount > 0)
+    {
+        j["points"] = p.mPoints;
+    }
 }
 
-void from_json(const nlohmann::json& j, PerFrameInfo& p)
+inline void to_json(nlohmann::json& j, const AnimAttributes& p)
 {
-    j.at("x_offset").get_to(p.mXOffset);
-    j.at("y_offset").get_to(p.mYOffset);
-    j.at("width").get_to(p.mWidth);
-    j.at("height").get_to(p.mHeight);
-    j.at("sprite_sheet_x").get_to(p.mSpriteSheetX);
-    j.at("sprite_sheet_y").get_to(p.mSpriteSheetY);
+    j = nlohmann::json{
+        {"frame_rate", p.mFrameRate},
+        {"flip_x", p.mFlipX},
+        {"flip_y", p.mFlipY},
+        {"loop", p.mLoop},
+        {"loop_start_frame", p.mLoopStartFrame},
+        {"max_width", p.mMaxWidth},
+        {"max_height", p.mMaxHeight},
+    };
 }
 
 
 // TODO: Should be its own  file 
-class TgaFile final
+void TgaFile::Load(const char_type* pFileName, AnimationPal& pal256, std::vector<u8>& pixelData, u32& width, u32& height)
 {
-public:
-    void Save(const char_type* pFileName, const AnimationPal& pal256, const std::vector<u8>& pixelData, u32 width, u32 height)
+    AutoFILE f;
+    f.Open(pFileName, "rb", false);
+
+    u8 mIdLength = 0;
+    u8 mColourMapType = 0; // Pal based TGA
+    u8 mImageType = 0;     // Pal based TGA
+
+    f.Read(mIdLength);
+    f.Read(mColourMapType);
+    if (mColourMapType != 1)
     {
-        // The TGA header uses a var length id string which means we can't just use
-        // a struct to represent it since the alignment is not fixed until after this field.
-        AutoFILE f;
-        f.Open(pFileName, "wb", false);
-
-        u8 mIdLength = 0;
-        u8 mColourMapType = 1; // Pal based TGA
-        u8 mImageType = 1;     // Pal based TGA
-
-        f.Write(mIdLength);
-        f.Write(mColourMapType);
-        f.Write(mImageType);
-
-        // Colour Map
-        u16 mFirstEntry = 0;
-        u16 mNumEntries = 256;
-        u8 mBitsPerEntry = 16;
-        f.Write(mFirstEntry);
-        f.Write(mNumEntries);
-        f.Write(mBitsPerEntry);
-
-        u16 mXOrigin = 0;
-        u16 mYOrigin = 0;
-        u16 mWidth = static_cast<u16>(width);
-        u16 mHeight = static_cast<u16>(height);
-        u8 mBitsPerPixel = 8;
-        u8 mDescriptor = 0x20; // 0x30
-        f.Write(mXOrigin);
-        f.Write(mYOrigin);
-        f.Write(mWidth);
-        f.Write(mHeight);
-        f.Write(mBitsPerPixel);
-        f.Write(mDescriptor);
-
-        f.Write(reinterpret_cast<const u8*>(&pal256.mPal[0]), sizeof(u16) * 256);
-
-        // Write pixel data
-        f.Write(pixelData);
+        // TODO: error
     }
-};
+
+    f.Read(mImageType);
+    if (mImageType != 1)
+    {
+        // TODO: error
+    }
+
+    // Colour Map
+    u16 mFirstEntry = 0;
+    u16 mNumEntries = 0;
+    u8 mBitsPerEntry = 0;
+    f.Read(mFirstEntry);
+
+
+    f.Read(mNumEntries);
+    if (mNumEntries != 256)
+    {
+
+    }
+
+    f.Read(mBitsPerEntry);
+    if (mBitsPerEntry != 16)
+    {
+
+    }
+
+
+    u16 mXOrigin = 0;
+    u16 mYOrigin = 0;
+    u16 mWidth = 0;
+    u16 mHeight = 0;
+    u8 mBitsPerPixel = 0;
+    u8 mDescriptor = 0;
+    f.Read(mXOrigin);
+    f.Read(mYOrigin);
+    f.Read(mWidth);
+    f.Read(mHeight);
+    f.Read(mBitsPerPixel);
+    if (mBitsPerPixel != 8)
+    {
+
+    }
+
+    f.Read(mDescriptor);
+    if (mDescriptor != 0x20)
+    {
+
+    }
+
+    height = mHeight;
+    width = mWidth;
+
+    // TODO: Array read
+    std::vector<u8> pal;
+    pal.resize(256 * 2);
+    f.Read(pal);
+    memcpy(pal256.mPal, pal.data(), 256 * 2);
+
+
+    pixelData.resize(mWidth*mHeight * mBitsPerPixel);
+    f.Read(pixelData);
+}
+
+void TgaFile::Save(const char_type* pFileName, const AnimationPal& pal256, const std::vector<u8>& pixelData, u32 width, u32 height)
+{
+    // The TGA header uses a var length id string which means we can't just use
+    // a struct to represent it since the alignment is not fixed until after this field.
+    AutoFILE f;
+    f.Open(pFileName, "wb", false);
+
+    u8 mIdLength = 0;
+    u8 mColourMapType = 1; // Pal based TGA
+    u8 mImageType = 1;     // Pal based TGA
+
+    f.Write(mIdLength);
+    f.Write(mColourMapType);
+    f.Write(mImageType);
+
+    // Colour Map
+    u16 mFirstEntry = 0;
+    u16 mNumEntries = 256;
+    u8 mBitsPerEntry = 16;
+    f.Write(mFirstEntry);
+    f.Write(mNumEntries);
+    f.Write(mBitsPerEntry);
+
+    u16 mXOrigin = 0;
+    u16 mYOrigin = 0;
+    u16 mWidth = static_cast<u16>(width);
+    u16 mHeight = static_cast<u16>(height);
+    u8 mBitsPerPixel = 8;
+    u8 mDescriptor = 0x20; // 0x30
+    f.Write(mXOrigin);
+    f.Write(mYOrigin);
+    f.Write(mWidth);
+    f.Write(mHeight);
+    f.Write(mBitsPerPixel);
+    f.Write(mDescriptor);
+
+    f.Write(reinterpret_cast<const u8*>(&pal256.mPal[0]), sizeof(u16) * 256);
+
+    // Write pixel data
+    f.Write(pixelData);
+}
+
 
 AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const AnimRecord& rec, const std::vector<u8>& fileData, bool isAoData)
     : mFileData(fileData)
@@ -115,21 +199,10 @@ AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const
     std::vector<PerFrameInfo> perFrameInfos(pAnimationHeader->field_2_num_frames);
     for (s32 i = 0; i < pAnimationHeader->field_2_num_frames; i++)
     {
+        const FrameInfoHeader* pFrameInfoHeader = GetFrameInfoHeader(pAnimationHeader, i);
+
         const FrameHeader* pFrameHeader = GetFrame(pAnimationHeader, i);
 
-
-        // TODO: HACK ignore broken type for now
-        if (pFrameHeader->field_7_compression_type == CompressionType::eType_0_NoCompression)
-        {
-           // LOG_WARNING("TODO: Type 0 compression");
-            //continue;
-        }
-
-        if (pFrameHeader->field_7_compression_type == CompressionType::eType_2_ThreeToFourBytes)
-        {
-            //LOG_WARNING("TODO: Type 2 compression");
-           // continue;
-        }
 
         DecompressAnimFrame(decompressionBuffer, pFrameHeader);
 
@@ -160,7 +233,6 @@ AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const
         perFrameInfos[i].mWidth = pFrameHeader->field_4_width;
         perFrameInfos[i].mHeight = pFrameHeader->field_5_height;
 
-        const FrameInfoHeader* pFrameInfoHeader = GetFrameInfoHeader(pAnimationHeader, i);
         if (mIsAoData)
         {
             perFrameInfos[i].mXOffset = PsxToPCX(pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.x);
@@ -174,6 +246,24 @@ AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const
         perFrameInfos[i].mSpriteSheetX = bestMaxSize.mMaxW * i;
         perFrameInfos[i].mSpriteSheetY = 0;
 
+        perFrameInfos[i].mBoundMin.x = pFrameInfoHeader->field_8_data.offsetAndRect.mMin.x;
+        perFrameInfos[i].mBoundMin.y = pFrameInfoHeader->field_8_data.offsetAndRect.mMin.y;
+
+        perFrameInfos[i].mBoundMax.x = pFrameInfoHeader->field_8_data.offsetAndRect.mMax.x;
+        perFrameInfos[i].mBoundMax.y = pFrameInfoHeader->field_8_data.offsetAndRect.mMax.y;
+
+        perFrameInfos[i].mPointCount = pFrameInfoHeader->field_6_count;
+        if (pFrameInfoHeader->field_6_count > 2)
+        {
+            ALIVE_FATAL("No OG data should have more than 2 points");
+        }
+
+        for (s32 j = 0; j < pFrameInfoHeader->field_6_count; j++)
+        {
+            perFrameInfos[i].mPoints[j].x = pFrameInfoHeader->field_8_data.points[3 + j].x;
+            perFrameInfos[i].mPoints[j].y = pFrameInfoHeader->field_8_data.points[3 + j].y;
+        }
+
         // Clear because the buffer is re-used to reduce memory allocs
         decompressionBuffer.clear();
         decompressionBuffer.resize(decompressionBufferSize);
@@ -183,18 +273,19 @@ AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const
     tgaFile.Save((outputFile.GetPath() + ".tga").c_str(), pal, spriteSheetBuffer, sheetWidth, bestMaxSize.mMaxH);
 
     // Write json file
-    nlohmann::json animJsonInfo = {
-        // TODO: Current values are kind of nonsense, map to something sane
-        {"frame_rate", pAnimationHeader->field_0_fps},
-        {"flip_x", (pAnimationHeader->field_6_flags & AnimationHeader::eFlipXFlag) ? true : false},
-        {"flip_y", (pAnimationHeader->field_6_flags & AnimationHeader::eFlipYFlag) ? true : false},
-        {"loop", (pAnimationHeader->field_6_flags & AnimationHeader::eLoopFlag) ? true : false},
-        {"loop_start_frame", pAnimationHeader->field_4_loop_start_frame},
-        //{"number_of_frames", pAnimationHeader->field_2_num_frames},
-        // TODO: Remove if not really needed (check after loader is impl'd)
-        {"max_width", bestMaxSize.mMaxW},
-        {"max_height", bestMaxSize.mMaxH}};
+    AnimAttributes attributes = {};
+    // TODO: Current values are kind of nonsense, map to something sane
+    attributes.mFrameRate = pAnimationHeader->field_0_fps;
+    attributes.mFlipX = (pAnimationHeader->field_6_flags & AnimationHeader::eFlipXFlag) ? true : false;
+    attributes.mFlipY = (pAnimationHeader->field_6_flags & AnimationHeader::eFlipYFlag) ? true : false;
+    attributes.mLoop = (pAnimationHeader->field_6_flags & AnimationHeader::eLoopFlag) ? true : false;
+    attributes.mLoopStartFrame = pAnimationHeader->field_4_loop_start_frame;
+    // TODO: Remove if not really needed (check after loader is impl'd)
+    attributes.mMaxWidth = 0;
+    attributes.mMaxWidth = 0;
 
+    nlohmann::json animJsonInfo;
+    animJsonInfo["attributes"] = attributes;
     animJsonInfo["frames"] = perFrameInfos;
 
     const std::string animJsonInfoString = animJsonInfo.dump(4);
@@ -247,8 +338,16 @@ void AnimationConverter::DecompressAnimFrame(std::vector<u8>& decompressionBuffe
     switch (pFrameHeader->field_7_compression_type)
     {
         case CompressionType::eType_0_NoCompression:
-            memcpy(decompressionBuffer.data(), reinterpret_cast<const u8*>(&pFrameHeader->field_8_width2), decompressionBuffer.size());
+        {
+            std::size_t lenToCopy = pFrameHeader->field_4_width * pFrameHeader->field_5_height;
+            if (pFrameHeader->field_6_colour_depth == 4)
+            {
+                lenToCopy = lenToCopy / 2;
+            }
+
+            memcpy(decompressionBuffer.data(), reinterpret_cast<const u8*>(&pFrameHeader->field_8_width2), lenToCopy);
             break;
+        }
 
         case CompressionType::eType_2_ThreeToFourBytes:
             CompressionType2_Decompress_40AA50(

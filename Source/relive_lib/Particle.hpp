@@ -6,6 +6,7 @@
 class Particle final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
+    Particle(FP xpos, FP ypos, AnimId animId, bool explosionSizeHack = false);
     Particle(FP xpos, FP ypos, AnimId animId, u8** ppAnimData, bool explosionSizeHack = false);
     ~Particle();
     virtual void VUpdate() override;
