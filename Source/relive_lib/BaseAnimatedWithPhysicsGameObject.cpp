@@ -400,7 +400,7 @@ void BaseAnimatedWithPhysicsGameObject::VOnThrowableHit(BaseGameObject* /*pFrom*
 
 PSX_RECT BaseAnimatedWithPhysicsGameObject::VGetBoundingRect(s32 pointIdx)
 {
-    const FrameInfoHeader* pAnimFrameHeader = mAnim.Get_FrameHeader(-1);
+    const PerFrameInfo* pAnimFrameHeader = mAnim.Get_FrameHeader(-1);
 
     PSX_RECT rect = {};
     // Normally this data is 3 points, one that is the frame offset and then 2 that make up the bounding rect.

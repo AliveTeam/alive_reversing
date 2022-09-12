@@ -27,6 +27,8 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
 
+    void LoadAnimations();
+
 private:
     s16 field_20_xpos = 0;
     s16 field_22_ypos = 0;

@@ -2,6 +2,7 @@
 
 #include "Primitives.hpp"
 #include "Layer.hpp"
+#include "../relive_lib/ResourceManagerWrapper.hpp"
 
 enum AnimFlags
 {
@@ -36,7 +37,7 @@ enum AnimFlags
     eBit10_alternating_flag = 0x200,
 
     // Bit 11 = ?
-    eBit11_bToggle_Bit10 = 0x400,
+    //eBit11_bToggle_Bit10 = 0x400,
 
     // Bit 12 = Prevents updating or gets anims stuck??
     eBit12_ForwardLoopCompleted = 0x800,
@@ -77,7 +78,7 @@ enum AnimFlags
     // Bit 24 = Display vram?
     eBit24 = 0x800000,
 
-    eBit25_bDecompressDone = 0x1000000,
+    //eBit25_bDecompressDone = 0x1000000,
 
     // Bit 26-32 = Nothing?
 };
@@ -99,13 +100,13 @@ public:
     static void AnimateAll(DynamicArrayT<AnimationBase>* pAnimations);
 
     BitField32<AnimFlags> mFlags = {};
-
+    AnimResource mAnimRes;
     u8 mRed = 0;
     u8 mGreen = 0;
     u8 mBlue = 0;
     TPageAbr mRenderMode = TPageAbr::eBlend_0;
     Layer mRenderLayer = Layer::eLayer_0;
-    u16 mFrameChangeCounter = 0;
+    u32 mFrameChangeCounter = 0;
 
     static DynamicArrayT<AnimationBase>* gAnimations;
 };

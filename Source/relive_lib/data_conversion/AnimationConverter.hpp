@@ -2,7 +2,6 @@
 
 #include "file_system.hpp"
 #include "../AliveLibCommon/AnimResources.hpp"
-#include "Animation.hpp"
 #include <vector>
 
 struct AnimationPal final
@@ -10,6 +9,9 @@ struct AnimationPal final
     u16 mPal[256] = {};
 };
 
+struct AnimationHeader;
+struct FrameHeader;
+struct FrameInfoHeader;
 
 // TODO: Should be its own  file
 class TgaFile final

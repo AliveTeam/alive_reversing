@@ -16,10 +16,20 @@ AnimId::HoistRock1};
 
 const static s16 word_5556F0[12] = {5, 0, 10, 0, 30, 0, 5, 0, 0, 0, 0, 0};
 
+void HoistRocksEffect::LoadAnimations()
+{
+    for (auto& animId : HoistRocksAnimIdTable)
+    {
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
+    }
+}
+
 HoistRocksEffect::HoistRocksEffect(relive::Path_Hoist* pTlv, const Guid& tlvId)
     : BaseGameObject(TRUE, 0)
 {
     field_24_tlvInfo = tlvId;
+
+    LoadAnimations();
 
     field_20_xpos = (pTlv->mTopLeftX + pTlv->mBottomRightX) / 2;
     field_22_ypos = pTlv->mTopLeftY;
@@ -39,13 +49,9 @@ HoistRocksEffect::HoistRocksEffect(relive::Path_Hoist* pTlv, const Guid& tlvId)
         mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
     }
 
-    u8** ppAnimData = Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kHoistRocks);
     for (HoistRockParticle& particle : field_30_rocks)
     {
-        particle.field_10_mAnim.Init(
-            AnimId::HoistRock1,
-            this,
-            ppAnimData);
+        particle.field_10_mAnim.Init(mLoadedAnims[0], this);
 
         particle.field_10_mAnim.mRed = 255;
         particle.field_10_mAnim.mGreen = 255;
@@ -113,7 +119,7 @@ void HoistRocksEffect::VUpdate()
             field_30_rocks[idx].field_0_state = 1;
 
             const s32 randomAnimAndUpdate = 2 * Math_RandomRange(0, 3);
-            field_30_rocks[idx].field_10_mAnim.Set_Animation_Data(HoistRocksAnimIdTable[randomAnimAndUpdate / 2], nullptr);
+            field_30_rocks[idx].field_10_mAnim.Set_Animation_Data(mLoadedAnims[randomAnimAndUpdate / 2]);
             field_28_timer = sGnFrame + Math_RandomRange(word_5556F0[randomAnimAndUpdate], 2 * word_5556F0[randomAnimAndUpdate]);
         }
     }

@@ -21,15 +21,13 @@ void AnimationUnknown::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 /*widt
         // Copy from animation to local
         *pPoly = field_68_anim_ptr->mOtData[gPsxDisplay.mBufferIndex];
 
-        FrameInfoHeader* pFrameInfoHeader = field_68_anim_ptr->Get_FrameHeader(-1);
+        const PerFrameInfo* pFrameInfoHeader = field_68_anim_ptr->Get_FrameHeader(-1);
 
-        FrameHeader* pFrameHeader = reinterpret_cast<FrameHeader*>(&(*field_68_anim_ptr->field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
+        s32 frameH = pFrameInfoHeader->mHeight;
+        s32 frameW = pFrameInfoHeader->mWidth;
 
-        s32 frameH = pFrameHeader->field_5_height;
-        s32 frameW = pFrameHeader->field_4_width;
-
-        s32 frameOffX = pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.x;
-        s32 frameOffY = pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.y;
+        s32 frameOffX = pFrameInfoHeader->mXOffset;
+        s32 frameOffY = pFrameInfoHeader->mYOffset;
 
         if (field_6C_scale != FP_FromInteger(1))
         {
@@ -110,15 +108,9 @@ void AnimationUnknown::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 /*widt
                 static_cast<s16>(frameW - 1),
                 static_cast<s16>(frameH - 1));
 
-        // TODO: Factor out when renderingg is common
-        if (isAe && (pFrameHeader->field_7_compression_type == CompressionType::eType_3_RLE_Blocks || pFrameHeader->field_7_compression_type == CompressionType::eType_6_RLE))
-        {
-            SetPrimExtraPointerHack(pPoly, &pFrameHeader->field_8_width2);
-        }
-        else
-        {
-            SetPrimExtraPointerHack(pPoly, nullptr);
-        }
+
+        // TODO: Or pass this mAnimRes ?
+        SetPrimExtraPointerHack(pPoly, &field_68_anim_ptr->mAnimRes);
         OrderingTable_Add(OtLayer(ppOt, mRenderLayer), &pPoly->mBase.header);
     }
 }

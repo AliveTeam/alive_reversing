@@ -4,6 +4,8 @@
 #include "../AliveLibCommon/BitField.hpp"
 #include "DynamicArray.hpp"
 #include "../relive_lib/data_conversion/guid.hpp"
+#include "../relive_lib/ResourceManagerWrapper.hpp"
+#include <vector> // TODO: Abstract stl from the engine
 
 extern u32 sGnFrame;
 
@@ -521,6 +523,7 @@ public:
     Guid mBaseGameObjectId;                  // AE
     Guid mBaseGameObjectTlvInfo;                 // AE
     DynamicArrayT<u8*> field_10_resources_array; // AE
+    std::vector<AnimResource> mLoadedAnims;
 
     s8 mBaseGameObjectRefCount = 0; // AO
 };

@@ -111,7 +111,7 @@ public:
 public:
     FP_RECT mCollectionRect = {};
     s16 mPreviousMotion = 0;
-    s16 mBaseAliveGameObjectLastAnimFrame = 0;
+    s32 mBaseAliveGameObjectLastAnimFrame = 0;
     FP BaseAliveGameObjectLastLineYPos = {};
     s16 field_EC = 0; // can the bees attack - multiple values so prob more unknown meanings as well
     s16 field_EE_type = 0; // unused??

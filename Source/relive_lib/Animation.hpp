@@ -12,8 +12,9 @@ struct AnimRecord;
 
 const AnimRecord PerGameAnimRec(AnimId id);
 
-using TFrameCallBackType = s32(CC*)(BaseGameObject*, s16*);
+using TFrameCallBackType = void(*)(BaseGameObject*, const Point32&);
 
+// TODO: Move to converter, won't be used in engine
 struct AnimationFileHeader final
 {
     s16 field_0_max_w;
@@ -23,7 +24,7 @@ struct AnimationFileHeader final
     u16 mClutData[1];
 };
 
-
+// TODO: Move to converter, won't be used in engine
 struct AnimationHeader final
 {
     // Meta data - the offset where this record was read from
@@ -45,6 +46,7 @@ struct AnimationHeader final
     u32 mFrameOffsets[1]; // Reading past 1 is UB.. will need to change this later (copy out the data or something)
 };
 
+// TODO: Move to converter, won't be used in engine
 enum class CompressionType : u8
 {
     eType_0_NoCompression = 0,
@@ -57,6 +59,7 @@ enum class CompressionType : u8
     eType_8_NotUsed = 8,
 };
 
+// TODO: Move to converter, won't be used in engine
 struct FrameHeader final
 {
     u32 field_0_clut_offset;
@@ -68,13 +71,14 @@ struct FrameHeader final
     u16 mHeight2;
 };
 
+// TODO: Move to converter, won't be used in engine
 struct Point final
 {
     s16 x = 0;
     s16 y = 0;
 };
 
-
+// TODO: Move to converter, won't be used in engine
 struct OffsetAndBoundingRect final
 {
     Point mOffset;
@@ -82,6 +86,7 @@ struct OffsetAndBoundingRect final
     Point mMax;
 };
 
+// TODO: Move to converter, won't be used in engine
 union PointsUnion
 {
     PointsUnion()
@@ -90,6 +95,7 @@ union PointsUnion
     Point points[3];
 };
 
+// TODO: Move to converter, won't be used in engine
 struct FrameInfoHeader final
 {
     u32 field_0_frame_header_offset;
@@ -105,44 +111,31 @@ public:
     virtual void VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 height) override;
     virtual void VCleanUp() override;
 
-    s16 Set_Animation_Data(s32 frametableoffset, u8** pAnimRes);
-    s16 Set_Animation_Data(AnimId animId, u8** pAnimRes);
-    void SetFrame(s16 newFrame);
-    s16 Init(s32 frametableoffset, u16 maxW, u16 maxH, BaseGameObject* pGameObj, u8** ppAnimData);
-    s16 Init(AnimId animId, BaseGameObject* pGameObj, u8** ppAnimData);
-    u16 Get_Frame_Count();
-    FrameInfoHeader* Get_FrameHeader(s16 frame);
-    void LoadPal(u8** pAnimData, s32 palOffset);
+    s16 Set_Animation_Data(AnimResource& pAnimRes);
+    s16 Init(AnimResource& ppAnimData, BaseGameObject* pGameObj);
+
+    void SetFrame(s32 newFrame);
+    u32 Get_Frame_Count();
+    const PerFrameInfo* Get_FrameHeader(s32 frame);
+    void LoadPal(const AnimationPal& pal);
     void Get_Frame_Rect(PSX_RECT* pRect);
     void Get_Frame_Width_Height(s16* pWidth, s16* pHeight);
     void Get_Frame_Offset(s16* pBoundingX, s16* pBoundingY);
-    bool EnsureDecompressionBuffer();
-    void UploadTexture(const FrameHeader* pFrameHeader, const PSX_RECT& vram_rect, s16 width_bpp_adjusted);
     void Invoke_CallBacks();
     bool DecodeCommon();
     void DecompressFrame();
-    void Animation_Pal_Free();
 
-    u16 mFrameDelay = 0;
+    u32 mFrameDelay = 0;
     u16 field_12_scale = 0; // padding?
     FP field_14_scale = {};
-    u32 mFrameTableOffset = 0;
     TFrameCallBackType* mFnPtrArray = nullptr;
-    u8** field_20_ppBlock = nullptr; // pointer to a pointer which points to anim data
-    u8** mDbuf = nullptr;
-    u32 mDbufSize = 0;
     Poly_FT4 mOtData[2] = {};
-    PSX_RECT mVramRect = {};
-    PSX_Point mPalVramXY = {};
-    s16 mPalDepth = 0;
-    s16 mCurrentFrame = 0;
+    s32 mCurrentFrame = 0;
     BaseGameObject* mGameObj = nullptr;
 };
 ALIVE_ASSERT_SIZEOF(Animation, 0x98);
 
 inline bool IsLastFrame(const Animation* pAnim)
 {
-    const u8* pAnimData = (*pAnim->field_20_ppBlock);
-    const auto pHeader = reinterpret_cast<const AnimationHeader*>(&pAnimData[pAnim->mFrameTableOffset]);
-    return (pAnim->mCurrentFrame == pHeader->field_2_num_frames - 1);
+    return pAnim->mCurrentFrame == static_cast<s32>(pAnim->mAnimRes.mJsonPtr->mFrames.size() - 1);
 }

@@ -13,7 +13,8 @@ namespace AO {
 ALIVE_VAR(1, 0x9F1DCC, ZBall*, gCenterZBall, nullptr);
 ALIVE_VAR(1, 0x9F1DD0, ZBall*, gOutZBall, nullptr);
 
-s32 Animation_OnFrame_ZBallSmacker(::BaseGameObject* pObj, s16* pData)
+// TODO: Pass the whole object because this decides to read 2 points as a rect
+void Animation_OnFrame_ZBallSmacker(::BaseGameObject* pObj, const Point32& pData)
 {
     auto pZBall = static_cast<ZBall*>(pObj);
     for (s32 i = 0; i < gBaseGameObjects->Size(); i++)

@@ -5,6 +5,7 @@
 #include "../../AliveLibAE/Compression.hpp" // TODO: combine with common compression files
 #include "../PsxDisplay.hpp" // PsxToPCX
 #include "ResourceManagerWrapper.hpp"
+#include "Animation.hpp"
 
 inline void to_json(nlohmann::json& j, const Point32& p)
 {

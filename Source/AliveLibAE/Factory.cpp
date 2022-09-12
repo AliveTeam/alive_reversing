@@ -131,8 +131,10 @@ static void Factory_Hoist(relive::Path_TLV* pTlv, Path* /*pPath*/, const Guid& t
     relive::Path_Hoist* pHoistTlv = static_cast<relive::Path_Hoist*>(pTlv);
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
+        /*
         Map::LoadResource("ABEHOIST.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbehoistResID, loadmode, 0);
         Map::LoadResource("DRPROCK.BAN", ResourceManager::Resource_Animation, AEResourceID::kHoistRocks, loadmode, 0);
+        */
     }
     else if (pHoistTlv->mHoistType == relive::Path_Hoist::Type::eOffScreen)
     {

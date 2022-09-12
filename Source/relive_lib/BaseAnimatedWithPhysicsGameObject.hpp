@@ -107,8 +107,10 @@ public:
 
     virtual void VRender(PrimHeader** ppOt) override;
 
-
+    // TODO: Remove startingPointIdx, always 1
     virtual void VOnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, s32 startingPointIdx, TCollisionCallBack pFn);
+
+    // TODO: remove pointIdx always 1
     virtual PSX_RECT VGetBoundingRect(s32 pointIdx = 1);
     virtual s16 VIsObjNearby(FP radius, BaseAnimatedWithPhysicsGameObject* pObj);
     virtual s16 VIsObj_GettingNear_On_X(BaseAnimatedWithPhysicsGameObject* pObj);
