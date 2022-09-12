@@ -725,8 +725,8 @@ s32 MineCar::VGetSaveState(u8* pSaveBuffer)
     pState->field_20_b = mRGB.b;
 
     pState->field_28_current_motion = mCurrentMotion;
-    pState->field_2A_current_anim_frame = mAnim.mCurrentFrame;
-    pState->field_2C_frame_change_counter = mAnim.mFrameChangeCounter;
+    pState->field_2A_current_anim_frame = static_cast<s16>(mAnim.mCurrentFrame);
+    pState->field_2C_frame_change_counter = static_cast<s16>(mAnim.mFrameChangeCounter);
 
     pState->field_2F_drawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
     pState->field_22_xFlip = mAnim.mFlags.Get(AnimFlags::eBit5_FlipX);
@@ -760,8 +760,8 @@ s32 MineCar::VGetSaveState(u8* pSaveBuffer)
             break;
     }
 
-    pState->field_34_unused = mTreadAnim.mCurrentFrame;
-    pState->field_36_unused = mTreadAnim.mFrameChangeCounter;
+    pState->field_34_unused = static_cast<s16>(mTreadAnim.mCurrentFrame);
+    pState->field_36_unused = static_cast<s16>(mTreadAnim.mFrameChangeCounter);
 
     pState->field_32_unused = mTreadAnim.mFlags.Get(AnimFlags::eBit5_FlipX);
     pState->field_30_unused = mTreadAnim.mFlags.Get(AnimFlags::eBit3_Render);

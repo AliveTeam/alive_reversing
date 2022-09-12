@@ -359,8 +359,8 @@ s32 Glukkon::VGetSaveState(u8* pSaveBuffer)
     pSaveState->mRingGreen = mRGB.g;
     pSaveState->mRingBlue = mRGB.b;
     pSaveState->field_28_current_motion = mCurrentMotion;
-    pSaveState->field_2A_current_frame = mAnim.mCurrentFrame;
-    pSaveState->field_2C_frame_change_counter = mAnim.mFrameChangeCounter;
+    pSaveState->field_2A_current_frame = static_cast<u16>(mAnim.mCurrentFrame);
+    pSaveState->field_2C_frame_change_counter = static_cast<u16>(mAnim.mFrameChangeCounter);
     pSaveState->field_26_flipX = mAnim.mFlags.Get(AnimFlags::eBit5_FlipX);
     pSaveState->field_2E_render = mAnim.mFlags.Get(AnimFlags::eBit3_Render);
     pSaveState->field_2F_drawable = mBaseGameObjectFlags.Get(BaseGameObject::Options::eDrawable_Bit4);

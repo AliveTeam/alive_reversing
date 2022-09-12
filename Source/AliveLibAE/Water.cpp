@@ -97,12 +97,12 @@ Water::Water(relive::Path_Water* pTlv, const Guid& tlvId)
 
             const u8 v0 = mAnim.mVramRect.y & 0xFF;
 
-            const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*mAnim.field_20_ppBlock)[mAnim.Get_FrameHeader(-1)->field_0_frame_header_offset]);
-            field_120_frame_width = pFrameHeader->field_4_width;
-            field_122_frame_height = pFrameHeader->field_5_height;
+            const PerFrameInfo* pFrameHeader = mAnim.Get_FrameHeader(-1);
+            field_120_frame_width = pFrameHeader->mWidth;
+            field_122_frame_height = pFrameHeader->mHeight;
 
-            const u8 u1 = pFrameHeader->field_4_width + u0 - 1;
-            const u8 v1 = pFrameHeader->field_5_height + v0 - 1;
+            const u8 u1 = pFrameHeader->mWidth + u0 - 1;
+            const u8 v1 = pFrameHeader->mHeight + v0 - 1;
 
             const s32 tPage = PSX_getTPage(
                 field_FE_texture_mode,

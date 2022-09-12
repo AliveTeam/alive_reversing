@@ -338,8 +338,8 @@ s32 Slurg::VGetSaveState(u8* pSaveBuffer)
     pState->mSlurgSpriteScale = mSlurgSpriteScale;
     pState->mFlipX = mAnim.mFlags.Get(AnimFlags::eBit5_FlipX);
     pState->mCurrentMotion = mCurrentMotion;
-    pState->mAnimCurrentFrame = mAnim.mCurrentFrame;
-    pState->mFrameChangeCounter = mAnim.mFrameChangeCounter;
+    pState->mAnimCurrentFrame = static_cast<s16>(mAnim.mCurrentFrame);
+    pState->mFrameChangeCounter = static_cast<s16>(mAnim.mFrameChangeCounter);
     pState->mDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
     pState->mRender = mAnim.mFlags.Get(AnimFlags::eBit3_Render);
     pState->mFrameTableOffset = mAnim.mFrameTableOffset;

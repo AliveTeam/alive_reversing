@@ -164,8 +164,8 @@ s32 EvilFart::VGetSaveState(u8* pSaveBuffer)
     pState->mBlue = mRGB.b;
 
     pState->field_2C.Set(EvilFart_State::eBit1_bControlled, sControlledCharacter == this);
-    pState->mCurrentFrame = mAnim.mCurrentFrame;
-    pState->mFrameChangeCounter = mAnim.mFrameChangeCounter;
+    pState->mCurrentFrame = static_cast<s16>(mAnim.mCurrentFrame);
+    pState->mFrameChangeCounter = static_cast<s16>(mAnim.mFrameChangeCounter);
 
     pState->mDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
     pState->mAnimRender = mAnim.mFlags.Get(AnimFlags::eBit3_Render);

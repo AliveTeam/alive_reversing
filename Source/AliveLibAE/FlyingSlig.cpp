@@ -95,6 +95,35 @@ bool FlyingSlig::BrainIs(TFlyingSligBrainFn fn)
     return field_29C_brain_state == fn;
 }
 
+const AnimId sFlyingSligAnimIdTable[28] = {
+    AnimId::FlyingSlig_Idle,
+    AnimId::FlyingSlig_MoveHorizontal,
+    AnimId::FlyingSlig_IdleTurnAround,
+    AnimId::FlyingSlig_MoveDown,
+    AnimId::FlyingSlig_MoveDownTurnAround,
+    AnimId::FlyingSlig_MoveUp,
+    AnimId::FlyingSlig_MoveUpTurnAround,
+    AnimId::FlyingSlig_PullLever,
+    AnimId::FlyingSlig_Speak,
+    AnimId::FlyingSlig_Possession,
+    AnimId::FlyingSlig_MoveHorizontalEnd,
+    AnimId::FlyingSlig_MoveUpStart,
+    AnimId::FlyingSlig_MoveHorizontalToDown,
+    AnimId::FlyingSlig_MoveUpToHorizontal,
+    AnimId::FlyingSlig_MoveDownToHorizontal,
+    AnimId::FlyingSlig_TurnQuick,
+    AnimId::FlyingSlig_IdleToHorizontal,
+    AnimId::FlyingSlig_BeginDownMovement,
+    AnimId::FlyingSlig_EndDownMovement,
+    AnimId::FlyingSlig_DownKnockback,
+    AnimId::FlyingSlig_UpKnockback,
+    AnimId::FlyingSlig_EndUpMovement,
+    AnimId::FlyingSlig_InstantUpXTurn,
+    AnimId::FlyingSlig_InstantDownXTurn,
+    AnimId::FlyingSlig_HorizontalToUpMovement,
+    AnimId::FlyingSlig_TurnToHorizontalMovement,
+};
+
 void FlyingSlig::LoadAnimations()
 {
     for (auto& animId : sFlyingSligAnimIdTable)
@@ -245,35 +274,6 @@ FlyingSlig::FlyingSlig(relive::Path_FlyingSlig* pTlv, const Guid& tlvId)
     mShadow = relive_new Shadow();
 }
 
-const AnimId sFlyingSligAnimIdTable[28] = {
-    AnimId::FlyingSlig_Idle,
-    AnimId::FlyingSlig_MoveHorizontal,
-    AnimId::FlyingSlig_IdleTurnAround,
-    AnimId::FlyingSlig_MoveDown,
-    AnimId::FlyingSlig_MoveDownTurnAround,
-    AnimId::FlyingSlig_MoveUp,
-    AnimId::FlyingSlig_MoveUpTurnAround,
-    AnimId::FlyingSlig_PullLever,
-    AnimId::FlyingSlig_Speak,
-    AnimId::FlyingSlig_Possession,
-    AnimId::FlyingSlig_MoveHorizontalEnd,
-    AnimId::FlyingSlig_MoveUpStart,
-    AnimId::FlyingSlig_MoveHorizontalToDown,
-    AnimId::FlyingSlig_MoveUpToHorizontal,
-    AnimId::FlyingSlig_MoveDownToHorizontal,
-    AnimId::FlyingSlig_TurnQuick,
-    AnimId::FlyingSlig_IdleToHorizontal,
-    AnimId::FlyingSlig_BeginDownMovement,
-    AnimId::FlyingSlig_EndDownMovement,
-    AnimId::FlyingSlig_DownKnockback,
-    AnimId::FlyingSlig_UpKnockback,
-    AnimId::FlyingSlig_EndUpMovement,
-    AnimId::FlyingSlig_InstantUpXTurn,
-    AnimId::FlyingSlig_InstantDownXTurn,
-    AnimId::FlyingSlig_HorizontalToUpMovement,
-    AnimId::FlyingSlig_TurnToHorizontalMovement,
-};
-
 s32 FlyingSlig::CreateFromSaveState(const u8* pBuffer)
 {
     auto pSaveState = reinterpret_cast<const FlyingSlig_State*>(pBuffer);
@@ -348,7 +348,6 @@ s32 FlyingSlig::CreateFromSaveState(const u8* pBuffer)
 
         pFlyingSlig->mCurrentMotion = pSaveState->field_24_current_state;
 
-        u8** ppRes = pFlyingSlig->ResBlockForMotion_4350F0(pSaveState->field_24_current_state);
         pFlyingSlig->mAnim.Set_Animation_Data(pFlyingSlig->GetAnimRes(sFlyingSligAnimIdTable[pFlyingSlig->mCurrentMotion]));
 
         pFlyingSlig->mAnim.mCurrentFrame = pSaveState->field_26_current_frame;
@@ -462,8 +461,8 @@ s32 FlyingSlig::VGetSaveState(u8* pSaveBuffer)
 
     pState->field_22_bAnimFlipX = mAnim.mFlags.Get(AnimFlags::eBit5_FlipX);
     pState->field_24_current_state = mCurrentMotion;
-    pState->field_26_current_frame = mAnim.mCurrentFrame;
-    pState->field_28_frame_change_counter = mAnim.mFrameChangeCounter;
+    pState->field_26_current_frame = static_cast<s16>(mAnim.mCurrentFrame);
+    pState->field_28_frame_change_counter = static_cast<s16>(mAnim.mFrameChangeCounter);
 
     pState->field_2B_bDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
     pState->field_2A_bAnimRender = mAnim.mFlags.Get(AnimFlags::eBit3_Render);
@@ -2391,7 +2390,6 @@ void FlyingSlig::ToPossesed_436130()
 
 void FlyingSlig::vUpdateAnimRes_4350A0()
 {
-    u8** ppRes = ResBlockForMotion_4350F0(mCurrentMotion);
     mAnim.Set_Animation_Data(GetAnimRes(sFlyingSligAnimIdTable[mCurrentMotion]));
 }
 

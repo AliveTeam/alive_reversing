@@ -359,8 +359,8 @@ s32 CrawlingSlig::VGetSaveState(u8* pSaveBuffer)
     pState->mRingBlue = mRGB.b;
     pState->field_26_bFlipX = mAnim.mFlags.Get(AnimFlags::eBit5_FlipX);
     pState->field_28_current_motion = mCurrentMotion;
-    pState->field_2A_anim_cur_frame = mAnim.mCurrentFrame;
-    pState->field_2C_anim_frame_change_counter = mAnim.mFrameChangeCounter;
+    pState->field_2A_anim_cur_frame = static_cast<s16>(mAnim.mCurrentFrame);
+    pState->field_2C_anim_frame_change_counter = static_cast<s16>(mAnim.mFrameChangeCounter);
     pState->field_2F_bDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
     pState->field_2E_bRender = mAnim.mFlags.Get(AnimFlags::eBit3_Render);
     pState->field_30_health = mHealth;

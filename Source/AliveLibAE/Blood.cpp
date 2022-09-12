@@ -73,10 +73,10 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
 
         u8 v0 = mAnim.mVramRect.y & 0xFF;
 
-        FrameHeader* pFrameHeader = reinterpret_cast<FrameHeader*>(&(*mAnim.field_20_ppBlock)[mAnim.Get_FrameHeader(-1)->field_0_frame_header_offset]);
+        const PerFrameInfo* pFrameHeader = mAnim.Get_FrameHeader(-1);
 
-        const s16 frameW = pFrameHeader->field_4_width;
-        const s16 frameH = pFrameHeader->field_5_height;
+        const s16 frameW = pFrameHeader->mWidth;
+        const s16 frameH = pFrameHeader->mHeight;
 
         mAnim.mFlags.Set(AnimFlags::eBit16_bBlending);
 
@@ -201,11 +201,10 @@ void Blood::VRender(PrimHeader** ppOt)
 
             SetUV0(pSprt, u0, static_cast<u8>(mAnim.mVramRect.y));
 
-            FrameHeader* pFrameHeader = reinterpret_cast<FrameHeader*>(
-                &(*mAnim.field_20_ppBlock)[mAnim.Get_FrameHeader(-1)->field_0_frame_header_offset]);
+            const PerFrameInfo* pFrameHeader = mAnim.Get_FrameHeader(-1);
 
-            pSprt->field_14_w = pFrameHeader->field_4_width - 1;
-            pSprt->field_16_h = pFrameHeader->field_5_height - 1;
+            pSprt->field_14_w = pFrameHeader->mWidth - 1;
+            pSprt->field_16_h = pFrameHeader->mHeight - 1;
 
             const s16 x0 = PsxToPCX(FP_GetExponent(pParticle->x));
             const s16 y0 = FP_GetExponent(pParticle->y);

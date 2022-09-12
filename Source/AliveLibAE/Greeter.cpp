@@ -222,8 +222,8 @@ s32 Greeter::VGetSaveState(u8* pSaveBuffer)
     pState->field_4_g = mRGB.g;
     pState->field_6_b = mRGB.b;
 
-    pState->field_20_current_frame = mAnim.mCurrentFrame;
-    pState->field_22_frame_change_counter = mAnim.mFrameChangeCounter;
+    pState->field_20_current_frame = static_cast<s16>(mAnim.mCurrentFrame);
+    pState->field_22_frame_change_counter = static_cast<s16>(mAnim.mFrameChangeCounter);
     pState->field_25_bDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
     pState->field_24_bAnimRender = mAnim.mFlags.Get(AnimFlags::eBit3_Render);
     pState->field_28_tlvInfo = field_118_tlvInfo;

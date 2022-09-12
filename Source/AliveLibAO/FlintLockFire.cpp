@@ -94,9 +94,7 @@ FlintLockFire::FlintLockFire(relive::Path_FlintLockFire* pTlv, const Guid& tlvId
     const s32 cur_lvl = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
 
     const AnimRecord& disabledHammersRec = AO::AnimRec(sFlintLockFireData_4BAC70[cur_lvl].field_14_hammers_disabled_anim_id);
-    const AnimRecord& gourdRec = AO::AnimRec(sFlintLockFireData_4BAC70[cur_lvl].field_4_gourd_anim_id);
     u8** ppHammersRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, disabledHammersRec.mResourceId, 1, 0);
-    u8** ppGourdRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, gourdRec.mResourceId, 1, 0);
 
     Animation_Init(sFlintLockFireData_4BAC70[cur_lvl].field_14_hammers_disabled_anim_id, ppHammersRes);
     mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);

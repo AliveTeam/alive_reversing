@@ -2610,7 +2610,7 @@ void Abe::MoveWithVelocity_4257F0(FP speed)
     }
 }
 
-void Abe::ToNewElumSyncMotion_422520(s16 elum_frame)
+void Abe::ToNewElumSyncMotion_422520(s32 elum_frame)
 {
     mAnim.Set_Animation_Data(
         sAbeMotionAnimIds[mCurrentMotion],

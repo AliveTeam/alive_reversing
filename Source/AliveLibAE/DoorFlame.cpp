@@ -320,7 +320,7 @@ DoorFlame::DoorFlame(relive::Path_DoorFlame* pTlv, const Guid& tlvId)
     mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
     mVisualFlags.Set(VisualFlags::eApplyShadowZoneColour);
     mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
-    mFrameCount = mAnim.Get_Frame_Count();
+    mFrameCount = static_cast<s16>(mAnim.Get_Frame_Count());
     mAnim.SetFrame(Math_RandomRange(0, mFrameCount - 1));
 
     mSwitchId = pTlv->mSwitchId;

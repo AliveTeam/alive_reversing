@@ -21,7 +21,7 @@ public:
 
     Guid mTlvInfo;
     s16 mSwitchId = 0;
-    s16 mFrameCount = 0;
+    u32 mFrameCount = 0;
     enum class States : u16
     {
         eDisabled_0 = 0,

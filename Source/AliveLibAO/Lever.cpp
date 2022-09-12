@@ -41,7 +41,7 @@ const Lever_Data gLeverData_4BCF40[16] = {
 
 void Lever::LoadAnimations()
 {
-    for (u32 i = 0; ALIVE_COUNTOF(gLeverData_4BCF40); i++)
+    for (u32 i = 0; i < ALIVE_COUNTOF(gLeverData_4BCF40); i++)
     {
         mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(gLeverData_4BCF40[i].field_0_idle_animId));
         mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(gLeverData_4BCF40[i].field_10_releasing_left_animId));

@@ -86,10 +86,10 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
         u0 = 4 * u0;
     }
 
-    auto pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*mAnim.field_20_ppBlock)[mAnim.Get_FrameHeader(-1)->field_0_frame_header_offset]);
+    auto pFrameHeader = mAnim.Get_FrameHeader(-1);
 
-    const u8 frameW = pFrameHeader->field_4_width;
-    const u8 frameH = pFrameHeader->field_5_height;
+    const auto frameW = pFrameHeader->mWidth;
+    const auto frameH = pFrameHeader->mHeight;
 
     for (s32 i = 0; i < 2; i++)
     {

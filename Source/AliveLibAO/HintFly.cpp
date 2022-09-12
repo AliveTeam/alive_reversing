@@ -1431,7 +1431,7 @@ HintFly::HintFly(relive::Path_HintFly* pTlv, const Guid& tlvId)
                 vram_x = 4 * vram_x;
             }
 
-            const auto pHeader = reinterpret_cast<const FrameHeader*>(&(*mAnim.field_20_ppBlock)[mAnim.Get_FrameHeader(-1)->field_0_frame_header_offset]);
+            const auto pHeader = mAnim.Get_FrameHeader(-1);
 
             for (s32 i = 0; i < field_11A_msg_len; i++)
             {
@@ -1450,8 +1450,8 @@ HintFly::HintFly(relive::Path_HintFly* pTlv, const Guid& tlvId)
 
                     SetUV0(pSprt, vram_x & 0xFF, mAnim.mVramRect.y & 0xFF);
 
-                    pSprt->field_14_w = pHeader->field_4_width - 1;
-                    pSprt->field_16_h = pHeader->field_5_height - 1;
+                    pSprt->field_14_w = pHeader->mWidth - 1;
+                    pSprt->field_16_h = pHeader->mHeight - 1;
                 }
             }
 

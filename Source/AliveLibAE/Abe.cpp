@@ -1889,8 +1889,8 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
 
     pSaveState->bAnimFlipX = mAnim.mFlags.Get(AnimFlags::eBit5_FlipX);
     pSaveState->mCurrentMotion = mCurrentMotion;
-    pSaveState->mCurrentFrame = mAnim.mCurrentFrame;
-    pSaveState->mFrameChangeCounter = mAnim.mFrameChangeCounter;
+    pSaveState->mCurrentFrame = static_cast<u16>(mAnim.mCurrentFrame);
+    pSaveState->mFrameChangeCounter = static_cast<u16>(mAnim.mFrameChangeCounter);
 
     if (mAnim.mFrameChangeCounter == 0)
     {
@@ -3387,7 +3387,7 @@ void Abe::Motion_1_WalkLoop_44FBA0()
 
 void Abe::Motion_2_StandingTurn_451830()
 {
-    const s16 currentFrame = mAnim.mCurrentFrame;
+    const auto currentFrame = mAnim.mCurrentFrame;
     const u32 pressed = Input().mPads[sCurrentControllerIndex].mPressed;
 
     if (currentFrame == 4 && (sInputKey_Run & pressed) && (sInputKey_Right | sInputKey_Left) & pressed)

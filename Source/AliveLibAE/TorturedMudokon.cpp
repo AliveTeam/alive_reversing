@@ -36,7 +36,7 @@ TorturedMudokon::TorturedMudokon(relive::Path_TorturedMudokon* pTlv, const Guid&
         mXPos = FP_FromInteger(pTlv->mTopLeftX);
         mYPos = FP_FromInteger(pTlv->mTopLeftY);
         Animation_Init(AnimId::Tortured_Mudokon, mTorturedMudRes);
-        mAnim.SetFrame(Math_RandomRange(0, mAnim.Get_Frame_Count() - 1));
+        mAnim.SetFrame(static_cast<s32>(Math_RandomRange(0, mAnim.Get_Frame_Count() - 1)));
         mKillSwitchId = pTlv->mKillSwitchId;
         mReleaseSwitchId = pTlv->mReleaseSwitchId;
         mState = TorturedMudokonState::eBeingTortured_0;

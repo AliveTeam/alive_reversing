@@ -905,8 +905,8 @@ s32 Mudokon::VGetSaveState(u8* pSaveBuffer)
 
     pState->field_22_bFlipX = mAnim.mFlags.Get(AnimFlags::eBit5_FlipX);
     pState->field_24_current_motion = mCurrentMotion;
-    pState->field_26_anim_current_frame = mAnim.mCurrentFrame;
-    pState->field_28_anim_frame_change_counter = mAnim.mFrameChangeCounter;
+    pState->field_26_anim_current_frame = static_cast<s16>(mAnim.mCurrentFrame);
+    pState->field_28_anim_frame_change_counter = static_cast<s16>(mAnim.mFrameChangeCounter);
     pState->field_2B_bDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
     pState->field_2A_bAnimRender = mAnim.mFlags.Get(AnimFlags::eBit3_Render);
     pState->field_2C_health = mHealth;

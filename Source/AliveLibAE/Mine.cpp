@@ -81,7 +81,6 @@ Mine::Mine(relive::Path_Mine* pPath, const Guid& tlv)
     }
     field_11C_tlv = tlv;
     field_120_gnframe = sGnFrame;
-    const AnimRecord& mineFlashrec = AnimRec(AnimId::Mine_Flash);
     field_124_animation.Init(GetAnimRes(AnimId::Mine_Flash), this);
 
     field_124_animation.mFlags.Set(AnimFlags::eBit15_bSemiTrans);

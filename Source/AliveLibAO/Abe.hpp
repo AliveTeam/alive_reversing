@@ -378,7 +378,7 @@ public:
     void FallOnBombs_4231B0();
     s16 ToLeftRightMovement_422AA0();
     void MoveWithVelocity_4257F0(FP speed);
-    void ToNewElumSyncMotion_422520(s16 elum_frame);
+    void ToNewElumSyncMotion_422520(s32 elum_frame);
     void SetActiveControlledCharacter_421480();
     PullRingRope* GetPullRope_422580();
     void Free_Resources_422870();

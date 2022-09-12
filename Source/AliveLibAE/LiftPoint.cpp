@@ -122,7 +122,6 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, const Guid& tlvId)
     mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
 
-    u8** ppLiftWheels = Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kLiftWheelsResID);
     const LiftPointData& rLiftWheelData = sLiftPointData_545AC8[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))];
     if (field_13C_lift_wheel.Init(
             GetAnimRes(rLiftWheelData.field_C_lift_bottom_wheel_anim_id),
@@ -935,7 +934,6 @@ void LiftPoint::CreatePulleyIfExists()
     field_26C_pulley_xpos = FP_GetExponent(((kM10_scaled + k13_scaled) / FP_FromInteger(2)) + FP_NoFractional(mXPos));
     field_26E_pulley_ypos = pFound->mTopLeftY;
 
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kLiftWheelsResID);
     const LiftPointData& data = sLiftPointData_545AC8[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))];
     field_1D4_pulley_anim.Init(
         GetAnimRes(data.field_10_lift_top_wheel_anim_id),
