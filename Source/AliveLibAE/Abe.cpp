@@ -629,10 +629,9 @@ const FP_Point sThrowVelocities_555118[9] = {
     {FP_FromInteger(0), FP_FromInteger(0)}};
 
 
-s32 Animation_OnFrame_Abe_455F80(BaseGameObject* pPtr, s16* pData)
+void Animation_OnFrame_Abe_455F80(BaseGameObject* pPtr, u32&, const Point32& point)
 {
     auto pAbe = static_cast<Abe*>(pPtr);
-    auto pFramePos = reinterpret_cast<PSX_Point*>(pData);
 
     auto pThrowable = static_cast<BaseThrowable*>(sObjectIds.Find_Impl(sActiveHero->mThrowableId));
 
@@ -643,11 +642,11 @@ s32 Animation_OnFrame_Abe_455F80(BaseGameObject* pPtr, s16* pData)
     if (sActiveHero->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
         tableX = -tableX;
-        xOff = -(pAbe->mSpriteScale * FP_FromInteger(pFramePos->x));
+        xOff = -(pAbe->mSpriteScale * FP_FromInteger(point.x));
     }
     else
     {
-        xOff = pAbe->mSpriteScale * FP_FromInteger(pFramePos->x);
+        xOff = pAbe->mSpriteScale * FP_FromInteger(point.x);
     }
 
     PathLine* pLine = nullptr;
@@ -655,9 +654,9 @@ s32 Animation_OnFrame_Abe_455F80(BaseGameObject* pPtr, s16* pData)
     FP hitY = {};
     if (sCollisions->Raycast(
             pAbe->mXPos,
-            pAbe->mYPos + FP_FromInteger(pFramePos->y),
+            pAbe->mYPos + FP_FromInteger(point.y),
             xOff + pAbe->mXPos,
-            pAbe->mYPos + FP_FromInteger(pFramePos->y),
+            pAbe->mYPos + FP_FromInteger(point.y),
             &pLine,
             &hitX,
             &hitY,
@@ -670,14 +669,12 @@ s32 Animation_OnFrame_Abe_455F80(BaseGameObject* pPtr, s16* pData)
     if (pThrowable)
     {
         pThrowable->mXPos = xOff + sActiveHero->mXPos;
-        pThrowable->mYPos = (pAbe->mSpriteScale * FP_FromInteger(pFramePos->y)) + sActiveHero->mYPos;
+        pThrowable->mYPos = (pAbe->mSpriteScale * FP_FromInteger(point.y)) + sActiveHero->mYPos;
         pThrowable->VThrow(tableX, tableY);
         pThrowable->mSpriteScale = pAbe->mSpriteScale;
         pThrowable->mScale = pAbe->mScale;
         sActiveHero->mThrowableId = Guid{};
     }
-
-    return 1;
 }
 
 enum AbeResources

@@ -14,7 +14,7 @@ ALIVE_VAR(1, 0x9F1DCC, ZBall*, gCenterZBall, nullptr);
 ALIVE_VAR(1, 0x9F1DD0, ZBall*, gOutZBall, nullptr);
 
 // TODO: Pass the whole object because this decides to read 2 points as a rect
-void Animation_OnFrame_ZBallSmacker(::BaseGameObject* pObj, const Point32& pData)
+void Animation_OnFrame_ZBallSmacker(::BaseGameObject* pObj, u32& idx, const Point32& points)
 {
     auto pZBall = static_cast<ZBall*>(pObj);
     for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
@@ -32,14 +32,18 @@ void Animation_OnFrame_ZBallSmacker(::BaseGameObject* pObj, const Point32& pData
 
             const PSX_RECT bRect = pAliveObj->VGetBoundingRect();
 
-            if (bRect.x <= (FP_GetExponent(pZBall->mXPos) + pData[2]) && bRect.w >= (FP_GetExponent(pZBall->mXPos) + pData[0]) && bRect.h >= (FP_GetExponent(pZBall->mYPos) + pData[1]) && bRect.y <= (FP_GetExponent(pZBall->mYPos) + pData[3]))
+             const Point32* pPoints = &points;
+
+            if (bRect.x <= (FP_GetExponent(pZBall->mXPos) + pPoints[1].x) && bRect.w >= (FP_GetExponent(pZBall->mXPos) + pPoints[0].x) && bRect.h >= (FP_GetExponent(pZBall->mYPos) + pPoints[0].y) && bRect.y <= (FP_GetExponent(pZBall->mYPos) + pPoints[1].y))
             {
                 pAliveObj->VTakeDamage(pZBall);
             }
         }
     }
 
-    return 2;
+    // TODO: Debug this and make sure it actually does skip 2 and not 1
+    // skip an extra point
+    idx++;
 }
 
 ZBall::ZBall(relive::Path_ZBall* pTlv, const Guid& tlvId)

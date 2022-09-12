@@ -1599,10 +1599,9 @@ const TintEntry kFleechTints_551844[15] = {
     {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
     {EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
-s32 Animation_OnFrame_Fleech_449A60(BaseGameObject* pObj, s16* pData)
+void Animation_OnFrame_Fleech_449A60(BaseGameObject* pObj, u32&, const Point32& point)
 {
-    reinterpret_cast<Fleech*>(pObj)->VOnFrame(pData);
-    return 1;
+    reinterpret_cast<Fleech*>(pObj)->VOnFrame(point);
 }
 
 void Fleech::Init()

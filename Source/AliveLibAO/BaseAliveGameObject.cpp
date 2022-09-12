@@ -167,11 +167,11 @@ void BaseAliveGameObject::VSetYSpawn(s32 camWorldY, s16 bLeft)
     const FP oldx = mXPos;
     const FP oldy = mYPos;
 
-    auto pFrameHeader = reinterpret_cast<FrameHeader*>(&(*mAnim.field_20_ppBlock)[mAnim.Get_FrameHeader(-1)->field_0_frame_header_offset]);
+    const PerFrameInfo* pFrameInfo = mAnim.Get_FrameHeader(-1);
 
     if (bLeft == 1)
     {
-        mYPos = FP_FromInteger(pFrameHeader->field_5_height + camWorldY + 356);
+        mYPos = FP_FromInteger(pFrameInfo->mHeight + camWorldY + 356);
     }
     else
     {
@@ -436,7 +436,8 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
             height = camWorldY + 170;
 
             // Get the fame header for the first frame in the animation and take its height
-            const s32 frameH = reinterpret_cast<FrameHeader*>((*mAnim.field_20_ppBlock)[mAnim.Get_FrameHeader(-1)->field_0_frame_header_offset])->field_5_height;
+            const PerFrameInfo* pFrameInfo = mAnim.Get_FrameHeader(-1);
+            const s32 frameH = pFrameInfo->mHeight;
 
             mXPos = FP_FromInteger(camWorldX + (FP_GetExponent(oldx) % 1024));
             mYPos = FP_FromInteger(frameH + camWorldY + 356);

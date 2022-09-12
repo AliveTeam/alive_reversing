@@ -16,7 +16,7 @@
 
 namespace AO {
 
-void Animation_OnFrame_Slig(::BaseGameObject* pObj, const Point32& pData)
+void Animation_OnFrame_Slig(::BaseGameObject* pObj, u32&, const Point32& pData)
 {
     auto pSlig = static_cast<Slig*>(pObj);
     if (pSlig->mBaseGameObjectUpdateDelay != 0)
@@ -99,9 +99,9 @@ void Animation_OnFrame_Slig(::BaseGameObject* pObj, const Point32& pData)
     Dove::All_FlyAway();
 }
 
-void Animation_OnFrame_ZBallSmacker(::BaseGameObject* pObj, const Point32& pData);
+void Animation_OnFrame_ZBallSmacker(::BaseGameObject* pObj, u32& idx, const Point32& pData);
 
-void Slog_OnFrame(::BaseGameObject* pObj, const Point32& pData)
+void Slog_OnFrame(::BaseGameObject* pObj, u32&, const Point32& pData)
 {
     auto pSlog = static_cast<Slog*>(pObj);
     if (pSlog->field_10C_pTarget)
@@ -152,7 +152,7 @@ const FP_Point kAbeVelTable_4C6608[6] = {
     {FP_FromInteger(10), FP_FromInteger(-4)},
     {FP_FromInteger(4), FP_FromInteger(-3)}};
 
-void Abe_OnFrame(::BaseGameObject* pObj, const Point32& pData)
+void Abe_OnFrame(::BaseGameObject* pObj, u32&, const Point32& pData)
 {
     auto pAbe = static_cast<Abe*>(pObj);
 

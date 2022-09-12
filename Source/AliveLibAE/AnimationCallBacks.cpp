@@ -11,18 +11,17 @@
 #include "../relive_lib/ObjectIds.hpp"
 #include "ResourceManager.hpp"
 
-// Frame call backs ??
-s32 Animation_OnFrame_Common_Null_455F40(BaseGameObject*, s16*)
+void Animation_OnFrame_Common_Null_455F40(BaseGameObject*, u32&, const Point32&)
 {
-    return 1;
+
 }
 
-s32 Animation_OnFrame_Null_455F60(BaseGameObject*, s16*)
+void Animation_OnFrame_Null_455F60(BaseGameObject*, u32&, const Point32&)
 {
-    return 1;
+
 }
 
-s32 Animation_OnFrame_Common_4561B0(BaseGameObject* pObjPtr, s16* pData)
+void Animation_OnFrame_Common_4561B0(BaseGameObject* pObjPtr, u32&, const Point32& point)
 {
     auto pObj = static_cast<BaseAliveGameObject*>(pObjPtr);
     const AnimRecord& dustRec = AnimRec(AnimId::Dust_Particle);
@@ -31,18 +30,18 @@ s32 Animation_OnFrame_Common_4561B0(BaseGameObject* pObjPtr, s16* pData)
     FP xOff = {};
     if (pObj->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        xOff = -(pObj->mSpriteScale * FP_FromInteger(pData[0]));
+        xOff = -(pObj->mSpriteScale * FP_FromInteger(point.x));
     }
     else
     {
-        xOff = (pObj->mSpriteScale * FP_FromInteger(pData[0]));
+        xOff = (pObj->mSpriteScale * FP_FromInteger(point.x));
     }
 
     FP xpos = xOff + pObj->mXPos;
-    FP ypos = (pObj->mSpriteScale * FP_FromInteger(pData[1])) + pObj->mYPos + FP_FromInteger(25);
+    FP ypos = (pObj->mSpriteScale * FP_FromInteger(point.y)) + pObj->mYPos + FP_FromInteger(25);
     if (!pObj->BaseAliveGameObjectCollisionLine)
     {
-        return 1;
+        return;
     }
 
     const s8 count = sSlurg_Step_Watch_Points_Count_5BD4DC[sSlurg_Step_Watch_Points_Idx_5C1C08];
@@ -56,7 +55,7 @@ s32 Animation_OnFrame_Common_4561B0(BaseGameObject* pObjPtr, s16* pData)
 
     if (!IsActiveHero(pObj))
     {
-        return 1;
+        return;
     }
 
     if (pObj->mSpriteScale == FP_FromDouble(0.5))
@@ -109,10 +108,10 @@ s32 Animation_OnFrame_Common_4561B0(BaseGameObject* pObjPtr, s16* pData)
                 break;
         }
     }
-    return 1;
+    return;
 }
 
-s32 Animation_OnFrame_Common_434130(BaseGameObject* pObjPtr, s16* pData)
+void Animation_OnFrame_Common_434130(BaseGameObject* pObjPtr, u32&, const Point32& point)
 {
     auto pObj = static_cast<BaseAliveGameObject*>(pObjPtr);
 
@@ -124,7 +123,7 @@ s32 Animation_OnFrame_Common_434130(BaseGameObject* pObjPtr, s16* pData)
 
     if (pObj->mHealth <= FP_FromInteger(0))
     {
-        return 1;
+        return;
     }
 
     // flying slig: kVaporResID
@@ -132,15 +131,15 @@ s32 Animation_OnFrame_Common_434130(BaseGameObject* pObjPtr, s16* pData)
     FP xOff = {};
     if (pObj->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        xOff = -(pObj->mSpriteScale * FP_FromInteger(pData[0]));
+        xOff = -(pObj->mSpriteScale * FP_FromInteger(point.x));
     }
     else
     {
-        xOff = (pObj->mSpriteScale * FP_FromInteger(pData[0]));
+        xOff = (pObj->mSpriteScale * FP_FromInteger(point.x));
     }
 
     FP xpos = xOff + pObj->mXPos;
-    FP ypos = (pObj->mSpriteScale * (FP_FromInteger(pData[1]) + FP_FromInteger(25))) + pObj->mYPos;
+    FP ypos = (pObj->mSpriteScale * (FP_FromInteger(point.y) + FP_FromInteger(25))) + pObj->mYPos;
 
     if (EventGet(kEventDeathReset))
     {
@@ -155,21 +154,20 @@ s32 Animation_OnFrame_Common_434130(BaseGameObject* pObjPtr, s16* pData)
         pParticle->mRGB.SetRGB(64, 64, 64);
         pParticle->mSpriteScale = FP_FromDouble(0.6) * pObj->mSpriteScale;
     }
-    return 1;
 }
 
-s32 Animation_OnFrame_Slog_4C3030(BaseGameObject* pObjPtr, s16* pPoints)
+void Animation_OnFrame_Slog_4C3030(BaseGameObject* pObjPtr, u32&, const Point32& point)
 {
     auto pSlog = static_cast<Slog*>(pObjPtr);
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(pSlog->field_118_target_id));
     if (!pTarget)
     {
-        return 1;
+        return;
     }
 
     if ((pTarget->Type() == ReliveTypes::eAbe && pTarget->mCurrentMotion == eAbeMotions::Motion_68_ToOffScreenHoist_454B80) || pSlog->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted))
     {
-        return 1;
+        return;
     }
 
     const PSX_RECT bTargetRect = pTarget->VGetBoundingRect();
@@ -177,25 +175,25 @@ s32 Animation_OnFrame_Slog_4C3030(BaseGameObject* pObjPtr, s16* pPoints)
 
     if (bSlogRect.x > bTargetRect.w || bSlogRect.w < bTargetRect.x || bSlogRect.h < bTargetRect.y || bSlogRect.y > bTargetRect.h || pTarget->mSpriteScale != FP_FromInteger(1) || pSlog->field_11C_biting_target)
     {
-        return 1;
+        return;
     }
 
     if (!pTarget->VTakeDamage(pSlog))
     {
-        return 1;
+        return;
     }
 
     FP bloodX = {};
     if (pSlog->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        bloodX = pSlog->mXPos - (pSlog->mSpriteScale * FP_FromInteger(pPoints[0]));
+        bloodX = pSlog->mXPos - (pSlog->mSpriteScale * FP_FromInteger(point.x));
     }
     else
     {
-        bloodX = (pSlog->mSpriteScale * FP_FromInteger(pPoints[0])) + pSlog->mXPos;
+        bloodX = (pSlog->mSpriteScale * FP_FromInteger(point.x)) + pSlog->mXPos;
     }
 
-    const FP bloodY = (pSlog->mSpriteScale * FP_FromInteger(pPoints[1])) + pSlog->mYPos;
+    const FP bloodY = (pSlog->mSpriteScale * FP_FromInteger(point.y)) + pSlog->mYPos;
 
     relive_new Blood(
         bloodX,
@@ -208,7 +206,7 @@ s32 Animation_OnFrame_Slog_4C3030(BaseGameObject* pObjPtr, s16* pPoints)
     pSlog->field_11C_biting_target = 1;
     SfxPlayMono(relive::SoundEffects::SlogBite, 0);
 
-    return 1;
+    return;
 }
 
 // TODO: Array is possibly bigger, called by AnimationEx::Invoke_CallBacks

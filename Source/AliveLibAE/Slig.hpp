@@ -508,7 +508,7 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(Slig, 0x298);
 
-s32 Animation_OnFrame_Slig_4C0600(BaseGameObject* pObj, s16* pData);
+void Animation_OnFrame_Slig_4C0600(BaseGameObject* pObj, u32&, const Point32& point);
 void Slig_SoundEffect_4BFFE0(SligSfx effect, BaseAliveGameObject* pObj);
 
 void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, s16* pPalAlloc, s16 palSize, PSX_RECT* palRect,

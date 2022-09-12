@@ -81,14 +81,13 @@ void Slig_SoundEffect_4BFFE0(SligSfx effect, BaseAliveGameObject* pObj)
     }
 }
 
-s32 Animation_OnFrame_Slig_4C0600(BaseGameObject* pObj, s16* pData)
+void Animation_OnFrame_Slig_4C0600(BaseGameObject* pObj, u32&, const Point32& point)
 {
     auto pSlig = reinterpret_cast<Slig*>(pObj);
-    auto pPoints = reinterpret_cast<PSX_Point*>(pData);
 
     if (pSlig->UpdateDelay())
     {
-        return 1;
+        return;
     }
 
     BulletType bulletType = BulletType::eSligPossessedOrUnderGlukkonCommand_0;
@@ -101,8 +100,8 @@ s32 Animation_OnFrame_Slig_4C0600(BaseGameObject* pObj, s16* pData)
         bulletType = BulletType::eNormalBullet_2;
     }
 
-    const FP xOff = (pSlig->mSpriteScale * FP_FromInteger(pPoints->x));
-    const FP yOff = (pSlig->mSpriteScale * FP_FromInteger(pPoints->y));
+    const FP xOff = (pSlig->mSpriteScale * FP_FromInteger(point.x));
+    const FP yOff = (pSlig->mSpriteScale * FP_FromInteger(point.y));
 
     Bullet* pBullet = nullptr;
 
@@ -147,7 +146,7 @@ s32 Animation_OnFrame_Slig_4C0600(BaseGameObject* pObj, s16* pData)
     EventBroadcast(kEventLoudNoise, pSlig);
 
     Dove::All_FlyAway(0);
-    return 1;
+    return;
 }
 
 TintEntry sSligTint_560570[15] = {
