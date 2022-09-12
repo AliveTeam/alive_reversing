@@ -13,6 +13,8 @@ public:
     Shrykull();
     ~Shrykull();
 
+    void LoadAnimations();
+
     virtual void VScreenChanged() override;
     virtual void VOnThrowableHit(BaseGameObject*) override;
     virtual void VUpdate() override;

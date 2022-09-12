@@ -17,6 +17,8 @@ public:
     RollingBall(relive::Path_RollingBall* pTlv, const Guid& tlvId);
     ~RollingBall();
 
+    void LoadAnimations();
+
     virtual void VUpdate() override;
 
     void Accelerate();

@@ -20,6 +20,8 @@ public:
     SligGetPantsAndWings(relive::Path_TLV* pTlv, const Guid& tlvId);
     ~SligGetPantsAndWings();
 
+    void LoadAnimations();
+
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 

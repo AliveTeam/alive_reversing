@@ -47,10 +47,20 @@ const TSlingMudBrain gSlingMudBrainTable_4CFCE0[] = {
     &SlingMudokon::Brain_1_Spawn,
     &SlingMudokon::Brain_2_AskForPassword};
 
+void SlingMudokon::LoadAnimations()
+{
+    for (auto& animId : sSlingMudMotionAnimIds)
+    {
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
+    }
+}
+
 SlingMudokon::SlingMudokon(relive::Path_SlingMudokon* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::SlingMud;
+
+    LoadAnimations();
 
     field_120_last_event_idx = -1;
     field_134_buffer_start = 0;
@@ -233,7 +243,7 @@ void SlingMudokon::VUpdateAnimData()
         ppResBlock = field_150_res;
     }
     
-    mAnim.Set_Animation_Data(sSlingMudMotionAnimIds[mCurrentMotion], ppResBlock);
+    mAnim.Set_Animation_Data(GetAnimRes(sSlingMudMotionAnimIds[mCurrentMotion]));
 }
 
 void SlingMudokon::Motion_0_Idle()

@@ -40,12 +40,21 @@ void Shrykull::VScreenChanged()
     }
 }
 
+void Shrykull::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::ShrykullStart));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::ShrykullTransform));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::ShrykullDetransform));
+}
+
 Shrykull::Shrykull()
     : BaseAliveGameObject()
 {
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
     mBaseGameObjectTypeId = ReliveTypes::eShrykull;
     
+    LoadAnimations();
+
     const AnimRecord rec = AO::AnimRec(AnimId::ShrykullStart);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init(AnimId::ShrykullStart, ppRes);
@@ -122,7 +131,7 @@ void Shrykull::VUpdate()
 
             if (mAnim.mFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
             {
-                mAnim.Set_Animation_Data(AnimId::ShrykullTransform, nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(AnimId::ShrykullTransform));
                 field_10C_state = State::eZapTargets_1;
             }
             break;
@@ -230,7 +239,7 @@ void Shrykull::VUpdate()
         case State::eDetransform_2:
             if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                mAnim.Set_Animation_Data(AnimId::ShrykullDetransform, nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(AnimId::ShrykullDetransform));
                 field_10C_state = State::eFinish_3;
             }
             break;

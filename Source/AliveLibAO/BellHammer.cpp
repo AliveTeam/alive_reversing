@@ -12,10 +12,19 @@
 
 namespace AO {
 
+void BellHammer::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BellHammer_Idle));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BellHammer_Smashing));
+}
+
+
 BellHammer::BellHammer(relive::Path_BellHammer* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eBellHammer;
+
+    LoadAnimations();
 
     const AnimRecord rec = AO::AnimRec(AnimId::BellHammer_Idle);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -128,7 +137,7 @@ void BellHammer::VUpdate()
             if (SwitchStates_Get(mSwitchId))
             {
                 mState = BellHammerStates::eSmashingBell_1;
-                mAnim.Set_Animation_Data(AnimId::BellHammer_Smashing, nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(AnimId::BellHammer_Smashing));
             }
             break;
 
@@ -136,7 +145,7 @@ void BellHammer::VUpdate()
             if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 mState = BellHammerStates::eWaitForActivation_0;
-                mAnim.Set_Animation_Data(AnimId::BellHammer_Idle, nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(AnimId::BellHammer_Idle));
                 SwitchStates_Set(mSwitchId, 0);
 
                 // Spawn the foo if he ain't already here

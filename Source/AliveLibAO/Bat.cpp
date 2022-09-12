@@ -14,10 +14,19 @@
 
 namespace AO {
 
+void Bat::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Bat));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Bat_Flying));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Bat_Unknown));
+}
+
 Bat::Bat(relive::Path_Bat* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eBat;
+
+    LoadAnimations();
 
     const AnimRecord rec = AO::AnimRec(AnimId::Bat);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -155,7 +164,7 @@ void Bat::VUpdate()
             {
                 mBatState = BatStates::eStartMoving_2;
                 mBatVelX = FP_FromInteger(0);
-                mAnim.Set_Animation_Data(AnimId::Bat_Unknown, nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(AnimId::Bat_Unknown));
             }
             break;
 
@@ -177,7 +186,7 @@ void Bat::VUpdate()
             if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 mBatState = BatStates::eFlying_3;
-                mAnim.Set_Animation_Data(AnimId::Bat_Flying, nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(AnimId::Bat_Flying));
                 mTimer = sGnFrame + Math_RandomRange(0, 90);
             }
             break;
@@ -244,7 +253,7 @@ void Bat::VUpdate()
                                     pBat->mAttackTarget->mBaseGameObjectRefCount++;
 
                                     pBat->mBatState = BatStates::eAttackTarget_4;
-                                    pBat->mAnim.Set_Animation_Data(AnimId::Bat_Flying, nullptr);
+                                    pBat->mAnim.Set_Animation_Data(GetAnimRes(AnimId::Bat_Flying));
 
                                     pBat->mTimer = 0;
                                     pBat->mAttackDurationTimer = sGnFrame + pBat->mAttackDuration;

@@ -10,9 +10,17 @@
 #include "ResourceManager.hpp"
 #include "Map.hpp"
 
+void StatusLight::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Status_Light_Green));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Status_Light_Red));
+}
+
 StatusLight::StatusLight(relive::Path_StatusLight* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
+    LoadAnimations();
+
     field_F4_tlvInfo = tlvId;
     mInputSwitchId = pTlv->mInputSwitchId;
 
@@ -107,7 +115,7 @@ void StatusLight::VUpdate()
         {
             mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
         }
-        mAnim.Set_Animation_Data(AnimId::Status_Light_Green, nullptr);
+        mAnim.Set_Animation_Data(GetAnimRes(AnimId::Status_Light_Green));
     }
     else if (SwitchStates_Get(mLinkedStatusLightSwitchId1) ||
         SwitchStates_Get(mLinkedStatusLightSwitchId2) ||
@@ -123,12 +131,12 @@ void StatusLight::VUpdate()
         {
             mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
         }
-        mAnim.Set_Animation_Data(AnimId::Status_Light_Red, nullptr);
+        mAnim.Set_Animation_Data(GetAnimRes(AnimId::Status_Light_Red));
     }
     else
     {
         mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
-        mAnim.Set_Animation_Data(AnimId::Status_Light_Red, nullptr);
+        mAnim.Set_Animation_Data(GetAnimRes(AnimId::Status_Light_Red));
     }
 }
 

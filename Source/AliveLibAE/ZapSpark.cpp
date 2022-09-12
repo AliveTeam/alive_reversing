@@ -5,10 +5,17 @@
 #include "Map.hpp"
 #include "ResourceManager.hpp"
 
+void ZapSpark::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::AE_ZapSpark));
+}
+
 ZapSpark::ZapSpark(FP xpos, FP ypos, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eZapSpark);
+
+    LoadAnimations();
 
     const AnimRecord& rec = AnimRec(AnimId::AE_ZapSpark);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -42,7 +49,7 @@ void ZapSpark::VUpdate()
 
     if (mSparkTimer == 0)
     {
-        mAnim.Set_Animation_Data(AnimId::AE_ZapSpark, nullptr);
+        mAnim.Set_Animation_Data(GetAnimRes(AnimId::AE_ZapSpark));
         mSparkTimer = -1;
     }
 

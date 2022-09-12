@@ -39,6 +39,18 @@ const Lever_Data gLeverData_4BCF40[16] = {
     {AnimId::Lever_Idle, 66, 41, AnimId::Lever_Pull_Left, AnimId::Lever_Pull_Release_Left, AnimId::Lever_Pull_Right, AnimId::Lever_Pull_Release_Right},                                                                  // forest chase
     {AnimId::Lever_Idle, 66, 41, AnimId::Lever_Pull_Left, AnimId::Lever_Pull_Release_Left, AnimId::Lever_Pull_Right, AnimId::Lever_Pull_Release_Right}};                                                                 // desert escape
 
+void Lever::LoadAnimations()
+{
+    for (u32 i = 0; ALIVE_COUNTOF(gLeverData_4BCF40); i++)
+    {
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(gLeverData_4BCF40[i].field_0_idle_animId));
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(gLeverData_4BCF40[i].field_10_releasing_left_animId));
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(gLeverData_4BCF40[i].field_14_pulling_right_animId));
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(gLeverData_4BCF40[i].field_18_releasing_right_animId));
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(gLeverData_4BCF40[i].field_C_pulling_left_animId));
+    }
+}
+
 void Lever::VUpdate()
 {
     if (EventGet(kEventDeathReset))
@@ -76,7 +88,7 @@ void Lever::VUpdate()
                 animId = gLeverData_4BCF40[lvl_idx].field_10_releasing_left_animId;
             }
 
-            mAnim.Set_Animation_Data(animId, nullptr);
+            mAnim.Set_Animation_Data(GetAnimRes(animId));
 
             const auto oldSwitchState = SwitchStates_Get(mSwitchId);
             SwitchStates_Do_Operation(mSwitchId, mAction);
@@ -158,8 +170,7 @@ void Lever::VUpdate()
         {
             mState = LeverState::eWaiting_0;
             mAnim.Set_Animation_Data(
-                gLeverData_4BCF40[static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))].field_0_idle_animId,
-                nullptr);
+                GetAnimRes(gLeverData_4BCF40[static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))].field_0_idle_animId));
         }
     }
 }
@@ -178,6 +189,9 @@ Lever::Lever(relive::Path_Lever* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eLever;
+
+    LoadAnimations();
+
     const s32 lvl_idx = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
     const AnimRecord& rec = AO::AnimRec(gLeverData_4BCF40[lvl_idx].field_0_idle_animId);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -223,15 +237,13 @@ s32 Lever::VPull(s16 bLeftDirection)
         if (bLeftDirection)
         {
             mAnim.Set_Animation_Data(
-                gLeverData_4BCF40[lvl_idx].field_C_pulling_left_animId,
-                nullptr);
+                GetAnimRes(gLeverData_4BCF40[lvl_idx].field_C_pulling_left_animId));
             field_F0_bPulledFromLeft = 1;
         }
         else
         {
             mAnim.Set_Animation_Data(
-                gLeverData_4BCF40[lvl_idx].field_14_pulling_right_animId,
-                nullptr);
+                GetAnimRes(gLeverData_4BCF40[lvl_idx].field_14_pulling_right_animId));
             field_F0_bPulledFromLeft = 0;
         }
     }

@@ -11,10 +11,18 @@
 #include "ResourceManager.hpp"
 #include "Map.hpp"
 
+void WorkWheel::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Work_Wheel_Idle));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Work_Wheel_Turning));
+}
+
 WorkWheel::WorkWheel(relive::Path_WorkWheel* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eWheel);
+
+    LoadAnimations();
 
     mBaseGameObjectTlvInfo = tlvId;
 
@@ -182,7 +190,7 @@ void WorkWheel::VStartTurning()
     if (mState == WheelStates::eIdle_0)
     {
         mState = WheelStates::eTurning_1;
-        mAnim.Set_Animation_Data(AnimId::Work_Wheel_Turning, nullptr);
+        mAnim.Set_Animation_Data(GetAnimRes(AnimId::Work_Wheel_Turning));
     }
 }
 
@@ -193,7 +201,7 @@ void WorkWheel::VStopTurning(s16 bResetSwitch)
         mState = WheelStates::eIdle_0;
 
         // Spin it.
-        mAnim.Set_Animation_Data(AnimId::Work_Wheel_Idle, nullptr);
+        mAnim.Set_Animation_Data(GetAnimRes(AnimId::Work_Wheel_Idle));
 
         if (mTurnOffWhenStopped == relive::reliveChoice::eYes)
         {

@@ -13,10 +13,20 @@
 
 namespace AO {
 
+void HoneySack::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::HoneySack_Hanging));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::HoneySack_OnGround));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::HoneySack_Falling));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::HoneySack_FallingToSmashed));
+}
+
 HoneySack::HoneySack(relive::Path_HoneySack* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eHoneySack;
+
+    LoadAnimations();
 
     const AnimRecord hangingRec = AO::AnimRec(AnimId::HoneySack_Hanging);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, hangingRec.mResourceId, 1, 0);
@@ -50,7 +60,7 @@ HoneySack::HoneySack(relive::Path_HoneySack* pTlv, const Guid& tlvId)
         mYPos += FP_FromInteger(pTlv->mTlvSpecificMeaning);
 
         mState = State::eUpdateHoneySackOnGround_3;
-        mAnim.Set_Animation_Data(AnimId::HoneySack_OnGround, nullptr);
+        mAnim.Set_Animation_Data(GetAnimRes(AnimId::HoneySack_OnGround));
         mBeeSwarm = nullptr;
     }
     else
@@ -157,7 +167,7 @@ void HoneySack::VUpdate()
         case State::eSetFallAnimation_1:
             if (static_cast<s32>(sGnFrame) > mTimer - 68)
             {
-                mAnim.Set_Animation_Data(AnimId::HoneySack_Falling, nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(AnimId::HoneySack_Falling));
                 mState = State::eFallOnGround_2;
                 mVelX = FP_FromInteger(0);
                 mVelY = FP_FromInteger(0);
@@ -198,7 +208,7 @@ void HoneySack::VUpdate()
                 Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 90, -1000, nullptr);
                 mYPos = hitY;
                 mState = State::eUpdateHoneySackOnGround_3;
-                mAnim.Set_Animation_Data(AnimId::HoneySack_FallingToSmashed, nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(AnimId::HoneySack_FallingToSmashed));
 
                 auto pNewBee = relive_new BeeSwarm(
                     mXPos,

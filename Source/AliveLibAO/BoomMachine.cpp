@@ -16,10 +16,17 @@ namespace AO {
 class GrenadeMachineNozzle final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
+
+    void LoadAnimations()
+    {
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BoomMachine_Nozzle_DropGrenade));
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BoomMachine_Nozzle_Idle));
+    }
+
     GrenadeMachineNozzle()
         : BaseAnimatedWithPhysicsGameObject(0)
     {
-
+        LoadAnimations();
     }
 
     virtual void VUpdate() override
@@ -38,7 +45,7 @@ public:
                 if (static_cast<s32>(sGnFrame) > field_E8_timer)
                 {
                     field_E4_state = BoomMachineStates::eDropGrenade_3;
-                    mAnim.Set_Animation_Data(AnimId::BoomMachine_Nozzle_DropGrenade, nullptr);
+                    mAnim.Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Nozzle_DropGrenade));
                 }
                 break;
 
@@ -71,7 +78,7 @@ public:
                         pNewNade->VThrow(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) ? FP_FromDouble(-0.75) : FP_FromDouble(0.75), FP_FromInteger(3));
                     }
 
-                    mAnim.Set_Animation_Data(AnimId::BoomMachine_Nozzle_Idle, nullptr);
+                    mAnim.Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Nozzle_Idle));
                     field_E4_state = BoomMachineStates::eInactive_0;
                 }
                 break;
@@ -128,7 +135,7 @@ void BoomMachine::VUpdate()
         if (!gpThrowableArray_50E26C || gpThrowableArray_50E26C->field_10_count == 0)
         {
             field_E8_bIsButtonOn = 1;
-            mAnim.Set_Animation_Data(AnimId::BoomMachine_Button_On, nullptr);
+            mAnim.Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Button_On));
         }
     }
     else if (field_E8_bIsButtonOn == 1)
@@ -136,7 +143,7 @@ void BoomMachine::VUpdate()
         if (gpThrowableArray_50E26C && gpThrowableArray_50E26C->field_10_count > 0)
         {
             field_E8_bIsButtonOn = 0;
-            mAnim.Set_Animation_Data(AnimId::BoomMachine_Button_Off, nullptr);
+            mAnim.Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Button_Off));
         }
 
         if (mAnim.mCurrentFrame == 3)
@@ -157,10 +164,18 @@ BoomMachine::~BoomMachine()
     Path::TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
 }
 
+void BoomMachine::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BoomMachine_Button_Off));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BoomMachine_Button_On));
+}
+
 BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eBoomMachine;
+
+    LoadAnimations();
 
     const AnimRecord rec = AO::AnimRec(AnimId::BoomMachine_Button_On);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -212,7 +227,7 @@ BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId)
     if (gpThrowableArray_50E26C && gpThrowableArray_50E26C->field_10_count)
     {
         field_E8_bIsButtonOn = 1;
-        mAnim.Set_Animation_Data(AnimId::BoomMachine_Button_On, nullptr);
+        mAnim.Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Button_On));
     }
     else
     {

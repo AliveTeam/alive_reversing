@@ -20,6 +20,8 @@ public:
     MeatSaw(relive::Path_MeatSaw* pTlv, const Guid& tlvId);
     ~MeatSaw();
 
+    void LoadAnimations();
+
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;

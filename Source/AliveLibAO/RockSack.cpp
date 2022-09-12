@@ -15,6 +15,13 @@
 
 namespace AO {
 
+void RockSack::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::RockSack_Idle));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::RockSack_SoftHit));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::RockSack_HardHit));
+}
+
 void RockSack::VUpdate()
 {
     if (EventGet(kEventDeathReset))
@@ -45,7 +52,7 @@ void RockSack::VUpdate()
         {
             if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                mAnim.Set_Animation_Data(AnimId::RockSack_Idle, nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(AnimId::RockSack_Idle));
                 field_110_has_been_hit = 0;
             }
         }
@@ -90,11 +97,11 @@ void RockSack::VUpdate()
 
             if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_33_RunJumpMid_426FA0)
             {
-                mAnim.Set_Animation_Data(AnimId::RockSack_HardHit, nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(AnimId::RockSack_HardHit));
             }
             else
             {
-                mAnim.Set_Animation_Data(AnimId::RockSack_SoftHit, nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(AnimId::RockSack_SoftHit));
             }
 
             field_110_has_been_hit = 1;
@@ -111,6 +118,8 @@ RockSack::RockSack(relive::Path_RockSack* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::eRockSack;
+
+    LoadAnimations();
 
     const AnimRecord rec = AO::AnimRec(AnimId::RockSack_Idle);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);

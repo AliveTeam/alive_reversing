@@ -16,6 +16,13 @@ ALIVE_VAR(1, 0x5C1C08, u16, sSlurg_Step_Watch_Points_Idx_5C1C08, 0);
 ALIVE_ARY(1, 0x5BD4DC, s8, 2, sSlurg_Step_Watch_Points_Count_5BD4DC, {});
 ALIVE_ARY(1, 0x5C1B28, Slurg_Step_Watch_Points, 2, sSlurg_Step_Watch_Points_5C1B28, {});
 
+void Slurg::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Slurg_Burst));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Slurg_Move));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Slurg_Turn_Around));
+}
+
 void Slurg::Clear_Slurg_Step_Watch_Points()
 {
     sSlurg_Step_Watch_Points_Idx_5C1C08 = !sSlurg_Step_Watch_Points_Idx_5C1C08;
@@ -47,6 +54,8 @@ TintEntry sSlurgTints_560BCC[18] = {
 Slurg::Slurg(relive::Path_Slurg* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(0)
 {
+    LoadAnimations();
+
     mSlurgTlv = pTlv;
 
     mSlurgState = SlurgStates::eMoving_0;
@@ -157,7 +166,7 @@ Slurg::~Slurg()
 void Slurg::Burst()
 {
     mSlurgState = SlurgStates::eBurst_2;
-    mAnim.Set_Animation_Data(AnimId::Slurg_Burst, nullptr);
+    mAnim.Set_Animation_Data(GetAnimRes(AnimId::Slurg_Burst));
 
     relive_new Blood(mXPos,
                                 mYPos,
@@ -187,7 +196,7 @@ void Slurg::VUpdate()
     {
         mMovingTimer = Math_RandomRange(mRngForMovingTimer, mRngForMovingTimer + 20);
         mSlurgState = SlurgStates::ePausing_1;
-        mAnim.Set_Animation_Data(AnimId::Slurg_Turn_Around, nullptr);
+        mAnim.Set_Animation_Data(GetAnimRes(AnimId::Slurg_Turn_Around));
     }
 
     const PSX_RECT bRect = VGetBoundingRect();
@@ -236,7 +245,7 @@ void Slurg::VUpdate()
             if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 mSlurgState = SlurgStates::eMoving_0;
-                mAnim.Set_Animation_Data(AnimId::Slurg_Move, nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(AnimId::Slurg_Move));
             }
             break;
 
@@ -347,7 +356,7 @@ void Slurg::GoLeft()
     mSlurgFlags.Clear(SlurgFlags::eGoingRight);
 
     mSlurgState = SlurgStates::ePausing_1;
-    mAnim.Set_Animation_Data(AnimId::Slurg_Turn_Around, nullptr);
+    mAnim.Set_Animation_Data(GetAnimRes(AnimId::Slurg_Turn_Around));
 }
 
 void Slurg::GoRight()
@@ -356,5 +365,5 @@ void Slurg::GoRight()
     mSlurgFlags.Set(SlurgFlags::eGoingRight);
 
     mSlurgState = SlurgStates::ePausing_1;
-    mAnim.Set_Animation_Data(AnimId::Slurg_Turn_Around, nullptr);
+    mAnim.Set_Animation_Data(GetAnimRes(AnimId::Slurg_Turn_Around));
 }

@@ -36,12 +36,23 @@ const FallingItem_Data sFallingItemData_4BAB20[16] = {
     {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting, 76, 38}, // forest chase
     {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting, 76, 38}};// desert escape
 
+void FallingItem::LoadAnimations()
+{
+    for (u32 i = 0; i < ALIVE_COUNTOF(sFallingItemData_4BAB20); i++)
+    {
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sFallingItemData_4BAB20[i].field_0_falling_animId));
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sFallingItemData_4BAB20[i].field_4_waiting_animId));
+    }
+}
+
 FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
 
     mBaseGameObjectTypeId = ReliveTypes::eRockSpawner;
+
+    LoadAnimations();
 
     field_10C_tlvInfo = tlvId;
 
@@ -171,7 +182,7 @@ void FallingItem::VUpdate()
             field_110_state = State::eWaitForFallDelay_2;
             mVelX = FP_FromInteger(0);
             mVelY = FP_FromInteger(0);
-            mAnim.Set_Animation_Data(sFallingItemData_4BAB20[static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))].field_4_waiting_animId, nullptr);
+            mAnim.Set_Animation_Data(GetAnimRes(sFallingItemData_4BAB20[static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))].field_4_waiting_animId));
             field_11C_delay_timer = sGnFrame + mFallInterval;
             break;
         }
@@ -306,7 +317,7 @@ void FallingItem::VUpdate()
             }
             else
             {
-                mAnim.Set_Animation_Data(sFallingItemData_4BAB20[static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))].field_0_falling_animId, nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(sFallingItemData_4BAB20[static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))].field_0_falling_animId));
                 mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
                 mVelY = FP_FromInteger(0);
                 mVelX = FP_FromInteger(0);

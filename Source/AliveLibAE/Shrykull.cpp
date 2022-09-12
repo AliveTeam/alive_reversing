@@ -16,10 +16,19 @@
 #include "Map.hpp"
 #include "ResourceManager.hpp"
 
+void Shrykull::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::ShrykullStart));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::ShrykullTransform));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::ShrykullDetransform));
+}
+
 Shrykull::Shrykull()
     : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eShrykull);
+
+    LoadAnimations();
 
     mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
 
@@ -108,7 +117,7 @@ void Shrykull::VUpdate()
 
             if (mAnim.mFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
             {
-                mAnim.Set_Animation_Data(AnimId::ShrykullTransform, nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(AnimId::ShrykullTransform));
                 field_118_state = State::eZapTargets_1;
             }
             break;
@@ -228,7 +237,7 @@ void Shrykull::VUpdate()
 
             if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                mAnim.Set_Animation_Data(AnimId::ShrykullDetransform, nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(AnimId::ShrykullDetransform));
                 field_118_state = State::eFinish_3;
             }
             break;

@@ -42,11 +42,24 @@ const TrapDoor_Data sTrapDoorData_4BD4A0[16] = {
     {AnimId::Desert_TrapDoor_Open, AnimId::Desert_TrapDoor_Closed, AnimId::Desert_TrapDoor_Opening, AnimId::Desert_TrapDoor_Closing}}; // desert escape
 
 
+void TrapDoor::LoadAnimations()
+{
+    for (u32 i = 0; i < ALIVE_COUNTOF(sTrapDoorData_4BD4A0); i++)
+    {
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sTrapDoorData_4BD4A0[i].field_0_open));
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sTrapDoorData_4BD4A0[i].field_4_closed));
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sTrapDoorData_4BD4A0[i].field_8_opening));
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sTrapDoorData_4BD4A0[i].field_C_closing));
+    }
+}
+
 TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, Map* pMap, const Guid& tlvId)
 {
     mBaseGameObjectTypeId = ReliveTypes::eTrapDoor;
     mSwitchId = pTlv->mSwitchId;
     mStartState = pTlv->mStartState;
+
+    LoadAnimations();
 
     const s32 cur_lvl = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
 
@@ -86,7 +99,7 @@ TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, Map* pMap, const Guid& tlvId)
     mTrapDoorY = FP_FromInteger(pTlv->mTopLeftY);
     mTrapDoorX = FP_FromInteger(pTlv->mTopLeftX);
 
-    mAnim.Set_Animation_Data(animId, nullptr);
+    mAnim.Set_Animation_Data(GetAnimRes(animId));
     if (pTlv->mDirection == relive::reliveXDirection::eRight)
     {
         mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
@@ -207,8 +220,7 @@ void TrapDoor::VUpdate()
 
                 const s32 cur_lvl = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
                 mAnim.Set_Animation_Data(
-                    sTrapDoorData_4BD4A0[cur_lvl].field_8_opening,
-                    nullptr);
+                    GetAnimRes(sTrapDoorData_4BD4A0[cur_lvl].field_8_opening));
 
                 SFX_Play_Camera(relive::SoundEffects::Trapdoor, 70, direction);
 
@@ -234,8 +246,7 @@ void TrapDoor::VUpdate()
             {
                 const s32 cur_lvl = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
                 mAnim.Set_Animation_Data(
-                    sTrapDoorData_4BD4A0[cur_lvl].field_C_closing,
-                    nullptr);
+                    GetAnimRes(sTrapDoorData_4BD4A0[cur_lvl].field_C_closing));
                 mState = TrapDoorState::eClosing_3;
 
                 SFX_Play_Camera(relive::SoundEffects::Trapdoor, 70, direction);

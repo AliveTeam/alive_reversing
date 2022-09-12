@@ -61,9 +61,21 @@ struct Quicksave_Obj_SlamDoor final
 };
 //ALIVE_ASSERT_SIZEOF_ALWAYS(Quicksave_Obj_SlamDoor, 8);
 
+void SlamDoor::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Slam_Door_Industrial_Closing));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Slam_Door_Industrial_Closed));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Slam_Door_Industrial_Opening));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Slam_Door_Vault_Closing));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Slam_Door_Vault_Closed));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Slam_Door_Vault_Opening));
+}
+
 SlamDoor::SlamDoor(relive::Path_SlamDoor* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(0)
 {
+    LoadAnimations();
+
     mBaseGameObjectTlvInfo = tlvId; // todo: check this
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
 
@@ -210,7 +222,7 @@ SlamDoor::SlamDoor(relive::Path_SlamDoor* pTlv, const Guid& tlvId)
         }
         mCollisionLine2 = pPathLine;
 
-        mAnim.Set_Animation_Data(sSlamDoorAnimIds[currentLevelId][1], nullptr);
+        mAnim.Set_Animation_Data(GetAnimRes(sSlamDoorAnimIds[currentLevelId][1]));
     }
     else
     {
@@ -290,7 +302,7 @@ void SlamDoor::VUpdate()
         {
             mAnim.mFlags.Set(AnimFlags::eBit3_Render);
 
-            mAnim.Set_Animation_Data(sSlamDoorAnimIds[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][2], nullptr);
+            mAnim.Set_Animation_Data(GetAnimRes(sSlamDoorAnimIds[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][2]));
 
             if (mSpriteScale == FP_FromInteger(1))
             {
@@ -357,7 +369,7 @@ void SlamDoor::VUpdate()
         }
         else
         {
-            mAnim.Set_Animation_Data(sSlamDoorAnimIds[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][0], nullptr);
+            mAnim.Set_Animation_Data(GetAnimRes(sSlamDoorAnimIds[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][0]));
             Rect_Clear(&mCollisionLine1->mRect);
             mCollisionLine1 = nullptr;
 

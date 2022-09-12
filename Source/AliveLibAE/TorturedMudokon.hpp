@@ -16,6 +16,8 @@ class TorturedMudokon final : public ::BaseAnimatedWithPhysicsGameObject
 public:
     TorturedMudokon(relive::Path_TorturedMudokon* pTlv, const Guid& tlvId);
     ~TorturedMudokon();
+    
+    void LoadAnimations();
 
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;

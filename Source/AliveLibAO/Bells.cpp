@@ -11,12 +11,24 @@
 
 namespace AO {
 
+void Bells::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BigChime));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::MediumChime));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::SmallChime));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BigChime_Moving));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::MediumChime_Moving));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::SmallChime_Moving));
+}
+
 Bells::Bells(BellSize bellType, FP xpos, FP ypos, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     mBaseGameObjectFlags.Clear(Options::eCanExplode_Bit7);
 
     mBaseGameObjectTypeId = ReliveTypes::eBells;
+
+    LoadAnimations();
 
     const AnimRecord rec = AO::AnimRec(AnimId::BigChime);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -125,15 +137,15 @@ void Bells::PlaySounds()
     {
         if (mBellPitch == BellPitch::eLowPitch)
         {
-            mAnim.Set_Animation_Data(AnimId::BigChime, nullptr);
+            mAnim.Set_Animation_Data(GetAnimRes(AnimId::BigChime));
         }
         else if (mBellPitch == BellPitch::eMediumPitch)
         {
-            mAnim.Set_Animation_Data(AnimId::MediumChime, nullptr);
+            mAnim.Set_Animation_Data(GetAnimRes(AnimId::MediumChime));
         }
         else if (mBellPitch == BellPitch::eHighPitch)
         {
-            mAnim.Set_Animation_Data(AnimId::SmallChime, nullptr);
+            mAnim.Set_Animation_Data(GetAnimRes(AnimId::SmallChime));
         }
 
         mSmashing = false;
@@ -156,17 +168,17 @@ void Bells::Ring()
         if (mBellPitch == BellPitch::eLowPitch)
         {
             mSoundPitchFactor = 1;
-            mAnim.Set_Animation_Data(AnimId::BigChime_Moving, nullptr);
+            mAnim.Set_Animation_Data(GetAnimRes(AnimId::BigChime_Moving));
         }
         else if (mBellPitch == BellPitch::eMediumPitch)
         {
             mSoundPitchFactor = 2;
-            mAnim.Set_Animation_Data(AnimId::MediumChime_Moving, nullptr);
+            mAnim.Set_Animation_Data(GetAnimRes(AnimId::MediumChime_Moving));
         }
         else if (mBellPitch == BellPitch::eHighPitch)
         {
             mSoundPitchFactor = 3;
-            mAnim.Set_Animation_Data(AnimId::SmallChime_Moving, nullptr);
+            mAnim.Set_Animation_Data(GetAnimRes(AnimId::SmallChime_Moving));
         }
     }
 }

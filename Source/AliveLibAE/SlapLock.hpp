@@ -35,6 +35,8 @@ public:
     SlapLock(relive::Path_SlapLock* pTlv, const Guid& tlvId);
     ~SlapLock();
 
+    void LoadAnimations();
+
     virtual void VUpdate() override;
     
     virtual void VScreenChanged() override;

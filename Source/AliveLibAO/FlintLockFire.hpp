@@ -13,6 +13,8 @@ public:
     FlintLockFire(relive::Path_FlintLockFire* pTlv, const Guid& tlvId);
     ~FlintLockFire();
 
+    void LoadAnimations();
+
     virtual void VStopAudio() override;
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;

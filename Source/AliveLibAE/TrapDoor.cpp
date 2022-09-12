@@ -55,10 +55,24 @@ const TintEntry sTrapDoorTints_5639AC[18] = {
     {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
     {EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
+void TrapDoor::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Trap_Door_Open));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Trap_Door_Closed));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Trap_Door_Opening));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Trap_Door_Closing));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Trap_Door_Tribal_Open));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Trap_Door_Tribal_Closed));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Trap_Door_Tribal_Opening));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Trap_Door_Tribal_Closing));
+}
+
 TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, const Guid& tlvId)
 {
     SetType(ReliveTypes::eTrapDoor);
     mBaseGameObjectTlvInfo = tlvId;
+
+    LoadAnimations();
 
     mStayOpenTimeTimer = mStayOpenTime;
     mSwitchId = pTlv->mSwitchId;
@@ -113,7 +127,7 @@ TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, const Guid& tlvId)
     mTrapDoorX = FP_FromInteger(pTlv->mTopLeftX);
     mTrapDoorY = FP_FromInteger(pTlv->mTopLeftY);
 
-    mAnim.Set_Animation_Data(animId, nullptr);
+    mAnim.Set_Animation_Data(GetAnimRes(animId));
 
     if (pTlv->mDirection == relive::reliveXDirection::eRight) // TODO: check if this is the correct direction
     {
@@ -227,7 +241,7 @@ void TrapDoor::VUpdate()
         {
             Open();
             mState = TrapDoorState::eOpening_1;
-            mAnim.Set_Animation_Data(sTrapDoorData_547B78[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))].field_8_opening, nullptr);
+            mAnim.Set_Animation_Data(GetAnimRes(sTrapDoorData_547B78[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))].field_8_opening));
 
             if (gMap.mCurrentLevel == EReliveLevelIds::eMines || gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz || gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz_Ender || gMap.mCurrentLevel == EReliveLevelIds::eFeeCoDepot || gMap.mCurrentLevel == EReliveLevelIds::eFeeCoDepot_Ender || gMap.mCurrentLevel == EReliveLevelIds::eBarracks || gMap.mCurrentLevel == EReliveLevelIds::eBarracks_Ender || gMap.mCurrentLevel == EReliveLevelIds::eBrewery || gMap.mCurrentLevel == EReliveLevelIds::eBrewery_Ender)
             {
@@ -251,7 +265,7 @@ void TrapDoor::VUpdate()
 
         if ((mSelfClosing == relive::reliveChoice::eYes && mStayOpenTimeTimer + 1 <= 0) || SwitchStates_Get(mSwitchId) != mStartState)
         {
-            mAnim.Set_Animation_Data(sTrapDoorData_547B78[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))].field_C_closing, nullptr);
+            mAnim.Set_Animation_Data(GetAnimRes(sTrapDoorData_547B78[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))].field_C_closing));
 
             mState = TrapDoorState::eClosing_3;
 

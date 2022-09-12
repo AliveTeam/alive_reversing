@@ -27,6 +27,8 @@ public:
     TrapDoor(relive::Path_TrapDoor* pTlv, const Guid& tlvId);
     ~TrapDoor();
 
+    void LoadAnimations();
+
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;

@@ -33,6 +33,8 @@ public:
     SlingMudokon(relive::Path_SlingMudokon* pTlv, const Guid& tlvId);
     ~SlingMudokon();
 
+    void LoadAnimations();
+
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 

@@ -22,6 +22,8 @@ public:
     Lever(relive::Path_Lever* pTlv, const Guid& tlvId);
     ~Lever();
 
+    void LoadAnimations();
+
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 

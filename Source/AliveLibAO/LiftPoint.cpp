@@ -67,12 +67,22 @@ const LiftPointCoord stru_4BB640[16] = {
     {0, 0},
     {2, 1}};
 
-
+void LiftPoint::LoadAnimations()
+{
+    for (u32 i = 0; i < ALIVE_COUNTOF(sLiftPointData_4BB480); i++)
+    {
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sLiftPointData_4BB480[i].field_0_platform_anim_id));
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sLiftPointData_4BB480[i].field_10_lift_top_wheel_anim_id));
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sLiftPointData_4BB480[i].field_C_lift_bottom_wheel_anim_id));
+    }
+}
 
 LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, Map* pPath, const Guid& tlvId)
     : PlatformBase()
 {
     mBaseGameObjectTypeId = ReliveTypes::eLiftPoint;
+
+    LoadAnimations();
 
     pTlv->mTlvSpecificMeaning = 3;
 
@@ -117,12 +127,9 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, Map* pPath, const Guid& tlvId
     mPlatformBaseXOffset -= xMovedBy;
     mPlatformBaseWidthOffset -= xMovedBy;
 
-    const AnimRecord& bottomWheelRec = AO::AnimRec(sLiftPointData_4BB480[lvl_idx].field_C_lift_bottom_wheel_anim_id);
-    u8** ppLiftWheelRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, bottomWheelRec.mResourceId, 1, 0);
     if (field_13C_lift_wheel.Init(
-            sLiftPointData_4BB480[lvl_idx].field_C_lift_bottom_wheel_anim_id,
-            this,
-            ppLiftWheelRes))
+            GetAnimRes(sLiftPointData_4BB480[lvl_idx].field_C_lift_bottom_wheel_anim_id),
+            this))
     {
         if (pTlv->mScale == relive::reliveScale::eHalf)
         {
@@ -743,13 +750,8 @@ void LiftPoint::CreatePulleyIfExists(s16 camX, s16 camY)
         field_26C_pulley_xpos = FP_GetExponent(((k13_scaled + kM10_scaled) / FP_FromInteger(2)) + FP_NoFractional(mXPos));
 
         const s32 lvl_idx = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
-        const AnimRecord& topWheelRec = AO::AnimRec(sLiftPointData_4BB480[lvl_idx].field_10_lift_top_wheel_anim_id);
-        u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, topWheelRec.mResourceId, 1, 0);
 
-        field_1D4_pulley_anim.Init(
-            sLiftPointData_4BB480[lvl_idx].field_10_lift_top_wheel_anim_id,
-            this,
-            ppRes);
+        field_1D4_pulley_anim.Init(GetAnimRes(sLiftPointData_4BB480[lvl_idx].field_10_lift_top_wheel_anim_id), this);
 
         field_1D4_pulley_anim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
         field_1D4_pulley_anim.mFlags.Clear(AnimFlags::eBit16_bBlending);

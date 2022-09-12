@@ -8,10 +8,18 @@
 
 namespace AO {
 
+void ZapSpark::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::ChantOrb_Particle_Small));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::ChantOrb_Particle));
+}
+
 ZapSpark::ZapSpark(FP xpos, FP ypos, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eZapSpark;
+
+    LoadAnimations();
 
     const AnimRecord& rec = AO::AnimRec(AnimId::ChantOrb_Particle_Small);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -45,7 +53,7 @@ void ZapSpark::VUpdate()
 
     if (mSparkTimer == 0)
     {
-        mAnim.Set_Animation_Data(AnimId::ChantOrb_Particle, nullptr);
+        mAnim.Set_Animation_Data(GetAnimRes(AnimId::ChantOrb_Particle));
         mSparkTimer = -1;
     }
 

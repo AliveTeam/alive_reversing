@@ -9,10 +9,10 @@ public:
     Shrykull();
     ~Shrykull();
 
+    void LoadAnimations();
+
     virtual void VUpdate() override;
-
     virtual void VScreenChanged() override;
-
     virtual void VOnThrowableHit(BaseGameObject*) override
     {
         // Empty

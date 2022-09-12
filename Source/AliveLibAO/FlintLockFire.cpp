@@ -46,6 +46,14 @@ const FlintLockFireData sFlintLockFireData_4BAC70[] = {
     {0, AnimId::None, 0, 0, 0, AnimId::None, AnimId::None, 0, 0, 0}};
 
 
+void FlintLockFire::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::FlintLock_Gourd));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::FlintLock_Hammers_Disabled));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::FlintLock_Hammers_Activating));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Fire));
+}
+
 void FlintLockFire::VScreenChanged()
 {
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -81,6 +89,8 @@ FlintLockFire::FlintLockFire(relive::Path_FlintLockFire* pTlv, const Guid& tlvId
 {
     mBaseGameObjectTypeId = ReliveTypes::eFlintLockFire;
 
+    LoadAnimations();
+
     const s32 cur_lvl = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
 
     const AnimRecord& disabledHammersRec = AO::AnimRec(sFlintLockFireData_4BAC70[cur_lvl].field_14_hammers_disabled_anim_id);
@@ -92,9 +102,8 @@ FlintLockFire::FlintLockFire(relive::Path_FlintLockFire* pTlv, const Guid& tlvId
     mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
     field_F0_anim.Init(
-        sFlintLockFireData_4BAC70[cur_lvl].field_4_gourd_anim_id,
-        this,
-        ppGourdRes);
+        GetAnimRes(sFlintLockFireData_4BAC70[cur_lvl].field_4_gourd_anim_id),
+        this);
 
     field_F0_anim.mRenderMode = TPageAbr::eBlend_0;
     field_F0_anim.mFlags.Clear(AnimFlags::eBit2_Animate);
@@ -102,16 +111,13 @@ FlintLockFire::FlintLockFire(relive::Path_FlintLockFire* pTlv, const Guid& tlvId
 
     if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
     {
-        const AnimRecord& fireRec = AO::AnimRec(AnimId::Fire);
-        ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, fireRec.mResourceId, 1, 0);
-        u8** ppFireRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, fireRec.mResourceId, 1, 0);
-        field_188_anim.Init(AnimId::Fire, this, ppFireRes);
+        field_188_anim.Init(GetAnimRes(AnimId::Fire), this);
         field_188_anim.mRenderMode = TPageAbr::eBlend_0;
         field_188_anim.mFlags.Clear(AnimFlags::eBit2_Animate);
         field_188_anim.mFlags.Clear(AnimFlags::eBit3_Render);
         field_188_anim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
-        field_220_anim.Init(AnimId::Fire, this, ppFireRes);
+        field_220_anim.Init(GetAnimRes(AnimId::Fire), this);
         field_220_anim.mRenderMode = TPageAbr::eBlend_0;
         field_220_anim.mFlags.Clear(AnimFlags::eBit2_Animate);
         field_220_anim.mFlags.Clear(AnimFlags::eBit3_Render);
@@ -153,7 +159,7 @@ FlintLockFire::FlintLockFire(relive::Path_FlintLockFire* pTlv, const Guid& tlvId
     if (SwitchStates_Get(pTlv->mSwitchId))
     {
         field_E4_state = States::eActivated_2;
-        mAnim.Set_Animation_Data(sFlintLockFireData_4BAC70[cur_lvl].field_18_hammers_activating_anim_id, nullptr);
+        mAnim.Set_Animation_Data(GetAnimRes(sFlintLockFireData_4BAC70[cur_lvl].field_18_hammers_activating_anim_id));
         mAnim.SetFrame(mAnim.Get_Frame_Count() - 1);
         mAnim.VDecode();
         mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -187,9 +193,7 @@ void FlintLockFire::VUpdate()
             if (SwitchStates_Get(field_E6_switch_id))
             {
                 field_E4_state = States::eActivating_1;
-                mAnim.Set_Animation_Data(
-                    sFlintLockFireData_4BAC70[cur_lvl].field_18_hammers_activating_anim_id,
-                    nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(sFlintLockFireData_4BAC70[cur_lvl].field_18_hammers_activating_anim_id));
             }
             break;
 

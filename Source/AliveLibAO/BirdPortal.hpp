@@ -36,6 +36,8 @@ public:
     BirdPortal(relive::Path_BirdPortal* pTlv, const Guid& tlvId);
     ~BirdPortal();
     
+    void LoadAnimations();
+
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     virtual void VStopAudio() override;

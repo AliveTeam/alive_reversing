@@ -10,11 +10,19 @@
 #include "Map.hpp"
 #include "ResourceManager.hpp"
 
+void SligGetPantsAndWings::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::CrawlingSligLocker_Closed));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::CrawlingSligLocker_Open));
+}
+
 SligGetPantsAndWings::SligGetPantsAndWings(relive::Path_TLV* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eSligGetPantsOrWings);
     mTlvInfo = tlvId;
+
+    LoadAnimations();
 
     const AnimRecord& rec = AnimRec(AnimId::CrawlingSligLocker_Closed);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -60,7 +68,7 @@ void SligGetPantsAndWings::VUpdate()
             {
                 mState = State::eFinished;
                 SfxPlayMono(relive::SoundEffects::NakedSligTransformEnd, 0);
-                mAnim.Set_Animation_Data(AnimId::CrawlingSligLocker_Open, nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(AnimId::CrawlingSligLocker_Open));
             }
             break;
 
@@ -68,7 +76,7 @@ void SligGetPantsAndWings::VUpdate()
             if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 mState = State::eWaiting;
-                mAnim.Set_Animation_Data(AnimId::CrawlingSligLocker_Closed, nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(AnimId::CrawlingSligLocker_Closed));
                 pTlv->mTlvSpecificMeaning = 0;
             }
             break;

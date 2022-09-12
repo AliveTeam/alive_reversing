@@ -12,6 +12,8 @@ public:
     RockSack(relive::Path_RockSack* pTlv, const Guid& tlvId);
     ~RockSack();
 
+    void LoadAnimations();
+
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 

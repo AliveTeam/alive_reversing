@@ -22,11 +22,20 @@
 
 static TintEntry sTimedMineTint_550EB8[1] = {{EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
+void TimedMine::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Bomb_Flash));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Bomb_RedGreenTick));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::TimedMine_Idle));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::TimedMine_Activated));
+}
 
 TimedMine::TimedMine(relive::Path_TimedMine* pPath, const Guid& tlvId)
     : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eTimedMine_or_MovingBomb);
+
+    LoadAnimations();
 
     const AnimRecord& rec = AnimRec(AnimId::TimedMine_Idle);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -176,8 +185,7 @@ void TimedMine::VRender(PrimHeader** ppOt)
 
 void TimedMine::InitTickAnimation()
 {
-    const AnimRecord& tickRec = AnimRec(AnimId::Bomb_RedGreenTick);
-    if (mTickAnim.Init(AnimId::Bomb_RedGreenTick, this, Add_Resource(ResourceManager::Resource_Animation, tickRec.mResourceId)))
+    if (mTickAnim.Init(GetAnimRes(AnimId::Bomb_RedGreenTick), this))
     {
         mTickAnim.mRenderLayer = mAnim.mRenderLayer;
         mTickAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -321,9 +329,9 @@ void TimedMine::VOnPickUpOrSlapped()
             mSingleTickTimer = mTicksUntilExplosion >> 2;
         }
         mOldGnFrame = sGnFrame;
-        mAnim.Set_Animation_Data(AnimId::TimedMine_Activated, nullptr);
+        mAnim.Set_Animation_Data(GetAnimRes(AnimId::TimedMine_Activated));
         mExplosionTimer = sGnFrame + mTicksUntilExplosion;
-        mTickAnim.Set_Animation_Data(AnimId::Bomb_Flash, nullptr);
+        mTickAnim.Set_Animation_Data(GetAnimRes(AnimId::Bomb_Flash));
         SfxPlayMono(relive::SoundEffects::GreenTick, 0);
     }
 }

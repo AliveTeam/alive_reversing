@@ -11,10 +11,19 @@
 #include "Map.hpp"
 #include "ResourceManager.hpp"
 
+void RockSack::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::RockSack_Idle));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::RockSack_SoftHit));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::RockSack_HardHit));
+}
+
 RockSack::RockSack(relive::Path_RockSack* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eRockSack);
+
+    LoadAnimations();
 
     const AnimRecord& rec = AnimRec(AnimId::RockSack_Idle);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -99,7 +108,7 @@ void RockSack::VUpdate()
     {
         if (field_11C_has_been_hit == 1 && mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            mAnim.Set_Animation_Data(AnimId::RockSack_Idle, nullptr);
+            mAnim.Set_Animation_Data(GetAnimRes(AnimId::RockSack_Idle));
             field_11C_has_been_hit = 0;
         }
     }
@@ -121,11 +130,11 @@ void RockSack::VUpdate()
                 {
                     if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_31_RunJumpMid_452C10)
                     {
-                        mAnim.Set_Animation_Data(AnimId::RockSack_HardHit, nullptr);
+                        mAnim.Set_Animation_Data(GetAnimRes(AnimId::RockSack_HardHit));
                     }
                     else
                     {
-                        mAnim.Set_Animation_Data(AnimId::RockSack_SoftHit, nullptr);
+                        mAnim.Set_Animation_Data(GetAnimRes(AnimId::RockSack_SoftHit));
                     }
                     field_11C_has_been_hit = 1;
                     return;
@@ -149,11 +158,11 @@ void RockSack::VUpdate()
 
             if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_31_RunJumpMid_452C10)
             {
-                mAnim.Set_Animation_Data(AnimId::RockSack_HardHit, nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(AnimId::RockSack_HardHit));
             }
             else
             {
-                mAnim.Set_Animation_Data(AnimId::RockSack_SoftHit, nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(AnimId::RockSack_SoftHit));
             }
             field_11C_has_been_hit = 1;
         }

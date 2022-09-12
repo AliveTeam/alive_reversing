@@ -18,6 +18,8 @@ public:
     TimedMine(relive::Path_TimedMine* pTlv, const Guid& tlvId);
     ~TimedMine();
     
+    void LoadAnimations();
+
     virtual void VScreenChanged() override;
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VRender(PrimHeader** ppOt) override;

@@ -36,10 +36,18 @@ const TintEntry sTintMap_UXB_563A3C[19] = {
     {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
     {EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
+void UXB::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Bomb_RedGreenTick));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::UXB_Disabled));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::UXB_Toggle));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::UXB_Active));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Bomb_Flash));
+}
+
 void UXB::InitBlinkAnim(Animation* pAnimation)
 {
-    const AnimRecord& rec = AnimRec(AnimId::Bomb_RedGreenTick);
-    if (pAnimation->Init(AnimId::Bomb_RedGreenTick, this, Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId)))
+    if (pAnimation->Init(GetAnimRes(AnimId::Bomb_RedGreenTick), this))
     {
         pAnimation->mRenderLayer = mAnim.mRenderLayer;
         pAnimation->mFlags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -106,6 +114,8 @@ UXB::UXB(relive::Path_UXB* tlv_params, const Guid& tlvId)
 {
     SetType(ReliveTypes::eUXB);
 
+    LoadAnimations();
+
     const AnimRecord& activeRec = AnimRec(AnimId::UXB_Active);
     auto pResource = BaseGameObject::Add_Resource(ResourceManager::Resource_Animation, activeRec.mResourceId);
     Animation_Init(AnimId::UXB_Active, pResource);
@@ -158,10 +168,10 @@ UXB::UXB(relive::Path_UXB* tlv_params, const Guid& tlvId)
         {
             mFlashAnim.LoadPal(ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID, 0, 0), 0);
             mIsRed = 0;
-            mFlashAnim.Set_Animation_Data(AnimId::Bomb_RedGreenTick, nullptr);
+            mFlashAnim.Set_Animation_Data(GetAnimRes(AnimId::Bomb_RedGreenTick));
             PlaySFX(relive::SoundEffects::GreenTick);
 
-            mAnim.Set_Animation_Data(AnimId::UXB_Disabled, nullptr);
+            mAnim.Set_Animation_Data(GetAnimRes(AnimId::UXB_Disabled));
             mCurrentState = UXBState::eDeactivated;
             mStartingState = UXBState::eDelay;
         }
@@ -180,9 +190,9 @@ UXB::UXB(relive::Path_UXB* tlv_params, const Guid& tlvId)
         {
             mFlashAnim.LoadPal(ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID, 0, 0), 0);
             mIsRed = 0;
-            mFlashAnim.Set_Animation_Data(AnimId::Bomb_RedGreenTick, nullptr);
+            mFlashAnim.Set_Animation_Data(GetAnimRes(AnimId::Bomb_RedGreenTick));
 
-            mAnim.Set_Animation_Data(AnimId::UXB_Disabled, nullptr);
+            mAnim.Set_Animation_Data(GetAnimRes(AnimId::UXB_Disabled));
             mStartingState = UXBState::eDeactivated;
             mCurrentState = UXBState::eDeactivated;
         }
@@ -251,10 +261,10 @@ void UXB::VOnPickUpOrSlapped()
             }
             else
             {
-                mFlashAnim.Set_Animation_Data(AnimId::Bomb_RedGreenTick, nullptr);
+                mFlashAnim.Set_Animation_Data(GetAnimRes(AnimId::Bomb_RedGreenTick));
                 PlaySFX(relive::SoundEffects::GreenTick);
 
-                mAnim.Set_Animation_Data(AnimId::UXB_Toggle, nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(AnimId::UXB_Toggle));
                 mCurrentState = UXBState::eDeactivated;
 
                 mNextStateTimer = sGnFrame + 10;
@@ -264,7 +274,7 @@ void UXB::VOnPickUpOrSlapped()
         {
             mCurrentState = UXBState::eDelay;
             SetUpdateDelay(6);
-            mAnim.Set_Animation_Data(AnimId::UXB_Active, nullptr);
+            mAnim.Set_Animation_Data(GetAnimRes(AnimId::UXB_Active));
             PlaySFX(relive::SoundEffects::RedTick);
         }
     }
@@ -349,7 +359,7 @@ void UXB::VUpdate()
             else if (mNextStateTimer <= sGnFrame)
             {
                 mCurrentState = UXBState::eActive;
-                mFlashAnim.Set_Animation_Data(AnimId::Bomb_Flash, nullptr);
+                mFlashAnim.Set_Animation_Data(GetAnimRes(AnimId::Bomb_Flash));
                 mNextStateTimer = sGnFrame + 2;
             }
             break;
@@ -394,7 +404,7 @@ void UXB::VUpdate()
                     mRedBlinkCount = (mPattern / static_cast<s32>(pow(10, mPatternLength - mPatternIndex - 1))) % 10;
                 }
 
-                mFlashAnim.Set_Animation_Data(AnimId::Bomb_RedGreenTick, nullptr);
+                mFlashAnim.Set_Animation_Data(GetAnimRes(AnimId::Bomb_RedGreenTick));
 
                 if (mIsRed)
                 {
@@ -550,8 +560,8 @@ s32 UXB::CreateFromSaveState(const u8* __pSaveState)
     if (pSaveState->mCurrentState == UXBState::eDeactivated)
     {
         pUXB->mFlashAnim.LoadPal(ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AEResourceID::kGrenflshResID, 0, 0), 0);
-        pUXB->mFlashAnim.Set_Animation_Data(AnimId::Bomb_RedGreenTick, nullptr);
-        pUXB->mAnim.Set_Animation_Data(AnimId::UXB_Disabled, nullptr);
+        pUXB->mFlashAnim.Set_Animation_Data(pUXB->GetAnimRes(AnimId::Bomb_RedGreenTick));
+        pUXB->mAnim.Set_Animation_Data(pUXB->GetAnimRes(AnimId::UXB_Disabled));
     }
 
     pUXB->mNextStateTimer = pSaveState->mNextStateTimer;

@@ -56,6 +56,8 @@ class Slurg final : public BaseAliveGameObject
 public:
     static void Clear_Slurg_Step_Watch_Points();
 
+    void LoadAnimations();
+
     Slurg(relive::Path_Slurg* pTlv, const Guid& tlvId);
     ~Slurg();
 

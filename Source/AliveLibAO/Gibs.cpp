@@ -37,9 +37,21 @@ static FP GibRand(FP scale)
     return FP_FromRaw((Math_NextRandom() - 128) << 13) * scale;
 }
 
+void Gibs::LoadAnimations()
+{
+    for (u32 i = 0; i < ALIVE_COUNTOF(kGibData_4C30B0); i++)
+    {
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(kGibData_4C30B0[i].field_0_head));
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(kGibData_4C30B0[i].field_4_arm));
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(kGibData_4C30B0[i].field_8_body));
+    }
+}
+
 Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
+    LoadAnimations();
+
     field_E4_pGibData = &kGibData_4C30B0[gibType];
     const AnimRecord& headRec = AO::AnimRec(field_E4_pGibData->field_0_head);
     u8** ppAnimData = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, headRec.mResourceId, 1, 0);
@@ -114,7 +126,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
         {
             // 2 arm parts
             ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, headRec.mResourceId, 1, 0); // add ref
-            if (!pPart->field_18_animation.Init(field_E4_pGibData->field_4_arm, this, ppAnimData))
+            if (!pPart->field_18_animation.Init(GetAnimRes(field_E4_pGibData->field_4_arm), this))
             {
                 field_5C4_parts_used_count = i;
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -125,7 +137,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
         {
             // 2 body parts
             ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, headRec.mResourceId, 1, 0); // add ref
-            if (!pPart->field_18_animation.Init(field_E4_pGibData->field_8_body, this, ppAnimData))
+            if (!pPart->field_18_animation.Init(GetAnimRes(field_E4_pGibData->field_8_body), this))
             {
                 field_5C4_parts_used_count = i;
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);

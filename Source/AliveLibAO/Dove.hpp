@@ -14,6 +14,8 @@ public:
     Dove(AnimId animId, const Guid& tlvId, FP scale);
     Dove(AnimId animId, FP xpos, FP ypos, FP scale);
     ~Dove();
+    
+    void LoadAnimations();
 
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VUpdate() override;

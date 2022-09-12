@@ -12,6 +12,8 @@ public:
     BackgroundGlukkon(relive::Path_BackgroundGlukkon* pTlv, const Guid& tlvId);
     ~BackgroundGlukkon();
 
+    void LoadAnimations();
+
     virtual void VScreenChanged() override;
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VUpdate() override;

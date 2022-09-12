@@ -20,6 +20,8 @@ public:
     SlamDoor(relive::Path_SlamDoor* tlv_params, const Guid& tlvId);
     ~SlamDoor();
 
+    void LoadAnimations();
+
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
     virtual void VUpdate() override;
     virtual void VOnThrowableHit(BaseGameObject*) override

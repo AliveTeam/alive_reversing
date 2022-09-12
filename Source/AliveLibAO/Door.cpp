@@ -31,24 +31,6 @@ struct Door_Data final
 };
 ALIVE_ASSERT_SIZEOF(Door_Data, 0x30);
 
-/*const Door_Data sDoorData_4BA508[16] = {
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // menu
-    {6632, 6608, 56, 62, 6632, 6608, 56, 62, 6632, 6608, 56, 62}, // rupture farms
-    {4784, 4760, 55, 48, 4784, 4760, 55, 48, 4784, 4760, 55, 48}, // lines
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // forest
-    {6624, 6600, 63, 62, 2036, 2012, 34, 29, 2072, 2048, 51, 27}, // forest temple
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // stock yards
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // stock yards return
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // removed
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // desert
-    {3176, 3152, 52, 69, 1048, 1024, 21, 29, 1016, 992, 26, 31}, // desert temple
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // credits
-    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, // removed
-    {6632, 6608, 56, 62, 6632, 6608, 56, 62, 6632, 6608, 56, 62}, // board room
-    {6632, 6608, 56, 62, 6632, 6608, 56, 62, 6632, 6608, 56, 62}, // rupture farms return
-    {6624, 6600, 63, 62, 2036, 2012, 34, 29, 2072, 2048, 51, 27}, // forest chase
-    {3176, 3152, 52, 69, 1048, 1024, 21, 29, 1016, 992, 26, 31}}; // desert escape*/
-
 const AnimId sDoorAnimdIdTable[16][6] = {
     {AnimId::None, AnimId::None, AnimId::None, AnimId::None, AnimId::None, AnimId::None}, // menu
     {AnimId::Door_RuptureFarms_Closed, AnimId::Door_RuptureFarms_Open, AnimId::Door_RuptureFarms_Closed, AnimId::Door_RuptureFarms_Open, AnimId::Door_RuptureFarms_Closed, AnimId::Door_RuptureFarms_Open}, // rupture farms
@@ -67,10 +49,33 @@ const AnimId sDoorAnimdIdTable[16][6] = {
     {AnimId::Door_Forest_Closed, AnimId::Door_Forest_Open, AnimId::HubDoor_Forest_Closed, AnimId::HubDoor_Forest_Open, AnimId::FinalTestDoor_Forest_Closed, AnimId::FinalTestDoor_Forest_Open}, // forest chase
     {AnimId::Door_Desert_Closed, AnimId::Door_Desert_Open, AnimId::HubDoor_Desert_Closed, AnimId::HubDoor_Desert_Open, AnimId::FinalTestDoor_Desert_Closed, AnimId::FinalTestDoor_Desert_Open}}; // desert escape
 
+void Door::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Door_RuptureFarms_Closed));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Door_RuptureFarms_Open));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Door_Lines_Closed));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Door_Lines_Open));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Door_Forest_Closed));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Door_Forest_Open));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::HubDoor_Forest_Closed));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::HubDoor_Forest_Open));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::FinalTestDoor_Forest_Closed));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::FinalTestDoor_Forest_Open));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Door_Desert_Closed));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Door_Desert_Open));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::HubDoor_Desert_Closed));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::HubDoor_Desert_Open));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::FinalTestDoor_Desert_Closed));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::FinalTestDoor_Desert_Open));
+}
+
+
 Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eDoor;
+
+    LoadAnimations();
 
     mTlvInfo = tlvId;
 
@@ -420,20 +425,20 @@ void Door::VUpdate()
                     {
                         case relive::Path_Door::DoorTypes::eBasicDoor:
                         {
-                            mAnim.Set_Animation_Data(sDoorAnimdIdTable[lvl][1], nullptr);
+                            mAnim.Set_Animation_Data(GetAnimRes(sDoorAnimdIdTable[lvl][1]));
                             break;
                         }
 
                         case relive::Path_Door::DoorTypes::eTrialDoor:
                         {
-                            mAnim.Set_Animation_Data(sDoorAnimdIdTable[lvl][3], nullptr);
+                            mAnim.Set_Animation_Data(GetAnimRes(sDoorAnimdIdTable[lvl][3]));
                             break;
                         }
 
                         case relive::Path_Door::DoorTypes::eHubDoor:
                         {
                         default:
-                            mAnim.Set_Animation_Data(sDoorAnimdIdTable[lvl][5], nullptr);
+                            mAnim.Set_Animation_Data(GetAnimRes(sDoorAnimdIdTable[lvl][5]));
                             break;
                         }
                     }
@@ -455,20 +460,20 @@ void Door::VUpdate()
                     {
                         case relive::Path_Door::DoorTypes::eBasicDoor:
                         {
-                            mAnim.Set_Animation_Data(sDoorAnimdIdTable[lvl][1], nullptr);
+                            mAnim.Set_Animation_Data(GetAnimRes(sDoorAnimdIdTable[lvl][1]));
                             break;
                         }
 
                         case relive::Path_Door::DoorTypes::eTrialDoor:
                         {
-                            mAnim.Set_Animation_Data(sDoorAnimdIdTable[lvl][3], nullptr);
+                            mAnim.Set_Animation_Data(GetAnimRes(sDoorAnimdIdTable[lvl][3]));
                             break;
                         }
 
                         case relive::Path_Door::DoorTypes::eHubDoor:
                         {
                         default:
-                            mAnim.Set_Animation_Data(sDoorAnimdIdTable[lvl][5], nullptr);
+                            mAnim.Set_Animation_Data(GetAnimRes(sDoorAnimdIdTable[lvl][5]));
                             break;
                         }
                     }

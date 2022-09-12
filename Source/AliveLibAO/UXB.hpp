@@ -21,6 +21,8 @@ public:
     UXB(relive::Path_UXB* pTlv, const Guid& tlvId);
     ~UXB();
 
+    void LoadAnimations();
+
     void InitBlinkAnim();
 
     virtual void VScreenChanged() override;

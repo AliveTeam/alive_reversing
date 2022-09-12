@@ -20,6 +20,8 @@ public:
     BellHammer(relive::Path_BellHammer* pTlv, const Guid& tlvId);
     ~BellHammer();
 
+    void LoadAnimations();
+
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 

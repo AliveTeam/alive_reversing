@@ -24,10 +24,21 @@ BackgroundGlukkon::~BackgroundGlukkon()
     }
 }
 
+void BackgroundGlukkon::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Background_Glukkon_Dying));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Background_Glukkon_Idle));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Background_Glukkon_KillHim1));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Background_Glukkon_KillHim2));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Background_Glukkon_Laugh));
+}
+
 BackgroundGlukkon::BackgroundGlukkon(relive::Path_BackgroundGlukkon* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::eBackgroundGlukkon;
+
+    LoadAnimations();
 
     const AnimRecord rec = AO::AnimRec(AnimId::Background_Glukkon_Idle);
     u8** ppRes2 = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -63,7 +74,7 @@ s16 BackgroundGlukkon::VTakeDamage(BaseGameObject* pFrom)
 
     if (pFrom->mBaseGameObjectTypeId == ReliveTypes::eShrykull)
     {
-        mAnim.Set_Animation_Data(AnimId::Background_Glukkon_Dying, nullptr);
+        mAnim.Set_Animation_Data(GetAnimRes(AnimId::Background_Glukkon_Dying));
         const auto rndVol = Math_RandomRange(110, 127);
         const auto rndPitch = (75 * (Math_NextRandom() % 4)) + 200;
 
@@ -76,7 +87,7 @@ s16 BackgroundGlukkon::VTakeDamage(BaseGameObject* pFrom)
             SFX_Play_Pitch(relive::SoundEffects::Empty, rndVol, rndPitch);
         }
 
-        mAnim.Set_Animation_Data(AnimId::Background_Glukkon_Dying, nullptr);
+        mAnim.Set_Animation_Data(GetAnimRes(AnimId::Background_Glukkon_Dying));
         field_110_state = BackgroundGlukkon::State::eKilledByShrykull_7;
     }
     else if (pFrom->mBaseGameObjectTypeId == ReliveTypes::eElectrocute && mHealth > FP_FromInteger(0))
@@ -123,12 +134,12 @@ void BackgroundGlukkon::VUpdate()
                     case 0:
                         if (sActiveHero->mHealth <= FP_FromInteger(0))
                         {
-                            mAnim.Set_Animation_Data(AnimId::Background_Glukkon_Laugh, nullptr);
+                            mAnim.Set_Animation_Data(GetAnimRes(AnimId::Background_Glukkon_Laugh));
                             SFX_Play_Pitch(relive::SoundEffects::GlukkonLaugh1, rndVol, rndPitch);
                         }
                         else
                         {
-                            mAnim.Set_Animation_Data(AnimId::Background_Glukkon_KillHim1, nullptr);
+                            mAnim.Set_Animation_Data(GetAnimRes(AnimId::Background_Glukkon_KillHim1));
                             SFX_Play_Pitch(relive::SoundEffects::GlukkonKillHim1, rndVol, rndPitch);
                         }
                         field_110_state = BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer_3;
@@ -137,12 +148,12 @@ void BackgroundGlukkon::VUpdate()
                     case 1:
                         if (sActiveHero->mHealth <= FP_FromInteger(0))
                         {
-                            mAnim.Set_Animation_Data(AnimId::Background_Glukkon_Laugh, nullptr);
+                            mAnim.Set_Animation_Data(GetAnimRes(AnimId::Background_Glukkon_Laugh));
                             SFX_Play_Pitch(relive::SoundEffects::GlukkonLaugh1, rndVol, rndPitch);
                         }
                         else
                         {
-                            mAnim.Set_Animation_Data(AnimId::Background_Glukkon_KillHim2, nullptr);
+                            mAnim.Set_Animation_Data(GetAnimRes(AnimId::Background_Glukkon_KillHim2));
                             SFX_Play_Pitch(relive::SoundEffects::GlukkonKillHim2, rndVol, rndPitch);
                         }
                         field_110_state = BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer_3;
@@ -151,12 +162,12 @@ void BackgroundGlukkon::VUpdate()
                     case 2:
                         if (sActiveHero->mHealth <= FP_FromInteger(0))
                         {
-                            mAnim.Set_Animation_Data(AnimId::Background_Glukkon_Laugh, nullptr);
+                            mAnim.Set_Animation_Data(GetAnimRes(AnimId::Background_Glukkon_Laugh));
                             SFX_Play_Pitch(relive::SoundEffects::GlukkonLaugh1, rndVol, rndPitch);
                         }
                         else
                         {
-                            mAnim.Set_Animation_Data(AnimId::Background_Glukkon_KillHim1, nullptr);
+                            mAnim.Set_Animation_Data(GetAnimRes(AnimId::Background_Glukkon_KillHim1));
                             SFX_Play_Pitch(relive::SoundEffects::Empty, rndVol, rndPitch);
                         }
                         field_110_state = BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer_3;
@@ -165,7 +176,7 @@ void BackgroundGlukkon::VUpdate()
                     case 3:
                         if (sActiveHero->mHealth > FP_FromInteger(0))
                         {
-                            mAnim.Set_Animation_Data(AnimId::Background_Glukkon_KillHim2, nullptr);
+                            mAnim.Set_Animation_Data(GetAnimRes(AnimId::Background_Glukkon_KillHim2));
                             SFX_Play_Pitch(relive::SoundEffects::Empty, rndVol, rndPitch);
                         }
                         field_110_state = BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer_3;
@@ -184,7 +195,7 @@ void BackgroundGlukkon::VUpdate()
         case BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer_3:
             if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                mAnim.Set_Animation_Data(AnimId::Background_Glukkon_Idle, nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(AnimId::Background_Glukkon_Idle));
                 field_110_state = BackgroundGlukkon::State::eSetSpeakPauseTimer_1;
             }
             break;

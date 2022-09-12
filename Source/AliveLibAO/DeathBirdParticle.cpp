@@ -10,6 +10,12 @@
 
 namespace AO {
 
+void DeathBirdParticle::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::DeathFlare_2));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::DeathFlare_1));
+}
+
 void DeathBirdParticle::VUpdate()
 {
     switch (field_E5_state)
@@ -18,7 +24,7 @@ void DeathBirdParticle::VUpdate()
             if (static_cast<s32>(sGnFrame) > field_E8_start)
             {
                 // Death "star"
-                mAnim.Set_Animation_Data(AnimId::DeathFlare_2, nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(AnimId::DeathFlare_2));
                 field_E5_state = States::eTransformStarsToDoves_1;
             }
             break;
@@ -65,6 +71,8 @@ DeathBirdParticle::DeathBirdParticle(FP xpos, FP ypos, s32 start, s32 bPlaySound
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eDeathBird;
+
+    LoadAnimations();
 
     const AnimRecord rec = AO::AnimRec(AnimId::DeathFlare_1);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);

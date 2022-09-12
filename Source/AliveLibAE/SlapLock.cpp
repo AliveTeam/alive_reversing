@@ -15,6 +15,13 @@
 #include "ResourceManager.hpp"
 #include "Map.hpp"
 
+void SlapLock::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::SlapLock_Initiate));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::SlapLock_Punched));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::SlapLock_Shaking));
+}
+
 SlapLock::SlapLock(relive::Path_SlapLock* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(0)
 {
@@ -22,6 +29,8 @@ SlapLock::SlapLock(relive::Path_SlapLock* pTlv, const Guid& tlvId)
     mSlapLockTlv = pTlv;
     mTlvInfo = tlvId;
     mBaseGameObjectTlvInfo = tlvId;
+
+    LoadAnimations();
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
@@ -240,7 +249,7 @@ void SlapLock::VUpdate()
                     return;
                 }
 
-                mAnim.Set_Animation_Data(AnimId::SlapLock_Shaking, nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(AnimId::SlapLock_Shaking));
 
                 mState = SlapLockStates::eIdle_1;
                 SfxPlayMono(relive::SoundEffects::SpiritLockShake, 0);
@@ -265,7 +274,7 @@ void SlapLock::VUpdate()
                     return;
                 }
 
-                mAnim.Set_Animation_Data(AnimId::SlapLock_Initiate, nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(AnimId::SlapLock_Initiate));
 
                 mState = SlapLockStates::eShaking_0;
                 mTimer1 = Math_NextRandom() + sGnFrame + 25;
@@ -477,7 +486,7 @@ s16 SlapLock::VTakeDamage(BaseGameObject* pFrom)
         BurstType::eGreenSparks_5,
         11);
 
-    mAnim.Set_Animation_Data(AnimId::SlapLock_Punched, nullptr);
+    mAnim.Set_Animation_Data(GetAnimRes(AnimId::SlapLock_Punched));
 
     mSlapLockTlv->mTlvSpecificMeaning = 1;
     return 1;

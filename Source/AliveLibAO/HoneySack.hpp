@@ -15,6 +15,8 @@ public:
     HoneySack(relive::Path_HoneySack* pTlv, const Guid& tlvId);
     ~HoneySack();
 
+    void LoadAnimations();
+
     virtual void VScreenChanged() override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
     virtual void VUpdate() override;

@@ -13,10 +13,21 @@
 
 namespace AO {
 
+void UXB::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Bomb_RedGreenTick));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::UXB_Disabled));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::UXB_Toggle));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::UXB_Active));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Bomb_Flash));
+}
+
 UXB::UXB(relive::Path_UXB* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::eUXB;
+
+    LoadAnimations();
 
     const AnimRecord rec = AO::AnimRec(AnimId::UXB_Active);
     u8** ppRes2 = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -68,7 +79,7 @@ UXB::UXB(relive::Path_UXB* pTlv, const Guid& tlvId)
             mFlashAnim.LoadPal(ppRes, 0);
             mIsRed = 0;
 
-            mFlashAnim.Set_Animation_Data(AnimId::Bomb_RedGreenTick, nullptr);
+            mFlashAnim.Set_Animation_Data(GetAnimRes(AnimId::Bomb_RedGreenTick));
 
             if (gMap.Is_Point_In_Current_Camera(
                     mCurrentLevel,
@@ -80,7 +91,7 @@ UXB::UXB(relive::Path_UXB* pTlv, const Guid& tlvId)
                 SfxPlayMono(relive::SoundEffects::GreenTick, 35);
             }
 
-            mAnim.Set_Animation_Data(AnimId::UXB_Disabled, nullptr);
+            mAnim.Set_Animation_Data(GetAnimRes(AnimId::UXB_Disabled));
 
             mCurrentState = UXBState::eDeactivated;
             mStartingState = UXBState::eDelay;
@@ -102,9 +113,9 @@ UXB::UXB(relive::Path_UXB* pTlv, const Guid& tlvId)
             mFlashAnim.LoadPal(ppPal, 0);
             mIsRed = 0;
 
-            mFlashAnim.Set_Animation_Data(AnimId::Bomb_RedGreenTick, nullptr);
+            mFlashAnim.Set_Animation_Data(GetAnimRes(AnimId::Bomb_RedGreenTick));
 
-            mAnim.Set_Animation_Data(AnimId::UXB_Disabled, nullptr);
+            mAnim.Set_Animation_Data(GetAnimRes(AnimId::UXB_Disabled));
 
             mStartingState = UXBState::eDeactivated;
             mCurrentState = UXBState::eDeactivated;
@@ -157,12 +168,7 @@ UXB::UXB(relive::Path_UXB* pTlv, const Guid& tlvId)
 
 void UXB::InitBlinkAnim()
 {
-    const AnimRecord& tickRec = AO::AnimRec(AnimId::Bomb_RedGreenTick);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, tickRec.mResourceId, 1, 0);
-    if (mFlashAnim.Init(
-            AnimId::Bomb_RedGreenTick,
-            this,
-            ppRes))
+    if (mFlashAnim.Init(GetAnimRes(AnimId::Bomb_RedGreenTick), this))
     {
         mFlashAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
         mFlashAnim.mFlags.Set(AnimFlags::eBit16_bBlending);
@@ -307,7 +313,7 @@ void UXB::VOnPickUpOrSlapped()
             }
             else
             {
-                mFlashAnim.Set_Animation_Data(AnimId::Bomb_RedGreenTick, nullptr);
+                mFlashAnim.Set_Animation_Data(GetAnimRes(AnimId::Bomb_RedGreenTick));
                 if (gMap.Is_Point_In_Current_Camera(
                         mCurrentLevel,
                         mCurrentPath,
@@ -317,7 +323,7 @@ void UXB::VOnPickUpOrSlapped()
                 {
                     SfxPlayMono(relive::SoundEffects::GreenTick, 35);
                 }
-                mAnim.Set_Animation_Data(AnimId::UXB_Toggle, nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(AnimId::UXB_Toggle));
                 mCurrentState = UXBState::eDeactivated;
                 mNextStateTimer = sGnFrame + 10;
             }
@@ -326,7 +332,7 @@ void UXB::VOnPickUpOrSlapped()
         {
             mCurrentState = UXBState::eDelay;
             mBaseGameObjectUpdateDelay = 6;
-            mAnim.Set_Animation_Data(AnimId::UXB_Active, nullptr);
+            mAnim.Set_Animation_Data(GetAnimRes(AnimId::UXB_Active));
             if (gMap.Is_Point_In_Current_Camera(
                     mCurrentLevel,
                     mCurrentPath,
@@ -353,7 +359,7 @@ void UXB::VUpdate()
             else if (mNextStateTimer <= static_cast<s32>(sGnFrame))
             {
                 mCurrentState = UXBState::eActive;
-                mFlashAnim.Set_Animation_Data(AnimId::Bomb_Flash, nullptr);
+                mFlashAnim.Set_Animation_Data(GetAnimRes(AnimId::Bomb_Flash));
                 mNextStateTimer = sGnFrame + 2;
             }
             break;
@@ -398,7 +404,7 @@ void UXB::VUpdate()
                     mRedBlinkCount = (mPattern / static_cast<s32>(pow(10, mPatternLength - mPatternIndex - 1))) % 10;
                 }
 
-                mFlashAnim.Set_Animation_Data(AnimId::Bomb_RedGreenTick, nullptr);
+                mFlashAnim.Set_Animation_Data(GetAnimRes(AnimId::Bomb_RedGreenTick));
                 
                 if (mIsRed)
                 {

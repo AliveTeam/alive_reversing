@@ -13,6 +13,8 @@ public:
     CrawlingSligButton(relive::Path_CrawlingSligButton* pTlv, const Guid& tlvId);
     ~CrawlingSligButton();
 
+    void LoadAnimations();
+
     virtual void VUpdate() override;
     void UseButton();
 

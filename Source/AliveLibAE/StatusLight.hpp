@@ -10,6 +10,8 @@ public:
     StatusLight(relive::Path_StatusLight* pTlv, const Guid& tlvId);
     ~StatusLight();
 
+    void LoadAnimations();
+
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 

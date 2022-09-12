@@ -27,10 +27,18 @@ const ButtonSfxEntry buttonSfxInfo_544488[8] = {
     {relive::Path_CrawlingSligButton::ButtonSounds::AbeGenericMovement, relive::SoundEffects::AbeGenericMovement, 65u, 19344},
 };
 
+void CrawlingSligButton::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::CrawlingSligButton));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::CrawlingSligButtonUse));
+}
+
 CrawlingSligButton::CrawlingSligButton(relive::Path_CrawlingSligButton* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eSligButton);
+
+    LoadAnimations();
 
     const AnimRecord& rec = AnimRec(AnimId::CrawlingSligButton);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -66,7 +74,7 @@ void CrawlingSligButton::UseButton()
     if (!field_102_in_use)
     {
         field_102_in_use = 1;
-        mAnim.Set_Animation_Data(AnimId::CrawlingSligButtonUse, nullptr);
+        mAnim.Set_Animation_Data(GetAnimRes(AnimId::CrawlingSligButtonUse));
     }
 }
 
@@ -113,6 +121,6 @@ void CrawlingSligButton::VUpdate()
         }
 
         field_102_in_use = 0;
-        mAnim.Set_Animation_Data(AnimId::CrawlingSligButton, nullptr);
+        mAnim.Set_Animation_Data(GetAnimRes(AnimId::CrawlingSligButton));
     }
 }

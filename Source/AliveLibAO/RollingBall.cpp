@@ -19,6 +19,12 @@
 
 namespace AO {
 
+void RollingBall::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Stone_Ball));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Stone_Ball_Rolling));
+}
+
 RollingBall::~RollingBall()
 {
     if (mState != States::eInactive)
@@ -46,6 +52,8 @@ RollingBall::RollingBall(relive::Path_RollingBall* pTlv, const Guid& tlvId)
 {
     mBaseGameObjectTypeId = ReliveTypes::eRollingBall;
     
+    LoadAnimations();
+
     const AnimRecord rec = AO::AnimRec(AnimId::Stone_Ball);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init(AnimId::Stone_Ball, ppRes);
@@ -129,7 +137,7 @@ void RollingBall::VUpdate()
             {
                 mVelY = FP_FromDouble(2.5);
                 mState = States::eStartRolling;
-                mAnim.Set_Animation_Data(AnimId::Stone_Ball_Rolling, nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(AnimId::Stone_Ball_Rolling));
                 mRollingBallShaker = relive_new RollingBallShaker();
                 if (mRollingBallShaker)
                 {

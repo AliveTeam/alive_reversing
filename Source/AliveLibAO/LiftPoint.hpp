@@ -30,6 +30,8 @@ public:
     LiftPoint(relive::Path_LiftPoint* pTlv, Map* pPath, const Guid& tlvId);
     ~LiftPoint();
 
+    void LoadAnimations();
+
     void Move(FP xSpeed, FP ySpeed, s32 not_used);
 
     void StayOnFloor(s16 floor, relive::Path_LiftPoint* pTlv);

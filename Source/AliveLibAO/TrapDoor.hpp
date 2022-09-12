@@ -23,6 +23,8 @@ public:
     TrapDoor(relive::Path_TrapDoor* pTlv, Map* pMap, const Guid& tlvId);
     ~TrapDoor();
 
+    void LoadAnimations();
+
     void Open();
 
     virtual PSX_RECT VGetBoundingRect() override;

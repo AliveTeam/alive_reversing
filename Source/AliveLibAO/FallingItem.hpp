@@ -23,6 +23,8 @@ public:
     FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId);
     ~FallingItem();
 
+    void LoadAnimations();
+
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;

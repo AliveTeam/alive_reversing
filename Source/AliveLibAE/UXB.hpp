@@ -45,6 +45,8 @@ public:
     UXB(relive::Path_UXB* params, const Guid& tlvId);
     ~UXB();
 
+    void LoadAnimations();
+
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;

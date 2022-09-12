@@ -524,7 +524,7 @@ public:
                 return mLoadedAnims[i];
             }
         }
-        LOG_ERROR("Anim res " << animId << " not found");
+        LOG_ERROR("Anim res " << static_cast<s32>(animId) << " not found");
         ALIVE_FATAL("Anim res not found");
     }
 

@@ -10,10 +10,22 @@
 
 namespace AO {
 
+void PullRingRope::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Pullring_Farms_Idle));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Pullring_Farms_UseBegin));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Pullring_Farms_UseEnd));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Pullring_Desert_Idle));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Pullring_Desert_UseBegin));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Pullring_Desert_UseEnd));
+}
+
 PullRingRope::PullRingRope(relive::Path_PullRingRope* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     mBaseGameObjectTypeId = ReliveTypes::ePullRingRope;
+
+    LoadAnimations();
 
     s32 lvl_x_off = 0;
     switch (gMap.mCurrentLevel)
@@ -142,11 +154,11 @@ s16 PullRingRope::Pull(BaseAliveGameObject* pFrom)
 
     if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
     {
-        mAnim.Set_Animation_Data(AnimId::Pullring_Farms_UseBegin, nullptr);
+        mAnim.Set_Animation_Data(GetAnimRes(AnimId::Pullring_Farms_UseBegin));
     }
     else
     {
-        mAnim.Set_Animation_Data(AnimId::Pullring_Desert_UseBegin, nullptr);
+        mAnim.Set_Animation_Data(GetAnimRes(AnimId::Pullring_Desert_UseBegin));
     }
     SfxPlayMono(relive::SoundEffects::RingRopePull, 0);
     return 1;
@@ -259,11 +271,11 @@ void PullRingRope::VUpdate()
 
             if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
             {
-                mAnim.Set_Animation_Data(AnimId::Pullring_Farms_UseEnd, nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(AnimId::Pullring_Farms_UseEnd));
             }
             else
             {
-                mAnim.Set_Animation_Data(AnimId::Pullring_Desert_UseEnd, nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(AnimId::Pullring_Desert_UseEnd));
             }
             break;
 
@@ -277,11 +289,11 @@ void PullRingRope::VUpdate()
 
                 if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
                 {
-                    mAnim.Set_Animation_Data(AnimId::Pullring_Farms_Idle, nullptr);
+                    mAnim.Set_Animation_Data(GetAnimRes(AnimId::Pullring_Farms_Idle));
                 }
                 else
                 {
-                    mAnim.Set_Animation_Data(AnimId::Pullring_Desert_Idle, nullptr);
+                    mAnim.Set_Animation_Data(GetAnimRes(AnimId::Pullring_Desert_Idle));
                 }
             }
             break;

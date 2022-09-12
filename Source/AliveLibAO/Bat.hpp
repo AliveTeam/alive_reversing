@@ -15,6 +15,8 @@ public:
     Bat(relive::Path_Bat* pTlv, const Guid& tlvId);
     ~Bat();
     
+    void LoadAnimations();
+
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 

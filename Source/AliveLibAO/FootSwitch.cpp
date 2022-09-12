@@ -10,10 +10,18 @@
 
 namespace AO {
 
+void FootSwitch::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Foot_Switch_Temple));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Foot_Switch_Temple_Pressed));
+}
+
 FootSwitch::FootSwitch(relive::Path_FootSwitch* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     mBaseGameObjectTypeId = ReliveTypes::eFootSwitch;
+
+    LoadAnimations();
 
     const AnimRecord rec = AO::AnimRec(AnimId::Foot_Switch_Temple);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
@@ -61,7 +69,7 @@ void FootSwitch::VUpdate()
                 mStoodOnMe->mBaseGameObjectRefCount++;
                 SwitchStates_Do_Operation(mSwitchId, mAction);
                 mState = States::eWaitForGetOffMe_1;
-                mAnim.Set_Animation_Data(AnimId::Foot_Switch_Temple_Pressed, nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(AnimId::Foot_Switch_Temple_Pressed));
                 SfxPlayMono(relive::SoundEffects::FootSwitchPress, 0);
             }
             break;
@@ -73,7 +81,7 @@ void FootSwitch::VUpdate()
             if (mStoodOnMe->mXPos < FP_FromInteger(bRect.x) || mStoodOnMe->mXPos > FP_FromInteger(bRect.w) || mStoodOnMe->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
             {
                 mState = States::eWaitForStepOnMe_0;
-                mAnim.Set_Animation_Data(AnimId::Foot_Switch_Temple, nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(AnimId::Foot_Switch_Temple));
                 mStoodOnMe->mBaseGameObjectRefCount--;
             }
             break;

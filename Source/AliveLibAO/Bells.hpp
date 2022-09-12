@@ -18,6 +18,8 @@ class Bells final : public BaseAnimatedWithPhysicsGameObject
 public:
     Bells(BellSize bellSize, FP xpos, FP ypos, FP scale);
 
+    void LoadAnimations();
+
     virtual void VUpdate() override;
 
     void PlaySounds();

@@ -18,6 +18,8 @@ public:
     TimedMine(relive::Path_TimedMine* pPath, const Guid& tlvId);
     ~TimedMine();
 
+    void LoadAnimations();
+
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     

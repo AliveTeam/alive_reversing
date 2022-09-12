@@ -32,6 +32,8 @@ public:
     SecurityClaw(relive::Path_SecurityClaw* pTlv, const Guid& tlvId);
     ~SecurityClaw();
 
+    void LoadAnimations();
+
     virtual void VScreenChanged() override;
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VUpdate() override;

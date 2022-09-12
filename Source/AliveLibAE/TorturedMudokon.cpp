@@ -12,11 +12,22 @@
 #include "ResourceManager.hpp"
 #include "Map.hpp"
 
+void TorturedMudokon::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Tortured_Mudokon));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Tortured_Mudokon_Released));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Tortured_Mudokon_Tears));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Tortured_Mudokon_Zap));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Electric_Wall));
+}
+
 TorturedMudokon::TorturedMudokon(relive::Path_TorturedMudokon* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eTorturedMud);
     mTlvInfo = tlvId;
+
+    LoadAnimations();
 
     const AnimRecord& rec = AnimRec(AnimId::Tortured_Mudokon);
     mTorturedMudRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -44,9 +55,7 @@ TorturedMudokon::TorturedMudokon(relive::Path_TorturedMudokon* pTlv, const Guid&
 
 void TorturedMudokon::SetupTearsAnimation(Animation* pAnim)
 {
-    const AnimRecord& rec = AnimRec(AnimId::Tortured_Mudokon_Tears);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    if (pAnim->Init(AnimId::Tortured_Mudokon_Tears, this, ppRes))
+    if (pAnim->Init(GetAnimRes(AnimId::Tortured_Mudokon_Tears), this))
     {
         pAnim->mRenderLayer = mAnim.mRenderLayer;
         pAnim->field_14_scale = mSpriteScale;
@@ -62,9 +71,7 @@ void TorturedMudokon::SetupTearsAnimation(Animation* pAnim)
 
 void TorturedMudokon::SetupZapAnimation(Animation* pAnim)
 {
-    const AnimRecord& rec = AnimRec(AnimId::Electric_Wall);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    if (pAnim->Init(AnimId::Electric_Wall, this, ppRes))
+    if (pAnim->Init(GetAnimRes(AnimId::Electric_Wall), this))
     {
         // TODO: clean this up
         const s32 layerM1 = static_cast<s32>(mAnim.mRenderLayer) - 1;
@@ -156,7 +163,7 @@ void TorturedMudokon::VUpdate()
             if (SwitchStates_Get(mKillSwitchId))
             {
                 mState = TorturedMudokonState::eKilled_1;
-                mAnim.Set_Animation_Data(AnimId::Tortured_Mudokon_Zap, nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(AnimId::Tortured_Mudokon_Zap));
             }
             break;
 
@@ -241,7 +248,7 @@ void TorturedMudokon::VUpdate()
     if (SwitchStates_Get(mReleaseSwitchId))
     {
         mState = TorturedMudokonState::eReleased_2;
-        mAnim.Set_Animation_Data(AnimId::Tortured_Mudokon_Released, nullptr);
+        mAnim.Set_Animation_Data(GetAnimRes(AnimId::Tortured_Mudokon_Released));
         mTearsAnim.mFlags.Clear(AnimFlags::eBit3_Render);
         mZapAnim.mFlags.Clear(AnimFlags::eBit3_Render);
         relive::Path_TLV* pTlv = sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo);

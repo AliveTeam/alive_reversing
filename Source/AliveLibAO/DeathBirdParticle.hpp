@@ -10,6 +10,8 @@ class DeathBirdParticle final : public BaseAnimatedWithPhysicsGameObject
 public:
     DeathBirdParticle(FP xpos, FP ypos, s32 start, s32 playSound, FP scale);
 
+    void LoadAnimations();
+
     virtual void VUpdate() override;
 
     s8 field_E4_random = 0;

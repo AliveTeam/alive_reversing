@@ -28,6 +28,8 @@ public:
     SecurityDoor(relive::Path_SecurityDoor* pTlv, const Guid& tlvId);
     ~SecurityDoor();
 
+    void LoadAnimations();
+
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 

@@ -16,6 +16,8 @@ public:
     Door(relive::Path_Door* pTlv, const Guid& tlvId);
     ~Door();
 
+    void LoadAnimations();
+
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 

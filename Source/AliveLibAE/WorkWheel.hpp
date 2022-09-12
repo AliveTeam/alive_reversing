@@ -25,7 +25,8 @@ struct WorkWheel_SaveState final
 class WorkWheel final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
-    
+    void LoadAnimations();
+
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
