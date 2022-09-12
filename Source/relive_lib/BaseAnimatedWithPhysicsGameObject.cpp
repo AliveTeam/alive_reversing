@@ -238,7 +238,7 @@ void BaseAnimatedWithPhysicsGameObject::DeathSmokeEffect(bool bPlaySound)
     }
 }
 
-void BaseAnimatedWithPhysicsGameObject::VOnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, s32 startingPointIdx, TCollisionCallBack pFn)
+void BaseAnimatedWithPhysicsGameObject::VOnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, TCollisionCallBack pFn)
 {
     if (pObjList)
     {
@@ -255,7 +255,7 @@ void BaseAnimatedWithPhysicsGameObject::VOnCollisionWith(PSX_Point xy, PSX_Point
                 if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
                 {
                     BaseAnimatedWithPhysicsGameObject* pObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObjIter);
-                    const PSX_RECT bRect = pObj->VGetBoundingRect(startingPointIdx);
+                    const PSX_RECT bRect = pObj->VGetBoundingRect();
                     if (xy.x <= bRect.w && wh.x >= bRect.x && wh.y >= bRect.y && xy.y <= bRect.h)
                     {
 						// NOTE: AO ignored scale here
@@ -398,7 +398,7 @@ void BaseAnimatedWithPhysicsGameObject::VOnThrowableHit(BaseGameObject* /*pFrom*
     // Empty
 }
 
-PSX_RECT BaseAnimatedWithPhysicsGameObject::VGetBoundingRect(s32 pointIdx)
+PSX_RECT BaseAnimatedWithPhysicsGameObject::VGetBoundingRect()
 {
     const FrameInfoHeader* pAnimFrameHeader = mAnim.Get_FrameHeader(-1);
 
@@ -407,10 +407,10 @@ PSX_RECT BaseAnimatedWithPhysicsGameObject::VGetBoundingRect(s32 pointIdx)
     // So usually pointIdx is 1. However the way the data is structured it could be anything to treat any index
     // into the array of points as a unique bounding rectangle. Also it appears there can be more than 3 points
     // supported in the data too.
-    rect.x = pAnimFrameHeader->field_8_data.points[pointIdx].x;
-    rect.y = pAnimFrameHeader->field_8_data.points[pointIdx].y;
-    rect.w = pAnimFrameHeader->field_8_data.points[pointIdx + 1].x;
-    rect.h = pAnimFrameHeader->field_8_data.points[pointIdx + 1].y;
+    rect.x = pAnimFrameHeader->field_8_data.points[1].x;
+    rect.y = pAnimFrameHeader->field_8_data.points[1].y;
+    rect.w = pAnimFrameHeader->field_8_data.points[2].x;
+    rect.h = pAnimFrameHeader->field_8_data.points[2].y;
 
     if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {

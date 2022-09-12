@@ -1980,7 +1980,6 @@ void Slig::MoveOnLine()
                         {bRect.x, bRect.y},
                         {bRect.w, bRect.h},
                         ObjListPlatforms_50766C,
-                        1,
                         (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
                 }
             }
@@ -2984,7 +2983,6 @@ void Slig::Motion_7_Falling_46A1A0()
                     {bRect.x, bRect.y},
                     {bRect.w, bRect.h},
                     ObjListPlatforms_50766C,
-                    1,
                     (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
 
                 mXPos = hitX;

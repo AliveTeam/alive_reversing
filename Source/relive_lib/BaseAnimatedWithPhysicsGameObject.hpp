@@ -108,8 +108,8 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
 
-    virtual void VOnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, s32 startingPointIdx, TCollisionCallBack pFn);
-    virtual PSX_RECT VGetBoundingRect(s32 pointIdx = 1);
+    virtual void VOnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, TCollisionCallBack pFn);
+    virtual PSX_RECT VGetBoundingRect();
     virtual s16 VIsObjNearby(FP radius, BaseAnimatedWithPhysicsGameObject* pObj);
     virtual s16 VIsObj_GettingNear_On_X(BaseAnimatedWithPhysicsGameObject* pObj);
     virtual s16 VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pOther);

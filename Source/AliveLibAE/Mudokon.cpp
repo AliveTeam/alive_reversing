@@ -570,7 +570,6 @@ Mudokon::Mudokon(relive::Path_Mudokon* pTlv, const Guid& tlvId)
                 {bRect.x, static_cast<s16>(bRect.y + 5)},
                 {bRect.w, static_cast<s16>(bRect.h + 5)},
                 ObjList_5C1B78,
-                1,
                 (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
         }
     }
@@ -1020,7 +1019,6 @@ void Mudokon::VUpdate()
                     {bRect.x, static_cast<s16>(bRect.y + 5)},
                     {bRect.w, static_cast<s16>(bRect.h + 5)},
                     ObjList_5C1B78,
-                    1,
                     (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
             }
         }
@@ -5533,7 +5531,7 @@ void Mudokon::Motion_0_Idle()
             VOnCollisionWith(
                 {bRect.x, static_cast<s16>(bRect.y + 5)},
                 {bRect.w, static_cast<s16>(bRect.h + 5)},
-                ObjList_5C1B78, 1, (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
+                ObjList_5C1B78, (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
         }
     }
 
@@ -6475,7 +6473,6 @@ void Mudokon::Motion_40_HoistLand()
                     {bRect.x, static_cast<s16>(bRect.y + 5)},
                     {bRect.w, static_cast<s16>(bRect.h + 5)},
                     ObjList_5C1B78,
-                    1,
                     (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
                 break;
             default:
@@ -6681,7 +6678,6 @@ void Mudokon::Motion_49_Fall()
                     {FP_GetExponent(mXPos - FP_FromInteger(10)), FP_GetExponent(mYPos - FP_FromInteger(10))},
                     {FP_GetExponent(mXPos + FP_FromInteger(10)), FP_GetExponent(mYPos + FP_FromInteger(10))},
                     ObjList_5C1B78,
-                    1,
                     (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
                 break;
 
@@ -7322,7 +7318,7 @@ void Mudokon::MoveOnLine()
             VOnCollisionWith(
                 {bRect.x, static_cast<s16>(bRect.y + 5)},
                 {bRect.w, static_cast<s16>(bRect.h + 5)},
-                ObjList_5C1B78, 1, (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
+                ObjList_5C1B78, (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
         }
     }
     else

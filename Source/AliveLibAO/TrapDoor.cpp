@@ -141,7 +141,7 @@ void TrapDoor::VScreenChanged()
     }
 }
 
-PSX_RECT TrapDoor::VGetBoundingRect(s32 /*pointIdx*/)
+PSX_RECT TrapDoor::VGetBoundingRect()
 {
     return mBoundingRect;
 }

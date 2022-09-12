@@ -393,7 +393,6 @@ void Rock::VUpdate()
             const PSX_Point wh = {bRect.w, static_cast<s16>(bRect.h + 5)};
             VOnCollisionWith(xy, wh,
                                     gBaseGameObjects,
-                                    1,
                                     (TCollisionCallBack) &Rock::OnCollision);
 
             if (mVelY > FP_FromInteger(30))

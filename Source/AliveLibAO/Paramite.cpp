@@ -800,7 +800,6 @@ void Paramite::MoveOnLine()
                         {bRect.x, static_cast<s16>(bRect.y + 5)},
                         {bRect.w, static_cast<s16>(bRect.h + 5)},
                         ObjListPlatforms_50766C,
-                        1,
                         (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
                 }
             }
@@ -3046,7 +3045,6 @@ void Paramite::Motion_6_Hop()
                         {bRect.x, bRect.y},
                         {bRect.y, bRect.h},
                         ObjListPlatforms_50766C,
-                        1,
                         (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
                     mXPos = hitX;
                     mYPos = hitY;
@@ -3291,7 +3289,6 @@ void Paramite::Motion_12_Falling()
                     {bRect.x, bRect.y},
                     {bRect.w, bRect.h},
                     ObjListPlatforms_50766C,
-                    1,
                     (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
 
                 mXPos = hitX;
@@ -3579,7 +3576,6 @@ void Paramite::Motion_18_RunningAttack()
                     {r.x, r.y},
                     {r.w, r.h},
                     ObjListPlatforms_50766C,
-                    1,
                     (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
             }
             mYPos = hitY;
@@ -3644,7 +3640,6 @@ void Paramite::Motion_20_SurpriseWeb()
                 {bRect.x, bRect.y},
                 {bRect.w, bRect.h},
                 ObjListPlatforms_50766C,
-                1,
                 (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
         }
     }

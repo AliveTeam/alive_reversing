@@ -1953,7 +1953,6 @@ void Abe::MoveForward_422FC0()
                 {bRect.x, bRect.y},
                 {bRect.w, bRect.h},
                 ObjListPlatforms_50766C,
-                1,
                 (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
         }
     }
@@ -4505,7 +4504,6 @@ void Abe::Motion_3_Fall_42E7F0()
                     xy,
                     wh,
                     ObjListPlatforms_50766C,
-                    1,
                     reinterpret_cast<TCollisionCallBack>(&BaseAliveGameObject::OnTrapDoorIntersection_401C10));
                 break;
             }
@@ -4798,7 +4796,6 @@ void Abe::Motion_17_HoistIdle_4269E0()
                     {rect.x, rect.y},
                     {rect.w, rect.h},
                     ObjListPlatforms_50766C,
-                    1,
                     (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
                 break;
             }
@@ -4874,7 +4871,6 @@ void Abe::Motion_17_HoistIdle_4269E0()
                                 {rect.x, rect.y},
                                 {rect.w, rect.h},
                                 ObjListPlatforms_50766C,
-                                1,
                                 (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
                         }
                     }
@@ -5567,7 +5563,6 @@ void Abe::Motion_30_HopMid_4264D0()
                             {rect.x, rect.y},
                             {rect.w, rect.h},
                             ObjListPlatforms_50766C,
-                            1,
                             (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
                         mXPos = hitX;
                         mYPos = hitY;
@@ -5723,7 +5718,6 @@ void Abe::Motion_33_RunJumpMid_426FA0()
                         {rect.x, rect.y},
                         {rect.w, rect.h},
                         ObjListPlatforms_50766C,
-                        1,
                         (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
                 }
                 mNextMotion = eAbeMotions::Motion_0_Idle_423520;
@@ -5802,7 +5796,6 @@ void Abe::Motion_33_RunJumpMid_426FA0()
                             {rect.x, rect.y},
                             {rect.w, rect.h},
                             ObjListPlatforms_50766C,
-                            1,
                             (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
                     }
                 }
@@ -7438,7 +7431,6 @@ void Abe::Motion_67_ToOffScreenHoist_428C50()
                     {bRect.x, bRect.y},
                     {bRect.w, bRect.h},
                     ObjListPlatforms_50766C,
-                    1,
                     (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
             }
         }
@@ -9137,7 +9129,6 @@ void Abe::Motion_138_ElumUnmountEnd_42E390()
                     {bRect.x, bRect.y},
                     {bRect.w, bRect.h},
                     ObjListPlatforms_50766C,
-                    1,
                     (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
             }
         }

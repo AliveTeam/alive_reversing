@@ -267,7 +267,6 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid_401A90(s32 distance)
                         {bRect.x, bRect.y},
                         {bRect.w, bRect.h},
                         ObjListPlatforms_50766C,
-                        1,
                         (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
                 }
             }
