@@ -66,6 +66,12 @@ inline void from_json(const nlohmann::json& j, Point32& p)
     j.at("y").get_to(p.y);
 }
 
+inline void from_json(const nlohmann::json& j, IndexedPoint& p)
+{
+    j.at("index").get_to(p.mIndex);
+    j.at("point").get_to(p.mPoint);
+}
+
 inline void from_json(const nlohmann::json& j, PerFrameInfo& p)
 {
     j.at("x_offset").get_to(p.mXOffset);

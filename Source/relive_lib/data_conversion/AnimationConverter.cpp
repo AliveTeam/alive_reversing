@@ -14,6 +14,14 @@ inline void to_json(nlohmann::json& j, const Point32& p)
     };
 }
 
+inline void to_json(nlohmann::json& j, const IndexedPoint& p)
+{
+    j = nlohmann::json{
+        {"index", p.mIndex},
+        {"point", p.mPoint},
+    };
+}
+
 inline void to_json(nlohmann::json& j, const PerFrameInfo& p)
 {
     j = nlohmann::json{
@@ -258,12 +266,23 @@ AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const
             ALIVE_FATAL("No OG data should have more than 2 points");
         }
 
-        for (s32 j = 0; j < pFrameInfoHeader->field_6_count; j++)
+        if (pFrameInfoHeader->field_6_count > 0)
         {
-            perFrameInfos[i].mPoints[j].x = pFrameInfoHeader->field_8_data.points[3 + j].x;
-            perFrameInfos[i].mPoints[j].y = pFrameInfoHeader->field_8_data.points[3 + j].y;
-        }
+            // NOTE: Matches data on disk, size matters
+            struct PointAndIndex final
+            {
+                u32 index;
+                Point point;
+            };
+            auto pPointAndIndex = reinterpret_cast<const PointAndIndex*>(&pFrameInfoHeader->field_8_data.points[3]);
 
+            for (s32 j = 0; j < pFrameInfoHeader->field_6_count; j++)
+            {
+                perFrameInfos[i].mPoints[j].mIndex = pPointAndIndex[j].index;
+                perFrameInfos[i].mPoints[j].mPoint.x = pPointAndIndex[j].point.x;
+                perFrameInfos[i].mPoints[j].mPoint.y = pPointAndIndex[j].point.y;
+            }
+        }
         // Clear because the buffer is re-used to reduce memory allocs
         decompressionBuffer.clear();
         decompressionBuffer.resize(decompressionBufferSize);

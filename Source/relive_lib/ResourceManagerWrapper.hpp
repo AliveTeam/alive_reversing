@@ -22,6 +22,12 @@ struct Point32 final
     s32 y = 0;
 };
 
+struct IndexedPoint final
+{
+    u32 mIndex = 0;
+    Point32 mPoint;
+};
+
 struct PerFrameInfo final
 {
     s32 mXOffset = 0;
@@ -33,7 +39,7 @@ struct PerFrameInfo final
     Point32 mBoundMin;
     Point32 mBoundMax;
     u32 mPointCount = 0;
-    Point32 mPoints[2] = {};
+    IndexedPoint mPoints[2] = {};
 };
 
 struct AnimAttributes final
