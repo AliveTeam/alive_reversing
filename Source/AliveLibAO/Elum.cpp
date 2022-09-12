@@ -585,7 +585,6 @@ void Elum::MoveOnLine_412580(s16 xLookAhead)
                 {bRect.x, static_cast<s16>(bRect.y + 5)},
                 {bRect.w, static_cast<s16>(bRect.h + 5)},
                 ObjListPlatforms_50766C,
-                1,
                 (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
         }
     }
@@ -2510,7 +2509,6 @@ void Elum::Motion_21_Land_414A20()
                     xy,
                     wh,
                     ObjListPlatforms_50766C,
-                    1,
                     (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
                 break;
             }
@@ -2806,7 +2804,6 @@ void Elum::Motion_32_HopLand_415140()
             {bRect.x, static_cast<s16>(bRect.y + 5)},
             {bRect.w, static_cast<s16>(bRect.h + 5)},
             ObjListPlatforms_50766C,
-            1,
             (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
 
         MapFollowMe_401D30(TRUE);
@@ -2875,7 +2872,6 @@ void Elum::Motion_35_RunJumpLand_415580()
             {bRect.x, static_cast<s16>(bRect.y + 5)},
             {bRect.w, static_cast<s16>(bRect.h + 5)},
             ObjListPlatforms_50766C,
-            1,
             (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
 
         if (sControlledCharacter == this)
@@ -3193,7 +3189,6 @@ void Elum::Motion_42_RunToWalk_413B60()
             xy,
             wh,
             ObjListPlatforms_50766C,
-            1,
             (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
 
         FP offX = {};
@@ -3255,7 +3250,6 @@ void Elum::Motion_43_MidRunToWalk_413E20()
             xy,
             wh,
             ObjListPlatforms_50766C,
-            1,
             (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
 
         FP offX = {};
@@ -3609,7 +3603,6 @@ void Elum::VUpdate()
                     {bRect.x, static_cast<s16>(bRect.y + 5)},
                     {bRect.w, static_cast<s16>(bRect.h + 5)},
                     ObjListPlatforms_50766C,
-                    1,
                     (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
 
                 if (mLiftPoint)

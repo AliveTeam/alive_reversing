@@ -485,7 +485,6 @@ void Slog::MoveOnLine()
                         {rect.x, rect.y},
                         {rect.w, rect.h},
                         ObjListPlatforms_50766C,
-                        1,
                         (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
                 }
             }
@@ -1201,7 +1200,6 @@ void Slog::Motion_4_Fall_4750C0()
                         {bRect.x, bRect.y},
                         {bRect.w, bRect.h},
                         ObjListPlatforms_50766C,
-                        1,
                         (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
                 }
                 mCurrentMotion = eSlogMotions::Motion_11_Land_475AB0;

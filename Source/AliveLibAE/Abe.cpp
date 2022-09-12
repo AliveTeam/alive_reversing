@@ -3553,7 +3553,6 @@ void Abe::Motion_3_Fall_459B60()
                     xy,
                     wh,
                     ObjList_5C1B78,
-                    1,
                     reinterpret_cast<TCollisionCallBack>(&BaseAliveGameObject::OnTrapDoorIntersection)); // Danger danger.. but will probably work.. can't see how else they would have got this to work
             }
             break;
@@ -3824,7 +3823,6 @@ void Abe::Motion_14_HoistIdle_452440()
                     {FP_GetExponent(mXPos), FP_GetExponent(mYPos)},
                     {FP_GetExponent(mXPos), FP_GetExponent((mYPos + FP_FromInteger(5)))},
                     ObjList_5C1B78,
-                    1,
                     (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
                 break;
             }
@@ -3934,7 +3932,6 @@ void Abe::Motion_14_HoistIdle_452440()
                             {FP_GetExponent(mXPos), FP_GetExponent(mYPos)},
                             {FP_GetExponent(mXPos), FP_GetExponent(mYPos + FP_FromInteger(5))},
                             ObjList_5C1B78,
-                            1,
                             (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
                     }
                 }
@@ -4522,7 +4519,6 @@ void Abe::Motion_28_HopMid_451C50()
                     {FP_GetExponent(mXPos), FP_GetExponent(mYPos)},
                     {FP_GetExponent(mXPos), FP_GetExponent(mYPos + FP_FromInteger(5))},
                     ObjList_5C1B78,
-                    1,
                     (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
 
                 MapFollowMe(TRUE);
@@ -4699,7 +4695,6 @@ void Abe::Motion_31_RunJumpMid_452C10()
                         {FP_GetExponent(mXPos), FP_GetExponent(mYPos)},
                         {FP_GetExponent(mXPos), FP_GetExponent(mYPos + FP_FromInteger(5))},
                         ObjList_5C1B78,
-                        1,
                         (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
                 }
                 mNextMotion = eAbeMotions::Motion_0_Idle_44EEB0;
@@ -4789,7 +4784,6 @@ void Abe::Motion_31_RunJumpMid_452C10()
                             {FP_GetExponent(mXPos), FP_GetExponent(mYPos)},
                             {FP_GetExponent(mXPos), FP_GetExponent(mYPos + FP_FromInteger(5))},
                             ObjList_5C1B78,
-                            1,
                             (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
                     }
                 }
@@ -5991,7 +5985,6 @@ void Abe::Motion_68_ToOffScreenHoist_454B80()
                     {FP_GetExponent(mXPos), FP_GetExponent(mYPos)},
                     {FP_GetExponent(mXPos), FP_GetExponent(mYPos + FP_FromInteger(5))},
                     ObjList_5C1B78,
-                    1,
                     (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
             }
         }
@@ -8606,7 +8599,6 @@ void Abe::MoveForward_44E9A0()
                 {static_cast<s16>(bRect.w + 5), 
                  static_cast<s16>(bRect.h + 5)}, // TODO: Is it really on both ??
                 ObjList_5C1B78,
-                1,
                 (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
         }
         else if (pTrapdoor)

@@ -167,7 +167,6 @@ void Rock::VUpdate()
                 xy,
                 wh,
                 gBaseGameObjects,
-                1,
                 (TCollisionCallBack) &Rock::OnCollision);
 
             if (mVelY > FP_FromInteger(30))

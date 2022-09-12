@@ -31,7 +31,7 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
-    virtual PSX_RECT VGetBoundingRect(s32 pointIdx) override;
+    virtual PSX_RECT VGetBoundingRect() override;
     virtual void VAdd(BaseAliveGameObject* pObj) override;
     virtual void VRemove(BaseAliveGameObject* pObj) override;
 

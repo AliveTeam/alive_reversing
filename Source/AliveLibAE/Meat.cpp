@@ -285,7 +285,6 @@ void Meat::VUpdate()
                     xy,
                     wh,
                     gBaseGameObjects,
-                    1,
                     (TCollisionCallBack) &Meat::OnCollision);
 
                 // TODO: OG bug - why only checking for out of the bottom of the map?? Nades check for death object - probably should check both

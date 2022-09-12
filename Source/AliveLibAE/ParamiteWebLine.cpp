@@ -178,7 +178,7 @@ void ParamiteWebLine::VUpdate()
     field_106_wobble_pos = field_F8_top;
 }
 
-PSX_RECT ParamiteWebLine::VGetBoundingRect(s32 /*idx*/)
+PSX_RECT ParamiteWebLine::VGetBoundingRect()
 {
     const s16 xpos = FP_GetExponent(mXPos);
 
