@@ -132,6 +132,7 @@ public:
     Fleech(relive::Path_Fleech* pTlv, const Guid& tlvId);
     ~Fleech();
     
+    void LoadAnimations();
 
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;

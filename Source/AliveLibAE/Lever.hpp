@@ -18,6 +18,8 @@ public:
     Lever(relive::Path_Lever* pTlv, const Guid& tlvId);
     ~Lever();
 
+    void LoadAnimations();
+
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     virtual s16 VPull(s16 bLeftDirection);

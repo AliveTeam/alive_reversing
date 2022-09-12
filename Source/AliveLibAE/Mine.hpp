@@ -20,6 +20,8 @@ public:
     Mine(relive::Path_Mine* pPath, const Guid& tlvId);
     ~Mine();
 
+    void LoadAnimations();
+
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;

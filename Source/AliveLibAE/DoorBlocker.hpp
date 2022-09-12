@@ -10,6 +10,7 @@ public:
     DoorBlocker(relive::Path_DoorBlocker* pTlv, const Guid& tlvId);
     ~DoorBlocker();
 
+    void LoadAnimations();
     virtual void VUpdate() override;
 
 private:

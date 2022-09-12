@@ -34,10 +34,42 @@ FP Random_40FAF0(FP scale)
     return FP_FromRaw((Math_NextRandom() - 128) << sGibRandom_550E80) * scale;
 }
 
+void Gibs::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Abe_Head_Gib));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Abe_Arm_Gib));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Abe_Body_Gib));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Slig_Head_Gib));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Slig_Arm_Gib));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Slig_Body_Gib));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Slog_Head_Gib));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Slog_Body_Gib));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BlindMud_Head_Gib));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BlindMud_Arm_Gib));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BlindMud_Body_Gib));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Metal_Gib));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Glukkon_Head_Gib));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Glukkon_Arm_Gib));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Glukkon_Body_Gib));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Aslik_Head_Gib));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Aslik_Arm_Gib));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Aslik_Body_Gib));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Dripik_Head_Gib));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Dripik_Arm_Gib));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Dripik_Body_Gib));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Phleg_Head_Gib));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Phleg_Arm_Gib));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Phleg_Body_Gib));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Fleech_Head_Gib));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Fleech_Body_Gib));
+}
+
 Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool bMakeSmaller)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     field_F4_not_used = nullptr;
+
+    LoadAnimations();
 
     AnimId headGib = AnimId::None;
     AnimId armGib = AnimId::None;
@@ -191,9 +223,8 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
         {
             // 2 arm parts
             if (!pPart->field_18_animation.Init(
-                    armGib,
-                    this,
-                    ppAnimData))
+                    GetAnimRes(armGib),
+                    this))
             {
                 field_5D4_parts_used_count = i;
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -204,9 +235,8 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
         {
             // 2 body parts
             if (!pPart->field_18_animation.Init(
-                    bodyGib,
-                    this,
-                    ppAnimData))
+                    GetAnimRes(bodyGib),
+                    this))
             {
                 field_5D4_parts_used_count = i;
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);

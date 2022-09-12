@@ -30,11 +30,19 @@ const TintEntry sPullRingRopeTints_55FD1C[18] = {
     {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
     {EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
+void PullRingRope::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::PullRingRope_Idle));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::PullRingRope_UseBegin));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::PullRingRope_UseEnd));
+}
 
 PullRingRope::PullRingRope(relive::Path_PullRingRope* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::ePullRingRope);
+
+    LoadAnimations();
 
     const AnimRecord& rec = AnimRec(AnimId::PullRingRope_Idle);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -146,7 +154,7 @@ void PullRingRope::VUpdate()
                 field_FC_ring_puller_id = Guid{};
                 field_100_state = States::eReturnToIdle_3;
                 field_F4_stay_in_state_ticks = 3;
-                mAnim.Set_Animation_Data(AnimId::PullRingRope_UseEnd, nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(AnimId::PullRingRope_UseEnd));
 
                 const s32 oldSwitchValue = SwitchStates_Get(field_102_switch_id);
                 SwitchStates_Do_Operation(field_102_switch_id, field_104_action);
@@ -217,7 +225,7 @@ void PullRingRope::VUpdate()
             {
                 mVelY = FP_FromInteger(0);
                 field_100_state = States::eIdle_0;
-                mAnim.Set_Animation_Data(AnimId::PullRingRope_Idle, nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(AnimId::PullRingRope_Idle));
             }
             break;
 
@@ -251,7 +259,7 @@ s16 PullRingRope::VPull(BaseGameObject* pObj)
     field_100_state = States::eBeingPulled_1;
     mVelY = FP_FromInteger(2) * mSpriteScale;
     field_F4_stay_in_state_ticks = 6;
-    mAnim.Set_Animation_Data(AnimId::PullRingRope_UseBegin, nullptr);
+    mAnim.Set_Animation_Data(GetAnimRes(AnimId::PullRingRope_UseBegin));
     SfxPlayMono(relive::SoundEffects::RingRopePull, 0);
     return 1;
 }

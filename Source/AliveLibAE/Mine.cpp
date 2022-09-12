@@ -21,10 +21,18 @@
 
 ALIVE_VAR(0, 0x5C3008, Mine*, sMineSFXOwner_5C3008, nullptr);
 
+void Mine::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Mine_Flash));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Mine));
+}
+
 Mine::Mine(relive::Path_Mine* pPath, const Guid& tlv)
     : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eMine);
+
+    LoadAnimations();
 
     const AnimRecord& rec = AnimRec(AnimId::Mine);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -74,7 +82,7 @@ Mine::Mine(relive::Path_Mine* pPath, const Guid& tlv)
     field_11C_tlv = tlv;
     field_120_gnframe = sGnFrame;
     const AnimRecord& mineFlashrec = AnimRec(AnimId::Mine_Flash);
-    field_124_animation.Init(AnimId::Mine_Flash, this, Add_Resource(ResourceManager::Resource_Animation, mineFlashrec.mResourceId));
+    field_124_animation.Init(GetAnimRes(AnimId::Mine_Flash), this);
 
     field_124_animation.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
     field_124_animation.mFlags.Set(AnimFlags::eBit16_bBlending);

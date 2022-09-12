@@ -61,10 +61,22 @@ const TintEntry sLiftTints_55BF50[18] = {
     {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
     {EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
+void LiftPoint::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::LiftPlatform_Mines));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::LiftBottomWheel_Mines));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::LiftTopWheel_Mines));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::LiftPlatform_Necrum));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::LiftBottomWheel_Necrum));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::LiftTopWheel_Necrum));
+}
+
 LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, const Guid& tlvId)
 {
     mBaseGameObjectTlvInfo = tlvId;
     SetType(ReliveTypes::eLiftPoint);
+
+    LoadAnimations();
 
     pTlv->mTlvSpecificMeaning = 3;
 
@@ -113,9 +125,8 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, const Guid& tlvId)
     u8** ppLiftWheels = Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kLiftWheelsResID);
     const LiftPointData& rLiftWheelData = sLiftPointData_545AC8[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))];
     if (field_13C_lift_wheel.Init(
-            rLiftWheelData.field_C_lift_bottom_wheel_anim_id,
-            this,
-            ppLiftWheels))
+            GetAnimRes(rLiftWheelData.field_C_lift_bottom_wheel_anim_id),
+            this))
     {
         if (pTlv->mScale != relive::reliveScale::eFull)
         {
@@ -927,9 +938,8 @@ void LiftPoint::CreatePulleyIfExists()
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kLiftWheelsResID);
     const LiftPointData& data = sLiftPointData_545AC8[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))];
     field_1D4_pulley_anim.Init(
-        data.field_10_lift_top_wheel_anim_id,
-        this,
-        ppRes);
+        GetAnimRes(data.field_10_lift_top_wheel_anim_id),
+        this);
 
     field_1D4_pulley_anim.mFlags.Clear(AnimFlags::eBit2_Animate);
     field_1D4_pulley_anim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);

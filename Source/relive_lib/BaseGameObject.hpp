@@ -515,6 +515,19 @@ public:
         return mBaseGameObjectUpdateDelay;
     }
 
+    AnimResource& GetAnimRes(AnimId animId)
+    {
+        for (u32 i = 0; i < mLoadedAnims.size(); i++)
+        {
+            if (mLoadedAnims[i].mId == animId)
+            {
+                return mLoadedAnims[i];
+            }
+        }
+        LOG_ERROR("Anim res " << animId << " not found");
+        ALIVE_FATAL("Anim res not found");
+    }
+
 public:
     ReliveTypes mBaseGameObjectTypeId = ReliveTypes::eNone;
     BitField16<Options> mBaseGameObjectFlags = {};

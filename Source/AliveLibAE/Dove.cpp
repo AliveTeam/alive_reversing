@@ -19,6 +19,11 @@ static s32 sAbePortalTimer = 0;
 static s16 sAbePortalDirection = 0;
 static s16 sAbePortalWidth = 0;
 
+void Dove::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Dove_Flying));
+}
+
 Dove::Dove(AnimId animId, const Guid& tlvId, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
@@ -226,7 +231,7 @@ void Dove::VUpdate()
             mFlyAwayCounter++;
             if (mFlyAwayCounter == 0)
             {
-                mAnim.Set_Animation_Data(AnimId::Dove_Flying, nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(AnimId::Dove_Flying));
                 if (!bExtraSeqStarted_5BC10C)
                 {
                     bExtraSeqStarted_5BC10C = 13;

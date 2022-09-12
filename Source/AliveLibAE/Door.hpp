@@ -11,6 +11,8 @@ public:
     Door(relive::Path_Door* pTlvData, const Guid& tlvId);
     ~Door();
 
+    void LoadAnimations();
+
     bool vIsOpen();
     void vOpen();
     void vClose();
@@ -42,6 +44,8 @@ class TrainDoor final : public Door
 public:
     TrainDoor(relive::Path_TrainDoor* pTlv, const Guid& tlvId);
     ~TrainDoor();
+
+    void LoadAnimations();
 
     virtual void VUpdate() override;
 };

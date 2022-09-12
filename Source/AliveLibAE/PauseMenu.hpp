@@ -52,6 +52,8 @@ public:
     PauseMenu();
     ~PauseMenu();
 
+    void LoadAnimations();
+
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;

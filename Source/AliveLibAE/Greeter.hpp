@@ -70,6 +70,8 @@ public:
     Greeter(relive::Path_Greeter* pTlv, const Guid& tlvId);
     ~Greeter();
     
+    void LoadAnimations();
+
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;

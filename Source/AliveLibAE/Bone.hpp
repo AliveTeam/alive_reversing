@@ -87,6 +87,8 @@ public:
     BoneBag(relive::Path_BoneBag* pTlv, const Guid& tlvId);
     ~BoneBag();
 
+    void LoadAnimations();
+
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
  

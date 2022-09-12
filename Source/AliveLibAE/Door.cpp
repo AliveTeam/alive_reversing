@@ -24,7 +24,7 @@ struct Door_Info final
 };
 ALIVE_ASSERT_SIZEOF(Door_Info, 0x10);
 
-const AnimId sDoorAnimIdTable[16][2] = {
+const static AnimId sDoorAnimIdTable[16][2] = {
     {AnimId::Door_Mines_Closed, AnimId::Door_Mines_Open},
     {AnimId::Door_Mines_Closed, AnimId::Door_Mines_Open},
     {AnimId::Door_Temple_Closed, AnimId::Door_Temple_Open},
@@ -42,15 +42,49 @@ const AnimId sDoorAnimIdTable[16][2] = {
     {AnimId::Door_Bonewerkz_Closed, AnimId::Door_Bonewerkz_Open},
     {AnimId::Door_Mines_Closed, AnimId::Door_Mines_Open}};
 
+const static AnimId sTrainDoorAnimIds[] =
+{
+    AnimId::Door_Train_Closed,
+    AnimId::Door_Train_Closing
+};
+
 Door::Door()
     : BaseAnimatedWithPhysicsGameObject(0)
 {
+}
+
+void Door::LoadAnimations()
+{
+    const AnimId doorAnimIds[] =
+    {
+        AnimId::Door_Mines_Closed,
+        AnimId::Door_Mines_Open,
+        AnimId::Door_Temple_Closed,
+        AnimId::Door_Temple_Open,
+        AnimId::Door_Feeco_Closed,
+        AnimId::Door_Feeco_Open,
+        AnimId::Door_Barracks_Closed,
+        AnimId::Door_Barracks_Open,
+        AnimId::Door_Bonewerkz_Closed,
+        AnimId::Door_Bonewerkz_Open,
+        AnimId::Door_Brewery_Closed,
+        AnimId::Door_Brewery_Open,
+        AnimId::Door_BarracksMetal_Open,
+        AnimId::Door_BarracksMetal_Closed
+    };
+
+    for (auto& animId : doorAnimIds)
+    {
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
+    }
 }
 
 Door::Door(relive::Path_Door* pTlvData, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eDoor);
+
+    LoadAnimations();
 
     field_F4_tlvInfo = tlvId;
     field_F8_door_type = pTlvData->mDoorType;
@@ -417,11 +451,11 @@ void Door::VUpdate()
                     field_FC_current_state = relive::Path_Door::DoorStates::eClosing;
                     if (gMap.mOverlayId == 108)
                     {
-                        mAnim.Set_Animation_Data(AnimId::Door_BarracksMetal_Open, nullptr);
+                        mAnim.Set_Animation_Data(GetAnimRes(AnimId::Door_BarracksMetal_Open));
                     }
                     else
                     {
-                        mAnim.Set_Animation_Data(sDoorAnimIdTable[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1], nullptr);
+                        mAnim.Set_Animation_Data(GetAnimRes(sDoorAnimIdTable[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]));
                     }
 
                     mAnim.mFlags.Clear(AnimFlags::eBit19_LoopBackwards);
@@ -438,11 +472,11 @@ void Door::VUpdate()
                     field_FC_current_state = relive::Path_Door::DoorStates::eOpening;
                     if (gMap.mOverlayId == 108)
                     {
-                        mAnim.Set_Animation_Data(AnimId::Door_BarracksMetal_Open, nullptr);
+                        mAnim.Set_Animation_Data(GetAnimRes(AnimId::Door_BarracksMetal_Open));
                     }
                     else
                     {
-                        mAnim.Set_Animation_Data(sDoorAnimIdTable[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1], nullptr);
+                        mAnim.Set_Animation_Data(GetAnimRes(sDoorAnimIdTable[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]));
                     }
 
                     mAnim.SetFrame(3);
@@ -489,10 +523,20 @@ void Door::VScreenChanged()
 ALIVE_VAR(1, 0xBB4AA0, FP, sTrainDoorXPos_BB4AA0, {});
 ALIVE_VAR(1, 0xBB4AA4, FP, sTrainDoorYPos_BB4AA4, {});
 
+void TrainDoor::LoadAnimations()
+{
+    for (auto& animId : sTrainDoorAnimIds)
+    {
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
+    }
+}
+
 TrainDoor::TrainDoor(relive::Path_TrainDoor* pTlv, const Guid& tlvId)
 {
     SetType(ReliveTypes::eDoor);
     field_F4_tlvInfo = tlvId;
+
+    LoadAnimations();
 
     const AnimRecord& rec = AnimRec(AnimId::Door_Train_Closing);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -506,7 +550,7 @@ TrainDoor::TrainDoor(relive::Path_TrainDoor* pTlv, const Guid& tlvId)
 
     if (pTlv->mTlvSpecificMeaning)
     {
-        mAnim.Set_Animation_Data(AnimId::Door_Train_Closed, 0);
+        mAnim.Set_Animation_Data(GetAnimRes(AnimId::Door_Train_Closed));
         field_FC_current_state = relive::Path_Door::DoorStates::eClosed;
     }
     else
@@ -538,7 +582,7 @@ void TrainDoor::VUpdate()
         if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_115_DoorExit_459A40 && sActiveHero->mCurrentMotion != eAbeMotions::Motion_114_DoorEnter_459470)
         {
             // Then close
-            mAnim.Set_Animation_Data(AnimId::Door_Train_Closing, nullptr);
+            mAnim.Set_Animation_Data(GetAnimRes(AnimId::Door_Train_Closing));
             mAnim.mFlags.Set(AnimFlags::eBit2_Animate);
             mAnim.mFlags.Set(AnimFlags::eBit3_Render);
             field_FC_current_state = relive::Path_Door::DoorStates::eClosed;

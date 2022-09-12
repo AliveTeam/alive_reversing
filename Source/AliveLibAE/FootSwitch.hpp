@@ -23,6 +23,8 @@ public:
     FootSwitch(relive::Path_FootSwitch* pTlv, const Guid& tlvId);
     ~FootSwitch();
     
+    void LoadAnimations();
+
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 

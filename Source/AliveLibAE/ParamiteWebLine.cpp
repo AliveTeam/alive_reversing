@@ -12,11 +12,18 @@
 #include "Map.hpp"
 #include "ResourceManager.hpp"
 
+void ParamiteWebLine::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::ChantOrb_Particle));
+}
+
 ParamiteWebLine::ParamiteWebLine(relive::Path_ParamiteWebLine* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eWebLine);
     field_100_tlv_info = tlvId;
+
+    LoadAnimations();
 
     const AnimRecord& rec = AnimRec(AnimId::ParamiteWeb);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -99,9 +106,7 @@ ParamiteWebLine::ParamiteWebLine(relive::Path_ParamiteWebLine* pTlv, const Guid&
     field_104_wobble_idx = 0;
     field_106_wobble_pos = field_F8_top;
 
-    const AnimRecord& orbRec = AnimRec(AnimId::ChantOrb_Particle);
-    u8** ppFlareRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, orbRec.mResourceId, 0, 0);
-    if (field_108_anim_flare.Init(AnimId::ChantOrb_Particle, this, ppFlareRes))
+    if (field_108_anim_flare.Init(GetAnimRes(AnimId::ChantOrb_Particle), this))
     {
         field_108_anim_flare.mRed = 100;
         field_108_anim_flare.mGreen = 100;

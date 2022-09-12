@@ -124,6 +124,8 @@ Fleech::Fleech(relive::Path_Fleech* pTlv, const Guid& tlvId)
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
     mBaseGameObjectTlvInfo = tlvId;
 
+    LoadAnimations();
+
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
@@ -205,6 +207,14 @@ const static AnimId sFleechAnimFromMotion[19] = {
 
 ALIVE_VAR(1, 0x551840, Guid, current_target_object_id_551840, {});
 
+void Fleech::LoadAnimations()
+{
+    for (auto& animId : sFleechAnimFromMotion)
+    {
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
+    }
+}
+
 s32 Fleech::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Fleech_State*>(pBuffer);
@@ -242,7 +252,7 @@ s32 Fleech::CreateFromSaveState(const u8* pBuffer)
         pFleech->mRGB.SetRGB(pState->mRingRed, pState->mRingGreen, pState->mRingBlue);
 
         pFleech->mCurrentMotion = pState->field_28_current_motion;
-        pFleech->mAnim.Set_Animation_Data(sFleechAnimFromMotion[pFleech->mCurrentMotion], nullptr);
+        pFleech->mAnim.Set_Animation_Data(pFleech->GetAnimRes(sFleechAnimFromMotion[pFleech->mCurrentMotion]));
         pFleech->mAnim.mCurrentFrame = pState->field_2A_anim_current_frame;
         pFleech->mAnim.mFrameChangeCounter = pState->field_2C_frame_change_counter;
 
@@ -1698,8 +1708,7 @@ void Fleech::InitTonguePolys()
 
 void Fleech::SetAnim()
 {
-    u8** ppRes = ResBlockForMotion(mCurrentMotion);
-    mAnim.Set_Animation_Data(sFleechAnimFromMotion[mCurrentMotion], ppRes);
+    mAnim.Set_Animation_Data(GetAnimRes(sFleechAnimFromMotion[mCurrentMotion]));
 }
 
 void Fleech::ResetTarget()

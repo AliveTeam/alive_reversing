@@ -13,6 +13,12 @@
 #include "Map.hpp"
 #include "ResourceManager.hpp"
 
+void GlukkonSwitch::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Security_Door_Speak));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Security_Door_Idle));
+}
+
 GlukkonSwitch::GlukkonSwitch(relive::Path_GlukkonSwitch* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
@@ -21,6 +27,8 @@ GlukkonSwitch::GlukkonSwitch(relive::Path_GlukkonSwitch* pTlv, const Guid& tlvId
     field_116 = -1;
 
     SetType(ReliveTypes::eHelpPhone);
+
+    LoadAnimations();
 
     const AnimRecord& rec = AnimRec(AnimId::Security_Door_Idle);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -168,7 +176,7 @@ void GlukkonSwitch::VUpdate()
         case 2:
         {
             Glukkon::PlaySound_GameSpeak(GlukkonSpeak::Hey_0, 127, -200, 0);
-            mAnim.Set_Animation_Data(AnimId::Security_Door_Speak, nullptr);
+            mAnim.Set_Animation_Data(GetAnimRes(AnimId::Security_Door_Speak));
             field_F8_state = 3;
             field_120_timer = sGnFrame + 150;
             return;
@@ -218,7 +226,7 @@ void GlukkonSwitch::VUpdate()
                 return;
             }
             Glukkon::PlaySound_GameSpeak(GlukkonSpeak::What_11, 127, -200, 0);
-            mAnim.Set_Animation_Data(AnimId::Security_Door_Speak, nullptr);
+            mAnim.Set_Animation_Data(GetAnimRes(AnimId::Security_Door_Speak));
             field_F8_state = 5;
             field_120_timer = sGnFrame + 60;
             return;
@@ -265,7 +273,7 @@ void GlukkonSwitch::VUpdate()
             }
             SFX_Play_Pitch(relive::SoundEffects::GlukkonSwitchBleh, 127, -700); // Bleh!
             Glukkon::PlaySound_GameSpeak(GlukkonSpeak::Laugh_7, 127, -200, 0);
-            mAnim.Set_Animation_Data(AnimId::Security_Door_Speak, nullptr);
+            mAnim.Set_Animation_Data(GetAnimRes(AnimId::Security_Door_Speak));
             SwitchStates_Do_Operation(field_FA_ok_switch_id, relive::reliveSwitchOp::eToggle);
             field_F8_state = 1;
             field_120_timer = sGnFrame + 15;
@@ -278,7 +286,7 @@ void GlukkonSwitch::VUpdate()
                 return;
             }
             Glukkon::PlaySound_GameSpeak(GlukkonSpeak::Heh_5, 127, -200, 0);
-            mAnim.Set_Animation_Data(AnimId::Security_Door_Speak, nullptr);
+            mAnim.Set_Animation_Data(GetAnimRes(AnimId::Security_Door_Speak));
             field_F8_state = 0;
             field_120_timer = sGnFrame + 90;
             return;
@@ -290,7 +298,7 @@ void GlukkonSwitch::VUpdate()
                 return;
             }
             Glukkon::PlaySound_GameSpeak(GlukkonSpeak::Heh_5, 127, -200, 0);
-            mAnim.Set_Animation_Data(AnimId::Security_Door_Speak, nullptr);
+            mAnim.Set_Animation_Data(GetAnimRes(AnimId::Security_Door_Speak));
             SwitchStates_Do_Operation(field_FC_fail_switch_id, relive::reliveSwitchOp::eSetTrue);
             field_F8_state = 0;
             field_120_timer = sGnFrame + 90;

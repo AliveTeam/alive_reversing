@@ -13,12 +13,26 @@
 #include "Map.hpp"
 #include "ResourceManager.hpp"
 
+const static AnimId sBoomMachineNozzleAnimIds[] =
+{
+    AnimId::BoomMachine_Nozzle_DropGrenade,
+    AnimId::BoomMachine_Nozzle_Idle
+};
+
+const static AnimId sBoomMachineAnimIds[] =
+{
+    AnimId::BoomMachine_Button_Off,
+    AnimId::BoomMachine_Button_On
+};
+
 class GrenadeMachineNozzle final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     GrenadeMachineNozzle(FP xpos, FP ypos, FP scale, s16 numGrenades)
         : BaseAnimatedWithPhysicsGameObject(0)
     {
+        LoadAnimations();
+
         const AnimRecord& rec = AnimRec(AnimId::BoomMachine_Nozzle_Idle);
         u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
         Animation_Init(AnimId::BoomMachine_Nozzle_Idle, ppRes);
@@ -34,6 +48,14 @@ public:
         field_FC_numGrenades = numGrenades;
 
         field_F4_state = BoomMachineStates::eInactive_0;
+    }
+
+    void LoadAnimations()
+    {
+        for (auto& animId : sBoomMachineNozzleAnimIds)
+        {
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
+        }
     }
 
     void DropGrenadeAnimation_445820()
@@ -74,7 +96,7 @@ private:
                 if (static_cast<s32>(sGnFrame) > field_F8_timer)
                 {
                     field_F4_state = BoomMachineStates::eDropGrenade_3;
-                    mAnim.Set_Animation_Data(AnimId::BoomMachine_Nozzle_DropGrenade, nullptr);
+                    mAnim.Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Nozzle_DropGrenade));
                 }
                 break;
 
@@ -109,7 +131,7 @@ private:
  
                     pGrenade->VThrow((mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)) != 0 ? -FP_FromDouble(0.75) : FP_FromDouble(0.75), FP_FromInteger(3));
 
-                    mAnim.Set_Animation_Data(AnimId::BoomMachine_Nozzle_Idle, nullptr);
+                    mAnim.Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Nozzle_Idle));
                     field_F4_state = BoomMachineStates::eInactive_0;
                 }
                 break;
@@ -122,6 +144,14 @@ private:
     s16 field_FC_numGrenades = 0;
 };
 ALIVE_ASSERT_SIZEOF(GrenadeMachineNozzle, 0x100);
+
+void BoomMachine::LoadAnimations()
+{
+    for (auto& animId : sBoomMachineAnimIds)
+    {
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
+    }
+}
 
 BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
@@ -162,7 +192,7 @@ BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId)
     if (gpThrowableArray && gpThrowableArray->field_20_count)
     {
         field_FC_bIsButtonOn = 1;
-        mAnim.Set_Animation_Data(AnimId::BoomMachine_Button_On, nullptr);
+        mAnim.Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Button_On));
     }
     else
     {
@@ -182,7 +212,7 @@ void BoomMachine::VUpdate()
         if (!gpThrowableArray || gpThrowableArray->field_20_count == 0)
         {
             field_FC_bIsButtonOn = 1;
-            mAnim.Set_Animation_Data(AnimId::BoomMachine_Button_On, nullptr);
+            mAnim.Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Button_On));
         }
     }
     else if (field_FC_bIsButtonOn)
@@ -190,7 +220,7 @@ void BoomMachine::VUpdate()
         if (gpThrowableArray && gpThrowableArray->field_20_count > 0)
         {
             field_FC_bIsButtonOn = 0;
-            mAnim.Set_Animation_Data(AnimId::BoomMachine_Button_Off, nullptr);
+            mAnim.Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Button_Off));
         }
 
         if (mAnim.mCurrentFrame == 3)

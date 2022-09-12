@@ -98,6 +98,8 @@ public:
     CrawlingSlig(relive::Path_CrawlingSlig* pTlv, const Guid& tlvId);
     ~CrawlingSlig();
 
+    void LoadAnimations();
+
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VPossessed() override;

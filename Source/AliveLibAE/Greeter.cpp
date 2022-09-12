@@ -20,6 +20,16 @@
 #include "ResourceManager.hpp"
 #include "Map.hpp"
 
+void Greeter::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Greeter_Turn));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Greeter_Hit));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Greeter_Speak));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Greeter_Moving));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Greeter_Chase));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Greeter_Falling));
+}
+
 Greeter::Greeter(relive::Path_Greeter* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(0)
 {
@@ -27,6 +37,8 @@ Greeter::Greeter(relive::Path_Greeter* pTlv, const Guid& tlvId)
     const AnimRecord& rec = AnimRec(AnimId::Greeter_Moving);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(AnimId::Greeter_Moving, ppRes);
+
+    LoadAnimations();
 
     mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
 
@@ -302,7 +314,7 @@ void Greeter::ChangeDirection()
 {
     field_13C_brain_state = GreeterBrainStates::eBrain_1_PatrolTurn;
     mVelX = FP_FromInteger(0);
-    mAnim.Set_Animation_Data(AnimId::Greeter_Turn, nullptr);
+    mAnim.Set_Animation_Data(GetAnimRes(AnimId::Greeter_Turn));
     field_124_last_turn_time = sGnFrame;
 }
 
@@ -322,7 +334,7 @@ void Greeter::BounceBackFromShot()
     field_13E_targetOnLeft = 0;
     field_140_targetOnRight = 0;
 
-    mAnim.Set_Animation_Data(AnimId::Greeter_Hit, nullptr);
+    mAnim.Set_Animation_Data(GetAnimRes(AnimId::Greeter_Hit));
 
     const CameraPos soundDirection = gMap.GetDirection(mCurrentLevel, mCurrentPath, mXPos, mYPos);
     SFX_Play_Camera(relive::SoundEffects::GreeterKnockback, 0, soundDirection, mSpriteScale);
@@ -518,7 +530,7 @@ void Greeter::RandomishSpeak(GreeterSpeak effect)
 {
     field_13C_brain_state = GreeterBrainStates::eBrain_2_Speak;
     mVelX = FP_FromInteger(0);
-    mAnim.Set_Animation_Data(AnimId::Greeter_Speak, nullptr);
+    mAnim.Set_Animation_Data(GetAnimRes(AnimId::Greeter_Speak));
     field_120_unused = sGnFrame + 25;
 
     if (effect == GreeterSpeak::eRandomized_1000)
@@ -639,7 +651,7 @@ void Greeter::VUpdate()
             if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
                 field_13C_brain_state = GreeterBrainStates::eBrain_0_Patrol;
-                mAnim.Set_Animation_Data(AnimId::Greeter_Moving, nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(AnimId::Greeter_Moving));
                 mVelY = FP_FromInteger(0);
                 field_13E_targetOnLeft = 0;
                 field_140_targetOnRight = 0;
@@ -659,7 +671,7 @@ void Greeter::VUpdate()
             {
                 field_130_bChasing = 0;
                 field_13C_brain_state = GreeterBrainStates::eBrain_0_Patrol;
-                mAnim.Set_Animation_Data(AnimId::Greeter_Moving, nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(AnimId::Greeter_Moving));
                 mVelY = FP_FromInteger(0);
                 field_128_timer = sGnFrame + Math_RandomRange(160, 200);
             }
@@ -670,7 +682,7 @@ void Greeter::VUpdate()
             {
                 field_130_bChasing = 1;
                 field_13C_brain_state = GreeterBrainStates::eBrain_4_Chase;
-                mAnim.Set_Animation_Data(AnimId::Greeter_Chase, nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(AnimId::Greeter_Chase));
                 mVelY = FP_FromInteger(0);
             }
             break;
@@ -772,12 +784,12 @@ void Greeter::VUpdate()
                     if (!field_130_bChasing)
                     {
                         field_13C_brain_state = GreeterBrainStates::eBrain_0_Patrol;
-                        mAnim.Set_Animation_Data(AnimId::Greeter_Moving, nullptr);
+                        mAnim.Set_Animation_Data(GetAnimRes(AnimId::Greeter_Moving));
                     }
                     else
                     {
                         field_13C_brain_state = GreeterBrainStates::eBrain_4_Chase;
-                        mAnim.Set_Animation_Data(AnimId::Greeter_Chase, nullptr);
+                        mAnim.Set_Animation_Data(GetAnimRes(AnimId::Greeter_Chase));
                     }
                 }
             }
@@ -828,7 +840,7 @@ void Greeter::VUpdate()
         if (Check_IsOnEndOfLine(0, 0))
         {
             field_13C_brain_state = GreeterBrainStates::eBrain_7_Fall;
-            mAnim.Set_Animation_Data(AnimId::Greeter_Falling, nullptr);
+            mAnim.Set_Animation_Data(GetAnimRes(AnimId::Greeter_Falling));
         }
     }
 

@@ -395,10 +395,11 @@ void DumpMenus()
             << output_override.rdbuf();
 }
 
-s16 sub_4A2BC0()
+void PauseMenu::LoadAnimations()
 {
-    
-    return 0;
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::NormalMudIcon));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::AngryMudIcon));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::HappyMudIcon));
 }
 
 PauseMenu::PauseMenu()
@@ -406,6 +407,8 @@ PauseMenu::PauseMenu()
 {
     sQuicksave_SaveNextFrame_5CA4D8 = 0;
     sQuicksave_LoadNextFrame_5CA4D9 = 0;
+
+    LoadAnimations();
 
     SetType(ReliveTypes::ePauseMenu);
     mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
@@ -427,7 +430,6 @@ PauseMenu::PauseMenu()
     field_F4_font.ctor_433590(256, pal_554474, &sFont1Context_5BC5C8);
 
     Init();
-    sub_4A2BC0();
 
     sDisableFontFlicker_5C9304 = 0;
 }
@@ -443,15 +445,7 @@ PauseMenu::~PauseMenu()
 
 void PauseMenu::Init()
 {
-    ResourceManager::LoadResourceFile_49C170("EMOHAP.BAN", 0);
-    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kHappyiconResID);
-    ResourceManager::LoadResourceFile_49C170("EMOANGRY.BAN", 0);
-    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAngryiconResID);
-    ResourceManager::LoadResourceFile_49C170("EMONORM.BAN", 0);
-
-    const AnimRecord& rec = AnimRec(AnimId::NormalMudIcon);
-    u8** ppAnimData = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    if (field_158_animation.Init(AnimId::NormalMudIcon, this, ppAnimData))
+    if (field_158_animation.Init(GetAnimRes(AnimId::NormalMudIcon), this))
     {
         this->field_158_animation.mRenderLayer = mAnim.mRenderLayer;
         this->field_158_animation.field_14_scale = mSpriteScale;
@@ -1629,18 +1623,15 @@ void PauseMenu::VUpdate()
 
                 if (sActiveHero->field_128.mMood == Mud_Emotion::eNormal_0)
                 {
-                    const AnimRecord& normalRec = AnimRec(AnimId::NormalMudIcon);
-                    field_158_animation.Set_Animation_Data(AnimId::NormalMudIcon, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, normalRec.mResourceId, 1u, 0));
+                    field_158_animation.Set_Animation_Data(GetAnimRes(AnimId::NormalMudIcon));
                 }
                 else if (sActiveHero->field_128.mMood == Mud_Emotion::eSad_3)
                 {
-                    const AnimRecord& angryRec = AnimRec(AnimId::AngryMudIcon);
-                    field_158_animation.Set_Animation_Data(AnimId::AngryMudIcon, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, angryRec.mResourceId, 1u, 0));
+                    field_158_animation.Set_Animation_Data(GetAnimRes(AnimId::AngryMudIcon));
                 }
                 else if (sActiveHero->field_128.mMood == Mud_Emotion::eHappy_5)
                 {
-                    const AnimRecord& happyRec = AnimRec(AnimId::HappyMudIcon);
-                    field_158_animation.Set_Animation_Data(AnimId::HappyMudIcon, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, happyRec.mResourceId, 1u, 0));
+                    field_158_animation.Set_Animation_Data(GetAnimRes(AnimId::HappyMudIcon));
                 }
 
                 FrameInfoHeader* pFrameInfoHeader = field_158_animation.Get_FrameHeader(0);

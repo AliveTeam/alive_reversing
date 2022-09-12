@@ -35,10 +35,28 @@ const AnimId sFallingItemData_544DC0[15][2] = {
 
 ALIVE_VAR(1, 0x5BC208, FallingItem*, pPrimaryFallingItem_5BC208, nullptr);
 
+void FallingItem::LoadAnimations()
+{
+    const AnimId FallingItemAnimIds[] =
+    {
+        AnimId::AE_FallingRock_Falling,
+        AnimId::AE_FallingRock_Waiting,
+        AnimId::FallingCrate_Falling,
+        AnimId::FallingCrate_Waiting,
+    };
+
+    for (auto& animId : FallingItemAnimIds)
+    {
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
+    }
+}
+
 FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eRockSpawner);
+
+    LoadAnimations();
 
     mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
     field_118_tlvInfo = tlvId;
@@ -222,7 +240,7 @@ void FallingItem::VUpdate()
                 mVelX = FP_FromInteger(0);
                 mVelY = FP_FromInteger(0);
 
-                mAnim.Set_Animation_Data(sFallingItemData_544DC0[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1], nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(sFallingItemData_544DC0[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]));
 
                 field_128_fall_interval_timer = sGnFrame + field_124_fall_interval;
             }
@@ -236,7 +254,7 @@ void FallingItem::VUpdate()
             mVelX = FP_FromInteger(0);
             mVelY = FP_FromInteger(0);
 
-            mAnim.Set_Animation_Data(sFallingItemData_544DC0[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1], nullptr);
+            mAnim.Set_Animation_Data(GetAnimRes(sFallingItemData_544DC0[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]));
 
             field_128_fall_interval_timer = sGnFrame + field_124_fall_interval;
             break;
@@ -381,7 +399,7 @@ void FallingItem::VUpdate()
             }
             else
             {
-                mAnim.Set_Animation_Data(sFallingItemData_544DC0[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][0], nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(sFallingItemData_544DC0[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][0]));
                 mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
                 mVelY = FP_FromInteger(0);
                 mVelX = FP_FromInteger(0);

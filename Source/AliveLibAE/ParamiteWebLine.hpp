@@ -10,6 +10,7 @@ public:
     ParamiteWebLine(relive::Path_ParamiteWebLine* pTlv, const Guid& tlvId);
     ~ParamiteWebLine();
 
+    void LoadAnimations();
     void Wobble(s16 ypos);
 
     virtual void VUpdate() override;

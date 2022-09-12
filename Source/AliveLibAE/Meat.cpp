@@ -393,11 +393,18 @@ const TintEntry kMeatTints_55C254[] = {
     {EReliveLevelIds::eNone, 127u, 127u, 127u},
 };
 
+void MeatSack::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::MeatSack_Hit));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::MeatSack_Idle));
+}
 
 MeatSack::MeatSack(relive::Path_MeatSack* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eMeatSack);
+
+    LoadAnimations();
 
     const AnimRecord& rec = AnimRec(AnimId::MeatSack_Idle);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
@@ -523,7 +530,7 @@ void MeatSack::VUpdate()
     {
         if (field_11C_bDoMeatSackIdleAnim == 1 && mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
         {
-            mAnim.Set_Animation_Data(AnimId::MeatSack_Idle, nullptr);
+            mAnim.Set_Animation_Data(GetAnimRes(AnimId::MeatSack_Idle));
             field_11C_bDoMeatSackIdleAnim = 0;
         }
     }
@@ -538,7 +545,7 @@ void MeatSack::VUpdate()
             {
                 if (gpThrowableArray->field_20_count)
                 {
-                    mAnim.Set_Animation_Data(AnimId::MeatSack_Hit, nullptr);
+                    mAnim.Set_Animation_Data(GetAnimRes(AnimId::MeatSack_Hit));
                     field_11C_bDoMeatSackIdleAnim = 1;
                     return;
                 }
@@ -557,7 +564,7 @@ void MeatSack::VUpdate()
             SfxPlayMono(relive::SoundEffects::SackHit, 0);
             Environment_SFX_457A40(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
 
-            mAnim.Set_Animation_Data(AnimId::MeatSack_Hit, nullptr);
+            mAnim.Set_Animation_Data(GetAnimRes(AnimId::MeatSack_Hit));
             field_11C_bDoMeatSackIdleAnim = 1;
         }
     }

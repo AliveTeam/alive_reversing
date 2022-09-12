@@ -130,11 +130,21 @@ enum Brain_4_GetKilled
     eBrain4_DeathDrop_5 = 5
 };
 
+void CrawlingSlig::LoadAnimations()
+{
+    for (auto& animId : sCrawlingSligAnimIdTable)
+    {
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
+    }
+}
+
 CrawlingSlig::CrawlingSlig(relive::Path_CrawlingSlig* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(2)
 {
     field_1DC_unused = -1;
     SetType(ReliveTypes::eCrawlingSlig);
+
+    LoadAnimations();
 
     const AnimRecord& rec = AnimRec(AnimId::CrawlingSlig_Idle);
     field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0));
@@ -279,7 +289,7 @@ s32 CrawlingSlig::CreateFromSaveState(const u8* pBuffer)
 
         pCrawlingSlig->mCurrentMotion = pState->field_28_current_motion;
 
-        pCrawlingSlig->mAnim.Set_Animation_Data(sCrawlingSligAnimIdTable[pState->field_28_current_motion], nullptr);
+        pCrawlingSlig->mAnim.Set_Animation_Data(pCrawlingSlig->GetAnimRes(sCrawlingSligAnimIdTable[pState->field_28_current_motion]));
         pCrawlingSlig->mAnim.mCurrentFrame = pState->field_2A_anim_cur_frame;
 
         pCrawlingSlig->mAnim.mFrameChangeCounter = pState->field_2C_anim_frame_change_counter;
@@ -413,7 +423,7 @@ void CrawlingSlig::VPossessed()
 
 void CrawlingSlig::Set_AnimAndMotion(CrawlingSligMotion currentMotion, s16 bClearNextMotion)
 {
-    mAnim.Set_Animation_Data(sCrawlingSligAnimIdTable[static_cast<s16>(currentMotion)], nullptr);
+    mAnim.Set_Animation_Data(GetAnimRes(sCrawlingSligAnimIdTable[static_cast<s16>(currentMotion)]));
     mCurrentMotion = static_cast<s16>(currentMotion);
 
     UpdateAnimBlock();
@@ -426,13 +436,7 @@ void CrawlingSlig::Set_AnimAndMotion(CrawlingSligMotion currentMotion, s16 bClea
 
 void CrawlingSlig::UpdateAnimBlock()
 {
-    u8** ppRes = GetAnimBlock(mCurrentMotion);
-    if (!ppRes)
-    {
-        mCurrentMotion = 0;
-        ppRes = GetAnimBlock(0);
-    }
-    mAnim.Set_Animation_Data(sCrawlingSligAnimIdTable[mCurrentMotion], ppRes);
+    mAnim.Set_Animation_Data(GetAnimRes(sCrawlingSligAnimIdTable[mCurrentMotion]));
 }
 
 u8** CrawlingSlig::GetAnimBlock(s32 /*currentMotion*/)

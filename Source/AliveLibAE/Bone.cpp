@@ -16,6 +16,21 @@
 #include "Map.hpp"
 #include "ResourceManager.hpp"
 
+const static AnimId sBoneBagAnimIds[] =
+{
+    AnimId::BoneBag_Idle,
+    AnimId::BoneBag_SoftHit,
+    AnimId::BoneBag_HardHit
+};
+
+void BoneBag::LoadAnimations()
+{
+    for (auto& animId : sBoneBagAnimIds)
+    {
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
+    }
+}
+
 Bone::Bone(FP xpos, FP ypos, s16 countId)
     : BaseThrowable(0)
 {
@@ -660,7 +675,7 @@ void BoneBag::VUpdate()
             return;
         }
 
-        mAnim.Set_Animation_Data(AnimId::BoneBag_Idle, nullptr);
+        mAnim.Set_Animation_Data(GetAnimRes(AnimId::BoneBag_Idle));
         mIsBagHit = false;
         return;
     }
@@ -681,11 +696,11 @@ void BoneBag::VUpdate()
             {
                 if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_31_RunJumpMid_452C10)
                 {
-                    mAnim.Set_Animation_Data(AnimId::BoneBag_HardHit, nullptr);
+                    mAnim.Set_Animation_Data(GetAnimRes(AnimId::BoneBag_HardHit));
                 }
                 else
                 {
-                    mAnim.Set_Animation_Data(AnimId::BoneBag_SoftHit, nullptr);
+                    mAnim.Set_Animation_Data(GetAnimRes(AnimId::BoneBag_SoftHit));
                 }
                 mIsBagHit = true;
                 return;
@@ -710,11 +725,11 @@ void BoneBag::VUpdate()
 
         if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_31_RunJumpMid_452C10)
         {
-            mAnim.Set_Animation_Data(AnimId::BoneBag_HardHit, nullptr);
+            mAnim.Set_Animation_Data(GetAnimRes(AnimId::BoneBag_HardHit));
         }
         else
         {
-            mAnim.Set_Animation_Data(AnimId::BoneBag_SoftHit, nullptr);
+            mAnim.Set_Animation_Data(GetAnimRes(AnimId::BoneBag_SoftHit));
         }
 
         mIsBagHit = true;

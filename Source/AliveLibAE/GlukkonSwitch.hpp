@@ -10,6 +10,8 @@ public:
     GlukkonSwitch(relive::Path_GlukkonSwitch* pTlv, const Guid& tlvId);
     ~GlukkonSwitch();
 
+    void LoadAnimations();
+
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 

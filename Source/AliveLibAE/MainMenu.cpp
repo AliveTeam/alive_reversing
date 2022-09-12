@@ -483,11 +483,31 @@ MainMenuFrameTable sMainMenuFrameTable_561CC8[49] = {
 bool gBootToLoadScreen = false;
 #endif
 
+void MainMenuController::LoadAnimations()
+{
+    for (auto& info : sMainMenuFrameTable_561CC8)
+    {
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(info.field_0_animation));
+    }
+
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::MenuHighlight_Circle));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation());
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation());
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation());
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation());
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation());
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation());
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation());
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation());
+}
+
 MainMenuController::MainMenuController(relive::Path_TLV* /*pTlv*/, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     sMainMenuObjectCounter_BB4400++;
     mBaseGameObjectFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
+
+    LoadAnimations();
 
     gMainMenuController = this;
 
@@ -527,7 +547,7 @@ MainMenuController::MainMenuController(relive::Path_TLV* /*pTlv*/, const Guid& t
 
 
     field_F4_resources.field_0_resources[MenuResIds::eResHighLite] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, kHighliteResID, TRUE, FALSE);
-    field_158_animation.Init(AnimId::MenuHighlight_Circle, this, field_F4_resources.field_0_resources[MenuResIds::eResHighLite]);
+    field_158_animation.Init(GetAnimRes(AnimId::MenuHighlight_Circle), this);
 
     field_158_animation.field_14_scale = mSpriteScale;
 
@@ -607,7 +627,7 @@ MainMenuController::MainMenuController(relive::Path_TLV* /*pTlv*/, const Guid& t
         field_25C_Inside_FMV_Screen = 1;
         pDemosOrFmvs_BB4414.mFmvRec = &sFmvs_561540[0];
         sMenuItemCount_561538 = ALIVE_COUNTOF(sFmvs_561540);
-        mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
+        mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
         Load_Anim_Pal_4D06A0(&mAnim);
         return;
     }
@@ -628,7 +648,7 @@ MainMenuController::MainMenuController(relive::Path_TLV* /*pTlv*/, const Guid& t
         pDemosOrFmvs_BB4414.mDemoRec = &sDemos_5617F0[0];
         sMenuItemCount_561538 = ALIVE_COUNTOF(sDemos_5617F0);
         field_230_target_entry_index = sDemoIdChosenFromDemoMenu_5C1B9E;
-        mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
+        mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
         Load_Anim_Pal_4D06A0(&mAnim);
     }
 }
@@ -917,9 +937,9 @@ void MainMenuController::SligSpeak_Load_4D3090()
 {
     Unload_AbeSpeakResources();
 
-    ResourceManager::LoadResourceFile_49C170("SLGSPEAK.BAN", nullptr);
+    //ResourceManager::LoadResourceFile_49C170("SLGSPEAK.BAN", nullptr);
     field_F4_resources.field_0_resources[MenuResIds::eSligSpeak] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSligSpeakResID, TRUE, FALSE);
-    mAnim.Set_Animation_Data(AnimId::MenuSligSpeak_Idle, field_F4_resources.field_0_resources[MenuResIds::eSligSpeak]);
+    mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuSligSpeak_Idle));
     Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eSlig_Idle);
 }
 
@@ -976,9 +996,10 @@ void MainMenuController::GlukkonSpeak_Load_4D3480()
 {
     Unload_AbeSpeakResources();
 
-    ResourceManager::LoadResourceFile_49C170("GLKSPEAK.BAN", nullptr);
+    ResourceManagerWrapper::LoadAnimation().
+    //ResourceManager::LoadResourceFile_49C170("GLKSPEAK.BAN", nullptr);
     field_F4_resources.field_0_resources[MenuResIds::eGlukkonSpeak] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kGlukkonSpeakResID, TRUE, FALSE);
-    mAnim.Set_Animation_Data(AnimId::MenuGlukkonSpeak_Idle, field_F4_resources.field_0_resources[MenuResIds::eGlukkonSpeak]);
+    mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuGlukkonSpeak_Idle));
     Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eGlukkon_Idle);
 }
 

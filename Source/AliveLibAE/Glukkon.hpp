@@ -129,6 +129,8 @@ public:
     Glukkon(relive::Path_Glukkon* pTlv, const Guid& tlvId);
     ~Glukkon();
 
+    void LoadAnimations();
+
     static s32 CreateFromSaveState(const u8* pBuffer);
 
     virtual void VUpdate() override;

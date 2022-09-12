@@ -88,6 +88,8 @@ public:
     MeatSack(relive::Path_MeatSack* pTlv, const Guid& tlvId);
     ~MeatSack();
 
+    void LoadAnimations();
+
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 

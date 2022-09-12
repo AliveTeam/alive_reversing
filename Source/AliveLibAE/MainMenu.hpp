@@ -162,6 +162,8 @@ public:
     MainMenuController(relive::Path_TLV* pTlv, const Guid& tlvId);
     ~MainMenuController();
 
+    void LoadAnimations();
+
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override

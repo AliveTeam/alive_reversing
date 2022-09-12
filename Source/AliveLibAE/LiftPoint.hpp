@@ -38,6 +38,8 @@ public:
     LiftPoint(relive::Path_LiftPoint* pTlv, const Guid& tlvId);
     ~LiftPoint();
     
+    void LoadAnimations();
+
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;

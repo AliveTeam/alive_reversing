@@ -133,6 +133,8 @@ public:
     FlyingSlig(relive::Path_FlyingSlig* pTlv, const Guid& tlvId);
     ~FlyingSlig();
 
+    void LoadAnimations();
+
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;

@@ -51,6 +51,11 @@ DoorBlocker::~DoorBlocker()
     Path::TLV_Reset(field_11C_tlvInfo, -1, 0, 0);
 }
 
+void DoorBlocker::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Door_Lock_Open));
+}
+
 void DoorBlocker::VUpdate()
 {
     if (EventGet(kEventDeathReset))
@@ -71,7 +76,7 @@ void DoorBlocker::VUpdate()
         {
             SFX_Play_Pitch(relive::SoundEffects::DoorEffect, 100, 900);
             SFX_Play_Pitch(relive::SoundEffects::DoorEffect, 100, -100);
-            mAnim.Set_Animation_Data(AnimId::Door_Lock_Open, 0);
+            mAnim.Set_Animation_Data(GetAnimRes(AnimId::Door_Lock_Open));
             field_118_bDone |= 1u;
         }
     }

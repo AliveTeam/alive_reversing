@@ -76,6 +76,8 @@ public:
     MineCar(relive::Path_MineCar* pTlv, const Guid& tlvId, s32 a4, s32 a5, s32 a6);
     ~MineCar();
     
+    void LoadAnimations();
+
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
@@ -114,7 +116,7 @@ public:
 
 private:
     relive::reliveScale field_11E_scale = relive::reliveScale::eFull;
-    Animation field_124_anim = {};
+    Animation mTreadAnim = {};
 
 public:
     MineCarDirs field_1BC_turn_direction = MineCarDirs::eDown_0;

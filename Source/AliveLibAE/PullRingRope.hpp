@@ -11,6 +11,8 @@ public:
     PullRingRope(relive::Path_PullRingRope* pTlv, const Guid& tlvId);
     ~PullRingRope();
     
+    void LoadAnimations();
+
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     virtual s16 VPull(BaseGameObject* a2);

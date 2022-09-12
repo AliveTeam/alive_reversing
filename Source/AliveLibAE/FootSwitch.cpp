@@ -49,12 +49,31 @@ const AnimId sFootSwitchData_547D60[15][2] = {
     {AnimId::Foot_Switch_Bonewerkz_Idle, AnimId::Foot_Switch_Bonewerkz_Pressed},
 };
 
+void FootSwitch::LoadAnimations()
+{
+    const AnimId footSwitchAnimIds[] =
+    {
+        AnimId::Foot_Switch_Industrial_Idle,
+        AnimId::Foot_Switch_Industrial_Pressed,
+        AnimId::Foot_Switch_Vault_Idle,
+        AnimId::Foot_Switch_Vault_Pressed,
+        AnimId::Foot_Switch_Bonewerkz_Idle,
+        AnimId::Foot_Switch_Bonewerkz_Pressed,
+    };
+
+    for (auto& animId : footSwitchAnimIds)
+    {
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
+    }
+}
 
 FootSwitch::FootSwitch(relive::Path_FootSwitch* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eFootSwitch);
     mStoodOnMeId = Guid{};
+
+    LoadAnimations();
 
     const s32 idx = static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel));
 
@@ -102,7 +121,7 @@ void FootSwitch::VUpdate()
         if (pLastStoodOnMe)
         {
             mStoodOnMeId = pLastStoodOnMe->mBaseGameObjectId;
-            mAnim.Set_Animation_Data(sFootSwitchData_547D60[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1], nullptr);
+            mAnim.Set_Animation_Data(GetAnimRes(sFootSwitchData_547D60[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]));
             mState = States::eWaitForGetOffMe;
         }
     }
@@ -119,7 +138,7 @@ void FootSwitch::VUpdate()
                 SwitchStates_Do_Operation(mSwitchId, mAction);
                 mState = States::eWaitForGetOffMe;
 
-                mAnim.Set_Animation_Data(sFootSwitchData_547D60[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1], nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(sFootSwitchData_547D60[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]));
 
                 relive_new ParticleBurst(mXPos,
                                                             mYPos + FP_FromInteger(10),
@@ -181,7 +200,7 @@ void FootSwitch::VUpdate()
                 pLastStoodOnMe->mXPos < FP_FromInteger(bRect.x) || pLastStoodOnMe->mXPos > FP_FromInteger(bRect.w) || pLastStoodOnMe->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
             {
                 mState = States::eWaitForStepOnMe;
-                mAnim.Set_Animation_Data(sFootSwitchData_547D60[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][0], nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(sFootSwitchData_547D60[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][0]));
                 mStoodOnMeId = Guid{};
             }
             break;

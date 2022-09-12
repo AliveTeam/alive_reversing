@@ -7,6 +7,7 @@ class DeathBirdParticle final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     virtual void VUpdate() override;
+    void LoadAnimations();
 
     DeathBirdParticle(FP xpos, FP ypos, s32 start, bool playSound, FP scale);
 

@@ -18,6 +18,8 @@ public:
     BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId);
     ~BoomMachine();
 
+    void LoadAnimations();
+
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     virtual bool VIsButtonOn();

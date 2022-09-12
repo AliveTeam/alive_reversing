@@ -95,12 +95,22 @@ bool FlyingSlig::BrainIs(TFlyingSligBrainFn fn)
     return field_29C_brain_state == fn;
 }
 
+void FlyingSlig::LoadAnimations()
+{
+    for (auto& animId : sFlyingSligAnimIdTable)
+    {
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
+    }
+}
+
 FlyingSlig::FlyingSlig(relive::Path_FlyingSlig* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(9)
 {
     field_178_unused = 0;
     field_164_unused = -1;
     field_17A_unused = -1;
+
+    LoadAnimations();
 
     if (tlvId != Guid{})
     {
@@ -339,7 +349,7 @@ s32 FlyingSlig::CreateFromSaveState(const u8* pBuffer)
         pFlyingSlig->mCurrentMotion = pSaveState->field_24_current_state;
 
         u8** ppRes = pFlyingSlig->ResBlockForMotion_4350F0(pSaveState->field_24_current_state);
-        pFlyingSlig->mAnim.Set_Animation_Data(sFlyingSligAnimIdTable[pFlyingSlig->mCurrentMotion], ppRes);
+        pFlyingSlig->mAnim.Set_Animation_Data(pFlyingSlig->GetAnimRes(sFlyingSligAnimIdTable[pFlyingSlig->mCurrentMotion]));
 
         pFlyingSlig->mAnim.mCurrentFrame = pSaveState->field_26_current_frame;
 
@@ -2382,7 +2392,7 @@ void FlyingSlig::ToPossesed_436130()
 void FlyingSlig::vUpdateAnimRes_4350A0()
 {
     u8** ppRes = ResBlockForMotion_4350F0(mCurrentMotion);
-    mAnim.Set_Animation_Data(sFlyingSligAnimIdTable[mCurrentMotion], ppRes);
+    mAnim.Set_Animation_Data(GetAnimRes(sFlyingSligAnimIdTable[mCurrentMotion]));
 }
 
 void FlyingSlig::PatrolDelay_435860()

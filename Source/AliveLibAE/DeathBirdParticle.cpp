@@ -13,6 +13,8 @@ DeathBirdParticle::DeathBirdParticle(FP xpos, FP ypos, s32 start, bool bPlaySoun
 {
     SetType(ReliveTypes::eDeathBird);
 
+    LoadAnimations();
+
     const AnimRecord& rec = AnimRec(AnimId::DeathFlare_1);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(AnimId::DeathFlare_1, ppRes);
@@ -46,6 +48,11 @@ DeathBirdParticle::DeathBirdParticle(FP xpos, FP ypos, s32 start, bool bPlaySoun
     }
 }
 
+void DeathBirdParticle::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::DeathFlare_2));
+}
+
 void DeathBirdParticle::VUpdate()
 {
     switch (field_F5_state)
@@ -54,7 +61,7 @@ void DeathBirdParticle::VUpdate()
             if (static_cast<s32>(sGnFrame) > field_F8_start)
             {
                 // Death "star"
-                mAnim.Set_Animation_Data(AnimId::DeathFlare_2, nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(AnimId::DeathFlare_2));
                 field_F5_state = States::eTransformStarsToDoves_1;
             }
             break;

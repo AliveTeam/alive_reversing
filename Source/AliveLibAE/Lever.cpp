@@ -29,6 +29,15 @@ const TintEntry kLeverTints_563228[18] = {
     {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
     {EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
+void Lever::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Lever_Pull_Release_Left));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Lever_Pull_Release_Right));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Lever_Idle));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Lever_Pull_Left));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Lever_Pull_Right));
+}
+
 Lever::Lever(relive::Path_Lever* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
@@ -36,6 +45,8 @@ Lever::Lever(relive::Path_Lever* pTlv, const Guid& tlvId)
     const AnimRecord& rec = AnimRec(AnimId::Lever_Idle);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(AnimId::Lever_Idle, ppRes);
+
+    LoadAnimations();
 
     mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
     field_F4_switch_id = pTlv->mSwitchId;
@@ -140,11 +151,11 @@ void Lever::VUpdate()
 
             if (field_100_flags.Get(Flags_100::eBit1_lever_anim_left_direction))
             {
-                mAnim.Set_Animation_Data(AnimId::Lever_Pull_Release_Left, nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(AnimId::Lever_Pull_Release_Left));
             }
             else
             {
-                mAnim.Set_Animation_Data(AnimId::Lever_Pull_Release_Right, nullptr);
+                mAnim.Set_Animation_Data(GetAnimRes(AnimId::Lever_Pull_Release_Right));
             }
 
             const s32 switch_state = SwitchStates_Get(field_F4_switch_id);
@@ -263,7 +274,7 @@ void Lever::VUpdate()
         if (mAnim.mFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
         {
             field_F8_state = LeverState::eWaiting_0;
-            mAnim.Set_Animation_Data(AnimId::Lever_Idle, nullptr);
+            mAnim.Set_Animation_Data(GetAnimRes(AnimId::Lever_Idle));
         }
     }
 }
@@ -279,12 +290,12 @@ s16 Lever::VPull(s16 bLeftDirection)
 
     if (bLeftDirection)
     {
-        mAnim.Set_Animation_Data(AnimId::Lever_Pull_Left, nullptr);
+        mAnim.Set_Animation_Data(GetAnimRes(AnimId::Lever_Pull_Left));
         field_100_flags.Set(Flags_100::eBit1_lever_anim_left_direction);
     }
     else
     {
-        mAnim.Set_Animation_Data(AnimId::Lever_Pull_Right, nullptr);
+        mAnim.Set_Animation_Data(GetAnimRes(AnimId::Lever_Pull_Right));
         field_100_flags.Clear(Flags_100::eBit1_lever_anim_left_direction);
     }
 

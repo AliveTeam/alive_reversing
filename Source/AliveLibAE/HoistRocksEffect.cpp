@@ -51,7 +51,7 @@ HoistRocksEffect::HoistRocksEffect(relive::Path_Hoist* pTlv, const Guid& tlvId)
 
     for (HoistRockParticle& particle : field_30_rocks)
     {
-        particle.field_10_mAnim.Init(mLoadedAnims[0], this);
+        particle.field_10_mAnim.Init(GetAnimRes(AnimId::HoistRock1), this);
 
         particle.field_10_mAnim.mRed = 255;
         particle.field_10_mAnim.mGreen = 255;

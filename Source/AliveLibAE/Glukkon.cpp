@@ -190,7 +190,7 @@ s32 Glukkon::CreateFromSaveState(const u8* pData)
             glukType = relive::Path_Glukkon::GlukkonTypes::eNormal;
         }
 
-        pGlukkon->mAnim.Set_Animation_Data(sGlukkonsAnimIdTable[static_cast<s32>(glukType)][pSaveState->field_28_current_motion], nullptr);
+        pGlukkon->mAnim.Set_Animation_Data(pGlukkon->GetAnimRes(sGlukkonsAnimIdTable[static_cast<s32>(glukType)][pSaveState->field_28_current_motion]));
 
         pGlukkon->mAnim.mCurrentFrame = pSaveState->field_2A_current_frame;
         pGlukkon->mAnim.mFrameChangeCounter = pSaveState->field_2C_frame_change_counter;
@@ -253,11 +253,24 @@ bool Glukkon::BrainIs(TGlukkonBrainFn fn)
     return field_20C_brain_state_fn == fn;
 }
 
+void Glukkon::LoadAnimations()
+{
+    for (s32 i = 0; i < 3; i++)
+    {
+        for (s32 j = 0; j < 24; j++)
+        {
+            auto& animId = sGlukkonsAnimIdTable[i][j];
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
+        }
+    }
+}
+
 Glukkon::Glukkon(relive::Path_Glukkon* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(0)
 {
-    ;
     field_1EC_unused = -1;
+
+    LoadAnimations();
 
     field_1A8_tlvData = *pTlv;
 
@@ -2181,7 +2194,7 @@ void Glukkon::SetAnim(s16 currentMotion, s16 bClearNextMotion)
         typeIndex = 0;
     }
 
-    mAnim.Set_Animation_Data(sGlukkonsAnimIdTable[typeIndex][currentMotion], nullptr);
+    mAnim.Set_Animation_Data(GetAnimRes(sGlukkonsAnimIdTable[typeIndex][currentMotion]));
 
     mCurrentMotion = currentMotion;
     if (bClearNextMotion)
