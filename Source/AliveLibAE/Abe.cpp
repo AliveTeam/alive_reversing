@@ -677,14 +677,6 @@ void Animation_OnFrame_Abe_455F80(BaseGameObject* pPtr, u32&, const Point32& poi
     }
 }
 
-enum AbeResources
-{
-    eAbeBSic = 0,
-    eAbeBSic1 = 1,
-
-    eAbeWell = 15,
-};
-
 s32 XGrid_Index_To_XPos_4498F0(FP scale, s32 xGridIndex)
 {
     if (scale == FP_FromDouble(0.5))
@@ -944,82 +936,6 @@ Abe::~Abe()
     sActiveHero = nullptr;
 }
 
-const char_type* sAbe_ResNames_545830[22] = {
-    "ABEBASIC.BAN",
-    "ABEBSIC1.BAN",
-    "ABEPULL.BAN",
-    "ABEPICK.BAN",
-    "ABEBOMB.BAN",
-    "ABETHROW.BAN",
-    "ABESMASH.BAN",
-    "ABEFALL.BAN",
-    "ABESTONE.BAN",
-    "ABEKNBK.BAN",
-    "ABEKNFD.BAN",
-    "ABEKNOKZ.BAN",
-    "ABEHOIST.BAN",
-    "ABEEDGE.BAN",
-    "ABEDOOR.BAN",
-    "ABEWELL.BAN",
-    "ABEOMM.BAN",
-    "ABELIFT.BAN",
-    "ABECAR.BAN",
-    "ABEMORPH.BAN",
-    "ABEWORK.BAN",
-    "ABEGAS.BAN",
-};
-
-const s32 sAbeResourceIDTable_554D60[22] = {
-    AEResourceID::kAbebasicResID, // 10
-    AEResourceID::kAbebsic1ResID, // 55
-    AEResourceID::kAbepullResID,  // 11
-    AEResourceID::kAbepickResID,  // 12
-    AEResourceID::kAbebombResID,  // 13
-    AEResourceID::kAbethrowResID, // 14
-    AEResourceID::kAbesmashResID, // 19
-    AEResourceID::kAbefallResID,  // 20
-    AEResourceID::kAbestoneResID, // 21
-    AEResourceID::kAbeknbkResID,  // 26
-    AEResourceID::kAbeknfdResID,  // 27
-    AEResourceID::kAbeknokzResID, // 28
-    AEResourceID::kAbehoistResID, // 42
-    AEResourceID::kAbeedgeResID,  // 43
-    AEResourceID::kAbedoorResID,  // 45
-    AEResourceID::kAbewellResID,  // 47
-    AEResourceID::kAbeommResID,   // 48
-    AEResourceID::kAbeliftResID,  // 53
-    AEResourceID::kAbeCarResId,   // 113
-    AEResourceID::kAbemorphResID, // 117
-    AEResourceID::kAbeworkResID,  // 515
-    AEResourceID::kAbegasResID,   // 118
-};
-
-
-enum ResourceIndices
-{
-    eBasic_0 = 0,
-    eBasic1_1 = 1,
-    ePull_2 = 2,
-    ePick_3 = 3,
-    eBomb_4 = 4,
-    eThrow_5 = 5,
-    eSmash_6 = 6,
-    eFall_7 = 7,
-    eStone_8 = 8,
-    eKnockBack_9 = 9,
-    eKnockFd_10 = 10,
-    eKnockZ_11 = 11,
-    eHosit_12 = 12,
-    eEdge_13 = 13,
-    eDoor_14 = 14,
-    eWell_15 = 15,
-    eChant_16 = 16,
-    eLift_17 = 17,
-    eMineCar_18 = 18,
-    eMorph_19 = 19,
-    eWork_20 = 20,
-    eGas_21 = 21,
-};
 
 s32 Abe::CreateFromSaveState(const u8* pData)
 {
@@ -1052,6 +968,7 @@ s32 Abe::CreateFromSaveState(const u8* pData)
 
     sActiveHero->mCurrentMotion = pSaveState->mCurrentMotion;
 
+    /* TODO: Async load if res unloaded
     u8** animFromState = sActiveHero->MotionToAnimResource_44AAB0(sActiveHero->mCurrentMotion);
     if (!animFromState)
     {
@@ -1059,9 +976,9 @@ s32 Abe::CreateFromSaveState(const u8* pData)
         ResourceManager::LoadResourceFile_49C170(sAbe_ResNames_545830[sActiveHero->field_128.field_10_resource_index], 0);
         sActiveHero->field_10_resources_array.SetAt(sActiveHero->field_128.field_10_resource_index, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, id, TRUE, FALSE));
         animFromState = sActiveHero->field_10_resources_array.ItemAt(sActiveHero->field_128.field_10_resource_index);
-    }
+    }*/
 
-    sActiveHero->mAnim.Set_Animation_Data(sAbeAnimIdTable[sActiveHero->mCurrentMotion], animFromState);
+    sActiveHero->mAnim.Set_Animation_Data(sActiveHero->GetAnimRes(sAbeAnimIdTable[sActiveHero->mCurrentMotion]));
     //sActiveHero->mAnim.Set_Animation_Data_409C80(sAbeAnimIdTable[sActiveHero->mCurrentMotion], animFromState);
 
     sActiveHero->mAnim.mCurrentFrame = pSaveState->mCurrentFrame;
@@ -1078,9 +995,11 @@ s32 Abe::CreateFromSaveState(const u8* pData)
         sActiveHero->mAnim.mFlags.Set(AnimFlags::eBit18_IsLastFrame);
     }
 
-    FrameInfoHeader* pFrameInfoHeader = sActiveHero->mAnim.Get_FrameHeader(-1);
-    const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*sActiveHero->mAnim.field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
+    // TODO: Pal re-loading
+    /*
+    const PerFrameInfo* pFrameInfoHeader = sActiveHero->mAnim.Get_FrameHeader(-1);
     sActiveHero->mAnim.LoadPal(sActiveHero->mAnim.field_20_ppBlock, pFrameHeader->field_0_clut_offset);
+    */
 
     sActiveHero->SetTint(sAbeTintTable, gMap.mCurrentLevel);
     sActiveHero->mAnim.mRenderMode = TPageAbr::eBlend_0;
@@ -1521,7 +1440,7 @@ void Abe::VUpdate()
             mBaseAliveGameObjectFlags.Clear(Flags_114::e114_MotionChanged_Bit2);
             if (mCurrentMotion != eAbeMotions::Motion_12_Null_4569C0 && !(field_1AC_flags.Get(Flags_1AC::e1AC_Bit5_shrivel)))
             {
-                mAnim.Set_Animation_Data(sAbeAnimIdTable[mCurrentMotion], MotionToAnimResource_44AAB0(mCurrentMotion));
+                mAnim.Set_Animation_Data(GetAnimRes(sAbeAnimIdTable[mCurrentMotion]));
 
                 field_128.mRollingMotionTimer = sGnFrame;
 
@@ -1536,8 +1455,7 @@ void Abe::VUpdate()
         {
             mCurrentMotion = mPreviousMotion;
 
-            mAnim.Set_Animation_Data(sAbeAnimIdTable[mCurrentMotion], MotionToAnimResource_44AAB0(mCurrentMotion));
-
+            mAnim.Set_Animation_Data(GetAnimRes(sAbeAnimIdTable[mCurrentMotion]));
             field_128.mRollingMotionTimer = sGnFrame;
             mAnim.SetFrame(mBaseAliveGameObjectLastAnimFrame);
             field_1AC_flags.Clear(Flags_1AC::e1AC_Bit2_return_to_previous_motion);
@@ -2685,125 +2603,6 @@ void Abe::Free_Shrykull_Resources_45AA90()
     field_10_resources_array.SetAt(27, nullptr);
 }
 
-u8** Abe::MotionToAnimResource_44AAB0(s16 motion)
-{
-    s16 mapped = ResourceIndices::eBasic_0;
-    if (motion < eAbeMotions::Motion_12_Null_4569C0)
-    {
-        mapped = ResourceIndices::eBasic1_1;
-    }
-    else if (motion < eAbeMotions::Motion_65_LedgeAscend_4548E0)
-    {
-        mapped = ResourceIndices::eBasic_0;
-    }
-    else if (motion < eAbeMotions::Motion_71_Knockback_455090)
-    {
-        mapped = ResourceIndices::eHosit_12;
-    }
-    else if (motion < eAbeMotions::Motion_75_JumpIntoWell_45C7B0)
-    {
-        mapped = ResourceIndices::eKnockBack_9;
-    }
-    else if (motion < eAbeMotions::Motion_84_FallLandDie_45A420)
-    {
-        mapped = ResourceIndices::eWell_15;
-    }
-    else if (motion < eAbeMotions::jMotion_85_Fall_455070)
-    {
-        mapped = ResourceIndices::eSmash_6;
-    }
-    else if (motion < eAbeMotions::Motion_86_HandstoneBegin_45BD00)
-    {
-        mapped = ResourceIndices::eFall_7;
-    }
-    else if (motion < eAbeMotions::Motion_91_FallingFromGrab_4557B0)
-    {
-        mapped = ResourceIndices::eStone_8;
-    }
-    else if (motion < eAbeMotions::Motion_99_LeverUse_455AC0)
-    {
-        mapped = ResourceIndices::eEdge_13;
-    }
-    else if (motion < eAbeMotions::Motion_100_SlapBomb_455B60)
-    {
-        mapped = ResourceIndices::ePull_2;
-    }
-    else if (motion < eAbeMotions::Motion_101_KnockForward_455420)
-    {
-        mapped = ResourceIndices::eBomb_4;
-    }
-    else if (motion < eAbeMotions::Motion_104_RockThrowStandingHold_455DF0)
-    {
-        mapped = ResourceIndices::eKnockFd_10;
-    }
-    else if (motion < eAbeMotions::Motion_109_ZShotRolling_455550)
-    {
-        mapped = ResourceIndices::eThrow_5;
-    }
-    else if (motion < eAbeMotions::Motion_111_PickupItem_4564A0)
-    {
-        mapped = ResourceIndices::eKnockZ_11;
-    }
-    else if (motion < eAbeMotions::Motion_112_Chant_45B1C0)
-    {
-        mapped = ResourceIndices::ePick_3;
-    }
-    else if (motion < eAbeMotions::Motion_114_DoorEnter_459470)
-    {
-        mapped = ResourceIndices::eChant_16;
-    }
-    else if (motion < eAbeMotions::Motion_116_MineCarEnter_458780)
-    {
-        mapped = ResourceIndices::eDoor_14;
-    }
-    else if (motion < eAbeMotions::Motion_119_ToShrykull_45A990)
-    {
-        mapped = ResourceIndices::eMineCar_18;
-    }
-    else if (motion < eAbeMotions::Motion_121_LiftGrabBegin_45A600)
-    {
-        mapped = ResourceIndices::eMorph_19;
-    }
-    else if (motion < eAbeMotions::Motion_126_TurnWheelBegin_456700)
-    {
-        mapped = ResourceIndices::eLift_17;
-    }
-    else if (motion < eAbeMotions::Motion_129_PoisonGasDeath_4565C0)
-    {
-        mapped = ResourceIndices::eWork_20;
-    }
-    else
-    {
-        mapped = ResourceIndices::eGas_21;
-        if (motion >= 130) // max motions
-        {
-            // Impossible case?
-            LOG_ERROR("Motion is out of bounds !!! " << motion);
-            mapped = static_cast<s16>(motion);
-        }
-    }
-
-    if (mapped == field_128.field_10_resource_index)
-    {
-        return field_10_resources_array.ItemAt(field_128.field_10_resource_index);
-    }
-
-    // Check to never free basic res
-    if (field_128.field_10_resource_index != ResourceIndices::eBasic_0 && field_128.field_10_resource_index != 1)
-    {
-        ResourceManager::FreeResource_49C330(field_10_resources_array.ItemAt(field_128.field_10_resource_index));
-        field_10_resources_array.SetAt(field_128.field_10_resource_index, nullptr);
-    }
-
-    // Check to never load basic res
-    if (mapped != ResourceIndices::eBasic_0 && mapped != 1)
-    {
-        field_10_resources_array.SetAt(mapped, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, sAbeResourceIDTable_554D60[mapped], TRUE, FALSE));
-    }
-
-    field_128.field_10_resource_index = mapped;
-    return field_10_resources_array.ItemAt(mapped);
-}
 
 static bool IsSameScaleAsHoist(relive::Path_Hoist* pHoist, BaseAliveGameObject* pObj)
 {
@@ -5845,7 +5644,7 @@ void Abe::Motion_64_AfterSorry_454730()
 
 void Abe::Motion_65_LedgeAscend_4548E0()
 {
-    const s16 curFrameNum = mAnim.mCurrentFrame;
+    const s32 curFrameNum = mAnim.mCurrentFrame;
     if (curFrameNum == 0)
     {
         Environment_SFX_457A40(EnvironmentSfx::eExhaustingHoistNoise_10, 0, 32767, this);
@@ -5866,7 +5665,7 @@ void Abe::Motion_65_LedgeAscend_4548E0()
 
 void Abe::Motion_66_LedgeDescend_454970()
 {
-    const s16 curFrameNum = mAnim.mCurrentFrame;
+    const s32 curFrameNum = mAnim.mCurrentFrame;
     if (curFrameNum == 2)
     {
         Environment_SFX_457A40(EnvironmentSfx::eRunJumpOrLedgeHoist_11, 0, 32767, this);

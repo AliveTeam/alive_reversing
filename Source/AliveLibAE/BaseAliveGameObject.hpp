@@ -82,7 +82,7 @@ protected:
 public:
     FP_RECT mCollectionRect = {};
     s16 mPreviousMotion = 0;
-    s16 mBaseAliveGameObjectLastAnimFrame = 0;
+    s32 mBaseAliveGameObjectLastAnimFrame = 0;
     FP BaseAliveGameObjectLastLineYPos = {};
     relive::Path_TLV* BaseAliveGameObjectPathTLV = nullptr;
     PathLine* BaseAliveGameObjectCollisionLine = nullptr;

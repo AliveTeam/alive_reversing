@@ -444,8 +444,6 @@ public:
     bool IsStanding_449D30();
     void Free_Shrykull_Resources_45AA90();
 
-    u8** MotionToAnimResource_44AAB0(s16 motion);
-
     // Motions
     void Motion_0_Idle_44EEB0();
     void Motion_1_WalkLoop_44FBA0();

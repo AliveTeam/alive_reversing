@@ -8,9 +8,8 @@
 
 Shadow::Shadow()
 {
-    const AnimRecord& shadowRec = PerGameAnimRec(AnimId::ObjectShadow);
-    mAnimRes = ResourceManagerWrapper::GetLoadedResource(ResourceManagerWrapper::Resource_Animation, shadowRec.mResourceId, TRUE, FALSE);
-    mAnim.Init(AnimId::ObjectShadow, nullptr, mAnimRes);
+    AnimResource res = ResourceManagerWrapper::LoadAnimation(AnimId::ObjectShadow);
+    mAnim.Init(res, nullptr);
 
     mFlags.Clear(Flags::eShadowAtBottom);
     mFlags.Set(Flags::eEnabled);
