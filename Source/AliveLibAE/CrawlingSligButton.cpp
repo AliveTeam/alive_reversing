@@ -39,10 +39,8 @@ CrawlingSligButton::CrawlingSligButton(relive::Path_CrawlingSligButton* pTlv, co
     SetType(ReliveTypes::eSligButton);
 
     LoadAnimations();
+    Animation_Init(GetAnimRes(AnimId::CrawlingSligButton));
 
-    const AnimRecord& rec = AnimRec(AnimId::CrawlingSligButton);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::CrawlingSligButton, ppRes);
     field_F4_tlvInfo = tlvId;
 
     if (pTlv->mScale == relive::reliveScale::eHalf)

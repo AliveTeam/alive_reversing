@@ -41,9 +41,8 @@ Bone::Bone(FP xpos, FP ypos, s16 countId)
         LoadRockTypes_49AB30(mCurrentLevel, mCurrentPath);
     }
 
-    const AnimRecord& rec = AnimRec(AnimId::Bone);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::Bone, ppRes);
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Bone));
+    Animation_Init(GetAnimRes(AnimId::Bone));
 
     mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
@@ -585,12 +584,14 @@ BoneBag::BoneBag(relive::Path_BoneBag* pTlv, const Guid& tlvId)
 {
     SetType(ReliveTypes::eBoneBag);
 
+    LoadAnimations();
+
     const AnimRecord& rec = AnimRec(AnimId::BoneBag_Idle);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     // TODO: Super super OWI hack, WTF?? Figure out exactly what this is patching in the animation
     *((u16*) *ppRes + 4374) = 0;
 
-    Animation_Init(AnimId::BoneBag_Idle, ppRes);
+    Animation_Init(GetAnimRes(AnimId::BoneBag_Idle));
     mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
     SetTint(&kBoneTints_550EC0[0], gMap.mCurrentLevel);
 

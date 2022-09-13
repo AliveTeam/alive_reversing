@@ -34,11 +34,9 @@ Greeter::Greeter(relive::Path_Greeter* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eGreeter);
-    const AnimRecord& rec = AnimRec(AnimId::Greeter_Moving);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::Greeter_Moving, ppRes);
 
     LoadAnimations();
+    Animation_Init(GetAnimRes(AnimId::Greeter_Moving));
 
     mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
 

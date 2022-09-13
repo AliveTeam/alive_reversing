@@ -1610,7 +1610,7 @@ void Fleech::Init()
     field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, TRUE, FALSE));
     field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kFleeBlowResID_580, TRUE, FALSE));
 
-    Animation_Init(AnimId::Fleech_Idle, field_10_resources_array.ItemAt(0));
+    Animation_Init(GetAnimRes(AnimId::Fleech_Idle));
 
     mAnim.mFnPtrArray = kFleech_Anim_Frame_Fns_55EFD0;
 

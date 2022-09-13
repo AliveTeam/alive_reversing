@@ -3836,7 +3836,7 @@ Elum::Elum(s32, anythingForTheTimeBeing, anythingForTheTimeBeing, s32, const Gui
 
     field_126_res_idx = 16;
 
-    Animation_Init(AnimId::Elum_Land, field_174_resources.res[16]);
+    Animation_Init(GetAnimRes(AnimId::Elum_Land));
 
     mSpriteScale = sActiveHero->mSpriteScale;
 

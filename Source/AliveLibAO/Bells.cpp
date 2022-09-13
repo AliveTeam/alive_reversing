@@ -26,27 +26,24 @@ Bells::Bells(BellSize bellType, FP xpos, FP ypos, FP scale)
 {
     mBaseGameObjectFlags.Clear(Options::eCanExplode_Bit7);
 
-    mBaseGameObjectTypeId = ReliveTypes::eBells;
+    SetType(ReliveTypes::eBells);
 
     LoadAnimations();
-
-    const AnimRecord rec = AO::AnimRec(AnimId::BigChime);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
 
     switch (bellType)
     {
         case BellSize::eBig:
             mBellPitch = BellPitch::eLowPitch;
-            Animation_Init(AnimId::BigChime, ppRes);
+            Animation_Init(GetAnimRes(AnimId::BigChime));
             break;
 
         case BellSize::eMedium:
             mBellPitch = BellPitch::eMediumPitch;
-            Animation_Init(AnimId::MediumChime, ppRes);
+            Animation_Init(GetAnimRes(AnimId::MediumChime));
             break;
         case BellSize::eSmall:
             mBellPitch = BellPitch::eHighPitch;
-            Animation_Init(AnimId::SmallChime, ppRes);
+            Animation_Init(GetAnimRes(AnimId::SmallChime));
             break;
     }
 

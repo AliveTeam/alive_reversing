@@ -915,7 +915,7 @@ static void Factory_AbeStart(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& 
 
         if (!sActiveHero)
         {
-            sActiveHero = relive_new Abe(55888, 85, 57, 55);
+            sActiveHero = relive_new Abe();
             if (sActiveHero)
             {
                 sActiveHero->mXPos = FP_FromInteger(pTlv->mTopLeftX + 12);

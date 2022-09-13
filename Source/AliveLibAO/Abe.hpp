@@ -342,7 +342,7 @@ class Abe final : public BaseAliveGameObject
 public:
     bool Is_Celling_Above();
 
-    Abe(s32 frameTableOffset, s32 /*r*/, s32 /*g*/, s32 /*b*/);
+    Abe();
     ~Abe();
     
     virtual void VUpdate() override;

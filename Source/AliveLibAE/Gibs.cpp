@@ -143,8 +143,6 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
     }
 
     const AnimRecord& headGibRec = AnimRec(headGib);
-    // TODO: It is assumed all 3 gib parts have the same resource id - might not be true for mods
-    u8** ppAnimData = Add_Resource(ResourceManager::Resource_Animation, headGibRec.mResourceId);
 
     // TODO: It is assumed all 3 gib parts use the same pal - might not be true for mods
     u8** ppRes = nullptr;
@@ -154,7 +152,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
     }
 
     // The base class renders the head gib
-    Animation_Init(headGib, ppAnimData);
+    Animation_Init(GetAnimRes(headGib));
 
     if (mBaseGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
     {

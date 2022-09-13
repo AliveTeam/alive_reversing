@@ -18,6 +18,8 @@ class BirdPortalTerminator final : public BaseAnimatedWithPhysicsGameObject
 public:
     BirdPortalTerminator(FP xpos, FP ypos, FP scale, relive::Path_BirdPortal::PortalType portalType);
 
+    void LoadAnimations();
+
     virtual void VScreenChanged() override;
 
     
@@ -36,8 +38,6 @@ public:
     BirdPortal(relive::Path_BirdPortal* pTlv, const Guid& tlvId);
     ~BirdPortal();
     
-    void LoadAnimations();
-
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     virtual void VStopAudio() override;

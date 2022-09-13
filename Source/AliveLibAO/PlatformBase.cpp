@@ -32,7 +32,7 @@ void PlatformBase::AddDynamicCollision(AnimId animId, u8** ppAnimData, relive::P
     field_110 = 0;
     mPlatformBaseCount = 0;
 
-    Animation_Init(animId, ppAnimData);
+    Animation_Init(GetAnimRes(animId));
 
     if (mSpriteScale == FP_FromInteger(1))
     {

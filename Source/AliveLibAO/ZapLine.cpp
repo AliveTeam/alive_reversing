@@ -46,9 +46,8 @@ ZapLine::ZapLine(FP x1, FP y1, FP x2, FP y2, s32 aliveTime, ZapLineType type, La
         field_11C_tPageAbr = TPageAbr::eBlend_1;
     }
 
-    const AnimRecord& rec = AO::AnimRec(animId);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(animId, ppRes);
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
+    Animation_Init(GetAnimRes(animId));
 
     mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
     mAnim.mRenderLayer = layer;

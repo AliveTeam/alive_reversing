@@ -23,11 +23,10 @@ Grenade::Grenade(FP xpos, FP ypos, s16 numGrenades)
     : BaseThrowable()
 {
     field_10E_bDead = 0;
-    mBaseGameObjectTypeId = ReliveTypes::eGrenade;
+    SetType(ReliveTypes::eGrenade);
 
-    const AnimRecord rec = AO::AnimRec(AnimId::Grenade);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::Grenade, ppRes);
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Grenade));
+    Animation_Init(GetAnimRes(AnimId::Grenade));
 
     mBaseGameObjectFlags.Clear(Options::eInteractive_Bit8);
     mAnim.mRenderMode = TPageAbr::eBlend_0;

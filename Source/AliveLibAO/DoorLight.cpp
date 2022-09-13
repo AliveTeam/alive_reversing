@@ -34,22 +34,22 @@ DoorLight::DoorLight(relive::Path_LightEffect* pTlv, const Guid& tlvId)
     {
         case relive::Path_LightEffect::Type::GoldGlow:
         {
-            const AnimRecord& goldRec = AO::AnimRec(AnimId::GoldGlow);
-            Animation_Init(AnimId::GoldGlow, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, goldRec.mResourceId, 1, 0));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::GoldGlow));
+            Animation_Init(GetAnimRes(AnimId::GoldGlow));
             break;
         }
 
         case relive::Path_LightEffect::Type::GreenGlow:
         {
-            const AnimRecord& greenRec = AO::AnimRec(AnimId::GreenGlow);
-            Animation_Init(AnimId::GreenGlow, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, greenRec.mResourceId, 1, 0));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::GreenGlow));
+            Animation_Init(GetAnimRes(AnimId::GreenGlow));
             break;
         }
 
         case relive::Path_LightEffect::Type::FlintGlow:
         {
-            const AnimRecord& flintRec = AO::AnimRec(AnimId::FlintGlow);
-            Animation_Init(AnimId::FlintGlow, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, flintRec.mResourceId, 1, 0));
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::FlintGlow));
+            Animation_Init(GetAnimRes(AnimId::FlintGlow));
             field_EC_bHasID = 1;
             break;
         }
@@ -60,13 +60,13 @@ DoorLight::DoorLight(relive::Path_LightEffect* pTlv, const Guid& tlvId)
             field_EA_height = 0;
             if (SwitchStates_Get(pTlv->mSwitchId))
             {
-                const AnimRecord& greenRec = AO::AnimRec(AnimId::GreenDoorLight);
-                Animation_Init(AnimId::GreenDoorLight, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, greenRec.mResourceId, 1, 0));
+                mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::GreenDoorLight));
+                Animation_Init(GetAnimRes(AnimId::GreenDoorLight));
             }
             else
             {
-                const AnimRecord& redRec = AO::AnimRec(AnimId::RedDoorLight);
-                Animation_Init(AnimId::RedDoorLight, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, redRec.mResourceId, 1, 0));
+                mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::RedDoorLight));
+                Animation_Init(GetAnimRes(AnimId::RedDoorLight));
                 xOff = 6;
             }
             break;
@@ -78,13 +78,13 @@ DoorLight::DoorLight(relive::Path_LightEffect* pTlv, const Guid& tlvId)
             field_EA_height = 0;
             if (SwitchStates_Get(pTlv->mSwitchId))
             {
-                const AnimRecord& greenRec = AO::AnimRec(AnimId::GreenHubLight);
-                Animation_Init(AnimId::GreenHubLight, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, greenRec.mResourceId, 1, 0));
+                mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::GreenHubLight));
+                Animation_Init(GetAnimRes(AnimId::GreenHubLight));
             }
             else
             {
-                const AnimRecord& redRec = AO::AnimRec(AnimId::RedHubLight);
-                Animation_Init(AnimId::RedHubLight, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, redRec.mResourceId, 1, 0));
+                mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::RedHubLight));
+                Animation_Init(GetAnimRes(AnimId::RedHubLight));
             }
             break;
         }

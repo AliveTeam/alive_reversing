@@ -23,9 +23,8 @@ ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
         field_F6_segment_length = 7;
     }
 
-    const AnimRecord& rec = AnimRec(AnimId::ParamiteWeb);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::ParamiteWeb, ppRes);
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::ParamiteWeb));
+    Animation_Init(GetAnimRes(AnimId::ParamiteWeb));
 
     if (scale == FP_FromInteger(1))
     {

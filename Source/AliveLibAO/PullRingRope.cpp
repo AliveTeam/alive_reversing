@@ -34,27 +34,21 @@ PullRingRope::PullRingRope(relive::Path_PullRingRope* pTlv, const Guid& tlvId)
         case EReliveLevelIds::eBoardRoom:
         case EReliveLevelIds::eRuptureFarmsReturn:
         {
-            const AnimRecord rec1 = AO::AnimRec(AnimId::Pullring_Farms_Idle);
-            u8** ppRes1 = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec1.mResourceId, 1, 0);
-            Animation_Init(AnimId::Pullring_Farms_Idle, ppRes1);
+            Animation_Init(GetAnimRes(AnimId::Pullring_Farms_Idle));
             lvl_x_off = -2;
             break;
         }
 
         case EReliveLevelIds::eDesert:
         {
-            const AnimRecord rec2 = AO::AnimRec(AnimId::Pullring_Desert_Idle);
-            u8** ppRes2 = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec2.mResourceId, 1, 0);
-            Animation_Init(AnimId::Pullring_Desert_Idle, ppRes2);
+            Animation_Init(GetAnimRes(AnimId::Pullring_Desert_Idle));
             lvl_x_off = 2;
             break;
         }
 
         default:
         {
-            const AnimRecord rec2 = AO::AnimRec(AnimId::Pullring_Desert_Idle);
-            u8** ppRes2 = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec2.mResourceId, 1, 0);
-            Animation_Init(AnimId::Pullring_Desert_Idle, ppRes2);
+            Animation_Init(GetAnimRes(AnimId::Pullring_Desert_Idle));
             lvl_x_off = 0;
             break;
         }

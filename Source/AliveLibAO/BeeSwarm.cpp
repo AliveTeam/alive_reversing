@@ -27,10 +27,8 @@ ALIVE_VAR(1, 0x5076AC, s16, gBeesNearAbe, 0);
 BeeSwarm::BeeSwarm(FP xpos, FP ypos, FP speed, s32 numBees, s32 totalChaseTime)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    mBaseGameObjectTypeId = ReliveTypes::eBeeSwarm;
+    SetType(ReliveTypes::eBeeSwarm);
 
-    const AnimRecord rec = AO::AnimRec(AnimId::Bee_Swarm);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, 16, 1, 0);
     if (gMap.mCurrentLevel != EReliveLevelIds::eForestTemple && gMap.mCurrentLevel != EReliveLevelIds::eDesertTemple)
     {
@@ -49,7 +47,9 @@ BeeSwarm::BeeSwarm(FP xpos, FP ypos, FP speed, s32 numBees, s32 totalChaseTime)
         numBeesToUse = 1;
     }
 
-    Animation_Init(AnimId::Bee_Swarm, ppRes);
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Bee_Swarm));
+    Animation_Init(GetAnimRes(AnimId::Bee_Swarm));
+
     if (numBeesToUse <= 25)
     {
         mMaxBeesCount = static_cast<s16>(numBeesToUse);

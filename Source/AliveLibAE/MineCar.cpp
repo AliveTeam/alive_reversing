@@ -38,9 +38,7 @@ MineCar::MineCar(relive::Path_MineCar* pTlv, const Guid& tlvId, s32 /*a4*/, s32 
 
     LoadAnimations();
 
-    const AnimRecord& rec = AnimRec(AnimId::Mine_Car_Open);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::Mine_Car_Open, ppRes);
+    Animation_Init(GetAnimRes(AnimId::Mine_Car_Open));
 
     field_11E_scale = pTlv->mScale;
 

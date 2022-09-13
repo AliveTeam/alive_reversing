@@ -121,11 +121,11 @@ Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
             {
                 if (field_EC_current_state == relive::Path_Door::DoorStates::eOpen)
                 {
-                    Animation_Init(sDoorAnimdIdTable[idx][1], ppRes);
+                    Animation_Init(GetAnimRes(sDoorAnimdIdTable[idx][1]));
                 }
                 else
                 {
-                    Animation_Init(sDoorAnimdIdTable[idx][0], ppRes);
+                    Animation_Init(GetAnimRes(sDoorAnimdIdTable[idx][0]));
                 }
 
                 if (pTlv->mScale == relive::reliveScale::eHalf)
@@ -192,11 +192,11 @@ Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
 
             if (field_EC_current_state == relive::Path_Door::DoorStates::eOpen)
             {
-                Animation_Init(sDoorAnimdIdTable[idx][3], ppRes);
+                Animation_Init(GetAnimRes(sDoorAnimdIdTable[idx][3]));
             }
             else
             {
-                Animation_Init(sDoorAnimdIdTable[idx][2], ppRes);
+                Animation_Init(GetAnimRes(sDoorAnimdIdTable[idx][2]));
             }
 
             if (sCollisions->Raycast(
@@ -239,11 +239,11 @@ Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
                 {
                     if (field_EC_current_state == relive::Path_Door::DoorStates::eOpen)
                     {
-                        Animation_Init(sDoorAnimdIdTable[idx][5], ppRes);
+                        Animation_Init(GetAnimRes(sDoorAnimdIdTable[idx][5]));
                     }
                     else
                     {
-                        Animation_Init(sDoorAnimdIdTable[idx][4], ppRes);
+                        Animation_Init(GetAnimRes(sDoorAnimdIdTable[idx][4]));
                     }
 
                     mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;

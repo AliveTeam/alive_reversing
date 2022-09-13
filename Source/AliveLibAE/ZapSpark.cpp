@@ -17,9 +17,7 @@ ZapSpark::ZapSpark(FP xpos, FP ypos, FP scale)
 
     LoadAnimations();
 
-    const AnimRecord& rec = AnimRec(AnimId::AE_ZapSpark);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::AE_ZapSpark, ppRes);
+    Animation_Init(GetAnimRes(AnimId::AE_ZapSpark));
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 

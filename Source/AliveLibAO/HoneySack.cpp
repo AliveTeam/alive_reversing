@@ -24,13 +24,10 @@ void HoneySack::LoadAnimations()
 HoneySack::HoneySack(relive::Path_HoneySack* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    mBaseGameObjectTypeId = ReliveTypes::eHoneySack;
+    SetType(ReliveTypes::eHoneySack);
 
     LoadAnimations();
-
-    const AnimRecord hangingRec = AO::AnimRec(AnimId::HoneySack_Hanging);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, hangingRec.mResourceId, 1, 0);
-    Animation_Init(AnimId::HoneySack_Hanging, ppRes);
+    Animation_Init(GetAnimRes(AnimId::HoneySack_Hanging));
 
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
     mTlvInfo = tlvId;

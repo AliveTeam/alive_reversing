@@ -23,11 +23,10 @@ SecurityOrb::SecurityOrb(relive::Path_SecurityOrb* pTlv, const Guid& tlvId)
 {
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
 
-    mBaseGameObjectTypeId = ReliveTypes::eSecurityOrb;
+    SetType(ReliveTypes::eSecurityOrb);
 
-    const AnimRecord rec = AO::AnimRec(AnimId::Security_Orb);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::Security_Orb, ppRes);
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Security_Orb));
+    Animation_Init(GetAnimRes(AnimId::Security_Orb));
 
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);

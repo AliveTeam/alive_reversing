@@ -829,9 +829,9 @@ const TintEntry sAbeTints_4C6438[] = {
     {EReliveLevelIds::eNone, 102u, 102u, 102u}};
 
 
-Abe::Abe(s32 frameTableOffset, s32 /*r*/, s32 /*g*/, s32 /*b*/)
+Abe::Abe()
 {
-    mBaseGameObjectTypeId = ReliveTypes::eAbe;
+    SetType(ReliveTypes::eAbe);
 
     mBaseGameObjectFlags.Set(Options::eSurviveDeathReset_Bit9);
 
@@ -900,7 +900,7 @@ Abe::Abe(s32 frameTableOffset, s32 /*r*/, s32 /*g*/, s32 /*b*/)
     ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kDovbasicAOResID, 1, 0);
 
     field_128_resource_idx = 45;
-    Animation_Init(frameTableOffset, 135, 80, field_1A4_resources.res[45]);
+    Animation_Init(GetAnimRes(AnimId::Mudokon_Walk));
 
     mAnim.mFnPtrArray = kAbe_Anim_Frame_Fns_4CEBEC;
 

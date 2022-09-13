@@ -36,7 +36,7 @@ static inline FP Random_Speed(FP scale)
 ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, BurstType type)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    mBaseGameObjectTypeId = ReliveTypes::eParticleBurst;
+    SetType(ReliveTypes::eParticleBurst);
     mSpriteScale = scale;
 
     field_E4_ppRes = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::ResourceType::Resource_3DGibs, 0, sizeof(ParticleBurst_Item) * particleCount);
@@ -54,9 +54,8 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
         {
             case BurstType::eFallingRocks_0:
             {
-                const AnimRecord rockRec = AO::AnimRec(AnimId::Rock_Gib);
-                u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rockRec.mResourceId, 1, 0);
-                Animation_Init(AnimId::Rock_Gib, ppRes);
+                mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Rock_Gib));
+                Animation_Init(GetAnimRes(AnimId::Rock_Gib));
                 mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
                 mAnim.mFlags.Set(AnimFlags::eBit16_bBlending);
                 break;
@@ -64,9 +63,8 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
 
             case BurstType::eSticks_1:
             {
-                const AnimRecord sticksRec = AO::AnimRec(AnimId::Stick_Gib);
-                u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, sticksRec.mResourceId, 1, 0);
-                Animation_Init(AnimId::Stick_Gib, ppRes);
+                mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Stick_Gib));
+                Animation_Init(GetAnimRes(AnimId::Stick_Gib));
                 scale = FP_FromDouble(0.4) * scale;
                 mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
                 mAnim.mFlags.Set(AnimFlags::eBit16_bBlending);
@@ -75,9 +73,8 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
 
             case BurstType::eBigPurpleSparks_2:
             {
-                const AnimRecord flareRec = AO::AnimRec(AnimId::DeathFlare_2);
-                u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, flareRec.mResourceId, 1, 0);
-                Animation_Init(AnimId::DeathFlare_2, ppRes);
+                mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::DeathFlare_2));
+                Animation_Init(GetAnimRes(AnimId::DeathFlare_2));
                 mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
                 mAnim.mFlags.Set(AnimFlags::eBit16_bBlending);
                 mAnim.mRenderMode = TPageAbr::eBlend_1;
@@ -86,9 +83,8 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
 
             case BurstType::eBigRedSparks_3:
             {
-                const AnimRecord flareRec = AO::AnimRec(AnimId::DeathFlare_2);
-                u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, flareRec.mResourceId, 1, 0);
-                Animation_Init(AnimId::DeathFlare_2, ppRes);
+                mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::DeathFlare_2));
+                Animation_Init(GetAnimRes(AnimId::DeathFlare_2));
 
                 mAnim.mRenderMode = TPageAbr::eBlend_1;
                 mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -102,9 +98,8 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
 
             case BurstType::eMeat_4:
             {
-                const AnimRecord meatRec = AO::AnimRec(AnimId::Meat_Gib);
-                u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, meatRec.mResourceId, 1, 0);
-                Animation_Init(AnimId::Meat_Gib, ppRes);
+                mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Meat_Gib));
+                Animation_Init(GetAnimRes(AnimId::Meat_Gib));
                 mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
                 mAnim.mFlags.Set(AnimFlags::eBit16_bBlending);
                 break;

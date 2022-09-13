@@ -23,9 +23,7 @@ FootSwitch::FootSwitch(relive::Path_FootSwitch* pTlv, const Guid& tlvId)
 
     LoadAnimations();
 
-    const AnimRecord rec = AO::AnimRec(AnimId::Foot_Switch_Temple);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::Foot_Switch_Temple, ppRes);
+    Animation_Init(GetAnimRes(AnimId::Foot_Switch_Temple));
 
     mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
 

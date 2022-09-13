@@ -339,9 +339,7 @@ Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
 
     field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSlgbasicResID, 1, 0));
 
-    const AnimRecord& rec = AnimRec(AnimId::Slig_Idle);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::Slig_Idle, ppRes);
+    Animation_Init(GetAnimRes(AnimId::Slig_Idle));
 
     SetType(ReliveTypes::eSlig);
 

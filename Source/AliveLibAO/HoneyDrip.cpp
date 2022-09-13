@@ -12,9 +12,8 @@ HoneyDrip::HoneyDrip(FP xpos, FP ypos)
 {
     mRGB.SetRGB(128, 128, 128);
 
-    const AnimRecord rec = AO::AnimRec(AnimId::Honey_Drip);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::Honey_Drip, ppRes);
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Honey_Drip));
+    Animation_Init(GetAnimRes(AnimId::Honey_Drip));
     mYPos = ypos;
     mXPos = xpos;
 

@@ -21,9 +21,8 @@ MotionDetectorLaser::MotionDetectorLaser(FP xpos, FP ypos, FP scale, Layer layer
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eRedLaser);
-    const AnimRecord& rec = AnimRec(AnimId::MotionDetector_Laser);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::MotionDetector_Laser, ppRes);
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::MotionDetector_Laser));
+    Animation_Init(GetAnimRes(AnimId::MotionDetector_Laser));
     mAnim.mRenderLayer = layer;
     mXPos = xpos;
     mSpriteScale = scale;
@@ -38,9 +37,8 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
 {
     SetType(ReliveTypes::eGreeterBody);
 
-    const AnimRecord& rec = AnimRec(AnimId::MotionDetector_Flare);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::MotionDetector_Flare, ppRes);
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::MotionDetector_Flare));
+    Animation_Init(GetAnimRes(AnimId::MotionDetector_Flare));
 
     mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
     mAnim.mRenderMode = TPageAbr::eBlend_1;

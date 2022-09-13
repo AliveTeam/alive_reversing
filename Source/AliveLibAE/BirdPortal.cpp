@@ -26,13 +26,6 @@
 #include "ResourceManager.hpp"
 #include "Map.hpp"
 
-void BirdPortal::LoadAnimations()
-{
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BirdPortal_TerminatorIdle));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BirdPortal_TerminatorShrink));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BirdPortal_TerminatorGrow));
-}
-
 BirdPortal::BirdPortal(relive::Path_BirdPortal* pTlv, const Guid& tlvId)
     : BaseGameObject(TRUE, 0)
 {
@@ -1090,14 +1083,20 @@ Event BirdPortal::GetEvent()
     return kEventPortalOpen;
 }
 
+
+void BirdPortalTerminator::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BirdPortal_TerminatorIdle));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BirdPortal_TerminatorShrink));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BirdPortal_TerminatorGrow));
+}
+
 BirdPortalTerminator::BirdPortalTerminator(FP xpos, FP ypos, FP scale, relive::Path_BirdPortal::PortalType /*portalType*/)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eEyeOrbPart);
 
-    const AnimRecord& rec = AnimRec(AnimId::BirdPortal_TerminatorGrow);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::BirdPortal_TerminatorGrow, ppRes);
+    Animation_Init(GetAnimRes(AnimId::BirdPortal_TerminatorGrow));
 
     mAnim.mRenderMode = TPageAbr::eBlend_1;
     mSpriteScale = scale;

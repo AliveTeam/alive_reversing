@@ -17,11 +17,11 @@ namespace AO {
 ElectricWall::ElectricWall(relive::Path_ElectricWall* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    mBaseGameObjectTypeId = ReliveTypes::eElectricWall;
+    SetType(ReliveTypes::eElectricWall);
 
-    const AnimRecord rec = AO::AnimRec(AnimId::Electric_Wall);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::Electric_Wall, ppRes);
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Electric_Wall));
+    Animation_Init(GetAnimRes(AnimId::Electric_Wall));
+
     mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
     mAnim.mRenderMode = TPageAbr::eBlend_1;
     mAnim.mRenderLayer = Layer::eLayer_Foreground_36;

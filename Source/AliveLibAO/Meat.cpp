@@ -28,13 +28,11 @@ void MeatSack::LoadAnimations()
 MeatSack::MeatSack(relive::Path_MeatSack* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
-    mBaseGameObjectTypeId = ReliveTypes::eMeatSack;
+    SetType(ReliveTypes::eMeatSack);
 
     LoadAnimations();
 
-    const AnimRecord rec = AO::AnimRec(AnimId::MeatSack_Idle);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::MeatSack_Idle, ppRes);
+    Animation_Init(GetAnimRes(AnimId::MeatSack_Idle));
 
     field_10C_tlvInfo = tlvId;
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
@@ -164,11 +162,10 @@ Meat::Meat(FP xpos, FP ypos, s16 count)
 {
     field_10E_bDead = 0;
 
-    mBaseGameObjectTypeId = ReliveTypes::eMeat;
+    SetType(ReliveTypes::eMeat);
 
-    const AnimRecord rec = AO::AnimRec(AnimId::Meat);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::Meat, ppRes);
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Meat));
+    Animation_Init(GetAnimRes(AnimId::Meat));
 
     mXPos = xpos;
     mYPos = ypos;

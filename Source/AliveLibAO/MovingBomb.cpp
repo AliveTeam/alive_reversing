@@ -31,10 +31,10 @@ MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
-    mBaseGameObjectTypeId = ReliveTypes::eTimedMine;
-    const AnimRecord rec = AO::AnimRec(AnimId::MovingBomb);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::MovingBomb, ppRes);
+    SetType(ReliveTypes::eTimedMine);
+
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::MovingBomb));
+    Animation_Init(GetAnimRes(AnimId::MovingBomb));
 
     mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
     mAnim.mRenderMode = TPageAbr::eBlend_0;

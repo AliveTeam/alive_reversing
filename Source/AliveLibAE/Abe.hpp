@@ -421,7 +421,7 @@ class Bullet;
 class Abe final : public BaseAliveGameObject
 {
 public:
-    Abe(s32 frameTableOffset, s32 r, s32 g, s32 b);
+    Abe();
     ~Abe();
 
     static s32 CreateFromSaveState(const u8* pData);

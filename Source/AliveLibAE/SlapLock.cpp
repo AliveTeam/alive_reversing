@@ -37,9 +37,7 @@ SlapLock::SlapLock(relive::Path_SlapLock* pTlv, const Guid& tlvId)
         mSpriteScale = FP_FromDouble(0.5);
     }
 
-    const AnimRecord& rec = AnimRec(AnimId::SlapLock_Initiate);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::SlapLock_Initiate, ppRes);
+    Animation_Init(GetAnimRes(AnimId::SlapLock_Initiate));
 
     if (mSlapLockTlv->mScale != relive::reliveScale::eFull)
     {

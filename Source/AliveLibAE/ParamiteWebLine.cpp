@@ -25,9 +25,8 @@ ParamiteWebLine::ParamiteWebLine(relive::Path_ParamiteWebLine* pTlv, const Guid&
 
     LoadAnimations();
 
-    const AnimRecord& rec = AnimRec(AnimId::ParamiteWeb);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::ParamiteWeb, ppRes);
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::ParamiteWeb));
+    Animation_Init(GetAnimRes(AnimId::ParamiteWeb));
 
     if (pTlv->mScale != relive::reliveScale::eFull)
     {

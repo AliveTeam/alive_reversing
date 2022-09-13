@@ -44,9 +44,8 @@ SecurityOrb::SecurityOrb(relive::Path_SecurityOrb* pTlv, const Guid& tlvId)
 
     mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
 
-    const AnimRecord& rec = AnimRec(AnimId::Security_Orb);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::Security_Orb, ppRes);
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Security_Orb));
+    Animation_Init(GetAnimRes(AnimId::Security_Orb));
 
     SetTint(sSecurityOrbTints_55C1EC, gMap.mCurrentLevel);
 

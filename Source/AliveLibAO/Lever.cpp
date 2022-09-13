@@ -193,9 +193,7 @@ Lever::Lever(relive::Path_Lever* pTlv, const Guid& tlvId)
     LoadAnimations();
 
     const s32 lvl_idx = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
-    const AnimRecord& rec = AO::AnimRec(gLeverData_4BCF40[lvl_idx].field_0_idle_animId);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(gLeverData_4BCF40[lvl_idx].field_0_idle_animId, ppRes);
+    Animation_Init(GetAnimRes(gLeverData_4BCF40[lvl_idx].field_0_idle_animId));
 
     mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
 

@@ -30,9 +30,7 @@ GlukkonSwitch::GlukkonSwitch(relive::Path_GlukkonSwitch* pTlv, const Guid& tlvId
 
     LoadAnimations();
 
-    const AnimRecord& rec = AnimRec(AnimId::Security_Door_Idle);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::Security_Door_Idle, ppRes);
+    Animation_Init(GetAnimRes(AnimId::Security_Door_Idle));
 
     mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
     field_F4_tlvInfo = tlvId;

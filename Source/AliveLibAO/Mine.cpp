@@ -14,14 +14,20 @@ namespace AO {
 
 ALIVE_VAR(1, 0x507B88, Mine*, sMinePlayingSound_507B88, nullptr);
 
+
+void Mine::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Mine));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Mine_Flash));
+}
+
 Mine::Mine(relive::Path_Mine* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
-    mBaseGameObjectTypeId = ReliveTypes::eMine;
+    SetType(ReliveTypes::eMine);
     
-    const AnimRecord rec = AO::AnimRec(AnimId::Mine);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::Mine, ppRes);
+    LoadAnimations();
+    Animation_Init(GetAnimRes(AnimId::Mine));
     
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);

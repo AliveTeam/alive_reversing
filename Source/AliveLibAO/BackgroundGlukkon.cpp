@@ -36,13 +36,11 @@ void BackgroundGlukkon::LoadAnimations()
 BackgroundGlukkon::BackgroundGlukkon(relive::Path_BackgroundGlukkon* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
-    mBaseGameObjectTypeId = ReliveTypes::eBackgroundGlukkon;
+    SetType(ReliveTypes::eBackgroundGlukkon);
 
     LoadAnimations();
 
-    const AnimRecord rec = AO::AnimRec(AnimId::Background_Glukkon_Idle);
-    u8** ppRes2 = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::Background_Glukkon_Idle, ppRes2);
+    Animation_Init(GetAnimRes(AnimId::Background_Glukkon_Idle));
 
     field_10C_tlvInfo = tlvId;
 

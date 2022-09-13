@@ -27,9 +27,8 @@ EvilFart::EvilFart()
 {
     SetType(ReliveTypes::eEvilFart);
 
-    const AnimRecord& rec = AnimRec(AnimId::Fart);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::Fart, ppRes);
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Fart));
+    Animation_Init(GetAnimRes(AnimId::Fart));
 
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);

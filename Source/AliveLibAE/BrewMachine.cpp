@@ -47,9 +47,8 @@ BrewMachine::BrewMachine(relive::Path_BrewMachine* pTlv, const Guid& tlvId)
     mFontContext.LoadFontType_433400(2);
     mFont.ctor_433590(3, fontPalette_550F08, &mFontContext);
 
-    const AnimRecord& rec = AnimRec(AnimId::BrewMachine_Button);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::BrewMachine_Button, ppRes);
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BrewMachine_Button));
+    Animation_Init(GetAnimRes(AnimId::BrewMachine_Button));
 
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kEvilFartResID);
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);

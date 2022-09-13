@@ -14,9 +14,8 @@ DoorBlocker::DoorBlocker(relive::Path_DoorBlocker* pTlv, const Guid& tlvId)
 
     field_11A_switch_id = pTlv->mSwitchId;
 
-    const AnimRecord& rec = AnimRec(AnimId::Door_Lock_Idle);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::Door_Lock_Idle, ppRes);
+    LoadAnimations();
+    Animation_Init(GetAnimRes(AnimId::Door_Lock_Idle));
 
     field_118_bDone &= ~1u;
 
@@ -54,6 +53,7 @@ DoorBlocker::~DoorBlocker()
 void DoorBlocker::LoadAnimations()
 {
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Door_Lock_Open));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Door_Lock_Idle));
 }
 
 void DoorBlocker::VUpdate()

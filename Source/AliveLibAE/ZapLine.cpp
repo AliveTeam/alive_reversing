@@ -27,9 +27,8 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
         // Creates thin blue zap lines.
         field_130_number_of_pieces_per_segment = 20;
         field_12E_number_of_segments = 12;
-        const AnimRecord& rec = AnimRec(AnimId::Zap_Line_Blue);
-        u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-        Animation_Init(AnimId::Zap_Line_Blue, ppRes);
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Zap_Line_Blue));
+        Animation_Init(GetAnimRes(AnimId::Zap_Line_Blue));
         field_12C_tPageAbr = TPageAbr::eBlend_3;
     }
     else if (type == ZapLineType::eThick_0)
@@ -37,9 +36,8 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
         // Creates thick red zap lines.
         field_130_number_of_pieces_per_segment = 10;
         field_12E_number_of_segments = 28;
-        const AnimRecord& rec = AnimRec(AnimId::Zap_Line_Red);
-        u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-        Animation_Init(AnimId::Zap_Line_Red, ppRes);
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Zap_Line_Red));
+        Animation_Init(GetAnimRes(AnimId::Zap_Line_Red));
         field_12C_tPageAbr = TPageAbr::eBlend_1;
     }
 

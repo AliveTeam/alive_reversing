@@ -85,9 +85,7 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
 
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kWebResID);
 
-    const AnimRecord& rec = AnimRec(AnimId::Paramite_Idle);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::Paramite_Idle, ppRes);
+    Animation_Init(GetAnimRes(AnimId::Paramite_Idle));
 
     SetTint(&kParamiteTints_55D73C[0], gMap.mCurrentLevel);
 

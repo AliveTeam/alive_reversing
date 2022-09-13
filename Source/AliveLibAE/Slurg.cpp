@@ -60,9 +60,7 @@ Slurg::Slurg(relive::Path_Slurg* pTlv, const Guid& tlvId)
 
     mSlurgState = SlurgStates::eMoving_0;
 
-    const AnimRecord& rec = AnimRec(AnimId::Slurg_Move);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::Slurg_Move, ppRes);
+    Animation_Init(GetAnimRes(AnimId::Slurg_Move));
 
     mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
     SetType(ReliveTypes::eSlurg);

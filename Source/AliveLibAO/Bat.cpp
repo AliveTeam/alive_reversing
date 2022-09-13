@@ -24,21 +24,11 @@ void Bat::LoadAnimations()
 Bat::Bat(relive::Path_Bat* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    mBaseGameObjectTypeId = ReliveTypes::eBat;
+    SetType(ReliveTypes::eBat);
 
     LoadAnimations();
+    Animation_Init(GetAnimRes(AnimId::Bat));
 
-    const AnimRecord rec = AO::AnimRec(AnimId::Bat);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    
-    if (!ppRes)
-    {
-        mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-        return;
-    }
-
-    Animation_Init(AnimId::Bat, ppRes);
     mAnim.mRenderLayer = Layer::eLayer_SligGreeterFartsBats_33;
 
     FP hitX = {};

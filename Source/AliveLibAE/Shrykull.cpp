@@ -35,9 +35,7 @@ Shrykull::Shrykull()
     field_128_obj_being_zapped_id = Guid{};
     field_124_zap_line_id = Guid{};
 
-    const AnimRecord& shrykullRec = AnimRec(AnimId::ShrykullStart);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, shrykullRec.mResourceId);
-    Animation_Init(AnimId::ShrykullStart, ppRes);
+    Animation_Init(GetAnimRes(AnimId::ShrykullStart));
 
     mXPos = sActiveHero->mXPos;
     mYPos = sActiveHero->mYPos;

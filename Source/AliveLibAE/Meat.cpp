@@ -27,9 +27,8 @@ Meat::Meat(FP xpos, FP ypos, s16 count)
         LoadRockTypes_49AB30(mCurrentLevel, mCurrentPath);
     }
 
-    const AnimRecord& rec = AnimRec(AnimId::Meat);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::Meat, ppRes);
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Meat));
+    Animation_Init(GetAnimRes(AnimId::Meat));
 
     mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
@@ -406,9 +405,7 @@ MeatSack::MeatSack(relive::Path_MeatSack* pTlv, const Guid& tlvId)
 
     LoadAnimations();
 
-    const AnimRecord& rec = AnimRec(AnimId::MeatSack_Idle);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::MeatSack_Idle, ppRes);
+    Animation_Init(GetAnimRes(AnimId::MeatSack_Idle));
     SetTint(&kMeatTints_55C254[0], gMap.mCurrentLevel);
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);

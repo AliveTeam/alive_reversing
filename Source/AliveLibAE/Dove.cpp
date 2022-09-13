@@ -22,6 +22,7 @@ static s16 sAbePortalWidth = 0;
 void Dove::LoadAnimations()
 {
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Dove_Flying));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Dove_Idle));
 }
 
 Dove::Dove(AnimId animId, const Guid& tlvId, FP scale)
@@ -29,8 +30,7 @@ Dove::Dove(AnimId animId, const Guid& tlvId, FP scale)
 {
     SetType(ReliveTypes::eDove);
 
-    const AnimRecord& anim = AnimRec(animId);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, anim.mResourceId);
+    LoadAnimations();
     Animation_Init(GetAnimRes(animId));
 
     mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
@@ -80,8 +80,7 @@ Dove::Dove(AnimId animId, FP xpos, FP ypos, FP scale)
 {
     SetType(ReliveTypes::eDove);
 
-    const AnimRecord& anim = AnimRec(animId);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, anim.mResourceId);
+    LoadAnimations();
     Animation_Init(GetAnimRes(animId));
 
     mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);

@@ -296,7 +296,7 @@ Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
 
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kSlgbasicAOResID, 1, 0);
     field_210_resources.res[0] = ppRes;
-    Animation_Init(AnimId::Slig_Idle, ppRes);
+    Animation_Init(GetAnimRes(AnimId::Slig_Idle));
 
     mBaseAliveGameObjectFlags.Clear(Flags_10A::e10A_Bit2_bPossesed);
     mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit1_Can_Be_Possessed);

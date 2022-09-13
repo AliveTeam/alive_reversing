@@ -23,10 +23,11 @@ namespace AO {
 MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    mBaseGameObjectTypeId = ReliveTypes::eMotionDetector;
-    const AnimRecord rec = AO::AnimRec(AnimId::MotionDetector_Flare);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::MotionDetector_Flare, ppRes);
+    SetType(ReliveTypes::eMotionDetector);
+
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::MotionDetector_Flare));
+    Animation_Init(GetAnimRes(AnimId::MotionDetector_Flare));
+
     mAnim.mFlags.Set(AnimFlags::eBit7_SwapXY);
     mAnim.mRenderMode = TPageAbr::eBlend_1;
     mAnim.mRenderLayer = Layer::eLayer_Foreground_36;
@@ -56,18 +57,15 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
 
     field_15C_speed = FP_FromRaw(pTlv->mSpeedx256 << 8);
 
-    const AnimRecord& laserRec = AO::AnimRec(AnimId::MotionDetector_Laser);
-    u8** ppResLaser = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, laserRec.mResourceId, 1, 0);
     if (pTlv->mInitialMoveDirection == relive::Path_MotionDetector::InitialMoveDirection::eRight)
     {
-        
         field_E8_state = States::eMoveRight_0;
         auto pMotionDetectors = relive_new MotionDetectorLaser();
         if (pMotionDetectors)
         {
             pMotionDetectors->mBaseGameObjectTypeId = ReliveTypes::eRedLaser;
             
-            pMotionDetectors->Animation_Init(AnimId::MotionDetector_Laser, ppResLaser);
+            pMotionDetectors->Animation_Init(pMotionDetectors->GetAnimRes(AnimId::MotionDetector_Laser));
             
             pMotionDetectors->mAnim.mRenderMode = TPageAbr::eBlend_1;
             pMotionDetectors->mAnim.mRenderLayer = Layer::eLayer_Foreground_36;
@@ -88,7 +86,7 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
         {
             pMotionDetectors->mBaseGameObjectTypeId = ReliveTypes::eRedLaser;
             
-            pMotionDetectors->Animation_Init(AnimId::MotionDetector_Laser, ppResLaser);
+            pMotionDetectors->Animation_Init(pMotionDetectors->GetAnimRes(AnimId::MotionDetector_Laser));
             
             pMotionDetectors->mAnim.mRenderMode = TPageAbr::eBlend_1;
             pMotionDetectors->mAnim.mRenderLayer = Layer::eLayer_Foreground_36;

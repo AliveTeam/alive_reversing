@@ -20,8 +20,8 @@ BaseBomb::BaseBomb(FP x, FP y, s32 /*unused*/, FP scale)
 {
     SetType(ReliveTypes::eBaseBomb);
 
-    const AnimRecord& rec = AnimRec(AnimId::Explosion_Mine);
-    Animation_Init(AnimId::Explosion_Mine, BaseGameObject::Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Explosion_Mine));
+    Animation_Init(GetAnimRes(AnimId::Explosion_Mine));
 
     mAnim.mFlags.Clear(AnimFlags::eBit18_IsLastFrame); // Double Check
     mAnim.mFlags.Set(AnimFlags::eBit24);

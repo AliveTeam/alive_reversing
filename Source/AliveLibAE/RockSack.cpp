@@ -32,7 +32,7 @@ RockSack::RockSack(relive::Path_RockSack* pTlv, const Guid& tlvId)
     auto pAnimationHeader = reinterpret_cast<AnimationHeader*>(*ppRes + rec.mFrameTableOffset);
     pAnimationHeader->field_0_fps = 0;
 
-    Animation_Init(AnimId::RockSack_Idle, ppRes);
+    Animation_Init(GetAnimRes(AnimId::RockSack_Idle));
 
     mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 

@@ -177,9 +177,7 @@ BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId)
 
     LoadAnimations();
 
-    const AnimRecord rec = AO::AnimRec(AnimId::BoomMachine_Button_On);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::BoomMachine_Button_On, ppRes);
+    Animation_Init(GetAnimRes(AnimId::BoomMachine_Button_On));
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
     field_E4_tlvInfo = tlvId;
@@ -206,9 +204,7 @@ BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId)
             directedScale = -directedScale;
         }
 
-        const AnimRecord rec2 = AO::AnimRec(AnimId::BoomMachine_Nozzle_Idle);
-        u8** ppRes2 = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec2.mResourceId, 1, 0);
-        pNozzle->Animation_Init(AnimId::BoomMachine_Nozzle_Idle, ppRes2);
+        pNozzle->Animation_Init(pNozzle->GetAnimRes(AnimId::BoomMachine_Nozzle_Idle));
 
         pNozzle->mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
         pNozzle->mSpriteScale = mSpriteScale;

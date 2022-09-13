@@ -25,13 +25,13 @@ const s32 dword_4C5054[11] = {0, 1, 10, 100, 1000, 10000, 100000, 1000000, 10000
 ChimeLock::ChimeLock(relive::Path_ChimeLock* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
-    mBaseGameObjectTypeId = ReliveTypes::eChimeLock;
+    SetType(ReliveTypes::eChimeLock);
 
     field_10C_tlvInfo = tlvId;
 
-    const AnimRecord rec = AO::AnimRec(AnimId::Chime_Ball);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::Chime_Ball, ppRes);
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Chime_Ball));
+    Animation_Init(GetAnimRes(AnimId::Chime_Ball));
+
     mAnim.mRenderLayer = Layer::eLayer_FG1_37;
 
     FP scale = {};

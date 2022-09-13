@@ -1353,140 +1353,131 @@ HintFly::HintFly(relive::Path_HintFly* pTlv, const Guid& tlvId)
 {
     field_E4_ppRes = nullptr;
 
-    const AnimRecord rec = AO::AnimRec(AnimId::HintFly);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    if (ppRes)
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::HintFly));
+    Animation_Init(GetAnimRes(AnimId::HintFly));
+
+    mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+    field_124_tlvInfo = tlvId;
+    field_11E_msg_idx = 0;
+
+    field_11C_message_id = pTlv->mMessageId;
+
+    mXPos = FP_FromInteger(pTlv->mTopLeftX);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
+
+    const char_type* pMsg = gHintFlyMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, pTlv->mMessageId);
+
+    field_118_counter = 20;
+    field_11A_msg_len = 0;
+
+    // Find the length of the longest word (in particles)
+    s16 longestWordLen = 0;
+    s16 curWordLen = 0;
+    for (;;)
     {
-        Animation_Init(AnimId::HintFly, ppRes);
-
-        mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
-        field_124_tlvInfo = tlvId;
-        field_11E_msg_idx = 0;
-
-        field_11C_message_id = pTlv->mMessageId;
-
-        mXPos = FP_FromInteger(pTlv->mTopLeftX);
-        mYPos = FP_FromInteger(pTlv->mTopLeftY);
-
-        const char_type* pMsg = gHintFlyMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, pTlv->mMessageId);
-
-        field_118_counter = 20;
-        field_11A_msg_len = 0;
-
-        // Find the length of the longest word (in particles)
-        s16 longestWordLen = 0;
-        s16 curWordLen = 0;
-        for (;;)
+        // End of word?
+        if (*pMsg == ' ' || *pMsg == 0)
         {
-            // End of word?
-            if (*pMsg == ' ' || *pMsg == 0)
+            if (curWordLen > longestWordLen)
             {
-                if (curWordLen > longestWordLen)
-                {
-                    longestWordLen = curWordLen;
-                }
-                curWordLen = 0;
-                if (!*pMsg)
-                {
-                    break;
-                }
+                longestWordLen = curWordLen;
             }
-            else
+            curWordLen = 0;
+            if (!*pMsg)
             {
-                curWordLen += pHintFlyAlphabet_4C7268[(*pMsg) - 'A'][0];
-            }
-            pMsg++;
-        }
-
-        field_11A_msg_len = longestWordLen;
-        field_11A_msg_len += 12;
-
-        field_E4_ppRes = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::Resource_HintFly, 0, sizeof(HintFlyParticle) * field_11A_msg_len);
-        if (field_E4_ppRes)
-        {
-            field_E8_pRes = reinterpret_cast<HintFlyParticle*>(*field_E4_ppRes);
-            field_112_state = State::eIdleWaitForChanting_1;
-            field_10C_timer = 0;
-
-            if (mAnim.mFlags.Get(AnimFlags::eBit13_Is8Bit))
-            {
-                field_110_bitMode = TPageMode::e8Bit_1;
-            }
-            else if (mAnim.mFlags.Get(AnimFlags::eBit14_Is16Bit))
-            {
-                field_110_bitMode = TPageMode::e16Bit_2;
-            }
-            else
-            {
-                field_110_bitMode = TPageMode::e4Bit_0;
-            }
-
-            s32 vram_x = mAnim.mVramRect.x & 0x3F;
-            if (field_110_bitMode == TPageMode::e8Bit_1)
-            {
-                vram_x = 2 * vram_x;
-            }
-            else if (field_110_bitMode == TPageMode::e4Bit_0)
-            {
-                vram_x = 4 * vram_x;
-            }
-
-            const auto pHeader = mAnim.Get_FrameHeader(-1);
-
-            for (s32 i = 0; i < field_11A_msg_len; i++)
-            {
-                for (s32 j = 0; j < 2; j++)
-                {
-                    Prim_Sprt* pSprt = &field_E8_pRes[i].field_24_sprt[j];
-
-                    Sprt_Init(pSprt);
-
-                    Poly_Set_SemiTrans(&pSprt->mBase.header, 1);
-                    Poly_Set_Blending(&pSprt->mBase.header, 1);
-
-                    SetClut(pSprt, static_cast<s16>(PSX_getClut(
-                                       mAnim.mPalVramXY.x,
-                                       mAnim.mPalVramXY.y)));
-
-                    SetUV0(pSprt, vram_x & 0xFF, mAnim.mVramRect.y & 0xFF);
-
-                    pSprt->field_14_w = pHeader->mWidth - 1;
-                    pSprt->field_16_h = pHeader->mHeight - 1;
-                }
-            }
-
-
-            field_114_xScreen = FP_GetExponent(mXPos + FP_FromInteger(pScreenManager->mCamXOff) - pScreenManager->mCamPos->x);
-            field_116_yScreen = FP_GetExponent(mYPos + FP_FromInteger(pScreenManager->mCamYOff) - pScreenManager->mCamPos->y);
-
-            // Some unknown pal hack that seems to do nothing
-            /*
-            const PSX_RECT rect = { static_cast<s16>(mAnim.mPalVramXY.x + 1), mAnim.mPalVramXY.y, 1, 1 };
-            const u8 data[] = { 0, 0, 0, 0 };
-            if (mAnim.mFlags.Get(AnimFlags::eBit14_Is16Bit))
-            {
-                PSX_LoadImage16_4962A0(&rect, data);
-            }
-            else
-            {
-                PSX_LoadImage_496480(&rect, data);
-            }
-            */
-
-            for (s32 i = 0; i < field_118_counter; i++)
-            {
-                HintFlyParticle* pParticle = &field_E8_pRes[i];
-                InitParticle(pParticle);
+                break;
             }
         }
         else
         {
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            curWordLen += pHintFlyAlphabet_4C7268[(*pMsg) - 'A'][0];
+        }
+        pMsg++;
+    }
+
+    field_11A_msg_len = longestWordLen;
+    field_11A_msg_len += 12;
+
+    field_E4_ppRes = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::Resource_HintFly, 0, sizeof(HintFlyParticle) * field_11A_msg_len);
+    if (field_E4_ppRes)
+    {
+        field_E8_pRes = reinterpret_cast<HintFlyParticle*>(*field_E4_ppRes);
+        field_112_state = State::eIdleWaitForChanting_1;
+        field_10C_timer = 0;
+
+        if (mAnim.mFlags.Get(AnimFlags::eBit13_Is8Bit))
+        {
+            field_110_bitMode = TPageMode::e8Bit_1;
+        }
+        else if (mAnim.mFlags.Get(AnimFlags::eBit14_Is16Bit))
+        {
+            field_110_bitMode = TPageMode::e16Bit_2;
+        }
+        else
+        {
+            field_110_bitMode = TPageMode::e4Bit_0;
+        }
+
+        s32 vram_x = mAnim.mVramRect.x & 0x3F;
+        if (field_110_bitMode == TPageMode::e8Bit_1)
+        {
+            vram_x = 2 * vram_x;
+        }
+        else if (field_110_bitMode == TPageMode::e4Bit_0)
+        {
+            vram_x = 4 * vram_x;
+        }
+
+        const auto pHeader = mAnim.Get_FrameHeader(-1);
+
+        for (s32 i = 0; i < field_11A_msg_len; i++)
+        {
+            for (s32 j = 0; j < 2; j++)
+            {
+                Prim_Sprt* pSprt = &field_E8_pRes[i].field_24_sprt[j];
+
+                Sprt_Init(pSprt);
+
+                Poly_Set_SemiTrans(&pSprt->mBase.header, 1);
+                Poly_Set_Blending(&pSprt->mBase.header, 1);
+
+                SetClut(pSprt, static_cast<s16>(PSX_getClut(
+                                    mAnim.mPalVramXY.x,
+                                    mAnim.mPalVramXY.y)));
+
+                SetUV0(pSprt, vram_x & 0xFF, mAnim.mVramRect.y & 0xFF);
+
+                pSprt->field_14_w = pHeader->mWidth - 1;
+                pSprt->field_16_h = pHeader->mHeight - 1;
+            }
+        }
+
+
+        field_114_xScreen = FP_GetExponent(mXPos + FP_FromInteger(pScreenManager->mCamXOff) - pScreenManager->mCamPos->x);
+        field_116_yScreen = FP_GetExponent(mYPos + FP_FromInteger(pScreenManager->mCamYOff) - pScreenManager->mCamPos->y);
+
+        // Some unknown pal hack that seems to do nothing
+        /*
+        const PSX_RECT rect = { static_cast<s16>(mAnim.mPalVramXY.x + 1), mAnim.mPalVramXY.y, 1, 1 };
+        const u8 data[] = { 0, 0, 0, 0 };
+        if (mAnim.mFlags.Get(AnimFlags::eBit14_Is16Bit))
+        {
+            PSX_LoadImage16_4962A0(&rect, data);
+        }
+        else
+        {
+            PSX_LoadImage_496480(&rect, data);
+        }
+        */
+
+        for (s32 i = 0; i < field_118_counter; i++)
+        {
+            HintFlyParticle* pParticle = &field_E8_pRes[i];
+            InitParticle(pParticle);
         }
     }
     else
     {
-        mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }

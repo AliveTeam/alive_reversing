@@ -316,16 +316,23 @@ const MenuFMV sLevelList_4D0300[15] = {
     {"Rescue Zulag 4", EReliveLevelIds::eRuptureFarmsReturn, 14, 1, -1, 1390, 700},
     {"The Boardroom", EReliveLevelIds::eBoardRoom, 6, 1, -1, 592, 157}};
 
+void MainMenuFade::LoadAnimations()
+{
+    for (auto& animId : buttonAnimIds_4BB1B8)
+    {
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
+    }
+}
+
 MainMenuFade::MainMenuFade(s32 xpos, s32 ypos, buttonType buttonType, s32 bDestroyOnDone)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    mBaseGameObjectTypeId = ReliveTypes::MainMenuFade;
+    SetType(ReliveTypes::MainMenuFade);
 
     mRGB.SetRGB(128, 128, 128);
 
-    const AnimRecord& rec = AO::AnimRec(buttonAnimIds_4BB1B8[buttonType]);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(buttonAnimIds_4BB1B8[buttonType], ppRes);
+    LoadAnimations();
+    Animation_Init(GetAnimRes(buttonAnimIds_4BB1B8[buttonType]));
 
     mAnim.mRenderMode = TPageAbr::eBlend_1;
     mXPos = FP_FromInteger(xpos);
@@ -686,7 +693,7 @@ Menu::Menu(relive::Path_TLV* /*pTlv*/, const Guid& tlvId)
     {
         field_E4_res_array[2] = nullptr;
         field_E4_res_array[3] = nullptr;
-        Animation_Init(AnimId::MenuAbeSpeak_Idle, field_E4_res_array[1]);
+        Animation_Init(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
     }
     else
     {
@@ -697,7 +704,7 @@ Menu::Menu(relive::Path_TLV* /*pTlv*/, const Guid& tlvId)
         const AnimRecord& doorRec = AO::AnimRec(AnimId::MenuDoor);
         ResourceManager::LoadResourceFile_455270(doorRec.mBanName, nullptr);
         field_E4_res_array[3] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, doorRec.mResourceId, 1, 0);
-        Animation_Init(AnimId::MenuDoor, field_E4_res_array[3]);
+        Animation_Init(GetAnimRes(AnimId::MenuDoor));
     }
 
     mAnim.mBlue = 127;
@@ -2020,8 +2027,7 @@ void Menu::NewGameStart_47B9C0()
 {
     if (!sActiveHero)
     {
-        const AnimRecord& rec = AO::AnimRec(AnimId::Mudokon_Walk);
-        sActiveHero = relive_new Abe(rec.mFrameTableOffset, 85, 57, 55);
+        sActiveHero = relive_new Abe();
     }
 
     if (gAttract_507698)
@@ -3267,8 +3273,7 @@ void Menu::LoadSave_Update_47DB40()
 
     if (!sActiveHero)
     {
-        const AnimRecord& rec = AO::AnimRec(AnimId::Mudokon_Walk);
-        sActiveHero = relive_new Abe(rec.mFrameTableOffset, 85, 57, 55);
+        sActiveHero = relive_new Abe();
     }
 
     if (!SaveGame::LoadFromFile(sSaveNames_9F1DD8[field_1E0_selected_index.raw].field_0_mName))

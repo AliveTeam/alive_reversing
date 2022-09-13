@@ -31,7 +31,6 @@ private:
 private:
     Animation mTearsAnim = {};
     Animation mZapAnim = {};
-    u8** mTorturedMudRes = nullptr;
     Guid mTlvInfo;
     s32 mFlashColourTimer = 0;
     s16 mFlashColourCounter = 0;

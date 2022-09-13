@@ -599,8 +599,7 @@ static void Factory_AbeStart(relive::Path_TLV* pTlv, Path*, const Guid& /*tlvId*
 
         if (!sActiveHero)
         {
-            const AnimRecord& rec = AnimRec(AnimId::Mudokon_Walk);
-            sActiveHero = relive_new Abe(rec.mFrameTableOffset, 85, 57, 55);
+            sActiveHero = relive_new Abe();
             if (sActiveHero)
             {
                 sActiveHero->mXPos = FP_FromInteger(pTlv->mTopLeftX + 12);

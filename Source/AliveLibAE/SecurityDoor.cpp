@@ -27,9 +27,7 @@ SecurityDoor::SecurityDoor(relive::Path_SecurityDoor* pTlv, const Guid& tlvId)
     field_118_max_idx = 0;
     field_11A_event_idx = -1;
 
-    const AnimRecord& rec = AnimRec(AnimId::Security_Door_Idle);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::Security_Door_Idle, ppRes);
+    Animation_Init(GetAnimRes(AnimId::Security_Door_Idle));
 
     mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
 

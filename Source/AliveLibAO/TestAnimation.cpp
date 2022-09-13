@@ -41,31 +41,29 @@ void TestAnimation::DelayLoad()
         LOG_WARNING("Anim resource already loaded - BAN/BND name not verified/loaded by test animation");
     }
 
-    static DynamicArrayT<u8*> resourceArray{50};
-
-    u8** ppRes = ::Add_Resource(resourceArray, AO::ResourceManager::Resource_Animation, animRec.mResourceId);
-    Animation_Init(animRec.mFrameTableOffset, animRec.mMaxW, animRec.mMaxH, ppRes);
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Anim_Tester));
+    Animation_Init(GetAnimRes(AnimId::Anim_Tester));
     mAnim.mFlags.Set(AnimFlags::eBit8_Loop);
 
-    if (animRec.mPalOverride != PalId::Default)
-    {
-        const PalRecord& palRec = PalRec(animRec.mPalOverride);
+    //if (animRec.mPalOverride != PalId::Default)
+    //{
+    //    const PalRecord& palRec = PalRec(animRec.mPalOverride);
 
-        if (!AO::ResourceManager::GetLoadedResource(AO::ResourceManager::Resource_Palt, palRec.mResourceId, 0, 0))
-        {
-            AO::ResourceManager::LoadResourceFileWrapper(palRec.mBanName, nullptr);
-        }
-        else
-        {
-            LOG_WARNING("Pal resource already loaded - BAN/BND name not verified by test animation");
-        }
+    //    if (!AO::ResourceManager::GetLoadedResource(AO::ResourceManager::Resource_Palt, palRec.mResourceId, 0, 0))
+    //    {
+    //        AO::ResourceManager::LoadResourceFileWrapper(palRec.mBanName, nullptr);
+    //    }
+    //    else
+    //    {
+    //        LOG_WARNING("Pal resource already loaded - BAN/BND name not verified by test animation");
+    //    }
 
-        u8** ppPal = ::Add_Resource(resourceArray, AO::ResourceManager::Resource_Palt, palRec.mResourceId);
-        if (ppPal)
-        {
-            mAnim.LoadPal(ppPal, 0);
-        }
-    }
+    //    u8** ppPal = ::Add_Resource(resourceArray, AO::ResourceManager::Resource_Palt, palRec.mResourceId);
+    //    if (ppPal)
+    //    {
+    //        mAnim.LoadPal(ppPal, 0);
+    //    }
+    //}
 }
 
 TestAnimation::TestAnimation()

@@ -22,9 +22,8 @@ BulletShell::BulletShell(FP xpos, FP ypos, s16 direction, FP scale)
     else
     {
         SetType(ReliveTypes::eNone);
-        const AnimRecord& rec = AnimRec(AnimId::Bullet_Shell);
-        u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-        Animation_Init(AnimId::Bullet_Shell, ppRes);
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Bullet_Shell));
+        Animation_Init(GetAnimRes(AnimId::Bullet_Shell));
 
         mSpriteScale = scale;
 

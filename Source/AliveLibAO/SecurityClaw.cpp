@@ -35,11 +35,10 @@ const TintEntry kClawTints_4C5498[3] = {
 Claw::Claw()
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    mBaseGameObjectTypeId = ReliveTypes::eClawOrBirdPortalTerminator;
+    SetType(ReliveTypes::eClawOrBirdPortalTerminator);
     
-    const AnimRecord rec = AO::AnimRec(AnimId::Security_Claw_Lower_Idle);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::Security_Claw_Lower_Idle, ppRes);
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Security_Claw_Lower_Idle));
+    Animation_Init(GetAnimRes(AnimId::Security_Claw_Lower_Idle));
 }
 
 
@@ -59,16 +58,14 @@ void SecurityClaw::LoadAnimations()
 SecurityClaw::SecurityClaw(relive::Path_SecurityClaw* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
-    mBaseGameObjectTypeId = ReliveTypes::eSecurityClaw;
+    SetType(ReliveTypes::eSecurityClaw);
 
     LoadAnimations();
 
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
     field_12C_pDetector = 1;
 
-    const AnimRecord rec = AO::AnimRec(AnimId::Security_Claw_Upper_Rotating);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::Security_Claw_Upper_Rotating, ppRes);
+    Animation_Init(GetAnimRes(AnimId::Security_Claw_Upper_Rotating));
 
     mTlvInfo = tlvId;
 

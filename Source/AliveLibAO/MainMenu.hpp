@@ -23,6 +23,8 @@ class MainMenuFade final : public BaseAnimatedWithPhysicsGameObject
 public:
     MainMenuFade(s32 xpos, s32 ypos, buttonType buttonType, s32 bDestroyOnDone);
 
+    void LoadAnimations();
+
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 

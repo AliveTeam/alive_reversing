@@ -14,11 +14,11 @@ namespace AO {
 RollingBallStopper::RollingBallStopper(relive::Path_RollingBallStopper* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
-    mBaseGameObjectTypeId = ReliveTypes::eRollingBallStopper;
+    SetType(ReliveTypes::eRollingBallStopper);
     
-    const AnimRecord rec = AO::AnimRec(AnimId::Stone_Ball_Stopper);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::Stone_Ball_Stopper, ppRes);
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Stone_Ball_Stopper));
+    Animation_Init(GetAnimRes(AnimId::Stone_Ball_Stopper));
+
     mAnim.mRenderLayer = Layer::eLayer_FG1_37;
 
     mStopperSwitchId = pTlv->mStopperSwitchId;

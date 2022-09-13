@@ -19,9 +19,8 @@ Honey::Honey(FP xpos, FP ypos)
 
     mRGB.SetRGB(128, 128, 128);
 
-    const AnimRecord rec = AO::AnimRec(AnimId::Honey);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::Honey, ppRes);
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Honey));
+    Animation_Init(GetAnimRes(AnimId::Honey));
 
     mYPos = ypos;
     mXPos = xpos;

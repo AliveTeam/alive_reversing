@@ -14,15 +14,13 @@ public:
     MotionDetectorLaser()
         : BaseAnimatedWithPhysicsGameObject(0)
     {
-
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::MotionDetector_Laser));
     }
 
     virtual void VScreenChanged() override
     {
         // Empty
     }
-
-    s32 field_D4[4];
 };
 ALIVE_ASSERT_SIZEOF(MotionDetectorLaser, 0xE4);
 

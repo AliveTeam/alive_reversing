@@ -70,13 +70,11 @@ void DeathBirdParticle::VUpdate()
 DeathBirdParticle::DeathBirdParticle(FP xpos, FP ypos, s32 start, s32 bPlaySound, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    mBaseGameObjectTypeId = ReliveTypes::eDeathBird;
+    SetType(ReliveTypes::eDeathBird);
 
     LoadAnimations();
 
-    const AnimRecord rec = AO::AnimRec(AnimId::DeathFlare_1);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::DeathFlare_1, ppRes);
+    Animation_Init(GetAnimRes(AnimId::DeathFlare_1));
 
     if (mBaseGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
     {

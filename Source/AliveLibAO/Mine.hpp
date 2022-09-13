@@ -13,6 +13,8 @@ public:
     Mine(relive::Path_Mine* pTlv, const Guid& tlvId);
     ~Mine();
 
+    void LoadAnimations();
+
     virtual void VScreenChanged() override;
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;

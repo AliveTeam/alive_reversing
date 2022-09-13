@@ -30,9 +30,8 @@ MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
 
     SetType(ReliveTypes::eTimedMine_or_MovingBomb);
 
-    const AnimRecord& rec = AnimRec(AnimId::MovingBomb);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::MovingBomb, ppRes);
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::MovingBomb));
+    Animation_Init(GetAnimRes(AnimId::MovingBomb));
 
     mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
     mAnim.mRenderMode = TPageAbr::eBlend_0;

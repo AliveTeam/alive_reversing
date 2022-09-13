@@ -196,11 +196,10 @@ void BaseBomb::DealDamageRect(const PSX_RECT* pRect)
 BaseBomb::BaseBomb(FP xpos, FP ypos, s32 /*unused*/, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    mBaseGameObjectTypeId = ReliveTypes::eBaseBomb;
+    SetType(ReliveTypes::eBaseBomb);
 
-    const AnimRecord rec = AO::AnimRec(AnimId::Explosion_Mine);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::Explosion_Mine, ppRes);
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Explosion_Mine));
+    Animation_Init(GetAnimRes(AnimId::Explosion_Mine));
 
     mAnim.mFlags.Clear(AnimFlags::eBit18_IsLastFrame);
 

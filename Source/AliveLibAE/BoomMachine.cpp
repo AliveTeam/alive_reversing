@@ -32,10 +32,7 @@ public:
         : BaseAnimatedWithPhysicsGameObject(0)
     {
         LoadAnimations();
-
-        const AnimRecord& rec = AnimRec(AnimId::BoomMachine_Nozzle_Idle);
-        u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-        Animation_Init(AnimId::BoomMachine_Nozzle_Idle, ppRes);
+        Animation_Init(GetAnimRes(AnimId::BoomMachine_Nozzle_Idle));
 
         mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
         mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
@@ -158,9 +155,9 @@ BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId)
 {
     SetType(ReliveTypes::eBoomMachine);
 
-    const AnimRecord& rec = AnimRec(AnimId::BoomMachine_Button_Off);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::BoomMachine_Button_Off, ppRes);
+    LoadAnimations();
+
+    Animation_Init(GetAnimRes(AnimId::BoomMachine_Button_Off));
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
     field_F4_tlvInfo = tlvId;

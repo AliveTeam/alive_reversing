@@ -21,10 +21,10 @@ namespace AO {
 Explosion::Explosion(FP xpos, FP ypos, FP exposion_size)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    mBaseGameObjectTypeId = ReliveTypes::eExplosion;
-    const AnimRecord rec = AO::AnimRec(AnimId::Explosion);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::Explosion, ppRes);
+    SetType(ReliveTypes::eExplosion);
+
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Explosion));
+    Animation_Init(GetAnimRes(AnimId::Explosion));
 
     mAnim.mFlags.Clear(AnimFlags::eBit18_IsLastFrame);
     mAnim.mRenderMode = TPageAbr::eBlend_1;

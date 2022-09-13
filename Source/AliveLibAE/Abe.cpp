@@ -699,7 +699,7 @@ ALIVE_VAR(1, 0x5c1b8c, BaseAliveGameObject*, sControlledCharacter, nullptr);
 
 static constexpr s32 kResourceArraySize = 28;
 
-Abe::Abe(s32 /*frameTableOffset*/, s32 /*r*/, s32 /*g*/, s32 /*b*/)
+Abe::Abe()
     : BaseAliveGameObject(kResourceArraySize)
 {
     SetType(ReliveTypes::eAbe);
@@ -802,9 +802,7 @@ Abe::Abe(s32 /*frameTableOffset*/, s32 /*r*/, s32 /*g*/, s32 /*b*/)
 
     field_128.field_10_resource_index = 1;
 
-    const AnimRecord& rec = AnimRec(AnimId::Mudokon_Idle);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::Mudokon_Idle, ppRes);
+    Animation_Init(GetAnimRes(AnimId::Mudokon_Idle));
 
     mAnim.mFnPtrArray = kAbe_Anim_Frame_Fns_55EF98;
 
@@ -944,7 +942,7 @@ s32 Abe::CreateFromSaveState(const u8* pData)
     Abe* pAbe = sActiveHero;
     if (!sActiveHero)
     {
-        pAbe = relive_new Abe(58808, 85, 57, 55);
+        pAbe = relive_new Abe();
         sActiveHero = pAbe;
     }
 

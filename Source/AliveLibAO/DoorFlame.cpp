@@ -23,11 +23,10 @@ public:
     FireBackgroundGlow(FP xpos, FP ypos, FP scale)
         : BaseAnimatedWithPhysicsGameObject(0)
     {
-        mBaseGameObjectTypeId = ReliveTypes::eNone;
+        SetType(ReliveTypes::eNone);
 
-        const AnimRecord rec = AO::AnimRec(AnimId::Door_FireBackgroundGlow);
-        u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-        Animation_Init(AnimId::Door_FireBackgroundGlow, ppRes);
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Door_FireBackgroundGlow));
+        Animation_Init(GetAnimRes(AnimId::Door_FireBackgroundGlow));
 
         mVisualFlags.Set(VisualFlags::eApplyShadowZoneColour);
 
@@ -139,10 +138,11 @@ public:
     FlameSparks(FP xpos, FP ypos)
         : BaseAnimatedWithPhysicsGameObject(0)
     {
-        mBaseGameObjectTypeId = ReliveTypes::eNone;
-        const AnimRecord rec = AO::AnimRec(AnimId::ChantOrb_Particle_Small);
-        u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-        Animation_Init(AnimId::ChantOrb_Particle_Small, ppRes);
+        SetType(ReliveTypes::eNone);
+
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::ChantOrb_Particle_Small));
+        Animation_Init(GetAnimRes(AnimId::ChantOrb_Particle_Small));
+
         mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
         mVisualFlags.Set(VisualFlags::eApplyShadowZoneColour);
@@ -323,11 +323,11 @@ DoorFlame::~DoorFlame()
 DoorFlame::DoorFlame(relive::Path_DoorFlame* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    mBaseGameObjectTypeId = ReliveTypes::eNone;
+    SetType(ReliveTypes::eNone);
     mTlvInfo = tlvId;
-    const AnimRecord rec = AO::AnimRec(AnimId::Fire);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::Fire, ppRes);
+
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Fire));
+    Animation_Init(GetAnimRes(AnimId::Fire));
 
     mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
     mVisualFlags.Set(VisualFlags::eApplyShadowZoneColour);

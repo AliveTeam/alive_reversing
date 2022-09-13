@@ -22,15 +22,13 @@ Explosion::Explosion(FP xpos, FP ypos, FP scale, bool bSmall)
     field_F4_bSmall = bSmall;
     if (field_F4_bSmall)
     {
-        const AnimRecord& rec = AnimRec(AnimId::Explosion_Small);
-        u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-        Animation_Init(AnimId::Explosion_Small, ppRes);
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Explosion_Small));
+        Animation_Init(GetAnimRes(AnimId::Explosion_Small));
     }
     else
     {
-        const AnimRecord& rec = AnimRec(AnimId::Explosion);
-        u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-        Animation_Init(AnimId::Explosion, ppRes);
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Explosion));
+        Animation_Init(GetAnimRes(AnimId::Explosion));
     }
 
     mAnim.mFlags.Clear(AnimFlags::eBit18_IsLastFrame);

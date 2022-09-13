@@ -159,7 +159,7 @@ Mudokon::Mudokon(relive::Path_TLV* pTlv, const Guid& tlvId)
 
     const AnimRecord& mudRec = AO::AnimRec(AnimId::Mudokon_Idle);
     field_148_res_array.res[0] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, mudRec.mResourceId, 1, 0);
-    Animation_Init(AnimId::Mudokon_Idle, field_148_res_array.res[0]);
+    Animation_Init(GetAnimRes(AnimId::Mudokon_Idle));
 
     mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
 

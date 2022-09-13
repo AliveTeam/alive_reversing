@@ -57,7 +57,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
     u8** ppAnimData = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, headRec.mResourceId, 1, 0);
 
     // The base class renders the head gib
-    Animation_Init(field_E4_pGibData->field_0_head, ppAnimData);
+    Animation_Init(GetAnimRes(field_E4_pGibData->field_0_head));
 
     mSpriteScale = scale;
     mXPos = xpos;

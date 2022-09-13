@@ -41,13 +41,11 @@ void MeatSaw::LoadAnimations()
 MeatSaw::MeatSaw(relive::Path_MeatSaw* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    mBaseGameObjectTypeId = ReliveTypes::eMeatSaw;
+    SetType(ReliveTypes::eMeatSaw);
 
     LoadAnimations();
 
-    const AnimRecord rec = AO::AnimRec(AnimId::MeatSaw_Idle);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::MeatSaw_Idle, ppRes);
+    Animation_Init(GetAnimRes(AnimId::MeatSaw_Idle));
     
     mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
     mAnim.mRenderMode = TPageAbr::eBlend_0;

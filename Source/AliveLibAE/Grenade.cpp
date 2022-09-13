@@ -155,9 +155,8 @@ void Grenade::Init(FP xpos, FP ypos)
         LoadRockTypes_49AB30(mCurrentLevel, mCurrentPath);
     }
 
-    const AnimRecord& rec = AnimRec(AnimId::Grenade);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::Grenade, ppRes);
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Grenade));
+    Animation_Init(GetAnimRes(AnimId::Grenade));
     mBaseGameObjectFlags.Clear(BaseGameObject::eInteractive_Bit8);
 
     mAnim.mFlags.Clear(AnimFlags::eBit3_Render);

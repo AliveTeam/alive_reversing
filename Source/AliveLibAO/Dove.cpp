@@ -23,17 +23,18 @@ static s16 sAbePortalDirection = -1;
 void Dove::LoadAnimations()
 {
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Dove_Flying));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Dove_Idle));
 }
 
 Dove::Dove(AnimId animId, const Guid& tlvId, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    mBaseGameObjectTypeId = ReliveTypes::eBird;
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AO::AnimRec(animId).mResourceId, 1, 0);
-    Animation_Init(animId, ppRes);
-    mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+    SetType(ReliveTypes::eBird);
 
     LoadAnimations();
+    Animation_Init(GetAnimRes(animId));
+
+    mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
     gDovesArray.Push_Back(this);
 
@@ -84,10 +85,10 @@ Dove::Dove(AnimId animId, const Guid& tlvId, FP scale)
 Dove::Dove(AnimId animId, FP xpos, FP ypos, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    mBaseGameObjectTypeId = ReliveTypes::eBird;
+    SetType(ReliveTypes::eBird);
 
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AO::AnimRec(animId).mResourceId, 1, 0);
-    Animation_Init(animId, ppRes);
+    LoadAnimations();
+    Animation_Init(GetAnimRes(animId));
 
     mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
     mAnim.field_14_scale = scale;

@@ -1767,8 +1767,7 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
 
             if (!sActiveHero)
             {
-                const AnimRecord& mudWalkRec = AnimRec(AnimId::Mudokon_Walk);
-                sActiveHero = relive_new Abe(mudWalkRec.mFrameTableOffset, 85, 57, 55);
+                sActiveHero = relive_new Abe();
             }
 
             if (field_208_transition_obj)
@@ -1827,8 +1826,7 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
 
     if (!sActiveHero)
     {
-        const AnimRecord& rec = AnimRec(AnimId::Mudokon_Walk);
-        sActiveHero = relive_new Abe(rec.mFrameTableOffset, 85, 57, 55);
+        sActiveHero = relive_new Abe();
     }
 
     if (field_23C_T80.Get(Flags::eBit25_CheatLevelSelectLoading))
@@ -2101,8 +2099,7 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
 
         if (!sActiveHero)
         {
-            const AnimRecord& rec = AnimRec(AnimId::Mudokon_Walk);
-            auto abe = relive_new Abe(rec.mFrameTableOffset, 85, 57, 55);
+            auto abe = relive_new Abe();
             if (abe)
             {
                 sActiveHero = abe;

@@ -158,9 +158,7 @@ FlyingSlig::FlyingSlig(relive::Path_FlyingSlig* pTlv, const Guid& tlvId)
     field_10_resources_array.SetAt(7, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kVaporResID, TRUE, FALSE));
     field_10_resources_array.SetAt(8, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID, TRUE, FALSE));
 
-    const AnimRecord& rec = AnimRec(AnimId::FlyingSlig_Idle);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::FlyingSlig_Idle, ppRes);
+    Animation_Init(GetAnimRes(AnimId::FlyingSlig_Idle));
 
     field_15E_useless = 0;
 

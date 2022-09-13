@@ -22,13 +22,10 @@ void BellHammer::LoadAnimations()
 BellHammer::BellHammer(relive::Path_BellHammer* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    mBaseGameObjectTypeId = ReliveTypes::eBellHammer;
+    SetType(ReliveTypes::eBellHammer);
 
     LoadAnimations();
-
-    const AnimRecord rec = AO::AnimRec(AnimId::BellHammer_Idle);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::BellHammer_Idle, ppRes);
+    Animation_Init(GetAnimRes(AnimId::BellHammer_Idle));
 
     mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
     mSpawnElum = false;

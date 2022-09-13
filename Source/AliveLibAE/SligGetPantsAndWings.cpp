@@ -23,10 +23,7 @@ SligGetPantsAndWings::SligGetPantsAndWings(relive::Path_TLV* pTlv, const Guid& t
     mTlvInfo = tlvId;
 
     LoadAnimations();
-
-    const AnimRecord& rec = AnimRec(AnimId::CrawlingSligLocker_Closed);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::CrawlingSligLocker_Closed, ppRes);
+    Animation_Init(GetAnimRes(AnimId::CrawlingSligLocker_Closed));
 
     // HACK: See header for details
     auto pHack = static_cast<relive::Path_Slig*>(pTlv);

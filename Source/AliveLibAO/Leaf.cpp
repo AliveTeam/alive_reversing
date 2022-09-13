@@ -90,14 +90,8 @@ Leaf::Leaf(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
 {
     mRGB.SetRGB(100, 100, 100);
 
-    const AnimRecord& leafRec = AO::AnimRec(AnimId::Well_Leaf);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, leafRec.mResourceId, 1, 0);
-    if (!ppRes)
-    {
-        return;
-    }
-
-    Animation_Init(AnimId::Well_Leaf, ppRes);
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Well_Leaf));
+    Animation_Init(GetAnimRes(AnimId::Well_Leaf));
 
     mSpriteScale = scale;
     if (mSpriteScale == FP_FromInteger(1))

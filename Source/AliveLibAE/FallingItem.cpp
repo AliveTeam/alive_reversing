@@ -65,9 +65,7 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
 
     const s32 lvlIdx = static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel));
 
-    const AnimRecord& rec = AnimRec(sFallingItemData_544DC0[lvlIdx][0]);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(sFallingItemData_544DC0[lvlIdx][0], ppRes);
+    Animation_Init(GetAnimRes(sFallingItemData_544DC0[lvlIdx][0]));
 
     field_11E_switch_id = pTlv->mSwitchId;
 
@@ -124,9 +122,7 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
 
     const s32 lvlIdx = static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel));
 
-    const AnimRecord& rec = AnimRec(sFallingItemData_544DC0[lvlIdx][0]);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(sFallingItemData_544DC0[lvlIdx][0], ppRes);
+    Animation_Init(GetAnimRes(sFallingItemData_544DC0[lvlIdx][0]));
 
     mAnim.mRenderLayer = Layer::eLayer_FallingItemDoorFlameRollingBallPortalClip_Half_31;
 

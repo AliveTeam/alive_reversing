@@ -55,9 +55,7 @@ Shrykull::Shrykull()
     
     LoadAnimations();
 
-    const AnimRecord rec = AO::AnimRec(AnimId::ShrykullStart);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::ShrykullStart, ppRes);
+    Animation_Init(GetAnimRes(AnimId::ShrykullStart));
     field_118_zap_line = nullptr;
     field_11C_obj_being_zapped = nullptr;
 

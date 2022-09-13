@@ -57,25 +57,22 @@ ZBall::ZBall(relive::Path_ZBall* pTlv, const Guid& tlvId)
     {
         case relive::Path_ZBall::Speed::eNormal:
         {
-            const AnimRecord& rec1 = AO::AnimRec(AnimId::Swinging_Ball_Normal);
-            u8** ppRes1 = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec1.mResourceId, 1, 0);
-            Animation_Init(AnimId::Swinging_Ball_Normal, ppRes1);
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Swinging_Ball_Normal));
+            Animation_Init(GetAnimRes(AnimId::Swinging_Ball_Normal));
             break;
         }
 
         case relive::Path_ZBall::Speed::eFast:
         {
-            const AnimRecord& rec2 = AO::AnimRec(AnimId::Swinging_Ball_Fast);
-            u8** ppRes2 = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec2.mResourceId, 1, 0);
-            Animation_Init(AnimId::Swinging_Ball_Fast, ppRes2);
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Swinging_Ball_Fast));
+            Animation_Init(GetAnimRes(AnimId::Swinging_Ball_Fast));
             break;
         }
 
         case relive::Path_ZBall::Speed::eSlow:
         {
-            const AnimRecord& rec3 = AO::AnimRec(AnimId::Swinging_Ball_Slow);
-            u8** ppRes3 = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec3.mResourceId, 1, 0);
-            Animation_Init(AnimId::Swinging_Ball_Slow, ppRes3);
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Swinging_Ball_Slow));
+            Animation_Init(GetAnimRes(AnimId::Swinging_Ball_Slow));
             break;
         }
 

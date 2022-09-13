@@ -106,9 +106,7 @@ Scrab::Scrab(relive::Path_Scrab* pTlv, const Guid& tlvId, relive::Path_ScrabSpaw
     field_10_resources_array.SetAt(4, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kArswhirlResID, 1, 0));
     field_10_resources_array.SetAt(13, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kArscrshResID, 1, 0));
 
-    const AnimRecord& rec = AnimRec(AnimId::Scrab_Idle);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::Scrab_Idle, ppRes);
+    Animation_Init(GetAnimRes(AnimId::Scrab_Idle));
 
     field_140_motion_resource_block_index = 0;
     field_12C_timer = 0;

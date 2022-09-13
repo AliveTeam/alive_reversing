@@ -13,11 +13,10 @@ namespace AO {
 BulletShell::BulletShell(FP xpos, FP ypos, s32 direction, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    mBaseGameObjectTypeId = ReliveTypes::eNone;
+    SetType(ReliveTypes::eNone);
 
-    const AnimRecord rec = AO::AnimRec(AnimId::Bullet_Shell);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::Bullet_Shell, ppRes);
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Bullet_Shell));
+    Animation_Init(GetAnimRes(AnimId::Bullet_Shell));
 
     mSpriteScale = scale;
 

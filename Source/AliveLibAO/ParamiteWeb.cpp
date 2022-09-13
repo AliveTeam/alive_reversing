@@ -41,9 +41,8 @@ ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
         field_E6_segment_length = 7;
     }
 
-    const AnimRecord rec = AO::AnimRec(AnimId::ParamiteWeb);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::ParamiteWeb, ppRes);
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::ParamiteWeb));
+    Animation_Init(GetAnimRes(AnimId::ParamiteWeb));
 
     mAnim.field_14_scale = scale;
     mSpriteScale = scale;

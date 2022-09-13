@@ -13,12 +13,11 @@ namespace AO {
 LightEffect::LightEffect(relive::Path_LightEffect* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    mBaseGameObjectTypeId = ReliveTypes::eNone;
+    SetType(ReliveTypes::eNone);
     field_E4_tlvInfo = tlvId;
 
-    const AnimRecord rec = AO::AnimRec(AnimId::Star);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::Star, ppRes);
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Star));
+    Animation_Init(GetAnimRes(AnimId::Star));
 
     field_EC_rnd1 = sGnFrame + Math_RandomRange(2, 8);
     field_F0_rnd2 = field_EC_rnd1 + Math_RandomRange(4, 8);

@@ -29,9 +29,7 @@ UXB::UXB(relive::Path_UXB* pTlv, const Guid& tlvId)
 
     LoadAnimations();
 
-    const AnimRecord rec = AO::AnimRec(AnimId::UXB_Active);
-    u8** ppRes2 = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::UXB_Active, ppRes2);
+    Animation_Init(GetAnimRes(AnimId::UXB_Active));
 
     mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
     mAnim.mRenderMode = TPageAbr::eBlend_0;

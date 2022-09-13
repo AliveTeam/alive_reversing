@@ -31,11 +31,9 @@ void TimedMine::LoadAnimations()
 TimedMine::TimedMine(relive::Path_TimedMine* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
-    mBaseGameObjectTypeId = ReliveTypes::eTimedMine;
+    SetType(ReliveTypes::eTimedMine);
 
-    const AnimRecord rec = AO::AnimRec(AnimId::TimedMine_Idle);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::TimedMine_Idle, ppRes);
+    Animation_Init(GetAnimRes(AnimId::TimedMine_Idle));
 
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
     mTimedMineFlags.Clear(TimedMineFlags::eStickToLiftPoint);

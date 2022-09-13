@@ -25,6 +25,8 @@ public:
     BirdPortalTerminator(FP xpos, FP ypos, FP scale, relive::Path_BirdPortal::PortalType portalType);
     virtual void VScreenChanged() override;
     
+    void LoadAnimations();
+
     void Fadeout();
 };
 ALIVE_ASSERT_SIZEOF(BirdPortalTerminator, 0xF4);
@@ -38,8 +40,6 @@ public:
     BirdPortal(relive::Path_BirdPortal* pTlv, const Guid& tlvId);
     ~BirdPortal();
     
-    void LoadAnimations();
-
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;

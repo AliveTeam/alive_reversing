@@ -282,37 +282,25 @@ Glukkon::Glukkon(relive::Path_Glukkon* pTlv, const Guid& tlvId)
     {
         case relive::Path_Glukkon::GlukkonTypes::eNormal:
         {
-            Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kGlukkonResID_801);
-            const AnimRecord& rec = AnimRec(AnimId::Glukkon_Normal_Idle);
-            u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-            Animation_Init(AnimId::Glukkon_Normal_Idle, ppRes);
+            Animation_Init(GetAnimRes(AnimId::Glukkon_Normal_Idle));
             break;
         }
 
         case relive::Path_Glukkon::GlukkonTypes::eStoryAslik:
         {
-            Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAslikResID_803);
-            const AnimRecord& rec = AnimRec(AnimId::Glukkon_Aslik_Idle);
-            u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-            Animation_Init(AnimId::Glukkon_Aslik_Idle, ppRes);
+            Animation_Init(GetAnimRes(AnimId::Glukkon_Aslik_Idle));
             break;
         }
 
         case relive::Path_Glukkon::GlukkonTypes::eStoryDripik:
         {
-            Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kDripikResID_805);
-            const AnimRecord& rec = AnimRec(AnimId::Glukkon_Dripik_Idle);
-            u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-            Animation_Init(AnimId::Glukkon_Dripik_Idle, ppRes);
+            Animation_Init(GetAnimRes(AnimId::Glukkon_Dripik_Idle);
             break;
         }
 
         case relive::Path_Glukkon::GlukkonTypes::eStoryPhleg:
         {
-            Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kPhlegResID_807);
-            const AnimRecord& rec = AnimRec(AnimId::Glukkon_Phleg_Idle);
-            u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-            Animation_Init(AnimId::Glukkon_Phleg_Idle, ppRes);
+            Animation_Init(GetAnimRes(AnimId::Glukkon_Phleg_Idle));
             break;
         }
 

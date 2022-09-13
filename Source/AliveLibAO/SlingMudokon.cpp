@@ -58,7 +58,7 @@ void SlingMudokon::LoadAnimations()
 SlingMudokon::SlingMudokon(relive::Path_SlingMudokon* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
-    mBaseGameObjectTypeId = ReliveTypes::SlingMud;
+    SetType(ReliveTypes::SlingMud);
 
     LoadAnimations();
 
@@ -67,9 +67,7 @@ SlingMudokon::SlingMudokon(relive::Path_SlingMudokon* pTlv, const Guid& tlvId)
     field_136_buffer_idx = -1;
     field_150_res = 0;
 
-    const AnimRecord rec = AO::AnimRec(AnimId::Mudokon_Sling_Idle);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::Mudokon_Sling_Idle, ppRes);
+    Animation_Init(GetAnimRes(AnimId::Mudokon_Sling_Idle));
 
     SetCurrentMotion(eSlingMudMotions::Motion_0_Idle);
 

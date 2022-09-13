@@ -29,28 +29,18 @@ TorturedMudokon::TorturedMudokon(relive::Path_TorturedMudokon* pTlv, const Guid&
 
     LoadAnimations();
 
-    const AnimRecord& rec = AnimRec(AnimId::Tortured_Mudokon);
-    mTorturedMudRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    if (mTorturedMudRes)
-    {
-        mXPos = FP_FromInteger(pTlv->mTopLeftX);
-        mYPos = FP_FromInteger(pTlv->mTopLeftY);
-        Animation_Init(AnimId::Tortured_Mudokon, mTorturedMudRes);
-        mAnim.SetFrame(static_cast<s32>(Math_RandomRange(0, mAnim.Get_Frame_Count() - 1)));
-        mKillSwitchId = pTlv->mKillSwitchId;
-        mReleaseSwitchId = pTlv->mReleaseSwitchId;
-        mState = TorturedMudokonState::eBeingTortured_0;
-        SetupTearsAnimation(&mTearsAnim);
-        SetupZapAnimation(&mZapAnim);
-        mPainSoundPitch = Math_RandomRange(800, 1000);
-        mFlashColourTimer = sGnFrame + 100;
-        mFlashColourCounter = 0;
-    }
-    else
-    {
-        mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-    }
+    mXPos = FP_FromInteger(pTlv->mTopLeftX);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
+    Animation_Init(GetAnimRes(AnimId::Tortured_Mudokon));
+    mAnim.SetFrame(static_cast<s32>(Math_RandomRange(0, mAnim.Get_Frame_Count() - 1)));
+    mKillSwitchId = pTlv->mKillSwitchId;
+    mReleaseSwitchId = pTlv->mReleaseSwitchId;
+    mState = TorturedMudokonState::eBeingTortured_0;
+    SetupTearsAnimation(&mTearsAnim);
+    SetupZapAnimation(&mZapAnim);
+    mPainSoundPitch = Math_RandomRange(800, 1000);
+    mFlashColourTimer = sGnFrame + 100;
+    mFlashColourCounter = 0;
 }
 
 void TorturedMudokon::SetupTearsAnimation(Animation* pAnim)

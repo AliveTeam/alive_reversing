@@ -54,9 +54,7 @@ RollingBall::RollingBall(relive::Path_RollingBall* pTlv, const Guid& tlvId)
     
     LoadAnimations();
 
-    const AnimRecord rec = AO::AnimRec(AnimId::Stone_Ball);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::Stone_Ball, ppRes);
+    Animation_Init(GetAnimRes(AnimId::Stone_Ball));
 
     mAnim.mRenderLayer = Layer::eLayer_FallingItemDoorFlameRollingBallPortalClip_Half_31;
 

@@ -407,9 +407,7 @@ Mudokon::Mudokon(relive::Path_Mudokon* pTlv, const Guid& tlvId)
     field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbebsic1ResID, TRUE, FALSE));
     field_10_resources_array.SetAt(1, nullptr);
 
-    const AnimRecord& rec = AnimRec(AnimId::Mudokon_Idle);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::Mudokon_Idle, ppRes);
+    Animation_Init(GetAnimRes(AnimId::Mudokon_Idle));
 
     mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
 

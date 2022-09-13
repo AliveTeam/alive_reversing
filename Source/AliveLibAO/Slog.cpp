@@ -525,7 +525,7 @@ void Slog::Init()
     field_184_resources[3] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kDogknfdAOResID, 1, 0);
     field_184_resources[4] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kDogidleAOResID, 1, 0);
 
-    Animation_Init(AnimId::Slog_Idle, field_184_resources[0]);
+    Animation_Init(GetAnimRes(AnimId::Slog_Idle));
 
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
     mAnim.mFnPtrArray = kSlog_Anim_Frame_Fns_4CEBF4;
