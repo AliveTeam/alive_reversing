@@ -688,8 +688,7 @@ inline void to_json(nlohmann::json& j, const Path_UXB& p)
         {"pattern_length", p.mPatternLength},
         {"pattern", p.mPattern},
         {"scale", p.mScale},
-        {"start_state", p.mStartState},
-        {"disabled_resources", p.mDisabledResources},
+        {"start_state", p.mStartState}
     };
 }
 
@@ -700,7 +699,6 @@ inline void from_json(const nlohmann::json& j, Path_UXB& p)
     j.at("pattern").get_to(p.mPattern);
     j.at("scale").get_to(p.mScale);
     j.at("start_state").get_to(p.mStartState);
-    j.at("disabled_resources").get_to(p.mDisabledResources);
 }
 
 // Path_MeatSaw

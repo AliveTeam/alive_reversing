@@ -437,7 +437,6 @@ struct Path_UXB final : public Path_TLV
     s16 mPattern = 0;
     reliveScale mScale = reliveScale::eFull;
     StartState mStartState = StartState::eOn;
-    s32 mDisabledResources = 0;
 };
 
 struct Path_MeatSaw final : public Path_TLV

@@ -644,6 +644,7 @@ static void Factory_UXB(relive::Path_TLV* pTlv, Path* /*pPath*/, const Guid& tlv
     auto uxb_tlv = static_cast<relive::Path_UXB*>(pTlv);
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
+        /*
         Map::LoadResource("ABEBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, loadMode, uxb_tlv->mDisabledResources & 1);
         Map::LoadResource("DOGBLOW.BAN", ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID, loadMode, uxb_tlv->mDisabledResources & 2);
 
@@ -661,6 +662,7 @@ static void Factory_UXB(relive::Path_TLV* pTlv, Path* /*pPath*/, const Guid& tlv
 
         Map::LoadResourcesFromList("UXB.BND", sUXBResourceList_563390.AsList(), loadMode, 0);
         Map::LoadResourcesFromList("EXPLODE.BND", sExplodeResourceList_56334C.AsList(), loadMode, 0);
+        */
     }
     else
     {

@@ -34,9 +34,7 @@ Mine::Mine(relive::Path_Mine* pPath, const Guid& tlv)
 
     LoadAnimations();
 
-    const AnimRecord& rec = AnimRec(AnimId::Mine);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::Mine, ppRes);
+    Animation_Init(GetAnimRes(AnimId::Mine));
 
     field_118_detonating = 0;
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);

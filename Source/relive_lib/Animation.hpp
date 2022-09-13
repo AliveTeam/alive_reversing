@@ -112,12 +112,13 @@ public:
     virtual void VCleanUp() override;
 
     s16 Set_Animation_Data(AnimResource& pAnimRes);
-    s16 Init(AnimResource& ppAnimData, BaseGameObject* pGameObj);
+    s16 Init(const AnimResource& ppAnimData, BaseGameObject* pGameObj);
 
     void SetFrame(s32 newFrame);
     u32 Get_Frame_Count();
     const PerFrameInfo* Get_FrameHeader(s32 frame);
-    void LoadPal(const AnimationPal& pal);
+    void LoadPal(const PalResource& pal);
+    void ReloadPal();
     void Get_Frame_Rect(PSX_RECT* pRect);
     void Get_Frame_Width_Height(s16* pWidth, s16* pHeight);
     void Get_Frame_Offset(s16* pBoundingX, s16* pBoundingY);

@@ -252,22 +252,22 @@ Door::Door(relive::Path_Door* pTlvData, const Guid& tlvId)
     {
         if (gMap.mOverlayId == 108)
         {
-            Animation_Init(AnimId::Door_BarracksMetal_Open, ppRes);
+            Animation_Init(GetAnimRes(AnimId::Door_BarracksMetal_Open));
         }
         else
         {
-            Animation_Init(openDoor, ppRes);
+            Animation_Init(GetAnimRes(openDoor));
         }
     }
     else
     {
         if (gMap.mOverlayId == 108)
         {
-            Animation_Init(AnimId::Door_BarracksMetal_Closed, ppRes);
+            Animation_Init(GetAnimRes(AnimId::Door_BarracksMetal_Closed));
         }
         else
         {
-            Animation_Init(closedDoor, ppRes);
+            Animation_Init(GetAnimRes(closedDoor));
         }
     }
 
@@ -540,7 +540,7 @@ TrainDoor::TrainDoor(relive::Path_TrainDoor* pTlv, const Guid& tlvId)
 
     const AnimRecord& rec = AnimRec(AnimId::Door_Train_Closing);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::Door_Train_Closing, ppRes);
+    Animation_Init(GetAnimRes(AnimId::Door_Train_Closing));
 
     mXPos = FP_FromInteger(pTlv->mTopLeftX + 12);
     mYPos = FP_FromInteger(pTlv->mTopLeftY + 24);

@@ -956,7 +956,10 @@ enum class PalId
 {
     Default, // Don't override the anims default pal
     BlindMud,
+    Uxb_GreenFlash, // AEResourceID::kGrenflshResID
+    Rock, // AOResourceID::kAberockAOResID, AEResourceID::kAberockResID
 };
+
 
 struct BgAnimDetails final
 {

@@ -44,9 +44,7 @@ PullRingRope::PullRingRope(relive::Path_PullRingRope* pTlv, const Guid& tlvId)
 
     LoadAnimations();
 
-    const AnimRecord& rec = AnimRec(AnimId::PullRingRope_Idle);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::PullRingRope_Idle, ppRes);
+    Animation_Init(GetAnimRes(AnimId::PullRingRope_Idle));
 
     SetTint(sPullRingRopeTints_55FD1C, gMap.mCurrentLevel);
 

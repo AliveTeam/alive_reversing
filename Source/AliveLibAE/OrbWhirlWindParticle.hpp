@@ -67,5 +67,4 @@ private:
     FP mXPosOffset2 = {};
     FP mYPosOffset2 = {};
     FP mScaleOffsetSpinAtTarget = {};
-    u8** mOrbRes = nullptr;
 };

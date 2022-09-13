@@ -74,8 +74,6 @@ public:
         return static_cast<eParamiteMotions>(mCurrentMotion);
     }
 
-    u8** ResBlockForMotion(s16 motion);
-
     virtual void VRender(PrimHeader** ppOt) override;
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
@@ -169,9 +167,8 @@ public:
     s16 field_142_bSnapped = 0;
     relive::reliveChoice mDeleteWhenOutOfSight = relive::reliveChoice::eNo;
     s16 field_146_not_used = 0;
-    Meat* field_148_pMeat = 0;
+    Meat* field_148_pMeat = nullptr;
     ParamiteWeb* field_14C_pWeb = nullptr;
-    u8** field_150_resources[16] = {};
 };
 ALIVE_ASSERT_SIZEOF(Paramite, 0x190);
 

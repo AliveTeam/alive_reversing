@@ -49,7 +49,7 @@ StatusLight::StatusLight(relive::Path_StatusLight* pTlv, const Guid& tlvId)
 
     const AnimRecord& rec = AnimRec(AnimId::Status_Light_Red);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::Status_Light_Red, ppRes);
+    Animation_Init(GetAnimRes(AnimId::Status_Light_Red));
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
     mAnim.mFlags.Clear(AnimFlags::eBit3_Render);

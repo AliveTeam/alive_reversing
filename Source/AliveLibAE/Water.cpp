@@ -21,8 +21,8 @@ Water::Water(relive::Path_Water* pTlv, const Guid& tlvId)
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, waterDropRec.mResourceId);
     if (ppRes)
     {
-        Animation_Init(AnimId::WaterDrop, ppRes);
-        mAnim.mFlags.Set(AnimFlags::eBit25_bDecompressDone);
+        Animation_Init(GetAnimRes(AnimId::WaterDrop));
+       // mAnim.mFlags.Set(AnimFlags::eBit25_bDecompressDone);
         mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
         Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kSplashResID);
@@ -85,7 +85,7 @@ Water::Water(relive::Path_Water* pTlv, const Guid& tlvId)
                 field_FE_texture_mode = TPageMode::e4Bit_0;
             }
 
-            u8 u0 = mAnim.mVramRect.x & 63;
+            u8 u0 =0;// mAnim.mVramRect.x & 63;
             if (field_FE_texture_mode == TPageMode::e8Bit_1)
             {
                 u0 = 2 * u0;
@@ -95,20 +95,23 @@ Water::Water(relive::Path_Water* pTlv, const Guid& tlvId)
                 u0 = 4 * u0;
             }
 
-            const u8 v0 = mAnim.mVramRect.y & 0xFF;
+            const u8 v0 = 0; // mAnim.mVramRect.y & 0xFF;
 
             const PerFrameInfo* pFrameHeader = mAnim.Get_FrameHeader(-1);
-            field_120_frame_width = pFrameHeader->mWidth;
-            field_122_frame_height = pFrameHeader->mHeight;
+            field_120_frame_width = static_cast<s16>(pFrameHeader->mWidth);
+            field_122_frame_height = static_cast<s16>(pFrameHeader->mHeight);
 
-            const u8 u1 = pFrameHeader->mWidth + u0 - 1;
-            const u8 v1 = pFrameHeader->mHeight + v0 - 1;
+            const u8 u1 = static_cast<u8>(pFrameHeader->mWidth + u0 - 1);
+            const u8 v1 = static_cast<u8>(pFrameHeader->mHeight + v0 - 1);
 
+            /*
+            // TODO: Use anim instead of tpage/clut
             const s32 tPage = PSX_getTPage(
                 field_FE_texture_mode,
                 TPageAbr::eBlend_3,
                 mAnim.mVramRect.x,
                 mAnim.mVramRect.y);
+            */
 
             for (s32 i = 0; i < field_124_tlv_data.mMaxDrops; i++)
             {
@@ -120,12 +123,14 @@ Water::Water(relive::Path_Water* pTlv, const Guid& tlvId)
                 Poly_Set_SemiTrans(&pPoly->mBase.header, TRUE);
                 Poly_Set_Blending(&pPoly->mBase.header, TRUE);
 
+                /*
                 const s32 clut = PSX_getClut(
                     mAnim.mPalVramXY.x,
                     mAnim.mPalVramXY.y);
 
                 SetClut(pPoly, static_cast<s16>(clut));
                 SetTPage(pPoly, static_cast<s16>(tPage));
+                */
 
                 SetUV0(pPoly, u0, v0);
                 SetUV1(pPoly, u1, v0);
@@ -137,8 +142,8 @@ Water::Water(relive::Path_Water* pTlv, const Guid& tlvId)
             field_102_screen_y = FP_GetExponent(mYPos - pScreenManager->CamYPos());
 
             PSX_RECT rect = {};
-            rect.y = mAnim.mPalVramXY.y;
-            rect.x = mAnim.mPalVramXY.x + 1;
+            rect.y = 0;//mAnim.mPalVramXY.y;
+            rect.x = 0 /*mAnim.mPalVramXY.x*/ + 1;
             rect.w = 1;
             rect.h = 1;
 
@@ -484,8 +489,7 @@ void Water::VUpdate()
                         {
                             relive_new Particle(FP_NoFractional(pWaterRes->field_0_xpos) + pScreenManager->CamXPos(),
                                                               FP_NoFractional(pWaterRes->field_4_ypos) + pScreenManager->CamYPos() + FP_FromInteger(Math_NextRandom() % 4) - FP_FromInteger(2),
-                                                              AnimId::WaterSplash,
-                                                              field_10_resources_array.ItemAt(1));
+                                                               GetAnimRes(AnimId::WaterSplash));
                         }
                     }
                 }

@@ -71,12 +71,10 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, 
         else
         {
             // Normal drill type sparks
-            const AnimRecord& rec = AnimRec(AnimId::ChantOrb_Particle_Small);
-            u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+            AnimResource ppRes = ResourceManagerWrapper::LoadAnimation(AnimId::ChantOrb_Particle_Small);
             auto pParticle = relive_new Particle(
                 mXPos,
                 mYPos,
-                AnimId::ChantOrb_Particle_Small,
                 ppRes);
             if (pParticle)
             {

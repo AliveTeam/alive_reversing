@@ -79,7 +79,7 @@ FootSwitch::FootSwitch(relive::Path_FootSwitch* pTlv, const Guid& tlvId)
 
     const AnimRecord& rec = AnimRec(sFootSwitchData_547D60[idx][0]);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(sFootSwitchData_547D60[idx][0], ppRes);
+    Animation_Init(GetAnimRes(sFootSwitchData_547D60[idx][0]));
 
     mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
 

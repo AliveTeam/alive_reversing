@@ -21,14 +21,11 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
 
     mBaseThrowableDead = 0;
 
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAberockResID, 0, 0))
-    {
-        LoadRockTypes_49AB30(mCurrentLevel, mCurrentPath);
-    }
+    // Note: Loaded check removed
+    LoadRockTypes_49AB30(mCurrentLevel, mCurrentPath);
 
-    const AnimRecord& rec = AnimRec(AnimId::Rock);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::Rock, ppRes);
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Rock));
+    Animation_Init(GetAnimRes(AnimId::Rock));
 
     mBaseGameObjectFlags.Clear(BaseGameObject::eInteractive_Bit8);
     mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
@@ -46,21 +43,20 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
     mBaseThrowableCount = count;
     field_11C_state = RockStates::eNone_0;
 
-    u8** ppPal = ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AEResourceID::kAberockResID, 0, 0);
-    if (ppPal)
+    mLoadedPals.push_back(ResourceManagerWrapper::LoadPal(PalId::Rock));
+
+    //if (ppPal)
     {
-        mAnim.LoadPal(ppPal, 0);
+        // TODO: I think this only existed in certain lvls, will need a way to know
+        // which pal to use per lvl/path
+        mAnim.LoadPal(GetPalRes(PalId::Rock));
     }
+    /*
     else
     {
-        const FrameInfoHeader* pFrameInfo = mAnim.Get_FrameHeader(-1);
-
-        const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*mAnim.field_20_ppBlock)[pFrameInfo->field_0_frame_header_offset]);
-
-        mAnim.LoadPal(
-            mAnim.field_20_ppBlock,
-            pFrameHeader->field_0_clut_offset);
-    }
+        const PerFrameInfo* pFrameInfo = mAnim.Get_FrameHeader(-1);
+        mAnim.LoadPal(mAnim.field_20_ppBlock, pFrameHeader->field_0_clut_offset);
+    }*/
 
     field_11E_volume = 0;
 

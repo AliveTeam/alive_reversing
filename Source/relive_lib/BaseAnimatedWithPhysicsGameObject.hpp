@@ -122,8 +122,7 @@ public:
     // Note inlined in AO everywhere
     CameraPos Is_In_Current_Camera();
 
-    void Animation_Init(AnimId animId, u8** ppAnimData);
-    void Animation_Init(s32 frameTableOffset, u16 maxW, u16 maxH, u8** ppAnimData);
+    void Animation_Init(const AnimResource& res);
 
 protected:
     void DeathSmokeEffect(bool bPlaySound);

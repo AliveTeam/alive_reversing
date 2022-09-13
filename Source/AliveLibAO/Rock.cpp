@@ -24,9 +24,8 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
 
     field_10E_bDead = 0;
 
-    const AnimRecord rec = AO::AnimRec(AnimId::Rock);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-    Animation_Init(AnimId::Rock, ppRes);
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Rock));
+    Animation_Init(GetAnimRes(AnimId::Rock));
 
     mBaseGameObjectFlags.Clear(Options::eInteractive_Bit8);
     mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
@@ -44,21 +43,22 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
     field_10C_count = count;
     field_110_state = States::eNone_0;
 
-    u8** ppPal = ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AOResourceID::kAberockAOResID, 0, 0);
-    if (ppPal)
+    mLoadedPals.push_back(ResourceManagerWrapper::LoadPal(PalId::Rock));
+    //if (ppPal)
     {
-        mAnim.LoadPal(ppPal, 0);
+        // TODO: I think this only existed in certain lvls, will need a way to know
+        // which pal to use per lvl/path
+        mAnim.LoadPal(GetPalRes(PalId::Rock));
     }
+    /*
     else
     {
-        const FrameInfoHeader* pFrameInfo = mAnim.Get_FrameHeader(-1);
+        const PerFrameInfo* pFrameInfo = mAnim.Get_FrameHeader(-1);
 
         const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*mAnim.field_20_ppBlock)[pFrameInfo->field_0_frame_header_offset]);
 
-        mAnim.LoadPal(
-            mAnim.field_20_ppBlock,
-            pFrameHeader->field_0_clut_offset);
-    }
+        mAnim.LoadPal(mAnim.field_20_ppBlock, pFrameHeader->field_0_clut_offset);
+    }*/
 
     field_118_vol = 0;
 

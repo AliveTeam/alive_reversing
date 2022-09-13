@@ -43,15 +43,10 @@ void sub_465BC0(s32 /*a1*/)
 // TODO: Move to own file
 void Game_ShowLoadingIcon_482D80()
 {
-    const AnimRecord& loadingRec = AnimRec(AnimId::Loading_Icon2);
-    u8** ppLoadingAnimRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, loadingRec.mResourceId, FALSE, FALSE);
-    if (!ppLoadingAnimRes)
-    {
-        return;
-    }
+    AnimResource ppLoadingAnimRes = ResourceManagerWrapper::LoadAnimation(AnimId::Loading_Icon2);
     PSX_Display_Buffer dispBuffer = {};
 
-    Particle* pParticle = relive_new Particle(FP_FromInteger(0), FP_FromInteger(0), AnimId::Loading_Icon2, ppLoadingAnimRes);
+    Particle* pParticle = relive_new Particle(FP_FromInteger(0), FP_FromInteger(0), ppLoadingAnimRes);
 
     // TODO: May need to clear all other low word bits ?
     pParticle->mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);

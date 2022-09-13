@@ -168,14 +168,9 @@ void BaseAnimatedWithPhysicsGameObject::VRender(PrimHeader** ppOt)
     }
 }
 
-void BaseAnimatedWithPhysicsGameObject::Animation_Init(s32 frameTableOffset, u16 maxW, u16 maxH, u8** ppAnimData)
+void BaseAnimatedWithPhysicsGameObject::Animation_Init(const AnimResource& res)
 {
-    if (mAnim.Init(
-        frameTableOffset,
-        maxW,
-        maxH,
-        this,
-        ppAnimData))
+    if (mAnim.Init(res, this))
     {
         if (mSpriteScale == FP_FromInteger(1))
         {
@@ -205,12 +200,6 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init(s32 frameTableOffset, u16
         mBaseGameObjectFlags.Set(BaseGameObject::eListAddFailed_Bit1);
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
-}
-
-void BaseAnimatedWithPhysicsGameObject::Animation_Init(AnimId animId, u8** ppAnimData)
-{
-    const AnimRecord& rec = PerGameAnimRec(animId);
-    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppAnimData);
 }
 
 CameraPos BaseAnimatedWithPhysicsGameObject::Is_In_Current_Camera()
@@ -403,14 +392,12 @@ PSX_RECT BaseAnimatedWithPhysicsGameObject::VGetBoundingRect()
     const PerFrameInfo* pAnimFrameHeader = mAnim.Get_FrameHeader(-1);
 
     PSX_RECT rect = {};
-    // Normally this data is 3 points, one that is the frame offset and then 2 that make up the bounding rect.
-    // So usually pointIdx is 1. However the way the data is structured it could be anything to treat any index
-    // into the array of points as a unique bounding rectangle. Also it appears there can be more than 3 points
-    // supported in the data too.
-    rect.x = pAnimFrameHeader->field_8_data.points[1].x;
-    rect.y = pAnimFrameHeader->field_8_data.points[1].y;
-    rect.w = pAnimFrameHeader->field_8_data.points[2].x;
-    rect.h = pAnimFrameHeader->field_8_data.points[2].y;
+
+    // TODO: don't narrow the types
+    rect.x = static_cast<s16>(pAnimFrameHeader->mBoundMin.x);
+    rect.y = static_cast<s16>(pAnimFrameHeader->mBoundMin.y);
+    rect.w = static_cast<s16>(pAnimFrameHeader->mBoundMax.x);
+    rect.h = static_cast<s16>(pAnimFrameHeader->mBoundMax.y);
 
     if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {

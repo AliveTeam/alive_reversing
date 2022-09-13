@@ -315,30 +315,6 @@ void Command_DDV(const std::vector<std::string>& args)
     }
 }
 
-void Command_SetState(const std::vector<std::string>& args)
-{
-    if (sControlledCharacter->Type() != ReliveTypes::eAbe)
-    {
-        DEV_CONSOLE_MESSAGE_C("Setting motion not supported on this object (only allowed for abe)!", 6, 255, 0, 0);
-        return;
-    }
-
-    s16 motion = static_cast<s16>(std::stoi(args[0]));
-    Abe* pAbe = static_cast<Abe*>(sControlledCharacter);
-    auto resource = pAbe->MotionToAnimResource_44AAB0(motion);
-
-    if (resource != nullptr)
-    {
-        pAbe->mCurrentMotion = motion;
-        //pAbe->mAnim.Set_Animation_Data_409C80(sAbeFrameOffsetTable_554B18[motion], resource);
-        DEV_CONSOLE_PRINTF("Set motion to %i", motion);
-    }
-    else
-    {
-        DEV_CONSOLE_PRINTF("Cannot set motion to %i! Resource NULL", motion);
-    }
-}
-
 void Command_Ring(const std::vector<std::string>& args)
 {
     s32 ringType = std::stoi(args[0]);

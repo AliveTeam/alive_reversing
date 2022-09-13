@@ -10,11 +10,8 @@
 
 OrbWhirlWindParticle::OrbWhirlWindParticle(FP xpos, FP ypos, FP scale, s16 bIsMudokonSpirit)
 {
-    const AnimRecord& orbRec = AnimRec(AnimId::ChantOrb_Particle);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, orbRec.mResourceId, TRUE, FALSE);
-    mOrbRes = ppRes;
-
-    mAnim.Init(AnimId::ChantOrb_Particle, nullptr, ppRes);
+    AnimResource res = ResourceManagerWrapper::LoadAnimation(AnimId::ChantOrb_Particle);
+    mAnim.Init(res, nullptr);
 
     mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
@@ -35,7 +32,7 @@ OrbWhirlWindParticle::OrbWhirlWindParticle(FP xpos, FP ypos, FP scale, s16 bIsMu
         mAnim.mBlue = 80;
     }
 
-    mAnim.SetFrame(Math_RandomRange(0, mAnim.Get_Frame_Count() - 1));
+    mAnim.SetFrame(Math_RandomRange(0, static_cast<s16>(mAnim.Get_Frame_Count() - 1)));
     SetActive(0);
     mState = State::eStart;
     mRenderAngle = Math_RandomRange(0, 255);
@@ -223,7 +220,6 @@ void OrbWhirlWindParticle::Render(PrimHeader** ppOt)
 OrbWhirlWindParticle::~OrbWhirlWindParticle()
 {
     mAnim.VCleanUp();
-    ResourceManager::FreeResource_49C330(mOrbRes);
 }
 
 void OrbWhirlWindParticle::CalculateRenderProperties(s16 bStarted)

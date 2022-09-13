@@ -109,29 +109,15 @@ Scrab::Scrab(relive::Path_Scrab* pTlv, const Guid& tlvId)
 {
     mBaseGameObjectTypeId = ReliveTypes::eScrab;
 
-    for (s32 i = 0; i < ALIVE_COUNTOF(field_150_resources); i++)
+    for (const auto& animId : sScrabMotionAnimIds)
     {
-        field_150_resources[i] = nullptr;
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
     }
 
-    field_150_resources[0] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kArsbasicAOResID, 1, 0);
-    field_150_resources[11] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kArschewAOResID, 1, 0);
-    field_150_resources[6] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kArsdanceAOResID, 1, 0);
-    field_150_resources[8] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kArsdeadAOResID, 1, 0);
-    field_150_resources[1] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kArseatAOResID, 1, 0);
-    field_150_resources[10] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kArsgrwlAOResID, 1, 0);
-    field_150_resources[5] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kArshowlAOResID, 1, 0);
-    field_150_resources[2] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kArsprceAOResID, 1, 0);
-    field_150_resources[9] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kArsroarAOResID, 1, 0);
-    field_150_resources[3] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kArsskwrAOResID, 1, 0);
-    field_150_resources[4] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kArswhirlAOResID, 1, 0);
-    field_150_resources[13] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kArscrshAOResID, 1, 0);
-
-    Animation_Init(AnimId::Scrab_Idle, field_150_resources[0]);
+    Animation_Init(GetAnimRes(AnimId::Scrab_Idle));
 
     mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit4_SetOffExplosives);
 
-    field_132_res_block_idx = 0;
     field_118_timer = 0;
 
     SetBrain(&Scrab::Brain_Patrol_460020);
@@ -224,17 +210,6 @@ Scrab::~Scrab()
 
     VOnTrapDoorOpen();
 
-    for (s32 i = 0; i < ALIVE_COUNTOF(field_150_resources); i++)
-    {
-        if (mAnim.field_20_ppBlock != field_150_resources[i])
-        {
-            if (field_150_resources[i])
-            {
-                ResourceManager::FreeResource_455550(field_150_resources[i]);
-            }
-        }
-    }
-
     if (mHealth <= FP_FromInteger(0))
     {
         Path::TLV_Reset(field_134_tlvInfo, -1, 0, 1);
@@ -298,22 +273,14 @@ void Scrab::VUpdate()
     {
         mAnim.mFlags.Clear(AnimFlags::eBit2_Animate);
         mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
-        if (mAnim.mVramRect.w)
-        {
-            Vram_free(
-                PSX_Point{mAnim.mVramRect.x, mAnim.mVramRect.y},
-                PSX_Point{mAnim.mVramRect.w, mAnim.mVramRect.h});
-            mAnim.mVramRect.w = 0;
-        }
+
+        // TODO: unloaded vram here
     }
     else
     {
         if (mHealth > FP_FromInteger(0))
         {
-            if (!mAnim.mVramRect.w)
-            {
-                Vram_alloc(168, 69, 8u, &mAnim.mVramRect);
-            }
+            // TODO: og loaded vram here
             mAnim.mFlags.Set(AnimFlags::eBit2_Animate);
             mAnim.mFlags.Set(AnimFlags::eBit3_Render);
         }
@@ -495,62 +462,7 @@ void Scrab::ToStand()
 
 void Scrab::vUpdateAnim()
 {
-    mAnim.Set_Animation_Data(
-        sScrabMotionAnimIds[mCurrentMotion],
-        ResBlockForMotion(mCurrentMotion));
-}
-
-u8** Scrab::ResBlockForMotion(s16 motion)
-{
-    if (motion < eScrabMotions::Motion_16_Stamp_45F920)
-    {
-        field_132_res_block_idx = 0;
-    }
-    else if (motion < eScrabMotions::Motion_17_Empty_45F9C0)
-    {
-        field_132_res_block_idx = 6;
-    }
-    else if (motion < eScrabMotions::Motion_19_Unused_45F9D0)
-    {
-        field_132_res_block_idx = 8;
-    }
-    else if (motion < eScrabMotions::Motion_20_HowlBegin_45FA60)
-    {
-        field_132_res_block_idx = 10;
-    }
-    else if (motion < eScrabMotions::Motion_22_Shriek_45FB00)
-    {
-        field_132_res_block_idx = 5;
-    }
-    else if (motion < eScrabMotions::Motion_23_ScrabBattleAnim_45FBA0)
-    {
-        field_132_res_block_idx = 9;
-    }
-    else if (motion < eScrabMotions::Motion_24_FeedToGulp_45FC30)
-    {
-        field_132_res_block_idx = 4;
-    }
-    else if (motion < eScrabMotions::Motion_25_ToFeed_45FCE0)
-    {
-        field_132_res_block_idx = 11;
-    }
-    else if (motion < eScrabMotions::Motion_27_AttackLunge_45FDF0)
-    {
-        field_132_res_block_idx = 1;
-    }
-    else if (motion < eScrabMotions::Motion_28_LegKick_45FF60)
-    {
-        field_132_res_block_idx = 2;
-    }
-    else if (motion >= eScrabMotions::Motion_29_DeathBegin_45FFA0)
-    {
-        field_132_res_block_idx = motion >= 30 ? 0 : 13;
-    }
-    else
-    {
-        field_132_res_block_idx = 3;
-    }
-    return field_150_resources[field_132_res_block_idx];
+    mAnim.Set_Animation_Data(GetAnimRes(sScrabMotionAnimIds[mCurrentMotion]));
 }
 
 void Scrab::PlatformCollide()
@@ -1247,7 +1159,8 @@ void Scrab::Motion_4_Turn_45EF30()
 
         if (ToNextMotion())
         {
-            mAnim.Set_Animation_Data(mAnim.mFrameTableOffset, nullptr);
+            // TODO: Check this
+            mAnim.Set_Animation_Data(mAnim.mAnimRes);
         }
         else
         {

@@ -528,6 +528,19 @@ public:
         ALIVE_FATAL("Anim res not found");
     }
 
+    PalResource& GetPalRes(PalId palId)
+    {
+        for (u32 i = 0; i < mLoadedPals.size(); i++)
+        {
+            if (mLoadedPals[i].mId == palId)
+            {
+                return mLoadedPals[i];
+            }
+        }
+        LOG_ERROR("Pal res " << static_cast<s32>(palId) << " not found");
+        ALIVE_FATAL("Pal res not found");
+    }
+
 public:
     ReliveTypes mBaseGameObjectTypeId = ReliveTypes::eNone;
     BitField16<Options> mBaseGameObjectFlags = {};
@@ -537,6 +550,7 @@ public:
     Guid mBaseGameObjectTlvInfo;                 // AE
     DynamicArrayT<u8*> field_10_resources_array; // AE
     std::vector<AnimResource> mLoadedAnims;
+    std::vector<PalResource> mLoadedPals;
 
     s8 mBaseGameObjectRefCount = 0; // AO
 };

@@ -44,7 +44,7 @@ Lever::Lever(relive::Path_Lever* pTlv, const Guid& tlvId)
     SetType(ReliveTypes::eLever);
     const AnimRecord& rec = AnimRec(AnimId::Lever_Idle);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::Lever_Idle, ppRes);
+    Animation_Init(GetAnimRes(AnimId::Lever_Idle));
 
     LoadAnimations();
 

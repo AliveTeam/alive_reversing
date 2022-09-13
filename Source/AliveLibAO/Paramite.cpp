@@ -105,26 +105,16 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
 {
     mBaseGameObjectTypeId = ReliveTypes::eParamite;
 
-    for (s32 i = 0; i < ALIVE_COUNTOF(field_150_resources); i++)
+    for (auto& animId : sParamiteMotionAnimIds)
     {
-        field_150_resources[i] = nullptr;
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
     }
 
-    field_150_resources[0] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kArjbasicAOResID, 1, 0);
-    field_150_resources[5] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kArjpumpAOResID, 1, 0);
-    field_150_resources[14] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kArjponceAOResID, 1, 0);
-    field_150_resources[4] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kArjclimbAOResID, 1, 0);
-    field_150_resources[9] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kArjscrchAOResID, 1, 0);
-    field_150_resources[1] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kArjeatAOResID, 1, 0);
-    field_150_resources[15] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kArjfalrkAOResID, 1, 0);
-    field_150_resources[10] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kArjwaspAOResID, 1, 0);
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::ParamiteWeb));
 
-    ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kWebAOResID, 1, 0);
-
-    Animation_Init(AnimId::Paramite_Idle, field_150_resources[0]);
+    Animation_Init(GetAnimRes(AnimId::Paramite_Idle));
 
     field_12A_res_idx = 0;
-
 
     mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit4_SetOffExplosives);
     field_114_timer = 0;
@@ -222,17 +212,6 @@ Paramite::~Paramite()
 
     VOnTrapDoorOpen();
 
-    for (s32 i = 0; i < ALIVE_COUNTOF(field_150_resources); i++)
-    {
-        if (mAnim.field_20_ppBlock != field_150_resources[i])
-        {
-            if (field_150_resources[i])
-            {
-                ResourceManager::FreeResource_455550(field_150_resources[i]);
-            }
-        }
-    }
-
     ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kWebAOResID, 0, 0));
     if (mHealth <= FP_FromInteger(0))
     {
@@ -247,46 +226,6 @@ Paramite::~Paramite()
 
     MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
     MusicController::ClearObject(this);
-}
-
-u8** Paramite::ResBlockForMotion(s16 motion)
-{
-    s16 idx = 0;
-    eParamiteMotions eMotion = static_cast<eParamiteMotions>(motion);
-    if (eMotion < eParamiteMotions::Motion_13_GameSpeakBegin)
-    {
-        idx = 0;
-    }
-    else if (eMotion < eParamiteMotions::Motion_18_RunningAttack)
-    {
-        idx = 5;
-    }
-    else if (eMotion < eParamiteMotions::Motion_19_Empty)
-    {
-        idx = 14;
-    }
-    else if (eMotion < eParamiteMotions::Motion_22_Unknown)
-    {
-        idx = 4;
-    }
-    else if (eMotion < eParamiteMotions::Motion_23_Eating)
-    {
-        idx = 9;
-    }
-    else if (eMotion < eParamiteMotions::Motion_24_Struggle)
-    {
-        idx = 1;
-    }
-    else if (eMotion >= eParamiteMotions::Motion_25_Death)
-    {
-        idx = motion >= 26 ? 0 : 10;
-    }
-    else
-    {
-        idx = 15;
-    }
-    field_12A_res_idx = idx;
-    return field_150_resources[idx];
 }
 
 void Paramite::VRender(PrimHeader** ppOt)
@@ -490,20 +429,11 @@ void Paramite::VUpdate()
         mAnim.mFlags.Clear(AnimFlags::eBit2_Animate);
         mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
 
-        if (mAnim.mVramRect.w)
-        {
-            Vram_free(
-                {mAnim.mVramRect.x, mAnim.mVramRect.y},
-                {mAnim.mVramRect.w, mAnim.mVramRect.h});
-            mAnim.mVramRect.w = 0;
-        }
+        // TODO: OG freed vram here
     }
     else
     {
-        if (mAnim.mVramRect.w == 0)
-        {
-            Vram_alloc(138u, 49, 8u, &mAnim.mVramRect);
-        }
+        // TODO: OG alloc'd vram here
 
         mAnim.mFlags.Set(AnimFlags::eBit2_Animate);
         mAnim.mFlags.Set(AnimFlags::eBit3_Render);
@@ -664,9 +594,7 @@ s16 Paramite::ToNextMotion()
 
 void Paramite::VUpdateAnimData()
 {
-    mAnim.Set_Animation_Data(
-        sParamiteMotionAnimIds[mCurrentMotion],
-        ResBlockForMotion(mCurrentMotion));
+    mAnim.Set_Animation_Data(GetAnimRes(sParamiteMotionAnimIds[mCurrentMotion]));
 }
 
 s16 Paramite::AnotherParamiteNear()
@@ -2971,7 +2899,8 @@ void Paramite::Motion_5_Turn()
 
         if (ToNextMotion())
         {
-            mAnim.Set_Animation_Data(mAnim.mFrameTableOffset, nullptr);
+            // TODO: Check this
+            mAnim.Set_Animation_Data(mAnim.mAnimRes);
         }
         else
         {

@@ -57,7 +57,7 @@ Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
 
     const AnimRecord& rec = AnimRec(AnimId::Drill_Vertical_Off);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::Drill_Vertical_Off, ppRes);
+    Animation_Init(GetAnimRes(AnimId::Drill_Vertical_Off));
 
     mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
     mAnim.mRenderMode = TPageAbr::eBlend_0;

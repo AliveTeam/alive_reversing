@@ -13,6 +13,7 @@ BackgroundAnimation::BackgroundAnimation(relive::Path_BackgroundAnimation* pTlv,
     field_F8_tlvInfo = tlvId;
 
     const BgAnimRecord& anim = BgAnimRec(pTlv->mAnimId);
+
     field_F4_res = reinterpret_cast<AnimationFileHeader**>(Add_Resource(ResourceManager::Resource_Animation, anim.mBgAnimId));
     if (!field_F4_res)
     {

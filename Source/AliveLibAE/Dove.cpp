@@ -31,7 +31,7 @@ Dove::Dove(AnimId animId, const Guid& tlvId, FP scale)
 
     const AnimRecord& anim = AnimRec(animId);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, anim.mResourceId);
-    Animation_Init(animId, ppRes);
+    Animation_Init(GetAnimRes(animId));
 
     mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
@@ -82,7 +82,7 @@ Dove::Dove(AnimId animId, FP xpos, FP ypos, FP scale)
 
     const AnimRecord& anim = AnimRec(animId);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, anim.mResourceId);
-    Animation_Init(animId, ppRes);
+    Animation_Init(GetAnimRes(animId));
 
     mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
     mAnim.field_14_scale = scale;

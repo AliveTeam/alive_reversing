@@ -956,7 +956,8 @@ public:
         r.mPattern = tlv.mPattern;
         r.mScale = relive::From(tlv.mScale);
         r.mStartState = From(tlv.mStartState);
-        r.mDisabledResources = tlv.mDisabledResources;
+        // note: removed
+        //r.mDisabledResources = tlv.mDisabledResources;
         return r;
     }
 
@@ -968,7 +969,8 @@ public:
         r.mPattern = tlv.mPattern;
         r.mScale = relive::From(tlv.mScale);
         r.mStartState = From(tlv.mStartState);
-        r.mDisabledResources = tlv.mDisabledResources;
+        // note: removed
+        //r.mDisabledResources = tlv.mDisabledResources;
         return r;
     }
 

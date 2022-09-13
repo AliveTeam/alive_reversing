@@ -28,7 +28,7 @@ WorkWheel::WorkWheel(relive::Path_WorkWheel* pTlv, const Guid& tlvId)
 
     const AnimRecord& rec = AnimRec(AnimId::Work_Wheel_Idle);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes);
+    Animation_Init(GetAnimRes(AnimId::Work_Wheel_Idle));
 
     mAnim.mFlags.Set(eBit15_bSemiTrans);
 

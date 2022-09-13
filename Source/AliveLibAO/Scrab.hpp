@@ -77,7 +77,6 @@ public:
 
     s16 CanSeeAbe(BaseAliveGameObject* pObj);
     void vUpdateAnim();
-    u8** ResBlockForMotion(s16 motion);
     void PlatformCollide();
     s16 ToNextMotion();
     void ToStand();
@@ -151,7 +150,6 @@ public:
     FP field_128 = {};
     FP field_12C = {};
     s16 field_130_unused = 0;
-    s16 field_132_res_block_idx = 0;
     Guid field_134_tlvInfo;
     s32 field_138_spotting_abe_delay = 0;
     s32 field_13C_spotting_timer = 0;
@@ -161,7 +159,6 @@ public:
     s16 field_148_right_min_delay = 0;
     s16 field_14A_right_max_delay = 0;
     s32 field_14C = 0;
-    u8** field_150_resources[14] = {};
     s16 field_188_flags = 0;
     s16 field_18A = 0;
 };

@@ -24,8 +24,7 @@ void Animation_OnFrame_Null_455F60(BaseGameObject*, u32&, const Point32&)
 void Animation_OnFrame_Common_4561B0(BaseGameObject* pObjPtr, u32&, const Point32& point)
 {
     auto pObj = static_cast<BaseAliveGameObject*>(pObjPtr);
-    const AnimRecord& dustRec = AnimRec(AnimId::Dust_Particle);
-    u8** ppAnimData = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, dustRec.mResourceId, FALSE, FALSE);
+    AnimResource ppAnimData = ResourceManagerWrapper::LoadAnimation(AnimId::Dust_Particle);
 
     FP xOff = {};
     if (pObj->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
@@ -73,7 +72,7 @@ void Animation_OnFrame_Common_4561B0(BaseGameObject* pObjPtr, u32&, const Point3
         ypos -= FP_FromInteger(5);
     }
 
-    auto pPartical = relive_new Particle(xpos, ypos, AnimId::Dust_Particle, ppAnimData);
+    auto pPartical = relive_new Particle(xpos, ypos, ppAnimData);
     if (pPartical)
     {
         pPartical->mAnim.mRenderMode = TPageAbr::eBlend_1;
@@ -127,7 +126,6 @@ void Animation_OnFrame_Common_434130(BaseGameObject* pObjPtr, u32&, const Point3
     }
 
     // flying slig: kVaporResID
-    u8** ppAnimRes = pObj->field_10_resources_array.ItemAt(7);
     FP xOff = {};
     if (pObj->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
@@ -146,7 +144,7 @@ void Animation_OnFrame_Common_434130(BaseGameObject* pObjPtr, u32&, const Point3
         pObj->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    auto pParticle = relive_new Particle(xpos, ypos, AnimId::Vaporize_Particle, ppAnimRes);
+    auto pParticle = relive_new Particle(xpos, ypos, pObj->GetAnimRes(AnimId::Vaporize_Particle));
     if (pParticle)
     {
         pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;

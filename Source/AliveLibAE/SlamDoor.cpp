@@ -103,7 +103,7 @@ SlamDoor::SlamDoor(relive::Path_SlamDoor* pTlv, const Guid& tlvId)
     const s32 currentLevelId = static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel));
 
     const AnimRecord& rec = AnimRec(sSlamDoorAnimIds[currentLevelId][2]);
-    Animation_Init(sSlamDoorAnimIds[currentLevelId][2], Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId));
+    Animation_Init(GetAnimRes(sSlamDoorAnimIds[currentLevelId][2]));
 
     SetType(ReliveTypes::eSlamDoor);
 

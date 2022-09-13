@@ -37,9 +37,7 @@ TimedMine::TimedMine(relive::Path_TimedMine* pPath, const Guid& tlvId)
 
     LoadAnimations();
 
-    const AnimRecord& rec = AnimRec(AnimId::TimedMine_Idle);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::TimedMine_Idle, ppRes);
+    Animation_Init( GetAnimRes(AnimId::TimedMine_Idle));
 
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
     mTimedMineFlags.Clear(TimedMineFlags::eStickToLiftPoint);

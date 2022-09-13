@@ -61,6 +61,13 @@ public:
     std::vector<PerFrameInfo> mFrames;
 };
 
+class PalResource final
+{
+public:
+    PalId mId = PalId::Default;
+    std::shared_ptr<AnimationPal> mPal;
+};
+
 class AnimResource final
 {
 public:
@@ -143,6 +150,8 @@ public:
 
     // TODO: needs to be async like og
     static AnimResource LoadAnimation(AnimId anim);
+
+    static PalResource LoadPal(PalId pal);
 
 private:
     // TODO: don't use stl directly

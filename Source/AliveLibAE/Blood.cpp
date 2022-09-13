@@ -13,11 +13,11 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
 {
     mSpriteScale = scale;
 
-    const AnimRecord& rec = AnimRec(AnimId::BloodDrop);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(AnimId::BloodDrop, ppRes);
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BloodDrop));
 
-    mAnim.mFlags.Set(AnimFlags::eBit25_bDecompressDone);
+    Animation_Init(GetAnimRes(AnimId::BloodDrop));
+
+    //mAnim.mFlags.Set(AnimFlags::eBit25_bDecompressDone);
     mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
     mAnim.mRed = 127;
     mAnim.mGreen = 127;
@@ -61,7 +61,7 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
             mTextureMode = TPageMode::e4Bit_0;
         }
 
-        u8 u0 = mAnim.mVramRect.x & 63;
+        u8 u0 = 0; //mAnim.mVramRect.x & 63;
         if (mTextureMode == TPageMode::e8Bit_1)
         {
             u0 = 2 * u0;
@@ -71,12 +71,12 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
             u0 = 4 * u0;
         }
 
-        u8 v0 = mAnim.mVramRect.y & 0xFF;
+        u8 v0 = 0; //mAnim.mVramRect.y & 0xFF;
 
         const PerFrameInfo* pFrameHeader = mAnim.Get_FrameHeader(-1);
 
-        const s16 frameW = pFrameHeader->mWidth;
-        const s16 frameH = pFrameHeader->mHeight;
+        const u32 frameW = pFrameHeader->mWidth;
+        const u32 frameH = pFrameHeader->mHeight;
 
         mAnim.mFlags.Set(AnimFlags::eBit16_bBlending);
 
@@ -99,15 +99,18 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
                     SetRGB0(pSprt, mAnim.mRed, mAnim.mGreen, mAnim.mBlue);
                 }
 
+                /*
+                // TODO: Just set the anim on the sprt
                 SetClut(pSprt,
                         static_cast<s16>(
                             PSX_getClut(
                                 mAnim.mPalVramXY.x,
                                 mAnim.mPalVramXY.y)));
+                */
 
                 SetUV0(pSprt, u0, v0);
-                pSprt->field_14_w = frameW - 1;
-                pSprt->field_16_h = frameH - 1;
+                pSprt->field_14_w = static_cast<s16>(frameW - 1);
+                pSprt->field_16_h = static_cast<s16>(frameH - 1);
             }
         }
 
@@ -189,7 +192,7 @@ void Blood::VRender(PrimHeader** ppOt)
             BloodParticle* pParticle = &mBloodParticle[i];
             Prim_Sprt* pSprt = &pParticle->field_10_prims[gPsxDisplay.mBufferIndex];
 
-            u8 u0 = mAnim.mVramRect.x & 63;
+            u8 u0 = 0; //mAnim.mVramRect.x & 63;
             if (mTextureMode == TPageMode::e8Bit_1)
             {
                 u0 *= 2;
@@ -199,12 +202,12 @@ void Blood::VRender(PrimHeader** ppOt)
                 u0 *= 4;
             }
 
-            SetUV0(pSprt, u0, static_cast<u8>(mAnim.mVramRect.y));
+            SetUV0(pSprt, u0, 0 /*static_cast<u8>(mAnim.mVramRect.y)*/);
 
             const PerFrameInfo* pFrameHeader = mAnim.Get_FrameHeader(-1);
 
-            pSprt->field_14_w = pFrameHeader->mWidth - 1;
-            pSprt->field_16_h = pFrameHeader->mHeight - 1;
+            pSprt->field_14_w = static_cast<s16>(pFrameHeader->mWidth - 1);
+            pSprt->field_16_h = static_cast<s16>(pFrameHeader->mHeight - 1);
 
             const s16 x0 = PsxToPCX(FP_GetExponent(pParticle->x));
             const s16 y0 = FP_GetExponent(pParticle->y);
@@ -225,6 +228,8 @@ void Blood::VRender(PrimHeader** ppOt)
             wh.y = std::max(y0, wh.y);
         }
 
+        /*
+        // TODO: Just set the anim on the sprt
         const s32 tpage = PSX_getTPage(
             mTextureMode,
             TPageAbr::eBlend_0,
@@ -234,6 +239,7 @@ void Blood::VRender(PrimHeader** ppOt)
         Prim_SetTPage* pTPage = &mTPages[gPsxDisplay.mBufferIndex];
         Init_SetTPage(pTPage, 0, 0, static_cast<s16>(tpage));
         OrderingTable_Add(OtLayer(ppOt, mOtLayer), &pTPage->mBase);
+        */
 
         pScreenManager->InvalidateRectCurrentIdx(
             (xy.x - 12),

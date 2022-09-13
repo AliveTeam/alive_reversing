@@ -59,8 +59,7 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
         {
             case BurstType::eFallingRocks_0:
             {
-                const AnimRecord& rocksRec = AnimRec(AnimId::Explosion_Rocks);
-                Animation_Init(AnimId::Explosion_Rocks, Add_Resource(ResourceManager::Resource_Animation, rocksRec.mResourceId));
+                Animation_Init(ResourceManagerWrapper::LoadAnimation(AnimId::Explosion_Rocks));
                 mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
                 mAnim.mFlags.Set(AnimFlags::eBit16_bBlending);
                 break;
@@ -68,8 +67,7 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
 
             case BurstType::eSticks_1:
             {
-                const AnimRecord& sticksRec = AnimRec(AnimId::Explosion_Sticks);
-                Animation_Init(AnimId::Explosion_Sticks, Add_Resource(ResourceManager::Resource_Animation, sticksRec.mResourceId));
+                Animation_Init(ResourceManagerWrapper::LoadAnimation(AnimId::Explosion_Sticks));
                 mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
                 mAnim.mFlags.Set(AnimFlags::eBit16_bBlending);
                 break;
@@ -77,8 +75,7 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
 
             case BurstType::eBigPurpleSparks_2:
             {
-                const AnimRecord& flareRec = AnimRec(AnimId::DeathFlare_2);
-                Animation_Init(AnimId::DeathFlare_2, Add_Resource(ResourceManager::Resource_Animation, flareRec.mResourceId));
+                Animation_Init(ResourceManagerWrapper::LoadAnimation(AnimId::DeathFlare_2));
                 mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
                 mAnim.mFlags.Set(AnimFlags::eBit16_bBlending);
                 mAnim.mRenderMode = TPageAbr::eBlend_1;
@@ -89,8 +86,7 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
             case BurstType::eGreenSparks_5:
             case BurstType::eSmallPurpleSparks_6:
             {
-                const AnimRecord& flareRec = AnimRec(AnimId::DeathFlare_2);
-                Animation_Init(AnimId::DeathFlare_2, Add_Resource(ResourceManager::Resource_Animation, flareRec.mResourceId));
+                Animation_Init(ResourceManagerWrapper::LoadAnimation(AnimId::DeathFlare_2));
                 mAnim.mRenderMode = TPageAbr::eBlend_1;
                 mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
                 mAnim.mFlags.Clear(AnimFlags::eBit16_bBlending);
@@ -148,7 +144,7 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
                 field_F8_pRes[i].field_18_animation.field_6C_scale = FP_FromDouble(0.95) * mSpriteScale;
 
                 field_F8_pRes[i].field_18_animation.mFlags.Set(AnimFlags::eBit3_Render);
-                field_F8_pRes[i].field_18_animation.mFlags.Set(AnimFlags::eBit25_bDecompressDone); // TODO: HIWORD &= ~0x0100u ??
+                //field_F8_pRes[i].field_18_animation.mFlags.Set(AnimFlags::eBit25_bDecompressDone); // TODO: HIWORD &= ~0x0100u ??
 
                 field_F8_pRes[i].field_18_animation.mFlags.Set(AnimFlags::eBit15_bSemiTrans, mAnim.mFlags.Get(AnimFlags::eBit15_bSemiTrans));
 

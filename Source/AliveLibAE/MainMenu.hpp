@@ -42,26 +42,6 @@ struct MainMenuButton final
     AnimId field_8_anim_id;
 };
 
-enum MenuResIds
-{
-    eAbeSpeak = 0,
-    eAbeSpeak2 = 1,
-    eAbeIntro = 2,
-    eMenuDoor = 3,
-    eOptionFlare = 4,
-    eUnknown = 5,
-    eResHighLite = 6,
-    eSligSpeak = 7,
-    eGlukkonSpeak = 8,
-    eScrabSpeak = 9,
-    eParamiteSpeak = 10,
-};
-
-struct MainMenuControllerResources final
-{
-    u8** field_0_resources[11];
-};
-
 struct MainMenuText final
 {
     s32 x;
@@ -85,6 +65,22 @@ struct MainMenuFrameTable final
     s16 field_6_sound;
     s16 field_8_anim_enum;
     s16 field_A_frame_number;
+};
+
+// TODO: Refactor and remove when game works again
+enum MenuResIds
+{
+    eAbeSpeak = 0,
+    eAbeSpeak2 = 1,
+    eAbeIntro = 2,
+    eMenuDoor = 3,
+    eOptionFlare = 4,
+    eUnknown = 5,
+    eResHighLite = 6,
+    eSligSpeak = 7,
+    eGlukkonSpeak = 8,
+    eScrabSpeak = 9,
+    eParamiteSpeak = 10,
 };
 
 extern PerLvlData gPerLvlData_561700[17];
@@ -363,8 +359,6 @@ public:
         eBit25_CheatLevelSelectLoading = 0x1000000,
     };
 
-
-    MainMenuControllerResources field_F4_resources = {};
     Alive::Font field_120_font = {};
     Animation field_158_animation = {};
     Guid mTlvId;
@@ -414,7 +408,7 @@ public:
     s16 field_25E_Inside_CheatLevelSelect_Screen = 0;
 
 private:
-    void Unload_Resource(u8**& res);
+    void Unload_Resource(AnimId res);
 };
 ALIVE_ASSERT_SIZEOF(MainMenuController, 0x260);
 

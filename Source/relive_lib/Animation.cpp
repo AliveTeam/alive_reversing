@@ -295,7 +295,7 @@ s16 Animation::Set_Animation_Data(AnimResource& pAnimRes)
     return 1;
 }
 
-s16 Animation::Init(AnimResource& ppAnimData, BaseGameObject* pGameObj)
+s16 Animation::Init(const AnimResource& ppAnimData, BaseGameObject* pGameObj)
 {
     mFlags.Raw().all = 0; // TODO extra - init to 0's first - this may be wrong if any bits are explicitly set before this is called
 
@@ -404,13 +404,18 @@ u32 Animation::Get_Frame_Count()
     return static_cast<u32>(mAnimRes.mJsonPtr->mFrames.size());
 }
 
-void Animation::LoadPal(const AnimationPal& pal)
+void Animation::LoadPal(const PalResource& pal)
 {
     // Override the pal with another one
 
     // TODO: Need an active pal ptr instead of overwriting ??
-    mAnimRes.mTgaPtr->mPal = pal;
+    mAnimRes.mTgaPtr->mPal = *pal.mPal;
 
+}
+
+void Animation::ReloadPal()
+{
+    // TODO: Put the original pal back
 }
 
 void Animation::Get_Frame_Offset(s16* pBoundingX, s16* pBoundingY)
