@@ -487,7 +487,10 @@ void MainMenuController::LoadAnimations()
 {
     for (auto& info : sMainMenuFrameTable_561CC8)
     {
-        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(info.field_0_animation));
+        if (info.field_0_animation != AnimId::None)
+        {
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(info.field_0_animation));
+        }
     }
 
     const AnimId kMenuAnims[] = {

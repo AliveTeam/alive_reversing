@@ -131,7 +131,7 @@ struct Poly_FT4 final
     UV mUv;
     TVert mVerts[3];
 };
-ALIVE_ASSERT_SIZEOF(Poly_FT4, 0x2C);
+// ALIVE_ASSERT_SIZEOF(Poly_FT4, 0x2C);
 
 struct Poly_G4 final
 {
