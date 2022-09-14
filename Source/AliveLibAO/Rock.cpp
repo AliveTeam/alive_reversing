@@ -50,15 +50,10 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
         // which pal to use per lvl/path
         mAnim.LoadPal(GetPalRes(PalId::Rock));
     }
-    /*
-    else
+    //else
     {
-        const PerFrameInfo* pFrameInfo = mAnim.Get_FrameHeader(-1);
-
-        const FrameHeader* pFrameHeader = reinterpret_cast<const FrameHeader*>(&(*mAnim.field_20_ppBlock)[pFrameInfo->field_0_frame_header_offset]);
-
-        mAnim.LoadPal(mAnim.field_20_ppBlock, pFrameHeader->field_0_clut_offset);
-    }*/
+        mAnim.ReloadPal();
+    }
 
     field_118_vol = 0;
 

@@ -955,11 +955,22 @@ enum class AnimId
 enum class PalId
 {
     Default, // Don't override the anims default pal
-    BlindMud,
-    Uxb_GreenFlash, // AEResourceID::kGrenflshResID
+    BlindMud, // AEResourceID::kMudblindResID
+    GreenFlash, // AEResourceID::kGrenflshResID, AOResourceID::kGrenflshAOResID
     Rock, // AOResourceID::kAberockAOResID, AEResourceID::kAberockResID
+    AngryMud, // AEResourceID::kMudangryResID,
+    SadMud, // AEResourceID::kMudsadResID, T
+    WiredMud, // AEResourceID::kMudwiredResID,
+    SickMud, // AEResourceID::kMudsickResID,
+    WhiteHighlite, // AOResourceID::kHighlitePalAOResID, 
+    RedBackgroundGlukkon, // AOResourceID::kGlukredResID
+    BlueBackgroundGlukkon, // AOResourceID::kGlukblueResID
+    AquaBackgroundGlukkon, // AOResourceID::kGlukredResID
+    GreenBackgroundGlukkon, // AOResourceID::kGlukgrenResID
+    BlueRockSack, // AOResourceID::kP2c2bagAOResID
+    StockYardsAbeGib, // AOResourceID::kAbeblowAOResID
+    StockYardsSlogGib, // AOResourceID::kSlogBlowAOResID
 };
-
 
 struct BgAnimDetails final
 {

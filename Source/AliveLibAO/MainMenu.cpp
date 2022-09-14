@@ -688,7 +688,7 @@ Menu::Menu(relive::Path_TLV* /*pTlv*/, const Guid& tlvId)
     field_E4_res_array[0] = nullptr;
     field_E4_res_array[1] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbespek2AOResID, 1, 0);
     field_E4_res_array[4] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kOptionFlareAOResID, 1, 0);
-    field_E4_res_array[5] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AOResourceID::kHighlitePalAOResID, 1, 0);
+    mLoadedPals.push_back(ResourceManagerWrapper::LoadPal(PalId::WhiteHighlite));
 
     // 30 = fmv select
     if (gMap.mCurrentCamera == 30)
@@ -721,7 +721,7 @@ Menu::Menu(relive::Path_TLV* /*pTlv*/, const Guid& tlvId)
     field_134_anim.mRenderLayer = Layer::eLayer_MainMenuButtonBees_38;
     field_134_anim.field_14_scale = mSpriteScale;
     field_134_anim.mRenderMode = TPageAbr::eBlend_1;
-    field_134_anim.LoadPal(field_E4_res_array[5], 0);
+    field_134_anim.LoadPal(GetPalRes(PalId::WhiteHighlite));
     field_204_flags &= ~6u;
     field_1E2_rgb = 40;
     field_1E4_colour_counter = -8;
@@ -780,11 +780,7 @@ Menu::Menu(relive::Path_TLV* /*pTlv*/, const Guid& tlvId)
 
         mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
 
-        FrameInfoHeader* pFrameInfoHeader = mAnim.Get_FrameHeader(0);
-        auto pFrameHeader = reinterpret_cast<FrameHeader*>(&(*mAnim.field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
-        mAnim.LoadPal(
-            mAnim.field_20_ppBlock,
-            pFrameHeader->field_0_clut_offset);
+        mAnim.ReloadPal();
     }
 
     sAvailableControllers_4CE598 = (gJoystickAvailable_5079A4 != 0) + 1;
@@ -879,9 +875,7 @@ void Menu::WaitForDoorToOpen_47B550()
     if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         mAnim.Set_Animation_Data(GetAnimRes(AnimId::AbeIntro));
-        FrameInfoHeader* pFrameInfoHeader = mAnim.Get_FrameHeader(0);
-        auto pFrameHeader = reinterpret_cast<FrameHeader*>(&(*mAnim.field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
-        mAnim.LoadPal(mAnim.field_20_ppBlock, pFrameHeader->field_0_clut_offset);
+        mAnim.ReloadPal();
         field_1CC_fn_update = &Menu::WaitForAbesHeadPoppingThroughDoor_47B5E0;
         ResourceManager::FreeResource_455550(field_E4_res_array[3]);
         field_204_flags &= ~2u;
@@ -1618,9 +1612,7 @@ void Menu::ToNextMenuPage_47BD80()
             {
                 case MainMenuOptions::eGameSpeak_0:
                 {
-                    FrameInfoHeader* pFrameInfoHeader = field_134_anim.Get_FrameHeader(0);
-                    auto pHeader = reinterpret_cast<FrameHeader*>(&(*field_134_anim.field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
-                    field_134_anim.LoadPal(field_134_anim.field_20_ppBlock, pHeader->field_0_clut_offset);
+                    field_134_anim.ReloadPal();
                     field_1CC_fn_update = &Menu::ToGameSpeak_Update_47D620;
                     field_1D0_fn_render = &Menu::GameSpeak_Render_47D700;
                     field_1E0_selected_index.gamespeak_menu = GameSpeakOptions::eWait_0;
@@ -3722,7 +3714,7 @@ void Menu::GameSpeak_To_MainScreen_Update_47D690()
         field_1E0_selected_index.mainmenu = MainMenuOptions::eGameSpeak_0;
         field_134_anim.Set_Animation_Data(GetAnimRes(sMainScreenButtons_4D00B0[0].field_4_anim_id));
         field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 0, 0, 16);
-        field_134_anim.LoadPal(field_E4_res_array[5], 0);
+        field_134_anim.LoadPal(GetPalRes(PalId::WhiteHighlite));
     }
 }
 

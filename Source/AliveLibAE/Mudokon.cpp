@@ -493,11 +493,12 @@ Mudokon::Mudokon(relive::Path_Mudokon* pTlv, const Guid& tlvId)
     field_10_resources_array.SetAt(6, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeknbkResID, TRUE, FALSE));
     field_10_resources_array.SetAt(7, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeedgeResID, TRUE, FALSE));
     field_10_resources_array.SetAt(11, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kMudidleResID, TRUE, FALSE));
-    field_10_resources_array.SetAt(13, ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AEResourceID::kMudangryResID, TRUE, FALSE));
-    field_10_resources_array.SetAt(14, ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AEResourceID::kMudsadResID, TRUE, FALSE));
-    field_10_resources_array.SetAt(15, ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AEResourceID::kMudwiredResID, TRUE, FALSE));
-    field_10_resources_array.SetAt(16, ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AEResourceID::kMudblindResID, TRUE, FALSE));
-    field_10_resources_array.SetAt(17, ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AEResourceID::kMudsickResID, TRUE, FALSE));
+
+    mLoadedPals.push_back(ResourceManagerWrapper::LoadPal(PalId::BlindMud));
+    mLoadedPals.push_back(ResourceManagerWrapper::LoadPal(PalId::AngryMud));
+    mLoadedPals.push_back(ResourceManagerWrapper::LoadPal(PalId::SadMud));
+    mLoadedPals.push_back(ResourceManagerWrapper::LoadPal(PalId::WiredMud));
+    mLoadedPals.push_back(ResourceManagerWrapper::LoadPal(PalId::SickMud));
 
     if (field_16A_flags.Get(Flags_16A::eBit4_blind))
     {
@@ -1141,38 +1142,36 @@ void Mudokon::SetPal(Mud_Emotion emotion)
             if (field_16A_flags.Get(Flags_16A::eBit4_blind))
             {
                 mRGB.SetRGB(63, 63, 63);
-                mAnim.LoadPal(field_10_resources_array.ItemAt(16), 0);
+                mAnim.LoadPal(GetPalRes(PalId::BlindMud));
             }
             else
             {
                 mRGB.SetRGB(87, 103, 67);
-                FrameInfoHeader* pFrameInfoHeader = mAnim.Get_FrameHeader(-1);
-                FrameHeader* pHeader = reinterpret_cast<FrameHeader*>(&(*mAnim.field_20_ppBlock)[pFrameInfoHeader->field_0_frame_header_offset]);
-                mAnim.LoadPal(mAnim.field_20_ppBlock, pHeader->field_0_clut_offset);
+                mAnim.ReloadPal();
             }
             break;
 
         case Mud_Emotion::eAngry_1:
         case Mud_Emotion::eAggressive_2:
             mRGB.SetRGB(63, 63, 63);
-            mAnim.LoadPal(field_10_resources_array.ItemAt(13), 0);
+            mAnim.LoadPal(GetPalRes(PalId::AngryMud));
             break;
 
         case Mud_Emotion::eSad_3:
         case Mud_Emotion::eSuicidal_4:
             mRGB.SetRGB(63, 63, 63);
-            mAnim.LoadPal(field_10_resources_array.ItemAt(14), 0);
+            mAnim.LoadPal(GetPalRes(PalId::SadMud));
             break;
 
         case Mud_Emotion::eHappy_5:
         case Mud_Emotion::eWired_6:
             mRGB.SetRGB(74, 74, 74);
-            mAnim.LoadPal(field_10_resources_array.ItemAt(15), 0);
+            mAnim.LoadPal(GetPalRes(PalId::WiredMud));
             break;
 
         case Mud_Emotion::eSick_7:
             mRGB.SetRGB(63, 63, 63);
-            mAnim.LoadPal(field_10_resources_array.ItemAt(17), 0);
+            mAnim.LoadPal(GetPalRes(PalId::SickMud));
             break;
     }
 }

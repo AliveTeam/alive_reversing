@@ -25,11 +25,11 @@ void UXB::LoadAnimations()
 UXB::UXB(relive::Path_UXB* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
-    mBaseGameObjectTypeId = ReliveTypes::eUXB;
+    SetType(ReliveTypes::eUXB);
 
     LoadAnimations();
-
     Animation_Init(GetAnimRes(AnimId::UXB_Active));
+    mLoadedPals.push_back(ResourceManagerWrapper::LoadPal(PalId::GreenFlash));
 
     mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
     mAnim.mRenderMode = TPageAbr::eBlend_0;
@@ -73,8 +73,7 @@ UXB::UXB(relive::Path_UXB* pTlv, const Guid& tlvId)
     {
         if (pTlv->mStartState == relive::Path_UXB::StartState::eOn)
         {
-            u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AOResourceID::kGrenflshAOResID, 0, 0);
-            mFlashAnim.LoadPal(ppRes, 0);
+            mFlashAnim.LoadPal(GetPalRes(PalId::GreenFlash));
             mIsRed = 0;
 
             mFlashAnim.Set_Animation_Data(GetAnimRes(AnimId::Bomb_RedGreenTick));
@@ -107,8 +106,7 @@ UXB::UXB(relive::Path_UXB* pTlv, const Guid& tlvId)
         }
         else
         {
-            u8** ppPal = ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AOResourceID::kGrenflshAOResID, 0, 0);
-            mFlashAnim.LoadPal(ppPal, 0);
+            mFlashAnim.LoadPal(GetPalRes(PalId::GreenFlash));
             mIsRed = 0;
 
             mFlashAnim.Set_Animation_Data(GetAnimRes(AnimId::Bomb_RedGreenTick));
@@ -331,19 +329,13 @@ void UXB::VUpdate()
                     mRedBlinkCount--;
                     if (mRedBlinkCount == 0)
                     {
-                        mFlashAnim.LoadPal(ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AOResourceID::kGrenflshAOResID, 0, 0), 0);
+                        mFlashAnim.LoadPal(GetPalRes(PalId::GreenFlash));
                         mIsRed = 0;
                     }
                 }
                 else
                 {
-                    const FrameInfoHeader* pFrameInfo = mFlashAnim.Get_FrameHeader(-1);
-
-                    const FrameHeader* pFrameHeader = reinterpret_cast<FrameHeader*>(&(*mFlashAnim.field_20_ppBlock)[pFrameInfo->field_0_frame_header_offset]);
-
-                    mFlashAnim.LoadPal(
-                        mFlashAnim.field_20_ppBlock,
-                        pFrameHeader->field_0_clut_offset);
+                    mFlashAnim.ReloadPal();
 
                     mIsRed = 1;
 

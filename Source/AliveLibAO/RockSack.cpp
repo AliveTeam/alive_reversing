@@ -162,8 +162,8 @@ RockSack::RockSack(relive::Path_RockSack* pTlv, const Guid& tlvId)
 
     if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
     {
-        u8** ppPal = ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AOResourceID::kP2c2bagAOResID, 0, 0);
-        mAnim.LoadPal(ppPal, 0);
+        mLoadedPals.push_back(ResourceManagerWrapper::LoadPal(PalId::BlueRockSack));
+        mAnim.LoadPal(GetPalRes(PalId::BlueRockSack));
     }
 
     mShadow = relive_new Shadow();

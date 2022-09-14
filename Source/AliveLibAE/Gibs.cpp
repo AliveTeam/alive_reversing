@@ -145,10 +145,9 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
     const AnimRecord& headGibRec = AnimRec(headGib);
 
     // TODO: It is assumed all 3 gib parts use the same pal - might not be true for mods
-    u8** ppRes = nullptr;
-    if (headGibRec.mPalOverride != PalId::Default)
+    if (headGibRec.mPalOverride == PalId::BlindMud)
     {
-        ppRes = Add_Resource(ResourceManager::Resource_Palt, PalRec(headGibRec.mPalOverride).mResourceId);
+        mLoadedPals.push_back(ResourceManagerWrapper::LoadPal(PalId::BlindMud));
     }
 
     // The base class renders the head gib
@@ -269,9 +268,9 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
 
         pPart->field_18_animation.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
 
-        if (ppRes)
+        if (headGibRec.mPalOverride == PalId::BlindMud)
         {
-            pPart->field_18_animation.LoadPal(ppRes, 0);
+            pPart->field_18_animation.LoadPal(GetPalRes(PalId::BlindMud));
         }
 
         pPart++;

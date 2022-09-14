@@ -54,7 +54,6 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
 
     field_E4_pGibData = &kGibData_4C30B0[gibType];
     const AnimRecord& headRec = AO::AnimRec(field_E4_pGibData->field_0_head);
-    u8** ppAnimData = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, headRec.mResourceId, 1, 0);
 
     // The base class renders the head gib
     Animation_Init(GetAnimRes(field_E4_pGibData->field_0_head));
@@ -95,16 +94,16 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
         field_EC_dz = GibRand(scale) / FP_FromInteger(2);
     }
 
-    u8** ppPal = nullptr;
+    PalId gibPal = PalId::Default;
     if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
     {
         if (gibType == GibType::Abe_0 || gibType == GibType::Mud_4)
         {
-            ppPal = ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AOResourceID::kAbeblowAOResID, 0, 0);
+            gibPal = PalId::StockYardsAbeGib;
         }
         else if (gibType == GibType::Slog_2)
         {
-            ppPal = ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AOResourceID::kSlogBlowAOResID, 0, 0);
+            gibPal = PalId::StockYardsSlogGib;
         }
     }
 
@@ -171,9 +170,10 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
             pPart->field_14_dz = GibRand(scale) / FP_FromInteger(2);
         }
 
-        if (ppPal)
+        if (gibPal != PalId::Default)
         {
-            pPart->field_18_animation.LoadPal(ppPal, 0);
+            mLoadedPals.push_back(ResourceManagerWrapper::LoadPal(gibPal));
+            pPart->field_18_animation.LoadPal(GetPalRes(gibPal));
         }
 
         pPart++;

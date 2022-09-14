@@ -49,11 +49,30 @@ BackgroundGlukkon::BackgroundGlukkon(relive::Path_BackgroundGlukkon* pTlv, const
 
     mSpriteScale = FP_FromInteger(pTlv->mScalePercent) / FP_FromInteger(100);
 
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, pTlv->mPalId, 0, 0);
-    if (ppRes)
+    PalId pal = PalId::Default;
+    if (pTlv->mPalId == AOResourceID::kGlukredAOResID)
     {
-        mAnim.LoadPal(ppRes, 0);
+        pal = PalId::RedBackgroundGlukkon;
     }
+    else if (pTlv->mPalId == AOResourceID::kGlukgrenAOResID)
+    {
+        pal = PalId::GreenBackgroundGlukkon;
+    }
+    else if (pTlv->mPalId == AOResourceID::kGlukblueAOResID)
+    {
+        pal = PalId::BlueBackgroundGlukkon;
+    }
+    else if (pTlv->mPalId == AOResourceID::kGlukaquaAOResID)
+    {
+        pal = PalId::AquaBackgroundGlukkon;
+    }
+    else
+    {
+        ALIVE_FATAL("Invalid background glukkon pal");
+    }
+
+    mLoadedPals.push_back(ResourceManagerWrapper::LoadPal(pal));
+    mAnim.LoadPal(GetPalRes(pal));
 
     field_110_state = BackgroundGlukkon::State::eToSetSpeakPauseTimer_0;
 }

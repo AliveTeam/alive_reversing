@@ -131,10 +131,8 @@ UXB::UXB(relive::Path_UXB* tlv_params, const Guid& tlvId)
     SetType(ReliveTypes::eUXB);
 
     LoadAnimations();
-
     Animation_Init(GetAnimRes(AnimId::UXB_Active));
-
-    mLoadedPals.push_back(ResourceManagerWrapper::LoadPal(PalId::Uxb_GreenFlash));
+    mLoadedPals.push_back(ResourceManagerWrapper::LoadPal(PalId::GreenFlash));
 
     mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
     mAnim.mRenderMode = TPageAbr::eBlend_0;
@@ -182,7 +180,7 @@ UXB::UXB(relive::Path_UXB* tlv_params, const Guid& tlvId)
     {
         if (tlv_params->mStartState == relive::Path_UXB::StartState::eOn)
         {
-            mFlashAnim.LoadPal(GetPalRes(PalId::Uxb_GreenFlash));
+            mFlashAnim.LoadPal(GetPalRes(PalId::GreenFlash));
 
             mIsRed = 0;
             mFlashAnim.Set_Animation_Data(GetAnimRes(AnimId::Bomb_RedGreenTick));
@@ -382,7 +380,7 @@ void UXB::VUpdate()
                     mRedBlinkCount--;
                     if (mRedBlinkCount == 0)
                     {
-                        mFlashAnim.LoadPal(GetPalRes(PalId::Uxb_GreenFlash));
+                        mFlashAnim.LoadPal(GetPalRes(PalId::GreenFlash));
                         mIsRed = 0;
                     }
                 }
@@ -542,7 +540,7 @@ s32 UXB::CreateFromSaveState(const u8* __pSaveState)
 
     if (pSaveState->mCurrentState == UXBState::eDeactivated)
     {
-        pUXB->mFlashAnim.LoadPal(pUXB->GetPalRes(PalId::Uxb_GreenFlash));
+        pUXB->mFlashAnim.LoadPal(pUXB->GetPalRes(PalId::GreenFlash));
         pUXB->mFlashAnim.Set_Animation_Data(pUXB->GetAnimRes(AnimId::Bomb_RedGreenTick));
         pUXB->mAnim.Set_Animation_Data(pUXB->GetAnimRes(AnimId::UXB_Disabled));
     }
