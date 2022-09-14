@@ -731,27 +731,27 @@ s32 MineCar::VGetSaveState(u8* pSaveBuffer)
     pState->field_2E_render = mAnim.mFlags.Get(AnimFlags::eBit3_Render);
 
     // this makes no sense because we convert pState->field_24_frame_table back to the actual offset in CreateFromSaveState
-    switch (mAnim.mFrameTableOffset)
+    switch (mAnim.mAnimRes.mId)
     {
-        case 20788: // Mine_Car_Tread_Move_B
+        case AnimId::Mine_Car_Tread_Move_B:
             pState->field_24_frame_table = 10860;
             break;
-        case 20812: // Mine_Car_Open
+        case AnimId::Mine_Car_Open:
             pState->field_24_frame_table = 10884;
             break;
-        case 20824: // Mine_Car_Tread_Idle
+        case AnimId::Mine_Car_Tread_Idle:
             pState->field_24_frame_table = 10896;
             break;
-        case 20836: // Mine_Car_Closed
+        case AnimId::Mine_Car_Closed:
             pState->field_24_frame_table = 10908;
             break;
-        case 20848: // Mine_Car_Tread_Move_A
+        case AnimId::Mine_Car_Tread_Move_A:
             pState->field_24_frame_table = 10920;
             break;
-        case 20872: // Mine_Car_Shake_A
+        case AnimId::Mine_Car_Shake_A:
             pState->field_24_frame_table = 10944;
             break;
-        case 20900: // Mine_Car_Shake_B
+        case AnimId::Mine_Car_Shake_B:
             pState->field_24_frame_table = 10972;
             break;
         default:
@@ -764,27 +764,27 @@ s32 MineCar::VGetSaveState(u8* pSaveBuffer)
     pState->field_32_unused = mTreadAnim.mFlags.Get(AnimFlags::eBit5_FlipX);
     pState->field_30_unused = mTreadAnim.mFlags.Get(AnimFlags::eBit3_Render);
     
-    switch (mTreadAnim.mFrameTableOffset)
+    switch (mTreadAnim.mAnimRes.mId)
     {
-        case 20788: // Mine_Car_Tread_Move_B
+        case AnimId::Mine_Car_Tread_Move_B:
             pState->field_38_frame_table_offset2 = 10860;
             break;
-        case 20812: // Mine_Car_Open
+        case AnimId::Mine_Car_Open:
             pState->field_38_frame_table_offset2 = 10884;
             break;
-        case 20824: // Mine_Car_Tread_Idle
+        case AnimId::Mine_Car_Tread_Idle:
             pState->field_38_frame_table_offset2 = 10896;
             break;
-        case 20836: // Mine_Car_Closed
+        case AnimId::Mine_Car_Closed:
             pState->field_38_frame_table_offset2 = 10908;
             break;
-        case 20848: // Mine_Car_Tread_Move_A
+        case AnimId::Mine_Car_Tread_Move_A:
             pState->field_38_frame_table_offset2 = 10920;
             break;
-        case 20872: // Mine_Car_Shake_A
+        case AnimId::Mine_Car_Shake_A:
             pState->field_38_frame_table_offset2 = 10944;
             break;
-        case 20900: // Mine_Car_Shake_B
+        case AnimId::Mine_Car_Shake_B:
             pState->field_38_frame_table_offset2 = 10972;
             break;
         default:

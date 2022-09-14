@@ -325,8 +325,6 @@ private:
 
     void ShouldStillBeAlive_4BBC00();
 
-    u8** ResForMotion_4B1E90(s16 motion);
-
     void ToTurn_4BE090();
 
     void RespondWithWhat_4BF400();
@@ -455,7 +453,7 @@ private:
     s32 mInput = 0;
     s32 field_12C_timer = 0;
     FP field_130_falling_velx_scale_factor = {};
-    s16 field_134_res_idx = 0;
+    //s16 field_134_res_idx = 0;
     s16 field_136_shot_motion = 0;
     PSX_RECT field_138_zone_rect = {};
     s16 field_140_unused = 0;
@@ -511,6 +509,5 @@ ALIVE_ASSERT_SIZEOF(Slig, 0x298);
 void Animation_OnFrame_Slig_4C0600(BaseGameObject* pObj, u32&, const Point32& point);
 void Slig_SoundEffect_4BFFE0(SligSfx effect, BaseAliveGameObject* pObj);
 
-void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, s16* pPalAlloc, s16 palSize, PSX_RECT* palRect,
-                           s16& r, s16& g, s16& b,
+void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, s16* pPalAlloc, s16 palSize, s16& r, s16& g, s16& b,
                            const s16* eyeColourIndices, s16 eyeColourIndicesSize);

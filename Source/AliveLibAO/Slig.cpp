@@ -356,7 +356,7 @@ Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
     SetBaseAnimPaletteTint(
         &kSligTints_4CFB10[0],
         gMap.mCurrentLevel,
-        412);
+        PalId::Slig_412);
 
     FP hitX = {};
     FP hitY = {};
@@ -429,6 +429,7 @@ Slig::~Slig()
         pTlv->mTlvFlags.Clear(relive::TlvFlags::eBit2_Destroyed);
     }
 
+    /*
     for (u8**& ppRes : field_210_resources.res)
     {
         if (ppRes && mAnim.field_20_ppBlock != ppRes)
@@ -436,7 +437,8 @@ Slig::~Slig()
             ResourceManager::FreeResource_455550(ppRes);
             ppRes = nullptr;
         }
-    }
+    }*/
+
     
     MusicController::ClearObject(this);
 }

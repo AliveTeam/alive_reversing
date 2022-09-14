@@ -222,7 +222,7 @@ private:
     relive::Path_Hoist* TryGetHoist(s32 xDistance, s16 bIgnoreDirection);
 
 public:
-    void VOnFrame(s16* pData);
+    void VOnFrame(const Point32& point);
 
 private:
     Guid mTlvInfo;

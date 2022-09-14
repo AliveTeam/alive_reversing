@@ -16,7 +16,7 @@ public:
     virtual void VAdd(BaseAliveGameObject* pObj);
     virtual void VRemove(BaseAliveGameObject* pObj);
 
-    void AddDynamicCollision(AnimId animId, u8** ppAnimData, relive::Path_TLV* pTlv, Map* pMap, const Guid& tlvId);
+    void AddDynamicCollision(AnimId animId, relive::Path_TLV* pTlv, Map* pMap, const Guid& tlvId);
     void SyncCollisionLinePosition();
     void KeepThingsOnPlatform(FP xpos);
 

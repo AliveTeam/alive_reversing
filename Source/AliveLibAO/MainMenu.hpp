@@ -261,7 +261,7 @@ public:
     static void RenderElement_47A4E0(s32 xpos, s32 ypos, s32 input_command, PrimHeader** ot, AliveFont* pFont, s32* pPolyOffset);
 
     s32 field_D4[4] = {};
-    u8** field_E4_res_array[6] = {};
+   // u8** field_E4_res_array[6] = {};
     AliveFont field_FC_font;
     Animation field_134_anim;
 

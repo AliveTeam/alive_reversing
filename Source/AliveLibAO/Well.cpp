@@ -89,19 +89,22 @@ void Well::WellExpress_Init(relive::Path_WellExpress* pTlv, FP /*xpos*/, FP ypos
     //auto pHeader = reinterpret_cast<AnimHeader*>(*ppRes);
     //LOG_INFO("frametableoffset: " << pHeader->field_4_frame_table_offset << " anim id: " << pTlv->field_1E_anim_id << " max w: " << pHeader->field_0_max_w << " max h: " << pHeader->field_2_max_h);
 
-    const BgAnimRecord& anim = AO::BgAnimRec(pTlv->mAnimId);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, anim.mBgAnimId, 1, 0);
-    if (ppRes)
+   // const BgAnimRecord& anim = AO::BgAnimRec(pTlv->mAnimId);
+   // u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, anim.mBgAnimId, 1, 0);
+    //if (ppRes)
     {
-        Animation_Init(anim.mFrameTableOffset, anim.mMaxW, anim.mMaxH, ppRes);
+        //Animation_Init(anim.mFrameTableOffset, anim.mMaxW, anim.mMaxH, ppRes);
+        // TODO: Fix bg anims
+        Animation_Init(ResourceManagerWrapper::LoadAnimation(AnimId::Abe_Head_Gib));
         mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
         mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
     }
+    /*
     else
     {
         mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
         mBaseGameObjectFlags.Clear(Options::eDrawable_Bit4);
-    }
+    }*/
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
@@ -144,19 +147,23 @@ void Well::WellLocal_Init(relive::Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
     //auto pHeader = reinterpret_cast<AnimHeader*>(*ppRes);
     //LOG_INFO("frametableoffset: " << pHeader->field_4_frame_table_offset << " anim id: " << pTlv->field_1E_anim_id << " max w: " << pHeader->field_0_max_w << " max h: " << pHeader->field_2_max_h);
 
-    const BgAnimRecord& anim = AO::BgAnimRec(pTlv->mAnimId);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, anim.mBgAnimId, 1, 0);
-    if (ppRes)
+    //const BgAnimRecord& anim = AO::BgAnimRec(pTlv->mAnimId);
+    //u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, anim.mBgAnimId, 1, 0);
+    //if (ppRes)
     {
-        Animation_Init(anim.mFrameTableOffset, anim.mMaxW, anim.mMaxH, ppRes);
+        // TODO: Fix epic frame tables in tlvs
+        Animation_Init(ResourceManagerWrapper::LoadAnimation(AnimId::Abe_Head_Gib));
+        //Animation_Init(anim.mFrameTableOffset, anim.mMaxW, anim.mMaxH, ppRes);
+
         mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
         mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
     }
+    /*
     else
     {
         mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
         mBaseGameObjectFlags.Clear(Options::eDrawable_Bit4);
-    }
+    }*/
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {

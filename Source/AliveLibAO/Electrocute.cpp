@@ -14,15 +14,12 @@ namespace AO {
 class PalleteOverwriter final : public ::BaseGameObject
 {
 public:
-    PalleteOverwriter(PSX_Point palXY, s16 palDepth, s16 colour)
+    PalleteOverwriter(AnimationPal& /*pal*/, s16 colour)
         : BaseGameObject(TRUE, 0)
     {
         mBaseGameObjectTypeId = ReliveTypes::ePalOverwriter;
 
         gObjListDrawables->Push_Back(this);
-
-        field_10_pal_xy = palXY;
-        field_14_pal_colours_count = palDepth;
 
         mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
 
@@ -52,8 +49,11 @@ public:
         if (!field_BE_bDone)
         {
             // TODO: FIX ME - abstraction break, the x value is used as an offset as to how much to overwrite, the width isn't isn't the pal depth in this case
+            /*
             const IRenderer::PalRecord palRec{ static_cast<s16>(field_10_pal_xy.x + field_B8_pal_x_index), field_10_pal_xy.y, field_BA_pal_w };
-            IRenderer::GetRenderer()->PalSetData(palRec, reinterpret_cast<u8*>(&field_A8_palBuffer[0]));
+            IRenderer::GetRenderer()->PalSetData(palRec, reinterpret_cast<u8*>(&field_A8_palBuffer[0]));*/
+
+            // TODO: Set the next 8 pal entries + update anim
         }
     }
 
@@ -66,7 +66,7 @@ public:
         }
         else
         {
-            if (field_B8_pal_x_index == field_14_pal_colours_count - 1)
+            if (field_B8_pal_x_index == 256 - 1)
             {
                 // Got to the end
                 field_BE_bDone = TRUE;
@@ -75,23 +75,19 @@ public:
             {
                 field_B8_pal_x_index += 8;
 
-                if (field_B8_pal_x_index >= field_14_pal_colours_count - 1)
+                if (field_B8_pal_x_index >= 256 - 1)
                 {
-                    field_B8_pal_x_index = field_14_pal_colours_count - 1;
+                    field_B8_pal_x_index = 256 - 1;
                 }
 
-                if (field_BA_pal_w + field_B8_pal_x_index >= field_14_pal_colours_count - 1)
+                if (field_BA_pal_w + field_B8_pal_x_index >= 256 - 1)
                 {
-                    field_BA_pal_w = field_14_pal_colours_count - field_B8_pal_x_index;
+                    field_BA_pal_w = 256 - field_B8_pal_x_index;
                 }
             }
         }
     }
 
-    PSX_Point field_10_pal_xy;
-    s16 field_14_pal_colours_count;
-    // pad
-    s32 field_18_not_used[36]; // TODO: Probably something used in PSX but not PC?
     s16 field_A8_palBuffer[8];
     s16 field_B8_pal_x_index;
     s16 field_BA_pal_w;
@@ -110,16 +106,17 @@ Electrocute::Electrocute(BaseAliveGameObject* pTargetObj, s32 bExtraOverwriter)
     field_32_state = States::eSetNewColour_0;
     field_24_extraOverwriter = static_cast<s16>(bExtraOverwriter);
     field_14_overwriter_count = bExtraOverwriter ? 3 : 2;
-    field_28_pPalData = nullptr;
 
     if (pTargetObj->mBaseGameObjectTypeId == ReliveTypes::eAbe)
     {
+        mPalData = pTargetObj->mAnim.mAnimRes.mTgaPtr->mPal;
+        /*
         field_28_pPalData = relive_new u16[pTargetObj->mAnim.mPalDepth];
         Pal_Copy(
             pTargetObj->mAnim.mPalVramXY,
             pTargetObj->mAnim.mPalDepth,
             field_28_pPalData,
-            &field_38_pal_rect);
+            &field_38_pal_rect);*/
     }
 
     // Note: Real game may leave a ptr un-inited depending on the count
@@ -145,7 +142,7 @@ Electrocute::~Electrocute()
         field_10_obj_target->mBaseGameObjectRefCount--;
     }
 
-    relive_delete[] field_28_pPalData;
+   // relive_delete[] field_28_pPalData;
 }
 
 void Electrocute::VScreenChanged()
@@ -173,11 +170,12 @@ void Electrocute::Stop()
     {
         if (field_10_obj_target->mBaseGameObjectTypeId == ReliveTypes::eAbe)
         {
+            /* TODO: Set anim
             Pal_Set(
                 field_10_obj_target->mAnim.mPalVramXY,
                 field_10_obj_target->mAnim.mPalDepth,
                 reinterpret_cast<const u8*>(field_28_pPalData),
-                &field_38_pal_rect);
+                &field_38_pal_rect);*/
             field_10_obj_target->mRGB.r = field_2C_r;
             field_10_obj_target->mRGB.g = field_2E_g;
             field_10_obj_target->mRGB.b = field_30_b;
@@ -213,13 +211,11 @@ void Electrocute::VUpdate()
 
         case States::eAlphaFadeout_1:
             field_18_pPalOverwriters[0] = relive_new PalleteOverwriter(
-                field_10_obj_target->mAnim.mPalVramXY,
-                field_10_obj_target->mAnim.mPalDepth,
+                field_10_obj_target->mAnim.mAnimRes.mTgaPtr->mPal,
                 static_cast<s16>(Pal_Make_Colour(255u, 255, 255, 1)));
 
             field_18_pPalOverwriters[1] = relive_new PalleteOverwriter(
-                field_10_obj_target->mAnim.mPalVramXY,
-                field_10_obj_target->mAnim.mPalDepth,
+                field_10_obj_target->mAnim.mAnimRes.mTgaPtr->mPal,
                 static_cast<s16>(Pal_Make_Colour(64u, 64, 255, 1)));
             if (field_18_pPalOverwriters[1])
             {
@@ -229,8 +225,8 @@ void Electrocute::VUpdate()
             if (field_24_extraOverwriter)
             {
                 field_18_pPalOverwriters[2] = relive_new PalleteOverwriter(
-                    field_10_obj_target->mAnim.mPalVramXY,
-                    field_10_obj_target->mAnim.mPalDepth,
+                    field_10_obj_target->mAnim.mAnimRes.mTgaPtr->mPal,
+
                     static_cast<s16>(Pal_Make_Colour(0, 0, 0, 0)));
                 if (field_18_pPalOverwriters[2])
                 {
@@ -249,12 +245,13 @@ void Electrocute::VUpdate()
                 if (field_10_obj_target->mBaseGameObjectTypeId == ReliveTypes::eAbe)
                 {
                     field_10_obj_target->VTakeDamage(this);
+                    /* TODO: Set pal
                     Pal_Set(
                         field_10_obj_target->mAnim.mPalVramXY,
                         field_10_obj_target->mAnim.mPalDepth,
                         reinterpret_cast<const u8*>(field_28_pPalData),
                         &field_38_pal_rect);
-
+                    */
                     field_10_obj_target->mRGB.r = field_2C_r;
                     field_10_obj_target->mRGB.g = field_2E_g;
                     field_10_obj_target->mRGB.b = field_30_b;

@@ -41,7 +41,7 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
         field_12C_tPageAbr = TPageAbr::eBlend_1;
     }
 
-    mAnim.mFlags.Set(AnimFlags::eBit25_bDecompressDone); // HIBYTE |= 1
+    //mAnim.mFlags.Set(AnimFlags::eBit25_bDecompressDone); // HIBYTE |= 1
     mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
     mAnim.mRenderLayer = layer;
     field_132_number_of_sprites = field_12E_number_of_segments * field_130_number_of_pieces_per_segment;
@@ -74,7 +74,7 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
         field_124_tPageMode = TPageMode::e4Bit_0;
     }
 
-    u8 u0 = mAnim.mVramRect.x & 0x3F;
+    u8 u0 = 0 /*mAnim.mVramRect.x & 0x3F*/;
     if (field_124_tPageMode == TPageMode::e8Bit_1)
     {
         u0 = 2 * u0;
@@ -101,11 +101,12 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
                 Poly_Set_SemiTrans(&pSprt->mBase.header, 1);
                 Poly_Set_Blending(&pSprt->mBase.header, 1);
 
-                SetClut(pSprt, static_cast<s16>(PSX_getClut(mAnim.mPalVramXY.x, mAnim.mPalVramXY.y)));
+                // TODO: Just set the anim ptr
+                //SetClut(pSprt, static_cast<s16>(PSX_getClut(mAnim.mPalVramXY.x, mAnim.mPalVramXY.y)));
 
-                SetUV0(pSprt, u0, mAnim.mVramRect.y & 0xFF);
-                pSprt->field_14_w = frameW - 1;
-                pSprt->field_16_h = frameH - 1;
+                SetUV0(pSprt, u0, 0 /*mAnim.mVramRect.y & 0xFF*/);
+                pSprt->field_14_w = static_cast<s16>(frameW - 1);
+                pSprt->field_16_h = static_cast<s16>(frameH - 1);
             }
         }
     }
@@ -389,6 +390,8 @@ void ZapLine::VRender(PrimHeader** ppOt)
             }
         }
 
+        /*
+        // TODO: Just set anim ptr
         const s32 calcTPage = PSX_getTPage(
             field_124_tPageMode,
             field_12C_tPageAbr,
@@ -398,6 +401,7 @@ void ZapLine::VRender(PrimHeader** ppOt)
         Prim_SetTPage* pTPage = &field_FC_tPage_p8[bufferIdx];
         Init_SetTPage(pTPage, 0, 0, calcTPage);
         OrderingTable_Add(OtLayer(ppOt, mAnim.mRenderLayer), &pTPage->mBase);
+        */
 
         PSX_RECT* pRect = &field_144_rects[bufferIdx];
         pRect->x = 32767;

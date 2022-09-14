@@ -711,6 +711,7 @@ Abe::Abe()
 
     Init_GameStates_43BF40();
 
+    /*
     // Zero out the resource array
     for (s32 i = 0; i < kResourceArraySize; i++)
     {
@@ -799,8 +800,9 @@ Abe::Abe()
 
     ResourceManager::LoadResourceFile_49C170("SPOTLITE.BAN", nullptr);
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kSpotliteResID);
+    */
 
-    field_128.field_10_resource_index = 1;
+    //field_128.field_10_resource_index = 1;
 
     Animation_Init(GetAnimRes(AnimId::Mudokon_Idle));
 

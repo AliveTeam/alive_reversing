@@ -289,7 +289,7 @@ struct Abe_1BC_20_sub_object final
     s32 mRegenHealthTimer;
     FP field_8_x_vel_slow_by;
     s32 field_C_unused;
-    u16 field_10_resource_index;
+    //u16 field_10_resource_index;
     Mud_Emotion mMood;
     s32 mRollingMotionTimer;
     MudSounds mSay;

@@ -323,7 +323,7 @@ void Glukkon::VRender(PrimHeader** ot)
         eyeIndices[0] = 62;
     }
     renderWithGlowingEyes(ot, this, &field_118_pPalAlloc[0], ALIVE_COUNTOF(field_118_pPalAlloc),
-                          &field_198_pal_rect, field_1A0_red, field_1A2_green, field_1A4_blue, &eyeIndices[0], ALIVE_COUNTOF(eyeIndices));
+                          field_1A0_red, field_1A2_green, field_1A4_blue, &eyeIndices[0], ALIVE_COUNTOF(eyeIndices));
 }
 
 s32 Glukkon::VGetSaveState(u8* pSaveBuffer)

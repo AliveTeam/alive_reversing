@@ -204,6 +204,7 @@ Slog::~Slog()
         }
     }
 
+    /*
     for (s32 i = 0; i < ALIVE_COUNTOF(field_184_resources); i++)
     {
         if (mAnim.field_20_ppBlock != field_184_resources[i])
@@ -214,7 +215,7 @@ Slog::~Slog()
                 field_184_resources[i] = nullptr;
             }
         }
-    }
+    }*/
 
     MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
 
@@ -413,44 +414,6 @@ void Slog::SetAnimFrame()
     mAnim.Set_Animation_Data(GetAnimRes(sSlogMotionAnimIds[mCurrentMotion]));
 }
 
-u8** Slog::ResBlockForMotion(s16 motion)
-{
-    if (motion < eSlogMotions::Motion_15_AngryBark_475290)
-    {
-        field_13C_res_idx = 0;
-        return field_184_resources[field_13C_res_idx];
-    }
-
-    if (motion < eSlogMotions::Motion_19_JumpForwards_475610)
-    {
-        field_13C_res_idx = 1;
-        return field_184_resources[field_13C_res_idx];
-    }
-
-    if (motion < eSlogMotions::Motion_22_Dying_475A90)
-    {
-        field_13C_res_idx = 2;
-        return field_184_resources[field_13C_res_idx];
-    }
-
-    if (motion < eSlogMotions::Motion_23_Scratch_475550)
-    {
-        field_13C_res_idx = 3;
-        return field_184_resources[field_13C_res_idx];
-    }
-
-    if (motion < 25)
-    {
-        field_13C_res_idx = 4;
-        return field_184_resources[field_13C_res_idx];
-    }
-    else
-    {
-        field_13C_res_idx = 0;
-        return field_184_resources[field_13C_res_idx];
-    }
-}
-
 void Slog::MoveOnLine()
 {
     const FP xpos = mXPos;
@@ -512,17 +475,13 @@ const TintEntry sSlogTints_4CFE10[3] = {
 
 void Slog::Init()
 {
-    field_184_resources[0] = nullptr;
-    field_184_resources[1] = nullptr;
-    field_184_resources[2] = nullptr;
-    field_184_resources[3] = nullptr;
-    field_184_resources[4] = nullptr;
-
+    /*
     field_184_resources[0] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kDogbasicAOResID, 1, 0);
     field_184_resources[1] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kDogrstnAOResID, 1, 0);
     field_184_resources[2] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kDogattkAOResID, 1, 0);
     field_184_resources[3] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kDogknfdAOResID, 1, 0);
     field_184_resources[4] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kDogidleAOResID, 1, 0);
+    */
 
     Animation_Init(GetAnimRes(AnimId::Slog_Idle));
 

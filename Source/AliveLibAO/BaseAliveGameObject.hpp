@@ -100,7 +100,7 @@ protected:
 
     s16 InAirCollision_4019C0(PathLine** ppLine, FP* hitX, FP* hitY, FP vely);
 
-    s16 SetBaseAnimPaletteTint(const TintEntry* pTintArray, EReliveLevelIds lvl, s32 palId);
+    s16 SetBaseAnimPaletteTint(const TintEntry* pTintArray, EReliveLevelIds lvl, PalId palId);
 
     s16 Check_IsOnEndOfLine_4021A0(s16 direction, s16 dist);
 
@@ -121,7 +121,7 @@ public:
     s16 mCurrentMotion = 0;
     s16 mNextMotion = 0;
     FP mHealth = {};
-    s16 field_104_pending_resource_count = 0;
+    //s16 field_104_pending_resource_count = 0;
     s16 field_106_shot = 0;
     s16 field_108_bMotionChanged = 0;
     BitField16<Flags_10A> mBaseAliveGameObjectFlags = {};

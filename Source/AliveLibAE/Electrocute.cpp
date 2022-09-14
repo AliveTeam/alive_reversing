@@ -14,15 +14,14 @@
 class PalleteOverwriter final : public BaseGameObject
 {
 public:
-    PalleteOverwriter(PSX_Point palXY, s16 palDepth, s16 colour)
+    PalleteOverwriter(AnimationPal& pal, s16 colour)
         : BaseGameObject(FALSE, 0)
     {
         SetType(ReliveTypes::ePalOverwriter);
 
         gObjListDrawables->Push_Back(this);
 
-        field_20_pal_xy = palXY;
-        field_24_pal_colours_count = palDepth;
+        mPal = pal;
 
         mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
 
@@ -56,7 +55,7 @@ public:
         }
         else
         {
-            if (field_C8_pal_x_index == field_24_pal_colours_count - 1)
+            if (field_C8_pal_x_index == 256 - 1)
             {
                 // Got to the end
                 field_CE_bDone = TRUE;
@@ -65,14 +64,14 @@ public:
             {
                 field_C8_pal_x_index += 8;
 
-                if (field_C8_pal_x_index >= field_24_pal_colours_count - 1)
+                if (field_C8_pal_x_index >= 256 - 1)
                 {
-                    field_C8_pal_x_index = field_24_pal_colours_count - 1;
+                    field_C8_pal_x_index = 256 - 1;
                 }
 
-                if (field_C8_pal_x_index + field_CA_pal_w >= field_24_pal_colours_count - 1)
+                if (field_C8_pal_x_index + field_CA_pal_w >= 256 - 1)
                 {
-                    field_CA_pal_w = field_24_pal_colours_count - field_C8_pal_x_index;
+                    field_CA_pal_w = 256 - field_C8_pal_x_index;
                 }
             }
         }
@@ -83,17 +82,20 @@ public:
         if (!field_CE_bDone)
         {
             // TODO: FIX ME - abstraction break, the x value is used as an offset as to how much to overwrite, the width isn't isn't the pal depth in this case
+            /*
             const IRenderer::PalRecord palRec{ static_cast<s16>(field_20_pal_xy.x + field_C8_pal_x_index), field_20_pal_xy.y, field_CA_pal_w};
 
             IRenderer::GetRenderer()->PalSetData(palRec, reinterpret_cast<u8*>(&field_B8_palBuffer[0]));
+            */
+
+            // TODO: Copy in the 8 new entries
+
+            // TODO: Actually set this pal back on the anim
         }
     }
 
 private:
-    PSX_Point field_20_pal_xy;
-    s16 field_24_pal_colours_count;
-    // pad
-    s32 field_28_not_used[36]; // TODO: Probably something used in PSX but not PC?
+    AnimationPal mPal;
     s16 field_B8_palBuffer[8];
     s16 field_C8_pal_x_index;
     s16 field_CA_pal_w;
@@ -119,7 +121,7 @@ Electrocute::Electrocute(BaseAliveGameObject* pTargetObj, bool bExtraOverwriter,
     field_3C_extraOverwriter = bExtraOverwriter;
     field_2C_bKillTarget = bKillTarget;
     field_2E_overwriter_count = bExtraOverwriter ? 3 : 2;
-    field_40_pPalData = nullptr;
+    //field_40_pPalData = nullptr;
 
     switch (pTargetObj->Type())
     {
@@ -127,12 +129,15 @@ Electrocute::Electrocute(BaseAliveGameObject* pTargetObj, bool bExtraOverwriter,
         case ReliveTypes::eGlukkon:
         case ReliveTypes::eAbe:
         case ReliveTypes::eSlig:
+            mPalData = pTargetObj->mAnim.mAnimRes.mTgaPtr->mPal;
+            /*
             field_40_pPalData = relive_new u16[pTargetObj->mAnim.mPalDepth];
             Pal_Copy(
                 pTargetObj->mAnim.mPalVramXY,
                 pTargetObj->mAnim.mPalDepth,
                 field_40_pPalData,
                 &field_4C_pal_rect);
+            */
             break;
         default:
             break;
@@ -155,7 +160,7 @@ Electrocute::~Electrocute()
 
     field_20_target_obj_id = Guid{};
 
-    relive_delete[] field_40_pPalData;
+    //relive_delete[] field_40_pPalData;
 }
 
 void Electrocute::VScreenChanged()
@@ -201,13 +206,11 @@ void Electrocute::VUpdate()
 
             case States::eAlphaFadeout_1:
                 field_30_pPalOverwriters[0] = relive_new PalleteOverwriter(
-                    pTargetObj->mAnim.mPalVramXY,
-                    pTargetObj->mAnim.mPalDepth,
+                    pTargetObj->mAnim.mAnimRes.mTgaPtr->mPal,
                     static_cast<s16>(Pal_Make_Colour(255u, 255, 255, 1)));
 
                 field_30_pPalOverwriters[1] = relive_new PalleteOverwriter(
-                    pTargetObj->mAnim.mPalVramXY,
-                    pTargetObj->mAnim.mPalDepth,
+                    pTargetObj->mAnim.mAnimRes.mTgaPtr->mPal,
                     static_cast<s16>(Pal_Make_Colour(64u, 64, 255, 1)));
                 if (field_30_pPalOverwriters[1])
                 {
@@ -216,8 +219,8 @@ void Electrocute::VUpdate()
 
                 if (field_3C_extraOverwriter)
                 {
-                    field_30_pPalOverwriters[2] = relive_new PalleteOverwriter(pTargetObj->mAnim.mPalVramXY,
-                        pTargetObj->mAnim.mPalDepth,
+                    field_30_pPalOverwriters[2] = relive_new PalleteOverwriter(pTargetObj->mAnim.mAnimRes.mTgaPtr->mPal,
+
                         static_cast<s16>(Pal_Make_Colour(0, 0, 0, 0)));
                     if (field_30_pPalOverwriters[2])
                     {
@@ -233,6 +236,7 @@ void Electrocute::VUpdate()
                 PalleteOverwriter* pPalOverwriter = field_30_pPalOverwriters[field_2E_overwriter_count - 1];
                 if (!pPalOverwriter || pPalOverwriter->field_CE_bDone)
                 {
+                    /* TODO: update the pal
                     if (field_40_pPalData)
                     {
                         Pal_Set(
@@ -240,7 +244,7 @@ void Electrocute::VUpdate()
                             pTargetObj->mAnim.mPalDepth,
                             reinterpret_cast<const u8*>(field_40_pPalData),
                             &field_4C_pal_rect);
-                    }
+                    }*/
 
                     if (field_2C_bKillTarget)
                     {
@@ -291,14 +295,15 @@ void Electrocute::VStop()
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_20_target_obj_id));
     if (pTarget)
     {
-        if (field_40_pPalData)
+        //if (field_40_pPalData)
         {
+            /* TODO: Update pal
             Pal_Set(
                 pTarget->mAnim.mPalVramXY,
                 pTarget->mAnim.mPalDepth,
                 reinterpret_cast<const u8*>(field_40_pPalData),
                 &field_4C_pal_rect);
-
+            */
             pTarget->mRGB.SetRGB(field_24_r, field_26_g, field_28_b);
             pTarget->mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit11_Electrocuting);
         }

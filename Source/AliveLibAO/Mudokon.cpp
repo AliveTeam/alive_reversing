@@ -400,6 +400,7 @@ Mudokon::~Mudokon()
         Path::TLV_Reset(field_10C, -1, 0, 0);
     }
 
+    /*
     for (auto& res : field_148_res_array.res)
     {
         if (res && res != mAnim.field_20_ppBlock)
@@ -407,6 +408,7 @@ Mudokon::~Mudokon()
             ResourceManager::FreeResource_455550(res);
         }
     }
+    */
 
     if (field_1B8_brain_state == 7)
     {

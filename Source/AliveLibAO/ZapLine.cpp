@@ -81,7 +81,7 @@ ZapLine::ZapLine(FP x1, FP y1, FP x2, FP y2, s32 aliveTime, ZapLineType type, La
         field_114_tPageMode = TPageMode::e4Bit_0;
     }
 
-    u8 u0 = mAnim.mVramRect.x & 0x3F;
+    u8 u0 = 0;//mAnim.mVramRect.x & 0x3F;
     if (field_114_tPageMode == TPageMode::e8Bit_1)
     {
         u0 = 2 * u0;
@@ -93,8 +93,8 @@ ZapLine::ZapLine(FP x1, FP y1, FP x2, FP y2, s32 aliveTime, ZapLineType type, La
 
     auto pFrameHeader = mAnim.Get_FrameHeader(-1);
 
-    const u8 frameW = pFrameHeader->mWidth;
-    const u8 frameH = pFrameHeader->mHeight;
+    const u32 frameW = pFrameHeader->mWidth;
+    const u32 frameH = pFrameHeader->mHeight;
 
     for (s32 i = 0; i < 2; i++)
     {
@@ -107,13 +107,14 @@ ZapLine::ZapLine(FP x1, FP y1, FP x2, FP y2, s32 aliveTime, ZapLineType type, La
 
                 Poly_Set_SemiTrans(&pSprt->mBase.header, 1);
                 Poly_Set_Blending(&pSprt->mBase.header, 1);
+                /* TODO: Just set anim ptr
                 SetClut(pSprt, static_cast<s16>(PSX_getClut(
                                    mAnim.mPalVramXY.x,
                                    mAnim.mPalVramXY.y)));
-
-                SetUV0(pSprt, u0, mAnim.mVramRect.y & 0xFF);
-                pSprt->field_14_w = frameW - 1;
-                pSprt->field_16_h = frameH - 1;
+                                   */
+                SetUV0(pSprt, u0, 0 /*mAnim.mVramRect.y & 0xFF*/);
+                pSprt->field_14_w = static_cast<s16>(frameW - 1);
+                pSprt->field_16_h = static_cast<s16>(frameH - 1);
             }
         }
     }
@@ -397,6 +398,7 @@ void ZapLine::VRender(PrimHeader** ppOt)
             }
         }
 
+        /* TODO: Just set anim ptr
         const s32 calcTPage = PSX_getTPage(
             field_114_tPageMode,
             field_11C_tPageAbr,
@@ -406,6 +408,7 @@ void ZapLine::VRender(PrimHeader** ppOt)
         Prim_SetTPage* pTPage = &field_EC_tPage_p8[bufferIdx];
         Init_SetTPage(pTPage, 0, 0, calcTPage);
         OrderingTable_Add(OtLayer(ppOt, mAnim.mRenderLayer), &pTPage->mBase);
+        */
 
         PSX_RECT* pRect = &field_134_rects[bufferIdx];
         pRect->x = 32767;

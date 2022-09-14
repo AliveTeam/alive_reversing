@@ -340,7 +340,7 @@ s32 Slurg::VGetSaveState(u8* pSaveBuffer)
     pState->mFrameChangeCounter = static_cast<s16>(mAnim.mFrameChangeCounter);
     pState->mDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
     pState->mRender = mAnim.mFlags.Get(AnimFlags::eBit3_Render);
-    pState->mFrameTableOffset = mAnim.mFrameTableOffset;
+   // pState->mFrameTableOffset = mAnim.mFrameTableOffset;
     pState->mTlvInfo = mTlvInfo;
     pState->mSlurgState = mSlurgState;
     pState->mSlurgFlags.Set(SlurgFlags::eGoingRight, mSlurgFlags.Get(SlurgFlags::eGoingRight));

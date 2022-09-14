@@ -191,9 +191,9 @@ void OrbWhirlWindParticle::Update()
 
 OrbWhirlWindParticle::OrbWhirlWindParticle(FP xpos, FP ypos, FP scale)
 {
-    const AnimRecord& orbRec = AO::AnimRec(AnimId::ChantOrb_Particle);
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, orbRec.mResourceId, 1, 0);
-    mAnim.Init(AnimId::ChantOrb_Particle, nullptr, ppRes);
+//    const AnimRecord& orbRec = AO::AnimRec(AnimId::ChantOrb_Particle);
+  //  u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, orbRec.mResourceId, 1, 0);
+    mAnim.Init(ResourceManagerWrapper::LoadAnimation(AnimId::ChantOrb_Particle), nullptr);
 
     mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
@@ -204,7 +204,7 @@ OrbWhirlWindParticle::OrbWhirlWindParticle(FP xpos, FP ypos, FP scale)
     mAnim.mGreen = 80;
     mAnim.mBlue = 80;
 
-    mAnim.SetFrame(Math_RandomRange(0, mAnim.Get_Frame_Count() - 1));
+    mAnim.SetFrame(Math_RandomRange(0, static_cast<s16>(mAnim.Get_Frame_Count() - 1)));
     mFlags.Clear(Flags::eIsActive);
     mState = State::eStart;
     mRenderAngle = Math_RandomRange(0, 255);

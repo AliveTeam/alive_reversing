@@ -18,19 +18,8 @@ InvisibleEffect::InvisibleEffect(BaseAliveGameObject* pTarget)
 
     field_44_objId = pTarget->mBaseGameObjectId;
 
-    field_24_pPal1 = relive_new u16[pTarget->mAnim.mPalDepth];
-    Pal_Copy(
-        pTarget->mAnim.mPalVramXY,
-        pTarget->mAnim.mPalDepth,
-        field_24_pPal1,
-        &field_28_pal_rect1);
-
-    field_30_pPal2 = relive_new u16[pTarget->mAnim.mPalDepth];
-    Pal_Copy(
-        pTarget->mAnim.mPalVramXY,
-        pTarget->mAnim.mPalDepth,
-        field_30_pPal2,
-        &field_34_pal_rect2);
+    mPal1 = std::make_shared<AnimationPal>(pTarget->mAnim.mAnimRes.mTgaPtr->mPal);
+    mPal2 = std::make_shared<AnimationPal>(pTarget->mAnim.mAnimRes.mTgaPtr->mPal);
 
     field_4A_flags.Clear();
 
@@ -50,8 +39,7 @@ InvisibleEffect::InvisibleEffect(BaseAliveGameObject* pTarget)
 
 InvisibleEffect::~InvisibleEffect()
 {
-    relive_delete[] field_24_pPal1;
-    relive_delete[] field_30_pPal2;
+
 }
 
 void InvisibleEffect::InstantInvisibility()
@@ -101,10 +89,10 @@ void InvisibleEffect::VUpdate()
             }
             case InvisibleState::eSetInvisibile_1:
             {
-                for (s32 idx2 = 8; idx2 < pTarget->mAnim.mPalDepth; idx2++)
+                for (s32 idx2 = 8; idx2 < 256; idx2++)
                 {
                     // Set transparent bit
-                    field_30_pPal2[idx2] |= 0x8000u;
+                    mPal2->mPal[idx2] |= 0x8000u;
                 }
 
                 pTarget->mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit8_bInvisible);
@@ -123,40 +111,41 @@ void InvisibleEffect::VUpdate()
             }
             case InvisibleState::eBecomeInvisible_2:
             {
+                /* - should never have been possible
                 if (pTarget->mAnim.mPalDepth <= 8)
                 {
                     field_20_state_or_op = InvisibleState::eSetRenderMode1_0;
                     return;
-                }
+                }*/
 
                 bool v3 = false;
-                for (s32 idx = 8; idx < pTarget->mAnim.mPalDepth; idx++)
+                for (s32 idx = 8; idx < 256; idx++)
                 {
                     // Red
-                    if (field_30_pPal2[idx] & 0x1F)
+                    if (mPal2->mPal[idx] & 0x1F)
                     {
                         v3 = true;
-                        field_30_pPal2[idx] = field_30_pPal2[idx] - 1;
+                        mPal2->mPal[idx] = mPal2->mPal[idx] - 1;
                     }
 
                     // Green
-                    if (field_30_pPal2[idx] & 0x3E0)
+                    if (mPal2->mPal[idx] & 0x3E0)
                     {
                         v3 = true;
-                        field_30_pPal2[idx] = field_30_pPal2[idx] - 32;
+                        mPal2->mPal[idx] = mPal2->mPal[idx] - 32;
                     }
 
                     // Blue
-                    if (field_30_pPal2[idx] & 0x7C00)
+                    if (mPal2->mPal[idx] & 0x7C00)
                     {
                         v3 = true;
-                        field_30_pPal2[idx] = field_30_pPal2[idx] - 1024;
+                        mPal2->mPal[idx] = mPal2->mPal[idx] - 1024;
                     }
 
                     // Semi trans
-                    if (field_30_pPal2[idx] == 0x8000u)
+                    if (mPal2->mPal[idx] == 0x8000u)
                     {
-                        field_30_pPal2[idx] = 0;
+                        mPal2->mPal[idx] = 0;
                     }
                 }
 
@@ -166,7 +155,8 @@ void InvisibleEffect::VUpdate()
                 }
                 else
                 {
-                    Pal_Set(pTarget->mAnim.mPalVramXY, pTarget->mAnim.mPalDepth, (u8*) field_30_pPal2, &field_34_pal_rect2);
+                    // TODO: Allow setting anim
+                    //pTarget->mAnim.LoadPal(*mPal2);
                     SetUpdateDelay(1);
                 }
 
@@ -176,12 +166,15 @@ void InvisibleEffect::VUpdate()
             case InvisibleState::eUnknown_3:
             {
                 LOG_ERROR("Unreachable case InvisibleState::eUnknown_3 hit");
-                for (s32 i = 8; i < pTarget->mAnim.mPalDepth; i++)
+                for (s32 i = 8; i < 256; i++)
                 {
                     // Clear transparent bit
-                    field_30_pPal2[i] &= 0x8000u;
+                    mPal2->mPal[i] &= 0x8000u;
                 }
-                Pal_Set(pTarget->mAnim.mPalVramXY, pTarget->mAnim.mPalDepth, (u8*) field_30_pPal2, &field_34_pal_rect2);
+                // TODO
+                //pTarget->mAnim.LoadPal(*mPal2);
+                //Pal_Set(pTarget->mAnim.mPalVramXY, pTarget->mAnim.mPalDepth, (u8*) field_30_pPal2, &field_34_pal_rect2);
+
                 field_4A_flags.Clear(Flags_4A::eIsInvisible_Bit3);
                 SetUpdateDelay(1);
                 field_20_state_or_op = InvisibleState::eSetRenderMode1_0;
@@ -189,37 +182,42 @@ void InvisibleEffect::VUpdate()
             }
             case InvisibleState::eBecomeVisible_4:
             {
+                /* TODO - shouldn't be possible
                 if (pTarget->mAnim.mPalDepth <= 1)
                 {
                     field_20_state_or_op = InvisibleState::eClearInvisibility_5;
                     return;
-                }
+                }*/
 
                 bool v3 = false;
-                for (s32 idx4 = 1; idx4 < pTarget->mAnim.mPalDepth; idx4++)
+                for (s32 idx4 = 1; idx4 < 256; idx4++)
                 {
-                    if ((field_30_pPal2[idx4] ^ (field_24_pPal1[idx4])) & 0x1F)
+                    if ((mPal2->mPal[idx4] ^ (mPal1->mPal[idx4])) & 0x1F)
                     {
                         v3 = true;
-                        field_30_pPal2[idx4] = field_30_pPal2[idx4] + 1;
+                        mPal2->mPal[idx4] = mPal2->mPal[idx4] + 1;
                     }
 
-                    if ((field_30_pPal2[idx4] ^ field_24_pPal1[idx4]) & 0x3E0)
+                    if ((mPal2->mPal[idx4] ^ mPal1->mPal[idx4]) & 0x3E0)
                     {
                         v3 = true;
-                        field_30_pPal2[idx4] = field_30_pPal2[idx4] + 32;
+                        mPal2->mPal[idx4] = mPal2->mPal[idx4] + 32;
                     }
 
-                    if ((field_30_pPal2[idx4] ^ field_24_pPal1[idx4]) & 0x7C00)
+                    if ((mPal2->mPal[idx4] ^ mPal1->mPal[idx4]) & 0x7C00)
                     {
                         v3 = true;
-                        field_30_pPal2[idx4] = field_30_pPal2[idx4] + 1024;
+                        mPal2->mPal[idx4] = mPal2->mPal[idx4] + 1024;
                     }
                 }
 
                 if (v3)
                 {
-                    Pal_Set(pTarget->mAnim.mPalVramXY, pTarget->mAnim.mPalDepth, (u8*) field_30_pPal2, &field_34_pal_rect2);
+                    // TODO
+                    //pTarget->mAnim.LoadPal(*mPal2);
+
+                    //Pal_Set(pTarget->mAnim.mPalVramXY, pTarget->mAnim.mPalDepth, (u8*) field_30_pPal2, &field_34_pal_rect2);
+
                     pTarget->mAnim.mRenderMode = TPageAbr::eBlend_1;
                     SetUpdateDelay(5);
                 }
@@ -231,7 +229,10 @@ void InvisibleEffect::VUpdate()
             }
             case InvisibleState::eClearInvisibility_5:
             {
-                Pal_Set(pTarget->mAnim.mPalVramXY, pTarget->mAnim.mPalDepth, (u8*) field_24_pPal1, &field_28_pal_rect1);
+                // TODO
+                // pTarget->mAnim.LoadPal(*mPal1);
+
+                //Pal_Set(pTarget->mAnim.mPalVramXY, pTarget->mAnim.mPalDepth, (u8*) field_24_pPal1, &field_28_pal_rect1);
 
                 pTarget->mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans, field_4A_flags.Get(Flags_4A::eSemiTrans_Bit1));
                 pTarget->mAnim.mFlags.Set(AnimFlags::eBit16_bBlending, field_4A_flags.Get(Flags_4A::eBlending_Bit2));

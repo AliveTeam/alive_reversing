@@ -13,18 +13,26 @@ void HoistParticle::VUpdate()
     VUpdate_431BD0();
 }
 
-HoistParticle::HoistParticle(FP xpos, FP ypos, FP scale, s32 frameTableOffset)
+HoistParticle::HoistParticle(FP xpos, FP ypos, FP scale, s32 /*frameTableOffset*/)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     mXPos = xpos;
     mYPos = ypos;
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kHoistRocksAOResID, 1, 0);
+
+    // TODO: load based on level and some other junk, use AnimId::AO_HoistRock1 for now
+
+    //u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kHoistRocksAOResID, 1, 0);
+    /*
     u16 maxW = 7;
     if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
     {
         maxW = 5;
     }
+
     Animation_Init(frameTableOffset, maxW, 4, ppRes);
+    */
+
+    // TODO: Add way to override anim height
 
     mSpriteScale = scale;
 

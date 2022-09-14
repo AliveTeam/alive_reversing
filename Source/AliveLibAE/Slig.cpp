@@ -385,8 +385,7 @@ Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
     field_20C_state_after_speak = -1;
     field_20E_attention_timeout = 0;
     field_210_unused = 0;
-    field_134_res_idx = 0;
-
+    
     mAnim.mFnPtrArray = kSlig_Anim_Frame_Fns_55EFAC;
 
     if (pTlv->mData.mScale != relive::reliveScale::eFull)
@@ -405,7 +404,7 @@ Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
         mScale = Scale::Fg;
     }
 
-    SetBaseAnimPaletteTint(&sSligTint_560570[0], gMap.mCurrentLevel, 412);
+    SetBaseAnimPaletteTint(&sSligTint_560570[0], gMap.mCurrentLevel, PalId::Slig_412);
 
     FP hitX = {};
     FP hitY = {};
@@ -442,8 +441,7 @@ Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
     mShadow = relive_new Shadow();
 }
 
-void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, s16* pPalAlloc, s16 palSize, PSX_RECT* palRect,
-                           s16& r, s16& g, s16& b,
+void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, s16* pPalAlloc, s16 palSize, s16& r, s16& g, s16& b,
                            const s16* eyeColourIndices, s16 eyeColourIndicesSize)
 {
     if (actor->mAnim.mFlags.Get(AnimFlags::eBit3_Render))
@@ -471,35 +469,31 @@ void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, s16* pPa
                     g = gMod;
                     b = bMod;
 
-                    const FrameInfoHeader* pFrameInfoHeader = actor->mAnim.Get_FrameHeader(0);
-                    const u8* pAnimData = *actor->mAnim.field_20_ppBlock;
-                    const u32 clut_offset = *reinterpret_cast<const u32*>(&(pAnimData)[pFrameInfoHeader->field_0_frame_header_offset]);
-                    const u16* pAnimDataWithOffset = reinterpret_cast<const u16*>(&pAnimData[clut_offset + 4]);
                     for (s32 i = 0; i < palSize; i++)
                     {
-                        s32 auxPalValue = pAnimDataWithOffset[i] & 0x1F;
+                        s32 auxPalValue = actor->mAnim.mAnimRes.mTgaPtr->mPal.mPal[i] & 0x1F;
                         u16 resultR = static_cast<s16>(auxPalValue * r) >> 7;
                         if (resultR > 31)
                         {
                             resultR = 31;
                         }
 
-                        auxPalValue = (pAnimDataWithOffset[i] >> 5) & 0x1F;
+                        auxPalValue = (actor->mAnim.mAnimRes.mTgaPtr->mPal.mPal[i] >> 5) & 0x1F;
                         u16 resultG = static_cast<s16>(auxPalValue * g) >> 7;
                         if (resultG > 31)
                         {
                             resultG = 31;
                         }
 
-                        auxPalValue = (pAnimDataWithOffset[i] >> 10) & 0x1F;
+                        auxPalValue = (actor->mAnim.mAnimRes.mTgaPtr->mPal.mPal[i] >> 10) & 0x1F;
                         u16 resultB = static_cast<s16>(auxPalValue * b) >> 7;
                         if (resultB > 31)
                         {
                             resultB = 31;
                         }
 
-                        s32 resultMixed = (pAnimDataWithOffset[i] & 0x8000) | ((resultR & 31) + 32 * (resultG & 31) + 32 * 32 * (resultB & 31));
-                        if (resultMixed <= 0 && pAnimDataWithOffset[i])
+                        s32 resultMixed = (actor->mAnim.mAnimRes.mTgaPtr->mPal.mPal[i] & 0x8000) | ((resultR & 31) + 32 * (resultG & 31) + 32 * 32 * (resultB & 31));
+                        if (resultMixed <= 0 && actor->mAnim.mAnimRes.mTgaPtr->mPal.mPal[i])
                         {
                             resultMixed = 1;
                         }
@@ -507,13 +501,15 @@ void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, s16* pPa
                     }
                     for (s32 i = 0; i < eyeColourIndicesSize; i++)
                     {
-                        pPalAlloc[eyeColourIndices[i]] = pAnimDataWithOffset[eyeColourIndices[i]];
+                        pPalAlloc[eyeColourIndices[i]] = actor->mAnim.mAnimRes.mTgaPtr->mPal.mPal[eyeColourIndices[i]];
                     }
+                    /*
                     Pal_Set(
                         actor->mAnim.mPalVramXY,
                         actor->mAnim.mPalDepth,
                         reinterpret_cast<const u8*>(pPalAlloc),
                         palRect);
+                        */
                 }
                 actor->mAnim.mRed = 127;
                 actor->mAnim.mGreen = 127;
@@ -548,7 +544,7 @@ void Slig::VRender(PrimHeader** ot)
 {
     const s16 eyeIndices[] = {61, 62};
     renderWithGlowingEyes(ot, this, &field_178_pPalAlloc[0], ALIVE_COUNTOF(field_178_pPalAlloc),
-                          &field_1F8_pal_rect, field_200_red, field_202_green, field_204_blue, &eyeIndices[0], ALIVE_COUNTOF(eyeIndices));
+                          field_200_red, field_202_green, field_204_blue, &eyeIndices[0], ALIVE_COUNTOF(eyeIndices));
 }
 
 s16 Slig::VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pOther)
@@ -615,8 +611,8 @@ s32 Slig::VGetSaveState(u8* pSaveBuffer)
     }
     pState->field_24_bFlipX = mAnim.mFlags.Get(AnimFlags::eBit5_FlipX);
     pState->field_26_current_motion = mCurrentMotion;
-    pState->field_28_current_frame = mAnim.mCurrentFrame;
-    pState->field_2A_frame_change_counter = mAnim.mFrameChangeCounter;
+    pState->field_28_current_frame = static_cast<s16>(mAnim.mCurrentFrame);
+    pState->field_2A_frame_change_counter = static_cast<s16>(mAnim.mFrameChangeCounter);
     pState->field_2D_bDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
     pState->field_2C_bRender = mAnim.mFlags.Get(AnimFlags::eBit3_Render);
     pState->field_30_health = mHealth;
@@ -640,7 +636,7 @@ s32 Slig::VGetSaveState(u8* pSaveBuffer)
     pState->field_54_timer = field_12C_timer;
     pState->field_58_falling_velx_scale_factor = field_130_falling_velx_scale_factor;
     pState->field_5C_tlvInfo = field_118_tlvInfo;
-    pState->field_60_res_idx = field_134_res_idx;
+    //pState->field_60_res_idx = field_134_res_idx;
     pState->field_62_shot_motion = field_136_shot_motion;
     pState->field_64_zone_rect = field_138_zone_rect;
     pState->field_6C_unused = field_140_unused;
@@ -792,7 +788,7 @@ s32 Slig::CreateFromSaveState(const u8* pBuffer)
         pSlig->mRGB.SetRGB(pState->field_1E_r, pState->field_20_g, pState->field_22_b);
 
         pSlig->mCurrentMotion = pState->field_26_current_motion;
-        u8** ppRes = pSlig->ResForMotion_4B1E90(pSlig->mCurrentMotion);
+        //u8** ppRes = pSlig->ResForMotion_4B1E90(pSlig->mCurrentMotion);
         pSlig->mAnim.Set_Animation_Data(pSlig->GetAnimRes(sSligAnimIdTable[pState->field_26_current_motion]));
 
 
@@ -828,7 +824,7 @@ s32 Slig::CreateFromSaveState(const u8* pBuffer)
         pSlig->field_12C_timer = pState->field_54_timer;
         pSlig->field_130_falling_velx_scale_factor = pState->field_58_falling_velx_scale_factor;
         pSlig->field_118_tlvInfo = pState->field_5C_tlvInfo;
-        pSlig->field_134_res_idx = pState->field_60_res_idx;
+        //pSlig->field_134_res_idx = pState->field_60_res_idx;
         pSlig->field_136_shot_motion = pState->field_62_shot_motion;
 
         pSlig->field_138_zone_rect = pState->field_64_zone_rect;
@@ -5028,55 +5024,6 @@ void Slig::ShouldStillBeAlive_4BBC00()
             }
         }
     }
-}
-
-u8** Slig::ResForMotion_4B1E90(s16 motion)
-{
-    s16 resIdx = 0;
-    if (motion < eSligMotions::M_Sleeping_32_4B89A0)
-    {
-        resIdx = 0;
-    }
-    else if (motion < eSligMotions::M_Knockback_34_4B68A0)
-    {
-        resIdx = 1;
-    }
-    else if (motion < eSligMotions::M_OutToFall_38_4B4570)
-    {
-        resIdx = 2;
-    }
-    else if (motion < eSligMotions::M_LandingFatal_41_4B4680)
-    {
-        resIdx = 3;
-    }
-    else if (motion < eSligMotions::M_ShootZ_42_4B7560)
-    {
-        resIdx = 4;
-    }
-    else if (motion < eSligMotions::M_Smash_44_4B6B90)
-    {
-        resIdx = 5;
-    }
-    else if (motion < eSligMotions::M_PullLever_45_4B8950)
-    {
-        resIdx = 6;
-    }
-    else if (motion < eSligMotions::M_LiftGrip_46_4B3700)
-    {
-        resIdx = 7;
-    }
-    else if (motion < eSligMotions::M_Beat_51_4B6C00)
-    {
-        resIdx = eSligMotions::M_SlidingToStand_8_4B6520;
-    }
-    else
-    {
-        resIdx = motion >= 52 ? 0 : 9;
-    }
-
-    field_134_res_idx = resIdx;
-
-    return field_10_resources_array.ItemAt(field_134_res_idx);
 }
 
 void Slig::ToTurn_4BE090()

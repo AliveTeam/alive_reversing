@@ -34,7 +34,8 @@ private:
     s16 field_2E_overwriter_count = 0;
     PalleteOverwriter* field_30_pPalOverwriters[3] = {};
     s16 field_3C_extraOverwriter = 0;
-    u16* field_40_pPalData = nullptr;
+   // u16* field_40_pPalData = nullptr;
+    AnimationPal mPalData;
     enum class States : s16
     {
         eSetNewColour_0 = 0,

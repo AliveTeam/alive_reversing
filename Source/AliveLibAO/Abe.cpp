@@ -984,6 +984,7 @@ Abe::~Abe()
 
     SND_Seq_Stop_477A60(SeqId::eMudokonChant1_11);
 
+    /*
     u8** ppRes = nullptr;
 
     ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbebasicAOResID, 0, 0);
@@ -1039,6 +1040,7 @@ Abe::~Abe()
 
     ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kSquibSmokeAOResID, 0, 0);
     ResourceManager::FreeResource_455550(ppRes);
+    */
 
     if (field_158_pDeathFadeout)
     {
@@ -1348,6 +1350,7 @@ void Abe::VUpdate()
                     if (!field_2A8_flags.Get(Flags_2A8::e2A8_eBit14_bGotShrykullFromBigFace) && gMap.mCurrentLevel == EReliveLevelIds::eLines)
                     {
                         LOG_INFO("Set mHaveShrykull TRUE");
+                        /*
                         if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbemorphAOResID, 1, 0))
                         {
                             ResourceManager::LoadResourceFile_455270("ABEMORPH.BAN", nullptr);
@@ -1362,7 +1365,7 @@ void Abe::VUpdate()
                         {
                             ResourceManager::LoadResourceFile_455270("SPLINE.BAN", nullptr);
                             ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kSplineAOResID, 1, 0);
-                        }
+                        }*/
                         field_16C_bHaveShrykull = TRUE;
                         field_168_ring_pulse_timer = sGnFrame + 32000;
                         field_2A8_flags.Set(Flags_2A8::e2A8_eBit14_bGotShrykullFromBigFace);
@@ -1389,9 +1392,11 @@ void Abe::VRender(PrimHeader** ppOt)
 
 void Abe::Free_Shrykull_Resources_42F4C0()
 {
+    /*
     ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbemorphAOResID, 0, 0));
     ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kShrmorphAOResID, 0, 0));
     ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kSplineAOResID, 0, 0));
+    */
 }
 
 void Abe::FreeElumRes_420F80()
@@ -1441,6 +1446,7 @@ void Abe::FreeElumRes_420F80()
 
     if (mCurrentMotion != eAbeMotions::Motion_138_ElumUnmountEnd_42E390)
     {
+        /*
         field_104_pending_resource_count++;
         ResourceManager::LoadResourceFile("ABEBSIC.BAN", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
 
@@ -1449,11 +1455,13 @@ void Abe::FreeElumRes_420F80()
             field_104_pending_resource_count++;
             ResourceManager::LoadResourceFile("ANEPRMNT.BAN", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
         }
+        */
 
         if (gElum)
         {
             if (gElum->mRespawnOnDead)
             {
+                /*
                 field_104_pending_resource_count++;
                 ResourceManager::LoadResourceFile("ELMPRMNT.BAN", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
 
@@ -1461,10 +1469,10 @@ void Abe::FreeElumRes_420F80()
                 {
                     field_104_pending_resource_count++;
                     ResourceManager::LoadResourceFile("ELMALONE.BAN", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
-                }
+                }*/
             }
         }
-
+        /*
         field_104_pending_resource_count++;
         ResourceManager::LoadResourceFile("ABENOELM.BND", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
 
@@ -1472,7 +1480,7 @@ void Abe::FreeElumRes_420F80()
         {
             field_104_pending_resource_count++;
             ResourceManager::LoadResourceFile("ABEOMM.BAN", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
-        }
+        }*/
     }
 }
 
@@ -1699,7 +1707,8 @@ void Abe::ToKnockback_422D90(s16 bKnockbackSound, s16 bDelayedAnger)
             Environment_SFX_42A220(EnvironmentSfx::eKnockback_13, 0, 0x7FFF, this);
         }
 
-        if (!field_1A4_resources.res[0] && !field_104_pending_resource_count)
+        if (sControlledCharacter == this)
+        //if (!field_1A4_resources.res[0] && !field_104_pending_resource_count)
         {
             sControlledCharacter = this;
             BaseAliveGameObjectLastLineYPos = mYPos;
@@ -2668,6 +2677,7 @@ void Abe::Load_Basic_Resources_4228A0()
 
 void Abe::LoadMountElumResources_42E690()
 {
+    /*
     ResourceManager::FreeResource_455550(field_1A4_resources.res[0]);
     field_1A4_resources.res[0] = nullptr;
 
@@ -2690,7 +2700,7 @@ void Abe::LoadMountElumResources_42E690()
     }
 
     field_104_pending_resource_count++;
-    ResourceManager::LoadResourceFile("ANEMOUNT.BND", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
+    ResourceManager::LoadResourceFile("ANEMOUNT.BND", BaseAliveGameObject::OnResourceLoaded_4019A0, this);*/
 }
 
 void Abe::ElumKnockForward_42E780(s32 /*not_used*/)
@@ -4372,7 +4382,7 @@ void Abe::Motion_2_StandingTurn_426040()
         {
             if (ToLeftRightMovement_422AA0())
             {
-                mAnim.Set_Animation_Data(mAnim.mFrameTableOffset, nullptr);
+                mAnim.Set_Animation_Data(mAnim.mAnimRes);
                 return;
             }
         }
@@ -6880,7 +6890,7 @@ void Abe::Motion_60_Dead_42C4C0()
             EventBroadcast(kEventHeroDying, this);
             if (field_158_pDeathFadeout->field_6E_bDone)
             {
-                if (!field_104_pending_resource_count)
+                //if (!field_104_pending_resource_count)
                 {
                     VOnTrapDoorOpen();
                     BaseAliveGameObjectCollisionLine = nullptr;
@@ -6891,6 +6901,8 @@ void Abe::Motion_60_Dead_42C4C0()
                             gElum->mBaseGameObjectFlags.Set(Options::eDead);
                         }
                     }
+
+                    /*
                     if (!field_1A4_resources.res[0])
                     {
                         field_1A4_resources.res[0] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbebasicAOResID, 1, 0);
@@ -6910,7 +6922,8 @@ void Abe::Motion_60_Dead_42C4C0()
                                     ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAneprmntAOResID, 0, 0));
                             }
                         }
-                    }
+                    }*/
+
                     field_118_timer = sGnFrame + 8;
                     field_114_gnFrame++;
                     //todo never used? dword_507720 = 0;
@@ -7551,8 +7564,9 @@ void Abe::Motion_70_Knockback_428FB0()
 
     if (mAnim.mFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
     {
-        if ((BaseAliveGameObjectCollisionLine || !mAnim.mFlags.Get(AnimFlags::eBit3_Render)) && !field_104_pending_resource_count)
+        if ((BaseAliveGameObjectCollisionLine || !mAnim.mFlags.Get(AnimFlags::eBit3_Render)) /*&& !field_104_pending_resource_count*/)
         {
+            /*
             if (!field_1A4_resources.res[0])
             {
                 field_1A4_resources.res[0] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbebasicAOResID, 1, 0);
@@ -7565,6 +7579,7 @@ void Abe::Motion_70_Knockback_428FB0()
                     ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAneprmntAOResID, 1, 0);
                 }
             }
+            */
 
             if (field_114_gnFrame <= static_cast<s32>(sGnFrame))
             {
@@ -8578,9 +8593,11 @@ void Abe::Motion_103_ElumIdle_42DCD0()
         if (Input().Held() == sInputKey_Down && !sDDCheat_FlyingEnabled_50771C)
         {
             ResourceManager::FreeResource_455550(field_1A4_resources.res[46]);
+            /*
             field_104_pending_resource_count++;
             field_1A4_resources.res[46] = nullptr;
             ResourceManager::LoadResourceFile("ANEDSMNT.BND", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
+            */
             mCurrentMotion = eAbeMotions::Motion_137_ElumUnmountBegin_42E2B0;
         }
     }
@@ -8813,8 +8830,9 @@ void Abe::Motion_128_KnockForward_429330()
 
     if (mAnim.mFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
     {
-        if ((BaseAliveGameObjectCollisionLine || !mAnim.mFlags.Get(AnimFlags::eBit3_Render)) && !field_104_pending_resource_count)
+        if ((BaseAliveGameObjectCollisionLine || !mAnim.mFlags.Get(AnimFlags::eBit3_Render)) /*&& !field_104_pending_resource_count*/)
         {
+            /*
             if (!field_1A4_resources.res[0])
             {
                 field_1A4_resources.res[0] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbebasicAOResID, 1, 0);
@@ -8827,6 +8845,7 @@ void Abe::Motion_128_KnockForward_429330()
                     ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAneprmntAOResID, 1, 0);
                 }
             }
+            */
 
             if (field_114_gnFrame <= static_cast<s32>(sGnFrame))
             {
@@ -9010,10 +9029,12 @@ void Abe::Motion_136_ElumMountEnd_42E110()
 
     if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        if (!field_104_pending_resource_count)
+        //if (!field_104_pending_resource_count)
         {
+            /*
             field_1A4_resources.res[46] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeWElmAOResID_100, 1, 0);
             field_1A4_resources.res[58] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElumUnknownAOResID_112, 1, 0);
+            */
             mCurrentMotion = eAbeMotions::Motion_103_ElumIdle_42DCD0;
             sControlledCharacter = gElum;
             MusicController::static_PlayMusic(MusicController::MusicTypes::eAbeOnElum_1, nullptr, 0, 0);
@@ -9025,8 +9046,9 @@ void Abe::Motion_136_ElumMountEnd_42E110()
 
 void Abe::Motion_137_ElumUnmountBegin_42E2B0()
 {
-    if (!field_104_pending_resource_count && mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (/*!field_104_pending_resource_count &&*/ mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
+        /*
         while (!ResourceManager::FreeResource_455550(field_1A4_resources.res[58]))
         {
             // Empty
@@ -9043,7 +9065,7 @@ void Abe::Motion_137_ElumUnmountBegin_42E2B0()
         {
             field_104_pending_resource_count++;
             ResourceManager::LoadResourceFile("ABEOMM.BAN", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
-        }
+        }*/
         mCurrentMotion = eAbeMotions::Motion_138_ElumUnmountEnd_42E390;
     }
 }
@@ -9089,13 +9111,15 @@ void Abe::Motion_138_ElumUnmountEnd_42E390()
             break;
     }
 
-    if (mAnim.mCurrentFrame >= 28 && field_104_pending_resource_count == 0)
+    if (mAnim.mCurrentFrame >= 28 /*&& field_104_pending_resource_count == 0*/)
     {
+        /*
         field_1A4_resources.res[0] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbebasicAOResID, 1, 0);
         field_1A4_resources.res[61] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAneprmntAOResID, 1, 0);
         field_1A4_resources.res[10] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbefallAOResID, 1, 0);
         field_1A4_resources.res[38] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeommAOResID, 1, 0);
         field_1A4_resources.res[9] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbesmashAOResID, 1, 0);
+        */
 
         BaseAliveGameObjectCollisionLine = gElum->BaseAliveGameObjectCollisionLine;
 
@@ -9133,8 +9157,9 @@ void Abe::Motion_138_ElumUnmountEnd_42E390()
 
 void Abe::Motion_139_ElumMountBegin_42E090()
 {
-    if (!field_104_pending_resource_count && mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (/*!field_104_pending_resource_count &&*/ mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
+        /*
         while (!ResourceManager::FreeResource_455550(field_1A4_resources.res[61]))
         {
             // Empty
@@ -9144,6 +9169,7 @@ void Abe::Motion_139_ElumMountBegin_42E090()
         field_104_pending_resource_count = 1;
 
         ResourceManager::LoadResourceFile("ABEWELM.BND", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
+        */
         VOnTrapDoorOpen();
         mCurrentMotion = eAbeMotions::Motion_136_ElumMountEnd_42E110;
     }

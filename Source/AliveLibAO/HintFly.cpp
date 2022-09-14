@@ -1418,7 +1418,7 @@ HintFly::HintFly(relive::Path_HintFly* pTlv, const Guid& tlvId)
             field_110_bitMode = TPageMode::e4Bit_0;
         }
 
-        s32 vram_x = mAnim.mVramRect.x & 0x3F;
+        s32 vram_x = 0 /* mAnim.mVramRect.x & 0x3F*/;
         if (field_110_bitMode == TPageMode::e8Bit_1)
         {
             vram_x = 2 * vram_x;
@@ -1441,14 +1441,16 @@ HintFly::HintFly(relive::Path_HintFly* pTlv, const Guid& tlvId)
                 Poly_Set_SemiTrans(&pSprt->mBase.header, 1);
                 Poly_Set_Blending(&pSprt->mBase.header, 1);
 
-                SetClut(pSprt, static_cast<s16>(PSX_getClut(
+                // TODO: Set anim ptr
+                /* SetClut(pSprt, static_cast<s16>(PSX_getClut(
                                     mAnim.mPalVramXY.x,
                                     mAnim.mPalVramXY.y)));
+                                    */
 
-                SetUV0(pSprt, vram_x & 0xFF, mAnim.mVramRect.y & 0xFF);
+                SetUV0(pSprt, vram_x & 0xFF, 0 /* mAnim.mVramRect.y & 0xFF*/);
 
-                pSprt->field_14_w = pHeader->mWidth - 1;
-                pSprt->field_16_h = pHeader->mHeight - 1;
+                pSprt->field_14_w = static_cast<s16>(pHeader->mWidth - 1);
+                pSprt->field_16_h = static_cast<s16>(pHeader->mHeight - 1);
             }
         }
 
@@ -1826,7 +1828,7 @@ void HintFly::VUpdate()
 
 void HintFly::VRender(PrimHeader** ppOt)
 {
-    Prim_SetTPage* pTPage = &field_EC_tPages[gPsxDisplay.mBufferIndex];
+   // Prim_SetTPage* pTPage = &field_EC_tPages[gPsxDisplay.mBufferIndex];
 
     PSX_RECT rect = {};
     rect.x = -32768;
@@ -1867,6 +1869,8 @@ void HintFly::VRender(PrimHeader** ppOt)
         }
     }
 
+    /*
+    // TODO: Just set anim ptr
     s16 tPageY = 256;
     if (!mAnim.mFlags.Get(AnimFlags::eBit10_alternating_flag) && mAnim.mVramRect.y < 256u)
     {
@@ -1877,6 +1881,7 @@ void HintFly::VRender(PrimHeader** ppOt)
 
     Init_SetTPage(pTPage, 0, 0, tpage);
     OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_Above_FG1_39), &pTPage->mBase);
+    */
 
     pScreenManager->InvalidateRectCurrentIdx(
         rect.x - 6,

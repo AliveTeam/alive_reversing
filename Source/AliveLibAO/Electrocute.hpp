@@ -24,7 +24,8 @@ public:
     s16 field_14_overwriter_count = 0;
     PalleteOverwriter* field_18_pPalOverwriters[3] = {};
     s16 field_24_extraOverwriter = 0;
-    u16* field_28_pPalData = nullptr;
+    AnimationPal mPalData;
+    //u16* field_28_pPalData = nullptr;
     s16 field_2C_r = 0;
     s16 field_2E_g = 0;
     s16 field_30_b = 0;

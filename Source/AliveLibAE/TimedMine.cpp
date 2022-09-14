@@ -81,8 +81,8 @@ TimedMine::TimedMine(relive::Path_TimedMine* pPath, const Guid& tlvId)
 
     mTlvInfo = tlvId;
     mExplosionTimer = sGnFrame;
-    SetBaseAnimPaletteTint(sTimedMineTint_550EB8, gMap.mCurrentLevel, kBombResID);
-
+    SetBaseAnimPaletteTint(sTimedMineTint_550EB8, gMap.mCurrentLevel, PalId::Bomb);
+ 
     const FP gridSnap = ScaleToGridSize(mSpriteScale);
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
     mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);

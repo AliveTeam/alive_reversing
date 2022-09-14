@@ -2601,20 +2601,20 @@ relive::Path_Hoist* Fleech::TryGetHoist(s32 xDistance, s16 bIgnoreDirection)
     return nullptr;
 }
 
-void Fleech::VOnFrame(s16* pData)
+void Fleech::VOnFrame(const Point32& point)
 {
     FP xpos = {};
     if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
     {
-        xpos = mXPos - (mSpriteScale * FP_FromInteger(pData[0]));
+        xpos = mXPos - (mSpriteScale * FP_FromInteger(point.x));
     }
     else
     {
-        xpos = (mSpriteScale * FP_FromInteger(pData[0])) + mXPos;
+        xpos = (mSpriteScale * FP_FromInteger(point.x)) + mXPos;
     }
 
     mTongueOriginX = FP_GetExponent(xpos) + mXOffset;
-    mTongueOriginY = FP_GetExponent((mSpriteScale * FP_FromInteger(pData[1])) + mYPos);
+    mTongueOriginY = FP_GetExponent((mSpriteScale * FP_FromInteger(point.y)) + mYPos);
 }
 
 const s8 byte_551984[] = {

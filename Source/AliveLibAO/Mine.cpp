@@ -52,12 +52,7 @@ Mine::Mine(relive::Path_Mine* pTlv, const Guid& tlvId)
     field_110_tlv = tlvId;
     field_114_gnframe = sGnFrame;
 
-    const AnimRecord& flashRec = AO::AnimRec(AnimId::Mine_Flash);
-    u8** ppFLashRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, flashRec.mResourceId, 1, 0);
-    field_118_animation.Init(
-        AnimId::Mine_Flash,
-        this,
-        ppFLashRes);
+    field_118_animation.Init(GetAnimRes(AnimId::Mine_Flash), this);
 
     field_118_animation.mRenderLayer = mAnim.mRenderLayer;
     field_118_animation.mFlags.Set(AnimFlags::eBit16_bBlending);
@@ -78,6 +73,7 @@ Mine::Mine(relive::Path_Mine* pTlv, const Guid& tlvId)
     ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kDebrisID00AOResID, 1, 0);
     ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kBgexpldAOResID, 1, 0);
 
+    /*
     if (!(pTlv->mDisabledResources & 1))
     {
         ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeblowAOResID, 1, 0);
@@ -92,12 +88,14 @@ Mine::Mine(relive::Path_Mine* pTlv, const Guid& tlvId)
     {
         ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kSlogBlowAOResID, 1, 0);
     }
+    */
 
     if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
     {
         mRGB.SetRGB(50, 50, 50);
-        ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AOResourceID::kAbeblowAOResID, 1, 0);
-        ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AOResourceID::kSlogBlowAOResID, 1, 0);
+        // TODO: Set the pal
+        //ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AOResourceID::kAbeblowAOResID, 1, 0);
+        //ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AOResourceID::kSlogBlowAOResID, 1, 0);
     }
 
     mCollectionRect.x = mXPos - (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2));
@@ -121,6 +119,7 @@ Mine::~Mine()
 
     field_118_animation.VCleanUp();
 
+    /*
     ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbebombAOResID, 0, 0));
     ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kDebrisID00AOResID, 0, 0));
     ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kBgexpldAOResID, 0, 0));
@@ -142,6 +141,7 @@ Mine::~Mine()
 
     ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AOResourceID::kAbeblowAOResID, 0, 0));
     ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AOResourceID::kSlogBlowAOResID, 0, 0));
+    */
 
     mBaseGameObjectFlags.Clear(Options::eInteractive_Bit8);
 

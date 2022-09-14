@@ -26,7 +26,7 @@ void PlatformBase::VRemove(BaseAliveGameObject* pObj)
     vRemoveCount(pObj);
 }
 
-void PlatformBase::AddDynamicCollision(AnimId animId, u8** ppAnimData, relive::Path_TLV* pTlv, const Guid& tlvId)
+void PlatformBase::AddDynamicCollision(AnimId animId, relive::Path_TLV* pTlv, const Guid& tlvId)
 {
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
@@ -50,8 +50,9 @@ void PlatformBase::AddDynamicCollision(AnimId animId, u8** ppAnimData, relive::P
         mScale = Scale::Bg;
     }
 
-    FrameInfoHeader* pFrameHeader = mAnim.Get_FrameHeader(0);
-    mYPos += FP_NoFractional(FP_FromInteger(-pFrameHeader->field_8_data.points[1].y) * mSpriteScale);
+   const PerFrameInfo* pFrameHeader = mAnim.Get_FrameHeader(0);
+   // TODO: Check field_8_data.points[1].y
+    mYPos += FP_NoFractional(FP_FromInteger(-pFrameHeader->mBoundMax.y) * mSpriteScale);
     mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
 
     field_124_pCollisionLine = sCollisions->Add_Dynamic_Collision_Line(

@@ -42,10 +42,14 @@ public:
 private:
     InvisibleState field_20_state_or_op = InvisibleState::eSetRenderMode1_0;
     s16 field_22 = 0;
-    u16* field_24_pPal1 = nullptr;
-    PSX_RECT field_28_pal_rect1 = {};
-    u16* field_30_pPal2 = nullptr;
-    PSX_RECT field_34_pal_rect2 = {};
+
+    //u16* field_24_pPal1 = nullptr;
+    //PSX_RECT field_28_pal_rect1 = {};
+    //u16* field_30_pPal2 = nullptr;
+    //PSX_RECT field_34_pal_rect2 = {};
+    std::shared_ptr<AnimationPal> mPal1;
+    std::shared_ptr<AnimationPal> mPal2;
+
     s32 field_3C = 0;
     s32 field_40 = 0;
     Guid field_44_objId;

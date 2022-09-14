@@ -66,7 +66,6 @@ public:
     virtual void VUpdate() override;
     
     void SetAnimFrame();
-    u8** ResBlockForMotion(s16 motion);
     void MoveOnLine();
 
     // Motions
@@ -153,7 +152,7 @@ public:
     s16 field_17C_res = 0;
     relive::reliveChoice mAsleep = relive::reliveChoice::eNo;
     s16 field_180 = 0;
-    u8** field_184_resources[5] = {};
+   // u8** field_184_resources[5] = {};
 };
 ALIVE_ASSERT_SIZEOF(Slog, 0x198);
 

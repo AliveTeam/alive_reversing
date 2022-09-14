@@ -82,7 +82,7 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, const Guid& tlvId)
 
     field_27C_pTlv = sPathInfo->TLVInfo_From_TLVPtr(pTlv);
 
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kLiftResID);
+   // u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kLiftResID);
     if (pTlv->mScale != relive::reliveScale::eFull)
     {
         mSpriteScale = FP_FromDouble(0.5);
@@ -97,7 +97,6 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, const Guid& tlvId)
     const LiftPointData& rPlatformData = sLiftPointData_545AC8[static_cast<u32>(MapWrapper::ToAE(gMap.mCurrentLevel))];
     AddDynamicCollision(
         rPlatformData.field_0_platform_anim_id,
-        ppRes,
         pTlv,
         tlvId);
 

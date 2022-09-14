@@ -144,17 +144,9 @@ const AnimId gElumMotionAnimIds[52] = {
 
 Elum::~Elum()
 {
-    for (u8**& ppRes : field_174_resources.res)
-    {
-        if (ppRes && mAnim.field_20_ppBlock != ppRes)
-        {
-            ResourceManager::FreeResource_455550(ppRes);
-        }
-    }
-
     gElum = nullptr;
     VOnTrapDoorOpen();
-
+    /*
     ResourceManager::FreeResource_455550(
         ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAneprmntAOResID, 0, 0));
 
@@ -175,6 +167,7 @@ Elum::~Elum()
         ResourceManager::FreeResource_455550(
             ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, resID, 1, 0));
     }
+    */
 }
 
 
@@ -303,16 +296,19 @@ void Elum::VOnTrapDoorOpen()
 
 void Elum::VLoadUnmountedResources_411260()
 {
+    /*
     if (!field_174_resources.res[30])
     {
         field_174_resources.res[30] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmaloneAOResID_230, 1, 0);
     }
     field_174_resources.res[22] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmprmntAOResID__222, 1, 0);
+    */
 }
 
 
 void Elum::VFreeMountedResources_411200()
 {
+    /*
     if (field_126_res_idx != 20)
     {
         ResourceManager::FreeResource_455550(field_174_resources.res[20]);
@@ -325,6 +321,7 @@ void Elum::VFreeMountedResources_411200()
     }
 
     field_174_resources.res[21] = nullptr;
+    */
 }
 
 void Elum::Vsub_416120()
@@ -336,12 +333,14 @@ void Elum::Vsub_416120()
 
 void Elum::VLoadMountedResources_411300()
 {
+    /*
     field_174_resources.res[20] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElumRideAOResID_220, 1, 0);
-    field_174_resources.res[21] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElumPdmntAOResID_221, 1, 0);
+    field_174_resources.res[21] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElumPdmntAOResID_221, 1, 0);*/
 }
 
 void Elum::VFreeUnmountedResources_4112B0()
 {
+    /*
     ResourceManager::FreeResource_455550(field_174_resources.res[30]);
 
     field_174_resources.res[30] = nullptr;
@@ -351,90 +350,8 @@ void Elum::VFreeUnmountedResources_4112B0()
         // Empty
     }
 
-    field_174_resources.res[22] = nullptr;
-}
 
-u8** Elum::GetResBlock_410D00(s16 currentMotion)
-{
-    s16 new_idx = 0;
-    if (currentMotion < eElumMotions::Motion_21_Land_414A20)
-    {
-        new_idx = 0;
-    }
-    else if (currentMotion < eElumMotions::Motion_25_LickingHoney_415B50)
-    {
-        new_idx = 16;
-    }
-    else if (currentMotion < eElumMotions::Motion_27_AbeMountingEnd_415CA0)
-    {
-        new_idx = 3;
-    }
-    else if (currentMotion < eElumMotions::Motion_28_AbeUnmountingEnd_415D60)
-    {
-        new_idx = 23;
-    }
-    else if (currentMotion < eElumMotions::Motion_29_BeesStruggling_412A90)
-    {
-        new_idx = 24;
-    }
-    else if (currentMotion < eElumMotions::Motion_30_HopBegin_414E30)
-    {
-        new_idx = 4;
-    }
-    else if (currentMotion < eElumMotions::Motion_44_ScratchBegin_412730)
-    {
-        new_idx = 20;
-    }
-    else if (currentMotion < eElumMotions::Motion_48_AbeMoutingBegin_415C40)
-    {
-        new_idx = 30;
-    }
-    else if (currentMotion < eElumMotions::Motion_49_AbeUnmountingBegin_415D00)
-    {
-        new_idx = 22;
-    }
-    else if (currentMotion >= eElumMotions::Motion_50_Knockback_415DC0)
-    {
-        new_idx = 15;
-        if (currentMotion >= 51)
-        {
-            new_idx = currentMotion; // OG bug ??
-        }
-    }
-    else
-    {
-        new_idx = 21;
-    }
-
-    if (new_idx == field_126_res_idx)
-    {
-        return field_174_resources.res[field_126_res_idx];
-    }
-
-    if (field_126_res_idx)
-    {
-        if (field_126_res_idx != 30 && field_126_res_idx != 16 && field_126_res_idx != 20)
-        {
-            ResourceManager::FreeResource_455550(field_174_resources.res[field_126_res_idx]);
-            field_174_resources.res[field_126_res_idx] = nullptr;
-        }
-    }
-
-    if (new_idx)
-    {
-        if (new_idx != 30 && new_idx != 16 && new_idx != 20)
-        {
-            field_174_resources.res[new_idx] = ResourceManager::GetLoadedResource(
-                ResourceManager::Resource_Animation,
-                new_idx + 200,
-                1,
-                0);
-        }
-    }
-
-    field_126_res_idx = new_idx;
-
-    return field_174_resources.res[new_idx];
+    field_174_resources.res[22] = nullptr;*/
 }
 
 void Elum::MidWalkToNextMotion_412FA0()
@@ -602,6 +519,7 @@ void Elum::SetAbeAsPlayer_412520(s16 abeMotion)
         sActiveHero->mNextMotion = abeMotion;
     }
 
+    /*
     // re-load some elum resources
     field_104_pending_resource_count += 2;
 
@@ -614,6 +532,7 @@ void Elum::SetAbeAsPlayer_412520(s16 abeMotion)
         "ELMPRMNT.BAN",
         BaseAliveGameObject::OnResourceLoaded_4019A0,
         this);
+    */
 }
 
 s16 Elum::ToNextMotion_4120F0()
@@ -1845,12 +1764,14 @@ void Elum::Motion_1_Idle_412990()
         }
         else if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_137_ElumUnmountBegin_42E2B0)
         {
-            ResourceManager::FreeResource_455550(field_174_resources.res[20]);
-            field_174_resources.res[20] = nullptr;
+            //ResourceManager::FreeResource_455550(field_174_resources.res[20]);
+            //field_174_resources.res[20] = nullptr;
             mCurrentMotion = eElumMotions::Motion_49_AbeUnmountingBegin_415D00;
         }
         else if (sGnFrame - field_110_timer > 200 && sControlledCharacter != this)
         {
+            mCurrentMotion = eElumMotions::Motion_44_ScratchBegin_412730;
+            /*
             if (field_174_resources.res[30])
             {
                 mCurrentMotion = eElumMotions::Motion_44_ScratchBegin_412730;
@@ -1858,14 +1779,14 @@ void Elum::Motion_1_Idle_412990()
             else
             {
                 field_174_resources.res[30] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmaloneAOResID_230, 1, 0);
-            }
+            }*/
         }
     }
 }
 
 void Elum::Motion_2_Unknown_412C30()
 {
-    if (field_104_pending_resource_count == 0)
+    //if (field_104_pending_resource_count == 0)
     {
         VFreeMountedResources_411200();
         VLoadUnmountedResources_411260();
@@ -1911,10 +1832,12 @@ void Elum::Motion_3_WalkLoop_412C90()
                 {
                     MidWalkToNextMotion_412FA0();
                 }
+                /*
                 else if (field_104_pending_resource_count > 0)
                 {
                     mCurrentMotion = eElumMotions::Motion_6_MidWalkToIdle_4133F0;
                 }
+                */
                 else
                 {
                     if (mNextMotion == eElumMotions::Motion_1_Idle_412990)
@@ -1977,10 +1900,12 @@ void Elum::Motion_3_WalkLoop_412C90()
                 {
                     WalkToNextMotion_4130D0();
                 }
+                /*
                 else if (field_104_pending_resource_count)
                 {
                     mCurrentMotion = eElumMotions::Motion_5_WalkToIdle_4132D0;
                 }
+                */
                 else
                 {
                     if (mNextMotion == eElumMotions::Motion_1_Idle_412990)
@@ -2049,7 +1974,7 @@ void Elum::Motion_4_Turn_4140F0()
         }
         else if (ToNextMotion_4120F0())
         {
-            mAnim.Set_Animation_Data(mAnim.mFrameTableOffset, nullptr);
+            mAnim.Set_Animation_Data(mAnim.mAnimRes);
             if (sControlledCharacter == this)
             {
                 sActiveHero->SyncToElum_42D850(mCurrentMotion);
@@ -2092,12 +2017,13 @@ void Elum::Motion_5_WalkToIdle_4132D0()
         else
         {
             ToIdle();
-
+            /*
             if (field_104_pending_resource_count > 0)
             {
                 mCurrentMotion = eElumMotions::Motion_2_Unknown_412C30;
             }
             else
+            */
             {
                 if (mNextMotion == eElumMotions::Motion_4_Turn_4140F0 || mNextMotion == eElumMotions::Motion_25_LickingHoney_415B50)
                 {
@@ -2127,11 +2053,13 @@ void Elum::Motion_6_MidWalkToIdle_4133F0()
 
         ToIdle();
 
+        /*
         if (field_104_pending_resource_count)
         {
             mCurrentMotion = eElumMotions::Motion_2_Unknown_412C30;
         }
         else
+        */
         {
             if (mNextMotion == eElumMotions::Motion_4_Turn_4140F0 || mNextMotion == eElumMotions::Motion_25_LickingHoney_415B50)
             {
@@ -2372,7 +2300,7 @@ void Elum::Motion_19_Dead_415F90()
 {
     if (sActiveHero->mHealth > FP_FromInteger(0))
     {
-        if (!sActiveHero->field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel) && sActiveHero->field_2A8_flags.Get(Flags_2A8::e2A8_Bit8_bLandSoft) && field_104_pending_resource_count == 0)
+        if (!sActiveHero->field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel) && sActiveHero->field_2A8_flags.Get(Flags_2A8::e2A8_Bit8_bLandSoft) /* && field_104_pending_resource_count == 0*/)
         {
             mXPos = FP_FromInteger(mContinueRect.x);
             mYPos = FP_FromInteger(mContinueRect.y);
@@ -2415,6 +2343,7 @@ void Elum::Motion_19_Dead_415F90()
             BaseAliveGameObjectCollisionLine = nullptr;
             mHealth = FP_FromInteger(1);
 
+            /*
             if (field_174_resources.res[20])
             {
                 ResourceManager::FreeResource_455550(field_174_resources.res[20]);
@@ -2424,7 +2353,7 @@ void Elum::Motion_19_Dead_415F90()
             if (!field_174_resources.res[30])
             {
                 VLoadUnmountedResources_411260();
-            }
+            }*/
         }
     }
 }
@@ -2590,10 +2519,11 @@ void Elum::Motion_25_LickingHoney_415B50()
         if (mNextMotion == eElumMotions::Motion_4_Turn_4140F0 || mNextMotion == eElumMotions::Motion_29_BeesStruggling_412A90)
         {
             mCurrentMotion = eElumMotions::Motion_26_LickingToStruggling_415AC0;
+            /*
             if (!field_174_resources.res[30])
             {
                 VLoadUnmountedResources_411260();
-            }
+            }*/
         }
     }
 }
@@ -2605,7 +2535,7 @@ void Elum::Motion_26_LickingToStruggling_415AC0()
 
 void Elum::Motion_27_AbeMountingEnd_415CA0()
 {
-    if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_136_ElumMountEnd_42E110 && field_104_pending_resource_count == 0)
+    if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_136_ElumMountEnd_42E110 /*&& field_104_pending_resource_count == 0*/)
     {
         VLoadMountedResources_411300();
         ToIdle();
@@ -2615,7 +2545,7 @@ void Elum::Motion_27_AbeMountingEnd_415CA0()
 void Elum::Motion_28_AbeUnmountingEnd_415D60()
 {
     if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_138_ElumUnmountEnd_42E390
-        && !field_104_pending_resource_count)
+        /* && !field_104_pending_resource_count*/)
     {
         VLoadUnmountedResources_411260();
         ToIdle();
@@ -2629,10 +2559,12 @@ void Elum::Motion_29_BeesStruggling_412A90()
     if (mNextMotion == eElumMotions::Motion_44_ScratchBegin_412730)
     {
         mCurrentMotion = eElumMotions::Motion_44_ScratchBegin_412730;
+        /*
         if (!field_174_resources.res[30])
         {
             VLoadUnmountedResources_411260();
         }
+        */
         mNextMotion = -1;
         return;
     }
@@ -3374,7 +3306,7 @@ void Elum::Motion_48_AbeMoutingBegin_415C40()
     {
         VFreeUnmountedResources_4112B0();
 
-        field_104_pending_resource_count += 2;
+        //field_104_pending_resource_count += 2;
 
         ResourceManager::LoadResourceFile(
             "ELMRIDE.BAN",
@@ -3396,6 +3328,7 @@ void Elum::Motion_49_AbeUnmountingBegin_415D00()
     {
         VFreeMountedResources_411200();
 
+        /*
         field_104_pending_resource_count += 2;
 
         ResourceManager::LoadResourceFile(
@@ -3407,7 +3340,7 @@ void Elum::Motion_49_AbeUnmountingBegin_415D00()
             "ELMPRMNT.BAN",
             BaseAliveGameObject::OnResourceLoaded_4019A0,
             this);
-
+        */
         mCurrentMotion = eElumMotions::Motion_28_AbeUnmountingEnd_415D60;
     }
 }
@@ -3433,13 +3366,14 @@ void Elum::Motion_50_Knockback_415DC0()
         {
             if (BaseAliveGameObjectCollisionLine)
             {
+                /*
                 if (sControlledCharacter != this
                     && !field_174_resources.res[30]
                     && !field_104_pending_resource_count)
                 {
                     VLoadUnmountedResources_411260();
                 }
-
+                */
                 ToIdle();
             }
         }
@@ -3526,8 +3460,9 @@ void Elum::VUpdate()
         return;
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit3_Render) || field_104_pending_resource_count == 0)
+    if (mAnim.mFlags.Get(AnimFlags::eBit3_Render) /* || field_104_pending_resource_count == 0*/)
     {
+        /*
         if (field_174_resources.res[0])
         {
             if (!field_174_resources.res[30])
@@ -3539,6 +3474,7 @@ void Elum::VUpdate()
         {
             field_174_resources.res[0] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmbasicAOResID_200, 1, 0);
         }
+        */
 
         if (!(field_170_flags.Get(Elum::Flags_170::eFoundHoney_Bit4) || field_170_flags.Get(Elum::Flags_170::eStungByBees_Bit2)) && field_128_brain_idx != 1)
         {
@@ -3754,19 +3690,10 @@ ALIVE_VAR(1, 0x4C52FA, s16, word_4C52FA, 0);
 
 void Elum::Spawn(const Guid& tlvInfo)
 {
-    anythingForTheTimeBeing struct1;
-    anythingForTheTimeBeing struct2;
-
-    struct1.field_0 = word_4C52F2;
-    struct1.field_2 = 0; //todo check it (if it's ever used)
-
-    struct2.field_0 = word_4C52F0;
-    struct2.field_2 = word_4C52FA;
-
-    relive_new Elum(dword_4C52F4, struct2, struct1, dword_4C52F8, tlvInfo);
+    relive_new Elum(tlvInfo);
 }
 
-Elum::Elum(s32, anythingForTheTimeBeing, anythingForTheTimeBeing, s32, const Guid& tlvInfo)
+Elum::Elum(const Guid& tlvInfo)
     : BaseAliveGameObject()
 {
     mBaseGameObjectTypeId = ReliveTypes::eElum;
@@ -3775,8 +3702,8 @@ Elum::Elum(s32, anythingForTheTimeBeing, anythingForTheTimeBeing, s32, const Gui
     field_16C_never_read = 0;
     field_16E_never_read = -1;
     field_1F0_tlvInfo = tlvInfo;
-    field_174_resources = {};
 
+    /*
     field_174_resources.res[16] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmfallAOResID_216, 1, 0);
     if (!field_174_resources.res[16])
     {
@@ -3818,8 +3745,9 @@ Elum::Elum(s32, anythingForTheTimeBeing, anythingForTheTimeBeing, s32, const Gui
             this);
         mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
     }
+    */
 
-    field_126_res_idx = 16;
+    //field_126_res_idx = 16;
 
     Animation_Init(GetAnimRes(AnimId::Elum_Land));
 

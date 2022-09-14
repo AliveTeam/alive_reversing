@@ -970,6 +970,9 @@ enum class PalId
     BlueRockSack, // AOResourceID::kP2c2bagAOResID
     StockYardsAbeGib, // AOResourceID::kAbeblowAOResID
     StockYardsSlogGib, // AOResourceID::kSlogBlowAOResID
+    Bomb, // AE kBombResID
+    Slig_412, // AO 412 AE 412
+    TimedMine_1005, // AO 1005
 };
 
 struct BgAnimDetails final

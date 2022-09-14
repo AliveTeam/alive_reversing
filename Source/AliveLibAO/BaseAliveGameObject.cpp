@@ -42,7 +42,7 @@ BaseAliveGameObject::BaseAliveGameObject()
     mPreviousMotion = 0;
     mBaseAliveGameObjectLastAnimFrame = 0;
     BaseAliveGameObjectLastLineYPos = FP_FromInteger(0);
-    field_104_pending_resource_count = 0;
+    //field_104_pending_resource_count = 0;
     
     gBaseAliveGameObjects->Push_Back(this);
 
@@ -61,10 +61,11 @@ BaseAliveGameObject::~BaseAliveGameObject()
         mLiftPoint = nullptr;
     }
 
+    /*
     if (field_104_pending_resource_count)
     {
         ResourceManager::WaitForPendingResources_41EA60(this);
-    }
+    }*/
 }
 
 void BaseAliveGameObject::VUnPosses()
@@ -353,7 +354,7 @@ BirdPortal* BaseAliveGameObject::IntoBirdPortal_402350(s16 distance)
 }
 
 
-s16 BaseAliveGameObject::SetBaseAnimPaletteTint(const TintEntry* pTintArray, EReliveLevelIds lvl, s32 palId)
+s16 BaseAliveGameObject::SetBaseAnimPaletteTint(const TintEntry* pTintArray, EReliveLevelIds lvl, PalId palId)
 {
     const TintEntry* pIter = pTintArray;
     while (pIter->field_0_level != lvl)
@@ -367,6 +368,7 @@ s16 BaseAliveGameObject::SetBaseAnimPaletteTint(const TintEntry* pTintArray, ERe
 
     mRGB.SetRGB(pIter->field_1_r, pIter->field_2_g, pIter->field_3_b);
 
+    /*
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, palId, 1, 0);
     if (!ppRes)
     {
@@ -374,6 +376,13 @@ s16 BaseAliveGameObject::SetBaseAnimPaletteTint(const TintEntry* pTintArray, ERe
     }
     mAnim.LoadPal(ppRes, 0);
     ResourceManager::FreeResource_455550(ppRes);
+    */
+
+    if (palId != PalId::Default)
+    {
+        PalResource res = ResourceManagerWrapper::LoadPal(palId);
+        mAnim.LoadPal(res);
+    }
     return 1;
 }
 
@@ -780,9 +789,9 @@ s16 BaseAliveGameObject::InAirCollision_4019C0(PathLine** ppLine, FP* hitX, FP* 
         mSpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor) ? 1 : 0;
 }
 
-void BaseAliveGameObject::OnResourceLoaded_4019A0(BaseAliveGameObject* ppRes)
+void BaseAliveGameObject::OnResourceLoaded_4019A0(BaseAliveGameObject* /*ppRes*/)
 {
-    ppRes->field_104_pending_resource_count--;
+    //ppRes->field_104_pending_resource_count--;
 }
 
 void BaseAliveGameObject::UsePathTransScale_4020D0()

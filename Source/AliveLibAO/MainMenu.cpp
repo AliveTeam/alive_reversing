@@ -685,20 +685,23 @@ Menu::Menu(relive::Path_TLV* /*pTlv*/, const Guid& tlvId)
     }
 
     field_FC_font.Load(240, sFontPal_4D0090, &sFontContext_4FFD68);
+    /*
     field_E4_res_array[0] = nullptr;
     field_E4_res_array[1] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbespek2AOResID, 1, 0);
     field_E4_res_array[4] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kOptionFlareAOResID, 1, 0);
     mLoadedPals.push_back(ResourceManagerWrapper::LoadPal(PalId::WhiteHighlite));
+    */
 
     // 30 = fmv select
     if (gMap.mCurrentCamera == 30)
     {
-        field_E4_res_array[2] = nullptr;
-        field_E4_res_array[3] = nullptr;
+        //field_E4_res_array[2] = nullptr;
+        //field_E4_res_array[3] = nullptr;
         Animation_Init(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
     }
     else
     {
+        /*
         const AnimRecord& introRec = AO::AnimRec(AnimId::AbeIntro);
         ResourceManager::LoadResourceFile_455270(introRec.mBanName, nullptr);
         field_E4_res_array[2] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, introRec.mResourceId, 1, 0);
@@ -706,6 +709,7 @@ Menu::Menu(relive::Path_TLV* /*pTlv*/, const Guid& tlvId)
         const AnimRecord& doorRec = AO::AnimRec(AnimId::MenuDoor);
         ResourceManager::LoadResourceFile_455270(doorRec.mBanName, nullptr);
         field_E4_res_array[3] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, doorRec.mResourceId, 1, 0);
+        */
         Animation_Init(GetAnimRes(AnimId::MenuDoor));
     }
 
@@ -791,13 +795,14 @@ Menu::~Menu()
     Path::TLV_Reset(field_1D4_tlvInfo, -1, 0, 0);
     field_134_anim.VCleanUp();
 
+    /*
     for (s32 i = 0; i < ALIVE_COUNTOF(field_E4_res_array); i++)
     {
         if (mAnim.field_20_ppBlock != field_E4_res_array[i])
         {
             ResourceManager::FreeResource_455550(field_E4_res_array[i]);
         }
-    }
+    }*/
 
     if (field_1E8_pMenuTrans)
     {
@@ -877,9 +882,9 @@ void Menu::WaitForDoorToOpen_47B550()
         mAnim.Set_Animation_Data(GetAnimRes(AnimId::AbeIntro));
         mAnim.ReloadPal();
         field_1CC_fn_update = &Menu::WaitForAbesHeadPoppingThroughDoor_47B5E0;
-        ResourceManager::FreeResource_455550(field_E4_res_array[3]);
+       // ResourceManager::FreeResource_455550(field_E4_res_array[3]);
         field_204_flags &= ~2u;
-        field_E4_res_array[3] = nullptr;
+        //field_E4_res_array[3] = nullptr;
         field_1D8_timer = sGnFrame + 15;
     }
 }
@@ -902,9 +907,10 @@ void Menu::AbePopThroughDoor_47B620()
         mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_IdleBlink));
         field_1CC_fn_update = &Menu::SayHelloWaitForLoading_47B690;
         field_1DC_idle_input_counter = 0;
+        /*
         ResourceManager::FreeResource_455550(field_E4_res_array[2]);
         field_E4_res_array[2] = nullptr;
-        ResourceManager::LoadResourceFile("ABESPEAK.BAN", Menu::OnResourceLoaded_47ADA0, this);
+        ResourceManager::LoadResourceFile("ABESPEAK.BAN", Menu::OnResourceLoaded_47ADA0, this);*/
     }
 }
 
@@ -1214,10 +1220,11 @@ void Menu::SayHelloWaitForLoading_47B690()
     if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
         // Wait for in progress loading (gamespeak ban) to finish
+        /*
         if (!field_E4_res_array[0])
         {
             ProgressInProgressFilesLoading();
-        }
+        }*/
         Mudokon_SFX(MudSounds::eHello_3, 0, 0, 0);
         mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Hello));
         field_1CC_fn_update = &Menu::WaitForAbeSayHello_47B770;
@@ -1341,7 +1348,7 @@ void Menu::MainScreen_Update_47AF60()
     {
         if (field_1DC_idle_input_counter <= idleMax)
         {
-            if (field_E4_res_array[0])
+            //if (field_E4_res_array[0])
             {
                 field_204_flags |= 1u;
 
@@ -1368,6 +1375,8 @@ void Menu::MainScreen_Update_47AF60()
 
                 field_1CC_fn_update = &Menu::WaitForSpeakFinishAndStartChangeEffect_47BB90;
             }
+            /*
+            * // TODO Binned
             else
             {
                 if (field_1E8_pMenuTrans)
@@ -1385,7 +1394,7 @@ void Menu::MainScreen_Update_47AF60()
 
                 mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
                 field_1CC_fn_update = &Menu::GoToSelectedMenuPage_47BC50;
-            }
+            }*/
         }
         else
         {
@@ -1419,12 +1428,14 @@ void Menu::MainScreen_Update_47AF60()
         field_224_bToFmvSelect = 1;
         sActiveList_9F2DE4 = gFmvs_4D0230;
         sListCount_4D0228 = ALIVE_COUNTOF(gFmvs_4D0230);
-        if (field_E4_res_array[0])
+       // if (field_E4_res_array[0])
         {
             Mudokon_SFX(MudSounds::eOkay_13, 0, 0, 0);
             mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Ok));
             field_1CC_fn_update = &Menu::WaitForSpeakFinishAndStartChangeEffect_47BB90;
         }
+        // TODO: probably binned now
+        /*
         else
         {
             if (field_1E8_pMenuTrans)
@@ -1442,7 +1453,7 @@ void Menu::MainScreen_Update_47AF60()
 
             mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
             field_1CC_fn_update = &Menu::GoToSelectedMenuPage_47BC50;
-        }
+        }*/
     }
 
     if (sEnableCheatLevelSelect_507710)
@@ -1451,12 +1462,14 @@ void Menu::MainScreen_Update_47AF60()
         field_226_bToLevelSelect = 1;
         sActiveList_9F2DE4 = sLevelList_4D0300;
         sListCount_4D0228 = ALIVE_COUNTOF(sLevelList_4D0300);
-        if (field_E4_res_array[0])
+       // if (field_E4_res_array[0])
         {
             Mudokon_SFX(MudSounds::eOkay_13, 0, 0, 0);
             mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Ok));
             field_1CC_fn_update = &Menu::WaitForSpeakFinishAndStartChangeEffect_47BB90;
         }
+        /*
+        // TODO: prob binned
         else
         {
             if (field_1E8_pMenuTrans)
@@ -1474,7 +1487,7 @@ void Menu::MainScreen_Update_47AF60()
 
             mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
             field_1CC_fn_update = &Menu::GoToSelectedMenuPage_47BC50;
-        }
+        }*/
     }
 
     // Some sort of idle anim toggling
@@ -1713,8 +1726,8 @@ void Menu::To_FMV_Or_Level_Select_Update_47EC30()
 {
     if (field_1E8_pMenuTrans->field_16_bDone)
     {
-        ResourceManager::FreeResource_455550(field_E4_res_array[0]);
-        field_E4_res_array[0] = nullptr;
+        //ResourceManager::FreeResource_455550(field_E4_res_array[0]);
+        //field_E4_res_array[0] = nullptr;
         field_1CC_fn_update = &Menu::FMV_Select_Update_47E8D0;
     }
 }
@@ -1966,9 +1979,11 @@ void Menu::FMV_Or_Level_Select_Back_Update_47ECB0()
 {
     if (sNumCamSwappers_507668 <= 0)
     {
+        /*
         ResourceManager::LoadResourceFile_455270("ABESPEAK.BAN", nullptr);
         field_E4_res_array[0] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbespeakAOResID, 1, 0);
         field_1E8_pMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 0, 0, 16);
+        */
         field_1E0_selected_index.mainmenu = MainMenuOptions::eBegin_1;
 
         field_134_anim.Set_Animation_Data(GetAnimRes(sMainScreenButtons_4D00B0[1].field_4_anim_id));
@@ -2000,15 +2015,16 @@ void Menu::Loading_Update_47B870()
                 field_1E8_pMenuTrans->mBaseGameObjectFlags.Set(Options::eDead);
                 field_1E8_pMenuTrans = nullptr;
 
+                /*
                 if (!field_E4_res_array[0])
                 {
                     ProgressInProgressFilesLoading();
-                }
+                }*/
 
                 mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
-                ResourceManager::FreeResource_455550(field_E4_res_array[0]);
-                field_E4_res_array[0] = nullptr;
-                ResourceManager::Reclaim_Memory_455660(0);
+                //ResourceManager::FreeResource_455550(field_E4_res_array[0]);
+                //field_E4_res_array[0] = nullptr;
+                //ResourceManager::Reclaim_Memory_455660(0);
                 field_1CC_fn_update = &Menu::NewGameStart_47B9C0;
             }
         }
@@ -3247,10 +3263,11 @@ void Menu::LoadSave_Update_47DB40()
         field_1E8_pMenuTrans = nullptr;
     }
 
+    /*
     if (!field_E4_res_array[0])
     {
         ProgressInProgressFilesLoading();
-    }
+    }*/
 
     if (!pPauseMenu_5080E0)
     {
@@ -3718,9 +3735,9 @@ void Menu::GameSpeak_To_MainScreen_Update_47D690()
     }
 }
 
-void Menu::OnResourceLoaded_47ADA0(Menu* pMenu)
+void Menu::OnResourceLoaded_47ADA0(Menu* /*pMenu*/)
 {
-    pMenu->field_E4_res_array[0] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbespeakAOResID, 1, 0);
+    //pMenu->field_E4_res_array[0] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbespeakAOResID, 1, 0);
 }
 
 void Menu::RenderElement_47A4E0(s32 xpos, s32 ypos, s32 input_command, PrimHeader** ot, AliveFont* pFont, s32* pPolyOffset)

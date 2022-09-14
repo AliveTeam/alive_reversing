@@ -239,7 +239,7 @@ void CrawlingSlig::VRender(PrimHeader** ot)
 {
     const s16 eyeIndices[] = {60, 62};
     renderWithGlowingEyes(ot, this, &field_11C_pPalAlloc[0], ALIVE_COUNTOF(field_11C_pPalAlloc),
-                          &field_19C_pal_rect, field_1A4_r, field_1A6_g, field_1A8_b, &eyeIndices[0], ALIVE_COUNTOF(eyeIndices));
+                           field_1A4_r, field_1A6_g, field_1A8_b, &eyeIndices[0], ALIVE_COUNTOF(eyeIndices));
 }
 
 s32 CrawlingSlig::CreateFromSaveState(const u8* pBuffer)

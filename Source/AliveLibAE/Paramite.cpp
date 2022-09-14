@@ -3410,7 +3410,7 @@ void Paramite::M_Turn_4_48B180()
 
         if (ToNextMotion())
         {
-            mAnim.Set_Animation_Data(GetAnimRes(mAnim.mFrameTableOffset));
+            mAnim.Set_Animation_Data(mAnim.mAnimRes);
         }
         else
         {

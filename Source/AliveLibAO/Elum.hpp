@@ -92,11 +92,6 @@ public:
         eCanSpeak_Bit6 = 32,
         eChangedPathMounted_Bit7 = 64,
     };
-    struct anythingForTheTimeBeing final
-    {
-        s16 field_0;
-        s16 field_2;
-    };
 
     static void Spawn(const Guid& tlvInfo);
 
@@ -104,7 +99,7 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
 
-    Elum(s32 a2, anythingForTheTimeBeing a3, anythingForTheTimeBeing a4, s32 a5, const Guid& a6);
+    Elum(const Guid& a6);
     ~Elum();
 
     virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
@@ -123,8 +118,6 @@ public:
     void VFreeUnmountedResources_4112B0();
 
     void ToKnockback();
-
-    u8** GetResBlock_410D00(s16 currentMotion);
 
     void MidWalkToNextMotion_412FA0();
 
@@ -219,11 +212,6 @@ public:
     void Motion_49_AbeUnmountingBegin_415D00();
     void Motion_50_Knockback_415DC0();
 
-    struct ElumResources final
-    {
-        u8** res[31];
-    };
-
     s16 field_10C_bFootStep2 = 0;
     s16 field_10E_pressed = 0;
     s32 field_110_timer = 0;
@@ -232,7 +220,7 @@ public:
     s16 field_120_bUnknown = 0;
     s16 mDontFollowAbe = 0;
     s16 field_124_bShould_IdleToWalk1 = 0;
-    s16 field_126_res_idx = 0;
+    //s16 field_126_res_idx = 0;
     s16 field_128_brain_idx = 0;
     s16 field_12A_brain_sub_state = 0;
     s16 field_12C_honey_xpos = 0;
@@ -252,7 +240,6 @@ public:
     s16 field_16C_never_read = 0;
     s16 field_16E_never_read = 0;
     BitField16<Flags_170> field_170_flags = {};
-    ElumResources field_174_resources {};
     Guid field_1F0_tlvInfo;
 };
 ALIVE_ASSERT_SIZEOF(Elum, 0x1F4);

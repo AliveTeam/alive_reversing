@@ -18,7 +18,7 @@ public:
     virtual void VStopAudio() override;
     virtual void VUpdate() override;
 
-    u8** field_E4_res = nullptr;
+    //u8** field_E4_res = nullptr;
     s16 field_E8_xpos = 0;
     s16 field_EA_ypos = 0;
     s16 field_EC_w = 0;

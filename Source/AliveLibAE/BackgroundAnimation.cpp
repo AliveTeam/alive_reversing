@@ -28,7 +28,10 @@ BackgroundAnimation::BackgroundAnimation(relive::Path_BackgroundAnimation* pTlv,
     mObjectXPos = FP_FromInteger(pTlv->mTopLeftX);
     mObjectYPos = FP_FromInteger(pTlv->mTopLeftY);
 
-    Animation_Init(anim.mFrameTableOffset, anim.mMaxW, anim.mMaxH, reinterpret_cast<u8**>(field_F4_res));
+    // TODO: Convert frame table to anim id in conversion
+    Animation_Init(ResourceManagerWrapper::LoadAnimation(AnimId::Abe_Head_Gib));
+
+    //Animation_Init(anim.mFrameTableOffset, anim.mMaxW, anim.mMaxH, reinterpret_cast<u8**>(field_F4_res));
 
     mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans, pTlv->mIsSemiTrans == relive::reliveChoice::eYes);
     mAnim.mFlags.Set(AnimFlags::eBit16_bBlending);

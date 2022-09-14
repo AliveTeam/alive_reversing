@@ -140,6 +140,7 @@ SlingMudokon::~SlingMudokon()
         Path::TLV_Reset(field_110_tlvInfo, -1, 0, 1);
     }
 
+    /*
     // TODO: Check it isn't 2 resources freed here
     if (mAnim.field_20_ppBlock != field_150_res)
     {
@@ -147,7 +148,7 @@ SlingMudokon::~SlingMudokon()
         {
             ResourceManager::FreeResource_455550(field_150_res);
         }
-    }
+    }*/
 }
 
 void SlingMudokon::VScreenChanged()
@@ -281,7 +282,7 @@ void SlingMudokon::Motion_2_Speak()
 {
     if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        if (mAnim.mFrameTableOffset == 22744)
+        if (mAnim.mAnimRes.mId == AnimId::Mudokon_Sling_Speak)
         {
             SetCurrentMotion(eSlingMudMotions::Motion_0_Idle);
         }
@@ -297,9 +298,10 @@ void SlingMudokon::Motion_3_ShootStart()
 
     if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
     {
-        if (mAnim.mFrameTableOffset == 22700)
+        if (mAnim.mAnimRes.mId == AnimId::Mudokon_Sling_ShootStart)
         {
-            const FP frame_x = FP_FromInteger(mAnim.Get_FrameHeader(-1)->field_8_data.points[2].x);
+            // TODO: Check field_8_data.points[2].x
+            const FP frame_x = FP_FromInteger(mAnim.Get_FrameHeader(-1)->mPoints[0].mPoint.x);
             FP bulletXPos = {};
             FP xDistance = {};
 

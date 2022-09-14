@@ -166,8 +166,8 @@ void BaseAliveGameObject::VOnPathTransition(s16 cameraWorldXPos, s16 cameraWorld
             else
             {
                 // TODO: This is actually wrong!!
-                const u32 off = mAnim.Get_FrameHeader(-1)->field_0_frame_header_offset;
-                mYPos = FP_FromInteger((*mAnim.field_20_ppBlock)[off + 5] + cameraWorldYPos + 236);
+                const u32 off = mAnim.Get_FrameHeader(-1)->mHeight;
+                mYPos = FP_FromInteger(off + cameraWorldYPos + 236);
             }
             break;
 
@@ -366,10 +366,11 @@ void BaseAliveGameObject::VOnTrapDoorOpen()
     // Empty
 }
 
-s16 BaseAliveGameObject::SetBaseAnimPaletteTint(TintEntry* pTintArray, EReliveLevelIds level_id, s32 resourceID)
+s16 BaseAliveGameObject::SetBaseAnimPaletteTint(TintEntry* pTintArray, EReliveLevelIds level_id, PalId resourceID)
 {
     SetTint(pTintArray, level_id); // Actually bugged for inputs that never happen as it should return 0
 
+    /*
     u8** pPalResource = ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, resourceID, 1u, 0);
 
     if (!pPalResource)
@@ -379,6 +380,14 @@ s16 BaseAliveGameObject::SetBaseAnimPaletteTint(TintEntry* pTintArray, EReliveLe
 
     mAnim.LoadPal(pPalResource, 0);
     ResourceManager::FreeResource_49C330(pPalResource);
+    */
+
+    if (resourceID != PalId::Default)
+    {
+        PalResource res = ResourceManagerWrapper::LoadPal(resourceID);
+        mAnim.LoadPal(res);
+    }
+
     return 1;
 }
 

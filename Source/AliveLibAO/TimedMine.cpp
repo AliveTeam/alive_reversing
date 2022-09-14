@@ -62,7 +62,7 @@ TimedMine::TimedMine(relive::Path_TimedMine* pTlv, const Guid& tlvId)
     mExplosionTimer = sGnFrame;
     mTlvInfo = tlvId;
 
-    SetBaseAnimPaletteTint(kTimedMineTints_4C3140, gMap.mCurrentLevel, 1005);
+    SetBaseAnimPaletteTint(kTimedMineTints_4C3140, gMap.mCurrentLevel, PalId::TimedMine_1005);
     mCollectionRect.x = mXPos - (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2));
     mCollectionRect.w = mXPos + (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2));
     mCollectionRect.h = mYPos;

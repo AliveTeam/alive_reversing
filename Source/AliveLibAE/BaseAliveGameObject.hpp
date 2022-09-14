@@ -72,7 +72,7 @@ protected:
         mPreviousMotion = static_cast<s16>(motion);
     }
 
-    s16 SetBaseAnimPaletteTint(TintEntry* pTintArray, EReliveLevelIds level_id, s32 resourceID);
+    s16 SetBaseAnimPaletteTint(TintEntry* pTintArray, EReliveLevelIds level_id, PalId resourceID);
     bool Check_IsOnEndOfLine(s16 direction, s16 distance);
     BaseAliveGameObject* GetStackedSlapTarget(const Guid& idToFind, ReliveTypes typeToFind, FP xpos, FP ypos);
     bool WallHit(FP offY, FP offX);

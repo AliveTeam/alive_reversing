@@ -26,6 +26,8 @@ BackgroundAnimation::BackgroundAnimation(relive::Path_BackgroundAnimation* pTlv,
     mBaseGameObjectTypeId = ReliveTypes::eBackgroundAnimation;
     mTlvInfo = tlvId;
 
+    // TODO: Convert to animid/combine them
+    /*
     const BgAnimRecord& anim = AO::BgAnimRec(pTlv->mAnimId);
     field_E4_res = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, anim.mBgAnimId, 1, 0);
     if (!field_E4_res)
@@ -36,31 +38,35 @@ BackgroundAnimation::BackgroundAnimation(relive::Path_BackgroundAnimation* pTlv,
     }
 
     auto pHeader = reinterpret_cast<AnimationFileHeader*>(*field_E4_res);
+    */
+    AnimResource res = ResourceManagerWrapper::LoadAnimation(AnimId::Abe_Head_Gib);
+
+    
 
     // TODO: Refactor to use min/max
-    auto xMax = pTlv->mTopLeftX + pHeader->field_0_max_w;
-    if (pTlv->mTopLeftX <= pTlv->mTopLeftX + pHeader->field_0_max_w)
+    auto xMax = pTlv->mTopLeftX + static_cast<s32>(res.mJsonPtr->mAttributes.mMaxWidth);
+    if (pTlv->mTopLeftX <= pTlv->mTopLeftX + static_cast<s32>(res.mJsonPtr->mAttributes.mMaxWidth))
     {
         xMax = pTlv->mTopLeftX;
     }
     field_E8_xpos = static_cast<s16>(xMax);
 
-    auto wMax = pTlv->mTopLeftX + pHeader->field_0_max_w;
-    if (wMax <= pTlv->mTopLeftX)
+    auto wMax = pTlv->mTopLeftX + static_cast<s32>(res.mJsonPtr->mAttributes.mMaxWidth);
+    if (wMax <= static_cast<s32>(pTlv->mTopLeftX))
     {
         wMax = pTlv->mTopLeftX;
     }
     field_EC_w = static_cast<s16>(wMax);
 
-    auto yMax = pTlv->mTopLeftY + pHeader->field_2_max_h;
-    if (pTlv->mTopLeftY <= yMax)
+    auto yMax = pTlv->mTopLeftY + res.mJsonPtr->mAttributes.mMaxHeight;
+    if (pTlv->mTopLeftY <= static_cast<s32>(yMax))
     {
         yMax = pTlv->mTopLeftY;
     }
     field_EA_ypos = static_cast<s16>(yMax);
 
-    auto hMax = pTlv->mTopLeftY + pHeader->field_2_max_h;
-    if (pTlv->mTopLeftY + pHeader->field_2_max_h <= pTlv->mTopLeftY)
+    auto hMax = pTlv->mTopLeftY + res.mJsonPtr->mAttributes.mMaxHeight;
+    if (static_cast<s32>(pTlv->mTopLeftY + res.mJsonPtr->mAttributes.mMaxHeight) <= pTlv->mTopLeftY)
     {
         hMax = pTlv->mTopLeftY;
     }
@@ -72,6 +78,7 @@ BackgroundAnimation::BackgroundAnimation(relive::Path_BackgroundAnimation* pTlv,
     field_F8_animXPos = FP_FromInteger(pTlv->mTopLeftX);
     field_FC_animYPos = FP_FromInteger(pTlv->mTopLeftY);
 
+    /*
     if (pHeader->field_4_frame_table_offset != anim.mFrameTableOffset ||
         pHeader->field_0_max_w != anim.mMaxW ||
         pHeader->field_2_max_h != anim.mMaxH)
@@ -79,9 +86,9 @@ BackgroundAnimation::BackgroundAnimation(relive::Path_BackgroundAnimation* pTlv,
         LOG_WARNING("anim id entry data doesn't match OG data!");
         LOG_WARNING("OG data: anim id " << pTlv->mAnimId << " frametableoffset " << pHeader->field_4_frame_table_offset << " maxW " << pHeader->field_0_max_w << " maxH " << pHeader->field_2_max_h);
         LOG_WARNING("anim id data: anim id " << anim.mBgAnimId << " frametableoffset " << anim.mFrameTableOffset << " maxW " << anim.mMaxW << " maxH " << anim.mMaxH);
-    }
+    }*/
 
-    Animation_Init(anim.mFrameTableOffset, anim.mMaxW, anim.mMaxH, field_E4_res);
+    Animation_Init(res);
 
     mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans, pTlv->mIsSemiTrans == relive::reliveChoice::eYes);
     mAnim.mFlags.Set(AnimFlags::eBit16_bBlending);
