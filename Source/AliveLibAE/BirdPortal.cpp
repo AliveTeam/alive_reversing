@@ -26,6 +26,12 @@
 #include "ResourceManager.hpp"
 #include "Map.hpp"
 
+void BirdPortal::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BirdPortal_Sparks));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BirdPortal_Flash));
+}
+
 BirdPortal::BirdPortal(relive::Path_BirdPortal* pTlv, const Guid& tlvId)
     : BaseGameObject(TRUE, 0)
 {
@@ -223,15 +229,10 @@ void BirdPortal::VUpdate()
             {
                 if ((Math_NextRandom() % 8) == 0)
                 {
-                    const AnimRecord& rec = AnimRec(AnimId::BirdPortal_Sparks);
-                    u8** ppLightRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, TRUE, FALSE);
-                    if (ppLightRes)
-                    {
                         auto pParticle = relive_new Particle(
-							pTerminator2->mXPos,
+                            pTerminator2->mXPos,
                             (FP_FromInteger(10) * mSpriteScale) + pTerminator2->mYPos,
-                            AnimId::BirdPortal_Sparks,
-                            ppLightRes);
+                            GetAnimRes(AnimId::BirdPortal_Sparks));
 
                         if (pParticle)
                         {
@@ -251,8 +252,6 @@ void BirdPortal::VUpdate()
                         {
                             SFX_Play_Pitch(relive::SoundEffects::BirdPortalSpark, 50, 2400, mSpriteScale);
                         }
-                    }
-                    ResourceManager::FreeResource_49C330(ppLightRes); // TODO: Why bother +1'ing then?
                 }
                 // add the ring effects from AO because why not :)
                 if (!(sGnFrame % 8))
@@ -348,19 +347,13 @@ void BirdPortal::VUpdate()
             pTerminator2->mYPos -= (FP_FromDouble(3.5) * mSpriteScale);
             if (FP_GetExponent(pTerminator1->mYPos) >= FP_GetExponent(pTerminator2->mYPos))
             {
-                const AnimRecord& rec = AnimRec(AnimId::BirdPortal_Flash);
-                u8** ppLightRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-                if (ppLightRes)
-                {
-                    auto pParticle = relive_new Particle(
-                        pTerminator2->mXPos,
-                        pTerminator2->mYPos,
-                        AnimId::BirdPortal_Flash,
-                        ppLightRes);
-                    pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
-                    pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
-                    pParticle->mSpriteScale = mSpriteScale;
-                }
+                auto pParticle = relive_new Particle(
+                    pTerminator2->mXPos,
+                    pTerminator2->mYPos,
+                    GetAnimRes(AnimId::BirdPortal_Flash));
+                pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
+                pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
+                pParticle->mSpriteScale = mSpriteScale;
 
                 mState = PortalStates::StopSound_11;
                 mTimer = sGnFrame + 5;

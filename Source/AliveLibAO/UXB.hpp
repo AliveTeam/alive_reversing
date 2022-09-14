@@ -36,7 +36,6 @@ public:
 
     UXBState mCurrentState = UXBState::eDelay;
     UXBState mStartingState = UXBState::eDelay;
-    s16 mDisabledResources = 0;
     Guid mTlvInfo;
     s32 mNextStateTimer = 0;
     Animation mFlashAnim;

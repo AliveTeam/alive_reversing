@@ -1083,13 +1083,9 @@ s16 Slig::VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pWho)
 
 void Slig::VUpdateAnimData()
 {
-    u8** ppRes = ResBlockForMotion_4654D0(mCurrentMotion);
-    if (!ppRes)
-    {
-        mCurrentMotion = eSligMotions::Motion_0_StandIdle_467640;
-        ppRes = ResBlockForMotion_4654D0(mCurrentMotion);
-    }
-    mAnim.Set_Animation_Data(sSligMotionAnimIds[mCurrentMotion], ppRes);
+    // note: OG was falling back to eSligMotions::Motion_0_StandIdle_467640 if 
+    // ResBlockForMotion_4654D0 didnt return a resource
+    mAnim.Set_Animation_Data(GetAnimRes(sSligMotionAnimIds[mCurrentMotion]));
 }
 
 void Slig::Vshot()

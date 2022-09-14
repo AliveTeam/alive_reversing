@@ -538,8 +538,6 @@ TrainDoor::TrainDoor(relive::Path_TrainDoor* pTlv, const Guid& tlvId)
 
     LoadAnimations();
 
-    const AnimRecord& rec = AnimRec(AnimId::Door_Train_Closing);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(GetAnimRes(AnimId::Door_Train_Closing));
 
     mXPos = FP_FromInteger(pTlv->mTopLeftX + 12);

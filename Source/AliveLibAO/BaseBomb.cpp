@@ -93,22 +93,16 @@ void BaseBomb::VUpdate()
 
     if (mAnim.mCurrentFrame == 3)
     {
-        const AnimRecord& rec = AO::AnimRec(AnimId::Explosion_Mine);
-        u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-        if (ppRes)
+        Particle* pParticle = relive_new Particle(
+            mXPos,
+            mYPos,
+            GetAnimRes(AnimId::Explosion_Mine));
+        if (pParticle)
         {
-            Particle* pParticle = relive_new Particle(
-                mXPos,
-                mYPos,
-                AnimId::Explosion_Mine,
-                ppRes);
-            if (pParticle)
-            {
-                pParticle->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
-                pParticle->mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
-                pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
-                pParticle->mSpriteScale = mSpriteScale * FP_FromDouble(0.7);
-            }
+            pParticle->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
+            pParticle->mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+            pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
+            pParticle->mSpriteScale = mSpriteScale * FP_FromDouble(0.7);
         }
     }
 

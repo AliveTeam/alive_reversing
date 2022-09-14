@@ -1231,9 +1231,7 @@ void Abe::VUpdate()
 
                     if (mCurrentMotion != eAbeMotions::Motion_15_Null_42A210 && !field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel))
                     {
-                        mAnim.Set_Animation_Data(
-                            sAbeMotionAnimIds[mCurrentMotion],
-                            StateToAnimResource_4204F0(mCurrentMotion));
+                        mAnim.Set_Animation_Data(GetAnimRes(sAbeMotionAnimIds[mCurrentMotion]));
 
                         field_12C_timer = sGnFrame;
 
@@ -1246,9 +1244,7 @@ void Abe::VUpdate()
                 else if (field_2A8_flags.Get(Flags_2A8::e2A8_Bit2_return_to_previous_motion))
                 {
                     mCurrentMotion = mPreviousMotion;
-                    mAnim.Set_Animation_Data(
-                        sAbeMotionAnimIds[mCurrentMotion],
-                        StateToAnimResource_4204F0(mCurrentMotion));
+                    mAnim.Set_Animation_Data(GetAnimRes(sAbeMotionAnimIds[mCurrentMotion]));
 
                     field_12C_timer = sGnFrame;
                     mAnim.SetFrame(mBaseAliveGameObjectLastAnimFrame);
@@ -2612,9 +2608,7 @@ void Abe::MoveWithVelocity_4257F0(FP speed)
 
 void Abe::ToNewElumSyncMotion_422520(s32 elum_frame)
 {
-    mAnim.Set_Animation_Data(
-        sAbeMotionAnimIds[mCurrentMotion],
-        StateToAnimResource_4204F0(mCurrentMotion));
+    mAnim.Set_Animation_Data(GetAnimRes(sAbeMotionAnimIds[mCurrentMotion]));
 
     field_12C_timer = sGnFrame;
     mAnim.SetFrame(elum_frame + 1);
@@ -2705,9 +2699,7 @@ void Abe::ElumKnockForward_42E780(s32 /*not_used*/)
     mCurrentMotion = eAbeMotions::Motion_128_KnockForward_429330;
     mNextMotion = eAbeMotions::Motion_0_Idle_423520;
     field_108_bMotionChanged = 1;
-    mAnim.Set_Animation_Data(
-        sAbeMotionAnimIds[mCurrentMotion],
-        StateToAnimResource_4204F0(eAbeMotions::Motion_128_KnockForward_429330));
+    mAnim.Set_Animation_Data(GetAnimRes(sAbeMotionAnimIds[mCurrentMotion]));
 
     sControlledCharacter = sActiveHero;
     gElum->field_154_bAbeForcedDownFromElum = 1;

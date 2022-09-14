@@ -793,7 +793,7 @@ s32 Slig::CreateFromSaveState(const u8* pBuffer)
 
         pSlig->mCurrentMotion = pState->field_26_current_motion;
         u8** ppRes = pSlig->ResForMotion_4B1E90(pSlig->mCurrentMotion);
-        pSlig->mAnim.Set_Animation_Data(sSligAnimIdTable[pState->field_26_current_motion], ppRes);
+        pSlig->mAnim.Set_Animation_Data(pSlig->GetAnimRes(sSligAnimIdTable[pState->field_26_current_motion]));
 
 
         pSlig->mAnim.mCurrentFrame = pState->field_28_current_frame;
@@ -4960,14 +4960,9 @@ void Slig::vShot_4B2EA0()
 
 void Slig::vUpdateAnim_4B1320()
 {
-    u8** ppRes = ResForMotion_4B1E90(mCurrentMotion);
-    if (!ppRes)
-    {
-        mCurrentMotion = eSligMotions::M_StandIdle_0_4B4EC0;
-        ppRes = ResForMotion_4B1E90(mCurrentMotion);
-    }
-
-    mAnim.Set_Animation_Data(sSligAnimIdTable[mCurrentMotion], ppRes);
+    // note: OG was falling back to eSligMotions::M_StandIdle_0_4B4EC0 if 
+    // ResForMotion_4B1E90 didnt return a resource
+    mAnim.Set_Animation_Data(GetAnimRes(sSligAnimIdTable[mCurrentMotion]));
 }
 
 bool Slig::vUnderGlukkonCommand_4B1760()

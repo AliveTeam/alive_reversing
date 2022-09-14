@@ -7,7 +7,7 @@
 #include "../AliveLibAE/stdlib.hpp"
 #include "Game.hpp"
 
-static u8** Add_Resource(DynamicArrayT<u8 *>& resourceArray, u32 type, s32 resourceID)
+/*static u8** Add_Resource(DynamicArrayT<u8*>& resourceArray, u32 type, s32 resourceID)
 {
     u8** ppRes = AO::ResourceManager::GetLoadedResource(type, resourceID, 1, 0);
     if (ppRes)
@@ -15,7 +15,7 @@ static u8** Add_Resource(DynamicArrayT<u8 *>& resourceArray, u32 type, s32 resou
         resourceArray.Push_Back(ppRes);
     }
     return ppRes;
-}
+}*/
 
 void TestAnimation::DelayLoad()
 {

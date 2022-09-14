@@ -294,7 +294,7 @@ Glukkon::Glukkon(relive::Path_Glukkon* pTlv, const Guid& tlvId)
 
         case relive::Path_Glukkon::GlukkonTypes::eStoryDripik:
         {
-            Animation_Init(GetAnimRes(AnimId::Glukkon_Dripik_Idle);
+            Animation_Init(GetAnimRes(AnimId::Glukkon_Dripik_Idle));
             break;
         }
 

@@ -361,8 +361,7 @@ s32 Slog::CreateFromSaveState(const u8* pBuffer)
     pSlog->mRGB.SetRGB(pState->mRingRed, pState->mRingGreen, pState->mRingBlue);
 
     pSlog->SetCurrentMotion(pState->field_28_current_motion);
-    u8** ppRes = pSlog->ResBlockForMotion(pState->field_28_current_motion);
-    pSlog->mAnim.Set_Animation_Data(sSlogAnimIdTable[pSlog->mCurrentMotion], ppRes);
+    pSlog->mAnim.Set_Animation_Data(pSlog->GetAnimRes(sSlogAnimIdTable[pSlog->mCurrentMotion]));
 
     pSlog->mAnim.mCurrentFrame = pState->field_2A_anim_cur_frame;
     pSlog->mAnim.mFrameChangeCounter = pState->field_2C_frame_change_counter;
@@ -2736,8 +2735,7 @@ u8** Slog::ResBlockForMotion(s16 motion)
 
 void Slog::SetAnimFrame()
 {
-    u8** ppRes = ResBlockForMotion(mCurrentMotion);
-    mAnim.Set_Animation_Data(sSlogAnimIdTable[mCurrentMotion], ppRes);
+    mAnim.Set_Animation_Data(GetAnimRes(sSlogAnimIdTable[mCurrentMotion]));
 }
 
 const TintEntry sSlogTints_560A48[] = {

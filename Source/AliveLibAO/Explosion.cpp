@@ -113,27 +113,22 @@ void Explosion::VUpdate()
 
     if (mAnim.mCurrentFrame == 1)
     {
-        const AnimRecord& rec = AO::AnimRec(AnimId::Explosion);
-        const auto ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-        if (ppRes)
+        auto pParticle = relive_new Particle(mXPos, mYPos, GetAnimRes(AnimId::Explosion));
+        if (pParticle)
         {
-            auto pParticle = relive_new Particle(mXPos, mYPos, AnimId::Explosion, ppRes);
-            if (pParticle)
+            if (pParticle->mBaseGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
             {
-                if (pParticle->mBaseGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
-                {
-                    pParticle->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-                }
+                pParticle->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            }
 
-                pParticle->mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
-                pParticle->mAnim.mFlags.Clear(AnimFlags::eBit5_FlipX);
-                pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
-                pParticle->mSpriteScale = mSpriteScale * FP_FromDouble(0.25);
-            }
-            else
-            {
-                pParticle = nullptr;
-            }
+            pParticle->mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+            pParticle->mAnim.mFlags.Clear(AnimFlags::eBit5_FlipX);
+            pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
+            pParticle->mSpriteScale = mSpriteScale * FP_FromDouble(0.25);
+        }
+        else
+        {
+            pParticle = nullptr;
         }
     }
 

@@ -47,8 +47,6 @@ StatusLight::StatusLight(relive::Path_StatusLight* pTlv, const Guid& tlvId)
     mLinkedStatusLightSwitchId5 = pTlv->mLinkedStatusLightSwitchId5;
     mIgnoreGridSnapping = pTlv->mIgnoreGridSnapping;
 
-    const AnimRecord& rec = AnimRec(AnimId::Status_Light_Red);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(GetAnimRes(AnimId::Status_Light_Red));
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);

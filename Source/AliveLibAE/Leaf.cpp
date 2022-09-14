@@ -14,8 +14,7 @@ Leaf::Leaf(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
 {
     mRGB.SetRGB(100, 100, 100);
 
-    const AnimRecord& rec = AnimRec(AnimId::Well_Leaf);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Well_Leaf));
     Animation_Init(GetAnimRes(AnimId::Well_Leaf));
 
     mSpriteScale = scale;

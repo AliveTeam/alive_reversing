@@ -158,15 +158,18 @@ BirdPortal::~BirdPortal()
     }
 }
 
+void BirdPortal::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BirdPortal_Sparks));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BirdPortal_Flash));
+}
+
 BirdPortal::BirdPortal(relive::Path_BirdPortal* pTlv, const Guid& tlvId)
     : BaseGameObject(TRUE, 0)
 {
     SetType(ReliveTypes::eBirdPortal);
 
-    ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kPortalTerminatorAOResID, 1, 0);
-    ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kDovbasicAOResID, 1, 0);
-    ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kPortliteAOResID, 1, 0);
-    ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kPortlitAOResID, 1, 0);
+    LoadAnimations();
 
     mTlvInfo = tlvId;
 
@@ -439,36 +442,29 @@ void BirdPortal::VUpdate()
             {
                 if ((Math_NextRandom() % 8) == 0)
                 {
-                    const AnimRecord& rec = AO::AnimRec(AnimId::BirdPortal_Sparks);
-                    u8** ppLightRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, TRUE, FALSE);
-                    if (ppLightRes)
+                    auto pParticle = relive_new Particle(
+                        mTerminator2->mXPos,
+                        (FP_FromInteger(10) * mSpriteScale) + mTerminator2->mYPos,
+                        GetAnimRes(AnimId::BirdPortal_Sparks));
+
+                    if (pParticle)
                     {
-                        auto pParticle = relive_new Particle(
-                            mTerminator2->mXPos,
-                            (FP_FromInteger(10) * mSpriteScale) + mTerminator2->mYPos,
-                            AnimId::BirdPortal_Sparks,
-                            ppLightRes);
+                        pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
+                        pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
+                        pParticle->SetType(ReliveTypes::eBirdPortalTerminator);
+                        pParticle->mSpriteScale = mSpriteScale;
 
-                        if (pParticle)
+                        if (sGnFrame % 2)
                         {
-                            pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
-                            pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
-                            pParticle->SetType(ReliveTypes::eBirdPortalTerminator);
-                            pParticle->mSpriteScale = mSpriteScale;
-
-                            if (sGnFrame % 2)
-                            {
-                                pParticle->mAnim.mFlags.Set(AnimFlags::eBit19_LoopBackwards);
-                                pParticle->mAnim.SetFrame(pParticle->mAnim.Get_Frame_Count());
-                            }
-                        }
-
-                        if (direction == CameraPos::eCamCurrent_0)
-                        {
-                            SFX_Play_Pitch(relive::SoundEffects::BirdPortalSpark, 50, 2400, mSpriteScale);
+                            pParticle->mAnim.mFlags.Set(AnimFlags::eBit19_LoopBackwards);
+                            pParticle->mAnim.SetFrame(pParticle->mAnim.Get_Frame_Count());
                         }
                     }
-                    ResourceManager::FreeResource_455550(ppLightRes); // TODO: Why bother +1'ing then?
+
+                    if (direction == CameraPos::eCamCurrent_0)
+                    {
+                        SFX_Play_Pitch(relive::SoundEffects::BirdPortalSpark, 50, 2400, mSpriteScale);
+                    }
                 }
                 if (!(sGnFrame % 8))
                 {
@@ -562,22 +558,15 @@ void BirdPortal::VUpdate()
 
             if (FP_GetExponent(mTerminator1->mYPos) >= FP_GetExponent(mTerminator2->mYPos))
             {
-                const AnimRecord& rec = AO::AnimRec(AnimId::BirdPortal_Flash);
-                u8** ppLightRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
-                if (ppLightRes)
+                auto pParticle_1 = relive_new Particle(
+                    mTerminator2->mXPos,
+                    mTerminator2->mYPos,
+                    GetAnimRes(AnimId::BirdPortal_Flash));
+                if (pParticle_1)
                 {
-                    auto pParticle_1 = relive_new Particle(
-                        mTerminator2->mXPos,
-                        mTerminator2->mYPos,
-                        AnimId::BirdPortal_Flash,
-                        ppLightRes);
-                    if (pParticle_1)
-                    {
-                        pParticle_1->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
-                        pParticle_1->mAnim.mRenderMode = TPageAbr::eBlend_1;
-                        pParticle_1->mSpriteScale = mSpriteScale;
-                    }
-
+                    pParticle_1->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
+                    pParticle_1->mAnim.mRenderMode = TPageAbr::eBlend_1;
+                    pParticle_1->mSpriteScale = mSpriteScale;
                 }
 
                 mState = PortalStates::StopSound_11;

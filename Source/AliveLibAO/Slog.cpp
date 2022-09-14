@@ -140,7 +140,7 @@ Slog::Slog(relive::Path_Slog* pTlv, const Guid& tlvId)
     {
         mCurrentMotion = eSlogMotions::Motion_16_Sleeping_4752E0;
         field_13C_res_idx = 1;
-        mAnim.Set_Animation_Data(AnimId::Slog_Sleeping, field_184_resources[1]);
+        mAnim.Set_Animation_Data(GetAnimRes(AnimId::Slog_Sleeping));
     }
     else
     {
@@ -268,7 +268,7 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
             field_11C_timer = sGnFrame + 90;
             mCurrentMotion = eSlogMotions::Motion_22_Dying_475A90;
             field_13C_res_idx = 3;
-            mAnim.Set_Animation_Data(AnimId::Slog_Dying, field_184_resources[3]);
+            mAnim.Set_Animation_Data(GetAnimRes(AnimId::Slog_Dying));
             mAnim.mFlags.Set(AnimFlags::eBit2_Animate);
             gNumSlogs_9F11C8--;
             field_178_bShot = 1;
@@ -327,7 +327,7 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
             field_11C_timer = sGnFrame + 90;
             mCurrentMotion = eSlogMotions::Motion_22_Dying_475A90;
             field_13C_res_idx = 3;
-            mAnim.Set_Animation_Data(AnimId::Slog_Dying, field_184_resources[3]);
+            mAnim.Set_Animation_Data(GetAnimRes(AnimId::Slog_Dying));
             mAnim.mFlags.Set(AnimFlags::eBit2_Animate);
             break;
         }
@@ -410,8 +410,7 @@ void Slog::VUpdate()
 
 void Slog::SetAnimFrame()
 {
-    u8** ppRes = ResBlockForMotion(mCurrentMotion);
-    mAnim.Set_Animation_Data(sSlogMotionAnimIds[mCurrentMotion], ppRes);
+    mAnim.Set_Animation_Data(GetAnimRes(sSlogMotionAnimIds[mCurrentMotion]));
 }
 
 u8** Slog::ResBlockForMotion(s16 motion)

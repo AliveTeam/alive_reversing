@@ -285,8 +285,7 @@ s32 Paramite::CreateFromSaveState(const u8* pBuffer)
     pParamite->mRGB.SetRGB(pState->field_1C_r, pState->field_1E_g, pState->field_20_b);
 
     pParamite->mCurrentMotion = pState->field_24_current_motion;
-    u8** ppRes = pParamite->ResBlockForMotion(pParamite->mCurrentMotion);
-    pParamite->mAnim.Set_Animation_Data(sParamiteMotionAnimIds[pParamite->mCurrentMotion], ppRes);
+    pParamite->mAnim.Set_Animation_Data(pParamite->GetAnimRes(sParamiteMotionAnimIds[pParamite->mCurrentMotion]));
 
     pParamite->mAnim.mCurrentFrame = pState->field_26_anim_current_frame;
     pParamite->mAnim.mFrameChangeCounter = pState->field_28_frame_change_counter;
@@ -380,8 +379,8 @@ s32 Paramite::VGetSaveState(u8* pSaveBuffer)
 
     pState->field_22_flip_x = mAnim.mFlags.Get(AnimFlags::eBit5_FlipX);
     pState->field_24_current_motion = mCurrentMotion;
-    pState->field_26_anim_current_frame = mAnim.mCurrentFrame;
-    pState->field_28_frame_change_counter = mAnim.mFrameChangeCounter;
+    pState->field_26_anim_current_frame = static_cast<s16>(mAnim.mCurrentFrame);
+    pState->field_28_frame_change_counter = static_cast<s16>(mAnim.mFrameChangeCounter);
     pState->field_2B_drawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
     pState->field_2A_render = mAnim.mFlags.Get(AnimFlags::eBit3_Render);
     pState->field_2C_health = mHealth;
@@ -3411,7 +3410,7 @@ void Paramite::M_Turn_4_48B180()
 
         if (ToNextMotion())
         {
-            mAnim.Set_Animation_Data(mAnim.mFrameTableOffset, nullptr);
+            mAnim.Set_Animation_Data(GetAnimRes(mAnim.mFrameTableOffset));
         }
         else
         {
@@ -5272,8 +5271,7 @@ s16 Paramite::Find_Paramite()
 
 void Paramite::vUpdateAnim()
 {
-    u8** ppRes = ResBlockForMotion(mCurrentMotion);
-    mAnim.Set_Animation_Data(sParamiteMotionAnimIds[mCurrentMotion], ppRes);
+    mAnim.Set_Animation_Data(GetAnimRes(sParamiteMotionAnimIds[mCurrentMotion]));
 }
 
 Meat* Paramite::FindMeat()

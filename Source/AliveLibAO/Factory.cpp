@@ -1028,48 +1028,15 @@ static void Factory_Uxb(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId
 
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
-        ResourceManager::LoadResource_446C90("ABEBLOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kAbeblowAOResID, loadMode, pUxbTlv->mDisabledResources & 1);
-        ResourceManager::LoadResource_446C90("DOGBLOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kSlogBlowAOResID, loadMode, pUxbTlv->mDisabledResources & 2);
-        ResourceManager::LoadResource_446C90("ELMBLOW.BAN", ResourceManager::Resource_Animation, AOResourceID::kElmblowAOResID_217, loadMode, pUxbTlv->mDisabledResources & 4);
         if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
         {
             ResourceManager::LoadResource_446C90("TBMBPAL.BAN", ResourceManager::Resource_Palt, AOResourceID::kUXBAOResID, loadMode);
             ResourceManager::LoadResource_446C90("ABEE1PAL.BAN", ResourceManager::Resource_Palt, AOResourceID::kAbeblowAOResID, loadMode);
             ResourceManager::LoadResource_446C90("DOGE1PAL.BAN", ResourceManager::Resource_Palt, AOResourceID::kSlogBlowAOResID, loadMode);
         }
-
-        static CompileTimeResourceList<3> kResourcesUxb = {
-            {ResourceManager::Resource_Animation, AOResourceID::kUXBAOResID},
-            {ResourceManager::Resource_Animation, AOResourceID::kBombflshAOResID},
-            {ResourceManager::Resource_Palt, AOResourceID::kGrenflshAOResID}};
-        ResourceManager::LoadResourcesFromList_446E80("UXB.BND", kResourcesUxb.AsList(), loadMode, 0);
-
-        static CompileTimeResourceList<3> kResourcesExplode = {
-            {ResourceManager::Resource_Animation, AOResourceID::kAbebombAOResID},
-            {ResourceManager::Resource_Animation, AOResourceID::kDebrisID00AOResID},
-            {ResourceManager::Resource_Animation, AOResourceID::kBgexpldAOResID}};
-        ResourceManager::LoadResourcesFromList_446E80("EXPLODE.BND", kResourcesExplode.AsList(), loadMode, 0);
     }
     else
     {
-        auto kResources = {
-            AOResourceID::kAbebombAOResID,
-            AOResourceID::kUXBAOResID,
-            AOResourceID::kBombflshAOResID,
-            AOResourceID::kBgexpldAOResID,
-        };
-        ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, kResources);
-
-        if (!(pUxbTlv->mDisabledResources & 1))
-        {
-            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, AOResourceID::kAbeblowAOResID);
-        }
-
-        if (!(pUxbTlv->mDisabledResources & 2))
-        {
-            ResourceManager::CheckResourceIsLoaded(ResourceManager::Resource_Animation, AOResourceID::kSlogBlowAOResID);
-        }
-
         relive_new UXB(pUxbTlv, tlvId);
     }
 }

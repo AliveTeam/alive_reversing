@@ -55,9 +55,9 @@ Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
 {
     SetType(ReliveTypes::eRope);
 
-    const AnimRecord& rec = AnimRec(AnimId::AE_Rope);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::AE_Rope));
     Animation_Init(GetAnimRes(AnimId::AE_Rope));
+
     SetTint(kRopeTints_55FD68, gMap.mCurrentLevel);
 
     mAnim.field_14_scale = scale;

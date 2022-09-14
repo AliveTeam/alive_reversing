@@ -258,9 +258,7 @@ s16 Elum::VTakeDamage(BaseGameObject* pFrom)
                 }
 
                 mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
-                mAnim.Set_Animation_Data(
-                    gElumMotionAnimIds[mCurrentMotion],
-                    GetResBlock_410D00(mCurrentMotion));
+                mAnim.Set_Animation_Data(GetAnimRes(gElumMotionAnimIds[mCurrentMotion]));
             }
             return 1;
 
@@ -333,9 +331,7 @@ void Elum::Vsub_416120()
 {
     ToIdle();
 
-    mAnim.Set_Animation_Data(
-        gElumMotionAnimIds[mCurrentMotion],
-        GetResBlock_410D00(mCurrentMotion));
+    mAnim.Set_Animation_Data(GetAnimRes(gElumMotionAnimIds[mCurrentMotion]));
 }
 
 void Elum::VLoadMountedResources_411300()
@@ -3634,13 +3630,8 @@ void Elum::VUpdate()
                 if (field_120_bUnknown)
                 {
                     mCurrentMotion = mPreviousMotion;
-                    u8** ppRes = GetResBlock_410D00(mPreviousMotion);
-                    if (!ppRes)
-                    {
-                        return;
-                    }
 
-                    mAnim.Set_Animation_Data(gElumMotionAnimIds[mCurrentMotion], ppRes);
+                    mAnim.Set_Animation_Data(GetAnimRes(gElumMotionAnimIds[mCurrentMotion]));
                     mAnim.SetFrame(mBaseAliveGameObjectLastAnimFrame);
                     field_120_bUnknown = 0;
                     if (sControlledCharacter == this)
@@ -3651,13 +3642,7 @@ void Elum::VUpdate()
             }
             else
             {
-                u8** ppRes = GetResBlock_410D00(mCurrentMotion);
-                if (!ppRes)
-                {
-                    return;
-                }
-
-                mAnim.Set_Animation_Data(gElumMotionAnimIds[mCurrentMotion], ppRes);
+                mAnim.Set_Animation_Data(GetAnimRes(gElumMotionAnimIds[mCurrentMotion]));
                 if (sControlledCharacter == this)
                 {
                     sActiveHero->SyncToElum_42D850(mCurrentMotion);

@@ -42,11 +42,9 @@ Lever::Lever(relive::Path_Lever* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eLever);
-    const AnimRecord& rec = AnimRec(AnimId::Lever_Idle);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    Animation_Init(GetAnimRes(AnimId::Lever_Idle));
 
     LoadAnimations();
+    Animation_Init(GetAnimRes(AnimId::Lever_Idle));
 
     mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
     field_F4_switch_id = pTlv->mSwitchId;

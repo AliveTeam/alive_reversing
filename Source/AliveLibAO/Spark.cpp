@@ -72,9 +72,8 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 min, s32 max)
 
         mTimer = sGnFrame + 3;
 
-        const AnimRecord& rec = AO::AnimRec(AnimId::ChantOrb_Particle_Small);
-        u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-        auto pParticle = relive_new Particle(xpos, ypos - FP_FromInteger(4), AnimId::ChantOrb_Particle_Small, ppRes);
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::ChantOrb_Particle_Small));
+        auto pParticle = relive_new Particle(xpos, ypos - FP_FromInteger(4), GetAnimRes(AnimId::ChantOrb_Particle_Small));
         if (pParticle)
         {
             pParticle->mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);

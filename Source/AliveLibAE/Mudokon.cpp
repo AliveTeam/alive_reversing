@@ -763,9 +763,7 @@ s32 Mudokon::CreateFromSaveState(const u8* pBuffer)
 
         pMud->mCurrentMotion = pState->field_24_current_motion;
 
-        u8** ppRes = pMud->GetResBlockForMotion(pState->field_24_current_motion);
-
-        pMud->mAnim.Set_Animation_Data(kMudMotionAnimIds[pMud->mCurrentMotion], ppRes);
+        pMud->mAnim.Set_Animation_Data(pMud->GetAnimRes(kMudMotionAnimIds[pMud->mCurrentMotion]));
 
         pMud->mAnim.mCurrentFrame = pState->field_26_anim_current_frame;
         pMud->mAnim.mFrameChangeCounter = pState->field_28_anim_frame_change_counter;
@@ -1691,12 +1689,7 @@ s16 Mudokon::TurningWheelHelloOrAllYaResponse()
 
 void Mudokon::VUpdateResBlock()
 {
-    u8** ppRes = GetResBlockForMotion(mCurrentMotion);
-    if (!ppRes)
-    {
-        LOG_ERROR("No res for " << mCurrentMotion);
-    }
-    mAnim.Set_Animation_Data(kMudMotionAnimIds[mCurrentMotion], ppRes);
+    mAnim.Set_Animation_Data(GetAnimRes(kMudMotionAnimIds[mCurrentMotion]));
 }
 
 enum Brain_0_GiveRings

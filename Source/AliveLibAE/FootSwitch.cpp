@@ -77,8 +77,6 @@ FootSwitch::FootSwitch(relive::Path_FootSwitch* pTlv, const Guid& tlvId)
 
     const s32 idx = static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel));
 
-    const AnimRecord& rec = AnimRec(sFootSwitchData_547D60[idx][0]);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init(GetAnimRes(sFootSwitchData_547D60[idx][0]));
 
     mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;

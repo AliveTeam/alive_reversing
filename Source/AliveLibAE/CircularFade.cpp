@@ -27,8 +27,7 @@ CircularFade::CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroy
     const u8 fade_rgb = static_cast<u8>((field_1B8_fade_colour * 60) / 100);
     mRGB.SetRGB(fade_rgb, fade_rgb, fade_rgb);
 
-    const AnimRecord& spotLightRec = AnimRec(AnimId::SpotLight);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, spotLightRec.mResourceId);
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::SpotLight));
     Animation_Init(GetAnimRes(AnimId::SpotLight));
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);

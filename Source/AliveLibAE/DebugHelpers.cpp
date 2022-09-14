@@ -1137,6 +1137,9 @@ public:
 
         gObjListDrawables->Push_Back(this);
 
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Loading_Icon));
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Abe_Body_Gib));
+
         Init();
     }
 
@@ -1165,24 +1168,17 @@ public:
 private:
     void Init()
     {
-        const AnimRecord& loadingRec = AnimRec(AnimId::Loading_Icon);
-        const AnimRecord& abeGibRec = AnimRec(AnimId::Abe_Body_Gib);
-        ResourceManager::LoadResourceFile_49C170(loadingRec.mBanName, nullptr);
-        ResourceManager::LoadResourceFile_49C170(abeGibRec.mBanName, nullptr);
-
         for (s32 i = 0; i < 5; i++)
         {
             if (i < 2)
             {
                 // 4 bit
-                mAnimRes[i] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, loadingRec.mResourceId, TRUE, FALSE);
-                mAnim[i].Init(AnimId::Loading_Icon, this, mAnimRes[i]);
+                mAnim[i].Init(GetAnimRes(AnimId::Loading_Icon), this);
             }
             else
             {
                 // 8 bit
-                mAnimRes[i] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, abeGibRec.mResourceId, TRUE, FALSE);
-                mAnim[i].Init(AnimId::Abe_Body_Gib, this, mAnimRes[i]);
+                mAnim[i].Init(GetAnimRes(AnimId::Abe_Body_Gib), this);
             }
             // No 16 bit test case because there are simply no 16bit sprites at all in the game data
 
@@ -1254,7 +1250,6 @@ private:
         }
     }
 
-    u8** mAnimRes[5];
     Animation mAnim[5];
     Poly_FT4 mPolyFT4[1];
 };

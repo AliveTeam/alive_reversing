@@ -126,36 +126,31 @@ void Explosion::VUpdate()
 
     if (mAnim.mCurrentFrame == 1)
     {
-        u8** ppRes = field_F4_bSmall ? Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kSmallExplo2ResID) : Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
-        if (ppRes)
+        const AnimId explosionId = field_F4_bSmall ? AnimId::Explosion_Small : AnimId::Explosion;
+        auto pParticle = relive_new Particle(
+            mXPos, mYPos,
+            GetAnimRes(explosionId),
+            true);
+
+        if (pParticle)
         {
-            const AnimId explosionId = field_F4_bSmall ? AnimId::Explosion_Small : AnimId::Explosion;
-            auto pParticle = relive_new Particle(
-                mXPos, mYPos,
-                explosionId,
-                ppRes,
-                true);
-
-            if (pParticle)
+            if (pParticle->mBaseGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
             {
-                if (pParticle->mBaseGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
-                {
-                    pParticle->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-                }
+                pParticle->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            }
 
-                pParticle->mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
-                pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
+            pParticle->mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+            pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
 
-                if (mAnim.mCurrentFrame == 3)
-                {
-                    pParticle->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
-                    pParticle->mSpriteScale = mSpriteScale * FP_FromDouble(0.5);
-                }
-                else
-                {
-                    pParticle->mAnim.mFlags.Clear(AnimFlags::eBit5_FlipX);
-                    pParticle->mSpriteScale = mSpriteScale * FP_FromDouble(0.25);
-                }
+            if (mAnim.mCurrentFrame == 3)
+            {
+                pParticle->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
+                pParticle->mSpriteScale = mSpriteScale * FP_FromDouble(0.5);
+            }
+            else
+            {
+                pParticle->mAnim.mFlags.Clear(AnimFlags::eBit5_FlipX);
+                pParticle->mSpriteScale = mSpriteScale * FP_FromDouble(0.25);
             }
         }
     }

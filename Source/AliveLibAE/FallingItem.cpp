@@ -49,6 +49,8 @@ void FallingItem::LoadAnimations()
     {
         mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
     }
+
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Explosion));
 }
 
 FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
@@ -336,12 +338,9 @@ void FallingItem::VUpdate()
                                                    BurstType::eSticks_1,
                                                    13);
 
-                const AnimRecord& rec = AnimRec(AnimId::Explosion);
-                u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 0, 0);
                 auto pParticle = relive_new Particle(mXPos,
                                                   mYPos - (FP_FromInteger(15) * mSpriteScale),
-                                                  AnimId::Explosion,
-                                                  ppRes);
+                                                  GetAnimRes(AnimId::Explosion));
                 if (pParticle)
                 {
                     pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;

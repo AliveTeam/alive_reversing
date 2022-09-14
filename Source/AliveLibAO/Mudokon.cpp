@@ -572,9 +572,7 @@ const AnimId sMudMotionAnimIds[64] = {
 
 void Mudokon::VUpdateResBlock()
 {
-    mAnim.Set_Animation_Data(
-        sMudMotionAnimIds[mCurrentMotion],
-        GetResBlockForMotion(mCurrentMotion));
+    mAnim.Set_Animation_Data(GetAnimRes(sMudMotionAnimIds[mCurrentMotion]));
 }
 
 void Mudokon::VScreenChanged()
