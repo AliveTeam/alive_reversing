@@ -427,8 +427,8 @@ void BirdPortal::VUpdate()
         case PortalStates::PortalExit_CreateTerminators_18:
             if (pTerminator1->mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                pTerminator1->mAnim.Set_Animation_Data(GetAnimRes(AnimId::BirdPortal_TerminatorIdle));
-                pTerminator2->mAnim.Set_Animation_Data(GetAnimRes(AnimId::BirdPortal_TerminatorIdle));
+                pTerminator1->mAnim.Set_Animation_Data(pTerminator1->GetAnimRes(AnimId::BirdPortal_TerminatorIdle));
+                pTerminator2->mAnim.Set_Animation_Data(pTerminator2->GetAnimRes(AnimId::BirdPortal_TerminatorIdle));
                 mState = PortalStates::PortalExit_ExpandTerminators_19;
                 mTimer = sGnFrame + 12;
             }
@@ -446,8 +446,8 @@ void BirdPortal::VUpdate()
         case PortalStates::KillPortalClipper_21:
             if (static_cast<s32>(sGnFrame) > mTimer)
             {
-                pTerminator1->mAnim.Set_Animation_Data(GetAnimRes(AnimId::BirdPortal_TerminatorShrink));
-                pTerminator2->mAnim.Set_Animation_Data(GetAnimRes(AnimId::BirdPortal_TerminatorShrink));
+                pTerminator1->mAnim.Set_Animation_Data(pTerminator1->GetAnimRes(AnimId::BirdPortal_TerminatorShrink));
+                pTerminator2->mAnim.Set_Animation_Data(pTerminator2->GetAnimRes(AnimId::BirdPortal_TerminatorShrink));
                 mState = PortalStates::FadeoutTerminators_22;
                 mTimer = sGnFrame + 30;
 

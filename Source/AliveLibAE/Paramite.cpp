@@ -35,7 +35,7 @@ const AnimId sParamiteMotionAnimIds[44] = {
     AnimId::Paramite_Running,
     AnimId::Paramite_Turn,
     AnimId::Paramite_Hop,
-    AnimId::Paramite_Unused,
+    AnimId::Paramite_Hop,// HACK fix unused not converting // AnimId::Paramite_Unused,
     AnimId::Paramite_WalkRunTransition,
     AnimId::Paramite_WalkEnd,
     AnimId::Paramite_RunBegin,
