@@ -55,69 +55,14 @@ BellHammer::BellHammer(relive::Path_BellHammer* pTlv, const Guid& tlvId)
         mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
     }
 
-    mPendingResourceCount = 0;
-
     if (gElum)
     {
         return;
-    }
-
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmfallAOResID_216, 0, 0))
-    {
-        mPendingResourceCount++;
-        ResourceManager::LoadResourceFile("ELMFALL.BAN", BellHammer::OnResLoaded, this);
-    }
-
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmbasicAOResID_200, 0, 0))
-    {
-        mPendingResourceCount++;
-        ResourceManager::LoadResourceFile("ELMBASIC.BAN", BellHammer::OnResLoaded, this);
-    }
-
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmprmntAOResID__222, 0, 0))
-    {
-        mPendingResourceCount++;
-        ResourceManager::LoadResourceFile("ELMPRMNT.BAN", BellHammer::OnResLoaded, this);
-    }
-
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAneprmntAOResID, 0, 0))
-    {
-        mPendingResourceCount++;
-        ResourceManager::LoadResourceFile("ANEPRMNT.BAN", BellHammer::OnResLoaded, this);
     }
 }
 
 BellHammer::~BellHammer()
 {
-    if (mPendingResourceCount)
-    {
-        ResourceManager::WaitForPendingResources_41EA60(this);
-    }
-
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmfallAOResID_216, 1, 0);
-    if (ppRes)
-    {
-        ResourceManager::FreeResource_455550(ppRes);
-    }
-
-    ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmbasicAOResID_200, 1, 0);
-    if (ppRes)
-    {
-        ResourceManager::FreeResource_455550(ppRes);
-    }
-
-    ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmprmntAOResID__222, 1, 0);
-    if (ppRes)
-    {
-        ResourceManager::FreeResource_455550(ppRes);
-    }
-
-    ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAneprmntAOResID, 1, 0);
-    if (ppRes)
-    {
-        ResourceManager::FreeResource_455550(ppRes);
-    }
-
     Path::TLV_Reset(mTlvInfo, -1, 0, 0);
 }
 
@@ -171,24 +116,18 @@ void BellHammer::VUpdate()
 
     if (mSpawnElum)
     {
-        if (mPendingResourceCount == 0)
+        mSpawnElum = false;
+        Elum::Spawn(mTlvInfo);
+
+        PSX_Point mapCoords = {};
+        gMap.GetCurrentCamCoords(&mapCoords);
+
+        if (gElum)
         {
-            mSpawnElum = false;
-            Elum::Spawn(mTlvInfo);
-
-            PSX_Point mapCoords = {};
-            gMap.GetCurrentCamCoords(&mapCoords);
-
             gElum->mXPos = (FP_FromInteger(mapCoords.x + XGrid_Index_To_XPos(mSpriteScale, 0))) - ScaleToGridSize(mSpriteScale);
             gElum->mYPos = gElum->mYPos + FP_FromInteger(450);
-            ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAneprmntAOResID, 1, 0);
         }
     }
-}
-
-void BellHammer::OnResLoaded(BellHammer* pThis)
-{
-    pThis->mPendingResourceCount--;
 }
 
 } // namespace AO

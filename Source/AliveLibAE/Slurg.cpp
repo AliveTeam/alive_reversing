@@ -122,11 +122,6 @@ s32 Slurg::CreateFromSaveState(const u8* pData)
     auto pState = reinterpret_cast<const Slurg_State*>(pData);
     auto pTlv = static_cast<relive::Path_Slurg*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvInfo));
 
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSlurgResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("SLURG.BAN", nullptr);
-    }
-
     auto pSlurg = relive_new Slurg(pTlv, pState->mTlvInfo);
 
     pSlurg->mXPos = pState->mXPos;

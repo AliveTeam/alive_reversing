@@ -109,14 +109,6 @@ Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
         case relive::Path_Door::DoorTypes::eBasicDoor:
         {
             const AnimRecord& openDoor = AO::AnimRec(sDoorAnimdIdTable[idx][1]);
-            ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, openDoor.mResourceId, 1, 0);
-            if (!ppRes)
-            {
-                mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-                return;
-            }
-
             if (openDoor.mFrameTableOffset)
             {
                 if (field_EC_current_state == relive::Path_Door::DoorStates::eOpen)
@@ -182,8 +174,7 @@ Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
                 scale = FP_FromDouble(0.5);
             }
             const AnimRecord& openDoor = AO::AnimRec(sDoorAnimdIdTable[idx][3]);
-            ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, openDoor.mResourceId, 1, 0);
-            if (!ppRes || openDoor.mFrameTableOffset == 0)
+            if (openDoor.mFrameTableOffset == 0)
             {
                 mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -223,75 +214,62 @@ Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
         }
 
         case relive::Path_Door::DoorTypes::eHubDoor:
-            if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms)
+        {
+            const AnimRecord& openDoor = AO::AnimRec(sDoorAnimdIdTable[idx][5]);
+            if (openDoor.mFrameTableOffset)
             {
-                ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kF2p3dorAOResID, 1, 0);
-            }
-            else
-            {
-                ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kRockdoorAOResID, 1, 0);
-            }
-
-            if (ppRes)
-            {
-                const AnimRecord& openDoor = AO::AnimRec(sDoorAnimdIdTable[idx][5]);
-                if (openDoor.mFrameTableOffset)
+                if (field_EC_current_state == relive::Path_Door::DoorStates::eOpen)
                 {
-                    if (field_EC_current_state == relive::Path_Door::DoorStates::eOpen)
-                    {
-                        Animation_Init(GetAnimRes(sDoorAnimdIdTable[idx][5]));
-                    }
-                    else
-                    {
-                        Animation_Init(GetAnimRes(sDoorAnimdIdTable[idx][4]));
-                    }
-
-                    mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
-
-                    if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms)
-                    {
-                        if (sCollisions->Raycast(
-                                FP_FromInteger(pTlv->mTopLeftX + (pTlv->Width()) / 2),
-                                FP_FromInteger(pTlv->mTopLeftY),
-                                FP_FromInteger(pTlv->mTopLeftX + (pTlv->Width()) / 2),
-                                FP_FromInteger(pTlv->mBottomRightY),
-                                &pLine,
-                                &mXPos,
-                                &mYPos,
-                                kFgWallsOrFloor)) // ?? only check bg for some reason
-                        {
-                            mYPos -= (FP_FromInteger(12) * mSpriteScale);
-                            gMap.GetCurrentCamCoords(&mapCoords);
-                            mXPos = FP_FromInteger(SnapToXGrid(FP_FromInteger(1), FP_GetExponent(mXPos) - mapCoords.x) + mapCoords.x);
-                        }
-                        else
-                        {
-                            mXPos = FP_FromInteger(pTlv->mTopLeftX + 12);
-                            mYPos = FP_FromInteger(pTlv->mTopLeftY + 24);
-                        }
-                    }
-                    else
-                    {
-                        mXPos = FP_FromInteger(pTlv->mTopLeftX + 9);
-                        mYPos = FP_FromInteger(pTlv->mTopLeftY + 20);
-                    }
-
-                    mSpriteScale = FP_FromInteger(1);
-
-                    field_F2_hubs_ids[0] = pTlv->mHub1;
-                    field_F2_hubs_ids[1] = pTlv->mHub2;
-                    field_F2_hubs_ids[2] = pTlv->mHub3;
-                    field_F2_hubs_ids[3] = pTlv->mHub4;
-                    field_F2_hubs_ids[4] = pTlv->mHub5;
-                    field_F2_hubs_ids[5] = pTlv->mHub6;
-                    field_F2_hubs_ids[6] = pTlv->mHub7;
-                    field_F2_hubs_ids[7] = pTlv->mHub8;
-                    break;
+                    Animation_Init(GetAnimRes(sDoorAnimdIdTable[idx][5]));
                 }
+                else
+                {
+                    Animation_Init(GetAnimRes(sDoorAnimdIdTable[idx][4]));
+                }
+
+                mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
+
+                if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms)
+                {
+                    if (sCollisions->Raycast(
+                        FP_FromInteger(pTlv->mTopLeftX + (pTlv->Width()) / 2),
+                        FP_FromInteger(pTlv->mTopLeftY),
+                        FP_FromInteger(pTlv->mTopLeftX + (pTlv->Width()) / 2),
+                        FP_FromInteger(pTlv->mBottomRightY),
+                        &pLine,
+                        &mXPos,
+                        &mYPos,
+                        kFgWallsOrFloor)) // ?? only check bg for some reason
+                    {
+                        mYPos -= (FP_FromInteger(12) * mSpriteScale);
+                        gMap.GetCurrentCamCoords(&mapCoords);
+                        mXPos = FP_FromInteger(SnapToXGrid(FP_FromInteger(1), FP_GetExponent(mXPos) - mapCoords.x) + mapCoords.x);
+                    }
+                    else
+                    {
+                        mXPos = FP_FromInteger(pTlv->mTopLeftX + 12);
+                        mYPos = FP_FromInteger(pTlv->mTopLeftY + 24);
+                    }
+                }
+                else
+                {
+                    mXPos = FP_FromInteger(pTlv->mTopLeftX + 9);
+                    mYPos = FP_FromInteger(pTlv->mTopLeftY + 20);
+                }
+
+                mSpriteScale = FP_FromInteger(1);
+
+                field_F2_hubs_ids[0] = pTlv->mHub1;
+                field_F2_hubs_ids[1] = pTlv->mHub2;
+                field_F2_hubs_ids[2] = pTlv->mHub3;
+                field_F2_hubs_ids[3] = pTlv->mHub4;
+                field_F2_hubs_ids[4] = pTlv->mHub5;
+                field_F2_hubs_ids[5] = pTlv->mHub6;
+                field_F2_hubs_ids[6] = pTlv->mHub7;
+                field_F2_hubs_ids[7] = pTlv->mHub8;
+                break;
             }
-            mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-            return;
+        }
     }
 
     mXPos += FP_FromInteger(pTlv->mDoorOffsetX);

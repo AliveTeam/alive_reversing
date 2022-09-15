@@ -76,7 +76,6 @@ private:
     s16 field_26C_pulley_xpos = 0;
     s16 field_26E_pulley_ypos = 0;
     FP field_270_floorYLevel = {};
-    u8** field_274_ppRes = nullptr;
 
 public:
     u8 field_278_lift_point_id = 0;

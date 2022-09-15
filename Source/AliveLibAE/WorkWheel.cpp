@@ -92,16 +92,6 @@ s32 WorkWheel::CreateFromSaveState(const u8* pState)
 
     relive::Path_WorkWheel* pTlv = static_cast<relive::Path_WorkWheel*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pData->field_4_tlvInfo));
 
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeworkResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("ABEWORK.BAN", nullptr);
-    }
-
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kWorkwhelResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("WORKWHEL.BAN", nullptr);
-    }
-
     auto pWheel = relive_new WorkWheel(pTlv, pData->field_4_tlvInfo);
     if (pWheel)
     {

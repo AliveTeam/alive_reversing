@@ -25,12 +25,9 @@ public:
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 
-    static void OnResLoaded(BellHammer* pThis);
-
     BellHammerStates mState = BellHammerStates::eWaitForActivation_0;
     s16 mSwitchId = 0;
     Guid mTlvInfo;
-    s32 mPendingResourceCount = 0;
     bool mSpawnElum = false;
 };
 ALIVE_ASSERT_SIZEOF(BellHammer, 0xF4);

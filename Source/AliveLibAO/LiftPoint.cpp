@@ -87,8 +87,6 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, Map* pPath, const Guid& tlvId
     pTlv->mTlvSpecificMeaning = 3;
 
     const s32 lvl_idx = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
-    //const AnimRecord& platformRec = AO::AnimRec(sLiftPointData_4BB480[lvl_idx].field_0_platform_anim_id);
-   // u8** ppLiftRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, platformRec.mResourceId, 1, 0);
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
@@ -151,7 +149,6 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, Map* pPath, const Guid& tlvId
         field_13C_lift_wheel.mFlags.Clear(AnimFlags::eBit2_Animate);
 
         field_12C_bMoving &= ~1u;
-        field_274_ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeliftAOResID, 1, 0);
         mVelX = FP_FromInteger(0);
         field_13C_lift_wheel.mRed = 128;
         field_13C_lift_wheel.mGreen = 128;
@@ -714,8 +711,6 @@ LiftPoint::~LiftPoint()
     {
         field_1D4_pulley_anim.VCleanUp();
     }
-
-    ResourceManager::FreeResource_455550(field_274_ppRes);
 }
 
 void LiftPoint::CreatePulleyIfExists(s16 camX, s16 camY)

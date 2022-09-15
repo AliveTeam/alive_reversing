@@ -230,7 +230,6 @@ public:
     s32 ChangeScreenAndIntroLogic_4CF640();
     void AnimationAndSoundLogic_4CFE80();
     void UpdateHighliteGlow_4D0630();
-    static void callback_4D06E0(MainMenuController* a1);
     static void DrawMenuText_4D20D0(const MainMenuText* array, PrimHeader** ot, Alive::Font* font, s32* polyIndex, s8 a5);
 
     // Page Functions
@@ -277,7 +276,6 @@ public:
     MainMenuNextCam Page_FMV_Level_Update_4D4AB0(u32 input_held);
 
     void Unload_AbeSpeakResources();
-    void Load_AbeSpeakResources();
 
     // Front End
     MainMenuNextCam Page_Front_Update_4D0720(u32 input);

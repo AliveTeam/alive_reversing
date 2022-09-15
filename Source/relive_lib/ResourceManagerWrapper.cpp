@@ -151,6 +151,7 @@ AnimResource ResourceManagerWrapper::LoadAnimation(AnimId anim)
     const std::string jsonStr = fs.LoadToString((filePath.GetPath() + ".json").c_str());
     if (jsonStr.empty())
     {
+        LOG_ERROR("Missing anim json for anim: " << enum_name);
         ALIVE_FATAL("Missing anim json");
     }
 

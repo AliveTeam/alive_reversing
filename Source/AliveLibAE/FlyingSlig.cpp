@@ -151,16 +151,6 @@ FlyingSlig::FlyingSlig(relive::Path_FlyingSlig* pTlv, const Guid& tlvId)
 
     SetType(ReliveTypes::eFlyingSlig);
 
-    field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kFlySligResID, TRUE, FALSE));
-    field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSligBlowResID, TRUE, FALSE));
-    field_10_resources_array.SetAt(2, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kGrenadeResID, TRUE, FALSE));
-    field_10_resources_array.SetAt(3, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSmallExplo2ResID, TRUE, FALSE));
-    field_10_resources_array.SetAt(4, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID, TRUE, FALSE));
-    field_10_resources_array.SetAt(5, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, TRUE, FALSE));
-    field_10_resources_array.SetAt(6, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kBigflashResID, TRUE, FALSE));
-    field_10_resources_array.SetAt(7, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kVaporResID, TRUE, FALSE));
-    field_10_resources_array.SetAt(8, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID, TRUE, FALSE));
-
     Animation_Init(GetAnimRes(AnimId::FlyingSlig_Idle));
 
     field_15E_useless = 0;
@@ -280,50 +270,6 @@ s32 FlyingSlig::CreateFromSaveState(const u8* pBuffer)
     auto pSaveState = reinterpret_cast<const FlyingSlig_State*>(pBuffer);
 
     auto pTlv = static_cast<relive::Path_FlyingSlig*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->field_3C_tlvInfo));
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kFlySligResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("FLYSLIG.BND", nullptr);
-    }
-
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSligBlowResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("SLGBLOW.BAN", nullptr);
-    }
-
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kGrenadeResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("GRENADE.BAN", nullptr);
-    }
-
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSmallExplo2ResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("SMEXP.BAN", nullptr);
-    }
-
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("METAL.BAN", nullptr);
-    }
-
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("ABEBLOW.BAN", nullptr);
-    }
-
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kBigflashResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("BIGFLASH.BAN", nullptr);
-    }
-
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kVaporResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("VAPOR.BAN", nullptr);
-    }
-
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("DOGBLOW.BAN", nullptr);
-    }
 
     auto pFlyingSlig = relive_new FlyingSlig(pTlv, pSaveState->field_3C_tlvInfo);
     if (pFlyingSlig)

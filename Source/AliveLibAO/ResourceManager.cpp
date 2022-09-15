@@ -977,22 +977,22 @@ u8** ResourceManager::GetLoadedResource(u32 type, u32 resourceId, s16 addUseCoun
 }
 
 
-void ResourceManager::CheckResourceIsLoaded(u32 type, AOResourceID resourceId)
+void ResourceManager::CheckResourceIsLoaded(u32 /*type*/, AOResourceID /*resourceId*/)
 {
-    u8** ppRes = GetLoadedResource(type, resourceId, FALSE, FALSE);
-    if (!ppRes)
-    {
-        LOG_ERROR("Resource not loaded type " << type << " resource Id " << resourceId);
-        ALIVE_FATAL("Resource not loaded");
-    }
+    //u8** ppRes = GetLoadedResource(type, resourceId, FALSE, FALSE);
+    //if (!ppRes)
+    //{
+    //    LOG_ERROR("Resource not loaded type " << type << " resource Id " << resourceId);
+    //    ALIVE_FATAL("Resource not loaded");
+    //}
 }
 
-void ResourceManager::CheckResourceIsLoaded(u32 type, std::initializer_list<AOResourceID>& resourceIds)
+void ResourceManager::CheckResourceIsLoaded(u32 /*type*/, std::initializer_list<AOResourceID>& /*resourceIds*/)
 {
-    for (const auto& resourceId : resourceIds)
-    {
-        CheckResourceIsLoaded(type, resourceId);
-    }
+    //for (const auto& resourceId : resourceIds)
+    //{
+    //    CheckResourceIsLoaded(type, resourceId);
+    //}
 }
 
 s16 ResourceManager::FreeResource_455550(u8** handle)

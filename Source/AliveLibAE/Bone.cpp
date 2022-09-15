@@ -36,10 +36,6 @@ Bone::Bone(FP xpos, FP ypos, s16 countId)
 {
     mBaseThrowableDead = 0;
     SetType(ReliveTypes::eBone);
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kBoneResID, 0, 0))
-    {
-        LoadRockTypes_49AB30(mCurrentLevel, mCurrentPath);
-    }
 
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Bone));
     Animation_Init(GetAnimRes(AnimId::Bone));

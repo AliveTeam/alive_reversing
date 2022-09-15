@@ -145,10 +145,6 @@ CrawlingSlig::CrawlingSlig(relive::Path_CrawlingSlig* pTlv, const Guid& tlvId)
     SetType(ReliveTypes::eCrawlingSlig);
 
     LoadAnimations();
-
-    const AnimRecord& rec = AnimRec(AnimId::CrawlingSlig_Idle);
-    field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0));
-    field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSligBlowResID, 1, 0));
     Animation_Init(GetAnimRes(AnimId::CrawlingSlig_Idle));
 
     SetTint(&kCrawlingSligTints_5514B8[0], gMap.mCurrentLevel);
@@ -247,15 +243,6 @@ s32 CrawlingSlig::CreateFromSaveState(const u8* pBuffer)
     auto pState = reinterpret_cast<const CrawlingSlig_State*>(pBuffer);
 
     auto pTlv = static_cast<relive::Path_CrawlingSlig*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_44_tlvInfo));
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kCrawlingSligResID_449, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("CRAWLSLG.BND", nullptr);
-    }
-
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSligBlowResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("SLGBLOW.BAN", nullptr);
-    }
 
     auto pCrawlingSlig = relive_new CrawlingSlig(pTlv, pState->field_44_tlvInfo);
     if (pCrawlingSlig)
@@ -1337,7 +1324,7 @@ void CrawlingSlig::Motion_1_UsingButton()
         }
         else if (static_cast<s32>(sGnFrame) > field_1AC_timer)
         {
-            if (field_1E4_pPantsOrWingsTlv->mTlvType == ReliveTypes::eSligGetPants && ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSlgbasicResID, 0, 0))
+            if (field_1E4_pPantsOrWingsTlv->mTlvType == ReliveTypes::eSligGetPants)
             {
                 // Transform to a walking slig
 
@@ -1366,7 +1353,7 @@ void CrawlingSlig::Motion_1_UsingButton()
 
                 mHealth = FP_FromInteger(0);
             }
-            else if (field_1E4_pPantsOrWingsTlv->mTlvType == ReliveTypes::eSligGetWings && ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kFlySligResID, 0, 0))
+            else if (field_1E4_pPantsOrWingsTlv->mTlvType == ReliveTypes::eSligGetWings)
             {
                 // Transform to a flying slig
 

@@ -331,15 +331,6 @@ s32 Slog::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Slog_State*>(pBuffer);
     auto pTlv = static_cast<relive::Path_Slog*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_40_tlvInfo));
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kDogbasicResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("SLOG.BND", nullptr);
-    }
-
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kDogknfdResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("DOGKNFD.BAN", nullptr);
-    }
 
     Slog* pSlog = nullptr;
     if (pState->field_40_tlvInfo == Guid{})
@@ -2766,12 +2757,6 @@ const TintEntry sSlogTints_560A48[] = {
 void Slog::Init()
 {
     SetType(ReliveTypes::eSlog);
-    const AnimRecord& rec = AnimRec(AnimId::Slog_Idle);
-    field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0));
-    field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kDogrstnResID, 1, 0));
-    field_10_resources_array.SetAt(2, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kDogattkResID, 1, 0));
-    field_10_resources_array.SetAt(3, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kDogknfdResID, 1, 0));
-    field_10_resources_array.SetAt(4, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kDogidleResID, 1, 0));
     Animation_Init(GetAnimRes(AnimId::Slog_Idle));
 
     mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit6_SetOffExplosives);

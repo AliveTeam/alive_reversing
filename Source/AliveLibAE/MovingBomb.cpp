@@ -70,17 +70,6 @@ MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
 
     SetTint(&kMovingBombTints_55C734[0], gMap.mCurrentLevel);
 
-    field_134_disabled_resources = pTlv->mDisabledResources;
-    if (!(field_134_disabled_resources & 1))
-    {
-        Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
-    }
-
-    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
-    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID);
-    Add_Resource(ResourceManager::Resource_Palt, AEResourceID::kAbeblowResID);
-    Add_Resource(ResourceManager::Resource_Palt, AEResourceID::kSlogBlowResID);
-
     FP hitX = {};
     FP hitY = {};
     if (sCollisions->Raycast(

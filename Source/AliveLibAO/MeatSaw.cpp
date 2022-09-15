@@ -27,8 +27,6 @@ MeatSaw::~MeatSaw()
     }
 
     field_110_anim.VCleanUp();
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeblowAOResID, 0, 0);
-    ResourceManager::FreeResource_455550(ppRes);
 }
 
 void MeatSaw::LoadAnimations()
@@ -158,7 +156,6 @@ MeatSaw::MeatSaw(relive::Path_MeatSaw* pTlv, const Guid& tlvId)
         field_110_anim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
 
         mShadow = relive_new Shadow();
-        ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeblowAOResID, 1, 0);
     }
     else
     {

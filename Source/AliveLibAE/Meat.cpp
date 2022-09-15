@@ -22,11 +22,6 @@ Meat::Meat(FP xpos, FP ypos, s16 count)
     mBaseThrowableDead = 0;
     SetType(ReliveTypes::eMeat);
 
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kMeatResID, 0, 0))
-    {
-        LoadRockTypes_49AB30(mCurrentLevel, mCurrentPath);
-    }
-
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Meat));
     Animation_Init(GetAnimRes(AnimId::Meat));
 

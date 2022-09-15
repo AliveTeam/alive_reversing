@@ -53,7 +53,6 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
     LoadAnimations();
 
     field_E4_pGibData = &kGibData_4C30B0[gibType];
-    const AnimRecord& headRec = AO::AnimRec(field_E4_pGibData->field_0_head);
 
     // The base class renders the head gib
     Animation_Init(GetAnimRes(field_E4_pGibData->field_0_head));
@@ -124,7 +123,6 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
         if (i < 2)
         {
             // 2 arm parts
-            ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, headRec.mResourceId, 1, 0); // add ref
             if (!pPart->field_18_animation.Init(GetAnimRes(field_E4_pGibData->field_4_arm), this))
             {
                 field_5C4_parts_used_count = i;
@@ -135,7 +133,6 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
         else
         {
             // 2 body parts
-            ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, headRec.mResourceId, 1, 0); // add ref
             if (!pPart->field_18_animation.Init(GetAnimRes(field_E4_pGibData->field_8_body), this))
             {
                 field_5C4_parts_used_count = i;

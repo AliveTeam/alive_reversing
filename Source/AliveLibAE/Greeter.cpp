@@ -99,10 +99,6 @@ Greeter::Greeter(relive::Path_Greeter* pTlv, const Guid& tlvId)
 
     field_128_timer = sGnFrame + Math_RandomRange(70, 210);
 
-    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID);
-    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
-    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
-
     field_12C_timesShot = 0;
 
     mShadow = relive_new Shadow();
@@ -115,39 +111,6 @@ s32 Greeter::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Greeter_State*>(pBuffer);
     auto pTlv = static_cast<relive::Path_Greeter*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_28_tlvInfo));
-
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kMflareResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("MFLARE.BAN", nullptr);
-    }
-
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kMotionResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("MOTION.BAN", nullptr);
-    }
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kGreeterResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("GREETER.BAN", nullptr);
-    }
-
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSplineResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("SPLINE.BAN", nullptr);
-    }
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("METAL.BAN", nullptr);
-    }
-
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("EXPLO2.BAN", nullptr);
-    }
-
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("ABEBLOW.BAN", nullptr);
-    }
 
     auto pGreeter = relive_new Greeter(pTlv, pState->field_28_tlvInfo);
     if (pGreeter)

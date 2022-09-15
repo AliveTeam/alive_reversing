@@ -29,12 +29,6 @@ BeeSwarm::BeeSwarm(FP xpos, FP ypos, FP speed, s32 numBees, s32 totalChaseTime)
 {
     SetType(ReliveTypes::eBeeSwarm);
 
-    ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, 16, 1, 0);
-    if (gMap.mCurrentLevel != EReliveLevelIds::eForestTemple && gMap.mCurrentLevel != EReliveLevelIds::eDesertTemple)
-    {
-        ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmWaspAOResID_204, 1, 0);
-    }
-
     s32 numBeesToUse = 0;
     gBeeInstanceCount++;
     if (gBeeInstanceCount < 3)
@@ -85,15 +79,7 @@ BeeSwarm::BeeSwarm(FP xpos, FP ypos, FP speed, s32 numBees, s32 totalChaseTime)
 BeeSwarm::~BeeSwarm()
 {
     gBeeInstanceCount--;
-
     gBeesNearAbe = 0;
-
-    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbewaspAOResID, 0, 0));
-
-    if (gMap.mCurrentLevel != EReliveLevelIds::eForestTemple && gMap.mCurrentLevel != EReliveLevelIds::eDesertTemple)
-    {
-        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmWaspAOResID_204, 0, 0));
-    }
 
     if (mChaseTarget)
     {

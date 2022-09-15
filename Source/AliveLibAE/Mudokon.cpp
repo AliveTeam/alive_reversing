@@ -389,8 +389,6 @@ static Mud_Emotion TLV_Emo_To_Internal_Emo(relive::Path_Mudokon::Mud_TLV_Emotion
 Mudokon::Mudokon(relive::Path_Mudokon* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(18)
 {
-    LoadAnimations();
-
     field_154_unused = 0;
     field_140_last_event_index = -1;
     field_156_unused = -1;
@@ -406,9 +404,7 @@ Mudokon::Mudokon(relive::Path_Mudokon* pTlv, const Guid& tlvId)
     field_192_return_to_previous_motion = 0;
     field_13C_voice_pitch = 0;
 
-    field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbebsic1ResID, TRUE, FALSE));
-    field_10_resources_array.SetAt(1, nullptr);
-
+    LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::Mudokon_Idle));
 
     mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -448,18 +444,15 @@ Mudokon::Mudokon(relive::Path_Mudokon* pTlv, const Guid& tlvId)
     {
         case relive::Path_Mudokon::MudJobs::eChisle:
             field_18E_brain_state = Mud_Brain_State::Brain_1_Chisel;
-            field_10_resources_array.SetAt(2, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kMudchslResID, TRUE, FALSE));
             break;
 
         case relive::Path_Mudokon::MudJobs::eSitScrub:
             field_18E_brain_state = Mud_Brain_State::Brain_2_CrouchScrub;
-            field_10_resources_array.SetAt(3, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kMudscrubResID, TRUE, FALSE));
             break;
 
         case relive::Path_Mudokon::MudJobs::eAngryWorker:
             field_18E_brain_state = Mud_Brain_State::Brain_8_AngryWorker;
             field_180_emo_tbl = Mud_Emotion::eAngry_1;
-            field_10_resources_array.SetAt(3, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kMudscrubResID, TRUE, FALSE));
             break;
 
         case relive::Path_Mudokon::MudJobs::eDamageRingGiver:
@@ -476,7 +469,6 @@ Mudokon::Mudokon(relive::Path_Mudokon* pTlv, const Guid& tlvId)
             field_16A_flags.Set(Flags_16A::eBit16_give_ring_without_password, pTlv->mGiveRingWithoutPassword == relive::reliveChoice::eYes);
             field_16C_flags.Clear(Flags_16C::eBit1_Unknown);
             field_18E_brain_state = Mud_Brain_State::Brain_0_GiveRings;
-            field_10_resources_array.SetAt(8, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeommResID, TRUE, FALSE));
             break;
 
         default:
@@ -487,14 +479,6 @@ Mudokon::Mudokon(relive::Path_Mudokon* pTlv, const Guid& tlvId)
     {
         field_18E_brain_state = Mud_Brain_State::Brain_4_ListeningToAbe;
     }
-
-    field_10_resources_array.SetAt(9, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kMudoduckResID, TRUE, FALSE));
-    field_10_resources_array.SetAt(10, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kMudbtlnkResID, TRUE, FALSE));
-    field_10_resources_array.SetAt(4, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbebasicResID, TRUE, FALSE));
-    field_10_resources_array.SetAt(5, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeknfdResID, TRUE, FALSE));
-    field_10_resources_array.SetAt(6, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeknbkResID, TRUE, FALSE));
-    field_10_resources_array.SetAt(7, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeedgeResID, TRUE, FALSE));
-    field_10_resources_array.SetAt(11, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kMudidleResID, TRUE, FALSE));
 
     mLoadedPals.push_back(ResourceManagerWrapper::LoadPal(PalId::BlindMud));
     mLoadedPals.push_back(ResourceManagerWrapper::LoadPal(PalId::AngryMud));
@@ -674,77 +658,6 @@ s32 Mudokon::CreateFromSaveState(const u8* pBuffer)
     auto pState = reinterpret_cast<const Mudokon_State*>(pBuffer);
 
     auto pTlv = static_cast<relive::Path_Mudokon*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_40_tlvInfo));
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbebsic1ResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("ABEBSIC1.BAN", nullptr);
-    }
-
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeknfdResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("ABEKNFD.BAN", nullptr);
-    }
-
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeknbkResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("ABEKNBK.BAN", nullptr);
-    }
-
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeedgeResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("ABEEDGE.BAN", nullptr);
-    }
-
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kObjectShadowResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("SHADOW.BAN", nullptr);
-    }
-
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kMudidleResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("MUDIDLE.BAN", nullptr);
-    }
-
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AEResourceID::kMudangryResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("MUDPAL.BND", nullptr);
-    }
-
-    if (pTlv->mJob != relive::Path_Mudokon::MudJobs::eChisle)
-    {
-        if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kMudscrubResID, FALSE, FALSE))
-        {
-            ResourceManager::LoadResourceFile_49C170("MUDSCRUB.BAN", nullptr);
-        }
-    }
-    else if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kMudchslResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("MUDCHSL.BAN", nullptr);
-    }
-
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kMudoduckResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("MUDWORK.BND", nullptr);
-    }
-
-    if (pState->field_24_current_motion == eMudMotions::Motion_10_LeverUse && !ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbepullResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("ABEPULL.BAN", nullptr);
-    }
-
-    if (pState->field_24_current_motion == eMudMotions::Motion_57_TurnWheelBegin && !ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeworkResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("ABEWORK.BAN", nullptr);
-    }
-
-    if (pState->field_24_current_motion == eMudMotions::Motion_58_TurnWheelLoop && !ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeworkResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("ABEWORK.BAN", nullptr);
-    }
-
-    if (pState->field_24_current_motion == eMudMotions::Motion_59_TurnWheelEnd && !ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeworkResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("ABEWORK.BAN", nullptr);
-    }
 
     auto pMud = relive_new Mudokon(pTlv, pState->field_40_tlvInfo);
     if (pMud)
@@ -7067,75 +6980,6 @@ s16 Mudokon::IAmNearestToAbe()
         }
     }
     return TRUE;
-}
-
-u8** Mudokon::GetResBlockForMotion(s16 motion)
-{
-    if (motion < eMudMotions::Motion_10_LeverUse)
-    {
-        return field_10_resources_array.ItemAt(0);
-    }
-    else if (motion < eMudMotions::Motion_11_Chisel)
-    {
-        if (!field_10_resources_array.ItemAt(1))
-        {
-            field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbepullResID, TRUE, FALSE));
-        }
-        return field_10_resources_array.ItemAt(1);
-    }
-    else if (motion < eMudMotions::Motion_14_CrouchScrub)
-    {
-        return field_10_resources_array.ItemAt(2);
-    }
-    else if (motion < eMudMotions::Motion_15_CrouchIdle)
-    {
-        return field_10_resources_array.ItemAt(3);
-    }
-    else if (motion < eMudMotions::Motion_45_KnockForward)
-    {
-        return field_10_resources_array.ItemAt(4);
-    }
-    else if (motion < eMudMotions::Motion_46_Knockback)
-    {
-        return field_10_resources_array.ItemAt(5);
-    }
-    else if (motion < eMudMotions::Motion_48_WalkOffEdge)
-    {
-        return field_10_resources_array.ItemAt(6);
-    }
-    else if (motion < eMudMotions::Motion_50_Chant)
-    {
-        return field_10_resources_array.ItemAt(7);
-    }
-    else if (motion < eMudMotions::Motion_52_ToDuck)
-    {
-        return field_10_resources_array.ItemAt(8);
-    }
-    else if (motion < eMudMotions::Motion_55_DuckKnockback)
-    {
-        return field_10_resources_array.ItemAt(9);
-    }
-    else if (motion < eMudMotions::Motion_56_SlapOwnHead)
-    {
-        return field_10_resources_array.ItemAt(10);
-    }
-    else if (motion < eMudMotions::Motion_57_TurnWheelBegin)
-    {
-        return field_10_resources_array.ItemAt(11);
-    }
-    else if (motion < 60) // MAX ??
-    {
-        if (!field_10_resources_array.ItemAt(12))
-        {
-            field_10_resources_array.SetAt(12, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeworkResID, TRUE, FALSE));
-        }
-        return field_10_resources_array.ItemAt(12);
-    }
-    else
-    {
-        LOG_ERROR("Out of bounds ??");
-        return nullptr;
-    }
 }
 
 void Mudokon::CheckFloorGone()

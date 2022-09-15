@@ -42,11 +42,6 @@ BirdPortal::BirdPortal(relive::Path_BirdPortal* pTlv, const Guid& tlvId)
 
     LoadAnimations();
 
-    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kPortalTerminatorResID);
-    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kDovbasicResID);
-    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kPortliteResID);
-    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kSplineResID);
-
     mTlvInfo = tlvId;
 
     mEnterSide = pTlv->mEnterSide;
@@ -596,31 +591,15 @@ s32 BirdPortal::CreateFromSaveState(const u8* pBuffer)
         return sizeof(BirdPortal_State);
     }
 
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kPortliteResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("PORTAL.BND", nullptr);
-    }
-
-    if (pTlv->mPortalType == relive::Path_BirdPortal::PortalType::eShrykull)
-    {
-        if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSplineResID, FALSE, FALSE))
-        {
-            ResourceManager::LoadResourceFile_49C170("SPLINE.BAN", nullptr);
-        }
-
-        if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbemorphResID, FALSE, FALSE))
-        {
-            ResourceManager::LoadResourceFile_49C170("SHRYPORT.BND", nullptr);
-        }
-    }
-
     auto pPortal = relive_new BirdPortal(pTlv, pSaveState->mTlvInfo);
-    pPortal->SetUpdateDelay(1);
-    pPortal->mMudCountForShrykull -= pSaveState->mMudCountForShrykull;
-
-    const auto savedState = static_cast<PortalStates>(pSaveState->mState);
-    switch (savedState)
+    if (pPortal)
     {
+        pPortal->SetUpdateDelay(1);
+        pPortal->mMudCountForShrykull -= pSaveState->mMudCountForShrykull;
+
+        const auto savedState = static_cast<PortalStates>(pSaveState->mState);
+        switch (savedState)
+        {
         case PortalStates::JoinDovesInCenter_2:
         case PortalStates::KillDoves_3:
         case PortalStates::CreateTerminators_4:
@@ -656,7 +635,9 @@ s32 BirdPortal::CreateFromSaveState(const u8* pBuffer)
         }
         default:
             break;
+        }
     }
+
     return sizeof(BirdPortal_State);
 }
 

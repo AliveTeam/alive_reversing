@@ -20,150 +20,138 @@ Water::Water(relive::Path_Water* pTlv, const Guid& tlvId)
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::WaterDrop));
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::WaterSplash));
 
-    const AnimRecord& waterDropRec = AnimRec(AnimId::WaterDrop);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, waterDropRec.mResourceId);
-    if (ppRes)
+    Animation_Init(GetAnimRes(AnimId::WaterDrop));
+    // mAnim.mFlags.Set(AnimFlags::eBit25_bDecompressDone);
+    mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+
+    field_114_tlvInfo = tlvId;
+    mXPos = FP_FromInteger(pTlv->mTopLeftX);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
+
+    field_104_top_left.x = pTlv->mTopLeftX;
+    field_104_top_left.y = pTlv->mTopLeftY;
+    field_108_bottom_right.x = pTlv->mBottomRightX;
+    field_108_bottom_right.y = pTlv->mBottomRightY;
+
+    field_104_top_left.x += -FP_GetExponent(pScreenManager->CamXPos());
+    field_104_top_left.y += -FP_GetExponent(pScreenManager->CamYPos());
+
+    field_108_bottom_right.x += -FP_GetExponent(pScreenManager->CamXPos());
+    field_108_bottom_right.y += -FP_GetExponent(pScreenManager->CamYPos());
+
+    field_124_tlv_data = *pTlv;
+
+    // Limit upper bound.
+    if (field_124_tlv_data.mMaxDrops > 128)
     {
-        Animation_Init(GetAnimRes(AnimId::WaterDrop));
-       // mAnim.mFlags.Set(AnimFlags::eBit25_bDecompressDone);
-        mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+        field_124_tlv_data.mMaxDrops = 128;
+    }
 
-        Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kSplashResID);
+    field_130_splash_x_vel = FP_FromRaw(field_124_tlv_data.mSplashVelX << 8);
+    field_134_emit_x_vel = FP_FromRaw(field_124_tlv_data.mSplashVelX << 8);
+    field_118_radius = FP_FromInteger((field_108_bottom_right.x - field_104_top_left.x) / 2);
+    field_11C_centre = FP_FromInteger(field_104_top_left.x) + field_118_radius;
 
-        field_114_tlvInfo = tlvId;
-        mXPos = FP_FromInteger(pTlv->mTopLeftX);
-        mYPos = FP_FromInteger(pTlv->mTopLeftY);
+    field_138_splash_time = 0;
 
-        field_104_top_left.x = pTlv->mTopLeftX;
-        field_104_top_left.y = pTlv->mTopLeftY;
-        field_108_bottom_right.x = pTlv->mBottomRightX;
-        field_108_bottom_right.y = pTlv->mBottomRightY;
+    field_F4_ppWaterRes = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::Resource_Water, 0, field_124_tlv_data.mMaxDrops * sizeof(Water_Res));
+    if (field_F4_ppWaterRes)
+    {
+        field_F8_pWaterRes = reinterpret_cast<Water_Res*>(*field_F4_ppWaterRes);
+        field_FC_state = static_cast<WaterState>(pTlv->mTlvSpecificMeaning);
 
-        field_104_top_left.x += -FP_GetExponent(pScreenManager->CamXPos());
-        field_104_top_left.y += -FP_GetExponent(pScreenManager->CamYPos());
-
-        field_108_bottom_right.x += -FP_GetExponent(pScreenManager->CamXPos());
-        field_108_bottom_right.y += -FP_GetExponent(pScreenManager->CamYPos());
-
-        field_124_tlv_data = *pTlv;
-
-        // Limit upper bound.
-        if (field_124_tlv_data.mMaxDrops > 128)
+        if (field_FC_state == WaterState::eFlowing_2)
         {
-            field_124_tlv_data.mMaxDrops = 128;
+            field_140_water_duration = sGnFrame + field_124_tlv_data.mWaterDuration;
         }
 
-        field_130_splash_x_vel = FP_FromRaw(field_124_tlv_data.mSplashVelX << 8);
-        field_134_emit_x_vel = FP_FromRaw(field_124_tlv_data.mSplashVelX << 8);
-        field_118_radius = FP_FromInteger((field_108_bottom_right.x - field_104_top_left.x) / 2);
-        field_11C_centre = FP_FromInteger(field_104_top_left.x) + field_118_radius;
+        field_148_bHitTimeout &= ~1u;
+        field_10C_particle_count = 0;
+        field_10E_current_particle_idx = 0;
 
-        field_138_splash_time = 0;
-
-        field_F4_ppWaterRes = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::Resource_Water, 0, field_124_tlv_data.mMaxDrops * sizeof(Water_Res));
-        if (field_F4_ppWaterRes)
+        if (mAnim.mFlags.Get(AnimFlags::eBit13_Is8Bit))
         {
-            field_F8_pWaterRes = reinterpret_cast<Water_Res*>(*field_F4_ppWaterRes);
-            field_FC_state = static_cast<WaterState>(pTlv->mTlvSpecificMeaning);
-
-            if (field_FC_state == WaterState::eFlowing_2)
-            {
-                field_140_water_duration = sGnFrame + field_124_tlv_data.mWaterDuration;
-            }
-
-            field_148_bHitTimeout &= ~1u;
-            field_10C_particle_count = 0;
-            field_10E_current_particle_idx = 0;
-
-            if (mAnim.mFlags.Get(AnimFlags::eBit13_Is8Bit))
-            {
-                field_FE_texture_mode = TPageMode::e8Bit_1;
-            }
-            else if (mAnim.mFlags.Get(AnimFlags::eBit14_Is16Bit))
-            {
-                field_FE_texture_mode = TPageMode::e16Bit_2;
-            }
-            else
-            {
-                field_FE_texture_mode = TPageMode::e4Bit_0;
-            }
-
-            u8 u0 =0;// mAnim.mVramRect.x & 63;
-            if (field_FE_texture_mode == TPageMode::e8Bit_1)
-            {
-                u0 = 2 * u0;
-            }
-            else if (field_FE_texture_mode == TPageMode::e4Bit_0)
-            {
-                u0 = 4 * u0;
-            }
-
-            const u8 v0 = 0; // mAnim.mVramRect.y & 0xFF;
-
-            const PerFrameInfo* pFrameHeader = mAnim.Get_FrameHeader(-1);
-            field_120_frame_width = static_cast<s16>(pFrameHeader->mWidth);
-            field_122_frame_height = static_cast<s16>(pFrameHeader->mHeight);
-
-            const u8 u1 = static_cast<u8>(pFrameHeader->mWidth + u0 - 1);
-            const u8 v1 = static_cast<u8>(pFrameHeader->mHeight + v0 - 1);
-
-            /*
-            // TODO: Use anim instead of tpage/clut
-            const s32 tPage = PSX_getTPage(
-                field_FE_texture_mode,
-                TPageAbr::eBlend_3,
-                mAnim.mVramRect.x,
-                mAnim.mVramRect.y);
-            */
-
-            for (s32 i = 0; i < field_124_tlv_data.mMaxDrops; i++)
-            {
-                field_F8_pWaterRes[i].field_18_enabled = 0;
-                // HACK/OG BUG: PC only uses first poly ??
-                Poly_FT4* pPoly = field_F8_pWaterRes[i].field_20_polys;
-
-                PolyFT4_Init(pPoly);
-                Poly_Set_SemiTrans(&pPoly->mBase.header, TRUE);
-                Poly_Set_Blending(&pPoly->mBase.header, TRUE);
-
-                /*
-                const s32 clut = PSX_getClut(
-                    mAnim.mPalVramXY.x,
-                    mAnim.mPalVramXY.y);
-
-                SetClut(pPoly, static_cast<s16>(clut));
-                SetTPage(pPoly, static_cast<s16>(tPage));
-                */
-
-                SetUV0(pPoly, u0, v0);
-                SetUV1(pPoly, u1, v0);
-                SetUV2(pPoly, u0, v1);
-                SetUV3(pPoly, u1, v1);
-            }
-
-            field_100_screen_x = FP_GetExponent(mXPos - pScreenManager->CamXPos());
-            field_102_screen_y = FP_GetExponent(mYPos - pScreenManager->CamYPos());
-
-            PSX_RECT rect = {};
-            rect.y = 0;//mAnim.mPalVramXY.y;
-            rect.x = 0 /*mAnim.mPalVramXY.x*/ + 1;
-            rect.w = 1;
-            rect.h = 1;
-
-            // Some sort of hack to set the first 2 pixels to black/transparent?
-            const u8 zeroedData[4] = {};
-            PSX_LoadImage_4F5FB0(&rect, zeroedData); // TODO: FIX ME - won't work with other renderers
-
-            field_144_sound_channels = 0;
+            field_FE_texture_mode = TPageMode::e8Bit_1;
+        }
+        else if (mAnim.mFlags.Get(AnimFlags::eBit14_Is16Bit))
+        {
+            field_FE_texture_mode = TPageMode::e16Bit_2;
         }
         else
         {
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            field_FE_texture_mode = TPageMode::e4Bit_0;
         }
+
+        u8 u0 =0;// mAnim.mVramRect.x & 63;
+        if (field_FE_texture_mode == TPageMode::e8Bit_1)
+        {
+            u0 = 2 * u0;
+        }
+        else if (field_FE_texture_mode == TPageMode::e4Bit_0)
+        {
+            u0 = 4 * u0;
+        }
+
+        const u8 v0 = 0; // mAnim.mVramRect.y & 0xFF;
+
+        const PerFrameInfo* pFrameHeader = mAnim.Get_FrameHeader(-1);
+        field_120_frame_width = static_cast<s16>(pFrameHeader->mWidth);
+        field_122_frame_height = static_cast<s16>(pFrameHeader->mHeight);
+
+        const u8 u1 = static_cast<u8>(pFrameHeader->mWidth + u0 - 1);
+        const u8 v1 = static_cast<u8>(pFrameHeader->mHeight + v0 - 1);
+
+        /*
+        // TODO: Use anim instead of tpage/clut
+        const s32 tPage = PSX_getTPage(
+            field_FE_texture_mode,
+            TPageAbr::eBlend_3,
+            mAnim.mVramRect.x,
+            mAnim.mVramRect.y);
+        */
+
+        for (s32 i = 0; i < field_124_tlv_data.mMaxDrops; i++)
+        {
+            field_F8_pWaterRes[i].field_18_enabled = 0;
+            // HACK/OG BUG: PC only uses first poly ??
+            Poly_FT4* pPoly = field_F8_pWaterRes[i].field_20_polys;
+
+            PolyFT4_Init(pPoly);
+            Poly_Set_SemiTrans(&pPoly->mBase.header, TRUE);
+            Poly_Set_Blending(&pPoly->mBase.header, TRUE);
+
+            /*
+            const s32 clut = PSX_getClut(
+                mAnim.mPalVramXY.x,
+                mAnim.mPalVramXY.y);
+
+            SetClut(pPoly, static_cast<s16>(clut));
+            SetTPage(pPoly, static_cast<s16>(tPage));
+            */
+
+            SetUV0(pPoly, u0, v0);
+            SetUV1(pPoly, u1, v0);
+            SetUV2(pPoly, u0, v1);
+            SetUV3(pPoly, u1, v1);
+        }
+
+        field_100_screen_x = FP_GetExponent(mXPos - pScreenManager->CamXPos());
+        field_102_screen_y = FP_GetExponent(mYPos - pScreenManager->CamYPos());
+
+        PSX_RECT rect = {};
+        rect.y = 0;//mAnim.mPalVramXY.y;
+        rect.x = 0 /*mAnim.mPalVramXY.x*/ + 1;
+        rect.w = 1;
+        rect.h = 1;
+
+        // Some sort of hack to set the first 2 pixels to black/transparent?
+        const u8 zeroedData[4] = {};
+        PSX_LoadImage_4F5FB0(&rect, zeroedData); // TODO: FIX ME - won't work with other renderers
+
+        field_144_sound_channels = 0;
     }
     else
     {
-        mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }

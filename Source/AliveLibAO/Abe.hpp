@@ -332,11 +332,6 @@ enum class EnvironmentSfx : u8
 
 struct SaveData;
 
-struct AbeResources final
-{
-    u8** res[65];
-};
-
 class Abe final : public BaseAliveGameObject
 {
 public:
@@ -356,7 +351,6 @@ public:
 
 
     bool CheckForPortalAndRunJump();
-    static void Free_Shrykull_Resources_42F4C0();
     void FreeElumRes_420F80();
     void ToDeathDropFall_42C3D0();
     bool IsStanding_41FC10();
@@ -365,10 +359,8 @@ public:
     s16 RunTryEnterWell_425880();
     void ChangeChantState_430510(s16 bKeepChanting);
     static BaseAliveGameObject* FindObjectToPossess_421410();
-    static void Get_Shrykull_Resources_42F480();
     void ToDieFinal_42C400();
     void ToKnockback_422D90(s16 bUnknownSound, s16 bDelayedAnger);
-    u8** StateToAnimResource_4204F0(s16 motion);
     void ToIdle_422D50();
     void MoveForward_422FC0();
     s16 MoveLiftUpOrDown_42F190(FP ySpeed);
@@ -383,8 +375,6 @@ public:
     void ToNewElumSyncMotion_422520(s32 elum_frame);
     void SetActiveControlledCharacter_421480();
     PullRingRope* GetPullRope_422580();
-    void Free_Resources_422870();
-    static void Load_Basic_Resources_4228A0();
     void LoadMountElumResources_42E690();
     void ElumKnockForward_42E780(s32 not_used);
     s16 TryMountElum_42E600();
@@ -571,7 +561,6 @@ public:
     s32 field_11C_regen_health_timer = 0;
     FP field_120_x_vel_slow_by = {};
     s32 field_124_unused = 0;
-    s16 field_128_resource_idx = 0;
     s16 field_12A_unused = 0;
     s32 field_12C_timer = 0;
     s16 field_130_say = 0;
@@ -609,10 +598,10 @@ public:
     s8 field_19D_throw_direction = 0;
     PortalSubStates field_19E_portal_sub_state = PortalSubStates::eJumpingInsidePortal_0;
     BirdPortal* field_1A0_portal = nullptr;
-    AbeResources field_1A4_resources = {};
     BitField16<Flags_2A8> field_2A8_flags = {};
     BitField16<Flags_2AA> field_2AA_flags = {};
     SaveData* field_2AC_pSaveData = nullptr;
+    bool mRidingElum = false;
 };
 ALIVE_ASSERT_SIZEOF(Abe, 0x2B4);
 

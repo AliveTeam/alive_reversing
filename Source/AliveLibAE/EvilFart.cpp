@@ -30,9 +30,6 @@ EvilFart::EvilFart()
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Fart));
     Animation_Init(GetAnimRes(AnimId::Fart));
 
-    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
-    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
-
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 
     mSpriteScale = sActiveHero->mSpriteScale;

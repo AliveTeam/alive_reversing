@@ -67,11 +67,6 @@ HoneySack::HoneySack(relive::Path_HoneySack* pTlv, const Guid& tlvId)
         mState = State::eDripHoney_0;
         mTimer = sGnFrame + 90;
 
-        if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kWaspAOResID, 0, 0))
-        {
-            ResourceManager::LoadResourceFile_455270("WASP.BAN", nullptr);
-        }
-
         mBeeSwarm = relive_new BeeSwarm(mXPos, mYPos, FP_FromInteger(0), 5, 0);
         if (mBeeSwarm)
         {

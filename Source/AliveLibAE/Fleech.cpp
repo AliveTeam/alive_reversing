@@ -220,15 +220,6 @@ s32 Fleech::CreateFromSaveState(const u8* pBuffer)
     auto pState = reinterpret_cast<const Fleech_State*>(pBuffer);
 
     auto pTlv = static_cast<relive::Path_Fleech*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvInfo));
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kFleechResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("FLEECH.BAN", nullptr);
-    }
-
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kFleeBlowResID_580, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("FLEEBLOW.BAN", nullptr);
-    }
 
     auto pFleech = relive_new Fleech(pTlv, pState->mTlvInfo);
     if (pFleech)
@@ -1606,10 +1597,6 @@ void Animation_OnFrame_Fleech_449A60(BaseGameObject* pObj, u32&, const Point32& 
 
 void Fleech::Init()
 {
-    const AnimRecord& rec = AnimRec(AnimId::Fleech_Idle);
-    field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, TRUE, FALSE));
-    field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kFleeBlowResID_580, TRUE, FALSE));
-
     Animation_Init(GetAnimRes(AnimId::Fleech_Idle));
 
     mAnim.mFnPtrArray = kFleech_Anim_Frame_Fns_55EFD0;

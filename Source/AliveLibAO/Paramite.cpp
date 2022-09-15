@@ -212,7 +212,6 @@ Paramite::~Paramite()
 
     VOnTrapDoorOpen();
 
-    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kWebAOResID, 0, 0));
     if (mHealth <= FP_FromInteger(0))
     {
         Path::TLV_Reset(field_12C_tlvInfo, -1, 0, 1);

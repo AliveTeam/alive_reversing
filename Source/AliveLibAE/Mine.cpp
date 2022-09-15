@@ -33,7 +33,6 @@ Mine::Mine(relive::Path_Mine* pPath, const Guid& tlv)
     SetType(ReliveTypes::eMine);
 
     LoadAnimations();
-
     Animation_Init(GetAnimRes(AnimId::Mine));
 
     field_118_detonating = 0;
@@ -96,19 +95,6 @@ Mine::Mine(relive::Path_Mine* pPath, const Guid& tlv)
     if (pPath->mPersistOffscreen == relive::reliveChoice::eYes)
     {
         field_1BC_flags.Set(Mine_Flags_1BC::eBit1_PersistOffscreen);
-    }
-
-    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAbebombResID);
-    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kDebrisID00ResID);
-    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kBgexpldResID);
-
-    if (!(field_11A_disabled_resources & 1))
-    {
-        Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
-    }
-    if (!(field_11A_disabled_resources & 2))
-    {
-        Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID);
     }
 
     const FP gridSnap = ScaleToGridSize(mSpriteScale);

@@ -57,7 +57,6 @@ GameEnderController::GameEnderController()
 {
     SetType(ReliveTypes::eGameEnderController);
     field_24_state = GameEnderController_States::eInit_0;
-    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kDeathFlareResID);
 }
 
 void GameEnderController::VScreenChanged()

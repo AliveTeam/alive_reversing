@@ -146,30 +146,7 @@ Elum::~Elum()
 {
     gElum = nullptr;
     VOnTrapDoorOpen();
-    /*
-    ResourceManager::FreeResource_455550(
-        ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAneprmntAOResID, 0, 0));
-
-    if (field_104_pending_resource_count)
-    {
-        ResourceManager::WaitForPendingResources_41EA60(this);
-    }
-    field_104_pending_resource_count = 0;
-
-    const AOResourceID resIDs[] = { 
-        AOResourceID::kElmaloneAOResID_230, 
-        AOResourceID::kElmprmntAOResID__222,
-        AOResourceID::kElumRideAOResID_220,
-        AOResourceID::kElumPdmntAOResID_221};
-
-    for (s32 resID : resIDs)
-    {
-        ResourceManager::FreeResource_455550(
-            ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, resID, 1, 0));
-    }
-    */
 }
-
 
 void Elum::VOnTlvCollision(relive::Path_TLV* pTlv)
 {
@@ -294,64 +271,11 @@ void Elum::VOnTrapDoorOpen()
     }
 }
 
-void Elum::VLoadUnmountedResources_411260()
-{
-    /*
-    if (!field_174_resources.res[30])
-    {
-        field_174_resources.res[30] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmaloneAOResID_230, 1, 0);
-    }
-    field_174_resources.res[22] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmprmntAOResID__222, 1, 0);
-    */
-}
-
-
-void Elum::VFreeMountedResources_411200()
-{
-    /*
-    if (field_126_res_idx != 20)
-    {
-        ResourceManager::FreeResource_455550(field_174_resources.res[20]);
-        field_174_resources.res[20] = nullptr;
-    }
-
-    while (!ResourceManager::FreeResource_455550(field_174_resources.res[21]))
-    {
-        // Empty
-    }
-
-    field_174_resources.res[21] = nullptr;
-    */
-}
-
 void Elum::Vsub_416120()
 {
     ToIdle();
 
     mAnim.Set_Animation_Data(GetAnimRes(gElumMotionAnimIds[mCurrentMotion]));
-}
-
-void Elum::VLoadMountedResources_411300()
-{
-    /*
-    field_174_resources.res[20] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElumRideAOResID_220, 1, 0);
-    field_174_resources.res[21] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElumPdmntAOResID_221, 1, 0);*/
-}
-
-void Elum::VFreeUnmountedResources_4112B0()
-{
-    /*
-    ResourceManager::FreeResource_455550(field_174_resources.res[30]);
-
-    field_174_resources.res[30] = nullptr;
-
-    while (!ResourceManager::FreeResource_455550(field_174_resources.res[22]))
-    {
-        // Empty
-    }
-
-
-    field_174_resources.res[22] = nullptr;*/
 }
 
 void Elum::MidWalkToNextMotion_412FA0()
@@ -1764,35 +1688,18 @@ void Elum::Motion_1_Idle_412990()
         }
         else if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_137_ElumUnmountBegin_42E2B0)
         {
-            //ResourceManager::FreeResource_455550(field_174_resources.res[20]);
-            //field_174_resources.res[20] = nullptr;
             mCurrentMotion = eElumMotions::Motion_49_AbeUnmountingBegin_415D00;
         }
         else if (sGnFrame - field_110_timer > 200 && sControlledCharacter != this)
         {
             mCurrentMotion = eElumMotions::Motion_44_ScratchBegin_412730;
-            /*
-            if (field_174_resources.res[30])
-            {
-                mCurrentMotion = eElumMotions::Motion_44_ScratchBegin_412730;
-            }
-            else
-            {
-                field_174_resources.res[30] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmaloneAOResID_230, 1, 0);
-            }*/
         }
     }
 }
 
 void Elum::Motion_2_Unknown_412C30()
 {
-    //if (field_104_pending_resource_count == 0)
-    {
-        VFreeMountedResources_411200();
-        VLoadUnmountedResources_411260();
-
-        ToIdle();
-    }
+    ToIdle();
 }
 
 void Elum::Motion_3_WalkLoop_412C90()
@@ -2535,19 +2442,16 @@ void Elum::Motion_26_LickingToStruggling_415AC0()
 
 void Elum::Motion_27_AbeMountingEnd_415CA0()
 {
-    if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_136_ElumMountEnd_42E110 /*&& field_104_pending_resource_count == 0*/)
+    if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_136_ElumMountEnd_42E110)
     {
-        VLoadMountedResources_411300();
         ToIdle();
     }
 }
 
 void Elum::Motion_28_AbeUnmountingEnd_415D60()
 {
-    if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_138_ElumUnmountEnd_42E390
-        /* && !field_104_pending_resource_count*/)
+    if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_138_ElumUnmountEnd_42E390)
     {
-        VLoadUnmountedResources_411260();
         ToIdle();
     }
 }
@@ -2559,12 +2463,6 @@ void Elum::Motion_29_BeesStruggling_412A90()
     if (mNextMotion == eElumMotions::Motion_44_ScratchBegin_412730)
     {
         mCurrentMotion = eElumMotions::Motion_44_ScratchBegin_412730;
-        /*
-        if (!field_174_resources.res[30])
-        {
-            VLoadUnmountedResources_411260();
-        }
-        */
         mNextMotion = -1;
         return;
     }
@@ -3304,20 +3202,6 @@ void Elum::Motion_48_AbeMoutingBegin_415C40()
 {
     if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_136_ElumMountEnd_42E110)
     {
-        VFreeUnmountedResources_4112B0();
-
-        //field_104_pending_resource_count += 2;
-
-        ResourceManager::LoadResourceFile(
-            "ELMRIDE.BAN",
-            BaseAliveGameObject::OnResourceLoaded_4019A0,
-            this);
-
-        ResourceManager::LoadResourceFile(
-            "ELMPDMNT.BAN",
-            BaseAliveGameObject::OnResourceLoaded_4019A0,
-            this);
-
         mCurrentMotion = eElumMotions::Motion_27_AbeMountingEnd_415CA0;
     }
 }
@@ -3326,21 +3210,6 @@ void Elum::Motion_49_AbeUnmountingBegin_415D00()
 {
     if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_137_ElumUnmountBegin_42E2B0)
     {
-        VFreeMountedResources_411200();
-
-        /*
-        field_104_pending_resource_count += 2;
-
-        ResourceManager::LoadResourceFile(
-            "ELMALONE.BAN",
-            BaseAliveGameObject::OnResourceLoaded_4019A0,
-            this);
-
-        ResourceManager::LoadResourceFile(
-            "ELMPRMNT.BAN",
-            BaseAliveGameObject::OnResourceLoaded_4019A0,
-            this);
-        */
         mCurrentMotion = eElumMotions::Motion_28_AbeUnmountingEnd_415D60;
     }
 }
@@ -3366,14 +3235,6 @@ void Elum::Motion_50_Knockback_415DC0()
         {
             if (BaseAliveGameObjectCollisionLine)
             {
-                /*
-                if (sControlledCharacter != this
-                    && !field_174_resources.res[30]
-                    && !field_104_pending_resource_count)
-                {
-                    VLoadUnmountedResources_411260();
-                }
-                */
                 ToIdle();
             }
         }
@@ -3462,20 +3323,6 @@ void Elum::VUpdate()
 
     if (mAnim.mFlags.Get(AnimFlags::eBit3_Render) /* || field_104_pending_resource_count == 0*/)
     {
-        /*
-        if (field_174_resources.res[0])
-        {
-            if (!field_174_resources.res[30])
-            {
-                field_174_resources.res[30] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmaloneAOResID_230, 1, 0);
-            }
-        }
-        else
-        {
-            field_174_resources.res[0] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmbasicAOResID_200, 1, 0);
-        }
-        */
-
         if (!(field_170_flags.Get(Elum::Flags_170::eFoundHoney_Bit4) || field_170_flags.Get(Elum::Flags_170::eStungByBees_Bit2)) && field_128_brain_idx != 1)
         {
             FindHoney_411600();
@@ -3702,52 +3549,6 @@ Elum::Elum(const Guid& tlvInfo)
     field_16C_never_read = 0;
     field_16E_never_read = -1;
     field_1F0_tlvInfo = tlvInfo;
-
-    /*
-    field_174_resources.res[16] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmfallAOResID_216, 1, 0);
-    if (!field_174_resources.res[16])
-    {
-        ResourceManager::LoadResourceFile_455270("ELMFALL.BAN", nullptr);
-        field_174_resources.res[16] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmfallAOResID_216, 1, 0);
-    }
-
-    field_104_pending_resource_count = 0;
-
-    field_174_resources.res[22] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmprmntAOResID__222, 1, 0);
-    if (!field_174_resources.res[22])
-    {
-        field_104_pending_resource_count++;
-        ResourceManager::LoadResourceFile(
-            "ELMPRMNT.BAN",
-            BaseAliveGameObject::OnResourceLoaded_4019A0,
-            this);
-        mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
-    }
-
-    field_174_resources.res[0] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmbasicAOResID_200, 1, 0);
-    if (!field_174_resources.res[0])
-    {
-        field_104_pending_resource_count++;
-        ResourceManager::LoadResourceFile(
-            "ELMBASIC.BAN",
-            BaseAliveGameObject::OnResourceLoaded_4019A0,
-            this);
-        mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
-    }
-
-    field_174_resources.res[30] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmaloneAOResID_230, 1, 0);
-    if (!field_174_resources.res[30])
-    {
-        field_104_pending_resource_count++;
-        ResourceManager::LoadResourceFile(
-            "ELMALONE.BAN",
-            BaseAliveGameObject::OnResourceLoaded_4019A0,
-            this);
-        mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
-    }
-    */
-
-    //field_126_res_idx = 16;
 
     Animation_Init(GetAnimRes(AnimId::Elum_Land));
 

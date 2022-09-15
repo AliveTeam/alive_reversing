@@ -204,19 +204,6 @@ Slog::~Slog()
         }
     }
 
-    /*
-    for (s32 i = 0; i < ALIVE_COUNTOF(field_184_resources); i++)
-    {
-        if (mAnim.field_20_ppBlock != field_184_resources[i])
-        {
-            if (field_184_resources[i])
-            {
-                ResourceManager::FreeResource_455550(field_184_resources[i]);
-                field_184_resources[i] = nullptr;
-            }
-        }
-    }*/
-
     MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
 
     if (!field_178_bShot)
@@ -475,14 +462,6 @@ const TintEntry sSlogTints_4CFE10[3] = {
 
 void Slog::Init()
 {
-    /*
-    field_184_resources[0] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kDogbasicAOResID, 1, 0);
-    field_184_resources[1] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kDogrstnAOResID, 1, 0);
-    field_184_resources[2] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kDogattkAOResID, 1, 0);
-    field_184_resources[3] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kDogknfdAOResID, 1, 0);
-    field_184_resources[4] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kDogidleAOResID, 1, 0);
-    */
-
     Animation_Init(GetAnimRes(AnimId::Slog_Idle));
 
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);

@@ -109,19 +109,19 @@ void SaveGame::LoadFromMemory(SaveData* pData, s32 bKillObjects)
     {
         if (sActiveHero->field_16C_bHaveShrykull)
         {
-            if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbemorphAOResID, 0, 0))
-            {
-                ResourceManager::LoadResourceFile_4551E0("SHRYPORT.BND", nullptr, nullptr, nullptr);
-                ResourceManager::LoadingLoop_41EAD0(0);
-            }
+            //if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbemorphAOResID, 0, 0))
+            //{
+            //    ResourceManager::LoadResourceFile_4551E0("SHRYPORT.BND", nullptr, nullptr, nullptr);
+            //    ResourceManager::LoadingLoop_41EAD0(0);
+            //}
 
-            if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kSplineAOResID, 0, 0))
-            {
-                ResourceManager::LoadResourceFile_4551E0("SPLINE.BAN", nullptr, nullptr, nullptr);
-                ResourceManager::LoadingLoop_41EAD0(0);
-            }
+            //if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kSplineAOResID, 0, 0))
+            //{
+            //    ResourceManager::LoadResourceFile_4551E0("SPLINE.BAN", nullptr, nullptr, nullptr);
+            //    ResourceManager::LoadingLoop_41EAD0(0);
+            //}
 
-            Abe::Get_Shrykull_Resources_42F480();
+            //Abe::Get_Shrykull_Resources_42F480();
         }
     }
 

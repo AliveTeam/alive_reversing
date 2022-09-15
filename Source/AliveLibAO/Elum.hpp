@@ -106,41 +106,19 @@ public:
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VOnTrapDoorOpen() override;
 
-    // TODO: Add new virtuals
-    void VLoadUnmountedResources_411260();
-
-    void VFreeMountedResources_411200();
-
     void Vsub_416120();
-
-    void VLoadMountedResources_411300();
-
-    void VFreeUnmountedResources_4112B0();
-
     void ToKnockback();
-
     void MidWalkToNextMotion_412FA0();
-
     void WalkToNextMotion_4130D0();
-
     void SlowOnX_414210(FP amount);
-
     void CheckLiftPointGoneAndSetCamera();
-
     void MoveOnLine_412580(s16 xLookAhead);
-
     void SetAbeAsPlayer_412520(s16 abeMotion);
-
     s16 ToNextMotion_4120F0();
-
     s16 ToNextMotionAbeControlled_411E40();
-
     void HandleElumPathTrans_411460();
-
     static void Elum_SFX_416E10(ElumSounds soundId, BaseAliveGameObject* pObj);
-
     void FindHoney_411600();
-
     s16 NearHoney_411DA0();
 
     // Brains

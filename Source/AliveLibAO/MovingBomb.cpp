@@ -56,7 +56,6 @@ MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
-
     field_118_speed = FP_FromRaw(pTlv->mSpeed << 8);
     mVelX = FP_FromRaw(pTlv->mStartSpeed << 8);
     field_11C_switch_id = pTlv->mStartMovingSwitchId;
@@ -75,23 +74,6 @@ MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
     }
 
     SetTint(kMovingBombTints_4CD310, gMap.mCurrentLevel);
-
-    field_128_disabled_resources = pTlv->mDisabledResources;
-
-    if (!(field_128_disabled_resources & 1))
-    {
-        ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeblowAOResID, 1, 0);
-    }
-
-    if (!(field_128_disabled_resources & 2))
-    {
-        ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmblowAOResID_217, 1, 0);
-    }
-
-    ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kExplo2AOResID, 1, 0);
-    ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kMetalGibAOResID, 1, 0);
-    ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AOResourceID::kAbeblowAOResID, 1, 0);
-    ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AOResourceID::kSlogBlowAOResID, 1, 0);
 
     mLiftPoint = nullptr;
 
@@ -116,21 +98,6 @@ MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
 
 MovingBomb::~MovingBomb()
 {
-    if (!(field_128_disabled_resources & 1))
-    {
-        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeblowAOResID, 0, 0));
-    }
-
-    if (!(field_128_disabled_resources & 2))
-    {
-        ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kElmblowAOResID_217, 0, 0));
-    }
-
-    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kExplo2AOResID, 0, 0));
-    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kMetalGibAOResID, 0, 0));
-    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AOResourceID::kAbeblowAOResID, 0, 0));
-    ResourceManager::FreeResource_455550(ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AOResourceID::kSlogBlowAOResID, 0, 0));
-
     if (mLiftPoint)
     {
         mLiftPoint->VRemove(this);

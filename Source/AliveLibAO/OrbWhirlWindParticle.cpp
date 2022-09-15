@@ -191,8 +191,6 @@ void OrbWhirlWindParticle::Update()
 
 OrbWhirlWindParticle::OrbWhirlWindParticle(FP xpos, FP ypos, FP scale)
 {
-//    const AnimRecord& orbRec = AO::AnimRec(AnimId::ChantOrb_Particle);
-  //  u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, orbRec.mResourceId, 1, 0);
     mAnim.Init(ResourceManagerWrapper::LoadAnimation(AnimId::ChantOrb_Particle), nullptr);
 
     mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);

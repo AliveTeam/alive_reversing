@@ -296,26 +296,6 @@ s32 TrapDoor::CreateFromSaveState(const u8* pData)
     auto pState = reinterpret_cast<const TrapDoor_State*>(pData);
     auto pTlv = static_cast<relive::Path_TrapDoor*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_8_tlvInfo));
 
-    switch (gMap.mCurrentLevel)
-    {
-        case EReliveLevelIds::eMudomoVault:
-        case EReliveLevelIds::eMudancheeVault:
-        case EReliveLevelIds::eMudancheeVault_Ender:
-        case EReliveLevelIds::eMudomoVault_Ender:
-            if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kP6c1trapResID, FALSE, FALSE))
-            {
-                ResourceManager::LoadResourceFile_49C170("VLTSTRAP.BAN", nullptr);
-            }
-            break;
-
-        default:
-            if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kP6c1trapResID, FALSE, FALSE))
-            {
-                ResourceManager::LoadResourceFile_49C170("TRAPDOOR.BAN", nullptr);
-            }
-            break;
-    }
-
     auto pTrapDoor = relive_new TrapDoor(pTlv, pState->field_8_tlvInfo);
     if (pTrapDoor)
     {

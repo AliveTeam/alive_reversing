@@ -967,7 +967,6 @@ s16 SND_VAB_Load_476CB0(SoundBlockInfo* pSoundBlockInfo, s16 vabId)
         if (!GetMidiVars()->sSnd_ReloadAbeResources())
         {
             GetMidiVars()->sSnd_ReloadAbeResources() = TRUE;
-            sActiveHero->Free_Resources_422870();
         }
 
         // Compact/reclaim any other memory we can too
@@ -1018,7 +1017,6 @@ void SND_Load_VABS_477040(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
         if (GetMidiVars()->sSnd_ReloadAbeResources())
         {
             ResourceManager::Reclaim_Memory_455660(0);
-            Abe::Load_Basic_Resources_4228A0();
         }
 
         SsUtSetReverbDepth_4FE380(reverb, reverb);

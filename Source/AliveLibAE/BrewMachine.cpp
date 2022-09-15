@@ -50,10 +50,6 @@ BrewMachine::BrewMachine(relive::Path_BrewMachine* pTlv, const Guid& tlvId)
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BrewMachine_Button));
     Animation_Init(GetAnimRes(AnimId::BrewMachine_Button));
 
-    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kEvilFartResID);
-    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
-    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
-
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
     mTlvInfo = tlvId;
     mAnim.mRenderLayer = Layer::eLayer_Well_23;

@@ -345,8 +345,6 @@ Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
         mBaseGameObjectTlvInfo = tlvId;
     }
 
-    field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSlgbasicResID, 1, 0));
-
     LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::Slig_Idle));
 
@@ -702,63 +700,6 @@ s32 Slig::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Slig_State*>(pBuffer);
     auto pTlv = static_cast<relive::Path_Slig*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_5C_tlvInfo));
-
-    const s16 disabledResources = pTlv->mData.mDisabledResourcesAE;
-
-    if (!(disabledResources & 1) && !ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSlgleverResID, 0, 0))
-    {
-        ResourceManager::LoadResourceFile_49C170("SLGLEVER.BAN", nullptr);
-    }
-
-    if (!(disabledResources & 2) && !ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSlgliftResID, 0, 0))
-    {
-        ResourceManager::LoadResourceFile_49C170("SLGLIFT.BAN", nullptr);
-    }
-
-    if (!(disabledResources & 0x40) && !ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSlgsleepResID, 0, 0))
-    {
-        ResourceManager::LoadResourceFile_49C170("SLGSLEEP.BAN", nullptr);
-    }
-
-    if ((disabledResources & 0x80u) == 0 && !ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSlgknfdResID, 0, 0))
-    {
-        ResourceManager::LoadResourceFile_49C170("SLGKNFD.BAN", nullptr);
-    }
-
-    if (!(disabledResources & 0x100) && !ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSlgedgeResID, 0, 0))
-    {
-        ResourceManager::LoadResourceFile_49C170("SLGEDGE.BAN", nullptr);
-    }
-
-    if (!(disabledResources & 0x200) && !ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSlgsmashResID, 0, 0))
-    {
-        ResourceManager::LoadResourceFile_49C170("SLGSMASH.BAN", nullptr);
-    }
-
-    if (!(disabledResources & 0x400) && !ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSlgbeatResID, 0, 0))
-    {
-        ResourceManager::LoadResourceFile_49C170("SLGBEAT.BAN", nullptr);
-    }
-
-    if (!(disabledResources & 4) && !ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSlgzshotResID, 0, 0))
-    {
-        ResourceManager::LoadResourceFile_49C170("SLIGZ.BND", nullptr);
-    }
-
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSlgbasicResID, 0, 0))
-    {
-        ResourceManager::LoadResourceFile_49C170("SLIG.BND", nullptr);
-    }
-
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSligBlowResID, 0, 0))
-    {
-        ResourceManager::LoadResourceFile_49C170("SLGBLOW.BAN", nullptr);
-    }
-
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kObjectShadowResID, 0, 0))
-    {
-        ResourceManager::LoadResourceFile_49C170("SHADOW.BAN", nullptr);
-    }
 
     auto pSlig = relive_new Slig(pTlv, pState->field_5C_tlvInfo);
     if (pSlig)
@@ -4486,62 +4427,6 @@ s16 Slig::Brain_ChaseAndDisappear_35_4BF640()
 
 void Slig::Init()
 {
-    field_10_resources_array.SetAt(10, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kBigflashResID, 1, 0));
-    field_10_resources_array.SetAt(11, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSligBlowResID, 1, 0));
-    field_10_resources_array.SetAt(12, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kShellResID, 1, 0));
-    field_10_resources_array.SetAt(2, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSlgknbkResID, 1, 0));
-    field_10_resources_array.SetAt(16, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSquibSmokeResID, 1, 0));
-
-    if (!(field_218_tlv_data.mData.mDisabledResourcesAE & 0x80))
-    {
-        field_10_resources_array.SetAt(6, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSlgknfdResID, 1, 0));
-    }
-
-    if (!(field_218_tlv_data.mData.mDisabledResourcesAE & 0x100))
-    {
-        field_10_resources_array.SetAt(3, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSlgedgeResID, 1, 0));
-    }
-
-    if (!(field_218_tlv_data.mData.mDisabledResourcesAE & 1))
-    {
-        field_10_resources_array.SetAt(7, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSlgleverResID, 1, 0));
-    }
-
-    if (!(field_218_tlv_data.mData.mDisabledResourcesAE & 2))
-    {
-        field_10_resources_array.SetAt(8, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSlgliftResID, 1, 0));
-    }
-
-    if (!(field_218_tlv_data.mData.mDisabledResourcesAE & 0x200))
-    {
-        field_10_resources_array.SetAt(4, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSlgsmashResID, 1, 0));
-    }
-
-    if (!(field_218_tlv_data.mData.mDisabledResourcesAE & 0x400))
-    {
-        field_10_resources_array.SetAt(9, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSlgbeatResID, 1, 0));
-    }
-
-    if (!(field_218_tlv_data.mData.mDisabledResourcesAE & 4))
-    {
-        field_10_resources_array.SetAt(5, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSlgzshotResID, 1, 0));
-    }
-
-    if (!(field_218_tlv_data.mData.mDisabledResourcesAE & 0x40))
-    {
-        field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSlgsleepResID, 1, 0));
-    }
-
-    if (!(field_218_tlv_data.mData.mDisabledResourcesAE & 8))
-    {
-        field_10_resources_array.SetAt(13, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kZflashResID, 1, 0));
-    }
-
-    if (!(field_218_tlv_data.mData.mDisabledResourcesAE & 0x10))
-    {
-        field_10_resources_array.SetAt(15, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeknokzResID, 1, 0));
-    }
-
     field_15E_spotted_possessed_slig = 0;
     field_120_timer = field_218_tlv_data.mData.mPauseTime + sGnFrame;
 

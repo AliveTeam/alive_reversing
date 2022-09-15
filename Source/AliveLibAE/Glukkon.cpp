@@ -120,37 +120,6 @@ s32 Glukkon::CreateFromSaveState(const u8* pData)
     const Glukkon_SaveState* pSaveState = reinterpret_cast<const Glukkon_SaveState*>(pData);
     auto pTlv = static_cast<relive::Path_Glukkon*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->field_44_tlvInfo));
 
-    switch (gMap.mCurrentLevel)
-    {
-        case EReliveLevelIds::eFeeCoDepot:
-        case EReliveLevelIds::eFeeCoDepot_Ender:
-            if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kGlukAslikResID, FALSE, FALSE))
-            {
-                ResourceManager::LoadResourceFile_49C170("ASLIK.BND", 0);
-            }
-            break;
-        case EReliveLevelIds::eBarracks:
-        case EReliveLevelIds::eBarracks_Ender:
-            if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kGlukDripikResID, FALSE, FALSE))
-            {
-                ResourceManager::LoadResourceFile_49C170("DRIPIK.BND", 0);
-            }
-            break;
-        case EReliveLevelIds::eBonewerkz:
-        case EReliveLevelIds::eBonewerkz_Ender:
-            if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kGlukPhlegResID, FALSE, FALSE))
-            {
-                ResourceManager::LoadResourceFile_49C170("PHLEG.BND", 0);
-            }
-            break;
-        default:
-            if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kGlkbasicResID, FALSE, FALSE))
-            {
-                ResourceManager::LoadResourceFile_49C170("GLUKKON.BND", 0);
-            }
-            break;
-    }
-
     auto pGlukkon = relive_new Glukkon(pTlv, pSaveState->field_44_tlvInfo);
     if (pGlukkon)
     {

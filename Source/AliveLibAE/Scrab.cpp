@@ -143,19 +143,6 @@ Scrab::Scrab(relive::Path_Scrab* pTlv, const Guid& tlvId, relive::Path_ScrabSpaw
     field_124_fight_target_obj_id = Guid{};
     field_120_obj_id = Guid{};
 
-    field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kArsbasicResID, 1, 0));
-    field_10_resources_array.SetAt(11, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kArschewResID, 1, 0));
-    field_10_resources_array.SetAt(6, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kArsdanceResID, 1, 0));
-    field_10_resources_array.SetAt(8, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kArsdeadResID, 1, 0));
-    field_10_resources_array.SetAt(1, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kArseatResID, 1, 0));
-    field_10_resources_array.SetAt(10, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kArsgrwlResID, 1, 0));
-    field_10_resources_array.SetAt(5, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kArshowlResID, 1, 0));
-    field_10_resources_array.SetAt(2, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kArsprceResID, 1, 0));
-    field_10_resources_array.SetAt(9, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kArsroarResID, 1, 0));
-    field_10_resources_array.SetAt(3, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kArsskwrResID, 1, 0));
-    field_10_resources_array.SetAt(4, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kArswhirlResID, 1, 0));
-    field_10_resources_array.SetAt(13, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kArscrshResID, 1, 0));
-
     LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::Scrab_Idle));
 
@@ -284,11 +271,6 @@ s32 Scrab::CreateFromSaveState(const u8* pBuffer)
     auto pState = reinterpret_cast<const Scrab_State*>(pBuffer);
 
     auto pTlv = static_cast<relive::Path_Scrab*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_44_tlvInfo));
-
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kArsbasicResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("SCRAB.BND", nullptr);
-    }
 
     auto pScrab = relive_new Scrab(pTlv, pState->field_44_tlvInfo, relive::Path_ScrabSpawner::SpawnDirection::eNone);
     if (pScrab)

@@ -110,11 +110,6 @@ s32 SlapLock::CreateFromSaveState(const u8* pBuffer)
 
     auto pTlv = static_cast<relive::Path_SlapLock*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvInfo));
 
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kGhostTrpResID_1053, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("GHOSTTRP.BAN", nullptr);
-    }
-
     auto pSlapLock = relive_new SlapLock(pTlv, pState->mTlvInfo);
     if (pSlapLock)
     {

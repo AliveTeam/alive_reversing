@@ -128,8 +128,6 @@ UXB::UXB(relive::Path_UXB* pTlv, const Guid& tlvId)
     {
         mIsRed = 0;
         mRGB.SetRGB(80, 90, 110);
-        ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AOResourceID::kAbeblowAOResID, 1, 0);
-        ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, AOResourceID::kSlogBlowAOResID, 1, 0);
     }
 
     const FP gridSnap = ScaleToGridSize(mSpriteScale);

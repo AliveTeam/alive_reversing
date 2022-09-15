@@ -240,8 +240,7 @@ Door::Door(relive::Path_Door* pTlvData, const Guid& tlvId)
     const AnimId openDoor = sDoorAnimIdTable[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1];
 
     const AnimRecord& openRec = AnimRec(openDoor);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kF2p3dorResID);
-    if (!ppRes || openRec.mFrameTableOffset == 0)
+    if (openRec.mFrameTableOffset == 0)
     {
         mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);

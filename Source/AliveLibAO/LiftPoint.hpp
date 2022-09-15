@@ -71,7 +71,6 @@ public:
     s16 field_26C_pulley_xpos = 0;
     s16 field_26E_pulley_ypos = 0;
     FP field_270_floorYLevel = {};
-    u8** field_274_ppRes = nullptr;
     s16 field_278_lift_point_id = 0;
     BitField16<Flags> field_27A_flags = {};
 };

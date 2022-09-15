@@ -42,9 +42,6 @@ RollingBall::~RollingBall()
         mRollingBallShaker->mBaseGameObjectRefCount--;
         mRollingBallShaker = nullptr;
     }
-
-    u8** pRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kDebrisID00AOResID, 0, 0);
-    ResourceManager::FreeResource_455550(pRes);
 }
 
 RollingBall::RollingBall(relive::Path_RollingBall* pTlv, const Guid& tlvId)
@@ -107,9 +104,6 @@ RollingBall::RollingBall(relive::Path_RollingBall* pTlv, const Guid& tlvId)
     mRollingBallShaker = nullptr;
 
     mShadow = relive_new Shadow();
-
-    // Looks strange, it just bumps the res ref count
-    ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kDebrisID00AOResID, 1, 0);
 
     if (!SwitchStates_Get(mReleaseSwitchId))
     {

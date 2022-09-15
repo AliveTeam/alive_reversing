@@ -96,13 +96,13 @@ public:
 
 private:
     AnimationPal mPal;
-    s16 field_B8_palBuffer[8];
-    s16 field_C8_pal_x_index;
-    s16 field_CA_pal_w;
-    s16 field_CC_bFirstUpdate;
+    s16 field_B8_palBuffer[8] = {};
+    s16 field_C8_pal_x_index = 0;
+    s16 field_CA_pal_w = 0;
+    s16 field_CC_bFirstUpdate = 0;
 
 public:
-    s16 field_CE_bDone;
+    s16 field_CE_bDone = 0;
 };
 ALIVE_ASSERT_SIZEOF(PalleteOverwriter, 0xD0);
 

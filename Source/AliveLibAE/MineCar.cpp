@@ -85,11 +85,6 @@ MineCar::MineCar(relive::Path_MineCar* pTlv, const Guid& tlvId, s32 /*a4*/, s32 
 
     mShadow = relive_new Shadow();
 
-    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAbeCarResId);
-    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID);
-    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
-    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
-
     field_1C0_unused = 0;
     field_1C2_falling_counter = 0;
 
@@ -119,31 +114,6 @@ s32 MineCar::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const MineCar_SaveState*>(pBuffer);
     auto pTlv = static_cast<relive::Path_MineCar*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_4C_tlvInfo));
-
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kBayrollResID_6013, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("BAYROLL.BAN", nullptr);
-    }
-
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeCarResId, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("ABECAR.BAN", nullptr);
-    }
-
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("METAL.BAN", nullptr);
-    }
-
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("EXPLO2.BAN", nullptr);
-    }
-
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("ABEBLOW.BAN", nullptr);
-    }
 
     auto pMineCar = relive_new MineCar(pTlv, pState->field_4C_tlvInfo, 0, 0, 0);
     if (pMineCar)

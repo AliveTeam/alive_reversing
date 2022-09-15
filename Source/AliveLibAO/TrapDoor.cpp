@@ -87,8 +87,6 @@ TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, Map* pMap, const Guid& tlvId)
         mScale = Scale::Fg;
     }
 
-    //u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kP6c1trapAOResID, 1, 0);
-
     AddDynamicCollision(
         sTrapDoorData_4BD4A0[cur_lvl].field_4_closed,
         pTlv,

@@ -1972,7 +1972,6 @@ static void Factory_RingCancel(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid
             {
                 if (sActiveHero->field_16C_bHaveShrykull)
                 {
-                    Abe::Free_Shrykull_Resources_42F4C0();
                     sActiveHero->field_168_ring_pulse_timer = 0;
                 }
             }

@@ -125,16 +125,6 @@ BirdPortal::~BirdPortal()
         mThrowableTotalIndicator = nullptr;
     }
 
-    u8** ppRes = nullptr;
-    ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kPortalTerminatorAOResID, 0, 0);
-    ResourceManager::FreeResource_455550(ppRes);
-    ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kPortliteAOResID, 0, 0);
-    ResourceManager::FreeResource_455550(ppRes);
-    ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kPortlitAOResID, 0, 0);
-    ResourceManager::FreeResource_455550(ppRes);
-    ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kDovbasicAOResID, 0, 0);
-    ResourceManager::FreeResource_455550(ppRes);
-
     if (mSfxPlaying)
     {
         SND_Stop_Channels_Mask(mSfxPlaying);
@@ -417,8 +407,8 @@ void BirdPortal::VUpdate()
             EventBroadcast(kEventPortalOpen, this);
             if (mTerminator1->mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                mTerminator1->mAnim.Set_Animation_Data(GetAnimRes(AnimId::BirdPortal_TerminatorIdle));
-                mTerminator2->mAnim.Set_Animation_Data(GetAnimRes(AnimId::BirdPortal_TerminatorIdle));
+                mTerminator1->mAnim.Set_Animation_Data(mTerminator1->GetAnimRes(AnimId::BirdPortal_TerminatorIdle));
+                mTerminator2->mAnim.Set_Animation_Data(mTerminator2->GetAnimRes(AnimId::BirdPortal_TerminatorIdle));
                 mTimer = sGnFrame + 12;
                 mState = PortalStates::ExpandTerminators_5;
                 mSfxPlaying = SfxPlayMono(relive::SoundEffects::PortalOpening, 0);
@@ -541,7 +531,6 @@ void BirdPortal::VUpdate()
         case PortalStates::GetShrykull_9:
             if (static_cast<s32>(sGnFrame) >= mTimer)
             {
-                Abe::Get_Shrykull_Resources_42F480();
                 mState = PortalStates::CollapseTerminators_10;
                 sActiveHero->field_168_ring_pulse_timer = sGnFrame + 32000;
                 sActiveHero->field_16C_bHaveShrykull = TRUE;

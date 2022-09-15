@@ -24,17 +24,11 @@ BeeNest::BeeNest(relive::Path_BeeNest* pTlv, const Guid& tlvId)
     mBeeSwarmY = FP_FromInteger(pTlv->mTopLeftY);
 
     mTotalChaseTime = pTlv->mChaseTime;
-
     mSpeed = FP_FromRaw(pTlv->mSpeed << 8);
 
     mBeeSwarm = nullptr;
 
     mState = BeeNestStates::eWaitForTrigger_0;
-
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kWaspAOResID, 0, 0))
-    {
-        ResourceManager::LoadResourceFile_455270("WASP.BAN", nullptr);
-    }
 
     // The "idle" swarm that hovers around the nest
     relive_new BeeSwarm(mBeeSwarmX, mBeeSwarmY, FP_FromInteger(0), pTlv->mBeesAmount, 0);

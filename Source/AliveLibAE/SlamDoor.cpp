@@ -453,23 +453,6 @@ s32 SlamDoor::CreateFromSaveState(const u8* pData)
 {
     const Quicksave_Obj_SlamDoor* pSaveState = reinterpret_cast<const Quicksave_Obj_SlamDoor*>(pData);
 
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSlamResID, 0, 0))
-    {
-        switch (gMap.mCurrentLevel)
-        {
-            case EReliveLevelIds::eNecrum:
-            case EReliveLevelIds::eMudomoVault:
-            case EReliveLevelIds::eMudancheeVault:
-            case EReliveLevelIds::eMudancheeVault_Ender:
-            case EReliveLevelIds::eMudomoVault_Ender:
-                ResourceManager::LoadResourceFile_49C170("SLAMVLTS.BAN", nullptr);
-                break;
-            default:
-                ResourceManager::LoadResourceFile_49C170("SLAM.BAN", nullptr);
-                break;
-        }
-    }
-
     relive_new SlamDoor(static_cast<relive::Path_SlamDoor*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->mTlvInfo)), pSaveState->mTlvInfo);
 
     return sizeof(Quicksave_Obj_SlamDoor);

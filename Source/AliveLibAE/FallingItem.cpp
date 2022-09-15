@@ -58,15 +58,12 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
 {
     SetType(ReliveTypes::eRockSpawner);
 
-    LoadAnimations();
-
     mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
     field_118_tlvInfo = tlvId;
 
-    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
-
     const s32 lvlIdx = static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel));
 
+    LoadAnimations();
     Animation_Init(GetAnimRes(sFallingItemData_544DC0[lvlIdx][0]));
 
     field_11E_switch_id = pTlv->mSwitchId;

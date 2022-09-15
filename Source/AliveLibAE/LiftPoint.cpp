@@ -137,8 +137,6 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, const Guid& tlvId)
             field_13C_lift_wheel.field_14_scale = mSpriteScale;
         }
 
-        u8** ppAbeLiftRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeliftResID, TRUE, FALSE);
-
         field_13C_lift_wheel.mFlags.Clear(AnimFlags::eBit2_Animate);
         field_13C_lift_wheel.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
         field_13C_lift_wheel.mFlags.Clear(AnimFlags::eBit16_bBlending);
@@ -149,8 +147,6 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, const Guid& tlvId)
         field_280_flags.Clear(LiftFlags::eBit2_bMiddleFloor);
         field_280_flags.Clear(LiftFlags::eBit3_bBottomFloor);
         field_280_flags.Clear(LiftFlags::eBit5_bMoveToFloorLevel);
-
-        field_274_ppRes = ppAbeLiftRes;
 
         field_13C_lift_wheel.mGreen = static_cast<u8>(mRGB.g);
         field_13C_lift_wheel.mRed = static_cast<u8>(mRGB.b);
@@ -228,107 +224,52 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, const Guid& tlvId)
     }
 }
 
-static void LoadLiftResourceBans(const char_type* pRopeBanName, const char_type* pLiftBanName)
-{
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kRopesResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170(pRopeBanName, nullptr);
-    }
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kLiftResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170(pLiftBanName, nullptr);
-    }
-}
-
 s32 LiftPoint::CreateFromSaveState(const u8* pData)
 {
     const LiftPoint_State* pState = reinterpret_cast<const LiftPoint_State*>(pData);
 
     relive::Path_LiftPoint* pTlv = static_cast<relive::Path_LiftPoint*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_C_tlvInfo));
 
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeliftResID, FALSE, FALSE))
-    {
-        ResourceManager::LoadResourceFile_49C170("ABELIFT.BAN", nullptr);
-    }
-
-    switch (gMap.mCurrentLevel)
-    {
-        case EReliveLevelIds::eMines:
-            LoadLiftResourceBans("ROPES.BAN", "MILIFT.BND");
-            break;
-
-        case EReliveLevelIds::eNecrum:
-            LoadLiftResourceBans("NECROPE.BAN", "NELIFT.BND");
-            break;
-
-        case EReliveLevelIds::eMudomoVault:
-        case EReliveLevelIds::eMudomoVault_Ender:
-            LoadLiftResourceBans("NECROPE.BAN", "PVLIFT.BND");
-            break;
-
-        case EReliveLevelIds::eMudancheeVault:
-        case EReliveLevelIds::eMudancheeVault_Ender:
-            LoadLiftResourceBans("NECROPE.BAN", "SVLIFT.BND");
-            break;
-
-        case EReliveLevelIds::eFeeCoDepot:
-        case EReliveLevelIds::eFeeCoDepot_Ender:
-            LoadLiftResourceBans("ROPES.BAN", "FDLIFT.BND");
-            break;
-
-        case EReliveLevelIds::eBarracks:
-        case EReliveLevelIds::eBarracks_Ender:
-            LoadLiftResourceBans("ROPES.BAN", "BALIFT.BND");
-            break;
-
-        case EReliveLevelIds::eBrewery:
-        case EReliveLevelIds::eBrewery_Ender:
-            LoadLiftResourceBans("ROPES.BAN", "BRLIFT.BND");
-            break;
-
-        default:
-            LoadLiftResourceBans("ROPES.BAN", "BWLIFT.BND");
-            break;
-    }
-
     auto pLiftPoint = relive_new LiftPoint(pTlv, pState->field_C_tlvInfo);
-    pLiftPoint->mXPos = pState->field_4_xpos;
-    pLiftPoint->mYPos = pState->field_8_ypos;
-    pLiftPoint->SyncCollisionLinePosition();
-
-    Rope* pRope2 = static_cast<Rope*>(sObjectIds.Find(pLiftPoint->field_134_rope2_id, ReliveTypes::eRope));
-    Rope* pRope1 = static_cast<Rope*>(sObjectIds.Find(pLiftPoint->field_138_rope1_id, ReliveTypes::eRope));
-
-    pRope2->field_106_bottom = FP_GetExponent(FP_FromInteger(pLiftPoint->field_124_pCollisionLine->mRect.y) + (FP_FromInteger(25) * pLiftPoint->mSpriteScale));
-    pRope1->field_106_bottom = FP_GetExponent(FP_FromInteger(pLiftPoint->field_124_pCollisionLine->mRect.y) + (FP_FromInteger(25) * pLiftPoint->mSpriteScale));
-
-    if (pLiftPoint->field_280_flags.Get(LiftPoint::eBit4_bHasPulley))
+    if (pLiftPoint)
     {
-        pRope2->field_102_top = FP_GetExponent(FP_FromInteger(pLiftPoint->field_26E_pulley_ypos) + FP_FromInteger(-19) * pLiftPoint->mSpriteScale);
-        pRope1->field_102_top = FP_GetExponent(FP_FromInteger(pLiftPoint->field_26E_pulley_ypos) + FP_FromInteger(-19) * pLiftPoint->mSpriteScale);
+        pLiftPoint->mXPos = pState->field_4_xpos;
+        pLiftPoint->mYPos = pState->field_8_ypos;
+        pLiftPoint->SyncCollisionLinePosition();
+
+        Rope* pRope2 = static_cast<Rope*>(sObjectIds.Find(pLiftPoint->field_134_rope2_id, ReliveTypes::eRope));
+        Rope* pRope1 = static_cast<Rope*>(sObjectIds.Find(pLiftPoint->field_138_rope1_id, ReliveTypes::eRope));
+
+        pRope2->field_106_bottom = FP_GetExponent(FP_FromInteger(pLiftPoint->field_124_pCollisionLine->mRect.y) + (FP_FromInteger(25) * pLiftPoint->mSpriteScale));
+        pRope1->field_106_bottom = FP_GetExponent(FP_FromInteger(pLiftPoint->field_124_pCollisionLine->mRect.y) + (FP_FromInteger(25) * pLiftPoint->mSpriteScale));
+
+        if (pLiftPoint->field_280_flags.Get(LiftPoint::eBit4_bHasPulley))
+        {
+            pRope2->field_102_top = FP_GetExponent(FP_FromInteger(pLiftPoint->field_26E_pulley_ypos) + FP_FromInteger(-19) * pLiftPoint->mSpriteScale);
+            pRope1->field_102_top = FP_GetExponent(FP_FromInteger(pLiftPoint->field_26E_pulley_ypos) + FP_FromInteger(-19) * pLiftPoint->mSpriteScale);
+        }
+
+        pLiftPoint->mPlatformBaseTlvInfo = pState->field_C_tlvInfo;
+        pLiftPoint->field_27C_pTlv = pState->field_10_pTlv;
+        pLiftPoint->field_270_floorYLevel = pState->field_14_floorYLevel;
+        pLiftPoint->field_130_lift_point_stop_type = pState->field_18_lift_point_stop_type;
+
+        if (pState->field_1A.Get(LiftPoint_State::eBit1_bMoving))
+        {
+            pLiftPoint->field_12C_bMoving |= 1;
+        }
+        else
+        {
+            pLiftPoint->field_12C_bMoving &= ~1;
+        }
+
+        pLiftPoint->field_280_flags.Set(LiftFlags::eBit1_bTopFloor, pState->field_1A.Get(LiftPoint_State::eBit2_bTopFloor));
+        pLiftPoint->field_280_flags.Set(LiftFlags::eBit2_bMiddleFloor, pState->field_1A.Get(LiftPoint_State::eBit3_bMiddleFloor));
+        pLiftPoint->field_280_flags.Set(LiftFlags::eBit3_bBottomFloor, pState->field_1A.Get(LiftPoint_State::eBit4_bBottomFloor));
+        pLiftPoint->field_280_flags.Set(LiftFlags::eBit5_bMoveToFloorLevel, pState->field_1A.Get(LiftPoint_State::eBit5_bMoveToFloorLevel));
+        pLiftPoint->field_280_flags.Set(LiftFlags::eBit6, pState->field_1A.Get(LiftPoint_State::eBit6));
+        pLiftPoint->field_280_flags.Set(LiftFlags::eBit7_KeepOnMiddleFloor, pState->field_1A.Get(LiftPoint_State::eBit7_KeepOnMiddleFloor));
     }
-
-    pLiftPoint->mPlatformBaseTlvInfo = pState->field_C_tlvInfo;
-    pLiftPoint->field_27C_pTlv = pState->field_10_pTlv;
-    pLiftPoint->field_270_floorYLevel = pState->field_14_floorYLevel;
-    pLiftPoint->field_130_lift_point_stop_type = pState->field_18_lift_point_stop_type;
-
-    if (pState->field_1A.Get(LiftPoint_State::eBit1_bMoving))
-    {
-        pLiftPoint->field_12C_bMoving |= 1;
-    }
-    else
-    {
-        pLiftPoint->field_12C_bMoving &= ~1;
-    }
-
-    pLiftPoint->field_280_flags.Set(LiftFlags::eBit1_bTopFloor, pState->field_1A.Get(LiftPoint_State::eBit2_bTopFloor));
-    pLiftPoint->field_280_flags.Set(LiftFlags::eBit2_bMiddleFloor, pState->field_1A.Get(LiftPoint_State::eBit3_bMiddleFloor));
-    pLiftPoint->field_280_flags.Set(LiftFlags::eBit3_bBottomFloor, pState->field_1A.Get(LiftPoint_State::eBit4_bBottomFloor));
-    pLiftPoint->field_280_flags.Set(LiftFlags::eBit5_bMoveToFloorLevel, pState->field_1A.Get(LiftPoint_State::eBit5_bMoveToFloorLevel));
-    pLiftPoint->field_280_flags.Set(LiftFlags::eBit6, pState->field_1A.Get(LiftPoint_State::eBit6));
-    pLiftPoint->field_280_flags.Set(LiftFlags::eBit7_KeepOnMiddleFloor, pState->field_1A.Get(LiftPoint_State::eBit7_KeepOnMiddleFloor));
-
 
     if (pState->field_10_pTlv == pState->field_C_tlvInfo)
     {
@@ -963,23 +904,6 @@ void LiftPoint::CreatePulleyIfExists()
 
 void LiftPoint::VScreenChanged()
 {
-    if (sActiveHero)
-    {
-        FP xd = FP_Abs(mXPos - sActiveHero->mXPos);
-        if (xd <= FP_FromInteger(375))
-        {
-            if (field_274_ppRes == nullptr)
-            {
-                field_274_ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeliftResID, TRUE, FALSE);
-            }
-        }
-        else
-        {
-            ResourceManager::FreeResource_49C330(field_274_ppRes);
-            field_274_ppRes = nullptr;
-        }
-    }
-
     if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -1023,6 +947,4 @@ LiftPoint::~LiftPoint()
     {
         field_1D4_pulley_anim.VCleanUp();
     }
-
-    ResourceManager::FreeResource_49C330(field_274_ppRes);
 }

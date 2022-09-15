@@ -465,56 +465,6 @@ void Slig::VScreenChanged()
 
 void Slig::Init()
 {
-    field_210_resources.res[10] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kBigflashAOResID, 1, 0);
-    field_210_resources.res[11] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kSligBlowAOResID, 1, 0);
-    field_210_resources.res[12] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kShellAOResID, 1, 0);
-    field_210_resources.res[2] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kSlgknbkAOResID, 1, 0);
-    field_210_resources.res[16] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kSquibSmokeAOResID, 1, 0);
-
-    if (!field_174_tlv.mData.mDisabledResourcesAO.Get(SligFlags_DisabledRes::eDisabledRes_Bit8_SligKnfd))
-    {
-        field_210_resources.res[6] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kSlgknfdAOResID, 1, 0);
-    }
-    if (!field_174_tlv.mData.mDisabledResourcesAO.Get(SligFlags_DisabledRes::eDisabledRes_Bit9_SligEdge))
-    {
-        field_210_resources.res[3] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kSlgedgeAOResID, 1, 0);
-    }
-    if (!field_174_tlv.mData.mDisabledResourcesAO.Get(SligFlags_DisabledRes::eDisabledRes_Bit1_SligLever))
-    {
-        field_210_resources.res[7] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kSlgleverAOResID, 1, 0);
-    }
-    if (!field_174_tlv.mData.mDisabledResourcesAO.Get(SligFlags_DisabledRes::eDisabledRes_Bit2_SligLift))
-    {
-        field_210_resources.res[8] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kSlgliftAOResID, 1, 0);
-    }
-    if (!field_174_tlv.mData.mDisabledResourcesAO.Get(SligFlags_DisabledRes::eDisabledRes_Bit10_SligSmash))
-    {
-        field_210_resources.res[4] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kSlgsmashAOResID, 1, 0);
-    }
-    if (!field_174_tlv.mData.mDisabledResourcesAO.Get(SligFlags_DisabledRes::eDisabledRes_Bit11_SligBeat))
-    {
-        field_210_resources.res[9] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kSlgbeatAOResID, 1, 0);
-    }
-    if (!field_174_tlv.mData.mDisabledResourcesAO.Get(SligFlags_DisabledRes::eDisabledRes_Bit3_SligZ))
-    {
-        field_210_resources.res[5] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kSlgzshotAOResID, 1, 0);
-    }
-    if (!field_174_tlv.mData.mDisabledResourcesAO.Get(SligFlags_DisabledRes::eDisabledRes_Bit7_SligSleep))
-    {
-        field_210_resources.res[1] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kSlgsleepAOResID, 1, 0);
-    }
-    if (!field_174_tlv.mData.mDisabledResourcesAO.Get(SligFlags_DisabledRes::eDisabledRes_Bit4))
-    {
-        field_210_resources.res[13] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kZflashAOResID, 1, 0);
-    }
-    if (!field_174_tlv.mData.mDisabledResourcesAO.Get(SligFlags_DisabledRes::eDisabledRes_Bit6))
-    {
-        field_210_resources.res[14] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kUnknownAOResID_333, 1, 0);
-    }
-    if (!field_174_tlv.mData.mDisabledResourcesAO.Get(SligFlags_DisabledRes::eDisabledRes_Bit5))
-    {
-        field_210_resources.res[15] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeknokzAOResID, 1, 0);
-    }
     field_11C_current_camera = gMap.mCurrentCamera;
     field_20E_spotted_possessed_slig = 0;
     field_114_timer = sGnFrame + field_174_tlv.mData.mPauseTime;

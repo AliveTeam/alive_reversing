@@ -188,9 +188,6 @@ Mudokon::Mudokon(relive::Path_TLV* pTlv, const Guid& tlvId)
 
             auto liftMudTlv = static_cast<relive::Path_LiftMudokon*>(pTlv);
 
-            field_148_res_array.res[1] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeliftAOResID, 1, 0);
-
-
             field_18C_how_far_to_walk = FP_FromInteger(liftMudTlv->mHowFarToWalk);
             field_110_lift_switch_id = liftMudTlv->mLiftSwitchId;
 
@@ -227,13 +224,11 @@ Mudokon::Mudokon(relive::Path_TLV* pTlv, const Guid& tlvId)
             if (ringMudTlv->mAction == relive::reliveSwitchOp::eSetTrue)
             {
                 // Pull switch
-                field_148_res_array.res[2] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbepullAOResID, 1, 0);
                 field_188 = 6;
             }
             else
             {
                 // Give ring
-                field_148_res_array.res[9] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeommAOResID, 1, 0);
                 field_188 = 7;
             }
 
@@ -259,7 +254,6 @@ Mudokon::Mudokon(relive::Path_TLV* pTlv, const Guid& tlvId)
             if (mudTlv->mJob == relive::Path_Mudokon::MudJobs::eStandScrub)
             {
                 field_1B8_brain_state = 8;
-                field_148_res_array.res[3] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kMudchslAOResID, 1, 0);
             }
             else if (mudTlv->mJob == relive::Path_Mudokon::MudJobs::eSitScrub)
             {
@@ -268,18 +262,7 @@ Mudokon::Mudokon(relive::Path_TLV* pTlv, const Guid& tlvId)
             else if (mudTlv->mJob == relive::Path_Mudokon::MudJobs::eSitChant)
             {
                 field_1B8_brain_state = 14;
-                field_148_res_array.res[12] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kMudltusAOResID, 1, 0);
             }
-
-            field_148_res_array.res[10] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kMudoduckAOResID, 1, 0);
-            field_148_res_array.res[13] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kMudbtlnkAOResID, 1, 0);
-            field_148_res_array.res[4] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kMudscrubAOResID, 1, 0);
-            field_148_res_array.res[5] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbebasicAOResID, 1, 0);
-            field_148_res_array.res[6] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeknfdAOResID, 1, 0);
-            field_148_res_array.res[7] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeknbkAOResID, 1, 0);
-            field_148_res_array.res[8] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbeedgeAOResID, 1, 0);
-            field_148_res_array.res[14] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbegasAOResID, 1, 0);
-
 
             field_124_voice_pitch = mudTlv->mVoicePitch;
             field_1B2_rescue_switch_id = mudTlv->mRescueSwitchId;
@@ -4419,11 +4402,6 @@ s16 Mudokon::Brain_14_Chant()
             break;
 
         case 3:
-            if (!field_148_res_array.res[11])
-            {
-                field_148_res_array.res[11] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbewaspAOResID, 1, 0);
-            }
-
             if (mCurrentMotion == eMudMotions::Motion_57_Struggle)
             {
                 field_1B6 = 0;

@@ -248,33 +248,13 @@ Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
     mAudioChannelsMask = 0;
 
     mShadow = relive_new Shadow();
-
-    Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
 }
 
 s32 Drill::CreateFromSaveState(const u8* pData)
 {
     const Drill_State* pState = reinterpret_cast<const Drill_State*>(pData);
-
     auto pTlv = static_cast<relive::Path_Drill*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_8_tlvInfo));
-
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, 0, 0))
-    {
-        ResourceManager::LoadResourceFile_49C170("ABEBLOW.BAN", 0);
-    }
-
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID, 0, 0))
-    {
-        ResourceManager::LoadResourceFile_49C170("DOGBLOW.BAN", 0);
-    }
-
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kDrillResID, 0, 0))
-    {
-        ResourceManager::LoadResourceFile_49C170("DRILL.BAN", 0);
-    }
-
     auto pDrill = relive_new Drill(pTlv, pState->field_8_tlvInfo);
-
 
     if (pState->field_10_state != DrillStates::State_0_Restart_Cycle)
     {
