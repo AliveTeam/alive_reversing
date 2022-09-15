@@ -829,8 +829,21 @@ const TintEntry sAbeTints_4C6438[] = {
     {EReliveLevelIds::eNone, 102u, 102u, 102u}};
 
 
+void Abe::LoadAnimations()
+{
+    for (auto& animId : sAbeMotionAnimIds)
+    {
+        if (animId != AnimId::None)
+        {
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
+        }
+    }
+}
+
 Abe::Abe()
 {
+    LoadAnimations();
+
     SetType(ReliveTypes::eAbe);
 
     mBaseGameObjectFlags.Set(Options::eSurviveDeathReset_Bit9);
@@ -838,7 +851,7 @@ Abe::Abe()
     Init_GameStates();
 
     // Zero out the resource array
-    field_1A4_resources = {};
+    /*field_1A4_resources = {};
 
     if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbebasicAOResID, 1, 0))
     {
@@ -898,6 +911,7 @@ Abe::Abe()
     ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kDeathFlareAOResID, 1, 0);
     ResourceManager::LoadResourceFile_455270("DOVBASIC.BAN", nullptr);
     ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kDovbasicAOResID, 1, 0);
+    */
 
     field_128_resource_idx = 45;
     Animation_Init(GetAnimRes(AnimId::Mudokon_Walk));

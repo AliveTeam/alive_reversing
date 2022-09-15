@@ -118,6 +118,7 @@ public:
     Slig(relive::Path_Slig* pTlv, const Guid& tlvId);
     ~Slig();
 
+    void LoadAnimations();
     void Init();
 
     virtual void VScreenChanged() override;

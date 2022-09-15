@@ -28,6 +28,52 @@
 #include "ScreenShake.hpp"
 #include "Grid.hpp"
 
+const AnimId sParamiteMotionAnimIds[44] = {
+    AnimId::Paramite_Idle,
+    AnimId::Paramite_WalkBegin,
+    AnimId::Paramite_Walking,
+    AnimId::Paramite_Running,
+    AnimId::Paramite_Turn,
+    AnimId::Paramite_Hop,
+    AnimId::Paramite_Unused,
+    AnimId::Paramite_WalkRunTransition,
+    AnimId::Paramite_WalkEnd,
+    AnimId::Paramite_RunBegin,
+    AnimId::Paramite_RunEnd,
+    AnimId::Paramite_Falling,
+    AnimId::Paramite_JumpUpBegin,
+    AnimId::Paramite_JumpUpMidair,
+    AnimId::Paramite_JumpUpLand,
+    AnimId::Paramite_RopePull,
+    AnimId::Paramite_CloseAttack,
+    AnimId::Paramite_Landing,
+    AnimId::Paramite_Unused2,
+    AnimId::Paramite_Knockback,
+    AnimId::Paramite_GameSpeakBegin,
+    AnimId::Paramite_PreHiss,
+    AnimId::Paramite_Hiss,
+    AnimId::Paramite_Hiss,
+    AnimId::Paramite_Hiss,
+    AnimId::Paramite_AllOYaGameSpeakBegin,
+    AnimId::Paramite_Hiss,
+    AnimId::Paramite_PostHiss,
+    AnimId::Paramite_GameSpeakEnd,
+    AnimId::Paramite_Hiss,
+    AnimId::Paramite_PostHiss,
+    AnimId::Paramite_RunningAttack,
+    AnimId::Paramite_SurpriseWeb,
+    AnimId::Paramite_SurpriseWeb,
+    AnimId::Paramite_WebLeaveDown,
+    AnimId::Paramite_WebIdle,
+    AnimId::Paramite_WebGoingUp,
+    AnimId::Paramite_WebGoingDown,
+    AnimId::Paramite_WebGrab,
+    AnimId::Paramite_WebLeaveUp,
+    AnimId::Paramite_Eating,
+    AnimId::Paramite_Death,
+    AnimId::Paramite_Squawk,
+    AnimId::Paramite_Attack };
+
 const TintEntry kParamiteTints_55D73C[24] = {
     {EReliveLevelIds::eMudomoVault, 105u, 105u, 105u},
     {EReliveLevelIds::eMudomoVault_Ender, 105u, 105u, 105u},
@@ -63,6 +109,14 @@ bool Paramite::BrainIs(TParamiteBrainFn fn)
     return field_128_fn_brainState == fn;
 }
 
+void Paramite::LoadAnimations()
+{
+    for (auto& animId : sParamiteMotionAnimIds)
+    {
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
+    }
+}
+
 Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(16)
 {
@@ -85,6 +139,7 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
 
     Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kWebResID);
 
+    LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::Paramite_Idle));
 
     SetTint(&kParamiteTints_55D73C[0], gMap.mCurrentLevel);
@@ -204,52 +259,6 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
 
     mShadow = relive_new Shadow();
 }
-
-const AnimId sParamiteMotionAnimIds[44] = {
-    AnimId::Paramite_Idle,
-    AnimId::Paramite_WalkBegin,
-    AnimId::Paramite_Walking,
-    AnimId::Paramite_Running,
-    AnimId::Paramite_Turn,
-    AnimId::Paramite_Hop,
-    AnimId::Paramite_Unused,
-    AnimId::Paramite_WalkRunTransition,
-    AnimId::Paramite_WalkEnd,
-    AnimId::Paramite_RunBegin,
-    AnimId::Paramite_RunEnd,
-    AnimId::Paramite_Falling,
-    AnimId::Paramite_JumpUpBegin,
-    AnimId::Paramite_JumpUpMidair,
-    AnimId::Paramite_JumpUpLand,
-    AnimId::Paramite_RopePull,
-    AnimId::Paramite_CloseAttack,
-    AnimId::Paramite_Landing,
-    AnimId::Paramite_Unused2,
-    AnimId::Paramite_Knockback,
-    AnimId::Paramite_GameSpeakBegin,
-    AnimId::Paramite_PreHiss,
-    AnimId::Paramite_Hiss,
-    AnimId::Paramite_Hiss,
-    AnimId::Paramite_Hiss,
-    AnimId::Paramite_AllOYaGameSpeakBegin,
-    AnimId::Paramite_Hiss,
-    AnimId::Paramite_PostHiss,
-    AnimId::Paramite_GameSpeakEnd,
-    AnimId::Paramite_Hiss,
-    AnimId::Paramite_PostHiss,
-    AnimId::Paramite_RunningAttack,
-    AnimId::Paramite_SurpriseWeb,
-    AnimId::Paramite_SurpriseWeb,
-    AnimId::Paramite_WebLeaveDown,
-    AnimId::Paramite_WebIdle,
-    AnimId::Paramite_WebGoingUp,
-    AnimId::Paramite_WebGoingDown,
-    AnimId::Paramite_WebGrab,
-    AnimId::Paramite_WebLeaveUp,
-    AnimId::Paramite_Eating,
-    AnimId::Paramite_Death,
-    AnimId::Paramite_Squawk,
-    AnimId::Paramite_Attack};
 
 s32 Paramite::CreateFromSaveState(const u8* pBuffer)
 {

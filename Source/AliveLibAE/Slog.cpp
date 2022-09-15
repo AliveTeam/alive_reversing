@@ -29,6 +29,32 @@
 
 ALIVE_VAR(1, 0xBAF7F2, s16, sSlogCount, 0);
 
+const AnimId sSlogAnimIdTable[24] = {
+    AnimId::Slog_Idle,
+    AnimId::Slog_Walk,
+    AnimId::Slog_Run,
+    AnimId::Slog_TurnAround,
+    AnimId::Slog_Fall,
+    AnimId::Slog_MoveHeadUpwards,
+    AnimId::Slog_StopRunning,
+    AnimId::Slog_SlideTurn,
+    AnimId::Slog_StartWalking,
+    AnimId::Slog_EndWalking,
+    AnimId::Slog_Land,
+    AnimId::Slog_Unused,
+    AnimId::Slog_StartFastBarking,
+    AnimId::Slog_EndFastBarking,
+    AnimId::Slog_AngryBark,
+    AnimId::Slog_Sleeping,
+    AnimId::Slog_MoveHeadDownwards,
+    AnimId::Slog_WakeUp,
+    AnimId::Slog_JumpForwards,
+    AnimId::Slog_JumpUpwards,
+    AnimId::Slog_Eating,
+    AnimId::Slog_Dying,
+    AnimId::Slog_Scratch,
+    AnimId::Slog_Growl };
+
 const TSlogMotionFn sSlogMotionTable[24] = {
     &Slog::Motion_0_Idle,
     &Slog::Motion_1_Walk,
@@ -86,6 +112,7 @@ const relive::SfxDefinition sSlogSFXList[19] = {
 Slog::Slog(FP xpos, FP ypos, FP scale, s16 bListenToSligs, s16 chaseDelay)
     : BaseAliveGameObject(5)
 {
+    LoadAnimations();
     field_134_last_event_index = -1;
 
     mYPos = ypos;
@@ -122,9 +149,18 @@ Slog::Slog(FP xpos, FP ypos, FP scale, s16 bListenToSligs, s16 chaseDelay)
     field_156_bone_eating_time = 60;
 }
 
+void Slog::LoadAnimations()
+{
+    for (auto& animId : sSlogAnimIdTable)
+    {
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
+    }
+}
+
 Slog::Slog(relive::Path_Slog* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(5)
 {
+    LoadAnimations();
     field_134_last_event_index = -1;
 
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
@@ -290,34 +326,6 @@ s32 Slog::VGetSaveState(u8* pSaveBuffer)
 
     return sizeof(Slog_State);
 }
-
-
-const AnimId sSlogAnimIdTable[24] = {
-    AnimId::Slog_Idle,
-    AnimId::Slog_Walk,
-    AnimId::Slog_Run,
-    AnimId::Slog_TurnAround,
-    AnimId::Slog_Fall,
-    AnimId::Slog_MoveHeadUpwards,
-    AnimId::Slog_StopRunning,
-    AnimId::Slog_SlideTurn,
-    AnimId::Slog_StartWalking,
-    AnimId::Slog_EndWalking,
-    AnimId::Slog_Land,
-    AnimId::Slog_Unused,
-    AnimId::Slog_StartFastBarking,
-    AnimId::Slog_EndFastBarking,
-    AnimId::Slog_AngryBark,
-    AnimId::Slog_Sleeping,
-    AnimId::Slog_MoveHeadDownwards,
-    AnimId::Slog_WakeUp,
-    AnimId::Slog_JumpForwards,
-    AnimId::Slog_JumpUpwards,
-    AnimId::Slog_Eating,
-    AnimId::Slog_Dying,
-    AnimId::Slog_Scratch,
-    AnimId::Slog_Growl};
-
 
 s32 Slog::CreateFromSaveState(const u8* pBuffer)
 {

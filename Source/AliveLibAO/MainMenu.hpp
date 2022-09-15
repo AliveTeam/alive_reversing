@@ -157,14 +157,10 @@ public:
     Menu(relive::Path_TLV* pTlv, const Guid& tlvId);
     ~Menu();
 
+    void LoadAnimations();
+
     virtual void VUpdate() override;
-
-    void VUpdate_47ABB0();
-
     virtual void VRender(PrimHeader** ppOt) override;
-
-    void VRender_47AC00(PrimHeader** ppOt);
-
     virtual void VScreenChanged() override;
 
     void ProgressInProgressFilesLoading();

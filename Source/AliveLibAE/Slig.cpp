@@ -325,6 +325,14 @@ bool Slig::BrainIs(TSligBrainFn fn)
     return field_154_brain_state == fn;
 }
 
+void Slig::LoadAnimations()
+{
+    for (auto& animId : sSligAnimIdTable)
+    {
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
+    }
+}
+
 Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(17)
 {
@@ -339,6 +347,7 @@ Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
 
     field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSlgbasicResID, 1, 0));
 
+    LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::Slig_Idle));
 
     SetType(ReliveTypes::eSlig);

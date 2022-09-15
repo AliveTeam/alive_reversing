@@ -699,6 +699,14 @@ ALIVE_VAR(1, 0x5c1b8c, BaseAliveGameObject*, sControlledCharacter, nullptr);
 
 static constexpr s32 kResourceArraySize = 28;
 
+void Abe::LoadAnimations()
+{
+    for (auto& animId : sAbeAnimIdTable)
+    {
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
+    }
+}
+
 Abe::Abe()
     : BaseAliveGameObject(kResourceArraySize)
 {
@@ -804,6 +812,7 @@ Abe::Abe()
 
     //field_128.field_10_resource_index = 1;
 
+    LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::Mudokon_Idle));
 
     mAnim.mFnPtrArray = kAbe_Anim_Frame_Fns_55EF98;

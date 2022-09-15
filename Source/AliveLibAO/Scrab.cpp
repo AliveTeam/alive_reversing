@@ -107,7 +107,7 @@ const static Scrab::TBrainType sScrabAITable[]{
 Scrab::Scrab(relive::Path_Scrab* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
-    mBaseGameObjectTypeId = ReliveTypes::eScrab;
+    SetType(ReliveTypes::eScrab);
 
     for (const auto& animId : sScrabMotionAnimIds)
     {

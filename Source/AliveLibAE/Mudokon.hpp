@@ -235,6 +235,8 @@ public:
     Mudokon(relive::Path_Mudokon* pTlv, const Guid& tlvId);
     ~Mudokon();
     
+    void LoadAnimations();
+
     virtual void VUpdate() override;
 
     virtual void VScreenChanged() override;

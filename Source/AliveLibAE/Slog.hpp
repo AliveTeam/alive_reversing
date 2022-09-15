@@ -135,6 +135,7 @@ public:
     Slog(relive::Path_Slog* pTlv, const Guid& tlvId);
     ~Slog();
 
+    void LoadAnimations();
     virtual void VUpdate() override;
     virtual void VOnTrapDoorOpen() override;
     virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;

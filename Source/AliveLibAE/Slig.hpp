@@ -189,6 +189,7 @@ public:
     Slig(relive::Path_Slig* pTlv, const Guid& tlvId);
     ~Slig();
 
+    void LoadAnimations();
     virtual void VUpdate() override;
 
     virtual void VRender(PrimHeader** ppOt) override;

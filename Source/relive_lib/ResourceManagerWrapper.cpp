@@ -170,11 +170,12 @@ AnimResource ResourceManagerWrapper::LoadAnimation(AnimId anim)
     return newRes;
 }
 
-PalResource ResourceManagerWrapper::LoadPal(PalId /*pal*/)
+PalResource ResourceManagerWrapper::LoadPal(PalId pal)
 {
     // TODO: Cache these
     PalResource newRes;
-
+    newRes.mId = pal;
+    newRes.mPal = std::make_shared<AnimationPal>();
     // TODO: Load pal from disk
 
     return newRes;

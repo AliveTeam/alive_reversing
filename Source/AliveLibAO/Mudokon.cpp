@@ -157,8 +157,7 @@ Mudokon::Mudokon(relive::Path_TLV* pTlv, const Guid& tlvId)
     field_124_voice_pitch = 0;
     field_148_res_array = {};
 
-    const AnimRecord& mudRec = AO::AnimRec(AnimId::Mudokon_Idle);
-    field_148_res_array.res[0] = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, mudRec.mResourceId, 1, 0);
+    LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::Mudokon_Idle));
 
     mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
@@ -571,6 +570,17 @@ const AnimId sMudMotionAnimIds[64] = {
     AnimId::Mudokon_DuckKnockback,
     AnimId::Mudokon_PoisonGasDeath,
     AnimId::None};
+
+void Mudokon::LoadAnimations()
+{
+    for (auto& animId : sMudMotionAnimIds)
+    {
+        if (animId != AnimId::None)
+        {
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
+        }
+    }
+}
 
 void Mudokon::VUpdateResBlock()
 {

@@ -671,10 +671,43 @@ void MainMenuTransition::VRender_436610(PrimHeader** ppOt)
     }
 }
 
+void Menu::LoadAnimations()
+{
+    static AnimId animIds[] =
+    {
+        AnimId::MenuHighlight_ButtonRemapSquare,
+        AnimId::MenuHighlight_Circle,
+        AnimId::MenuHighlight_Square,
+        AnimId::MenuHighlight_Triangle,
+        AnimId::MenuDoor,
+        AnimId::AbeIntro,
+        AnimId::MenuAbeSpeak_Laugh,
+        AnimId::MenuAbeSpeak_WhistleHigh,
+        AnimId::MenuAbeSpeak_WhistleLow,
+        AnimId::MenuAbeSpeak_Fart,
+        AnimId::MenuAbeSpeak_Hello,
+        AnimId::MenuAbeSpeak_Idle,
+        AnimId::MenuAbeSpeak_IdleBlink,
+        AnimId::MenuAbeSpeak_Ok,
+        AnimId::MenuAbeSpeak_FollowMe,
+        AnimId::MenuAbeSpeak_Wait,
+        AnimId::MenuAbeSpeak_Anger,
+        AnimId::MenuAbeSpeak_Chant,
+        AnimId::MenuAbeSpeak_ChantEnd,
+        AnimId::MenuAbeSpeak_Goodbye,
+    };
+
+    for (auto& animId : animIds)
+    {
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
+    }
+}
+
 Menu::Menu(relive::Path_TLV* /*pTlv*/, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    // TODO: load animations
+    LoadAnimations();
+    mLoadedPals.push_back(ResourceManagerWrapper::LoadPal(PalId::WhiteHighlite));
 
     gMainMenuInstanceCount_9F2DE0++;
 
@@ -824,12 +857,7 @@ Menu::~Menu()
     gMainMenuInstanceCount_9F2DE0--;
 }
 
-void Menu::VUpdate()
-{
-    VUpdate_47ABB0();
-}
-
-void Menu::VRender_47AC00(PrimHeader** ppOt)
+void Menu::VRender(PrimHeader** ppOt)
 {
     if ((field_204_flags >> 1) & 1)
     {
@@ -851,12 +879,7 @@ void Menu::VScreenChanged()
     // Empty
 }
 
-void Menu::VRender(PrimHeader** ppOt)
-{
-    VRender_47AC00(ppOt);
-}
-
-void Menu::VUpdate_47ABB0()
+void Menu::VUpdate()
 {
     field_1E2_rgb += field_1E4_colour_counter;
 

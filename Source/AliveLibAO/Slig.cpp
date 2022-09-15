@@ -285,6 +285,17 @@ void Slig::Slig_SoundEffect_46F310(SligSfx sfxIdx)
     SFX_SfxDefinition_Play_477330(sSligSounds_4CFB30[sfxIdxInt], static_cast<s16>(volLeft), static_cast<s16>(volRight), pitch, pitch);
 }
 
+void Slig::LoadAnimations()
+{
+    for (auto& animId : sSligMotionAnimIds)
+    {
+        if (animId != AnimId::None)
+        {
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
+        }
+    }
+}
+
 Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
@@ -294,8 +305,7 @@ Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
 
     field_210_resources = {};
 
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kSlgbasicAOResID, 1, 0);
-    field_210_resources.res[0] = ppRes;
+    LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::Slig_Idle));
 
     mBaseAliveGameObjectFlags.Clear(Flags_10A::e10A_Bit2_bPossesed);

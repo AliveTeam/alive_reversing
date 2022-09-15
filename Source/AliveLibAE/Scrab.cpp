@@ -21,6 +21,48 @@
 #include "Slurg.hpp"
 #include "Grid.hpp"
 
+const AnimId sScrabMotionAnimIds[40] = {
+    AnimId::Scrab_Idle,
+    AnimId::Scrab_Walk,
+    AnimId::Scrab_Run,
+    AnimId::Scrab_Turn,
+    AnimId::Scrab_RunToStand,
+    AnimId::Scrab_HopBegin,
+    AnimId::Scrab_Jump,
+    AnimId::Scrab_Landing,
+    AnimId::Scrab_JumpAndRunToFall,
+    AnimId::Scrab_StandToWalk,
+    AnimId::Scrab_StandToRun,
+    AnimId::Scrab_WalkToStand,
+    AnimId::Scrab_Jump,
+    AnimId::Scrab_Landing,
+    AnimId::Scrab_WalkToFall,
+    AnimId::Scrab_JumpAndRunToFall,
+    AnimId::Scrab_WalkToRun,
+    AnimId::Scrab_RunToWalk,
+    AnimId::Scrab_Knockback,
+    AnimId::Scrab_GetEaten,
+    AnimId::Scrab_Landing,
+    AnimId::Scrab_Stamp,
+    AnimId::Scrab_Stamp,
+    AnimId::Scrab_DeathEnd,
+    AnimId::Scrab_DeathEnd,
+    AnimId::Scrab_Empty,
+    AnimId::Scrab_HowlBegin,
+    AnimId::Scrab_HowlEnd,
+    AnimId::Scrab_HowlBegin,
+    AnimId::Scrab_HowlEnd,
+    AnimId::Scrab_Shriek,
+    AnimId::Scrab_ScrabBattleAnim,
+    AnimId::Scrab_AttackSpin,
+    AnimId::Scrab_FeedToGulp,
+    AnimId::Scrab_GulpToStand,
+    AnimId::Scrab_StandToFeed,
+    AnimId::Scrab_Feed,
+    AnimId::Scrab_AttackLunge,
+    AnimId::Scrab_LegKick,
+    AnimId::Scrab_DeathBegin };
+
 static const TintEntry sScrabTints_560260[15] = {
     {EReliveLevelIds::eMines, 127u, 127u, 127u},
     {EReliveLevelIds::eNecrum, 137u, 137u, 137u},
@@ -76,6 +118,14 @@ bool Scrab::BrainIs(TScrabBrainFn fn)
     return field_118_brain_state == fn;
 }
 
+void Scrab::LoadAnimations()
+{
+    for (auto& animId : sScrabMotionAnimIds)
+    {
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
+    }
+}
+
 Scrab::Scrab(relive::Path_Scrab* pTlv, const Guid& tlvId, relive::Path_ScrabSpawner::SpawnDirection spawnDirection)
     : BaseAliveGameObject(14)
 {
@@ -106,6 +156,7 @@ Scrab::Scrab(relive::Path_Scrab* pTlv, const Guid& tlvId, relive::Path_ScrabSpaw
     field_10_resources_array.SetAt(4, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kArswhirlResID, 1, 0));
     field_10_resources_array.SetAt(13, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kArscrshResID, 1, 0));
 
+    LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::Scrab_Idle));
 
     field_140_motion_resource_block_index = 0;
@@ -227,48 +278,6 @@ void Scrab::VOnTlvCollision(relive::Path_TLV* pTlv)
             mYPos);
     }
 }
-
-const AnimId sScrabMotionAnimIds[40] = {
-    AnimId::Scrab_Idle,
-    AnimId::Scrab_Walk,
-    AnimId::Scrab_Run,
-    AnimId::Scrab_Turn,
-    AnimId::Scrab_RunToStand,
-    AnimId::Scrab_HopBegin,
-    AnimId::Scrab_Jump,
-    AnimId::Scrab_Landing,
-    AnimId::Scrab_JumpAndRunToFall,
-    AnimId::Scrab_StandToWalk,
-    AnimId::Scrab_StandToRun,
-    AnimId::Scrab_WalkToStand,
-    AnimId::Scrab_Jump,
-    AnimId::Scrab_Landing,
-    AnimId::Scrab_WalkToFall,
-    AnimId::Scrab_JumpAndRunToFall,
-    AnimId::Scrab_WalkToRun,
-    AnimId::Scrab_RunToWalk,
-    AnimId::Scrab_Knockback,
-    AnimId::Scrab_GetEaten,
-    AnimId::Scrab_Landing,
-    AnimId::Scrab_Stamp,
-    AnimId::Scrab_Stamp,
-    AnimId::Scrab_DeathEnd,
-    AnimId::Scrab_DeathEnd,
-    AnimId::Scrab_Empty,
-    AnimId::Scrab_HowlBegin,
-    AnimId::Scrab_HowlEnd,
-    AnimId::Scrab_HowlBegin,
-    AnimId::Scrab_HowlEnd,
-    AnimId::Scrab_Shriek,
-    AnimId::Scrab_ScrabBattleAnim,
-    AnimId::Scrab_AttackSpin,
-    AnimId::Scrab_FeedToGulp,
-    AnimId::Scrab_GulpToStand,
-    AnimId::Scrab_StandToFeed,
-    AnimId::Scrab_Feed,
-    AnimId::Scrab_AttackLunge,
-    AnimId::Scrab_LegKick,
-    AnimId::Scrab_DeathBegin};
 
 s32 Scrab::CreateFromSaveState(const u8* pBuffer)
 {

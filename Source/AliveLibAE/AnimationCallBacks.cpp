@@ -110,13 +110,13 @@ void Animation_OnFrame_Common_4561B0(BaseGameObject* pObjPtr, u32&, const Point3
     return;
 }
 
-void Animation_OnFrame_Common_434130(BaseGameObject* pObjPtr, u32&, const Point32& point)
+void Animation_OnFrame_FlyingSlig(BaseGameObject* pObjPtr, u32&, const Point32& point)
 {
     auto pObj = static_cast<BaseAliveGameObject*>(pObjPtr);
 
-    if (pObj->Type() == ReliveTypes::eAbe || pObj->Type() == ReliveTypes::eMudokon || pObj->Type() == ReliveTypes::eRingOrLiftMud)
+    if (pObj->Type() != ReliveTypes::eFlyingSlig)
     {
-        LOG_ERROR("never expected pObj type id to be abe or mudokon in Animation_OnFrame_Common_434130");
+        LOG_ERROR("object type in Animation_OnFrame_FlyingSlig isn't flying slig");
         ALIVE_FATAL("got wrong type id");
     }
 
@@ -213,7 +213,7 @@ TFrameCallBackType kAbe_Anim_Frame_Fns_55EF98[5] = {
     Animation_OnFrame_Null_455F60,
     Animation_OnFrame_Abe_455F80,
     Animation_OnFrame_Common_4561B0,
-    Animation_OnFrame_Common_434130};
+    Animation_OnFrame_FlyingSlig};
 
 TFrameCallBackType kSlig_Anim_Frame_Fns_55EFAC[4] = {
     Animation_OnFrame_Common_Null_455F40,
@@ -228,7 +228,7 @@ TFrameCallBackType kSlog_Anim_Frame_Fns_55EFBC[2] = {
 TFrameCallBackType kFlyingSlig_Anim_Frames_Fns_55EFC4[3] = {
     Animation_OnFrame_Common_Null_455F40,
     Animation_OnFrame_Null_455F60,
-    Animation_OnFrame_Common_434130};
+    Animation_OnFrame_FlyingSlig};
 
 TFrameCallBackType kFleech_Anim_Frame_Fns_55EFD0[3] = {
     Animation_OnFrame_Common_Null_455F40,

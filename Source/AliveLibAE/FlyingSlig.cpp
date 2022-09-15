@@ -95,7 +95,7 @@ bool FlyingSlig::BrainIs(TFlyingSligBrainFn fn)
     return field_29C_brain_state == fn;
 }
 
-const AnimId sFlyingSligAnimIdTable[28] = {
+const AnimId sFlyingSligAnimIdTable[26] = {
     AnimId::FlyingSlig_Idle,
     AnimId::FlyingSlig_MoveHorizontal,
     AnimId::FlyingSlig_IdleTurnAround,
@@ -130,6 +130,9 @@ void FlyingSlig::LoadAnimations()
     {
         mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
     }
+
+    // used in Animation_OnFrame_FlyingSlig
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Vaporize_Particle));
 }
 
 FlyingSlig::FlyingSlig(relive::Path_FlyingSlig* pTlv, const Guid& tlvId)

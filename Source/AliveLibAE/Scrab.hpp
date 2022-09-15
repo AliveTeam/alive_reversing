@@ -155,6 +155,7 @@ public:
     Scrab(relive::Path_Scrab* pTlv, const Guid& tlvId, relive::Path_ScrabSpawner::SpawnDirection spawnDirection);
     ~Scrab();
 
+    void LoadAnimations();
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VPossessed() override;

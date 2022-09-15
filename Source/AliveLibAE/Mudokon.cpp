@@ -389,6 +389,8 @@ static Mud_Emotion TLV_Emo_To_Internal_Emo(relive::Path_Mudokon::Mud_TLV_Emotion
 Mudokon::Mudokon(relive::Path_Mudokon* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(18)
 {
+    LoadAnimations();
+
     field_154_unused = 0;
     field_140_last_event_index = -1;
     field_156_unused = -1;
@@ -659,6 +661,13 @@ const AnimId kMudMotionAnimIds[60] = {
 ALIVE_VAR(1, 0x5C3010, s16, sAlertedMudCount_5C3010, 0);
 ALIVE_VAR(1, 0x5C3018, s16, sIsMudStandingUp_5C3018, 0);
 
+void Mudokon::LoadAnimations()
+{
+    for (auto& animId : kMudMotionAnimIds)
+    {
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
+    }
+}
 
 s32 Mudokon::CreateFromSaveState(const u8* pBuffer)
 {

@@ -31,6 +31,27 @@
 ALIVE_VAR(1, 0x5BC20C, u8, sFleechRandomIdx_5BC20C, 0);
 ALIVE_VAR(1, 0x5BC20E, s16, sFleechCount_5BC20E, 0);
 
+const static AnimId sFleechAnimFromMotion[19] = {
+    AnimId::Fleech_Sleeping,
+    AnimId::Fleech_WakingUp,
+    AnimId::Fleech_Unused,
+    AnimId::Fleech_Idle,
+    AnimId::Fleech_Crawl,
+    AnimId::Fleech_PatrolCry,
+    AnimId::Fleech_Knockback,
+    AnimId::Fleech_StopCrawling,
+    AnimId::Fleech_StopMidCrawlCycle,
+    AnimId::Fleech_Fall,
+    AnimId::Fleech_Land,
+    AnimId::Fleech_RaiseHead,
+    AnimId::Fleech_Climb,
+    AnimId::Fleech_SettleOnGround,
+    AnimId::Fleech_ExtendTongueFromEnemy,
+    AnimId::Fleech_RetractTongueFromEnemey,
+    AnimId::Fleech_DeathByFalling,
+    AnimId::Fleech_SleepingWithTongue,
+    AnimId::Fleech_Consume };
+
 const TFleechMotionFn sFleech_motion_table_551798[19] = {
     &Fleech::Motion_0_Sleeping,
     &Fleech::Motion_1_WakingUp,
@@ -183,27 +204,6 @@ Fleech::Fleech(relive::Path_Fleech* pTlv, const Guid& tlvId)
         field_13E_current_anger = field_140_max_anger + (field_142_attack_anger_increaser - field_140_max_anger) / 2;
     }
 }
-
-const static AnimId sFleechAnimFromMotion[19] = {
-    AnimId::Fleech_Sleeping,
-    AnimId::Fleech_WakingUp,
-    AnimId::Fleech_Unused,
-    AnimId::Fleech_Idle,
-    AnimId::Fleech_Crawl,
-    AnimId::Fleech_PatrolCry,
-    AnimId::Fleech_Knockback,
-    AnimId::Fleech_StopCrawling,
-    AnimId::Fleech_StopMidCrawlCycle,
-    AnimId::Fleech_Fall,
-    AnimId::Fleech_Land,
-    AnimId::Fleech_RaiseHead,
-    AnimId::Fleech_Climb,
-    AnimId::Fleech_SettleOnGround,
-    AnimId::Fleech_ExtendTongueFromEnemy,
-    AnimId::Fleech_RetractTongueFromEnemey,
-    AnimId::Fleech_DeathByFalling,
-    AnimId::Fleech_SleepingWithTongue,
-    AnimId::Fleech_Consume};
 
 ALIVE_VAR(1, 0x551840, Guid, current_target_object_id_551840, {});
 

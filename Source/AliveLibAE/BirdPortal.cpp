@@ -204,8 +204,8 @@ void BirdPortal::VUpdate()
             EventBroadcast(GetEvent(), this);
             if (pTerminator1->mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
             {
-                pTerminator1->mAnim.Set_Animation_Data(GetAnimRes(AnimId::BirdPortal_TerminatorIdle));
-                pTerminator2->mAnim.Set_Animation_Data(GetAnimRes(AnimId::BirdPortal_TerminatorIdle));
+                pTerminator1->mAnim.Set_Animation_Data(pTerminator1->GetAnimRes(AnimId::BirdPortal_TerminatorIdle));
+                pTerminator2->mAnim.Set_Animation_Data(pTerminator2->GetAnimRes(AnimId::BirdPortal_TerminatorIdle));
                 mTimer = sGnFrame + 12;
                 mState = PortalStates::ExpandTerminators_5;
                 mSfxPlaying = SfxPlayMono(relive::SoundEffects::PortalOpening, 0, mSpriteScale);
@@ -1089,6 +1089,7 @@ BirdPortalTerminator::BirdPortalTerminator(FP xpos, FP ypos, FP scale, relive::P
 {
     SetType(ReliveTypes::eEyeOrbPart);
 
+    LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::BirdPortal_TerminatorGrow));
 
     mAnim.mRenderMode = TPageAbr::eBlend_1;

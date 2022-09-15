@@ -424,6 +424,8 @@ public:
     Abe();
     ~Abe();
 
+    void LoadAnimations();
+
     static s32 CreateFromSaveState(const u8* pData);
 
     virtual void VUpdate() override;

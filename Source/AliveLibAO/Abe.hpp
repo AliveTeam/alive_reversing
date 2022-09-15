@@ -342,6 +342,8 @@ class Abe final : public BaseAliveGameObject
 public:
     bool Is_Celling_Above();
 
+    void LoadAnimations();
+
     Abe();
     ~Abe();
     

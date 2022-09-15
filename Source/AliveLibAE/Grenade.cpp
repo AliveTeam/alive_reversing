@@ -150,10 +150,10 @@ void Grenade::Init(FP xpos, FP ypos)
 {
     SetType(ReliveTypes::eGrenade);
 
-    if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kGrenadeResID, 0, 0))
+    /*if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kGrenadeResID, 0, 0))
     {
         LoadRockTypes_49AB30(mCurrentLevel, mCurrentPath);
-    }
+    }*/
 
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Grenade));
     Animation_Init(GetAnimRes(AnimId::Grenade));

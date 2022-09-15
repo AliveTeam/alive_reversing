@@ -151,6 +151,7 @@ public:
     Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId);
     ~Paramite();
 
+    void LoadAnimations();
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual s16 VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther) override;

@@ -217,6 +217,7 @@ AnimRecConversionInfo kAnimRecConversionInfo[910] = {
     { AnimId::Mudokon_Sorry, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eNone, false },
     { AnimId::Mudokon_AfterSorry, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eNone, false },
     { AnimId::Mudokon_ToSpeak, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
+    { AnimId::Mudokon_Null, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eNone, false },
     { AnimId::Mudokon_RunJumpLand, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::Mudokon_RunTurnToWalk, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::Mudokon_RunJumpLandRun, EAnimGroup::Abe, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
@@ -372,6 +373,9 @@ AnimRecConversionInfo kAnimRecConversionInfo[910] = {
     { AnimId::Fleech_RetractTongueFromEnemey, EAnimGroup::Fleech, EReliveLevelIds::eNecrum, EReliveLevelIds::eNone, false },
     { AnimId::Fleech_DeathByFalling, EAnimGroup::Fleech, EReliveLevelIds::eNecrum, EReliveLevelIds::eNone, false },
     { AnimId::Fleech_Crawl, EAnimGroup::Fleech, EReliveLevelIds::eNecrum, EReliveLevelIds::eNone, false },
+
+    { AnimId::Dove_Idle, EAnimGroup::Dove, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
+    { AnimId::Dove_Flying, EAnimGroup::Dove, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
 
     {AnimId::FlyingSlig_Idle, EAnimGroup::FlyingSlig, EReliveLevelIds::eMines, EReliveLevelIds::eNone, false},
     {AnimId::FlyingSlig_MoveHorizontal, EAnimGroup::FlyingSlig, EReliveLevelIds::eMines, EReliveLevelIds::eNone, false},

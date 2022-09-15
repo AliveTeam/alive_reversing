@@ -17,6 +17,9 @@
 Water::Water(relive::Path_Water* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::WaterDrop));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::WaterSplash));
+
     const AnimRecord& waterDropRec = AnimRec(AnimId::WaterDrop);
     u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, waterDropRec.mResourceId);
     if (ppRes)
