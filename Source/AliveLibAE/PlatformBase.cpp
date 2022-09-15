@@ -52,7 +52,7 @@ void PlatformBase::AddDynamicCollision(AnimId animId, relive::Path_TLV* pTlv, co
 
    const PerFrameInfo* pFrameHeader = mAnim.Get_FrameHeader(0);
    // TODO: Check field_8_data.points[1].y
-    mYPos += FP_NoFractional(FP_FromInteger(-pFrameHeader->mYOffset) * mSpriteScale);
+    mYPos += FP_NoFractional(FP_FromInteger(-pFrameHeader->mBoundMin.y) * mSpriteScale);
     mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
 
     field_124_pCollisionLine = sCollisions->Add_Dynamic_Collision_Line(
