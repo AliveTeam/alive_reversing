@@ -10,6 +10,8 @@
 #include "ResourceManager.hpp"
 #include "Map.hpp"
 
+#define kPalDepth 64
+
 // Overwrites a pallete 8 colours at a time one per update
 class PalleteOverwriter final : public BaseGameObject
 {
@@ -22,6 +24,16 @@ public:
         gObjListDrawables->Push_Back(this);
 
         mPal = pal;
+
+        u32 palDepth = 1; // account for first array index which is 0
+        for (u32 i = 0; i < ALIVE_COUNTOF(mPal.mPal); i++)
+        {
+            if (mPal.mPal[i] != 0)
+            {
+                palDepth++;
+            }
+        }
+        LOG_INFO("pal depth " << palDepth);
 
         mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
 
@@ -55,7 +67,7 @@ public:
         }
         else
         {
-            if (field_C8_pal_x_index == 256 - 1)
+            if (field_C8_pal_x_index == kPalDepth - 1)
             {
                 // Got to the end
                 field_CE_bDone = TRUE;
@@ -64,14 +76,14 @@ public:
             {
                 field_C8_pal_x_index += 8;
 
-                if (field_C8_pal_x_index >= 256 - 1)
+                if (field_C8_pal_x_index >= kPalDepth - 1)
                 {
-                    field_C8_pal_x_index = 256 - 1;
+                    field_C8_pal_x_index = kPalDepth - 1;
                 }
 
-                if (field_C8_pal_x_index + field_CA_pal_w >= 256 - 1)
+                if (field_C8_pal_x_index + field_CA_pal_w >= kPalDepth - 1)
                 {
-                    field_CA_pal_w = 256 - field_C8_pal_x_index;
+                    field_CA_pal_w = kPalDepth - field_C8_pal_x_index;
                 }
             }
         }
