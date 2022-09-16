@@ -28,6 +28,8 @@ Particle::Particle(FP xpos, FP ypos, AnimResource& res, bool explosionSizeHack)
         // OG inits both with the AnimId::Explosion width and height in Explosion.cpp
         // TODO
         //Animation_Init(res, 202, 91);
+
+         Animation_Init(res); // Temp fix - don't crush
     }
 
     if (mBaseGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
