@@ -348,7 +348,7 @@ MainMenuFade::MainMenuFade(s32 xpos, s32 ypos, buttonType buttonType, s32 bDestr
         {
             break;
         }
-        if (pObj->mBaseGameObjectTypeId == ReliveTypes::MainMenuFade && pObj != this && static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj)->mXPos == mXPos && static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj)->mYPos == mYPos)
+        if (pObj->Type() == ReliveTypes::MainMenuFade && pObj != this && static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj)->mXPos == mXPos && static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj)->mYPos == mYPos)
         {
             pObj->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
@@ -481,7 +481,7 @@ void MainMenuTransition::VUpdate()
 MainMenuTransition::MainMenuTransition(Layer layer, s32 fadeDirection, s32 bKillWhenDone, s32 speed, TPageAbr abr)
     : BaseGameObject(TRUE, 0)
 {
-    mBaseGameObjectTypeId = ReliveTypes::eDeathFadeOut;
+    SetType(ReliveTypes::eDeathFadeOut);
 
     gObjListDrawables->Push_Back(this);
 
@@ -1005,7 +1005,7 @@ void Menu::FMV_Select_Update_47E8D0()
                                 break;
                             }
 
-                            if (pObj->mBaseGameObjectTypeId == ReliveTypes::eMovie)
+                            if (pObj->Type() == ReliveTypes::eMovie)
                             {
                                 if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eUpdatable_Bit2))
                                 {
@@ -1265,7 +1265,7 @@ void Menu::ProgressInProgressFilesLoading()
                 break;
             }
 
-            if (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eLoadingFile)
+            if (pObjIter->Type() == ReliveTypes::eLoadingFile)
             {
                 pObjIter->VUpdate();
                 if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDead))

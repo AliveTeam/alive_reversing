@@ -161,7 +161,7 @@ s16 SecurityClaw::VTakeDamage(BaseGameObject* pFrom)
 {
     if (!mBaseGameObjectFlags.Get(BaseGameObject::eDead))
     {
-        if (pFrom->mBaseGameObjectTypeId == ReliveTypes::eAbilityRing || pFrom->mBaseGameObjectTypeId == ReliveTypes::eShrykull)
+        if (pFrom->Type() == ReliveTypes::eAbilityRing || pFrom->Type() == ReliveTypes::eShrykull)
         {
             field_12C_pDetector = 0;
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -275,7 +275,7 @@ void SecurityClaw::VUpdate()
                     break;
                 }
 
-                if (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eMotionDetector)
+                if (pObjIter->Type() == ReliveTypes::eMotionDetector)
                 {
                     auto pDetector = static_cast<MotionDetector*>(pObjIter);
                     if (!field_13C_pArray)

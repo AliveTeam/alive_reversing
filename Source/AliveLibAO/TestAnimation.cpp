@@ -71,7 +71,7 @@ TestAnimation::TestAnimation()
 {
     mLoaded = false;
 
-    mBaseGameObjectTypeId = ReliveTypes::eNone;
+    SetType(ReliveTypes::eNone);
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 

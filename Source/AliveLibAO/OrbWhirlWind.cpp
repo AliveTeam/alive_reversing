@@ -114,7 +114,7 @@ OrbWhirlWind::~OrbWhirlWind()
 OrbWhirlWind::OrbWhirlWind(FP xpos, FP ypos, FP scale)
     : BaseGameObject(TRUE, 0)
 {
-    mBaseGameObjectTypeId = ReliveTypes::eNone;
+    SetType(ReliveTypes::eNone);
 
     field_58_xpos = xpos;
     field_5C_ypos = ypos;

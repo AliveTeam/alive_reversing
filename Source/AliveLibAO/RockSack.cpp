@@ -117,7 +117,7 @@ RockSack::~RockSack()
 RockSack::RockSack(relive::Path_RockSack* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
-    mBaseGameObjectTypeId = ReliveTypes::eRockSack;
+    SetType(ReliveTypes::eRockSack);
 
     LoadAnimations();
 

@@ -30,7 +30,7 @@ void GameEnderController::CreateGameEnderController()
 GameEnderController::GameEnderController()
     : BaseGameObject(TRUE, 0)
 {
-    mBaseGameObjectTypeId = ReliveTypes::eGameEnderController;
+    SetType(ReliveTypes::eGameEnderController);
     field_14_state = GameEnderController_States::eInit_0;
 }
 
@@ -75,8 +75,8 @@ void GameEnderController::VUpdate()
                             break;
                         }
 
-                        if (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eParticleBurst || pObjIter->mBaseGameObjectTypeId == ReliveTypes::eAlarm || pObjIter->mBaseGameObjectTypeId == ReliveTypes::eUXB || pObjIter->mBaseGameObjectTypeId == ReliveTypes::eMeatSaw || pObjIter->mBaseGameObjectTypeId == ReliveTypes::eSlig || // EvenWurst Wieners fix - uses these extra objects that need to be deleted
-                            pObjIter->mBaseGameObjectTypeId == ReliveTypes::eSligSpawner || pObjIter->mBaseGameObjectTypeId == ReliveTypes::eSlog)
+                        if (pObjIter->Type() == ReliveTypes::eParticleBurst || pObjIter->Type() == ReliveTypes::eAlarm || pObjIter->Type() == ReliveTypes::eUXB || pObjIter->Type() == ReliveTypes::eMeatSaw || pObjIter->Type() == ReliveTypes::eSlig || // EvenWurst Wieners fix - uses these extra objects that need to be deleted
+                            pObjIter->Type() == ReliveTypes::eSligSpawner || pObjIter->Type() == ReliveTypes::eSlog)
                         {
                             pObjIter->mBaseGameObjectFlags.Set(Options::eDead);
                         }

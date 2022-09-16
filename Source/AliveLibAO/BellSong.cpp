@@ -33,7 +33,7 @@ void BellSong::VUpdate()
                     default:
                         SfxPlayMono(relive::SoundEffects::BellChime_HighPitch, 0);
                 }
-                mBaseGameObjectUpdateDelay = 15;
+                SetUpdateDelay(15);
                 break;
             }
             case relive::Path_BellsongStone::BellsongTypes::eWhistle:
@@ -49,7 +49,7 @@ void BellSong::VUpdate()
                     default:
                         Mudokon_SFX(MudSounds::eFart_7, 0, 0, 0);
                 }
-                mBaseGameObjectUpdateDelay = 30;
+                SetUpdateDelay(30);
                 break;
             }
         }
@@ -58,7 +58,7 @@ void BellSong::VUpdate()
 
         if (mCodeIdx >= mCodeLength)
         {
-            mBaseGameObjectUpdateDelay = 30;
+            SetUpdateDelay(30);
         }
     }
 }
@@ -71,7 +71,7 @@ BellSong::BellSong(relive::Path_BellsongStone::BellsongTypes type, u32 code)
     mCodeLength = Code_Length(code);
     mCodeIdx = 0;
     mDone = false;
-    mBaseGameObjectUpdateDelay = 15;
+    SetUpdateDelay(15);
 }
 
 } // namespace AO

@@ -296,7 +296,7 @@ ThrowableTotalIndicator::ThrowableTotalIndicator(FP xpos, FP ypos, Layer layer, 
     : BaseGameObject(TRUE, 0)
 {
     mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
-    mBaseGameObjectTypeId = ReliveTypes::eThrowableTotalIndicator;
+    SetType(ReliveTypes::eThrowableTotalIndicator);
 
     gObjListDrawables->Push_Back(this);
 

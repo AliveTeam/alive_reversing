@@ -9,6 +9,8 @@
 #include "Map.hpp"
 #include "../AliveLibAE/Renderer/IRenderer.hpp"
 
+#define kPalDepth 64
+
 namespace AO {
 
 class PalleteOverwriter final : public ::BaseGameObject
@@ -17,7 +19,7 @@ public:
     PalleteOverwriter(AnimationPal& /*pal*/, s16 colour)
         : BaseGameObject(TRUE, 0)
     {
-        mBaseGameObjectTypeId = ReliveTypes::ePalOverwriter;
+        SetType(ReliveTypes::ePalOverwriter);
 
         gObjListDrawables->Push_Back(this);
 
@@ -66,7 +68,7 @@ public:
         }
         else
         {
-            if (field_B8_pal_x_index == 256 - 1)
+            if (field_B8_pal_x_index == kPalDepth - 1)
             {
                 // Got to the end
                 field_BE_bDone = TRUE;
@@ -75,31 +77,31 @@ public:
             {
                 field_B8_pal_x_index += 8;
 
-                if (field_B8_pal_x_index >= 256 - 1)
+                if (field_B8_pal_x_index >= kPalDepth - 1)
                 {
-                    field_B8_pal_x_index = 256 - 1;
+                    field_B8_pal_x_index = kPalDepth - 1;
                 }
 
-                if (field_BA_pal_w + field_B8_pal_x_index >= 256 - 1)
+                if (field_BA_pal_w + field_B8_pal_x_index >= kPalDepth - 1)
                 {
-                    field_BA_pal_w = 256 - field_B8_pal_x_index;
+                    field_BA_pal_w = kPalDepth - field_B8_pal_x_index;
                 }
             }
         }
     }
 
-    s16 field_A8_palBuffer[8];
-    s16 field_B8_pal_x_index;
-    s16 field_BA_pal_w;
-    s16 field_BC_bFirstUpdate;
-    s16 field_BE_bDone;
+    s16 field_A8_palBuffer[8] = {};
+    s16 field_B8_pal_x_index = 0;
+    s16 field_BA_pal_w = 0;
+    s16 field_BC_bFirstUpdate = 0;
+    s16 field_BE_bDone = 0;
 };
 ALIVE_ASSERT_SIZEOF(PalleteOverwriter, 0xC0);
 
 Electrocute::Electrocute(BaseAliveGameObject* pTargetObj, s32 bExtraOverwriter)
     : BaseGameObject(TRUE, 0)
 {
-    mBaseGameObjectTypeId = ReliveTypes::eElectrocute;
+    SetType(ReliveTypes::eElectrocute);
 
     pTargetObj->mBaseGameObjectRefCount++;
     field_10_obj_target = pTargetObj;
@@ -107,7 +109,7 @@ Electrocute::Electrocute(BaseAliveGameObject* pTargetObj, s32 bExtraOverwriter)
     field_24_extraOverwriter = static_cast<s16>(bExtraOverwriter);
     field_14_overwriter_count = bExtraOverwriter ? 3 : 2;
 
-    if (pTargetObj->mBaseGameObjectTypeId == ReliveTypes::eAbe)
+    if (pTargetObj->Type() == ReliveTypes::eAbe)
     {
         mPalData = pTargetObj->mAnim.mAnimRes.mTgaPtr->mPal;
         /*
@@ -168,7 +170,7 @@ void Electrocute::Stop()
 
     if (field_10_obj_target)
     {
-        if (field_10_obj_target->mBaseGameObjectTypeId == ReliveTypes::eAbe)
+        if (field_10_obj_target->Type() == ReliveTypes::eAbe)
         {
             /* TODO: Set anim
             Pal_Set(
@@ -219,7 +221,7 @@ void Electrocute::VUpdate()
                 static_cast<s16>(Pal_Make_Colour(64u, 64, 255, 1)));
             if (field_18_pPalOverwriters[1])
             {
-                field_18_pPalOverwriters[1]->mBaseGameObjectUpdateDelay = 4;
+                field_18_pPalOverwriters[1]->SetUpdateDelay(4);
             }
 
             if (field_24_extraOverwriter)
@@ -230,7 +232,7 @@ void Electrocute::VUpdate()
                     static_cast<s16>(Pal_Make_Colour(0, 0, 0, 0)));
                 if (field_18_pPalOverwriters[2])
                 {
-                    field_18_pPalOverwriters[2]->mBaseGameObjectUpdateDelay = 8;
+                    field_18_pPalOverwriters[2]->SetUpdateDelay(8);
                     field_32_state = States::eHandleDamage_2;
                 }
             }
@@ -242,7 +244,7 @@ void Electrocute::VUpdate()
             PalleteOverwriter* pOverwritter = field_18_pPalOverwriters[field_14_overwriter_count - 1];
             if (pOverwritter && pOverwritter->field_BE_bDone)
             {
-                if (field_10_obj_target->mBaseGameObjectTypeId == ReliveTypes::eAbe)
+                if (field_10_obj_target->Type() == ReliveTypes::eAbe)
                 {
                     field_10_obj_target->VTakeDamage(this);
                     /* TODO: Set pal

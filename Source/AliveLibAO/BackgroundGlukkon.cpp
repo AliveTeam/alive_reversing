@@ -89,7 +89,7 @@ s16 BackgroundGlukkon::VTakeDamage(BaseGameObject* pFrom)
         return 0;
     }
 
-    if (pFrom->mBaseGameObjectTypeId == ReliveTypes::eShrykull)
+    if (pFrom->Type() == ReliveTypes::eShrykull)
     {
         mAnim.Set_Animation_Data(GetAnimRes(AnimId::Background_Glukkon_Dying));
         const auto rndVol = Math_RandomRange(110, 127);
@@ -107,7 +107,7 @@ s16 BackgroundGlukkon::VTakeDamage(BaseGameObject* pFrom)
         mAnim.Set_Animation_Data(GetAnimRes(AnimId::Background_Glukkon_Dying));
         field_110_state = BackgroundGlukkon::State::eKilledByShrykull_7;
     }
-    else if (pFrom->mBaseGameObjectTypeId == ReliveTypes::eElectrocute && mHealth > FP_FromInteger(0))
+    else if (pFrom->Type() == ReliveTypes::eElectrocute && mHealth > FP_FromInteger(0))
     {
         mHealth = FP_FromInteger(0);
 

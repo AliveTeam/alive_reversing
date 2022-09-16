@@ -36,7 +36,6 @@ TimedMine::TimedMine(relive::Path_TimedMine* pPath, const Guid& tlvId)
     SetType(ReliveTypes::eTimedMine_or_MovingBomb);
 
     LoadAnimations();
-
     Animation_Init( GetAnimRes(AnimId::TimedMine_Idle));
 
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);

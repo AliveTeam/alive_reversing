@@ -17,7 +17,7 @@ namespace AO {
 Bullet::Bullet(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, FP scale, s32 numberOfBullets)
     : BaseGameObject(TRUE, 0)
 {
-    mBaseGameObjectTypeId = ReliveTypes::eBullet;
+    SetType(ReliveTypes::eBullet);
     mBulletType = type;
     mXPos = xpos;
     mYPos = ypos;
@@ -248,14 +248,14 @@ BaseAliveGameObject* Bullet::ShootObject(PSX_RECT* pRect)
             if (pObjIter->mAnim.mFlags.Get(AnimFlags::eBit3_Render))
             {
                 if ((mBulletType == BulletType::ePossessedSlig_0
-                     && (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eSlig
-                         || pObjIter->mBaseGameObjectTypeId == ReliveTypes::eMudokon
-                         || pObjIter->mBaseGameObjectTypeId == ReliveTypes::eAbe
-                         || pObjIter->mBaseGameObjectTypeId == ReliveTypes::eSlog))
+                     && (pObjIter->Type() == ReliveTypes::eSlig
+                         || pObjIter->Type() == ReliveTypes::eMudokon
+                         || pObjIter->Type() == ReliveTypes::eAbe
+                         || pObjIter->Type() == ReliveTypes::eSlog))
 
-                    || pObjIter->mBaseGameObjectTypeId == ReliveTypes::eMudokon
-                    || pObjIter->mBaseGameObjectTypeId == ReliveTypes::eAbe
-                    || (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eSlig && sControlledCharacter == pObjIter))
+                    || pObjIter->Type() == ReliveTypes::eMudokon
+                    || pObjIter->Type() == ReliveTypes::eAbe
+                    || (pObjIter->Type() == ReliveTypes::eSlig && sControlledCharacter == pObjIter))
                 {
                     const PSX_RECT bRect = pObjIter->VGetBoundingRect();
                     if (pRect->x <= bRect.w && pRect->w >= bRect.x && pRect->h >= bRect.y && pRect->y <= bRect.h)

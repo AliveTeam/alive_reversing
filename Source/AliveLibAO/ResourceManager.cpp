@@ -64,7 +64,7 @@ public:
         field_18_fn_arg = fnArg;
         field_10_size = size;
 
-        mBaseGameObjectTypeId = ReliveTypes::eLoadingFile;
+        SetType(ReliveTypes::eLoadingFile);
         field_1C_pCamera = pArray;
 
         PSX_Pos_To_CdLoc_49B340(pos, &field_2A_cdLoc);
@@ -476,7 +476,7 @@ void ResourceManager::WaitForPendingResources_41EA60(BaseGameObject* pObj)
             break;
         }
 
-        if (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eLoadingFile)
+        if (pObjIter->Type() == ReliveTypes::eLoadingFile)
         {
             auto pLoadingFile = static_cast<LoadingFile*>(pObjIter);
             if (!pObj || pObj == pLoadingFile->field_18_fn_arg)
@@ -511,7 +511,7 @@ void ResourceManager::LoadingLoop_41EAD0(s16 bShowLoadingIcon)
                 break;
             }
 
-            if (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eLoadingFile)
+            if (pObjIter->Type() == ReliveTypes::eLoadingFile)
             {
                 if (!pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
                 {

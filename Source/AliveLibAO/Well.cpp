@@ -204,7 +204,7 @@ Well::Well(relive::Path_WellBase* pTlv, FP xpos, FP ypos, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     mTlvInfo = tlvId;
-    mBaseGameObjectTypeId = ReliveTypes::eWell;
+    SetType(ReliveTypes::eWell);
 
     mRGB.SetRGB(128, 128, 128);
 

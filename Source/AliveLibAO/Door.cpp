@@ -73,7 +73,7 @@ void Door::LoadAnimations()
 Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    mBaseGameObjectTypeId = ReliveTypes::eDoor;
+    SetType(ReliveTypes::eDoor);
 
     LoadAnimations();
 

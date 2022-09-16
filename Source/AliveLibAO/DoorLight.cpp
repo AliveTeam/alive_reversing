@@ -24,7 +24,7 @@ DoorLight::DoorLight(relive::Path_LightEffect* pTlv, const Guid& tlvId)
     field_E8_width = pTlv->mSize;
     field_EA_height = pTlv->mSize;
 
-    mBaseGameObjectTypeId = ReliveTypes::eNone;
+    SetType(ReliveTypes::eNone);
     field_EC_bHasID = 0;
     field_F0_switch_id = pTlv->mSwitchId;
     field_EE_switch_value = SwitchStates_Get(pTlv->mSwitchId);

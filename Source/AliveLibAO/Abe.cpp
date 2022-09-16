@@ -1456,7 +1456,7 @@ BaseAliveGameObject* Abe::FindObjectToPossess_421410()
         {
             if (pObj->mBaseAliveGameObjectFlags.Get(Flags_10A::e10A_Bit1_Can_Be_Possessed))
             {
-                if (pObj->mBaseGameObjectTypeId != ReliveTypes::eSlig || (pObj->Is_In_Current_Camera() == CameraPos::eCamCurrent_0 && pObj->mHealth > FP_FromInteger(0)))
+                if (pObj->Type() != ReliveTypes::eSlig || (pObj->Is_In_Current_Camera() == CameraPos::eCamCurrent_0 && pObj->mHealth > FP_FromInteger(0)))
                 {
                     return pObj;
                 }
@@ -1477,7 +1477,7 @@ void Abe::ToDieFinal_42C400()
 
 void Abe::ToKnockback_422D90(s16 bKnockbackSound, s16 bDelayedAnger)
 {
-    if (sControlledCharacter->mBaseGameObjectTypeId != ReliveTypes::eSlig || mHealth <= FP_FromInteger(0))
+    if (sControlledCharacter->Type() != ReliveTypes::eSlig || mHealth <= FP_FromInteger(0))
     {
         SND_Seq_Stop_477A60(SeqId::eMudokonChant1_11);
         field_2AA_flags.Clear(Flags_2AA::e2AA_Bit3_ElumMountBegin);
@@ -1982,7 +1982,7 @@ void Abe::PickUpThrowabe_Or_PressBomb_428260(FP fpX, s32 fpY, s16 bStandToCrouch
     {
         bool tryToSlapOrCollect = false;
 
-        switch (pSlapableOrCollectable->mBaseGameObjectTypeId)
+        switch (pSlapableOrCollectable->Type())
         {
             case ReliveTypes::eTimedMine:
             case ReliveTypes::eUXB:
@@ -2133,7 +2133,7 @@ void Abe::FallOnBombs_4231B0()
             break;
         }
 
-        if (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eMine || pObjIter->mBaseGameObjectTypeId == ReliveTypes::eUXB)
+        if (pObjIter->Type() == ReliveTypes::eMine || pObjIter->Type() == ReliveTypes::eUXB)
         {
             const PSX_RECT objRect = pObjIter->VGetBoundingRect();
             if (bOurRect.x <= objRect.w
@@ -2258,7 +2258,7 @@ PullRingRope* Abe::GetPullRope_422580()
             break;
         }
 
-        if (pObj->mBaseGameObjectTypeId == ReliveTypes::ePullRingRope)
+        if (pObj->Type() == ReliveTypes::ePullRingRope)
         {
             PullRingRope* pRope = static_cast<PullRingRope*>(pObj);
 
@@ -2523,7 +2523,7 @@ bool Abe::NearDoorIsOpen()
             break;
         }
 
-        if (pObj->mBaseGameObjectTypeId == ReliveTypes::eDoor)
+        if (pObj->Type() == ReliveTypes::eDoor)
         {
             auto pDoor = static_cast<Door*>(pObj);
             PSX_RECT Rect = VGetBoundingRect();
@@ -2905,7 +2905,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
 
     auto oldHp = mHealth;
 
-    switch (pFrom->mBaseGameObjectTypeId)
+    switch (pFrom->Type())
     {
         case ReliveTypes::eBat:
             if (mHealth > FP_FromInteger(0))
@@ -3157,7 +3157,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                 }
 
                 SfxPlayMono(relive::SoundEffects::KillEffect, 127);
-                if (pAliveObj->mBaseGameObjectTypeId != ReliveTypes::eParamite)
+                if (pAliveObj->Type() != ReliveTypes::eParamite)
                 {
                     SfxPlayMono(relive::SoundEffects::FallingItemHit, 90);
                 }
@@ -3438,7 +3438,7 @@ void Abe::Motion_0_Idle_423520()
             const FP liftPlatformXMidPoint = FP_FromInteger((BaseAliveGameObjectCollisionLine->mRect.x + BaseAliveGameObjectCollisionLine->mRect.w) / 2);
             const FP halfGrid = ScaleToGridSize(mSpriteScale) / FP_FromInteger(2);
 
-            if (mLiftPoint->mBaseGameObjectTypeId == ReliveTypes::eLiftPoint && FP_Abs(mXPos - liftPlatformXMidPoint) < halfGrid)
+            if (mLiftPoint->Type() == ReliveTypes::eLiftPoint && FP_Abs(mXPos - liftPlatformXMidPoint) < halfGrid)
             {
                 //AO exclusive - Abe only uses lift facing one side
                 if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
@@ -3495,7 +3495,7 @@ void Abe::Motion_0_Idle_423520()
     {
         if (mLiftPoint)
         {
-            if (mLiftPoint->mBaseGameObjectTypeId == ReliveTypes::eLiftPoint)
+            if (mLiftPoint->Type() == ReliveTypes::eLiftPoint)
             {
                 const FP halfGrid = ScaleToGridSize(mSpriteScale) / FP_FromInteger(2);
                 const FP liftPlatformXMidPoint = FP_FromInteger((BaseAliveGameObjectCollisionLine->mRect.x + BaseAliveGameObjectCollisionLine->mRect.w) / 2);
@@ -8745,7 +8745,7 @@ void Abe::Motion_145_RockThrowCrouchingHold_428930()
         {
             field_19D_throw_direction = 4;
             mCurrentMotion = eAbeMotions::Motion_146_RockThrowCrouchingThrow_4289F0;
-            if (field_198_pThrowable->mBaseGameObjectTypeId == ReliveTypes::eMeat)
+            if (field_198_pThrowable->Type() == ReliveTypes::eMeat)
             {
                 field_19D_throw_direction = 5;
             }
@@ -9018,7 +9018,7 @@ void Abe::Motion_150_Chant_42FD50()
                 field_18C_pObjToPossess->VPossessed();
                 field_18C_pObjToPossess->mBaseGameObjectRefCount--;
                 field_18C_pObjToPossess = nullptr;
-                if (sControlledCharacter->mBaseGameObjectTypeId == ReliveTypes::eSlig)
+                if (sControlledCharacter->Type() == ReliveTypes::eSlig)
                 {
                     field_2A8_flags.Set(Flags_2A8::e2A8_Bit11_bLaughAtChantEnd);
                 }

@@ -39,7 +39,7 @@ static s32 MinDistance(s32 screenX, s32 screenY, s32 width1, s32 height1, s32 wi
 AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ring_type)
     : BaseGameObject(TRUE, 0)
 {
-    mBaseGameObjectTypeId = ReliveTypes::eAbilityRing;
+    SetType(ReliveTypes::eAbilityRing);
     mTargetObj = nullptr;
     gObjListDrawables->Push_Back(this);
     mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);

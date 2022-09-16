@@ -184,7 +184,7 @@ Mudokon::Mudokon(relive::Path_TLV* pTlv, const Guid& tlvId)
             break;
         case ReliveTypes::eLiftMudokon:
         {
-            mBaseGameObjectTypeId = ReliveTypes::eRingOrLiftMud;
+            SetType(ReliveTypes::eRingOrLiftMud);
 
             auto liftMudTlv = static_cast<relive::Path_LiftMudokon*>(pTlv);
 
@@ -211,7 +211,7 @@ Mudokon::Mudokon(relive::Path_TLV* pTlv, const Guid& tlvId)
 
         case ReliveTypes::eRingMudokon:
         {
-            mBaseGameObjectTypeId = ReliveTypes::eRingOrLiftMud;
+            SetType(ReliveTypes::eRingOrLiftMud);
 
             auto ringMudTlv = static_cast<relive::Path_RingMudokon*>(pTlv);
 
@@ -247,7 +247,7 @@ Mudokon::Mudokon(relive::Path_TLV* pTlv, const Guid& tlvId)
 
         case ReliveTypes::eMudokon:
         {
-            mBaseGameObjectTypeId = ReliveTypes::eMudokon;
+            SetType(ReliveTypes::eMudokon);
 
             auto mudTlv = static_cast<relive::Path_Mudokon*>(pTlv);
 
@@ -606,7 +606,7 @@ void Mudokon::VScreenChanged()
 
 s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
 {
-    switch (pFrom->mBaseGameObjectTypeId)
+    switch (pFrom->Type())
     {
         case ReliveTypes::eGasCountDown:
             if (mHealth > FP_FromInteger(0))
@@ -910,7 +910,7 @@ void Mudokon::DoPathTrans()
             BaseAliveGameObjectCollisionLine = nullptr;
         }
     }
-    mBaseGameObjectUpdateDelay = 20;
+    SetUpdateDelay(20);
     mCurrentLevel = gMap.mCurrentLevel;
     mCurrentPath = gMap.mCurrentPath;
 }
@@ -1161,7 +1161,7 @@ s16 Mudokon::IAmNearestToAbe()
 
         if (pObjIter != this)
         {
-            if (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eRingOrLiftMud || pObjIter->mBaseGameObjectTypeId == ReliveTypes::eMudokon) // mud or password mud?
+            if (pObjIter->Type() == ReliveTypes::eRingOrLiftMud || pObjIter->Type() == ReliveTypes::eMudokon) // mud or password mud?
             {
                 if (Math_Distance(
                         FP_GetExponent(sActiveHero->mXPos),
@@ -3165,7 +3165,7 @@ s16 Mudokon::Brain_5_LiftUse()
                 break;
             }
 
-            if (pObj->mBaseGameObjectTypeId == ReliveTypes::eLiftPoint)
+            if (pObj->Type() == ReliveTypes::eLiftPoint)
             {
                 auto pLiftPoint = static_cast<LiftPoint*>(pObj);
                 if (field_110_lift_switch_id == pLiftPoint->field_278_lift_point_id)

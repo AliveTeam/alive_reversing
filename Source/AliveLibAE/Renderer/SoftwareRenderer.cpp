@@ -185,7 +185,7 @@ void SoftwareRenderer::Draw(Poly_F3& /*poly*/)
     any.mPolyF3 = &poly;
     DrawPoly(any);
     */
-    __debugbreak();
+    //__debugbreak();
 }
 
 void SoftwareRenderer::Draw(Poly_G3& poly)

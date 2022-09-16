@@ -19,7 +19,7 @@ DemoPlayback::DemoPlayback(u8** ppPlaybackData, s32 bFromHandStone)
 {
     mBaseGameObjectFlags.Clear(Options::eDrawable_Bit4);
     mBaseGameObjectFlags.Set(Options::eSurviveDeathReset_Bit9);
-    mBaseGameObjectTypeId = ReliveTypes::eDemoPlayback;
+    SetType(ReliveTypes::eDemoPlayback);
     field_1C_bFromHandStone = static_cast<s16>(bFromHandStone);
     sDDCheat_FlyingEnabled_50771C = 0;
     if (gAttract_507698 == 0)
@@ -42,7 +42,7 @@ DemoPlayback::DemoPlayback(u8** ppPlaybackData, s32 bFromHandStone)
     sRandomSeed = pd->randomSeed;
     field_10_state = States::eState_0_Init;
     field_14_ppDemoRes = ppPlaybackData;
-    mBaseGameObjectUpdateDelay = 1;
+    SetUpdateDelay(1);
 }
 
 DemoPlayback::~DemoPlayback()
@@ -104,7 +104,7 @@ void DemoPlayback::VUpdate()
                 }
 
                 field_10_state = States::eState_2_Done;
-                mBaseGameObjectUpdateDelay = 2;
+                SetUpdateDelay(2);
                 mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }

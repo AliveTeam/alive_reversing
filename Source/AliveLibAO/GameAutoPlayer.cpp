@@ -31,7 +31,7 @@ void Recorder::SaveObjectStates()
             continue;
         }
 
-        const s16 objType = static_cast<s16>(BaseGameObject::ToAO(pObj->mBaseGameObjectTypeId));
+        const s16 objType = static_cast<s16>(BaseGameObject::ToAO(pObj->Type()));
         ::fwrite(&objType, sizeof(s16), 1, mFile.GetFile());
 
         const u32 isBaseAliveGameObject = pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6);
@@ -119,9 +119,9 @@ bool Player::ValidateObjectStates()
             // Convert to relive type
             ReliveTypes reliveObjType = BaseGameObject::FromAO(static_cast<AOTypes>(objType));
 
-            if (pObj->mBaseGameObjectTypeId != reliveObjType)
+            if (pObj->Type() != reliveObjType)
             {
-                LOG_ERROR("Got " << static_cast<s16>(BaseGameObject::ToAO(pObj->mBaseGameObjectTypeId)) << " type but expected " << objType);
+                LOG_ERROR("Got " << static_cast<s16>(BaseGameObject::ToAO(pObj->Type())) << " type but expected " << objType);
             }
             ValidateBaseAliveGameObject(nullptr);
         }
@@ -160,9 +160,9 @@ bool Player::ValidateObjectStates()
             // Convert to relive type
             ReliveTypes reliveObjType = BaseGameObject::FromAO(static_cast<AOTypes>(objType));
 
-            if (pObj->mBaseGameObjectTypeId != reliveObjType)
+            if (pObj->Type() != reliveObjType)
             {
-                LOG_ERROR("Got " << static_cast<s16>(BaseGameObject::ToAO(pObj->mBaseGameObjectTypeId)) << " type but expected " << objType);
+                LOG_ERROR("Got " << static_cast<s16>(BaseGameObject::ToAO(pObj->Type())) << " type but expected " << objType);
                 validateFailed |= true;
             }
             if (!ValidateBaseAliveGameObject(pObj))

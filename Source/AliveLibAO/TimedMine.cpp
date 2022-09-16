@@ -33,6 +33,7 @@ TimedMine::TimedMine(relive::Path_TimedMine* pTlv, const Guid& tlvId)
 {
     SetType(ReliveTypes::eTimedMine);
 
+    LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::TimedMine_Idle));
 
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
@@ -115,7 +116,7 @@ s16 TimedMine::VTakeDamage(BaseGameObject* pFrom)
         return 0;
     }
 
-    switch (pFrom->mBaseGameObjectTypeId)
+    switch (pFrom->Type())
     {
         case ReliveTypes::eAbe:
         case ReliveTypes::eAbilityRing:
@@ -213,7 +214,7 @@ void TimedMine::StickToLiftPoint()
                         break;
                     }
 
-                    if (pObj->mBaseGameObjectTypeId == ReliveTypes::eLiftPoint)
+                    if (pObj->Type() == ReliveTypes::eLiftPoint)
                     {
                         auto pLiftPoint = static_cast<LiftPoint*>(pObj);
                         const PSX_RECT pObjRect = pLiftPoint->VGetBoundingRect();

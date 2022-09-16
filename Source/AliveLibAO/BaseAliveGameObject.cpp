@@ -305,7 +305,7 @@ BirdPortal* BaseAliveGameObject::IntoBirdPortal_402350(s16 distance)
             break;
         }
 
-        if (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eBirdPortal)
+        if (pObjIter->Type() == ReliveTypes::eBirdPortal)
         {
             auto pPortal = static_cast<BirdPortal*>(pObjIter);
             if (pPortal->mXPos >= mXPos)
@@ -839,7 +839,7 @@ BaseGameObject* BaseAliveGameObject::FindObjectOfType_418280(ReliveTypes typeToF
             break;
         }
 
-        if (pObj->mBaseGameObjectTypeId == typeToFind)
+        if (pObj->Type() == typeToFind)
         {
             auto pObj2 = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
 

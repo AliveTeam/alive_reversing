@@ -46,7 +46,7 @@ DDCheat::DDCheat()
     mBaseGameObjectFlags.Set(Options::eSurviveDeathReset_Bit9);
     mBaseGameObjectFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
 
-    mBaseGameObjectTypeId = ReliveTypes::eDDCheat;
+    SetType(ReliveTypes::eDDCheat);
     field_10_bInvalidateRect = 0;
     field_14_SelectedCheat = 0;
     field_18_backInputPressed = 0;
@@ -227,7 +227,7 @@ void DDCheat::VUpdate()
                         showDebugCreatureInfo_5076E0 = 0;
                         sControlledCharacter->BaseAliveGameObjectCollisionLine = nullptr;
                         sControlledCharacter->BaseAliveGameObjectLastLineYPos = sControlledCharacter->mYPos;
-                        switch (sControlledCharacter->mBaseGameObjectTypeId)
+                        switch (sControlledCharacter->Type())
                         {
                             case ReliveTypes::eElum:
                             {

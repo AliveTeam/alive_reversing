@@ -48,6 +48,8 @@ public:
     Slog(FP xpos, FP ypos, FP scale);
     ~Slog();
 
+    void LoadAnimations();
+
     s16 HandleEnemyStopper();
     void ToJump();
     void Sfx(s32 idx);

@@ -23,7 +23,7 @@ void BackgroundAnimation::VStopAudio()
 BackgroundAnimation::BackgroundAnimation(relive::Path_BackgroundAnimation* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    mBaseGameObjectTypeId = ReliveTypes::eBackgroundAnimation;
+    SetType(ReliveTypes::eBackgroundAnimation);
     mTlvInfo = tlvId;
 
     // TODO: Convert to animid/combine them

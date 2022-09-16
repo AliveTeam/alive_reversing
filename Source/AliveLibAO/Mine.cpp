@@ -121,7 +121,7 @@ s16 Mine::VTakeDamage(BaseGameObject* pFrom)
         return 0;
     }
 
-    switch (pFrom->mBaseGameObjectTypeId)
+    switch (pFrom->Type())
     {
         case ReliveTypes::eAbe:
         case ReliveTypes::eAbilityRing:

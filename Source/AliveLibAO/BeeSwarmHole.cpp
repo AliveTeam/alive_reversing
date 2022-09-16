@@ -14,7 +14,7 @@ BeeSwarmHole::BeeSwarmHole(relive::Path_BeeSwarmHole* pTlv, const Guid& tlvId)
     : BaseGameObject(TRUE, 0)
 {
     field_10_tlvInfo = tlvId;
-    mBaseGameObjectTypeId = ReliveTypes::eSligSpawner;
+    SetType(ReliveTypes::eSligSpawner);
 
     mStartIntervalTimer = 0;
 
@@ -56,7 +56,7 @@ void BeeSwarmHole::VUpdate()
             break;
         }
 
-        if (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eRollingBall)
+        if (pObjIter->Type() == ReliveTypes::eRollingBall)
         {
             BaseAliveGameObject* pAliveObj = static_cast<BaseAliveGameObject*>(pObjIter);
             const PSX_RECT bRect = pAliveObj->VGetBoundingRect();

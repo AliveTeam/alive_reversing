@@ -526,8 +526,8 @@ AnimRecConversionInfo kAnimRecConversionInfo[910] = {
     { AnimId::Paramite_Attack, EAnimGroup::Paramite, EReliveLevelIds::eMudomoVault, EReliveLevelIds::eNone, false },
     { AnimId::Paramite_Struggle, EAnimGroup::Paramite, EReliveLevelIds::eNone, EReliveLevelIds::eForestTemple, false },
 
-    // TODO: this doesnt want to convert for some reason
-    //{ AnimId::Paramite_AO_M_7_Unknown, EAnimGroup::Paramite, EReliveLevelIds::eMudomoVault, EReliveLevelIds::eForestTemple, false },
+    // TODO: this doesnt convert, probably unused
+    //{ AnimId::Paramite_AO_M_7_Unknown, EAnimGroup::Paramite, EReliveLevelIds::eNone, EReliveLevelIds::eForestTemple, false },
     { AnimId::Paramite_AO_M_22_Unknown, EAnimGroup::Paramite, EReliveLevelIds::eNone, EReliveLevelIds::eForestTemple, false },
     { AnimId::Paramite_WebGoingDown, EAnimGroup::Paramite, EReliveLevelIds::eMudomoVault, EReliveLevelIds::eNone, false },
     { AnimId::Paramite_WebLeaveDown, EAnimGroup::Paramite, EReliveLevelIds::eMudomoVault, EReliveLevelIds::eForestTemple, false },
@@ -552,7 +552,8 @@ AnimRecConversionInfo kAnimRecConversionInfo[910] = {
     { AnimId::Paramite_GameSpeakEnd, EAnimGroup::Paramite, EReliveLevelIds::eMudomoVault, EReliveLevelIds::eForestTemple, false },
     { AnimId::Paramite_GameSpeakBegin, EAnimGroup::Paramite, EReliveLevelIds::eMudomoVault, EReliveLevelIds::eForestTemple, false },
     { AnimId::Paramite_Turn, EAnimGroup::Paramite, EReliveLevelIds::eMudomoVault, EReliveLevelIds::eForestTemple, false },
-    { AnimId::Paramite_Unused, EAnimGroup::Paramite, EReliveLevelIds::eMudomoVault, EReliveLevelIds::eNone, false },
+    // TODO: this doesnt convert, probably unused and might be the same as Paramite_AO_M_7_Unknown
+    //{ AnimId::Paramite_Unused, EAnimGroup::Paramite, EReliveLevelIds::eMudomoVault, EReliveLevelIds::eNone, false },
     { AnimId::Paramite_WalkRunTransition, EAnimGroup::Paramite, EReliveLevelIds::eMudomoVault, EReliveLevelIds::eForestTemple, false },
     { AnimId::Paramite_WalkEnd, EAnimGroup::Paramite, EReliveLevelIds::eMudomoVault, EReliveLevelIds::eForestTemple, false },
     { AnimId::Paramite_RunBegin, EAnimGroup::Paramite, EReliveLevelIds::eMudomoVault, EReliveLevelIds::eForestTemple, false },
@@ -1134,6 +1135,7 @@ AnimRecConversionInfo kAnimRecConversionInfo[910] = {
     { AnimId::SpotLight, EAnimGroup::Ungrouped, EReliveLevelIds::eMines, EReliveLevelIds::eNone, false },
     { AnimId::Door_FireBackgroundGlow, EAnimGroup::Ungrouped, EReliveLevelIds::eNecrum, EReliveLevelIds::eDesertTemple, false },
     { AnimId::Fire, EAnimGroup::Ungrouped, EReliveLevelIds::eNecrum, EReliveLevelIds::eDesertTemple, false },
+    { AnimId::Bee_Swarm, EAnimGroup::Ungrouped, EReliveLevelIds::eNone, EReliveLevelIds::eForest, false },
 };
 
 constexpr AnimRecNames kAnimRecNames[] = {

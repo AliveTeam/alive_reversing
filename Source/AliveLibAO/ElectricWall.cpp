@@ -124,7 +124,7 @@ void ElectricWall::VUpdate()
             }
 
             // Don't kill nades
-            if (pObjIter->mBaseGameObjectTypeId != ReliveTypes::eGrenade)
+            if (pObjIter->Type() != ReliveTypes::eGrenade)
             {
                 PSX_RECT objRect = pObjIter->VGetBoundingRect();
 

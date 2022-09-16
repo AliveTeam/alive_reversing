@@ -228,7 +228,7 @@ void HoneySack::VUpdate()
                         break;
                     }
 
-                    if (pObj->mBaseGameObjectTypeId == ReliveTypes::eHoney)
+                    if (pObj->Type() == ReliveTypes::eHoney)
                     {
                         pObj->mBaseGameObjectFlags.Set(Options::eDead);
                         mHitGround = 1;
@@ -250,7 +250,7 @@ void HoneySack::VUpdate()
                         break;
                     }
 
-                    if (pObj->mBaseGameObjectTypeId == ReliveTypes::eHoney)
+                    if (pObj->Type() == ReliveTypes::eHoney)
                     {
                         pObj->mBaseGameObjectFlags.Set(Options::eDead);
                         mHitGround = 1;

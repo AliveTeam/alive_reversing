@@ -63,7 +63,7 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
         auto pMotionDetectors = relive_new MotionDetectorLaser();
         if (pMotionDetectors)
         {
-            pMotionDetectors->mBaseGameObjectTypeId = ReliveTypes::eRedLaser;
+            pMotionDetectors->SetType(ReliveTypes::eRedLaser);
             
             pMotionDetectors->Animation_Init(pMotionDetectors->GetAnimRes(AnimId::MotionDetector_Laser));
             
@@ -84,7 +84,7 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
         auto pMotionDetectors = relive_new MotionDetectorLaser();
         if (pMotionDetectors)
         {
-            pMotionDetectors->mBaseGameObjectTypeId = ReliveTypes::eRedLaser;
+            pMotionDetectors->SetType(ReliveTypes::eRedLaser);
             
             pMotionDetectors->Animation_Init(pMotionDetectors->GetAnimRes(AnimId::MotionDetector_Laser));
             
@@ -172,7 +172,7 @@ void MotionDetector::VUpdate()
                     break;
                 }
 
-                if (pObj->mBaseGameObjectTypeId != ReliveTypes::eTimedMine)
+                if (pObj->Type() != ReliveTypes::eTimedMine)
                 {
                     const PSX_RECT objRect = pObj->VGetBoundingRect();
 
@@ -187,7 +187,7 @@ void MotionDetector::VUpdate()
                         }
 
                         bool alarm = false;
-                        if (pObj->mBaseGameObjectTypeId == ReliveTypes::eAbe)
+                        if (pObj->Type() == ReliveTypes::eAbe)
                         {
                             if (pObj->mCurrentMotion != eAbeMotions::Motion_0_Idle_423520 && pObj->mCurrentMotion != eAbeMotions::Motion_19_CrouchIdle_4284C0 && pObj->mCurrentMotion != eAbeMotions::Motion_66_LedgeHang_428D90 && pObj->mCurrentMotion != eAbeMotions::Motion_62_LoadedSaveSpawn_45ADD0 && pObj->mCurrentMotion != eAbeMotions::Motion_60_Dead_42C4C0 && !sDDCheat_FlyingEnabled_50771C)
                             {

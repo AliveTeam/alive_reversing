@@ -77,7 +77,7 @@ s16 SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
         return 0;
     }
 
-    switch (pFrom->mBaseGameObjectTypeId)
+    switch (pFrom->Type())
     {
         case ReliveTypes::eAbilityRing:
         case ReliveTypes::eShrykull:

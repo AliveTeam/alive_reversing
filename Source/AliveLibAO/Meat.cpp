@@ -483,7 +483,7 @@ s16 Meat::OnCollision(BaseAliveGameObject* pHit)
         return 1;
     }
 
-    if (pHit->mBaseGameObjectTypeId == ReliveTypes::eMine || pHit->mBaseGameObjectTypeId == ReliveTypes::eUXB || pHit->mBaseGameObjectTypeId == ReliveTypes::eTimedMine)
+    if (pHit->Type() == ReliveTypes::eMine || pHit->Type() == ReliveTypes::eUXB || pHit->Type() == ReliveTypes::eTimedMine)
     {
         return 1;
     }

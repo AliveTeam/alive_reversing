@@ -205,7 +205,7 @@ s16 UXB::VTakeDamage(BaseGameObject* pFrom)
         return 0;
     }
 
-    switch (pFrom->mBaseGameObjectTypeId)
+    switch (pFrom->Type())
     {
         case ReliveTypes::eAbe:
             if (mCurrentState == UXBState::eDeactivated)
@@ -281,7 +281,7 @@ void UXB::VOnPickUpOrSlapped()
         else
         {
             mCurrentState = UXBState::eDelay;
-            mBaseGameObjectUpdateDelay = 6;
+            SetUpdateDelay(6);
             mAnim.Set_Animation_Data(GetAnimRes(AnimId::UXB_Active));
             if (gMap.Is_Point_In_Current_Camera(
                     mCurrentLevel,

@@ -39,7 +39,7 @@ RollingBallShaker::RollingBallShaker()
 {
     mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
 
-    mBaseGameObjectTypeId = ReliveTypes::eRollingBallStopperShaker;
+    SetType(ReliveTypes::eRollingBallStopperShaker);
     mShakeTableIdx = 0;
     mStopShaking = false; // Set externally
     gObjListDrawables->Push_Back(this);

@@ -106,7 +106,7 @@ void BaseThrowable::BaseAddToPlatform()
                     break;
                 }
 
-                if (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eLiftPoint || pObjIter->mBaseGameObjectTypeId == ReliveTypes::eTrapDoor)
+                if (pObjIter->Type() == ReliveTypes::eLiftPoint || pObjIter->Type() == ReliveTypes::eTrapDoor)
                 {
                     auto pPlatformBase = static_cast<PlatformBase*>(pObjIter);
 

@@ -51,7 +51,7 @@ Shrykull::Shrykull()
     : BaseAliveGameObject()
 {
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
-    mBaseGameObjectTypeId = ReliveTypes::eShrykull;
+    SetType(ReliveTypes::eShrykull);
     
     LoadAnimations();
 
@@ -79,14 +79,14 @@ void Shrykull::VOnThrowableHit(BaseGameObject*)
 
 bool Shrykull::CanKill(BaseAnimatedWithPhysicsGameObject* pObj)
 {
-    return (pObj->mBaseGameObjectTypeId == ReliveTypes::eTimedMine
-            || pObj->mBaseGameObjectTypeId == ReliveTypes::eMine
-            || pObj->mBaseGameObjectTypeId == ReliveTypes::eUXB
-            || pObj->mBaseGameObjectTypeId == ReliveTypes::eSlig
-            || pObj->mBaseGameObjectTypeId == ReliveTypes::eSlog
-            || pObj->mBaseGameObjectTypeId == ReliveTypes::eBackgroundGlukkon
-            || pObj->mBaseGameObjectTypeId == ReliveTypes::eSecurityClaw
-            || pObj->mBaseGameObjectTypeId == ReliveTypes::eSecurityOrb)
+    return (pObj->Type() == ReliveTypes::eTimedMine
+            || pObj->Type() == ReliveTypes::eMine
+            || pObj->Type() == ReliveTypes::eUXB
+            || pObj->Type() == ReliveTypes::eSlig
+            || pObj->Type() == ReliveTypes::eSlog
+            || pObj->Type() == ReliveTypes::eBackgroundGlukkon
+            || pObj->Type() == ReliveTypes::eSecurityClaw
+            || pObj->Type() == ReliveTypes::eSecurityOrb)
         && pObj->mAnim.mFlags.Get(AnimFlags::eBit3_Render)
         && !pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead)
         && gMap.Is_Point_In_Current_Camera(
@@ -99,7 +99,7 @@ bool Shrykull::CanKill(BaseAnimatedWithPhysicsGameObject* pObj)
 
 bool Shrykull::CanElectrocute(BaseGameObject* pObj) const
 {
-    switch (pObj->mBaseGameObjectTypeId)
+    switch (pObj->Type())
     {
         case ReliveTypes::eElum:
         case ReliveTypes::eBackgroundGlukkon:
@@ -193,7 +193,7 @@ void Shrykull::VUpdate()
                         relive_new Electrocute(pObj, 0);
                         field_114_timer = sGnFrame + 3;
 
-                        if (pObj->mBaseGameObjectTypeId == ReliveTypes::eBackgroundGlukkon)
+                        if (pObj->Type() == ReliveTypes::eBackgroundGlukkon)
                         {
                             pObj->VTakeDamage(this);
                         }

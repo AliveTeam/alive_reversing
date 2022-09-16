@@ -102,6 +102,7 @@ public:
     Elum(const Guid& a6);
     ~Elum();
 
+    void LoadAnimations();
     virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VOnTrapDoorOpen() override;

@@ -416,9 +416,10 @@ void Game_Loop_437630()
 
             if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eUpdatable_Bit2) && !pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && (sNumCamSwappers_507668 == 0 || pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
             {
-                if (pObjIter->mBaseGameObjectUpdateDelay > 0)
+                const s32 updateDelay = pObjIter->UpdateDelay();
+                if (pObjIter->UpdateDelay() > 0)
                 {
-                    pObjIter->mBaseGameObjectUpdateDelay--;
+                    pObjIter->SetUpdateDelay(updateDelay - 1);
                 }
                 else
                 {

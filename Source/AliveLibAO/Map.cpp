@@ -1578,9 +1578,10 @@ void Map::GoTo_Camera()
                 {
                     if (!pBaseGameObj->mBaseGameObjectFlags.Get(::BaseGameObject::eDead) && (!sNumCamSwappers_507668 || pBaseGameObj->mBaseGameObjectFlags.Get(::BaseGameObject::eUpdateDuringCamSwap_Bit10)))
                     {
-                        if (pBaseGameObj->mBaseGameObjectUpdateDelay > 0)
+                        const s32 updateDelay = pBaseGameObj->UpdateDelay();
+                        if (pBaseGameObj->UpdateDelay() > 0)
                         {
-                            pBaseGameObj->mBaseGameObjectUpdateDelay--;
+                            pBaseGameObj->SetUpdateDelay(updateDelay - 1);
                         }
                         else
                         {

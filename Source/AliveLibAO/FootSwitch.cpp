@@ -19,7 +19,7 @@ void FootSwitch::LoadAnimations()
 FootSwitch::FootSwitch(relive::Path_FootSwitch* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    mBaseGameObjectTypeId = ReliveTypes::eFootSwitch;
+    SetType(ReliveTypes::eFootSwitch);
 
     LoadAnimations();
 

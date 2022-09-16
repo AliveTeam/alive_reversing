@@ -26,7 +26,7 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 min, s32 max)
 {
     mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
 
-    mBaseGameObjectTypeId = ReliveTypes::eNone;
+    SetType(ReliveTypes::eNone);
 
     gObjListDrawables->Push_Back(this);
 

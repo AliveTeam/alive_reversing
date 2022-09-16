@@ -71,7 +71,7 @@ const static AnimId sParamiteMotionAnimIds[] = {
     AnimId::Paramite_Idle,
     AnimId::Paramite_Turn,
     AnimId::Paramite_Hop,
-    AnimId::Paramite_AO_M_7_Unknown,
+    AnimId::Paramite_Hop,// HACK fix unused not converting // AnimId::Paramite_AO_M_7_Unknown,
     AnimId::Paramite_WalkRunTransition,
     AnimId::Paramite_WalkEnd,
     AnimId::Paramite_RunBegin,
@@ -103,7 +103,7 @@ const static Paramite::TParamiteBrain sParamiteBrainTable[]{
 Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
-    mBaseGameObjectTypeId = ReliveTypes::eParamite;
+    SetType(ReliveTypes::eParamite);
 
     for (auto& animId : sParamiteMotionAnimIds)
     {
@@ -229,7 +229,7 @@ Paramite::~Paramite()
 
 void Paramite::VRender(PrimHeader** ppOt)
 {
-    if (mBaseGameObjectUpdateDelay == 0)
+    if (UpdateDelay() == 0)
     {
         BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     }
@@ -248,7 +248,7 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
         field_148_pMeat = nullptr;
     }
 
-    switch (pFrom->mBaseGameObjectTypeId)
+    switch (pFrom->Type())
     {
         case ReliveTypes::eBaseBomb:
         case ReliveTypes::eExplosion:
@@ -377,7 +377,7 @@ void Paramite::VUpdate()
                 break;
             }
 
-            if (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eParamite && pObjIter != this)
+            if (pObjIter->Type() == ReliveTypes::eParamite && pObjIter != this)
             {
                 Paramite* pOther = static_cast<Paramite*>(pObjIter);
                 if (gMap.Is_Point_In_Current_Camera(
@@ -606,7 +606,7 @@ s16 Paramite::AnotherParamiteNear()
             break;
         }
 
-        if (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eParamite && pObjIter != this)
+        if (pObjIter->Type() == ReliveTypes::eParamite && pObjIter != this)
         {
             Paramite* pOther = static_cast<Paramite*>(pObjIter);
             if (gMap.Is_Point_In_Current_Camera(
@@ -668,7 +668,7 @@ Meat* Paramite::FindMeat()
             break;
         }
 
-        if (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eMeat)
+        if (pObjIter->Type() == ReliveTypes::eMeat)
         {
             auto pMeat = static_cast<Meat*>(pObjIter);
             if (pMeat->VCanEatMe())
@@ -1543,7 +1543,7 @@ s16 Paramite::IsBeeSwarmChasingMe_4022B0()
             break;
         }
 
-        if (pObj->mBaseGameObjectTypeId == ReliveTypes::eBeeSwarm)
+        if (pObj->Type() == ReliveTypes::eBeeSwarm)
         {
             if (static_cast<BeeSwarm*>(pObj)->mChaseTarget == this)
             {

@@ -225,7 +225,7 @@ Scrab::~Scrab()
 
 void Scrab::VRender(PrimHeader** ppOt)
 {
-    if (mBaseGameObjectUpdateDelay == 0)
+    if (UpdateDelay() == 0)
     {
         BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     }
@@ -349,7 +349,7 @@ s16 Scrab::VTakeDamage(BaseGameObject* pFrom)
 {
     if (mHealth > FP_FromInteger(0))
     {
-        switch (pFrom->mBaseGameObjectTypeId)
+        switch (pFrom->Type())
         {
             case ReliveTypes::eBat:
                 if (BrainIs(&Scrab::Brain_BatDeath_45CA60))
@@ -793,7 +793,7 @@ Scrab* Scrab::FindScrabToFight()
             break;
         }
 
-        if (pObj->mBaseGameObjectTypeId == ReliveTypes::eScrab)
+        if (pObj->Type() == ReliveTypes::eScrab)
         {
             Scrab* pOther = static_cast<Scrab*>(pObj);
             if (pOther != this
@@ -841,7 +841,7 @@ s16 Scrab::FindAbeOrMud()
         {
             BaseAliveGameObject* pObj = static_cast<BaseAliveGameObject*>(pObjIter);
 
-            if (pObj->mBaseGameObjectTypeId == ReliveTypes::eRingOrLiftMud || pObj->mBaseGameObjectTypeId == ReliveTypes::eMudokon || pObj->mBaseGameObjectTypeId == ReliveTypes::SlingMud)
+            if (pObj->Type() == ReliveTypes::eRingOrLiftMud || pObj->Type() == ReliveTypes::eMudokon || pObj->Type() == ReliveTypes::SlingMud)
             {
                 if (CanSeeAbe(pObj) && pObj->mHealth > FP_FromInteger(0) && pObj->mSpriteScale == mSpriteScale && !WallHit_401930(pObj->mXPos - mXPos, mSpriteScale * FP_FromInteger(35)))
                 {
@@ -2571,7 +2571,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
 
             if (mLiftPoint)
             {
-                if (mLiftPoint->mBaseGameObjectTypeId == ReliveTypes::eLiftPoint)
+                if (mLiftPoint->Type() == ReliveTypes::eLiftPoint)
                 {
                     auto pLiftPoint = static_cast<LiftPoint*>(mLiftPoint);
                     if (!pLiftPoint->OnAnyFloor())
@@ -2789,7 +2789,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
             }
 
             auto pLiftPoint = static_cast<LiftPoint*>(mLiftPoint);
-            if (pLiftPoint && mLiftPoint->mBaseGameObjectTypeId == ReliveTypes::eLiftPoint && !pLiftPoint->OnAnyFloor())
+            if (pLiftPoint && mLiftPoint->Type() == ReliveTypes::eLiftPoint && !pLiftPoint->OnAnyFloor())
             {
                 mNextMotion = eScrabMotions::Motion_1_Stand_45E620;
                 return 4;
@@ -3107,7 +3107,7 @@ s16 Scrab::Brain_ChasingEnemy_45CC90()
 
             mNextMotion = eScrabMotions::Motion_1_Stand_45E620;
 
-            if (mLiftPoint && mLiftPoint->mBaseGameObjectTypeId == ReliveTypes::eLiftPoint)
+            if (mLiftPoint && mLiftPoint->Type() == ReliveTypes::eLiftPoint)
             {
                 auto pLiftPoint = static_cast<LiftPoint*>(mLiftPoint);
                 if (!pLiftPoint->OnAnyFloor())
@@ -3177,7 +3177,7 @@ s16 Scrab::Brain_Patrol_460020()
             auto pLiftPoint = static_cast<LiftPoint*>(mLiftPoint);
             if (pLiftPoint)
             {
-                if (pLiftPoint->mBaseGameObjectTypeId == ReliveTypes::eLiftPoint)
+                if (pLiftPoint->Type() == ReliveTypes::eLiftPoint)
                 {
                     if (!pLiftPoint->OnAnyFloor())
                     {
@@ -3255,7 +3255,7 @@ s16 Scrab::Brain_Patrol_460020()
             if (mLiftPoint)
             {
                 auto pLiftPoint = static_cast<LiftPoint*>(mLiftPoint);
-                if (pLiftPoint->mBaseGameObjectTypeId == ReliveTypes::eLiftPoint && !pLiftPoint->OnAnyFloor())
+                if (pLiftPoint->Type() == ReliveTypes::eLiftPoint && !pLiftPoint->OnAnyFloor())
                 {
                     mNextMotion = eScrabMotions::Motion_1_Stand_45E620;
                     return 8;
@@ -3278,7 +3278,7 @@ s16 Scrab::Brain_Patrol_460020()
             if (mLiftPoint)
             {
                 auto pLiftPoint = static_cast<LiftPoint*>(mLiftPoint);
-                if (pLiftPoint->mBaseGameObjectTypeId == ReliveTypes::eLiftPoint && !pLiftPoint->OnAnyFloor())
+                if (pLiftPoint->Type() == ReliveTypes::eLiftPoint && !pLiftPoint->OnAnyFloor())
                 {
                     mNextMotion = eScrabMotions::Motion_1_Stand_45E620;
                     return 8;
@@ -3297,7 +3297,7 @@ s16 Scrab::Brain_Patrol_460020()
             if (mLiftPoint)
             {
                 auto pLiftPoint = static_cast<LiftPoint*>(mLiftPoint);
-                if (pLiftPoint->mBaseGameObjectTypeId == ReliveTypes::eLiftPoint && !pLiftPoint->OnAnyFloor())
+                if (pLiftPoint->Type() == ReliveTypes::eLiftPoint && !pLiftPoint->OnAnyFloor())
                 {
                     mNextMotion = eScrabMotions::Motion_1_Stand_45E620;
                     return 8;
@@ -3323,7 +3323,7 @@ s16 Scrab::Brain_Patrol_460020()
             if (mLiftPoint)
             {
                 auto pLiftPoint = static_cast<LiftPoint*>(mLiftPoint);
-                if (pLiftPoint->mBaseGameObjectTypeId == ReliveTypes::eLiftPoint && !pLiftPoint->OnAnyFloor())
+                if (pLiftPoint->Type() == ReliveTypes::eLiftPoint && !pLiftPoint->OnAnyFloor())
                 {
                     mNextMotion = eScrabMotions::Motion_1_Stand_45E620;
                     return 8;
@@ -3346,7 +3346,7 @@ s16 Scrab::Brain_Patrol_460020()
             if (mLiftPoint)
             {
                 auto pLiftPoint = static_cast<LiftPoint*>(mLiftPoint);
-                if (pLiftPoint->mBaseGameObjectTypeId == ReliveTypes::eLiftPoint && !pLiftPoint->OnAnyFloor())
+                if (pLiftPoint->Type() == ReliveTypes::eLiftPoint && !pLiftPoint->OnAnyFloor())
                 {
                     mNextMotion = eScrabMotions::Motion_1_Stand_45E620;
                     return 8;
@@ -3365,7 +3365,7 @@ s16 Scrab::Brain_Patrol_460020()
             if (mLiftPoint)
             {
                 auto pLiftPoint = static_cast<LiftPoint*>(mLiftPoint);
-                if (pLiftPoint->mBaseGameObjectTypeId == ReliveTypes::eLiftPoint && !pLiftPoint->OnAnyFloor())
+                if (pLiftPoint->Type() == ReliveTypes::eLiftPoint && !pLiftPoint->OnAnyFloor())
                 {
                     mNextMotion = eScrabMotions::Motion_1_Stand_45E620;
                     return 8;
@@ -3398,7 +3398,7 @@ s16 Scrab::Brain_Patrol_460020()
             if (mLiftPoint)
             {
                 auto pLiftPoint = static_cast<LiftPoint*>(mLiftPoint);
-                if (pLiftPoint->mBaseGameObjectTypeId == ReliveTypes::eLiftPoint && !pLiftPoint->OnAnyFloor())
+                if (pLiftPoint->Type() == ReliveTypes::eLiftPoint && !pLiftPoint->OnAnyFloor())
                 {
                     mNextMotion = eScrabMotions::Motion_1_Stand_45E620;
                     return 8;
@@ -3483,7 +3483,7 @@ s16 Scrab::Brain_WalkAround_460D80()
             if (mLiftPoint)
             {
                 auto pLiftPoint = static_cast<LiftPoint*>(mLiftPoint);
-                if (pLiftPoint->mBaseGameObjectTypeId == ReliveTypes::eLiftPoint)
+                if (pLiftPoint->Type() == ReliveTypes::eLiftPoint)
                 {
                     if (!pLiftPoint->OnAnyFloor())
                     {
@@ -3600,7 +3600,7 @@ s16 Scrab::Brain_WalkAround_460D80()
                 if (mLiftPoint)
                 {
                     auto pLiftPoint = static_cast<LiftPoint*>(mLiftPoint);
-                    if (pLiftPoint->mBaseGameObjectTypeId == ReliveTypes::eLiftPoint)
+                    if (pLiftPoint->Type() == ReliveTypes::eLiftPoint)
                     {
                         if (!pLiftPoint->OnAnyFloor())
                         {
@@ -3650,7 +3650,7 @@ s16 Scrab::Brain_WalkAround_460D80()
                 if (mLiftPoint)
                 {
                     auto pLiftPoint = static_cast<LiftPoint*>(mLiftPoint);
-                    if (pLiftPoint->mBaseGameObjectTypeId == ReliveTypes::eLiftPoint)
+                    if (pLiftPoint->Type() == ReliveTypes::eLiftPoint)
                     {
                         if (!pLiftPoint->OnAnyFloor())
                         {
@@ -3688,7 +3688,7 @@ s16 Scrab::Brain_WalkAround_460D80()
             if (mLiftPoint)
             {
                 auto pLiftPoint = static_cast<LiftPoint*>(mLiftPoint);
-                if (pLiftPoint->mBaseGameObjectTypeId == ReliveTypes::eLiftPoint && !pLiftPoint->OnAnyFloor())
+                if (pLiftPoint->Type() == ReliveTypes::eLiftPoint && !pLiftPoint->OnAnyFloor())
                 {
                     mNextMotion = eScrabMotions::Motion_1_Stand_45E620;
                     return 1;

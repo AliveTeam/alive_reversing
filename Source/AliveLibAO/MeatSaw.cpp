@@ -304,7 +304,7 @@ void MeatSaw::GrindUpObjects_439CD0()
             if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
             {
                 // Can't grind meat with a meat saw, that would be grindception
-                if (pObjIter->mBaseGameObjectTypeId != ReliveTypes::eMeat)
+                if (pObjIter->Type() != ReliveTypes::eMeat)
                 {
                     const PSX_RECT objRect = pObjIter->VGetBoundingRect();
 

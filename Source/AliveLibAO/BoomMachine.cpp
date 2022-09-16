@@ -173,7 +173,7 @@ void BoomMachine::LoadAnimations()
 BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    mBaseGameObjectTypeId = ReliveTypes::eBoomMachine;
+    SetType(ReliveTypes::eBoomMachine);
 
     LoadAnimations();
 

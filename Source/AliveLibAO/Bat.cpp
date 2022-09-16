@@ -222,7 +222,7 @@ void Bat::VUpdate()
                         break;
                     }
 
-                    if (pObjIter->mBaseGameObjectTypeId != ReliveTypes::eSecurityOrb && pObjIter->mBaseGameObjectTypeId != ReliveTypes::eSlig && pObjIter->mBaseGameObjectTypeId != ReliveTypes::eSlog)
+                    if (pObjIter->Type() != ReliveTypes::eSecurityOrb && pObjIter->Type() != ReliveTypes::eSlig && pObjIter->Type() != ReliveTypes::eSlog)
                     {
                         const PSX_RECT bObjRect = pObjIter->VGetBoundingRect();
                         if (FP_GetExponent(mXPos) >= bObjRect.x && FP_GetExponent(mXPos) <= bObjRect.w && FP_GetExponent(mYPos) >= bObjRect.y && FP_GetExponent(mYPos) <= bObjRect.h && pObjIter->mSpriteScale == mSpriteScale)
@@ -235,7 +235,7 @@ void Bat::VUpdate()
                                     break;
                                 }
 
-                                if (pMaybeBat->mBaseGameObjectTypeId == ReliveTypes::eBat)
+                                if (pMaybeBat->Type() == ReliveTypes::eBat)
                                 {
                                     auto pBat = static_cast<Bat*>(pMaybeBat);
 

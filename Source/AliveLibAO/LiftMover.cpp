@@ -13,7 +13,7 @@ LiftMover::LiftMover(relive::Path_LiftMover* pTlv, const Guid& tlvId)
 {
     field_14_tlvInfo = tlvId;
     field_18_pLiftPoint = nullptr;
-    mBaseGameObjectTypeId = ReliveTypes::eLiftMover;
+    SetType(ReliveTypes::eLiftMover);
 
     field_10_lift_mover_switch_id = pTlv->mLiftMoverSwitchId;
     field_12_target_lift_point_id = pTlv->mTargetLiftPointId;
@@ -179,7 +179,7 @@ LiftPoint* LiftMover::FindLiftPointWithId(s16 id)
             break;
         }
 
-        if (pItem->mBaseGameObjectTypeId == ReliveTypes::eLiftPoint)
+        if (pItem->Type() == ReliveTypes::eLiftPoint)
         {
             auto pLiftPoint = static_cast<LiftPoint*>(pItem);
             if (pLiftPoint->field_278_lift_point_id == id)

@@ -188,7 +188,7 @@ Lever::~Lever()
 Lever::Lever(relive::Path_Lever* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    mBaseGameObjectTypeId = ReliveTypes::eLever;
+    SetType(ReliveTypes::eLever);
 
     LoadAnimations();
 

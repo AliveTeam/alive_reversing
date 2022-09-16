@@ -193,7 +193,7 @@ void Elum::VOnTlvCollision(relive::Path_TLV* pTlv)
 
 s16 Elum::VTakeDamage(BaseGameObject* pFrom)
 {
-    switch (pFrom->mBaseGameObjectTypeId)
+    switch (pFrom->Type())
     {
         case ReliveTypes::eBullet:
         case ReliveTypes::eBaseBomb:
@@ -659,7 +659,7 @@ void Elum::HandleElumPathTrans_411460()
     mCurrentLevel = gMap.mCurrentLevel;
     mCurrentPath = gMap.mCurrentPath;
 
-    mBaseGameObjectUpdateDelay = 20;
+    SetUpdateDelay(20);
 }
 
 const relive::SfxDefinition sElumSfx_4C5398[12] = {
@@ -772,7 +772,7 @@ void Elum::FindHoney_411600()
                 break;
             }
 
-            if (pObjIter->mBaseGameObjectTypeId == ReliveTypes::eHoney)
+            if (pObjIter->Type() == ReliveTypes::eHoney)
             {
                 auto pHoney = static_cast<Honey*>(pObjIter);
                 if (gMap.Is_Point_In_Current_Camera(
@@ -3472,7 +3472,7 @@ void Elum::VRender(PrimHeader** ppOt)
 {
     if (mCurrentLevel == gMap.mCurrentLevel
         && mCurrentPath == gMap.mCurrentPath
-        && !mBaseGameObjectUpdateDelay)
+        && !UpdateDelay())
     {
         BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     }
@@ -3540,16 +3540,28 @@ void Elum::Spawn(const Guid& tlvInfo)
     relive_new Elum(tlvInfo);
 }
 
+void Elum::LoadAnimations()
+{
+    for (auto& animId : gElumMotionAnimIds)
+    {
+        if (animId != AnimId::None)
+        {
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
+        }
+    }
+}
+
 Elum::Elum(const Guid& tlvInfo)
     : BaseAliveGameObject()
 {
-    mBaseGameObjectTypeId = ReliveTypes::eElum;
+    SetType(ReliveTypes::eElum);
 
     field_158_last_event_idx = -1;
     field_16C_never_read = 0;
     field_16E_never_read = -1;
     field_1F0_tlvInfo = tlvInfo;
 
+    LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::Elum_Land));
 
     mSpriteScale = sActiveHero->mSpriteScale;

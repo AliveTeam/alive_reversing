@@ -19,7 +19,7 @@ namespace AO {
 void Animation_OnFrame_Slig(::BaseGameObject* pObj, u32&, const Point32& pData)
 {
     auto pSlig = static_cast<Slig*>(pObj);
-    if (pSlig->mBaseGameObjectUpdateDelay != 0)
+    if (pSlig->UpdateDelay() != 0)
     {
         return;
     }

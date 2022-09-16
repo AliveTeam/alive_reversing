@@ -28,7 +28,7 @@ ParamiteWeb::~ParamiteWeb()
 ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    mBaseGameObjectTypeId = ReliveTypes::eRope;
+    SetType(ReliveTypes::eRope);
 
     mYOffset = 0;
 

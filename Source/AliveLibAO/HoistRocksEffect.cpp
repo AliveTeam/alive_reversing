@@ -129,7 +129,7 @@ void HoistRocksEffect::VUpdate()
                 FP_FromInteger(1),
                 frameTableOffset);
 
-            mBaseGameObjectUpdateDelay = Math_RandomRange(30, 50);
+            SetUpdateDelay(Math_RandomRange(30, 50));
         }
         else
         {
@@ -146,7 +146,7 @@ void HoistRocksEffect::VUpdate()
                 FP_FromInteger(1),
                 frameTableOffset);
 
-            mBaseGameObjectUpdateDelay = Math_RandomRange(5, 10);
+            SetUpdateDelay(Math_RandomRange(5, 10));
         }
     }
     else
@@ -164,7 +164,7 @@ void HoistRocksEffect::VUpdate()
             FP_FromInteger(1),
             frameTableOffset);
 
-        mBaseGameObjectUpdateDelay = Math_RandomRange(10, 20);
+        SetUpdateDelay(Math_RandomRange(10, 20));
     }
 }
 

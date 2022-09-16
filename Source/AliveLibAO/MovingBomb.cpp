@@ -145,7 +145,7 @@ s16 MovingBomb::VTakeDamage(BaseGameObject* pFrom)
         return 1;
     }
 
-    if (pFrom->mBaseGameObjectTypeId != ReliveTypes::eAbilityRing && pFrom->mBaseGameObjectTypeId != ReliveTypes::eExplosion && pFrom->mBaseGameObjectTypeId != ReliveTypes::eShrykull)
+    if (pFrom->Type() != ReliveTypes::eAbilityRing && pFrom->Type() != ReliveTypes::eExplosion && pFrom->Type() != ReliveTypes::eShrykull)
     {
         return 0;
     }

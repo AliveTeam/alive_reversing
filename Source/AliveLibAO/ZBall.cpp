@@ -49,7 +49,7 @@ void Animation_OnFrame_ZBallSmacker(::BaseGameObject* pObj, u32& idx, const Poin
 ZBall::ZBall(relive::Path_ZBall* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    mBaseGameObjectTypeId = ReliveTypes::eZBall;
+    SetType(ReliveTypes::eZBall);
 
     mRGB.SetRGB(128, 128, 128);
 

@@ -80,7 +80,7 @@ void LiftPoint::LoadAnimations()
 LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, Map* pPath, const Guid& tlvId)
     : PlatformBase()
 {
-    mBaseGameObjectTypeId = ReliveTypes::eLiftPoint;
+    SetType(ReliveTypes::eLiftPoint);
 
     LoadAnimations();
 

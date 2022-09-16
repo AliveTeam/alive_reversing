@@ -705,7 +705,7 @@ s16 BirdPortal::IsScaredAway()
             return FALSE;
         }
 
-        switch (pObj->mBaseGameObjectTypeId)
+        switch (pObj->Type())
         {
             case ReliveTypes::eElum:
             case ReliveTypes::eAbe:
@@ -766,7 +766,7 @@ void BirdPortal::VGiveShrykull(s16 bPlaySound)
             break;
         }
 
-        if (pObj->mBaseGameObjectTypeId == ReliveTypes::eBirdPortalTerminator)
+        if (pObj->Type() == ReliveTypes::eBirdPortalTerminator)
         {
             pObj->mBaseGameObjectFlags.Set(Options::eDead);
         }

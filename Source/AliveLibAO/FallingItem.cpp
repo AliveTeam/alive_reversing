@@ -50,7 +50,7 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
 {
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
 
-    mBaseGameObjectTypeId = ReliveTypes::eRockSpawner;
+    SetType(ReliveTypes::eRockSpawner);
 
     LoadAnimations();
 

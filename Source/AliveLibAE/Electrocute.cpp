@@ -25,7 +25,7 @@ public:
 
         mPal = pal;
 
-        u32 palDepth = 1; // account for first array index which is 0
+        u32 palDepth = 1; // account for the first array index which is 0
         for (u32 i = 0; i < ALIVE_COUNTOF(mPal.mPal); i++)
         {
             if (mPal.mPal[i] != 0)

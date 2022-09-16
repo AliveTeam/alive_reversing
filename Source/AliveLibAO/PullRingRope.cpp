@@ -23,7 +23,7 @@ void PullRingRope::LoadAnimations()
 PullRingRope::PullRingRope(relive::Path_PullRingRope* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    mBaseGameObjectTypeId = ReliveTypes::ePullRingRope;
+    SetType(ReliveTypes::ePullRingRope);
 
     LoadAnimations();
 

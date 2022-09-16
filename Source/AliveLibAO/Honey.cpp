@@ -15,7 +15,7 @@ void Honey::VUpdate()
 Honey::Honey(FP xpos, FP ypos)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    mBaseGameObjectTypeId = ReliveTypes::eHoney;
+    SetType(ReliveTypes::eHoney);
 
     mRGB.SetRGB(128, 128, 128);
 

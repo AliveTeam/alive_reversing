@@ -26,7 +26,7 @@ MusicTrigger::MusicTrigger(relive::Path_MusicTrigger* pTlv, const Guid& tlvId)
 void MusicTrigger::Init(relive::Path_MusicTrigger::MusicTriggerMusicType type, relive::Path_MusicTrigger::TriggeredBy triggeredBy, u16 switchId, s16 delay)
 {
     field_14_flags &= ~7u;
-    mBaseGameObjectTypeId = ReliveTypes::eNone;
+    SetType(ReliveTypes::eNone);
 
     switch (type)
     {
@@ -72,17 +72,17 @@ void MusicTrigger::Init(relive::Path_MusicTrigger::MusicTriggerMusicType type, r
     switch (triggeredBy)
     {
         case relive::Path_MusicTrigger::TriggeredBy::eTimer:
-            mBaseGameObjectUpdateDelay = 0;
+            SetUpdateDelay(0);
             break;
 
         case relive::Path_MusicTrigger::TriggeredBy::eTouching:
-            mBaseGameObjectUpdateDelay = delay;
+            SetUpdateDelay(delay);
             break;
 
         case relive::Path_MusicTrigger::TriggeredBy::eSwitchId: // removed in AE
             field_14_flags |= 1u;
             field_1E_switch_id = switchId;
-            mBaseGameObjectUpdateDelay = 0;
+            SetUpdateDelay(0);
             field_18_counter = delay;
             if (switchId > 1)
             {
@@ -96,7 +96,7 @@ void MusicTrigger::Init(relive::Path_MusicTrigger::MusicTriggerMusicType type, r
         case relive::Path_MusicTrigger::TriggeredBy::eUnknown: // removed in AE
             field_14_flags |= 1u;
             field_1E_switch_id = switchId;
-            mBaseGameObjectUpdateDelay = 0;
+            SetUpdateDelay(0);
             field_18_counter = -1;
             break;
 

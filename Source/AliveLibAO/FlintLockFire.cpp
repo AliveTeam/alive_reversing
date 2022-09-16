@@ -87,7 +87,7 @@ FlintLockFire::~FlintLockFire()
 FlintLockFire::FlintLockFire(relive::Path_FlintLockFire* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    mBaseGameObjectTypeId = ReliveTypes::eFlintLockFire;
+    SetType(ReliveTypes::eFlintLockFire);
 
     LoadAnimations();
 

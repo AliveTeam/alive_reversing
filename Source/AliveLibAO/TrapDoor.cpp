@@ -55,7 +55,7 @@ void TrapDoor::LoadAnimations()
 
 TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, Map* pMap, const Guid& tlvId)
 {
-    mBaseGameObjectTypeId = ReliveTypes::eTrapDoor;
+    SetType(ReliveTypes::eTrapDoor);
     mSwitchId = pTlv->mSwitchId;
     mStartState = pTlv->mStartState;
 

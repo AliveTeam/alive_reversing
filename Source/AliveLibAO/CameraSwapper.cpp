@@ -108,7 +108,7 @@ void CameraSwapper::Init(u8** ppCamRes, CameraSwapEffects changeEffect)
 {
     mBaseGameObjectFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
 
-    mBaseGameObjectTypeId = ReliveTypes::eCameraSwapper;
+    SetType(ReliveTypes::eCameraSwapper);
 
     field_24_pSubObject = nullptr;
 

@@ -105,9 +105,18 @@ static u8 Slog_NextRandom()
     return sRandomBytes_4BBE30[sSlogRndSeed_9F11C4++];
 }
 
+void Slog::LoadAnimations()
+{
+    for (auto& animId : sSlogMotionAnimIds)
+    {
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
+    }
+}
+
 Slog::Slog(relive::Path_Slog* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
+    LoadAnimations();
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
@@ -151,6 +160,7 @@ Slog::Slog(relive::Path_Slog* pTlv, const Guid& tlvId)
 Slog::Slog(FP xpos, FP ypos, FP scale)
     : BaseAliveGameObject()
 {
+    LoadAnimations();
     mXPos = xpos;
     mYPos = ypos;
     mSpriteScale = scale;
@@ -221,7 +231,7 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
         return 1;
     }
 
-    switch (pFrom->mBaseGameObjectTypeId)
+    switch (pFrom->Type())
     {
         case ReliveTypes::eBullet:
         {
@@ -473,7 +483,7 @@ void Slog::Init()
     mNextMotion = -1;
     field_EC = 3;
     field_13C_res_idx = 0;
-    mBaseGameObjectTypeId = ReliveTypes::eSlog;
+    SetType(ReliveTypes::eSlog);
     mLiftPoint = nullptr;
     field_118_always_zero = 0;
     field_134 = 2;
@@ -744,7 +754,7 @@ BaseAliveGameObject* Slog::FindAbeMudOrSlig()
 
         if (pObj != field_14C_pSlig && pObj != this)
         {
-            if (pObj->mBaseGameObjectTypeId == ReliveTypes::eAbe || pObj->mBaseGameObjectTypeId == ReliveTypes::eMudokon || pObj->mBaseGameObjectTypeId == ReliveTypes::eSlig)
+            if (pObj->Type() == ReliveTypes::eAbe || pObj->Type() == ReliveTypes::eMudokon || pObj->Type() == ReliveTypes::eSlig)
             {
                 const PSX_RECT objRect = pObj->VGetBoundingRect();
 
@@ -796,7 +806,7 @@ void Slog::VScreenChanged()
 
 void Slog::VRender(PrimHeader** ppOt)
 {
-    if (mBaseGameObjectUpdateDelay == 0)
+    if (UpdateDelay() == 0)
     {
         BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     }
@@ -1483,7 +1493,7 @@ void Slog::Motion_18_WakeUp_475460()
             break;
         }
 
-        if (pObj->mBaseGameObjectTypeId == ReliveTypes::eSnoozParticle)
+        if (pObj->Type() == ReliveTypes::eSnoozParticle)
         {
             static_cast<SnoozeParticle*>(pObj)->mState = SnoozeParticle::SnoozeParticleState::eBlowingUp_2;
         }
