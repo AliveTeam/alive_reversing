@@ -130,6 +130,7 @@ struct Poly_FT4 final
     Poly_Base mBase;
     UV mUv;
     TVert mVerts[3];
+    class Animation* mAnim;
 };
 // ALIVE_ASSERT_SIZEOF(Poly_FT4, 0x2C);
 

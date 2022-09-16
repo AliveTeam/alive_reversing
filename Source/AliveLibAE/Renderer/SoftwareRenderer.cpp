@@ -4,6 +4,8 @@
 #include "../Psx.hpp"
 #include "../relive_lib/VRam.hpp"
 
+#include "../relive_lib/Animation.hpp"
+
 void SoftwareRenderer::Destroy()
 {
     SDL_DestroyTexture(mBackBufferTexture);
@@ -12,6 +14,11 @@ void SoftwareRenderer::Destroy()
 bool SoftwareRenderer::Create(TWindowHandleType window)
 {
     mRenderer = SDL_CreateRenderer(window, -1, 0);
+    if (mRenderer)
+    {
+        //SDL_RenderSetLogicalSize(mRenderer, 640, 480 / 2);
+        SDL_RenderSetScale(mRenderer, 1.0f, 2.0f);
+    }
     return mRenderer != nullptr;
 }
 
@@ -267,6 +274,12 @@ void SoftwareRenderer::Draw(Poly_F4& poly)
     //__debugbreak();
 }
 
+void set_pixel(SDL_Surface* surface, int x, int y, u16 pixel)
+{
+    Uint8* target_pixel = (Uint8*) surface->pixels + y * surface->pitch + x * sizeof(u16);
+    *(u16*) target_pixel = pixel;
+}
+
 void SoftwareRenderer::Draw(Poly_FT4& poly)
 {
     /*
@@ -278,6 +291,36 @@ void SoftwareRenderer::Draw(Poly_FT4& poly)
     // TODO: texture test
     SDL_Vertex vert[4];
 
+    SDL_Texture* pTexture = nullptr;
+    if (poly.mAnim)
+    {
+        SDL_Surface* surface = SDL_CreateRGBSurfaceWithFormat(0, 
+            poly.mAnim->mAnimRes.mTgaPtr->mWidth,
+            poly.mAnim->mAnimRes.mTgaPtr->mHeight, 16, SDL_PIXELFORMAT_RGB555);
+
+        SDL_LockSurface(surface);
+
+        const u16* pPal = poly.mAnim->mAnimRes.mTgaPtr->mPal.mPal;
+        const auto& pixels = poly.mAnim->mAnimRes.mTgaPtr->mPixels;
+        u32 i = 0;
+        for (u32 y = 0; y < poly.mAnim->mAnimRes.mTgaPtr->mHeight; y++)
+        {
+            for (u32 x = 0; x < poly.mAnim->mAnimRes.mTgaPtr->mWidth; x++)
+            {
+                set_pixel(surface, x, y, pPal[pixels[i++]]);
+            }
+        }
+        SDL_UnlockSurface(surface);
+
+        pTexture = SDL_CreateTextureFromSurface(mRenderer, surface);
+        if (!pTexture)
+        {
+            LOG_ERROR(SDL_GetError());
+        }
+
+        SDL_FreeSurface(surface);
+    }
+
     // center
     vert[0].position.x = X0(&poly);
     vert[0].position.y = Y0(&poly);
@@ -285,6 +328,8 @@ void SoftwareRenderer::Draw(Poly_FT4& poly)
     vert[0].color.g = G0(&poly);
     vert[0].color.b = B0(&poly);
     vert[0].color.a = 255;
+    vert[0].tex_coord.x = 0.0f;
+    vert[0].tex_coord.y = 0.0f;
 
     // left
     vert[1].position.x = X1(&poly);
@@ -293,6 +338,8 @@ void SoftwareRenderer::Draw(Poly_FT4& poly)
     vert[1].color.g = G0(&poly);
     vert[1].color.b = B0(&poly);
     vert[1].color.a = 255;
+    vert[1].tex_coord.x = 1.0f;
+    vert[1].tex_coord.y = 0.0f;
 
     // right
     vert[2].position.x = X2(&poly);
@@ -301,6 +348,8 @@ void SoftwareRenderer::Draw(Poly_FT4& poly)
     vert[2].color.g = G0(&poly);
     vert[2].color.b = B0(&poly);
     vert[2].color.a = 255;
+    vert[2].tex_coord.x = 0.0f;
+    vert[2].tex_coord.y = 1.0f;
 
     vert[3].position.x = X3(&poly);
     vert[3].position.y = Y3(&poly);
@@ -308,9 +357,15 @@ void SoftwareRenderer::Draw(Poly_FT4& poly)
     vert[3].color.g = G0(&poly);
     vert[3].color.b = B0(&poly);
     vert[3].color.a = 255;
+    vert[3].tex_coord.x = 1.0f;
+    vert[3].tex_coord.y = 1.0f;
 
     s32 indexList[6] = {0, 1, 2, 2, 1, 3};
-    SDL_RenderGeometry(mRenderer, nullptr, vert, 4, indexList, 6);
+    SDL_RenderGeometry(mRenderer, pTexture, vert, 4, indexList, 6);
+    if (pTexture)
+    {
+        SDL_DestroyTexture(pTexture);
+    }
 }
 
 void SoftwareRenderer::Draw(Poly_G4& poly)

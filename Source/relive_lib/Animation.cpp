@@ -149,6 +149,8 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
     SetXY2(pPoly, polyXPos, polyYPos + FP_GetExponent(scaled_height - FP_FromDouble(0.501)));
     SetXY3(pPoly, polyXPos + FP_GetExponent(scaled_width - FP_FromDouble(0.501)), polyYPos + FP_GetExponent(scaled_height - FP_FromDouble(0.501)));
 
+    pPoly->mAnim = this;
+
     SetPrimExtraPointerHack(pPoly, &mAnimRes);
 
     OrderingTable_Add(OtLayer(ppOt, mRenderLayer), &pPoly->mBase.header);

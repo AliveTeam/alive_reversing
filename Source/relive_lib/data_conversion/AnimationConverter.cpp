@@ -301,8 +301,8 @@ AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const
     attributes.mLoop = (pAnimationHeader->field_6_flags & AnimationHeader::eLoopFlag) ? true : false;
     attributes.mLoopStartFrame = pAnimationHeader->field_4_loop_start_frame;
     // TODO: Remove if not really needed (check after loader is impl'd)
-    attributes.mMaxWidth = 0;
-    attributes.mMaxWidth = 0;
+    attributes.mMaxWidth = bestMaxSize.mMaxW;
+    attributes.mMaxHeight = bestMaxSize.mMaxH;
 
     nlohmann::json animJsonInfo;
     animJsonInfo["attributes"] = attributes;
