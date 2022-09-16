@@ -8,31 +8,24 @@
 
 namespace AO {
 
-void HoistParticle::VUpdate()
-{
-    VUpdate_431BD0();
-}
-
-HoistParticle::HoistParticle(FP xpos, FP ypos, FP scale, s32 /*frameTableOffset*/)
+HoistParticle::HoistParticle(FP xpos, FP ypos, FP scale, AnimId animId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     mXPos = xpos;
     mYPos = ypos;
 
-    // TODO: load based on level and some other junk, use AnimId::AO_HoistRock1 for now
-
-    //u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kHoistRocksAOResID, 1, 0);
-    /*
-    u16 maxW = 7;
+    /*u16 maxW = 7;
     if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
     {
         maxW = 5;
     }
-
-    Animation_Init(frameTableOffset, maxW, 4, ppRes);
     */
 
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
+    Animation_Init(GetAnimRes(animId));
     // TODO: Add way to override anim height
+    //Animation_Init(frameTableOffset, maxW, 4, ppRes);
+
 
     mSpriteScale = scale;
 
@@ -48,7 +41,7 @@ HoistParticle::HoistParticle(FP xpos, FP ypos, FP scale, s32 /*frameTableOffset*
     field_E4_bHitGround = 0;
 }
 
-void HoistParticle::VUpdate_431BD0()
+void HoistParticle::VUpdate()
 {
     if (mVelY >= (mSpriteScale * FP_FromInteger(10)))
     {
@@ -116,53 +109,47 @@ void HoistRocksEffect::VUpdate()
     {
         if (rnd == 1)
         {
-            const AnimRecord& normalHoist = AO::AnimRec(AnimId::AO_HoistRock2);
-            s32 frameTableOffset = normalHoist.mFrameTableOffset;
+            AnimId hoistRock = AnimId::AO_HoistRock2;
             if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
             {
-                const AnimRecord& ruptureHoist = AO::AnimRec(AnimId::RuptureFarms_HoistRock2);
-                frameTableOffset = ruptureHoist.mFrameTableOffset;
+                hoistRock = AnimId::RuptureFarms_HoistRock2;
             }
             relive_new HoistParticle(
                 field_10_xpos + FP_FromInteger(Math_RandomRange(-8, 8)),
                 field_14_ypos + FP_FromInteger(Math_RandomRange(-4, 4)),
                 FP_FromInteger(1),
-                frameTableOffset);
+                hoistRock);
 
             SetUpdateDelay(Math_RandomRange(30, 50));
         }
         else
         {
-            const AnimRecord& normalHoist = AO::AnimRec(AnimId::AO_HoistRock3);
-            s32 frameTableOffset = normalHoist.mFrameTableOffset;
+            AnimId hoistRock = AnimId::AO_HoistRock3;
             if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
             {
-                const AnimRecord& ruptureHoist = AO::AnimRec(AnimId::RuptureFarms_HoistRock3);
-                frameTableOffset = ruptureHoist.mFrameTableOffset;
+                hoistRock = AnimId::RuptureFarms_HoistRock3;
             }
             relive_new HoistParticle(
                 field_10_xpos + FP_FromInteger(Math_RandomRange(-8, 8)),
                 field_14_ypos + FP_FromInteger(Math_RandomRange(-4, 4)),
                 FP_FromInteger(1),
-                frameTableOffset);
+                hoistRock);
 
             SetUpdateDelay(Math_RandomRange(5, 10));
         }
     }
     else
     {
-        const AnimRecord& normalHoist = AO::AnimRec(AnimId::AO_HoistRock1);
-        s32 frameTableOffset = normalHoist.mFrameTableOffset;
+        AnimId hoistRock = AnimId::AO_HoistRock1;
         if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
         {
-            const AnimRecord& ruptureHoist = AO::AnimRec(AnimId::RuptureFarms_HoistRock1);
-            frameTableOffset = ruptureHoist.mFrameTableOffset;
+            hoistRock = AnimId::RuptureFarms_HoistRock1;
         }
         relive_new HoistParticle(
             field_10_xpos + FP_FromInteger(Math_RandomRange(-8, 8)),
             field_14_ypos + FP_FromInteger(Math_RandomRange(-4, 4)),
             FP_FromInteger(1),
-            frameTableOffset);
+            hoistRock);
 
         SetUpdateDelay(Math_RandomRange(10, 20));
     }

@@ -10,11 +10,9 @@ namespace AO {
 class HoistParticle final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    HoistParticle(FP xpos, FP ypos, FP scale, s32 frameTableOffset);
+    HoistParticle(FP xpos, FP ypos, FP scale, AnimId animId);
 
     virtual void VUpdate() override;
-
-    void VUpdate_431BD0();
 
     s16 field_E4_bHitGround;
 };
@@ -32,7 +30,6 @@ public:
     FP field_10_xpos = {};
     FP field_14_ypos = {};
     Guid field_18_tlvInfo;
-    s32 field_1C_never_used[4] = {};
 };
 ALIVE_ASSERT_SIZEOF(HoistRocksEffect, 0x2C);
 
