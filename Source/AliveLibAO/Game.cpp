@@ -438,6 +438,28 @@ EXPORT void CC Game_Loop_437630()
             }
         }
 
+        for (s32 i = 0; i < gLoadingFiles->Size(); i++)
+        {
+            BaseGameObject* pObjIter = gLoadingFiles->ItemAt(i);
+            if (pObjIter->field_6_flags.Get(BaseGameObject::eUpdatable_Bit2) && !pObjIter->field_6_flags.Get(BaseGameObject::eDead_Bit3) && (sNumCamSwappers_507668 == 0 || pObjIter->field_6_flags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
+            {
+                if (pObjIter->field_8_update_delay > 0)
+                {
+                    pObjIter->field_8_update_delay--;
+                }
+                else
+                {
+                    pObjIter->VUpdate();
+                }
+            }
+
+            if (pObjIter->field_6_flags.Get(BaseGameObject::eDead_Bit3) && pObjIter->field_C_refCount == 0)
+            {
+                i = gLoadingFiles->RemoveAt(i);
+                pObjIter->VDestructor(1);
+            }
+        }
+
         GetGameAutoPlayer().SyncPoint(SyncPoints::EndGameObjectUpdate);
 
         // Animate everything
