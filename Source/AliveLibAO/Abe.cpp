@@ -3668,14 +3668,12 @@ void Abe::Motion_0_Idle_423520()
             else if (sGnFrame - field_114_gnFrame > 150)
             {
                 field_114_gnFrame = sGnFrame;
-
-                /*
+                const s16 rnd = Math_RandomRange(0, 2);
                 u16 loaded = 0;
 
-                loaded |= 1;
-                loaded |= 2;
-                loaded |= 4;
-                const s16 rnd = Math_RandomRange(0, 2);
+                //loaded |= 1;
+                //loaded |= 2;
+                //loaded |= 4;
                 if ((1 << rnd) & loaded)
                 {
                     switch (rnd)
@@ -3698,7 +3696,7 @@ void Abe::Motion_0_Idle_423520()
                         default:
                             break;
                     }
-                }*/
+                }
             }
         }
     }
@@ -7821,8 +7819,6 @@ void Abe::Motion_88_HandstoneBegin_430590()
                     SND_Stop_Channels_Mask(sAbeSound_507730);
                     sAbeSound_507730 = 0;
                 }
-                ResourceManager::FreeResource_455550(
-                    ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kSpotliteAOResID, 0, 0));
             }
             break;
         }

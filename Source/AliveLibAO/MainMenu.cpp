@@ -320,7 +320,10 @@ void MainMenuFade::LoadAnimations()
 {
     for (auto& animId : buttonAnimIds_4BB1B8)
     {
-        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
+        if (animId != AnimId::None)
+        {
+            mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
+        }
     }
 }
 
