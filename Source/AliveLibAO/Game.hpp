@@ -14,6 +14,7 @@ namespace AO {
 
 
 ALIVE_VAR_EXTERN(s16, gAttract_507698);
+extern DynamicArrayT<BaseGameObject>* gLoadingFiles;
 ALIVE_VAR_EXTERN(s16, sBreakGameLoop_507B78);
 ALIVE_VAR_EXTERN(s8, gDDCheatMode_508BF8);
 

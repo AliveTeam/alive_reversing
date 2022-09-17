@@ -40,6 +40,7 @@
 
 namespace AO {
 
+DynamicArrayT<BaseGameObject>* gLoadingFiles = nullptr;
 
 // TODO: Move these few funcs to correct location
 #ifdef _WIN32
@@ -324,6 +325,8 @@ void Init_Sound_DynamicArrays_And_Others_41CD20()
 
     gBaseAliveGameObjects = relive_new DynamicArrayT<BaseAliveGameObject>(20);
 
+    gLoadingFiles = relive_new DynamicArrayT<BaseGameObject>(20); // TODO: Leaked on purpose for now
+
     ResourceManager::Init_454DA0();
     SND_Init_476E40();
     SND_Init_Ambiance();
@@ -427,6 +430,30 @@ void Game_Loop_437630()
                 }
             }
         }
+
+        for (s32 i = 0; i < gLoadingFiles->Size(); i++)
+        {
+            BaseGameObject* pObjIter = gLoadingFiles->ItemAt(i);
+            if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eUpdatable_Bit2) && !pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && (sNumCamSwappers_507668 == 0 || pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
+            {
+                const s32 updateDelay = pObjIter->UpdateDelay();
+                if (pObjIter->UpdateDelay() > 0)
+                {
+                    pObjIter->SetUpdateDelay(updateDelay - 1);
+                }
+                else
+                {
+                    pObjIter->VUpdate();
+                }
+            }
+
+            if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && pObjIter->mBaseGameObjectRefCount == 0)
+            {
+                i = gLoadingFiles->RemoveAt(i);
+                relive_delete pObjIter;
+            }
+        }
+
         GetGameAutoPlayer().SyncPoint(SyncPoints::EndGameObjectUpdate);
 
         // Animate everything

@@ -1253,33 +1253,24 @@ void Menu::WaitForAbeSayHello_47B770()
 void Menu::ProgressInProgressFilesLoading()
 {
     TRACE_ENTRYEXIT;
-    bool loadingFileExists = false;
     do
     {
-        LOG_INFO("Start iteration");
-        for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
+        for (s32 i = 0; i < gLoadingFiles->Size(); i++)
         {
-            BaseGameObject* pObjIter = gBaseGameObjects->ItemAt(i);
-            if (!pObjIter)
-            {
-                break;
-            }
+            auto pObj = gLoadingFiles->ItemAt(i);
 
-            if (pObjIter->Type() == ReliveTypes::eLoadingFile)
+            if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && pObj->mBaseGameObjectRefCount == 0)
             {
-                pObjIter->VUpdate();
-                if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
-                {
-                    LOG_INFO("Removing dead loading file idx " << i);
-                    i = gBaseGameObjects->RemoveAt(i);
-                    delete pObjIter;
-                    LOG_INFO("Idx is now " << i);
-                }
-                loadingFileExists = true;
+                i = gLoadingFiles->RemoveAt(i);
+                relive_delete pObj;
+            }
+            else
+            {
+                pObj->VUpdate();
             }
         }
     }
-    while (loadingFileExists);
+    while (!gLoadingFiles->Empty());
 }
 
 void Menu::MainScreen_Render_47BED0(PrimHeader** ppOt)
