@@ -1555,7 +1555,8 @@ void Map::GoTo_Camera()
 
     //dword_507CA4 = 0; // never read
 
-    if (mCurrentLevel != EReliveLevelIds::eMenu && mCurrentLevel != EReliveLevelIds::eCredits && mCurrentLevel == EReliveLevelIds::eNone)
+    // NOTE: None check changed to match AE
+    if (mCurrentLevel != EReliveLevelIds::eMenu&& mCurrentLevel != EReliveLevelIds::eCredits&& mCurrentLevel != EReliveLevelIds::eNone)
     {
         bShowLoadingIcon = TRUE;
     }
@@ -1594,10 +1595,12 @@ void Map::GoTo_Camera()
         while (!pFmvRet->mBaseGameObjectFlags.Get(::BaseGameObject::eDead));
     }
 
-    if (mCurrentLevel != EReliveLevelIds::eMenu)
+    // NOTE: None check changed to match AE
+    if (mCurrentLevel != EReliveLevelIds::eMenu && mCurrentLevel != EReliveLevelIds::eNone)
     {
         if (mNextLevel != mCurrentLevel || (mNextPath != mCurrentPath && field_10_screenChangeEffect == CameraSwapEffects::ePlay1FMV_5))
         {
+
             Game_ShowLoadingIcon_445EB0();
         }
     }
