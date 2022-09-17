@@ -39,6 +39,7 @@
 
 namespace AO {
 
+DynamicArrayT<BaseGameObject>* gLoadingFiles = nullptr;
 
 // TODO: Move these few funcs to correct location
 #ifdef _WIN32
@@ -331,6 +332,9 @@ EXPORT void CC Init_Sound_DynamicArrays_And_Others_41CD20()
     gBaseAliveGameObjects_4FC8A0 = ao_new<DynamicArrayT<BaseAliveGameObject>>();
     gBaseAliveGameObjects_4FC8A0->ctor_4043E0(20);
 
+    gLoadingFiles = ao_new<DynamicArrayT<BaseGameObject>>();
+    gLoadingFiles->ctor_4043E0(20); // TODO: Leaked on purpose for now
+
     ResourceManager::Init_454DA0();
     SND_Init_476E40();
     SND_Init_Ambiance_4765C0();
@@ -433,6 +437,7 @@ EXPORT void CC Game_Loop_437630()
                 }
             }
         }
+
         GetGameAutoPlayer().SyncPoint(SyncPoints::EndGameObjectUpdate);
 
         // Animate everything
