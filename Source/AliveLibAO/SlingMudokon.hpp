@@ -85,7 +85,7 @@ public:
     s16 field_13C_redundant = 0;
     s32 field_140_timer = 0;
     s32 field_144_timer2 = 0;
-    u8** field_150_res = nullptr;
+    //u8** field_150_res = nullptr;
     s16 field_154_previous_brain_state = 0;
     s16 field_156_always_4 = 0;
     s16 field_158_code_pos = 0;

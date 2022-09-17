@@ -65,8 +65,7 @@ SlingMudokon::SlingMudokon(relive::Path_SlingMudokon* pTlv, const Guid& tlvId)
     field_120_last_event_idx = -1;
     field_134_buffer_start = 0;
     field_136_buffer_idx = -1;
-    field_150_res = 0;
-
+    
     Animation_Init(GetAnimRes(AnimId::Mudokon_Sling_Idle));
 
     SetCurrentMotion(eSlingMudMotions::Motion_0_Idle);
@@ -231,18 +230,10 @@ void SlingMudokon::VCallMotion()
 
 void SlingMudokon::VUpdateAnimData()
 {
-    u8** ppResBlock = nullptr;
-
-    if (mCurrentMotion >= 6)
+    if (mCurrentMotion < 6)
     {
-        ppResBlock = nullptr;
+        mAnim.Set_Animation_Data(GetAnimRes(sSlingMudMotionAnimIds[mCurrentMotion]));
     }
-    else
-    {
-        ppResBlock = field_150_res;
-    }
-    
-    mAnim.Set_Animation_Data(GetAnimRes(sSlingMudMotionAnimIds[mCurrentMotion]));
 }
 
 void SlingMudokon::Motion_0_Idle()
@@ -301,7 +292,7 @@ void SlingMudokon::Motion_3_ShootStart()
         if (mAnim.mAnimRes.mId == AnimId::Mudokon_Sling_ShootStart)
         {
             // TODO: Check field_8_data.points[2].x
-            const FP frame_x = FP_FromInteger(mAnim.Get_FrameHeader(-1)->mPoints[0].mPoint.x);
+            const FP frame_x = FP_FromInteger(mAnim.Get_FrameHeader(-1)->mBoundMax.x);
             FP bulletXPos = {};
             FP xDistance = {};
 
