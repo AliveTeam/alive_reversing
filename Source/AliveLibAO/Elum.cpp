@@ -3321,150 +3321,147 @@ void Elum::VUpdate()
         return;
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit3_Render) /* || field_104_pending_resource_count == 0*/)
+    if (!(field_170_flags.Get(Elum::Flags_170::eFoundHoney_Bit4) || field_170_flags.Get(Elum::Flags_170::eStungByBees_Bit2)) && field_128_brain_idx != 1)
     {
-        if (!(field_170_flags.Get(Elum::Flags_170::eFoundHoney_Bit4) || field_170_flags.Get(Elum::Flags_170::eStungByBees_Bit2)) && field_128_brain_idx != 1)
+        FindHoney_411600();
+    }
+
+    if (field_170_flags.Get(Elum::Flags_170::eChangedPathNotMounted_Bit5))
+    {
+        HandleElumPathTrans_411460();
+        field_170_flags.Clear(Elum::Flags_170::eChangedPathMounted_Bit7);
+        field_170_flags.Clear(Elum::Flags_170::eChangedPathNotMounted_Bit5);
+    }
+
+    if (mCurrentMotion == eElumMotions::Motion_19_Dead_415F90 || mCurrentPath == gMap.mCurrentPath)
+    {
+        PathLine* pLine = nullptr;
+        if (field_170_flags.Get(Elum::Flags_170::eChangedPathMounted_Bit7))
         {
-            FindHoney_411600();
-        }
-
-        if (field_170_flags.Get(Elum::Flags_170::eChangedPathNotMounted_Bit5))
-        {
-            HandleElumPathTrans_411460();
-            field_170_flags.Clear(Elum::Flags_170::eChangedPathMounted_Bit7);
-            field_170_flags.Clear(Elum::Flags_170::eChangedPathNotMounted_Bit5);
-        }
-
-        if (mCurrentMotion == eElumMotions::Motion_19_Dead_415F90 || mCurrentPath == gMap.mCurrentPath)
-        {
-            PathLine* pLine = nullptr;
-            if (field_170_flags.Get(Elum::Flags_170::eChangedPathMounted_Bit7))
-            {
-                FP hitX = {};
-                FP hitY = {};
-                if (sCollisions->Raycast(
-                        mXPos,
-                        mYPos - FP_FromInteger(40),
-                        mXPos,
-                        mYPos + FP_FromInteger(40),
-                        &pLine,
-                        &hitX,
-                        &hitY,
-                        mSpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor))
-                {
-                    mYPos = hitY;
-                    BaseAliveGameObjectCollisionLine = pLine;
-                }
-                else
-                {
-                    BaseAliveGameObjectCollisionLine = nullptr;
-                    mCurrentMotion = eElumMotions::Motion_21_Land_414A20;
-                }
-                field_170_flags.Clear(Elum::Flags_170::eChangedPathMounted_Bit7);
-            }
-
-            const auto oldMotion = mCurrentMotion;
-            const FP old_x = mXPos;
-            const FP old_y = mYPos;
-
-            if (oldMotion != eElumMotions::Motion_19_Dead_415F90)
-            {
-                field_12A_brain_sub_state = (this->*sElum_brain_table_4C52E8[field_128_brain_idx])();
-            }
-
-            if (field_170_flags.Get(Elum::Flags_170::eFalling_Bit3))
-            {
-                VCheckCollisionLineStillValid(10);
-
-                const PSX_RECT bRect = VGetBoundingRect();
-
-                VOnCollisionWith(
-                    {bRect.x, static_cast<s16>(bRect.y + 5)},
-                    {bRect.w, static_cast<s16>(bRect.h + 5)},
-                    ObjListPlatforms_50766C,
-                    (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
-
-                if (mLiftPoint)
-                {
-                    field_170_flags.Clear(Elum::Flags_170::eFalling_Bit3);
-                }
-            }
-
-            (this->*sElum_motion_table_4C5148[mCurrentMotion])();
-
-            if ((oldMotion != mCurrentMotion && oldMotion == 2) || oldMotion == 11 || oldMotion == 47)
-            {
-                LOG_INFO("old motion: " << oldMotion << " | new motion: " << mCurrentMotion);
-            }
-
-            if (old_x != mXPos || old_y != mYPos)
-            {
-                BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446060(
-                    nullptr,
+            FP hitX = {};
+            FP hitY = {};
+            if (sCollisions->Raycast(
                     mXPos,
-                    mYPos,
+                    mYPos - FP_FromInteger(40),
                     mXPos,
-                    mYPos);
-                VOnTlvCollision(BaseAliveGameObjectPathTLV);
-            }
-
-            if (oldMotion == mCurrentMotion)
+                    mYPos + FP_FromInteger(40),
+                    &pLine,
+                    &hitX,
+                    &hitY,
+                    mSpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor))
             {
-                if (field_120_bUnknown)
-                {
-                    mCurrentMotion = mPreviousMotion;
-
-                    mAnim.Set_Animation_Data(GetAnimRes(gElumMotionAnimIds[mCurrentMotion]));
-                    mAnim.SetFrame(mBaseAliveGameObjectLastAnimFrame);
-                    field_120_bUnknown = 0;
-                    if (sControlledCharacter == this)
-                    {
-                        sActiveHero->SyncToElum_42D850(mCurrentMotion);
-                    }
-                }
+                mYPos = hitY;
+                BaseAliveGameObjectCollisionLine = pLine;
             }
             else
             {
+                BaseAliveGameObjectCollisionLine = nullptr;
+                mCurrentMotion = eElumMotions::Motion_21_Land_414A20;
+            }
+            field_170_flags.Clear(Elum::Flags_170::eChangedPathMounted_Bit7);
+        }
+
+        const auto oldMotion = mCurrentMotion;
+        const FP old_x = mXPos;
+        const FP old_y = mYPos;
+
+        if (oldMotion != eElumMotions::Motion_19_Dead_415F90)
+        {
+            field_12A_brain_sub_state = (this->*sElum_brain_table_4C52E8[field_128_brain_idx])();
+        }
+
+        if (field_170_flags.Get(Elum::Flags_170::eFalling_Bit3))
+        {
+            VCheckCollisionLineStillValid(10);
+
+            const PSX_RECT bRect = VGetBoundingRect();
+
+            VOnCollisionWith(
+                {bRect.x, static_cast<s16>(bRect.y + 5)},
+                {bRect.w, static_cast<s16>(bRect.h + 5)},
+                ObjListPlatforms_50766C,
+                (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+
+            if (mLiftPoint)
+            {
+                field_170_flags.Clear(Elum::Flags_170::eFalling_Bit3);
+            }
+        }
+
+        (this->*sElum_motion_table_4C5148[mCurrentMotion])();
+
+        if ((oldMotion != mCurrentMotion && oldMotion == 2) || oldMotion == 11 || oldMotion == 47)
+        {
+            LOG_INFO("old motion: " << oldMotion << " | new motion: " << mCurrentMotion);
+        }
+
+        if (old_x != mXPos || old_y != mYPos)
+        {
+            BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446060(
+                nullptr,
+                mXPos,
+                mYPos,
+                mXPos,
+                mYPos);
+            VOnTlvCollision(BaseAliveGameObjectPathTLV);
+        }
+
+        if (oldMotion == mCurrentMotion)
+        {
+            if (field_120_bUnknown)
+            {
+                mCurrentMotion = mPreviousMotion;
+
                 mAnim.Set_Animation_Data(GetAnimRes(gElumMotionAnimIds[mCurrentMotion]));
+                mAnim.SetFrame(mBaseAliveGameObjectLastAnimFrame);
+                field_120_bUnknown = 0;
                 if (sControlledCharacter == this)
                 {
                     sActiveHero->SyncToElum_42D850(mCurrentMotion);
                 }
             }
-
-            if (EventGet(kEventDeathReset))
-            {
-                if (!field_154_bAbeForcedDownFromElum)
-                {
-                    if (sActiveHero->mContinueZoneNumber != mContinueZoneNumber)
-                    {
-                        field_128_brain_idx = 0;
-                        field_12A_brain_sub_state = 6;
-                        mDontFollowAbe = 1;
-
-                        if (sControlledCharacter == this)
-                        {
-                            sActiveHero->mXPos = mXPos;
-                            sActiveHero->mYPos = mYPos;
-                            sActiveHero->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, mAnim.mFlags.Get(AnimFlags::eBit5_FlipX));
-                        }
-                        return;
-                    }
-                }
-
-                mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
-                mCurrentMotion = eElumMotions::Motion_19_Dead_415F90;
-                VOnTrapDoorOpen();
-            }
-
+        }
+        else
+        {
+            mAnim.Set_Animation_Data(GetAnimRes(gElumMotionAnimIds[mCurrentMotion]));
             if (sControlledCharacter == this)
             {
-                sActiveHero->mXPos = mXPos;
-                sActiveHero->mYPos = mYPos;
-                sActiveHero->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, mAnim.mFlags.Get(AnimFlags::eBit5_FlipX));
+                sActiveHero->SyncToElum_42D850(mCurrentMotion);
             }
-            return;
         }
+
+        if (EventGet(kEventDeathReset))
+        {
+            if (!field_154_bAbeForcedDownFromElum)
+            {
+                if (sActiveHero->mContinueZoneNumber != mContinueZoneNumber)
+                {
+                    field_128_brain_idx = 0;
+                    field_12A_brain_sub_state = 6;
+                    mDontFollowAbe = 1;
+
+                    if (sControlledCharacter == this)
+                    {
+                        sActiveHero->mXPos = mXPos;
+                        sActiveHero->mYPos = mYPos;
+                        sActiveHero->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, mAnim.mFlags.Get(AnimFlags::eBit5_FlipX));
+                    }
+                    return;
+                }
+            }
+
+            mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+            mCurrentMotion = eElumMotions::Motion_19_Dead_415F90;
+            VOnTrapDoorOpen();
+        }
+
+        if (sControlledCharacter == this)
+        {
+            sActiveHero->mXPos = mXPos;
+            sActiveHero->mYPos = mYPos;
+            sActiveHero->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, mAnim.mFlags.Get(AnimFlags::eBit5_FlipX));
+        }
+        return;
     }
 }
 
