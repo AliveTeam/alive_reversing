@@ -131,6 +131,8 @@ struct Poly_FT4 final
     UV mUv;
     TVert mVerts[3];
     class Animation* mAnim;
+    bool mFlipX;
+    bool mFlipY;
 };
 // ALIVE_ASSERT_SIZEOF(Poly_FT4, 0x2C);
 

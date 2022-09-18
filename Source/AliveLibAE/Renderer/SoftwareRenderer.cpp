@@ -195,8 +195,9 @@ void SoftwareRenderer::Draw(Poly_F3& /*poly*/)
     //__debugbreak();
 }
 
-void SoftwareRenderer::Draw(Poly_G3& poly)
+void SoftwareRenderer::Draw(Poly_G3& /*poly*/)
 {
+    /*
     SDL_Vertex vert[3];
 
     // center
@@ -224,16 +225,17 @@ void SoftwareRenderer::Draw(Poly_G3& poly)
     vert[2].color.a = 255;
 
     SDL_RenderGeometry(mRenderer, nullptr, vert, 3, nullptr, 0);
+    */
 }
 
-void SoftwareRenderer::Draw(Poly_F4& poly)
+void SoftwareRenderer::Draw(Poly_F4& /*poly*/)
 {
     /*
     PrimAny any;
     any.mPolyF4 = &poly;
     DrawPoly(any);
     */
-
+    /*
     SDL_Vertex vert[4];
 
     // center
@@ -272,6 +274,7 @@ void SoftwareRenderer::Draw(Poly_F4& poly)
 
     // TODO
     //__debugbreak();
+    */
 }
 
 void set_pixel(SDL_Surface* surface, int x, int y, u16 pixel)
@@ -292,6 +295,11 @@ void SoftwareRenderer::Draw(Poly_FT4& poly)
     SDL_Vertex vert[4];
 
     SDL_Texture* pTexture = nullptr;
+    f32 u0 = 0.0f;
+    f32 v0 = 0.0f;
+    f32 u1 = 1.0f;
+    f32 v1 = 1.0f;
+
     if (poly.mAnim)
     {
         SDL_Surface* surface = SDL_CreateRGBSurfaceWithFormat(0, 
@@ -300,12 +308,15 @@ void SoftwareRenderer::Draw(Poly_FT4& poly)
 
         SDL_LockSurface(surface);
 
+        const u32 tgaW = poly.mAnim->mAnimRes.mTgaPtr->mWidth;
+        const u32 tgaH = poly.mAnim->mAnimRes.mTgaPtr->mHeight;
+
         const u16* pPal = poly.mAnim->mAnimRes.mTgaPtr->mPal.mPal;
         const auto& pixels = poly.mAnim->mAnimRes.mTgaPtr->mPixels;
         u32 i = 0;
-        for (u32 y = 0; y < poly.mAnim->mAnimRes.mTgaPtr->mHeight; y++)
+        for (u32 y = 0; y < tgaH; y++)
         {
-            for (u32 x = 0; x < poly.mAnim->mAnimRes.mTgaPtr->mWidth; x++)
+            for (u32 x = 0; x < tgaW; x++)
             {
                 set_pixel(surface, x, y, pPal[pixels[i++]]);
             }
@@ -318,7 +329,50 @@ void SoftwareRenderer::Draw(Poly_FT4& poly)
             LOG_ERROR(SDL_GetError());
         }
 
+        // TODO: Check blending is on
+        {
+            s16 tPage = GetTPage(&poly);
+            u32 tPageAbr = ((u32) tPage >> 5) & 3;
+            switch (tPageAbr)
+            {
+                case 0: // 0.5xB + 0.5xF
+                    SDL_SetTextureBlendMode(pTexture, SDL_BLENDMODE_BLEND);
+                    break;
+
+                case 1: // 1.0xB + 1.0xF
+                    SDL_SetTextureBlendMode(pTexture, SDL_BLENDMODE_ADD);
+                    break;
+
+                case 2: // 1.0xB - 1.0xF
+                    SDL_SetTextureBlendMode(pTexture, SDL_BLENDMODE_NONE);
+                    break;
+
+                case 3: // 1.0xB + 0.25xF
+                    LOG_WARNING("Blend mode 3");
+                    break;
+            }
+        }
+
         SDL_FreeSurface(surface);
+
+        const PerFrameInfo* pHeader = poly.mAnim->Get_FrameHeader(-1);
+
+
+        u0 = static_cast<f32>(pHeader->mSpriteSheetX) / static_cast<f32>(tgaW);
+        v0 = static_cast<f32>(pHeader->mSpriteSheetY) / static_cast<f32>(tgaH);
+
+        u1 = u0 + static_cast<f32>(pHeader->mWidth) / static_cast<f32>(tgaW);
+        v1 = v0 + static_cast<f32>(pHeader->mHeight) / static_cast<f32>(tgaH);
+
+        if (poly.mFlipX)
+        {
+            std::swap(u0, u1);
+        }
+
+        if (poly.mFlipY)
+        {
+            std::swap(v1, v0);
+        }
     }
 
     // center
@@ -328,8 +382,8 @@ void SoftwareRenderer::Draw(Poly_FT4& poly)
     vert[0].color.g = G0(&poly);
     vert[0].color.b = B0(&poly);
     vert[0].color.a = 255;
-    vert[0].tex_coord.x = 0.0f;
-    vert[0].tex_coord.y = 0.0f;
+    vert[0].tex_coord.x = u0;
+    vert[0].tex_coord.y = v0;
 
     // left
     vert[1].position.x = X1(&poly);
@@ -338,8 +392,8 @@ void SoftwareRenderer::Draw(Poly_FT4& poly)
     vert[1].color.g = G0(&poly);
     vert[1].color.b = B0(&poly);
     vert[1].color.a = 255;
-    vert[1].tex_coord.x = 1.0f;
-    vert[1].tex_coord.y = 0.0f;
+    vert[1].tex_coord.x = u1;
+    vert[1].tex_coord.y = v0;
 
     // right
     vert[2].position.x = X2(&poly);
@@ -348,8 +402,8 @@ void SoftwareRenderer::Draw(Poly_FT4& poly)
     vert[2].color.g = G0(&poly);
     vert[2].color.b = B0(&poly);
     vert[2].color.a = 255;
-    vert[2].tex_coord.x = 0.0f;
-    vert[2].tex_coord.y = 1.0f;
+    vert[2].tex_coord.x = u0;
+    vert[2].tex_coord.y = v1;
 
     vert[3].position.x = X3(&poly);
     vert[3].position.y = Y3(&poly);
@@ -357,8 +411,8 @@ void SoftwareRenderer::Draw(Poly_FT4& poly)
     vert[3].color.g = G0(&poly);
     vert[3].color.b = B0(&poly);
     vert[3].color.a = 255;
-    vert[3].tex_coord.x = 1.0f;
-    vert[3].tex_coord.y = 1.0f;
+    vert[3].tex_coord.x = u1;
+    vert[3].tex_coord.y = v1;
 
     s32 indexList[6] = {0, 1, 2, 2, 1, 3};
     SDL_RenderGeometry(mRenderer, pTexture, vert, 4, indexList, 6);
@@ -368,7 +422,7 @@ void SoftwareRenderer::Draw(Poly_FT4& poly)
     }
 }
 
-void SoftwareRenderer::Draw(Poly_G4& poly)
+void SoftwareRenderer::Draw(Poly_G4& /*poly*/)
 {
     /*
     PrimAny any;
@@ -376,6 +430,7 @@ void SoftwareRenderer::Draw(Poly_G4& poly)
     DrawPoly(any);
     */
 
+    /*
     SDL_Vertex vert[4];
 
     // center
@@ -411,6 +466,7 @@ void SoftwareRenderer::Draw(Poly_G4& poly)
 
     s32 indexList[6] = {0, 1, 2, 2, 1, 3};
     SDL_RenderGeometry(mRenderer, nullptr, vert, 4, indexList, 6);
+    */
 }
 
 void SoftwareRenderer::DrawPoly(PrimAny& /*any*/)
