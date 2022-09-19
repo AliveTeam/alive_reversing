@@ -494,7 +494,12 @@ void MainMenuController::LoadAnimations()
     }
 
     const AnimId kMenuAnims[] = {
-        AnimId::MenuHighlight_Circle};
+        AnimId::MenuHighlight_Circle,
+        AnimId::MenuHighlight_ButtonRemapSquare,
+        AnimId::MenuHighlight_Square,
+        AnimId::MenuHighlight_Triangle,
+        AnimId::OptionChantOrb_Particle
+    };
     for (const auto& animId : kMenuAnims)
     {
         mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));

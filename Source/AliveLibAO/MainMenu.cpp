@@ -698,6 +698,7 @@ void Menu::LoadAnimations()
         AnimId::MenuAbeSpeak_Chant,
         AnimId::MenuAbeSpeak_ChantEnd,
         AnimId::MenuAbeSpeak_Goodbye,
+        AnimId::OptionChantOrb_Particle
     };
 
     for (auto& animId : animIds)
