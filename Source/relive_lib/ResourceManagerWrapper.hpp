@@ -7,6 +7,7 @@
 #include <map>
 
 enum class AnimId;
+enum class EReliveLevelIds : s16;
 
 struct TgaData final
 {
@@ -66,6 +67,14 @@ class PalResource final
 public:
     PalId mId = PalId::Default;
     std::shared_ptr<AnimationPal> mPal;
+};
+
+class CamResource final
+{
+public:
+    u32 mWidth;
+    u32 mHeight;
+    std::shared_ptr<std::vector<u32>> mPixels;
 };
 
 class AnimResource final
@@ -152,6 +161,8 @@ public:
     static AnimResource LoadAnimation(AnimId anim);
 
     static PalResource LoadPal(PalId pal);
+
+    static CamResource LoadCam(EReliveLevelIds lvlId, u32 pathNumber, u32 camNumber);
 
 private:
     // TODO: don't use stl directly

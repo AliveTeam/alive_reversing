@@ -916,6 +916,7 @@ s32 Abe::CreateFromSaveState(const u8* pData)
     const PerFrameInfo* pFrameInfoHeader = sActiveHero->mAnim.Get_FrameHeader(-1);
     sActiveHero->mAnim.LoadPal(sActiveHero->mAnim.field_20_ppBlock, pFrameHeader->field_0_clut_offset);
     */
+    sActiveHero->mAnim.ReloadPal();
 
     sActiveHero->SetTint(sAbeTintTable, gMap.mCurrentLevel);
     sActiveHero->mAnim.mRenderMode = TPageAbr::eBlend_0;

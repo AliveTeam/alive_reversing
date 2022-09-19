@@ -487,12 +487,15 @@ void Game_Run_466D40()
     Camera camera;
 
     Path_Set_NewData_FromLvls();
-    
+
     sLvlArchive_5BC520.Open_Archive_432E80(CdLvlName(EReliveLevelIds::eMenu));
 
     ResourceManager::LoadResourceFile_49C170("STP01C25.CAM", &camera);
 
     camera.field_C_pCamRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Bits, AEResourceID::kUnknownResID_125, 1u, 0);
+
+    ResourceManagerWrapper::LoadCam(EReliveLevelIds::eMenu, 1, 25);
+
     gMap.field_24_camera_offset.y = FP_FromInteger(0);
     gMap.field_24_camera_offset.x = FP_FromInteger(0);
 

@@ -1018,7 +1018,7 @@ static void ConvertPathBND(const FileSystem::Path& dataDir, const std::string& f
 }
 
 template <typename LevelIdType>
-static void ConvertCamera(const FileSystem::Path& dataDir, const std::string& fileName, FileSystem& fs, std::vector<u8>& fileBuffer, ReliveAPI::LvlReader& lvlReader, LevelIdType lvlIdxAsLvl)
+static void ConvertCamera(const FileSystem::Path& dataDir, const std::string& fileName, FileSystem& /*fs*/, std::vector<u8>& fileBuffer, ReliveAPI::LvlReader& lvlReader, LevelIdType /*lvlIdxAsLvl*/)
 {
     ReadLvlFileInto(lvlReader, fileName.c_str(), fileBuffer);
 
@@ -1026,8 +1026,10 @@ static void ConvertCamera(const FileSystem::Path& dataDir, const std::string& fi
 
     std::string camBaseName = fileName.substr(0, fileName.length() - 4); // chop off .CAM
     FileSystem::Path pathDir = dataDir;
-    pathDir.Append(ToString(lvlIdxAsLvl));
-    fs.CreateDirectory(pathDir);
+    
+    // HACK: don't put in per lvl dir for now
+    //pathDir.Append(ToString(lvlIdxAsLvl));
+    //fs.CreateDirectory(pathDir);
     pathDir.Append(camBaseName);
 
     // Convert camera images and FG layers
@@ -1063,7 +1065,7 @@ static void ConvertFilesInLvl(const FileSystem::Path& dataDir, FileSystem& fs, R
         {
             if (endsWith(fileName, ".CAM"))
             {
-                //ConvertCamera(dataDir, fileName, fs, fileBuffer, lvlReader, lvlIdxAsLvl);
+                ConvertCamera(dataDir, fileName, fs, fileBuffer, lvlReader, lvlIdxAsLvl);
             }
             // TODO: Seek these out instead of converting everything we see since the names are fixed per LVL
             else if (endsWith(fileName, ".VB") || endsWith(fileName, ".VH") || endsWith(fileName, ".BSQ"))

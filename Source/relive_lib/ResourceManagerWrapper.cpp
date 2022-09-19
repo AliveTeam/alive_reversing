@@ -11,6 +11,8 @@
 #define MAGIC_ENUM_RANGE_MAX 1000
 #include <magic_enum/include/magic_enum.hpp>
 
+#include <lodepng/lodepng.h>
+
 std::map<AnimId, std::pair<std::weak_ptr<AnimationAttributesAndFrames>, std::weak_ptr<TgaData>>> ResourceManagerWrapper::mAnims;
 
     s16 ResourceManagerWrapper::FreeResource(u8** ppRes)
@@ -178,6 +180,18 @@ PalResource ResourceManagerWrapper::LoadPal(PalId pal)
     newRes.mId = pal;
     newRes.mPal = std::make_shared<AnimationPal>();
     // TODO: Load pal from disk
+
+    return newRes;
+}
+
+CamResource ResourceManagerWrapper::LoadCam(EReliveLevelIds /*lvlId*/, u32 /*pathNumber*/, u32 /*camNumber*/)
+{
+    CamResource newRes;
+
+    newRes.mHeight = 240;
+    newRes.mWidth = 640;
+
+    //lodepng::load_file
 
     return newRes;
 }
