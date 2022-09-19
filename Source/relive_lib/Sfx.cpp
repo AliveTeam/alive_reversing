@@ -1246,15 +1246,15 @@ relive::SoundEffects relive::RandomSfx(relive::SoundEffects sfx1, relive::SoundE
 
 s32 relive::SFX_Play_Pitch(relive::SoundEffects sfxId, s32 volume, s32 pitch, FP scale)
 {
-    if (volume > 0)
+    if (!volume)
     {
-        volume = (s8) relive::GetSfx(sfxId).field_C_default_volume;
+        volume = relive::GetSfx(sfxId).field_C_default_volume;
     }
     if (scale == FP_FromDouble(0.5))
     {
         volume = 2 * relive::GetSfx(sfxId).field_C_default_volume / 3;
     }
-    return SFX_SfxDefinition_Play_Mono(relive::GetSfx(sfxId), volume, static_cast<s16>(pitch), static_cast<s16>(pitch));
+    return SFX_SfxDefinition_Play_Mono(relive::GetSfx(sfxId), volume, pitch, pitch);
 }
 
 s32 relive::SfxPlayMono(relive::SoundEffects sfxId, s32 volume, FP scale)
