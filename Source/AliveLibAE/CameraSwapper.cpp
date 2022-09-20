@@ -14,7 +14,7 @@
 #include "ScreenClipper.hpp"
 #include "Sys_common.hpp"
 
-CameraSwapper::CameraSwapper(u8** ppCamRes, s32 movieSector, s32 movieId, s32 movieFlag, s32 movieFlags, s32 movieVol)
+CameraSwapper::CameraSwapper(CamResource& ppCamRes, s32 movieSector, s32 movieId, s32 movieFlag, s32 movieFlags, s32 movieVol)
     : BaseGameObject(TRUE, 0)
 {
     Init(ppCamRes, CameraSwapEffects::ePlay1FMV_5);
@@ -26,7 +26,7 @@ CameraSwapper::CameraSwapper(u8** ppCamRes, s32 movieSector, s32 movieId, s32 mo
     field_4C_movie_bPutDispEnv = static_cast<s16>(movieFlags);
 }
 
-CameraSwapper::CameraSwapper(u8** ppCamRes, s32 moviePos1, s32 movieId1, s32 moviePos2, s32 movieId2, s32 movieFlag1, s32 movieFlags1, s32 movieVol1, s32 movieFlag2, s32 movieFlags2, s32 movieVol2)
+CameraSwapper::CameraSwapper(CamResource& ppCamRes, s32 moviePos1, s32 movieId1, s32 moviePos2, s32 movieId2, s32 movieFlag1, s32 movieFlags1, s32 movieVol1, s32 movieFlag2, s32 movieFlags2, s32 movieVol2)
     : BaseGameObject(TRUE, 0)
 {
     Init(ppCamRes, CameraSwapEffects::ePlay2FMVs_9);
@@ -44,7 +44,7 @@ CameraSwapper::CameraSwapper(u8** ppCamRes, s32 moviePos1, s32 movieId1, s32 mov
     field_4C_movie_bPutDispEnv = static_cast<s16>(movieFlags1);
 }
 
-CameraSwapper::CameraSwapper(u8** ppCamRes, s32 moviePos1, s32 movieId1, s32 moviePos2, s32 movieId2, s32 moviePos3, s32 movieId3, s32 movieFlag1, s32 movieFlags1, s32 movieVol1, s32 movieFlag2, s32 movieFlags2, s32 movieVol2, s32 moveFlag3, s32 movieFlags3, s32 movieVol3)
+CameraSwapper::CameraSwapper(CamResource& ppCamRes, s32 moviePos1, s32 movieId1, s32 moviePos2, s32 movieId2, s32 moviePos3, s32 movieId3, s32 movieFlag1, s32 movieFlags1, s32 movieVol1, s32 movieFlag2, s32 movieFlags2, s32 movieVol2, s32 moveFlag3, s32 movieFlags3, s32 movieVol3)
     : BaseGameObject(TRUE, 0)
 {
     Init(ppCamRes, CameraSwapEffects::ePlay3FMVs_10);
@@ -67,7 +67,7 @@ CameraSwapper::CameraSwapper(u8** ppCamRes, s32 moviePos1, s32 movieId1, s32 mov
     field_4C_movie_bPutDispEnv = static_cast<s16>(movieFlags1);
 }
 
-CameraSwapper::CameraSwapper(u8** ppCamRes, CameraSwapEffects changeEffect, s32 xpos, s32 ypos)
+CameraSwapper::CameraSwapper(CamResource& ppCamRes, CameraSwapEffects changeEffect, s32 xpos, s32 ypos)
     : BaseGameObject(TRUE, 0)
 {
     field_4E_xpos_converted = static_cast<s16>(PsxToPCX(xpos));
@@ -97,7 +97,7 @@ CameraSwapper::~CameraSwapper()
 
 const s32 kSliceWidth = 8;
 
-void CameraSwapper::Init(u8** ppCamRes, CameraSwapEffects changeEffect)
+void CameraSwapper::Init(CamResource& ppCamRes, CameraSwapEffects changeEffect)
 {
     mBaseGameObjectFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
 
@@ -111,7 +111,7 @@ void CameraSwapper::Init(u8** ppCamRes, CameraSwapEffects changeEffect)
     }
     else
     {
-        pScreenManager->DecompressCameraToVRam(reinterpret_cast<u16**>(ppCamRes));
+        pScreenManager->DecompressCameraToVRam(ppCamRes);
     }
 
     sNum_CamSwappers_5C1B66++;
@@ -415,9 +415,9 @@ void CameraSwapper::VUpdate()
             }
 
             // Now apply the camera we where storing now that the movie is finished
-            if (field_30_ppCamRes)
+            if (field_30_ppCamRes.mData.mPixels)
             {
-                pScreenManager->DecompressCameraToVRam(reinterpret_cast<u16**>(field_30_ppCamRes));
+                pScreenManager->DecompressCameraToVRam(field_30_ppCamRes);
                 pScreenManager->InvalidateRect(0, 0, gPsxDisplay.mWidth, gPsxDisplay.mHeight, 0);
                 pScreenManager->InvalidateRect(0, 0, gPsxDisplay.mWidth, gPsxDisplay.mHeight, 1);
                 pScreenManager->InvalidateRect(0, 0, gPsxDisplay.mWidth, gPsxDisplay.mHeight, 2);

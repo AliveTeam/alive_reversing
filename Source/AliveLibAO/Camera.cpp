@@ -1,5 +1,6 @@
 #include "Camera.hpp"
 #include "ResourceManager.hpp"
+#include "FG1.hpp"
 
 namespace AO {
 
@@ -7,11 +8,12 @@ Camera::Camera()
     : field_0_array(10)
 {
     field_30_flags &= ~1u;
-    field_C_ppBits = nullptr;
+    //field_C_ppBits = nullptr;
 }
 
 Camera::~Camera()
 {
+    /*
     ResourceManager::FreeResource_455550(field_C_ppBits);
 
     for (s32 i = 0; i < field_0_array.Size(); i++)
@@ -24,14 +26,23 @@ Camera::~Camera()
 
         ResourceManager::FreeResource_455550(ppRes);
         i = field_0_array.RemoveAt(i);
-    }
+    }*/
 }
 
 
-void Camera::On_Loaded_4447A0(Camera* pThis)
+void Camera::On_Loaded_4447A0(Camera* /*pThis*/)
 {
-    pThis->field_30_flags |= 1u;
-    pThis->field_C_ppBits = ResourceManager::GetLoadedResource(ResourceManager::Resource_Bits, pThis->field_10_resId, 1, 0);
+    //pThis->field_30_flags |= 1u;
+    //pThis->field_C_ppBits = ResourceManager::GetLoadedResource(ResourceManager::Resource_Bits, pThis->field_10_resId, 1, 0);
+}
+
+void Camera::CreateFG1()
+{
+    Fg1Resource fg1Res = ResourceManagerWrapper::LoadFg1(field_1A_level, field_18_path, field_1C_camera_number);
+    if (fg1Res.Any())
+    {
+        relive_new FG1(fg1Res);
+    }
 }
 
 }

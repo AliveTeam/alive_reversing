@@ -54,8 +54,6 @@ ALIVE_VAR(1, 0x5ca4b4, u8, sFontDrawScreenSpace_5CA4B4, 0);
 
 ALIVE_VAR(1, 0x5BC5E8, s16, sFontType2LoadCount_5BC5E8, 0);
 
-static std::vector<std::vector<u8>> sLoadedAtlas;
-
 namespace Alive {
 Font::Font()
 {
@@ -66,37 +64,20 @@ Font::Font(s32 maxCharLength, const u8* palette, Font_Context* fontContext)
     ctor_433590(maxCharLength, palette, fontContext);
 }
 
-void Font::ctor_433590(s32 maxCharLength, const u8* palette, Font_Context* fontContext)
+void Font::ctor_433590(s32 maxCharLength, const u8* /*palette*/, Font_Context* fontContext)
 {
+    // TODO: Use pal
     field_34_font_context = fontContext;
-
-    IRenderer::PalRecord rec = {0, 0, 16};
-    if (!IRenderer::GetRenderer()->PalAlloc(rec))
-    {
-        LOG_ERROR("PalAlloc failure");
-    }
-
-    IRenderer::GetRenderer()->PalSetData(rec, palette);
-
-    field_28_palette_rect.x = rec.x;
-    field_28_palette_rect.y = rec.y;
-    field_28_palette_rect.w = rec.depth;
-    field_28_palette_rect.h = 1;
-
     field_30_poly_count = maxCharLength;
-    field_20_fnt_poly_block_ptr = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::Resource_FntP, fontContext->field_C_resource_id, sizeof(Poly_FT4) * 2 * maxCharLength);
-    field_24_fnt_poly_array = reinterpret_cast<Poly_FT4*>(*field_20_fnt_poly_block_ptr);
+    field_24_fnt_poly_array = relive_new Poly_FT4[maxCharLength * 2];
 }
 
 void Font::dtor_433540()
 {
-    IRenderer::GetRenderer()->PalFree(IRenderer::PalRecord{field_28_palette_rect.x, field_28_palette_rect.y, field_28_palette_rect.w});
-    field_28_palette_rect.x = 0;
-
-    ResourceManager::FreeResource_49C330(field_20_fnt_poly_block_ptr);
+    relive_delete[] field_24_fnt_poly_array;
 }
 
-s32 Font::DrawString_4337D0(PrimHeader** ppOt, const char_type* text, s32 x, s16 y, TPageAbr abr, s32 bSemiTrans, s32 blendMode, Layer layer, u8 r, u8 g, u8 b, s32 polyOffset, FP scale, s32 maxRenderWidth, s16 colorRandomRange)
+s32 Font::DrawString_4337D0(PrimHeader** ppOt, const char_type* text, s32 x, s16 y, TPageAbr /*abr*/, s32 bSemiTrans, s32 blendMode, Layer layer, u8 r, u8 g, u8 b, s32 polyOffset, FP scale, s32 maxRenderWidth, s16 colorRandomRange)
 {
     if (!sFontDrawScreenSpace_5CA4B4)
     {
@@ -109,8 +90,9 @@ s32 Font::DrawString_4337D0(PrimHeader** ppOt, const char_type* text, s32 x, s16
     s32 charInfoIndex = 0;
     auto poly = &field_24_fnt_poly_array[gPsxDisplay.mBufferIndex + (2 * polyOffset)];
 
-    s32 tpage = PSX_getTPage(TPageMode::e4Bit_0, abr, field_34_font_context->mRect.x & 0xFFC0, field_34_font_context->mRect.y & 0xFF00);
-    s32 clut = PSX_getClut(field_28_palette_rect.x, field_28_palette_rect.y);
+    // TODO: Just set the FontRes ptr 
+    //s32 tpage = PSX_getTPage(TPageMode::e4Bit_0, abr, field_34_font_context->mRect.x & 0xFFC0, field_34_font_context->mRect.y & 0xFF00);
+    //s32 clut = PSX_getClut(field_28_palette_rect.x, field_28_palette_rect.y);
 
     for (u32 i = 0; i < strlen(text); i++)
     {
@@ -139,8 +121,10 @@ s32 Font::DrawString_4337D0(PrimHeader** ppOt, const char_type* text, s32 x, s16
 
         const s8 charWidth = atlasEntry->field_2_width;
         const auto charHeight = atlasEntry->field_3_height;
-        const s8 texture_u = static_cast<s8>(atlasEntry->x + (4 * (fContext->mRect.x & 0x3F)));
-        const s8 texture_v = static_cast<s8>(atlasEntry->field_1_y + LOBYTE(fContext->mRect.y));
+
+        // TODO: Recalc when atlas is converted
+        const s8 texture_u = static_cast<s8>(atlasEntry->x);
+        const s8 texture_v = static_cast<s8>(atlasEntry->field_1_y);
 
         const s16 widthScaled = static_cast<s16>(charWidth * FP_GetDouble(scale));
         const s16 heightScaled = static_cast<s16>(charHeight * FP_GetDouble(scale));
@@ -155,8 +139,8 @@ s32 Font::DrawString_4337D0(PrimHeader** ppOt, const char_type* text, s32 x, s16
             static_cast<u8>(g + Math_RandomRange(-colorRandomRange, colorRandomRange)),
             static_cast<u8>(b + Math_RandomRange(-colorRandomRange, colorRandomRange)));
 
-        SetTPage(poly, static_cast<s16>(tpage));
-        SetClut(poly, static_cast<s16>(clut));
+        //SetTPage(poly, static_cast<s16>(tpage));
+        //SetClut(poly, static_cast<s16>(clut));
 
         // Padding
         poly->mVerts[1].mUv.tpage_clut_pad = 0;
@@ -313,7 +297,7 @@ const char_type* Font::SliceText(const char_type* text, s32 left, FP scale, s32 
 }
 } // namespace Alive
 
-void Font_Context::LoadFontType_433400(s16 resourceID)
+void Font_Context::LoadFontType_433400(FontType resourceID)
 {
     // Override game fonts with our XInput friendly ones.
 #if XINPUT_SUPPORT
@@ -329,25 +313,16 @@ void Font_Context::LoadFontType_433400(s16 resourceID)
     }
 #endif
 
-    auto loadedResource = ResourceManager::GetLoadedResource(ResourceManager::Resource_Font, resourceID, 1u, 0);
-    auto fontFile = reinterpret_cast<File_Font*>(*loadedResource);
+    FontResource fontRes = ResourceManagerWrapper::LoadFont(resourceID);
+    field_C_resource_id = fontRes;
 
-    field_C_resource_id = resourceID;
-
-    Vram_alloc(fontFile->mWidth, fontFile->mHeight, fontFile->field_4_color_depth, &mRect);
-    const PSX_RECT vramAllocatedRect = {mRect.x, mRect.y, static_cast<s16>(fontFile->mWidth / 4), fontFile->mHeight};
-
-    IRenderer::GetRenderer()->Upload(fontFile->field_4_color_depth == 16 ? IRenderer::BitDepth::e16Bit : IRenderer::BitDepth::e4Bit, vramAllocatedRect, fontFile->field_28_pixel_buffer);
-
-    // Free our loaded font resource as its now in vram
-    ResourceManager::FreeResource_49C330(loadedResource);
-
+    // TODO: Will get moved to a json file in FontResource
     switch (resourceID)
     {
-        case 1:
+        case FontType::PauseMenu:
             field_8_atlas_array = sFont1Atlas_551D34;
             break;
-        case 2:
+        case FontType::LcdFont:
             field_8_atlas_array = sFont2Atlas_551FD8;
             break;
         default:
@@ -358,72 +333,9 @@ void Font_Context::LoadFontType_433400(s16 resourceID)
 
 void Font_Context::dtor_433510()
 {
-    if (mRect.x)
-    {
-        Vram_free({mRect.x, mRect.y}, {mRect.w, mRect.h});
-    }
+
 }
 
-bool Font_Context::LoadFontTypeFromFile(const char_type* fontPath, const char_type* atlasPath, s8* pPaletteOut)
-{
-    auto debugFont = FS::ReadFile(fontPath);
-    auto debugFontAtlas = FS::ReadFile(atlasPath);
-
-    if (!debugFont.size() || !debugFontAtlas.size())
-    {
-        LOG_ERROR("Could not load custom font!");
-        return false;
-    }
-
-    sLoadedAtlas.push_back(debugFontAtlas);
-
-    LoadFontTypeCustom(reinterpret_cast<File_Font*>(debugFont.data()), reinterpret_cast<Font_AtlasEntry*>(sLoadedAtlas.back().data()), pPaletteOut);
-    return true;
-}
-
-void Font_Context::LoadFontTypeCustom(File_Font* fontFile, Font_AtlasEntry* fontAtlas, s8* pPaletteOut)
-{
-    // Give custom fonts a constant resource id for now.
-    field_C_resource_id = 0xff;
-
-    Vram_alloc(fontFile->mWidth, fontFile->mHeight, fontFile->field_4_color_depth, &mRect);
-    const PSX_RECT vramAlloctedRect = {mRect.x, mRect.y, static_cast<s16>(fontFile->mWidth / 4), fontFile->mHeight};
-
-    if (pPaletteOut)
-    {
-        memcpy(pPaletteOut, fontFile->field_8_palette, fontFile->field_6_palette_size * 2);
-    }
-
-
-    IRenderer::GetRenderer()->Upload(fontFile->field_4_color_depth == 16 ? IRenderer::BitDepth::e16Bit : IRenderer::BitDepth::e4Bit, vramAlloctedRect, fontFile->field_28_pixel_buffer);
-
-    field_8_atlas_array = fontAtlas;
-}
-
-bool Font_Context::LoadFontTypeFromOddFont(const char_type* fontPath, s8* pPaletteOut)
-{
-    auto debugFont = FS::ReadFile(fontPath);
-    if (!debugFont.size())
-    {
-        LOG_ERROR("Could not load custom font!");
-        return false;
-    }
-
-    return LoadFontTypeFromOddFontMem(debugFont.data(), pPaletteOut);
-}
-
-bool Font_Context::LoadFontTypeFromOddFontMem(u8* data, s8* pPaletteOut)
-{
-    auto fontFile = reinterpret_cast<File_Font*>(data);
-    s32* atlasCount = reinterpret_cast<s32*>(fontFile->field_28_pixel_buffer + ((fontFile->mWidth * fontFile->mHeight) / 2));
-    Font_AtlasEntry* atlasData = reinterpret_cast<Font_AtlasEntry*>(atlasCount + 1);
-
-    auto debugFontAtlas = std::vector<u8>((u8*) atlasData, (u8*) atlasData + (sizeof(Font_AtlasEntry) * *atlasCount));
-
-    sLoadedAtlas.push_back(debugFontAtlas);
-    LoadFontTypeCustom(reinterpret_cast<File_Font*>(data), reinterpret_cast<Font_AtlasEntry*>(sLoadedAtlas.back().data()), pPaletteOut);
-    return true;
-}
 
 ALIVE_ARY(1, 0x551D34, Font_AtlasEntry, 169, sFont1Atlas_551D34,
           {{0u, 0u, 2u, 0u},

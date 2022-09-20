@@ -59,7 +59,7 @@ LCDStatusBoard::LCDStatusBoard(relive::Path_LCDStatusBoard* pTlv, const Guid& tl
     : BaseGameObject(TRUE, 0)
 {
     field_C8_tlv = tlvId;
-    field_10_fontContext.LoadFontType(2);
+    field_10_fontContext.LoadFontType(FontType::LcdFont);
     field_20_font1.Load(3, sStatsSignFontPalette_4CD570, &field_10_fontContext);
     field_58_font2.Load(3, sStatsSignFontPalette_4CD570, &field_10_fontContext);
     field_90_font3.Load(3, sStatsSignFontPalette_4CD570, &field_10_fontContext);

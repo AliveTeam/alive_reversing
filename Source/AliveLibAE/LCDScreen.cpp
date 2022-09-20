@@ -188,7 +188,7 @@ LCDScreen::LCDScreen(relive::Path_LCDScreen* params, const Guid& tlvId)
 
     if (!sFontType2LoadCount_5BC5E8)
     {
-        sFont2Context_5BC5D8.LoadFontType_433400(2);
+        sFont2Context_5BC5D8.LoadFontType_433400(FontType::LcdFont);
     }
     sFontType2LoadCount_5BC5E8++;
 
@@ -276,9 +276,10 @@ void LCDScreen::VUpdate()
             String_FormatString(field_A0_message, field_A8_message_buffer, 512, 1);
             field_A0_message = field_A8_message_buffer;
 
-            auto palSwap = field_98_pal_rect;
-            field_98_pal_rect = field_60_font.field_28_palette_rect;
-            field_60_font.field_28_palette_rect = palSwap;
+            // TODO: Fix
+            //auto palSwap = field_98_pal_rect;
+            //field_98_pal_rect = field_60_font.field_28_palette_rect;
+            //field_60_font.field_28_palette_rect = palSwap;
         }
 
         sFontDrawScreenSpace_5CA4B4 = 1;

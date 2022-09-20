@@ -24,7 +24,7 @@ ColourfulMeter::ColourfulMeter(relive::Path_ColourfulMeter* pTlv, const Guid& tl
     mTlvX = pTlv->mTopLeftX;
     mTlvY = pTlv->mTopLeftY;
 
-    field_20_font_context.LoadFontType_433400(2);
+    field_20_font_context.LoadFontType_433400(FontType::LcdFont);
     field_30_font.ctor_433590(5, byte_5543D0, &field_20_font_context);
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
     gObjListDrawables->Push_Back(this);

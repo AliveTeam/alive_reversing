@@ -20,7 +20,7 @@ enum class LevelIds : s16;
 class FG1 final : public BaseGameObject
 {
 public:
-    explicit FG1(u8** pFg1Res);
+    explicit FG1(Fg1Resource& pFg1Res);
     ~FG1();
 
     virtual void VRender(PrimHeader** ppOt) override;

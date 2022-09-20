@@ -87,10 +87,10 @@ s16 FG1::Convert_Chunk_To_Render_Block(const Fg1Chunk* pChunk, Fg1Block* pBlock)
 FG1::~FG1()
 {
     gFG1List_5D1E28->Remove_Item(this);
-    ResourceManager::FreeResource_49C330(field_2C_ptr);
+    //ResourceManager::FreeResource_49C330(field_2C_ptr);
 }
 
-FG1::FG1(u8** pFG1Res)
+FG1::FG1(Fg1Resource& /*pFG1Res*/)
     : BaseGameObject(TRUE, 0)
 {
     mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
@@ -103,7 +103,8 @@ FG1::FG1(u8** pFG1Res)
     field_26_path_id = gMap.mCurrentPath;
 
     gFG1List_5D1E28->Push_Back(this);
-
+    /*
+    // TODO: render FG1 as 1 huge texture
     // Cast to the actual FG1 resource block format
     FG1ResourceBlockHeader* pHeader = reinterpret_cast<FG1ResourceBlockHeader*>(*pFG1Res);
     
@@ -122,6 +123,7 @@ FG1::FG1(u8** pFG1Res)
 
     FG1Reader loader(*this);
     loader.Iterate(pHeader);
+    */
 }
 
 
@@ -132,8 +134,9 @@ void FG1::VScreenChanged()
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
-void FG1::VRender(PrimHeader** ppOt)
+void FG1::VRender(PrimHeader** /*ppOt*/)
 {
+    /*
     for (s32 i = 0; i < field_28_render_block_count; i++)
     {
         Poly_FT4* pPoly = &field_30_chnk_res[i].field_0_polys[gPsxDisplay.mBufferIndex];
@@ -145,5 +148,5 @@ void FG1::VRender(PrimHeader** ppOt)
             // NOTE: Polygon has a pointer to the bit fields for which pixels should be skipped
             pScreenManager->InvalidateRectCurrentIdx(xpos, ypos, X3(pPoly), Y3(pPoly));
         }
-    }
+    }*/
 }

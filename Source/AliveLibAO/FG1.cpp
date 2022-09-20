@@ -214,7 +214,7 @@ void FG1::Convert_Chunk_To_Render_Block_AE(const Fg1Chunk* pChunk, Fg1Block* pBl
 FG1::~FG1()
 {
     gObjListDrawables->Remove_Item(this);
-
+    /*
     for (s32 i = 0; i < field_18_render_block_count; i++)
     {
         if (field_20_chnk_res[i].field_58_rect.w > 0)
@@ -226,9 +226,10 @@ FG1::~FG1()
     }
 
     ResourceManager::FreeResource_455550(field_1C_ptr);
+    */
 }
 
-FG1::FG1(u8** ppRes)
+FG1::FG1(Fg1Resource& /*ppRes*/)
     : BaseGameObject(TRUE, 0)
 {
     mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
@@ -244,6 +245,9 @@ FG1::FG1(u8** ppRes)
     field_14_current_level = gMap.mCurrentLevel;
 
     gObjListDrawables->Push_Back(this);
+
+    /*
+    // TODO: Render as 1 texture
 
     // Cast to the actual FG1 resource block format
     FG1ResourceBlockHeader* pHeader = reinterpret_cast<FG1ResourceBlockHeader*>(*ppRes);
@@ -271,7 +275,7 @@ FG1::FG1(u8** ppRes)
     {
         FG1Reader loader(*this);
         loader.Iterate(pHeader);
-    }
+    }*/
 }
 
 void FG1::VUpdate()
@@ -284,8 +288,9 @@ void FG1::VScreenChanged()
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
-void FG1::VRender(PrimHeader** ppOt)
+void FG1::VRender(PrimHeader** /*ppOt*/)
 {
+    /*
     for (s32 i = 0; i < field_18_render_block_count; i++)
     {
         Poly_FT4* pPoly = &field_20_chnk_res[i].field_0_polys[gPsxDisplay.mBufferIndex];
@@ -297,7 +302,7 @@ void FG1::VRender(PrimHeader** ppOt)
 
             pScreenManager->InvalidateRectCurrentIdx(xpos, ypos, X3(pPoly), Y3(pPoly));
         }
-    }
+    }*/
 }
 
 } // namespace AO

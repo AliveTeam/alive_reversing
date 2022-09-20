@@ -23,7 +23,7 @@ struct File_Font final
     s16 mHeight;
     s16 field_4_color_depth;
     s16 field_6_palette_size;
-    u8 field_8_palette[32];
+    u16 field_8_palette[32/2];
     u8 field_28_pixel_buffer[1];
 };
 //ALIVE_ASSERT_SIZEOF(File_Font, 0x28);
@@ -40,17 +40,11 @@ ALIVE_ASSERT_SIZEOF(Font_AtlasEntry, 0x4);
 
 struct Font_Context final
 {
-    PSX_RECT mRect;
     Font_AtlasEntry* field_8_atlas_array;
-    s16 field_C_resource_id;
+    FontResource field_C_resource_id;
 
-    void LoadFontType_433400(s16 resourceID);
+    void LoadFontType_433400(FontType resourceID);
     void dtor_433510();
-    // Custom Functions to load fonts directly from raw files
-    bool LoadFontTypeFromFile(const char_type* fontPath, const char_type* atlasPath, s8* pPaletteOut);
-    void LoadFontTypeCustom(File_Font* fontFile, Font_AtlasEntry* fontAtlas, s8* pPaletteOut);
-    bool LoadFontTypeFromOddFont(const char_type* fontPath, s8* pPaletteOut);
-    bool LoadFontTypeFromOddFontMem(u8* data, s8* pPaletteOut);
 };
 ALIVE_ASSERT_SIZEOF(Font_Context, 0x10);
 
@@ -71,10 +65,7 @@ public:
     const char_type* SliceText(const char_type* text, s32 left, FP scale, s32 right);
 
 public:
-    u8 gap0[32] = {};
-    u8** field_20_fnt_poly_block_ptr = nullptr;
     Poly_FT4* field_24_fnt_poly_array = nullptr;
-    PSX_RECT field_28_palette_rect = {};
     s32 field_30_poly_count = 0;
     Font_Context* field_34_font_context = nullptr;
 };

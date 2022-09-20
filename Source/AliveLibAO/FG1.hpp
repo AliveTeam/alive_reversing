@@ -14,7 +14,7 @@ struct Fg1Block;
 class FG1 final : public ::BaseGameObject
 {
 public:
-    FG1(u8** ppRes);
+    FG1(Fg1Resource& ppRes);
     ~FG1();
 
     virtual void VUpdate() override;

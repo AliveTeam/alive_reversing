@@ -34,14 +34,13 @@ ALIVE_ASSERT_SIZEOF(Font_AtlasEntry, 0x4);
 class FontContext
 {
 public:
-    void LoadFontType(s16 resourceID);
+    void LoadFontType(FontType resourceID);
 
     ~FontContext();
 
 
-    PSX_RECT mRect = {};
     const Font_AtlasEntry* field_8_atlas_array = nullptr;
-    s16 field_C_resource_id = 0;
+    FontResource field_C_resource_id;
 };
 
 
@@ -59,10 +58,7 @@ public:
 
     const char_type* SliceText(const char_type* text, s32 left, FP scale, s32 right);
 
-    u8 gap0[32] = {};
-    u8** field_20_fnt_poly_block_ptr = nullptr;
     Poly_FT4* field_24_fnt_poly_array = nullptr;
-    PSX_RECT field_28_palette_rect = {};
     s32 field_30_poly_count = 0;
     FontContext* field_34_font_context = nullptr;
 };

@@ -1,16 +1,18 @@
 #include "stdafx.h"
 #include "Camera.hpp"
 #include "ResourceManager.hpp"
+#include "FG1.hpp"
 
 Camera::Camera()
     : field_0(3)
 {
     field_30_flags &= ~1u;
-    field_C_pCamRes = nullptr;
+    //field_C_pCamRes = nullptr;
 }
 
 void Camera::Free()
 {
+    /*
     if (field_C_pCamRes)
     {
         ResourceManager::FreeResource_49C330(field_C_pCamRes);
@@ -30,7 +32,7 @@ void Camera::Free()
         }
         ResourceManager::FreeResource_49C330(pItem);
         iter.Remove_At_Iter();
-    }
+    }*/
 }
 
 Camera::~Camera()
@@ -38,8 +40,17 @@ Camera::~Camera()
     Free();
 }
 
-void Camera::On_Loaded(Camera* pCamera)
+void Camera::On_Loaded(Camera* /*pCamera*/)
 {
-    pCamera->field_30_flags |= 1;
-    pCamera->field_C_pCamRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Bits, pCamera->field_10_camera_resource_id, 1, 0);
+    //pCamera->field_30_flags |= 1;
+   // pCamera->field_C_pCamRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Bits, pCamera->field_10_camera_resource_id, 1, 0);
+}
+
+void Camera::LoadFG1()
+{
+    Fg1Resource fg1Res = ResourceManagerWrapper::LoadFg1(field_1A_level, field_18_path, field_1C_camera_number);
+    if (fg1Res.Any())
+    {
+        relive_new FG1(fg1Res);
+    }
 }

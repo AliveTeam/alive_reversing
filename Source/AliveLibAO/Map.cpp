@@ -1416,20 +1416,27 @@ void Map::Load_Path_Items(Camera* pCamera, LoadMode loadMode)
         if (loadMode == LoadMode::ConstructObject_0)
         {
             // Async camera load
+            /*
             ResourceManager::LoadResourceFile(
                 pCamera->field_1E_fileName,
                 Camera::On_Loaded_4447A0,
                 pCamera,
-                pCamera);
+                pCamera);*/
+
+            pCamera->field_C_ppBits = ResourceManagerWrapper::LoadCam(pCamera->field_1A_level, pCamera->field_18_path, pCamera->field_1C_camera_number);
             sCameraBeingLoaded_507C98 = pCamera;
             Loader(pCamera->field_14_cam_x, pCamera->field_16_cam_y, LoadMode::LoadResourceFromList_1, ReliveTypes::eNone); // none = load all
         }
         else
         {
             // Blocking camera load
+            /*
             ResourceManager::LoadResourceFile_455270(pCamera->field_1E_fileName, pCamera);
-            pCamera->field_30_flags |= 1u;
             pCamera->field_C_ppBits = ResourceManager::GetLoadedResource(ResourceManager::Resource_Bits, pCamera->field_10_resId, 1, 0);
+            */
+
+            pCamera->field_30_flags |= 1u;
+
             sCameraBeingLoaded_507C98 = pCamera;
             Loader(pCamera->field_14_cam_x, pCamera->field_16_cam_y, LoadMode::LoadResource_2, ReliveTypes::eNone); // none = load all
         }
@@ -1500,6 +1507,9 @@ Camera* Map::Create_Camera(s16 xpos, s16 ypos, s32 /*a4*/)
 
     newCamera->field_1C = mCurrentCamera;
 
+    // Convert the 2 digit camera number string to an integer
+    newCamera->field_1C_camera_number = 1 * (pCamName[7] - '0') + 10 * (pCamName[6] - '0');
+
     return newCamera;
 }
 
@@ -1508,6 +1518,8 @@ void Map::Create_FG1s()
     pScreenManager->UnsetDirtyBits_FG1();
 
     Camera* pCamera = field_34_camera_array[0];
+    pCamera->CreateFG1();
+    /*
     for (s32 i = 0; i < pCamera->field_0_array.Size(); i++)
     {
         u8** ppRes = pCamera->field_0_array.ItemAt(i);
@@ -1524,7 +1536,7 @@ void Map::Create_FG1s()
                 relive_new FG1(ppRes);
             }
         }
-    }
+    }*/
 }
 
 void Map::FreePathResourceBlocks()
@@ -1563,7 +1575,8 @@ void Map::GoTo_Camera()
 
     if (field_10_screenChangeEffect == CameraSwapEffects::eUnknown_11)
     {
-        CameraSwapper* pFmvRet = FMV_Camera_Change(nullptr, this, mCurrentLevel);
+        CamResource nullRes;
+        CameraSwapper* pFmvRet = FMV_Camera_Change(nullRes, this, mCurrentLevel);
         do
         {
             SYS_EventsPump_44FF90();
@@ -1844,7 +1857,7 @@ void Map::GoTo_Camera()
 
     if (field_10_screenChangeEffect == CameraSwapEffects::eUnknown_11)
     {
-        pScreenManager->DecompressCameraToVRam(reinterpret_cast<u16**>(field_34_camera_array[0]->field_C_ppBits));
+        pScreenManager->DecompressCameraToVRam(field_34_camera_array[0]->field_C_ppBits);
         pScreenManager->InvalidateRectCurrentIdx(0, 0, 640, 240);
         pScreenManager->MoveImage();
         pScreenManager->EnableRendering();
@@ -1917,7 +1930,7 @@ void Map::Loader(s16 camX, s16 camY, LoadMode loadMode, ReliveTypes typeToLoad)
     }
 }
 
-CameraSwapper* Map::FMV_Camera_Change(u8** ppBits, Map* pMap, EReliveLevelIds levelId)
+CameraSwapper* Map::FMV_Camera_Change(CamResource& ppBits, Map* pMap, EReliveLevelIds levelId)
 {
     // This is required to make the movies work when abe completes scrabania and paramonia.
     // u16 41617 -> s16 -23919 -> u16 41617

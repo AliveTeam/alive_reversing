@@ -133,6 +133,7 @@ struct Poly_FT4 final
     class Animation* mAnim;
     bool mFlipX;
     bool mFlipY;
+    class CamResource* mCam;
 };
 // ALIVE_ASSERT_SIZEOF(Poly_FT4, 0x2C);
 

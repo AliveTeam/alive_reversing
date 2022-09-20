@@ -40,6 +40,7 @@ void PolyFT4_Init(Poly_FT4* pPrim)
     SetUnknown(&pPrim->mBase.header);
     SetCode(&pPrim->mBase.header, PrimTypeCodes::ePolyFT4);
     pPrim->mAnim = nullptr;
+    pPrim->mCam = nullptr;
 }
 
 

@@ -118,7 +118,7 @@ public:
     void GetCurrentCamCoords(PSX_Point* pPoint);
     s16 GetOverlayId() override;
 
-    static CameraSwapper* FMV_Camera_Change(u8** ppBits, Map* pMap, EReliveLevelIds levelId);
+    static CameraSwapper* FMV_Camera_Change(CamResource& ppBits, Map* pMap, EReliveLevelIds levelId);
 
     void Create_FG1s();
 

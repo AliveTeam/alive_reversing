@@ -243,27 +243,18 @@ const Font_AtlasEntry sFont2Atlas_4C58B8[104] = {
     {40, 132, 20, 15},
     {60, 132, 20, 15}};
 
-void FontContext::LoadFontType(s16 resourceID)
+void FontContext::LoadFontType(FontType resourceID)
 {
-    field_C_resource_id = resourceID;
-    auto loadedResource = ResourceManager::GetLoadedResource(ResourceManager::Resource_Font, resourceID, 1, 0);
-    auto fontFile = reinterpret_cast<File_Font*>(*loadedResource);
+    FontResource fontRes = ResourceManagerWrapper::LoadFont(resourceID);
+    field_C_resource_id = fontRes;
 
-    Vram_alloc(fontFile->mWidth, fontFile->mHeight, fontFile->field_4_color_depth, &mRect);
-
-    const PSX_RECT rect = {mRect.x, mRect.y, static_cast<s16>(fontFile->mWidth / 4), fontFile->mHeight};
-
-    IRenderer::GetRenderer()->Upload(fontFile->field_4_color_depth == 16 ? IRenderer::BitDepth::e16Bit : IRenderer::BitDepth::e4Bit, rect, fontFile->field_28_pixel_buffer);
-
-    // Free our loaded font resource as its now in vram
-    ResourceManager::FreeResource_455550(loadedResource);
-
+    // TODO: Will get moved to a json file in FontResource
     switch (resourceID)
     {
-        case 1:
+        case FontType::PauseMenu:
             field_8_atlas_array = sFont1Atlas_4C56E8;
             break;
-        case 2:
+        case FontType::LcdFont:
             field_8_atlas_array = sFont2Atlas_4C58B8;
             break;
         default:
@@ -274,38 +265,15 @@ void FontContext::LoadFontType(s16 resourceID)
 
 FontContext::~FontContext()
 {
-    if (mRect.x > 0)
-    {
-        Vram_free(
-            {mRect.x, mRect.y},
-            {mRect.w, mRect.h});
-    }
+
 }
 
-void AliveFont::Load(s32 maxCharLength, const u8* palette, FontContext* fontContext)
+void AliveFont::Load(s32 maxCharLength, const u8* /*palette*/, FontContext* fontContext)
 {
+    // TODO: Use pal
     field_34_font_context = fontContext;
-
-    IRenderer::PalRecord rec;
-    rec.depth = 16;
-    if (!IRenderer::GetRenderer()->PalAlloc(rec))
-    {
-        LOG_ERROR("PalAlloc failed");
-    }
-
-    IRenderer::GetRenderer()->PalSetData(rec, palette);
-
-    field_28_palette_rect.x = rec.x;
-    field_28_palette_rect.y = rec.y;
-    field_28_palette_rect.w = rec.depth;
-    field_28_palette_rect.h = 1;
-
     field_30_poly_count = maxCharLength;
-    field_20_fnt_poly_block_ptr = ResourceManager::Allocate_New_Locked_Resource(
-        ResourceManager::Resource_FntP,
-        fontContext->field_C_resource_id,
-        sizeof(Poly_FT4) * 2 * maxCharLength);
-    field_24_fnt_poly_array = reinterpret_cast<Poly_FT4*>(*field_20_fnt_poly_block_ptr);
+    field_24_fnt_poly_array = relive_new Poly_FT4[maxCharLength * 2];
 }
 
 u32 AliveFont::MeasureTextWidth(const char_type* text)
@@ -381,7 +349,7 @@ s32 AliveFont::MeasureScaledTextWidth(const char_type* text, FP scale)
     return FP_GetExponent((width * scale) + FP_FromDouble(0.5));
 }
 
-s32 AliveFont::DrawString(PrimHeader** ppOt, const char_type* text, s16 x, s16 y, TPageAbr abr, s32 bSemiTrans, s32 blendMode, Layer layer, u8 r, u8 g, u8 b, s32 polyOffset, FP scale, s32 maxRenderWidth, s32 colorRandomRange)
+s32 AliveFont::DrawString(PrimHeader** ppOt, const char_type* text, s16 x, s16 y, TPageAbr /*abr*/, s32 bSemiTrans, s32 blendMode, Layer layer, u8 r, u8 g, u8 b, s32 polyOffset, FP scale, s32 maxRenderWidth, s32 colorRandomRange)
 {
     if (!sFontDrawScreenSpace_508BF4)
     {
@@ -394,8 +362,8 @@ s32 AliveFont::DrawString(PrimHeader** ppOt, const char_type* text, s16 x, s16 y
     s32 charInfoIndex = 0;
     auto poly = &field_24_fnt_poly_array[gPsxDisplay.mBufferIndex + (2 * polyOffset)];
 
-    const s32 tpage = PSX_getTPage(TPageMode::e4Bit_0, abr, field_34_font_context->mRect.x & ~63, field_34_font_context->mRect.y);
-    const s32 clut = PSX_getClut(field_28_palette_rect.x, field_28_palette_rect.y);
+    //const s32 tpage = PSX_getTPage(TPageMode::e4Bit_0, abr, field_34_font_context->mRect.x & ~63, field_34_font_context->mRect.y);
+   // const s32 clut = PSX_getClut(field_28_palette_rect.x, field_28_palette_rect.y);
 
     for (u32 i = 0; i < strlen(text); i++)
     {
@@ -425,8 +393,8 @@ s32 AliveFont::DrawString(PrimHeader** ppOt, const char_type* text, s16 x, s16 y
 
         const s8 charWidth = atlasEntry->field_2_width;
         const auto charHeight = atlasEntry->field_3_height;
-        const s8 texture_u = static_cast<s8>(atlasEntry->x + (4 * (fContext->mRect.x & 0x3F)));
-        const s8 texture_v = static_cast<s8>(atlasEntry->field_1_y + LOBYTE(fContext->mRect.y));
+        const s8 texture_u = static_cast<s8>(atlasEntry->x);
+        const s8 texture_v = static_cast<s8>(atlasEntry->field_1_y);
 
         const s16 widthScaled = static_cast<s16>(charWidth * FP_GetDouble(scale));
         const s16 heightScaled = static_cast<s16>(charHeight * FP_GetDouble(scale));
@@ -444,8 +412,8 @@ s32 AliveFont::DrawString(PrimHeader** ppOt, const char_type* text, s16 x, s16 y
             static_cast<u8>(g + Math_RandomRange(static_cast<s16>(-colorRandomRange), static_cast<s16>(colorRandomRange))),
             static_cast<u8>(b + Math_RandomRange(static_cast<s16>(-colorRandomRange), static_cast<s16>(colorRandomRange))));
 
-        SetTPage(poly, static_cast<s16>(tpage));
-        SetClut(poly, static_cast<s16>(clut));
+       // SetTPage(poly, static_cast<s16>(tpage));
+        //SetClut(poly, static_cast<s16>(clut));
 
         // Padding
         poly->mVerts[1].mUv.tpage_clut_pad = 0;
@@ -483,9 +451,7 @@ s32 AliveFont::DrawString(PrimHeader** ppOt, const char_type* text, s16 x, s16 y
 
 AliveFont::~AliveFont()
 {
-    IRenderer::GetRenderer()->PalFree(IRenderer::PalRecord{field_28_palette_rect.x, field_28_palette_rect.y, field_28_palette_rect.w});
-    field_28_palette_rect.x = 0;
-    ResourceManager::FreeResource_455550(field_20_fnt_poly_block_ptr);
+    relive_delete[] field_24_fnt_poly_array;
 }
 
 const char_type* AliveFont::SliceText(const char_type* text, s32 left, FP scale, s32 right)

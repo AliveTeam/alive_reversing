@@ -490,18 +490,17 @@ void Game_Run_466D40()
 
     sLvlArchive_5BC520.Open_Archive_432E80(CdLvlName(EReliveLevelIds::eMenu));
 
-    ResourceManager::LoadResourceFile_49C170("STP01C25.CAM", &camera);
+    //ResourceManager::LoadResourceFile_49C170("STP01C25.CAM", &camera);
+    //camera.field_C_pCamRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Bits, AEResourceID::kUnknownResID_125, 1u, 0);
 
-    camera.field_C_pCamRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Bits, AEResourceID::kUnknownResID_125, 1u, 0);
-
-    ResourceManagerWrapper::LoadCam(EReliveLevelIds::eMenu, 1, 25);
+    camera.field_C_pCamRes = ResourceManagerWrapper::LoadCam(EReliveLevelIds::eMenu, 1, 25);
 
     gMap.field_24_camera_offset.y = FP_FromInteger(0);
     gMap.field_24_camera_offset.x = FP_FromInteger(0);
 
     pScreenManager = relive_new ScreenManager(camera.field_C_pCamRes, &gMap.field_24_camera_offset);
 
-    pScreenManager->DecompressCameraToVRam((u16**) camera.field_C_pCamRes);
+    pScreenManager->DecompressCameraToVRam(camera.field_C_pCamRes);
     pScreenManager->MoveImage();
 
     sLvlArchive_5BC520.Free_433130();

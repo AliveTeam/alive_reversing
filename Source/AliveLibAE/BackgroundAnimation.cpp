@@ -12,6 +12,7 @@ BackgroundAnimation::BackgroundAnimation(relive::Path_BackgroundAnimation* pTlv,
     SetType(ReliveTypes::eBackgroundAnimation);
     field_F8_tlvInfo = tlvId;
 
+    /*
     const BgAnimRecord& anim = BgAnimRec(pTlv->mAnimId);
 
     field_F4_res = reinterpret_cast<AnimationFileHeader**>(Add_Resource(ResourceManager::Resource_Animation, anim.mBgAnimId));
@@ -21,6 +22,7 @@ BackgroundAnimation::BackgroundAnimation(relive::Path_BackgroundAnimation* pTlv,
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         return;
     }
+    */
 
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);

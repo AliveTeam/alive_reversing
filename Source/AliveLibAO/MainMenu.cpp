@@ -716,7 +716,7 @@ Menu::Menu(relive::Path_TLV* /*pTlv*/, const Guid& tlvId)
 
     if (sFontLoaded_507688 == 0)
     {
-        sFontContext_4FFD68.LoadFontType(1);
+        sFontContext_4FFD68.LoadFontType(FontType::PauseMenu);
         sFontLoaded_507688 = 1;
     }
 
@@ -1023,7 +1023,7 @@ void Menu::FMV_Select_Update_47E8D0()
 
                     stru_507C90.Free_41BEB0();
                     gPsxDisplay.PutCurrentDispEnv();
-                    pScreenManager->DecompressCameraToVRam(reinterpret_cast<u16**>(gMap.field_34_camera_array[0]->field_C_ppBits));
+                    pScreenManager->DecompressCameraToVRam(gMap.field_34_camera_array[0]->field_C_ppBits);
                     pScreenManager->MoveImage();
                     pScreenManager->EnableRendering();
                     SND_Restart();
