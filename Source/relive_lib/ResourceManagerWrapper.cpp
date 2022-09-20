@@ -246,11 +246,36 @@ Fg1Resource ResourceManagerWrapper::LoadFg1(EReliveLevelIds lvlId, u32 pathNumbe
 
     Fg1Resource newRes;
 
-    newRes.mFg = LoadPng(filePath.GetPath() + "fg.png");
-    newRes.mFgWell = LoadPng(filePath.GetPath() + "fg_well.png");
+    // Load the json manifest
+    FileSystem fs;
+    const std::string jsonStr = fs.LoadToString((filePath.GetPath() + ".json").c_str());
+    if (!jsonStr.empty())
+    {
+        nlohmann::json j = nlohmann::json::parse(jsonStr);
+        newRes.mFg1ResBlockCount = j["fg1_block_count"];
 
-    newRes.mBg = LoadPng(filePath.GetPath() + "bg.png");
-    newRes.mBgWell = LoadPng(filePath.GetPath() + "bg_well.png");
+        // TODO: Make this more sane later
+        for (auto& fg1File : j["layers"])
+        {
+            std::string s = fg1File;
+            if (s.find("fg_well") != std::string::npos)
+            {
+                newRes.mFgWell = LoadPng(filePath.GetPath() + "fg_well.png");
+            }
+            else if (s.find("bg_well") != std::string::npos)
+            {
+                newRes.mBgWell = LoadPng(filePath.GetPath() + "bg_well.png");
+            }
+            else if (s.find("fg") != std::string::npos)
+            {
+                newRes.mFg = LoadPng(filePath.GetPath() + "fg.png");
+            }
+            else if (s.find("bg") != std::string::npos)
+            {
+                newRes.mBg = LoadPng(filePath.GetPath() + "bg.png");
+            }
+        }
+    }
 
     return newRes;
 }

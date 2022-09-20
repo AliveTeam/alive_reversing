@@ -43,6 +43,13 @@ void Camera::CreateFG1()
     {
         relive_new FG1(fg1Res);
     }
+
+    // HACK: Create dummy FG1 to match OG so playbacks don't de-sync for now
+    for (u32 i = 1; i < fg1Res.mFg1ResBlockCount; i++)
+    {
+        Fg1Resource nullRes;
+        relive_new FG1(nullRes);
+    }
 }
 
 }

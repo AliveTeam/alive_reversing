@@ -82,6 +82,7 @@ static void AppendCamSegment(s32 x, s32 y, s32 width, s32 height, u16* pDst, con
 
 static std::unique_ptr<ApiFG1Reader> MergeFG1Blocks(const ChunkedLvlFile& camFile, BaseFG1Reader::FG1Format fg1Format)
 {
+
     // For some crazy reason there can be multiple FG1 blocks, here we squash them down into a single
     // image for each "layer".
     std::optional<ApiFG1Reader> ret;
@@ -169,7 +170,7 @@ static std::vector<u16> StitchAOCamera(const LvlFileChunk& bitsRes)
     return camBuffer;
 }
 
-CamConverter::CamConverter(const ChunkedLvlFile& camFile, const std::string& baseName)
+std::pair<std::unique_ptr<ApiFG1Reader>, u32> CamConverter::Convert(const ChunkedLvlFile& camFile, const std::string& baseName)
 {
     std::optional<LvlFileChunk> bitsRes = camFile.ChunkByType(ResourceManager::Resource_Bits);
     if (bitsRes)
@@ -183,9 +184,19 @@ CamConverter::CamConverter(const ChunkedLvlFile& camFile, const std::string& bas
         auto reader = MergeFG1Blocks(camFile, isAO ? BaseFG1Reader::FG1Format::AO : BaseFG1Reader::FG1Format::AE);
         if (reader)
         {
+            u32 fg1BlocksCount = 0;
+            for (u32 i = 0; i < camFile.ChunkCount(); i++)
+            {
+                if (camFile.ChunkAt(i).Header().mResourceType == ResourceManager::Resource_FG1)
+                {
+                    fg1BlocksCount++;
+                }
+            }
             reader->SaveAsPng(baseName);
+            return {std::move(reader), fg1BlocksCount};
         }
     }
+    return {};
 }
 
 CamConverter::CamConverter(const ChunkedLvlFile& camFile, CameraImageAndLayers& outData)

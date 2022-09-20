@@ -86,6 +86,7 @@ public:
 class Fg1Resource final
 {
 public:
+    u32 mFg1ResBlockCount = 0;
     RgbaData mFg;
     RgbaData mFgWell;
     RgbaData mBg;

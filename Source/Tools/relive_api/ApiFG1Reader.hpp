@@ -30,10 +30,18 @@ public:
     void SaveAsPng(const std::string& baseName);
     static void DebugSave(const std::string& prefix, const CameraImageAndLayers& outData);
     static void DebugRead(const std::string& prefix, CameraImageAndLayers& outData);
+    bool LayerUsed(u32 idx) const
+    {
+        if (idx < 4)
+        {
+            return mUsedLayers[idx];
+        }
+        return false;
+    }
+    std::string NameForLayer(u32 layer);
 
 private:
     std::string& BufferForLayer(CameraImageAndLayers& outData, u32 layer);
-    std::string NameForLayer(u32 layer);
 
     // 2 layers in AO, 4 layers in AE
     bool mUsedLayers[4] = {};

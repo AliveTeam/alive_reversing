@@ -121,12 +121,15 @@ RockSack::RockSack(relive::Path_RockSack* pTlv, const Guid& tlvId)
 
     LoadAnimations();
 
+    /*
+    // TODO: move this hack to the data conversion
     const AnimRecord rec = AO::AnimRec(AnimId::RockSack_Idle);
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
 
     //  Set RockSack idle anim speed
     auto pAnimationHeader = reinterpret_cast<AnimationHeader*>(*ppRes + 6878); // TODO: frametableoffset
     pAnimationHeader->field_0_fps = 0;
+    */
 
     Animation_Init(GetAnimRes(AnimId::RockSack_Idle));
 

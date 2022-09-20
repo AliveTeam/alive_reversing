@@ -19,6 +19,7 @@
 #include "../../Tools/relive_api/file_api.hpp"
 #include "../../Tools/relive_api/CamConverter.hpp"
 #include "../../Tools/relive_api/PathCamerasEnumerator.hpp"
+#include "../../Tools/relive_api/ApiFG1Reader.hpp"
 #include "../Collisions.hpp"
 #include "AnimationConverter.hpp"
 #include "relive_tlvs_conversion.hpp"
@@ -1018,6 +1019,30 @@ static void ConvertPathBND(const FileSystem::Path& dataDir, const std::string& f
     SaveLevelInfoJson(dataDir, reliveLvl, lvlIdxAsLvl, fs, pathBndFile);
 }
 
+static void SaveCameraJsonManifest(const std::string& baseName, ReliveAPI::ApiFG1Reader& reader, const FileSystem::Path& dataDir, u32 fg1ResBlockCount)
+{
+    nlohmann::json camManifest;
+    nlohmann::json layersArray;
+    for (u32 i = 0; i < 4; i++)
+    {
+        if (reader.LayerUsed(i))
+        {
+            layersArray.push_back(baseName + reader.NameForLayer(i) + ".png");
+        }
+    }
+    camManifest["layers"] = layersArray;
+    if (layersArray.empty())
+    {
+        // The FG1 blocks result in no actual FG1 data, add yet another fake/dummy
+        // block so the FG1 object count matches OG for playbacks
+        fg1ResBlockCount++;
+    }
+    camManifest["fg1_block_count"] = fg1ResBlockCount;
+
+    FileSystem fs;
+    SaveJson(camManifest, fs, dataDir);
+}
+
 template <typename LevelIdType>
 static void ConvertCamera(const FileSystem::Path& dataDir, const std::string& fileName, FileSystem& fs, std::vector<u8>& fileBuffer, ReliveAPI::LvlReader& lvlReader, LevelIdType lvlIdxAsLvl)
 {
@@ -1032,10 +1057,19 @@ static void ConvertCamera(const FileSystem::Path& dataDir, const std::string& fi
 
     pathDir.Append(ToString(lvlIdxAsLvl));
     fs.CreateDirectory(pathDir);
-    pathDir.Append(camBaseName);
+
+    FileSystem::Path jsonFileName = pathDir;
+    jsonFileName.Append(camBaseName + ".json");
+
+    pathDir.Append(camBaseName); 
 
     // Convert camera images and FG layers
-    ReliveAPI::CamConverter cc(camFile, pathDir.GetPath());
+    ReliveAPI::CamConverter cc;
+    auto fg1ReaderAndBlockCount = cc.Convert(camFile, pathDir.GetPath());
+    if (fg1ReaderAndBlockCount.first)
+    {
+        SaveCameraJsonManifest(camBaseName, *fg1ReaderAndBlockCount.first, jsonFileName, fg1ReaderAndBlockCount.second);
+    }
 
     // TODO: Convert any BgAnims in this camera
 }
