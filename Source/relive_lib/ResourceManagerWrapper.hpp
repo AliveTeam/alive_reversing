@@ -69,12 +69,32 @@ public:
     std::shared_ptr<AnimationPal> mPal;
 };
 
+class RgbaData final
+{
+public:
+    u32 mWidth = 0;
+    u32 mHeight = 0;
+    std::shared_ptr<std::vector<u8>> mPixels;
+};
+
 class CamResource final
 {
 public:
-    u32 mWidth;
-    u32 mHeight;
-    std::shared_ptr<std::vector<u32>> mPixels;
+    RgbaData mData;
+};
+
+class Fg1Resource final
+{
+public:
+    RgbaData mFg;
+    RgbaData mFgWell;
+    RgbaData mBg;
+    RgbaData mBgWell;
+
+    bool Any() const
+    {
+        return mFg.mPixels || mFgWell.mPixels || mBg.mPixels || mBgWell.mPixels;
+    }
 };
 
 class AnimResource final
@@ -102,6 +122,29 @@ public:
 public:
     AnimId mId = AnimId::None;
     std::shared_ptr<AnimationAttributesAndFrames> mJsonPtr;
+    std::shared_ptr<TgaData> mTgaPtr;
+};
+
+enum class FontType
+{
+    None,
+    PauseMenu,
+    LcdFont,
+};
+
+class FontResource final
+{
+public:
+    FontResource() = default;
+
+    FontResource(FontType id, std::shared_ptr<TgaData>& tgaPtr)
+        : mId(id), mTgaPtr(tgaPtr)
+    {
+
+    }
+
+    FontType mId = FontType::None;
+    // TODO: Font atlas json ptpr
     std::shared_ptr<TgaData> mTgaPtr;
 };
 
@@ -163,6 +206,10 @@ public:
     static PalResource LoadPal(PalId pal);
 
     static CamResource LoadCam(EReliveLevelIds lvlId, u32 pathNumber, u32 camNumber);
+    static Fg1Resource LoadFg1(EReliveLevelIds lvlId, u32 pathNumber, u32 camNumber);
+
+    static FontResource LoadFont(FontType fontId);
+
 
 private:
     // TODO: don't use stl directly

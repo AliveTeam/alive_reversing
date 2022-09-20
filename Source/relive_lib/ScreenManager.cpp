@@ -81,79 +81,22 @@ s16 ScreenManager::IsDirty(s32 idx, s32 x, s32 y)
 const s32 kStripSize = 16;
 const s32 kNumStrips = 640 / kStripSize;
 
-static bool IsHackedAOCamera(u16** ppBits)
+void ScreenManager::DecompressCameraToVRam(CamResource& camRes)
 {
-    // If they are its a "hacked" camera from paulsapps level editor. This editor used an
-    // injected dll to replace camera images. So this code here replicates that so "old" mods
-    // can still work.
+    mCamRes = camRes;
 
-    // Check if all the segments are the same specific size
+    /*
     u16* pIter = *ppBits;
-    s32 countOf7680SizedSegments = 0;
     for (s32 i = 0; i < kNumStrips; i++)
     {
         const u16 stripSize = *pIter;
         pIter++;
-        if (stripSize == 7680)
-        {
-            countOf7680SizedSegments++;
-        }
+
+        const PSX_RECT rect = {static_cast<s16>(i * kStripSize), 256 + 16, kStripSize, 240};
+        IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e8Bit, rect, reinterpret_cast<const u8*>(pIter));
         pIter += (stripSize / sizeof(u16));
     }
-
-    return countOf7680SizedSegments == kNumStrips;
-}
-
-void ScreenManager::DecompressCameraToVRam(u16** ppBits)
-{
-    if (IsHackedAOCamera(ppBits))
-    {
-        LOG_INFO("Applying AO camera");
-
-        u16* pIter = *ppBits;
-        for (s32 i = 0; i < kNumStrips; i++)
-        {
-            const u16 stripSize = *pIter;
-            pIter++;
-
-            const PSX_RECT rect = {static_cast<s16>(i * kStripSize), 256 + 16, kStripSize, 240};
-            IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e8Bit, rect, reinterpret_cast<const u8*>(pIter));
-            pIter += (stripSize / sizeof(u16));
-        }
-    }
-    else
-    {
-        // AE camera
-
-        u8** ppVlc = ResourceManagerWrapper::Alloc_New_Resource(ResourceManagerWrapper::Resource_VLC, 0, 0x7E00); // 4 KB
-        if (ppVlc)
-        {
-            PSX_RECT rect = { 0, 0, 16, 240 };
-            CamDecompressor decompressor;
- 
-            u16* pIter = *ppBits;
-            for (s16 xpos = 0; xpos < 640; xpos += 16)
-            {
-                const u16 stripSize = *pIter;
-                pIter++;
-
-                if (stripSize > 0)
-                {
-                    decompressor.vlc_decode(pIter, reinterpret_cast<u16*>(*ppVlc));
-                    decompressor.process_segment(reinterpret_cast<u16*>(*ppVlc), 0);
-
-                    rect.x = mUPos + xpos;
-                    rect.y = mVPos;
-
-                    IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e8Bit, rect, reinterpret_cast<const u8*>(decompressor.mDecompressedStrip));
-                }
-
-                pIter += (stripSize / sizeof(u16));
-            }
-
-            ResourceManagerWrapper::FreeResource(ppVlc);
-        }
-    }
+    */
 
     UnsetDirtyBits(0);
     UnsetDirtyBits(1);
@@ -161,7 +104,7 @@ void ScreenManager::DecompressCameraToVRam(u16** ppBits)
     UnsetDirtyBits(3);
 }
 
-ScreenManager::ScreenManager(u8** ppBits, FP_Point* pCameraOffset)
+ScreenManager::ScreenManager(CamResource& camRes, FP_Point* pCameraOffset)
     : BaseGameObject(TRUE, 0)
 {
     mCamPos = pCameraOffset;
@@ -169,10 +112,10 @@ ScreenManager::ScreenManager(u8** ppBits, FP_Point* pCameraOffset)
     mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     mBaseGameObjectFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
 
-    Init(ppBits);
+    Init(camRes);
 }
 
-void ScreenManager::Init(u8** ppBits)
+void ScreenManager::Init(CamResource& camRes)
 {
     EnableRendering();
 
@@ -191,8 +134,9 @@ void ScreenManager::Init(u8** ppBits)
     mCamHeight = 240;
 
     Vram_alloc(0, 272, 640 - 1, 512 - 1);
-    DecompressCameraToVRam(reinterpret_cast<u16**>(ppBits));
+    DecompressCameraToVRam(camRes);
 
+    /*
     mScreenSprites = &sSpriteTPageBuffer[0];
 
     s16 xpos = 0;
@@ -229,6 +173,7 @@ void ScreenManager::Init(u8** ppBits)
     {
         UnsetDirtyBits(i);
     }
+    */
 
     mIdx = Unknown_2;
     mYIdx = Unknown_1;
@@ -312,10 +257,24 @@ void ScreenManager::VRender(PrimHeader** ppOt)
     OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_1), &MagicBackgroundPrim.mBase.header);
 #endif
 
-    PSX_DrawSync_4F6280(0);
-    pCurrent_SprtTPage_5BB5DC = nullptr;
-    sCurrentYPos_5BB5F0 = -1;
+    if (mCamRes.mData.mPixels)
+    {
+        PolyFT4_Init(&mPoly);
 
+        SetXY0(&mPoly, 0, 0);
+        SetXY1(&mPoly, 640, 0);
+        SetXY2(&mPoly, 0, 240);
+        SetXY3(&mPoly, 640, 240);
+        SetRGB0(&mPoly, 127, 127, 127);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_1), &mPoly.mBase.header);
+        mPoly.mCam = &mCamRes;
+    }
+
+    //PSX_DrawSync_4F6280(0);
+    //pCurrent_SprtTPage_5BB5DC = nullptr;
+    //sCurrentYPos_5BB5F0 = -1;
+
+    /*
     for (s32 i = 0; i < 300; i++)
     {
         SprtTPage* pSpriteTPage = &mScreenSprites[i];
@@ -372,6 +331,7 @@ void ScreenManager::VRender(PrimHeader** ppOt)
     {
         mDirtyBits[mYIdx].mData[i] |= mDirtyBits[Unknown_3].mData[i];
     }
+    */
 
     UnsetDirtyBits(Unknown_3);
 }

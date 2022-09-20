@@ -26,7 +26,7 @@ LCDStatusBoard::LCDStatusBoard(relive::Path_LCDStatusBoard* params, const Guid& 
 
     if (!sFontType2LoadCount_5BC5E8)
     {
-        sFont2Context_5BC5D8.LoadFontType_433400(2);
+        sFont2Context_5BC5D8.LoadFontType_433400(FontType::LcdFont);
     }
 
     ++sFontType2LoadCount_5BC5E8;

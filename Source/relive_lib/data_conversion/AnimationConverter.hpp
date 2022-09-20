@@ -31,7 +31,7 @@ public:
     };
 
     AnimationConverter(const FileSystem::Path& outputFile, const AnimRecord& rec, const std::vector<u8>& fileData, bool isAoData);
-
+    static u16 ToTGAPixelFormat(u16 pixel);
 private:
     // Calc the max width and height because the ones in the header are often way too big for some reason
     // at least for a single animation in a BAN file

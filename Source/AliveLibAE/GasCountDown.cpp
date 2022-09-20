@@ -60,7 +60,7 @@ GasCountDown::GasCountDown(relive::Path_GasCountDown* pTlv, const Guid& tlvInfo)
     SetType(ReliveTypes::eGasCountDown);
     field_68_tlvInfo = tlvInfo;
 
-    field_20_font_context.LoadFontType_433400(2);
+    field_20_font_context.LoadFontType_433400(FontType::LcdFont);
     field_30_font.ctor_433590(5, byte_5513D4, &field_20_font_context);
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
     gObjListDrawables->Push_Back(this);

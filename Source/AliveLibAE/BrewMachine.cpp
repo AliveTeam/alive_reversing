@@ -44,7 +44,7 @@ BrewMachine::BrewMachine(relive::Path_BrewMachine* pTlv, const Guid& tlvId)
 {
     SetType(ReliveTypes::eBrewMachine);
 
-    mFontContext.LoadFontType_433400(2);
+    mFontContext.LoadFontType_433400(FontType::LcdFont);
     mFont.ctor_433590(3, fontPalette_550F08, &mFontContext);
 
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BrewMachine_Button));

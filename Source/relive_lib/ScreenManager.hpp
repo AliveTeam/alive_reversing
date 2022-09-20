@@ -55,11 +55,11 @@ public:
     virtual void VUpdate() override;
 
 
-    void DecompressCameraToVRam(u16** ppBits);
+    void DecompressCameraToVRam(CamResource& camRes);
 
-    ScreenManager(u8** ppBits, FP_Point* pCameraOffset);
+    ScreenManager(CamResource& camRes, FP_Point* pCameraOffset);
 
-    void Init(u8** ppBits);
+    void Init(CamResource& camRes);
 
     static s32 GetTPage(TPageMode tp, TPageAbr abr, s32* xpos, s32* ypos);
 
@@ -127,6 +127,9 @@ private:
     u16 mXIdx = 0;
     bool mRenderingDisabled = false;
     DirtyBits mDirtyBits[8] = {};
+
+    CamResource mCamRes;
+    Poly_FT4 mPoly = {};
 };
 ALIVE_ASSERT_SIZEOF(ScreenManager, 0x1A4u);
 

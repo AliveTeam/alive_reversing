@@ -13,6 +13,7 @@ class Camera final // TODO: May actually just be "ResourceList" ?
 public:
     Camera();
     ~Camera();
+    void LoadFG1();
 
 public:
     void Free();
@@ -20,7 +21,7 @@ public:
     static void On_Loaded(Camera* pCamera);
 
     DynamicArrayT<u8*> field_0;
-    u8** field_C_pCamRes = nullptr;
+    CamResource field_C_pCamRes;
     s32 field_10_camera_resource_id = 0;
     s16 mCamXOff = 0;
     s16 mCamYOff = 0;

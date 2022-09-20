@@ -109,7 +109,7 @@ public:
     void Create_FG1s();
     virtual CameraPos Rect_Location_Relative_To_Active_Camera(const PSX_RECT* pRect, s16 width = 0) override;
     s16 SetActiveCam(EReliveLevelIds level, s16 path, s16 cam, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange);
-    static BaseGameObject* FMV_Camera_Change(u8** ppBits, Map* pMap, EReliveLevelIds lvlId);
+    static BaseGameObject* FMV_Camera_Change(CamResource& ppBits, Map* pMap, EReliveLevelIds lvlId);
     Camera* Create_Camera(s16 xpos, s16 ypos, s32 a4);
     static void Load_Path_Items(Camera* pCamera, LoadMode loadMode);
 

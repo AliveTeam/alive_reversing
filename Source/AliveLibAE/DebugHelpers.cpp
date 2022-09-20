@@ -61,12 +61,7 @@ void DebugAddRaycast(RaycastDebug rc)
 
 void InitDebugFont()
 {
-    if (!g_DebugGlobalFontIsInit)
-    {
-        g_DebugGlobalFontContext.LoadFontTypeCustom(reinterpret_cast<File_Font*>(sDebugFont), reinterpret_cast<Font_AtlasEntry*>(sDebugFontAtlas), g_DebugGlobalFontPalette);
-        g_DebugGlobalFont.ctor_433590(1024, reinterpret_cast<u8*>(g_DebugGlobalFontPalette), &g_DebugGlobalFontContext);
-        g_DebugGlobalFontIsInit = true;
-    }
+
 }
 
 struct DebugConsoleMessage final

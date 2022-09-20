@@ -304,6 +304,41 @@ static u32 RGBA555ToRGBA888(u16 pixel)
     return rgb888;
 }
 
+static SDL_Texture* MakeTexture(SDL_Renderer* pRender, const u16* pPal, const u8* pPixels, u32 w, u32 h)
+{
+    u32 pal[255];
+    for (u32 i = 0; i < 255; i++)
+    {
+        const u16 oldPixel = pPal[i];
+        pal[i] = RGBA555ToRGBA888(oldPixel);
+    }
+
+    SDL_Surface* surface = SDL_CreateRGBSurfaceWithFormat(0,
+                                                          w,
+                                                          h, 32, SDL_PIXELFORMAT_ABGR8888);
+
+    SDL_LockSurface(surface);
+
+
+    u32 i = 0;
+    for (u32 y = 0; y < h; y++)
+    {
+        for (u32 x = 0; x < w; x++)
+        {
+            set_pixel(surface, x, y, pal[pPixels[i++]]);
+        }
+    }
+    SDL_UnlockSurface(surface);
+
+    SDL_Texture* pTexture = SDL_CreateTextureFromSurface(pRender, surface);
+    if (!pTexture)
+    {
+        LOG_ERROR(SDL_GetError());
+    }
+    SDL_FreeSurface(surface);
+    return pTexture;
+}
+
 void SoftwareRenderer::Draw(Poly_FT4& poly)
 {
     /*
@@ -313,7 +348,7 @@ void SoftwareRenderer::Draw(Poly_FT4& poly)
     */
 
     // TODO: texture test
-   
+
     SDL_Texture* pTexture = nullptr;
     f32 u0 = 0.0f;
     f32 v0 = 0.0f;
@@ -322,43 +357,12 @@ void SoftwareRenderer::Draw(Poly_FT4& poly)
 
     if (poly.mAnim)
     {
-        u32 pal[255];
-        const u16* pPal = poly.mAnim->mAnimRes.mTgaPtr->mPal.mPal;
-        for (u32 i = 0; i < 255; i++)
-        {
-            const u16 oldPixel = pPal[i];
-            pal[i] = RGBA555ToRGBA888(oldPixel);
-        }
-
-        SDL_Surface* surface = SDL_CreateRGBSurfaceWithFormat(0,
-                                                              poly.mAnim->mAnimRes.mTgaPtr->mWidth,
-                                                              poly.mAnim->mAnimRes.mTgaPtr->mHeight, 32, SDL_PIXELFORMAT_ABGR8888);
-
-        SDL_LockSurface(surface);
-
-        const u32 tgaW = poly.mAnim->mAnimRes.mTgaPtr->mWidth;
-        const u32 tgaH = poly.mAnim->mAnimRes.mTgaPtr->mHeight;
-
-        const auto& pixels = poly.mAnim->mAnimRes.mTgaPtr->mPixels;
-        u32 i = 0;
-        for (u32 y = 0; y < tgaH; y++)
-        {
-            for (u32 x = 0; x < tgaW; x++)
-            {
-                set_pixel(surface, x, y, pal[pixels[i++]]);
-            }
-        }
-        SDL_UnlockSurface(surface);
-
-        pTexture = SDL_CreateTextureFromSurface(mRenderer, surface);
-        if (!pTexture)
-        {
-            LOG_ERROR(SDL_GetError());
-        }
+        std::shared_ptr<TgaData> pTga = poly.mAnim->mAnimRes.mTgaPtr;
+        pTexture = MakeTexture(mRenderer, pTga->mPal.mPal, pTga->mPixels.data(), pTga->mWidth, pTga->mHeight);
 
         if (poly.mBase.header.rgb_code.code_or_pad & 2)
         {
-           // LOG_INFO("Semi trans");
+            // LOG_INFO("Semi trans");
 
             s16 tPage = GetTPage(&poly);
             u32 tPageAbr = ((u32) tPage >> 5) & 3;
@@ -366,7 +370,7 @@ void SoftwareRenderer::Draw(Poly_FT4& poly)
             {
                 case 0: // 0.5xB + 0.5xF
                 {
-                   //  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+                    //  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
                     /*
                     SDL_BlendMode bm = SDL_ComposeCustomBlendMode(
                         SDL_BLENDFACTOR_ONE,
@@ -377,7 +381,7 @@ void SoftwareRenderer::Draw(Poly_FT4& poly)
                         SDL_BLENDFACTOR_ONE_MINUS_SRC_ALPHA,
                        SDL_BLENDOPERATION_MAXIMUM);
                     */
-                   // SDL_SetRenderDrawBlendMode(mRenderer, bm);
+                    // SDL_SetRenderDrawBlendMode(mRenderer, bm);
 
                     SDL_SetTextureBlendMode(pTexture, SDL_BLENDMODE_BLEND);
                     break;
@@ -421,16 +425,15 @@ void SoftwareRenderer::Draw(Poly_FT4& poly)
             }
         }
 
-        SDL_FreeSurface(surface);
 
         const PerFrameInfo* pHeader = poly.mAnim->Get_FrameHeader(-1);
 
 
-        u0 = static_cast<f32>(pHeader->mSpriteSheetX) / static_cast<f32>(tgaW);
-        v0 = static_cast<f32>(pHeader->mSpriteSheetY) / static_cast<f32>(tgaH);
+        u0 = static_cast<f32>(pHeader->mSpriteSheetX) / static_cast<f32>(pTga->mWidth);
+        v0 = static_cast<f32>(pHeader->mSpriteSheetY) / static_cast<f32>(pTga->mHeight);
 
-        u1 = u0 + static_cast<f32>(pHeader->mWidth) / static_cast<f32>(tgaW);
-        v1 = v0 + static_cast<f32>(pHeader->mHeight) / static_cast<f32>(tgaH);
+        u1 = u0 + static_cast<f32>(pHeader->mWidth) / static_cast<f32>(pTga->mWidth);
+        v1 = v0 + static_cast<f32>(pHeader->mHeight) / static_cast<f32>(pTga->mHeight);
 
         if (poly.mFlipX)
         {
@@ -441,7 +444,7 @@ void SoftwareRenderer::Draw(Poly_FT4& poly)
         {
             std::swap(v1, v0);
         }
-    
+
         /*
         SDL_Rect src = {};
         src.x = pHeader->mSpriteSheetX;
@@ -458,6 +461,28 @@ void SoftwareRenderer::Draw(Poly_FT4& poly)
         SDL_RenderCopy(mRenderer, pTexture, &src, &dst);
 
         SDL_DestroyTexture(pTexture);*/
+    }
+
+    if (poly.mCam && poly.mCam->mData.mPixels)
+    {
+        pTexture = SDL_CreateTexture(mRenderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STREAMING, poly.mCam->mData.mWidth, poly.mCam->mData.mHeight);
+
+        void* pixels = nullptr;
+        s32 pitch = 0;
+        SDL_LockTexture(pTexture, nullptr, &pixels, &pitch);
+
+        const u32* pSrc = reinterpret_cast<const u32*>(poly.mCam->mData.mPixels->data());
+        for (u32 y = 0; y < poly.mCam->mData.mHeight; y++)
+        {
+            for (u32 x = 0; x < poly.mCam->mData.mWidth; x++)
+            {
+                Uint8* target_pixel = (Uint8*) pixels + y * pitch + x * sizeof(u32);
+                *(u32*) target_pixel = *pSrc;
+                pSrc++;
+            }
+        }
+
+        SDL_UnlockTexture(pTexture);
     }
 
     SDL_Vertex vert[4];

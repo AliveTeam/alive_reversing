@@ -563,7 +563,8 @@ void Map::GoTo_Camera()
 
     if (mCameraSwapEffect == CameraSwapEffects::eUnknown_11)
     {
-        BaseGameObject* pFmvRet = FMV_Camera_Change(nullptr, this, mCurrentLevel);
+        CamResource nullRes;
+        BaseGameObject* pFmvRet = FMV_Camera_Change(nullRes, this, mCurrentLevel);
         do
         {
             SYS_EventsPump_494580();
@@ -852,7 +853,7 @@ void Map::GoTo_Camera()
 
     if (mCameraSwapEffect == CameraSwapEffects::eUnknown_11)
     {
-        pScreenManager->DecompressCameraToVRam(reinterpret_cast<u16**>(field_2C_camera_array[0]->field_C_pCamRes));
+        pScreenManager->DecompressCameraToVRam(field_2C_camera_array[0]->field_C_pCamRes);
         pScreenManager->InvalidateRectCurrentIdx(0, 0, 640, 240);
         pScreenManager->MoveImage();
         pScreenManager->EnableRendering();
@@ -960,6 +961,8 @@ void Map::Create_FG1s()
     pScreenManager->UnsetDirtyBits_FG1();
 
     Camera* pCamera = field_2C_camera_array[0];
+    pCamera->LoadFG1();
+    /*
     for (s32 i = 0; i < pCamera->field_0.Size(); i++)
     {
         u8** ppRes = pCamera->field_0.ItemAt(i);
@@ -976,7 +979,7 @@ void Map::Create_FG1s()
                 relive_new FG1(ppRes);
             }
         }
-    }
+    }*/
 }
 
 s16 Map::Get_Camera_World_Rect(CameraPos camIdx, PSX_RECT* pRect)
@@ -1086,7 +1089,7 @@ s16 Map::SetActiveCam(EReliveLevelIds level, s16 path, s16 cam, CameraSwapEffect
     return 1;
 }
 
-BaseGameObject* Map::FMV_Camera_Change(u8** ppBits, Map* pMap, EReliveLevelIds lvlId)
+BaseGameObject* Map::FMV_Camera_Change(CamResource& ppBits, Map* pMap, EReliveLevelIds lvlId)
 {
     if (pMap->mFmvBaseId > 10000u)
     {
@@ -1241,7 +1244,8 @@ void Map::Load_Path_Items(Camera* pCamera, LoadMode loadMode)
         if (loadMode == LoadMode::ConstructObject_0)
         {
             // Async camera load
-            ResourceManager::LoadResourceFile_49C130(pCamera->field_1E_cam_name, Camera::On_Loaded, pCamera, pCamera);
+            // ResourceManager::LoadResourceFile_49C130(pCamera->field_1E_cam_name, Camera::On_Loaded, pCamera, pCamera);
+            pCamera->field_C_pCamRes = ResourceManagerWrapper::LoadCam(pCamera->field_1A_level, pCamera->field_18_path, pCamera->field_1C_camera_number);
 
             sCameraBeingLoaded_5C3118 = pCamera;
             sPathInfo->Loader_4DB800(pCamera->mCamXOff, pCamera->mCamYOff, LoadMode::LoadResourceFromList_1, ReliveTypes::eNone); // none = load all
@@ -1249,9 +1253,9 @@ void Map::Load_Path_Items(Camera* pCamera, LoadMode loadMode)
         else
         {
             // Blocking camera load
-            ResourceManager::LoadResourceFile_49C170(pCamera->field_1E_cam_name, pCamera);
+            // ResourceManager::LoadResourceFile_49C170(pCamera->field_1E_cam_name, pCamera);
             pCamera->field_30_flags |= 1;
-            pCamera->field_C_pCamRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Bits, pCamera->field_10_camera_resource_id, 1, 0);
+            // pCamera->field_C_pCamRes = ResourceManagerWrapper::LoadCam(pCamera->field_1A_level, pCamera->field_18_path, pCamera->field_1C_camera_number);
 
             sCameraBeingLoaded_5C3118 = pCamera;
             sPathInfo->Loader_4DB800(pCamera->mCamXOff, pCamera->mCamYOff, LoadMode::LoadResource_2, ReliveTypes::eNone); // none = load all

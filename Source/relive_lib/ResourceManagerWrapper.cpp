@@ -5,6 +5,8 @@
 
 #include "data_conversion/file_system.hpp"
 
+#include "data_conversion/data_conversion.hpp"
+
 #include "nlohmann/json.hpp"
 
 #define MAGIC_ENUM_RANGE_MIN 0
@@ -117,6 +119,20 @@ AnimationAttributesAndFrames::AnimationAttributesAndFrames(const std::string& js
     from_json(j["attributes"], mAttributes);
 }
 
+static FileSystem::Path BasePath()
+{
+    FileSystem::Path filePath;
+    filePath.Append("relive_data");
+    if (GetGameType() == GameType::eAe)
+    {
+        filePath.Append("ae");
+    }
+    else
+    {
+        filePath.Append("ao");
+    }
+    return filePath;
+}
 
 AnimResource ResourceManagerWrapper::LoadAnimation(AnimId anim)
 {
@@ -133,16 +149,7 @@ AnimResource ResourceManagerWrapper::LoadAnimation(AnimId anim)
     }
 
     // One huge blocking func for now - needs to work like OG res man
-    FileSystem::Path filePath;
-    filePath.Append("relive_data");
-    if (GetGameType() == GameType::eAe)
-    {
-        filePath.Append("ae");
-    }
-    else
-    {
-        filePath.Append("ao");
-    }
+    FileSystem::Path filePath = BasePath();
 
     filePath.Append("animations");
 
@@ -184,14 +191,99 @@ PalResource ResourceManagerWrapper::LoadPal(PalId pal)
     return newRes;
 }
 
-CamResource ResourceManagerWrapper::LoadCam(EReliveLevelIds /*lvlId*/, u32 /*pathNumber*/, u32 /*camNumber*/)
+static FileSystem::Path PerLvlBasePath(EReliveLevelIds lvlId)
 {
+    FileSystem::Path filePath = BasePath();
+    if (GetGameType() == GameType::eAe)
+    {
+        filePath.Append(ToString(MapWrapper::ToAE(lvlId)));
+    }
+    else
+    {
+        filePath.Append(ToString(MapWrapper::ToAO(lvlId)));
+    }
+    return filePath;
+}
+
+static FileSystem::Path CamBaseName(EReliveLevelIds lvlId, u32 pathNumber, u32 camNumber)
+{
+    FileSystem::Path filePath = PerLvlBasePath(lvlId);
+
+    char buffer[128] = {};
+    sprintf(buffer, "P%02dC%02d", pathNumber, camNumber);
+    filePath.Append(buffer);
+    return filePath;
+}
+
+static RgbaData LoadPng(const std::string& filePath)
+{
+    std::vector<u8> vec;
+    unsigned int w = 0;
+    unsigned int h = 0;
+    if (!lodepng::decode(vec, w, h, filePath))
+    { 
+        RgbaData data;
+        data.mWidth = w;
+        data.mHeight = h;
+        data.mPixels = std::make_shared<std::vector<u8>>(std::move(vec));
+        return data;
+    }
+    return {};
+}
+
+CamResource ResourceManagerWrapper::LoadCam(EReliveLevelIds lvlId, u32 pathNumber, u32 camNumber)
+{
+    FileSystem::Path filePath = CamBaseName(lvlId, pathNumber, camNumber);
+
     CamResource newRes;
+    newRes.mData = LoadPng(filePath.GetPath() + ".png");
+    return newRes;
+}
 
-    newRes.mHeight = 240;
-    newRes.mWidth = 640;
+Fg1Resource ResourceManagerWrapper::LoadFg1(EReliveLevelIds lvlId, u32 pathNumber, u32 camNumber)
+{
+    FileSystem::Path filePath = CamBaseName(lvlId, pathNumber, camNumber);
 
-    //lodepng::load_file
+    Fg1Resource newRes;
+
+    newRes.mFg = LoadPng(filePath.GetPath() + "fg.png");
+    newRes.mFgWell = LoadPng(filePath.GetPath() + "fg_well.png");
+
+    newRes.mBg = LoadPng(filePath.GetPath() + "bg.png");
+    newRes.mBgWell = LoadPng(filePath.GetPath() + "bg_well.png");
+
+    return newRes;
+}
+
+FontResource ResourceManagerWrapper::LoadFont(FontType fontId)
+{
+    FileSystem::Path filePath = BasePath();
+
+    switch (fontId)
+    {
+        case FontType::None:
+            ALIVE_FATAL("Can't load none");
+            break;
+
+        case FontType::LcdFont:
+        {
+            filePath.Append("lcd_font");
+            break;
+        }
+
+        case FontType::PauseMenu:
+        {
+            filePath.Append("pause_menu_font");
+            break;
+        }
+    }
+
+    // TODO: Use FS
+    auto pTgaData = std::make_shared<TgaData>();
+    TgaFile tgaFile;
+    tgaFile.Load((filePath.GetPath() + ".tga").c_str(), pTgaData->mPal, pTgaData->mPixels, pTgaData->mWidth, pTgaData->mHeight);
+
+    FontResource newRes(fontId, pTgaData);
 
     return newRes;
 }

@@ -519,7 +519,7 @@ MainMenuController::MainMenuController(relive::Path_TLV* /*pTlv*/, const Guid& t
 
     if (!sMainMenuFontLoaded_5C1B92)
     {
-        sFont1Context_5BC5C8.LoadFontType_433400(1);
+        sFont1Context_5BC5C8.LoadFontType_433400(FontType::PauseMenu);
         sMainMenuFontLoaded_5C1B92 = 1;
     }
 
@@ -1492,7 +1492,7 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
             }
             stru_5C3110.Free_433130();
             gPsxDisplay.PutCurrentDispEnv();
-            pScreenManager->DecompressCameraToVRam(reinterpret_cast<u16**>(gMap.field_2C_camera_array[0]->field_C_pCamRes));
+            pScreenManager->DecompressCameraToVRam(gMap.field_2C_camera_array[0]->field_C_pCamRes);
             pScreenManager->MoveImage();
             pScreenManager->EnableRendering();
             GetSoundAPI().SND_Restart();
@@ -1891,7 +1891,7 @@ MainMenuNextCam MainMenuController::BackStory_Or_NewGame_Update_4D1C60(u32 input
             }
 
             gPsxDisplay.PutCurrentDispEnv();
-            pScreenManager->DecompressCameraToVRam((u16**) gMap.field_2C_camera_array[0]->field_C_pCamRes);
+            pScreenManager->DecompressCameraToVRam(gMap.field_2C_camera_array[0]->field_C_pCamRes);
             pScreenManager->MoveImage();
             pScreenManager->EnableRendering();
             GetSoundAPI().SND_Restart();

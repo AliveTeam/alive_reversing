@@ -226,7 +226,7 @@ LCDScreen::LCDScreen(relive::Path_LCDScreen* pTlv, const Guid& tlvId)
 
     field_2AC_message_1_id = pTlv->mMessageId1;
 
-    field_50_font_context.LoadFontType(2);
+    field_50_font_context.LoadFontType(FontType::LcdFont);
     field_60_font.Load(60, sLCDScreen_Palette_4C75A8, &field_50_font_context);
 
     IRenderer::PalRecord rec;
@@ -342,9 +342,10 @@ void LCDScreen::VUpdate()
                         "                               To alert a Mudokon, mSay hello by holding (1) on the keyboard.   Then, talk to Mudokons by using the keyboard numbers (1) thru (8).   Experiment!");
                 }
             }
-            auto palSwap = field_98_pal_rect;
-            field_98_pal_rect = field_60_font.field_28_palette_rect;
-            field_60_font.field_28_palette_rect = palSwap;
+            // TODO
+            //auto palSwap = field_98_pal_rect;
+            //field_98_pal_rect = field_60_font.field_28_palette_rect;
+            //field_60_font.field_28_palette_rect = palSwap;
         }
         sFontDrawScreenSpace_508BF4 = 1;
         field_2B4_character_width = field_60_font.MeasureCharacterWidth(*field_A0_message);

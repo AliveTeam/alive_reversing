@@ -5,6 +5,7 @@
 #include "../../AliveLibAO/LvlArchive.hpp"
 #include "../../AliveLibAO/Path.hpp"
 #include "../../AliveLibAO/ResourceManager.hpp"
+#include "../../AliveLibAE/Font.hpp"
 #include "../../AliveLibCommon/AnimResources.hpp"
 #include "../../AliveLibCommon/BaseGameAutoPlayer.hpp"
 #include "../Animation.hpp"
@@ -1018,18 +1019,19 @@ static void ConvertPathBND(const FileSystem::Path& dataDir, const std::string& f
 }
 
 template <typename LevelIdType>
-static void ConvertCamera(const FileSystem::Path& dataDir, const std::string& fileName, FileSystem& /*fs*/, std::vector<u8>& fileBuffer, ReliveAPI::LvlReader& lvlReader, LevelIdType /*lvlIdxAsLvl*/)
+static void ConvertCamera(const FileSystem::Path& dataDir, const std::string& fileName, FileSystem& fs, std::vector<u8>& fileBuffer, ReliveAPI::LvlReader& lvlReader, LevelIdType lvlIdxAsLvl)
 {
     ReadLvlFileInto(lvlReader, fileName.c_str(), fileBuffer);
 
     ReliveAPI::ChunkedLvlFile camFile(fileBuffer);
 
     std::string camBaseName = fileName.substr(0, fileName.length() - 4); // chop off .CAM
+    camBaseName = camBaseName.substr(2); // Chop off the 2 letter lvl prefix
+
     FileSystem::Path pathDir = dataDir;
-    
-    // HACK: don't put in per lvl dir for now
-    //pathDir.Append(ToString(lvlIdxAsLvl));
-    //fs.CreateDirectory(pathDir);
+
+    pathDir.Append(ToString(lvlIdxAsLvl));
+    fs.CreateDirectory(pathDir);
     pathDir.Append(camBaseName);
 
     // Convert camera images and FG layers
@@ -1054,6 +1056,63 @@ static void ConvertSound(const FileSystem::Path& dataDir, const std::string& fil
     fs.Save(filePath, fileBuffer);
 }
 
+static void ConvertFont(const FileSystem::Path& dataDir, const std::string& fileName, ReliveAPI::LvlReader& lvlReader, std::vector<u8>& fileBuffer, bool isPauseMenuFont)
+{
+    ReadLvlFileInto(lvlReader, fileName.c_str(), fileBuffer);
+
+    ReliveAPI::ChunkedLvlFile camFile(fileBuffer);
+
+     std::optional<ReliveAPI::LvlFileChunk> font = camFile.ChunkByType(ResourceManager::Resource_Font);
+     if (!font)
+     {
+         ALIVE_FATAL("Font missing");
+     }
+
+     auto fontFile = reinterpret_cast<const File_Font*>(font->Data().data());
+
+     FileSystem::Path path = dataDir;
+     if (isPauseMenuFont)
+     {
+         path.Append("pause_menu_font.tga");
+     }
+     else
+     {
+         path.Append("lcd_font.tga");
+     }
+     TgaFile tga;
+     AnimationPal pal = {};
+
+     // For some reason the game uses a hard coded pal that is slightly darker
+     // why the font file couldn't just be updated? who knows...
+     // TODO: Use the random collection of hard coded pals later
+     /*
+     const u8 menuPal[] = {0x00, 0x00, 0x21, 0x84, 0x42, 0x88, 0x63, 0x8C, 0x84, 0x90, 0xA5, 0x14, 0xE7, 0x1C, 0x08, 0x21, 0x29, 0x25, 0x4A, 0x29, 0x6B, 0x2D, 0x8C, 0x31, 0xAD, 0x35, 0xEF, 0x3D, 0x10, 0x42, 0x73, 0x4E};
+
+     const u16* p = reinterpret_cast<const u16*>(&menuPal[0]);
+     */
+
+     for (s32 i = 0; i < 16; i++)
+     {
+         pal.mPal[i] = AnimationConverter::ToTGAPixelFormat(fontFile->field_8_palette[i]);
+     }
+
+     std::vector<u8> newData((fontFile->mWidth / 2) * fontFile->mHeight * 2);
+
+     // Expand 4bit to 8bit
+     std::size_t src = 0;
+     std::size_t dst = 0;
+     while (dst < newData.size())
+     {
+         newData[dst++] = (fontFile->field_28_pixel_buffer[src] & 0xF);
+         newData[dst++] = ((fontFile->field_28_pixel_buffer[src++] & 0xF0) >> 4);
+     }
+
+     tga.Save(path.GetPath().c_str(), pal, newData, fontFile->mWidth, fontFile->mHeight);
+
+     // TODO: Dump out the atlas for each char
+
+}
+
 template<typename LevelIdType, typename TlvType>
 static void ConvertFilesInLvl(const FileSystem::Path& dataDir, FileSystem& fs, ReliveAPI::LvlReader& lvlReader, std::vector<u8>& fileBuffer, LevelIdType lvlIdxAsLvl, EReliveLevelIds reliveLvl, bool isAo)
 {
@@ -1063,8 +1122,20 @@ static void ConvertFilesInLvl(const FileSystem::Path& dataDir, FileSystem& fs, R
         auto fileName = lvlReader.FileNameAt(i);
         if (!fileName.empty())
         {
-            if (endsWith(fileName, ".CAM"))
+            if (endsWith(fileName, ".FNT"))
             {
+                if (fileName == "LCDFONT.FNT")
+                {
+                    ConvertFont(dataDir, fileName, lvlReader, fileBuffer, false);
+                }
+            }
+            else if (endsWith(fileName, ".CAM"))
+            {
+                if (fileName == "S1P01C01.CAM" || fileName == "STP01C06.CAM")
+                {
+                    ConvertFont(dataDir, fileName, lvlReader, fileBuffer, true);
+                }
+
                 ConvertCamera(dataDir, fileName, fs, fileBuffer, lvlReader, lvlIdxAsLvl);
             }
             // TODO: Seek these out instead of converting everything we see since the names are fixed per LVL

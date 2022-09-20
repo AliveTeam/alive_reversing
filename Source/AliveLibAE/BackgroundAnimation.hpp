@@ -18,7 +18,7 @@ public:
     ~BackgroundAnimation();
 
 private:
-    AnimationFileHeader** field_F4_res = nullptr;
+    //AnimationFileHeader** field_F4_res = nullptr;
     Guid field_F8_tlvInfo;
     FP mObjectXPos = {};
     FP mObjectYPos = {};

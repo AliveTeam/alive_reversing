@@ -18,7 +18,7 @@ namespace AO {
 
 ALIVE_VAR(1, 0x507668, s16, sNumCamSwappers_507668, 0);
 
-CameraSwapper::CameraSwapper(u8** ppBits, s32 movieId, s32 movieFlag, s8 movieFlags, s16 flags, s16 volume)
+CameraSwapper::CameraSwapper(CamResource& ppBits, s32 movieId, s32 movieFlag, s8 movieFlags, s16 flags, s16 volume)
     : BaseGameObject(TRUE, 0)
 {
     Init(ppBits, CameraSwapEffects::ePlay1FMV_5);
@@ -30,7 +30,7 @@ CameraSwapper::CameraSwapper(u8** ppBits, s32 movieId, s32 movieFlag, s8 movieFl
     field_3C_movie_bPutDispEnv = flags;
 }
 
-CameraSwapper::CameraSwapper(u8** ppBits, s32 moviePos1, s32 movieId1, s32 moviePos2, s32 movieFlag1, s8 movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlag2_1, s16 movieFlags2_1, s16 movieVol2)
+CameraSwapper::CameraSwapper(CamResource& ppBits, s32 moviePos1, s32 movieId1, s32 moviePos2, s32 movieFlag1, s8 movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlag2_1, s16 movieFlags2_1, s16 movieVol2)
     : BaseGameObject(TRUE, 0)
 {
     Init(ppBits, CameraSwapEffects::ePlay2FMVs_9);
@@ -48,7 +48,7 @@ CameraSwapper::CameraSwapper(u8** ppBits, s32 moviePos1, s32 movieId1, s32 movie
     field_3C_movie_bPutDispEnv = movieVol1;
 }
 
-CameraSwapper::CameraSwapper(u8** ppBits, s32 moviePos1, s32 movieIds1, s32 moviePos2, s32 movieId2, s32 moviePos3, s32 movieId3, s8 movieFlag1, s16 movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlags2, s16 movieVol2, s16 movieFlag3, s16 movieFlags3, s16 movieVol3)
+CameraSwapper::CameraSwapper(CamResource& ppBits, s32 moviePos1, s32 movieIds1, s32 moviePos2, s32 movieId2, s32 moviePos3, s32 movieId3, s8 movieFlag1, s16 movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlags2, s16 movieVol2, s16 movieFlag3, s16 movieFlags3, s16 movieVol3)
     : BaseGameObject(TRUE, 0)
 {
     Init(ppBits, CameraSwapEffects::ePlay3FMVs_10);
@@ -76,7 +76,7 @@ void CameraSwapper::VScreenChanged()
     // Empty
 }
 
-CameraSwapper::CameraSwapper(u8** ppBits, CameraSwapEffects changeEffect, s32 xpos, s32 ypos)
+CameraSwapper::CameraSwapper(CamResource& ppBits, CameraSwapEffects changeEffect, s32 xpos, s32 ypos)
     : BaseGameObject(TRUE, 0)
 {
     field_40_ypos_converted = static_cast<s16>(ypos);
@@ -104,7 +104,7 @@ CameraSwapper::~CameraSwapper()
     gMap.Start_Sounds_For_Objects_In_Near_Cameras();
 }
 
-void CameraSwapper::Init(u8** ppCamRes, CameraSwapEffects changeEffect)
+void CameraSwapper::Init(CamResource& ppCamRes, CameraSwapEffects changeEffect)
 {
     mBaseGameObjectFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
 
@@ -118,7 +118,7 @@ void CameraSwapper::Init(u8** ppCamRes, CameraSwapEffects changeEffect)
     }
     else
     {
-        pScreenManager->DecompressCameraToVRam(reinterpret_cast<u16**>(ppCamRes));
+        pScreenManager->DecompressCameraToVRam(ppCamRes);
     }
 
     sNumCamSwappers_507668++;
@@ -363,9 +363,9 @@ void CameraSwapper::VUpdate()
             }
 
             // Now apply the camera we where storing now that the movie is finished
-            if (field_20_ppCamRes)
+            if (field_20_ppCamRes.mData.mPixels)
             {
-                pScreenManager->DecompressCameraToVRam(reinterpret_cast<u16**>(field_20_ppCamRes));
+                pScreenManager->DecompressCameraToVRam(field_20_ppCamRes);
                 pScreenManager->InvalidateRect(0, 0, 640, 240, 0);
                 pScreenManager->InvalidateRect(0, 0, 640, 240, 1);
                 pScreenManager->InvalidateRect(0, 0, 640, 240, 2);
