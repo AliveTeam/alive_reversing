@@ -286,6 +286,13 @@ void SoftwareRenderer::Draw(Poly_F4& poly)
     // TODO: Why isn't this semi transparent when a= 127 for the pause menu ??
     const u8 a = (poly.mBase.header.rgb_code.code_or_pad & 2) ? 127 : 255;
 
+    /*
+    u32 tPageAbr = ((u32) tPage >> 5) & 3;
+    switch (tPageAbr)
+    {
+
+    }*/
+
     // center
     vert[0].position.x = X0(&poly);
     vert[0].position.y = Y0(&poly) * 2.0f;
@@ -383,6 +390,31 @@ static SDL_Texture* MakeTexture(SDL_Renderer* pRender, const u16* pPal, const u8
     return pTexture;
 }
 
+static void SetSemiTransBlendMode(SDL_Texture* pTexture, s16 tPage)
+{
+    u32 tPageAbr = ((u32) tPage >> 5) & 3;
+    switch (tPageAbr)
+    {
+        case 0: // 0.5xB + 0.5xF
+        {
+            SDL_SetTextureBlendMode(pTexture, SDL_BLENDMODE_BLEND);
+            break;
+        }
+
+        case 1: // 1.0xB + 1.0xF
+            SDL_SetTextureBlendMode(pTexture, SDL_BLENDMODE_ADD);
+            break;
+
+        case 2: // 1.0xB - 1.0xF
+            SDL_SetTextureBlendMode(pTexture, SDL_BLENDMODE_MOD);
+            break;
+
+        case 3: // 1.0xB + 0.25xF
+            LOG_WARNING("Blend mode 3");
+            break;
+    }
+}
+
 void SoftwareRenderer::Draw(Poly_FT4& poly)
 {
     SDL_Texture* pTexture = nullptr;
@@ -398,67 +430,15 @@ void SoftwareRenderer::Draw(Poly_FT4& poly)
 
         if (poly.mBase.header.rgb_code.code_or_pad & 2)
         {
-            // LOG_INFO("Semi trans");
-
-            s16 tPage = GetTPage(&poly);
-            u32 tPageAbr = ((u32) tPage >> 5) & 3;
-            switch (tPageAbr)
-            {
-                case 0: // 0.5xB + 0.5xF
-                {
-                    //  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-                    /*
-                    SDL_BlendMode bm = SDL_ComposeCustomBlendMode(
-                        SDL_BLENDFACTOR_ONE,
-                        SDL_BLENDFACTOR_ONE_MINUS_SRC_ALPHA,
-                        SDL_BLENDOPERATION_ADD,
-
-                        SDL_BLENDFACTOR_ONE,
-                        SDL_BLENDFACTOR_ONE_MINUS_SRC_ALPHA,
-                       SDL_BLENDOPERATION_MAXIMUM);
-                    */
-                    // 
-
-                    SDL_SetTextureBlendMode(pTexture, SDL_BLENDMODE_BLEND);
-                    break;
-                }
-
-                case 1: // 1.0xB + 1.0xF
-                    SDL_SetTextureBlendMode(pTexture, SDL_BLENDMODE_ADD);
-                    break;
-
-                case 2: // 1.0xB - 1.0xF
-                    SDL_SetTextureBlendMode(pTexture, SDL_BLENDMODE_MOD);
-                    break;
-
-                case 3: // 1.0xB + 0.25xF
-                    LOG_WARNING("Blend mode 3");
-                    break;
-            }
+            const s16 tPage = GetTPage(&poly);
+            SetSemiTransBlendMode(pTexture, tPage);
         }
 
         if (poly.mBase.header.rgb_code.code_or_pad & 1)
         {
-            s16 tPage = GetTPage(&poly);
-            u32 tPageAbr = ((u32) tPage >> 5) & 3;
-            switch (tPageAbr)
-            {
-                case 0: // 0.5xB + 0.5xF
-                    SDL_SetTextureBlendMode(pTexture, SDL_BLENDMODE_BLEND);
-                    break;
-
-                case 1: // 1.0xB + 1.0xF
-                    SDL_SetTextureBlendMode(pTexture, SDL_BLENDMODE_ADD);
-                    break;
-
-                case 2: // 1.0xB - 1.0xF
-                    SDL_SetTextureBlendMode(pTexture, SDL_BLENDMODE_MOD);
-                    break;
-
-                case 3: // 1.0xB + 0.25xF
-                    LOG_WARNING("Blend mode 3");
-                    break;
-            }
+            const s16 tPage = GetTPage(&poly);
+            // TODO: Wrong
+            SetSemiTransBlendMode(pTexture, tPage);
         }
 
 
