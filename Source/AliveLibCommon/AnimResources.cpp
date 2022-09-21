@@ -1089,7 +1089,9 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
     {AnimId::Slig_Smash,
         { "SLGKNFD.BAN", 13016, 160, 68, kSlgknfdResID, PalId::Default},
      {"SLGKNFD.BAN", 12752, 160, 68, AO::kSlgknfdAOResID, PalId::Default}},
-    {AnimId::Slig_PullLever, { "SLGLEVER.BAN", 12612, 160, 68, kSlgleverResID, PalId::Default}, kNullAnimDetails }, // AO doesn't have this??
+    {AnimId::Slig_PullLever, 
+        { "SLGLEVER.BAN", 12612, 160, 68, kSlgleverResID, PalId::Default}, 
+        { "SLGLEVER.BAN", 12356, 160, 68, AO::kSlgleverAOResID, PalId::Default}},
     {AnimId::Slig_LiftGrip,
         { "SLGLIFT.BAN", 23048, 160, 68, kSlgliftResID, PalId::Default},
      {"SLGLIFT.BAN", 22628, 160, 68, AO::kSlgliftAOResID, PalId::Default}},

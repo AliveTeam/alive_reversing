@@ -156,7 +156,7 @@ const AnimId sSligMotionAnimIds[] = {
     AnimId::Slig_ShootZ,
     AnimId::Slig_ShootZtoStand,
     AnimId::Slig_Smash,
-    AnimId::Slig_Beat,
+    AnimId::Slig_PullLever,
     AnimId::Slig_LiftUp,
     AnimId::Slig_LiftDown,
     AnimId::Slig_LiftGrip,

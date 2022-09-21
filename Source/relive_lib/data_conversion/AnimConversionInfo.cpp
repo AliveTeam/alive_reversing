@@ -633,7 +633,7 @@ AnimRecConversionInfo kAnimRecConversionInfo[910] = {
     { AnimId::Slig_Idle, EAnimGroup::Slig, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::Slig_ShootToStand, EAnimGroup::Slig, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::Slig_Knockback, EAnimGroup::Slig, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
-    { AnimId::Slig_PullLever, EAnimGroup::Slig, EReliveLevelIds::eMines, EReliveLevelIds::eNone, false },
+    { AnimId::Slig_PullLever, EAnimGroup::Slig, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::Slig_LiftGripping, EAnimGroup::Slig, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::Slig_LiftUp, EAnimGroup::Slig, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
     { AnimId::Slig_LiftDown, EAnimGroup::Slig, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
