@@ -464,5 +464,6 @@ private:
     s16 field_192_return_to_previous_motion = 0;
     s32 field_194_timer = 0;
     s32 field_198_turning_wheel_timer = 0;
+    bool mChisleMud = false;
 };
 ALIVE_ASSERT_SIZEOF(Mudokon, 0x19C);

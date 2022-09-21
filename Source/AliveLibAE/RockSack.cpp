@@ -25,12 +25,12 @@ RockSack::RockSack(relive::Path_RockSack* pTlv, const Guid& tlvId)
 
     LoadAnimations();
 
-    const AnimRecord& rec = AnimRec(AnimId::RockSack_Idle);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
+    //const AnimRecord& rec = AnimRec(AnimId::RockSack_Idle);
+    //u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
 
     // Set RockSack idle animation speed.
-    auto pAnimationHeader = reinterpret_cast<AnimationHeader*>(*ppRes + rec.mFrameTableOffset);
-    pAnimationHeader->field_0_fps = 0;
+    //auto pAnimationHeader = reinterpret_cast<AnimationHeader*>(*ppRes + rec.mFrameTableOffset);
+    //pAnimationHeader->field_0_fps = 0;
 
     Animation_Init(GetAnimRes(AnimId::RockSack_Idle));
 

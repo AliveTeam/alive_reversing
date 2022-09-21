@@ -444,6 +444,7 @@ Mudokon::Mudokon(relive::Path_Mudokon* pTlv, const Guid& tlvId)
     {
         case relive::Path_Mudokon::MudJobs::eChisle:
             field_18E_brain_state = Mud_Brain_State::Brain_1_Chisel;
+            mChisleMud = true;
             break;
 
         case relive::Path_Mudokon::MudJobs::eSitScrub:
@@ -1539,7 +1540,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
             mNextMotion = -1;
             field_194_timer = sGnFrame + 30;
             VUpdateResBlock();
-            if (field_10_resources_array.ItemAt(2))
+            if (mChisleMud)
             {
                 field_18E_brain_state = Mud_Brain_State::Brain_1_Chisel;
                 field_190_brain_sub_state = 8;
@@ -2990,7 +2991,7 @@ s16 Mudokon::Brain_3_TurnWheel()
                 return field_190_brain_sub_state;
             }
 
-            if (field_10_resources_array.ItemAt(2))
+            if (mChisleMud)
             {
                 field_18E_brain_state = Mud_Brain_State::Brain_1_Chisel;
             }
@@ -3346,7 +3347,7 @@ s16 Mudokon::Brain_ListeningToAbe_State_1()
     field_16A_flags.Clear(Flags_16A::eBit6_standing_for_sad_or_angry);
     field_16A_flags.Clear(Flags_16A::eBit12_alert_enemies);
 
-    if (field_10_resources_array.ItemAt(2))
+    if (mChisleMud)
     {
         field_184_next_motion2 = eMudMotions::Motion_11_Chisel;
     }
@@ -3442,7 +3443,7 @@ s16 Mudokon::Brain_ListeningToAbe_State_4()
         }
         if (mYPos > pScreenManager->CamYPos() + FP_FromInteger(260) && field_180_emo_tbl != Mud_Emotion::eWired_6)
         {
-            if (field_10_resources_array.ItemAt(2))
+            if (mChisleMud)
             {
                 field_16A_flags.Clear(Flags_16A::eBit5_following);
                 mNextMotion = eMudMotions::Motion_11_Chisel;
@@ -3613,7 +3614,7 @@ s16 Mudokon::Brain_ListeningToAbe_State_4()
                                     }
                                     if (v35)
                                     {
-                                        if (field_10_resources_array.ItemAt(2))
+                                        if (mChisleMud)
                                         {
                                             mNextMotion = eMudMotions::Motion_11_Chisel;
                                             return Brain_4_ListeningToAbe::eBrain4_LostAttention_22;
@@ -3636,7 +3637,7 @@ s16 Mudokon::Brain_ListeningToAbe_State_4()
                                     return Brain_4_ListeningToAbe::eBrain4_PullingLever_11;
                                 }
 
-                                if (field_10_resources_array.ItemAt(2))
+                                if (mChisleMud)
                                 {
                                     mNextMotion = eMudMotions::Motion_11_Chisel;
                                     return Brain_4_ListeningToAbe::eBrain4_LostAttention_22;
@@ -3690,7 +3691,7 @@ s16 Mudokon::Brain_ListeningToAbe_State_4()
             else
             {
                 field_16A_flags.Clear(Flags_16A::eBit5_following);
-                if (!field_10_resources_array.ItemAt(2))
+                if (!mChisleMud)
                 {
                     mNextMotion = eMudMotions::Motion_15_CrouchIdle;
                     return Brain_4_ListeningToAbe::eBrain4_LostAttention_22;
@@ -3972,7 +3973,7 @@ s16 Mudokon::Brain_ListeningToAbe_State_7()
 {
     if (mYPos > pScreenManager->CamYPos() + FP_FromInteger(260) && field_180_emo_tbl != Mud_Emotion::eWired_6)
     {
-        if (field_10_resources_array.ItemAt(2))
+        if (mChisleMud)
         {
             field_16A_flags.Clear(Flags_16A::eBit5_following);
             mNextMotion = eMudMotions::Motion_11_Chisel;
@@ -4007,7 +4008,7 @@ s16 Mudokon::Brain_ListeningToAbe_State_7()
 
     if ((++field_17C_stand_idle_timer > 540 || Is_In_Current_Camera() != CameraPos::eCamCurrent_0) && field_180_emo_tbl != Mud_Emotion::eWired_6)
     {
-        if (field_10_resources_array.ItemAt(2))
+        if (mChisleMud)
         {
             field_16A_flags.Clear(Flags_16A::eBit5_following);
             mNextMotion = eMudMotions::Motion_11_Chisel;
@@ -4163,7 +4164,7 @@ s16 Mudokon::Brain_ListeningToAbe_State_7()
                     }
                     if (v35)
                     {
-                        if (field_10_resources_array.ItemAt(2))
+                        if (mChisleMud)
                         {
                             mNextMotion = eMudMotions::Motion_11_Chisel;
                             return Brain_4_ListeningToAbe::eBrain4_LostAttention_22;
@@ -4203,7 +4204,7 @@ s16 Mudokon::Brain_ListeningToAbe_State_7()
                 return field_190_brain_sub_state;
         }
 
-        if (field_10_resources_array.ItemAt(2))
+        if (mChisleMud)
         {
             mNextMotion = eMudMotions::Motion_11_Chisel;
             return Brain_4_ListeningToAbe::eBrain4_LostAttention_22;
@@ -4282,7 +4283,7 @@ s16 Mudokon::Brain_ListeningToAbe_State_11()
         pSwitch->VPull(mXPos < pSwitch->mXPos);
         field_16A_flags.Clear(Flags_16A::eBit5_following);
 
-        if (field_10_resources_array.ItemAt(2))
+        if (mChisleMud)
         {
             mNextMotion = eMudMotions::Motion_11_Chisel;
         }
@@ -4762,7 +4763,7 @@ s16 Mudokon::Brain_ListeningToAbe_State_21()
 
 s16 Mudokon::Brain_ListeningToAbe_State_22()
 {
-    if (field_10_resources_array.ItemAt(2))
+    if (mChisleMud)
     {
         mNextMotion = eMudMotions::Motion_11_Chisel;
     }
@@ -4778,7 +4779,7 @@ s16 Mudokon::Brain_ListeningToAbe_State_22()
 
     RemoveAlerted();
 
-    if (field_10_resources_array.ItemAt(2))
+    if (mChisleMud)
     {
         field_18E_brain_state = Mud_Brain_State::Brain_1_Chisel;
     }
