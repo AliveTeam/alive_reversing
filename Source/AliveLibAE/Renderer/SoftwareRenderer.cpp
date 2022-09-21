@@ -29,6 +29,9 @@ void SoftwareRenderer::Clear(u8 r, u8 g, u8 b)
     g = 127;
     b = 127;
     SDL_SetRenderDrawColor(mRenderer, r, g, b, 255);
+    
+    //SDL_SetRenderDrawBlendMode(mRenderer, SDL_BLENDMODE_BLEND);
+    
     /*
     s32 wW, wH;
     SDL_GetWindowSize(mWindow, &wW, &wH);
@@ -157,25 +160,14 @@ void SoftwareRenderer::SetClip(Prim_PrimClipper& clipper)
         //LOG_INFO("Set clip " << rect.x << ", " << rect.y << " " << rect.w << " " << rect.h);
         SDL_RenderSetClipRect(mRenderer, &rect);
     }
-    /*
-    sPSX_EMU_DrawEnvState_C3D080.field_0_clip.x = clipper.field_C_x;
-    sPSX_EMU_DrawEnvState_C3D080.field_0_clip.y = clipper.field_E_y;
-    sPSX_EMU_DrawEnvState_C3D080.field_0_clip.w = clipper.mBase.header.mRect.w;
-    sPSX_EMU_DrawEnvState_C3D080.field_0_clip.h = clipper.mBase.header.mRect.h;
-    PSX_SetDrawEnv_Impl_4FE420(
-        16 * clipper.field_C_x,
-        16 * clipper.field_E_y,
-        (16 * (clipper.field_C_x + clipper.mBase.header.mRect.w)) - 16,
-        (16 * (clipper.field_E_y + clipper.mBase.header.mRect.h)) - 16,
-        1000 / 2,
-        nullptr);
-    */
 }
 
+// ExplosionSet, ScreenShake, RollingBallShaker
 void SoftwareRenderer::SetScreenOffset(Prim_ScreenOffset& /*offset*/)
 {
 }
 
+// Blood, ZapLine, HintFly
 void SoftwareRenderer::Draw(Prim_Sprt& /*sprt*/)
 {
     /*
@@ -185,11 +177,13 @@ void SoftwareRenderer::Draw(Prim_Sprt& /*sprt*/)
     */
 }
 
+// LaughingGas
 void SoftwareRenderer::Draw(Prim_GasEffect& /*gasEffect*/)
 {
     // PSX_RenderLaughingGasEffect_4F7B80(gasEffect.x, gasEffect.y, gasEffect.w, gasEffect.h, gasEffect.pData);
 }
 
+// CircularFade, EffectBase
 void SoftwareRenderer::Draw(Prim_Tile& /*tile*/)
 {
     /*
@@ -199,6 +193,7 @@ void SoftwareRenderer::Draw(Prim_Tile& /*tile*/)
     */
 }
 
+// ThrowableTotalIndicator
 void SoftwareRenderer::Draw(Line_F2& /*line*/)
 {
     /*
@@ -206,34 +201,60 @@ void SoftwareRenderer::Draw(Line_F2& /*line*/)
     */
 }
 
+// SnoozeParticle, Spark, ThrowableTotalIndicator
 void SoftwareRenderer::Draw(Line_G2& /*line*/)
 {
     // PSX_Render_Line_Prim_4F7D90(&line, static_cast<s16>(mFrame_xOff), static_cast<s16>(mFrame_yOff));
 }
 
+// Only used by SnoozeParticle
 void SoftwareRenderer::Draw(Line_G4& /*line*/)
 {
     // PSX_Render_Line_Prim_4F7D90(&line, static_cast<s16>(mFrame_xOff), static_cast<s16>(mFrame_yOff));
 }
 
-void SoftwareRenderer::Draw(Poly_F3& /*poly*/)
+void SoftwareRenderer::Draw(Poly_F3& poly)
 {
-    /*
-    PrimAny any;
-    any.mPolyF3 = &poly;
-    DrawPoly(any);
-    */
-    //__debugbreak();
+    SDL_Vertex vert[3];
+
+    const u8 r = R0(&poly);
+    const u8 g = G0(&poly);
+    const u8 b = B0(&poly);
+
+    // center
+    vert[0].position.x = X0(&poly);
+    vert[0].position.y = Y0(&poly) * 2.0f;
+    vert[0].color.r = r;
+    vert[0].color.g = g;
+    vert[0].color.b = b;
+    vert[0].color.a = 255;
+
+    // left
+    vert[1].position.x = X1(&poly);
+    vert[1].position.y = Y1(&poly) * 2.0f;
+    vert[1].color.r = r;
+    vert[1].color.g = g;
+    vert[1].color.b = b;
+    vert[1].color.a = 255;
+
+    // right
+    vert[2].position.x = X2(&poly);
+    vert[2].position.y = Y2(&poly) * 2.0f;
+    vert[2].color.r = r;
+    vert[2].color.g = g;
+    vert[2].color.b = b;
+    vert[2].color.a = 255;
+
+    SDL_RenderGeometry(mRenderer, nullptr, vert, 3, nullptr, 0);
 }
 
-void SoftwareRenderer::Draw(Poly_G3& /*poly*/)
+void SoftwareRenderer::Draw(Poly_G3& poly)
 {
-    /*
     SDL_Vertex vert[3];
 
     // center
     vert[0].position.x = X0(&poly);
-    vert[0].position.y = Y0(&poly);
+    vert[0].position.y = Y0(&poly) * 2.0f;
     vert[0].color.r = R0(&poly);
     vert[0].color.g = G0(&poly);
     vert[0].color.b = B0(&poly);
@@ -241,7 +262,7 @@ void SoftwareRenderer::Draw(Poly_G3& /*poly*/)
 
     // left
     vert[1].position.x = X1(&poly);
-    vert[1].position.y = Y1(&poly);
+    vert[1].position.y = Y1(&poly) * 2.0f;
     vert[1].color.r = R1(&poly);
     vert[1].color.g = G1(&poly);
     vert[1].color.b = B1(&poly);
@@ -249,63 +270,55 @@ void SoftwareRenderer::Draw(Poly_G3& /*poly*/)
 
     // right
     vert[2].position.x = X2(&poly);
-    vert[2].position.y = Y2(&poly);
+    vert[2].position.y = Y2(&poly) * 2.0f;
     vert[2].color.r = R2(&poly);
     vert[2].color.g = G2(&poly);
     vert[2].color.b = B2(&poly);
     vert[2].color.a = 255;
 
     SDL_RenderGeometry(mRenderer, nullptr, vert, 3, nullptr, 0);
-    */
 }
 
-void SoftwareRenderer::Draw(Poly_F4& /*poly*/)
+void SoftwareRenderer::Draw(Poly_F4& poly)
 {
-    /*
-    PrimAny any;
-    any.mPolyF4 = &poly;
-    DrawPoly(any);
-    */
-    /*
     SDL_Vertex vert[4];
+
+    // TODO: Why isn't this semi transparent when a= 127 for the pause menu ??
+    const u8 a = (poly.mBase.header.rgb_code.code_or_pad & 2) ? 127 : 255;
 
     // center
     vert[0].position.x = X0(&poly);
-    vert[0].position.y = Y0(&poly);
+    vert[0].position.y = Y0(&poly) * 2.0f;
     vert[0].color.r = R0(&poly);
     vert[0].color.g = G0(&poly);
     vert[0].color.b = B0(&poly);
-    vert[0].color.a = 255;
+    vert[0].color.a = a;
 
     // left
     vert[1].position.x = X1(&poly);
-    vert[1].position.y = Y1(&poly);
+    vert[1].position.y = Y1(&poly) * 2.0f;
     vert[1].color.r = R0(&poly);
     vert[1].color.g = G0(&poly);
     vert[1].color.b = B0(&poly);
-    vert[1].color.a = 255;
+    vert[1].color.a = a;
 
     // right
     vert[2].position.x = X2(&poly);
-    vert[2].position.y = Y2(&poly);
+    vert[2].position.y = Y2(&poly) * 2.0f;
     vert[2].color.r = R0(&poly);
     vert[2].color.g = G0(&poly);
     vert[2].color.b = B0(&poly);
-    vert[2].color.a = 255;
+    vert[2].color.a = a;
 
     vert[3].position.x = X3(&poly);
-    vert[3].position.y = Y3(&poly);
+    vert[3].position.y = Y3(&poly) * 2.0f;
     vert[3].color.r = R0(&poly);
     vert[3].color.g = G0(&poly);
     vert[3].color.b = B0(&poly);
-    vert[3].color.a = 255;
+    vert[3].color.a = a;
 
     s32 indexList[6] = {0, 1, 2, 2, 1, 3};
     SDL_RenderGeometry(mRenderer, nullptr, vert, 4, indexList, 6);
-
-    // TODO
-    //__debugbreak();
-    */
 }
 
 void set_pixel(SDL_Surface* surface, int x, int y, u32 pixel)
@@ -372,14 +385,6 @@ static SDL_Texture* MakeTexture(SDL_Renderer* pRender, const u16* pPal, const u8
 
 void SoftwareRenderer::Draw(Poly_FT4& poly)
 {
-    /*
-    PrimAny any;
-    any.mPolyFT4 = &poly;
-    DrawPoly(any);
-    */
-
-    // TODO: texture test
-
     SDL_Texture* pTexture = nullptr;
     f32 u0 = 0.0f;
     f32 v0 = 0.0f;
@@ -412,7 +417,7 @@ void SoftwareRenderer::Draw(Poly_FT4& poly)
                         SDL_BLENDFACTOR_ONE_MINUS_SRC_ALPHA,
                        SDL_BLENDOPERATION_MAXIMUM);
                     */
-                    // SDL_SetRenderDrawBlendMode(mRenderer, bm);
+                    // 
 
                     SDL_SetTextureBlendMode(pTexture, SDL_BLENDMODE_BLEND);
                     break;
@@ -569,43 +574,34 @@ void SoftwareRenderer::Draw(Poly_FT4& poly)
     }
 }
 
-void SoftwareRenderer::Draw(Poly_G4& /*poly*/)
+void SoftwareRenderer::Draw(Poly_G4& poly)
 {
-    /*
-    PrimAny any;
-    any.mPolyG4 = &poly;
-    DrawPoly(any);
-    */
-
-    /*
     SDL_Vertex vert[4];
 
     // center
     vert[0].position.x = X0(&poly);
-    vert[0].position.y = Y0(&poly);
+    vert[0].position.y = Y0(&poly) * 2.0f;
     vert[0].color.r = R0(&poly);
     vert[0].color.g = G0(&poly);
     vert[0].color.b = B0(&poly);
     vert[0].color.a = 255;
 
-    // left
     vert[1].position.x = X1(&poly);
-    vert[1].position.y = Y1(&poly);
+    vert[1].position.y = Y1(&poly) * 2.0f;
     vert[1].color.r = R1(&poly);
     vert[1].color.g = G1(&poly);
     vert[1].color.b = B1(&poly);
     vert[1].color.a = 255;
 
-    // right
     vert[2].position.x = X2(&poly);
-    vert[2].position.y = Y2(&poly);
+    vert[2].position.y = Y2(&poly) * 2.0f;
     vert[2].color.r = R2(&poly);
     vert[2].color.g = G2(&poly);
     vert[2].color.b = B2(&poly);
     vert[2].color.a = 255;
 
     vert[3].position.x = X3(&poly);
-    vert[3].position.y = Y3(&poly);
+    vert[3].position.y = Y3(&poly) * 2.0f;
     vert[3].color.r = R3(&poly);
     vert[3].color.g = G3(&poly);
     vert[3].color.b = B3(&poly);
@@ -613,7 +609,6 @@ void SoftwareRenderer::Draw(Poly_G4& /*poly*/)
 
     s32 indexList[6] = {0, 1, 2, 2, 1, 3};
     SDL_RenderGeometry(mRenderer, nullptr, vert, 4, indexList, 6);
-    */
 }
 
 void SoftwareRenderer::DrawPoly(PrimAny& /*any*/)
