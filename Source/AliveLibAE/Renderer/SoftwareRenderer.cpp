@@ -124,8 +124,14 @@ void SoftwareRenderer::SetTPage(s16 /*tPage*/)
     // PSX_TPage_Change_4F6430(tPage);
 }
 
-void SoftwareRenderer::SetClip(Prim_PrimClipper& /*clipper*/)
+void SoftwareRenderer::SetClip(Prim_PrimClipper& clipper)
 {
+    SDL_Rect rect;
+    rect.x = clipper.field_C_x;
+    rect.y = clipper.field_E_y;
+    rect.w = clipper.mBase.header.mRect.w;
+    rect.h = clipper.mBase.header.mRect.h;
+    SDL_RenderSetClipRect(mRenderer, &rect);
     /*
     sPSX_EMU_DrawEnvState_C3D080.field_0_clip.x = clipper.field_C_x;
     sPSX_EMU_DrawEnvState_C3D080.field_0_clip.y = clipper.field_E_y;
