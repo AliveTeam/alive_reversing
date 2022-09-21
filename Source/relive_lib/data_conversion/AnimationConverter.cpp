@@ -295,7 +295,16 @@ AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const
     // Write json file
     AnimAttributes attributes = {};
     // TODO: Current values are kind of nonsense, map to something sane
+
     attributes.mFrameRate = pAnimationHeader->field_0_fps;
+
+    if (rec.mId == AnimId::RockSack_Idle)
+    {
+        // Replicate OWI hack that was in the object ctor, we do it in the data conversion so
+        // the game object doesn't need the hack.
+        attributes.mFrameRate = 0;
+    }
+
     attributes.mFlipX = (pAnimationHeader->field_6_flags & AnimationHeader::eFlipXFlag) ? true : false;
     attributes.mFlipY = (pAnimationHeader->field_6_flags & AnimationHeader::eFlipYFlag) ? true : false;
     attributes.mLoop = (pAnimationHeader->field_6_flags & AnimationHeader::eLoopFlag) ? true : false;
