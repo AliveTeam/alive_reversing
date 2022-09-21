@@ -41,6 +41,7 @@ private:
 
     SDL_Texture* mBackBufferTexture = nullptr;
     SDL_Renderer* mRenderer = nullptr;
+    TWindowHandleType mWindow = nullptr;
 
     s32 mLastH = 0;
     s32 mLastW = 0;

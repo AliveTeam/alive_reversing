@@ -13,11 +13,12 @@ void SoftwareRenderer::Destroy()
 
 bool SoftwareRenderer::Create(TWindowHandleType window)
 {
+    mWindow = window;
     mRenderer = SDL_CreateRenderer(window, -1, 0);
     if (mRenderer)
     {
-        //SDL_RenderSetLogicalSize(mRenderer, 640, 480 / 2);
-        SDL_RenderSetScale(mRenderer, 1.0f, 2.0f);
+        SDL_RenderSetLogicalSize(mRenderer, 640, 480);
+        //SDL_RenderSetScale(mRenderer, 1.0f, 2.0f);
     }
     return mRenderer != nullptr;
 }
@@ -28,6 +29,17 @@ void SoftwareRenderer::Clear(u8 r, u8 g, u8 b)
     g = 127;
     b = 127;
     SDL_SetRenderDrawColor(mRenderer, r, g, b, 255);
+    /*
+    s32 wW, wH;
+    SDL_GetWindowSize(mWindow, &wW, &wH);
+
+    SDL_Rect rect;
+    rect.x = 0;
+    rect.y = 0;
+    rect.w = wW;
+    rect.h = wH;
+    SDL_RenderSetViewport(mRenderer, &rect);
+*/
 }
 
 void SoftwareRenderer::StartFrame(s32 xOff, s32 yOff)
@@ -72,7 +84,10 @@ void SoftwareRenderer::EndFrame()
 {
     SDL_RenderPresent(mRenderer);
     mFrameStarted = false;
-    SDL_RenderClear(mRenderer);
+    
+    // this breaks the "Abes Exoddus" intro text, not sure if it breaks anything else yet
+    // but stops all of the flicker by emulating how the vram was "sticky"
+    //SDL_RenderClear(mRenderer);
 }
 
 void SoftwareRenderer::BltBackBuffer(const SDL_Rect* /*pCopyRect*/, const SDL_Rect* /*pDst*/)
@@ -128,10 +143,20 @@ void SoftwareRenderer::SetClip(Prim_PrimClipper& clipper)
 {
     SDL_Rect rect;
     rect.x = clipper.field_C_x;
-    rect.y = clipper.field_E_y;
+    rect.y = clipper.field_E_y*2;
     rect.w = clipper.mBase.header.mRect.w;
-    rect.h = clipper.mBase.header.mRect.h;
-    SDL_RenderSetClipRect(mRenderer, &rect);
+    rect.h = clipper.mBase.header.mRect.h*2;
+
+    // HACK: turn it off when the FMV change sets it to be this which makes no sense
+    if (rect.x == 0 && rect.y == 0 && rect.w == 1 && rect.h == 2)
+    {
+        SDL_RenderSetClipRect(mRenderer, nullptr);
+    }
+    else
+    {
+        //LOG_INFO("Set clip " << rect.x << ", " << rect.y << " " << rect.w << " " << rect.h);
+        SDL_RenderSetClipRect(mRenderer, &rect);
+    }
     /*
     sPSX_EMU_DrawEnvState_C3D080.field_0_clip.x = clipper.field_C_x;
     sPSX_EMU_DrawEnvState_C3D080.field_0_clip.y = clipper.field_E_y;
@@ -493,13 +518,13 @@ void SoftwareRenderer::Draw(Poly_FT4& poly)
 
     SDL_Vertex vert[4];
 
-    u8 r = R0(&poly);
-    u8 g = G0(&poly);
-    u8 b = B0(&poly);
+    u8 r = R0(&poly) + 127;
+    u8 g = G0(&poly) + 127;
+    u8 b = B0(&poly) + 127;
 
     // center
     vert[0].position.x = X0(&poly);
-    vert[0].position.y = Y0(&poly);
+    vert[0].position.y = Y0(&poly) * 2.0f;
     vert[0].color.r = r;
     vert[0].color.g = g;
     vert[0].color.b = b;
@@ -509,7 +534,7 @@ void SoftwareRenderer::Draw(Poly_FT4& poly)
 
     // left
     vert[1].position.x = X1(&poly);
-    vert[1].position.y = Y1(&poly);
+    vert[1].position.y = Y1(&poly) * 2.0f;
     vert[1].color.r = r;
     vert[1].color.g = g;
     vert[1].color.b = b;
@@ -519,7 +544,7 @@ void SoftwareRenderer::Draw(Poly_FT4& poly)
 
     // right
     vert[2].position.x = X2(&poly);
-    vert[2].position.y = Y2(&poly);
+    vert[2].position.y = Y2(&poly) * 2.0f;
     vert[2].color.r = r;
     vert[2].color.g = g;
     vert[2].color.b = b;
@@ -528,7 +553,7 @@ void SoftwareRenderer::Draw(Poly_FT4& poly)
     vert[2].tex_coord.y = v1;
 
     vert[3].position.x = X3(&poly);
-    vert[3].position.y = Y3(&poly);
+    vert[3].position.y = Y3(&poly) * 2.0f;
     vert[3].color.r = r;
     vert[3].color.g = g;
     vert[3].color.b = b;
