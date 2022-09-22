@@ -581,12 +581,6 @@ BoneBag::BoneBag(relive::Path_BoneBag* pTlv, const Guid& tlvId)
     SetType(ReliveTypes::eBoneBag);
 
     LoadAnimations();
-
-    const AnimRecord& rec = AnimRec(AnimId::BoneBag_Idle);
-    u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-    // TODO: Super super OWI hack, WTF?? Figure out exactly what this is patching in the animation
-    *((u16*) *ppRes + 4374) = 0;
-
     Animation_Init(GetAnimRes(AnimId::BoneBag_Idle));
     mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
     SetTint(&kBoneTints_550EC0[0], gMap.mCurrentLevel);
@@ -661,7 +655,6 @@ void BoneBag::VUpdate()
 
     if (mIsBagHit)
     {
-        // dead code??
         if (mIsBagHit != 1)
         {
             return;
