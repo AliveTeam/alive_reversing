@@ -275,8 +275,6 @@ public:
 
     MainMenuNextCam Page_FMV_Level_Update_4D4AB0(u32 input_held);
 
-    void Unload_AbeSpeakResources();
-
     // Front End
     MainMenuNextCam Page_Front_Update_4D0720(u32 input);
     void Page_Front_Render_4D24B0(PrimHeader** ot);

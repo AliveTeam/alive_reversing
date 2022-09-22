@@ -905,13 +905,13 @@ MainMenuNextCam MainMenuController::SligSpeak_Update_4D3280(u32 input_held)
 void MainMenuController::SligSpeak_Unload_4D3170()
 {
     Unload_Resource(AnimId::MenuSligSpeak_Idle);
+    Game_ShowLoadingIcon_482D80();
     Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eAbe_Idle);
 }
 
 void MainMenuController::SligSpeak_Load_4D3090()
 {
-    Unload_AbeSpeakResources();
-
+    Game_ShowLoadingIcon_482D80();
     mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuSligSpeak_Idle));
     Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eSlig_Idle);
 }
@@ -960,14 +960,13 @@ MainMenuNextCam MainMenuController::GlukkonSpeak_Update_4D3670(u32 input_held)
 
 void MainMenuController::GlukkonSpeak_Unload_4D3560()
 {
-    //Unload_Resource(MainMenuGamespeakAnimIds::eGlukkon_Idle);
-    //Load_AbeSpeakResources();
+    Game_ShowLoadingIcon_482D80();
     Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eAbe_Idle);
 }
 
 void MainMenuController::GlukkonSpeak_Load_4D3480()
 {
-    //Unload_AbeSpeakResources();
+    Game_ShowLoadingIcon_482D80();
     mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuGlukkonSpeak_Idle));
     Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eGlukkon_Idle);
 }
@@ -1010,11 +1009,13 @@ MainMenuNextCam MainMenuController::ScrabSpeak_Update_4D3A60(u32 input_held)
 
 void MainMenuController::ScrabSpeak_Unload_4D3950()
 {
+    Game_ShowLoadingIcon_482D80();
     Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eAbe_Idle);
 }
 
 void MainMenuController::ScrabSpeak_Load_4D3870()
 {
+    Game_ShowLoadingIcon_482D80();
     Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eScrab_Idle);
 }
 
@@ -1065,11 +1066,13 @@ MainMenuNextCam MainMenuController::ParamiteSpeak_Update_4D3D60(u32 input_held)
 
 void MainMenuController::ParamiteSpeak_Unload_4D3C50()
 {
+    Game_ShowLoadingIcon_482D80();
     Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eAbe_Idle);
 }
 
 void MainMenuController::ParamiteSpeak_Load_4D3B70()
 {
+    Game_ShowLoadingIcon_482D80();
     mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuParamiteSpeak_Idle));
     Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eParamite_Idle);
 }
@@ -3758,30 +3761,4 @@ void MainMenuController::DrawMenuText_4D20D0(const MainMenuText* array, PrimHead
         0);
 
     sFontDrawScreenSpace_5CA4B4 = oldDrawInScreenSpace;
-}
-
-void MainMenuController::Unload_AbeSpeakResources()
-{
-    /*
-    // If they are currently loading wait for them to finish
-    if (!field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak] || !field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2])
-    {
-        pResourceManager_5C1BB0->LoadingLoop_465590(FALSE);
-    }
-
-    // And then bin them off to make room for new resources
-    ResourceManager::FreeResource_49C330(field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak]);
-    ResourceManager::FreeResource_49C330(field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
-
-    field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2] = nullptr;
-    field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak] = nullptr;
-    */
-
-    // Prevent animation since its now unloaded
-    mAnim.mFlags.Clear(AnimFlags::eBit2_Animate);
-
-    // Compact the heap
-    ResourceManager::Reclaim_Memory_49C470(0);
-
-    Game_ShowLoadingIcon_482D80();
 }
