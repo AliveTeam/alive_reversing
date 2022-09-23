@@ -25,8 +25,8 @@ enum eLineTypes : u8
     eBackgroundMineCarFloor_14 = 14,
     eBackgroundMineCarWall_15 = 15,
     eBackgroundMineCarCeiling_16 = 16,
-    eFlyingSligCeiling_17 = 17,
-    eBackgroundFlyingSligCeiling_18 = 18,
+    eFlyingObjectWall_17 = 17,
+    eBackgroundFlyingObjectWall_18 = 18,
 
     eDynamicCollision_32 = 32,
     eBackgroundDynamicCollision_36 = 36,

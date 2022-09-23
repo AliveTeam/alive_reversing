@@ -66,7 +66,7 @@ EvilFart::EvilFart()
             &pLine,
             &hitX,
             &hitY,
-            mScale == Scale::Fg ? CollisionMask(eFlyingSligCeiling_17, eWallRight_2, eWallLeft_1) : CollisionMask(eBackgroundFlyingSligCeiling_18, eBackgroundWallRight_6, eBackgroundWallLeft_5)))
+            mScale == Scale::Fg ? CollisionMask(eFlyingObjectWall_17, eWallRight_2, eWallLeft_1) : CollisionMask(eBackgroundFlyingObjectWall_18, eBackgroundWallRight_6, eBackgroundWallLeft_5)))
     {
         mXPos = sActiveHero->mXPos;
     }
@@ -453,7 +453,7 @@ void EvilFart::VUpdate()
                 &pLine,
                 &hitX,
                 &hitY,
-                mScale == Scale::Fg ? CollisionMask(eFlyingSligCeiling_17, eWallRight_2, eWallLeft_1) : CollisionMask(eBackgroundFlyingSligCeiling_18, eBackgroundWallRight_6, eBackgroundWallLeft_5)))
+                mScale == Scale::Fg ? CollisionMask(eFlyingObjectWall_17, eWallRight_2, eWallLeft_1) : CollisionMask(eBackgroundFlyingObjectWall_18, eBackgroundWallRight_6, eBackgroundWallLeft_5)))
         {
             mVelX = FP_FromInteger(0);
         }
@@ -470,7 +470,7 @@ void EvilFart::VUpdate()
                 &pLine,
                 &hitX,
                 &hitY,
-                mScale == Scale::Fg ? CollisionMask(eFlyingSligCeiling_17, eCeiling_3, eFloor_0, eDynamicCollision_32) : CollisionMask(eBackgroundFlyingSligCeiling_18, eBackgroundCeiling_7, eBackgroundFloor_4, eBackgroundDynamicCollision_36)))
+                mScale == Scale::Fg ? CollisionMask(eFlyingObjectWall_17, eCeiling_3, eFloor_0, eDynamicCollision_32) : CollisionMask(eBackgroundFlyingObjectWall_18, eBackgroundCeiling_7, eBackgroundFloor_4, eBackgroundDynamicCollision_36)))
         {
             mVelY = FP_FromInteger(0);
         }

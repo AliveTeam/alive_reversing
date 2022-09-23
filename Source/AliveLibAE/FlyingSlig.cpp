@@ -2909,6 +2909,10 @@ s16 FlyingSlig::CollisionUp_43A640(FP velY)
         xOff1 = ((mSpriteScale * FP_FromInteger(17)) / FP_FromInteger(3));
     }
 
+
+    const CollisionMask fgMask = CollisionMask(eDynamicCollision_32, eFlyingObjectWall_17, eCeiling_3);
+    const CollisionMask bgMask = CollisionMask(eBackgroundDynamicCollision_36, eBackgroundFlyingObjectWall_18, eBackgroundCeiling_7);
+
     FP hitX = {};
     FP hitY = {};
     PathLine* pLine = nullptr;
@@ -2920,7 +2924,7 @@ s16 FlyingSlig::CollisionUp_43A640(FP velY)
         &pLine,
         &hitX,
         &hitY,
-        mScale == Scale::Fg ? CollisionMask(eFloor_0, eDynamicCollision_32, eWallLeft_1, eWallRight_2, eFlyingSligCeiling_17) : CollisionMask(eBackgroundFloor_4, eBackgroundDynamicCollision_36, eBackgroundWallLeft_5, eBackgroundWallRight_6, eBackgroundFlyingSligCeiling_18));
+        mScale == Scale::Fg ? fgMask : bgMask);
     
     if (!bCollision)
     {
@@ -2932,9 +2936,7 @@ s16 FlyingSlig::CollisionUp_43A640(FP velY)
             &pLine,
             &hitX,
             &hitY,
-            mScale == Scale::Fg ?
-            CollisionMask(eFloor_0, eDynamicCollision_32, eWallLeft_1, eWallRight_2, eFlyingSligCeiling_17) :
-            CollisionMask(eBackgroundFloor_4, eBackgroundDynamicCollision_36, eBackgroundWallLeft_5, eBackgroundWallRight_6, eBackgroundFlyingSligCeiling_18));
+            mScale == Scale::Fg ? fgMask : bgMask);
     }
 
     if (bCollision)
@@ -2982,6 +2984,9 @@ s16 FlyingSlig::CollisionDown_43A9E0(FP velY)
         xOff2 = (mSpriteScale * FP_FromInteger(17));
     }
 
+    const CollisionMask fgMask = CollisionMask(eFloor_0, eDynamicCollision_32, eFlyingObjectWall_17);
+    const CollisionMask bgMask = CollisionMask(eBackgroundFloor_4, eBackgroundDynamicCollision_36, eBackgroundFlyingObjectWall_18);
+
     FP hitX = {};
     FP hitY = {};
     PathLine* pLine = nullptr;
@@ -2993,9 +2998,7 @@ s16 FlyingSlig::CollisionDown_43A9E0(FP velY)
         &pLine,
         &hitX,
         &hitY,
-        mScale == Scale::Fg ? 
-        CollisionMask(eFloor_0, eDynamicCollision_32, eFlyingSligCeiling_17) : 
-        CollisionMask(eBackgroundFloor_4, eBackgroundDynamicCollision_36, eBackgroundFlyingSligCeiling_18));
+        mScale == Scale::Fg ? fgMask : bgMask);
 
     if (!bCollision)
     {
@@ -3007,10 +3010,7 @@ s16 FlyingSlig::CollisionDown_43A9E0(FP velY)
             &pLine,
             &hitX,
             &hitY,
-            mScale == Scale::Fg ? 
-            CollisionMask(eFloor_0, eDynamicCollision_32, eFlyingSligCeiling_17) : 
-            CollisionMask(eBackgroundFloor_4, eBackgroundDynamicCollision_36, eBackgroundFlyingSligCeiling_18));
-
+            mScale == Scale::Fg ? fgMask : bgMask);
     }
 
     if (bCollision)
@@ -3059,7 +3059,7 @@ s16 FlyingSlig::CollisionLeftRight_43AC80(FP velX)
         &pLine,
         &hitX,
         &hitY,
-        mScale == Scale::Fg ? CollisionMask(eWallLeft_1, eWallRight_2, eFlyingSligCeiling_17) : CollisionMask(eBackgroundWallLeft_5, eBackgroundWallRight_6, eBackgroundFlyingSligCeiling_18));
+        mScale == Scale::Fg ? CollisionMask(eWallLeft_1, eWallRight_2, eFlyingObjectWall_17) : CollisionMask(eBackgroundWallLeft_5, eBackgroundWallRight_6, eBackgroundFlyingObjectWall_18));
 
     FP sparkX = {};
     if (bCollision)
@@ -3086,7 +3086,7 @@ s16 FlyingSlig::CollisionLeftRight_43AC80(FP velX)
             &pLine,
             &hitX,
             &hitY,
-            mScale == Scale::Fg ? CollisionMask(eWallLeft_1, eWallRight_2, eFlyingSligCeiling_17) : CollisionMask(eBackgroundWallLeft_5, eBackgroundWallRight_6, eBackgroundFlyingSligCeiling_18));
+            mScale == Scale::Fg ? CollisionMask(eWallLeft_1, eWallRight_2, eFlyingObjectWall_17) : CollisionMask(eBackgroundWallLeft_5, eBackgroundWallRight_6, eBackgroundFlyingObjectWall_18));
 
         if (bCollision)
         {

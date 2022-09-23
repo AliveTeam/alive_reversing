@@ -187,8 +187,8 @@ void TypesCollectionAE::AddAETypes()
         {eLineTypes::eBackgroundMineCarFloor_14, "Background Mine Car Floor"},
         {eLineTypes::eBackgroundMineCarWall_15, "Background Mine Car Wall"},
         {eLineTypes::eBackgroundMineCarCeiling_16, "Background Mine Car Ceiling"},
-        {eLineTypes::eFlyingSligCeiling_17, "Flying Slig Ceiling"},
-        {eLineTypes::eBackgroundFlyingSligCeiling_18, "Background Flying Slig Ceiling"},
+        {eLineTypes::eFlyingObjectWall_17, "Flying Slig Ceiling"},
+        {eLineTypes::eBackgroundFlyingObjectWall_18, "Background Flying Slig Ceiling"},
         {eLineTypes::eDynamicCollision_32, "Unknown 32"},
         {eLineTypes::eBackgroundDynamicCollision_36, "Unknown 36"},
     });
