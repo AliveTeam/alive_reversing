@@ -57,7 +57,7 @@ JsonWriterAO::JsonWriterAO(s32 pathId, const std::string& pathBndName, const Pat
     }
 
     return mapObjects;*/
-    return nullptr;
+    return {};
 }
 
 [[nodiscard]] jsonxx::Array JsonWriterAO::AddCollisionLineStructureJson()

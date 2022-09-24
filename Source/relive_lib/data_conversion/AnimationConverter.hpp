@@ -1,7 +1,7 @@
 #pragma once
 
 #include "file_system.hpp"
-#include "../AliveLibCommon/AnimResources.hpp"
+#include "../../AliveLibCommon/AnimResources.hpp"
 #include <vector>
 
 struct AnimationPal final

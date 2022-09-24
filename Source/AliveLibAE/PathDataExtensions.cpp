@@ -1,5 +1,4 @@
 #include "PathDataExtensions.hpp"
-#include "PathData.hpp"
 #include "LvlArchive.hpp"
 #include "LCDScreen.hpp"
 #include "../AliveLibCommon/PathDataExtensionsTypes.hpp"

@@ -115,15 +115,22 @@ public:
             if (dirPos != std::string::npos)
             {
                 dirPart = dirPart + fullPath.substr(0, dirPos);
+                #ifdef _WIN32
                 ::CreateDirectoryA(dirPart.c_str(), nullptr);
+                #else
+                mkdir(dirPart.c_str(), 777);
+                #endif
                 dirPart.append(1, kDirSeperator);
                 fullPath = fullPath.substr(dirPos + 1);
                 dirPos = fullPath.find_first_of(kDirSeperator);
             }
         }
         while (dirPos != std::string::npos);
-
+        #ifdef _WIN32
         ::CreateDirectoryA(path.GetPath().c_str(), nullptr);
+        #else
+        mkdir(dirPart.c_str(), 777);
+        #endif
     }
 
 };

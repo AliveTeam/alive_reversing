@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../AliveLibCommon/Function.hpp"
-#include "../../relive_lib/data_conversion/guid.hpp"
+#include "../relive_lib/data_conversion/guid.hpp"
 #include <map> // TODO: consider our own lib
 
 class BaseGameObject;

@@ -1,7 +1,6 @@
 #include "GameAutoPlayer.hpp"
 #include "Input.hpp"
 #include "Sys_common.hpp"
-#include "../relive_lib/BaseGameObject.hpp"
 #include "BaseAliveGameObject.hpp"
 
 void Recorder::SaveObjectStates()

@@ -180,7 +180,7 @@ public:
     s16 field_20_camX_idx = 0;
     s16 field_22_camY_idx = 0;
     u16 field_24_max_cams_x = 0;
-    u16 field_26_max_cams_y = 0;;
+    u16 field_26_max_cams_y = 0;
     s16 field_2A = 0;
     FP_Point field_2C_camera_offset = {};
     Camera* field_34_camera_array[5] = {};

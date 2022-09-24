@@ -12,7 +12,8 @@
 #include "../MapWrapper.hpp"
 #include <vector>
 #include <algorithm>
-
+#include <cctype>
+#include <string>
 
 #include "nlohmann/json.hpp"
 #include "../../Tools/relive_api/LvlReaderWriter.hpp"
@@ -1246,7 +1247,13 @@ void DataConversion::ConvertDataAE()
         // Open the LVL file
         const EReliveLevelIds reliveLvl = MapWrapper::FromAE(lvlIdxAsLvl);
         ReliveAPI::FileIO fileIo;
-        ReliveAPI::LvlReader lvlReader(fileIo, (std::string(::Path_Get_Lvl_Name(reliveLvl)) + ".LVL").c_str());
+
+        auto lvName = std::string(::Path_Get_Lvl_Name(reliveLvl)) + ".LVL";
+        std::transform(lvName.begin(), lvName.end(), lvName.begin(),
+            [](unsigned char c){ return std::tolower(c); }
+        );
+
+        ReliveAPI::LvlReader lvlReader(fileIo, lvName.c_str());
 
         if (!lvlReader.IsOpen())
         {

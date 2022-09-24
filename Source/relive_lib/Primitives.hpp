@@ -2,7 +2,6 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "../AliveLibCommon/Primitives_common.hpp"
-#include "../relive_lib/BaseGameObject.hpp"
 #include "../AliveLibAE/Psx.hpp"
 #include "../relive_lib/Layer.hpp"
 
