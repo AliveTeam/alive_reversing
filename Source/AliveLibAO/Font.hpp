@@ -4,6 +4,7 @@
 #include "../AliveLibCommon/FixedPoint_common.hpp"
 #include "Psx.hpp"
 #include "../relive_lib/Primitives.hpp"
+#include "../relive_lib/ResourceManagerWrapper.hpp"
 
 struct PrimHeader;
 

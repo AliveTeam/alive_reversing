@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
-#include "../AliveLibAO/Slig_DisabledResources.hpp"
+#include "../BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../../AliveLibAO/Slig_DisabledResources.hpp"
 #include "guid.hpp"
 
 // all tlv map types

@@ -2,7 +2,9 @@
 
 #include "Primitives.hpp"
 #include "Layer.hpp"
-#include "../relive_lib/ResourceManagerWrapper.hpp"
+#include "ResourceManagerWrapper.hpp"
+#include "DynamicArray.hpp"
+#include "../AliveLibCommon/BitField.hpp"
 
 enum AnimFlags
 {

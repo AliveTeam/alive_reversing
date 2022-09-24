@@ -3,6 +3,8 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/Primitives.hpp"
 #include "../relive_lib/MapWrapper.hpp"
+#include "../relive_lib/DynamicArray.hpp"
+#include "../relive_lib/ResourceManagerWrapper.hpp"
 
 enum class LevelIds : s16;
 

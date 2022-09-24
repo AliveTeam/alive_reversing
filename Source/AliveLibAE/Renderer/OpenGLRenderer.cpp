@@ -1,5 +1,3 @@
-#include "../stdafx.h"
-
 #include "OpenGLRenderer.hpp"
 #include "../Compression.hpp"
 #include "../relive_lib/VRam.hpp"
