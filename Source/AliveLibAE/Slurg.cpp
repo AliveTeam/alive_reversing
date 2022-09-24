@@ -103,7 +103,7 @@ Slurg::Slurg(relive::Path_Slurg* pTlv, const Guid& tlvId)
         mYPos = hitY;
     }
 
-    mSlurgSwitchId = pTlv->mSwitchId;
+    mSlurgSwitchId = pTlv->mSlurgSwitchId;
 
     mSlurgFlags.Clear();
 

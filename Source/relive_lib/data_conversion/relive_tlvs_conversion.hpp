@@ -3923,7 +3923,7 @@ public:
         r.mMovingTimer = tlv.mSlurgData.mMovingTimer;
         r.mFacing = relive::From(tlv.mSlurgData.mFacing);
         r.mScale = relive::From(tlv.mSlurgData.mScale);
-        r.mSwitchId = tlv.mSlurgData.mSwitchId;
+        r.mSlurgSwitchId = tlv.mSlurgData.mSwitchId;
         return r;
     }
 };
@@ -4043,7 +4043,13 @@ public:
         BaseConvert(r, tlv, tlvId);
         r.mSpawnInterval = tlv.mSpawnerData.mSpawnInterval;
         r.mMaxSlurgs = tlv.mSpawnerData.mMaxSlurgs;
-        r.mSwitchId = tlv.mSpawnerData.mSwitchId;
+        r.mSpawnerSwitchId = tlv.mSpawnerData.mSwitchId;
+
+        // Path_Slurg
+        r.mMovingTimer = tlv.mSlurgData.mMovingTimer;
+        r.mFacing = relive::From(tlv.mSlurgData.mFacing);
+        r.mScale = relive::From(tlv.mSlurgData.mScale);
+        r.mSlurgSwitchId = tlv.mSlurgData.mSwitchId;
         return r;
     }
 };

@@ -3105,7 +3105,7 @@ inline void to_json(nlohmann::json& j, const Path_Slurg& p)
         {"moving_timer", p.mMovingTimer},
         {"facing", p.mFacing},
         {"scale", p.mScale},
-        {"switch_id", p.mSwitchId},
+        {"switch_id", p.mSlurgSwitchId},
     };
 }
 
@@ -3115,7 +3115,7 @@ inline void from_json(const nlohmann::json& j, Path_Slurg& p)
     j.at("moving_timer").get_to(p.mMovingTimer);
     j.at("facing").get_to(p.mFacing);
     j.at("scale").get_to(p.mScale);
-    j.at("switch_id").get_to(p.mSwitchId);
+    j.at("switch_id").get_to(p.mSlurgSwitchId);
 }
 
 // Path_LaughingGas
@@ -3272,7 +3272,11 @@ inline void to_json(nlohmann::json& j, const Path_SlurgSpawner& p)
         {"base", ToBase(p)},
         {"spawn_interval", p.mSpawnInterval},
         {"max_slurgs", p.mMaxSlurgs},
-        {"switch_id", p.mSwitchId},
+        {"spawner_switch_id", p.mSpawnerSwitchId},
+        {"moving_timer", p.mMovingTimer},
+        {"facing", p.mFacing},
+        {"scale", p.mScale},
+        {"slurg_switch_id", p.mSlurgSwitchId},
     };
 }
 
@@ -3281,7 +3285,11 @@ inline void from_json(const nlohmann::json& j, Path_SlurgSpawner& p)
     j.at("base").get_to(ToBase(p));
     j.at("spawn_interval").get_to(p.mSpawnInterval);
     j.at("max_slurgs").get_to(p.mMaxSlurgs);
-    j.at("switch_id").get_to(p.mSwitchId);
+    j.at("spawner_switch_id").get_to(p.mSpawnerSwitchId);
+    j.at("moving_timer").get_to(p.mMovingTimer);
+    j.at("facing").get_to(p.mFacing);
+    j.at("scale").get_to(p.mScale);
+    j.at("slurg_switch_id").get_to(p.mSlurgSwitchId);
 }
 
 // Path_Drill

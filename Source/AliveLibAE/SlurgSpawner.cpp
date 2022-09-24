@@ -9,7 +9,7 @@ static void SetData(const relive::Path_SlurgSpawner& tlv, Slurg_Spawner_Path_Dat
 {
     data.mSpawnInterval = tlv.mSpawnInterval;
     data.mMaxSlurgs = tlv.mMaxSlurgs;
-    data.mSwitchId = tlv.mSwitchId;
+    data.mSwitchId = tlv.mSpawnerSwitchId;
     data.padding = 0;
 }
 

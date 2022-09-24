@@ -2004,7 +2004,7 @@ struct Path_Slurg : public Path_TLV
     s16 mMovingTimer = 0;
     reliveXDirection mFacing = reliveXDirection::eRight;
     reliveScale mScale = reliveScale::eFull;
-    s16 mSwitchId = 0;
+    s16 mSlurgSwitchId = 0;
 };
 
 struct Path_LaughingGas final : public Path_TLV
@@ -2103,7 +2103,7 @@ struct Path_SlurgSpawner final : public Path_Slurg
     }
     s16 mSpawnInterval = 0;
     s16 mMaxSlurgs = 0;
-    s16 mSwitchId = 0;
+    s16 mSpawnerSwitchId = 0;
 };
 
 struct Path_Drill final : public Path_TLV
