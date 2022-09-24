@@ -1694,6 +1694,12 @@ struct Path_ScrabSpawner : public Path_Scrab
 
 struct Path_Slig_Data final
 {
+    enum class DeathMode
+    {
+        StandIdle,
+        FallForward,
+    };
+
     reliveScale mScale = reliveScale::eFull;
 
     enum class StartState : s16
@@ -1708,6 +1714,7 @@ struct Path_Slig_Data final
     };
     StartState mStartState = StartState::Patrol;
 
+    DeathMode mDeathMode = DeathMode::FallForward;
     s16 mPauseTime = 0;
     s16 mPauseLeftMin = 0;
     s16 mPauseLeftMax = 0;

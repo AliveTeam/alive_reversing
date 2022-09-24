@@ -436,6 +436,8 @@ private:
 
     s16 FindLiftPoint_4B9B40();
 
+    AnimId MotionToAnimId(u32 motion);
+
 public:
     void SetBrain(TSligBrainFn fn);
     bool BrainIs(TSligBrainFn fn);

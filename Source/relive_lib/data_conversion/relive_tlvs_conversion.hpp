@@ -3425,6 +3425,19 @@ public:
         r.mData.mNoiseWakeUpDistance = tlv.mNoiseWakeUpDistance;
         r.mData.mSligSpawnerSwitchId = tlv.mSligSpawnerSwitchId;
         r.mData.mUnlimitedSpawns = relive::From(tlv.mUnlimitedSpawns);
+
+        // TODO: Add flags/constants for these
+        if (tlv.mDisabledResources & 0x80)
+        {
+            // When dead just shrink in the idle anim - happens in OG when
+            // certain resources are turned off. Replicate to avoid de-syncs in playbacks
+            r.mData.mDeathMode = Path_Slig_Data::DeathMode::StandIdle;
+        }
+        else
+        {
+            r.mData.mDeathMode = Path_Slig_Data::DeathMode::FallForward;
+        }
+
         return r;
     }
 

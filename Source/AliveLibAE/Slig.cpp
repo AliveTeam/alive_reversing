@@ -315,6 +315,21 @@ const TSligBrainFn sSligBrainTable[36] = {
     &Slig::Brain_Sleeping_34_4B9170,
     &Slig::Brain_ChaseAndDisappear_35_4BF640};
 
+AnimId Slig::MotionToAnimId(u32 motion)
+{
+    if (motion > ALIVE_COUNTOF(sSligAnimIdTable))
+    {
+        ALIVE_FATAL("Motion out of bounds");
+    }
+
+    if (motion == eSligMotions::M_Smash_44_4B6B90 && field_218_tlv_data.mData.mDeathMode == relive::Path_Slig_Data::DeathMode::StandIdle)
+    {
+        mCurrentMotion = eSligMotions::M_StandIdle_0_4B4EC0;
+        return AnimId::Slig_Idle;
+    }
+    return sSligAnimIdTable[motion];
+}
+
 void Slig::SetBrain(TSligBrainFn fn)
 {
     field_154_brain_state = fn;
@@ -739,7 +754,7 @@ s32 Slig::CreateFromSaveState(const u8* pBuffer)
 
         pSlig->mCurrentMotion = pState->field_26_current_motion;
         //u8** ppRes = pSlig->ResForMotion_4B1E90(pSlig->mCurrentMotion);
-        pSlig->mAnim.Set_Animation_Data(pSlig->GetAnimRes(sSligAnimIdTable[pState->field_26_current_motion]));
+        pSlig->mAnim.Set_Animation_Data(pSlig->GetAnimRes(pSlig->MotionToAnimId(pState->field_26_current_motion)));
 
 
         pSlig->mAnim.mCurrentFrame = pState->field_28_current_frame;
@@ -4851,8 +4866,8 @@ void Slig::vShot_4B2EA0()
 void Slig::vUpdateAnim_4B1320()
 {
     // note: OG was falling back to eSligMotions::M_StandIdle_0_4B4EC0 if 
-    // ResForMotion_4B1E90 didnt return a resource
-    mAnim.Set_Animation_Data(GetAnimRes(sSligAnimIdTable[mCurrentMotion]));
+    // ResForMotion_4B1E90 didnt return a resource (which can happen depending on disabled resources value)
+    mAnim.Set_Animation_Data(GetAnimRes(MotionToAnimId(mCurrentMotion)));
 }
 
 bool Slig::vUnderGlukkonCommand_4B1760()

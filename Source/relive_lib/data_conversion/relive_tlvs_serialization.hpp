@@ -2605,7 +2605,12 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_Slig_Data::StartState, {
     {Path_Slig_Data::StartState::ChaseAndDisappear, "chase_and_disappear"},
     {Path_Slig_Data::StartState::eFallingToChase, "falling_to_chase"},
     {Path_Slig_Data::StartState::ListeningToGlukkon, "listening_to_glukkon"},
-})
+});
+
+NLOHMANN_JSON_SERIALIZE_ENUM(Path_Slig_Data::DeathMode, {
+    {Path_Slig_Data::DeathMode::FallForward, "fall_forward"},
+    {Path_Slig_Data::DeathMode::StandIdle, "stand_idle"},
+});
 
 inline void to_json(nlohmann::json& j, const Path_Slig_Data& p)
 {
@@ -2638,6 +2643,7 @@ inline void to_json(nlohmann::json& j, const Path_Slig_Data& p)
         {"noise_wake_up_distance", p.mNoiseWakeUpDistance},
         {"slig_spawner_switch_id", p.mSligSpawnerSwitchId},
         {"unlimited_spawns", p.mUnlimitedSpawns},
+        {"death_mode", p.mDeathMode},
     };
 }
 
@@ -2671,6 +2677,7 @@ inline void from_json(const nlohmann::json& j, Path_Slig_Data& p)
     j.at("noise_wake_up_distance").get_to(p.mNoiseWakeUpDistance);
     j.at("slig_spawner_switch_id").get_to(p.mSligSpawnerSwitchId);
     j.at("unlimited_spawns").get_to(p.mUnlimitedSpawns);
+    j.at("death_mode").get_to(p.mDeathMode);
 }
 
 inline void to_json(nlohmann::json& j, const Path_Slig& p)
