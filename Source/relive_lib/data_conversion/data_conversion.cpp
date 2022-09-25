@@ -1250,7 +1250,7 @@ void DataConversion::ConvertDataAE()
 
         auto lvName = std::string(::Path_Get_Lvl_Name(reliveLvl)) + ".LVL";
         std::transform(lvName.begin(), lvName.end(), lvName.begin(),
-            [](unsigned char c){ return std::tolower(c); }
+            [](unsigned char c){ return static_cast<char>(std::tolower(c)); }
         );
 
         ReliveAPI::LvlReader lvlReader(fileIo, lvName.c_str());
