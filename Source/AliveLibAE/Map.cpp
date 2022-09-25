@@ -333,9 +333,13 @@ void Map::Handle_PathTransition()
 
         mAliveObj->mCurrentLevel = mNextLevel;
         mAliveObj->mCurrentPath = mNextPath;
+
+        // Save value before pPathChangeTLV is deleted
+        const auto nextScale = pPathChangeTLV->mNextPathScale;
+
         GoTo_Camera();
 
-        switch (pPathChangeTLV->mNextPathScale)
+        switch (nextScale)
         {
             case relive::reliveScale::eFull:
                 sActiveHero->mSpriteScale = FP_FromDouble(1.0);
@@ -348,7 +352,7 @@ void Map::Handle_PathTransition()
                 break;
 
             default:
-                LOG_ERROR("Invalid scale " << (s32) pPathChangeTLV->mNextPathScale);
+                LOG_ERROR("Invalid scale " << (s32) nextScale);
                 break;
         }
 
