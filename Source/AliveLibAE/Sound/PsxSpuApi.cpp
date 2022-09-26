@@ -480,7 +480,7 @@ void SsVabTransBody_4FC840(VabBodyRecord* pVabBody, s16 vabId)
             if (GetSoundAPI().SND_New(pEntry, sampleLen, 44100, 16, 0) == 0)
             {
                 // Allocate a temp buffer to read sounds.dat bytes into
-                void* pTempBuffer = relive_new u8[sampleLen * pEntry->field_1D_blockAlign]();
+                u8* pTempBuffer = relive_new u8[sampleLen * pEntry->field_1D_blockAlign]();
                 if (pTempBuffer)
                 {
                     // Read the sample data
