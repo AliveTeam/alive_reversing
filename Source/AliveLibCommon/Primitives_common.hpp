@@ -135,6 +135,8 @@ struct Poly_FT4 final
     bool mFlipY;
     class CamResource* mCam;
     struct Font_Context* mFont;
+    class RgbaData* mFg1;
+
 };
 // ALIVE_ASSERT_SIZEOF(Poly_FT4, 0x2C);
 

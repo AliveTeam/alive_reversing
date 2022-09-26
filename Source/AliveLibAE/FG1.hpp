@@ -20,7 +20,7 @@ enum class LevelIds : s16;
 class FG1 final : public BaseGameObject
 {
 public:
-    explicit FG1(Fg1Resource& pFg1Res);
+    FG1(Fg1Resource& pFg1Res, CamResource& camRes);
     ~FG1();
 
     virtual void VRender(PrimHeader** ppOt) override;
@@ -32,12 +32,11 @@ public:
 
     s16 Convert_Chunk_To_Render_Block(const Fg1Chunk* pChunk, Fg1Block* pBlock);
 
-    s32 field_20_unused = 0;
     EReliveLevelIds field_24_level_id = EReliveLevelIds::eNone;
     s16 field_26_path_id = 0;
-    s16 field_28_render_block_count = 0;
-    u8** field_2C_ptr = nullptr;
-    Fg1Block* field_30_chnk_res = nullptr;
+    Poly_FT4 mPolys[4] = {};
+    Fg1Resource mFG1Res;
+    CamResource mCamRes;
 };
 ALIVE_ASSERT_SIZEOF(FG1, 0x34);
 

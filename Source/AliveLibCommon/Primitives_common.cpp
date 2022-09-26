@@ -42,6 +42,7 @@ void PolyFT4_Init(Poly_FT4* pPrim)
     pPrim->mAnim = nullptr;
     pPrim->mCam = nullptr;
     pPrim->mFont = nullptr;
+    pPrim->mFg1 = nullptr;
 }
 
 

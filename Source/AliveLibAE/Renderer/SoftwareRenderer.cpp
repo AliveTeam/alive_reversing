@@ -286,6 +286,7 @@ void SoftwareRenderer::Draw(Poly_F4& poly)
     SDL_Vertex vert[4];
 
     // TODO: Why isn't this semi transparent when a= 127 for the pause menu ??
+    // need 1x1 white pixel texture
     const u8 a = (poly.mBase.header.rgb_code.code_or_pad & 2) ? 127 : 255;
 
     /*
@@ -480,6 +481,37 @@ void SoftwareRenderer::Draw(Poly_FT4& poly)
         dst.h = (Y3(&poly) * 2) - (Y0(&poly) * 2);
         SDL_RenderCopy(mRenderer, pTexture, &src, &dst);
         */
+    }
+    else if (poly.mFg1)
+    {
+        pTexture = SDL_CreateTexture(mRenderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STREAMING, poly.mFg1->mWidth, poly.mFg1->mHeight);
+        void* pixels = nullptr;
+        s32 pitch = 0;
+        SDL_LockTexture(pTexture, nullptr, &pixels, &pitch);
+
+        const u32* pFg1Src = reinterpret_cast<const u32*>(poly.mFg1->mPixels->data());
+        const u32* pCamSrc = reinterpret_cast<const u32*>(poly.mCam->mData.mPixels->data());
+        
+        for (u32 y = 0; y < poly.mFg1->mHeight; y++)
+        {
+            for (u32 x = 0; x < poly.mFg1->mWidth; x++)
+            {
+                Uint8* target_pixel = (Uint8*) pixels + y * pitch + x * sizeof(u32);
+                if (*pFg1Src != 0xFF000000)
+                {
+                    *(u32*) target_pixel = (*pCamSrc) | 0xFF000000;
+                }
+                else
+                {
+                    *(u32*) target_pixel = 0;
+                }
+                pFg1Src++;
+                pCamSrc++;
+            }
+        }
+
+        SDL_UnlockTexture(pTexture);
+        SDL_SetTextureBlendMode(pTexture, SDL_BLENDMODE_BLEND);
     }
     else if (poly.mCam && poly.mCam->mData.mPixels)
     {

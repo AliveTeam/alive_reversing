@@ -22,10 +22,10 @@ public:
     {
     }
 
-    void OnPartialChunk(const Fg1Chunk& rChunk) override
+    void OnPartialChunk(const Fg1Chunk& /*rChunk*/) override
     {
-        Fg1Block* pRenderBlock = &mFg1.field_30_chnk_res[mIdx++];
-        mFg1.Convert_Chunk_To_Render_Block(&rChunk, pRenderBlock);
+        //Fg1Block* pRenderBlock = &mFg1.field_30_chnk_res[mIdx++];
+        //mFg1.Convert_Chunk_To_Render_Block(&rChunk, pRenderBlock);
     }
 
     void OnFullChunk(const Fg1Chunk& rChunk) override
@@ -90,8 +90,10 @@ FG1::~FG1()
     //ResourceManager::FreeResource_49C330(field_2C_ptr);
 }
 
-FG1::FG1(Fg1Resource& /*pFG1Res*/)
+FG1::FG1(Fg1Resource& pFg1Res, CamResource& camRes)
     : BaseGameObject(TRUE, 0)
+    , mFG1Res(pFg1Res)
+    , mCamRes(camRes)
 {
     mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
     mBaseGameObjectFlags.Set(Options::eSurviveDeathReset_Bit9);
@@ -134,8 +136,51 @@ void FG1::VScreenChanged()
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
-void FG1::VRender(PrimHeader** /*ppOt*/)
+void FG1::VRender(PrimHeader** ppOt)
 {
+    if (mFG1Res.Any())
+    {
+        if (mFG1Res.mBg.mPixels)
+        {
+            PolyFT4_Init(&mPolys[0]);
+            mPolys[0].mFg1 = &mFG1Res.mBg;
+            mPolys[0].mCam = &mCamRes;
+            SetRGB0(&mPolys[0], 127, 127, 127);
+            SetXYWH(&mPolys[0], 0, 0, 640, 240);
+            OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_FG1_Half_18), &mPolys[0].mBase.header);
+        }
+
+        if (mFG1Res.mFg.mPixels)
+        {
+            PolyFT4_Init(&mPolys[1]);
+            mPolys[1].mFg1 = &mFG1Res.mFg;
+            mPolys[1].mCam = &mCamRes;
+            SetRGB0(&mPolys[1], 127, 127, 127);
+            SetXYWH(&mPolys[1], 0, 0, 640, 240);
+            OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_FG1_37), &mPolys[1].mBase.header);
+        }
+
+        if (mFG1Res.mBgWell.mPixels)
+        {
+            PolyFT4_Init(&mPolys[2]);
+            mPolys[2].mFg1 = &mFG1Res.mBgWell;
+            mPolys[2].mCam = &mCamRes;
+            SetRGB0(&mPolys[2], 127, 127, 127);
+            SetXYWH(&mPolys[2], 0, 0, 640, 240);
+            OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_Well_Half_4), &mPolys[2].mBase.header);
+        }
+
+        if (mFG1Res.mFgWell.mPixels)
+        {
+            PolyFT4_Init(&mPolys[3]);
+            mPolys[3].mFg1 = &mFG1Res.mFgWell;
+            mPolys[3].mCam = &mCamRes;
+            SetRGB0(&mPolys[3], 127, 127, 127);
+            SetXYWH(&mPolys[3], 0, 0, 640, 240);
+            OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_Well_23), &mPolys[3].mBase.header);
+        }
+    }
+
     /*
     for (s32 i = 0; i < field_28_render_block_count; i++)
     {
