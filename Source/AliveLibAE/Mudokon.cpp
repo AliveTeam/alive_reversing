@@ -996,16 +996,14 @@ void Mudokon::VUpdate()
         return;
     }
 
-    const FP xDistFromPlayer = FP_Abs(mXPos - sControlledCharacter->mXPos);
-    if (xDistFromPlayer > FP_FromInteger(750))
+    if (!sControlledCharacter || FP_Abs(mXPos - sControlledCharacter->mXPos) > FP_FromInteger(750))
     {
         mAnim.mFlags.Clear(AnimFlags::eBit2_Animate);
         mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
         return;
     }
 
-    const FP yDistanceFromPlayer = FP_Abs(mYPos - sControlledCharacter->mYPos);
-    if (yDistanceFromPlayer > FP_FromInteger(520))
+    if (!sControlledCharacter || FP_Abs(mYPos - sControlledCharacter->mYPos) > FP_FromInteger(520))
     {
         mAnim.mFlags.Clear(AnimFlags::eBit2_Animate);
         mAnim.mFlags.Clear(AnimFlags::eBit3_Render);

@@ -303,6 +303,12 @@ MineCar::~MineCar()
         field_1D0_sound_channels_mask = 0;
     }
     mTreadAnim.VCleanUp();
+
+    // Don't point to a deleted object
+    if (sControlledCharacter == this)
+    {
+        sControlledCharacter = nullptr;
+    }
 }
 
 bool MineCar::CheckRoofCollision(FP hitX, FP hitY)
