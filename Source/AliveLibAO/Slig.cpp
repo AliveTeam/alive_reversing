@@ -165,61 +165,28 @@ const AnimId sSligMotionAnimIds[] = {
     AnimId::Slig_Beat,
     AnimId::None};
 
-static Slig::TBrainFn sSligBrainTable[]{
-    &Slig::Brain_SpottedEnemy_465EB0,
-    &Slig::Brain_Paused_466030,
-    &Slig::Brain_EnemyDead_466190,
-    &Slig::Brain_KilledEnemy_4662A0,
-    &Slig::Brain_Unknown_46B250,
-    &Slig::Brain_Sleeping_46B4E0,
-    &Slig::Brain_WakingUp_46B700,
-    &Slig::Brain_Inactive_46B780,
-    &Slig::Brain_Possessed_46C190,
-    &Slig::Brain_Death_46C3A0,
-    &Slig::Brain_DeathDropDeath_46C5A0,
-    &Slig::Brain_ReturnControlToAbeAndDie_46C760,
-    &Slig::Brain_PanicTurning_46C7C0,
-    &Slig::Brain_PanicRunning_46CA20,
-    &Slig::Brain_PanicYelling_46CC50,
-    &Slig::Brain_Chasing_46CD60,
-    &Slig::Brain_StopChasing_46CF20,
-    &Slig::Brain_StartChasing_46CF90,
-    &Slig::Brain_Idle_46D6E0,
-    &Slig::Brain_Turning_46DC70,
-    &Slig::Brain_Walking_46DE90,
-    &Slig::Brain_GetAlertedTurn_46E520,
-    &Slig::Brain_GetAlerted_46E800,
-    &Slig::Brain_StoppingNextToMudokon_46EBB0,
-    &Slig::Brain_BeatingUp_46EC40,
-    &Slig::Brain_Discussion_46ECE0,
-    &Slig::Brain_ChaseAndDisappear_46EEE0,
-    &Slig::Brain_Shooting_46EFD0,
-    &Slig::Brain_ZSpottedEnemy_46F260,
-    &Slig::Brain_ZShooting_46F290,
-};
-
 const relive::SfxDefinition sSligSounds_4CFB30[] = {
-    {0, 1, 58, 40, -256, -256, 0},
-    {0, 1, 58, 50, 0, 0, 0},
-    {0, 1, 59, 60, 0, 0, 0},
-    {0, 1, 59, 60, 127, 127, 0},
-    {0, 1, 60, 60, 0, 0, 0},
-    {0, 1, 61, 60, 0, 0, 0}};
+    {0, 1, 58, 40, -256, -256},
+    {0, 1, 58, 50, 0, 0},
+    {0, 1, 59, 60, 0, 0},
+    {0, 1, 59, 60, 127, 127},
+    {0, 1, 60, 60, 0, 0},
+    {0, 1, 61, 60, 0, 0}};
 
 const relive::SfxDefinition sSligSounds2[] = {
-    {0, 62, 60, 127, 0, 0, 0},
-    {0, 62, 62, 127, 0, 0, 0},
-    {0, 62, 61, 127, 0, 0, 0},
-    {0, 62, 63, 127, 0, 0, 0},
-    {0, 63, 60, 127, 0, 0, 0},
-    {0, 63, 37, 127, 0, 0, 0},
-    {0, 63, 61, 127, 0, 0, 0},
-    {0, 63, 38, 127, 0, 0, 0},
-    {0, 64, 61, 127, 0, 0, 0},
-    {0, 64, 62, 127, 0, 0, 0},
-    {0, 64, 63, 127, 0, 0, 0},
-    {0, 64, 39, 127, 0, 0, 0},
-    {0, 64, 36, 127, 0, 0, 0}};
+    {0, 62, 60, 127, 0, 0},
+    {0, 62, 62, 127, 0, 0},
+    {0, 62, 61, 127, 0, 0},
+    {0, 62, 63, 127, 0, 0},
+    {0, 63, 60, 127, 0, 0},
+    {0, 63, 37, 127, 0, 0},
+    {0, 63, 61, 127, 0, 0},
+    {0, 63, 38, 127, 0, 0},
+    {0, 64, 61, 127, 0, 0},
+    {0, 64, 62, 127, 0, 0},
+    {0, 64, 63, 127, 0, 0},
+    {0, 64, 39, 127, 0, 0},
+    {0, 64, 36, 127, 0, 0}};
 
 void Slig::Slig_SoundEffect_46F310(SligSfx sfxIdx)
 {

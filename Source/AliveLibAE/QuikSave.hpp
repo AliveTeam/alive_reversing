@@ -6,7 +6,7 @@
 
 struct Quicksave_PSX_Header final
 {
-    char_type field_0_frame_1_name[128];
+    u8 field_0_frame_1_name[128];
     s8 field_80_frame_2_padding[128];
     s8 field_100_frame_3_padding[128];
     s8 field_180_frame_4_padding[128];

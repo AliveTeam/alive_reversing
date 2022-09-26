@@ -6,10 +6,9 @@
 #include "../relive_lib/ScreenManager.hpp"
 #include "Map.hpp"
 #include "Game.hpp"
-#include "Sfx.hpp"
+#include "../relive_lib/Sfx.hpp"
 #include "DDCheat.hpp"
 #include "CheatController.hpp"
-#include "LCDScreen.hpp"
 #include "Abe.hpp"
 #include "Math.hpp"
 #include "CameraSwapper.hpp"
@@ -138,7 +137,7 @@ struct Menu_Element final
     s32 field_8_input_command;
 };
 
-const Menu_Element sBtnArray_MainMenuStaticBtn_4D03F0[] = {146, 205, InputCommands::eUnPause_OrConfirm};
+const Menu_Element sBtnArray_MainMenuStaticBtn_4D03F0[1] = {{146, 205, InputCommands::eUnPause_OrConfirm}};
 const Menu_Element sBtnArray_Options_4D0400[2] = {{145, 204, InputCommands::eUnPause_OrConfirm}, {286, 202, InputCommands::eBack}};
 const Menu_Element sBtnArray_AbeMotionsMenuButtons_4D0418[11] = {
     {144, 205, InputCommands::eUnPause_OrConfirm},
@@ -195,11 +194,6 @@ const Menu_Element sBtnArray_AbeGamespeakMenuButtons_4D04A0[33] = {
 const Menu_Element sBtnArray_LoadGameMenuButtons_4D0630[2] = {
     {62, 204, InputCommands::eUnPause_OrConfirm},
     {293, 205, InputCommands::eBack}};
-
-const Menu::TUpdateFn kUpdateTable[] = {
-    &Menu::ToggleMotions_Update_47C800,
-    &Menu::Toggle_Motions_Screens_Update_47C8F0};
-
 
 struct SaveName final
 {

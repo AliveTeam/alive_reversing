@@ -373,7 +373,7 @@ void BaseAnimatedWithPhysicsGameObject::VStackOnObjectsOfType(ReliveTypes typeTo
 	}
 	else
 	{
-    	mXOffset =  mXOffset = offsets[array_idx];
+        mXOffset = offsets[array_idx];
 	}
 }
 

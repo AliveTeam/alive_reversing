@@ -668,7 +668,7 @@ ALIVE_VAR(1, 0x508A64, u32, dword_508A64, 0);
 s32 Input_SaveSettingsIni()
 {
     // Call AE func both in standalone and DLL
-    Input_SaveSettingsIni_Common(true);
+    Input_SaveSettingsIni_Common();
     return 1;
 
     // AO approach

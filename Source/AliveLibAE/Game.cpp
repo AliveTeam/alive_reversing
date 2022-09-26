@@ -5,7 +5,6 @@
 #include "VGA.hpp"
 #include "../relive_lib/bmp.hpp"
 #include "Input.hpp"
-#include "../relive_lib/Error.hpp"
 #include "Psx.hpp"
 #include "../relive_lib/DynamicArray.hpp"
 #include "Sound/Sound.hpp" // for shut down func
@@ -15,16 +14,13 @@
 #include "../relive_lib/PsxDisplay.hpp"
 #include "Map.hpp"
 #include "../relive_lib/ScreenManager.hpp"
-#include "../relive_lib/Animation.hpp"
 #include "stdlib.hpp"
 #include "PauseMenu.hpp"
 #include "GameSpeak.hpp"
 #include "PathData.hpp"
 #include "DDCheat.hpp"
-#include "QuikSave.hpp"
 #include "Io.hpp"
 #include "LvlArchive.hpp"
-#include "DDraw.hpp"
 #include "Sound/Midi.hpp"
 #include <atomic>
 #include <fstream>
@@ -38,7 +34,6 @@
 #include "FG1.hpp"
 #include "PsxRender.hpp"
 #include "Slurg.hpp"
-#include "Movie.hpp"
 #include "PathDataExtensions.hpp"
 #include "GameAutoPlayer.hpp"
 #include "Function.hpp"
@@ -117,7 +112,7 @@ void Init_GameStates_43BF40()
     SwitchStates_SetRange(2u, 255u);
 }
 
-bool Is_Cd_Rom_Drive_495470(CHAR driveLetter)
+bool Is_Cd_Rom_Drive_495470([[maybe_unused]] CHAR driveLetter)
 {
 #if _WIN32
     CHAR RootPathName[4] = {};

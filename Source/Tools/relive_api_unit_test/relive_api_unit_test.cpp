@@ -1,5 +1,3 @@
-#include "relive_api.hpp"
-
 #include "TlvsAO.hpp"
 #include "TypesCollectionAO.hpp"
 #include "TypesCollectionAE.hpp"
@@ -7,15 +5,11 @@
 #include "../../AliveLibAE/DebugHelpers.hpp"
 
 #include "../../AliveLibCommon/stdafx_common.h"
-#include "../../AliveLibCommon/logger.hpp"
 
 #include "../../relive_lib/data_conversion/guid.hpp"
 #include "../../relive_lib/data_conversion/PathTlvsAE.hpp"
 
-#include "LvlReaderWriter.hpp"
-#include "CamConverter.hpp"
 #include "JsonModelTypes.hpp"
-#include "ApiFG1Reader.hpp"
 #include "JsonReaderBase.hpp"
 
 #include <gmock/gmock.h>
@@ -37,7 +31,7 @@ namespace {
     return result;
 }
 
-[[nodiscard]] std::vector<u8>& readFileIntoStaticFileBuffer(const std::string& filePath)
+[[maybe_unused]] [[nodiscard]] std::vector<u8>& readFileIntoStaticFileBuffer(const std::string& filePath)
 {
     std::vector<u8>& buf = getStaticFileBuffer();
 

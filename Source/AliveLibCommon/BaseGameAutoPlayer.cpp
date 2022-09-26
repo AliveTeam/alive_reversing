@@ -56,7 +56,7 @@ u32 AutoFILE::ReadU32() const
 
 void BaseRecorder::Init(const char* pFileName, bool autoFlushFile)
 {
-    LOG_INFO("Recording to " << pFileName << " auto flush=" << autoFlushFile ? "yes" : "no");
+    LOG_INFO("Recording to " << pFileName << " auto flush=" << (autoFlushFile ? "yes" : "no"));
     if (!mFile.Open(pFileName, "wb", autoFlushFile))
     {
         ALIVE_FATAL("Can't open recording file for writing");

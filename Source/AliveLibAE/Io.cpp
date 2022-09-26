@@ -515,7 +515,7 @@ bool IO_DirectoryExists(const char_type* pDirName)
     #include <string>
     #include <regex>
 
-static void replace_all(std::string& input, s8 find, const s8 replace)
+[[maybe_unused]] static void replace_all(std::string& input, s8 find, const s8 replace)
 {
     size_t pos = 0;
     while ((pos = input.find(find, pos)) != std::string::npos)

@@ -7,7 +7,7 @@ typedef s32 (*t_InputCallback)();
 u8 Input_GetInputEnabled_4EDDE0();
 void Input_EnableInput_4EDDD0();
 void Input_InitKeyStateArray_4EDD60();
-void Input_SaveSettingsIni_Common(bool isAo);
+void Input_SaveSettingsIni_Common();
 void Input_SaveSettingsIni_492840();
 void Input_DisableInputForPauseMenuAndDebug_4EDDC0();
 void Input_Init_491BC0();

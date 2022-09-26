@@ -56,7 +56,7 @@ struct SaveData final
     u16 field_25E_bElumRespawnOnDead;
     LevelIds field_260_elum_lvl_number;
     u16 field_262_elum_path_number;
-    u16 field_264_bInfiniteGrenades;
+    s16 field_264_bInfiniteGrenades;
     s16 field_266_pad;
     u32 field_268_elum_xpos;
     u32 field_26C_elum_ypos;
