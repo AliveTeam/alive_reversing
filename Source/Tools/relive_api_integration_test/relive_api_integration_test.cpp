@@ -89,7 +89,7 @@ template <typename... Ts>
     return result;
 }
 
-[[nodiscard]] std::vector<u8>& readFileIntoStaticFileBuffer(const std::string& filePath)
+[[maybe_unused]] [[nodiscard]] std::vector<u8>& readFileIntoStaticFileBuffer(const std::string& filePath)
 {
     std::vector<u8>& buf = getStaticFileBuffer();
 

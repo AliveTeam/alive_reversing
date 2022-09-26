@@ -100,7 +100,7 @@ struct BgAnimRecConversionInfo final
 struct AnimRecNames final
 {
     AnimId mAnimId;
-    char_type* mAnimName;
+    const char_type* mAnimName;
 };
 
 

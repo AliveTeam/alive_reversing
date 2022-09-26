@@ -11,7 +11,6 @@
 #include "Dove.hpp"
 #include "Blood.hpp"
 #include "../relive_lib/Shadow.hpp"
-#include "../relive_lib/Particle.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "../relive_lib/ShadowZone.hpp"
 #include "Gibs.hpp"
@@ -19,14 +18,11 @@
 #include "PlatformBase.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "Sfx.hpp"
-#include "SlamDoor.hpp"
 #include "Sound/Midi.hpp"
-#include "Sys_common.hpp"
 #include "Grid.hpp"
 #include "../relive_lib/Math.hpp"
 #include "AnimationCallBacks.hpp"
 #include "Map.hpp"
-#include "ResourceManager.hpp"
 
 ALIVE_VAR(1, 0x5BC20C, u8, sFleechRandomIdx_5BC20C, 0);
 ALIVE_VAR(1, 0x5BC20E, s16, sFleechCount_5BC20E, 0);
@@ -926,22 +922,23 @@ void Fleech::Motion_12_Climb()
         {
             switch (pLine->mLineType)
             {
-                case 1u:
-                case 5u:
+                case eLineTypes::eWallLeft_1:
+                case eLineTypes::eBackgroundWallLeft_5:
                     Sound(FleechSound::LandOnFloor_9);
                     // TODO: Somewhat suspect that these branches are equal - OG bug?
-                    if (field_166_angle >= 64u && field_166_angle > 192u)
-                    {
-                        field_166_angle = -128 - field_166_angle;
-                    }
-                    else
-                    {
-                        field_166_angle = -128 - field_166_angle;
-                    }
+                    //if (field_166_angle >= 64u && field_166_angle > 192u)
+                    //{
+                    //    field_166_angle = -128 - field_166_angle;
+                    //}
+                    //else
+                    //{
+                    //    field_166_angle = -128 - field_166_angle;
+                    //}
+                    field_166_angle = -128 - field_166_angle;
                     break;
 
-                case 2u:
-                case 6u:
+                case eLineTypes::eWallRight_2:
+                case eLineTypes::eBackgroundWallRight_6:
                     Sound(FleechSound::LandOnFloor_9);
                     if (field_166_angle > 64u && field_166_angle < 128u)
                     {

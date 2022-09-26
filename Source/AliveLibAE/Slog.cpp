@@ -339,83 +339,89 @@ s32 Slog::CreateFromSaveState(const u8* pBuffer)
                                   pState->field_C_ypos,
                                   pState->field_1C_sprite_scale, pState->field_74_flags.Get(Slog_State::eBit10_ListenToSligs), pState->field_70_jump_delay);
 
-        pSlog->mBaseGameObjectTlvInfo = pState->field_4_objectId;
+        if (pSlog)
+        {
+            pSlog->mBaseGameObjectTlvInfo = pState->field_4_objectId;
+        }
     }
     else
     {
         pSlog = relive_new Slog(pTlv, pState->field_40_tlvInfo);
     }
 
-    pSlog->BaseAliveGameObjectPathTLV = nullptr;
-    pSlog->BaseAliveGameObjectCollisionLine = nullptr;
-    pSlog->BaseAliveGameObject_PlatformId = pState->field_3C_id;
-    pSlog->mXPos = pState->field_8_xpos;
-    pSlog->mYPos = pState->field_C_ypos;
-    pSlog->mVelX = pState->field_10_velx;
-    pSlog->mVelY = pState->field_14_vely;
-    pSlog->field_128_falling_velx_scale_factor = pState->field_50_falling_velx_scale_factor;
-    pSlog->mCurrentPath = pState->field_18_path_number;
-    pSlog->mCurrentLevel = MapWrapper::FromAESaveData(pState->field_1A_lvl_number);
-    pSlog->mSpriteScale = pState->field_1C_sprite_scale;
-    pSlog->mRGB.SetRGB(pState->mRingRed, pState->mRingGreen, pState->mRingBlue);
-
-    pSlog->SetCurrentMotion(pState->field_28_current_motion);
-    pSlog->mAnim.Set_Animation_Data(pSlog->GetAnimRes(sSlogAnimIdTable[pSlog->mCurrentMotion]));
-
-    pSlog->mAnim.mCurrentFrame = pState->field_2A_anim_cur_frame;
-    pSlog->mAnim.mFrameChangeCounter = pState->field_2C_frame_change_counter;
-
-    pSlog->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pState->field_26_bAnimFlipX & 1);
-    pSlog->mAnim.mFlags.Set(AnimFlags::eBit3_Render, pState->field_2E_bRender & 1);
-
-    pSlog->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_2F_bDrawable & 1);
-
-    if (IsLastFrame(&pSlog->mAnim))
+    if (pSlog)
     {
-        pSlog->mAnim.mFlags.Set(AnimFlags::eBit18_IsLastFrame);
-    }
+        pSlog->BaseAliveGameObjectPathTLV = nullptr;
+        pSlog->BaseAliveGameObjectCollisionLine = nullptr;
+        pSlog->BaseAliveGameObject_PlatformId = pState->field_3C_id;
+        pSlog->mXPos = pState->field_8_xpos;
+        pSlog->mYPos = pState->field_C_ypos;
+        pSlog->mVelX = pState->field_10_velx;
+        pSlog->mVelY = pState->field_14_vely;
+        pSlog->field_128_falling_velx_scale_factor = pState->field_50_falling_velx_scale_factor;
+        pSlog->mCurrentPath = pState->field_18_path_number;
+        pSlog->mCurrentLevel = MapWrapper::FromAESaveData(pState->field_1A_lvl_number);
+        pSlog->mSpriteScale = pState->field_1C_sprite_scale;
+        pSlog->mRGB.SetRGB(pState->mRingRed, pState->mRingGreen, pState->mRingBlue);
 
-    pSlog->mHealth = pState->field_30_health;
-    pSlog->mCurrentMotion = pState->field_34_current_motion;
-    pSlog->mNextMotion = pState->field_36_next_motion;
-    pSlog->BaseAliveGameObjectLastLineYPos = FP_FromInteger(pState->field_38_last_line_ypos);
-    pSlog->mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
-    pSlog->BaseAliveGameObjectCollisionLineType = pState->field_3A_line_type;
-    pSlog->field_12C_tlvInfo = pState->field_40_tlvInfo;
-    pSlog->field_118_target_id = pState->field_44_obj_id;
-    pSlog->field_120_brain_state_idx = pState->field_48_state_idx;
-    pSlog->field_122_brain_state_result = pState->field_4A_brain_state_result;
-    pSlog->field_124_timer = pState->field_4C_timer;
-    pSlog->field_128_falling_velx_scale_factor = pState->field_50_falling_velx_scale_factor;
-    pSlog->field_12C_tlvInfo = pState->field_40_tlvInfo;
-    pSlog->field_138_listening_to_slig_id = pState->field_54_obj_id;
-    pSlog->field_132_has_woofed = pState->field_58_has_woofed;
-    pSlog->field_13C_waiting_counter = pState->field_5A_waiting_counter;
-    pSlog->field_13E_response_index = pState->field_5C_response_index;
-    pSlog->field_140_response_part = pState->field_5E_response_part;
-    pSlog->field_142_anger_level = pState->field_60_anger_level;
-    pSlog->field_15A_jump_counter = pState->field_62_jump_counter;
-    pSlog->field_14C_scratch_timer = pState->field_64_scratch_timer;
-    pSlog->field_150_growl_timer = pState->field_68_growl_timer;
-    pSlog->field_158_chase_delay = pState->field_70_jump_delay;
-    pSlog->field_15C_bone_id = pState->field_6C_bone_id;
-    sSlogRandomIdx_BAF7F0 = pState->field_72_slog_random_index;
+        pSlog->SetCurrentMotion(pState->field_28_current_motion);
+        pSlog->mAnim.Set_Animation_Data(pSlog->GetAnimRes(sSlogAnimIdTable[pSlog->mCurrentMotion]));
+
+        pSlog->mAnim.mCurrentFrame = pState->field_2A_anim_cur_frame;
+        pSlog->mAnim.mFrameChangeCounter = pState->field_2C_frame_change_counter;
+
+        pSlog->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pState->field_26_bAnimFlipX & 1);
+        pSlog->mAnim.mFlags.Set(AnimFlags::eBit3_Render, pState->field_2E_bRender & 1);
+
+        pSlog->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_2F_bDrawable & 1);
+
+        if (IsLastFrame(&pSlog->mAnim))
+        {
+            pSlog->mAnim.mFlags.Set(AnimFlags::eBit18_IsLastFrame);
+        }
+
+        pSlog->mHealth = pState->field_30_health;
+        pSlog->mCurrentMotion = pState->field_34_current_motion;
+        pSlog->mNextMotion = pState->field_36_next_motion;
+        pSlog->BaseAliveGameObjectLastLineYPos = FP_FromInteger(pState->field_38_last_line_ypos);
+        pSlog->mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
+        pSlog->BaseAliveGameObjectCollisionLineType = pState->field_3A_line_type;
+        pSlog->field_12C_tlvInfo = pState->field_40_tlvInfo;
+        pSlog->field_118_target_id = pState->field_44_obj_id;
+        pSlog->field_120_brain_state_idx = pState->field_48_state_idx;
+        pSlog->field_122_brain_state_result = pState->field_4A_brain_state_result;
+        pSlog->field_124_timer = pState->field_4C_timer;
+        pSlog->field_128_falling_velx_scale_factor = pState->field_50_falling_velx_scale_factor;
+        pSlog->field_12C_tlvInfo = pState->field_40_tlvInfo;
+        pSlog->field_138_listening_to_slig_id = pState->field_54_obj_id;
+        pSlog->field_132_has_woofed = pState->field_58_has_woofed;
+        pSlog->field_13C_waiting_counter = pState->field_5A_waiting_counter;
+        pSlog->field_13E_response_index = pState->field_5C_response_index;
+        pSlog->field_140_response_part = pState->field_5E_response_part;
+        pSlog->field_142_anger_level = pState->field_60_anger_level;
+        pSlog->field_15A_jump_counter = pState->field_62_jump_counter;
+        pSlog->field_14C_scratch_timer = pState->field_64_scratch_timer;
+        pSlog->field_150_growl_timer = pState->field_68_growl_timer;
+        pSlog->field_158_chase_delay = pState->field_70_jump_delay;
+        pSlog->field_15C_bone_id = pState->field_6C_bone_id;
+        sSlogRandomIdx_BAF7F0 = pState->field_72_slog_random_index;
 
 
-    pSlog->field_11C_biting_target = pState->field_74_flags.Get(Slog_State::eBit1_BitingTarget);
-    // bit2 never read
-    pSlog->field_160_flags.Set(Flags_160::eBit8_Asleep, pState->field_74_flags.Get(Slog_State::eBit3_Asleep));
-    pSlog->field_160_flags.Set(Flags_160::eBit9_MovedOffScreen, pState->field_74_flags.Get(Slog_State::eBit4_MovedOffScreen));
-    pSlog->field_160_flags.Set(Flags_160::eBit1_StopRunning, pState->field_74_flags.Get(Slog_State::eBit5_StopRunning));
-    pSlog->field_160_flags.Set(Flags_160::eBit3_Shot, pState->field_74_flags.Get(Slog_State::eBit6_Shot));
-    pSlog->field_160_flags.Set(Flags_160::eBit4_Hungry, pState->field_74_flags.Get(Slog_State::eBit7_Hungry));
-    pSlog->field_160_flags.Set(Flags_160::eBit5_CommandedToAttack, pState->field_74_flags.Get(Slog_State::eBit8_CommandedToAttack));
-    pSlog->field_160_flags.Set(Flags_160::eBit6_HitByAbilityRing, pState->field_74_flags.Get(Slog_State::eBit9_HitByAbilityRing));
-    pSlog->field_160_flags.Set(Flags_160::eBit2_ListenToSligs, pState->field_74_flags.Get(Slog_State::eBit10_ListenToSligs));
+        pSlog->field_11C_biting_target = pState->field_74_flags.Get(Slog_State::eBit1_BitingTarget);
+        // bit2 never read
+        pSlog->field_160_flags.Set(Flags_160::eBit8_Asleep, pState->field_74_flags.Get(Slog_State::eBit3_Asleep));
+        pSlog->field_160_flags.Set(Flags_160::eBit9_MovedOffScreen, pState->field_74_flags.Get(Slog_State::eBit4_MovedOffScreen));
+        pSlog->field_160_flags.Set(Flags_160::eBit1_StopRunning, pState->field_74_flags.Get(Slog_State::eBit5_StopRunning));
+        pSlog->field_160_flags.Set(Flags_160::eBit3_Shot, pState->field_74_flags.Get(Slog_State::eBit6_Shot));
+        pSlog->field_160_flags.Set(Flags_160::eBit4_Hungry, pState->field_74_flags.Get(Slog_State::eBit7_Hungry));
+        pSlog->field_160_flags.Set(Flags_160::eBit5_CommandedToAttack, pState->field_74_flags.Get(Slog_State::eBit8_CommandedToAttack));
+        pSlog->field_160_flags.Set(Flags_160::eBit6_HitByAbilityRing, pState->field_74_flags.Get(Slog_State::eBit9_HitByAbilityRing));
+        pSlog->field_160_flags.Set(Flags_160::eBit2_ListenToSligs, pState->field_74_flags.Get(Slog_State::eBit10_ListenToSligs));
 
-    if (pSlog->field_160_flags.Get(Flags_160::eBit3_Shot))
-    {
-        sSlogCount--;
+        if (pSlog->field_160_flags.Get(Flags_160::eBit3_Shot))
+        {
+            sSlogCount--;
+        }
     }
 
     return sizeof(Slog_State);

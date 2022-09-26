@@ -241,7 +241,7 @@ void Quicksave_LoadActive()
     Quicksave_LoadFromMemory_4C95A0(&sActiveQuicksaveData);
 }
 
-static void WriteChars(char_type*& pDst, u8 v1, u8 v2)
+static void WriteChars(u8*& pDst, u8 v1, u8 v2)
 {
     *pDst = v1;
     pDst++;
@@ -362,11 +362,11 @@ void Quicksave_RestoreSwitchResetterStates()
     sQuickSave_saved_switchResetters_count_BB234C = 0;
 }
 
-void MEMCARD_Write_SJISC_String_4A2770(char_type* src, char_type* dst, s32 srcLength)
+void MEMCARD_Write_SJISC_String_4A2770(u8* src, u8* dst, s32 srcLength)
 {
     while (srcLength > 0)
     {
-        const char_type srcChar = *src;
+        const u8 srcChar = *src;
         if (*src >= 'A' && srcChar <= 'Z')
         {
             WriteChars(dst, 0x82, *src + 0x1F);
@@ -409,7 +409,7 @@ void MEMCARD_Generate_Timestamp_String_4A21F0(char_type* pStr)
             (s32)(sGnFrame - sGameStartedFrame_5C1B88) / 30 / 60 % 60);
 }
 
-void MEMCARD_Write_Timestamp_SJISC_String_4A2290(char_type* dst)
+void MEMCARD_Write_Timestamp_SJISC_String_4A2290(u8* dst)
 {
     char_type gameTimeStr[12] = {};
     MEMCARD_Generate_Timestamp_String_4A21F0(gameTimeStr);
@@ -464,7 +464,7 @@ void Quicksave_SaveToMemory_4C91A0(Quicksave* pSave)
                 Path_Get_Lvl_Name(gMap.mCurrentLevel),
                 gMap.mCurrentPath,
                 gMap.mCurrentCamera);
-        MEMCARD_Write_SJISC_String_4A2770(src, &pSave->field_0_header.field_0_frame_1_name[32], 8);
+        MEMCARD_Write_SJISC_String_4A2770(reinterpret_cast<u8*>(src), &pSave->field_0_header.field_0_frame_1_name[32], 8);
         Quicksave_SaveWorldInfo(&pSave->field_204_world_info);
         pSave->field_45C_switch_states = sSwitchStates_5C1A28;
 

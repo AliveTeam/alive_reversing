@@ -13,7 +13,6 @@ struct SfxDefinition final
     s16 field_C_default_volume;
     s16 field_E_pitch_min;
     s16 field_10_pitch_max;
-    s16 field_12_pad;
 };
 
 enum class SoundEffects

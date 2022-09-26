@@ -399,9 +399,9 @@ s16 SsVabOpenHead_4FC620(VabHeader* pVabHeader)
                 f32 sustain_level = static_cast<f32>((2 * (~(u8) pVagAttr->field_10_adsr1 & 0xF)));
 
                 pData->field_0_adsr_attack = std::min(static_cast<u16>((powf(2.0f, ((pVagAttr->field_10_adsr1 >> 8) & 0x7F) * 0.25f) * 0.09f)), static_cast<u16>(32767));
-                pData->field_4_adsr_decay = static_cast<u16>((((pVagAttr->field_10_adsr1 >> 4) & 0xF) / 15.0f) * 16.0);
-                pData->field_2_adsr_sustain_level = std::min(static_cast<u16>((sustain_level / 15.0f) * 600.0), static_cast<u16>(32767));
-                pData->field_6_adsr_release = std::min(static_cast<u16>(pow(2, pVagAttr->field_12_adsr2 & 0x1F) * 0.045f), static_cast<u16>(32767));
+                pData->field_4_adsr_decay = static_cast<u16>((((pVagAttr->field_10_adsr1 >> 4) & 0xF) / 15.0f) * 16.0f);
+                pData->field_2_adsr_sustain_level = std::min(static_cast<u16>((sustain_level / 15.0f) * 600.0f), static_cast<u16>(32767));
+                pData->field_6_adsr_release = std::min(static_cast<u16>(pow(2, pVagAttr->field_12_adsr2 & 0x1F) * 0.045), static_cast<u16>(32767));
 
                 // If decay is at max, then nothing should play. So mute sustain too ?
                 if (pData->field_4_adsr_decay == 16)

@@ -183,7 +183,7 @@ s32 SND_PlayEx_4EF740(const SoundEntry* pSnd, s32 panLeft, s32 panRight, f32 fre
 
         if (status & DSBSTATUS_PLAYING) // TODO: SDL2 didn't check this flag
         {
-            pDSoundBuffer->SetFrequency(static_cast<u32>((pSnd->field_18_sampleRate * freq) + 0.5)); // This freq don't get clamped for some reason
+            pDSoundBuffer->SetFrequency(static_cast<u32>((pSnd->field_18_sampleRate * freq) + 0.5f)); // This freq don't get clamped for some reason
             pDSoundBuffer->SetVolume(sVolumeTable_BBBD38[panRightConverted]);                        // TODO: SDL2 / 10000.0f
             pDSoundBuffer->SetCurrentPosition(0);
             return 0;
@@ -212,7 +212,7 @@ s32 SND_PlayEx_4EF740(const SoundEntry* pSnd, s32 panLeft, s32 panRight, f32 fre
         }
     }
 
-    u32 freqHz = static_cast<u32>((pSnd->field_18_sampleRate * freq) + 0.5);
+    u32 freqHz = static_cast<u32>((pSnd->field_18_sampleRate * freq) + 0.5f);
     if (freqHz < DSBFREQUENCY_MIN)
     {
         freqHz = DSBFREQUENCY_MIN;

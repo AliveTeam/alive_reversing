@@ -37,7 +37,7 @@ ScreenWave::ScreenWave(FP xpos, FP ypos, Layer layer, FP width, FP speed, s32 ra
     gObjListDrawables->Push_Back(this);
 
     // TODO: Using frame counter as an ID seems extremely dangerous due to id collision risk!
-    field_14_ppRes = reinterpret_cast<ScreenWave_Data**>(ResourceManager::Allocate_New_Locked_Resource('evaW', sGnFrame, sizeof(ScreenWave_Data)));
+    field_14_ppRes = reinterpret_cast<ScreenWave_Data**>(ResourceManager::Allocate_New_Locked_Resource(ResourceManager::Resource_Wave, sGnFrame, sizeof(ScreenWave_Data)));
     if (!field_14_ppRes)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);

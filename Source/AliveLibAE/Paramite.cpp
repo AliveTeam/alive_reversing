@@ -555,8 +555,6 @@ s16 Paramite::Brain_0_Patrol_4835B0()
         MusicController::static_PlayMusic(MusicController::MusicTypes::eTension_4, this, 0, 0);
     }
 
-    const FP kGridSize = ScaleToGridSize(mSpriteScale);
-
     switch (field_12C_brain_ret)
     {
         case ParamiteEnums::Brain_0_Patrol::eBrain0_Inactive_0:
@@ -2229,7 +2227,6 @@ s16 Paramite::Brain_SpottedMeat_State_3_Jumping()
 
 s16 Paramite::Brain_SpottedMeat_State_2_Walking(Meat* pMeat)
 {
-    const FP kGridSize = ScaleToGridSize(mSpriteScale);
     const s32 xPos_int = FP_GetExponent(mXPos);
     const s32 xSnapped = SnapToXGrid(mSpriteScale, xPos_int);
 

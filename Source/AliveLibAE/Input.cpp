@@ -1055,7 +1055,7 @@ void NewParseSettingsIni()
 #endif
 }
 
-void Input_SaveSettingsIni_Common(bool isAo)
+void Input_SaveSettingsIni_Common()
 {
     if (!canOverwriteIni)
     {
@@ -1120,14 +1120,7 @@ void Input_SaveSettingsIni_Common(bool isAo)
     btnString = Input_GetButtonString_492530(kFart, 0);
     if (btnString)
     {
-        if (isAo)
-        {
-            output << "fart = " << btnString << "\n";
-        }
-        else
-        {
-            output << "fart = " << btnString << "\n";
-        }
+        output << "fart = " << btnString << "\n";
     }
 
     sJoystickEnabled = 1;
@@ -1172,14 +1165,7 @@ void Input_SaveSettingsIni_Common(bool isAo)
     btnString = Input_GetButtonString_492530(kFart, 1);
     if (btnString)
     {
-        if (isAo)
-        {
-            output << "fart = " << btnString << "\n";
-        }
-        else
-        {
-            output << "fart = " << btnString << "\n";
-        }
+        output << "fart = " << btnString << "\n";
     }
 
     btnString = Input_GetButtonString_492530(kSpeak1, 1);
@@ -1225,7 +1211,7 @@ void Input_SaveSettingsIni_Common(bool isAo)
 
 void Input_SaveSettingsIni_492840()
 {
-    Input_SaveSettingsIni_Common(false);
+    Input_SaveSettingsIni_Common();
 }
 
 void Input_LoadSettingsIni_492D40()
@@ -1321,9 +1307,9 @@ s32 Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
             keys_down = pressed_keyboard_keys;
         }
 
-        if (pX1 >= -0.050000001)
+        if (pX1 >= -0.050000001f)
         {
-            if (pX1 <= 0.050000001)
+            if (pX1 <= 0.050000001f)
             {
                 goto LABEL_24;
             }
@@ -1336,9 +1322,9 @@ s32 Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
 
         keys_down = pressed_keyboard_keys;
     LABEL_24:
-        if (pY1 >= -0.050000001)
+        if (pY1 >= -0.050000001f)
         {
-            if (pY1 <= 0.050000001)
+            if (pY1 <= 0.050000001f)
             {
             LABEL_29:
                 input_command_c_pressed = 0;

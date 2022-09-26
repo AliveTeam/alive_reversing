@@ -196,7 +196,7 @@ public:
         return std::move(s).GetBuffer();
     }
 
-    const u32 ChunkCount() const
+    u32 ChunkCount() const
     {
         return static_cast<u32>(mChunks.size());
     }

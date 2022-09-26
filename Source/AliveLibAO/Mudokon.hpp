@@ -97,7 +97,7 @@ public:
     Mudokon(relive::Path_TLV* pTlv, const Guid& tlvId);
     ~Mudokon();
 
-    void LoadAnimations();;
+    void LoadAnimations();
 
     void KillLiftPoint_194();
 
