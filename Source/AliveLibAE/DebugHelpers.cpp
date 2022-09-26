@@ -469,32 +469,16 @@ public:
         Init_PrimClipper(&mPrimClipper, &clipRect);
         // OrderingTable_Add(&pOrderingTable[30], &mPrimClipper.field_0_header);
 
-        // Tiles
-        for (s32 i = 0; i < 10; i++)
-        {
-            OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mTiles[i].mBase.header);
-        }
-        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mTile8.mBase.header);
-        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mTile16.mBase.header);
-        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mTile.mBase.header);
-
         // Sprites
-        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mSprt8.mBase.header);
-        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mSprt8_TPage.mBase);
-
-        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mSprt16.mBase.header);
-        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mSprt16_TPage.mBase);
-
         OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mSprt.mBase.header);
         OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mSprt_TPage.mBase);
 
         // Lines
         OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mLineF2.mBase.header);
-        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mLineF3.mBase.header);
-        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mLineF4.mBase.header);
+       
 
         OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mLineG2.mBase.header);
-        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mLineG3.mBase.header);
+    
         OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mLineG4.mBase.header);
 
         for (s32 i = 0; i < 4; i++)
@@ -502,15 +486,12 @@ public:
             OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolyFT4[i].mBase.header);
         }
 
-        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolyGT4.mBase.header);
         OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolyF4.mBase.header);
         OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolyG4.mBase.header);
 
         // Polys
         OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolyF3.mBase.header);
         OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolyG3.mBase.header);
-        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolyFT3.mBase.header);
-        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPolyGT3.mBase.header);
     }
 
 private:
@@ -536,65 +517,6 @@ private:
             SetXY0(&mPolyF3, 240, 190);
             SetXY1(&mPolyF3, 240, 190 + 20);
             SetXY2(&mPolyF3, 240 + (20 * 2), 190);
-        }
-
-        {
-            PolyFT3_Init(&mPolyFT3);
-
-            TimInfo timInfo = {};
-            LoadTIM(&timInfo, &tim_16_bit[0], TPageAbr::eBlend_3);
-
-            SetRGB0(&mPolyFT3, 127, 127, 127);
-
-            Poly_Set_Blending(&mPolyFT3.mBase.header, 1);
-            Poly_Set_SemiTrans(&mPolyFT3.mBase.header, 1);
-            SetTPage(&mPolyFT3, timInfo.mTPage);
-            SetClut(&mPolyFT3, timInfo.mClut);
-
-            const s16 xpos = 30;
-            const s16 ypos = 160;
-            const s16 w = timInfo.mRenderWidth * 2; // All width doubled due to PC doubling the render width
-            const s16 h = timInfo.mHeight;
-
-            SetXY0(&mPolyFT3, xpos, ypos);
-            SetXY1(&mPolyFT3, xpos, ypos + h);
-            SetXY2(&mPolyFT3, xpos + w, ypos);
-
-            // This assumes the texture data is at 0,0 in the active texture page
-            SetUV0(&mPolyFT3, 0, 0);
-            SetUV1(&mPolyFT3, 0, static_cast<u8>(timInfo.mHeight));
-            SetUV2(&mPolyFT3, static_cast<u8>(timInfo.mRenderWidth), 0);
-        }
-
-        {
-            PolyGT3_Init(&mPolyGT3);
-
-            TimInfo timInfo = {};
-            LoadTIM(&timInfo, &tim_16_bit[0], TPageAbr::eBlend_0);
-
-            SetRGB0(&mPolyGT3, 255, 0, 255);
-            // Much like PolyGT4 these have no effect, so same behavior as PolyFT3
-            SetRGB1(&mPolyGT3, 255, 0, 0);
-            SetRGB2(&mPolyGT3, 0, 255, 0);
-
-            Poly_Set_Blending(&mPolyGT3.mBase.header, 0);
-            Poly_Set_SemiTrans(&mPolyGT3.mBase.header, 0);
-            SetTPage(&mPolyGT3, timInfo.mTPage);
-            SetClut(&mPolyGT3, timInfo.mClut);
-
-            const s16 xpos = 180;
-            const s16 ypos = 90;
-            const s16 w = timInfo.mRenderWidth * 2; // All width doubled due to PC doubling the render width
-            const s16 h = timInfo.mHeight;
-
-            SetXY0(&mPolyGT3, xpos, ypos);
-            SetXY1(&mPolyGT3, xpos, ypos + h);
-            SetXY2(&mPolyGT3, xpos + w, ypos);
-
-            // This assumes the texture data is at 0,0 in the active texture page
-            SetUV0(&mPolyGT3, 0, 0);
-            SetUV1(&mPolyGT3, 0, static_cast<u8>(timInfo.mHeight));
-            SetUV2(&mPolyGT3, static_cast<u8>(timInfo.mRenderWidth), 0);
         }
 
         {
@@ -662,41 +584,6 @@ private:
         }
 
         {
-            PolyGT4_Init(&mPolyGT4);
-
-            TimInfo timInfo = {};
-            LoadTIM(&timInfo, &tim_16_bit[0], TPageAbr::eBlend_0);
-
-            // So it appears that only RGB0 changes the colour, so GT4 behaves the same
-            // as FT4.
-            SetRGB0(&mPolyGT4, 0, 255, 0);
-            SetRGB1(&mPolyGT4, 0, 0, 0);
-            SetRGB2(&mPolyGT4, 0, 0, 0);
-            SetRGB3(&mPolyGT4, 0, 0, 0);
-
-            Poly_Set_Blending(&mPolyGT4.mBase.header, 0);
-            Poly_Set_SemiTrans(&mPolyGT4.mBase.header, 1);
-            SetTPage(&mPolyGT4, timInfo.mTPage);
-            SetClut(&mPolyGT4, timInfo.mClut);
-
-            const s16 xpos = 30;
-            const s16 ypos = 90;
-            const s16 w = timInfo.mRenderWidth * 2; // All width doubled due to PC doubling the render width
-            const s16 h = timInfo.mHeight;
-
-            SetXY0(&mPolyGT4, xpos, ypos);
-            SetXY1(&mPolyGT4, xpos, ypos + h);
-            SetXY2(&mPolyGT4, xpos + w, ypos);
-            SetXY3(&mPolyGT4, xpos + w, ypos + h);
-
-            // This assumes the texture data is at 0,0 in the active texture page
-            SetUV0(&mPolyGT4, 0, 0);
-            SetUV1(&mPolyGT4, 0, static_cast<u8>(timInfo.mHeight));
-            SetUV2(&mPolyGT4, static_cast<u8>(timInfo.mRenderWidth), 0);
-            SetUV3(&mPolyGT4, static_cast<u8>(timInfo.mRenderWidth), static_cast<u8>(timInfo.mHeight));
-        }
-
-        {
             PolyG4_Init(&mPolyG4);
 
             SetRGB0(&mPolyG4, 255, 0, 0);
@@ -717,23 +604,6 @@ private:
             SetXY1(&mLineF2, 30 + 80, 9);
         }
 
-        {
-            Line_F3_Init(&mLineF3);
-            SetRGB0(&mLineF3, 55, 255, 55);
-            SetXY0(&mLineF3, 30, 11);
-            SetXY1(&mLineF3, 30 + 80, 11);
-            SetXY2(&mLineF3, 30 + 80, 15);
-        }
-
-        {
-            Line_F4_Init(&mLineF4);
-            SetRGB0(&mLineF4, 55, 155, 155);
-
-            SetXY0(&mLineF4, 30, 18);
-            SetXY1(&mLineF4, 30 + 140, 18);
-            SetXY2(&mLineF4, 30 + 140, 85);
-            SetXY3(&mLineF4, 30, 85);
-        }
 
         {
             LineG2_Init(&mLineG2);
@@ -742,18 +612,6 @@ private:
 
             SetXY0(&mLineG2, 320, 90);
             SetXY1(&mLineG2, 420, 90);
-        }
-
-        {
-            LineG3_Init(&mLineG3);
-
-            SetRGB0(&mLineG3, 55, 55, 90);
-            SetRGB1(&mLineG3, 155, 60, 255);
-            SetRGB2(&mLineG3, 50, 255, 255);
-
-            SetXY0(&mLineG3, 320, 120);
-            SetXY1(&mLineG3, 420, 120);
-            SetXY2(&mLineG3, 320, 100);
         }
 
         {
@@ -771,60 +629,11 @@ private:
         }
 
         {
-            for (u8 i = 0; i < 10; i++)
-            {
-                Init_Tile1(&mTiles[i]);
-                SetRGB0(&mTiles[i], 255, i * 12, i * 12);
-                SetXY0(&mTiles[i], 30 + (i * 5), 10);
-            }
-        }
-
-        {
-            Init_Tile8(&mTile8);
-            SetRGB0(&mTile8, 55, 80, 55);
-            SetXY0(&mTile8, 180, 5);
-        }
-
-        {
-            Init_Tile16(&mTile16);
-            SetRGB0(&mTile16, 100, 255, 0);
-            SetXY0(&mTile16, 200, 2);
-        }
-
-        {
             Init_Tile(&mTile);
             SetRGB0(&mTile, 30, 50, 90);
             SetXY0(&mTile, 450, 80);
             mTile.field_14_w = 50;
             mTile.field_16_h = 90;
-        }
-
-        {
-            Init_Sprt_8(&mSprt8);
-            SetRGB0(&mSprt8, 127, 127, 127);
-            SetXY0(&mSprt8, 520, 80);
-
-            TimInfo timInfo = {};
-            LoadTIM(&timInfo, &tim_16_bit[0], TPageAbr::eBlend_0);
-
-            SetClut(&mSprt8, timInfo.mClut);
-            SetUV0(&mSprt8, 30, 30);
-
-            Init_SetTPage(&mSprt8_TPage, 0, 0, timInfo.mTPage);
-        }
-
-        {
-            Init_Sprt_16(&mSprt16);
-            SetRGB0(&mSprt16, 127, 127, 127);
-            SetXY0(&mSprt16, 520, 120);
-
-            TimInfo timInfo = {};
-            LoadTIM(&timInfo, &tim_16_bit[0], TPageAbr::eBlend_0);
-
-            SetClut(&mSprt8, timInfo.mClut);
-            SetUV0(&mSprt16, 30, 30);
-
-            Init_SetTPage(&mSprt16_TPage, 0, 0, timInfo.mTPage);
         }
 
         {
@@ -846,33 +655,33 @@ private:
     }
 
     Line_F2 mLineF2 = {};
-    Line_F3 mLineF3 = {};
-    Line_F4 mLineF4 = {};
+   // Line_F3 mLineF3 = {};
+   // Line_F4 mLineF4 = {};
 
     Line_G2 mLineG2 = {};
-    Line_G3 mLineG3 = {};
+   // Line_G3 mLineG3 = {};
     Line_G4 mLineG4 = {};
 
     Poly_G3 mPolyG3 = {};
     Poly_F3 mPolyF3 = {};
-    Poly_FT3 mPolyFT3 = {};
-    Poly_GT3 mPolyGT3 = {};
+    //Poly_FT3 mPolyFT3 = {};
+    //Poly_GT3 mPolyGT3 = {};
 
     Poly_G4 mPolyG4 = {};
     Poly_F4 mPolyF4 = {};
     Poly_FT4 mPolyFT4[4] = {};
-    Poly_GT4 mPolyGT4 = {};
+    //Poly_GT4 mPolyGT4 = {};
 
-    Prim_Tile_1 mTiles[10] = {};
-    Prim_Tile_8 mTile8 = {};
-    Prim_Tile_16 mTile16 = {};
+    //Prim_Tile_1 mTiles[10] = {};
+    //Prim_Tile_8 mTile8 = {};
+    //Prim_Tile_16 mTile16 = {};
     Prim_Tile mTile = {};
 
-    Prim_SetTPage mSprt8_TPage = {};
-    Prim_Sprt_8 mSprt8 = {};
+    //Prim_SetTPage mSprt8_TPage = {};
+    //Prim_Sprt_8 mSprt8 = {};
 
-    Prim_SetTPage mSprt16_TPage = {};
-    Prim_Sprt_16 mSprt16 = {};
+    //Prim_SetTPage mSprt16_TPage = {};
+    //Prim_Sprt_16 mSprt16 = {};
 
     Prim_SetTPage mSprt_TPage = {};
     Prim_Sprt mSprt = {};
@@ -968,29 +777,10 @@ public:
         SetXY2(&mPoly_F4, 300, 200);
         SetXY3(&mPoly_F4, 500, 50);
 
-        for (s32 i = 0; i < 4; i++)
-        {
-            Init_Tile8(&mPoly_F4_Verts[i]);
-        }
-        SetRGB0(&mPoly_F4_Verts[0], 255, 0, 0);
-        SetXY0(&mPoly_F4_Verts[0], 350, 100);
-
-        SetRGB0(&mPoly_F4_Verts[1], 0, 255, 0);
-        SetXY0(&mPoly_F4_Verts[1], 550, 100);
-
-        SetRGB0(&mPoly_F4_Verts[2], 0, 0, 255);
-        SetXY0(&mPoly_F4_Verts[2], 300, 200);
-
-        SetRGB0(&mPoly_F4_Verts[3], 255, 255, 255);
-        SetXY0(&mPoly_F4_Verts[3], 500, 50);
     }
 
     void Render(PrimHeader** ppOt)
     {
-        for (s32 i = 0; i < 4; i++)
-        {
-            OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPoly_F4_Verts[i].mBase.header);
-        }
 
         OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPoly_F3.mBase.header);
         OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_InBirdPortal_30), &mPoly_F4.mBase.header);
@@ -1003,7 +793,7 @@ public:
 private:
     Poly_F3 mPoly_F3;
     Poly_F4 mPoly_F4;
-    Prim_Tile_8 mPoly_F4_Verts[4];
+   // Prim_Tile_8 mPoly_F4_Verts[4];
 };
 
 
@@ -1269,7 +1059,7 @@ void DebugHelpers_Init()
 
     //#if RENDER_TEST
     // Test rendering diff prim types
-    // relive_new RenderTest(); // Will get nuked at LVL/Path change
+    //relive_new RenderTest(); // Will get nuked at LVL/Path change
     //relive_new AnimRenderTest();
     //#endif
 }
