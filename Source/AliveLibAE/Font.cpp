@@ -162,6 +162,8 @@ s32 Font::DrawString_4337D0(PrimHeader** ppOt, const char_type* text, s32 x, s16
         SetXY3(poly, offsetX + widthScaled, y + heightScaled);
         SetUV3(poly, texture_u + charWidth, texture_v + charHeight);
 
+        poly->mFont = field_34_font_context;
+
         OrderingTable_Add(OtLayer(ppOt, layer), &poly->mBase.header);
 
         ++characterRenderCount;

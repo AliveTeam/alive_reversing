@@ -134,6 +134,7 @@ struct Poly_FT4 final
     bool mFlipX;
     bool mFlipY;
     class CamResource* mCam;
+    struct Font_Context* mFont;
 };
 // ALIVE_ASSERT_SIZEOF(Poly_FT4, 0x2C);
 

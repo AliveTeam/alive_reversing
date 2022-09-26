@@ -6,6 +6,8 @@
 
 #include "../relive_lib/Animation.hpp"
 
+#include "../Font.hpp"
+
 void SoftwareRenderer::Destroy()
 {
     SDL_DestroyTexture(mBackBufferTexture);
@@ -417,6 +419,7 @@ static void SetSemiTransBlendMode(SDL_Texture* pTexture, s16 tPage)
 
 void SoftwareRenderer::Draw(Poly_FT4& poly)
 {
+
     SDL_Texture* pTexture = nullptr;
     f32 u0 = 0.0f;
     f32 v0 = 0.0f;
@@ -468,18 +471,17 @@ void SoftwareRenderer::Draw(Poly_FT4& poly)
         src.w = pHeader->mWidth;
         src.h = pHeader->mHeight;
 
-        SDL_Rect dst = {};
+        SDL_SetTextureColorMod(pTexture, 127, 127, 127);
+
+        SDL_Rect dst;
         dst.x = X0(&poly);
-        dst.y = Y0(&poly);
-        dst.w = pHeader->mWidth;
-        dst.h = pHeader->mHeight;
-
+        dst.y = Y0(&poly) * 2;
+        dst.w = X3(&poly) - X0(&poly);
+        dst.h = (Y3(&poly) * 2) - (Y0(&poly) * 2);
         SDL_RenderCopy(mRenderer, pTexture, &src, &dst);
-
-        SDL_DestroyTexture(pTexture);*/
+        */
     }
-
-    if (poly.mCam && poly.mCam->mData.mPixels)
+    else if (poly.mCam && poly.mCam->mData.mPixels)
     {
         pTexture = SDL_CreateTexture(mRenderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STREAMING, poly.mCam->mData.mWidth, poly.mCam->mData.mHeight);
 
@@ -499,13 +501,42 @@ void SoftwareRenderer::Draw(Poly_FT4& poly)
         }
 
         SDL_UnlockTexture(pTexture);
+
+        /*
+        SDL_SetTextureColorMod(pTexture, 255, 255, 255);
+    
+        SDL_Rect dst;
+        dst.x = X0(&poly);
+        dst.y = Y0(&poly) * 2;
+        dst.w = X3(&poly);
+        dst.h = Y3(&poly) * 2;
+        SDL_RenderCopy(mRenderer, pTexture, nullptr, &dst);
+        */
     }
+    else if (poly.mFont)
+    {
+        std::shared_ptr<TgaData> pTga = poly.mFont->field_C_resource_id.mTgaPtr;
+        pTexture = MakeTexture(mRenderer, pTga->mPal.mPal, pTga->mPixels.data(), pTga->mWidth, pTga->mHeight);
+
+        u0 = U0(&poly);
+        v0 = V0(&poly);
+
+        u1 = U3(&poly);
+        v1 = V3(&poly);
+
+        u0 = u0 / static_cast<f32>(pTga->mWidth);
+        v0 = v0 / static_cast<f32>(pTga->mHeight);
+
+        u1 = u1 / static_cast<f32>(pTga->mWidth);
+        v1 = v1 / static_cast<f32>(pTga->mHeight);
+    }
+
 
     SDL_Vertex vert[4];
 
-    u8 r = R0(&poly) + 127;
-    u8 g = G0(&poly) + 127;
-    u8 b = B0(&poly) + 127;
+    u8 r = R0(&poly);
+    u8 g = G0(&poly);
+    u8 b = B0(&poly);
 
     // center
     vert[0].position.x = X0(&poly);
@@ -548,6 +579,7 @@ void SoftwareRenderer::Draw(Poly_FT4& poly)
 
     s32 indexList[6] = {0, 1, 2, 2, 1, 3};
     SDL_RenderGeometry(mRenderer, pTexture, vert, 4, indexList, 6);
+
     if (pTexture)
     {
         SDL_DestroyTexture(pTexture);
