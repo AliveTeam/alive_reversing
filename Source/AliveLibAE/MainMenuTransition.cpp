@@ -235,8 +235,6 @@ void MainMenuTransition::VRender(PrimHeader** ppOt)
 
     OrderingTable_Add(OtLayer(ppOt, field_24C_layer), &field_22C_tPage[gPsxDisplay.mBufferIndex].mBase);
 
-    pScreenManager->InvalidateRectCurrentIdx(0, 0, gPsxDisplay.mWidth, gPsxDisplay.mHeight);
-
     if ((field_20_current_value == 255 && field_24_fade_direction) || (field_20_current_value == 0 && !field_24_fade_direction))
     {
         field_26_bDone = 1;

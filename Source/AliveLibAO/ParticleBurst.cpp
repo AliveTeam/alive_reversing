@@ -298,12 +298,6 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
                         ppOt, 0, 0);
                     pItem->field_18_animation.GetRenderedSize(&rect);
                 }
-
-                pScreenManager->InvalidateRectCurrentIdx(
-                    rect.x,
-                    rect.y,
-                    rect.w,
-                    rect.h);
             }
         }
     }

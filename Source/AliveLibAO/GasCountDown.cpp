@@ -191,12 +191,6 @@ void GasCountDown::VRender(PrimHeader** ppOt)
         FP_FromInteger(1),
         textWidth + field_5C_xpos,
         sDisableFontFlicker_5080E4 ? 0 : 50);
-
-    pScreenManager->InvalidateRectCurrentIdx(
-        field_5C_xpos,
-        field_5E_ypos,
-        field_5C_xpos + textWidth,
-        field_5E_ypos + 16);
 }
 
 } // namespace AO

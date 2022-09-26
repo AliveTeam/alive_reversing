@@ -374,7 +374,7 @@ void DDCheat::VUpdate()
 
             if (field_10_bInvalidateRect)
             {
-                pScreenManager->InvalidateRectCurrentIdx(0, 0, 640, 240);
+
             }
         }
     }

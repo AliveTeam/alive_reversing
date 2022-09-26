@@ -43,13 +43,5 @@ void EffectBase::VRender(PrimHeader** ppOt)
         Poly_Set_SemiTrans(&pTile->mBase.header, mSemiTrans);
         OrderingTable_Add(OtLayer(ppOt, mEffectBaseLayer), &pTile->mBase.header);
         OrderingTable_Add(OtLayer(ppOt, mEffectBaseLayer), &mEffectBaseTPage[gPsxDisplay.mBufferIndex].mBase);
-        if (!dword_5CA4D4 || !(PSX_getTPage(TPageMode::e4Bit_0, TPageAbr::eBlend_1, 0, 0) & mEffectBaseTPage[0].field_C_tpage))
-        {
-            pScreenManager->InvalidateRectCurrentIdx(
-                0,
-                0,
-                640,
-                gPsxDisplay.mHeight);
-        }
     }
 }

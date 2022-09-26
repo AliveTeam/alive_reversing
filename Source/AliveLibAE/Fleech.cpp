@@ -1457,12 +1457,6 @@ void Fleech::RenderEx(PrimHeader** ot)
                 invRect_y = biggerof1and2Y;
                 invRect_h = smallerof0andBaseY;
             }
-
-            pScreenManager->InvalidateRectCurrentIdx(
-                invRect_x,
-                invRect_y,
-                invRect_w,
-                invRect_h);
         }
         const s32 tPage = PSX_getTPage(TPageMode::e4Bit_0, TPageAbr::eBlend_0, 0, 0);
         Init_SetTPage(&field_40C[gPsxDisplay.mBufferIndex], 1, 0, tPage);

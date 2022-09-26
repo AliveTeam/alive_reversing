@@ -187,12 +187,5 @@ void Shadow::Render(PrimHeader** ppOt)
             (mX2 - mX1) + 1,
             (mY2 - mY1) + 1);
 
-        PSX_RECT frameRect = {};
-        mAnim.Get_Frame_Rect(&frameRect);
-        pScreenManager->InvalidateRectCurrentIdx(
-            frameRect.x,
-            frameRect.y,
-            frameRect.w,
-            frameRect.h);
     }
 }

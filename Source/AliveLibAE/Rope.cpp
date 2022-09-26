@@ -190,14 +190,6 @@ void Rope::VRender(PrimHeader** ppOt)
                         0,
                         0);
 
-                    PSX_RECT rect = {};
-                    field_FC_pRopeRes[idx].GetRenderedSize(&rect);
-                    pScreenManager->InvalidateRectCurrentIdx(
-                        rect.x,
-                        rect.y,
-                        rect.w,
-                        rect.h);
-
                     ClipPoly_Vertically_4A09E0(
                         &field_FC_pRopeRes[idx].field_10_polys[gPsxDisplay.mBufferIndex],
                         minY,

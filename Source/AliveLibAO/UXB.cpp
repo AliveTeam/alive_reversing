@@ -466,11 +466,6 @@ void UXB::VRender(PrimHeader** ppOt)
 
         PSX_RECT rect = {};
         mFlashAnim.Get_Frame_Rect(&rect);
-        pScreenManager->InvalidateRectCurrentIdx(
-            rect.x,
-            rect.y,
-            rect.w,
-            rect.h);
 
         BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     }

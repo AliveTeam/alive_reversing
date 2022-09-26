@@ -73,12 +73,6 @@ void CircularFade::VRender(PrimHeader** ppOt)
     PSX_RECT frameRect = {};
     mAnim.Get_Frame_Rect(&frameRect);
 
-    pScreenManager->InvalidateRectCurrentIdx(
-        frameRect.x,
-        frameRect.y,
-        frameRect.w,
-        frameRect.h);
-
     frameRect.h--;
     frameRect.w--;
 
@@ -150,15 +144,6 @@ void CircularFade::VRender(PrimHeader** ppOt)
     OrderingTable_Add(OtLayer(ppOt, mAnim.mRenderLayer), &pTile4->mBase.header);
 
     OrderingTable_Add(OtLayer(ppOt, mAnim.mRenderLayer), &field_198_tPages[gPsxDisplay.mBufferIndex].mBase);
-
-    if (field_1B8_fade_colour < 255)
-    {
-        pScreenManager->InvalidateRectCurrentIdx(
-            0,
-            0,
-            gPsxDisplay.mWidth,
-            gPsxDisplay.mHeight);
-    }
 
     if ((field_1B8_fade_colour == 255 && field_F4_flags.Get(Flags::eBit1_FadeIn)) || (field_1B8_fade_colour == 0 && !(field_F4_flags.Get(Flags::eBit1_FadeIn))))
     {

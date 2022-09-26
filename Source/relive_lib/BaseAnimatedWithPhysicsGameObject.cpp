@@ -148,11 +148,6 @@ void BaseAnimatedWithPhysicsGameObject::VRender(PrimHeader** ppOt)
 
             PSX_RECT frameRect = {};
             mAnim.Get_Frame_Rect(&frameRect);
-            pScreenManager->InvalidateRectCurrentIdx(
-                frameRect.x,
-                frameRect.y,
-                frameRect.w,
-                frameRect.h);
 
             if (mShadow)
             {

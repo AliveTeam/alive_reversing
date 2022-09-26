@@ -377,11 +377,6 @@ void MeatSaw::VRender(PrimHeader** ppOt)
 
         PSX_RECT rect = {};
         field_110_anim.Get_Frame_Rect(&rect);
-        pScreenManager->InvalidateRectCurrentIdx(
-            rect.x,
-            rect.y,
-            rect.w,
-            rect.h);
     }
 }
 

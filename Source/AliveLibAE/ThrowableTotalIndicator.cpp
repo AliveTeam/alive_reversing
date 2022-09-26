@@ -289,10 +289,4 @@ void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
     Init_SetTPage(pTPage, 1, 0, PSX_getTPage(TPageMode::e4Bit_0, TPageAbr::eBlend_1, 0, 0));
 
     OrderingTable_Add(OtLayer(ppOt, mOtLayer), &pTPage->mBase);
-
-    pScreenManager->InvalidateRectCurrentIdx(
-        xpos - 8,
-        ypos - 8,
-        xpos + 8,
-        ypos + 8);
 }

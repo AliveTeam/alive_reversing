@@ -272,10 +272,6 @@ void SnoozeParticle::VRender(PrimHeader** ppOt)
     const s32 tPage = PSX_getTPage(TPageMode::e4Bit_0, TPageAbr::eBlend_1, 0, 0);
     Init_SetTPage(thisTPage, 1, 0, tPage);
     OrderingTable_Add(OtLayer(ppOt, mOtLayer), &thisTPage->mBase);
-
-    pScreenManager->InvalidateRectCurrentIdx(
-        rectToInvalidate.x, rectToInvalidate.y,
-        rectToInvalidate.w, rectToInvalidate.h);
 }
 
 void SnoozeParticle::VScreenChanged()

@@ -389,11 +389,6 @@ void MainMenuFade::VRender(PrimHeader** ppOt)
 
     PSX_RECT rect = {};
     mAnim.Get_Frame_Rect(&rect);
-    pScreenManager->InvalidateRectCurrentIdx(
-        rect.x,
-        rect.y,
-        rect.w,
-        rect.h);
 }
 
 struct MainMenu_TransitionData final
@@ -656,8 +651,6 @@ void MainMenuTransition::VRender_436610(PrimHeader** ppOt)
 
     OrderingTable_Add(OtLayer(ppOt, field_23C_layer), &field_21C_tPage[gPsxDisplay.mBufferIndex].mBase);
 
-    pScreenManager->InvalidateRectCurrentIdx(0, 0, gPsxDisplay.mWidth, gPsxDisplay.mHeight);
-
     if ((field_10_current_Value == 255 && field_14_fade_direction) || (field_10_current_Value == 0 && !field_14_fade_direction))
     {
         field_16_bDone = 1;
@@ -846,11 +839,6 @@ void Menu::VRender(PrimHeader** ppOt)
 
         PSX_RECT rect = {};
         mAnim.Get_Frame_Rect(&rect);
-        pScreenManager->InvalidateRectCurrentIdx(
-            rect.x,
-            rect.y,
-            rect.w,
-            rect.h);
     }
     (this->*field_1D0_fn_render)(ppOt);
 }
@@ -1019,7 +1007,6 @@ void Menu::FMV_Select_Update_47E8D0()
                     stru_507C90.Free_41BEB0();
                     gPsxDisplay.PutCurrentDispEnv();
                     pScreenManager->DecompressCameraToVRam(gMap.field_34_camera_array[0]->field_C_ppBits);
-                    pScreenManager->MoveImage();
                     pScreenManager->EnableRendering();
                     SND_Restart();
                 }
@@ -1030,7 +1017,6 @@ void Menu::FMV_Select_Update_47E8D0()
 
                     // The credits are re-done in this class rather than using CreditsController... go to the Sherry credit screen
                     field_208_camera = 1;
-                    pScreenManager->UnsetDirtyBits_FG1();
                     gMap.SetActiveCam(EReliveLevelIds::eCredits, 1, static_cast<s16>(field_208_camera), CameraSwapEffects::eInstantChange_0, 0, 0);
                     field_1CC_fn_update = &Menu::To_Credits_Update_47F140;
                     field_1D0_fn_render = &Menu::Empty_Render_47AC80;
@@ -1113,11 +1099,6 @@ void Menu::FMV_Or_Level_Select_Render_47EEA0(PrimHeader** ppOt)
 
     PSX_RECT rect = {};
     field_134_anim.Get_Frame_Rect(&rect);
-    pScreenManager->InvalidateRectCurrentIdx(
-        rect.x,
-        rect.y,
-        rect.w,
-        rect.h);
 
     if (field_1E0_selected_index.raw != field_218_previous_fmv_or_level_selection)
     {
@@ -1282,11 +1263,6 @@ void Menu::MainScreen_Render_47BED0(PrimHeader** ppOt)
 
     PSX_RECT rect = {};
     field_134_anim.Get_Frame_Rect(&rect);
-    pScreenManager->InvalidateRectCurrentIdx(
-        rect.x,
-        rect.y,
-        rect.w,
-        rect.h);
 
     s32 polyOffset = 0;
     for (const auto& element : sBtnArray_MainMenuStaticBtn_4D03F0)
@@ -1790,22 +1766,12 @@ void Menu::Load_Render_47DDA0(PrimHeader** ppOt)
         field_134_anim.VRender(stru_4D01F0[1].field_0_xpos, stru_4D01F0[1].field_2_ypos + 36, ppOt, 0, 0);
         PSX_RECT rect = {};
         field_134_anim.Get_Frame_Rect(&rect);
-        pScreenManager->InvalidateRectCurrentIdx(
-            rect.x,
-            rect.y,
-            rect.w,
-            rect.h);
     }
     else
     {
         field_134_anim.VRender(stru_4D01F0[0].field_0_xpos, stru_4D01F0[0].field_2_ypos + 36, ppOt, 0, 0);
         PSX_RECT rect = {};
         field_134_anim.Get_Frame_Rect(&rect);
-        pScreenManager->InvalidateRectCurrentIdx(
-            rect.x,
-            rect.y,
-            rect.w,
-            rect.h);
     }
 
     if (field_1E0_selected_index.raw != sSelectedSaveIdx_9F2DDC)
@@ -1957,11 +1923,6 @@ void Menu::Options_Render_47C190(PrimHeader** ppOt)
 
     PSX_RECT rect = {};
     field_134_anim.Get_Frame_Rect(&rect);
-    pScreenManager->InvalidateRectCurrentIdx(
-        rect.x,
-        rect.y,
-        rect.w,
-        rect.h);
 
     s32 polyOff = 0;
     for (const auto& element : sBtnArray_Options_4D0400)
@@ -2275,11 +2236,6 @@ void Menu::Options_Controller_Render_47F430(PrimHeader** ppOt)
 
     PSX_RECT rect = {};
     field_134_anim.Get_Frame_Rect(&rect);
-    pScreenManager->InvalidateRectCurrentIdx(
-        rect.x,
-        rect.y,
-        rect.w,
-        rect.h);
 
     if (field_1E0_selected_index.raw != (Input_JoyStickEnabled() ? 1 : 0))
     {
@@ -2410,11 +2366,6 @@ void Menu::Options_Sound_Render_47C630(PrimHeader** ppOt)
 
     PSX_RECT rect = {};
     field_134_anim.Get_Frame_Rect(&rect);
-    pScreenManager->InvalidateRectCurrentIdx(
-        rect.x,
-        rect.y,
-        rect.w,
-        rect.h);
 
     s32 polyOffset = 0;
     for (s32 i = 0; i < 2; i++)
@@ -3095,11 +3046,6 @@ void Menu::ButtonRemap_Render_47F940(PrimHeader** ppOt)
 
     PSX_RECT pRect = {};
     field_134_anim.Get_Frame_Rect(&pRect);
-    pScreenManager->InvalidateRectCurrentIdx(
-        pRect.x,
-        pRect.y,
-        pRect.w,
-        pRect.h);
 
     for (s32 i = 0; i < ALIVE_COUNTOF(chooseAndExitRemapButtons_4D0690); i++)
     {
@@ -3536,11 +3482,6 @@ void Menu::ToggleMotions_Render_47CAB0(PrimHeader** ppOt)
 
     PSX_RECT rect = {};
     field_134_anim.Get_Frame_Rect(&rect);
-    pScreenManager->InvalidateRectCurrentIdx(
-        rect.x,
-        rect.y,
-        rect.w,
-        rect.h);
 }
 
 void Menu::ToggleMotions_Update_47C800()

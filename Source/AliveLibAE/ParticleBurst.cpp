@@ -277,11 +277,6 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
                             mAnim.mBlue = 0;
                         }
                     }
-                    pScreenManager->InvalidateRectCurrentIdx(
-                        frameRect.x,
-                        frameRect.y,
-                        frameRect.w,
-                        frameRect.h);
                 }
             }
             else
@@ -331,11 +326,6 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
                             field_F8_pRes[i].field_18_animation.mBlue = 0;
                         }
                     }
-                    pScreenManager->InvalidateRectCurrentIdx(
-                        frameRect.x,
-                        frameRect.y,
-                        frameRect.w,
-                        frameRect.h);
                 }
             }
         }

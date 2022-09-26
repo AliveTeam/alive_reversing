@@ -41,8 +41,9 @@ public:
         mFg1.Convert_Chunk_To_Render_Block(&rChunk, pRenderBlock);
     }
 
-    void OnFullChunk(const Fg1Chunk& rChunk) override
+    void OnFullChunk(const Fg1Chunk& ) override
     {
+        /*
         // For some reason the screen manager doesn't work the same as in AE and this won't
         // result in full blocks getting drawn. Therefore we should never see this get called
         // as all blocks are partial (full blocks are "fake" partial blocks).
@@ -63,7 +64,7 @@ public:
             rChunk.field_6_ypos,
             rChunk.field_8_width + rChunk.field_4_xpos_or_compressed_size - 1,
             rChunk.field_A_height + rChunk.field_6_ypos - 1,
-            remappedToAeLayer);
+            remappedToAeLayer);*/
     }
 
     u8** Allocate(u32 len) override
@@ -100,14 +101,16 @@ public:
         mFg1.Convert_Chunk_To_Render_Block_AE(&rChunk, pRenderBlock);
     }
 
-    void OnFullChunk(const Fg1Chunk& rChunk) override
+    void OnFullChunk(const Fg1Chunk& ) override
     {
+        /*
         pScreenManager->InvalidateRect_IdxPlus4(
             rChunk.field_4_xpos_or_compressed_size,
             rChunk.field_6_ypos,
             rChunk.field_8_width + rChunk.field_4_xpos_or_compressed_size - 1,
             rChunk.field_A_height + rChunk.field_6_ypos - 1,
             rChunk.field_2_layer_or_decompressed_size);
+            */
     }
 
     u8** Allocate(u32 len) override

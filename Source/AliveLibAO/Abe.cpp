@@ -7765,7 +7765,6 @@ void Abe::Motion_88_HandstoneBegin_430590()
             {
                 gPsxDisplay.PutCurrentDispEnv();
                 pScreenManager->DecompressCameraToVRam(gMap.field_34_camera_array[0]->field_C_ppBits);
-                pScreenManager->MoveImage();
                 pScreenManager->EnableRendering();
                 field_164_pCircularFade->VFadeIn(0, 0);
                 field_110_state.stone = StoneStates::eHandstoneEnd_5;

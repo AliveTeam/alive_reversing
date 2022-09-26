@@ -168,7 +168,6 @@ void LaughingGas::VRender(PrimHeader** ppOt)
             }
             OrderingTable_Add(OtLayer(ppOt, field_58_layer), &field_5C_prim.mPrimHeader);
         }
-        pScreenManager->InvalidateRectCurrentIdx(0, 0, gPsxDisplay.mWidth, gPsxDisplay.mHeight);
     }
 }
 

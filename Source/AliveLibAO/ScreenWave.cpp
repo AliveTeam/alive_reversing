@@ -286,11 +286,7 @@ void ScreenWave::VRender(PrimHeader** ppOt)
         }
         if (clearRectSize.y <= clearRectSize.h && clearRectSize.x <= clearRectSize.w)
         {
-            pScreenManager->InvalidateRectCurrentIdx(
-                clearRectSize.x,
-                clearRectSize.y,
-                clearRectSize.w,
-                clearRectSize.h);
+
         }
     }
 }

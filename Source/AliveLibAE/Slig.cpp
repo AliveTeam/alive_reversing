@@ -547,11 +547,7 @@ void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, s16* pPa
 
             PSX_RECT rectToInvalidate = {};
             actor->mAnim.Get_Frame_Rect(&rectToInvalidate);
-            pScreenManager->InvalidateRectCurrentIdx(
-                rectToInvalidate.x,
-                rectToInvalidate.y,
-                rectToInvalidate.w,
-                rectToInvalidate.h);
+
 
             if (actor->mShadow)
             {

@@ -100,21 +100,6 @@ void TorturedMudokon::VRender(PrimHeader** ppOt)
             0);
     }
 
-    PSX_RECT rect = {};
-    mTearsAnim.Get_Frame_Rect(&rect);
-    pScreenManager->InvalidateRectCurrentIdx(
-        rect.x,
-        rect.y,
-        rect.w,
-        rect.h);
-
-    mZapAnim.Get_Frame_Rect(&rect);
-    pScreenManager->InvalidateRectCurrentIdx(
-        rect.x,
-        rect.y,
-        rect.w,
-        rect.h);
-
     BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
 }
 

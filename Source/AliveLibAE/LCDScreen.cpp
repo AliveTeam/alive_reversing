@@ -357,12 +357,6 @@ void LCDScreen::VRender(PrimHeader** ppOt)
         auto* clipper = &field_20_prim_clippers[1][gPsxDisplay.mBufferIndex];
         Init_PrimClipper(clipper, &clipRect);
         OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_RopeWebDrillMeatSaw_24), &clipper->mBase);
-
-        pScreenManager->InvalidateRectCurrentIdx(
-            screenXWorld,
-            screenY,
-            clipRect.w,
-            24);
     }
 }
 

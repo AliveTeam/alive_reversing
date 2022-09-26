@@ -290,12 +290,6 @@ void DeathGas::VRender(PrimHeader** ppOt)
 
     OrderingTable_Add(OtLayer(ppOt, field_18_layer), &gGasTPages_5008E8[gPsxDisplay.mBufferIndex].mBase);
 
-    pScreenManager->InvalidateRectCurrentIdx(
-        0,
-        0,
-        gPsxDisplay.mWidth,
-        gPsxDisplay.mHeight);
-
     if (field_10_total >= 255)
     {
         field_16_flag = 1;

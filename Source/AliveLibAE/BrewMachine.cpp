@@ -131,13 +131,6 @@ void BrewMachine::VRender(PrimHeader** ppOt)
             FP_FromInteger(1),
             mTextX + textWidth,
             flickerAmount);
-
-        const s32 v5 = 5 * textWidth;
-        pScreenManager->InvalidateRectCurrentIdx(
-            PsxToPCX(mTextX),
-            mTextY,
-            PsxToPCX(8 * v5),
-            16);
     }
 
     BaseAnimatedWithPhysicsGameObject::VRender(ppOt);

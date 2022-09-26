@@ -307,12 +307,6 @@ void MotionDetector::VRender(PrimHeader** ppOt)
         // Add tpage
         Init_SetTPage(&field_13C_tPage[gPsxDisplay.mBufferIndex], 0, 0, PSX_getTPage(TPageMode::e16Bit_2, field_160_bObjectInLaser != 0 ? TPageAbr::eBlend_1 : TPageAbr::eBlend_3, 0, 0)); // When detected transparency is off, gives the "solid red" triangle
         OrderingTable_Add(OtLayer(ppOt, mAnim.mRenderLayer), &field_13C_tPage[gPsxDisplay.mBufferIndex].mBase);
-
-        pScreenManager->InvalidateRectCurrentIdx(
-            std::min(x0, std::min(x1, x1)),
-            std::min(y0, std::min(y1, y2)),
-            std::max(x0, std::max(x1, x1)),
-            std::max(y0, std::max(y1, y2)));
     }
 }
 

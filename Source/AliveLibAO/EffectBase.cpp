@@ -48,7 +48,6 @@ void EffectBase::VRender(PrimHeader** ppOt)
     Poly_Set_SemiTrans(&pTile->mBase.header, mSemiTrans);
     OrderingTable_Add(OtLayer(ppOt, mEffectBaseLayer), &pTile->mBase.header);
     OrderingTable_Add(OtLayer(ppOt, mEffectBaseLayer), &mEffectBaseTPage[gPsxDisplay.mBufferIndex].mBase);
-    pScreenManager->InvalidateRectCurrentIdx(0, 0, 640, gPsxDisplay.mHeight);
 }
 
 } // namespace AO

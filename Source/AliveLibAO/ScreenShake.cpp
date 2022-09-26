@@ -134,9 +134,6 @@ void ScreenShake::VRender(PrimHeader** ppOt)
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
     }
-
-
-    pScreenManager->InvalidateRectCurrentIdx(0, 0, 640, 240);
 }
 
 ScreenShake::~ScreenShake()

@@ -455,10 +455,5 @@ void DDCheat::VUpdate()
                 (*this.*(sDDCheat_FnTable_550F50)[field_24_fn_idx])();
             }
         }
-
-        if (field_20)
-        {
-            pScreenManager->InvalidateRectCurrentIdx(0, 0, 640, 240);
-        }
     }
 }

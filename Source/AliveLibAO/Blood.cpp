@@ -266,12 +266,6 @@ void Blood::VRender(PrimHeader** ppOt)
         Init_SetTPage(pTPage, 0, 0, tpage);
         OrderingTable_Add(OtLayer(ppOt, mOtLayer), &pTPage->mBase);
         */
-
-        pScreenManager->InvalidateRectCurrentIdx(
-            (xy.x - 12),
-            (xy.y - 12),
-            (wh.x + 12),
-            (wh.y + 12));
     }
 }
 

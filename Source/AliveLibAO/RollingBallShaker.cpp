@@ -88,7 +88,6 @@ void RollingBallShaker::VRender(PrimHeader** ppOt)
         InitType_ScreenOffset(pPrim, &screenOff);
         OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_0), &pPrim->mBase);
     }
-    pScreenManager->InvalidateRectCurrentIdx(0, 0, 640, gPsxDisplay.mHeight);
 }
 
 } // namespace AO

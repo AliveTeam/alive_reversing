@@ -496,7 +496,6 @@ void Game_Run_466D40()
     pScreenManager = relive_new ScreenManager(camera.field_C_pCamRes, &gMap.field_24_camera_offset);
 
     pScreenManager->DecompressCameraToVRam(camera.field_C_pCamRes);
-    pScreenManager->MoveImage();
 
     sLvlArchive_5BC520.Free_433130();
 

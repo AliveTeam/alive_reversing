@@ -183,14 +183,6 @@ void HoistRocksEffect::VRender(PrimHeader** ppOt)
                 ppOt,
                 0,
                 0);
-
-            PSX_RECT frameRect = {};
-            particle.field_10_mAnim.Get_Frame_Rect(&frameRect);
-            pScreenManager->InvalidateRectCurrentIdx(
-                frameRect.x,
-                frameRect.y,
-                frameRect.w,
-                frameRect.h);
         }
     }
 }

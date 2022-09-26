@@ -1515,8 +1515,6 @@ Camera* Map::Create_Camera(s16 xpos, s16 ypos, s32 /*a4*/)
 
 void Map::Create_FG1s()
 {
-    pScreenManager->UnsetDirtyBits_FG1();
-
     Camera* pCamera = field_34_camera_array[0];
     pCamera->CreateFG1();
     /*
@@ -1858,8 +1856,6 @@ void Map::GoTo_Camera()
     if (field_10_screenChangeEffect == CameraSwapEffects::eUnknown_11)
     {
         pScreenManager->DecompressCameraToVRam(field_34_camera_array[0]->field_C_ppBits);
-        pScreenManager->InvalidateRectCurrentIdx(0, 0, 640, 240);
-        pScreenManager->MoveImage();
         pScreenManager->EnableRendering();
     }
 

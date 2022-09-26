@@ -68,14 +68,6 @@ public:
                 ppOt,
                 FP_GetExponent(field_EC_xOff - field_E4_xPos) + 1,
                 FP_GetExponent(field_F0_yOff - field_E8_yPos) + 1);
-
-            PSX_RECT rect = {};
-            mAnim.Get_Frame_Rect(&rect);
-            pScreenManager->InvalidateRectCurrentIdx(
-                rect.x,
-                rect.y,
-                rect.w,
-                rect.h);
         }
     }
 
@@ -250,11 +242,6 @@ public:
 
                 PSX_RECT frameRect = {};
                 mAnim.Get_Frame_Rect(&frameRect);
-                pScreenManager->InvalidateRectCurrentIdx(
-                    frameRect.x,
-                    frameRect.y,
-                    frameRect.w,
-                    frameRect.h);
 
                 for (auto& anim : field_E8_sparks)
                 {
@@ -270,11 +257,6 @@ public:
                                     ppOt, 0, 0);
 
                                 anim.field_14.GetRenderedSize(&frameRect);
-                                pScreenManager->InvalidateRectCurrentIdx(
-                                    frameRect.x,
-                                    frameRect.y,
-                                    frameRect.w,
-                                    frameRect.h);
                             }
                         }
                     }

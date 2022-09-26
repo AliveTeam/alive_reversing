@@ -5,69 +5,18 @@
 #include "../AliveLibAE/FixedPoint.hpp"
 #include "../relive_lib/Primitives.hpp"
 
-struct Prim_Sprt;
-
-struct DirtyBits final
-{
-    u16 mData[20]; // 20 Columns
-
-    bool GetTile(s32 x, s32 y) const
-    {
-        return mData[x] & (1 << y) ? true : false;
-    }
-
-    void SetTile(s32 x, s32 y, bool b)
-    {
-        if (b)
-        {
-            mData[x] |= 1 << y;
-        }
-        else
-        {
-            mData[x] &= ~(1 << y);
-        }
-    }
-};
-
-struct SprtTPage final
-{
-    Prim_Sprt mSprt;
-    Prim_SetTPage mTPage;
-};
-
 class ScreenManager final : public BaseGameObject
 {
 public:
-    // TODO
-    void sub_40EE10();
-
-    void MoveImage();
-
-    void InvalidateRect(s32 x, s32 y, s32 width, s32 height, s32 idx);
-    void InvalidateRectCurrentIdx(s32 x, s32 y, s32 width, s32 height);
-    void InvalidateRect_Layer3(s32 x, s32 y, s32 width, s32 height);
-    void InvalidateRect_IdxPlus4(s32 x, s32 y, s32 width, s32 height, s32 idx);
-
-    s16 IsDirty(s32 idx, s32 x, s32 y);
-    void UnsetDirtyBits(s32 idx);
-    void UnsetDirtyBits_FG1();
-
-    virtual void VUpdate() override;
-
-
     void DecompressCameraToVRam(CamResource& camRes);
 
     ScreenManager(CamResource& camRes, FP_Point* pCameraOffset);
 
     void Init(CamResource& camRes);
 
-    static s32 GetTPage(TPageMode tp, TPageAbr abr, s32* xpos, s32* ypos);
-
-    virtual void VRender(PrimHeader** ppOt) override;
-    void Render_Helper_40E9F0(s32 xpos, s32 ypos, Layer idx, s32 sprite_idx, PrimHeader** ppOt);
-    void sub_40EE50();
-
-    virtual void VScreenChanged() override;
+    void VUpdate() override;
+    void VScreenChanged() override;
+    void VRender(PrimHeader** ppOt) override;
 
     FP CamXPos() const
     {
@@ -89,48 +38,22 @@ public:
         mRenderingDisabled = false;
     }
 
-    s32 Idx() const
+    bool RenderingEnabled() const
     {
-        return mIdx;
+        return !mRenderingDisabled;
     }
-
-private:
-    void AddCurrentSPRT_TPage(PrimHeader** ppOt);
 
 public:
     FP_Point* mCamPos = nullptr;
     s16 mCamXOff = 0;
     u16 mCamYOff = 0;
-    enum BitLayers
-    {
-        FG1_7 = 7,
-        FG1_Well_6 = 6,
-        FG1_Half_5 = 5,
-        FG1_Half_Well_4 = 4,
-
-        Unknown_3 = 3,
-
-        // Seems to be some sort of double buffer for the main layers?
-        Unknown_2 = 2,
-        Unknown_1 = 1,
-        Unknown_0 = 0,
-    };
-
 private:
-    SprtTPage* mScreenSprites = nullptr;
-    u16 mUPos = 0;
-    u16 mVPos = 0;
     s16 mCamWidth = 0;
     s16 mCamHeight = 0;
-    u16 mIdx = 0;
-    u16 mYIdx = 0;
-    u16 mXIdx = 0;
     bool mRenderingDisabled = false;
-    DirtyBits mDirtyBits[8] = {};
 
     CamResource mCamRes;
     Poly_FT4 mPoly = {};
 };
-ALIVE_ASSERT_SIZEOF(ScreenManager, 0x1A4u);
 
 ALIVE_VAR_EXTERN(ScreenManager*, pScreenManager);

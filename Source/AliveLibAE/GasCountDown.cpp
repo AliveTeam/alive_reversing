@@ -129,12 +129,6 @@ void GasCountDown::VRender(PrimHeader** ppOt)
         FP_FromInteger(1),
         field_6C_xpos + textWidth,
         sDisableFontFlicker_5C9304 ? 0 : 50);
-
-    pScreenManager->InvalidateRectCurrentIdx(
-        PsxToPCX(field_6C_xpos),
-        field_6E_ypos,
-        PsxToPCX(field_6C_xpos + textWidth),
-        field_6E_ypos + 16);
 }
 
 void GasCountDown::DealDamage()

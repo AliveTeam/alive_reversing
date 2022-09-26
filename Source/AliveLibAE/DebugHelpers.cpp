@@ -821,8 +821,6 @@ public:
         PSX_RECT screen = {0, 0, 640, 240};
         PSX_ClearImage_4F5BD0(&screen, 0, 0, 0);
 
-        //pScreenManager->InvalidateRectCurrentIdx(0, 0, 640, 240);
-
         mPoly_F_Test.Render(ppOt);
 
         mPoly_F3_Test.Render(ppOt);
@@ -942,8 +940,6 @@ public:
         mAnim[4].VRender(180 + 90, 170 + 45, ot, 0, 0);
 
         OrderingTable_Add(OtLayer(ot, Layer::eLayer_InBirdPortal_30), &mPolyFT4[0].mBase.header);
-
-        pScreenManager->InvalidateRectCurrentIdx(0, 0, 640, 240);
     }
 
     virtual void VUpdate() override
@@ -1223,7 +1219,6 @@ void DEV::DebugFillRect(PrimHeader** ot, Layer layer, s32 x, s32 y, s32 width, s
     Poly_Set_SemiTrans(&mPolyF4->mBase.header, semiTransparent);
 
     OrderingTable_Add(OtLayer(ot, layer), &mPolyF4->mBase.header);
-    pScreenManager->InvalidateRectCurrentIdx(0, 0, 640, 240);
 }
 
 void DEV::DebugDrawRect(PrimHeader** ot, Layer layer, s32 x, s32 y, s32 width, s32 height, u8 r, u8 g, u8 b, bool worldspace, bool semiTransparent)
@@ -1263,7 +1258,6 @@ void DEV::DebugDrawLine(PrimHeader** ot, Layer layer, s32 x1, s32 y1, s32 x2, s3
     Poly_Set_SemiTrans(&mLineG2->mBase.header, semiTransparent);
 
     OrderingTable_Add(OtLayer(ot, layer), &mLineG2->mBase.header);
-    pScreenManager->InvalidateRectCurrentIdx(0, 0, 640, 240);
 }
 
 void DEV::DebugDrawText(PrimHeader** ot, Layer layer, std::string& text, s32 x, s32 y, u8 r, u8 g, u8 b, bool worldspace, bool semiTransparent)

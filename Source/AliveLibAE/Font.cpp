@@ -173,8 +173,6 @@ s32 Font::DrawString_4337D0(PrimHeader** ppOt, const char_type* text, s32 x, s16
         poly += 2;
     }
 
-    pScreenManager->InvalidateRectCurrentIdx(x, y - 1, offsetX, y + 24);
-
     return polyOffset + characterRenderCount;
 }
 

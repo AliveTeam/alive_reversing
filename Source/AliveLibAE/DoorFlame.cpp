@@ -100,11 +100,6 @@ public:
 
                 PSX_RECT frameRect = {};
                 mAnim.Get_Frame_Rect(&frameRect);
-                pScreenManager->InvalidateRectCurrentIdx(
-                    frameRect.x,
-                    frameRect.y,
-                    frameRect.w,
-                    frameRect.h);
             }
         }
     }
@@ -260,11 +255,6 @@ private:
 
                 PSX_RECT frameRect = {};
                 mAnim.Get_Frame_Rect(&frameRect);
-                pScreenManager->InvalidateRectCurrentIdx(
-                    frameRect.x,
-                    frameRect.y,
-                    frameRect.w,
-                    frameRect.h);
 
                 for (auto& anim : field_F8_sparks)
                 {
@@ -282,13 +272,6 @@ private:
                                     ppOt,
                                     0,
                                     0);
-
-                                anim.field_14.GetRenderedSize(&frameRect);
-                                pScreenManager->InvalidateRectCurrentIdx(
-                                    frameRect.x,
-                                    frameRect.y,
-                                    frameRect.w,
-                                    frameRect.h);
                             }
                         }
                     }

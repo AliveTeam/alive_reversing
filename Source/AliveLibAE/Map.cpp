@@ -858,8 +858,6 @@ void Map::GoTo_Camera()
     if (mCameraSwapEffect == CameraSwapEffects::eUnknown_11)
     {
         pScreenManager->DecompressCameraToVRam(field_2C_camera_array[0]->field_C_pCamRes);
-        pScreenManager->InvalidateRectCurrentIdx(0, 0, 640, 240);
-        pScreenManager->MoveImage();
         pScreenManager->EnableRendering();
     }
 
@@ -962,8 +960,6 @@ s16 Map::GetOverlayId()
 
 void Map::Create_FG1s()
 {
-    pScreenManager->UnsetDirtyBits_FG1();
-
     Camera* pCamera = field_2C_camera_array[0];
     pCamera->LoadFG1();
     /*

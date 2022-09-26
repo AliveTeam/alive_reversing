@@ -597,11 +597,6 @@ void LiftPoint::VRender(PrimHeader** ppOt)
 
                 PSX_RECT liftWheelRect = {};
                 field_13C_lift_wheel.Get_Frame_Rect(&liftWheelRect);
-                pScreenManager->InvalidateRectCurrentIdx(
-                    liftWheelRect.x,
-                    liftWheelRect.y,
-                    liftWheelRect.w,
-                    liftWheelRect.h);
 
                 if (field_27A_flags.Get(Flags::eBit5_bHasPulley))
                 {
@@ -638,11 +633,6 @@ void LiftPoint::VRender(PrimHeader** ppOt)
                             0);
                         PSX_RECT pulleyRect = {};
                         field_1D4_pulley_anim.Get_Frame_Rect(&pulleyRect);
-                        pScreenManager->InvalidateRectCurrentIdx(
-                            pulleyRect.x,
-                            pulleyRect.y,
-                            pulleyRect.w,
-                            pulleyRect.h);
                     }
                 }
             }

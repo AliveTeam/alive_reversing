@@ -28,14 +28,15 @@ public:
         //mFg1.Convert_Chunk_To_Render_Block(&rChunk, pRenderBlock);
     }
 
-    void OnFullChunk(const Fg1Chunk& rChunk) override
+    void OnFullChunk(const Fg1Chunk& /*rChunk*/) override
     {
+        /*
         pScreenManager->InvalidateRect_IdxPlus4(
             rChunk.field_4_xpos_or_compressed_size,
             rChunk.field_6_ypos,
             rChunk.field_8_width + rChunk.field_4_xpos_or_compressed_size - 1,
             rChunk.field_A_height + rChunk.field_6_ypos - 1,
-            rChunk.field_2_layer_or_decompressed_size);
+            rChunk.field_2_layer_or_decompressed_size);*/
     }
 
     u8** Allocate(u32 len) override

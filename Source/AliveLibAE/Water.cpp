@@ -575,11 +575,5 @@ void Water::VRender(PrimHeader** ppOt)
                 }
             }
         }
-
-        pScreenManager->InvalidateRectCurrentIdx(
-            xMin - 6,
-            yMin - 6,
-            wMax + 6,
-            hMax + 6);
     }
 }

@@ -261,15 +261,7 @@ void PsxDisplay::RenderOrderingTable()
             }
             else
             {
-                if (GetGameType() == GameType::eAo)
-                {
-                    //ALIVE_FATAL("Broken till pScreenManager is common");
-                }
-                else
-                {
-                    pScreenManager->sub_40EE10();
-                    turn_off_rendering_BD0F20 = 1;
-                }
+                turn_off_rendering_BD0F20 = 1;
             }
             PSX_VSync_4F6170(2);
         }

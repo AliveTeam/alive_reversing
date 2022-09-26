@@ -470,15 +470,6 @@ void UXB::VRender(PrimHeader** ppOt)
                 0,
                 0);
 
-            PSX_RECT frameRect;
-            mFlashAnim.Get_Frame_Rect(&frameRect);
-
-            pScreenManager->InvalidateRectCurrentIdx(
-                frameRect.x,
-                frameRect.y,
-                frameRect.w,
-                frameRect.h);
-
             BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
         }
     }

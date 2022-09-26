@@ -483,7 +483,6 @@ void PauseMenu::VRender(PrimHeader** ot)
     Init_SetTPage(pTPage, 0, 0, PSX_getTPage(TPageMode::e4Bit_0, TPageAbr::eBlend_2, 0, 0));
     OrderingTable_Add(OtLayer(ot, Layer::eLayer_Menu_41), &pPolys->mBase.header);
     OrderingTable_Add(OtLayer(ot, Layer::eLayer_Menu_41), &pTPage->mBase);
-    pScreenManager->InvalidateRectCurrentIdx(0, 0, 640, 240);
 }
 
 void PauseMenu::VScreenChanged()

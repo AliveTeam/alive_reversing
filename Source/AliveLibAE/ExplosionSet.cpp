@@ -127,12 +127,6 @@ void ExplosionSet::VRender(PrimHeader** ppOt)
 
         InitType_ScreenOffset(pScreenOff, &point);
         OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_0), &pScreenOff->mBase);
-
-        /* constant 1, so always false, dead code.
-        if (!dword_55EF94)
-        {
-            pScreenManager->InvalidateRectCurrentIdx(0, 0, 640, 240);
-        }*/
     }
 }
 

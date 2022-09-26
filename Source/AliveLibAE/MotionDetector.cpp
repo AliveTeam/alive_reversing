@@ -225,12 +225,6 @@ void MotionDetector::VRender(PrimHeader** ppOt)
         Prim_SetTPage* pTPage = &field_154_tPage[gPsxDisplay.mBufferIndex];
         Init_SetTPage(pTPage, 0, 0, tpage);
         OrderingTable_Add(OtLayer(ppOt, mAnim.mRenderLayer), &pTPage->mBase);
-
-        pScreenManager->InvalidateRectCurrentIdx(
-            std::min(x0, std::min(x1, x1)),
-            std::min(y0, std::min(y1, y2)),
-            std::max(x0, std::max(x1, x1)),
-            std::max(y0, std::max(y1, y2)));
     }
 }
 

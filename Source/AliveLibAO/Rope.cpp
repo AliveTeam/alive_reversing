@@ -197,11 +197,6 @@ void Rope::VRender(PrimHeader** ppOt)
 
                         PSX_RECT rect = {};
                         field_E8_pRopeRes[idx].GetRenderedSize(&rect);
-                        pScreenManager->InvalidateRectCurrentIdx(
-                            rect.x,
-                            rect.y,
-                            rect.w,
-                            rect.h);
 
                         ClipPoly_Vertically_4584B0(
                             &field_E8_pRopeRes[idx].field_10_polys[gPsxDisplay.mBufferIndex],

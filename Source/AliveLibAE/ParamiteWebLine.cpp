@@ -206,9 +206,6 @@ void ParamiteWebLine::VRender(PrimHeader** ppOt)
             FP_GetExponent(mXPos - pScreenManager->CamXPos()),
             FP_GetExponent(FP_FromInteger(field_1A0_pulse_position) - pScreenManager->CamYPos()),
             ppOt, 0, 0);
-        PSX_RECT rect = {};
-        field_108_anim_flare.Get_Frame_Rect(&rect);
-        pScreenManager->InvalidateRectCurrentIdx(rect.x, rect.y, rect.w, rect.h);
     }
 
     mAnim.VRender(640, 240, ppOt, 0, 0);
@@ -256,10 +253,6 @@ void ParamiteWebLine::VRender(PrimHeader** ppOt)
             FP_GetExponent(FP_FromInteger(render_xpos) - pScreenManager->CamXPos()),
             FP_GetExponent(FP_FromInteger(render_ypos) - pScreenManager->CamYPos()),
             ppOt, 0, 0);
-
-        PSX_RECT rect = {};
-        field_FC_pRes[idx].GetRenderedSize(&rect);
-        pScreenManager->InvalidateRectCurrentIdx(rect.x, rect.y, rect.w, rect.h);
 
         ClipPoly_Vertically_4A09E0(
             &field_FC_pRes[idx].field_10_polys[gPsxDisplay.mBufferIndex],

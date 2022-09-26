@@ -171,12 +171,6 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
             field_104_position_x + font1Width,
             flickerAmount);
         maxWidth = std::max(font1Width, maxWidth);
-
-        pScreenManager->InvalidateRectCurrentIdx(
-            static_cast<s32>(field_104_position_x / 0.575f), // TODO: Should be using PC2PSx or whatever the other code uses
-            field_106_position_y,
-            static_cast<s32>(maxWidth / 0.575f),
-            64);
     }
 }
 

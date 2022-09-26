@@ -656,9 +656,6 @@ void MainMenuController::VRender(PrimHeader** ppOt)
         && mAnim.mFlags.Get(AnimFlags::eBit3_Render))
     {
         mAnim.VRender(184, 162, ppOt, 0, 0);
-        PSX_RECT pRect = {};
-        mAnim.Get_Frame_Rect(&pRect);
-        pScreenManager->InvalidateRectCurrentIdx(pRect.x, pRect.y, pRect.w, pRect.h);
     }
 
     const MainMenuButton* pButtons = sMainMenuPages_561960[field_214_page_index].field_18_buttons;
@@ -669,9 +666,6 @@ void MainMenuController::VRender(PrimHeader** ppOt)
             if (field_1FC_button_index != NO_SELECTABLE_BUTTONS)
             {
                 field_158_animation.VRender(pButtons[field_1FC_button_index].field_2_x, pButtons[field_1FC_button_index].y, ppOt, 0, 0);
-                PSX_RECT rect = {};
-                field_158_animation.Get_Frame_Rect(&rect);
-                pScreenManager->InvalidateRectCurrentIdx(rect.x, rect.y, rect.w, rect.h);
             }
         }
     }
@@ -1496,7 +1490,6 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
             stru_5C3110.Free_433130();
             gPsxDisplay.PutCurrentDispEnv();
             pScreenManager->DecompressCameraToVRam(gMap.field_2C_camera_array[0]->field_C_pCamRes);
-            pScreenManager->MoveImage();
             pScreenManager->EnableRendering();
             GetSoundAPI().SND_Restart();
         }
@@ -1895,7 +1888,6 @@ MainMenuNextCam MainMenuController::BackStory_Or_NewGame_Update_4D1C60(u32 input
 
             gPsxDisplay.PutCurrentDispEnv();
             pScreenManager->DecompressCameraToVRam(gMap.field_2C_camera_array[0]->field_C_pCamRes);
-            pScreenManager->MoveImage();
             pScreenManager->EnableRendering();
             GetSoundAPI().SND_Restart();
             field_1FC_button_index = 1; // Select start game

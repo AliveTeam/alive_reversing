@@ -246,10 +246,4 @@ void ColourfulMeter::VRender(PrimHeader** ppOt)
             mTextX + textWidth,
             colourRand);
     }
-
-    pScreenManager->InvalidateRectCurrentIdx(
-        PsxToPCX(mTextX - 50),
-        mTextY - 30,
-        PsxToPCX(mTextX + 500),
-        mTextY);
 }
