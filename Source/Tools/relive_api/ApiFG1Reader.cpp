@@ -15,7 +15,7 @@ ApiFG1Reader::ApiFG1Reader(FG1Format format)
 
 ApiFG1Reader::~ApiFG1Reader()
 {
-;
+
 }
 
 u16 ApiFG1Reader::ConvertPixel(u16 pixel)
@@ -153,11 +153,11 @@ void ApiFG1Reader::DebugSave(const std::string& prefix, const CameraImageAndLaye
 
 void ApiFG1Reader::SaveAsPng(const std::string& baseName)
 {
-    std::vector<u8> outPngData;
     for (u32 i = 0; i < 4; i++)
     {
         if (mUsedLayers[i])
         {
+            std::vector<u8> outPngData;
             RGB565ToPngBuffer(&mFg1Buffers->mFg1[i][0][0], outPngData);
             lodepng::save_file(outPngData, baseName + NameForLayer(i) + ".png");
         }
