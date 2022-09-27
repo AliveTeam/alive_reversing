@@ -511,7 +511,6 @@ static void SetSemiTransBlendMode(SDL_Texture* pTexture, s16 tPage)
 
 void SoftwareRenderer::Draw(Poly_FT4& poly)
 {
-
     SDL_Texture* pTexture = nullptr;
     f32 u0 = 0.0f;
     f32 v0 = 0.0f;
@@ -657,9 +656,13 @@ void SoftwareRenderer::Draw(Poly_FT4& poly)
 
     SDL_Vertex vert[4];
 
-    u8 r = R0(&poly);
-    u8 g = G0(&poly);
-    u8 b = B0(&poly);
+    u16 polyR = R0(&poly);
+    u16 polyG = G0(&poly);
+    u16 polyB = B0(&poly);
+
+    u8 r = static_cast<u8>(std::min(255, polyR * 2));
+    u8 g = static_cast<u8>(std::min(255, polyG * 2));
+    u8 b = static_cast<u8>(std::min(255, polyB * 2));
 
     // center
     vert[0].position.x = X0(&poly);
