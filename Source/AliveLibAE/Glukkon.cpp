@@ -226,7 +226,7 @@ void Glukkon::LoadAnimations()
 {
     for (s32 i = 0; i < 3; i++)
     {
-        for (s32 j = 0; j < 24; j++)
+        for (s32 j = 0; j < 25; j++)
         {
             auto& animId = sGlukkonsAnimIdTable[i][j];
             mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
