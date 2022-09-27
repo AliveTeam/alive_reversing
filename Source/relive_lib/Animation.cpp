@@ -190,7 +190,7 @@ bool Animation::DecodeCommon()
             if (mFlags.Get(AnimFlags::eBit8_Loop))
             {
                 // Loop to last frame
-                mCurrentFrame = mAnimRes.mJsonPtr->mFrames.size() - 1;
+                mCurrentFrame = static_cast<s32>(mAnimRes.mJsonPtr->mFrames.size()) - 1;
             }
             else
             {
