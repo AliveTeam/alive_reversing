@@ -224,7 +224,7 @@ bool Glukkon::BrainIs(TGlukkonBrainFn fn)
 
 void Glukkon::LoadAnimations()
 {
-    for (s32 i = 0; i < 3; i++)
+    for (s32 i = 0; i < 4; i++)
     {
         for (s32 j = 0; j < 25; j++)
         {
