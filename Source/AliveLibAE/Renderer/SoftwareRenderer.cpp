@@ -8,6 +8,34 @@
 
 #include "../Font.hpp"
 
+
+void set_pixel(SDL_Surface* surface, int x, int y, u32 pixel)
+{
+    Uint8* target_pixel = (Uint8*) surface->pixels + y * surface->pitch + x * sizeof(u32);
+    *(u32*) target_pixel = pixel;
+}
+
+static u32 RGBA555ToRGBA888(u16 pixel)
+{
+    const u8 r5 = ((pixel >> 10) & 0x1F);
+    const u8 g5 = ((pixel >> 5) & 0x1F);
+    const u8 b5 = (pixel & 0x1F);
+    bool bSemi = (pixel >> 15) & 0x1;
+
+    const u32 r8 = ((r5 * 527) + 23) >> 6;
+    const u32 g8 = ((g5 * 527) + 23) >> 6;
+    const u32 b8 = ((b5 * 527) + 23) >> 6;
+    u32 a8 = bSemi ? 127 : 255;
+
+    if (!bSemi && r5 == 0 && g5 == 0 && b5 == 0)
+    {
+        a8 = 0;
+    }
+
+    const u32 rgb888 = (a8 << 24) | (b8 << 16) | (g8 << 8) | r8;
+    return rgb888;
+}
+
 void SoftwareRenderer::Destroy()
 {
     SDL_DestroyTexture(mBackBufferTexture);
@@ -170,48 +198,135 @@ void SoftwareRenderer::SetScreenOffset(Prim_ScreenOffset& /*offset*/)
 }
 
 // Blood, ZapLine, HintFly
-void SoftwareRenderer::Draw(Prim_Sprt& /*sprt*/)
+void SoftwareRenderer::Draw(Prim_Sprt& sprt)
 {
     /*
     PrimAny any;
     any.mSprt = &sprt;
     DrawOTag_Render_SPRT(any, static_cast<s16>(mFrame_xOff), static_cast<s16>(mFrame_yOff), any.mSprt->field_14_w, any.mSprt->field_16_h);
     */
+
+    const u8 a = (sprt.mBase.header.rgb_code.code_or_pad & 2) ? 127 : 255;
+    if (a == 127)
+    {
+        SDL_SetRenderDrawBlendMode(mRenderer, SDL_BLENDMODE_BLEND);
+    }
+    SDL_SetRenderDrawColor(mRenderer, R0(&sprt), G0(&sprt), B0(&sprt), a);
+
+    SDL_Rect rect;
+    rect.x = X0(&sprt);
+    rect.y = Y0(&sprt) * 2;
+    rect.w = sprt.field_14_w;
+    rect.h = sprt.field_16_h * 2;
+    SDL_RenderFillRect(mRenderer, &rect);
+}
+
+
+static SDL_Texture* MakeGasTexture(SDL_Renderer* pRender, const u16* pPixels, u32 w, u32 h)
+{
+    SDL_Surface* surface = SDL_CreateRGBSurfaceWithFormat(0,
+                                                          w,
+                                                          h, 32, SDL_PIXELFORMAT_ABGR8888);
+
+    SDL_LockSurface(surface);
+
+    u32 i = 0;
+    for (u32 y = 0; y < h; y++)
+    {
+        for (u32 x = 0; x < w; x++)
+        {
+            set_pixel(surface, x, y, RGBA555ToRGBA888(pPixels[i++]));
+        }
+    }
+    SDL_UnlockSurface(surface);
+
+    SDL_Texture* pTexture = SDL_CreateTextureFromSurface(pRender, surface);
+    if (!pTexture)
+    {
+        LOG_ERROR(SDL_GetError());
+    }
+    SDL_FreeSurface(surface);
+    return pTexture;
 }
 
 // LaughingGas
-void SoftwareRenderer::Draw(Prim_GasEffect& /*gasEffect*/)
+void SoftwareRenderer::Draw(Prim_GasEffect& gasEffect)
 {
+    const s32 gasWidth = (gasEffect.w - gasEffect.x);
+    const s32 gasHeight = (gasEffect.h - gasEffect.y);
+
+    // TODO: Wrong using RGB555 instead of 565
+    SDL_Texture* pTexture = MakeGasTexture(mRenderer, gasEffect.pData, gasWidth/4, gasHeight/2);
+
+    // TODO: Wrong
+    SDL_SetTextureBlendMode(pTexture, SDL_BLENDMODE_BLEND);
+    SDL_SetTextureAlphaMod(pTexture, 40);
+
+    SDL_Rect dst;
+    dst.x = gasEffect.x;
+    dst.y = gasEffect.y * 2;
+    dst.w = gasEffect.w;
+    dst.h = gasEffect.h * 2;
+    SDL_RenderCopy(mRenderer, pTexture, nullptr, &dst);
+    SDL_DestroyTexture(pTexture);
+
+
     // PSX_RenderLaughingGasEffect_4F7B80(gasEffect.x, gasEffect.y, gasEffect.w, gasEffect.h, gasEffect.pData);
 }
 
 // CircularFade, EffectBase
-void SoftwareRenderer::Draw(Prim_Tile& /*tile*/)
+void SoftwareRenderer::Draw(Prim_Tile& tile)
 {
     /*
     PrimAny any;
     any.mTile = &tile;
     DrawOTag_Render_TILE(any, static_cast<s16>(mFrame_xOff) + any.mSprt->mBase.vert.x, static_cast<s16>(mFrame_yOff) + any.mSprt->mBase.vert.y, any.mTile->field_14_w, any.mTile->field_16_h);
     */
+    const u8 a = (tile.mBase.header.rgb_code.code_or_pad & 2) ? 127 : 255;
+    if (a == 127)
+    {
+        SDL_SetRenderDrawBlendMode(mRenderer, SDL_BLENDMODE_BLEND);
+    }
+
+    SDL_SetRenderDrawColor(mRenderer, R0(&tile), G0(&tile), B0(&tile), a);
+
+    SDL_Rect rect;
+    rect.x = X0(&tile);
+    rect.y = Y0(&tile)*2;
+    rect.w = tile.field_14_w;
+    rect.h = tile.field_16_h * 2;
+    SDL_RenderFillRect(mRenderer, &rect);
 }
 
 // ThrowableTotalIndicator
-void SoftwareRenderer::Draw(Line_F2& /*line*/)
+void SoftwareRenderer::Draw(Line_F2& line)
 {
     /*
     PSX_Render_Line_Prim_4F7D90(&line, static_cast<s16>(mFrame_xOff), static_cast<s16>(mFrame_yOff));
     */
+    const u8 a = (line.mBase.header.rgb_code.code_or_pad & 2) ? 127 : 255;
+    if (a == 127)
+    {
+        SDL_SetRenderDrawBlendMode(mRenderer, SDL_BLENDMODE_BLEND);
+    }
+
+    SDL_SetRenderDrawColor(mRenderer, R0(&line), G0(&line), B0(&line), a);
+
+    // TODO: This probably looks nothing like it should do
+    SDL_RenderDrawLine(mRenderer, X0(&line), Y0(&line) * 2, X1(&line), Y1(&line) * 2);
 }
 
 // SnoozeParticle, Spark, ThrowableTotalIndicator
 void SoftwareRenderer::Draw(Line_G2& /*line*/)
 {
+    // TODO
     // PSX_Render_Line_Prim_4F7D90(&line, static_cast<s16>(mFrame_xOff), static_cast<s16>(mFrame_yOff));
 }
 
 // Only used by SnoozeParticle
 void SoftwareRenderer::Draw(Line_G4& /*line*/)
 {
+    // TODO
     // PSX_Render_Line_Prim_4F7D90(&line, static_cast<s16>(mFrame_xOff), static_cast<s16>(mFrame_yOff));
 }
 
@@ -288,7 +403,10 @@ void SoftwareRenderer::Draw(Poly_F4& poly)
     // TODO: Why isn't this semi transparent when a= 127 for the pause menu ??
     // need 1x1 white pixel texture
     const u8 a = (poly.mBase.header.rgb_code.code_or_pad & 2) ? 127 : 255;
-
+    if (a == 127)
+    {
+        SDL_SetRenderDrawBlendMode(mRenderer, SDL_BLENDMODE_BLEND);
+    }
     /*
     u32 tPageAbr = ((u32) tPage >> 5) & 3;
     switch (tPageAbr)
@@ -329,33 +447,6 @@ void SoftwareRenderer::Draw(Poly_F4& poly)
 
     s32 indexList[6] = {0, 1, 2, 2, 1, 3};
     SDL_RenderGeometry(mRenderer, nullptr, vert, 4, indexList, 6);
-}
-
-void set_pixel(SDL_Surface* surface, int x, int y, u32 pixel)
-{
-    Uint8* target_pixel = (Uint8*) surface->pixels + y * surface->pitch + x * sizeof(u32);
-    *(u32*) target_pixel = pixel;
-}
-
-static u32 RGBA555ToRGBA888(u16 pixel)
-{
-    const u8 r5 = ((pixel >> 10) & 0x1F);
-    const u8 g5 = ((pixel >> 5) & 0x1F);
-    const u8 b5 = (pixel & 0x1F);
-    bool bSemi = (pixel >> 15) & 0x1;
-
-    const u32 r8 = ((r5 * 527) + 23) >> 6;
-    const u32 g8 = ((g5 * 527) + 23) >> 6;
-    const u32 b8 = ((b5 * 527) + 23) >> 6;
-    u32 a8 = bSemi ? 127 : 255;
-
-    if (!bSemi && r5 == 0 && g5 == 0 && b5 == 0)
-    {
-        a8 = 0;
-    }
-
-    const u32 rgb888 = (a8 << 24) | (b8 << 16) | (g8 << 8) | r8;
-    return rgb888;
 }
 
 static SDL_Texture* MakeTexture(SDL_Renderer* pRender, const u16* pPal, const u8* pPixels, u32 w, u32 h)
@@ -653,19 +744,6 @@ void SoftwareRenderer::Draw(Poly_G4& poly)
 
     s32 indexList[6] = {0, 1, 2, 2, 1, 3};
     SDL_RenderGeometry(mRenderer, nullptr, vert, 4, indexList, 6);
-}
-
-void SoftwareRenderer::DrawPoly(PrimAny& /*any*/)
-{
-    /*
-    // This works by func 1 populating some data structure and then func 2 does the actual rendering
-    // for POLY_FT4 it may return nullptr as it s16 circuits this logic and renders the polygon itself in some cases.
-    OT_Prim* pPolyBuffer = PSX_Render_Convert_Polys_To_Internal_Format_4F7110(any.mVoid, static_cast<s16>(mFrame_xOff), static_cast<s16>(mFrame_yOff));
-    if (pPolyBuffer)
-    {
-        PSX_Render_Internal_Format_Polygon_4F7960(pPolyBuffer, static_cast<s16>(mFrame_xOff), static_cast<s16>(mFrame_yOff));
-    }
-    */
 }
 
 void SoftwareRenderer::Upload(BitDepth bitDepth, const PSX_RECT& /*rect*/, const u8* /*pPixels*/)

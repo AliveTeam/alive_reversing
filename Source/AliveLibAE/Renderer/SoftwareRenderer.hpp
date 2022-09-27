@@ -37,8 +37,6 @@ public:
 private:
     bool mFrameStarted = false;
 
-    void DrawPoly(PrimAny& any);
-
     SDL_Texture* mBackBufferTexture = nullptr;
     SDL_Renderer* mRenderer = nullptr;
     TWindowHandleType mWindow = nullptr;
