@@ -19,7 +19,7 @@ static std::vector<PaletteCache> gRendererPals;
 static bool gRenderEnable_SPRT = false;
 static bool gRenderEnable_GAS = false;
 static bool gRenderEnable_TILE = false;
-static bool gRenderEnable_FT4 = false;
+static bool gRenderEnable_FT4 = true;
 static bool gRenderEnable_G4 = false;
 static bool gRenderEnable_G3 = false;
 static bool gRenderEnable_G2 = false;
@@ -198,10 +198,15 @@ static TextureCache* Renderer_TextureFromAnim(Poly_FT4& poly)
     gFakeTextureCache = {};
     gFakeTextureCache.mTextureID = gDecodedTextureCache;
 
+    glBindTexture(GL_TEXTURE_2D, gDecodedTextureCache);
+
     if (poly.mCam)
     {
-        glBindTexture(GL_TEXTURE_2D, gDecodedTextureCache);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, poly.mAnim->mAnimRes.mTgaPtr->mWidth, poly.mAnim->mAnimRes.mTgaPtr->mHeight, 0, GL_RGB, GL_UNSIGNED_INT, poly.mAnim->mAnimRes.mTgaPtr->mPixels.data());
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, poly.mCam->mData.mWidth, poly.mCam->mData.mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, poly.mCam->mData.mPixels->data());
+    }
+    else if (poly.mAnim)
+    {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, poly.mAnim->mAnimRes.mTgaPtr->mWidth, poly.mAnim->mAnimRes.mTgaPtr->mHeight, 0, GL_RED, GL_UNSIGNED_BYTE, poly.mAnim->mAnimRes.mTgaPtr->mPixels.data());
     }
 
     switch (textureMode)
@@ -592,22 +597,22 @@ void OpenGLRenderer::Clear(u8 /*r*/, u8 /*g*/, u8 /*b*/)
     static bool firstFrame = true;
     if (!firstFrame)
     {
-        ImGui::Render();
-        ImGui::EndFrame();
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        //ImGui::Render();
+        //ImGui::EndFrame();
+        //ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     }
     else
     {
         firstFrame = false;
     }
 
-    ImGui_ImplOpenGL3_NewFrame();
-    ImGui_ImplSDL2_NewFrame(mWindow);
-    ImGui::NewFrame();
+    //ImGui_ImplOpenGL3_NewFrame();
+    //ImGui_ImplSDL2_NewFrame(mWindow);
+    //ImGui::NewFrame();
 
     SDL_GL_SwapWindow(mWindow);
 
-    DebugWindow();
+    //DebugWindow();
 
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
@@ -1093,17 +1098,6 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
 
     xOff *= bppMulti;
 
-    // macros suck. todo: fix that
-//#define UV_U(v) (f32)(((pTexture->mUvOffset.x + v) - xOff) / (f32)(pTexture->mVramRect.w * bppMulti))
-//#define UV_V(v) (f32)(((pTexture->mUvOffset.y + v) - static_cast<u8>(pTexture->mVramRect.y)) / (f32) pTexture->mVramRect.h)
-#define UV_U(v) (f32)v
-#define UV_V(v) (f32)v
-
-    VertexData verts[4] = {
-        {(f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, 0, r, g, b, UV_U(poly.mUv.u), UV_V(poly.mUv.v)},
-        {(f32) poly.mVerts[0].mVert.x, (f32) poly.mVerts[0].mVert.y, 0, r, g, b, UV_U(poly.mVerts[0].mUv.u), UV_V(poly.mVerts[0].mUv.v)},
-        {(f32) poly.mVerts[1].mVert.x, (f32) poly.mVerts[1].mVert.y, 0, r, g, b, UV_U(poly.mVerts[1].mUv.u), UV_V(poly.mVerts[1].mUv.v)},
-        {(f32) poly.mVerts[2].mVert.x, (f32) poly.mVerts[2].mVert.y, 0, r, g, b, UV_U(poly.mVerts[2].mUv.u), UV_V(poly.mVerts[2].mUv.v)}};
 
    // Renderer_BindPalette(pPal);
     Renderer_BindTexture(pTexture);
@@ -1153,7 +1147,37 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     Renderer_ParseTPageBlendMode(poly.mVerts[0].mUv.tpage_clut_pad);
 
     const GLuint indexData[6] = {1, 0, 3, 3, 0, 2};
-    DrawTriangles(verts, 4, indexData, 6);
+
+    if (poly.mCam)
+    {
+        VertexData verts[4] = {
+            {(f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, 0, r, g, b, 0, 0},
+            {(f32) poly.mVerts[0].mVert.x, (f32) poly.mVerts[0].mVert.y, 0, r, g, b, 1, 0},
+            {(f32) poly.mVerts[1].mVert.x, (f32) poly.mVerts[1].mVert.y, 0, r, g, b, 0, 1},
+            {(f32) poly.mVerts[2].mVert.x, (f32) poly.mVerts[2].mVert.y, 0, r, g, b, 1, 1}};
+        DrawTriangles(verts, 4, indexData, 6);
+    }
+    else if (poly.mAnim)
+    {
+        VertexData verts[4] = {
+            {(f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, 0, r, g, b, 0, 0},
+            {(f32) poly.mVerts[0].mVert.x, (f32) poly.mVerts[0].mVert.y, 0, r, g, b, 1, 0},
+            {(f32) poly.mVerts[1].mVert.x, (f32) poly.mVerts[1].mVert.y, 0, r, g, b, 0, 1},
+            {(f32) poly.mVerts[2].mVert.x, (f32) poly.mVerts[2].mVert.y, 0, r, g, b, 1, 1}};
+        DrawTriangles(verts, 4, indexData, 6);
+    }
+    else
+    {
+#define UV_U(v) (f32) v
+#define UV_V(v) (f32) v
+
+        VertexData verts[4] = {
+            {(f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, 0, r, g, b, UV_U(poly.mUv.u), UV_V(poly.mUv.v)},
+            {(f32) poly.mVerts[0].mVert.x, (f32) poly.mVerts[0].mVert.y, 0, r, g, b, UV_U(poly.mVerts[0].mUv.u), UV_V(poly.mVerts[0].mUv.v)},
+            {(f32) poly.mVerts[1].mVert.x, (f32) poly.mVerts[1].mVert.y, 0, r, g, b, UV_U(poly.mVerts[1].mUv.u), UV_V(poly.mVerts[1].mUv.v)},
+            {(f32) poly.mVerts[2].mVert.x, (f32) poly.mVerts[2].mVert.y, 0, r, g, b, UV_U(poly.mVerts[2].mUv.u), UV_V(poly.mVerts[2].mUv.v)}};
+        DrawTriangles(verts, 4, indexData, 6);
+    }
 
     mTextureShader.Uniform1i("m_FG1", false);
 
