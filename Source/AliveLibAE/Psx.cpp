@@ -662,9 +662,9 @@ s32 PSX_LoadImage_4F5FB0(const PSX_RECT* pRect, const u8* pData)
         return 0;
     }
 
-#if RENDERER_OPENGL
+//#if RENDERER_OPENGL
     IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e8Bit, *pRect, pData);
-#endif
+//#endif
 
     if (!BMP_Lock_4F1FF0(&sPsxVram_C1D160))
     {

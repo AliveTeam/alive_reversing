@@ -33,8 +33,6 @@ struct RGBAPixel final
 struct TextureCache final
 {
     GLuint mTextureID;
-    PSX_RECT mVramRect;
-    PSX_Point mPalXY;
     IRenderer::BitDepth mBitDepth;
     s32 mPalNormMulti; // For special case when converted bitmap data is normalized.
     bool mIsFG1;

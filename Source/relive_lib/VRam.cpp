@@ -198,13 +198,13 @@ void Vram_alloc(s16 x, s16 y, s16 w, s16 h)
 
 void Vram_free(PSX_Point xy, PSX_Point wh)
 {
-#if RENDERER_OPENGL
+//#if RENDERER_OPENGL
     auto pRend = IRenderer::GetRenderer();
     if (pRend)
     {
         pRend->PalFree(IRenderer::PalRecord{xy.x, xy.y, 0});
     }
-#endif
+//#endif
     // Find the allocation
     for (s32 i = 0; i < sVramNumberOfAllocations_5CC888; i++)
     {

@@ -1228,9 +1228,9 @@ static s32 Sys_WindowClass_Register_SDL(LPCSTR /*lpClassName*/, LPCSTR lpWindowN
 {
     s32 sdlWindowAttributes = 0;
 
-    #if RENDERER_OPENGL
+    //#if RENDERER_OPENGL
     sdlWindowAttributes |= SDL_WINDOW_OPENGL;
-    #endif
+   // #endif
     #if __ANDROID__
     SDL_Rect gScreenRect = {0, 0, 640, 480};
     SDL_DisplayMode displayMode;

@@ -275,11 +275,11 @@ s32 VGA_DisplaySet_4F32C0(u16 width, u16 height, u8 bpp, u8 backbufferCount, TSu
 
         //IRenderer::CreateRenderer(IRenderer::Renderers::DirectX9);
 
-    #if RENDERER_OPENGL
+    //#if RENDERER_OPENGL
         IRenderer::CreateRenderer(IRenderer::Renderers::OpenGL);
-    #else
-        IRenderer::CreateRenderer(IRenderer::Renderers::Software);
-    #endif
+    //#else
+    //    IRenderer::CreateRenderer(IRenderer::Renderers::DirectX9);
+    //#endif
 
         if (!IRenderer::GetRenderer()->Create(Sys_GetHWnd()))
         {

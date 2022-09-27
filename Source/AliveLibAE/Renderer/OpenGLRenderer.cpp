@@ -3,6 +3,7 @@
 #include "../relive_lib/VRam.hpp"
 #include "../relive_lib/Primitives.hpp"
 #include "StbImageImplementation.hpp"
+#include "../relive_lib/Animation.hpp"
 
 #define GL_TO_IMGUI_TEX(v) *reinterpret_cast<ImTextureID*>(&v)
 
@@ -15,80 +16,16 @@ static TextureCache gFakeTextureCache = {};
 static std::vector<TextureCache> gRendererTextures;
 static std::vector<PaletteCache> gRendererPals;
 
-static bool gRenderEnable_SPRT = true;
-static bool gRenderEnable_GAS = true;
-static bool gRenderEnable_TILE = true;
-static bool gRenderEnable_FT4 = true;
-static bool gRenderEnable_G4 = true;
-static bool gRenderEnable_G3 = true;
-static bool gRenderEnable_G2 = true;
-static bool gRenderEnable_F4 = true;
-static bool gRenderEnable_F3 = true;
-static bool gRenderEnable_F2 = true;
-
-static GLuint TextureFromFile(const char_type* path)
-{
-    GLuint texHandle = 0;
-    FILE* fh = fopen(path, "rb");
-    ;
-
-    if (fh == NULL)
-    {
-        return 0;
-    }
-
-    s32 x = 0, y = 0;
-    s32 comp = 0;
-    const u8* data = stbi_load_from_file(fh, &x, &y, &comp, 4);
-
-    glGenTextures(1, &texHandle);
-
-    glBindTexture(GL_TEXTURE_2D, texHandle);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-
-    stbi_image_free((void*) data);
-
-    fclose(fh);
-
-    return texHandle;
-}
-
-static GLuint GetBackgroundTexture()
-{
-    if (mBackgroundTexture != 0)
-    {
-        return mBackgroundTexture;
-    }
-
-    for (TextureCache& t : gRendererTextures)
-    {
-        if (t.mVramRect.h == 240)
-        {
-            return t.mTextureID;
-        }
-    }
-
-    return 0;
-}
-
-static TextureCache* GetBackgroundTextureCache()
-{
-    gFakeTextureCache.mPalXY = {};
-    gFakeTextureCache.mVramRect = {0, 0, 640, 240};
-    gFakeTextureCache.mTextureID = mBackgroundTexture;
-    gFakeTextureCache.mPalNormMulti = 0;
-    gFakeTextureCache.mIsFG1 = false;
-    gFakeTextureCache.mUvOffset = {};
-    gFakeTextureCache.mBitDepth = IRenderer::BitDepth::e16Bit;
-
-    return &gFakeTextureCache;
-}
+static bool gRenderEnable_SPRT = false;
+static bool gRenderEnable_GAS = false;
+static bool gRenderEnable_TILE = false;
+static bool gRenderEnable_FT4 = false;
+static bool gRenderEnable_G4 = false;
+static bool gRenderEnable_G3 = false;
+static bool gRenderEnable_G2 = false;
+static bool gRenderEnable_F4 = false;
+static bool gRenderEnable_F3 = false;
+static bool gRenderEnable_F2 = false;
 
 static GLuint Renderer_CreateTexture(GLenum interpolation = GL_NEAREST)
 {
@@ -107,116 +44,7 @@ static GLuint Renderer_CreateTexture(GLenum interpolation = GL_NEAREST)
     return textureId;
 }
 
-static bool Renderer_TexExists(const PSX_RECT& rect)
-{
-    for (TextureCache& c : gRendererTextures)
-    {
-        if (c.mVramRect.x == rect.x && c.mVramRect.y == rect.y)
-        {
-            return true;
-        }
-    }
-
-    return false;
-}
-
-static TextureCache* Renderer_TexFromTPage(u16 tPage, u8 u, u8 v)
-{
-    s32 textureMode = static_cast<s32>(((u32) tPage >> 7) & 3);
-    s16 tpagex = ((tPage & 0xF) << 6);
-    s16 tpagey = (16 * (tPage & 0x10) + (((u32) tPage >> 2) & 0x200)) + v;
-
-    // Lets prims use background texture as a src even tho we dont have vram anymore.
-    if (tpagex < 640 && tpagey < 240)
-    {
-        TextureCache* tc = GetBackgroundTextureCache();
-        tc->mUvOffset.x = tpagex;
-        tc->mIgnoreColor = true;
-        return tc;
-    }
-
-    switch (textureMode)
-    {
-        case 0: // e4Bit_0
-            tpagex += u / 4;
-            break;
-        case 1: // e8Bit_1
-            tpagex += u / 2;
-            break;
-        case 2: // e16Bit_2
-            tpagex += u;
-            break;
-    }
-
-    for (size_t i = 0; i < gRendererTextures.size(); i++)
-    {
-        TextureCache* c = &gRendererTextures[i];
-
-        if (tpagex >= c->mVramRect.x && tpagex < c->mVramRect.x + c->mVramRect.w && tpagey >= c->mVramRect.y && tpagey < c->mVramRect.y + c->mVramRect.h)
-        {
-            return c;
-        }
-    }
-
-    return 0;
-}
-
-static PSX_Point Renderer_ClutToCoords(s32 tClut)
-{
-    s32 x = (tClut & 63) << 4;
-    s32 y = ((tClut >> 6) & 0xff);
-
-    return {(s16) x, (s16) y};
-}
-
-static PaletteCache* Renderer_ClutToPalette(s32 tClut)
-{
-    s16 x = (tClut & 63) << 4;
-    s16 y = ((tClut >> 6) & 0xff);
-
-    for (size_t i = 0; i < gRendererPals.size(); i++)
-    {
-        PaletteCache* c = &gRendererPals[i];
-
-        if (x >= c->mPalPoint.x && x < (c->mPalPoint.x + c->mPalDepth) && c->mPalPoint.y == y)
-        {
-            return c;
-        }
-    }
-
-    return nullptr;
-}
-
-static TextureCache* Renderer_TexFromVRam(const PSX_RECT& rect)
-{
-    for (size_t i = 0; i < gRendererTextures.size(); i++)
-    {
-        TextureCache* c = &gRendererTextures[i];
-
-        if (c->mVramRect.x == rect.x && c->mVramRect.y == rect.y)
-        {
-            return c;
-        }
-    }
-
-    return 0;
-}
-
-static void Renderer_FreeTexture(PSX_Point point)
-{
-    for (size_t i = 0; i < gRendererTextures.size(); i++)
-    {
-        TextureCache* c = &gRendererTextures[i];
-
-        if (c->mVramRect.x == point.x && c->mVramRect.y == point.y)
-        {
-            glDeleteTextures(1, &c->mTextureID);
-            gRendererTextures.erase(gRendererTextures.begin() + i);
-            return;
-        }
-    }
-}
-
+/*
 static void Renderer_DecodePalette(const u8* srcPalData, RGBAPixel* dst, s32 palDepth)
 {
     const u16* palShortPtr = reinterpret_cast<const u16*>(srcPalData);
@@ -230,6 +58,7 @@ static void Renderer_DecodePalette(const u8* srcPalData, RGBAPixel* dst, s32 pal
         dst[i].A = static_cast<u8>((((((oldPixel) >> 15) & 0xffff)) ? 127 : 255));
     }
 }
+*/
 
 static void Renderer_FreePalette(PSX_Point point)
 {
@@ -245,6 +74,7 @@ static void Renderer_FreePalette(PSX_Point point)
     }
 }
 
+/*
 static void Renderer_LoadPalette(PSX_Point point, const u8* palData, s16 palDepth)
 {
     for (auto& c : gRendererPals)
@@ -276,7 +106,9 @@ static void Renderer_LoadPalette(PSX_Point point, const u8* palData, s16 palDept
 
     gRendererPals.push_back(c);
 }
+*/
 
+/*
 static void Renderer_BindPalette(PaletteCache* pCache)
 {
     glEnable(GL_TEXTURE_2D);
@@ -296,6 +128,8 @@ static void Renderer_BindPalette(PaletteCache* pCache)
         glBindTexture(GL_TEXTURE_2D, pCache->mPalTextureID);
     }
 }
+*/
+
 
 static void Renderer_BindTexture(TextureCache* pTexture)
 {
@@ -308,6 +142,7 @@ static void Renderer_BindTexture(TextureCache* pTexture)
         glBindTexture(GL_TEXTURE_2D, pTexture->mTextureID);
     }
 }
+
 
 static void Renderer_SetBlendMode(TPageAbr blendAbr)
 {
@@ -334,13 +169,7 @@ static void Renderer_SetBlendMode(TPageAbr blendAbr)
     }
 }
 
-static PSX_Point Renderer_VRamFromTPage(u16 tPage)
-{
-    s16 tpagex = (tPage & 0xF) << 6;
-    s16 tpagey = 16 * (tPage & 0x10) + (((u32) tPage >> 2) & 0x200);
 
-    return {tpagex, tpagey};
-}
 
 static void Renderer_ParseTPageBlendMode(u16 tPage)
 {
@@ -352,111 +181,45 @@ static void Renderer_ParseTPageBlendMode(u16 tPage)
     Renderer_SetBlendMode(pageAbr);
 }
 
-//static s32 WidthBpp(s32 textureMode, s32 width)
-//{
-//    switch (textureMode)
-//    {
-//    case 1:
-//        return width * 2;
-//    case 0:
-//        return width * 4;
-//    default:
-//        return width;
-//    }
-//}
 
-static s32 WidthBppDivide(s32 textureMode, s32 width)
-{
-    switch (textureMode)
-    {
-        case 1:
-            return width / 2;
-        case 0:
-            return width / 4;
-        default:
-            return width;
-    }
-}
-
-static void Convert4bppTextureFont(const PSX_RECT& rect, const u8* pPixels)
-{
-    std::vector<u8> buffer(rect.w * rect.h * 4);
-
-    s32 pIndex = 0;
-    for (s32 i = 0; i < rect.w * 4 * rect.h; i += 2)
-    {
-        buffer[i] = pPixels[pIndex] & 0xf;
-        buffer[i + 1] = (pPixels[pIndex] & 0xf0) >> 4;
-        pIndex++;
-    }
-
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, rect.w * 4, rect.h, 0, GL_RED, GL_UNSIGNED_BYTE, buffer.data());
-}
-
-static void Renderer_ConvertFG1BitMask(s32 width, s32 height, const u8* pPixels)
-{
-    RGBAPixel* mDst = reinterpret_cast<RGBAPixel*>(gDecodeBuffer);
-    const u32* mSrc = reinterpret_cast<const u32*>(pPixels);
-
-    s32 pSrcIndex = 0;
-    s32 dstIndex = 0;
-
-    for (s32 y = 0; y < height; y++)
-    {
-        u32 bitMask = mSrc[pSrcIndex];
-        for (s32 x = 0; x < width; x++)
-        {
-            u8 v = (bitMask & 1) * 255;
-
-            bitMask >>= 1;
-
-            mDst[dstIndex].R = v;
-            mDst[dstIndex].G = v;
-            mDst[dstIndex].B = v;
-            mDst[dstIndex].A = v;
-            dstIndex++;
-        }
-        pSrcIndex++;
-    }
-
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, gDecodeBuffer);
-}
 
 static TextureCache* Renderer_TextureFromAnim(Poly_FT4& poly)
 {
-    const void* pAnimFg1Data = GetPrimExtraPointerHack(&poly);
+   // const void* pAnimFg1Data = GetPrimExtraPointerHack(&poly);
 
     if (gDecodedTextureCache == 0)
+    {
         gDecodedTextureCache = Renderer_CreateTexture();
+    }
 
-    u16 tWidth = reinterpret_cast<const u16*>(GetPrimExtraPointerHack(&poly))[0];
-    u16 tHeight = reinterpret_cast<const u16*>(GetPrimExtraPointerHack(&poly))[1];
 
     TPageMode textureMode = static_cast<TPageMode>(((u32) poly.mVerts[0].mUv.tpage_clut_pad >> 7) & 3);
 
     gFakeTextureCache = {};
-    gFakeTextureCache.mPalXY = Renderer_ClutToCoords(poly.mUv.tpage_clut_pad);
-    gFakeTextureCache.mVramRect = {0, 0, (s16) tWidth, (s16) tHeight};
     gFakeTextureCache.mTextureID = gDecodedTextureCache;
 
+    if (poly.mCam)
+    {
+        glBindTexture(GL_TEXTURE_2D, gDecodedTextureCache);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, poly.mAnim->mAnimRes.mTgaPtr->mWidth, poly.mAnim->mAnimRes.mTgaPtr->mHeight, 0, GL_RGB, GL_UNSIGNED_INT, poly.mAnim->mAnimRes.mTgaPtr->mPixels.data());
+    }
 
     switch (textureMode)
     {
-        case TPageMode::e4Bit_0:
-            gFakeTextureCache.mBitDepth = IRenderer::BitDepth::e16Bit;
-            CompressionType6Ae_Decompress_40A8A0((u8*) pAnimFg1Data, (u8*) gDecodeBuffer);
-            // Hacky because palette is 16 width, but converted sprite is normalized for 16 -> 256
-            // So we scale it back down for the shader.
-            gFakeTextureCache.mPalNormMulti = 16;
-            glBindTexture(GL_TEXTURE_2D, gDecodedTextureCache);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, (tWidth + 1) / 2, tHeight, 0, GL_RED, GL_UNSIGNED_BYTE, gDecodeBuffer);
-            break;
         case TPageMode::e8Bit_1:
+        {
+            /*
             gFakeTextureCache.mBitDepth = IRenderer::BitDepth::e16Bit;
-            CompressionType_3Ae_Decompress_40A6A0((u8*) pAnimFg1Data, (u8*) gDecodeBuffer);
+
+            poly.mAnim->mAnimRes.mTgaPtr->mPixels.data();
+
+            CompressionType_3Ae_Decompress_40A6A0((u8*) pAnimFg1Data, (u8*) poly.mAnim->mAnimRes.mTgaPtr->mPixels.data());
             glBindTexture(GL_TEXTURE_2D, gDecodedTextureCache);
             glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, tWidth, tHeight, 0, GL_RED, GL_UNSIGNED_BYTE, gDecodeBuffer);
+            */
             break;
+        }
+        /*
         case TPageMode::e16Bit_2:
             // TODO:  FG1's get rendered here for AE.
             s16 fg1Width = poly.mVerts[0].mVert.x - poly.mBase.vert.x;
@@ -466,7 +229,7 @@ static TextureCache* Renderer_TextureFromAnim(Poly_FT4& poly)
             gFakeTextureCache.mIsFG1 = true;
             glBindTexture(GL_TEXTURE_2D, gDecodedTextureCache);
             Renderer_ConvertFG1BitMask(fg1Width, fg1Height, (u8*) pAnimFg1Data);
-            break;
+            break;*/
     }
 
     return &gFakeTextureCache;
@@ -560,8 +323,8 @@ void OpenGLRenderer::DrawLines(const VertexData* pVertData, s32 vertSize, const 
 
 void OpenGLRenderer::RenderBackground()
 {
-    Renderer_SetBlendMode(TPageAbr::eBlend_0);
-    DrawTexture(GetBackgroundTexture(), 0, 0, 640, 240);
+    //Renderer_SetBlendMode(TPageAbr::eBlend_0);
+    //DrawTexture(GetBackgroundTexture(), 0, 0, 640, 240);
 }
 
 glm::mat4 OpenGLRenderer::GetMVP()
@@ -579,8 +342,8 @@ glm::mat4 OpenGLRenderer::GetMVP(f32 x, f32 y, f32 width, f32 height)
 
 void OpenGLRenderer::DebugWindow()
 {
-    ImGuiStyle& style = ImGui::GetStyle();
-    ImGuiIO& io = ImGui::GetIO();
+    //ImGuiStyle& style = ImGui::GetStyle();
+    //ImGuiIO& io = ImGui::GetIO();
 
     if (ImGui::BeginMainMenuBar())
     {
@@ -620,7 +383,7 @@ void OpenGLRenderer::DebugWindow()
     }
 
     //ImGui::ShowDemoWindow();
-
+    /*
     if (ImGui::Begin("Texture Window", nullptr, ImGuiWindowFlags_MenuBar))
     {
         f32 widthSpace = ImGui::GetContentRegionAvailWidth();
@@ -653,7 +416,8 @@ void OpenGLRenderer::DebugWindow()
             currentWidth += imgSize.x + style.ItemSpacing.x;
         }
     }
-    ImGui::End();
+    ImGui::End();*/
+
 
     if (ImGui::Begin("Palettes", nullptr, ImGuiWindowFlags_MenuBar))
     {
@@ -665,6 +429,7 @@ void OpenGLRenderer::DebugWindow()
     }
     ImGui::End();
 
+    /*
     if (ImGui::Begin("VRAM", nullptr, ImGuiWindowFlags_MenuBar))
     {
         ImVec2 pos = ImGui::GetWindowPos();
@@ -696,6 +461,7 @@ void OpenGLRenderer::DebugWindow()
         }
     }
     ImGui::End();
+    */
 }
 
 void OpenGLRenderer::Destroy()
@@ -762,8 +528,10 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
         return false;
     }
 
+    
+    //SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 32);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
     // Create context
@@ -868,10 +636,11 @@ void OpenGLRenderer::PalFree(const PalRecord& record)
         record.x,
         record.y,
     });
+    /*
     Renderer_FreeTexture({
         record.x,
         record.y,
-    });
+    });*/
 }
 
 bool OpenGLRenderer::PalAlloc(PalRecord& record)
@@ -957,11 +726,12 @@ void OpenGLRenderer::SetScreenOffset(Prim_ScreenOffset& offset)
                              static_cast<f32>(offset.field_E_yoff), 0.0f, 1.0f);
 }
 
-void OpenGLRenderer::Draw(Prim_Sprt& sprt)
+void OpenGLRenderer::Draw(Prim_Sprt& /*sprt*/)
 {
     if (!gRenderEnable_SPRT)
         return;
 
+    /*
     // Detect our magic code and render our cam.
     if (sprt.mBase.header.rgb_code.r == 255 && sprt.mBase.header.rgb_code.g == 254 && sprt.mBase.header.rgb_code.b == 253)
     {
@@ -1016,6 +786,7 @@ void OpenGLRenderer::Draw(Prim_Sprt& sprt)
     DrawTriangles(verts, 4, indexData, 6);
 
     mTextureShader.UnUse();
+    */
 }
 
 static GLuint TempGasEffectTexture = 0;
@@ -1279,12 +1050,15 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     TextureCache* pTexture = nullptr;
 
     // Some polys have their texture data directly attached to polys.
-    if (GetPrimExtraPointerHack(&poly))
+    //if (GetPrimExtraPointerHack(&poly))
+    {
         pTexture = Renderer_TextureFromAnim(poly);
+    }
+    /*
     else
+    {
         pTexture = Renderer_TexFromTPage(poly.mVerts[0].mUv.tpage_clut_pad, poly.mUv.u, poly.mUv.v);
-
-    PaletteCache* pPal = Renderer_ClutToPalette(poly.mUv.tpage_clut_pad);
+    }*/
 
     if (pTexture == nullptr)
     {
@@ -1304,17 +1078,14 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
         g = 1.0f;
         b = 1.0f;
     }
-
-    s32 xOff = (pTexture->mVramRect.x & 63);
+    
+    s32 xOff = 0;//(pTexture->mVramRect.x & 63);
     s32 bppMulti = 1;
 
     switch (pTexture->mBitDepth)
     {
         case BitDepth::e8Bit:
             bppMulti = 2;
-            break;
-        case BitDepth::e4Bit:
-            bppMulti = 4;
             break;
         default:
             break;
@@ -1323,8 +1094,10 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     xOff *= bppMulti;
 
     // macros suck. todo: fix that
-#define UV_U(v) (f32)(((pTexture->mUvOffset.x + v) - xOff) / (f32)(pTexture->mVramRect.w * bppMulti))
-#define UV_V(v) (f32)(((pTexture->mUvOffset.y + v) - static_cast<u8>(pTexture->mVramRect.y)) / (f32) pTexture->mVramRect.h)
+//#define UV_U(v) (f32)(((pTexture->mUvOffset.x + v) - xOff) / (f32)(pTexture->mVramRect.w * bppMulti))
+//#define UV_V(v) (f32)(((pTexture->mUvOffset.y + v) - static_cast<u8>(pTexture->mVramRect.y)) / (f32) pTexture->mVramRect.h)
+#define UV_U(v) (f32)v
+#define UV_V(v) (f32)v
 
     VertexData verts[4] = {
         {(f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, 0, r, g, b, UV_U(poly.mUv.u), UV_V(poly.mUv.v)},
@@ -1332,9 +1105,11 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
         {(f32) poly.mVerts[1].mVert.x, (f32) poly.mVerts[1].mVert.y, 0, r, g, b, UV_U(poly.mVerts[1].mUv.u), UV_V(poly.mVerts[1].mUv.v)},
         {(f32) poly.mVerts[2].mVert.x, (f32) poly.mVerts[2].mVert.y, 0, r, g, b, UV_U(poly.mVerts[2].mUv.u), UV_V(poly.mVerts[2].mUv.v)}};
 
-    Renderer_BindPalette(pPal);
+   // Renderer_BindPalette(pPal);
     Renderer_BindTexture(pTexture);
+    
 
+    /*
     if (pTexture->mIsFG1)
     {
         const f32 overdraw = 0.2f; // stops weird line rendering issues.
@@ -1349,38 +1124,31 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
         glActiveTexture(GL_TEXTURE1);
         glBindTexture(GL_TEXTURE_2D, GetBackgroundTexture());
 
-        mTextureShader.UniformVec4("m_FG1Size", glm::vec4(poly.mBase.vert.x, poly.mBase.vert.y, pTexture->mVramRect.w + overdraw, pTexture->mVramRect.h + overdraw));
+        //mTextureShader.UniformVec4("m_FG1Size", glm::vec4(poly.mBase.vert.x, poly.mBase.vert.y, pTexture->mVramRect.w + overdraw, pTexture->mVramRect.h + overdraw));
         mTextureShader.Uniform1i("m_FG1", true);
-    }
+    }*/
 
+    
     // Set our Projection Matrix, so stuff doesn't get rendered in the quantum realm.
     mTextureShader.UniformMatrix4fv("m_MVP", GetMVP());
 
     mTextureShader.Uniform1i("m_Sprite", 0);  // Set m_Sprite to GL_TEXTURE0
     mTextureShader.Uniform1i("m_Palette", 1); // Set m_Palette to GL_TEXTURE1
     mTextureShader.Uniform1i("m_Textured", true);
-    mTextureShader.Uniform1i("m_PaletteEnabled", pPal != nullptr);
+    mTextureShader.Uniform1i("m_PaletteEnabled", false);
 
+    /*
     if (pPal != nullptr)
     {
         if (pTexture->mPalNormMulti != 0)
-            mTextureShader.Uniform1i("m_PaletteDepth", pPal->mPalDepth * gFakeTextureCache.mPalNormMulti);
-        else
-            mTextureShader.Uniform1i("m_PaletteDepth", pPal->mPalDepth);
-    }
-
-    // Hack to use a HD menu font.
-    if (pTexture->mVramRect.w == 64 && pTexture->mVramRect.h == 256)
-    {
-        static GLuint FontTexture = TextureFromFile("menufont.png");
-
-        if (FontTexture != 0)
         {
-            glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, FontTexture);
-            mTextureShader.Uniform1i("m_PaletteEnabled", false);
+            mTextureShader.Uniform1i("m_PaletteDepth", pPal->mPalDepth * gFakeTextureCache.mPalNormMulti);
         }
-    }
+        else
+        {
+            mTextureShader.Uniform1i("m_PaletteDepth", pPal->mPalDepth);
+        }
+    }*/
 
     Renderer_ParseTPageBlendMode(poly.mVerts[0].mUv.tpage_clut_pad);
 
@@ -1392,8 +1160,9 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     mTextureShader.UnUse();
 }
 
-void OpenGLRenderer::Draw(Poly_G4& poly)
+void OpenGLRenderer::Draw(Poly_G4& /*poly*/)
 {
+    /*
     if (!gRenderEnable_G4)
         return;
 
@@ -1424,35 +1193,12 @@ void OpenGLRenderer::Draw(Poly_G4& poly)
     DrawTriangles(verts, 4, indexData, 6);
 
     mTextureShader.UnUse();
+    */
 }
 
-void ConvertAOFG1(const u8* srcPalData, RGBAPixel* dst, s32 pixelCount)
+void OpenGLRenderer::Upload(BitDepth /*bitDepth*/, const PSX_RECT& /*rect*/, const u8* /*pPixels*/)
 {
-    const u16* palShortPtr = reinterpret_cast<const u16*>(srcPalData);
-    for (s32 i = 0; i < pixelCount; i++)
-    {
-        u16 oldPixel = palShortPtr[i];
-        u8 semiTrans = (((oldPixel) >> 15) & 0x1);
-        dst[i].G = ((oldPixel >> 5) & 0x1F) << 2;
-        dst[i].R = ((oldPixel >> 0) & 0x1F) << 2;
-        dst[i].B = ((oldPixel >> 10) & 0x1F) << 2;
-        dst[i].A = ((semiTrans == 1) ? 0 : 255);
-    }
-}
-
-void StitchAOCam(s32 x, s32 y, s32 width, s32 height, const u8* pPixels)
-{
-    u16* pDst = reinterpret_cast<u16*>(gDecodeBuffer);
-    const u16* pSrc = reinterpret_cast<const u16*>(pPixels);
-
-    for (s32 y1 = y; y1 < height; y1++)
-    {
-        memcpy(&pDst[x + (y1 * 640)], &pSrc[(y1 * width)], width * sizeof(s16));
-    }
-}
-
-void OpenGLRenderer::Upload(BitDepth bitDepth, const PSX_RECT& rect, const u8* pPixels)
-{
+    /*
     // Palettes are the only texture that is 1 in height.
     // So we're gonna hook in here to steal palettes for our
     // new renderer.
@@ -1539,60 +1285,6 @@ void OpenGLRenderer::Upload(BitDepth bitDepth, const PSX_RECT& rect, const u8* p
         default:
             ALIVE_FATAL("unknown bit depth");
             break;
-    }
-}
+    }*/
 
-void HackSetBackground(const char_type* path)
-{
-    //return;
-
-    const char_type* camSearchs[] = {
-        "hd/%s.PNG",
-        "hd/%s.CAM.PNG",
-        "hd/%s.CAM.cam.PNG"};
-
-    FILE* fh = NULL;
-
-    for (s32 i = 0; i < 3; i++)
-    {
-        char_type newPath[100];
-        char_type camHack[9] = {};
-        memcpy(camHack, path, 8);
-        sprintf(newPath, camSearchs[i], camHack);
-        fh = fopen(newPath, "rb");
-
-        if (fh != NULL)
-        {
-            break;
-        }
-    }
-
-    if (fh == NULL)
-    {
-        /*glDeleteTextures(1, &mBackgroundTexture);
-        mBackgroundTexture = 0;*/
-        return;
-    }
-
-    s32 x = 0, y = 0;
-    s32 comp = 0;
-    const u8* data = stbi_load_from_file(fh, &x, &y, &comp, 4);
-
-    if (mBackgroundTexture == 0)
-    {
-        glGenTextures(1, &mBackgroundTexture);
-    }
-
-    glBindTexture(GL_TEXTURE_2D, mBackgroundTexture);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, x, y, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-
-    stbi_image_free((void*) data);
-
-    fclose(fh);
 }
