@@ -118,16 +118,18 @@ static void Renderer_BindPalette(AnimationPal& pCache)
         gPalTextureID = Renderer_CreateTexture();
     }
 
-    glBindTexture(GL_TEXTURE_2D, gPalTextureID);
+    //glBindTexture(GL_TEXTURE_2D, gPalTextureID);
 
     RGBAPixel dst[256];
     Renderer_DecodePalette(reinterpret_cast<const u8*>(pCache.mPal), dst, 256);
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 256, 1, 0, GL_RGBA, GL_UNSIGNED_BYTE, dst);
+    
 
     // Set palette to GL_TEXTURE1
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, gPalTextureID);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 256, 1, 0, GL_RGBA, GL_UNSIGNED_BYTE, dst);
 }
 
 
@@ -183,15 +185,15 @@ static void Renderer_ParseTPageBlendMode(u16 tPage)
 }
 
 
-void set_pixel_8(u8* surface, int x, int y, u8 pixel)
+void set_pixel_8(u8* surface, int x, int y, int pitch, u8 pixel)
 {
-    Uint8* target_pixel = (Uint8*)surface + y + x * sizeof(u8);
+    Uint8* target_pixel = (Uint8*)surface + (y * pitch) + x * sizeof(u8);
     *(u8*) target_pixel = pixel;
 }
 
-u8 get_pixel_8(u8* surface, int x, int y)
+u8 get_pixel_8(u8* surface, int x, int y, int pitch)
 {
-    Uint8* target_pixel = (Uint8*) surface + y + x * sizeof(u8);
+    Uint8* target_pixel = (Uint8*) surface + (y * pitch) + x * sizeof(u8);
     return *target_pixel;
 }
 
@@ -227,7 +229,7 @@ static TextureCache* Renderer_TextureFromAnim(Poly_FT4& poly)
         {
             for (u32 x = 0; x < pHeader->mWidth; x++)
             {
-                set_pixel_8(tmp.data(), x, y, get_pixel_8(r.mTgaPtr->mPixels.data(), pHeader->mSpriteSheetX + x, pHeader->mSpriteSheetY + y));
+                set_pixel_8(tmp.data(), x, y, pHeader->mWidth, get_pixel_8(r.mTgaPtr->mPixels.data(), pHeader->mSpriteSheetX + x, pHeader->mSpriteSheetY + y, r.mTgaPtr->mWidth));
             }
         }
 
@@ -561,7 +563,7 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
     
     //SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 32);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
     // Create context
