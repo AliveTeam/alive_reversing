@@ -44,7 +44,7 @@ static GLuint Renderer_CreateTexture(GLenum interpolation = GL_NEAREST)
     return textureId;
 }
 
-/*
+
 static void Renderer_DecodePalette(const u8* srcPalData, RGBAPixel* dst, s32 palDepth)
 {
     const u16* palShortPtr = reinterpret_cast<const u16*>(srcPalData);
@@ -58,7 +58,6 @@ static void Renderer_DecodePalette(const u8* srcPalData, RGBAPixel* dst, s32 pal
         dst[i].A = static_cast<u8>((((((oldPixel) >> 15) & 0xffff)) ? 127 : 255));
     }
 }
-*/
 
 static void Renderer_FreePalette(PSX_Point point)
 {
@@ -108,27 +107,29 @@ static void Renderer_LoadPalette(PSX_Point point, const u8* palData, s16 palDept
 }
 */
 
-/*
-static void Renderer_BindPalette(PaletteCache* pCache)
+static int gPalTextureID = 0;
+
+static void Renderer_BindPalette(AnimationPal& pCache)
 {
     glEnable(GL_TEXTURE_2D);
 
-    if (pCache != nullptr)
+    if (gPalTextureID == 0)
     {
-        if (pCache->mPalTextureID == 0)
-        {
-            pCache->mPalTextureID = Renderer_CreateTexture();
-        }
-
-        glBindTexture(GL_TEXTURE_2D, pCache->mPalTextureID);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, pCache->mPalDepth, 1, 0, GL_RGBA, GL_UNSIGNED_BYTE, pCache->mPalData);
-
-        // Set palette to GL_TEXTURE1
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, pCache->mPalTextureID);
+        gPalTextureID = Renderer_CreateTexture();
     }
+
+    glBindTexture(GL_TEXTURE_2D, gPalTextureID);
+
+    RGBAPixel dst[256];
+    Renderer_DecodePalette(reinterpret_cast<const u8*>(pCache.mPal), dst, 256);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 256, 1, 0, GL_RGBA, GL_UNSIGNED_BYTE, dst);
+
+    // Set palette to GL_TEXTURE1
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, gPalTextureID);
 }
-*/
+
 
 
 static void Renderer_BindTexture(TextureCache* pTexture)
@@ -182,6 +183,18 @@ static void Renderer_ParseTPageBlendMode(u16 tPage)
 }
 
 
+void set_pixel_8(u8* surface, int x, int y, u8 pixel)
+{
+    Uint8* target_pixel = (Uint8*)surface + y + x * sizeof(u8);
+    *(u8*) target_pixel = pixel;
+}
+
+u8 get_pixel_8(u8* surface, int x, int y)
+{
+    Uint8* target_pixel = (Uint8*) surface + y + x * sizeof(u8);
+    return *target_pixel;
+}
+
 
 static TextureCache* Renderer_TextureFromAnim(Poly_FT4& poly)
 {
@@ -206,7 +219,19 @@ static TextureCache* Renderer_TextureFromAnim(Poly_FT4& poly)
     }
     else if (poly.mAnim)
     {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, poly.mAnim->mAnimRes.mTgaPtr->mWidth, poly.mAnim->mAnimRes.mTgaPtr->mHeight, 0, GL_RED, GL_UNSIGNED_BYTE, poly.mAnim->mAnimRes.mTgaPtr->mPixels.data());
+        const PerFrameInfo* pHeader = poly.mAnim->Get_FrameHeader(-1);
+
+        AnimResource& r = poly.mAnim->mAnimRes;
+        std::vector<u8> tmp(pHeader->mWidth * pHeader->mHeight);
+        for (u32 y = 0; y < pHeader->mHeight; y++)
+        {
+            for (u32 x = 0; x < pHeader->mWidth; x++)
+            {
+                set_pixel_8(tmp.data(), x, y, get_pixel_8(r.mTgaPtr->mPixels.data(), pHeader->mSpriteSheetX + x, pHeader->mSpriteSheetY + y));
+            }
+        }
+
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, pHeader->mWidth, pHeader->mHeight, 0, GL_RED, GL_UNSIGNED_BYTE, tmp.data());
     }
 
     switch (textureMode)
@@ -536,7 +561,7 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
     
     //SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 32);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
     // Create context
@@ -1159,6 +1184,22 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     }
     else if (poly.mAnim)
     {
+        mTextureShader.Uniform1i("m_PaletteEnabled", true);
+        mTextureShader.Uniform1i("m_PaletteDepth", 256);
+
+        Renderer_BindPalette(poly.mAnim->mAnimRes.mTgaPtr->mPal);
+
+        /*
+        if (poly.mFlipX)
+        {
+            std::swap(u0, u1);
+        }
+
+        if (poly.mFlipY)
+        {
+            std::swap(v1, v0);
+        }*/
+
         VertexData verts[4] = {
             {(f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, 0, r, g, b, 0, 0},
             {(f32) poly.mVerts[0].mVert.x, (f32) poly.mVerts[0].mVert.y, 0, r, g, b, 1, 0},
