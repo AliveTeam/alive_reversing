@@ -217,6 +217,7 @@ static TextureCache* Renderer_TextureFromAnim(Poly_FT4& poly)
 
     if (poly.mCam)
     {
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, poly.mCam->mData.mWidth, poly.mCam->mData.mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, poly.mCam->mData.mPixels->data());
     }
     else if (poly.mAnim)
@@ -236,6 +237,7 @@ static TextureCache* Renderer_TextureFromAnim(Poly_FT4& poly)
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, pHeader->mWidth, pHeader->mHeight, 0, GL_RED, GL_UNSIGNED_BYTE, tmp.data());
         */
 
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, r.mTgaPtr->mWidth, r.mTgaPtr->mHeight, 0, GL_RED, GL_UNSIGNED_BYTE, r.mTgaPtr->mPixels.data());
     }
 
@@ -1215,7 +1217,7 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
 
     const GLuint indexData[6] = {1, 0, 3, 3, 0, 2};
 
-    if (poly.mCam)
+    if (poly.mCam && !poly.mFg1)
     {
         VertexData verts[4] = {
             {(f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, 0, r, g, b, 0, 0},
