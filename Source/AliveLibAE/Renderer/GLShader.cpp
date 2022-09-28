@@ -78,19 +78,18 @@ bool GLShader::LoadSource(const char_type* vertex_Source, const char_type* fragm
 
     mProgramID = glCreateProgram();
 
-
     mVertexID = CompileShader(vertex_Source, GL_VERTEX_SHADER);
     mFragmentID = CompileShader(fragment_Source, GL_FRAGMENT_SHADER);
 
     // Attach our compiled shaders to our main program
     glAttachShader(mProgramID, mVertexID);
     glAttachShader(mProgramID, mFragmentID);
-    glBindFragDataLocation(mProgramID, 0, "vFragColor");
     glLinkProgram(mProgramID);
 
     //Check for errors
     GLint programSuccess = GL_TRUE;
     glGetProgramiv(mProgramID, GL_LINK_STATUS, &programSuccess);
+
     if (programSuccess != GL_TRUE)
     {
         LOG_ERROR("Failed to compile OpenGL Shader program");
@@ -226,6 +225,40 @@ void GLShader::Free()
 \____/\_| |_/\_| |_/___/ \____/\_| \_|\____/
 
 */
+
+const char_type* gShader_PassthruVSH = R"(
+#version 330 core
+
+layout (location = 0) in vec2 vsPos;
+layout (location = 1) in vec2 vsUV;
+
+out vec2 fsUV;
+
+void main()
+{
+    gl_Position.xy = vsPos;
+    gl_Position.z = 1.0;
+    gl_Position.w = 1.0;
+
+    // Pass-thru
+    fsUV = vsUV;
+}
+)";
+
+const char_type* gShader_PassthruFSH = R"(
+#version 330 core
+
+in vec2 fsUV;
+
+out vec4 outColor;
+
+uniform sampler2D TextureSampler;
+
+void main()
+{
+    outColor = texture(TextureSampler, fsUV);
+}
+)";
 
 const char_type* gShader_TextureVSH = R"(
 #version 330 core

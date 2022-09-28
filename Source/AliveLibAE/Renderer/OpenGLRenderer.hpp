@@ -87,6 +87,18 @@ private:
     u16 mLastTPage = 0;
     bool mWireframe = false;
 
+    // ROZZA STUFF
+
+    GLShader mPassthruShader = {};
+
+    GLuint mPsxFramebufferId[2];
+    GLuint mPsxFramebufferTexId[2];
+
+    void InitPsxFramebuffer(int index);
+    void CompleteDraw(GLuint target);
+
+    // END ROZZA STUFF
+
     glm::mat4 m_View = {};
 
     glm::ivec4 mLastClip = {};

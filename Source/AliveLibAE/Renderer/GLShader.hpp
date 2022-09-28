@@ -45,5 +45,7 @@ private:
     GLuint CompileShader(const char_type* source, GLenum shaderType);
 };
 
+extern const char_type* gShader_PassthruVSH;
+extern const char_type* gShader_PassthruFSH;
 extern const char_type* gShader_TextureVSH;
 extern const char_type* gShader_TextureFSH;

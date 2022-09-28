@@ -207,12 +207,12 @@ static TextureCache* Renderer_TextureFromAnim(Poly_FT4& poly)
         gDecodedTextureCache = Renderer_CreateTexture();
     }
 
-
     TPageMode textureMode = static_cast<TPageMode>(((u32) poly.mVerts[0].mUv.tpage_clut_pad >> 7) & 3);
 
     gFakeTextureCache = {};
     gFakeTextureCache.mTextureID = gDecodedTextureCache;
 
+    glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, gDecodedTextureCache);
 
     if (poly.mCam)
@@ -302,7 +302,7 @@ void OpenGLRenderer::DrawTexture(GLuint pTexture, f32 x, f32 y, f32 width, f32 h
 void OpenGLRenderer::InitAttributes()
 {
     // Tell GL how to transfer our Vertex struct to our shaders.
-    glBindVertexArray(mVAO);
+    //glBindVertexArray(mVAO);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VertexData), 0);
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(VertexData), (s8*) NULL + 12);
@@ -335,6 +335,10 @@ void OpenGLRenderer::DrawTriangles(const VertexData* pVertData, s32 vertSize, co
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         mTextureShader.Uniform1i("m_Debug", 0);
     }
+
+    glDisableVertexAttribArray(0);
+    glDisableVertexAttribArray(1);
+    glDisableVertexAttribArray(2);
 }
 
 void OpenGLRenderer::DrawLines(const VertexData* pVertData, s32 vertSize, const GLuint* pIndData, s32 indSize)
@@ -354,6 +358,10 @@ void OpenGLRenderer::DrawLines(const VertexData* pVertData, s32 vertSize, const 
     //Set index data and render
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO);
     glDrawElements(GL_LINE_STRIP, indSize, GL_UNSIGNED_INT, NULL);
+
+    glDisableVertexAttribArray(0);
+    glDisableVertexAttribArray(1);
+    glDisableVertexAttribArray(2);
 }
 
 void OpenGLRenderer::RenderBackground()
@@ -566,11 +574,12 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
     
     //SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 32);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
     // Create context
     mContext = SDL_GL_CreateContext(window);
+
     if (mContext == NULL)
     {
         LOG_ERROR("OpenGL context could not be created! SDL Error: " << SDL_GetError());
@@ -610,6 +619,14 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
 
     //mTextureShader.LoadFromFile("shaders/texture.vsh", "shaders/texture.fsh");
     mTextureShader.LoadSource(gShader_TextureVSH, gShader_TextureFSH);
+
+    // ROZZA Init passthru shader
+    mPassthruShader.LoadSource(gShader_PassthruVSH, gShader_PassthruFSH);
+
+    // ROZZA Init framebuffer for render to texture
+    InitPsxFramebuffer(0);
+    InitPsxFramebuffer(1);
+
     return true;
 }
 
@@ -640,18 +657,19 @@ void OpenGLRenderer::Clear(u8 /*r*/, u8 /*g*/, u8 /*b*/)
     //ImGui_ImplSDL2_NewFrame(mWindow);
     //ImGui::NewFrame();
 
-    SDL_GL_SwapWindow(mWindow);
-
     //DebugWindow();
 
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    // ROZZA LOGIC
+    // We clear the destination buffer but do NOT copy it back over the original
+    // because we will continue to draw (don't call CompleteDraw)
 
-    s32 wW, wH;
-    SDL_GetWindowSize(mWindow, &wW, &wH);
-    glViewport(0, 0, wW, wH);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    //glClear(GL_COLOR_BUFFER_BIT);
+
+    // TODO: FIX THIS ONCE UV IS CORRECT
 
     Renderer_SetBlendMode(TPageAbr::eBlend_0);
+
     if (mBackgroundTexture != 0)
     {
         DrawTexture(mBackgroundTexture, 0, 0, 640, 240);
@@ -660,6 +678,16 @@ void OpenGLRenderer::Clear(u8 /*r*/, u8 /*g*/, u8 /*b*/)
 
 void OpenGLRenderer::StartFrame(s32 /*xOff*/, s32 /*yOff*/)
 {
+    // Clear backing framebuffers
+    glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId[0]);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId[1]);
+    glClear(GL_COLOR_BUFFER_BIT);
+
+    // Always render to destination buffer (1)
+    glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId[1]);
+    glViewport(0, 0, 640, 240);
 }
 
 // This function should free both vrams allocations AND palettes, cause theyre kinda the same thing.
@@ -700,10 +728,19 @@ void OpenGLRenderer::PalSetData(const PalRecord& record, const u8* pPixels)
 
 void OpenGLRenderer::EndFrame()
 {
+    s32 wW, wH;
+    SDL_GetWindowSize(mWindow, &wW, &wH);
+    glViewport(0, 0, wW, wH);
+
+    // Draw the final composed framebuffer to the screen
+    CompleteDraw(0);
+
+    SDL_GL_SwapWindow(mWindow);
 }
 
 void OpenGLRenderer::BltBackBuffer(const SDL_Rect* /*pCopyRect*/, const SDL_Rect* /*pDst*/)
 {
+    // TODO: Render source framebuffer to dest!
 }
 
 void OpenGLRenderer::OutputSize(s32* w, s32* h)
@@ -1079,8 +1116,8 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     if (!gRenderEnable_FT4)
         return;
 
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, 0);
+    //glEnable(GL_TEXTURE_2D);
+    //glBindTexture(GL_TEXTURE_2D, 0);
 
     TextureCache* pTexture = nullptr;
 
@@ -1221,20 +1258,14 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     }
     else
     {
-#define UV_U(v) (f32) v
-#define UV_V(v) (f32) v
-
-        VertexData verts[4] = {
-            {(f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, 0, r, g, b, UV_U(poly.mUv.u), UV_V(poly.mUv.v)},
-            {(f32) poly.mVerts[0].mVert.x, (f32) poly.mVerts[0].mVert.y, 0, r, g, b, UV_U(poly.mVerts[0].mUv.u), UV_V(poly.mVerts[0].mUv.v)},
-            {(f32) poly.mVerts[1].mVert.x, (f32) poly.mVerts[1].mVert.y, 0, r, g, b, UV_U(poly.mVerts[1].mUv.u), UV_V(poly.mVerts[1].mUv.v)},
-            {(f32) poly.mVerts[2].mVert.x, (f32) poly.mVerts[2].mVert.y, 0, r, g, b, UV_U(poly.mVerts[2].mUv.u), UV_V(poly.mVerts[2].mUv.v)}};
-        DrawTriangles(verts, 4, indexData, 6);
+        return;
     }
 
     mTextureShader.Uniform1i("m_FG1", false);
 
     mTextureShader.UnUse();
+
+    CompleteDraw(mPsxFramebufferId[0]);
 }
 
 void OpenGLRenderer::Draw(Poly_G4& /*poly*/)
@@ -1364,4 +1395,102 @@ void OpenGLRenderer::Upload(BitDepth /*bitDepth*/, const PSX_RECT& /*rect*/, con
             break;
     }*/
 
+}
+
+
+// ROZZA FRAMEBUFFER STUFF
+
+void OpenGLRenderer::InitPsxFramebuffer(int index)
+{
+    GLuint* pFbId = &mPsxFramebufferId[index];
+    GLuint* pFbTexId = &mPsxFramebufferTexId[index];
+
+    glGenFramebuffers(1, pFbId);
+    glGenTextures(1, pFbTexId);
+
+    // Texture init
+    glBindTexture(GL_TEXTURE_2D, *pFbTexId);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 640, 240, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+    // Framebuffer init
+    glBindFramebuffer(GL_FRAMEBUFFER, *pFbId);
+    glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, *pFbTexId, 0);
+
+    GLenum fbTargets[1] = {GL_COLOR_ATTACHMENT0};
+    glDrawBuffers(1, fbTargets);
+}
+
+void OpenGLRenderer::CompleteDraw(GLuint target)
+{
+    static GLuint vboDrawId = 0;
+    static GLuint vboUvId = 0;
+
+    if (vboDrawId == 0)
+    {
+        static const GLfloat drawQuad[] = {
+            -1.0f, -1.0f,
+            -1.0f, 1.0f,
+            1.0f, -1.0f,
+
+            1.0f, -1.0f,
+            -1.0f, 1.0f,
+            1.0f, 1.0f};
+        static const GLfloat uvQuad[] = {
+            0.0f, 0.0f,
+            0.0f, 1.0f,
+            1.0f, 0.0f,
+
+            1.0f, 0.0f,
+            0.0f, 1.0f,
+            1.0f, 1.0f
+        };
+        
+        glGenBuffers(1, &vboDrawId);
+        glBindBuffer(GL_ARRAY_BUFFER, vboDrawId);
+        glBufferData(
+            GL_ARRAY_BUFFER,
+            sizeof(drawQuad),
+            drawQuad,
+            GL_STATIC_DRAW
+        );
+
+        glGenBuffers(1, &vboUvId);
+        glBindBuffer(GL_ARRAY_BUFFER, vboUvId);
+        glBufferData(
+            GL_ARRAY_BUFFER,
+            sizeof(uvQuad),
+            uvQuad,
+            GL_STATIC_DRAW
+        );
+    }
+
+    mPassthruShader.Use();
+
+    mPassthruShader.Uniform1i("TextureSampler", 0);
+
+    glBindFramebuffer(GL_FRAMEBUFFER, target);
+    
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, mPsxFramebufferTexId[1]);
+
+    glEnableVertexAttribArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, vboDrawId);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+    glEnableVertexAttribArray(1);
+    glBindBuffer(GL_ARRAY_BUFFER, vboUvId);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+
+    glDisableVertexAttribArray(0);
+    glDisableVertexAttribArray(1);
+
+    mPassthruShader.UnUse();
+
+    glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId[1]);
 }
