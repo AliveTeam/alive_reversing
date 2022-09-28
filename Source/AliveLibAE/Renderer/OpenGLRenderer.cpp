@@ -9,7 +9,8 @@
 
 static GLuint mBackgroundTexture = 0;
 static u8 gDecodeBuffer[640 * 256 * 2] = {};
-static GLuint gDecodedTextureCache = 0;
+static GLuint gCamTextureId = 0;
+static GLuint gOtherTextureId = 0;
 
 static TextureCache gFakeTextureCache = {};
 
@@ -133,20 +134,6 @@ static void Renderer_BindPalette(AnimationPal& pCache)
 }
 
 
-
-static void Renderer_BindTexture(TextureCache* pTexture)
-{
-    glEnable(GL_TEXTURE_2D);
-
-    if (pTexture != nullptr)
-    {
-        // Set main sprite to GL_TEXTURE0
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, pTexture->mTextureID);
-    }
-}
-
-
 static void Renderer_SetBlendMode(TPageAbr blendAbr)
 {
     switch (blendAbr)
@@ -202,40 +189,39 @@ static TextureCache* Renderer_TextureFromAnim(Poly_FT4& poly)
 {
    // const void* pAnimFg1Data = GetPrimExtraPointerHack(&poly);
 
-    if (gDecodedTextureCache == 0)
+    if (gOtherTextureId == 0)
     {
-        gDecodedTextureCache = Renderer_CreateTexture();
+        gOtherTextureId = Renderer_CreateTexture();
+    }
+
+    if (gCamTextureId == 0)
+    {
+        gCamTextureId = Renderer_CreateTexture();
     }
 
     TPageMode textureMode = static_cast<TPageMode>(((u32) poly.mVerts[0].mUv.tpage_clut_pad >> 7) & 3);
 
+    GLuint useTextureId = poly.mCam && !poly.mFg1 ? gCamTextureId : gOtherTextureId;
+
     gFakeTextureCache = {};
-    gFakeTextureCache.mTextureID = gDecodedTextureCache;
+    gFakeTextureCache.mTextureID = useTextureId;
 
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, gDecodedTextureCache);
+    glBindTexture(GL_TEXTURE_2D, useTextureId);
 
-    if (poly.mCam)
+    if (poly.mFg1)
+    {
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, poly.mFg1->mWidth, poly.mFg1->mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, poly.mFg1->mPixels->data());
+    }
+    else if (poly.mCam)
     {
         glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, poly.mCam->mData.mWidth, poly.mCam->mData.mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, poly.mCam->mData.mPixels->data());
     }
     else if (poly.mAnim)
     {
-        //const PerFrameInfo* pHeader = poly.mAnim->Get_FrameHeader(-1);
         AnimResource& r = poly.mAnim->mAnimRes;
-        /*
-        std::vector<u8> tmp(pHeader->mWidth * pHeader->mHeight);
-        for (u32 y = 0; y < pHeader->mHeight; y++)
-        {
-            for (u32 x = 0; x < pHeader->mWidth; x++)
-            {
-                set_pixel_8(tmp.data(), x, y, pHeader->mWidth, get_pixel_8(r.mTgaPtr->mPixels.data(), pHeader->mSpriteSheetX + x, pHeader->mSpriteSheetY + y, r.mTgaPtr->mWidth));
-            }
-        }
-
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, pHeader->mWidth, pHeader->mHeight, 0, GL_RED, GL_UNSIGNED_BYTE, tmp.data());
-        */
 
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, r.mTgaPtr->mWidth, r.mTgaPtr->mHeight, 0, GL_RED, GL_UNSIGNED_BYTE, r.mTgaPtr->mPixels.data());
@@ -525,7 +511,8 @@ void OpenGLRenderer::Destroy()
         glDeleteTextures(1, &t.mPalTextureID);
     }
 
-    glDeleteTextures(1, &gDecodedTextureCache);
+    glDeleteTextures(1, &gCamTextureId);
+    glDeleteTextures(1, &gOtherTextureId);
 
     if (mContext)
     {
@@ -1118,9 +1105,6 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     if (!gRenderEnable_FT4)
         return;
 
-    //glEnable(GL_TEXTURE_2D);
-    //glBindTexture(GL_TEXTURE_2D, 0);
-
     TextureCache* pTexture = nullptr;
 
     // Some polys have their texture data directly attached to polys.
@@ -1152,73 +1136,43 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
         g = 1.0f;
         b = 1.0f;
     }
-    
-    s32 xOff = 0;//(pTexture->mVramRect.x & 63);
-    s32 bppMulti = 1;
 
-    switch (pTexture->mBitDepth)
-    {
-        case BitDepth::e8Bit:
-            bppMulti = 2;
-            break;
-        default:
-            break;
-    }
-
-    xOff *= bppMulti;
-
-
-   // Renderer_BindPalette(pPal);
-    Renderer_BindTexture(pTexture);
-    
-
-    /*
-    if (pTexture->mIsFG1)
-    {
-        const f32 overdraw = 0.2f; // stops weird line rendering issues.
-        // This is an FG1, so UV's are maxed;
-        verts[0] = {(f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, 0, 1.0f, 1.0f, 1.0f, 0, 0};
-        verts[1] = {(f32) poly.mVerts[0].mVert.x + overdraw, (f32) poly.mVerts[0].mVert.y, 0, 1.0f, 1.0f, 1.0f, 1, 0};
-        verts[2] = {(f32) poly.mVerts[1].mVert.x, (f32) poly.mVerts[1].mVert.y + overdraw, 0, 1.0f, 1.0f, 1.0f, 0, 1};
-        verts[3] = {(f32) poly.mVerts[2].mVert.x + overdraw, (f32) poly.mVerts[2].mVert.y + overdraw, 0, 1.0f, 1.0f, 1.0f, 1, 1};
-
-
-        // Hack, set palette texture to our background.
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, GetBackgroundTexture());
-
-        //mTextureShader.UniformVec4("m_FG1Size", glm::vec4(poly.mBase.vert.x, poly.mBase.vert.y, pTexture->mVramRect.w + overdraw, pTexture->mVramRect.h + overdraw));
-        mTextureShader.Uniform1i("m_FG1", true);
-    }*/
-
+    //Renderer_BindTexture(pTexture);
     
     // Set our Projection Matrix, so stuff doesn't get rendered in the quantum realm.
     mTextureShader.UniformMatrix4fv("m_MVP", GetMVP());
 
-    mTextureShader.Uniform1i("m_Sprite", 0);  // Set m_Sprite to GL_TEXTURE0
-    mTextureShader.Uniform1i("m_Palette", 1); // Set m_Palette to GL_TEXTURE1
-    mTextureShader.Uniform1i("m_Textured", true);
-    mTextureShader.Uniform1i("m_PaletteEnabled", false);
-
-    /*
-    if (pPal != nullptr)
-    {
-        if (pTexture->mPalNormMulti != 0)
-        {
-            mTextureShader.Uniform1i("m_PaletteDepth", pPal->mPalDepth * gFakeTextureCache.mPalNormMulti);
-        }
-        else
-        {
-            mTextureShader.Uniform1i("m_PaletteDepth", pPal->mPalDepth);
-        }
-    }*/
+    mTextureShader.Uniform1i("texTextureData", 0);  // Set m_Sprite to GL_TEXTURE0
+    mTextureShader.Uniform1i("texAdditionalData", 1); // Set m_Palette to GL_TEXTURE1
 
     Renderer_ParseTPageBlendMode(poly.mVerts[0].mUv.tpage_clut_pad);
 
     const GLuint indexData[6] = {1, 0, 3, 3, 0, 2};
 
-    if (poly.mCam && !poly.mFg1)
+    if (poly.mFg1)
     {
+        mTextureShader.Uniform1i("fsDrawType", 2);
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, gCamTextureId);
+
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, gOtherTextureId);
+
+        VertexData verts[4] = {
+            {(f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, 0, r, g, b, 0, 0},
+            {(f32) poly.mVerts[0].mVert.x, (f32) poly.mVerts[0].mVert.y, 0, r, g, b, 1, 0},
+            {(f32) poly.mVerts[1].mVert.x, (f32) poly.mVerts[1].mVert.y, 0, r, g, b, 0, 1},
+            {(f32) poly.mVerts[2].mVert.x, (f32) poly.mVerts[2].mVert.y, 0, r, g, b, 1, 1}};
+        DrawTriangles(verts, 4, indexData, 6);
+    }
+    else if (poly.mCam)
+    {
+        mTextureShader.Uniform1i("fsDrawType", 1);
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, gCamTextureId);
+
         VertexData verts[4] = {
             {(f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, 0, r, g, b, 0, 0},
             {(f32) poly.mVerts[0].mVert.x, (f32) poly.mVerts[0].mVert.y, 0, r, g, b, 1, 0},
@@ -1228,8 +1182,10 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     }
     else if (poly.mAnim)
     {
-        mTextureShader.Uniform1i("m_PaletteEnabled", true);
-        mTextureShader.Uniform1i("m_PaletteDepth", 256);
+        mTextureShader.Uniform1i("fsDrawType", 0);
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, gOtherTextureId);
 
         Renderer_BindPalette(poly.mAnim->mAnimRes.mTgaPtr->mPal);
         const PerFrameInfo* pHeader = poly.mAnim->Get_FrameHeader(-1);
