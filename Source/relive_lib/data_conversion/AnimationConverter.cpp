@@ -132,7 +132,7 @@ void TgaFile::Load(const char_type* pFileName, AnimationPal& pal256, std::vector
     memcpy(pal256.mPal, pal.data(), 256 * 2);
 
 
-    pixelData.resize(mWidth*mHeight * mBitsPerPixel);
+    pixelData.resize(mWidth*mHeight * (mBitsPerPixel / 8));
     f.Read(pixelData);
 }
 
