@@ -52,9 +52,9 @@ static void Renderer_DecodePalette(const u8* srcPalData, RGBAPixel* dst, s32 pal
     {
         const u16 oldPixel = palShortPtr[i];
 
-        dst[i].R = static_cast<u8>((((oldPixel >> 0) & 0x1F)) << 2);
+        dst[i].B = static_cast<u8>((((oldPixel >> 0) & 0x1F)) << 2);
         dst[i].G = static_cast<u8>((((oldPixel >> 5) & 0x1F)) << 2);
-        dst[i].B = static_cast<u8>((((oldPixel >> 10) & 0x1F)) << 2);
+        dst[i].R = static_cast<u8>((((oldPixel >> 10) & 0x1F)) << 2);
         dst[i].A = static_cast<u8>((((((oldPixel) >> 15) & 0xffff)) ? 127 : 255));
     }
 }
@@ -221,9 +221,9 @@ static TextureCache* Renderer_TextureFromAnim(Poly_FT4& poly)
     }
     else if (poly.mAnim)
     {
-        const PerFrameInfo* pHeader = poly.mAnim->Get_FrameHeader(-1);
-
+        //const PerFrameInfo* pHeader = poly.mAnim->Get_FrameHeader(-1);
         AnimResource& r = poly.mAnim->mAnimRes;
+        /*
         std::vector<u8> tmp(pHeader->mWidth * pHeader->mHeight);
         for (u32 y = 0; y < pHeader->mHeight; y++)
         {
@@ -234,6 +234,9 @@ static TextureCache* Renderer_TextureFromAnim(Poly_FT4& poly)
         }
 
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, pHeader->mWidth, pHeader->mHeight, 0, GL_RED, GL_UNSIGNED_BYTE, tmp.data());
+        */
+
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, r.mTgaPtr->mWidth, r.mTgaPtr->mHeight, 0, GL_RED, GL_UNSIGNED_BYTE, r.mTgaPtr->mPixels.data());
     }
 
     switch (textureMode)
@@ -563,7 +566,7 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
     
     //SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 32);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
 
     // Create context
@@ -1190,8 +1193,15 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
         mTextureShader.Uniform1i("m_PaletteDepth", 256);
 
         Renderer_BindPalette(poly.mAnim->mAnimRes.mTgaPtr->mPal);
+        const PerFrameInfo* pHeader = poly.mAnim->Get_FrameHeader(-1);
 
-        /*
+        std::shared_ptr<TgaData> pTga = poly.mAnim->mAnimRes.mTgaPtr;
+        f32 u0 = static_cast<f32>(pHeader->mSpriteSheetX) / static_cast<f32>(pTga->mWidth);
+        f32 v0 = static_cast<f32>(pHeader->mSpriteSheetY) / static_cast<f32>(pTga->mHeight);
+
+        f32 u1 = u0 + static_cast<f32>(pHeader->mWidth) / static_cast<f32>(pTga->mWidth);
+        f32 v1 = v0 + static_cast<f32>(pHeader->mHeight) / static_cast<f32>(pTga->mHeight);
+
         if (poly.mFlipX)
         {
             std::swap(u0, u1);
@@ -1200,13 +1210,13 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
         if (poly.mFlipY)
         {
             std::swap(v1, v0);
-        }*/
+        }
 
         VertexData verts[4] = {
-            {(f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, 0, r, g, b, 0, 0},
-            {(f32) poly.mVerts[0].mVert.x, (f32) poly.mVerts[0].mVert.y, 0, r, g, b, 1, 0},
-            {(f32) poly.mVerts[1].mVert.x, (f32) poly.mVerts[1].mVert.y, 0, r, g, b, 0, 1},
-            {(f32) poly.mVerts[2].mVert.x, (f32) poly.mVerts[2].mVert.y, 0, r, g, b, 1, 1}};
+            {(f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, 0, r, g, b, u0, v0},
+            {(f32) poly.mVerts[0].mVert.x, (f32) poly.mVerts[0].mVert.y, 0, r, g, b, u1, v0},
+            {(f32) poly.mVerts[1].mVert.x, (f32) poly.mVerts[1].mVert.y, 0, r, g, b, u0, v1},
+            {(f32) poly.mVerts[2].mVert.x, (f32) poly.mVerts[2].mVert.y, 0, r, g, b, u1, v1}};
         DrawTriangles(verts, 4, indexData, 6);
     }
     else
