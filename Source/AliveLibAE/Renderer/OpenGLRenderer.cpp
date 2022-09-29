@@ -5,13 +5,23 @@
 #include "StbImageImplementation.hpp"
 #include "../relive_lib/Animation.hpp"
 
+#define GL_DEBUG 1
+
+#if GL_DEBUG > 0
+    #define GL_VERIFY(x) \
+        (x);             \
+        CheckGLError();
+#else
+    #define GL_VERIFY(x) (x);
+#endif
+
 #define GL_TO_IMGUI_TEX(v) *reinterpret_cast<ImTextureID*>(&v)
 
 static GLuint mBackgroundTexture = 0;
 static u8 gDecodeBuffer[640 * 256 * 2] = {};
 static GLuint gCamTextureId = 0;
 static GLuint gOtherTextureId = 0;
-
+static GLenum gLastGLError = GL_NO_ERROR;
 static TextureCache gFakeTextureCache = {};
 
 static std::vector<TextureCache> gRendererTextures;
@@ -28,19 +38,31 @@ static bool gRenderEnable_F4 = false;
 static bool gRenderEnable_F3 = false;
 static bool gRenderEnable_F2 = false;
 
+
+#if GL_DEBUG > 0
+static void CheckGLError()
+{
+    gLastGLError = glGetError();
+
+    if (gLastGLError != GL_NO_ERROR)
+    {
+        ALIVE_FATAL("OpenGL error raised, check gLastGLError.");
+    }
+}
+#endif
+
 static GLuint Renderer_CreateTexture(GLenum interpolation = GL_NEAREST)
 {
-    glEnable(GL_TEXTURE_2D);
-
     GLuint textureId;
+    
+    GL_VERIFY(glGenTextures(1, &textureId));
+    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, textureId));
 
-    glGenTextures(1, &textureId);
-    glBindTexture(GL_TEXTURE_2D, textureId);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    GL_VERIFY(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
+    GL_VERIFY(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, interpolation);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, interpolation);
+    GL_VERIFY(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, interpolation));
+    GL_VERIFY(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, interpolation));
 
     return textureId;
 }
@@ -112,25 +134,19 @@ static int gPalTextureID = 0;
 
 static void Renderer_BindPalette(AnimationPal& pCache)
 {
-    glEnable(GL_TEXTURE_2D);
-
     if (gPalTextureID == 0)
     {
         gPalTextureID = Renderer_CreateTexture();
     }
 
-    //glBindTexture(GL_TEXTURE_2D, gPalTextureID);
-
     RGBAPixel dst[256];
     Renderer_DecodePalette(reinterpret_cast<const u8*>(pCache.mPal), dst, 256);
 
-    
-
     // Set palette to GL_TEXTURE1
-    glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D, gPalTextureID);
+    GL_VERIFY(glActiveTexture(GL_TEXTURE1));
+    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, gPalTextureID));
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 256, 1, 0, GL_RGBA, GL_UNSIGNED_BYTE, dst);
+    GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 256, 1, 0, GL_RGBA, GL_UNSIGNED_BYTE, dst));
 }
 
 
@@ -206,18 +222,18 @@ static TextureCache* Renderer_TextureFromAnim(Poly_FT4& poly)
     gFakeTextureCache = {};
     gFakeTextureCache.mTextureID = useTextureId;
 
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, useTextureId);
+    GL_VERIFY(glActiveTexture(GL_TEXTURE0));
+    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, useTextureId));
 
     if (poly.mFg1)
     {
-        glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, poly.mFg1->mWidth, poly.mFg1->mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, poly.mFg1->mPixels->data());
+        GL_VERIFY(glPixelStorei(GL_UNPACK_ALIGNMENT, 4));
+        GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, poly.mFg1->mWidth, poly.mFg1->mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, poly.mFg1->mPixels->data()));
     }
     else if (poly.mCam)
     {
-        glPixelStorei(GL_UNPACK_ALIGNMENT, 4);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, poly.mCam->mData.mWidth, poly.mCam->mData.mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, poly.mCam->mData.mPixels->data());
+        GL_VERIFY(glPixelStorei(GL_UNPACK_ALIGNMENT, 4));
+        GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, poly.mCam->mData.mWidth, poly.mCam->mData.mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, poly.mCam->mData.mPixels->data()));
     }
     else if (poly.mAnim)
     {
@@ -232,10 +248,9 @@ static TextureCache* Renderer_TextureFromAnim(Poly_FT4& poly)
             }
         }
 
-        glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, pHeader->mWidth, pHeader->mHeight, 0, GL_RED, GL_UNSIGNED_BYTE, tmp.data());
-        
-        //glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, r.mTgaPtr->mWidth, r.mTgaPtr->mHeight, 0, GL_RED, GL_UNSIGNED_BYTE, r.mTgaPtr->mPixels.data());
+        GL_VERIFY(glPixelStorei(GL_UNPACK_ALIGNMENT, 1));
+        GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, pHeader->mWidth, pHeader->mHeight, 0, GL_RED, GL_UNSIGNED_BYTE, tmp.data()));
+       // GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, r.mTgaPtr->mWidth, r.mTgaPtr->mHeight, 0, GL_RED, GL_UNSIGNED_BYTE, r.mTgaPtr->mPixels.data()));
     }
 
     switch (textureMode)
@@ -310,31 +325,29 @@ void OpenGLRenderer::InitAttributes()
 void OpenGLRenderer::DrawTriangles(const VertexData* pVertData, s32 vertSize, const GLuint* pIndData, s32 indSize)
 {
     // Set our new vectors
-    glBindBuffer(GL_ARRAY_BUFFER, mVBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(VertexData) * vertSize, pVertData, GL_STATIC_DRAW);
+    GL_VERIFY(glBindBuffer(GL_ARRAY_BUFFER, mVBO));
+    GL_VERIFY(glBufferData(GL_ARRAY_BUFFER, sizeof(VertexData) * vertSize, pVertData, GL_STATIC_DRAW));
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indSize * sizeof(GLuint), pIndData, GL_STATIC_DRAW);
+    GL_VERIFY(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO));
+    GL_VERIFY(glBufferData(GL_ELEMENT_ARRAY_BUFFER, indSize * sizeof(GLuint), pIndData, GL_STATIC_DRAW));
 
     InitAttributes();
 
     //Set index data and render
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO);
-    glDrawElements(GL_TRIANGLES, indSize, GL_UNSIGNED_INT, NULL);
+    GL_VERIFY(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO));
+    GL_VERIFY(glDrawElements(GL_TRIANGLES, indSize, GL_UNSIGNED_INT, NULL));
 
     if (mWireframe)
     {
-        glLineWidth(1.0f);
-        mTextureShader.Uniform1i("m_Debug", 1);
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-        glDrawElements(GL_TRIANGLES, indSize, GL_UNSIGNED_INT, NULL);
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-        mTextureShader.Uniform1i("m_Debug", 0);
+        GL_VERIFY(glLineWidth(1.0f));
+        GL_VERIFY(glPolygonMode(GL_FRONT_AND_BACK, GL_LINE));
+        GL_VERIFY(glDrawElements(GL_TRIANGLES, indSize, GL_UNSIGNED_INT, NULL));
+        GL_VERIFY(glPolygonMode(GL_FRONT_AND_BACK, GL_FILL));
     }
 
-    glDisableVertexAttribArray(0);
-    glDisableVertexAttribArray(1);
-    glDisableVertexAttribArray(2);
+    GL_VERIFY(glDisableVertexAttribArray(0));
+    GL_VERIFY(glDisableVertexAttribArray(1));
+    GL_VERIFY(glDisableVertexAttribArray(2));
 }
 
 void OpenGLRenderer::DrawLines(const VertexData* pVertData, s32 vertSize, const GLuint* pIndData, s32 indSize)
@@ -603,10 +616,10 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
     ImGui_ImplOpenGL3_Init("#version 150");
 
     // Create our render buffers
-    glGenVertexArrays(1, &mVAO);
-    glBindVertexArray(mVAO);
-    glGenBuffers(1, &mIBO);
-    glGenBuffers(1, &mVBO);
+    GL_VERIFY(glGenVertexArrays(1, &mVAO));
+    GL_VERIFY(glBindVertexArray(mVAO));
+    GL_VERIFY(glGenBuffers(1, &mIBO));
+    GL_VERIFY(glGenBuffers(1, &mVBO));
 
     //mTextureShader.LoadFromFile("shaders/texture.vsh", "shaders/texture.fsh");
     mTextureShader.LoadSource(gShader_TextureVSH, gShader_TextureFSH);
@@ -670,15 +683,15 @@ void OpenGLRenderer::Clear(u8 /*r*/, u8 /*g*/, u8 /*b*/)
 void OpenGLRenderer::StartFrame(s32 /*xOff*/, s32 /*yOff*/)
 {
     // Clear backing framebuffers
-    glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId[0]);
-    glClear(GL_COLOR_BUFFER_BIT);
+    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId[0]))
+    GL_VERIFY(glClear(GL_COLOR_BUFFER_BIT))
 
-    glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId[1]);
-    glClear(GL_COLOR_BUFFER_BIT);
+    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId[1]))
+    GL_VERIFY(glClear(GL_COLOR_BUFFER_BIT))
 
     // Always render to destination buffer (1)
-    glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId[1]);
-    glViewport(0, 0, 640, 240);
+    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId[1]))
+    GL_VERIFY(glViewport(0, 0, 640, 240))
 }
 
 // This function should free both vrams allocations AND palettes, cause theyre kinda the same thing.
@@ -1084,16 +1097,6 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     if (!gRenderEnable_FT4)
         return;
 
-    if (!poly.mAnim)
-    {
-        return;
-    }
-
-    if (poly.mAnim && poly.mAnim->mAnimRes.mTgaPtr->mWidth != 3537)
-    {
-        return;
-    }
-
     TextureCache* pTexture = nullptr;
 
     // Some polys have their texture data directly attached to polys.
@@ -1106,12 +1109,6 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     {
         pTexture = Renderer_TexFromTPage(poly.mVerts[0].mUv.tpage_clut_pad, poly.mUv.u, poly.mUv.v);
     }*/
-
-    if (pTexture == nullptr)
-    {
-        //LOG_WARNING("Trying to render FT4 with no texture!");
-        return;
-    }
 
     mTextureShader.Use();
 
@@ -1126,8 +1123,8 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
         b = 1.0f;
     }
 
-    mTextureShader.Uniform1i("texTextureData", 0);  // Set m_Sprite to GL_TEXTURE0
-    mTextureShader.Uniform1i("texAdditionalData", 1); // Set m_Palette to GL_TEXTURE1
+    mTextureShader.Uniform1i("texTextureData", 0);    // Set texTextureData to GL_TEXTURE0
+    mTextureShader.Uniform1i("texAdditionalData", 1); // Set texAdditionalData to GL_TEXTURE1
 
     Renderer_ParseTPageBlendMode(poly.mVerts[0].mUv.tpage_clut_pad);
 
@@ -1137,11 +1134,11 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     {
         mTextureShader.Uniform1i("fsDrawType", 2);
 
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, gCamTextureId);
+        GL_VERIFY(glActiveTexture(GL_TEXTURE0))
+        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, gCamTextureId))
 
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, gOtherTextureId);
+        GL_VERIFY(glActiveTexture(GL_TEXTURE1))
+        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, gOtherTextureId))
 
         VertexData verts[4] = {
             {(f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, 0, r, g, b, 0, 0},
@@ -1155,8 +1152,8 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     {
         mTextureShader.Uniform1i("fsDrawType", 1);
 
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, gCamTextureId);
+        GL_VERIFY(glActiveTexture(GL_TEXTURE0));
+        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, gCamTextureId));
 
         VertexData verts[4] = {
             {(f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, 0, r, g, b, 0, 0},
@@ -1169,10 +1166,11 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     {
         mTextureShader.Uniform1i("fsDrawType", 0);
 
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, gOtherTextureId);
+        GL_VERIFY(glActiveTexture(GL_TEXTURE0));
+        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, gOtherTextureId));
 
         Renderer_BindPalette(poly.mAnim->mAnimRes.mTgaPtr->mPal);
+        
         /*
         const PerFrameInfo* pHeader = poly.mAnim->Get_FrameHeader(-1);
 
@@ -1355,23 +1353,23 @@ void OpenGLRenderer::InitPsxFramebuffer(int index)
     GLuint* pFbId = &mPsxFramebufferId[index];
     GLuint* pFbTexId = &mPsxFramebufferTexId[index];
 
-    glGenFramebuffers(1, pFbId);
-    glGenTextures(1, pFbTexId);
+    GL_VERIFY(glGenFramebuffers(1, pFbId));
+    GL_VERIFY(glGenTextures(1, pFbTexId));
 
     // Texture init
-    glBindTexture(GL_TEXTURE_2D, *pFbTexId);
+    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, *pFbTexId));
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 640, 240, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
+    GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 640, 240, 0, GL_RGB, GL_UNSIGNED_BYTE, 0));
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    GL_VERIFY(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST));
+    GL_VERIFY(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST));
 
     // Framebuffer init
-    glBindFramebuffer(GL_FRAMEBUFFER, *pFbId);
-    glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, *pFbTexId, 0);
+    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, *pFbId));
+    GL_VERIFY(glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, *pFbTexId, 0));
 
     GLenum fbTargets[1] = {GL_COLOR_ATTACHMENT0};
-    glDrawBuffers(1, fbTargets);
+    GL_VERIFY(glDrawBuffers(1, fbTargets));
 }
 
 void OpenGLRenderer::CompleteDraw(GLuint target)
@@ -1399,22 +1397,26 @@ void OpenGLRenderer::CompleteDraw(GLuint target)
             1.0f, 1.0f
         };
         
-        glGenBuffers(1, &vboDrawId);
-        glBindBuffer(GL_ARRAY_BUFFER, vboDrawId);
-        glBufferData(
-            GL_ARRAY_BUFFER,
-            sizeof(drawQuad),
-            drawQuad,
-            GL_STATIC_DRAW
+        GL_VERIFY(glGenBuffers(1, &vboDrawId));
+        GL_VERIFY(glBindBuffer(GL_ARRAY_BUFFER, vboDrawId));
+        GL_VERIFY(
+            glBufferData(
+                GL_ARRAY_BUFFER,
+                sizeof(drawQuad),
+                drawQuad,
+                GL_STATIC_DRAW
+            )
         );
 
-        glGenBuffers(1, &vboUvId);
-        glBindBuffer(GL_ARRAY_BUFFER, vboUvId);
-        glBufferData(
-            GL_ARRAY_BUFFER,
-            sizeof(uvQuad),
-            uvQuad,
-            GL_STATIC_DRAW
+        GL_VERIFY(glGenBuffers(1, &vboUvId));
+        GL_VERIFY(glBindBuffer(GL_ARRAY_BUFFER, vboUvId));
+        GL_VERIFY(
+            glBufferData(
+                GL_ARRAY_BUFFER,
+                sizeof(uvQuad),
+                uvQuad,
+                GL_STATIC_DRAW
+            )
         );
     }
 
@@ -1422,25 +1424,25 @@ void OpenGLRenderer::CompleteDraw(GLuint target)
 
     mPassthruShader.Uniform1i("TextureSampler", 0);
 
-    glBindFramebuffer(GL_FRAMEBUFFER, target);
+    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, target));
     
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, mPsxFramebufferTexId[1]);
+    GL_VERIFY(glActiveTexture(GL_TEXTURE0));
+    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mPsxFramebufferTexId[1]));
 
-    glEnableVertexAttribArray(0);
-    glBindBuffer(GL_ARRAY_BUFFER, vboDrawId);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0);
+    GL_VERIFY(glEnableVertexAttribArray(0));
+    GL_VERIFY(glBindBuffer(GL_ARRAY_BUFFER, vboDrawId));
+    GL_VERIFY(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0));
 
-    glEnableVertexAttribArray(1);
-    glBindBuffer(GL_ARRAY_BUFFER, vboUvId);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
+    GL_VERIFY(glEnableVertexAttribArray(1));
+    GL_VERIFY(glBindBuffer(GL_ARRAY_BUFFER, vboUvId));
+    GL_VERIFY(glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0));
 
-    glDrawArrays(GL_TRIANGLES, 0, 6);
+    GL_VERIFY(glDrawArrays(GL_TRIANGLES, 0, 6));
 
-    glDisableVertexAttribArray(0);
-    glDisableVertexAttribArray(1);
+    GL_VERIFY(glDisableVertexAttribArray(0));
+    GL_VERIFY(glDisableVertexAttribArray(1));
 
     mPassthruShader.UnUse();
 
-    glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId[1]);
+    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId[1]));
 }
