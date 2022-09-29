@@ -222,9 +222,20 @@ static TextureCache* Renderer_TextureFromAnim(Poly_FT4& poly)
     else if (poly.mAnim)
     {
         AnimResource& r = poly.mAnim->mAnimRes;
+        const PerFrameInfo* pHeader = poly.mAnim->Get_FrameHeader(-1);
+        std::vector<u8> tmp(pHeader->mWidth * pHeader->mHeight);
+        for (u32 y = 0; y < pHeader->mHeight; y++)
+        {
+            for (u32 x = 0; x < pHeader->mWidth; x++)
+            {
+                set_pixel_8(tmp.data(), x, y, pHeader->mWidth, get_pixel_8(r.mTgaPtr->mPixels.data(), pHeader->mSpriteSheetX + x, pHeader->mSpriteSheetY + y, r.mTgaPtr->mWidth));
+            }
+        }
 
         glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, r.mTgaPtr->mWidth, r.mTgaPtr->mHeight, 0, GL_RED, GL_UNSIGNED_BYTE, r.mTgaPtr->mPixels.data());
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, pHeader->mWidth, pHeader->mHeight, 0, GL_RED, GL_UNSIGNED_BYTE, tmp.data());
+        
+        //glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, r.mTgaPtr->mWidth, r.mTgaPtr->mHeight, 0, GL_RED, GL_UNSIGNED_BYTE, r.mTgaPtr->mPixels.data());
     }
 
     switch (textureMode)
@@ -544,8 +555,8 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
         return false;
     }
 
-    
-    //SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 32);
+
+    // SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 32);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
@@ -555,25 +566,35 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
 
     if (mContext == NULL)
     {
-        LOG_ERROR("OpenGL context could not be created! SDL Error: " << SDL_GetError());
-        return false;
-    }
-    else
-    {
-        // Initialize GLEW
-        glewExperimental = GL_TRUE;
-        GLenum glewError = glewInit();
-        if (glewError != GLEW_OK)
-        {
-            LOG_ERROR("Error initializing GLEW! " << glewGetErrorString(glewError));
-        }
+        LOG_ERROR("OpenGL 3.2 context could not be created! SDL Error: " << SDL_GetError());
 
-        // Use Vsync
-        if (SDL_GL_SetSwapInterval(1) < 0)
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
+        SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+
+        // Create context
+        mContext = SDL_GL_CreateContext(window);
+        if (mContext == NULL)
         {
-            LOG_ERROR("Warning: Unable to set VSync! SDL Error: " << SDL_GetError());
+            LOG_ERROR("OpenGL 3.1 context could not be created! SDL Error: " << SDL_GetError());
+            return false;
         }
     }
+
+    // Initialize GLEW
+    glewExperimental = GL_TRUE;
+    GLenum glewError = glewInit();
+    if (glewError != GLEW_OK)
+    {
+        LOG_ERROR("Error initializing GLEW! " << glewGetErrorString(glewError));
+    }
+
+    // Use Vsync
+    if (SDL_GL_SetSwapInterval(1) < 0)
+    {
+        LOG_ERROR("Warning: Unable to set VSync! SDL Error: " << SDL_GetError());
+    }
+
 
     ImGui::CreateContext();
 
@@ -1152,6 +1173,7 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
         glBindTexture(GL_TEXTURE_2D, gOtherTextureId);
 
         Renderer_BindPalette(poly.mAnim->mAnimRes.mTgaPtr->mPal);
+        /*
         const PerFrameInfo* pHeader = poly.mAnim->Get_FrameHeader(-1);
 
         std::shared_ptr<TgaData> pTga = poly.mAnim->mAnimRes.mTgaPtr;
@@ -1176,6 +1198,12 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
             {(f32) poly.mVerts[0].mVert.x, (f32) poly.mVerts[0].mVert.y, 0, r, g, b, u1, v0},
             {(f32) poly.mVerts[1].mVert.x, (f32) poly.mVerts[1].mVert.y, 0, r, g, b, u0, v1},
             {(f32) poly.mVerts[2].mVert.x, (f32) poly.mVerts[2].mVert.y, 0, r, g, b, u1, v1}};
+        DrawTriangles(verts, 4, indexData, 6);*/
+        VertexData verts[4] = {
+            {(f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, 0, r, g, b, 0, 0},
+            {(f32) poly.mVerts[0].mVert.x, (f32) poly.mVerts[0].mVert.y, 0, r, g, b, 1, 0},
+            {(f32) poly.mVerts[1].mVert.x, (f32) poly.mVerts[1].mVert.y, 0, r, g, b, 0, 1},
+            {(f32) poly.mVerts[2].mVert.x, (f32) poly.mVerts[2].mVert.y, 0, r, g, b, 1, 1}};
         DrawTriangles(verts, 4, indexData, 6);
     }
     else
