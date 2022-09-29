@@ -83,7 +83,7 @@ static void Renderer_DecodePalette(const u8* srcPalData, RGBAPixel* dst, s32 pal
         dst[i].B = static_cast<u8>((((oldPixel >> 0) & 0x1F)) << 2);
         dst[i].G = static_cast<u8>((((oldPixel >> 5) & 0x1F)) << 2);
         dst[i].R = static_cast<u8>((((oldPixel >> 10) & 0x1F)) << 2);
-        dst[i].A = static_cast<u8>((((((oldPixel) >> 15) & 0xffff)) ? 127 : 255));
+        dst[i].A = static_cast<u8>((((((oldPixel) >> 15) & 0xffff)) ? 0 : 255));
     }
 }
 
@@ -587,6 +587,10 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
     // ROZZA Init passthru shader
     mPassthruShader.LoadSource(gShader_PassthruVSH, gShader_PassthruFSH);
 
+    // ROZZA Blending
+    GL_VERIFY(glEnable(GL_BLEND));
+    GL_VERIFY(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+
     // ROZZA Init framebuffer for render to texture
     InitPsxFramebuffer(0);
     InitPsxFramebuffer(1);
@@ -1086,9 +1090,9 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
 
     mTextureShader.Use();
 
-    f32 r = poly.mBase.header.rgb_code.r / 64.0f;
-    f32 g = poly.mBase.header.rgb_code.g / 64.0f;
-    f32 b = poly.mBase.header.rgb_code.b / 64.0f;
+    f32 r = poly.mBase.header.rgb_code.r;
+    f32 g = poly.mBase.header.rgb_code.g;
+    f32 b = poly.mBase.header.rgb_code.b;
 
     // Bind the source framebuffer
     GL_VERIFY(glActiveTexture(GL_TEXTURE2));
@@ -1099,7 +1103,13 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     mTextureShader.Uniform1i("texAdditionalData", 1);  // Set texAdditionalData to GL_TEXTURE1
     mTextureShader.Uniform1i("texFramebufferData", 2); // Set texFramebufferData to GL_TEXTURE2
 
-    Renderer_ParseTPageBlendMode(poly.mVerts[0].mUv.tpage_clut_pad);
+    bool isSemiTrans = (poly.mBase.header.rgb_code.code_or_pad & 2) > 0;
+    bool isShaded   = (poly.mBase.header.rgb_code.code_or_pad & 1) == 0;
+
+    mTextureShader.Uniform1i("fsIsSemiTrans", isSemiTrans);
+    mTextureShader.Uniform1i("fsIsShaded", isShaded);
+
+    mTextureShader.Uniform1i("fsBlendMode", ((u32) GetTPage(&poly) >> 5) & 3);
 
     const GLuint indexData[6] = {1, 0, 3, 3, 0, 2};
 

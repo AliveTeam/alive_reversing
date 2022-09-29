@@ -293,7 +293,10 @@ uniform sampler2D texTextureData;
 uniform sampler2D texAdditionalData;
 uniform sampler2D texFramebufferData;
 
-uniform int fsDrawType;
+uniform int  fsDrawType;
+uniform bool fsIsSemiTrans;
+uniform bool fsIsShaded;
+uniform int  fsBlendMode;
 
 const int DRAW_ANIM = 0;
 const int DRAW_CAM  = 1;
@@ -317,31 +320,77 @@ vec3 checker(in vec2 uv)
 
 void draw_anim()
 {
-    vec4 palColored = PixelToPalette(texture(texTextureData, m_TexCoord).r);
-	vFrag = palColored * vec4(m_Color, 1.0f);
+    vec4 texelPal = PixelToPalette(texture(texTextureData, m_TexCoord).r);
+    vec4 texelFb  = texture(texFramebufferData, gl_FragCoord.xy / frameSize);
 
-    // Testing purposes
-    if (vFrag.rgb == vec3(0.0, 0.0, 0.0))
+    if (texelPal == vec4(0.0, 0.0, 0.0, 0.0))
     {
-        vFrag = texture(texFramebufferData, gl_FragCoord.xy / frameSize);
+        vFrag = texelFb;
+    }
+    else
+    {
+        if (fsIsSemiTrans)
+        {
+            if (texelPal.a == 1.0)
+            {
+                switch (fsBlendMode)
+                {
+                    case 0:
+                        vFrag.rgb = (texelFb.rgb * 0.5) + (texelPal.rgb * 0.5);
+                        break;
+
+                    case 1:
+                        vFrag.rgb = texelFb.rgb + texelPal.rgb;
+                        break;
+
+                    case 2:
+                        vFrag.rgb = texelFb.rgb - texelPal.rgb;
+                        break;
+
+                    case 3:
+                        vFrag.rgb = texelFb.rgb + (texelPal.rgb * 0.25);
+                        break;
+                }
+
+                vFrag.a = 1.0;
+            }
+            else
+            {
+                vFrag = texelPal;
+            }
+        }
+        else
+        {
+            vFrag = texelPal;
+        }
+    }
+
+    // Perform shading
+    if (fsIsShaded)
+    {
+        vFrag.rgb = clamp((vFrag.rgb * (m_Color.rgb / 255.0)) / 0.5f, 0.0f, 1.0f);
     }
 }
 
 void draw_cam()
 {
-    vFrag = texture(texTextureData, m_TexCoord) * vec4(m_Color, 1.0f);
+    vFrag = texture(texTextureData, m_TexCoord);
+
+    vFrag.rgb = clamp((vFrag.rgb * (m_Color.rgb / 255.0)) / 0.5f, 0.0f, 1.0f);
 }
 
 void draw_fg1()
 {
     vec4 mask = texture(texAdditionalData, m_TexCoord);
 
-    vFrag = texture(texTextureData, m_TexCoord) * vec4(m_Color, 1.0f);
+    vFrag = texture(texTextureData, m_TexCoord);
 
     if (mask.rgb == vec3(0, 0, 0))
     {
         vFrag.a = 0;
     }
+
+    vFrag.rgb = clamp((vFrag.rgb * (m_Color.rgb / 255.0)) / 0.5f, 0.0f, 1.0f);
 }
 
 void main()
