@@ -1090,8 +1090,14 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     f32 g = poly.mBase.header.rgb_code.g / 64.0f;
     f32 b = poly.mBase.header.rgb_code.b / 64.0f;
 
-    mTextureShader.Uniform1i("texTextureData", 0);    // Set texTextureData to GL_TEXTURE0
-    mTextureShader.Uniform1i("texAdditionalData", 1); // Set texAdditionalData to GL_TEXTURE1
+    // Bind the source framebuffer
+    GL_VERIFY(glActiveTexture(GL_TEXTURE2));
+    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mPsxFramebufferTexId[GL_FRAMEBUFFER_PSX_SRC]));
+
+    // Set sampler uniforms
+    mTextureShader.Uniform1i("texTextureData", 0);     // Set texTextureData to GL_TEXTURE0
+    mTextureShader.Uniform1i("texAdditionalData", 1);  // Set texAdditionalData to GL_TEXTURE1
+    mTextureShader.Uniform1i("texFramebufferData", 2); // Set texFramebufferData to GL_TEXTURE2
 
     Renderer_ParseTPageBlendMode(poly.mVerts[0].mUv.tpage_clut_pad);
 
@@ -1173,6 +1179,11 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     mTextureShader.Uniform1i("m_FG1", false);
 
     mTextureShader.UnUse();
+
+    // Unbind the source framebuffer, just to be safe so drawing to it doesn't
+    // blow up
+    GL_VERIFY(glActiveTexture(GL_TEXTURE2));
+    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, 0));
 
     CompleteDraw();
 }

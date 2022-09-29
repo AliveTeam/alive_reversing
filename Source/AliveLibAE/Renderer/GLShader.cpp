@@ -291,12 +291,16 @@ out vec4 vFrag;
 
 uniform sampler2D texTextureData;
 uniform sampler2D texAdditionalData;
+uniform sampler2D texFramebufferData;
 
 uniform int fsDrawType;
 
 const int DRAW_ANIM = 0;
 const int DRAW_CAM  = 1;
 const int DRAW_FG1  = 2;
+
+const vec2 frameSize = vec2(640.0, 240.0);
+
 
 vec4 PixelToPalette(float v)
 {
@@ -315,6 +319,12 @@ void draw_anim()
 {
     vec4 palColored = PixelToPalette(texture(texTextureData, m_TexCoord).r);
 	vFrag = palColored * vec4(m_Color, 1.0f);
+
+    // Testing purposes
+    if (vFrag.rgb == vec3(0.0, 0.0, 0.0))
+    {
+        vFrag = texture(texFramebufferData, gl_FragCoord.xy / frameSize);
+    }
 }
 
 void draw_cam()
