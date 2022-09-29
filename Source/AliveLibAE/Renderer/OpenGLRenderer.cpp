@@ -17,12 +17,8 @@
 
 #define GL_TO_IMGUI_TEX(v) *reinterpret_cast<ImTextureID*>(&v)
 
-static GLuint mBackgroundTexture = 0;
-static u8 gDecodeBuffer[640 * 256 * 2] = {};
 static GLuint gCamTextureId = 0;
 static GLuint gOtherTextureId = 0;
-static GLenum gLastGLError = GL_NO_ERROR;
-static TextureCache gFakeTextureCache = {};
 
 static std::vector<TextureCache> gRendererTextures;
 static std::vector<PaletteCache> gRendererPals;
@@ -42,6 +38,8 @@ static bool gRenderEnable_F2 = false;
 #if GL_DEBUG > 0
 static void CheckGLError()
 {
+    static GLenum gLastGLError = GL_NO_ERROR;
+
     gLastGLError = glGetError();
 
     if (gLastGLError != GL_NO_ERROR)
@@ -201,7 +199,7 @@ u8 get_pixel_8(u8* surface, int x, int y, int pitch)
 }
 
 
-static TextureCache* Renderer_TextureFromAnim(Poly_FT4& poly)
+static u32 Renderer_TextureFromAnim(Poly_FT4& poly)
 {
    // const void* pAnimFg1Data = GetPrimExtraPointerHack(&poly);
 
@@ -215,12 +213,9 @@ static TextureCache* Renderer_TextureFromAnim(Poly_FT4& poly)
         gCamTextureId = Renderer_CreateTexture();
     }
 
-    TPageMode textureMode = static_cast<TPageMode>(((u32) poly.mVerts[0].mUv.tpage_clut_pad >> 7) & 3);
+   // TPageMode textureMode = static_cast<TPageMode>(((u32) poly.mVerts[0].mUv.tpage_clut_pad >> 7) & 3);
 
     GLuint useTextureId = poly.mCam && !poly.mFg1 ? gCamTextureId : gOtherTextureId;
-
-    gFakeTextureCache = {};
-    gFakeTextureCache.mTextureID = useTextureId;
 
     GL_VERIFY(glActiveTexture(GL_TEXTURE0));
     GL_VERIFY(glBindTexture(GL_TEXTURE_2D, useTextureId));
@@ -238,6 +233,7 @@ static TextureCache* Renderer_TextureFromAnim(Poly_FT4& poly)
     else if (poly.mAnim)
     {
         AnimResource& r = poly.mAnim->mAnimRes;
+        /*
         const PerFrameInfo* pHeader = poly.mAnim->Get_FrameHeader(-1);
         std::vector<u8> tmp(pHeader->mWidth * pHeader->mHeight);
         for (u32 y = 0; y < pHeader->mHeight; y++)
@@ -246,42 +242,14 @@ static TextureCache* Renderer_TextureFromAnim(Poly_FT4& poly)
             {
                 set_pixel_8(tmp.data(), x, y, pHeader->mWidth, get_pixel_8(r.mTgaPtr->mPixels.data(), pHeader->mSpriteSheetX + x, pHeader->mSpriteSheetY + y, r.mTgaPtr->mWidth));
             }
-        }
+        }*/
 
         GL_VERIFY(glPixelStorei(GL_UNPACK_ALIGNMENT, 1));
-        GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, pHeader->mWidth, pHeader->mHeight, 0, GL_RED, GL_UNSIGNED_BYTE, tmp.data()));
-       // GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, r.mTgaPtr->mWidth, r.mTgaPtr->mHeight, 0, GL_RED, GL_UNSIGNED_BYTE, r.mTgaPtr->mPixels.data()));
+        //GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, pHeader->mWidth, pHeader->mHeight, 0, GL_RED, GL_UNSIGNED_BYTE, tmp.data()));
+        GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, r.mTgaPtr->mWidth, r.mTgaPtr->mHeight, 0, GL_RED, GL_UNSIGNED_BYTE, r.mTgaPtr->mPixels.data()));
     }
 
-    switch (textureMode)
-    {
-        case TPageMode::e8Bit_1:
-        {
-            /*
-            gFakeTextureCache.mBitDepth = IRenderer::BitDepth::e16Bit;
-
-            poly.mAnim->mAnimRes.mTgaPtr->mPixels.data();
-
-            CompressionType_3Ae_Decompress_40A6A0((u8*) pAnimFg1Data, (u8*) poly.mAnim->mAnimRes.mTgaPtr->mPixels.data());
-            glBindTexture(GL_TEXTURE_2D, gDecodedTextureCache);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, tWidth, tHeight, 0, GL_RED, GL_UNSIGNED_BYTE, gDecodeBuffer);
-            */
-            break;
-        }
-        /*
-        case TPageMode::e16Bit_2:
-            // TODO:  FG1's get rendered here for AE.
-            s16 fg1Width = poly.mVerts[0].mVert.x - poly.mBase.vert.x;
-            s16 fg1Height = poly.mVerts[1].mVert.y - poly.mBase.vert.y;
-            gFakeTextureCache.mVramRect = {0, 0, fg1Width, fg1Height};
-            gFakeTextureCache.mBitDepth = IRenderer::BitDepth::e16Bit;
-            gFakeTextureCache.mIsFG1 = true;
-            glBindTexture(GL_TEXTURE_2D, gDecodedTextureCache);
-            Renderer_ConvertFG1BitMask(fg1Width, fg1Height, (u8*) pAnimFg1Data);
-            break;*/
-    }
-
-    return &gFakeTextureCache;
+    return useTextureId;
 }
 
 void OpenGLRenderer::DrawTexture(GLuint pTexture, f32 /*x*/, f32 /*y*/, f32 /*width*/, f32 /*height*/)
@@ -373,12 +341,6 @@ void OpenGLRenderer::DrawLines(const VertexData* pVertData, s32 vertSize, const 
     glDisableVertexAttribArray(2);
 }
 
-void OpenGLRenderer::RenderBackground()
-{
-    //Renderer_SetBlendMode(TPageAbr::eBlend_0);
-    //DrawTexture(GetBackgroundTexture(), 0, 0, 640, 240);
-}
-
 void OpenGLRenderer::DebugWindow()
 {
     //ImGuiStyle& style = ImGui::GetStyle();
@@ -457,7 +419,7 @@ void OpenGLRenderer::DebugWindow()
     }
     ImGui::End();*/
 
-
+    /*
     if (ImGui::Begin("Palettes", nullptr, ImGuiWindowFlags_MenuBar))
     {
         f32 width = ImGui::GetWindowContentRegionWidth();
@@ -467,6 +429,7 @@ void OpenGLRenderer::DebugWindow()
         }
     }
     ImGui::End();
+    */
 
     /*
     if (ImGui::Begin("VRAM", nullptr, ImGuiWindowFlags_MenuBar))
@@ -511,16 +474,17 @@ void OpenGLRenderer::Destroy()
 
     for (auto& t : gRendererTextures)
     {
-        glDeleteTextures(1, &t.mTextureID);
+        GL_VERIFY(glDeleteTextures(1, &t.mTextureID));
     }
 
     for (auto& t : gRendererPals)
     {
-        glDeleteTextures(1, &t.mPalTextureID);
+        GL_VERIFY(glDeleteTextures(1, &t.mPalTextureID));
     }
 
-    glDeleteTextures(1, &gCamTextureId);
-    glDeleteTextures(1, &gOtherTextureId);
+    GL_VERIFY(glDeleteTextures(1, &gCamTextureId));
+    GL_VERIFY(glDeleteTextures(1, &gOtherTextureId));
+    GL_VERIFY(glUseProgram(0));
 
     if (mContext)
     {
@@ -648,20 +612,14 @@ void OpenGLRenderer::Clear(u8 /*r*/, u8 /*g*/, u8 /*b*/)
     static bool firstFrame = true;
     if (!firstFrame)
     {
-        //ImGui::Render();
-        //ImGui::EndFrame();
-        //ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+      
     }
     else
     {
         firstFrame = false;
     }
 
-    //ImGui_ImplOpenGL3_NewFrame();
-    //ImGui_ImplSDL2_NewFrame(mWindow);
-    //ImGui::NewFrame();
-
-    //DebugWindow();
+   
 
     // ROZZA LOGIC
     // We clear the destination buffer but do NOT copy it back over the original
@@ -673,15 +631,12 @@ void OpenGLRenderer::Clear(u8 /*r*/, u8 /*g*/, u8 /*b*/)
     // TODO: FIX THIS ONCE UV IS CORRECT
 
     Renderer_SetBlendMode(TPageAbr::eBlend_0);
-
-    if (mBackgroundTexture != 0)
-    {
-        DrawTexture(mBackgroundTexture, 0, 0, 640, 240);
-    }
 }
 
 void OpenGLRenderer::StartFrame(s32 /*xOff*/, s32 /*yOff*/)
 {
+    mFrameStarted = true;
+
     // Clear backing framebuffers
     GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId[0]))
     GL_VERIFY(glClear(GL_COLOR_BUFFER_BIT))
@@ -732,14 +687,34 @@ void OpenGLRenderer::PalSetData(const PalRecord& record, const u8* pPixels)
 
 void OpenGLRenderer::EndFrame()
 {
-    s32 wW, wH;
-    SDL_GetWindowSize(mWindow, &wW, &wH);
-    glViewport(0, 0, wW, wH);
+    if (mFrameStarted)
+    {
+        s32 wW, wH;
+        SDL_GetWindowSize(mWindow, &wW, &wH);
+        glViewport(0, 0, wW, wH);
 
-    // Draw the final composed framebuffer to the screen
-    CompleteDraw(0);
+        // Draw the final composed framebuffer to the screen
+        CompleteDraw(0);
+        
+        // Switch back to the main frame buffer
+        GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, 0));
 
-    SDL_GL_SwapWindow(mWindow);
+        // Do ImGui
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplSDL2_NewFrame(mWindow);
+        ImGui::NewFrame();
+
+        DebugWindow();
+
+        ImGui::Render();
+        ImGui::EndFrame();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+        // Render end
+        SDL_GL_SwapWindow(mWindow);
+
+        mFrameStarted = false;
+    }
 }
 
 void OpenGLRenderer::BltBackBuffer(const SDL_Rect* /*pCopyRect*/, const SDL_Rect* /*pDst*/)
@@ -1097,7 +1072,7 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     if (!gRenderEnable_FT4)
         return;
 
-    TextureCache* pTexture = nullptr;
+    u32 pTexture = 0;
 
     // Some polys have their texture data directly attached to polys.
     //if (GetPrimExtraPointerHack(&poly))
@@ -1115,13 +1090,6 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     f32 r = poly.mBase.header.rgb_code.r / 64.0f;
     f32 g = poly.mBase.header.rgb_code.g / 64.0f;
     f32 b = poly.mBase.header.rgb_code.b / 64.0f;
-
-    if (pTexture->mIgnoreColor)
-    {
-        r = 1.0f;
-        g = 1.0f;
-        b = 1.0f;
-    }
 
     mTextureShader.Uniform1i("texTextureData", 0);    // Set texTextureData to GL_TEXTURE0
     mTextureShader.Uniform1i("texAdditionalData", 1); // Set texAdditionalData to GL_TEXTURE1
@@ -1171,7 +1139,7 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
 
         Renderer_BindPalette(poly.mAnim->mAnimRes.mTgaPtr->mPal);
         
-        /*
+        
         const PerFrameInfo* pHeader = poly.mAnim->Get_FrameHeader(-1);
 
         std::shared_ptr<TgaData> pTga = poly.mAnim->mAnimRes.mTgaPtr;
@@ -1196,13 +1164,15 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
             {(f32) poly.mVerts[0].mVert.x, (f32) poly.mVerts[0].mVert.y, 0, r, g, b, u1, v0},
             {(f32) poly.mVerts[1].mVert.x, (f32) poly.mVerts[1].mVert.y, 0, r, g, b, u0, v1},
             {(f32) poly.mVerts[2].mVert.x, (f32) poly.mVerts[2].mVert.y, 0, r, g, b, u1, v1}};
-        DrawTriangles(verts, 4, indexData, 6);*/
+        DrawTriangles(verts, 4, indexData, 6);
+
+        /*
         VertexData verts[4] = {
             {(f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, 0, r, g, b, 0, 0},
             {(f32) poly.mVerts[0].mVert.x, (f32) poly.mVerts[0].mVert.y, 0, r, g, b, 1, 0},
             {(f32) poly.mVerts[1].mVert.x, (f32) poly.mVerts[1].mVert.y, 0, r, g, b, 0, 1},
             {(f32) poly.mVerts[2].mVert.x, (f32) poly.mVerts[2].mVert.y, 0, r, g, b, 1, 1}};
-        DrawTriangles(verts, 4, indexData, 6);
+        DrawTriangles(verts, 4, indexData, 6);*/
     }
     else
     {
@@ -1272,7 +1242,6 @@ void OpenGLRenderer::Upload(BitDepth /*bitDepth*/, const PSX_RECT& /*rect*/, con
         TextureCache cache = {};
         cache.mTextureID = Renderer_CreateTexture();
         cache.mVramRect = rect;
-        cache.mBitDepth = bitDepth;
 
         gRendererTextures.push_back(cache);
     }
@@ -1298,7 +1267,6 @@ void OpenGLRenderer::Upload(BitDepth /*bitDepth*/, const PSX_RECT& /*rect*/, con
     if (rect.h == 240)
     {
         bitDepth = BitDepth::e16Bit;
-        tc->mBitDepth = BitDepth::e16Bit;
         aoFG1 = false;
     }
 

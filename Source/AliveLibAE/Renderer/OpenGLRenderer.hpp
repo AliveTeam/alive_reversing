@@ -33,11 +33,6 @@ struct RGBAPixel final
 struct TextureCache final
 {
     GLuint mTextureID;
-    IRenderer::BitDepth mBitDepth;
-    s32 mPalNormMulti; // For special case when converted bitmap data is normalized.
-    bool mIsFG1;
-    bool mIgnoreColor;
-    PSX_Point mUvOffset;
 };
 
 struct PaletteCache final
@@ -81,6 +76,8 @@ public:
     void Upload(BitDepth bitDepth, const PSX_RECT& rect, const u8* pPixels) override;
 
 private:
+    bool mFrameStarted = false;
+
     SDL_Window* mWindow = nullptr;
     SDL_GLContext mContext = nullptr;
     GLShader mTextureShader = {};
@@ -116,7 +113,4 @@ private:
     void DrawTriangles(const VertexData* pVertData, s32 vertSize, const GLuint* pIndData, s32 indSize);
     void DrawLines(const VertexData* pVertData, s32 vertSize, const GLuint* pIndData, s32 indSize);
 
-    void RenderBackground();
 };
-
-void HackSetBackground(const char_type* path);

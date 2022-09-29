@@ -78,9 +78,6 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
     Poly_Set_Blending(&pPoly->mBase.header, mFlags.Get(AnimFlags::eBit16_bBlending));
 
     SetRGB0(pPoly, mRed, mGreen, mBlue);
-    //SetTPage(pPoly, static_cast<u16>(PSX_getTPage(textureMode, mRenderMode, mVramRect.x, mVramRect.y)));
-    //SetClut(pPoly, static_cast<u16>(PSX_getClut(mPalVramXY.x, mPalVramXY.y)));
-    
 
     u8 u1 = 0 /*mVramRect.x & 63*/;
 
@@ -121,21 +118,21 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
 
     if (kFlipX)
     {
-        polyXPos = xpos_pc - FP_GetExponent(xOffSet_scaled + FP_FromDouble(0.499)) - FP_GetExponent(scaled_width + FP_FromDouble(0.499));
+        polyXPos = xpos_pc - FP_GetExponent(xOffSet_scaled) - FP_GetExponent(scaled_width);
     }
     else
     {
-        polyXPos = xpos_pc + FP_GetExponent(xOffSet_scaled + FP_FromDouble(0.499));
+        polyXPos = xpos_pc + FP_GetExponent(xOffSet_scaled);
     }
 
     if (kFlipY)
     {
         // TODO: Might be wrong because this was doing something with the sign bit abs() ??
-        polyYPos = static_cast<s16>(ypos) - FP_GetExponent(yOffset_scaled + FP_FromDouble(0.499)) - FP_GetExponent(scaled_height + FP_FromDouble(0.499));
+        polyYPos = static_cast<s16>(ypos) - FP_GetExponent(yOffset_scaled) - FP_GetExponent(scaled_height);
     }
     else
     {
-        polyYPos = static_cast<s16>(ypos) + FP_GetExponent(yOffset_scaled + FP_FromDouble(0.499));
+        polyYPos = static_cast<s16>(ypos) + FP_GetExponent(yOffset_scaled);
     }
 
     SetUV0(pPoly, kFlipX ? u0 : u1, kFlipY ? v1 : v0);
@@ -145,9 +142,9 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
 
 
     SetXY0(pPoly, polyXPos, polyYPos);
-    SetXY1(pPoly, polyXPos + FP_GetExponent(scaled_width - FP_FromDouble(0.501)), polyYPos);
-    SetXY2(pPoly, polyXPos, polyYPos + FP_GetExponent(scaled_height - FP_FromDouble(0.501)));
-    SetXY3(pPoly, polyXPos + FP_GetExponent(scaled_width - FP_FromDouble(0.501)), polyYPos + FP_GetExponent(scaled_height - FP_FromDouble(0.501)));
+    SetXY1(pPoly, polyXPos + FP_GetExponent(scaled_width), polyYPos);
+    SetXY2(pPoly, polyXPos, polyYPos + FP_GetExponent(scaled_height));
+    SetXY3(pPoly, polyXPos + FP_GetExponent(scaled_width), polyYPos + FP_GetExponent(scaled_height));
 
     pPoly->mFlipX = kFlipX;
     pPoly->mFlipY = kFlipY;
