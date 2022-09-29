@@ -274,7 +274,10 @@ uniform mat4 m_MVP;
 
 void main()
 {
-    gl_Position = m_MVP * vec4(aPos.x, aPos.y, aPos.z, 1.0);
+    //gl_Position = m_MVP * vec4(aPos.x, aPos.y, aPos.z, 1.0);
+
+    gl_Position.x = ((aPos.x / 640) * 2) - 1;
+    gl_Position.y = (1 - ((aPos.y / 240) * 2));
     
     m_Color = aColor;
     m_TexCoord = aTexCoord;
@@ -302,7 +305,7 @@ const vec2 CamSize = vec2(640,240);
 
 vec4 PixelToPalette(float v)
 {
-    return texture(texAdditionalData, vec2((v / 256) * 256, 0.5f));
+    return texture(texAdditionalData, vec2(v, 0.5f));
 }
 
 vec3 checker(in vec2 uv)
@@ -315,7 +318,7 @@ vec3 checker(in vec2 uv)
 
 void draw_anim()
 {
-    vec4 palColored = PixelToPalette(texture(texTextureData, m_TexCoord ).r);
+    vec4 palColored = PixelToPalette(texture(texTextureData, m_TexCoord).r);
 	vFrag = palColored * vec4(m_Color, 1.0f);
 }
 

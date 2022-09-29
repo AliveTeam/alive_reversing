@@ -107,9 +107,6 @@ private:
     GLuint mIBO = 0;
     GLuint mVAO = 0;
 
-    glm::mat4 GetMVP();
-    glm::mat4 GetMVP(f32 x, f32 y, f32 width, f32 height);
-
     void SetClipDirect(s32 x, s32 y, s32 width, s32 height);
 
     void DebugWindow();

@@ -36,8 +36,8 @@ static GLuint Renderer_CreateTexture(GLenum interpolation = GL_NEAREST)
 
     glGenTextures(1, &textureId);
     glBindTexture(GL_TEXTURE_2D, textureId);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, interpolation);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, interpolation);
@@ -258,7 +258,7 @@ static TextureCache* Renderer_TextureFromAnim(Poly_FT4& poly)
     return &gFakeTextureCache;
 }
 
-void OpenGLRenderer::DrawTexture(GLuint pTexture, f32 x, f32 y, f32 width, f32 height)
+void OpenGLRenderer::DrawTexture(GLuint pTexture, f32 /*x*/, f32 /*y*/, f32 /*width*/, f32 /*height*/)
 {
     const f32 r = 1.0f;
     const f32 g = 1.0f;
@@ -272,10 +272,7 @@ void OpenGLRenderer::DrawTexture(GLuint pTexture, f32 x, f32 y, f32 width, f32 h
 
     mTextureShader.Use();
 
-    mTextureShader.UniformMatrix4fv("m_MVP", GetMVP(x, y, width, height));
     mTextureShader.Uniform1i("m_Sprite", 0); // Set m_Sprite to GL_TEXTURE0
-    mTextureShader.Uniform1i("m_PaletteEnabled", false);
-    mTextureShader.Uniform1i("m_Textured", true);
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, pTexture);
@@ -356,19 +353,6 @@ void OpenGLRenderer::RenderBackground()
 {
     //Renderer_SetBlendMode(TPageAbr::eBlend_0);
     //DrawTexture(GetBackgroundTexture(), 0, 0, 640, 240);
-}
-
-glm::mat4 OpenGLRenderer::GetMVP()
-{
-    return m_View;
-}
-
-glm::mat4 OpenGLRenderer::GetMVP(f32 x, f32 y, f32 width, f32 height)
-{
-    glm::mat4 model = glm::mat4(1);
-    model = glm::translate(model, glm::vec3(x, y, 0));
-    model = glm::scale(model, glm::vec3(width, height, 1));
-    return m_View * model;
 }
 
 void OpenGLRenderer::DebugWindow()
@@ -602,9 +586,6 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
     glBindVertexArray(mVAO);
     glGenBuffers(1, &mIBO);
     glGenBuffers(1, &mVBO);
-
-    // Set our Projection Matrix, so stuff doesn't get rendered in the quantum realm.
-    m_View = glm::ortho<f32>(0, 640, 240, 0, 0, 1);
 
     //mTextureShader.LoadFromFile("shaders/texture.vsh", "shaders/texture.fsh");
     mTextureShader.LoadSource(gShader_TextureVSH, gShader_TextureFSH);
@@ -898,10 +879,6 @@ void OpenGLRenderer::Draw(Prim_Tile& tile)
 
     mTextureShader.Use();
 
-    mTextureShader.UniformMatrix4fv("m_MVP", GetMVP(tile.mBase.vert.x, tile.mBase.vert.y, tile.field_14_w, tile.field_16_h));
-    mTextureShader.Uniform1i("m_PaletteEnabled", false);
-    mTextureShader.Uniform1i("m_Textured", false);
-
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, 0);
 
@@ -929,9 +906,6 @@ void OpenGLRenderer::Draw(Line_F2& line)
 
     mTextureShader.Use();
 
-    mTextureShader.UniformMatrix4fv("m_MVP", GetMVP());
-    mTextureShader.Uniform1i("m_Textured", false);
-
     const GLuint indexData[2] = {0, 1};
     DrawLines(verts, 2, indexData, 2);
 
@@ -957,9 +931,6 @@ void OpenGLRenderer::Draw(Line_G2& line)
          0, 0}};
 
     mTextureShader.Use();
-
-    mTextureShader.UniformMatrix4fv("m_MVP", GetMVP());
-    mTextureShader.Uniform1i("m_Textured", false);
 
     const GLuint indexData[2] = {0, 1};
     DrawLines(verts, 2, indexData, 2);
@@ -993,9 +964,6 @@ void OpenGLRenderer::Draw(Line_G4& line)
 
     mTextureShader.Use();
 
-    mTextureShader.UniformMatrix4fv("m_MVP", GetMVP());
-    mTextureShader.Uniform1i("m_Textured", false);
-
     const GLuint indexData[4] = {0, 1, 2, 3};
     DrawLines(verts, 4, indexData, 4);
 
@@ -1024,9 +992,6 @@ void OpenGLRenderer::Draw(Poly_F3& poly)
          0, 1}};
 
     mTextureShader.Use();
-
-    // Set our Projection Matrix, so stuff doesn't get rendered in the quantum realm.
-    mTextureShader.UniformMatrix4fv("m_MVP", GetMVP());
 
     mTextureShader.Uniform1i("m_Textured", false);
 
@@ -1059,9 +1024,6 @@ void OpenGLRenderer::Draw(Poly_G3& poly)
 
     mTextureShader.Use();
 
-    // Set our Projection Matrix, so stuff doesn't get rendered in the quantum realm.
-    mTextureShader.UniformMatrix4fv("m_MVP", GetMVP());
-
     mTextureShader.Uniform1i("m_Textured", false);
 
     const GLuint indexData[3] = {0, 1, 2};
@@ -1090,10 +1052,6 @@ void OpenGLRenderer::Draw(Poly_F4& poly)
 
     mTextureShader.Use();
 
-    // Set our Projection Matrix, so stuff doesn't get rendered in the quantum realm.
-    mTextureShader.UniformMatrix4fv("m_MVP", GetMVP());
-    mTextureShader.Uniform1i("m_Textured", false);
-
     const GLuint indexData[6] = {0, 1, 2, 0, 2, 3};
     DrawTriangles(verts, 4, indexData, 6);
 
@@ -1104,6 +1062,16 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
 {
     if (!gRenderEnable_FT4)
         return;
+
+    if (!poly.mAnim)
+    {
+        return;
+    }
+
+    if (poly.mAnim && poly.mAnim->mAnimRes.mTgaPtr->mWidth != 3537)
+    {
+        return;
+    }
 
     TextureCache* pTexture = nullptr;
 
@@ -1137,11 +1105,6 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
         b = 1.0f;
     }
 
-    //Renderer_BindTexture(pTexture);
-    
-    // Set our Projection Matrix, so stuff doesn't get rendered in the quantum realm.
-    mTextureShader.UniformMatrix4fv("m_MVP", GetMVP());
-
     mTextureShader.Uniform1i("texTextureData", 0);  // Set m_Sprite to GL_TEXTURE0
     mTextureShader.Uniform1i("texAdditionalData", 1); // Set m_Palette to GL_TEXTURE1
 
@@ -1165,6 +1128,7 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
             {(f32) poly.mVerts[1].mVert.x, (f32) poly.mVerts[1].mVert.y, 0, r, g, b, 0, 1},
             {(f32) poly.mVerts[2].mVert.x, (f32) poly.mVerts[2].mVert.y, 0, r, g, b, 1, 1}};
         DrawTriangles(verts, 4, indexData, 6);
+        return;
     }
     else if (poly.mCam)
     {
