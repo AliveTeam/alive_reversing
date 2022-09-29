@@ -1063,15 +1063,6 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     if (!gRenderEnable_FT4)
         return;
 
-    if (!poly.mAnim)
-    {
-        return;
-    }
-
-    if (poly.mAnim && poly.mAnim->mAnimRes.mTgaPtr->mWidth != 3537)
-    {
-        return;
-    }
 
     TextureCache* pTexture = nullptr;
 
@@ -1105,8 +1096,8 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
         b = 1.0f;
     }
 
-    mTextureShader.Uniform1i("texTextureData", 0);  // Set m_Sprite to GL_TEXTURE0
-    mTextureShader.Uniform1i("texAdditionalData", 1); // Set m_Palette to GL_TEXTURE1
+    mTextureShader.Uniform1i("texTextureData", 0);    // Set texTextureData to GL_TEXTURE0
+    mTextureShader.Uniform1i("texAdditionalData", 1); // Set texAdditionalData to GL_TEXTURE1
 
     Renderer_ParseTPageBlendMode(poly.mVerts[0].mUv.tpage_clut_pad);
 
@@ -1171,11 +1162,13 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
             std::swap(v1, v0);
         }
 
+        // For some reason the vertices for anims are off by one for the right
+        // and bottom-most vertices, we correct that here
         VertexData verts[4] = {
             {(f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, 0, r, g, b, u0, v0},
-            {(f32) poly.mVerts[0].mVert.x, (f32) poly.mVerts[0].mVert.y, 0, r, g, b, u1, v0},
-            {(f32) poly.mVerts[1].mVert.x, (f32) poly.mVerts[1].mVert.y, 0, r, g, b, u0, v1},
-            {(f32) poly.mVerts[2].mVert.x, (f32) poly.mVerts[2].mVert.y, 0, r, g, b, u1, v1}};
+            {(f32) poly.mVerts[0].mVert.x + 1, (f32) poly.mVerts[0].mVert.y, 0, r, g, b, u1, v0},
+            {(f32) poly.mVerts[1].mVert.x, (f32) poly.mVerts[1].mVert.y + 1, 0, r, g, b, u0, v1},
+            {(f32) poly.mVerts[2].mVert.x + 1, (f32) poly.mVerts[2].mVert.y + 1, 0, r, g, b, u1, v1}};
         DrawTriangles(verts, 4, indexData, 6);
     }
     else
