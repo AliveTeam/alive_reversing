@@ -683,37 +683,38 @@ void OpenGLRenderer::PalSetData(const PalRecord& record, const u8* pPixels)
 
 void OpenGLRenderer::EndFrame()
 {
-    if (mFrameStarted)
+    if (!mFrameStarted)
     {
-        s32 wW, wH;
-        SDL_GetWindowSize(mWindow, &wW, &wH);
-        glViewport(0, 0, wW, wH);
-
-        // Draw the final composed framebuffer to the screen
-        DrawFramebufferToFramebuffer(
-            GL_FRAMEBUFFER_PSX_DST,
-            GL_FRAMEBUFFER_SCREEN
-        );
-        
-        // Switch back to the main frame buffer
-        GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, 0));
-
-        // Do ImGui
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplSDL2_NewFrame(mWindow);
-        ImGui::NewFrame();
-
-        DebugWindow();
-
-        ImGui::Render();
-        ImGui::EndFrame();
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-        // Render end
-        SDL_GL_SwapWindow(mWindow);
-
-        mFrameStarted = false;
+        return;
     }
+
+    s32 wW, wH;
+    SDL_GetWindowSize(mWindow, &wW, &wH);
+    glViewport(0, 0, wW, wH);
+
+    // Draw the final composed framebuffer to the screen
+    DrawFramebufferToFramebuffer(
+        GL_FRAMEBUFFER_PSX_DST,
+        GL_FRAMEBUFFER_SCREEN);
+
+    // Switch back to the main frame buffer
+    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, 0));
+
+    // Do ImGui
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplSDL2_NewFrame(mWindow);
+    ImGui::NewFrame();
+
+    DebugWindow();
+
+    ImGui::Render();
+    ImGui::EndFrame();
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+    // Render end
+    SDL_GL_SwapWindow(mWindow);
+
+    mFrameStarted = false;
 }
 
 void OpenGLRenderer::BltBackBuffer(const SDL_Rect* /*pCopyRect*/, const SDL_Rect* /*pDst*/)
