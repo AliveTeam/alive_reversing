@@ -563,7 +563,7 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
     }
 
     // Use Vsync
-    if (SDL_GL_SetSwapInterval(1) < 0)
+    if (SDL_GL_SetSwapInterval(0) < 0)
     {
         LOG_ERROR("Warning: Unable to set VSync! SDL Error: " << SDL_GetError());
     }
@@ -1409,6 +1409,9 @@ void OpenGLRenderer::DrawFramebufferToFramebuffer(int src, int dst, s32 x, s32 y
     GL_VERIFY(glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0));
 
     GL_VERIFY(glDrawArrays(GL_TRIANGLES, 0, 6));
+
+    GL_VERIFY(glDeleteBuffers(1, &drawVboId));
+    GL_VERIFY(glDeleteBuffers(1, &uvVboId));
 
     GL_VERIFY(glDisableVertexAttribArray(0));
     GL_VERIFY(glDisableVertexAttribArray(1));
