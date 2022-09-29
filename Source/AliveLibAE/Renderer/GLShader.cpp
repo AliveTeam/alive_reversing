@@ -1,3 +1,4 @@
+#include <Sys_common.hpp>
 #include "GLShader.hpp"
 
 GLShader::GLShader()
@@ -46,8 +47,7 @@ void printProgramLog(GLuint program)
         glGetProgramInfoLog(program, maxLength, &infoLogLength, infoLog.data());
         if (infoLogLength > 0)
         {
-            //Print Log
-            LOG_WARNING(infoLog.data());
+            ALIVE_FATAL(infoLog.data());
         }
     }
     else
@@ -169,8 +169,7 @@ void printShaderLog(GLuint shader)
         glGetShaderInfoLog(shader, maxLength, &infoLogLength, infoLog.data());
         if (infoLogLength > 0)
         {
-            //Print Log
-            LOG_WARNING(infoLog.data());
+            ALIVE_FATAL(infoLog.data());
         }
     }
     else
@@ -234,14 +233,16 @@ layout (location = 1) in vec2 vsUV;
 
 out vec2 fsUV;
 
+uniform vec2 vsTexSize;
+
+
 void main()
 {
-    gl_Position.xy = vsPos;
-    gl_Position.z = 1.0;
-    gl_Position.w = 1.0;
+    gl_Position.x = ((vsPos.x / 640) * 2) - 1;
+    gl_Position.y = (1 - ((vsPos.y / 240) * 2));
 
     // Pass-thru
-    fsUV = vsUV;
+    fsUV = vsUV / vsTexSize;
 }
 )";
 
@@ -270,12 +271,8 @@ layout (location = 2) in vec2 aTexCoord;
 out vec3 m_Color;
 out vec2 m_TexCoord;
 
-uniform mat4 m_MVP;
-
 void main()
 {
-    //gl_Position = m_MVP * vec4(aPos.x, aPos.y, aPos.z, 1.0);
-
     gl_Position.x = ((aPos.x / 640) * 2) - 1;
     gl_Position.y = (1 - ((aPos.y / 240) * 2));
     
@@ -287,10 +284,10 @@ void main()
 const char_type* gShader_TextureFSH = R"(
 #version 330 core
 
-out vec4 vFrag;
-
 in vec3 m_Color;
 in vec2 m_TexCoord;
+
+out vec4 vFrag;
 
 uniform sampler2D texTextureData;
 uniform sampler2D texAdditionalData;
@@ -300,8 +297,6 @@ uniform int fsDrawType;
 const int DRAW_ANIM = 0;
 const int DRAW_CAM  = 1;
 const int DRAW_FG1  = 2;
-
-const vec2 CamSize = vec2(640,240);
 
 vec4 PixelToPalette(float v)
 {

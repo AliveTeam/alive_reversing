@@ -91,8 +91,10 @@ private:
     GLuint mPsxFramebufferId[2];
     GLuint mPsxFramebufferTexId[2];
 
+    void CompleteDraw();
+    void DrawFramebufferToFramebuffer(int src, int dst);
+    void DrawFramebufferToFramebuffer(int src, int dst, s32 x, s32 y, s32 width, s32 height, s32 clipX, s32 clipY, s32 clipWidth, s32 clipHeight);
     void InitPsxFramebuffer(int index);
-    void CompleteDraw(GLuint target);
 
     // END ROZZA STUFF
 

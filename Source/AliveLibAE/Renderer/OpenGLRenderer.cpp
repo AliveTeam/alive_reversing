@@ -17,6 +17,13 @@
 
 #define GL_TO_IMGUI_TEX(v) *reinterpret_cast<ImTextureID*>(&v)
 
+#define GL_FRAMEBUFFER_PSX_SRC 0
+#define GL_FRAMEBUFFER_PSX_DST 1
+#define GL_FRAMEBUFFER_SCREEN  -1
+
+#define GL_FRAMEBUFFER_PSX_WIDTH  640
+#define GL_FRAMEBUFFER_PSX_HEIGHT 240
+
 static GLuint gCamTextureId = 0;
 static GLuint gOtherTextureId = 0;
 
@@ -233,19 +240,8 @@ static u32 Renderer_TextureFromAnim(Poly_FT4& poly)
     else if (poly.mAnim)
     {
         AnimResource& r = poly.mAnim->mAnimRes;
-        /*
-        const PerFrameInfo* pHeader = poly.mAnim->Get_FrameHeader(-1);
-        std::vector<u8> tmp(pHeader->mWidth * pHeader->mHeight);
-        for (u32 y = 0; y < pHeader->mHeight; y++)
-        {
-            for (u32 x = 0; x < pHeader->mWidth; x++)
-            {
-                set_pixel_8(tmp.data(), x, y, pHeader->mWidth, get_pixel_8(r.mTgaPtr->mPixels.data(), pHeader->mSpriteSheetX + x, pHeader->mSpriteSheetY + y, r.mTgaPtr->mWidth));
-            }
-        }*/
 
         GL_VERIFY(glPixelStorei(GL_UNPACK_ALIGNMENT, 1));
-        //GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, pHeader->mWidth, pHeader->mHeight, 0, GL_RED, GL_UNSIGNED_BYTE, tmp.data()));
         GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, r.mTgaPtr->mWidth, r.mTgaPtr->mHeight, 0, GL_RED, GL_UNSIGNED_BYTE, r.mTgaPtr->mPixels.data()));
     }
 
@@ -694,7 +690,10 @@ void OpenGLRenderer::EndFrame()
         glViewport(0, 0, wW, wH);
 
         // Draw the final composed framebuffer to the screen
-        CompleteDraw(0);
+        DrawFramebufferToFramebuffer(
+            GL_FRAMEBUFFER_PSX_DST,
+            GL_FRAMEBUFFER_SCREEN
+        );
         
         // Switch back to the main frame buffer
         GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, 0));
@@ -719,7 +718,6 @@ void OpenGLRenderer::EndFrame()
 
 void OpenGLRenderer::BltBackBuffer(const SDL_Rect* /*pCopyRect*/, const SDL_Rect* /*pDst*/)
 {
-    // TODO: Render source framebuffer to dest!
 }
 
 void OpenGLRenderer::OutputSize(s32* w, s32* h)
@@ -1165,14 +1163,6 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
             {(f32) poly.mVerts[1].mVert.x, (f32) poly.mVerts[1].mVert.y, 0, r, g, b, u0, v1},
             {(f32) poly.mVerts[2].mVert.x, (f32) poly.mVerts[2].mVert.y, 0, r, g, b, u1, v1}};
         DrawTriangles(verts, 4, indexData, 6);
-
-        /*
-        VertexData verts[4] = {
-            {(f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, 0, r, g, b, 0, 0},
-            {(f32) poly.mVerts[0].mVert.x, (f32) poly.mVerts[0].mVert.y, 0, r, g, b, 1, 0},
-            {(f32) poly.mVerts[1].mVert.x, (f32) poly.mVerts[1].mVert.y, 0, r, g, b, 0, 1},
-            {(f32) poly.mVerts[2].mVert.x, (f32) poly.mVerts[2].mVert.y, 0, r, g, b, 1, 1}};
-        DrawTriangles(verts, 4, indexData, 6);*/
     }
     else
     {
@@ -1183,7 +1173,7 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
 
     mTextureShader.UnUse();
 
-    CompleteDraw(mPsxFramebufferId[0]);
+    CompleteDraw();
 }
 
 void OpenGLRenderer::Draw(Poly_G4& /*poly*/)
@@ -1316,6 +1306,118 @@ void OpenGLRenderer::Upload(BitDepth /*bitDepth*/, const PSX_RECT& /*rect*/, con
 
 // ROZZA FRAMEBUFFER STUFF
 
+void OpenGLRenderer::CompleteDraw()
+{
+    // Copy the current state of the framebuffer (post-draw) to the 'source'
+    // framebuffer ready for the next draw call to use
+    DrawFramebufferToFramebuffer(
+        GL_FRAMEBUFFER_PSX_DST,
+        GL_FRAMEBUFFER_PSX_SRC
+    );
+}
+
+void OpenGLRenderer::DrawFramebufferToFramebuffer(int src, int dst)
+{
+    DrawFramebufferToFramebuffer(
+        src,
+        dst,
+        0,
+        0,
+        GL_FRAMEBUFFER_PSX_WIDTH,
+        GL_FRAMEBUFFER_PSX_HEIGHT,
+        0,
+        0,
+        GL_FRAMEBUFFER_PSX_WIDTH,
+        GL_FRAMEBUFFER_PSX_HEIGHT
+    );
+}
+
+void OpenGLRenderer::DrawFramebufferToFramebuffer(int src, int dst, s32 x, s32 y, s32 width, s32 height, s32 clipX, s32 clipY, s32 clipWidth, s32 clipHeight)
+{
+    if (src == GL_FRAMEBUFFER_SCREEN)
+    {
+        ALIVE_FATAL("OpenGL: Cannot use the screen as the framebuffer source.");
+    }
+    
+    // Retrieve the source framebuffer texture and destination framebuffer IDs
+    GLuint srcFramebufferTexId = mPsxFramebufferTexId[src];
+    GLuint dstFramebufferId = dst == GL_FRAMEBUFFER_SCREEN ? 0 : mPsxFramebufferId[dst];
+
+    // Set up VBOs
+    GLuint drawVboId = 0;
+    GLuint uvVboId = 0;
+
+    GLfloat drawVertices[] = {
+        (f32) x,          (f32) y,
+        (f32) x,          (f32)(y + height),
+        (f32)(x + width), (f32) y,
+
+        (f32)(x + width), (f32) y,
+        (f32) x,          (f32)(y + height),
+        (f32)(x + width), (f32)(y + height)
+    };
+    GLfloat uvVertices[] = {
+        (f32) clipX,              (f32)(clipY + clipHeight),
+        (f32) clipX,              (f32) clipY,
+        (f32)(clipX + clipWidth), (f32)(clipY + clipHeight),
+
+        (f32)(clipX + clipWidth), (f32)(clipY + clipHeight),
+        (f32) clipX,              (f32) clipY,
+        (f32)(clipX + clipWidth), (f32) clipY
+    };
+
+    GL_VERIFY(glGenBuffers(1, &drawVboId));
+    GL_VERIFY(glBindBuffer(GL_ARRAY_BUFFER, drawVboId));
+    GL_VERIFY(
+        glBufferData(
+            GL_ARRAY_BUFFER,
+            sizeof(drawVertices),
+            drawVertices,
+            GL_STREAM_DRAW
+        )
+    );
+
+    GL_VERIFY(glGenBuffers(1, &uvVboId));
+    GL_VERIFY(glBindBuffer(GL_ARRAY_BUFFER, uvVboId));
+    GL_VERIFY(
+        glBufferData(
+            GL_ARRAY_BUFFER,
+            sizeof(uvVertices),
+            uvVertices,
+            GL_STREAM_DRAW
+        )
+    );
+
+    // Bind framebuffers and draw
+    mPassthruShader.Use();
+
+    mPassthruShader.Uniform1i("TextureSampler", 0);
+    mPassthruShader.UniformVec2("vsTexSize", {GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT});
+
+    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, dstFramebufferId));
+
+    GL_VERIFY(glActiveTexture(GL_TEXTURE0));
+    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, srcFramebufferTexId));
+
+    GL_VERIFY(glEnableVertexAttribArray(0));
+    GL_VERIFY(glBindBuffer(GL_ARRAY_BUFFER, drawVboId));
+    GL_VERIFY(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0));
+
+    GL_VERIFY(glEnableVertexAttribArray(1));
+    GL_VERIFY(glBindBuffer(GL_ARRAY_BUFFER, uvVboId));
+    GL_VERIFY(glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0));
+
+    GL_VERIFY(glDrawArrays(GL_TRIANGLES, 0, 6));
+
+    GL_VERIFY(glDisableVertexAttribArray(0));
+    GL_VERIFY(glDisableVertexAttribArray(1));
+
+    mPassthruShader.UnUse();
+
+    // Set the framebuffer target back to the destination
+    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId[GL_FRAMEBUFFER_PSX_DST]));
+}
+
 void OpenGLRenderer::InitPsxFramebuffer(int index)
 {
     GLuint* pFbId = &mPsxFramebufferId[index];
@@ -1338,79 +1440,4 @@ void OpenGLRenderer::InitPsxFramebuffer(int index)
 
     GLenum fbTargets[1] = {GL_COLOR_ATTACHMENT0};
     GL_VERIFY(glDrawBuffers(1, fbTargets));
-}
-
-void OpenGLRenderer::CompleteDraw(GLuint target)
-{
-    static GLuint vboDrawId = 0;
-    static GLuint vboUvId = 0;
-
-    if (vboDrawId == 0)
-    {
-        static const GLfloat drawQuad[] = {
-            -1.0f, -1.0f,
-            -1.0f, 1.0f,
-            1.0f, -1.0f,
-
-            1.0f, -1.0f,
-            -1.0f, 1.0f,
-            1.0f, 1.0f};
-        static const GLfloat uvQuad[] = {
-            0.0f, 0.0f,
-            0.0f, 1.0f,
-            1.0f, 0.0f,
-
-            1.0f, 0.0f,
-            0.0f, 1.0f,
-            1.0f, 1.0f
-        };
-        
-        GL_VERIFY(glGenBuffers(1, &vboDrawId));
-        GL_VERIFY(glBindBuffer(GL_ARRAY_BUFFER, vboDrawId));
-        GL_VERIFY(
-            glBufferData(
-                GL_ARRAY_BUFFER,
-                sizeof(drawQuad),
-                drawQuad,
-                GL_STATIC_DRAW
-            )
-        );
-
-        GL_VERIFY(glGenBuffers(1, &vboUvId));
-        GL_VERIFY(glBindBuffer(GL_ARRAY_BUFFER, vboUvId));
-        GL_VERIFY(
-            glBufferData(
-                GL_ARRAY_BUFFER,
-                sizeof(uvQuad),
-                uvQuad,
-                GL_STATIC_DRAW
-            )
-        );
-    }
-
-    mPassthruShader.Use();
-
-    mPassthruShader.Uniform1i("TextureSampler", 0);
-
-    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, target));
-    
-    GL_VERIFY(glActiveTexture(GL_TEXTURE0));
-    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mPsxFramebufferTexId[1]));
-
-    GL_VERIFY(glEnableVertexAttribArray(0));
-    GL_VERIFY(glBindBuffer(GL_ARRAY_BUFFER, vboDrawId));
-    GL_VERIFY(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0));
-
-    GL_VERIFY(glEnableVertexAttribArray(1));
-    GL_VERIFY(glBindBuffer(GL_ARRAY_BUFFER, vboUvId));
-    GL_VERIFY(glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0));
-
-    GL_VERIFY(glDrawArrays(GL_TRIANGLES, 0, 6));
-
-    GL_VERIFY(glDisableVertexAttribArray(0));
-    GL_VERIFY(glDisableVertexAttribArray(1));
-
-    mPassthruShader.UnUse();
-
-    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId[1]));
 }
