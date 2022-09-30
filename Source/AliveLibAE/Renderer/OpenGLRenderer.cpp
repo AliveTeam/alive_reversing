@@ -154,45 +154,6 @@ static void Renderer_BindPalette(AnimationPal& pCache)
     GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 256, 1, 0, GL_RGBA, GL_UNSIGNED_BYTE, dst));
 }
 
-
-static void Renderer_SetBlendMode(TPageAbr blendAbr)
-{
-    switch (blendAbr)
-    {
-        case TPageAbr::eBlend_0:
-            glBlendColor(1.0, 1.0, 1.0, 1.0);
-            glBlendEquation(GL_FUNC_ADD);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-            break;
-        case TPageAbr::eBlend_1:
-            glBlendEquation(GL_FUNC_ADD);
-            glBlendFunc(GL_ONE, GL_ONE);
-            break;
-        case TPageAbr::eBlend_2:
-            glBlendEquation(GL_FUNC_REVERSE_SUBTRACT);
-            glBlendFunc(GL_ONE, GL_ONE);
-            break;
-        case TPageAbr::eBlend_3:
-            glBlendEquation(GL_FUNC_ADD);
-            glBlendColor(1.0f, 1.0f, 1.0f, 0.25f);
-            glBlendFunc(GL_CONSTANT_ALPHA, GL_ONE);
-            break;
-    }
-}
-
-
-
-static void Renderer_ParseTPageBlendMode(u16 tPage)
-{
-    // TPageMode textureMode = static_cast<TPageMode>(((u32)tPage >> 7) & 3);
-    TPageAbr pageAbr = static_cast<TPageAbr>(((u32) tPage >> 5) & 3);
-
-    glEnable(GL_BLEND);
-
-    Renderer_SetBlendMode(pageAbr);
-}
-
-
 void set_pixel_8(u8* surface, int x, int y, int pitch, u8 pixel)
 {
     Uint8* target_pixel = (Uint8*)surface + (y * pitch) + x * sizeof(u8);
@@ -619,18 +580,12 @@ void OpenGLRenderer::Clear(u8 /*r*/, u8 /*g*/, u8 /*b*/)
         firstFrame = false;
     }
 
-   
+    // FIXME: Find out what we're actually meant to do in here, yes it's called
+    //        'Clear', but what are we clearing, and why? At the moment it does
+    //        nothing and yet no issues appear to arise? Is it dead Jim?
 
-    // ROZZA LOGIC
-    // We clear the destination buffer but do NOT copy it back over the original
-    // because we will continue to draw (don't call CompleteDraw)
-
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    //glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     //glClear(GL_COLOR_BUFFER_BIT);
-
-    // TODO: FIX THIS ONCE UV IS CORRECT
-
-    Renderer_SetBlendMode(TPageAbr::eBlend_0);
 }
 
 void OpenGLRenderer::StartFrame(s32 /*xOff*/, s32 /*yOff*/)
@@ -638,22 +593,22 @@ void OpenGLRenderer::StartFrame(s32 /*xOff*/, s32 /*yOff*/)
     mFrameStarted = true;
 
     // Clear backing framebuffers
-    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId[0]))
-    GL_VERIFY(glClear(GL_COLOR_BUFFER_BIT))
+    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId[GL_FRAMEBUFFER_PSX_SRC]));
+    GL_VERIFY(glClear(GL_COLOR_BUFFER_BIT));
 
-    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId[1]))
-    GL_VERIFY(glClear(GL_COLOR_BUFFER_BIT))
+    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId[GL_FRAMEBUFFER_PSX_DST]));
+    GL_VERIFY(glClear(GL_COLOR_BUFFER_BIT));
 
     // Always render to destination buffer (1)
-    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId[1]))
-    GL_VERIFY(glViewport(0, 0, 640, 240))
+    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId[GL_FRAMEBUFFER_PSX_DST]));
+    GL_VERIFY(glViewport(0, 0, 640, 240));
 }
 
 // This function should free both vrams allocations AND palettes, cause theyre kinda the same thing.
 void OpenGLRenderer::PalFree(const PalRecord& record)
 {
     Pal_free(PSX_Point{record.x, record.y}, record.depth); // TODO: Stop depending on this
-
+    
     Renderer_FreePalette({
         record.x,
         record.y,
@@ -739,12 +694,6 @@ bool OpenGLRenderer::UpdateBackBuffer(const void* /*pPixels*/, s32 /*pitch*/)
 
 void OpenGLRenderer::CreateBackBuffer(bool /*filter*/, s32 /*format*/, s32 /*w*/, s32 /*h*/)
 {
-}
-
-void OpenGLRenderer::SetTPage(s16 tPage)
-{
-    Renderer_ParseTPageBlendMode(tPage);
-    mLastTPage = tPage;
 }
 
 void OpenGLRenderer::SetClipDirect(s32 x, s32 y, s32 width, s32 height)
@@ -867,7 +816,6 @@ void OpenGLRenderer::Draw(Prim_GasEffect& gasEffect)
     mTextureShader.Uniform1i("m_Dithered", 1);
     mTextureShader.Uniform1i("m_DitherWidth", gasWidth);
     mTextureShader.Uniform1i("m_DitherHeight", gasHeight);
-    Renderer_SetBlendMode(TPageAbr::eBlend_1);
     DrawTexture(TempGasEffectTexture, (f32) gasEffect.x, (f32) gasEffect.y, (f32) gasWidth, (f32) gasHeight);
     mTextureShader.Use();
     mTextureShader.Uniform1i("m_Dithered", 0);
@@ -1129,7 +1077,6 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
             {(f32) poly.mVerts[1].mVert.x, (f32) poly.mVerts[1].mVert.y, 0, r, g, b, 0, 1},
             {(f32) poly.mVerts[2].mVert.x, (f32) poly.mVerts[2].mVert.y, 0, r, g, b, 1, 1}};
         DrawTriangles(verts, 4, indexData, 6);
-        return;
     }
     else if (poly.mCam)
     {
@@ -1186,8 +1133,6 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
         return;
     }
 
-    mTextureShader.Uniform1i("m_FG1", false);
-
     mTextureShader.UnUse();
 
     // Unbind the source framebuffer, just to be safe so drawing to it doesn't
@@ -1232,6 +1177,13 @@ void OpenGLRenderer::Draw(Poly_G4& /*poly*/)
 
     mTextureShader.UnUse();
     */
+}
+
+void OpenGLRenderer::SetTPage(s16 /*tPage*/)
+{
+    // FIXME: Is this even needed in the API? The TPage wasn't being set anyway
+    //        so this would've been useless - we're handling tpage stuff in
+    //        Draw Poly_FT4 now
 }
 
 void OpenGLRenderer::Upload(BitDepth /*bitDepth*/, const PSX_RECT& /*rect*/, const u8* /*pPixels*/)
