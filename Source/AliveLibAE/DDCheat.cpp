@@ -241,6 +241,11 @@ void DDCheat::DebugStr(const char_type* pFormatStr, ...)
 
 void DDCheat::VUpdate()
 {
+    if (!sActiveHero)
+    {
+        return;
+    }
+
     if (sScreenshotOnNextFrame_5BC008)
     {
         DDCheat_SaveScreenshot_415550();
