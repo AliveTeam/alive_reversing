@@ -17,6 +17,9 @@
 #include "imgui_impl_opengl3.h"
 
 #include "GLShader.hpp"
+#include "../relive_lib/ResourceManagerWrapper.hpp"
+
+enum class AnimId;
 
 struct VertexData final
 {
@@ -89,6 +92,10 @@ private:
     GLuint mPsxFramebufferId[2];
     GLuint mPsxFramebufferTexId[2];
 
+    GLuint mCamTexture = 0;
+    GLuint mFg1Texture = 0; // TODO: should probably be 4 of these
+    GLuint mFontTexture = 0; 
+
     s32 mScreenOffsetX;
     s32 mScreenOffsetY;
 
@@ -96,6 +103,9 @@ private:
     void DrawFramebufferToFramebuffer(int src, int dst);
     void DrawFramebufferToFramebuffer(int src, int dst, s32 x, s32 y, s32 width, s32 height, s32 clipX, s32 clipY, s32 clipWidth, s32 clipHeight);
     void InitPsxFramebuffer(int index);
+
+    u32 Renderer_TextureFromAnim(Poly_FT4& poly);
+    void FreeUnloadedAnimTextures();
 
     // END ROZZA STUFF
 
@@ -106,6 +116,8 @@ private:
     GLuint mVBO = 0;
     GLuint mIBO = 0;
     GLuint mVAO = 0;
+    
+    std::map<AnimId, std::pair<u32, std::weak_ptr<TgaData>>> mTextureCache;
 
     void InitAttributes();
     void DebugWindow();

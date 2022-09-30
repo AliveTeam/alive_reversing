@@ -31,11 +31,12 @@
 #define GL_FRAMEBUFFER_PSX_WIDTH  640
 #define GL_FRAMEBUFFER_PSX_HEIGHT 240
 
-static GLuint gCamTextureId = 0;
-static GLuint gOtherTextureId = 0;
+//static std::vector<TextureCache> gRendererTextures;
+//static std::vector<PaletteCache> gRendererPals;
 
-static std::vector<TextureCache> gRendererTextures;
-static std::vector<PaletteCache> gRendererPals;
+
+static int gPalTextureID = 0;
+
 
 static bool gRenderEnable_SPRT = false;
 static bool gRenderEnable_GAS = false;
@@ -94,55 +95,7 @@ static void Renderer_DecodePalette(const u8* srcPalData, RGBAPixel* dst, s32 pal
     }
 }
 
-static void Renderer_FreePalette(PSX_Point point)
-{
-    s32 i = 0;
-    for (auto& c : gRendererPals)
-    {
-        if (point.x >= c.mPalPoint.x && point.x < (c.mPalPoint.x + c.mPalDepth) && c.mPalPoint.y == point.y)
-        {
-            gRendererPals.erase(gRendererPals.begin() + i);
-            return;
-        }
-        i++;
-    }
-}
 
-/*
-static void Renderer_LoadPalette(PSX_Point point, const u8* palData, s16 palDepth)
-{
-    for (auto& c : gRendererPals)
-    {
-        if (point.x >= c.mPalPoint.x && point.x < (c.mPalPoint.x + c.mPalDepth) && c.mPalPoint.y == point.y)
-        {
-            s32 offset = point.x - c.mPalPoint.x;
-            Renderer_DecodePalette(palData, c.mPalData + offset, palDepth);
-
-            if (c.mPalDepth > 0)
-            {
-                c.mPalData[0].A = 0;
-            }
-
-            return;
-        }
-    }
-
-    PaletteCache c = {};
-    // Create if it doesnt exist
-    c.mPalPoint = point;
-    c.mPalDepth = palDepth;
-    Renderer_DecodePalette(palData, c.mPalData, palDepth);
-
-    if (c.mPalDepth > 0)
-    {
-        c.mPalData[0].A = 0;
-    }
-
-    gRendererPals.push_back(c);
-}
-*/
-
-static int gPalTextureID = 0;
 
 static void Renderer_BindPalette(AnimationPal& pCache)
 {
@@ -161,6 +114,7 @@ static void Renderer_BindPalette(AnimationPal& pCache)
     GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 256, 1, 0, GL_RGBA, GL_UNSIGNED_BYTE, dst));
 }
 
+/*
 void set_pixel_8(u8* surface, int x, int y, int pitch, u8 pixel)
 {
     Uint8* target_pixel = (Uint8*)surface + (y * pitch) + x * sizeof(u8);
@@ -171,55 +125,78 @@ u8 get_pixel_8(u8* surface, int x, int y, int pitch)
 {
     Uint8* target_pixel = (Uint8*) surface + (y * pitch) + x * sizeof(u8);
     return *target_pixel;
-}
+}*/
 
-static u32 Renderer_TextureFromAnim(Poly_FT4& poly)
+u32 OpenGLRenderer::Renderer_TextureFromAnim(Poly_FT4& poly)
 {
-   // const void* pAnimFg1Data = GetPrimExtraPointerHack(&poly);
-
-    if (gOtherTextureId == 0)
-    {
-        gOtherTextureId = Renderer_CreateTexture();
-    }
-
-    if (gCamTextureId == 0)
-    {
-        gCamTextureId = Renderer_CreateTexture();
-    }
-
-   // TPageMode textureMode = static_cast<TPageMode>(((u32) poly.mVerts[0].mUv.tpage_clut_pad >> 7) & 3);
-
-    GLuint useTextureId = poly.mCam && !poly.mFg1 ? gCamTextureId : gOtherTextureId;
-
     GL_VERIFY(glActiveTexture(GL_TEXTURE0));
-    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, useTextureId));
 
     if (poly.mFg1)
     {
+        if (!mFg1Texture)
+        {
+            mFg1Texture = Renderer_CreateTexture();
+        }
+        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mFg1Texture));
         GL_VERIFY(glPixelStorei(GL_UNPACK_ALIGNMENT, 4));
         GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, poly.mFg1->mWidth, poly.mFg1->mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, poly.mFg1->mPixels->data()));
+        return mFg1Texture;
     }
     else if (poly.mCam)
     {
+        if (!mCamTexture)
+        {
+            mCamTexture = Renderer_CreateTexture();
+        }
+        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mCamTexture));
         GL_VERIFY(glPixelStorei(GL_UNPACK_ALIGNMENT, 4));
         GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, poly.mCam->mData.mWidth, poly.mCam->mData.mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, poly.mCam->mData.mPixels->data()));
+        return mCamTexture;
     }
     else if (poly.mAnim)
     {
         AnimResource& r = poly.mAnim->mAnimRes;
 
-        GL_VERIFY(glPixelStorei(GL_UNPACK_ALIGNMENT, 1));
-        GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, r.mTgaPtr->mWidth, r.mTgaPtr->mHeight, 0, GL_RED, GL_UNSIGNED_BYTE, r.mTgaPtr->mPixels.data()));
+        auto it = mTextureCache.find(r.mId);
+        u32 textureId = 0;
+        bool uploadPixels = false;
+        if (it == std::end(mTextureCache))
+        {
+            textureId = Renderer_CreateTexture();
+            mTextureCache[r.mId] = std::make_pair(textureId, r.mTgaPtr);
+            uploadPixels = true;
+        }
+        else
+        {
+            textureId = it->second.first;
+        }
+
+        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, textureId));
+
+        if (uploadPixels)
+        {
+            GL_VERIFY(glPixelStorei(GL_UNPACK_ALIGNMENT, 1));
+            GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, r.mTgaPtr->mWidth, r.mTgaPtr->mHeight, 0, GL_RED, GL_UNSIGNED_BYTE, r.mTgaPtr->mPixels.data()));
+        }
+
+        return textureId;
     }
     else if (poly.mFont)
     {
         std::shared_ptr<TgaData> pTga = poly.mFont->field_C_resource_id.mTgaPtr;
 
+        if (!mFontTexture)
+        {
+            mFontTexture = Renderer_CreateTexture();
+        }
+
+        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mFontTexture));
         GL_VERIFY(glPixelStorei(GL_UNPACK_ALIGNMENT, 1));
         GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, pTga->mWidth, pTga->mHeight, 0, GL_RED, GL_UNSIGNED_BYTE, pTga->mPixels.data()));
+        return mFontTexture;
     }
 
-    return useTextureId;
+    return 0;
 }
 
 
@@ -374,18 +351,15 @@ void OpenGLRenderer::Destroy()
     mPassthruShader.Free();
     mPsxShader.Free();
 
-    for (auto& t : gRendererTextures)
+    for (auto& it : mTextureCache)
     {
-        GL_VERIFY(glDeleteTextures(1, &t.mTextureID));
+        GL_VERIFY(glDeleteTextures(1, &it.second.first));
     }
+    mTextureCache.clear();
 
-    for (auto& t : gRendererPals)
-    {
-        GL_VERIFY(glDeleteTextures(1, &t.mPalTextureID));
-    }
-
-    GL_VERIFY(glDeleteTextures(1, &gCamTextureId));
-    GL_VERIFY(glDeleteTextures(1, &gOtherTextureId));
+    GL_VERIFY(glDeleteTextures(1, &mCamTexture));
+    GL_VERIFY(glDeleteTextures(1, &mFg1Texture));
+    GL_VERIFY(glDeleteTextures(1, &mFontTexture));
     GL_VERIFY(glUseProgram(0));
 
     GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, 0));
@@ -693,18 +667,7 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     if (!gRenderEnable_FT4)
         return;
 
-    u32 pTexture = 0;
-
-    // Some polys have their texture data directly attached to polys.
-    //if (GetPrimExtraPointerHack(&poly))
-    {
-        pTexture = Renderer_TextureFromAnim(poly);
-    }
-    /*
-    else
-    {
-        pTexture = Renderer_TexFromTPage(poly.mVerts[0].mUv.tpage_clut_pad, poly.mUv.u, poly.mUv.v);
-    }*/
+    const u32 textureId = Renderer_TextureFromAnim(poly);
 
     mPsxShader.Use();
 
@@ -736,10 +699,10 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
         mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_FG1);
 
         GL_VERIFY(glActiveTexture(GL_TEXTURE0))
-        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, gCamTextureId))
+        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mCamTexture))
 
         GL_VERIFY(glActiveTexture(GL_TEXTURE1))
-        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, gOtherTextureId))
+        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mFg1Texture))
 
         VertexData verts[4] = {
             {(f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, 0, r, g, b, 0, 0},
@@ -753,7 +716,7 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
         mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_CAM);
 
         GL_VERIFY(glActiveTexture(GL_TEXTURE0));
-        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, gCamTextureId));
+        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mCamTexture));
 
         VertexData verts[4] = {
             {(f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, 0, r, g, b, 0, 0},
@@ -767,7 +730,7 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
         mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_ANIM);
 
         GL_VERIFY(glActiveTexture(GL_TEXTURE0));
-        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, gOtherTextureId));
+        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, textureId));
 
         Renderer_BindPalette(poly.mAnim->mAnimRes.mTgaPtr->mPal);
 
@@ -802,7 +765,7 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
         mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_FONT);
 
         GL_VERIFY(glActiveTexture(GL_TEXTURE0));
-        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, gOtherTextureId));
+        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, textureId));
 
         std::shared_ptr<TgaData> pTga = poly.mFont->field_C_resource_id.mTgaPtr;
 
@@ -938,10 +901,12 @@ void OpenGLRenderer::PalFree(const PalRecord& record)
 {
     Pal_free(PSX_Point{record.x, record.y}, record.depth); // TODO: Stop depending on this
 
+    /*
     Renderer_FreePalette({
         record.x,
         record.y,
-    });
+    });*/
+
     /*
     Renderer_FreeTexture({
         record.x,
@@ -979,6 +944,8 @@ void OpenGLRenderer::SetTPage(s16 /*tPage*/)
 
 void OpenGLRenderer::StartFrame(s32 xOff, s32 yOff)
 {
+    FreeUnloadedAnimTextures();
+
     mFrameStarted = true;
 
     mScreenOffsetX = xOff;
@@ -1101,6 +1068,23 @@ void OpenGLRenderer::CompleteDraw()
     DrawFramebufferToFramebuffer(
         GL_FRAMEBUFFER_PSX_DST,
         GL_FRAMEBUFFER_PSX_SRC);
+}
+
+void OpenGLRenderer::FreeUnloadedAnimTextures()
+{
+    auto it = mTextureCache.begin();
+    while (it != mTextureCache.end())
+    {
+        auto ptr = it->second.second.lock();
+        if (!ptr)
+        {
+            it = mTextureCache.erase(it);
+        }
+        else
+        {
+            it++;
+        }
+    }
 }
 
 void OpenGLRenderer::DrawFramebufferToFramebuffer(int src, int dst)
