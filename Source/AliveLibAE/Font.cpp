@@ -77,7 +77,7 @@ void Font::dtor_433540()
     relive_delete[] field_24_fnt_poly_array;
 }
 
-s32 Font::DrawString_4337D0(PrimHeader** ppOt, const char_type* text, s32 x, s16 y, TPageAbr /*abr*/, s32 bSemiTrans, s32 blendMode, Layer layer, u8 r, u8 g, u8 b, s32 polyOffset, FP scale, s32 maxRenderWidth, s16 colorRandomRange)
+s32 Font::DrawString_4337D0(PrimHeader** ppOt, const char_type* text, s32 x, s16 y, TPageAbr abr, s32 bSemiTrans, s32 blendMode, Layer layer, u8 r, u8 g, u8 b, s32 polyOffset, FP scale, s32 maxRenderWidth, s16 colorRandomRange)
 {
     if (!sFontDrawScreenSpace_5CA4B4)
     {
@@ -161,6 +161,12 @@ s32 Font::DrawString_4337D0(PrimHeader** ppOt, const char_type* text, s32 x, s16
         // P3
         SetXY3(poly, offsetX + widthScaled, y + heightScaled);
         SetUV3(poly, texture_u + charWidth, texture_v + charHeight);
+
+        // TPage blend mode
+        u16 tpageEmptyBlend = GetTPage(poly) & 0xFFCF;
+        u16 blendModeBit = ((u16) abr) << 4;
+
+        SetTPage(poly, tpageEmptyBlend | blendModeBit);
 
         poly->mFont = field_34_font_context;
 

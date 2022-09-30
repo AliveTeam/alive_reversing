@@ -4,6 +4,7 @@
 #include "../relive_lib/Primitives.hpp"
 #include "StbImageImplementation.hpp"
 #include "../relive_lib/Animation.hpp"
+#include "../Font.hpp"
 
 #define GL_DEBUG 1
 
@@ -21,6 +22,7 @@
 #define GL_PSX_DRAW_MODE_ANIM 1
 #define GL_PSX_DRAW_MODE_CAM  2
 #define GL_PSX_DRAW_MODE_FG1  3
+#define GL_PSX_DRAW_MODE_FONT 4
 
 #define GL_FRAMEBUFFER_PSX_SRC 0
 #define GL_FRAMEBUFFER_PSX_DST 1
@@ -208,6 +210,13 @@ static u32 Renderer_TextureFromAnim(Poly_FT4& poly)
 
         GL_VERIFY(glPixelStorei(GL_UNPACK_ALIGNMENT, 1));
         GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, r.mTgaPtr->mWidth, r.mTgaPtr->mHeight, 0, GL_RED, GL_UNSIGNED_BYTE, r.mTgaPtr->mPixels.data()));
+    }
+    else if (poly.mFont)
+    {
+        std::shared_ptr<TgaData> pTga = poly.mFont->field_C_resource_id.mTgaPtr;
+
+        GL_VERIFY(glPixelStorei(GL_UNPACK_ALIGNMENT, 1));
+        GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, pTga->mWidth, pTga->mHeight, 0, GL_RED, GL_UNSIGNED_BYTE, pTga->mPixels.data()));
     }
 
     return useTextureId;
@@ -714,11 +723,11 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
 
     bool isSemiTrans = (poly.mBase.header.rgb_code.code_or_pad & 2) > 0;
     bool isShaded = (poly.mBase.header.rgb_code.code_or_pad & 1) == 0;
+    u32 blendMode = ((u32)GetTPage(&poly) >> 4) & 3;
 
     mPsxShader.Uniform1i("fsIsSemiTrans", isSemiTrans);
     mPsxShader.Uniform1i("fsIsShaded", isShaded);
-
-    mPsxShader.Uniform1i("fsBlendMode", ((u32) GetTPage(&poly) >> 5) & 3);
+    mPsxShader.Uniform1i("fsBlendMode", blendMode);
 
     const GLuint indexData[6] = {1, 0, 3, 3, 0, 2};
 
@@ -780,6 +789,30 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
         {
             std::swap(v1, v0);
         }
+
+        VertexData verts[4] = {
+            {(f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, 0, r, g, b, u0, v0},
+            {(f32) poly.mVerts[0].mVert.x, (f32) poly.mVerts[0].mVert.y, 0, r, g, b, u1, v0},
+            {(f32) poly.mVerts[1].mVert.x, (f32) poly.mVerts[1].mVert.y, 0, r, g, b, u0, v1},
+            {(f32) poly.mVerts[2].mVert.x, (f32) poly.mVerts[2].mVert.y, 0, r, g, b, u1, v1}};
+        DrawTriangles(verts, 4, indexData, 6);
+    }
+    else if (poly.mFont)
+    {
+        mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_FONT);
+
+        GL_VERIFY(glActiveTexture(GL_TEXTURE0));
+        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, gOtherTextureId));
+
+        std::shared_ptr<TgaData> pTga = poly.mFont->field_C_resource_id.mTgaPtr;
+
+        Renderer_BindPalette(pTga->mPal);
+
+        f32 u0 = static_cast<f32>(U0(&poly)) / static_cast<f32>(pTga->mWidth);
+        f32 v0 = static_cast<f32>(V0(&poly)) / static_cast<f32>(pTga->mHeight);
+
+        f32 u1 = static_cast<f32>(U3(&poly)) / static_cast<f32>(pTga->mWidth);
+        f32 v1 = static_cast<f32>(V3(&poly)) / static_cast<f32>(pTga->mHeight);
 
         VertexData verts[4] = {
             {(f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, 0, r, g, b, u0, v0},

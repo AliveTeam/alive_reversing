@@ -300,10 +300,16 @@ uniform bool fsIsSemiTrans;
 uniform bool fsIsShaded;
 uniform int  fsBlendMode;
 
+const int BLEND_MODE_HALF_DST_ADD_HALF_SRC = 0;
+const int BLEND_MODE_ONE_DST_ADD_ONE_SRC   = 1;
+const int BLEND_MODE_ONE_DST_SUB_ONE_SRC   = 2;
+const int BLEND_MODE_ONE_DST_ADD_QRT_SRC   = 3;
+
 const int DRAW_FLAT = 0;
 const int DRAW_ANIM = 1;
 const int DRAW_CAM  = 2;
 const int DRAW_FG1  = 3;
+const int DRAW_FONT = 4;
 
 const vec2 frameSize = vec2(640.0, 240.0);
 
@@ -327,7 +333,7 @@ vec3 handle_shading(in vec3 texelT)
 
     if (fsIsShaded)
     {
-        texelP.rgb = clamp((texelT.rgb * (fsShadeColor.rgb / 255.0)) / 0.5f, 0.0f, 1.0f);
+        texelP = clamp((texelT * (fsShadeColor / 255.0)) / 0.5f, 0.0f, 1.0f);
     }
 
     return texelP;
@@ -352,19 +358,19 @@ void draw_anim()
             {
                 switch (fsBlendMode)
                 {
-                    case 0:
+                    case BLEND_MODE_HALF_DST_ADD_HALF_SRC:
                         outColor.rgb = (texelFb.rgb * 0.5) + (texelShaded.rgb * 0.5);
                         break;
 
-                    case 1:
+                    case BLEND_MODE_ONE_DST_ADD_ONE_SRC:
                         outColor.rgb = texelFb.rgb + texelShaded.rgb;
                         break;
 
-                    case 2:
+                    case BLEND_MODE_ONE_DST_SUB_ONE_SRC:
                         outColor.rgb = texelFb.rgb - texelShaded.rgb;
                         break;
 
-                    case 3:
+                    case BLEND_MODE_ONE_DST_ADD_QRT_SRC:
                         outColor.rgb = texelFb.rgb + (texelShaded.rgb * 0.25);
                         break;
                 }
@@ -416,6 +422,7 @@ void main()
             break;
 
         case DRAW_ANIM:
+        case DRAW_FONT:
             draw_anim();
             break;
 
