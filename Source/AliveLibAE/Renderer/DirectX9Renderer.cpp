@@ -119,7 +119,7 @@ void DirectX9Renderer::PalSetData(const PalRecord& /*record*/, const u8* /*pPixe
 {
 }
 
-void DirectX9Renderer::SetTPage(s16 /*tPage*/)
+void DirectX9Renderer::SetTPage(u16 /*tPage*/)
 {
 }
 

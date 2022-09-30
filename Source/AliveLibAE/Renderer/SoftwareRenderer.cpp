@@ -167,7 +167,7 @@ void SoftwareRenderer::CreateBackBuffer(bool filter, s32 format, s32 w, s32 h)
     }
 }
 
-void SoftwareRenderer::SetTPage(s16 /*tPage*/)
+void SoftwareRenderer::SetTPage(u16 /*tPage*/)
 {
     // PSX_TPage_Change_4F6430(tPage);
 }

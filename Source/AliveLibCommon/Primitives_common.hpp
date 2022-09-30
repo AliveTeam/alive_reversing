@@ -693,6 +693,18 @@ inline void SetXYWH(T pPoly, s16 x, s16 y, s16 w, s16 h)
     SetXY3(pPoly, x + w, y + h);
 }
 
+template <class T>
+inline bool GetPolyIsSemiTrans(T* prim)
+{
+    return (prim->mBase.header.rgb_code.code_or_pad & 2) > 0;
+}
+
+template <class T>
+inline bool GetPolyIsShaded(T* prim)
+{
+    return (prim->mBase.header.rgb_code.code_or_pad & 1) == 0;
+}
+
 void SetCode(PrimHeader* pPrim, u8 code);
 void SetUnknown(PrimHeader* pPrim);
 void SetNumLongs(PrimHeader* pPrim, s8 numLongs);

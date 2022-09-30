@@ -327,6 +327,33 @@ vec3 checker(in vec2 uv)
     return vec3(fin, fin, fin);
 }
 
+vec3 handle_blending(in vec3 src)
+{
+    vec3 texelFb = texture(texFramebufferData, gl_FragCoord.xy / frameSize).rgb;
+    vec3 res = vec3(0.0);
+
+    switch (fsBlendMode)
+    {
+        case BLEND_MODE_HALF_DST_ADD_HALF_SRC:
+            res = (texelFb * 0.5) + (src * 0.5);
+            break;
+
+        case BLEND_MODE_ONE_DST_ADD_ONE_SRC:
+            res = texelFb + src;
+            break;
+
+        case BLEND_MODE_ONE_DST_SUB_ONE_SRC:
+            res = texelFb - src;
+            break;
+
+        case BLEND_MODE_ONE_DST_ADD_QRT_SRC:
+            res = texelFb + (src * 0.25);
+            break;
+    }
+
+    return res;
+}
+
 vec3 handle_shading(in vec3 texelT)
 {
     vec3 texelP = texelT;
@@ -339,11 +366,17 @@ vec3 handle_shading(in vec3 texelT)
     return texelP;
 }
 
+void draw_flat()
+{
+    outColor.rgb = handle_blending(fsShadeColor / 255.0);
+    outColor.rgb = clamp(outColor.rgb, vec3(0.0), vec3(1.0));
+    outColor.a = 1.0;
+}
+
 void draw_anim()
 {
     vec4 texelPal = PixelToPalette(texture(texTextureData, fsUV).r);
     vec3 texelShaded = handle_shading(texelPal.rgb);
-    vec4 texelFb = texture(texFramebufferData, gl_FragCoord.xy / frameSize);
 
     if (texelPal == vec4(0.0, 0.0, 0.0, 0.0))
     {
@@ -356,25 +389,7 @@ void draw_anim()
         {
             if (texelPal.a == 1.0)
             {
-                switch (fsBlendMode)
-                {
-                    case BLEND_MODE_HALF_DST_ADD_HALF_SRC:
-                        outColor.rgb = (texelFb.rgb * 0.5) + (texelShaded.rgb * 0.5);
-                        break;
-
-                    case BLEND_MODE_ONE_DST_ADD_ONE_SRC:
-                        outColor.rgb = texelFb.rgb + texelShaded.rgb;
-                        break;
-
-                    case BLEND_MODE_ONE_DST_SUB_ONE_SRC:
-                        outColor.rgb = texelFb.rgb - texelShaded.rgb;
-                        break;
-
-                    case BLEND_MODE_ONE_DST_ADD_QRT_SRC:
-                        outColor.rgb = texelFb.rgb + (texelShaded.rgb * 0.25);
-                        break;
-                }
-
+                outColor.rgb = handle_blending(texelShaded);
                 outColor.rgb = clamp(outColor.rgb, vec3(0.0), vec3(1.0));
             }
             else
@@ -417,8 +432,7 @@ void main()
     switch (fsDrawType)
     {
         case DRAW_FLAT:
-            // TODO: This might not be right
-            outColor = vec4(fsShadeColor, 1.0);
+            draw_flat();
             break;
 
         case DRAW_ANIM:

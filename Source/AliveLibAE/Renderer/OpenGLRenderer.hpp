@@ -72,7 +72,7 @@ public:
     void PalSetData(const PalRecord& record, const u8* pPixels) override;
     void SetClip(Prim_PrimClipper& clipper) override;
     void SetScreenOffset(Prim_ScreenOffset& offset) override;
-    void SetTPage(s16 tPage) override;
+    void SetTPage(u16 tPage) override;
     void StartFrame(s32 xOff, s32 yOff) override;
     bool UpdateBackBuffer(const void* pPixels, s32 pitch) override;
     void Upload(BitDepth bitDepth, const PSX_RECT& rect, const u8* pPixels) override;
@@ -82,7 +82,7 @@ private:
 
     SDL_Window* mWindow = nullptr;
     SDL_GLContext mContext = nullptr;
-    u16 mLastTPage = 0;
+    u16 mGlobalTPage = 0;
 
     // ROZZA STUFF
 
@@ -102,6 +102,7 @@ private:
     void CompleteDraw();
     void DrawFramebufferToFramebuffer(int src, int dst);
     void DrawFramebufferToFramebuffer(int src, int dst, s32 x, s32 y, s32 width, s32 height, s32 clipX, s32 clipY, s32 clipWidth, s32 clipHeight);
+    u32 GetTPageBlendMode(u16 tPage);
     void InitPsxFramebuffer(int index);
 
     u32 Renderer_TextureFromAnim(Poly_FT4& poly);

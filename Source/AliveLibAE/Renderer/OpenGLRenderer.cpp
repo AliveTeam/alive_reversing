@@ -45,7 +45,7 @@ static bool gRenderEnable_FT4 = true;
 static bool gRenderEnable_G4 = false;
 static bool gRenderEnable_G3 = false;
 static bool gRenderEnable_G2 = false;
-static bool gRenderEnable_F4 = false;
+static bool gRenderEnable_F4 = true;
 static bool gRenderEnable_F3 = false;
 static bool gRenderEnable_F2 = false;
 
@@ -612,9 +612,6 @@ void OpenGLRenderer::Draw(Poly_G3& poly)
         return;
     }
 
-    glDisable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, 0);
-
     const VertexData verts[3] = {
         {(f32) poly.mVerts[0].mVert.x, (f32) poly.mVerts[0].mVert.y, 0,
          poly.mVerts[0].mRgb.r / 255.0f, poly.mVerts[0].mRgb.g / 255.0f, poly.mVerts[0].mRgb.b / 255.0f,
@@ -641,25 +638,43 @@ void OpenGLRenderer::Draw(Poly_F4& poly)
     if (!gRenderEnable_F4)
         return;
 
-    glDisable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, 0);
-
-    const f32 r = poly.mBase.header.rgb_code.r / 255.0f;
-    const f32 g = poly.mBase.header.rgb_code.g / 255.0f;
-    const f32 b = poly.mBase.header.rgb_code.b / 255.0f;
+    const f32 r = poly.mBase.header.rgb_code.r;
+    const f32 g = poly.mBase.header.rgb_code.g;
+    const f32 b = poly.mBase.header.rgb_code.b;
 
     const VertexData verts[4] = {
-        {(f32) poly.mVerts[0].mVert.x, (f32) poly.mVerts[0].mVert.y, 0, r, g, b, 1, 0},
-        {(f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, 0, r, g, b, 0, 0},
-        {(f32) poly.mVerts[1].mVert.x, (f32) poly.mVerts[1].mVert.y, 0, r, g, b, 0, 1},
-        {(f32) poly.mVerts[2].mVert.x, (f32) poly.mVerts[2].mVert.y, 0, r, g, b, 1, 1}};
+        {(f32) X0(&poly), (f32) Y0(&poly), 0, r, g, b, 0, 0},
+        {(f32) X1(&poly), (f32) Y1(&poly), 0, r, g, b, 0, 0},
+        {(f32) X2(&poly), (f32) Y2(&poly), 0, r, g, b, 0, 0},
+        {(f32) X3(&poly), (f32) Y3(&poly), 0, r, g, b, 0, 0}};
+
+    bool isSemiTrans = GetPolyIsSemiTrans(&poly);
+    u32 blendMode = GetTPageBlendMode(mGlobalTPage);
 
     mPsxShader.Use();
 
-    const GLuint indexData[6] = {0, 1, 2, 0, 2, 3};
+    // Bind the source framebuffer
+    GL_VERIFY(glActiveTexture(GL_TEXTURE2));
+    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mPsxFramebufferTexId[GL_FRAMEBUFFER_PSX_SRC]));
+
+    // Set sampler uniforms
+    mPsxShader.Uniform1i("texFramebufferData", 2); // Set texFramebufferData to GL_TEXTURE2
+
+    mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_FLAT);
+    mPsxShader.Uniform1i("fsIsSemiTrans", isSemiTrans);
+    mPsxShader.Uniform1i("fsBlendMode", blendMode);
+
+    const GLuint indexData[6] = {0, 1, 2, 2, 1, 3};
     DrawTriangles(verts, 4, indexData, 6);
 
     mPsxShader.UnUse();
+
+    // Unbind the source framebuffer, just to be safe so drawing to it doesn't
+    // blow up
+    GL_VERIFY(glActiveTexture(GL_TEXTURE2));
+    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, 0));
+
+    CompleteDraw();
 }
 
 void OpenGLRenderer::Draw(Poly_FT4& poly)
@@ -684,9 +699,9 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     mPsxShader.Uniform1i("texAdditionalData", 1);  // Set texAdditionalData to GL_TEXTURE1
     mPsxShader.Uniform1i("texFramebufferData", 2); // Set texFramebufferData to GL_TEXTURE2
 
-    bool isSemiTrans = (poly.mBase.header.rgb_code.code_or_pad & 2) > 0;
-    bool isShaded = (poly.mBase.header.rgb_code.code_or_pad & 1) == 0;
-    u32 blendMode = ((u32)GetTPage(&poly) >> 4) & 3;
+    bool isSemiTrans = GetPolyIsSemiTrans(&poly);
+    bool isShaded = GetPolyIsShaded(&poly);
+    u32 blendMode = GetTPageBlendMode(GetTPage(&poly));
 
     mPsxShader.Uniform1i("fsIsSemiTrans", isSemiTrans);
     mPsxShader.Uniform1i("fsIsShaded", isShaded);
@@ -935,11 +950,9 @@ void OpenGLRenderer::SetScreenOffset(Prim_ScreenOffset& offset)
     mScreenOffsetY = (s32) offset.field_E_yoff;
 }
 
-void OpenGLRenderer::SetTPage(s16 /*tPage*/)
+void OpenGLRenderer::SetTPage(u16 tPage)
 {
-    // FIXME: Is this even needed in the API? The TPage wasn't being set anyway
-    //        so this would've been useless - we're handling tpage stuff in
-    //        Draw Poly_FT4 now
+    mGlobalTPage = tPage;
 }
 
 void OpenGLRenderer::StartFrame(s32 xOff, s32 yOff)
@@ -1183,6 +1196,11 @@ void OpenGLRenderer::DrawFramebufferToFramebuffer(int src, int dst, s32 x, s32 y
 
     // Set the framebuffer target back to the destination
     GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId[GL_FRAMEBUFFER_PSX_DST]));
+}
+
+u32 OpenGLRenderer::GetTPageBlendMode(u16 tpage)
+{
+    return ((u32)tpage >> 4) & 3;
 }
 
 void OpenGLRenderer::InitPsxFramebuffer(int index)

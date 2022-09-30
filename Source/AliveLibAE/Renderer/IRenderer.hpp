@@ -48,7 +48,7 @@ public:
     virtual bool UpdateBackBuffer(const void* pPixels, s32 pitch) = 0;
     virtual void CreateBackBuffer(bool filter, s32 format, s32 w, s32 h) = 0;
 
-    virtual void SetTPage(s16 tPage) = 0;
+    virtual void SetTPage(u16 tPage) = 0;
 
     virtual void SetClip(Prim_PrimClipper& clipper) = 0;
     virtual void SetScreenOffset(Prim_ScreenOffset& offset) = 0;
