@@ -18,11 +18,10 @@
 
 #define GL_TO_IMGUI_TEX(v) *reinterpret_cast<ImTextureID*>(&v)
 
-#define GL_PSX_DRAW_MODE_FLAT 0
-#define GL_PSX_DRAW_MODE_ANIM 1
-#define GL_PSX_DRAW_MODE_CAM  2
-#define GL_PSX_DRAW_MODE_FG1  3
-#define GL_PSX_DRAW_MODE_FONT 4
+#define GL_PSX_DRAW_MODE_FLAT        0
+#define GL_PSX_DRAW_MODE_DEFAULT_FT4 1
+#define GL_PSX_DRAW_MODE_CAM         2
+#define GL_PSX_DRAW_MODE_FG1         3
 
 #define GL_FRAMEBUFFER_PSX_SRC 0
 #define GL_FRAMEBUFFER_PSX_DST 1
@@ -127,7 +126,7 @@ u8 get_pixel_8(u8* surface, int x, int y, int pitch)
     return *target_pixel;
 }*/
 
-u32 OpenGLRenderer::Renderer_TextureFromAnim(Poly_FT4& poly)
+u32 OpenGLRenderer::PrepareTextureFromPoly(Poly_FT4& poly)
 {
     GL_VERIFY(glActiveTexture(GL_TEXTURE0));
 
@@ -682,7 +681,7 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     if (!gRenderEnable_FT4)
         return;
 
-    const u32 textureId = Renderer_TextureFromAnim(poly);
+    const u32 textureId = PrepareTextureFromPoly(poly);
 
     mPsxShader.Use();
 
@@ -742,7 +741,7 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     }
     else if (poly.mAnim)
     {
-        mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_ANIM);
+        mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_DEFAULT_FT4);
 
         GL_VERIFY(glActiveTexture(GL_TEXTURE0));
         GL_VERIFY(glBindTexture(GL_TEXTURE_2D, textureId));
@@ -777,7 +776,7 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     }
     else if (poly.mFont)
     {
-        mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_FONT);
+        mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_DEFAULT_FT4);
 
         GL_VERIFY(glActiveTexture(GL_TEXTURE0));
         GL_VERIFY(glBindTexture(GL_TEXTURE_2D, textureId));

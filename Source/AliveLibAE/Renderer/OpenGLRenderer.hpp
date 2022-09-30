@@ -105,7 +105,7 @@ private:
     u32 GetTPageBlendMode(u16 tPage);
     void InitPsxFramebuffer(int index);
 
-    u32 Renderer_TextureFromAnim(Poly_FT4& poly);
+    u32 PrepareTextureFromPoly(Poly_FT4& poly);
     void FreeUnloadedAnimTextures();
 
     // END ROZZA STUFF

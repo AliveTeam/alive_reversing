@@ -305,11 +305,10 @@ const int BLEND_MODE_ONE_DST_ADD_ONE_SRC   = 1;
 const int BLEND_MODE_ONE_DST_SUB_ONE_SRC   = 2;
 const int BLEND_MODE_ONE_DST_ADD_QRT_SRC   = 3;
 
-const int DRAW_FLAT = 0;
-const int DRAW_ANIM = 1;
-const int DRAW_CAM  = 2;
-const int DRAW_FG1  = 3;
-const int DRAW_FONT = 4;
+const int DRAW_FLAT        = 0;
+const int DRAW_DEFAULT_FT4 = 1;
+const int DRAW_CAM         = 2;
+const int DRAW_FG1         = 3;
 
 const vec2 frameSize = vec2(640.0, 240.0);
 
@@ -373,7 +372,7 @@ void draw_flat()
     outColor.a = 1.0;
 }
 
-void draw_anim()
+void draw_default_ft4()
 {
     vec4 texelPal = PixelToPalette(texture(texTextureData, fsUV).r);
     vec3 texelShaded = handle_shading(texelPal.rgb);
@@ -435,9 +434,8 @@ void main()
             draw_flat();
             break;
 
-        case DRAW_ANIM:
-        case DRAW_FONT:
-            draw_anim();
+        case DRAW_DEFAULT_FT4:
+            draw_default_ft4();
             break;
 
         case DRAW_CAM:
