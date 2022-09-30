@@ -325,7 +325,8 @@ void draw_anim()
 
     if (texelPal == vec4(0.0, 0.0, 0.0, 0.0))
     {
-        vFrag = texelFb;
+        vFrag.a = 0;
+        return;
     }
     else
     {
@@ -333,26 +334,32 @@ void draw_anim()
         {
             if (texelPal.a == 1.0)
             {
-                switch (fsBlendMode)
+                if (texelPal.rgb == vec3(0.0, 0.0, 0.0))
                 {
-                    case 0:
-                        vFrag.rgb = (texelFb.rgb * 0.5) + (texelPal.rgb * 0.5);
-                        break;
-
-                    case 1:
-                        vFrag.rgb = texelFb.rgb + texelPal.rgb;
-                        break;
-
-                    case 2:
-                        vFrag.rgb = texelFb.rgb - texelPal.rgb;
-                        break;
-
-                    case 3:
-                        vFrag.rgb = texelFb.rgb + (texelPal.rgb * 0.25);
-                        break;
+                    vFrag.a = 0;
+                    return;
                 }
+                else
+                {
+                    switch (fsBlendMode)
+                    {
+                        case 0:
+                            vFrag.rgb = (texelFb.rgb * 0.5) + (texelPal.rgb * 0.5);
+                            break;
 
-                vFrag.a = 1.0;
+                        case 1:
+                            vFrag.rgb = texelFb.rgb + texelPal.rgb;
+                            break;
+
+                        case 2:
+                            vFrag.rgb = texelFb.rgb - texelPal.rgb;
+                            break;
+
+                        case 3:
+                            vFrag.rgb = texelFb.rgb + (texelPal.rgb * 0.25);
+                            break;
+                    }
+                }
             }
             else
             {
@@ -370,6 +377,8 @@ void draw_anim()
     {
         vFrag.rgb = clamp((vFrag.rgb * (m_Color.rgb / 255.0)) / 0.5f, 0.0f, 1.0f);
     }
+
+    vFrag.a = 1.0;
 }
 
 void draw_cam()

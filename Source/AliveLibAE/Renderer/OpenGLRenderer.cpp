@@ -80,10 +80,10 @@ static void Renderer_DecodePalette(const u8* srcPalData, RGBAPixel* dst, s32 pal
     {
         const u16 oldPixel = palShortPtr[i];
 
-        dst[i].B = static_cast<u8>((((oldPixel >> 0) & 0x1F)) << 2);
-        dst[i].G = static_cast<u8>((((oldPixel >> 5) & 0x1F)) << 2);
-        dst[i].R = static_cast<u8>((((oldPixel >> 10) & 0x1F)) << 2);
-        dst[i].A = static_cast<u8>((((((oldPixel) >> 15) & 0xffff)) ? 0 : 255));
+        dst[i].B = static_cast<u8>((((oldPixel >> 0) & 0x1F)) << 3);
+        dst[i].G = static_cast<u8>((((oldPixel >> 5) & 0x1F)) << 3);
+        dst[i].R = static_cast<u8>((((oldPixel >> 10) & 0x1F)) << 3);
+        dst[i].A = static_cast<u8>((((((oldPixel) >> 15) & 0x1)) ? 255 : 0));
     }
 }
 
