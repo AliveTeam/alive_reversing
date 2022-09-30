@@ -336,9 +336,8 @@ vec3 handle_shading(in vec3 texelT)
 void draw_anim()
 {
     vec4 texelPal = PixelToPalette(texture(texTextureData, fsUV).r);
-    vec4 texelFb  = texture(texFramebufferData, gl_FragCoord.xy / frameSize);
-
-    texelPal.rgb = handle_shading(texelPal.rgb);
+    vec3 texelShaded = handle_shading(texelPal.rgb);
+    vec4 texelFb = texture(texFramebufferData, gl_FragCoord.xy / frameSize);
 
     if (texelPal == vec4(0.0, 0.0, 0.0, 0.0))
     {
@@ -354,19 +353,19 @@ void draw_anim()
                 switch (fsBlendMode)
                 {
                     case 0:
-                        outColor.rgb = (texelFb.rgb * 0.5) + (texelPal.rgb * 0.5);
+                        outColor.rgb = (texelFb.rgb * 0.5) + (texelShaded.rgb * 0.5);
                         break;
 
                     case 1:
-                        outColor.rgb = texelFb.rgb + texelPal.rgb;
+                        outColor.rgb = texelFb.rgb + texelShaded.rgb;
                         break;
 
                     case 2:
-                        outColor.rgb = texelFb.rgb - texelPal.rgb;
+                        outColor.rgb = texelFb.rgb - texelShaded.rgb;
                         break;
 
                     case 3:
-                        outColor.rgb = texelFb.rgb + (texelPal.rgb * 0.25);
+                        outColor.rgb = texelFb.rgb + (texelShaded.rgb * 0.25);
                         break;
                 }
 
@@ -374,12 +373,12 @@ void draw_anim()
             }
             else
             {
-                outColor = texelPal;
+                outColor.rgb = texelShaded;
             }
         }
         else
         {
-            outColor = texelPal;
+            outColor.rgb = texelShaded;
         }
     }
 
