@@ -17,6 +17,11 @@
 
 #define GL_TO_IMGUI_TEX(v) *reinterpret_cast<ImTextureID*>(&v)
 
+#define GL_PSX_DRAW_MODE_FLAT 0
+#define GL_PSX_DRAW_MODE_ANIM 1
+#define GL_PSX_DRAW_MODE_CAM  2
+#define GL_PSX_DRAW_MODE_FG1  3
+
 #define GL_FRAMEBUFFER_PSX_SRC 0
 #define GL_FRAMEBUFFER_PSX_DST 1
 #define GL_FRAMEBUFFER_SCREEN  -1
@@ -56,6 +61,7 @@ static void CheckGLError()
 }
 #endif
 
+
 static GLuint Renderer_CreateTexture(GLenum interpolation = GL_NEAREST)
 {
     GLuint textureId;
@@ -71,7 +77,6 @@ static GLuint Renderer_CreateTexture(GLenum interpolation = GL_NEAREST)
 
     return textureId;
 }
-
 
 static void Renderer_DecodePalette(const u8* srcPalData, RGBAPixel* dst, s32 palDepth)
 {
@@ -166,7 +171,6 @@ u8 get_pixel_8(u8* surface, int x, int y, int pitch)
     return *target_pixel;
 }
 
-
 static u32 Renderer_TextureFromAnim(Poly_FT4& poly)
 {
    // const void* pAnimFg1Data = GetPrimExtraPointerHack(&poly);
@@ -209,7 +213,6 @@ static u32 Renderer_TextureFromAnim(Poly_FT4& poly)
     return useTextureId;
 }
 
-// BGNDOC
 
 void OpenGLRenderer::BltBackBuffer(const SDL_Rect* /*pCopyRect*/, const SDL_Rect* /*pDst*/)
 {
@@ -246,7 +249,6 @@ void OpenGLRenderer::Clear(u8 /*r*/, u8 /*g*/, u8 /*b*/)
 bool OpenGLRenderer::Create(TWindowHandleType window)
 {
     mWindow = window;
-    mWireframe = false;
 
     // Find the opengl driver
     const s32 numDrivers = SDL_GetNumRenderDrivers();
@@ -336,7 +338,7 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
     GL_VERIFY(glGenBuffers(1, &mVBO));
 
     //mTextureShader.LoadFromFile("shaders/texture.vsh", "shaders/texture.fsh");
-    mTextureShader.LoadSource(gShader_TextureVSH, gShader_TextureFSH);
+    mPsxShader.LoadSource(gShader_PsxVSH, gShader_PsxFSH);
 
     // ROZZA Init passthru shader
     mPassthruShader.LoadSource(gShader_PassthruVSH, gShader_PassthruFSH);
@@ -360,7 +362,8 @@ void OpenGLRenderer::Destroy()
 {
     ImGui_ImplSDL2_Shutdown();
 
-    mTextureShader.Free();
+    mPassthruShader.Free();
+    mPsxShader.Free();
 
     for (auto& t : gRendererTextures)
     {
@@ -375,6 +378,10 @@ void OpenGLRenderer::Destroy()
     GL_VERIFY(glDeleteTextures(1, &gCamTextureId));
     GL_VERIFY(glDeleteTextures(1, &gOtherTextureId));
     GL_VERIFY(glUseProgram(0));
+
+    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, 0));
+    GL_VERIFY(glDeleteFramebuffers(2, mPsxFramebufferId));
+    GL_VERIFY(glDeleteTextures(2, mPsxFramebufferTexId));
 
     if (mContext)
     {
@@ -466,13 +473,13 @@ void OpenGLRenderer::Draw(Prim_GasEffect& gasEffect)
 
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB565, gasWidth / 4, gasHeight / 2, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, gasEffect.pData);
 
-    mTextureShader.Use();
+    /*mTextureShader.Use();
     mTextureShader.Uniform1i("m_Dithered", 1);
     mTextureShader.Uniform1i("m_DitherWidth", gasWidth);
     mTextureShader.Uniform1i("m_DitherHeight", gasHeight);
     DrawTexture(TempGasEffectTexture, (f32) gasEffect.x, (f32) gasEffect.y, (f32) gasWidth, (f32) gasHeight);
     mTextureShader.Use();
-    mTextureShader.Uniform1i("m_Dithered", 0);
+    mTextureShader.Uniform1i("m_Dithered", 0);*/
 }
 
 void OpenGLRenderer::Draw(Prim_Tile& tile)
@@ -491,7 +498,7 @@ void OpenGLRenderer::Draw(Prim_Tile& tile)
         {1, 1, 0, r, g, b, 1, 1},
         {0, 1, 0, r, g, b, 0, 1}};
 
-    mTextureShader.Use();
+    mPsxShader.Use();
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, 0);
@@ -499,7 +506,7 @@ void OpenGLRenderer::Draw(Prim_Tile& tile)
     const GLuint indexData[6] = {0, 1, 3, 3, 1, 2};
     DrawTriangles(verts, 4, indexData, 6);
 
-    mTextureShader.UnUse();
+    mPsxShader.UnUse();
 }
 
 void OpenGLRenderer::Draw(Line_F2& line)
@@ -518,12 +525,12 @@ void OpenGLRenderer::Draw(Line_F2& line)
          line.mBase.header.rgb_code.r / 255.0f, line.mBase.header.rgb_code.g / 255.0f, line.mBase.header.rgb_code.b / 255.0f,
          0, 0}};
 
-    mTextureShader.Use();
+    mPsxShader.Use();
 
     const GLuint indexData[2] = {0, 1};
     DrawLines(verts, 2, indexData, 2);
 
-    mTextureShader.UnUse();
+    mPsxShader.UnUse();
 }
 
 void OpenGLRenderer::Draw(Line_G2& line)
@@ -544,12 +551,12 @@ void OpenGLRenderer::Draw(Line_G2& line)
          line.mBase.header.rgb_code.r / 255.0f, line.mBase.header.rgb_code.g / 255.0f, line.mBase.header.rgb_code.b / 255.0f,
          0, 0}};
 
-    mTextureShader.Use();
+    mPsxShader.Use();
 
     const GLuint indexData[2] = {0, 1};
     DrawLines(verts, 2, indexData, 2);
 
-    mTextureShader.UnUse();
+    mPsxShader.UnUse();
 }
 
 void OpenGLRenderer::Draw(Line_G4& line)
@@ -576,12 +583,12 @@ void OpenGLRenderer::Draw(Line_G4& line)
          line.mVerts[2].mRgb.r / 255.0f, line.mVerts[2].mRgb.g / 255.0f, line.mVerts[2].mRgb.b / 255.0f,
          0, 0}};
 
-    mTextureShader.Use();
+    mPsxShader.Use();
 
     const GLuint indexData[4] = {0, 1, 2, 3};
     DrawLines(verts, 4, indexData, 4);
 
-    mTextureShader.UnUse();
+    mPsxShader.UnUse();
 }
 
 void OpenGLRenderer::Draw(Poly_F3& poly)
@@ -605,14 +612,14 @@ void OpenGLRenderer::Draw(Poly_F3& poly)
          poly.mBase.header.rgb_code.r / 255.0f, poly.mBase.header.rgb_code.g / 255.0f, poly.mBase.header.rgb_code.b / 255.0f,
          0, 1}};
 
-    mTextureShader.Use();
+    mPsxShader.Use();
 
-    mTextureShader.Uniform1i("m_Textured", false);
+    //mTextureShader.Uniform1i("m_Textured", false);
 
     const GLuint indexData[3] = {0, 1, 2};
     DrawTriangles(verts, 3, indexData, 3);
 
-    mTextureShader.UnUse();
+    mPsxShader.UnUse();
 }
 
 void OpenGLRenderer::Draw(Poly_G3& poly)
@@ -636,14 +643,14 @@ void OpenGLRenderer::Draw(Poly_G3& poly)
          poly.mVerts[1].mRgb.r / 255.0f, poly.mVerts[1].mRgb.g / 255.0f, poly.mVerts[1].mRgb.b / 255.0f,
          0, 1}};
 
-    mTextureShader.Use();
+    mPsxShader.Use();
 
-    mTextureShader.Uniform1i("m_Textured", false);
+    //mTextureShader.Uniform1i("m_Textured", false);
 
     const GLuint indexData[3] = {0, 1, 2};
     DrawTriangles(verts, 3, indexData, 3);
 
-    mTextureShader.UnUse();
+    mPsxShader.UnUse();
 }
 
 void OpenGLRenderer::Draw(Poly_F4& poly)
@@ -664,12 +671,12 @@ void OpenGLRenderer::Draw(Poly_F4& poly)
         {(f32) poly.mVerts[1].mVert.x, (f32) poly.mVerts[1].mVert.y, 0, r, g, b, 0, 1},
         {(f32) poly.mVerts[2].mVert.x, (f32) poly.mVerts[2].mVert.y, 0, r, g, b, 1, 1}};
 
-    mTextureShader.Use();
+    mPsxShader.Use();
 
     const GLuint indexData[6] = {0, 1, 2, 0, 2, 3};
     DrawTriangles(verts, 4, indexData, 6);
 
-    mTextureShader.UnUse();
+    mPsxShader.UnUse();
 }
 
 void OpenGLRenderer::Draw(Poly_FT4& poly)
@@ -690,7 +697,7 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
         pTexture = Renderer_TexFromTPage(poly.mVerts[0].mUv.tpage_clut_pad, poly.mUv.u, poly.mUv.v);
     }*/
 
-    mTextureShader.Use();
+    mPsxShader.Use();
 
     f32 r = poly.mBase.header.rgb_code.r;
     f32 g = poly.mBase.header.rgb_code.g;
@@ -701,23 +708,23 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mPsxFramebufferTexId[GL_FRAMEBUFFER_PSX_SRC]));
 
     // Set sampler uniforms
-    mTextureShader.Uniform1i("texTextureData", 0);     // Set texTextureData to GL_TEXTURE0
-    mTextureShader.Uniform1i("texAdditionalData", 1);  // Set texAdditionalData to GL_TEXTURE1
-    mTextureShader.Uniform1i("texFramebufferData", 2); // Set texFramebufferData to GL_TEXTURE2
+    mPsxShader.Uniform1i("texTextureData", 0);     // Set texTextureData to GL_TEXTURE0
+    mPsxShader.Uniform1i("texAdditionalData", 1);  // Set texAdditionalData to GL_TEXTURE1
+    mPsxShader.Uniform1i("texFramebufferData", 2); // Set texFramebufferData to GL_TEXTURE2
 
     bool isSemiTrans = (poly.mBase.header.rgb_code.code_or_pad & 2) > 0;
     bool isShaded = (poly.mBase.header.rgb_code.code_or_pad & 1) == 0;
 
-    mTextureShader.Uniform1i("fsIsSemiTrans", isSemiTrans);
-    mTextureShader.Uniform1i("fsIsShaded", isShaded);
+    mPsxShader.Uniform1i("fsIsSemiTrans", isSemiTrans);
+    mPsxShader.Uniform1i("fsIsShaded", isShaded);
 
-    mTextureShader.Uniform1i("fsBlendMode", ((u32) GetTPage(&poly) >> 5) & 3);
+    mPsxShader.Uniform1i("fsBlendMode", ((u32) GetTPage(&poly) >> 5) & 3);
 
     const GLuint indexData[6] = {1, 0, 3, 3, 0, 2};
 
     if (poly.mFg1)
     {
-        mTextureShader.Uniform1i("fsDrawType", 2);
+        mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_FG1);
 
         GL_VERIFY(glActiveTexture(GL_TEXTURE0))
         GL_VERIFY(glBindTexture(GL_TEXTURE_2D, gCamTextureId))
@@ -734,7 +741,7 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     }
     else if (poly.mCam)
     {
-        mTextureShader.Uniform1i("fsDrawType", 1);
+        mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_CAM);
 
         GL_VERIFY(glActiveTexture(GL_TEXTURE0));
         GL_VERIFY(glBindTexture(GL_TEXTURE_2D, gCamTextureId));
@@ -748,13 +755,12 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     }
     else if (poly.mAnim)
     {
-        mTextureShader.Uniform1i("fsDrawType", 0);
+        mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_ANIM);
 
         GL_VERIFY(glActiveTexture(GL_TEXTURE0));
         GL_VERIFY(glBindTexture(GL_TEXTURE_2D, gOtherTextureId));
 
         Renderer_BindPalette(poly.mAnim->mAnimRes.mTgaPtr->mPal);
-
 
         const PerFrameInfo* pHeader = poly.mAnim->Get_FrameHeader(-1);
 
@@ -787,7 +793,7 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
         return;
     }
 
-    mTextureShader.UnUse();
+    mPsxShader.UnUse();
 
     // Unbind the source framebuffer, just to be safe so drawing to it doesn't
     // blow up
@@ -1198,19 +1204,6 @@ void OpenGLRenderer::DebugWindow()
     {
         if (ImGui::BeginMenu("Developer"))
         {
-            if (ImGui::BeginMenu("Render Mode"))
-            {
-                if (ImGui::MenuItem("Normal"))
-                {
-                    mWireframe = false;
-                }
-                if (ImGui::MenuItem("Wireframe"))
-                {
-                    mWireframe = true;
-                }
-                ImGui::EndMenu();
-            }
-
             if (ImGui::BeginMenu("Render Elements"))
             {
                 ImGui::MenuItem("SPRT", nullptr, &gRenderEnable_SPRT);
@@ -1361,9 +1354,9 @@ void OpenGLRenderer::DrawTexture(GLuint pTexture, f32 /*x*/, f32 /*y*/, f32 /*wi
         {1, 1, 0, r, g, b, 1, 1},
         {0, 1, 0, r, g, b, 0, 1}};
 
-    mTextureShader.Use();
+    mPsxShader.Use();
 
-    mTextureShader.Uniform1i("m_Sprite", 0); // Set m_Sprite to GL_TEXTURE0
+    //mTextureShader.Uniform1i("m_Sprite", 0); // Set m_Sprite to GL_TEXTURE0
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, pTexture);
@@ -1371,7 +1364,7 @@ void OpenGLRenderer::DrawTexture(GLuint pTexture, f32 /*x*/, f32 /*y*/, f32 /*wi
     const GLuint indexData[6] = {0, 1, 3, 3, 1, 2};
     DrawTriangles(verts, 4, indexData, 6);
 
-    mTextureShader.UnUse();
+    mPsxShader.UnUse();
 }
 
 void OpenGLRenderer::DrawTriangles(const VertexData* pVertData, s32 vertSize, const GLuint* pIndData, s32 indSize)
@@ -1388,14 +1381,6 @@ void OpenGLRenderer::DrawTriangles(const VertexData* pVertData, s32 vertSize, co
     //Set index data and render
     GL_VERIFY(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO));
     GL_VERIFY(glDrawElements(GL_TRIANGLES, indSize, GL_UNSIGNED_INT, NULL));
-
-    if (mWireframe)
-    {
-        GL_VERIFY(glLineWidth(1.0f));
-        GL_VERIFY(glPolygonMode(GL_FRONT_AND_BACK, GL_LINE));
-        GL_VERIFY(glDrawElements(GL_TRIANGLES, indSize, GL_UNSIGNED_INT, NULL));
-        GL_VERIFY(glPolygonMode(GL_FRONT_AND_BACK, GL_FILL));
-    }
 
     GL_VERIFY(glDisableVertexAttribArray(0));
     GL_VERIFY(glDisableVertexAttribArray(1));

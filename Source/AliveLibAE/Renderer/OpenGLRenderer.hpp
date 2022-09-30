@@ -79,13 +79,12 @@ private:
 
     SDL_Window* mWindow = nullptr;
     SDL_GLContext mContext = nullptr;
-    GLShader mTextureShader = {};
     u16 mLastTPage = 0;
-    bool mWireframe = false;
 
     // ROZZA STUFF
 
     GLShader mPassthruShader = {};
+    GLShader mPsxShader = {};
 
     GLuint mPsxFramebufferId[2];
     GLuint mPsxFramebufferTexId[2];

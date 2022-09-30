@@ -255,39 +255,41 @@ out vec4 outColor;
 
 uniform sampler2D TextureSampler;
 
+
 void main()
 {
     outColor = texture(TextureSampler, fsUV);
 }
 )";
 
-const char_type* gShader_TextureVSH = R"(
+const char_type* gShader_PsxVSH = R"(
 #version 330 core
 
-layout (location = 0) in vec3 aPos;
-layout (location = 1) in vec3 aColor;
-layout (location = 2) in vec2 aTexCoord;
+layout (location = 0) in vec3 vsPos;
+layout (location = 1) in vec3 vsShadeColor;
+layout (location = 2) in vec2 vsUV;
 
-out vec3 m_Color;
-out vec2 m_TexCoord;
+out vec3 fsShadeColor;
+out vec2 fsUV;
+
 
 void main()
 {
-    gl_Position.x = ((aPos.x / 640) * 2) - 1;
-    gl_Position.y = (1 - ((aPos.y / 240) * 2));
+    gl_Position.x = ((vsPos.x / 640) * 2) - 1;
+    gl_Position.y = (1 - ((vsPos.y / 240) * 2));
     
-    m_Color = aColor;
-    m_TexCoord = aTexCoord;
+    fsShadeColor = vsShadeColor;
+    fsUV = vsUV;
 }
 )";
 
-const char_type* gShader_TextureFSH = R"(
+const char_type* gShader_PsxFSH = R"(
 #version 330 core
 
-in vec3 m_Color;
-in vec2 m_TexCoord;
+in vec3 fsShadeColor;
+in vec2 fsUV;
 
-out vec4 vFrag;
+out vec4 outColor;
 
 uniform sampler2D texTextureData;
 uniform sampler2D texAdditionalData;
@@ -298,9 +300,10 @@ uniform bool fsIsSemiTrans;
 uniform bool fsIsShaded;
 uniform int  fsBlendMode;
 
-const int DRAW_ANIM = 0;
-const int DRAW_CAM  = 1;
-const int DRAW_FG1  = 2;
+const int DRAW_FLAT = 0;
+const int DRAW_ANIM = 1;
+const int DRAW_CAM  = 2;
+const int DRAW_FG1  = 3;
 
 const vec2 frameSize = vec2(640.0, 240.0);
 
@@ -324,7 +327,7 @@ vec3 handle_shading(in vec3 texelT)
 
     if (fsIsShaded)
     {
-        texelP.rgb = clamp((texelT.rgb * (m_Color.rgb / 255.0)) / 0.5f, 0.0f, 1.0f);
+        texelP.rgb = clamp((texelT.rgb * (fsShadeColor.rgb / 255.0)) / 0.5f, 0.0f, 1.0f);
     }
 
     return texelP;
@@ -332,14 +335,14 @@ vec3 handle_shading(in vec3 texelT)
 
 void draw_anim()
 {
-    vec4 texelPal = PixelToPalette(texture(texTextureData, m_TexCoord).r);
+    vec4 texelPal = PixelToPalette(texture(texTextureData, fsUV).r);
     vec4 texelFb  = texture(texFramebufferData, gl_FragCoord.xy / frameSize);
 
     texelPal.rgb = handle_shading(texelPal.rgb);
 
     if (texelPal == vec4(0.0, 0.0, 0.0, 0.0))
     {
-        vFrag.a = 0.0;
+        outColor.a = 0.0;
         return;
     }
     else
@@ -351,63 +354,68 @@ void draw_anim()
                 switch (fsBlendMode)
                 {
                     case 0:
-                        vFrag.rgb = (texelFb.rgb * 0.5) + (texelPal.rgb * 0.5);
+                        outColor.rgb = (texelFb.rgb * 0.5) + (texelPal.rgb * 0.5);
                         break;
 
                     case 1:
-                        vFrag.rgb = texelFb.rgb + texelPal.rgb;
+                        outColor.rgb = texelFb.rgb + texelPal.rgb;
                         break;
 
                     case 2:
-                        vFrag.rgb = texelFb.rgb - texelPal.rgb;
+                        outColor.rgb = texelFb.rgb - texelPal.rgb;
                         break;
 
                     case 3:
-                        vFrag.rgb = texelFb.rgb + (texelPal.rgb * 0.25);
+                        outColor.rgb = texelFb.rgb + (texelPal.rgb * 0.25);
                         break;
                 }
 
-                vFrag.rgb = clamp(vFrag.rgb, vec3(0.0), vec3(1.0));
+                outColor.rgb = clamp(outColor.rgb, vec3(0.0), vec3(1.0));
             }
             else
             {
-                vFrag = texelPal;
+                outColor = texelPal;
             }
         }
         else
         {
-            vFrag = texelPal;
+            outColor = texelPal;
         }
     }
 
-    vFrag.a = 1.0;
+    outColor.a = 1.0;
 }
 
 void draw_cam()
 {
-    vFrag = texture(texTextureData, m_TexCoord);
+    outColor = texture(texTextureData, fsUV);
 
-    vFrag.rgb = handle_shading(vFrag.rgb);
+    outColor.rgb = handle_shading(outColor.rgb);
 }
 
 void draw_fg1()
 {
-    vec4 mask = texture(texAdditionalData, m_TexCoord);
+    vec4 mask = texture(texAdditionalData, fsUV);
 
-    vFrag = texture(texTextureData, m_TexCoord);
+    outColor = texture(texTextureData, fsUV);
 
     if (mask.rgb == vec3(0.0, 0.0, 0.0))
     {
-        vFrag.a = 0.0;
+        outColor.a = 0.0;
     }
 
-    vFrag.rgb = handle_shading(vFrag.rgb);
+    outColor.rgb = handle_shading(outColor.rgb);
 }
 
 void main()
 {
     switch (fsDrawType)
     {
+        case DRAW_FLAT:
+            // TODO: This might not be right
+            outColor = vec4(fsShadeColor, 1.0);
+            break;
+
         case DRAW_ANIM:
             draw_anim();
             break;
