@@ -661,13 +661,13 @@ inline void SetXY3(T* prim, s16 x, s16 y)
 }
 
 template <class T>
-inline void SetTPage(T* prim, s16 tpage)
+inline void SetTPage(T* prim, u16 tpage)
 {
     prim->mVerts[0].mUv.tpage_clut_pad = tpage;
 }
 
 template <class T>
-inline s16 GetTPage(T* prim)
+inline u16 GetTPage(T* prim)
 {
     return prim->mVerts[0].mUv.tpage_clut_pad;
 }

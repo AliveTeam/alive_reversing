@@ -318,14 +318,28 @@ vec3 checker(in vec2 uv)
     return vec3(fin, fin, fin);
 }
 
+vec3 handle_shading(in vec3 texelT)
+{
+    vec3 texelP = texelT;
+
+    if (fsIsShaded)
+    {
+        texelP.rgb = clamp((texelT.rgb * (m_Color.rgb / 255.0)) / 0.5f, 0.0f, 1.0f);
+    }
+
+    return texelP;
+}
+
 void draw_anim()
 {
     vec4 texelPal = PixelToPalette(texture(texTextureData, m_TexCoord).r);
     vec4 texelFb  = texture(texFramebufferData, gl_FragCoord.xy / frameSize);
 
+    texelPal.rgb = handle_shading(texelPal.rgb);
+
     if (texelPal == vec4(0.0, 0.0, 0.0, 0.0))
     {
-        vFrag.a = 0;
+        vFrag.a = 0.0;
         return;
     }
     else
@@ -334,32 +348,26 @@ void draw_anim()
         {
             if (texelPal.a == 1.0)
             {
-                if (texelPal.rgb == vec3(0.0, 0.0, 0.0))
+                switch (fsBlendMode)
                 {
-                    vFrag.a = 0;
-                    return;
+                    case 0:
+                        vFrag.rgb = (texelFb.rgb * 0.5) + (texelPal.rgb * 0.5);
+                        break;
+
+                    case 1:
+                        vFrag.rgb = texelFb.rgb + texelPal.rgb;
+                        break;
+
+                    case 2:
+                        vFrag.rgb = texelFb.rgb - texelPal.rgb;
+                        break;
+
+                    case 3:
+                        vFrag.rgb = texelFb.rgb + (texelPal.rgb * 0.25);
+                        break;
                 }
-                else
-                {
-                    switch (fsBlendMode)
-                    {
-                        case 0:
-                            vFrag.rgb = (texelFb.rgb * 0.5) + (texelPal.rgb * 0.5);
-                            break;
 
-                        case 1:
-                            vFrag.rgb = texelFb.rgb + texelPal.rgb;
-                            break;
-
-                        case 2:
-                            vFrag.rgb = texelFb.rgb - texelPal.rgb;
-                            break;
-
-                        case 3:
-                            vFrag.rgb = texelFb.rgb + (texelPal.rgb * 0.25);
-                            break;
-                    }
-                }
+                vFrag.rgb = clamp(vFrag.rgb, vec3(0.0), vec3(1.0));
             }
             else
             {
@@ -372,12 +380,6 @@ void draw_anim()
         }
     }
 
-    // Perform shading
-    if (fsIsShaded)
-    {
-        vFrag.rgb = clamp((vFrag.rgb * (m_Color.rgb / 255.0)) / 0.5f, 0.0f, 1.0f);
-    }
-
     vFrag.a = 1.0;
 }
 
@@ -385,7 +387,7 @@ void draw_cam()
 {
     vFrag = texture(texTextureData, m_TexCoord);
 
-    vFrag.rgb = clamp((vFrag.rgb * (m_Color.rgb / 255.0)) / 0.5f, 0.0f, 1.0f);
+    vFrag.rgb = handle_shading(vFrag.rgb);
 }
 
 void draw_fg1()
@@ -394,12 +396,12 @@ void draw_fg1()
 
     vFrag = texture(texTextureData, m_TexCoord);
 
-    if (mask.rgb == vec3(0, 0, 0))
+    if (mask.rgb == vec3(0.0, 0.0, 0.0))
     {
-        vFrag.a = 0;
+        vFrag.a = 0.0;
     }
 
-    vFrag.rgb = clamp((vFrag.rgb * (m_Color.rgb / 255.0)) / 0.5f, 0.0f, 1.0f);
+    vFrag.rgb = handle_shading(vFrag.rgb);
 }
 
 void main()

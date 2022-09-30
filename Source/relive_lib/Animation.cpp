@@ -146,6 +146,10 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
     SetXY2(pPoly, polyXPos, polyYPos + FP_GetExponent(scaled_height));
     SetXY3(pPoly, polyXPos + FP_GetExponent(scaled_width), polyYPos + FP_GetExponent(scaled_height));
 
+    u16 blendModeBit = ((u16) mRenderMode) << 5;
+
+    SetTPage(pPoly, GetTPage(pPoly) | blendModeBit);
+
     pPoly->mFlipX = kFlipX;
     pPoly->mFlipY = kFlipY;
     pPoly->mAnim = this;
