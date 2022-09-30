@@ -861,6 +861,7 @@ void OpenGLRenderer::EndFrame()
     glViewport(0, 0, wW, wH);
 
     // Draw the final composed framebuffer to the screen
+    glDisable(GL_SCISSOR_TEST);
     DrawFramebufferToFramebuffer(
         GL_FRAMEBUFFER_PSX_DST,
         GL_FRAMEBUFFER_SCREEN,
@@ -940,7 +941,20 @@ void OpenGLRenderer::PalSetData(const PalRecord& record, const u8* pPixels)
 
 void OpenGLRenderer::SetClip(Prim_PrimClipper& clipper)
 {
-    SetClipDirect(clipper.field_C_x, clipper.field_E_y, clipper.mBase.header.mRect.w, clipper.mBase.header.mRect.h);
+    SDL_Rect rect;
+    rect.x = clipper.field_C_x;
+    rect.y = clipper.field_E_y;
+    rect.w = clipper.mBase.header.mRect.w;
+    rect.h = clipper.mBase.header.mRect.h;
+
+    if (rect.x == 0 && rect.y == 0 && rect.w == 1 && rect.h == 1)
+    {
+        glDisable(GL_SCISSOR_TEST);
+        return;
+    }
+
+    glEnable(GL_SCISSOR_TEST);
+    glScissor(rect.x, GL_FRAMEBUFFER_PSX_HEIGHT - rect.y - rect.h, rect.w, rect.h);
 }
 
 void OpenGLRenderer::SetScreenOffset(Prim_ScreenOffset& offset)
@@ -963,16 +977,9 @@ void OpenGLRenderer::StartFrame(s32 xOff, s32 yOff)
     mScreenOffsetX = xOff;
     mScreenOffsetY = yOff;
 
-    // Clear backing framebuffers
-    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId[GL_FRAMEBUFFER_PSX_SRC]));
-    GL_VERIFY(glClear(GL_COLOR_BUFFER_BIT));
-
-    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId[GL_FRAMEBUFFER_PSX_DST]));
-    GL_VERIFY(glClear(GL_COLOR_BUFFER_BIT));
-
     // Always render to destination buffer (1)
     GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId[GL_FRAMEBUFFER_PSX_DST]));
-    GL_VERIFY(glViewport(0, 0, 640, 240));
+    GL_VERIFY(glViewport(0, 0, GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT));
 }
 
 bool OpenGLRenderer::UpdateBackBuffer(const void* /*pPixels*/, s32 /*pitch*/)
@@ -1420,35 +1427,3 @@ void OpenGLRenderer::DrawTriangles(const VertexData* pVertData, s32 vertSize, co
     GL_VERIFY(glDisableVertexAttribArray(1));
     GL_VERIFY(glDisableVertexAttribArray(2));
 }
-
-void OpenGLRenderer::SetClipDirect(s32 x, s32 y, s32 width, s32 height)
-{
-    mLastClip = glm::ivec4(x, y, width, height);
-
-    s32 w, h;
-    SDL_GetWindowSize(mWindow, &w, &h);
-
-    if (width <= 1 && height <= 1)
-    {
-        glDisable(GL_SCISSOR_TEST);
-        return;
-    }
-
-    glEnable(GL_SCISSOR_TEST);
-    glScissor(static_cast<GLint>((x / 640.0f) * w),
-              static_cast<GLint>(((240 - y - height) / 240.0f) * h),
-              static_cast<GLsizei>((width / 640.0f) * w),
-              static_cast<GLsizei>((height / 240.0f) * h));
-}
-
-
-
-
-
-
-
-
-
-
-
-

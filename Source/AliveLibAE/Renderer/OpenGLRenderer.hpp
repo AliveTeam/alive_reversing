@@ -110,10 +110,6 @@ private:
 
     // END ROZZA STUFF
 
-    glm::mat4 m_View = {};
-
-    glm::ivec4 mLastClip = {};
-
     GLuint mVBO = 0;
     GLuint mIBO = 0;
     GLuint mVAO = 0;
