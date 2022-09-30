@@ -42,7 +42,7 @@ static bool gRenderEnable_GAS = false;
 static bool gRenderEnable_TILE = false;
 static bool gRenderEnable_FT4 = true;
 static bool gRenderEnable_G4 = false;
-static bool gRenderEnable_G3 = false;
+static bool gRenderEnable_G3 = true;
 static bool gRenderEnable_G2 = false;
 static bool gRenderEnable_F4 = true;
 static bool gRenderEnable_F3 = false;
@@ -612,24 +612,37 @@ void OpenGLRenderer::Draw(Poly_G3& poly)
     }
 
     const VertexData verts[3] = {
-        {(f32) poly.mVerts[0].mVert.x, (f32) poly.mVerts[0].mVert.y, 0,
-         poly.mVerts[0].mRgb.r / 255.0f, poly.mVerts[0].mRgb.g / 255.0f, poly.mVerts[0].mRgb.b / 255.0f,
-         1, 0},
-        {(f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, 0,
-         poly.mBase.header.rgb_code.r / 255.0f, poly.mBase.header.rgb_code.g / 255.0f, poly.mBase.header.rgb_code.b / 255.0f,
-         0, 0},
-        {(f32) poly.mVerts[1].mVert.x, (f32) poly.mVerts[1].mVert.y, 0,
-         poly.mVerts[1].mRgb.r / 255.0f, poly.mVerts[1].mRgb.g / 255.0f, poly.mVerts[1].mRgb.b / 255.0f,
-         0, 1}};
+        {(f32) X0(&poly), (f32) Y0(&poly), 0, (f32) R0(&poly), (f32) G0(&poly), (f32) B0(&poly), 0, 0},
+        {(f32) X1(&poly), (f32) Y1(&poly), 0, (f32) R1(&poly), (f32) G1(&poly), (f32) B1(&poly), 0, 0},
+        {(f32) X2(&poly), (f32) Y2(&poly), 0, (f32) R2(&poly), (f32) G2(&poly), (f32) B2(&poly), 0, 0}};
+
+    bool isSemiTrans = GetPolyIsSemiTrans(&poly);
+    u32 blendMode = GetTPageBlendMode(mGlobalTPage);
 
     mPsxShader.Use();
 
-    //mTextureShader.Uniform1i("m_Textured", false);
+    // Bind the source framebuffer
+    GL_VERIFY(glActiveTexture(GL_TEXTURE2));
+    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mPsxFramebufferTexId[GL_FRAMEBUFFER_PSX_SRC]));
+
+    // Set sampler uniforms
+    mPsxShader.Uniform1i("texFramebufferData", 2); // Set texFramebufferData to GL_TEXTURE2
+
+    mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_FLAT);
+    mPsxShader.Uniform1i("fsIsSemiTrans", isSemiTrans);
+    mPsxShader.Uniform1i("fsBlendMode", blendMode);
 
     const GLuint indexData[3] = {0, 1, 2};
     DrawTriangles(verts, 3, indexData, 3);
 
     mPsxShader.UnUse();
+
+    // Unbind the source framebuffer, just to be safe so drawing to it doesn't
+    // blow up
+    GL_VERIFY(glActiveTexture(GL_TEXTURE2));
+    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, 0));
+
+    CompleteDraw();
 }
 
 void OpenGLRenderer::Draw(Poly_F4& poly)
