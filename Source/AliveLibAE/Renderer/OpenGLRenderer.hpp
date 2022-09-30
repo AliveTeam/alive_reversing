@@ -46,21 +46,11 @@ struct PaletteCache final
 class OpenGLRenderer final : public IRenderer
 {
 public:
-    void Destroy() override;
-    bool Create(TWindowHandleType window) override;
-    void Clear(u8 r, u8 g, u8 b) override;
-    void StartFrame(s32 xOff, s32 yOff) override;
-    void EndFrame() override;
     void BltBackBuffer(const SDL_Rect* pCopyRect, const SDL_Rect* pDst) override;
-    void OutputSize(s32* w, s32* h) override;
-    bool UpdateBackBuffer(const void* pPixels, s32 pitch) override;
+    void Clear(u8 r, u8 g, u8 b) override;
+    bool Create(TWindowHandleType window) override;
     void CreateBackBuffer(bool filter, s32 format, s32 w, s32 h) override;
-    void PalFree(const PalRecord& record) override;
-    bool PalAlloc(PalRecord& record) override;
-    void PalSetData(const PalRecord& record, const u8* pPixels) override;
-    void SetTPage(s16 tPage) override;
-    void SetClip(Prim_PrimClipper& clipper) override;
-    void SetScreenOffset(Prim_ScreenOffset& offset) override;
+    void Destroy() override;
     void Draw(Prim_Sprt& sprt) override;
     void Draw(Prim_GasEffect& gasEffect) override;
     void Draw(Prim_Tile& tile) override;
@@ -72,7 +62,16 @@ public:
     void Draw(Poly_F4& poly) override;
     void Draw(Poly_FT4& poly) override;
     void Draw(Poly_G4& poly) override;
-
+    void EndFrame() override;
+    void OutputSize(s32* w, s32* h) override;
+    bool PalAlloc(PalRecord& record) override;
+    void PalFree(const PalRecord& record) override;
+    void PalSetData(const PalRecord& record, const u8* pPixels) override;
+    void SetClip(Prim_PrimClipper& clipper) override;
+    void SetScreenOffset(Prim_ScreenOffset& offset) override;
+    void SetTPage(s16 tPage) override;
+    void StartFrame(s32 xOff, s32 yOff) override;
+    bool UpdateBackBuffer(const void* pPixels, s32 pitch) override;
     void Upload(BitDepth bitDepth, const PSX_RECT& rect, const u8* pPixels) override;
 
 private:
@@ -106,13 +105,10 @@ private:
     GLuint mIBO = 0;
     GLuint mVAO = 0;
 
-    void SetClipDirect(s32 x, s32 y, s32 width, s32 height);
-
-    void DebugWindow();
-
     void InitAttributes();
+    void DebugWindow();
+    void DrawLines(const VertexData* pVertData, s32 vertSize, const GLuint* pIndData, s32 indSize);
     void DrawTexture(GLuint pTexture, f32 x, f32 y, f32 width, f32 height);
     void DrawTriangles(const VertexData* pVertData, s32 vertSize, const GLuint* pIndData, s32 indSize);
-    void DrawLines(const VertexData* pVertData, s32 vertSize, const GLuint* pIndData, s32 indSize);
-
+    void SetClipDirect(s32 x, s32 y, s32 width, s32 height);
 };

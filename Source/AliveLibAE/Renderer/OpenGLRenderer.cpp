@@ -209,245 +209,38 @@ static u32 Renderer_TextureFromAnim(Poly_FT4& poly)
     return useTextureId;
 }
 
-void OpenGLRenderer::DrawTexture(GLuint pTexture, f32 /*x*/, f32 /*y*/, f32 /*width*/, f32 /*height*/)
+// BGNDOC
+
+void OpenGLRenderer::BltBackBuffer(const SDL_Rect* /*pCopyRect*/, const SDL_Rect* /*pDst*/)
 {
-    const f32 r = 1.0f;
-    const f32 g = 1.0f;
-    const f32 b = 1.0f;
-
-    const VertexData verts[4] = {
-        {0, 0, 0, r, g, b, 0, 0},
-        {1, 0, 0, r, g, b, 1, 0},
-        {1, 1, 0, r, g, b, 1, 1},
-        {0, 1, 0, r, g, b, 0, 1}};
-
-    mTextureShader.Use();
-
-    mTextureShader.Uniform1i("m_Sprite", 0); // Set m_Sprite to GL_TEXTURE0
-
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, pTexture);
-
-    const GLuint indexData[6] = {0, 1, 3, 3, 1, 2};
-    DrawTriangles(verts, 4, indexData, 6);
-
-    mTextureShader.UnUse();
 }
 
-
-void OpenGLRenderer::InitAttributes()
+void OpenGLRenderer::Clear(u8 /*r*/, u8 /*g*/, u8 /*b*/)
 {
-    // Tell GL how to transfer our Vertex struct to our shaders.
-    //glBindVertexArray(mVAO);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VertexData), 0);
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(VertexData), (s8*) NULL + 12);
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(VertexData), (s8*) NULL + 24);
-    glEnableVertexAttribArray(2);
-}
-
-void OpenGLRenderer::DrawTriangles(const VertexData* pVertData, s32 vertSize, const GLuint* pIndData, s32 indSize)
-{
-    // Set our new vectors
-    GL_VERIFY(glBindBuffer(GL_ARRAY_BUFFER, mVBO));
-    GL_VERIFY(glBufferData(GL_ARRAY_BUFFER, sizeof(VertexData) * vertSize, pVertData, GL_STATIC_DRAW));
-
-    GL_VERIFY(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO));
-    GL_VERIFY(glBufferData(GL_ELEMENT_ARRAY_BUFFER, indSize * sizeof(GLuint), pIndData, GL_STATIC_DRAW));
-
-    InitAttributes();
-
-    //Set index data and render
-    GL_VERIFY(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO));
-    GL_VERIFY(glDrawElements(GL_TRIANGLES, indSize, GL_UNSIGNED_INT, NULL));
-
-    if (mWireframe)
+    // hacky hot reload shaders
+    /* static s32 t = 999;
+    if (t >= 10)
     {
-        GL_VERIFY(glLineWidth(1.0f));
-        GL_VERIFY(glPolygonMode(GL_FRONT_AND_BACK, GL_LINE));
-        GL_VERIFY(glDrawElements(GL_TRIANGLES, indSize, GL_UNSIGNED_INT, NULL));
-        GL_VERIFY(glPolygonMode(GL_FRONT_AND_BACK, GL_FILL));
+        t = 0;
+        mTextureShader.LoadFromFile("shaders/texture.vsh", "shaders/texture.fsh");
+    }
+    t++;*/
+
+    static bool firstFrame = true;
+    if (!firstFrame)
+    {
+    }
+    else
+    {
+        firstFrame = false;
     }
 
-    GL_VERIFY(glDisableVertexAttribArray(0));
-    GL_VERIFY(glDisableVertexAttribArray(1));
-    GL_VERIFY(glDisableVertexAttribArray(2));
-}
+    // FIXME: Find out what we're actually meant to do in here, yes it's called
+    //        'Clear', but what are we clearing, and why? At the moment it does
+    //        nothing and yet no issues appear to arise? Is it dead Jim?
 
-void OpenGLRenderer::DrawLines(const VertexData* pVertData, s32 vertSize, const GLuint* pIndData, s32 indSize)
-{
-    // Set our new vectors
-    glBindBuffer(GL_ARRAY_BUFFER, mVBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(VertexData) * vertSize, pVertData, GL_STATIC_DRAW);
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indSize * sizeof(GLuint), pIndData, GL_STATIC_DRAW);
-
-    InitAttributes();
-
-    // TODO: Make lines scale with Window
-    glLineWidth(2.0f);
-
-    //Set index data and render
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO);
-    glDrawElements(GL_LINE_STRIP, indSize, GL_UNSIGNED_INT, NULL);
-
-    glDisableVertexAttribArray(0);
-    glDisableVertexAttribArray(1);
-    glDisableVertexAttribArray(2);
-}
-
-void OpenGLRenderer::DebugWindow()
-{
-    //ImGuiStyle& style = ImGui::GetStyle();
-    //ImGuiIO& io = ImGui::GetIO();
-
-    if (ImGui::BeginMainMenuBar())
-    {
-        if (ImGui::BeginMenu("Developer"))
-        {
-            if (ImGui::BeginMenu("Render Mode"))
-            {
-                if (ImGui::MenuItem("Normal"))
-                {
-                    mWireframe = false;
-                }
-                if (ImGui::MenuItem("Wireframe"))
-                {
-                    mWireframe = true;
-                }
-                ImGui::EndMenu();
-            }
-
-            if (ImGui::BeginMenu("Render Elements"))
-            {
-                ImGui::MenuItem("SPRT", nullptr, &gRenderEnable_SPRT);
-                ImGui::MenuItem("TILE", nullptr, &gRenderEnable_TILE);
-                ImGui::MenuItem("GAS", nullptr, &gRenderEnable_GAS);
-                ImGui::MenuItem("FT4", nullptr, &gRenderEnable_FT4);
-                ImGui::MenuItem("G4", nullptr, &gRenderEnable_G4);
-                ImGui::MenuItem("G3", nullptr, &gRenderEnable_G3);
-                ImGui::MenuItem("G2", nullptr, &gRenderEnable_G2);
-                ImGui::MenuItem("F4", nullptr, &gRenderEnable_F4);
-                ImGui::MenuItem("F3", nullptr, &gRenderEnable_F3);
-                ImGui::MenuItem("F2", nullptr, &gRenderEnable_F2);
-
-                ImGui::EndMenu();
-            }
-            ImGui::EndMenu();
-        }
-        ImGui::EndMainMenuBar();
-    }
-
-    //ImGui::ShowDemoWindow();
-    /*
-    if (ImGui::Begin("Texture Window", nullptr, ImGuiWindowFlags_MenuBar))
-    {
-        f32 widthSpace = ImGui::GetContentRegionAvailWidth();
-        f32 currentWidth = 0;
-        for (size_t i = 0; i < gRendererTextures.size(); i++)
-        {
-            f32 textureWidth = static_cast<f32>(gRendererTextures[i].mVramRect.w);
-            f32 textureHeight = static_cast<f32>(gRendererTextures[i].mVramRect.h);
-
-            ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
-            ImVec4 border_col = ImVec4(1.0f, 1.0f, 1.0f, 0.5f); // 50% opaque white
-
-            if (currentWidth >= widthSpace)
-                currentWidth = 0;
-            else
-                ImGui::SameLine();
-
-            ImGui::Image(GL_TO_IMGUI_TEX(gRendererTextures[i].mTextureID), {textureWidth, textureHeight});
-            ImVec2 pos = ImGui::GetCursorScreenPos();
-            if (ImGui::IsItemHovered())
-            {
-                ImGui::BeginTooltip();
-                ImGui::Text("%d, %d, %d, %d", gRendererTextures[i].mVramRect.x, gRendererTextures[i].mVramRect.y, gRendererTextures[i].mVramRect.w, gRendererTextures[i].mVramRect.h);
-                ImVec2 uv0 = ImVec2(0.0f, 0.0f);
-                ImVec2 uv1 = ImVec2(1.0f, 1.0f);
-                ImGui::Image(GL_TO_IMGUI_TEX(gRendererTextures[i].mTextureID), ImVec2(textureWidth * 4, textureHeight * 4), uv0, uv1, tint_col, border_col);
-                ImGui::EndTooltip();
-            }
-            ImVec2 imgSize = ImGui::GetItemRectSize();
-            currentWidth += imgSize.x + style.ItemSpacing.x;
-        }
-    }
-    ImGui::End();*/
-
-    /*
-    if (ImGui::Begin("Palettes", nullptr, ImGuiWindowFlags_MenuBar))
-    {
-        f32 width = ImGui::GetWindowContentRegionWidth();
-        for (auto& pal : gRendererPals)
-        {
-            ImGui::Image(GL_TO_IMGUI_TEX(pal.mPalTextureID), ImVec2(width, 16));
-        }
-    }
-    ImGui::End();
-    */
-
-    /*
-    if (ImGui::Begin("VRAM", nullptr, ImGuiWindowFlags_MenuBar))
-    {
-        ImVec2 pos = ImGui::GetWindowPos();
-
-        for (s32 i = 0; i < (1500 / 64); i++)
-        {
-            ImVec2 pos1Line = ImVec2(pos.x + (i * 64), pos.y);
-            ImVec2 pos2Line = ImVec2(pos.x + (i * 64), pos.y + 512);
-            ImGui::GetWindowDrawList()->AddLine(pos1Line, pos2Line, ImGui::GetColorU32(ImVec4(1.0f, 1.0f, 1.0f, 0.2f)));
-        }
-
-
-        for (size_t i = 0; i < gRendererTextures.size(); i++)
-        {
-            ImGui::SetCursorPos(ImVec2(static_cast<f32>(gRendererTextures[i].mVramRect.x), static_cast<f32>(gRendererTextures[i].mVramRect.y + 50)));
-            ImVec2 xpos = ImGui::GetCursorScreenPos();
-            f32 textureWidth = static_cast<f32>(gRendererTextures[i].mVramRect.w);
-            f32 textureHeight = static_cast<f32>(gRendererTextures[i].mVramRect.h);
-
-            ImVec2 size = ImVec2(xpos.x + textureWidth, xpos.y + textureHeight);
-            ImGui::Image(GL_TO_IMGUI_TEX(gRendererTextures[i].mTextureID), {textureWidth, textureHeight});
-            ImGui::GetWindowDrawList()->AddRect(xpos, size, ImGui::GetColorU32(ImVec4(1.0f, 1.0f, 1.0f, 0.3f)));
-        }
-        if (ImGui::IsWindowHovered())
-        {
-            ImGui::BeginTooltip();
-            ImGui::Text("%d, %d", (s32)(io.MousePos.x - pos.x), (s32)(io.MousePos.y - pos.y));
-            ImGui::EndTooltip();
-        }
-    }
-    ImGui::End();
-    */
-}
-
-void OpenGLRenderer::Destroy()
-{
-    ImGui_ImplSDL2_Shutdown();
-
-    mTextureShader.Free();
-
-    for (auto& t : gRendererTextures)
-    {
-        GL_VERIFY(glDeleteTextures(1, &t.mTextureID));
-    }
-
-    for (auto& t : gRendererPals)
-    {
-        GL_VERIFY(glDeleteTextures(1, &t.mPalTextureID));
-    }
-
-    GL_VERIFY(glDeleteTextures(1, &gCamTextureId));
-    GL_VERIFY(glDeleteTextures(1, &gOtherTextureId));
-    GL_VERIFY(glUseProgram(0));
-
-    if (mContext)
-    {
-        SDL_GL_DeleteContext(mContext);
-        mContext = nullptr;
-    }
+    //glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    //glClear(GL_COLOR_BUFFER_BIT);
 }
 
 bool OpenGLRenderer::Create(TWindowHandleType window)
@@ -559,174 +352,35 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
     return true;
 }
 
-void OpenGLRenderer::Clear(u8 /*r*/, u8 /*g*/, u8 /*b*/)
-{
-    // hacky hot reload shaders
-    /* static s32 t = 999;
-    if (t >= 10)
-    {
-        t = 0;
-        mTextureShader.LoadFromFile("shaders/texture.vsh", "shaders/texture.fsh");
-    }
-    t++;*/
-
-    static bool firstFrame = true;
-    if (!firstFrame)
-    {
-      
-    }
-    else
-    {
-        firstFrame = false;
-    }
-
-    // FIXME: Find out what we're actually meant to do in here, yes it's called
-    //        'Clear', but what are we clearing, and why? At the moment it does
-    //        nothing and yet no issues appear to arise? Is it dead Jim?
-
-    //glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    //glClear(GL_COLOR_BUFFER_BIT);
-}
-
-void OpenGLRenderer::StartFrame(s32 /*xOff*/, s32 /*yOff*/)
-{
-    mFrameStarted = true;
-
-    // Clear backing framebuffers
-    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId[GL_FRAMEBUFFER_PSX_SRC]));
-    GL_VERIFY(glClear(GL_COLOR_BUFFER_BIT));
-
-    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId[GL_FRAMEBUFFER_PSX_DST]));
-    GL_VERIFY(glClear(GL_COLOR_BUFFER_BIT));
-
-    // Always render to destination buffer (1)
-    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId[GL_FRAMEBUFFER_PSX_DST]));
-    GL_VERIFY(glViewport(0, 0, 640, 240));
-}
-
-// This function should free both vrams allocations AND palettes, cause theyre kinda the same thing.
-void OpenGLRenderer::PalFree(const PalRecord& record)
-{
-    Pal_free(PSX_Point{record.x, record.y}, record.depth); // TODO: Stop depending on this
-    
-    Renderer_FreePalette({
-        record.x,
-        record.y,
-    });
-    /*
-    Renderer_FreeTexture({
-        record.x,
-        record.y,
-    });*/
-}
-
-bool OpenGLRenderer::PalAlloc(PalRecord& record)
-{
-    PSX_RECT rect = {};
-    // TODO: Stop depending on this
-    const bool ret = Pal_Allocate(&rect, record.depth);
-    record.x = rect.x;
-    record.y = rect.y;
-    return ret;
-}
-
-void OpenGLRenderer::PalSetData(const PalRecord& record, const u8* pPixels)
-{
-    PSX_RECT rect = {};
-    rect.x = record.x;
-    rect.y = record.y;
-    rect.w = record.depth;
-    rect.h = 1;
-    Upload(IRenderer::BitDepth::e16Bit, rect, pPixels);
-}
-
-void OpenGLRenderer::EndFrame()
-{
-    if (!mFrameStarted)
-    {
-        return;
-    }
-
-    s32 wW, wH;
-    SDL_GetWindowSize(mWindow, &wW, &wH);
-    glViewport(0, 0, wW, wH);
-
-    // Draw the final composed framebuffer to the screen
-    DrawFramebufferToFramebuffer(
-        GL_FRAMEBUFFER_PSX_DST,
-        GL_FRAMEBUFFER_SCREEN);
-
-    // Switch back to the main frame buffer
-    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, 0));
-
-    // Do ImGui
-    ImGui_ImplOpenGL3_NewFrame();
-    ImGui_ImplSDL2_NewFrame(mWindow);
-    ImGui::NewFrame();
-
-    DebugWindow();
-
-    ImGui::Render();
-    ImGui::EndFrame();
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-    // Render end
-    SDL_GL_SwapWindow(mWindow);
-
-    mFrameStarted = false;
-}
-
-void OpenGLRenderer::BltBackBuffer(const SDL_Rect* /*pCopyRect*/, const SDL_Rect* /*pDst*/)
-{
-}
-
-void OpenGLRenderer::OutputSize(s32* w, s32* h)
-{
-    *w = 640;
-    *h = 480;
-    //SDL_GetRendererOutputSize(mRenderer, w, h);
-}
-
-bool OpenGLRenderer::UpdateBackBuffer(const void* /*pPixels*/, s32 /*pitch*/)
-{
-    return true;
-}
-
 void OpenGLRenderer::CreateBackBuffer(bool /*filter*/, s32 /*format*/, s32 /*w*/, s32 /*h*/)
 {
 }
 
-void OpenGLRenderer::SetClipDirect(s32 x, s32 y, s32 width, s32 height)
+void OpenGLRenderer::Destroy()
 {
-    mLastClip = glm::ivec4(x, y, width, height);
+    ImGui_ImplSDL2_Shutdown();
 
-    s32 w, h;
-    SDL_GetWindowSize(mWindow, &w, &h);
+    mTextureShader.Free();
 
-    if (width <= 1 && height <= 1)
+    for (auto& t : gRendererTextures)
     {
-        glDisable(GL_SCISSOR_TEST);
-        return;
+        GL_VERIFY(glDeleteTextures(1, &t.mTextureID));
     }
 
-    glEnable(GL_SCISSOR_TEST);
-    glScissor(static_cast<GLint>((x / 640.0f) * w),
-              static_cast<GLint>(((240 - y - height) / 240.0f) * h),
-              static_cast<GLsizei>((width / 640.0f) * w),
-              static_cast<GLsizei>((height / 240.0f) * h));
-}
+    for (auto& t : gRendererPals)
+    {
+        GL_VERIFY(glDeleteTextures(1, &t.mPalTextureID));
+    }
 
-void OpenGLRenderer::SetClip(Prim_PrimClipper& clipper)
-{
-    SetClipDirect(clipper.field_C_x, clipper.field_E_y, clipper.mBase.header.mRect.w, clipper.mBase.header.mRect.h);
-}
+    GL_VERIFY(glDeleteTextures(1, &gCamTextureId));
+    GL_VERIFY(glDeleteTextures(1, &gOtherTextureId));
+    GL_VERIFY(glUseProgram(0));
 
-void OpenGLRenderer::SetScreenOffset(Prim_ScreenOffset& offset)
-{
-    m_View = glm::ortho<f32>(static_cast<f32>(offset.field_C_xoff),
-                             static_cast<f32>(640 + offset.field_C_xoff),
-                             static_cast<f32>(240 + offset.field_E_yoff),
-                             static_cast<f32>(offset.field_E_yoff), 0.0f, 1.0f);
+    if (mContext)
+    {
+        SDL_GL_DeleteContext(mContext);
+        mContext = nullptr;
+    }
 }
 
 void OpenGLRenderer::Draw(Prim_Sprt& /*sprt*/)
@@ -1052,7 +706,7 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     mTextureShader.Uniform1i("texFramebufferData", 2); // Set texFramebufferData to GL_TEXTURE2
 
     bool isSemiTrans = (poly.mBase.header.rgb_code.code_or_pad & 2) > 0;
-    bool isShaded   = (poly.mBase.header.rgb_code.code_or_pad & 1) == 0;
+    bool isShaded = (poly.mBase.header.rgb_code.code_or_pad & 1) == 0;
 
     mTextureShader.Uniform1i("fsIsSemiTrans", isSemiTrans);
     mTextureShader.Uniform1i("fsIsShaded", isShaded);
@@ -1100,8 +754,8 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
         GL_VERIFY(glBindTexture(GL_TEXTURE_2D, gOtherTextureId));
 
         Renderer_BindPalette(poly.mAnim->mAnimRes.mTgaPtr->mPal);
-        
-        
+
+
         const PerFrameInfo* pHeader = poly.mAnim->Get_FrameHeader(-1);
 
         std::shared_ptr<TgaData> pTga = poly.mAnim->mAnimRes.mTgaPtr;
@@ -1179,11 +833,124 @@ void OpenGLRenderer::Draw(Poly_G4& /*poly*/)
     */
 }
 
+void OpenGLRenderer::EndFrame()
+{
+    if (!mFrameStarted)
+    {
+        return;
+    }
+
+    s32 wW, wH;
+    SDL_GetWindowSize(mWindow, &wW, &wH);
+    glViewport(0, 0, wW, wH);
+
+    // Draw the final composed framebuffer to the screen
+    DrawFramebufferToFramebuffer(
+        GL_FRAMEBUFFER_PSX_DST,
+        GL_FRAMEBUFFER_SCREEN);
+
+    // Switch back to the main frame buffer
+    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, 0));
+
+    // Do ImGui
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplSDL2_NewFrame(mWindow);
+    ImGui::NewFrame();
+
+    DebugWindow();
+
+    ImGui::Render();
+    ImGui::EndFrame();
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+    // Render end
+    SDL_GL_SwapWindow(mWindow);
+
+    mFrameStarted = false;
+}
+
+void OpenGLRenderer::OutputSize(s32* w, s32* h)
+{
+    *w = 640;
+    *h = 480;
+    //SDL_GetRendererOutputSize(mRenderer, w, h);
+}
+
+bool OpenGLRenderer::PalAlloc(PalRecord& record)
+{
+    PSX_RECT rect = {};
+    // TODO: Stop depending on this
+    const bool ret = Pal_Allocate(&rect, record.depth);
+    record.x = rect.x;
+    record.y = rect.y;
+    return ret;
+}
+
+// This function should free both vrams allocations AND palettes, cause theyre kinda the same thing.
+void OpenGLRenderer::PalFree(const PalRecord& record)
+{
+    Pal_free(PSX_Point{record.x, record.y}, record.depth); // TODO: Stop depending on this
+
+    Renderer_FreePalette({
+        record.x,
+        record.y,
+    });
+    /*
+    Renderer_FreeTexture({
+        record.x,
+        record.y,
+    });*/
+}
+
+void OpenGLRenderer::PalSetData(const PalRecord& record, const u8* pPixels)
+{
+    PSX_RECT rect = {};
+    rect.x = record.x;
+    rect.y = record.y;
+    rect.w = record.depth;
+    rect.h = 1;
+    Upload(IRenderer::BitDepth::e16Bit, rect, pPixels);
+}
+
+void OpenGLRenderer::SetClip(Prim_PrimClipper& clipper)
+{
+    SetClipDirect(clipper.field_C_x, clipper.field_E_y, clipper.mBase.header.mRect.w, clipper.mBase.header.mRect.h);
+}
+
+void OpenGLRenderer::SetScreenOffset(Prim_ScreenOffset& offset)
+{
+    m_View = glm::ortho<f32>(static_cast<f32>(offset.field_C_xoff),
+                             static_cast<f32>(640 + offset.field_C_xoff),
+                             static_cast<f32>(240 + offset.field_E_yoff),
+                             static_cast<f32>(offset.field_E_yoff), 0.0f, 1.0f);
+}
+
 void OpenGLRenderer::SetTPage(s16 /*tPage*/)
 {
     // FIXME: Is this even needed in the API? The TPage wasn't being set anyway
     //        so this would've been useless - we're handling tpage stuff in
     //        Draw Poly_FT4 now
+}
+
+void OpenGLRenderer::StartFrame(s32 /*xOff*/, s32 /*yOff*/)
+{
+    mFrameStarted = true;
+
+    // Clear backing framebuffers
+    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId[GL_FRAMEBUFFER_PSX_SRC]));
+    GL_VERIFY(glClear(GL_COLOR_BUFFER_BIT));
+
+    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId[GL_FRAMEBUFFER_PSX_DST]));
+    GL_VERIFY(glClear(GL_COLOR_BUFFER_BIT));
+
+    // Always render to destination buffer (1)
+    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId[GL_FRAMEBUFFER_PSX_DST]));
+    GL_VERIFY(glViewport(0, 0, 640, 240));
+}
+
+bool OpenGLRenderer::UpdateBackBuffer(const void* /*pPixels*/, s32 /*pitch*/)
+{
+    return true;
 }
 
 void OpenGLRenderer::Upload(BitDepth /*bitDepth*/, const PSX_RECT& /*rect*/, const u8* /*pPixels*/)
@@ -1274,7 +1041,6 @@ void OpenGLRenderer::Upload(BitDepth /*bitDepth*/, const PSX_RECT& /*rect*/, con
             ALIVE_FATAL("unknown bit depth");
             break;
     }*/
-
 }
 
 
@@ -1286,8 +1052,7 @@ void OpenGLRenderer::CompleteDraw()
     // framebuffer ready for the next draw call to use
     DrawFramebufferToFramebuffer(
         GL_FRAMEBUFFER_PSX_DST,
-        GL_FRAMEBUFFER_PSX_SRC
-    );
+        GL_FRAMEBUFFER_PSX_SRC);
 }
 
 void OpenGLRenderer::DrawFramebufferToFramebuffer(int src, int dst)
@@ -1302,8 +1067,7 @@ void OpenGLRenderer::DrawFramebufferToFramebuffer(int src, int dst)
         0,
         0,
         GL_FRAMEBUFFER_PSX_WIDTH,
-        GL_FRAMEBUFFER_PSX_HEIGHT
-    );
+        GL_FRAMEBUFFER_PSX_HEIGHT);
 }
 
 void OpenGLRenderer::DrawFramebufferToFramebuffer(int src, int dst, s32 x, s32 y, s32 width, s32 height, s32 clipX, s32 clipY, s32 clipWidth, s32 clipHeight)
@@ -1312,7 +1076,7 @@ void OpenGLRenderer::DrawFramebufferToFramebuffer(int src, int dst, s32 x, s32 y
     {
         ALIVE_FATAL("OpenGL: Cannot use the screen as the framebuffer source.");
     }
-    
+
     // Retrieve the source framebuffer texture and destination framebuffer IDs
     GLuint srcFramebufferTexId = mPsxFramebufferTexId[src];
     GLuint dstFramebufferId = dst == GL_FRAMEBUFFER_SCREEN ? 0 : mPsxFramebufferId[dst];
@@ -1322,23 +1086,21 @@ void OpenGLRenderer::DrawFramebufferToFramebuffer(int src, int dst, s32 x, s32 y
     GLuint uvVboId = 0;
 
     GLfloat drawVertices[] = {
-        (f32) x,          (f32) y,
-        (f32) x,          (f32)(y + height),
-        (f32)(x + width), (f32) y,
+        (f32) x, (f32) y,
+        (f32) x, (f32) (y + height),
+        (f32) (x + width), (f32) y,
 
-        (f32)(x + width), (f32) y,
-        (f32) x,          (f32)(y + height),
-        (f32)(x + width), (f32)(y + height)
-    };
+        (f32) (x + width), (f32) y,
+        (f32) x, (f32) (y + height),
+        (f32) (x + width), (f32) (y + height)};
     GLfloat uvVertices[] = {
-        (f32) clipX,              (f32)(clipY + clipHeight),
-        (f32) clipX,              (f32) clipY,
-        (f32)(clipX + clipWidth), (f32)(clipY + clipHeight),
+        (f32) clipX, (f32) (clipY + clipHeight),
+        (f32) clipX, (f32) clipY,
+        (f32) (clipX + clipWidth), (f32) (clipY + clipHeight),
 
-        (f32)(clipX + clipWidth), (f32)(clipY + clipHeight),
-        (f32) clipX,              (f32) clipY,
-        (f32)(clipX + clipWidth), (f32) clipY
-    };
+        (f32) (clipX + clipWidth), (f32) (clipY + clipHeight),
+        (f32) clipX, (f32) clipY,
+        (f32) (clipX + clipWidth), (f32) clipY};
 
     GL_VERIFY(glGenBuffers(1, &drawVboId));
     GL_VERIFY(glBindBuffer(GL_ARRAY_BUFFER, drawVboId));
@@ -1347,9 +1109,7 @@ void OpenGLRenderer::DrawFramebufferToFramebuffer(int src, int dst, s32 x, s32 y
             GL_ARRAY_BUFFER,
             sizeof(drawVertices),
             drawVertices,
-            GL_STREAM_DRAW
-        )
-    );
+            GL_STREAM_DRAW));
 
     GL_VERIFY(glGenBuffers(1, &uvVboId));
     GL_VERIFY(glBindBuffer(GL_ARRAY_BUFFER, uvVboId));
@@ -1358,9 +1118,7 @@ void OpenGLRenderer::DrawFramebufferToFramebuffer(int src, int dst, s32 x, s32 y
             GL_ARRAY_BUFFER,
             sizeof(uvVertices),
             uvVertices,
-            GL_STREAM_DRAW
-        )
-    );
+            GL_STREAM_DRAW));
 
     // Bind framebuffers and draw
     mPassthruShader.Use();
@@ -1418,3 +1176,251 @@ void OpenGLRenderer::InitPsxFramebuffer(int index)
     GLenum fbTargets[1] = {GL_COLOR_ATTACHMENT0};
     GL_VERIFY(glDrawBuffers(1, fbTargets));
 }
+
+// END ROZZA FRAMEBUFFER STUFF
+
+
+void OpenGLRenderer::DebugWindow()
+{
+    //ImGuiStyle& style = ImGui::GetStyle();
+    //ImGuiIO& io = ImGui::GetIO();
+
+    if (ImGui::BeginMainMenuBar())
+    {
+        if (ImGui::BeginMenu("Developer"))
+        {
+            if (ImGui::BeginMenu("Render Mode"))
+            {
+                if (ImGui::MenuItem("Normal"))
+                {
+                    mWireframe = false;
+                }
+                if (ImGui::MenuItem("Wireframe"))
+                {
+                    mWireframe = true;
+                }
+                ImGui::EndMenu();
+            }
+
+            if (ImGui::BeginMenu("Render Elements"))
+            {
+                ImGui::MenuItem("SPRT", nullptr, &gRenderEnable_SPRT);
+                ImGui::MenuItem("TILE", nullptr, &gRenderEnable_TILE);
+                ImGui::MenuItem("GAS", nullptr, &gRenderEnable_GAS);
+                ImGui::MenuItem("FT4", nullptr, &gRenderEnable_FT4);
+                ImGui::MenuItem("G4", nullptr, &gRenderEnable_G4);
+                ImGui::MenuItem("G3", nullptr, &gRenderEnable_G3);
+                ImGui::MenuItem("G2", nullptr, &gRenderEnable_G2);
+                ImGui::MenuItem("F4", nullptr, &gRenderEnable_F4);
+                ImGui::MenuItem("F3", nullptr, &gRenderEnable_F3);
+                ImGui::MenuItem("F2", nullptr, &gRenderEnable_F2);
+
+                ImGui::EndMenu();
+            }
+            ImGui::EndMenu();
+        }
+        ImGui::EndMainMenuBar();
+    }
+
+    //ImGui::ShowDemoWindow();
+    /*
+    if (ImGui::Begin("Texture Window", nullptr, ImGuiWindowFlags_MenuBar))
+    {
+        f32 widthSpace = ImGui::GetContentRegionAvailWidth();
+        f32 currentWidth = 0;
+        for (size_t i = 0; i < gRendererTextures.size(); i++)
+        {
+            f32 textureWidth = static_cast<f32>(gRendererTextures[i].mVramRect.w);
+            f32 textureHeight = static_cast<f32>(gRendererTextures[i].mVramRect.h);
+
+            ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
+            ImVec4 border_col = ImVec4(1.0f, 1.0f, 1.0f, 0.5f); // 50% opaque white
+
+            if (currentWidth >= widthSpace)
+                currentWidth = 0;
+            else
+                ImGui::SameLine();
+
+            ImGui::Image(GL_TO_IMGUI_TEX(gRendererTextures[i].mTextureID), {textureWidth, textureHeight});
+            ImVec2 pos = ImGui::GetCursorScreenPos();
+            if (ImGui::IsItemHovered())
+            {
+                ImGui::BeginTooltip();
+                ImGui::Text("%d, %d, %d, %d", gRendererTextures[i].mVramRect.x, gRendererTextures[i].mVramRect.y, gRendererTextures[i].mVramRect.w, gRendererTextures[i].mVramRect.h);
+                ImVec2 uv0 = ImVec2(0.0f, 0.0f);
+                ImVec2 uv1 = ImVec2(1.0f, 1.0f);
+                ImGui::Image(GL_TO_IMGUI_TEX(gRendererTextures[i].mTextureID), ImVec2(textureWidth * 4, textureHeight * 4), uv0, uv1, tint_col, border_col);
+                ImGui::EndTooltip();
+            }
+            ImVec2 imgSize = ImGui::GetItemRectSize();
+            currentWidth += imgSize.x + style.ItemSpacing.x;
+        }
+    }
+    ImGui::End();*/
+
+    /*
+    if (ImGui::Begin("Palettes", nullptr, ImGuiWindowFlags_MenuBar))
+    {
+        f32 width = ImGui::GetWindowContentRegionWidth();
+        for (auto& pal : gRendererPals)
+        {
+            ImGui::Image(GL_TO_IMGUI_TEX(pal.mPalTextureID), ImVec2(width, 16));
+        }
+    }
+    ImGui::End();
+    */
+
+    /*
+    if (ImGui::Begin("VRAM", nullptr, ImGuiWindowFlags_MenuBar))
+    {
+        ImVec2 pos = ImGui::GetWindowPos();
+
+        for (s32 i = 0; i < (1500 / 64); i++)
+        {
+            ImVec2 pos1Line = ImVec2(pos.x + (i * 64), pos.y);
+            ImVec2 pos2Line = ImVec2(pos.x + (i * 64), pos.y + 512);
+            ImGui::GetWindowDrawList()->AddLine(pos1Line, pos2Line, ImGui::GetColorU32(ImVec4(1.0f, 1.0f, 1.0f, 0.2f)));
+        }
+
+
+        for (size_t i = 0; i < gRendererTextures.size(); i++)
+        {
+            ImGui::SetCursorPos(ImVec2(static_cast<f32>(gRendererTextures[i].mVramRect.x), static_cast<f32>(gRendererTextures[i].mVramRect.y + 50)));
+            ImVec2 xpos = ImGui::GetCursorScreenPos();
+            f32 textureWidth = static_cast<f32>(gRendererTextures[i].mVramRect.w);
+            f32 textureHeight = static_cast<f32>(gRendererTextures[i].mVramRect.h);
+
+            ImVec2 size = ImVec2(xpos.x + textureWidth, xpos.y + textureHeight);
+            ImGui::Image(GL_TO_IMGUI_TEX(gRendererTextures[i].mTextureID), {textureWidth, textureHeight});
+            ImGui::GetWindowDrawList()->AddRect(xpos, size, ImGui::GetColorU32(ImVec4(1.0f, 1.0f, 1.0f, 0.3f)));
+        }
+        if (ImGui::IsWindowHovered())
+        {
+            ImGui::BeginTooltip();
+            ImGui::Text("%d, %d", (s32)(io.MousePos.x - pos.x), (s32)(io.MousePos.y - pos.y));
+            ImGui::EndTooltip();
+        }
+    }
+    ImGui::End();
+    */
+}
+
+void OpenGLRenderer::InitAttributes()
+{
+    // Tell GL how to transfer our Vertex struct to our shaders.
+    //glBindVertexArray(mVAO);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VertexData), 0);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(VertexData), (s8*) NULL + 12);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(VertexData), (s8*) NULL + 24);
+    glEnableVertexAttribArray(2);
+}
+
+void OpenGLRenderer::DrawLines(const VertexData* pVertData, s32 vertSize, const GLuint* pIndData, s32 indSize)
+{
+    // Set our new vectors
+    glBindBuffer(GL_ARRAY_BUFFER, mVBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(VertexData) * vertSize, pVertData, GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indSize * sizeof(GLuint), pIndData, GL_STATIC_DRAW);
+
+    InitAttributes();
+
+    // TODO: Make lines scale with Window
+    glLineWidth(2.0f);
+
+    //Set index data and render
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO);
+    glDrawElements(GL_LINE_STRIP, indSize, GL_UNSIGNED_INT, NULL);
+
+    glDisableVertexAttribArray(0);
+    glDisableVertexAttribArray(1);
+    glDisableVertexAttribArray(2);
+}
+
+void OpenGLRenderer::DrawTexture(GLuint pTexture, f32 /*x*/, f32 /*y*/, f32 /*width*/, f32 /*height*/)
+{
+    const f32 r = 1.0f;
+    const f32 g = 1.0f;
+    const f32 b = 1.0f;
+
+    const VertexData verts[4] = {
+        {0, 0, 0, r, g, b, 0, 0},
+        {1, 0, 0, r, g, b, 1, 0},
+        {1, 1, 0, r, g, b, 1, 1},
+        {0, 1, 0, r, g, b, 0, 1}};
+
+    mTextureShader.Use();
+
+    mTextureShader.Uniform1i("m_Sprite", 0); // Set m_Sprite to GL_TEXTURE0
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, pTexture);
+
+    const GLuint indexData[6] = {0, 1, 3, 3, 1, 2};
+    DrawTriangles(verts, 4, indexData, 6);
+
+    mTextureShader.UnUse();
+}
+
+void OpenGLRenderer::DrawTriangles(const VertexData* pVertData, s32 vertSize, const GLuint* pIndData, s32 indSize)
+{
+    // Set our new vectors
+    GL_VERIFY(glBindBuffer(GL_ARRAY_BUFFER, mVBO));
+    GL_VERIFY(glBufferData(GL_ARRAY_BUFFER, sizeof(VertexData) * vertSize, pVertData, GL_STATIC_DRAW));
+
+    GL_VERIFY(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO));
+    GL_VERIFY(glBufferData(GL_ELEMENT_ARRAY_BUFFER, indSize * sizeof(GLuint), pIndData, GL_STATIC_DRAW));
+
+    InitAttributes();
+
+    //Set index data and render
+    GL_VERIFY(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO));
+    GL_VERIFY(glDrawElements(GL_TRIANGLES, indSize, GL_UNSIGNED_INT, NULL));
+
+    if (mWireframe)
+    {
+        GL_VERIFY(glLineWidth(1.0f));
+        GL_VERIFY(glPolygonMode(GL_FRONT_AND_BACK, GL_LINE));
+        GL_VERIFY(glDrawElements(GL_TRIANGLES, indSize, GL_UNSIGNED_INT, NULL));
+        GL_VERIFY(glPolygonMode(GL_FRONT_AND_BACK, GL_FILL));
+    }
+
+    GL_VERIFY(glDisableVertexAttribArray(0));
+    GL_VERIFY(glDisableVertexAttribArray(1));
+    GL_VERIFY(glDisableVertexAttribArray(2));
+}
+
+void OpenGLRenderer::SetClipDirect(s32 x, s32 y, s32 width, s32 height)
+{
+    mLastClip = glm::ivec4(x, y, width, height);
+
+    s32 w, h;
+    SDL_GetWindowSize(mWindow, &w, &h);
+
+    if (width <= 1 && height <= 1)
+    {
+        glDisable(GL_SCISSOR_TEST);
+        return;
+    }
+
+    glEnable(GL_SCISSOR_TEST);
+    glScissor(static_cast<GLint>((x / 640.0f) * w),
+              static_cast<GLint>(((240 - y - height) / 240.0f) * h),
+              static_cast<GLsizei>((width / 640.0f) * w),
+              static_cast<GLsizei>((height / 240.0f) * h));
+}
+
+
+
+
+
+
+
+
+
+
+
+
