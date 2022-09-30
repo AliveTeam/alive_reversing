@@ -847,7 +847,15 @@ void OpenGLRenderer::EndFrame()
     // Draw the final composed framebuffer to the screen
     DrawFramebufferToFramebuffer(
         GL_FRAMEBUFFER_PSX_DST,
-        GL_FRAMEBUFFER_SCREEN);
+        GL_FRAMEBUFFER_SCREEN,
+        mScreenOffsetX,
+        mScreenOffsetY,
+        GL_FRAMEBUFFER_PSX_WIDTH,
+        GL_FRAMEBUFFER_PSX_HEIGHT,
+        0,
+        0,
+        GL_FRAMEBUFFER_PSX_WIDTH,
+        GL_FRAMEBUFFER_PSX_HEIGHT);
 
     // Switch back to the main frame buffer
     GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, 0));
@@ -919,10 +927,8 @@ void OpenGLRenderer::SetClip(Prim_PrimClipper& clipper)
 
 void OpenGLRenderer::SetScreenOffset(Prim_ScreenOffset& offset)
 {
-    m_View = glm::ortho<f32>(static_cast<f32>(offset.field_C_xoff),
-                             static_cast<f32>(640 + offset.field_C_xoff),
-                             static_cast<f32>(240 + offset.field_E_yoff),
-                             static_cast<f32>(offset.field_E_yoff), 0.0f, 1.0f);
+    mScreenOffsetX = (s32) offset.field_C_xoff;
+    mScreenOffsetY = (s32) offset.field_E_yoff;
 }
 
 void OpenGLRenderer::SetTPage(s16 /*tPage*/)
@@ -932,9 +938,12 @@ void OpenGLRenderer::SetTPage(s16 /*tPage*/)
     //        Draw Poly_FT4 now
 }
 
-void OpenGLRenderer::StartFrame(s32 /*xOff*/, s32 /*yOff*/)
+void OpenGLRenderer::StartFrame(s32 xOff, s32 yOff)
 {
     mFrameStarted = true;
+
+    mScreenOffsetX = xOff;
+    mScreenOffsetY = yOff;
 
     // Clear backing framebuffers
     GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId[GL_FRAMEBUFFER_PSX_SRC]));

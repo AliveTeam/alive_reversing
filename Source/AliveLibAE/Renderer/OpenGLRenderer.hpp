@@ -90,6 +90,9 @@ private:
     GLuint mPsxFramebufferId[2];
     GLuint mPsxFramebufferTexId[2];
 
+    s32 mScreenOffsetX;
+    s32 mScreenOffsetY;
+
     void CompleteDraw();
     void DrawFramebufferToFramebuffer(int src, int dst);
     void DrawFramebufferToFramebuffer(int src, int dst, s32 x, s32 y, s32 width, s32 height, s32 clipX, s32 clipY, s32 clipWidth, s32 clipHeight);
