@@ -93,7 +93,7 @@ static void Renderer_DecodePalette(const u8* srcPalData, RGBAPixel* dst, s32 pal
 
 
 
-static void Renderer_BindPalette(AnimationPal& pCache)
+void OpenGLRenderer::Renderer_BindPalette(AnimationPal& pCache)
 {
     if (gPalTextureID == 0)
     {
@@ -108,6 +108,8 @@ static void Renderer_BindPalette(AnimationPal& pCache)
     GL_VERIFY(glBindTexture(GL_TEXTURE_2D, gPalTextureID));
 
     GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 256, 1, 0, GL_RGBA, GL_UNSIGNED_BYTE, dst));
+
+    mStats.mPalUploadCount++;
 }
 
 /*

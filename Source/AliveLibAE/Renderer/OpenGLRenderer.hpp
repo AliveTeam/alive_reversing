@@ -129,6 +129,8 @@ private:
     void DrawFramebufferToFramebuffer(int src, int dst, s32 x, s32 y, s32 width, s32 height, s32 clipX, s32 clipY, s32 clipWidth, s32 clipHeight);
     u32 GetTPageBlendMode(u16 tPage);
     void InitPsxFramebuffer(int index);
+    
+    void Renderer_BindPalette(AnimationPal& pCache);
 
     u32 PrepareTextureFromPoly(Poly_FT4& poly);
     void FreeUnloadedAnimTextures();
