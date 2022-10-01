@@ -241,6 +241,8 @@ void main()
 {
     gl_Position.x = ((vsPos.x / 640) * 2) - 1;
     gl_Position.y = (1 - ((vsPos.y / 240) * 2));
+    gl_Position.z = 0.0;
+    gl_Position.w = 1.0;
 
     // Pass-thru
     fsUV = vsUV / vsTexSize;
@@ -279,6 +281,8 @@ void main()
 {
     gl_Position.x = ((vsPos.x / 640) * 2) - 1;
     gl_Position.y = (1 - ((vsPos.y / 240) * 2));
+    gl_Position.z = 0.0;
+    gl_Position.w = 1.0;
     
     fsShadeColor = vsShadeColor;
     fsUV = vsUV;
