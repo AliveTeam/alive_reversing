@@ -119,10 +119,10 @@ private:
 
     TextureAndUniqueResId mCamTexture;
     TextureAndUniqueResId mFg1Texture; // TODO: should probably be 4 of these
-    TextureAndUniqueResId mFontTexture; 
+    TextureAndUniqueResId mFontTexture;
 
-    s32 mScreenOffsetX;
-    s32 mScreenOffsetY;
+    s32 mScreenOffsetX = 0;
+    s32 mScreenOffsetY = 0;
 
     void CompleteDraw();
     void DrawFramebufferToFramebuffer(int src, int dst);

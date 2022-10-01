@@ -347,6 +347,8 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
         }
     }
 
+    glewExperimental = GL_TRUE;
+
     // Initialize GLEW
     GLenum glewError = glewInit();
 
