@@ -15,6 +15,9 @@
 
 #include <lodepng/lodepng.h>
 
+u32 UniqueResId::mGlobalId = 1;
+
+
 std::map<AnimId, std::pair<std::weak_ptr<AnimationAttributesAndFrames>, std::weak_ptr<TgaData>>> ResourceManagerWrapper::mAnims;
 
     s16 ResourceManagerWrapper::FreeResource(u8** ppRes)
@@ -260,19 +263,19 @@ Fg1Resource ResourceManagerWrapper::LoadFg1(EReliveLevelIds lvlId, u32 pathNumbe
             std::string s = fg1File;
             if (s.find("fg_well") != std::string::npos)
             {
-                newRes.mFgWell = LoadPng(filePath.GetPath() + "fg_well.png");
+                newRes.mFgWell.mImage = LoadPng(filePath.GetPath() + "fg_well.png");
             }
             else if (s.find("bg_well") != std::string::npos)
             {
-                newRes.mBgWell = LoadPng(filePath.GetPath() + "bg_well.png");
+                newRes.mBgWell.mImage = LoadPng(filePath.GetPath() + "bg_well.png");
             }
             else if (s.find("fg") != std::string::npos)
             {
-                newRes.mFg = LoadPng(filePath.GetPath() + "fg.png");
+                newRes.mFg.mImage = LoadPng(filePath.GetPath() + "fg.png");
             }
             else if (s.find("bg") != std::string::npos)
             {
-                newRes.mBg = LoadPng(filePath.GetPath() + "bg.png");
+                newRes.mBg.mImage = LoadPng(filePath.GetPath() + "bg.png");
             }
         }
     }

@@ -574,17 +574,17 @@ void SoftwareRenderer::Draw(Poly_FT4& poly)
     }
     else if (poly.mFg1)
     {
-        pTexture = SDL_CreateTexture(mRenderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STREAMING, poly.mFg1->mWidth, poly.mFg1->mHeight);
+        pTexture = SDL_CreateTexture(mRenderer, SDL_PIXELFORMAT_ABGR8888, SDL_TEXTUREACCESS_STREAMING, poly.mFg1->mImage.mWidth, poly.mFg1->mImage.mHeight);
         void* pixels = nullptr;
         s32 pitch = 0;
         SDL_LockTexture(pTexture, nullptr, &pixels, &pitch);
 
-        const u32* pFg1Src = reinterpret_cast<const u32*>(poly.mFg1->mPixels->data());
+        const u32* pFg1Src = reinterpret_cast<const u32*>(poly.mFg1->mImage.mPixels->data());
         const u32* pCamSrc = reinterpret_cast<const u32*>(poly.mCam->mData.mPixels->data());
         
-        for (u32 y = 0; y < poly.mFg1->mHeight; y++)
+        for (u32 y = 0; y < poly.mFg1->mImage.mHeight; y++)
         {
-            for (u32 x = 0; x < poly.mFg1->mWidth; x++)
+            for (u32 x = 0; x < poly.mFg1->mImage.mWidth; x++)
             {
                 Uint8* target_pixel = (Uint8*) pixels + y * pitch + x * sizeof(u32);
                 if (*pFg1Src != 0xFF000000)

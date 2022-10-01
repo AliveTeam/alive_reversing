@@ -30,9 +30,6 @@
 #define GL_FRAMEBUFFER_PSX_WIDTH  640
 #define GL_FRAMEBUFFER_PSX_HEIGHT 240
 
-//static std::vector<TextureCache> gRendererTextures;
-//static std::vector<PaletteCache> gRendererPals;
-
 
 static int gPalTextureID = 0;
 
@@ -132,42 +129,67 @@ u32 OpenGLRenderer::PrepareTextureFromPoly(Poly_FT4& poly)
 
     if (poly.mFg1)
     {
-        if (!mFg1Texture)
+        if (poly.mFg1->mUniqueId.Id() != mFg1Texture.mUniqueResId)
         {
-            mFg1Texture = Renderer_CreateTexture();
+            mFg1Texture.mUniqueResId = poly.mFg1->mUniqueId.Id();
+
+            if (!mFg1Texture.mTextureId)
+            {
+                mFg1Texture.mTextureId = Renderer_CreateTexture();
+            }
+
+            mStats.mFg1UploadCount++;
+
+            GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mFg1Texture.mTextureId));
+            GL_VERIFY(glPixelStorei(GL_UNPACK_ALIGNMENT, 4));
+            GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, poly.mFg1->mImage.mWidth, poly.mFg1->mImage.mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, poly.mFg1->mImage.mPixels->data()));
         }
-        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mFg1Texture));
-        GL_VERIFY(glPixelStorei(GL_UNPACK_ALIGNMENT, 4));
-        GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, poly.mFg1->mWidth, poly.mFg1->mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, poly.mFg1->mPixels->data()));
-        return mFg1Texture;
+        return mFg1Texture.mTextureId;
     }
     else if (poly.mCam)
     {
-        if (!mCamTexture)
+        if (poly.mCam->mUniqueId.Id() != mCamTexture.mUniqueResId)
         {
-            mCamTexture = Renderer_CreateTexture();
+            mCamTexture.mUniqueResId = poly.mCam->mUniqueId.Id();
+
+            if (!mCamTexture.mTextureId)
+            {
+                mCamTexture.mTextureId = Renderer_CreateTexture();
+            }
+
+            mStats.mCamUploadCount++;
+
+            GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mCamTexture.mTextureId));
+            GL_VERIFY(glPixelStorei(GL_UNPACK_ALIGNMENT, 4));
+            GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, poly.mCam->mData.mWidth, poly.mCam->mData.mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, poly.mCam->mData.mPixels->data()));
         }
-        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mCamTexture));
-        GL_VERIFY(glPixelStorei(GL_UNPACK_ALIGNMENT, 4));
-        GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, poly.mCam->mData.mWidth, poly.mCam->mData.mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, poly.mCam->mData.mPixels->data()));
-        return mCamTexture;
+        return mCamTexture.mTextureId;
     }
     else if (poly.mAnim)
     {
         AnimResource& r = poly.mAnim->mAnimRes;
 
-        auto it = mTextureCache.find(r.mId);
+        auto it = mTextureCache.find(r.mUniqueId.Id());
         u32 textureId = 0;
         bool uploadPixels = false;
         if (it == std::end(mTextureCache))
         {
             textureId = Renderer_CreateTexture();
-            mTextureCache[r.mId] = std::make_pair(textureId, r.mTgaPtr);
+            LastUsedFrame tmp;
+            tmp.mLastUsedFrame = mFrameNumber;
+            tmp.mTextureId = textureId;
+            mTextureCache[r.mUniqueId.Id()] = tmp;
             uploadPixels = true;
         }
         else
         {
-            textureId = it->second.first;
+            textureId = it->second.mTextureId;
+
+            // Update the last used frame to keep the texture alive a bit longer
+            LastUsedFrame tmp;
+            tmp.mLastUsedFrame = mFrameNumber;
+            tmp.mTextureId = textureId;
+            mTextureCache[r.mUniqueId.Id()] = tmp;
         }
 
         GL_VERIFY(glBindTexture(GL_TEXTURE_2D, textureId));
@@ -176,23 +198,32 @@ u32 OpenGLRenderer::PrepareTextureFromPoly(Poly_FT4& poly)
         {
             GL_VERIFY(glPixelStorei(GL_UNPACK_ALIGNMENT, 1));
             GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, r.mTgaPtr->mWidth, r.mTgaPtr->mHeight, 0, GL_RED, GL_UNSIGNED_BYTE, r.mTgaPtr->mPixels.data()));
+
+            mStats.mAnimUploadCount++;
         }
 
         return textureId;
     }
     else if (poly.mFont)
     {
-        std::shared_ptr<TgaData> pTga = poly.mFont->field_C_resource_id.mTgaPtr;
-
-        if (!mFontTexture)
+        if (poly.mFont->field_C_resource_id.mUniqueId.Id() != mFontTexture.mUniqueResId)
         {
-            mFontTexture = Renderer_CreateTexture();
-        }
+            mFontTexture.mUniqueResId = poly.mFont->field_C_resource_id.mUniqueId.Id();
 
-        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mFontTexture));
-        GL_VERIFY(glPixelStorei(GL_UNPACK_ALIGNMENT, 1));
-        GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, pTga->mWidth, pTga->mHeight, 0, GL_RED, GL_UNSIGNED_BYTE, pTga->mPixels.data()));
-        return mFontTexture;
+            std::shared_ptr<TgaData> pTga = poly.mFont->field_C_resource_id.mTgaPtr;
+
+            if (!mFontTexture.mTextureId)
+            {
+                mFontTexture.mTextureId = Renderer_CreateTexture();
+            }
+
+            mStats.mFontUploadCount++;
+
+            GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mFontTexture.mTextureId));
+            GL_VERIFY(glPixelStorei(GL_UNPACK_ALIGNMENT, 1));
+            GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, pTga->mWidth, pTga->mHeight, 0, GL_RED, GL_UNSIGNED_BYTE, pTga->mPixels.data()));
+        }
+        return mFontTexture.mTextureId;
     }
 
     return 0;
@@ -352,13 +383,13 @@ void OpenGLRenderer::Destroy()
 
     for (auto& it : mTextureCache)
     {
-        GL_VERIFY(glDeleteTextures(1, &it.second.first));
+        GL_VERIFY(glDeleteTextures(1, &it.second.mTextureId));
     }
     mTextureCache.clear();
 
-    GL_VERIFY(glDeleteTextures(1, &mCamTexture));
-    GL_VERIFY(glDeleteTextures(1, &mFg1Texture));
-    GL_VERIFY(glDeleteTextures(1, &mFontTexture));
+    GL_VERIFY(glDeleteTextures(1, &mCamTexture.mTextureId));
+    GL_VERIFY(glDeleteTextures(1, &mFg1Texture.mTextureId));
+    GL_VERIFY(glDeleteTextures(1, &mFontTexture.mTextureId));
     GL_VERIFY(glUseProgram(0));
 
     GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, 0));
@@ -726,10 +757,10 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
         mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_FG1);
 
         GL_VERIFY(glActiveTexture(GL_TEXTURE0))
-        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mCamTexture))
+        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mCamTexture.mTextureId))
 
         GL_VERIFY(glActiveTexture(GL_TEXTURE1))
-        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mFg1Texture))
+        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mFg1Texture.mTextureId))
 
         VertexData verts[4] = {
             {(f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, 0, r, g, b, 0, 0},
@@ -743,7 +774,7 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
         mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_CAM);
 
         GL_VERIFY(glActiveTexture(GL_TEXTURE0));
-        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mCamTexture));
+        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mCamTexture.mTextureId));
 
         VertexData verts[4] = {
             {(f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, 0, r, g, b, 0, 0},
@@ -983,6 +1014,10 @@ void OpenGLRenderer::SetTPage(u16 tPage)
 
 void OpenGLRenderer::StartFrame(s32 xOff, s32 yOff)
 {
+    mStats.Reset();
+
+    mFrameNumber++;
+
     FreeUnloadedAnimTextures();
 
     mFrameStarted = true;
@@ -1107,8 +1142,7 @@ void OpenGLRenderer::FreeUnloadedAnimTextures()
     auto it = mTextureCache.begin();
     while (it != mTextureCache.end())
     {
-        auto ptr = it->second.second.lock();
-        if (!ptr)
+        if (std::abs(it->second.mLastUsedFrame - mFrameNumber) > 30*200)
         {
             it = mTextureCache.erase(it);
         }
@@ -1313,6 +1347,16 @@ void OpenGLRenderer::DebugWindow()
         }
     }
     ImGui::End();*/
+
+    if (ImGui::Begin("Render stats"))
+    {
+        ImGui::Text("Cams %d", mStats.mCamUploadCount);
+        ImGui::Text("Fg1s %d", mStats.mFg1UploadCount);
+        ImGui::Text("Anims %d", mStats.mAnimUploadCount);
+        ImGui::Text("Pals %d", mStats.mPalUploadCount);
+        ImGui::Text("Fonts %d", mStats.mFontUploadCount);
+    }
+    ImGui::End();
 
     /*
     if (ImGui::Begin("Palettes", nullptr, ImGuiWindowFlags_MenuBar))

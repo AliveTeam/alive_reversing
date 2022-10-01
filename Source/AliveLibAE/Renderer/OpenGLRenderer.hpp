@@ -46,6 +46,12 @@ struct PaletteCache final
     RGBAPixel mPalData[256];
 };
 
+struct TextureAndUniqueResId final
+{
+    GLuint mTextureId = 0;
+    u32 mUniqueResId = 0;
+};
+
 class OpenGLRenderer final : public IRenderer
 {
 public:
@@ -78,6 +84,25 @@ public:
     void Upload(BitDepth bitDepth, const PSX_RECT& rect, const u8* pPixels) override;
 
 private:
+    struct Stats final
+    {
+        u32 mCamUploadCount = 0;
+        u32 mFg1UploadCount = 0;
+        u32 mAnimUploadCount = 0;
+        u32 mPalUploadCount = 0;
+        u32 mFontUploadCount = 0;
+
+        void Reset()
+        {
+            mCamUploadCount = 0;
+            mFg1UploadCount = 0;
+            mAnimUploadCount = 0;
+            mPalUploadCount = 0;
+            mFontUploadCount = 0;
+        }
+    };
+    Stats mStats;
+
     bool mFrameStarted = false;
 
     SDL_Window* mWindow = nullptr;
@@ -92,9 +117,9 @@ private:
     GLuint mPsxFramebufferId[2];
     GLuint mPsxFramebufferTexId[2];
 
-    GLuint mCamTexture = 0;
-    GLuint mFg1Texture = 0; // TODO: should probably be 4 of these
-    GLuint mFontTexture = 0; 
+    TextureAndUniqueResId mCamTexture;
+    TextureAndUniqueResId mFg1Texture; // TODO: should probably be 4 of these
+    TextureAndUniqueResId mFontTexture; 
 
     s32 mScreenOffsetX;
     s32 mScreenOffsetY;
@@ -113,8 +138,14 @@ private:
     GLuint mVBO = 0;
     GLuint mIBO = 0;
     GLuint mVAO = 0;
-    
-    std::map<AnimId, std::pair<u32, std::weak_ptr<TgaData>>> mTextureCache;
+
+    s32 mFrameNumber = 0;
+    struct LastUsedFrame final
+    {
+        GLuint mTextureId = 0;
+        s32 mLastUsedFrame = 0;
+    };
+    std::map<u32, LastUsedFrame> mTextureCache;
 
     void InitAttributes();
     void DebugWindow();

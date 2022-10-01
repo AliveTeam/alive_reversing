@@ -141,7 +141,7 @@ void FG1::VRender(PrimHeader** ppOt)
 {
     if (mFG1Res.Any())
     {
-        if (mFG1Res.mBg.mPixels)
+        if (mFG1Res.mBg.mImage.mPixels)
         {
             PolyFT4_Init(&mPolys[0]);
             mPolys[0].mFg1 = &mFG1Res.mBg;
@@ -151,7 +151,7 @@ void FG1::VRender(PrimHeader** ppOt)
             OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_FG1_Half_18), &mPolys[0].mBase.header);
         }
 
-        if (mFG1Res.mFg.mPixels)
+        if (mFG1Res.mFg.mImage.mPixels)
         {
             PolyFT4_Init(&mPolys[1]);
             mPolys[1].mFg1 = &mFG1Res.mFg;
@@ -161,7 +161,7 @@ void FG1::VRender(PrimHeader** ppOt)
             OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_FG1_37), &mPolys[1].mBase.header);
         }
 
-        if (mFG1Res.mBgWell.mPixels)
+        if (mFG1Res.mBgWell.mImage.mPixels)
         {
             PolyFT4_Init(&mPolys[2]);
             mPolys[2].mFg1 = &mFG1Res.mBgWell;
@@ -171,7 +171,7 @@ void FG1::VRender(PrimHeader** ppOt)
             OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_Well_Half_4), &mPolys[2].mBase.header);
         }
 
-        if (mFG1Res.mFgWell.mPixels)
+        if (mFG1Res.mFgWell.mImage.mPixels)
         {
             PolyFT4_Init(&mPolys[3]);
             mPolys[3].mFg1 = &mFG1Res.mFgWell;

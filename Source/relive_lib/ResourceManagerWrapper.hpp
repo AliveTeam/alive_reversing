@@ -9,6 +9,30 @@
 enum class AnimId;
 enum class EReliveLevelIds : s16;
 
+class UniqueResId final
+{
+public:
+    UniqueResId()
+        : mId(NextGlobalId())
+    {
+    }
+
+    u32 Id() const
+    {
+        return mId;
+    }
+
+private:
+    static u32 NextGlobalId()
+    {
+        mGlobalId++;
+        return mGlobalId;
+    }
+
+    u32 mId = 0;
+    static u32 mGlobalId;
+};
+
 struct TgaData final
 {
     AnimationPal mPal;
@@ -80,21 +104,29 @@ public:
 class CamResource final
 {
 public:
+    UniqueResId mUniqueId;
     RgbaData mData;
+};
+
+class Fg1Layer final
+{
+public:
+    UniqueResId mUniqueId;
+    RgbaData mImage;
 };
 
 class Fg1Resource final
 {
 public:
     u32 mFg1ResBlockCount = 0;
-    RgbaData mFg;
-    RgbaData mFgWell;
-    RgbaData mBg;
-    RgbaData mBgWell;
+    Fg1Layer mFg;
+    Fg1Layer mFgWell;
+    Fg1Layer mBg;
+    Fg1Layer mBgWell;
 
     bool Any() const
     {
-        return mFg.mPixels || mFgWell.mPixels || mBg.mPixels || mBgWell.mPixels;
+        return mFg.mImage.mPixels || mFgWell.mImage.mPixels || mBg.mImage.mPixels || mBgWell.mImage.mPixels;
     }
 };
 
@@ -121,6 +153,7 @@ public:
     }
 
 public:
+    UniqueResId mUniqueId;
     AnimId mId = AnimId::None;
     std::shared_ptr<AnimationAttributesAndFrames> mJsonPtr;
     std::shared_ptr<TgaData> mTgaPtr;
@@ -144,6 +177,7 @@ public:
 
     }
 
+    UniqueResId mUniqueId;
     FontType mId = FontType::None;
     // TODO: Font atlas json ptpr
     std::shared_ptr<TgaData> mTgaPtr;
