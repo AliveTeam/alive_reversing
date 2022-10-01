@@ -226,7 +226,8 @@ void GLShader::Free()
 */
 
 const char_type* gShader_PassthruVSH = R"(
-#version 330 core
+#version 140
+#extension GL_ARB_explicit_attrib_location : enable
 
 layout (location = 0) in vec2 vsPos;
 layout (location = 1) in vec2 vsUV;
@@ -247,7 +248,7 @@ void main()
 )";
 
 const char_type* gShader_PassthruFSH = R"(
-#version 330 core
+#version 140
 
 in vec2 fsUV;
 
@@ -263,7 +264,8 @@ void main()
 )";
 
 const char_type* gShader_PsxVSH = R"(
-#version 330 core
+#version 140
+#extension GL_ARB_explicit_attrib_location : enable
 
 layout (location = 0) in vec3 vsPos;
 layout (location = 1) in vec3 vsShadeColor;
@@ -284,7 +286,7 @@ void main()
 )";
 
 const char_type* gShader_PsxFSH = R"(
-#version 330 core
+#version 140
 
 in vec3 fsShadeColor;
 in vec2 fsUV;

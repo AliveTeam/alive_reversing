@@ -49,9 +49,7 @@ static bool gRenderEnable_F2 = false;
 #if GL_DEBUG > 0
 static void CheckGLError()
 {
-    GLenum lastGLError = GL_NO_ERROR;
-
-    lastGLError = glGetError();
+    GLenum lastGLError = glGetError();
 
     if (lastGLError != GL_NO_ERROR)
     {
@@ -317,7 +315,8 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
     }
 
 
-    // SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 32);
+    // We should attempt to load OpenGL 3.2 first, because this is the minimum
+    // required version for RenderDoc captures so we can actually debug stuff
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
@@ -329,6 +328,8 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
     {
         LOG_ERROR("OpenGL 3.2 context could not be created! SDL Error: " << SDL_GetError());
 
+        // Our ACTUAL minimum OpenGL requirement is 3.1, though we will check
+        // supported extensions on the GPU in a moment
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
@@ -358,7 +359,7 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
     }
 
     // Check supported extensions by the GPU
-    if (!glewIsSupported("GL_ARB_vertex_array_object"))
+    if (!glewIsSupported("GL_ARB_vertex_array_object GL_ARB_framebuffer_object GL_ARB_explicit_attrib_location"))
     {
         ALIVE_FATAL("Your graphics device is not supported, sorry!");
     }
