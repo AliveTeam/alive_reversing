@@ -317,6 +317,8 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
 
     // We should attempt to load OpenGL 3.2 first, because this is the minimum
     // required version for RenderDoc captures so we can actually debug stuff
+    char_type* glslVer = "#version 150";
+
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
@@ -330,6 +332,8 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
 
         // Our ACTUAL minimum OpenGL requirement is 3.1, though we will check
         // supported extensions on the GPU in a moment
+        glslVer = "#version 140";
+
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
@@ -368,7 +372,7 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
 
     // Setup IMGUI for texture debugging
     ImGui_ImplSDL2_InitForOpenGL(mWindow, mContext);
-    ImGui_ImplOpenGL3_Init("#version 150");
+    ImGui_ImplOpenGL3_Init(glslVer);
 
     // Create our render buffers
     GL_VERIFY(glGenVertexArrays(1, &mVAO));
