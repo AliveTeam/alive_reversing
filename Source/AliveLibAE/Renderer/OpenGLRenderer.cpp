@@ -49,13 +49,27 @@ static bool gRenderEnable_F2 = false;
 #if GL_DEBUG > 0
 static void CheckGLError()
 {
-    static GLenum gLastGLError = GL_NO_ERROR;
+    GLenum lastGLError = GL_NO_ERROR;
 
-    gLastGLError = glGetError();
+    lastGLError = glGetError();
 
-    if (gLastGLError != GL_NO_ERROR)
+    if (lastGLError != GL_NO_ERROR)
     {
-        ALIVE_FATAL("OpenGL error raised, check gLastGLError.");
+        std::string buf;
+        auto msg = (char_type*) glewGetString(lastGLError);
+
+        buf.append("OpenGL error raised: ");
+
+        if (msg != nullptr)
+        {
+            buf.append(msg);
+        }
+        else
+        {
+            buf.append(std::to_string(lastGLError));
+        }
+        
+        ALIVE_FATAL(buf.c_str());
     }
 }
 #endif
@@ -329,19 +343,25 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
     }
 
     // Initialize GLEW
-    glewExperimental = GL_TRUE;
     GLenum glewError = glewInit();
+
     if (glewError != GLEW_OK)
     {
         LOG_ERROR("Error initializing GLEW! " << glewGetErrorString(glewError));
     }
 
     // Use Vsync
+    // FIXME: VSYNC disabled for now - remove before merge to master!
     if (SDL_GL_SetSwapInterval(0) < 0)
     {
         LOG_ERROR("Warning: Unable to set VSync! SDL Error: " << SDL_GetError());
     }
 
+    // Check supported extensions by the GPU
+    if (!glewIsSupported("GL_ARB_vertex_array_object"))
+    {
+        ALIVE_FATAL("Your graphics device is not supported, sorry!");
+    }
 
     ImGui::CreateContext();
 
