@@ -9,6 +9,8 @@
 enum class AnimId;
 enum class EReliveLevelIds : s16;
 
+class BinaryPath;
+
 class UniqueResId final
 {
 public:
@@ -245,6 +247,7 @@ public:
 
     static FontResource LoadFont(FontType fontId);
 
+    static std::vector<std::unique_ptr<BinaryPath>> LoadPaths(EReliveLevelIds lvlId);
 
 private:
     // TODO: don't use stl directly

@@ -1653,36 +1653,7 @@ void Map::GoTo_Camera()
         auto tmp = sOverlayTable_4C5AA8.records[Path_Get_OverlayIdx(mNextLevel)].field_4_pos;
         sLvlArchive_4FFD60.OpenArchive(AO::CdLvlName(mNextLevel), tmp);
 
-        // TODO: Jayson!
-        //ResourceManager::LoadResourceFile_455270(Path_Get_BndName(mNextLevel), nullptr);
-        //ResourceManager::LoadingLoop_41EAD0(0); // TODO: required to prevent de-sync
-
-
-        // TODO: Load level_info.json so we know which path jsons to load for this level
-        FileSystem::Path pathDir;
-        pathDir.Append("relive_data").Append("ao").Append(ToString(MapWrapper::ToAO(mNextLevel))).Append("paths");
-
-        FileSystem::Path levelInfo = pathDir;
-        levelInfo.Append("level_info.json");
-
-        FileSystem fs;
-        const std::string jsonStr = fs.LoadToString(levelInfo);
-        nlohmann::json j = nlohmann::json::parse(jsonStr);
-        const auto& paths = j["paths"];
-        for (const auto& path : paths)
-        {
-            FileSystem::Path pathJsonFile = pathDir;
-            pathJsonFile.Append(path);
-            const std::string pathJsonStr = fs.LoadToString(pathJsonFile);
-
-            // TODO: set the res ptrs to the parsed json data
-            nlohmann::json pathJson = nlohmann::json::parse(pathJsonStr);
-            LOG_INFO("Cam count " << pathJson["cameras"].size());
-
-            auto pathBuffer = std::make_unique<BinaryPath>(pathJson["id"]);
-            pathBuffer->CreateFromJson(pathJson);
-            mLoadedPaths.emplace_back(std::move(pathBuffer));
-        }
+        mLoadedPaths = ResourceManagerWrapper::LoadPaths(mNextLevel);
 
         SND_Load_VABS_477040(AO::Path_Get_MusicInfo(mNextLevel), AO::Path_Get_Reverb(mNextLevel));
 

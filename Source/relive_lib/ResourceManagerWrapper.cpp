@@ -6,6 +6,7 @@
 #include "data_conversion/file_system.hpp"
 
 #include "data_conversion/data_conversion.hpp"
+#include "BinaryPath.hpp"
 
 #include "nlohmann/json.hpp"
 
@@ -314,4 +315,44 @@ FontResource ResourceManagerWrapper::LoadFont(FontType fontId)
     FontResource newRes(fontId, pTgaData);
 
     return newRes;
+}
+
+std::vector<std::unique_ptr<BinaryPath>> ResourceManagerWrapper::LoadPaths(EReliveLevelIds lvlId)
+{
+    std::vector<std::unique_ptr<BinaryPath>> ret;
+
+    // TODO: Load level_info.json so we know which path jsons to load for this level
+    FileSystem::Path pathDir = BasePath();
+    if (GetGameType() == GameType::eAe)
+    {
+        pathDir.Append(ToString(MapWrapper::ToAE(lvlId))).Append("paths");
+    }
+    else
+    {
+        pathDir.Append(ToString(MapWrapper::ToAO(lvlId))).Append("paths");
+    }
+
+    FileSystem::Path levelInfo = pathDir;
+    levelInfo.Append("level_info.json");
+
+    FileSystem fs;
+    const std::string jsonStr = fs.LoadToString(levelInfo);
+    nlohmann::json j = nlohmann::json::parse(jsonStr);
+    const auto& paths = j["paths"];
+    for (const auto& path : paths)
+    {
+        FileSystem::Path pathJsonFile = pathDir;
+        pathJsonFile.Append(path);
+        const std::string pathJsonStr = fs.LoadToString(pathJsonFile);
+
+        // TODO: set the res ptrs to the parsed json data
+        nlohmann::json pathJson = nlohmann::json::parse(pathJsonStr);
+        LOG_INFO("Cam count " << pathJson["cameras"].size());
+
+        auto pathBuffer = std::make_unique<BinaryPath>(pathJson["id"]);
+        pathBuffer->CreateFromJson(pathJson);
+        ret.emplace_back(std::move(pathBuffer));
+    }
+
+    return ret;
 }

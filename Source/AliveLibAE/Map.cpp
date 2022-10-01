@@ -679,33 +679,7 @@ void Map::GoTo_Camera()
             Display_Full_Screen_Message_Blocking(Path_Get_Unknown(mNextLevel), MessageType::eLongTitle_0);
         }
 
-
-        // TODO: Load level_info.json so we know which path jsons to load for this level
-        FileSystem::Path pathDir;
-        pathDir.Append("relive_data").Append("ae").Append(ToString(MapWrapper::ToAE(mNextLevel))).Append("paths");
-
-        FileSystem::Path levelInfo = pathDir;
-        levelInfo.Append("level_info.json");
-
-        FileSystem fs;
-        const std::string jsonStr = fs.LoadToString(levelInfo);
-        nlohmann::json j = nlohmann::json::parse(jsonStr);
-        const auto& paths = j["paths"];
-        for (const auto& path : paths)
-        {
-            FileSystem::Path pathJsonFile = pathDir;
-            pathJsonFile.Append(path);
-            const std::string pathJsonStr = fs.LoadToString(pathJsonFile);
-
-            // TODO: set the res ptrs to the parsed json data
-            nlohmann::json pathJson = nlohmann::json::parse(pathJsonStr);
-            LOG_INFO("Cam count " << pathJson["cameras"].size());
-
-            auto pathBuffer = std::make_unique<BinaryPath>(pathJson["id"]);
-            pathBuffer->CreateFromJson(pathJson);
-            mLoadedPaths.emplace_back(std::move(pathBuffer));
-        }
-
+        mLoadedPaths = ResourceManagerWrapper::LoadPaths(mNextLevel);
 
         if (mNextLevel == mCurrentLevel)
         {
