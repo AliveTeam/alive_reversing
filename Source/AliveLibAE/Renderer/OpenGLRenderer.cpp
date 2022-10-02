@@ -1317,6 +1317,14 @@ void OpenGLRenderer::DrawFramebufferToFramebuffer(int src, int dst, s32 x, s32 y
 
     GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, dstFramebufferId));
 
+    // If we're drawing to the screen, then we do want to clear what's there,
+    // otherwise we'll have leftovers during screen shake!
+    if (dst == GL_FRAMEBUFFER_SCREEN)
+    {
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+    }
+
     GL_VERIFY(glActiveTexture(GL_TEXTURE0));
     GL_VERIFY(glBindTexture(GL_TEXTURE_2D, srcFramebufferTexId));
 
