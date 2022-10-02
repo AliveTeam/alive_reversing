@@ -40,10 +40,10 @@ static bool gRenderEnable_TILE = false;
 static bool gRenderEnable_FT4 = true;
 static bool gRenderEnable_G4 = true;
 static bool gRenderEnable_G3 = true;
-static bool gRenderEnable_G2 = false;
+static bool gRenderEnable_G2 = true;
 static bool gRenderEnable_F4 = true;
 static bool gRenderEnable_F3 = true;
-static bool gRenderEnable_F2 = false;
+static bool gRenderEnable_F2 = true;
 
 
 #if GL_DEBUG > 0
@@ -555,23 +555,35 @@ void OpenGLRenderer::Draw(Line_F2& line)
     if (!gRenderEnable_F2)
         return;
 
-    glDisable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, 0);
-
     const VertexData verts[2] = {
-        {(f32) line.mVerts[0].mVert.x, (f32) line.mVerts[0].mVert.y, 0,
-         line.mBase.header.rgb_code.r / 255.0f, line.mBase.header.rgb_code.g / 255.0f, line.mBase.header.rgb_code.b / 255.0f,
-         0, 0},
-        {(f32) line.mBase.vert.x, (f32) line.mBase.vert.y, 0,
-         line.mBase.header.rgb_code.r / 255.0f, line.mBase.header.rgb_code.g / 255.0f, line.mBase.header.rgb_code.b / 255.0f,
-         0, 0}};
+        {(f32) X0(&line), (f32) Y0(&line), 0, (f32) R0(&line), (f32) G0(&line), (f32) B0(&line), 0, 0},
+        {(f32) X1(&line), (f32) Y1(&line), 0, (f32) R0(&line), (f32) G0(&line), (f32) B0(&line), 0, 0}};
+
+    bool isSemiTrans = GetPolyIsSemiTrans(&line);
+    u32 blendMode = GetTPageBlendMode(mGlobalTPage);
 
     mPsxShader.Use();
+
+    // Bind the source framebuffer
+    GL_VERIFY(glActiveTexture(GL_TEXTURE2));
+    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mPsxFramebufferTexId[GL_FRAMEBUFFER_PSX_SRC]));
+
+    // Set sampler uniforms
+    mPsxShader.Uniform1i("texFramebufferData", 2); // Set texFramebufferData to GL_TEXTURE2
+
+    mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_FLAT);
+    mPsxShader.Uniform1i("fsIsSemiTrans", isSemiTrans);
+    mPsxShader.Uniform1i("fsBlendMode", blendMode);
 
     const GLuint indexData[2] = {0, 1};
     DrawLines(verts, 2, indexData, 2);
 
     mPsxShader.UnUse();
+
+    // Unbind the source framebuffer, just to be safe so drawing to it doesn't
+    // blow up
+    GL_VERIFY(glActiveTexture(GL_TEXTURE2));
+    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, 0));
 }
 
 void OpenGLRenderer::Draw(Line_G2& line)
@@ -581,23 +593,35 @@ void OpenGLRenderer::Draw(Line_G2& line)
         return;
     }
 
-    glDisable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, 0);
-
     const VertexData verts[2] = {
-        {(f32) line.mVerts[0].mVert.x, (f32) line.mVerts[0].mVert.y, 0,
-         line.mVerts[0].mRgb.r / 255.0f, line.mVerts[0].mRgb.g / 255.0f, line.mVerts[0].mRgb.b / 255.0f,
-         0, 0},
-        {(f32) line.mBase.vert.x, (f32) line.mBase.vert.y, 0,
-         line.mBase.header.rgb_code.r / 255.0f, line.mBase.header.rgb_code.g / 255.0f, line.mBase.header.rgb_code.b / 255.0f,
-         0, 0}};
+        {(f32) X0(&line), (f32) Y0(&line), 0, (f32) R0(&line), (f32) G0(&line), (f32) B0(&line), 0, 0},
+        {(f32) X1(&line), (f32) Y1(&line), 0, (f32) R1(&line), (f32) G1(&line), (f32) B1(&line), 0, 0}};
+
+    bool isSemiTrans = GetPolyIsSemiTrans(&line);
+    u32 blendMode = GetTPageBlendMode(mGlobalTPage);
 
     mPsxShader.Use();
+
+    // Bind the source framebuffer
+    GL_VERIFY(glActiveTexture(GL_TEXTURE2));
+    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mPsxFramebufferTexId[GL_FRAMEBUFFER_PSX_SRC]));
+
+    // Set sampler uniforms
+    mPsxShader.Uniform1i("texFramebufferData", 2); // Set texFramebufferData to GL_TEXTURE2
+
+    mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_FLAT);
+    mPsxShader.Uniform1i("fsIsSemiTrans", isSemiTrans);
+    mPsxShader.Uniform1i("fsBlendMode", blendMode);
 
     const GLuint indexData[2] = {0, 1};
     DrawLines(verts, 2, indexData, 2);
 
     mPsxShader.UnUse();
+
+    // Unbind the source framebuffer, just to be safe so drawing to it doesn't
+    // blow up
+    GL_VERIFY(glActiveTexture(GL_TEXTURE2));
+    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, 0));
 }
 
 void OpenGLRenderer::Draw(Line_G4& line)
@@ -629,7 +653,7 @@ void OpenGLRenderer::Draw(Line_G4& line)
     mPsxShader.Uniform1i("fsIsSemiTrans", isSemiTrans);
     mPsxShader.Uniform1i("fsBlendMode", blendMode);
 
-    const GLuint indexData[6] = {0, 1, 2, 3};
+    const GLuint indexData[4] = {0, 1, 2, 3};
     DrawLines(verts, 4, indexData, 4);
 
     mPsxShader.UnUse();
