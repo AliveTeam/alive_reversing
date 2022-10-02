@@ -101,14 +101,12 @@ Water::Water(relive::Path_Water* pTlv, const Guid& tlvId)
         const u8 u1 = static_cast<u8>(pFrameHeader->mWidth + u0 - 1);
         const u8 v1 = static_cast<u8>(pFrameHeader->mHeight + v0 - 1);
 
-        /*
-        // TODO: Use anim instead of tpage/clut
         const s32 tPage = PSX_getTPage(
             field_FE_texture_mode,
             TPageAbr::eBlend_3,
-            mAnim.mVramRect.x,
-            mAnim.mVramRect.y);
-        */
+            0,
+            0);
+        
 
         for (s32 i = 0; i < field_124_tlv_data.mMaxDrops; i++)
         {
@@ -120,14 +118,9 @@ Water::Water(relive::Path_Water* pTlv, const Guid& tlvId)
             Poly_Set_SemiTrans(&pPoly->mBase.header, TRUE);
             Poly_Set_Blending(&pPoly->mBase.header, TRUE);
 
-            /*
-            const s32 clut = PSX_getClut(
-                mAnim.mPalVramXY.x,
-                mAnim.mPalVramXY.y);
-
-            SetClut(pPoly, static_cast<s16>(clut));
             SetTPage(pPoly, static_cast<s16>(tPage));
-            */
+
+            pPoly->mAnim = &mAnim;
 
             SetUV0(pPoly, u0, v0);
             SetUV1(pPoly, u1, v0);
