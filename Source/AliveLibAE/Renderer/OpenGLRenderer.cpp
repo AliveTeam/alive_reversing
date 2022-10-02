@@ -36,7 +36,7 @@ static int gPalTextureID = 0;
 
 static bool gRenderEnable_SPRT = true;
 static bool gRenderEnable_GAS = false;
-static bool gRenderEnable_TILE = false;
+static bool gRenderEnable_TILE = true;
 static bool gRenderEnable_FT4 = true;
 static bool gRenderEnable_G4 = true;
 static bool gRenderEnable_G3 = true;
@@ -541,26 +541,43 @@ void OpenGLRenderer::Draw(Prim_Tile& tile)
     if (!gRenderEnable_TILE)
         return;
 
-    // todo: texturing ?
-    const f32 r = tile.mBase.header.rgb_code.r / 255.0f;
-    const f32 g = tile.mBase.header.rgb_code.g / 255.0f;
-    const f32 b = tile.mBase.header.rgb_code.b / 255.0f;
+    const f32 r = tile.mBase.header.rgb_code.r;
+    const f32 g = tile.mBase.header.rgb_code.g;
+    const f32 b = tile.mBase.header.rgb_code.b;
 
     const VertexData verts[4] = {
-        {0, 0, 0, r, g, b, 0, 0},
-        {1, 0, 0, r, g, b, 1, 0},
-        {1, 1, 0, r, g, b, 1, 1},
-        {0, 1, 0, r, g, b, 0, 1}};
+        {(f32) tile.mBase.vert.x, (f32) tile.mBase.vert.y, 0, r, g, b, 0, 0},
+        {(f32) tile.mBase.vert.x + tile.field_14_w, (f32) tile.mBase.vert.y, 0, r, g, b, 0, 0},
+        {(f32) tile.mBase.vert.x, (f32) tile.mBase.vert.y + tile.field_16_h, 0, r, g, b, 0, 0},
+        {(f32) tile.mBase.vert.x + tile.field_14_w, (f32) tile.mBase.vert.y + tile.field_16_h, 0, r, g, b, 0, 0}};
+
+    bool isSemiTrans = GetPolyIsSemiTrans(&tile);
+    u32 blendMode = GetTPageBlendMode(mGlobalTPage);
 
     mPsxShader.Use();
 
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, 0);
+    // Bind the source framebuffer
+    GL_VERIFY(glActiveTexture(GL_TEXTURE2));
+    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mPsxFramebufferTexId[GL_FRAMEBUFFER_PSX_SRC]));
 
-    const GLuint indexData[6] = {0, 1, 3, 3, 1, 2};
+    // Set sampler uniforms
+    mPsxShader.Uniform1i("texFramebufferData", 2); // Set texFramebufferData to GL_TEXTURE2
+
+    mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_FLAT);
+    mPsxShader.Uniform1i("fsIsSemiTrans", isSemiTrans);
+    mPsxShader.Uniform1i("fsBlendMode", blendMode);
+
+    const GLuint indexData[6] = {0, 1, 2, 2, 1, 3};
     DrawTriangles(verts, 4, indexData, 6);
 
     mPsxShader.UnUse();
+
+    // Unbind the source framebuffer, just to be safe so drawing to it doesn't
+    // blow up
+    GL_VERIFY(glActiveTexture(GL_TEXTURE2));
+    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, 0));
+
+    CompleteDraw();
 }
 
 void OpenGLRenderer::Draw(Line_F2& line)
