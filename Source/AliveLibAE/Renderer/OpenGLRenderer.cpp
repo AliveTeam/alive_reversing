@@ -534,7 +534,7 @@ void OpenGLRenderer::Draw(Prim_GasEffect& gasEffect)
 
     GL_VERIFY(glActiveTexture(GL_TEXTURE0));
     GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mGasTextureId));
-    GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB565, gasWidth / 4, gasHeight / 2, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, gasEffect.pData));
+    GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, gasWidth / 4, gasHeight / 2, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, gasEffect.pData));
 
     mPsxShader.Use();
 
