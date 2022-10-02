@@ -997,7 +997,7 @@ void OpenGLRenderer::EndFrame()
         GL_FRAMEBUFFER_PSX_DST,
         GL_FRAMEBUFFER_SCREEN,
         mScreenOffsetX,
-        mScreenOffsetY,
+        mScreenOffsetY / 2, // FIXME: Should track ratio of PSX to screen
         GL_FRAMEBUFFER_PSX_WIDTH,
         GL_FRAMEBUFFER_PSX_HEIGHT,
         0,
