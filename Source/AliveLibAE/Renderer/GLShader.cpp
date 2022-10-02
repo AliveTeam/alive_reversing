@@ -299,7 +299,6 @@ out vec4 outColor;
 
 uniform sampler2D texTextureData;
 uniform sampler2D texAdditionalData;
-uniform sampler2D texFramebufferData;
 
 uniform int  fsDrawType;
 uniform bool fsIsSemiTrans;
@@ -337,31 +336,22 @@ float dither()
     return 0.0;
 }
 
-vec3 handle_blending(in vec3 src)
+float get_alpha()
 {
-    vec3 texelFb = texture(texFramebufferData, gl_FragCoord.xy / frameSize).rgb;
-    vec3 res = vec3(0.0);
-
     switch (fsBlendMode)
     {
         case BLEND_MODE_HALF_DST_ADD_HALF_SRC:
-            res = (texelFb * 0.5) + (src * 0.5);
-            break;
+            return 0.5;
 
         case BLEND_MODE_ONE_DST_ADD_ONE_SRC:
-            res = texelFb + src;
-            break;
-
         case BLEND_MODE_ONE_DST_SUB_ONE_SRC:
-            res = texelFb - src;
-            break;
+            return 1.0;
 
         case BLEND_MODE_ONE_DST_ADD_QRT_SRC:
-            res = texelFb + (src * 0.25);
-            break;
+            return 0.25;
     }
 
-    return res;
+    return 0.0; // This can't happen!
 }
 
 vec3 handle_shading(in vec3 texelT)
@@ -378,9 +368,8 @@ vec3 handle_shading(in vec3 texelT)
 
 void draw_flat()
 {
-    outColor.rgb = handle_blending(fsShadeColor / 255.0);
-    outColor.rgb = clamp(outColor.rgb, vec3(0.0), vec3(1.0));
-    outColor.a = 1.0;
+    outColor.rgb = fsShadeColor / 255.0;
+    outColor.a = get_alpha();
 }
 
 void draw_default_ft4()
@@ -388,32 +377,21 @@ void draw_default_ft4()
     vec4 texelPal = PixelToPalette(texture(texTextureData, fsUV).r);
     vec3 texelShaded = handle_shading(texelPal.rgb);
 
+    outColor.rgb = texelShaded;
+
     if (texelPal == vec4(0.0, 0.0, 0.0, 0.0))
     {
         outColor.a = 0.0;
-        return;
     }
     else
     {
-        if (fsIsSemiTrans)
+        outColor.a = 1.0;
+
+        if (fsIsSemiTrans && texelPal.a == 1.0)
         {
-            if (texelPal.a == 1.0)
-            {
-                outColor.rgb = handle_blending(texelShaded);
-                outColor.rgb = clamp(outColor.rgb, vec3(0.0), vec3(1.0));
-            }
-            else
-            {
-                outColor.rgb = texelShaded;
-            }
-        }
-        else
-        {
-            outColor.rgb = texelShaded;
+            outColor.a = get_alpha();
         }
     }
-
-    outColor.a = 1.0;
 }
 
 void draw_cam()
@@ -440,9 +418,9 @@ void draw_fg1()
 void draw_gas()
 {
     vec4 texelGas = texture(texTextureData, fsUV);
-    vec3 texelFinal = handle_blending(handle_shading(texelGas.rgb));
+    vec3 texelFinal = handle_shading(texelGas.rgb);
 
-    outColor = vec4(texelFinal, dither());
+    outColor = vec4(texelFinal, get_alpha() * dither());
 }
 
 void main()

@@ -114,8 +114,8 @@ private:
     GLShader mPassthruShader = {};
     GLShader mPsxShader = {};
 
-    GLuint mPsxFramebufferId[2] = {};
-    GLuint mPsxFramebufferTexId[2] = {};
+    GLuint mPsxFramebufferId = 0;
+    GLuint mPsxFramebufferTexId = 0;
 
     GLuint mGasTextureId = 0;
     TextureAndUniqueResId mCamTexture;
@@ -125,11 +125,9 @@ private:
     s32 mScreenOffsetX = 0;
     s32 mScreenOffsetY = 0;
 
-    void CompleteDraw();
-    void DrawFramebufferToFramebuffer(int src, int dst);
-    void DrawFramebufferToFramebuffer(int src, int dst, s32 x, s32 y, s32 width, s32 height, s32 clipX, s32 clipY, s32 clipWidth, s32 clipHeight);
-    u32 GetTPageBlendMode(u16 tPage);
-    void InitPsxFramebuffer(int index);
+    void DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height);
+    u16 GetTPageBlendMode(u16 tPage);
+    void SetupBlendMode(u16 blendMode);
     
     void Renderer_BindPalette(AnimationPal& pCache);
 

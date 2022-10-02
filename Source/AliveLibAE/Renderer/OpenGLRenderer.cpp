@@ -24,10 +24,6 @@
 #define GL_PSX_DRAW_MODE_FG1         3
 #define GL_PSX_DRAW_MODE_GAS         4
 
-#define GL_FRAMEBUFFER_PSX_SRC 0
-#define GL_FRAMEBUFFER_PSX_DST 1
-#define GL_FRAMEBUFFER_SCREEN  -1
-
 #define GL_FRAMEBUFFER_PSX_WIDTH  640
 #define GL_FRAMEBUFFER_PSX_HEIGHT 240
 
@@ -398,8 +394,23 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
     GL_VERIFY(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 
     // ROZZA Init framebuffer for render to texture
-    InitPsxFramebuffer(0);
-    InitPsxFramebuffer(1);
+    GL_VERIFY(glGenFramebuffers(1, &mPsxFramebufferId));
+    GL_VERIFY(glGenTextures(1, &mPsxFramebufferTexId));
+
+    // Texture init
+    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mPsxFramebufferTexId));
+
+    GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 640, 240, 0, GL_RGB, GL_UNSIGNED_BYTE, 0));
+
+    GL_VERIFY(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST));
+    GL_VERIFY(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST));
+
+    // Framebuffer init
+    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId));
+    GL_VERIFY(glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, mPsxFramebufferId, 0));
+
+    GLenum fbTargets[1] = {GL_COLOR_ATTACHMENT0};
+    GL_VERIFY(glDrawBuffers(1, fbTargets));
 
     return true;
 }
@@ -427,8 +438,8 @@ void OpenGLRenderer::Destroy()
     GL_VERIFY(glUseProgram(0));
 
     GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, 0));
-    GL_VERIFY(glDeleteFramebuffers(2, mPsxFramebufferId));
-    GL_VERIFY(glDeleteTextures(2, mPsxFramebufferTexId));
+    GL_VERIFY(glDeleteFramebuffers(1, &mPsxFramebufferId));
+    GL_VERIFY(glDeleteTextures(1, &mPsxFramebufferTexId));
 
     if (mContext)
     {
@@ -457,22 +468,17 @@ void OpenGLRenderer::Draw(Prim_Sprt& sprt)
     f32 g = sprt.mBase.header.rgb_code.g;
     f32 b = sprt.mBase.header.rgb_code.b;
 
-    // Bind the source framebuffer
-    GL_VERIFY(glActiveTexture(GL_TEXTURE2));
-    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mPsxFramebufferTexId[GL_FRAMEBUFFER_PSX_SRC]));
-
     // Set sampler uniforms
     mPsxShader.Uniform1i("texTextureData", 0);     // Set texTextureData to GL_TEXTURE0
     mPsxShader.Uniform1i("texAdditionalData", 1);  // Set texAdditionalData to GL_TEXTURE1
-    mPsxShader.Uniform1i("texFramebufferData", 2); // Set texFramebufferData to GL_TEXTURE2
 
     bool isSemiTrans = GetPolyIsSemiTrans(&sprt);
     bool isShaded = GetPolyIsShaded(&sprt);
-    u32 blendMode = GetTPageBlendMode(mGlobalTPage);
 
     mPsxShader.Uniform1i("fsIsSemiTrans", isSemiTrans);
     mPsxShader.Uniform1i("fsIsShaded", isShaded);
-    mPsxShader.Uniform1i("fsBlendMode", blendMode);
+    
+    SetupBlendMode(GetTPageBlendMode(mGlobalTPage));
 
     const GLuint indexData[6] = {1, 0, 3, 3, 0, 2};
 
@@ -504,8 +510,6 @@ void OpenGLRenderer::Draw(Prim_Sprt& sprt)
     // blow up
     GL_VERIFY(glActiveTexture(GL_TEXTURE2));
     GL_VERIFY(glBindTexture(GL_TEXTURE_2D, 0));
-
-    CompleteDraw();
 }
 
 void OpenGLRenderer::Draw(Prim_GasEffect& gasEffect)
@@ -538,18 +542,14 @@ void OpenGLRenderer::Draw(Prim_GasEffect& gasEffect)
     f32 g = 127;
     f32 b = 127;
 
-    // Bind the source framebuffer
-    GL_VERIFY(glActiveTexture(GL_TEXTURE2));
-    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mPsxFramebufferTexId[GL_FRAMEBUFFER_PSX_SRC]));
-
     // Set sampler uniforms
     mPsxShader.Uniform1i("texTextureData", 0);     // Set texTextureData to GL_TEXTURE0
     mPsxShader.Uniform1i("texAdditionalData", 1);  // Set texAdditionalData to GL_TEXTURE1
-    mPsxShader.Uniform1i("texFramebufferData", 2); // Set texFramebufferData to GL_TEXTURE2
 
     mPsxShader.Uniform1i("fsIsSemiTrans", true);
     mPsxShader.Uniform1i("fsIsShaded", true);
-    mPsxShader.Uniform1i("fsBlendMode", (int)TPageAbr::eBlend_0);
+
+    SetupBlendMode((int) TPageAbr::eBlend_0);
 
     const GLuint indexData[6] = {1, 0, 3, 3, 0, 2};
 
@@ -563,13 +563,6 @@ void OpenGLRenderer::Draw(Prim_GasEffect& gasEffect)
     DrawTriangles(verts, 4, indexData, 6);
 
     mPsxShader.UnUse();
-
-    // Unbind the source framebuffer, just to be safe so drawing to it doesn't
-    // blow up
-    GL_VERIFY(glActiveTexture(GL_TEXTURE2));
-    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, 0));
-
-    CompleteDraw();
 }
 
 void OpenGLRenderer::Draw(Prim_Tile& tile)
@@ -588,32 +581,18 @@ void OpenGLRenderer::Draw(Prim_Tile& tile)
         {(f32) tile.mBase.vert.x + tile.field_14_w, (f32) tile.mBase.vert.y + tile.field_16_h, 0, r, g, b, 0, 0}};
 
     bool isSemiTrans = GetPolyIsSemiTrans(&tile);
-    u32 blendMode = GetTPageBlendMode(mGlobalTPage);
 
     mPsxShader.Use();
 
-    // Bind the source framebuffer
-    GL_VERIFY(glActiveTexture(GL_TEXTURE2));
-    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mPsxFramebufferTexId[GL_FRAMEBUFFER_PSX_SRC]));
-
-    // Set sampler uniforms
-    mPsxShader.Uniform1i("texFramebufferData", 2); // Set texFramebufferData to GL_TEXTURE2
-
     mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_FLAT);
     mPsxShader.Uniform1i("fsIsSemiTrans", isSemiTrans);
-    mPsxShader.Uniform1i("fsBlendMode", blendMode);
+    
+    SetupBlendMode(GetTPageBlendMode(mGlobalTPage));
 
     const GLuint indexData[6] = {0, 1, 2, 2, 1, 3};
     DrawTriangles(verts, 4, indexData, 6);
 
     mPsxShader.UnUse();
-
-    // Unbind the source framebuffer, just to be safe so drawing to it doesn't
-    // blow up
-    GL_VERIFY(glActiveTexture(GL_TEXTURE2));
-    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, 0));
-
-    CompleteDraw();
 }
 
 void OpenGLRenderer::Draw(Line_F2& line)
@@ -626,30 +605,18 @@ void OpenGLRenderer::Draw(Line_F2& line)
         {(f32) X1(&line), (f32) Y1(&line), 0, (f32) R0(&line), (f32) G0(&line), (f32) B0(&line), 0, 0}};
 
     bool isSemiTrans = GetPolyIsSemiTrans(&line);
-    u32 blendMode = GetTPageBlendMode(mGlobalTPage);
 
     mPsxShader.Use();
 
-    // Bind the source framebuffer
-    GL_VERIFY(glActiveTexture(GL_TEXTURE2));
-    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mPsxFramebufferTexId[GL_FRAMEBUFFER_PSX_SRC]));
-
-    // Set sampler uniforms
-    mPsxShader.Uniform1i("texFramebufferData", 2); // Set texFramebufferData to GL_TEXTURE2
-
     mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_FLAT);
     mPsxShader.Uniform1i("fsIsSemiTrans", isSemiTrans);
-    mPsxShader.Uniform1i("fsBlendMode", blendMode);
+    
+    SetupBlendMode(GetTPageBlendMode(mGlobalTPage));
 
     const GLuint indexData[2] = {0, 1};
     DrawLines(verts, 2, indexData, 2);
 
     mPsxShader.UnUse();
-
-    // Unbind the source framebuffer, just to be safe so drawing to it doesn't
-    // blow up
-    GL_VERIFY(glActiveTexture(GL_TEXTURE2));
-    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, 0));
 }
 
 void OpenGLRenderer::Draw(Line_G2& line)
@@ -664,30 +631,18 @@ void OpenGLRenderer::Draw(Line_G2& line)
         {(f32) X1(&line), (f32) Y1(&line), 0, (f32) R1(&line), (f32) G1(&line), (f32) B1(&line), 0, 0}};
 
     bool isSemiTrans = GetPolyIsSemiTrans(&line);
-    u32 blendMode = GetTPageBlendMode(mGlobalTPage);
 
     mPsxShader.Use();
 
-    // Bind the source framebuffer
-    GL_VERIFY(glActiveTexture(GL_TEXTURE2));
-    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mPsxFramebufferTexId[GL_FRAMEBUFFER_PSX_SRC]));
-
-    // Set sampler uniforms
-    mPsxShader.Uniform1i("texFramebufferData", 2); // Set texFramebufferData to GL_TEXTURE2
-
     mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_FLAT);
     mPsxShader.Uniform1i("fsIsSemiTrans", isSemiTrans);
-    mPsxShader.Uniform1i("fsBlendMode", blendMode);
+    
+    SetupBlendMode(GetTPageBlendMode(mGlobalTPage));
 
     const GLuint indexData[2] = {0, 1};
     DrawLines(verts, 2, indexData, 2);
 
     mPsxShader.UnUse();
-
-    // Unbind the source framebuffer, just to be safe so drawing to it doesn't
-    // blow up
-    GL_VERIFY(glActiveTexture(GL_TEXTURE2));
-    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, 0));
 }
 
 void OpenGLRenderer::Draw(Line_G4& line)
@@ -704,30 +659,18 @@ void OpenGLRenderer::Draw(Line_G4& line)
         {(f32) X3(&line), (f32) Y3(&line), 0, (f32) R3(&line), (f32) G3(&line), (f32) B3(&line), 0, 0}};
 
     bool isSemiTrans = GetPolyIsSemiTrans(&line);
-    u32 blendMode = GetTPageBlendMode(mGlobalTPage);
 
     mPsxShader.Use();
 
-    // Bind the source framebuffer
-    GL_VERIFY(glActiveTexture(GL_TEXTURE2));
-    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mPsxFramebufferTexId[GL_FRAMEBUFFER_PSX_SRC]));
-
-    // Set sampler uniforms
-    mPsxShader.Uniform1i("texFramebufferData", 2); // Set texFramebufferData to GL_TEXTURE2
-
     mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_FLAT);
     mPsxShader.Uniform1i("fsIsSemiTrans", isSemiTrans);
-    mPsxShader.Uniform1i("fsBlendMode", blendMode);
+    
+    SetupBlendMode(GetTPageBlendMode(mGlobalTPage));
 
     const GLuint indexData[4] = {0, 1, 2, 3};
     DrawLines(verts, 4, indexData, 4);
 
     mPsxShader.UnUse();
-
-    // Unbind the source framebuffer, just to be safe so drawing to it doesn't
-    // blow up
-    GL_VERIFY(glActiveTexture(GL_TEXTURE2));
-    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, 0));
 }
 
 void OpenGLRenderer::Draw(Poly_F3& poly)
@@ -743,32 +686,18 @@ void OpenGLRenderer::Draw(Poly_F3& poly)
         {(f32) X2(&poly), (f32) Y2(&poly), 0, (f32) R0(&poly), (f32) G0(&poly), (f32) B0(&poly), 0, 0}};
 
     bool isSemiTrans = GetPolyIsSemiTrans(&poly);
-    u32 blendMode = GetTPageBlendMode(mGlobalTPage);
 
     mPsxShader.Use();
 
-    // Bind the source framebuffer
-    GL_VERIFY(glActiveTexture(GL_TEXTURE2));
-    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mPsxFramebufferTexId[GL_FRAMEBUFFER_PSX_SRC]));
-
-    // Set sampler uniforms
-    mPsxShader.Uniform1i("texFramebufferData", 2); // Set texFramebufferData to GL_TEXTURE2
-
     mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_FLAT);
     mPsxShader.Uniform1i("fsIsSemiTrans", isSemiTrans);
-    mPsxShader.Uniform1i("fsBlendMode", blendMode);
+    
+    SetupBlendMode(GetTPageBlendMode(mGlobalTPage));
 
     const GLuint indexData[3] = {0, 1, 2};
     DrawTriangles(verts, 3, indexData, 3);
 
     mPsxShader.UnUse();
-
-    // Unbind the source framebuffer, just to be safe so drawing to it doesn't
-    // blow up
-    GL_VERIFY(glActiveTexture(GL_TEXTURE2));
-    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, 0));
-
-    CompleteDraw();
 }
 
 void OpenGLRenderer::Draw(Poly_G3& poly)
@@ -784,32 +713,18 @@ void OpenGLRenderer::Draw(Poly_G3& poly)
         {(f32) X2(&poly), (f32) Y2(&poly), 0, (f32) R2(&poly), (f32) G2(&poly), (f32) B2(&poly), 0, 0}};
 
     bool isSemiTrans = GetPolyIsSemiTrans(&poly);
-    u32 blendMode = GetTPageBlendMode(mGlobalTPage);
 
     mPsxShader.Use();
 
-    // Bind the source framebuffer
-    GL_VERIFY(glActiveTexture(GL_TEXTURE2));
-    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mPsxFramebufferTexId[GL_FRAMEBUFFER_PSX_SRC]));
-
-    // Set sampler uniforms
-    mPsxShader.Uniform1i("texFramebufferData", 2); // Set texFramebufferData to GL_TEXTURE2
-
     mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_FLAT);
     mPsxShader.Uniform1i("fsIsSemiTrans", isSemiTrans);
-    mPsxShader.Uniform1i("fsBlendMode", blendMode);
+
+    SetupBlendMode(GetTPageBlendMode(mGlobalTPage));
 
     const GLuint indexData[3] = {0, 1, 2};
     DrawTriangles(verts, 3, indexData, 3);
 
     mPsxShader.UnUse();
-
-    // Unbind the source framebuffer, just to be safe so drawing to it doesn't
-    // blow up
-    GL_VERIFY(glActiveTexture(GL_TEXTURE2));
-    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, 0));
-
-    CompleteDraw();
 }
 
 void OpenGLRenderer::Draw(Poly_F4& poly)
@@ -828,32 +743,18 @@ void OpenGLRenderer::Draw(Poly_F4& poly)
         {(f32) X3(&poly), (f32) Y3(&poly), 0, r, g, b, 0, 0}};
 
     bool isSemiTrans = GetPolyIsSemiTrans(&poly);
-    u32 blendMode = GetTPageBlendMode(mGlobalTPage);
 
     mPsxShader.Use();
 
-    // Bind the source framebuffer
-    GL_VERIFY(glActiveTexture(GL_TEXTURE2));
-    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mPsxFramebufferTexId[GL_FRAMEBUFFER_PSX_SRC]));
-
-    // Set sampler uniforms
-    mPsxShader.Uniform1i("texFramebufferData", 2); // Set texFramebufferData to GL_TEXTURE2
-
     mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_FLAT);
     mPsxShader.Uniform1i("fsIsSemiTrans", isSemiTrans);
-    mPsxShader.Uniform1i("fsBlendMode", blendMode);
+
+    SetupBlendMode(GetTPageBlendMode(mGlobalTPage));
 
     const GLuint indexData[6] = {0, 1, 2, 2, 1, 3};
     DrawTriangles(verts, 4, indexData, 6);
 
     mPsxShader.UnUse();
-
-    // Unbind the source framebuffer, just to be safe so drawing to it doesn't
-    // blow up
-    GL_VERIFY(glActiveTexture(GL_TEXTURE2));
-    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, 0));
-
-    CompleteDraw();
 }
 
 void OpenGLRenderer::Draw(Poly_FT4& poly)
@@ -869,22 +770,17 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     f32 g = poly.mBase.header.rgb_code.g;
     f32 b = poly.mBase.header.rgb_code.b;
 
-    // Bind the source framebuffer
-    GL_VERIFY(glActiveTexture(GL_TEXTURE2));
-    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mPsxFramebufferTexId[GL_FRAMEBUFFER_PSX_SRC]));
-
     // Set sampler uniforms
     mPsxShader.Uniform1i("texTextureData", 0);     // Set texTextureData to GL_TEXTURE0
     mPsxShader.Uniform1i("texAdditionalData", 1);  // Set texAdditionalData to GL_TEXTURE1
-    mPsxShader.Uniform1i("texFramebufferData", 2); // Set texFramebufferData to GL_TEXTURE2
 
     bool isSemiTrans = GetPolyIsSemiTrans(&poly);
     bool isShaded = GetPolyIsShaded(&poly);
-    u32 blendMode = GetTPageBlendMode(GetTPage(&poly));
 
     mPsxShader.Uniform1i("fsIsSemiTrans", isSemiTrans);
     mPsxShader.Uniform1i("fsIsShaded", isShaded);
-    mPsxShader.Uniform1i("fsBlendMode", blendMode);
+
+    SetupBlendMode(GetTPageBlendMode(GetTPage(&poly)));
 
     const GLuint indexData[6] = {1, 0, 3, 3, 0, 2};
 
@@ -984,13 +880,6 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     }
 
     mPsxShader.UnUse();
-
-    // Unbind the source framebuffer, just to be safe so drawing to it doesn't
-    // blow up
-    GL_VERIFY(glActiveTexture(GL_TEXTURE2));
-    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, 0));
-
-    CompleteDraw();
 }
 
 void OpenGLRenderer::Draw(Poly_G4& poly)
@@ -1005,32 +894,18 @@ void OpenGLRenderer::Draw(Poly_G4& poly)
         {(f32) X3(&poly), (f32) Y3(&poly), 0, (f32) R3(&poly), (f32) G3(&poly), (f32) B3(&poly), 0, 0}};
 
     bool isSemiTrans = GetPolyIsSemiTrans(&poly);
-    u32 blendMode = GetTPageBlendMode(mGlobalTPage);
 
     mPsxShader.Use();
 
-    // Bind the source framebuffer
-    GL_VERIFY(glActiveTexture(GL_TEXTURE2));
-    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mPsxFramebufferTexId[GL_FRAMEBUFFER_PSX_SRC]));
-
-    // Set sampler uniforms
-    mPsxShader.Uniform1i("texFramebufferData", 2); // Set texFramebufferData to GL_TEXTURE2
-
     mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_FLAT);
     mPsxShader.Uniform1i("fsIsSemiTrans", isSemiTrans);
-    mPsxShader.Uniform1i("fsBlendMode", blendMode);
+    
+    SetupBlendMode(GetTPageBlendMode(mGlobalTPage));
 
     const GLuint indexData[6] = {0, 1, 2, 1, 2, 3};
     DrawTriangles(verts, 4, indexData, 6);
 
     mPsxShader.UnUse();
-
-    // Unbind the source framebuffer, just to be safe so drawing to it doesn't
-    // blow up
-    GL_VERIFY(glActiveTexture(GL_TEXTURE2));
-    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, 0));
-
-    CompleteDraw();
 }
 
 void OpenGLRenderer::EndFrame()
@@ -1046,15 +921,9 @@ void OpenGLRenderer::EndFrame()
 
     // Draw the final composed framebuffer to the screen
     GL_VERIFY(glDisable(GL_SCISSOR_TEST));
-    DrawFramebufferToFramebuffer(
-        GL_FRAMEBUFFER_PSX_DST,
-        GL_FRAMEBUFFER_SCREEN,
+    DrawFramebufferToScreen(
         mScreenOffsetX,
         mScreenOffsetY / 2, // FIXME: Should track ratio of PSX to screen
-        GL_FRAMEBUFFER_PSX_WIDTH,
-        GL_FRAMEBUFFER_PSX_HEIGHT,
-        0,
-        0,
         GL_FRAMEBUFFER_PSX_WIDTH,
         GL_FRAMEBUFFER_PSX_HEIGHT);
 
@@ -1169,8 +1038,8 @@ void OpenGLRenderer::StartFrame(s32 xOff, s32 yOff)
     mScreenOffsetX = xOff;
     mScreenOffsetY = yOff;
 
-    // Always render to destination buffer (1)
-    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId[GL_FRAMEBUFFER_PSX_DST]));
+    // Always render to PSX framebuffer
+    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId));
     GL_VERIFY(glViewport(0, 0, GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT));
 }
 
@@ -1272,15 +1141,6 @@ void OpenGLRenderer::Upload(BitDepth /*bitDepth*/, const PSX_RECT& /*rect*/, con
 
 // ROZZA FRAMEBUFFER STUFF
 
-void OpenGLRenderer::CompleteDraw()
-{
-    // Copy the current state of the framebuffer (post-draw) to the 'source'
-    // framebuffer ready for the next draw call to use
-    DrawFramebufferToFramebuffer(
-        GL_FRAMEBUFFER_PSX_DST,
-        GL_FRAMEBUFFER_PSX_SRC);
-}
-
 void OpenGLRenderer::FreeUnloadedAnimTextures()
 {
     auto it = mTextureCache.begin();
@@ -1297,31 +1157,11 @@ void OpenGLRenderer::FreeUnloadedAnimTextures()
     }
 }
 
-void OpenGLRenderer::DrawFramebufferToFramebuffer(int src, int dst)
+void OpenGLRenderer::DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height)
 {
-    DrawFramebufferToFramebuffer(
-        src,
-        dst,
-        0,
-        0,
-        GL_FRAMEBUFFER_PSX_WIDTH,
-        GL_FRAMEBUFFER_PSX_HEIGHT,
-        0,
-        0,
-        GL_FRAMEBUFFER_PSX_WIDTH,
-        GL_FRAMEBUFFER_PSX_HEIGHT);
-}
-
-void OpenGLRenderer::DrawFramebufferToFramebuffer(int src, int dst, s32 x, s32 y, s32 width, s32 height, s32 clipX, s32 clipY, s32 clipWidth, s32 clipHeight)
-{
-    if (src == GL_FRAMEBUFFER_SCREEN)
-    {
-        ALIVE_FATAL("OpenGL: Cannot use the screen as the framebuffer source.");
-    }
-
-    // Retrieve the source framebuffer texture and destination framebuffer IDs
-    GLuint srcFramebufferTexId = mPsxFramebufferTexId[src];
-    GLuint dstFramebufferId = dst == GL_FRAMEBUFFER_SCREEN ? 0 : mPsxFramebufferId[dst];
+    // Ensure blend mdoe is back to normal alpha compositing
+    GL_VERIFY(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+    GL_VERIFY(glBlendEquation(GL_FUNC_ADD));
 
     // Set up VBOs
     GLuint drawVboId = 0;
@@ -1336,13 +1176,13 @@ void OpenGLRenderer::DrawFramebufferToFramebuffer(int src, int dst, s32 x, s32 y
         (f32) x, (f32) (y + height),
         (f32) (x + width), (f32) (y + height)};
     GLfloat uvVertices[] = {
-        (f32) clipX, (f32) (clipY + clipHeight),
-        (f32) clipX, (f32) clipY,
-        (f32) (clipX + clipWidth), (f32) (clipY + clipHeight),
+        0.0f, (f32) height,
+        0.0f, 0.0f,
+        (f32) width, (f32) height,
 
-        (f32) (clipX + clipWidth), (f32) (clipY + clipHeight),
-        (f32) clipX, (f32) clipY,
-        (f32) (clipX + clipWidth), (f32) clipY};
+        (f32) width, (f32) height,
+        0.0f, 0.0f,
+        (f32) width, (f32) 0.0f};
 
     GL_VERIFY(glGenBuffers(1, &drawVboId));
     GL_VERIFY(glBindBuffer(GL_ARRAY_BUFFER, drawVboId));
@@ -1368,18 +1208,15 @@ void OpenGLRenderer::DrawFramebufferToFramebuffer(int src, int dst, s32 x, s32 y
     mPassthruShader.Uniform1i("TextureSampler", 0);
     mPassthruShader.UniformVec2("vsTexSize", {GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT});
 
-    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, dstFramebufferId));
+    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, 0));
 
-    // If we're drawing to the screen, then we do want to clear what's there,
-    // otherwise we'll have leftovers during screen shake!
-    if (dst == GL_FRAMEBUFFER_SCREEN)
-    {
-        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-    }
+    // Clear whatever is already on screen - important for when we're doing
+    // screen shake so there aren't leftovers
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
 
     GL_VERIFY(glActiveTexture(GL_TEXTURE0));
-    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, srcFramebufferTexId));
+    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mPsxFramebufferTexId));
 
     GL_VERIFY(glEnableVertexAttribArray(0));
     GL_VERIFY(glBindBuffer(GL_ARRAY_BUFFER, drawVboId));
@@ -1399,37 +1236,37 @@ void OpenGLRenderer::DrawFramebufferToFramebuffer(int src, int dst, s32 x, s32 y
 
     mPassthruShader.UnUse();
 
-    // Set the framebuffer target back to the destination
-    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId[GL_FRAMEBUFFER_PSX_DST]));
+    // Set the framebuffer target back to the PSX framebuffer
+    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId));
 }
 
-u32 OpenGLRenderer::GetTPageBlendMode(u16 tpage)
+u16 OpenGLRenderer::GetTPageBlendMode(u16 tpage)
 {
-    return ((u32)tpage >> 4) & 3;
+    return (tpage >> 4) & 3;
 }
 
-void OpenGLRenderer::InitPsxFramebuffer(int index)
+void OpenGLRenderer::SetupBlendMode(u16 blendMode)
 {
-    GLuint* pFbId = &mPsxFramebufferId[index];
-    GLuint* pFbTexId = &mPsxFramebufferTexId[index];
+    mPsxShader.Uniform1i("fsBlendMode", (u32) blendMode);
 
-    GL_VERIFY(glGenFramebuffers(1, pFbId));
-    GL_VERIFY(glGenTextures(1, pFbTexId));
+    switch ((TPageAbr)blendMode)
+    {
+        case TPageAbr::eBlend_0:
+            GL_VERIFY(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+            GL_VERIFY(glBlendEquation(GL_FUNC_ADD));
+            break;
 
-    // Texture init
-    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, *pFbTexId));
+        case TPageAbr::eBlend_1:
+        case TPageAbr::eBlend_3:
+            GL_VERIFY(glBlendFunc(GL_SRC_ALPHA, GL_ONE));
+            GL_VERIFY(glBlendEquation(GL_FUNC_ADD));
+            break;
 
-    GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 640, 240, 0, GL_RGB, GL_UNSIGNED_BYTE, 0));
-
-    GL_VERIFY(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST));
-    GL_VERIFY(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST));
-
-    // Framebuffer init
-    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, *pFbId));
-    GL_VERIFY(glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, *pFbTexId, 0));
-
-    GLenum fbTargets[1] = {GL_COLOR_ATTACHMENT0};
-    GL_VERIFY(glDrawBuffers(1, fbTargets));
+        case TPageAbr::eBlend_2:
+            GL_VERIFY(glBlendFunc(GL_SRC_ALPHA, GL_ONE));
+            GL_VERIFY(glBlendEquation(GL_FUNC_REVERSE_SUBTRACT));
+            break;
+    }
 }
 
 // END ROZZA FRAMEBUFFER STUFF
