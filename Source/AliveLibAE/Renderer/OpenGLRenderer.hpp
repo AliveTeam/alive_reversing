@@ -114,9 +114,10 @@ private:
     GLShader mPassthruShader = {};
     GLShader mPsxShader = {};
 
-    GLuint mPsxFramebufferId[2];
-    GLuint mPsxFramebufferTexId[2];
+    GLuint mPsxFramebufferId[2] = {};
+    GLuint mPsxFramebufferTexId[2] = {};
 
+    GLuint mGasTextureId = 0;
     TextureAndUniqueResId mCamTexture;
     TextureAndUniqueResId mFg1Texture; // TODO: should probably be 4 of these
     TextureAndUniqueResId mFontTexture;

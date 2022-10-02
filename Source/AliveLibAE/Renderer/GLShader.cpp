@@ -315,6 +315,7 @@ const int DRAW_FLAT        = 0;
 const int DRAW_DEFAULT_FT4 = 1;
 const int DRAW_CAM         = 2;
 const int DRAW_FG1         = 3;
+const int DRAW_GAS         = 4;
 
 const vec2 frameSize = vec2(640.0, 240.0);
 
@@ -324,12 +325,16 @@ vec4 PixelToPalette(float v)
     return texture(texAdditionalData, vec2(v, 0.5f));
 }
 
-vec3 checker(in vec2 uv)
+float dither()
 {
-    float checkSize = 2;
-    float fmodResult = mod(floor(checkSize * uv.x) + floor(checkSize * uv.y), 2.0);
-    float fin = max(sign(fmodResult), 0.0);
-    return vec3(fin, fin, fin);
+    bool on = mod(gl_FragCoord.x + mod(gl_FragCoord.y, 2.0), 2.0) > 0.0;
+
+    if (on)
+    {
+        return 1.0;
+    }
+
+    return 0.0;
 }
 
 vec3 handle_blending(in vec3 src)
@@ -432,6 +437,14 @@ void draw_fg1()
     outColor.rgb = handle_shading(outColor.rgb);
 }
 
+void draw_gas()
+{
+    vec4 texelGas = texture(texTextureData, fsUV);
+    vec3 texelFinal = handle_blending(handle_shading(texelGas.rgb));
+
+    outColor = vec4(texelFinal, dither());
+}
+
 void main()
 {
     switch (fsDrawType)
@@ -450,6 +463,10 @@ void main()
 
         case DRAW_FG1:
             draw_fg1();
+            break;
+
+        case DRAW_GAS:
+            draw_gas();
             break;
     }
 } 

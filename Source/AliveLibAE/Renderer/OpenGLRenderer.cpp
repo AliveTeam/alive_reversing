@@ -22,6 +22,7 @@
 #define GL_PSX_DRAW_MODE_DEFAULT_FT4 1
 #define GL_PSX_DRAW_MODE_CAM         2
 #define GL_PSX_DRAW_MODE_FG1         3
+#define GL_PSX_DRAW_MODE_GAS         4
 
 #define GL_FRAMEBUFFER_PSX_SRC 0
 #define GL_FRAMEBUFFER_PSX_DST 1
@@ -35,7 +36,7 @@ static int gPalTextureID = 0;
 
 
 static bool gRenderEnable_SPRT = true;
-static bool gRenderEnable_GAS = false;
+static bool gRenderEnable_GAS = true;
 static bool gRenderEnable_TILE = true;
 static bool gRenderEnable_FT4 = true;
 static bool gRenderEnable_G4 = true;
@@ -507,33 +508,68 @@ void OpenGLRenderer::Draw(Prim_Sprt& sprt)
     CompleteDraw();
 }
 
-static GLuint TempGasEffectTexture = 0;
-
 void OpenGLRenderer::Draw(Prim_GasEffect& gasEffect)
 {
     if (!gRenderEnable_GAS)
+    {
         return;
+    }
 
-    if (TempGasEffectTexture == 0)
-        TempGasEffectTexture = Renderer_CreateTexture(GL_LINEAR);
+    if (mGasTextureId == 0)
+    {
+        mGasTextureId = Renderer_CreateTexture();
+    }
 
     if (gasEffect.pData == nullptr)
+    {
         return;
+    }
 
     s32 gasWidth = (gasEffect.w - gasEffect.x);
     s32 gasHeight = (gasEffect.h - gasEffect.y);
 
-    glBindTexture(GL_TEXTURE_2D, TempGasEffectTexture);
+    GL_VERIFY(glActiveTexture(GL_TEXTURE0));
+    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mGasTextureId));
+    GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB565, gasWidth / 4, gasHeight / 2, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, gasEffect.pData));
 
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB565, gasWidth / 4, gasHeight / 2, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, gasEffect.pData);
+    mPsxShader.Use();
 
-    /*mTextureShader.Use();
-    mTextureShader.Uniform1i("m_Dithered", 1);
-    mTextureShader.Uniform1i("m_DitherWidth", gasWidth);
-    mTextureShader.Uniform1i("m_DitherHeight", gasHeight);
-    DrawTexture(TempGasEffectTexture, (f32) gasEffect.x, (f32) gasEffect.y, (f32) gasWidth, (f32) gasHeight);
-    mTextureShader.Use();
-    mTextureShader.Uniform1i("m_Dithered", 0);*/
+    f32 r = 127;
+    f32 g = 127;
+    f32 b = 127;
+
+    // Bind the source framebuffer
+    GL_VERIFY(glActiveTexture(GL_TEXTURE2));
+    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mPsxFramebufferTexId[GL_FRAMEBUFFER_PSX_SRC]));
+
+    // Set sampler uniforms
+    mPsxShader.Uniform1i("texTextureData", 0);     // Set texTextureData to GL_TEXTURE0
+    mPsxShader.Uniform1i("texAdditionalData", 1);  // Set texAdditionalData to GL_TEXTURE1
+    mPsxShader.Uniform1i("texFramebufferData", 2); // Set texFramebufferData to GL_TEXTURE2
+
+    mPsxShader.Uniform1i("fsIsSemiTrans", true);
+    mPsxShader.Uniform1i("fsIsShaded", true);
+    mPsxShader.Uniform1i("fsBlendMode", (int)TPageAbr::eBlend_0);
+
+    const GLuint indexData[6] = {1, 0, 3, 3, 0, 2};
+
+    mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_GAS);
+
+    VertexData verts[4] = {
+        {(f32) gasEffect.x, (f32) gasEffect.y, 0, r, g, b, 0, 0},
+        {(f32) gasEffect.w, (f32) gasEffect.y, 0, r, g, b, 1, 0},
+        {(f32) gasEffect.x, (f32) gasEffect.h, 0, r, g, b, 0, 1},
+        {(f32) gasEffect.w, (f32) gasEffect.h, 0, r, g, b, 1, 1}};
+    DrawTriangles(verts, 4, indexData, 6);
+
+    mPsxShader.UnUse();
+
+    // Unbind the source framebuffer, just to be safe so drawing to it doesn't
+    // blow up
+    GL_VERIFY(glActiveTexture(GL_TEXTURE2));
+    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, 0));
+
+    CompleteDraw();
 }
 
 void OpenGLRenderer::Draw(Prim_Tile& tile)
