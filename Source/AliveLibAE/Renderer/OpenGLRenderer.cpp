@@ -38,7 +38,7 @@ static bool gRenderEnable_SPRT = false;
 static bool gRenderEnable_GAS = false;
 static bool gRenderEnable_TILE = false;
 static bool gRenderEnable_FT4 = true;
-static bool gRenderEnable_G4 = false;
+static bool gRenderEnable_G4 = true;
 static bool gRenderEnable_G3 = true;
 static bool gRenderEnable_G2 = false;
 static bool gRenderEnable_F4 = true;
@@ -377,11 +377,9 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
     ImGui_ImplSDL2_InitForOpenGL(mWindow, mContext);
     ImGui_ImplOpenGL3_Init(glslVer);
 
-    // Create our render buffers
+    // Create and bind the VAO, and never touch it again! Wahey.
     GL_VERIFY(glGenVertexArrays(1, &mVAO));
     GL_VERIFY(glBindVertexArray(mVAO));
-    GL_VERIFY(glGenBuffers(1, &mIBO));
-    GL_VERIFY(glGenBuffers(1, &mVBO));
 
     //mTextureShader.LoadFromFile("shaders/texture.vsh", "shaders/texture.fsh");
     mPsxShader.LoadSource(gShader_PsxVSH, gShader_PsxFSH);
@@ -609,29 +607,37 @@ void OpenGLRenderer::Draw(Line_G4& line)
         return;
     }
 
-    glDisable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, 0);
-
     const VertexData verts[4] = {
-        {(f32) line.mBase.vert.x, (f32) line.mBase.vert.y, 0,
-         line.mBase.header.rgb_code.r / 255.0f, line.mBase.header.rgb_code.g / 255.0f, line.mBase.header.rgb_code.b / 255.0f,
-         0, 0},
-        {(f32) line.mVerts[0].mVert.x, (f32) line.mVerts[0].mVert.y, 0,
-         line.mVerts[0].mRgb.r / 255.0f, line.mVerts[0].mRgb.g / 255.0f, line.mVerts[0].mRgb.b / 255.0f,
-         0, 0},
-        {(f32) line.mVerts[1].mVert.x, (f32) line.mVerts[1].mVert.y, 0,
-         line.mVerts[1].mRgb.r / 255.0f, line.mVerts[1].mRgb.g / 255.0f, line.mVerts[1].mRgb.b / 255.0f,
-         0, 0},
-        {(f32) line.mVerts[2].mVert.x, (f32) line.mVerts[2].mVert.y, 0,
-         line.mVerts[2].mRgb.r / 255.0f, line.mVerts[2].mRgb.g / 255.0f, line.mVerts[2].mRgb.b / 255.0f,
-         0, 0}};
+        {(f32) X0(&line), (f32) Y0(&line), 0, (f32) R0(&line), (f32) G0(&line), (f32) B0(&line), 0, 0},
+        {(f32) X1(&line), (f32) Y1(&line), 0, (f32) R1(&line), (f32) G1(&line), (f32) B1(&line), 0, 0},
+        {(f32) X2(&line), (f32) Y2(&line), 0, (f32) R2(&line), (f32) G2(&line), (f32) B2(&line), 0, 0},
+        {(f32) X3(&line), (f32) Y3(&line), 0, (f32) R3(&line), (f32) G3(&line), (f32) B3(&line), 0, 0}};
+
+    bool isSemiTrans = GetPolyIsSemiTrans(&line);
+    u32 blendMode = GetTPageBlendMode(mGlobalTPage);
 
     mPsxShader.Use();
 
-    const GLuint indexData[4] = {0, 1, 2, 3};
+    // Bind the source framebuffer
+    GL_VERIFY(glActiveTexture(GL_TEXTURE2));
+    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mPsxFramebufferTexId[GL_FRAMEBUFFER_PSX_SRC]));
+
+    // Set sampler uniforms
+    mPsxShader.Uniform1i("texFramebufferData", 2); // Set texFramebufferData to GL_TEXTURE2
+
+    mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_FLAT);
+    mPsxShader.Uniform1i("fsIsSemiTrans", isSemiTrans);
+    mPsxShader.Uniform1i("fsBlendMode", blendMode);
+
+    const GLuint indexData[6] = {0, 1, 2, 3};
     DrawLines(verts, 4, indexData, 4);
 
     mPsxShader.UnUse();
+
+    // Unbind the source framebuffer, just to be safe so drawing to it doesn't
+    // blow up
+    GL_VERIFY(glActiveTexture(GL_TEXTURE2));
+    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, 0));
 }
 
 void OpenGLRenderer::Draw(Poly_F3& poly)
@@ -887,40 +893,44 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     CompleteDraw();
 }
 
-void OpenGLRenderer::Draw(Poly_G4& /*poly*/)
+void OpenGLRenderer::Draw(Poly_G4& poly)
 {
-    /*
     if (!gRenderEnable_G4)
         return;
 
-    glDisable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, 0);
-
     const VertexData verts[4] = {
-        {(f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, 0,
-         poly.mBase.header.rgb_code.r / 255.0f, poly.mBase.header.rgb_code.g / 255.0f, poly.mBase.header.rgb_code.b / 255.0f,
-         0, 0},
-        {(f32) poly.mVerts[0].mVert.x, (f32) poly.mVerts[0].mVert.y, 0,
-         poly.mVerts[0].mRgb.r / 255.0f, poly.mVerts[0].mRgb.g / 255.0f, poly.mVerts[0].mRgb.b / 255.0f,
-         1, 0},
-        {(f32) poly.mVerts[1].mVert.x, (f32) poly.mVerts[1].mVert.y, 0,
-         poly.mVerts[1].mRgb.r / 255.0f, poly.mVerts[1].mRgb.g / 255.0f, poly.mVerts[1].mRgb.b / 255.0f,
-         0, 1},
-        {(f32) poly.mVerts[2].mVert.x, (f32) poly.mVerts[2].mVert.y, 0,
-         poly.mVerts[2].mRgb.r / 255.0f, poly.mVerts[2].mRgb.g / 255.0f, poly.mVerts[2].mRgb.b / 255.0f,
-         1, 1}};
+        {(f32) X0(&poly), (f32) Y0(&poly), 0, (f32) R0(&poly), (f32) G0(&poly), (f32) B0(&poly), 0, 0},
+        {(f32) X1(&poly), (f32) Y1(&poly), 0, (f32) R1(&poly), (f32) G1(&poly), (f32) B1(&poly), 0, 0},
+        {(f32) X2(&poly), (f32) Y2(&poly), 0, (f32) R2(&poly), (f32) G2(&poly), (f32) B2(&poly), 0, 0},
+        {(f32) X3(&poly), (f32) Y3(&poly), 0, (f32) R3(&poly), (f32) G3(&poly), (f32) B3(&poly), 0, 0}};
 
-    mTextureShader.Use();
+    bool isSemiTrans = GetPolyIsSemiTrans(&poly);
+    u32 blendMode = GetTPageBlendMode(mGlobalTPage);
 
-    // Set our Projection Matrix, so stuff doesn't get rendered in the quantum realm.
-    mTextureShader.UniformMatrix4fv("m_MVP", GetMVP());
-    mTextureShader.Uniform1i("m_Textured", false);
+    mPsxShader.Use();
 
-    const GLuint indexData[6] = {1, 0, 2, 1, 2, 3};
+    // Bind the source framebuffer
+    GL_VERIFY(glActiveTexture(GL_TEXTURE2));
+    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mPsxFramebufferTexId[GL_FRAMEBUFFER_PSX_SRC]));
+
+    // Set sampler uniforms
+    mPsxShader.Uniform1i("texFramebufferData", 2); // Set texFramebufferData to GL_TEXTURE2
+
+    mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_FLAT);
+    mPsxShader.Uniform1i("fsIsSemiTrans", isSemiTrans);
+    mPsxShader.Uniform1i("fsBlendMode", blendMode);
+
+    const GLuint indexData[6] = {0, 1, 2, 1, 2, 3};
     DrawTriangles(verts, 4, indexData, 6);
 
-    mTextureShader.UnUse();
-    */
+    mPsxShader.UnUse();
+
+    // Unbind the source framebuffer, just to be safe so drawing to it doesn't
+    // blow up
+    GL_VERIFY(glActiveTexture(GL_TEXTURE2));
+    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, 0));
+
+    CompleteDraw();
 }
 
 void OpenGLRenderer::EndFrame()
@@ -1453,25 +1463,28 @@ void OpenGLRenderer::InitAttributes()
 
 void OpenGLRenderer::DrawLines(const VertexData* pVertData, s32 vertSize, const GLuint* pIndData, s32 indSize)
 {
-    // Set our new vectors
-    glBindBuffer(GL_ARRAY_BUFFER, mVBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(VertexData) * vertSize, pVertData, GL_STATIC_DRAW);
+    GLuint iboId, vboId;
 
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indSize * sizeof(GLuint), pIndData, GL_STATIC_DRAW);
+    // Set our new vectors
+    GL_VERIFY(glGenBuffers(1, &iboId));
+    GL_VERIFY(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboId));
+    GL_VERIFY(glBufferData(GL_ELEMENT_ARRAY_BUFFER, indSize * sizeof(GLuint), pIndData, GL_STREAM_DRAW));
+
+    GL_VERIFY(glGenBuffers(1, &vboId));
+    GL_VERIFY(glBindBuffer(GL_ARRAY_BUFFER, vboId));
+    GL_VERIFY(glBufferData(GL_ARRAY_BUFFER, sizeof(VertexData) * vertSize, pVertData, GL_STREAM_DRAW));
 
     InitAttributes();
 
     // TODO: Make lines scale with Window
-    glLineWidth(2.0f);
+    //glLineWidth(2.0f);
 
     //Set index data and render
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO);
-    glDrawElements(GL_LINE_STRIP, indSize, GL_UNSIGNED_INT, NULL);
+    GL_VERIFY(glDrawElements(GL_LINE_STRIP, indSize, GL_UNSIGNED_INT, NULL));
 
-    glDisableVertexAttribArray(0);
-    glDisableVertexAttribArray(1);
-    glDisableVertexAttribArray(2);
+    GL_VERIFY(glDisableVertexAttribArray(0));
+    GL_VERIFY(glDisableVertexAttribArray(1));
+    GL_VERIFY(glDisableVertexAttribArray(2));
 }
 
 void OpenGLRenderer::DrawTexture(GLuint pTexture, f32 /*x*/, f32 /*y*/, f32 /*width*/, f32 /*height*/)
@@ -1501,17 +1514,20 @@ void OpenGLRenderer::DrawTexture(GLuint pTexture, f32 /*x*/, f32 /*y*/, f32 /*wi
 
 void OpenGLRenderer::DrawTriangles(const VertexData* pVertData, s32 vertSize, const GLuint* pIndData, s32 indSize)
 {
-    // Set our new vectors
-    GL_VERIFY(glBindBuffer(GL_ARRAY_BUFFER, mVBO));
-    GL_VERIFY(glBufferData(GL_ARRAY_BUFFER, sizeof(VertexData) * vertSize, pVertData, GL_STATIC_DRAW));
+    GLuint iboId, vboId;
 
-    GL_VERIFY(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO));
-    GL_VERIFY(glBufferData(GL_ELEMENT_ARRAY_BUFFER, indSize * sizeof(GLuint), pIndData, GL_STATIC_DRAW));
+    // Set our new vectors
+    GL_VERIFY(glGenBuffers(1, &iboId));
+    GL_VERIFY(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboId));
+    GL_VERIFY(glBufferData(GL_ELEMENT_ARRAY_BUFFER, indSize * sizeof(GLuint), pIndData, GL_STREAM_DRAW));
+
+    GL_VERIFY(glGenBuffers(1, &vboId));
+    GL_VERIFY(glBindBuffer(GL_ARRAY_BUFFER, vboId));
+    GL_VERIFY(glBufferData(GL_ARRAY_BUFFER, sizeof(VertexData) * vertSize, pVertData, GL_STREAM_DRAW));
 
     InitAttributes();
 
     //Set index data and render
-    GL_VERIFY(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mIBO));
     GL_VERIFY(glDrawElements(GL_TRIANGLES, indSize, GL_UNSIGNED_INT, NULL));
 
     GL_VERIFY(glDisableVertexAttribArray(0));

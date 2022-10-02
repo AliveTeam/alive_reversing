@@ -137,8 +137,6 @@ private:
 
     // END ROZZA STUFF
 
-    GLuint mVBO = 0;
-    GLuint mIBO = 0;
     GLuint mVAO = 0;
 
     s32 mFrameNumber = 0;
