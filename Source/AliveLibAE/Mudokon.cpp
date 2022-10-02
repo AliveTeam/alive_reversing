@@ -865,8 +865,15 @@ s32 CC Mudokon::CreateFromSaveState_4717C0(const u8* pBuffer)
         ResourceManager::LoadResourceFile_49C170("ABEWORK.BAN", nullptr);
     }
 
+    const auto oldCount = sAlertedMudCount_5C3010;
     auto pMud = ae_new<Mudokon>();
+
     pMud->ctor_474F30(pTlv, pState->field_40_tlvInfo);
+    if (sAlertedMudCount_5C3010 != oldCount)
+    {
+        sAlertedMudCount_5C3010 = oldCount;
+        LOG_INFO("Override alert count to " << oldCount);
+    }
 
     if (pState->field_3D_bIsPlayer)
     {
@@ -980,30 +987,10 @@ s32 CC Mudokon::CreateFromSaveState_4717C0(const u8* pBuffer)
         pMud->field_16C_flags.Clear(Flags_16C::eBit2_Unknown);
     }
 
-    // OG bug fix for mud lag: The angry worker and sick brain uncondtionally adds an alert, so don't do it again here.
-    if (pMud->field_18E_brain_state != Mud_Brain_State::Brain_8_AngryWorker_47E910 && pMud->field_18E_brain_state != Mud_Brain_State::Brain_9_Sick_47A910)
+    if (pMud->field_16A_flags.Get(Flags_16A::eBit3_alerted))
     {
-        if (pMud->field_16A_flags.Get(Flags_16A::eBit3_alerted))
-        {
-            sAlertedMudCount_5C3010++;
-            LOG_INFO("Alerted added from save state " << sAlertedMudCount_5C3010);
-        }
-    }
-    else
-    {
-        LOG_INFO("Skip add alerted for angry/sick constructed mud");
-    }
-
-    // Additionally if the mud was constructed as angry/sick but no longer is angry/sick undo the alert it added
-    if ((pMud->field_18E_brain_state == Mud_Brain_State::Brain_8_AngryWorker_47E910 && pState->field_7C_brain_state != Mud_Brain_State::Brain_8_AngryWorker_47E910) ||
-        (pMud->field_18E_brain_state == Mud_Brain_State::Brain_9_Sick_47A910 && 
-         pState->field_7C_brain_state != Mud_Brain_State::Brain_9_Sick_47A910 && 
-         // Only this state adds an alert, so only remove if was in that state
-         pMud->field_190_brain_sub_state == Brain_9_Sick::eBrain9_Inactive_0))
-    {
-        sAlertedMudCount_5C3010--;
-        LOG_INFO("Remove alert for no longer angry/sick mud Alert" << sAlertedMudCount_5C3010);
-
+        sAlertedMudCount_5C3010++;
+        LOG_INFO("Alerted added from save state " << sAlertedMudCount_5C3010);
     }
 
     pMud->field_178_brain_sub_state2 = pState->field_70_brain_sub_state2;
@@ -5228,6 +5215,7 @@ s16 Mudokon::Brain_8_AngryWorker_47E910()
             }
 
             field_194_timer = sGnFrame_5C1B84 + Math_RandomRange_496AB0(30, 45);
+            
             // adds mudokon lag when quicksaving/quickloading in the same screen
             AddAlerted();
 
@@ -5487,6 +5475,7 @@ s16 Mudokon::Brain_9_Sick_47A910()
                 return field_190_brain_sub_state;
             }
 
+            // Causes mud lag
             AddAlerted();
 
             field_114_flags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);
