@@ -234,13 +234,14 @@ layout (location = 1) in vec2 vsUV;
 
 out vec2 fsUV;
 
+uniform vec2 vsViewportSize;
 uniform vec2 vsTexSize;
 
 
 void main()
 {
-    gl_Position.x = ((vsPos.x / 640) * 2) - 1;
-    gl_Position.y = (1 - ((vsPos.y / 240) * 2));
+    gl_Position.x = ((vsPos.x / vsViewportSize.x) * 2) - 1;
+    gl_Position.y = (1 - ((vsPos.y / vsViewportSize.y) * 2));
     gl_Position.z = 0.0;
     gl_Position.w = 1.0;
 

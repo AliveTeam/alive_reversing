@@ -111,6 +111,8 @@ private:
 
     // ROZZA STUFF
 
+    SDL_Rect mBlitRect = {};
+
     GLShader mPassthruShader = {};
     GLShader mPsxShader = {};
 
@@ -121,9 +123,6 @@ private:
     TextureAndUniqueResId mCamTexture;
     TextureAndUniqueResId mFg1Texture; // TODO: should probably be 4 of these
     TextureAndUniqueResId mFontTexture;
-
-    s32 mScreenOffsetX = 0;
-    s32 mScreenOffsetY = 0;
 
     void DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height);
     u16 GetTPageBlendMode(u16 tPage);

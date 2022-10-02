@@ -246,36 +246,23 @@ u32 OpenGLRenderer::PrepareTextureFromPoly(Poly_FT4& poly)
 }
 
 
-void OpenGLRenderer::BltBackBuffer(const SDL_Rect* /*pCopyRect*/, const SDL_Rect* /*pDst*/)
+void OpenGLRenderer::BltBackBuffer(const SDL_Rect* /*pCopyRect*/, const SDL_Rect* pDst)
 {
+    mBlitRect = *pDst;
 }
 
-void OpenGLRenderer::Clear(u8 /*r*/, u8 /*g*/, u8 /*b*/)
+void OpenGLRenderer::Clear(u8 r, u8 g, u8 b)
 {
-    // hacky hot reload shaders
-    /* static s32 t = 999;
-    if (t >= 10)
-    {
-        t = 0;
-        mTextureShader.LoadFromFile("shaders/texture.vsh", "shaders/texture.fsh");
-    }
-    t++;*/
+    // We clear the screen framebuffer here
+    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, 0));
 
-    static bool firstFrame = true;
-    if (!firstFrame)
-    {
-    }
-    else
-    {
-        firstFrame = false;
-    }
+    GL_VERIFY(glDisable(GL_SCISSOR_TEST));
 
-    // FIXME: Find out what we're actually meant to do in here, yes it's called
-    //        'Clear', but what are we clearing, and why? At the moment it does
-    //        nothing and yet no issues appear to arise? Is it dead Jim?
+    GL_VERIFY(glClearColor((f32) r, (f32) g, (f32) b, 1.0f));
+    GL_VERIFY(glClear(GL_COLOR_BUFFER_BIT));
 
-    //glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    //glClear(GL_COLOR_BUFFER_BIT);
+    // Set back to the PSX framebuffer
+    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId));
 }
 
 bool OpenGLRenderer::Create(TWindowHandleType window)
@@ -916,16 +903,16 @@ void OpenGLRenderer::EndFrame()
     }
 
     s32 wW, wH;
-    SDL_GetWindowSize(mWindow, &wW, &wH);
+    SDL_GL_GetDrawableSize(mWindow, &wW, &wH);
     GL_VERIFY(glViewport(0, 0, wW, wH));
 
     // Draw the final composed framebuffer to the screen
     GL_VERIFY(glDisable(GL_SCISSOR_TEST));
     DrawFramebufferToScreen(
-        mScreenOffsetX,
-        mScreenOffsetY / 2, // FIXME: Should track ratio of PSX to screen
-        GL_FRAMEBUFFER_PSX_WIDTH,
-        GL_FRAMEBUFFER_PSX_HEIGHT);
+        mBlitRect.x,
+        mBlitRect.y,
+        mBlitRect.w,
+        mBlitRect.h);
 
     // Switch back to the main frame buffer
     GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, 0));
@@ -953,9 +940,7 @@ void OpenGLRenderer::EndFrame()
 
 void OpenGLRenderer::OutputSize(s32* w, s32* h)
 {
-    *w = 640;
-    *h = 480;
-    //SDL_GetRendererOutputSize(mRenderer, w, h);
+    SDL_GL_GetDrawableSize(mWindow, w, h);
 }
 
 bool OpenGLRenderer::PalAlloc(PalRecord& record)
@@ -1014,10 +999,10 @@ void OpenGLRenderer::SetClip(Prim_PrimClipper& clipper)
     GL_VERIFY(glScissor(rect.x, GL_FRAMEBUFFER_PSX_HEIGHT - rect.y - rect.h, rect.w, rect.h));
 }
 
-void OpenGLRenderer::SetScreenOffset(Prim_ScreenOffset& offset)
+void OpenGLRenderer::SetScreenOffset(Prim_ScreenOffset& /*offset*/)
 {
-    mScreenOffsetX = (s32) offset.field_C_xoff;
-    mScreenOffsetY = (s32) offset.field_E_yoff;
+    //mBlitRect.x = (s32) offset.field_C_xoff;
+    //mBlitRect.y = (s32) offset.field_E_yoff;
 }
 
 void OpenGLRenderer::SetTPage(u16 tPage)
@@ -1025,7 +1010,7 @@ void OpenGLRenderer::SetTPage(u16 tPage)
     mGlobalTPage = tPage;
 }
 
-void OpenGLRenderer::StartFrame(s32 xOff, s32 yOff)
+void OpenGLRenderer::StartFrame(s32 /*xOff*/, s32 /*yOff*/)
 {
     mStats.Reset();
 
@@ -1034,9 +1019,6 @@ void OpenGLRenderer::StartFrame(s32 xOff, s32 yOff)
     FreeUnloadedAnimTextures();
 
     mFrameStarted = true;
-
-    mScreenOffsetX = xOff;
-    mScreenOffsetY = yOff;
 
     // Always render to PSX framebuffer
     GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId));
@@ -1176,13 +1158,13 @@ void OpenGLRenderer::DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height
         (f32) x, (f32) (y + height),
         (f32) (x + width), (f32) (y + height)};
     GLfloat uvVertices[] = {
-        0.0f, (f32) height,
+        0.0f, (f32) GL_FRAMEBUFFER_PSX_HEIGHT,
         0.0f, 0.0f,
-        (f32) width, (f32) height,
+        (f32) GL_FRAMEBUFFER_PSX_WIDTH, (f32) GL_FRAMEBUFFER_PSX_HEIGHT,
 
-        (f32) width, (f32) height,
+        (f32) GL_FRAMEBUFFER_PSX_WIDTH, (f32) GL_FRAMEBUFFER_PSX_HEIGHT,
         0.0f, 0.0f,
-        (f32) width, (f32) 0.0f};
+        (f32) GL_FRAMEBUFFER_PSX_WIDTH, 0.0f};
 
     GL_VERIFY(glGenBuffers(1, &drawVboId));
     GL_VERIFY(glBindBuffer(GL_ARRAY_BUFFER, drawVboId));
@@ -1203,17 +1185,17 @@ void OpenGLRenderer::DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height
             GL_STREAM_DRAW));
 
     // Bind framebuffers and draw
+    s32 viewportW, viewportH;
+
+    SDL_GL_GetDrawableSize(mWindow, &viewportW, &viewportH);
+
     mPassthruShader.Use();
 
     mPassthruShader.Uniform1i("TextureSampler", 0);
+    mPassthruShader.UniformVec2("vsViewportSize", {(f32) viewportW, (f32) viewportH});
     mPassthruShader.UniformVec2("vsTexSize", {GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT});
 
     GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, 0));
-
-    // Clear whatever is already on screen - important for when we're doing
-    // screen shake so there aren't leftovers
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
 
     GL_VERIFY(glActiveTexture(GL_TEXTURE0));
     GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mPsxFramebufferTexId));
