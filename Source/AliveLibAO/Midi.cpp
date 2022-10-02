@@ -26,6 +26,7 @@
 
 namespace AO {
 
+#if !ALTERNATE_AUDIO
 const s32 kSeqTableSizeAO = 164;
 
 ALIVE_VAR(1, 0x9F12D8, SeqIds, sSeq_Ids_word_9F12D8, {});
@@ -1148,5 +1149,104 @@ EXPORT void CC SND_StopAll_4762D0()
 
     SsUtAllKeyOff_49EDE0(0);
 }
+#else
+EXPORT void CC SsUtAllKeyOff_49EDE0(s32 mode)
+{
+    mode;
+}
 
+EXPORT void CC SND_Reset_476BA0()
+{
+
+}
+
+EXPORT void CC SND_Load_VABS_477040(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
+{
+    pSoundBlockInfo;
+    reverb;
+
+    LvlFileRecord* pVabHeaderFile = sLvlArchive_4FFD60.Find_File_Record_41BED0(pSoundBlockInfo->field_0_vab_header_name);
+    pVabHeaderFile;
+}
+
+EXPORT void CC SND_Stop_Channels_Mask_4774A0(s32 mask)
+{
+    mask;
+}
+
+EXPORT void CC SND_Load_Seqs_477AB0(OpenSeqHandleAE* pSeqTable, const char_type* bsqFileName)
+{
+    pSeqTable;
+    bsqFileName;
+}
+
+EXPORT s16 CC SND_SEQ_PlaySeq_4775A0(SeqId idx, s32 repeatCount, s16 bDontStop)
+{
+    idx;
+    repeatCount;
+    bDontStop;
+    return 1;
+}
+
+EXPORT void CC SND_Seq_Stop_477A60(SeqId idx)
+{
+    idx;
+}
+
+EXPORT s16 CC SND_SEQ_Play_477760(SeqId idx, s32 repeatCount, s16 volLeft, s16 volRight)
+{
+    idx;
+    repeatCount;
+    volLeft;
+    volRight;
+    return 1;
+}
+
+EXPORT s16 CC SND_SsIsEos_DeInlined_477930(SeqId idx)
+{
+    idx;
+    return 1;
+}
+
+EXPORT s32 CC SFX_SfxDefinition_Play_477330(const SfxDefinition* sfxDef, s16 volLeft, s16 volRight, s16 pitch_min, s16 pitch_max)
+{
+    sfxDef;
+    volLeft;
+    volRight;
+    pitch_min;
+    pitch_max;
+    return 1;
+}
+
+EXPORT s32 CC SFX_SfxDefinition_Play_4770F0(const SfxDefinition* sfxDef, s32 vol, s32 pitch_min, s32 pitch_max)
+{
+    sfxDef;
+    vol;
+    pitch_min;
+    pitch_max;
+    return 1;
+}
+
+EXPORT void CC SND_Init_476E40()
+{
+    // 1
+}
+
+EXPORT void CC SND_Shutdown_476EC0()
+{
+
+}
+
+EXPORT void CC SND_SEQ_SetVol_477970(SeqId idx, s16 volLeft, s16 volRight)
+{
+    idx;
+    volLeft;
+    volRight;
+}
+
+EXPORT void CC SND_StopAll_4762D0()
+{
+
+}
+#endif
 } // namespace AO
