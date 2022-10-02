@@ -347,9 +347,8 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
         }
     }
 
-    glewExperimental = GL_TRUE;
-
     // Initialize GLEW
+    glewExperimental = GL_TRUE;
     GLenum glewError = glewInit();
 
     if (glewError != GLEW_OK)
@@ -931,10 +930,10 @@ void OpenGLRenderer::EndFrame()
 
     s32 wW, wH;
     SDL_GetWindowSize(mWindow, &wW, &wH);
-    glViewport(0, 0, wW, wH);
+    GL_VERIFY(glViewport(0, 0, wW, wH));
 
     // Draw the final composed framebuffer to the screen
-    glDisable(GL_SCISSOR_TEST);
+    GL_VERIFY(glDisable(GL_SCISSOR_TEST));
     DrawFramebufferToFramebuffer(
         GL_FRAMEBUFFER_PSX_DST,
         GL_FRAMEBUFFER_SCREEN,
@@ -960,6 +959,10 @@ void OpenGLRenderer::EndFrame()
     ImGui::Render();
     ImGui::EndFrame();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+    // Throw away any errors caused by ImGui - this is necessary for AMD GPUs
+    // (AMD Radeon HD 7310 with driver 8.982.10.5000)
+    glGetError();
 
     // Render end
     SDL_GL_SwapWindow(mWindow);
@@ -1022,12 +1025,12 @@ void OpenGLRenderer::SetClip(Prim_PrimClipper& clipper)
 
     if (rect.x == 0 && rect.y == 0 && rect.w == 1 && rect.h == 1)
     {
-        glDisable(GL_SCISSOR_TEST);
+        GL_VERIFY(glDisable(GL_SCISSOR_TEST));
         return;
     }
 
-    glEnable(GL_SCISSOR_TEST);
-    glScissor(rect.x, GL_FRAMEBUFFER_PSX_HEIGHT - rect.y - rect.h, rect.w, rect.h);
+    GL_VERIFY(glEnable(GL_SCISSOR_TEST));
+    GL_VERIFY(glScissor(rect.x, GL_FRAMEBUFFER_PSX_HEIGHT - rect.y - rect.h, rect.w, rect.h));
 }
 
 void OpenGLRenderer::SetScreenOffset(Prim_ScreenOffset& offset)
