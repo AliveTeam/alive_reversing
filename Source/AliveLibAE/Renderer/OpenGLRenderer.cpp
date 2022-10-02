@@ -1482,6 +1482,9 @@ void OpenGLRenderer::DrawLines(const VertexData* pVertData, s32 vertSize, const 
     //Set index data and render
     GL_VERIFY(glDrawElements(GL_LINE_STRIP, indSize, GL_UNSIGNED_INT, NULL));
 
+    GL_VERIFY(glDeleteBuffers(1, &iboId));
+    GL_VERIFY(glDeleteBuffers(1, &vboId));
+
     GL_VERIFY(glDisableVertexAttribArray(0));
     GL_VERIFY(glDisableVertexAttribArray(1));
     GL_VERIFY(glDisableVertexAttribArray(2));
@@ -1529,6 +1532,9 @@ void OpenGLRenderer::DrawTriangles(const VertexData* pVertData, s32 vertSize, co
 
     //Set index data and render
     GL_VERIFY(glDrawElements(GL_TRIANGLES, indSize, GL_UNSIGNED_INT, NULL));
+
+    GL_VERIFY(glDeleteBuffers(1, &iboId));
+    GL_VERIFY(glDeleteBuffers(1, &vboId));
 
     GL_VERIFY(glDisableVertexAttribArray(0));
     GL_VERIFY(glDisableVertexAttribArray(1));
