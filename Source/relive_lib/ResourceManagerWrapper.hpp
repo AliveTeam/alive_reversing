@@ -185,6 +185,12 @@ public:
     std::shared_ptr<TgaData> mTgaPtr;
 };
 
+class PendingResource final
+{
+public:
+
+};
+
 // Temp adapter interface
 class ResourceManagerWrapper
 {
@@ -249,7 +255,15 @@ public:
 
     static std::vector<std::unique_ptr<BinaryPath>> LoadPaths(EReliveLevelIds lvlId);
 
+
+    static void LoadingLoop(bool bShowLoadingIcon);
+
+
 private:
+    static void ProcessLoadingFiles();
+
+    static std::vector<PendingResource> mFilesPendingLoading;
+
     // TODO: don't use stl directly
     static std::map<AnimId, std::pair<std::weak_ptr<AnimationAttributesAndFrames>, std::weak_ptr<TgaData>>> mAnims;
 };

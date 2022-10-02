@@ -9,7 +9,7 @@
 #include "Input.hpp"
 #include "Sound/Midi.hpp"
 #include "Sound/Sound.hpp"
-#include "PauseMenu.hpp" // pal_554474
+#include "PauseMenu.hpp" // pauseMenuFontPal
 #include "Sys.hpp"
 #include "GameAutoPlayer.hpp"
 
@@ -33,7 +33,7 @@ Text::Text(const char_type* pMessage, s32 renderCount, s32 bShadow)
 
     gObjListDrawables->Push_Back(this);
 
-    field_20_font.ctor_433590(static_cast<s32>((bShadow + 1) * strlen(pMessage)), pal_554474, &sFont1Context_5BC5C8);
+    field_20_font.ctor_433590(static_cast<s32>((bShadow + 1) * strlen(pMessage)), pauseMenuFontPal, &sFont1Context_5BC5C8);
 
     field_5C_xpos = static_cast<s16>(field_20_font.MeasureTextWidth(pMessage));
     field_5E_ypos = 0;

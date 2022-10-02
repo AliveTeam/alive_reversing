@@ -7,6 +7,7 @@
 
 #include "data_conversion/data_conversion.hpp"
 #include "BinaryPath.hpp"
+#include "../AliveLibCommon/BaseGameAutoPlayer.hpp"
 
 #include "nlohmann/json.hpp"
 
@@ -17,6 +18,7 @@
 #include <lodepng/lodepng.h>
 
 u32 UniqueResId::mGlobalId = 1;
+std::vector<PendingResource> ResourceManagerWrapper::mFilesPendingLoading;
 
 
 std::map<AnimId, std::pair<std::weak_ptr<AnimationAttributesAndFrames>, std::weak_ptr<TgaData>>> ResourceManagerWrapper::mAnims;
@@ -355,4 +357,30 @@ std::vector<std::unique_ptr<BinaryPath>> ResourceManagerWrapper::LoadPaths(EReli
     }
 
     return ret;
+}
+
+void ResourceManagerWrapper::LoadingLoop(bool bShowLoadingIcon)
+{
+    GetGameAutoPlayer().DisableRecorder();
+
+    while (!mFilesPendingLoading.empty())
+    {
+        // TODO: Fix
+        //SYS_EventsPump_494580();
+        ProcessLoadingFiles();
+        PSX_VSync_4F6170(0);
+        const s32 ticks = loading_ticks_5C1BAC++ + 1;
+        if (bShowLoadingIcon && !bHideLoadingIcon_5C1BAA && ticks > 180)
+        {
+            // Render everything in the ordering table including the loading icon
+            Game_ShowLoadingIcon_482D80();
+        }
+    }
+
+    GetGameAutoPlayer().EnableRecorder();
+}
+
+void ResourceManagerWrapper::ProcessLoadingFiles()
+{
+
 }

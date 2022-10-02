@@ -347,6 +347,8 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
         }
     }
 
+    LOG_INFO("GL_VERSION = " << glGetString(GL_VERSION));
+
     // Initialize GLEW
     glewExperimental = GL_TRUE;
     GLenum glewError = glewInit();
