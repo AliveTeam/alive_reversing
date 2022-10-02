@@ -872,9 +872,13 @@ s32 CC Mudokon::CreateFromSaveState_4717C0(const u8* pBuffer)
         pMud->field_16C_flags.Clear(Flags_16C::eBit2_Unknown);
     }
 
-    if (pMud->field_16A_flags.Get(Flags_16A::eBit3_alerted))
+    // OG bug fix for mud lag: The angry worker brain uncondtionally adds an alert, so don't do it again here.
+    if (pMud->field_18E_brain_state != Mud_Brain_State::Brain_8_AngryWorker_47E910)
     {
-        sAlertedMudCount_5C3010++;
+        if (pMud->field_16A_flags.Get(Flags_16A::eBit3_alerted))
+        {
+            sAlertedMudCount_5C3010++;
+        }
     }
 
     pMud->field_178_brain_sub_state2 = pState->field_70_brain_sub_state2;
