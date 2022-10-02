@@ -22,6 +22,7 @@
 #include "../AliveLibAE/Sound/Midi.hpp"
 #include "../AliveLibAE/Sound/Sound.hpp"
 #include "../AliveLibAE/PathData.hpp"
+#include "SDL_Mixer.h"
 
 
 namespace AO {
@@ -1150,6 +1151,11 @@ EXPORT void CC SND_StopAll_4762D0()
     SsUtAllKeyOff_49EDE0(0);
 }
 #else
+
+
+
+// https://github.com/mlgthatsme/AliveSoundLib
+
 EXPORT void CC SsUtAllKeyOff_49EDE0(s32 mode)
 {
     mode;
@@ -1160,14 +1166,172 @@ EXPORT void CC SND_Reset_476BA0()
 
 }
 
+struct AoVag
+{
+    u32 iSize;
+    u32 iSampleRate;
+    std::vector<unsigned char> iSampleData;
+};
+
 EXPORT void CC SND_Load_VABS_477040(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
 {
     pSoundBlockInfo;
     reverb;
 
-    LvlFileRecord* pVabHeaderFile = sLvlArchive_4FFD60.Find_File_Record_41BED0(pSoundBlockInfo->field_0_vab_header_name);
-    pVabHeaderFile;
+
+
+    while (1)
+    {
+        if (!pSoundBlockInfo->field_0_vab_header_name)
+        {
+            break;
+        }
+
+        if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 1, 1024))
+        {
+            return;
+        }
+
+        // Read header
+        LvlFileRecord* pVabHeaderFile = sLvlArchive_4FFD60.Find_File_Record_41BED0(pSoundBlockInfo->field_0_vab_header_name);
+        u8* ppVabHeader = new u8[pVabHeaderFile->field_10_num_sectors << 11];
+        sLvlArchive_4FFD60.Read_File_41BE40(pVabHeaderFile, ppVabHeader);
+        VabHeader* vabHeader = reinterpret_cast<VabHeader*>(ppVabHeader);
+
+        // Read body
+        LvlFileRecord* pVabBodyFile = sLvlArchive_4FFD60.Find_File_Record_41BED0(pSoundBlockInfo->field_4_vab_body_name);
+        s32 bodySize = pVabBodyFile->field_10_num_sectors << 11;
+        u8* ppVabBody = new u8[bodySize];
+        sLvlArchive_4FFD60.Read_File_41BE40(pVabBodyFile, ppVabBody);
+
+        int pos = 0;
+        while (pos < bodySize)
+        {
+            VabBodyRecord* record = reinterpret_cast<VabBodyRecord*>(&ppVabBody[pos]);
+
+            u32 size = *reinterpret_cast<u32*>(&ppVabBody[pos]);
+            pos += sizeof(u32);
+
+            u32 sampleRate = *reinterpret_cast<u32*>(&ppVabBody[pos]);
+            pos += sizeof(u32);
+
+            u8* data = new u8[size];
+            memcpy(data, &ppVabBody[pos], size);
+            pos += size;
+
+            // offset
+            // data
+
+            size;
+            sampleRate;
+            record;
+            vabHeader;
+
+
+            Uint8* dst = new Uint8[size * 2];
+            for (u32 ix = 0; ix < size; ix++)
+            { // not sure of the bounds
+                dst[2 * ix] = data[ix];
+
+                u32 o1 = data[ix];
+                u32 o2 = data[ix + 1];
+
+                dst[2 * ix + 1] = ((Uint8)((o1 + o2) / 2));
+            }
+
+            Mix_Chunk* chunk = Mix_QuickLoad_RAW(dst, size * 2);
+            Mix_PlayChannel(-1, chunk, 0);
+            SDL_Delay(1000);
+        }
+
+        pSoundBlockInfo++;
+    }
 }
+
+//EXPORT void CC SsVabTransBody_49D3E0(VabBodyRecord* pVabBody, s16 vabId)
+//{
+//    if (vabId < 0)
+//    {
+//        return;
+//    }
+//
+//    VabHeader* pVabHeader = GetSpuApiVars()->spVabHeaders()[vabId];
+//    const s32 vagCount = GetSpuApiVars()->sVagCounts()[vabId];
+//
+//    for (s32 i = 0; i < vagCount; i++)
+//    {
+//        SoundEntry* pEntry = &GetSpuApiVars()->sSoundEntryTable16().table[vabId][i];
+//
+//        if (!(i & 7))
+//        {
+//            SsSeqCalledTbyT_49E9F0();
+//        }
+//
+//        memset(pEntry, 0, sizeof(SoundEntry));
+//
+//        s32 sampleLen = -1;
+//        if (pVabHeader && i >= 0)
+//        {
+//            sampleLen = (8 * IterateVBRecords(pVabBody, i)->field_0_length_or_duration) / 16;
+//        }
+//
+//        if (sampleLen > 0)
+//        {
+//            VabBodyRecord* v10 = nullptr;
+//            if (pVabHeader && i >= 0)
+//            {
+//                v10 = IterateVBRecords(pVabBody, i);
+//            }
+//
+//            const u8 unused_field = v10->field_4_unused >= 0 ? 0 : 4;
+//            for (s32 prog = 0; prog < 128; prog++)
+//            {
+//                for (s32 tone = 0; tone < 16; tone++)
+//                {
+//                    auto pVag = &GetSpuApiVars()->sConvertedVagTable().table[vabId][prog][tone];
+//                    if (pVag->field_10_vag == i)
+//                    {
+//                        pVag->field_C = unused_field;
+//
+//                        if (!(unused_field & 4) && !pVag->field_0_adsr_attack && pVag->field_6_adsr_release)
+//                        {
+//                            pVag->field_6_adsr_release = 0;
+//                        }
+//                    }
+//                }
+//            }
+//
+//            if (!SND_New_492790(pEntry, sampleLen, 44100, 16u, 0))
+//            {
+//                auto pTempBuffer = (u32*) malloc(sampleLen * pEntry->field_1D_blockAlign);
+//                if (pTempBuffer)
+//                {
+//                    u32* pSrcVB = nullptr;
+//                    if (pVabHeader && i >= 0)
+//                    {
+//                        pSrcVB = &IterateVBRecords(pVabBody, i)->field_8_fileOffset;
+//                    }
+//
+//                    s32 sampleLen2 = -1;
+//                    if (pVabHeader && i >= 0)
+//                    {
+//                        sampleLen2 = (8 * IterateVBRecords(pVabBody, i)->field_0_length_or_duration) / 16;
+//                    }
+//
+//                    const s32 len = (16 * sampleLen2) / 8;
+//                    memcpy(pTempBuffer, pSrcVB, len);
+//
+//                    if (sampleLen2)
+//                    {
+//                        SND_Load_492F40(pEntry, pTempBuffer, sampleLen2);
+//                    }
+//
+//                    free(pTempBuffer);
+//                }
+//            }
+//        }
+//    }
+//}
 
 EXPORT void CC SND_Stop_Channels_Mask_4774A0(s32 mask)
 {
