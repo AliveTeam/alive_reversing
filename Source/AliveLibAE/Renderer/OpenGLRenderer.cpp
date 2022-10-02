@@ -34,7 +34,7 @@
 static int gPalTextureID = 0;
 
 
-static bool gRenderEnable_SPRT = false;
+static bool gRenderEnable_SPRT = true;
 static bool gRenderEnable_GAS = false;
 static bool gRenderEnable_TILE = false;
 static bool gRenderEnable_FT4 = true;
@@ -137,6 +137,46 @@ u8 get_pixel_8(u8* surface, int x, int y, int pitch)
     return *target_pixel;
 }*/
 
+u32 OpenGLRenderer::PrepareTextureFromAnim(Animation& anim)
+{
+    AnimResource& r = anim.mAnimRes;
+
+    auto it = mTextureCache.find(r.mUniqueId.Id());
+    u32 textureId = 0;
+    bool uploadPixels = false;
+    if (it == std::end(mTextureCache))
+    {
+        textureId = Renderer_CreateTexture();
+        LastUsedFrame tmp;
+        tmp.mLastUsedFrame = mFrameNumber;
+        tmp.mTextureId = textureId;
+        mTextureCache[r.mUniqueId.Id()] = tmp;
+        uploadPixels = true;
+    }
+    else
+    {
+        textureId = it->second.mTextureId;
+
+        // Update the last used frame to keep the texture alive a bit longer
+        LastUsedFrame tmp;
+        tmp.mLastUsedFrame = mFrameNumber;
+        tmp.mTextureId = textureId;
+        mTextureCache[r.mUniqueId.Id()] = tmp;
+    }
+
+    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, textureId));
+
+    if (uploadPixels)
+    {
+        GL_VERIFY(glPixelStorei(GL_UNPACK_ALIGNMENT, 1));
+        GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, r.mTgaPtr->mWidth, r.mTgaPtr->mHeight, 0, GL_RED, GL_UNSIGNED_BYTE, r.mTgaPtr->mPixels.data()));
+
+        mStats.mAnimUploadCount++;
+    }
+
+    return textureId;
+}
+
 u32 OpenGLRenderer::PrepareTextureFromPoly(Poly_FT4& poly)
 {
     GL_VERIFY(glActiveTexture(GL_TEXTURE0));
@@ -181,42 +221,7 @@ u32 OpenGLRenderer::PrepareTextureFromPoly(Poly_FT4& poly)
     }
     else if (poly.mAnim)
     {
-        AnimResource& r = poly.mAnim->mAnimRes;
-
-        auto it = mTextureCache.find(r.mUniqueId.Id());
-        u32 textureId = 0;
-        bool uploadPixels = false;
-        if (it == std::end(mTextureCache))
-        {
-            textureId = Renderer_CreateTexture();
-            LastUsedFrame tmp;
-            tmp.mLastUsedFrame = mFrameNumber;
-            tmp.mTextureId = textureId;
-            mTextureCache[r.mUniqueId.Id()] = tmp;
-            uploadPixels = true;
-        }
-        else
-        {
-            textureId = it->second.mTextureId;
-
-            // Update the last used frame to keep the texture alive a bit longer
-            LastUsedFrame tmp;
-            tmp.mLastUsedFrame = mFrameNumber;
-            tmp.mTextureId = textureId;
-            mTextureCache[r.mUniqueId.Id()] = tmp;
-        }
-
-        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, textureId));
-
-        if (uploadPixels)
-        {
-            GL_VERIFY(glPixelStorei(GL_UNPACK_ALIGNMENT, 1));
-            GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, r.mTgaPtr->mWidth, r.mTgaPtr->mHeight, 0, GL_RED, GL_UNSIGNED_BYTE, r.mTgaPtr->mPixels.data()));
-
-            mStats.mAnimUploadCount++;
-        }
-
-        return textureId;
+        return PrepareTextureFromAnim(*poly.mAnim);
     }
     else if (poly.mFont)
     {
@@ -431,67 +436,75 @@ void OpenGLRenderer::Destroy()
     }
 }
 
-void OpenGLRenderer::Draw(Prim_Sprt& /*sprt*/)
+void OpenGLRenderer::Draw(Prim_Sprt& sprt)
 {
     if (!gRenderEnable_SPRT)
-        return;
-
-    /*
-    // Detect our magic code and render our cam.
-    if (sprt.mBase.header.rgb_code.r == 255 && sprt.mBase.header.rgb_code.g == 254 && sprt.mBase.header.rgb_code.b == 253)
     {
-        RenderBackground();
         return;
     }
 
-    PSX_Point vramPoint = Renderer_VRamFromTPage(mLastTPage);
-    s16 textureMode = (mLastTPage >> 7) & 3;
-
-    // FG1 Blocks
-    if (vramPoint.x < 640)
+    if (sprt.mAnim == nullptr)
     {
-        glm::ivec4 lastClip = mLastClip;
-        SetClipDirect(sprt.mBase.vert.x, sprt.mBase.vert.y, sprt.field_14_w + 1, sprt.field_16_h + 1);
-        RenderBackground();
-        SetClipDirect(lastClip.x, lastClip.y, lastClip.z, lastClip.w);
         return;
     }
 
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, 0);
+    const u32 textureId = PrepareTextureFromAnim(*sprt.mAnim);
 
-    TextureCache* pTexture = Renderer_TexFromVRam({static_cast<s16>(vramPoint.x + WidthBppDivide(textureMode, sprt.mUv.u)), static_cast<s16>(vramPoint.y + sprt.mUv.v)});
-    PaletteCache* pPal = Renderer_ClutToPalette(sprt.mUv.tpage_clut_pad);
+    mPsxShader.Use();
 
-    const VertexData verts[4] = {
-        {0, 0, 0, 1.0f, 1.0f, 1.0f, 0, 0},
-        {1, 0, 0, 1.0f, 1.0f, 1.0f, 1, 0},
-        {1, 1, 0, 1.0f, 1.0f, 1.0f, 1, 1},
-        {0, 1, 0, 1.0f, 1.0f, 1.0f, 0, 1}};
+    f32 r = sprt.mBase.header.rgb_code.r;
+    f32 g = sprt.mBase.header.rgb_code.g;
+    f32 b = sprt.mBase.header.rgb_code.b;
 
-    mTextureShader.Use();
+    // Bind the source framebuffer
+    GL_VERIFY(glActiveTexture(GL_TEXTURE2));
+    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mPsxFramebufferTexId[GL_FRAMEBUFFER_PSX_SRC]));
 
-    Renderer_BindPalette(pPal);
-    Renderer_BindTexture(pTexture);
+    // Set sampler uniforms
+    mPsxShader.Uniform1i("texTextureData", 0);     // Set texTextureData to GL_TEXTURE0
+    mPsxShader.Uniform1i("texAdditionalData", 1);  // Set texAdditionalData to GL_TEXTURE1
+    mPsxShader.Uniform1i("texFramebufferData", 2); // Set texFramebufferData to GL_TEXTURE2
 
-    // Set our Projection Matrix, so stuff doesn't get rendered in the quantum realm.
-    mTextureShader.UniformMatrix4fv("m_MVP", GetMVP(sprt.mBase.vert.x, sprt.mBase.vert.y, sprt.field_14_w, sprt.field_16_h));
+    bool isSemiTrans = GetPolyIsSemiTrans(&sprt);
+    bool isShaded = GetPolyIsShaded(&sprt);
+    u32 blendMode = GetTPageBlendMode(mGlobalTPage);
 
-    mTextureShader.Uniform1i("m_Sprite", 0);  // Set m_Sprite to GL_TEXTURE0
-    mTextureShader.Uniform1i("m_Palette", 1); // Set m_Palette to GL_TEXTURE1
-    mTextureShader.Uniform1i("m_Textured", true);
-    mTextureShader.Uniform1i("m_PaletteEnabled", pPal != nullptr);
+    mPsxShader.Uniform1i("fsIsSemiTrans", isSemiTrans);
+    mPsxShader.Uniform1i("fsIsShaded", isShaded);
+    mPsxShader.Uniform1i("fsBlendMode", blendMode);
 
-    if (pPal != nullptr)
-    {
-        mTextureShader.Uniform1i("m_PaletteDepth", pPal->mPalDepth);
-    }
+    const GLuint indexData[6] = {1, 0, 3, 3, 0, 2};
 
-    const GLuint indexData[6] = {0, 1, 3, 3, 1, 2};
+    mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_DEFAULT_FT4);
+
+    GL_VERIFY(glActiveTexture(GL_TEXTURE0));
+    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, textureId));
+
+    std::shared_ptr<TgaData> pTga = sprt.mAnim->mAnimRes.mTgaPtr;
+
+    Renderer_BindPalette(pTga->mPal);
+
+    f32 u0 = static_cast<f32>(U0(&sprt)) / static_cast<f32>(pTga->mWidth);
+    f32 v0 = static_cast<f32>(V0(&sprt)) / static_cast<f32>(pTga->mHeight);
+
+    f32 u1 = static_cast<f32>(U0(&sprt) + sprt.field_14_w) / static_cast<f32>(pTga->mWidth);
+    f32 v1 = static_cast<f32>(V0(&sprt) + sprt.field_16_h) / static_cast<f32>(pTga->mHeight);
+
+    VertexData verts[4] = {
+        {(f32) sprt.mBase.vert.x, (f32) sprt.mBase.vert.y, 0, r, g, b, u0, v0},
+        {(f32) sprt.mBase.vert.x + sprt.field_14_w, (f32) sprt.mBase.vert.y, 0, r, g, b, u1, v0},
+        {(f32) sprt.mBase.vert.x, (f32) sprt.mBase.vert.y + sprt.field_16_h, 0, r, g, b, u0, v1},
+        {(f32) sprt.mBase.vert.x + sprt.field_14_w, (f32) sprt.mBase.vert.y + sprt.field_16_h, 0, r, g, b, u1, v1}};
     DrawTriangles(verts, 4, indexData, 6);
 
-    mTextureShader.UnUse();
-    */
+    mPsxShader.UnUse();
+
+    // Unbind the source framebuffer, just to be safe so drawing to it doesn't
+    // blow up
+    GL_VERIFY(glActiveTexture(GL_TEXTURE2));
+    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, 0));
+
+    CompleteDraw();
 }
 
 static GLuint TempGasEffectTexture = 0;

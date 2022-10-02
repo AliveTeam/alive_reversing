@@ -238,6 +238,7 @@ struct Prim_Sprt final
     UV mUv;
     s16 field_14_w;
     s16 field_16_h;
+    class Animation* mAnim;
 };
 ALIVE_ASSERT_SIZEOF(Prim_Sprt, 0x18);
 

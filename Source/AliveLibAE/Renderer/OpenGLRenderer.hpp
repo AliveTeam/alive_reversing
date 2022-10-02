@@ -132,6 +132,7 @@ private:
     
     void Renderer_BindPalette(AnimationPal& pCache);
 
+    u32 PrepareTextureFromAnim(Animation& anim);
     u32 PrepareTextureFromPoly(Poly_FT4& poly);
     void FreeUnloadedAnimTextures();
 

@@ -99,14 +99,7 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
                     SetRGB0(pSprt, mAnim.mRed, mAnim.mGreen, mAnim.mBlue);
                 }
 
-                /*
-                // TODO: Just set the anim on the sprt
-                SetClut(pSprt,
-                        static_cast<s16>(
-                            PSX_getClut(
-                                mAnim.mPalVramXY.x,
-                                mAnim.mPalVramXY.y)));
-                */
+                pSprt->mAnim = &mAnim;
 
                 SetUV0(pSprt, u0, v0);
                 pSprt->field_14_w = static_cast<s16>(frameW - 1);

@@ -101,8 +101,7 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
                 Poly_Set_SemiTrans(&pSprt->mBase.header, 1);
                 Poly_Set_Blending(&pSprt->mBase.header, 1);
 
-                // TODO: Just set the anim ptr
-                //SetClut(pSprt, static_cast<s16>(PSX_getClut(mAnim.mPalVramXY.x, mAnim.mPalVramXY.y)));
+                pSprt->mAnim = &mAnim;
 
                 SetUV0(pSprt, u0, 0 /*mAnim.mVramRect.y & 0xFF*/);
                 pSprt->field_14_w = static_cast<s16>(frameW - 1);
@@ -390,18 +389,15 @@ void ZapLine::VRender(PrimHeader** ppOt)
             }
         }
 
-        /*
-        // TODO: Just set anim ptr
         const s32 calcTPage = PSX_getTPage(
             field_124_tPageMode,
             field_12C_tPageAbr,
-            mAnim.mVramRect.x,
-            mAnim.mVramRect.y);
+            0,
+            0);
 
         Prim_SetTPage* pTPage = &field_FC_tPage_p8[bufferIdx];
         Init_SetTPage(pTPage, 0, 0, calcTPage);
         OrderingTable_Add(OtLayer(ppOt, mAnim.mRenderLayer), &pTPage->mBase);
-        */
 
         PSX_RECT* pRect = &field_144_rects[bufferIdx];
         pRect->x = 32767;

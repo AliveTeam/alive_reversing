@@ -32,6 +32,7 @@ void Sprt_Init(Prim_Sprt* pPrim)
     SetNumLongs(&pPrim->mBase.header, 4);
     SetUnknown(&pPrim->mBase.header);
     SetCode(&pPrim->mBase.header, PrimTypeCodes::eSprt);
+    pPrim->mAnim = nullptr;
 }
 
 
