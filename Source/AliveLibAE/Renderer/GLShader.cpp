@@ -270,41 +270,54 @@ const char_type* gShader_PsxVSH = R"(
 #version 140
 #extension GL_ARB_explicit_attrib_location : enable
 
-layout (location = 0) in vec3 vsPos;
-layout (location = 1) in vec3 vsShadeColor;
-layout (location = 2) in vec2 vsUV;
+layout (location = 0) in ivec2 vsPos;
+layout (location = 1) in uvec3 vsShadeColor;
+layout (location = 2) in uvec2 vsUV;
+layout (location = 3) in uvec3 vsFlags;
 
-out vec3 fsShadeColor;
-out vec2 fsUV;
+out vec3  fsShadeColor;
+out vec2  fsUV;
+flat out uvec3 fsFlags;
+
+uniform vec2 vsViewportSize;
+uniform vec2 vsTexSize;
 
 
 void main()
 {
-    gl_Position.x = ((vsPos.x / 640) * 2) - 1;
-    gl_Position.y = (1 - ((vsPos.y / 240) * 2));
+    gl_Position.x = ((vsPos.x / vsViewportSize.x) * 2) - 1;
+    gl_Position.y = (1 - ((vsPos.y / vsViewportSize.y) * 2));
     gl_Position.z = 0.0;
     gl_Position.w = 1.0;
     
     fsShadeColor = vsShadeColor;
-    fsUV = vsUV;
+    fsFlags = vsFlags;
+
+    // This is basically for if there is no texture in this batch
+    if (vsTexSize.x == 0 || vsTexSize.y == 0)
+    {
+        fsUV.xy = vec2(0.0);
+    }
+    else
+    {
+        fsUV = vsUV / vsTexSize;
+    }
 }
 )";
 
 const char_type* gShader_PsxFSH = R"(
 #version 140
 
-in vec3 fsShadeColor;
-in vec2 fsUV;
+in vec3  fsShadeColor;
+in vec2  fsUV;
+flat in uvec3 fsFlags;
 
 out vec4 outColor;
 
 uniform sampler2D texTextureData;
 uniform sampler2D texAdditionalData;
 
-uniform int  fsDrawType;
-uniform bool fsIsSemiTrans;
-uniform bool fsIsShaded;
-uniform int  fsBlendMode;
+uniform int fsBlendMode;
 
 const int BLEND_MODE_HALF_DST_ADD_HALF_SRC = 0;
 const int BLEND_MODE_ONE_DST_ADD_ONE_SRC   = 1;
@@ -357,9 +370,10 @@ float get_alpha()
 
 vec3 handle_shading(in vec3 texelT)
 {
+    bool isShaded = int(fsFlags.z) > 0;
     vec3 texelP = texelT;
 
-    if (fsIsShaded)
+    if (isShaded)
     {
         texelP = clamp((texelT * (fsShadeColor / 255.0)) / 0.5f, 0.0f, 1.0f);
     }
@@ -375,6 +389,7 @@ void draw_flat()
 
 void draw_default_ft4()
 {
+    bool isSemiTrans = int(fsFlags.y) > 0;
     vec4 texelPal = PixelToPalette(texture(texTextureData, fsUV).r);
     vec3 texelShaded = handle_shading(texelPal.rgb);
 
@@ -388,7 +403,7 @@ void draw_default_ft4()
     {
         outColor.a = 1.0;
 
-        if (fsIsSemiTrans && texelPal.a == 1.0)
+        if (isSemiTrans && texelPal.a == 1.0)
         {
             outColor.a = get_alpha();
         }
@@ -426,7 +441,9 @@ void draw_gas()
 
 void main()
 {
-    switch (fsDrawType)
+    int drawType = int(fsFlags.x);
+
+    switch (drawType)
     {
         case DRAW_FLAT:
             draw_flat();

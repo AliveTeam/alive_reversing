@@ -28,9 +28,6 @@
 #define GL_FRAMEBUFFER_PSX_HEIGHT 240
 
 
-static int gPalTextureID = 0;
-
-
 static bool gRenderEnable_SPRT = true;
 static bool gRenderEnable_GAS = true;
 static bool gRenderEnable_TILE = true;
@@ -102,23 +99,49 @@ static void Renderer_DecodePalette(const u8* srcPalData, RGBAPixel* dst, s32 pal
 
 
 
-void OpenGLRenderer::Renderer_BindPalette(AnimationPal& pCache)
+u32 OpenGLRenderer::PreparePalette(AnimationPal& pCache)
 {
-    if (gPalTextureID == 0)
+    // FIXME: This is so crap! We only had one global palette, which ruins
+    //        the batching because the global palette gets overwritten
+    //        before the batch is invalidated
+    //
+    //        For now we just keep two global palettes and alternate which
+    //        one to use
+    static GLuint gPalTextureId1 = 0;
+    static GLuint gPalTextureId2 = 0;
+
+    GLuint usingId = 0;
+
+    if (gPalTextureId1 != mBatchSecTexId)
     {
-        gPalTextureID = Renderer_CreateTexture();
+        if (gPalTextureId1 == 0)
+        {
+            gPalTextureId1 = Renderer_CreateTexture();
+        }
+
+        usingId = gPalTextureId1;
+    }
+    else
+    {
+        if (gPalTextureId2 == 0)
+        {
+            gPalTextureId2 = Renderer_CreateTexture();
+        }
+        
+        usingId = gPalTextureId2;
     }
 
     RGBAPixel dst[256];
     Renderer_DecodePalette(reinterpret_cast<const u8*>(pCache.mPal), dst, 256);
 
-    // Set palette to GL_TEXTURE1
+    // Load in the palette
     GL_VERIFY(glActiveTexture(GL_TEXTURE1));
-    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, gPalTextureID));
-
+    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, usingId));
     GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 256, 1, 0, GL_RGBA, GL_UNSIGNED_BYTE, dst));
 
     mStats.mPalUploadCount++;
+
+    return usingId;
 }
 
 /*
@@ -253,16 +276,28 @@ void OpenGLRenderer::BltBackBuffer(const SDL_Rect* /*pCopyRect*/, const SDL_Rect
 
 void OpenGLRenderer::Clear(u8 r, u8 g, u8 b)
 {
+    GLboolean scissoring;
+
+    GL_VERIFY(glGetBooleanv(GL_SCISSOR_TEST, &scissoring));
+
     // We clear the screen framebuffer here
     GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, 0));
 
-    GL_VERIFY(glDisable(GL_SCISSOR_TEST));
+    if (scissoring)
+    {
+        GL_VERIFY(glDisable(GL_SCISSOR_TEST));
+    }
 
     GL_VERIFY(glClearColor((f32) r, (f32) g, (f32) b, 1.0f));
     GL_VERIFY(glClear(GL_COLOR_BUFFER_BIT));
 
     // Set back to the PSX framebuffer
     GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId));
+
+    if (scissoring)
+    {
+        GL_VERIFY(glEnable(GL_SCISSOR_TEST));
+    }
 }
 
 bool OpenGLRenderer::Create(TWindowHandleType window)
@@ -399,6 +434,9 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
     GLenum fbTargets[1] = {GL_COLOR_ATTACHMENT0};
     GL_VERIFY(glDrawBuffers(1, fbTargets));
 
+    // Init batch vector
+    mBatchData.reserve(sizeof(VertexData) * 200);
+
     return true;
 }
 
@@ -447,56 +485,35 @@ void OpenGLRenderer::Draw(Prim_Sprt& sprt)
         return;
     }
 
-    const u32 textureId = PrepareTextureFromAnim(*sprt.mAnim);
+    std::shared_ptr<TgaData> pTga = sprt.mAnim->mAnimRes.mTgaPtr;
 
-    mPsxShader.Use();
+    const u32 sprtTextureId = PrepareTextureFromAnim(*sprt.mAnim);
+    const u32 palTextureId = PreparePalette(pTga->mPal);
 
-    f32 r = sprt.mBase.header.rgb_code.r;
-    f32 g = sprt.mBase.header.rgb_code.g;
-    f32 b = sprt.mBase.header.rgb_code.b;
+    u32 r = sprt.mBase.header.rgb_code.r;
+    u32 g = sprt.mBase.header.rgb_code.g;
+    u32 b = sprt.mBase.header.rgb_code.b;
 
-    // Set sampler uniforms
-    mPsxShader.Uniform1i("texTextureData", 0);     // Set texTextureData to GL_TEXTURE0
-    mPsxShader.Uniform1i("texAdditionalData", 1);  // Set texAdditionalData to GL_TEXTURE1
+    u32 u0 = U0(&sprt);
+    u32 v0 = V0(&sprt);
+
+    u32 u1 = U0(&sprt) + sprt.field_14_w;
+    u32 v1 = V0(&sprt) + sprt.field_16_h;
 
     bool isSemiTrans = GetPolyIsSemiTrans(&sprt);
     bool isShaded = GetPolyIsShaded(&sprt);
+    u16 blendMode = GetTPageBlendMode(mGlobalTPage);
 
-    mPsxShader.Uniform1i("fsIsSemiTrans", isSemiTrans);
-    mPsxShader.Uniform1i("fsIsShaded", isShaded);
-    
-    SetupBlendMode(GetTPageBlendMode(mGlobalTPage));
+    VertexData verts[6] = {
+        {sprt.mBase.vert.x, sprt.mBase.vert.y, r, g, b, u0, v0, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded},
+        {sprt.mBase.vert.x + sprt.field_14_w, sprt.mBase.vert.y, r, g, b, u1, v0, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded},
+        {sprt.mBase.vert.x, sprt.mBase.vert.y + sprt.field_16_h, r, g, b, u0, v1, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded},
 
-    const GLuint indexData[6] = {1, 0, 3, 3, 0, 2};
+        {sprt.mBase.vert.x + sprt.field_14_w, sprt.mBase.vert.y, r, g, b, u1, v0, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded},
+        {sprt.mBase.vert.x, sprt.mBase.vert.y + sprt.field_16_h, r, g, b, u0, v1, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded},
+        {sprt.mBase.vert.x + sprt.field_14_w, sprt.mBase.vert.y + sprt.field_16_h, r, g, b, u1, v1, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded}};
 
-    mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_DEFAULT_FT4);
-
-    GL_VERIFY(glActiveTexture(GL_TEXTURE0));
-    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, textureId));
-
-    std::shared_ptr<TgaData> pTga = sprt.mAnim->mAnimRes.mTgaPtr;
-
-    Renderer_BindPalette(pTga->mPal);
-
-    f32 u0 = static_cast<f32>(U0(&sprt)) / static_cast<f32>(pTga->mWidth);
-    f32 v0 = static_cast<f32>(V0(&sprt)) / static_cast<f32>(pTga->mHeight);
-
-    f32 u1 = static_cast<f32>(U0(&sprt) + sprt.field_14_w) / static_cast<f32>(pTga->mWidth);
-    f32 v1 = static_cast<f32>(V0(&sprt) + sprt.field_16_h) / static_cast<f32>(pTga->mHeight);
-
-    VertexData verts[4] = {
-        {(f32) sprt.mBase.vert.x, (f32) sprt.mBase.vert.y, 0, r, g, b, u0, v0},
-        {(f32) sprt.mBase.vert.x + sprt.field_14_w, (f32) sprt.mBase.vert.y, 0, r, g, b, u1, v0},
-        {(f32) sprt.mBase.vert.x, (f32) sprt.mBase.vert.y + sprt.field_16_h, 0, r, g, b, u0, v1},
-        {(f32) sprt.mBase.vert.x + sprt.field_14_w, (f32) sprt.mBase.vert.y + sprt.field_16_h, 0, r, g, b, u1, v1}};
-    DrawTriangles(verts, 4, indexData, 6);
-
-    mPsxShader.UnUse();
-
-    // Unbind the source framebuffer, just to be safe so drawing to it doesn't
-    // blow up
-    GL_VERIFY(glActiveTexture(GL_TEXTURE2));
-    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, 0));
+    PushVertexData(GL_TRIANGLES, verts, 6, blendMode, sprtTextureId, pTga->mWidth, pTga->mWidth, palTextureId);
 }
 
 void OpenGLRenderer::Draw(Prim_GasEffect& gasEffect)
@@ -523,87 +540,71 @@ void OpenGLRenderer::Draw(Prim_GasEffect& gasEffect)
     GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mGasTextureId));
     GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, gasWidth / 4, gasHeight / 2, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, gasEffect.pData));
 
-    mPsxShader.Use();
+    u32 r = 127;
+    u32 g = 127;
+    u32 b = 127;
 
-    f32 r = 127;
-    f32 g = 127;
-    f32 b = 127;
+    bool isSemiTrans = true;
+    bool isShaded = true;
+    u32 blendMode = (u32) TPageAbr::eBlend_0;
 
-    // Set sampler uniforms
-    mPsxShader.Uniform1i("texTextureData", 0);     // Set texTextureData to GL_TEXTURE0
-    mPsxShader.Uniform1i("texAdditionalData", 1);  // Set texAdditionalData to GL_TEXTURE1
+    VertexData verts[6] = {
+        {gasEffect.x, gasEffect.y, r, g, b, 0, 0, GL_PSX_DRAW_MODE_GAS, isSemiTrans, isShaded},
+        {gasEffect.w, gasEffect.y, r, g, b, (u32) gasWidth, 0, GL_PSX_DRAW_MODE_GAS, isSemiTrans, isShaded},
+        {gasEffect.x, gasEffect.h, r, g, b, 0, (u32) gasHeight, GL_PSX_DRAW_MODE_GAS, isSemiTrans, isShaded},
 
-    mPsxShader.Uniform1i("fsIsSemiTrans", true);
-    mPsxShader.Uniform1i("fsIsShaded", true);
-
-    SetupBlendMode((int) TPageAbr::eBlend_0);
-
-    const GLuint indexData[6] = {1, 0, 3, 3, 0, 2};
-
-    mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_GAS);
-
-    VertexData verts[4] = {
-        {(f32) gasEffect.x, (f32) gasEffect.y, 0, r, g, b, 0, 0},
-        {(f32) gasEffect.w, (f32) gasEffect.y, 0, r, g, b, 1, 0},
-        {(f32) gasEffect.x, (f32) gasEffect.h, 0, r, g, b, 0, 1},
-        {(f32) gasEffect.w, (f32) gasEffect.h, 0, r, g, b, 1, 1}};
-    DrawTriangles(verts, 4, indexData, 6);
-
-    mPsxShader.UnUse();
+        {gasEffect.w, gasEffect.y, r, g, b, (u32) gasWidth, 0, GL_PSX_DRAW_MODE_GAS, isSemiTrans, isShaded},
+        {gasEffect.x, gasEffect.h, r, g, b, 0, (u32) gasHeight, GL_PSX_DRAW_MODE_GAS, isSemiTrans, isShaded},
+        {gasEffect.w, gasEffect.h, r, g, b, (u32) gasWidth, (u32) gasHeight, GL_PSX_DRAW_MODE_GAS, isSemiTrans, isShaded}};
+    
+    PushVertexData(GL_TRIANGLES, verts, 6, blendMode, mGasTextureId, (u32) gasWidth, (u32) gasHeight);
 }
 
 void OpenGLRenderer::Draw(Prim_Tile& tile)
 {
     if (!gRenderEnable_TILE)
+    {
         return;
+    }
 
-    const f32 r = tile.mBase.header.rgb_code.r;
-    const f32 g = tile.mBase.header.rgb_code.g;
-    const f32 b = tile.mBase.header.rgb_code.b;
-
-    const VertexData verts[4] = {
-        {(f32) tile.mBase.vert.x, (f32) tile.mBase.vert.y, 0, r, g, b, 0, 0},
-        {(f32) tile.mBase.vert.x + tile.field_14_w, (f32) tile.mBase.vert.y, 0, r, g, b, 0, 0},
-        {(f32) tile.mBase.vert.x, (f32) tile.mBase.vert.y + tile.field_16_h, 0, r, g, b, 0, 0},
-        {(f32) tile.mBase.vert.x + tile.field_14_w, (f32) tile.mBase.vert.y + tile.field_16_h, 0, r, g, b, 0, 0}};
+    const u32 r = tile.mBase.header.rgb_code.r;
+    const u32 g = tile.mBase.header.rgb_code.g;
+    const u32 b = tile.mBase.header.rgb_code.b;
 
     bool isSemiTrans = GetPolyIsSemiTrans(&tile);
+    bool isShaded = true;
+    u32 blendMode = GetTPageBlendMode(mGlobalTPage);
 
-    mPsxShader.Use();
+    const VertexData verts[6] = {
+        {tile.mBase.vert.x, tile.mBase.vert.y, r, g, b, 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded},
+        {tile.mBase.vert.x + tile.field_14_w, tile.mBase.vert.y, r, g, b, 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded},
+        {tile.mBase.vert.x, tile.mBase.vert.y + tile.field_16_h, r, g, b, 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded},
 
-    mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_FLAT);
-    mPsxShader.Uniform1i("fsIsSemiTrans", isSemiTrans);
-    
-    SetupBlendMode(GetTPageBlendMode(mGlobalTPage));
+        {tile.mBase.vert.x + tile.field_14_w, tile.mBase.vert.y, r, g, b, 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded},
+        {tile.mBase.vert.x, tile.mBase.vert.y + tile.field_16_h, r, g, b, 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded},
+        {tile.mBase.vert.x + tile.field_14_w, tile.mBase.vert.y + tile.field_16_h, r, g, b, 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded}};
 
-    const GLuint indexData[6] = {0, 1, 2, 2, 1, 3};
-    DrawTriangles(verts, 4, indexData, 6);
-
-    mPsxShader.UnUse();
+    PushVertexData(GL_TRIANGLES, verts, 6, blendMode);
 }
 
 void OpenGLRenderer::Draw(Line_F2& line)
 {
     if (!gRenderEnable_F2)
+    {
         return;
-
-    const VertexData verts[2] = {
-        {(f32) X0(&line), (f32) Y0(&line), 0, (f32) R0(&line), (f32) G0(&line), (f32) B0(&line), 0, 0},
-        {(f32) X1(&line), (f32) Y1(&line), 0, (f32) R0(&line), (f32) G0(&line), (f32) B0(&line), 0, 0}};
+    }
 
     bool isSemiTrans = GetPolyIsSemiTrans(&line);
-
-    mPsxShader.Use();
+    bool isShaded = true;
+    u32 blendMode = GetTPageBlendMode(mGlobalTPage);
 
     mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_FLAT);
-    mPsxShader.Uniform1i("fsIsSemiTrans", isSemiTrans);
     
-    SetupBlendMode(GetTPageBlendMode(mGlobalTPage));
+    const VertexData verts[2] = {
+        {X0(&line), Y0(&line), (u32) R0(&line), (u32) G0(&line), (u32) B0(&line), 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded},
+        {X1(&line), Y1(&line), (u32) R0(&line), (u32) G0(&line), (u32) B0(&line), 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded}};
 
-    const GLuint indexData[2] = {0, 1};
-    DrawLines(verts, 2, indexData, 2);
-
-    mPsxShader.UnUse();
+    PushVertexData(GL_LINES, verts, 2, blendMode);
 }
 
 void OpenGLRenderer::Draw(Line_G2& line)
@@ -613,23 +614,15 @@ void OpenGLRenderer::Draw(Line_G2& line)
         return;
     }
 
-    const VertexData verts[2] = {
-        {(f32) X0(&line), (f32) Y0(&line), 0, (f32) R0(&line), (f32) G0(&line), (f32) B0(&line), 0, 0},
-        {(f32) X1(&line), (f32) Y1(&line), 0, (f32) R1(&line), (f32) G1(&line), (f32) B1(&line), 0, 0}};
-
     bool isSemiTrans = GetPolyIsSemiTrans(&line);
+    bool isShaded = true;
+    u32 blendMode = GetTPageBlendMode(mGlobalTPage);
 
-    mPsxShader.Use();
+    const VertexData verts[2] = {
+        {X0(&line), Y0(&line), (u32) R0(&line), (u32) G0(&line), (u32) B0(&line), 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded},
+        {X1(&line), Y1(&line), (u32) R1(&line), (u32) G1(&line), (u32) B1(&line), 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded}};
 
-    mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_FLAT);
-    mPsxShader.Uniform1i("fsIsSemiTrans", isSemiTrans);
-    
-    SetupBlendMode(GetTPageBlendMode(mGlobalTPage));
-
-    const GLuint indexData[2] = {0, 1};
-    DrawLines(verts, 2, indexData, 2);
-
-    mPsxShader.UnUse();
+    PushVertexData(GL_LINES, verts, 2, blendMode);
 }
 
 void OpenGLRenderer::Draw(Line_G4& line)
@@ -639,25 +632,21 @@ void OpenGLRenderer::Draw(Line_G4& line)
         return;
     }
 
-    const VertexData verts[4] = {
-        {(f32) X0(&line), (f32) Y0(&line), 0, (f32) R0(&line), (f32) G0(&line), (f32) B0(&line), 0, 0},
-        {(f32) X1(&line), (f32) Y1(&line), 0, (f32) R1(&line), (f32) G1(&line), (f32) B1(&line), 0, 0},
-        {(f32) X2(&line), (f32) Y2(&line), 0, (f32) R2(&line), (f32) G2(&line), (f32) B2(&line), 0, 0},
-        {(f32) X3(&line), (f32) Y3(&line), 0, (f32) R3(&line), (f32) G3(&line), (f32) B3(&line), 0, 0}};
-
     bool isSemiTrans = GetPolyIsSemiTrans(&line);
+    bool isShaded = true;
+    u32 blendMode = GetTPageBlendMode(mGlobalTPage);
 
-    mPsxShader.Use();
+    const VertexData verts[6] = {
+        {X0(&line), Y0(&line), (u32) R0(&line), (u32) G0(&line), (u32) B0(&line), 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded},
+        {X1(&line), Y1(&line), (u32) R1(&line), (u32) G1(&line), (u32) B1(&line), 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded},
 
-    mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_FLAT);
-    mPsxShader.Uniform1i("fsIsSemiTrans", isSemiTrans);
-    
-    SetupBlendMode(GetTPageBlendMode(mGlobalTPage));
+        {X1(&line), Y1(&line), (u32) R1(&line), (u32) G1(&line), (u32) B1(&line), 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded},
+        {X2(&line), Y2(&line), (u32) R2(&line), (u32) G2(&line), (u32) B2(&line), 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded},
 
-    const GLuint indexData[4] = {0, 1, 2, 3};
-    DrawLines(verts, 4, indexData, 4);
+        {X2(&line), Y2(&line), (u32) R2(&line), (u32) G2(&line), (u32) B2(&line), 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded},
+        {X3(&line), Y3(&line), (u32) R3(&line), (u32) G3(&line), (u32) B3(&line), 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded}};
 
-    mPsxShader.UnUse();
+    PushVertexData(GL_LINES, verts, 6, blendMode);
 }
 
 void OpenGLRenderer::Draw(Poly_F3& poly)
@@ -667,24 +656,16 @@ void OpenGLRenderer::Draw(Poly_F3& poly)
         return;
     }
 
-    const VertexData verts[3] = {
-        {(f32) X0(&poly), (f32) Y0(&poly), 0, (f32) R0(&poly), (f32) G0(&poly), (f32) B0(&poly), 0, 0},
-        {(f32) X1(&poly), (f32) Y1(&poly), 0, (f32) R0(&poly), (f32) G0(&poly), (f32) B0(&poly), 0, 0},
-        {(f32) X2(&poly), (f32) Y2(&poly), 0, (f32) R0(&poly), (f32) G0(&poly), (f32) B0(&poly), 0, 0}};
-
     bool isSemiTrans = GetPolyIsSemiTrans(&poly);
+    bool isShaded = true;
+    u32 blendMode = GetTPageBlendMode(mGlobalTPage);
 
-    mPsxShader.Use();
+    const VertexData verts[3] = {
+        {X0(&poly), Y0(&poly), (u32) R0(&poly), (u32) G0(&poly), (u32) B0(&poly), 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded},
+        {X1(&poly), Y1(&poly), (u32) R0(&poly), (u32) G0(&poly), (u32) B0(&poly), 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded},
+        {X2(&poly), Y2(&poly), (u32) R0(&poly), (u32) G0(&poly), (u32) B0(&poly), 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded}};
 
-    mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_FLAT);
-    mPsxShader.Uniform1i("fsIsSemiTrans", isSemiTrans);
-    
-    SetupBlendMode(GetTPageBlendMode(mGlobalTPage));
-
-    const GLuint indexData[3] = {0, 1, 2};
-    DrawTriangles(verts, 3, indexData, 3);
-
-    mPsxShader.UnUse();
+    PushVertexData(GL_TRIANGLES, verts, 3, blendMode);
 }
 
 void OpenGLRenderer::Draw(Poly_G3& poly)
@@ -694,131 +675,96 @@ void OpenGLRenderer::Draw(Poly_G3& poly)
         return;
     }
 
-    const VertexData verts[3] = {
-        {(f32) X0(&poly), (f32) Y0(&poly), 0, (f32) R0(&poly), (f32) G0(&poly), (f32) B0(&poly), 0, 0},
-        {(f32) X1(&poly), (f32) Y1(&poly), 0, (f32) R1(&poly), (f32) G1(&poly), (f32) B1(&poly), 0, 0},
-        {(f32) X2(&poly), (f32) Y2(&poly), 0, (f32) R2(&poly), (f32) G2(&poly), (f32) B2(&poly), 0, 0}};
-
     bool isSemiTrans = GetPolyIsSemiTrans(&poly);
+    bool isShaded = true;
+    u32 blendMode = GetTPageBlendMode(mGlobalTPage);
 
-    mPsxShader.Use();
+    const VertexData verts[3] = {
+        {X0(&poly), Y0(&poly), (u32) R0(&poly), (u32) G0(&poly), (u32) B0(&poly), 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded},
+        {X1(&poly), Y1(&poly), (u32) R1(&poly), (u32) G1(&poly), (u32) B1(&poly), 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded},
+        {X2(&poly), Y2(&poly), (u32) R2(&poly), (u32) G2(&poly), (u32) B2(&poly), 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded}};
 
-    mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_FLAT);
-    mPsxShader.Uniform1i("fsIsSemiTrans", isSemiTrans);
-
-    SetupBlendMode(GetTPageBlendMode(mGlobalTPage));
-
-    const GLuint indexData[3] = {0, 1, 2};
-    DrawTriangles(verts, 3, indexData, 3);
-
-    mPsxShader.UnUse();
+    PushVertexData(GL_TRIANGLES, verts, 3, blendMode);
 }
 
 void OpenGLRenderer::Draw(Poly_F4& poly)
 {
     if (!gRenderEnable_F4)
+    {
         return;
-
-    const f32 r = poly.mBase.header.rgb_code.r;
-    const f32 g = poly.mBase.header.rgb_code.g;
-    const f32 b = poly.mBase.header.rgb_code.b;
-
-    const VertexData verts[4] = {
-        {(f32) X0(&poly), (f32) Y0(&poly), 0, r, g, b, 0, 0},
-        {(f32) X1(&poly), (f32) Y1(&poly), 0, r, g, b, 0, 0},
-        {(f32) X2(&poly), (f32) Y2(&poly), 0, r, g, b, 0, 0},
-        {(f32) X3(&poly), (f32) Y3(&poly), 0, r, g, b, 0, 0}};
+    }
 
     bool isSemiTrans = GetPolyIsSemiTrans(&poly);
+    bool isShaded = true;
+    u32 blendMode = GetTPageBlendMode(mGlobalTPage);
 
-    mPsxShader.Use();
+    const VertexData verts[6] = {
+        {X0(&poly), Y0(&poly), (u32) R0(&poly), (u32) G0(&poly), (u32) B0(&poly), 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded},
+        {X1(&poly), Y1(&poly), (u32) R0(&poly), (u32) G0(&poly), (u32) B0(&poly), 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded},
+        {X2(&poly), Y2(&poly), (u32) R0(&poly), (u32) G0(&poly), (u32) B0(&poly), 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded},
+    
+        {X1(&poly), Y1(&poly), (u32) R0(&poly), (u32) G0(&poly), (u32) B0(&poly), 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded},
+        {X2(&poly), Y2(&poly), (u32) R0(&poly), (u32) G0(&poly), (u32) B0(&poly), 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded},
+        {X3(&poly), Y3(&poly), (u32) R0(&poly), (u32) G0(&poly), (u32) B0(&poly), 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded}};
 
-    mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_FLAT);
-    mPsxShader.Uniform1i("fsIsSemiTrans", isSemiTrans);
-
-    SetupBlendMode(GetTPageBlendMode(mGlobalTPage));
-
-    const GLuint indexData[6] = {0, 1, 2, 2, 1, 3};
-    DrawTriangles(verts, 4, indexData, 6);
-
-    mPsxShader.UnUse();
+    PushVertexData(GL_TRIANGLES, verts, 6, blendMode);
 }
 
 void OpenGLRenderer::Draw(Poly_FT4& poly)
 {
     if (!gRenderEnable_FT4)
+    {
         return;
+    }
 
     const u32 textureId = PrepareTextureFromPoly(poly);
 
-    mPsxShader.Use();
-
-    f32 r = poly.mBase.header.rgb_code.r;
-    f32 g = poly.mBase.header.rgb_code.g;
-    f32 b = poly.mBase.header.rgb_code.b;
-
-    // Set sampler uniforms
-    mPsxShader.Uniform1i("texTextureData", 0);     // Set texTextureData to GL_TEXTURE0
-    mPsxShader.Uniform1i("texAdditionalData", 1);  // Set texAdditionalData to GL_TEXTURE1
+    u32 r = poly.mBase.header.rgb_code.r;
+    u32 g = poly.mBase.header.rgb_code.g;
+    u32 b = poly.mBase.header.rgb_code.b;
 
     bool isSemiTrans = GetPolyIsSemiTrans(&poly);
     bool isShaded = GetPolyIsShaded(&poly);
-
-    mPsxShader.Uniform1i("fsIsSemiTrans", isSemiTrans);
-    mPsxShader.Uniform1i("fsIsShaded", isShaded);
-
-    SetupBlendMode(GetTPageBlendMode(GetTPage(&poly)));
-
-    const GLuint indexData[6] = {1, 0, 3, 3, 0, 2};
+    u32 blendMode = GetTPageBlendMode(GetTPage(&poly));
 
     if (poly.mFg1)
     {
-        mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_FG1);
+        VertexData verts[6] = {
+            {poly.mBase.vert.x, poly.mBase.vert.y, r, g, b, 0, 0, GL_PSX_DRAW_MODE_FG1, isSemiTrans, isShaded},
+            {poly.mVerts[0].mVert.x, poly.mVerts[0].mVert.y, r, g, b, GL_FRAMEBUFFER_PSX_WIDTH, 0, GL_PSX_DRAW_MODE_FG1, isSemiTrans, isShaded},
+            {poly.mVerts[2].mVert.x, poly.mVerts[2].mVert.y, r, g, b, GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT, GL_PSX_DRAW_MODE_FG1, isSemiTrans, isShaded},
 
-        GL_VERIFY(glActiveTexture(GL_TEXTURE0))
-        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mCamTexture.mTextureId))
+            {poly.mVerts[2].mVert.x, poly.mVerts[2].mVert.y, r, g, b, GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT, GL_PSX_DRAW_MODE_FG1, isSemiTrans, isShaded},
+            {poly.mBase.vert.x, poly.mBase.vert.y, r, g, b, 0, 0, GL_PSX_DRAW_MODE_FG1, isSemiTrans, isShaded},
+            {poly.mVerts[1].mVert.x, poly.mVerts[1].mVert.y, r, g, b, 0, GL_FRAMEBUFFER_PSX_HEIGHT, GL_PSX_DRAW_MODE_FG1, isSemiTrans, isShaded}};
 
-        GL_VERIFY(glActiveTexture(GL_TEXTURE1))
-        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mFg1Texture.mTextureId))
-
-        VertexData verts[4] = {
-            {(f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, 0, r, g, b, 0, 0},
-            {(f32) poly.mVerts[0].mVert.x, (f32) poly.mVerts[0].mVert.y, 0, r, g, b, 1, 0},
-            {(f32) poly.mVerts[1].mVert.x, (f32) poly.mVerts[1].mVert.y, 0, r, g, b, 0, 1},
-            {(f32) poly.mVerts[2].mVert.x, (f32) poly.mVerts[2].mVert.y, 0, r, g, b, 1, 1}};
-        DrawTriangles(verts, 4, indexData, 6);
+        PushVertexData(GL_TRIANGLES, verts, 6, blendMode, mCamTexture.mTextureId, GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT, mFg1Texture.mTextureId);
     }
     else if (poly.mCam)
     {
-        mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_CAM);
+        VertexData verts[6] = {
+            {poly.mBase.vert.x, poly.mBase.vert.y, r, g, b, 0, 0, GL_PSX_DRAW_MODE_CAM, isSemiTrans, isShaded},
+            {poly.mVerts[0].mVert.x, poly.mVerts[0].mVert.y, r, g, b, GL_FRAMEBUFFER_PSX_WIDTH, 0, GL_PSX_DRAW_MODE_CAM, isSemiTrans, isShaded},
+            {poly.mVerts[2].mVert.x, poly.mVerts[2].mVert.y, r, g, b, GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT, GL_PSX_DRAW_MODE_CAM, isSemiTrans, isShaded},
 
-        GL_VERIFY(glActiveTexture(GL_TEXTURE0));
-        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mCamTexture.mTextureId));
+            {poly.mVerts[2].mVert.x, poly.mVerts[2].mVert.y, r, g, b, GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT, GL_PSX_DRAW_MODE_CAM, isSemiTrans, isShaded},
+            {poly.mBase.vert.x, poly.mBase.vert.y, r, g, b, 0, 0, GL_PSX_DRAW_MODE_CAM, isSemiTrans, isShaded},
+            {poly.mVerts[1].mVert.x, poly.mVerts[1].mVert.y, r, g, b, 0, GL_FRAMEBUFFER_PSX_HEIGHT, GL_PSX_DRAW_MODE_CAM, isSemiTrans, isShaded}};
 
-        VertexData verts[4] = {
-            {(f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, 0, r, g, b, 0, 0},
-            {(f32) poly.mVerts[0].mVert.x, (f32) poly.mVerts[0].mVert.y, 0, r, g, b, 1, 0},
-            {(f32) poly.mVerts[1].mVert.x, (f32) poly.mVerts[1].mVert.y, 0, r, g, b, 0, 1},
-            {(f32) poly.mVerts[2].mVert.x, (f32) poly.mVerts[2].mVert.y, 0, r, g, b, 1, 1}};
-        DrawTriangles(verts, 4, indexData, 6);
+        PushVertexData(GL_TRIANGLES, verts, 6, blendMode, mCamTexture.mTextureId, GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT);
     }
     else if (poly.mAnim)
     {
-        mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_DEFAULT_FT4);
-
-        GL_VERIFY(glActiveTexture(GL_TEXTURE0));
-        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, textureId));
-
-        Renderer_BindPalette(poly.mAnim->mAnimRes.mTgaPtr->mPal);
-
         const PerFrameInfo* pHeader = poly.mAnim->Get_FrameHeader(-1);
-
         std::shared_ptr<TgaData> pTga = poly.mAnim->mAnimRes.mTgaPtr;
-        f32 u0 = static_cast<f32>(pHeader->mSpriteSheetX) / static_cast<f32>(pTga->mWidth);
-        f32 v0 = static_cast<f32>(pHeader->mSpriteSheetY) / static_cast<f32>(pTga->mHeight);
 
-        f32 u1 = u0 + static_cast<f32>(pHeader->mWidth) / static_cast<f32>(pTga->mWidth);
-        f32 v1 = v0 + static_cast<f32>(pHeader->mHeight) / static_cast<f32>(pTga->mHeight);
+        const u32 palTextureId = PreparePalette(poly.mAnim->mAnimRes.mTgaPtr->mPal);
+
+        u32 u0 = pHeader->mSpriteSheetX;
+        u32 v0 = pHeader->mSpriteSheetY;
+
+        u32 u1 = u0 + pHeader->mWidth;
+        u32 v1 = v0 + pHeader->mHeight;
 
         if (poly.mFlipX)
         {
@@ -830,69 +776,67 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
             std::swap(v1, v0);
         }
 
-        VertexData verts[4] = {
-            {(f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, 0, r, g, b, u0, v0},
-            {(f32) poly.mVerts[0].mVert.x, (f32) poly.mVerts[0].mVert.y, 0, r, g, b, u1, v0},
-            {(f32) poly.mVerts[1].mVert.x, (f32) poly.mVerts[1].mVert.y, 0, r, g, b, u0, v1},
-            {(f32) poly.mVerts[2].mVert.x, (f32) poly.mVerts[2].mVert.y, 0, r, g, b, u1, v1}};
-        DrawTriangles(verts, 4, indexData, 6);
+        VertexData verts[6] = {
+            {poly.mBase.vert.x, poly.mBase.vert.y, r, g, b, u0, v0, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded},
+            {poly.mVerts[0].mVert.x, poly.mVerts[0].mVert.y, r, g, b, u1, v0, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded},
+            {poly.mVerts[2].mVert.x, poly.mVerts[2].mVert.y, r, g, b, u1, v1, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded},
+
+            {poly.mVerts[2].mVert.x, poly.mVerts[2].mVert.y, r, g, b, u1, v1, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded},
+            {poly.mBase.vert.x, poly.mBase.vert.y, r, g, b, u0, v0, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded},
+            {poly.mVerts[1].mVert.x, poly.mVerts[1].mVert.y, r, g, b, u0, v1, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded}};
+        
+        PushVertexData(GL_TRIANGLES, verts, 6, blendMode, textureId, pTga->mWidth, pTga->mHeight, palTextureId);
     }
     else if (poly.mFont)
     {
-        mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_DEFAULT_FT4);
-
-        GL_VERIFY(glActiveTexture(GL_TEXTURE0));
-        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, textureId));
-
         std::shared_ptr<TgaData> pTga = poly.mFont->field_C_resource_id.mTgaPtr;
 
-        Renderer_BindPalette(pTga->mPal);
+        const u32 palTextureId = PreparePalette(pTga->mPal);
 
-        f32 u0 = static_cast<f32>(U0(&poly)) / static_cast<f32>(pTga->mWidth);
-        f32 v0 = static_cast<f32>(V0(&poly)) / static_cast<f32>(pTga->mHeight);
+        u32 u0 = U0(&poly);
+        u32 v0 = V0(&poly);
 
-        f32 u1 = static_cast<f32>(U3(&poly)) / static_cast<f32>(pTga->mWidth);
-        f32 v1 = static_cast<f32>(V3(&poly)) / static_cast<f32>(pTga->mHeight);
+        u32 u1 = U3(&poly);
+        u32 v1 = V3(&poly);
 
-        VertexData verts[4] = {
-            {(f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, 0, r, g, b, u0, v0},
-            {(f32) poly.mVerts[0].mVert.x, (f32) poly.mVerts[0].mVert.y, 0, r, g, b, u1, v0},
-            {(f32) poly.mVerts[1].mVert.x, (f32) poly.mVerts[1].mVert.y, 0, r, g, b, u0, v1},
-            {(f32) poly.mVerts[2].mVert.x, (f32) poly.mVerts[2].mVert.y, 0, r, g, b, u1, v1}};
-        DrawTriangles(verts, 4, indexData, 6);
+        VertexData verts[6] = {
+            {poly.mBase.vert.x, poly.mBase.vert.y, r, g, b, u0, v0, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded},
+            {poly.mVerts[0].mVert.x, poly.mVerts[0].mVert.y, r, g, b, u1, v0, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded},
+            {poly.mVerts[2].mVert.x, poly.mVerts[2].mVert.y, r, g, b, u1, v1, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded},
+
+            {poly.mVerts[2].mVert.x, poly.mVerts[2].mVert.y, r, g, b, u1, v1, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded},
+            {poly.mBase.vert.x, poly.mBase.vert.y, r, g, b, u0, v0, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded},
+            {poly.mVerts[1].mVert.x, poly.mVerts[1].mVert.y, r, g, b, u0, v1, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded}};
+
+        PushVertexData(GL_TRIANGLES, verts, 6, blendMode, textureId, pTga->mWidth, pTga->mHeight, palTextureId);
     }
     else
     {
         return;
     }
-
-    mPsxShader.UnUse();
 }
 
 void OpenGLRenderer::Draw(Poly_G4& poly)
 {
     if (!gRenderEnable_G4)
+    {
         return;
-
-    const VertexData verts[4] = {
-        {(f32) X0(&poly), (f32) Y0(&poly), 0, (f32) R0(&poly), (f32) G0(&poly), (f32) B0(&poly), 0, 0},
-        {(f32) X1(&poly), (f32) Y1(&poly), 0, (f32) R1(&poly), (f32) G1(&poly), (f32) B1(&poly), 0, 0},
-        {(f32) X2(&poly), (f32) Y2(&poly), 0, (f32) R2(&poly), (f32) G2(&poly), (f32) B2(&poly), 0, 0},
-        {(f32) X3(&poly), (f32) Y3(&poly), 0, (f32) R3(&poly), (f32) G3(&poly), (f32) B3(&poly), 0, 0}};
+    }
 
     bool isSemiTrans = GetPolyIsSemiTrans(&poly);
+    bool isShaded = true;
+    u32 blendMode = GetTPageBlendMode(mGlobalTPage);
 
-    mPsxShader.Use();
+    const VertexData verts[6] = {
+        {X0(&poly), Y0(&poly), (u32) R0(&poly), (u32) G0(&poly), (u32) B0(&poly), 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded},
+        {X1(&poly), Y1(&poly), (u32) R1(&poly), (u32) G1(&poly), (u32) B1(&poly), 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded},
+        {X2(&poly), Y2(&poly), (u32) R2(&poly), (u32) G2(&poly), (u32) B2(&poly), 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded},
 
-    mPsxShader.Uniform1i("fsDrawType", GL_PSX_DRAW_MODE_FLAT);
-    mPsxShader.Uniform1i("fsIsSemiTrans", isSemiTrans);
-    
-    SetupBlendMode(GetTPageBlendMode(mGlobalTPage));
+        {X1(&poly), Y1(&poly), (u32) R1(&poly), (u32) G1(&poly), (u32) B1(&poly), 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded},
+        {X2(&poly), Y2(&poly), (u32) R2(&poly), (u32) G2(&poly), (u32) B2(&poly), 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded},
+        {X3(&poly), Y3(&poly), (u32) R3(&poly), (u32) G3(&poly), (u32) B3(&poly), 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded}};
 
-    const GLuint indexData[6] = {0, 1, 2, 1, 2, 3};
-    DrawTriangles(verts, 4, indexData, 6);
-
-    mPsxShader.UnUse();
+    PushVertexData(GL_TRIANGLES, verts, 6, blendMode);
 }
 
 void OpenGLRenderer::EndFrame()
@@ -902,6 +846,10 @@ void OpenGLRenderer::EndFrame()
         return;
     }
 
+    // Ensure any remaining data is drawn
+    InvalidateBatch();
+
+    // Adjust the viewport for the window rather than the PSX resolution
     s32 wW, wH;
     SDL_GL_GetDrawableSize(mWindow, &wW, &wH);
     GL_VERIFY(glViewport(0, 0, wW, wH));
@@ -988,6 +936,8 @@ void OpenGLRenderer::SetClip(Prim_PrimClipper& clipper)
     rect.y = clipper.field_E_y;
     rect.w = clipper.mBase.header.mRect.w;
     rect.h = clipper.mBase.header.mRect.h;
+
+    InvalidateBatch();
 
     if (rect.x == 0 && rect.y == 0 && rect.w == 1 && rect.h == 1)
     {
@@ -1227,9 +1177,109 @@ u16 OpenGLRenderer::GetTPageBlendMode(u16 tpage)
     return (tpage >> 4) & 3;
 }
 
+void OpenGLRenderer::InvalidateBatch()
+{
+    if (mBatchData.size() == 0)
+    {
+        return;
+    }
+
+    mPsxShader.Use();
+
+    GLuint vboId;
+
+    // Set our new vectors
+    GL_VERIFY(glGenBuffers(1, &vboId));
+    GL_VERIFY(glBindBuffer(GL_ARRAY_BUFFER, vboId));
+    GL_VERIFY(glBufferData(GL_ARRAY_BUFFER, sizeof(VertexData) * mBatchData.size(), &mBatchData.front(), GL_STREAM_DRAW));
+
+    // Set up vertex attributes
+    GL_VERIFY(glEnableVertexAttribArray(0));
+    GL_VERIFY(glVertexAttribIPointer(0, 2, GL_INT, sizeof(VertexData), 0));
+    GL_VERIFY(glEnableVertexAttribArray(1));
+    GL_VERIFY(glVertexAttribIPointer(1, 3, GL_UNSIGNED_INT, sizeof(VertexData), (void*) offsetof(VertexData, r)));
+    GL_VERIFY(glEnableVertexAttribArray(2));
+    GL_VERIFY(glVertexAttribIPointer(2, 2, GL_UNSIGNED_INT, sizeof(VertexData), (void*) offsetof(VertexData, u)));
+    GL_VERIFY(glEnableVertexAttribArray(3));
+    GL_VERIFY(glVertexAttribIPointer(3, 3, GL_UNSIGNED_INT, sizeof(VertexData), (void*) offsetof(VertexData, drawType)));
+
+    // Set up uniforms and texture samplers
+    mPsxShader.UniformVec2("vsViewportSize", {(f32) GL_FRAMEBUFFER_PSX_WIDTH, (f32) GL_FRAMEBUFFER_PSX_HEIGHT});
+    mPsxShader.UniformVec2("vsTexSize", {(f32) mBatchPriTexWidth, (f32) mBatchPriTexHeight});
+
+    if (mBatchPriTexId > 0)
+    {
+        GL_VERIFY(glActiveTexture(GL_TEXTURE0));
+        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mBatchPriTexId));
+
+        mPsxShader.Uniform1i("texTextureData", 0);
+    }
+
+    if (mBatchSecTexId > 0)
+    {
+        GL_VERIFY(glActiveTexture(GL_TEXTURE1));
+        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mBatchSecTexId));
+
+        mPsxShader.Uniform1i("texAdditionalData", 1);
+    }
+
+    if (mBatchBlendMode <= (u32) TPageAbr::eBlend_3)
+    {
+        SetupBlendMode((u16) mBatchBlendMode);
+    }
+
+    // Set index data and render
+    GL_VERIFY(glDrawArrays(mBatchDrawMode, 0, (u32) mBatchData.size()));
+
+    GL_VERIFY(glDeleteBuffers(1, &vboId));
+
+    GL_VERIFY(glDisableVertexAttribArray(0));
+    GL_VERIFY(glDisableVertexAttribArray(1));
+    GL_VERIFY(glDisableVertexAttribArray(2));
+    GL_VERIFY(glDisableVertexAttribArray(3));
+
+    mPsxShader.UnUse();
+
+    mBatchBlendMode = 999;
+    mBatchData.clear();
+    mBatchPriTexId = 0;
+    mBatchPriTexWidth = 0;
+    mBatchPriTexHeight = 0;
+    mBatchSecTexId = 0;
+
+    mStats.mInvalidationsCount++;
+}
+
+void OpenGLRenderer::PushVertexData(GLenum mode, const VertexData* pVertData, int count, u32 blendMode, GLuint priTexId, u32 priTexWidth, u32 priTexHeight, GLuint secTexId)
+{
+    // Check if we need to invalidate the existing batched data
+    // FIXME: For now we always invalidate if there's a secondary texture
+    //        because we have no idea when the palette is replaced
+    if (
+        (mBatchBlendMode != blendMode && mBatchBlendMode <= (u32)TPageAbr::eBlend_3) ||
+        (mBatchDrawMode != mode && mBatchDrawMode <= GL_POLYGON) ||
+        (priTexId > 0 && mBatchPriTexId != priTexId && mBatchPriTexId > 0) ||
+        secTexId > 0)
+    {
+        InvalidateBatch();
+    }
+
+    mBatchBlendMode = blendMode;
+    mBatchDrawMode = mode;
+    mBatchPriTexId = priTexId;
+    mBatchPriTexWidth = priTexWidth;
+    mBatchPriTexHeight = priTexHeight;
+    mBatchSecTexId = secTexId;
+
+    for (int i = 0; i < count; i++)
+    {
+        mBatchData.push_back(pVertData[i]);
+    }
+}
+
 void OpenGLRenderer::SetupBlendMode(u16 blendMode)
 {
-    mPsxShader.Uniform1i("fsBlendMode", (u32) blendMode);
+    mPsxShader.Uniform1i("fsBlendMode", blendMode);
 
     switch ((TPageAbr)blendMode)
     {
@@ -1326,6 +1376,7 @@ void OpenGLRenderer::DebugWindow()
         ImGui::Text("Anims %d", mStats.mAnimUploadCount);
         ImGui::Text("Pals %d", mStats.mPalUploadCount);
         ImGui::Text("Fonts %d", mStats.mFontUploadCount);
+        ImGui::Text("Invalidations %d", mStats.mInvalidationsCount);
     }
     ImGui::End();
 
@@ -1374,96 +1425,4 @@ void OpenGLRenderer::DebugWindow()
     }
     ImGui::End();
     */
-}
-
-void OpenGLRenderer::InitAttributes()
-{
-    // Tell GL how to transfer our Vertex struct to our shaders.
-    //glBindVertexArray(mVAO);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VertexData), 0);
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(VertexData), (s8*) NULL + 12);
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(VertexData), (s8*) NULL + 24);
-    glEnableVertexAttribArray(2);
-}
-
-void OpenGLRenderer::DrawLines(const VertexData* pVertData, s32 vertSize, const GLuint* pIndData, s32 indSize)
-{
-    GLuint iboId, vboId;
-
-    // Set our new vectors
-    GL_VERIFY(glGenBuffers(1, &iboId));
-    GL_VERIFY(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboId));
-    GL_VERIFY(glBufferData(GL_ELEMENT_ARRAY_BUFFER, indSize * sizeof(GLuint), pIndData, GL_STREAM_DRAW));
-
-    GL_VERIFY(glGenBuffers(1, &vboId));
-    GL_VERIFY(glBindBuffer(GL_ARRAY_BUFFER, vboId));
-    GL_VERIFY(glBufferData(GL_ARRAY_BUFFER, sizeof(VertexData) * vertSize, pVertData, GL_STREAM_DRAW));
-
-    InitAttributes();
-
-    // TODO: Make lines scale with Window
-    //glLineWidth(2.0f);
-
-    //Set index data and render
-    GL_VERIFY(glDrawElements(GL_LINE_STRIP, indSize, GL_UNSIGNED_INT, NULL));
-
-    GL_VERIFY(glDeleteBuffers(1, &iboId));
-    GL_VERIFY(glDeleteBuffers(1, &vboId));
-
-    GL_VERIFY(glDisableVertexAttribArray(0));
-    GL_VERIFY(glDisableVertexAttribArray(1));
-    GL_VERIFY(glDisableVertexAttribArray(2));
-}
-
-void OpenGLRenderer::DrawTexture(GLuint pTexture, f32 /*x*/, f32 /*y*/, f32 /*width*/, f32 /*height*/)
-{
-    const f32 r = 1.0f;
-    const f32 g = 1.0f;
-    const f32 b = 1.0f;
-
-    const VertexData verts[4] = {
-        {0, 0, 0, r, g, b, 0, 0},
-        {1, 0, 0, r, g, b, 1, 0},
-        {1, 1, 0, r, g, b, 1, 1},
-        {0, 1, 0, r, g, b, 0, 1}};
-
-    mPsxShader.Use();
-
-    //mTextureShader.Uniform1i("m_Sprite", 0); // Set m_Sprite to GL_TEXTURE0
-
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, pTexture);
-
-    const GLuint indexData[6] = {0, 1, 3, 3, 1, 2};
-    DrawTriangles(verts, 4, indexData, 6);
-
-    mPsxShader.UnUse();
-}
-
-void OpenGLRenderer::DrawTriangles(const VertexData* pVertData, s32 vertSize, const GLuint* pIndData, s32 indSize)
-{
-    GLuint iboId, vboId;
-
-    // Set our new vectors
-    GL_VERIFY(glGenBuffers(1, &iboId));
-    GL_VERIFY(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboId));
-    GL_VERIFY(glBufferData(GL_ELEMENT_ARRAY_BUFFER, indSize * sizeof(GLuint), pIndData, GL_STREAM_DRAW));
-
-    GL_VERIFY(glGenBuffers(1, &vboId));
-    GL_VERIFY(glBindBuffer(GL_ARRAY_BUFFER, vboId));
-    GL_VERIFY(glBufferData(GL_ARRAY_BUFFER, sizeof(VertexData) * vertSize, pVertData, GL_STREAM_DRAW));
-
-    InitAttributes();
-
-    //Set index data and render
-    GL_VERIFY(glDrawElements(GL_TRIANGLES, indSize, GL_UNSIGNED_INT, NULL));
-
-    GL_VERIFY(glDeleteBuffers(1, &iboId));
-    GL_VERIFY(glDeleteBuffers(1, &vboId));
-
-    GL_VERIFY(glDisableVertexAttribArray(0));
-    GL_VERIFY(glDisableVertexAttribArray(1));
-    GL_VERIFY(glDisableVertexAttribArray(2));
 }

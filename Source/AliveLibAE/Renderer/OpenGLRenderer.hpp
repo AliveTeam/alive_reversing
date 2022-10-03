@@ -17,15 +17,17 @@
 #include "imgui_impl_opengl3.h"
 
 #include "GLShader.hpp"
+#include "../relive_lib/Animation.hpp"
 #include "../relive_lib/ResourceManagerWrapper.hpp"
 
 enum class AnimId;
 
 struct VertexData final
 {
-    f32 x, y, z;
-    f32 r, g, b;
-    f32 u, v;
+    s32 x, y;
+    u32 r, g, b;
+    u32 u, v;
+    u32 drawType, isSemiTrans, isShaded;
 };
 
 struct RGBAPixel final
@@ -91,6 +93,7 @@ private:
         u32 mAnimUploadCount = 0;
         u32 mPalUploadCount = 0;
         u32 mFontUploadCount = 0;
+        u32 mInvalidationsCount = 0;
 
         void Reset()
         {
@@ -99,6 +102,7 @@ private:
             mAnimUploadCount = 0;
             mPalUploadCount = 0;
             mFontUploadCount = 0;
+            mInvalidationsCount = 0;
         }
     };
     Stats mStats;
@@ -119,6 +123,14 @@ private:
     GLuint mPsxFramebufferId = 0;
     GLuint mPsxFramebufferTexId = 0;
 
+    u32 mBatchBlendMode = 999;
+    std::vector<VertexData> mBatchData = {};
+    GLenum mBatchDrawMode = 999;
+    GLuint mBatchPriTexId = 0;
+    u32 mBatchPriTexWidth = 0;
+    u32 mBatchPriTexHeight = 0;
+    GLuint mBatchSecTexId = 0;
+
     GLuint mGasTextureId = 0;
     TextureAndUniqueResId mCamTexture;
     TextureAndUniqueResId mFg1Texture; // TODO: should probably be 4 of these
@@ -126,10 +138,11 @@ private:
 
     void DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height);
     u16 GetTPageBlendMode(u16 tPage);
+    void InvalidateBatch();
+    void PushVertexData(GLenum mode, const VertexData* pVertData, int count, u32 blendMode, GLuint priTexId = 0, u32 priTexWidth = 0, u32 priTexHeight = 0, GLuint secTexId = 0);
     void SetupBlendMode(u16 blendMode);
     
-    void Renderer_BindPalette(AnimationPal& pCache);
-
+    u32 PreparePalette(AnimationPal& pCache);
     u32 PrepareTextureFromAnim(Animation& anim);
     u32 PrepareTextureFromPoly(Poly_FT4& poly);
     void FreeUnloadedAnimTextures();
@@ -146,10 +159,5 @@ private:
     };
     std::map<u32, LastUsedFrame> mTextureCache;
 
-    void InitAttributes();
     void DebugWindow();
-    void DrawLines(const VertexData* pVertData, s32 vertSize, const GLuint* pIndData, s32 indSize);
-    void DrawTexture(GLuint pTexture, f32 x, f32 y, f32 width, f32 height);
-    void DrawTriangles(const VertexData* pVertData, s32 vertSize, const GLuint* pIndData, s32 indSize);
-    void SetClipDirect(s32 x, s32 y, s32 width, s32 height);
 };
