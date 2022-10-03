@@ -124,7 +124,7 @@ private:
     GLuint mPsxFramebufferTexId = 0;
 
     u32 mBatchBlendMode = 999;
-    std::vector<VertexData> mBatchData = {};
+    std::vector<VertexData> mBatchData;
     GLenum mBatchDrawMode = 999;
     GLuint mBatchPriTexId = 0;
     u32 mBatchPriTexWidth = 0;

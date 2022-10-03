@@ -1242,6 +1242,7 @@ void OpenGLRenderer::InvalidateBatch()
 
     mBatchBlendMode = 999;
     mBatchData.clear();
+    mBatchDrawMode = 999;
     mBatchPriTexId = 0;
     mBatchPriTexWidth = 0;
     mBatchPriTexHeight = 0;
@@ -1256,7 +1257,7 @@ void OpenGLRenderer::PushVertexData(GLenum mode, const VertexData* pVertData, in
     // FIXME: For now we always invalidate if there's a secondary texture
     //        because we have no idea when the palette is replaced
     if (
-        (mBatchBlendMode != blendMode && mBatchBlendMode <= (u32)TPageAbr::eBlend_3) ||
+        (mBatchBlendMode != blendMode && mBatchBlendMode <= (u32) TPageAbr::eBlend_3) ||
         (mBatchDrawMode != mode && mBatchDrawMode <= GL_POLYGON) ||
         (priTexId > 0 && mBatchPriTexId != priTexId && mBatchPriTexId > 0) ||
         secTexId > 0)
