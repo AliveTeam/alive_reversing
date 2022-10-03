@@ -20,6 +20,8 @@
 #include "../relive_lib/Animation.hpp"
 #include "../relive_lib/ResourceManagerWrapper.hpp"
 
+#define BATCH_VALUE_UNSET 999
+
 enum class AnimId;
 
 struct VertexData final
@@ -27,7 +29,7 @@ struct VertexData final
     s32 x, y;
     u32 r, g, b;
     u32 u, v;
-    u32 drawType, isSemiTrans, isShaded;
+    u32 drawType, isSemiTrans, isShaded, paletteIndex;
 };
 
 struct RGBAPixel final
@@ -123,13 +125,17 @@ private:
     GLuint mPsxFramebufferId = 0;
     GLuint mPsxFramebufferTexId = 0;
 
-    u32 mBatchBlendMode = 999;
+    u32 mBatchBlendMode = BATCH_VALUE_UNSET;
     std::vector<VertexData> mBatchData;
-    GLenum mBatchDrawMode = 999;
-    GLuint mBatchPriTexId = 0;
+    GLenum mBatchDrawMode = BATCH_VALUE_UNSET;
+    GLuint mBatchPriTexId = BATCH_VALUE_UNSET;
     u32 mBatchPriTexWidth = 0;
     u32 mBatchPriTexHeight = 0;
-    GLuint mBatchSecTexId = 0;
+    GLuint mBatchSecTexId = BATCH_VALUE_UNSET;
+
+    GLuint mPaletteTextureId = 0;
+    std::map<u32, u32> mPaletteHashes;
+    std::map<u32, bool> mUsedPalettes;
 
     GLuint mGasTextureId = 0;
     TextureAndUniqueResId mCamTexture;
@@ -143,6 +149,7 @@ private:
     void SetupBlendMode(u16 blendMode);
     
     u32 PreparePalette(AnimationPal& pCache);
+    u32 HashPalette(const AnimationPal* pPal);
     u32 PrepareTextureFromAnim(Animation& anim);
     u32 PrepareTextureFromPoly(Poly_FT4& poly);
     void FreeUnloadedAnimTextures();

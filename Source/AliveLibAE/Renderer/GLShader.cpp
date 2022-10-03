@@ -273,11 +273,11 @@ const char_type* gShader_PsxVSH = R"(
 layout (location = 0) in ivec2 vsPos;
 layout (location = 1) in uvec3 vsShadeColor;
 layout (location = 2) in uvec2 vsUV;
-layout (location = 3) in uvec3 vsFlags;
+layout (location = 3) in uvec4 vsFlags;
 
 out vec3  fsShadeColor;
 out vec2  fsUV;
-flat out uvec3 fsFlags;
+flat out uvec4 fsFlags;
 
 uniform vec2 vsViewportSize;
 uniform vec2 vsTexSize;
@@ -310,7 +310,7 @@ const char_type* gShader_PsxFSH = R"(
 
 in vec3  fsShadeColor;
 in vec2  fsUV;
-flat in uvec3 fsFlags;
+flat in uvec4 fsFlags;
 
 out vec4 outColor;
 
@@ -335,7 +335,7 @@ const vec2 frameSize = vec2(640.0, 240.0);
 
 vec4 PixelToPalette(float v)
 {
-    return texture(texAdditionalData, vec2(v, 0.5f));
+    return texture(texAdditionalData, vec2(v, (fsFlags.w + 0.5) / 255.0));
 }
 
 float dither()
