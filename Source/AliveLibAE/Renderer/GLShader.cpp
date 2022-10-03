@@ -140,6 +140,11 @@ void GLShader::Uniform1i(const char_type* name, GLint v)
     glUniform1i(glGetUniformLocation(mProgramID, name), v);
 }
 
+void GLShader::Uniform1iv(const char_type* name, GLsizei count, const GLint* value)
+{
+    glUniform1iv(glGetUniformLocation(mProgramID, name), count, value);
+}
+
 void GLShader::Use()
 {
     glUseProgram(mProgramID);
@@ -272,15 +277,16 @@ const char_type* gShader_PsxVSH = R"(
 
 layout (location = 0) in ivec2 vsPos;
 layout (location = 1) in uvec3 vsShadeColor;
-layout (location = 2) in uvec2 vsUV;
-layout (location = 3) in uvec4 vsFlags;
+layout (location = 2) in uvec4 vsUV;
+layout (location = 3) in uvec3 vsFlags;
+layout (location = 4) in uvec2 vsTexIndexing;
 
 out vec3  fsShadeColor;
 out vec2  fsUV;
-flat out uvec4 fsFlags;
+flat out uvec3 fsFlags;
+flat out uvec2 fsTexIndexing;
 
 uniform vec2 vsViewportSize;
-uniform vec2 vsTexSize;
 
 
 void main()
@@ -292,15 +298,16 @@ void main()
     
     fsShadeColor = vsShadeColor;
     fsFlags = vsFlags;
+    fsTexIndexing = vsTexIndexing;
 
     // This is basically for if there is no texture in this batch
-    if (vsTexSize.x == 0 || vsTexSize.y == 0)
+    if (vsUV.z == 0u || vsUV.w == 0u)
     {
-        fsUV.xy = vec2(0.0);
+        fsUV = vec2(0.0);
     }
     else
     {
-        fsUV = vsUV / vsTexSize;
+        fsUV = vec2(vsUV.xy) / vsUV.zw;
     }
 }
 )";
@@ -310,11 +317,12 @@ const char_type* gShader_PsxFSH = R"(
 
 in vec3  fsShadeColor;
 in vec2  fsUV;
-flat in uvec4 fsFlags;
+flat in uvec3 fsFlags;
+flat in uvec2 fsTexIndexing;
 
 out vec4 outColor;
 
-uniform sampler2D texTextureData;
+uniform sampler2D texTextureData[8];
 uniform sampler2D texAdditionalData;
 
 uniform int fsBlendMode;
@@ -335,7 +343,7 @@ const vec2 frameSize = vec2(640.0, 240.0);
 
 vec4 PixelToPalette(float v)
 {
-    return texture(texAdditionalData, vec2(v, (fsFlags.w + 0.5) / 255.0));
+    return texture(texAdditionalData, vec2(v, (fsTexIndexing.x + 0.5) / 255.0));
 }
 
 float dither()
@@ -390,7 +398,7 @@ void draw_flat()
 void draw_default_ft4()
 {
     bool isSemiTrans = int(fsFlags.y) > 0;
-    vec4 texelPal = PixelToPalette(texture(texTextureData, fsUV).r);
+    vec4 texelPal = PixelToPalette(texture(texTextureData[fsTexIndexing.y], fsUV).r);
     vec3 texelShaded = handle_shading(texelPal.rgb);
 
     outColor.rgb = texelShaded;
@@ -412,7 +420,7 @@ void draw_default_ft4()
 
 void draw_cam()
 {
-    outColor = texture(texTextureData, fsUV);
+    outColor = texture(texTextureData[0], fsUV);
 
     outColor.rgb = handle_shading(outColor.rgb);
 }
@@ -421,7 +429,7 @@ void draw_fg1()
 {
     vec4 mask = texture(texAdditionalData, fsUV);
 
-    outColor = texture(texTextureData, fsUV);
+    outColor = texture(texTextureData[0], fsUV);
 
     if (mask.rgb == vec3(0.0, 0.0, 0.0))
     {
@@ -433,7 +441,7 @@ void draw_fg1()
 
 void draw_gas()
 {
-    vec4 texelGas = texture(texTextureData, fsUV);
+    vec4 texelGas = texture(texTextureData[0], fsUV);
     vec3 texelFinal = handle_shading(texelGas.rgb);
 
     outColor = vec4(texelFinal, get_alpha() * dither());

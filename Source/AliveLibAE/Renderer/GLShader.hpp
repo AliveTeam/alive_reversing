@@ -30,6 +30,7 @@ public:
     void UniformVec3(const char_type* name, glm::vec3 vector);
     void UniformVec4(const char_type* name, glm::vec4 vector);
     void Uniform1i(const char_type* name, GLint v);
+    void Uniform1iv(const char_type* name, GLsizei count, const GLint* value);
 
     void Use();
     void UnUse();
