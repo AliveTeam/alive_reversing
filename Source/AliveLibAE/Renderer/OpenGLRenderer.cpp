@@ -229,10 +229,9 @@ u32 OpenGLRenderer::PrepareTextureFromAnim(Animation& anim)
         mTextureCache[r.mUniqueId.Id()] = tmp;
     }
 
-    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, textureId));
-
     if (uploadPixels)
     {
+        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, textureId));
         GL_VERIFY(glPixelStorei(GL_UNPACK_ALIGNMENT, 1));
         GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, r.mTgaPtr->mWidth, r.mTgaPtr->mHeight, 0, GL_RED, GL_UNSIGNED_BYTE, r.mTgaPtr->mPixels.data()));
 
