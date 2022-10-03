@@ -896,7 +896,7 @@ void OpenGLRenderer::Draw(Poly_G4& poly)
 
 void OpenGLRenderer::EndFrame()
 {
-    if (!mFrameStarted)
+    if (!mFrameStarted || SDL_GetWindowFlags(mWindow) & SDL_WINDOW_MINIMIZED)
     {
         return;
     }
