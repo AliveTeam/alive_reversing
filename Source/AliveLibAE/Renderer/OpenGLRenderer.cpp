@@ -321,6 +321,11 @@ void OpenGLRenderer::BltBackBuffer(const SDL_Rect* /*pCopyRect*/, const SDL_Rect
 
 void OpenGLRenderer::Clear(u8 r, u8 g, u8 b)
 {
+    if (!mFrameStarted || SDL_GetWindowFlags(mWindow) & SDL_WINDOW_MINIMIZED)
+    {
+        return;
+    }
+
     GLboolean scissoring;
 
     GL_VERIFY(glGetBooleanv(GL_SCISSOR_TEST, &scissoring));
