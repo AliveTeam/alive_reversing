@@ -1711,7 +1711,7 @@ EXPORT void CC Factory_Teleporter_4DAA90(Path_TLV* pTlv, Path*, TlvItemInfoUnion
     }
 }
 
-EXPORT void CC Factory_SlurgSpawner_4DAB50(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+EXPORT void CC Factory_SlurgSpawner_4DAB50(Path_TLV* /*pTlv*/, Path*, TlvItemInfoUnion /*tlvInfo*/, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1719,11 +1719,16 @@ EXPORT void CC Factory_SlurgSpawner_4DAB50(Path_TLV* pTlv, Path*, TlvItemInfoUni
     }
     else
     {
+        /*
+        // TODO/HACK disabled because it crashes the game when a quick load is done
+        // after you save when a slurg is spawned as it has no TLV.
+        // Its only used to spawn 1 slurg in 1 screen of the game. Fix in abi_break
+        // branch by converting to a normal slurg.
         auto pSlurgSpawner = ae_new<SlurgSpawner>();
         if (pSlurgSpawner)
         {
             pSlurgSpawner->ctor_4C82E0(static_cast<Path_SlurgSpawner*>(pTlv), tlvInfo.all);
-        }
+        }*/
     }
 }
 

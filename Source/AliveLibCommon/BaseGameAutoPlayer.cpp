@@ -343,7 +343,7 @@ void BaseGameAutoPlayer::DisableRecorder()
 {
     if (!mDisabled)
     {
-        LOG_INFO("Auto player state paused");
+        //LOG_INFO("Auto player state paused");
         mDisabled = true;
     }
 }
@@ -353,6 +353,6 @@ void BaseGameAutoPlayer::EnableRecorder()
     if (mDisabled)
     {
         mDisabled = false;
-        LOG_INFO("Auto player state resumed");
+        //LOG_INFO("Auto player state resumed");
     }
 }
