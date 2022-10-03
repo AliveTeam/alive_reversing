@@ -1017,6 +1017,11 @@ void OpenGLRenderer::SetTPage(u16 tPage)
 
 void OpenGLRenderer::StartFrame(s32 /*xOff*/, s32 /*yOff*/)
 {
+    if (SDL_GetWindowFlags(mWindow) & SDL_WINDOW_MINIMIZED)
+    {
+        return;
+    }
+
     mStats.Reset();
 
     mFrameNumber++;
@@ -1234,7 +1239,7 @@ u16 OpenGLRenderer::GetTPageBlendMode(u16 tpage)
 
 void OpenGLRenderer::InvalidateBatch()
 {
-    if (mBatchData.size() == 0)
+    if (!mFrameStarted || mBatchData.size() == 0)
     {
         return;
     }
@@ -1314,9 +1319,12 @@ void OpenGLRenderer::InvalidateBatch()
 
 void OpenGLRenderer::PushVertexData(GLenum mode, const VertexData* pVertData, int count, u32 blendMode, GLuint priTexId, u32 priTexWidth, u32 priTexHeight, GLuint secTexId)
 {
+    if (!mFrameStarted)
+    {
+        return;
+    }
+
     // Check if we need to invalidate the existing batched data
-    // FIXME: For now we always invalidate if there's a secondary texture
-    //        because we have no idea when the palette is replaced
     if (
         (mBatchBlendMode != blendMode && mBatchBlendMode != BATCH_VALUE_UNSET) ||
         (mBatchDrawMode != mode && mBatchDrawMode != BATCH_VALUE_UNSET) ||
