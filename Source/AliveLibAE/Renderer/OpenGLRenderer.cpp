@@ -1377,12 +1377,12 @@ void OpenGLRenderer::PushVertexData(GLenum mode, VertexData* pVertData, int coun
         }
     }
 
-    mBatchAdditionalTexId = secTexId;
     mBatchBlendMode = blendMode;
     mBatchDrawMode = mode;
     
     if (drawType != GL_PSX_DRAW_MODE_FLAT)
     {
+        mBatchAdditionalTexId = secTexId;
         mBatchDrawType = drawType;
     }
 
