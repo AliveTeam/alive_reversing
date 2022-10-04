@@ -265,6 +265,12 @@ private:
     static std::vector<PendingResource> mFilesPendingLoading;
 
     // TODO: don't use stl directly
-    static std::map<AnimId, std::pair<std::weak_ptr<AnimationAttributesAndFrames>, std::weak_ptr<TgaData>>> mAnims;
+    struct AnimCache final
+    {
+        std::weak_ptr<AnimationAttributesAndFrames> mAnimAttributes;
+        std::weak_ptr<TgaData> mAnimTga;
+        UniqueResId mAnimUniqueId;
+    };
+    static std::map<AnimId, AnimCache> mAnims;
 };
 

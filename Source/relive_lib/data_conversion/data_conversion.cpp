@@ -1117,15 +1117,6 @@ static void ConvertFont(const FileSystem::Path& dataDir, const std::string& file
      TgaFile tga;
      AnimationPal pal = {};
 
-     // For some reason the game uses a hard coded pal that is slightly darker
-     // why the font file couldn't just be updated? who knows...
-     // TODO: Use the random collection of hard coded pals later
-     /*
-     const u8 menuPal[] = {0x00, 0x00, 0x21, 0x84, 0x42, 0x88, 0x63, 0x8C, 0x84, 0x90, 0xA5, 0x14, 0xE7, 0x1C, 0x08, 0x21, 0x29, 0x25, 0x4A, 0x29, 0x6B, 0x2D, 0x8C, 0x31, 0xAD, 0x35, 0xEF, 0x3D, 0x10, 0x42, 0x73, 0x4E};
-
-     const u16* p = reinterpret_cast<const u16*>(&menuPal[0]);
-     */
-
      for (s32 i = 0; i < 16; i++)
      {
          pal.mPal[i] = AnimationConverter::ToTGAPixelFormat(fontFile->field_8_palette[i]);

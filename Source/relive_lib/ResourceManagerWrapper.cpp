@@ -20,10 +20,9 @@
 u32 UniqueResId::mGlobalId = 1;
 std::vector<PendingResource> ResourceManagerWrapper::mFilesPendingLoading;
 
+std::map<AnimId, ResourceManagerWrapper::AnimCache> ResourceManagerWrapper::mAnims;
 
-std::map<AnimId, std::pair<std::weak_ptr<AnimationAttributesAndFrames>, std::weak_ptr<TgaData>>> ResourceManagerWrapper::mAnims;
-
-    s16 ResourceManagerWrapper::FreeResource(u8** ppRes)
+s16 ResourceManagerWrapper::FreeResource(u8** ppRes)
 {
     if (GetGameType() == GameType::eAe)
     {
@@ -145,12 +144,14 @@ AnimResource ResourceManagerWrapper::LoadAnimation(AnimId anim)
     auto it = mAnims.find(anim);
     if (it != std::end(mAnims))
     {
-        auto jsonPtr = it->second.first.lock();
-        auto tgaPtr = it->second.second.lock();
+        auto jsonPtr = it->second.mAnimAttributes.lock();
+        auto tgaPtr = it->second.mAnimTga.lock();
 
         if (jsonPtr && tgaPtr)
         {
-            return AnimResource(anim, jsonPtr, tgaPtr);
+            AnimResource res(anim, jsonPtr, tgaPtr);
+            res.mUniqueId = it->second.mAnimUniqueId;
+            return res;
         }
     }
 
