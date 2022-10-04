@@ -39,8 +39,10 @@ public:
     virtual s16 LoadResourceFile(const char_type* pFileName, Camera* pCamera) = 0;
 };
 
+#if !ALTERNATE_AUDIO
 EXPORT IMidiVars* GetMidiVars();
 EXPORT void SetMidiApiVars(IMidiVars* pVars);
+
 
 using TReclaimMemoryFn = void(CC*)(u32);
 using TLoadResourceFileFn = s16(CC*)(const s8*, Camera*);
@@ -58,6 +60,7 @@ EXPORT void SND_Restart_SetCallBack(TSNDRestart cb);
 EXPORT void CC SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, const char_type* bsqFileName);
 
 EXPORT void SND_Stop_All_Seqs_4CA850();
+#endif
 
 EXPORT void CC SND_StopAll_4CB060();
 EXPORT void CC SND_Init_4CA1F0();
@@ -74,6 +77,10 @@ EXPORT s16 CC SND_SEQ_Play_4CAB10(u16 idx, s16 repeatCount, s16 volLeft, s16 vol
 EXPORT s32 CC SND_SsIsEos_DeInlined_4CACD0(u16 idx);
 EXPORT s32 CC SFX_SfxDefinition_Play_4CA700(const SfxDefinition* sfxDef, s16 volLeft, s16 volRight, s16 pitch_min, s16 pitch_max);
 EXPORT s32 CC SFX_SfxDefinition_Play_4CA420(const SfxDefinition* sfxDef, s16 volume, s16 pitch_min, s16 pitch_max);
+
+// required additional?
+EXPORT s32 CC SND_4CA5D0(s32 program, s32 vabId, s32 note, s16 vol, s16 min, s16 max);
+EXPORT void CC SND_Restart_4CB0E0();
 
 enum SeqId
 {

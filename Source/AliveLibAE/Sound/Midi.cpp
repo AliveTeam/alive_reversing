@@ -18,8 +18,9 @@
 
 #include "PsxSpuApi.hpp"
 #include "AmbientSound.hpp"
+#include "SDL_Mixer.h"
 
-
+#if !ALTERNATE_AUDIO
 EXPORT void CC SFX_SetPitch_4CA510(const SfxDefinition* pSfx, s32 channelsBits, s16 pitch);
 
 const s32 kSeqTableSizeAE = 144;
@@ -867,3 +868,261 @@ EXPORT void CC SND_Restart_4CB0E0()
 
 // Next -> SND_Init_Ambiance_4CB480, SND_Reset_Ambiance_4CB4B0, Start_Sounds_for_TLV_4CB530, Start_Slig_sounds_4CB980
 // Stop_slig_sounds_4CBA70 Path::Start_Sounds_For_Objects_In_Camera_4CBAF0, Start_Sounds_For_Objects_In_Near_Cameras_4CBB60
+#else
+struct VagAtr final
+{
+    s8 field_0_priority;
+    s8 field_1_mode;
+    s8 field_2_vol;
+    s8 field_3_pan;
+    u8 field_4_centre;
+    u8 field_5_shift;
+    s8 field_6_min;
+    s8 field_7_max;
+    s8 field_8_vibW;
+    s8 field_9_vibT;
+    s8 field_A_porW;
+    s8 field_B_porT;
+    s8 field_C_pitch_bend_min;
+    s8 field_D_pitch_bend_max;
+    s8 field_E_reserved1;
+    s8 field_F_reserved2;
+    s16 field_10_adsr1;
+    s16 field_12_adsr2;
+    s16 field_14_prog;
+    s16 field_16_vag;
+    s16 field_18_reserved[4];
+};
+
+struct AoVag
+{
+    u32 iSize;
+    u32 iSampleRate;
+    std::vector<unsigned char> iSampleData;
+};
+
+EXPORT void CC SND_StopAll_4CB060()
+{
+
+}
+EXPORT void CC SND_Init_4CA1F0()
+{
+
+}
+EXPORT void CC SND_Shutdown_4CA280()
+{
+
+}
+EXPORT void CC SND_Stop_Channels_Mask_4CA810(u32 bitMask)
+{
+    bitMask;
+}
+EXPORT void SND_Reset_4C9FB0()
+{
+
+}
+
+EXPORT void CC SND_Load_VABS_4CA350(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
+{
+    reverb;
+    while (1)
+    {
+        if (!pSoundBlockInfo->field_0_vab_header_name)
+        {
+            break;
+        }
+
+        // field_14_prog is what is passed to "playsound"
+        // I then have to look up field_16_vag to play the sample
+
+        // Read header
+        LvlFileRecord* pVabHeaderFile = sLvlArchive_5BC520.Find_File_Record_433160(pSoundBlockInfo->field_0_vab_header_name);
+        u8* ppVabHeader = new u8[pVabHeaderFile->field_10_num_sectors << 11];
+        sLvlArchive_5BC520.Read_File_4330A0(pVabHeaderFile, ppVabHeader);
+        VabHeader* vabHeader = reinterpret_cast<VabHeader*>(ppVabHeader);
+        VagAtr* vagAttr = (VagAtr*) &vabHeader[1];
+        for (s32 i = 0; i < vabHeader->field_12_num_progs; i++)
+        {
+            for (s32 toneCounter = 0; toneCounter < 16; toneCounter++)
+            {
+                if (vagAttr->field_2_vol > 0)
+                {
+                    Converted_Vag* pData = new Converted_Vag;
+
+                    pData->field_F_prog = static_cast<u8>(vagAttr->field_14_prog);
+                    pData->field_10_vag = LOBYTE(vagAttr->field_16_vag) - 1;
+                    pData->field_C = 0;
+                    pData->field_D_vol = vagAttr->field_2_vol;
+                    pData->field_E_priority = vagAttr->field_0_priority;
+                    pData->field_8_min = vagAttr->field_6_min;
+                    pData->field_9_max = vagAttr->field_7_max;
+
+                    const s16 centre = vagAttr->field_4_centre;
+                    pData->field_A_shift_cen = 2 * (vagAttr->field_5_shift + (centre << 7));
+
+                    f32 sustain_level = static_cast<f32>((2 * (~(u8) vagAttr->field_10_adsr1 & 0xF)));
+
+                    pData->field_0_adsr_attack = std::min(static_cast<u16>((powf(2.0f, ((vagAttr->field_10_adsr1 >> 8) & 0x7F) * 0.25f) * 0.09f)), static_cast<u16>(32767));
+                    pData->field_4_adsr_decay = static_cast<u16>((((vagAttr->field_10_adsr1 >> 4) & 0xF) / 15.0f) * 16.0);
+                    pData->field_2_adsr_sustain_level = std::min(static_cast<u16>((sustain_level / 15.0f) * 600.0), static_cast<u16>(32767));
+                    pData->field_6_adsr_release = std::min(static_cast<u16>(pow(2, vagAttr->field_12_adsr2 & 0x1F) * 0.045f), static_cast<u16>(32767));
+
+                    // If decay is at max, then nothing should play. So mute sustain too ?
+                    if (pData->field_4_adsr_decay == 16)
+                    {
+                        pData->field_2_adsr_sustain_level = 0;
+                    }
+
+                    pData->field_11_pad = vagAttr->field_3_pan;
+                }
+                ++vagAttr;
+            }
+        }
+
+        // Read body
+        // THIS IS THE DIFFERENCE BETWEEN AO. For some reason audio is stored in sounds.dat instead of the sector
+        std::ifstream soundDatFile;
+        soundDatFile.open("sounds.dat", std::ios::binary);
+        if (!soundDatFile.is_open())
+        {
+            abort();
+        }
+        soundDatFile.seekg(0, std::ios::end);
+        std::streamsize fileSize = soundDatFile.tellg();
+        soundDatFile.seekg(0, std::ios::beg);
+        char* soundData = new char[(s32) fileSize + 1]; // Plus one, just in case interpolating tries to go that one byte further!
+
+        if (soundDatFile.read(soundData, fileSize))
+        {
+            // Tada!
+        }
+
+        LvlFileRecord* pVabBodyFile = sLvlArchive_5BC520.Find_File_Record_433160(pSoundBlockInfo->field_4_vab_body_name);
+        s32 bodySize = pVabBodyFile->field_10_num_sectors << 11;
+        u8* ppVabBody = new u8[bodySize];
+        sLvlArchive_5BC520.Read_File_4330A0(pVabBodyFile, ppVabBody);
+
+        int pos = 0;
+        for (s32 i = 0; i < vabHeader->field_12_num_progs; i++)
+        {
+            // VAB
+
+            VabBodyRecord* record = reinterpret_cast<VabBodyRecord*>(&ppVabBody[pos]);
+
+            u32 size = *reinterpret_cast<u32*>(&ppVabBody[pos]);
+            pos += sizeof(u32);
+
+            u32 sampleRate = *reinterpret_cast<u32*>(&ppVabBody[pos]);
+            pos += sizeof(u32);
+
+            // In AO the body is at this part.
+            // IN AE instead it's an offset in sounds.dat
+            // Not sure why they did this.
+            u32 offset = *reinterpret_cast<u32*>(&ppVabBody[pos]);
+            pos += sizeof(u32);
+
+            // Read data from sounds.dat
+            u8* data = new u8[size];
+            memcpy(data, &soundData[offset], size);
+
+            size;
+            sampleRate;
+            record;
+            vabHeader;
+        }
+
+        delete[] ppVabBody;
+        pSoundBlockInfo++;
+    }
+}
+EXPORT s32 CC SND_4CA5D0(s32 program, s32 vabId, s32 note, s16 vol, s16 min, s16 max)
+{
+    program;
+    vabId;
+    note;
+    vol;
+    min;
+    max;
+    return 1;
+}
+EXPORT void CC SND_Restart_4CB0E0()
+{
+
+}
+EXPORT void CC SND_Load_Seqs_4CAED0(OpenSeqHandle* pSeqTable, const char_type* bsqFileName)
+{
+    if (!pSeqTable || !bsqFileName)
+    {
+        return;
+    }
+
+    OpenSeqHandle* seq = reinterpret_cast<::OpenSeqHandle*>(pSeqTable);
+    ResourceManager::LoadResourceFile_49C170(bsqFileName, nullptr);
+    for (s32 i = 0; i < 144; i++) // 144 is a hardcoded value
+    {
+        seq[i].field_A_id_seqOpenId = -1;
+        seq[i].field_4_generated_res_id = ResourceManager::SEQ_HashName_49BE30(seq[i].field_0_mBsqName);
+
+        u8** ppSeq = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Seq, seq[i].field_4_generated_res_id, 1, 1);
+        if (ppSeq)
+        {
+            seq[i].field_C_ppSeq_Data = *ppSeq;
+        }
+        else
+        {
+            seq[i].field_C_ppSeq_Data = nullptr;
+        }
+    }
+}
+EXPORT void CC SND_SEQ_Stop_4CAE60(u16 idx)
+{
+    idx;
+}
+EXPORT s8 CC SND_Seq_Table_Valid_4CAFE0()
+{
+    return 1;
+}
+EXPORT s16 CC SND_SEQ_PlaySeq_4CA960(u16 idx, s16 repeatCount, s16 bDontStop)
+{
+    idx;
+    repeatCount;
+    bDontStop;
+    return 1;
+}
+EXPORT void CC SND_SEQ_SetVol_4CAD20(s32 idx, s16 volLeft, s16 volRight)
+{
+    idx;
+    volLeft;
+    volRight;
+}
+EXPORT s16 CC SND_SEQ_Play_4CAB10(u16 idx, s16 repeatCount, s16 volLeft, s16 volRight)
+{
+    idx;
+    repeatCount;
+    volLeft;
+    volRight;
+    return 1;
+}
+EXPORT s32 CC SND_SsIsEos_DeInlined_4CACD0(u16 idx)
+{
+    idx;
+    return 1;
+}
+EXPORT s32 CC SFX_SfxDefinition_Play_4CA700(const SfxDefinition* sfxDef, s16 volLeft, s16 volRight, s16 pitch_min, s16 pitch_max)
+{
+    sfxDef;
+    volLeft;
+    volRight;
+    pitch_min;
+    pitch_max;
+    return 1;
+}
+EXPORT s32 CC SFX_SfxDefinition_Play_4CA420(const SfxDefinition* sfxDef, s16 volume, s16 pitch_min, s16 pitch_max)
+{
+    sfxDef;
+    volume;
+    pitch_min;
+    pitch_max;
+    return 1;
+} 
+#endif
