@@ -35,8 +35,8 @@ MessageBoxButton CC Sys_MessageBox(TWindowHandleType windowHandle, const char_ty
     if (type == MessageBoxType::eQuestion)
     {
         const static SDL_MessageBoxButtonData buttons[] = {
-            {0, 0, "No"},
-            {SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 1, "Yes"},
+            {0, 1, "No"},
+            {SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 0, "Yes"},
         };
 
         data.numbuttons = SDL_arraysize(buttons);
@@ -70,21 +70,19 @@ MessageBoxButton CC Sys_MessageBox(TWindowHandleType windowHandle, const char_ty
     }
 
     s32 button = 0;
-    if (SDL_ShowMessageBox(&data, &button) == 0)
+
+    SDL_ShowMessageBox(&data, &button);
+
+    if (type == MessageBoxType::eQuestion)
     {
-        if (type == MessageBoxType::eQuestion)
+        if (button == 1)
         {
-            if (button == 1)
-            {
-                return MessageBoxButton::eYes;
-            }
             return MessageBoxButton::eNo;
         }
-        else
-        {
-            return MessageBoxButton::eOK;
-        }
+
+        return MessageBoxButton::eYes;
     }
+
     return MessageBoxButton::eOK;
 #else
     u32 w32type = MB_OK;
