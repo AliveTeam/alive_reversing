@@ -144,6 +144,7 @@ private:
     u32 mBatchBlendMode = BATCH_VALUE_UNSET;
     std::vector<VertexData> mBatchData;
     GLenum mBatchDrawMode = BATCH_VALUE_UNSET;
+    std::vector<u32> mBatchIndicies;
 
     GLuint mBatchAdditionalTexId = BATCH_VALUE_UNSET;
     std::vector<GLuint> mBatchTextureIds;
