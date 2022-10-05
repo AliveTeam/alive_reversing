@@ -19,6 +19,8 @@
 #define GL_TO_IMGUI_TEX(v) *reinterpret_cast<ImTextureID*>(&v)
 
 
+static bool gRenderEnable_Batching = true;
+
 static bool gRenderEnable_SPRT = true;
 static bool gRenderEnable_GAS = true;
 static bool gRenderEnable_TILE = true;
@@ -1399,6 +1401,12 @@ void OpenGLRenderer::PushVertexData(GLenum mode, VertexData* pVertData, int coun
         pVertData[i].textureUnitIndex = targetTexUnit;
         mBatchData.push_back(pVertData[i]);
     }
+
+    // DEBUGGING: If batching is disabled we invalidate immediately
+    if (!gRenderEnable_Batching)
+    {
+        InvalidateBatch();
+    }
 }
 
 void OpenGLRenderer::SetupBlendMode(u16 blendMode)
@@ -1437,6 +1445,13 @@ void OpenGLRenderer::DebugWindow()
     {
         if (ImGui::BeginMenu("Developer"))
         {
+            if (ImGui::BeginMenu("Renderer Debug"))
+            {
+                ImGui::MenuItem("Batching Enabled", nullptr, &gRenderEnable_Batching);
+
+                ImGui::EndMenu();
+            }
+
             if (ImGui::BeginMenu("Render Elements"))
             {
                 ImGui::MenuItem("SPRT", nullptr, &gRenderEnable_SPRT);
