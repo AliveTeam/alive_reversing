@@ -1,6 +1,6 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
-#include "SlogHut.hpp"
+#include "ZzzSpawner.hpp"
 #include "stdlib.hpp"
 #include "SnoozeParticle.hpp"
 #include "Events.hpp"
@@ -9,12 +9,12 @@
 
 namespace AO {
 
-void SlogHut::VScreenChanged()
+void ZzzSpawner::VScreenChanged()
 {
     VScreenChanged_472E20();
 }
 
-SlogHut* SlogHut::Vdtor_472E30(s32 flags)
+ZzzSpawner* ZzzSpawner::Vdtor_472E30(s32 flags)
 {
     dtor_472CF0();
     if (flags & 1)
@@ -24,19 +24,19 @@ SlogHut* SlogHut::Vdtor_472E30(s32 flags)
     return this;
 }
 
-BaseGameObject* SlogHut::VDestructor(s32 flags)
+BaseGameObject* ZzzSpawner::VDestructor(s32 flags)
 {
     return Vdtor_472E30(flags);
 }
 
-BaseGameObject* SlogHut::dtor_472CF0()
+BaseGameObject* ZzzSpawner::dtor_472CF0()
 {
     SetVTable(this, 0x4BCBB0);
     gMap_507BA8.TLV_Reset_446870(field_1C_tlvInfo, -1, 0, 0);
     return dtor_487DF0();
 }
 
-SlogHut* SlogHut::ctor_472C80(Path_SlogHut* pTlv, s32 tlvInfo)
+ZzzSpawner* ZzzSpawner::ctor_472C80(Path_ZzzSpawner* pTlv, s32 tlvInfo)
 {
     ctor_487E10(1);
     SetVTable(this, 0x4BCBB0);
@@ -61,18 +61,18 @@ SlogHut* SlogHut::ctor_472C80(Path_SlogHut* pTlv, s32 tlvInfo)
     return this;
 }
 
-void SlogHut::VScreenChanged_472E20()
+void ZzzSpawner::VScreenChanged_472E20()
 {
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
 
-void SlogHut::VUpdate()
+void ZzzSpawner::VUpdate()
 {
     VUpdate_472D50();
 }
 
-void SlogHut::VUpdate_472D50()
+void ZzzSpawner::VUpdate_472D50()
 {
     if (Event_Get_417250(kEventDeathReset_4))
     {

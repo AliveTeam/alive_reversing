@@ -16,8 +16,8 @@ template <typename T>
 class TypedProperty final : public BaseProperty
 {
 public:
-    TypedProperty(const std::string& name, const std::string& typeName, bool isVisibleToEditor, T* data)
-        : BaseProperty(name, typeName, isVisibleToEditor)
+    TypedProperty(const std::string& name, const std::string& typeName, const char* idStr, bool isVisibleToEditor, T* data)
+        : BaseProperty(name, typeName, idStr, isVisibleToEditor)
         , m_data(data)
     { }
 

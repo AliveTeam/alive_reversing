@@ -61,6 +61,8 @@ public:
     EXPORT MusicController* Vdtor_4439D0(s32 flags);
 
     EXPORT static void CC PlayMusic_443810(MusicTypes a1, BaseGameObject* a2, s16 a3, s16 a4);
+    
+    static void ClearObject(BaseGameObject* pObj);
 
     EXPORT static MusicTypes CC GetAbmientAndMusicInfo_443840(SeqId* ambientSeq, SeqId* musicSeq, u16* ambientOrMusicDuration);
 
@@ -73,6 +75,7 @@ public:
     static EXPORT s32 CC OnRootCounter_4437D0();
 
     EXPORT void PlayMusic_443460(MusicTypes a2, BaseGameObject* a3, s16 a4, s16 a5);
+    void DoClearObject(BaseGameObject* pObj);
 
     EXPORT void UpdateMusic_442C20();
 

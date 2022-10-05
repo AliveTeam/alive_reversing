@@ -116,6 +116,7 @@ BaseGameObject* MusicTrigger::dtor_443C20()
     {
         MusicController::PlayMusic_443810(MusicController::MusicTypes::eType0, this, 0, 0);
     }
+    MusicController::ClearObject(this);
     return dtor_487DF0();
 }
 

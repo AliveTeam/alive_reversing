@@ -3,6 +3,7 @@
 #include "JsonReadUtils.hpp"
 #include "TlvObjectBase.hpp"
 #include "file_api.hpp"
+#include <set>
 
 namespace ReliveAPI {
 std::vector<AO::PathLine> JsonReaderBase::ReadAOLines(TypesCollectionBase& types, const jsonxx::Array& collisionsArray, Context& context)
@@ -31,7 +32,7 @@ std::vector<::PathLine> JsonReaderBase::ReadAELines(TypesCollectionBase& types, 
     return lines;
 }
 
-std::pair<std::vector<CameraNameAndTlvBlob>, jsonxx::Object> JsonReaderBase::Load(TypesCollectionBase& types, IFileIO& fileIO, const std::string& fileName, Context& context)
+LoadedJsonBase JsonReaderBase::Load(TypesCollectionBase& types, IFileIO& fileIO, const std::string& fileName, Context& context)
 {
     auto inputFileStream = fileIO.Open(fileName, IFileIO::Mode::Read);
     if (!inputFileStream->IsOpen())
@@ -77,7 +78,7 @@ std::pair<std::vector<CameraNameAndTlvBlob>, jsonxx::Object> JsonReaderBase::Loa
         mRootInfo.mHintFlyMessages.emplace_back(hintFlyMessagesArray.get<std::string>(i));
     }
 
-    std::vector<CameraNameAndTlvBlob> mapData;
+    LoadedJsonBase ret;
 
     const jsonxx::Array& camerasArray = ReadArray(map, "cameras");
     for (auto i = 0u; i < camerasArray.values().size(); i++)
@@ -114,13 +115,27 @@ std::pair<std::vector<CameraNameAndTlvBlob>, jsonxx::Object> JsonReaderBase::Loa
                 throw ReliveAPI::UnknownStructureTypeException(structureType);
             }
 
+            for (const auto& resource : tlv->Resources())
+            {
+                if (resource.mAddMeTo == AddResourceTo::CameraBlock)
+                {
+                    cameraNameBlob.mRequiredResources.insert(resource.mResource);
+                }
+                else if (resource.mAddMeTo == AddResourceTo::File)
+                {
+                    ret.mResourcesRequiredInLvl.insert(resource.mResource);
+                }
+            }
+
             tlv->InstanceFromJson(types, mapObject, context);
             cameraNameBlob.mTlvBlobs.emplace_back(tlv->GetTlvData(j == mapObjectsArray.values().size() - 1));
         }
 
-        mapData.push_back(std::move(cameraNameBlob));
+        ret.mPerCamData.push_back(std::move(cameraNameBlob));
     }
 
-    return {std::move(mapData), map};
+    ret.mMapJson = map;
+
+    return ret;
 }
 } // namespace ReliveAPI

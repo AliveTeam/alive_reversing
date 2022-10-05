@@ -453,6 +453,8 @@ BaseGameObject* Slig::dtor_465320()
             ppRes = nullptr;
         }
     }
+    
+    MusicController::ClearObject(this);
 
     return dtor_401000(); // Note: Empty dtor skipped
 }
@@ -2535,10 +2537,8 @@ s16 Slig::MainMovement_467020()
 void Slig::ToKnockBack_467300()
 {
     Environment_SFX_42A220(EnvironmentSfx::eKnockback_13, 0, 0x7FFF, this);
-    if (FP_GetExponent(field_B4_velx))
-    {
-        field_A8_xpos -= field_B4_velx;
-    }
+
+    field_A8_xpos -= field_B4_velx;
 
     if (field_F4_pLine)
     {
@@ -4461,6 +4461,8 @@ s16 Slig::Brain_Sleeping_46B4E0()
 
     if (SwitchStates_Get(120) && field_114_timer <= static_cast<s32>(gnFrameCount_507670) && gMap_507BA8.Is_Point_In_Current_Camera_4449C0(field_B2_lvl_number, field_B0_path_number, field_A8_xpos, field_AC_ypos, 0) && !Event_Get_417250(kEventResetting_6))
     {
+        LOG_WARNING("if this is a custom level consider changing all switch id's with the value 120"
+                    " to something else. sleeping sligs will always wake up if this switch id is set.");
         WakeUp();
         return 102;
     }

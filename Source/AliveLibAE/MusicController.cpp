@@ -9,6 +9,7 @@
 #include "ObjectIds.hpp"
 #include "PathData.hpp"
 #include "Sys.hpp"
+#include "BaseGameAutoPlayer.hpp"
 
 ALIVE_VAR(1, 0x5C3020, MusicController*, pMusicController_5C3020, nullptr);
 ALIVE_VAR(1, 0x5C301C, u32, sMusicControllerBaseTimeStamp_5C301C, 0);
@@ -349,12 +350,12 @@ s32 CC MusicController::Create_47FC40()
 
 void CC MusicController::SetBaseTimeStamp_47FD00()
 {
-    sMusicControllerBaseTimeStamp_5C301C = SYS_GetTicks();
+    sMusicControllerBaseTimeStamp_5C301C = GetGameAutoPlayer().SysGetTicks();
 }
 
 void CC MusicController::UpdateMusicTime_47F8B0()
 {
-    sMusicTime_5C3024 = (3 * SYS_GetTicks() - 3 * sMusicControllerBaseTimeStamp_5C301C) / 100;
+    sMusicTime_5C3024 = (3 * GetGameAutoPlayer().SysGetTicks() - 3 * sMusicControllerBaseTimeStamp_5C301C) / 100;
 }
 
 void CC MusicController::Shutdown_47FD20()

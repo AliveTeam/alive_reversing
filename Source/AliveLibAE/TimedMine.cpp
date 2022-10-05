@@ -74,7 +74,7 @@ TimedMine* TimedMine::ctor_410600(Path_TimedMine* pPath, TlvItemInfoUnion tlv)
 
     field_118_armed = 0;
 
-    if (pPath->field_14_scale)
+    if (pPath->field_14_scale == Scale_short::eHalf_1)
     {
         field_CC_sprite_scale = FP_FromDouble(0.5);
         field_D6_scale = 0;
@@ -89,7 +89,7 @@ TimedMine* TimedMine::ctor_410600(Path_TimedMine* pPath, TlvItemInfoUnion tlv)
 
     InitBlinkAnimation_4108E0(&field_124_animation);
 
-    field_11A_explode_timeout = pPath->field_16_timeout;
+    field_11A_ticks_before_explosion = pPath->field_16_ticks_before_explosion;
 
     field_B8_xpos = FP_FromInteger((pPath->field_8_top_left.field_0_x + pPath->field_C_bottom_right.field_0_x) / 2);
     field_BC_ypos = FP_FromInteger(pPath->field_8_top_left.field_2_y);
@@ -370,19 +370,19 @@ void TimedMine::vOnPickUpOrSlapped_410E30()
     if (field_118_armed != 1)
     {
         field_118_armed = 1;
-        if ((s32)(field_11A_explode_timeout & 0xFFFC) >= 72)
+        if ((s32)(field_11A_ticks_before_explosion & 0xFFFC) >= 72)
         {
             field_1C0_detonation_timer = 18;
         }
         else
         {
-            field_1C0_detonation_timer = field_11A_explode_timeout >> 2;
+            field_1C0_detonation_timer = field_11A_ticks_before_explosion >> 2;
         }
         field_1BC_gnFrame_2 = sGnFrame_5C1B84;
         const AnimRecord& animRec = AnimRec(AnimId::TimedMine_Activated);
         field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
         const AnimRecord& flashRec = AnimRec(AnimId::Bomb_Flash);
-        field_120_gnframe = sGnFrame_5C1B84 + field_11A_explode_timeout;
+        field_120_gnframe = sGnFrame_5C1B84 + field_11A_ticks_before_explosion;
         field_124_animation.Set_Animation_Data_409C80(flashRec.mFrameTableOffset, 0);
         SFX_Play_46FA90(SoundEffect::GreenTick_2, 0);
     }

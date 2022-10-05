@@ -116,6 +116,7 @@ void TypesCollectionAE::AddAETypes()
     REGISTER_TYPE_AE(AETlvs::Path_CreditsController);
     REGISTER_TYPE_AE(AETlvs::Path_MovieHandstone);
     REGISTER_TYPE_AE(AETlvs::Path_MovingBomb);
+    REGISTER_TYPE_AE(AETlvs::Path_MovingBombStopper);
     REGISTER_TYPE_AE(AETlvs::Path_SecurityDoor);
     REGISTER_TYPE_AE(AETlvs::Path_CrawlingSlig);
     REGISTER_TYPE_AE(AETlvs::Path_SligGetPants);
@@ -128,7 +129,7 @@ void TypesCollectionAE::AddAETypes()
     REGISTER_TYPE_AE(AETlvs::Path_BoneBag);
     REGISTER_TYPE_AE(AETlvs::Path_SecurityClaw);
     REGISTER_TYPE_AE(AETlvs::Path_FootSwitch);
-    REGISTER_TYPE_AE(AETlvs::Path_SlogHut);
+    REGISTER_TYPE_AE(AETlvs::Path_ZzzSpawner);
     REGISTER_TYPE_AE(AETlvs::Path_SlogSpawner);
     REGISTER_TYPE_AE(AETlvs::Path_MainMenuController);
     REGISTER_TYPE_AE(AETlvs::Path_Null_63);
@@ -139,6 +140,7 @@ void TypesCollectionAE::AddAETypes()
     REGISTER_TYPE_AE(AETlvs::Path_ParamiteWebLine);
     REGISTER_TYPE_AE(AETlvs::Path_MeatSack);
     REGISTER_TYPE_AE(AETlvs::Path_TorturedMudokon);
+    REGISTER_TYPE_AE(AETlvs::Path_TimedMine);
 
 #undef REGISTER_TYPE_AE
 
@@ -182,7 +184,11 @@ void TypesCollectionAE::AddAETypes()
         {eLineTypes::eMineCarFloor_11, "Mine Car Floor"},
         {eLineTypes::eMineCarWall_12, "Mine Car Wall"},
         {eLineTypes::eMineCarCeiling_13, "Mine Car Ceiling"},
+        {eLineTypes::eBackgroundMineCarFloor_14, "Background Mine Car Floor"},
+        {eLineTypes::eBackgroundMineCarWall_15, "Background Mine Car Wall"},
+        {eLineTypes::eBackgroundMineCarCeiling_16, "Background Mine Car Ceiling"},
         {eLineTypes::eFlyingSligCeiling_17, "Flying Slig Ceiling"},
+        {eLineTypes::eBackgroundFlyingSligCeiling_18, "Background Flying Slig Ceiling"},
         {eLineTypes::eUnknown_32, "Unknown 32"},
         {eLineTypes::eUnknown_36, "Unknown 36"},
     });

@@ -18,7 +18,7 @@ LightEffect* LightEffect::ctor_4064C0(Path_LightEffect* pTlv, s32 tlvInfo)
     field_4_typeId = Types::eNone_0;
     field_E4_tlvInfo = tlvInfo;
 
-    const AnimRecord rec = AO::AnimRec(AnimId::Star);
+    const AnimRecord& rec = AO::AnimRec(AnimId::Star);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 

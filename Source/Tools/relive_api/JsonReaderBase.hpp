@@ -65,13 +65,21 @@ public:
 class IFileIO;
 class Context;
 
+
+struct LoadedJsonBase final
+{
+    std::vector<CameraNameAndTlvBlob> mPerCamData;
+    std::set<AnimId> mResourcesRequiredInLvl;
+    jsonxx::Object mMapJson;
+};
+
 class JsonReaderBase
 {
 public:
     MapInfo mRootInfo;
 
 protected:
-    std::pair<std::vector<CameraNameAndTlvBlob>, jsonxx::Object> Load(TypesCollectionBase& types, IFileIO& fileIO, const std::string& fileName, Context& context);
+    LoadedJsonBase Load(TypesCollectionBase& types, IFileIO& fileIO, const std::string& fileName, Context& context);
 
     std::vector<AO::PathLine> ReadAOLines(TypesCollectionBase& types, const jsonxx::Array& collisionsArray, Context& context);
     std::vector<::PathLine> ReadAELines(TypesCollectionBase& types, const jsonxx::Array& collisionsArray, Context& context);

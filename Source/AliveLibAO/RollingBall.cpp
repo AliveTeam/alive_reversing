@@ -74,7 +74,7 @@ RollingBall* RollingBall::ctor_4578C0(Path_RollingBall* pTlv, s32 tlvInfo)
     SetVTable(this, 0x4BC180);
     field_4_typeId = Types::eRollingBall_72;
     
-    const AnimRecord rec = AO::AnimRec(AnimId::Stone_Ball);
+    const AnimRecord& rec = AO::AnimRec(AnimId::Stone_Ball);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
@@ -440,10 +440,10 @@ void RollingBall::CrushThingsInTheWay_458310()
             PSX_RECT bObjRect = {};
             pAliveObj->VGetBoundingRect(&bObjRect, 1);
 
-            if (bOurRect.x <= bObjRect.x
+            if (bOurRect.x <= bObjRect.w
                 && bOurRect.w >= bObjRect.x
                 && bOurRect.h >= bObjRect.y
-                && bOurRect.y <= bObjRect.y)
+                && bOurRect.y <= bObjRect.h)
             {
                 pAliveObj->VTakeDamage(this);
             }

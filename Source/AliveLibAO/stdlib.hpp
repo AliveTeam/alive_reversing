@@ -17,7 +17,14 @@ inline T* ao_new(Args&&... args)
     void* buffer = ao_new_malloc_447520(sizeof(T));
     if (buffer)
     {
-        return new (buffer) T(std::forward<Args>(args)...);
+        if constexpr (sizeof...(args) == 0)
+        {
+            return new (buffer) T();
+        }
+        else
+        {
+            return new (buffer) T(std::forward<Args>(args)...);
+        }
     }
     return nullptr;
 }

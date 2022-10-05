@@ -205,7 +205,7 @@ BoomMachine* BoomMachine::ctor_41E420(Path_BoomMachine* pTlv, s32 tlvInfo)
     SetVTable(this, 0x4BB008);
     field_4_typeId = Types::eGrenadeMachine_41;
 
-    const AnimRecord rec = AO::AnimRec(AnimId::BoomMachine_Button_On);
+    const AnimRecord& rec = AO::AnimRec(AnimId::BoomMachine_Button_On);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
@@ -229,7 +229,7 @@ BoomMachine* BoomMachine::ctor_41E420(Path_BoomMachine* pTlv, s32 tlvInfo)
     if (pNozzle)
     {
         FP directedScale = field_BC_sprite_scale;
-        if (pTlv->field_1A_nozzle_side == XDirection_short::eRight_1)
+        if (pTlv->field_1A_nozzle_side == Path_BoomMachine::NozzleSide::eLeft_1)
         {
             directedScale = -directedScale;
         }
@@ -237,7 +237,7 @@ BoomMachine* BoomMachine::ctor_41E420(Path_BoomMachine* pTlv, s32 tlvInfo)
         pNozzle->ctor_417C10();
         SetVTable(pNozzle, 0x4BAFD0);
 
-        const AnimRecord rec2 = AO::AnimRec(AnimId::BoomMachine_Nozzle_Idle);
+        const AnimRecord& rec2 = AO::AnimRec(AnimId::BoomMachine_Nozzle_Idle);
         u8** ppRes2 = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec2.mResourceId, 1, 0);
         pNozzle->Animation_Init_417FD0(rec2.mFrameTableOffset, rec2.mMaxW, rec2.mMaxH, ppRes2, 1);
 
@@ -250,7 +250,7 @@ BoomMachine* BoomMachine::ctor_41E420(Path_BoomMachine* pTlv, s32 tlvInfo)
         pNozzle->field_EC_num_grenades = static_cast<s16>(pTlv->field_1E_number_of_grenades);
     }
 
-    pNozzle->field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, pTlv->field_1A_nozzle_side == XDirection_short::eRight_1);
+    pNozzle->field_10_anim.field_4_flags.Set(AnimFlags::eBit5_FlipX, pTlv->field_1A_nozzle_side == Path_BoomMachine::NozzleSide::eLeft_1);
 
     pNozzle->field_C_refCount++;
     field_EC_pNozzle = pNozzle;

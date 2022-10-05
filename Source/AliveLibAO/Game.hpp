@@ -14,6 +14,7 @@ ALIVE_VAR_EXTERN(u32, gnFrameCount_507670);
 ALIVE_VAR_EXTERN(s16, gAttract_507698);
 ALIVE_VAR_EXTERN(DynamicArrayT<BaseGameObject>*, gObjList_drawables_504618);
 ALIVE_VAR_EXTERN(DynamicArrayT<AnimationBase>*, gObjList_animations_505564);
+extern DynamicArrayT<BaseGameObject>* gLoadingFiles;
 ALIVE_VAR_EXTERN(s16, sBreakGameLoop_507B78);
 ALIVE_VAR_EXTERN(s8, gDDCheatMode_508BF8);
 

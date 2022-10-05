@@ -41,7 +41,7 @@ Grenade* Grenade::ctor_41EBD0(FP xpos, FP ypos, s16 numGrenades)
     SetVTable(this, 0x4BB0A0);
     field_4_typeId = Types::eGrenade_40;
 
-    const AnimRecord rec = AO::AnimRec(AnimId::Grenade);
+    const AnimRecord& rec = AO::AnimRec(AnimId::Grenade);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
@@ -332,6 +332,7 @@ void Grenade::VOnTrapDoorOpen_41F920()
     {
         field_F8_pLiftPoint->VRemove(this);
         field_F8_pLiftPoint->field_C_refCount--;
+        field_F8_pLiftPoint = nullptr;
 
         if (field_110_state == States::eWaitToBeCollected_1 || field_110_state == States::eDoesNothing_2)
         {
@@ -502,7 +503,8 @@ s16 Grenade::OnCollision_BounceOff_41F650(BaseGameObject* pHit)
 
 s16 Grenade::BlowUpAfterCountdown_41EDD0()
 {
-    const s16 timer = field_112_explode_timer--;
+    field_112_explode_timer--;
+    const s16 timer = field_112_explode_timer;
     if (!(timer % 16))
     {
         SFX_Play_43AD70(SoundEffect::GreenTick_3, 0, 0);

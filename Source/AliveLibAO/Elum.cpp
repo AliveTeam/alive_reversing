@@ -837,33 +837,30 @@ void Elum::HandleElumPathTrans_411460()
         field_AC_ypos = FP_FromInteger(camCoords.field_2_y + FP_GetExponent(field_AC_ypos) % 480);
     }
 
-    if (field_F4_pLine)
+    if (field_F4_pLine && field_F4_pLine->field_8_type == eLineTypes::eUnknown_32)
     {
-        if (field_F4_pLine->field_8_type == eLineTypes::eUnknown_32)
-        {
-            field_F8_pLiftPoint = nullptr;
-        }
+        field_F8_pLiftPoint = nullptr;
+    }
 
-        PathLine* pLine = nullptr;
-        FP hitX = {};
-        FP hitY = {};
-        if (sCollisions_DArray_504C6C->RayCast_40C410(
-                field_A8_xpos,
-                field_AC_ypos - FP_FromInteger(40),
-                field_A8_xpos,
-                field_AC_ypos + FP_FromInteger(40),
-                &pLine,
-                &hitX,
-                &hitY,
-                field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70))
-        {
-            field_AC_ypos = hitY;
-            field_F4_pLine = pLine;
-        }
-        else
-        {
-            field_F4_pLine = nullptr;
-        }
+    PathLine* pLine = nullptr;
+    FP hitX = {};
+    FP hitY = {};
+    if (sCollisions_DArray_504C6C->RayCast_40C410(
+            field_A8_xpos,
+            field_AC_ypos - FP_FromInteger(40),
+            field_A8_xpos,
+            field_AC_ypos + FP_FromInteger(40),
+            &pLine,
+            &hitX,
+            &hitY,
+            field_BC_sprite_scale != FP_FromDouble(0.5) ? 7 : 0x70))
+    {
+        field_AC_ypos = hitY;
+        field_F4_pLine = pLine;
+    }
+    else
+    {
+        field_F4_pLine = nullptr;
     }
 
     field_B2_lvl_number = gMap_507BA8.field_0_current_level;
@@ -1638,7 +1635,8 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
                 return 0;
             }
 
-            if ((field_B4_velx < FP_FromInteger(0) && field_A8_xpos - FP_FromInteger(field_12C_honey_xpos) >= (kGridSize * FP_FromInteger(2))) || (field_B4_velx > FP_FromInteger(0) && FP_FromInteger(field_12C_honey_xpos) - field_A8_xpos >= (kGridSize * FP_FromInteger(2))))
+            if ((field_B4_velx <= FP_FromInteger(0) && field_A8_xpos - FP_FromInteger(field_12C_honey_xpos) >= (kGridSize * FP_FromInteger(2))) ||
+                (field_B4_velx >= FP_FromInteger(0) && FP_FromInteger(field_12C_honey_xpos) - field_A8_xpos >= (kGridSize * FP_FromInteger(2))))
             {
                 return field_12A_brain_sub_state;
             }
@@ -2456,7 +2454,7 @@ void Elum::Motion_19_Dead_415F90()
             {
                 if (field_14C_continue_camera < field_146_honey_ypos)
                 {
-                    field_170_flags.Set(Elum::Flags_170::eStungByBees_Bit2);
+                    field_170_flags.Clear(Elum::Flags_170::eStungByBees_Bit2);
                 }
             }
 
@@ -3309,6 +3307,7 @@ void Elum::Motion_43_MidRunToWalk_413E20()
 
         PSX_Point xy{FP_GetExponent(field_A8_xpos - FP_FromInteger(10)), FP_GetExponent(field_AC_ypos - FP_FromInteger(10))};
         PSX_Point wh{FP_GetExponent(field_A8_xpos + FP_FromInteger(10)), FP_GetExponent(field_AC_ypos + FP_FromInteger(10))};
+
         VOnCollisionWith(
             xy,
             wh,

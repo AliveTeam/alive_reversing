@@ -9,10 +9,10 @@ struct Path_ExplosionSet final : public Path_TLV
 {
     Choice_short field_10_bStart_enabled;
     s16 field_12_switch_id;
-    Choice_short field_14_big_rocks;
+    Choice_short field_14_spawn_assets;
     s16 field_16_start_delay;
     XDirection_short field_18_start_direction;
-    s16 field_1A_explosion_interval;
+    s16 field_1A_asset_interval;
     s16 field_1C_grid_spacing;
     s16 field_1E_increasing_grid_spacing;
     Scale_short field_20_scale;
@@ -55,15 +55,15 @@ private:
     PSX_RECT field_48_tlv_rect;
     FP field_50_scale;
     s16 field_54_switch_id;
-    s16 field_56_explosion_interval;
+    s16 field_56_asset_interval;
     s16 field_58_grid_spacing;
     s16 field_5A_increasing_grid_spacing;
 
     enum Flags_5C
     {
-        eBit1_big_rocks = 0x1,
+        eBit1_spawn_assets = 0x1,
         eBit2_flipX = 0x2,
-        eBit3 = 0x4,
+        eBit3_Active = 0x4,
         eBit4 = 0x8,
         eBit5 = 0x10,
         eBit6 = 0x20,

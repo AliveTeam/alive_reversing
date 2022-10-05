@@ -4,6 +4,7 @@
 #include "BaseGameObject.hpp"
 #include "Game.hpp"
 #include "../AliveLibAO/WinMain.hpp"
+#include "GameAutoPlayer.hpp"
 
 bool RunningAsInjectedDll()
 {
@@ -28,6 +29,12 @@ extern "C"
 }
 
 INITIALIZE_EASYLOGGINGPP
+
+BaseGameAutoPlayer& GetGameAutoPlayer()
+{
+    static AO::GameAutoPlayer autoPlayer;
+    return autoPlayer;
+}
 
 static void AODllProcessAttach(HINSTANCE hinstDLL)
 {

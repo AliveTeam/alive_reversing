@@ -12,8 +12,6 @@
 
 namespace AO {
 
-ALIVE_VAR_EXTERN(u8, sRandomSeed_50A228); //Math.cpp
-
 EXPORT DemoPlayback* DemoPlayback::ctor_4517B0(u8** ppPlaybackData, s16 bFromHandStone)
 {
     ctor_487E10(1);
@@ -41,7 +39,7 @@ EXPORT DemoPlayback* DemoPlayback::ctor_4517B0(u8** ppPlaybackData, s16 bFromHan
     auto pd = reinterpret_cast<PlaybackData*>(*ppPlaybackData);
     ResourceManager::Set_Header_Flags_4557D0(ppPlaybackData, ResourceManager::ResourceHeaderFlags::eLocked);
     SaveGame::LoadFromMemory_459970(&pd->saveData, 1);
-    sRandomSeed_50A228 = pd->randomSeed;
+    AE_SetRndSeed(pd->randomSeed);
     field_10_state = States::eState_0_Init;
     field_14_ppDemoRes = ppPlaybackData;
     field_8_update_delay = 1;

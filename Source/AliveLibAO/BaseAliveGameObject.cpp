@@ -169,6 +169,8 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid_401A90(s32 distance)
                 if (pLine->field_8_type == eLineTypes ::eUnknown_32 ||
                     pLine->field_8_type == eLineTypes::eUnknown_36)
                 {
+                    // OG bug fix: didn't remove ourself from the lift!
+                    field_F8_pLiftPoint->VRemove(this);
                     field_F8_pLiftPoint->field_C_refCount--;
                     field_F8_pLiftPoint = nullptr;
 
@@ -364,15 +366,19 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
             break;
     }
 
+    // Find the start controller at the position we will be at in the new map
     field_F0_pTlv = gMap_507BA8.TLV_Get_At_446260(static_cast<s16>(xpos), static_cast<s16>(ypos), static_cast<s16>(width), static_cast<s16>(height), TlvTypes::StartController_28);
+
     if (!field_F0_pTlv)
     {
-        // Find to find one at position so just try the first one, and for some reason flip the direction ??
         field_F0_pTlv = gMap_507BA8.TLV_First_Of_Type_In_Camera_4464A0(TlvTypes::StartController_28, 0);
-
+        LOG_INFO("Flip direction after the path trans as we are not touching the start controller");
         field_B4_velx = -field_B4_velx;
-
         field_10_anim.field_4_flags.Toggle(AnimFlags::eBit5_FlipX);
+    }
+    else
+    {
+        LOG_INFO("Not changing direction in the new path trans as we are touching the start controller");
     }
 
     if (!field_F0_pTlv)
@@ -632,9 +638,19 @@ s16 BaseAliveGameObject::OnTrapDoorIntersection_401C10(PlatformBase* pPlatform)
         return 1;
     }
 
-    field_F8_pLiftPoint = pPlatform;
-    field_F8_pLiftPoint->VAdd(this);
-    field_F8_pLiftPoint->field_C_refCount++;
+    // OG bug fix, when we call VCheckCollisionLineStillValid it can place us on a new lift
+    // but then we call VOnCollisionWith which can sometimes add us to the same lift again
+    // result in the lift being leaked and then memory corruption/crash later.
+    if (field_F8_pLiftPoint != pPlatform)
+    {
+        field_F8_pLiftPoint = pPlatform;
+        field_F8_pLiftPoint->VAdd(this);
+        field_F8_pLiftPoint->field_C_refCount++;
+    }
+    else
+    {
+        LOG_WARNING("Trying to add to a platform we are already on");
+    }
 
     return 1;
 }

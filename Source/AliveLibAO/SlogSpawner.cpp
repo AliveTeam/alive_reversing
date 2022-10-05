@@ -33,7 +33,7 @@ SlogSpawner* SlogSpawner::ctor_475DD0(Path_SlogSpawner* pTlv, s32 tlvInfo)
     field_26_max_slogs = pTlv->field_1A_max_slogs;
     field_28_max_slogs_at_a_time = pTlv->field_1C_max_slogs_at_a_time;
     field_2A_start_direction = pTlv->field_1E_start_direction;
-    field_2C_slog_spawn_delay = pTlv->field_20_slog_spawn_delay;
+    field_2C_slog_spawn_interval = pTlv->field_20_slog_spawn_interval;
     field_2E_spawner_switch_id = pTlv->field_22_spawner_switch_id;
 
     field_14_spawned_count = pTlv->field_1_unknown;
@@ -71,7 +71,7 @@ void SlogSpawner::VUpdate_475E30()
         {
             field_20_spawn_timer = Math_NextRandom() % 8
                                  + gnFrameCount_507670
-                                 + field_2C_slog_spawn_delay;
+                                 + field_2C_slog_spawn_interval;
 
             auto pSlog = ao_new<Slog>();
             if (pSlog)

@@ -1024,6 +1024,8 @@ BaseGameObject* Abe::dtor_420C80()
 {
     SetVTable(this, 0x4BB158);
 
+    MusicController::ClearObject(this);
+
     SND_Seq_Stop_477A60(SeqId::eMudokonChant1_11);
 
     u8** ppRes = nullptr;
@@ -1950,7 +1952,13 @@ u8** Abe::StateToAnimResource_4204F0(s16 motion)
             {
                 resourceID = res_idx + 54;
             }
-            field_1A4_resources.res[res_idx] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, resourceID, 1, 0);
+
+            u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, resourceID, 1, 0);
+            if (!ppRes)
+            {
+                LOG_ERROR("Abe resource failed to load " << resourceID);
+            }
+            field_1A4_resources.res[res_idx] = ppRes;
         }
     }
     field_128_resource_idx = res_idx;
@@ -2979,23 +2987,26 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
                     field_106_shot = 0;
                 }
             }
-
-            if (field_FC_current_motion != eAbeMotions::Motion_114_ElumRunLoop_42DFA0 || shootKind != ShootKind::eEverythingElse_0)
+            else
             {
-                auto pBlood = ao_new<Blood>();
-                if (pBlood)
-                {
-                    pBlood->ctor_4072B0(
-                        field_A8_xpos,
-                        field_AC_ypos - FP_FromInteger(45),
-                        FP_FromInteger(0),
-                        FP_FromInteger(0),
-                        FP_FromInteger(1),
-                        50);
-                }
-
-                break;
+                field_106_shot = 0;
+                field_100_health = FP_FromInteger(1);
+                return;
             }
+
+            auto pBlood = ao_new<Blood>();
+            if (pBlood)
+            {
+                pBlood->ctor_4072B0(
+                    field_A8_xpos,
+                    field_AC_ypos - FP_FromInteger(45),
+                    FP_FromInteger(0),
+                    FP_FromInteger(0),
+                    FP_FromInteger(1),
+                    50);
+            }
+
+            break;
         }
         default:
             break;
@@ -3206,7 +3217,7 @@ void Abe::VOn_Tlv_Collision_421130(Path_TLV* pTlv)
 
                 field_14C_saved_sprite_scale = field_BC_sprite_scale;
 
-                field_2A8_flags.Set(Flags_2A8::e2A8_eBit16_AbeSpawnDir, pContinuePointTlv->field_20_abe_direction == XDirection_short::eRight_1);
+                field_2A8_flags.Set(Flags_2A8::e2A8_eBit16_AbeSpawnDir, pContinuePointTlv->field_20_abe_direction == Path_ContinuePoint::spawnDirection::eLeft_1);
 
                 const auto bHaveShry = field_168_ring_pulse_timer - gnFrameCount_507670;
                 field_150_saved_ring_timer = bHaveShry < 0 ? 0 : bHaveShry;
@@ -9215,7 +9226,7 @@ void Abe::Motion_136_ElumMountEnd_42E110()
             field_1A4_resources.res[58] = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kElumUnknownAOResID_112, 1, 0);
             field_FC_current_motion = eAbeMotions::Motion_103_ElumIdle_42DCD0;
             sControlledCharacter_50767C = gElum_507680;
-            MusicController::PlayMusic_443810(MusicController::MusicTypes::eAbeOnElum_1, 0, 0, 0);
+            MusicController::PlayMusic_443810(MusicController::MusicTypes::eAbeOnElum_1, nullptr, 0, 0);
             sActiveHero_507678->field_D0_pShadow->field_14_flags.Clear(Shadow::Flags::eBit2_Enabled);
             Environment_SFX_42A220(EnvironmentSfx::eAbeMountedElumNoise_19, 0, 0x7FFF, this);
         }

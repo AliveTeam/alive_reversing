@@ -77,7 +77,7 @@
 #include "SligSpawner.hpp"
 #include "ScrabSpawner.hpp"
 #include "SlogSpawner.hpp"
-#include "SlogHut.hpp"
+#include "ZzzSpawner.hpp"
 #include "ParamiteWebLine.hpp"
 #include "ExplosionSet.hpp"
 #include "ColourfulMeter.hpp"
@@ -322,7 +322,7 @@ EXPORT void CC Factory_LiftPoint_4D7250(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
                 // Is there already an existing LiftPoint object for this TLV?
                 LiftPoint* pLiftPoint = static_cast<LiftPoint*>(pObj);
                 const s16 xpos = FP_GetExponent(pLiftPoint->field_B8_xpos);
-                if (pTlv->field_8_top_left.field_0_x <= xpos && xpos <= pTlv->field_C_bottom_right.field_0_x && pLiftPoint->field_278_lift_point_switch_id == pLiftTlv->field_10_lift_point_switch_id && pLiftPoint->field_C2_lvl_number == gMap_5C3030.field_0_current_level && pLiftPoint->field_C0_path_number == gMap_5C3030.field_2_current_path)
+                if (pTlv->field_8_top_left.field_0_x <= xpos && xpos <= pTlv->field_C_bottom_right.field_0_x && pLiftPoint->field_278_lift_point_id == pLiftTlv->field_10_lift_point_id && pLiftPoint->field_C2_lvl_number == gMap_5C3030.field_0_current_level && pLiftPoint->field_C0_path_number == gMap_5C3030.field_2_current_path)
                 {
                     // Yes so just reset its data
                     Path::TLV_Reset_4DB8E0(tlvOffsetLevelIdPathId.all, -1, 0, 0);
@@ -360,7 +360,7 @@ EXPORT void CC Factory_LiftPoint_4D7250(Path_TLV* pTlv, Path*, TlvItemInfoUnion 
                         const s32 tlvX = pTlv->field_8_top_left.field_0_x;
                         const s32 absX = pTlvIter->field_8_top_left.field_0_x - tlvX >= 0 ? pTlvIter->field_8_top_left.field_0_x - tlvX : tlvX - pTlvIter->field_8_top_left.field_0_x;
 
-                        if (absX < 5 && pLiftPointIter->field_10_lift_point_switch_id == pLiftTlv->field_10_lift_point_switch_id && (pLiftPointIter->field_1_tlv_state & 2 || pLiftPointIter->field_1_tlv_state == 0) && pLiftPointIter->field_12_bStart_point == Choice_short::eYes_1)
+                        if (absX < 5 && pLiftPointIter->field_10_lift_point_id == pLiftTlv->field_10_lift_point_id && (pLiftPointIter->field_1_tlv_state & 2 || pLiftPointIter->field_1_tlv_state == 0) && pLiftPointIter->field_12_bStart_point == Choice_short::eYes_1)
                         {
                             auto pLiftPoint = ae_new<LiftPoint>();
                             if (pLiftPoint)
@@ -1440,14 +1440,14 @@ EXPORT void CC Factory_GasEmitter_4D8540(Path_TLV* pTlv, Path*, TlvItemInfoUnion
     }
 }
 
-EXPORT void CC Factory_SlogHut_4DA500(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+EXPORT void CC Factory_ZzzSpawner_4DA500(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
-        auto pSlogHut = ae_new<SlogHut>();
-        if (pSlogHut)
+        auto pZzzSpawner = ae_new<ZzzSpawner>();
+        if (pZzzSpawner)
         {
-            pSlogHut->ctor_4C4070(static_cast<Path_SlogHut*>(pTlv), tlvInfo.all);
+            pZzzSpawner->ctor_4C4070(static_cast<Path_ZzzSpawner*>(pTlv), tlvInfo.all);
         }
     }
 }
@@ -1711,7 +1711,7 @@ EXPORT void CC Factory_Teleporter_4DAA90(Path_TLV* pTlv, Path*, TlvItemInfoUnion
     }
 }
 
-EXPORT void CC Factory_SlurgSpawner_4DAB50(Path_TLV* pTlv, Path*, TlvItemInfoUnion tlvInfo, LoadMode loadMode)
+EXPORT void CC Factory_SlurgSpawner_4DAB50(Path_TLV* /*pTlv*/, Path*, TlvItemInfoUnion /*tlvInfo*/, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1719,11 +1719,16 @@ EXPORT void CC Factory_SlurgSpawner_4DAB50(Path_TLV* pTlv, Path*, TlvItemInfoUni
     }
     else
     {
+        /*
+        // TODO/HACK disabled because it crashes the game when a quick load is done
+        // after you save when a slurg is spawned as it has no TLV.
+        // Its only used to spawn 1 slurg in 1 screen of the game. Fix in abi_break
+        // branch by converting to a normal slurg.
         auto pSlurgSpawner = ae_new<SlurgSpawner>();
         if (pSlurgSpawner)
         {
             pSlurgSpawner->ctor_4C82E0(static_cast<Path_SlurgSpawner*>(pTlv), tlvInfo.all);
-        }
+        }*/
     }
 }
 
@@ -2216,7 +2221,7 @@ const PathFunctionTable kObjectFactory = {
      Factory_GasCountdown_4DA480,
      Factory_4D6C50, // Remove Shrykull ??
      Factory_GasEmitter_4D8540,
-     Factory_SlogHut_4DA500,
+     Factory_ZzzSpawner_4DA500,
      Factory_Glukkon_4DA550,
      Factory_KillUnsavedMudokons_4DA6E0,
      Factory_SoftLanding_4D6950,

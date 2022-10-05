@@ -11,7 +11,7 @@ public:
 class Player final : public BasePlayer
 {
 public:
-    void ValidateObjectStates() override;
+    bool ValidateObjectStates() override;
 };
 
 class [[nodiscard]] GameAutoPlayer final : public BaseGameAutoPlayer
@@ -29,5 +29,3 @@ private:
     Recorder mAERecorder;
     Player mAEPlayer;
 };
-
-extern GameAutoPlayer gGameAutoPlayer;

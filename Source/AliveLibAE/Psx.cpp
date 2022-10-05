@@ -14,6 +14,7 @@
 #include "Sys.hpp"
 #include "PsxRender.hpp"
 #include "Renderer/IRenderer.hpp"
+#include "GameAutoPlayer.hpp"
 #include <gmock/gmock.h>
 
 extern bool gLatencyHack;
@@ -878,6 +879,12 @@ EXPORT s32 CC PSX_VSync_4F6170(s32 mode)
         sVSyncLastMillisecond_BD0F2C = currentTime;
     }
 
+    if (GetGameAutoPlayer().IsPlaying() && GetGameAutoPlayer().NoFpsLimitPlayBack())
+    {
+        // Uncapped playback
+        return 0;
+    }
+
     if (mode == 1) // Ignore Frame cap
     {
         sVSync_Unused_578325 = 1;
@@ -901,12 +908,17 @@ EXPORT s32 CC PSX_VSync_4F6170(s32 mode)
             do
             {
                 timeSinceLastFrame = SYS_GetTicks() - sVSyncLastMillisecond_BD0F2C;
-                SsSeqCalledTbyT_4FDC80();
-                
-                // Prevent max CPU usage, will probably cause stuttering on weaker machines
-                if (gLatencyHack)
+                // During recording or playback do not call SsSeqCalledTbyT_4FDC80 an undeterminate
+                // amount of times as this can leak to de-syncs.
+                if (!GetGameAutoPlayer().IsRecording() && !GetGameAutoPlayer().IsPlaying())
                 {
-                    SDL_Delay(1);
+                    SsSeqCalledTbyT_4FDC80();
+
+                    // Prevent max CPU usage, will probably cause stuttering on weaker machines
+                    if (gLatencyHack)
+                    {
+                        SDL_Delay(1);
+                    }
                 }
             }
             while (timeSinceLastFrame < 1000 * mode / 60);

@@ -4,12 +4,18 @@
 #include "Path.hpp"
 #include "../AliveLibCommon/FunctionFwd.hpp"
 
+enum class StartDirection : s16
+{
+    eRight_0 = 0,
+    eLeft_1 = 1
+};
+
 struct Path_SlogSpawner final : public Path_TLV
 {
     Scale_short field_10_scale;
     s16 field_12_max_slogs;
     s16 field_14_max_slogs_at_a_time;
-    XDirection_short field_16_start_direction;
+    StartDirection field_16_start_direction;
     s16 field_18_slog_spawn_interval;
     s16 field_1A_spawner_switch_id;
     Choice_short field_1C_listen_to_sligs;
@@ -41,7 +47,7 @@ private:
     Scale_short field_34_scale;
     s16 field_36_max_slogs;
     s16 field_38_max_slogs_at_a_time;
-    XDirection_short field_3A_start_direction;
+    StartDirection field_3A_start_direction;
     s16 field_3C_slog_spawn_interval;
     s16 field_3E_spawner_switch_id;
     Choice_short field_40_listen_to_sligs;

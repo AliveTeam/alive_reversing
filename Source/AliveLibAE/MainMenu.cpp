@@ -794,7 +794,7 @@ const MainMenuText sAbeMotions_562448[15] = {
     {330, 60, kRight, 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u},             //roll from crouch right arrow
     {330, 79, kUp, 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u},                //zturn up arrow
     {330, 98, kAction, 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u},            //action [ctrl]
-    {334, 117, "Z+" kDPad, 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u},        //throw [z] + Dpad
+    {334, 117, kThrow "+" kDPad, 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u},  //throw [z] + Dpad
     {330, 136, kFart, 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u},             //fart [x]
     {330, 155, kSorry, 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u},            //sympathy [7]
     {330, 174, kAnger, 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u},            //angry slap [5]
@@ -2208,16 +2208,19 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
         field_6_flags.Set(Options::eDead_Bit3);
 
         demoId = sDemoIdChosenFromDemoMenu_5C1B9E;
-        if (!gIsDemoStartedManually_5C1B9C)
+        if (gIsDemoStartedManually_5C1B9C)
         {
-            sCurrentDemoIdForIdlingDemoPlayback_5C1BA2++;
-
+            // play the manually picked demo
+            demoId = sDemoIdChosenFromDemoMenu_5C1B9E;
+        }
+        else
+        {
             if (sCurrentDemoIdForIdlingDemoPlayback_5C1BA2 > maxDemoId)
             {
                 // all the "idling" demos have been played, wrap around
-                sCurrentDemoIdForIdlingDemoPlayback_5C1BA2 = 1;
+                sCurrentDemoIdForIdlingDemoPlayback_5C1BA2 = 0;
             }
-            demoId = sCurrentDemoIdForIdlingDemoPlayback_5C1BA2;
+            demoId = sCurrentDemoIdForIdlingDemoPlayback_5C1BA2++; // take the pre-incremented value
         }
 
         char_type file[32] = {};
@@ -3334,7 +3337,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                     }
                 }
 
-                while (Input_IsVKPressed_4EDD40(13))
+                while (Input_IsVKPressed_4EDD40(VK_RETURN))
                 {
                     SYS_EventsPump_494580();
                 }

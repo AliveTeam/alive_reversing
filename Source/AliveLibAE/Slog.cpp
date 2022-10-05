@@ -489,9 +489,9 @@ s32 Slog::vGetSaveState_4C78F0(Slog_State* pState)
     pState->field_72_slog_random_index = sSlogRandomIdx_BAF7F0;
 
     pState->field_74_flags.Set(Slog_State::eBit1_BitingTarget, field_11C_biting_target & 1);
-    pState->field_74_flags.Set(Slog_State::eBit2_Possessed, sControlledCharacter_5C1B8C == this); // Lol can't be possessed anyway so ??
-    pState->field_74_flags.Set(Slog_State::eBit3_Asleep, field_160_flags.Get(Flags_160::eBit7_Asleep));
-    pState->field_74_flags.Set(Slog_State::eBit4_MovedOffScreen, field_160_flags.Get(Flags_160::eBit8_Asleep));
+    pState->field_74_flags.Set(Slog_State::eBit2_Possessed, sControlledCharacter_5C1B8C == this); // Can never happen so is always 0
+    pState->field_74_flags.Set(Slog_State::eBit3_Asleep, field_160_flags.Get(Flags_160::eBit8_Asleep));
+    pState->field_74_flags.Set(Slog_State::eBit4_MovedOffScreen, field_160_flags.Get(Flags_160::eBit9_MovedOffScreen));
     pState->field_74_flags.Set(Slog_State::eBit5_StopRunning, field_160_flags.Get(Flags_160::eBit1_StopRunning));
     pState->field_74_flags.Set(Slog_State::eBit6_Shot, field_160_flags.Get(Flags_160::eBit3_Shot));
     pState->field_74_flags.Set(Slog_State::eBit7_Hungry, field_160_flags.Get(Flags_160::eBit4_Hungry));
@@ -541,24 +541,24 @@ void Slog::M_Idle_0_4C5F90()
 }
 
 const FP sSlogWalkVelXTable_5475EC[18] = {
-    FP_FromDouble(1.33),
-    FP_FromDouble(2.48),
-    FP_FromDouble(2.53),
-    FP_FromDouble(1.97),
-    FP_FromDouble(3.01),
-    FP_FromDouble(3.10),
-    FP_FromDouble(2.75),
-    FP_FromDouble(3.13),
-    FP_FromDouble(3.64),
-    FP_FromDouble(2.34),
-    FP_FromDouble(2.22),
-    FP_FromDouble(2.17),
-    FP_FromDouble(2.21),
-    FP_FromInteger(2),
-    FP_FromDouble(2.41),
-    FP_FromDouble(2.18),
-    FP_FromDouble(4.10),
-    FP_FromDouble(4.35)};
+    FP_FromDouble(1.3329315185546875),
+    FP_FromDouble(2.4870452880859375),
+    FP_FromDouble(2.537445068359375),
+    FP_FromDouble(1.974761962890625),
+    FP_FromDouble(3.015594482421875),
+    FP_FromDouble(3.10400390625),
+    FP_FromDouble(2.758575439453125),
+    FP_FromDouble(3.1327056884765625),
+    FP_FromDouble(3.646148681640625),
+    FP_FromDouble(2.3465118408203125),
+    FP_FromDouble(2.222015380859375),
+    FP_FromDouble(2.1777801513671875),
+    FP_FromDouble(2.2137908935546875),
+    FP_FromDouble(2.0020904541015625),
+    FP_FromDouble(2.413543701171875),
+    FP_FromDouble(2.185516357421875),
+    FP_FromDouble(4.1008453369140625),
+    FP_FromDouble(4.35284423828125)};
 
 void Slog::M_Walk_1_4C60C0()
 {
@@ -636,14 +636,14 @@ static u8 Slog_NextRandom()
 
 
 const FP sSlogRunVelXTable_547634[8] = {
-    FP_FromDouble(8.62),
-    FP_FromDouble(3.38),
-    FP_FromDouble(3.51),
-    FP_FromDouble(5.10),
-    FP_FromDouble(6.74),
-    FP_FromDouble(7.82),
-    FP_FromDouble(8.39),
-    FP_FromDouble(6.53)};
+    FP_FromDouble(8.625900268554688),
+    FP_FromDouble(3.38677978515625),
+    FP_FromDouble(3.5192413330078125),
+    FP_FromDouble(5.1022491455078125),
+    FP_FromDouble(6.7406005859375),
+    FP_FromDouble(7.8218231201171875),
+    FP_FromDouble(8.39404296875),
+    FP_FromDouble(6.532867431640625)};
 
 void Slog::M_Run_2_4C6340()
 {
@@ -731,7 +731,7 @@ void Slog::M_Fall_4_4C6930()
     {
         if (field_C4_velx > (FP_FromInteger(8) * field_CC_sprite_scale))
         {
-            field_C4_velx = FP_FromInteger(8) * field_CC_sprite_scale;
+            field_C4_velx = (FP_FromInteger(8) * field_CC_sprite_scale);
         }
     }
     else if (field_C4_velx < FP_FromInteger(0))
@@ -744,7 +744,7 @@ void Slog::M_Fall_4_4C6930()
 
     if (field_C4_velx > FP_FromInteger(0))
     {
-        field_C4_velx -= field_CC_sprite_scale * field_128_falling_velx_scale_factor;
+        field_C4_velx -= (field_CC_sprite_scale * field_128_falling_velx_scale_factor);
         if (field_C4_velx < FP_FromInteger(0))
         {
             field_C4_velx = FP_FromInteger(0);
@@ -752,12 +752,15 @@ void Slog::M_Fall_4_4C6930()
     }
     else if (field_C4_velx < FP_FromInteger(0))
     {
-        field_C4_velx += field_CC_sprite_scale * field_128_falling_velx_scale_factor;
+        field_C4_velx += (field_CC_sprite_scale * field_128_falling_velx_scale_factor);
         if (field_C4_velx > FP_FromInteger(0))
         {
             field_C4_velx = FP_FromInteger(0);
         }
     }
+
+    const FP xposBeforeChange = field_B8_xpos;
+    const FP yposBeforeChange = field_BC_ypos;
 
     field_B8_xpos += field_C4_velx;
     field_BC_ypos += field_C8_vely;
@@ -766,18 +769,18 @@ void Slog::M_Fall_4_4C6930()
     FP hitY = {};
     PathLine* pLine = nullptr;
     if (sCollisions_DArray_5C1128->Raycast_417A60(
-            field_B8_xpos,
-            field_BC_ypos - (field_CC_sprite_scale * FP_FromInteger(20)),
+            xposBeforeChange,
+            yposBeforeChange - (field_CC_sprite_scale * FP_FromInteger(20)),
             field_B8_xpos,
             field_BC_ypos,
             &pLine, &hitX, &hitY, 15))
     {
         switch (pLine->field_8_type)
         {
-            case 0u:
-            case 4u:
-            case 32u:
-            case 36u:
+            case eLineTypes::eFloor_0:
+            case eLineTypes::eBackgroundFloor_4:
+            case eLineTypes::eUnknown_32:
+            case eLineTypes::eUnknown_36:
                 field_100_pCollisionLine = pLine;
                 field_BC_ypos = hitY;
                 field_B8_xpos = hitX;
@@ -799,10 +802,10 @@ void Slog::M_Fall_4_4C6930()
                 field_106_current_motion = eSlogMotions::M_Land_10_4C7820;
                 break;
 
-            case 1u:
-            case 2u:
-            case 5u:
-            case 6u:
+            case eLineTypes::eWallLeft_1:
+            case eLineTypes::eWallRight_2:
+            case eLineTypes::eBackgroundWallLeft_5:
+            case eLineTypes::eBackgroundWallRight_6:
                 field_BC_ypos = hitY;
                 field_B8_xpos = hitX - field_C4_velx;
                 MapFollowMe_408D10(FALSE);
@@ -834,16 +837,16 @@ void Slog::M_MoveHeadUpwards_5_4C5F20()
 }
 
 const FP sSlogStopRunningVelX_547658[10] = {
-    FP_FromDouble(3.46),
-    FP_FromDouble(4.54),
-    FP_FromDouble(8.64),
-    FP_FromDouble(9.31),
-    FP_FromDouble(6.49),
-    FP_FromDouble(4.63),
-    FP_FromDouble(3.91),
-    FP_FromDouble(4.33),
-    FP_FromDouble(3.66),
-    FP_FromDouble(1.28)};
+    FP_FromDouble(3.468994140625),
+    FP_FromDouble(4.5489959716796875),
+    FP_FromDouble(8.642990112304688),
+    FP_FromDouble(9.31298828125),
+    FP_FromDouble(6.4949951171875),
+    FP_FromDouble(4.631988525390625),
+    FP_FromDouble(3.9169921875),
+    FP_FromDouble(4.334991455078125),
+    FP_FromDouble(3.6609954833984375),
+    FP_FromDouble(1.2819976806640625)};
 
 void Slog::M_StopRunning_6_4C66C0()
 {
@@ -877,19 +880,19 @@ void Slog::M_StopRunning_6_4C66C0()
 }
 
 const FP sSlogSlideTurnVelXTable_547684[25] = {
-    FP_FromDouble(17.19),
-    FP_FromDouble(11.90),
-    FP_FromDouble(8.52),
-    FP_FromDouble(7.33),
-    FP_FromDouble(4.16),
-    FP_FromDouble(5.31),
-    FP_FromDouble(3.81),
-    FP_FromDouble(1.50),
-    FP_FromDouble(0.50),
-    FP_FromDouble(-0.24),
-    FP_FromDouble(-0.59),
-    FP_FromDouble(-1.24),
-    FP_FromDouble(-4.89)};
+    FP_FromDouble(17.197998046875),
+    FP_FromDouble(11.907989501953125),
+    FP_FromDouble(8.52899169921875),
+    FP_FromDouble(7.33599853515625),
+    FP_FromDouble(4.168212890625),
+    FP_FromDouble(5.3128204345703125),
+    FP_FromDouble(3.81121826171875),
+    FP_FromDouble(1.503692626953125),
+    FP_FromDouble(0.5045166015625),
+    FP_FromDouble(-0.2426605224609375),
+    FP_FromDouble(-0.5961456298828125),
+    FP_FromDouble(-1.2430877685546875),
+    FP_FromDouble(-4.89166259765625)};
 
 
 void Slog::M_SlideTurn_7_4C6790()

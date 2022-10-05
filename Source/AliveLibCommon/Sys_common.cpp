@@ -35,8 +35,8 @@ MessageBoxButton CC Sys_MessageBox(TWindowHandleType windowHandle, const char_ty
     if (type == MessageBoxType::eQuestion)
     {
         const static SDL_MessageBoxButtonData buttons[] = {
-            {0, 0, "No"},
-            {SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 1, "Yes"},
+            {0, 1, "No"},
+            {SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT, 0, "Yes"},
         };
 
         data.numbuttons = SDL_arraysize(buttons);
@@ -70,21 +70,19 @@ MessageBoxButton CC Sys_MessageBox(TWindowHandleType windowHandle, const char_ty
     }
 
     s32 button = 0;
-    if (SDL_ShowMessageBox(&data, &button) == 0)
+
+    SDL_ShowMessageBox(&data, &button);
+
+    if (type == MessageBoxType::eQuestion)
     {
-        if (type == MessageBoxType::eQuestion)
+        if (button == 1)
         {
-            if (button == 1)
-            {
-                return MessageBoxButton::eYes;
-            }
             return MessageBoxButton::eNo;
         }
-        else
-        {
-            return MessageBoxButton::eOK;
-        }
+
+        return MessageBoxButton::eYes;
     }
+
     return MessageBoxButton::eOK;
 #else
     u32 w32type = MB_OK;
@@ -114,10 +112,25 @@ MessageBoxButton CC Sys_MessageBox(TWindowHandleType windowHandle, const char_ty
 #endif
 }
 
+#if USE_SDL2
+static void PrintSDL2Versions()
+{
+    SDL_version compiled = {};
+    SDL_version linked = {};
+
+    SDL_VERSION(&compiled);
+    SDL_GetVersion(&linked);
+    LOG_INFO("Compiled with SDL2 ver " << static_cast<int>(compiled.major) << "." << static_cast<int>(compiled.minor) << "." << static_cast<int>(compiled.patch));
+    LOG_INFO("Runtime SDL2 ver " << static_cast<int>(linked.major) << "." << static_cast<int>(linked.minor) << "." << static_cast<int>(linked.patch));
+}
+#endif
+
 void Sys_Main_Common()
 {
 #if USE_SDL2
-    if (SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_EVENTS) != 0)
+    PrintSDL2Versions(); // Ok to call before init
+
+    if (SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_EVENTS | SDL_INIT_HAPTIC | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER) != 0)
     {
         LOG_ERROR(SDL_GetError());
         ALIVE_FATAL(SDL_GetError());

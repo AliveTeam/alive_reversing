@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "SlogHut.hpp"
+#include "ZzzSpawner.hpp"
 #include "Function.hpp"
 #include "stdlib.hpp"
 #include "Events.hpp"
@@ -7,7 +7,7 @@
 #include "Game.hpp"
 #include "SwitchStates.hpp"
 
-SlogHut* SlogHut::ctor_4C4070(Path_SlogHut* pTlv, s32 tlvInfo)
+ZzzSpawner* ZzzSpawner::ctor_4C4070(Path_ZzzSpawner* pTlv, s32 tlvInfo)
 {
     BaseGameObject_ctor_4DBFA0(TRUE, 0);
     SetVTable(this, 0x54755C);
@@ -32,29 +32,29 @@ SlogHut* SlogHut::ctor_4C4070(Path_SlogHut* pTlv, s32 tlvInfo)
     return this;
 }
 
-BaseGameObject* SlogHut::VDestructor(s32 flags)
+BaseGameObject* ZzzSpawner::VDestructor(s32 flags)
 {
     return vdtor_4C4100(flags);
 }
 
-void SlogHut::VUpdate()
+void ZzzSpawner::VUpdate()
 {
     vUpdate_4C41B0();
 }
 
-void SlogHut::VScreenChanged()
+void ZzzSpawner::VScreenChanged()
 {
     vScreenChanged_4C4280();
 }
 
-void SlogHut::dtor_4C4130()
+void ZzzSpawner::dtor_4C4130()
 {
     SetVTable(this, 0x54755C);
     Path::TLV_Reset_4DB8E0(field_2C_tlvInfo, -1, 0, 0);
     BaseGameObject_dtor_4DBEC0();
 }
 
-SlogHut* SlogHut::vdtor_4C4100(s32 flags)
+ZzzSpawner* ZzzSpawner::vdtor_4C4100(s32 flags)
 {
     dtor_4C4130();
     if (flags & 1)
@@ -64,12 +64,12 @@ SlogHut* SlogHut::vdtor_4C4100(s32 flags)
     return this;
 }
 
-void SlogHut::vScreenChanged_4C4280()
+void ZzzSpawner::vScreenChanged_4C4280()
 {
     field_6_flags.Set(BaseGameObject::eDead_Bit3);
 }
 
-void SlogHut::vUpdate_4C41B0()
+void ZzzSpawner::vUpdate_4C41B0()
 {
     if (Event_Get_422C00(kEventDeathReset))
     {

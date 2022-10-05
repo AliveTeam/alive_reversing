@@ -29,14 +29,9 @@ ALIVE_ARY(1, 0x4BBE30, u8, 256, sRandomBytes_4BBE30,
 });
 // clang-format on
 
-ALIVE_VAR(1, 0x50A228, u8, sRandomSeed_50A228, 0);
 
 u8 Math_NextRandom()
 {
-    if (!RunningAsInjectedDll())
-    {
-        return sRandomBytes_4BBE30[sRandomSeed_50A228++];
-    }
     return ::Math_NextRandom(); // Ae ver
 }
 

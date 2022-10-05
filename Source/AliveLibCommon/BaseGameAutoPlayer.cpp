@@ -1,7 +1,7 @@
 #include "BaseGameAutoPlayer.hpp"
 #include "Sys_common.hpp"
 
-constexpr u32 kVersion = 0x1997 + 1;
+constexpr u32 kVersion = 0x1997 + 2;
 
 static bool ExtractNamePairArgument(char* pOutArgument, const char* pCmdLine, const char* argumentPrefix)
 {
@@ -30,6 +30,20 @@ static bool ExtractNamePairArgument(char* pOutArgument, const char* pCmdLine, co
     return true;
 }
 
+u32 AutoFILE::PeekU32()
+{
+    const auto oldPos = ::ftell(mFile);
+
+    const u32 data = ReadU32();
+
+    if (::fseek(mFile, oldPos, SEEK_SET) != 0)
+    {
+        ALIVE_FATAL("Seek back failed");
+    }
+
+    return data;
+}
+
 u32 AutoFILE::ReadU32() const
 {
     u32 value = 0;
@@ -40,10 +54,10 @@ u32 AutoFILE::ReadU32() const
     return value;
 }
 
-void BaseRecorder::Init(const char* pFileName)
+void BaseRecorder::Init(const char* pFileName, bool autoFlushFile)
 {
-    LOG_INFO("Recording to " << pFileName);
-    if (!mFile.Open(pFileName, "wb"))
+    LOG_INFO("Recording to " << pFileName << " auto flush=" << autoFlushFile ? "yes" : "no");
+    if (!mFile.Open(pFileName, "wb", autoFlushFile))
     {
         ALIVE_FATAL("Can't open recording file for writing");
     }
@@ -64,10 +78,29 @@ void BaseRecorder::SaveRng(s32 rng)
     mFile.Write(rng);
 }
 
+void BaseRecorder::SaveTicks(u32 ticks)
+{
+    mFile.Write(RecordTypes::SysTicks);
+    mFile.Write(ticks);
+}
+
+void BaseRecorder::SaveSyncPoint(u32 syncPointId)
+{
+    mFile.Write(RecordTypes::SyncPoint);
+    mFile.Write(syncPointId);
+}
+
+void BaseRecorder::SaveEvent(const RecordedEvent& event)
+{
+    mFile.Write(RecordTypes::Event);
+    mFile.Write(event.mType);
+    mFile.Write(event.mData);
+}
+
 void BasePlayer::Init(const char* pFileName)
 {
     LOG_INFO("Playing from " << pFileName);
-    if (!mFile.Open(pFileName, "rb"))
+    if (!mFile.Open(pFileName, "rb", false))
     {
         ALIVE_FATAL("Can't open play back file for reading");
     }
@@ -99,6 +132,39 @@ s32 BasePlayer::ReadRng()
     return rng;
 }
 
+u32 BasePlayer::ReadTicks()
+{
+    ValidateNextTypeIs(RecordTypes::SysTicks);
+
+    u32 ticks = 0;
+    mFile.Read(ticks);
+    return ticks;
+}
+
+u32 BasePlayer::ReadSyncPoint()
+{
+    ValidateNextTypeIs(RecordTypes::SyncPoint);
+
+    u32 syncPointId = 0;
+    mFile.Read(syncPointId);
+    return syncPointId;
+}
+
+RecordTypes BasePlayer::PeekNextType()
+{
+    return static_cast<RecordTypes>(mFile.PeekU32());
+}
+
+RecordedEvent BasePlayer::ReadEvent()
+{
+    ValidateNextTypeIs(RecordTypes::Event);
+
+    RecordedEvent event = {};
+    event.mType = mFile.ReadU32();
+    event.mData = mFile.ReadU32();
+    return event;
+}
+
 void BasePlayer::ValidateNextTypeIs(RecordTypes type)
 {
     const u32 actualType = mFile.ReadU32();
@@ -114,68 +180,179 @@ void BaseGameAutoPlayer::ParseCommandLine(const char* pCmdLine)
     char buffer[256] = {};
     if (ExtractNamePairArgument(buffer, pCmdLine, "-record="))
     {
-        mRecorder.Init(buffer);
+        const bool flushFile = strstr(pCmdLine, "-flush") != nullptr;
+        mRecorder.Init(buffer, flushFile);
         mMode = Mode::Record;
     }
     else if (ExtractNamePairArgument(buffer, pCmdLine, "-play="))
     {
         mPlayer.Init(buffer);
         mMode = Mode::Play;
+
+        if (strstr(pCmdLine, "-fastest"))
+        {
+            mNoFpsLimit = true;
+        }
+
+        if (strstr(pCmdLine, "-ignore_desyncs"))
+        {
+            mIgnoreDesyncs = true;
+        }
     }
+}
+
+RecordTypes BaseGameAutoPlayer::PeekNextType()
+{
+    return mPlayer.PeekNextType();
+}
+
+void BaseGameAutoPlayer::RecordEvent(const RecordedEvent& event)
+{
+    if (!mDisabled && IsRecording())
+    {
+        mRecorder.SaveEvent(event);
+    }
+}
+
+RecordedEvent BaseGameAutoPlayer::GetEvent()
+{
+    RecordedEvent event = {};
+    if (!mDisabled && IsPlaying())
+    {
+        event = mPlayer.ReadEvent();
+    }
+    return event;
 }
 
 u32 BaseGameAutoPlayer::GetInput(u32 padIdx)
 {
-    if (mMode == Mode::Play)
+    if (!mDisabled)
     {
-        Pads data = mPlayer.ReadInput();
-        return data.mPads[padIdx];
-    }
-    else
-    {
-        Pads data = {};
-        data.mPads[padIdx] = ReadInput(padIdx);
-        if (mMode == Mode::Record)
+        if (mMode == Mode::Play)
         {
-            mRecorder.SaveInput(data);
+            Pads data = mPlayer.ReadInput();
+            return data.mPads[padIdx];
         }
-        return data.mPads[padIdx];
+        else
+        {
+            Pads data = {};
+            data.mPads[padIdx] = ReadInput(padIdx);
+            if (mMode == Mode::Record)
+            {
+                mRecorder.SaveInput(data);
+            }
+            return data.mPads[padIdx];
+        }
     }
+    return 0;
 }
 
 void BaseGameAutoPlayer::ValidateObjectStates()
 {
-    if (mMode == Mode::Play)
+    if (!mDisabled)
     {
-        mPlayer.ValidateObjectStates();
-    }
-    else if (mMode == Mode::Record)
-    {
-        mRecorder.SaveObjectStates();
+        if (mMode == Mode::Play)
+        {
+            if (!mPlayer.ValidateObjectStates())
+            {
+                if (!mIgnoreDesyncs)
+                {
+                    ALIVE_FATAL("Play back de-synced, see console log for details");
+                }
+                else
+                {
+                    static bool warned = false;
+                    if (!warned)
+                    {
+                        LOG_ERROR("!!!! Play back has de-synced, attempting to carry on");
+                        warned = true;
+                    }
+                }
+            }
+        }
+        else if (mMode == Mode::Record)
+        {
+            mRecorder.SaveObjectStates();
+        }
     }
 }
 
 s32 BaseGameAutoPlayer::Rng(s32 rng)
 {
-    if (IsRecording())
+    if (!mDisabled)
     {
-        mRecorder.SaveRng(rng);
-        return rng;
-    }
-    else if (IsPlaying())
-    {
-        const s32 readRng = mPlayer.ReadRng();
-        if (readRng != rng)
+        if (IsRecording())
         {
-            LOG_ERROR("Rng de-sync! Expected " << rng << " but got " << readRng);
-            ALIVE_FATAL("Rng de-sync");
+            mRecorder.SaveRng(rng);
+            return rng;
         }
-        return readRng;
+        else if (IsPlaying())
+        {
+            const s32 readRng = mPlayer.ReadRng();
+            if (readRng != rng)
+            {
+                LOG_ERROR("Rng de-sync! Expected " << rng << " but got " << readRng);
+                ALIVE_FATAL("Rng de-sync");
+            }
+            return readRng;
+        }
     }
     return rng;
 }
 
 u32 BaseGameAutoPlayer::SysGetTicks()
 {
+    if (!mDisabled)
+    {
+        if (IsRecording())
+        {
+            const u32 ticks = SYS_GetTicks();
+            mRecorder.SaveTicks(ticks);
+            return ticks;
+        }
+        else if (IsPlaying())
+        {
+            const u32 readTicks = mPlayer.ReadTicks();
+            return readTicks;
+        }
+    }
     return SYS_GetTicks();
+}
+
+void BaseGameAutoPlayer::SyncPoint(u32 syncPointId)
+{
+    if (!mDisabled)
+    {
+        if (IsRecording())
+        {
+            mRecorder.SaveSyncPoint(syncPointId);
+        }
+        else if (IsPlaying())
+        {
+            const u32 readSyncPoint = mPlayer.ReadSyncPoint();
+            if (readSyncPoint != syncPointId)
+            {
+                LOG_ERROR("Sync point de-sync! Expected " << syncPointId << " but got " << readSyncPoint);
+                ALIVE_FATAL("Sync point de-sync");
+            }
+        }
+    }
+}
+
+void BaseGameAutoPlayer::DisableRecorder()
+{
+    if (!mDisabled)
+    {
+        //LOG_INFO("Auto player state paused");
+        mDisabled = true;
+    }
+}
+
+void BaseGameAutoPlayer::EnableRecorder()
+{
+    if (mDisabled)
+    {
+        mDisabled = false;
+        //LOG_INFO("Auto player state resumed");
+    }
 }

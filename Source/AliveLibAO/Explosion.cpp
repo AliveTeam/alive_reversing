@@ -23,7 +23,7 @@ Explosion* Explosion::ctor_458B80(FP xpos, FP ypos, FP exposion_size)
     ctor_417C10();
     SetVTable(this, 0x4BC218);
     field_4_typeId = Types::eExplosion_74;
-    const AnimRecord rec = AO::AnimRec(AnimId::Explosion);
+    const AnimRecord& rec = AO::AnimRec(AnimId::Explosion);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
@@ -267,7 +267,7 @@ void Explosion::DealBlastDamage_459160(PSX_RECT* pRect)
 
     if (pTlv)
     {
-        if (!(pTlv->field_0_flags.Get(TLV_Flags::eBit2_Destroyed) && pTlv->field_1A_start_state == Path_Slig::StartState::Sleeping_2))
+        if (!pTlv->field_0_flags.Get(TLV_Flags::eBit2_Destroyed) && pTlv->field_1A_start_state == Path_Slig::StartState::Sleeping_2)
         {
             pTlv->field_0_flags.Set(TLV_Flags::eBit2_Destroyed);
             const CameraPos dir = gMap_507BA8.GetDirection_444A40(

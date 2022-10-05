@@ -10,6 +10,7 @@
 #include "PsxRender.hpp"
 #include "PsxDisplay.hpp"
 #include "Sys.hpp"
+#include "GameAutoPlayer.hpp"
 
 ALIVE_VAR(1, 0x5C1BB0, ResourceManager*, pResourceManager_5C1BB0, nullptr);
 
@@ -536,6 +537,8 @@ void ResourceManager::LoadResourceFile_465460(const char_type* filename, Camera*
 
 void ResourceManager::LoadingLoop_465590(s16 bShowLoadingIcon)
 {
+    GetGameAutoPlayer().DisableRecorder();
+
     while (!field_20_files_pending_loading.IsEmpty())
     {
         SYS_EventsPump_494580();
@@ -548,6 +551,8 @@ void ResourceManager::LoadingLoop_465590(s16 bShowLoadingIcon)
             Game_ShowLoadingIcon_482D80();
         }
     }
+
+    GetGameAutoPlayer().EnableRecorder();
 }
 
 void ResourceManager::Shutdown_465610()

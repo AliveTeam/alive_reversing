@@ -865,7 +865,7 @@ Abe* Abe::ctor_44AD10(s32 /*frameTableOffset*/, s32 /*r*/, s32 /*g*/, s32 /*b*/)
     field_16E_bHaveInvisiblity = 0;
     field_170_invisible_timer = 0;
     field_174_unused = 0;
-    field_176_invisibility_id = 0;
+    field_176_invisibility_duration = 0;
     field_178_invisible_effect_id = -1;
     field_124_timer = sGnFrame_5C1B84;
     field_FC_pPathTLV = nullptr;
@@ -1163,7 +1163,7 @@ s32 CC Abe::CreateFromSaveState_44D4F0(const u8* pData)
     sActiveHero_5C1B68->field_178_invisible_effect_id = -1;
     sActiveHero_5C1B68->field_170_invisible_timer = pSaveState->invisible_timer;
     sActiveHero_5C1B68->field_174_unused = pSaveState->field_A0_unused;
-    sActiveHero_5C1B68->field_176_invisibility_id = pSaveState->field_A2_invisibility_id;
+    sActiveHero_5C1B68->field_176_invisibility_duration = pSaveState->field_A2_invisibility_duration;
 
     sActiveHero_5C1B68->field_17C_cam_idx = pSaveState->field_A4_cam_idx;
     sActiveHero_5C1B68->field_180_hand_stone_type = pSaveState->hand_stone_type;
@@ -2125,7 +2125,7 @@ s32 Abe::vGetSaveState_457110(u8* pSaveBuffer)
 
     pSaveState->invisible_timer = field_170_invisible_timer;
     pSaveState->field_A0_unused = field_174_unused;
-    pSaveState->field_A2_invisibility_id = field_176_invisibility_id;
+    pSaveState->field_A2_invisibility_duration = field_176_invisibility_duration;
     pSaveState->field_A4_cam_idx = field_17C_cam_idx;
     pSaveState->hand_stone_type = field_180_hand_stone_type;
     pSaveState->fmv_id = field_184_fmv_id;
@@ -5142,94 +5142,91 @@ void Abe::Motion_33_RunLoop_4508E0()
         return;
     }
 
-    if (field_20_animation.field_92_current_frame != 0 && field_20_animation.field_92_current_frame != 8)
-    {
-        if (field_20_animation.field_92_current_frame == 4 || field_20_animation.field_92_current_frame == 12)
-        {
-            Environment_SFX_457A40(EnvironmentSfx::eRunningFootstep_2, 0, 32767, this);
-
-            MapFollowMe_408D10(TRUE);
-
-            // Turning around?
-            if ((field_C4_velx > FP_FromInteger(0) && Input().isPressed(sInputKey_Left_5550D4)) || (field_C4_velx < FP_FromInteger(0) && Input().isPressed(sInputKey_Right_5550D0)))
-            {
-                field_1AC_flags.Clear(Flags_1AC::e1AC_eBit14_unused);
-                field_106_current_motion = eAbeMotions::Motion_26_RunTurn_451500;
-                Environment_SFX_457A40(EnvironmentSfx::eRunSlide_4, 0, 32767, this);
-                field_118_prev_held = 0;
-                return;
-            }
-
-            if (field_118_prev_held & sInputKey_Hop_5550E0)
-            {
-                DoRunJump();
-                return;
-            }
-
-            // Run to roll
-            if (field_118_prev_held & sInputKey_FartRoll_5550F0)
-            {
-                field_1AC_flags.Clear(Flags_1AC::e1AC_eBit14_unused);
-                field_106_current_motion = eAbeMotions::jMotion_38_RunToRoll_453A70;
-                field_11C_released_buttons = 0;
-                field_118_prev_held = 0;
-                return;
-            }
-
-            if (Input().isPressed(sInputKey_Left_5550D4) || Input().isPressed(sInputKey_Right_5550D0))
-            {
-                if (Input().isPressed(sInputKey_Run_5550E8))
-                {
-                    field_118_prev_held = 0;
-                    return;
-                }
-
-                FP gridSize = {};
-                if (field_C4_velx >= FP_FromInteger(0))
-                {
-                    gridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
-                }
-                else
-                {
-                    gridSize = -ScaleToGridSize_4498B0(field_CC_sprite_scale);
-                }
-
-                // Run to walk and hit wall
-                if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), gridSize) || WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), gridSize))
-                {
-                    ToKnockback_44E700(1, 1);
-                }
-                else
-                {
-                    // Run to walk
-                    if (field_20_animation.field_92_current_frame != 4)
-                    {
-                        field_106_current_motion = eAbeMotions::Motion_50_RunToWalk_450E20;
-                    }
-                    else
-                    {
-                        field_106_current_motion = eAbeMotions::Motion_51_MidRunToWalk_450F50;
-                    }
-                }
-            }
-            else
-            {
-                // No longer running or even moving, so slide stop
-                field_106_current_motion = eAbeMotions::Motion_25_RunSlideStop_451330;
-                Environment_SFX_457A40(EnvironmentSfx::eRunSlide_4, 0, 32767, this);
-            }
-
-            field_1AC_flags.Clear(Flags_1AC::e1AC_eBit14_unused);
-            field_118_prev_held = 0;
-        }
-    }
-    else
+    if (field_20_animation.field_92_current_frame == 0 || field_20_animation.field_92_current_frame == 8)
     {
         MapFollowMe_408D10(TRUE);
         if (field_118_prev_held & sInputKey_Hop_5550E0)
         {
             DoRunJump();
         }
+    }
+    else if (field_20_animation.field_92_current_frame == 4 || field_20_animation.field_92_current_frame == 12)
+    {
+        Environment_SFX_457A40(EnvironmentSfx::eRunningFootstep_2, 0, 32767, this);
+
+        MapFollowMe_408D10(TRUE);
+
+        // Turning around?
+        if ((field_C4_velx > FP_FromInteger(0) && Input().isPressed(sInputKey_Left_5550D4)) || (field_C4_velx < FP_FromInteger(0) && Input().isPressed(sInputKey_Right_5550D0)))
+        {
+            field_1AC_flags.Clear(Flags_1AC::e1AC_eBit14_unused);
+            field_106_current_motion = eAbeMotions::Motion_26_RunTurn_451500;
+            Environment_SFX_457A40(EnvironmentSfx::eRunSlide_4, 0, 32767, this);
+            field_118_prev_held = 0;
+            return;
+        }
+
+        if (field_118_prev_held & sInputKey_Hop_5550E0)
+        {
+            DoRunJump();
+            return;
+        }
+
+        // Run to roll
+        if (field_118_prev_held & sInputKey_FartRoll_5550F0)
+        {
+            field_1AC_flags.Clear(Flags_1AC::e1AC_eBit14_unused);
+            field_106_current_motion = eAbeMotions::jMotion_38_RunToRoll_453A70;
+            field_11C_released_buttons = 0;
+            field_118_prev_held = 0;
+            return;
+        }
+
+        if (Input().isPressed(sInputKey_Left_5550D4) || Input().isPressed(sInputKey_Right_5550D0))
+        {
+            if (Input().isPressed(sInputKey_Run_5550E8))
+            {
+                field_118_prev_held = 0;
+                return;
+            }
+
+            FP gridSize = {};
+            if (field_C4_velx >= FP_FromInteger(0))
+            {
+                gridSize = ScaleToGridSize_4498B0(field_CC_sprite_scale);
+            }
+            else
+            {
+                gridSize = -ScaleToGridSize_4498B0(field_CC_sprite_scale);
+            }
+
+            // Run to walk and hit wall
+            if (WallHit_408750(field_CC_sprite_scale * FP_FromInteger(50), gridSize) || WallHit_408750(field_CC_sprite_scale * FP_FromInteger(20), gridSize))
+            {
+                ToKnockback_44E700(1, 1);
+            }
+            else
+            {
+                // Run to walk
+                if (field_20_animation.field_92_current_frame == 4)
+                {
+                    field_106_current_motion = eAbeMotions::Motion_50_RunToWalk_450E20;
+                }
+                else
+                {
+                    field_106_current_motion = eAbeMotions::Motion_51_MidRunToWalk_450F50;
+                }
+            }
+        }
+        else
+        {
+            // No longer running or even moving, so slide stop
+            field_106_current_motion = eAbeMotions::Motion_25_RunSlideStop_451330;
+            Environment_SFX_457A40(EnvironmentSfx::eRunSlide_4, 0, 32767, this);
+        }
+
+        field_1AC_flags.Clear(Flags_1AC::e1AC_eBit14_unused);
+        field_118_prev_held = 0;
     }
 }
 
@@ -7547,11 +7544,11 @@ void Abe::Motion_112_Chant_45B1C0()
 
                     if (field_170_invisible_timer)
                     {
-                        field_170_invisible_timer = field_170_invisible_timer + field_176_invisibility_id;
+                        field_170_invisible_timer += field_176_invisibility_duration;
                     }
                     else
                     {
-                        field_170_invisible_timer = sGnFrame_5C1B84 + field_176_invisibility_id;
+                        field_170_invisible_timer = sGnFrame_5C1B84 + field_176_invisibility_duration;
                     }
 
                     field_174_unused = 0;

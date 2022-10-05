@@ -19,7 +19,7 @@ HoneySack* HoneySack::ctor_42BD10(Path_HoneySack* pTlv, s32 tlvInfo)
     SetVTable(this, 0x4BB238);
     field_4_typeId = Types::eHoneySack_45;
 
-    const AnimRecord hangingRec = AO::AnimRec(AnimId::HoneySack_Hanging);
+    const AnimRecord& hangingRec = AO::AnimRec(AnimId::HoneySack_Hanging);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, hangingRec.mResourceId, 1, 0);
     Animation_Init_417FD0(hangingRec.mFrameTableOffset, hangingRec.mMaxW, hangingRec.mMaxH, ppRes, 1);
 

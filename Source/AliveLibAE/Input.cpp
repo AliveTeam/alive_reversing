@@ -16,7 +16,6 @@
 
 #if USE_SDL2
 static SDL_GameController* pSDLController = nullptr;
-static SDL_Haptic* pSDLControllerHaptic = nullptr;
 #elif _WIN32
     #include <joystickapi.h>
 #endif
@@ -269,9 +268,10 @@ void Input_GetJoyState_SDL(f32* pX1, f32* pY1, f32* pX2, f32* pY2, u32* pButtons
 
 
 
-        if (pSDLControllerHaptic != nullptr)
+        if (pSDLController)
         {
-            SDL_HapticRumblePlay(pSDLControllerHaptic, vibrationAmount, 200);
+            const u16 amount = static_cast<u16>(vibrationAmount * 0xFFFF);
+            SDL_GameControllerRumble(pSDLController, amount, amount, 200);
         }
 
         vibrationAmount -= 0.2f;
@@ -1583,39 +1583,35 @@ EXPORT void Input_InitJoyStick_460080()
 #if USE_SDL2
 
     sGamepadCapFlags_5C2EF8 |= eDisableAutoRun;
-    if (!SDL_Init(SDL_INIT_JOYSTICK | SDL_INIT_HAPTIC | SDL_INIT_GAMECONTROLLER))
+ 
+    LOG_INFO("SDL_NumJoysticks: " << SDL_NumJoysticks());
+    for (s32 i = 0; i < SDL_NumJoysticks(); i++)
     {
-        DEV_CONSOLE_PRINTF("SDL GamePads: %i", SDL_NumJoysticks());
-        for (s32 i = 0; i < SDL_NumJoysticks(); ++i)
+        if (SDL_IsGameController(i))
         {
-            if (SDL_IsGameController(i))
+            pSDLController = SDL_GameControllerOpen(i); // TODO: SDL_GameControllerClose is never called on this
+            if (pSDLController)
             {
-                pSDLController = SDL_GameControllerOpen(i);
-                if (pSDLController)
-                {
-                    sJoystickAvailable_5C2EF4 = true;
-                    pSDLControllerHaptic = SDL_HapticOpenFromJoystick(SDL_GameControllerGetJoystick(pSDLController));
-                    if (SDL_HapticRumbleInit(pSDLControllerHaptic) < 0)
-                    {
-                        printf("Warning: Unable to initialize rumble! SDL Error: %s\n", SDL_GetError());
-                    }
-                    strncpy(sGamePadStr_55E85C, SDL_GameControllerName(pSDLController), 32u);
+                LOG_INFO("Controller name is " << SDL_GameControllerName(pSDLController));
 
-                    //TODO add binding
-                    break;
-                }
-                else
-                {
-                    printf("Could not open SDL GamePad %i: %s\n", i, SDL_GetError());
-                }
+                sJoystickAvailable_5C2EF4 = true;
+
+                strncpy(sGamePadStr_55E85C, SDL_GameControllerName(pSDLController), 32u);
+
+                //TODO add binding
+                break;
+            }
+            else
+            {
+                LOG_ERROR("Could not open SDL GamePad " << i << " " << SDL_GetError());
             }
         }
+        else
+        {
+            LOG_INFO("Item " << i << " is not a game controller");
+        }
     }
-    else
-    {
-        DEV_CONSOLE_PRINTF("Failed to INIT SDL Gamepad Input");
-        printf("Failed to INIT SDL Gamepad Input\n");
-    }
+
 #elif _WIN32
     const u32 count = joyGetNumDevs();
     for (u32 i = 0; i < count; i++)

@@ -26,7 +26,7 @@ TimedMine* TimedMine::ctor_4083F0(Path_TimedMine* pTlv, s32 tlvInfo)
     SetVTable(this, 0x4BA2C8);
     field_4_typeId = Types::eTimedMine_8;
 
-    const AnimRecord rec = AO::AnimRec(AnimId::TimedMine_Idle);
+    const AnimRecord& rec = AO::AnimRec(AnimId::TimedMine_Idle);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
@@ -73,7 +73,7 @@ TimedMine* TimedMine::ctor_4083F0(Path_TimedMine* pTlv, s32 tlvInfo)
         field_6_flags.Set(Options::eListAddFailed_Bit1);
     }
 
-    field_10E_explode_timeout = pTlv->field_1E_ticks_before_explode;
+    field_10E_ticks_before_explosion = pTlv->field_1E_ticks_before_explosion;
     field_A8_xpos = FP_FromInteger(pTlv->field_10_top_left.field_0_x + 12);
     field_AC_ypos = FP_FromInteger(pTlv->field_10_top_left.field_2_y + 24);
 
@@ -364,17 +364,17 @@ void TimedMine::vOnPickUpOrSlapped_408A80()
     if (field_10C_armed != 1)
     {
         field_10C_armed = 1;
-        if ((s32)(field_10E_explode_timeout & 0xFFFC) >= 72)
+        if ((s32)(field_10E_ticks_before_explosion & 0xFFFC) >= 72)
         {
             field_1B4_detonation_timer = 18;
         }
         else
         {
-            field_1B4_detonation_timer = field_10E_explode_timeout >> 2;
+            field_1B4_detonation_timer = field_10E_ticks_before_explosion >> 2;
         }
         field_1B0_gnFrame_2 = gnFrameCount_507670;
         field_10_anim.Set_Animation_Data_402A40(804, 0);
-        field_114_timer = gnFrameCount_507670 + field_10E_explode_timeout;
+        field_114_timer = gnFrameCount_507670 + field_10E_ticks_before_explosion;
         field_118_anim.Set_Animation_Data_402A40(384, 0);
         SFX_Play_43AD70(SoundEffect::GreenTick_3, 0, 0);
     }

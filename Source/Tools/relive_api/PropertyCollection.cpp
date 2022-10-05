@@ -75,6 +75,14 @@ PropertyCollection::~PropertyCollection() = default;
         jsonxx::Object property;
         property << "Type" << it->second->TypeName();
         property << "Visible" << it->second->IsVisibleToEditor();
+
+        // Bit of a hacky property the editor has special case handling for, idelaly we'd support sub struct fields.
+        // Since we don't this string can be used to mark things as in/out switch ids, RGB linked values and so on.
+        if (it->second->IdStr())
+        {
+            property << "Identity_string" <<  std::string(it->second->IdStr());
+        }
+
         property << "name" << it->second->Name();
 
         ret << property;

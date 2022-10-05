@@ -39,6 +39,7 @@
 
 namespace AO {
 
+DynamicArrayT<BaseGameObject>* gLoadingFiles = nullptr;
 
 // TODO: Move these few funcs to correct location
 #ifdef _WIN32
@@ -213,11 +214,11 @@ static void Main_ParseCommandLineArguments()
 
     std::string windowTitle = WindowTitleAO();
 
-    if (gGameAutoPlayer.IsRecording())
+    if (GetGameAutoPlayer().IsRecording())
     {
         windowTitle += " [Recording]";
     }
-    else if (gGameAutoPlayer.IsPlaying())
+    else if (GetGameAutoPlayer().IsPlaying())
     {
         windowTitle += " [AutoPlay]";
     }
@@ -331,6 +332,9 @@ EXPORT void CC Init_Sound_DynamicArrays_And_Others_41CD20()
     gBaseAliveGameObjects_4FC8A0 = ao_new<DynamicArrayT<BaseAliveGameObject>>();
     gBaseAliveGameObjects_4FC8A0->ctor_4043E0(20);
 
+    gLoadingFiles = ao_new<DynamicArrayT<BaseGameObject>>();
+    gLoadingFiles->ctor_4043E0(20); // TODO: Leaked on purpose for now
+
     ResourceManager::Init_454DA0();
     SND_Init_476E40();
     SND_Init_Ambiance_4765C0();
@@ -412,6 +416,7 @@ EXPORT void CC Game_Loop_437630()
         Events_Reset_Active_417320();
 
         // Update objects
+        GetGameAutoPlayer().SyncPoint(SyncPoints::StartGameObjectUpdate);
         for (s32 i = 0; i < gBaseGameObject_list_9F2DF0->Size(); i++)
         {
             BaseGameObject* pObjIter = gBaseGameObject_list_9F2DF0->ItemAt(i);
@@ -432,6 +437,30 @@ EXPORT void CC Game_Loop_437630()
                 }
             }
         }
+
+        for (s32 i = 0; i < gLoadingFiles->Size(); i++)
+        {
+            BaseGameObject* pObjIter = gLoadingFiles->ItemAt(i);
+            if (pObjIter->field_6_flags.Get(BaseGameObject::eUpdatable_Bit2) && !pObjIter->field_6_flags.Get(BaseGameObject::eDead_Bit3) && (sNumCamSwappers_507668 == 0 || pObjIter->field_6_flags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
+            {
+                if (pObjIter->field_8_update_delay > 0)
+                {
+                    pObjIter->field_8_update_delay--;
+                }
+                else
+                {
+                    pObjIter->VUpdate();
+                }
+            }
+
+            if (pObjIter->field_6_flags.Get(BaseGameObject::eDead_Bit3) && pObjIter->field_C_refCount == 0)
+            {
+                i = gLoadingFiles->RemoveAt(i);
+                pObjIter->VDestructor(1);
+            }
+        }
+
+        GetGameAutoPlayer().SyncPoint(SyncPoints::EndGameObjectUpdate);
 
         // Animate everything
         if (sNumCamSwappers_507668 <= 0)
@@ -480,14 +509,14 @@ EXPORT void CC Game_Loop_437630()
         }
 
         gMap_507BA8.ScreenChange_4444D0();
-        Input().Update(gGameAutoPlayer);
+        Input().Update(GetGameAutoPlayer());
 
         if (sNumCamSwappers_507668 == 0)
         {
             gnFrameCount_507670++;
         }
 
-        gGameAutoPlayer.ValidateObjectStates();
+        GetGameAutoPlayer().ValidateObjectStates();
 
     } // Main loop end
 
@@ -613,7 +642,7 @@ EXPORT void Game_Main_450050()
 {
     BaseAliveGameObject_ForceLink();
 
-    gGameAutoPlayer.ParseCommandLine(Sys_GetCommandLine_48E920());
+    GetGameAutoPlayer().ParseCommandLine(Sys_GetCommandLine_48E920());
 
     Main_ParseCommandLineArguments();
     Game_SetExitCallBack_48E040(Game_ExitGame_450730);
