@@ -426,7 +426,7 @@ Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
         mScale = Scale::Fg;
     }
 
-    SetBaseAnimPaletteTint(&sSligTint_560570[0], gMap.mCurrentLevel, PalId::Slig_412);
+    SetBaseAnimPaletteTint(&sSligTint_560570[0], gMap.mCurrentLevel, PalId::Default); // Note: seemingly pointless pal override removed
 
     FP hitX = {};
     FP hitY = {};

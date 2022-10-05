@@ -375,6 +375,8 @@ void UXB::VUpdate()
             }
             else if (mNextStateTimer <= sGnFrame)
             {
+                mFlashAnim.Set_Animation_Data(GetAnimRes(AnimId::Bomb_RedGreenTick));
+
                 if (mRedBlinkCount)
                 {
                     mRedBlinkCount--;
@@ -389,6 +391,7 @@ void UXB::VUpdate()
                     // TODO: Restore original pal
                     //const PerFrameInfo* pFrameInfo = mFlashAnim.Get_FrameHeader(-1);
                     //mFlashAnim.LoadPal(mFlashAnim.field_20_ppBlock, pFrameHeader->field_0_clut_offset);
+                    mFlashAnim.ReloadPal();
 
                     mIsRed = 1;
 
@@ -403,8 +406,7 @@ void UXB::VUpdate()
                     mRedBlinkCount = (mPattern / static_cast<s32>(pow(10, mPatternLength - mPatternIndex - 1))) % 10;
                 }
 
-                mFlashAnim.Set_Animation_Data(GetAnimRes(AnimId::Bomb_RedGreenTick));
-
+              
                 if (mIsRed)
                 {
                     PlaySFX(relive::SoundEffects::RedTick);

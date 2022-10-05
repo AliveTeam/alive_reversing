@@ -276,7 +276,15 @@ void Animation::Invoke_CallBacks()
 
 s16 Animation::Set_Animation_Data(AnimResource& pAnimRes)
 {
+    auto oldPal = mAnimRes.mCurPal;
+
     mAnimRes = pAnimRes;
+
+    // Keep the custom pal that was set
+    if (oldPal)
+    {
+        mAnimRes.mCurPal = oldPal;
+    }
 
     mFrameDelay = pAnimRes.mJsonPtr->mAttributes.mFrameRate;
 
@@ -411,18 +419,16 @@ u32 Animation::Get_Frame_Count()
     return static_cast<u32>(mAnimRes.mJsonPtr->mFrames.size());
 }
 
-void Animation::LoadPal(const PalResource& /*pal*/)
+void Animation::LoadPal(const PalResource& pal)
 {
     // Override the pal with another one
-
-    // TODO: Need an active pal ptr instead of overwriting ??
-    //mAnimRes.mTgaPtr->mPal = *pal.mPal;
-
+    mAnimRes.mCurPal = pal.mPal;
 }
 
 void Animation::ReloadPal()
 {
-    // TODO: Put the original pal back
+    // Put the original pal back
+    mAnimRes.mCurPal = mAnimRes.mTgaPtr->mPal;
 }
 
 void Animation::Get_Frame_Offset(s16* pBoundingX, s16* pBoundingY)

@@ -6,6 +6,8 @@
 #include "data_conversion/file_system.hpp"
 
 #include "data_conversion/data_conversion.hpp"
+#include "data_conversion/AnimConversionInfo.hpp"
+
 #include "BinaryPath.hpp"
 #include "../AliveLibCommon/BaseGameAutoPlayer.hpp"
 
@@ -183,6 +185,7 @@ AnimResource ResourceManagerWrapper::LoadAnimation(AnimId anim)
     newRes.mId = anim;
     newRes.mJsonPtr = pAnimationAttributesAndFrames;
     newRes.mTgaPtr = pTgaData;
+    newRes.mCurPal = newRes.mTgaPtr->mPal;
     mAnims[anim] = {pAnimationAttributesAndFrames, pTgaData};
 
     return newRes;
@@ -196,40 +199,8 @@ PalResource ResourceManagerWrapper::LoadPal(PalId pal)
     newRes.mPal = std::make_shared<AnimationPal>();
 
     FileSystem::Path filePath = BasePath();
-    switch (pal)
-    {
-        case PalId::MainMenuFont_MainMenu:
-            filePath.Append("main_menu_font_pal_main.pal");
-            break;
 
-        default:
-        case PalId::MainMenuFont_PauseMenu:
-            filePath.Append("main_menu_font_pal_pause.pal");
-            break;
-
-        case PalId::LedFont_ColourfulMeter:
-            filePath.Append("led_font_pal_colourful_meter.pal");
-            break;
-
-        case PalId::LedFont_1:
-            filePath.Append("led_font_pal_1.pal");
-            break;
-
-        case PalId::LedFont_2:
-            filePath.Append("led_font_pal_2.pal");
-            break;
-
-        case PalId::LedFont_StatusBoard:
-            filePath.Append("led_font_status_board.pal");
-            break;
-
-        case PalId::LedFont_BrewMachine:
-            filePath.Append("led_font_brew_machine.pal");
-            break;
-
-            //ALIVE_FATAL("Loading of this pal not implemented");
-            //break;
-    }
+    filePath.Append(ToString(newRes.mId));
 
     FileSystem fs;
     auto palData = fs.LoadToVec(filePath.GetPath().c_str());

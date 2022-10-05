@@ -145,6 +145,7 @@ public:
         , mJsonPtr(jsonRes)
         , mTgaPtr(tgaRes)
     {
+        mCurPal = mTgaPtr->mPal;
     }
 
     void Clear()
@@ -159,6 +160,8 @@ public:
     AnimId mId = AnimId::None;
     std::shared_ptr<AnimationAttributesAndFrames> mJsonPtr;
     std::shared_ptr<TgaData> mTgaPtr;
+    // TODO: weak_ptr
+    std::shared_ptr<AnimationPal> mCurPal;
 };
 
 enum class FontType

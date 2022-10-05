@@ -333,7 +333,7 @@ Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
     SetBaseAnimPaletteTint(
         &kSligTints_4CFB10[0],
         gMap.mCurrentLevel,
-        PalId::Slig_412);
+        PalId::Default); // Note: seemingly pointless pal override removed
 
     FP hitX = {};
     FP hitY = {};

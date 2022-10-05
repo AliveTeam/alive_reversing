@@ -1317,3 +1317,79 @@ const char* ToString(EAnimGroup animGroup)
         ALIVE_FATAL("unknown group");
     }
 }
+
+PalRecConversionInfo kPalConversionInfo[17] =
+{
+    { PalId::BlindMud,               false },
+    { PalId::GreenFlash,             false },
+    { PalId::Rock,                   false },
+    { PalId::AngryMud,               false },
+    { PalId::SadMud,                 false },
+    { PalId::WiredMud,               false },
+    { PalId::SickMud,                false },
+    { PalId::WhiteHighlite,          false },
+    { PalId::RedBackgroundGlukkon,   false },
+    { PalId::BlueBackgroundGlukkon,  false },
+    { PalId::AquaBackgroundGlukkon,  false },
+    { PalId::GreenBackgroundGlukkon, false },
+    { PalId::BlueRockSack,           false },
+    { PalId::StockYardsAbeGib,       false },
+    { PalId::StockYardsSlogGib,      false },
+    { PalId::Bomb,                   false },
+};
+
+const char* ToString(PalId pal)
+{
+    switch (pal)
+    {
+    case PalId::BlindMud:
+         return "blind_mud.pal";
+    case PalId::GreenFlash:
+        return "green_flash.pal";
+    case PalId::Rock:
+        return "rock.pal";
+    case PalId::AngryMud:
+        return "angry_mud.pal";
+    case PalId::SadMud:
+        return "sad_mud.pal";
+    case PalId::WiredMud:
+        return "wired_mud.pal";
+    case PalId::SickMud:
+        return "sick_mud.pal";
+    case PalId::WhiteHighlite:
+        return "white_high_lite.pal";
+    case PalId::RedBackgroundGlukkon:
+        return "red_background_glukkon.pal";
+    case PalId::BlueBackgroundGlukkon:
+        return "blue_background_glukkon.pal";
+    case PalId::AquaBackgroundGlukkon:
+        return "aqua_background_glukkon.pal";
+    case PalId::GreenBackgroundGlukkon:
+        return "green_background_glukkon.pal";
+    case PalId::BlueRockSack:
+        return "blue_rock_sack.pal";
+    case PalId::StockYardsAbeGib:
+        return "stock_yards_abe_gib.pal";
+    case PalId::StockYardsSlogGib:
+        return "stock_yards_slog_gib.pal";
+    case PalId::Bomb:
+        return "bomb.pal";
+    case PalId::MainMenuFont_MainMenu:
+        return "main_menu_font_mainmenu.pal";
+    case PalId::MainMenuFont_PauseMenu:
+        return "main_menu_font_pausemenu.pal";
+    case PalId::LedFont_ColourfulMeter:
+        return "ledfont_colourful_meter.pal";
+    case PalId::LedFont_Gas:
+        return "ledfont_gas.pal";
+    case PalId::LedFont_1:
+        return "ledfont_1.pal";
+    case PalId::LedFont_2:
+        return "ledfont_2.pal";
+    case PalId::LedFont_StatusBoard:
+        return "ledfont_statusboard.pal";
+    case PalId::LedFont_BrewMachine:
+        return "ledfont_brewmachine.pal";
+    }
+    ALIVE_FATAL("Unknown pal id");
+}

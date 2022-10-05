@@ -523,7 +523,7 @@ void OpenGLRenderer::Draw(Prim_Sprt& sprt)
     std::shared_ptr<TgaData> pTga = sprt.mAnim->mAnimRes.mTgaPtr;
 
     const u32 sprtTextureId = PrepareTextureFromAnim(*sprt.mAnim);
-    const u32 palIndex = PreparePalette(*pTga->mPal);
+    const u32 palIndex = PreparePalette(*sprt.mAnim->mAnimRes.mCurPal);
 
     u32 r = sprt.mBase.header.rgb_code.r;
     u32 g = sprt.mBase.header.rgb_code.g;
@@ -784,7 +784,7 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
         const PerFrameInfo* pHeader = poly.mAnim->Get_FrameHeader(-1);
         std::shared_ptr<TgaData> pTga = poly.mAnim->mAnimRes.mTgaPtr;
 
-        const u32 palIndex = PreparePalette(*poly.mAnim->mAnimRes.mTgaPtr->mPal);
+        const u32 palIndex = PreparePalette(*poly.mAnim->mAnimRes.mCurPal);
 
         u32 u0 = pHeader->mSpriteSheetX;
         u32 v0 = pHeader->mSpriteSheetY;

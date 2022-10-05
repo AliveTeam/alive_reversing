@@ -6,6 +6,22 @@
 constexpr PalDetails kNullPalDetails = {};
 constexpr CombinedPalRecord kPalRecords[] = {
     {PalId::BlindMud, {"MUDPAL.BND", kMudblindResID}, kNullPalDetails },
+    {PalId::GreenFlash, {"UXB.BND", kGrenflshResID}, {"UXB.BND", AO::kGrenflshAOResID}},
+    {PalId::Rock, {"RTHROW.BND", kAberockResID}, {"RTHROW.BND", AO::kAberockAOResID}},
+    // TODO: Stockyards rock has diff pal?
+    {PalId::AngryMud, {"MUDPAL.BND", kMudangryResID}, kNullPalDetails},
+    {PalId::SadMud, {"MUDPAL.BND", kMudsadResID}, kNullPalDetails},
+    {PalId::WiredMud, {"MUDPAL.BND", kMudwiredResID}, kNullPalDetails},
+    {PalId::SickMud, {"MUDPAL.BND", kMudsickResID}, kNullPalDetails},
+    {PalId::WhiteHighlite, kNullPalDetails, {"STARTANM.BND", AO::kHighlitePalAOResID}},
+    {PalId::RedBackgroundGlukkon, kNullPalDetails, {"GLUKKON.BND", AO::kGlukredAOResID}},
+    {PalId::BlueBackgroundGlukkon, kNullPalDetails, {"GLUKKON.BND", AO::kGlukblueAOResID}},
+    {PalId::AquaBackgroundGlukkon, kNullPalDetails, {"GLUKKON.BND", AO::kGlukaquaAOResID}},
+    {PalId::GreenBackgroundGlukkon, kNullPalDetails, {"GLUKKON.BND", AO::kGlkbasicAOResID}},
+    {PalId::BlueRockSack, kNullPalDetails, {"E1BAG.BAN", AO::kP2c2bagAOResID}},
+    {PalId::StockYardsAbeGib, kNullPalDetails, {"ABEE1PAL.BAN", AO::kAbeblowAOResID}},
+    {PalId::StockYardsSlogGib, kNullPalDetails, {"DOGBLOW.BAN", AO::kSlogBlowAOResID}},
+    {PalId::Bomb, {"BOMB.BND", kBombResID}, {"BOMB.BND", AO::kBombAOResID}},
 };
 
 constexpr BgAnimDetails kNullBgAnimDetails = {};

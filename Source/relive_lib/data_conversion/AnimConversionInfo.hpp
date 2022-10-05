@@ -80,6 +80,12 @@ const char_type* AnimBaseName(AnimId id);
 const char_type* AnimRecName(AnimId anim);
 const char* ToString(EAnimGroup animGroup);
 
+struct PalRecConversionInfo final
+{
+    PalId mPalId;         // which pal?
+    bool mConverted;
+};
+
 struct AnimRecConversionInfo final
 {
     AnimId mAnimId;         // which anim?
@@ -103,4 +109,4 @@ struct AnimRecNames final
     const char_type* mAnimName;
 };
 
-
+const char* ToString(PalId pal);

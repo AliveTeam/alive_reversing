@@ -109,6 +109,8 @@ void Poly_Set_SemiTrans(PrimHeader* pPrim, s32 bSemiTrans)
     }
 }
 
+#include "Animation.hpp"
+
 void OrderingTable_Add(PrimHeader** ppOt, PrimHeader* pItem)
 {
     // Debugging code, rendering type 2 will currently crash.
@@ -117,6 +119,18 @@ void OrderingTable_Add(PrimHeader** ppOt, PrimHeader* pItem)
     if (pItem->rgb_code.code_or_pad == 2 || pItem->rgb_code.code_or_pad == 0)
     {
         abort();
+    }
+
+    if ((pItem->rgb_code.code_or_pad & ~2) == PrimTypeCodes::ePolyFT4)
+    {
+        auto pPoly = reinterpret_cast<Poly_FT4*>(pItem);
+        if (pPoly->mAnim)
+        {
+            if (!pPoly->mAnim->mAnimRes.mCurPal)
+            {
+                ALIVE_FATAL("Cur pal not set on poly_ft4 prim");
+            }
+        }
     }
 
     // Get current OT ptr
