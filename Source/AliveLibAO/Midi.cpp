@@ -1151,308 +1151,153 @@ EXPORT void CC SND_StopAll_4762D0()
 #else
 
 #include "../../AliveLibCommon/audio/MidiPlayer.hpp"
-#include "../../AliveLibCommon/audio/Soundbank.hpp"
-#include "../../AliveLibCommon/audio/ADSR.hpp"
-#include "../../AliveLibCommon/audio/mixer/AliveAudio.hpp"
-#include "../../AliveLibCommon/audio/SequencePlayer.hpp"
 
 namespace AO {
 
-struct VagAtr final
+class AOResourceProvider : public psx::ResourceProvider
 {
-    s8 field_0_priority;
-    s8 field_1_mode;
-    s8 field_2_vol;
-    s8 field_3_pan;
-    u8 field_4_centre;
-    u8 field_5_shift;
-    s8 field_6_min;
-    s8 field_7_max;
-    s8 field_8_vibW;
-    s8 field_9_vibT;
-    s8 field_A_porW;
-    s8 field_B_porT;
-    s8 field_C_pitch_bend_min;
-    s8 field_D_pitch_bend_max;
-    s8 field_E_reserved1;
-    s8 field_F_reserved2;
-    s16 field_10_adsr1;
-    s16 field_12_adsr2;
-    s16 field_14_prog;
-    s16 field_16_vag;
-    s16 field_18_reserved[4];
-};
-struct AoVag
-{
-    u32 iSize;
-    u32 iSampleRate;
-    std::vector<unsigned char> iSampleData;
+public:
+    psx::ResourceData* readFile(char_type* name)
+    {
+        LvlFileRecord* fileRecord = sLvlArchive_4FFD60.Find_File_Record_41BED0(name);
+        s32 size = fileRecord->field_10_num_sectors << 11;
+        u8* data = new u8[size];
+        sLvlArchive_4FFD60.Read_File_41BE40(fileRecord, data);
+       
+        psx::ResourceData* resource = new psx::ResourceData();
+        resource->data = data;
+        resource->size = size;
+        return resource;
+    }
+
+    psx::ResourceData* readSeq(const char_type* fileName, const char_type* sequenceName)
+    {
+        psx::ResourceData* resource = new psx::ResourceData();
+        resource->data = NULL;
+        resource->size = 0;
+
+        // TODO - maybe this load should be stored in memory for faster access?
+        //  Need to check underlying implementation
+        if (mLoadedFileName != fileName)
+        {
+            mLoadedFileName = fileName;
+            ResourceManager::LoadResourceFileWrapper(fileName, nullptr);
+        }
+        s32 hash = ResourceManager::SEQ_HashName_454EA0(sequenceName);
+        u8** ppSeq = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Seq, hash, 1, 1);
+        if (!ppSeq)
+        {
+            return resource;
+        }
+
+        u32 size = ResourceManager::Get_Header_455620(ppSeq)->field_0_size;
+        resource->data = *ppSeq;
+        resource->size = size;
+        resource->optionalHash = hash;
+        return resource;
+    }
+
+    s32 sequenceCount()
+    {
+        return 164;
+    }
+
+private:
+    const char_type* mLoadedFileName = NULL;
 };
 
-Soundbank* theBank;
-SequencePlayer* player = new SequencePlayer();
-std::vector<std::vector<Uint8>> gSeqs;
+static void SfxDefToPsxSfxDef(const SfxDefinition* src, psx::SfxDefinition* dst)
+{
+    dst->block_idx = s8(src->field_0_block_idx);
+    dst->note = s8(src->field_8_note);
+    dst->pitch_max = src->field_10_pitch_max;
+    dst->pitch_min = src->field_E_pitch_min;
+    dst->program = s8(src->field_4_program);
+    dst->volume = s8(src->field_C_default_volume);
+}
 
-// https://github.com/mlgthatsme/AliveSoundLib
+psx::MidiPlayer* midiPlayer = new psx::MidiPlayer(new AOResourceProvider());
 
 EXPORT void CC SsUtAllKeyOff_49EDE0(s32 mode)
 {
-    mode;
+    midiPlayer->SsUtAllKeyOff(mode);
 }
 
 EXPORT void CC SND_Reset_476BA0()
 {
+    midiPlayer->SND_Reset();
 }
 
 EXPORT void CC SND_Load_VABS_477040(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
 {
-    reverb;
-    while (1)
-    {
-        if (!pSoundBlockInfo->field_0_vab_header_name)
-        {
-            break;
-        }
-
-        // Read header
-        LvlFileRecord* pVabHeaderFile = sLvlArchive_4FFD60.Find_File_Record_41BED0(pSoundBlockInfo->field_0_vab_header_name);
-        u8* ppVabHeader = new u8[pVabHeaderFile->field_10_num_sectors << 11];
-        sLvlArchive_4FFD60.Read_File_41BE40(pVabHeaderFile, ppVabHeader);
-        VabHeader* vabHeader = reinterpret_cast<VabHeader*>(ppVabHeader);
-        VagAtr* vagAttr = (VagAtr*) &vabHeader[1];
-        std::vector<Program*> programs;
-
-
-        // Read body
-        LvlFileRecord* pVabBodyFile = sLvlArchive_4FFD60.Find_File_Record_41BED0(pSoundBlockInfo->field_4_vab_body_name);
-        s32 bodySize = pVabBodyFile->field_10_num_sectors << 11;
-        u8* ppVabBody = new u8[bodySize];
-        sLvlArchive_4FFD60.Read_File_41BE40(pVabBodyFile, ppVabBody);
-
-        // BODY
-        int pos = 0;
-        std::vector<Sample*> samples;
-        for (int i = 0; i < vabHeader->field_16_num_vags; ++i)
-        {
-            // SAMPLE
-            u32 size = *reinterpret_cast<u32*>(&ppVabBody[pos]);
-            pos += sizeof(u32);
-
-            u32 sampleRate = *reinterpret_cast<u32*>(&ppVabBody[pos]);
-            pos += sizeof(u32);
-            sampleRate;
-
-            u8* data = new u8[size];
-            memcpy(data, &ppVabBody[pos], size);
-            pos += size;
-
-            Sample* sample = new Sample();
-            sample->m_SampleBuffer = reinterpret_cast<u16*>(data);
-            sample->i_SampleSize = size / 2;
-            samples.push_back(sample);
-        }
-
-        // HEADER
-        for (s32 i = 0; i < vabHeader->field_12_num_progs; i++)
-        {
-            // PROGRAM
-            Program* program = new Program;
-            programs.push_back(program);
-            for (s32 toneCounter = 0; toneCounter < 16; toneCounter++)
-            {
-
-                // TONE
-
-                Tone* tone = new Tone();
-                program->m_Tones.push_back(tone);
-
-                if (vagAttr->field_2_vol > 0)
-                {
-                    std::cout << vagAttr->field_16_vag << "\n";
-                    program->prog_id = vagAttr->field_14_prog;
-                    tone->f_Volume = vagAttr->field_2_vol / 127.0f;
-                    tone->c_Center = vagAttr->field_4_centre;
-                    tone->c_Shift = vagAttr->field_5_shift;
-                    tone->f_Pan = (vagAttr->field_3_pan / 64.0f) - 1.0f;
-                    tone->Min = vagAttr->field_6_min;
-                    tone->Max = vagAttr->field_7_max;
-                    tone->Pitch = vagAttr->field_5_shift / 100.0f;
-                    tone->m_Sample = samples.at(vagAttr->field_16_vag - 1);
-
-                    unsigned short ADSR1 = vagAttr->field_10_adsr1;
-                    unsigned short ADSR2 = vagAttr->field_12_adsr2;
-
-                    REAL_ADSR realADSR = {};
-                    PSXConvADSR(&realADSR, ADSR1, ADSR2, false);
-
-                    tone->AttackTime = realADSR.attack_time;
-                    tone->DecayTime = realADSR.decay_time;
-                    tone->ReleaseTime = realADSR.release_time;
-                    tone->SustainTime = realADSR.sustain_time;
-
-                    if (realADSR.attack_time > 1)
-                    { // This works until the loop database is added.
-                        tone->Loop = true;
-                    }
-                }
-                ++vagAttr;
-            }
-        }
-
-        Soundbank* soundbank = new Soundbank(samples, programs);
-        theBank = soundbank;
-        AliveAudio::m_CurrentSoundbank = theBank;
-
-        delete[] ppVabBody;
-        pSoundBlockInfo++;
-    }
+    midiPlayer->SND_Load_VABS(reinterpret_cast<psx::SoundBlockInfo*>(pSoundBlockInfo), reverb);
 }
 
 EXPORT void CC SND_Stop_Channels_Mask_4774A0(s32 mask)
 {
-    mask;
+    midiPlayer->SND_Stop_Channels_Mask(mask);
 }
 
 EXPORT void CC SND_Load_Seqs_477AB0(OpenSeqHandleAE* pSeqTable, const char_type* bsqFileName)
 {
-    if (!pSeqTable || !bsqFileName)
-    {
-        return;
-    }
-
-    OpenSeqHandle* seq = reinterpret_cast<::OpenSeqHandle*>(pSeqTable);
-    ResourceManager::LoadResourceFileWrapper(bsqFileName, nullptr);
-    for (s32 i = 0; i < 164; i++) // 164 is a hardcoded value
-    {
-        OpenSeqHandle next = seq[i];
-        seq[i].field_A_id_seqOpenId = -1;
-        seq[i].field_4_generated_res_id = ResourceManager::SEQ_HashName_454EA0(seq[i].field_0_mBsqName);
-
-        // ppSeq is what can be played
-        u8** ppSeq = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Seq, seq[i].field_4_generated_res_id, 1, 1);
-        if (ppSeq)
-        {
-            u32 size = ResourceManager::Get_Header_455620(ppSeq)->field_0_size;
-
-
-            // 32 length
-            seq[i].field_C_ppSeq_Data = *ppSeq;
-
-            std::vector<Uint8> vec;
-            std::cout << "size: " << size << "\n";
-            for (u32 x = 0; x < size; x++)
-            {
-                std::cout << x << "\n";
-                vec.push_back((Uint8) (*ppSeq)[x]);
-            }
-
-            // SEQUENCE STREAM
-            gSeqs.push_back(vec);
-        }
-        else
-        {
-            seq[i].field_C_ppSeq_Data = nullptr;
-            std::vector<Uint8> test;
-            gSeqs.push_back(test);
-        }
-    }
+    midiPlayer->SND_Load_Seqs(reinterpret_cast<psx::OpenSeqHandle*>(pSeqTable), bsqFileName);
 }
 
 EXPORT s16 CC SND_SEQ_PlaySeq_4775A0(SeqId idx, s32 repeatCount, s16 bDontStop)
 {
-    idx;
-    repeatCount;
-    bDontStop;
-    return 1;
+    return midiPlayer->SND_SEQ_PlaySeq(s16(idx), repeatCount, bDontStop);
 }
 
 EXPORT void CC SND_Seq_Stop_477A60(SeqId idx)
 {
-    idx;
+    midiPlayer->SND_SEQ_Stop(s16(idx));
 }
 
 EXPORT s16 CC SND_SEQ_Play_477760(SeqId idx, s32 repeatCount, s16 volLeft, s16 volRight)
 
 {
-    idx;
-    repeatCount;
-    volLeft;
-    volRight;
-
-    player->StopSequence();
-    player->LoadSequenceData(gSeqs.at(s16(idx)));
-    player->PlaySequence();
-
-    return 1;
+    return midiPlayer->SND_SEQ_Play(s16(idx), repeatCount, volLeft, volRight);
 }
 
 EXPORT s16 CC SND_SsIsEos_DeInlined_477930(SeqId idx)
 {
-    idx;
-    return 1;
+    return midiPlayer->SND_SsIsEos_DeInlined(s16(idx));
 }
 
 EXPORT s32 CC SFX_SfxDefinition_Play_477330(const SfxDefinition* sfxDef, s16 volLeft, s16 volRight, s16 pitch_min, s16 pitch_max)
 {
-    sfxDef;
-    volLeft;
-    volRight;
-    pitch_min;
-    pitch_max;
-
-    if (sfxDef->field_0_block_idx != 0)
-    {
-        std::cout << "HEY\n";
-    }
-   
-
-    AliveAudio::PlayOneShot(sfxDef->field_4_program, sfxDef->field_8_note, volLeft, 0);
-
-    //Mix_Chunk* chunk = Mix_QuickLoad_RAW(samples[sfxDef->field_4_program].data, samples[sfxDef->field_4_program].size);
-    //Mix_PlayChannel(-1, chunk, 0);
-
-    return 1;
+    psx::SfxDefinition* def = new psx::SfxDefinition();
+    SfxDefToPsxSfxDef(sfxDef, def);
+    return midiPlayer->SFX_SfxDefinition_Play(def, volLeft, volRight, pitch_min, pitch_max);
 }
 
 EXPORT s32 CC SFX_SfxDefinition_Play_4770F0(const SfxDefinition* sfxDef, s32 vol, s32 pitch_min, s32 pitch_max)
 {
-    sfxDef;
-    vol;
-    pitch_min;
-    pitch_max;
-    if (sfxDef->field_0_block_idx != 0)
-    {
-        std::cout << "HEY\n";
-    }
-
-    std::cout << theBank->m_Programs.size() << "\n";
-    AliveAudio::PlayOneShot(sfxDef->field_4_program, sfxDef->field_8_note, vol, 0);
-
-    //Mix_Chunk* chunk = Mix_QuickLoad_RAW(samples[sfxDef->field_4_program >> 7].data, samples[sfxDef->field_4_program >> 7].size);
-    //Mix_PlayChannel(-1, chunk, 0);
-
-    return 1;
+    psx::SfxDefinition* def = new psx::SfxDefinition();
+    SfxDefToPsxSfxDef(sfxDef, def);
+    return midiPlayer->SFX_SfxDefinition_Play(def, vol, pitch_min, pitch_max);
 }
 
 EXPORT void CC SND_Init_476E40()
 {
-    AliveInitAudio();
+    midiPlayer->SND_Init();
 }
 
 EXPORT void CC SND_Shutdown_476EC0()
 {
+    midiPlayer->SND_Shutdown();
 }
 
 EXPORT void CC SND_SEQ_SetVol_477970(SeqId idx, s16 volLeft, s16 volRight)
 {
-    idx;
-    volLeft;
-    volRight;
+    midiPlayer->SND_SEQ_SetVol(s16(idx), volLeft, volRight);
 }
 
 EXPORT void CC SND_StopAll_4762D0()
 {
+    midiPlayer->SND_StopAll();
 }
+
 } // namespace AO
 #endif
 

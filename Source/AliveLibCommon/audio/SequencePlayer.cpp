@@ -1,9 +1,12 @@
 #include "SequencePlayer.hpp"
 
+namespace psx {
+
 SequencePlayer::SequencePlayer()
 {
     // Start the Sequencer thread.
     m_SequenceThread = new std::thread(&SequencePlayer::m_PlayerThreadFunction, this);
+    m_QuarterCallback = nullptr;
 }
 
 SequencePlayer::~SequencePlayer()
@@ -14,13 +17,13 @@ SequencePlayer::~SequencePlayer()
 }
 
 // Midi stuff
-static void _SndMidiSkipLength(Oddlib::Stream& stream, int skip)
+static void _SndMidiSkipLength(Stream& stream, int skip)
 {
     stream.Seek(stream.Pos() + skip);
 }
 
 // Midi stuff
-static Uint32 _MidiReadVarLen(Oddlib::Stream& stream)
+static Uint32 _MidiReadVarLen(Stream& stream)
 {
     Uint32 ret = 0;
     Uint8 byte = 0;
@@ -39,7 +42,7 @@ static Uint32 _MidiReadVarLen(Oddlib::Stream& stream)
 float SequencePlayer::MidiTimeToSample(int time)
 {
     // This may, or may not be correct. // TODO: Revise
-    return ((60 * time) / m_SongTempo) * (AliveAudioSampleRate / 500.0f);
+    return ((60.0f * float(time)) / float(m_SongTempo)) * (float(AliveAudioSampleRate) / 500.0f);
 }
 
 void SequencePlayer::m_PlayerThreadFunction()
@@ -84,19 +87,24 @@ void SequencePlayer::m_PlayerThreadFunction()
             }
             AliveAudio::UnlockNotes();
         }
-        m_PlayerStateMutex.unlock();
 
-        if (m_PlayerState == ALIVE_SEQUENCER_PLAYING && AliveAudio::currentSampleIndex > m_SongFinishSample)
+        if (m_PlayerState == ALIVE_SEQUENCER_PLAYING)
         {
-            m_PlayerState = ALIVE_SEQUENCER_FINISHED;
+            AliveAudio::LockNotes();
+            if (AliveAudio::currentSampleIndex > m_SongFinishSample)
+            {
+                m_PlayerState = ALIVE_SEQUENCER_FINISHED;
 
-            // Give a quarter beat anyway
-            if (m_QuarterCallback != nullptr)
-                m_QuarterCallback();
+                // Give a quarter beat anyway
+                if (m_QuarterCallback != nullptr)
+                    m_QuarterCallback();
+            }
+            AliveAudio::UnlockNotes();
         }
 
         if (m_PlayerState == ALIVE_SEQUENCER_PLAYING)
         {
+            AliveAudio::LockNotes();
             int quarterBeat = (m_SongFinishSample - m_SongBeginSample) / m_TimeSignatureBars;
             int currentQuarterBeat = (int) (floor(GetPlaybackPositionSample() / quarterBeat));
 
@@ -105,9 +113,14 @@ void SequencePlayer::m_PlayerThreadFunction()
                 m_PrevBar = currentQuarterBeat;
 
                 if (m_QuarterCallback != nullptr)
+                {
                     m_QuarterCallback();
+                }
             }
+            AliveAudio::UnlockNotes();
         }
+
+        m_PlayerStateMutex.unlock();
     }
 }
 
@@ -118,10 +131,12 @@ int SequencePlayer::GetPlaybackPositionSample()
 
 void SequencePlayer::StopSequence()
 {
-    AliveAudio::ClearAllTrackVoices(m_TrackID);
     m_PlayerStateMutex.lock();
+    AliveAudio::LockNotes();
+    AliveAudio::ClearAllTrackVoices(m_TrackID);
     m_PlayerState = ALIVE_SEQUENCER_STOPPED;
     m_PrevBar = 0;
+    AliveAudio::UnlockNotes();
     m_PlayerStateMutex.unlock();
 }
 
@@ -138,12 +153,12 @@ void SequencePlayer::PlaySequence()
 
 int SequencePlayer::LoadSequenceData(std::vector<Uint8> seqData)
 {
-    Oddlib::Stream stream(std::move(seqData));
+    Stream stream(std::move(seqData));
 
     return LoadSequenceStream(stream);
 }
 
-int SequencePlayer::LoadSequenceStream(Oddlib::Stream& stream)
+int SequencePlayer::LoadSequenceStream(Stream& stream)
 {
     StopSequence();
     m_MessageList.clear();
@@ -351,3 +366,5 @@ int SequencePlayer::LoadSequenceStream(Oddlib::Stream& stream)
         }
     }
 }
+
+} // namespace psx

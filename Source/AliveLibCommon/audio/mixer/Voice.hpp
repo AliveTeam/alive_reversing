@@ -1,6 +1,8 @@
 #pragma once
 #include "../Soundbank.hpp"
 
+namespace psx {
+
 class Voice
 {
 public:
@@ -27,3 +29,5 @@ public:
 
     float GetSample();
 };
+
+} // namespace psx

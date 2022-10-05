@@ -7,6 +7,8 @@
 #include "Stream.hpp"
 #include "mixer/AliveAudio.hpp"
 
+namespace psx {
+
 struct SeqHeader
 {
     Uint32 mMagic;   // SEQp
@@ -72,7 +74,7 @@ public:
     ~SequencePlayer();
 
     int LoadSequenceData(std::vector<Uint8> seqData);
-    int LoadSequenceStream(Oddlib::Stream& stream);
+    int LoadSequenceStream(Stream& stream);
     void PlaySequence();
     void StopSequence();
 
@@ -96,3 +98,5 @@ public:
     std::mutex m_MessageListMutex;
     std::mutex m_PlayerStateMutex;
 };
+
+} // namespace psx

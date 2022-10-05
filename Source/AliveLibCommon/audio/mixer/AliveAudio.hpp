@@ -10,6 +10,7 @@
 #include "../Soundbank.hpp"
 #include "Voice.hpp"
 
+namespace psx {
 
 void AliveInitAudio();
 void AliveAudioSDLCallback(void* udata, Uint8* stream, int len);
@@ -44,3 +45,5 @@ public:
 
     static long long currentSampleIndex;
 };
+
+} // namespace psx

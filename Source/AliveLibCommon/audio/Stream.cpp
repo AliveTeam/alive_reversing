@@ -6,7 +6,8 @@
 #include "Stream.hpp"
 #include "Exceptions.hpp"
 
-namespace Oddlib {
+namespace psx {
+
 Stream::Stream(std::vector<Uint8>&& data)
 {
     mSize = data.size();
@@ -88,4 +89,5 @@ size_t Stream::Size() const
 {
     return mSize;
 }
-} // namespace Oddlib
+
+} // namespace psx

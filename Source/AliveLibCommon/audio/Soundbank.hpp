@@ -1,6 +1,8 @@
 #pragma once
 
- class AliveAudioHelper
+namespace psx {
+
+class AliveAudioHelper
 {
 public:
     float Lerp(u16 from, u16 to, float t)
@@ -88,3 +90,5 @@ public:
     std::vector<Sample*> m_Samples;
     std::vector<Program*> m_Programs;
 };
+
+} // namespace psx

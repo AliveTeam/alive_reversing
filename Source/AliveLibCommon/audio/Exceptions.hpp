@@ -1,6 +1,7 @@
 #include <stdexcept>
 
-namespace Oddlib {
+namespace psx {
+
 class Exception : public std::exception
 {
 public:
@@ -17,4 +18,5 @@ public:
 private:
     const char* mMsg;
 };
-} // namespace Oddlib
+
+} // namespace psx

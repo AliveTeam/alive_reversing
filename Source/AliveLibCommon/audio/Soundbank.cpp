@@ -2,6 +2,8 @@
 
 #include "Soundbank.hpp"
 
+namespace psx {
+
 float Sample::GetSample(float sampleOffset)
 {
     AliveAudioHelper helper;
@@ -22,3 +24,5 @@ Soundbank::~Soundbank()
 {
 
 }
+
+} // namespace psx

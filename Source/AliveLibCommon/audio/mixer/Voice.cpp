@@ -2,6 +2,8 @@
 #include "Voice.hpp"
 #include "AliveAudio.hpp"
 
+namespace psx {
+
 float Voice::GetSample()
 {
     if (b_Dead) // Dont return anything if dead. This voice should now be removed.
@@ -50,3 +52,5 @@ float Voice::GetSample()
 
     return ((float) (m_Tone->m_Sample->GetSample(float(f_SampleOffset)) * ActiveAttackLevel * ActiveDecayLevel * ((b_NoteOn) ? ActiveSustainLevel : ActiveReleaseLevel) * f_Velocity));
 }
+
+} // namespace psx

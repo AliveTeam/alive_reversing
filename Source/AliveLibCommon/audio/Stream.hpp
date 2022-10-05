@@ -5,7 +5,8 @@
 #include <memory>
 #include "SDL_types.h"
 
-namespace Oddlib {
+namespace psx {
+
 class Stream
 {
 public:
@@ -25,4 +26,5 @@ private:
     mutable std::unique_ptr<std::istream> mStream;
     size_t mSize = 0;
 };
-} // namespace Oddlib
+
+} // namespace psx
