@@ -3719,66 +3719,14 @@ inline void to_json(nlohmann::json& j, const Path_SligGetPants& p)
     j = nlohmann::json{
         {"tlv_type", "slig_get_pants"},
         {"base", ToBase(p)},
-        {"scale", p.mScale},
-        {"start_state", p.mStartState},
-        {"pause_time", p.mPauseTime},
-        {"pause_left_min", p.mPauseLeftMin},
-        {"pause_left_max", p.mPauseLeftMax},
-        {"pause_right_min", p.mPauseRightMin},
-        {"pause_right_max", p.mPauseRightMax},
-        {"shoot_possessed_sligs", p.mShootPossessedSligs},
-        {"shoot_on_sight_delay", p.mShootOnSightDelay},
-        {"num_times_to_shoot", p.mNumTimesToShoot},
-        {"code_1", p.mCode1},
-        {"code_2", p.mCode2},
-        {"chase_abe_when_spotted", p.mChaseAbeWhenSpotted},
-        {"facing", p.mFacing},
-        {"panic_timeout", p.mPanicTimeout},
-        {"stop_chase_delay", p.mStopChaseDelay},
-        {"time_to_wait_before_chase", p.mTimeToWaitBeforeChase},
-        {"slig_bound_id", p.mSligBoundId},
-        {"alerted_listen_time", p.mAlertedListenTime},
-        {"percent_say_what", p.mPercentSayWhat},
-        {"percent_beat_mud", p.mPercentBeatMud},
-        {"z_shoot_delay", p.mZShootDelay},
-        {"stay_awake", p.mStayAwake},
-        {"disabled_resources", p.mDisabledResources},
-        {"noise_wake_up_distance", p.mNoiseWakeUpDistance},
-        {"slig_spawner_switch_id", p.mSligSpawnerSwitchId},
-        {"unlimited_spawns", p.mUnlimitedSpawns},
+        {"slig_data", p.mData}
     };
 }
 
 inline void from_json(const nlohmann::json& j, Path_SligGetPants& p)
 {
     j.at("base").get_to(ToBase(p));
-    j.at("scale").get_to(p.mScale);
-    j.at("start_state").get_to(p.mStartState);
-    j.at("pause_time").get_to(p.mPauseTime);
-    j.at("pause_left_min").get_to(p.mPauseLeftMin);
-    j.at("pause_left_max").get_to(p.mPauseLeftMax);
-    j.at("pause_right_min").get_to(p.mPauseRightMin);
-    j.at("pause_right_max").get_to(p.mPauseRightMax);
-    j.at("shoot_possessed_sligs").get_to(p.mShootPossessedSligs);
-    j.at("shoot_on_sight_delay").get_to(p.mShootOnSightDelay);
-    j.at("num_times_to_shoot").get_to(p.mNumTimesToShoot);
-    j.at("code_1").get_to(p.mCode1);
-    j.at("code_2").get_to(p.mCode2);
-    j.at("chase_abe_when_spotted").get_to(p.mChaseAbeWhenSpotted);
-    j.at("facing").get_to(p.mFacing);
-    j.at("panic_timeout").get_to(p.mPanicTimeout);
-    j.at("stop_chase_delay").get_to(p.mStopChaseDelay);
-    j.at("time_to_wait_before_chase").get_to(p.mTimeToWaitBeforeChase);
-    j.at("slig_bound_id").get_to(p.mSligBoundId);
-    j.at("alerted_listen_time").get_to(p.mAlertedListenTime);
-    j.at("percent_say_what").get_to(p.mPercentSayWhat);
-    j.at("percent_beat_mud").get_to(p.mPercentBeatMud);
-    j.at("z_shoot_delay").get_to(p.mZShootDelay);
-    j.at("stay_awake").get_to(p.mStayAwake);
-    j.at("disabled_resources").get_to(p.mDisabledResources);
-    j.at("noise_wake_up_distance").get_to(p.mNoiseWakeUpDistance);
-    j.at("slig_spawner_switch_id").get_to(p.mSligSpawnerSwitchId);
-    j.at("unlimited_spawns").get_to(p.mUnlimitedSpawns);
+    j.at("slig_data").get_to(p.mData);
 }
 
 } // namespace relive
