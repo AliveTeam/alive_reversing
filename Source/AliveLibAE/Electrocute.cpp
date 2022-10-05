@@ -141,7 +141,7 @@ Electrocute::Electrocute(BaseAliveGameObject* pTargetObj, bool bExtraOverwriter,
         case ReliveTypes::eGlukkon:
         case ReliveTypes::eAbe:
         case ReliveTypes::eSlig:
-            mPalData = pTargetObj->mAnim.mAnimRes.mTgaPtr->mPal;
+            mPalData = *pTargetObj->mAnim.mAnimRes.mTgaPtr->mPal;
             /*
             field_40_pPalData = relive_new u16[pTargetObj->mAnim.mPalDepth];
             Pal_Copy(
@@ -218,11 +218,11 @@ void Electrocute::VUpdate()
 
             case States::eAlphaFadeout_1:
                 field_30_pPalOverwriters[0] = relive_new PalleteOverwriter(
-                    pTargetObj->mAnim.mAnimRes.mTgaPtr->mPal,
+                    *pTargetObj->mAnim.mAnimRes.mTgaPtr->mPal,
                     static_cast<s16>(Pal_Make_Colour(255u, 255, 255, 1)));
 
                 field_30_pPalOverwriters[1] = relive_new PalleteOverwriter(
-                    pTargetObj->mAnim.mAnimRes.mTgaPtr->mPal,
+                    *pTargetObj->mAnim.mAnimRes.mTgaPtr->mPal,
                     static_cast<s16>(Pal_Make_Colour(64u, 64, 255, 1)));
                 if (field_30_pPalOverwriters[1])
                 {
@@ -231,7 +231,7 @@ void Electrocute::VUpdate()
 
                 if (field_3C_extraOverwriter)
                 {
-                    field_30_pPalOverwriters[2] = relive_new PalleteOverwriter(pTargetObj->mAnim.mAnimRes.mTgaPtr->mPal,
+                    field_30_pPalOverwriters[2] = relive_new PalleteOverwriter(*pTargetObj->mAnim.mAnimRes.mTgaPtr->mPal,
 
                         static_cast<s16>(Pal_Make_Colour(0, 0, 0, 0)));
                     if (field_30_pPalOverwriters[2])

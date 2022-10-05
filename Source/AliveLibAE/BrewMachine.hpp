@@ -27,5 +27,6 @@ public:
 private:
     s16 mRemainingBrewCount = 0;
     s16 mBrewMachineCamera = 0;
+    PalResource mPal;
 };
 ALIVE_ASSERT_SIZEOF(BrewMachine, 0x1E8);

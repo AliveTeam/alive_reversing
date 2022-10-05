@@ -19,6 +19,7 @@ private:
     void DealDamage();
 
 private:
+    PalResource mPal;
     Font_Context field_20_font_context = {};
     Alive::Font field_30_font = {};
     Guid field_68_tlvInfo;

@@ -174,7 +174,8 @@ AnimResource ResourceManagerWrapper::LoadAnimation(AnimId anim)
     // TODO: Use FS
     auto pTgaData = std::make_shared<TgaData>();
     TgaFile tgaFile;
-    tgaFile.Load((filePath.GetPath() + ".tga").c_str(), pTgaData->mPal, pTgaData->mPixels, pTgaData->mWidth, pTgaData->mHeight);
+    pTgaData->mPal = std::make_shared<AnimationPal>();
+    tgaFile.Load((filePath.GetPath() + ".tga").c_str(), *pTgaData->mPal, pTgaData->mPixels, pTgaData->mWidth, pTgaData->mHeight);
 
     auto pAnimationAttributesAndFrames = std::make_shared<AnimationAttributesAndFrames>(jsonStr);
 
@@ -193,7 +194,51 @@ PalResource ResourceManagerWrapper::LoadPal(PalId pal)
     PalResource newRes;
     newRes.mId = pal;
     newRes.mPal = std::make_shared<AnimationPal>();
-    // TODO: Load pal from disk
+
+    FileSystem::Path filePath = BasePath();
+    switch (pal)
+    {
+        case PalId::MainMenuFont_MainMenu:
+            filePath.Append("main_menu_font_pal_main.pal");
+            break;
+
+        default:
+        case PalId::MainMenuFont_PauseMenu:
+            filePath.Append("main_menu_font_pal_pause.pal");
+            break;
+
+        case PalId::LedFont_ColourfulMeter:
+            filePath.Append("led_font_pal_colourful_meter.pal");
+            break;
+
+        case PalId::LedFont_1:
+            filePath.Append("led_font_pal_1.pal");
+            break;
+
+        case PalId::LedFont_2:
+            filePath.Append("led_font_pal_2.pal");
+            break;
+
+        case PalId::LedFont_StatusBoard:
+            filePath.Append("led_font_status_board.pal");
+            break;
+
+        case PalId::LedFont_BrewMachine:
+            filePath.Append("led_font_brew_machine.pal");
+            break;
+
+            //ALIVE_FATAL("Loading of this pal not implemented");
+            //break;
+    }
+
+    FileSystem fs;
+    auto palData = fs.LoadToVec(filePath.GetPath().c_str());
+    if (palData.size() != 512)
+    {
+        ALIVE_FATAL("Bad pal data size");
+    }
+
+    memcpy(newRes.mPal->mPal, palData.data(), palData.size());
 
     return newRes;
 }
@@ -313,7 +358,8 @@ FontResource ResourceManagerWrapper::LoadFont(FontType fontId)
     // TODO: Use FS
     auto pTgaData = std::make_shared<TgaData>();
     TgaFile tgaFile;
-    tgaFile.Load((filePath.GetPath() + ".tga").c_str(), pTgaData->mPal, pTgaData->mPixels, pTgaData->mWidth, pTgaData->mHeight);
+    pTgaData->mPal = std::make_shared<AnimationPal>();
+    tgaFile.Load((filePath.GetPath() + ".tga").c_str(), *pTgaData->mPal, pTgaData->mPixels, pTgaData->mWidth, pTgaData->mHeight);
 
     FontResource newRes(fontId, pTgaData);
 

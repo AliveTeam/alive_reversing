@@ -9,13 +9,6 @@
 #include "Map.hpp"
 #include "Sys.hpp"
 
-u8 sStatsSignFontPalette_55CF8C[] = {
-    0x00, 0x00, 0x01, 0x80, 0x01, 0x84, 0x20, 0x84, 0x21, 0x80,
-    0x20, 0x84, 0x21, 0x84, 0x65, 0xCE, 0x65, 0x8C, 0x8C, 0xB1,
-    0x13, 0x94, 0x64, 0xCE, 0x65, 0xCE, 0xD7, 0x98, 0x14, 0xA1,
-    0x18, 0xD8};
-
-
 ALIVE_VAR(1, 0x5C1BC4, s16, sMudokonsInArea_5C1BC4, 0);
 ALIVE_VAR(1, 0x5C1A20, s8, sZulagNumber_5C1A20, 0);
 
@@ -30,11 +23,13 @@ LCDStatusBoard::LCDStatusBoard(relive::Path_LCDStatusBoard* params, const Guid& 
     }
 
     ++sFontType2LoadCount_5BC5E8;
+    
+    mPal = ResourceManagerWrapper::LoadPal(PalId::LedFont_StatusBoard);
 
-    field_20_font1.ctor_433590(3, sStatsSignFontPalette_55CF8C, &sFont2Context_5BC5D8);
-    field_58_font2.ctor_433590(3, sStatsSignFontPalette_55CF8C, &sFont2Context_5BC5D8);
-    field_90_font3.ctor_433590(3, sStatsSignFontPalette_55CF8C, &sFont2Context_5BC5D8);
-    field_C8_font4.ctor_433590(3, sStatsSignFontPalette_55CF8C, &sFont2Context_5BC5D8);
+    field_20_font1.ctor_433590(3, mPal, &sFont2Context_5BC5D8);
+    field_58_font2.ctor_433590(3, mPal, &sFont2Context_5BC5D8);
+    field_90_font3.ctor_433590(3, mPal, &sFont2Context_5BC5D8);
+    field_C8_font4.ctor_433590(3, mPal, &sFont2Context_5BC5D8);
 
     mBaseGameObjectFlags.Set(eDrawable_Bit4);
     gObjListDrawables->Push_Back(this);

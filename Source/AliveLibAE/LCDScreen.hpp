@@ -37,5 +37,8 @@ public:
     u16 field_2B8_message_rand_max_id = 0;
     Guid field_2BC_tlv_item_info;
     relive::Path_TLV field_2C0_tlv = {};
+
+    PalResource mPal1;
+    PalResource mPal2;
 };
 ALIVE_ASSERT_SIZEOF(LCDScreen, 0x2D0);

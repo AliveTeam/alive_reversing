@@ -59,15 +59,15 @@ Font::Font()
 {
 }
 
-Font::Font(s32 maxCharLength, const u8* palette, Font_Context* fontContext)
+Font::Font(s32 maxCharLength, const PalResource& pal, Font_Context* fontContext)
 {
-    ctor_433590(maxCharLength, palette, fontContext);
+    ctor_433590(maxCharLength, pal, fontContext);
 }
 
-void Font::ctor_433590(s32 maxCharLength, const u8* /*palette*/, Font_Context* fontContext)
+void Font::ctor_433590(s32 maxCharLength, const PalResource& pal, Font_Context* fontContext)
 {
-    // TODO: Use pal
     field_34_font_context = fontContext;
+    field_34_font_context->field_C_resource_id.mCurPal = pal.mPal;
     field_30_poly_count = maxCharLength;
     field_24_fnt_poly_array = relive_new Poly_FT4[maxCharLength * 2];
 }

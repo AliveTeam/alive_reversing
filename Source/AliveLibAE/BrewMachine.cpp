@@ -4,48 +4,16 @@
 #include "Function.hpp"
 #include "Map.hpp"
 
-// TODO: Should be const but can't be due to mlgs hacks in Font obj
-u8 fontPalette_550F08[32] = {
-    0u,
-    0u,
-    1u,
-    128u,
-    1u,
-    132u,
-    32u,
-    132u,
-    33u,
-    128u,
-    32u,
-    132u,
-    33u,
-    132u,
-    101u,
-    206u,
-    101u,
-    140u,
-    140u,
-    177u,
-    19u,
-    148u,
-    100u,
-    206u,
-    101u,
-    206u,
-    215u,
-    152u,
-    20u,
-    161u,
-    24u,
-    216u};
 
 BrewMachine::BrewMachine(relive::Path_BrewMachine* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eBrewMachine);
 
+    mPal = ResourceManagerWrapper::LoadPal(PalId::LedFont_BrewMachine);
+
     mFontContext.LoadFontType_433400(FontType::LcdFont);
-    mFont.ctor_433590(3, fontPalette_550F08, &mFontContext);
+    mFont.ctor_433590(3, mPal, &mFontContext);
 
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BrewMachine_Button));
     Animation_Init(GetAnimRes(AnimId::BrewMachine_Button));

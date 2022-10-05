@@ -37,7 +37,7 @@ private:
 
 struct TgaData final
 {
-    AnimationPal mPal;
+    std::shared_ptr<AnimationPal> mPal;
     std::vector<u8> mPixels;
     u32 mWidth;
     u32 mHeight;
@@ -176,13 +176,16 @@ public:
     FontResource(FontType id, std::shared_ptr<TgaData>& tgaPtr)
         : mId(id), mTgaPtr(tgaPtr)
     {
-
+        mCurPal = tgaPtr->mPal;
     }
 
     UniqueResId mUniqueId;
     FontType mId = FontType::None;
     // TODO: Font atlas json ptpr
     std::shared_ptr<TgaData> mTgaPtr;
+
+    // TODO: Really should be a weak_ptr
+    std::shared_ptr<AnimationPal> mCurPal;
 };
 
 class PendingResource final

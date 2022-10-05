@@ -54,9 +54,9 @@ struct Font final
 {
 public:
     Font();
-    Font(s32 maxCharLength, const u8* palette, Font_Context* fontContext);
+    Font(s32 maxCharLength, const PalResource& pal, Font_Context* fontContext);
 
-    void ctor_433590(s32 maxCharLength, const u8* palette, Font_Context* fontContext);
+    void ctor_433590(s32 maxCharLength, const PalResource& pal, Font_Context* fontContext);
     void dtor_433540();
     s32 DrawString_4337D0(PrimHeader** ppOt, const char_type* text, s32 x, s16 y, TPageAbr abr, s32 bSemiTrans, s32 a2, Layer layer, u8 r, u8 g, u8 b, s32 polyOffset, FP scale, s32 a15, s16 colorRandomRange);
     s32 MeasureTextWidth(const char_type* text);

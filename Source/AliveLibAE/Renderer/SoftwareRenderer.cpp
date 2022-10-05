@@ -520,7 +520,7 @@ void SoftwareRenderer::Draw(Poly_FT4& poly)
     if (poly.mAnim)
     {
         std::shared_ptr<TgaData> pTga = poly.mAnim->mAnimRes.mTgaPtr;
-        pTexture = MakeTexture(mRenderer, pTga->mPal.mPal, pTga->mPixels.data(), pTga->mWidth, pTga->mHeight);
+        pTexture = MakeTexture(mRenderer, pTga->mPal->mPal, pTga->mPixels.data(), pTga->mWidth, pTga->mHeight);
 
         if (poly.mBase.header.rgb_code.code_or_pad & 2)
         {
@@ -638,7 +638,7 @@ void SoftwareRenderer::Draw(Poly_FT4& poly)
     else if (poly.mFont)
     {
         std::shared_ptr<TgaData> pTga = poly.mFont->field_C_resource_id.mTgaPtr;
-        pTexture = MakeTexture(mRenderer, pTga->mPal.mPal, pTga->mPixels.data(), pTga->mWidth, pTga->mHeight);
+        pTexture = MakeTexture(mRenderer, pTga->mPal->mPal, pTga->mPixels.data(), pTga->mWidth, pTga->mHeight);
 
         u0 = U0(&poly);
         v0 = V0(&poly);

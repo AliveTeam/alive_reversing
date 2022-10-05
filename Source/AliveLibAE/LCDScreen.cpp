@@ -15,19 +15,6 @@
 #include "ResourceManager.hpp"
 #include "Map.hpp"
 
-u8 sLCDScreen_Palette[] = {
-    0x00, 0x00, 0x01, 0x80, 0x01, 0x84, 0x20, 0x84, 0x21, 0x80,
-    0x20, 0x84, 0x21, 0x84, 0x65, 0xCE, 0x65, 0x8C, 0x8C, 0xB1,
-    0x60, 0x8E, 0x64, 0xCE, 0x65, 0xCE, 0xD7, 0x98, 0x14, 0xA1,
-    0x18, 0xD8};
-
-u8 sLCDScreen_Palette2[] = {
-    0x00, 0x00, 0x01, 0x80, 0x01, 0x84, 0x20, 0x84, 0x21, 0x80,
-    0x20, 0x84, 0x21, 0x84, 0x05, 0x84, 0x65, 0x8C, 0x8C, 0xB1,
-    0x13, 0x94, 0x64, 0xCE, 0x65, 0xCE, 0xD7, 0x98, 0x14, 0xA1,
-    0x18, 0xD8};
-
-
 
 // TODO: Remove spaces and add them at runtime.
 static const char_type* sLCDMessageTable_555768[101] = {
@@ -191,8 +178,11 @@ LCDScreen::LCDScreen(relive::Path_LCDScreen* params, const Guid& tlvId)
         sFont2Context_5BC5D8.LoadFontType_433400(FontType::LcdFont);
     }
     sFontType2LoadCount_5BC5E8++;
+    
+    mPal1 = ResourceManagerWrapper::LoadPal(PalId::LedFont_1);
+    mPal2 = ResourceManagerWrapper::LoadPal(PalId::LedFont_2);
 
-    field_60_font.ctor_433590(60, sLCDScreen_Palette, &sFont2Context_5BC5D8);
+    field_60_font.ctor_433590(60, mPal1, &sFont2Context_5BC5D8);
 
     IRenderer::PalRecord rec;
     rec.depth = 16;
@@ -206,7 +196,8 @@ LCDScreen::LCDScreen(relive::Path_LCDScreen* params, const Guid& tlvId)
     field_98_pal_rect.w = rec.depth;
     field_98_pal_rect.h = 1;
 
-    IRenderer::GetRenderer()->PalSetData(rec, sLCDScreen_Palette2);
+    // TODO FIX
+    //IRenderer::GetRenderer()->PalSetData(rec, sLCDScreen_Palette2);
 
     if (SwitchStates_Get(field_2B2_toggle_message_switch_id))
     {
@@ -280,6 +271,16 @@ void LCDScreen::VUpdate()
             //auto palSwap = field_98_pal_rect;
             //field_98_pal_rect = field_60_font.field_28_palette_rect;
             //field_60_font.field_28_palette_rect = palSwap;
+
+            if (field_2B4_show_random_message == 1)
+            {
+                field_60_font.field_34_font_context->field_C_resource_id.mCurPal = mPal2.mPal;
+            }
+            else
+            {
+                field_60_font.field_34_font_context->field_C_resource_id.mCurPal = mPal1.mPal;
+            }
+
         }
 
         sFontDrawScreenSpace_5CA4B4 = 1;

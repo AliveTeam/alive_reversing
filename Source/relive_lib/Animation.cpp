@@ -411,12 +411,12 @@ u32 Animation::Get_Frame_Count()
     return static_cast<u32>(mAnimRes.mJsonPtr->mFrames.size());
 }
 
-void Animation::LoadPal(const PalResource& pal)
+void Animation::LoadPal(const PalResource& /*pal*/)
 {
     // Override the pal with another one
 
     // TODO: Need an active pal ptr instead of overwriting ??
-    mAnimRes.mTgaPtr->mPal = *pal.mPal;
+    //mAnimRes.mTgaPtr->mPal = *pal.mPal;
 
 }
 

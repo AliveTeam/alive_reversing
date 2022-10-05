@@ -355,6 +355,7 @@ public:
         eBit25_CheatLevelSelectLoading = 0x1000000,
     };
 
+    PalResource mPal;
     Alive::Font field_120_font = {};
     Animation field_158_animation = {};
     Guid mTlvId;

@@ -973,6 +973,14 @@ enum class PalId
     Bomb, // AE kBombResID
     Slig_412, // AO 412 AE 412
     TimedMine_1005, // AO 1005
+    MainMenuFont_MainMenu, // hard coded data
+    MainMenuFont_PauseMenu, // hard coded data
+    LedFont_ColourfulMeter, // hard coded data
+    LedFont_Gas, // hard coded data
+    LedFont_1, // hard coded data
+    LedFont_2, // hard coded data
+    LedFont_StatusBoard, // hard coded data
+    LedFont_BrewMachine, // hard coded data
 };
 
 struct BgAnimDetails final

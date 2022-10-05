@@ -12,6 +12,7 @@
 #include "PauseMenu.hpp" // pauseMenuFontPal
 #include "Sys.hpp"
 #include "GameAutoPlayer.hpp"
+#include "../relive_lib/ResourceManagerWrapper.hpp"
 
 void Text::VUpdate()
 {
@@ -33,7 +34,8 @@ Text::Text(const char_type* pMessage, s32 renderCount, s32 bShadow)
 
     gObjListDrawables->Push_Back(this);
 
-    field_20_font.ctor_433590(static_cast<s32>((bShadow + 1) * strlen(pMessage)), pauseMenuFontPal, &sFont1Context_5BC5C8);
+    mPal = ResourceManagerWrapper::LoadPal(PalId::MainMenuFont_PauseMenu);
+    field_20_font.ctor_433590(static_cast<s32>((bShadow + 1) * strlen(pMessage)), mPal, &sFont1Context_5BC5C8);
 
     field_5C_xpos = static_cast<s16>(field_20_font.MeasureTextWidth(pMessage));
     field_5E_ypos = 0;

@@ -101,6 +101,7 @@ private:
     void RestartPath();
 
 public:
+    PalResource mPal;
     Alive::Font field_F4_font = {};
     s16 word12C_flags = 0;
     s16 field_12E_selected_glow = 0;

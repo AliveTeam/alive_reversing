@@ -16,6 +16,7 @@ public:
     virtual void VScreenChanged() override;
 
 public:
+    PalResource mPal;
     Alive::Font field_20_font1 = {};
     Alive::Font field_58_font2 = {};
     Alive::Font field_90_font3 = {};

@@ -537,7 +537,7 @@ void OpenGLRenderer::Draw(Prim_Sprt& sprt)
     std::shared_ptr<TgaData> pTga = sprt.mAnim->mAnimRes.mTgaPtr;
 
     const u32 sprtTextureId = PrepareTextureFromAnim(*sprt.mAnim);
-    const u32 palIndex = PreparePalette(pTga->mPal);
+    const u32 palIndex = PreparePalette(*pTga->mPal);
 
     u32 r = sprt.mBase.header.rgb_code.r;
     u32 g = sprt.mBase.header.rgb_code.g;
@@ -817,7 +817,7 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
         const PerFrameInfo* pHeader = poly.mAnim->Get_FrameHeader(-1);
         std::shared_ptr<TgaData> pTga = poly.mAnim->mAnimRes.mTgaPtr;
 
-        const u32 palIndex = PreparePalette(poly.mAnim->mAnimRes.mTgaPtr->mPal);
+        const u32 palIndex = PreparePalette(*poly.mAnim->mAnimRes.mTgaPtr->mPal);
 
         u32 u0 = pHeader->mSpriteSheetX;
         u32 v0 = pHeader->mSpriteSheetY;
@@ -848,9 +848,10 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     }
     else if (poly.mFont)
     {
-        std::shared_ptr<TgaData> pTga = poly.mFont->field_C_resource_id.mTgaPtr;
+        FontResource& fontRes = poly.mFont->field_C_resource_id;
 
-        const u32 palIndex = PreparePalette(pTga->mPal);
+        auto pPal = fontRes.mCurPal;
+        const u32 palIndex = PreparePalette(*pPal);
 
         u32 u0 = U0(&poly);
         u32 v0 = V0(&poly);
@@ -866,7 +867,8 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
             {poly.mVerts[2].mVert.x, poly.mVerts[2].mVert.y, r, g, b, u1, v1, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded, palIndex},
             {poly.mBase.vert.x, poly.mBase.vert.y, r, g, b, u0, v0, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded, palIndex},
             {poly.mVerts[1].mVert.x, poly.mVerts[1].mVert.y, r, g, b, u0, v1, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded, palIndex}};
-
+        
+        std::shared_ptr<TgaData> pTga = fontRes.mTgaPtr;
         PushVertexData(GL_TRIANGLES, verts, 6, blendMode, textureId, pTga->mWidth, pTga->mHeight, mPaletteTextureId);
     }
     else

@@ -493,29 +493,29 @@ void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, s16* pPa
 
                     for (s32 i = 0; i < palSize; i++)
                     {
-                        s32 auxPalValue = actor->mAnim.mAnimRes.mTgaPtr->mPal.mPal[i] & 0x1F;
+                        s32 auxPalValue = actor->mAnim.mAnimRes.mTgaPtr->mPal->mPal[i] & 0x1F;
                         u16 resultR = static_cast<s16>(auxPalValue * r) >> 7;
                         if (resultR > 31)
                         {
                             resultR = 31;
                         }
 
-                        auxPalValue = (actor->mAnim.mAnimRes.mTgaPtr->mPal.mPal[i] >> 5) & 0x1F;
+                        auxPalValue = (actor->mAnim.mAnimRes.mTgaPtr->mPal->mPal[i] >> 5) & 0x1F;
                         u16 resultG = static_cast<s16>(auxPalValue * g) >> 7;
                         if (resultG > 31)
                         {
                             resultG = 31;
                         }
 
-                        auxPalValue = (actor->mAnim.mAnimRes.mTgaPtr->mPal.mPal[i] >> 10) & 0x1F;
+                        auxPalValue = (actor->mAnim.mAnimRes.mTgaPtr->mPal->mPal[i] >> 10) & 0x1F;
                         u16 resultB = static_cast<s16>(auxPalValue * b) >> 7;
                         if (resultB > 31)
                         {
                             resultB = 31;
                         }
 
-                        s32 resultMixed = (actor->mAnim.mAnimRes.mTgaPtr->mPal.mPal[i] & 0x8000) | ((resultR & 31) + 32 * (resultG & 31) + 32 * 32 * (resultB & 31));
-                        if (resultMixed <= 0 && actor->mAnim.mAnimRes.mTgaPtr->mPal.mPal[i])
+                        s32 resultMixed = (actor->mAnim.mAnimRes.mTgaPtr->mPal->mPal[i] & 0x8000) | ((resultR & 31) + 32 * (resultG & 31) + 32 * 32 * (resultB & 31));
+                        if (resultMixed <= 0 && actor->mAnim.mAnimRes.mTgaPtr->mPal->mPal[i])
                         {
                             resultMixed = 1;
                         }
@@ -523,7 +523,7 @@ void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, s16* pPa
                     }
                     for (s32 i = 0; i < eyeColourIndicesSize; i++)
                     {
-                        pPalAlloc[eyeColourIndices[i]] = actor->mAnim.mAnimRes.mTgaPtr->mPal.mPal[eyeColourIndices[i]];
+                        pPalAlloc[eyeColourIndices[i]] = actor->mAnim.mAnimRes.mTgaPtr->mPal->mPal[eyeColourIndices[i]];
                     }
                     /*
                     Pal_Set(

@@ -6,12 +6,6 @@
 #include "../relive_lib/Events.hpp"
 #include "MinesAlarm.hpp"
 
-const u8 byte_5543D0[32] = {
-    0u, 0u, 1u, 128u, 1u, 132u, 32u, 132u, 33u,
-    128u, 32u, 132u, 33u, 132u, 101u, 206u, 101u, 140u,
-    140u, 177u, 19u, 148u, 100u, 206u, 101u, 206u, 215u,
-    152u, 20u, 161u, 24u, 216u};
-
 ALIVE_VAR(1, 0x5c1bfa, u8, gTotalMeterBars_5C1BFA, 0);
 ALIVE_VAR(1, 0x5c1bf8, u16, gbDrawMeterCountDown_5C1BF8, 0);
 
@@ -24,8 +18,9 @@ ColourfulMeter::ColourfulMeter(relive::Path_ColourfulMeter* pTlv, const Guid& tl
     mTlvX = pTlv->mTopLeftX;
     mTlvY = pTlv->mTopLeftY;
 
+    mPal = ResourceManagerWrapper::LoadPal(PalId::LedFont_ColourfulMeter);
     field_20_font_context.LoadFontType_433400(FontType::LcdFont);
-    field_30_font.ctor_433590(5, byte_5543D0, &field_20_font_context);
+    field_30_font.ctor_433590(5, mPal, &field_20_font_context);
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
     gObjListDrawables->Push_Back(this);
 

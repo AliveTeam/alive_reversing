@@ -19,6 +19,7 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
 private:
+    PalResource mPal;
     Font_Context field_20_font_context = {};
     Alive::Font field_30_font = {};
     Guid mTlvInfo;

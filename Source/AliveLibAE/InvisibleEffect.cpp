@@ -18,8 +18,8 @@ InvisibleEffect::InvisibleEffect(BaseAliveGameObject* pTarget)
 
     field_44_objId = pTarget->mBaseGameObjectId;
 
-    mPal1 = std::make_shared<AnimationPal>(pTarget->mAnim.mAnimRes.mTgaPtr->mPal);
-    mPal2 = std::make_shared<AnimationPal>(pTarget->mAnim.mAnimRes.mTgaPtr->mPal);
+    mPal1 = std::make_shared<AnimationPal>(*pTarget->mAnim.mAnimRes.mTgaPtr->mPal);
+    mPal2 = std::make_shared<AnimationPal>(*pTarget->mAnim.mAnimRes.mTgaPtr->mPal);
 
     field_4A_flags.Clear();
 

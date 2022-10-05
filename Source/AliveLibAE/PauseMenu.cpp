@@ -28,8 +28,6 @@ ALIVE_ARY(1, 0x5C92F0, char_type, 16, sScreenStringBuffer_5C92F0, {0});
 ALIVE_ARY(1, 0x5C931C, char_type, 32, sSaveString_5C931C, {});
 
 
-ALIVE_ARY(1, 0x554474, u8, 32, pauseMenuFontPal, {0x00, 0x00, 0x21, 0x84, 0x42, 0x88, 0x63, 0x8C, 0x84, 0x90, 0xA5, 0x14, 0xE7, 0x1C, 0x08, 0x21, 0x29, 0x25, 0x4A, 0x29, 0x6B, 0x2D, 0x8C, 0x31, 0xAD, 0x35, 0xEF, 0x3D, 0x10, 0x42, 0x73, 0x4E});
-
 // MENUS
 
 //MENU_BEGIN(MainMenu);
@@ -427,7 +425,8 @@ PauseMenu::PauseMenu()
     field_13E_unused = 0;
     field_140_unused = 0;
 
-    field_F4_font.ctor_433590(256, pauseMenuFontPal, &sFont1Context_5BC5C8);
+    mPal = ResourceManagerWrapper::LoadPal(PalId::MainMenuFont_PauseMenu);
+    field_F4_font.ctor_433590(256, mPal, &sFont1Context_5BC5C8);
 
     Init();
 

@@ -1216,6 +1216,159 @@ void DataConversion::ConvertDataAO()
     LogNonConvertedAnims(true);
 }
 
+
+static void SavePal(const AnimationPal& pal, const FileSystem::Path& fileName)
+{
+    AutoFILE f;
+    f.Open(fileName.GetPath().c_str(), "wb", false);
+    f.Write(pal.mPal);
+}
+
+static void ConvertPal(const FileSystem::Path& dataDir, const char* pFileName, const u16* pData, u32 len)
+{
+    FileSystem::Path palFilePath = dataDir;
+    palFilePath.Append(pFileName);
+
+    AnimationPal pal;
+    for (u32 i = 0; i < len; i++)
+    {
+        pal.mPal[i] = AnimationConverter::ToTGAPixelFormat(pData[i]);
+    }
+    SavePal(pal, palFilePath);
+}
+
+static void ConvertHardcodedPals(const FileSystem::Path& dataDir)
+{
+    const static u8 mainMenuFontPal[] = {
+        0x00, 0x00, 0x21, 0x84, 0x42, 0x88, 0x63, 0x8C, 0x84, 0x90,
+        0xA5, 0x94, 0xE7, 0x9C, 0x08, 0x21, 0x29, 0x25, 0x4A, 0x29,
+        0x6B, 0x2D, 0x8C, 0x31, 0xAD, 0x35, 0xEF, 0x3D, 0x10, 0x42,
+        0x73, 0x4E};
+
+    const static u8 pauseMenuFontPal[] = {
+        0x00, 0x00, 0x21, 0x84, 0x42, 0x88, 0x63, 0x8C, 0x84, 0x90, 
+        0xA5, 0x14, 0xE7, 0x1C, 0x08, 0x21, 0x29, 0x25, 0x4A, 0x29, 
+        0x6B, 0x2D, 0x8C, 0x31, 0xAD, 0x35, 0xEF, 0x3D, 0x10, 0x42, 
+        0x73, 0x4E};
+
+    const static u8 pal_ColourfulMeter[32] = {
+        0u, 0u, 1u, 128u, 1u, 132u, 32u, 132u, 33u,
+        128u, 32u, 132u, 33u, 132u, 101u, 206u, 101u, 140u,
+        140u, 177u, 19u, 148u, 100u, 206u, 101u, 206u, 215u,
+        152u, 20u, 161u, 24u, 216u};
+
+    const static u8 pal_GasCountDown[40] = {
+        0u,
+        0u,
+        1u,
+        128u,
+        1u,
+        132u,
+        32u,
+        132u,
+        33u,
+        128u,
+        32u,
+        132u,
+        33u,
+        132u,
+        101u,
+        206u,
+        101u,
+        140u,
+        140u,
+        177u,
+        19u,
+        148u,
+        100u,
+        206u,
+        101u,
+        206u,
+        215u,
+        152u,
+        20u,
+        161u,
+        24u,
+        216u,
+        0u,
+        0u,
+        0u,
+        0u,
+        0u,
+        0u,
+        0u,
+        0u};
+
+    const static u8 sLCDScreen_Palette[] = {
+        0x00, 0x00, 0x01, 0x80, 0x01, 0x84, 0x20, 0x84, 0x21, 0x80,
+        0x20, 0x84, 0x21, 0x84, 0x65, 0xCE, 0x65, 0x8C, 0x8C, 0xB1,
+        0x60, 0x8E, 0x64, 0xCE, 0x65, 0xCE, 0xD7, 0x98, 0x14, 0xA1,
+        0x18, 0xD8};
+
+    const static u8 sLCDScreen_Palette2[] = {
+        0x00, 0x00, 0x01, 0x80, 0x01, 0x84, 0x20, 0x84, 0x21, 0x80,
+        0x20, 0x84, 0x21, 0x84, 0x05, 0x84, 0x65, 0x8C, 0x8C, 0xB1,
+        0x13, 0x94, 0x64, 0xCE, 0x65, 0xCE, 0xD7, 0x98, 0x14, 0xA1,
+        0x18, 0xD8};
+
+    const static u8 pal_LCDStatusBoard[] = {
+        0x00, 0x00, 0x01, 0x80, 0x01, 0x84, 0x20, 0x84, 0x21, 0x80,
+        0x20, 0x84, 0x21, 0x84, 0x65, 0xCE, 0x65, 0x8C, 0x8C, 0xB1,
+        0x13, 0x94, 0x64, 0xCE, 0x65, 0xCE, 0xD7, 0x98, 0x14, 0xA1,
+        0x18, 0xD8};
+
+    // TODO: Should be const but can't be due to mlgs hacks in Font obj
+    const static u8 pal_BrewMachine[32] = {
+        0u,
+        0u,
+        1u,
+        128u,
+        1u,
+        132u,
+        32u,
+        132u,
+        33u,
+        128u,
+        32u,
+        132u,
+        33u,
+        132u,
+        101u,
+        206u,
+        101u,
+        140u,
+        140u,
+        177u,
+        19u,
+        148u,
+        100u,
+        206u,
+        101u,
+        206u,
+        215u,
+        152u,
+        20u,
+        161u,
+        24u,
+        216u};
+
+    ConvertPal(dataDir, "main_menu_font_pal_main.pal", reinterpret_cast<const u16*>(mainMenuFontPal), ALIVE_COUNTOF(mainMenuFontPal) / sizeof(u16));
+
+    ConvertPal(dataDir, "main_menu_font_pal_pause.pal", reinterpret_cast<const u16*>(pauseMenuFontPal), ALIVE_COUNTOF(pauseMenuFontPal) / sizeof(u16));
+
+    ConvertPal(dataDir, "led_font_pal_colourful_meter.pal", reinterpret_cast<const u16*>(pal_ColourfulMeter), ALIVE_COUNTOF(pal_ColourfulMeter) / sizeof(u16));
+
+    ConvertPal(dataDir, "led_font_pal_gas.pal", reinterpret_cast<const u16*>(pal_GasCountDown), ALIVE_COUNTOF(pal_GasCountDown) / sizeof(u16));
+
+    ConvertPal(dataDir, "led_font_pal_1.pal", reinterpret_cast<const u16*>(sLCDScreen_Palette), ALIVE_COUNTOF(sLCDScreen_Palette) / sizeof(u16));
+
+    ConvertPal(dataDir, "led_font_pal_2.pal", reinterpret_cast<const u16*>(sLCDScreen_Palette2), ALIVE_COUNTOF(sLCDScreen_Palette2) / sizeof(u16));
+
+    ConvertPal(dataDir, "led_font_status_board.pal", reinterpret_cast<const u16*>(pal_LCDStatusBoard), ALIVE_COUNTOF(pal_LCDStatusBoard) / sizeof(u16));
+
+    ConvertPal(dataDir, "led_font_brew_machine.pal", reinterpret_cast<const u16*>(pal_BrewMachine), ALIVE_COUNTOF(pal_BrewMachine) / sizeof(u16));
+}
+
 void DataConversion::ConvertDataAE()
 {
     FileSystem fs;
@@ -1224,6 +1377,8 @@ void DataConversion::ConvertDataAE()
     dataDir.Append("relive_data");
     dataDir.Append("ae");
     fs.CreateDirectory(dataDir);
+
+    ConvertHardcodedPals(dataDir);
 
     std::vector<u8> fileBuffer;
     for (s32 lvlIdx = 0; lvlIdx < Path_Get_Paths_Count(); lvlIdx++)
