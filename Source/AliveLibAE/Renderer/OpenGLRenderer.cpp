@@ -605,7 +605,7 @@ void OpenGLRenderer::Draw(Prim_Tile& tile)
     bool isShaded = true;
     u32 blendMode = GetTPageBlendMode(mGlobalTPage);
 
-    VertexData verts[6] = {
+    VertexData verts[4] = {
         {tile.mBase.vert.x, tile.mBase.vert.y, r, g, b, 0, 0, 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded, 0, 0},
         {tile.mBase.vert.x + tile.field_14_w, tile.mBase.vert.y, r, g, b, 0, 0, 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded, 0, 0},
         {tile.mBase.vert.x, tile.mBase.vert.y + tile.field_16_h, r, g, b, 0, 0, 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded, 0, 0},
@@ -769,7 +769,7 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     }
     else if (poly.mCam)
     {
-        VertexData verts[6] = {
+        VertexData verts[4] = {
             {poly.mBase.vert.x, poly.mBase.vert.y, r, g, b, 0, 0, GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT, GL_PSX_DRAW_MODE_CAM, isSemiTrans, isShaded, 0, 0},
             {poly.mVerts[0].mVert.x, poly.mVerts[0].mVert.y, r, g, b, GL_FRAMEBUFFER_PSX_WIDTH, 0, GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT, GL_PSX_DRAW_MODE_CAM, isSemiTrans, isShaded, 0, 0},
             {poly.mVerts[1].mVert.x, poly.mVerts[1].mVert.y, r, g, b, 0, GL_FRAMEBUFFER_PSX_HEIGHT, GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT, GL_PSX_DRAW_MODE_CAM, isSemiTrans, isShaded, 0, 0},
@@ -800,7 +800,7 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
             std::swap(v1, v0);
         }
 
-        VertexData verts[6] = {
+        VertexData verts[4] = {
             {poly.mBase.vert.x, poly.mBase.vert.y, r, g, b, u0, v0, pTga->mWidth, pTga->mHeight, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded, palIndex, 0},
             {poly.mVerts[0].mVert.x, poly.mVerts[0].mVert.y, r, g, b, u1, v0, pTga->mWidth, pTga->mHeight, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded, palIndex, 0},
             {poly.mVerts[1].mVert.x, poly.mVerts[1].mVert.y, r, g, b, u0, v1, pTga->mWidth, pTga->mHeight, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded, palIndex, 0},
@@ -822,7 +822,7 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
         u32 u1 = U3(&poly);
         u32 v1 = V3(&poly);
 
-        VertexData verts[6] = {
+        VertexData verts[4] = {
             {poly.mBase.vert.x, poly.mBase.vert.y, r, g, b, u0, v0, pTga->mWidth, pTga->mHeight, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded, palIndex, 0},
             {poly.mVerts[0].mVert.x, poly.mVerts[0].mVert.y, r, g, b, u1, v0, pTga->mWidth, pTga->mHeight, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded, palIndex, 0},
             {poly.mVerts[1].mVert.x, poly.mVerts[1].mVert.y, r, g, b, u0, v1, pTga->mWidth, pTga->mHeight, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded, palIndex, 0},
@@ -847,7 +847,7 @@ void OpenGLRenderer::Draw(Poly_G4& poly)
     bool isShaded = true;
     u32 blendMode = GetTPageBlendMode(mGlobalTPage);
 
-    VertexData verts[6] = {
+    VertexData verts[4] = {
         {X0(&poly), Y0(&poly), R0(&poly), G0(&poly), B0(&poly), 0, 0, 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded, 0, 0},
         {X1(&poly), Y1(&poly), R1(&poly), G1(&poly), B1(&poly), 0, 0, 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded, 0, 0},
         {X2(&poly), Y2(&poly), R2(&poly), G2(&poly), B2(&poly), 0, 0, 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded, 0, 0},
