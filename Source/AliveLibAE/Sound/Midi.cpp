@@ -18,7 +18,6 @@
 
 #include "PsxSpuApi.hpp"
 #include "AmbientSound.hpp"
-#include "SDL_Mixer.h"
 
 #if !ALTERNATE_AUDIO
 EXPORT void CC SFX_SetPitch_4CA510(const SfxDefinition* pSfx, s32 channelsBits, s16 pitch);

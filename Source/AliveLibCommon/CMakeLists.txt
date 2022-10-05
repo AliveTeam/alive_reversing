@@ -35,6 +35,21 @@ SET(AliveLibSrcCommon
     PSXMDECDecoder.h
     Psx_common.hpp
     W32CrashHandler.hpp
+    audio/mixer/AliveAudio.hpp
+    audio/mixer/AliveAudio.cpp
+    audio/mixer/Voice.hpp
+    audio/mixer/Voice.cpp
+    audio/ADSR.hpp
+    audio/ADSR.cpp
+    audio/Exceptions.hpp
+    audio/Stream.hpp
+    audio/Stream.cpp
+    audio/Soundbank.hpp
+    audio/Soundbank.cpp
+    audio/SequencePlayer.hpp
+    audio/SequencePlayer.cpp
+    audio/MidiPlayer.hpp
+    audio/MidiPlayer.cpp
 )
 
 add_library(AliveLibCommon ${AliveLibSrcCommon})
