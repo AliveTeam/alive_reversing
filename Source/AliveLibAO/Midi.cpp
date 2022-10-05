@@ -22,12 +22,9 @@
 #include "../AliveLibAE/Sound/Midi.hpp"
 #include "../AliveLibAE/Sound/Sound.hpp"
 #include "../AliveLibAE/PathData.hpp"
-#include "SDL_Mixer.h"
-
-
-namespace AO {
 
 #if !ALTERNATE_AUDIO
+namespace AO {
 const s32 kSeqTableSizeAO = 164;
 
 ALIVE_VAR(1, 0x9F12D8, SeqIds, sSeq_Ids_word_9F12D8, {});
@@ -1150,7 +1147,16 @@ EXPORT void CC SND_StopAll_4762D0()
 
     SsUtAllKeyOff_49EDE0(0);
 }
+}
 #else
+
+#include "../../AliveLibCommon/audio/MidiPlayer.hpp"
+#include "../../AliveLibCommon/audio/Soundbank.hpp"
+#include "../../AliveLibCommon/audio/ADSR.hpp"
+#include "../../AliveLibCommon/audio/mixer/AliveAudio.hpp"
+#include "../../AliveLibCommon/audio/SequencePlayer.hpp"
+
+namespace AO {
 
 struct VagAtr final
 {
@@ -1183,6 +1189,10 @@ struct AoVag
     std::vector<unsigned char> iSampleData;
 };
 
+Soundbank* theBank;
+SequencePlayer* player = new SequencePlayer();
+std::vector<std::vector<Uint8>> gSeqs;
+
 // https://github.com/mlgthatsme/AliveSoundLib
 
 EXPORT void CC SsUtAllKeyOff_49EDE0(s32 mode)
@@ -1192,7 +1202,6 @@ EXPORT void CC SsUtAllKeyOff_49EDE0(s32 mode)
 
 EXPORT void CC SND_Reset_476BA0()
 {
-
 }
 
 EXPORT void CC SND_Load_VABS_477040(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
@@ -1211,43 +1220,8 @@ EXPORT void CC SND_Load_VABS_477040(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
         sLvlArchive_4FFD60.Read_File_41BE40(pVabHeaderFile, ppVabHeader);
         VabHeader* vabHeader = reinterpret_cast<VabHeader*>(ppVabHeader);
         VagAtr* vagAttr = (VagAtr*) &vabHeader[1];
-        for (s32 i = 0; i < vabHeader->field_12_num_progs; i++)
-        {
-            for (s32 toneCounter = 0; toneCounter < 16; toneCounter++)
-            {
-                if (vagAttr->field_2_vol > 0)
-                {
-                    Converted_Vag* pData = new Converted_Vag;
+        std::vector<Program*> programs;
 
-                    pData->field_F_prog = static_cast<u8>(vagAttr->field_14_prog);
-                    pData->field_10_vag = LOBYTE(vagAttr->field_16_vag) - 1;
-                    pData->field_C = 0;
-                    pData->field_D_vol = vagAttr->field_2_vol;
-                    pData->field_E_priority = vagAttr->field_0_priority;
-                    pData->field_8_min = vagAttr->field_6_min;
-                    pData->field_9_max = vagAttr->field_7_max;
-
-                    const s16 centre = vagAttr->field_4_centre;
-                    pData->field_A_shift_cen = 2 * (vagAttr->field_5_shift + (centre << 7));
-
-                    f32 sustain_level = static_cast<f32>((2 * (~(u8) vagAttr->field_10_adsr1 & 0xF)));
-
-                    pData->field_0_adsr_attack = std::min(static_cast<u16>((powf(2.0f, ((vagAttr->field_10_adsr1 >> 8) & 0x7F) * 0.25f) * 0.09f)), static_cast<u16>(32767));
-                    pData->field_4_adsr_decay = static_cast<u16>((((vagAttr->field_10_adsr1 >> 4) & 0xF) / 15.0f) * 16.0);
-                    pData->field_2_adsr_sustain_level = std::min(static_cast<u16>((sustain_level / 15.0f) * 600.0), static_cast<u16>(32767));
-                    pData->field_6_adsr_release = std::min(static_cast<u16>(pow(2, vagAttr->field_12_adsr2 & 0x1F) * 0.045f), static_cast<u16>(32767));
-
-                    // If decay is at max, then nothing should play. So mute sustain too ?
-                    if (pData->field_4_adsr_decay == 16)
-                    {
-                        pData->field_2_adsr_sustain_level = 0;
-                    }
-
-                    pData->field_11_pad = vagAttr->field_3_pan;
-                }
-                ++vagAttr;
-            }
-        }
 
         // Read body
         LvlFileRecord* pVabBodyFile = sLvlArchive_4FFD60.Find_File_Record_41BED0(pSoundBlockInfo->field_4_vab_body_name);
@@ -1255,28 +1229,79 @@ EXPORT void CC SND_Load_VABS_477040(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
         u8* ppVabBody = new u8[bodySize];
         sLvlArchive_4FFD60.Read_File_41BE40(pVabBodyFile, ppVabBody);
 
+        // BODY
         int pos = 0;
+        std::vector<Sample*> samples;
         for (int i = 0; i < vabHeader->field_16_num_vags; ++i)
         {
-            // VAB
-
-            VabBodyRecord* record = reinterpret_cast<VabBodyRecord*>(&ppVabBody[pos]);
-
+            // SAMPLE
             u32 size = *reinterpret_cast<u32*>(&ppVabBody[pos]);
             pos += sizeof(u32);
 
             u32 sampleRate = *reinterpret_cast<u32*>(&ppVabBody[pos]);
             pos += sizeof(u32);
+            sampleRate;
 
             u8* data = new u8[size];
             memcpy(data, &ppVabBody[pos], size);
             pos += size;
 
-            size;
-            sampleRate;
-            record;
-            vabHeader;
+            Sample* sample = new Sample();
+            sample->m_SampleBuffer = reinterpret_cast<u16*>(data);
+            sample->i_SampleSize = size / 2;
+            samples.push_back(sample);
         }
+
+        // HEADER
+        for (s32 i = 0; i < vabHeader->field_12_num_progs; i++)
+        {
+            // PROGRAM
+            Program* program = new Program;
+            programs.push_back(program);
+            for (s32 toneCounter = 0; toneCounter < 16; toneCounter++)
+            {
+
+                // TONE
+
+                Tone* tone = new Tone();
+                program->m_Tones.push_back(tone);
+
+                if (vagAttr->field_2_vol > 0)
+                {
+                    std::cout << vagAttr->field_16_vag << "\n";
+                    program->prog_id = vagAttr->field_14_prog;
+                    tone->f_Volume = vagAttr->field_2_vol / 127.0f;
+                    tone->c_Center = vagAttr->field_4_centre;
+                    tone->c_Shift = vagAttr->field_5_shift;
+                    tone->f_Pan = (vagAttr->field_3_pan / 64.0f) - 1.0f;
+                    tone->Min = vagAttr->field_6_min;
+                    tone->Max = vagAttr->field_7_max;
+                    tone->Pitch = vagAttr->field_5_shift / 100.0f;
+                    tone->m_Sample = samples.at(vagAttr->field_16_vag - 1);
+
+                    unsigned short ADSR1 = vagAttr->field_10_adsr1;
+                    unsigned short ADSR2 = vagAttr->field_12_adsr2;
+
+                    REAL_ADSR realADSR = {};
+                    PSXConvADSR(&realADSR, ADSR1, ADSR2, false);
+
+                    tone->AttackTime = realADSR.attack_time;
+                    tone->DecayTime = realADSR.decay_time;
+                    tone->ReleaseTime = realADSR.release_time;
+                    tone->SustainTime = realADSR.sustain_time;
+
+                    if (realADSR.attack_time > 1)
+                    { // This works until the loop database is added.
+                        tone->Loop = true;
+                    }
+                }
+                ++vagAttr;
+            }
+        }
+
+        Soundbank* soundbank = new Soundbank(samples, programs);
+        theBank = soundbank;
+        AliveAudio::m_CurrentSoundbank = theBank;
 
         delete[] ppVabBody;
         pSoundBlockInfo++;
@@ -1299,17 +1324,36 @@ EXPORT void CC SND_Load_Seqs_477AB0(OpenSeqHandleAE* pSeqTable, const char_type*
     ResourceManager::LoadResourceFileWrapper(bsqFileName, nullptr);
     for (s32 i = 0; i < 164; i++) // 164 is a hardcoded value
     {
+        OpenSeqHandle next = seq[i];
         seq[i].field_A_id_seqOpenId = -1;
         seq[i].field_4_generated_res_id = ResourceManager::SEQ_HashName_454EA0(seq[i].field_0_mBsqName);
 
+        // ppSeq is what can be played
         u8** ppSeq = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Seq, seq[i].field_4_generated_res_id, 1, 1);
         if (ppSeq)
         {
+            u32 size = ResourceManager::Get_Header_455620(ppSeq)->field_0_size;
+
+
+            // 32 length
             seq[i].field_C_ppSeq_Data = *ppSeq;
+
+            std::vector<Uint8> vec;
+            std::cout << "size: " << size << "\n";
+            for (u32 x = 0; x < size; x++)
+            {
+                std::cout << x << "\n";
+                vec.push_back((Uint8) (*ppSeq)[x]);
+            }
+
+            // SEQUENCE STREAM
+            gSeqs.push_back(vec);
         }
         else
         {
             seq[i].field_C_ppSeq_Data = nullptr;
+            std::vector<Uint8> test;
+            gSeqs.push_back(test);
         }
     }
 }
@@ -1334,6 +1378,11 @@ EXPORT s16 CC SND_SEQ_Play_477760(SeqId idx, s32 repeatCount, s16 volLeft, s16 v
     repeatCount;
     volLeft;
     volRight;
+
+    player->StopSequence();
+    player->LoadSequenceData(gSeqs.at(s16(idx)));
+    player->PlaySequence();
+
     return 1;
 }
 
@@ -1355,6 +1404,9 @@ EXPORT s32 CC SFX_SfxDefinition_Play_477330(const SfxDefinition* sfxDef, s16 vol
     {
         std::cout << "HEY\n";
     }
+   
+
+    AliveAudio::PlayOneShot(sfxDef->field_4_program, sfxDef->field_8_note, volLeft, 0);
 
     //Mix_Chunk* chunk = Mix_QuickLoad_RAW(samples[sfxDef->field_4_program].data, samples[sfxDef->field_4_program].size);
     //Mix_PlayChannel(-1, chunk, 0);
@@ -1373,6 +1425,9 @@ EXPORT s32 CC SFX_SfxDefinition_Play_4770F0(const SfxDefinition* sfxDef, s32 vol
         std::cout << "HEY\n";
     }
 
+    std::cout << theBank->m_Programs.size() << "\n";
+    AliveAudio::PlayOneShot(sfxDef->field_4_program, sfxDef->field_8_note, vol, 0);
+
     //Mix_Chunk* chunk = Mix_QuickLoad_RAW(samples[sfxDef->field_4_program >> 7].data, samples[sfxDef->field_4_program >> 7].size);
     //Mix_PlayChannel(-1, chunk, 0);
 
@@ -1381,12 +1436,11 @@ EXPORT s32 CC SFX_SfxDefinition_Play_4770F0(const SfxDefinition* sfxDef, s32 vol
 
 EXPORT void CC SND_Init_476E40()
 {
-    // 1
+    AliveInitAudio();
 }
 
 EXPORT void CC SND_Shutdown_476EC0()
 {
-
 }
 
 EXPORT void CC SND_SEQ_SetVol_477970(SeqId idx, s16 volLeft, s16 volRight)
@@ -1398,7 +1452,7 @@ EXPORT void CC SND_SEQ_SetVol_477970(SeqId idx, s16 volLeft, s16 volRight)
 
 EXPORT void CC SND_StopAll_4762D0()
 {
-
 }
-#endif
 } // namespace AO
+#endif
+

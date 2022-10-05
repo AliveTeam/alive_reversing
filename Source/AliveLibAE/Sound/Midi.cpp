@@ -19,6 +19,7 @@
 #include "PsxSpuApi.hpp"
 #include "AmbientSound.hpp"
 #include "SDL_Mixer.h"
+#include "../../AliveLibCommon/audio/MidiPlayer.hpp"
 
 #if !ALTERNATE_AUDIO
 EXPORT void CC SFX_SetPitch_4CA510(const SfxDefinition* pSfx, s32 channelsBits, s16 pitch);
@@ -1005,8 +1006,6 @@ EXPORT void CC SND_Load_VABS_4CA350(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
         int pos = 0;
         for (s32 i = 0; i < vabHeader->field_12_num_progs; i++)
         {
-            // VAB
-
             VabBodyRecord* record = reinterpret_cast<VabBodyRecord*>(&ppVabBody[pos]);
 
             u32 size = *reinterpret_cast<u32*>(&ppVabBody[pos]);
@@ -1063,6 +1062,7 @@ EXPORT void CC SND_Load_Seqs_4CAED0(OpenSeqHandle* pSeqTable, const char_type* b
         seq[i].field_A_id_seqOpenId = -1;
         seq[i].field_4_generated_res_id = ResourceManager::SEQ_HashName_49BE30(seq[i].field_0_mBsqName);
 
+        // ppSeq is what can be played
         u8** ppSeq = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Seq, seq[i].field_4_generated_res_id, 1, 1);
         if (ppSeq)
         {
