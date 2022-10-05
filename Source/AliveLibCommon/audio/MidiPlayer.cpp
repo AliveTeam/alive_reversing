@@ -208,6 +208,7 @@ void MidiPlayer::SND_SEQ_Stop(u16 idx)
     if (mSequenceMap[idx])
     {
         mSequenceMap[idx]->StopSequence();
+        delete mSequenceMap[idx];
         mSequenceMap[idx] = NULL;
     }
 }
