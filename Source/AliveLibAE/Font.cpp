@@ -23,36 +23,10 @@
  then do x /= 0.575;
 */
 
-void static_font1context_dtor_433360()
-{
-    sFont1Context_5BC5C8.dtor_433510();
-}
-
-void static_font1context_init_433300()
-{
-    //static_font1context_ctor_nullsub_47();
-    atexit(static_font1context_dtor_433360);
-}
-
-void static_font2context_dtor_4333E0()
-{
-    sFont2Context_5BC5D8.dtor_433510();
-}
-
-void static_font2context_init_433380()
-{
-    //static_font2context_ctor_nullsub_48();
-    atexit(static_font2context_dtor_4333E0);
-}
-
-ALIVE_VAR(1, 0x5bc5c8, Font_Context, sFont1Context_5BC5C8, {});
-ALIVE_VAR(1, 0x5BC5D8, Font_Context, sFont2Context_5BC5D8, {});
-
 ALIVE_VAR(1, 0x5c9304, s8, sDisableFontFlicker_5C9304, 0);
 
 ALIVE_VAR(1, 0x5ca4b4, u8, sFontDrawScreenSpace_5CA4B4, 0);
 
-ALIVE_VAR(1, 0x5BC5E8, s16, sFontType2LoadCount_5BC5E8, 0);
 
 namespace Alive {
 Font::Font()

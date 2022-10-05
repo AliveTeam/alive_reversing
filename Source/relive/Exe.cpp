@@ -226,8 +226,6 @@ static s32 AOMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine,
 static s32 AEMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)
 {
     LOG_INFO("AE standalone starting...");
-    // In the real game these are called before main, but shouldn't really matter in this case
-    Static_Inits_AE();
     PopulateAutoSplitterVars(GameType::eAe);
     return WinMain_4EE631(hInstance, hPrevInstance, lpCmdLine, nShowCmd);
 }

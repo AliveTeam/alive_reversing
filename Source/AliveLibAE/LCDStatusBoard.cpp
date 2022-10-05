@@ -17,19 +17,15 @@ LCDStatusBoard::LCDStatusBoard(relive::Path_LCDStatusBoard* params, const Guid& 
 {
     field_100_objectId = tlvId;
 
-    if (!sFontType2LoadCount_5BC5E8)
-    {
-        sFont2Context_5BC5D8.LoadFontType_433400(FontType::LcdFont);
-    }
+    mFontContext.LoadFontType_433400(FontType::LcdFont);
 
-    ++sFontType2LoadCount_5BC5E8;
     
     mPal = ResourceManagerWrapper::LoadPal(PalId::LedFont_StatusBoard);
 
-    field_20_font1.ctor_433590(3, mPal, &sFont2Context_5BC5D8);
-    field_58_font2.ctor_433590(3, mPal, &sFont2Context_5BC5D8);
-    field_90_font3.ctor_433590(3, mPal, &sFont2Context_5BC5D8);
-    field_C8_font4.ctor_433590(3, mPal, &sFont2Context_5BC5D8);
+    field_20_font1.ctor_433590(3, mPal, &mFontContext);
+    field_58_font2.ctor_433590(3, mPal, &mFontContext);
+    field_90_font3.ctor_433590(3, mPal, &mFontContext);
+    field_C8_font4.ctor_433590(3, mPal, &mFontContext);
 
     mBaseGameObjectFlags.Set(eDrawable_Bit4);
     gObjListDrawables->Push_Back(this);
@@ -50,10 +46,7 @@ LCDStatusBoard::~LCDStatusBoard()
     gObjListDrawables->Remove_Item(this);
     Path::TLV_Reset(field_100_objectId, -1, 0, 0);
 
-    if (!--sFontType2LoadCount_5BC5E8)
-    {
-        sFont2Context_5BC5D8.dtor_433510();
-    }
+    mFontContext.dtor_433510();
 
     field_C8_font4.dtor_433540();
     field_90_font3.dtor_433540();

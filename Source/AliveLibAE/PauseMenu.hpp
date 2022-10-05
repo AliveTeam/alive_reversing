@@ -101,6 +101,7 @@ private:
     void RestartPath();
 
 public:
+    Font_Context mFontContext;
     PalResource mPal;
     Alive::Font field_F4_font = {};
     s16 word12C_flags = 0;

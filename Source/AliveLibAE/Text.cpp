@@ -34,8 +34,9 @@ Text::Text(const char_type* pMessage, s32 renderCount, s32 bShadow)
 
     gObjListDrawables->Push_Back(this);
 
+    mFontContext.LoadFontType_433400(FontType::PauseMenu);
     mPal = ResourceManagerWrapper::LoadPal(PalId::MainMenuFont_PauseMenu);
-    field_20_font.ctor_433590(static_cast<s32>((bShadow + 1) * strlen(pMessage)), mPal, &sFont1Context_5BC5C8);
+    field_20_font.ctor_433590(static_cast<s32>((bShadow + 1) * strlen(pMessage)), mPal, &mFontContext);
 
     field_5C_xpos = static_cast<s16>(field_20_font.MeasureTextWidth(pMessage));
     field_5E_ypos = 0;

@@ -13,10 +13,6 @@
 #include "../relive_lib/ScreenManager.hpp"
 #include "FixedPoint.hpp"
 
-void static_font1context_init_433300();
-void static_font2context_init_433380();
-
-
 struct File_Font final
 {
     s16 mWidth;
@@ -72,11 +68,7 @@ public:
 ALIVE_ASSERT_SIZEOF(Font, 0x38);
 } // namespace Alive
 
-ALIVE_VAR_EXTERN(s16, sFontType2LoadCount_5BC5E8);
 ALIVE_VAR_EXTERN(u8, sFontDrawScreenSpace_5CA4B4);
-
-ALIVE_VAR_EXTERN(Font_Context, sFont1Context_5BC5C8);
-ALIVE_VAR_EXTERN(Font_Context, sFont2Context_5BC5D8);
 
 ALIVE_VAR_EXTERN(s8, sDisableFontFlicker_5C9304);
 

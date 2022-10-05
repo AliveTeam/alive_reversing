@@ -425,8 +425,9 @@ PauseMenu::PauseMenu()
     field_13E_unused = 0;
     field_140_unused = 0;
 
+    mFontContext.LoadFontType_433400(FontType::PauseMenu);
     mPal = ResourceManagerWrapper::LoadPal(PalId::MainMenuFont_PauseMenu);
-    field_F4_font.ctor_433590(256, mPal, &sFont1Context_5BC5C8);
+    field_F4_font.ctor_433590(256, mPal, &mFontContext);
 
     Init();
 

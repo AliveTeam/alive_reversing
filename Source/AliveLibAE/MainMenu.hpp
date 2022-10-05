@@ -356,6 +356,7 @@ public:
     };
 
     PalResource mPal;
+    Font_Context mFontContext;
     Alive::Font field_120_font = {};
     Animation field_158_animation = {};
     Guid mTlvId;

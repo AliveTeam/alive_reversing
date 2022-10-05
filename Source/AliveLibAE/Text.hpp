@@ -24,6 +24,7 @@ public:
     void SetYPos(s32 /*not_used*/, s16 ypos);
 
 private:
+    Font_Context mFontContext;
     PalResource mPal;
     Alive::Font field_20_font = {};
     s16 field_58_k0_unused = 0;

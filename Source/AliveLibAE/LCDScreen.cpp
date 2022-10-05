@@ -173,16 +173,12 @@ LCDScreen::LCDScreen(relive::Path_LCDScreen* params, const Guid& tlvId)
     field_2B2_toggle_message_switch_id = static_cast<u16>(params->mToggleMessageSwitchId);
     field_2BC_tlv_item_info = tlvId;
 
-    if (!sFontType2LoadCount_5BC5E8)
-    {
-        sFont2Context_5BC5D8.LoadFontType_433400(FontType::LcdFont);
-    }
-    sFontType2LoadCount_5BC5E8++;
+    mFontContext.LoadFontType_433400(FontType::LcdFont);
     
     mPal1 = ResourceManagerWrapper::LoadPal(PalId::LedFont_1);
     mPal2 = ResourceManagerWrapper::LoadPal(PalId::LedFont_2);
 
-    field_60_font.ctor_433590(60, mPal1, &sFont2Context_5BC5D8);
+    field_60_font.ctor_433590(60, mPal1, &mFontContext);
 
     IRenderer::PalRecord rec;
     rec.depth = 16;
@@ -250,6 +246,9 @@ void LCDScreen::VUpdate()
             {
                 field_2B4_show_random_message = 0;
                 field_A0_message = gLCDMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, Math_RandomRange(field_2B6_message_rand_min_id, field_2B8_message_rand_max_id));
+
+                // Change pal
+                field_60_font.field_34_font_context->field_C_resource_id.mCurPal = mPal2.mPal;
             }
             else
             {
@@ -262,6 +261,9 @@ void LCDScreen::VUpdate()
                 {
                     field_A0_message = gLCDMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, field_2AA_message_1_id);
                 }
+
+                // Change pal
+                field_60_font.field_34_font_context->field_C_resource_id.mCurPal = mPal1.mPal;
             }
 
             String_FormatString(field_A0_message, field_A8_message_buffer, 512, 1);
@@ -272,14 +274,7 @@ void LCDScreen::VUpdate()
             //field_98_pal_rect = field_60_font.field_28_palette_rect;
             //field_60_font.field_28_palette_rect = palSwap;
 
-            if (field_2B4_show_random_message == 1)
-            {
-                field_60_font.field_34_font_context->field_C_resource_id.mCurPal = mPal2.mPal;
-            }
-            else
-            {
-                field_60_font.field_34_font_context->field_C_resource_id.mCurPal = mPal1.mPal;
-            }
+
 
         }
 
@@ -373,9 +368,6 @@ LCDScreen::~LCDScreen()
     gObjListDrawables->Remove_Item(this);
     Path::TLV_Reset(field_2BC_tlv_item_info, -1, 0, 0);
 
-    if (!--sFontType2LoadCount_5BC5E8)
-    {
-        sFont2Context_5BC5D8.dtor_433510();
-    }
+    mFontContext.dtor_433510();
     field_60_font.dtor_433540();
 }

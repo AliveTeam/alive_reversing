@@ -30,7 +30,6 @@
 MainMenuController* MainMenuController::gMainMenuController = nullptr;
 
 ALIVE_VAR(1, 0xbb4400, s32, sMainMenuObjectCounter_BB4400, 0);
-ALIVE_VAR(1, 0x5c1b92, s16, sMainMenuFontLoaded_5C1B92, 0);
 
 ALIVE_VAR(1, 0x5c1bee, s8, sEnableCheatLevelSelect_5C1BEE, 0);
 ALIVE_VAR(1, 0x5c1bec, s8, sEnableCheatFMV_5C1BEC, 0);
@@ -511,14 +510,10 @@ MainMenuController::MainMenuController(relive::Path_TLV* /*pTlv*/, const Guid& t
 
     gMainMenuController = this;
 
-    if (!sMainMenuFontLoaded_5C1B92)
-    {
-        sFont1Context_5BC5C8.LoadFontType_433400(FontType::PauseMenu);
-        sMainMenuFontLoaded_5C1B92 = 1;
-    }
+    mFontContext.LoadFontType_433400(FontType::PauseMenu);
 
     mPal = ResourceManagerWrapper::LoadPal(PalId::MainMenuFont_MainMenu);
-    field_120_font.ctor_433590(240, mPal, &sFont1Context_5BC5C8);
+    field_120_font.ctor_433590(240, mPal, &mFontContext);
 
     if (gMap.mCurrentCamera == MainMenuCams::eCheatMenu_SelectFMVCam)
     {
