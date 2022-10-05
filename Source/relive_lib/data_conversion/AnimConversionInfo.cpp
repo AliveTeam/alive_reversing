@@ -1318,7 +1318,7 @@ const char* ToString(EAnimGroup animGroup)
     }
 }
 
-PalRecConversionInfo kPalConversionInfo[17] =
+PalRecConversionInfo kPalConversionInfo[16] =
 {
     { PalId::BlindMud,               false },
     { PalId::GreenFlash,             false },
