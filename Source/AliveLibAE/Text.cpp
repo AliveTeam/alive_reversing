@@ -285,9 +285,12 @@ EXPORT s8 CC Display_Full_Screen_Message_Blocking_465820(s32 /*not_used*/, Messa
         if (waitReturn)
         {
             // Wait for return to come back up, as we can only be here if it was pressed, didn't time out or escape wasn't pressed
-            while (Input_IsVKPressed_4EDD40(VK_RETURN))
+            if (!GetGameAutoPlayer().IsRecording() && !GetGameAutoPlayer().IsPlaying())
             {
-                SYS_EventsPump_494580();
+                while (Input_IsVKPressed_4EDD40(VK_RETURN))
+                {
+                    SYS_EventsPump_494580();
+                }
             }
         }
     }
