@@ -43,9 +43,10 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
     mBaseThrowableCount = count;
     field_11C_state = RockStates::eNone_0;
 
+     /*
     mLoadedPals.push_back(ResourceManagerWrapper::LoadPal(PalId::Rock));
 
-    /*
+   
     // TODO: Don't know where this pal is, probably doesn't exist
     // maybe a stockyards hangover from AO
     //if (ppPal)
