@@ -3,6 +3,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
 #include "../relive_lib/MapWrapper.hpp"
+#include "../relive_lib/Primitives.hpp"
 
 struct Fg1Chunk;
 enum class EReliveLevelIds : s16;
@@ -14,7 +15,7 @@ struct Fg1Block;
 class FG1 final : public ::BaseGameObject
 {
 public:
-    FG1(Fg1Resource& ppRes);
+    FG1(Fg1Resource& pFg1Res, CamResource& camRes);
     ~FG1();
 
     virtual void VUpdate() override;
@@ -24,13 +25,15 @@ public:
     void Convert_Chunk_To_Render_Block(const Fg1Chunk* pChunk, Fg1Block* pBlock);
     void Convert_Chunk_To_Render_Block_AE(const Fg1Chunk* pChunk, Fg1Block* pBlock);
 
-    s16 field_10_cam_pos_x = 0;
-    s16 field_12_cam_pos_y = 0;
+    //s16 field_10_cam_pos_x = 0;
+    //s16 field_12_cam_pos_y = 0;
+
     EReliveLevelIds field_14_current_level = EReliveLevelIds::eNone;
     s16 field_16_current_path = 0;
-    s16 field_18_render_block_count = 0;
-    u8** field_1C_ptr = nullptr;
-    Fg1Block* field_20_chnk_res = nullptr;
+
+    Poly_FT4 mPolys[4] = {};
+    Fg1Resource mFG1Res;
+    CamResource mCamRes;
 };
 ALIVE_ASSERT_SIZEOF(FG1, 0x24);
 

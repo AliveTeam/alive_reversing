@@ -88,7 +88,6 @@ s16 FG1::Convert_Chunk_To_Render_Block(const Fg1Chunk* pChunk, Fg1Block* pBlock)
 FG1::~FG1()
 {
     gFG1List_5D1E28->Remove_Item(this);
-    //ResourceManager::FreeResource_49C330(field_2C_ptr);
 }
 
 FG1::FG1(Fg1Resource& pFg1Res, CamResource& camRes)
@@ -106,31 +105,7 @@ FG1::FG1(Fg1Resource& pFg1Res, CamResource& camRes)
     field_26_path_id = gMap.mCurrentPath;
 
     gFG1List_5D1E28->Push_Back(this);
-    /*
-    // TODO: render FG1 as 1 huge texture
-    // Cast to the actual FG1 resource block format
-    FG1ResourceBlockHeader* pHeader = reinterpret_cast<FG1ResourceBlockHeader*>(*pFG1Res);
-    
-    // Check if its relive format FG1
-    if (pHeader->mCount == ResourceManager::Resource_FG1)
-    {
-        // adjust past the new file magic
-        pHeader = reinterpret_cast<FG1ResourceBlockHeader*>(*pFG1Res + sizeof(u32));
-    }
-
-    // So we can extract out the count of chunks and allocate a resource for it
-    field_20_unused = 0;
-    field_28_render_block_count = static_cast<s16>(pHeader->mCount);
-    field_2C_ptr = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::Resource_CHNK, 0, pHeader->mCount * sizeof(Fg1Block));
-    field_30_chnk_res = reinterpret_cast<Fg1Block*>(*field_2C_ptr);
-
-    FG1Reader loader(*this);
-    loader.Iterate(pHeader);
-    */
 }
-
-
-
 
 void FG1::VScreenChanged()
 {
@@ -181,18 +156,4 @@ void FG1::VRender(PrimHeader** ppOt)
             OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_Well_23), &mPolys[3].mBase.header);
         }
     }
-
-    /*
-    for (s32 i = 0; i < field_28_render_block_count; i++)
-    {
-        Poly_FT4* pPoly = &field_30_chnk_res[i].field_0_polys[gPsxDisplay.mBufferIndex];
-        const s32 xpos = X0(pPoly);
-        const s32 ypos = Y0(pPoly);
-        if (pScreenManager->IsDirty(pScreenManager->Idx(), xpos, ypos) || pScreenManager->IsDirty(3, xpos, ypos))
-        {
-            OrderingTable_Add(OtLayer(ppOt, field_30_chnk_res[i].field_66_mapped_layer), &pPoly->mBase.header);
-            // NOTE: Polygon has a pointer to the bit fields for which pixels should be skipped
-            pScreenManager->InvalidateRectCurrentIdx(xpos, ypos, X3(pPoly), Y3(pPoly));
-        }
-    }*/
 }
