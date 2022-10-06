@@ -298,7 +298,7 @@ AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const
 
     attributes.mFrameRate = pAnimationHeader->field_0_fps;
 
-    if (rec.mId == AnimId::RockSack_Idle || rec.mId == AnimId::BoneBag_Idle)
+    if ((!isAoData && rec.mId == AnimId::RockSack_Idle) || rec.mId == AnimId::BoneBag_Idle)
     {
         // Replicate OWI hack that was in the object ctor, we do it in the data conversion so
         // the game object doesn't need the hack.

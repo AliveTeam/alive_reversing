@@ -17,10 +17,10 @@ constexpr CombinedPalRecord kPalRecords[] = {
     {PalId::RedBackgroundGlukkon, kNullPalDetails, {"GLUKKON.BND", AO::kGlukredAOResID}},
     {PalId::BlueBackgroundGlukkon, kNullPalDetails, {"GLUKKON.BND", AO::kGlukblueAOResID}},
     {PalId::AquaBackgroundGlukkon, kNullPalDetails, {"GLUKKON.BND", AO::kGlukaquaAOResID}},
-    {PalId::GreenBackgroundGlukkon, kNullPalDetails, {"GLUKKON.BND", AO::kGlkbasicAOResID}},
+    {PalId::GreenBackgroundGlukkon, kNullPalDetails, {"GLUKKON.BND", AO::kGlukgrenAOResID}},
     {PalId::BlueRockSack, kNullPalDetails, {"E1BAG.BAN", AO::kP2c2bagAOResID}},
     {PalId::StockYardsAbeGib, kNullPalDetails, {"ABEE1PAL.BAN", AO::kAbeblowAOResID}},
-    {PalId::StockYardsSlogGib, kNullPalDetails, {"DOGBLOW.BAN", AO::kSlogBlowAOResID}},
+    {PalId::StockYardsSlogGib, kNullPalDetails, {"DOGE1PAL.BAN", AO::kSlogBlowAOResID}},
     {PalId::Bomb, {"BOMB.BND", kBombResID}, {"BOMB.BND", AO::kBombAOResID}},
 };
 
@@ -1629,7 +1629,7 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
     },
     {AnimId::RockSack_Idle, 
         { "ROCKBAG.BAN", 29748, 71, 60u, kP2c2bagResID, PalId::Default},
-        { "E1P02C03.CAM", 13756, 71, 60, AO::kP2c2bagAOResID, PalId::Default} // E1P02C03.CAM
+        { "E1P02C03.CAM", 13756, 71, 60, AO::kP2c2bagAOResID, PalId::Default}
     },
     {AnimId::RockSack_SoftHit, 
         { "ROCKBAG.BAN", 29772, 71, 60u, kP2c2bagResID, PalId::Default},
