@@ -1349,7 +1349,7 @@ static void Factory_Teleporter(relive::Path_TLV* pTlv, Path*, const Guid& tlvId,
     }
 }
 
-static void Factory_SlurgSpawner(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, LoadMode loadMode)
+static void Factory_SlurgSpawner(relive::Path_TLV* /*pTlv*/, Path*, const Guid& /*tlvId*/, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1357,7 +1357,13 @@ static void Factory_SlurgSpawner(relive::Path_TLV* pTlv, Path*, const Guid& tlvI
     }
     else
     {
+       /*
+       // TODO/HACK disabled because it crashes the game when a quick load is done
+       // after you save when a slurg is spawned as it has no TLV.
+       // Its only used to spawn 1 slurg in 1 screen of the game. Fix in abi_break
+       // branch by converting to a normal slurg.
         relive_new SlurgSpawner(static_cast<relive::Path_SlurgSpawner*>(pTlv), tlvId);
+        */
     }
 }
 

@@ -38,6 +38,114 @@
 
 ALIVE_VAR(1, 0x5C3012, s16, sGoingToBirdPortalMudCount_5C3012, 0);
 
+
+enum Brain_0_GiveRings
+{
+    eBrain0_Inactive_0 = 0,
+    eBrain0_PreIdle_1 = 1,
+    eBrain0_Idle_2 = 2,
+    eBrain0_GoodGameSpeak_3 = 3,
+    eBrain0_WrongGameSpeak_4 = 4,
+    eBrain0_Shrug_5 = 5,
+    eBrain0_SaysOkay_6 = 6,
+    eBrain0_Chanting_7 = 7,
+    eBrain0_GivingRing_8 = 8,
+    eBrain0_ReceivingRing1_9 = 9,
+    eBrain0_RecievingRing2_10 = 10
+};
+
+enum Brain_1_Chisle
+{
+    eBrain1_StartToChisle_0 = 0,
+    eBrain1_ChisleTheFloor_1 = 1,
+    eBrain1_SmallBreak_2 = 2,
+    eBrain1_StandUp_3 = 3,
+    eBrain1_SadNoise_4 = 4,
+    eBrain1_Duck_5 = 5,
+    eBrain1_OutOfDuck_6 = 6,
+    eBrain1_DuckToChisle_7 = 7,
+    eBrain1_DuckKnockback_8 = 8
+};
+
+enum Brain_2_CrouchScrub
+{
+    eBrain2_StartToScrub_0 = 0,
+    eBrain2_SmallBreak_1 = 1,
+    eBrain2_Scrubbing_2 = 2,
+    eBrain2_StandUp_3 = 3,
+    eBrain2_SadNoise_4 = 4,
+    eBrain2_SmallBreakThroughGameSpeak_5 = 5,
+    eBrain2_Duck_6 = 6,
+    eBrain2_DuckKnockback_7 = 7
+};
+
+enum Brain_3_TurnWheel
+{
+    eBrain3_TurningWheel_0 = 0,
+    eBrain3_SittingDown_1 = 1,
+    eBrain3_InterruptAction_2 = 2,
+    eBrain3_TurningWheelToDuck_3 = 3,
+    eBrain3_Duck_4 = 4,
+    eBrain3_DuckToTurningWheel_5 = 5
+};
+
+enum Brain_4_ListeningToAbe
+{
+    eBrain4_Inactive_0 = 0,
+    eBrain4_GetsAttentive_1 = 1,
+    eBrain4_CrazyFollowMe_2 = 2,
+    eBrain4_SteppingBack_3 = 3,
+    eBrain4_FollowingIdle_4 = 4,
+    eBrain4_Walking_5 = 5,
+    eBrain4_Running_6 = 6,
+    eBrain4_Idle_7 = 7,
+    eBrain4_CrazySlideTurn_8 = 8,
+    eBrain4_GetsWaitWhileMoving_9 = 9,
+    eBrain4_InitializeMovement_10 = 10,
+    eBrain4_PullingLever_11 = 11,
+    eBrain4_GetsCommand_12 = 12,
+    eBrain4_Slapped_13 = 13,
+    eBrain4_Knockback_14 = 14,
+    eBrain4_GettingSorry_15 = 15,
+    eBrain4_Suiciding_16 = 16,
+    eBrain4_RageSlap_17 = 17,
+    eBrain4_RageTurn_18 = 18,
+    eBrain4_CrazyDeny_19 = 19,
+    eBrain4_StopsWhileMoving_20 = 20,
+    eBrain4_CrazyLaugh_21 = 21,
+    eBrain4_LostAttention_22 = 22
+};
+
+enum Brain_6_Escape
+{
+    eBrain6_PortalOppened_0 = 0,
+    eBrain6_StandingUp_1 = 1,
+    eBrain6_Running_2 = 2,
+    eBrain6_Jumping_3 = 3,
+    eBrain6_Replacing_4 = 4
+};
+
+enum Brain_8_AngryWorker
+{
+    eBrain8_Inactive_0 = 0,
+    eBrain8_LeverIdle_1 = 1,
+    eBrain8_PullingLever_2 = 2,
+    eBrain8_Speaking_3 = 3,
+    eBrain8_WheelIdle_4 = 4,
+    eBrain8_UsingWheel_5 = 5,
+    eBrain8_Unused_6 = 6,
+    eBrain8_Unused_7 = 7
+};
+
+enum Brain_9_Sick
+{
+    eBrain9_Inactive_0 = 0,
+    eBrain9_Idle_1 = 1,
+    eBrain9_Duck_2 = 2,
+    eBrain9_StandingUp_3 = 3,
+    eBrain9_Farting_4 = 4,
+};
+
 const TintEntry kMudTints_55C744[18] = {
     {EReliveLevelIds::eMines, 87u, 103u, 67u},
     {EReliveLevelIds::eNecrum, 87u, 103u, 67u},
@@ -660,7 +768,15 @@ s32 Mudokon::CreateFromSaveState(const u8* pBuffer)
 
     auto pTlv = static_cast<relive::Path_Mudokon*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_40_tlvInfo));
 
+    const auto oldCount = sAlertedMudCount_5C3010;
     auto pMud = relive_new Mudokon(pTlv, pState->field_40_tlvInfo);
+
+    if (sAlertedMudCount_5C3010 != oldCount)
+    {
+        sAlertedMudCount_5C3010 = oldCount;
+        LOG_INFO("Override alert count to " << oldCount);
+    }
+
     if (pMud)
     {
         if (pState->field_3D_bIsPlayer)
@@ -773,6 +889,7 @@ s32 Mudokon::CreateFromSaveState(const u8* pBuffer)
         if (pMud->field_16A_flags.Get(Flags_16A::eBit3_alerted))
         {
             sAlertedMudCount_5C3010++;
+            LOG_INFO("Alerted added from save state " << sAlertedMudCount_5C3010);
         }
 
         pMud->field_178_brain_sub_state2 = pState->field_70_brain_sub_state2;
@@ -1612,112 +1729,6 @@ void Mudokon::VUpdateResBlock()
     mAnim.Set_Animation_Data(GetAnimRes(kMudMotionAnimIds[mCurrentMotion]));
 }
 
-enum Brain_0_GiveRings
-{
-    eBrain0_Inactive_0 = 0,
-    eBrain0_PreIdle_1 = 1,
-    eBrain0_Idle_2 = 2,
-    eBrain0_GoodGameSpeak_3 = 3,
-    eBrain0_WrongGameSpeak_4 = 4,
-    eBrain0_Shrug_5 = 5,
-    eBrain0_SaysOkay_6 = 6,
-    eBrain0_Chanting_7 = 7,
-    eBrain0_GivingRing_8 = 8,
-    eBrain0_ReceivingRing1_9 = 9,
-    eBrain0_RecievingRing2_10 = 10
-};
-
-enum Brain_1_Chisle
-{
-    eBrain1_StartToChisle_0 = 0,
-    eBrain1_ChisleTheFloor_1 = 1,
-    eBrain1_SmallBreak_2 = 2,
-    eBrain1_StandUp_3 = 3,
-    eBrain1_SadNoise_4 = 4,
-    eBrain1_Duck_5 = 5,
-    eBrain1_OutOfDuck_6 = 6,
-    eBrain1_DuckToChisle_7 = 7,
-    eBrain1_DuckKnockback_8 = 8
-};
-
-enum Brain_2_CrouchScrub
-{
-    eBrain2_StartToScrub_0 = 0,
-    eBrain2_SmallBreak_1 = 1,
-    eBrain2_Scrubbing_2 = 2,
-    eBrain2_StandUp_3 = 3,
-    eBrain2_SadNoise_4 = 4,
-    eBrain2_SmallBreakThroughGameSpeak_5 = 5,
-    eBrain2_Duck_6 = 6,
-    eBrain2_DuckKnockback_7 = 7
-};
-
-enum Brain_3_TurnWheel
-{
-    eBrain3_TurningWheel_0 = 0,
-    eBrain3_SittingDown_1 = 1,
-    eBrain3_InterruptAction_2 = 2,
-    eBrain3_TurningWheelToDuck_3 = 3,
-    eBrain3_Duck_4 = 4,
-    eBrain3_DuckToTurningWheel_5 = 5
-};
-
-enum Brain_4_ListeningToAbe
-{
-    eBrain4_Inactive_0 = 0,
-    eBrain4_GetsAttentive_1 = 1,
-    eBrain4_CrazyFollowMe_2 = 2,
-    eBrain4_SteppingBack_3 = 3,
-    eBrain4_FollowingIdle_4 = 4,
-    eBrain4_Walking_5 = 5,
-    eBrain4_Running_6 = 6,
-    eBrain4_Idle_7 = 7,
-    eBrain4_CrazySlideTurn_8 = 8,
-    eBrain4_GetsWaitWhileMoving_9 = 9,
-    eBrain4_InitializeMovement_10 = 10,
-    eBrain4_PullingLever_11 = 11,
-    eBrain4_GetsCommand_12 = 12,
-    eBrain4_Slapped_13 = 13,
-    eBrain4_Knockback_14 = 14,
-    eBrain4_GettingSorry_15 = 15,
-    eBrain4_Suiciding_16 = 16,
-    eBrain4_RageSlap_17 = 17,
-    eBrain4_RageTurn_18 = 18,
-    eBrain4_CrazyDeny_19 = 19,
-    eBrain4_StopsWhileMoving_20 = 20,
-    eBrain4_CrazyLaugh_21 = 21,
-    eBrain4_LostAttention_22 = 22
-};
-
-enum Brain_6_Escape
-{
-    eBrain6_PortalOppened_0 = 0,
-    eBrain6_StandingUp_1 = 1,
-    eBrain6_Running_2 = 2,
-    eBrain6_Jumping_3 = 3,
-    eBrain6_Replacing_4 = 4
-};
-
-enum Brain_8_AngryWorker
-{
-    eBrain8_Inactive_0 = 0,
-    eBrain8_LeverIdle_1 = 1,
-    eBrain8_PullingLever_2 = 2,
-    eBrain8_Speaking_3 = 3,
-    eBrain8_WheelIdle_4 = 4,
-    eBrain8_UsingWheel_5 = 5,
-    eBrain8_Unused_6 = 6,
-    eBrain8_Unused_7 = 7
-};
-
-enum Brain_9_Sick
-{
-    eBrain9_Inactive_0 = 0,
-    eBrain9_Idle_1 = 1,
-    eBrain9_Duck_2 = 2,
-    eBrain9_StandingUp_3 = 3,
-    eBrain9_Farting_4 = 4,
-};
 
 s16 Mudokon::Brain_0_GiveRings()
 {
@@ -5030,6 +5041,7 @@ s16 Mudokon::Brain_8_AngryWorker()
             }
 
             field_194_timer = sGnFrame + Math_RandomRange(30, 45);
+            
             // adds mudokon lag when quicksaving/quickloading in the same screen
             AddAlerted();
 
@@ -5213,11 +5225,13 @@ s16 Mudokon::Brain_8_AngryWorker()
 s16 Mudokon::Brain_9_Sick()
 {
     // TODO: Lame hack, tortured muds make the "real" mud do nothing.
+    // Sometimes this hack fails which makes AddAlerted underministic. With it disabled it just means that muds will respond to game speak which they sometimes did anyway when in a tear x-tractor.
+    /*
     if (FindObjectOfType(ReliveTypes::eTorturedMud, mXPos, mYPos - FP_FromInteger(50)) || !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
     {
         LastGameSpeak(); // TODO: Pointless call ??
         return field_190_brain_sub_state;
-    }
+    }*/
 
     if (IsEventInRange(
             kEventMudokonAbuse,
@@ -5286,6 +5300,7 @@ s16 Mudokon::Brain_9_Sick()
                 return field_190_brain_sub_state;
             }
 
+            // Causes mud lag
             AddAlerted();
 
             mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit3_Can_Be_Possessed);

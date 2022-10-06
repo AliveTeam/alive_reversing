@@ -1064,36 +1064,42 @@ s8 Sys_PumpMessages_4EE4F4()
     // inputs. Any attempt to quit while playing back is an instant quit to avoid desyncs.
     while (SDL_PollEvent(&event))
     {
-    #if AUTO_SWITCH_CONTROLLER // OG Change - Automatically switches active controller (gamepad/keyboard)
-        if (event.type == SDL_JOYDEVICEADDED && !isRecording)
+ #if AUTO_SWITCH_CONTROLLER // OG Change - Automatically switches active controller (gamepad/keyboard)
+        // Auto switch off during recording or playback as reading the ini
+        // file at random times will desync.
+        const bool allowAutoSwitch = !isRecording && !isPlaying;
+        if (allowAutoSwitch)
         {
-            totalConnectedJoysticks++;
-            LOG_INFO("User just inserted joystick!");
-            Input_Init_491BC0();
-            sJoystickEnabled = 1;
-        }
-        else if (event.type == SDL_JOYDEVICEREMOVED && !isRecording)
-        {
-            totalConnectedJoysticks--;
-            LOG_INFO("User just removed joystick!");
+            if (event.type == SDL_JOYDEVICEADDED && !isRecording)
+            {
+                totalConnectedJoysticks++;
+                LOG_INFO("User just inserted joystick!");
+                Input_Init_491BC0();
+                sJoystickEnabled = 1;
+            }
+            else if (event.type == SDL_JOYDEVICEREMOVED && !isRecording)
+            {
+                totalConnectedJoysticks--;
+                LOG_INFO("User just removed joystick!");
 
-            if (totalConnectedJoysticks > 0)
-            {
-                Input_Init_491BC0(); // Ensures next joystick is usable
-            }
-            else
-            {
-                sJoystickEnabled = 0; // Returns to keyboard controls
+                if (totalConnectedJoysticks > 0)
+                {
+                    Input_Init_491BC0(); // Ensures next joystick is usable
+                }
+                else
+                {
+                    sJoystickEnabled = 0; // Returns to keyboard controls
+                }
             }
         }
-        else
-    #endif // AUTO_SWITCH_CONTROLLER
-            if (event.type == SDL_KEYDOWN)
+#endif  // AUTO_SWITCH_CONTROLLER
+
+        if (event.type == SDL_KEYDOWN)
+        {
+            if (!isPlaying)
             {
-                if (!isPlaying)
-                {
-                    KeyDownEvent(event.key.keysym.scancode);
-                }
+                KeyDownEvent(event.key.keysym.scancode);
+            }
 
                 if (isRecording)
                 {

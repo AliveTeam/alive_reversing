@@ -26,6 +26,7 @@
 #include "Glukkon.hpp"
 #include "LvlArchive.hpp"
 #include "Sys.hpp"
+#include "BaseGameAutoPlayer.hpp"
 
 MainMenuController* MainMenuController::gMainMenuController = nullptr;
 
@@ -740,7 +741,7 @@ const MainMenuText sAbeMotions_562448[15] = {
     {330, 60, kRight, 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u},             //roll from crouch right arrow
     {330, 79, kUp, 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u},                //zturn up arrow
     {330, 98, kAction, 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u},            //action [ctrl]
-    {334, 117, "Z+" kDPad, 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u},        //throw [z] + Dpad
+    {334, 117, kThrow "+" kDPad, 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u},  //throw [z] + Dpad
     {330, 136, kFart, 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u},             //fart [x]
     {330, 155, kSorry, 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u},            //sympathy [7]
     {330, 174, kAnger, 2u, 0u, 0u, 0u, 0.88f, 0u, 0u, 0u, 0u},            //angry slap [5]
@@ -1850,9 +1851,13 @@ MainMenuNextCam MainMenuController::BackStory_Or_NewGame_Update_4D1C60(u32 input
         if (field_1FC_button_index == 0) // Show backstory
         {
             FmvInfo* pFmvRecord = Path_Get_FMV_Record(EReliveLevelIds::eMenu, 4u);
-            while (Input_IsVKPressed_4EDD40(VK_RETURN))
+
+            if (!GetGameAutoPlayer().IsRecording() && !GetGameAutoPlayer().IsPlaying())
             {
-                SYS_EventsPump_494580();
+                while (Input_IsVKPressed_4EDD40(VK_RETURN))
+                {
+                    SYS_EventsPump_494580();
+                }
             }
 
             u32 fmvSector = 0;
@@ -3140,39 +3145,14 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                     strcat(buffer, "movies");
                 }
 
-                s32 i = 0;
-                for (;;) // TODO: Switch to using the len/size of sCdRomDrives_5CA488 when reversed
-                {
-                    if (!sCdRomDrives_5CA488[i])
-                    {
-                        // Out of CD drives to try
-                        buffer[0] = 0;
-                        break;
-                    }
-
-                    buffer[0] = sCdRomDrives_5CA488[i];
-                    if (IO_DirectoryExists(buffer))
-                    {
-                        // Found a valid drive
-                        break;
-                    }
-
-                    i++;
-                }
-
-                if (!buffer[0])
-                {
-                    // Displays the "Abes Exoddus" full screen message you see on boot.
-                    // You will probably always see this given that the CD drive with the game in it
-                    // usually isn't there.
-                    Display_Full_Screen_Message_Blocking(1, MessageType::eShortTitle_3);
-                }
-
                 // Find the record for GTILOGO.STR
                 FmvInfo* pFmvRecord = Path_Get_FMV_Record(EReliveLevelIds::eMenu, 3u);
-                while (Input_IsVKPressed_4EDD40(VK_RETURN))
+                if (!GetGameAutoPlayer().IsRecording() && !GetGameAutoPlayer().IsPlaying())
                 {
-                    SYS_EventsPump_494580();
+                    while (Input_IsVKPressed_4EDD40(VK_RETURN))
+                    {
+                        SYS_EventsPump_494580();
+                    }
                 }
 
                 u32 pos = 0; // Gets set to 0x11111111
@@ -3198,9 +3178,12 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                     }
                 }
 
-                while (Input_IsVKPressed_4EDD40(VK_RETURN))
+                if (!GetGameAutoPlayer().IsRecording() && !GetGameAutoPlayer().IsPlaying())
                 {
-                    SYS_EventsPump_494580();
+                    while (Input_IsVKPressed_4EDD40(VK_RETURN))
+                    {
+                        SYS_EventsPump_494580();
+                    }
                 }
 
                 // Create movie object for the DD logo

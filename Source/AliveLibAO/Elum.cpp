@@ -1428,7 +1428,8 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
                 return 0;
             }
 
-            if ((mVelX < FP_FromInteger(0) && mXPos - FP_FromInteger(field_12C_honey_xpos) >= (kGridSize * FP_FromInteger(2))) || (mVelX > FP_FromInteger(0) && FP_FromInteger(field_12C_honey_xpos) - mXPos >= (kGridSize * FP_FromInteger(2))))
+            if ((mVelX <= FP_FromInteger(0) && mXPos - FP_FromInteger(field_12C_honey_xpos) >= (kGridSize * FP_FromInteger(2))) ||
+                (mVelX >= FP_FromInteger(0) && FP_FromInteger(field_12C_honey_xpos) - mXPos >= (kGridSize * FP_FromInteger(2))))
             {
                 return field_12A_brain_sub_state;
             }

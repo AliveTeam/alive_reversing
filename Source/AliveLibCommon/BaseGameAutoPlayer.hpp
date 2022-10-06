@@ -15,6 +15,7 @@ enum RecordTypes : u32
     SyncPoint = 0xf00df00d,
     InputType = 0x101010,
     EventPoint = 0x445511,
+    Buffer = 0x99911144,
 };
 
 enum SyncPoints : u32
@@ -90,8 +91,8 @@ public:
     template <typename TypeToWrite>
     bool Write(const std::vector<TypeToWrite>& value)
     {
-        static_assert(std::is_pod<TypeToWrite>::value, "std::vector<TypeToWrite> must be pod");
-        const bool ret = ::fwrite(value.data(), sizeof(TypeToWrite), value.size(), mFile) == 1;
+        static_assert(std::is_pod<TypeToWrite>::value, "TypeToWrite must be pod");
+        const bool ret = ::fwrite(value.data(), sizeof(TypeToWrite), value.size(), mFile) == value.size();
         Flush();
         return ret;
     }
@@ -106,8 +107,8 @@ public:
     template <typename TypeToRead>
     bool Read(std::vector<TypeToRead>& value)
     {
-        static_assert(std::is_pod<TypeToRead>::value, "std::vector<TypeToRead> must be pod");
-        return ::fread(value.data(), sizeof(TypeToRead), value.size(), mFile) == 1;
+        static_assert(std::is_pod<TypeToRead>::value, "TypeToRead must be pod");
+        return ::fread(value.data(), sizeof(TypeToRead), value.size(), mFile) == value.size();
     }
 
     u32 PeekU32();
@@ -172,6 +173,8 @@ public:
 
     virtual void SaveObjectStates() = 0;
 
+    void SaveBuffer(const std::vector<u8>& buffer);
+
 protected:
     AutoFILE mFile;
 };
@@ -189,6 +192,8 @@ public:
     RecordTypes PeekNextType();
     RecordedEvent ReadEvent();
     virtual bool ValidateObjectStates() = 0;
+
+    std::vector<u8> ReadBuffer();
 
 protected:
     template <typename TypeToValidate>
@@ -262,6 +267,8 @@ public:
     void SyncPoint(u32 syncPointId);
     void DisableRecorder();
     void EnableRecorder();
+
+    std::vector<u8> RestoreFileBuffer(const std::vector<u8>& buffer);
 
 private:
 

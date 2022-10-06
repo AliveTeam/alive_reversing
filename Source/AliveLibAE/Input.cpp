@@ -939,7 +939,15 @@ const char_type* iniCategories[4] = {
 
 void NewParseSettingsIni()
 {
-    const auto abeBuffer = FS::ReadFile(FS::GetPrefPath() + "abe2.ini");
+    auto abeBuffer = FS::ReadFile(FS::GetPrefPath() + "abe2.ini");
+
+    // Save the ini data to the recording or overwrite the data we read from
+    // disk with the previously saved ini file data buffer that is in the recording
+    // that we are playing back.
+    // This prevents rebound keys/game pad input buttons etc from de-syncing the game
+    // by changing the LED text size thus changing the number of rng calls and other annoyances.
+    abeBuffer = GetGameAutoPlayer().RestoreFileBuffer(abeBuffer);
+
     const std::string abeConfig(reinterpret_cast<const char_type*>(abeBuffer.data()), abeBuffer.size());
     std::vector<std::string> configSplit = SplitString(abeConfig, '\n');
 
@@ -1560,6 +1568,8 @@ void Input_InitJoyStick_460080()
     // Added because sometimes joyGetDevCapsA hangs on Win10 1809.
     // Not too worried about this given all of this will be replaced with SDL2 at some point.
     TRACE_ENTRYEXIT;
+
+    SDL_GameControllerAddMappingsFromFile("gamecontrollerdb.txt");
 
 #if MOBILE
     gTouchController->Init();
