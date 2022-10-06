@@ -47,8 +47,8 @@ private:
     //PSX_RECT field_28_pal_rect1 = {};
     //u16* field_30_pPal2 = nullptr;
     //PSX_RECT field_34_pal_rect2 = {};
-    std::shared_ptr<AnimationPal> mPal1;
-    std::shared_ptr<AnimationPal> mPal2;
+    PalResource mPal1;
+    PalResource mPal2;
 
     s32 field_3C = 0;
     s32 field_40 = 0;
