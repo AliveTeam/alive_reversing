@@ -34,6 +34,9 @@
 #define GL_AVAILABLE_PALETTES 256
 #define GL_PALETTE_DEPTH 256
 
+#define GL_CAM_TEXTURE_LIFETIME 300
+#define GL_SPRITE_TEXTURE_LIFETIME 300
+
 #define GL_USE_NUM_TEXTURE_UNITS 8
 
 enum class AnimId;
@@ -43,7 +46,7 @@ struct VertexData final
     s32 x, y;
     u32 r, g, b;
     u32 u, v, texWidth, texHeight;
-    u32 drawType, isSemiTrans, isShaded;
+    u32 drawType, isSemiTrans, isShaded, blendMode;
     u32 paletteIndex, textureUnitIndex;
 };
 
@@ -146,43 +149,43 @@ private:
     GLenum mBatchDrawMode = BATCH_VALUE_UNSET;
     std::vector<u32> mBatchIndicies;
 
-    GLuint mBatchAdditionalTexId = BATCH_VALUE_UNSET;
-    std::vector<GLuint> mBatchTextureIds;
-    u32 mBatchDrawType = BATCH_VALUE_UNSET;
-    GLint mTextureUnits[GL_USE_NUM_TEXTURE_UNITS];
-
     GLuint mPaletteTextureId = 0;
     std::map<u32, u32> mPaletteHashes;
     std::map<u32, bool> mUsedPalettes;
 
-    GLuint mGasTextureId = 0;
-    TextureAndUniqueResId mCamTexture;
-    TextureAndUniqueResId mFg1Texture; // TODO: should probably be 4 of these
-    TextureAndUniqueResId mFontTexture;
+    GLuint mCurGasTextureId = 0;
 
+    GLuint mCurCamTextureId = 0;
+    std::vector<GLuint> mCurFG1TextureIds;
+    GLint mFG1Units[4] = {3, 4, 5, 6};
+
+    std::vector<GLuint> mBatchTextureIds;
+    GLint mTextureUnits[GL_USE_NUM_TEXTURE_UNITS];
+
+    GLuint CreateCachedTexture(u32 uniqueId, u32 lifetime);
+    void DecreaseResourceLifetimes();
     void DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height);
+    GLuint GetCachedTextureId(u32 uniqueId, s32 bump = 0);
     u16 GetTPageBlendMode(u16 tPage);
     void InvalidateBatch();
-    void PushVertexData(GLenum mode, VertexData* pVertData, int count, u32 blendMode, GLuint priTexId = 0, GLuint secTexId = 0);
+    void PushVertexData(GLenum mode, VertexData* pVertData, int count, GLuint textureId = 0);
     void SetupBlendMode(u16 blendMode);
     
     u32 PreparePalette(AnimationPal& pCache);
     u32 HashPalette(const AnimationPal* pPal);
     u32 PrepareTextureFromAnim(Animation& anim);
     u32 PrepareTextureFromPoly(Poly_FT4& poly);
-    void FreeUnloadedAnimTextures();
 
     // END ROZZA STUFF
 
     GLuint mVAO = 0;
 
-    s32 mFrameNumber = 0;
-    struct LastUsedFrame final
+    struct CachedTexture final
     {
         GLuint mTextureId = 0;
-        s32 mLastUsedFrame = 0;
+        s32 mLifetime = 0;
     };
-    std::map<u32, LastUsedFrame> mTextureCache;
+    std::map<u32, CachedTexture> mTextureCache;
 
     void DebugWindow();
 };
