@@ -10,6 +10,7 @@ std::mutex AliveAudio::voiceListMutex;
 std::vector<Voice*> AliveAudio::m_Voices;
 long long AliveAudio::currentSampleIndex = 20;
 bool AliveAudio::voiceListLocked = false;
+biquad* AliveAudio::AliveAudioEQBiQuad = nullptr;
 
 void AliveInitAudio()
 {
@@ -264,6 +265,28 @@ void AliveRenderAudio(float* AudioStream, int StreamLength)
     CleanVoices();
 }
 
+
+void AliveAudioSetEQ(float cutoff)
+{
+    if (AliveAudio::AliveAudioEQBiQuad != nullptr)
+        delete AliveAudio::AliveAudioEQBiQuad;
+
+    AliveAudio::AliveAudioEQBiQuad = BiQuad_new(PEQ, 8, cutoff, AliveAudioSampleRate, 1);
+}
+
+void AliveEQEffect(float* stream, int len)
+{
+    if (AliveAudio::AliveAudioEQBiQuad == nullptr)
+    {
+        AliveAudioSetEQ(20500);
+    }
+
+    for (int i = 0; i < len; i++)
+    {
+        stream[i] = BiQuad(stream[i], AliveAudio::AliveAudioEQBiQuad);
+    }
+}
+
 void AliveAudioSDLCallback(void* udata, Uint8* stream, int len)
 {
     udata;
@@ -271,10 +294,11 @@ void AliveAudioSDLCallback(void* udata, Uint8* stream, int len)
 
     AliveAudio::LockNotes();
     AliveRenderAudio((float*) stream, len / sizeof(float));
-    AliveAudio::UnlockNotes();
 
     //if (AliveAudio::EQEnabled)
-    //    AliveEQEffect((float*) stream, len / sizeof(float));
+    AliveEQEffect((float*) stream, len / sizeof(float));
+
+    AliveAudio::UnlockNotes();
 }
 
 } // namespace psx

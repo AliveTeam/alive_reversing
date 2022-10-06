@@ -9,6 +9,7 @@
 #include <algorithm>
 #include "../Soundbank.hpp"
 #include "Voice.hpp"
+#include "biquad.hpp"
 
 namespace psx {
 
@@ -44,6 +45,11 @@ public:
     static void ClearAllTrackVoices(int trackID, bool forceKill = false);
 
     static long long currentSampleIndex;
+    static biquad* AliveAudioEQBiQuad;
+
+private:
+    static void AliveAudioSetEQ(float cutoff);
+    static void AliveEQEffect(float* stream, int len);
 };
 
 } // namespace psx

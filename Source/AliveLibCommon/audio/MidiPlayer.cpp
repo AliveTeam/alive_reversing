@@ -2,7 +2,7 @@
 
 #include "MidiPlayer.hpp"
 #include "Soundbank.hpp"
-#include "ADSR.hpp"
+#include "mixer/ADSR.hpp"
 #include "mixer/AliveAudio.hpp"
 #include "SequencePlayer.hpp"
 

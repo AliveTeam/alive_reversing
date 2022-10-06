@@ -944,7 +944,7 @@ public:
         soundDatFile.open("sounds.dat", std::ios::binary);
         if (!soundDatFile.is_open())
         {
-            abort();
+            throw std::invalid_argument("Could not find sounds.dat");
         }
         soundDatFile.seekg(0, std::ios::end);
         std::streamsize fileSize = soundDatFile.tellg();
