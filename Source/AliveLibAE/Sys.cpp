@@ -1065,29 +1065,35 @@ EXPORT s8 CC Sys_PumpMessages_4EE4F4()
     while (SDL_PollEvent(&event))
     {
  #if AUTO_SWITCH_CONTROLLER // OG Change - Automatically switches active controller (gamepad/keyboard)
-        if (event.type == SDL_JOYDEVICEADDED && !isRecording)
+        // Auto switch off during recording or playback as reading the ini
+        // file at random times will desync.
+        const bool allowAutoSwitch = !isRecording && !isPlaying;
+        if (allowAutoSwitch)
         {
-            totalConnectedJoysticks++;
-            LOG_INFO("User just inserted joystick!");
-            Input_Init_491BC0();
-            sJoystickEnabled_5C9F70 = 1;
-        }
-        else if (event.type == SDL_JOYDEVICEREMOVED && !isRecording)
-        {
-            totalConnectedJoysticks--;
-            LOG_INFO("User just removed joystick!");
+            if (event.type == SDL_JOYDEVICEADDED && !isRecording)
+            {
+                totalConnectedJoysticks++;
+                LOG_INFO("User just inserted joystick!");
+                Input_Init_491BC0();
+                sJoystickEnabled_5C9F70 = 1;
+            }
+            else if (event.type == SDL_JOYDEVICEREMOVED && !isRecording)
+            {
+                totalConnectedJoysticks--;
+                LOG_INFO("User just removed joystick!");
 
-            if (totalConnectedJoysticks > 0)
-            {
-                Input_Init_491BC0(); // Ensures next joystick is usable
-            }
-            else
-            {
-                sJoystickEnabled_5C9F70 = 0; // Returns to keyboard controls
+                if (totalConnectedJoysticks > 0)
+                {
+                    Input_Init_491BC0(); // Ensures next joystick is usable
+                }
+                else
+                {
+                    sJoystickEnabled_5C9F70 = 0; // Returns to keyboard controls
+                }
             }
         }
-        else 
-#endif // AUTO_SWITCH_CONTROLLER
+#endif  // AUTO_SWITCH_CONTROLLER
+
         if (event.type == SDL_KEYDOWN)
         {
             if (!isPlaying)

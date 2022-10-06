@@ -220,6 +220,7 @@ EXPORT s32 CC Game_End_Frame_4950F0(u32 flags)
         return 0;
     }
 
+    /*
     const u8 oldShowVRam = sPsxEMU_show_vram_BD1465;
     if (sCommandLine_DDCheatEnabled_5CA4B5)
     {
@@ -238,6 +239,7 @@ EXPORT s32 CC Game_End_Frame_4950F0(u32 flags)
     {
         Add_Dirty_Area_4ED970(0, 0, 640, 240);
     }
+    */
 
     const f64 fps = Calculate_FPS_495250(sFrameCount_5CA300);
     CheckShiftCapslock_4953B0();
