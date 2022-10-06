@@ -44,6 +44,8 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
     field_110_state = States::eNone_0;
 
     mLoadedPals.push_back(ResourceManagerWrapper::LoadPal(PalId::Rock));
+
+    // TODO: Think this should only be done for the stock yards
     //if (ppPal)
     {
         // TODO: I think this only existed in certain lvls, will need a way to know

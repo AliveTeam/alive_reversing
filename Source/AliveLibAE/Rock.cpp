@@ -45,6 +45,9 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
 
     mLoadedPals.push_back(ResourceManagerWrapper::LoadPal(PalId::Rock));
 
+    /*
+    // TODO: Don't know where this pal is, probably doesn't exist
+    // maybe a stockyards hangover from AO
     //if (ppPal)
     {
         // TODO: I think this only existed in certain lvls, will need a way to know
@@ -54,7 +57,7 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
     //else
     {
         mAnim.ReloadPal();
-    }
+    }*/
 
     field_11E_volume = 0;
 
