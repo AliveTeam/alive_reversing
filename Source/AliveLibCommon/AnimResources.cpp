@@ -7,7 +7,7 @@ constexpr PalDetails kNullPalDetails = {};
 constexpr CombinedPalRecord kPalRecords[] = {
     {PalId::BlindMud, {"MUDPAL.BND", kMudblindResID}, kNullPalDetails },
     {PalId::GreenFlash, {"UXB.BND", kGrenflshResID}, {"UXB.BND", AO::kGrenflshAOResID}},
-    {kNullPalDetails, {"EPUIROCK.BAN", AO::kAberockAOResID}},
+    {PalId::Rock, kNullPalDetails, {"EPUIROCK.BAN", AO::kAberockAOResID}},
     // TODO: Stockyards rock has diff pal?
     {PalId::AngryMud, {"MUDPAL.BND", kMudangryResID}, kNullPalDetails},
     {PalId::SadMud, {"MUDPAL.BND", kMudsadResID}, kNullPalDetails},
