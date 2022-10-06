@@ -1318,11 +1318,11 @@ const char* ToString(EAnimGroup animGroup)
     }
 }
 
-PalRecConversionInfo kPalConversionInfo[16] =
+PalRecConversionInfo kPalConversionInfo[17] =
 {
     { PalId::BlindMud,               false },
     { PalId::GreenFlash,             false },
-    { PalId::Rock,                   false },
+    { PalId::BlueRock,               false },
     { PalId::AngryMud,               false },
     { PalId::SadMud,                 false },
     { PalId::WiredMud,               false },
@@ -1336,6 +1336,7 @@ PalRecConversionInfo kPalConversionInfo[16] =
     { PalId::StockYardsAbeGib,       false },
     { PalId::StockYardsSlogGib,      false },
     { PalId::Bomb,                   false },
+    { PalId::StockYardsSlig,         false }
 };
 
 const char* ToString(PalId pal)
@@ -1346,8 +1347,8 @@ const char* ToString(PalId pal)
          return "blind_mud.pal";
     case PalId::GreenFlash:
         return "green_flash.pal";
-    case PalId::Rock:
-        return "rock.pal";
+    case PalId::BlueRock:
+        return "blue_rock.pal";
     case PalId::AngryMud:
         return "angry_mud.pal";
     case PalId::SadMud:
@@ -1390,6 +1391,8 @@ const char* ToString(PalId pal)
         return "ledfont_statusboard.pal";
     case PalId::LedFont_BrewMachine:
         return "ledfont_brewmachine.pal";
+    case PalId::StockYardsSlig:
+        return "stock_yards_slig.pal";
     }
     ALIVE_FATAL("Unknown pal id");
 }
