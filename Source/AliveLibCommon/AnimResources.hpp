@@ -957,7 +957,7 @@ enum class PalId
     Default, // Don't override the anims default pal
     BlindMud, // AEResourceID::kMudblindResID
     GreenFlash, // AEResourceID::kGrenflshResID, AOResourceID::kGrenflshAOResID
-    Rock, // AOResourceID::kAberockAOResID, AEResourceID::kAberockResID
+    BlueRock, // AOResourceID::kAberockAOResID, AEResourceID::kAberockResID
     AngryMud, // AEResourceID::kMudangryResID,
     SadMud, // AEResourceID::kMudsadResID, T
     WiredMud, // AEResourceID::kMudwiredResID,
@@ -971,6 +971,7 @@ enum class PalId
     StockYardsAbeGib, // AOResourceID::kAbeblowAOResID
     StockYardsSlogGib, // AOResourceID::kSlogBlowAOResID
     Bomb, // AE kBombResID
+    StockYardsSlig, // AO kSlgbasicAOResID
     MainMenuFont_MainMenu, // AE hard coded data
     MainMenuFont_PauseMenu, // AE hard coded data
     LedFont_ColourfulMeter, // AE hard coded data

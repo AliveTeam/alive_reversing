@@ -43,16 +43,15 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
     field_10C_count = count;
     field_110_state = States::eNone_0;
 
-    mLoadedPals.push_back(ResourceManagerWrapper::LoadPal(PalId::Rock));
+    mLoadedPals.push_back(ResourceManagerWrapper::LoadPal(PalId::BlueRock));
 
-    // TODO: Think this should only be done for the stock yards
-    //if (ppPal)
+    if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
     {
         // TODO: I think this only existed in certain lvls, will need a way to know
         // which pal to use per lvl/path
-        mAnim.LoadPal(GetPalRes(PalId::Rock));
+        mAnim.LoadPal(GetPalRes(PalId::BlueRock));
     }
-    //else
+    else
     {
         mAnim.ReloadPal();
     }

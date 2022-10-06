@@ -928,7 +928,7 @@ static void SaveLevelInfoJson(const FileSystem::Path& dataDir, EReliveLevelIds /
     SaveJson(j, fs, pathJsonFile);
 }
 
-extern PalRecConversionInfo kPalConversionInfo[16];
+extern PalRecConversionInfo kPalConversionInfo[17];
 
 static void ConvertPal(const FileSystem::Path& dataDir, const char* pFileName, const u16* pData, u32 len);
 

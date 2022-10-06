@@ -7,8 +7,7 @@ constexpr PalDetails kNullPalDetails = {};
 constexpr CombinedPalRecord kPalRecords[] = {
     {PalId::BlindMud, {"MUDPAL.BND", kMudblindResID}, kNullPalDetails },
     {PalId::GreenFlash, {"UXB.BND", kGrenflshResID}, {"UXB.BND", AO::kGrenflshAOResID}},
-    {PalId::Rock, kNullPalDetails, {"EPUIROCK.BAN", AO::kAberockAOResID}},
-    // TODO: Stockyards rock has diff pal?
+    {PalId::BlueRock, kNullPalDetails, {"EPUIROCK.BAN", AO::kAberockAOResID}},
     {PalId::AngryMud, {"MUDPAL.BND", kMudangryResID}, kNullPalDetails},
     {PalId::SadMud, {"MUDPAL.BND", kMudsadResID}, kNullPalDetails},
     {PalId::WiredMud, {"MUDPAL.BND", kMudwiredResID}, kNullPalDetails},
@@ -22,6 +21,7 @@ constexpr CombinedPalRecord kPalRecords[] = {
     {PalId::StockYardsAbeGib, kNullPalDetails, {"ABEE1PAL.BAN", AO::kAbeblowAOResID}},
     {PalId::StockYardsSlogGib, kNullPalDetails, {"DOGE1PAL.BAN", AO::kSlogBlowAOResID}},
     {PalId::Bomb, {"BOMB.BND", kBombResID}, {"BOMB.BND", AO::kBombAOResID}},
+    {PalId::StockYardsSlig, kNullPalDetails, {"E1PAL.BAN", AO::kSlgbasicAOResID}},
 };
 
 constexpr BgAnimDetails kNullBgAnimDetails = {};

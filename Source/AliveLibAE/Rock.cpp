@@ -44,7 +44,7 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
     field_11C_state = RockStates::eNone_0;
 
      /*
-    mLoadedPals.push_back(ResourceManagerWrapper::LoadPal(PalId::Rock));
+    mLoadedPals.push_back(ResourceManagerWrapper::LoadPal(PalId::BlueRock));
 
    
     // TODO: Don't know where this pal is, probably doesn't exist
@@ -53,7 +53,7 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
     {
         // TODO: I think this only existed in certain lvls, will need a way to know
         // which pal to use per lvl/path
-        mAnim.LoadPal(GetPalRes(PalId::Rock));
+        mAnim.LoadPal(GetPalRes(PalId::BlueRock));
     }
     //else
     {
