@@ -54,6 +54,7 @@ void AliveAudio::PlayOneShot(int programId, int note, s32 volLeft, s32 volRight,
                 voice->i_Note = note;
                 voice->f_Velocity = float(volume == 0 ? 127 : volume) / 127;
                 voice->m_Tone = tone;
+                voice->f_Pan = float(volRight) / float(volLeft) - 1;
 
                 // TODO - something more is probably suppose to happen with pitch.
                 // From the looks of things pitch_min and pitch_max are always equal.
@@ -243,7 +244,7 @@ void AliveRenderAudio(float* AudioStream, int StreamLength)
                 continue;
             }
             
-            float centerPan = voice->m_Tone->f_Pan;
+            float centerPan = voice->f_Pan == 0 ? voice->m_Tone->f_Pan : voice->f_Pan;
             float leftPan = 1.0f;
             float rightPan = 1.0f;
 
