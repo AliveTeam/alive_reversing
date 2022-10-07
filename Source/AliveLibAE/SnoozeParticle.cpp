@@ -174,7 +174,6 @@ void SnoozeParticle::VUpdate()
 
 void SnoozeParticle::VRender(PrimHeader** ppOt)
 {
-    PSX_RECT rectToInvalidate = {};
     const s16 bufIdx = gPsxDisplay.mBufferIndex;
 
     if (mState == SnoozeParticleState::eBlowingUp_2)
@@ -210,10 +209,6 @@ void SnoozeParticle::VRender(PrimHeader** ppOt)
             Poly_Set_SemiTrans(&pZExplosionLine->mBase.header, 1);
             OrderingTable_Add(OtLayer(ppOt, mOtLayer), &pZExplosionLine->mBase.header);
         }
-        rectToInvalidate.x = static_cast<s16>(PsxToPCX(xInScreen - 8, 0));
-        rectToInvalidate.w = static_cast<s16>(PsxToPCX(xInScreen + 8, 0));
-        rectToInvalidate.y = static_cast<s16>(yInScreen - 8);
-        rectToInvalidate.h = static_cast<s16>(yInScreen + 8);
     }
     else
     {
@@ -263,10 +258,6 @@ void SnoozeParticle::VRender(PrimHeader** ppOt)
 
         Poly_Set_SemiTrans(&pZLine->mBase.header, 1);
         OrderingTable_Add(OtLayer(ppOt, mOtLayer), &pZLine->mBase.header);
-        rectToInvalidate.x = rectX_v;
-        rectToInvalidate.y = rectY_v;
-        rectToInvalidate.w = rectW_v;
-        rectToInvalidate.h = rectH_v;
     }
     Prim_SetTPage* thisTPage = &field_1C4_tPage[bufIdx];
     const s32 tPage = PSX_getTPage(TPageMode::e4Bit_0, TPageAbr::eBlend_1, 0, 0);

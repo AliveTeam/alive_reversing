@@ -430,7 +430,7 @@ const MainMenu_TransitionData stru_55C038[24] = // 3 x 8's ?
         {-16, 0, 256, 1},
 };
 
-void MainMenuTransition::VScreenChanged_4369D0()
+void MainMenuTransition::VScreenChanged()
 {
     if (gMap.mOverlayId != gMap.GetOverlayId())
     {
@@ -438,14 +438,9 @@ void MainMenuTransition::VScreenChanged_4369D0()
     }
 }
 
-void MainMenuTransition::VScreenChanged()
+void MainMenuTransition::VUpdate()
 {
-    VScreenChanged_4369D0();
-}
-
-void MainMenuTransition::VUpdate_4365C0()
-{
-    if (!field_16_bDone && !field_1A)
+    if (!field_16_bDone)
     {
         field_10_current_Value += field_12_change_by_speed;
         if (field_14_fade_direction)
@@ -463,11 +458,6 @@ void MainMenuTransition::VUpdate_4365C0()
         }
         field_246_colour_fade_value--;
     }
-}
-
-void MainMenuTransition::VUpdate()
-{
-    VUpdate_4365C0();
 }
 
 MainMenuTransition::MainMenuTransition(Layer layer, s32 fadeDirection, s32 bKillWhenDone, s32 speed, TPageAbr abr)
@@ -522,15 +512,6 @@ void MainMenuTransition::StartTrans_436560(Layer layer, s16 fadeDirection, s16 b
     field_14_fade_direction = fadeDirection;
     field_16_bDone = 0;
 
-    if (2 * speed)
-    {
-        field_1A = 0;
-    }
-    else
-    {
-        field_1A = 1;
-    }
-
     field_18_bKillOnDone = bKillWhenDone;
 
     if (!fadeDirection)
@@ -549,11 +530,6 @@ void MainMenuTransition::StartTrans_436560(Layer layer, s16 fadeDirection, s16 b
 }
 
 void MainMenuTransition::VRender(PrimHeader** ppOt)
-{
-    VRender_436610(ppOt);
-}
-
-void MainMenuTransition::VRender_436610(PrimHeader** ppOt)
 {
     // TODO: The fixed point math/var needs cleaning up/refactoring in here
     s32 currentValue = field_10_current_Value;

@@ -372,7 +372,10 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
 
     // We should attempt to load OpenGL 3.2 first, because this is the minimum
     // required version for RenderDoc captures so we can actually debug stuff
-    char_type* glslVer = "#version 150";
+    const char_type* glslVer150 = "#version 150";
+    const char_type* glsVer140 = "#version 140";
+
+    bool glsVer150Supported = true;
 
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
@@ -387,7 +390,7 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
 
         // Our ACTUAL minimum OpenGL requirement is 3.1, though we will check
         // supported extensions on the GPU in a moment
-        glslVer = "#version 140";
+        glsVer150Supported = false;
 
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
@@ -430,7 +433,7 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
 
     // Setup IMGUI for texture debugging
     ImGui_ImplSDL2_InitForOpenGL(mWindow, mContext);
-    ImGui_ImplOpenGL3_Init(glslVer);
+    ImGui_ImplOpenGL3_Init(glsVer150Supported ? glslVer150 : glsVer140);
 
     // Create and bind the VAO, and never touch it again! Wahey.
     GL_VERIFY(glGenVertexArrays(1, &mVAO));

@@ -680,25 +680,22 @@ void Movie::VUpdate()
             SND_StopAll();
         }
 
-        if (sMovieNameIdx_5CA4C4 >= 0)
+        while (!DDV_Play(sMovieNames_5CA348.mNames[sMovieNameIdx_5CA4C4].mName))
         {
-            while (!DDV_Play(sMovieNames_5CA348.mNames[sMovieNameIdx_5CA4C4].mName))
+            if (gAttract_5C1BA0)
             {
-                if (gAttract_5C1BA0)
-                {
-                    break;
-                }
-
-                if (!Display_Full_Screen_Message_Blocking(Path_Get_Unknown(MapWrapper::FromAE(static_cast<LevelIds>(sLevelId_dword_5CA408))), MessageType::eSkipMovie_1))
-                {
-                    break;
-                }
+                break;
             }
 
-            if (++sMovieNameIdx_5CA4C4 == ALIVE_COUNTOF(sMovieNames_5CA348.mNames))
+            if (!Display_Full_Screen_Message_Blocking(Path_Get_Unknown(MapWrapper::FromAE(static_cast<LevelIds>(sLevelId_dword_5CA408))), MessageType::eSkipMovie_1))
             {
-                sMovieNameIdx_5CA4C4 = 0;
+                break;
             }
+        }
+
+        if (++sMovieNameIdx_5CA4C4 == ALIVE_COUNTOF(sMovieNames_5CA348.mNames))
+        {
+            sMovieNameIdx_5CA4C4 = 0;
         }
     }
     DeInit();

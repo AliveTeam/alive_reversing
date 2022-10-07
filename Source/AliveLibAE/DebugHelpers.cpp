@@ -50,7 +50,6 @@ s8 g_DebugGlobalFontPalette[32];
 Font_Context g_DebugGlobalFontContext;
 bool g_DebugGlobalFontIsInit = false;
 bool g_EnabledRaycastRendering = false;
-static bool g_DisableMusic = false;
 
 std::vector<RaycastDebug> g_RaycastDebugList;
 

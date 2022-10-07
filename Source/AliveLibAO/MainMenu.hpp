@@ -50,35 +50,23 @@ public:
     ~MainMenuTransition();
 
     virtual void VUpdate() override;
-
-    void VUpdate_4365C0();
-
     virtual void VScreenChanged() override;
-
-    void VScreenChanged_4369D0();
+    virtual void VRender(PrimHeader** ppOt) override;
 
     void StartTrans_436560(Layer layer, s16 fadeDirection, s16 bKillWhenDone, s16 speed);
 
-    virtual void VRender(PrimHeader** ppOt) override;
-
-    void VRender_436610(PrimHeader** ppOt);
-
-    s16 field_10_current_Value;
-    s16 field_12_change_by_speed;
-    s16 field_14_fade_direction;
-    s16 field_16_bDone;
-    s16 field_18_bKillOnDone;
-    s16 field_1A;
-    MainMenuTransition_Polys field_1C_polys[2];
-    Prim_SetTPage field_21C_tPage[2];
-    Layer field_23C_layer;
-    s16 field_23E_width;
-    s16 field_240_k120;
-    s16 field_242_idx;
-    s8 field_244;
-    s8 field_245;
-    s8 field_246_colour_fade_value;
-    s8 field_247;
+    s16 field_10_current_Value = 0;
+    s16 field_12_change_by_speed = 0;
+    s16 field_14_fade_direction = 0;
+    s16 field_16_bDone = 0;
+    s16 field_18_bKillOnDone = 0;
+    MainMenuTransition_Polys field_1C_polys[2] = {};
+    Prim_SetTPage field_21C_tPage[2] = {};
+    Layer field_23C_layer = Layer::eLayer_0;
+    s16 field_23E_width = 0;
+    s16 field_240_k120 = 0;
+    s16 field_242_idx = 0;
+    s8 field_246_colour_fade_value = 0;
 };
 ALIVE_ASSERT_SIZEOF(MainMenuTransition, 0x248);
 

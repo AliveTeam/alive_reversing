@@ -383,13 +383,10 @@ void Movie::VUpdate()
     void* hMovieFile = GetMovieIO().mIO_Open(sMovieNames_508B08.mNames[sMovieNameIdx_508C0C].mName);
 
     // Go to the next movie next time we come in
-    if (sMovieNameIdx_508C0C >= 0)
+    sMovieNameIdx_508C0C++;
+    if (sMovieNameIdx_508C0C == 3)
     {
-        sMovieNameIdx_508C0C++;
-        if (sMovieNameIdx_508C0C == 3)
-        {
-            sMovieNameIdx_508C0C = 0;
-        }
+        sMovieNameIdx_508C0C = 0;
     }
 
     // Bail if failed to open

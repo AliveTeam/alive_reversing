@@ -940,14 +940,16 @@ void Fleech::Motion_12_Climb()
                 case eLineTypes::eWallRight_2:
                 case eLineTypes::eBackgroundWallRight_6:
                     Sound(FleechSound::LandOnFloor_9);
-                    if (field_166_angle > 64u && field_166_angle < 128u)
+                    // dito
+                    /*if (field_166_angle > 64u && field_166_angle < 128u)
                     {
                         field_166_angle = -128 - field_166_angle;
                     }
                     else if (field_166_angle > 128 && field_166_angle < 192)
                     {
                         field_166_angle = -128 - field_166_angle;
-                    }
+                    }*/
+                    field_166_angle = -128 - field_166_angle;
                     break;
 
                 default:
@@ -1416,47 +1418,6 @@ void Fleech::RenderEx(PrimHeader** ot)
                 static_cast<u8>(b));
 
             OrderingTable_Add(OtLayer(ot, mAnim.mRenderLayer), &currTonguePoly2->mBase.header);
-
-            s16 invRect_x;
-            s16 invRect_y;
-            s16 invRect_w;
-            s16 invRect_h;
-
-            const s16 smallerof1andBaseX = std::min(
-                currTonguePoly2->mVerts[1].mVert.x,
-                currTonguePoly2->mBase.vert.x);
-            const s16 biggerof2and0X = std::max(
-                currTonguePoly2->mVerts[0].mVert.x,
-                currTonguePoly2->mVerts[2].mVert.x);
-
-            const s16 smallerof0andBaseY = std::min(
-                currTonguePoly2->mVerts[0].mVert.y,
-                currTonguePoly2->mBase.vert.y);
-            const s16 biggerof1and2Y = std::max(
-                currTonguePoly2->mVerts[1].mVert.y,
-                currTonguePoly2->mVerts[2].mVert.y);
-
-            if (smallerof1andBaseX < biggerof2and0X)
-            {
-                invRect_x = smallerof1andBaseX;
-                invRect_w = biggerof2and0X;
-            }
-            else
-            {
-                invRect_x = biggerof2and0X;
-                invRect_w = smallerof1andBaseX;
-            }
-
-            if (smallerof0andBaseY < biggerof1and2Y)
-            {
-                invRect_y = smallerof0andBaseY;
-                invRect_h = biggerof1and2Y;
-            }
-            else
-            {
-                invRect_y = biggerof1and2Y;
-                invRect_h = smallerof0andBaseY;
-            }
         }
         const s32 tPage = PSX_getTPage(TPageMode::e4Bit_0, TPageAbr::eBlend_0, 0, 0);
         Init_SetTPage(&field_40C[gPsxDisplay.mBufferIndex], 1, 0, tPage);

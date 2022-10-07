@@ -3675,13 +3675,13 @@ void MainMenuController::DrawMenuText_4D20D0(const MainMenuText* array, PrimHead
     }
 
     FP fontScale;
-    if (array->field_10_scale == 0.0)
+    if (array->field_10_scale == 0.0f)
     {
-        fontScale = FP_FromDouble(0.84f); // 0xD70A
+        fontScale = FP_FromDouble(0.84); // 0xD70A
     }
     else
     {
-        fontScale = FP_FromDouble(array->field_10_scale);
+        fontScale = FP_FromDouble(static_cast<f64>(array->field_10_scale));
     }
 
     const s32 array_field_x = array->x;
