@@ -45,6 +45,11 @@ float SequencePlayer::MidiTimeToSample(int time)
     return ((60.0f * float(time)) / float(m_SongTempo)) * (float(AliveAudioSampleRate) / 500.0f);
 }
 
+s32 SequencePlayer::completedRepeats()
+{
+    return mCompletedRepeats.load();
+}
+
 void SequencePlayer::m_PlayerThreadFunction()
 {
     int channels[16];
@@ -56,10 +61,11 @@ void SequencePlayer::m_PlayerThreadFunction()
     while (!m_KillThread)
     {
         m_PlayerStateMutex.lock();
+        AliveAudio::LockNotes();
+
         if (m_PlayerState == ALIVE_SEQUENCER_INIT_VOICES)
         {
             bool firstNote = true;
-            AliveAudio::LockNotes();
             for (int i = 0; i < (int)m_MessageList.size(); i++)
             {
                 AliveAudioMidiMessage m = m_MessageList[i];
@@ -85,26 +91,23 @@ void SequencePlayer::m_PlayerThreadFunction()
                         break;
                 }
             }
-            AliveAudio::UnlockNotes();
         }
 
         if (m_PlayerState == ALIVE_SEQUENCER_PLAYING)
         {
-            AliveAudio::LockNotes();
             if (AliveAudio::currentSampleIndex > m_SongFinishSample)
             {
                 m_PlayerState = ALIVE_SEQUENCER_FINISHED;
+                mCompletedRepeats.store(mCompletedRepeats.load() + 1);
 
                 // Give a quarter beat anyway
                 if (m_QuarterCallback != nullptr)
                     m_QuarterCallback();
             }
-            AliveAudio::UnlockNotes();
         }
 
         if (m_PlayerState == ALIVE_SEQUENCER_PLAYING)
         {
-            AliveAudio::LockNotes();
             int quarterBeat = (m_SongFinishSample - m_SongBeginSample) / m_TimeSignatureBars;
             int currentQuarterBeat = (int) (floor(GetPlaybackPositionSample() / quarterBeat));
 
@@ -117,10 +120,11 @@ void SequencePlayer::m_PlayerThreadFunction()
                     m_QuarterCallback();
                 }
             }
-            AliveAudio::UnlockNotes();
         }
 
+        AliveAudio::UnlockNotes();
         m_PlayerStateMutex.unlock();
+
         std::this_thread::sleep_for(std::chrono::milliseconds(30));
     }
 }
@@ -134,8 +138,9 @@ void SequencePlayer::StopSequence()
 {
     m_PlayerStateMutex.lock();
     AliveAudio::LockNotes();
-    AliveAudio::ClearAllTrackVoices(m_TrackID);
+    AliveAudio::ClearAllTrackVoices(m_TrackID, false);
     m_PlayerState = ALIVE_SEQUENCER_STOPPED;
+    mCompletedRepeats.store(1);
     m_PrevBar = 0;
     AliveAudio::UnlockNotes();
     m_PlayerStateMutex.unlock();
@@ -147,13 +152,16 @@ void SequencePlayer::PlaySequence()
     if (m_PlayerState == ALIVE_SEQUENCER_STOPPED || m_PlayerState == ALIVE_SEQUENCER_FINISHED)
     {
         m_PrevBar = 0;
+        mCompletedRepeats.store(0);
         m_PlayerState = ALIVE_SEQUENCER_INIT_VOICES;
     }
     m_PlayerStateMutex.unlock();
 }
 
-int SequencePlayer::LoadSequenceData(std::vector<Uint8> seqData)
+int SequencePlayer::LoadSequenceData(std::vector<Uint8> seqData, s32 trackId, s32 repeatCount)
 {
+    m_TrackID = trackId;
+    mRepeatCount = repeatCount;
     Stream stream(std::move(seqData));
 
     return LoadSequenceStream(stream);
@@ -167,6 +175,11 @@ int SequencePlayer::LoadSequenceStream(Stream& stream)
     SeqHeader seqHeader;
 
     // Read the header
+    if (stream.Size() == 0)
+    {
+        std::cout << "no stream!?\n";
+        return 1;
+    }
 
     stream.ReadUInt32(seqHeader.mMagic);
     stream.ReadUInt32(seqHeader.mVersion);

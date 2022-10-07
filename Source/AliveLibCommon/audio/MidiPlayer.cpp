@@ -188,6 +188,16 @@ void MidiPlayer::SND_Load_Seqs(OpenSeqHandle* pSeqTable, const char_type* bsqFil
 
 void MidiPlayer::SND_StopAll()
 {
+    for (SequencePlayer* player : mSequencePlayers)
+    {
+        player->StopSequence();
+        delete player;
+    }
+    mSequencePlayers.clear();
+
+    //AliveAudio::LockNotes();
+    //AliveAudio::ClearAllVoices();
+    //AliveAudio::UnlockNotes();
 }
 
 void MidiPlayer::SND_Reset()
@@ -205,11 +215,12 @@ void MidiPlayer::SND_Stop_Channels_Mask(u32 bitMask)
 
 void MidiPlayer::SND_SEQ_Stop(u16 idx)
 {
-    if (mSequenceMap[idx])
+    SequencePlayer* player = GetSequencePlayer(idx);
+    if (player)
     {
-        mSequenceMap[idx]->StopSequence();
-        delete mSequenceMap[idx];
-        mSequenceMap[idx] = NULL;
+        player->StopSequence();
+        RemoveSequencePlayer(player);
+        delete player;
     }
 }
 
@@ -222,16 +233,26 @@ s16 MidiPlayer::SND_SEQ_PlaySeq(u16 idx, s32 repeatCount, s16 bDontStop)
 {
     bDontStop; // TODO
     repeatCount;
+    idx;
 
-    if (mSequenceMap[idx])
+    SequencePlayer* player = GetSequencePlayer(idx);
+
+    // When chanting starts bDontStop is 1
+    // and then 0 is called every frame until chanting stops.
+    // I think we can return if it's 0
+    if (player && bDontStop == 0)
     {
-        return 1;
+        return 1; // still playing
     }
 
-    mSequenceMap[idx] = new SequencePlayer();
-    mSequenceMap[idx]->LoadSequenceData(mSequences.at(s16(idx)));
-    mSequenceMap[idx]->PlaySequence();
+    if (!player)
+    {
+        player = new SequencePlayer();
+        mSequencePlayers.push_back(player);
+    }
 
+    player->LoadSequenceData(mSequences.at(s16(idx)), s32(idx), repeatCount);
+    player->PlaySequence();
     return 1;
 }
 
@@ -248,38 +269,60 @@ s16 MidiPlayer::SND_SEQ_Play(u16 idx, s32 repeatCount, s16 volLeft, s16 volRight
     volLeft;
     volRight;
 
-    if (mSequenceMap[idx])
+    SequencePlayer* player = GetSequencePlayer(idx);
+    if (player)
     {
-        return 1;
+        return 0;
     }
 
-    mSequenceMap[idx] = new SequencePlayer();
-    mSequenceMap[idx]->LoadSequenceData(mSequences.at(s16(idx)));
-    mSequenceMap[idx]->PlaySequence();
+    player = new SequencePlayer();
+    player->LoadSequenceData(mSequences.at(s16(idx)), s32(idx), repeatCount);
+    player->PlaySequence();
+    mSequencePlayers.push_back(player);
     return 1;
 }
 
 s16 MidiPlayer::SND_SsIsEos_DeInlined(u16 idx)
 {
     idx; // TODO
-    return 1;
+
+    SequencePlayer* player = GetSequencePlayer(idx);
+    if (!player)
+    {
+        return 0;
+    }
+    if (player->mRepeatCount)
+    {
+        // 1 means we're still playing
+        return player->completedRepeats() < player->mRepeatCount ? 1 : 0;
+    }
+    return 9;
 }
 
 s32 MidiPlayer::SFX_SfxDefinition_Play(SfxDefinition* sfxDef, s32 volLeft, s32 volRight, s32 pitch_min, s32 pitch_max)
 {
+    sfxDef;
     volLeft; // TODO
     volRight;
     pitch_min;
     pitch_max;
-    AliveAudio::PlayOneShot(sfxDef->program, sfxDef->note, volLeft, 0);
+    // AliveAudio::PlayOneShot(sfxDef->program, sfxDef->note, volLeft, 0);
+    AliveAudio::LockNotes();
+    AliveAudio::NoteOn(sfxDef->program, sfxDef->note, char(((volLeft + volRight) / 2 )), 0);
+    AliveAudio::UnlockNotes();
     return 1;
 }
 
 s32 MidiPlayer::SFX_SfxDefinition_Play(SfxDefinition* sfxDef, s32 volume, s32 pitch_min, s32 pitch_max)
 {
+    sfxDef;
+    volume;
     pitch_min; // TODO
     pitch_max;
-    AliveAudio::PlayOneShot(sfxDef->program, sfxDef->note, volume, 0);
+    //AliveAudio::PlayOneShot(sfxDef->program, sfxDef->note, volume, 0);
+    AliveAudio::LockNotes();
+    AliveAudio::NoteOn(sfxDef->program, sfxDef->note, char(volume), 0);
+    AliveAudio::UnlockNotes();
     return 1;
 }
 
@@ -291,13 +334,46 @@ s32 MidiPlayer::SND(s32 program, s32 vabId, s32 note, s16 vol, s16 min, s16 max)
     vol;
     min;
     max;
-    //AliveAudio::PlayOneShot(program, note, vol, 0);
+    AliveAudio::LockNotes();
+    AliveAudio::NoteOn(program, note, char(vol), 0);
+    AliveAudio::UnlockNotes();
     return 1;
 }
 
  void MidiPlayer::SsUtAllKeyOff(s32 mode)
  {
      mode; // TODO
+ }
+
+ SequencePlayer* MidiPlayer::GetSequencePlayer(u16 idx)
+ {
+     for (SequencePlayer* player : mSequencePlayers)
+     {
+         if (player->m_TrackID == idx)
+         {
+             return player;
+         }
+     }
+     return NULL;
+ }
+
+ void MidiPlayer::RemoveSequencePlayer(SequencePlayer* player)
+ {
+     int offset = 0;
+     int found = 0;
+     for (SequencePlayer* iter : mSequencePlayers)
+     { 
+         if (iter->m_TrackID == player->m_TrackID)
+         {
+             found = 1;
+             break;
+         }
+         offset++;
+     }
+     if (found)
+     {
+         mSequencePlayers.erase(mSequencePlayers.begin() + offset);
+     }
  }
 
 } // namespace psx

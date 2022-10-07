@@ -73,10 +73,13 @@ public:
     SequencePlayer();
     ~SequencePlayer();
 
-    int LoadSequenceData(std::vector<Uint8> seqData);
+    s32 mRepeatCount;
+
+    int LoadSequenceData(std::vector<Uint8> seqData, s32 trackId, s32 repeatCount);
     int LoadSequenceStream(Stream& stream);
     void PlaySequence();
     void StopSequence();
+    int completedRepeats();
 
     float MidiTimeToSample(int time);
     int GetPlaybackPositionSample();
@@ -85,7 +88,8 @@ public:
     AliveAudioSequencerState m_PlayerState = ALIVE_SEQUENCER_STOPPED;
     AliveAudioQuarterCallback m_QuarterCallback;
 
-    //private:
+private:
+    std::atomic<int> mCompletedRepeats;
     int m_KillThread = false;   // If true, loop thread will exit.
     int m_SongFinishSample = 0; // Not relative.
     int m_SongBeginSample = 0;  // Not relative.

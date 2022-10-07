@@ -992,6 +992,8 @@ psx::MidiPlayer* player = new psx::MidiPlayer(new AEResourceProvider(), new AESo
 
 EXPORT void CC SND_StopAll_4CB060()
 {
+    MusicController::EnableMusic_47FE10(FALSE);
+    BackgroundMusic::Stop_4CB000();
     player->SND_StopAll();
 }
 
@@ -1030,6 +1032,9 @@ EXPORT s32 CC SND_4CA5D0(s32 program, s32 vabId, s32 note, s16 vol, s16 min, s16
 
 EXPORT void CC SND_Restart_4CB0E0()
 {
+    MusicController::EnableMusic_47FE10(TRUE);
+    BackgroundMusic::Play_4CB030();
+    Start_Sounds_For_Objects_In_Near_Cameras_4CBB60();
     player->SND_Restart();
 }
 

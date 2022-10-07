@@ -9,7 +9,6 @@ Soundbank* AliveAudio::m_CurrentSoundbank = nullptr;
 std::mutex AliveAudio::voiceListMutex;
 std::vector<Voice*> AliveAudio::m_Voices;
 long long AliveAudio::currentSampleIndex = 20;
-bool AliveAudio::voiceListLocked = false;
 biquad* AliveAudio::AliveAudioEQBiQuad = nullptr;
 
 void AliveInitAudio()
@@ -73,7 +72,7 @@ void AliveAudio::NoteOn(int programId, int note, char velocity, float pitch , in
         }
         for (auto tone : program->m_Tones)
         {
-            if (note >= tone->Min && note <= tone->Max)
+            if (note >= tone->Min && note <= tone->Max) // this is funny `if (tone->f_Volume > 0)`
             {
                 Voice* voice = new Voice();
                 voice->i_Note = note;
@@ -169,10 +168,10 @@ void AliveAudio::ClearAllTrackVoices(int trackID, bool forceKill)
                 deadVoices.push_back(voice);
             }
         }
-        else
+        else if (voice->i_TrackID == trackID)
         {
-            voice->b_NoteOn = false;                                       // Send a note off to all of the notes though.
-            if (voice->i_TrackID == trackID && voice->f_SampleOffset == 0) // Let the voices that are CURRENTLY playing play.
+            voice->b_NoteOn = false;        // Send a note off to all of the notes though.
+            if (voice->f_SampleOffset == 0) // Let the voices that are CURRENTLY playing play.
             {
                 deadVoices.push_back(voice);
             }
@@ -182,7 +181,6 @@ void AliveAudio::ClearAllTrackVoices(int trackID, bool forceKill)
     for (auto obj : deadVoices)
     {
         delete obj;
-
         AliveAudio::m_Voices.erase(std::remove(AliveAudio::m_Voices.begin(), AliveAudio::m_Voices.end(), obj), AliveAudio::m_Voices.end());
     }
 }
@@ -249,7 +247,6 @@ void AliveRenderAudio(float* AudioStream, int StreamLength)
             {
                 rightPan = 1.0f - abs(centerPan);
             }
-
             float s = voice->GetSample();
 
             float leftSample = s * leftPan;

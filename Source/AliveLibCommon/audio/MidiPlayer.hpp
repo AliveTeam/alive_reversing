@@ -207,7 +207,10 @@ namespace psx {
 
         Soundbank* mSoundbank = NULL;
         std::vector<std::vector<Uint8>> mSequences;
-        std::unordered_map<s16, SequencePlayer*> mSequenceMap;
+        std::vector<SequencePlayer*> mSequencePlayers;
+
+        SequencePlayer* GetSequencePlayer(u16 idx);
+        void RemoveSequencePlayer(SequencePlayer* player);
     };
 
 } // namespace psx
