@@ -301,27 +301,70 @@ s16 MidiPlayer::SND_SsIsEos_DeInlined(u16 idx)
 
 s32 MidiPlayer::SFX_SfxDefinition_Play(SfxDefinition* sfxDef, s32 volLeft, s32 volRight, s32 pitch_min, s32 pitch_max)
 {
-    sfxDef;
-    volLeft; // TODO
-    volRight;
-    pitch_min;
-    pitch_max;
+    if (pitch_min == 0x7FFF)
+    {
+        pitch_min = sfxDef->pitch_min;
+    }
+
+    if (pitch_max == 0x7FFF)
+    {
+        pitch_max = sfxDef->pitch_max;
+    }
+
+    if (volLeft < 10)
+    {
+        volLeft = 10;
+    }
+    else if (volLeft >= 127)
+    {
+        volLeft = 127;
+    }
+
+    if (volRight < 10)
+    {
+        volRight = 10;
+    }
+    else if (volRight >= 127)
+    {
+        volRight = 127;
+    }
+
     // AliveAudio::PlayOneShot(sfxDef->program, sfxDef->note, volLeft, 0);
     AliveAudio::LockNotes();
-    AliveAudio::NoteOn(sfxDef->program, sfxDef->note, char(((volLeft + volRight) / 2 )), 0);
+    AliveAudio::PlayOneShot(sfxDef->program, sfxDef->note, volLeft, volRight, 0, pitch_min, pitch_max);
     AliveAudio::UnlockNotes();
     return 1;
 }
 
 s32 MidiPlayer::SFX_SfxDefinition_Play(SfxDefinition* sfxDef, s32 volume, s32 pitch_min, s32 pitch_max)
 {
-    sfxDef;
-    volume;
-    pitch_min; // TODO
-    pitch_max;
+    if (!volume)
+    {
+        volume = sfxDef->volume;
+    }
+
+    if (pitch_min == 0x7FFF)
+    {
+        pitch_min = sfxDef->pitch_min;
+    }
+
+    if (pitch_max == 0x7FFF)
+    {
+        pitch_max = sfxDef->pitch_max;
+    }
+
+    if (volume < 1)
+    {
+        volume = 1;
+    }
+    else if (volume >= 127)
+    {
+        volume = 127;
+    }
+
     //AliveAudio::PlayOneShot(sfxDef->program, sfxDef->note, volume, 0);
     AliveAudio::LockNotes();
-    AliveAudio::NoteOn(sfxDef->program, sfxDef->note, char(volume), 0);
+    AliveAudio::PlayOneShot(sfxDef->program, sfxDef->note, volume, volume, 0, pitch_min, pitch_max);
     AliveAudio::UnlockNotes();
     return 1;
 }

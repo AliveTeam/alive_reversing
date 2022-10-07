@@ -33,7 +33,7 @@ void AliveInitAudio()
     SDL_PauseAudio(0);
 }
 
-void AliveAudio::PlayOneShot(int programId, int note, s32 volume, float pitch)
+void AliveAudio::PlayOneShot(int programId, int note, s32 volLeft, s32 volRight, float pitch, s32 pitch_min, s32 pitch_max)
 {
     for (auto program : m_CurrentSoundbank->m_Programs)
     {
@@ -42,6 +42,10 @@ void AliveAudio::PlayOneShot(int programId, int note, s32 volume, float pitch)
             continue;
         }
 
+        pitch;
+        pitch_min;
+        pitch_max;
+        s32 volume = volLeft + volRight / 2;
         for (auto tone : program->m_Tones)
         {
             if (note >= tone->Min && note <= tone->Max)
@@ -50,16 +54,20 @@ void AliveAudio::PlayOneShot(int programId, int note, s32 volume, float pitch)
                 voice->i_Note = note;
                 voice->f_Velocity = float(volume == 0 ? 127 : volume) / 127;
                 voice->m_Tone = tone;
-                voice->f_Pitch = pitch;
+
+                // TODO - something more is probably suppose to happen with pitch.
+                // From the looks of things pitch_min and pitch_max are always equal.
+                // and if pitch is 0, try using pitch_min instead.
+                voice->f_Pitch = pitch == 0 ? pitch_min / 127 : pitch / 127;
                 m_Voices.push_back(voice);
             }
         }
     }
 }
 
-void AliveAudio::PlayOneShot(std::string soundID)
+void AliveAudio::PlayOneShot(int programId, int note, s32 volume, float pitch, s32 pitch_min, s32 pitch_max)
 {
-    soundID;
+    AliveAudio::PlayOneShot(programId, note, volume, volume, pitch, pitch_min, pitch_max);
 }
 
 void AliveAudio::NoteOn(int programId, int note, char velocity, float pitch , int trackID , float trackDelay )
