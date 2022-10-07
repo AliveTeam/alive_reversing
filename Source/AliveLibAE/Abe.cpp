@@ -4,7 +4,6 @@
 #include "Map.hpp"
 #include "Sound/Midi.hpp"
 #include "Sfx.hpp"
-#include "DebugHelpers.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/Shadow.hpp"
 #include "../relive_lib/ObjectIds.hpp"
@@ -35,7 +34,6 @@
 #include "QuikSave.hpp"
 #include "DeathBirdParticle.hpp"
 #include "WorkWheel.hpp"
-#include "LevelLoader.hpp"
 #include "../relive_lib/Particle.hpp"
 #include "Lever.hpp"
 #include "Throwable.hpp"
@@ -57,6 +55,7 @@
 #include "Grid.hpp"
 #include "../relive_lib/Math.hpp"
 #include "AnimationCallBacks.hpp"
+#include "DDCheat.hpp"
 
 using TAbeMotionFunction = decltype(&Abe::Motion_0_Idle_44EEB0);
 

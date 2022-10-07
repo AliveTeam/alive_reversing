@@ -3,7 +3,6 @@
 #include "Function.hpp"
 #include "Path.hpp"
 #include "Game.hpp"
-#include "ResourceManager.hpp"
 #include "stdlib.hpp"
 #include "Map.hpp"
 #include "../relive_lib/ScreenManager.hpp"

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
 #include "../relive_lib/DynamicArray.hpp"
 #include "../relive_lib/Primitives.hpp"

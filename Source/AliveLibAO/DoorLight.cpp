@@ -2,7 +2,6 @@
 #include "Function.hpp"
 #include "DoorLight.hpp"
 #include "SwitchStates.hpp"
-#include "ResourceManager.hpp"
 #include "Math.hpp"
 #include "Game.hpp"
 #include "../AliveLibAE/stdlib.hpp"

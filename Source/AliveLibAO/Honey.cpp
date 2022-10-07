@@ -1,8 +1,5 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
 #include "Honey.hpp"
-#include "ResourceManager.hpp"
-#include "Map.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 
 namespace AO {

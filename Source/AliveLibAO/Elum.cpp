@@ -3,7 +3,6 @@
 #include "Elum.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "Map.hpp"
-#include "ResourceManager.hpp"
 #include "LiftPoint.hpp"
 #include "Game.hpp"
 #include "Input.hpp"

@@ -1,9 +1,6 @@
 #include "Path.hpp"
-#include "Factory.hpp"
 #include "../relive_lib/MapWrapper.hpp"
-#include "PathData.hpp"
 #include "Map.hpp"
-#include "ResourceManager.hpp"
 
 namespace AO {
 void Path::TLV_Reset(const Guid& tlvId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed)

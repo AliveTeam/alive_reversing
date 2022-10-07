@@ -1,12 +1,8 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
 #include "LightEffect.hpp"
-#include "ResourceManager.hpp"
 #include "Math.hpp"
 #include "Game.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "CameraSwapper.hpp"
-#include "../relive_lib/ScreenManager.hpp"
 
 namespace AO {
 

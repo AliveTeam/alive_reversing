@@ -14,7 +14,6 @@
 #include "Alarm.hpp"
 #include "Function.hpp"
 #include "Sys_common.hpp"
-#include "ResourceManager.hpp"
 #include "Map.hpp"
 
 MotionDetectorLaser::MotionDetectorLaser(FP xpos, FP ypos, FP scale, Layer layer)

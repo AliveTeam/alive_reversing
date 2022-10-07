@@ -6,9 +6,7 @@
 #include "../relive_lib/Events.hpp"
 #include "SwitchStates.hpp"
 #include "Sound/Midi.hpp"
-#include "PathData.hpp"
 #include "GameEnderController.hpp"
-#include "ResourceManager.hpp"
 #include "Map.hpp"
 
 void WorkWheel::LoadAnimations()

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../../AliveLibCommon/Types.hpp"
-#include <string>
 
 class Guid final
 {

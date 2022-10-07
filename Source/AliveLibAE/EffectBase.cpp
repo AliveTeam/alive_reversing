@@ -1,9 +1,7 @@
 #include "stdafx.h"
 #include "EffectBase.hpp"
 #include "Function.hpp"
-#include "Game.hpp"
 #include "Map.hpp"
-#include "../relive_lib/ScreenManager.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "stdlib.hpp"
 

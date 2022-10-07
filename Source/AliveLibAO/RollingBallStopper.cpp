@@ -4,8 +4,6 @@
 #include "SwitchStates.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/Collisions.hpp"
-#include "ResourceManager.hpp"
-#include "FixedPoint.hpp"
 #include "Sfx.hpp"
 #include "Grid.hpp"
 

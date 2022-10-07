@@ -1,7 +1,5 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
 #include "HoneyDrip.hpp"
-#include "ResourceManager.hpp"
 #include "Sfx.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 

@@ -2,14 +2,11 @@
 #include "Lever.hpp"
 #include "Function.hpp"
 #include "../relive_lib/Collisions.hpp"
-#include "BaseAliveGameObject.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
-#include "PathData.hpp"
 #include "SwitchStates.hpp"
 #include "Grid.hpp"
-#include "ResourceManager.hpp"
 #include "Map.hpp"
 
 const TintEntry kLeverTints_563228[18] = {

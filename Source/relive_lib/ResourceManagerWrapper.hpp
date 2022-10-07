@@ -3,8 +3,6 @@
 #include "../AliveLibCommon/Types.hpp"
 #include "../AliveLibCommon/AnimResources.hpp"
 #include "data_conversion/AnimationConverter.hpp" // TODO: Don't depend on this
-#include <memory>
-#include <map>
 
 enum class AnimId;
 enum class EReliveLevelIds : s16;

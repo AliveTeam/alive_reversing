@@ -1,7 +1,6 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
 #include "MeatSaw.hpp"
-#include "ResourceManager.hpp"
 #include "SwitchStates.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/Shadow.hpp"

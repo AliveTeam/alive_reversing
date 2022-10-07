@@ -5,7 +5,6 @@
 #include "AnimResources.hpp"
 #include "Function.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "Game.hpp"
 
 /*static u8** Add_Resource(DynamicArrayT<u8*>& resourceArray, u32 type, s32 resourceID)
 {

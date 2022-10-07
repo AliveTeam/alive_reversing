@@ -1,7 +1,6 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
 #include "MovingBomb.hpp"
-#include "ResourceManager.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "Map.hpp"
 #include "Game.hpp"

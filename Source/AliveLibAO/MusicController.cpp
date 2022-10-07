@@ -7,7 +7,6 @@
 #include "../relive_lib/Events.hpp"
 #include "Elum.hpp"
 #include "Math.hpp"
-#include "Game.hpp"
 #include "GameAutoPlayer.hpp"
 
 namespace AO {

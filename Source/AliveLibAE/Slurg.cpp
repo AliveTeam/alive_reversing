@@ -8,8 +8,6 @@
 #include "../relive_lib/Events.hpp"
 #include "SwitchStates.hpp"
 #include "stdlib.hpp"
-#include "PathData.hpp"
-#include "ResourceManager.hpp"
 #include "Map.hpp"
 
 ALIVE_VAR(1, 0x5C1C08, u16, sSlurg_Step_Watch_Points_Idx_5C1C08, 0);

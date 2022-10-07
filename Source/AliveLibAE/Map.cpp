@@ -22,7 +22,6 @@
 #include "../relive_lib/Events.hpp"
 #include "Movie.hpp"
 #include "../relive_lib/Particle.hpp"
-#include "Door.hpp"
 #include "Sound/PsxSpuApi.hpp"
 #include "Sys.hpp"
 #include <assert.h>

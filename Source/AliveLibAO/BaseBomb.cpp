@@ -1,7 +1,6 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
 #include "BaseBomb.hpp"
-#include "ResourceManager.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "ParticleBurst.hpp"
 #include "ScreenShake.hpp"

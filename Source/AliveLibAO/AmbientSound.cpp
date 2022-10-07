@@ -4,9 +4,6 @@
 #include "../AliveLibAE/stdlib.hpp"
 #include "ScopedSeq.hpp"
 #include "MusicTrigger.hpp"
-#include "PathData.hpp"
-#include "Slig.hpp"
-#include "Slog.hpp"
 
 namespace AO {
 

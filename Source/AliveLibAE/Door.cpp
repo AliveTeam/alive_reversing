@@ -12,7 +12,6 @@
 #include "DDCheat.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Grid.hpp"
-#include "ResourceManager.hpp"
 #include "Map.hpp"
 
 struct Door_Info final

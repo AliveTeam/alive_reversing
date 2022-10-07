@@ -2,7 +2,6 @@
 #include "Function.hpp"
 #include "SecurityClaw.hpp"
 #include "Math.hpp"
-#include "ResourceManager.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "Midi.hpp"
 #include "MotionDetector.hpp"

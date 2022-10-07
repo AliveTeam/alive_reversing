@@ -7,7 +7,6 @@
 #include "Sfx.hpp"
 #include "ThrowableArray.hpp"
 #include "AnimResources.hpp"
-#include "ResourceManager.hpp"
 #include "FixedPoint_common.hpp"
 #include "Abe.hpp"
 #include "Function.hpp"

@@ -2,7 +2,6 @@
 #include "Function.hpp"
 #include "SlingMudokon.hpp"
 #include "GameSpeak.hpp"
-#include "ResourceManager.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "Sfx.hpp"
 #include "Bullet.hpp"

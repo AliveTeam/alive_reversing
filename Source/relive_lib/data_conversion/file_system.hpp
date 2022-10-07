@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string>
-#include <vector>
 #include "../../AliveLibCommon/Sys_common.hpp"
 
 constexpr inline char kDirSeperator = '\\';

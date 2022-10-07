@@ -8,8 +8,6 @@
 #include "Sfx.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Abe.hpp"
-#include "Map.hpp"
-#include "ResourceManager.hpp"
 
 void RockSack::LoadAnimations()
 {

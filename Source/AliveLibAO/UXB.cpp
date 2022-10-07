@@ -2,7 +2,6 @@
 #include "Function.hpp"
 #include "UXB.hpp"
 #include "Sfx.hpp"
-#include "ResourceManager.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "Game.hpp"
 #include "BaseBomb.hpp"

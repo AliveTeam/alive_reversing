@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "data_conversion.hpp"
 #include "file_system.hpp"
 #include "camera_converter.hpp"
@@ -10,10 +11,8 @@
 #include "../../AliveLibCommon/BaseGameAutoPlayer.hpp"
 #include "../Animation.hpp"
 #include "../MapWrapper.hpp"
-#include <vector>
 #include <algorithm>
 #include <cctype>
-#include <string>
 
 #include "nlohmann/json.hpp"
 #include "../../Tools/relive_api/LvlReaderWriter.hpp"

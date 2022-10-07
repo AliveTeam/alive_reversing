@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "Compression.hpp"
-#include "Function.hpp"
 #include "PtrStream.hpp"
 #include "CompressionType_4Or5.hpp"
 

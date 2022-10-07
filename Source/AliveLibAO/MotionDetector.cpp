@@ -2,7 +2,6 @@
 #include "Function.hpp"
 #include "MotionDetector.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "ResourceManager.hpp"
 #include "SwitchStates.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/Events.hpp"

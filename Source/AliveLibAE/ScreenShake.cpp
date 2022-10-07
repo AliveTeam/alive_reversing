@@ -4,9 +4,7 @@
 #include "../relive_lib/Events.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
-#include "../relive_lib/ScreenManager.hpp"
 #include "PsxRender.hpp"
-#include "Game.hpp"
 
  ScreenShake::ScreenShake(bool enableShakeEvent, bool softerShakes)
      : BaseGameObject(TRUE, 0)

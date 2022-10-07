@@ -5,7 +5,6 @@
 #include "DynamicArray.hpp"
 #include "../relive_lib/data_conversion/guid.hpp"
 #include "../relive_lib/ResourceManagerWrapper.hpp"
-#include <vector> // TODO: Abstract stl from the engine
 
 extern u32 sGnFrame;
 

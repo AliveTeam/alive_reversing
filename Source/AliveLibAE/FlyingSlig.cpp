@@ -13,7 +13,6 @@
 #include "Abe.hpp"
 #include "Map.hpp"
 #include "MusicController.hpp"
-#include "DDCheat.hpp"
 #include "Slig.hpp"
 #include "Grenade.hpp"
 #include "Dove.hpp"

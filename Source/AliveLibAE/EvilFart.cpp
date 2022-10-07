@@ -11,7 +11,6 @@
 #include "Explosion.hpp"
 #include "Sfx.hpp"
 #include "Function.hpp"
-#include "ResourceManager.hpp"
 #include "Map.hpp"
 
 struct Colour final
@@ -94,10 +93,6 @@ EvilFart::EvilFart()
 s32 EvilFart::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const EvilFart_State*>(pBuffer);
-
-    ResourceManager::LoadResourceFile_49C170("EVILFART.BAN", nullptr);
-    ResourceManager::LoadResourceFile_49C170("EXPLO2.BAN", nullptr);
-    ResourceManager::LoadResourceFile_49C170("ABEBLOW.BAN", nullptr);
 
     auto pFart = relive_new EvilFart();
 

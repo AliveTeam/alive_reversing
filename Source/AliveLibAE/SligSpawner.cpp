@@ -8,7 +8,6 @@
 #include "../relive_lib/ObjectIds.hpp"
 #include "SwitchStates.hpp"
 #include "Map.hpp"
-#include "ResourceManager.hpp"
 
 SligSpawner::SligSpawner(relive::Path_Slig* pTlv, const Guid& tlvId)
     : BaseGameObject(TRUE, 0)

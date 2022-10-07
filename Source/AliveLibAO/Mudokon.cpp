@@ -2,7 +2,6 @@
 #include "Function.hpp"
 #include "Mudokon.hpp"
 #include "GameSpeak.hpp"
-#include "ResourceManager.hpp"
 #include "../relive_lib/Shadow.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/Collisions.hpp"
@@ -30,7 +29,6 @@
 #include "CheatController.hpp"
 #include "Sys_common.hpp"
 #include "Grid.hpp"
-#include "magic_enum/include/magic_enum.hpp"
 
 void Mud_ForceLink()
 { }

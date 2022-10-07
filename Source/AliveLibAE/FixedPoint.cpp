@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "FixedPoint.hpp"
-#include "Function.hpp"
 #include <gtest/gtest.h>
 
 s32 Math_SquareRoot_Shifted_496E20(u32 value, s16 iterations)

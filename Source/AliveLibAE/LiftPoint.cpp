@@ -12,7 +12,6 @@
 #include "Sfx.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Grid.hpp"
-#include "ResourceManager.hpp"
 #include "Map.hpp"
 
 struct LiftPointData final

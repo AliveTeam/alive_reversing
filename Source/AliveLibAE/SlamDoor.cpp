@@ -2,12 +2,10 @@
 #include "SlamDoor.hpp"
 #include "Function.hpp"
 #include "stdlib.hpp"
-#include "Game.hpp"
 #include "SwitchStates.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
 #include "Grid.hpp"
-#include "ResourceManager.hpp"
 #include "Map.hpp"
 
 struct SlamDoor_Data final

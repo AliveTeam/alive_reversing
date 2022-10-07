@@ -2,7 +2,6 @@
 #include "Function.hpp"
 #include "Gibs.hpp"
 #include "Math.hpp"
-#include "ResourceManager.hpp"
 #include "Game.hpp"
 #include "Map.hpp"
 #include "../AliveLibAE/stdlib.hpp"

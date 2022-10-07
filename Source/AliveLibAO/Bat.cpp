@@ -1,7 +1,6 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
 #include "Bat.hpp"
-#include "ResourceManager.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "Math.hpp"
 #include "../relive_lib/Events.hpp"

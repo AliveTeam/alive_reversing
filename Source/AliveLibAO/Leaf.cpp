@@ -1,7 +1,6 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
 #include "Leaf.hpp"
-#include "ResourceManager.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "Math.hpp"
 #include "Sfx.hpp"

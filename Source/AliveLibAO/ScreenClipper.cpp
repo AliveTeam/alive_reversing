@@ -2,7 +2,6 @@
 #include "Function.hpp"
 #include "ScreenClipper.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "Game.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/Primitives.hpp"
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"

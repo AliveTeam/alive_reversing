@@ -6,7 +6,6 @@
 #include "Movie.hpp"
 #include "PathData.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
-#include "../relive_lib/ScreenManager.hpp"
 #include "ResourceManager.hpp"
 #include "Abe.hpp"
 

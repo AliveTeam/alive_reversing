@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "Camera.hpp"
-#include "ResourceManager.hpp"
 #include "FG1.hpp"
 
 Camera::Camera()

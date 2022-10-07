@@ -1,15 +1,11 @@
 #include "stdafx.h"
 #include "InvisibleEffect.hpp"
 #include "Function.hpp"
-#include "../relive_lib/VRam.hpp"
 #include "PossessionFlicker.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/ObjectIds.hpp"
-#include "../relive_lib/VRam.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "stdlib.hpp"
-#include "Sys_common.hpp"
-#include "Renderer/IRenderer.hpp"
 
 InvisibleEffect::InvisibleEffect(BaseAliveGameObject* pTarget)
     : BaseGameObject(TRUE, 0)

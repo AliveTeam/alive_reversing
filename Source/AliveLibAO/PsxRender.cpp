@@ -1,5 +1,4 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
 #include "PsxRender.hpp"
 #include "../AliveLibAE/PsxRender.hpp"
 

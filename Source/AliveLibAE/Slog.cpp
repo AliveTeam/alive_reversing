@@ -18,7 +18,6 @@
 #include "SnoozeParticle.hpp"
 #include "Gibs.hpp"
 #include "Bullet.hpp"
-#include "../relive_lib/Particle.hpp"
 #include "GameSpeak.hpp"
 #include "SwitchStates.hpp"
 #include "../relive_lib/PsxDisplay.hpp"

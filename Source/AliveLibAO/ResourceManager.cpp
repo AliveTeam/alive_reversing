@@ -6,7 +6,6 @@
 #include "../relive_lib/PsxDisplay.hpp"
 #include "Psx.hpp"
 #include "PsxRender.hpp"
-#include "../relive_lib/ScreenManager.hpp"
 #include "Game.hpp"
 #include "LvlArchive.hpp"
 #include "Map.hpp"

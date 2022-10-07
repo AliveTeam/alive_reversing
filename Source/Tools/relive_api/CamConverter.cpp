@@ -9,8 +9,6 @@
 #include "JsonModelTypes.hpp"
 #include "ApiFG1Reader.hpp"
 #include <lodepng/lodepng.h>
-#include <iostream>
-#include <memory>
 
 namespace ReliveAPI {
 

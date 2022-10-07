@@ -26,7 +26,6 @@
 #include "FlyingSlig.hpp"
 #include "CrawlingSligButton.hpp"
 #include "Sfx.hpp"
-#include "SlamDoor.hpp"
 #include "Grid.hpp"
 
 const TintEntry kCrawlingSligTints_5514B8[18] = {

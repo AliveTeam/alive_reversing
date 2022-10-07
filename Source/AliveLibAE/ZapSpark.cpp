@@ -3,7 +3,6 @@
 #include "Function.hpp"
 #include "stdlib.hpp"
 #include "Map.hpp"
-#include "ResourceManager.hpp"
 
 void ZapSpark::LoadAnimations()
 {

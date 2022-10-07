@@ -4,10 +4,7 @@
 #include "../relive_lib/ObjectIds.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/VRam.hpp"
-#include "Game.hpp"
 #include "Function.hpp"
-#include "Renderer/IRenderer.hpp"
-#include "ResourceManager.hpp"
 #include "Map.hpp"
 
 #define kPalDepth 64

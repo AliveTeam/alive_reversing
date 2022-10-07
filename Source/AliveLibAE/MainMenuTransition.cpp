@@ -2,10 +2,7 @@
 #include "MainMenuTransition.hpp"
 #include "Function.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
-#include "FixedPoint.hpp"
 #include "stdlib.hpp"
-#include "../relive_lib/ScreenManager.hpp"
-#include "Game.hpp"
 #include "Map.hpp"
 
 struct MainMenu_TransitionData final

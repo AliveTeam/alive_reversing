@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "GameEnderController.hpp"
-#include "ResourceManager.hpp"
 #include "stdlib.hpp"
 #include "DDCheat.hpp"
 #include "SwitchStates.hpp"

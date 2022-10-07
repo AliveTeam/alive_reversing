@@ -3,7 +3,6 @@
 #include "Dove.hpp"
 #include "../relive_lib/DynamicArray.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "ResourceManager.hpp"
 #include "Math.hpp"
 #include "Midi.hpp"
 #include "Game.hpp"

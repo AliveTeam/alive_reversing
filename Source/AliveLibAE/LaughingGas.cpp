@@ -2,7 +2,6 @@
 #include "LaughingGas.hpp"
 #include "Function.hpp"
 #include "SwitchStates.hpp"
-#include "Game.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/PsxDisplay.hpp"

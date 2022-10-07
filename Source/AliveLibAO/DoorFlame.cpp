@@ -3,7 +3,6 @@
 #include "DoorFlame.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "SwitchStates.hpp"
-#include "ResourceManager.hpp"
 #include "Midi.hpp"
 #include "Math.hpp"
 #include "Map.hpp"

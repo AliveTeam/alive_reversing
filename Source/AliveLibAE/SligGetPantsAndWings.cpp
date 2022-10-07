@@ -3,12 +3,8 @@
 #include "Function.hpp"
 #include "../relive_lib/Events.hpp"
 #include "stdlib.hpp"
-#include "FixedPoint.hpp"
 #include "Game.hpp"
 #include "Sfx.hpp"
-#include "Slig.hpp"
-#include "Map.hpp"
-#include "ResourceManager.hpp"
 
 void SligGetPantsAndWings::LoadAnimations()
 {

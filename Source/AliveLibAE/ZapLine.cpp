@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "ZapLine.hpp"
 #include "Function.hpp"
-#include "ResourceManager.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "../relive_lib/PsxDisplay.hpp"

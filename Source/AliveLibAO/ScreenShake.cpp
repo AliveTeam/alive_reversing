@@ -2,11 +2,9 @@
 #include "Function.hpp"
 #include "ScreenShake.hpp"
 #include "../relive_lib/Events.hpp"
-#include "Game.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/Primitives.hpp"
-#include "../relive_lib/ScreenManager.hpp"
 #include "PsxRender.hpp"
 
 namespace AO {

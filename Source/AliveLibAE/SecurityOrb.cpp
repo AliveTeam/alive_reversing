@@ -6,8 +6,6 @@
 #include "ScreenShake.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Flash.hpp"
-#include "ParticleBurst.hpp"
-#include "../relive_lib/Particle.hpp"
 #include "Abe.hpp"
 #include "PossessionFlicker.hpp"
 #include "Game.hpp"
@@ -16,7 +14,6 @@
 #include "ZapLine.hpp"
 #include "Function.hpp"
 #include "ZapSpark.hpp"
-#include "ResourceManager.hpp"
 #include "Map.hpp"
 
 const TintEntry sSecurityOrbTints_55C1EC[18] = {

@@ -4,14 +4,10 @@
 #include "stdlib.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "../relive_lib/ScreenManager.hpp"
-#include "Game.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/ShadowZone.hpp"
 #include "Rope.hpp"
-#include "Map.hpp"
-#include "ResourceManager.hpp"
-
 void ParamiteWebLine::LoadAnimations()
 {
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::ChantOrb_Particle));

@@ -1,5 +1,4 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
 #include "ScopedSeq.hpp"
 #include "Midi.hpp"
 #include "../AliveLibAE/stdlib.hpp"

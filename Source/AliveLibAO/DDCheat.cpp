@@ -3,7 +3,6 @@
 #include "../relive_lib/PsxDisplay.hpp"
 #include "Psx.hpp"
 #include "ResourceManager.hpp"
-#include "../relive_lib/ScreenManager.hpp"
 #include "Function.hpp"
 #include "PathData.hpp"
 #include "Abe.hpp"
@@ -13,7 +12,6 @@
 #include "Elum.hpp"
 #include "Game.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "FixedPoint.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 
 namespace AO {

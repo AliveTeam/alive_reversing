@@ -7,10 +7,8 @@
 #include "Sfx.hpp"
 #include "../relive_lib/Events.hpp"
 #include "SwitchStates.hpp"
-#include "PathData.hpp"
 #include "stdlib.hpp"
 #include "Grid.hpp"
-#include "ResourceManager.hpp"
 #include "Map.hpp"
 
 const TintEntry sPullRingRopeTints_55FD1C[18] = {

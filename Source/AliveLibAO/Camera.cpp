@@ -1,5 +1,4 @@
 #include "Camera.hpp"
-#include "ResourceManager.hpp"
 #include "FG1.hpp"
 
 namespace AO {

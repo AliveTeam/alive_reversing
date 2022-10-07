@@ -3,7 +3,6 @@
 #include "Shrykull.hpp"
 #include "Map.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "ResourceManager.hpp"
 #include "Abe.hpp"
 #include "ZapLine.hpp"
 #include "../relive_lib/Shadow.hpp"

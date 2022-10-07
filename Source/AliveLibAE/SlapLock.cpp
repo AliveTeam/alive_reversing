@@ -12,7 +12,6 @@
 #include "PossessionFlicker.hpp"
 #include "../relive_lib/Particle.hpp"
 #include "ParticleBurst.hpp"
-#include "ResourceManager.hpp"
 #include "Map.hpp"
 
 void SlapLock::LoadAnimations()

@@ -13,7 +13,6 @@
 #include "../relive_lib/Particle.hpp"
 #include "ScreenShake.hpp"
 #include "Abe.hpp"
-#include "ResourceManager.hpp"
 #include "Map.hpp"
 
 const AnimId sFallingItemData_544DC0[15][2] = {

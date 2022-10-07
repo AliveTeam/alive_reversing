@@ -7,11 +7,8 @@
 #include "Game.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
-#include "Throwable.hpp"
 #include "Grenade.hpp"
 #include "Grid.hpp"
-#include "Map.hpp"
-#include "ResourceManager.hpp"
 
 const static AnimId sBoomMachineNozzleAnimIds[] =
 {

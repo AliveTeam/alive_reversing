@@ -4,7 +4,6 @@
 #include "ResourceManager.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Map.hpp"
-#include "PathData.hpp"
 #include "stdlib.hpp"
 #include "Function.hpp"
 

@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "guid.hpp"
 #include "../../AliveLibCommon/logger.hpp"
 #include "../../AliveLibCommon/Sys_common.hpp"

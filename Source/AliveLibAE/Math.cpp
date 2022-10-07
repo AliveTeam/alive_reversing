@@ -2,8 +2,8 @@
 #include "Math.hpp"
 #include "Function.hpp"
 #include "FixedPoint.hpp"
-#include "GameAutoPlayer.hpp"
 #include <gmock/gmock.h>
+#include "GameAutoPlayer.hpp"
 
 // clang-format off
 ALIVE_ARY(1, 0x546744, u8, 256, sRandomBytes_546744,

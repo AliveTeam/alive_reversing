@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "BinaryPath.hpp"
 #include "data_conversion/relive_tlvs_serialization.hpp"
 #include "../AliveLibAO/Path.hpp"

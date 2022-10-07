@@ -1,7 +1,6 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
 #include "BeeNest.hpp"
-#include "ResourceManager.hpp"
 #include "BeeSwarm.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "SwitchStates.hpp"

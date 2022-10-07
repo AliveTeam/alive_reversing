@@ -10,7 +10,6 @@
 #include "../relive_lib/ScreenManager.hpp"
 #include "Sfx.hpp"
 #include "Map.hpp"
-#include "ResourceManager.hpp"
 
 ALIVE_VAR(1, 0x5C2C6C, DoorFlame*, pFlameControllingTheSound_5C2C6C, nullptr);
 

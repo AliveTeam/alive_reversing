@@ -10,7 +10,6 @@
 #include "Sound/Midi.hpp"
 #include "SwitchStates.hpp"
 #include "Map.hpp"
-#include "ResourceManager.hpp"
 
 void SecurityDoor::LoadAnimations()
 {

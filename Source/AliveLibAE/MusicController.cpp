@@ -8,7 +8,6 @@
 #include "Map.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "PathData.hpp"
-#include "Sys.hpp"
 #include "BaseGameAutoPlayer.hpp"
 
 ALIVE_VAR(1, 0x5C3020, MusicController*, pMusicController_5C3020, nullptr);

@@ -2,7 +2,6 @@
 #include "Function.hpp"
 #include "PullRingRope.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "ResourceManager.hpp"
 #include "Sfx.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Rope.hpp"

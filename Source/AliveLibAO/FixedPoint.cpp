@@ -1,5 +1,4 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
 #include "../AliveLibAE/FixedPoint.hpp"
 
 namespace AO {

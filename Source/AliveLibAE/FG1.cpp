@@ -4,9 +4,6 @@
 #include "stdlib.hpp"
 #include "ResourceManager.hpp"
 #include "Map.hpp"
-#include "../relive_lib/ScreenManager.hpp"
-#include "../relive_lib/PsxDisplay.hpp"
-#include "Sys_common.hpp"
 #include "FG1Reader.hpp"
 
 ALIVE_VAR(1, 0x5D1E28, DynamicArrayT<FG1>*, gFG1List_5D1E28, nullptr);

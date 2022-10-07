@@ -1,10 +1,9 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
 #include "Grenade.hpp"
-#include "ResourceManager.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "ThrowableArray.hpp"
-#include "LiftPoint.hpp"
+#include "PlatformBase.hpp"
 #include "Map.hpp"
 #include "Math.hpp"
 #include "Sfx.hpp"
@@ -12,7 +11,6 @@
 #include "Gibs.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/Collisions.hpp"
-#include "Game.hpp"
 #include "Grid.hpp"
 
 namespace AO {

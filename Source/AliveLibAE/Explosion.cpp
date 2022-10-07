@@ -11,7 +11,6 @@
 #include "ParticleBurst.hpp"
 #include "Sound/Midi.hpp"
 #include "stdlib.hpp"
-#include "Slig.hpp"
 #include "ExplosionSet.hpp"
 
 Explosion::Explosion(FP xpos, FP ypos, FP scale, bool bSmall)

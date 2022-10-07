@@ -14,7 +14,6 @@
 #include "Electrocute.hpp"
 #include "Function.hpp"
 #include "Map.hpp"
-#include "ResourceManager.hpp"
 
 void Shrykull::LoadAnimations()
 {

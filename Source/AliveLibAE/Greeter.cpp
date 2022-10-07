@@ -17,7 +17,6 @@
 #include "MotionDetector.hpp"
 #include "Function.hpp"
 #include "Bullet.hpp"
-#include "ResourceManager.hpp"
 #include "Map.hpp"
 
 void Greeter::LoadAnimations()

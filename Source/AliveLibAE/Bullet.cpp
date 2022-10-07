@@ -5,7 +5,6 @@
 #include "Map.hpp"
 #include "stdlib.hpp"
 #include "BaseAliveGameObject.hpp"
-#include "Game.hpp"
 #include "Slig.hpp"
 #include "Spark.hpp"
 #include "Sfx.hpp"

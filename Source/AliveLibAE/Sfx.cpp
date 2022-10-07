@@ -1,9 +1,7 @@
 #include "stdafx.h"
 #include "Sfx.hpp"
 #include "Function.hpp"
-#include "DebugHelpers.hpp"
 #include "Sound/Midi.hpp"
-#include "PathData.hpp"
 #include "Map.hpp"
 #include <assert.h>
 

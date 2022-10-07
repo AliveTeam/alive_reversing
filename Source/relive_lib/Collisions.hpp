@@ -4,8 +4,6 @@
 #include "../AliveLibAE/FixedPoint.hpp"
 #include "../AliveLibCommon/Psx_common.hpp"
 
-#include <vector> // TODO: Consider if STL should be in here
-
 enum eLineTypes : u8
 {
     eFloor_0 = 0,

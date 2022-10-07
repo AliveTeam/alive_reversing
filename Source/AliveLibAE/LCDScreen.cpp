@@ -3,18 +3,14 @@
 #include "Function.hpp"
 #include "stdlib.hpp"
 #include "SwitchStates.hpp"
-#include "DebugHelpers.hpp"
 #include "StringFormatters.hpp"
-#include "Sound/Midi.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
-#include "../relive_lib/VRam.hpp"
 #include "Game.hpp"
 #include "../AliveLibCommon/PathDataExtensionsTypes.hpp"
 #include "Renderer/IRenderer.hpp"
-#include "ResourceManager.hpp"
 #include "Map.hpp"
-
+#include "DebugHelpers.hpp"
 
 // TODO: Remove spaces and add them at runtime.
 static const char_type* sLCDMessageTable_555768[101] = {

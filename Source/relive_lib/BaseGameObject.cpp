@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "../relive_lib/BaseGameObject.hpp"
 #include "../AliveLibCommon/Sys_common.hpp"
 #include "../AliveLibAE/Map.hpp"

@@ -1,13 +1,8 @@
 #include "stdafx.h"
 #include "Font.hpp"
 #include "Function.hpp"
-#include "DebugHelpers.hpp"
 #include "FixedPoint.hpp"
-#include "../relive_lib/VRam.hpp"
-#include "Resources.hpp"
 #include "Sys_common.hpp"
-#include "Renderer/IRenderer.hpp"
-
 /*
  Notes for when coming across crazy width conversions:
  If it looks like this:

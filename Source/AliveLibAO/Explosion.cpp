@@ -11,8 +11,8 @@
 #include "Midi.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "AmbientSound.hpp"
-#include "Slig.hpp"
-#include "ResourceManager.hpp"
+#include "BaseAliveGameObject.hpp"
+
 #undef min
 #undef max
 

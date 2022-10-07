@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Bone.hpp"
 #include "Function.hpp"
-#include "ResourceManager.hpp"
 #include "ThrowableArray.hpp"
 #include "Game.hpp"
 #include "stdlib.hpp"
@@ -14,7 +13,6 @@
 #include "../relive_lib/Particle.hpp"
 #include "Grid.hpp"
 #include "Map.hpp"
-#include "ResourceManager.hpp"
 
 const static AnimId sBoneBagAnimIds[] =
 {

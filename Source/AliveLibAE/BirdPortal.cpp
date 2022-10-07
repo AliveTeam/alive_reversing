@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "BirdPortal.hpp"
-#include "ResourceManager.hpp"
 #include "Map.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "stdlib.hpp"
@@ -23,7 +22,6 @@
 #include "ScreenClipper.hpp"
 #include "Sys_common.hpp"
 #include "AbilityRing.hpp"
-#include "ResourceManager.hpp"
 #include "Map.hpp"
 
 void BirdPortal::LoadAnimations()

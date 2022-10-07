@@ -4,7 +4,7 @@
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/ScreenManager.hpp"
-#include "Game.hpp"
+#include "Game.hpp" // mud info
 #include "DDCheat.hpp"
 #include "PathDataExtensions.hpp"
 

@@ -1,7 +1,6 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
 #include "ElectricWall.hpp"
-#include "ResourceManager.hpp"
 #include "SwitchStates.hpp"
 #include "Math.hpp"
 #include "../AliveLibAE/stdlib.hpp"

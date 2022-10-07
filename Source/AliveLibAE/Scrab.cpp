@@ -16,7 +16,6 @@
 #include "Sound/Midi.hpp"
 #include "GameSpeak.hpp"
 #include "SwitchStates.hpp"
-#include "SlamDoor.hpp"
 #include "LiftPoint.hpp"
 #include "Slurg.hpp"
 #include "Grid.hpp"

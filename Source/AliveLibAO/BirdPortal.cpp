@@ -1,7 +1,6 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
 #include "BirdPortal.hpp"
-#include "ResourceManager.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "Abe.hpp"
@@ -20,7 +19,6 @@
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
 #include "AbilityRing.hpp"
-#include "Sys_common.hpp"
 
 namespace AO {
 

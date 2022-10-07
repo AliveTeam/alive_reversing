@@ -7,7 +7,6 @@
 #include "../relive_lib/Events.hpp"
 #include "stdlib.hpp"
 #include "SwitchStates.hpp"
-#include "ResourceManager.hpp"
 #include "Map.hpp"
 
 ALIVE_VAR(1, 0x563aa0, u32, sWellRndSeed_563AA0, 4);

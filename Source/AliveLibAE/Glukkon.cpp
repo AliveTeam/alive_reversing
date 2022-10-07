@@ -18,7 +18,6 @@
 #include "LiftPoint.hpp"
 #include "Map.hpp"
 #include "Slurg.hpp"
-#include "SlamDoor.hpp"
 #include "DeathFadeOut.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "Movie.hpp"
@@ -31,7 +30,6 @@
 #include "Blood.hpp"
 #include "Bullet.hpp"
 #include "Sound/Midi.hpp"
-#include "Sys_common.hpp"
 #include "Grid.hpp"
 
 #define MAKE_STRINGS(VAR) #VAR,

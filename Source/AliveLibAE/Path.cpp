@@ -1,11 +1,9 @@
 #include "stdafx.h"
 #include "Path.hpp"
 #include "Function.hpp"
-#include "ResourceManager.hpp"
 #include "PathData.hpp"
 #include "Map.hpp"
 #include "AmbientSound.hpp"
-#include "Sys.hpp"
 #include "../relive_lib/BinaryPath.hpp"
 #include <assert.h>
 

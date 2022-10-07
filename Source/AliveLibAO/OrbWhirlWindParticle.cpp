@@ -6,7 +6,6 @@
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "Math.hpp"
-#include "ResourceManager.hpp"
 #include "BaseAliveGameObject.hpp"
 
 namespace AO {

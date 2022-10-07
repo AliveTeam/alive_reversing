@@ -8,7 +8,6 @@
 #include "Input.hpp"
 #include "ThrowableArray.hpp"
 #include "SwitchStates.hpp"
-#include "ResourceManager.hpp"
 #include "Input.hpp"
 #include "DDCheat.hpp"
 #include "PauseMenu.hpp"

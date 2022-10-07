@@ -2,7 +2,6 @@
 #include "Function.hpp"
 #include "DeathBirdParticle.hpp"
 #include "Game.hpp"
-#include "ResourceManager.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "Dove.hpp"
 #include "Math.hpp"

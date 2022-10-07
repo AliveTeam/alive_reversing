@@ -1,7 +1,6 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
 #include "ChimeLock.hpp"
-#include "ResourceManager.hpp"
 #include "Bells.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "SwitchStates.hpp"

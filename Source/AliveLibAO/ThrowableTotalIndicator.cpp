@@ -5,7 +5,6 @@
 #include "Game.hpp"
 #include "../relive_lib/Events.hpp"
 #include "CameraSwapper.hpp"
-#include "PauseMenu.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "Math.hpp"

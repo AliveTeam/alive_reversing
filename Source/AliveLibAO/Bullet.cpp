@@ -10,7 +10,6 @@
 #include "../relive_lib/Collisions.hpp"
 #include "Elum.hpp"
 #include "Math.hpp"
-#include "ZapSpark.hpp"
 
 namespace AO {
 

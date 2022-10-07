@@ -3,7 +3,6 @@
 #include "Well.hpp"
 #include "Math.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "ResourceManager.hpp"
 #include "SwitchStates.hpp"
 #include "Leaf.hpp"
 #include "../relive_lib/Events.hpp"

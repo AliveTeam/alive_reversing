@@ -2,10 +2,8 @@
 #include "ResourceManager.hpp"
 #include "Function.hpp"
 #include "Psx.hpp"
-#include "Game.hpp"
 #include "stdlib.hpp"
 #include "LvlArchive.hpp"
-#include "../relive_lib/ScreenManager.hpp" // Camera
 #include "../relive_lib/Particle.hpp"
 #include "PsxRender.hpp"
 #include "../relive_lib/PsxDisplay.hpp"

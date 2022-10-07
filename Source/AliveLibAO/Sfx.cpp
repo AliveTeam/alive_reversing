@@ -1,9 +1,7 @@
 #include "stdafx_ao.h"
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Sfx.hpp"
-#include "Function.hpp"
 #include "Midi.hpp"
-#include "Map.hpp"
 #include "../AliveLibAE/Sound/Midi.hpp"
 
 namespace AO {

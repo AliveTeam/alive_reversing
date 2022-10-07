@@ -1,12 +1,7 @@
 #pragma once
 
-
-// TODO: consider not using STL in here
+// TODO: consider not using STL in her
 #include "../AliveLibCommon/Types.hpp"
-
-#include <vector>
-#include <memory>
-#include <string>
 #include "nlohmann/json.hpp"
 
 #include "Collisions.hpp"

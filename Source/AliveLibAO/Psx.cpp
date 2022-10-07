@@ -3,7 +3,6 @@
 #include "Function.hpp"
 #include "../relive_lib/bmp.hpp"
 #include "VGA.hpp"
-#include "Sys.hpp"
 #include "PsxRender.hpp"
 #include "../relive_lib/Error.hpp"
 #include "../AliveLibAE/Psx.hpp"

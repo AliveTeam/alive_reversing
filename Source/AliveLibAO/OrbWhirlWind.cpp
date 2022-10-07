@@ -4,7 +4,6 @@
 #include "OrbWhirlWindParticle.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
-#include "Game.hpp"
 
 namespace AO {
 

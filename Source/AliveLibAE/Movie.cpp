@@ -3,7 +3,6 @@
 #include "Function.hpp"
 #include "Psx.hpp"
 #include "stdlib.hpp"
-#include "CameraSwapper.hpp"
 #include "ResourceManager.hpp"
 #include "Text.hpp"
 #include "MainMenu.hpp"
@@ -11,7 +10,6 @@
 #include "Sys.hpp"
 #include "Sound/Sound.hpp"
 #include "Masher.hpp"
-#include "DDraw.hpp"
 #include "VGA.hpp"
 #include "GameAutoPlayer.hpp"
 

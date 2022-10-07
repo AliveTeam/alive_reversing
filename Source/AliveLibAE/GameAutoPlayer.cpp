@@ -1,6 +1,5 @@
 #include "GameAutoPlayer.hpp"
 #include "Input.hpp"
-#include "Sys_common.hpp"
 #include "BaseAliveGameObject.hpp"
 
 void Recorder::SaveObjectStates()

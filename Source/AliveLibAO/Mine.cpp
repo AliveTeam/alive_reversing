@@ -1,7 +1,6 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
 #include "Mine.hpp"
-#include "ResourceManager.hpp"
 #include "Game.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/Events.hpp"

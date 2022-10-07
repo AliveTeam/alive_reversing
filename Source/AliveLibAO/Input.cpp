@@ -4,7 +4,6 @@
 #include "Game.hpp"
 #include "../AliveLibAE/Input.hpp"
 #include "BitField.hpp"
-#include "Sys.hpp"
 #include "BaseGameAutoPlayer.hpp"
 
 namespace AO {

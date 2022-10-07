@@ -9,10 +9,8 @@
 #include "Game.hpp"
 #include "Midi.hpp"
 #include "BaseAliveGameObject.hpp"
-#include "Door.hpp"
 #include "Abe.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
-#include "FixedPoint.hpp"
 #include "AmbientSound.hpp"
 #include "FG1.hpp"
 #include "Movie.hpp"
@@ -27,7 +25,6 @@
 #include "Sfx.hpp"
 #include "Elum.hpp"
 #include "Sys.hpp"
-#include "PlatformBase.hpp"
 #include "Camera.hpp"
 
 #include "../relive_lib/data_conversion/file_system.hpp"

@@ -1,7 +1,6 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
 #include "SecurityOrb.hpp"
-#include "ResourceManager.hpp"
 #include "Midi.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "Explosion.hpp"

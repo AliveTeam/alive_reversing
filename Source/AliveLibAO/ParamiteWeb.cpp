@@ -4,7 +4,6 @@
 #include "Map.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
-#include "ResourceManager.hpp"
 #include "Rope.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "../relive_lib/ShadowZone.hpp"

@@ -42,7 +42,6 @@
 #include "Lever.hpp"
 #include "SecurityDoor.hpp"
 #include "BackgroundGlukkon.hpp"
-#include "Rock.hpp"
 #include "Well.hpp"
 #include "ZzzSpawner.hpp"
 #include "BirdPortal.hpp"
@@ -70,10 +69,7 @@
 #include "Paramite.hpp"
 #include "MovingBomb.hpp"
 #include "../relive_lib/ShadowZone.hpp"
-#include "OneShotSwitchIdSetter.hpp"
-#include "SwitchStateBooleanLogic.hpp"
 #include "LiftPoint.hpp"
-#include "Sys_common.hpp"
 #include "RockSack.hpp"
 
 namespace AO {

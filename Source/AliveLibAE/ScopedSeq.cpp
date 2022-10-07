@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "ScopedSeq.hpp"
-#include "Function.hpp"
 #include "Map.hpp"
 #include "Sound/Midi.hpp"
 #include "stdlib.hpp"

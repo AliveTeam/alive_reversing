@@ -2,7 +2,6 @@
 #include "Function.hpp"
 #include "SecurityDoor.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "ResourceManager.hpp"
 #include "Game.hpp"
 #include "GameSpeak.hpp"
 #include "../relive_lib/Events.hpp"

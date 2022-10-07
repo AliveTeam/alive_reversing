@@ -1,14 +1,10 @@
 #include "stdafx.h"
 #include "TestAnimation.hpp"
 #include "Abe.hpp"
-#include "ResourceManager.hpp"
 #include "AnimResources.hpp"
 #include "Function.hpp"
 #include "stdlib.hpp"
-#include "Game.hpp"
 #include "Map.hpp"
-#include "ResourceManager.hpp"
-
 
 void TestAnimation::DelayLoad()
 {

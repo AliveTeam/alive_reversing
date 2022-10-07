@@ -7,7 +7,6 @@
 
 #include "PsxRender.hpp"
 #include "Sound/Sound.hpp"
-#include "DDraw.hpp"
 #include "Sound/Midi.hpp"
 #include "PauseMenu.hpp"
 #include "GameAutoPlayer.hpp"

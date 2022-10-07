@@ -1,5 +1,4 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
 #include "BellSong.hpp"
 #include "Abe.hpp"
 #include "GameSpeak.hpp"

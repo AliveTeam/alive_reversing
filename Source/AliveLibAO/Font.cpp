@@ -1,16 +1,11 @@
 #include "stdafx_ao.h"
 #include "Font.hpp"
 #include "Function.hpp"
-#include "ResourceManager.hpp"
-#include "../relive_lib/VRam.hpp"
-#include "FixedPoint.hpp"
 #include "Sys_common.hpp"
 #include "../relive_lib/Primitives.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../AliveLibCommon/Function.hpp"
-#include "../relive_lib/ScreenManager.hpp"
 #include "Math.hpp"
-#include "../AliveLibAE/Renderer/IRenderer.hpp"
 
 namespace AO {
 

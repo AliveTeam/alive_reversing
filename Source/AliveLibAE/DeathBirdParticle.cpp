@@ -5,8 +5,6 @@
 #include "Dove.hpp"
 #include "stdlib.hpp"
 #include "Sfx.hpp"
-#include "ResourceManager.hpp"
-#include "Map.hpp"
 
 DeathBirdParticle::DeathBirdParticle(FP xpos, FP ypos, s32 start, bool bPlaySound, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)

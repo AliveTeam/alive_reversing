@@ -1,7 +1,6 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
 #include "ZapSpark.hpp"
-#include "ResourceManager.hpp"
 #include "Math.hpp"
 #include "Map.hpp"
 #include "../AliveLibAE/stdlib.hpp"

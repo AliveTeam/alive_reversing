@@ -14,7 +14,6 @@
 #include "ParticleBurst.hpp"
 #include "ScreenShake.hpp"
 #include "Grid.hpp"
-#include "ResourceManager.hpp"
 #include "Map.hpp"
 
 const FP mineCarHeightUnscaled = FP_FromInteger(60);

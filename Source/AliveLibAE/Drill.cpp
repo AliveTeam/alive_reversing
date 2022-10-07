@@ -8,10 +8,8 @@
 #include "Sound/Midi.hpp"
 #include "Abe.hpp"
 #include "../relive_lib/Events.hpp"
-#include "Game.hpp"
 #include "Spark.hpp"
 #include "Blood.hpp"
-#include "ResourceManager.hpp"
 #include "Map.hpp"
 
 const TintEntry kDrillTints_551548[18] = {

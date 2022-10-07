@@ -1,11 +1,9 @@
 #include "stdafx.h"
 #include "PlatformBase.hpp"
 #include "Function.hpp"
-#include "Path.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "Game.hpp"
 #include "stdlib.hpp"
-#include "ResourceManager.hpp"
 #include "Map.hpp"
 
 PlatformBase::PlatformBase()

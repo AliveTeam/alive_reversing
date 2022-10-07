@@ -2,7 +2,6 @@
 #include "Function.hpp"
 #include "TrapDoor.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "ResourceManager.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
 #include "SwitchStates.hpp"

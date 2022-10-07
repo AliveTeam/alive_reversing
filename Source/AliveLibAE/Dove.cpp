@@ -10,7 +10,6 @@
 #include "Abe.hpp"
 #include "stdlib.hpp"
 #include "Grid.hpp"
-#include "ResourceManager.hpp"
 #include "Map.hpp"
 
 static bool bTheOneControllingTheMusic = false;

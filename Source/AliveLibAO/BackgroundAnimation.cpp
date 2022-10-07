@@ -1,7 +1,6 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
 #include "BackgroundAnimation.hpp"
-#include "ResourceManager.hpp"
 #include "../relive_lib/Animation.hpp"
 #include "Midi.hpp"
 #include "../AliveLibAE/stdlib.hpp"

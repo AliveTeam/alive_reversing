@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/Types.hpp"
+#include "stdafx.h"
 
 enum class CameraPos : s16
 {

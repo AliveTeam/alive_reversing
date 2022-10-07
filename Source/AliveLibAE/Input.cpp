@@ -10,7 +10,6 @@
 #include "PsxRender.hpp"
 #include "Sys.hpp"
 #include "VGA.hpp"
-#include "StringFormatters.hpp"
 #include "TouchController.hpp"
 #include "GameAutoPlayer.hpp"
 

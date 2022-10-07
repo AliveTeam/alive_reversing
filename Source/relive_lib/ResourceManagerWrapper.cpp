@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "ResourceManagerWrapper.hpp"
 #include "GameType.hpp"
 #include "../AliveLibAE/ResourceManager.hpp"

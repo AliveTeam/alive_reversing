@@ -1,21 +1,16 @@
 #include "stdafx.h"
 #include "Grenade.hpp"
 #include "Function.hpp"
-#include "ResourceManager.hpp"
 #include "ThrowableArray.hpp"
-#include "Game.hpp"
 #include "stdlib.hpp"
-#include "../relive_lib/Shadow.hpp"
 #include "PlatformBase.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "../relive_lib/Events.hpp"
-#include "Abe.hpp"
 #include "Gibs.hpp"
 #include "Explosion.hpp"
 #include "Grid.hpp"
 #include "Map.hpp"
-#include "ResourceManager.hpp"
 
 Grenade::Grenade(FP xpos, FP ypos, s32 numGrenades, bool bBlowUpOnCollision, s32 unused, BaseGameObject* pOwner)
     : BaseThrowable(0)

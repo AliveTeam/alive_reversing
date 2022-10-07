@@ -1,13 +1,10 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
 #include "Electrocute.hpp"
-#include "Psx.hpp"
 #include "BaseAliveGameObject.hpp"
-#include "Game.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/VRam.hpp"
 #include "Map.hpp"
-#include "../AliveLibAE/Renderer/IRenderer.hpp"
 
 #define kPalDepth 64
 

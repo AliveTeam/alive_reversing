@@ -1,5 +1,4 @@
 #include "GameAutoPlayer.hpp"
-#include "Sys_common.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Input.hpp"
