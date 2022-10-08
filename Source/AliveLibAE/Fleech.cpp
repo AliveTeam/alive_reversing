@@ -940,16 +940,18 @@ void Fleech::Motion_12_Climb()
                 case eLineTypes::eWallRight_2:
                 case eLineTypes::eBackgroundWallRight_6:
                     Sound(FleechSound::LandOnFloor_9);
-                    // dito
-                    /*if (field_166_angle > 64u && field_166_angle < 128u)
+                    if (field_166_angle > 64u && field_166_angle < 128u)
                     {
                         field_166_angle = -128 - field_166_angle;
                     }
                     else if (field_166_angle > 128 && field_166_angle < 192)
                     {
                         field_166_angle = -128 - field_166_angle;
-                    }*/
-                    field_166_angle = -128 - field_166_angle;
+                    }
+                    else
+                    {
+                        LOG_INFO("angle not set");
+                    }
                     break;
 
                 default:
