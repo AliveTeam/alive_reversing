@@ -34,6 +34,7 @@ public:
 
     static void NoteOff(int program, int note, int trackID = 0);
     static void NoteOffDelay(int program, int note, int trackID = 0, float trackDelay = 0);
+    static void SetVolume(int trackID, s32 volLeft, s32 volRight);
 
     static void DebugPlayFirstToneSample(int program, int tone);
 

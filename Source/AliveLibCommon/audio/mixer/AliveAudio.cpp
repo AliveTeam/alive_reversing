@@ -45,16 +45,15 @@ void AliveAudio::PlayOneShot(int programId, int note, s32 volLeft, s32 volRight,
         pitch;
         pitch_min;
         pitch_max;
-        s32 volume = volLeft + volRight / 2;
         for (auto tone : program->m_Tones)
         {
             if (note >= tone->Min && note <= tone->Max)
             {
                 Voice* voice = new Voice();
                 voice->i_Note = note;
-                voice->f_Velocity = float(volume == 0 ? 127 : volume) / 127;
+                voice->f_Velocity = float(std::min(volLeft, volRight)) / 127;
                 voice->m_Tone = tone;
-                voice->f_Pan = float(volRight) / float(volLeft) - 1;
+                voice->f_Pan = (float(volRight) / float(volLeft)) - 1;
 
                 // TODO - something more is probably suppose to happen with pitch.
                 // From the looks of things pitch_min and pitch_max are always equal.
@@ -87,7 +86,7 @@ void AliveAudio::NoteOn(int programId, int note, char velocity, float pitch , in
                 voice->i_Note = note;
                 voice->m_Tone = tone;
                 voice->i_Program = programId;
-                voice->f_Velocity = velocity == 0 ? 127 : velocity / 127.0f;
+                voice->f_Velocity = velocity == 0 ? tone->f_Volume : velocity / 127.0f;
                 voice->i_TrackID = trackID;
                 voice->f_Pitch = pitch;
                 voice->f_TrackDelay = trackDelay;
@@ -100,6 +99,22 @@ void AliveAudio::NoteOn(int program, int note, char velocity, int trackID , floa
 {
     NoteOn(program, note, velocity, 0, trackID, trackDelay);
 } 
+
+// sets the volume and pan for all voices on a given track.
+// since we are probably updating the volume of a sequence 
+// we will set a volume multiplier that will be used on the 
+// sequences voices volume. 
+void AliveAudio::SetVolume(int trackID, s32 volLeft, s32 volRight)
+{
+    for (auto voice : m_Voices)
+    {
+        if (voice->i_TrackID == trackID)
+        {
+            voice->f_VelocityMulti = double(std::min(volLeft, volRight)) / double(127);
+            voice->f_Pan = (float(volRight) / float(volLeft)) - 1;
+        }
+    }
+}
 
 void AliveAudio::NoteOff(int program, int note, int trackID )
 {

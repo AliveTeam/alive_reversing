@@ -81,6 +81,7 @@ public:
     void StopSequence();
     int completedRepeats();
 
+    void SetVolume(s32 volLeft, s32 volRight);
     float MidiTimeToSample(int time);
     int GetPlaybackPositionSample();
 
@@ -89,6 +90,8 @@ public:
     AliveAudioQuarterCallback m_QuarterCallback;
 
 private:
+    s32 mVolLeft = 0;
+    s32 mVolRight = 0;
     std::atomic<int> mCompletedRepeats;
     int m_KillThread = false;   // If true, loop thread will exit.
     int m_SongFinishSample = 0; // Not relative.

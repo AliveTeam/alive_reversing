@@ -13,6 +13,7 @@ public:
     double f_SampleOffset = 0;
     bool b_NoteOn = true;
     double f_Velocity = 1.0f;
+    double f_VelocityMulti = 1;
     double f_Pitch = 0.0f;
     float f_Pan = 0.0f;
 

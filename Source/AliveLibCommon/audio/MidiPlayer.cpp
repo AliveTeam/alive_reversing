@@ -211,6 +211,7 @@ void MidiPlayer::SND_Restart()
 void MidiPlayer::SND_Stop_Channels_Mask(u32 bitMask)
 {
     bitMask;
+    std::cout << "bitmask " << bitMask << "\n";
 }
 
 void MidiPlayer::SND_SEQ_Stop(u16 idx)
@@ -250,17 +251,50 @@ s16 MidiPlayer::SND_SEQ_PlaySeq(u16 idx, s32 repeatCount, s16 bDontStop)
         player = new SequencePlayer();
         mSequencePlayers.push_back(player);
     }
+    std::cout << "Play seq " << idx << "\n";
 
     player->LoadSequenceData(mSequences.at(s16(idx)), s32(idx), repeatCount);
     player->PlaySequence();
-    return 1;
+    return s16(mSequencePlayers.size() - 1);
 }
 
-void MidiPlayer::SND_SEQ_SetVol(s32 idx, s16 volLeft, s16 volRight)
+void MidiPlayer::sanitizeVolume(s32* src, s32 low, s32 high)
+{
+    if (*src < low)
+    {
+        *src = low;
+    }
+    else if (*src >= high)
+    {
+        *src = high;
+    }
+}
+
+void MidiPlayer::sanitizePitch(s32* src, s16 defaultPitch)
+{
+    if (*src == 0x7FFF)
+    {
+        *src = defaultPitch;
+    }
+
+    if (*src == 0x7FFF)
+    {
+        *src = defaultPitch;
+    }
+}
+
+void MidiPlayer::SND_SEQ_SetVol(s32 idx, s32 volLeft, s32 volRight)
 {
     idx;
     volLeft;
     volRight;
+    sanitizeVolume(&volLeft, 10, 127);
+    sanitizeVolume(&volRight, 10, 127);
+    SequencePlayer* player = GetSequencePlayer(u16(idx));
+    if (player)
+    {
+        player->SetVolume(volLeft, volRight);
+    }
 }
 
 s16 MidiPlayer::SND_SEQ_Play(u16 idx, s32 repeatCount, s16 volLeft, s16 volRight)
@@ -274,12 +308,13 @@ s16 MidiPlayer::SND_SEQ_Play(u16 idx, s32 repeatCount, s16 volLeft, s16 volRight
     {
         return 0;
     }
+    std::cout << "Play seq " << idx << "\n";
 
     player = new SequencePlayer();
     player->LoadSequenceData(mSequences.at(s16(idx)), s32(idx), repeatCount);
     player->PlaySequence();
     mSequencePlayers.push_back(player);
-    return 1;
+    return s16(mSequencePlayers.size() - 1);
 }
 
 s16 MidiPlayer::SND_SsIsEos_DeInlined(u16 idx)
@@ -301,39 +336,17 @@ s16 MidiPlayer::SND_SsIsEos_DeInlined(u16 idx)
 
 s32 MidiPlayer::SFX_SfxDefinition_Play(SfxDefinition* sfxDef, s32 volLeft, s32 volRight, s32 pitch_min, s32 pitch_max)
 {
-    if (pitch_min == 0x7FFF)
-    {
-        pitch_min = sfxDef->pitch_min;
-    }
+    sanitizePitch(&pitch_min, sfxDef->pitch_min);
+    sanitizePitch(&pitch_max, sfxDef->pitch_max);
 
-    if (pitch_max == 0x7FFF)
-    {
-        pitch_max = sfxDef->pitch_max;
-    }
-
-    if (volLeft < 10)
-    {
-        volLeft = 10;
-    }
-    else if (volLeft >= 127)
-    {
-        volLeft = 127;
-    }
-
-    if (volRight < 10)
-    {
-        volRight = 10;
-    }
-    else if (volRight >= 127)
-    {
-        volRight = 127;
-    }
+    sanitizeVolume(&volLeft, 10, 127);
+    sanitizeVolume(&volRight, 10, 127);
 
     // AliveAudio::PlayOneShot(sfxDef->program, sfxDef->note, volLeft, 0);
     AliveAudio::LockNotes();
     AliveAudio::PlayOneShot(sfxDef->program, sfxDef->note, volLeft, volRight, 0, pitch_min, pitch_max);
     AliveAudio::UnlockNotes();
-    return 1;
+    return 11;
 }
 
 s32 MidiPlayer::SFX_SfxDefinition_Play(SfxDefinition* sfxDef, s32 volume, s32 pitch_min, s32 pitch_max)
@@ -343,30 +356,16 @@ s32 MidiPlayer::SFX_SfxDefinition_Play(SfxDefinition* sfxDef, s32 volume, s32 pi
         volume = sfxDef->volume;
     }
 
-    if (pitch_min == 0x7FFF)
-    {
-        pitch_min = sfxDef->pitch_min;
-    }
+    sanitizePitch(&pitch_min, sfxDef->pitch_min);
+    sanitizePitch(&pitch_max, sfxDef->pitch_max);
 
-    if (pitch_max == 0x7FFF)
-    {
-        pitch_max = sfxDef->pitch_max;
-    }
-
-    if (volume < 1)
-    {
-        volume = 1;
-    }
-    else if (volume >= 127)
-    {
-        volume = 127;
-    }
+    sanitizeVolume(&volume, 1, 127);
 
     //AliveAudio::PlayOneShot(sfxDef->program, sfxDef->note, volume, 0);
     AliveAudio::LockNotes();
     AliveAudio::PlayOneShot(sfxDef->program, sfxDef->note, volume, volume, 0, pitch_min, pitch_max);
     AliveAudio::UnlockNotes();
-    return 1;
+    return 10;
 }
 
 s32 MidiPlayer::SND(s32 program, s32 vabId, s32 note, s16 vol, s16 min, s16 max)
@@ -380,7 +379,7 @@ s32 MidiPlayer::SND(s32 program, s32 vabId, s32 note, s16 vol, s16 min, s16 max)
     AliveAudio::LockNotes();
     AliveAudio::NoteOn(program, note, char(vol), 0);
     AliveAudio::UnlockNotes();
-    return 1;
+    return 12;
 }
 
  void MidiPlayer::SsUtAllKeyOff(s32 mode)

@@ -50,7 +50,7 @@ float Voice::GetSample()
     double sampleFrameRate = pow(1.059463, i_Note - m_Tone->c_Center + m_Tone->Pitch + f_Pitch) * (44100.0 / AliveAudioSampleRate);
     f_SampleOffset += (sampleFrameRate);
 
-    return ((float) (m_Tone->m_Sample->GetSample(float(f_SampleOffset)) * ActiveAttackLevel * ActiveDecayLevel * ((b_NoteOn) ? ActiveSustainLevel : ActiveReleaseLevel) * f_Velocity));
+    return ((float) (m_Tone->m_Sample->GetSample(float(f_SampleOffset)) * ActiveAttackLevel * ActiveDecayLevel * ((b_NoteOn) ? ActiveSustainLevel : ActiveReleaseLevel) * (f_Velocity * f_VelocityMulti)));
 }
 
 } // namespace psx

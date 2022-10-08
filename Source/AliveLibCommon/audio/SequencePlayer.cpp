@@ -42,7 +42,9 @@ static Uint32 _MidiReadVarLen(Stream& stream)
 float SequencePlayer::MidiTimeToSample(int time)
 {
     // This may, or may not be correct. // TODO: Revise
-    return ((60.0f * float(time)) / float(m_SongTempo)) * (float(AliveAudioSampleRate) / 500.0f);
+    // Oct 7, 2022 - added (x1.041f). For some reason this seems to match AE playback speed...
+    // AO might be better with just times 1.000?
+    return ((60.0f * float(time)) / float(m_SongTempo)) * (float(AliveAudioSampleRate) / 500.0f) * 1.041f;
 }
 
 s32 SequencePlayer::completedRepeats()
@@ -95,6 +97,11 @@ void SequencePlayer::m_PlayerThreadFunction()
 
         if (m_PlayerState == ALIVE_SEQUENCER_PLAYING)
         {
+            if (mVolLeft && mVolRight)
+            {
+                AliveAudio::SetVolume(m_TrackID, mVolLeft, mVolRight);
+            }
+
             if (AliveAudio::currentSampleIndex > m_SongFinishSample)
             {
                 m_PlayerState = ALIVE_SEQUENCER_FINISHED;
@@ -132,6 +139,17 @@ void SequencePlayer::m_PlayerThreadFunction()
 int SequencePlayer::GetPlaybackPositionSample()
 {
     return ((int) (AliveAudio::currentSampleIndex - m_SongBeginSample));
+}
+
+void SequencePlayer::SetVolume(s32 volLeft, s32 volRight)
+{
+    m_PlayerStateMutex.lock();
+    mVolLeft = volLeft;
+    //AliveAudio::LockNotes();
+    //AliveAudio::SetVolume(m_TrackID, mVolLeft, mVolRight);
+    //AliveAudio::UnlockNotes();
+    mVolRight = volRight;
+    m_PlayerStateMutex.unlock();
 }
 
 void SequencePlayer::StopSequence()
@@ -199,6 +217,7 @@ int SequencePlayer::LoadSequenceStream(Stream& stream)
     m_SongTempo = ((float) (60000000.0 / tempoValue));
 
 
+    unsigned int prevDeltaTime = 0;
     unsigned int deltaTime = 0;
 
     const size_t midiDataStart = stream.Pos();
@@ -248,7 +267,24 @@ int SequencePlayer::LoadSequenceStream(Stream& stream)
                 case 0x2f:
                 {
                     //std::cout << "end of track" << std::endl;
-                    m_MessageList.push_back(AliveAudioMidiMessage(ALIVE_MIDI_ENDTRACK, deltaTime, 0, 0, 0));
+
+                    // This may not be right, but I've found it lines up new sections well.
+                    // If not, pass deltaTime instead of nextQuarter
+                    unsigned int quarterDur = int(m_SongTempo);
+                    unsigned int nextQuarter = 0;
+
+                    while (nextQuarter < prevDeltaTime)
+                    {
+                        nextQuarter += quarterDur;
+                    }
+                    nextQuarter -= quarterDur;
+
+                    if (nextQuarter == 0)
+                    {
+                        nextQuarter = deltaTime;
+                    }
+
+                    m_MessageList.push_back(AliveAudioMidiMessage(ALIVE_MIDI_ENDTRACK, nextQuarter, 0, 0, 0));
                     return 0;
                     //Sint32 loopCount = gSeqInfo.iNumTimesToLoop; // v1 some hard coded data?? or just a local static?
                     //if (loopCount)                            // If zero then loop forever
@@ -336,6 +372,7 @@ int SequencePlayer::LoadSequenceStream(Stream& stream)
                 {
                     Uint8 prog = 0;
                     stream.ReadUInt8(prog);
+                    prevDeltaTime = deltaTime;
                     m_MessageList.push_back(AliveAudioMidiMessage(ALIVE_MIDI_PROGRAM_CHANGE, deltaTime, channel, 0, 0, prog));
                 }
                 break;

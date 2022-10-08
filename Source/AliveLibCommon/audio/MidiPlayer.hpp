@@ -192,7 +192,7 @@ namespace psx {
         void SND_SEQ_Stop(u16 idx);
         s8 SND_Seq_Table_Valid();
         s16 SND_SEQ_PlaySeq(u16 idx, s32 repeatCount, s16 bDontStop);
-        void SND_SEQ_SetVol(s32 idx, s16 volLeft, s16 volRight);
+        void SND_SEQ_SetVol(s32 idx, s32 volLeft, s32 volRight);
         s16 SND_SEQ_Play(u16 idx, s32 repeatCount, s16 volLeft, s16 volRight);
 
         s16 SND_SsIsEos_DeInlined(u16 idx);
@@ -209,6 +209,8 @@ namespace psx {
         std::vector<std::vector<Uint8>> mSequences;
         std::vector<SequencePlayer*> mSequencePlayers;
 
+        void sanitizePitch(s32* src, s16 defaultPitch);
+        void sanitizeVolume(s32* src, s32 low, s32 high);
         SequencePlayer* GetSequencePlayer(u16 idx);
         void RemoveSequencePlayer(SequencePlayer* player);
     };
