@@ -1203,10 +1203,36 @@ static void ConvertFilesInLvl(const FileSystem::Path& dataDir, FileSystem& fs, R
 
                 //ConvertCamera(dataDir, fileName, fs, fileBuffer, lvlReader, lvlIdxAsLvl);
             }
-            // TODO: Seek these out instead of converting everything we see since the names are fixed per LVL
+            // TODO: Seek these out instead of converting everything we see since the names are fixed per LVL, also AE needs sounds.dat
             else if (endsWith(fileName, ".VB") || endsWith(fileName, ".VH") || endsWith(fileName, ".BSQ"))
             {
                 ConvertSound(dataDir, fileName, fs, lvlReader, fileBuffer, lvlIdxAsLvl);
+            }
+            else if (endsWith(fileName, ".JOY"))
+            {
+                // TODO: Actually convert at some later point
+                ReadLvlFileInto(lvlReader, fileName.c_str(), fileBuffer);
+
+                FileSystem::Path filePath = dataDir;
+                filePath.Append(ToString(lvlIdxAsLvl));
+                fs.CreateDirectory(filePath);
+                filePath.Append(fileName);
+
+
+                fs.Save(filePath, fileBuffer);
+            }
+            else if (endsWith(fileName, ".SAV"))
+            {
+                // TODO: Actually convert at some later point
+                ReadLvlFileInto(lvlReader, fileName.c_str(), fileBuffer);
+
+                FileSystem::Path filePath = dataDir;
+                filePath.Append(ToString(lvlIdxAsLvl));
+                fs.CreateDirectory(filePath);
+                filePath.Append(fileName);
+
+
+                fs.Save(filePath, fileBuffer);
             }
             else if (endsWith(fileName, "PATH.BND"))
             {
@@ -1258,48 +1284,6 @@ static void ConvertHardcodedPals(const FileSystem::Path& dataDir)
         140u, 177u, 19u, 148u, 100u, 206u, 101u, 206u, 215u,
         152u, 20u, 161u, 24u, 216u};
 
-    const static u8 pal_GasCountDown[40] = {
-        0u,
-        0u,
-        1u,
-        128u,
-        1u,
-        132u,
-        32u,
-        132u,
-        33u,
-        128u,
-        32u,
-        132u,
-        33u,
-        132u,
-        101u,
-        206u,
-        101u,
-        140u,
-        140u,
-        177u,
-        19u,
-        148u,
-        100u,
-        206u,
-        101u,
-        206u,
-        215u,
-        152u,
-        20u,
-        161u,
-        24u,
-        216u,
-        0u,
-        0u,
-        0u,
-        0u,
-        0u,
-        0u,
-        0u,
-        0u};
-
     const static u8 sLCDScreen_Palette[] = {
         0x00, 0x00, 0x01, 0x80, 0x01, 0x84, 0x20, 0x84, 0x21, 0x80,
         0x20, 0x84, 0x21, 0x84, 0x65, 0xCE, 0x65, 0x8C, 0x8C, 0xB1,
@@ -1318,40 +1302,6 @@ static void ConvertHardcodedPals(const FileSystem::Path& dataDir)
         0x13, 0x94, 0x64, 0xCE, 0x65, 0xCE, 0xD7, 0x98, 0x14, 0xA1,
         0x18, 0xD8};
 
-    // TODO: Should be const but can't be due to mlgs hacks in Font obj
-    const static u8 pal_BrewMachine[32] = {
-        0u,
-        0u,
-        1u,
-        128u,
-        1u,
-        132u,
-        32u,
-        132u,
-        33u,
-        128u,
-        32u,
-        132u,
-        33u,
-        132u,
-        101u,
-        206u,
-        101u,
-        140u,
-        140u,
-        177u,
-        19u,
-        148u,
-        100u,
-        206u,
-        101u,
-        206u,
-        215u,
-        152u,
-        20u,
-        161u,
-        24u,
-        216u};
 
     ConvertPal(dataDir, ToString(PalId::MainMenuFont_MainMenu), reinterpret_cast<const u16*>(mainMenuFontPal), ALIVE_COUNTOF(mainMenuFontPal) / sizeof(u16));
 
@@ -1359,15 +1309,11 @@ static void ConvertHardcodedPals(const FileSystem::Path& dataDir)
 
     ConvertPal(dataDir, ToString(PalId::LedFont_ColourfulMeter), reinterpret_cast<const u16*>(pal_ColourfulMeter), ALIVE_COUNTOF(pal_ColourfulMeter) / sizeof(u16));
 
-    ConvertPal(dataDir, ToString(PalId::LedFont_Gas), reinterpret_cast<const u16*>(pal_GasCountDown), ALIVE_COUNTOF(pal_GasCountDown) / sizeof(u16));
-
     ConvertPal(dataDir, ToString(PalId::LedFont_1), reinterpret_cast<const u16*>(sLCDScreen_Palette), ALIVE_COUNTOF(sLCDScreen_Palette) / sizeof(u16));
 
     ConvertPal(dataDir, ToString(PalId::LedFont_2), reinterpret_cast<const u16*>(sLCDScreen_Palette2), ALIVE_COUNTOF(sLCDScreen_Palette2) / sizeof(u16));
 
-    ConvertPal(dataDir, ToString(PalId::LedFont_StatusBoard), reinterpret_cast<const u16*>(pal_LCDStatusBoard), ALIVE_COUNTOF(pal_LCDStatusBoard) / sizeof(u16));
-
-    ConvertPal(dataDir, ToString(PalId::LedFont_BrewMachine), reinterpret_cast<const u16*>(pal_BrewMachine), ALIVE_COUNTOF(pal_BrewMachine) / sizeof(u16));
+    ConvertPal(dataDir, ToString(PalId::LedFont_Red), reinterpret_cast<const u16*>(pal_LCDStatusBoard), ALIVE_COUNTOF(pal_LCDStatusBoard) / sizeof(u16));
 }
 
 void DataConversion::ConvertDataAO()

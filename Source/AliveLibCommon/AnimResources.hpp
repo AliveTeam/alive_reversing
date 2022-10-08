@@ -975,11 +975,9 @@ enum class PalId
     MainMenuFont_MainMenu, // AE hard coded data
     MainMenuFont_PauseMenu, // AE hard coded data
     LedFont_ColourfulMeter, // AE hard coded data
-    LedFont_Gas, // AE hard coded data
     LedFont_1, // AE hard coded data
     LedFont_2, // AE hard coded data
-    LedFont_StatusBoard, // AE hard coded data
-    LedFont_BrewMachine, // AE hard coded data
+    LedFont_Red, // AE hard coded data
 };
 
 struct BgAnimDetails final

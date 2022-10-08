@@ -18,7 +18,7 @@ LCDStatusBoard::LCDStatusBoard(relive::Path_LCDStatusBoard* params, const Guid& 
     mFontContext.LoadFontType_433400(FontType::LcdFont);
 
     
-    mPal = ResourceManagerWrapper::LoadPal(PalId::LedFont_StatusBoard);
+    mPal = ResourceManagerWrapper::LoadPal(PalId::LedFont_Red);
 
     field_20_font1.ctor_433590(3, mPal, &mFontContext);
     field_58_font2.ctor_433590(3, mPal, &mFontContext);

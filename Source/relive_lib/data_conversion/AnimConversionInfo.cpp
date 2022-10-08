@@ -1380,16 +1380,12 @@ const char* ToString(PalId pal)
         return "main_menu_font_pausemenu.pal";
     case PalId::LedFont_ColourfulMeter:
         return "ledfont_colourful_meter.pal";
-    case PalId::LedFont_Gas:
-        return "ledfont_gas.pal";
     case PalId::LedFont_1:
         return "ledfont_1.pal";
     case PalId::LedFont_2:
         return "ledfont_2.pal";
-    case PalId::LedFont_StatusBoard:
-        return "ledfont_statusboard.pal";
-    case PalId::LedFont_BrewMachine:
-        return "ledfont_brewmachine.pal";
+    case PalId::LedFont_Red:
+        return "ledfont_red.pal";
     case PalId::StockYardsSlig:
         return "stock_yards_slig.pal";
     }

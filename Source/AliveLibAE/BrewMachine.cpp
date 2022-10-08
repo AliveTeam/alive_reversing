@@ -10,7 +10,7 @@ BrewMachine::BrewMachine(relive::Path_BrewMachine* pTlv, const Guid& tlvId)
 {
     SetType(ReliveTypes::eBrewMachine);
 
-    mPal = ResourceManagerWrapper::LoadPal(PalId::LedFont_BrewMachine);
+    mPal = ResourceManagerWrapper::LoadPal(PalId::LedFont_Red);
 
     mFontContext.LoadFontType_433400(FontType::LcdFont);
     mFont.ctor_433590(3, mPal, &mFontContext);
