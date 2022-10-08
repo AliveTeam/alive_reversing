@@ -3438,6 +3438,15 @@ public:
             r.mData.mDeathMode = Path_Slig_Data::DeathMode::FallForward;
         }
 
+        if (tlv.mDisabledResources & 0x400)
+        {
+            r.mData.mCanBeat = false;
+        }
+        else
+        {
+            r.mData.mCanBeat = true;
+        }
+
         return r;
     }
 
@@ -3575,6 +3584,28 @@ public:
         r.mData.mNoiseWakeUpDistance = tlv.mNoiseWakeUpDistance;
         r.mData.mSligSpawnerSwitchId = tlv.mSligSpawnerSwitchId;
         r.mData.mUnlimitedSpawns = relive::From(tlv.mUnlimitedSpawns);
+
+        // TODO: Add flags/constants for these
+        if (tlv.mDisabledResources & 0x80)
+        {
+            // When dead just shrink in the idle anim - happens in OG when
+            // certain resources are turned off. Replicate to avoid de-syncs in playbacks
+            r.mData.mDeathMode = Path_Slig_Data::DeathMode::StandIdle;
+        }
+        else
+        {
+            r.mData.mDeathMode = Path_Slig_Data::DeathMode::FallForward;
+        }
+
+        if (tlv.mDisabledResources & 0x400)
+        {
+            r.mData.mCanBeat = false;
+        }
+        else
+        {
+            r.mData.mCanBeat = true;
+        }
+
         return r;
     }
 
@@ -4471,6 +4502,28 @@ public:
         r.mData.mDisabledResourcesAE = tlv.disable_resources;
         r.mData.mNoiseWakeUpDistance = tlv.noise_wake_up_distance;
         r.mData.mSligSpawnerSwitchId = tlv.mSligSpawnerSwitchId;
+
+        // TODO: Add flags/constants for these
+        if (tlv.disable_resources & 0x80)
+        {
+            // When dead just shrink in the idle anim - happens in OG when
+            // certain resources are turned off. Replicate to avoid de-syncs in playbacks
+            r.mData.mDeathMode = Path_Slig_Data::DeathMode::StandIdle;
+        }
+        else
+        {
+            r.mData.mDeathMode = Path_Slig_Data::DeathMode::FallForward;
+        }
+
+        if (tlv.disable_resources & 0x400)
+        {
+            r.mData.mCanBeat = false;
+        }
+        else
+        {
+            r.mData.mCanBeat = true;
+        }
+
         return r;
     }
 };

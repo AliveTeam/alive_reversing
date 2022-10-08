@@ -2644,6 +2644,7 @@ inline void to_json(nlohmann::json& j, const Path_Slig_Data& p)
         {"slig_spawner_switch_id", p.mSligSpawnerSwitchId},
         {"unlimited_spawns", p.mUnlimitedSpawns},
         {"death_mode", p.mDeathMode},
+        {"can_beat", p.mCanBeat},
     };
 }
 
@@ -2678,6 +2679,7 @@ inline void from_json(const nlohmann::json& j, Path_Slig_Data& p)
     j.at("slig_spawner_switch_id").get_to(p.mSligSpawnerSwitchId);
     j.at("unlimited_spawns").get_to(p.mUnlimitedSpawns);
     j.at("death_mode").get_to(p.mDeathMode);
+    j.at("can_beat").get_to(p.mCanBeat);
 }
 
 inline void to_json(nlohmann::json& j, const Path_Slig& p)

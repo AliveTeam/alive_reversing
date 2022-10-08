@@ -1715,6 +1715,8 @@ struct Path_Slig_Data final
     StartState mStartState = StartState::Patrol;
 
     DeathMode mDeathMode = DeathMode::FallForward;
+    bool mCanBeat = false;
+
     s16 mPauseTime = 0;
     s16 mPauseLeftMin = 0;
     s16 mPauseLeftMax = 0;
