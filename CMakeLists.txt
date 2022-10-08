@@ -128,8 +128,11 @@ target_precompile_headers(
     "${CMAKE_CURRENT_SOURCE_DIR}/Source/AliveLibCommon/pch_shared.h"
 )
 
-target_precompile_headers(AliveLibAE REUSE_FROM AliveLibCommon)
-
+#target_precompile_headers(AliveLibAE REUSE_FROM AliveLibCommon)
+target_precompile_headers(
+    AliveLibAE PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}/Source/AliveLibCommon/pch_shared.h"
+)
 # AO needs its own PCH because of different `BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE`
 # and `BEHAVIOUR_CHANGE_SUB_DATA_FOLDERS` defines with `AliveLibCommon`
 target_precompile_headers(
@@ -137,9 +140,23 @@ target_precompile_headers(
     "${CMAKE_CURRENT_SOURCE_DIR}/Source/AliveLibCommon/pch_shared.h"
 )
 
-target_precompile_headers(relive_api_integration_test REUSE_FROM AliveLibAO)
-target_precompile_headers(relive_api_unit_test REUSE_FROM AliveLibAO)
-target_precompile_headers(relive       REUSE_FROM AliveLibAO)
+#target_precompile_headers(relive_api_integration_test REUSE_FROM AliveLibAO)
+target_precompile_headers(
+    relive_api_integration_test PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}/Source/AliveLibCommon/pch_shared.h"
+)
+
+#target_precompile_headers(relive_api_unit_test REUSE_FROM AliveLibAO)
+target_precompile_headers(
+    relive_api_unit_test PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}/Source/AliveLibCommon/pch_shared.h"
+)
+
+#target_precompile_headers(relive       REUSE_FROM AliveLibAO)
+target_precompile_headers(
+    relive PRIVATE
+    "${CMAKE_CURRENT_SOURCE_DIR}/Source/AliveLibCommon/pch_shared.h"
+)
 
 # 'relive_api' needs its own PCH because of different `_CRT_SECURE_NO_WARNINGS`
 # and defines with the rest
@@ -148,9 +165,9 @@ target_precompile_headers(
     "${CMAKE_CURRENT_SOURCE_DIR}/Source/AliveLibCommon/pch_shared.h"
 )
 
-if(WIN32)
-    target_precompile_headers(vab_tool REUSE_FROM AliveLibAO)
-endif()
+#if(WIN32)
+#    target_precompile_headers(vab_tool REUSE_FROM AliveLibAO)
+#endif()
 # -----------------------------------------------------------------------------
 
 add_dependencies(AliveLibCommon UpdateConfigHeader)

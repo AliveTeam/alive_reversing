@@ -475,15 +475,9 @@ public:
 
     static AETypes ToAE(ReliveTypes reliveType);
 
-    void SetType(ReliveTypes type)
-    {
-        mBaseGameObjectTypeId = type;
-    }
+    void SetType(ReliveTypes type);
 
-    ReliveTypes Type() const
-    {
-        return mBaseGameObjectTypeId;
-    }
+    ReliveTypes Type() const;
 
 protected:
     u8** Add_Resource(u32 type, s32 resourceID);
@@ -504,41 +498,13 @@ protected:
     }
 
 public:
-    void SetUpdateDelay(s32 updateDelay)
-    {
-        mBaseGameObjectUpdateDelay = updateDelay;
-    }
+    void SetUpdateDelay(s32 updateDelay);
 
-    s32 UpdateDelay() const
-    {
-        return mBaseGameObjectUpdateDelay;
-    }
+    s32 UpdateDelay() const;
 
-    AnimResource& GetAnimRes(AnimId animId)
-    {
-        for (u32 i = 0; i < mLoadedAnims.size(); i++)
-        {
-            if (mLoadedAnims[i].mId == animId)
-            {
-                return mLoadedAnims[i];
-            }
-        }
-        LOG_ERROR("Anim res " << static_cast<s32>(animId) << " not found");
-        ALIVE_FATAL("Anim res not found");
-    }
+    AnimResource& GetAnimRes(AnimId animId);
 
-    PalResource& GetPalRes(PalId palId)
-    {
-        for (u32 i = 0; i < mLoadedPals.size(); i++)
-        {
-            if (mLoadedPals[i].mId == palId)
-            {
-                return mLoadedPals[i];
-            }
-        }
-        LOG_ERROR("Pal res " << static_cast<s32>(palId) << " not found");
-        ALIVE_FATAL("Pal res not found");
-    }
+    PalResource& GetPalRes(PalId palId);
 
 public:
     BitField16<Options> mBaseGameObjectFlags = {};
