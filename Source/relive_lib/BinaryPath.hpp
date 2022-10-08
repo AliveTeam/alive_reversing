@@ -2,7 +2,7 @@
 
 // TODO: consider not using STL in her
 #include "../AliveLibCommon/Types.hpp"
-#include "nlohmann/json.hpp"
+#include "nlohmann/json_fwd.hpp"
 
 #include "Collisions.hpp"
 
