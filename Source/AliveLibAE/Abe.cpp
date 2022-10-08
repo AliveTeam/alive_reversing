@@ -51,11 +51,11 @@
 #include "Bullet.hpp"
 #include "Spark.hpp"
 #include "TestAnimation.hpp"
-#include "Sys_common.hpp"
 #include "Grid.hpp"
 #include "../relive_lib/Math.hpp"
 #include "AnimationCallBacks.hpp"
 #include "DDCheat.hpp"
+#include "../../AliveLibCommon/FatalError.hpp"
 
 using TAbeMotionFunction = decltype(&Abe::Motion_0_Idle_44EEB0);
 

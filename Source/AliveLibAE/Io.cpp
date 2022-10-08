@@ -4,8 +4,8 @@
 #include "Function.hpp"
 #include "stdlib.hpp"
 #include "Masher.hpp"
-#include "Sys_common.hpp"
 #include <gmock/gmock.h>
+#include "../AliveLibCommon/FatalError.hpp"
 
 #if !_WIN32
     #include <dirent.h>

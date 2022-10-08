@@ -1,6 +1,5 @@
 #include "AnimConversionInfo.hpp"
-#include "../../AliveLibCommon/Sys_common.hpp"
-
+#include "../../AliveLibCommon/FatalError.hpp"
 
 BgAnimRecConversionInfo kBgAnimRecConversionInfo[116] = {
     { AEBgAnimID::BG_Brewery_Barrel1, EReliveLevelIds::eBrewery, EReliveLevelIds::eNone, false },

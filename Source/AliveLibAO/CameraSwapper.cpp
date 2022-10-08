@@ -12,7 +12,6 @@
 #include "../relive_lib/ScreenManager.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "Sfx.hpp"
-#include "Sys_common.hpp"
 
 namespace AO {
 

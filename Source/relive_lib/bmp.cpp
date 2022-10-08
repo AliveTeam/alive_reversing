@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "bmp.hpp"
 #include "Error.hpp"
-#include "../AliveLibCommon/Sys_common.hpp"
+#include "../../AliveLibCommon/FatalError.hpp"
 
 ALIVE_VAR(1, 0xBC0BB4, u8, gVGA_force_sys_memory_surfaces_BC0BB4, 0);
 

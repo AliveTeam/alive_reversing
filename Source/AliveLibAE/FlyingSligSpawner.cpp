@@ -8,6 +8,7 @@
 #include "SwitchStates.hpp"
 #include "Sfx.hpp"
 #include "FlyingSlig.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 FlyingSligSpawner::FlyingSligSpawner(relive::Path_FlyingSligSpawner* pTlv, const Guid& tlvInfo)
     : BaseGameObject(TRUE, 0)
@@ -21,7 +22,7 @@ FlyingSligSpawner::FlyingSligSpawner(relive::Path_FlyingSligSpawner* pTlv, const
 
     field_20_tlvInfo = tlvInfo;
 
-    field_2C_tlv_header = *pTlv;
+    field_2C_tlv_header = pTlv;
 
     field_40_bFirstUpdate &= ~2u;
     field_28_spawner_switch_id = pTlv->mSpawnerSwitchId;
@@ -91,10 +92,10 @@ void FlyingSligSpawner::VUpdate()
         else if (SwitchStates_Get(field_28_spawner_switch_id))
         {
             auto pFlyingSligTlv = static_cast<relive::Path_FlyingSlig*>(sPathInfo->TLV_Get_At_4DB4B0(
-                field_2C_tlv_header.mTopLeftX,
-                field_2C_tlv_header.mTopLeftY,
-                field_2C_tlv_header.mTopLeftX + 25,
-                field_2C_tlv_header.mTopLeftY + 25,
+                field_2C_tlv_header->mTopLeftX,
+                field_2C_tlv_header->mTopLeftY,
+                field_2C_tlv_header->mTopLeftX + 25,
+                field_2C_tlv_header->mTopLeftY + 25,
                 ReliveTypes::eFlyingSligSpawner));
 
             if (!pFlyingSligTlv)

@@ -52,7 +52,6 @@
 #include "ZBall.hpp"
 #include "Gibs.hpp"
 #include "Camera.hpp"
-#include "Sys_common.hpp"
 #include "AnimationCallBacks.hpp"
 #include "Grid.hpp"
 #include "TestAnimation.hpp"

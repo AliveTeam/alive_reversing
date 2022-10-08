@@ -2,7 +2,6 @@
 #include "BinaryPath.hpp"
 #include "data_conversion/relive_tlvs_serialization.hpp"
 #include "../AliveLibAO/Path.hpp"
-#include "../AliveLibCommon/Sys_common.hpp"
 #include "nlohmann/json.hpp"
 
 void BinaryPath::CreateFromJson(nlohmann::json& pathJson)

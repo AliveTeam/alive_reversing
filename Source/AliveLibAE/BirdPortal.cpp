@@ -20,7 +20,6 @@
 #include "../relive_lib/PsxDisplay.hpp"
 #include "OrbWhirlWind.hpp"
 #include "ScreenClipper.hpp"
-#include "Sys_common.hpp"
 #include "AbilityRing.hpp"
 #include "Map.hpp"
 

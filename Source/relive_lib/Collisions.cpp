@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Collisions.hpp"
-#include "../AliveLibCommon/Sys_common.hpp"
 #include "../relive_lib/Math.hpp"
+#include "../../AliveLibCommon/FatalError.hpp"
 
 ALIVE_VAR(1, 0x5C1128, Collisions*, sCollisions, nullptr);
 

@@ -11,7 +11,6 @@
 #include "MusicController.hpp"
 #include "AmbientSound.hpp"
 #include "Sound.hpp"
-#include "Sys_common.hpp"
 #include "../AliveLibAE/Io.hpp"
 
 #include "Sfx.hpp"

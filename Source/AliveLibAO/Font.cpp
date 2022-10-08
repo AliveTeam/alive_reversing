@@ -1,7 +1,6 @@
 #include "stdafx_ao.h"
 #include "Font.hpp"
 #include "Function.hpp"
-#include "Sys_common.hpp"
 #include "../relive_lib/Primitives.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../AliveLibCommon/Function.hpp"

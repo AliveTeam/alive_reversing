@@ -1,9 +1,9 @@
 #include "stdafx_common.h"
 #include "Masher.hpp"
 #include "masher_tables.hpp"
-#include "Sys_common.hpp"
 #include <array>
 #include <assert.h>
+#include "FatalError.hpp"
 
 ALIVE_VAR(1, 0xbbb314, Movie_IO, sMovie_IO_BBB314, {});
 

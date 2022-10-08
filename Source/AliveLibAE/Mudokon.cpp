@@ -30,7 +30,6 @@
 #include "Gibs.hpp"
 #include "Bullet.hpp"
 #include "LaughingGas.hpp"
-#include "Sys_common.hpp"
 #include "Grid.hpp"
 #include "AnimationCallBacks.hpp"
 #include "Map.hpp"

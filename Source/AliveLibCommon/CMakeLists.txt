@@ -30,6 +30,8 @@ SET(AliveLibSrcCommon
     PSXMDECDecoder.h
     Psx_common.hpp
     W32CrashHandler.hpp
+    FatalError.hpp
+    FatalError.cpp
 )
 
 add_library(AliveLibCommon ${AliveLibSrcCommon})

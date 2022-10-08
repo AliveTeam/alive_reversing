@@ -27,7 +27,6 @@
 #include "PossessionFlicker.hpp"
 #include "AbilityRing.hpp"
 #include "CheatController.hpp"
-#include "Sys_common.hpp"
 #include "Grid.hpp"
 
 void Mud_ForceLink()

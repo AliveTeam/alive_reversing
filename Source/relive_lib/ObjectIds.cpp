@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "ObjectIds.hpp"
-#include "../AliveLibCommon/Sys_common.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
 
 ObjectIds sObjectIds;

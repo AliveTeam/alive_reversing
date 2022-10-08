@@ -1,5 +1,5 @@
-#include <Sys_common.hpp>
 #include "GLShader.hpp"
+#include "../AliveLibCommon/FatalError.hpp"
 
 GLShader::GLShader()
 {

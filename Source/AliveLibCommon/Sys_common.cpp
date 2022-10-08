@@ -1,17 +1,12 @@
 #include "stdafx_common.h"
 #include "Sys_common.hpp"
+#include "FatalError.hpp"
 
 #if USE_SDL2
     #include "SDL.h"
 #else
     #include <windows.h>
 #endif
-
-[[noreturn]] void ALIVE_FATAL(const char_type* errMsg)
-{
-    Sys_MessageBox(nullptr, errMsg, "ALIVE Hook fatal error.");
-    abort();
-}
 
 
 u32 SYS_GetTicks()

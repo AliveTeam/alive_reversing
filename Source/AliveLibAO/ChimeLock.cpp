@@ -14,7 +14,6 @@
 #include "MusicTrigger.hpp"
 #include "Input.hpp"
 #include "../relive_lib/Particle.hpp"
-#include "Sys_common.hpp"
 
 namespace AO {
 

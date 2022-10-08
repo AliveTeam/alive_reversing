@@ -10,6 +10,7 @@
 #include "SDLSoundBuffer.hpp"
 #include "SDLSoundSystem.hpp"
 #include "PsxSpuApi.hpp"
+#include "../../AliveLibCommon/FatalError.hpp"
 
 ALIVE_VAR(1, 0xBBC394, s32, sLoadedSoundsCount_BBC394, 0);
 ALIVE_VAR(1, 0xbbc33c, s32, sLastNotePlayTime_BBC33C, 0);

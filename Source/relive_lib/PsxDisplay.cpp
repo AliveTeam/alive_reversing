@@ -4,10 +4,10 @@
 #include "bmp.hpp"
 #include <type_traits>
 #include "VRam.hpp"
-#include "../AliveLibCommon/Sys_common.hpp"
 #include "../AliveLibAE/PsxRender.hpp"
 #include "GameType.hpp"
 #include "ScreenManager.hpp"
+#include "../AliveLibCommon/Sys_common.hpp"
 
 ALIVE_VAR(1, 0x5C1130, PsxDisplay, gPsxDisplay, {});
 

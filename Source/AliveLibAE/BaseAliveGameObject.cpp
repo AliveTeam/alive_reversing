@@ -14,7 +14,6 @@
 #include "Game.hpp"
 #include "BirdPortal.hpp"
 #include "../relive_lib/Events.hpp"
-#include "Sys_common.hpp"
 #include "Grid.hpp"
 
 ALIVE_VAR(1, 0x5C1B7C, DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObjects, nullptr);

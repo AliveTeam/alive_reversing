@@ -10,7 +10,6 @@
 #include "../AliveLibAO/WinMain.hpp"
 #include "W32CrashHandler.hpp"
 #include "SDL.h"
-#include "Sys_common.hpp"
 
 #include "../AliveLibAE/Map.hpp"
 #include "../AliveLibAE/Font.hpp"

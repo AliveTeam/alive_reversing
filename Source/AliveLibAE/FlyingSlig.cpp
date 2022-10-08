@@ -25,7 +25,6 @@
 #include "Bullet.hpp"
 #include "ParticleBurst.hpp"
 #include "Lever.hpp"
-#include "Sys_common.hpp"
 #include "Grid.hpp"
 #include "Function.hpp"
 #include "AnimationCallBacks.hpp"

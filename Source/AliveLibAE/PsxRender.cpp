@@ -8,7 +8,6 @@
 #include "Game.hpp"
 #include "../relive_lib/Error.hpp"
 #include "Compression.hpp"
-#include "Sys_common.hpp"
 #include <gmock/gmock.h>
 #include "VGA.hpp"
 #include "Renderer/IRenderer.hpp"

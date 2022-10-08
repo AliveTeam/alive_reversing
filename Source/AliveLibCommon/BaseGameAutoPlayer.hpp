@@ -2,7 +2,8 @@
 
 #include <vector>
 #include <type_traits>
-#include "Sys_common.hpp"
+#include "FatalError.hpp"
+#include "Types.hpp"
 
 enum RecordTypes : u32
 {

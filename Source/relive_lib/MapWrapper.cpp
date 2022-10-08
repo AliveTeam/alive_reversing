@@ -3,7 +3,6 @@
 #include "../AliveLibAO/Map.hpp"
 #include "../AliveLibAO/PathData.hpp"
 #include "../AliveLibAE/PathData.hpp"
-#include "../AliveLibCommon/Sys_common.hpp"
 
 EReliveLevelIds MapWrapper::FromAO(AO::LevelIds levelId)
 {

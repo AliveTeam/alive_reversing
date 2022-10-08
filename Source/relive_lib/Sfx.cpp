@@ -1,8 +1,8 @@
 #include "Sfx.hpp"
 #include "GameType.hpp"
-#include "../AliveLibCommon/Sys_common.hpp"
 #include "../AliveLibAE/Math.hpp"
 #include "../AliveLibAE/Sound/Midi.hpp"
+#include "../../AliveLibCommon/FatalError.hpp"
 
 namespace AO {
 

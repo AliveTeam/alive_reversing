@@ -2,7 +2,6 @@
 #include "Font.hpp"
 #include "Function.hpp"
 #include "FixedPoint.hpp"
-#include "Sys_common.hpp"
 /*
  Notes for when coming across crazy width conversions:
  If it looks like this:

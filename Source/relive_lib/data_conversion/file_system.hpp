@@ -1,6 +1,7 @@
 #pragma once
 
-#include "../../AliveLibCommon/Sys_common.hpp"
+#include "stdafx.h"
+#include "../../AliveLibCommon/FatalError.hpp"
 
 constexpr inline char kDirSeperator = '\\';
 

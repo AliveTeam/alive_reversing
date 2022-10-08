@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "../relive_lib/AnimationUnknown.hpp"
 #include "PsxDisplay.hpp"
-#include "../AliveLibCommon/Sys_common.hpp"
 #include "GameType.hpp"
 
 void AnimationUnknown::VCleanUp()

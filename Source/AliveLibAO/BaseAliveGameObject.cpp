@@ -8,7 +8,6 @@
 #include "../AliveLibAE/stdlib.hpp"
 #include "Game.hpp"
 #include "BirdPortal.hpp"
-#include "Sys_common.hpp"
 #include "Grid.hpp"
 
 namespace AO {
