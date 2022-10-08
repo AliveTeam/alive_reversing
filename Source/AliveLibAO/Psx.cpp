@@ -6,6 +6,7 @@
 #include "PsxRender.hpp"
 #include "../relive_lib/Error.hpp"
 #include "../AliveLibAE/Psx.hpp"
+#include "Sys.hpp"
 
 namespace AO {
 

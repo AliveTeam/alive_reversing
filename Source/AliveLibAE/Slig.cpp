@@ -4498,7 +4498,7 @@ void Slig::Init()
                 }
             }
 
-            if (field_208_glukkon_obj_id != Guid{})
+            if (field_208_glukkon_obj_id == Guid{})
             {
                 SetBrain(&Slig::Brain_Inactive_32_4B9430);
             }
