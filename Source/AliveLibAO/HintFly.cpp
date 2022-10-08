@@ -4,13 +4,14 @@
 #include "Math.hpp"
 #include "Sfx.hpp"
 #include "ResourceManager.hpp"
-#include "Map.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "Game.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../AliveLibCommon/PathDataExtensionsTypes.hpp"
+#include "PathData.hpp"
+#include "Path.hpp"
 
 void HintFly_ForceLink()
 { }

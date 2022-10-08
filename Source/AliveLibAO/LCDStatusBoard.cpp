@@ -7,6 +7,7 @@
 #include "Game.hpp" // mud info
 #include "DDCheat.hpp"
 #include "PathDataExtensions.hpp"
+#include "Path.hpp"
 
 namespace AO {
 

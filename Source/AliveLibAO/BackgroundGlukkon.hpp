@@ -4,6 +4,11 @@
 #include "Map.hpp"
 #include "BaseAliveGameObject.hpp"
 
+namespace relive
+{
+    struct Path_BackgroundGlukkon;
+}
+
 namespace AO {
 
 class BackgroundGlukkon final : public BaseAliveGameObject

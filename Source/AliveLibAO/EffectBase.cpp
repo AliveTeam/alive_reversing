@@ -5,6 +5,7 @@
 #include "Map.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
+#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 
 namespace AO {
 

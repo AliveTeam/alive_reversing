@@ -8,6 +8,7 @@
 #include "Sfx.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "Map.hpp"
+#include "Path.hpp"
 
 s32 SlapLockWhirlWind::CreateFromSaveState(const u8* pBuffer)
 {

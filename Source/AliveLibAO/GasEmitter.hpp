@@ -4,6 +4,11 @@
 #include "Map.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
 
+namespace relive
+{
+    struct Path_GasEmitter;
+}
+
 namespace AO {
 
 class GasEmitter final : public ::BaseGameObject

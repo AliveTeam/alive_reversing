@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
-#include "Psx.hpp"
-#include "Camera.hpp"
-#include "../AliveLibCommon/AnimResources.hpp"
+#include "../AliveLibCommon/AddPointer.hpp"
+#include "../AliveLibCommon/Psx_common.hpp"
+
+class Camera;
 
 void Game_ShowLoadingIcon_482D80();
 

@@ -4,6 +4,11 @@
 #include "Map.hpp"
 #include "BaseAliveGameObject.hpp"
 
+namespace relive
+{
+    struct Path_Slig;
+}
+
 namespace AO {
 
 #define SLIG_MOTIONS_ENUM_AO(ENTRY)              \
@@ -303,7 +308,7 @@ public:
     s32 field_15C_last_event_index = 0;
     s16 field_170_unused = 0;
     s16 field_172_unused = 0;
-    relive::Path_Slig field_174_tlv = {};
+    relive::Path_Slig* field_174_tlv = {};
     PSX_Point field_1CC_points[10] = {};
     s16 field_1F4_points_count = 0;
     TBrainFn field_1F8_fn = nullptr;

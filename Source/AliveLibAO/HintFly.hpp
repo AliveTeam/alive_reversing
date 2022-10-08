@@ -8,6 +8,11 @@ void HintFly_ForceLink();
 
 struct StringTable;
 
+namespace relive
+{
+    struct Path_HintFly;
+}
+
 namespace AO {
 
 void SetHintFlyMessagesForLvl(const StringTable& msgs, LevelIds lvl, u32 pathId);

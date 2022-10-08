@@ -4,6 +4,7 @@
 #include "Map.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "stdlib.hpp"
+#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 
 EffectBase::EffectBase(Layer layer, TPageAbr abr)
     : BaseGameObject(TRUE, 0)

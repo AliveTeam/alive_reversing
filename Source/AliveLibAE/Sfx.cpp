@@ -4,7 +4,7 @@
 #include "Sound/Midi.hpp"
 #include "Map.hpp"
 #include <assert.h>
-
+#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 
 s32 SFX_Play_Stereo(relive::SoundEffects sfxId, s32 leftVol, s32 rightVol, FP scale)
 {

@@ -6,6 +6,8 @@
 #include "../../AliveLibAO/Map.hpp"
 
 #include "../../AliveLibAE/Path.hpp"
+#include "../../AliveLibAO/Path.hpp"
+#include "../../relive_lib/data_conversion/PathTlvsAE.hpp"
 
 #include <jsonxx/jsonxx.h>
 #include <magic_enum/include/magic_enum.hpp>

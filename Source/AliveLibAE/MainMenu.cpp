@@ -26,6 +26,7 @@
 #include "LvlArchive.hpp"
 #include "Sys.hpp"
 #include "BaseGameAutoPlayer.hpp"
+#include "Camera.hpp"
 
 MainMenuController* MainMenuController::gMainMenuController = nullptr;
 

@@ -5,6 +5,7 @@
 
 #include "../../AliveLibAO/PathData.hpp"
 #include "../../AliveLibAO/Map.hpp"
+#include "../../AliveLibAO/Path.hpp"
 
 #include <memory>
 #include <string>

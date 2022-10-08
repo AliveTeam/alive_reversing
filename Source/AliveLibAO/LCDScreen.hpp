@@ -8,6 +8,11 @@
 
 struct StringTable;
 
+namespace relive
+{
+    struct Path_LCDScreen;
+}
+
 namespace AO {
 
 void SetLcdMessagesForLvl(const StringTable& msgs, LevelIds lvl, u32 pathId);
@@ -35,7 +40,7 @@ public:
     s32 field_2B0_x_offset = 0;
     s32 field_2B4_character_width = 0;
     Guid field_2B8_tlv_item_info;
-    relive::Path_TLV field_2BC_tlv = {};
+    relive::Path_TLV* field_2BC_tlv = {};
     s32 field_2D4 = 0;
     s16 field_2D8_message_rand_min = 0;
     s16 pad_2DA = 0;

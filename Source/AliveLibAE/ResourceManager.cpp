@@ -9,6 +9,7 @@
 #include "../relive_lib/PsxDisplay.hpp"
 #include "Sys.hpp"
 #include "GameAutoPlayer.hpp"
+#include "Camera.hpp"
 
 ALIVE_VAR(1, 0x5C1BB0, ResourceManager*, pResourceManager_5C1BB0, nullptr);
 

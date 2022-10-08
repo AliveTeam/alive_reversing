@@ -15,6 +15,7 @@
 #include "CameraSwapper.hpp"
 #include "../relive_lib/Particle.hpp"
 #include "Grid.hpp"
+#include "PathData.hpp"
 
 namespace AO {
 

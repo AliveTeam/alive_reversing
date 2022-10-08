@@ -31,6 +31,7 @@
 #include "../relive_lib/data_conversion/data_conversion.hpp" // TODO: don't include this in the engine
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs_serialization.hpp"
+#include "../relive_lib/BaseGameObject.hpp"
 
 
 class BaseGameObject;

@@ -40,6 +40,7 @@
 #include "../relive_lib/ShadowZone.hpp"
 #include "../relive_lib/ResourceManagerWrapper.hpp"
 #include <string>
+#include "Camera.hpp"
 
 using TExitGameCallBack = AddPointer_t<void CC()>;
 

@@ -6,7 +6,11 @@
 
 #include "Collisions.hpp"
 
-#include "data_conversion/relive_tlvs.hpp"
+class Guid;
+namespace relive
+{
+    class Path_TLV;
+}
 
 class BinaryPath final
 {

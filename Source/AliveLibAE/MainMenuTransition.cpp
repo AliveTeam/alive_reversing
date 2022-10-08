@@ -4,6 +4,7 @@
 #include "../relive_lib/PsxDisplay.hpp"
 #include "stdlib.hpp"
 #include "Map.hpp"
+#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 
 struct MainMenu_TransitionData final
 {

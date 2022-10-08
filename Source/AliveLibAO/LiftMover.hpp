@@ -5,6 +5,11 @@
 #include "../relive_lib/BaseGameObject.hpp"
 #include "FixedPoint.hpp"
 
+namespace relive
+{
+    struct Path_LiftMover;
+}
+
 namespace AO {
 
 class LiftPoint;

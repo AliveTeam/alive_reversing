@@ -5,6 +5,7 @@
 #include "ResourceManager.hpp"
 #include "Map.hpp"
 #include "Throwable.hpp"
+#include "PathData.hpp"
 
 namespace AO {
 

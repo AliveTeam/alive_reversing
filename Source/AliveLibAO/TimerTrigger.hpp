@@ -4,6 +4,11 @@
 #include "Map.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
 
+namespace relive
+{
+    struct Path_TimerTrigger;
+}
+
 namespace AO {
 
 class TimerTrigger final : public ::BaseGameObject

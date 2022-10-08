@@ -4,6 +4,7 @@
 #include "../AliveLibAE/stdlib.hpp"
 #include "Math.hpp"
 #include "../relive_lib/Collisions.hpp"
+#include "Path.hpp"
 
 namespace AO {
 

@@ -1,6 +1,7 @@
 #include "Path.hpp"
-#include "../relive_lib/MapWrapper.hpp"
 #include "Map.hpp"
+#include "../relive_lib/MapWrapper.hpp"
+#include "../relive_lib/BinaryPath.hpp"
 
 namespace AO {
 void Path::TLV_Reset(const Guid& tlvId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed)

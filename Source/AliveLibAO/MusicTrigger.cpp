@@ -6,6 +6,7 @@
 #include "../relive_lib/Events.hpp"
 #include "MusicController.hpp"
 #include "Game.hpp"
+#include "Path.hpp"
 
 namespace AO {
 

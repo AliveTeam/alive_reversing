@@ -5,6 +5,11 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "Map.hpp"
 
+namespace relive
+{
+    struct Path_GasCountDown;
+}
+
 namespace AO {
 
 class GasCountDown final : public ::BaseGameObject

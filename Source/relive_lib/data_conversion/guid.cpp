@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "guid.hpp"
-#include "../../AliveLibCommon/logger.hpp"
 
 #ifdef _WIN32
 #include <windows.h>

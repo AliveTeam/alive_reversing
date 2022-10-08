@@ -5,6 +5,8 @@
 #include "PathTlvsAE.hpp"
 #include "../AliveLibAE/SwitchStates.hpp"
 #include "../AliveLibAO/SwitchStates.hpp"
+#include "../AliveLibAO/Path.hpp"
+#include "../AliveLibAE/Path.hpp"
 
 // Convert an AO or AE TLV to a relive TLV
 

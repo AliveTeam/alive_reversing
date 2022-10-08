@@ -1,21 +1,23 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
-#include "FixedPoint.hpp"
-#include "Psx.hpp"
-#include "ResourceManager.hpp"
-#include "Path.hpp"
 #include "../relive_lib/MapWrapper.hpp"
-#include "../relive_lib/data_conversion/relive_tlvs.hpp"
-#include "../relive_lib/BinaryPath.hpp"
+#include "ResourceManager.hpp"
 
-
+class BaseGameObject;
 class BaseAliveGameObject;
 class Camera;
 struct PathData;
-struct Path_TLV;
 class BinaryPath;
 enum class LevelIds : s16;
+struct PSX_Point;
+enum class EReliveLevelIds : s16;
+enum class LoadMode : s16;
+class CamResource;
+
+namespace relive
+{
+    class Path_TLV;
+}
 
 enum class CameraSwapEffects : s16
 {

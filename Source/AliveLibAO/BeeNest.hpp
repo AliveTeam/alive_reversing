@@ -6,6 +6,11 @@
 
 enum class EReliveLevelIds : s16;
 
+namespace relive
+{
+    struct Path_BeeNest;
+}
+
 namespace AO {
 
 enum class BeeNestStates : u16
@@ -15,7 +20,6 @@ enum class BeeNestStates : u16
 };
 
 class BeeSwarm;
-
 
 class BeeNest final : public ::BaseGameObject
 {

@@ -5,6 +5,11 @@
 #include "Font.hpp"
 #include "Map.hpp"
 
+namespace relive
+{
+    struct Path_LCDStatusBoard;
+}
+
 namespace AO {
 
 class LCDStatusBoard final : public ::BaseGameObject

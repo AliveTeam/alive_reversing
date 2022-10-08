@@ -4,6 +4,11 @@
 #include "../relive_lib/BaseGameObject.hpp"
 #include "Map.hpp"
 
+namespace relive
+{
+    struct Path_CreditsController;
+}
+
 namespace AO {
 
 class CreditsController final : public ::BaseGameObject

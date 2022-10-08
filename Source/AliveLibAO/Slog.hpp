@@ -2,7 +2,7 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "BaseAliveGameObject.hpp"
-#include "Map.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 void Slog_ForceLink();
 

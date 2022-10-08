@@ -1,16 +1,16 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
-#include "../AliveLibCommon/Psx_common.hpp"
-#include "../AliveLibCommon/FixedPoint_common.hpp"
-#include "PathData.hpp"
-#include "../AliveLibAE/Path.hpp"
-#include "../relive_lib/BaseGameObject.hpp"
-#include "../AliveLibAE/Map.hpp"
 #include "../relive_lib/MapWrapper.hpp"
-#include "../relive_lib/Collisions.hpp"
-#include "Path.hpp"
-#include "../relive_lib/BinaryPath.hpp"
+
+enum class ReliveTypes : s16;
+class CamResource;
+struct PSX_Point;
+class BinaryPath;
+
+namespace relive
+{
+    class Path_TLV;
+}
 
 namespace AO {
 
@@ -20,6 +20,7 @@ struct PathData;
 class Camera;
 class BaseAliveGameObject;
 class CameraSwapper;
+enum class LoadMode : s16;
 
 struct CameraName final
 {
