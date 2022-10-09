@@ -2,7 +2,11 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "BaseAliveGameObject.hpp"
-#include "Path.hpp"
+
+namespace relive
+{
+    struct Path_Paramite;
+}
 
 #define PARAMITE_MOTIONS_ENUM(ENTRY)        \
     ENTRY(M_Idle_0_489FB0)                  \

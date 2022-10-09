@@ -9,6 +9,7 @@
 #include "Sfx.hpp"
 #include "GasCountDown.hpp"
 #include "Function.hpp"
+#include "Path.hpp"
 
 ALIVE_VAR(1, 0x5BD4C8, GasEmitter*, sMainGasEmitter_5BD4C8, nullptr);
 ALIVE_VAR(1, 0x5BD4CC, u32, sGasEmiterAudioMask_5BD4CC, 0);

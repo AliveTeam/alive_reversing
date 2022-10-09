@@ -1,11 +1,15 @@
 #pragma once
 
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
-#include "Path.hpp"
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/Layer.hpp"
 
 class BaseAliveGameObject;
+
+namespace relive
+{
+    struct Path_MotionDetector;
+}
 
 class MotionDetectorLaser final : public ::BaseAnimatedWithPhysicsGameObject
 {

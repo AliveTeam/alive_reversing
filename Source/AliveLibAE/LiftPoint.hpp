@@ -2,11 +2,7 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "PlatformBase.hpp"
-#include "Path.hpp"
-
-
-
-
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 struct LiftPoint_State final
 {

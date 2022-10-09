@@ -2,8 +2,8 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
-#include "Path.hpp"
-#include "../relive_lib/Primitives.hpp"
+#include "../AliveLibCommon/Primitives_common.hpp"
+#include "Path.hpp" // only for Choice_short
 
 // TODO: These can be combined
 struct Path_LaughingGas_Data final

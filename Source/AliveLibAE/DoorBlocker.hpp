@@ -2,7 +2,11 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "BaseAliveGameObject.hpp"
-#include "Path.hpp"
+
+namespace relive
+{
+    struct Path_DoorBlocker;
+}
 
 class DoorBlocker final : public BaseAliveGameObject
 {

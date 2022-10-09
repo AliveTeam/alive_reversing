@@ -15,6 +15,7 @@
 #include "Function.hpp"
 #include "ZapSpark.hpp"
 #include "Map.hpp"
+#include "Path.hpp"
 
 const TintEntry sSecurityOrbTints_55C1EC[18] = {
     {EReliveLevelIds::eMines, 127u, 127u, 127u},

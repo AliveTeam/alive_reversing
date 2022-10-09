@@ -2,7 +2,6 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
-#include "Path.hpp"
 #include "Font.hpp"
 
 class LCDStatusBoard final : public BaseGameObject

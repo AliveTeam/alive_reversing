@@ -9,6 +9,7 @@
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/Primitives.hpp"
 #include "Math.hpp"
+#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 
 void Forcelink_ScreenWave()
 { }

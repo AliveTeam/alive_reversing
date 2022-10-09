@@ -13,6 +13,7 @@
 #include "stdlib.hpp"
 #include "ResourceManager.hpp"
 #include "Map.hpp"
+#include "Path.hpp"
 
 Water::Water(relive::Path_Water* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)

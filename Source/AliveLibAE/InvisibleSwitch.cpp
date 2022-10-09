@@ -7,6 +7,7 @@
 #include "Game.hpp"
 #include "SwitchStates.hpp"
 #include "Abe.hpp"
+#include "Path.hpp"
 
 InvisibleSwitch::InvisibleSwitch(relive::Path_InvisibleSwitch* pTlv, const Guid& tlvId)
     : BaseGameObject(TRUE, 0)

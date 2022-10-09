@@ -88,7 +88,6 @@ private:
     GrenadeStates field_120_state = GrenadeStates::eFallingToBeCollected_0;
     s16 field_122_explode_timer = 0;
     s16 field_124 = 0;
-    s16 field_126_input = 0;
     FP field_128_xpos = {};
     FP field_12C_ypos = {};
     s16 field_130_unused = 0;

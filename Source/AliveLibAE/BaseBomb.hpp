@@ -2,7 +2,6 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "PlatformBase.hpp"
-#include "Path.hpp"
 
 class BaseBomb final : public ::BaseAnimatedWithPhysicsGameObject
 {

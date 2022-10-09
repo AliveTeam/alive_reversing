@@ -2,9 +2,9 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "BaseAliveGameObject.hpp"
-#include "Path.hpp"
 #include "FlyingSligSpawner.hpp"
 #include "Sfx.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 enum class LevelIds : s16;
 
@@ -243,7 +243,7 @@ public:
     bool BrainIs(TFlyingSligBrainFn fn);
 
 private:
-    relive::Path_FlyingSlig field_118_data = {};
+    relive::Path_FlyingSlig field_118_data;
     Guid field_148_tlvInfo;
     s32 field_14C_timer = 0;
     s32 field_150_grenade_delay = 0;
@@ -297,7 +297,6 @@ private:
     PathLine* field_1EC_pNextLine = nullptr;
     PathLine* field_1F0_pPrevLine = nullptr;
     s16 field_1F4_pPalAlloc[64] = {};
-    PSX_RECT field_274_pal_rect = {};
     s16 field_27C_r = 0;
     s16 field_27E_g = 0;
     s16 field_280_b = 0;

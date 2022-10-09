@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Door.hpp"
 #include "Function.hpp"
-#include "Path.hpp"
 #include "stdlib.hpp"
 #include "SwitchStates.hpp"
 #include "../relive_lib/Events.hpp"
@@ -13,6 +12,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "Grid.hpp"
 #include "Map.hpp"
+#include "Path.hpp"
 
 struct Door_Info final
 {

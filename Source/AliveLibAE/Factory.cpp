@@ -3,7 +3,6 @@
 #include "Function.hpp"
 #include "MainMenu.hpp"
 #include "Map.hpp"
-#include "Path.hpp"
 #include "LCDScreen.hpp"
 #include "UXB.hpp"
 #include "Mine.hpp"

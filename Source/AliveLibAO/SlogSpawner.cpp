@@ -7,6 +7,7 @@
 #include "Slog.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Math.hpp"
+#include "Path.hpp"
 
 namespace AO {
 

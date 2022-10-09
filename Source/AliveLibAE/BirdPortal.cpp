@@ -22,6 +22,7 @@
 #include "ScreenClipper.hpp"
 #include "AbilityRing.hpp"
 #include "Map.hpp"
+#include "Path.hpp"
 
 void BirdPortal::LoadAnimations()
 {

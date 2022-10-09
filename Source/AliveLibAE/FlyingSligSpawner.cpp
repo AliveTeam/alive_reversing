@@ -9,6 +9,7 @@
 #include "Sfx.hpp"
 #include "FlyingSlig.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
+#include "Path.hpp"
 
 FlyingSligSpawner::FlyingSligSpawner(relive::Path_FlyingSligSpawner* pTlv, const Guid& tlvInfo)
     : BaseGameObject(TRUE, 0)

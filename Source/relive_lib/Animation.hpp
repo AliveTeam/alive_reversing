@@ -6,6 +6,7 @@
 #include "../AliveLibAE/Psx.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
 #include "../AliveLibAE/FixedPoint.hpp"
+#include "../AliveLibCommon/Primitives_common.hpp"
 
 enum class AnimId;
 struct AnimRecord;

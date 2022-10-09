@@ -8,6 +8,7 @@
 #include "PsxRender.hpp"
 #include "../relive_lib/Events.hpp"
 #include <math.h>
+#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 
 ALIVE_VAR(1, 0x5BC214, s32, gGasInstanceCount_5BC214, 0);
 ALIVE_VAR(1, 0x5C1BA4, s16, gLaughingGasOn_5C1BA4, FALSE);

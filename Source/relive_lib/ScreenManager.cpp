@@ -6,6 +6,8 @@
 #include "../AliveLibCommon/CamDecompressor.hpp"
 #include "../relive_lib/GameType.hpp"
 #include "ResourceManagerWrapper.hpp"
+#include "Layer.hpp"
+#include "Primitives.hpp"
 
 ALIVE_VAR(1, 0x5BB5F4, ScreenManager*, pScreenManager, nullptr);
 

@@ -11,6 +11,8 @@
 #include "Explosion.hpp"
 #include "Grid.hpp"
 #include "Map.hpp"
+#include "../relive_lib/Collisions.hpp"
+#include "Path.hpp"
 
 Grenade::Grenade(FP xpos, FP ypos, s32 numGrenades, bool bBlowUpOnCollision, s32 unused, BaseGameObject* pOwner)
     : BaseThrowable(0)

@@ -1,8 +1,8 @@
 #pragma once
 
 #include "BaseAliveGameObject.hpp"
-#include "Path.hpp"
 #include "../AliveLibCommon/Function.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp" // reliveChoice only
 
 class MovingBomb final : public BaseAliveGameObject
 {
@@ -41,7 +41,6 @@ private:
     s16 field_12A_min = 0;
     s16 field_12C_max = 0;
     s32 field_130_sound_channels = 0;
-    s16 field_134_disabled_resources = 0;
     relive::reliveChoice field_136_persist_offscreen = relive::reliveChoice::eNo;
 };
 ALIVE_ASSERT_SIZEOF(MovingBomb, 0x138);

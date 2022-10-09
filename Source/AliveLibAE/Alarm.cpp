@@ -1,12 +1,12 @@
 #include "stdafx.h"
 #include "Alarm.hpp"
 #include "Function.hpp"
-#include "Path.hpp"
 #include "Game.hpp"
 #include "SwitchStates.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
+#include "Path.hpp"
 
 ALIVE_VAR(1, 0x5c1bb4, s16, alarmInstanceCount_5C1BB4, 0);
 ALIVE_VAR(1, 0x550d70, Guid, sAlarmObjId_550D70, Guid{});

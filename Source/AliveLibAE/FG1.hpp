@@ -2,8 +2,9 @@
 
 #include "../relive_lib/BaseGameObject.hpp"
 #include "../relive_lib/DynamicArray.hpp"
-#include "../relive_lib/Primitives.hpp"
+#include "../AliveLibCommon/Primitives_common.hpp"
 #include "../relive_lib/MapWrapper.hpp"
+#include "../relive_lib/Layer.hpp"
 
 struct Fg1Block final
 {

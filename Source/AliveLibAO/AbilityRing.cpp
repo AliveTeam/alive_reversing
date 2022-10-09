@@ -151,7 +151,6 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ring_type)
         mRingLayer = Layer::eLayer_Above_FG1_39;
         mRingLevel = gMap.mCurrentLevel;
         mRingSemiTrans = 1;
-        mRingTPageMode = TPageAbr::eBlend_1;
 
         mRingScaleX = FP_FromDouble(1.0999); // TODO: Matching ?? 0x11999
         mRingScaleY = FP_FromInteger(1);
@@ -165,7 +164,7 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ring_type)
                 SetRGB0(pPoly, mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
                 Poly_Set_SemiTrans(&pPoly->mBase.header, mRingSemiTrans);
             }
-            Init_SetTPage(&mRingPrimSetTPage[y], 0, 0, PSX_getTPage(TPageMode::e16Bit_2, mRingTPageMode, 0, 0));
+            Init_SetTPage(&mRingPrimSetTPage[y], 0, 0, PSX_getTPage(TPageMode::e16Bit_2, TPageAbr::eBlend_1, 0, 0));
         }
     }
     else

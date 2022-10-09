@@ -6,6 +6,7 @@
 #include "stdlib.hpp"
 #include "Map.hpp"
 #include "../relive_lib/Events.hpp"
+#include "Path.hpp"
 
 TimerTrigger::TimerTrigger(relive::Path_TimerTrigger* pTlv, const Guid& tlvId)
     : BaseGameObject(TRUE, 0)

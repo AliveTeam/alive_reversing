@@ -14,6 +14,7 @@
 #include "ScreenShake.hpp"
 #include "Abe.hpp"
 #include "Map.hpp"
+#include "Path.hpp"
 
 const AnimId sFallingItemData_544DC0[15][2] = {
     {AnimId::AE_FallingRock_Falling, AnimId::AE_FallingRock_Waiting},

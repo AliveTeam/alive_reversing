@@ -3,7 +3,12 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/Primitives.hpp"
 #include "BaseAliveGameObject.hpp"
-#include "Path.hpp"
+
+namespace relive
+{
+    struct Path_Fleech;
+    struct Path_Hoist;
+}
 
 enum class FleechSound : u8
 {

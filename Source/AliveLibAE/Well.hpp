@@ -3,7 +3,7 @@
 #include "../relive_lib/BaseGameObject.hpp"
 #include "FixedPoint.hpp"
 #include "../AliveLibCommon/Function.hpp"
-#include "Path.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 struct Path_WellBase;
 struct Path_WellLocal;

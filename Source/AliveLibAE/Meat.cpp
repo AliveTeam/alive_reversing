@@ -13,6 +13,7 @@
 #include "../relive_lib/Particle.hpp"
 #include "Grid.hpp"
 #include "Map.hpp"
+#include "Path.hpp"
 
 Meat::Meat(FP xpos, FP ypos, s16 count)
     : BaseThrowable(0)

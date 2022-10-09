@@ -2,9 +2,13 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "BaseAliveGameObject.hpp"
-#include "Path.hpp"
 
 class Bone;
+
+namespace relive
+{
+    struct Path_Slog;
+}
 
 enum class SlogSound : s32
 {

@@ -10,6 +10,7 @@
 #include "stdlib.hpp"
 #include "Grid.hpp"
 #include "Map.hpp"
+#include "Path.hpp"
 
 const TintEntry sPullRingRopeTints_55FD1C[18] = {
     {EReliveLevelIds::eMines, 127u, 127u, 127u},

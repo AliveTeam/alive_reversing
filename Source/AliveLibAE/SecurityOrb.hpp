@@ -1,8 +1,12 @@
 #pragma once
 
-#include "Path.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "../AliveLibCommon/Function.hpp"
+
+namespace relive
+{
+    class Path_SecurityOrb;
+}
 
 class SecurityOrb final : public BaseAliveGameObject
 {

@@ -2,7 +2,8 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "Map.hpp"
-#include "../AliveLibAE/Path.hpp"
+#include "../relive_lib/BaseGameObject.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 namespace AO {
 

@@ -8,8 +8,9 @@
 #include "SwitchStates.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/ObjectIds.hpp"
-#include "Path.hpp"
 #include "stdlib.hpp"
+#include "../relive_lib/MapWrapper.hpp"
+#include "Path.hpp"
 
 struct TrapDoor_Data final
 {

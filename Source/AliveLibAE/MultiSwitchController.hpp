@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../relive_lib/BaseGameObject.hpp"
-#include "Path.hpp"
 #include "../AliveLibCommon/Function.hpp"
 #include "SwitchStates.hpp"
 

@@ -3,11 +3,11 @@
 #include "Function.hpp"
 #include "Leaf.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
-#include "Path.hpp"
 #include "../relive_lib/Events.hpp"
 #include "stdlib.hpp"
 #include "SwitchStates.hpp"
 #include "Map.hpp"
+#include "Path.hpp"
 
 ALIVE_VAR(1, 0x563aa0, u32, sWellRndSeed_563AA0, 4);
 

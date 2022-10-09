@@ -2,7 +2,11 @@
 
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "../AliveLibCommon/Function.hpp"
-#include "Path.hpp"
+
+namespace relive
+{
+    struct Path_ParamiteWebLine;
+}
 
 class ParamiteWebLine final : public ::BaseAnimatedWithPhysicsGameObject
 {

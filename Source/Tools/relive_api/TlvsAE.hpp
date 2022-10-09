@@ -3,6 +3,7 @@
 #include "TlvObjectBaseAE.hpp"
 #include "TlvObjectBaseMacros.hpp"
 #include "../../relive_lib/data_conversion/PathTlvsAE.hpp"
+#include "../../AliveLibCommon/AnimResources.hpp"
 
 #define CTOR_AE(className, objectTypeName, tlvEnumType)\
     className() : TlvObjectBaseAE(sizeof(::className), tlvEnumType, objectTypeName, &mTlv)\

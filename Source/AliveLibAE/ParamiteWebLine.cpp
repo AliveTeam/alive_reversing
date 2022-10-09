@@ -8,6 +8,8 @@
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/ShadowZone.hpp"
 #include "Rope.hpp"
+#include "Path.hpp"
+
 void ParamiteWebLine::LoadAnimations()
 {
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::ChantOrb_Particle));

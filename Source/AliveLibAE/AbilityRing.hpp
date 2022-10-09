@@ -3,7 +3,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
 #include "FixedPoint.hpp"
-#include "../relive_lib/Primitives.hpp"
+#include "../AliveLibCommon/Primitives_common.hpp"
 #include "../relive_lib/Layer.hpp"
 #include "../relive_lib/MapWrapper.hpp"
 
@@ -95,7 +95,6 @@ private:
     s16 mRingGreen = 0;
     s16 mRingBlue = 0;
     s16 mRingSemiTrans = 0;
-    TPageAbr mRingTPageMode = TPageAbr::eBlend_0;
     EReliveLevelIds mRingLevel = EReliveLevelIds::eNone;
     s16 mRingPath = 0;
     RingTypes mRingType = RingTypes::eExplosive_Pulse_0;

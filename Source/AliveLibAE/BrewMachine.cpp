@@ -3,7 +3,7 @@
 #include "../relive_lib/Events.hpp"
 #include "Function.hpp"
 #include "Map.hpp"
-
+#include "Path.hpp"
 
 BrewMachine::BrewMachine(relive::Path_BrewMachine* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)

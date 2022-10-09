@@ -2,9 +2,7 @@
 
 #include "../relive_lib/BaseGameObject.hpp"
 #include "../AliveLibCommon/Function.hpp"
-#include "Path.hpp"
 #include "Scrab.hpp"
-
 
 enum class ScrabSpawnerStates : s32
 {

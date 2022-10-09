@@ -1,8 +1,12 @@
 #pragma once
 
 #include "../relive_lib/BaseGameObject.hpp"
-#include "Path.hpp"
 #include "../AliveLibCommon/Function.hpp"
+
+namespace relive
+{
+    struct Path_LiftMover;
+}
 
 class LiftPoint;
 

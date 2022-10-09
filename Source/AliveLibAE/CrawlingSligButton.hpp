@@ -2,7 +2,6 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
-#include "Path.hpp"
 #include "SwitchStates.hpp"
 
 enum class SwitchOp : s16;

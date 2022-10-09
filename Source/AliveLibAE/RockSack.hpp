@@ -1,7 +1,11 @@
 #pragma once
 
 #include "BaseAliveGameObject.hpp"
-#include "Path.hpp"
+
+namespace relive
+{
+    struct Path_RockSack;
+}
 
 class RockSack final : public BaseAliveGameObject
 {

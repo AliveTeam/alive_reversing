@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "Primitives.hpp"
+#include "../AliveLibCommon/Primitives_common.hpp"
 
 void Init_SetTPage(Prim_SetTPage* pPrim, s32 /*notUsed1*/, s32 /*notUsed2*/, s32 tpage)
 {

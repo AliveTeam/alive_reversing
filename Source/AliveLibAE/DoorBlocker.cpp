@@ -4,6 +4,7 @@
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
 #include "stdlib.hpp"
+#include "Path.hpp"
 
 DoorBlocker::DoorBlocker(relive::Path_DoorBlocker* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(0)

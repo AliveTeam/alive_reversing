@@ -27,6 +27,7 @@
 #include "ParamiteWebLine.hpp"
 #include "ScreenShake.hpp"
 #include "Grid.hpp"
+#include "Path.hpp"
 
 const AnimId sParamiteMotionAnimIds[44] = {
     AnimId::Paramite_Idle,

@@ -32,6 +32,7 @@ SET(AliveLibSrcCommon
     W32CrashHandler.hpp
     FatalError.hpp
     FatalError.cpp
+    RGB16.hpp
 )
 
 add_library(AliveLibCommon ${AliveLibSrcCommon})

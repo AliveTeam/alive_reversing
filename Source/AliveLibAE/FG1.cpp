@@ -5,6 +5,7 @@
 #include "ResourceManager.hpp"
 #include "Map.hpp"
 #include "FG1Reader.hpp"
+#include "../relive_lib/Primitives.hpp"
 
 ALIVE_VAR(1, 0x5D1E28, DynamicArrayT<FG1>*, gFG1List_5D1E28, nullptr);
 

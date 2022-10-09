@@ -8,6 +8,7 @@
 #include "Abe.hpp"
 #include "Sfx.hpp"
 #include "DeathGas.hpp"
+#include "Path.hpp"
 
 ALIVE_VAR(1, 0x5c1be8, s32, sGasTimer_5C1BE8, 0);
 ALIVE_VAR(1, 0x5C1C00, s16, gGasOn_5C1C00, 0);

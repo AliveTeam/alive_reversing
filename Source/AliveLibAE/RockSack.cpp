@@ -8,6 +8,8 @@
 #include "Sfx.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Abe.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
+#include "Path.hpp"
 
 void RockSack::LoadAnimations()
 {

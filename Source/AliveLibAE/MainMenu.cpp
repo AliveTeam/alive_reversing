@@ -17,7 +17,6 @@
 #include "MainMenuTransition.hpp"
 #include "Text.hpp"
 #include "Sound/Sound.hpp"
-#include "Path.hpp"
 #include "Abe.hpp"
 #include "PauseMenu.hpp"
 #include "Io.hpp"
@@ -27,6 +26,7 @@
 #include "Sys.hpp"
 #include "BaseGameAutoPlayer.hpp"
 #include "Camera.hpp"
+#include "Path.hpp"
 
 MainMenuController* MainMenuController::gMainMenuController = nullptr;
 

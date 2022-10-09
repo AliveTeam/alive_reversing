@@ -1,8 +1,12 @@
 #pragma once
 
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
-#include "Path.hpp"
 #include "../AliveLibCommon/Function.hpp"
+
+namespace relive
+{
+    struct Path_GlukkonSwitch;
+}
 
 class GlukkonSwitch final : public ::BaseAnimatedWithPhysicsGameObject
 {
@@ -23,16 +27,7 @@ private:
     s16 field_F8_state = 0;
     s16 field_FA_ok_switch_id = 0;
     s16 field_FC_fail_switch_id = 0;
-    s16 field_FE = 0;
     s32 field_100_last_event_idx = 0;
-    s16 field_104 = 0;
-    s16 field_106 = 0;
-    s16 field_108 = 0;
-    s16 field_10A = 0;
-    s16 field_10C = 0;
-    s16 field_10E = 0;
-    s16 field_110 = 0;
-    s16 field_112 = 0;
     s16 field_114 = 0;
     s16 field_116 = 0;
     PSX_Point field_118_top_left = {};

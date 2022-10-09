@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Explosion.hpp"
 #include "Function.hpp"
-#include "Path.hpp"
 #include "Map.hpp"
 #include "../relive_lib/Particle.hpp"
 #include "Flash.hpp"
@@ -12,6 +11,7 @@
 #include "Sound/Midi.hpp"
 #include "stdlib.hpp"
 #include "ExplosionSet.hpp"
+#include "Path.hpp"
 
 Explosion::Explosion(FP xpos, FP ypos, FP scale, bool bSmall)
     : BaseAnimatedWithPhysicsGameObject(0)

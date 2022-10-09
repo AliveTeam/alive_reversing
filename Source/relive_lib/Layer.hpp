@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../AliveLibCommon/Types.hpp"
+
 enum class Layer : s16
 {
     // Misc

@@ -6,6 +6,7 @@
 #include "SnoozeParticle.hpp"
 #include "Game.hpp"
 #include "SwitchStates.hpp"
+#include "Path.hpp"
 
 ZzzSpawner::ZzzSpawner(relive::Path_ZzzSpawner* pTlv, const Guid& tlvId)
     : BaseGameObject(TRUE, 0)

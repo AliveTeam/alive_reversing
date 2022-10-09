@@ -2,7 +2,6 @@
 #include "QuikSave.hpp"
 #include "Function.hpp"
 #include "ResourceManager.hpp"
-#include "Path.hpp"
 #include "PathData.hpp"
 #include "Map.hpp"
 #include "Abe.hpp"

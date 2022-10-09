@@ -2,7 +2,7 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "PlatformBase.hpp"
-#include "Path.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 enum class TrapDoorState : s16
 {
@@ -20,6 +20,11 @@ struct TrapDoor_State final
     Guid field_8_tlvInfo;
 };
 //ALIVE_ASSERT_SIZEOF_ALWAYS(TrapDoor_State, 0xC);
+
+namespace relive
+{
+    struct Path_TrapDoor;
+}
 
 class TrapDoor final : public PlatformBase
 {

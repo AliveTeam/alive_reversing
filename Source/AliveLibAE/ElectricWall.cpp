@@ -11,6 +11,7 @@
 #include "Electrocute.hpp"
 #include "Function.hpp"
 #include "Map.hpp"
+#include "Path.hpp"
 
 const s16 sElecticWallFrames_55165C[6] = {0, 6, 10, 18, 22, 0};
 

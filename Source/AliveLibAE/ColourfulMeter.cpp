@@ -5,6 +5,7 @@
 #include "Map.hpp"
 #include "../relive_lib/Events.hpp"
 #include "MinesAlarm.hpp"
+#include "Path.hpp"
 
 ALIVE_VAR(1, 0x5c1bfa, u8, gTotalMeterBars_5C1BFA, 0);
 ALIVE_VAR(1, 0x5c1bf8, u16, gbDrawMeterCountDown_5C1BF8, 0);

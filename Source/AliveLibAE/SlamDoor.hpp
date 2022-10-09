@@ -2,8 +2,11 @@
 
 #include "BaseAliveGameObject.hpp"
 #include "../AliveLibCommon/Function.hpp"
-#include "Factory.hpp"
-#include "Path.hpp"
+
+namespace relive
+{
+    struct Path_SlamDoor;
+}
 
 enum SlamDoorFlags
 {

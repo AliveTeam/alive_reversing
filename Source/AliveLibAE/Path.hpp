@@ -1,14 +1,10 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
-#include "Psx.hpp"
 #include "../AliveLibCommon/BitField.hpp"
 #include "FixedPoint.hpp"
-#include <type_traits>
 #include "../relive_lib/MapWrapper.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../relive_lib/BinaryPath.hpp"
-#include "Factory.hpp"
 
 struct PathData;
 

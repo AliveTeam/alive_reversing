@@ -1,8 +1,7 @@
 #pragma once
 
 #include "../relive_lib/BaseGameObject.hpp"
-#include "Path.hpp"
-#include "Factory.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 class WheelSyncer final : public BaseGameObject
 {

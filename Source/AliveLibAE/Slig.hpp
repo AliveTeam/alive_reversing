@@ -2,7 +2,6 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "BaseAliveGameObject.hpp"
-#include "Path.hpp"
 #include "../relive_lib/MapWrapper.hpp"
 #include "FlyingSligSpawner.hpp"
 #include "../relive_lib/data_conversion/PathTlvsAE.hpp"

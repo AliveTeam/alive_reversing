@@ -11,6 +11,7 @@
 #include "SwitchStates.hpp"
 #include "GameSpeak.hpp"
 #include "Map.hpp"
+#include "Path.hpp"
 
 void GlukkonSwitch::LoadAnimations()
 {

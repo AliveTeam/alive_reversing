@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "ResourceManagerWrapper.hpp"
 #include "GameType.hpp"
+#include "../AliveLibAE/Psx.hpp"
 #include "../AliveLibAE/ResourceManager.hpp"
 #include "../AliveLibAO/ResourceManager.hpp"
 

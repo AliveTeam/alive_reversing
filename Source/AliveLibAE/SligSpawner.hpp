@@ -3,7 +3,6 @@
 #include "../relive_lib/BaseGameObject.hpp"
 #include "../AliveLibCommon/Function.hpp"
 #include "Psx.hpp"
-#include "Path.hpp"
 #include "Slig.hpp"
 
 enum class SpawnerStates : s16

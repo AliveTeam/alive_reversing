@@ -6,6 +6,7 @@
 #include "SwitchStates.hpp"
 #include "Game.hpp"
 #include "stdlib.hpp"
+#include "Path.hpp"
 
 MultiSwitchController::MultiSwitchController(relive::Path_MultiSwitchController* pTlv, const Guid& tlvId)
     : BaseGameObject(TRUE, 0)

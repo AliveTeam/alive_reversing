@@ -25,6 +25,7 @@
 #include "Grid.hpp"
 #include "Function.hpp"
 #include "AnimationCallBacks.hpp"
+#include "Path.hpp"
 
 ALIVE_VAR(1, 0xBAF7F2, s16, sSlogCount, 0);
 

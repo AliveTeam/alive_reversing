@@ -2,7 +2,6 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "BaseAliveGameObject.hpp"
-#include "Path.hpp"
 #include "GameSpeak.hpp"
 #include "AbilityRing.hpp"
 #include "Abe.hpp" // MudSounds only

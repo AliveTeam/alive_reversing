@@ -8,6 +8,7 @@
 #include "../AliveLibAE/stdlib.hpp"
 #include "../AliveLibAE/Renderer/IRenderer.hpp"
 #include "FG1Reader.hpp"
+#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 
 namespace AO {
 

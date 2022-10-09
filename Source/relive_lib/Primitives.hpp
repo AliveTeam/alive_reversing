@@ -1,9 +1,19 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
-#include "../AliveLibCommon/Primitives_common.hpp"
-#include "../AliveLibAE/Psx.hpp"
 #include "../relive_lib/Layer.hpp"
+
+struct Prim_Sprt;
+struct Poly_G3;
+struct Poly_G4;
+struct Poly_F4;
+struct Poly_GT4;
+struct Prim_SetTPage;
+struct Prim_PrimClipper;
+struct Prim_ScreenOffset;
+struct PSX_RECT;
+struct PSX_Pos16;
+struct PrimHeader;
+struct Poly_FT4;
 
 void Sprt_Init(Prim_Sprt* pPrim);
 

@@ -2,7 +2,7 @@
 
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "../AliveLibCommon/Function.hpp"
-#include "Path.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 class StatusLight final : public ::BaseAnimatedWithPhysicsGameObject
 {

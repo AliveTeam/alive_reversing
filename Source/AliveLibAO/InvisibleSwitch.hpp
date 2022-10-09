@@ -4,6 +4,7 @@
 #include "Map.hpp"
 #include "../AliveLibAE/Path.hpp"
 #include "SwitchStates.hpp"
+#include "../relive_lib/BaseGameObject.hpp"
 
 namespace AO {
 

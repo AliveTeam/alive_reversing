@@ -15,6 +15,7 @@
 #include "ScreenShake.hpp"
 #include "Grid.hpp"
 #include "Map.hpp"
+#include "Path.hpp"
 
 const FP mineCarHeightUnscaled = FP_FromInteger(60);
 const FP mineCarWidthUnscaled = FP_FromInteger(12);

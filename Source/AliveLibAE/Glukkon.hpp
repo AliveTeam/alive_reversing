@@ -1,9 +1,9 @@
 #pragma once
 
 #include "../AliveLibCommon/Function.hpp"
-#include "Path.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "../relive_lib/MapWrapper.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 #define GLUKKON_MOTIONS_ENUM(ENTRY)        \
     ENTRY(M_Idle_0_442D10)                 \
@@ -205,7 +205,6 @@ private:
 
 private:
     s16 field_118_pPalAlloc[64] = {};
-    PSX_RECT field_198_pal_rect = {};
     s16 field_1A0_red = 0;
     s16 field_1A2_green = 0;
     s16 field_1A4_blue = 0;

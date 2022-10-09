@@ -2,7 +2,6 @@
 #include "Dove.hpp"
 #include "Function.hpp"
 #include "Sound/Midi.hpp"
-#include "Path.hpp"
 #include "Math.hpp"
 #include "Game.hpp"
 #include "../relive_lib/Events.hpp"
@@ -11,6 +10,7 @@
 #include "stdlib.hpp"
 #include "Grid.hpp"
 #include "Map.hpp"
+#include "Path.hpp"
 
 static bool bTheOneControllingTheMusic = false;
 static DynamicArrayT<Dove> gDovesArray{3};

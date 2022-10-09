@@ -13,7 +13,6 @@
 #include "MainMenu.hpp"
 #include "ThrowableArray.hpp"
 #include "MusicController.hpp"
-#include "Path.hpp"
 #include "GameSpeak.hpp"
 #include "TrapDoor.hpp"
 #include "MusicTrigger.hpp"
@@ -57,6 +56,7 @@
 #include "DDCheat.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
 #include "Camera.hpp"
+#include "Path.hpp"
 
 using TAbeMotionFunction = decltype(&Abe::Motion_0_Idle_44EEB0);
 

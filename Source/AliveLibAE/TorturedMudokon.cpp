@@ -9,6 +9,7 @@
 #include "Sfx.hpp"
 #include "Function.hpp"
 #include "Abe.hpp"
+#include "Path.hpp"
 
 void TorturedMudokon::LoadAnimations()
 {

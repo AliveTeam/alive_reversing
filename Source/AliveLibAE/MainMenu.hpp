@@ -10,7 +10,6 @@
 #include "Factory.hpp"
 #include "Input.hpp"
 #include "PathData.hpp"
-#include "Path.hpp"
 
 enum class LevelIds : s16;
 

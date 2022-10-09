@@ -11,6 +11,7 @@
 #include "PathData.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "Map.hpp"
+#include "Path.hpp"
 
 const TintEntry sFootSwitchTints_5639F4[18] = {
     {EReliveLevelIds::eMines, 127u, 127u, 127u},

@@ -10,6 +10,7 @@
 #include "BaseBomb.hpp"
 #include "Grid.hpp"
 #include "Map.hpp"
+#include "Path.hpp"
 
 #include <math.h>
 

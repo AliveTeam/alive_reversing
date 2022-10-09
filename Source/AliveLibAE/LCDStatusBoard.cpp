@@ -6,6 +6,7 @@
 #include "MainMenu.hpp"
 #include "Map.hpp"
 #include "DDCheat.hpp" // only mud info
+#include "Path.hpp"
 
 ALIVE_VAR(1, 0x5C1BC4, s16, sMudokonsInArea_5C1BC4, 0);
 ALIVE_VAR(1, 0x5C1A20, s8, sZulagNumber_5C1A20, 0);

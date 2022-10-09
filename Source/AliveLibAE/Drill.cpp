@@ -11,6 +11,7 @@
 #include "Spark.hpp"
 #include "Blood.hpp"
 #include "Map.hpp"
+#include "Path.hpp"
 
 const TintEntry kDrillTints_551548[18] = {
     {EReliveLevelIds::eMines, 127u, 127u, 127u},

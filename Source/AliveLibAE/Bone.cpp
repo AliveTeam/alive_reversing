@@ -13,6 +13,7 @@
 #include "../relive_lib/Particle.hpp"
 #include "Grid.hpp"
 #include "Map.hpp"
+#include "Path.hpp"
 
 const static AnimId sBoneBagAnimIds[] =
 {

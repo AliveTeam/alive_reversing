@@ -7,6 +7,7 @@
 #include "Sfx.hpp"
 #include "Grid.hpp"
 #include "Map.hpp"
+#include "Path.hpp"
 
 struct SlamDoor_Data final
 {

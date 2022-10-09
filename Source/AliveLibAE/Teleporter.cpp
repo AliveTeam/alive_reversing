@@ -12,7 +12,7 @@
 #include "Spark.hpp"
 #include "ParticleBurst.hpp"
 #include "Electrocute.hpp"
-
+#include "Path.hpp"
 
 void SetData(Relive_Path_Teleporter_Data& tlvData, const relive::Path_Teleporter& tlv)
 {

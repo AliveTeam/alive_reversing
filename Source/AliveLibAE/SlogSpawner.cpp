@@ -7,6 +7,7 @@
 #include "Game.hpp"
 #include "Slog.hpp"
 #include "Sfx.hpp"
+#include "Path.hpp"
 
 SlogSpawner::SlogSpawner(relive::Path_SlogSpawner* pTlv, const Guid& tlvId)
     : BaseGameObject(TRUE, 0)

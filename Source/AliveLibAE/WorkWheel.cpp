@@ -8,6 +8,7 @@
 #include "Sound/Midi.hpp"
 #include "GameEnderController.hpp"
 #include "Map.hpp"
+#include "Path.hpp"
 
 void WorkWheel::LoadAnimations()
 {

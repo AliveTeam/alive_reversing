@@ -1,14 +1,11 @@
 #pragma once
 
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
-#include "Path.hpp"
 #include "../AliveLibCommon/Function.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 enum class LevelIds : s16;
 enum class CameraSwapEffects : s16;
-
-
-
 
 struct BirdPortal_State final
 {

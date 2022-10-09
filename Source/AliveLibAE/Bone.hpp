@@ -2,6 +2,11 @@
 
 #include "Throwable.hpp"
 
+namespace relive
+{
+    struct Path_BoneBag;
+}
+
 enum class BoneStates : s16
 {
     eSpawned_0 = 0,

@@ -2,7 +2,6 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "BaseAliveGameObject.hpp"
-#include "Path.hpp"
 #include "../AliveLibCommon/AddPointer.hpp"
 
 class BaseThrowable;

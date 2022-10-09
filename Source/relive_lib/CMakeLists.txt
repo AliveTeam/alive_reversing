@@ -87,6 +87,7 @@ SET(relive_lib_src
     data_conversion/AnimConversionInfo.cpp
     Layer.hpp
     stdafx.h
+    ObjectTypes.hpp
 )
 
 add_library(relive_lib ${relive_lib_src})

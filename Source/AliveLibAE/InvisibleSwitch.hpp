@@ -2,13 +2,8 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
-#include "Path.hpp"
 #include "Psx.hpp"
 #include "SwitchStates.hpp"
-
-
-
-
 
 class InvisibleSwitch final : public BaseGameObject
 {

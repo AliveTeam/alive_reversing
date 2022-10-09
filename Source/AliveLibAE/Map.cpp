@@ -12,7 +12,6 @@
 #include "MusicController.hpp"
 #include "BackgroundMusic.hpp"
 #include "stdlib.hpp"
-#include "Path.hpp"
 #include "QuikSave.hpp"
 #include "Text.hpp"
 #include "Sfx.hpp"
@@ -26,6 +25,7 @@
 #include "Sys.hpp"
 #include <assert.h>
 #include "Camera.hpp"
+#include "Path.hpp"
 
 #include "../relive_lib/data_conversion/file_system.hpp"
 #include "../relive_lib/data_conversion/data_conversion.hpp" // TODO: don't include this in the engine

@@ -5,6 +5,7 @@
 #include "../relive_lib/Events.hpp"
 #include "Map.hpp"
 #include "stdlib.hpp"
+#include "Path.hpp"
 
 WheelSyncer::WheelSyncer(relive::Path_WheelSyncer* pTlv, const Guid& tlvId)
     : BaseGameObject(TRUE, 0)

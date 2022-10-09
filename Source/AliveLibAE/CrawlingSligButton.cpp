@@ -4,6 +4,7 @@
 #include "stdlib.hpp"
 #include "SwitchStates.hpp"
 #include "../relive_lib/Events.hpp"
+#include "Path.hpp"
 
 struct ButtonSfxEntry final
 {

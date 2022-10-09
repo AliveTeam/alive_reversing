@@ -7,6 +7,7 @@
 #include "SwitchStates.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "stdlib.hpp"
+#include "Path.hpp"
 
 LiftMover::LiftMover(relive::Path_LiftMover* pTlv, const Guid& tlvId)
     : BaseGameObject(TRUE, 0)

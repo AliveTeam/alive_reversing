@@ -3,7 +3,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
 #include "../relive_lib/MapWrapper.hpp"
-#include "../relive_lib/Primitives.hpp"
+#include "../AliveLibCommon/Primitives_common.hpp"
 
 struct Fg1Chunk;
 enum class EReliveLevelIds : s16;

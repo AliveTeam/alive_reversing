@@ -1,7 +1,12 @@
 #pragma once
 
 #include "BaseAliveGameObject.hpp"
-#include "Path.hpp"
+#include "Path.hpp" // reliveChoice only
+
+namespace relive
+{
+    struct Path_SlapLock;
+}
 
 enum class SlapLockStates : s16
 {

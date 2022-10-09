@@ -2,7 +2,6 @@
 #include "Function.hpp"
 #include "ScopedSeq.hpp"
 #include "Map.hpp"
-#include "Path.hpp"
 #include "Slog.hpp"
 #include "Slig.hpp"
 #include "Fleech.hpp"

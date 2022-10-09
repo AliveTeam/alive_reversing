@@ -6,6 +6,8 @@
 #include "DDCheat.hpp"
 #include "stdlib.hpp"
 #include "Grid.hpp"
+#include "Path.hpp"
+
 void StatusLight::LoadAnimations()
 {
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Status_Light_Green));

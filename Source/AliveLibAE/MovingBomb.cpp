@@ -15,6 +15,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "../relive_lib/Events.hpp"
 #include "SwitchStates.hpp"
+#include "Path.hpp"
 
 const TintEntry kMovingBombTints_55C734[4] = {
     {EReliveLevelIds::eBarracks, 97u, 97u, 97u},

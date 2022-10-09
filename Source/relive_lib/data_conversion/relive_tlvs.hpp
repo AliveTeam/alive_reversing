@@ -1,11 +1,12 @@
 #pragma once
 
-#include "../BaseAnimatedWithPhysicsGameObject.hpp"
 #include "../../AliveLibAO/Slig_DisabledResources.hpp"
+#include "../MapWrapper.hpp"
+#include "../../AliveLibCommon/RGB16.hpp"
+#include "../../AliveLibCommon/BitField.hpp"
+#include "../Primitives.hpp"
 #include "guid.hpp"
-
-// all tlv map types
-enum class ReliveTypes : s16;
+#include "../ObjectTypes.hpp"
 
 namespace relive {
 

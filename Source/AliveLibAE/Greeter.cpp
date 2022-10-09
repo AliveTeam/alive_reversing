@@ -18,6 +18,7 @@
 #include "Function.hpp"
 #include "Bullet.hpp"
 #include "Map.hpp"
+#include "Path.hpp"
 
 void Greeter::LoadAnimations()
 {

@@ -2,6 +2,11 @@
 
 #include "Throwable.hpp"
 
+namespace relive
+{
+    struct Path_MeatSack;
+}
+
 enum class MeatStates : s16
 {
     eCreated_0 = 0,
@@ -71,7 +76,6 @@ private:
 
 private:
     MeatStates field_11C_state = MeatStates::eCreated_0;
-    s16 field_11E_padding = 0;
     FP field_120_xpos = {};
     FP field_124_ypos = {};
     s32 field_128_timer = 0;

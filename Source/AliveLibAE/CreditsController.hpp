@@ -2,7 +2,11 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
-#include "Path.hpp"
+
+namespace relive
+{
+    class Path_TLV;
+}
 
 #pragma pack(push)
 #pragma pack(2)

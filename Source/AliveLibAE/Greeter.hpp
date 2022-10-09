@@ -1,8 +1,12 @@
 #pragma once
 
 #include "BaseAliveGameObject.hpp"
-#include "Path.hpp"
 #include "../AliveLibCommon/Function.hpp"
+
+namespace relive
+{
+    struct Path_Greeter;
+}
 
 enum class GreeterBrainStates : s16
 {

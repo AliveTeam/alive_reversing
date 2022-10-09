@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../AliveLibCommon/Function.hpp"
-#include "Path.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
 #include "Font.hpp"
 

@@ -10,6 +10,7 @@
 #include "MapWrapper.hpp"
 #include "../relive_lib/Animation.hpp"
 #include "../AliveLibCommon/AnimResources.hpp"
+#include "../AliveLibCommon/RGB16.hpp"
 
 namespace relive {
     class Path_TLV;
@@ -31,20 +32,6 @@ enum class Scale : s16
 {
     Bg = 0,
     Fg = 1,
-};
-
-struct RGB16 final
-{
-    s16 r = 0;
-    s16 g = 0;
-    s16 b = 0;
-
-    void SetRGB(s16 rValue, s16 gValue, s16 bValue)
-    {
-        r = rValue;
-        g = gValue;
-        b = bValue;
-    }
 };
 
 // Another glue/adapter interface

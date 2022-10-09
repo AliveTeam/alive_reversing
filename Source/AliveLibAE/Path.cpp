@@ -1,11 +1,11 @@
 #include "stdafx.h"
-#include "Path.hpp"
 #include "Function.hpp"
 #include "PathData.hpp"
 #include "Map.hpp"
 #include "AmbientSound.hpp"
 #include "../relive_lib/BinaryPath.hpp"
 #include <assert.h>
+#include "Path.hpp"
 
 ALIVE_VAR(1, 0xbb47c0, Path*, sPathInfo, nullptr);
 

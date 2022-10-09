@@ -2,8 +2,9 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
-#include "Path.hpp"
 #include "MusicController.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
+#include "../AliveLibCommon/Psx_common.hpp"
 
 class MusicTrigger final : public BaseGameObject
 {

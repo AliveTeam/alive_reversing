@@ -9,6 +9,7 @@
 #include "Sfx.hpp"
 #include "Grenade.hpp"
 #include "Grid.hpp"
+#include "Path.hpp"
 
 const static AnimId sBoomMachineNozzleAnimIds[] =
 {

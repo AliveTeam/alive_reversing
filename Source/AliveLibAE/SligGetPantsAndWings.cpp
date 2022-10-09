@@ -5,6 +5,7 @@
 #include "stdlib.hpp"
 #include "Game.hpp"
 #include "Sfx.hpp"
+#include "Path.hpp"
 
 void SligGetPantsAndWings::LoadAnimations()
 {

@@ -3,10 +3,13 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
 #include "BaseAliveGameObject.hpp"
-#include "Path.hpp"
-#include "Factory.hpp"
 #include "../relive_lib/Animation.hpp"
 #include "Sfx.hpp"
+
+namespace relive
+{
+    struct Path_UXB;
+}
 
 enum class UXBState : u16
 {
@@ -15,8 +18,6 @@ enum class UXBState : u16
     eExploding = 2,
     eDeactivated = 3
 };
-
-
 
 struct SaveState_UXB final
 {

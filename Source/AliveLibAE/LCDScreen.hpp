@@ -3,8 +3,6 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
 #include "Font.hpp"
-#include "Path.hpp"
-#include "Factory.hpp"
 
 struct StringTable;
 void SetLcdMessagesForLvl(const StringTable& msgs, LevelIds lvl, u32 pathId);

@@ -2,7 +2,6 @@
 
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "../AliveLibCommon/Function.hpp"
-#include "Path.hpp"
 
 class Dove final : public ::BaseAnimatedWithPhysicsGameObject
 {

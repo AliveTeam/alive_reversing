@@ -2,7 +2,11 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
-#include "Path.hpp"
+
+namespace relive
+{
+    struct Path_BoomMachine;
+}
 
 enum class BoomMachineStates : s16
 {

@@ -8,6 +8,7 @@
 #include "SwitchStates.hpp"
 #include "Grid.hpp"
 #include "Map.hpp"
+#include "Path.hpp"
 
 const TintEntry kLeverTints_563228[18] = {
     {EReliveLevelIds::eMines, 127u, 127u, 127u},

@@ -13,6 +13,7 @@
 #include "../relive_lib/Events.hpp"
 #include "Grid.hpp"
 #include "Map.hpp"
+#include "Path.hpp"
 
 struct LiftPointData final
 {

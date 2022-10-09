@@ -14,6 +14,7 @@
 #include "Alarm.hpp"
 #include "Function.hpp"
 #include "Map.hpp"
+#include "Path.hpp"
 
 MotionDetectorLaser::MotionDetectorLaser(FP xpos, FP ypos, FP scale, Layer layer)
     : BaseAnimatedWithPhysicsGameObject(0)

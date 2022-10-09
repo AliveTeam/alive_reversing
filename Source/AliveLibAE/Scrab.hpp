@@ -2,8 +2,8 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "BaseAliveGameObject.hpp"
-#include "Path.hpp"
 #include "GameSpeak.hpp"
+#include "Path.hpp"
 
 #define SCRAB_MOTIONS_ENUM_AE(ENTRY)          \
     ENTRY(M_Stand_0_4A8220)                \
