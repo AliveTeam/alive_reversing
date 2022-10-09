@@ -150,8 +150,12 @@ private:
     std::vector<u32> mBatchIndicies;
 
     GLuint mPaletteTextureId = 0;
-    std::map<u32, u32> mPaletteHashes;
-    std::map<u32, bool> mUsedPalettes;
+    struct PalCacheEntry final
+    {
+        u32 mIndex = 0;
+        bool mInUse = false;
+    };
+    std::map<u32, PalCacheEntry> mPaletteCache;
 
     GLuint mCurGasTextureId = 0;
 

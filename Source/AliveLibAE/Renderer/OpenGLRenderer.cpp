@@ -105,13 +105,12 @@ u32 OpenGLRenderer::PreparePalette(AnimationPal& pCache)
 
     // Check we don't already have this palette
     u32 paletteHash = HashPalette(&pCache);
-    auto searchResult = mPaletteHashes.find(paletteHash);
+    auto searchResult = mPaletteCache.find(paletteHash);
 
-    if (searchResult != std::end(mPaletteHashes))
+    if (searchResult != std::end(mPaletteCache))
     {
-        mUsedPalettes.find(paletteHash)->second = true;
-
-        return searchResult->second; // Palette index
+        searchResult->second.mInUse = true;
+        return searchResult->second.mIndex; // Palette index
     }
 
     // Decode the new palette
@@ -119,41 +118,38 @@ u32 OpenGLRenderer::PreparePalette(AnimationPal& pCache)
     Renderer_DecodePalette(reinterpret_cast<const u8*>(pCache.mPal), dst, 256);
 
     // Get an index for the new palette
-    u32 nextIndex = (u32) mPaletteHashes.size();
+    u32 nextIndex = static_cast<u32>(mPaletteCache.size());
 
     if (nextIndex >= GL_AVAILABLE_PALETTES)
     {
         // Look for a unused slot
         u32 unusedPaletteHash = 0;
 
-        for (auto iter = mUsedPalettes.begin(); iter != mUsedPalettes.end(); iter++)
+        auto iter = mPaletteCache.begin();
+        while (iter != mPaletteCache.end())
         {
-            if (iter->second) // If still used
+            if (!iter->second.mInUse)
             {
-                continue;
+                // Found an unused one
+                unusedPaletteHash = iter->first;
+                break;
             }
-
-            // Found an unused one
-            unusedPaletteHash = iter->first;
+            iter++;
         }
 
-        if (unusedPaletteHash == 0)
+        if (iter == std::end(mPaletteCache))
         {
             ALIVE_FATAL("Ran out of palettes!");
         }
 
         // Acquire the index we're taking over
-        auto toStealSearchResult = mPaletteHashes.find(unusedPaletteHash);
-
-        nextIndex = toStealSearchResult->first;
+        nextIndex = iter->second.mIndex;
 
         // Bin the old one
-        mPaletteHashes.erase(unusedPaletteHash);
-        mUsedPalettes.erase(unusedPaletteHash);
+        mPaletteCache.erase(unusedPaletteHash);
     }
 
-    mPaletteHashes.insert(std::make_pair(paletteHash, nextIndex));
-    mUsedPalettes.insert(std::make_pair(paletteHash, true));
+    mPaletteCache[paletteHash] = PalCacheEntry{nextIndex, true};
 
     // Write palette data
     GL_VERIFY(glActiveTexture(GL_TEXTURE1));
@@ -1120,6 +1116,12 @@ void OpenGLRenderer::DecreaseResourceLifetimes()
             it++;
         }
     }
+
+    for (auto iter = mPaletteCache.begin(); iter != mPaletteCache.end(); iter++)
+    {
+        // Default all palettes to unused for next draw
+        iter->second.mInUse = false;
+    }
 }
 
 void OpenGLRenderer::DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height)
@@ -1320,13 +1322,6 @@ void OpenGLRenderer::InvalidateBatch()
     mBatchDrawMode = BATCH_VALUE_UNSET;
     mBatchIndicies.clear();
     mBatchTextureIds.clear();
-
-    for (auto iter = mUsedPalettes.begin(); iter != mUsedPalettes.end(); iter++)
-    {
-        // Default all palettes to unused for next draw
-        iter->second = false;
-    }
-
     mStats.mInvalidationsCount++;
 }
 
