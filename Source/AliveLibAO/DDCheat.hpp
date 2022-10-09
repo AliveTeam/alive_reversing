@@ -59,7 +59,7 @@ public:
     virtual void VScreenChanged() override;
     void AddPropertyEntry(const char_type* text, DDCheatValueType valueType, DDCheatValue valuePtr);
 
-    void VUpdate();
+    void VUpdate() override;
 
     void ScreenShot();
     void Teleport();

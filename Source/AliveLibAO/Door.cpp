@@ -413,9 +413,9 @@ void Door::VUpdate()
                             break;
                         }
 
-                        case relive::Path_Door::DoorTypes::eHubDoor:
-                        {
+                        //relive::Path_Door::DoorTypes::eHubDoor:
                         default:
+                        {
                             mAnim.Set_Animation_Data(GetAnimRes(sDoorAnimdIdTable[lvl][5]));
                             break;
                         }
@@ -448,9 +448,9 @@ void Door::VUpdate()
                             break;
                         }
 
-                        case relive::Path_Door::DoorTypes::eHubDoor:
-                        {
+                        //relive::Path_Door::DoorTypes::eHubDoor
                         default:
+                        {
                             mAnim.Set_Animation_Data(GetAnimRes(sDoorAnimdIdTable[lvl][5]));
                             break;
                         }

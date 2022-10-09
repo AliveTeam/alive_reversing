@@ -88,15 +88,6 @@ const static AnimId sParamiteMotionAnimIds[] = {
     AnimId::Paramite_Struggle,
     AnimId::Paramite_Death};
 
-const static Paramite::TParamiteBrain sParamiteBrainTable[]{
-    &Paramite::Brain_0_Patrol,
-    &Paramite::Brain_1_SurpriseWeb,
-    &Paramite::Brain_2_Struggling,
-    &Paramite::Brain_3_Death,
-    &Paramite::Brain_4_ChasingAbe,
-    &Paramite::Brain_5_SpottedMeat,
-};
-
 Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {

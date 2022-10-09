@@ -39,9 +39,6 @@ SoundEntry fmv_sound_entry;
 
 
 const int kXaFrameDataSize = 2016;
-const int kNumAudioChannels = 2;
-const int kBytesPerSample = 2;
-
 
 const int num_frames_interleave = 5; // maybe 20 ?? AE uses 5
 const int fmv_single_audio_frame_size_in_samples = 2016; // AE uses 2940

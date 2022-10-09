@@ -479,7 +479,6 @@ private:
     s16 field_174_unused = 0;
     s16 field_176_unused = 0;
     s16 field_178_pPalAlloc[64] = {};
-    PSX_RECT field_1F8_pal_rect = {};
     s16 field_200_red = 0;
     s16 field_202_green = 0;
     s16 field_204_blue = 0;

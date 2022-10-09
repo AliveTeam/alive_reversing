@@ -132,3 +132,8 @@ void Sys_Main_Common()
     }
 #endif
 }
+
+void Alive_Show_ErrorMsg(const char_type* msg)
+{
+    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, ("R.E.L.I.V.E. " + BuildString()).c_str(), msg, nullptr);
+}

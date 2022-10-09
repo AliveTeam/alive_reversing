@@ -169,7 +169,6 @@ public:
 private:
     Guid field_118_tlvInfo;
     s16 field_11C_pPalAlloc[64] = {};
-    PSX_RECT field_19C_pal_rect = {};
     s16 field_1A4_r = 0;
     s16 field_1A6_g = 0;
     s16 field_1A8_b = 0;

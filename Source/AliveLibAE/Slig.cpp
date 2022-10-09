@@ -6563,6 +6563,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
                     }
 
                     relive_new Blood(mXPos, mYPos - (FP_FromInteger(25) * mSpriteScale), FP_FromInteger(0), FP_FromInteger(0), mSpriteScale, 25);
+                    break;
                 }
 
                 default:

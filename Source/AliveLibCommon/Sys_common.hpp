@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
 #include "relive_config.h"
 
 #if _WIN32
@@ -11,7 +10,6 @@ using TWindowProcFilter = LRESULT(CC*)(HWND, UINT, WPARAM, LPARAM);
 #if USE_SDL2
 struct SDL_Window;
 using TWindowHandleType = SDL_Window*;
-    #include "SDL.h"
     #if _WIN32
 HWND Sys_Win32FromSDLWindow(TWindowHandleType windowHandle);
     #endif
@@ -73,9 +71,6 @@ inline std::string WindowTitleAE()
     return "R.E.L.I.V.E. Oddworld Abe's Exoddus" + BuildAndBitnesString();
 }
 
-inline void Alive_Show_ErrorMsg(const char_type* msg)
-{
-    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, ("R.E.L.I.V.E. " + BuildString()).c_str(), msg, nullptr);
-}
+void Alive_Show_ErrorMsg(const char_type* msg);
 
 u32 SYS_GetTicks();

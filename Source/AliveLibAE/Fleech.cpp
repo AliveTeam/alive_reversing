@@ -945,7 +945,7 @@ void Fleech::Motion_12_Climb()
                     {
                         field_166_angle = -128 - field_166_angle;
                     }
-                    else if (field_166_angle > 128 && field_166_angle < 192)
+                    else if (false /*field_166_angle > 128 && field_166_angle < 192*/) // always false due to the field type - og bug?
                     {
                         field_166_angle = -128 - field_166_angle;
                     }

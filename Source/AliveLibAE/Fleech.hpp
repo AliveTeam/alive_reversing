@@ -233,14 +233,11 @@ private:
     Guid mTlvInfo;
     Guid field_11C_obj_id;
     s16 field_120_unused = 0;
-    s16 field_122 = 0;
     s16 field_124_brain_state = 0;
     u16 field_126_brain_sub_state = 0;
     s16 field_128 = 0;
-    s16 field_12A = 0;
     s32 field_12C_shrivel_timer = 0;
     s16 field_130_bDidMapFollowMe = 0;
-    s16 field_132 = 0;
     s32 field_134_unused = 0;
     FP field_138_velx_factor = {};
     s16 field_13C_unused = 0;
@@ -265,7 +262,6 @@ private:
     s16 field_162_hoistY = 0;
     s16 field_164_always_0 = 0;
     s8 field_166_angle = 0;
-    s8 field_167 = 0;
     FP field_168_hoistY_distance = {};
     FP field_16C_hoistX_distance = {};
     Guid field_170_danger_obj;
@@ -280,7 +276,6 @@ private:
         ePersistant = 0x40
     };
     BitField16<FleechFlags> mFleechFlags = {};
-    s16 field_176 = 0;
     s16 mTongueState = 0;
     s16 mTongueSubState = 0;
     s16 mEnemyXPos = 0;

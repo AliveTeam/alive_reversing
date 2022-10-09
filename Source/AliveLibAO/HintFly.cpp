@@ -742,7 +742,7 @@ const u8 HintFlyLetter_Z_4C7010[22] = {
     223u,
 };
 
-const u8 HintFlyLetter_A_diaeresis_4C7028[23] = {
+[[maybe_unused]] const u8 HintFlyLetter_A_diaeresis_4C7028[23] = {
     22u,
     15u,
     29u,
@@ -769,7 +769,7 @@ const u8 HintFlyLetter_A_diaeresis_4C7028[23] = {
 };
 
 // the letter that looks like AE
-const u8 HintFlyLetter_ash_4C7040[29] = {
+[[maybe_unused]] const u8 HintFlyLetter_ash_4C7040[29] = {
     28u,
     15u,
     29u,
@@ -801,7 +801,7 @@ const u8 HintFlyLetter_ash_4C7040[29] = {
     223u,
 };
 
-const u8 HintFlyLetter_A_grave_4C7060[21] = {
+[[maybe_unused]] const u8 HintFlyLetter_A_grave_4C7060[21] = {
     20u,
     15u,
     29u,
@@ -825,7 +825,7 @@ const u8 HintFlyLetter_A_grave_4C7060[21] = {
     239u,
 };
 
-const u8 HintFlyLetter_A_acute_4C7078[21] = {
+[[maybe_unused]] const u8 HintFlyLetter_A_acute_4C7078[21] = {
     20u,
     15u,
     29u,
@@ -849,7 +849,7 @@ const u8 HintFlyLetter_A_acute_4C7078[21] = {
     239u,
 };
 
-const u8 HintFlyLetter_A_circumflex_4C7090[21] = {
+[[maybe_unused]] const u8 HintFlyLetter_A_circumflex_4C7090[21] = {
     20u,
     15u,
     29u,
@@ -874,7 +874,7 @@ const u8 HintFlyLetter_A_circumflex_4C7090[21] = {
 };
 
 // something that looks like euro ?
-const u8 byte_4C70A8[28] = {
+[[maybe_unused]] const u8 byte_4C70A8[28] = {
     27u,
     21u,
     23u,
@@ -905,7 +905,7 @@ const u8 byte_4C70A8[28] = {
     223u,
 };
 
-const u8 HintFlyLetter_C_cedilla_4C70C8[20] = {
+[[maybe_unused]] const u8 HintFlyLetter_C_cedilla_4C70C8[20] = {
     19u,
     21u,
     23u,
@@ -928,7 +928,7 @@ const u8 HintFlyLetter_C_cedilla_4C70C8[20] = {
     218u,
 };
 
-const u8 HintFlyLetter_E_grave_4C70E0[28] = {
+[[maybe_unused]] const u8 HintFlyLetter_E_grave_4C70E0[28] = {
     27u,
     19u,
     21u,
@@ -959,7 +959,7 @@ const u8 HintFlyLetter_E_grave_4C70E0[28] = {
     223u,
 };
 
-const u8 HintFlyLetter_E_acute_4C7100[28] = {
+[[maybe_unused]] const u8 HintFlyLetter_E_acute_4C7100[28] = {
     27u,
     19u,
     21u,
@@ -990,7 +990,7 @@ const u8 HintFlyLetter_E_acute_4C7100[28] = {
     223u,
 };
 
-const u8 HintFlyLetter_E_circumflex_4C7120[28] = {
+[[maybe_unused]] const u8 HintFlyLetter_E_circumflex_4C7120[28] = {
     27u,
     19u,
     21u,
@@ -1022,7 +1022,7 @@ const u8 HintFlyLetter_E_circumflex_4C7120[28] = {
 };
 
 // I with two dots??
-const u8 byte_4C7140[24] = {
+[[maybe_unused]] const u8 byte_4C7140[24] = {
     23u,
     19u,
     31u,
@@ -1049,7 +1049,7 @@ const u8 byte_4C7140[24] = {
     223u};
 
 // also looks like the one below
-const u8 byte_4C7158[23] = {
+[[maybe_unused]] const u8 byte_4C7158[23] = {
     22u,
     19u,
     31u,
@@ -1074,7 +1074,7 @@ const u8 byte_4C7158[23] = {
     211u,
     223u};
 
-const u8 HintFlyLetter_I_circumflex_4C7170[23] = {
+[[maybe_unused]] const u8 HintFlyLetter_I_circumflex_4C7170[23] = {
     22u,
     19u,
     31u,
@@ -1100,7 +1100,7 @@ const u8 HintFlyLetter_I_circumflex_4C7170[23] = {
     223u,
 };
 
-const u8 HintFlyLetter_N_tilde_4C7188[24] = {
+[[maybe_unused]] const u8 HintFlyLetter_N_tilde_4C7188[24] = {
     23u,
     21u,
     23u,
@@ -1126,7 +1126,7 @@ const u8 HintFlyLetter_N_tilde_4C7188[24] = {
     221u,
     223u};
 
-const u8 HintFlyLetter_O_diaeresis_4C71A0[21] = {
+[[maybe_unused]] const u8 HintFlyLetter_O_diaeresis_4C71A0[21] = {
     20u,
     24u,
     27u,
@@ -1150,7 +1150,7 @@ const u8 HintFlyLetter_O_diaeresis_4C71A0[21] = {
     235u,
 };
 
-const u8 HintFlyLetter_O_grave_4C71B8[19] = {
+[[maybe_unused]] const u8 HintFlyLetter_O_grave_4C71B8[19] = {
     18u,
     24u,
     27u,
@@ -1172,7 +1172,7 @@ const u8 HintFlyLetter_O_grave_4C71B8[19] = {
     235u,
 };
 
-const u8 HintFlyLetter_O_acute_4C71D0[19] = {
+[[maybe_unused]] const u8 HintFlyLetter_O_acute_4C71D0[19] = {
     18u,
     24u,
     27u,
@@ -1194,7 +1194,7 @@ const u8 HintFlyLetter_O_acute_4C71D0[19] = {
     235u,
 };
 
-const u8 HintFlyLetter_O_circumflex_4C71E8[19] = {
+[[maybe_unused]] const u8 HintFlyLetter_O_circumflex_4C71E8[19] = {
     18u,
     24u,
     27u,
@@ -1217,7 +1217,7 @@ const u8 HintFlyLetter_O_circumflex_4C71E8[19] = {
 };
 
 // u with two dots at the top?
-const u8 byte_4C7200[22] = {
+[[maybe_unused]] const u8 byte_4C7200[22] = {
     21u,
     35u,
     37u,
@@ -1242,7 +1242,7 @@ const u8 byte_4C7200[22] = {
     205u,
 };
 
-const u8 HintFlyLetter_U_grave_4C7218[19] = {
+[[maybe_unused]] const u8 HintFlyLetter_U_grave_4C7218[19] = {
     18u,
     37u,
     39u,
@@ -1264,7 +1264,7 @@ const u8 HintFlyLetter_U_grave_4C7218[19] = {
     205u,
 };
 
-const u8 HintFlyLetter_U_acute_4C7230[19] = {
+[[maybe_unused]] const u8 HintFlyLetter_U_acute_4C7230[19] = {
     18u,
     37u,
     39u,
@@ -1286,7 +1286,7 @@ const u8 HintFlyLetter_U_acute_4C7230[19] = {
     205u,
 };
 
-const u8 HintFlyLetter_U_circumflex_4C7248[19] = {
+[[maybe_unused]] const u8 HintFlyLetter_U_circumflex_4C7248[19] = {
     18u,
     37u,
     39u,
@@ -1308,9 +1308,9 @@ const u8 HintFlyLetter_U_circumflex_4C7248[19] = {
     205u,
 };
 
-const u8 HintFlyLetters_dot_4C725C[3] = {2u, 113u, 115u};
+[[maybe_unused]] const u8 HintFlyLetters_dot_4C725C[3] = {2u, 113u, 115u};
 
-const u8 HintFlyLetter_underscore_4C7260[7] = {6u, 42u, 74u, 106u, 138u, 170u, 202u};
+[[maybe_unused]] const u8 HintFlyLetter_underscore_4C7260[7] = {6u, 42u, 74u, 106u, 138u, 170u, 202u};
 
 
 const u8* pHintFlyAlphabet_4C7268[] = {
@@ -1602,7 +1602,7 @@ void HintFly::UpdateParticles()
         {
             if (!(HintFly_NextRandom() & 3))
             {
-                pParticle->field_0_xpos = pParticle->field_14_targetX + FP_FromInteger(abs(HintFly_NextRandom()) & 1);
+                pParticle->field_0_xpos = pParticle->field_14_targetX + FP_FromInteger(HintFly_NextRandom() & 1);
             }
 
             if (i < 1 && Math_RandomRange(0, 100) < 40)

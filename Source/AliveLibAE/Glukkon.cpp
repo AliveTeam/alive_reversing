@@ -33,10 +33,6 @@
 #include "Grid.hpp"
 #include "Camera.hpp"
 
-#define MAKE_STRINGS(VAR) #VAR,
-const char_type* const sGlukkonMotionNames[25] = {
-    GLUKKON_MOTIONS_ENUM(MAKE_STRINGS)};
-
 const TGlukkonMotionFn sGlukkon_motion_table_5544C0[25] = {
     &Glukkon::M_Idle_0_442D10,
     &Glukkon::M_Walk_1_442D30,
@@ -200,16 +196,6 @@ s32 Glukkon::CreateFromSaveState(const u8* pData)
 
     return sizeof(Glukkon_SaveState);
 }
-
-const static TGlukkonBrainFn sGlukkonBrainTable[6] = 
-{
-    &Glukkon::Brain_0_Calm_WalkAround_440B40,
-    &Glukkon::Brain_1_Panic_4412F0,
-    &Glukkon::Brain_2_Slapped_441720,
-    &Glukkon::Brain_3_PlayerControlled_441A30,
-    &Glukkon::Brain_4_Death_442010,
-    &Glukkon::Brain_5_WaitToSpawn_442490
-};
 
 void Glukkon::SetBrain(TGlukkonBrainFn fn)
 {

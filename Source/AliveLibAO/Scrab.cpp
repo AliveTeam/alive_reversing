@@ -91,15 +91,6 @@ const AnimId sScrabMotionAnimIds[30] = {
     AnimId::Scrab_LegKick,
     AnimId::Scrab_DeathBegin};
 
-const static Scrab::TBrainType sScrabAITable[]{
-    &Scrab::Brain_Fighting_45C370,
-    &Scrab::Brain_BatDeath_45CA60,
-    &Scrab::Brain_Death_45CB80,
-    &Scrab::Brain_ChasingEnemy_45CC90,
-    &Scrab::Brain_Patrol_460020,
-    &Scrab::Brain_WalkAround_460D80,
-};
-
 Scrab::Scrab(relive::Path_Scrab* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {

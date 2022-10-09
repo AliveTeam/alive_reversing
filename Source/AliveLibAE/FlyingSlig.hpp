@@ -263,7 +263,7 @@ private:
         eBit1_Speaking_flag1 = 0x1,
         eBit2_bLastLine = 0x2,
         eBit3 = 0x4,
-        eBit4 = 0x8,
+        eBit4_FlyingSligUnknown = 0x8,
         eBit5_Throw = 0x10,
         eBit6_bAlertedAndNotFacingAbe = 0x20,
         eBit7_DoAction = 0x40,

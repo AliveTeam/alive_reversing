@@ -1732,7 +1732,7 @@ s16 Slog::Brain_1_Idle()
                 field_150_growl_timer = Math_NextRandom() % 32 + sGnFrame + 60;
                 SetCurrentMotion(eSlogMotions::Motion_23_Growl);
                 SetNextMotion(eSlogMotions::Motion_0_Idle);
-                sGnFrame = sGnFrame;
+                sGnFrame = sGnFrame; // TODO: rev bug? check this in IDA
             }
 
             if (static_cast<s32>(sGnFrame) > field_14C_scratch_timer && GetCurrentMotion() == eSlogMotions::Motion_0_Idle)

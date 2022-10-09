@@ -65,10 +65,6 @@ ALIVE_VAR_EXTERN(SaveData, gSaveBuffer_505668);
 
 using TAbeMotionFunction = decltype(&Abe::Motion_0_Idle_423520);
 
-#define MAKE_STRINGS(VAR) #VAR,
-const char_type* const sAbeMotionNames[] = {
-    AO_ABE_MOTIONS_ENUM(MAKE_STRINGS)};
-
 const TAbeMotionFunction sAbeMotionMachineTable_4C5F08[] = {
     &Abe::Motion_0_Idle_423520,
     &Abe::Motion_1_WalkLoop_423F90,
@@ -6661,23 +6657,6 @@ void Abe::Motion_61_Respawn_42CD20()
             return;
     }
 }
-
-using elumSpawn = decltype(&Elum::Spawn);
-const elumSpawn dword_4CF550[] = {
-    nullptr,
-    nullptr,
-    &Elum::Spawn,
-    &Elum::Spawn,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    &Elum::Spawn,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr,
-    nullptr};
 
 void Abe::Motion_62_LoadedSaveSpawn_45ADD0()
 {

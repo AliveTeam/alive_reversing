@@ -377,8 +377,9 @@ static u32 ToFG1Layer(Layer layer)
             return 2;
         case Layer::eLayer_FG1_37:
             return 3;
+        default:
+            ALIVE_FATAL("Not a valid FG1 layer");
     }
-    ALIVE_FATAL("Not a valid FG1 layer");
 }
 
 // Iterate in 32x16 blocks, creating full or partial blocks as needed

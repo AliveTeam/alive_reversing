@@ -283,7 +283,6 @@ private:
     s32 field_16C_input = 0;
     s32 field_170_unused = 0;
     s16 field_174_possessed_max_whirl_attack_duration = 0;
-    s16 field_176_unused = 0;
     s16 field_178_shred_power_active = 0;
     s32 field_17C_last_event = 0;
     s16 field_190_unused = 0;

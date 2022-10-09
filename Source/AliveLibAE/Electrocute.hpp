@@ -44,6 +44,5 @@ private:
         eKillElectrocute_3 = 3
     };
     States field_44_state = States::eSetNewColour_0;
-    PSX_RECT field_4C_pal_rect = {};
 };
 ALIVE_ASSERT_SIZEOF(Electrocute, 0x54);

@@ -91,10 +91,6 @@ struct BitsLogic final
     s32 param4 = 0;
 };
 
-const auto red_mask = 0xF800;
-const auto green_mask = 0x7E0;
-const auto blue_mask = 0x1F;
-
 } // namespace Oddlib
 
 s32 CamDecompressor::next_bits()

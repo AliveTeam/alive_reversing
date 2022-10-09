@@ -55,7 +55,7 @@ public:
         // Stayin' alive
     }
 
-    void VUpdate()
+    void VUpdate() override
     {
         if (field_CC_bFirstUpdate || field_CE_bDone)
         {
@@ -86,7 +86,7 @@ public:
         }
     }
 
-    void VRender(PrimHeader** /*ppOt*/)
+    void VRender(PrimHeader** /*ppOt*/) override
     {
         if (!field_CE_bDone)
         {
