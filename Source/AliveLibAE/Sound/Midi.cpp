@@ -31,14 +31,13 @@ ALIVE_VAR(1, 0xBB2354, SeqIds, sSeq_Ids_word_BB2354, {});
 ALIVE_VAR(1, 0xbb2e3e, u16, sSnd_ReloadAbeResources_BB2E3E, 0);
 ALIVE_VAR(1, 0xbb2e38, OpenSeqHandle*, sSeqDataTable_BB2E38, nullptr);
 ALIVE_VAR(1, 0xbb2e3c, s16, sSeqsPlaying_count_word_BB2E3C, 0);
-ALIVE_VAR(1, 0xbb2e34, SoundBlockInfo*, sLastLoadedSoundBlockInfo_BB2E34, nullptr);
 ALIVE_VAR(1, 0x560f58, s16, sSFXPitchVariationEnabled_560F58, true);
 ALIVE_VAR(1, 0x560f40, s16, sNeedToHashSeqNames_560F40, 1);
 
 // I think this is the burrrrrrrrrrrrrrrrrrrr loading sound
-const SoundBlockInfo soundBlock = {"MONK.VH", "MONK.VB", -1, nullptr};
+const PathSoundInfo soundBlock = {"MONK.VH", "MONK.VB", {}, {}, {}};
 
-ALIVE_VAR(1, 0x560F48, SoundBlockInfo, sMonkVh_Vb_560F48, soundBlock);
+ALIVE_VAR(1, 0x560F48, PathSoundInfo, sMonkVh_Vb_560F48, soundBlock);
 
 class AEMidiVars final : public IMidiVars
 {
@@ -63,9 +62,9 @@ public:
         return sSeqsPlaying_count_word_BB2E3C;
     }
 
-    virtual SoundBlockInfo*& sLastLoadedSoundBlockInfo() override
+    virtual PathSoundInfo*& sLastLoadedSoundBlockInfo() override
     {
-        return sLastLoadedSoundBlockInfo_BB2E34;
+        return mLastLoadedSoundBlockInfo;
     }
 
     virtual s16& sSFXPitchVariationEnabled() override
@@ -78,7 +77,7 @@ public:
         return sNeedToHashSeqNames_560F40;
     }
 
-    virtual SoundBlockInfo& sMonkVh_Vb() override
+    virtual PathSoundInfo& sMonkVh_Vb() override
     {
         return sMonkVh_Vb_560F48;
     }
@@ -127,6 +126,9 @@ public:
     {
         return ResourceManager::LoadResourceFile_49C170(pFileName, pCamera);
     }
+
+private:
+    PathSoundInfo* mLastLoadedSoundBlockInfo = nullptr;
 };
 
 static AEMidiVars sAEMidiVars;
@@ -144,14 +146,11 @@ void SetMidiApiVars(IMidiVars* pVars)
 
 void SND_Free_All_VABS_4C9EB0()
 {
-    SoundBlockInfo* pIter = GetMidiVars()->sLastLoadedSoundBlockInfo();
-    while (pIter && pIter->field_4_vab_body_name)
+    PathSoundInfo* pIter = GetMidiVars()->sLastLoadedSoundBlockInfo();
+    if (pIter)
     {
-        GetMidiVars()->FreeResource_Impl(pIter->field_C_pVabHeader);
-        pIter->field_C_pVabHeader = nullptr;
-        SsVabClose_4FC5B0(pIter->field_8_vab_id);
-        pIter->field_8_vab_id = -1;
-        pIter++;
+        SsVabClose_4FC5B0(pIter->mVabId);
+        pIter->mVabId = -1;
     }
     GetMidiVars()->sLastLoadedSoundBlockInfo() = nullptr;
 }
@@ -160,12 +159,7 @@ void SND_Free_All_Seqs_4C9F40()
 {
     for (s32 i = 0; i < GetMidiVars()->MidiTableSize(); i++)
     {
-        if (GetMidiVars()->sSeqDataTable()[i].field_C_ppSeq_Data)
-        {
-            u8** ppRes = GetMidiVars()->GetLoadedResource(ResourceManager::Resource_Seq, GetMidiVars()->sSeqDataTable()[i].field_4_generated_res_id, 0, 0);
-            GetMidiVars()->FreeResource(ppRes);
-            GetMidiVars()->sSeqDataTable()[i].field_C_ppSeq_Data = nullptr;
-        }
+        GetMidiVars()->sSeqDataTable()[i].field_C_ppSeq_Data.clear();
     }
 }
 
@@ -178,86 +172,23 @@ void SND_Reset()
 }
 
 
-s16 SND_VAB_Load_4C9FE0(SoundBlockInfo* pSoundBlockInfo, s16 vabId)
+s16 SND_VAB_Load_4C9FE0(PathSoundInfo& pSoundBlockInfo)
 {
-    // Fail if no file name
-    if (!pSoundBlockInfo->field_0_vab_header_name)
-    {
-        return 0;
-    }
-
-    // Find the VH file record
-    s32 headerSize = 0;
-    LvlFileRecord* pVabHeaderFile = sLvlArchive_5BC520.Find_File_Record_433160(pSoundBlockInfo->field_0_vab_header_name);
-    if (sbEnable_PCOpen_5CA4B0)
-    {
-        headerSize = pVabHeaderFile->field_14_file_size;
-    }
-    else
-    {
-        headerSize = pVabHeaderFile->field_10_num_sectors << 11;
-    }
-
     // Load the VH file data
-    u8** ppVabHeader = GetMidiVars()->Allocate_New_Locked_Resource(ResourceManager::Resource_VabHeader, vabId, headerSize);
-    pSoundBlockInfo->field_C_pVabHeader = *ppVabHeader;
-    sLvlArchive_5BC520.Read_File_4330A0(pVabHeaderFile, *ppVabHeader);
+    pSoundBlockInfo.mVhFileData = ResourceManagerWrapper::LoadFile(pSoundBlockInfo.mVhFile.c_str(), GetMap().mNextLevel);
     GetMidiVars()->LoadingLoop(0);
 
-    // Find the VB file record
-    LvlFileRecord* pVabBodyFile = sLvlArchive_5BC520.Find_File_Record_433160(pSoundBlockInfo->field_4_vab_body_name);
-    if (!pVabBodyFile)
-    {
-        // For some reason its acceptable to assume we have a VH with no VB, but the VH must always exist, this happens for MONK.VB
-        return 0;
-    }
-
-    s32 vabBodySize = 0;
-    if (sbEnable_PCOpen_5CA4B0)
-    {
-        vabBodySize = pVabBodyFile->field_14_file_size;
-    }
-    else
-    {
-        vabBodySize = pVabBodyFile->field_10_num_sectors << 11; // TODO * 4096 ?
-    }
-
     // Load the VB file data
-    u8** ppVabBody = GetMidiVars()->Alloc_New_Resource(ResourceManager::Resource_VabBody, vabId, vabBodySize);
-    if (!ppVabBody)
-    {
-        // Maybe filed due to OOM cause its huge, free the abe resources and try again
-        if (!GetMidiVars()->sSnd_ReloadAbeResources())
-        {
-            GetMidiVars()->sSnd_ReloadAbeResources() = TRUE;
-            sActiveHero->Free_Resources_44D420();
-        }
-
-        // Compact/reclaim any other memory we can too
-        GetMidiVars()->Reclaim_Memory(0);
-
-        // If it fails again there is no recovery, in either case caller will restore abes resources
-        ppVabBody = GetMidiVars()->Alloc_New_Resource(ResourceManager::Resource_VabBody, vabId, vabBodySize);
-        if (!ppVabBody)
-        {
-            return 0;
-        }
-    }
-
-    // Now we can read the actual VB data
-    sLvlArchive_5BC520.Read_File_4330A0(pVabBodyFile, *ppVabBody);
+    std::vector<u8> vbFileData = ResourceManagerWrapper::LoadFile(pSoundBlockInfo.mVbFile.c_str(), GetMap().mNextLevel);
 
     // Convert the records in the header to internal representation
-    pSoundBlockInfo->field_8_vab_id = SsVabOpenHead_4FC620(reinterpret_cast<VabHeader*>(pSoundBlockInfo->field_C_pVabHeader));
+    pSoundBlockInfo.mVabId = SsVabOpenHead_4FC620(reinterpret_cast<VabHeader*>(pSoundBlockInfo.mVhFileData.data()));
 
-    // Load actual sample data
-
-    SsVabTransBody_4FC840(reinterpret_cast<VabBodyRecord*>(*ppVabBody), static_cast<s16>(pSoundBlockInfo->field_8_vab_id));
+    // Load actual sample data (copied, hence vec goes out of scope after this)
+    SsVabTransBody_4FC840(reinterpret_cast<VabBodyRecord*>(vbFileData.data()), static_cast<s16>(pSoundBlockInfo.mVabId));
 
     SsVabTransCompleted_4FE060(SS_WAIT_COMPLETED);
 
-    // Now the sound samples are loaded we don't need the VB data anymore
-    GetMidiVars()->FreeResource(ppVabBody);
     return 1;
 }
 
@@ -292,13 +223,10 @@ void SND_Shutdown()
 {
     SND_Reset();
 
-    if (GetMidiVars()->sMonkVh_Vb().field_8_vab_id >= 0)
+    if (GetMidiVars()->sMonkVh_Vb().mVabId >= 0)
     {
-        GetMidiVars()->FreeResource_Impl(GetMidiVars()->sMonkVh_Vb().field_C_pVabHeader);
-        GetMidiVars()->sMonkVh_Vb().field_C_pVabHeader = nullptr;
-
-        SsVabClose_4FC5B0(GetMidiVars()->sMonkVh_Vb().field_8_vab_id);
-        GetMidiVars()->sMonkVh_Vb().field_8_vab_id = -1;
+        SsVabClose_4FC5B0(GetMidiVars()->sMonkVh_Vb().mVabId);
+        GetMidiVars()->sMonkVh_Vb().mVabId = -1;
     }
 
     SsSetMVol_4FC360(0, 0);
@@ -315,29 +243,24 @@ void SND_Shutdown()
 }
 
 
-void SND_Load_VABS(SoundBlockInfo* pSoundBlockInfo, s32 reverb)
+void SND_Load_VABS(PathSoundInfo& info, s32 reverb)
 {
-    SoundBlockInfo* pSoundBlockInfoIter = pSoundBlockInfo;
     GetMidiVars()->sSnd_ReloadAbeResources() = FALSE;
-    if (GetMidiVars()->sLastLoadedSoundBlockInfo() != pSoundBlockInfo)
+    if (GetMidiVars()->sLastLoadedSoundBlockInfo() != &info)
     {
         SsUtReverbOff_4FE350();
         SsUtSetReverbDepth_4FE380(0, 0);
         SpuClearReverbWorkArea_4FA690(4);
 
-        if (GetMidiVars()->sMonkVh_Vb().field_8_vab_id < 0)
+        if (GetMidiVars()->sMonkVh_Vb().mVabId < 0)
         {
-            SND_VAB_Load_4C9FE0(&GetMidiVars()->sMonkVh_Vb(), 32);
+            // TODO: Fix me
+            SND_VAB_Load_4C9FE0(GetMidiVars()->sMonkVh_Vb());
         }
 
-        GetMidiVars()->sLastLoadedSoundBlockInfo() = pSoundBlockInfo;
+        GetMidiVars()->sLastLoadedSoundBlockInfo() = &info;
 
-        s16 vabId = 0;
-        while (SND_VAB_Load_4C9FE0(pSoundBlockInfoIter, vabId))
-        {
-            ++vabId;
-            ++pSoundBlockInfoIter;
-        }
+        SND_VAB_Load_4C9FE0(info);
 
         // Put abes resources back if we had to unload them to fit the VB in memory
         if (GetMidiVars()->sSnd_ReloadAbeResources())
@@ -380,7 +303,7 @@ s32 SFX_SfxDefinition_Play_Mono(const relive::SfxDefinition& sfxDef, s32 volume,
 
     // Note: Inlined in psx
     auto midiHandle = MIDI_Play_Single_Note_4CA1B0(
-        sfxDef.field_4_program | (GetMidiVars()->sLastLoadedSoundBlockInfo()[sfxDef.field_0_block_idx].field_8_vab_id << 8),
+        sfxDef.field_4_program | (GetMidiVars()->sLastLoadedSoundBlockInfo()[sfxDef.field_0_block_idx].mVabId << 8),
         sfxDef.field_8_note << 8,
         volume,
         volume);
@@ -510,7 +433,7 @@ s32 SFX_SfxDefinition_Play_Stereo(const relive::SfxDefinition& sfxDef, s16 volLe
 
     // Note: Inlined in psx
     auto midiHandle = MIDI_Play_Single_Note_4CA1B0(
-        sfxDef.field_4_program | (GetMidiVars()->sLastLoadedSoundBlockInfo()[sfxDef.field_0_block_idx].field_8_vab_id << 8),
+        sfxDef.field_4_program | (GetMidiVars()->sLastLoadedSoundBlockInfo()[sfxDef.field_0_block_idx].mVabId << 8),
         sfxDef.field_8_note << 8,
         volLeft,
         volRight);
@@ -581,7 +504,7 @@ void SND_Seq_Stop_4CA8E0()
 s16 SND_SEQ_PlaySeq(u16 idx, s16 repeatCount, s16 bDontStop)
 {
     OpenSeqHandle& rec = GetMidiVars()->sSeqDataTable()[idx];
-    if (!rec.field_C_ppSeq_Data)
+    if (rec.field_C_ppSeq_Data.empty())
     {
         return 0;
     }
@@ -598,8 +521,8 @@ s16 SND_SEQ_PlaySeq(u16 idx, s16 repeatCount, s16 bDontStop)
             }
         }
 
-        const s32 vabId = GetMidiVars()->sLastLoadedSoundBlockInfo()[rec.field_8_sound_block_idx].field_8_vab_id;
-        rec.field_A_id_seqOpenId = SsSeqOpen_4FD6D0(rec.field_C_ppSeq_Data, static_cast<s16>(vabId));
+        const s32 vabId = GetMidiVars()->sLastLoadedSoundBlockInfo()[rec.field_8_sound_block_idx].mVabId;
+        rec.field_A_id_seqOpenId = SsSeqOpen_4FD6D0(rec.field_C_ppSeq_Data.data(), static_cast<s16>(vabId));
 
         GetMidiVars()->sSeq_Ids_word().ids[rec.field_A_id_seqOpenId] = idx;
         GetMidiVars()->sSeqsPlaying_count_word()++;
@@ -644,7 +567,7 @@ s16 SND_SEQ_PlaySeq(u16 idx, s16 repeatCount, s16 bDontStop)
 s16 SND_SEQ_Play(u16 idx, s16 repeatCount, s16 volLeft, s16 volRight)
 {
     OpenSeqHandle& rec = GetMidiVars()->sSeqDataTable()[idx];
-    if (!rec.field_C_ppSeq_Data)
+    if (rec.field_C_ppSeq_Data.empty())
     {
         return 0;
     }
@@ -666,8 +589,8 @@ s16 SND_SEQ_Play(u16 idx, s16 repeatCount, s16 volLeft, s16 volRight)
         }
 
         // Open the SEQ
-        const s16 vabId = static_cast<s16>(GetMidiVars()->sLastLoadedSoundBlockInfo()[rec.field_8_sound_block_idx].field_8_vab_id);
-        rec.field_A_id_seqOpenId = SsSeqOpen_4FD6D0(rec.field_C_ppSeq_Data, vabId);
+        const s16 vabId = static_cast<s16>(GetMidiVars()->sLastLoadedSoundBlockInfo()[rec.field_8_sound_block_idx].mVabId);
+        rec.field_A_id_seqOpenId = SsSeqOpen_4FD6D0(rec.field_C_ppSeq_Data.data(), vabId);
 
         // Index into the IDS via the seq ID and map it to the index
         GetMidiVars()->sSeq_Ids_word().ids[rec.field_A_id_seqOpenId] = idx;
@@ -726,7 +649,7 @@ s16 SND_SEQ_Play(u16 idx, s16 repeatCount, s16 volLeft, s16 volRight)
 s32 SND_SsIsEos_DeInlined(u16 idx)
 {
     OpenSeqHandle* pRec = &GetMidiVars()->sSeqDataTable()[idx];
-    if (pRec->field_A_id_seqOpenId != -1 && pRec->field_C_ppSeq_Data)
+    if (pRec->field_A_id_seqOpenId != -1 && !pRec->field_C_ppSeq_Data.empty())
     {
         return SsIsEos_4FDA80(pRec->field_A_id_seqOpenId, 0) != 0;
     }
@@ -738,7 +661,7 @@ void SND_SEQ_SetVol(s32 idx, s16 volLeft, s16 volRight)
 {
     u16 limitedIdx = idx & 0xFFFF;
     if (GetMidiVars()->sSeqDataTable()[limitedIdx].field_A_id_seqOpenId != -1
-        && GetMidiVars()->sSeqDataTable()[limitedIdx].field_C_ppSeq_Data
+        && !GetMidiVars()->sSeqDataTable()[limitedIdx].field_C_ppSeq_Data.empty()
         && SND_SsIsEos_DeInlined(limitedIdx))
     {
         SsSeqSetVol_4FDAC0(GetMidiVars()->sSeqDataTable()[limitedIdx].field_A_id_seqOpenId, volLeft, volRight);
@@ -748,7 +671,7 @@ void SND_SEQ_SetVol(s32 idx, s16 volLeft, s16 volRight)
 
 void SND_SEQ_Stop(u16 idx)
 {
-    if (GetMidiVars()->sSeqDataTable()[idx].field_A_id_seqOpenId != -1 && GetMidiVars()->sSeqDataTable()[idx].field_C_ppSeq_Data)
+    if (GetMidiVars()->sSeqDataTable()[idx].field_A_id_seqOpenId != -1 && !GetMidiVars()->sSeqDataTable()[idx].field_C_ppSeq_Data.empty())
     {
         if (SsIsEos_4FDA80(GetMidiVars()->sSeqDataTable()[idx].field_A_id_seqOpenId, 0))
         {
@@ -757,9 +680,22 @@ void SND_SEQ_Stop(u16 idx)
     }
 }
 
-void SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, const char_type* bsqFileName)
+static u32 GetTableIdxForName(const char_type* pName)
 {
-    if (pSeqTable && bsqFileName)
+    for (s32 i = 0; i < GetMidiVars()->MidiTableSize(); i++)
+    {
+        auto curName = GetMidiVars()->sSeqDataTable()[i].field_0_mBsqName;
+        if (strcmp(curName, pName) == 0)
+        {
+            return i;
+        }
+    }
+    ALIVE_FATAL("Couldn't find seq name in the table");
+}
+
+void SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, PathSoundInfo& info)
+{
+    if (pSeqTable)
     {
         GetMidiVars()->sSeqDataTable() = pSeqTable;
 
@@ -768,34 +704,27 @@ void SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, const char_type* bsqFileName)
         {
             for (s32 i = 0; i < GetMidiVars()->MidiTableSize(); i++)
             {
-                GetMidiVars()->sSeqDataTable()[i].field_C_ppSeq_Data = nullptr;
+                GetMidiVars()->sSeqDataTable()[i].field_C_ppSeq_Data.clear();
                 GetMidiVars()->sSeqDataTable()[i].field_A_id_seqOpenId = -1;
                 GetMidiVars()->sSeqDataTable()[i].field_4_generated_res_id = ResourceManager::SEQ_HashName_49BE30(GetMidiVars()->sSeqDataTable()[i].field_0_mBsqName);
             }
             GetMidiVars()->sNeedToHashSeqNames() = FALSE;
         }
 
-        // Load the BSQ
         GetMidiVars()->Reclaim_Memory(0);
-        GetMidiVars()->LoadResourceFile(bsqFileName, nullptr);
 
         // Get a pointer to each SEQ
-        for (s32 i = 0; i < GetMidiVars()->MidiTableSize(); i++)
+        for (const auto& seqName : info.mSeqFiles)
         {
-            u8** ppSeq = GetMidiVars()->GetLoadedResource(ResourceManager::Resource_Seq, GetMidiVars()->sSeqDataTable()[i].field_4_generated_res_id, 1, 1);
-            if (ppSeq)
-            {
-                GetMidiVars()->sSeqDataTable()[i].field_C_ppSeq_Data = *ppSeq;
-            }
-            else
-            {
-                GetMidiVars()->sSeqDataTable()[i].field_C_ppSeq_Data = nullptr;
-            }
+            auto buffer = ResourceManagerWrapper::LoadFile(seqName.c_str(), GetMap().mNextLevel);
+
+            // We have to insert into the table at the position that matches the file name
+            GetMidiVars()->sSeqDataTable()[GetTableIdxForName(seqName.c_str())].field_C_ppSeq_Data = buffer;
         }
     }
 }
 
-void SND_Load_Seqs(OpenSeqHandle* pSeqTable, const char_type* bsqFileName)
+void SND_Load_Seqs(OpenSeqHandle* pSeqTable, PathSoundInfo& bsqFileName)
 {
     SND_Load_Seqs_Impl(pSeqTable, bsqFileName);
 }

@@ -138,6 +138,11 @@ public:
 private:
     void ReadBytes(u8* buffer, std::size_t len)
     {
+        if (len == 0)
+        {
+            return;
+        }
+
         if (mReadPos + len > mData.size())
         {
             throw ReliveAPI::IOReadPastEOFException();

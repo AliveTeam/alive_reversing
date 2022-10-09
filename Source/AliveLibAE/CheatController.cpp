@@ -60,15 +60,11 @@ void CheatController_Cheat_PathSkip_421B30()
     DestroyObjects_4A1F20();
     ResourceManager::Reclaim_Memory_49C470(0);
     sprintf(nameBuffer, "NXTP%04d.SAV", sActiveQuicksaveData.field_204_world_info.mSaveFileId);
-    ResourceManager::LoadResourceFile_49C170(nameBuffer, 0);
-    u8** resource = ResourceManager::GetLoadedResource(ResourceManager::Resource_NxtP, AEResourceID::kUnknownResID_0, 1u, 0);
-    if (resource)
-    {
-        memcpy(&sActiveQuicksaveData, *resource, sizeof(sActiveQuicksaveData));
-        ResourceManager::FreeResource_49C330(resource);
-        sActiveQuicksaveData.field_200_accumulated_obj_count = 1024;
-        Quicksave_LoadActive();
-    }
+    auto res = ResourceManagerWrapper::LoadFile(nameBuffer, GetMap().mCurrentLevel);
+
+    memcpy(&sActiveQuicksaveData, res.data(), sizeof(sActiveQuicksaveData));
+    sActiveQuicksaveData.field_200_accumulated_obj_count = 1024;
+    Quicksave_LoadActive();
 }
 
 CheatEntry sCheatArray_5515F8[] = {

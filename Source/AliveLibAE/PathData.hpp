@@ -115,7 +115,7 @@ struct OpenSeqHandle final
     s8 field_8_sound_block_idx;
     s8 field_9_volume;
     s16 field_A_id_seqOpenId;
-    u8* field_C_ppSeq_Data;
+    std::vector<u8> field_C_ppSeq_Data;
 };
 ALIVE_ASSERT_SIZEOF(OpenSeqHandle, 0x10);
 

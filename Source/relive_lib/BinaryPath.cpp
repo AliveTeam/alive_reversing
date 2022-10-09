@@ -4,6 +4,13 @@
 #include "../AliveLibAO/Path.hpp"
 #include "nlohmann/json.hpp"
 
+static void from_json(const nlohmann::json& j, PathSoundInfo& s)
+{
+    j.at("vh_file").get_to(s.mVhFile);
+    j.at("vb_file").get_to(s.mVbFile);
+    j.at("seq_files").get_to(s.mSeqFiles);
+}
+
 void BinaryPath::CreateFromJson(nlohmann::json& pathJson)
 {
     // TODO: Do a pass to collect the total required buffer size
@@ -552,6 +559,8 @@ void BinaryPath::CreateFromJson(nlohmann::json& pathJson)
         }
         mCameras.emplace_back(std::move(camEntry));
     }
+
+    from_json(pathJson["sound_info"], mSoundInfo);
 }
 
 relive::Path_TLV* BinaryPath::TlvsById(const Guid& id)

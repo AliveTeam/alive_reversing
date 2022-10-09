@@ -6,6 +6,8 @@
 struct SoundBlockInfo;
 struct OpenSeqHandle;
 
+struct PathSoundInfo;
+
 namespace relive {
 struct SfxDefinition;
 }
@@ -26,10 +28,10 @@ public:
     virtual u16& sSnd_ReloadAbeResources() = 0;
     virtual OpenSeqHandle*& sSeqDataTable() = 0;
     virtual s16& sSeqsPlaying_count_word() = 0;
-    virtual SoundBlockInfo*& sLastLoadedSoundBlockInfo() = 0;
+    virtual PathSoundInfo*& sLastLoadedSoundBlockInfo() = 0;
     virtual s16& sSFXPitchVariationEnabled() = 0;
     virtual s16& sNeedToHashSeqNames() = 0;
-    virtual SoundBlockInfo& sMonkVh_Vb() = 0;
+    virtual PathSoundInfo& sMonkVh_Vb() = 0;
     virtual s32 MidiTableSize() = 0;
 
     // Res manager wrapper
@@ -59,7 +61,7 @@ void SND_StopAll_SetCallBack(TSNDStopAll cb);
 void SND_Restart_SetCallBack(TSNDRestart cb);
 
 
-void SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, const char_type* bsqFileName);
+void SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, PathSoundInfo& info);
 
 void SND_Stop_All_Seqs();
 
@@ -68,8 +70,8 @@ void SND_Init();
 void SND_Shutdown();
 void SND_Stop_Channels_Mask(u32 bitMask);
 void SND_Reset();
-void SND_Load_VABS(SoundBlockInfo* pSoundBlockInfo, s32 reverb);
-void SND_Load_Seqs(OpenSeqHandle* pSeqTable, const char_type* bsqFileName);
+void SND_Load_VABS(PathSoundInfo& info, s32 reverb);
+void SND_Load_Seqs(OpenSeqHandle* pSeqTable, PathSoundInfo& bsqFileName);
 void SND_SEQ_Stop(u16 idx);
 s8 SND_Seq_Table_Valid();
 s16 SND_SEQ_PlaySeq(u16 idx, s16 repeatCount, s16 bDontStop);

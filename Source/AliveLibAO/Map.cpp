@@ -44,255 +44,172 @@ void Map_ForceLink()
 
 ALIVE_VAR(1, 0x507C98, Camera*, sCameraBeingLoaded_507C98, nullptr);
 
-const OverlayRecords kOverlays = {
-    {{"\\S1.OVL;1", 5205u},
-     {"\\S1.LVL;1", 5207u},
-     {"\\S1.MOV;1", 6228u},
-     {"\\R1.OVL;1", 46992u},
-     {"\\R1.LVL;1", 47042u},
-     {"\\R1.MOV;1", 50938u},
-     {"\\E1.OVL;1", 109292u},
-     {"\\E1.LVL;1", 109358u},
-     {"\\E3.OVL;1", 109292u},
-     {"\\E4.OVL;1", 109292u},
-     {"\\E1.MOV;1", 112254u},
-     {"\\L1.OVL;1", 113848u},
-     {"\\L1.LVL;1", 113913u},
-     {"\\L2.OVL;1", 113848u},
-     {"\\L1.MOV;1", 116902u},
-     {"\\F1.OVL;1", 123206u},
-     {"\\F1.LVL;1", 123267u},
-     {"\\F1.MOV;1", 126488u},
-     {"\\F2.OVL;1", 140523u},
-     {"\\F2.LVL;1", 140605u},
-     {"\\F3.OVL;1", 140523u},
-     {"\\F2.MOV;1", 143702u},
-     {"\\F4.OVL;1", 140523u},
-     {"\\F4.LVL;1", 140523u},
-     {"\\D1.OVL;1", 149982u},
-     {"\\D1.LVL;1", 150044u},
-     {"\\D3.OVL;1", 149982u},
-     {"\\D5.OVL;1", 149982u},
-     {"\\D6.OVL;1", 149982u},
-     {"\\D1.MOV;1", 153189u},
-     {"\\D2.OVL;1", 164493u},
-     {"\\D2.LVL;1", 164554u},
-     {"\\D4.OVL;1", 164493u},
-     {"\\D2.MOV;1", 167451u},
-     {"\\D7.OVL;1", 164493u},
-     {"\\D7.LVL;1", 164493u},
-     {"\\E2.OVL;1", 174640u},
-     {"\\E2.LVL;1", 174685u},
-     {"\\E2.MOV;1", 177186u},
-     {"\\R2.OVL;1", 178780u},
-     {"\\R2.LVL;1", 178850u},
-     {"\\R3.OVL;1", 178780u},
-     {"\\R4.OVL;1", 178780u},
-     {"\\R5.OVL;1", 178780u},
-     {"\\R7.OVL;1", 178780u},
-     {"\\R8.OVL;1", 178780u},
-     {"\\R9.OVL;1", 178780u},
-     {"\\RA.OVL;1", 178780u},
-     {"\\R2.MOV;1", 182667u},
-     {"\\R6.OVL;1", 178780u},
-     {"\\R6.LVL;1", 178780u},
-     {"\\C1.OVL;1", 178780u},
-     {"\\C1.LVL;1", 178850u},
-     {"\\C1.MOV;1", 182667u}}};
-
-ALIVE_VAR(1, 0x4C5AA8, OverlayRecords, sOverlayTable_4C5AA8, kOverlays);
-
-
-struct OpenSeqHandleAO final
-{
-    const s8* field_0_mBsqName;
-    s32 field_4_generated_res_id;
-    s16 field_8_sound_block_idx;
-    s16 field_9_volume;
-    u8* field_C_ppSeq_Data;
-    s16 field_A_id_seqOpenId;
-};
-ALIVE_ASSERT_SIZEOF(OpenSeqHandleAO, 0x14);
-
-struct OpenSeqHandleAE final // Same as ::OpenSeqHandle
-{
-    const char_type* field_0_mBsqName;
-    s32 field_4_generated_res_id; // A hash of the named which matches the resource Id
-    s8 field_8_sound_block_idx;
-    s8 field_9_volume;
-    s16 field_A_id_seqOpenId;
-    u8* field_C_ppSeq_Data;
-};
-ALIVE_ASSERT_SIZEOF(OpenSeqHandleAE, 0x10);
-
-// WARNING: The AO and AE OpenSeqHandle are not memory layout compatible
-// since we use the AE funcs for sound we must use the AE definition here
-OpenSeqHandleAE g_SeqTable_4C9E70[165] = {
-    {"D1AMB.SEQ", 0, 0, 100, -1, nullptr},
-    {"D2AMB.SEQ", 0, 0, 100, -1, nullptr},
-    {"E1AMB.SEQ", 0, 0, 60, -1, nullptr},
-    {"E2AMB.SEQ", 0, 0, 60, -1, nullptr},
-    {"E2AMB2.SEQ", 0, 0, 60, -1, nullptr},
-    {"F1AMB.SEQ", 0, 0, 60, -1, nullptr},
-    {"F2AMB.SEQ", 0, 0, 100, -1, nullptr},
-    {"MLAMB.SEQ", 0, 0, 60, -1, nullptr},
-    {"RFAMB.SEQ", 0, 0, 70, -1, nullptr},
-    {"OPTAMB.SEQ", 0, 0, 100, -1, nullptr},
-    {"GUN.SEQ", 0, 0, 40, -1, nullptr},
-    {"OHM.SEQ", 0, 0, 80, -1, nullptr},
-    {"MUDOHM.SEQ", 0, 0, 80, -1, nullptr},
-    {"EBELL2.SEQ", 0, 0, 127, -1, nullptr},
-    {"ABEMOUNT.SEQ", 0, 0, 85, -1, nullptr},
-    {"ESCRATCH.SEQ", 0, 0, 45, -1, nullptr},
-    {"SSCRATCH.SEQ", 0, 0, 55, -1, nullptr},
-    {"PANTING.SEQ", 0, 0, 45, -1, nullptr},
-    {"BATSQUEK.SEQ", 0, 0, 55, -1, nullptr},
-    {"WHISTLE1.SEQ", 0, 0, 127, -1, nullptr},
-    {"WHISTLE2.SEQ", 0, 0, 127, -1, nullptr},
-    {"SLIGBOMB.SEQ", 0, 0, 127, -1, nullptr},
-    {"SLIGBOM2.SEQ", 0, 0, 127, -1, nullptr},
-    {"OOPS.SEQ", 0, 0, 40, -1, nullptr},
-    {"PIGEONS.SEQ", 0, 0, 40, -1, nullptr},
-    {"CHIPPER.SEQ", 0, 0, 90, -1, nullptr},
-    {"PATROL.SEQ", 0, 0, 60, -1, nullptr},
-    {"SLEEPING.SEQ", 0, 0, 60, -1, nullptr},
-    {"ONCHAIN.SEQ", 0, 0, 60, -1, nullptr},
-    {"SLOSLEEP.SEQ", 0, 0, 60, -1, nullptr},
-    {"PARAPANT.SEQ", 0, 0, 35, -1, nullptr},
-    {"GRINDER.SEQ", 0, 0, 35, -1, nullptr},
-    {"BASICTRK.SEQ", 0, 0, 90, -1, nullptr},
-    {"LE_LO_1.SEQ", 0, 0, 127, -1, nullptr},
-    {"LE_LO_2.SEQ", 0, 0, 127, -1, nullptr},
-    {"LE_LO_3.SEQ", 0, 0, 127, -1, nullptr},
-    {"LE_LO_4.SEQ", 0, 0, 127, -1, nullptr},
-    {"LE_SH_1.SEQ", 0, 0, 127, -1, nullptr},
-    {"LE_SH_2.SEQ", 0, 0, 127, -1, nullptr},
-    {"LE_SH_3.SEQ", 0, 0, 127, -1, nullptr},
-    {"LE_SH_4.SEQ", 0, 0, 127, -1, nullptr},
-    {"MYSTERY1.SEQ", 0, 0, 60, -1, nullptr},
-    {"MYSTERY2.SEQ", 0, 0, 60, -1, nullptr},
-    {"NEGATIV1.SEQ", 0, 0, 60, -1, nullptr},
-    {"NEGATIV3.SEQ", 0, 0, 60, -1, nullptr},
-    {"POSITIV1.SEQ", 0, 0, 60, -1, nullptr},
-    {"POSITIV9.SEQ", 0, 0, 60, -1, nullptr},
-    {"D1_0_1.SEQ", 0, 0, 60, -1, nullptr},
-    {"D1_0_2.SEQ", 0, 0, 60, -1, nullptr},
-    {"D1_0_3.SEQ", 0, 0, 60, -1, nullptr},
-    {"D1_1_1.SEQ", 0, 0, 60, -1, nullptr},
-    {"D1_1_2.SEQ", 0, 0, 60, -1, nullptr},
-    {"D1_1_3.SEQ", 0, 0, 60, -1, nullptr},
-    {"D1_1_4.SEQ", 0, 0, 60, -1, nullptr},
-    {"D1_1_5.SEQ", 0, 0, 60, -1, nullptr},
-    {"D1_2_1.SEQ", 0, 0, 60, -1, nullptr},
-    {"D1_2_2.SEQ", 0, 0, 60, -1, nullptr},
-    {"D1_2_3.SEQ", 0, 0, 60, -1, nullptr},
-    {"D1_2_4.SEQ", 0, 0, 60, -1, nullptr},
-    {"D1_2_5.SEQ", 0, 0, 60, -1, nullptr},
-    {"D1_3_1.SEQ", 0, 0, 60, -1, nullptr},
-    {"D1_4_1.SEQ", 0, 0, 60, -1, nullptr},
-    {"D1_5_1.SEQ", 0, 0, 60, -1, nullptr},
-    {"D1_6_1.SEQ", 0, 0, 60, -1, nullptr},
-    {"D2_0_1.SEQ", 0, 0, 60, -1, nullptr},
-    {"D2_0_2.SEQ", 0, 0, 60, -1, nullptr},
-    {"D2_1_1.SEQ", 0, 0, 60, -1, nullptr},
-    {"D2_1_2.SEQ", 0, 0, 60, -1, nullptr},
-    {"D2_2_1.SEQ", 0, 0, 60, -1, nullptr},
-    {"D2_2_2.SEQ", 0, 0, 60, -1, nullptr},
-    {"D2_4_1.SEQ", 0, 0, 60, -1, nullptr},
-    {"D2_5_1.SEQ", 0, 0, 60, -1, nullptr},
-    {"D2_6_1.SEQ", 0, 0, 60, -1, nullptr},
-    {"DE_2_1.SEQ", 0, 0, 90, -1, nullptr},
-    {"DE_4_1.SEQ", 0, 0, 90, -1, nullptr},
-    {"DE_5_1.SEQ", 0, 0, 90, -1, nullptr},
-    {"E1_0_1.SEQ", 0, 0, 60, -1, nullptr},
-    {"E1_0_2.SEQ", 0, 0, 60, -1, nullptr},
-    {"E1_0_3.SEQ", 0, 0, 60, -1, nullptr},
-    {"E1_0_4.SEQ", 0, 0, 60, -1, nullptr},
-    {"E1_0_5.SEQ", 0, 0, 60, -1, nullptr},
-    {"E1_1_1.SEQ", 0, 0, 60, -1, nullptr},
-    {"E1_1_2.SEQ", 0, 0, 60, -1, nullptr},
-    {"E1_1_3.SEQ", 0, 0, 60, -1, nullptr},
-    {"E1_1_4.SEQ", 0, 0, 90, -1, nullptr},
-    {"E1_1_5.SEQ", 0, 0, 90, -1, nullptr},
-    {"E1_4_1.SEQ", 0, 0, 90, -1, nullptr},
-    {"E1_5_1.SEQ", 0, 0, 90, -1, nullptr},
-    {"E1_6_1.SEQ", 0, 0, 90, -1, nullptr},
-    {"F1_0_1.SEQ", 0, 0, 90, -1, nullptr},
-    {"F1_0_2.SEQ", 0, 0, 90, -1, nullptr},
-    {"F1_0_3.SEQ", 0, 0, 90, -1, nullptr},
-    {"F1_1_1.SEQ", 0, 0, 90, -1, nullptr},
-    {"F1_1_2.SEQ", 0, 0, 90, -1, nullptr},
-    {"F1_1_3.SEQ", 0, 0, 90, -1, nullptr},
-    {"F1_2_1.SEQ", 0, 0, 90, -1, nullptr},
-    {"F1_2_2.SEQ", 0, 0, 90, -1, nullptr},
-    {"F1_2_3.SEQ", 0, 0, 90, -1, nullptr},
-    {"F1_2_4.SEQ", 0, 0, 90, -1, nullptr},
-    {"F1_3_1.SEQ", 0, 0, 90, -1, nullptr},
-    {"F1_4_1.SEQ", 0, 0, 90, -1, nullptr},
-    {"F1_5_1.SEQ", 0, 0, 90, -1, nullptr},
-    {"F1_6_1.SEQ", 0, 0, 90, -1, nullptr},
-    {"F2_0_1.SEQ", 0, 0, 90, -1, nullptr},
-    {"F2_1_1.SEQ", 0, 0, 90, -1, nullptr},
-    {"F2_2_1.SEQ", 0, 0, 90, -1, nullptr},
-    {"F2_4_1.SEQ", 0, 0, 90, -1, nullptr},
-    {"F2_5_1.SEQ", 0, 0, 90, -1, nullptr},
-    {"F2_6_1.SEQ", 0, 0, 90, -1, nullptr},
-    {"FE_2_1.SEQ", 0, 0, 90, -1, nullptr},
-    {"FE_4_1.SEQ", 0, 0, 90, -1, nullptr},
-    {"FE_5_1.SEQ", 0, 0, 90, -1, nullptr},
-    {"ML_0_1.SEQ", 0, 0, 90, -1, nullptr},
-    {"ML_0_2.SEQ", 0, 0, 90, -1, nullptr},
-    {"ML_0_3.SEQ", 0, 0, 90, -1, nullptr},
-    {"ML_0_4.SEQ", 0, 0, 90, -1, nullptr},
-    {"ML_0_5.SEQ", 0, 0, 90, -1, nullptr},
-    {"ML_1_1.SEQ", 0, 0, 90, -1, nullptr},
-    {"ML_1_2.SEQ", 0, 0, 90, -1, nullptr},
-    {"ML_1_3.SEQ", 0, 0, 90, -1, nullptr},
-    {"ML_1_4.SEQ", 0, 0, 90, -1, nullptr},
-    {"ML_1_5.SEQ", 0, 0, 90, -1, nullptr},
-    {"ML_2_1.SEQ", 0, 0, 90, -1, nullptr},
-    {"ML_2_2.SEQ", 0, 0, 90, -1, nullptr},
-    {"ML_2_3.SEQ", 0, 0, 90, -1, nullptr},
-    {"ML_2_4.SEQ", 0, 0, 90, -1, nullptr},
-    {"ML_2_5.SEQ", 0, 0, 90, -1, nullptr},
-    {"ML_3_1.SEQ", 0, 0, 90, -1, nullptr},
-    {"ML_4_1.SEQ", 0, 0, 90, -1, nullptr},
-    {"ML_5_1.SEQ", 0, 0, 90, -1, nullptr},
-    {"ML_6_1.SEQ", 0, 0, 90, -1, nullptr},
-    {"RF_0_1.SEQ", 0, 0, 90, -1, nullptr},
-    {"RF_0_2.SEQ", 0, 0, 90, -1, nullptr},
-    {"RF_0_3.SEQ", 0, 0, 90, -1, nullptr},
-    {"RF_0_4.SEQ", 0, 0, 90, -1, nullptr},
-    {"RF_1_1.SEQ", 0, 0, 90, -1, nullptr},
-    {"RF_1_2.SEQ", 0, 0, 90, -1, nullptr},
-    {"RF_1_3.SEQ", 0, 0, 90, -1, nullptr},
-    {"RF_2_1.SEQ", 0, 0, 90, -1, nullptr},
-    {"RF_2_2.SEQ", 0, 0, 90, -1, nullptr},
-    {"RF_2_3.SEQ", 0, 0, 90, -1, nullptr},
-    {"RF_2_4.SEQ", 0, 0, 90, -1, nullptr},
-    {"RF_4_1.SEQ", 0, 0, 90, -1, nullptr},
-    {"RF_5_1.SEQ", 0, 0, 90, -1, nullptr},
-    {"RF_6_1.SEQ", 0, 0, 90, -1, nullptr},
-    {"RE_2_1.SEQ", 0, 0, 90, -1, nullptr},
-    {"RE_4_1.SEQ", 0, 0, 90, -1, nullptr},
-    {"RE_5_1.SEQ", 0, 0, 90, -1, nullptr},
-    {"OPT_0_1.SEQ", 0, 0, 60, -1, nullptr},
-    {"OPT_0_2.SEQ", 0, 0, 60, -1, nullptr},
-    {"OPT_0_3.SEQ", 0, 0, 60, -1, nullptr},
-    {"OPT_0_4.SEQ", 0, 0, 60, -1, nullptr},
-    {"OPT_0_5.SEQ", 0, 0, 60, -1, nullptr},
-    {"OPT_1_1.SEQ", 0, 0, 60, -1, nullptr},
-    {"OPT_1_2.SEQ", 0, 0, 60, -1, nullptr},
-    {"OPT_1_3.SEQ", 0, 0, 60, -1, nullptr},
-    {"OPT_1_4.SEQ", 0, 0, 90, -1, nullptr},
-    {"OPT_1_5.SEQ", 0, 0, 90, -1, nullptr},
-    {"ALL_4_1.SEQ", 0, 0, 90, -1, nullptr},
-    {"ALL_5_1.SEQ", 0, 0, 90, -1, nullptr},
-    {"ALL_5_2.SEQ", 0, 0, 90, -1, nullptr},
-    {"ALL_5_3.SEQ", 0, 0, 90, -1, nullptr},
-    {"ALL_7_1.SEQ", 0, 0, 90, -1, nullptr},
-    {"ALL_8_1.SEQ", 0, 0, 90, -1, nullptr},
-    {nullptr, 0, 0, 0, 0, nullptr}};
+OpenSeqHandle g_SeqTable_4C9E70[165] = {
+    {"D1AMB.SEQ", 0, 0, 100, -1, {}},
+    {"D2AMB.SEQ", 0, 0, 100, -1, {}},
+    {"E1AMB.SEQ", 0, 0, 60, -1, {}},
+    {"E2AMB.SEQ", 0, 0, 60, -1, {}},
+    {"E2AMB2.SEQ", 0, 0, 60, -1, {}},
+    {"F1AMB.SEQ", 0, 0, 60, -1, {}},
+    {"F2AMB.SEQ", 0, 0, 100, -1, {}},
+    {"MLAMB.SEQ", 0, 0, 60, -1, {}},
+    {"RFAMB.SEQ", 0, 0, 70, -1, {}},
+    {"OPTAMB.SEQ", 0, 0, 100, -1, {}},
+    {"GUN.SEQ", 0, 0, 40, -1, {}},
+    {"OHM.SEQ", 0, 0, 80, -1, {}},
+    {"MUDOHM.SEQ", 0, 0, 80, -1, {}},
+    {"EBELL2.SEQ", 0, 0, 127, -1, {}},
+    {"ABEMOUNT.SEQ", 0, 0, 85, -1, {}},
+    {"ESCRATCH.SEQ", 0, 0, 45, -1, {}},
+    {"SSCRATCH.SEQ", 0, 0, 55, -1, {}},
+    {"PANTING.SEQ", 0, 0, 45, -1, {}},
+    {"BATSQUEK.SEQ", 0, 0, 55, -1, {}},
+    {"WHISTLE1.SEQ", 0, 0, 127, -1, {}},
+    {"WHISTLE2.SEQ", 0, 0, 127, -1, {}},
+    {"SLIGBOMB.SEQ", 0, 0, 127, -1, {}},
+    {"SLIGBOM2.SEQ", 0, 0, 127, -1, {}},
+    {"OOPS.SEQ", 0, 0, 40, -1, {}},
+    {"PIGEONS.SEQ", 0, 0, 40, -1, {}},
+    {"CHIPPER.SEQ", 0, 0, 90, -1, {}},
+    {"PATROL.SEQ", 0, 0, 60, -1, {}},
+    {"SLEEPING.SEQ", 0, 0, 60, -1, {}},
+    {"ONCHAIN.SEQ", 0, 0, 60, -1, {}},
+    {"SLOSLEEP.SEQ", 0, 0, 60, -1, {}},
+    {"PARAPANT.SEQ", 0, 0, 35, -1, {}},
+    {"GRINDER.SEQ", 0, 0, 35, -1, {}},
+    {"BASICTRK.SEQ", 0, 0, 90, -1, {}},
+    {"LE_LO_1.SEQ", 0, 0, 127, -1, {}},
+    {"LE_LO_2.SEQ", 0, 0, 127, -1, {}},
+    {"LE_LO_3.SEQ", 0, 0, 127, -1, {}},
+    {"LE_LO_4.SEQ", 0, 0, 127, -1, {}},
+    {"LE_SH_1.SEQ", 0, 0, 127, -1, {}},
+    {"LE_SH_2.SEQ", 0, 0, 127, -1, {}},
+    {"LE_SH_3.SEQ", 0, 0, 127, -1, {}},
+    {"LE_SH_4.SEQ", 0, 0, 127, -1, {}},
+    {"MYSTERY1.SEQ", 0, 0, 60, -1, {}},
+    {"MYSTERY2.SEQ", 0, 0, 60, -1, {}},
+    {"NEGATIV1.SEQ", 0, 0, 60, -1, {}},
+    {"NEGATIV3.SEQ", 0, 0, 60, -1, {}},
+    {"POSITIV1.SEQ", 0, 0, 60, -1, {}},
+    {"POSITIV9.SEQ", 0, 0, 60, -1, {}},
+    {"D1_0_1.SEQ", 0, 0, 60, -1, {}},
+    {"D1_0_2.SEQ", 0, 0, 60, -1, {}},
+    {"D1_0_3.SEQ", 0, 0, 60, -1, {}},
+    {"D1_1_1.SEQ", 0, 0, 60, -1, {}},
+    {"D1_1_2.SEQ", 0, 0, 60, -1, {}},
+    {"D1_1_3.SEQ", 0, 0, 60, -1, {}},
+    {"D1_1_4.SEQ", 0, 0, 60, -1, {}},
+    {"D1_1_5.SEQ", 0, 0, 60, -1, {}},
+    {"D1_2_1.SEQ", 0, 0, 60, -1, {}},
+    {"D1_2_2.SEQ", 0, 0, 60, -1, {}},
+    {"D1_2_3.SEQ", 0, 0, 60, -1, {}},
+    {"D1_2_4.SEQ", 0, 0, 60, -1, {}},
+    {"D1_2_5.SEQ", 0, 0, 60, -1, {}},
+    {"D1_3_1.SEQ", 0, 0, 60, -1, {}},
+    {"D1_4_1.SEQ", 0, 0, 60, -1, {}},
+    {"D1_5_1.SEQ", 0, 0, 60, -1, {}},
+    {"D1_6_1.SEQ", 0, 0, 60, -1, {}},
+    {"D2_0_1.SEQ", 0, 0, 60, -1, {}},
+    {"D2_0_2.SEQ", 0, 0, 60, -1, {}},
+    {"D2_1_1.SEQ", 0, 0, 60, -1, {}},
+    {"D2_1_2.SEQ", 0, 0, 60, -1, {}},
+    {"D2_2_1.SEQ", 0, 0, 60, -1, {}},
+    {"D2_2_2.SEQ", 0, 0, 60, -1, {}},
+    {"D2_4_1.SEQ", 0, 0, 60, -1, {}},
+    {"D2_5_1.SEQ", 0, 0, 60, -1, {}},
+    {"D2_6_1.SEQ", 0, 0, 60, -1, {}},
+    {"DE_2_1.SEQ", 0, 0, 90, -1, {}},
+    {"DE_4_1.SEQ", 0, 0, 90, -1, {}},
+    {"DE_5_1.SEQ", 0, 0, 90, -1, {}},
+    {"E1_0_1.SEQ", 0, 0, 60, -1, {}},
+    {"E1_0_2.SEQ", 0, 0, 60, -1, {}},
+    {"E1_0_3.SEQ", 0, 0, 60, -1, {}},
+    {"E1_0_4.SEQ", 0, 0, 60, -1, {}},
+    {"E1_0_5.SEQ", 0, 0, 60, -1, {}},
+    {"E1_1_1.SEQ", 0, 0, 60, -1, {}},
+    {"E1_1_2.SEQ", 0, 0, 60, -1, {}},
+    {"E1_1_3.SEQ", 0, 0, 60, -1, {}},
+    {"E1_1_4.SEQ", 0, 0, 90, -1, {}},
+    {"E1_1_5.SEQ", 0, 0, 90, -1, {}},
+    {"E1_4_1.SEQ", 0, 0, 90, -1, {}},
+    {"E1_5_1.SEQ", 0, 0, 90, -1, {}},
+    {"E1_6_1.SEQ", 0, 0, 90, -1, {}},
+    {"F1_0_1.SEQ", 0, 0, 90, -1, {}},
+    {"F1_0_2.SEQ", 0, 0, 90, -1, {}},
+    {"F1_0_3.SEQ", 0, 0, 90, -1, {}},
+    {"F1_1_1.SEQ", 0, 0, 90, -1, {}},
+    {"F1_1_2.SEQ", 0, 0, 90, -1, {}},
+    {"F1_1_3.SEQ", 0, 0, 90, -1, {}},
+    {"F1_2_1.SEQ", 0, 0, 90, -1, {}},
+    {"F1_2_2.SEQ", 0, 0, 90, -1, {}},
+    {"F1_2_3.SEQ", 0, 0, 90, -1, {}},
+    {"F1_2_4.SEQ", 0, 0, 90, -1, {}},
+    {"F1_3_1.SEQ", 0, 0, 90, -1, {}},
+    {"F1_4_1.SEQ", 0, 0, 90, -1, {}},
+    {"F1_5_1.SEQ", 0, 0, 90, -1, {}},
+    {"F1_6_1.SEQ", 0, 0, 90, -1, {}},
+    {"F2_0_1.SEQ", 0, 0, 90, -1, {}},
+    {"F2_1_1.SEQ", 0, 0, 90, -1, {}},
+    {"F2_2_1.SEQ", 0, 0, 90, -1, {}},
+    {"F2_4_1.SEQ", 0, 0, 90, -1, {}},
+    {"F2_5_1.SEQ", 0, 0, 90, -1, {}},
+    {"F2_6_1.SEQ", 0, 0, 90, -1, {}},
+    {"FE_2_1.SEQ", 0, 0, 90, -1, {}},
+    {"FE_4_1.SEQ", 0, 0, 90, -1, {}},
+    {"FE_5_1.SEQ", 0, 0, 90, -1, {}},
+    {"ML_0_1.SEQ", 0, 0, 90, -1, {}},
+    {"ML_0_2.SEQ", 0, 0, 90, -1, {}},
+    {"ML_0_3.SEQ", 0, 0, 90, -1, {}},
+    {"ML_0_4.SEQ", 0, 0, 90, -1, {}},
+    {"ML_0_5.SEQ", 0, 0, 90, -1, {}},
+    {"ML_1_1.SEQ", 0, 0, 90, -1, {}},
+    {"ML_1_2.SEQ", 0, 0, 90, -1, {}},
+    {"ML_1_3.SEQ", 0, 0, 90, -1, {}},
+    {"ML_1_4.SEQ", 0, 0, 90, -1, {}},
+    {"ML_1_5.SEQ", 0, 0, 90, -1, {}},
+    {"ML_2_1.SEQ", 0, 0, 90, -1, {}},
+    {"ML_2_2.SEQ", 0, 0, 90, -1, {}},
+    {"ML_2_3.SEQ", 0, 0, 90, -1, {}},
+    {"ML_2_4.SEQ", 0, 0, 90, -1, {}},
+    {"ML_2_5.SEQ", 0, 0, 90, -1, {}},
+    {"ML_3_1.SEQ", 0, 0, 90, -1, {}},
+    {"ML_4_1.SEQ", 0, 0, 90, -1, {}},
+    {"ML_5_1.SEQ", 0, 0, 90, -1, {}},
+    {"ML_6_1.SEQ", 0, 0, 90, -1, {}},
+    {"RF_0_1.SEQ", 0, 0, 90, -1, {}},
+    {"RF_0_2.SEQ", 0, 0, 90, -1, {}},
+    {"RF_0_3.SEQ", 0, 0, 90, -1, {}},
+    {"RF_0_4.SEQ", 0, 0, 90, -1, {}},
+    {"RF_1_1.SEQ", 0, 0, 90, -1, {}},
+    {"RF_1_2.SEQ", 0, 0, 90, -1, {}},
+    {"RF_1_3.SEQ", 0, 0, 90, -1, {}},
+    {"RF_2_1.SEQ", 0, 0, 90, -1, {}},
+    {"RF_2_2.SEQ", 0, 0, 90, -1, {}},
+    {"RF_2_3.SEQ", 0, 0, 90, -1, {}},
+    {"RF_2_4.SEQ", 0, 0, 90, -1, {}},
+    {"RF_4_1.SEQ", 0, 0, 90, -1, {}},
+    {"RF_5_1.SEQ", 0, 0, 90, -1, {}},
+    {"RF_6_1.SEQ", 0, 0, 90, -1, {}},
+    {"RE_2_1.SEQ", 0, 0, 90, -1, {}},
+    {"RE_4_1.SEQ", 0, 0, 90, -1, {}},
+    {"RE_5_1.SEQ", 0, 0, 90, -1, {}},
+    {"OPT_0_1.SEQ", 0, 0, 60, -1, {}},
+    {"OPT_0_2.SEQ", 0, 0, 60, -1, {}},
+    {"OPT_0_3.SEQ", 0, 0, 60, -1, {}},
+    {"OPT_0_4.SEQ", 0, 0, 60, -1, {}},
+    {"OPT_0_5.SEQ", 0, 0, 60, -1, {}},
+    {"OPT_1_1.SEQ", 0, 0, 60, -1, {}},
+    {"OPT_1_2.SEQ", 0, 0, 60, -1, {}},
+    {"OPT_1_3.SEQ", 0, 0, 60, -1, {}},
+    {"OPT_1_4.SEQ", 0, 0, 90, -1, {}},
+    {"OPT_1_5.SEQ", 0, 0, 90, -1, {}},
+    {"ALL_4_1.SEQ", 0, 0, 90, -1, {}},
+    {"ALL_5_1.SEQ", 0, 0, 90, -1, {}},
+    {"ALL_5_2.SEQ", 0, 0, 90, -1, {}},
+    {"ALL_5_3.SEQ", 0, 0, 90, -1, {}},
+    {"ALL_7_1.SEQ", 0, 0, 90, -1, {}},
+    {"ALL_8_1.SEQ", 0, 0, 90, -1, {}},
+    {nullptr, 0, 0, 0, 0, {}}};
 
 s32 MaxGridBlocks_41FA10(FP scale)
 {
@@ -364,9 +281,6 @@ void Map::Init(EReliveLevelIds level, s16 path, s16 camera, CameraSwapEffects sc
 
 void Map::Shutdown()
 {
-    sLvlArchive_4FFD60.Free_41BEB0();
-    stru_507C90.Free_41BEB0();
-
     FreePathResourceBlocks();
 
     // Free cameras
@@ -1635,31 +1549,20 @@ void Map::GoTo_Camera()
 
         if (mCurrentLevel != EReliveLevelIds::eNone)
         {
-            // Close LVL archives
-            sLvlArchive_4FFD60.Free_41BEB0();
-            stru_507C90.Free_41BEB0();
-
+            SND_Reset_476BA0();
             FreePathResourceBlocks();
 
-            SND_Reset_476BA0();
             ResourceManager::Reclaim_Memory_455660(0);
         }
 
         ResourceManager::LoadingLoop_41EAD0(bShowLoadingIcon);
 
-        // Open Path BND
-        auto tmp = sOverlayTable_4C5AA8.records[Path_Get_OverlayIdx(mNextLevel)].field_4_pos;
-        sLvlArchive_4FFD60.OpenArchive(AO::CdLvlName(mNextLevel), tmp);
-
         mLoadedPaths = ResourceManagerWrapper::LoadPaths(mNextLevel);
 
-        SND_Load_VABS_477040(AO::Path_Get_MusicInfo(mNextLevel), AO::Path_Get_Reverb(mNextLevel));
+        SND_Load_VABS_477040(mLoadedPaths[0]->GetSoundInfo(), AO::Path_Get_Reverb(mNextLevel)); // TODO: Remove hard coded data
+        SND_Load_Seqs_477AB0(g_SeqTable_4C9E70, mLoadedPaths[0]->GetSoundInfo());
 
-        // Struct is using AE format so pass address of seq table in the exe to avoid a crash
-        //SND_Load_Seqs_477AB0(reinterpret_cast<OpenSeqHandleAE*>(0x4C9E70), rPathRoot.field_C_bsq_file_name);
-
-        SND_Load_Seqs_477AB0(g_SeqTable_4C9E70, AO::Path_Get_BsqFileName(mNextLevel));
-        relive_new BackgroundMusic(AO::Path_Get_BackGroundMusicId(mNextLevel));
+        relive_new BackgroundMusic(AO::Path_Get_BackGroundMusicId(mNextLevel)); // TODO: Remove hard coded data
 
         // TODO: Re-add function
         for (s32 i = 0; i < 236; i++)
@@ -1772,7 +1675,7 @@ void Map::GoTo_Camera()
     {
         if (field_48_stru_5[i])
         {
-            ResourceManager::Free_Resources_For_Camera_447170(field_48_stru_5[i]);
+            //ResourceManager::Free_Resources_For_Camera_447170(field_48_stru_5[i]);
         }
     }
 

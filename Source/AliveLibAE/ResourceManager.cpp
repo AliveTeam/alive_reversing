@@ -106,15 +106,10 @@ void ResourceManager::vLoadFile_StateMachine_464A70()
             // NOTE: Pruned branches here from stub that was hard coded to return 0
             if (!field_20_files_pending_loading.IsEmpty())
             {
-                field_2C_pFileItem = field_20_files_pending_loading.ItemAt(0);
+                ALIVE_FATAL("Its over for the old resource manager");
 
-                LvlFileRecord* pLvlFileRec1 = sLvlArchive_5BC520.Find_File_Record_433160(field_2C_pFileItem->field_0_fileName);
-                field_34_num_sectors = pLvlFileRec1->field_10_num_sectors;
-                field_30_start_sector = pLvlFileRec1->field_C_start_sector + sLvlArchive_5BC520.field_4_cd_pos;
-                PSX_Pos_To_CdLoc_4FADD0(field_30_start_sector, &field_44_cdLoc);
-
-                sbLoadingInProgress_5C1B96 = 1;
-                field_42_state = State_Allocate_Memory_For_File;
+                //sbLoadingInProgress_5C1B96 = 1;
+                //field_42_state = State_Allocate_Memory_For_File;
             }
             break;
 

@@ -12,9 +12,22 @@ namespace relive
     class Path_TLV;
 }
 
+struct PathSoundInfo final
+{
+    std::string mVhFile;
+    std::string mVbFile;
+    std::vector<std::string> mSeqFiles;
+
+    // TODO: Runtime only vars - move out when sound refactor done
+    s32 mVabId = -1;
+    std::vector<u8> mVhFileData;
+    std::vector<u8> mBsqFileData;
+};
+
 class BinaryPath final
 {
 public:
+
     struct CamEntry final
     {
         s32 mX = 0;
@@ -86,8 +99,19 @@ public:
         return mCollisions;
     }
 
+    const PathSoundInfo& GetSoundInfo() const
+    {
+        return mSoundInfo;
+    }
+
+    PathSoundInfo& GetSoundInfo()
+    {
+        return mSoundInfo;
+    }
+
 private:
     std::vector<std::unique_ptr<CamEntry>> mCameras;
     std::vector<PathLine> mCollisions;
+    PathSoundInfo mSoundInfo;
     u32 mPathId = 0;
 };

@@ -378,6 +378,25 @@ std::vector<std::unique_ptr<BinaryPath>> ResourceManagerWrapper::LoadPaths(EReli
     return ret;
 }
 
+std::vector<u8> ResourceManagerWrapper::LoadFile(const char_type* pFileName, EReliveLevelIds lvlId)
+{
+    FileSystem::Path pathDir = BasePath();
+    if (GetGameType() == GameType::eAe)
+    {
+        pathDir.Append(ToString(MapWrapper::ToAE(lvlId)));
+    }
+    else
+    {
+        pathDir.Append(ToString(MapWrapper::ToAO(lvlId)));
+    }
+
+    pathDir.Append(pFileName);
+
+    FileSystem fs;
+    return fs.LoadToVec(pathDir.GetPath().c_str());
+}
+
+
 void ResourceManagerWrapper::LoadingLoop(bool bShowLoadingIcon)
 {
     GetGameAutoPlayer().DisableRecorder();

@@ -296,16 +296,6 @@ void Init_Sound_DynamicArrays_And_Others_41CD20()
 {
     DebugFont_Init();
 
-    for (OverlayRecord& rec : sOverlayTable_4C5AA8.records)
-    {
-        CdlFILE cdFile = {};
-        CdlFILE* pFile = PSX_CdSearchFile_49B930(&cdFile, rec.field_0_fileName);
-        if (pFile)
-        {
-            rec.field_4_pos = PSX_CdLoc_To_Pos_49B3B0(&pFile->field_0_loc);
-        }
-    }
-
     pPauseMenu_5080E0 = nullptr;
     sActiveHero = nullptr;
     sControlledCharacter = nullptr;
@@ -339,6 +329,7 @@ void Init_Sound_DynamicArrays_And_Others_41CD20()
 
 void Game_Init_LoadingIcon_445E30()
 {
+    /*
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kLoadingAOResID, 1, 0);
     if (!ppRes)
     {
@@ -346,15 +337,18 @@ void Game_Init_LoadingIcon_445E30()
         ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kLoadingAOResID, 1, 0);
     }
     ResourceManager::Set_Header_Flags_4557D0(ppRes, ResourceManager::ResourceHeaderFlags::eNeverFree);
+    */
 }
 
 void Game_Free_LoadingIcon_445E80()
 {
+    /*
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kLoadingAOResID, 0, 0);
     if (ppRes)
     {
         ResourceManager::FreeResource_455550(ppRes);
     }
+    */
 }
 
 

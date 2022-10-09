@@ -889,7 +889,7 @@ s32 Abe::CreateFromSaveState(const u8* pData)
     if (!animFromState)
     {
         u32 id = sAbeResourceIDTable_554D60[sActiveHero->field_128.field_10_resource_index];
-        ResourceManager::LoadResourceFile_49C170(sAbe_ResNames_545830[sActiveHero->field_128.field_10_resource_index], 0);
+        // ResourceManager::LoadResourceFile_49C170(sAbe_ResNames_545830[sActiveHero->field_128.field_10_resource_index], 0);
         sActiveHero->field_10_resources_array.SetAt(sActiveHero->field_128.field_10_resource_index, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, id, TRUE, FALSE));
         animFromState = sActiveHero->field_10_resources_array.ItemAt(sActiveHero->field_128.field_10_resource_index);
     }*/
@@ -944,11 +944,11 @@ s32 Abe::CreateFromSaveState(const u8* pData)
         {
             if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbemorphResID, FALSE, FALSE))
             {
-                ResourceManager::LoadResourceFile_49C170("SHRYPORT.BND", nullptr);
+                // ResourceManager::LoadResourceFile_49C170("SHRYPORT.BND", nullptr);
             }
             if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kSplineResID, FALSE, FALSE))
             {
-                ResourceManager::LoadResourceFile_49C170("SPLINE.BAN", nullptr);
+                // ResourceManager::LoadResourceFile_49C170("SPLINE.BAN", nullptr);
             }
             sActiveHero->Get_Shrykull_Resources_45AA20();
         }
@@ -1036,7 +1036,7 @@ s32 Abe::CreateFromSaveState(const u8* pData)
     {
         if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kEvilFartResID, FALSE, FALSE))
         {
-            ResourceManager::LoadResourceFile_49C170("EVILFART.BAN", nullptr);
+            // ResourceManager::LoadResourceFile_49C170("EVILFART.BAN", nullptr);
         }
 
         if (!sActiveHero->field_10_resources_array.ItemAt(22))
@@ -1046,7 +1046,7 @@ s32 Abe::CreateFromSaveState(const u8* pData)
 
         if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID, 0, 0))
         {
-            ResourceManager::LoadResourceFile_49C170("EXPLO2.BAN", nullptr);
+            // ResourceManager::LoadResourceFile_49C170("EXPLO2.BAN", nullptr);
         }
 
         if (!sActiveHero->field_10_resources_array.ItemAt(24))
@@ -1056,7 +1056,7 @@ s32 Abe::CreateFromSaveState(const u8* pData)
 
         if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID, 0, 0))
         {
-            ResourceManager::LoadResourceFile_49C170("ABEBLOW.BAN", nullptr);
+            // ResourceManager::LoadResourceFile_49C170("ABEBLOW.BAN", nullptr);
         }
 
         if (!sActiveHero->field_10_resources_array.ItemAt(23))
@@ -2470,7 +2470,7 @@ void Abe::Load_Basic_Resources_44D460()
     {
         if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbebasicResID, TRUE, FALSE))
         {
-            ResourceManager::LoadResourceFile_49C170("ABEBSIC.BAN", nullptr);
+            // ResourceManager::LoadResourceFile_49C170("ABEBSIC.BAN", nullptr);
             ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbebasicResID, TRUE, FALSE);
         }
         field_10_resources_array.SetAt(0, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kAbebasicResID, FALSE, FALSE));

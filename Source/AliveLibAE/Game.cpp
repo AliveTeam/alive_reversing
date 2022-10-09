@@ -425,12 +425,12 @@ void DDCheat_Allocate_415320()
 void Game_Loop_467230();
 
 
-static AnimResource gLoadingResource;
+//static AnimResource gLoadingResource;
 
 void Game_Init_LoadingIcon_482CD0()
 {
     //gLoadingResource = ResourceManagerWrapper::LoadAnimation(AnimId::Mudokon_FallLandDie);
-
+    /*
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kLoadingResID, 1u, 0);
     if (!ppRes)
     {
@@ -438,17 +438,18 @@ void Game_Init_LoadingIcon_482CD0()
         ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kLoadingResID, 1u, 0);
     }
     ResourceManager::Set_Header_Flags_49C650(ppRes, ResourceManager::ResourceHeaderFlags::eNeverFree);
+    */
 }
 
 void Game_Free_LoadingIcon_482D40()
 {
     //gLoadingResource.Clear();
-    
+    /*
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AEResourceID::kLoadingResID, 0, 0);
     if (ppRes)
     {
         ResourceManager::FreeResource_49C330(ppRes);
-    }
+    }*/
 }
 
 #if DEVELOPER_MODE
@@ -486,11 +487,7 @@ void Game_Run_466D40()
 
     Path_Set_NewData_FromLvls();
 
-    sLvlArchive_5BC520.Open_Archive_432E80(CdLvlName(EReliveLevelIds::eMenu));
-
-    //ResourceManager::LoadResourceFile_49C170("STP01C25.CAM", &camera);
-    //camera.field_C_pCamRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Bits, AEResourceID::kUnknownResID_125, 1u, 0);
-
+    // Load the first camera we see on boot
     camera.field_C_pCamRes = ResourceManagerWrapper::LoadCam(EReliveLevelIds::eMenu, 1, 25);
 
     gMap.field_24_camera_offset.y = FP_FromInteger(0);
@@ -499,8 +496,6 @@ void Game_Run_466D40()
     pScreenManager = relive_new ScreenManager(camera.field_C_pCamRes, &gMap.field_24_camera_offset);
 
     pScreenManager->DecompressCameraToVRam(camera.field_C_pCamRes);
-
-    sLvlArchive_5BC520.Free_433130();
 
     camera.Free();
 

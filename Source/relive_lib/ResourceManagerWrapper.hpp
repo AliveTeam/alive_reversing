@@ -226,6 +226,7 @@ public:
         Resource_End = 0x21646E45,
         Resource_Plbk = 0x6B626C50,
         Resource_Play = 0x79616C50,
+        Resource_Seq = 0x20716553,
     };
 
     struct Header final
@@ -259,8 +260,11 @@ public:
 
     static std::vector<std::unique_ptr<BinaryPath>> LoadPaths(EReliveLevelIds lvlId);
 
+    // TODO: Used only for vh/vb/bsq loading, will be changed when these file formats are updated
+    static std::vector<u8> LoadFile(const char_type* pFileName, EReliveLevelIds lvlId);
 
     static void LoadingLoop(bool bShowLoadingIcon);
+
 
 
 private:

@@ -29,18 +29,6 @@ struct CameraName final
 };
 ALIVE_ASSERT_SIZEOF(CameraName, 8);
 
-struct OverlayRecord final
-{
-    const char_type* field_0_fileName;
-    u32 field_4_pos;
-};
-ALIVE_ASSERT_SIZEOF(OverlayRecord, 0x8);
-
-struct OverlayRecords final
-{
-    OverlayRecord records[54];
-};
-
 namespace CameraIds::Menu
 {
     const s16 eMainMenu_1 = 1;
@@ -202,7 +190,6 @@ ALIVE_ASSERT_SIZEOF(Map, 0xE4);
 ALIVE_VAR_EXTERN(Map, gMap);
 ALIVE_VAR_EXTERN(s16, sMap_bDoPurpleLightEffect_507C9C);
 
-ALIVE_VAR_EXTERN(OverlayRecords, sOverlayTable_4C5AA8);
 ALIVE_VAR_EXTERN(Camera*, sCameraBeingLoaded_507C98);
 
 s32 MaxGridBlocks_41FA10(FP scale);

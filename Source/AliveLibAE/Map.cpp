@@ -507,9 +507,6 @@ void Map::Init(EReliveLevelIds level, s16 path, s16 camera, CameraSwapEffects sc
 
 void Map::Shutdown()
 {
-    sLvlArchive_5BC520.Free_433130();
-    stru_5C3110.Free_433130();
-
     // Free Path resources
     FreePathResourceBlocks();
 
@@ -643,41 +640,18 @@ void Map::GoTo_Camera()
 
         if (mCurrentLevel != EReliveLevelIds::eNone)
         {
-            // Close LVL archives
-            sLvlArchive_5BC520.Free_433130();
-            stru_5C3110.Free_433130();
-
-            // Free all but the first ?
-            FreePathResourceBlocks();
-
-            sPathInfo->Free();
-
             if (mNextLevel != mCurrentLevel)
             {
                 SND_Reset();
             }
 
+            FreePathResourceBlocks();
+            sPathInfo->Free();
+
             ResourceManager::Reclaim_Memory_49C470(0);
         }
 
         pResourceManager_5C1BB0->LoadingLoop_465590(bShowLoadingIcon);
-
-        // Open LVL
-        while (!sLvlArchive_5BC520.Open_Archive_432E80(CdLvlName(mNextLevel)))
-        {
-            if (gAttract_5C1BA0)
-            {
-                // NOTE: Dead branch? Given no attract directory exists
-                char_type fileName[256] = {};
-                strcpy(fileName, "ATTRACT");
-                strcat(fileName, CdLvlName(mNextLevel));
-                if (sLvlArchive_5BC520.Open_Archive_432E80(fileName))
-                {
-                    break;
-                }
-            }
-            Display_Full_Screen_Message_Blocking(Path_Get_Unknown(mNextLevel), MessageType::eLongTitle_0);
-        }
 
         mLoadedPaths = ResourceManagerWrapper::LoadPaths(mNextLevel);
 
@@ -687,9 +661,11 @@ void Map::GoTo_Camera()
         }
         else
         {
-            SND_Load_VABS(Path_Get_MusicInfo(mNextLevel), Path_Get_Reverb(mNextLevel));
-            SND_Load_Seqs(sSeqData_558D50.mSeqs, Path_Get_BsqFileName(mNextLevel));
+            // TODO: This data is now per path rather than lvl - logic needs updating to reflect this
+            SND_Load_VABS(mLoadedPaths[0]->GetSoundInfo(), Path_Get_Reverb(mNextLevel)); // TODO: Remove hard coded data
+            SND_Load_Seqs(sSeqData_558D50.mSeqs, mLoadedPaths[0]->GetSoundInfo());
 
+            // TODO: Remove hard coded data
             relive_new BackgroundMusic(Path_Get_BackGroundMusicId(mNextLevel));
         }
 
