@@ -4,7 +4,7 @@
 
 #if _WIN32
 #include <windows.h>
-using TWindowProcFilter = LRESULT(CC*)(HWND, UINT, WPARAM, LPARAM);
+using TWindowProcFilter = LRESULT(__cdecl*)(HWND, UINT, WPARAM, LPARAM);
 #endif
 
 #if USE_SDL2

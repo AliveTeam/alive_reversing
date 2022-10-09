@@ -102,7 +102,6 @@ Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
 
     FP scale = {};
     PathLine* pLine = nullptr;
-    u8** ppRes = nullptr;
     PSX_Point mapCoords = {};
     switch (mDoorType)
     {

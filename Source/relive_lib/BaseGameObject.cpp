@@ -932,7 +932,7 @@ ReliveTypes BaseGameObject::Type() const
     return mBaseGameObjectTypeId;
 }
 
-u8** BaseGameObject::Add_Resource(u32 type, s32 resourceID)
+u8** BaseGameObject::Add_Resource(u32 /*type*/, s32 /*resourceID*/)
 {
     return nullptr;
 }
