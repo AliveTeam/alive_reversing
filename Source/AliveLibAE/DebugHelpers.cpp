@@ -961,8 +961,8 @@ private:
             }
             // No 16 bit test case because there are simply no 16bit sprites at all in the game data
 
-            mAnim[i].mFlags.Clear(AnimFlags::eBit16_bBlending);
-            mAnim[i].mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+            mAnim[i].mFlags.Clear(AnimFlags::eBlending);
+            mAnim[i].mFlags.Clear(AnimFlags::eSemiTrans);
 
             mAnim[i].field_14_scale = FP_FromDouble(2.0);
 
@@ -975,24 +975,24 @@ private:
         }
 
         // 4 bit o
-        mAnim[0].mFlags.Clear(AnimFlags::eBit16_bBlending);
-        mAnim[0].mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
-        mAnim[0].mFlags.Set(AnimFlags::eBit5_FlipX);
+        mAnim[0].mFlags.Clear(AnimFlags::eBlending);
+        mAnim[0].mFlags.Clear(AnimFlags::eSemiTrans);
+        mAnim[0].mFlags.Set(AnimFlags::eFlipX);
         mAnim[0].field_14_scale = FP_FromDouble(1.0);
 
         // 4 bit s
-        mAnim[1].mFlags.Clear(AnimFlags::eBit16_bBlending);
-        mAnim[1].mFlags.Set(AnimFlags::eBit15_bSemiTrans);
+        mAnim[1].mFlags.Clear(AnimFlags::eBlending);
+        mAnim[1].mFlags.Set(AnimFlags::eSemiTrans);
         mAnim[1].field_14_scale = FP_FromDouble(2.0);
 
         // 8 bit o
-        mAnim[2].mFlags.Clear(AnimFlags::eBit16_bBlending);
-        mAnim[2].mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+        mAnim[2].mFlags.Clear(AnimFlags::eBlending);
+        mAnim[2].mFlags.Clear(AnimFlags::eSemiTrans);
         mAnim[2].field_14_scale = FP_FromDouble(1.0);
 
         // 8 bit s
-        mAnim[3].mFlags.Clear(AnimFlags::eBit16_bBlending);
-        mAnim[3].mFlags.Set(AnimFlags::eBit15_bSemiTrans);
+        mAnim[3].mFlags.Clear(AnimFlags::eBlending);
+        mAnim[3].mFlags.Set(AnimFlags::eSemiTrans);
 
         PSX_RECT pr = {};
         Pal_Allocate(&pr, 16);

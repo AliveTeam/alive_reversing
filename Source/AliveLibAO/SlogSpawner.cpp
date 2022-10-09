@@ -57,7 +57,7 @@ void SlogSpawner::VUpdate()
                     mScale != relive::reliveScale::eFull ? FP_FromDouble(0.5) : FP_FromInteger(1));;
             if (pSlog)
             {
-                pSlog->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, mStartDirection == relive::Path_SlogSpawner::StartDirection::eLeft);
+                pSlog->mAnim.mFlags.Set(AnimFlags::eFlipX, mStartDirection == relive::Path_SlogSpawner::StartDirection::eLeft);
             }
 
             mSpawnedSlogsCount++;

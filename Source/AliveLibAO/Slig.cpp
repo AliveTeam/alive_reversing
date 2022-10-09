@@ -52,7 +52,7 @@ const TintEntry kSligTints_4CFB10[3] = {
 
 using TSligStateFunction = decltype(&Slig::Motion_0_StandIdle_467640);
 
-const TSligStateFunction sSligMotionTable_4CF960[] = {
+const TSligStateFunction sSligMotionTable[] = {
     &Slig::Motion_0_StandIdle_467640,
     &Slig::Motion_1_StandToWalk_4695D0,
     &Slig::Motion_2_Walking_469130,
@@ -284,7 +284,7 @@ Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
     field_118_unused = 0;
     field_11C_current_camera = -1;
     field_10C_unused = 0;
-    field_10E_brain_sub_state = 0;
+    mBrainSubState = 0;
     mNextMotion = 0;
     field_EC = 3;
     field_158_explode_timer = 0;
@@ -302,7 +302,7 @@ Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
     field_134_tlvInfo = tlvId;
-    field_254_prevent_depossession &= ~7u;
+    mPreventDepossession &= ~7u;
     field_126_input = 0;
     field_130_game_ender_pause_time = 100;
     unused_9F11BC = 0;
@@ -376,9 +376,9 @@ Slig::~Slig()
 
         if (gMap.mNextLevel != EReliveLevelIds::eMenu && gMap.mNextLevel != EReliveLevelIds::eNone)
             gMap.SetActiveCam(
-                field_14E_level,
-                field_150_path,
-                field_152_camera,
+                mAbeLevel,
+                mAbePath,
+                mAbeCamera,
                 CameraSwapEffects::eInstantChange_0,
                 0,
                 0);
@@ -490,7 +490,7 @@ void Slig::Init()
 
     if (field_174_tlv->mData.mFacing == relive::reliveXDirection::eLeft)
     {
-        mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
+        mAnim.mFlags.Set(AnimFlags::eFlipX);
     }
     field_1F4_points_count = 0;
 
@@ -569,7 +569,7 @@ void Slig::VUpdate()
 {
     if (!Input_IsChanting())
     {
-        field_254_prevent_depossession &= ~4u;
+        mPreventDepossession &= ~4u;
     }
 
     if (sControlledCharacter == this && mHealth > FP_FromInteger(0))
@@ -635,13 +635,13 @@ void Slig::VUpdate()
     {
         const auto old_motion = mCurrentMotion;
 
-        const auto oldBrain = field_1F8_fn;
+        const auto oldBrain = mBrainState;
 
-        field_10E_brain_sub_state = (this->*field_1F8_fn)();
+        mBrainSubState = (this->*mBrainState)();
 
-        if (field_1F8_fn != oldBrain)
+        if (mBrainState != oldBrain)
         {
-            //LOG_INFO("Brain changed from " << GetOriginalFn(oldBrain, sSligBrainTable).fnName << " to " << GetOriginalFn(field_1F8_fn, sSligBrainTable).fnName);
+            //LOG_INFO("Brain changed from " << GetOriginalFn(oldBrain, sSligBrainTable).fnName << " to " << GetOriginalFn(mBrainState, sSligBrainTable).fnName);
         }
 
         if (field_106_shot)
@@ -653,7 +653,7 @@ void Slig::VUpdate()
         {
             DDCheat::DebugStr(
                 "Slig %d %d %d %d\n",
-                field_10E_brain_sub_state,
+                mBrainSubState,
                 field_114_timer,
                 mCurrentMotion,
                 mNextMotion);
@@ -662,7 +662,7 @@ void Slig::VUpdate()
         const FP new_x = mXPos;
         const FP new_y = mYPos;
 
-        (this->*sSligMotionTable_4CF960[mCurrentMotion])();
+        (this->*sSligMotionTable[mCurrentMotion])();
 
         if (new_x != mXPos || new_y != mYPos)
         {
@@ -738,18 +738,18 @@ enum Brain_Possessed
 void Slig::VPossessed()
 {
     mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit2_bPossesed);
-    field_254_prevent_depossession |= 4u;
+    mPreventDepossession |= 4u;
     if (mNextMotion != eSligMotions::Motion_36_KnockbackToStand_46A7F0 && mNextMotion != eSligMotions::Motion_35_Knockback_46A720)
     {
         mNextMotion = eSligMotions::Motion_0_StandIdle_467640;
     }
 
     SetBrain(&Slig::Brain_Possessed_46C190);
-    field_10E_brain_sub_state = Brain_Possessed::eStartPossession_0;
+    mBrainSubState = Brain_Possessed::eStartPossession_0;
 
-    field_14E_level = gMap.mCurrentLevel;
-    field_150_path = gMap.mCurrentPath;
-    field_152_camera = gMap.mCurrentCamera;
+    mAbeLevel = gMap.mCurrentLevel;
+    mAbePath = gMap.mCurrentPath;
+    mAbeCamera = gMap.mCurrentCamera;
 
     MusicController::static_PlayMusic(MusicController::MusicTypes::ePossessed_6, this, 1, 0);
 }
@@ -761,7 +761,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eBullet:
         {
             auto pBullet = static_cast<Bullet*>(pFrom);
-            if (mAnim.mFlags.Get(AnimFlags::eBit3_Render))
+            if (mAnim.mFlags.Get(AnimFlags::eRender))
             {
                 {
                     const FP yOff = FP_FromInteger(Math_NextRandom() % 16) - FP_FromInteger(8);
@@ -814,7 +814,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
 
             if (mHealth <= FP_FromInteger(0))
             {
-                return mAnim.mFlags.Get(AnimFlags::eBit3_Render) ? 1 : 0;
+                return mAnim.mFlags.Get(AnimFlags::eRender) ? 1 : 0;
             }
 
             if (mCurrentMotion != eSligMotions::Motion_45_Smash_46A990 && mCurrentMotion != eSligMotions::Motion_35_Knockback_46A720)
@@ -834,7 +834,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eBaseBomb:
         case ReliveTypes::eMeatSaw:
         case ReliveTypes::eExplosion:
-            if (mAnim.mFlags.Get(AnimFlags::eBit3_Render))
+            if (mAnim.mFlags.Get(AnimFlags::eRender))
             {
                 relive_new Gibs(
                     GibType::Slig_1,
@@ -847,8 +847,8 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
                 mHealth = FP_FromInteger(0);
                 SfxPlayMono(relive::SoundEffects::FallingItemHit, 90);
                 SetUpdateDelay(40);
-                mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
-                mAnim.mFlags.Clear(AnimFlags::eBit2_Animate);
+                mAnim.mFlags.Clear(AnimFlags::eRender);
+                mAnim.mFlags.Clear(AnimFlags::eAnimate);
                 SetBrain(&Slig::Brain_ReturnControlToAbeAndDie_46C760);
                 mCurrentMotion = eSligMotions::Motion_0_StandIdle_467640;
                 VUpdateAnimData();
@@ -871,7 +871,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
             Environment_SFX_42A220(EnvironmentSfx::eKnockback_13, 0, 0x7FFF, this);
             if (VIsFacingMe(static_cast<BaseAnimatedWithPhysicsGameObject*>(pFrom)))
             {
-                if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+                if (mAnim.mFlags.Get(AnimFlags::eFlipX))
                 {
                     mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
                 }
@@ -954,7 +954,7 @@ void Slig::VOnTlvCollision(relive::Path_TLV* pTlv)
             if (mHealth > FP_FromInteger(0))
             {
                 mHealth = FP_FromInteger(0);
-                field_10E_brain_sub_state = Brain_DeathDropDeath::eSayHelpOnce_0;
+                mBrainSubState = Brain_DeathDropDeath::eSayHelpOnce_0;
                 SetBrain(&Slig::Brain_DeathDropDeath_46C5A0);
                 mVelY = FP_FromInteger(0);
                 mVelX = FP_FromInteger(0);
@@ -984,24 +984,24 @@ s16 Slig::VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pWho)
     if (mCurrentMotion != eSligMotions::Motion_5_TurnAroundStanding_469C80
         || mAnim.mCurrentFrame < 6)
     {
-        if (pWho->mXPos <= mXPos && mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+        if (pWho->mXPos <= mXPos && mAnim.mFlags.Get(AnimFlags::eFlipX))
         {
             return 1;
         }
 
-        if (pWho->mXPos >= mXPos && !mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+        if (pWho->mXPos >= mXPos && !mAnim.mFlags.Get(AnimFlags::eFlipX))
         {
             return 1;
         }
     }
     else
     {
-        if (pWho->mXPos <= mXPos && !mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+        if (pWho->mXPos <= mXPos && !mAnim.mFlags.Get(AnimFlags::eFlipX))
         {
             return 1;
         }
 
-        if (pWho->mXPos >= mXPos && mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+        if (pWho->mXPos >= mXPos && mAnim.mFlags.Get(AnimFlags::eFlipX))
         {
             return 1;
         }
@@ -1177,7 +1177,7 @@ void Slig::WaitOrWalk_46E440()
 
 s32 Slig::IsFacingEffectiveLeft_46BD70(Slig* pSlig)
 {
-    s32 bFlipX = pSlig->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX);
+    s32 bFlipX = pSlig->mAnim.mFlags.Get(AnimFlags::eFlipX);
     if (pSlig->mCurrentMotion == eSligMotions::Motion_5_TurnAroundStanding_469C80
         && pSlig->mAnim.mCurrentFrame > 4)
     {
@@ -1189,7 +1189,7 @@ s32 Slig::IsFacingEffectiveLeft_46BD70(Slig* pSlig)
 
 void Slig::PauseALittle_46DBD0()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
     {
         field_114_timer = sGnFrame + field_174_tlv->mData.mPauseLeftMin;
         if (field_174_tlv->mData.mPauseLeftMax > field_174_tlv->mData.mPauseLeftMin)
@@ -1236,7 +1236,7 @@ void Slig::ToChase_46D080()
 
     if (!VIsFacingMe(sControlledCharacter))
     {
-        mAnim.mFlags.Toggle(AnimFlags::eBit5_FlipX);
+        mAnim.mFlags.Toggle(AnimFlags::eFlipX);
     }
     mNextMotion = eSligMotions::Motion_0_StandIdle_467640;
     SetBrain(&Slig::Brain_StartChasing_46CF90);
@@ -1286,7 +1286,7 @@ s16 Slig::FindBeatTarget_46D0E0(s32 /*typeToFind*/, s32 gridBlocks)
     const FP k2Scaled = FP_FromInteger(2) * kGridSize;
     const FP kGridBlocksScaled = FP_FromInteger(gridBlocks) * kGridSize;
 
-    const FP xAndW = mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) ? mXPos - kGridBlocksScaled : mXPos + kGridBlocksScaled;
+    const FP xAndW = mAnim.mFlags.Get(AnimFlags::eFlipX) ? mXPos - kGridBlocksScaled : mXPos + kGridBlocksScaled;
 
     PSX_RECT hitRect = MakeMinMaxRect(
         xAndW,
@@ -1400,7 +1400,7 @@ void Slig::TurnOrWalk_46D5B0(s32 a2)
 {
     if (a2 == 1)
     {
-        if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+        if (mAnim.mFlags.Get(AnimFlags::eFlipX))
         {
             if (mXPos > FP_FromInteger(field_13C_zone_rect.x) + (ScaleToGridSize(mSpriteScale) * FP_FromInteger(4)))
             {
@@ -1418,7 +1418,7 @@ void Slig::TurnOrWalk_46D5B0(s32 a2)
         }
     }
 
-    if (!mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    if (!mAnim.mFlags.Get(AnimFlags::eFlipX))
     {
         if (mXPos > FP_FromInteger(field_13C_zone_rect.w) - (ScaleToGridSize(mSpriteScale) * FP_FromInteger(4)))
         {
@@ -1517,7 +1517,7 @@ s16 Slig::GetNextMotionIncGameSpeak_467700(u16 input)
 
     if (Input_IsChanting())
     {
-        if (field_254_prevent_depossession & 4)
+        if (mPreventDepossession & 4)
         {
             return -1;
         }
@@ -1711,7 +1711,7 @@ s16 Slig::MoveLift_4665E0(FP ySpeed)
     mVelY = pLiftPoint->mVelY;
 
     if (sControlledCharacter == this
-        && !(mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        && !(mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
         && mAnim.mCurrentFrame != 5)
     {
         return mCurrentMotion;
@@ -1930,7 +1930,7 @@ void Slig::MoveOnLine()
 
 void Slig::OperateLift()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
     {
         mCurrentMotion = eSligMotions::Motion_5_TurnAroundStanding_469C80;
         mNextMotion = eSligMotions::Motion_49_LiftGrip_4663A0;
@@ -1942,9 +1942,9 @@ void Slig::OperateLift()
             MusicController::static_PlayMusic(MusicController::MusicTypes::eChase_4, this, 0, 0);
         }
         Slig::Slig_SoundEffect_46F310(SligSfx::eStandingTurn_1);
-        if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
         {
-            mAnim.mFlags.Clear(AnimFlags::eBit5_FlipX);
+            mAnim.mFlags.Clear(AnimFlags::eFlipX);
             ToStand();
         }
     }
@@ -1961,7 +1961,7 @@ s16 Slig::HandlePlayerControlled()
     const auto pressed = Input().Pressed();
     if (pressed & sInputKey_Right)
     {
-        if (!mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+        if (!mAnim.mFlags.Get(AnimFlags::eFlipX))
         {
             if (pressed & sInputKey_Run)
             {
@@ -1997,7 +1997,7 @@ s16 Slig::HandlePlayerControlled()
 
     if (pressed & sInputKey_Left)
     {
-        if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+        if (mAnim.mFlags.Get(AnimFlags::eFlipX))
         {
             if (pressed & sInputKey_Run)
             {
@@ -2045,7 +2045,7 @@ s16 Slig::HandlePlayerControlled()
             {
                 if (FP_FromInteger(FP_GetExponent(mXPos) - pTlv->mTopLeftX) < kScaleGrid)
                 {
-                    if (!(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)))
+                    if (!(mAnim.mFlags.Get(AnimFlags::eFlipX)))
                     {
                         auto pSwitch = static_cast<Lever*>(FindObjectOfType_418280(
                             ReliveTypes::eLever,
@@ -2067,7 +2067,7 @@ s16 Slig::HandlePlayerControlled()
                 }
                 if (FP_FromInteger(pTlv->mBottomRightX - FP_GetExponent(mXPos)) < kScaleGrid)
                 {
-                    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+                    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
                     {
                         auto pSwitch = static_cast<Lever*>(FindObjectOfType_418280(ReliveTypes::eLever, mXPos - kScaleGrid, mYPos - FP_FromInteger(5)));
                         if (pSwitch)
@@ -2218,7 +2218,7 @@ void Slig::PlayerControlRunningSlideStopOrTurn(s16 last_anim_frame)
     mBaseAliveGameObjectLastAnimFrame = last_anim_frame;
     field_11E_return_to_previous_motion = 1;
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
     {
         mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
     }
@@ -2283,7 +2283,7 @@ s16 Slig::MainMovement_467020()
             break;
         case eSligMotions::Motion_2_Walking_469130:
 
-            if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+            if (mAnim.mFlags.Get(AnimFlags::eFlipX))
             {
                 if (WallHit_401930(mSpriteScale * FP_FromInteger(35), -ScaleToGridSize(mSpriteScale)))
                 {
@@ -2305,7 +2305,7 @@ s16 Slig::MainMovement_467020()
             break;
         case eSligMotions::Motion_4_Running_469690:
 
-            if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+            if (mAnim.mFlags.Get(AnimFlags::eFlipX))
             {
                 mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
             }
@@ -2363,7 +2363,7 @@ void Slig::ToKnockBack()
 
     if (BaseAliveGameObjectCollisionLine)
     {
-        if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+        if (mAnim.mFlags.Get(AnimFlags::eFlipX))
         {
             mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
         }
@@ -2401,7 +2401,7 @@ void Slig::Motion_0_StandIdle_467640()
         {
             if (Input_IsChanting())
             {
-                if (!(field_254_prevent_depossession & 4))
+                if (!(mPreventDepossession & 4))
                 {
                     mCurrentMotion = eSligMotions::Motion_37_Depossessing_4684D0;
                     field_128_timer = sGnFrame + 30;
@@ -2431,7 +2431,7 @@ void Slig::Motion_1_StandToWalk_4695D0()
 {
     field_126_input |= Input().Held();
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eSligMotions::Motion_2_Walking_469130;
     }
@@ -2483,7 +2483,7 @@ void Slig::Motion_2_Walking_469130()
                         mBaseAliveGameObjectLastAnimFrame = 5;
                         field_11E_return_to_previous_motion = 1;
 
-                        if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+                        if (mAnim.mFlags.Get(AnimFlags::eFlipX))
                         {
                             field_126_input = 0;
                             mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
@@ -2500,7 +2500,7 @@ void Slig::Motion_2_Walking_469130()
                 break;
             case 11:
 
-                if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+                if (mAnim.mFlags.Get(AnimFlags::eFlipX))
                 {
                     v12 = -(ScaleToGridSize(mSpriteScale));
                 }
@@ -2554,7 +2554,7 @@ void Slig::Motion_2_Walking_469130()
                         mBaseAliveGameObjectLastAnimFrame = 13;
                         field_11E_return_to_previous_motion = 1;
 
-                        if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+                        if (mAnim.mFlags.Get(AnimFlags::eFlipX))
                         {
                             field_126_input = 0;
                             mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
@@ -2581,7 +2581,7 @@ void Slig::Motion_3_StandToRun_469C00()
 {
     field_126_input |= Input().Held();
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eSligMotions::Motion_4_Running_469690;
     }
@@ -2653,7 +2653,7 @@ void Slig::Motion_4_Running_469690()
                         mCurrentMotion = eSligMotions::Motion_2_Walking_469130;
                         mNextMotion = -1;
 
-                        if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+                        if (mAnim.mFlags.Get(AnimFlags::eFlipX))
                         {
                             mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
                         }
@@ -2706,16 +2706,16 @@ void Slig::Motion_5_TurnAroundStanding_469C80()
 
     Slig_SoundEffect_46F310(SligSfx::eStandingTurn_1);
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         ToStand();
-        mAnim.mFlags.Toggle(AnimFlags::eBit5_FlipX);
+        mAnim.mFlags.Toggle(AnimFlags::eFlipX);
     }
 }
 
 void Slig::Motion_6_Shoot_468820()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         if (sControlledCharacter == this && mHealth > FP_FromInteger(0))
         {
@@ -2726,7 +2726,7 @@ void Slig::Motion_6_Shoot_468820()
                 const FP k8 = FP_FromInteger(8);
 
                 // Recoil right
-                if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) && Input().IsAnyPressed(sInputKey_Right))
+                if (mAnim.mFlags.Get(AnimFlags::eFlipX) && Input().IsAnyPressed(sInputKey_Right))
                 {
                     PathLine* pLine = nullptr;
                     FP hitX = {};
@@ -2758,7 +2758,7 @@ void Slig::Motion_6_Shoot_468820()
                 }
 
                 // Recoil left
-                if (!mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) && Input().IsAnyPressed(sInputKey_Left))
+                if (!mAnim.mFlags.Get(AnimFlags::eFlipX) && Input().IsAnyPressed(sInputKey_Left))
                 {
                     PathLine* pLine = nullptr;
                     FP hitX = {};
@@ -2798,7 +2798,7 @@ void Slig::Motion_6_Shoot_468820()
                     return;
                 }
 
-                if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+                if (mAnim.mFlags.Get(AnimFlags::eFlipX))
                 {
                     mVelX = (kGridSize / k8);
                 }
@@ -2974,15 +2974,15 @@ void Slig::Motion_9_SlidingToStand_469DF0()
         {
             if (mAnim.mCurrentFrame >= 6 || sControlledCharacter != this || mHealth <= FP_FromInteger(0))
             {
-                if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+                if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
                 {
                     Environment_SFX_42A220(EnvironmentSfx::eSlideStop_0, 0, 0x7FFF, this);
                     MapFollowMe_401D30(1);
                     MainMovement_467020();
                 }
             }
-            else if ((mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) && Input().IsAnyPressed(sInputKey_Right))
-                     || (!(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)) && Input().IsAnyPressed(sInputKey_Left)))
+            else if ((mAnim.mFlags.Get(AnimFlags::eFlipX) && Input().IsAnyPressed(sInputKey_Right))
+                     || (!(mAnim.mFlags.Get(AnimFlags::eFlipX)) && Input().IsAnyPressed(sInputKey_Left)))
             {
                 mPreviousMotion = eSligMotions::Motion_10_SlidingTurn_469F10;
                 mBaseAliveGameObjectLastAnimFrame = mAnim.mCurrentFrame;
@@ -3003,11 +3003,11 @@ void Slig::Motion_10_SlidingTurn_469F10()
 
     SlowDown(FP_FromDouble(2.125));
 
-    if (mCurrentMotion == eSligMotions::Motion_10_SlidingTurn_469F10 && mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mCurrentMotion == eSligMotions::Motion_10_SlidingTurn_469F10 && mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         MapFollowMe_401D30(1);
 
-        if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+        if (mAnim.mFlags.Get(AnimFlags::eFlipX))
         {
             if (sControlledCharacter != this || mHealth <= FP_FromInteger(0))
             {
@@ -3061,9 +3061,9 @@ void Slig::Motion_11_SlidingTurnToWalk_46A120()
     EventBroadcast(kEventNoise, this);
     MoveOnLine();
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
-        mAnim.mFlags.Toggle(AnimFlags::eBit5_FlipX);
+        mAnim.mFlags.Toggle(AnimFlags::eFlipX);
         mCurrentMotion = eSligMotions::Motion_2_Walking_469130;
     }
 }
@@ -3073,9 +3073,9 @@ void Slig::Motion_12_SlidingTurnToRun_46A160()
     EventBroadcast(kEventNoise, this);
     MoveOnLine();
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
-        mAnim.mFlags.Toggle(AnimFlags::eBit5_FlipX);
+        mAnim.mFlags.Toggle(AnimFlags::eFlipX);
         mCurrentMotion = eSligMotions::Motion_4_Running_469690;
     }
 }
@@ -3087,7 +3087,7 @@ void Slig::Motion_13_ReloadGun_4687B0()
 
 void Slig::Motion_14_ShootToStand_468810()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         MainMovement_467020();
     }
@@ -3109,7 +3109,7 @@ void Slig::Motion_15_SteppingToStand_469080()
         MoveOnLine();
         if (mCurrentMotion == eSligMotions::Motion_15_SteppingToStand_469080)
         {
-            if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 MapFollowMe_401D30(1);
                 Motion_46_ToIdle_46A590();
@@ -3120,13 +3120,13 @@ void Slig::Motion_15_SteppingToStand_469080()
 
 void Slig::Motion_16_StandingToStep_468FD0()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         if (Input().IsAnyPressed(sInputKey_Left | sInputKey_Right))
         {
             mCurrentMotion = eSligMotions::Motion_1_StandToWalk_4695D0;
         }
-        else if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+        else if (mAnim.mFlags.Get(AnimFlags::eFlipX))
         {
             mCurrentMotion = eSligMotions::Motion_15_SteppingToStand_469080;
             mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(6));
@@ -3148,7 +3148,7 @@ void Slig::Motion_18_GameSpeak_467B10()
 {
     field_126_input |= Input().Held();
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = GetNextMotionIncGameSpeak_467700(field_126_input);
         if (mCurrentMotion == -1)
@@ -3167,7 +3167,7 @@ void Slig::Motion_19_WalkToStand_469610()
 {
     MoveOnLine();
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         MapFollowMe_401D30(1);
         if (!MainMovement_467020())
@@ -3183,7 +3183,7 @@ void Slig::Motion_20_Recoil_468D30()
 
     if (mCurrentMotion == eSligMotions::Motion_20_Recoil_468D30)
     {
-        if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
         {
             MapFollowMe_401D30(TRUE);
 
@@ -3305,7 +3305,7 @@ void Slig::Motion_33_Sleeping_46A410()
             {
                 relive_new SnoozeParticle(
                     mXPos
-                        + ((mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)) != 0 ? FP_FromInteger(20) : FP_FromInteger(-20)),
+                        + ((mAnim.mFlags.Get(AnimFlags::eFlipX)) != 0 ? FP_FromInteger(20) : FP_FromInteger(-20)),
                     mYPos - FP_FromInteger(10),
                     mAnim.mRenderLayer,
                     mAnim.field_14_scale);
@@ -3326,7 +3326,7 @@ void Slig::Motion_33_Sleeping_46A410()
         {
             relive_new SnoozeParticle(
                 mXPos
-                    + ((mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)) != 0 ? FP_FromInteger(20) : FP_FromInteger(-20)),
+                    + ((mAnim.mFlags.Get(AnimFlags::eFlipX)) != 0 ? FP_FromInteger(20) : FP_FromInteger(-20)),
                 mYPos - FP_FromInteger(10),
                 mAnim.mRenderLayer,
                 mAnim.field_14_scale);
@@ -3365,7 +3365,7 @@ void Slig::Motion_34_SleepingToStand_46A5F0()
     switch (mAnim.mCurrentFrame)
     {
         case 9:
-            if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+            if (mAnim.mFlags.Get(AnimFlags::eFlipX))
             {
                 mXPos -= (mSpriteScale * FP_FromInteger(7));
             }
@@ -3376,7 +3376,7 @@ void Slig::Motion_34_SleepingToStand_46A5F0()
             break;
 
         case 10:
-            if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+            if (mAnim.mFlags.Get(AnimFlags::eFlipX))
             {
                 mXPos -= (mSpriteScale * FP_FromInteger(12));
             }
@@ -3387,7 +3387,7 @@ void Slig::Motion_34_SleepingToStand_46A5F0()
             break;
 
         case 11:
-            if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+            if (mAnim.mFlags.Get(AnimFlags::eFlipX))
             {
                 mXPos -= (mSpriteScale * FP_FromInteger(6));
             }
@@ -3398,7 +3398,7 @@ void Slig::Motion_34_SleepingToStand_46A5F0()
             break;
 
         default:
-            if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 MusicController::static_PlayMusic(MusicController::MusicTypes::eChase_4, this, 0, 0);
                 MainMovement_467020();
@@ -3434,7 +3434,7 @@ void Slig::Motion_35_Knockback_46A720()
         Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+    if (mAnim.mFlags.Get(AnimFlags::eForwardLoopCompleted))
     {
         if (BaseAliveGameObjectCollisionLine)
         {
@@ -3463,7 +3463,7 @@ void Slig::Motion_36_KnockbackToStand_46A7F0()
     }
 
     FP gridSize = {};
-    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
     {
         gridSize = -ScaleToGridSize(mSpriteScale);
     }
@@ -3477,7 +3477,7 @@ void Slig::Motion_36_KnockbackToStand_46A7F0()
         switch (mAnim.mCurrentFrame)
         {
             case 9:
-                if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+                if (mAnim.mFlags.Get(AnimFlags::eFlipX))
                 {
                     mXPos += (mSpriteScale * mSpriteScale) * FP_FromInteger(-3);
                 }
@@ -3488,7 +3488,7 @@ void Slig::Motion_36_KnockbackToStand_46A7F0()
                 break;
 
             case 10:
-                if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+                if (mAnim.mFlags.Get(AnimFlags::eFlipX))
                 {
                     mXPos += (mSpriteScale * mSpriteScale) * FP_FromInteger(-13);
                 }
@@ -3500,7 +3500,7 @@ void Slig::Motion_36_KnockbackToStand_46A7F0()
                 break;
 
             case 11:
-                if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+                if (mAnim.mFlags.Get(AnimFlags::eFlipX))
                 {
                     mXPos += ((mSpriteScale * mSpriteScale) * FP_FromInteger(-9));
                 }
@@ -3515,7 +3515,7 @@ void Slig::Motion_36_KnockbackToStand_46A7F0()
         }
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         ToStand();
     }
@@ -3525,7 +3525,7 @@ void Slig::Motion_37_Depossessing_4684D0()
 {
     if (sControlledCharacter == this)
     {
-        if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
         {
             if (!Input_IsChanting())
             {
@@ -3564,7 +3564,7 @@ void Slig::Motion_38_Possess_46B050()
 
     if (static_cast<s32>(sGnFrame) >= field_158_explode_timer)
     {
-        if (mAnim.mFlags.Get(AnimFlags::eBit3_Render))
+        if (mAnim.mFlags.Get(AnimFlags::eRender))
         {
             FP xOff = (FP_FromInteger(20) * mSpriteScale);
             if (mVelX < FP_FromInteger(0))
@@ -3598,7 +3598,7 @@ void Slig::Motion_38_Possess_46B050()
                 SfxPlayMono(relive::SoundEffects::FallingItemHit, 90);
             }
 
-            mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+            mAnim.mFlags.Clear(AnimFlags::eRender);
             mCurrentMotion = eSligMotions::Motion_0_StandIdle_467640;
             mVelY = FP_FromInteger(0);
             mVelX = FP_FromInteger(0);
@@ -3614,13 +3614,13 @@ void Slig::Motion_38_Possess_46B050()
     {
         if (mVelX >= FP_FromInteger(0))
         {
-            if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+            if (mAnim.mFlags.Get(AnimFlags::eFlipX))
             {
                 mCurrentMotion = eSligMotions::Motion_35_Knockback_46A720;
                 return;
             }
         }
-        else if (!mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+        else if (!mAnim.mFlags.Get(AnimFlags::eFlipX))
         {
             mCurrentMotion = eSligMotions::Motion_35_Knockback_46A720;
             return;
@@ -3660,7 +3660,7 @@ void Slig::Motion_40_FallingInitiate_46AA60()
 {
     EventBroadcast(kEventNoise, this);
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eSligMotions::Motion_39_OutToFall_46A9E0;
     }
@@ -3675,7 +3675,7 @@ void Slig::Motion_41_LandingSoft_46A390()
         Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 0, 0x7FFF, 0);
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         Motion_46_ToIdle_46A590();
     }
@@ -3689,7 +3689,7 @@ void Slig::Motion_42_LandingFatal_46AFE0()
         SfxPlayMono(relive::SoundEffects::KillEffect, 80);
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         if (static_cast<s32>(sGnFrame) >= field_128_timer && !BrainIs(&Slig::Brain_Death_46C3A0))
         {
@@ -3702,7 +3702,7 @@ void Slig::Motion_42_LandingFatal_46AFE0()
 
 void Slig::Motion_43_ShootZ_468E30()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         if (mNextMotion != -1)
         {
@@ -3771,7 +3771,7 @@ void Slig::Motion_45_Smash_46A990()
 
 void Slig::Motion_46_ToIdle_46A590()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         ToStand();
     }
@@ -3794,7 +3794,7 @@ void Slig::Motion_49_LiftGrip_4663A0()
     pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
     mVelY = FP_FromInteger(0);
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         if (Input().IsAnyPressed(sInputKey_Up))
         {
@@ -3830,7 +3830,7 @@ void Slig::Motion_50_LiftUngrip_466460()
 {
     mVelY = FP_FromInteger(0);
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         ToStand();
     }
@@ -3881,7 +3881,7 @@ void Slig::Motion_52_Beat_46AA90()
 
         PSX_RECT hitRect = {};
         hitRect = MakeMinMaxRect(
-            mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) ? mXPos - kGridSize : mXPos + kGridSize,
+            mAnim.mFlags.Get(AnimFlags::eFlipX) ? mXPos - kGridSize : mXPos + kGridSize,
             mYPos,
             mXPos,
             mYPos - k2Scaled);
@@ -3910,7 +3910,7 @@ void Slig::Motion_52_Beat_46AA90()
         }
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eSligMotions::Motion_0_StandIdle_467640;
     }
@@ -3984,7 +3984,7 @@ s16 Slig::Brain_Paused_466030()
         mBaseGameObjectFlags.Set(Options::eDead);
     }
 
-    switch (field_10E_brain_sub_state)
+    switch (mBrainSubState)
     {
         case Brain_Paused::eSearchGameEnderController_0:
             break;
@@ -3994,7 +3994,7 @@ s16 Slig::Brain_Paused_466030()
             {
                 if (mCurrentMotion != eSligMotions::Motion_0_StandIdle_467640)
                 {
-                    return field_10E_brain_sub_state;
+                    return mBrainSubState;
                 }
                 mNextMotion = eSligMotions::Motion_31_SpeakAIFreeze_468350;
                 return Brain_Paused::eStartRunning_3;
@@ -4008,17 +4008,17 @@ s16 Slig::Brain_Paused_466030()
 
         case Brain_Paused::eWaitForTurnAround_2:
             if (mCurrentMotion != eSligMotions::Motion_5_TurnAroundStanding_469C80
-                || !mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+                || !mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
             {
-                return field_10E_brain_sub_state;
+                return mBrainSubState;
             }
             return Brain_Paused::eSayFreezeOrTurnAround_1;
 
         case Brain_Paused::eStartRunning_3:
             if (mCurrentMotion != eSligMotions::Motion_31_SpeakAIFreeze_468350
-                || !mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+                || !mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
             {
-                return field_10E_brain_sub_state;
+                return mBrainSubState;
             }
             mNextMotion = eSligMotions::Motion_4_Running_469690;
             return Brain_Paused::eSetDead_4;
@@ -4033,10 +4033,10 @@ s16 Slig::Brain_Paused_466030()
             {
                 mBaseGameObjectFlags.Set(Options::eDead);
             }
-            return field_10E_brain_sub_state;
+            return mBrainSubState;
 
         default:
-            return field_10E_brain_sub_state;
+            return mBrainSubState;
     }
 
     bool found = false;
@@ -4283,7 +4283,7 @@ s16 Slig::Brain_Sleeping_46B4E0()
 
 s16 Slig::Brain_WakingUp_46B700()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         WaitOrWalk_46E440();
     }
@@ -4324,25 +4324,25 @@ s16 Slig::Brain_Inactive_46B780()
 
 s16 Slig::Brain_Possessed_46C190()
 {
-    switch (field_10E_brain_sub_state)
+    switch (mBrainSubState)
     {
         case Brain_Possessed::eStartPossession_0:
             Slig_GameSpeak_SFX_46F560(SligSpeak::eHelp_10, 0, field_110_pitch_min, this);
-            field_10E_brain_sub_state = Brain_Possessed::ePossessionShaking_1;
+            mBrainSubState = Brain_Possessed::ePossessionShaking_1;
             mHealth = FP_FromInteger(0);
             mCurrentMotion = eSligMotions::Motion_38_Possess_46B050;
             field_114_timer = sGnFrame + 30;
             field_158_explode_timer = sGnFrame + 1000;
             field_154_death_by_being_shot_timer = sGnFrame + 1000;
-            return field_10E_brain_sub_state;
+            return mBrainSubState;
 
         case Brain_Possessed::ePossessionShaking_1:
             if (static_cast<s32>(sGnFrame) >= field_114_timer)
             {
-                field_10E_brain_sub_state = Brain_Possessed::ePossessionInactive_2;
+                mBrainSubState = Brain_Possessed::ePossessionInactive_2;
                 field_114_timer = sGnFrame + 20;
                 mCurrentMotion = eSligMotions::Motion_0_StandIdle_467640;
-                return field_10E_brain_sub_state;
+                return mBrainSubState;
             }
             break;
 
@@ -4361,8 +4361,8 @@ s16 Slig::Brain_Possessed_46C190()
                     mCurrentMotion = eSligMotions::Motion_25_SpeakLaugh_467ED0;
                     Slig_GameSpeak_SFX_46F560(SligSpeak::eLaugh_7, 0, field_110_pitch_min, this);
                 }
-                field_10E_brain_sub_state = Brain_Possessed::ePossessionSpeak_3;
-                return field_10E_brain_sub_state;
+                mBrainSubState = Brain_Possessed::ePossessionSpeak_3;
+                return mBrainSubState;
             }
             break;
 
@@ -4377,9 +4377,9 @@ s16 Slig::Brain_Possessed_46C190()
 
             if (static_cast<s32>(sGnFrame) >= field_114_timer)
             {
-                field_10E_brain_sub_state = Brain_Possessed::eControlledByPlayer_4;
+                mBrainSubState = Brain_Possessed::eControlledByPlayer_4;
                 mHealth = FP_FromInteger(1);
-                return field_10E_brain_sub_state;
+                return mBrainSubState;
             }
             break;
 
@@ -4396,12 +4396,12 @@ s16 Slig::Brain_Possessed_46C190()
             {
                 SetBrain(&Slig::Brain_Death_46C3A0);
                 field_114_timer = sGnFrame + 60;
-                return field_10E_brain_sub_state;
+                return mBrainSubState;
             }
             break;
 
         default:
-            return field_10E_brain_sub_state;
+            return mBrainSubState;
     }
 
     if (field_106_shot)
@@ -4409,12 +4409,12 @@ s16 Slig::Brain_Possessed_46C190()
         BlowToGibs_4685A0();
     }
 
-    return field_10E_brain_sub_state;
+    return mBrainSubState;
 }
 
 s16 Slig::Brain_Death_46C3A0()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eBit3_Render) && field_114_timer < static_cast<s32>(sGnFrame) + 30)
+    if (mAnim.mFlags.Get(AnimFlags::eRender) && field_114_timer < static_cast<s32>(sGnFrame) + 30)
     {
         mSpriteScale -= FP_FromDouble(0.01);
         mRGB.r -= 2;
@@ -4426,7 +4426,7 @@ s16 Slig::Brain_Death_46C3A0()
             DeathSmokeEffect(true);
         }
     }
-    else if (!mAnim.mFlags.Get(AnimFlags::eBit3_Render))
+    else if (!mAnim.mFlags.Get(AnimFlags::eRender))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -4438,9 +4438,9 @@ s16 Slig::Brain_Death_46C3A0()
             sControlledCharacter = sActiveHero;
             MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
             gMap.SetActiveCam(
-                field_14E_level,
-                field_150_path,
-                field_152_camera,
+                mAbeLevel,
+                mAbePath,
+                mAbeCamera,
                 CameraSwapEffects::eInstantChange_0,
                 0,
                 0);
@@ -4470,7 +4470,7 @@ s16 Slig::Brain_Death_46C3A0()
 
 s16 Slig::Brain_DeathDropDeath_46C5A0()
 {
-    switch (field_10E_brain_sub_state)
+    switch (mBrainSubState)
     {
         case Brain_DeathDropDeath::eSayHelpOnce_0:
             Slig_GameSpeak_SFX_46F560(SligSpeak::eHelp_10, 0, field_110_pitch_min, this);
@@ -4494,7 +4494,7 @@ s16 Slig::Brain_DeathDropDeath_46C5A0()
                 {
                     SND_SEQ_Play_477760(SeqId::eHitBottomOfDeathPit_10, 1, 65, 65);
                 }
-                return field_10E_brain_sub_state;
+                return mBrainSubState;
             }
 
             Environment_SFX_42A220(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 32767, this);
@@ -4511,14 +4511,14 @@ s16 Slig::Brain_DeathDropDeath_46C5A0()
                 {
                     MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
                     sControlledCharacter = sActiveHero;
-                    gMap.SetActiveCam(field_14E_level, field_150_path, field_152_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
+                    gMap.SetActiveCam(mAbeLevel, mAbePath, mAbeCamera, CameraSwapEffects::eInstantChange_0, 0, 0);
                 }
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
-            return field_10E_brain_sub_state;
+            return mBrainSubState;
 
         default:
-            return field_10E_brain_sub_state;
+            return mBrainSubState;
     }
 }
 
@@ -4529,9 +4529,9 @@ s16 Slig::Brain_ReturnControlToAbeAndDie_46C760()
         sControlledCharacter = sActiveHero;
         MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
         gMap.SetActiveCam(
-            field_14E_level,
-            field_150_path,
-            field_152_camera,
+            mAbeLevel,
+            mAbePath,
+            mAbeCamera,
             CameraSwapEffects::eInstantChange_0,
             0,
             0);
@@ -4554,9 +4554,9 @@ s16 Slig::Brain_PanicTurning_46C7C0()
         return 107;
     }
     if (mCurrentMotion != eSligMotions::Motion_5_TurnAroundStanding_469C80
-        || !(mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame)))
+        || !(mAnim.mFlags.Get(AnimFlags::eIsLastFrame)))
     {
-        if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
         {
             mNextMotion = eSligMotions::Motion_5_TurnAroundStanding_469C80;
             return 107;
@@ -4566,7 +4566,7 @@ s16 Slig::Brain_PanicTurning_46C7C0()
             ShouldStilBeAlive_46C0D0();
             return 107;
         }
-        if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+        if (mAnim.mFlags.Get(AnimFlags::eFlipX))
         {
             if (sControlledCharacter->mVelX >= FP_FromInteger(0) && (sControlledCharacter->mVelX != FP_FromInteger(0) || sControlledCharacter->mXPos >= mXPos))
             {
@@ -4590,7 +4590,7 @@ s16 Slig::Brain_PanicTurning_46C7C0()
         {
             if (charRect.x <= bRect.w && charRect.w >= bRect.x && charRect.h >= bRect.y && charRect.y <= bRect.h)
             {
-                mAnim.mFlags.Toggle(AnimFlags::eBit5_FlipX);
+                mAnim.mFlags.Toggle(AnimFlags::eFlipX);
                 return 107;
             }
         }
@@ -4671,11 +4671,11 @@ s16 Slig::Brain_PanicRunning_46CA20()
 s16 Slig::Brain_PanicYelling_46CC50()
 {
     if (mCurrentMotion == eSligMotions::Motion_29_SpeakPanic_4681D0
-        && mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        && mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         EventBroadcast(kEventAlarm, this);
 
-        const bool bFlipX = mAnim.mFlags.Get(AnimFlags::eBit5_FlipX);
+        const bool bFlipX = mAnim.mFlags.Get(AnimFlags::eFlipX);
         field_114_timer = sGnFrame + field_174_tlv->mData.mPanicTimeout;
         if ((!bFlipX
              || mXPos >= FP_FromInteger((field_13C_zone_rect.x + field_13C_zone_rect.w)
@@ -4796,7 +4796,7 @@ s16 Slig::Brain_StartChasing_46CF90()
 
         if (!VIsFacingMe(sControlledCharacter))
         {
-            mAnim.mFlags.Toggle(AnimFlags::eBit5_FlipX);
+            mAnim.mFlags.Toggle(AnimFlags::eFlipX);
         }
 
         field_20C_force_alive_state = 1;
@@ -4875,7 +4875,7 @@ s16 Slig::Brain_Idle_46D6E0()
                 if (pTlv)
                 {
                     FP kScaleGrid = ScaleToGridSize(mSpriteScale);
-                    if ((FP_FromInteger(FP_GetExponent(mXPos) - pTlv->mTopLeftX) < kScaleGrid && !(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))) || (FP_FromInteger(pTlv->mBottomRightX - FP_GetExponent(mXPos)) < kScaleGrid && mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)))
+                    if ((FP_FromInteger(FP_GetExponent(mXPos) - pTlv->mTopLeftX) < kScaleGrid && !(mAnim.mFlags.Get(AnimFlags::eFlipX))) || (FP_FromInteger(pTlv->mBottomRightX - FP_GetExponent(mXPos)) < kScaleGrid && mAnim.mFlags.Get(AnimFlags::eFlipX)))
                     {
                         auto pSwitch = static_cast<Lever*>(FindObjectOfType_418280(
                             ReliveTypes::eLever,
@@ -4953,14 +4953,14 @@ s16 Slig::Brain_Turning_46DC70()
         return 106;
     }
     if (mCurrentMotion == eSligMotions::Motion_5_TurnAroundStanding_469C80
-        && mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        && mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         WaitOrWalk_46E440();
         return 106;
     }
     if (mAnim.mCurrentFrame == 4)
     {
-        if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+        if (mAnim.mFlags.Get(AnimFlags::eFlipX))
         {
             if (sControlledCharacter->mVelX >= FP_FromInteger(0) && (sControlledCharacter->mVelX != FP_FromInteger(0) || sControlledCharacter->mXPos >= mXPos))
             {
@@ -4986,7 +4986,7 @@ s16 Slig::Brain_Turning_46DC70()
 
             if (sControlledCharacter->mHealth > FP_FromInteger(0) && PSX_Rects_overlap_no_adjustment(&hitRect, &bRect) && sControlledCharacter->Type() != ReliveTypes::eSlig)
             {
-                mAnim.mFlags.Toggle(AnimFlags::eBit5_FlipX);
+                mAnim.mFlags.Toggle(AnimFlags::eFlipX);
                 return 106;
             }
         }
@@ -5135,7 +5135,7 @@ s16 Slig::Brain_Walking_46DE90()
 
 s16 Slig::Brain_GetAlertedTurn_46E520()
 {
-    if (mCurrentMotion == eSligMotions::Motion_5_TurnAroundStanding_469C80 && mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mCurrentMotion == eSligMotions::Motion_5_TurnAroundStanding_469C80 && mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         if (!EventGet(kEventSpeaking) || IsInInvisibleZone_418870(sControlledCharacter))
         {
@@ -5163,7 +5163,7 @@ s16 Slig::Brain_GetAlertedTurn_46E520()
     if (mAnim.mCurrentFrame == 4)
     {
         bool tryTurningToPlayer = true;
-        if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+        if (mAnim.mFlags.Get(AnimFlags::eFlipX))
         {
             if (sControlledCharacter->mVelX >= FP_FromInteger(0) && (sControlledCharacter->mVelX > FP_FromInteger(0) || sControlledCharacter->mXPos >= mXPos))
             {
@@ -5184,7 +5184,7 @@ s16 Slig::Brain_GetAlertedTurn_46E520()
 
                 if (PSX_Rects_overlap_no_adjustment(&bRectChar, &bRect))
                 {
-                    mAnim.mFlags.Toggle(AnimFlags::eBit5_FlipX);
+                    mAnim.mFlags.Toggle(AnimFlags::eFlipX);
                     return 123;
                 }
             }
@@ -5392,28 +5392,28 @@ s16 Slig::Brain_ChaseAndDisappear_46EEE0()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (field_10E_brain_sub_state == Brain_ChaseAndDisappear::eSummoned_0)
+    if (mBrainSubState == Brain_ChaseAndDisappear::eSummoned_0)
     {
         if (sNumCamSwappers_507668 > 0 || sActiveHero->field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel))
         {
-            return field_10E_brain_sub_state;
+            return mBrainSubState;
         }
         mCurrentMotion = eSligMotions::Motion_0_StandIdle_467640;
         field_114_timer = sGnFrame + field_130_game_ender_pause_time;
         return Brain_ChaseAndDisappear::eRunning_1;
     }
-    else if (field_10E_brain_sub_state == Brain_ChaseAndDisappear::eRunning_1)
+    else if (mBrainSubState == Brain_ChaseAndDisappear::eRunning_1)
     {
         if (static_cast<s32>(sGnFrame) < field_114_timer)
         {
-            return field_10E_brain_sub_state;
+            return mBrainSubState;
         }
         mNextMotion = eSligMotions::Motion_4_Running_469690;
         return Brain_ChaseAndDisappear::eReachedDestination_2;
     }
     else
     {
-        if (field_10E_brain_sub_state == Brain_ChaseAndDisappear::eReachedDestination_2
+        if (mBrainSubState == Brain_ChaseAndDisappear::eReachedDestination_2
             && gMap.Is_Point_In_Current_Camera(
                 mCurrentLevel,
                 mCurrentPath,
@@ -5421,18 +5421,18 @@ s16 Slig::Brain_ChaseAndDisappear_46EEE0()
                 mYPos,
                 0))
         {
-            return field_10E_brain_sub_state;
+            return mBrainSubState;
         }
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         mHealth = FP_FromInteger(0);
-        return field_10E_brain_sub_state;
+        return mBrainSubState;
     }
 }
 
 s16 Slig::Brain_Shooting_46EFD0()
 {
     if (mCurrentMotion == eSligMotions::Motion_6_Shoot_468820
-        && mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        && mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         field_200_num_times_to_shoot++;
 
@@ -5517,7 +5517,7 @@ s16 Slig::Brain_ZSpottedEnemy_46F260()
 
 s16 Slig::Brain_ZShooting_46F290()
 {
-    if (mCurrentMotion != eSligMotions::Motion_43_ShootZ_468E30 || !mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mCurrentMotion != eSligMotions::Motion_43_ShootZ_468E30 || !mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         ShouldStilBeAlive_46C0D0();
         return 127;
@@ -5587,7 +5587,7 @@ void Slig::BlowToGibs_4685A0()
         SfxPlayMono(relive::SoundEffects::FallingItemHit, 90);
     }
 
-    mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+    mAnim.mFlags.Clear(AnimFlags::eRender);
     mCurrentMotion = eSligMotions::Motion_0_StandIdle_467640;
     mVelY = FP_FromInteger(0);
     mVelX = FP_FromInteger(0);
@@ -5601,7 +5601,7 @@ void Slig::BlowToGibs_4685A0()
 
 void Slig::SetBrain(Slig::TBrainFn fn)
 {
-    field_1F8_fn = fn;
+    mBrainState = fn;
 }
 
 void Slig::SetBrain2(Slig::TBrainFn fn)
@@ -5611,7 +5611,7 @@ void Slig::SetBrain2(Slig::TBrainFn fn)
 
 bool Slig::BrainIs(Slig::TBrainFn fn)
 {
-    return field_1F8_fn == fn;
+    return mBrainState == fn;
 }
 
 } // namespace AO

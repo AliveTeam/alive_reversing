@@ -18,7 +18,7 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
     Animation_Init(GetAnimRes(AnimId::BloodDrop));
 
     //mAnim.mFlags.Set(AnimFlags::eBit25_bDecompressDone);
-    mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
     mAnim.mRed = 127;
     mAnim.mGreen = 127;
     mAnim.mBlue = 127;
@@ -46,11 +46,11 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
         mBloodXPos = FP_GetExponent(xpos - FP_FromInteger(12) - pScreenManager->CamXPos());
         mBloodYPos = FP_GetExponent(ypos - FP_FromInteger(12) - pScreenManager->CamYPos());
 
-        if (mAnim.mFlags.Get(AnimFlags::eBit13_Is8Bit))
+        if (mAnim.mFlags.Get(AnimFlags::eIs8Bit))
         {
             mTextureMode = TPageMode::e8Bit_1;
         }
-        else if (mAnim.mFlags.Get(AnimFlags::eBit14_Is16Bit))
+        else if (mAnim.mFlags.Get(AnimFlags::eIs16Bit))
         {
             mTextureMode = TPageMode::e16Bit_2;
         }
@@ -77,7 +77,7 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
         const u32 frameW = pFrameHeader->mWidth;
         const u32 frameH = pFrameHeader->mHeight;
 
-        mAnim.mFlags.Set(AnimFlags::eBit16_bBlending);
+        mAnim.mFlags.Set(AnimFlags::eBlending);
 
         for (s32 i = 0; i < mTotalBloodCount; i++)
         {
@@ -88,7 +88,7 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
                 Sprt_Init(pSprt);
                 Poly_Set_SemiTrans(&pSprt->mBase.header, 1);
 
-                if (mAnim.mFlags.Get(AnimFlags::eBit16_bBlending))
+                if (mAnim.mFlags.Get(AnimFlags::eBlending))
                 {
                     Poly_Set_Blending(&pSprt->mBase.header, 1);
                 }
@@ -203,7 +203,7 @@ void Blood::VRender(PrimHeader** ppOt)
 
             SetXY0(pSprt, x0, y0);
 
-            if (!mAnim.mFlags.Get(AnimFlags::eBit16_bBlending))
+            if (!mAnim.mFlags.Get(AnimFlags::eBlending))
             {
                 SetRGB0(pSprt, mAnim.mRed, mAnim.mGreen, mAnim.mBlue);
             }

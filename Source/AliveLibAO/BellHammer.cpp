@@ -26,7 +26,7 @@ BellHammer::BellHammer(relive::Path_BellHammer* pTlv, const Guid& tlvId)
     LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::BellHammer_Idle));
 
-    mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
     mSpawnElum = false;
     mState = BellHammerStates::eWaitForActivation_0;
 
@@ -51,7 +51,7 @@ BellHammer::BellHammer(relive::Path_BellHammer* pTlv, const Guid& tlvId)
 
     if (pTlv->mDirection == relive::reliveXDirection::eRight)
     {
-        mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
+        mAnim.mFlags.Set(AnimFlags::eFlipX);
     }
 
     if (gElum)
@@ -83,7 +83,7 @@ void BellHammer::VUpdate()
             break;
 
         case BellHammerStates::eSmashingBell_1:
-            if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 mState = BellHammerStates::eWaitForActivation_0;
                 mAnim.Set_Animation_Data(GetAnimRes(AnimId::BellHammer_Idle));

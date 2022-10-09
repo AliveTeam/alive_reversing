@@ -109,12 +109,12 @@ Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
         for (s32 i = 0; i < field_E4_rope_segment_count; i++)
         {
             AnimationUnknown* pSegment = &field_E8_pRopeRes[i];
-            pSegment->mFlags.Set(AnimFlags::eBit3_Render);
+            pSegment->mFlags.Set(AnimFlags::eRender);
             pSegment->field_68_anim_ptr = &mAnim;
             pSegment->mRenderLayer = mAnim.mRenderLayer;
             pSegment->field_6C_scale = scale;
-            pSegment->mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
-            pSegment->mFlags.Clear(AnimFlags::eBit16_bBlending);
+            pSegment->mFlags.Clear(AnimFlags::eSemiTrans);
+            pSegment->mFlags.Clear(AnimFlags::eBlending);
         }
     }
 }

@@ -308,10 +308,10 @@ private:
 public:
     FP field_294_nextXPos = {};
     FP field_298_nextYPos = {};
-    TFlyingSligBrainFn field_29C_brain_state = nullptr;
-    EReliveLevelIds field_2A0_abe_level = EReliveLevelIds::eNone;
-    s16 field_2A2_abe_path = 0;
-    s16 field_2A4_abe_camera = 0;
+    TFlyingSligBrainFn mBrainState = nullptr;
+    EReliveLevelIds mAbeLevel = EReliveLevelIds::eNone;
+    s16 mAbePath = 0;
+    s16 mAbeCamera = 0;
     FP field_2A8_max_x_speed = {};
     FP field_2AC_up_vel = {};
     FP field_2B0_down_vel = {};

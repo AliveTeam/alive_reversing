@@ -422,6 +422,13 @@ public:
     Abe();
     ~Abe();
 
+    virtual void VUpdate() override;
+    virtual void VRender(PrimHeader** ppOt) override;
+    virtual void VScreenChanged() override;
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
+    virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
+    virtual BirdPortal* VIntoBirdPortal(s16 gridBlocks) override;
+    virtual void VOnTrapDoorOpen() override;
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
 
     s16 CantBeDamaged_44BAB0();
@@ -469,14 +476,6 @@ public:
 
 private:
     void LoadAnimations();
-
-    virtual void VUpdate() override;
-    virtual void VRender(PrimHeader** ppOt) override;
-    virtual void VScreenChanged() override;
-    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
-    virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
-    virtual BirdPortal* VIntoBirdPortal(s16 gridBlocks) override;
-    virtual void VOnTrapDoorOpen() override;
 
     void DoRunJump();
 

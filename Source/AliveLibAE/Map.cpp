@@ -184,7 +184,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
 
                 if (pBaseObj->mVisualFlags.Get(BaseAnimatedWithPhysicsGameObject::VisualFlags::eDoPurpleLightEffect))
                 {
-                    if (pBaseObj->mAnim.mFlags.Get(AnimFlags::eBit3_Render))
+                    if (pBaseObj->mAnim.mFlags.Get(AnimFlags::eRender))
                     {
                         if (!pBaseObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && pBaseObj != sControlledCharacter && gMap.Rect_Location_Relative_To_Active_Camera(&objRect) == CameraPos::eCamCurrent_0)
                         {
@@ -223,7 +223,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                     {
                         break;
                     }
-                    pObj->mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+                    pObj->mAnim.mFlags.Clear(AnimFlags::eRender);
                 }
             }
 
@@ -290,7 +290,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                 {
                     break;
                 }
-                pObj->mAnim.mFlags.Set(AnimFlags::eBit3_Render);
+                pObj->mAnim.mFlags.Set(AnimFlags::eRender);
             }
         }
     }

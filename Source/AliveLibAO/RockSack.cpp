@@ -49,7 +49,7 @@ void RockSack::VUpdate()
     {
         if (field_110_has_been_hit == 1)
         {
-            if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 mAnim.Set_Animation_Data(GetAnimRes(AnimId::RockSack_Idle));
                 field_110_has_been_hit = 0;
@@ -121,7 +121,7 @@ RockSack::RockSack(relive::Path_RockSack* pTlv, const Guid& tlvId)
     LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::RockSack_Idle));
 
-    mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
 
     field_10C_tlvInfo = tlvId;
     field_110_has_been_hit = 0;

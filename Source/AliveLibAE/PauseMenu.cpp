@@ -1504,14 +1504,14 @@ void PauseMenu::VUpdate()
         return;
     }
 
-    if (sActiveHero->mHealth <= FP_FromInteger(0) || sActiveHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted))
+    if (sActiveHero->mHealth <= FP_FromInteger(0) || sActiveHero->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted))
     {
         pControlledChar = sControlledCharacter;
     }
     else
     {
         pControlledChar = sControlledCharacter;
-        if (!(sControlledCharacter->mBaseAliveGameObjectFlags.Get(e114_Bit10_Teleporting)))
+        if (!(sControlledCharacter->mBaseAliveGameObjectFlags.Get(eTeleporting)))
         {
             const s16 heroState = sActiveHero->mCurrentMotion;
             if (heroState != eAbeMotions::Motion_86_HandstoneBegin_45BD00
@@ -1558,8 +1558,8 @@ void PauseMenu::VUpdate()
     if (Input().mPads[sCurrentControllerIndex].mHeld & InputCommands::Enum::ePause)
     {
         if (pHero->mHealth > FP_FromInteger(0)
-            && !(pHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted))
-            && !(pControlledChar->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit10_Teleporting)))
+            && !(pHero->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted))
+            && !(pControlledChar->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eTeleporting)))
         {
             const s16 heroState = pHero->mCurrentMotion;
             if (heroState != eAbeMotions::Motion_86_HandstoneBegin_45BD00

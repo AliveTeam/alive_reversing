@@ -67,8 +67,8 @@ HoistRocksEffect::HoistRocksEffect(relive::Path_Hoist* pTlv, const Guid& tlvId)
         }
 
         particle.field_10_mAnim.mRenderMode = TPageAbr::eBlend_0;
-        particle.field_10_mAnim.mFlags.Clear(AnimFlags::eBit16_bBlending);
-        particle.field_10_mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
+        particle.field_10_mAnim.mFlags.Clear(AnimFlags::eBlending);
+        particle.field_10_mAnim.mFlags.Set(AnimFlags::eSemiTrans);
         particle.field_10_mAnim.field_14_scale = field_2C_scale;
 
         particle.field_0_state = 0;

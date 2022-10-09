@@ -24,7 +24,7 @@ Meat::Meat(FP xpos, FP ypos, s16 count)
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Meat));
     Animation_Init(GetAnimRes(AnimId::Meat));
 
-    mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
 
     mXPos = xpos;
     mYPos = ypos;
@@ -37,7 +37,7 @@ Meat::Meat(FP xpos, FP ypos, s16 count)
     field_128_timer = 0;
     mBaseGameObjectFlags.Clear(BaseGameObject::eInteractive_Bit8);
 
-    mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+    mAnim.mFlags.Clear(AnimFlags::eRender);
 
     field_12C_deadtimer = sGnFrame + 600;
     field_130_pLine = nullptr;
@@ -104,7 +104,7 @@ Meat::~Meat()
 
 void Meat::VThrow(FP velX, FP velY)
 {
-    mAnim.mFlags.Set(AnimFlags::eBit3_Render);
+    mAnim.mFlags.Set(AnimFlags::eRender);
 
     mVelX = velX;
     mVelY = velY;
@@ -291,7 +291,7 @@ void Meat::VUpdate()
             case MeatStates::eBecomeAPickUp_3:
                 if (FP_Abs(mVelX) < FP_FromInteger(1))
                 {
-                    mAnim.mFlags.Clear(AnimFlags::eBit8_Loop);
+                    mAnim.mFlags.Clear(AnimFlags::eLoop);
                 }
 
                 if (FP_Abs(mVelX) >= FP_FromDouble(0.5))
@@ -308,7 +308,7 @@ void Meat::VUpdate()
                     field_130_pLine = field_130_pLine->MoveOnLine(&mXPos, &mYPos, mVelX);
                     if (!field_130_pLine)
                     {
-                        mAnim.mFlags.Set(AnimFlags::eBit8_Loop);
+                        mAnim.mFlags.Set(AnimFlags::eLoop);
                         field_11C_state = MeatStates::eBeingThrown_2;
                     }
                 }
@@ -462,13 +462,13 @@ s32 Meat::CreateFromSaveState(const u8* pBuffer)
 
     pMeat->mSpriteScale = pState->field_18_sprite_scale;
 
-    pMeat->mAnim.mFlags.Set(AnimFlags::eBit8_Loop, pState->field_20_flags.Get(Meat_SaveState::eBit3_bLoop));
-    pMeat->mAnim.mFlags.Set(AnimFlags::eBit3_Render, pState->field_20_flags.Get(Meat_SaveState::eBit1_bRender));
+    pMeat->mAnim.mFlags.Set(AnimFlags::eLoop, pState->field_20_flags.Get(Meat_SaveState::eBit3_bLoop));
+    pMeat->mAnim.mFlags.Set(AnimFlags::eRender, pState->field_20_flags.Get(Meat_SaveState::eBit1_bRender));
 
     pMeat->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_20_flags.Get(Meat_SaveState::eBit2_bDrawable));
     pMeat->mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8, pState->field_20_flags.Get(Meat_SaveState::eBit4_bInteractive));
 
-    pMeat->mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
+    pMeat->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eRestoredFromQuickSave);
 
     pMeat->field_128_timer = sGnFrame;
     pMeat->BaseAliveGameObjectCollisionLineType = pState->field_28_line_type;
@@ -519,7 +519,7 @@ void MeatSack::VUpdate()
 
     if (field_11C_bDoMeatSackIdleAnim)
     {
-        if (field_11C_bDoMeatSackIdleAnim == 1 && mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (field_11C_bDoMeatSackIdleAnim == 1 && mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
         {
             mAnim.Set_Animation_Data(GetAnimRes(AnimId::MeatSack_Idle));
             field_11C_bDoMeatSackIdleAnim = 0;
@@ -579,8 +579,8 @@ s32 Meat::VGetSaveState(u8* pSaveBuffer)
 
     pState->field_18_sprite_scale = mSpriteScale;
 
-    pState->field_20_flags.Set(Meat_SaveState::eBit3_bLoop, mAnim.mFlags.Get(AnimFlags::eBit8_Loop));
-    pState->field_20_flags.Set(Meat_SaveState::eBit1_bRender, mAnim.mFlags.Get(AnimFlags::eBit3_Render));
+    pState->field_20_flags.Set(Meat_SaveState::eBit3_bLoop, mAnim.mFlags.Get(AnimFlags::eLoop));
+    pState->field_20_flags.Set(Meat_SaveState::eBit1_bRender, mAnim.mFlags.Get(AnimFlags::eRender));
 
     pState->field_20_flags.Set(Meat_SaveState::eBit2_bDrawable, mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4));
     pState->field_20_flags.Set(Meat_SaveState::eBit4_bInteractive, mBaseGameObjectFlags.Get(BaseGameObject::eInteractive_Bit8));

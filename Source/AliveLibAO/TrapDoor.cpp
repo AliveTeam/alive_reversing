@@ -98,7 +98,7 @@ TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, Map* pMap, const Guid& tlvId)
     mAnim.Set_Animation_Data(GetAnimRes(animId));
     if (pTlv->mDirection == relive::reliveXDirection::eRight)
     {
-        mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
+        mAnim.mFlags.Set(AnimFlags::eFlipX);
     }
 
     mPlatformBaseXOffset = FP_GetExponent(FP_FromInteger(pTlv->mTopLeftX) - mXPos);
@@ -229,7 +229,7 @@ void TrapDoor::VUpdate()
             break;
 
         case TrapDoorState::eOpening_1:
-            if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 mState = TrapDoorState::eOpen_2;
                 mStayOpenTimeTimer = 20; // NOTE: AE has another variable to save and re-use the path tlv value
@@ -256,7 +256,7 @@ void TrapDoor::VUpdate()
             break;
 
         case TrapDoorState::eClosing_3:
-            if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 mPlatformBaseCollisionLine = sCollisions->Add_Dynamic_Collision_Line(
                     mBoundingRect.x,

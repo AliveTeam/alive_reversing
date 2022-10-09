@@ -233,8 +233,8 @@ private:
     Guid mTlvInfo;
     Guid field_11C_obj_id;
     s16 field_120_unused = 0;
-    s16 field_124_brain_state = 0;
-    u16 field_126_brain_sub_state = 0;
+    s16 mBrainState = 0;
+    u16 mBrainSubState = 0;
     s16 field_128 = 0;
     s32 field_12C_shrivel_timer = 0;
     s16 field_130_bDidMapFollowMe = 0;

@@ -53,7 +53,7 @@ PullRingRope::PullRingRope(relive::Path_PullRingRope* pTlv, const Guid& tlvId)
         }
     }
 
-    mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mFlags.Set(AnimFlags::eSemiTrans);
 
     mSwitchId = pTlv->mSwitchId;
     mAction = pTlv->mAction;

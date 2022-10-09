@@ -23,7 +23,7 @@ Water::Water(relive::Path_Water* pTlv, const Guid& tlvId)
 
     Animation_Init(GetAnimRes(AnimId::WaterDrop));
     // mAnim.mFlags.Set(AnimFlags::eBit25_bDecompressDone);
-    mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
 
     field_114_tlvInfo = tlvId;
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
@@ -69,11 +69,11 @@ Water::Water(relive::Path_Water* pTlv, const Guid& tlvId)
         field_10C_particle_count = 0;
         field_10E_current_particle_idx = 0;
 
-        if (mAnim.mFlags.Get(AnimFlags::eBit13_Is8Bit))
+        if (mAnim.mFlags.Get(AnimFlags::eIs8Bit))
         {
             field_FE_texture_mode = TPageMode::e8Bit_1;
         }
-        else if (mAnim.mFlags.Get(AnimFlags::eBit14_Is16Bit))
+        else if (mAnim.mFlags.Get(AnimFlags::eIs16Bit))
         {
             field_FE_texture_mode = TPageMode::e16Bit_2;
         }

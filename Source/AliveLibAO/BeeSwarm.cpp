@@ -498,8 +498,8 @@ void BeeSwarm::VUpdate()
     {
         BeeSwarmParticle* pBee = &field_E4_bees.bees[mCurrentBeesCount];
 
-        pBee->field_10_anim.mFlags.Set(AnimFlags::eBit3_Render);
-        pBee->field_10_anim.mFlags.Set(AnimFlags::eBit16_bBlending); // TODO: or higher byte
+        pBee->field_10_anim.mFlags.Set(AnimFlags::eRender);
+        pBee->field_10_anim.mFlags.Set(AnimFlags::eBlending); // TODO: or higher byte
 
         pBee->field_10_anim.field_68_anim_ptr = &mAnim;
         pBee->field_10_anim.field_6C_scale = mSpriteScale;

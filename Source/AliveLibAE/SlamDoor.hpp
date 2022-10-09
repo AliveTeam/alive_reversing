@@ -8,15 +8,6 @@ namespace relive
     struct Path_SlamDoor;
 }
 
-enum SlamDoorFlags
-{
-    eClosed = 0x1,
-    eOpen = 0x2,
-    eLastFrame = 0x4,
-    eFlipY = 0x8,
-    eDelete = 0x10,
-};
-
 class SlamDoor final : public BaseAliveGameObject
 {
 public:
@@ -38,6 +29,14 @@ private:
     void ClearInsideSlamDoor(BaseAliveGameObject* pObj, s16 xPosition, s16 width);
 
 private:
+    enum SlamDoorFlags
+    {
+        eClosed = 0x1,
+        eOpen = 0x2,
+        eLastFrame = 0x4,
+        eSlamDoorFlipY = 0x8,
+        eDelete = 0x10,
+    };
     BitField16<SlamDoorFlags> mSlamDoorFlags = {};
     PathLine* mCollisionLine1 = nullptr;
     PathLine* mCollisionLine2 = nullptr;

@@ -66,7 +66,7 @@ void DoorBlocker::VUpdate()
     {
         if (field_118_bDone & 1)
         {
-            if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }

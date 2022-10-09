@@ -36,7 +36,7 @@ BulletShell::BulletShell(FP xpos, FP ypos, s16 direction, FP scale)
         }
 
         mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
-        mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, direction & 1);
+        mAnim.mFlags.Set(AnimFlags::eFlipX, direction & 1);
 
         field_FC_hitCount = 0;
 

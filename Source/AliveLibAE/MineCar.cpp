@@ -174,14 +174,14 @@ s32 MineCar::CreateFromSaveState(const u8* pBuffer)
 
         pMineCar->mAnim.mFrameChangeCounter = pState->field_2C_frame_change_counter;
 
-        pMineCar->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pState->field_22_xFlip & 1);
-        pMineCar->mAnim.mFlags.Set(AnimFlags::eBit3_Render, pState->field_2E_render & 1);
+        pMineCar->mAnim.mFlags.Set(AnimFlags::eFlipX, pState->field_22_xFlip & 1);
+        pMineCar->mAnim.mFlags.Set(AnimFlags::eRender, pState->field_2E_render & 1);
 
         pMineCar->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_2F_drawable & 1);
 
         if (IsLastFrame(&pMineCar->mAnim))
         {
-            pMineCar->mAnim.mFlags.Set(AnimFlags::eBit18_IsLastFrame);
+            pMineCar->mAnim.mFlags.Set(AnimFlags::eIsLastFrame);
         }
 
         // TODO: replace Set_Animation_Data sMineCarAnimIdTable[] with the actual anim id's
@@ -216,8 +216,8 @@ s32 MineCar::CreateFromSaveState(const u8* pBuffer)
 
 
         // TODO: OG Bug same flags but save state saves 2 sets one for each anim ??
-        pMineCar->mTreadAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pState->field_22_xFlip & 1);
-        pMineCar->mTreadAnim.mFlags.Set(AnimFlags::eBit3_Render, pState->field_2E_render & 1);
+        pMineCar->mTreadAnim.mFlags.Set(AnimFlags::eFlipX, pState->field_22_xFlip & 1);
+        pMineCar->mTreadAnim.mFlags.Set(AnimFlags::eRender, pState->field_2E_render & 1);
 
 
         pMineCar->mTreadAnim.mFrameChangeCounter = pState->field_2C_frame_change_counter;
@@ -229,7 +229,7 @@ s32 MineCar::CreateFromSaveState(const u8* pBuffer)
 
         pMineCar->BaseAliveGameObjectLastLineYPos = FP_FromInteger(pState->field_44_last_line_ypos);
 
-        pMineCar->mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
+        pMineCar->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eRestoredFromQuickSave);
 
         pMineCar->BaseAliveGameObjectCollisionLineType = pState->field_46_collision_line_type;
         pMineCar->field_118_tlvInfo = pState->field_4C_tlvInfo;
@@ -263,7 +263,7 @@ void MineCar::LoadAnimation(Animation* pAnim)
     if (pAnim->Init(GetAnimRes(AnimId::Mine_Car_Tread_Idle), this))
     {
         pAnim->mRenderLayer = mAnim.mRenderLayer;
-        pAnim->mFlags.Clear(AnimFlags::eBit16_bBlending);
+        pAnim->mFlags.Clear(AnimFlags::eBlending);
         pAnim->field_14_scale = mSpriteScale;
         pAnim->mRed = 128;
         pAnim->mGreen = 128;
@@ -356,7 +356,7 @@ bool MineCar::CheckFloorCollision(FP hitX, FP hitY)
 
 void MineCar::VRender(PrimHeader** ppOt)
 {
-    if (mAnim.mFlags.Get(AnimFlags::eBit3_Render))
+    if (mAnim.mFlags.Get(AnimFlags::eRender))
     {
         s16 r = mRGB.g;
         s16 g = mRGB.r;
@@ -437,7 +437,7 @@ void MineCar::Move(AnimId animId, FP velX, FP velY, InputCommands::Enum input, M
 
     field_1BC_turn_direction = turnDirection;
 
-    mTreadAnim.mFlags.Set(AnimFlags::eBit19_LoopBackwards, bChangeDirection);
+    mTreadAnim.mFlags.Set(AnimFlags::eLoopBackwards, bChangeDirection);
 }
 
 s16 MineCar::IsBlocked(MineCarDirs a2, s32 /*a3*/)
@@ -696,8 +696,8 @@ s32 MineCar::VGetSaveState(u8* pSaveBuffer)
     pState->field_2C_frame_change_counter = static_cast<s16>(mAnim.mFrameChangeCounter);
 
     pState->field_2F_drawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
-    pState->field_22_xFlip = mAnim.mFlags.Get(AnimFlags::eBit5_FlipX);
-    pState->field_2E_render = mAnim.mFlags.Get(AnimFlags::eBit3_Render);
+    pState->field_22_xFlip = mAnim.mFlags.Get(AnimFlags::eFlipX);
+    pState->field_2E_render = mAnim.mFlags.Get(AnimFlags::eRender);
 
     // this makes no sense because we convert pState->field_24_frame_table back to the actual offset in CreateFromSaveState
     switch (mAnim.mAnimRes.mId)
@@ -730,8 +730,8 @@ s32 MineCar::VGetSaveState(u8* pSaveBuffer)
     pState->field_34_unused = static_cast<s16>(mTreadAnim.mCurrentFrame);
     pState->field_36_unused = static_cast<s16>(mTreadAnim.mFrameChangeCounter);
 
-    pState->field_32_unused = mTreadAnim.mFlags.Get(AnimFlags::eBit5_FlipX);
-    pState->field_30_unused = mTreadAnim.mFlags.Get(AnimFlags::eBit3_Render);
+    pState->field_32_unused = mTreadAnim.mFlags.Get(AnimFlags::eFlipX);
+    pState->field_30_unused = mTreadAnim.mFlags.Get(AnimFlags::eRender);
     
     switch (mTreadAnim.mAnimRes.mId)
     {
@@ -798,9 +798,9 @@ s32 MineCar::VGetSaveState(u8* pSaveBuffer)
 
 void MineCar::VUpdate()
 {
-    if (mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit9_RestoredFromQuickSave))
+    if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eRestoredFromQuickSave))
     {
-        mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit9_RestoredFromQuickSave);
+        mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eRestoredFromQuickSave);
 
         if (BaseAliveGameObjectCollisionLineType != -1)
         {

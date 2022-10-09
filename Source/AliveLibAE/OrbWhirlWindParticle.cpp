@@ -11,20 +11,20 @@ OrbWhirlWindParticle::OrbWhirlWindParticle(FP xpos, FP ypos, FP scale, s16 bIsMu
     AnimResource res = ResourceManagerWrapper::LoadAnimation(AnimId::ChantOrb_Particle);
     mAnim.Init(res, nullptr);
 
-    mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mFlags.Set(AnimFlags::eSemiTrans);
 
     mAnim.mRenderLayer = Layer::eLayer_AbeMenu_32;
     mAnim.mRenderMode = TPageAbr::eBlend_1;
     if (bIsMudokonSpirit == 1)
     {
         mAnim.mRed = 0;
-        mAnim.mFlags.Clear(AnimFlags::eBit16_bBlending);
+        mAnim.mFlags.Clear(AnimFlags::eBlending);
         mAnim.mGreen = 255;
         mAnim.mBlue = 32;
     }
     else
     {
-        mAnim.mFlags.Set(AnimFlags::eBit16_bBlending);
+        mAnim.mFlags.Set(AnimFlags::eBlending);
         mAnim.mRed = 80;
         mAnim.mGreen = 80;
         mAnim.mBlue = 80;

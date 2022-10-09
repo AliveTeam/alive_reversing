@@ -172,7 +172,7 @@ void Bat::VUpdate()
                 mBatLine = mBatLine->MoveOnLine(&mXPos, &mYPos, mBatVelX);
             }
 
-            if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 mBatState = BatStates::eFlying_3;
                 mAnim.Set_Animation_Data(GetAnimRes(AnimId::Bat_Flying));

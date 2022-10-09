@@ -54,10 +54,10 @@ struct CrawlingSlig_State final
     FP field_58_velx_scale_factor;
     s16 field_5C_padding;
     s16 field_5E_bChanting;
-    LevelIds field_60_prev_leve;
-    s16 field_62_prev_path;
-    s16 field_64_prev_camera;
-    s16 field_66_pitch;
+    LevelIds mAbeLevel;
+    s16 mAbePath;
+    s16 mAbeCamera;
+    s16 field_66_unused;
     s32 field_68_unused;
     Guid field_6C_slig_button_id;
     Guid field_70_obj_id;
@@ -95,10 +95,9 @@ enum class CrawlingSligMotion : s16
 class CrawlingSlig final : public BaseAliveGameObject
 {
 public:
-    CrawlingSlig(relive::Path_CrawlingSlig* pTlv, const Guid& tlvId);
+    CrawlingSlig(relive::Path_CrawlingSlig* pTlv, const Guid& guid);
     ~CrawlingSlig();
 
-    void LoadAnimations();
 
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
@@ -110,7 +109,34 @@ public:
 
     static s32 CreateFromSaveState(const u8* pBuffer);
 
+    s16 Brain_0_Sleeping();
+    s16 Brain_1_Idle();
+    s16 Brain_2_PanicGetALocker();
+    s16 Brain_3_Possessed();
+    s16 Brain_4_GetKilled();
+    s16 Brain_5_Transformed();
+
+    void Motion_0_Idle();
+    void Motion_1_UsingButton();
+    void Motion_2_WakingUp();
+    void Motion_3_Crawling();
+    void Motion_4_StartFalling();
+    void Motion_5_Falling();
+    void Motion_6_Landing();
+    void Motion_7_ToShakingToIdle();
+    void Motion_8_Speaking();
+    void Motion_9_Snoozing();
+    void Motion_10_PushingWall();
+    void Motion_11_TurnAround();
+    void Motion_12_Shaking();
+    void Motion_13_Empty();
+    void Motion_14_ShakingToIdle();
+    void Motion_15_EndCrawling();
+    void Motion_16_IdleToPushingWall();
+    void Motion_17_EndPushingWall();
 private:
+    void LoadAnimations();
+
     CrawlingSligMotion GetNextMotion() const
     {
         return static_cast<CrawlingSligMotion>(mNextMotion);
@@ -138,36 +164,8 @@ private:
     void MoveOnLine();
     void PlatformCollide();
 
-public:
-    s16 Brain_0_Sleeping();
-    s16 Brain_1_Idle();
-    s16 Brain_2_PanicGetALocker();
-    s16 Brain_3_Possessed();
-    s16 Brain_4_GetKilled();
-    s16 Brain_5_Transformed();
-
-
-    void Motion_0_Idle();
-    void Motion_1_UsingButton();
-    void Motion_2_WakingUp();
-    void Motion_3_Crawling();
-    void Motion_4_StartFalling();
-    void Motion_5_Falling();
-    void Motion_6_Landing();
-    void Motion_7_ToShakingToIdle();
-    void Motion_8_Speaking();
-    void Motion_9_Snoozing();
-    void Motion_10_PushingWall();
-    void Motion_11_TurnAround();
-    void Motion_12_Shaking();
-    void Motion_13_Empty();
-    void Motion_14_ShakingToIdle();
-    void Motion_15_EndCrawling();
-    void Motion_16_IdleToPushingWall();
-    void Motion_17_EndPushingWall();
-
 private:
-    Guid field_118_tlvInfo;
+    Guid mGuid;
     s16 field_11C_pPalAlloc[64] = {};
     s16 field_1A4_r = 0;
     s16 field_1A6_g = 0;
@@ -175,28 +173,22 @@ private:
 
     s32 field_1AC_timer = 0;
     FP field_1B0_velx_scale_factor = {}; // TODO: Not sure if this is an accurate name, but can't think of anything better.
-    s32 field_1B4_unused = 0;
 
-    s16 field_1B8_bChanting = 0;
+    bool mChanting = false;
 
-    EReliveLevelIds field_1BA_prev_level = EReliveLevelIds::eNone;
-    s16 field_1BC_prev_path = 0;
-    s16 field_1BE_prev_camera = 0;
+    EReliveLevelIds mAbeLevel = EReliveLevelIds::eNone;
+    s16 mAbePath = 0;
+    s16 mAbeCamera = 0;
 
-    SligSpeak field_1C0_speak = SligSpeak::eHi_0;
-    s16 field_1C2_pitch = 0;
-    s16 field_1C4_unused_counter = 0;
-    s16 field_1C6_unused = 0;
-    s32 field_1C8_say_help_timer = 0;
-    s16 field_1CC_unused = 0;
-    Guid field_1D0_slig_button_id;
-    Guid field_1D4_obj_id;
-    Guid field_1D8_obj_id;
-    s32 field_1DC_unused = 0;
-    relive::Path_CrawlingSlig::CrawlDirection field_1E0_crawl_direction = relive::Path_CrawlingSlig::CrawlDirection::eLeft;
-    relive::Path_TLV* field_1E4_pPantsOrWingsTlv = nullptr;
-    relive::Path_CrawlingSlig field_1E8_tlv = {};
-    TCrawlingSligBrainFn field_204_brain_state = nullptr;
-    s16 field_208_brain_sub_state = 0;
+    SligSpeak mSpeak = SligSpeak::eNone;
+    s32 mSayHelpTimer = 0;
+    Guid field_1D0_slig_button_id = Guid{};
+    Guid field_1D4_obj_id = Guid{};
+    Guid field_1D8_obj_id = Guid{};
+    relive::Path_CrawlingSlig::CrawlDirection mCrawlDirection = relive::Path_CrawlingSlig::CrawlDirection::eLeft;
+    relive::Path_TLV* mTlvHeader = nullptr;
+    relive::Path_CrawlingSlig mTlv = {};
+    TCrawlingSligBrainFn mBrainState = nullptr;
+    s16 mBrainSubState = 0;
 };
 ALIVE_ASSERT_SIZEOF(CrawlingSlig, 0x20C);

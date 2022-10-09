@@ -34,7 +34,7 @@ MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::MovingBomb));
     Animation_Init(GetAnimRes(AnimId::MovingBomb));
 
-    mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mFlags.Set(AnimFlags::eSemiTrans);
     mAnim.mRenderMode = TPageAbr::eBlend_0;
     field_118_state = States::eTriggeredBySwitch_1;
 
@@ -66,7 +66,7 @@ MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
     if (pTlv->mTriggeredByAlarm == relive::reliveChoice::eYes)
     {
         field_118_state = States::eTriggeredByAlarm_0;
-        mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+        mAnim.mFlags.Clear(AnimFlags::eRender);
     }
 
     SetTint(&kMovingBombTints_55C734[0], gMap.mCurrentLevel);
@@ -130,7 +130,7 @@ void MovingBomb::BlowUp()
 
 void MovingBomb::VRender(PrimHeader** ot)
 {
-    if (mAnim.mFlags.Get(AnimFlags::eBit3_Render))
+    if (mAnim.mFlags.Get(AnimFlags::eRender))
     {
         BaseAnimatedWithPhysicsGameObject::VRender(ot);
     }
@@ -189,7 +189,7 @@ s16 MovingBomb::VTakeDamage(BaseGameObject* pFrom)
 
             field_118_state = States::eKillMovingBomb_7;
 
-            mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+            mAnim.mFlags.Clear(AnimFlags::eRender);
             field_120_timer = sGnFrame + 4;
         }
             return 0;
@@ -205,7 +205,7 @@ s16 MovingBomb::VTakeDamage(BaseGameObject* pFrom)
 
 void MovingBomb::VOnThrowableHit(BaseGameObject* /*pObj*/)
 {
-    if (!mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted))
+    if (!mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted))
     {
         BlowUp();
     }
@@ -224,7 +224,7 @@ s16 MovingBomb::HitObject()
 
         if (pObj != this)
         {
-            if (pObj->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit6_SetOffExplosives))
+            if (pObj->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eCanSetOffExplosives))
             {
                 if (pObj->mHealth > FP_FromInteger(0))
                 {
@@ -251,7 +251,7 @@ void MovingBomb::VUpdate()
     {
         if (HitObject())
         {
-            if (!mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted))
+            if (!mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted))
             {
                 BlowUp();
             }
@@ -308,7 +308,7 @@ void MovingBomb::VUpdate()
         case States::eTriggeredByAlarm_0:
             if (EventGet(kEventAlarm))
             {
-                mAnim.mFlags.Set(AnimFlags::eBit3_Render);
+                mAnim.mFlags.Set(AnimFlags::eRender);
                 field_118_state = States::eMoving_2;
             }
             break;
@@ -406,7 +406,7 @@ void MovingBomb::VUpdate()
                     0);
 
                 field_118_state = States::eKillMovingBomb_7;
-                mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+                mAnim.mFlags.Clear(AnimFlags::eRender);
                 field_120_timer = sGnFrame + 4;
             }
             break;

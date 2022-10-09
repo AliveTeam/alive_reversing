@@ -146,8 +146,8 @@ public:
     void Motion_25_Death();
 
 
-    TParamiteBrain field_10C_fn = nullptr;
-    s16 field_110_brain_sub_state = 0;
+    TParamiteBrain mBrainState = nullptr;
+    s16 mBrainSubState = 0;
     s16 field_112_surprise_web_delay_timer = 0;
     s32 field_114_timer = 0;
     s32 field_118_not_used = 0;

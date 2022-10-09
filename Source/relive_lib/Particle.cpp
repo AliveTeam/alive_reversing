@@ -54,7 +54,7 @@ void Particle::VUpdate()
 
     mSpriteScale += field_F4_scale_amount;
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -101,8 +101,8 @@ void New_Smoke_Particles(FP xpos, FP ypos, FP scale, s16 count, u8 r, u8 g, u8 b
         if (pParticle)
         {
             pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
-            pParticle->mAnim.mFlags.Clear(AnimFlags::eBit16_bBlending);
-            pParticle->mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
+            pParticle->mAnim.mFlags.Clear(AnimFlags::eBlending);
+            pParticle->mAnim.mFlags.Set(AnimFlags::eSemiTrans);
             pParticle->mAnim.mRenderMode = TPageAbr::eBlend_3;
 
             pParticle->mRGB.SetRGB(r, g, b);
@@ -124,7 +124,7 @@ void New_Smoke_Particles(FP xpos, FP ypos, FP scale, s16 count, u8 r, u8 g, u8 b
             pParticle->mAnim.mFrameDelay = static_cast<u16>((i + 3) / 2);
             if (Math_NextRandom() < 127)
             {
-                pParticle->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
+                pParticle->mAnim.mFlags.Set(AnimFlags::eFlipX);
             }
         }
         velYCounter -= FP_FromInteger(1);
@@ -233,7 +233,7 @@ void New_ShootingFire_Particle(FP xpos, FP ypos, s8 direction, FP scale)
             pParticle->mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
         }
 
-        pParticle->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, direction & 1);
+        pParticle->mAnim.mFlags.Set(AnimFlags::eFlipX, direction & 1);
         pParticle->mSpriteScale = scale;
     }
 }

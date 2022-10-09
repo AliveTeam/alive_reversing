@@ -29,9 +29,9 @@ public:
 
         mVisualFlags.Set(VisualFlags::eApplyShadowZoneColour);
 
-        mAnim.mFlags.Clear(AnimFlags::eBit16_bBlending);
-        mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
-        mAnim.mFlags.Set(AnimFlags::eBit20_use_xy_offset);
+        mAnim.mFlags.Clear(AnimFlags::eBlending);
+        mAnim.mFlags.Set(AnimFlags::eSemiTrans);
+        mAnim.mFlags.Set(AnimFlags::eIgnorePosOffset);
 
         mXPos = xpos;
         mYPos = ypos + FP_FromInteger(4);
@@ -134,7 +134,7 @@ public:
         mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::ChantOrb_Particle_Small));
         Animation_Init(GetAnimRes(AnimId::ChantOrb_Particle_Small));
 
-        mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
+        mAnim.mFlags.Set(AnimFlags::eSemiTrans);
 
         mVisualFlags.Set(VisualFlags::eApplyShadowZoneColour);
         mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
@@ -150,8 +150,8 @@ public:
         {
             anim.field_14.field_68_anim_ptr = &mAnim;
 
-            anim.field_14.mFlags.Set(AnimFlags::eBit3_Render);
-            anim.field_14.mFlags.Set(AnimFlags::eBit16_bBlending);
+            anim.field_14.mFlags.Set(AnimFlags::eRender);
+            anim.field_14.mFlags.Set(AnimFlags::eBlending);
 
             const s16 rndLayer = static_cast<s16>(mAnim.mRenderLayer) + Math_RandomRange(-1, 1);
             anim.field_14.mRenderLayer = static_cast<Layer>(rndLayer);
@@ -310,7 +310,7 @@ DoorFlame::DoorFlame(relive::Path_DoorFlame* pTlv, const Guid& tlvId)
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Fire));
     Animation_Init(GetAnimRes(AnimId::Fire));
 
-    mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mFlags.Set(AnimFlags::eSemiTrans);
     mVisualFlags.Set(VisualFlags::eApplyShadowZoneColour);
     mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
     mFrameCount = mAnim.Get_Frame_Count();
@@ -350,16 +350,16 @@ DoorFlame::DoorFlame(relive::Path_DoorFlame* pTlv, const Guid& tlvId)
 
     if (SwitchStates_Get(pTlv->mSwitchId))
     {
-        mAnim.mFlags.Set(AnimFlags::eBit3_Render);
+        mAnim.mFlags.Set(AnimFlags::eRender);
         mState = States::eEnabled_1;
     }
     else
     {
-        mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+        mAnim.mFlags.Clear(AnimFlags::eRender);
         mState = States::eDisabled_0;
     }
 
-    mAnim.mFlags.Set(AnimFlags::eBit2_Animate);
+    mAnim.mFlags.Set(AnimFlags::eAnimate);
     mRandom = Math_NextRandom() & 1;
 
     mFlameSparks = relive_new FlameSparks(mXPos, mYPos);
@@ -374,7 +374,7 @@ void DoorFlame::VUpdate()
     switch (mState)
     {
         case States::eDisabled_0:
-            mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+            mAnim.mFlags.Clear(AnimFlags::eRender);
             if (mFlameSparks)
             {
                 mFlameSparks->field_E4_bRender = 0;
@@ -409,7 +409,7 @@ void DoorFlame::VUpdate()
                 }
             }
 
-            mAnim.mFlags.Set(AnimFlags::eBit3_Render);
+            mAnim.mFlags.Set(AnimFlags::eRender);
             if (mFlameSparks)
             {
                 mFlameSparks->field_E4_bRender = 1;

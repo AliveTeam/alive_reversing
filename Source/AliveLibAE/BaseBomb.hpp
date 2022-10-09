@@ -9,10 +9,9 @@ public:
     virtual void VUpdate() override;
 
     BaseBomb(FP x, FP y, s32 unused, FP scale);
-
+private:
     void DealDamageRect(const PSX_RECT* pRect);
 
-private:
     FP mBombSpriteScale = {};
 };
 ALIVE_ASSERT_SIZEOF(BaseBomb, 0xF8);

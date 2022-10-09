@@ -31,7 +31,7 @@ CircularFade::CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroy
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 
-    mAnim.mFlags.Clear(AnimFlags::eBit16_bBlending);
+    mAnim.mFlags.Clear(AnimFlags::eBlending);
     mSpriteScale.fpValue = scale.fpValue * 2;
     mAnim.field_14_scale.fpValue = scale.fpValue * 2;
 
@@ -104,7 +104,7 @@ void CircularFade::VRender(PrimHeader** ppOt)
     SetRGB0(pTile2_1, fadeColour, fadeColour, fadeColour);
 
     s16 w = 0;
-    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
     {
         w = frameRect.x + 1;
     }

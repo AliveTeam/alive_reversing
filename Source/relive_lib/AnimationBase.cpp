@@ -23,7 +23,7 @@ void AnimationBase::AnimateAll(DynamicArrayT<AnimationBase>* pAnims)
             break;
         }
 
-        if (pAnim->mFlags.Get(AnimFlags::eBit2_Animate))
+        if (pAnim->mFlags.Get(AnimFlags::eAnimate))
         {
             if (pAnim->mFrameChangeCounter > 0)
             {

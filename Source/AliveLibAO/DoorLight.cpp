@@ -92,7 +92,7 @@ DoorLight::DoorLight(relive::Path_LightEffect* pTlv, const Guid& tlvId)
             break;
     }
 
-    mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pTlv->mDirection == relive::reliveXDirection::eLeft);
+    mAnim.mFlags.Set(AnimFlags::eFlipX, pTlv->mDirection == relive::reliveXDirection::eLeft);
 
     if (gNextDoorLightUpdate_4C30A8 < 0)
     {
@@ -100,16 +100,16 @@ DoorLight::DoorLight(relive::Path_LightEffect* pTlv, const Guid& tlvId)
         gDoorLightUpdateTimer_4FC8A4 = gNextDoorLightUpdate_4C30A8 + Math_RandomRange(30, 45);
     }
 
-    mAnim.mFlags.Set(AnimFlags::eBit20_use_xy_offset);
+    mAnim.mFlags.Set(AnimFlags::eIgnorePosOffset);
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
     mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
     mAnim.mRenderMode = TPageAbr::eBlend_3;
 
-    mAnim.mFlags.Clear(AnimFlags::eBit16_bBlending);
-    mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mFlags.Clear(AnimFlags::eBlending);
+    mAnim.mFlags.Set(AnimFlags::eSemiTrans);
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
     {
         mXPos = FP_FromInteger(pTlv->mTopLeftX - xOff);
     }

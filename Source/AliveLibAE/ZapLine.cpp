@@ -42,7 +42,7 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
     }
 
     //mAnim.mFlags.Set(AnimFlags::eBit25_bDecompressDone); // HIBYTE |= 1
-    mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
     mAnim.mRenderLayer = layer;
     field_132_number_of_sprites = field_12E_number_of_segments * field_130_number_of_pieces_per_segment;
 
@@ -60,11 +60,11 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
     field_F4_state = ZapLineState::eInit_0;
     field_126_alive_timer = 0;
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit13_Is8Bit))
+    if (mAnim.mFlags.Get(AnimFlags::eIs8Bit))
     {
         field_124_tPageMode = TPageMode::e8Bit_1;
     }
-    else if (mAnim.mFlags.Get(AnimFlags::eBit14_Is16Bit))
+    else if (mAnim.mFlags.Get(AnimFlags::eIs16Bit))
     {
         field_124_tPageMode = TPageMode::e16Bit_2;
     }

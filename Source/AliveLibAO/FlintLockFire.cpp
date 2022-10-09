@@ -92,30 +92,30 @@ FlintLockFire::FlintLockFire(relive::Path_FlintLockFire* pTlv, const Guid& tlvId
     const s32 cur_lvl = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
 
     Animation_Init(GetAnimRes(sFlintLockFireData_4BAC70[cur_lvl].field_14_hammers_disabled_anim_id));
-    mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mFlags.Set(AnimFlags::eSemiTrans);
 
     field_F0_anim.Init(
         GetAnimRes(sFlintLockFireData_4BAC70[cur_lvl].field_4_gourd_anim_id),
         this);
 
     field_F0_anim.mRenderMode = TPageAbr::eBlend_0;
-    field_F0_anim.mFlags.Clear(AnimFlags::eBit2_Animate);
-    field_F0_anim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    field_F0_anim.mFlags.Clear(AnimFlags::eAnimate);
+    field_F0_anim.mFlags.Set(AnimFlags::eSemiTrans);
 
     if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
     {
         field_188_anim.Init(GetAnimRes(AnimId::Fire), this);
         field_188_anim.mRenderMode = TPageAbr::eBlend_0;
-        field_188_anim.mFlags.Clear(AnimFlags::eBit2_Animate);
-        field_188_anim.mFlags.Clear(AnimFlags::eBit3_Render);
-        field_188_anim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
+        field_188_anim.mFlags.Clear(AnimFlags::eAnimate);
+        field_188_anim.mFlags.Clear(AnimFlags::eRender);
+        field_188_anim.mFlags.Set(AnimFlags::eSemiTrans);
 
         field_220_anim.Init(GetAnimRes(AnimId::Fire), this);
         field_220_anim.mRenderMode = TPageAbr::eBlend_0;
-        field_220_anim.mFlags.Clear(AnimFlags::eBit2_Animate);
-        field_220_anim.mFlags.Clear(AnimFlags::eBit3_Render);
-        field_220_anim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
-        field_220_anim.mFlags.Set(AnimFlags::eBit5_FlipX);
+        field_220_anim.mFlags.Clear(AnimFlags::eAnimate);
+        field_220_anim.mFlags.Clear(AnimFlags::eRender);
+        field_220_anim.mFlags.Set(AnimFlags::eSemiTrans);
+        field_220_anim.mFlags.Set(AnimFlags::eFlipX);
         field_220_anim.SetFrame(3u);
     }
 
@@ -155,16 +155,16 @@ FlintLockFire::FlintLockFire(relive::Path_FlintLockFire* pTlv, const Guid& tlvId
         mAnim.Set_Animation_Data(GetAnimRes(sFlintLockFireData_4BAC70[cur_lvl].field_18_hammers_activating_anim_id));
         mAnim.SetFrame(mAnim.Get_Frame_Count() - 1);
         mAnim.VDecode();
-        mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
-        field_F0_anim.mFlags.Set(AnimFlags::eBit2_Animate);
+        mAnim.mFlags.Set(AnimFlags::eSemiTrans);
+        field_F0_anim.mFlags.Set(AnimFlags::eAnimate);
 
         if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
         {
-            field_188_anim.mFlags.Set(AnimFlags::eBit2_Animate);
-            field_188_anim.mFlags.Set(AnimFlags::eBit3_Render);
+            field_188_anim.mFlags.Set(AnimFlags::eAnimate);
+            field_188_anim.mFlags.Set(AnimFlags::eRender);
 
-            field_220_anim.mFlags.Set(AnimFlags::eBit2_Animate);
-            field_220_anim.mFlags.Set(AnimFlags::eBit3_Render);
+            field_220_anim.mFlags.Set(AnimFlags::eAnimate);
+            field_220_anim.mFlags.Set(AnimFlags::eRender);
 
             field_EC_fire_sound = SfxPlayMono(relive::SoundEffects::Fire, 0);
         }
@@ -200,18 +200,18 @@ void FlintLockFire::VUpdate()
                 }
             }
 
-            if (mAnim.mFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+            if (mAnim.mFlags.Get(AnimFlags::eForwardLoopCompleted))
             {
                 field_E4_state = States::eActivated_2;
 
-                field_F0_anim.mFlags.Set(AnimFlags::eBit2_Animate);
+                field_F0_anim.mFlags.Set(AnimFlags::eAnimate);
                 if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
                 {
-                    field_188_anim.mFlags.Set(AnimFlags::eBit2_Animate);
-                    field_188_anim.mFlags.Set(AnimFlags::eBit3_Render);
+                    field_188_anim.mFlags.Set(AnimFlags::eAnimate);
+                    field_188_anim.mFlags.Set(AnimFlags::eRender);
 
-                    field_220_anim.mFlags.Set(AnimFlags::eBit2_Animate);
-                    field_220_anim.mFlags.Set(AnimFlags::eBit3_Render);
+                    field_220_anim.mFlags.Set(AnimFlags::eAnimate);
+                    field_220_anim.mFlags.Set(AnimFlags::eRender);
 
                     field_EC_fire_sound = SfxPlayMono(relive::SoundEffects::Fire, 0);
                 }

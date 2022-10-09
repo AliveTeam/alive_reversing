@@ -26,7 +26,7 @@ Explosion::Explosion(FP xpos, FP ypos, FP exposion_size)
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Explosion));
     Animation_Init(GetAnimRes(AnimId::Explosion));
 
-    mAnim.mFlags.Clear(AnimFlags::eBit18_IsLastFrame);
+    mAnim.mFlags.Clear(AnimFlags::eIsLastFrame);
     mAnim.mRenderMode = TPageAbr::eBlend_1;
     field_E4_explosion_size = exposion_size;
 
@@ -122,7 +122,7 @@ void Explosion::VUpdate()
             }
 
             pParticle->mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
-            pParticle->mAnim.mFlags.Clear(AnimFlags::eBit5_FlipX);
+            pParticle->mAnim.mFlags.Clear(AnimFlags::eFlipX);
             pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
             pParticle->mSpriteScale = mSpriteScale * FP_FromDouble(0.25);
         }
@@ -132,7 +132,7 @@ void Explosion::VUpdate()
         }
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+    if (mAnim.mFlags.Get(AnimFlags::eForwardLoopCompleted))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

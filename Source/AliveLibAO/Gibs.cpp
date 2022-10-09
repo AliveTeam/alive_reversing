@@ -143,8 +143,8 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
         pPart->field_18_animation.mRenderLayer = mAnim.mRenderLayer;
         pPart->field_18_animation.field_14_scale = scale;
 
-        pPart->field_18_animation.mFlags.Clear(AnimFlags::eBit16_bBlending);
-        pPart->field_18_animation.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+        pPart->field_18_animation.mFlags.Clear(AnimFlags::eBlending);
+        pPart->field_18_animation.mFlags.Clear(AnimFlags::eSemiTrans);
 
         pPart->field_18_animation.mRed = static_cast<u8>(mRGB.r);
         pPart->field_18_animation.mGreen = static_cast<u8>(mRGB.g);

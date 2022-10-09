@@ -32,7 +32,7 @@ Dove::Dove(AnimId animId, const Guid& tlvId, FP scale)
     LoadAnimations();
     Animation_Init(GetAnimRes(animId));
 
-    mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
 
     gDovesArray.Push_Back(this);
 
@@ -52,11 +52,11 @@ Dove::Dove(AnimId animId, const Guid& tlvId, FP scale)
     mVelX = FP_FromInteger(Math_NextRandom() / 12 - 11);
     if (mVelX >= FP_FromInteger(0))
     {
-        mAnim.mFlags.Clear(AnimFlags::eBit5_FlipX);
+        mAnim.mFlags.Clear(AnimFlags::eFlipX);
     }
     else
     {
-        mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
+        mAnim.mFlags.Set(AnimFlags::eFlipX);
     }
 
     mVelY = FP_FromInteger(-4 - (Math_NextRandom() % 4));
@@ -82,7 +82,7 @@ Dove::Dove(AnimId animId, FP xpos, FP ypos, FP scale)
     LoadAnimations();
     Animation_Init(GetAnimRes(animId));
 
-    mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
     mAnim.field_14_scale = scale;
     mSpriteScale = scale;
 
@@ -98,11 +98,11 @@ Dove::Dove(AnimId animId, FP xpos, FP ypos, FP scale)
     mVelX = FP_FromInteger(Math_NextRandom() / 12 - 11);
     if (mVelX >= FP_FromInteger(0))
     {
-        mAnim.mFlags.Clear(AnimFlags::eBit5_FlipX);
+        mAnim.mFlags.Clear(AnimFlags::eFlipX);
     }
     else
     {
-        mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
+        mAnim.mFlags.Set(AnimFlags::eFlipX);
     }
 
     mVelY = FP_FromInteger(-4 - (Math_NextRandom() % 4));
@@ -254,11 +254,11 @@ void Dove::VUpdate()
 
             if (mVelX >= FP_FromInteger(0))
             {
-                mAnim.mFlags.Clear(AnimFlags::eBit5_FlipX);
+                mAnim.mFlags.Clear(AnimFlags::eFlipX);
             }
             else
             {
-                mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
+                mAnim.mFlags.Set(AnimFlags::eFlipX);
             }
             break;
 
@@ -270,7 +270,7 @@ void Dove::VUpdate()
             }
 
             FP xOff = {};
-            if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+            if (mAnim.mFlags.Get(AnimFlags::eFlipX))
             {
                 xOff = FP_FromInteger(4);
             }

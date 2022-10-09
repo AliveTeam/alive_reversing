@@ -75,12 +75,12 @@ ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
         for (s32 i = 0; i < field_E4_number_of_segments; i++)
         {
             AnimationUnknown* pSegment = &field_EC_pRes[i];
-            pSegment->mFlags.Set(AnimFlags::eBit3_Render);
+            pSegment->mFlags.Set(AnimFlags::eRender);
             pSegment->field_68_anim_ptr = &mAnim;
             pSegment->mRenderLayer = mAnim.mRenderLayer;
             pSegment->field_6C_scale = mSpriteScale;
-            pSegment->mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
-            pSegment->mFlags.Clear(AnimFlags::eBit16_bBlending);
+            pSegment->mFlags.Clear(AnimFlags::eSemiTrans);
+            pSegment->mFlags.Clear(AnimFlags::eBlending);
         }
     }
 

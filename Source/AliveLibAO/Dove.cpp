@@ -33,7 +33,7 @@ Dove::Dove(AnimId animId, const Guid& tlvId, FP scale)
     LoadAnimations();
     Animation_Init(GetAnimRes(animId));
 
-    mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
 
     gDovesArray.Push_Back(this);
 
@@ -53,11 +53,11 @@ Dove::Dove(AnimId animId, const Guid& tlvId, FP scale)
     mVelX = FP_FromInteger((Math_NextRandom() / 12 - 11));
     if (mVelX >= FP_FromInteger(0))
     {
-        mAnim.mFlags.Clear(AnimFlags::eBit5_FlipX);
+        mAnim.mFlags.Clear(AnimFlags::eFlipX);
     }
     else
     {
-        mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
+        mAnim.mFlags.Set(AnimFlags::eFlipX);
     }
 
     mDoveState = State::eOnGround_0;
@@ -89,7 +89,7 @@ Dove::Dove(AnimId animId, FP xpos, FP ypos, FP scale)
     LoadAnimations();
     Animation_Init(GetAnimRes(animId));
 
-    mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
     mAnim.field_14_scale = scale;
     mSpriteScale = scale;
 
@@ -105,11 +105,11 @@ Dove::Dove(AnimId animId, FP xpos, FP ypos, FP scale)
     mVelX = FP_FromInteger(Math_NextRandom() / 12 - 11);
     if (scale >= FP_FromInteger(0))
     {
-        mAnim.mFlags.Clear(AnimFlags::eBit5_FlipX);
+        mAnim.mFlags.Clear(AnimFlags::eFlipX);
     }
     else
     {
-        mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
+        mAnim.mFlags.Set(AnimFlags::eFlipX);
     }
 
     mVelY = FP_FromInteger(-4 - ((Math_NextRandom()) & 3));
@@ -310,7 +310,7 @@ void Dove::VUpdate()
                 mVelX = -mVelX;
             }
 
-            mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, mVelX < FP_FromInteger(0));
+            mAnim.mFlags.Set(AnimFlags::eFlipX, mVelX < FP_FromInteger(0));
             break;
 
         case State::eJoin_2:
@@ -320,7 +320,7 @@ void Dove::VUpdate()
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
 
-            const FP k4Directed = mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) ? FP_FromInteger(4) : FP_FromInteger(-4);
+            const FP k4Directed = mAnim.mFlags.Get(AnimFlags::eFlipX) ? FP_FromInteger(4) : FP_FromInteger(-4);
             mVelX = (k4Directed + mJoinX - mXPos) / FP_FromInteger(8);
             mXPos += mVelX;
             mVelY = (mJoinY - mYPos) / FP_FromInteger(8);

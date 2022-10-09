@@ -19,11 +19,11 @@ InvisibleEffect::InvisibleEffect(BaseAliveGameObject* pTarget)
 
     field_4A_flags.Clear();
 
-    if (pTarget->mAnim.mFlags.Get(AnimFlags::eBit15_bSemiTrans))
+    if (pTarget->mAnim.mFlags.Get(AnimFlags::eSemiTrans))
     {
         field_4A_flags.Set(Flags_4A::eSemiTrans_Bit1);
     }
-    if (pTarget->mAnim.mFlags.Get(AnimFlags::eBit16_bBlending))
+    if (pTarget->mAnim.mFlags.Get(AnimFlags::eBlending))
     {
         field_4A_flags.Set(Flags_4A::eBlending_Bit2);
     }
@@ -91,10 +91,10 @@ void InvisibleEffect::VUpdate()
                     mPal2.mPal->mPal[idx2] |= 0x8000u;
                 }
 
-                pTarget->mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit8_bInvisible);
+                pTarget->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eInvisible);
 
-                pTarget->mAnim.mFlags.Clear(AnimFlags::eBit16_bBlending);
-                pTarget->mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
+                pTarget->mAnim.mFlags.Clear(AnimFlags::eBlending);
+                pTarget->mAnim.mFlags.Set(AnimFlags::eSemiTrans);
                 pTarget->mAnim.mRenderMode = TPageAbr::eBlend_1;
 
                 SetUpdateDelay(1);
@@ -230,11 +230,11 @@ void InvisibleEffect::VUpdate()
 
                 //Pal_Set(pTarget->mAnim.mPalVramXY, pTarget->mAnim.mPalDepth, (u8*) field_24_pPal1, &field_28_pal_rect1);
 
-                pTarget->mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans, field_4A_flags.Get(Flags_4A::eSemiTrans_Bit1));
-                pTarget->mAnim.mFlags.Set(AnimFlags::eBit16_bBlending, field_4A_flags.Get(Flags_4A::eBlending_Bit2));
+                pTarget->mAnim.mFlags.Set(AnimFlags::eSemiTrans, field_4A_flags.Get(Flags_4A::eSemiTrans_Bit1));
+                pTarget->mAnim.mFlags.Set(AnimFlags::eBlending, field_4A_flags.Get(Flags_4A::eBlending_Bit2));
                 pTarget->mAnim.mRenderMode = field_48_old_render_mode;
 
-                pTarget->mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit8_bInvisible);
+                pTarget->mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eInvisible);
 
                 SetUpdateDelay(1);
                 relive_new PossessionFlicker(pTarget, 16, 255, 128, 128);

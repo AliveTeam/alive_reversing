@@ -13,17 +13,15 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
+public:
+    s16 mTotalBrewCount = 0;
+
 private:
     Font_Context mFontContext = {};
     Alive::Font mFont = {};
     s16 mTextX = 0;
     s16 mTextY = 0;
     Guid mTlvInfo;
-
-public:
-    s16 mTotalBrewCount = 0;
-
-private:
     s16 mRemainingBrewCount = 0;
     s16 mBrewMachineCamera = 0;
     PalResource mPal;

@@ -311,7 +311,7 @@ BirdPortal* BaseAliveGameObject::IntoBirdPortal_402350(s16 distance)
                 {
                     if (pPortal->mXPos - mXPos <= (ScaleToGridSize(mSpriteScale) * FP_FromInteger(distance)))
                     {
-                        if (!mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+                        if (!mAnim.mFlags.Get(AnimFlags::eFlipX))
                         {
                             if (FP_Abs(mYPos - pPortal->mHitY) < mSpriteScale * FP_FromInteger(10))
                             {
@@ -331,7 +331,7 @@ BirdPortal* BaseAliveGameObject::IntoBirdPortal_402350(s16 distance)
                 {
                     if (mXPos - pPortal->mXPos <= (ScaleToGridSize(mSpriteScale) * FP_FromInteger(distance)))
                     {
-                        if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+                        if (mAnim.mFlags.Get(AnimFlags::eFlipX))
                         {
                             if (FP_Abs(mYPos - pPortal->mHitY) < (mSpriteScale * FP_FromInteger(10)))
                             {
@@ -489,7 +489,7 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
         BaseAliveGameObjectPathTLV = gMap.TLV_First_Of_Type_In_Camera(ReliveTypes::eStartController, 0);
         LOG_INFO("Flip direction after the path trans as we are not touching the start controller");
         mVelX = -mVelX;
-        mAnim.mFlags.Toggle(AnimFlags::eBit5_FlipX);
+        mAnim.mFlags.Toggle(AnimFlags::eFlipX);
     }
     else
     {

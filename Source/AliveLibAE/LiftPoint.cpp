@@ -118,7 +118,7 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, const Guid& tlvId)
     mPlatformBaseXOffset -= xSnapDelta;
     mPlatformBaseWidthOffset -= xSnapDelta;
 
-    mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mFlags.Set(AnimFlags::eSemiTrans);
 
 
     const LiftPointData& rLiftWheelData = sLiftPointData_545AC8[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))];
@@ -137,9 +137,9 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, const Guid& tlvId)
             field_13C_lift_wheel.field_14_scale = mSpriteScale;
         }
 
-        field_13C_lift_wheel.mFlags.Clear(AnimFlags::eBit2_Animate);
-        field_13C_lift_wheel.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
-        field_13C_lift_wheel.mFlags.Clear(AnimFlags::eBit16_bBlending);
+        field_13C_lift_wheel.mFlags.Clear(AnimFlags::eAnimate);
+        field_13C_lift_wheel.mFlags.Clear(AnimFlags::eSemiTrans);
+        field_13C_lift_wheel.mFlags.Clear(AnimFlags::eBlending);
 
         field_12C_bMoving &= ~1u;
 
@@ -676,35 +676,35 @@ void LiftPoint::VUpdate()
     pRope2->mYPos = FP_NoFractional(v40 + (FP_FromInteger(25) * mSpriteScale) + mYPos + FP_FromInteger(pRope2->field_F6_rope_length));
     pRope1->mYPos = FP_NoFractional((FP_FromInteger(25) * mSpriteScale) + mYPos + FP_FromInteger(pRope1->field_F6_rope_length) - v40);
 
-    field_13C_lift_wheel.mFlags.Set(AnimFlags::eBit2_Animate);
-    field_1D4_pulley_anim.mFlags.Set(AnimFlags::eBit2_Animate);
+    field_13C_lift_wheel.mFlags.Set(AnimFlags::eAnimate);
+    field_1D4_pulley_anim.mFlags.Set(AnimFlags::eAnimate);
 
     if (mVelY == FP_FromInteger(0))
     {
         // Wheels are stopped if not moving
-        field_13C_lift_wheel.mFlags.Clear(AnimFlags::eBit2_Animate);
-        field_1D4_pulley_anim.mFlags.Clear(AnimFlags::eBit2_Animate);
+        field_13C_lift_wheel.mFlags.Clear(AnimFlags::eAnimate);
+        field_1D4_pulley_anim.mFlags.Clear(AnimFlags::eAnimate);
     }
     else if (mVelY > FP_FromInteger(0))
     {
         // Pulley/lift wheels spin opposite ways for up/down
-        field_13C_lift_wheel.mFlags.Clear(AnimFlags::eBit19_LoopBackwards);
-        field_1D4_pulley_anim.mFlags.Set(AnimFlags::eBit19_LoopBackwards);
+        field_13C_lift_wheel.mFlags.Clear(AnimFlags::eLoopBackwards);
+        field_1D4_pulley_anim.mFlags.Set(AnimFlags::eLoopBackwards);
     }
     else
     {
-        field_13C_lift_wheel.mFlags.Set(AnimFlags::eBit19_LoopBackwards);
-        field_1D4_pulley_anim.mFlags.Clear(AnimFlags::eBit19_LoopBackwards);
+        field_13C_lift_wheel.mFlags.Set(AnimFlags::eLoopBackwards);
+        field_1D4_pulley_anim.mFlags.Clear(AnimFlags::eLoopBackwards);
     }
 
     if (gMap.mCurrentLevel == EReliveLevelIds::eNecrum || gMap.mCurrentLevel == EReliveLevelIds::eMudomoVault || gMap.mCurrentLevel == EReliveLevelIds::eMudomoVault_Ender || gMap.mCurrentLevel == EReliveLevelIds::eMudancheeVault || gMap.mCurrentLevel == EReliveLevelIds::eMudancheeVault_Ender)
     {
-        if (field_13C_lift_wheel.mCurrentFrame == 1 && field_13C_lift_wheel.mFlags.Get(AnimFlags::eBit2_Animate))
+        if (field_13C_lift_wheel.mCurrentFrame == 1 && field_13C_lift_wheel.mFlags.Get(AnimFlags::eAnimate))
         {
             SfxPlayMono(relive::SoundEffects::WheelSqueak, 0);
         }
     }
-    else if (field_13C_lift_wheel.mCurrentFrame == 1 && field_13C_lift_wheel.mFlags.Get(AnimFlags::eBit2_Animate) && sGnFrame & 1)
+    else if (field_13C_lift_wheel.mCurrentFrame == 1 && field_13C_lift_wheel.mFlags.Get(AnimFlags::eAnimate) && sGnFrame & 1)
     {
         SfxPlayMono(relive::SoundEffects::WheelSqueak, 0);
     }
@@ -864,9 +864,9 @@ void LiftPoint::CreatePulleyIfExists()
         GetAnimRes(data.field_10_lift_top_wheel_anim_id),
         this);
 
-    field_1D4_pulley_anim.mFlags.Clear(AnimFlags::eBit2_Animate);
-    field_1D4_pulley_anim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
-    field_1D4_pulley_anim.mFlags.Clear(AnimFlags::eBit16_bBlending);
+    field_1D4_pulley_anim.mFlags.Clear(AnimFlags::eAnimate);
+    field_1D4_pulley_anim.mFlags.Clear(AnimFlags::eSemiTrans);
+    field_1D4_pulley_anim.mFlags.Clear(AnimFlags::eBlending);
 
     field_280_flags.Set(LiftFlags::eBit4_bHasPulley);
 

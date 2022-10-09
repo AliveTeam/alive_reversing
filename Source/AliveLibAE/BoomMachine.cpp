@@ -32,7 +32,7 @@ public:
         LoadAnimations();
         Animation_Init(GetAnimRes(AnimId::BoomMachine_Nozzle_Idle));
 
-        mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+        mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
         mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 
         mSpriteScale = scale;
@@ -96,7 +96,7 @@ private:
                 break;
 
             case BoomMachineStates::eDropGrenade_3:
-                if (mAnim.mFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+                if (mAnim.mFlags.Get(AnimFlags::eForwardLoopCompleted))
                 {
                     SFX_Play_Pitch(relive::SoundEffects::PickupItem, 127, -900);
 
@@ -108,7 +108,7 @@ private:
                     gpThrowableArray->Add(field_FC_numGrenades);
 
                     FP directedScale = {};
-                    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+                    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
                     {
                         directedScale = -mSpriteScale;
                     }
@@ -124,7 +124,7 @@ private:
                         0,
                         nullptr);
  
-                    pGrenade->VThrow((mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)) != 0 ? -FP_FromDouble(0.75) : FP_FromDouble(0.75), FP_FromInteger(3));
+                    pGrenade->VThrow((mAnim.mFlags.Get(AnimFlags::eFlipX)) != 0 ? -FP_FromDouble(0.75) : FP_FromDouble(0.75), FP_FromInteger(3));
 
                     mAnim.Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Nozzle_Idle));
                     field_F4_state = BoomMachineStates::eInactive_0;
@@ -180,7 +180,7 @@ BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId)
         pTlv->mGrenadeAmount);
     if (pNozzle)
     {
-        pNozzle->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pTlv->mNozzleSide == relive::Path_BoomMachine::NozzleSide::eLeft);
+        pNozzle->mAnim.mFlags.Set(AnimFlags::eFlipX, pTlv->mNozzleSide == relive::Path_BoomMachine::NozzleSide::eLeft);
         field_F8_nozzle_id = pNozzle->mBaseGameObjectId;
     }
 

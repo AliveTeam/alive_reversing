@@ -456,10 +456,10 @@ private:
     s16 field_18C_unused = 0;
 
 public:
-    Mud_Brain_State field_18E_brain_state = Mud_Brain_State::Brain_0_GiveRings;
+    Mud_Brain_State mBrainState = Mud_Brain_State::Brain_0_GiveRings;
 
 private:
-    s16 field_190_brain_sub_state = 0;
+    s16 mBrainSubState = 0;
     s16 field_192_return_to_previous_motion = 0;
     s32 field_194_timer = 0;
     s32 field_198_turning_wheel_timer = 0;

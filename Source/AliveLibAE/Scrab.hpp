@@ -254,11 +254,11 @@ private:
     GameSpeakEvents LastSpeak();
 
 private:
-    TScrabBrainFn field_118_brain_state = nullptr;
-    s16 field_11C_brain_sub_state = 0;
+    TScrabBrainFn mBrainState = nullptr;
+    s16 mBrainSubState = 0;
     s16 field_11E_return_to_previous_motion = 0;
     Guid field_120_obj_id;
-    Guid field_124_fight_target_obj_id;
+    Guid mFightTargetId;
     s16 field_128_attack_delay = 0;
     s16 field_12A_patrol_type_run_or_walk_chance = 0;
     s32 field_12C_timer = 0;
@@ -277,14 +277,14 @@ private:
     s16 field_15C_right_min_delay = 0;
     s16 field_15E_right_max_delay = 0;
     s32 field_160_sfx_bitmask = 0;
-    s16 field_164_prevent_depossession = 0;
-    EReliveLevelIds field_166_return_level = EReliveLevelIds::eNone;
-    s16 field_168_return_path = 0;
-    s16 field_16A_return_camera = 0;
+    s16 mPreventDepossession = 0;
+    EReliveLevelIds mAbeLevel = EReliveLevelIds::eNone;
+    s16 mAbePath = 0;
+    s16 mAbeCamera = 0;
     s32 field_16C_input = 0;
     s32 field_170_unused = 0;
     s16 field_174_possessed_max_whirl_attack_duration = 0;
-    s16 field_178_shred_power_active = 0;
+    s16 mShredPowerActive = 0;
     s32 field_17C_last_event = 0;
     s16 field_190_unused = 0;
     s16 field_192_unused = 0;

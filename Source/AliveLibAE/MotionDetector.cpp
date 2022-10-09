@@ -39,7 +39,7 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::MotionDetector_Flare));
     Animation_Init(GetAnimRes(AnimId::MotionDetector_Flare));
 
-    mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mFlags.Set(AnimFlags::eSemiTrans);
     mAnim.mRenderMode = TPageAbr::eBlend_1;
     mAnim.mRenderLayer = Layer::eLayer_Foreground_36;
 
@@ -101,11 +101,11 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
 
         if (pTlv->mDrawFlare == relive::reliveChoice::eYes)
         {
-            mAnim.mFlags.Set(AnimFlags::eBit3_Render);
+            mAnim.mFlags.Set(AnimFlags::eRender);
         }
         else
         {
-            mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+            mAnim.mFlags.Clear(AnimFlags::eRender);
         }
 
         if (pLaser)
@@ -115,11 +115,11 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
 
             if (SwitchStates_Get(field_108_disable_switch_id) == 0)
             {
-                pLaser->mAnim.mFlags.Set(AnimFlags::eBit3_Render);
+                pLaser->mAnim.mFlags.Set(AnimFlags::eRender);
             }
             else
             {
-                pLaser->mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+                pLaser->mAnim.mFlags.Clear(AnimFlags::eRender);
             }
         }
 
@@ -148,7 +148,7 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
         field_F8_laser_id = pLaserMem->mBaseGameObjectId;
     }
 
-    mAnim.mFlags.Set(AnimFlags::eBit3_Render);
+    mAnim.mFlags.Set(AnimFlags::eRender);
     field_FC_owner_id = pOwner->mBaseGameObjectId;
     field_10A_alarm_switch_id = 0;
     field_10C_alarm_duration = 0;
@@ -190,7 +190,7 @@ void MotionDetector::VRender(PrimHeader** ppOt)
 {
     BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit3_Render))
+    if (mAnim.mFlags.Get(AnimFlags::eRender))
     {
         auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find(field_F8_laser_id, ReliveTypes::eRedLaser));
         const PSX_RECT bLaserRect = pLaser->VGetBoundingRect();
@@ -232,7 +232,7 @@ s16 MotionDetector::IsInLaser(BaseAliveGameObject* pWho, BaseGameObject* pOwner)
     if (pWho->Type() == ReliveTypes::eAbe)
     {
         // Abe is safe in these states or if electrocuted or in ddcheat fly mode.
-        if (pWho->mCurrentMotion == eAbeMotions::Motion_0_Idle_44EEB0 || pWho->mCurrentMotion == eAbeMotions::Motion_17_CrouchIdle_456BC0 || pWho->mCurrentMotion == eAbeMotions::Motion_67_LedgeHang_454E20 || pWho->mCurrentMotion == eAbeMotions::Motion_60_Unused_4A3200 || pWho->mCurrentMotion == eAbeMotions::Motion_57_Dead_4589A0 || pWho->mCurrentMotion == eAbeMotions::Motion_117_InMineCar_4587C0 || pWho->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted) || sDDCheat_FlyingEnabled_5C2C08)
+        if (pWho->mCurrentMotion == eAbeMotions::Motion_0_Idle_44EEB0 || pWho->mCurrentMotion == eAbeMotions::Motion_17_CrouchIdle_456BC0 || pWho->mCurrentMotion == eAbeMotions::Motion_67_LedgeHang_454E20 || pWho->mCurrentMotion == eAbeMotions::Motion_60_Unused_4A3200 || pWho->mCurrentMotion == eAbeMotions::Motion_57_Dead_4589A0 || pWho->mCurrentMotion == eAbeMotions::Motion_117_InMineCar_4587C0 || pWho->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted) || sDDCheat_FlyingEnabled_5C2C08)
         {
             return 0;
         }
@@ -257,7 +257,7 @@ s16 MotionDetector::IsInLaser(BaseAliveGameObject* pWho, BaseGameObject* pOwner)
         return 0;
     }
 
-    if (!(mAnim.mFlags.Get(AnimFlags::eBit3_Render)))
+    if (!(mAnim.mFlags.Get(AnimFlags::eRender)))
     {
         // Not being rendered so can't set off the motion beam
         return 0;
@@ -289,10 +289,10 @@ void MotionDetector::VUpdate()
             // A laser not part of greeter and disabled, do nothing.
             if (SwitchStates_Get(field_108_disable_switch_id))
             {
-                pLaser->mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+                pLaser->mAnim.mFlags.Clear(AnimFlags::eRender);
                 return;
             }
-            pLaser->mAnim.mFlags.Set(AnimFlags::eBit3_Render);
+            pLaser->mAnim.mFlags.Set(AnimFlags::eRender);
         }
 
         const PSX_RECT bLaserRect = pLaser->VGetBoundingRect();
@@ -355,8 +355,8 @@ void MotionDetector::VUpdate()
                                 pOwner->field_140_targetOnRight = 1;
                             }
 
-                            mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
-                            pLaser->mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+                            mAnim.mFlags.Clear(AnimFlags::eRender);
+                            pLaser->mAnim.mFlags.Clear(AnimFlags::eRender);
                         }
                         break;
                     }
@@ -378,15 +378,15 @@ void MotionDetector::VUpdate()
 
             if (pOwner->field_13C_brain_state == GreeterBrainStates::eBrain_0_Patrol || pOwner->field_13C_brain_state == GreeterBrainStates::eBrain_1_PatrolTurn)
             {
-                mAnim.mFlags.Set(AnimFlags::eBit3_Render);
-                pLaser->mAnim.mFlags.Set(AnimFlags::eBit3_Render);
+                mAnim.mFlags.Set(AnimFlags::eRender);
+                pLaser->mAnim.mFlags.Set(AnimFlags::eRender);
                 pLaser->mYPos = pOwner->mYPos;
             }
 
             if (pOwner->field_13C_brain_state == GreeterBrainStates::eBrain_4_Chase || pOwner->field_13C_brain_state == GreeterBrainStates::eBrain_6_ToChase)
             {
-                mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
-                pLaser->mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+                mAnim.mFlags.Clear(AnimFlags::eRender);
+                pLaser->mAnim.mFlags.Clear(AnimFlags::eRender);
             }
         }
 

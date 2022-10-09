@@ -37,15 +37,11 @@ public:
     BirdPortal(relive::Path_BirdPortal* pTlv, const Guid& tlvId);
     ~BirdPortal();
     
-    void LoadAnimations();
-
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
     virtual void VStopAudio() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
-
-    // New virtuals
 
     virtual s16 VPortalClipper(s16 bUnknown);
     virtual void VKillPortalClipper();
@@ -66,15 +62,13 @@ private:
     s16 IsScaredAway();
     void KillTerminators();
     Event GetEvent();
+    void LoadAnimations();
 
-private:
-    Guid mTlvInfo;
 
 public:
     relive::Path_BirdPortal::PortalType mPortalType = relive::Path_BirdPortal::PortalType::eAbe;
     relive::Path_BirdPortal::PortalSide mEnterSide = relive::Path_BirdPortal::PortalSide::eRight;
 
-public:
     enum class PortalStates : s16
     {
         CreatePortal_0 = 0,
@@ -103,16 +97,15 @@ public:
     };
     PortalStates mState = PortalStates::CreatePortal_0;
 
-public:
     FP mXPos = {};
     FP mYPos = {};
     FP mExitX = {};
     FP mExitY = {};
 
-public:
     FP mHitY = {};
 
 private:
+    Guid mTlvInfo;
     Guid mThrowableIndicatorId; // AE only
     Guid mDoveIds[6] = {}; // AE only
     s32 mTimer = 0;

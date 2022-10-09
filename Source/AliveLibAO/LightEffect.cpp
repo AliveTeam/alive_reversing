@@ -22,9 +22,9 @@ LightEffect::LightEffect(relive::Path_LightEffect* pTlv, const Guid& tlvId)
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 
-    mAnim.mFlags.Set(AnimFlags::eBit20_use_xy_offset);
-    mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
-    mAnim.mFlags.Set(AnimFlags::eBit16_bBlending);
+    mAnim.mFlags.Set(AnimFlags::eIgnorePosOffset);
+    mAnim.mFlags.Set(AnimFlags::eSemiTrans);
+    mAnim.mFlags.Set(AnimFlags::eBlending);
 
     mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
     mAnim.mRenderMode = TPageAbr::eBlend_0;

@@ -67,7 +67,7 @@ void SligGetPantsAndWings::VUpdate()
             break;
 
         case State::eFinished:
-            if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 mState = State::eWaiting;
                 mAnim.Set_Animation_Data(GetAnimRes(AnimId::CrawlingSligLocker_Closed));

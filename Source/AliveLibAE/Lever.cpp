@@ -44,7 +44,7 @@ Lever::Lever(relive::Path_Lever* pTlv, const Guid& tlvId)
     LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::Lever_Idle));
 
-    mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mFlags.Set(AnimFlags::eSemiTrans);
     field_F4_switch_id = pTlv->mSwitchId;
     field_102_action = pTlv->mAction;
     field_100_flags.Clear(Flags_100::eBit1_lever_anim_left_direction);
@@ -128,7 +128,7 @@ void Lever::VUpdate()
             SfxPlayMono(relive::SoundEffects::LeverPull, 0);
         }
 
-        if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
         {
             if (gMap.mCurrentLevel == EReliveLevelIds::eMines
                 || gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz
@@ -267,7 +267,7 @@ void Lever::VUpdate()
     }
     else if (field_F8_state == LeverState::eFinished_2)
     {
-        if (mAnim.mFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+        if (mAnim.mFlags.Get(AnimFlags::eForwardLoopCompleted))
         {
             field_F8_state = LeverState::eWaiting_0;
             mAnim.Set_Animation_Data(GetAnimRes(AnimId::Lever_Idle));

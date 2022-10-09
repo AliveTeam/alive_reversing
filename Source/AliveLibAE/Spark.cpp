@@ -76,8 +76,8 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, 
                 ppRes);
             if (pParticle)
             {
-                pParticle->mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
-                pParticle->mAnim.mFlags.Set(AnimFlags::eBit16_bBlending);
+                pParticle->mAnim.mFlags.Set(AnimFlags::eSemiTrans);
+                pParticle->mAnim.mFlags.Set(AnimFlags::eBlending);
 
                 pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
                 pParticle->mAnim.mRed = 128;

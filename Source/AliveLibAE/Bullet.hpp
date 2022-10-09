@@ -33,16 +33,12 @@ private:
 
 public:
     BulletType mBulletType = BulletType::eSligPossessedOrUnderGlukkonCommand_0;
-
-private:
-    PathLine* mLine = nullptr;
-    FP mXPos = {};
-
-public:
     FP mYPos = {};
     FP mXDistance = {};
 
 private:
+    PathLine* mLine = nullptr;
+    FP mXPos = {};
     EReliveLevelIds mBulletLevel = EReliveLevelIds::eNone;
     s16 mBulletPath = 0;
     FP mSpriteScale = {};

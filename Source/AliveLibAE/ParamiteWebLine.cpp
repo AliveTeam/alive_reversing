@@ -90,14 +90,18 @@ ParamiteWebLine::ParamiteWebLine(relive::Path_ParamiteWebLine* pTlv, const Guid&
 
     field_F4_anim_segment_count = (field_F6_piece_length + field_FA_bottom - field_F8_top) / field_F6_piece_length;
     field_FC_pRes = relive_new AnimationUnknown[field_F4_anim_segment_count];
-    for (s32 i = 0; i < field_F4_anim_segment_count; i++)
+
+    if (field_FC_pRes)
     {
-        field_FC_pRes[i].mFlags.Set(AnimFlags::eBit3_Render);
-        field_FC_pRes[i].field_68_anim_ptr = &mAnim;
-        field_FC_pRes[i].mRenderLayer = mAnim.mRenderLayer;
-        field_FC_pRes[i].field_6C_scale = mSpriteScale;
-        field_FC_pRes[i].mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
-        field_FC_pRes[i].mFlags.Clear(AnimFlags::eBit16_bBlending);
+        for (s32 i = 0; i < field_F4_anim_segment_count; i++)
+        {
+            field_FC_pRes[i].mFlags.Set(AnimFlags::eRender);
+            field_FC_pRes[i].field_68_anim_ptr = &mAnim;
+            field_FC_pRes[i].mRenderLayer = mAnim.mRenderLayer;
+            field_FC_pRes[i].field_6C_scale = mSpriteScale;
+            field_FC_pRes[i].mFlags.Clear(AnimFlags::eSemiTrans);
+            field_FC_pRes[i].mFlags.Clear(AnimFlags::eBlending);
+        }
     }
 
     field_104_wobble_idx = 0;
@@ -113,9 +117,9 @@ ParamiteWebLine::ParamiteWebLine(relive::Path_ParamiteWebLine* pTlv, const Guid&
         field_108_anim_flare.field_14_scale = FP_FromDouble(0.3);
         field_108_anim_flare.mRenderMode = TPageAbr::eBlend_1;
 
-        field_108_anim_flare.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
-        field_108_anim_flare.mFlags.Clear(AnimFlags::eBit16_bBlending);
-        field_108_anim_flare.mFlags.Set(AnimFlags::eBit7_SwapXY);
+        field_108_anim_flare.mFlags.Clear(AnimFlags::eSemiTrans);
+        field_108_anim_flare.mFlags.Clear(AnimFlags::eBlending);
+        field_108_anim_flare.mFlags.Set(AnimFlags::eSwapXY);
 
         field_1A0_pulse_position = field_F8_top;
         field_1A4_delay_counter = Math_RandomRange(0, 10);

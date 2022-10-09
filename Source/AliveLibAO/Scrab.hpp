@@ -138,8 +138,8 @@ public:
     bool BrainIs(TBrainType fn);
 
 
-    TBrainType field_10C_fn = nullptr;
-    s16 field_110_brain_sub_state = 0;
+    TBrainType mBrainState = nullptr;
+    s16 mBrainSubState = 0;
     s16 field_112 = 0;
     s16 field_114_attack_delay = 0;
     relive::Path_Scrab::ScrabPatrolType field_116_patrol_type = relive::Path_Scrab::ScrabPatrolType::eWalk;

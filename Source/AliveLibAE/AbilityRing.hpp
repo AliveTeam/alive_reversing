@@ -56,6 +56,10 @@ class AbilityRing final : public BaseGameObject
 {
 public:
     static AbilityRing* Factory(FP xpos, FP ypos, RingTypes type, FP scale);
+    virtual void VSetTarget(BaseGameObject* pTarget);
+    static s32 CreateFromSaveState(const u8* pBuffer);
+
+private:
     AbilityRing(FP xpos, FP ypos, RingTypes ringType, FP scale);
     ~AbilityRing();
 
@@ -64,15 +68,8 @@ public:
     virtual void VScreenChanged() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
-    // New virtuals
-    virtual void VSetTarget(BaseGameObject* pTarget);
-
-    static s32 CreateFromSaveState(const u8* pBuffer);
-
-private:
     void CollideWithObjects(s16 bDealDamage);
 
-private:
     Layer mRingLayer = Layer::eLayer_0;
     AbilityRing_PolyBuffer* mRingPolyBuffer = nullptr;
     Prim_SetTPage mRingPrimSetTPage[2] = {};

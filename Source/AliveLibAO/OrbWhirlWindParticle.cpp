@@ -187,7 +187,7 @@ OrbWhirlWindParticle::OrbWhirlWindParticle(FP xpos, FP ypos, FP scale)
 {
     mAnim.Init(ResourceManagerWrapper::LoadAnimation(AnimId::ChantOrb_Particle), nullptr);
 
-    mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mFlags.Set(AnimFlags::eSemiTrans);
 
     mAnim.mRenderLayer = Layer::eLayer_AbeMenu_32;
     mAnim.mRenderMode = TPageAbr::eBlend_1;

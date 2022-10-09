@@ -27,7 +27,7 @@ void Animation_OnFrame_Common_4561B0(BaseGameObject* pObjPtr, u32&, const Point3
     AnimResource ppAnimData = ResourceManagerWrapper::LoadAnimation(AnimId::Dust_Particle);
 
     FP xOff = {};
-    if (pObj->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    if (pObj->mAnim.mFlags.Get(AnimFlags::eFlipX))
     {
         xOff = -(pObj->mSpriteScale * FP_FromInteger(point.x));
     }
@@ -127,7 +127,7 @@ void Animation_OnFrame_FlyingSlig(BaseGameObject* pObjPtr, u32&, const Point32& 
 
     // flying slig: kVaporResID
     FP xOff = {};
-    if (pObj->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    if (pObj->mAnim.mFlags.Get(AnimFlags::eFlipX))
     {
         xOff = -(pObj->mSpriteScale * FP_FromInteger(point.x));
     }
@@ -163,7 +163,7 @@ void Animation_OnFrame_Slog_4C3030(BaseGameObject* pObjPtr, u32&, const Point32&
         return;
     }
 
-    if ((pTarget->Type() == ReliveTypes::eAbe && pTarget->mCurrentMotion == eAbeMotions::Motion_68_ToOffScreenHoist_454B80) || pSlog->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted))
+    if ((pTarget->Type() == ReliveTypes::eAbe && pTarget->mCurrentMotion == eAbeMotions::Motion_68_ToOffScreenHoist_454B80) || pSlog->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted))
     {
         return;
     }
@@ -182,7 +182,7 @@ void Animation_OnFrame_Slog_4C3030(BaseGameObject* pObjPtr, u32&, const Point32&
     }
 
     FP bloodX = {};
-    if (pSlog->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    if (pSlog->mAnim.mFlags.Get(AnimFlags::eFlipX))
     {
         bloodX = pSlog->mXPos - (pSlog->mSpriteScale * FP_FromInteger(point.x));
     }

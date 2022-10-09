@@ -136,7 +136,7 @@ void Teleporter::VUpdate()
                 return;
             }
 
-            if (sControlledCharacter->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit10_Teleporting))
+            if (sControlledCharacter->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eTeleporting))
             {
                 return;
             }
@@ -145,7 +145,7 @@ void Teleporter::VUpdate()
             field_50_objId = Teleporter::Create_ElectrocuteEffect()->mBaseGameObjectId;
 
             SFX_Play_Pitch(relive::SoundEffects::Zap1, 60, -400);
-            sControlledCharacter->mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit10_Teleporting);
+            sControlledCharacter->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eTeleporting);
 
             SpawnRingSparks(&field_34_mTlvData);
         }
@@ -214,7 +214,7 @@ void Teleporter::VUpdate()
                 }
             }
 
-            sControlledCharacter->mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+            sControlledCharacter->mAnim.mFlags.Clear(AnimFlags::eRender);
 
             gMap.mTeleporterTransition = 1;
 
@@ -349,8 +349,8 @@ void Teleporter::VUpdate()
             }
 
             field_54_effect_created = 0;
-            sControlledCharacter->mAnim.mFlags.Set(AnimFlags::eBit3_Render);
-            sControlledCharacter->mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit10_Teleporting);
+            sControlledCharacter->mAnim.mFlags.Set(AnimFlags::eRender);
+            sControlledCharacter->mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eTeleporting);
             field_2C_switch_state = SwitchStates_Get(field_34_mTlvData.mSwitchId);
             field_30_state = TeleporterState::eWaitForSwitchOn_0;
         }

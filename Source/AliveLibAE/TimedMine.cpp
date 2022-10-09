@@ -172,8 +172,8 @@ void TimedMine::InitTickAnimation()
     if (mTickAnim.Init(GetAnimRes(AnimId::Bomb_RedGreenTick), this))
     {
         mTickAnim.mRenderLayer = mAnim.mRenderLayer;
-        mTickAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
-        mTickAnim.mFlags.Set(AnimFlags::eBit16_bBlending);
+        mTickAnim.mFlags.Set(AnimFlags::eSemiTrans);
+        mTickAnim.mFlags.Set(AnimFlags::eBlending);
         mTickAnim.field_14_scale = mSpriteScale;
         mTickAnim.mRed = 128;
         mTickAnim.mGreen = 128;

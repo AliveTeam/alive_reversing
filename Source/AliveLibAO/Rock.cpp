@@ -26,8 +26,8 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
     Animation_Init(GetAnimRes(AnimId::Rock));
 
     mBaseGameObjectFlags.Clear(Options::eInteractive_Bit8);
-    mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
-    mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mFlags.Clear(AnimFlags::eRender);
+    mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
 
     mXPos = xpos;
     field_11C_xpos = xpos;
@@ -103,7 +103,7 @@ void Rock::VUpdate()
                 if (!field_114_pLine)
                 {
                     field_110_state = States::eBouncing_4;
-                    mAnim.mFlags.Set(AnimFlags::eBit8_Loop);
+                    mAnim.mFlags.Set(AnimFlags::eLoop);
                 }
             }
             else
@@ -119,7 +119,7 @@ void Rock::VUpdate()
                     if (!field_114_pLine)
                     {
                         field_110_state = States::eBouncing_4;
-                        mAnim.mFlags.Set(AnimFlags::eBit8_Loop);
+                        mAnim.mFlags.Set(AnimFlags::eLoop);
                     }
                 }
                 else
@@ -130,7 +130,7 @@ void Rock::VUpdate()
 
                     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
 
-                    mAnim.mFlags.Clear(AnimFlags::eBit8_Loop);
+                    mAnim.mFlags.Clear(AnimFlags::eLoop);
                     mCollectionRect.y = mYPos - ScaleToGridSize(mSpriteScale);
                     mCollectionRect.h = mYPos;
                     field_110_state = States::eOnGround_3;
@@ -205,7 +205,7 @@ void Rock::VThrow(FP velX, FP velY)
     mVelX = velX;
     mVelY = velY;
 
-    mAnim.mFlags.Set(AnimFlags::eBit3_Render);
+    mAnim.mFlags.Set(AnimFlags::eRender);
 
     if (field_10C_count == 0)
     {

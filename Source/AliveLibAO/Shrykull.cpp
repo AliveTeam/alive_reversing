@@ -64,7 +64,7 @@ Shrykull::Shrykull()
     mScale = sActiveHero->mScale;
     field_10C_state = State::eTransform_0;
 
-    mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, sActiveHero->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX));
+    mAnim.mFlags.Set(AnimFlags::eFlipX, sActiveHero->mAnim.mFlags.Get(AnimFlags::eFlipX));
 
     mShadow = relive_new Shadow();
 
@@ -86,7 +86,7 @@ bool Shrykull::CanKill(BaseAnimatedWithPhysicsGameObject* pObj)
             || pObj->Type() == ReliveTypes::eBackgroundGlukkon
             || pObj->Type() == ReliveTypes::eSecurityClaw
             || pObj->Type() == ReliveTypes::eSecurityOrb)
-        && pObj->mAnim.mFlags.Get(AnimFlags::eBit3_Render)
+        && pObj->mAnim.mFlags.Get(AnimFlags::eRender)
         && !pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead)
         && gMap.Is_Point_In_Current_Camera(
             pObj->mCurrentLevel,
@@ -126,7 +126,7 @@ void Shrykull::VUpdate()
                 SfxPlayMono(relive::SoundEffects::IngameTransition, 127);
             }
 
-            if (mAnim.mFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+            if (mAnim.mFlags.Get(AnimFlags::eForwardLoopCompleted))
             {
                 mAnim.Set_Animation_Data(GetAnimRes(AnimId::ShrykullTransform));
                 field_10C_state = State::eZapTargets_1;
@@ -234,7 +234,7 @@ void Shrykull::VUpdate()
             break;
 
         case State::eDetransform_2:
-            if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 mAnim.Set_Animation_Data(GetAnimRes(AnimId::ShrykullDetransform));
                 field_10C_state = State::eFinish_3;
@@ -248,7 +248,7 @@ void Shrykull::VUpdate()
                 SFX_Play_Pitch(relive::SoundEffects::Shrykull2, 127, 0);
             }
 
-            if (mAnim.mFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+            if (mAnim.mFlags.Get(AnimFlags::eForwardLoopCompleted))
             {
                 sActiveHero->ExitShrykull_42F440(field_122_bResetRingTimer);
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);

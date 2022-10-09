@@ -83,7 +83,7 @@ SlapLock::SlapLock(relive::Path_SlapLock* pTlv, const Guid& tlvId)
         return;
     }
 
-    mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+    mAnim.mFlags.Clear(AnimFlags::eRender);
 
     mTimer1 = sGnFrame + 60;
     mShinyParticleTimer = sGnFrame + 30;
@@ -112,7 +112,7 @@ s32 SlapLock::CreateFromSaveState(const u8* pBuffer)
     auto pSlapLock = relive_new SlapLock(pTlv, pState->mTlvInfo);
     if (pSlapLock)
     {
-        pSlapLock->mAnim.mFlags.Set(AnimFlags::eBit3_Render, pState->mAnimRender & 1);
+        pSlapLock->mAnim.mFlags.Set(AnimFlags::eRender, pState->mAnimRender & 1);
 
         pSlapLock->mTlvInfo = pState->mTlvInfo;
 
@@ -120,7 +120,7 @@ s32 SlapLock::CreateFromSaveState(const u8* pBuffer)
 
         pSlapLock->mState = pState->mState;
         pSlapLock->mTimer1 = pState->mTimer1;
-        pSlapLock->mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit1_bShot);
+        pSlapLock->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eShot);
         pSlapLock->mShinyParticleTimer = pState->mShinyParticleTimer;
     }
 
@@ -153,7 +153,7 @@ s32 SlapLock::VGetSaveState(u8* pSaveBuffer)
     auto pState = reinterpret_cast<SlapLock_State*>(pSaveBuffer);
 
     pState->mType = AETypes::eLockedSoul_61;
-    pState->mAnimRender = mAnim.mFlags.Get(AnimFlags::eBit3_Render) & 1;
+    pState->mAnimRender = mAnim.mFlags.Get(AnimFlags::eRender) & 1;
     pState->mTlvInfo = mTlvInfo;
     pState->mTlvState = sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo)->mTlvSpecificMeaning;
     pState->mState = mState;
@@ -184,9 +184,9 @@ void SlapLock::VUpdate()
     }
     else
     {
-        if (mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit9_RestoredFromQuickSave))
+        if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eRestoredFromQuickSave))
         {
-            mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit9_RestoredFromQuickSave);
+            mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eRestoredFromQuickSave);
 
             if (mSlapLockTlv->mTlvSpecificMeaning)
             {
@@ -261,7 +261,7 @@ void SlapLock::VUpdate()
                     }
                 }
 
-                if (!(mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame)))
+                if (!(mAnim.mFlags.Get(AnimFlags::eIsLastFrame)))
                 {
                     return;
                 }
@@ -274,12 +274,12 @@ void SlapLock::VUpdate()
             }
             case SlapLockStates::eSlapped_2:
             {
-                if (!(mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame)))
+                if (!(mAnim.mFlags.Get(AnimFlags::eIsLastFrame)))
                 {
                     return;
                 }
 
-                mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+                mAnim.mFlags.Clear(AnimFlags::eRender);
 
                 if (mSlapLockTlv->mGiveInvisibilityPowerup == relive::reliveChoice::eNo)
                 {
@@ -321,7 +321,7 @@ void SlapLock::VUpdate()
                             sActiveHero->mYPos,
                             1)
                         || sActiveHero->mRingPulseTimer
-                        || sActiveHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
+                        || sActiveHero->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible))
                     {
                         AbilityRing::Factory(
                             mXPos,
@@ -358,7 +358,7 @@ void SlapLock::VUpdate()
                     return;
                 }
 
-                if (sActiveHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
+                if (sActiveHero->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible))
                 {
                     mState = SlapLockStates::eGiveInvisibility_7;
                 }

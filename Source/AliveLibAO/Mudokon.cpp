@@ -153,7 +153,7 @@ Mudokon::Mudokon(relive::Path_TLV* pTlv, const Guid& tlvId)
     LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::Mudokon_Idle));
 
-    mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mFlags.Set(AnimFlags::eSemiTrans);
 
     mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit4_SetOffExplosives);
     mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit6);
@@ -188,7 +188,7 @@ Mudokon::Mudokon(relive::Path_TLV* pTlv, const Guid& tlvId)
             field_144_flags.Clear(Flags_144::e144_Bit4_bSnapToGrid);
             field_144_flags.Clear(Flags_144::e144_Bit11_bDeaf);
 
-            mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, liftMudTlv->mFacing == relive::Path_LiftMudokon::Direction::eLeft);
+            mAnim.mFlags.Set(AnimFlags::eFlipX, liftMudTlv->mFacing == relive::Path_LiftMudokon::Direction::eLeft);
 
             mGivePassword = liftMudTlv->mGivePassword;
             field_184 = 1;
@@ -208,7 +208,7 @@ Mudokon::Mudokon(relive::Path_TLV* pTlv, const Guid& tlvId)
 
             auto ringMudTlv = static_cast<relive::Path_RingMudokon*>(pTlv);
 
-            mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, ringMudTlv->mFacing == relive::reliveXDirection::eLeft); // TODO: Check
+            mAnim.mFlags.Set(AnimFlags::eFlipX, ringMudTlv->mFacing == relive::reliveXDirection::eLeft); // TODO: Check
             field_184 = 0;
             mGivePassword = ringMudTlv->mGivePassword;
             field_198_abe_must_face_mud = ringMudTlv->mAbeMustFaceMud == relive::Path_RingMudokon::MustFaceMud::eYes;
@@ -260,7 +260,7 @@ Mudokon::Mudokon(relive::Path_TLV* pTlv, const Guid& tlvId)
             field_124_voice_pitch = mudTlv->mVoicePitch;
             field_1B2_rescue_switch_id = mudTlv->mRescueSwitchId;
 
-            mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, mudTlv->mFacing == relive::reliveXDirection::eLeft);
+            mAnim.mFlags.Set(AnimFlags::eFlipX, mudTlv->mFacing == relive::reliveXDirection::eLeft);
 
             // TODO: Check these as well
             field_144_flags.Set(Flags_144::e144_Bit11_bDeaf, mudTlv->mDeaf == relive::reliveChoice::eYes);
@@ -855,7 +855,7 @@ void Mudokon::DoPathTrans()
     PSX_Point camCoords = {};
     gMap.GetCurrentCamCoords(&camCoords);
 
-    if (sActiveHero->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    if (sActiveHero->mAnim.mFlags.Get(AnimFlags::eFlipX))
     {
         mXPos = FP_FromInteger((camCoords.x + XGrid_Index_To_XPos(mSpriteScale, MaxGridBlocks_41FA10(mSpriteScale)))) + ScaleToGridSize(mSpriteScale);
     }
@@ -910,8 +910,8 @@ void Mudokon::DoPathTrans()
 
 void Mudokon::ToStand()
 {
-    mAnim.mFlags.Clear(AnimFlags::eBit6_FlipY);
-    mAnim.mFlags.Clear(AnimFlags::eBit7_SwapXY);
+    mAnim.mFlags.Clear(AnimFlags::eFlipY);
+    mAnim.mFlags.Clear(AnimFlags::eSwapXY);
     field_11C = FP_FromInteger(0);
     field_120_unused = 0;
     mVelX = FP_FromInteger(0);
@@ -954,7 +954,7 @@ void Mudokon::ToKnockback()
 
     if (mVelX > FP_FromInteger(0))
     {
-        if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+        if (mAnim.mFlags.Get(AnimFlags::eFlipX))
         {
             mXPos += mVelX + (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2));
         }
@@ -1082,11 +1082,11 @@ s16 Mudokon::FacingBirdPortal(BirdPortal* pTarget)
     {
         return TRUE;
     }
-    else if (pTarget->mXPos > mXPos && !mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    else if (pTarget->mXPos > mXPos && !mAnim.mFlags.Get(AnimFlags::eFlipX))
     {
         return TRUE;
     }
-    else if (pTarget->mXPos < mXPos && mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    else if (pTarget->mXPos < mXPos && mAnim.mFlags.Get(AnimFlags::eFlipX))
     {
         return TRUE;
     }
@@ -1225,7 +1225,7 @@ void Mudokon::Motion_0_Idle()
     switch (mNextMotion)
     {
         case eMudMotions::Motion_1_WalkLoop:
-            if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+            if (mAnim.mFlags.Get(AnimFlags::eFlipX))
             {
                 mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
             }
@@ -1238,7 +1238,7 @@ void Mudokon::Motion_0_Idle()
             break;
 
         case eMudMotions::Motion_35_SneakLoop:
-            if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+            if (mAnim.mFlags.Get(AnimFlags::eFlipX))
             {
                 mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(10));
             }
@@ -1251,7 +1251,7 @@ void Mudokon::Motion_0_Idle()
             break;
 
         case eMudMotions::Motion_29_RunLoop:
-            if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+            if (mAnim.mFlags.Get(AnimFlags::eFlipX))
             {
                 mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
             }
@@ -1385,10 +1385,10 @@ void Mudokon::Motion_2_StandingTurn()
         Environment_SFX_42A220(EnvironmentSfx::eGenericMovement_9, 0, 0x7FFF, this);
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eMudMotions::Motion_0_Idle;
-        mAnim.mFlags.Toggle(AnimFlags::eBit5_FlipX);
+        mAnim.mFlags.Toggle(AnimFlags::eFlipX);
     }
 }
 
@@ -1399,7 +1399,7 @@ void Mudokon::Motion_3_Speak()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eMudMotions::Motion_0_Idle;
     }
@@ -1433,7 +1433,7 @@ void Mudokon::Motion_7_WalkBegin()
     }
     else
     {
-        if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
         {
             mCurrentMotion = eMudMotions::Motion_1_WalkLoop;
         }
@@ -1462,7 +1462,7 @@ void Mudokon::Motion_8_WalkToIdle()
             return;
         }
 
-        if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
         {
             MapFollowMe_401D30(field_144_flags.Get(Flags_144::e144_Bit4_bSnapToGrid));
             ToStand();
@@ -1510,7 +1510,7 @@ void Mudokon::Motion_12_LiftUse()
 
 void Mudokon::Motion_13_LiftGrabBegin()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = mNextMotion;
         field_194_pLiftPoint->field_27A_flags.Set(LiftPoint::Flags::eBit8_KeepOnMiddleFloor);
@@ -1519,7 +1519,7 @@ void Mudokon::Motion_13_LiftGrabBegin()
 
 void Mudokon::Motion_14_LiftGrabEnd()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = mNextMotion;
     }
@@ -1527,7 +1527,7 @@ void Mudokon::Motion_14_LiftGrabEnd()
 
 void Mudokon::Motion_15_LeverUse()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eMudMotions::Motion_0_Idle;
     }
@@ -1557,7 +1557,7 @@ void Mudokon::Motion_16_StandScrubLoop()
 
     if (mNextMotion != -1)
     {
-        if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
         {
             if (mNextMotion != eMudMotions::Motion_0_Idle)
             {
@@ -1574,7 +1574,7 @@ void Mudokon::Motion_16_StandScrubLoop()
 
 void Mudokon::Motion_17_StandScrubLoopToPause()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eMudMotions::Motion_19_StandScrubPause;
     }
@@ -1582,7 +1582,7 @@ void Mudokon::Motion_17_StandScrubLoopToPause()
 
 void Mudokon::Motion_18_StandScrubPauseToLoop()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eMudMotions::Motion_16_StandScrubLoop;
     }
@@ -1592,7 +1592,7 @@ void Mudokon::Motion_19_StandScrubPause()
 {
     if (mNextMotion != -1)
     {
-        if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
         {
             mCurrentMotion = eMudMotions::Motion_18_StandScrubPauseToLoop;
             mNextMotion = -1;
@@ -1602,7 +1602,7 @@ void Mudokon::Motion_19_StandScrubPause()
 
 void Mudokon::Motion_20_IdleToStandScrub()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eMudMotions::Motion_16_StandScrubLoop;
     }
@@ -1610,7 +1610,7 @@ void Mudokon::Motion_20_IdleToStandScrub()
 
 void Mudokon::Motion_21_StandScrubToIdle()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eMudMotions::Motion_0_Idle;
     }
@@ -1635,7 +1635,7 @@ void Mudokon::Motion_22_CrouchScrub()
         }
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eMudMotions::Motion_23_CrouchIdle;
     }
@@ -1666,10 +1666,10 @@ void Mudokon::Motion_24_CrouchTurn()
 {
     CheckFloorGone();
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eMudMotions::Motion_23_CrouchIdle;
-        mAnim.mFlags.Toggle(AnimFlags::eBit5_FlipX);
+        mAnim.mFlags.Toggle(AnimFlags::eFlipX);
     }
 }
 
@@ -1677,7 +1677,7 @@ void Mudokon::Motion_25_StandToCrouch()
 {
     CheckFloorGone();
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eMudMotions::Motion_23_CrouchIdle;
     }
@@ -1687,7 +1687,7 @@ void Mudokon::Motion_26_CrouchToStand()
 {
     CheckFloorGone();
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eMudMotions::Motion_0_Idle;
     }
@@ -1698,7 +1698,7 @@ void Mudokon::Motion_27_WalkToRun()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
     {
         mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
     }
@@ -1707,7 +1707,7 @@ void Mudokon::Motion_27_WalkToRun()
         mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eMudMotions::Motion_29_RunLoop;
     }
@@ -1727,7 +1727,7 @@ void Mudokon::Motion_28_MidWalkToRun()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
     {
         mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
     }
@@ -1736,7 +1736,7 @@ void Mudokon::Motion_28_MidWalkToRun()
         mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mPreviousMotion = eMudMotions::Motion_29_RunLoop;
         mBaseAliveGameObjectLastAnimFrame = eMudMotions::Motion_8_WalkToIdle;
@@ -1842,7 +1842,7 @@ void Mudokon::Motion_30_RunToWalk()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
     {
         mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
     }
@@ -1851,7 +1851,7 @@ void Mudokon::Motion_30_RunToWalk()
         mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eMudMotions::Motion_1_WalkLoop;
     }
@@ -1871,7 +1871,7 @@ void Mudokon::Motion_31_MidRunToWalk()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
     {
         mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
     }
@@ -1880,7 +1880,7 @@ void Mudokon::Motion_31_MidRunToWalk()
         mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mPreviousMotion = eMudMotions::Motion_1_WalkLoop;
         mBaseAliveGameObjectLastAnimFrame = 9;
@@ -1912,7 +1912,7 @@ void Mudokon::Motion_32_RunSlideStop()
 
         if (mCurrentMotion == eMudMotions::Motion_32_RunSlideStop)
         {
-            if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 Environment_SFX_42A220(EnvironmentSfx::eWalkingFootstep_1, 0, 0x7FFF, this);
                 MapFollowMe_401D30(field_144_flags.Get(Flags_144::e144_Bit4_bSnapToGrid));
@@ -1937,11 +1937,11 @@ void Mudokon::Motion_33_RunSlideTurn()
 
         if (mCurrentMotion == eMudMotions::Motion_33_RunSlideTurn)
         {
-            if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 MapFollowMe_401D30(field_144_flags.Get(Flags_144::e144_Bit4_bSnapToGrid));
 
-                if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+                if (mAnim.mFlags.Get(AnimFlags::eFlipX))
                 {
                     mVelX = ScaleToGridSize(mSpriteScale) / FP_FromInteger(4);
                     mCurrentMotion = eMudMotions::Motion_34_RunTurnToRun;
@@ -1968,10 +1968,10 @@ void Mudokon::Motion_34_RunTurnToRun()
     else
     {
         MoveOnLine();
-        if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
         {
             mCurrentMotion = eMudMotions::Motion_29_RunLoop;
-            mAnim.mFlags.Toggle(AnimFlags::eBit5_FlipX);
+            mAnim.mFlags.Toggle(AnimFlags::eFlipX);
         }
     }
 }
@@ -2033,7 +2033,7 @@ void Mudokon::Motion_35_SneakLoop()
 
 void Mudokon::Motion_36_MidWalkToSneak()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
     {
         mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(10));
     }
@@ -2042,7 +2042,7 @@ void Mudokon::Motion_36_MidWalkToSneak()
         mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(10));
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eMudMotions::Motion_35_SneakLoop;
     }
@@ -2059,7 +2059,7 @@ void Mudokon::Motion_36_MidWalkToSneak()
 
 void Mudokon::Motion_37_SneakToWalk()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
     {
         mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
     }
@@ -2068,7 +2068,7 @@ void Mudokon::Motion_37_SneakToWalk()
         mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eMudMotions::Motion_1_WalkLoop;
     }
@@ -2085,7 +2085,7 @@ void Mudokon::Motion_37_SneakToWalk()
 
 void Mudokon::Motion_38_WalkToSneak()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
     {
         mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(10));
     }
@@ -2094,7 +2094,7 @@ void Mudokon::Motion_38_WalkToSneak()
         mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(10));
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mPreviousMotion = eMudMotions::Motion_35_SneakLoop;
         mBaseAliveGameObjectLastAnimFrame = 10;
@@ -2113,7 +2113,7 @@ void Mudokon::Motion_38_WalkToSneak()
 
 void Mudokon::Motion_39_MidSneakToWalk()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
     {
         mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
     }
@@ -2122,7 +2122,7 @@ void Mudokon::Motion_39_MidSneakToWalk()
         mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mPreviousMotion = eMudMotions::Motion_1_WalkLoop;
         mBaseAliveGameObjectLastAnimFrame = 9;
@@ -2141,7 +2141,7 @@ void Mudokon::Motion_39_MidSneakToWalk()
 
 void Mudokon::Motion_40_SneakBegin()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eMudMotions::Motion_35_SneakLoop;
     }
@@ -2160,7 +2160,7 @@ void Mudokon::Motion_41_SneakToIdle()
 {
     MoveOnLine();
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         MapFollowMe_401D30(field_144_flags.Get(Flags_144::e144_Bit4_bSnapToGrid));
         ToStand();
@@ -2171,7 +2171,7 @@ void Mudokon::Motion_42_MidSneakToIdle()
 {
     MoveOnLine();
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         MapFollowMe_401D30(field_144_flags.Get(Flags_144::e144_Bit4_bSnapToGrid));
         ToStand();
@@ -2192,11 +2192,11 @@ void Mudokon::Motion_43_RunJumpBegin()
         Environment_SFX_42A220(EnvironmentSfx::eRunJumpOrLedgeHoist_11, 0, 0x7FFF, this);
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         BaseAliveGameObjectLastLineYPos = mYPos;
 
-        if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+        if (mAnim.mFlags.Get(AnimFlags::eFlipX))
         {
             mVelX = mSpriteScale * FP_FromDouble(-7.6);
         }
@@ -2259,7 +2259,7 @@ void Mudokon::Motion_44_RunJumpMid()
 
 void Mudokon::Motion_45_StandToRun()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eMudMotions::Motion_29_RunLoop;
     }
@@ -2324,7 +2324,7 @@ void Mudokon::Motion_47_Knockback()
         }
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         if (BaseAliveGameObjectCollisionLine)
         {
@@ -2340,7 +2340,7 @@ void Mudokon::Motion_48_KnockbackGetUp()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         ToStand();
     }
@@ -2348,7 +2348,7 @@ void Mudokon::Motion_48_KnockbackGetUp()
 
 void Mudokon::Motion_49_WalkOffEdge()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eMudMotions::Motion_51_Fall;
     }
@@ -2371,7 +2371,7 @@ void Mudokon::Motion_50_LandSoft()
         }
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         ToStand();
     }
@@ -2483,7 +2483,7 @@ void Mudokon::Motion_52_Chant()
 
     if (mNextMotion == eMudMotions::Motion_0_Idle)
     {
-        if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
         {
             SND_Seq_Stop_477A60(SeqId::eMudokonChant_12);
             mCurrentMotion = eMudMotions::Motion_53_ChantEnd;
@@ -2494,7 +2494,7 @@ void Mudokon::Motion_52_Chant()
 
 void Mudokon::Motion_53_ChantEnd()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eMudMotions::Motion_0_Idle;
     }
@@ -2502,7 +2502,7 @@ void Mudokon::Motion_53_ChantEnd()
 
 void Mudokon::Motion_54_ToDuck()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eMudMotions::Motion_55_Duck;
     }
@@ -2510,7 +2510,7 @@ void Mudokon::Motion_54_ToDuck()
 
 void Mudokon::Motion_55_Duck()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         if (mNextMotion == eMudMotions::Motion_23_CrouchIdle)
         {
@@ -2522,7 +2522,7 @@ void Mudokon::Motion_55_Duck()
 
 void Mudokon::Motion_56_DuckToCrouch()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eMudMotions::Motion_23_CrouchIdle;
     }
@@ -2530,7 +2530,7 @@ void Mudokon::Motion_56_DuckToCrouch()
 
 void Mudokon::Motion_57_Struggle()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         if (mNextMotion == eMudMotions::Motion_0_Idle)
         {
@@ -2541,7 +2541,7 @@ void Mudokon::Motion_57_Struggle()
 
 void Mudokon::Motion_58_StruggleToCrouchChant()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eMudMotions::Motion_59_CrouchChant;
     }
@@ -2549,7 +2549,7 @@ void Mudokon::Motion_58_StruggleToCrouchChant()
 
 void Mudokon::Motion_59_CrouchChant()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         if (mNextMotion != -1)
         {
@@ -2585,7 +2585,7 @@ void Mudokon::Motion_59_CrouchChant()
 
 void Mudokon::Motion_60_CrouchChantToStruggle()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eMudMotions::Motion_0_Idle;
     }
@@ -2600,7 +2600,7 @@ void Mudokon::Motion_61_DuckKnockback()
 
     CheckFloorGone();
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eMudMotions::Motion_55_Duck;
         mNextMotion = -1;
@@ -2609,7 +2609,7 @@ void Mudokon::Motion_61_DuckKnockback()
 
 void Mudokon::Motion_62_PoisonGasDeath()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         field_144_flags.Clear(Flags_144::e144_Bit6_bPersist);
         mHealth = FP_FromInteger(0);
@@ -2726,7 +2726,7 @@ s16 Mudokon::Brain_2_SingSequenceIdle()
 
         case 2:
             if (!field_198_abe_must_face_mud
-                || sActiveHero->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) != mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+                || sActiveHero->mAnim.mFlags.Get(AnimFlags::eFlipX) != mAnim.mFlags.Get(AnimFlags::eFlipX))
             {
                 GameSpeakEvents last_speak = {};
                 if (field_128 == pEventSystem_4FF954->field_18_last_event_index)
@@ -3184,7 +3184,7 @@ s16 Mudokon::Brain_6_LeverUse()
     mNextMotion = eMudMotions::Motion_15_LeverUse;
 
     FP directedGridSize = {};
-    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
     {
         directedGridSize = -ScaleToGridSize(mSpriteScale);
     }
@@ -3613,7 +3613,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
         case 3:
         {
             FP gridSizeDirected = {};
-            if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+            if (mAnim.mFlags.Get(AnimFlags::eFlipX))
             {
                 gridSizeDirected = -ScaleToGridSize(mSpriteScale);
             }
@@ -3622,7 +3622,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
                 gridSizeDirected = ScaleToGridSize(mSpriteScale);
             }
             const s16 bHitWall = WallHit_401930(mSpriteScale * FP_FromInteger(50), gridSizeDirected);
-            const s16 bEndOfLine = Check_IsOnEndOfLine_4021A0(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX), 1);
+            const s16 bEndOfLine = Check_IsOnEndOfLine_4021A0(mAnim.mFlags.Get(AnimFlags::eFlipX), 1);
 
             if (mCurrentMotion != eMudMotions::Motion_0_Idle)
             {
@@ -3774,7 +3774,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
             }
 
             FP gridSizeDirected = {};
-            if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+            if (mAnim.mFlags.Get(AnimFlags::eFlipX))
             {
                 gridSizeDirected = -ScaleToGridSize(mSpriteScale);
             }
@@ -3785,7 +3785,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
 
             const s16 bHitWall = WallHit_401930(mSpriteScale * FP_FromInteger(50), gridSizeDirected);
 
-            if (Check_IsOnEndOfLine_4021A0(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX), 1) || bHitWall)
+            if (Check_IsOnEndOfLine_4021A0(mAnim.mFlags.Get(AnimFlags::eFlipX), 1) || bHitWall)
             {
                 mNextMotion = eMudMotions::Motion_0_Idle;
                 return 3;
@@ -3863,7 +3863,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
             }
 
             FP gridSizeDirected = {};
-            if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+            if (mAnim.mFlags.Get(AnimFlags::eFlipX))
             {
                 gridSizeDirected = -ScaleToGridSize(mSpriteScale);
             }
@@ -3873,7 +3873,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
             }
 
             const s16 bHitWall = WallHit_401930(mSpriteScale * FP_FromInteger(50), gridSizeDirected * FP_FromInteger(3));
-            if (Check_IsOnEndOfLine_4021A0(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) ? 1 : 0, 4)
+            if (Check_IsOnEndOfLine_4021A0(mAnim.mFlags.Get(AnimFlags::eFlipX) ? 1 : 0, 4)
                 || bHitWall)
             {
                 mNextMotion = eMudMotions::Motion_0_Idle;
@@ -4099,7 +4099,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
                     return field_1B0;
                 }
 
-                if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+                if (mAnim.mFlags.Get(AnimFlags::eFlipX))
                 {
                     const FP fart_scale = (FP_FromDouble(0.5) * mSpriteScale);
                     const FP fart_y = mYPos - (FP_FromInteger(24) * mSpriteScale);
@@ -4291,7 +4291,7 @@ s16 Mudokon::Brain_12_Escape()
 
             if (mCurrentMotion == eMudMotions::Motion_0_Idle || mCurrentMotion == eMudMotions::Motion_1_WalkLoop)
             {
-                if ((pPortal->mEnterSide == relive::Path_BirdPortal::PortalSide::eRight) == mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+                if ((pPortal->mEnterSide == relive::Path_BirdPortal::PortalSide::eRight) == mAnim.mFlags.Get(AnimFlags::eFlipX))
                 {
                     mNextMotion = eMudMotions::Motion_2_StandingTurn;
                 }

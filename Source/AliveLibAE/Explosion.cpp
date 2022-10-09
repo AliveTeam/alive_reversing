@@ -30,7 +30,7 @@ Explosion::Explosion(FP xpos, FP ypos, FP scale, bool bSmall)
         Animation_Init(GetAnimRes(AnimId::Explosion));
     }
 
-    mAnim.mFlags.Clear(AnimFlags::eBit18_IsLastFrame);
+    mAnim.mFlags.Clear(AnimFlags::eIsLastFrame);
     mAnim.mRenderMode = TPageAbr::eBlend_1;
     field_F8_scale = scale;
     mScale = scale == FP_FromInteger(1) ? Scale::Fg : Scale::Bg;
@@ -143,18 +143,18 @@ void Explosion::VUpdate()
 
             if (mAnim.mCurrentFrame == 3)
             {
-                pParticle->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
+                pParticle->mAnim.mFlags.Set(AnimFlags::eFlipX);
                 pParticle->mSpriteScale = mSpriteScale * FP_FromDouble(0.5);
             }
             else
             {
-                pParticle->mAnim.mFlags.Clear(AnimFlags::eBit5_FlipX);
+                pParticle->mAnim.mFlags.Clear(AnimFlags::eFlipX);
                 pParticle->mSpriteScale = mSpriteScale * FP_FromDouble(0.25);
             }
         }
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+    if (mAnim.mFlags.Get(AnimFlags::eForwardLoopCompleted))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

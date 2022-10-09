@@ -64,7 +64,7 @@ void Lever::VUpdate()
             SfxPlayMono(relive::SoundEffects::LeverPull, 0);
         }
 
-        if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
         {
             EventBroadcast(kEventNoise, this);
             EventBroadcast(kEventSuspiciousNoise, this);
@@ -165,7 +165,7 @@ void Lever::VUpdate()
     }
     else if (mState == LeverState::eFinished_2)
     {
-        if (mAnim.mFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+        if (mAnim.mFlags.Get(AnimFlags::eForwardLoopCompleted))
         {
             mState = LeverState::eWaiting_0;
             mAnim.Set_Animation_Data(
@@ -194,7 +194,7 @@ Lever::Lever(relive::Path_Lever* pTlv, const Guid& tlvId)
     const s32 lvl_idx = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
     Animation_Init(GetAnimRes(gLeverData_4BCF40[lvl_idx].field_0_idle_animId));
 
-    mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mFlags.Set(AnimFlags::eSemiTrans);
 
     mXPos = FP_FromInteger((pTlv->mBottomRightX
                                     + pTlv->mTopLeftX)

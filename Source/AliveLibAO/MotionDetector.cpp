@@ -26,7 +26,7 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::MotionDetector_Flare));
     Animation_Init(GetAnimRes(AnimId::MotionDetector_Flare));
 
-    mAnim.mFlags.Set(AnimFlags::eBit7_SwapXY);
+    mAnim.mFlags.Set(AnimFlags::eSwapXY);
     mAnim.mRenderMode = TPageAbr::eBlend_1;
     mAnim.mRenderLayer = Layer::eLayer_Foreground_36;
     mYOffset = 0;
@@ -104,9 +104,9 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
 
     field_F0_disable_switch_id = pTlv->mDisableSwitchId;
 
-    field_108_pLaser->mAnim.mFlags.Set(AnimFlags::eBit3_Render, SwitchStates_Get(field_F0_disable_switch_id) == 0);
+    field_108_pLaser->mAnim.mFlags.Set(AnimFlags::eRender, SwitchStates_Get(field_F0_disable_switch_id) == 0);
 
-    mAnim.mFlags.Set(AnimFlags::eBit3_Render, pTlv->mDrawFlare == relive::reliveChoice::eYes);
+    mAnim.mFlags.Set(AnimFlags::eRender, pTlv->mDrawFlare == relive::reliveChoice::eYes);
 
     field_F4_alarm_duration = pTlv->mAlarmDuration;
 
@@ -152,11 +152,11 @@ void MotionDetector::VUpdate()
     {
         if (SwitchStates_Get(field_F0_disable_switch_id))
         {
-            field_108_pLaser->mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+            field_108_pLaser->mAnim.mFlags.Clear(AnimFlags::eRender);
         }
         else
         {
-            field_108_pLaser->mAnim.mFlags.Set(AnimFlags::eBit3_Render);
+            field_108_pLaser->mAnim.mFlags.Set(AnimFlags::eRender);
 
             const PSX_RECT laserRect = field_108_pLaser->VGetBoundingRect();
 

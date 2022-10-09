@@ -62,13 +62,13 @@ RollingBall::RollingBall(relive::Path_RollingBall* pTlv, const Guid& tlvId)
 
     if (pTlv->mRollDirection == relive::reliveXDirection::eLeft)
     {
-        mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
+        mAnim.mFlags.Set(AnimFlags::eFlipX);
     }
 
     mReleaseSwitchId = pTlv->mReleaseSwitchId;
     mMaxSpeed = FP_FromRaw(pTlv->mMaxSpeed << 8);
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
     {
         mMaxSpeed = -FP_FromRaw(pTlv->mMaxSpeed << 8);
     }
@@ -110,7 +110,7 @@ RollingBall::RollingBall(relive::Path_RollingBall* pTlv, const Guid& tlvId)
 
     if (gMap.mCurrentLevel == EReliveLevelIds::eForestTemple && gMap.mCurrentPath == 2)
     {
-        mAnim.mFlags.Clear(AnimFlags::eBit2_Animate);
+        mAnim.mFlags.Clear(AnimFlags::eAnimate);
         mXPos = FP_FromInteger(2522);
         mYPos = FP_FromInteger(1300);
         mAnim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_35;
@@ -281,7 +281,7 @@ void RollingBall::VUpdate()
                         && gMap.mCurrentPath == 2
                         && !sActiveHero->field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel))
                     {
-                        mAnim.mFlags.Clear(AnimFlags::eBit2_Animate);
+                        mAnim.mFlags.Clear(AnimFlags::eAnimate);
                         mXPos = FP_FromInteger(2522);
                         mYPos = FP_FromInteger(1300);
                         mAnim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_35;
@@ -348,7 +348,7 @@ void RollingBall::VUpdate()
 
 void RollingBall::Accelerate()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
     {
         if (mVelX > mMaxSpeed)
         {

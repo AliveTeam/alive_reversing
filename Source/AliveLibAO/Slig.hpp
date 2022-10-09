@@ -279,7 +279,7 @@ public:
     bool BrainIs(TBrainFn fn);
 
     s16 field_10C_unused = 0;
-    s16 field_10E_brain_sub_state = 0;
+    s16 mBrainSubState = 0;
     s16 field_110_pitch_min = 0;
     s32 field_114_timer = 0;
     s32 field_118_unused = 0;
@@ -300,9 +300,9 @@ public:
     s16 field_148_unused = 0;
     s16 field_14A_unused = 0;
     s16 field_14C_unused = 0;
-    EReliveLevelIds field_14E_level = EReliveLevelIds::eNone;
-    s16 field_150_path = 0;
-    s16 field_152_camera = 0;
+    EReliveLevelIds mAbeLevel = EReliveLevelIds::eNone;
+    s16 mAbePath = 0;
+    s16 mAbeCamera = 0;
     s32 field_154_death_by_being_shot_timer = 0;
     s32 field_158_explode_timer = 0;
     s32 field_15C_last_event_index = 0;
@@ -311,7 +311,7 @@ public:
     relive::Path_Slig* field_174_tlv = {};
     PSX_Point field_1CC_points[10] = {};
     s16 field_1F4_points_count = 0;
-    TBrainFn field_1F8_fn = nullptr;
+    TBrainFn mBrainState = nullptr;
     TBrainFn field_1FC_fn2 = nullptr;
     s16 field_200_num_times_to_shoot = 0;
     s32 field_204_unused = 0;
@@ -319,7 +319,7 @@ public:
     s16 field_20C_force_alive_state = 0;
     s16 field_20E_spotted_possessed_slig = 0;
     SligResources field_210_resources = {};
-    s16 field_254_prevent_depossession = 0;
+    s16 mPreventDepossession = 0;
     s32 field_258_next_gamespeak_motion = 0;
 };
 ALIVE_ASSERT_SIZEOF(Slig, 0x25C);

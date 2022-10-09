@@ -1355,7 +1355,7 @@ HintFly::HintFly(relive::Path_HintFly* pTlv, const Guid& tlvId)
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::HintFly));
     Animation_Init(GetAnimRes(AnimId::HintFly));
 
-    mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
     field_124_tlvInfo = tlvId;
     field_11E_msg_idx = 0;
 
@@ -1403,11 +1403,11 @@ HintFly::HintFly(relive::Path_HintFly* pTlv, const Guid& tlvId)
         field_112_state = State::eIdleWaitForChanting_1;
         field_10C_timer = 0;
 
-        if (mAnim.mFlags.Get(AnimFlags::eBit13_Is8Bit))
+        if (mAnim.mFlags.Get(AnimFlags::eIs8Bit))
         {
             field_110_bitMode = TPageMode::e8Bit_1;
         }
-        else if (mAnim.mFlags.Get(AnimFlags::eBit14_Is16Bit))
+        else if (mAnim.mFlags.Get(AnimFlags::eIs16Bit))
         {
             field_110_bitMode = TPageMode::e16Bit_2;
         }
@@ -1460,7 +1460,7 @@ HintFly::HintFly(relive::Path_HintFly* pTlv, const Guid& tlvId)
         /*
         const PSX_RECT rect = { static_cast<s16>(mAnim.mPalVramXY.x + 1), mAnim.mPalVramXY.y, 1, 1 };
         const u8 data[] = { 0, 0, 0, 0 };
-        if (mAnim.mFlags.Get(AnimFlags::eBit14_Is16Bit))
+        if (mAnim.mFlags.Get(AnimFlags::eIs16Bit))
         {
             PSX_LoadImage16_4962A0(&rect, data);
         }

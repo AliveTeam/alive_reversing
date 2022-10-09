@@ -30,7 +30,7 @@ UXB::UXB(relive::Path_UXB* pTlv, const Guid& tlvId)
     Animation_Init(GetAnimRes(AnimId::UXB_Active));
     mLoadedPals.push_back(ResourceManagerWrapper::LoadPal(PalId::GreenFlash));
 
-    mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mFlags.Set(AnimFlags::eSemiTrans);
     mAnim.mRenderMode = TPageAbr::eBlend_0;
 
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
@@ -142,8 +142,8 @@ void UXB::InitBlinkAnim()
 {
     if (mFlashAnim.Init(GetAnimRes(AnimId::Bomb_RedGreenTick), this))
     {
-        mFlashAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
-        mFlashAnim.mFlags.Set(AnimFlags::eBit16_bBlending);
+        mFlashAnim.mFlags.Set(AnimFlags::eSemiTrans);
+        mFlashAnim.mFlags.Set(AnimFlags::eBlending);
 
         mFlashAnim.mRenderLayer = mAnim.mRenderLayer;
         mFlashAnim.field_14_scale = mSpriteScale;
@@ -426,7 +426,7 @@ s16 UXB::IsColliding()
 
         if (pObj->mBaseAliveGameObjectFlags.Get(Flags_10A::e10A_Bit4_SetOffExplosives))
         {
-            if (pObj->mAnim.mFlags.Get(AnimFlags::eBit3_Render))
+            if (pObj->mAnim.mFlags.Get(AnimFlags::eRender))
             {
                 const PSX_RECT objBound = pObj->VGetBoundingRect();
 

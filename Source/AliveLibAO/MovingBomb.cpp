@@ -35,7 +35,7 @@ MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::MovingBomb));
     Animation_Init(GetAnimRes(AnimId::MovingBomb));
 
-    mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mFlags.Set(AnimFlags::eSemiTrans);
     mAnim.mRenderMode = TPageAbr::eBlend_0;
     field_10C_state = States::eTriggeredBySwitch_1;
 
@@ -69,7 +69,7 @@ MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
     if (pTlv->mTriggeredByAlarm == relive::reliveChoice::eYes)
     {
         field_10C_state = States::eTriggeredByAlarm_0;
-        mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+        mAnim.mFlags.Clear(AnimFlags::eRender);
     }
 
     SetTint(kMovingBombTints_4CD310, gMap.mCurrentLevel);
@@ -165,14 +165,14 @@ s16 MovingBomb::VTakeDamage(BaseGameObject* pFrom)
         mSpriteScale);
 
     field_10C_state = States::eKillMovingBomb_7;
-    mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+    mAnim.mFlags.Clear(AnimFlags::eRender);
     field_114_timer = sGnFrame + 4;
     return 0;
 }
 
 void MovingBomb::VRender(PrimHeader** ppOt)
 {
-    if (mAnim.mFlags.Get(AnimFlags::eBit3_Render))
+    if (mAnim.mFlags.Get(AnimFlags::eRender))
     {
         BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     }
@@ -338,7 +338,7 @@ void MovingBomb::VUpdate()
         case States::eTriggeredByAlarm_0:
             if (EventGet(kEventAlarm))
             {
-                mAnim.mFlags.Set(AnimFlags::eBit3_Render);
+                mAnim.mFlags.Set(AnimFlags::eRender);
                 field_10C_state = States::eMoving_2;
             }
             break;
@@ -433,7 +433,7 @@ void MovingBomb::VUpdate()
                     mSpriteScale);
 
                 field_10C_state = States::eKillMovingBomb_7;
-                mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+                mAnim.mFlags.Clear(AnimFlags::eRender);
                 field_114_timer = sGnFrame + 4;
             }
             break;

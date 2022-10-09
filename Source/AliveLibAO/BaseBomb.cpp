@@ -98,14 +98,14 @@ void BaseBomb::VUpdate()
             GetAnimRes(AnimId::Explosion_Mine));
         if (pParticle)
         {
-            pParticle->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
+            pParticle->mAnim.mFlags.Set(AnimFlags::eFlipX);
             pParticle->mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
             pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
             pParticle->mSpriteScale = mSpriteScale * FP_FromDouble(0.7);
         }
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted)) // Animation ended
+    if (mAnim.mFlags.Get(AnimFlags::eForwardLoopCompleted)) // Animation ended
     {
         // Time to die
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -194,7 +194,7 @@ BaseBomb::BaseBomb(FP xpos, FP ypos, s32 /*unused*/, FP scale)
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Explosion_Mine));
     Animation_Init(GetAnimRes(AnimId::Explosion_Mine));
 
-    mAnim.mFlags.Clear(AnimFlags::eBit18_IsLastFrame);
+    mAnim.mFlags.Clear(AnimFlags::eIsLastFrame);
 
     mAnim.mRenderMode = TPageAbr::eBlend_1;
 

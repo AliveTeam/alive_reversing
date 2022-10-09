@@ -47,8 +47,8 @@ void Game_ShowLoadingIcon_482D80()
     Particle* pParticle = relive_new Particle(FP_FromInteger(0), FP_FromInteger(0), ppLoadingAnimRes);
 
     // TODO: May need to clear all other low word bits ?
-    pParticle->mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
-    pParticle->mAnim.mFlags.Set(AnimFlags::eBit16_bBlending);
+    pParticle->mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
+    pParticle->mAnim.mFlags.Set(AnimFlags::eBlending);
 
     pParticle->mAnim.mRenderLayer = Layer::eLayer_0;
     PSX_SetDefDrawEnv_4F5AA0(&dispBuffer.mDrawEnv, 0, 0, 640, 240);

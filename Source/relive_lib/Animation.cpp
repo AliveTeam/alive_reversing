@@ -38,7 +38,7 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
     const s16 xpos_pc = static_cast<s16>(PsxToPCX(xpos));
     const s16 width_pc = static_cast<s16>(PsxToPCX(width));
 
-    if (!mFlags.Get(AnimFlags::eBit3_Render))
+    if (!mFlags.Get(AnimFlags::eRender))
     {
         return;
     }
@@ -60,7 +60,7 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
 
     FP xOffSet_scaled = {};
     FP yOffset_scaled = {};
-    if (mFlags.Get(AnimFlags::eBit20_use_xy_offset))
+    if (mFlags.Get(AnimFlags::eIgnorePosOffset))
     {
         xOffSet_scaled = FP_FromInteger(0);
         yOffset_scaled = FP_FromInteger(0);
@@ -73,8 +73,8 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
 
     Poly_FT4* pPoly = &mOtData[gPsxDisplay.mBufferIndex];
     PolyFT4_Init(pPoly);
-    Poly_Set_SemiTrans(&pPoly->mBase.header, mFlags.Get(AnimFlags::eBit15_bSemiTrans));
-    Poly_Set_Blending(&pPoly->mBase.header, mFlags.Get(AnimFlags::eBit16_bBlending));
+    Poly_Set_SemiTrans(&pPoly->mBase.header, mFlags.Get(AnimFlags::eSemiTrans));
+    Poly_Set_Blending(&pPoly->mBase.header, mFlags.Get(AnimFlags::eBlending));
 
     SetRGB0(pPoly, mRed, mGreen, mBlue);
 
@@ -111,8 +111,8 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
     s16 polyXPos = 0;
     s16 polyYPos = 0;
 
-    const bool kFlipY = mFlags.Get(AnimFlags::eBit6_FlipY);
-    const bool kFlipX = mFlags.Get(AnimFlags::eBit5_FlipX);
+    const bool kFlipY = mFlags.Get(AnimFlags::eFlipY);
+    const bool kFlipX = mFlags.Get(AnimFlags::eFlipX);
 
 
     if (kFlipX)
@@ -175,13 +175,13 @@ void Animation::VDecode()
 
 bool Animation::DecodeCommon()
 {
-    if (mAnimRes.mJsonPtr->mFrames.size() == 1 && mFlags.Get(AnimFlags::eBit12_ForwardLoopCompleted))
+    if (mAnimRes.mJsonPtr->mFrames.size() == 1 && mFlags.Get(AnimFlags::eForwardLoopCompleted))
     {
         return false;
     }
 
     bool isLastFrame = false;
-    if (mFlags.Get(AnimFlags::eBit19_LoopBackwards))
+    if (mFlags.Get(AnimFlags::eLoopBackwards))
     {
         // Loop backwards
         const s32 prevFrameNum = --mCurrentFrame;
@@ -189,7 +189,7 @@ bool Animation::DecodeCommon()
 
         if (prevFrameNum < static_cast<s32>(mAnimRes.mJsonPtr->mAttributes.mLoopStartFrame))
         {
-            if (mFlags.Get(AnimFlags::eBit8_Loop))
+            if (mFlags.Get(AnimFlags::eLoop))
             {
                 // Loop to last frame
                 mCurrentFrame = static_cast<s32>(mAnimRes.mJsonPtr->mFrames.size()) - 1;
@@ -201,7 +201,7 @@ bool Animation::DecodeCommon()
                 mCurrentFrame = prevFrameNum + 1;
             }
 
-            // For some reason eBit12_ForwardLoopCompleted isn't set when going backwards
+            // For some reason eForwardLoopCompleted isn't set when going backwards
         }
 
         // Is first (last since running backwards) frame?
@@ -219,7 +219,7 @@ bool Animation::DecodeCommon()
         // Animation reached end point
         if (nextFrameNum >= static_cast<s32>(mAnimRes.mJsonPtr->mFrames.size()))
         {
-            if (mFlags.Get(AnimFlags::eBit8_Loop))
+            if (mFlags.Get(AnimFlags::eLoop))
             {
                 // Loop back to loop start frame
                 mCurrentFrame = mAnimRes.mJsonPtr->mAttributes.mLoopStartFrame;
@@ -231,7 +231,7 @@ bool Animation::DecodeCommon()
                 mFrameChangeCounter = 0;
             }
 
-            mFlags.Set(AnimFlags::eBit12_ForwardLoopCompleted);
+            mFlags.Set(AnimFlags::eForwardLoopCompleted);
         }
 
         // Is last frame ?
@@ -243,11 +243,11 @@ bool Animation::DecodeCommon()
 
     if (isLastFrame)
     {
-        mFlags.Set(AnimFlags::eBit18_IsLastFrame);
+        mFlags.Set(AnimFlags::eIsLastFrame);
     }
     else
     {
-        mFlags.Clear(AnimFlags::eBit18_IsLastFrame);
+        mFlags.Clear(AnimFlags::eIsLastFrame);
     }
 
     return true;
@@ -287,14 +287,14 @@ s16 Animation::Set_Animation_Data(AnimResource& pAnimRes)
 
     mFrameDelay = pAnimRes.mJsonPtr->mAttributes.mFrameRate;
 
-    mFlags.Clear(AnimFlags::eBit12_ForwardLoopCompleted);
-    mFlags.Clear(AnimFlags::eBit18_IsLastFrame);
-    mFlags.Clear(AnimFlags::eBit19_LoopBackwards);
-    mFlags.Clear(AnimFlags::eBit8_Loop);
+    mFlags.Clear(AnimFlags::eForwardLoopCompleted);
+    mFlags.Clear(AnimFlags::eIsLastFrame);
+    mFlags.Clear(AnimFlags::eLoopBackwards);
+    mFlags.Clear(AnimFlags::eLoop);
 
     if (pAnimRes.mJsonPtr->mAttributes.mLoop)
     {
-        mFlags.Set(AnimFlags::eBit8_Loop);
+        mFlags.Set(AnimFlags::eLoop);
     }
 
     mFrameChangeCounter = 1;
@@ -319,22 +319,22 @@ s16 Animation::Init(const AnimResource& ppAnimData, BaseGameObject* pGameObj)
     mGameObj = pGameObj;
 
     mFlags.Clear(AnimFlags::eBit1);
-    mFlags.Clear(AnimFlags::eBit5_FlipX);
-    mFlags.Clear(AnimFlags::eBit6_FlipY);
-    mFlags.Clear(AnimFlags::eBit7_SwapXY);
-    mFlags.Set(AnimFlags::eBit2_Animate);
-    mFlags.Set(AnimFlags::eBit3_Render);
+    mFlags.Clear(AnimFlags::eFlipX);
+    mFlags.Clear(AnimFlags::eFlipY);
+    mFlags.Clear(AnimFlags::eSwapXY);
+    mFlags.Set(AnimFlags::eAnimate);
+    mFlags.Set(AnimFlags::eRender);
 
-    mFlags.Set(AnimFlags::eBit8_Loop, mAnimRes.mJsonPtr->mAttributes.mLoop);
+    mFlags.Set(AnimFlags::eLoop, mAnimRes.mJsonPtr->mAttributes.mLoop);
 
     mFlags.Clear(AnimFlags::eBit10_alternating_flag);
 
-    mFlags.Clear(AnimFlags::eBit14_Is16Bit);
-    mFlags.Clear(AnimFlags::eBit13_Is8Bit);
+    mFlags.Clear(AnimFlags::eIs16Bit);
+    mFlags.Clear(AnimFlags::eIs8Bit);
 
 
-    mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
-    mFlags.Set(AnimFlags::eBit16_bBlending);
+    mFlags.Clear(AnimFlags::eSemiTrans);
+    mFlags.Set(AnimFlags::eBlending);
 
     mFrameDelay = mAnimRes.mJsonPtr->mAttributes.mFrameRate;
     mFrameChangeCounter = 1;
@@ -390,7 +390,7 @@ const PerFrameInfo* Animation::Get_FrameHeader(s32 frame)
 void Animation::Get_Frame_Rect(PSX_RECT* pRect)
 {
     Poly_FT4* pPoly = &mOtData[gPsxDisplay.mBufferIndex];
-    if (!mFlags.Get(AnimFlags::eBit20_use_xy_offset))
+    if (!mFlags.Get(AnimFlags::eIgnorePosOffset))
     {
         Poly_FT4_Get_Rect(pRect, pPoly);
         return;

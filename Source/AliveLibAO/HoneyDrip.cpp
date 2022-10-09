@@ -31,7 +31,7 @@ void HoneyDrip::VUpdate()
         mSoundPlaying = true;
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

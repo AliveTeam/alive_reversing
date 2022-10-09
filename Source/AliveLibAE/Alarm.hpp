@@ -11,14 +11,15 @@ class Alarm final : public EffectBase
 {
 public:
     
-    virtual void VUpdate() override;
-    virtual void VRender(PrimHeader** ppOt) override;
-
     Alarm(relive::Path_Alarm* pTlv, const Guid& tlvId);
     Alarm(s32 durationOffset, s32 switchId, s32 timerOffset, Layer layer);
     ~Alarm();
 
 private:
+
+    virtual void VUpdate() override;
+    virtual void VRender(PrimHeader** ppOt) override;
+
     s16 mAlarmRed = 0;
     s32 mAlarmPauseTimer = 0;
     s32 mAlarmDurationTimer = 0;

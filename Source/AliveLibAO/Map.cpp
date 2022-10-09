@@ -492,7 +492,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
 
         if (pObjIter->mBaseGameObjectFlags.Get(::BaseGameObject::eDrawable_Bit4)
             && pObjIter->mBaseAliveGameObjectFlags.Get(Flags_10A::e10A_Bit6)
-            && pObjIter->mAnim.mFlags.Get(AnimFlags::eBit3_Render)
+            && pObjIter->mAnim.mFlags.Get(AnimFlags::eRender)
             && !pObjIter->mBaseGameObjectFlags.Get(::BaseGameObject::eDead)
             && pObjIter != sControlledCharacter)
         {
@@ -546,7 +546,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                     {
                         break;
                     }
-                    pObj->mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+                    pObj->mAnim.mFlags.Clear(AnimFlags::eRender);
                 }
             }
 
@@ -613,7 +613,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                 {
                     break;
                 }
-                pObj->mAnim.mFlags.Set(AnimFlags::eBit3_Render);
+                pObj->mAnim.mFlags.Set(AnimFlags::eRender);
             }
         }
     }

@@ -95,13 +95,13 @@ void Well::WellExpress_Init(relive::Path_WellExpress* pTlv, FP /*xpos*/, FP ypos
         //Animation_Init(anim.mFrameTableOffset, anim.mMaxW, anim.mMaxH, ppRes);
         // TODO: Fix bg anims
         Animation_Init(ResourceManagerWrapper::LoadAnimation(AnimId::Abe_Head_Gib));
-        mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+        mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
         mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
     }
     /*
     else
     {
-        mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+        mAnim.mFlags.Clear(AnimFlags::eRender);
         mBaseGameObjectFlags.Clear(Options::eDrawable_Bit4);
     }*/
 
@@ -154,13 +154,13 @@ void Well::WellLocal_Init(relive::Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
         Animation_Init(ResourceManagerWrapper::LoadAnimation(AnimId::Abe_Head_Gib));
         //Animation_Init(anim.mFrameTableOffset, anim.mMaxW, anim.mMaxH, ppRes);
 
-        mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+        mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
         mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
     }
     /*
     else
     {
-        mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+        mAnim.mFlags.Clear(AnimFlags::eRender);
         mBaseGameObjectFlags.Clear(Options::eDrawable_Bit4);
     }*/
 

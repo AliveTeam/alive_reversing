@@ -49,7 +49,7 @@ const static AnimId sFleechAnimFromMotion[19] = {
     AnimId::Fleech_SleepingWithTongue,
     AnimId::Fleech_Consume };
 
-const TFleechMotionFn sFleech_motion_table_551798[19] = {
+const TFleechMotionFn sFleechMotionTable[19] = {
     &Fleech::Motion_0_Sleeping,
     &Fleech::Motion_1_WakingUp,
     &Fleech::Motion_2_Unknown,
@@ -116,7 +116,7 @@ const relive::SfxDefinition stru_5518E0[20] = {
     {0u, 0u, 0u, 0u, 0, 0}};
 
 
-const TFleechBrainFn sFleechAiTable[4] = {
+const TFleechBrainFn sFleechBrainTable[4] = {
     &Fleech::Brain_0_Patrol,
     &Fleech::Brain_1_ChasingAbe,
     &Fleech::Brain_2_Scared,
@@ -156,11 +156,11 @@ Fleech::Fleech(relive::Path_Fleech* pTlv, const Guid& tlvId)
     Init();
 
     mTlvInfo = tlvId;
-    field_124_brain_state = eFleechBrains::eBrain_0_Patrol;
+    mBrainState = eFleechBrains::eBrain_0_Patrol;
     field_11C_obj_id = Guid{};
     field_170_danger_obj = Guid{};
 
-    mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pTlv->mFacing == relive::reliveXDirection::eLeft);
+    mAnim.mFlags.Set(AnimFlags::eFlipX, pTlv->mFacing == relive::reliveXDirection::eLeft);
 
     mFleechFlags.Set(FleechFlags::eAsleep, pTlv->mAsleep == relive::reliveChoice::eYes);
     mFleechFlags.Set(FleechFlags::eGoesToSleep, pTlv->mGoesToSleep == relive::reliveChoice::eYes);
@@ -244,14 +244,14 @@ s32 Fleech::CreateFromSaveState(const u8* pBuffer)
         pFleech->mAnim.mCurrentFrame = pState->field_2A_anim_current_frame;
         pFleech->mAnim.mFrameChangeCounter = pState->field_2C_frame_change_counter;
 
-        pFleech->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pState->field_26_bFlipX & 1);
-        pFleech->mAnim.mFlags.Set(AnimFlags::eBit3_Render, pState->field_2E_bRender & 1);
+        pFleech->mAnim.mFlags.Set(AnimFlags::eFlipX, pState->field_26_bFlipX & 1);
+        pFleech->mAnim.mFlags.Set(AnimFlags::eRender, pState->field_2E_bRender & 1);
 
         pFleech->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_2F_bDrawable & 1);
 
         if (IsLastFrame(&pFleech->mAnim))
         {
-            pFleech->mAnim.mFlags.Set(AnimFlags::eBit18_IsLastFrame);
+            pFleech->mAnim.mFlags.Set(AnimFlags::eIsLastFrame);
         }
         pFleech->mHealth = pState->mHealth;
         pFleech->mCurrentMotion = pState->mCurrentMotion;
@@ -259,7 +259,7 @@ s32 Fleech::CreateFromSaveState(const u8* pBuffer)
 
         pFleech->BaseAliveGameObjectLastLineYPos = FP_FromInteger(pState->mLastLineYPos);
 
-        pFleech->mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit9_RestoredFromQuickSave);
+        pFleech->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eRestoredFromQuickSave);
 
         pFleech->BaseAliveGameObjectCollisionLineType = pState->mCollisionLineType;
         pFleech->mTlvInfo = pState->mTlvInfo;
@@ -278,8 +278,8 @@ s32 Fleech::CreateFromSaveState(const u8* pBuffer)
         pFleech->mTongueFlags.Set(TongueFlags::eTongueActive, pState->field_5C_tongue_active_flag & 1);
         pFleech->mTongueFlags.Set(TongueFlags::eRender, pState->field_5D_render_flag & 1);
 
-        pFleech->field_124_brain_state = pState->field_5E_brain_state;
-        pFleech->field_126_brain_sub_state = pState->field_60_state;
+        pFleech->mBrainState = pState->field_5E_brain_state;
+        pFleech->mBrainSubState = pState->field_60_state;
         pFleech->field_12C_shrivel_timer = pState->field_64_shrivel_timer;
         pFleech->field_128 = pState->field_62;
         sFleechRandomIdx_5BC20C = pState->field_68_fleech_random_idx;
@@ -331,7 +331,7 @@ s32 Fleech::CreateFromSaveState(const u8* pBuffer)
 
 s32 Fleech::VGetSaveState(u8* pSaveBuffer)
 {
-    if (mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted))
+    if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted))
     {
         return 0;
     }
@@ -351,12 +351,12 @@ s32 Fleech::VGetSaveState(u8* pSaveBuffer)
     pState->mRingRed = mRGB.r;
     pState->mRingGreen = mRGB.g;
     pState->mRingBlue = mRGB.b;
-    pState->field_26_bFlipX = mAnim.mFlags.Get(AnimFlags::eBit5_FlipX);
+    pState->field_26_bFlipX = mAnim.mFlags.Get(AnimFlags::eFlipX);
     pState->field_28_current_motion = mCurrentMotion;
     pState->field_2A_anim_current_frame = static_cast<s16>(mAnim.mCurrentFrame);
     pState->field_2C_frame_change_counter = static_cast<s16>(mAnim.mFrameChangeCounter);
     pState->field_2F_bDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
-    pState->field_2E_bRender = mAnim.mFlags.Get(AnimFlags::eBit3_Render);
+    pState->field_2E_bRender = mAnim.mFlags.Get(AnimFlags::eRender);
     pState->mHealth = mHealth;
     pState->mCurrentMotion = mCurrentMotion;
     pState->mNextMotion = mNextMotion;
@@ -410,8 +410,8 @@ s32 Fleech::VGetSaveState(u8* pSaveBuffer)
     pState->field_5A = field_188;
     pState->field_5C_tongue_active_flag = mTongueFlags.Get(TongueFlags::eTongueActive);
     pState->field_5D_render_flag = mTongueFlags.Get(TongueFlags::eRender);
-    pState->field_5E_brain_state = field_124_brain_state;
-    pState->field_60_state = field_126_brain_sub_state;
+    pState->field_5E_brain_state = mBrainState;
+    pState->field_60_state = mBrainSubState;
     pState->field_64_shrivel_timer = field_12C_shrivel_timer - sGnFrame;
     pState->field_62 = field_128;
     pState->field_68_fleech_random_idx = sFleechRandomIdx_5BC20C;
@@ -490,7 +490,7 @@ void Fleech::Motion_0_Sleeping()
                 {
                     const FP yPos = (mSpriteScale * FP_FromInteger(-20)) + mYPos;
                     FP xOff = {};
-                    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+                    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
                     {
                         xOff = -(mSpriteScale * FP_FromInteger(10));
                     }
@@ -532,7 +532,7 @@ void Fleech::Motion_1_WakingUp()
 
     if (mNextMotion != -1)
     {
-        if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
         {
             mCurrentMotion = mNextMotion;
             mNextMotion = -1;
@@ -546,7 +546,7 @@ void Fleech::Motion_2_Unknown()
 {
     if (mNextMotion != -1)
     {
-        if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
         {
             mCurrentMotion = mNextMotion;
             mNextMotion = -1;
@@ -595,7 +595,7 @@ void Fleech::Motion_4_Crawl()
     }
 
     FP velXTable = {};
-    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
     {
         velXTable = -sFleechCrawlVelX_544FA0[mAnim.mCurrentFrame];
     }
@@ -606,7 +606,7 @@ void Fleech::Motion_4_Crawl()
 
     mVelX = (mSpriteScale * velXTable);
 
-    const FP k1Directed = FP_FromInteger((mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) != 0) ? -1 : 1);
+    const FP k1Directed = FP_FromInteger((mAnim.mFlags.Get(AnimFlags::eFlipX) != 0) ? -1 : 1);
     if (WallHit(FP_FromInteger((mSpriteScale >= FP_FromInteger(1)) ? 10 : 5), ScaleToGridSize(mSpriteScale) * k1Directed))
     {
         ToIdle();
@@ -655,7 +655,7 @@ void Fleech::Motion_5_PatrolCry()
         field_13C_unused = 1;
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         ToIdle();
     }
@@ -663,32 +663,32 @@ void Fleech::Motion_5_PatrolCry()
 
 void Fleech::Motion_6_Knockback()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
-        mAnim.mFlags.Toggle(AnimFlags::eBit5_FlipX);
+        mAnim.mFlags.Toggle(AnimFlags::eFlipX);
         ToIdle();
     }
 }
 
 void Fleech::Motion_7_StopCrawling()
 {
-    const FP k1Directed = FP_FromInteger(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) != 0 ? -1 : 1);
+    const FP k1Directed = FP_FromInteger(mAnim.mFlags.Get(AnimFlags::eFlipX) != 0 ? -1 : 1);
     if (WallHit(FP_FromInteger(mSpriteScale >= FP_FromInteger(1) ? 10 : 5), ScaleToGridSize(mSpriteScale) * k1Directed))
     {
         ToIdle();
     }
-    else if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    else if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         MapFollowMe(TRUE);
-        if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+        if (mAnim.mFlags.Get(AnimFlags::eFlipX))
         {
             mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(7));
-            mAnim.mFlags.Clear(AnimFlags::eBit5_FlipX);
+            mAnim.mFlags.Clear(AnimFlags::eFlipX);
         }
         else
         {
             mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(7));
-            mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
+            mAnim.mFlags.Set(AnimFlags::eFlipX);
         }
         mCurrentMotion = eFleechMotions::Motion_4_Crawl;
     }
@@ -696,11 +696,11 @@ void Fleech::Motion_7_StopCrawling()
 
 void Fleech::Motion_8_StopMidCrawlCycle()
 {
-    const FP k1Directed = FP_FromInteger(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) ? -1 : 1); // TODO: Correct way around ??
+    const FP k1Directed = FP_FromInteger(mAnim.mFlags.Get(AnimFlags::eFlipX) ? -1 : 1); // TODO: Correct way around ??
     if (WallHit(
             FP_FromInteger(mSpriteScale >= FP_FromInteger(1) ? 10 : 5),
             ScaleToGridSize(mSpriteScale) * k1Directed)
-        || mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+        || mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         ToIdle();
     }
@@ -817,7 +817,7 @@ void Fleech::Motion_10_Land()
         Sound(FleechSound::LandOnFloor_9);
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         ToIdle();
     }
@@ -825,7 +825,7 @@ void Fleech::Motion_10_Land()
 
 void Fleech::Motion_11_RaiseHead()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mFleechFlags.Clear(FleechFlags::eHoistDone);
         mCurrentMotion = eFleechMotions::Motion_12_Climb;
@@ -858,7 +858,7 @@ void Fleech::Motion_11_RaiseHead()
         BaseAliveGameObjectCollisionLine = nullptr;
         field_16C_hoistX_distance = FP_Abs(mXPos - FP_FromInteger(field_160_hoistX));
 
-        if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+        if (mAnim.mFlags.Get(AnimFlags::eFlipX))
         {
             field_166_angle = -64;
         }
@@ -871,7 +871,7 @@ void Fleech::Motion_11_RaiseHead()
     }
     else if (mAnim.mCurrentFrame < 4)
     {
-        mXPos += FP_FromInteger((mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)) != 0 ? 1 : -1);
+        mXPos += FP_FromInteger((mAnim.mFlags.Get(AnimFlags::eFlipX)) != 0 ? 1 : -1);
     }
 }
 
@@ -999,7 +999,7 @@ void Fleech::Motion_13_SettleOnGround()
         }
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         Fleech::ToIdle();
     }
@@ -1007,11 +1007,11 @@ void Fleech::Motion_13_SettleOnGround()
 
 void Fleech::Motion_14_ExtendTongueFromEnemy()
 {
-    if (field_11C_obj_id == sActiveHero->mBaseGameObjectId && (sActiveHero->CantBeDamaged_44BAB0() || sActiveHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible)))
+    if (field_11C_obj_id == sActiveHero->mBaseGameObjectId && (sActiveHero->CantBeDamaged_44BAB0() || sActiveHero->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible)))
     {
         ToIdle();
     }
-    else if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    else if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         PullTargetIn();
         mCurrentMotion = eFleechMotions::Motion_15_RetractTongueFromEnemey;
@@ -1020,7 +1020,7 @@ void Fleech::Motion_14_ExtendTongueFromEnemy()
 
 void Fleech::Motion_15_RetractTongueFromEnemey()
 {
-    if (IsActiveHero(sObjectIds.Find_Impl(field_11C_obj_id)) && ((sActiveHero->CantBeDamaged_44BAB0()) || sActiveHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible)))
+    if (IsActiveHero(sObjectIds.Find_Impl(field_11C_obj_id)) && ((sActiveHero->CantBeDamaged_44BAB0()) || sActiveHero->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible)))
     {
         sub_42B8C0();
         ToIdle();
@@ -1050,7 +1050,7 @@ void Fleech::Motion_16_DeathByFalling()
         Sound(FleechSound::Scared_7);
 
         mHealth = FP_FromInteger(0);
-        field_124_brain_state = eFleechBrains::eBrain_3_Death;
+        mBrainState = eFleechBrains::eBrain_3_Death;
         mFleechFlags.Set(FleechFlags::eShrivelDeath);
         mNextMotion = -1;
         field_12C_shrivel_timer = sGnFrame + 127;
@@ -1077,7 +1077,7 @@ void Fleech::Motion_17_SleepingWithTongue()
                 {
                     const FP yPos = (mSpriteScale * FP_FromInteger(-20)) + mYPos;
                     FP xOff = {};
-                    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+                    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
                     {
                         xOff = -(mSpriteScale * FP_FromInteger(10));
                     }
@@ -1119,7 +1119,7 @@ void Fleech::Motion_18_Consume()
                 mYPos + FP_FromInteger(10),
                 mSpriteScale);
 
-            if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+            if (mAnim.mFlags.Get(AnimFlags::eFlipX))
             {
                 pDove->mXPos += (mSpriteScale * FP_FromInteger(15));
             }
@@ -1132,7 +1132,7 @@ void Fleech::Motion_18_Consume()
         }
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         ToIdle();
     }
@@ -1169,9 +1169,9 @@ Fleech::~Fleech()
 
 void Fleech::VUpdate()
 {
-    if (mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit9_RestoredFromQuickSave))
+    if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eRestoredFromQuickSave))
     {
-        mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit9_RestoredFromQuickSave);
+        mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eRestoredFromQuickSave);
         if (BaseAliveGameObjectCollisionLineType == -1)
         {
             BaseAliveGameObjectCollisionLine = nullptr;
@@ -1203,7 +1203,7 @@ void Fleech::VUpdate()
     {
         const auto oldMotion = mCurrentMotion;
 
-        field_126_brain_sub_state = (this->*sFleechAiTable[field_124_brain_state])();
+        mBrainSubState = (this->*sFleechBrainTable[mBrainState])();
 
         TongueUpdate();
 
@@ -1215,7 +1215,7 @@ void Fleech::VUpdate()
         const FP oldY = mYPos;
         const FP oldX = mXPos;
 
-        (this->*sFleech_motion_table_551798[mCurrentMotion])();
+        (this->*sFleechMotionTable[mCurrentMotion])();
 
         if (oldX != mXPos || oldY != mYPos)
         {
@@ -1559,7 +1559,7 @@ void Fleech::Init()
     SetType(ReliveTypes::eFleech);
 
     mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
-    mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit6_SetOffExplosives);
+    mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanSetOffExplosives);
 
     mFleechFlags.Clear(FleechFlags::eShrivelDeath);
     mFleechFlags.Clear(FleechFlags::eScaredSound);
@@ -1567,7 +1567,7 @@ void Fleech::Init()
     mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
 
     field_12C_shrivel_timer = 0;
-    field_126_brain_sub_state = 0;
+    mBrainSubState = 0;
     mNextMotion = -1;
     BaseAliveGameObject_PlatformId = Guid{};
     field_128 = 0;
@@ -1662,7 +1662,7 @@ void Fleech::ResetTarget()
 
 s16 Fleech::GotNoTarget()
 {
-    return current_target_object_id_551840 == Guid{} && !mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted);
+    return current_target_object_id_551840 == Guid{} && !mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted);
 }
 
 void Fleech::SetTarget()
@@ -1766,7 +1766,7 @@ void Fleech::TongueUpdate()
                             relive_new Blood(
                                 FP_FromInteger(mEnemyXPos),
                                 FP_FromInteger(mEnemyYPos),
-                                mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) != 0 ? FP_FromInteger(2) : FP_FromInteger(-2),
+                                mAnim.mFlags.Get(AnimFlags::eFlipX) != 0 ? FP_FromInteger(2) : FP_FromInteger(-2),
                                 FP_FromInteger(1),
                                 mSpriteScale, 20);
                             break;
@@ -1836,7 +1836,7 @@ void Fleech::TongueUpdate()
                     case 5:
                         if (mTongueSubState == 5 && pTarget->Type() == ReliveTypes::eScrab)
                         {
-                            pTarget->mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+                            pTarget->mAnim.mFlags.Clear(AnimFlags::eRender);
                         }
                         pTarget->mXPos -= (pTarget->mXPos - mXPos) * FP_FromDouble(0.25);
                         pTarget->mYPos -= (pTarget->mYPos - mYPos) * FP_FromDouble(0.25);
@@ -1845,7 +1845,7 @@ void Fleech::TongueUpdate()
                     case 6:
                         mTongueFlags.Clear(TongueFlags::eRender);
                         mTongueState = 8;
-                        pTarget->mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+                        pTarget->mAnim.mFlags.Clear(AnimFlags::eRender);
                         pTarget->mXPos = mXPos;
                         pTarget->mYPos = mYPos;
                         if (IsActiveHero(pTarget))
@@ -2006,7 +2006,7 @@ s16 Fleech::CanMove()
         return 0;
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
     {
         mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(7));
     }
@@ -2016,7 +2016,7 @@ s16 Fleech::CanMove()
     }
 
     const FP yDist = FP_FromInteger(mSpriteScale >= FP_FromInteger(1) ? 10 : 5);
-    const FP xDist = ScaleToGridSize(mSpriteScale) * FP_FromInteger(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) ? -1 : 1); // TODO: Correct way around ?
+    const FP xDist = ScaleToGridSize(mSpriteScale) * FP_FromInteger(mAnim.mFlags.Get(AnimFlags::eFlipX) ? -1 : 1); // TODO: Correct way around ?
     if (!WallHit(yDist, xDist) && !HandleEnemyStopperOrSlamDoor(1))
     {
         mCurrentMotion = eFleechMotions::Motion_4_Crawl;
@@ -2032,7 +2032,7 @@ s16 Fleech::HandleEnemyStopperOrSlamDoor(s32 velX)
 {
     const FP kGridSize = ScaleToGridSize(mSpriteScale);
     FP nextXPos = {};
-    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
     {
         nextXPos = mXPos - (kGridSize * FP_FromInteger(velX));
     }
@@ -2145,12 +2145,12 @@ s16 Fleech::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eRockSpawner:
             Sound(FleechSound::Scared_7);
             mHealth = FP_FromInteger(0);
-            field_124_brain_state = eFleechBrains::eBrain_3_Death;
+            mBrainState = eFleechBrains::eBrain_3_Death;
             mNextMotion = -1;
             field_12C_shrivel_timer = sGnFrame + 127;
             mCurrentMotion = eFleechMotions::Motion_3_Idle;
             SetAnim();
-            mAnim.mFlags.Set(AnimFlags::eBit2_Animate);
+            mAnim.mFlags.Set(AnimFlags::eAnimate);
             break;
 
         case ReliveTypes::eParamite:
@@ -2161,7 +2161,7 @@ s16 Fleech::VTakeDamage(BaseGameObject* pFrom)
         {
             relive_new Gibs(GibType::Fleech_10, mXPos, mYPos, mVelX, mVelY, mSpriteScale, 0);
 
-            if (static_cast<BaseAliveGameObject*>(pFrom)->mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+            if (static_cast<BaseAliveGameObject*>(pFrom)->mAnim.mFlags.Get(AnimFlags::eFlipX))
             {
                 relive_new Blood(mXPos, mYPos - FP_FromInteger(8), -FP_FromInteger(5), -FP_FromInteger(5), mSpriteScale, 50);
             }
@@ -2177,12 +2177,12 @@ s16 Fleech::VTakeDamage(BaseGameObject* pFrom)
             }
 
             mHealth = FP_FromInteger(0);
-            field_124_brain_state = eFleechBrains::eBrain_3_Death;
+            mBrainState = eFleechBrains::eBrain_3_Death;
             mCurrentMotion = eFleechMotions::Motion_3_Idle;
             field_12C_shrivel_timer = sGnFrame + 127;
             mNextMotion = -1;
             SetAnim();
-            mAnim.mFlags.Set(AnimFlags::eBit2_Animate);
+            mAnim.mFlags.Set(AnimFlags::eAnimate);
             mFleechFlags.Set(FleechFlags::eShrivelDeath);
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             sFleechCount_5BC20E--;
@@ -2192,12 +2192,12 @@ s16 Fleech::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eElectrocute:
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             mHealth = FP_FromInteger(0);
-            field_124_brain_state = eFleechBrains::eBrain_3_Death;
+            mBrainState = eFleechBrains::eBrain_3_Death;
             break;
 
         default:
             Sound(FleechSound::Scared_7);
-            mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit7_Electrocuted);
+            mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eElectrocuted);
             sub_42B8C0();
             break;
     }
@@ -2237,7 +2237,7 @@ void Fleech::IncreaseAnger()
 
         if (pEvent)
         {
-            if ((!IsActiveHero(pEvent) || !sActiveHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible)) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, pEvent->mXPos, pEvent->mYPos, 0))
+            if ((!IsActiveHero(pEvent) || !sActiveHero->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible)) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, pEvent->mXPos, pEvent->mYPos, 0))
             {
                 field_13E_current_anger += field_142_attack_anger_increaser;
                 if (VOnSameYLevel(static_cast<BaseAnimatedWithPhysicsGameObject*>(pEvent)))
@@ -2259,7 +2259,7 @@ void Fleech::IncreaseAnger()
         {
             if (VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromInteger(6),static_cast<BaseAnimatedWithPhysicsGameObject*>(pEvent)))
             {
-                if ((!IsActiveHero(pEvent) || !sActiveHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible)) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, pEvent->mXPos, pEvent->mYPos, 0))
+                if ((!IsActiveHero(pEvent) || !sActiveHero->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible)) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, pEvent->mXPos, pEvent->mYPos, 0))
                 {
                     field_13E_current_anger += field_140_max_anger;
                 }
@@ -2270,7 +2270,7 @@ void Fleech::IncreaseAnger()
 
 s16 Fleech::AngerFleech(BaseAliveGameObject* pObj)
 {
-    if (!pObj || (IsActiveHero(pObj) && sActiveHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible)))
+    if (!pObj || (IsActiveHero(pObj) && sActiveHero->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible)))
     {
         return FALSE;
     }
@@ -2404,7 +2404,7 @@ void Fleech::MoveAlongFloor()
                 VOnCollisionWith(xy, wh, ObjList_5C1B78, (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
             }
         }
-        else if (field_124_brain_state != eFleechBrains::eBrain_0_Patrol)
+        else if (mBrainState != eFleechBrains::eBrain_0_Patrol)
         {
             VOnTrapDoorOpen();
             field_138_velx_factor = FP_FromInteger(0);
@@ -2451,7 +2451,7 @@ bool Fleech::Collision(s16 alwaysOne)
     const FP quaterScaled = (kGridSize * FP_FromDouble(0.25));
 
     FP x2 = {};
-    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
     {
         x2 = mXPos - (quaterScaled * FP_FromInteger(alwaysOne >= 0 ? 1 : -1));
     }
@@ -2461,7 +2461,7 @@ bool Fleech::Collision(s16 alwaysOne)
     }
 
     FP x1 = {};
-    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
     {
         x1 = mXPos - (kGridSize * FP_FromInteger(alwaysOne));
     }
@@ -2492,7 +2492,7 @@ relive::Path_Hoist* Fleech::TryGetHoist(s32 xDistance, s16 bIgnoreDirection)
 
     const FP xSnapped = FP_FromInteger(SnapToXGrid(mSpriteScale, FP_GetExponent(mXPos)));
     FP xCheck = {};
-    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
     {
         xCheck = xSnapped - (ScaleToGridSize(mSpriteScale) * FP_FromInteger(xDistance));
     }
@@ -2535,7 +2535,7 @@ relive::Path_Hoist* Fleech::TryGetHoist(s32 xDistance, s16 bIgnoreDirection)
         return pHoist;
     }
 
-    if (pHoist->mGrabDirection == (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) ? relive::Path_Hoist::GrabDirection::eFacingLeft : relive::Path_Hoist::GrabDirection::eFacingRight) || pHoist->mGrabDirection == relive::Path_Hoist::GrabDirection::eFacingAnyDirection)
+    if (pHoist->mGrabDirection == (mAnim.mFlags.Get(AnimFlags::eFlipX) ? relive::Path_Hoist::GrabDirection::eFacingLeft : relive::Path_Hoist::GrabDirection::eFacingRight) || pHoist->mGrabDirection == relive::Path_Hoist::GrabDirection::eFacingAnyDirection)
     {
         return pHoist;
     }
@@ -2546,7 +2546,7 @@ relive::Path_Hoist* Fleech::TryGetHoist(s32 xDistance, s16 bIgnoreDirection)
 void Fleech::VOnFrame(const Point32& point)
 {
     FP xpos = {};
-    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
     {
         xpos = mXPos - (mSpriteScale * FP_FromInteger(point.x));
     }
@@ -2595,7 +2595,7 @@ enum Brain_0_Patrol
 s16 Fleech::Brain_0_Patrol()
 {
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_11C_obj_id));
-    if (!pTarget || pTarget->mBaseGameObjectFlags.Get(BaseGameObject::eDead) || pTarget->mHealth <= FP_FromInteger(0) || pTarget->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
+    if (!pTarget || pTarget->mBaseGameObjectFlags.Get(BaseGameObject::eDead) || pTarget->mHealth <= FP_FromInteger(0) || pTarget->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible))
     {
         field_11C_obj_id = Guid{};
         pTarget = nullptr;
@@ -2603,14 +2603,14 @@ s16 Fleech::Brain_0_Patrol()
 
     if (gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
     {
-        MusicController::static_PlayMusic(static_cast<MusicController::MusicTypes>(byte_551984[field_126_brain_sub_state]), this, 0, 0);
+        MusicController::static_PlayMusic(static_cast<MusicController::MusicTypes>(byte_551984[mBrainSubState]), this, 0, 0);
     }
     else
     {
         MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
     }
 
-    switch (field_126_brain_sub_state)
+    switch (mBrainSubState)
     {
         case Brain_0_Patrol::State_0_Init:
             return Brain_Patrol_State_0();
@@ -2646,7 +2646,7 @@ s16 Fleech::Brain_0_Patrol()
             return Brain_Patrol_State_10();
 
         default:
-            return field_126_brain_sub_state;
+            return mBrainSubState;
     }
 }
 
@@ -2685,7 +2685,7 @@ s16 Fleech::Brain_Patrol_State_1()
 {
     if (!SwitchStates_Get(field_14A_can_wake_up_switch_id))
     {
-        return field_126_brain_sub_state;
+        return mBrainSubState;
     }
 
     if (!(static_cast<s32>(sGnFrame) % 16))
@@ -2711,7 +2711,7 @@ s16 Fleech::Brain_Patrol_State_1()
     {
         if (field_13E_current_anger <= field_140_max_anger)
         {
-            return field_126_brain_sub_state;
+            return mBrainSubState;
         }
 
         if (mCurrentMotion == eFleechMotions::Motion_17_SleepingWithTongue)
@@ -2738,7 +2738,7 @@ s16 Fleech::Brain_Patrol_State_1()
             field_170_danger_obj = Guid{};
             if (field_13E_current_anger <= field_140_max_anger)
             {
-                return field_126_brain_sub_state;
+                return mBrainSubState;
             }
 
             if (mCurrentMotion == eFleechMotions::Motion_17_SleepingWithTongue)
@@ -2757,7 +2757,7 @@ s16 Fleech::Brain_Patrol_State_2()
 {
     if (mCurrentMotion != eFleechMotions::Motion_1_WakingUp)
     {
-        return field_126_brain_sub_state;
+        return mBrainSubState;
     }
 
     if (BaseAliveGameObjectCollisionLine)
@@ -2781,7 +2781,7 @@ s16 Fleech::Brain_Patrol_State_3()
 
     if (mCurrentMotion != eFleechMotions::Motion_2_Unknown)
     {
-        return field_126_brain_sub_state;
+        return mBrainSubState;
     }
 
     field_13E_current_anger = 0;
@@ -2813,7 +2813,7 @@ s16 Fleech::Brain_Patrol_State_4(BaseAliveGameObject* pTarget)
         auto pDangerObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_170_danger_obj));
         if (pDangerObj == sControlledCharacter)
         {
-            field_124_brain_state = eFleechBrains::eBrain_2_Scared;
+            mBrainState = eFleechBrains::eBrain_2_Scared;
             return 0;
         }
 
@@ -2831,7 +2831,7 @@ s16 Fleech::Brain_Patrol_State_4(BaseAliveGameObject* pTarget)
     // TODO: Check OFSUB branches
     if (field_14E_ScrabParamiteEventXPos >= 0)
     {
-        if ((FP_FromInteger(field_14E_ScrabParamiteEventXPos) > mXPos && !mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)) || (FP_FromInteger(field_14E_ScrabParamiteEventXPos) < mXPos && mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)))
+        if ((FP_FromInteger(field_14E_ScrabParamiteEventXPos) > mXPos && !mAnim.mFlags.Get(AnimFlags::eFlipX)) || (FP_FromInteger(field_14E_ScrabParamiteEventXPos) < mXPos && mAnim.mFlags.Get(AnimFlags::eFlipX)))
         {
             if (mCurrentMotion == eFleechMotions::Motion_4_Crawl)
             {
@@ -2859,13 +2859,13 @@ s16 Fleech::Brain_Patrol_State_4(BaseAliveGameObject* pTarget)
 
     if (pTarget)
     {
-        if (!pTarget->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) && VOnSameYLevel(pTarget) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, pTarget->mXPos, pTarget->mYPos, 0) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !WallHit(FP_FromInteger(mSpriteScale >= FP_FromInteger(1) ? 10 : 5), pTarget->mXPos - mXPos))
+        if (!pTarget->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible) && VOnSameYLevel(pTarget) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, pTarget->mXPos, pTarget->mYPos, 0) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !WallHit(FP_FromInteger(mSpriteScale >= FP_FromInteger(1) ? 10 : 5), pTarget->mXPos - mXPos))
         {
             field_13E_current_anger = field_142_attack_anger_increaser + 1;
             return Brain_0_Patrol::eAlertedByAbe_8;
         }
 
-        if (field_13E_current_anger > field_142_attack_anger_increaser && !pTarget->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible) && field_170_danger_obj == Guid{})
+        if (field_13E_current_anger > field_142_attack_anger_increaser && !pTarget->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible) && field_170_danger_obj == Guid{})
         {
             return Brain_0_Patrol::eAlertedByAbe_8;
         }
@@ -2891,12 +2891,12 @@ s16 Fleech::Brain_Patrol_State_4(BaseAliveGameObject* pTarget)
     if (!(Fleech_NextRandom() % 32) && mCurrentMotion == eFleechMotions::Motion_3_Idle)
     {
         mCurrentMotion = eFleechMotions::Motion_6_Knockback;
-        return field_126_brain_sub_state;
+        return mBrainSubState;
     }
 
     if (mCurrentMotion == eFleechMotions::Motion_4_Crawl)
     {
-        if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+        if (mAnim.mFlags.Get(AnimFlags::eFlipX))
         {
             if (mXPos < FP_FromInteger(field_154))
             {
@@ -2924,7 +2924,7 @@ s16 Fleech::Brain_Patrol_State_4(BaseAliveGameObject* pTarget)
                     }
                     field_154 = patrolRangeDelta;
 
-                    if (!mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+                    if (!mAnim.mFlags.Get(AnimFlags::eFlipX))
                     {
                         mCurrentMotion = eFleechMotions::Motion_6_Knockback;
                     }
@@ -2938,7 +2938,7 @@ s16 Fleech::Brain_Patrol_State_4(BaseAliveGameObject* pTarget)
                     }
                     field_154 = patrolRangeDelta;
 
-                    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+                    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
                     {
                         mCurrentMotion = eFleechMotions::Motion_6_Knockback;
                     }
@@ -2952,7 +2952,7 @@ s16 Fleech::Brain_Patrol_State_4(BaseAliveGameObject* pTarget)
                 // TODO: Check __OFSUB__ on else branch
                 if (FP_FromInteger(field_14C_EventXPos) > mXPos)
                 {
-                    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+                    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
                     {
                         mCurrentMotion = eFleechMotions::Motion_6_Knockback;
                         field_14C_EventXPos = -1;
@@ -2960,7 +2960,7 @@ s16 Fleech::Brain_Patrol_State_4(BaseAliveGameObject* pTarget)
                 }
                 else if (FP_FromInteger(field_14C_EventXPos) < mXPos)
                 {
-                    if (!mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+                    if (!mAnim.mFlags.Get(AnimFlags::eFlipX))
                     {
                         mCurrentMotion = eFleechMotions::Motion_6_Knockback;
                         field_14C_EventXPos = -1;
@@ -2978,7 +2978,7 @@ s16 Fleech::Brain_Patrol_State_4(BaseAliveGameObject* pTarget)
                 }
                 else
                 {
-                    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+                    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
                     {
                         field_154 = FP_GetExponent(mXPos) - Fleech_NextRandom() * (FP_GetExponent(mXPos) + field_150_patrol_range - field_152_old_xpos) / 255;
                     }
@@ -2997,10 +2997,10 @@ s16 Fleech::Brain_Patrol_State_4(BaseAliveGameObject* pTarget)
     {
         if ((Fleech_NextRandom() % 64) || mCurrentMotion != eFleechMotions::Motion_3_Idle)
         {
-            return field_126_brain_sub_state;
+            return mBrainSubState;
         }
         mCurrentMotion = eFleechMotions::Motion_5_PatrolCry;
-        return field_126_brain_sub_state;
+        return mBrainSubState;
     }
     field_13E_current_anger = 0;
     mNextMotion = eFleechMotions::Motion_2_Unknown;
@@ -3011,11 +3011,11 @@ s16 Fleech::Brain_Patrol_State_5()
 {
     if (mCurrentMotion == eFleechMotions::Motion_7_StopCrawling || mCurrentMotion == eFleechMotions::Motion_6_Knockback)
     {
-        return field_126_brain_sub_state;
+        return mBrainSubState;
     }
 
-    if ((FP_FromInteger(field_14E_ScrabParamiteEventXPos) > mXPos && !mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)) ||
-        (FP_FromInteger(field_14E_ScrabParamiteEventXPos) < mXPos && mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)))
+    if ((FP_FromInteger(field_14E_ScrabParamiteEventXPos) > mXPos && !mAnim.mFlags.Get(AnimFlags::eFlipX)) ||
+        (FP_FromInteger(field_14E_ScrabParamiteEventXPos) < mXPos && mAnim.mFlags.Get(AnimFlags::eFlipX)))
     {
         if (mCurrentMotion != eFleechMotions::Motion_4_Crawl)
         {
@@ -3028,7 +3028,7 @@ s16 Fleech::Brain_Patrol_State_5()
         {
             mCurrentMotion = eFleechMotions::Motion_7_StopCrawling;
         }
-        return field_126_brain_sub_state;
+        return mBrainSubState;
     }
 
     field_14E_ScrabParamiteEventXPos = -1;
@@ -3045,7 +3045,7 @@ s16 Fleech::Brain_Patrol_State_6()
     {
         if (mCurrentMotion != eFleechMotions::Motion_3_Idle)
         {
-            return field_126_brain_sub_state;
+            return mBrainSubState;
         }
     }
     else
@@ -3059,14 +3059,14 @@ s16 Fleech::Brain_Patrol_State_7()
 {
     if (mCurrentMotion != eFleechMotions::Motion_3_Idle)
     {
-        return field_126_brain_sub_state;
+        return mBrainSubState;
     }
     return Brain_0_Patrol::eAlerted_4;
 }
 
 s16 Fleech::Brain_Patrol_State_8(BaseAliveGameObject* pTarget)
 {
-    if (IsActiveHero(pTarget) && sActiveHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible))
+    if (IsActiveHero(pTarget) && sActiveHero->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible))
     {
         return Brain_0_Patrol::State_0_Init;
     }
@@ -3074,10 +3074,10 @@ s16 Fleech::Brain_Patrol_State_8(BaseAliveGameObject* pTarget)
     if (field_15A_chase_timer < field_158_chase_delay)
     {
         field_15A_chase_timer++;
-        return field_126_brain_sub_state;
+        return mBrainSubState;
     }
 
-    field_124_brain_state = eFleechBrains::eBrain_1_ChasingAbe;
+    mBrainState = eFleechBrains::eBrain_1_ChasingAbe;
     return Brain_0_Patrol::State_0_Init;
 }
 
@@ -3085,12 +3085,12 @@ s16 Fleech::Brain_Patrol_State_9()
 {
     if (mCurrentMotion != eFleechMotions::Motion_3_Idle)
     {
-        return field_126_brain_sub_state;
+        return mBrainSubState;
     }
-    if ((mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) && FP_FromInteger(field_160_hoistX) > mXPos) || (!mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) && FP_FromInteger(field_160_hoistX) < mXPos))
+    if ((mAnim.mFlags.Get(AnimFlags::eFlipX) && FP_FromInteger(field_160_hoistX) > mXPos) || (!mAnim.mFlags.Get(AnimFlags::eFlipX) && FP_FromInteger(field_160_hoistX) < mXPos))
     {
         mCurrentMotion = eFleechMotions::Motion_6_Knockback;
-        return field_126_brain_sub_state;
+        return mBrainSubState;
     }
     mNextMotion = eFleechMotions::Motion_11_RaiseHead;
     return Brain_0_Patrol::State_10;
@@ -3100,7 +3100,7 @@ s16 Fleech::Brain_Patrol_State_10()
 {
     if (mCurrentMotion != eFleechMotions::Motion_3_Idle)
     {
-        return field_126_brain_sub_state;
+        return mBrainSubState;
     }
     field_152_old_xpos = FP_GetExponent(mXPos);
     return Brain_0_Patrol::eAlerted_4;
@@ -3152,7 +3152,7 @@ s16 Fleech::Brain_1_ChasingAbe()
     auto pObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_11C_obj_id));
     if (pObj)
     {
-        if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead) || (IsActiveHero(pObj) && sActiveHero->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit8_bInvisible)))
+        if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead) || (IsActiveHero(pObj) && sActiveHero->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible)))
         {
             field_11C_obj_id = Guid{};
             pObj = nullptr;
@@ -3161,14 +3161,14 @@ s16 Fleech::Brain_1_ChasingAbe()
 
     if (gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
     {
-        MusicController::static_PlayMusic(static_cast<MusicController::MusicTypes>(byte_551784[field_126_brain_sub_state]), this, 0, 0);
+        MusicController::static_PlayMusic(static_cast<MusicController::MusicTypes>(byte_551784[mBrainSubState]), this, 0, 0);
     }
     else
     {
         MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
     }
 
-    switch (field_126_brain_sub_state)
+    switch (mBrainSubState)
     {
         case Brain_1_ChasingAbe::eInit_0:
             return Brain_ChasingAbe_State_0(pObj);
@@ -3180,7 +3180,7 @@ s16 Fleech::Brain_1_ChasingAbe()
         case Brain_1_ChasingAbe::eGoBackToChasingAbe_16:
             if (mCurrentMotion != eFleechMotions::Motion_3_Idle)
             {
-                return field_126_brain_sub_state;
+                return mBrainSubState;
             }
             return Brain_1_ChasingAbe::eChasingAbe_1;
 
@@ -3226,7 +3226,7 @@ s16 Fleech::Brain_1_ChasingAbe()
 
             if (mCurrentMotion != eFleechMotions::Motion_3_Idle)
             {
-                return field_126_brain_sub_state;
+                return mBrainSubState;
             }
 
             if (IsActiveHero(pObj) &&
@@ -3247,14 +3247,14 @@ s16 Fleech::Brain_1_ChasingAbe()
             {
                 if (pObj->mXPos <= mXPos - FP_FromInteger(2))
                 {
-                    return field_126_brain_sub_state;
+                    return mBrainSubState;
                 }
             }
             else
             {
                 if (pObj->mXPos >= mXPos + FP_FromInteger(2))
                 {
-                    return field_126_brain_sub_state;
+                    return mBrainSubState;
                 }
             }
             return Brain_1_ChasingAbe::eChasingAbe_1;
@@ -3262,7 +3262,7 @@ s16 Fleech::Brain_1_ChasingAbe()
         case Brain_1_ChasingAbe::eScrabOrParamiteNearby_6:
             if (mCurrentMotion != eFleechMotions::Motion_7_StopCrawling && mCurrentMotion != eFleechMotions::Motion_6_Knockback && mNextMotion != -1)
             {
-                return field_126_brain_sub_state;
+                return mBrainSubState;
             }
             mNextMotion = eFleechMotions::Motion_4_Crawl;
             return Brain_1_ChasingAbe::eUnknown_7;
@@ -3274,7 +3274,7 @@ s16 Fleech::Brain_1_ChasingAbe()
             {
                 if (mCurrentMotion != eFleechMotions::Motion_3_Idle && mNextMotion != -1)
                 {
-                    return field_126_brain_sub_state;
+                    return mBrainSubState;
                 }
                 mNextMotion = eFleechMotions::Motion_6_Knockback;
             }
@@ -3288,7 +3288,7 @@ s16 Fleech::Brain_1_ChasingAbe()
         case Brain_1_ChasingAbe::eFleechUnknown_8:
             if (mCurrentMotion != eFleechMotions::Motion_3_Idle)
             {
-                return field_126_brain_sub_state;
+                return mBrainSubState;
             }
             mNextMotion = eFleechMotions::Motion_4_Crawl;
             return Brain_1_ChasingAbe::eUnknown_9;
@@ -3305,7 +3305,7 @@ s16 Fleech::Brain_1_ChasingAbe()
                 }
                 else if (mNextMotion == eFleechMotions::Motion_14_ExtendTongueFromEnemy)
                 {
-                    return field_126_brain_sub_state;
+                    return mBrainSubState;
                 }
 
                 ResetTarget();
@@ -3319,7 +3319,7 @@ s16 Fleech::Brain_1_ChasingAbe()
             {
                 if (mCurrentMotion != eFleechMotions::Motion_3_Idle)
                 {
-                    return field_126_brain_sub_state;
+                    return mBrainSubState;
                 }
 
                 ResetTarget();
@@ -3345,7 +3345,7 @@ s16 Fleech::Brain_1_ChasingAbe()
             {
                 if (mCurrentMotion != eFleechMotions::Motion_3_Idle)
                 {
-                    return field_126_brain_sub_state;
+                    return mBrainSubState;
                 }
                 if (!Collision(1))
                 {
@@ -3358,19 +3358,19 @@ s16 Fleech::Brain_1_ChasingAbe()
 
         case Brain_1_ChasingAbe::eBackToPatrol_13:
             mNextMotion = eFleechMotions::Motion_3_Idle;
-            field_124_brain_state = eFleechBrains::eBrain_0_Patrol;
+            mBrainState = eFleechBrains::eBrain_0_Patrol;
             field_13E_current_anger = field_140_max_anger + (field_142_attack_anger_increaser - field_140_max_anger) / 2;
             return Brain_1_ChasingAbe::eInit_0;
 
         case Brain_1_ChasingAbe::ePrepareToHoist_14:
             if (mCurrentMotion != eFleechMotions::Motion_3_Idle)
             {
-                return field_126_brain_sub_state;
+                return mBrainSubState;
             }
-            if ((mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) && FP_FromInteger(field_160_hoistX) > mXPos) || (!mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) && FP_FromInteger(field_160_hoistX) < mXPos))
+            if ((mAnim.mFlags.Get(AnimFlags::eFlipX) && FP_FromInteger(field_160_hoistX) > mXPos) || (!mAnim.mFlags.Get(AnimFlags::eFlipX) && FP_FromInteger(field_160_hoistX) < mXPos))
             {
                 mCurrentMotion = eFleechMotions::Motion_6_Knockback;
-                return field_126_brain_sub_state;
+                return mBrainSubState;
             }
             mNextMotion = eFleechMotions::Motion_11_RaiseHead;
             return Brain_1_ChasingAbe::eHoistDone_15;
@@ -3378,12 +3378,12 @@ s16 Fleech::Brain_1_ChasingAbe()
         case Brain_1_ChasingAbe::eHoistDone_15:
             if (mCurrentMotion != eFleechMotions::Motion_13_SettleOnGround)
             {
-                return field_126_brain_sub_state;
+                return mBrainSubState;
             }
             return Brain_1_ChasingAbe::eGoBackToChasingAbe_16;
 
         default:
-            return field_126_brain_sub_state;
+            return mBrainSubState;
     }
 }
 
@@ -3397,10 +3397,10 @@ s16 Fleech::Brain_ChasingAbe_State_9(BaseAliveGameObject* pObj)
     auto pDangerObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_170_danger_obj));
     if (pDangerObj == sControlledCharacter)
     {
-        if (Collision(1) || HandleEnemyStopperOrSlamDoor(1) || WallHit(FP_FromInteger(mSpriteScale >= FP_FromInteger(1) ? 10 : 5), ScaleToGridSize(mSpriteScale) * FP_FromInteger(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) != 0 ? -1 : 1)))
+        if (Collision(1) || HandleEnemyStopperOrSlamDoor(1) || WallHit(FP_FromInteger(mSpriteScale >= FP_FromInteger(1) ? 10 : 5), ScaleToGridSize(mSpriteScale) * FP_FromInteger(mAnim.mFlags.Get(AnimFlags::eFlipX) != 0 ? -1 : 1)))
         {
             mCurrentMotion = eFleechMotions::Motion_6_Knockback;
-            field_124_brain_state = eFleechBrains::eBrain_2_Scared;
+            mBrainState = eFleechBrains::eBrain_2_Scared;
             return 0;
         }
     }
@@ -3408,7 +3408,7 @@ s16 Fleech::Brain_ChasingAbe_State_9(BaseAliveGameObject* pObj)
     if (mCurrentMotion != eFleechMotions::Motion_3_Idle)
     {
         mNextMotion = eFleechMotions::Motion_3_Idle;
-        return field_126_brain_sub_state;
+        return mBrainSubState;
     }
 
     if (IsScrabOrParamiteNear(ScaleToGridSize(mSpriteScale) * FP_FromInteger(5)))
@@ -3450,15 +3450,15 @@ s16 Fleech::Brain_ChasingAbe_State_9(BaseAliveGameObject* pObj)
     if (!(Fleech_NextRandom() % 32) && mCurrentMotion == eFleechMotions::Motion_3_Idle)
     {
         mCurrentMotion = eFleechMotions::Motion_6_Knockback;
-        return field_126_brain_sub_state;
+        return mBrainSubState;
     }
 
     if ((Fleech_NextRandom() % 64) || mCurrentMotion != eFleechMotions::Motion_3_Idle)
     {
-        return field_126_brain_sub_state;
+        return mBrainSubState;
     }
     mCurrentMotion = eFleechMotions::Motion_5_PatrolCry;
-    return field_126_brain_sub_state;
+    return mBrainSubState;
 }
 
 s16 Fleech::Brain_ChasingAbe_State_2(BaseAliveGameObject* pObj)
@@ -3505,27 +3505,27 @@ s16 Fleech::Brain_ChasingAbe_State_2(BaseAliveGameObject* pObj)
 
             if (Fleech_NextRandom() % 64)
             {
-                return field_126_brain_sub_state;
+                return mBrainSubState;
             }
 
             mCurrentMotion = eFleechMotions::Motion_5_PatrolCry;
-            return field_126_brain_sub_state;
+            return mBrainSubState;
         }
 
         field_15E_lost_target_timer = 0;
-        field_124_brain_state = eFleechBrains::eBrain_0_Patrol;
+        mBrainState = eFleechBrains::eBrain_0_Patrol;
         field_13E_current_anger = field_142_attack_anger_increaser - 1;
         return Brain_1_ChasingAbe::eInit_0;
     }
     else if (mCurrentMotion == eFleechMotions::Motion_4_Crawl) // TODO: Check v52 was cur motion
     {
         mNextMotion = eFleechMotions::Motion_7_StopCrawling;
-        return field_126_brain_sub_state;
+        return mBrainSubState;
     }
     else
     {
         mNextMotion = eFleechMotions::Motion_6_Knockback;
-        return field_126_brain_sub_state;
+        return mBrainSubState;
     }
 }
 
@@ -3559,7 +3559,7 @@ s16 Fleech::Brain_ChasingAbe_State_1(BaseAliveGameObject* pObj)
     if (mVelX != FP_FromInteger(0))
     {
         // Check for blocked by wall
-        const FP k1Directed = FP_FromInteger((mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)) != 0 ? -1 : 1);
+        const FP k1Directed = FP_FromInteger((mAnim.mFlags.Get(AnimFlags::eFlipX)) != 0 ? -1 : 1);
         if (WallHit(FP_FromInteger(mSpriteScale >= FP_FromInteger(1) ? 10 : 5), ScaleToGridSize(mSpriteScale) * k1Directed))
         {
             mNextMotion = eFleechMotions::Motion_8_StopMidCrawlCycle;
@@ -3574,7 +3574,7 @@ s16 Fleech::Brain_ChasingAbe_State_1(BaseAliveGameObject* pObj)
             mFleechFlags.Set(FleechFlags::eChasingOrScaredCrawlingLeft, mVelX < FP_FromInteger(0));
 
             FP xOffset = mXPos;
-            if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+            if (mAnim.mFlags.Get(AnimFlags::eFlipX))
             {
                 xOffset -= ScaleToGridSize(mSpriteScale);
             }
@@ -3702,7 +3702,7 @@ s16 Fleech::Brain_ChasingAbe_State_1(BaseAliveGameObject* pObj)
         if (mCurrentMotion == eFleechMotions::Motion_3_Idle)
         {
             // TODO: Check left VS flip is correct
-            if ((pHoist->mGrabDirection == relive::Path_Hoist::GrabDirection::eFacingLeft && mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)) && pHoist->mGrabDirection != relive::Path_Hoist::GrabDirection::eFacingAnyDirection)
+            if ((pHoist->mGrabDirection == relive::Path_Hoist::GrabDirection::eFacingLeft && mAnim.mFlags.Get(AnimFlags::eFlipX)) && pHoist->mGrabDirection != relive::Path_Hoist::GrabDirection::eFacingAnyDirection)
             {
                 mCurrentMotion = eFleechMotions::Motion_6_Knockback;
             }
@@ -3715,7 +3715,7 @@ s16 Fleech::Brain_ChasingAbe_State_1(BaseAliveGameObject* pObj)
         else
         {
             mNextMotion = eFleechMotions::Motion_3_Idle;
-            return field_126_brain_sub_state;
+            return mBrainSubState;
         }
     }
 
@@ -3729,7 +3729,7 @@ s16 Fleech::Brain_ChasingAbe_State_1(BaseAliveGameObject* pObj)
             mNextMotion = eFleechMotions::Motion_4_Crawl;
             field_160_hoistX = pHoist->mTopLeftX + (mSpriteScale >= FP_FromInteger(1) ? 12 : 6);
             field_162_hoistY = pHoist->mTopLeftY;
-            return field_126_brain_sub_state;
+            return mBrainSubState;
         }
 
         ++k12BlocksCheck;
@@ -3761,7 +3761,7 @@ s16 Fleech::Brain_ChasingAbe_State_1(BaseAliveGameObject* pObj)
 
             field_160_hoistX = pHoist->mTopLeftX + (mSpriteScale >= FP_FromInteger(1) ? 12 : 6);
             field_162_hoistY = pHoist->mTopLeftY;
-            return field_126_brain_sub_state;
+            return mBrainSubState;
         }
 
         if (++k8BlocksCheck > 8)
@@ -3791,12 +3791,12 @@ s16 Fleech::Brain_ChasingAbe_State1_Helper(BaseAliveGameObject* pObj)
     {
         if (VIsFacingMe(pObj))
         {
-            const FP v48 = FP_FromInteger((mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)) != 0 ? -1 : 1);
+            const FP v48 = FP_FromInteger((mAnim.mFlags.Get(AnimFlags::eFlipX)) != 0 ? -1 : 1);
             if (WallHit(
                     FP_FromInteger(mSpriteScale >= FP_FromInteger(1) ? 10 : 5),
                     ScaleToGridSize(mSpriteScale) * v48))
             {
-                mFleechFlags.Set(FleechFlags::eChasingOrScaredCrawlingLeft, mAnim.mFlags.Get(AnimFlags::eBit5_FlipX));
+                mFleechFlags.Set(FleechFlags::eChasingOrScaredCrawlingLeft, mAnim.mFlags.Get(AnimFlags::eFlipX));
                 return Brain_1_ChasingAbe::eBlockedByWall_4;
             }
             mNextMotion = eFleechMotions::Motion_4_Crawl;
@@ -3819,7 +3819,7 @@ s16 Fleech::Brain_ChasingAbe_State1_Helper(BaseAliveGameObject* pObj)
 
     if (IsNear(pObj))
     {
-        return field_126_brain_sub_state;
+        return mBrainSubState;
     }
 
     if (!VIsFacingMe(pObj))
@@ -3892,14 +3892,14 @@ s16 Fleech::Brain_2_Scared()
 
     if (gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
     {
-        MusicController::static_PlayMusic(static_cast<MusicController::MusicTypes>(byte_5518B0[field_126_brain_sub_state]), this, 0, 0);
+        MusicController::static_PlayMusic(static_cast<MusicController::MusicTypes>(byte_5518B0[mBrainSubState]), this, 0, 0);
     }
     else
     {
         MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
     }
 
-    switch (field_126_brain_sub_state)
+    switch (mBrainSubState)
     {
         case Brain_2_Scared::eScared_0:
             if (!pDangerObj || pDangerObj != sControlledCharacter)
@@ -3941,7 +3941,7 @@ s16 Fleech::Brain_2_Scared()
 
             if (mVelX != FP_FromInteger(0))
             {
-                const FP v9 = FP_FromInteger((mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)) != 0 ? -1 : 1);
+                const FP v9 = FP_FromInteger((mAnim.mFlags.Get(AnimFlags::eFlipX)) != 0 ? -1 : 1);
                 if (WallHit(FP_FromInteger(mSpriteScale >= FP_FromInteger(0) ? 10 : 5), ScaleToGridSize(mSpriteScale) * v9))
                 {
                     mNextMotion = eFleechMotions::Motion_8_StopMidCrawlCycle;
@@ -3982,12 +3982,12 @@ s16 Fleech::Brain_2_Scared()
                 }
                 else
                 {
-                    const FP k1Directed = FP_FromInteger(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) != 0 ? -1 : 1);
+                    const FP k1Directed = FP_FromInteger(mAnim.mFlags.Get(AnimFlags::eFlipX) != 0 ? -1 : 1);
                     if (WallHit(
                             FP_FromInteger(mSpriteScale >= FP_FromInteger(1) ? 10 : 5),
                             ScaleToGridSize(mSpriteScale) * k1Directed))
                     {
-                        mFleechFlags.Set(FleechFlags::eChasingOrScaredCrawlingLeft, mAnim.mFlags.Get(AnimFlags::eBit5_FlipX));
+                        mFleechFlags.Set(FleechFlags::eChasingOrScaredCrawlingLeft, mAnim.mFlags.Get(AnimFlags::eFlipX));
                         return Brain_2_Scared::eCornered_4;
                     }
                     mNextMotion = eFleechMotions::Motion_4_Crawl;
@@ -3996,7 +3996,7 @@ s16 Fleech::Brain_2_Scared()
 
             if (mCurrentMotion != eFleechMotions::Motion_9_Fall)
             {
-                return field_126_brain_sub_state;
+                return mBrainSubState;
             }
             return Brain_2_Scared::eCrawl_2;
         }
@@ -4007,7 +4007,7 @@ s16 Fleech::Brain_2_Scared()
                 mCurrentMotion = eFleechMotions::Motion_4_Crawl;
                 return Brain_2_Scared::eReactToDanger_1;
             }
-            return field_126_brain_sub_state;
+            return mBrainSubState;
 
         case Brain_2_Scared::eLookForHoist_3:
         {
@@ -4041,7 +4041,7 @@ s16 Fleech::Brain_2_Scared()
 
             if (mCurrentMotion != eFleechMotions::Motion_3_Idle)
             {
-                return field_126_brain_sub_state;
+                return mBrainSubState;
             }
 
             if (mFleechFlags.Get(FleechFlags::eChasingOrScaredCrawlingLeft))
@@ -4070,10 +4070,10 @@ s16 Fleech::Brain_2_Scared()
             {
                 if ((Fleech_NextRandom() % 32) || mCurrentMotion != eFleechMotions::Motion_3_Idle)
                 {
-                    return field_126_brain_sub_state;
+                    return mBrainSubState;
                 }
                 mCurrentMotion = eFleechMotions::Motion_6_Knockback;
-                return field_126_brain_sub_state;
+                return mBrainSubState;
             }
             break;
         }
@@ -4088,22 +4088,22 @@ s16 Fleech::Brain_2_Scared()
             {
                 if (!VOnSameYLevel(pDangerObj))
                 {
-                    return field_126_brain_sub_state;
+                    return mBrainSubState;
                 }
 
                 if (!VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromInteger(3), pDangerObj))
                 {
-                    return field_126_brain_sub_state;
+                    return mBrainSubState;
                 }
 
                 if (pDangerObj->mSpriteScale != mSpriteScale)
                 {
-                    return field_126_brain_sub_state;
+                    return mBrainSubState;
                 }
 
                 if (!VIsFacingMe(pDangerObj))
                 {
-                    return field_126_brain_sub_state;
+                    return mBrainSubState;
                 }
 
                 if (WallHit(
@@ -4111,7 +4111,7 @@ s16 Fleech::Brain_2_Scared()
                         pDangerObj->mXPos - mXPos)
                     || !GotNoTarget())
                 {
-                    return field_126_brain_sub_state;
+                    return mBrainSubState;
                 }
 
                 SetTarget();
@@ -4121,7 +4121,7 @@ s16 Fleech::Brain_2_Scared()
             else
             {
                 mCurrentMotion = eFleechMotions::Motion_6_Knockback;
-                return field_126_brain_sub_state;
+                return mBrainSubState;
             }
             break;
 
@@ -4136,7 +4136,7 @@ s16 Fleech::Brain_2_Scared()
                 {
                     if (mNextMotion == eFleechMotions::Motion_14_ExtendTongueFromEnemy)
                     {
-                        return field_126_brain_sub_state;
+                        return mBrainSubState;
                     }
                     ResetTarget();
                     return Brain_2_Scared::eReactToDanger_1;
@@ -4154,7 +4154,7 @@ s16 Fleech::Brain_2_Scared()
             {
                 if (mCurrentMotion != eFleechMotions::Motion_3_Idle)
                 {
-                    return field_126_brain_sub_state;
+                    return mBrainSubState;
                 }
 
                 ResetTarget();
@@ -4178,7 +4178,7 @@ s16 Fleech::Brain_2_Scared()
             {
                 if (mCurrentMotion != eFleechMotions::Motion_3_Idle)
                 {
-                    return field_126_brain_sub_state;
+                    return mBrainSubState;
                 }
                 return Brain_2_Scared::eCorneredPrepareAttack_5;
             }
@@ -4193,16 +4193,16 @@ s16 Fleech::Brain_2_Scared()
             mNextMotion = eFleechMotions::Motion_3_Idle;
             field_170_danger_obj = Guid{};
             field_11C_obj_id = Guid{};
-            field_124_brain_state = eFleechBrains::eBrain_0_Patrol;
+            mBrainState = eFleechBrains::eBrain_0_Patrol;
             return Brain_2_Scared::eScared_0;
 
         case Brain_2_Scared::ePrepareToHoist_10:
             if (mCurrentMotion != eFleechMotions::Motion_3_Idle)
             {
-                return field_126_brain_sub_state;
+                return mBrainSubState;
             }
-            if ((!mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) || FP_FromInteger(field_160_hoistX) <= mXPos) &&
-                (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) || FP_FromInteger(field_160_hoistX) >= mXPos))
+            if ((!mAnim.mFlags.Get(AnimFlags::eFlipX) || FP_FromInteger(field_160_hoistX) <= mXPos) &&
+                (mAnim.mFlags.Get(AnimFlags::eFlipX) || FP_FromInteger(field_160_hoistX) >= mXPos))
             {
                 mNextMotion = eFleechMotions::Motion_11_RaiseHead;
                 return Brain_2_Scared::eHoisting_11;
@@ -4210,19 +4210,19 @@ s16 Fleech::Brain_2_Scared()
             else
             {
                 mCurrentMotion = eFleechMotions::Motion_6_Knockback;
-                return field_126_brain_sub_state;
+                return mBrainSubState;
             }
             break;
 
         case Brain_2_Scared::eHoisting_11:
             if (mCurrentMotion != eFleechMotions::Motion_13_SettleOnGround)
             {
-                return field_126_brain_sub_state;
+                return mBrainSubState;
             }
             return Brain_2_Scared::ePatrolArea_9;
 
         default:
-            return field_126_brain_sub_state;
+            return mBrainSubState;
     }
 }
 

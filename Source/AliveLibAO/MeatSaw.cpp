@@ -44,7 +44,7 @@ MeatSaw::MeatSaw(relive::Path_MeatSaw* pTlv, const Guid& tlvId)
 
     Animation_Init(GetAnimRes(AnimId::MeatSaw_Idle));
     
-    mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mFlags.Set(AnimFlags::eSemiTrans);
     mAnim.mRenderMode = TPageAbr::eBlend_0;
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
@@ -151,8 +151,8 @@ MeatSaw::MeatSaw(relive::Path_MeatSaw* pTlv, const Guid& tlvId)
 
         field_110_anim.mRenderMode = TPageAbr::eBlend_0;
 
-        field_110_anim.mFlags.Clear(AnimFlags::eBit16_bBlending);
-        field_110_anim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
+        field_110_anim.mFlags.Clear(AnimFlags::eBlending);
+        field_110_anim.mFlags.Set(AnimFlags::eSemiTrans);
 
         mShadow = relive_new Shadow();
     }

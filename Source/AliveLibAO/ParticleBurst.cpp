@@ -49,8 +49,8 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
             {
                 mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Rock_Gib));
                 Animation_Init(GetAnimRes(AnimId::Rock_Gib));
-                mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
-                mAnim.mFlags.Set(AnimFlags::eBit16_bBlending);
+                mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
+                mAnim.mFlags.Set(AnimFlags::eBlending);
                 break;
             }
 
@@ -59,8 +59,8 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
                 mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Stick_Gib));
                 Animation_Init(GetAnimRes(AnimId::Stick_Gib));
                 scale = FP_FromDouble(0.4) * scale;
-                mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
-                mAnim.mFlags.Set(AnimFlags::eBit16_bBlending);
+                mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
+                mAnim.mFlags.Set(AnimFlags::eBlending);
                 break;
             }
 
@@ -68,8 +68,8 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
             {
                 mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::DeathFlare_2));
                 Animation_Init(GetAnimRes(AnimId::DeathFlare_2));
-                mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
-                mAnim.mFlags.Set(AnimFlags::eBit16_bBlending);
+                mAnim.mFlags.Set(AnimFlags::eSemiTrans);
+                mAnim.mFlags.Set(AnimFlags::eBlending);
                 mAnim.mRenderMode = TPageAbr::eBlend_1;
                 break;
             }
@@ -80,8 +80,8 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
                 Animation_Init(GetAnimRes(AnimId::DeathFlare_2));
 
                 mAnim.mRenderMode = TPageAbr::eBlend_1;
-                mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
-                mAnim.mFlags.Clear(AnimFlags::eBit16_bBlending);
+                mAnim.mFlags.Set(AnimFlags::eSemiTrans);
+                mAnim.mFlags.Clear(AnimFlags::eBlending);
 
                 mAnim.mRed = 254;
                 mAnim.mGreen = 148;
@@ -93,8 +93,8 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
             {
                 mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Meat_Gib));
                 Animation_Init(GetAnimRes(AnimId::Meat_Gib));
-                mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
-                mAnim.mFlags.Set(AnimFlags::eBit16_bBlending);
+                mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
+                mAnim.mFlags.Set(AnimFlags::eBlending);
                 break;
             }
 
@@ -130,17 +130,17 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
                 field_E8_pRes[i].field_18_animation.mRenderLayer = mAnim.mRenderLayer;
                 field_E8_pRes[i].field_18_animation.field_6C_scale = FP_FromDouble(0.95) * mSpriteScale;
 
-                field_E8_pRes[i].field_18_animation.mFlags.Set(AnimFlags::eBit3_Render);
+                field_E8_pRes[i].field_18_animation.mFlags.Set(AnimFlags::eRender);
 
-                field_E8_pRes[i].field_18_animation.mFlags.Set(AnimFlags::eBit15_bSemiTrans, mAnim.mFlags.Get(AnimFlags::eBit15_bSemiTrans));
+                field_E8_pRes[i].field_18_animation.mFlags.Set(AnimFlags::eSemiTrans, mAnim.mFlags.Get(AnimFlags::eSemiTrans));
 
-                field_E8_pRes[i].field_18_animation.mFlags.Set(AnimFlags::eBit16_bBlending, mAnim.mFlags.Get(AnimFlags::eBit16_bBlending));
+                field_E8_pRes[i].field_18_animation.mFlags.Set(AnimFlags::eBlending, mAnim.mFlags.Get(AnimFlags::eBlending));
 
                 if (type == BurstType::eBigPurpleSparks_2)
                 {
                     if (i % 2)
                     {
-                        field_E8_pRes[i].field_18_animation.mFlags.Set(AnimFlags::eBit16_bBlending);
+                        field_E8_pRes[i].field_18_animation.mFlags.Set(AnimFlags::eBlending);
                     }
                 }
 

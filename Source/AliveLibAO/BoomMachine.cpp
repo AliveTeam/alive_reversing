@@ -48,7 +48,7 @@ public:
                 break;
 
             case BoomMachineStates::eDropGrenade_3:
-                if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+                if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
                 {
                     SFX_Play_Pitch(relive::SoundEffects::PickupItem, 127, -900);
                     if (!gpThrowableArray_50E26C)
@@ -59,7 +59,7 @@ public:
                     gpThrowableArray_50E26C->Add(field_EC_num_grenades);
 
                     FP directedScale = {};
-                    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+                    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
                     {
                         directedScale = -mSpriteScale;
                     }
@@ -73,7 +73,7 @@ public:
                         field_EC_num_grenades);
                     if (pNewNade)
                     {
-                        pNewNade->VThrow(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) ? FP_FromDouble(-0.75) : FP_FromDouble(0.75), FP_FromInteger(3));
+                        pNewNade->VThrow(mAnim.mFlags.Get(AnimFlags::eFlipX) ? FP_FromDouble(-0.75) : FP_FromDouble(0.75), FP_FromInteger(3));
                     }
 
                     mAnim.Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Nozzle_Idle));
@@ -204,7 +204,7 @@ BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId)
 
         pNozzle->Animation_Init(pNozzle->GetAnimRes(AnimId::BoomMachine_Nozzle_Idle));
 
-        pNozzle->mAnim.mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+        pNozzle->mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
         pNozzle->mSpriteScale = mSpriteScale;
         pNozzle->mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
         pNozzle->field_E4_state = BoomMachineStates::eInactive_0;
@@ -213,7 +213,7 @@ BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId)
         pNozzle->field_EC_num_grenades = static_cast<s16>(pTlv->mGrenadeAmount);
     }
 
-    pNozzle->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pTlv->mNozzleSide == relive::Path_BoomMachine::NozzleSide::eLeft);
+    pNozzle->mAnim.mFlags.Set(AnimFlags::eFlipX, pTlv->mNozzleSide == relive::Path_BoomMachine::NozzleSide::eLeft);
 
     pNozzle->mBaseGameObjectRefCount++;
     field_EC_pNozzle = pNozzle;

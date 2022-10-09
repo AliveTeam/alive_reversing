@@ -22,7 +22,7 @@ ElectricWall::ElectricWall(relive::Path_ElectricWall* pTlv, const Guid& tlvId)
 
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Electric_Wall));
     Animation_Init(GetAnimRes(AnimId::Electric_Wall));
-    mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    mAnim.mFlags.Set(AnimFlags::eSemiTrans);
     mAnim.mRenderMode = TPageAbr::eBlend_1;
     mAnim.mRenderLayer = Layer::eLayer_Foreground_36;
 
@@ -34,7 +34,7 @@ ElectricWall::ElectricWall(relive::Path_ElectricWall* pTlv, const Guid& tlvId)
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
     mRGB.SetRGB(80, 80, 80);
 
-    field_F4_tlvInfo = tlvId;
+    mGuid = tlvId;
 
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
@@ -50,20 +50,20 @@ ElectricWall::ElectricWall(relive::Path_ElectricWall* pTlv, const Guid& tlvId)
         mScale = Scale::Fg;
     }
 
-    field_F8_switch_id = pTlv->mSwitchId;
-    field_FA_start_state = pTlv->mStartState;
+    mSwitchId = pTlv->mSwitchId;
+    mStartState = pTlv->mStartState;
 
-    if (SwitchStates_Get(field_F8_switch_id) == field_FA_start_state)
+    if (SwitchStates_Get(mSwitchId) == mStartState)
     {
-        mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+        mAnim.mFlags.Clear(AnimFlags::eRender);
     }
 
-    field_FC_sound_timer = 0;
+    mSoundTimer = 0;
 }
 
 ElectricWall::~ElectricWall()
 {
-    Path::TLV_Reset(field_F4_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mGuid, -1, 0, 0);
 }
 
 void ElectricWall::VScreenChanged()
@@ -87,14 +87,14 @@ void ElectricWall::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (SwitchStates_Get(field_F8_switch_id) == field_FA_start_state)
+    if (SwitchStates_Get(mSwitchId) == mStartState)
     {
-        mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+        mAnim.mFlags.Clear(AnimFlags::eRender);
     }
     else
     {
         // If we are about to become visible set a random starting frame
-        if (!(mAnim.mFlags.Get(AnimFlags::eBit3_Render)))
+        if (!(mAnim.mFlags.Get(AnimFlags::eRender)))
         {
             if (mAnim.Get_Frame_Count() > 0)
             {
@@ -102,19 +102,19 @@ void ElectricWall::VUpdate()
             }
         }
 
-        mAnim.mFlags.Set(AnimFlags::eBit3_Render);
+        mAnim.mFlags.Set(AnimFlags::eRender);
 
         // Keep flipping direction
         if (!(sGnFrame % 8))
         {
-            mAnim.mFlags.Toggle(AnimFlags::eBit5_FlipX);
+            mAnim.mFlags.Toggle(AnimFlags::eFlipX);
         }
 
         // Play sound every so often
-        if (static_cast<s32>(sGnFrame) >= field_FC_sound_timer)
+        if (static_cast<s32>(sGnFrame) >= mSoundTimer)
         {
             SFX_Play_Camera(relive::SoundEffects::BirdPortalSpark, 45, soundDirection, mSpriteScale);
-            field_FC_sound_timer = sGnFrame + Math_RandomRange(24, 40);
+            mSoundTimer = sGnFrame + Math_RandomRange(24, 40);
         }
 
         const PSX_RECT bRect = VGetBoundingRect();
@@ -168,9 +168,9 @@ void ElectricWall::VUpdate()
                         else
                         {
                             // Touching the wall, rip
-                            if (!(pObj->mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted)) && (!IsActiveHero(pObj) || !gAbeBulletProof_5C1BDA))
+                            if (!(pObj->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted)) && (!IsActiveHero(pObj) || !gAbeBulletProof_5C1BDA))
                             {
-                                pObj->mBaseAliveGameObjectFlags.Set(Flags_114::e114_Bit7_Electrocuted);
+                                pObj->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eElectrocuted);
 
                                 relive_new Electrocute(pObj, 1, 1);
 

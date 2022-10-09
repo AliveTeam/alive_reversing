@@ -48,7 +48,7 @@ StatusLight::StatusLight(relive::Path_StatusLight* pTlv, const Guid& tlvId)
     Animation_Init(GetAnimRes(AnimId::Status_Light_Red));
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
-    mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+    mAnim.mFlags.Clear(AnimFlags::eRender);
 
     mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
 
@@ -105,11 +105,11 @@ void StatusLight::VUpdate()
             isLinkedAndDisabled(mLinkedStatusLightSwitchId5) ||
             (sGnFrame % 8) >= 4)
         {
-            mAnim.mFlags.Set(AnimFlags::eBit3_Render);
+            mAnim.mFlags.Set(AnimFlags::eRender);
         }
         else
         {
-            mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+            mAnim.mFlags.Clear(AnimFlags::eRender);
         }
         mAnim.Set_Animation_Data(GetAnimRes(AnimId::Status_Light_Green));
     }
@@ -121,17 +121,17 @@ void StatusLight::VUpdate()
     {
         if ((sGnFrame % 8) >= 4)
         {
-            mAnim.mFlags.Set(AnimFlags::eBit3_Render);
+            mAnim.mFlags.Set(AnimFlags::eRender);
         }
         else
         {
-            mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+            mAnim.mFlags.Clear(AnimFlags::eRender);
         }
         mAnim.Set_Animation_Data(GetAnimRes(AnimId::Status_Light_Red));
     }
     else
     {
-        mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+        mAnim.mFlags.Clear(AnimFlags::eRender);
         mAnim.Set_Animation_Data(GetAnimRes(AnimId::Status_Light_Red));
     }
 }

@@ -89,7 +89,7 @@ void TorturedMudokon::VRender(PrimHeader** ppOt)
         ppOt,
         0,
         0);
-    if (mTearsAnim.mFlags.Get(AnimFlags::eBit3_Render))
+    if (mTearsAnim.mFlags.Get(AnimFlags::eRender))
     {
         mZapAnim.VRender(
             FP_GetExponent(mXPos - pScreenManager->CamXPos()),
@@ -142,7 +142,7 @@ void TorturedMudokon::VUpdate()
             break;
 
         case TorturedMudokonState::eKilled_1:
-            if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
@@ -155,11 +155,11 @@ void TorturedMudokon::VUpdate()
             break;
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         if (mAnim.mFrameChangeCounter == mAnim.mFrameDelay)
         {
-            mZapAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+            mZapAnim.mFlags.Clear(AnimFlags::eRender);
             if (!Math_RandomRange(0, 8))
             {
                 Mudokon_SFX(MudSounds::eNoSad_22, 100, Math_RandomRange(mPainSoundPitch, mPainSoundPitch + 100), 0);
@@ -198,7 +198,7 @@ void TorturedMudokon::VUpdate()
     if (mAnim.mCurrentFrame == 6 && mAnim.mFrameChangeCounter == mAnim.mFrameDelay)
     {
         relive_new Flash(Layer::eLayer_Above_FG1_39, rgbBase + 50, rgbBase + 50, rgbBase + 110, TPageAbr::eBlend_1, 1);
-        mZapAnim.mFlags.Set(AnimFlags::eBit3_Render);
+        mZapAnim.mFlags.Set(AnimFlags::eRender);
         SfxPlayMono(relive::SoundEffects::ElectricZap, 70);
         const s16 sndRnd = Math_RandomRange(0, 3) - 1;
         if (sndRnd)
@@ -223,8 +223,8 @@ void TorturedMudokon::VUpdate()
     {
         mState = TorturedMudokonState::eReleased_2;
         mAnim.Set_Animation_Data(GetAnimRes(AnimId::Tortured_Mudokon_Released));
-        mTearsAnim.mFlags.Clear(AnimFlags::eBit3_Render);
-        mZapAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+        mTearsAnim.mFlags.Clear(AnimFlags::eRender);
+        mZapAnim.mFlags.Clear(AnimFlags::eRender);
         relive::Path_TLV* pTlv = sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo);
         if (pTlv)
         {

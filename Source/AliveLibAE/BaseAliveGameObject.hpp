@@ -16,19 +16,19 @@ class BirdPortal;
 
 enum class CameraPos : s16;
 
-enum Flags_114
+enum AliveObjectFlags
 {
-    e114_Bit1_bShot = 0x1,
-    e114_MotionChanged_Bit2 = 0x2,
-    e114_Bit3_Can_Be_Possessed = 0x4,
-    e114_Bit4_bPossesed = 0x8,
-    e114_Bit5_ZappedByShrykull = 0x10,
-    e114_Bit6_SetOffExplosives = 0x20,
-    e114_Bit7_Electrocuted = 0x40,
-    e114_Bit8_bInvisible = 0x80,
-    e114_Bit9_RestoredFromQuickSave = 0x100,
-    e114_Bit10_Teleporting = 0x200,
-    e114_Bit11_Electrocuting = 0x400,
+    eShot = 0x1,
+    eMotionChanged = 0x2,
+    eCanBePossessed = 0x4,
+    ePossessed = 0x8,
+    eZappedByShrykull = 0x10,
+    eCanSetOffExplosives = 0x20,
+    eElectrocuted = 0x40,
+    eInvisible = 0x80,
+    eRestoredFromQuickSave = 0x100,
+    eTeleporting = 0x200,
+    eElectrocuting = 0x400,
 };
 
 class BaseAliveGameObject : public ::BaseAnimatedWithPhysicsGameObject
@@ -89,11 +89,9 @@ public:
     s16 BaseAliveGameObjectCollisionLineType = 0;
     s16 mCurrentMotion = 0;
     s16 mNextMotion = 0;
-    s16 field_10A_unused = 0;
     FP mHealth = {};
     Guid BaseAliveGameObject_PlatformId;
-    BitField16<Flags_114> mBaseAliveGameObjectFlags = {};
-    s16 field_116_padding = 0;
+    BitField16<AliveObjectFlags> mBaseAliveGameObjectFlags = {};
 };
 ALIVE_ASSERT_SIZEOF(BaseAliveGameObject, 0x118);
 

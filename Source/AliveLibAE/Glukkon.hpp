@@ -213,10 +213,10 @@ private:
     FP field_1D8_falling_velx_scale_factor = {};
     FP field_1DC_previous_ypos = {};
     s16 field_1E0_gamespeak_pitch = 0;
-    s16 field_1E2_prevent_depossession = 0;
-    EReliveLevelIds field_1E4_level = EReliveLevelIds::eNone;
-    s16 field_1E6_path = 0;
-    s16 field_1E8_camera = 0;
+    s16 mPreventDepossession = 0;
+    EReliveLevelIds mAbeLevel = EReliveLevelIds::eNone;
+    s16 mAbePath = 0;
+    s16 mAbeCamera = 0;
     GlukkonSpeak field_1EA_speak = GlukkonSpeak::Hey_0;
     s32 field_1EC_unused = 0;
     s32 field_1F0_randomish_speak_timer = 0;
@@ -226,8 +226,8 @@ private:
     s32 field_200_knockback_delay_after_getting_shot_timer = 0;
     s32 field_204_getting_shot_timer = 0;
     Guid field_208_obj_id;
-    TGlukkonBrainFn field_20C_brain_state_fn = nullptr;
-    s16 field_210_brain_sub_state = 0;
+    TGlukkonBrainFn mBrainState = nullptr;
+    s16 mBrainSubState = 0;
     s16 field_212_currentWalkPitch = 0;
     Guid field_214_tlv_info;
 };

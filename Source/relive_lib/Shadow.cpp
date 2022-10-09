@@ -16,14 +16,14 @@ Shadow::Shadow()
 
     mAnim.mRenderMode = TPageAbr::eBlend_2;
 
-    mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
-    mAnim.mFlags.Clear(AnimFlags::eBit16_bBlending);
+    mAnim.mFlags.Clear(AnimFlags::eRender);
+    mAnim.mFlags.Clear(AnimFlags::eBlending);
 
-    mAnim.mFlags.Set(AnimFlags::eBit2_Animate);
-    mAnim.mFlags.Set(AnimFlags::eBit8_Loop);
-    mAnim.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
-    mAnim.mFlags.Set(AnimFlags::eBit18_IsLastFrame);
-    mAnim.mFlags.Set(AnimFlags::eBit20_use_xy_offset);
+    mAnim.mFlags.Set(AnimFlags::eAnimate);
+    mAnim.mFlags.Set(AnimFlags::eLoop);
+    mAnim.mFlags.Set(AnimFlags::eSemiTrans);
+    mAnim.mFlags.Set(AnimFlags::eIsLastFrame);
+    mAnim.mFlags.Set(AnimFlags::eIgnorePosOffset);
     mAnim.mFlags.Set(AnimFlags::eBit21);
 }
 
@@ -74,7 +74,7 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
                 lineWScreen = pLine->mRect.x - camXPos;
             }
 
-            mAnim.mFlags.Set(AnimFlags::eBit3_Render);
+            mAnim.mFlags.Set(AnimFlags::eRender);
 
             mXPos = xpos;
 
@@ -141,7 +141,7 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
         else
         {
             // Didn't hit anything so don't draw a shadow
-            mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
+            mAnim.mFlags.Clear(AnimFlags::eRender);
         }
 
         if (scale == Scale::Fg)

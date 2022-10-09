@@ -301,8 +301,8 @@ private:
     Guid field_11C_web_id;
     Guid field_120_obj_id;
     Guid field_124_pull_ring_rope_id;
-    TParamiteBrainFn field_128_fn_brainState = nullptr;
-    s16 field_12C_brain_ret = 0;
+    TParamiteBrainFn mBrainState = nullptr;
+    s16 mBrainSubState = 0;
     s16 field_12E_surprise_web_delay_timer = 0;
     s32 field_130_timer = 0;
     s16 field_134_meat_eating_time = 0;
@@ -313,9 +313,9 @@ private:
     s32 field_144_group_chase_delay = 0;
     s32 field_148_timer = 0;
     s16 field_14C_surprise_web_switch_id = 0;
-    EReliveLevelIds field_14E_return_level = EReliveLevelIds::eNone;
-    s16 field_150_return_path = 0;
-    s16 field_152_return_camera = 0;
+    EReliveLevelIds mAbeLevel = EReliveLevelIds::eNone;
+    s16 mAbePath = 0;
+    s16 mAbeCamera = 0;
     s32 field_154_input = 0;
     s16 field_158_next_brain_ret = 0;
     s16 field_15A_paramite_next_motion = 0;

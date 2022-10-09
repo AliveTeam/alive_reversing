@@ -130,14 +130,14 @@ s32 Slurg::CreateFromSaveState(const u8* pData)
 
     // OG BUG: This wasn't restored
     pSlurg->mAnim.mCurrentFrame = pState->mAnimCurrentFrame;
-    pSlurg->mAnim.mFlags.Set(AnimFlags::eBit5_FlipX, pState->mFlipX & 1);
-    pSlurg->mAnim.mFlags.Set(AnimFlags::eBit3_Render, pState->mRender & 1);
+    pSlurg->mAnim.mFlags.Set(AnimFlags::eFlipX, pState->mFlipX & 1);
+    pSlurg->mAnim.mFlags.Set(AnimFlags::eRender, pState->mRender & 1);
 
     pSlurg->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->mDrawable & 1);
 
     if (IsLastFrame(&pSlurg->mAnim))
     {
-        pSlurg->mAnim.mFlags.Set(AnimFlags::eBit18_IsLastFrame);
+        pSlurg->mAnim.mFlags.Set(AnimFlags::eIsLastFrame);
     }
 
     pSlurg->mSlurgState = pState->mSlurgState;
@@ -234,7 +234,7 @@ void Slurg::VUpdate()
                 SfxPlayMono(relive::SoundEffects::SlurgPause, 0);
             }
 
-            if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 mSlurgState = SlurgStates::eMoving_0;
                 mAnim.Set_Animation_Data(GetAnimRes(AnimId::Slurg_Move));
@@ -242,7 +242,7 @@ void Slurg::VUpdate()
             break;
 
         case SlurgStates::eBurst_2:
-            if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame))
+            if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
@@ -316,7 +316,7 @@ void Slurg::VOnTlvCollision(relive::Path_TLV* pTlv)
 
 s32 Slurg::VGetSaveState(u8* pSaveBuffer)
 {
-    if (mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit7_Electrocuted))
+    if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted))
     {
         return 0;
     }
@@ -328,12 +328,12 @@ s32 Slurg::VGetSaveState(u8* pSaveBuffer)
     pState->mYPos = mYPos;
     pState->mVelX = mVelX;
     pState->mSlurgSpriteScale = mSlurgSpriteScale;
-    pState->mFlipX = mAnim.mFlags.Get(AnimFlags::eBit5_FlipX);
+    pState->mFlipX = mAnim.mFlags.Get(AnimFlags::eFlipX);
     pState->mCurrentMotion = mCurrentMotion;
     pState->mAnimCurrentFrame = static_cast<s16>(mAnim.mCurrentFrame);
     pState->mFrameChangeCounter = static_cast<s16>(mAnim.mFrameChangeCounter);
     pState->mDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
-    pState->mRender = mAnim.mFlags.Get(AnimFlags::eBit3_Render);
+    pState->mRender = mAnim.mFlags.Get(AnimFlags::eRender);
    // pState->mFrameTableOffset = mAnim.mFrameTableOffset;
     pState->mTlvInfo = mTlvInfo;
     pState->mSlurgState = mSlurgState;
@@ -344,7 +344,7 @@ s32 Slurg::VGetSaveState(u8* pSaveBuffer)
 
 void Slurg::GoLeft()
 {
-    mAnim.mFlags.Clear(AnimFlags::eBit5_FlipX);
+    mAnim.mFlags.Clear(AnimFlags::eFlipX);
     mSlurgFlags.Clear(SlurgFlags::eGoingRight);
 
     mSlurgState = SlurgStates::ePausing_1;
@@ -353,7 +353,7 @@ void Slurg::GoLeft()
 
 void Slurg::GoRight()
 {
-    mAnim.mFlags.Set(AnimFlags::eBit5_FlipX);
+    mAnim.mFlags.Set(AnimFlags::eFlipX);
     mSlurgFlags.Set(SlurgFlags::eGoingRight);
 
     mSlurgState = SlurgStates::ePausing_1;

@@ -22,28 +22,27 @@ ALIVE_VAR(1, 0x5C1B7C, DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObject
 BaseAliveGameObject::BaseAliveGameObject(s16 resourceArraySize)
     : BaseAnimatedWithPhysicsGameObject(resourceArraySize)
 {
-    mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit3_Can_Be_Possessed);
-    mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit4_bPossesed);
-    mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit5_ZappedByShrykull);
-    mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit6_SetOffExplosives);
-    mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit7_Electrocuted);
-    mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit8_bInvisible);
-    mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit9_RestoredFromQuickSave);
-    mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit10_Teleporting);
-    mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit11_Electrocuting);
+    mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eCanBePossessed);
+    mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::ePossessed);
+    mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eZappedByShrykull);
+    mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eCanSetOffExplosives);
+    mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eElectrocuted);
+    mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eInvisible);
+    mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eRestoredFromQuickSave);
+    mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eTeleporting);
+    mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eElectrocuting);
 
     BaseAliveGameObjectPathTLV = nullptr;
     BaseAliveGameObjectCollisionLine = nullptr;
     mHealth = FP_FromInteger(1);
     BaseAliveGameObject_PlatformId = Guid{};
-    mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit1_bShot);
-    mBaseAliveGameObjectFlags.Clear(Flags_114::e114_MotionChanged_Bit2);
+    mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eShot);
+    mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eMotionChanged);
     mCurrentMotion = 0;
     mNextMotion = 0;
     mPreviousMotion = 0;
     mBaseAliveGameObjectLastAnimFrame = 0;
     BaseAliveGameObjectLastLineYPos = FP_FromInteger(0);
-    field_10A_unused = 0;
 
     gBaseAliveGameObjects->Push_Back(this);
 
@@ -126,7 +125,7 @@ s16 BaseAliveGameObject::IsInInvisibleZone(BaseAliveGameObject* pObj)
 
 void BaseAliveGameObject::VSetMotion(s16 state)
 {
-    mBaseAliveGameObjectFlags.Set(Flags_114::e114_MotionChanged_Bit2);
+    mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eMotionChanged);
     mCurrentMotion = state;
 }
 
@@ -327,7 +326,7 @@ BirdPortal* BaseAliveGameObject::VIntoBirdPortal(s16 numGridBlocks)
             {
                 if (pBirdPortal->mEnterSide == relive::Path_BirdPortal::PortalSide::eLeft)
                 {
-                    if (pBirdPortal->mXPos - mXPos <= (ScaleToGridSize(mSpriteScale) * FP_FromInteger(numGridBlocks)) && !(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)))
+                    if (pBirdPortal->mXPos - mXPos <= (ScaleToGridSize(mSpriteScale) * FP_FromInteger(numGridBlocks)) && !(mAnim.mFlags.Get(AnimFlags::eFlipX)))
                     {
                         if (FP_Abs(mYPos - pBirdPortal->mHitY) < mSpriteScale * FP_FromInteger(10) && pBirdPortal->VPortalClipper(1))
                         {
@@ -341,7 +340,7 @@ BirdPortal* BaseAliveGameObject::VIntoBirdPortal(s16 numGridBlocks)
             {
                 if (mXPos - pBirdPortal->mXPos <= ScaleToGridSize(mSpriteScale) * FP_FromInteger(numGridBlocks))
                 {
-                    if (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX))
+                    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
                     {
                         if (FP_Abs(mYPos - pBirdPortal->mHitY) < mSpriteScale * FP_FromInteger(10) && pBirdPortal->VPortalClipper(1))
                         {
@@ -512,7 +511,7 @@ s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
     gMap.GetCurrentCamCoords(&currentCamXY);
 
     // Gone off the left edge of the current screen
-    if (xposSnapped < currentCamXY.x && (mAnim.mFlags.Get(AnimFlags::eBit5_FlipX) || mVelX < FP_FromInteger(0)))
+    if (xposSnapped < currentCamXY.x && (mAnim.mFlags.Get(AnimFlags::eFlipX) || mVelX < FP_FromInteger(0)))
     {
         if (sControlledCharacter == this && gMap.SetActiveCameraDelayed(Map::MapDirections::eMapLeft_0, this, -1))
         {
@@ -522,7 +521,7 @@ s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
         }
     }
     // Gone off the right edge of the current screen
-    else if (xposSnapped > currentCamXY.x + 368 && (!(mAnim.mFlags.Get(AnimFlags::eBit5_FlipX)) || mVelX > FP_FromInteger(0)))
+    else if (xposSnapped > currentCamXY.x + 368 && (!(mAnim.mFlags.Get(AnimFlags::eFlipX)) || mVelX > FP_FromInteger(0)))
     {
         if (sControlledCharacter == this && gMap.SetActiveCameraDelayed(Map::MapDirections::eMapRight_1, this, -1))
         {

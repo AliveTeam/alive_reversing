@@ -532,8 +532,8 @@ MainMenuController::MainMenuController(relive::Path_TLV* /*pTlv*/, const Guid& t
 
     field_158_animation.field_14_scale = mSpriteScale;
 
-    field_158_animation.mFlags.Clear(AnimFlags::eBit16_bBlending);
-    field_158_animation.mFlags.Set(AnimFlags::eBit15_bSemiTrans);
+    field_158_animation.mFlags.Clear(AnimFlags::eBlending);
+    field_158_animation.mFlags.Set(AnimFlags::eSemiTrans);
 
     field_158_animation.mRenderLayer = Layer::eLayer_MainMenuButtonBees_38;
     field_158_animation.mRenderMode = TPageAbr::eBlend_1;
@@ -640,9 +640,9 @@ MainMenuController::~MainMenuController()
 
 void MainMenuController::VRender(PrimHeader** ppOt)
 {
-    if (mAnim.mFlags.Get(AnimFlags::eBit2_Animate)
+    if (mAnim.mFlags.Get(AnimFlags::eAnimate)
         && sMainMenuPages_561960[field_214_page_index].field_E_show_character
-        && mAnim.mFlags.Get(AnimFlags::eBit3_Render))
+        && mAnim.mFlags.Get(AnimFlags::eRender))
     {
         mAnim.VRender(184, 162, ppOt, 0, 0);
     }
@@ -2724,8 +2724,8 @@ void MainMenuController::Game_Force_Quit_Load_4D1A90()
 
 MainMenuNextCam MainMenuController::HandleGameSpeakInput(u32 input_held, std::function<MainMenuNextCam(InputCommands::Enum cmd)> fnOnGameSpeak)
 {
-    mAnim.mFlags.Set(AnimFlags::eBit3_Render);
-    mAnim.mFlags.Set(AnimFlags::eBit2_Animate);
+    mAnim.mFlags.Set(AnimFlags::eRender);
+    mAnim.mFlags.Set(AnimFlags::eAnimate);
 
     if (field_230_target_entry_index == 8)
     {
@@ -3019,7 +3019,7 @@ void MainMenuController::Unload_Resource(AnimId /*res*/)
     */
 
     // Prevent animation since its now unloaded
-    mAnim.mFlags.Clear(AnimFlags::eBit2_Animate);
+    mAnim.mFlags.Clear(AnimFlags::eAnimate);
 }
 
 void MainMenuController::VUpdate()
@@ -3245,8 +3245,8 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 0,
                 0);
 
-            mAnim.mFlags.Clear(AnimFlags::eBit3_Render);
-            mAnim.mFlags.Clear(AnimFlags::eBit2_Animate);
+            mAnim.mFlags.Clear(AnimFlags::eRender);
+            mAnim.mFlags.Clear(AnimFlags::eAnimate);
             field_21E_changeScreenState = 3;
             return 1;
 
@@ -3270,7 +3270,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 field_208_transition_obj->StartTrans(Layer::eLayer_FadeFlash_40, 0, 0, 16);
             }
 
-            mAnim.mFlags.Set(AnimFlags::eBit3_Render);
+            mAnim.mFlags.Set(AnimFlags::eRender);
             field_216_previous_page_index = field_214_page_index;
             field_214_page_index = field_218_target_page_index;
             field_21E_changeScreenState = 5;
@@ -3335,8 +3335,8 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
         case 5:
             if (field_21C_camSwapEffectState != camTransEffectState::eUnknown_7)
             {
-                mAnim.mFlags.Set(AnimFlags::eBit2_Animate);
-                mAnim.mFlags.Set(AnimFlags::eBit3_Render);
+                mAnim.mFlags.Set(AnimFlags::eAnimate);
+                mAnim.mFlags.Set(AnimFlags::eRender);
             }
 
             if ((field_21C_camSwapEffectState == camTransEffectState::eDone_0 || field_21C_camSwapEffectState == camTransEffectState::eDone_2) 
@@ -3375,7 +3375,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
         return;
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame) && !field_22C_T80_animation_delay)
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame) && !field_22C_T80_animation_delay)
     {
         if (!field_228_res_idx)
         {
@@ -3521,7 +3521,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
         field_22C_T80_animation_delay--;
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eBit18_IsLastFrame)
+    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame)
         || field_220_frame_table_idx == eAbe_Idle
         || field_220_frame_table_idx == eAbe_IdleBlinking
         || field_220_frame_table_idx == eSlig_Idle
@@ -3588,7 +3588,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
                             field_23C_T80.Set(Flags::eBit24_Chant_Seq_Playing);
                         }
 
-                        mAnim.mFlags.Set(AnimFlags::eBit2_Animate);
+                        mAnim.mFlags.Set(AnimFlags::eAnimate);
 
                         mAnim.Set_Animation_Data(
                             GetAnimRes(sMainMenuFrameTable_561CC8[field_228_res_idx].field_0_animation));

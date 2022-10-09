@@ -207,6 +207,10 @@ public:
     static s32 CreateFromSaveState(const u8* pBuffer);
     static s16 IsAbeEnteringDoor_4BB990(BaseAliveGameObject* pThis);
 
+    bool vUnderGlukkonCommand_4B1760();
+    void SetBrain(TSligBrainFn fn);
+    bool BrainIs(TSligBrainFn fn);
+
     void M_StandIdle_0_4B4EC0();
     void M_StandToWalk_1_4B5F70();
     void M_Walking_2_4B5BC0();
@@ -260,7 +264,6 @@ public:
     void M_LiftDown_50_4B3960();
     void M_Beat_51_4B6C00();
 
-public:
     s16 Brain_Death_0_4BBFB0();
     s16 Brain_ReturnControlToAbeAndDie_1_4BC410();
     s16 Brain_Possessed_2_4BBCF0();
@@ -311,35 +314,18 @@ public:
 
 private:
     void Init();
-
     void vShot_4B2EA0();
-
     void vUpdateAnim_4B1320();
-
-
-public:
-    bool vUnderGlukkonCommand_4B1760();
-
-private:
     void HandleDDCheat();
     void WakeUp_4B93B0();
-
     void ShouldStillBeAlive_4BBC00();
-
     void ToTurn_4BE090();
-
     void RespondWithWhat_4BF400();
-
     void ToShoot_4BF9A0();
-
     void ToZShoot_4BF9E0();
-
     void PauseALittle_4BDD00();
-
     void ToStand_4B4A20();
-
     void BlowToGibs_4B8020();
-
     s16 MainMovement_4B4720();
 
     enum class MovementDirection
@@ -350,105 +336,59 @@ private:
 
     void PullLever();
     void ShootOrShootZ();
-
     s16 ToShootZ();
     s16 LeftRigtMovement(MovementDirection direction);
     s16 GrabNearbyLift();
-
     s16 HandlePlayerControlled_4B7800();
-
     s16 GetNextMotionIncGameSpeak_4B5080(s32 input);
-
     void WaitOrWalk_4BE870();
-
     void ToAbeDead_4B3580();
-
     void ToUnderGlukkonCommand_4B9660();
-
     void ToKilledAbe_4B3600();
-
     bool IsWallBetween_4BB8B0(BaseAliveGameObject* pLeft, BaseAliveGameObject* pRight);
-
     GameSpeakEvents LastGlukkonSpeak_4B3090();
-
     s16 ListenToGlukkonCommands_4B95D0();
-
     void PlatformCollide_4B4E00();
-
     void FallKnockBackOrSmash_4B4A90();
-
     void TurnOrSayWhat_4BEBC0();
-
     void GameSpeakResponse_4BF470();
-
     void GoAlertedOrSayWhat_4BF140();
-
     static s32 IsFacingEffectiveLeft_4BB780(Slig* pSlig);
-
     void MoveOnLine_4B4C40();
-
     void PlayerControlStopWalkingIfRequired_4B8540();
-
     void CheckPlatformVanished_4B3640();
-
     s16 MoveLift_4B3990(FP ySpeed);
-
     void SlowDown_4B6450(FP speed);
-
     void ToChase_4BCFF0();
-
     s16 HandleEnemyStopper_4BBA00(s32 gridBlocks);
-
     void ToPanicYelling_4BCBA0();
-
     void ToPanicTurn_4BC750();
-
     static s16 SligStableDelay_4B99B0();
-
     void PlayerControlRunningSlideStopOrTurnFrame12_4B8790();
-
     void PlayerControlRunningSlideStopOrTurnFrame4_4B85D0();
-
     BaseAliveGameObject* FindBeatTarget_4BD070(ReliveTypes typeToBeat, s32 gridBlocks);
-
     void TurnOrWalk_4BD6A0(s32 a2);
-
     void ToPanicRunning_4BCA30();
-
     void RespondToEnemyOrPatrol_4B3140();
-
-
     s16 FindSwitch_4B9A50();
-
     s16 NearOrFacingActiveChar_4B9930(BaseAliveGameObject* pObj);
-
     static s16 InZCover_4BB7C0(BaseAliveGameObject* pObj);
-
     static bool RenderLayerIs_4BBBC0(BaseAliveGameObject* pThis);
-
     void NextCommand_4B9A00(s16 speakTableIndex, s16 responseState);
-
     s16 HeardGlukkonToListenTo_4B9690(GameSpeakEvents glukkonSpeak);
-
     s16 vIsFacingMe_4B23D0(BaseAnimatedWithPhysicsGameObject* pWho);
-
     s16 vOnSameYLevel_4BB6C0(BaseAnimatedWithPhysicsGameObject* pOther);
-
     s16 FindLiftPoint_4B9B40();
-
     AnimId MotionToAnimId(u32 motion);
 
 public:
-    void SetBrain(TSligBrainFn fn);
-    bool BrainIs(TSligBrainFn fn);
+    EReliveLevelIds mAbeLevel = EReliveLevelIds::eNone;
+    s16 mAbePath = 0;
+    s16 mAbeCamera = 0;
+    s16 mBrainSubState = 0;
 
 private:
     Guid field_118_tlvInfo;
-
-public:
-    s16 field_11C_brain_sub_state = 0;
-
-private:
     s16 field_11E_pitch_min = 0;
     s32 field_120_timer = 0;
     s16 field_124_return_to_previous_motion = 0;
@@ -459,19 +399,9 @@ private:
     //s16 field_134_res_idx = 0;
     s16 field_136_shot_motion = 0;
     PSX_RECT field_138_zone_rect = {};
-    s16 field_140_unused = 0;
-    s16 field_142_unused = 0;
-    s16 field_144_unused = 0;
-
-public:
-    EReliveLevelIds field_146_return_level = EReliveLevelIds::eNone;
-    s16 field_148_return_path = 0;
-    s16 field_14A_return_camera = 0;
     s32 field_14C_death_by_being_shot_timer = 0;
     s32 field_150_explode_timer = 0;
-
-private:
-    TSligBrainFn field_154_brain_state = nullptr;
+    TSligBrainFn mBrainState = nullptr;
     s16 field_158_num_times_to_shoot = 0;
     s16 field_15A_unused = 0;
     s16 field_15C_force_alive_state = 0;
@@ -486,7 +416,6 @@ private:
     Guid field_208_glukkon_obj_id;
     s16 field_20C_state_after_speak = 0;
     s16 field_20E_attention_timeout = 0;
-    s16 field_210_unused = 0;
     s16 field_212_next_command_arg1 = 0;
     s16 field_214_cmd_idx = 0;
 
@@ -500,10 +429,10 @@ private:
     };
     BitField16<Flags_216> field_216_flags = {};
 
-    relive::Path_Slig field_218_tlv_data = {};
+    relive::Path_Slig mSligTlv = {};
     PSX_Point field_268_points[10] = {};
     s16 field_290_points_count = 0;
-    s16 field_292_prevent_depossession = 0;
+    s16 mPreventDepossession = 0;
     s32 field_294_next_gamespeak_motion = 0;
 };
 ALIVE_ASSERT_SIZEOF(Slig, 0x298);
