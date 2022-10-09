@@ -30,7 +30,6 @@
 #include "LCDStatusBoard.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/ObjectIds.hpp"
-#include "LvlArchive.hpp"
 #include "PsxRender.hpp"
 #include "../relive_lib/VRam.hpp"
 #include "Compression.hpp"

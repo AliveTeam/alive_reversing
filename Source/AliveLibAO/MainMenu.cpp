@@ -18,7 +18,6 @@
 #include "Movie.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "CreditsController.hpp"
-#include "LvlArchive.hpp"
 #include "SaveGame.hpp"
 #include "Midi.hpp"
 #include "Sound.hpp"

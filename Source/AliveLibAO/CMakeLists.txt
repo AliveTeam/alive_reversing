@@ -7,8 +7,6 @@ SET(AliveLibSrcAO
    GameAutoPlayer.hpp
    PathDataExtensions.hpp
    PathDataExtensions.cpp
-   TestAnimation.cpp
-   TestAnimation.hpp
    Sys.hpp
    Sys.cpp
    VGA.hpp
@@ -269,8 +267,6 @@ SET(AliveLibSrcAO
    MusicController.cpp
    CameraSwapper.hpp
    CameraSwapper.cpp
-   LvlArchive.hpp
-   LvlArchive.cpp
    Input.hpp
    Input.cpp
    GameSpeak.hpp

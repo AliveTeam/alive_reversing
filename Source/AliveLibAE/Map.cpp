@@ -4,7 +4,6 @@
 #include "Function.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "ResourceManager.hpp"
-#include "LvlArchive.hpp"
 #include "Sound/Midi.hpp"
 #include "SwitchStates.hpp"
 #include "Game.hpp"

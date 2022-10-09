@@ -49,7 +49,6 @@
 #include "Shrykull.hpp"
 #include "Bullet.hpp"
 #include "Spark.hpp"
-#include "TestAnimation.hpp"
 #include "Grid.hpp"
 #include "../relive_lib/Math.hpp"
 #include "AnimationCallBacks.hpp"

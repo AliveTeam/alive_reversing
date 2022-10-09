@@ -227,6 +227,7 @@ public:
         Resource_Plbk = 0x6B626C50,
         Resource_Play = 0x79616C50,
         Resource_Seq = 0x20716553,
+        Resource_Pxtd = 0x50787464, // Added for relive path extension blocks
     };
 
     struct Header final
@@ -266,6 +267,7 @@ public:
     static void LoadingLoop(bool bShowLoadingIcon);
 
 
+    static s32 SEQ_HashName(const char_type* seqFileName);
 
 private:
     static void ProcessLoadingFiles();

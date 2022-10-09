@@ -419,6 +419,45 @@ void ResourceManagerWrapper::LoadingLoop(bool bShowLoadingIcon)
     GetGameAutoPlayer().EnableRecorder();
 }
 
+s32 ResourceManagerWrapper::SEQ_HashName(const char_type* seqFileName)
+{
+    // Clamp max len
+    size_t seqFileNameLength = strlen(seqFileName) - 1;
+    if (seqFileNameLength > 8)
+    {
+        seqFileNameLength = 8;
+    }
+
+    // Iterate each s8 to calculate hash
+    u32 hashId = 0;
+    for (size_t index = 0; index < seqFileNameLength; index++)
+    {
+        char_type letter = seqFileName[index];
+        if (letter == '.')
+        {
+            break;
+        }
+
+        const u32 temp = 10 * hashId;
+        if (letter < '0' || letter > '9')
+        {
+            if (letter >= 'a')
+            {
+                if (letter <= 'z')
+                {
+                    letter -= ' ';
+                }
+            }
+            hashId = letter % 10 + temp;
+        }
+        else
+        {
+            hashId = index || letter != '0' ? temp + letter - '0' : temp + 9;
+        }
+    }
+    return hashId;
+}
+
 void ResourceManagerWrapper::ProcessLoadingFiles()
 {
 

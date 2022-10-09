@@ -560,8 +560,6 @@ void Game_Run_4373D0()
     Init_Sound_DynamicArrays_And_Others_41CD20();
     Input_Init();
 
-    Path_Set_NewData_FromLvls();
-
 #if DEVELOPER_MODE
     // Boot directly to the "abe hello" screen
     gMap.Init(EReliveLevelIds::eMenu, 1, 1, CameraSwapEffects::eInstantChange_0, 0, 0);

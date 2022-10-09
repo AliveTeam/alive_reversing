@@ -5,7 +5,6 @@
 #include "../../AliveLibAE/Io.hpp"
 #include "../../AliveLibAE/Sys.hpp"
 #include "../../AliveLibAE/Sound/PsxSpuApi.hpp"
-#include "../../AliveLibAE/LvlArchive.hpp"
 #include "imgui.h"
 #include "imgui_impl_sdl.h"
 #include "imgui_impl_opengl3.h"
@@ -23,6 +22,7 @@ BaseGameAutoPlayer& GetGameAutoPlayer()
     return autoPlayer;
 }
 
+/*
 static std::vector<u8> ReadLvlFile(LvlArchive& archive, const char_type* fileName)
 {
     LvlFileRecord* pFileRec = archive.Find_File_Record_433160(fileName);
@@ -36,6 +36,7 @@ static std::vector<u8> ReadLvlFile(LvlArchive& archive, const char_type* fileNam
     fileContent.resize(pFileRec->field_14_file_size);
     return fileContent;
 }
+
 
 static void WriteVec(const char_type* fileName, const std::vector<u8>& vec)
 {
@@ -123,6 +124,7 @@ void PCToPsxVab(bool isAe, const char_type* lvlName, const char_type* vhName, co
 
     archive.Free_433130();
 }
+*/
 
 class Sequencer final
 {

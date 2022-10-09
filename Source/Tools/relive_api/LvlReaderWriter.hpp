@@ -2,9 +2,10 @@
 
 #include "ByteStream.hpp"
 
-#include "../../AliveLibAE/LvlArchive.hpp"
 
 #include "../../AliveLibCommon/Function.hpp"
+#include "../../relive_lib/ResourceManagerWrapper.hpp"
+
 #include "relive_api_exceptions.hpp"
 #include "file_api.hpp"
 #include "RoundUp.hpp"
@@ -17,6 +18,37 @@
 #include <vector>
 
 namespace ReliveAPI {
+
+// Represents the LVL structure on disk
+struct LvlFileRecord final
+{
+    char_type field_0_file_name[12];
+    s32 field_C_start_sector;
+    s32 field_10_num_sectors;
+    s32 field_14_file_size;
+};
+
+// Represents the LVL structure on disk
+struct LvlHeader_Sub final
+{
+    s32 field_0_num_files;
+    s32 field_4_header_size_in_sectors;
+    s32 field_8_unknown2;
+    s32 field_C_unknown3;
+    LvlFileRecord field_10_file_recs[1]; // TODO: Strictly UB on >= 1 access
+};
+
+// Represents the LVL structure on disk
+struct LvlHeader final
+{
+    // TODO: Up to field_C is really a ResourceManager::Header
+    s32 field_0_first_file_offset;
+    s32 field_4_ref_count;
+    s32 field_8_magic;
+    s32 field_C_id;
+    LvlHeader_Sub field_10_sub;
+};
+
 [[nodiscard]] inline std::string ToString(const LvlFileRecord& rec)
 {
     size_t i = 0;
@@ -30,10 +62,20 @@ namespace ReliveAPI {
     return std::string(rec.field_0_file_name, i);
 }
 
+// Represents the res header structure on disk
+struct ResourceHeader final
+{
+    u32 field_0_size;
+    s16 field_4_ref_count;
+    s16 field_6_flags;
+    u32 mResourceType;
+    u32 field_C_id;
+};
+
 class LvlFileChunk final
 {
 public:
-    LvlFileChunk(u32 id, ResourceManager::ResourceType resType, std::vector<u8>&& data)
+    LvlFileChunk(u32 id, ResourceManagerWrapper::ResourceType resType, std::vector<u8>&& data)
         : mData(std::move(data))
     {
         mHeader.field_0_size = static_cast<u32>(mData.size());
@@ -51,7 +93,7 @@ public:
         return mHeader.field_0_size;
     }
 
-    [[nodiscard]] const ResourceManager::Header& Header() const
+    [[nodiscard]] const ResourceHeader& Header() const
     {
         return mHeader;
     }
@@ -67,7 +109,7 @@ public:
     }
 
 private:
-    ResourceManager::Header mHeader = {};
+    ResourceHeader mHeader = {};
     std::vector<u8> mData;
 };
 
@@ -145,7 +187,7 @@ public:
         bool hasEndChunkAtEnd = false;
         if (!mChunks.empty())
         {
-            if (mChunks[mChunks.size() - 1].Header().mResourceType == ResourceManager::Resource_End)
+            if (mChunks[mChunks.size() - 1].Header().mResourceType == ResourceManagerWrapper::Resource_End)
             {
                 hasEndChunkAtEnd = true;
             }
@@ -168,7 +210,7 @@ public:
         {
             neededSize += chunk.Size();
         }
-        neededSize += sizeof(ResourceManager::Header) * mChunks.size();
+        neededSize += sizeof(ResourceHeader) * mChunks.size();
 
         ByteStream s;
         s.ReserveSize(neededSize);
@@ -178,7 +220,7 @@ public:
             auto adjustedHeader = chunk.Header();
             if (adjustedHeader.field_0_size > 0)
             {
-                adjustedHeader.field_0_size += sizeof(ResourceManager::Header);
+                adjustedHeader.field_0_size += sizeof(ResourceHeader);
             }
 
             s.Write(adjustedHeader.field_0_size);
@@ -213,7 +255,7 @@ private:
 
         do
         {
-            ResourceManager::Header resHeader = {};
+            ResourceHeader resHeader = {};
             s.Read(resHeader.field_0_size);
             s.Read(resHeader.field_4_ref_count);
             s.Read(resHeader.field_6_flags);
@@ -223,13 +265,13 @@ private:
             std::vector<u8> tmpData(resHeader.field_0_size);
             if (resHeader.field_0_size > 0)
             {
-                tmpData.resize(tmpData.size() - sizeof(ResourceManager::Header));
+                tmpData.resize(tmpData.size() - sizeof(ResourceHeader));
                 s.Read(tmpData);
             }
 
-            mChunks.emplace_back(resHeader.field_C_id, static_cast<ResourceManager::ResourceType>(resHeader.mResourceType), std::move(tmpData));
+            mChunks.emplace_back(resHeader.field_C_id, static_cast<ResourceManagerWrapper::ResourceType>(resHeader.mResourceType), std::move(tmpData));
 
-            if (resHeader.mResourceType == ResourceManager::ResourceType::Resource_End)
+            if (resHeader.mResourceType == ResourceManagerWrapper::ResourceType::Resource_End)
             {
                 break;
             }

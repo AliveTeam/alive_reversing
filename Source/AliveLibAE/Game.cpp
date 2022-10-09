@@ -20,7 +20,6 @@
 #include "PathData.hpp"
 #include "DDCheat.hpp"
 #include "Io.hpp"
-#include "LvlArchive.hpp"
 #include "Sound/Midi.hpp"
 #include <atomic>
 #include <fstream>
@@ -484,8 +483,6 @@ void Game_Run_466D40()
     Init_Sound_DynamicArrays_And_Others_43BDB0();
 
     Camera camera;
-
-    Path_Set_NewData_FromLvls();
 
     // Load the first camera we see on boot
     camera.field_C_pCamRes = ResourceManagerWrapper::LoadCam(EReliveLevelIds::eMenu, 1, 25);

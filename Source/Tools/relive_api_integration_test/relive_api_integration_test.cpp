@@ -265,7 +265,7 @@ static bool PathChunksAreEqual(ReliveAPI::IFileIO& fileIo, const std::string& le
     for (u32 i = 0; i < leftPathBnd->ChunkCount(); i++)
     {
         auto leftPath = leftPathBnd->ChunkAt(i);
-        if (leftPath.Header().mResourceType == ResourceManager::Resource_Path)
+        if (leftPath.Header().mResourceType == ResourceManagerWrapper::Resource_Path)
         {
             auto rightPath = rightPathBnd->ChunkById(leftPath.Id());
             if (leftPath.Data() != rightPath->Data())

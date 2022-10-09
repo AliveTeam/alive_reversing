@@ -448,7 +448,7 @@ static std::vector<u8> ConstructFG1Data(const CameraImageAndLayers& imageAndLaye
     std::stringstream byteStream;
 
     // Write magic "relive fg1" marker
-    const u32 kMagic = ResourceManager::Resource_FG1;
+    const u32 kMagic = ResourceManagerWrapper::Resource_FG1;
     byteStream.write(reinterpret_cast<const char*>(&kMagic), sizeof(u32));
 
     // Write standard AE FG1 header
@@ -569,7 +569,7 @@ public:
         {
             auto chunk = file->ChunkAt(i);
             // Palts and other resources can share ids, explicitly look for anims
-            if (chunk.Id() == static_cast<u32>(animRec.mResourceId) && chunk.Header().mResourceType == ResourceManager::Resource_Animation)
+            if (chunk.Id() == static_cast<u32>(animRec.mResourceId) && chunk.Header().mResourceType == ResourceManagerWrapper::Resource_Animation)
             {
                 return chunk;
             }
@@ -769,7 +769,7 @@ static void SaveBinaryPathToLvl(IFileIO& fileIo, Game game, std::vector<u8>& fil
 
     // Push the path resource into a file chunk
     std::vector<u8> tmpPathVec = s.GetBuffer();
-    LvlFileChunk newPathBlock(doc.mRootInfo.mPathId, ResourceManager::ResourceType::Resource_Path, std::move(tmpPathVec));
+    LvlFileChunk newPathBlock(doc.mRootInfo.mPathId, ResourceManagerWrapper::ResourceType::Resource_Path, std::move(tmpPathVec));
 
     ChunkedLvlFile pathBndFile(*oldPathBnd);
 
@@ -812,7 +812,7 @@ static void SaveBinaryPathToLvl(IFileIO& fileIo, Game game, std::vector<u8>& fil
 
     // Add it as a chunk
     std::vector<u8> extBuffer = perPathExtensionStream.GetBuffer();
-    LvlFileChunk pathExtDataChunk(doc.mRootInfo.mPathId | doc.mRootInfo.mPathId << 8, ResourceManager::Resource_Pxtd, std::move(extBuffer));
+    LvlFileChunk pathExtDataChunk(doc.mRootInfo.mPathId | doc.mRootInfo.mPathId << 8, ResourceManagerWrapper::Resource_Pxtd, std::move(extBuffer));
     pathBndFile.AddChunk(std::move(pathExtDataChunk));
 
     // Add or replace the original path BND in the lvl
@@ -1130,11 +1130,11 @@ void ImportCameraAndFG1(std::vector<u8>& fileDataBuffer, LvlWriter& inputLvl, co
         }
     }
 
-    LvlFileChunk bitsChunk(bitsId, ResourceManager::Resource_Bits, bitsData->ToVector());
+    LvlFileChunk bitsChunk(bitsId, ResourceManagerWrapper::Resource_Bits, bitsData->ToVector());
     camFile.AddChunk(std::move(bitsChunk));
 
     // Remove FG1 blocks
-    camFile.RemoveChunksOfType(ResourceManager::Resource_FG1);
+    camFile.RemoveChunksOfType(ResourceManagerWrapper::Resource_FG1);
 
     // Add any additional resources if not already present
     for (const LvlFileChunk& chunkToAdd : additionalResourceBlocks)
@@ -1153,7 +1153,7 @@ void ImportCameraAndFG1(std::vector<u8>& fileDataBuffer, LvlWriter& inputLvl, co
             // FG1 blocks use id BitsId << 8 + idx (or 255 max in this case as we only have 1 FG1 block)
             const u32 fg1ResId = (bitsId << 8) | 0xFF;
 
-            LvlFileChunk fg1Chunk(fg1ResId, ResourceManager::Resource_FG1, std::move(fg1Data));
+            LvlFileChunk fg1Chunk(fg1ResId, ResourceManagerWrapper::Resource_FG1, std::move(fg1Data));
 
             // Add reconstructed single FG1 block
             camFile.AddChunk(std::move(fg1Chunk));

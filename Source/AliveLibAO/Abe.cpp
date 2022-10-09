@@ -54,7 +54,6 @@
 #include "Camera.hpp"
 #include "AnimationCallBacks.hpp"
 #include "Grid.hpp"
-#include "TestAnimation.hpp"
 #include "../AliveLibAE/Sound/Midi.hpp"
 
 namespace AO {

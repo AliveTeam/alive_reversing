@@ -20,7 +20,6 @@
 #include "Sound/Sound.hpp"
 #include "RenderingTestTimData.hpp"
 #include "PsxRender.hpp"
-#include "LvlArchive.hpp"
 #include "Movie.hpp"
 #include "Text.hpp"
 #include "AbilityRing.hpp"

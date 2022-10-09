@@ -77,8 +77,6 @@ SET(AliveLibAESrc
     BackgroundAnimation.hpp
     PathData.cpp
     PathData.hpp
-    LvlArchive.cpp
-    LvlArchive.hpp
     Io.cpp
     Io.hpp
     FixedPoint.hpp
@@ -350,8 +348,6 @@ SET(AliveLibAESrc
     ScopedSeq.hpp
     ZapSpark.hpp
     ZapSpark.cpp
-    TestAnimation.cpp
-    TestAnimation.hpp
 )
 
 add_library(AliveLibAE ${AliveLibAESrc})
