@@ -4,6 +4,7 @@
 #include "TypesCollectionAE.hpp"
 #include "JsonReaderBase.hpp"
 #include "TlvObjectBase.hpp"
+#include <magic_enum/include/magic_enum.hpp>
 
 namespace ReliveAPI {
 void JsonWriterAE::DebugDumpTlvs(IFileIO& fileIo, const std::string& prefix, const PathInfo& info, std::vector<u8>& pathResource)

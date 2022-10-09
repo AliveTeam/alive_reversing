@@ -4,19 +4,6 @@
 #include "EnumType.hpp"
 #include "BasicType.hpp"
 
-#include "../../AliveLibAO/PathData.hpp"
-
-#include "../../AliveLibAE/Path.hpp"
-
-#include <magic_enum/include/magic_enum.hpp>
-
-#include <functional>
-#include <initializer_list>
-#include <memory>
-#include <string>
-#include <unordered_map>
-#include <vector>
-
 namespace ReliveAPI {
 class TlvObjectBase;
 

@@ -9,9 +9,7 @@
 #include <jsonxx/jsonxx.h>
 
 #include <string>
-#include <unordered_map>
 #include <unordered_set>
-#include <memory>
 
 namespace ReliveAPI {
 class Context;

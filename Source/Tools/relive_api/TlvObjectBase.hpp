@@ -1,6 +1,5 @@
 #pragma once
 
-#include "TypesCollectionBase.hpp"
 #include "TypedProperty.hpp"
 #include "PropertyCollection.hpp"
 #include "ApiContext.hpp"

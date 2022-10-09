@@ -12,7 +12,6 @@
 #include "JsonWriterAE.hpp"
 #include "JsonWriterAO.hpp"
 #include "JsonMapRootInfoReader.hpp"
-#include "TypesCollectionBase.hpp"
 #include "Base64.hpp"
 #include "CamConverter.hpp"
 #include "TypesCollectionAE.hpp"

@@ -1,5 +1,6 @@
 #include "JsonUpgraderAE.hpp"
 #include "JsonUpgraderMacros.hpp"
+#include "nlohmann/json.hpp"
 
 namespace ReliveAPI {
 class TestUpgrader final : public IJsonUpgrader

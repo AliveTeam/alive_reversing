@@ -4,6 +4,7 @@
 #include "../../AliveLibAO/PathData.hpp"
 #include "../../AliveLibAO/Map.hpp"
 #include "../../AliveLibAE/Path.hpp"
+#include <limits>
 
 namespace ReliveAPI {
 TypesCollectionBase::TypesCollectionBase()
