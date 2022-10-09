@@ -99,12 +99,12 @@ public:
         return mCollisions;
     }
 
-    const PathSoundInfo& GetSoundInfo() const
+    const std::shared_ptr<PathSoundInfo>& GetSoundInfo() const
     {
         return mSoundInfo;
     }
 
-    PathSoundInfo& GetSoundInfo()
+    std::shared_ptr<PathSoundInfo>& GetSoundInfo()
     {
         return mSoundInfo;
     }
@@ -112,6 +112,8 @@ public:
 private:
     std::vector<std::unique_ptr<CamEntry>> mCameras;
     std::vector<PathLine> mCollisions;
-    PathSoundInfo mSoundInfo;
+
+    // TODO: Don't make this a ptr, just done for now because SND_Load_VABS keeps a ptr to it
+    std::shared_ptr<PathSoundInfo> mSoundInfo;
     u32 mPathId = 0;
 };

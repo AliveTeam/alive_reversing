@@ -1548,15 +1548,21 @@ void Map::GoTo_Camera()
 
         if (mCurrentLevel != EReliveLevelIds::eNone)
         {
-            SND_Reset_476BA0();
-            FreePathResourceBlocks();
+            if (mNextLevel != mCurrentLevel)
+            {
+                SND_Reset_476BA0();
+                FreePathResourceBlocks();
+            }
 
             ResourceManager::Reclaim_Memory_455660(0);
         }
 
         ResourceManager::LoadingLoop_41EAD0(bShowLoadingIcon);
 
-        mLoadedPaths = ResourceManagerWrapper::LoadPaths(mNextLevel);
+        if (mNextLevel != mCurrentLevel)
+        {
+            mLoadedPaths = ResourceManagerWrapper::LoadPaths(mNextLevel);
+        }
 
         SND_Load_VABS_477040(mLoadedPaths[0]->GetSoundInfo(), AO::Path_Get_Reverb(mNextLevel)); // TODO: Remove hard coded data
         SND_Load_Seqs_477AB0(g_SeqTable_4C9E70, mLoadedPaths[0]->GetSoundInfo());

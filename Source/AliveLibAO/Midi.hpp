@@ -186,11 +186,11 @@ void SsUtAllKeyOff_49EDE0(s32 mode);
 
 void SND_Reset_476BA0();
 
-void SND_Load_VABS_477040(PathSoundInfo& pSoundBlockInfo, s32 reverb);
+void SND_Load_VABS_477040(std::shared_ptr<PathSoundInfo>& pSoundBlockInfo, s32 reverb);
 
 void SND_Stop_Channels_Mask(s32 mask);
 
-void SND_Load_Seqs_477AB0(OpenSeqHandle* pSeqTable, PathSoundInfo& bsqFileName);
+void SND_Load_Seqs_477AB0(OpenSeqHandle* pSeqTable, std::shared_ptr<PathSoundInfo>& bsqFileName);
 
 s16 SND_SEQ_PlaySeq_4775A0(SeqId idx, s32 repeatCount, s16 bDontStop);
 
