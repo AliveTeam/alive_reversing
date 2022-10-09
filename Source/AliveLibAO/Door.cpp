@@ -155,7 +155,6 @@ Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
                 }
                 break;
             }
-            ResourceManager::FreeResource_455550(ppRes);
             mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             return;

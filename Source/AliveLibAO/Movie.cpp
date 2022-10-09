@@ -266,8 +266,6 @@ Movie::Movie(s32 id, s32 /*pos*/, s8 bUnknown, s32 /*flags*/, s16 volume)
 
     field_12 = volume;
 
-    ResourceManager::Reclaim_Memory_455660(0);
-
     IO_Init_494230(); // Set up IO funcs
 }
 

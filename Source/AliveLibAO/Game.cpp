@@ -315,7 +315,6 @@ void Init_Sound_DynamicArrays_And_Others_41CD20()
 
     gLoadingFiles = relive_new DynamicArrayT<BaseGameObject>(20); // TODO: Leaked on purpose for now
 
-    ResourceManager::Init_454DA0();
     SND_Init_476E40();
     SND_Init_Ambiance();
     MusicController::Create();
@@ -510,7 +509,6 @@ void Game_Loop_437630()
     PSX_ClearImage_496020(&rect, 0, 0, 0);
     PSX_DrawSync_496750(0);
     PSX_VSync_496620(0);
-    ResourceManager::WaitForPendingResources_41EA60(0);
 
     for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
     {

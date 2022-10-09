@@ -145,27 +145,6 @@ void Game_ShowLoadingIcon_445EB0()
     }
 }
 
-
-void ResourceManager::On_Loaded_446C10(ResourceManager_FileRecord* )
-{
-
-}
-
-void ResourceManager::LoadResource_446C90(const char_type*, u32, u32, LoadMode , s16 )
-{
-
-}
-
-void ResourceManager::LoadResourcesFromList_446E80(const char_type* , ResourcesToLoadList* , LoadMode , s16 )
-{
-   
-}
-
-void ResourceManager::WaitForPendingResources_41EA60(BaseGameObject*)
-{
-   
-}
-
 void ResourceManager::LoadingLoop_41EAD0(s16)
 {
     GetGameAutoPlayer().DisableRecorder();
@@ -213,126 +192,10 @@ void ResourceManager::LoadingLoop_41EAD0(s16)
     GetGameAutoPlayer().EnableRecorder();
 }
 
-void ResourceManager::Free_Resources_For_Camera_447170(Camera*)
-{
-   
-}
 
 s32 ResourceManager::SEQ_HashName_454EA0(const char_type* seqFileName)
 {
     return ResourceManagerWrapper::SEQ_HashName(seqFileName);
-}
-
-void ResourceManager::Init_454DA0()
-{
-
-}
-
-ResourceManager::ResourceHeapItem* ResourceManager::Push_List_Item()
-{
-    return nullptr;
-}
-
-
-void ResourceManager::Pop_List_Item(ResourceHeapItem* )
-{
-
-}
-
-ResourceManager::ResourceHeapItem* ResourceManager::Split_block(ResourceManager::ResourceHeapItem* , s32 )
-{
-    return nullptr;
-}
-
-LoadingFile* ResourceManager::LoadResourceFile_4551E0(const char_type* , TLoaderFn , Camera* , Camera* )
-{
-    return nullptr;
-}
-
-s16 ResourceManager::LoadResourceFileWrapper(const char_type* , Camera* )
-{
-    return 1;
-}
-
-s16 ResourceManager::LoadResourceFile_455270(const char_type* , Camera* , BlockAllocMethod )
-{
-    return 1;
-}
-
-s16 ResourceManager::Move_Resources_To_DArray_455430(u8** , DynamicArrayT<u8*>* )
-{
-    return 1;
-}
-
-u8** ResourceManager::GetLoadedResource(u32 , u32 , s16 , s16 )
-{
-    return nullptr;
-}
-
-
-void ResourceManager::CheckResourceIsLoaded(u32 /*type*/, AOResourceID /*resourceId*/)
-{
-    
-}
-
-void ResourceManager::CheckResourceIsLoaded(u32 /*type*/, std::initializer_list<AOResourceID>& /*resourceIds*/)
-{
-    //for (const auto& resourceId : resourceIds)
-    //{
-    //    CheckResourceIsLoaded(type, resourceId);
-    //}
-}
-
-s16 ResourceManager::FreeResource_455550(u8** )
-{
-    return 0;
-}
-
-
-s16 ResourceManager::FreeResource_Impl_4555B0(u8* )
-{
-    return 0;
-}
-
-ResourceManager::Header* ResourceManager::Get_Header_455620(u8** )
-{
-    return nullptr;
-}
-
-void ResourceManager::Reclaim_Memory_455660(u32 )
-{
-    
-}
-
-void ResourceManager::Increment_Pending_Count_4557A0()
-{
-
-}
-
-void ResourceManager::Decrement_Pending_Count_4557B0()
-{
-
-}
-
-void ResourceManager::Set_Header_Flags_4557D0(u8** , s16 )
-{
-
-}
-
-
-void ResourceManager::Clear_Header_Flags_4557F0(u8** , s16 )
-{
-
-}
-
-s32 ResourceManager::Is_Resources_Pending_4557C0()
-{
-    return 0;
-}
-
-void ResourceManager::Free_Resource_Of_Type_455810(u32 )
-{
-    
 }
 
 } // namespace AO

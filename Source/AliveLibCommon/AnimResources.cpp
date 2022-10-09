@@ -3,6 +3,10 @@
 
 [[noreturn]] void ALIVE_FATAL(const char_type* msg);
 
+// TODO: add stockyards uxb pal
+//if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
+//ResourceManager::LoadResource_446C90("TBMBPAL.BAN", ResourceManager::Resource_Palt, AOResourceID::kUXBAOResID, loadMode);
+
 constexpr PalDetails kNullPalDetails = {};
 constexpr CombinedPalRecord kPalRecords[] = {
     {PalId::BlindMud, {"MUDPAL.BND", kMudblindResID}, kNullPalDetails },

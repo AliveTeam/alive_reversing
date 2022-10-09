@@ -585,7 +585,6 @@ public:
     void ToDie_4588D0();
     void ToIdle_44E6B0();
     void PickUpThrowabe_Or_PressBomb_454090(FP fpX, s32 fpY, s32 bStandToCrouch);
-    void Get_Shrykull_Resources_45AA20();
     s16 ToLeftRightMovement_44E340();
     void TryHoist_44ED30();
     static void Create_Fart_421D20();

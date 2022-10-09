@@ -615,7 +615,6 @@ MainMenuController::MainMenuController(relive::Path_TLV* /*pTlv*/, const Guid& t
 
     if (gMap.mCurrentCamera == MainMenuCams::eDemoSelectionCam)
     {
-        ResourceManager::Reclaim_Memory_49C470(0);
         pResourceManager_5C1BB0->LoadingLoop_465590(false);
         field_1FC_button_index = 0;
         field_250_selected_entry_index = sDemoIdChosenFromDemoMenu_5C1B9E;
@@ -1356,7 +1355,6 @@ void MainMenuController::t_Unload_AbeSpeak_Res_4D49F0()
 
 void MainMenuController::t_Load_AbeSpeak_Res_4D4A20()
 {
-    ResourceManager::Reclaim_Memory_49C470(0);
     field_25C_Inside_FMV_Screen = 0;
     field_25E_Inside_CheatLevelSelect_Screen = 0;
 }
@@ -1895,7 +1893,6 @@ MainMenuNextCam MainMenuController::BackStory_Or_NewGame_Update_4D1C60(u32 input
     }
     else if (input_held & InputCommands::Enum::eBack) // Escape/back
     {
-        ResourceManager::Reclaim_Memory_49C470(0);
         word_BB43DC = 1;
         field_23C_T80.Clear(Flags::eBit25_CheatLevelSelectLoading);
         return MainMenuNextCam(MainMenuCams::eMainMenuCam);
@@ -1913,10 +1910,6 @@ void MainMenuController::BackStory_Or_NewGame_Load_4D1BA0()
 
 void MainMenuController::BackStory_Or_NewGame_Unload_4D1BE0()
 {
-    if (!word_BB43DC)
-    {
-        ResourceManager::Reclaim_Memory_49C470(0);
-    }
     pResourceManager_5C1BB0->LoadingLoop_465590(FALSE);
 }
 
@@ -2096,10 +2089,6 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
 
         char_type file[32] = {};
         sprintf(file, "ATTR%04d.SAV", sDemos_5617F0[demoId].field_A_id);
-        ResourceManager::LoadResourceFile_49C170(file, nullptr);
-        u8** resource = ResourceManager::GetLoadedResource(ResourceManager::ResourceType::Resource_NxtP, AEResourceID::kUnknownResID_0, 1, 0);
-        sActiveQuicksaveData = *(reinterpret_cast<Quicksave*>(*resource));
-        ResourceManager::FreeResource_49C330(resource);
 
         if (gIsDemoStartedManually_5C1B9C)
         {
@@ -3413,7 +3402,6 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
                 break;
 
             case MainMenuGamespeakAnimIds::eAbe_EnterThroughDoorHello:
-                ResourceManager::Reclaim_Memory_49C470(0);
                 field_23C_T80.Clear(Flags::eBit17_bDisableChangingSelection);
                 field_224_timer_anim_delay = sGnFrame + Math_RandomRange(300, 450);
                 break;

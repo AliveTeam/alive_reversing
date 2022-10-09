@@ -929,7 +929,7 @@ void SND_Load_VABS_477040(std::shared_ptr<PathSoundInfo>& pSoundBlockInfo, s32 r
 
         if (GetMidiVars()->sSnd_ReloadAbeResources())
         {
-            ResourceManager::Reclaim_Memory_455660(0);
+            //ResourceManager::Reclaim_Memory_455660(0);
         }
 
         SsUtSetReverbDepth_4FE380(reverb, reverb);

@@ -55,14 +55,6 @@ BaseGameObject::~BaseGameObject()
 {
     EventCancelForObj(this);
 
-    for (s32 i = 0; i < field_10_resources_array.Size(); i++)
-    {
-        if (field_10_resources_array.ItemAt(i))
-        {
-            ResourceManagerWrapper::FreeResource(field_10_resources_array.ItemAt(i));
-        }
-    }
-
     sObjectIds.Remove(mBaseGameObjectId);
 }
 
@@ -942,12 +934,7 @@ ReliveTypes BaseGameObject::Type() const
 
 u8** BaseGameObject::Add_Resource(u32 type, s32 resourceID)
 {
-    u8** ppRes = ResourceManagerWrapper::GetLoadedResource(type, resourceID, 1, 0);
-    if (ppRes)
-    {
-        field_10_resources_array.Push_Back(ppRes);
-    }
-    return ppRes;
+    return nullptr;
 }
 
 Guid BaseGameObject::RefreshId(const Guid& objectId)

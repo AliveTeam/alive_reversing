@@ -30,12 +30,6 @@ Shadow::Shadow()
 Shadow::~Shadow()
 {
     mAnim.VCleanUp();
-
-    // TODO: This can be removed once Animation doesn't take ownership of the resource
-    if (GetGameType() == GameType::eAe)
-    {
-        ResourceManagerWrapper::FreeResource(mAnimRes);
-    }
 }
 
 void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP spriteScale, Scale scale)

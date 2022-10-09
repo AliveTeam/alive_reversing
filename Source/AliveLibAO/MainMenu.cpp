@@ -1350,7 +1350,7 @@ void Menu::MainScreen_Update_47AF60()
 
             char_type fileNameBuf[20] = {};
             sprintf(fileNameBuf, "PLAYBK%02d.JOY", sJoyResId_50769C);
-            ResourceManager::LoadResourceFile_4551E0(fileNameBuf, 0, 0, 0);
+            //ResourceManager::LoadResourceFile_4551E0(fileNameBuf, 0, 0, 0);
 
             if (field_1E8_pMenuTrans)
             {
@@ -1924,7 +1924,7 @@ void Menu::FMV_Or_Level_Select_Back_Update_47ECB0()
 
 void Menu::Loading_Update_47B870()
 {
-    if (!gAttract_507698 || ResourceManager::GetLoadedResource(ResourceManager::Resource_Plbk, sJoyResId_50769C, 0, 0))
+    if (!gAttract_507698)
     {
         if (field_1E8_pMenuTrans)
         {
@@ -1971,7 +1971,7 @@ void Menu::NewGameStart_47B9C0()
         // resulting in a crash when we try access any member vars at the end. Bump the ref count so we can kill ourselves instead.
         mBaseGameObjectRefCount++;
         // TODO: The ctor of the playback should load the demo res itself
-        u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Plbk, sJoyResId_50769C, 1, 0);
+        u8** ppRes = nullptr; //ResourceManager::GetLoadedResource(ResourceManager::Resource_Plbk, sJoyResId_50769C, 1, 0);
         relive_new DemoPlayback(ppRes, 0);
         mBaseGameObjectRefCount--;
     }
@@ -3187,7 +3187,6 @@ void Menu::LoadSave_Update_47DB40()
         pPauseMenu_5080E0 = relive_new PauseMenu();
     }
 
-    ResourceManager::Reclaim_Memory_455660(0);
 
     if (!sActiveHero)
     {

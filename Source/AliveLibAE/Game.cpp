@@ -399,7 +399,6 @@ void Init_Sound_DynamicArrays_And_Others_43BDB0()
 
     gBaseAliveGameObjects = relive_new DynamicArrayT<BaseAliveGameObject>(20);
 
-    ResourceManager::Init_49BCE0();
     SND_Init();
     SND_Init_Ambiance();
     MusicController::Create();
@@ -828,8 +827,6 @@ void Game_Loop_467230()
     PSX_ClearImage_4F5BD0(&rect, 0, 0, 0);
     PSX_DrawSync_4F6280(0);
     PSX_VSync_4F6170(0);
-
-    pResourceManager_5C1BB0->Shutdown_465610();
 
     // Destroy all game objects
     while (!gBaseGameObjects->IsEmpty())

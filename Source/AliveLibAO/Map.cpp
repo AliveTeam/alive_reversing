@@ -294,7 +294,6 @@ void Map::Shutdown()
 
     pScreenManager = nullptr;
 
-    ResourceManager::Reclaim_Memory_455660(0);
     Reset();
 }
 
@@ -630,12 +629,10 @@ void Map::ScreenChange_Common()
 {
     if (field_6_state == CamChangeStates::eSliceCam_1)
     {
-        ResourceManager::Reclaim_Memory_455660(0);
         Handle_PathTransition();
     }
     else if (field_6_state == CamChangeStates::eInstantChange_2)
     {
-        ResourceManager::Reclaim_Memory_455660(0);
         GoTo_Camera();
     }
 
@@ -1554,7 +1551,6 @@ void Map::GoTo_Camera()
                 FreePathResourceBlocks();
             }
 
-            ResourceManager::Reclaim_Memory_455660(0);
         }
 
         ResourceManager::LoadingLoop_41EAD0(bShowLoadingIcon);
@@ -1577,8 +1573,6 @@ void Map::GoTo_Camera()
 
         if (field_DC_free_all_anim_and_palts)
         {
-            ResourceManager::Free_Resource_Of_Type_455810(ResourceManager::Resource_Animation);
-            ResourceManager::Free_Resource_Of_Type_455810(ResourceManager::Resource_Palt);
             field_DC_free_all_anim_and_palts = FALSE;
         }
     }

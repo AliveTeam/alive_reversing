@@ -1666,7 +1666,6 @@ void PauseMenu::VUpdate()
                     pScreenManager->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
 
                     PSX_DrawSync_4F6280(0);
-                    ResourceManager::Reclaim_Memory_49C470(500000);
                     gPsxDisplay.RenderOrderingTable();
                     Input().Update(GetGameAutoPlayer());
 

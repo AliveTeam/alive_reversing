@@ -94,33 +94,9 @@ ResourceManager::ResourceManager()
 
 ResourceManager::~ResourceManager()
 {
-    Shutdown_465610();
-}
-
-void ResourceManager::vLoadFile_StateMachine_464A70()
-{
-
-}
-
-void ResourceManager::OnResourceLoaded_464CE0()
-{
- 
-}
-
-void ResourceManager::LoadResource_464EE0(const char_type* , u32 , u32 , Camera* , Camera* , ResourceManager::TLoaderFn , s16 )
-{
     
 }
 
-void ResourceManager::LoadResourcesFromList_465150(const char_type* , ResourceManager::ResourcesToLoadList* , Camera* , Camera* , ResourceManager::TLoaderFn , s16 )
-{
-   
-}
-
-void ResourceManager::LoadResourceFile_465460(const char_type* , Camera* , Camera* , ResourceManager::TLoaderFn , s16 )
-{
-    
-}
 
 void ResourceManager::LoadingLoop_465590(s16 )
 {
@@ -143,15 +119,6 @@ void ResourceManager::LoadingLoop_465590(s16 )
     GetGameAutoPlayer().EnableRecorder();
 }
 
-void ResourceManager::Shutdown_465610()
-{
- 
-}
-
-void ResourceManager::Free_Resources_For_Camera_4656F0(const Camera*)
-{
-
-}
 
 void ResourceManager::VUpdate()
 {
@@ -168,97 +135,8 @@ void ResourceManager::VScreenChanged()
     VScreenChanged_464EC0();
 }
 
-void ResourceManager::Init_49BCE0()
-{
-
-}
-
-ResourceManager::ResourceHeapItem* ResourceManager::Push_List_Item_49BD70()
-{
-    return nullptr;
-}
-
-void ResourceManager::Pop_List_Item_49BD90(ResourceManager::ResourceHeapItem* )
-{
-  
-}
-
-ResourceManager::ResourceHeapItem* ResourceManager::Split_block_49BDC0(ResourceManager::ResourceHeapItem* , s32 )
-{
-    return nullptr;
-}
 
 s32 ResourceManager::SEQ_HashName_49BE30(const char_type* seqFileName)
 {
     return ResourceManagerWrapper::SEQ_HashName(seqFileName);
-}
-
-s32 ResourceManager::LoadResourceFile_49C130(const char_type* , TLoaderFn , Camera* , Camera* )
-{
-    return 0;
-}
-
-s16 ResourceManager::LoadResourceFile_49C170(const char_type* , Camera* )
-{
-    return 1;
-}
-
-s16 ResourceManager::Move_Resources_To_DArray_49C1C0(u8**, DynamicArrayT<u8*>* )
-{
-    return 1;
-}
-
-u8** ResourceManager::GetLoadedResource(u32 , u32 , u16 , u16 )
-{
-    return nullptr;
-}
-
-void ResourceManager::Inc_Ref_Count_49C310(u8** )
-{
-
-}
-
-s16 ResourceManager::FreeResource_49C330(u8**)
-{
-    return 0;
-}
-
-s16 ResourceManager::FreeResource_Impl_49C360(u8*)
-{
-    return 1;
-}
-
-ResourceManager::Header* ResourceManager::Get_Header_49C410(u8**)
-{
-    return nullptr;
-}
-
-void ResourceManager::Reclaim_Memory_49C470(u32)
-{
-  
-}
-
-void ResourceManager::Increment_Pending_Count_49C5F0()
-{
-
-}
-void ResourceManager::Decrement_Pending_Count_49C610()
-{
-
-}
-
-void ResourceManager::Set_Header_Flags_49C650(u8**, s16)
-{
-
-}
-
-void ResourceManager::Free_Resource_Of_Type_49C6B0(u32)
-{
-   
-}
-
-void ResourceManager::NoEffect_49C700()
-{
-    // NOTE: Does nothing because the real func just seems to try to tally
-    // up some sort of stat that is never used.
 }

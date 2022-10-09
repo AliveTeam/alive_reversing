@@ -322,7 +322,6 @@ void BirdPortal::VUpdate()
         case PortalStates::GetShrykull_9:
             if (static_cast<s32>(sGnFrame) >= mTimer)
             {
-                sActiveHero->Get_Shrykull_Resources_45AA20();
                 sActiveHero->mRingPulseTimer = sGnFrame + 32000;
                 sActiveHero->mHaveShrykull = TRUE;
                 sActiveHero->mHaveInvisibility = 0;

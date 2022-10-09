@@ -53,12 +53,10 @@ void Map::ScreenChange_Common()
 {
     if (mCamState == CamChangeStates::eSliceCam_1)
     {
-        ResourceManager::Reclaim_Memory_49C470(0);
         Handle_PathTransition();
     }
     else if (mCamState == CamChangeStates::eInstantChange_2)
     {
-        ResourceManager::Reclaim_Memory_49C470(0);
         GoTo_Camera();
     }
 
@@ -107,10 +105,6 @@ void Map::ScreenChange()
             }
         }
     }
-
-    ResourceManager::NoEffect_49C700();
-
-    //dword_5CA4A8 = 0; // TODO: Never used?
 
     // TODO: Refactor this logic
     if (!sMap_bDoPurpleLightEffect_5C311C && mNextLevel == mCurrentLevel)
@@ -525,7 +519,6 @@ void Map::Shutdown()
     relive_delete sPathInfo;
     sPathInfo = nullptr;
 
-    ResourceManager::Reclaim_Memory_49C470(0);
     Reset();
 }
 
@@ -644,7 +637,6 @@ void Map::GoTo_Camera()
                 sPathInfo->Free();
             }
 
-            ResourceManager::Reclaim_Memory_49C470(0);
         }
 
         pResourceManager_5C1BB0->LoadingLoop_465590(bShowLoadingIcon);
@@ -673,8 +665,6 @@ void Map::GoTo_Camera()
 
         if (mFreeAllAnimAndPalts)
         {
-            ResourceManager::Free_Resource_Of_Type_49C6B0(ResourceManager::Resource_Animation);
-            ResourceManager::Free_Resource_Of_Type_49C6B0(ResourceManager::Resource_Palt);
             mFreeAllAnimAndPalts = FALSE;
         }
     }
@@ -754,7 +744,7 @@ void Map::GoTo_Camera()
     {
         if (field_40_stru_5[i])
         {
-            pResourceManager_5C1BB0->Free_Resources_For_Camera_4656F0(field_40_stru_5[i]);
+            //pResourceManager_5C1BB0->Free_Resources_For_Camera_4656F0(field_40_stru_5[i]);
         }
     }
 
@@ -1211,11 +1201,10 @@ void Map::Load_Path_Items(Camera* pCamera, LoadMode loadMode)
     }
 }
 
-void Map::LoadResource(const char_type* pFileName, s32 type, s32 resourceId, LoadMode loadMode, s16 bDontLoad)
+void Map::LoadResource(const char_type* /*pFileName*/, s32 /*type*/, s32 /*resourceId*/, LoadMode loadMode, s16 bDontLoad)
 {
     if (!bDontLoad)
     {
-        pResourceManager_5C1BB0->LoadResource_464EE0(pFileName, type, resourceId, sCameraBeingLoaded_5C3118, sCameraBeingLoaded_5C3118, 0, 1);
         if (loadMode == LoadMode::LoadResource_2)
         {
             pResourceManager_5C1BB0->LoadingLoop_465590(0);
@@ -1223,11 +1212,10 @@ void Map::LoadResource(const char_type* pFileName, s32 type, s32 resourceId, Loa
     }
 }
 
-void Map::LoadResourcesFromList(const char_type* pFileName, ResourceManager::ResourcesToLoadList* pList, LoadMode loadMode, s16 bDontLoad)
+void Map::LoadResourcesFromList(const char_type* /*pFileName*/, ResourceManager::ResourcesToLoadList* /*pList*/, LoadMode loadMode, s16 bDontLoad)
 {
     if (!bDontLoad)
     {
-        pResourceManager_5C1BB0->LoadResourcesFromList_465150(pFileName, pList, sCameraBeingLoaded_5C3118, sCameraBeingLoaded_5C3118, 0, 1);
         if (loadMode == LoadMode::LoadResource_2)
         {
             pResourceManager_5C1BB0->LoadingLoop_465590(0);

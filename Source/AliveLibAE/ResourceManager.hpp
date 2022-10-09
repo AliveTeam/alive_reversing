@@ -108,13 +108,7 @@ public:
     ResourceManager();
     ~ResourceManager();
     void vLoadFile_StateMachine_464A70();
-    void OnResourceLoaded_464CE0();
-    void LoadResource_464EE0(const char_type* pFileItem, u32 type, u32 resourceID, Camera* pCamera, Camera* pFnArg, TLoaderFn pFn, s16 bAddUseCount);
-    void LoadResourcesFromList_465150(const char_type* pFileName, ResourcesToLoadList* pTypeAndIdList, Camera* pCamera, Camera* pFnArg, TLoaderFn pFn, s16 addUseCount);
-    void LoadResourceFile_465460(const char_type* filename, Camera* pCam, Camera* a4, TLoaderFn pFn, s16 a6);
     void LoadingLoop_465590(s16 bShowLoadingIcon);
-    void Shutdown_465610();
-    void Free_Resources_For_Camera_4656F0(const Camera* pCamera);
 
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
@@ -135,29 +129,7 @@ public:
         eLastMatching = 2
     };
 
-    static void Init_49BCE0();
-    static ResourceHeapItem* Push_List_Item_49BD70();
-    static void Pop_List_Item_49BD90(ResourceHeapItem* pListItem);
-    static ResourceHeapItem* Split_block_49BDC0(ResourceHeapItem* pItem, s32 size);
     static s32 SEQ_HashName_49BE30(const char_type* seqFileName);
-    //static u8** Alloc_New_Resource_Impl(u32 type, u32 id, u32 size, bool locked, ResourceManager::BlockAllocMethod allocType);
-    //static u8** Alloc_New_Resource_49BED0(u32 type, u32 id, u32 size);
-    //static u8** Allocate_New_Locked_Resource(u32 type, u32 id, u32 size);
-    //static u8** Allocate_New_Block_49BFB0(s32 sizeBytes, BlockAllocMethod allocMethod);
-    static s32 LoadResourceFile_49C130(const char_type* filename, TLoaderFn pFn, Camera* a4, Camera* pCamera);
-    static s16 LoadResourceFile_49C170(const char_type* pFileName, Camera* pCamera);
-    static s16 Move_Resources_To_DArray_49C1C0(u8** ppRes, DynamicArrayT<u8*>* pArray);
-    static u8** GetLoadedResource(u32 type, u32 resourceID, u16 addUseCount, u16 bLock);
-    static void Inc_Ref_Count_49C310(u8** ppRes);
-    static s16 FreeResource_49C330(u8** handle);
-    static s16 FreeResource_Impl_49C360(u8* handle);
-    static Header* Get_Header_49C410(u8** ppRes);
-    static void Reclaim_Memory_49C470(u32 size);
-    static void Increment_Pending_Count_49C5F0();
-    static void Decrement_Pending_Count_49C610();
-    static void Set_Header_Flags_49C650(u8** ppRes, s16 flags);
-    static void Free_Resource_Of_Type_49C6B0(u32 type);
-    static void NoEffect_49C700();
 
 
 private:

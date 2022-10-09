@@ -239,10 +239,6 @@ public:
         u32 field_C_id;
     };
 
-    static s16 FreeResource(u8** ppRes);
-    static u8** GetLoadedResource(u32 type, u32 resourceID, u16 addUseCount, u16 bLock);
-
-
     static void Inc_Ref_Count(u8** ppRes);
     static Header* Get_Header(u8** ppRes);
 

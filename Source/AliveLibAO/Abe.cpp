@@ -7754,7 +7754,6 @@ void Abe::Motion_88_HandstoneBegin_430590()
             if (gCounter_507728 == 0)
             {
                 field_110_state.stone = StoneStates::eHandstoneEnd_5;
-                ResourceManager::FreeResource_455550(gpDemoPlaybackRes_50772C);
                 field_164_pCircularFade = Make_Circular_Fade(
                     mXPos,
                     mYPos,

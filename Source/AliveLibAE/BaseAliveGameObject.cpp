@@ -60,11 +60,6 @@ BaseAliveGameObject::~BaseAliveGameObject()
         pLiftPoint->VOnTrapDoorOpen();
         BaseAliveGameObject_PlatformId = Guid{};
     }
-
-    if (field_10A_unused)
-    {
-        pResourceManager_5C1BB0->Shutdown_465610();
-    }
 }
 
 void BaseAliveGameObject::VRender(PrimHeader** ppOt)

@@ -58,11 +58,9 @@ void CheatController_Cheat_PathSkip_421B30()
     char_type nameBuffer[20];
 
     DestroyObjects_4A1F20();
-    ResourceManager::Reclaim_Memory_49C470(0);
     sprintf(nameBuffer, "NXTP%04d.SAV", sActiveQuicksaveData.field_204_world_info.mSaveFileId);
-    auto res = ResourceManagerWrapper::LoadFile(nameBuffer, GetMap().mCurrentLevel);
 
-    memcpy(&sActiveQuicksaveData, res.data(), sizeof(sActiveQuicksaveData));
+    //memcpy(&sActiveQuicksaveData, res.data(), sizeof(sActiveQuicksaveData));
     sActiveQuicksaveData.field_200_accumulated_obj_count = 1024;
     Quicksave_LoadActive();
 }

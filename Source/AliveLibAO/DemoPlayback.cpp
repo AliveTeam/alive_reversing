@@ -37,7 +37,6 @@ DemoPlayback::DemoPlayback(u8** ppPlaybackData, s32 bFromHandStone)
     }
 
     auto pd = reinterpret_cast<PlaybackData*>(*ppPlaybackData);
-    ResourceManager::Set_Header_Flags_4557D0(ppPlaybackData, ResourceManager::ResourceHeaderFlags::eLocked);
     SaveGame::LoadFromMemory(&pd->saveData, 1);
     sRandomSeed = pd->randomSeed;
     field_10_state = States::eState_0_Init;
@@ -47,9 +46,7 @@ DemoPlayback::DemoPlayback(u8** ppPlaybackData, s32 bFromHandStone)
 
 DemoPlayback::~DemoPlayback()
 {
-    ResourceManager::Clear_Header_Flags_4557F0(field_14_ppDemoRes, ResourceManager::ResourceHeaderFlags::eLocked);
     relive_delete field_18_ppRes;
-    ResourceManager::FreeResource_455550(field_14_ppDemoRes);
 }
 
 void DemoPlayback::VScreenChanged()

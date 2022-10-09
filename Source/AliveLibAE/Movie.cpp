@@ -653,7 +653,6 @@ void Movie::Init(s32 id, CdlLOC* pCdPos, s16 bUnknown, s16 flags, s16 volume)
 
     field_22_volume = volume;
 
-    ResourceManager::Reclaim_Memory_49C470(0);
 }
 
 Movie::Movie(s32 id, u32 pos, s32 bUnknown, s32 flags, s32 volume)
@@ -711,7 +710,6 @@ void Movie::DeInit()
 
     if (word_BB4AB2 & 1)
     {
-        ResourceManager::FreeResource_49C330(field_2C_ppRes);
         field_2C_ppRes = nullptr;
     }
 
