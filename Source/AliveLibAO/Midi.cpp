@@ -64,7 +64,7 @@ public:
         return sSeqsPlaying_count_word_9F1DC0;
     }
 
-    virtual ::PathSoundInfo*& sLastLoadedSoundBlockInfo() override
+    virtual std::weak_ptr<PathSoundInfo>& sLastLoadedSoundBlockInfo() override
     {
         return mLastLoadedSoundBlockInfo;
     }
@@ -90,7 +90,7 @@ public:
     }
 
 private:
-    ::PathSoundInfo* mLastLoadedSoundBlockInfo = nullptr;
+    std::weak_ptr<PathSoundInfo> mLastLoadedSoundBlockInfo;
 };
 
 static AOMidiVars sAoMidiVars;
@@ -908,10 +908,11 @@ s16 SND_VAB_Load_476CB0(PathSoundInfo& pSoundBlockInfo)
     return 1;
 }
 
-void SND_Load_VABS_477040(PathSoundInfo& pSoundBlockInfo, s32 reverb)
+void SND_Load_VABS_477040(std::shared_ptr<PathSoundInfo>& pSoundBlockInfo, s32 reverb)
 {
     GetMidiVars()->sSnd_ReloadAbeResources() = FALSE;
-    if (GetMidiVars()->sLastLoadedSoundBlockInfo() != &pSoundBlockInfo)
+    auto oldPtr = GetMidiVars()->sLastLoadedSoundBlockInfo().lock(); 
+    if (oldPtr.get() != pSoundBlockInfo.get())
     {
         SsUtReverbOff_4FE350();
         SsUtSetReverbDepth_4FE380(0, 0);
@@ -922,9 +923,9 @@ void SND_Load_VABS_477040(PathSoundInfo& pSoundBlockInfo, s32 reverb)
             SND_VAB_Load_476CB0(GetMidiVars()->sMonkVh_Vb());
         }
 
-        GetMidiVars()->sLastLoadedSoundBlockInfo() = &pSoundBlockInfo;
+        GetMidiVars()->sLastLoadedSoundBlockInfo() = pSoundBlockInfo;
 
-        SND_VAB_Load_476CB0(pSoundBlockInfo);
+        SND_VAB_Load_476CB0(*pSoundBlockInfo);
 
         if (GetMidiVars()->sSnd_ReloadAbeResources())
         {
@@ -936,9 +937,9 @@ void SND_Load_VABS_477040(PathSoundInfo& pSoundBlockInfo, s32 reverb)
     }
 }
 
-void SND_Load_Seqs_477AB0(OpenSeqHandle* pSeqTable, PathSoundInfo& bsqFileName)
+void SND_Load_Seqs_477AB0(OpenSeqHandle* pSeqTable, std::shared_ptr<PathSoundInfo>& bsqFileName)
 {
-    SND_Load_Seqs_Impl(pSeqTable, bsqFileName);
+    SND_Load_Seqs_Impl(pSeqTable, *bsqFileName);
 }
 
 s16 SND_SEQ_Play_477760(SeqId idx, s32 repeatCount, s16 volLeft, s16 volRight)

@@ -621,8 +621,6 @@ void Map::GoTo_Camera()
     }
 
 
-
-
     if (mNextLevel != mCurrentLevel || mForceLoad)
     {
         pResourceManager_5C1BB0->LoadingLoop_465590(bShowLoadingIcon);
@@ -642,17 +640,14 @@ void Map::GoTo_Camera()
             if (mNextLevel != mCurrentLevel)
             {
                 SND_Reset();
+                FreePathResourceBlocks();
+                sPathInfo->Free();
             }
-
-            FreePathResourceBlocks();
-            sPathInfo->Free();
 
             ResourceManager::Reclaim_Memory_49C470(0);
         }
 
         pResourceManager_5C1BB0->LoadingLoop_465590(bShowLoadingIcon);
-
-        mLoadedPaths = ResourceManagerWrapper::LoadPaths(mNextLevel);
 
         if (mNextLevel == mCurrentLevel)
         {
@@ -660,6 +655,9 @@ void Map::GoTo_Camera()
         }
         else
         {
+            // Don't let the force flag make us reload paths for no reason
+            mLoadedPaths = ResourceManagerWrapper::LoadPaths(mNextLevel);
+
             // TODO: This data is now per path rather than lvl - logic needs updating to reflect this
             SND_Load_VABS(mLoadedPaths[0]->GetSoundInfo(), Path_Get_Reverb(mNextLevel)); // TODO: Remove hard coded data
             SND_Load_Seqs(sSeqData_558D50.mSeqs, mLoadedPaths[0]->GetSoundInfo());

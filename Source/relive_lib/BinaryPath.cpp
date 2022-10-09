@@ -560,7 +560,8 @@ void BinaryPath::CreateFromJson(nlohmann::json& pathJson)
         mCameras.emplace_back(std::move(camEntry));
     }
 
-    from_json(pathJson["sound_info"], mSoundInfo);
+    mSoundInfo = std::make_shared<PathSoundInfo>();
+    from_json(pathJson["sound_info"], *mSoundInfo);
 }
 
 relive::Path_TLV* BinaryPath::TlvsById(const Guid& id)

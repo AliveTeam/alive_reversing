@@ -61,7 +61,7 @@ public:
         return sSeqsPlaying_count_word_BB2E3C;
     }
 
-    virtual PathSoundInfo*& sLastLoadedSoundBlockInfo() override
+    virtual std::weak_ptr<PathSoundInfo>& sLastLoadedSoundBlockInfo() override
     {
         return mLastLoadedSoundBlockInfo;
     }
@@ -87,7 +87,7 @@ public:
     }
 
 private:
-    PathSoundInfo* mLastLoadedSoundBlockInfo = nullptr;
+    std::weak_ptr<PathSoundInfo> mLastLoadedSoundBlockInfo;
 };
 
 static AEMidiVars sAEMidiVars;
@@ -105,13 +105,13 @@ void SetMidiApiVars(IMidiVars* pVars)
 
 void SND_Free_All_VABS_4C9EB0()
 {
-    PathSoundInfo* pIter = GetMidiVars()->sLastLoadedSoundBlockInfo();
+    auto pIter = GetMidiVars()->sLastLoadedSoundBlockInfo().lock();
     if (pIter)
     {
         SsVabClose_4FC5B0(pIter->mVabId);
         pIter->mVabId = -1;
     }
-    GetMidiVars()->sLastLoadedSoundBlockInfo() = nullptr;
+    GetMidiVars()->sLastLoadedSoundBlockInfo().reset();
 }
 
 void SND_Free_All_Seqs_4C9F40()
@@ -202,10 +202,11 @@ void SND_Shutdown()
 }
 
 
-void SND_Load_VABS(PathSoundInfo& info, s32 reverb)
+void SND_Load_VABS(std::shared_ptr<PathSoundInfo>& info, s32 reverb)
 {
     GetMidiVars()->sSnd_ReloadAbeResources() = FALSE;
-    if (GetMidiVars()->sLastLoadedSoundBlockInfo() != &info)
+    auto oldPtr = GetMidiVars()->sLastLoadedSoundBlockInfo().lock();
+    if (oldPtr.get() != info.get())
     {
         SsUtReverbOff_4FE350();
         SsUtSetReverbDepth_4FE380(0, 0);
@@ -217,9 +218,9 @@ void SND_Load_VABS(PathSoundInfo& info, s32 reverb)
             SND_VAB_Load_4C9FE0(GetMidiVars()->sMonkVh_Vb());
         }
 
-        GetMidiVars()->sLastLoadedSoundBlockInfo() = &info;
+        GetMidiVars()->sLastLoadedSoundBlockInfo() = info;
 
-        SND_VAB_Load_4C9FE0(info);
+        SND_VAB_Load_4C9FE0(*info);
 
         // Put abes resources back if we had to unload them to fit the VB in memory
         /*
@@ -263,8 +264,9 @@ s32 SFX_SfxDefinition_Play_Mono(const relive::SfxDefinition& sfxDef, s32 volume,
     }
 
     // Note: Inlined in psx
+    auto ptr = GetMidiVars()->sLastLoadedSoundBlockInfo().lock();
     auto midiHandle = MIDI_Play_Single_Note_4CA1B0(
-        sfxDef.field_4_program | (GetMidiVars()->sLastLoadedSoundBlockInfo()[sfxDef.field_0_block_idx].mVabId << 8),
+        sfxDef.field_4_program | (ptr->mVabId << 8),
         sfxDef.field_8_note << 8,
         volume,
         volume);
@@ -394,7 +396,7 @@ s32 SFX_SfxDefinition_Play_Stereo(const relive::SfxDefinition& sfxDef, s16 volLe
 
     // Note: Inlined in psx
     auto midiHandle = MIDI_Play_Single_Note_4CA1B0(
-        sfxDef.field_4_program | (GetMidiVars()->sLastLoadedSoundBlockInfo()[sfxDef.field_0_block_idx].mVabId << 8),
+        sfxDef.field_4_program | (GetMidiVars()->sLastLoadedSoundBlockInfo().lock()->mVabId << 8),
         sfxDef.field_8_note << 8,
         volLeft,
         volRight);
@@ -482,7 +484,7 @@ s16 SND_SEQ_PlaySeq(u16 idx, s16 repeatCount, s16 bDontStop)
             }
         }
 
-        const s32 vabId = GetMidiVars()->sLastLoadedSoundBlockInfo()[rec.field_8_sound_block_idx].mVabId;
+        const s32 vabId = GetMidiVars()->sLastLoadedSoundBlockInfo().lock()->mVabId;
         rec.field_A_id_seqOpenId = SsSeqOpen_4FD6D0(rec.field_C_ppSeq_Data.data(), static_cast<s16>(vabId));
 
         GetMidiVars()->sSeq_Ids_word().ids[rec.field_A_id_seqOpenId] = idx;
@@ -550,7 +552,8 @@ s16 SND_SEQ_Play(u16 idx, s16 repeatCount, s16 volLeft, s16 volRight)
         }
 
         // Open the SEQ
-        const s16 vabId = static_cast<s16>(GetMidiVars()->sLastLoadedSoundBlockInfo()[rec.field_8_sound_block_idx].mVabId);
+        auto ptr = GetMidiVars()->sLastLoadedSoundBlockInfo().lock();
+        const s16 vabId = static_cast<s16>(ptr->mVabId);
         rec.field_A_id_seqOpenId = SsSeqOpen_4FD6D0(rec.field_C_ppSeq_Data.data(), vabId);
 
         // Index into the IDS via the seq ID and map it to the index
@@ -685,9 +688,9 @@ void SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, PathSoundInfo& info)
     }
 }
 
-void SND_Load_Seqs(OpenSeqHandle* pSeqTable, PathSoundInfo& bsqFileName)
+void SND_Load_Seqs(OpenSeqHandle* pSeqTable, std::shared_ptr<PathSoundInfo>& bsqFileName)
 {
-    SND_Load_Seqs_Impl(pSeqTable, bsqFileName);
+    SND_Load_Seqs_Impl(pSeqTable, *bsqFileName);
 }
 
 s8 SND_Seq_Table_Valid()
