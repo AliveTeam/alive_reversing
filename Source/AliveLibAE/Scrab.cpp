@@ -571,6 +571,59 @@ const FP vely_input_entries_546DA4[11] = {
     FP_FromInteger(0)};
 
 
+void Scrab::HandleDDCheat()
+{
+    BaseAliveGameObjectCollisionLine = nullptr;
+
+    if (Input().isPressed(InputCommands::Enum::eUp | InputCommands::Enum::eDown | InputCommands::Enum::eLeft | InputCommands::Enum::eRight))
+    {
+        // TODO: InputCommand constants
+        mVelX = velx_input_entries_546D84[Input().mPads[sCurrentControllerIndex].mDir >> 5];
+        mVelY = vely_input_entries_546DA4[Input().mPads[sCurrentControllerIndex].mDir >> 5];
+
+        if (Input().isPressed(InputCommands::Enum::eRun))
+        {
+            mVelX += velx_input_entries_546D84[Input().mPads[sCurrentControllerIndex].mDir >> 5];
+            mVelX += velx_input_entries_546D84[Input().mPads[sCurrentControllerIndex].mDir >> 5];
+            mVelY += vely_input_entries_546DA4[Input().mPads[sCurrentControllerIndex].mDir >> 5];
+        }
+
+        mXPos += mVelX;
+        mYPos += mVelY;
+
+        // Keep in map bounds
+        PSX_Point point = {};
+        gMap.Get_map_size(&point);
+        if (mXPos < FP_FromInteger(0))
+        {
+            mXPos = FP_FromInteger(0);
+        }
+
+        if (mXPos >= FP_FromInteger(point.x))
+        {
+            mXPos = FP_FromInteger(point.x) - FP_FromInteger(1);
+        }
+
+        if (mYPos < FP_FromInteger(0))
+        {
+            mYPos = FP_FromInteger(0);
+        }
+
+        if (mYPos >= FP_FromInteger(point.y))
+        {
+            mYPos = FP_FromInteger(point.y) - FP_FromInteger(1);
+        }
+    }
+    else
+    {
+        mVelX = FP_FromInteger(0);
+        mVelY = FP_FromInteger(0);
+    }
+
+    SetActiveCameraDelayedFromDir();
+    BaseAliveGameObjectLastLineYPos = mYPos;
+}
+
 void Scrab::VUpdate()
 {
     if (mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit9_RestoredFromQuickSave))
@@ -622,56 +675,7 @@ void Scrab::VUpdate()
 
             if (sDDCheat_FlyingEnabled_5C2C08 && sControlledCharacter == this)
             {
-                // Handle DDCheat mode
-                BaseAliveGameObjectCollisionLine = nullptr;
-
-                if (Input().isPressed(InputCommands::Enum::eUp | InputCommands::Enum::eDown | InputCommands::Enum::eLeft | InputCommands::Enum::eRight))
-                {
-                    // TODO: InputCommand constants
-                    mVelX = velx_input_entries_546D84[Input().mPads[sCurrentControllerIndex].mDir >> 5];
-                    mVelY = vely_input_entries_546DA4[Input().mPads[sCurrentControllerIndex].mDir >> 5];
-
-                    if (Input().isPressed(InputCommands::Enum::eRun))
-                    {
-                        mVelX += velx_input_entries_546D84[Input().mPads[sCurrentControllerIndex].mDir >> 5];
-                        mVelX += velx_input_entries_546D84[Input().mPads[sCurrentControllerIndex].mDir >> 5];
-                        mVelY += vely_input_entries_546DA4[Input().mPads[sCurrentControllerIndex].mDir >> 5];
-                    }
-
-                    mXPos += mVelX;
-                    mYPos += mVelY;
-
-                    // Keep in map bounds
-                    PSX_Point point = {};
-                    gMap.Get_map_size(&point);
-                    if (mXPos < FP_FromInteger(0))
-                    {
-                        mXPos = FP_FromInteger(0);
-                    }
-
-                    if (mXPos >= FP_FromInteger(point.x))
-                    {
-                        mXPos = FP_FromInteger(point.x) - FP_FromInteger(1);
-                    }
-
-                    if (mYPos < FP_FromInteger(0))
-                    {
-                        mYPos = FP_FromInteger(0);
-                    }
-
-                    if (mYPos >= FP_FromInteger(point.y))
-                    {
-                        mYPos = FP_FromInteger(point.y) - FP_FromInteger(1);
-                    }
-                }
-                else
-                {
-                    mVelX = FP_FromInteger(0);
-                    mVelY = FP_FromInteger(0);
-                }
-
-                SetActiveCameraDelayedFromDir();
-                BaseAliveGameObjectLastLineYPos = mYPos;
+                HandleDDCheat();
                 return;
             }
 

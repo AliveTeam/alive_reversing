@@ -4648,6 +4648,61 @@ const FP dword_547408[22] = {
     FP_FromInteger(0),
     FP_FromInteger(0)};
 
+void Slig::HandleDDCheat()
+{
+    BaseAliveGameObjectCollisionLine = nullptr;
+
+    // TODO: InputCommand constants
+    if (Input().mPads[sCurrentControllerIndex].mPressed & 0xF)
+    {
+        mVelX = dword_5473E8[Input().mPads[sCurrentControllerIndex].mDir >> 5];
+        mVelY = dword_547408[Input().mPads[sCurrentControllerIndex].mDir >> 5];
+
+        if (Input().mPads[sCurrentControllerIndex].mPressed & 0x10)
+        {
+            mVelX += dword_5473E8[Input().mPads[sCurrentControllerIndex].mDir >> 5];
+            mVelX += dword_5473E8[Input().mPads[sCurrentControllerIndex].mDir >> 5];
+            mVelY += dword_547408[Input().mPads[sCurrentControllerIndex].mDir >> 5];
+        }
+
+        mXPos += mVelX;
+        mYPos += mVelY;
+
+        // Keep in the map bounds
+        PSX_Point mapBounds = {};
+        gMap.Get_map_size(&mapBounds);
+
+        if (mXPos < FP_FromInteger(0))
+        {
+            mXPos = FP_FromInteger(0);
+        }
+
+        if (mXPos >= FP_FromInteger(mapBounds.x))
+        {
+            mXPos = FP_FromInteger(mapBounds.x) - FP_FromInteger(1);
+        }
+
+        if (mYPos < FP_FromInteger(0))
+        {
+            mYPos = FP_FromInteger(0);
+        }
+
+        if (mYPos >= FP_FromInteger(mapBounds.y))
+        {
+            mYPos = FP_FromInteger(mapBounds.y) - FP_FromInteger(1);
+        }
+    }
+    else
+    {
+        mVelX = FP_FromInteger(0);
+        mVelY = FP_FromInteger(0);
+    }
+
+    SetActiveCameraDelayedFromDir();
+
+    BaseAliveGameObjectLastLineYPos = mYPos;
+}
+
 void Slig::VUpdate()
 {
     if (mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit9_RestoredFromQuickSave))
@@ -4698,57 +4753,7 @@ void Slig::VUpdate()
 
     if (sDDCheat_FlyingEnabled_5C2C08 && sControlledCharacter == this)
     {
-        BaseAliveGameObjectCollisionLine = nullptr;
-
-        // TODO: InputCommand constants
-        if (Input().mPads[sCurrentControllerIndex].mPressed & 0xF)
-        {
-            mVelX = dword_5473E8[Input().mPads[sCurrentControllerIndex].mDir >> 5];
-            mVelY = dword_547408[Input().mPads[sCurrentControllerIndex].mDir >> 5];
-
-            if (Input().mPads[sCurrentControllerIndex].mPressed & 0x10)
-            {
-                mVelX += dword_5473E8[Input().mPads[sCurrentControllerIndex].mDir >> 5];
-                mVelX += dword_5473E8[Input().mPads[sCurrentControllerIndex].mDir >> 5];
-                mVelY += dword_547408[Input().mPads[sCurrentControllerIndex].mDir >> 5];
-            }
-
-            mXPos += mVelX;
-            mYPos += mVelY;
-
-            // Keep in the map bounds
-            PSX_Point mapBounds = {};
-            gMap.Get_map_size(&mapBounds);
-
-            if (mXPos < FP_FromInteger(0))
-            {
-                mXPos = FP_FromInteger(0);
-            }
-
-            if (mXPos >= FP_FromInteger(mapBounds.x))
-            {
-                mXPos = FP_FromInteger(mapBounds.x) - FP_FromInteger(1);
-            }
-
-            if (mYPos < FP_FromInteger(0))
-            {
-                mYPos = FP_FromInteger(0);
-            }
-
-            if (mYPos >= FP_FromInteger(mapBounds.y))
-            {
-                mYPos = FP_FromInteger(mapBounds.y) - FP_FromInteger(1);
-            }
-        }
-        else
-        {
-            mVelX = FP_FromInteger(0);
-            mVelY = FP_FromInteger(0);
-        }
-
-        SetActiveCameraDelayedFromDir();
-
-        BaseAliveGameObjectLastLineYPos = mYPos;
+        HandleDDCheat();
     }
     else
     {

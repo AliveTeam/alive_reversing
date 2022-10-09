@@ -422,22 +422,64 @@ public:
     Abe();
     ~Abe();
 
-    void LoadAnimations();
+    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
+
+    s16 CantBeDamaged_44BAB0();
+    void ChangeChantState_45BB90(s16 bLaughAtChantEnd);
+    void ToKnockback_44E700(s16 bKnockbackSound, s16 bDelayedAnger);
+    void SetAsDead_459430();
+    void FleechDeath_459350();
+    void ExitShrykull_45A9D0(s16 bResetRingTimer);
 
     static s32 CreateFromSaveState(const u8* pData);
+
+    enum Flags_1AC
+    {
+        e1AC_Bit1_lift_point_dead_while_using_lift = 0x1,
+        e1AC_Bit2_return_to_previous_motion = 0x2,
+        e1AC_Bit3_WalkToRun = 0x4,
+        e1AC_Bit4_unused = 0x8,
+        e1AC_Bit5_shrivel = 0x10,
+        e1AC_Bit6_prevent_chanting = 0x20,
+        e1AC_Bit7_land_softly = 0x40,
+        e1AC_Bit8_unused = 0x80,
+        e1AC_Bit9_laugh_at_chant_end = 0x100,
+        e1AC_Bit10_padding = 0x200,
+        e1AC_Bit11_padding = 0x400,
+        e1AC_Bit12_unused = 0x800,
+        e1AC_eBit13_play_ledge_grab_sounds = 0x1000,
+        e1AC_eBit14_unused = 0x2000,
+        e1AC_eBit15_have_healing = 0x4000,
+        e1AC_eBit16_is_mudanchee_vault_ender = 0x8000,
+    };
+    BitField16<Flags_1AC> field_1AC_flags = {};
+    Abe_1BC_20_sub_object field_128 = {};
+    s32 field_124_timer = 0;
+    Guid mBirdPortalId;
+    s8 mThrowableCount = 0;
+    Guid mThrowableId;
+    s16 field_1A0_door_id = 0;
+    s8 mThrowDirection = 0;
+    s32 mRingPulseTimer = 0;
+    s16 mHaveShrykull = 0;
+    s32 mAutoSayTimer = 0;
+    s16 mHaveInvisibility = 0;
+    s16 mInvisibilityDuration = 0;
+
+
+private:
+    void LoadAnimations();
 
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
-    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
     virtual BirdPortal* VIntoBirdPortal(s16 gridBlocks) override;
     virtual void VOnTrapDoorOpen() override;
 
     void DoRunJump();
 
-    void ToKnockback_44E700(s16 bKnockbackSound, s16 bDelayedAnger);
     BaseAliveGameObject* FindObjectToPossess_44B7B0();
     void Load_Basic_Resources_44D460();
     void Free_Resources_44D420();
@@ -580,7 +622,6 @@ public:
 
     // End motions
 
-    void FleechDeath_459350();
 
     void ToDie_4588D0();
     void ToIdle_44E6B0();
@@ -600,7 +641,6 @@ public:
     s16 RunTryEnterWell_451060();
     void ToDieFinal_458910();
     s16 DoGameSpeak_45AB70(s32 input);
-    s16 CantBeDamaged_44BAB0();
     void FallOnBombs_44EC10();
     s16 ForceDownIfHoisting_44BA30();
     void BulletDamage_44C980(Bullet* pObj);
@@ -611,38 +651,22 @@ public:
     void FollowLift_45A500();
 
     s16 MoveLiftUpOrDown_45A7E0(FP yVelocity);
-
-
     s16 GetEvilFart_4585F0(s16 bDontLoad);
+    void HandleDDCheat();
 
-    void ChangeChantState_45BB90(s16 bLaughAtChantEnd);
-
-    void SetAsDead_459430();
-
-    void ExitShrykull_45A9D0(s16 bResetRingTimer);
-
-public:
     s32 mPrevHeld = 0;
     s32 mReleasedButtons = 0;
     AllInternalStates field_120_state = {};
     s16 mKnockdownMotion = 0;
-    s32 field_124_timer = 0;
-    Abe_1BC_20_sub_object field_128 = {};
-    s32 mAutoSayTimer = 0;
     Guid mDeathFadeOutId;
     Guid mCircularFadeId;
     Guid mOrbWhirlWindId;
     Guid mPossessedObjectId;
-    Guid mThrowableId;
     Guid mPullRingRopeId;
     Guid mSlappableOrPickupId;
     Guid mWorkWheelId;
-    s32 mRingPulseTimer = 0;
-    s16 mHaveShrykull = 0;
-    s16 mHaveInvisibility = 0;
     s32 mInvisibilityTimer = 0;
     s16 field_174_unused = 0;
-    s16 mInvisibilityDuration = 0;
     Guid mInvisibleEffectId;
     s8 mHandStoneCamIdx = 0;
     ReliveTypes mHandStoneType = {};
@@ -658,33 +682,8 @@ public:
     EReliveLevelIds mDstWellLevel = EReliveLevelIds::eNone;
     s16 mDstWellPath = 0;
     s16 mDstWellCamera = 0;
-    s16 field_1A0_door_id = 0;
-    s8 mThrowableCount = 0;
-    s8 mThrowDirection = 0;
     PortalSubStates mBirdPortalSubState = PortalSubStates::eJumpingInsidePortal_0;
     s16 field_1A6_padding = 0;
-    Guid mBirdPortalId;
-
-    enum Flags_1AC
-    {
-        e1AC_Bit1_lift_point_dead_while_using_lift = 0x1,
-        e1AC_Bit2_return_to_previous_motion = 0x2,
-        e1AC_Bit3_WalkToRun = 0x4,
-        e1AC_Bit4_unused = 0x8,
-        e1AC_Bit5_shrivel = 0x10,
-        e1AC_Bit6_prevent_chanting = 0x20,
-        e1AC_Bit7_land_softly = 0x40,
-        e1AC_Bit8_unused = 0x80,
-        e1AC_Bit9_laugh_at_chant_end = 0x100,
-        e1AC_Bit10_padding = 0x200,
-        e1AC_Bit11_padding = 0x400,
-        e1AC_Bit12_unused = 0x800,
-        e1AC_eBit13_play_ledge_grab_sounds = 0x1000,
-        e1AC_eBit14_unused = 0x2000,
-        e1AC_eBit15_have_healing = 0x4000,
-        e1AC_eBit16_is_mudanchee_vault_ender = 0x8000,
-    };
-    BitField16<Flags_1AC> field_1AC_flags = {};
 
     enum Flags_1AE
     {
@@ -694,6 +693,140 @@ public:
     BitField16<Flags_1AE> field_1AE_flags = {};
 
     s16 mSaveFileId = 0;
+
+    using TAbeMotionFunction = decltype(&Abe::Motion_0_Idle_44EEB0);
+
+    const TAbeMotionFunction sAbeMotionMachineTable_554910[130] = {
+        &Abe::Motion_0_Idle_44EEB0,
+        &Abe::Motion_1_WalkLoop_44FBA0,
+        &Abe::Motion_2_StandingTurn_451830,
+        &Abe::Motion_3_Fall_459B60,
+        &Abe::Motion_4_WalkToIdle_44FFC0,
+        &Abe::Motion_5_MidWalkToIdle_450080,
+        &Abe::Motion_6_WalkBegin_44FEE0,
+        &Abe::Motion_7_Speak_45B140,
+        &Abe::Motion_8_Speak_45B160,
+        &Abe::Motion_9_Speak_45B180,
+        &Abe::Motion_10_Fart_45B1A0,
+        &Abe::Motion_11_ToSpeak_45B0A0,
+        &Abe::Motion_12_Null_4569C0,
+        &Abe::Motion_13_HoistBegin_452B20,
+        &Abe::Motion_14_HoistIdle_452440,
+        &Abe::Motion_15_HoistLand_452BA0,
+        &Abe::Motion_16_LandSoft_45A360,
+        &Abe::Motion_17_CrouchIdle_456BC0,
+        &Abe::Motion_18_CrouchToStand_454600,
+        &Abe::Motion_19_StandToCrouch_453DC0,
+        &Abe::Motion_20_CrouchSpeak_454550,
+        &Abe::jMotion_21_ToCrouchSpeak_4545E0,
+        &Abe::Motion_22_RollBegin_4539A0,
+        &Abe::Motion_23_RollLoop_453A90,
+        &Abe::Motion_24_453D00,
+        &Abe::Motion_25_RunSlideStop_451330,
+        &Abe::Motion_26_RunTurn_451500,
+        &Abe::Motion_27_HopBegin_4521C0,
+        &Abe::Motion_28_HopMid_451C50,
+        &Abe::Motion_29_HopLand_4523D0,
+        &Abe::Motion_30_RunJumpBegin_4532E0,
+        &Abe::Motion_31_RunJumpMid_452C10,
+        &Abe::Motion_32_RunJumpLand_453460,
+        &Abe::Motion_33_RunLoop_4508E0,
+        &Abe::Motion_34_DunnoBegin_44ECF0,
+        &Abe::Motion_35_DunnoEnd_44ED10,
+        &Abe::Motion_36_Null_45BC50,
+        &Abe::Motion_37_CrouchTurn_454390,
+        &Abe::jMotion_38_RunToRoll_453A70,
+        &Abe::Motion_39_StandingToRun_450D40,
+        &Abe::Motion_40_SneakLoop_450550,
+        &Abe::Motion_41_WalkToSneak_450250,
+        &Abe::Motion_42_SneakToWalk_4503D0,
+        &Abe::Motion_43_MidWalkToSneak_450380,
+        &Abe::Motion_44_MidSneakToWalk_450500,
+        &Abe::Motion_45_SneakBegin_4507A0,
+        &Abe::Motion_46_SneakToIdle_450870,
+        &Abe::jMotion_47_MidSneakToIdle_4508C0,
+        &Abe::Motion_48_WalkToRun_4500A0,
+        &Abe::Motion_49_MidWalkToRun_450200,
+        &Abe::Motion_50_RunToWalk_450E20,
+        &Abe::Motion_51_MidRunToWalk_450F50,
+        &Abe::Motion_52_RunTurnToRun_451710,
+        &Abe::Motion_53_RunTurnToWalk_451800,
+        &Abe::Motion_54_RunJumpLandRun_4538F0,
+        &Abe::Motion_55_RunJumpLandWalk_453970,
+        &Abe::Motion_56_DeathDropFall_4591F0,
+        &Abe::Motion_57_Dead_4589A0,
+        &Abe::Motion_58_DeadPre_4593E0,
+        &Abe::Motion_59_Null_459450,
+        &Abe::Motion_60_Unused_4A3200,
+        &Abe::Motion_61_TurnToRun_456530,
+        &Abe::Motion_62_Punch_454750,
+        &Abe::Motion_63_Sorry_454670,
+        &Abe::Motion_64_AfterSorry_454730,
+        &Abe::Motion_65_LedgeAscend_4548E0,
+        &Abe::Motion_66_LedgeDescend_454970,
+        &Abe::Motion_67_LedgeHang_454E20,
+        &Abe::Motion_68_ToOffScreenHoist_454B80,
+        &Abe::Motion_69_LedgeHangWobble_454EF0,
+        &Abe::Motion_70_RingRopePullHang_455AF0,
+        &Abe::Motion_71_Knockback_455090,
+        &Abe::Motion_72_KnockbackGetUp_455340,
+        &Abe::Motion_73_PushWall_4553A0,
+        &Abe::Motion_74_RollingKnockback_455290,
+        &Abe::Motion_75_JumpIntoWell_45C7B0,
+        &Abe::Motion_76_ToInsideOfAWellLocal_45CA40,
+        &Abe::Motion_77_ToWellShotOut_45D130,
+        &Abe::Motion_78_WellBegin_45C810,
+        &Abe::Motion_79_InsideWellLocal_45CA60,
+        &Abe::Motion_80_WellShotOut_45D150,
+        &Abe::jMotion_81_WellBegin_45C7F0,
+        &Abe::Motion_82_InsideWellExpress_45CC80,
+        &Abe::Motion_83_WellExpressShotOut_45CF70,
+        &Abe::Motion_84_FallLandDie_45A420,
+        &Abe::jMotion_85_Fall_455070,
+        &Abe::Motion_86_HandstoneBegin_45BD00,
+        &Abe::Motion_87_HandstoneEnd_45C4F0,
+        &Abe::Motion_88_GrenadeMachineUse_45C510,
+        &Abe::Motion_89_BrewMachineBegin_4584C0,
+        &Abe::Motion_90_BrewMachineEnd_4585B0,
+        &Abe::Motion_91_FallingFromGrab_4557B0,
+        &Abe::Motion_92_ForceDownFromHoist_455800,
+        &Abe::Motion_93_WalkOffEdge_455970,
+        &Abe::Motion_94_RunOffEdge_4559A0,
+        &Abe::Motion_95_SneakOffEdge_4559C0,
+        &Abe::Motion_96_HopToFall_4559E0,
+        &Abe::Motion_97_RunJumpToFall_455A80,
+        &Abe::Motion_98_RollOffEdge_455AA0,
+        &Abe::Motion_99_LeverUse_455AC0,
+        &Abe::Motion_100_SlapBomb_455B60,
+        &Abe::Motion_101_KnockForward_455420,
+        &Abe::Motion_102_RollingKnockForward_455310,
+        &Abe::jMotion_103_KnockForwardGetUp_455380,
+        &Abe::Motion_104_RockThrowStandingHold_455DF0,
+        &Abe::Motion_105_RockThrowStandingThrow_456460,
+        &Abe::Motion_106_RockThrowStandingEnd_455F20,
+        &Abe::Motion_107_RockThrowCrouchingHold_454410,
+        &Abe::Motion_108_RockThrowCrouchingThrow_454500,
+        &Abe::Motion_109_ZShotRolling_455550,
+        &Abe::Motion_110_ZShot_455670,
+        &Abe::Motion_111_PickupItem_4564A0,
+        &Abe::Motion_112_Chant_45B1C0,
+        &Abe::Motion_113_ChantEnd_45BBE0,
+        &Abe::Motion_114_DoorEnter_459470,
+        &Abe::Motion_115_DoorExit_459A40,
+        &Abe::Motion_116_MineCarEnter_458780,
+        &Abe::Motion_117_InMineCar_4587C0,
+        &Abe::Motion_118_MineCarExit_458890,
+        &Abe::Motion_119_ToShrykull_45A990,
+        &Abe::Motion_120_EndShrykull_45AB00,
+        &Abe::Motion_121_LiftGrabBegin_45A600,
+        &Abe::Motion_122_LiftGrabEnd_45A670,
+        &Abe::Motion_123_LiftGrabIdle_45A6A0,
+        &Abe::Motion_124_LiftUseUp_45A780,
+        &Abe::Motion_125_LiftUseDown_45A7B0,
+        &Abe::Motion_126_TurnWheelBegin_456700,
+        &Abe::Motion_127_TurnWheelLoop_456750,
+        &Abe::Motion_128_TurnWheelEnd_4569A0,
+        &Abe::Motion_129_PoisonGasDeath_4565C0};
 };
 ALIVE_ASSERT_SIZEOF(Abe, 0x1BC);
 

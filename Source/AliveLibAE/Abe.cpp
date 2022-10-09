@@ -57,144 +57,6 @@
 #include "Camera.hpp"
 #include "Path.hpp"
 
-using TAbeMotionFunction = decltype(&Abe::Motion_0_Idle_44EEB0);
-
-#define MAKE_STRINGS(VAR) #VAR,
-const char_type* const sAbeMotionNames[] = {
-    ABE_MOTIONS_ENUM(MAKE_STRINGS)};
-
-const TAbeMotionFunction sAbeMotionMachineTable_554910[] = {
-    &Abe::Motion_0_Idle_44EEB0,
-    &Abe::Motion_1_WalkLoop_44FBA0,
-    &Abe::Motion_2_StandingTurn_451830,
-    &Abe::Motion_3_Fall_459B60,
-    &Abe::Motion_4_WalkToIdle_44FFC0,
-    &Abe::Motion_5_MidWalkToIdle_450080,
-    &Abe::Motion_6_WalkBegin_44FEE0,
-    &Abe::Motion_7_Speak_45B140,
-    &Abe::Motion_8_Speak_45B160,
-    &Abe::Motion_9_Speak_45B180,
-    &Abe::Motion_10_Fart_45B1A0,
-    &Abe::Motion_11_ToSpeak_45B0A0,
-    &Abe::Motion_12_Null_4569C0,
-    &Abe::Motion_13_HoistBegin_452B20,
-    &Abe::Motion_14_HoistIdle_452440,
-    &Abe::Motion_15_HoistLand_452BA0,
-    &Abe::Motion_16_LandSoft_45A360,
-    &Abe::Motion_17_CrouchIdle_456BC0,
-    &Abe::Motion_18_CrouchToStand_454600,
-    &Abe::Motion_19_StandToCrouch_453DC0,
-    &Abe::Motion_20_CrouchSpeak_454550,
-    &Abe::jMotion_21_ToCrouchSpeak_4545E0,
-    &Abe::Motion_22_RollBegin_4539A0,
-    &Abe::Motion_23_RollLoop_453A90,
-    &Abe::Motion_24_453D00,
-    &Abe::Motion_25_RunSlideStop_451330,
-    &Abe::Motion_26_RunTurn_451500,
-    &Abe::Motion_27_HopBegin_4521C0,
-    &Abe::Motion_28_HopMid_451C50,
-    &Abe::Motion_29_HopLand_4523D0,
-    &Abe::Motion_30_RunJumpBegin_4532E0,
-    &Abe::Motion_31_RunJumpMid_452C10,
-    &Abe::Motion_32_RunJumpLand_453460,
-    &Abe::Motion_33_RunLoop_4508E0,
-    &Abe::Motion_34_DunnoBegin_44ECF0,
-    &Abe::Motion_35_DunnoEnd_44ED10,
-    &Abe::Motion_36_Null_45BC50,
-    &Abe::Motion_37_CrouchTurn_454390,
-    &Abe::jMotion_38_RunToRoll_453A70,
-    &Abe::Motion_39_StandingToRun_450D40,
-    &Abe::Motion_40_SneakLoop_450550,
-    &Abe::Motion_41_WalkToSneak_450250,
-    &Abe::Motion_42_SneakToWalk_4503D0,
-    &Abe::Motion_43_MidWalkToSneak_450380,
-    &Abe::Motion_44_MidSneakToWalk_450500,
-    &Abe::Motion_45_SneakBegin_4507A0,
-    &Abe::Motion_46_SneakToIdle_450870,
-    &Abe::jMotion_47_MidSneakToIdle_4508C0,
-    &Abe::Motion_48_WalkToRun_4500A0,
-    &Abe::Motion_49_MidWalkToRun_450200,
-    &Abe::Motion_50_RunToWalk_450E20,
-    &Abe::Motion_51_MidRunToWalk_450F50,
-    &Abe::Motion_52_RunTurnToRun_451710,
-    &Abe::Motion_53_RunTurnToWalk_451800,
-    &Abe::Motion_54_RunJumpLandRun_4538F0,
-    &Abe::Motion_55_RunJumpLandWalk_453970,
-    &Abe::Motion_56_DeathDropFall_4591F0,
-    &Abe::Motion_57_Dead_4589A0,
-    &Abe::Motion_58_DeadPre_4593E0,
-    &Abe::Motion_59_Null_459450,
-    &Abe::Motion_60_Unused_4A3200,
-    &Abe::Motion_61_TurnToRun_456530,
-    &Abe::Motion_62_Punch_454750,
-    &Abe::Motion_63_Sorry_454670,
-    &Abe::Motion_64_AfterSorry_454730,
-    &Abe::Motion_65_LedgeAscend_4548E0,
-    &Abe::Motion_66_LedgeDescend_454970,
-    &Abe::Motion_67_LedgeHang_454E20,
-    &Abe::Motion_68_ToOffScreenHoist_454B80,
-    &Abe::Motion_69_LedgeHangWobble_454EF0,
-    &Abe::Motion_70_RingRopePullHang_455AF0,
-    &Abe::Motion_71_Knockback_455090,
-    &Abe::Motion_72_KnockbackGetUp_455340,
-    &Abe::Motion_73_PushWall_4553A0,
-    &Abe::Motion_74_RollingKnockback_455290,
-    &Abe::Motion_75_JumpIntoWell_45C7B0,
-    &Abe::Motion_76_ToInsideOfAWellLocal_45CA40,
-    &Abe::Motion_77_ToWellShotOut_45D130,
-    &Abe::Motion_78_WellBegin_45C810,
-    &Abe::Motion_79_InsideWellLocal_45CA60,
-    &Abe::Motion_80_WellShotOut_45D150,
-    &Abe::jMotion_81_WellBegin_45C7F0,
-    &Abe::Motion_82_InsideWellExpress_45CC80,
-    &Abe::Motion_83_WellExpressShotOut_45CF70,
-    &Abe::Motion_84_FallLandDie_45A420,
-    &Abe::jMotion_85_Fall_455070,
-    &Abe::Motion_86_HandstoneBegin_45BD00,
-    &Abe::Motion_87_HandstoneEnd_45C4F0,
-    &Abe::Motion_88_GrenadeMachineUse_45C510,
-    &Abe::Motion_89_BrewMachineBegin_4584C0,
-    &Abe::Motion_90_BrewMachineEnd_4585B0,
-    &Abe::Motion_91_FallingFromGrab_4557B0,
-    &Abe::Motion_92_ForceDownFromHoist_455800,
-    &Abe::Motion_93_WalkOffEdge_455970,
-    &Abe::Motion_94_RunOffEdge_4559A0,
-    &Abe::Motion_95_SneakOffEdge_4559C0,
-    &Abe::Motion_96_HopToFall_4559E0,
-    &Abe::Motion_97_RunJumpToFall_455A80,
-    &Abe::Motion_98_RollOffEdge_455AA0,
-    &Abe::Motion_99_LeverUse_455AC0,
-    &Abe::Motion_100_SlapBomb_455B60,
-    &Abe::Motion_101_KnockForward_455420,
-    &Abe::Motion_102_RollingKnockForward_455310,
-    &Abe::jMotion_103_KnockForwardGetUp_455380,
-    &Abe::Motion_104_RockThrowStandingHold_455DF0,
-    &Abe::Motion_105_RockThrowStandingThrow_456460,
-    &Abe::Motion_106_RockThrowStandingEnd_455F20,
-    &Abe::Motion_107_RockThrowCrouchingHold_454410,
-    &Abe::Motion_108_RockThrowCrouchingThrow_454500,
-    &Abe::Motion_109_ZShotRolling_455550,
-    &Abe::Motion_110_ZShot_455670,
-    &Abe::Motion_111_PickupItem_4564A0,
-    &Abe::Motion_112_Chant_45B1C0,
-    &Abe::Motion_113_ChantEnd_45BBE0,
-    &Abe::Motion_114_DoorEnter_459470,
-    &Abe::Motion_115_DoorExit_459A40,
-    &Abe::Motion_116_MineCarEnter_458780,
-    &Abe::Motion_117_InMineCar_4587C0,
-    &Abe::Motion_118_MineCarExit_458890,
-    &Abe::Motion_119_ToShrykull_45A990,
-    &Abe::Motion_120_EndShrykull_45AB00,
-    &Abe::Motion_121_LiftGrabBegin_45A600,
-    &Abe::Motion_122_LiftGrabEnd_45A670,
-    &Abe::Motion_123_LiftGrabIdle_45A6A0,
-    &Abe::Motion_124_LiftUseUp_45A780,
-    &Abe::Motion_125_LiftUseDown_45A7B0,
-    &Abe::Motion_126_TurnWheelBegin_456700,
-    &Abe::Motion_127_TurnWheelLoop_456750,
-    &Abe::Motion_128_TurnWheelEnd_4569A0,
-    &Abe::Motion_129_PoisonGasDeath_4565C0};
-
 const relive::SfxDefinition sAbeSFXList_555250[41] = {
     {0u, 0u, 0u, 0u, 0, 0},
     {0u, 0u, 0u, 0u, 0, 0},
@@ -1050,9 +912,69 @@ const FP sAbe_yVel_table_545790[8] = {
 ALIVE_VAR(1, 0x5c1bda, s16, gAbeBulletProof_5C1BDA, 0);
 
 
+void Abe::HandleDDCheat()
+{
+    VOnTrapDoorOpen();
+
+    BaseAliveGameObjectLastLineYPos = mYPos;
+    field_1AC_flags.Clear(Flags_1AC::e1AC_Bit5_shrivel);
+    mCurrentMotion = eAbeMotions::jMotion_85_Fall_455070;
+    BaseAliveGameObjectCollisionLine = nullptr;
+
+    if (Input().mPads[sCurrentControllerIndex].mPressed & (InputCommands::Enum::eRight | InputCommands::Enum::eLeft | InputCommands::Enum::eDown | InputCommands::Enum::eUp))
+    {
+        mVelX = sAbe_xVel_table_545770[(u8) Input().mPads[sCurrentControllerIndex].mDir >> 5];
+        mVelY = sAbe_yVel_table_545790[(u8) Input().mPads[sCurrentControllerIndex].mDir >> 5];
+
+        if (sInputKey_Run & Input().mPads[sCurrentControllerIndex].mPressed)
+        {
+            mVelX += sAbe_xVel_table_545770[(u8) Input().mPads[sCurrentControllerIndex].mDir >> 5];
+            mVelX += sAbe_xVel_table_545770[(u8) Input().mPads[sCurrentControllerIndex].mDir >> 5];
+            mVelY += sAbe_yVel_table_545790[(u8) Input().mPads[sCurrentControllerIndex].mDir >> 5];
+        }
+
+        mXPos += mVelX;
+        mYPos += mVelY;
+
+        // Keep within map max min bounds
+        if (mXPos < FP_FromInteger(0))
+        {
+            mXPos = FP_FromInteger(0);
+        }
+
+        if (mYPos < FP_FromInteger(0))
+        {
+            mYPos = FP_FromInteger(0);
+        }
+
+        // Keep within map max bounds
+        PSX_Point mapSize = {};
+        gMap.Get_map_size(&mapSize);
+
+        FP mapWidth = FP_FromInteger(mapSize.x);
+        if (mXPos >= mapWidth)
+        {
+            mXPos = mapWidth - FP_FromDouble(1.0);
+        }
+
+        FP mapHeight = FP_FromInteger(mapSize.y);
+        if (mYPos >= mapHeight)
+        {
+            mYPos = mapHeight - FP_FromDouble(1.0);
+        }
+    }
+    else
+    {
+        mVelX = FP_FromInteger(0);
+        mVelY = FP_FromInteger(0);
+    }
+
+    SetActiveCameraDelayedFromDir();
+}
+
 void Abe::VUpdate()
 {
-    if (gAbeBulletProof_5C1BDA) // Some flag to reset HP?
+    if (gAbeBulletProof_5C1BDA)
     {
         mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit7_Electrocuted);
         mHealth = FP_FromDouble(1.0);
@@ -1133,72 +1055,13 @@ void Abe::VUpdate()
         field_128.mMood = Mud_Emotion::eNormal_0;
     }
 
-    // Handle DDCheat mode
     if (sDDCheat_FlyingEnabled_5C2C08 && sControlledCharacter == this)
     {
-        VOnTrapDoorOpen();
-
-        BaseAliveGameObjectLastLineYPos = mYPos;
-        field_1AC_flags.Clear(Flags_1AC::e1AC_Bit5_shrivel);
-        mCurrentMotion = eAbeMotions::jMotion_85_Fall_455070;
-        BaseAliveGameObjectCollisionLine = nullptr;
-
-        if (Input().mPads[sCurrentControllerIndex].mPressed & (InputCommands::Enum::eRight | InputCommands::Enum::eLeft | InputCommands::Enum::eDown | InputCommands::Enum::eUp))
-        {
-            mVelX = sAbe_xVel_table_545770[(u8) Input().mPads[sCurrentControllerIndex].mDir >> 5];
-            mVelY = sAbe_yVel_table_545790[(u8) Input().mPads[sCurrentControllerIndex].mDir >> 5];
-
-            if (sInputKey_Run & Input().mPads[sCurrentControllerIndex].mPressed)
-            {
-                mVelX += sAbe_xVel_table_545770[(u8) Input().mPads[sCurrentControllerIndex].mDir >> 5];
-                mVelX += sAbe_xVel_table_545770[(u8) Input().mPads[sCurrentControllerIndex].mDir >> 5];
-                mVelY += sAbe_yVel_table_545790[(u8) Input().mPads[sCurrentControllerIndex].mDir >> 5];
-            }
-
-            mXPos += mVelX;
-            mYPos += mVelY;
-
-            // Keep within map max min bounds
-            if (mXPos < FP_FromInteger(0))
-            {
-                mXPos = FP_FromInteger(0);
-            }
-
-            if (mYPos < FP_FromInteger(0))
-            {
-                mYPos = FP_FromInteger(0);
-            }
-
-            // Keep within map max bounds
-            PSX_Point mapSize = {};
-            gMap.Get_map_size(&mapSize);
-
-            FP mapWidth = FP_FromInteger(mapSize.x);
-            if (mXPos >= mapWidth)
-            {
-                mXPos = mapWidth - FP_FromDouble(1.0);
-            }
-
-            FP mapHeight = FP_FromInteger(mapSize.y);
-            if (mYPos >= mapHeight)
-            {
-                mYPos = mapHeight - FP_FromDouble(1.0);
-                SetActiveCameraDelayedFromDir();
-                return;
-            }
-        }
-        else
-        {
-            mVelX = FP_FromInteger(0);
-            mVelY = FP_FromInteger(0);
-        }
-
-        SetActiveCameraDelayedFromDir();
+        HandleDDCheat();
     }
     else
     {
-        // Handle none DDCheat mode
-
+        
         mAnim.mFlags.Set(AnimFlags::eBit2_Animate);
 
         s16 motion_idx = mCurrentMotion;

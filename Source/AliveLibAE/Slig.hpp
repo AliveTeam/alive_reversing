@@ -321,6 +321,7 @@ public:
     bool vUnderGlukkonCommand_4B1760();
 
 private:
+    void HandleDDCheat();
     void WakeUp_4B93B0();
 
     void ShouldStillBeAlive_4BBC00();

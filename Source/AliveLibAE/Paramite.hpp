@@ -169,6 +169,9 @@ public:
 
     static s32 CreateFromSaveState(const u8* pBuffer);
 
+    void HandleDDCheat();
+    void HandleBrainsAndMotions();
+
     s16 Brain_0_Patrol_4835B0();
 	s16 Brain_Patrol_State_1_IdleForAbe(BaseAliveGameObject* pObj);
 	s16 Brain_Patrol_State_2_FearingAbe(BaseAliveGameObject* pObj);

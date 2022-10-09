@@ -170,6 +170,7 @@ public:
     static s32 CreateFromSaveState(const u8* pBuffer);
 
 private:
+    void HandleDDCheat();
     void vUpdateAnim();
     s16 OnFloor();
     void Update_Slurg_Step_Watch_Points();

@@ -4999,6 +4999,144 @@ Paramite::~Paramite()
     }
 }
 
+void Paramite::HandleDDCheat()
+{
+    VOnTrapDoorOpen();
+    mCurrentMotion = 11;
+    BaseAliveGameObjectLastLineYPos = mYPos;
+    BaseAliveGameObjectCollisionLine = nullptr;
+
+    static s32 sArray1_5C929C[8] = {};
+    static s32 sArray2_5C92BC[8] = {};
+
+    static s8 byte_5C9298 = 0;
+
+    if (!(byte_5C9298 & 1))
+    {
+        byte_5C9298 |= 1u;
+        sArray1_5C929C[0] = 4;
+        sArray1_5C929C[1] = 4;
+        sArray1_5C929C[2] = 0;
+        sArray1_5C929C[3] = -4;
+        sArray1_5C929C[4] = -4;
+        sArray1_5C929C[5] = -4;
+        sArray1_5C929C[6] = 0;
+        sArray1_5C929C[7] = 4;
+    }
+    else if (!(byte_5C9298 & 2))
+    {
+        byte_5C9298 = byte_5C9298 | 2;
+        sArray2_5C92BC[0] = 0;
+        sArray2_5C92BC[1] = -4;
+        sArray2_5C92BC[2] = -4;
+        sArray2_5C92BC[3] = -4;
+        sArray2_5C92BC[4] = 0;
+        sArray2_5C92BC[5] = 4;
+        sArray2_5C92BC[6] = 4;
+        sArray2_5C92BC[7] = 4;
+    }
+
+    // TODO: InputCommand constants
+    if (Input().mPads[sCurrentControllerIndex].mPressed & 0xF)
+    {
+        mVelX = FP_FromInteger(sArray1_5C929C[Input().mPads[sCurrentControllerIndex].mDir >> 5]);
+        mVelY = FP_FromInteger(sArray2_5C92BC[Input().mPads[sCurrentControllerIndex].mDir >> 5]);
+
+        if (sInputKey_Run & Input().mPads[sCurrentControllerIndex].mPressed)
+        {
+            mVelX += FP_FromInteger(sArray1_5C929C[Input().mPads[sCurrentControllerIndex].mDir >> 5]);
+            mVelX += FP_FromInteger(sArray1_5C929C[Input().mPads[sCurrentControllerIndex].mDir >> 5]);
+            mVelY += FP_FromInteger(sArray2_5C92BC[Input().mPads[sCurrentControllerIndex].mDir >> 5]);
+        }
+
+        mXPos += mVelX;
+        mYPos += mVelY;
+
+        // Keep in map bounds
+        PSX_Point mapBounds = {};
+        gMap.Get_map_size(&mapBounds);
+        if (mXPos < FP_FromInteger(0))
+        {
+            mXPos = FP_FromInteger(0);
+        }
+
+        if (mXPos >= FP_FromInteger(mapBounds.x))
+        {
+            mXPos = FP_FromInteger(mapBounds.x) - FP_FromInteger(1);
+        }
+
+        if (mYPos < FP_FromInteger(0))
+        {
+            mYPos = FP_FromInteger(0);
+        }
+
+        if (mYPos >= FP_FromInteger(mapBounds.y))
+        {
+            mYPos = FP_FromInteger(mapBounds.y) - FP_FromInteger(1);
+        }
+    }
+    else
+    {
+        mVelX = FP_FromInteger(0);
+        mVelY = FP_FromInteger(0);
+    }
+    SetActiveCameraDelayedFromDir();
+}
+
+void Paramite::HandleBrainsAndMotions()
+{
+    const auto oldMotion = mCurrentMotion;
+    field_12C_brain_ret = (this->*field_128_fn_brainState)();
+
+    if (sDDCheat_ShowAI_Info)
+    {
+        DDCheat::DebugStr(
+            "Paramite %d %d %d %d\n",
+            field_12C_brain_ret,
+            field_130_timer,
+            mCurrentMotion,
+            mNextMotion);
+    }
+
+    const FP oldXPos = mXPos;
+    const FP oldYPos = mYPos;
+    (this->*sParamite_motion_table_55D5B0[mCurrentMotion])();
+
+    if (oldXPos != mXPos || oldYPos != mYPos)
+    {
+        BaseAliveGameObjectPathTLV = sPathInfo->TlvGetAt(
+            nullptr,
+            mXPos,
+            mYPos,
+            mXPos,
+            mYPos);
+        VOnTlvCollision(BaseAliveGameObjectPathTLV);
+    }
+
+    if (mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit1_bShot))
+    {
+        ToKnockBack();
+        mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit1_bShot);
+        mCurrentMotion = mNextMotion;
+        mNextMotion = -1;
+    }
+
+    if (oldMotion == mCurrentMotion)
+    {
+        if (field_178_flags.Get(Flags_178::eBit2_running))
+        {
+            mCurrentMotion = mPreviousMotion;
+            vUpdateAnim();
+            mAnim.SetFrame(mBaseAliveGameObjectLastAnimFrame);
+            field_178_flags.Clear(Flags_178::eBit2_running);
+        }
+    }
+    else
+    {
+        vUpdateAnim();
+    }
+}
+
 void Paramite::VUpdate()
 {
     if (mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit9_RestoredFromQuickSave))
@@ -5101,143 +5239,11 @@ void Paramite::VUpdate()
 
         if (sDDCheat_FlyingEnabled_5C2C08 && sControlledCharacter == this)
         {
-            // Handle DDCheat mode
-
-            VOnTrapDoorOpen();
-            mCurrentMotion = 11;
-            BaseAliveGameObjectLastLineYPos = mYPos;
-            BaseAliveGameObjectCollisionLine = nullptr;
-
-            static s32 sArray1_5C929C[8] = {};
-            static s32 sArray2_5C92BC[8] = {};
-
-            static s8 byte_5C9298 = 0;
-
-            if (!(byte_5C9298 & 1))
-            {
-                byte_5C9298 |= 1u;
-                sArray1_5C929C[0] = 4;
-                sArray1_5C929C[1] = 4;
-                sArray1_5C929C[2] = 0;
-                sArray1_5C929C[3] = -4;
-                sArray1_5C929C[4] = -4;
-                sArray1_5C929C[5] = -4;
-                sArray1_5C929C[6] = 0;
-                sArray1_5C929C[7] = 4;
-            }
-            else if (!(byte_5C9298 & 2))
-            {
-                byte_5C9298 = byte_5C9298 | 2;
-                sArray2_5C92BC[0] = 0;
-                sArray2_5C92BC[1] = -4;
-                sArray2_5C92BC[2] = -4;
-                sArray2_5C92BC[3] = -4;
-                sArray2_5C92BC[4] = 0;
-                sArray2_5C92BC[5] = 4;
-                sArray2_5C92BC[6] = 4;
-                sArray2_5C92BC[7] = 4;
-            }
-
-            // TODO: InputCommand constants
-            if (Input().mPads[sCurrentControllerIndex].mPressed & 0xF)
-            {
-                mVelX = FP_FromInteger(sArray1_5C929C[Input().mPads[sCurrentControllerIndex].mDir >> 5]);
-                mVelY = FP_FromInteger(sArray2_5C92BC[Input().mPads[sCurrentControllerIndex].mDir >> 5]);
-
-                if (sInputKey_Run & Input().mPads[sCurrentControllerIndex].mPressed)
-                {
-                    mVelX += FP_FromInteger(sArray1_5C929C[Input().mPads[sCurrentControllerIndex].mDir >> 5]);
-                    mVelX += FP_FromInteger(sArray1_5C929C[Input().mPads[sCurrentControllerIndex].mDir >> 5]);
-                    mVelY += FP_FromInteger(sArray2_5C92BC[Input().mPads[sCurrentControllerIndex].mDir >> 5]);
-                }
-
-                mXPos += mVelX;
-                mYPos += mVelY;
-
-                // Keep in map bounds
-                PSX_Point mapBounds = {};
-                gMap.Get_map_size(&mapBounds);
-                if (mXPos < FP_FromInteger(0))
-                {
-                    mXPos = FP_FromInteger(0);
-                }
-
-                if (mXPos >= FP_FromInteger(mapBounds.x))
-                {
-                    mXPos = FP_FromInteger(mapBounds.x) - FP_FromInteger(1);
-                }
-
-                if (mYPos < FP_FromInteger(0))
-                {
-                    mYPos = FP_FromInteger(0);
-                }
-
-                if (mYPos >= FP_FromInteger(mapBounds.y))
-                {
-                    mYPos = FP_FromInteger(mapBounds.y) - FP_FromInteger(1);
-                    SetActiveCameraDelayedFromDir();
-                    return;
-                }
-            }
-            else
-            {
-                mVelX = FP_FromInteger(0);
-                mVelY = FP_FromInteger(0);
-            }
-            SetActiveCameraDelayedFromDir();
+            HandleDDCheat();
         }
         else
         {
-            const auto oldMotion = mCurrentMotion;
-            field_12C_brain_ret = (this->*field_128_fn_brainState)();
-
-            if (sDDCheat_ShowAI_Info)
-            {
-                DDCheat::DebugStr(
-                    "Paramite %d %d %d %d\n",
-                    field_12C_brain_ret,
-                    field_130_timer,
-                    mCurrentMotion,
-                    mNextMotion);
-            }
-
-            const FP oldXPos = mXPos;
-            const FP oldYPos = mYPos;
-            (this->*sParamite_motion_table_55D5B0[mCurrentMotion])();
-
-            if (oldXPos != mXPos || oldYPos != mYPos)
-            {
-                BaseAliveGameObjectPathTLV = sPathInfo->TlvGetAt(
-                    nullptr,
-                    mXPos,
-                    mYPos,
-                    mXPos,
-                    mYPos);
-                VOnTlvCollision(BaseAliveGameObjectPathTLV);
-            }
-
-            if (mBaseAliveGameObjectFlags.Get(Flags_114::e114_Bit1_bShot))
-            {
-                ToKnockBack();
-                mBaseAliveGameObjectFlags.Clear(Flags_114::e114_Bit1_bShot);
-                mCurrentMotion = mNextMotion;
-                mNextMotion = -1;
-            }
-
-            if (oldMotion == mCurrentMotion)
-            {
-                if (field_178_flags.Get(Flags_178::eBit2_running))
-                {
-                    mCurrentMotion = mPreviousMotion;
-                    vUpdateAnim();
-                    mAnim.SetFrame(mBaseAliveGameObjectLastAnimFrame);
-                    field_178_flags.Clear(Flags_178::eBit2_running);
-                }
-            }
-            else
-            {
-                vUpdateAnim();
-            }
+            HandleBrainsAndMotions();
         }
     }
 }

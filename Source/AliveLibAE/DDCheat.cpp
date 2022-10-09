@@ -185,10 +185,6 @@ DDCheat::DDCheat()
     SetType(ReliveTypes::eDDCheat);
     field_20 = 0;
     field_24_fn_idx = 0;
-    field_28 = 0;
-    field_2C = 0;
-    field_30 = 0;
-    field_34 = 0;
 
     ClearProperties();
 
@@ -278,6 +274,22 @@ void DDCheat::VUpdate()
 
         if ((gMap.mCurrentLevel != EReliveLevelIds::eMenu && gMap.mCurrentLevel != EReliveLevelIds::eNone) && sActiveHero && activePadPressed & InputCommands::Enum::eCheatMode)
         {
+            switch (sControlledCharacter->Type())
+            {
+                case ReliveTypes::eSlig:
+                    sControlledCharacter->mCurrentMotion = 7;
+                    break;
+                case ReliveTypes::eAbe:
+                    sControlledCharacter->mCurrentMotion = eAbeMotions::Motion_3_Fall_459B60;
+                    break;
+                case ReliveTypes::eScrab:
+                    sControlledCharacter->mCurrentMotion = 8;
+                    break;
+                default:
+                    LOG_INFO("ddcheat for this controlled character not implemented");
+                    return;
+            }
+
             sDDCheat_FlyingEnabled_5C2C08 = !sDDCheat_FlyingEnabled_5C2C08;
             if (!sDDCheat_FlyingEnabled_5C2C08)
             {
@@ -290,22 +302,6 @@ void DDCheat::VUpdate()
             }
 
             sDDCheat_ShowAI_Info = false;
-
-            switch (sControlledCharacter->Type())
-            {
-                case ReliveTypes::eGlukkon:
-                case ReliveTypes::eSlig:
-                    sControlledCharacter->mCurrentMotion = 7;
-                    break;
-                case ReliveTypes::eAbe:
-                    sControlledCharacter->mCurrentMotion = eAbeMotions::Motion_3_Fall_459B60;
-                    break;
-                case ReliveTypes::eScrab:
-                    sControlledCharacter->mCurrentMotion = 8;
-                    break;
-                default:
-                    break;
-            }
         }
 
         // Unused
