@@ -11,9 +11,6 @@ ALIVE_VAR(1, 0x5BC218, s32, sWrappingFileIdx_5BC218, 0);
 ALIVE_VAR(1, 0x551D28, s32, sTotalOpenedFilesCount_551D28, 3); // Starts at 3.. for some reason
 ALIVE_ARY(1, 0x5BC220, LvlFileRecord, 32, sOpenFileNames_5BC220, {});
 
-ALIVE_VAR(1, 0x5BC520, LvlArchive, sLvlArchive_5BC520, {});
-ALIVE_VAR(1, 0x5C3110, LvlArchive, stru_5C3110, {});
-
 s32 File_pc_open_4FA2C0(const char_type* /*fileName*/, s32 /*mode*/)
 {
     

@@ -132,5 +132,3 @@
 #include <unordered_map>
 #include <utility>
 #include <vector>
-
-#include "FixedPoint_common.hpp"

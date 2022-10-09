@@ -980,7 +980,6 @@ void Menu::FMV_Select_Update_47E8D0()
                         }
                     }
 
-                    stru_507C90.Free_41BEB0();
                     gPsxDisplay.PutCurrentDispEnv();
                     pScreenManager->DecompressCameraToVRam(gMap.field_34_camera_array[0]->field_C_ppBits);
                     pScreenManager->EnableRendering();

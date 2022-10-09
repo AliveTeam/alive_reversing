@@ -14,6 +14,8 @@
 
 #include <string>
 
+// TODO: This tool is broken till its updated to use the converted lvl data
+
 BaseGameAutoPlayer& GetGameAutoPlayer()
 {
     // Use the AE object, doesn't matter for this tool
@@ -30,7 +32,7 @@ static std::vector<u8> ReadLvlFile(LvlArchive& archive, const char_type* fileNam
     }
     std::vector<u8> fileContent;
     fileContent.resize(pFileRec->field_10_num_sectors * 2048);
-    sLvlArchive_5BC520.Read_File_4330A0(pFileRec, fileContent.data());
+    //sLvlArchive_5BC520.Read_File_4330A0(pFileRec, fileContent.data());
     fileContent.resize(pFileRec->field_14_file_size);
     return fileContent;
 }

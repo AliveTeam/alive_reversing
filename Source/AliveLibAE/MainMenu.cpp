@@ -1478,7 +1478,6 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
                     }
                 }
             }
-            stru_5C3110.Free_433130();
             gPsxDisplay.PutCurrentDispEnv();
             pScreenManager->DecompressCameraToVRam(gMap.field_2C_camera_array[0]->field_C_pCamRes);
             pScreenManager->EnableRendering();

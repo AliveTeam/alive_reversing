@@ -58,7 +58,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(LvlArchive, 0x8);
 
-ALIVE_VAR_EXTERN(LvlArchive, sLvlArchive_4FFD60);
-ALIVE_VAR_EXTERN(LvlArchive, stru_507C90);
 
 } // namespace AO

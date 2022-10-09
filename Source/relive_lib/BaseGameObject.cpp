@@ -930,6 +930,16 @@ AETypes BaseGameObject::ToAE(ReliveTypes reliveType)
     }
 }
 
+void BaseGameObject::SetType(ReliveTypes type)
+{
+    mBaseGameObjectTypeId = type;
+}
+
+ReliveTypes BaseGameObject::Type() const
+{
+    return mBaseGameObjectTypeId;
+}
+
 u8** BaseGameObject::Add_Resource(u32 type, s32 resourceID)
 {
     u8** ppRes = ResourceManagerWrapper::GetLoadedResource(type, resourceID, 1, 0);
@@ -960,4 +970,40 @@ Guid BaseGameObject::RefreshId(const Guid& objectId)
         }
     }
     return nullGuid;
+}
+
+void BaseGameObject::SetUpdateDelay(s32 updateDelay)
+{
+    mBaseGameObjectUpdateDelay = updateDelay;
+}
+
+s32 BaseGameObject::UpdateDelay() const
+{
+    return mBaseGameObjectUpdateDelay;
+}
+
+AnimResource& BaseGameObject::GetAnimRes(AnimId animId)
+{
+    for (u32 i = 0; i < mLoadedAnims.size(); i++)
+    {
+        if (mLoadedAnims[i].mId == animId)
+        {
+            return mLoadedAnims[i];
+        }
+    }
+    LOG_ERROR("Anim res " << static_cast<s32>(animId) << " not found");
+    ALIVE_FATAL("Anim res not found");
+}
+
+PalResource& BaseGameObject::GetPalRes(PalId palId)
+{
+    for (u32 i = 0; i < mLoadedPals.size(); i++)
+    {
+        if (mLoadedPals[i].mId == palId)
+        {
+            return mLoadedPals[i];
+        }
+    }
+    LOG_ERROR("Pal res " << static_cast<s32>(palId) << " not found");
+    ALIVE_FATAL("Pal res not found");
 }

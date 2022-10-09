@@ -808,6 +808,15 @@ static void to_json(nlohmann::json& j, const CameraEntry& p)
     };
 }
 
+static void to_json(nlohmann::json& j, const PathSoundInfo& p)
+{
+    j = nlohmann::json{
+        {"vh_file", p.mVhFile},
+        {"vb_file", p.mVbFile},
+        {"seq_files", p.mSeqFiles},
+    };
+}
+
 static void SaveJson(const nlohmann::json& j, FileSystem& fs, const FileSystem::Path& path)
 {
     std::string jsonStr = j.dump(4);
@@ -818,8 +827,102 @@ static void SaveJson(const nlohmann::json& j, FileSystem& fs, const FileSystem::
     fs.Save(path, data);
 }
 
+
+namespace AO { 
+extern OpenSeqHandle g_SeqTable_4C9E70[165];
+}
+extern SeqHandleTable sSeqData;
+
+static void HashBSQTable(OpenSeqHandle* pTable, s32 size)
+{
+    for (s32 i = 0; i < size; i++)
+    {
+        if (pTable[i].field_0_mBsqName)
+        {
+            pTable[i].field_4_generated_res_id = ResourceManager::SEQ_HashName_49BE30(pTable[i].field_0_mBsqName);
+        }
+    }
+}
+
+static const char_type* FileNameFromSEQId(OpenSeqHandle* pTable, s32 size, s32 id)
+{
+    for (s32 i = 0; i < size; i++)
+    {
+        if (pTable[i].field_4_generated_res_id == id)
+        {
+            return pTable[i].field_0_mBsqName;
+        }
+    }
+    ALIVE_FATAL("Unknown SEQ id");
+}
+
+static std::vector<std::string> ConvertBSQ(const FileSystem::Path& dataDir, const char_type* pBSQName, ReliveAPI::LvlReader& lvlReader, bool isAo)
+{
+    auto bsqData = lvlReader.ReadFile(pBSQName);
+    if (!bsqData)
+    {
+        ALIVE_FATAL("Missing BSQ");
+    }
+
+    static bool seqNamesHashed = false;
+    if (!seqNamesHashed)
+    {
+        if (isAo)
+        {
+            HashBSQTable(AO::g_SeqTable_4C9E70, ALIVE_COUNTOF(AO::g_SeqTable_4C9E70));
+        }
+        else
+        {
+            HashBSQTable(sSeqData.mSeqs, ALIVE_COUNTOF(sSeqData.mSeqs));
+        }
+        seqNamesHashed = true;
+    }
+
+    std::vector<std::string> seqs;
+    ReliveAPI::ChunkedLvlFile bsq(*bsqData);
+    for (u32 i = 0u; i < bsq.ChunkCount(); i++)
+    {
+        const ReliveAPI::LvlFileChunk& chunk = bsq.ChunkAt(i);
+        if (chunk.Header().mResourceType == ResourceManagerWrapper::Resource_Seq)
+        {
+            const char_type* pSeqName = nullptr;
+            if (isAo)
+            {
+                pSeqName = FileNameFromSEQId(AO::g_SeqTable_4C9E70, ALIVE_COUNTOF(AO::g_SeqTable_4C9E70), chunk.Header().field_C_id);
+            }
+            else
+            {
+                pSeqName = FileNameFromSEQId(sSeqData.mSeqs, ALIVE_COUNTOF(sSeqData.mSeqs), chunk.Header().field_C_id);
+            }
+            seqs.push_back(pSeqName);
+
+            FileSystem::Path filePath = dataDir;
+            filePath.Append(pSeqName);
+
+            FileSystem fs;
+            fs.Save(filePath, chunk.Data());
+        }
+    }
+    return seqs;
+}
+
+template <typename LevelIdType>
+static void SaveFileFromLvlDirect(const char_type* pFileName, const FileSystem::Path& dataDir, ReliveAPI::LvlReader& lvlReader, LevelIdType lvlIdxAsLvl, std::vector<u8>& fileBuffer)
+{
+    ReadLvlFileInto(lvlReader, pFileName, fileBuffer);
+
+    FileSystem::Path filePath = dataDir;
+    filePath.Append(ToString(lvlIdxAsLvl));
+    
+    FileSystem fs;
+    fs.CreateDirectory(filePath);
+    filePath.Append(pFileName);
+
+    fs.Save(filePath, fileBuffer);
+}
+
 template <typename TlvType, typename LevelIdType>
-static void ConvertPath(FileSystem& fs, const FileSystem::Path& path, const ReliveAPI::LvlFileChunk& pathBndChunk, EReliveLevelIds reliveLvl, LevelIdType lvlIdx, bool isAo)
+static void ConvertPath(FileSystem& fs, const FileSystem::Path& path, const ReliveAPI::LvlFileChunk& pathBndChunk, EReliveLevelIds reliveLvl, LevelIdType lvlIdx, ReliveAPI::LvlReader& lvlReader, std::vector<u8>& fileBuffer, bool isAo)
 {
     auto level = (isAo ? ToString(MapWrapper::ToAO(reliveLvl)) : ToString(MapWrapper::ToAE(reliveLvl)));
     LOG_INFO("Converting: " << level << "; path " << pathBndChunk.Id());
@@ -877,14 +980,52 @@ static void ConvertPath(FileSystem& fs, const FileSystem::Path& path, const Reli
     nlohmann::json collisionsArray = nlohmann::json::array();
     ConvertPathCollisions(collisionsArray, *pCollisionInfo, pathBndChunk.Data(), isAo);
 
+    FileSystem::Path seqsDir = path;
+    seqsDir.Append(ToString(lvlIdx));
+    fs.CreateDirectory(seqsDir);
+
+    // Save sound info (per path rather than per LVL)
+    PathSoundInfo soundInfo;
+    if (isAo)
+    {
+        const AO::SoundBlockInfo* pSoundBlock = AO::Path_Get_MusicInfo(reliveLvl);
+        soundInfo.mVhFile = pSoundBlock->field_0_vab_header_name;
+        soundInfo.mVbFile = pSoundBlock->field_4_vab_body_name;
+        soundInfo.mSeqFiles = ConvertBSQ(seqsDir, AO::Path_Get_BsqFileName(reliveLvl), lvlReader, isAo);
+    }
+    else
+    {
+        const SoundBlockInfo* pSoundBlock = Path_Get_MusicInfo(reliveLvl);
+
+        // TODO: Convert to AO format instead of using sounds.dat for now (in the vh/vb/bsq copy)
+        soundInfo.mVhFile = pSoundBlock->field_0_vab_header_name;
+        soundInfo.mVbFile = pSoundBlock->field_4_vab_body_name;
+
+        soundInfo.mSeqFiles = ConvertBSQ(seqsDir, Path_Get_BsqFileName(reliveLvl), lvlReader, isAo);
+
+        // TODO
+        //Path_Get_BackGroundMusicId(reliveLvl);
+        //Path_Get_Reverb(reliveLvl);
+
+        // TODO: Makes more sense to calculate this on loading by summing up the mud count(s)?
+        //Path_GetMudsInLevel(reliveLvl, pathBndChunk.Id());
+    }
+
+    SaveFileFromLvlDirect(soundInfo.mVhFile.c_str(), path, lvlReader, lvlIdx, fileBuffer);
+    SaveFileFromLvlDirect(soundInfo.mVbFile.c_str(), path, lvlReader, lvlIdx, fileBuffer);
 
     nlohmann::json j = {
         {"id", pathBndChunk.Id()}, // TODO: shouldn't be required once everything is converted and not using path id numbers
         {"cameras", camerasArray},
         {"collisions", collisionsArray},
+        {"sound_info", soundInfo},
     };
 
-    SaveJson(j, fs, path);
+    FileSystem::Path pathJsonFile = path;
+    pathJsonFile.Append(ToString(lvlIdx)).Append("paths");
+    fs.CreateDirectory(pathJsonFile);
+    pathJsonFile.Append(std::to_string(pathBndChunk.Header().field_C_id) + ".json");
+    SaveJson(j, fs, pathJsonFile);
 }
 
 
@@ -1039,10 +1180,6 @@ static void LogNonConvertedAnims(bool isAo)
 template <typename LevelIdType, typename TlvType>
 static void ConvertPathBND(const FileSystem::Path& dataDir, const std::string& fileName, FileSystem& fs, std::vector<u8>& fileBuffer, ReliveAPI::LvlReader& lvlReader, LevelIdType lvlIdxAsLvl, EReliveLevelIds reliveLvl, bool isAo)
 {
-    FileSystem::Path pathDir = dataDir;
-    pathDir.Append(ToString(lvlIdxAsLvl)).Append("paths");
-    fs.CreateDirectory(pathDir);
-
     ReadLvlFileInto(lvlReader, fileName.c_str(), fileBuffer);
     ReliveAPI::ChunkedLvlFile pathBndFile(fileBuffer);
     for (u32 j = 0; j < pathBndFile.ChunkCount(); j++)
@@ -1050,9 +1187,7 @@ static void ConvertPathBND(const FileSystem::Path& dataDir, const std::string& f
         const ReliveAPI::LvlFileChunk& pathBndChunk = pathBndFile.ChunkAt(j);
         if (pathBndChunk.Header().mResourceType == AO::ResourceManager::Resource_Path)
         {
-            FileSystem::Path pathJsonFile = pathDir;
-            pathJsonFile.Append(std::to_string(pathBndChunk.Header().field_C_id) + ".json");
-            ConvertPath<TlvType, LevelIdType>(fs, pathJsonFile, pathBndChunk, reliveLvl, lvlIdxAsLvl, isAo);
+            ConvertPath<TlvType, LevelIdType>(fs, dataDir, pathBndChunk, reliveLvl, lvlIdxAsLvl, lvlReader, fileBuffer, isAo);
         }
     }
 
@@ -1114,22 +1249,6 @@ static void ConvertCamera(const FileSystem::Path& dataDir, const std::string& fi
     // TODO: Convert any BgAnims in this camera
 }
 
-template <typename LevelIdType>
-static void ConvertSound(const FileSystem::Path& dataDir, const std::string& fileName, FileSystem& fs, ReliveAPI::LvlReader& lvlReader, std::vector<u8>& fileBuffer, LevelIdType lvlIdxAsLvl)
-{
-    // TODO: For BSQ convert back to the original SEQ name for each entry
-
-    ReadLvlFileInto(lvlReader, fileName.c_str(), fileBuffer);
-
-    FileSystem::Path filePath = dataDir;
-    filePath.Append(ToString(lvlIdxAsLvl));
-    fs.CreateDirectory(filePath);
-    filePath.Append(fileName);
-
-
-    fs.Save(filePath, fileBuffer);
-}
-
 static void ConvertFont(const FileSystem::Path& dataDir, const std::string& fileName, ReliveAPI::LvlReader& lvlReader, std::vector<u8>& fileBuffer, bool isPauseMenuFont)
 {
     ReadLvlFileInto(lvlReader, fileName.c_str(), fileBuffer);
@@ -1175,7 +1294,6 @@ static void ConvertFont(const FileSystem::Path& dataDir, const std::string& file
      tga.Save(path.GetPath().c_str(), pal, newData, fontFile->mWidth, fontFile->mHeight);
 
      // TODO: Dump out the atlas for each char
-
 }
 
 template<typename LevelIdType, typename TlvType>
@@ -1201,12 +1319,17 @@ static void ConvertFilesInLvl(const FileSystem::Path& dataDir, FileSystem& fs, R
                     ConvertFont(dataDir, fileName, lvlReader, fileBuffer, true);
                 }
 
-                //ConvertCamera(dataDir, fileName, fs, fileBuffer, lvlReader, lvlIdxAsLvl);
+                ConvertCamera(dataDir, fileName, fs, fileBuffer, lvlReader, lvlIdxAsLvl);
             }
-            // TODO: Seek these out instead of converting everything we see since the names are fixed per LVL
-            else if (endsWith(fileName, ".VB") || endsWith(fileName, ".VH") || endsWith(fileName, ".BSQ"))
+            else if (endsWith(fileName, ".JOY"))
             {
-                ConvertSound(dataDir, fileName, fs, lvlReader, fileBuffer, lvlIdxAsLvl);
+                // TODO: Actually convert at some later point
+                SaveFileFromLvlDirect(fileName.c_str(), dataDir, lvlReader, lvlIdxAsLvl, fileBuffer);
+            }
+            else if (endsWith(fileName, ".SAV"))
+            {
+                // TODO: Actually convert at some later point
+                SaveFileFromLvlDirect(fileName.c_str(), dataDir, lvlReader, lvlIdxAsLvl, fileBuffer);
             }
             else if (endsWith(fileName, "PATH.BND"))
             {
@@ -1258,48 +1381,6 @@ static void ConvertHardcodedPals(const FileSystem::Path& dataDir)
         140u, 177u, 19u, 148u, 100u, 206u, 101u, 206u, 215u,
         152u, 20u, 161u, 24u, 216u};
 
-    const static u8 pal_GasCountDown[40] = {
-        0u,
-        0u,
-        1u,
-        128u,
-        1u,
-        132u,
-        32u,
-        132u,
-        33u,
-        128u,
-        32u,
-        132u,
-        33u,
-        132u,
-        101u,
-        206u,
-        101u,
-        140u,
-        140u,
-        177u,
-        19u,
-        148u,
-        100u,
-        206u,
-        101u,
-        206u,
-        215u,
-        152u,
-        20u,
-        161u,
-        24u,
-        216u,
-        0u,
-        0u,
-        0u,
-        0u,
-        0u,
-        0u,
-        0u,
-        0u};
-
     const static u8 sLCDScreen_Palette[] = {
         0x00, 0x00, 0x01, 0x80, 0x01, 0x84, 0x20, 0x84, 0x21, 0x80,
         0x20, 0x84, 0x21, 0x84, 0x65, 0xCE, 0x65, 0x8C, 0x8C, 0xB1,
@@ -1318,40 +1399,6 @@ static void ConvertHardcodedPals(const FileSystem::Path& dataDir)
         0x13, 0x94, 0x64, 0xCE, 0x65, 0xCE, 0xD7, 0x98, 0x14, 0xA1,
         0x18, 0xD8};
 
-    // TODO: Should be const but can't be due to mlgs hacks in Font obj
-    const static u8 pal_BrewMachine[32] = {
-        0u,
-        0u,
-        1u,
-        128u,
-        1u,
-        132u,
-        32u,
-        132u,
-        33u,
-        128u,
-        32u,
-        132u,
-        33u,
-        132u,
-        101u,
-        206u,
-        101u,
-        140u,
-        140u,
-        177u,
-        19u,
-        148u,
-        100u,
-        206u,
-        101u,
-        206u,
-        215u,
-        152u,
-        20u,
-        161u,
-        24u,
-        216u};
 
     ConvertPal(dataDir, ToString(PalId::MainMenuFont_MainMenu), reinterpret_cast<const u16*>(mainMenuFontPal), ALIVE_COUNTOF(mainMenuFontPal) / sizeof(u16));
 
@@ -1359,15 +1406,11 @@ static void ConvertHardcodedPals(const FileSystem::Path& dataDir)
 
     ConvertPal(dataDir, ToString(PalId::LedFont_ColourfulMeter), reinterpret_cast<const u16*>(pal_ColourfulMeter), ALIVE_COUNTOF(pal_ColourfulMeter) / sizeof(u16));
 
-    ConvertPal(dataDir, ToString(PalId::LedFont_Gas), reinterpret_cast<const u16*>(pal_GasCountDown), ALIVE_COUNTOF(pal_GasCountDown) / sizeof(u16));
-
     ConvertPal(dataDir, ToString(PalId::LedFont_1), reinterpret_cast<const u16*>(sLCDScreen_Palette), ALIVE_COUNTOF(sLCDScreen_Palette) / sizeof(u16));
 
     ConvertPal(dataDir, ToString(PalId::LedFont_2), reinterpret_cast<const u16*>(sLCDScreen_Palette2), ALIVE_COUNTOF(sLCDScreen_Palette2) / sizeof(u16));
 
-    ConvertPal(dataDir, ToString(PalId::LedFont_StatusBoard), reinterpret_cast<const u16*>(pal_LCDStatusBoard), ALIVE_COUNTOF(pal_LCDStatusBoard) / sizeof(u16));
-
-    ConvertPal(dataDir, ToString(PalId::LedFont_BrewMachine), reinterpret_cast<const u16*>(pal_BrewMachine), ALIVE_COUNTOF(pal_BrewMachine) / sizeof(u16));
+    ConvertPal(dataDir, ToString(PalId::LedFont_Red), reinterpret_cast<const u16*>(pal_LCDStatusBoard), ALIVE_COUNTOF(pal_LCDStatusBoard) / sizeof(u16));
 }
 
 void DataConversion::ConvertDataAO()

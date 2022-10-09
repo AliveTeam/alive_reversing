@@ -56,7 +56,7 @@ public:
     {
 
         gFilesPending_507714++;
-
+        
         mBaseGameObjectFlags.Set(Options::eSurviveDeathReset_Bit9);
         mBaseGameObjectFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
 
@@ -72,6 +72,8 @@ public:
         field_28_state = 0;
 
         gLoadingFiles->Push_Back(this);
+
+        ALIVE_FATAL("Its over for the res manager");
     }
 
     ~LoadingFile()
@@ -696,16 +698,16 @@ ResourceManager::ResourceHeapItem* ResourceManager::Split_block(ResourceManager:
     return pItem;
 }
 
-LoadingFile* ResourceManager::LoadResourceFile_4551E0(const char_type* pFileName, TLoaderFn fnOnLoad, Camera* pCamera1, Camera* pCamera2)
+LoadingFile* ResourceManager::LoadResourceFile_4551E0(const char_type* , TLoaderFn fnOnLoad, Camera* pCamera1, Camera* pCamera2)
 {
-    LvlFileRecord* pFileRec = sLvlArchive_4FFD60.Find_File_Record(pFileName);
+    LvlFileRecord* pFileRec = nullptr;
     if (!pFileRec)
     {
         return nullptr;
     }
 
     return relive_new LoadingFile(
-        sLvlArchive_4FFD60.field_4_cd_pos + pFileRec->field_C_start_sector,
+        pFileRec->field_C_start_sector,
         pFileRec->field_10_num_sectors,
         fnOnLoad,
         pCamera1,
@@ -846,16 +848,16 @@ s16 ResourceManager::LoadResourceFileWrapper(const char_type* filename, Camera* 
     return LoadResourceFile_455270(filename, pCam, BlockAllocMethod::eFirstMatching);
 }
 
-s16 ResourceManager::LoadResourceFile_455270(const char_type* filename, Camera* pCam, BlockAllocMethod allocMethod)
+s16 ResourceManager::LoadResourceFile_455270(const char_type* , Camera* pCam, BlockAllocMethod allocMethod)
 {
     // Note: None gPcOpenEnabled_508BF0 block not impl as never used
 
     ResourceManager::LoadingLoop_41EAD0(0);
 
-    LvlFileRecord* pFileRec = sLvlArchive_4FFD60.Find_File_Record(filename);
+    LvlFileRecord* pFileRec = nullptr;
     if (!pFileRec)
     {
-        return 0;
+        ALIVE_FATAL("Its over");
     }
 
     const s32 size = pFileRec->field_10_num_sectors << 11;
@@ -871,17 +873,18 @@ s16 ResourceManager::LoadResourceFile_455270(const char_type* filename, Camera* 
     }
 
     // NOTE: Not sure why this is done twice, perhaps the above memory compact can invalidate the ptr?
-    pFileRec = sLvlArchive_4FFD60.Find_File_Record(filename);
+    pFileRec = nullptr;
     if (!pFileRec)
     {
         return 0;
     }
 
+    /*
     if (!sLvlArchive_4FFD60.Read_File(pFileRec, Get_Header_455620(ppRes)))
     {
         FreeResource_455550(ppRes);
         return 0;
-    }
+    }*/
 
     ResourceManager::Move_Resources_To_DArray_455430(ppRes, &pCam->field_0_array);
     return 1;

@@ -7,9 +7,6 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x4FFD60, LvlArchive, sLvlArchive_4FFD60, {});
-ALIVE_VAR(1, 0x507C90, LvlArchive, stru_507C90, {});
-
 const static s32 kSectorSize = 2048;
 
 static s32 ReadFirstSector(s32 pos, u8* pSector)
