@@ -30,8 +30,6 @@ public:
     }
     virtual void VScreenChanged() override;
 
-    s16 Convert_Chunk_To_Render_Block(const Fg1Chunk* pChunk, Fg1Block* pBlock);
-
     EReliveLevelIds field_24_level_id = EReliveLevelIds::eNone;
     s16 field_26_path_id = 0;
     Poly_FT4 mPolys[4] = {};

@@ -92,19 +92,20 @@ Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
 
     field_F4_rope_segment_count = (240 / field_F6_rope_length) + 1; // psx screen height
 
-    field_F8_ppRopeRes = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::Resource_Rope, 0, field_F4_rope_segment_count * sizeof(AnimationUnknown));
-    field_FC_pRopeRes = reinterpret_cast<AnimationUnknown*>(*field_F8_ppRopeRes);
 
-    for (s32 i = 0; i < field_F4_rope_segment_count; i++)
+    field_FC_pRopeRes = relive_new AnimationUnknown[field_F4_rope_segment_count];
+    if (field_FC_pRopeRes)
     {
-        AnimationUnknown* pSegment = &field_FC_pRopeRes[i];
-        pSegment = new (pSegment) AnimationUnknown(); // We have memory but no constructor was called.. so use placement new to get a constructed instance
-        pSegment->mFlags.Set(AnimFlags::eBit3_Render);
-        pSegment->field_68_anim_ptr = &mAnim;
-        pSegment->mRenderLayer = mAnim.mRenderLayer;
-        pSegment->field_6C_scale = scale;
-        pSegment->mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
-        pSegment->mFlags.Clear(AnimFlags::eBit16_bBlending);
+        for (s32 i = 0; i < field_F4_rope_segment_count; i++)
+        {
+            AnimationUnknown* pSegment = &field_FC_pRopeRes[i];
+            pSegment->mFlags.Set(AnimFlags::eBit3_Render);
+            pSegment->field_68_anim_ptr = &mAnim;
+            pSegment->mRenderLayer = mAnim.mRenderLayer;
+            pSegment->field_6C_scale = scale;
+            pSegment->mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+            pSegment->mFlags.Clear(AnimFlags::eBit16_bBlending);
+        }
     }
 }
 
@@ -115,7 +116,7 @@ void Rope::VUpdate()
 
 Rope::~Rope()
 {
-    ResourceManager::FreeResource_49C330(field_F8_ppRopeRes);
+    relive_delete[] field_FC_pRopeRes;
 }
 
 void Rope::VRender(PrimHeader** ppOt)

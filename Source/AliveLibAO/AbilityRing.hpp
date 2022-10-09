@@ -63,7 +63,6 @@ public:
 
     Layer mRingLayer = Layer::eLayer_0;
     AbilityRing_PolyBuffer* mRingPolyBuffer = {};
-    u8** mRingRes = nullptr;
     Prim_SetTPage mRingPrimSetTPage[2] = {};
     PSX_RECT mRingCollideRects[64] = {};
     FP mRingXPos = {};

@@ -51,18 +51,6 @@ u8** ResourceManagerWrapper::GetLoadedResource(u32 type, u32 resourceID, u16 add
     }
 }
 
-u8** ResourceManagerWrapper::Alloc_New_Resource(u32 type, u32 id, u32 size)
-{
-    if (GetGameType() == GameType::eAe)
-    {
-        return ResourceManager::Alloc_New_Resource_49BED0(type, id, size);
-    }
-    else
-    {
-        return AO::ResourceManager::Alloc_New_Resource_454F20(type, id, size);
-    }
-}
-
 void ResourceManagerWrapper::Inc_Ref_Count(u8** ppRes)
 {
     Get_Header(ppRes)->field_4_ref_count++;

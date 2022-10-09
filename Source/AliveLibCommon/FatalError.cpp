@@ -2,6 +2,6 @@
 
 [[noreturn]] void ALIVE_FATAL(const char_type* errMsg)
 {
-    Sys_MessageBox(nullptr, errMsg, "ALIVE Hook fatal error.");
+    Sys_MessageBox(nullptr, errMsg, "R.E.L.I.V.E fatal error.");
     abort();
 }

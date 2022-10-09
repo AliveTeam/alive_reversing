@@ -26,7 +26,7 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
     Layer field_10_layer = Layer::eLayer_0;
-    ScreenWave_Data** field_14_ppRes = nullptr;
+    ScreenWave_Data* field_14_ppRes = nullptr;
     FP field_18_xpos = {};
     FP field_1C_ypos = {};
     FP field_20_fp1 = {};

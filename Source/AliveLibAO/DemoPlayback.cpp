@@ -24,12 +24,12 @@ DemoPlayback::DemoPlayback(u8** ppPlaybackData, s32 bFromHandStone)
     sDDCheat_FlyingEnabled_50771C = 0;
     if (gAttract_507698 == 0)
     {
-        field_18_ppRes = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::Resource_Play, 1, sizeof(SaveData));
+        field_18_ppRes = relive_new SaveData();
         if (!field_18_ppRes)
         {
             mBaseGameObjectFlags.Clear(Options::eDead);
         }
-        SaveGame::SaveToMemory(reinterpret_cast<SaveData*>(*field_18_ppRes));
+        SaveGame::SaveToMemory(field_18_ppRes);
     }
     else
     {
@@ -48,10 +48,7 @@ DemoPlayback::DemoPlayback(u8** ppPlaybackData, s32 bFromHandStone)
 DemoPlayback::~DemoPlayback()
 {
     ResourceManager::Clear_Header_Flags_4557F0(field_14_ppDemoRes, ResourceManager::ResourceHeaderFlags::eLocked);
-    if (field_18_ppRes)
-    {
-        ResourceManager::FreeResource_455550(field_18_ppRes);
-    }
+    relive_delete field_18_ppRes;
     ResourceManager::FreeResource_455550(field_14_ppDemoRes);
 }
 
@@ -100,7 +97,7 @@ void DemoPlayback::VUpdate()
                 }
                 else
                 {
-                    SaveGame::LoadFromMemory(&reinterpret_cast<PlaybackData*>(*field_18_ppRes)->saveData, 1);
+                    SaveGame::LoadFromMemory(field_18_ppRes, 1);
                 }
 
                 field_10_state = States::eState_2_Done;

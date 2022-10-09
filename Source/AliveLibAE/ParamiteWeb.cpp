@@ -53,27 +53,26 @@ ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
 
     field_F4_number_of_segments = 240 / field_F6_segment_length;
 
-    field_FC_ppRes = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::Resource_Web, 0, sizeof(AnimationUnknown) * (field_F4_number_of_segments));
-    field_100_pRes = reinterpret_cast<AnimationUnknown*>(*field_FC_ppRes);
-
-    for (s32 i = 0; i < field_F4_number_of_segments; i++)
+    field_100_pRes = relive_new AnimationUnknown[field_F4_number_of_segments];
+    if (field_100_pRes)
     {
-        AnimationUnknown* pSegment = &field_100_pRes[i];
-        pSegment = new (pSegment) AnimationUnknown(); // We have memory but no constructor was called.. so use placement new to get a constructed instance
-        pSegment->mFlags.Set(AnimFlags::eBit3_Render);
-        pSegment->field_68_anim_ptr = &mAnim;
-        pSegment->mRenderLayer = mAnim.mRenderLayer;
-        pSegment->field_6C_scale = mSpriteScale;
-        pSegment->mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
-        pSegment->mFlags.Clear(AnimFlags::eBit16_bBlending);
+        for (s32 i = 0; i < field_F4_number_of_segments; i++)
+        {
+            AnimationUnknown* pSegment = &field_100_pRes[i];
+            pSegment->mFlags.Set(AnimFlags::eBit3_Render);
+            pSegment->field_68_anim_ptr = &mAnim;
+            pSegment->mRenderLayer = mAnim.mRenderLayer;
+            pSegment->field_6C_scale = mSpriteScale;
+            pSegment->mFlags.Clear(AnimFlags::eBit15_bSemiTrans);
+            pSegment->mFlags.Clear(AnimFlags::eBit16_bBlending);
+        }
     }
-
     field_104_bEnabled = 0;
 }
 
 ParamiteWeb::~ParamiteWeb()
 {
-    ResourceManager::FreeResource_49C330(field_FC_ppRes);
+    relive_delete[] field_100_pRes;
 }
 
 void ParamiteWeb::VUpdate()

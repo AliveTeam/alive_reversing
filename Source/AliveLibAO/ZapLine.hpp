@@ -62,7 +62,6 @@ public:
 
     ZapLineState field_E4_state = ZapLineState::eInit_0;
 
-    u8** field_E8_ppRes = nullptr;
     Prim_SetTPage field_EC_tPage_p8[2] = {};
     s16 field_10C_x_position_source = 0;
     s16 field_10E_y_position_source = 0;

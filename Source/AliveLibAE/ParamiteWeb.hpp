@@ -18,7 +18,6 @@ public:
     s16 field_F6_segment_length = 0;
     s16 field_F8_ttl = 0;
     s16 field_FA_ttl_remainder = 0;
-    u8** field_FC_ppRes = nullptr;
     AnimationUnknown* field_100_pRes = nullptr;
     s16 field_104_bEnabled = 0;
 };

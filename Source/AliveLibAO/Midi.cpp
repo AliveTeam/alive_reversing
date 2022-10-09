@@ -89,46 +89,6 @@ public:
         return kSeqTableSizeAO;
     }
 
-    virtual s16 FreeResource_Impl(u8* handle) override
-    {
-        return ResourceManager::FreeResource_Impl_4555B0(handle);
-    }
-
-    virtual u8** GetLoadedResource(u32 type, u32 resourceID, u16 addUseCount, u16 bLock) override
-    {
-        return ResourceManager::GetLoadedResource(type, resourceID, addUseCount, bLock);
-    }
-
-    virtual s16 FreeResource(u8** handle) override
-    {
-        return ResourceManager::FreeResource_455550(handle);
-    }
-
-    virtual u8** Allocate_New_Locked_Resource(u32 type, u32 id, u32 size) override
-    {
-        return ResourceManager::Allocate_New_Locked_Resource(type, id, size);
-    }
-
-    virtual void LoadingLoop(s16 bShowLoadingIcon) override
-    {
-        ResourceManager::LoadingLoop_41EAD0(bShowLoadingIcon);
-    }
-
-    virtual void Reclaim_Memory(u32 size) override
-    {
-        ResourceManager::Reclaim_Memory_455660(size);
-    }
-
-    virtual u8** Alloc_New_Resource(u32 type, u32 id, u32 size) override
-    {
-        return ResourceManager::Alloc_New_Resource_454F20(type, id, size);
-    }
-
-    virtual s16 LoadResourceFile(const char_type* pFileName, ::Camera* pCamera) override
-    {
-        return ResourceManager::LoadResourceFileWrapper(pFileName, reinterpret_cast<Camera*>(pCamera));
-    }
-
 private:
     ::PathSoundInfo* mLastLoadedSoundBlockInfo = nullptr;
 };

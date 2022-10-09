@@ -45,13 +45,9 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ringType, FP scale)
     gObjListDrawables->Push_Back(this);
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
 
-    // TODO: OG issue - using frame counter as res id again
-    mRingRes = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::Resource_Wave, sGnFrame, sizeof(AbilityRing_PolyBuffer) * 64);
-
-    if (mRingRes)
+    mRingPolyBuffer = relive_new AbilityRing_PolyBuffer[64];
+    if (mRingPolyBuffer)
     {
-        mRingPolyBuffer = reinterpret_cast<AbilityRing_PolyBuffer*>(*mRingRes);
-
         mRingXPos = xpos;
         mRingYPos = ypos;
 
@@ -247,7 +243,7 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ringType, FP scale)
 
 AbilityRing::~AbilityRing()
 {
-    ResourceManager::FreeResource_49C330(mRingRes);
+    relive_delete[] mRingPolyBuffer;
     gObjListDrawables->Remove_Item(this);
 }
 

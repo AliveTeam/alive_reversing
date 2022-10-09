@@ -193,26 +193,6 @@ s32 ResourceManager::SEQ_HashName_49BE30(const char_type* seqFileName)
     return ResourceManagerWrapper::SEQ_HashName(seqFileName);
 }
 
-u8** ResourceManager::Alloc_New_Resource_Impl(u32 , u32 , u32 , bool , ResourceManager::BlockAllocMethod )
-{
-    return nullptr;
-}
-
-u8** ResourceManager::Alloc_New_Resource_49BED0(u32, u32, u32)
-{
-    ALIVE_FATAL("Alloc_New_Resource_49BED0");
-}
-
-u8** ResourceManager::Allocate_New_Locked_Resource(u32, u32, u32)
-{
-    ALIVE_FATAL("Allocate_New_Locked_Resource");
-}
-
-u8** ResourceManager::Allocate_New_Block_49BFB0(s32, BlockAllocMethod )
-{
-    ALIVE_FATAL("Allocate_New_Block_49BFB0");
-}
-
 s32 ResourceManager::LoadResourceFile_49C130(const char_type* , TLoaderFn , Camera* , Camera* )
 {
     return 0;

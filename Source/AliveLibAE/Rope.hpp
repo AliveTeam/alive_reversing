@@ -19,7 +19,6 @@ private:
 
 public:
     s16 field_F6_rope_length = 0;
-    u8** field_F8_ppRopeRes = nullptr;
     AnimationUnknown* field_FC_pRopeRes = nullptr;
     s16 field_100_left = 0;
     s16 field_102_top = 0;

@@ -41,7 +41,6 @@ public:
     s16 mGreen = 0;
     s16 mBlue = 0;
     Layer mLayer = Layer::eLayer_0;
-    u8** mSprxRes = nullptr;
     SparkRes* mSparkRes = nullptr;
     s16 mSparkCount = 0;
     s32 mTimer = 0;

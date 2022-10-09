@@ -55,10 +55,9 @@ Water::Water(relive::Path_Water* pTlv, const Guid& tlvId)
 
     field_138_splash_time = 0;
 
-    field_F4_ppWaterRes = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::Resource_Water, 0, field_124_tlv_data.mMaxDrops * sizeof(Water_Res));
-    if (field_F4_ppWaterRes)
+    field_F8_pWaterRes = relive_new Water_Res[field_124_tlv_data.mMaxDrops];
+    if (field_F8_pWaterRes)
     {
-        field_F8_pWaterRes = reinterpret_cast<Water_Res*>(*field_F4_ppWaterRes);
         field_FC_state = static_cast<WaterState>(pTlv->mTlvSpecificMeaning);
 
         if (field_FC_state == WaterState::eFlowing_2)
@@ -152,10 +151,7 @@ Water::Water(relive::Path_Water* pTlv, const Guid& tlvId)
 
 Water::~Water()
 {
-    if (field_F4_ppWaterRes)
-    {
-        ResourceManager::FreeResource_49C330(field_F4_ppWaterRes);
-    }
+    relive_delete[] field_F8_pWaterRes;
 
     if (field_144_sound_channels)
     {

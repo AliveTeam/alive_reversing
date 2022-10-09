@@ -86,46 +86,6 @@ public:
         return kSeqTableSizeAE;
     }
 
-    virtual s16 FreeResource_Impl(u8* handle) override
-    {
-        return ResourceManager::FreeResource_Impl_49C360(handle);
-    }
-
-    virtual u8** GetLoadedResource(u32 type, u32 resourceID, u16 addUseCount, u16 bLock) override
-    {
-        return ResourceManager::GetLoadedResource(type, resourceID, addUseCount, bLock);
-    }
-
-    virtual s16 FreeResource(u8** handle) override
-    {
-        return ResourceManager::FreeResource_49C330(handle);
-    }
-
-    virtual u8** Allocate_New_Locked_Resource(u32 type, u32 id, u32 size) override
-    {
-        return ResourceManager::Allocate_New_Locked_Resource(type, id, size);
-    }
-
-    virtual void LoadingLoop(s16 bShowLoadingIcon) override
-    {
-        pResourceManager_5C1BB0->LoadingLoop_465590(bShowLoadingIcon);
-    }
-
-    virtual void Reclaim_Memory(u32 size) override
-    {
-        ResourceManager::Reclaim_Memory_49C470(size);
-    }
-
-    virtual u8** Alloc_New_Resource(u32 type, u32 id, u32 size) override
-    {
-        return ResourceManager::Alloc_New_Resource_49BED0(type, id, size);
-    }
-
-    virtual s16 LoadResourceFile(const char_type* pFileName, Camera* pCamera) override
-    {
-        return ResourceManager::LoadResourceFile_49C170(pFileName, pCamera);
-    }
-
 private:
     PathSoundInfo* mLastLoadedSoundBlockInfo = nullptr;
 };
@@ -175,7 +135,7 @@ s16 SND_VAB_Load_4C9FE0(PathSoundInfo& pSoundBlockInfo)
 {
     // Load the VH file data
     pSoundBlockInfo.mVhFileData = ResourceManagerWrapper::LoadFile(pSoundBlockInfo.mVhFile.c_str(), GetMap().mNextLevel);
-    GetMidiVars()->LoadingLoop(0);
+    //GetMidiVars()->LoadingLoop(0);
 
     // Load the VB file data
     std::vector<u8> vbFileData = ResourceManagerWrapper::LoadFile(pSoundBlockInfo.mVbFile.c_str(), GetMap().mNextLevel);
@@ -262,11 +222,13 @@ void SND_Load_VABS(PathSoundInfo& info, s32 reverb)
         SND_VAB_Load_4C9FE0(info);
 
         // Put abes resources back if we had to unload them to fit the VB in memory
+        /*
+        // TODO: Remove the abe unloading stuff
         if (GetMidiVars()->sSnd_ReloadAbeResources())
         {
             GetMidiVars()->Reclaim_Memory(0);
             sActiveHero->Load_Basic_Resources_44D460();
-        }
+        }*/
 
         SsUtSetReverbDepth_4FE380(reverb, reverb);
         SsUtReverbOn_4FE340();
@@ -710,7 +672,7 @@ void SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, PathSoundInfo& info)
             GetMidiVars()->sNeedToHashSeqNames() = FALSE;
         }
 
-        GetMidiVars()->Reclaim_Memory(0);
+        //GetMidiVars()->Reclaim_Memory(0);
 
         // Get a pointer to each SEQ
         for (const auto& seqName : info.mSeqFiles)

@@ -35,7 +35,6 @@ public:
     void UpdateParticles();
 
     s32 field_D4[4] = {};
-    u8** field_E4_ppRes = nullptr;
     HintFlyParticle* field_E8_pRes = nullptr;
     Prim_SetTPage field_EC_tPages[2] = {};
     s32 field_10C_timer = 0;

@@ -33,16 +33,6 @@ public:
     virtual s16& sNeedToHashSeqNames() = 0;
     virtual PathSoundInfo& sMonkVh_Vb() = 0;
     virtual s32 MidiTableSize() = 0;
-
-    // Res manager wrapper
-    virtual s16 FreeResource_Impl(u8* handle) = 0;
-    virtual u8** GetLoadedResource(u32 type, u32 resourceID, u16 addUseCount, u16 bLock) = 0;
-    virtual s16 FreeResource(u8** handle) = 0;
-    virtual u8** Allocate_New_Locked_Resource(u32 type, u32 id, u32 size) = 0;
-    virtual void LoadingLoop(s16 bShowLoadingIcon) = 0;
-    virtual void Reclaim_Memory(u32 size) = 0;
-    virtual u8** Alloc_New_Resource(u32 type, u32 id, u32 size) = 0;
-    virtual s16 LoadResourceFile(const char_type* pFileName, Camera* pCamera) = 0;
 };
 
 IMidiVars* GetMidiVars();

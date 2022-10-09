@@ -36,7 +36,6 @@ private:
     void Add_Water_Particle();
 
 private:
-    u8** field_F4_ppWaterRes = nullptr;
     Water_Res* field_F8_pWaterRes = nullptr;
 
     enum class WaterState : s16

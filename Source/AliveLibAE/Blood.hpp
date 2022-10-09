@@ -26,7 +26,6 @@ public:
     ~Blood();
 
 private:
-    u8** mResBuf = nullptr;
     BloodParticle* mBloodParticle = nullptr;
     Prim_SetTPage mTPages[2] = {};
     TPageMode mTextureMode = TPageMode::e4Bit_0;

@@ -249,27 +249,6 @@ LoadingFile* ResourceManager::LoadResourceFile_4551E0(const char_type* , TLoader
     return nullptr;
 }
 
-u8** ResourceManager::Alloc_New_Resource_Impl(u32 , u32 , u32 , bool , BlockAllocMethod )
-{
-    return nullptr;
-}
-
-u8** ResourceManager::Alloc_New_Resource_454F20(u32, u32, u32)
-{
-    ALIVE_FATAL("Its over");
-}
-
-u8** ResourceManager::Allocate_New_Locked_Resource(u32 , u32 , u32 )
-{
-    ALIVE_FATAL("Its over");
-}
-
-
-u8** ResourceManager::Allocate_New_Block_454FE0(u32 , BlockAllocMethod )
-{
-    ALIVE_FATAL("Its over");
-}
-
 s16 ResourceManager::LoadResourceFileWrapper(const char_type* , Camera* )
 {
     return 1;

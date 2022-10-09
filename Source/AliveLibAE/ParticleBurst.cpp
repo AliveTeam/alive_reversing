@@ -44,16 +44,9 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
 
     field_106_count = static_cast<s16>(count);
     mSpriteScale = scale;
-    field_F4_ppRes = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::ResourceType::Resource_3DGibs, 0, sizeof(ParticleBurst_Item) * numOfParticles);
-    if (field_F4_ppRes)
+    field_F8_pRes = relive_new ParticleBurst_Item[numOfParticles];
+    if (field_F8_pRes)
     {
-        field_F8_pRes = reinterpret_cast<ParticleBurst_Item*>(*field_F4_ppRes);
-        for (u32 i = 0; i < numOfParticles; i++)
-        {
-            // Placement new each element
-            new (&field_F8_pRes[i]) ParticleBurst_Item();
-        }
-
         field_104_type = type;
         switch (field_104_type)
         {
@@ -189,10 +182,7 @@ FP* ParticleBurst::Random_Speed(FP* random)
 
 ParticleBurst::~ParticleBurst()
 {
-    if (field_F4_ppRes)
-    {
-        ResourceManager::FreeResource_49C330(field_F4_ppRes);
-    }
+    relive_delete[] field_F8_pRes;
 }
 
 void ParticleBurst::VRender(PrimHeader** ppOt)

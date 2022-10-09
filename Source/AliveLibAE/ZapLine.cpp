@@ -10,11 +10,12 @@
 
 ZapLine::~ZapLine()
 {
-    ResourceManager::FreeResource_49C330(field_F8_ppRes);
+    relive_delete[] field_134_pSprites;
     relive_delete[] field_138_sprite_positions;
     relive_delete[] field_13C_zap_points;
     relive_delete[] field_140_sprite_segment_positions;
 }
+
 ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 aliveTime, ZapLineType type, Layer layer)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
@@ -45,9 +46,8 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
     mAnim.mRenderLayer = layer;
     field_132_number_of_sprites = field_12E_number_of_segments * field_130_number_of_pieces_per_segment;
 
-    field_F8_ppRes = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::ResourceType::Resource_Spline, 0, sizeof(ZapLineSprites) * field_132_number_of_sprites); // Spln (spline?).
 
-    field_134_pSprites = reinterpret_cast<ZapLineSprites*>(*field_F8_ppRes);
+    field_134_pSprites = relive_new ZapLineSprites[field_132_number_of_sprites];
     field_138_sprite_positions = relive_new PSX_Point[field_132_number_of_sprites];
     field_13C_zap_points = relive_new ZapPoint[field_130_number_of_pieces_per_segment];
     field_140_sprite_segment_positions = relive_new FP_Point[field_12E_number_of_segments];

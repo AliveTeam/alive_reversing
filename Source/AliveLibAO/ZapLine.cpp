@@ -16,7 +16,7 @@ namespace AO {
 
 ZapLine::~ZapLine()
 {
-    ResourceManager::FreeResource_455550(field_E8_ppRes);
+    relive_delete[] field_124_pSprts;
     relive_delete[] field_128_sprite_positions;
     relive_delete[] field_12C_zap_points;
     relive_delete[] field_130_sprite_segment_positions;
@@ -53,9 +53,7 @@ ZapLine::ZapLine(FP x1, FP y1, FP x2, FP y2, s32 aliveTime, ZapLineType type, La
     mAnim.mRenderLayer = layer;
     field_122_number_of_sprites = field_11E_number_of_segments * field_120_number_of_pieces_per_segment;
 
-    field_E8_ppRes = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::Resource_Spline, 0, sizeof(ZapLineSprites) * field_122_number_of_sprites);
-    field_124_pSprts = reinterpret_cast<ZapLineSprites*>(*field_E8_ppRes);
-
+    field_124_pSprts = relive_new ZapLineSprites[field_122_number_of_sprites];
     field_128_sprite_positions = relive_new PSX_Point[field_122_number_of_sprites];
     field_12C_zap_points = relive_new ZapPoint[field_120_number_of_pieces_per_segment];
     field_130_sprite_segment_positions = relive_new FP_Point[field_11E_number_of_segments];

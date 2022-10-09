@@ -48,11 +48,9 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 min, s32 max)
     mGreen = 31;
 
     mSparkCount = static_cast<s16>(count);
-
-    mSprxRes = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::Resource_Sprx, 0, sizeof(SparkRes) * count);
-    if (mSprxRes)
+    mSparkRes = relive_new SparkRes[mSparkCount];
+    if (mSparkRes)
     {
-        mSparkRes = reinterpret_cast<SparkRes*>(*mSprxRes);
         for (s32 idx = 0; idx < mSparkCount; idx++)
         {
             SparkRes* pSparkIter = &mSparkRes[idx];
@@ -109,10 +107,7 @@ Spark::~Spark()
         gObjListDrawables->Remove_Item(this);
     }
 
-    if (mSprxRes)
-    {
-        ResourceManager::FreeResource_455550(mSprxRes);
-    }
+    relive_delete[] mSparkRes;
 }
 
 void Spark::VScreenChanged()

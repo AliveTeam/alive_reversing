@@ -31,7 +31,7 @@ public:
     };
     States field_10_state = States::eState_0_Init;
     u8** field_14_ppDemoRes = nullptr;
-    u8** field_18_ppRes = nullptr;
+    SaveData* field_18_ppRes = nullptr;
     s16 field_1C_bFromHandStone = 0;
     s16 field_1E = 0;
     s32 field_20 = 0;

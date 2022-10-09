@@ -134,12 +134,6 @@ public:
 
     static s16 Move_Resources_To_DArray_455430(u8** ppRes, DynamicArrayT<u8*>* pArray);
 
-    static u8** Alloc_New_Resource_Impl(u32 type, u32 id, u32 size, bool locked, BlockAllocMethod allocType);
-
-    static u8** Alloc_New_Resource_454F20(u32 type, u32 id, u32 size);
-
-    static u8** Allocate_New_Block_454FE0(u32 sizeBytes, BlockAllocMethod allocMethod);
-
     static s16 FreeResource_Impl_4555B0(u8* handle);
 
     static void Increment_Pending_Count_4557A0();
@@ -167,8 +161,6 @@ public:
     static s16 LoadResourceFileWrapper(const char_type* filename, Camera* pCam);
 
     static s16 LoadResourceFile_455270(const char_type* filename, Camera* pCam, BlockAllocMethod allocMethod = BlockAllocMethod::eFirstMatching);
-
-    static u8** Allocate_New_Locked_Resource(u32 type, u32 id, u32 size);
 
     static void Set_Header_Flags_4557D0(u8** ppRes, s16 flags);
 

@@ -35,10 +35,9 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
     mTotalBloodCount = static_cast<s16>(count);
     mCurrentBloodCount = static_cast<s16>(count);
 
-    mResBuf = ResourceManager::Allocate_New_Locked_Resource(ResourceManager::Resource_Blood, 0, count * sizeof(BloodParticle));
-    if (mResBuf)
+    mBloodParticle = relive_new BloodParticle[count];
+    if (mBloodParticle)
     {
-        mBloodParticle = reinterpret_cast<BloodParticle*>(*mResBuf);
         mUpdateCalls = 0;
 
         mXPos = xpos - FP_FromInteger(12);
@@ -131,10 +130,7 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
 
 Blood::~Blood()
 {
-    if (mResBuf)
-    {
-        ResourceManager::FreeResource_49C330(mResBuf);
-    }
+    relive_delete[] mBloodParticle;
 }
 
 void Blood::VUpdate()

@@ -26,7 +26,6 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
-    u8** field_E4_ppRes = nullptr;
     ParticleBurst_Item* field_E8_pRes = nullptr;
     s16 field_EC_count = 0;
     s32 field_F0_timer = 0;

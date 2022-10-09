@@ -38,7 +38,7 @@ ScreenWave::ScreenWave(FP xpos, FP ypos, Layer layer, FP width, FP speed, s32 ra
     gObjListDrawables->Push_Back(this);
 
     // TODO: Using frame counter as an ID seems extremely dangerous due to id collision risk!
-    field_14_ppRes = reinterpret_cast<ScreenWave_Data**>(ResourceManager::Allocate_New_Locked_Resource(ResourceManager::Resource_Wave, sGnFrame, sizeof(ScreenWave_Data)));
+    field_14_ppRes = relive_new ScreenWave_Data();
     if (!field_14_ppRes)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -80,7 +80,7 @@ ScreenWave::ScreenWave(FP xpos, FP ypos, Layer layer, FP width, FP speed, s32 ra
     const FP uv1_off = (width / FP_FromInteger(4));
     const FP uv2_off = (width / FP_FromInteger(2));
 
-    ScreenWave_Data* pData = *field_14_ppRes;
+    ScreenWave_Data* pData = field_14_ppRes;
 
     u8 ang2 = 0;
     for (s32 i = 0; i < 32; i++)
@@ -118,7 +118,7 @@ ScreenWave::ScreenWave(FP xpos, FP ypos, Layer layer, FP width, FP speed, s32 ra
 ScreenWave::~ScreenWave()
 {
     gObjListDrawables->Remove_Item(this);
-    ResourceManager::FreeResource_455550(reinterpret_cast<u8**>(field_14_ppRes));
+    relive_delete field_14_ppRes;
 }
 
 void ScreenWave::VScreenChanged()
@@ -135,7 +135,7 @@ void ScreenWave::VUpdate()
     {
         field_2C += field_30_speed;
 
-        auto pData = reinterpret_cast<ScreenWave_Data*>(*field_14_ppRes);
+        auto pData = field_14_ppRes;
 
         for (s32 i = 0; i < 32; i++)
         {
@@ -167,7 +167,7 @@ void ScreenWave::VRender(PrimHeader** ppOt)
         return;
     }
 
-    ScreenWave_Data* pScreenWaveData = *field_14_ppRes;
+    ScreenWave_Data* pScreenWaveData = field_14_ppRes;
 
     const PSX_Point displaySize = {
         static_cast<s16>(gPsxDisplay.mWidth),
