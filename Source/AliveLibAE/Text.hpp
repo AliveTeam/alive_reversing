@@ -35,6 +35,5 @@ private:
     s32 field_64_render_count = 0;
     char_type field_68_txt_buffer[60] = {};
 };
-ALIVE_ASSERT_SIZEOF(Text, 0xA4);
 
 s8 Display_Full_Screen_Message_Blocking(s32 /*not_used*/, MessageType messageType);

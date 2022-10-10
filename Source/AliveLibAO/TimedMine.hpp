@@ -39,6 +39,5 @@ public:
     s32 mSingleTickTimer = 0;
     BitField16<TimedMineFlags> mTimedMineFlags = {};
 };
-ALIVE_ASSERT_SIZEOF(TimedMine, 0x1BC);
 
 } // namespace AO

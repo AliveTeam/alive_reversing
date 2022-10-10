@@ -156,7 +156,6 @@ public:
     s16 field_180 = 0;
    // u8** field_184_resources[5] = {};
 };
-ALIVE_ASSERT_SIZEOF(Slog, 0x198);
 
 ALIVE_VAR_EXTERN(s16, gNumSlogs_9F11C8);
 

@@ -8,56 +8,56 @@ namespace relive
     struct Path_Paramite;
 }
 
-#define PARAMITE_MOTIONS_ENUM(ENTRY)        \
-    ENTRY(M_Idle_0_489FB0)                  \
-    ENTRY(M_WalkBegin_1_48A7B0)             \
-    ENTRY(M_Walking_2_48A2D0)               \
-    ENTRY(M_Running_3_48AA00)               \
-    ENTRY(M_Turn_4_48B180)                  \
-    ENTRY(M_Hop_5_48B5B0)                   \
-    ENTRY(M_Unused_6_48A930)                \
-    ENTRY(M_WalkRunTransition_7_48B0C0)     \
-    ENTRY(M_WalkEnd_8_48A870)               \
-    ENTRY(M_RunBegin_9_48AF10)              \
-    ENTRY(M_RunEnd_10_48B000)               \
-    ENTRY(M_Falling_11_48B200)              \
-    ENTRY(M_JumpUpBegin_12_48BE40)          \
-    ENTRY(M_JumpUpMidair_13_48BAF0)         \
-    ENTRY(M_JumpUpLand_14_48BF00)           \
-    ENTRY(M_RopePull_15_48D930)             \
-    ENTRY(M_CloseAttack_16_48DDA0)          \
-    ENTRY(M_Landing_17_48B590)              \
-    ENTRY(M_Unused_18_48DF60)               \
-    ENTRY(M_Knockback_19_48BF50)            \
-    ENTRY(M_GameSpeakBegin_20_48C010)       \
-    ENTRY(M_PreHiss_21_48C180)              \
-    ENTRY(M_Hiss1_22_48C3E0)                \
-    ENTRY(M_Hiss2_23_48C600)                \
-    ENTRY(M_Empty_24_48C680)                \
-    ENTRY(M_AllOYaGameSpeakBegin_25_48C6A0) \
-    ENTRY(M_Hiss3_26_48C6F0)                \
-    ENTRY(M_PostHiss_27_48C780)             \
-    ENTRY(M_GameSpeakEnd_28_48C8B0)         \
-    ENTRY(M_GetDepossessedBegin_29_48D9D0)  \
-    ENTRY(M_GetDepossessedEnd_30_48DB50)    \
-    ENTRY(M_RunningAttack_31_48C9E0)        \
-    ENTRY(M_Empty_32_48D740)                \
-    ENTRY(M_SurpriseWeb_33_48D760)          \
-    ENTRY(M_WebLeaveDown_34_48D870)         \
-    ENTRY(M_WebIdle_35_48D400)              \
-    ENTRY(M_WebGoingUp_36_48D000)           \
-    ENTRY(M_WebGoingDown_37_48CC60)         \
-    ENTRY(M_WebGrab_38_48D6C0)              \
-    ENTRY(M_WebLeaveUp_39_48D8C0)           \
-    ENTRY(M_Eating_40_48A0F0)               \
-    ENTRY(M_Death_41_48D8E0)                \
-    ENTRY(M_Squawk_42_48D900)               \
-    ENTRY(M_Attack_43_48DB70)
+#define PARAMITE_MOTIONS_ENUM_AE(ENTRY)        \
+    ENTRY(Motion_0_Idle)                  \
+    ENTRY(Motion_1_WalkBegin)             \
+    ENTRY(Motion_2_Walking)               \
+    ENTRY(Motion_3_Running)               \
+    ENTRY(Motion_4_Turn)                  \
+    ENTRY(Motion_5_Hop)                   \
+    ENTRY(Motion_6_Unused)                \
+    ENTRY(Motion_7_WalkRunTransition)     \
+    ENTRY(Motion_8_WalkEnd)               \
+    ENTRY(Motion_9_RunBegin)              \
+    ENTRY(Motion_10_RunEnd)               \
+    ENTRY(Motion_11_Falling)              \
+    ENTRY(Motion_12_JumpUpBegin)          \
+    ENTRY(Motion_13_JumpUpMidair)         \
+    ENTRY(Motion_14_JumpUpLand)           \
+    ENTRY(Motion_15_RopePull)             \
+    ENTRY(Motion_16_CloseAttack)          \
+    ENTRY(Motion_17_Landing)              \
+    ENTRY(Motion_18_Unused)               \
+    ENTRY(Motion_19_Knockback)            \
+    ENTRY(Motion_20_GameSpeakBegin)       \
+    ENTRY(Motion_21_PreHiss)              \
+    ENTRY(Motion_22_Hiss1)                \
+    ENTRY(Motion_23_Hiss2)                \
+    ENTRY(Motion_24_Empty)                \
+    ENTRY(Motion_25_AllOYaGameSpeakBegin) \
+    ENTRY(Motion_26_Hiss3)                \
+    ENTRY(Motion_27_PostHiss)             \
+    ENTRY(Motion_28_GameSpeakEnd)         \
+    ENTRY(Motion_29_GetDepossessedBegin)  \
+    ENTRY(Motion_30_GetDepossessedEnd)    \
+    ENTRY(Motion_31_RunningAttack)        \
+    ENTRY(Motion_32_Empty)                \
+    ENTRY(Motion_33_SurpriseWeb)          \
+    ENTRY(Motion_34_WebLeaveDown)         \
+    ENTRY(Motion_35_WebIdle)              \
+    ENTRY(Motion_36_WebGoingUp)           \
+    ENTRY(Motion_37_WebGoingDown)         \
+    ENTRY(Motion_38_WebGrab)              \
+    ENTRY(Motion_39_WebLeaveUp)           \
+    ENTRY(Motion_40_Eating)               \
+    ENTRY(Motion_41_Death)                \
+    ENTRY(Motion_42_Squawk)               \
+    ENTRY(Motion_43_Attack)
 
 #define MAKE_ENUM(VAR) VAR,
-enum eParamiteMotions : s32
+enum class eParamiteMotions : s32
 {
-    PARAMITE_MOTIONS_ENUM(MAKE_ENUM)
+    PARAMITE_MOTIONS_ENUM_AE(MAKE_ENUM)
 };
 
 class Meat;
@@ -172,7 +172,7 @@ public:
     void HandleDDCheat();
     void HandleBrainsAndMotions();
 
-    s16 Brain_0_Patrol_4835B0();
+    s16 Brain_0_Patrol();
 	s16 Brain_Patrol_State_1_IdleForAbe(BaseAliveGameObject* pObj);
 	s16 Brain_Patrol_State_2_FearingAbe(BaseAliveGameObject* pObj);
 	s16 Brain_Patrol_State_3_RunningFromAbe(BaseAliveGameObject* pObj);
@@ -181,9 +181,9 @@ public:
 	s16 Brain_Patrol_State_8_StuckToWall(BaseAliveGameObject* pObj);
     s16 Brain_Patrol_State_12_Idle(BaseAliveGameObject* pObj);
 
-    s16 Brain_1_Death_484CD0();
+    s16 Brain_1_Death();
 
-    s16 Brain_2_ChasingAbe_4859D0();
+    s16 Brain_2_ChasingAbe();
 	s16 Brain_ChasingAbe_State_0_Inactive(BaseAliveGameObject* pObj);
 	s16 Brain_ChasingAbe_State_1_Attacking(BaseAliveGameObject* pObj);
 	s16 Brain_ChasingAbe_State_2_ToWarning();
@@ -201,10 +201,10 @@ public:
 	s16 Brain_ChasingAbe_State_14_Idle();
     s16 Brain_ChasingAbe_State_15_Panic();
 
-    s16 Brain_3_SurpriseWeb_4851B0();
-    s16 Brain_4_Unused_48F8F0();
+    s16 Brain_3_SurpriseWeb();
+    s16 Brain_4_Unused();
 
-    s16 Brain_5_SpottedMeat_486880();
+    s16 Brain_5_SpottedMeat();
 	s16 Brain_SpottedMeat_State_0_Idle(Meat* pMeat);
 	s16 Brain_SpottedMeat_State_1_Running(Meat* pMeat);
 	s16 Brain_SpottedMeat_State_2_Walking(Meat* pMeat);
@@ -213,60 +213,75 @@ public:
 	s16 Brain_SpottedMeat_State_5_AttentiveToMeat(Meat* pMeat);
     s16 Brain_SpottedMeat_State_6_Eating(Meat* pMeat);
 
-    s16 Brain_6_Possessed_484BC0();
-    s16 Brain_7_DeathDrop_484FF0();
-    s16 Brain_8_ControlledByGameSpeak_48DFC0();
-    s16 Brain_9_ParamiteSpawn_48ED80();
+    s16 Brain_6_Possessed();
+    s16 Brain_7_DeathDrop();
+    s16 Brain_8_ControlledByGameSpeak();
+    s16 Brain_9_ParamiteSpawn();
 
 public:
-    void M_Idle_0_489FB0();
-    void M_WalkBegin_1_48A7B0();
-    void M_Walking_2_48A2D0();
-    void M_Running_3_48AA00();
-    void M_Turn_4_48B180();
-    void M_Hop_5_48B5B0();
-    void M_Unused_6_48A930();
-    void M_WalkRunTransition_7_48B0C0();
-    void M_WalkEnd_8_48A870();
-    void M_RunBegin_9_48AF10();
-    void M_RunEnd_10_48B000();
-    void M_Falling_11_48B200();
-    void M_JumpUpBegin_12_48BE40();
-    void M_JumpUpMidair_13_48BAF0();
-    void M_JumpUpLand_14_48BF00();
-    void M_RopePull_15_48D930();
-    void M_CloseAttack_16_48DDA0();
-    void M_Landing_17_48B590();
-    void M_Unused_18_48DF60();
-    void M_Knockback_19_48BF50();
-    void M_GameSpeakBegin_20_48C010();
-    void M_PreHiss_21_48C180();
-    void M_Hiss1_22_48C3E0();
-    void M_Hiss2_23_48C600();
-    void M_Empty_24_48C680();
-    void M_AllOYaGameSpeakBegin_25_48C6A0();
-    void M_Hiss3_26_48C6F0();
-    void M_PostHiss_27_48C780();
-    void M_GameSpeakEnd_28_48C8B0();
-    void M_GetDepossessedBegin_29_48D9D0();
-    void M_GetDepossessedEnd_30_48DB50();
-    void M_RunningAttack_31_48C9E0();
-    void M_Empty_32_48D740();
-    void M_SurpriseWeb_33_48D760();
-    void M_WebLeaveDown_34_48D870();
-    void M_WebIdle_35_48D400();
-    void M_WebGoingUp_36_48D000();
-    void M_WebGoingDown_37_48CC60();
-    void M_WebGrab_38_48D6C0();
-    void M_WebLeaveUp_39_48D8C0();
-    void M_Eating_40_48A0F0();
-    void M_Death_41_48D8E0();
-    void M_Squawk_42_48D900();
-    void M_Attack_43_48DB70();
+    void Motion_0_Idle();
+    void Motion_1_WalkBegin();
+    void Motion_2_Walking();
+    void Motion_3_Running();
+    void Motion_4_Turn();
+    void Motion_5_Hop();
+    void Motion_6_Unused();
+    void Motion_7_WalkRunTransition();
+    void Motion_8_WalkEnd();
+    void Motion_9_RunBegin();
+    void Motion_10_RunEnd();
+    void Motion_11_Falling();
+    void Motion_12_JumpUpBegin();
+    void Motion_13_JumpUpMidair();
+    void Motion_14_JumpUpLand();
+    void Motion_15_RopePull();
+    void Motion_16_CloseAttack();
+    void Motion_17_Landing();
+    void Motion_18_Unused();
+    void Motion_19_Knockback();
+    void Motion_20_GameSpeakBegin();
+    void Motion_21_PreHiss();
+    void Motion_22_Hiss1();
+    void Motion_23_Hiss2();
+    void Motion_24_Empty();
+    void Motion_25_AllOYaGameSpeakBegin();
+    void Motion_26_Hiss3();
+    void Motion_27_PostHiss();
+    void Motion_28_GameSpeakEnd();
+    void Motion_29_GetDepossessedBegin();
+    void Motion_30_GetDepossessedEnd();
+    void Motion_31_RunningAttack();
+    void Motion_32_Empty();
+    void Motion_33_SurpriseWeb();
+    void Motion_34_WebLeaveDown();
+    void Motion_35_WebIdle();
+    void Motion_36_WebGoingUp();
+    void Motion_37_WebGoingDown();
+    void Motion_38_WebGrab();
+    void Motion_39_WebLeaveUp();
+    void Motion_40_Eating();
+    void Motion_41_Death();
+    void Motion_42_Squawk();
+    void Motion_43_Attack();
 
 private:
     void SetBrain(TParamiteBrainFn fn);
     bool BrainIs(TParamiteBrainFn fn);
+
+    template<class T>
+    inline void SetGamespeakNextMotion(T motion)
+    {
+        mParamiteGamespeakNextMotion = static_cast<s16>(motion);
+    }
+
+    eParamiteMotions GetNextMotion() const
+    {
+        return static_cast<eParamiteMotions>(mNextMotion);
+    }
+    eParamiteMotions GetCurrentMotion() const
+    {
+        return static_cast<eParamiteMotions>(mCurrentMotion);
+    }
 
 private:
 
@@ -297,32 +312,30 @@ private:
 
 
 private:
-    Guid field_118_meat_id;
-    Guid field_11C_web_id;
-    Guid field_120_obj_id;
-    Guid field_124_pull_ring_rope_id;
+    Guid mMeatGuid;
+    Guid mWebGuid;
+    Guid mTargetGuid;
+    Guid mPullRingRopeGuid;
     TParamiteBrainFn mBrainState = nullptr;
     s16 mBrainSubState = 0;
-    s16 field_12E_surprise_web_delay_timer = 0;
+    s16 mSurpriseWebDelayTimer = 0;
     s32 field_130_timer = 0;
-    s16 field_134_meat_eating_time = 0;
-    s16 field_136_alone_chase_delay = 0;
+    s16 mMeatEatingTime = 0;
+    s16 mAloneChaseDelay = 0;
     s32 field_138_depossession_timer = 0;
     FP field_13C_velx_offset = {};
     Guid field_140_tlvInfo;
-    s32 field_144_group_chase_delay = 0;
+    s32 mGroupChaseDelay = 0;
     s32 field_148_timer = 0;
-    s16 field_14C_surprise_web_switch_id = 0;
+    s16 mSurpriseWebSwitchId = 0;
     EReliveLevelIds mAbeLevel = EReliveLevelIds::eNone;
     s16 mAbePath = 0;
     s16 mAbeCamera = 0;
     s32 field_154_input = 0;
     s16 field_158_next_brain_ret = 0;
-    s16 field_15A_paramite_next_motion = 0;
+    s16 mParamiteGamespeakNextMotion = 0;
     s16 field_15C_paramite_xOffset = 0;
     s32 field_160_last_event_index = 0;
-    s16 field_174_unused = 0;
-    s16 field_176_unused = 0;
     enum Flags_178 : s16
     {
         eBit1_hiss_before_attack = 0x1,

@@ -58,24 +58,24 @@ ALIVE_ASSERT_SIZEOF(SeqHeader, 0xF);
 
 
 
-ALIVE_VAR(1, 0xBD1CDE, s16, sGlobalVolumeLevel_right_BD1CDE, 0);
-ALIVE_VAR(1, 0xBD1CDC, s16, sGlobalVolumeLevel_left_BD1CDC, 0);
-ALIVE_VAR(1, 0xC13180, VabUnknown, s512_byte_C13180, {});
-ALIVE_ARY(1, 0xBE6144, u8, kMaxVabs, sVagCounts_BE6144, {});
-ALIVE_ARY(1, 0x0BDCD64, u8, kMaxVabs, sProgCounts_BDCD64, {});
-ALIVE_ARY(1, 0xC13160, VabHeader*, 4, spVabHeaders_C13160, {});
-ALIVE_VAR(1, 0xBEF160, ConvertedVagTable, sConvertedVagTable_BEF160, {});
-ALIVE_VAR(1, 0xBE6160, SoundEntryTable, sSoundEntryTable16_BE6160, {});
-ALIVE_VAR(1, 0xC14080, MidiChannels, sMidi_Channels_C14080, {});
-ALIVE_VAR(1, 0xC13400, MidiSeqSongsTable, sMidiSeqSongs_C13400, {});
-ALIVE_VAR(1, 0xbd1cf4, s32, sMidi_Inited_dword_BD1CF4, 0);
-ALIVE_VAR(1, 0xbd1cec, u32, sMidiTime_BD1CEC, 0);
-ALIVE_VAR(1, 0xbd1ce8, bool, sSoundDatIsNull_BD1CE8, 1);
-ALIVE_VAR(1, 0xbd1ce4, s8, sbDisableSeqs_BD1CE4, 0);
-ALIVE_VAR(1, 0x578E20, u32, sLastTime_578E20, 0xFFFFFFFF);
-ALIVE_VAR(1, 0xbd1cf0, u32, sMidi_WaitUntil_BD1CF0, 0);
-ALIVE_VAR(1, 0xbd1ce0, IO_FileHandleType, sSoundDatFileHandle_BD1CE0, nullptr);
-ALIVE_VAR(1, 0xbd1cfc, u8, sControllerValue_BD1CFC, 0);
+s16 sGlobalVolumeLevel_right_BD1CDE = 0;
+s16 sGlobalVolumeLevel_left_BD1CDC = 0;
+VabUnknown s512_byte_C13180 = {};
+u8 sVagCounts_BE6144[kMaxVabs] = {};
+u8 sProgCounts_BDCD64[kMaxVabs] = {};
+VabHeader* spVabHeaders_C13160[4] = {};
+ConvertedVagTable sConvertedVagTable_BEF160 = {};
+SoundEntryTable sSoundEntryTable16_BE6160 = {};
+MidiChannels sMidi_Channels_C14080 = {};
+MidiSeqSongsTable sMidiSeqSongs_C13400 = {};
+s32 sMidi_Inited_dword_BD1CF4 = 0;
+u32 sMidiTime_BD1CEC = 0;
+bool sSoundDatIsNull_BD1CE8 = 1;
+s8 sbDisableSeqs_BD1CE4 = 0;
+u32 sLastTime_578E20 = 0xFFFFFFFF;
+u32 sMidi_WaitUntil_BD1CF0 = 0;
+IO_FileHandleType sSoundDatFileHandle_BD1CE0 = nullptr;
+u8 sControllerValue_BD1CFC = 0;
 
 
 class AEPsxSpuApiVars final : public IPsxSpuApiVars

@@ -30,4 +30,3 @@ private:
     s32 mTimer = 0;
     s16 mSwitchId = 0;
 };
-ALIVE_ASSERT_SIZEOF(SlapLockWhirlWind, 0x48);

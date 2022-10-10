@@ -6,46 +6,46 @@
 #include "Path.hpp"
 
 #define SCRAB_MOTIONS_ENUM_AE(ENTRY)          \
-    ENTRY(M_Stand_0_4A8220)                \
-    ENTRY(M_Walk_1_4A84D0)                 \
-    ENTRY(M_Run_2_4A89C0)                  \
-    ENTRY(M_Turn_3_4A91A0)                 \
-    ENTRY(M_RunToStand_4_4A90C0)           \
-    ENTRY(M_HopBegin_5_4A96C0)             \
-    ENTRY(M_HopMidair_6_4A9490)            \
-    ENTRY(M_HopLand_7_4A9890)              \
-    ENTRY(M_JumpToFall_8_4A9220)           \
-    ENTRY(M_StandToWalk_9_4A8450)          \
-    ENTRY(M_StandToRun_10_4A8900)          \
-    ENTRY(M_WalkToStand_11_4A8880)         \
-    ENTRY(M_RunJumpBegin_12_4A99C0)        \
-    ENTRY(M_RunJumpEnd_13_4A9BE0)          \
-    ENTRY(M_WalkToFall_14_4A9460)          \
-    ENTRY(M_RunToFall_15_4A9430)           \
-    ENTRY(M_WalkToRun_16_4A8D60)           \
-    ENTRY(M_RunToWalk_17_4A8D90)           \
-    ENTRY(M_Knockback_18_4AA490)           \
-    ENTRY(M_GetEaten_19_4AA3E0)            \
-    ENTRY(M_Fall_20_4A93E0)                \
-    ENTRY(M_Stamp_21_4A9CC0)               \
-    ENTRY(M_GetPossessed_22_4AA420)        \
-    ENTRY(M_Empty_23_4A9D80)               \
-    ENTRY(M_DeathEnd_24_4AA140)            \
-    ENTRY(M_Empty_25_4A34D0)               \
-    ENTRY(M_HowlBegin_26_4A9DA0)           \
-    ENTRY(M_HowlEnd_27_4A9E60)             \
-    ENTRY(M_GetDepossessedBegin_28_4AA200) \
-    ENTRY(M_GetDepossessedEnd_29_4AA3C0)   \
-    ENTRY(M_Shriek_30_4A9EA0)              \
-    ENTRY(M_ScrabBattleAnim_31_4A9F30)     \
-    ENTRY(M_AttackSpin_32_4A8DC0)          \
-    ENTRY(M_FeedToGulp_33_4A9FA0)          \
-    ENTRY(M_GulpToStand_34_4A9FF0)         \
-    ENTRY(M_StandToFeed_35_4AA010)         \
-    ENTRY(M_Feed_36_4AA030)                \
-    ENTRY(M_AttackLunge_37_4AA0B0)         \
-    ENTRY(M_LegKick_38_4AA120)             \
-    ENTRY(M_DeathBegin_39_4AA190)
+    ENTRY(Motion_0_Stand)                \
+    ENTRY(Motion_1_Walk)                 \
+    ENTRY(Motion_2_Run)                  \
+    ENTRY(Motion_3_Turn)                 \
+    ENTRY(Motion_4_RunToStand)           \
+    ENTRY(Motion_5_HopBegin)             \
+    ENTRY(Motion_6_HopMidair)            \
+    ENTRY(Motion_7_HopLand)              \
+    ENTRY(Motion_8_JumpToFall)           \
+    ENTRY(Motion_9_StandToWalk)          \
+    ENTRY(Motion_10_StandToRun)          \
+    ENTRY(Motion_11_WalkToStand)         \
+    ENTRY(Motion_12_RunJumpBegin)        \
+    ENTRY(Motion_13_RunJumpEnd)          \
+    ENTRY(Motion_14_WalkToFall)          \
+    ENTRY(Motion_15_RunToFall)           \
+    ENTRY(Motion_16_WalkToRun)           \
+    ENTRY(Motion_17_RunToWalk)           \
+    ENTRY(Motion_18_Knockback)           \
+    ENTRY(Motion_19_GetEaten)            \
+    ENTRY(Motion_20_Fall)                \
+    ENTRY(Motion_21_Stamp)               \
+    ENTRY(Motion_22_GetPossessed)        \
+    ENTRY(Motion_23_Empty)               \
+    ENTRY(Motion_24_DeathEnd)            \
+    ENTRY(Motion_25_Empty)               \
+    ENTRY(Motion_26_HowlBegin)           \
+    ENTRY(Motion_27_HowlEnd)             \
+    ENTRY(Motion_28_GetDepossessedBegin) \
+    ENTRY(Motion_29_GetDepossessedEnd)   \
+    ENTRY(Motion_30_Shriek)              \
+    ENTRY(Motion_31_ScrabBattleAnim)     \
+    ENTRY(Motion_32_AttackSpin)          \
+    ENTRY(Motion_33_FeedToGulp)          \
+    ENTRY(Motion_34_GulpToStand)         \
+    ENTRY(Motion_35_StandToFeed)         \
+    ENTRY(Motion_36_Feed)                \
+    ENTRY(Motion_37_AttackLunge)         \
+    ENTRY(Motion_38_LegKick)             \
+    ENTRY(Motion_39_DeathBegin)
 
 #define MAKE_ENUM(VAR) VAR,
 enum eScrabMotions : s32
@@ -176,60 +176,60 @@ private:
     void Update_Slurg_Step_Watch_Points();
 
 public:
-    s16 Brain_0_Patrol_4AA630();
+    s16 Brain_0_Patrol();
 
     s16 Brain_ChasingEnemy_State_2_Running(BaseAliveGameObject* pObj);
 
-    s16 Brain_1_ChasingEnemy_4A6470();
-    s16 Brain_2_Fighting_4A5840();
-    s16 Brain_3_Death_4A62B0();
-    s16 Brain_4_ShrinkDeath_4A6420();
-    s16 Brain_5_Possessed_4A6180();
+    s16 Brain_1_ChasingEnemy();
+    s16 Brain_2_Fighting();
+    s16 Brain_3_Death();
+    s16 Brain_4_ShrinkDeath();
+    s16 Brain_5_Possessed();
 
     void SetBrain(TScrabBrainFn fn);
     bool BrainIs(TScrabBrainFn fn);
 
 public:
-    void M_Stand_0_4A8220();
-    void M_Walk_1_4A84D0();
-    void M_Run_2_4A89C0();
-    void M_Turn_3_4A91A0();
-    void M_RunToStand_4_4A90C0();
-    void M_HopBegin_5_4A96C0();
-    void M_HopMidair_6_4A9490();
-    void M_HopLand_7_4A9890();
-    void M_JumpToFall_8_4A9220();
-    void M_StandToWalk_9_4A8450();
-    void M_StandToRun_10_4A8900();
-    void M_WalkToStand_11_4A8880();
-    void M_RunJumpBegin_12_4A99C0();
-    void M_RunJumpEnd_13_4A9BE0();
-    void M_WalkToFall_14_4A9460();
-    void M_RunToFall_15_4A9430();
-    void M_WalkToRun_16_4A8D60();
-    void M_RunToWalk_17_4A8D90();
-    void M_Knockback_18_4AA490();
-    void M_GetEaten_19_4AA3E0();
-    void M_Fall_20_4A93E0();
-    void M_Stamp_21_4A9CC0();
-    void M_GetPossessed_22_4AA420();
-    void M_Empty_23_4A9D80();
-    void M_DeathEnd_24_4AA140();
-    void M_Empty_25_4A34D0();
-    void M_HowlBegin_26_4A9DA0();
-    void M_HowlEnd_27_4A9E60();
-    void M_GetDepossessedBegin_28_4AA200();
-    void M_GetDepossessedEnd_29_4AA3C0();
-    void M_Shriek_30_4A9EA0();
-    void M_ScrabBattleAnim_31_4A9F30();
-    void M_AttackSpin_32_4A8DC0();
-    void M_FeedToGulp_33_4A9FA0();
-    void M_GulpToStand_34_4A9FF0();
-    void M_StandToFeed_35_4AA010();
-    void M_Feed_36_4AA030();
-    void M_AttackLunge_37_4AA0B0();
-    void M_LegKick_38_4AA120();
-    void M_DeathBegin_39_4AA190();
+    void Motion_0_Stand();
+    void Motion_1_Walk();
+    void Motion_2_Run();
+    void Motion_3_Turn();
+    void Motion_4_RunToStand();
+    void Motion_5_HopBegin();
+    void Motion_6_HopMidair();
+    void Motion_7_HopLand();
+    void Motion_8_JumpToFall();
+    void Motion_9_StandToWalk();
+    void Motion_10_StandToRun();
+    void Motion_11_WalkToStand();
+    void Motion_12_RunJumpBegin();
+    void Motion_13_RunJumpEnd();
+    void Motion_14_WalkToFall();
+    void Motion_15_RunToFall();
+    void Motion_16_WalkToRun();
+    void Motion_17_RunToWalk();
+    void Motion_18_Knockback();
+    void Motion_19_GetEaten();
+    void Motion_20_Fall();
+    void Motion_21_Stamp();
+    void Motion_22_GetPossessed();
+    void Motion_23_Empty();
+    void Motion_24_DeathEnd();
+    void Motion_25_Empty();
+    void Motion_26_HowlBegin();
+    void Motion_27_HowlEnd();
+    void Motion_28_GetDepossessedBegin();
+    void Motion_29_GetDepossessedEnd();
+    void Motion_30_Shriek();
+    void Motion_31_ScrabBattleAnim();
+    void Motion_32_AttackSpin();
+    void Motion_33_FeedToGulp();
+    void Motion_34_GulpToStand();
+    void Motion_35_StandToFeed();
+    void Motion_36_Feed();
+    void Motion_37_AttackLunge();
+    void Motion_38_LegKick();
+    void Motion_39_DeathBegin();
 
 
 private:
@@ -257,45 +257,39 @@ private:
     TScrabBrainFn mBrainState = nullptr;
     s16 mBrainSubState = 0;
     s16 field_11E_return_to_previous_motion = 0;
-    Guid field_120_obj_id;
+    Guid mTargetGuid;
     Guid mFightTargetId;
-    s16 field_128_attack_delay = 0;
-    s16 field_12A_patrol_type_run_or_walk_chance = 0;
+    s16 mAttackDelay = 0;
+    s16 mPatrolTypeRunOrWalkChance = 0;
     s32 field_12C_timer = 0;
     s32 field_130_depossession_timer = 0;
     FP field_134_falling_velx_scale_factor = {};
-    FP field_138_unused = {};
     FP field_13C_last_ypos = {};
     s16 field_140_motion_resource_block_index = 0;
     Guid field_144_tlvInfo;
-    s32 field_148_pause_after_chase_delay = 0;
+    s32 mPauseAfterChaseTime = 0;
     s32 field_14C_pause_after_chase_timer = 0;
     s32 field_150_attack_delay_timer = 0;
     s32 field_154_movement_timer = 0;
-    s16 field_158_left_min_delay = 0;
-    s16 field_15A_left_max_delay = 0;
-    s16 field_15C_right_min_delay = 0;
-    s16 field_15E_right_max_delay = 0;
+    s16 mPauseLeftMin = 0;
+    s16 mPauseLeftMax = 0;
+    s16 mPauseRightMin = 0;
+    s16 mPauseRightMax = 0;
     s32 field_160_sfx_bitmask = 0;
     s16 mPreventDepossession = 0;
     EReliveLevelIds mAbeLevel = EReliveLevelIds::eNone;
     s16 mAbePath = 0;
     s16 mAbeCamera = 0;
     s32 field_16C_input = 0;
-    s32 field_170_unused = 0;
-    s16 field_174_possessed_max_whirl_attack_duration = 0;
+    s16 mPossessedMaxWhirlAttackDuration = 0;
     s16 mShredPowerActive = 0;
     s32 field_17C_last_event = 0;
-    s16 field_190_unused = 0;
-    s16 field_192_unused = 0;
     GameSpeakEvents field_194_speak = GameSpeakEvents::eUnknown_0;
     FP field_198_max_xpos = {};
     FP field_19C_max_ypos = {};
     s16 field_1A0_speak_max = 0;
     s16 field_1A2_speak_counter = 0;
-    s16 field_1A4_unused = 0;
-    s16 field_1A6_unused = 0;
-    Choice_short field_1A8_bKill_enemy = Choice_short::eNo_0;
+    Choice_short mKillEnemy = Choice_short::eNo_0;
 
     enum Flags_1AA : s16
     {

@@ -45,7 +45,6 @@ public:
     s16 mSparkCount = 0;
     s32 mTimer = 0;
 };
-ALIVE_ASSERT_SIZEOF(Spark, 0x54);
 
 
 } // namespace AO

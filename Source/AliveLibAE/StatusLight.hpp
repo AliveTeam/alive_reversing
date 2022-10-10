@@ -29,4 +29,3 @@ private:
     FP field_108_xpos = {};
     FP field_10C_ypos = {};
 };
-ALIVE_ASSERT_SIZEOF(StatusLight, 0x110);

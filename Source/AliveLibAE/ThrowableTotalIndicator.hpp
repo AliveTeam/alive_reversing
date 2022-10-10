@@ -40,6 +40,5 @@ private:
     ThrowableTotalIndicatorState mState = ThrowableTotalIndicatorState::eCreated;
     s16 mFade = 0;
 };
-ALIVE_ASSERT_SIZEOF(ThrowableTotalIndicator, 0x190);
 
-ALIVE_VAR_EXTERN(u16, bThrowableIndicatorExists_5C112C);
+extern u16 bThrowableIndicatorExists_5C112C;

@@ -55,4 +55,3 @@ private:
     s16 field_128_max_idx = 0;
     s16 field_12A_unused = 0; // Gets set to 1 in vUpdate, but isn't used anywhere else. -- Nemin (6/7/2020)
 };
-ALIVE_ASSERT_SIZEOF(SecurityDoor, 0x12C);

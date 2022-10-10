@@ -45,6 +45,5 @@ private:
     BitField16<Flags_22> field_22_flags = {};
     DynamicArrayT<u8*> field_24_throwables;
 };
-ALIVE_ASSERT_SIZEOF(ThrowableArray, 0x30);
 
-ALIVE_VAR_EXTERN(ThrowableArray*, gpThrowableArray);
+extern ThrowableArray* gpThrowableArray;

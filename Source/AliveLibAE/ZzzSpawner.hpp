@@ -27,4 +27,3 @@ private:
     s32 mTimer = 0;
     s16 mZzzInterval = 0;
 };
-ALIVE_ASSERT_SIZEOF(ZzzSpawner, 0x3C);

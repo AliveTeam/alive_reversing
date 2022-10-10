@@ -75,4 +75,3 @@ private:
     u16 mRedBlinkCount = 0;
     u16 mIsRed = 0;
 };
-ALIVE_ASSERT_SIZEOF(UXB, 0x1CC);

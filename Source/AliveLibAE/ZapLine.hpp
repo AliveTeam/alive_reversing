@@ -76,4 +76,3 @@ private:
     FP_Point* field_140_sprite_segment_positions = nullptr;
     PSX_RECT field_144_rects[2] = {};
 };
-ALIVE_ASSERT_SIZEOF(ZapLine, 0x154);

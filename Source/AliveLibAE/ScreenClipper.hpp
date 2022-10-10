@@ -25,4 +25,3 @@ private:
 public:
     Layer mOtLayer = Layer::eLayer_0;
 };
-ALIVE_ASSERT_SIZEOF(ScreenClipper, 0x4C);

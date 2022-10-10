@@ -60,4 +60,3 @@ private:
     FP mTrapDoorY = {};
     PSX_RECT mBoundingRect = {};
 };
-ALIVE_ASSERT_SIZEOF(TrapDoor, 0x150);

@@ -40,6 +40,5 @@ public:
     EReliveLevelIds field_3A_level = EReliveLevelIds::eNone;
     s16 field_3C_path = 0;
 };
-ALIVE_ASSERT_SIZEOF(ScreenWave, 0x40);
 
 } // namespace AO

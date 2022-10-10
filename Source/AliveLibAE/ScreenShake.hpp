@@ -19,4 +19,3 @@ private:
     bool mEnableShakeEvent = false;
     bool mSofterShakes = false;
 };
-ALIVE_ASSERT_SIZEOF(ScreenShake, 0x4C);

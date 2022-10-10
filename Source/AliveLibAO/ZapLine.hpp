@@ -81,6 +81,5 @@ public:
     FP_Point* field_130_sprite_segment_positions = nullptr;
     PSX_RECT field_134_rects[2] = {};
 };
-ALIVE_ASSERT_SIZEOF(ZapLine, 0x144);
 
 } // namespace AO

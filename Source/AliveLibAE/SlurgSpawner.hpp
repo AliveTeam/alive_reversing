@@ -23,4 +23,3 @@ private:
     s16 mSpawnCounter = 0;
     u8 mSpawnedCount = 0;
 };
-ALIVE_ASSERT_SIZEOF(SlurgSpawner, 0x3C);

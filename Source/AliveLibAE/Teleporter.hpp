@@ -55,4 +55,3 @@ private:
     Guid field_50_objId;
     s16 field_54_effect_created = 0;
 };
-ALIVE_ASSERT_SIZEOF(Teleporter, 0x58);

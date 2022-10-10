@@ -148,27 +148,23 @@ public:
 
     TParamiteBrain mBrainState = nullptr;
     s16 mBrainSubState = 0;
-    s16 field_112_surprise_web_delay_timer = 0;
+    s16 mSurpriseWebDelayTimer = 0;
     s32 field_114_timer = 0;
-    s32 field_118_not_used = 0;
-    s16 field_11C_meat_eating_time = 0;
-    s16 field_11E_alone_chase_delay = 0;
-    s32 field_120_wait_timer = 0;
+    s16 mMeatEatingTime = 0;
+    s16 mAloneChaseDelay = 0;
+    s32 mWaitTimer = 0;
     FP field_124_XSpeed = {};
-    s16 field_128_never_read = 0;
     s16 field_12A_res_idx = 0;
     Guid field_12C_tlvInfo;
-    s32 field_130_not_used = 0;
-    s32 field_134_group_chase_delay = 0;
-    s32 field_138_attack_timer = 0;
-    s16 field_13C_surprise_web_switch_id = 0;
+    s32 mGroupChaseDelay = 0;
+    s32 mAttackTimer = 0;
+    s16 mSurpriseWebSwitchId = 0;
     relive::reliveChoice mHissBeforeAttack = relive::reliveChoice::eNo;
     s16 field_140_use_prev_motion = 0;
     s16 field_142_bSnapped = 0;
     relive::reliveChoice mDeleteWhenOutOfSight = relive::reliveChoice::eNo;
-    s16 field_146_not_used = 0;
-    Meat* field_148_pMeat = nullptr;
-    ParamiteWeb* field_14C_pWeb = nullptr;
+    Meat* mMeat = nullptr;
+    ParamiteWeb* mParamiteWeb = nullptr;
 };
 ALIVE_ASSERT_SIZEOF(Paramite, 0x190);
 

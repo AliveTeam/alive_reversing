@@ -30,35 +30,35 @@
 #include "AnimationCallBacks.hpp"
 
 // Warning, index is saved, order matters here
-ALIVE_ARY(1, 0x5523A0, TFlyingSligBrainFn, 26, sFlyingSligMotionTable,
-          {
-              &FlyingSlig::M_Idle_0_4385E0,
-              &FlyingSlig::M_HorizontalMovement_1_4386A0,
-              &FlyingSlig::M_IdleToTurn_2_4388B0,
-              &FlyingSlig::M_DownMovement_3_438AA0,
-              &FlyingSlig::M_DownMovementToTurn_4_438CC0,
-              &FlyingSlig::M_UpMovement_5_438DD0,
-              &FlyingSlig::M_UpMovementToTurn_6_439030,
-              &FlyingSlig::M_LeverPull_7_439150,
-              &FlyingSlig::M_GameSpeak_8_4391D0,
-              &FlyingSlig::M_Possession_9_434290,
-              &FlyingSlig::M_EndHorizontalMovement_10_4387D0,
-              &FlyingSlig::M_BeginUpMovement_11_438E40,
-              &FlyingSlig::M_HorizontalToDownMovement_12_438B10,
-              &FlyingSlig::M_UpToHorizontalMovement_13_438F60,
-              &FlyingSlig::M_DownToHorizontalMovement_14_438BF0,
-              &FlyingSlig::M_QuickTurn_15_4387F0,
-              &FlyingSlig::M_IdleToHorizontalMovement_16_438730,
-              &FlyingSlig::M_BeginDownMovement_17_438B80,
-              &FlyingSlig::M_EndDownMovement_18_438C90,
-              &FlyingSlig::M_DownKnockback_19_4390D0,
-              &FlyingSlig::M_UpKnockback_20_439110,
-              &FlyingSlig::M_EndUpMovement_21_438EB0,
-              &FlyingSlig::M_InstantUpXTurn_22_438EE0,
-              &FlyingSlig::M_InstantDownXTurn_23_438F20,
-              &FlyingSlig::M_HorizontalToUpMovement_24_438D60,
-              &FlyingSlig::M_TurnToHorizontalMovement_25_4389E0,
-          });
+const static TFlyingSligBrainFn sFlyingSligMotionTable[26] =
+{
+    &FlyingSlig::Motion_0_Idle,
+    &FlyingSlig::Motion_1_HorizontalMovement,
+    &FlyingSlig::Motion_2_IdleToTurn,
+    &FlyingSlig::Motion_3_DownMovement,
+    &FlyingSlig::Motion_4_DownMovementToTurn,
+    &FlyingSlig::Motion_5_UpMovement,
+    &FlyingSlig::Motion_6_UpMovementToTurn,
+    &FlyingSlig::Motion_7_LeverPull,
+    &FlyingSlig::Motion_8_GameSpeak,
+    &FlyingSlig::Motion_9_Possession,
+    &FlyingSlig::Motion_10_EndHorizontalMovement,
+    &FlyingSlig::Motion_11_BeginUpMovement,
+    &FlyingSlig::Motion_12_HorizontalToDownMovement,
+    &FlyingSlig::Motion_13_UpToHorizontalMovement,
+    &FlyingSlig::Motion_14_DownToHorizontalMovement,
+    &FlyingSlig::Motion_15_QuickTurn,
+    &FlyingSlig::Motion_16_IdleToHorizontalMovement,
+    &FlyingSlig::Motion_17_BeginDownMovement,
+    &FlyingSlig::Motion_18_EndDownMovement,
+    &FlyingSlig::Motion_19_DownKnockback,
+    &FlyingSlig::Motion_20_UpKnockback,
+    &FlyingSlig::Motion_21_EndUpMovement,
+    &FlyingSlig::Motion_22_InstantUpXTurn,
+    &FlyingSlig::Motion_23_InstantDownXTurn,
+    &FlyingSlig::Motion_24_HorizontalToUpMovement,
+    &FlyingSlig::Motion_25_TurnToHorizontalMovement,
+};
 
 // Warning, index is saved, order matters here
 const static TFlyingSligBrainFn sFlyingSligBrainTable[18] = 
@@ -93,7 +93,7 @@ bool FlyingSlig::BrainIs(TFlyingSligBrainFn fn)
     return mBrainState == fn;
 }
 
-const AnimId sFlyingSligAnimIdTable[26] = {
+const static AnimId sFlyingSligAnimIdTable[26] = {
     AnimId::FlyingSlig_Idle,
     AnimId::FlyingSlig_MoveHorizontal,
     AnimId::FlyingSlig_IdleTurnAround,
@@ -136,10 +136,6 @@ void FlyingSlig::LoadAnimations()
 FlyingSlig::FlyingSlig(relive::Path_FlyingSlig* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(9)
 {
-    field_178_unused = 0;
-    field_164_unused = -1;
-    field_17A_unused = -1;
-
     LoadAnimations();
 
     if (tlvId != Guid{})
@@ -182,7 +178,6 @@ FlyingSlig::FlyingSlig(relive::Path_FlyingSlig* pTlv, const Guid& tlvId)
     field_290_bobbing_values_index = 0;
     field_284_bobbing_value = FP_FromInteger(0);
     field_28C_bobbing_values_table_index = 0;
-    field_1E8_unused = 0;
     field_184_xSpeed = FP_FromInteger(0);
     field_188_ySpeed = FP_FromInteger(0);
     field_190 = FP_FromInteger(0);
@@ -196,7 +191,7 @@ FlyingSlig::FlyingSlig(relive::Path_FlyingSlig* pTlv, const Guid& tlvId)
 
     SetBrain(&FlyingSlig::Brain_0_Inactive);
 
-    mCurrentMotion = eFlyingSligMotions::M_Idle_0_4385E0;
+    SetCurrentMotion(eFlyingSligMotions::Motion_0_Idle);
 
     if (field_118_data.mSpawnDelayState == relive::Path_FlyingSlig::SpawnDelayStates::eUseCustomSpawnMoveDelay)
     {
@@ -255,11 +250,6 @@ FlyingSlig::FlyingSlig(relive::Path_FlyingSlig* pTlv, const Guid& tlvId)
         field_194 = FP_FromInteger(0);
     }
 
-    field_1D8_unused = 0;
-    field_1DC_unused = 0;
-    field_1E0_unused = 0;
-    field_1E4_unused = 0;
-
     mShadow = relive_new Shadow();
 }
 
@@ -291,7 +281,7 @@ s32 FlyingSlig::CreateFromSaveState(const u8* pBuffer)
 
         pFlyingSlig->mRGB.SetRGB(pSaveState->field_1C_oldr, pSaveState->field_1E_oldg, pSaveState->field_20_oldb);
 
-        pFlyingSlig->mCurrentMotion = pSaveState->field_24_current_state;
+        pFlyingSlig->SetCurrentMotion(pSaveState->field_24_current_state);
 
         pFlyingSlig->mAnim.Set_Animation_Data(pFlyingSlig->GetAnimRes(sFlyingSligAnimIdTable[pFlyingSlig->mCurrentMotion]));
 
@@ -309,7 +299,7 @@ s32 FlyingSlig::CreateFromSaveState(const u8* pBuffer)
         }
 
         pFlyingSlig->mHealth = pSaveState->field_2C_current_health;
-        pFlyingSlig->mCurrentMotion = pSaveState->field_30_current_state;
+        pFlyingSlig->SetCurrentMotion(pSaveState->field_30_current_state);
         pFlyingSlig->mNextMotion = pSaveState->field_32_delayed_state;
         pFlyingSlig->BaseAliveGameObjectLastLineYPos = FP_FromInteger(pSaveState->field_34_lastLineYPos);
         pFlyingSlig->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eRestoredFromQuickSave);
@@ -359,14 +349,9 @@ s32 FlyingSlig::CreateFromSaveState(const u8* pBuffer)
         pFlyingSlig->field_1C4 = pSaveState->field_6C;
         pFlyingSlig->field_1C8_lever_pull_range_xpos = pSaveState->field_70_lever_pull_range_xpos;
         pFlyingSlig->field_1CC_lever_pull_range_ypos = pSaveState->field_74_lever_pull_range_ypos;
-        pFlyingSlig->field_1D8_unused = pSaveState->field_78_unused;
-        pFlyingSlig->field_1DC_unused = pSaveState->field_7C_unused;
-        pFlyingSlig->field_1E0_unused = pSaveState->field_80_unused;
-        pFlyingSlig->field_1E4_unused = pSaveState->field_84_unused;
         pFlyingSlig->field_294_nextXPos = pSaveState->field_88_nextXPos;
         pFlyingSlig->field_298_nextYPos = pSaveState->field_8C_nextYPos;
         pFlyingSlig->SetBrain(sFlyingSligBrainTable[pSaveState->field_90_fns1_idx]);
-        pFlyingSlig->field_1E8_unused = pSaveState->field_98_unused;
 
         pFlyingSlig->mAbeLevel = MapWrapper::FromAESaveData(pSaveState->field_9A_abe_level);
         pFlyingSlig->mAbePath = pSaveState->field_9C_abe_path;
@@ -465,10 +450,6 @@ s32 FlyingSlig::VGetSaveState(u8* pSaveBuffer)
     pState->field_6C = field_1C4;
     pState->field_70_lever_pull_range_xpos = field_1C8_lever_pull_range_xpos;
     pState->field_74_lever_pull_range_ypos = field_1CC_lever_pull_range_ypos;
-    pState->field_78_unused = field_1D8_unused;
-    pState->field_7C_unused = field_1DC_unused;
-    pState->field_80_unused = field_1E0_unused;
-    pState->field_84_unused = field_1E4_unused;
     pState->field_88_nextXPos = field_294_nextXPos;
     pState->field_8C_nextYPos = field_298_nextYPos;
     pState->field_90_fns1_idx = 0;
@@ -483,8 +464,6 @@ s32 FlyingSlig::VGetSaveState(u8* pSaveBuffer)
         }
         idx++;
     }
-
-    pState->field_98_unused = field_1E8_unused;
 
     pState->field_9A_abe_level = MapWrapper::ToAE(mAbeLevel);
     pState->field_9C_abe_path = mAbePath;
@@ -740,7 +719,7 @@ void FlyingSlig::Movement()
 
         if (mVelY < FP_FromInteger(0))
         {
-            if (CollisionUp_43A640(mVelY))
+            if (CollisionUp(mVelY))
             {
                 mVelY = -mVelY;
             }
@@ -748,7 +727,7 @@ void FlyingSlig::Movement()
 
         if (mVelY > FP_FromInteger(0))
         {
-            if (CollisionDown_43A9E0(mVelY))
+            if (CollisionDown(mVelY))
             {
                 mVelY = -mVelY;
             }
@@ -756,7 +735,7 @@ void FlyingSlig::Movement()
 
         if (mVelX != FP_FromInteger(0))
         {
-            if (CollisionLeftRight_43AC80(mVelX))
+            if (CollisionLeftRight(mVelX))
             {
                 mVelX = -mVelX;
             }
@@ -772,27 +751,27 @@ void FlyingSlig::Movement()
     {
         if (static_cast<s32>(sGnFrame) > field_150_grenade_delay && 
             (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::ePossessed) || SwitchStates_Get(field_17C_launch_switch_id) ||
-             mBaseAliveGameObjectFlags.Get(AliveObjectFlags::ePossessed)) && CanThrowGrenade_43A490())
+             mBaseAliveGameObjectFlags.Get(AliveObjectFlags::ePossessed)) && CanThrowGrenade())
         {
-            ThrowGrenade_43A1E0();
+            ThrowGrenade();
         }
     }
 
     if (field_17E_flags.Get(Flags_17E::eBit10_Speaking_flag2))
     {
-        VSetMotion(eFlyingSligMotions::M_GameSpeak_8_4391D0);
+        SetMotionHelper(eFlyingSligMotions::Motion_8_GameSpeak);
     }
 
     if (field_17E_flags.Get(Flags_17E::eBit6_bAlertedAndNotFacingAbe))
     {
-        VSetMotion(eFlyingSligMotions::M_IdleToTurn_2_4388B0);
+        SetMotionHelper(eFlyingSligMotions::Motion_2_IdleToTurn);
     }
 
     if (field_17E_flags.Get(Flags_17E::eBit7_DoAction))
     {
-        if (mCurrentMotion == eFlyingSligMotions::M_Idle_0_4385E0)
+        if (GetCurrentMotion() == eFlyingSligMotions::Motion_0_Idle)
         {
-            TryPullLever_439DB0();
+            TryPullLever();
         }
     }
 
@@ -926,7 +905,7 @@ s16 FlyingSlig::VTakeDamage(BaseGameObject* pFrom)
             {
                 return 1;
             }
-            BlowUp_436510();
+            BlowUp();
             auto pExplosion = relive_new Explosion(mXPos, mYPos - (mSpriteScale * FP_FromInteger(5)), mSpriteScale, 1);
             if (!pExplosion)
             {
@@ -943,7 +922,7 @@ s16 FlyingSlig::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eExplosion:
             if (!BrainIs(&FlyingSlig::Brain_1_Death))
             {
-                BlowUp_436510();
+                BlowUp();
             }
             break;
 
@@ -967,7 +946,7 @@ void FlyingSlig::Brain_0_Inactive()
 {
     if (static_cast<s32>(sGnFrame) >= field_14C_timer)
     {
-        ToMoving_435720();
+        ToMoving();
     }
 }
 
@@ -985,13 +964,13 @@ void FlyingSlig::Brain_2_Moving()
     if (!sub_436730() && sub_4374A0(1) == 1)
     {
         field_17E_flags.Toggle(Flags_17E::eBit4_FlyingSligUnknown);
-        PatrolDelay_435860();
+        PatrolDelay();
     }
 }
 
 void FlyingSlig::Brain_3_GetAlerted()
 {
-    if (mCurrentMotion != eFlyingSligMotions::M_Idle_0_4385E0)
+    if (GetCurrentMotion() != eFlyingSligMotions::Motion_0_Idle)
     {
         field_14C_timer++;
     }
@@ -999,7 +978,7 @@ void FlyingSlig::Brain_3_GetAlerted()
     {
         if (!sub_436730() && static_cast<s32>(sGnFrame) >= field_14C_timer)
         {
-            ToMoving_435720();
+            ToMoving();
         }
     }
     else
@@ -1015,13 +994,13 @@ void FlyingSlig::Brain_4_ChasingEnemy()
 
     if (EventGet(kEventHeroDying) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
     {
-        ToAbeDead_436010();
+        ToAbeDead();
         return;
     }
 
-    if (EventGet(kEventResetting) || sControlledCharacter->mSpriteScale != mSpriteScale || IsInInvisibleZone(sControlledCharacter) || sControlledCharacter->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible) || (!IsWallBetween_43A550(this, sControlledCharacter) && (!IsActiveHero(sControlledCharacter) || sActiveHero->mCurrentMotion != eAbeMotions::Motion_65_LedgeAscend_4548E0) && sControlledCharacter->Type() != ReliveTypes::eMineCar))
+    if (EventGet(kEventResetting) || sControlledCharacter->mSpriteScale != mSpriteScale || IsInInvisibleZone(sControlledCharacter) || sControlledCharacter->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible) || (!IsWallBetween(this, sControlledCharacter) && (!IsActiveHero(sControlledCharacter) || sActiveHero->mCurrentMotion != eAbeMotions::Motion_65_LedgeAscend_4548E0) && sControlledCharacter->Type() != ReliveTypes::eMineCar))
     {
-        PatrolDelay_435860();
+        PatrolDelay();
         return;
     }
 
@@ -1029,20 +1008,20 @@ void FlyingSlig::Brain_4_ChasingEnemy()
     {
         if (FP_Abs(field_194 - field_1C4) < (FP_FromInteger(15) * mSpriteScale))
         {
-            ToLaunchingGrenade_435F50();
+            ToLaunchingGrenade();
             return;
         }
 
         field_17E_flags.Set(Flags_17E::eBit4_FlyingSligUnknown, field_1C4 > field_194);
         field_17E_flags.Set(Flags_17E::eBit3);
 
-        if (static_cast<s32>(sGnFrame) > field_150_grenade_delay && CanThrowGrenade_43A490())
+        if (static_cast<s32>(sGnFrame) > field_150_grenade_delay && CanThrowGrenade())
         {
             if (VIsFacingMe(sControlledCharacter))
             {
                 if (!(Math_NextRandom() & 15))
                 {
-                    ToLaunchingGrenade_435F50();
+                    ToLaunchingGrenade();
                     return;
                 }
             }
@@ -1060,29 +1039,29 @@ void FlyingSlig::Brain_5_Idle()
 {
     if (!sub_436730() && static_cast<s32>(sGnFrame) >= field_14C_timer)
     {
-        ToMoving_435720();
+        ToMoving();
     }
 }
 
 void FlyingSlig::Brain_6_GameSpeakToMoving()
 {
-    if (mCurrentMotion != eFlyingSligMotions::M_GameSpeak_8_4391D0)
+    if (GetCurrentMotion() != eFlyingSligMotions::Motion_8_GameSpeak)
     {
-        ToMoving_435720();
+        ToMoving();
     }
 }
 
 void FlyingSlig::Brain_7_PanicMoving()
 {
-    if (CanChase_436850(sControlledCharacter))
+    if (CanChase(sControlledCharacter))
     {
-        ToChase_435E10();
+        ToChase();
         return;
     }
 
     if (!IsEventInRange(kEventAbeOhm, mXPos, mYPos, AsEventScale(mScale)))
     {
-        ToMoving_435720();
+        ToMoving();
         return;
     }
 
@@ -1095,25 +1074,25 @@ void FlyingSlig::Brain_7_PanicMoving()
         field_17E_flags.Toggle(Flags_17E::eBit4_FlyingSligUnknown);
     }
 
-    ToPanicIdle_435B50();
+    ToPanicIdle();
 }
 
 void FlyingSlig::Brain_8_PanicIdle()
 {
-    if (CanChase_436850(sControlledCharacter))
+    if (CanChase(sControlledCharacter))
     {
-        ToChase_435E10();
+        ToChase();
     }
     else if (IsEventInRange(kEventAbeOhm, mXPos, mYPos, AsEventScale(mScale)))
     {
-        if (static_cast<s32>(sGnFrame) >= field_14C_timer && mCurrentMotion != eFlyingSligMotions::M_GameSpeak_8_4391D0)
+        if (static_cast<s32>(sGnFrame) >= field_14C_timer && GetCurrentMotion() != eFlyingSligMotions::Motion_8_GameSpeak)
         {
-            ToPanicMoving_435A50();
+            ToPanicMoving();
         }
     }
     else
     {
-        ToMoving_435720();
+        ToMoving();
     }
 }
 
@@ -1121,7 +1100,7 @@ void FlyingSlig::Brain_9_SpottedEnemy()
 {
     if (static_cast<s32>(sGnFrame) >= field_14C_timer)
     {
-        ToChase_435E10();
+        ToChase();
     }
 }
 
@@ -1131,18 +1110,18 @@ void FlyingSlig::Brain_10_LaunchingGrenade()
     {
         field_17E_flags.Set(Flags_17E::eBit5_Throw);
     }
-    ToChase_435E10();
+    ToChase();
 }
 
 void FlyingSlig::Brain_11_AbeDead()
 {
     if (static_cast<s32>(sGnFrame) == field_14C_timer - 45)
     {
-        Say_436A50(SligSpeak ::eGotYa_12, 0);
+        Say(SligSpeak ::eGotYa_12, 0);
     }
     else if (static_cast<s32>(sGnFrame) == field_14C_timer)
     {
-        Say_436A50(SligSpeak::eLaugh_3, 0);
+        Say(SligSpeak::eLaugh_3, 0);
     }
 }
 
@@ -1157,7 +1136,7 @@ void FlyingSlig::Brain_12_Possessed()
     {
         if (Input_IsChanting_45F260())
         {
-            ToChantShake_436270();
+            ToChantShake();
         }
     }
 
@@ -1166,15 +1145,15 @@ void FlyingSlig::Brain_12_Possessed()
         field_17E_flags.Clear(Flags_17E::eBit9_Chanting);
     }
 
-    HandlePlayerControls_439340();
+    HandlePlayerControls();
 }
 
 void FlyingSlig::Brain_13_Possession()
 {
     if (static_cast<s32>(sGnFrame) > field_14C_timer)
     {
-        Say_436A50(SligSpeak ::eHi_0, 0x1FF);
-        ToPlayerControlled_4360C0();
+        Say(SligSpeak ::eHi_0, 0x1FF);
+        ToPlayerControlled();
     }
 }
 
@@ -1182,7 +1161,7 @@ void FlyingSlig::Brain_14_DePossession()
 {
     if (!Input_IsChanting_45F260())
     {
-        ToPlayerControlled_4360C0();
+        ToPlayerControlled();
         return;
     }
 
@@ -1201,7 +1180,7 @@ void FlyingSlig::Brain_14_DePossession()
     }
     else
     {
-        BlowUp_436510();
+        BlowUp();
     }
 }
 
@@ -1245,12 +1224,12 @@ void FlyingSlig::Brain_15_FlyingSligSpawn()
 
         if ((FP_Abs(mXPos - field_1C8_lever_pull_range_xpos) < FP_FromInteger(1)) && (FP_Abs(mYPos - field_1CC_lever_pull_range_ypos) < FP_FromInteger(1)))
         {
-            VSetMotion(eFlyingSligMotions::M_LeverPull_7_439150);
+            SetMotionHelper(eFlyingSligMotions::Motion_7_LeverPull);
         }
     }
-    else if (mCurrentMotion == eFlyingSligMotions::M_Idle_0_4385E0)
+    else if (GetCurrentMotion() == eFlyingSligMotions::Motion_0_Idle)
     {
-        ToPlayerControlled_4360C0();
+        ToPlayerControlled();
     }
 }
 
@@ -1276,7 +1255,7 @@ void FlyingSlig::Brain_17_FromCrawlingSlig()
         mVelX = FP_FromInteger(0);
         field_188_ySpeed = FP_FromInteger(0);
         field_184_xSpeed = FP_FromInteger(0);
-        PatrolDelay_435860();
+        PatrolDelay();
     }
     else
     {
@@ -1287,7 +1266,7 @@ void FlyingSlig::Brain_17_FromCrawlingSlig()
     }
 }
 
-void FlyingSlig::M_Idle_0_4385E0()
+void FlyingSlig::Motion_0_Idle()
 {
     if (!field_28C_bobbing_values_table_index)
     {
@@ -1297,15 +1276,15 @@ void FlyingSlig::M_Idle_0_4385E0()
 
     if (field_184_xSpeed != FP_FromInteger(0))
     {
-        if (IsFacingMovementDirection_43A510())
+        if (IsFacingMovementDirection())
         {
-            VSetMotion(eFlyingSligMotions::M_IdleToHorizontalMovement_16_438730);
+            SetMotionHelper(eFlyingSligMotions::Motion_16_IdleToHorizontalMovement);
             field_28C_bobbing_values_table_index = 1;
             field_290_bobbing_values_index = 0;
         }
         else
         {
-            VSetMotion(eFlyingSligMotions::M_IdleToTurn_2_4388B0);
+            SetMotionHelper(eFlyingSligMotions::Motion_2_IdleToTurn);
         }
     }
     else
@@ -1314,39 +1293,39 @@ void FlyingSlig::M_Idle_0_4385E0()
         {
             if (field_188_ySpeed >= FP_FromInteger(0))
             {
-                VSetMotion(eFlyingSligMotions::M_BeginDownMovement_17_438B80);
+                SetMotionHelper(eFlyingSligMotions::Motion_17_BeginDownMovement);
             }
             else
             {
-                VSetMotion(eFlyingSligMotions::M_BeginUpMovement_11_438E40);
+                SetMotionHelper(eFlyingSligMotions::Motion_11_BeginUpMovement);
             }
         }
     }
 }
 
-void FlyingSlig::M_HorizontalMovement_1_4386A0()
+void FlyingSlig::Motion_1_HorizontalMovement()
 {
     if (field_188_ySpeed < FP_FromInteger(0))
     {
-        VSetMotion(eFlyingSligMotions::M_HorizontalToUpMovement_24_438D60);
+        SetMotionHelper(eFlyingSligMotions::Motion_24_HorizontalToUpMovement);
     }
     else if (field_188_ySpeed > FP_FromInteger(0))
     {
-        VSetMotion(eFlyingSligMotions::M_HorizontalToDownMovement_12_438B10);
+        SetMotionHelper(eFlyingSligMotions::Motion_12_HorizontalToDownMovement);
     }
     else if (field_184_xSpeed == FP_FromInteger(0))
     {
-        VSetMotion(eFlyingSligMotions::M_EndHorizontalMovement_10_4387D0);
+        SetMotionHelper(eFlyingSligMotions::Motion_10_EndHorizontalMovement);
     }
-    else if (!IsFacingMovementDirection_43A510())
+    else if (!IsFacingMovementDirection())
     {
-        VSetMotion(eFlyingSligMotions::M_QuickTurn_15_4387F0);
+        SetMotionHelper(eFlyingSligMotions::Motion_15_QuickTurn);
         field_28C_bobbing_values_table_index = 3;
         field_290_bobbing_values_index = 0;
     }
 }
 
-void FlyingSlig::M_IdleToTurn_2_4388B0()
+void FlyingSlig::Motion_2_IdleToTurn()
 {
     if (mAnim.mCurrentFrame == 4)
     {
@@ -1357,25 +1336,25 @@ void FlyingSlig::M_IdleToTurn_2_4388B0()
             {
                 if (field_188_ySpeed <= FP_FromInteger(0))
                 {
-                    if (IsFacingMovementDirection_43A510())
+                    if (IsFacingMovementDirection())
                     {
                         mAnim.mFlags.Toggle(AnimFlags::eFlipX);
-                        VSetMotion(eFlyingSligMotions::M_TurnToHorizontalMovement_25_4389E0);
+                        SetMotionHelper(eFlyingSligMotions::Motion_25_TurnToHorizontalMovement);
                     }
                     else
                     {
-                        VSetMotion(eFlyingSligMotions::M_QuickTurn_15_4387F0);
+                        SetMotionHelper(eFlyingSligMotions::Motion_15_QuickTurn);
                     }
                 }
                 else
                 {
-                    VSetMotion(eFlyingSligMotions::M_HorizontalToDownMovement_12_438B10);
+                    SetMotionHelper(eFlyingSligMotions::Motion_12_HorizontalToDownMovement);
                     field_28C_bobbing_values_table_index = 0;
                 }
             }
             else
             {
-                VSetMotion(eFlyingSligMotions::M_HorizontalToUpMovement_24_438D60);
+                SetMotionHelper(eFlyingSligMotions::Motion_24_HorizontalToUpMovement);
                 field_28C_bobbing_values_table_index = 0;
             }
         }
@@ -1387,127 +1366,127 @@ void FlyingSlig::M_IdleToTurn_2_4388B0()
         {
             if (field_188_ySpeed <= FP_FromInteger(0))
             {
-                VSetMotion(eFlyingSligMotions::M_Idle_0_4385E0);
+                SetMotionHelper(eFlyingSligMotions::Motion_0_Idle);
             }
             else
             {
-                VSetMotion(eFlyingSligMotions::M_BeginDownMovement_17_438B80);
+                SetMotionHelper(eFlyingSligMotions::Motion_17_BeginDownMovement);
             }
         }
         else
         {
-            VSetMotion(eFlyingSligMotions::M_BeginUpMovement_11_438E40);
+            SetMotionHelper(eFlyingSligMotions::Motion_11_BeginUpMovement);
         }
     }
 }
 
-void FlyingSlig::M_DownMovement_3_438AA0()
+void FlyingSlig::Motion_3_DownMovement()
 {
-    if (field_184_xSpeed == FP_FromInteger(0) || IsFacingMovementDirection_43A510())
+    if (field_184_xSpeed == FP_FromInteger(0) || IsFacingMovementDirection())
     {
         if (field_188_ySpeed <= FP_FromInteger(0))
         {
             if (field_184_xSpeed != FP_FromInteger(0))
             {
-                VSetMotion(eFlyingSligMotions::M_DownToHorizontalMovement_14_438BF0);
+                SetMotionHelper(eFlyingSligMotions::Motion_14_DownToHorizontalMovement);
             }
             else
             {
-                VSetMotion(eFlyingSligMotions::M_EndDownMovement_18_438C90);
+                SetMotionHelper(eFlyingSligMotions::Motion_18_EndDownMovement);
             }
         }
     }
     else
     {
-        VSetMotion(eFlyingSligMotions::M_DownMovementToTurn_4_438CC0);
+        SetMotionHelper(eFlyingSligMotions::Motion_4_DownMovementToTurn);
     }
 }
 
-void FlyingSlig::M_DownMovementToTurn_4_438CC0()
+void FlyingSlig::Motion_4_DownMovementToTurn()
 {
     if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mAnim.mFlags.Toggle(AnimFlags::eFlipX);
 
-        if (field_184_xSpeed == FP_FromInteger(0) || IsFacingMovementDirection_43A510())
+        if (field_184_xSpeed == FP_FromInteger(0) || IsFacingMovementDirection())
         {
             if (field_188_ySpeed > FP_FromInteger(0))
             {
-                VSetMotion(eFlyingSligMotions::M_DownMovement_3_438AA0);
+                SetMotionHelper(eFlyingSligMotions::Motion_3_DownMovement);
             }
             else if (field_184_xSpeed != FP_FromInteger(0))
             {
-                VSetMotion(eFlyingSligMotions::M_DownToHorizontalMovement_14_438BF0);
+                SetMotionHelper(eFlyingSligMotions::Motion_14_DownToHorizontalMovement);
             }
             else
             {
-                VSetMotion(eFlyingSligMotions::M_EndDownMovement_18_438C90);
+                SetMotionHelper(eFlyingSligMotions::Motion_18_EndDownMovement);
             }
         }
         else
         {
-            VSetMotion(eFlyingSligMotions::M_DownMovementToTurn_4_438CC0);
+            SetMotionHelper(eFlyingSligMotions::Motion_4_DownMovementToTurn);
         }
     }
 }
 
-void FlyingSlig::M_UpMovement_5_438DD0()
+void FlyingSlig::Motion_5_UpMovement()
 {
-    if (field_184_xSpeed == FP_FromInteger(0) || IsFacingMovementDirection_43A510())
+    if (field_184_xSpeed == FP_FromInteger(0) || IsFacingMovementDirection())
     {
         if (field_188_ySpeed >= FP_FromInteger(0))
         {
             if (field_184_xSpeed != FP_FromInteger(0))
             {
-                VSetMotion(eFlyingSligMotions::M_UpToHorizontalMovement_13_438F60);
+                SetMotionHelper(eFlyingSligMotions::Motion_13_UpToHorizontalMovement);
             }
             else
             {
-                VSetMotion(eFlyingSligMotions::M_EndUpMovement_21_438EB0);
+                SetMotionHelper(eFlyingSligMotions::Motion_21_EndUpMovement);
             }
         }
     }
     else
     {
-        VSetMotion(eFlyingSligMotions::M_UpMovementToTurn_6_439030);
+        SetMotionHelper(eFlyingSligMotions::Motion_6_UpMovementToTurn);
     }
 }
 
-void FlyingSlig::M_UpMovementToTurn_6_439030()
+void FlyingSlig::Motion_6_UpMovementToTurn()
 {
     if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mAnim.mFlags.Toggle(AnimFlags::eFlipX);
 
-        if (field_184_xSpeed == FP_FromInteger(0) || IsFacingMovementDirection_43A510())
+        if (field_184_xSpeed == FP_FromInteger(0) || IsFacingMovementDirection())
         {
             if (field_188_ySpeed < FP_FromInteger(0))
             {
-                VSetMotion(eFlyingSligMotions::M_UpMovement_5_438DD0);
+                SetMotionHelper(eFlyingSligMotions::Motion_5_UpMovement);
             }
             else if (field_184_xSpeed != FP_FromInteger(0))
             {
-                VSetMotion(eFlyingSligMotions::M_UpToHorizontalMovement_13_438F60);
+                SetMotionHelper(eFlyingSligMotions::Motion_13_UpToHorizontalMovement);
             }
             else
             {
-                VSetMotion(eFlyingSligMotions::M_EndUpMovement_21_438EB0);
+                SetMotionHelper(eFlyingSligMotions::Motion_21_EndUpMovement);
             }
         }
         else
         {
-            VSetMotion(eFlyingSligMotions::M_UpMovementToTurn_6_439030);
+            SetMotionHelper(eFlyingSligMotions::Motion_6_UpMovementToTurn);
         }
     }
 }
 
-void FlyingSlig::M_LeverPull_7_439150()
+void FlyingSlig::Motion_7_LeverPull()
 {
     if (mAnim.mCurrentFrame)
     {
         if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
         {
-            VSetMotion(eFlyingSligMotions::M_Idle_0_4385E0);
+            SetMotionHelper(eFlyingSligMotions::Motion_0_Idle);
         }
     }
     else
@@ -1521,7 +1500,7 @@ void FlyingSlig::M_LeverPull_7_439150()
     }
 }
 
-void FlyingSlig::M_GameSpeak_8_4391D0()
+void FlyingSlig::Motion_8_GameSpeak()
 {
     if (mAnim.mCurrentFrame == 1 && field_17E_flags.Get(Flags_17E::eBit1_Speaking_flag1))
     {
@@ -1564,106 +1543,106 @@ void FlyingSlig::M_GameSpeak_8_4391D0()
     }
     else if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
-        this->VSetMotion(eFlyingSligMotions::M_Idle_0_4385E0);
+        this->SetMotionHelper(eFlyingSligMotions::Motion_0_Idle);
     }
 }
 
-void FlyingSlig::M_Possession_9_434290()
+void FlyingSlig::Motion_9_Possession()
 {
     
 }
 
-void FlyingSlig::M_EndHorizontalMovement_10_4387D0()
+void FlyingSlig::Motion_10_EndHorizontalMovement()
 {
     if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
-        VSetMotion(eFlyingSligMotions::M_Idle_0_4385E0);
+        SetMotionHelper(eFlyingSligMotions::Motion_0_Idle);
     }
 }
 
-void FlyingSlig::M_BeginUpMovement_11_438E40()
+void FlyingSlig::Motion_11_BeginUpMovement()
 {
     if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         if (field_184_xSpeed > FP_FromInteger(0))
         {
-            if (!IsFacingMovementDirection_43A510())
+            if (!IsFacingMovementDirection())
             {
-                VSetMotion(eFlyingSligMotions::M_UpMovementToTurn_6_439030);
+                SetMotionHelper(eFlyingSligMotions::Motion_6_UpMovementToTurn);
                 return;
             }
         }
         else if (field_188_ySpeed >= FP_FromInteger(0))
         {
-            VSetMotion(eFlyingSligMotions::M_EndUpMovement_21_438EB0);
+            SetMotionHelper(eFlyingSligMotions::Motion_21_EndUpMovement);
             return;
         }
-        VSetMotion(eFlyingSligMotions::M_UpMovement_5_438DD0);
+        SetMotionHelper(eFlyingSligMotions::Motion_5_UpMovement);
     }
 }
 
-void FlyingSlig::M_HorizontalToDownMovement_12_438B10()
+void FlyingSlig::Motion_12_HorizontalToDownMovement()
 {
     if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         if (field_184_xSpeed != FP_FromInteger(0))
         {
-            if (!IsFacingMovementDirection_43A510())
+            if (!IsFacingMovementDirection())
             {
-                VSetMotion(eFlyingSligMotions::M_DownMovementToTurn_4_438CC0);
+                SetMotionHelper(eFlyingSligMotions::Motion_4_DownMovementToTurn);
                 return;
             }
         }
         else if (field_188_ySpeed <= FP_FromInteger(0))
         {
-            VSetMotion(eFlyingSligMotions::M_EndDownMovement_18_438C90);
+            SetMotionHelper(eFlyingSligMotions::Motion_18_EndDownMovement);
             return;
         }
-        VSetMotion(eFlyingSligMotions::M_DownMovement_3_438AA0);
+        SetMotionHelper(eFlyingSligMotions::Motion_3_DownMovement);
     }
 }
 
-void FlyingSlig::M_UpToHorizontalMovement_13_438F60()
+void FlyingSlig::Motion_13_UpToHorizontalMovement()
 {
     if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         if (field_188_ySpeed <= FP_FromInteger(0))
         {
-            VSetMotion(eFlyingSligMotions::M_HorizontalMovement_1_4386A0);
+            SetMotionHelper(eFlyingSligMotions::Motion_1_HorizontalMovement);
         }
         else
         {
-            VSetMotion(eFlyingSligMotions::M_HorizontalToDownMovement_12_438B10);
+            SetMotionHelper(eFlyingSligMotions::Motion_12_HorizontalToDownMovement);
         }
         if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
         {
             if (field_188_ySpeed > FP_FromInteger(0))
             {
-                VSetMotion(eFlyingSligMotions::M_HorizontalToDownMovement_12_438B10);
+                SetMotionHelper(eFlyingSligMotions::Motion_12_HorizontalToDownMovement);
                 field_28C_bobbing_values_table_index = 0;
             }
             else if (field_188_ySpeed < FP_FromInteger(0))
             {
-                VSetMotion(eFlyingSligMotions::M_HorizontalToUpMovement_24_438D60);
+                SetMotionHelper(eFlyingSligMotions::Motion_24_HorizontalToUpMovement);
                 field_28C_bobbing_values_table_index = 0;
             }
             else if (field_184_xSpeed == FP_FromInteger(0))
             {
-                VSetMotion(eFlyingSligMotions::M_EndHorizontalMovement_10_4387D0);
+                SetMotionHelper(eFlyingSligMotions::Motion_10_EndHorizontalMovement);
             }
-            else if (IsFacingMovementDirection_43A510())
+            else if (IsFacingMovementDirection())
             {
-                VSetMotion(eFlyingSligMotions::M_HorizontalMovement_1_4386A0);
+                SetMotionHelper(eFlyingSligMotions::Motion_1_HorizontalMovement);
             }
             else
             {
-                VSetMotion(eFlyingSligMotions::M_QuickTurn_15_4387F0);
+                SetMotionHelper(eFlyingSligMotions::Motion_15_QuickTurn);
             }
         }
     }
 }
 
-void FlyingSlig::M_DownToHorizontalMovement_14_438BF0()
+void FlyingSlig::Motion_14_DownToHorizontalMovement()
 {
     if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
@@ -1673,35 +1652,35 @@ void FlyingSlig::M_DownToHorizontalMovement_14_438BF0()
             {
                 if (field_184_xSpeed > FP_FromInteger(0))
                 {
-                    if (IsFacingMovementDirection_43A510())
+                    if (IsFacingMovementDirection())
                     {
-                        VSetMotion(eFlyingSligMotions::M_HorizontalMovement_1_4386A0);
+                        SetMotionHelper(eFlyingSligMotions::Motion_1_HorizontalMovement);
                     }
                     else
                     {
-                        VSetMotion(eFlyingSligMotions::M_QuickTurn_15_4387F0);
+                        SetMotionHelper(eFlyingSligMotions::Motion_15_QuickTurn);
                     }
                 }
                 else
                 {
-                    VSetMotion(eFlyingSligMotions::M_EndHorizontalMovement_10_4387D0);
+                    SetMotionHelper(eFlyingSligMotions::Motion_10_EndHorizontalMovement);
                 }
             }
             else
             {
-                VSetMotion(eFlyingSligMotions::M_HorizontalToDownMovement_12_438B10);
+                SetMotionHelper(eFlyingSligMotions::Motion_12_HorizontalToDownMovement);
                 field_28C_bobbing_values_table_index = 0;
             }
         }
         else
         {
-            VSetMotion(eFlyingSligMotions::M_HorizontalToUpMovement_24_438D60);
+            SetMotionHelper(eFlyingSligMotions::Motion_24_HorizontalToUpMovement);
             field_28C_bobbing_values_table_index = 0;
         }
     }
 }
 
-void FlyingSlig::M_QuickTurn_15_4387F0()
+void FlyingSlig::Motion_15_QuickTurn()
 {
     if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
@@ -1709,165 +1688,165 @@ void FlyingSlig::M_QuickTurn_15_4387F0()
 
         if (field_188_ySpeed < FP_FromInteger(0))
         {
-            VSetMotion(eFlyingSligMotions::M_HorizontalToUpMovement_24_438D60);
+            SetMotionHelper(eFlyingSligMotions::Motion_24_HorizontalToUpMovement);
             field_28C_bobbing_values_table_index = 0;
         }
         else if (field_188_ySpeed > FP_FromInteger(0))
         {
-            VSetMotion(eFlyingSligMotions::M_HorizontalToDownMovement_12_438B10);
+            SetMotionHelper(eFlyingSligMotions::Motion_12_HorizontalToDownMovement);
             field_28C_bobbing_values_table_index = 0;
         }
         else if (field_184_xSpeed == FP_FromInteger(0))
         {
-            VSetMotion(eFlyingSligMotions::M_EndHorizontalMovement_10_4387D0);
+            SetMotionHelper(eFlyingSligMotions::Motion_10_EndHorizontalMovement);
         }
-        else if (!IsFacingMovementDirection_43A510())
+        else if (!IsFacingMovementDirection())
         {
-            VSetMotion(eFlyingSligMotions::M_QuickTurn_15_4387F0);
+            SetMotionHelper(eFlyingSligMotions::Motion_15_QuickTurn);
         }
         else
         {
-            VSetMotion(eFlyingSligMotions::M_HorizontalMovement_1_4386A0);
+            SetMotionHelper(eFlyingSligMotions::Motion_1_HorizontalMovement);
         }
     }
 }
 
-void FlyingSlig::M_IdleToHorizontalMovement_16_438730()
+void FlyingSlig::Motion_16_IdleToHorizontalMovement()
 {
     if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         if (field_188_ySpeed < FP_FromInteger(0))
         {
-            VSetMotion(eFlyingSligMotions::M_HorizontalToUpMovement_24_438D60);
+            SetMotionHelper(eFlyingSligMotions::Motion_24_HorizontalToUpMovement);
             field_28C_bobbing_values_table_index = 0;
         }
         else if (field_188_ySpeed > FP_FromInteger(0))
         {
-            VSetMotion(eFlyingSligMotions::M_HorizontalToDownMovement_12_438B10);
+            SetMotionHelper(eFlyingSligMotions::Motion_12_HorizontalToDownMovement);
             field_28C_bobbing_values_table_index = 0;
         }
         else if (field_184_xSpeed == FP_FromInteger(0))
         {
-            VSetMotion(eFlyingSligMotions::M_EndHorizontalMovement_10_4387D0);
+            SetMotionHelper(eFlyingSligMotions::Motion_10_EndHorizontalMovement);
         }
-        else if (IsFacingMovementDirection_43A510())
+        else if (IsFacingMovementDirection())
         {
-            VSetMotion(eFlyingSligMotions::M_HorizontalMovement_1_4386A0);
+            SetMotionHelper(eFlyingSligMotions::Motion_1_HorizontalMovement);
         }
         else
         {
-            VSetMotion(eFlyingSligMotions::M_QuickTurn_15_4387F0);
+            SetMotionHelper(eFlyingSligMotions::Motion_15_QuickTurn);
         }
     }
 }
 
-void FlyingSlig::M_BeginDownMovement_17_438B80()
+void FlyingSlig::Motion_17_BeginDownMovement()
 {
     if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         if (field_184_xSpeed != FP_FromInteger(0))
         {
-            if (!IsFacingMovementDirection_43A510())
+            if (!IsFacingMovementDirection())
             {
-                VSetMotion(eFlyingSligMotions::M_DownMovementToTurn_4_438CC0);
+                SetMotionHelper(eFlyingSligMotions::Motion_4_DownMovementToTurn);
                 return;
             }
         }
         else if (field_188_ySpeed <= FP_FromInteger(0))
         {
-            VSetMotion(eFlyingSligMotions::M_EndDownMovement_18_438C90);
+            SetMotionHelper(eFlyingSligMotions::Motion_18_EndDownMovement);
             return;
         }
-        VSetMotion(eFlyingSligMotions::M_DownMovement_3_438AA0);
+        SetMotionHelper(eFlyingSligMotions::Motion_3_DownMovement);
     }
 }
 
-void FlyingSlig::M_EndDownMovement_18_438C90()
+void FlyingSlig::Motion_18_EndDownMovement()
 {
     if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         if (field_188_ySpeed >= FP_FromInteger(0))
         {
-            VSetMotion(eFlyingSligMotions::M_Idle_0_4385E0);
+            SetMotionHelper(eFlyingSligMotions::Motion_0_Idle);
         }
         else
         {
-            VSetMotion(eFlyingSligMotions::M_BeginUpMovement_11_438E40);
+            SetMotionHelper(eFlyingSligMotions::Motion_11_BeginUpMovement);
         }
     }
 }
 
-void FlyingSlig::M_DownKnockback_19_4390D0()
+void FlyingSlig::Motion_19_DownKnockback()
 {
     if (FP_Abs(field_184_xSpeed) > FP_FromDouble(0.1) || field_188_ySpeed < FP_FromDouble(0.1))
     {
-        VSetMotion(eFlyingSligMotions::M_EndDownMovement_18_438C90);
+        SetMotionHelper(eFlyingSligMotions::Motion_18_EndDownMovement);
     }
 }
 
-void FlyingSlig::M_UpKnockback_20_439110()
+void FlyingSlig::Motion_20_UpKnockback()
 {
     if (FP_Abs(field_184_xSpeed) > FP_FromDouble(0.1) || field_188_ySpeed > FP_FromDouble(-0.1))
     {
-        VSetMotion(eFlyingSligMotions::M_Idle_0_4385E0);
+        SetMotionHelper(eFlyingSligMotions::Motion_0_Idle);
     }
 }
 
-void FlyingSlig::M_EndUpMovement_21_438EB0()
+void FlyingSlig::Motion_21_EndUpMovement()
 {
     if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         if (field_188_ySpeed <= FP_FromInteger(0))
         {
-            VSetMotion(eFlyingSligMotions::M_Idle_0_4385E0);
+            SetMotionHelper(eFlyingSligMotions::Motion_0_Idle);
         }
         else
         {
-            VSetMotion(eFlyingSligMotions::M_BeginDownMovement_17_438B80);
+            SetMotionHelper(eFlyingSligMotions::Motion_17_BeginDownMovement);
         }
     }
 }
 
-void FlyingSlig::M_InstantUpXTurn_22_438EE0()
+void FlyingSlig::Motion_22_InstantUpXTurn()
 {
     if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mAnim.mFlags.Toggle(AnimFlags::eFlipX);
-        VSetMotion(eFlyingSligMotions::M_UpMovement_5_438DD0);
+        SetMotionHelper(eFlyingSligMotions::Motion_5_UpMovement);
     }
 }
 
-void FlyingSlig::M_InstantDownXTurn_23_438F20()
+void FlyingSlig::Motion_23_InstantDownXTurn()
 {
     if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mAnim.mFlags.Toggle(AnimFlags::eFlipX);
-        VSetMotion(eFlyingSligMotions::M_DownMovement_3_438AA0);
+        SetMotionHelper(eFlyingSligMotions::Motion_3_DownMovement);
     }
 }
 
-void FlyingSlig::M_HorizontalToUpMovement_24_438D60()
+void FlyingSlig::Motion_24_HorizontalToUpMovement()
 {
     if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
         if (field_184_xSpeed != FP_FromInteger(0))
         {
-            if (!IsFacingMovementDirection_43A510())
+            if (!IsFacingMovementDirection())
             {
-                VSetMotion(eFlyingSligMotions::M_UpMovementToTurn_6_439030);
+                SetMotionHelper(eFlyingSligMotions::Motion_6_UpMovementToTurn);
                 return;
             }
         }
         else if (field_188_ySpeed >= FP_FromInteger(0))
         {
-            VSetMotion(eFlyingSligMotions::M_EndUpMovement_21_438EB0);
+            SetMotionHelper(eFlyingSligMotions::Motion_21_EndUpMovement);
             return;
         }
-        VSetMotion(eFlyingSligMotions::M_UpMovement_5_438DD0);
+        SetMotionHelper(eFlyingSligMotions::Motion_5_UpMovement);
     }
 }
 
-void FlyingSlig::M_TurnToHorizontalMovement_25_4389E0()
+void FlyingSlig::Motion_25_TurnToHorizontalMovement()
 {
     if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
     {
@@ -1879,60 +1858,60 @@ void FlyingSlig::M_TurnToHorizontalMovement_25_4389E0()
             {
                 if (field_184_xSpeed != FP_FromInteger(0))
                 {
-                    if (IsFacingMovementDirection_43A510())
+                    if (IsFacingMovementDirection())
                     {
-                        VSetMotion(eFlyingSligMotions::M_HorizontalMovement_1_4386A0);
+                        SetMotionHelper(eFlyingSligMotions::Motion_1_HorizontalMovement);
                     }
                     else
                     {
-                        VSetMotion(eFlyingSligMotions::M_QuickTurn_15_4387F0);
+                        SetMotionHelper(eFlyingSligMotions::Motion_15_QuickTurn);
                     }
                 }
                 else
                 {
-                    VSetMotion(eFlyingSligMotions::M_EndHorizontalMovement_10_4387D0);
+                    SetMotionHelper(eFlyingSligMotions::Motion_10_EndHorizontalMovement);
                 }
             }
             else
             {
-                VSetMotion(eFlyingSligMotions::M_HorizontalToDownMovement_12_438B10);
+                SetMotionHelper(eFlyingSligMotions::Motion_12_HorizontalToDownMovement);
                 field_28C_bobbing_values_table_index = 0;
             }
         }
         else
         {
-            VSetMotion(eFlyingSligMotions::M_HorizontalToUpMovement_24_438D60);
+            SetMotionHelper(eFlyingSligMotions::Motion_24_HorizontalToUpMovement);
             field_28C_bobbing_values_table_index = 0;
         }
     }
 }
 
-s16 FlyingSlig::IsFacingMovementDirection_43A510()
+s16 FlyingSlig::IsFacingMovementDirection()
 {
     return ((field_184_xSpeed > FP_FromInteger(0) && !(mAnim.mFlags.Get(AnimFlags::eFlipX)))
             || (field_184_xSpeed < FP_FromInteger(0) && mAnim.mFlags.Get(AnimFlags::eFlipX)));
 }
 
-void FlyingSlig::ToPlayerControlled_4360C0()
+void FlyingSlig::ToPlayerControlled()
 {
-    VSetMotion(eFlyingSligMotions::M_Idle_0_4385E0);
+    SetMotionHelper(eFlyingSligMotions::Motion_0_Idle);
     SetBrain(&FlyingSlig::Brain_12_Possessed);
 }
 
-void FlyingSlig::ToMoving_435720()
+void FlyingSlig::ToMoving()
 {
     MusicController::static_PlayMusic(MusicController::MusicTypes::eTension_4, this, 0, 0);
     SetBrain(&FlyingSlig::Brain_2_Moving);
 }
 
-void FlyingSlig::ToPanicIdle_435B50()
+void FlyingSlig::ToPanicIdle()
 {
-    Say_436A50(SligSpeak::eHelp_10, 0);
+    Say(SligSpeak::eHelp_10, 0);
     field_14C_timer = (Math_NextRandom() & 7) + sGnFrame + field_118_data.mPanicDelay;
     SetBrain(&FlyingSlig::Brain_8_PanicIdle);
 }
 
-void FlyingSlig::ToChase_435E10()
+void FlyingSlig::ToChase()
 {
     MusicController::static_PlayMusic(MusicController::MusicTypes::eSoftChase_8, this, 0, 0);
     SetBrain(&FlyingSlig::Brain_4_ChasingEnemy);
@@ -1943,9 +1922,9 @@ s16 FlyingSlig::IsPossessed()
     return BrainIs(&FlyingSlig::Brain_12_Possessed) || BrainIs(&FlyingSlig::Brain_15_FlyingSligSpawn) || BrainIs(&FlyingSlig::Brain_17_FromCrawlingSlig) || BrainIs(&FlyingSlig::Brain_13_Possession) || BrainIs(&FlyingSlig::Brain_14_DePossession);
 }
 
-s16 FlyingSlig::CanChase_436850(BaseAliveGameObject* pObj)
+s16 FlyingSlig::CanChase(BaseAliveGameObject* pObj)
 {
-    if (!gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) || !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) || EventGet(kEventResetting) || IsAbeEnteringDoor_43B030(pObj) || sActiveHero->mSpriteScale != mSpriteScale || !IsWallBetween_43A550(this, pObj))
+    if (!gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) || !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) || EventGet(kEventResetting) || IsAbeEnteringDoor(pObj) || sActiveHero->mSpriteScale != mSpriteScale || !IsWallBetween(this, pObj))
     {
         return 0;
     }
@@ -1963,9 +1942,9 @@ s16 FlyingSlig::CanChase_436850(BaseAliveGameObject* pObj)
     return 0;
 }
 
-void FlyingSlig::Say_436A50(SligSpeak speak, s16 pitch)
+void FlyingSlig::Say(SligSpeak speak, s16 pitch)
 {
-    if (mCurrentMotion != eFlyingSligMotions::M_GameSpeak_8_4391D0)
+    if (GetCurrentMotion() != eFlyingSligMotions::Motion_8_GameSpeak)
     {
         field_17E_flags.Set(Flags_17E::eBit1_Speaking_flag1);
         field_17E_flags.Set(Flags_17E::eBit10_Speaking_flag2);
@@ -2135,12 +2114,12 @@ s16 FlyingSlig::sub_4374A0(s16 a2)
     return 0;
 }
 
-s16 FlyingSlig::IsAbeEnteringDoor_43B030(BaseAliveGameObject* pThis)
+s16 FlyingSlig::IsAbeEnteringDoor(BaseAliveGameObject* pThis)
 {
     return Slig::IsAbeEnteringDoor_4BB990(pThis);
 }
 
-bool FlyingSlig::IsWallBetween_43A550(BaseAliveGameObject* pThis, BaseAliveGameObject* pObj)
+bool FlyingSlig::IsWallBetween(BaseAliveGameObject* pThis, BaseAliveGameObject* pObj)
 {
     // TODO: Duplicated like IsAbeEnteringDoor_4BB990 ??
     const PSX_RECT bRect = pObj->VGetBoundingRect();
@@ -2160,7 +2139,7 @@ bool FlyingSlig::IsWallBetween_43A550(BaseAliveGameObject* pThis, BaseAliveGameO
         != 1;
 }
 
-void FlyingSlig::ThrowGrenade_43A1E0()
+void FlyingSlig::ThrowGrenade()
 {
     FP grenadeXVel = (FP_FromInteger(Math_RandomRange(50, 64)) / FP_FromInteger(10) * mSpriteScale);
     const FP grenadeYVel = (FP_FromInteger(-6) * mSpriteScale);
@@ -2205,7 +2184,7 @@ void FlyingSlig::ThrowGrenade_43A1E0()
     }
 }
 
-void FlyingSlig::BlowUp_436510()
+void FlyingSlig::BlowUp()
 {
     MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
 
@@ -2233,102 +2212,92 @@ void FlyingSlig::BlowUp_436510()
 
 s16 FlyingSlig::sub_436730()
 {
-    if (CanChase_436850(sControlledCharacter))
+    if (CanChase(sControlledCharacter))
     {
-        ToSpottedEnemy_435E70();
+        ToSpottedEnemy();
         return 1;
     }
-    else if (CanHearAbe_4369C0() && !BrainIs(&FlyingSlig::Brain_3_GetAlerted))
+    else if (CanHearAbe() && !BrainIs(&FlyingSlig::Brain_3_GetAlerted))
     {
-        ToAlerted_4357E0();
+        ToAlerted();
         return 1;
     }
     else if (IsEventInRange(kEventAbeOhm, mXPos, mYPos, AsEventScale(mScale)))
     {
-        ToPanicMoving_435A50();
+        ToPanicMoving();
         return 1;
     }
     else
     {
         if (sActiveHero && sActiveHero->mHealth < FP_FromInteger(0) && FP_Abs(mXPos - sActiveHero->mXPos) < FP_FromInteger(640) && FP_Abs(mYPos - sActiveHero->mYPos) < FP_FromInteger(240))
         {
-            ToAbeDead_436010();
+            ToAbeDead();
             return 1;
         }
         return 0;
     }
 }
 
-s16 FlyingSlig::CanHearAbe_4369C0()
+s16 FlyingSlig::CanHearAbe()
 {
     return IsActiveHero(IsEventInRange(kEventSuspiciousNoise, mXPos, mYPos, AsEventScale(mScale))) || IsActiveHero(IsEventInRange(kEventSpeaking, mXPos, mYPos, AsEventScale(mScale)));
 }
 
-void FlyingSlig::ToSpottedEnemy_435E70()
+void FlyingSlig::ToSpottedEnemy()
 {
     if (field_118_data.mPrechaseDelay)
     {
-        Say_436A50(SligSpeak ::eFreeze_8, 0);
+        Say(SligSpeak ::eFreeze_8, 0);
         field_14C_timer = (Math_NextRandom() & 7) + sGnFrame + field_118_data.mPrechaseDelay;
         SetBrain(&FlyingSlig::Brain_9_SpottedEnemy);
     }
     else
     {
         Slig_GameSpeak_SFX_4C04F0(SligSpeak::eFreeze_8, 0, field_15C_voice_pitch_min, this);
-        ToChase_435E10();
+        ToChase();
     }
 }
 
-void FlyingSlig::ToAbeDead_436010()
+void FlyingSlig::ToAbeDead()
 {
     SetBrain(&FlyingSlig::Brain_11_AbeDead);
     field_14C_timer = sGnFrame + 70;
 }
 
-void FlyingSlig::ToAlerted_4357E0()
+void FlyingSlig::ToAlerted()
 {
-    Say_436A50(SligSpeak ::eWhat_9, 0);
+    Say(SligSpeak ::eWhat_9, 0);
     SetBrain(&FlyingSlig::Brain_3_GetAlerted);
     field_14C_timer = sGnFrame + field_118_data.mAlertedListenTime;
 }
 
-void FlyingSlig::ToPanicMoving_435A50()
+void FlyingSlig::ToPanicMoving()
 {
     MusicController::static_PlayMusic(MusicController::MusicTypes::eSoftChase_8, this, 0, 0);
     field_14C_timer = (Math_NextRandom() & 7) + sGnFrame + 12;
     SetBrain(&FlyingSlig::Brain_7_PanicMoving);
 }
 
-s16 FlyingSlig::IsTurning_436AE0()
+s16 FlyingSlig::IsTurning()
 {
-    return mCurrentMotion == eFlyingSligMotions::M_IdleToTurn_2_4388B0 || mCurrentMotion == eFlyingSligMotions::M_QuickTurn_15_4387F0 || mCurrentMotion == eFlyingSligMotions::M_DownMovementToTurn_4_438CC0 || mCurrentMotion == eFlyingSligMotions::M_UpMovementToTurn_6_439030;
+    return GetCurrentMotion() == eFlyingSligMotions::Motion_2_IdleToTurn ||
+        GetCurrentMotion() == eFlyingSligMotions::Motion_15_QuickTurn ||
+        GetCurrentMotion() == eFlyingSligMotions::Motion_4_DownMovementToTurn ||
+        GetCurrentMotion() == eFlyingSligMotions::Motion_6_UpMovementToTurn;
 }
 
-u8** FlyingSlig::ResBlockForMotion_4350F0(s32 /*motion*/)
-{
-    if (field_15E_useless == 0)
-    {
-        return field_10_resources_array.ItemAt(0);
-    }
-    else
-    {
-        field_15E_useless = 0;
-        return field_10_resources_array.ItemAt(0);
-    }
-}
-
-void FlyingSlig::ToChantShake_436270()
+void FlyingSlig::ToChantShake()
 {
     SfxPlayMono(relive::SoundEffects::PossessEffect, 0);
-    VSetMotion(eFlyingSligMotions::M_Possession_9_434290);
+    SetMotionHelper(eFlyingSligMotions::Motion_9_Possession);
     SetBrain(&FlyingSlig::Brain_14_DePossession);
     field_14C_timer = sGnFrame + 45;
 }
 
-void FlyingSlig::ToPossesed_436130()
+void FlyingSlig::ToPossesed()
 {
     Slig_GameSpeak_SFX_4C04F0(SligSpeak::eHelp_10, 0, field_15C_voice_pitch_min, this);
-    VSetMotion(eFlyingSligMotions::M_Possession_9_434290);
+    SetMotionHelper(eFlyingSligMotions::Motion_9_Possession);
     SetBrain(&FlyingSlig::Brain_13_Possession);
     field_14C_timer = sGnFrame + 35;
 }
@@ -2338,7 +2307,7 @@ void FlyingSlig::vUpdateAnimRes_4350A0()
     mAnim.Set_Animation_Data(GetAnimRes(sFlyingSligAnimIdTable[mCurrentMotion]));
 }
 
-void FlyingSlig::PatrolDelay_435860()
+void FlyingSlig::PatrolDelay()
 {
     if (BrainIs(&FlyingSlig::Brain_4_ChasingEnemy))
     {
@@ -2358,14 +2327,25 @@ void FlyingSlig::PatrolDelay_435860()
     SetBrain(&FlyingSlig::Brain_5_Idle);
 }
 
-s16 FlyingSlig::CanThrowGrenade_43A490()
+s16 FlyingSlig::CanThrowGrenade()
 {
-    return mCurrentMotion == eFlyingSligMotions::M_Idle_0_4385E0 || mCurrentMotion == eFlyingSligMotions::M_HorizontalMovement_1_4386A0 || mCurrentMotion == eFlyingSligMotions::M_DownMovement_3_438AA0 || mCurrentMotion == eFlyingSligMotions::M_UpMovement_5_438DD0 || mCurrentMotion == eFlyingSligMotions::M_IdleToHorizontalMovement_16_438730 || mCurrentMotion == eFlyingSligMotions::M_EndHorizontalMovement_10_4387D0 || mCurrentMotion == eFlyingSligMotions::M_BeginUpMovement_11_438E40 || mCurrentMotion == eFlyingSligMotions::M_UpToHorizontalMovement_13_438F60 || mCurrentMotion == eFlyingSligMotions::M_HorizontalToDownMovement_12_438B10 || mCurrentMotion == eFlyingSligMotions::M_DownToHorizontalMovement_14_438BF0 || mCurrentMotion == eFlyingSligMotions::M_EndDownMovement_18_438C90 || mCurrentMotion == eFlyingSligMotions::M_BeginDownMovement_17_438B80;
+    return GetCurrentMotion() == eFlyingSligMotions::Motion_0_Idle ||
+        GetCurrentMotion() == eFlyingSligMotions::Motion_1_HorizontalMovement ||
+        GetCurrentMotion() == eFlyingSligMotions::Motion_3_DownMovement ||
+        GetCurrentMotion() == eFlyingSligMotions::Motion_5_UpMovement ||
+        GetCurrentMotion() == eFlyingSligMotions::Motion_16_IdleToHorizontalMovement ||
+        GetCurrentMotion() == eFlyingSligMotions::Motion_10_EndHorizontalMovement ||
+        GetCurrentMotion() == eFlyingSligMotions::Motion_11_BeginUpMovement ||
+        GetCurrentMotion() == eFlyingSligMotions::Motion_13_UpToHorizontalMovement ||
+        GetCurrentMotion() == eFlyingSligMotions::Motion_12_HorizontalToDownMovement ||
+        GetCurrentMotion() == eFlyingSligMotions::Motion_14_DownToHorizontalMovement ||
+        GetCurrentMotion() == eFlyingSligMotions::Motion_18_EndDownMovement ||
+        GetCurrentMotion() == eFlyingSligMotions::Motion_17_BeginDownMovement;
 }
 
-void FlyingSlig::ToLaunchingGrenade_435F50()
+void FlyingSlig::ToLaunchingGrenade()
 {
-    if (!VIsFacingMe(sControlledCharacter) && !IsTurning_436AE0())
+    if (!VIsFacingMe(sControlledCharacter) && !IsTurning())
     {
         if (field_18C == FP_FromInteger(0))
         {
@@ -2376,7 +2356,7 @@ void FlyingSlig::ToLaunchingGrenade_435F50()
     SetBrain(&FlyingSlig::Brain_10_LaunchingGrenade);
 }
 
-void FlyingSlig::HandlePlayerControls_439340()
+void FlyingSlig::HandlePlayerControls()
 {
     /* TODO OG issue - these local statics are never used ??
     if (!(byte_5BC5F4 & 1))
@@ -2523,8 +2503,8 @@ s16 FlyingSlig::sub_437C70(PathLine* pLine)
     field_17E_flags.Set(Flags_17E::eBit11_bNoPrevLine, field_1F0_pPrevLine == nullptr);
     field_17E_flags.Set(Flags_17E::eBit12_bNoNextLine, field_1EC_pNextLine == nullptr);
 
-    field_182_bound1 = FindLeftOrRightBound_43B0A0(field_1A4_rect.w, field_1A4_rect.h);
-    field_180_bound2 = FindLeftOrRightBound_43B0A0(field_1A4_rect.x, field_1A4_rect.y);
+    field_182_bound1 = FindLeftOrRightBound(field_1A4_rect.w, field_1A4_rect.h);
+    field_180_bound2 = FindLeftOrRightBound(field_1A4_rect.x, field_1A4_rect.y);
     field_1BC = Math_Tan_496F70(field_1A4_rect.y - field_1A4_rect.h, field_1A4_rect.w - field_1A4_rect.x);
 
     field_1C0 = field_1BC + FP_FromInteger(128);
@@ -2536,7 +2516,7 @@ s16 FlyingSlig::sub_437C70(PathLine* pLine)
     return 1;
 }
 
-ReliveTypes FlyingSlig::FindLeftOrRightBound_43B0A0(FP xOrY, FP wOrH)
+ReliveTypes FlyingSlig::FindLeftOrRightBound(FP xOrY, FP wOrH)
 {
     const FP kGridSize = ScaleToGridSize(mSpriteScale);
 
@@ -2574,7 +2554,7 @@ void FlyingSlig::VPossessed()
     field_2B4_max_slow_down = FP_FromDouble(0.25) * mSpriteScale;
     field_2B8_max_speed_up = FP_FromDouble(0.7) * mSpriteScale;
 
-    ToPossesed_436130();
+    ToPossesed();
 }
 
 s16 FlyingSlig::sub_436C60(PSX_RECT* pRect, s16 arg_4)
@@ -2879,18 +2859,13 @@ void FlyingSlig::sub_4373B0()
     }
 }
 
-void FlyingSlig::VSetMotion(s16 state)
+void FlyingSlig::VSetMotion(s16 newMotion)
 {
-    vSetMotion_43B1B0(state);
-}
-
-void FlyingSlig::vSetMotion_43B1B0(s16 newMotion)
-{
-    mCurrentMotion = newMotion;
+    SetCurrentMotion(newMotion);
     vUpdateAnimRes_4350A0();
 }
 
-s16 FlyingSlig::CollisionUp_43A640(FP velY)
+s16 FlyingSlig::CollisionUp(FP velY)
 {
     const FP y2 = mYPos - (mSpriteScale * FP_FromInteger(20)) + velY;
 
@@ -2939,9 +2914,9 @@ s16 FlyingSlig::CollisionUp_43A640(FP velY)
 
     if (bCollision)
     {
-        if (FP_Abs(field_184_xSpeed) < FP_FromDouble(0.1) && mCurrentMotion != eFlyingSligMotions::M_UpKnockback_20_439110)
+        if (FP_Abs(field_184_xSpeed) < FP_FromDouble(0.1) && GetCurrentMotion() != eFlyingSligMotions::Motion_20_UpKnockback)
         {
-            VSetMotion(eFlyingSligMotions::M_UpKnockback_20_439110);
+            SetMotionHelper(eFlyingSligMotions::Motion_20_UpKnockback);
         }
 
         if (static_cast<s32>(sGnFrame) > field_154_collision_reaction_timer)
@@ -2965,7 +2940,7 @@ s16 FlyingSlig::CollisionUp_43A640(FP velY)
     return 0;
 }
 
-s16 FlyingSlig::CollisionDown_43A9E0(FP velY)
+s16 FlyingSlig::CollisionDown(FP velY)
 {
     const FP y2 = (mSpriteScale * FP_FromInteger(10)) + mYPos + velY;
 
@@ -3013,9 +2988,9 @@ s16 FlyingSlig::CollisionDown_43A9E0(FP velY)
 
     if (bCollision)
     {
-        if (FP_Abs(field_184_xSpeed) < FP_FromDouble(0.1) && mCurrentMotion != eFlyingSligMotions::M_DownKnockback_19_4390D0)
+        if (FP_Abs(field_184_xSpeed) < FP_FromDouble(0.1) && GetCurrentMotion() != eFlyingSligMotions::Motion_19_DownKnockback)
         {
-            VSetMotion(eFlyingSligMotions::M_DownKnockback_19_4390D0);
+            SetMotionHelper(eFlyingSligMotions::Motion_19_DownKnockback);
         }
 
         if (static_cast<s32>(sGnFrame) > field_154_collision_reaction_timer)
@@ -3030,7 +3005,7 @@ s16 FlyingSlig::CollisionDown_43A9E0(FP velY)
     return 0;
 }
 
-s16 FlyingSlig::CollisionLeftRight_43AC80(FP velX)
+s16 FlyingSlig::CollisionLeftRight(FP velX)
 {
     FP newX = {};
     if (velX <= FP_FromInteger(0))
@@ -3116,7 +3091,7 @@ s16 FlyingSlig::CollisionLeftRight_43AC80(FP velX)
     return 0;
 }
 
-void FlyingSlig::PullLever_436450()
+void FlyingSlig::PullLever()
 {
     mVelX = FP_FromInteger(0);
     mVelY = FP_FromInteger(0);
@@ -3127,12 +3102,12 @@ void FlyingSlig::PullLever_436450()
     if ((FP_Abs(mXPos - field_1C8_lever_pull_range_xpos) < FP_FromInteger(1)) &&
         (FP_Abs(mYPos - field_1CC_lever_pull_range_ypos) < FP_FromInteger(1)))
     {
-        VSetMotion(eFlyingSligMotions::M_LeverPull_7_439150);
+        SetMotionHelper(eFlyingSligMotions::Motion_7_LeverPull);
     }
     SetBrain(&FlyingSlig::Brain_15_FlyingSligSpawn);
 }
 
-s16 FlyingSlig::TryPullLever_439DB0()
+s16 FlyingSlig::TryPullLever()
 {
     if (BrainIs(&FlyingSlig::Brain_15_FlyingSligSpawn))
     {
@@ -3233,7 +3208,7 @@ s16 FlyingSlig::TryPullLever_439DB0()
 
                 field_1CC_lever_pull_range_ypos = pAliveObj->mYPos - (FP_FromInteger(23) * mSpriteScale);
                 field_158_obj_id = pAliveObj->mBaseGameObjectId;
-                PullLever_436450();
+                PullLever();
                 return TRUE;
             }
         }

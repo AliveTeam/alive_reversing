@@ -6,9 +6,9 @@
 
 const s32 kMaxAllocs = 512;
 
-ALIVE_ARY(1, 0x5cb888, PSX_RECT, kMaxAllocs, sVramAllocations_5CB888, {});
-ALIVE_VAR(1, 0x5cc888, s32, sVramNumberOfAllocations_5CC888, 0);
-ALIVE_VAR(1, 0x5CC88C, u16, unused_5CC88C, 0);
+PSX_RECT sVramAllocations_5CB888[kMaxAllocs] = {};
+s32 sVramNumberOfAllocations_5CC888 = 0;
+u16 unused_5CC88C = 0;
 
 s8 Vram_calc_width_4955A0(s32 width, s32 depth)
 {
@@ -245,13 +245,13 @@ bool Vram_rects_overlap(const PSX_RECT* pRect1, const PSX_RECT* pRect2)
 }
 
 
-ALIVE_VAR(1, 0x5c9162, s16, pal_xpos_5C9162, 0);
-ALIVE_VAR(1, 0x5c9160, s16, pal_ypos_5C9160, 0);
+s16 pal_xpos_5C9162 = 0;
+s16 pal_ypos_5C9160 = 0;
 
-ALIVE_VAR(1, 0x5c915c, s16, pal_width_5C915C, 0);
-ALIVE_VAR(1, 0x5c915e, s16, pal_free_count_5C915E, 0);
+s16 pal_width_5C915C = 0;
+s16 pal_free_count_5C915E = 0;
 
-ALIVE_ARY(1, 0x5c9164, s32, 77, sPal_table_5C9164, {}); // TODO: Actually 32 in size ?
+s32 sPal_table_5C9164[77] = {}; // TODO: Actually 32 in size ?
 
 static bool Pal_Allocate_Helper(s32& i, s32& palX_idx, s32 maskValue, s32 numBits)
 {

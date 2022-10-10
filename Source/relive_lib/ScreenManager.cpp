@@ -9,7 +9,7 @@
 #include "Layer.hpp"
 #include "Primitives.hpp"
 
-ALIVE_VAR(1, 0x5BB5F4, ScreenManager*, pScreenManager, nullptr);
+ScreenManager* pScreenManager = nullptr;
 
 void ScreenManager::DecompressCameraToVRam(CamResource& camRes)
 {

@@ -9,7 +9,7 @@
 #include "Map.hpp"
 #include "Path.hpp"
 
-ALIVE_VAR(1, 0x563aa0, u32, sWellRndSeed_563AA0, 4);
+u32 sWellRndSeed_563AA0 = 4;
 
 Well::Well(relive::Path_WellBase* pTlv, FP xpos, FP ypos, const Guid& tlvId)
     : BaseGameObject(TRUE, 0)

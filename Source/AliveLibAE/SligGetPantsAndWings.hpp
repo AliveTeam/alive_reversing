@@ -29,4 +29,3 @@ private:
     Guid mTlvInfo;
     s32 mTransformTimer = 0;
 };
-ALIVE_ASSERT_SIZEOF(SligGetPantsAndWings, 0x100);

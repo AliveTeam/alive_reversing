@@ -91,6 +91,5 @@ public:
     s16 field_158_code_pos = 0;
     s16 field_15A_bCodeMatches = 0;
 };
-ALIVE_ASSERT_SIZEOF(SlingMudokon, 0x15C);
 
 } // namespace AO

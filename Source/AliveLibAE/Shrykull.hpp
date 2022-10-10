@@ -39,4 +39,3 @@ private:
     s16 field_12C_bElectrocute = 0;
     s16 field_12E_bResetRingTimer = 0;
 };
-ALIVE_ASSERT_SIZEOF(Shrykull, 0x130);

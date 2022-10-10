@@ -43,8 +43,8 @@
 
 INITIALIZE_EASYLOGGINGPP
 
-ALIVE_VAR(1, 0xBBBA04, s32, sExitCode_BBBA04, 0);
-ALIVE_VAR(1, 0xBBBA54, HINSTANCE, sPrevInstance_BBBA54, nullptr);
+s32 sExitCode_BBBA04 = 0;
+HINSTANCE sPrevInstance_BBBA54 = nullptr;
 
 
 s32 CALLBACK WinMain_4EE631(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)

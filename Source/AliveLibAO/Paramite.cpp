@@ -113,9 +113,9 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
     SetCurrentMotion(eParamiteMotions::Motion_0_Idle);
     field_140_use_prev_motion = 0;
 
-    field_148_pMeat = nullptr;
+    mMeat = nullptr;
 
-    field_14C_pWeb = nullptr;
+    mParamiteWeb = nullptr;
 
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
@@ -142,11 +142,11 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
         SetBrain(&Paramite::Brain_0_Patrol);
     }
 
-    field_11E_alone_chase_delay = pTlv->mAloneChaseDelay;
-    field_112_surprise_web_delay_timer = pTlv->mSurpriseWebDelayTimer;
-    field_11C_meat_eating_time = pTlv->mMeatEatingTime;
-    field_134_group_chase_delay = pTlv->mGroupChaseDelay;
-    field_13C_surprise_web_switch_id = pTlv->mSurpriseWebSwitchId;
+    mAloneChaseDelay = pTlv->mAloneChaseDelay;
+    mSurpriseWebDelayTimer = pTlv->mSurpriseWebDelayTimer;
+    mMeatEatingTime = pTlv->mMeatEatingTime;
+    mGroupChaseDelay = pTlv->mGroupChaseDelay;
+    mSurpriseWebSwitchId = pTlv->mSurpriseWebSwitchId;
     mHissBeforeAttack = pTlv->mHissBeforeAttack;
     mDeleteWhenOutOfSight = pTlv->mDeleteWhenOutOfSight;
 
@@ -169,7 +169,6 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
 
     mRGB.SetRGB(105, 105, 105);
 
-    field_128_never_read = 0;
     field_12C_tlvInfo = tlvId;
 
     if (!VIsFacingMe(sActiveHero))
@@ -186,16 +185,16 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
 
 Paramite::~Paramite()
 {
-    if (field_14C_pWeb)
+    if (mParamiteWeb)
     {
-        field_14C_pWeb->mBaseGameObjectFlags.Set(Options::eDead);
-        field_14C_pWeb->mBaseGameObjectRefCount--;
-        field_14C_pWeb = nullptr;
+        mParamiteWeb->mBaseGameObjectFlags.Set(Options::eDead);
+        mParamiteWeb->mBaseGameObjectRefCount--;
+        mParamiteWeb = nullptr;
     }
 
-    if (field_148_pMeat)
+    if (mMeat)
     {
-        field_148_pMeat->mBaseGameObjectRefCount--;
+        mMeat->mBaseGameObjectRefCount--;
     }
 
     VOnTrapDoorOpen();
@@ -230,10 +229,10 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
         return 1;
     }
 
-    if (field_148_pMeat)
+    if (mMeat)
     {
-        field_148_pMeat->mBaseGameObjectRefCount--;
-        field_148_pMeat = nullptr;
+        mMeat->mBaseGameObjectRefCount--;
+        mMeat = nullptr;
     }
 
     switch (pFrom->Type())
@@ -273,7 +272,6 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
             {
                 mHealth = FP_FromInteger(0);
                 SetBrain(&Paramite::Brain_3_Death);
-                field_128_never_read = 2;
                 field_114_timer = sGnFrame + 90;
                 SetCurrentMotion(eParamiteMotions::Motion_24_Struggle);
                 VUpdateAnimData();
@@ -284,7 +282,6 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
         {
             mHealth = FP_FromInteger(0);
             SetBrain(&Paramite::Brain_3_Death);
-            field_128_never_read = 2;
             field_114_timer = sGnFrame + 90;
             SetCurrentMotion(eParamiteMotions::Motion_24_Struggle);
             VUpdateAnimData();
@@ -310,7 +307,6 @@ void Paramite::VOnTlvCollision(relive::Path_TLV* pTlv)
         {
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             mHealth = FP_FromInteger(0);
-            field_128_never_read = 2;
         }
         pTlv = gMap.TLV_Get_At_446060(pTlv, mXPos, mYPos, mXPos, mYPos);
     }
@@ -400,12 +396,12 @@ void Paramite::VUpdate()
         }
         else
         {
-            if (field_148_pMeat)
+            if (mMeat)
             {
-                if (field_148_pMeat->VIsFalling() || field_148_pMeat->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+                if (mMeat->VIsFalling() || mMeat->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
                 {
-                    field_148_pMeat->mBaseGameObjectRefCount--;
-                    field_148_pMeat = nullptr;
+                    mMeat->mBaseGameObjectRefCount--;
+                    mMeat = nullptr;
                     SetNextMotion(eParamiteMotions::Motion_0_Idle);
                     SetBrain(&Paramite::Brain_0_Patrol);
                     mBrainSubState = 0;
@@ -868,17 +864,15 @@ s16 Paramite::Brain_0_Patrol()
                 return mBrainSubState;
             }
             SetNextMotion(eParamiteMotions::Motion_0_Idle);
-            field_128_never_read = 1;
-            field_130_not_used = 0;
             return Brain_0_Patrol::eBrain0_IdleForAbe_1;
 
         case Brain_0_Patrol::eBrain0_IdleForAbe_1:
         {
-            field_148_pMeat = FindMeat();
-            if (field_148_pMeat)
+            mMeat = FindMeat();
+            if (mMeat)
             {
                 SetBrain(&Paramite::Brain_5_SpottedMeat);
-                field_148_pMeat->mBaseGameObjectRefCount++;
+                mMeat->mBaseGameObjectRefCount++;
                 return Brain_0_Patrol::eBrain0_Inactive_0;
             }
 
@@ -886,7 +880,7 @@ s16 Paramite::Brain_0_Patrol()
                 || mSpriteScale != sActiveHero->mSpriteScale
                 || WallHit_401930(mSpriteScale * FP_FromInteger(5), sActiveHero->mXPos - mXPos))
             {
-                field_120_wait_timer = sGnFrame + Math_RandomRange(45, 135);
+                mWaitTimer = sGnFrame + Math_RandomRange(45, 135);
                 return Brain_0_Patrol::eBrain0_Idle_12;
             }
 
@@ -921,7 +915,7 @@ s16 Paramite::Brain_0_Patrol()
                 Sound(ParamiteSpeak::Howdy_5);
                 SetNextMotion(eParamiteMotions::Motion_0_Idle);
                 SetBrain(&Paramite::Brain_4_ChasingAbe);
-                field_138_attack_timer = sGnFrame + field_134_group_chase_delay;
+                mAttackTimer = sGnFrame + mGroupChaseDelay;
                 return Brain_0_Patrol::eBrain0_Inactive_0;
             }
 
@@ -976,7 +970,6 @@ s16 Paramite::Brain_0_Patrol()
                 }
 
                 SetNextMotion(eParamiteMotions::Motion_2_Walking);
-                field_128_never_read = 0;
                 return Brain_0_Patrol::eBrain0_FearingAbe_2;
             }
             else
@@ -1022,7 +1015,7 @@ s16 Paramite::Brain_0_Patrol()
                 Sound(ParamiteSpeak::Howdy_5);
                 SetNextMotion(eParamiteMotions::Motion_0_Idle);
                 SetBrain(&Paramite::Brain_4_ChasingAbe);
-                field_138_attack_timer = sGnFrame + field_134_group_chase_delay;
+                mAttackTimer = sGnFrame + mGroupChaseDelay;
                 return 0;
             }
 
@@ -1043,7 +1036,6 @@ s16 Paramite::Brain_0_Patrol()
             }
 
             SetNextMotion(eParamiteMotions::Motion_0_Idle);
-            field_128_never_read = 1;
             return Brain_0_Patrol::eBrain0_IdleForAbe_1;
 
         case Brain_0_Patrol::eBrain0_RunningFromAbe_3:
@@ -1076,7 +1068,7 @@ s16 Paramite::Brain_0_Patrol()
                 Sound(ParamiteSpeak::Howdy_5);
                 SetNextMotion(eParamiteMotions::Motion_0_Idle);
                 SetBrain(&Paramite::Brain_4_ChasingAbe);
-                field_138_attack_timer = sGnFrame + field_134_group_chase_delay;
+                mAttackTimer = sGnFrame + mGroupChaseDelay;
                 return 0;
             }
 
@@ -1104,7 +1096,7 @@ s16 Paramite::Brain_0_Patrol()
             {
                 Sound(ParamiteSpeak::Howdy_5);
                 SetNextMotion(eParamiteMotions::Motion_0_Idle);
-                field_138_attack_timer = sGnFrame + field_134_group_chase_delay;
+                mAttackTimer = sGnFrame + mGroupChaseDelay;
                 SetBrain(&Paramite::Brain_4_ChasingAbe);
                 return Brain_0_Patrol::eBrain0_Inactive_0;
             }
@@ -1167,7 +1159,7 @@ s16 Paramite::Brain_0_Patrol()
             {
                 Sound(ParamiteSpeak::Howdy_5);
                 SetNextMotion(eParamiteMotions::Motion_0_Idle);
-                field_138_attack_timer = sGnFrame + field_134_group_chase_delay;
+                mAttackTimer = sGnFrame + mGroupChaseDelay;
                 SetBrain(&Paramite::Brain_4_ChasingAbe);
                 return 0;
             }
@@ -1238,11 +1230,11 @@ s16 Paramite::Brain_0_Patrol()
             return Brain_0_Patrol::eBrain0_StuckToWall_8;
 
         case Brain_0_Patrol::eBrain0_StuckToWall_8:
-            field_148_pMeat = FindMeat();
-            if (field_148_pMeat)
+            mMeat = FindMeat();
+            if (mMeat)
             {
                 SetBrain(&Paramite::Brain_5_SpottedMeat);
-                field_148_pMeat->mBaseGameObjectRefCount++;
+                mMeat->mBaseGameObjectRefCount++;
                 return 0;
             }
 
@@ -1299,11 +1291,11 @@ s16 Paramite::Brain_0_Patrol()
             return 0;
 
         case Brain_0_Patrol::eBrain0_Idle_12:
-            field_148_pMeat = FindMeat();
-            if (field_148_pMeat)
+            mMeat = FindMeat();
+            if (mMeat)
             {
                 SetBrain(&Paramite::Brain_5_SpottedMeat);
-                field_148_pMeat->mBaseGameObjectRefCount++;
+                mMeat->mBaseGameObjectRefCount++;
                 return 0;
             }
 
@@ -1320,7 +1312,7 @@ s16 Paramite::Brain_0_Patrol()
                 return Brain_0_Patrol::eBrain0_Panic_15;
             }
 
-            if (field_120_wait_timer <= static_cast<s32>(sGnFrame))
+            if (mWaitTimer <= static_cast<s32>(sGnFrame))
             {
                 if (Math_NextRandom() >= 6u)
                 {
@@ -1342,7 +1334,7 @@ s16 Paramite::Brain_0_Patrol()
                 return mBrainSubState;
             }
             SetNextMotion(eParamiteMotions::Motion_0_Idle);
-            field_120_wait_timer = sGnFrame + Math_RandomRange(45, 135);
+            mWaitTimer = sGnFrame + Math_RandomRange(45, 135);
             return Brain_0_Patrol::eBrain0_Idle_12;
 
         case Brain_0_Patrol::eBrain0_Turning_14:
@@ -1351,7 +1343,7 @@ s16 Paramite::Brain_0_Patrol()
             {
                 return mBrainSubState;
             }
-            field_120_wait_timer = sGnFrame + Math_RandomRange(45, 135);
+            mWaitTimer = sGnFrame + Math_RandomRange(45, 135);
             return Brain_0_Patrol::eBrain0_Idle_12;
 
         case Brain_0_Patrol::eBrain0_Panic_15:
@@ -1405,7 +1397,7 @@ s16 Paramite::Brain_1_SurpriseWeb()
             if (pWeb)
             {
                 pWeb->mBaseGameObjectRefCount++;
-                field_14C_pWeb = pWeb;
+                mParamiteWeb = pWeb;
             }
 
             if (sActiveHero->mXPos >= mXPos)
@@ -1425,13 +1417,13 @@ s16 Paramite::Brain_1_SurpriseWeb()
                     mYPos,
                     1))
             {
-                if (!SwitchStates_Get(field_13C_surprise_web_switch_id))
+                if (!SwitchStates_Get(mSurpriseWebSwitchId))
                 {
                     return mBrainSubState;
                 }
             }
             mAnim.mFlags.Clear(AnimFlags::eFlipX);
-            field_114_timer = sGnFrame + field_112_surprise_web_delay_timer;
+            field_114_timer = sGnFrame + mSurpriseWebDelayTimer;
             return Brain_1_SurpriseWeb::eBrain1_StartAnimation_3;
 
         case Brain_1_SurpriseWeb::eBrain1_AppearingLeft_2:
@@ -1444,13 +1436,13 @@ s16 Paramite::Brain_1_SurpriseWeb()
                     mYPos,
                     1))
             {
-                if (!SwitchStates_Get(field_13C_surprise_web_switch_id))
+                if (!SwitchStates_Get(mSurpriseWebSwitchId))
                 {
                     return mBrainSubState;
                 }
             }
             mAnim.mFlags.Set(AnimFlags::eFlipX);
-            field_114_timer = sGnFrame + field_112_surprise_web_delay_timer;
+            field_114_timer = sGnFrame + mSurpriseWebDelayTimer;
             return Brain_1_SurpriseWeb::eBrain1_StartAnimation_3;
 
         case Brain_1_SurpriseWeb::eBrain1_StartAnimation_3:
@@ -1463,13 +1455,13 @@ s16 Paramite::Brain_1_SurpriseWeb()
             return Brain_1_SurpriseWeb::eBrain1_StateLoop1_4;
 
         case Brain_1_SurpriseWeb::eBrain1_StateLoop1_4:
-            field_14C_pWeb->field_EA_ttl_remainder = FP_GetExponent(FP_Abs(mYPos)) - 10;
-            field_14C_pWeb->mYPos = FP_FromInteger(field_14C_pWeb->field_EA_ttl_remainder);
+            mParamiteWeb->field_EA_ttl_remainder = FP_GetExponent(FP_Abs(mYPos)) - 10;
+            mParamiteWeb->mYPos = FP_FromInteger(mParamiteWeb->field_EA_ttl_remainder);
             if (GetCurrentMotion() == eParamiteMotions::Motion_0_Idle)
             {
-                field_14C_pWeb->field_F0_bEnabled = TRUE;
-                field_14C_pWeb->mBaseGameObjectRefCount--;
-                field_14C_pWeb = nullptr;
+                mParamiteWeb->field_F0_bEnabled = TRUE;
+                mParamiteWeb->mBaseGameObjectRefCount--;
+                mParamiteWeb = nullptr;
                 SetBrain(&Paramite::Brain_0_Patrol);
                 return Brain_0_Patrol::eBrain0_Inactive_0;
             }
@@ -1482,8 +1474,8 @@ s16 Paramite::Brain_1_SurpriseWeb()
             return Brain_1_SurpriseWeb::eBrain1_StateLoop2_5;
 
         case Brain_1_SurpriseWeb::eBrain1_StateLoop2_5:
-            field_14C_pWeb->field_EA_ttl_remainder = FP_GetExponent(FP_Abs(mYPos)) - 10;
-            field_14C_pWeb->mYPos = FP_FromInteger(field_14C_pWeb->field_EA_ttl_remainder);
+            mParamiteWeb->field_EA_ttl_remainder = FP_GetExponent(FP_Abs(mYPos)) - 10;
+            mParamiteWeb->mYPos = FP_FromInteger(mParamiteWeb->field_EA_ttl_remainder);
             if (GetCurrentMotion() != eParamiteMotions::Motion_0_Idle)
             {
                 if (mVelY <= (mSpriteScale * FP_FromInteger(-1)))
@@ -1498,9 +1490,9 @@ s16 Paramite::Brain_1_SurpriseWeb()
             }
             else
             {
-                field_14C_pWeb->field_F0_bEnabled = TRUE;
-                field_14C_pWeb->mBaseGameObjectRefCount--;
-                field_14C_pWeb = nullptr;
+                mParamiteWeb->field_F0_bEnabled = TRUE;
+                mParamiteWeb->mBaseGameObjectRefCount--;
+                mParamiteWeb = nullptr;
                 SetBrain(&Paramite::Brain_0_Patrol);
                 return Brain_0_Patrol::eBrain0_Inactive_0;
             }
@@ -1658,7 +1650,7 @@ s16 Paramite::Brain_4_ChasingAbe()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (field_138_attack_timer <= static_cast<s32>(sGnFrame)
+    if (mAttackTimer <= static_cast<s32>(sGnFrame)
         && (!VOnSameYLevel(sActiveHero)
             || mSpriteScale != sActiveHero->mSpriteScale)
         && sActiveHero->mHealth > FP_FromInteger(0))
@@ -1695,7 +1687,7 @@ s16 Paramite::Brain_4_ChasingAbe()
                     }
                     else
                     {
-                        field_114_timer = sGnFrame + field_11E_alone_chase_delay;
+                        field_114_timer = sGnFrame + mAloneChaseDelay;
                         return Brain_4_ChasingAbe::eBrain4_ToChasing_5;
                     }
                 }
@@ -1837,7 +1829,7 @@ s16 Paramite::Brain_4_ChasingAbe()
                 return mBrainSubState;
             }
             SetNextMotion(eParamiteMotions::Motion_15_Hiss);
-            field_114_timer = sGnFrame + field_11E_alone_chase_delay;
+            field_114_timer = sGnFrame + mAloneChaseDelay;
             return Brain_4_ChasingAbe::eBrain4_Warning_3;
 
         case Brain_4_ChasingAbe::eBrain4_Warning_3:
@@ -1861,7 +1853,7 @@ s16 Paramite::Brain_4_ChasingAbe()
             }
             else
             {
-                field_114_timer = sGnFrame + field_11E_alone_chase_delay;
+                field_114_timer = sGnFrame + mAloneChaseDelay;
                 return Brain_4_ChasingAbe::eBrain4_ToChasing_5;
             }
             break;
@@ -2188,22 +2180,22 @@ s16 Paramite::Brain_5_SpottedMeat()
         mBaseGameObjectFlags.Set(Options::eDead);
     }
 
-    if (field_148_pMeat->VIsFalling() || field_148_pMeat->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+    if (mMeat->VIsFalling() || mMeat->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
     {
         Sound(ParamiteSpeak::DetectedMeat_7);
         SetBrain(&Paramite::Brain_0_Patrol);
-        field_148_pMeat->mBaseGameObjectRefCount--;
-        field_148_pMeat = nullptr;
+        mMeat->mBaseGameObjectRefCount--;
+        mMeat = nullptr;
         SetNextMotion(eParamiteMotions::Motion_0_Idle);
         return Brain_0_Patrol::eBrain0_Inactive_0;
     }
 
-    if (field_148_pMeat->field_124_pLine)
+    if (mMeat->field_124_pLine)
     {
-        if (FP_Abs(field_148_pMeat->mYPos - mYPos) > FP_FromInteger(20))
+        if (FP_Abs(mMeat->mYPos - mYPos) > FP_FromInteger(20))
         {
-            field_148_pMeat->mBaseGameObjectRefCount--;
-            field_148_pMeat = nullptr;
+            mMeat->mBaseGameObjectRefCount--;
+            mMeat = nullptr;
             SetNextMotion(eParamiteMotions::Motion_0_Idle);
             SetBrain(&Paramite::Brain_0_Patrol);
             return Brain_0_Patrol::eBrain0_Inactive_0;
@@ -2215,9 +2207,9 @@ s16 Paramite::Brain_5_SpottedMeat()
     switch (mBrainSubState)
     {
         case Brain_5_SpottedMeat::eBrain5_Idle_0:
-            if (!VIsFacingMe(field_148_pMeat))
+            if (!VIsFacingMe(mMeat))
             {
-                if (FP_Abs(field_148_pMeat->mXPos - mXPos) > FP_FromInteger(5))
+                if (FP_Abs(mMeat->mXPos - mXPos) > FP_FromInteger(5))
                 {
                     Sound(ParamiteSpeak::DetectedMeat_7);
                     SetNextMotion(eParamiteMotions::Motion_5_Turn);
@@ -2225,7 +2217,7 @@ s16 Paramite::Brain_5_SpottedMeat()
                 }
             }
 
-            if (VIsObj_GettingNear_On_X(field_148_pMeat))
+            if (VIsObj_GettingNear_On_X(mMeat))
             {
                 SetNextMotion(eParamiteMotions::Motion_0_Idle);
                 return Brain_5_SpottedMeat::eBrain5_AttentiveToMeat_5;
@@ -2248,28 +2240,28 @@ s16 Paramite::Brain_5_SpottedMeat()
                 }
             }
 
-            if (!VIsObjNearby(kGridSize * FP_FromInteger(3), field_148_pMeat))
+            if (!VIsObjNearby(kGridSize * FP_FromInteger(3), mMeat))
             {
                 SetNextMotion(eParamiteMotions::Motion_3_Running);
                 return Brain_5_SpottedMeat::eBrain5_Running_1;
             }
 
-            if (VIsObjNearby(mSpriteScale * FP_FromInteger(40), field_148_pMeat))
+            if (VIsObjNearby(mSpriteScale * FP_FromInteger(40), mMeat))
             {
-                if (mXPos == field_148_pMeat->mXPos)
+                if (mXPos == mMeat->mXPos)
                 {
                     SetNextMotion(eParamiteMotions::Motion_2_Walking);
                     return Brain_5_SpottedMeat::eBrain5_Walking_2;
                 }
 
-                if (!field_148_pMeat->field_124_pLine || !BaseAliveGameObjectCollisionLine)
+                if (!mMeat->field_124_pLine || !BaseAliveGameObjectCollisionLine)
                 {
                     SetNextMotion(eParamiteMotions::Motion_0_Idle);
                     return Brain_5_SpottedMeat::eBrain5_AttentiveToMeat_5;
                 }
 
                 SetNextMotion(eParamiteMotions::Motion_23_Eating);
-                field_114_timer = sGnFrame + field_11C_meat_eating_time;
+                field_114_timer = sGnFrame + mMeatEatingTime;
                 return Brain_5_SpottedMeat::eBrain5_Eating_6;
             }
 
@@ -2298,9 +2290,9 @@ s16 Paramite::Brain_5_SpottedMeat()
                 }
             }
 
-            if (!VIsFacingMe(field_148_pMeat))
+            if (!VIsFacingMe(mMeat))
             {
-                if (FP_Abs(field_148_pMeat->mXPos - mXPos) > FP_FromInteger(5))
+                if (FP_Abs(mMeat->mXPos - mXPos) > FP_FromInteger(5))
                 {
                     Sound(ParamiteSpeak::DetectedMeat_7);
                     SetNextMotion(eParamiteMotions::Motion_5_Turn);
@@ -2308,18 +2300,18 @@ s16 Paramite::Brain_5_SpottedMeat()
                 }
             }
 
-            if (VIsObjNearby(mSpriteScale * FP_FromInteger(40), field_148_pMeat))
+            if (VIsObjNearby(mSpriteScale * FP_FromInteger(40), mMeat))
             {
-                if (field_148_pMeat->field_124_pLine)
+                if (mMeat->field_124_pLine)
                 {
                     SetNextMotion(eParamiteMotions::Motion_23_Eating);
-                    field_114_timer = sGnFrame + field_11C_meat_eating_time;
+                    field_114_timer = sGnFrame + mMeatEatingTime;
                     return Brain_5_SpottedMeat::eBrain5_Eating_6;
                 }
                 return Brain_5_SpottedMeat::eBrain5_Running_1;
             }
 
-            if (!VIsObjNearby(kGridSize * FP_FromInteger(3), field_148_pMeat))
+            if (!VIsObjNearby(kGridSize * FP_FromInteger(3), mMeat))
             {
                 return mBrainSubState;
             }
@@ -2349,9 +2341,9 @@ s16 Paramite::Brain_5_SpottedMeat()
                 }
             }
 
-            if (!VIsFacingMe(field_148_pMeat))
+            if (!VIsFacingMe(mMeat))
             {
-                if (FP_Abs(field_148_pMeat->mXPos - mXPos) > FP_FromInteger(5))
+                if (FP_Abs(mMeat->mXPos - mXPos) > FP_FromInteger(5))
                 {
                     Sound(ParamiteSpeak::DetectedMeat_7);
                     SetNextMotion(eParamiteMotions::Motion_5_Turn);
@@ -2359,15 +2351,15 @@ s16 Paramite::Brain_5_SpottedMeat()
                 }
             }
 
-            if (!VIsObjNearby(mSpriteScale * FP_FromInteger(40), field_148_pMeat))
+            if (!VIsObjNearby(mSpriteScale * FP_FromInteger(40), mMeat))
             {
                 return mBrainSubState;
             }
 
-            if (field_148_pMeat->field_124_pLine)
+            if (mMeat->field_124_pLine)
             {
                 SetNextMotion(eParamiteMotions::Motion_23_Eating);
-                field_114_timer = sGnFrame + field_11C_meat_eating_time;
+                field_114_timer = sGnFrame + mMeatEatingTime;
                 return Brain_5_SpottedMeat::eBrain5_Eating_6;
             }
             return Brain_5_SpottedMeat::eBrain5_Walking_2;
@@ -2387,13 +2379,13 @@ s16 Paramite::Brain_5_SpottedMeat()
                 return mBrainSubState;
             }
 
-            if (!VIsFacingMe(field_148_pMeat))
+            if (!VIsFacingMe(mMeat))
             {
                 SetNextMotion(eParamiteMotions::Motion_0_Idle);
                 return Brain_5_SpottedMeat::eBrain5_Idle_0;
             }
 
-            if (FP_Abs(field_148_pMeat->mXPos - mXPos) > FP_FromInteger(5))
+            if (FP_Abs(mMeat->mXPos - mXPos) > FP_FromInteger(5))
             {
                 Sound(ParamiteSpeak::DetectedMeat_7);
                 SetNextMotion(eParamiteMotions::Motion_5_Turn);
@@ -2407,14 +2399,14 @@ s16 Paramite::Brain_5_SpottedMeat()
             break;
 
         case Brain_5_SpottedMeat::eBrain5_AttentiveToMeat_5:
-            if (!VIsFacingMe(field_148_pMeat))
+            if (!VIsFacingMe(mMeat))
             {
                 Sound(ParamiteSpeak::DetectedMeat_7);
                 SetNextMotion(eParamiteMotions::Motion_5_Turn);
                 return Brain_5_SpottedMeat::eBrain5_Turning_4;
             }
 
-            if (VIsObj_GettingNear_On_X(field_148_pMeat))
+            if (VIsObj_GettingNear_On_X(mMeat))
             {
                 return mBrainSubState;
             }
@@ -2436,37 +2428,37 @@ s16 Paramite::Brain_5_SpottedMeat()
                 }
             }
 
-            if (!VIsObjNearby(kGridSize * FP_FromInteger(3), field_148_pMeat))
+            if (!VIsObjNearby(kGridSize * FP_FromInteger(3), mMeat))
             {
                 SetNextMotion(eParamiteMotions::Motion_3_Running);
                 return Brain_5_SpottedMeat::eBrain5_Running_1;
             }
 
-            if (!VIsObjNearby(mSpriteScale * FP_FromInteger(40), field_148_pMeat))
+            if (!VIsObjNearby(mSpriteScale * FP_FromInteger(40), mMeat))
             {
                 SetNextMotion(eParamiteMotions::Motion_2_Walking);
                 return Brain_5_SpottedMeat::eBrain5_Walking_2;
             }
 
-            if (!field_148_pMeat->field_124_pLine || !BaseAliveGameObjectCollisionLine)
+            if (!mMeat->field_124_pLine || !BaseAliveGameObjectCollisionLine)
             {
                 return Brain_5_SpottedMeat::eBrain5_AttentiveToMeat_5;
             }
 
             SetNextMotion(eParamiteMotions::Motion_23_Eating);
-            field_114_timer = sGnFrame + field_11C_meat_eating_time;
+            field_114_timer = sGnFrame + mMeatEatingTime;
             return Brain_5_SpottedMeat::eBrain5_Eating_6;
 
         case Brain_5_SpottedMeat::eBrain5_Eating_6:
-            if (!VIsObjNearby(mSpriteScale * FP_FromInteger(40), field_148_pMeat))
+            if (!VIsObjNearby(mSpriteScale * FP_FromInteger(40), mMeat))
             {
                 SetNextMotion(eParamiteMotions::Motion_2_Walking);
                 return Brain_5_SpottedMeat::eBrain5_Walking_2;
             }
 
-            if (!VIsFacingMe(field_148_pMeat))
+            if (!VIsFacingMe(mMeat))
             {
-                if (FP_Abs(field_148_pMeat->mXPos - mXPos) > FP_FromInteger(5))
+                if (FP_Abs(mMeat->mXPos - mXPos) > FP_FromInteger(5))
                 {
                     Sound(ParamiteSpeak::DetectedMeat_7);
                     SetNextMotion(eParamiteMotions::Motion_5_Turn);
@@ -2479,9 +2471,9 @@ s16 Paramite::Brain_5_SpottedMeat()
                 return mBrainSubState;
             }
 
-            field_148_pMeat->mBaseGameObjectRefCount--;
-            field_148_pMeat->mBaseGameObjectFlags.Set(Options::eDead);
-            field_148_pMeat = nullptr;
+            mMeat->mBaseGameObjectRefCount--;
+            mMeat->mBaseGameObjectFlags.Set(Options::eDead);
+            mMeat = nullptr;
             SetNextMotion(eParamiteMotions::Motion_0_Idle);
             SetBrain(&Paramite::Brain_0_Patrol);
             return Brain_0_Patrol::eBrain0_Inactive_0;

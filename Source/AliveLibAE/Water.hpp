@@ -70,4 +70,3 @@ private:
     s32 field_144_sound_channels = 0;
     s16 field_148_bHitTimeout = 0;
 };
-ALIVE_ASSERT_SIZEOF(Water, 0x14C);

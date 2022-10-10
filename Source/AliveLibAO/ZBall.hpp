@@ -18,6 +18,5 @@ public:
     s16 mFrameAbove12 = 0;
     s16 mSoundPitch = 0;
 };
-ALIVE_ASSERT_SIZEOF(ZBall, 0xEC);
 
 } // namespace AO

@@ -45,6 +45,5 @@ public:
     s16 mRedBlinkCount = 0;
     u16 mIsRed = 0;
 };
-ALIVE_ASSERT_SIZEOF(UXB, 0x1C0);
 
 } // namespace AO

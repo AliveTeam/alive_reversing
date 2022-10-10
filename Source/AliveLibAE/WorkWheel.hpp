@@ -48,4 +48,3 @@ private:
     s16 mTurnOffTime = 0;
     relive::reliveChoice mTurnOffWhenStopped = relive::reliveChoice::eNo;
 };
-ALIVE_ASSERT_SIZEOF(WorkWheel, 0x108);

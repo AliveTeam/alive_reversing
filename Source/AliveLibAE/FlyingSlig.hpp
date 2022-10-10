@@ -13,35 +13,35 @@ class FlyingSlig;
 using TFlyingSligBrainFn = void (FlyingSlig::*)(void);
 
 #define FLYING_SLIG_MOTIONS_ENUM(ENTRY)         \
-    ENTRY(M_Idle_0_4385E0)                      \
-    ENTRY(M_HorizontalMovement_1_4386A0)        \
-    ENTRY(M_IdleToTurn_2_4388B0)                \
-    ENTRY(M_DownMovement_3_438AA0)              \
-    ENTRY(M_DownMovementToTurn_4_438CC0)        \
-    ENTRY(M_UpMovement_5_438DD0)                \
-    ENTRY(M_UpMovementToTurn_6_439030)          \
-    ENTRY(M_LeverPull_7_439150)                 \
-    ENTRY(M_GameSpeak_8_4391D0)                 \
-    ENTRY(M_Possession_9_434290)                \
-    ENTRY(M_EndHorizontalMovement_10_4387D0)    \
-    ENTRY(M_BeginUpMovement_11_438E40)          \
-    ENTRY(M_HorizontalToDownMovement_12_438B10) \
-    ENTRY(M_UpToHorizontalMovement_13_438F60)   \
-    ENTRY(M_DownToHorizontalMovement_14_438BF0) \
-    ENTRY(M_QuickTurn_15_4387F0)                \
-    ENTRY(M_IdleToHorizontalMovement_16_438730) \
-    ENTRY(M_BeginDownMovement_17_438B80)        \
-    ENTRY(M_EndDownMovement_18_438C90)          \
-    ENTRY(M_DownKnockback_19_4390D0)            \
-    ENTRY(M_UpKnockback_20_439110)              \
-    ENTRY(M_EndUpMovement_21_438EB0)            \
-    ENTRY(M_InstantUpXTurn_22_438EE0)           \
-    ENTRY(M_InstantDownXTurn_23_438F20)         \
-    ENTRY(M_HorizontalToUpMovement_24_438D60)   \
-    ENTRY(M_TurnToHorizontalMovement_25_4389E0)
+    ENTRY(Motion_0_Idle)                      \
+    ENTRY(Motion_1_HorizontalMovement)        \
+    ENTRY(Motion_2_IdleToTurn)                \
+    ENTRY(Motion_3_DownMovement)              \
+    ENTRY(Motion_4_DownMovementToTurn)        \
+    ENTRY(Motion_5_UpMovement)                \
+    ENTRY(Motion_6_UpMovementToTurn)          \
+    ENTRY(Motion_7_LeverPull)                 \
+    ENTRY(Motion_8_GameSpeak)                 \
+    ENTRY(Motion_9_Possession)                \
+    ENTRY(Motion_10_EndHorizontalMovement)    \
+    ENTRY(Motion_11_BeginUpMovement)          \
+    ENTRY(Motion_12_HorizontalToDownMovement) \
+    ENTRY(Motion_13_UpToHorizontalMovement)   \
+    ENTRY(Motion_14_DownToHorizontalMovement) \
+    ENTRY(Motion_15_QuickTurn)                \
+    ENTRY(Motion_16_IdleToHorizontalMovement) \
+    ENTRY(Motion_17_BeginDownMovement)        \
+    ENTRY(Motion_18_EndDownMovement)          \
+    ENTRY(Motion_19_DownKnockback)            \
+    ENTRY(Motion_20_UpKnockback)              \
+    ENTRY(Motion_21_EndUpMovement)            \
+    ENTRY(Motion_22_InstantUpXTurn)           \
+    ENTRY(Motion_23_InstantDownXTurn)         \
+    ENTRY(Motion_24_HorizontalToUpMovement)   \
+    ENTRY(Motion_25_TurnToHorizontalMovement)
 
 #define MAKE_ENUM(VAR) VAR,
-enum eFlyingSligMotions : s32
+enum class eFlyingSligMotions : s32
 {
     FLYING_SLIG_MOTIONS_ENUM(MAKE_ENUM)
 };
@@ -133,24 +133,19 @@ public:
     FlyingSlig(relive::Path_FlyingSlig* pTlv, const Guid& tlvId);
     ~FlyingSlig();
 
-    void LoadAnimations();
-
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
     virtual void VPossessed() override;
-    virtual void VSetMotion(s16 state) override;
+    virtual void VSetMotion(s16 newMotion) override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
     static s32 CreateFromSaveState(const u8* pBuffer);
+    void ToPlayerControlled();
+    void SetBrain(TFlyingSligBrainFn fn);
+    bool BrainIs(TFlyingSligBrainFn fn);
 
-private:
-    s16 IsPossessed();
-    void sub_4348A0();
-    void Movement();
-
-public:
     void Brain_0_Inactive();
     void Brain_1_Death();
     void Brain_2_Moving();
@@ -169,78 +164,85 @@ public:
     void Brain_15_FlyingSligSpawn();
     void Brain_17_FromCrawlingSlig();
 
-public:
-    void M_Idle_0_4385E0();
-    void M_HorizontalMovement_1_4386A0();
-    void M_IdleToTurn_2_4388B0();
-    void M_DownMovement_3_438AA0();
-    void M_DownMovementToTurn_4_438CC0();
-    void M_UpMovement_5_438DD0();
-    void M_UpMovementToTurn_6_439030();
-    void M_LeverPull_7_439150();
-    void M_GameSpeak_8_4391D0();
-    void M_Possession_9_434290();
-    void M_EndHorizontalMovement_10_4387D0();
-    void M_BeginUpMovement_11_438E40();
-    void M_HorizontalToDownMovement_12_438B10();
-    void M_UpToHorizontalMovement_13_438F60();
-    void M_DownToHorizontalMovement_14_438BF0();
-    void M_QuickTurn_15_4387F0();
-    void M_IdleToHorizontalMovement_16_438730();
-    void M_BeginDownMovement_17_438B80();
-    void M_EndDownMovement_18_438C90();
-    void M_DownKnockback_19_4390D0();
-    void M_UpKnockback_20_439110();
-    void M_EndUpMovement_21_438EB0();
-    void M_InstantUpXTurn_22_438EE0();
-    void M_InstantDownXTurn_23_438F20();
-    void M_HorizontalToUpMovement_24_438D60();
-    void M_TurnToHorizontalMovement_25_4389E0();
+    void Motion_0_Idle();
+    void Motion_1_HorizontalMovement();
+    void Motion_2_IdleToTurn();
+    void Motion_3_DownMovement();
+    void Motion_4_DownMovementToTurn();
+    void Motion_5_UpMovement();
+    void Motion_6_UpMovementToTurn();
+    void Motion_7_LeverPull();
+    void Motion_8_GameSpeak();
+    void Motion_9_Possession();
+    void Motion_10_EndHorizontalMovement();
+    void Motion_11_BeginUpMovement();
+    void Motion_12_HorizontalToDownMovement();
+    void Motion_13_UpToHorizontalMovement();
+    void Motion_14_DownToHorizontalMovement();
+    void Motion_15_QuickTurn();
+    void Motion_16_IdleToHorizontalMovement();
+    void Motion_17_BeginDownMovement();
+    void Motion_18_EndDownMovement();
+    void Motion_19_DownKnockback();
+    void Motion_20_UpKnockback();
+    void Motion_21_EndUpMovement();
+    void Motion_22_InstantUpXTurn();
+    void Motion_23_InstantDownXTurn();
+    void Motion_24_HorizontalToUpMovement();
+    void Motion_25_TurnToHorizontalMovement();
 
-    s16 IsFacingMovementDirection_43A510();
+private:
+    eFlyingSligMotions GetCurrentMotion() const
+    {
+        return static_cast<eFlyingSligMotions>(mCurrentMotion);
+    }
+    inline void SetMotionHelper(eFlyingSligMotions motion)
+    {
+        VSetMotion(static_cast<s16>(motion));
+    }
 
-public:
-    void ToPlayerControlled_4360C0();
-    void ToMoving_435720();
-    void ToPanicIdle_435B50();
-    void ToChase_435E10();
-    s16 CanChase_436850(BaseAliveGameObject* pObj);
-    void Say_436A50(SligSpeak speak, s16 pitch);
-    s16 sub_4374A0(s16 a2);
-    static s16 IsAbeEnteringDoor_43B030(BaseAliveGameObject* pThis);
-    static bool IsWallBetween_43A550(BaseAliveGameObject* pThis, BaseAliveGameObject* pObj);
-    void ThrowGrenade_43A1E0();
-    void BlowUp_436510();
-    s16 sub_436730();
-    s16 CanHearAbe_4369C0();
-    void ToSpottedEnemy_435E70();
-    void ToAbeDead_436010();
-    void ToAlerted_4357E0();
-    void ToPanicMoving_435A50();
-    s16 IsTurning_436AE0();
-    u8** ResBlockForMotion_4350F0(s32 motion);
-    void ToChantShake_436270();
-    void ToPossesed_436130();
+    void LoadAnimations();
+    void sub_4348A0();
+    void ToMoving();
+    void ToPanicIdle();
+    void ToChase();
+    void ToChantShake();
+    void ToPossesed();
     void vUpdateAnimRes_4350A0();
-    void PatrolDelay_435860();
-    s16 CanThrowGrenade_43A490();
-    void ToLaunchingGrenade_435F50();
-    void HandlePlayerControls_439340();
+    void PatrolDelay();
+    s16 CanThrowGrenade();
+    void ToLaunchingGrenade();
+    void HandlePlayerControls();
+    ReliveTypes FindLeftOrRightBound(FP xOrY, FP wOrH);
+    s16 CanHearAbe();
+    void ToSpottedEnemy();
+    void ToAbeDead();
+    void ToAlerted();
+    void ToPanicMoving();
+    s16 IsTurning();
+    s16 CollisionUp(FP velY);
+    s16 CollisionDown(FP velY);
+    s16 CollisionLeftRight(FP velX);
+    void PullLever();
+    s16 TryPullLever();
+    s16 CanChase(BaseAliveGameObject* pObj);
+    void Say(SligSpeak speak, s16 pitch);
+    static s16 IsAbeEnteringDoor(BaseAliveGameObject* pThis);
+    static bool IsWallBetween(BaseAliveGameObject* pThis, BaseAliveGameObject* pObj);
+    void ThrowGrenade();
+    void BlowUp();
+    s16 IsPossessed();
+    void Movement();
+    s16 IsFacingMovementDirection();
+
+    // TODO: names
+    s16 sub_4374A0(s16 a2);
+    s16 sub_436730();
     s16 sub_437C70(PathLine* pLine);
-    ReliveTypes FindLeftOrRightBound_43B0A0(FP xOrY, FP wOrH);
     s16 sub_436C60(PSX_RECT* pRect, s16 op1);
     bool sub_436B20();
     void sub_4373B0();
-    void vSetMotion_43B1B0(s16 newMotion);
-    s16 CollisionUp_43A640(FP velY);
-    s16 CollisionDown_43A9E0(FP velY);
-    s16 CollisionLeftRight_43AC80(FP velX);
-    void PullLever_436450();
-    s16 TryPullLever_439DB0();
     void sub_437AC0(FP a2, FP_Point* pPoint);
-
-    void SetBrain(TFlyingSligBrainFn fn);
-    bool BrainIs(TFlyingSligBrainFn fn);
 
 private:
     relive::Path_FlyingSlig field_118_data;
@@ -252,9 +254,6 @@ private:
     s16 field_15C_voice_pitch_min = 0;
     s16 field_15E_useless = 0;
     s16 field_160_voice_pitch_min = 0;
-    s32 field_164_unused = 0;
-    s16 field_178_unused = 0;
-    s16 field_17A_unused = 0;
     u8 field_17C_launch_switch_id = 0;
     SligSpeak field_17D_next_speak = SligSpeak::eHi_0;
 
@@ -289,11 +288,6 @@ private:
     FP field_1C4 = {};
     FP field_1C8_lever_pull_range_xpos = {};
     FP field_1CC_lever_pull_range_ypos = {};
-    s32 field_1D8_unused = 0;
-    s32 field_1DC_unused = 0;
-    s32 field_1E0_unused = 0;
-    s32 field_1E4_unused = 0;
-    s16 field_1E8_unused = 0;
     PathLine* field_1EC_pNextLine = nullptr;
     PathLine* field_1F0_pPrevLine = nullptr;
     s16 field_1F4_pPalAlloc[64] = {};

@@ -34,4 +34,3 @@ private:
     s32 mTimer = 0;
     s32 mSoundChannelsMask = 0;
 };
-ALIVE_ASSERT_SIZEOF(SecurityOrb, 0x128);

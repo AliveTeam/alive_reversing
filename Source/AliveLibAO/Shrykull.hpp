@@ -38,6 +38,5 @@ public:
     s16 field_120_bElectrocute = 0;
     s16 field_122_bResetRingTimer = 0;
 };
-ALIVE_ASSERT_SIZEOF(Shrykull, 0x124);
 
 } // namespace AO

@@ -322,6 +322,5 @@ public:
     s16 mPreventDepossession = 0;
     s32 field_258_next_gamespeak_motion = 0;
 };
-ALIVE_ASSERT_SIZEOF(Slig, 0x25C);
 
 } // namespace AO

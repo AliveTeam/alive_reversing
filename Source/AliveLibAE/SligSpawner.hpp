@@ -48,4 +48,3 @@ private:
     Guid mSpawnedSligId;
     s16 mFindSpawnedSlig = 0;
 };
-ALIVE_ASSERT_SIZEOF(SligSpawner, 0x44);

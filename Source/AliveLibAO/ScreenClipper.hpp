@@ -28,6 +28,5 @@ public:
     Layer field_38_ot_layer = Layer::eLayer_0;
 
 };
-ALIVE_ASSERT_SIZEOF(ScreenClipper, 0x3C);
 
 } // namespace AO

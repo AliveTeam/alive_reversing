@@ -30,6 +30,5 @@ public:
     FP mLeafY = {};
     relive::reliveChoice mEmitLeaves = relive::reliveChoice::eNo;
 };
-ALIVE_ASSERT_SIZEOF(Well, 0x104);
 
 } // namespace AO
