@@ -105,11 +105,9 @@ ZapLine::ZapLine(FP x1, FP y1, FP x2, FP y2, s32 aliveTime, ZapLineType type, La
 
                 Poly_Set_SemiTrans(&pSprt->mBase.header, 1);
                 Poly_Set_Blending(&pSprt->mBase.header, 1);
-                /* TODO: Just set anim ptr
-                SetClut(pSprt, static_cast<s16>(PSX_getClut(
-                                   mAnim.mPalVramXY.x,
-                                   mAnim.mPalVramXY.y)));
-                                   */
+
+                pSprt->mAnim = &mAnim;
+
                 SetUV0(pSprt, u0, 0 /*mAnim.mVramRect.y & 0xFF*/);
                 pSprt->field_14_w = static_cast<s16>(frameW - 1);
                 pSprt->field_16_h = static_cast<s16>(frameH - 1);
