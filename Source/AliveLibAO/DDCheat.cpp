@@ -118,7 +118,7 @@ void DDCheat::ScreenShot()
             return;
         }
         const PSX_RECT rect = {0, 0, 640, static_cast<s16>(gPsxDisplay.mHeight)};
-        PSX_StoreImage_496320(&rect, pixelBuffer);
+        //PSX_StoreImage_496320(&rect, pixelBuffer);
         PSX_DrawSync_496750(0);
 
         for (s32 i = 0; i < 640 * gPsxDisplay.mHeight; i++)

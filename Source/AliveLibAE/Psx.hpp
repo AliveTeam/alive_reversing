@@ -12,7 +12,6 @@ using TPsxEmuCallBack = AddPointer_t<s32(u32)>;
 void PSX_DispEnv_Set_4ED960(s32 mode);
 void PSX_VSync_4F6170(s32 mode);
 s32 PSX_DrawSync_4F6280(s32 mode);
-bool PSX_Rect_IsInFrameBuffer_4FA050(const PSX_RECT* pRect);
 s32 PSX_SetDispMask_4F89F0(s32 mode);
 s32 PSX_SetVideoMode_4FA8F0();
 s32 PSX_ResetGraph_4F8800(s32);
@@ -30,13 +29,11 @@ s32 PSX_CdControlB_4FB320(s32, s32, s32);
 s32 PSX_StopCallBack_4FAA30();
 s32 PSX_EMU_VideoAlloc_4F9D70();
 void Init_VGA_AndPsxVram_494690();
-void PSX_EMU_Init_4F9CD0(bool bShowVRam);
+void PSX_EMU_Init_4F9CD0();
 void PSX_EMU_SetCallBack_4F9430(s32 callBackType, TPsxEmuCallBack fnPtr);
 void PSX_EMU_Set_screen_mode_4F9420(s8 mode);
 s32 PSX_MoveImage(const PSX_RECT* pRect, s32 xpos, s32 ypos);
-s32 PSX_LoadImage16_4F5E20(const PSX_RECT* pRect, const u8* pData);
 s32 PSX_LoadImage_4F5FB0(const PSX_RECT* pRect, const u8* pData);
-s32 PSX_StoreImage_4F5E90(const PSX_RECT* rect, u16* pData);
 
 bool PSX_Rects_overlap_no_adjustment(const PSX_RECT* pRect1, const PSX_RECT* pRect2);
 
@@ -54,16 +51,11 @@ s32 PSX_CD_File_Seek_4FB1E0(s8 mode, const CdlLOC* pLoc);
 s32 PSX_CD_File_Read_4FB210(s32 numSectors, void* pBuffer);
 s32 PSX_CD_FileIOWait_4FB260(s32 bASync);
 
-Bitmap& GetPsxVram();
-
-extern Bitmap sPsxVram_C1D160;
 extern u8 turn_off_rendering_BD0F20;
 extern PSX_DRAWENV sPSX_EMU_DrawEnvState_C3D080;
-extern u8 sPsxEMU_show_vram_BD1465;
 extern Bitmap* spBitmap_C2D038;
 
 extern TPsxEmuCallBack sPsxEmu_EndFrameFnPtr_C1D17C;
-extern u8 bDontUseXYOffsetInRender_BD1464;
 extern Bitmap sBitmap_C1D1A0;
 extern s32 sVGA_DisplayType_BD1468;
 

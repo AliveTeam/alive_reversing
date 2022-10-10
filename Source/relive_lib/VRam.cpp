@@ -369,13 +369,9 @@ void Pal_Area_Init(s16 xpos, s16 ypos, u16 width, u16 height)
     }
 }
 
-void Pal_Copy(PSX_Point pPoint, s16 w, u16* pPalData, PSX_RECT* rect)
+void Pal_Copy(PSX_Point , s16 , u16* , PSX_RECT* )
 {
-    rect->x = pPoint.x;
-    rect->y = pPoint.y;
-    rect->w = w;
-    rect->h = 1;
-    PSX_StoreImage_4F5E90(rect, pPalData);
+
 }
 
 u32 Pal_Make_Colour(u8 r, u8 g, u8 b, s16 bOpaque)

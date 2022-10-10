@@ -22,7 +22,6 @@ s32 sLastFrameTimestampMilliseconds_BD0F24 = 0;
 
 PSX_DRAWENV sPSX_EMU_DrawEnvState_C3D080 = {};
 s32 sConst_1000_578E88 = 1000;
-u8 bDontUseXYOffsetInRender_BD1464 = 0;
 
 s32 sPsx_drawenv_clipx_BDCD40 = 0;
 s32 sPsx_drawenv_clipy_BDCD44 = 0;
@@ -32,7 +31,6 @@ s32 sPsx_drawenv_k500_BDCD50 = 0;
 u8* sPsx_drawenv_buffer_BDCD54 = nullptr;
 u8 sPsxEMU_show_vram_BD1465 = 0;
 
-Bitmap sPsxVram_C1D160 = {};
 Bitmap sBitmap_C1D1A0 = {}; // Note: never used?
 
 PSX_DISPENV sLastDispEnv_C2D060 = {};
@@ -95,12 +93,6 @@ s32 PSX_CD_FileIOWait_4FB260(s32 bASync)
     return sCdFileHandle_BD1CC4->field_10_bDone != 0;
 }
 
-
-Bitmap& GetPsxVram()
-{
-    return sPsxVram_C1D160;
-}
-
 TPsxEmuCallBack sPsxEmu_put_disp_env_callback_C1D184 = nullptr;
 TPsxEmuCallBack sPsxEmu_EndFrameFnPtr_C1D17C = nullptr;
 u8 sPsxDontChangeDispEnv_BD0F21 = 0;
@@ -122,16 +114,12 @@ Bitmap* spBitmap_C2D038 = nullptr;
 
 
 
-void PSX_EMU_Init_4F9CD0(bool bShowVRam)
+void PSX_EMU_Init_4F9CD0()
 {
-    memset(&sPsxVram_C1D160, 0, sizeof(sPsxVram_C1D160));
     memset(&sBitmap_C1D1A0, 0, sizeof(sBitmap_C1D1A0));
 
     sPsxEmu_EndFrameFnPtr_C1D17C = nullptr;
     sPsxEmu_put_disp_env_callback_C1D184 = nullptr;
-    sPsxEMU_show_vram_BD1465 = bShowVRam;
-
-    Psx_Render_Float_Table_Init();
 
     // Note: sPsxEmu_BD1454 removed
 }
@@ -202,13 +190,8 @@ s32 PSX_EMU_VideoAlloc_4F9D70()
         if (sVGA_DisplayType_BD1468 == 1)
         {
             sVGA_DisplayType_BD1468 = 4;
-            if (BMP_New_4F1990(&sPsxVram_C1D160, 1024, 512, 15, 1))
-            {
-                Error_PushErrorRecord_4F2920("C:\\abe2\\code\\PSXEmu\\PSXEMU.C", 405, -1, "PSXEMU_VideoAlloc: can't alloc PSX-VRAM");
-                return -1;
-            }
-
-            PSX_EMU_SetDispType_4F9960(sVGA_DisplayType_BD1468);
+          
+            //PSX_EMU_SetDispType_4F9960(sVGA_DisplayType_BD1468);
         }
         else
         {
@@ -232,23 +215,19 @@ s32 PSX_EMU_VideoAlloc_4F9D70()
                     break;
             }
 
-            if (BMP_New_4F1990(&sPsxVram_C1D160, 1024, 512, pixelFormat, 1))
-            {
-                Error_PushErrorRecord_4F2920("C:\\abe2\\code\\PSXEmu\\PSXEMU.C", 414, -1, "PSXEMU_VideoAlloc: can't alloc PSX-VRAM");
-                return -1;
-            }
         }
 
-        bDontUseXYOffsetInRender_BD1464 = 0;
         sbBitmapsAllocated_BD145C = 1;
     }
 
+    /*
     PSX_RECT rect = {};
     rect.x = 0;
     rect.y = 0;
     rect.w = 1024;
     rect.h = 512;
     PSX_ClearImage_4F5BD0(&rect, 0, 0, 0);
+    */
     return 0;
 }
 
@@ -267,20 +246,20 @@ void Init_VGA_AndPsxVram_494690()
     switch (VGA_GetPixelFormat_4F3EE0())
     {
         case 8:
-            PSX_EMU_SetDispType_4F9960(1);
+            //PSX_EMU_SetDispType_4F9960(1);
             break;
         case 15:
-            PSX_EMU_SetDispType_4F9960(4);
+            //PSX_EMU_SetDispType_4F9960(4);
             break;
         case 32: // Allow 32bit colour
         case 16:
-            PSX_EMU_SetDispType_4F9960(2);
+            //PSX_EMU_SetDispType_4F9960(2);
             break;
         case 115:
-            PSX_EMU_SetDispType_4F9960(5);
+            //PSX_EMU_SetDispType_4F9960(5);
             break;
         case 116:
-            PSX_EMU_SetDispType_4F9960(3);
+           // PSX_EMU_SetDispType_4F9960(3);
             break;
         default:
             Error_WarningMessageBox("This program requires a high-color display mode of 32768 or 65536 colors at 640x480 resolution.");
@@ -293,12 +272,6 @@ void PSX_EMU_VideoDeAlloc_4FA010()
 {
     if (sbBitmapsAllocated_BD145C)
     {
-        Bmp_Free_4F1950(&sPsxVram_C1D160);
-        if (bDontUseXYOffsetInRender_BD1464)
-        {
-            Bmp_Free_4F1950(&sBitmap_C1D1A0);
-            bDontUseXYOffsetInRender_BD1464 = 0;
-        }
         sbBitmapsAllocated_BD145C = false;
     }
 }
@@ -314,53 +287,25 @@ void PSX_PutDispEnv_Impl_4F5640(const PSX_DISPENV* pDispEnv, s8 a2)
 
     SsSeqCalledTbyT_4FDC80();
     memcpy(&sLastDispEnv_C2D060, pDispEnv, sizeof(sLastDispEnv_C2D060));
-    if (sPsxVram_C1D160.field_4_pLockedPixels)
-    {
-        BMP_unlock_4F2100(&sPsxVram_C1D160);
-    }
 
     if (!turn_off_rendering_BD0F20 && byte_578324)
     {
-        if (sPsxEMU_show_vram_BD1465)
-        {
-            // NOTE: Slight OG change - still render debug text when debug render vram is enabled
-            RECT rect = {0, 0, 640, 480};
-            PSX_DrawDebugTextBuffers(&sPsxVram_C1D160, rect);
-
-            VGA_CopyToFront_4F3710(&sPsxVram_C1D160, nullptr);
-            SsSeqCalledTbyT_4FDC80();
-            return;
-        }
-
-        Bitmap* pBmp = nullptr;
         RECT rect = {};
-        if (bDontUseXYOffsetInRender_BD1464)
-        {
-            rect.top = 0;
-            rect.left = 0;
-            rect.right = sLastDispEnv_C2D060.disp.w;
-            rect.bottom = sLastDispEnv_C2D060.disp.h;
-            pBmp = &sBitmap_C1D1A0;
-        }
-        else
-        {
-            rect.left = sLastDispEnv_C2D060.disp.x;
-            rect.top = sLastDispEnv_C2D060.disp.y;
-            rect.right = sLastDispEnv_C2D060.disp.x + sLastDispEnv_C2D060.disp.w;
-            rect.bottom = sLastDispEnv_C2D060.disp.y + sLastDispEnv_C2D060.disp.h;
-            pBmp = &sPsxVram_C1D160;
-        }
+        rect.left = sLastDispEnv_C2D060.disp.x;
+        rect.top = sLastDispEnv_C2D060.disp.y;
+        rect.right = sLastDispEnv_C2D060.disp.x + sLastDispEnv_C2D060.disp.w;
+        rect.bottom = sLastDispEnv_C2D060.disp.y + sLastDispEnv_C2D060.disp.h;
 
-        PSX_DrawDebugTextBuffers(pBmp, rect);
+        PSX_DrawDebugTextBuffers(&sVGA_bmp_primary_BD2A20, rect);
 
         if (a2 && VGA_IsWindowMode_4F31E0())
         {
-            PSX_DispEnv_4EDAB0(pBmp, rect.left, rect.top, rect.right - rect.left);
+            PSX_DispEnv_4EDAB0(&sVGA_bmp_primary_BD2A20, rect.left, rect.top, rect.right - rect.left);
             PSX_DispEnv_Reset_Unknown_4ED9E0();
         }
         else
         {
-            VGA_CopyToFront_4F3EB0(pBmp, &rect, sScreenMode_BD146D);
+            VGA_CopyToFront_4F3EB0(&sVGA_bmp_primary_BD2A20, &rect, sScreenMode_BD146D);
         }
 
         // TODO: Removed dead increment here
@@ -491,122 +436,9 @@ s32 PSX_SetDispMask_4F89F0(s32 /*mode*/)
     return 0;
 }
 
-bool PSX_Rect_IsInFrameBuffer_4FA050(const PSX_RECT* pRect)
+s32 PSX_LoadImage_4F5FB0(const PSX_RECT*, const u8*)
 {
-    return pRect->x >= 0 && pRect->x < sPsxVram_C1D160.field_8_width
-        && pRect->y >= 0
-        && pRect->y < sPsxVram_C1D160.field_C_height
-        && pRect->w + pRect->x - 1 >= 0
-        && pRect->w + pRect->x - 1 < sPsxVram_C1D160.field_8_width
-        && pRect->h + pRect->y - 1 >= 0
-        && pRect->h + pRect->y - 1 < sPsxVram_C1D160.field_C_height;
-}
-
-s32 PSX_LoadImage_4F5FB0(const PSX_RECT* pRect, const u8* pData)
-{
-    if (!PSX_Rect_IsInFrameBuffer_4FA050(pRect))
-    {
-        return 0;
-    }
-
-//#if RENDERER_OPENGL
-    IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e8Bit, *pRect, pData);
-//#endif
-
-    if (!BMP_Lock_4F1FF0(&sPsxVram_C1D160))
-    {
-        Error_PushErrorRecord_4F2920(
-            "C:\\abe2\\code\\PSXEmu\\LIBGPU.C",
-            678,
-            -1,
-            "LoadImage: can't lock the _psxemu_videomem");
-        return 1;
-    }
-
-    // TODO: Clean up more, treat as 1024x512 16bit array
-    const u32 bytesPerPixel = sPsxVram_C1D160.field_14_bpp / 8;
-    u32 srcWidthInBytes = pRect->w * bytesPerPixel;
-    u8* pDst = (u8*) sPsxVram_C1D160.field_4_pLockedPixels + bytesPerPixel * (pRect->x + (pRect->y * sPsxVram_C1D160.field_8_width));
-    const u8* pDataEnd = &pData[srcWidthInBytes * pRect->h];
-    const u8* pDataIter = pData;
-
-    while (pDataIter < pDataEnd)
-    {
-        memcpy(pDst, pDataIter, srcWidthInBytes);
-        pDataIter += srcWidthInBytes;
-        pDst += (sPsxVram_C1D160.field_8_width * bytesPerPixel);
-    }
-
-    BMP_unlock_4F2100(&sPsxVram_C1D160);
     return 1;
-
-    // Note: Removed width == 32 optimization case.
-}
-
-s32 PSX_StoreImage_4F5E90(const PSX_RECT* rect, u16* pData)
-{
-    if (!PSX_Rect_IsInFrameBuffer_4FA050(rect))
-    {
-        return 0;
-    }
-
-#if RENDERER_OPENGL
-    // TODO: This is actually download, but we have a copy of it stored in the pal cache
-    //IRenderer::GetRenderer()->Upload(IRenderer::BitDepth::e8Bit, *rect, reinterpret_cast<u8 * >(pData));
-#endif
-    if (!BMP_Lock_4F1FF0(&sPsxVram_C1D160))
-    {
-        Error_PushErrorRecord_4F2920(
-            "C:\\abe2\\code\\PSXEmu\\LIBGPU.C",
-            628,
-            -1,
-            "StoreImage: can't lock the _psxemu_videomem"); // OG bug, name is wrong
-        return 1;
-    }
-
-    u16* pDstIter = pData;
-
-    // TODO: Refactor
-    const u16* pVramIter = (const u16*) ((s8*) sPsxVram_C1D160.field_4_pLockedPixels + 2 * (rect->x + (rect->y << 10)));
-    const u16* pVramEnd = &pVramIter[1024 * rect->h - 1024 + rect->w];
-    s32 lineRemainder = 1024 - rect->w;
-    for (s32 count = 1024 - rect->w; pVramIter < pVramEnd; pVramIter += lineRemainder)
-    {
-        const u16* pLineStart = &pVramIter[rect->w];
-        while (pVramIter < pLineStart)
-        {
-            const auto vram_pixel = static_cast<u32>(*pVramIter);
-            ++pVramIter;
-
-            u32 shiftedRed = (vram_pixel >> sRedShift_C215C4) & 0x1F;
-            u32 shiftedGreen = (vram_pixel >> sGreenShift_C1D180) & 0x1F;
-            u32 shiftedBlue = (vram_pixel >> sBlueShift_C19140) & 0x1F;
-            u32 shiftedTrans = (vram_pixel >> sSemiTransShift_C215C0);
-            // Convert and store pixel value
-            *(pDstIter) = static_cast<u16>(shiftedRed | 32 * (shiftedGreen | 32 * (shiftedBlue | 32 * (shiftedTrans))));
-
-            ++pDstIter;
-            lineRemainder = count;
-        }
-    }
-    BMP_unlock_4F2100(&sPsxVram_C1D160);
-    return 1;
-}
-
-s32 PSX_LoadImage16_4F5E20(const PSX_RECT* pRect, const u8* pData)
-{
-    const u32 pixelCount = pRect->w * pRect->h;
-    u16* pConversionBuffer = relive_new u16[pixelCount * (sPsxVram_C1D160.field_14_bpp / 8)];
-    if (!pConversionBuffer)
-    {
-        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\PSXEmu\\LIBGPU.C", 579, 0, "LoadImage16: can't do color conversion.");
-        return PSX_LoadImage_4F5FB0(pRect, pData);
-    }
-
-    PSX_Pal_Conversion_4F98D0(reinterpret_cast<const u16*>(pData), pConversionBuffer, pixelCount);
-    const auto loadImageRet = PSX_LoadImage_4F5FB0(pRect, reinterpret_cast<u8*>(pConversionBuffer));
-    relive_delete[] pConversionBuffer;
-    return loadImageRet;
 }
 
 void PSX_SetDrawEnv_Impl_4FE420(s32 x, s32 y, s32 w, s32 h, s32 unknown, u8* pBuffer)
@@ -624,26 +456,14 @@ void PSX_PutDrawEnv_4F5980(const PSX_DRAWENV* pDrawEnv)
     if (pDrawEnv)
     {
         memcpy(&sPSX_EMU_DrawEnvState_C3D080, pDrawEnv, sizeof(sPSX_EMU_DrawEnvState_C3D080));
-        if (bDontUseXYOffsetInRender_BD1464)
-        {
-            PSX_SetDrawEnv_Impl_4FE420(
-                0,
-                0,
-                16 * sPSX_EMU_DrawEnvState_C3D080.field_0_clip.w - 16,
-                16 * sPSX_EMU_DrawEnvState_C3D080.field_0_clip.h - 16,
-                sConst_1000_578E88 / 2,
-                nullptr);
-        }
-        else
-        {
-            PSX_SetDrawEnv_Impl_4FE420(
-                16 * sPSX_EMU_DrawEnvState_C3D080.field_0_clip.x,
-                16 * sPSX_EMU_DrawEnvState_C3D080.field_0_clip.y,
-                16 * (sPSX_EMU_DrawEnvState_C3D080.field_0_clip.x + sPSX_EMU_DrawEnvState_C3D080.field_0_clip.w) - 16,
-                16 * (sPSX_EMU_DrawEnvState_C3D080.field_0_clip.y + sPSX_EMU_DrawEnvState_C3D080.field_0_clip.h) - 16,
-                sConst_1000_578E88 / 2,
-                nullptr);
-        }
+
+        PSX_SetDrawEnv_Impl_4FE420(
+            16 * sPSX_EMU_DrawEnvState_C3D080.field_0_clip.x,
+            16 * sPSX_EMU_DrawEnvState_C3D080.field_0_clip.y,
+            16 * (sPSX_EMU_DrawEnvState_C3D080.field_0_clip.x + sPSX_EMU_DrawEnvState_C3D080.field_0_clip.w) - 16,
+            16 * (sPSX_EMU_DrawEnvState_C3D080.field_0_clip.y + sPSX_EMU_DrawEnvState_C3D080.field_0_clip.h) - 16,
+            sConst_1000_578E88 / 2,
+            nullptr);
     }
     else
     {
@@ -651,21 +471,9 @@ void PSX_PutDrawEnv_4F5980(const PSX_DRAWENV* pDrawEnv)
     }
 }
 
-s32 PSX_MoveImage(const PSX_RECT* pRect, s32 xpos, s32 ypos)
+s32 PSX_MoveImage(const PSX_RECT*, s32 , s32)
 {
-    if (PSX_Rect_IsInFrameBuffer_4FA050(pRect))
-    {
-        RECT rect = {};
-        rect.left = pRect->x;
-        rect.top = pRect->y;
-        rect.right = pRect->x + pRect->w;
-        rect.bottom = pRect->y + pRect->h;
-        BMP_Blt_4F1E50(&sPsxVram_C1D160, xpos, ypos, &sPsxVram_C1D160, &rect, 0);
-        return 0;
-    }
-
-    Error_DisplayMessageBox_4F2C80("C:\\abe2\\code\\PSXEmu\\LIBGPU.C", 531, "MoveImage: BAD SRC RECT !!!");
-    return -1;
+    return 0;
 }
 
 void PSX_CD_Normalize_FileName_4FAD90(char_type* pNormalized, const char_type* pFileName)

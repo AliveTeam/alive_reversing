@@ -964,15 +964,8 @@ static void QuitEvent(bool isRecordedEvent, bool isRecording)
     {
         forcedWindowMode = true;
         SDL_SetWindowFullscreen(Sys_GetWindowHandle_4EE180(), 0);
-        if (sPsxEMU_show_vram_BD1465)
-        {
-            VGA_CopyToFront_4F3710(&sPsxVram_C1D160, nullptr);
-        }
-        else
-        {
-            RECT rect = {0, 0, 640, 240};
-            VGA_CopyToFront_4F3710(&sPsxVram_C1D160, &rect);
-        }
+        //RECT rect = {0, 0, 640, 240};
+        //VGA_CopyToFront_4F3710(&sPsxVram_C1D160, &rect);
     }
 
     bool actuallyQuit = false;
@@ -1135,7 +1128,7 @@ s8 Sys_PumpMessages_4EE4F4()
                 }
                 else if (event.window.type == SDL_WINDOWEVENT_EXPOSED)
                 {
-                    Add_Dirty_Area_4ED970(0, 0, 640, 240);
+                    //Add_Dirty_Area_4ED970(0, 0, 640, 240);
                 }
                 // SDL_WINDOWEVENT_SIZE_CHANGED
             }

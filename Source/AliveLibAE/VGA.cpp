@@ -103,7 +103,7 @@ s32 VGA_ClearRect_4F4CF0(RECT* pRect, u32 fillColour)
     return BMP_ClearRect(VGA_GetBitmap_4F3F00(), pRect, fillColour);
 }
 
-void VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, s32 /*screenMode*/)
+void VGA_CopyToFront_4F3730(Bitmap* , RECT* pRect, s32 /*screenMode*/)
 {
     SDL_Rect copyRect = {};
     if (pRect)
@@ -117,83 +117,53 @@ void VGA_CopyToFront_4F3730(Bitmap* pBmp, RECT* pRect, s32 /*screenMode*/)
 
     SDL_Rect* pCopyRect = pRect ? &copyRect : nullptr;
 
-    if (SDL_BlitSurface(pBmp->field_0_pSurface, pCopyRect, sVGA_bmp_primary_BD2A20.field_0_pSurface, nullptr) == 0)
+
+    SDL_Rect* pDst = nullptr;
+    SDL_Rect dst = {};
+
+    s32 w = 0;
+    s32 h = 0;
+    IRenderer::GetRenderer()->OutputSize(&w, &h);
+
+    s32 renderedWidth = w;
+    s32 renderedHeight = h;
+
+    if (s_VGA_KeepAspectRatio)
     {
-        IRenderer::GetRenderer()->CreateBackBuffer(s_VGA_FilterScreen, pBmp->field_0_pSurface->format->format, pBmp->field_0_pSurface->w, pBmp->field_0_pSurface->h);
-
-        static bool prevFilterScreenValue = !s_VGA_FilterScreen;
-        static s32 prevWidth = pBmp->field_0_pSurface->w;
-        static s32 prevHeight = pBmp->field_0_pSurface->h;
-
-        if (prevFilterScreenValue != s_VGA_FilterScreen || prevWidth != pBmp->field_0_pSurface->w || prevHeight != pBmp->field_0_pSurface->h)
+        if (3 * w > 4 * h)
         {
-            prevFilterScreenValue = s_VGA_FilterScreen;
-            prevWidth = pBmp->field_0_pSurface->w;
-            prevHeight = pBmp->field_0_pSurface->h;
-
-            IRenderer::GetRenderer()->CreateBackBuffer(s_VGA_FilterScreen, pBmp->field_0_pSurface->format->format, pBmp->field_0_pSurface->w, pBmp->field_0_pSurface->h);
-        }
-
-        if (IRenderer::GetRenderer()->UpdateBackBuffer(pBmp->field_0_pSurface->pixels, pBmp->field_0_pSurface->pitch))
-        {
-            SDL_Rect* pDst = nullptr;
-            SDL_Rect dst = {};
-
-            s32 w = 0;
-            s32 h = 0;
-            IRenderer::GetRenderer()->OutputSize(&w, &h);
-
-            s32 renderedWidth = w;
-            s32 renderedHeight = h;
-
-            if (s_VGA_KeepAspectRatio)
-            {
-                if (3 * w > 4 * h)
-                {
-                    renderedWidth = h * 4 / 3;
-                }
-                else
-                {
-                    renderedHeight = w * 3 / 4;
-                }
-            }
-
-            if (pCopyRect)
-            {
-                // Make sure our screen shake also sizes with the window.
-                s32 screenShakeOffsetX = static_cast<s32>(sScreenXOffSet_BD30E4 * (renderedWidth / 640.0f));
-                s32 screenShakeOffsetY = static_cast<s32>(sScreenYOffset_BD30A4 * (renderedHeight / 480.0f));
-
-                dst.x = screenShakeOffsetX + ((w - renderedWidth) / 2);
-                dst.y = screenShakeOffsetY + ((h - renderedHeight) / 2);
-                dst.w = renderedWidth;
-                dst.h = renderedHeight;
-                pDst = &dst;
-            }
-            else
-            {
-                if (!sPsxEMU_show_vram_BD1465)
-                {
-                    dst.x = (w - renderedWidth) / 2;
-                    dst.y = (h - renderedHeight) / 2;
-                    dst.w = renderedWidth;
-                    dst.h = renderedHeight;
-                    pDst = &dst;
-                }
-            }
-
-            IRenderer::GetRenderer()->Clear(0, 0, 0);
-            IRenderer::GetRenderer()->BltBackBuffer(pCopyRect, pDst);
+            renderedWidth = h * 4 / 3;
         }
         else
         {
-            LOG_ERROR("Create texture failure");
+            renderedHeight = w * 3 / 4;
         }
+    }
+
+    if (pCopyRect)
+    {
+        // Make sure our screen shake also sizes with the window.
+        s32 screenShakeOffsetX = static_cast<s32>(sScreenXOffSet_BD30E4 * (renderedWidth / 640.0f));
+        s32 screenShakeOffsetY = static_cast<s32>(sScreenYOffset_BD30A4 * (renderedHeight / 480.0f));
+
+        dst.x = screenShakeOffsetX + ((w - renderedWidth) / 2);
+        dst.y = screenShakeOffsetY + ((h - renderedHeight) / 2);
+        dst.w = renderedWidth;
+        dst.h = renderedHeight;
+        pDst = &dst;
     }
     else
     {
-        LOG_ERROR("Blt failure");
+        dst.x = (w - renderedWidth) / 2;
+        dst.y = (h - renderedHeight) / 2;
+        dst.w = renderedWidth;
+        dst.h = renderedHeight;
+        pDst = &dst;
     }
+
+    IRenderer::GetRenderer()->Clear(0, 0, 0);
+    IRenderer::GetRenderer()->BltBackBuffer(pCopyRect, pDst);
+
 
     #if MOBILE
     if (gTouchController != nullptr)

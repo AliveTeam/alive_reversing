@@ -14,14 +14,14 @@ void PSX_DrawOTag_4969F0(PrimHeader** ppOt)
     PSX_DrawOTag_4F6540(ppOt);
 }
 
-s32 PSX_EMU_SetDispType_499E60(s32 dispType)
+s32 PSX_EMU_SetDispType_499E60(s32 )
 {
-    return PSX_EMU_SetDispType_4F9960(dispType);
+    return 1;
 }
 
-s32 PSX_ClearImage_496020(const PSX_RECT* pRect, u8 r, u8 g, u8 b)
+s32 PSX_ClearImage_496020(const PSX_RECT*, u8 , u8 , u8 )
 {
-    return PSX_ClearImage_4F5BD0(reinterpret_cast<const ::PSX_RECT*>(pRect), r, g, b);
+    return 1;
 }
 
 } // namespace AO

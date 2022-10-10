@@ -13,6 +13,10 @@
 s32 gGasInstanceCount_5BC214 = 0;
 s16 gLaughingGasOn_5C1BA4 = FALSE;
 
+const u32 sRedShift_C215C4 = 11;
+const u32 sGreenShift_C1D180 = 6;
+const u32 sBlueShift_C19140 = 0;
+
 // On linux not using this random algorithm produces much bigger numbers
 // which causes flickering in the gas rendering. Apparently this is the MSVC algorithm.
 static s32 random_seed = 0;

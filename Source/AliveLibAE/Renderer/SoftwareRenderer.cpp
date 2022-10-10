@@ -105,14 +105,9 @@ bool SoftwareRenderer::PalAlloc(IRenderer::PalRecord& record)
     return ret;
 }
 
-void SoftwareRenderer::PalSetData(const IRenderer::PalRecord& record, const u8* pPixels)
+void SoftwareRenderer::PalSetData(const IRenderer::PalRecord& , const u8* )
 {
-    PSX_RECT rect = {};
-    rect.x = record.x;
-    rect.y = record.y;
-    rect.w = record.depth;
-    rect.h = 1;
-    PSX_LoadImage16_4F5E20(&rect, pPixels);
+
 }
 
 void SoftwareRenderer::EndFrame()

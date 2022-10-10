@@ -177,8 +177,8 @@ s8 Display_Full_Screen_Message_Blocking(s32 /*not_used*/, MessageType messageTyp
             break;
     }
 
-    const PSX_RECT rect = {0, 0, 640, 240};
-    PSX_ClearImage_4F5BD0(&rect, 0, 0, 0);
+   // const PSX_RECT rect = {0, 0, 640, 240};
+    //PSX_ClearImage_4F5BD0(&rect, 0, 0, 0);
     SYS_EventsPump_494580();
     pTextObj->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
 
@@ -188,7 +188,7 @@ s8 Display_Full_Screen_Message_Blocking(s32 /*not_used*/, MessageType messageTyp
     }
 
     PSX_DrawSync_4F6280(0);
-    Add_Dirty_Area_4ED970(0, 0, 640, 240);
+    //Add_Dirty_Area_4ED970(0, 0, 640, 240);
     sbDisplayRenderFrame = 0;
     gPsxDisplay.RenderOrderingTable();
 
@@ -260,9 +260,9 @@ s8 Display_Full_Screen_Message_Blocking(s32 /*not_used*/, MessageType messageTyp
     }
 
     SYS_EventsPump_494580();
-    PSX_ClearImage_4F5BD0(&rect, 0, 0, 0);
+    //PSX_ClearImage_4F5BD0(&rect, 0, 0, 0);
     PSX_DrawSync_4F6280(0);
-    Add_Dirty_Area_4ED970(0, 0, 640, 240);
+    //Add_Dirty_Area_4ED970(0, 0, 640, 240);
     sbDisplayRenderFrame = 0;
     gPsxDisplay.RenderOrderingTable();
 

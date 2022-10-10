@@ -189,18 +189,11 @@ static void Render_DDV_Frame(Bitmap& tmpBmp)
 {
     // Copy into the emulated vram - when FMV ends the "screen" still have the last video frame "stick"
     // giving us a nice seamless transistion.
-    SDL_Rect bufferSize = {0, 0, 640, 240};
-    SDL_BlitScaled(tmpBmp.field_0_pSurface, nullptr, sPsxVram_C1D160.field_0_pSurface, &bufferSize);
+    //SDL_Rect bufferSize = {0, 0, 640, 240};
+    //SDL_BlitScaled(tmpBmp.field_0_pSurface, nullptr, sPsxVram_C1D160.field_0_pSurface, &bufferSize);
 
-    if (sPsxEMU_show_vram_BD1465)
-    {
-        VGA_CopyToFront_4F3710(&sPsxVram_C1D160, nullptr);
-    }
-    else
-    {
-        // Copy to full window/primary buffer
-        VGA_CopyToFront_4F3710(&tmpBmp, nullptr);
-    }
+    // Copy to full window/primary buffer
+    VGA_CopyToFront_4F3710(&tmpBmp, nullptr);
 }
 
 s8 DDV_Play_Impl_4932E0(const char_type* pMovieName)

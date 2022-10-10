@@ -45,19 +45,9 @@ void PSX_PutDispEnv_495CE0(PSX_DISPENV* pDispEnv)
     PSX_PutDispEnv_4F5890(pDispEnv);
 }
 
-s32 PSX_LoadImage16_4962A0(const PSX_RECT* pRect, const u8* pData)
-{
-    return PSX_LoadImage16_4F5E20(pRect, pData);
-}
-
 s32 PSX_LoadImage_496480(const PSX_RECT* pRect, const u8* pData)
 {
     return PSX_LoadImage_4F5FB0(pRect, pData);
-}
-
-s32 PSX_StoreImage_496320(const PSX_RECT* rect, u16* pData)
-{
-    return PSX_StoreImage_4F5E90(rect, pData);
 }
 
 CdlLOC* PSX_Pos_To_CdLoc_49B340(s32 pos, CdlLOC* pLoc)
@@ -125,9 +115,9 @@ s32 PSX_MoveImage(const PSX_RECT* pRect, s32 xpos, s32 ypos)
     return ::PSX_MoveImage(pRect, xpos, ypos);
 }
 
-void PSX_EMU_Init_49A1D0(bool bShowVRam)
+void PSX_EMU_Init_49A1D0()
 {
-    PSX_EMU_Init_4F9CD0(bShowVRam);
+    PSX_EMU_Init_4F9CD0();
 }
 
 s32 PSX_EMU_VideoAlloc_49A2B0()

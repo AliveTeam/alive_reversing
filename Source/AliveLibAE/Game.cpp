@@ -174,7 +174,6 @@ void DrawFps_4952F0(Bitmap* pBmp, s32 x, s32 y, f32 fps)
     sprintf(strBuffer, "%02.1f fps ", static_cast<f64>(fps));
     sNumRenderedPrims_C2D03C = 0;
     BMP_Draw_String_4F2230(pBmp, x, y, 0xFF80FFu, 1, strBuffer);
-    Add_Dirty_Area_4ED970(0, 0, 97, 32);
 }
 
 void sub_4FBA20()
@@ -201,39 +200,12 @@ s32 Game_End_Frame_4950F0(u32 flags)
         return 0;
     }
 
-    /*
-    const u8 oldShowVRam = sPsxEMU_show_vram_BD1465;
-    if (sCommandLine_DDCheatEnabled_5CA4B5)
-    {
-        if (Input_IsVKPressed_4EDD40(VK_SCROLL))
-        {
-            sPsxEMU_show_vram_BD1465 = !sPsxEMU_show_vram_BD1465;
-            while (Input_IsVKPressed_4EDD40(VK_SCROLL))
-            {
-                //nullsub_3();
-                SYS_EventsPump_494580();
-            }
-        }
-    }
-
-    if (oldShowVRam && !sPsxEMU_show_vram_BD1465)
-    {
-        Add_Dirty_Area_4ED970(0, 0, 640, 240);
-    }
-    */
-
     const f64 fps = Calculate_FPS_495250(sFrameCount_5CA300);
     CheckShiftCapslock_4953B0();
     if (sCommandLine_ShowFps_5CA4D0)
     {
-        Bitmap* pVram = spBitmap_C2D038;
-        if (!spBitmap_C2D038)
-        {
-            pVram = &sPsxVram_C1D160;
-        }
-
         DrawFps_4952F0(
-            pVram,
+            spBitmap_C2D038,
             sPSX_EMU_DrawEnvState_C3D080.field_0_clip.x + 4,
             sPSX_EMU_DrawEnvState_C3D080.field_0_clip.y + 4,
             static_cast<f32>(fps));
@@ -327,7 +299,7 @@ void Main_ParseCommandLineArguments_494EA0(const char_type* /*pCmdLineNotUsed*/,
     }
 
     Init_VGA_AndPsxVram_494690();
-    PSX_EMU_Init_4F9CD0(false);
+    PSX_EMU_Init_4F9CD0();
     PSX_EMU_VideoAlloc_4F9D70();
     PSX_EMU_SetCallBack_4F9430(1, Game_End_Frame_4950F0);
     //Main_Set_HWND_4F9410(Sys_GetWindowHandle_4EE180()); // Note: Set but never read
@@ -772,12 +744,14 @@ void Game_Loop_467230()
     } // Main loop end
 
     // Clear the screen to black
+    /*
     PSX_RECT rect = {};
     rect.x = 0;
     rect.y = 0;
     rect.w = 640;
     rect.h = 240;
     PSX_ClearImage_4F5BD0(&rect, 0, 0, 0);
+    */
     PSX_DrawSync_4F6280(0);
     PSX_VSync_4F6170(0);
 

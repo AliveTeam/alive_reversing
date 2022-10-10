@@ -173,7 +173,7 @@ void PSX_DrawDebugTextBuffers(Bitmap* pBmp, const RECT& rect)
         const s32 bgColour = pRecord->field_8_bgColour;
         for (char_type* j = strtok(pRecord->field_9_text.field_400_dst_txt, "\n\r"); j; j = strtok(0, "\n\r"))
         {
-            s32 fontColour = Bmp_Convert_Colour_4F17D0(&sPsxVram_C1D160, 255, 255, 191);
+            s32 fontColour = Bmp_Convert_Colour_4F17D0(pBmp, 255, 255, 191);
             BMP_Draw_String_4F2230(pBmp, xpos, ypos, fontColour, bgColour, j);
             ypos += fontHeight;
         }
@@ -221,12 +221,14 @@ void PsxDisplay::Init()
     PSX_PutDrawEnv_4F5980(&mDrawEnvs[0].mDrawEnv);
     PSX_PutDispEnv_4F5890(&mDrawEnvs[0].mDisplayEnv);
 
+    /*
     PSX_RECT rect = {};
     rect.x = 0;
     rect.y = 0;
     rect.w = 1024;
     rect.h = 512;
     PSX_ClearImage_4F5BD0(&rect, 0, 0, 0);
+    */
 
     PSX_DrawSync_4F6280(0);
     PSX_VSync_4F6170(0);

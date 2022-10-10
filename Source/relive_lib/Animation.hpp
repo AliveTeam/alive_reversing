@@ -3,7 +3,6 @@
 #include "../relive_lib/AnimationBase.hpp"
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/DynamicArray.hpp"
-#include "../AliveLibAE/Psx.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
 #include "../AliveLibAE/FixedPoint.hpp"
 #include "../AliveLibCommon/Primitives_common.hpp"

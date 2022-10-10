@@ -22,11 +22,7 @@ void PSX_SetDefDispEnv_4959D0(PSX_DISPENV* pOutEnv, s16 x, s16 y, s16 w, s16 h);
 
 void PSX_PutDispEnv_495CE0(PSX_DISPENV* pDispEnv);
 
-s32 PSX_LoadImage16_4962A0(const PSX_RECT* pRect, const u8* pData);
-
 s32 PSX_LoadImage_496480(const PSX_RECT* pRect, const u8* pData);
-
-s32 PSX_StoreImage_496320(const PSX_RECT* rect, u16* pData);
 
 CdlLOC* PSX_Pos_To_CdLoc_49B340(s32 pos, CdlLOC* pLoc);
 
@@ -52,7 +48,7 @@ void PSX_Prevent_Rendering_44FFB0();
 
 s32 PSX_ResetCallBack_49AFB0();
 
-void PSX_EMU_Init_49A1D0(bool bShowVRam);
+void PSX_EMU_Init_49A1D0();
 
 s32 PSX_EMU_VideoAlloc_49A2B0();
 
