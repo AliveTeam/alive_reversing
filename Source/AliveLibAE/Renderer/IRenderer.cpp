@@ -23,9 +23,12 @@ void IRenderer::CreateRenderer(Renderers type)
 
     switch (type)
     {
+
+#if SDL_VERTEX_IS_SUPPORTED
         case Renderers::Software:
             gRenderer = new SoftwareRenderer();
             break;
+#endif
 
 //#if RENDERER_OPENGL
         case Renderers::OpenGL:

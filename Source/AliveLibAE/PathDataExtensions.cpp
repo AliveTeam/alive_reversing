@@ -27,7 +27,7 @@ s32 Path_GoodEndingMuds(EReliveLevelIds lvlId, u32 pathNum)
     return sMudExtData[static_cast<u32>(MapWrapper::ToAE(lvlId))][pathNum].mGoodEnding;
 }
 
-static u8* sPathExtData[static_cast<u32>(LevelIds::eCredits_16) + 1] = {};
+//static u8* sPathExtData[static_cast<u32>(LevelIds::eCredits_16) + 1] = {};
 
 template <typename T>
 static void SetAndLog(const char_type* propertyName, T& dst, T newVal)

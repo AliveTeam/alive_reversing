@@ -2605,12 +2605,12 @@ NLOHMANN_JSON_SERIALIZE_ENUM(Path_Slig_Data::StartState, {
     {Path_Slig_Data::StartState::ChaseAndDisappear, "chase_and_disappear"},
     {Path_Slig_Data::StartState::eFallingToChase, "falling_to_chase"},
     {Path_Slig_Data::StartState::ListeningToGlukkon, "listening_to_glukkon"},
-});
+})
 
 NLOHMANN_JSON_SERIALIZE_ENUM(Path_Slig_Data::DeathMode, {
     {Path_Slig_Data::DeathMode::FallForward, "fall_forward"},
     {Path_Slig_Data::DeathMode::StandIdle, "stand_idle"},
-});
+})
 
 inline void to_json(nlohmann::json& j, const Path_Slig_Data& p)
 {

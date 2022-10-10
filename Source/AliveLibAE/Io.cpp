@@ -72,8 +72,6 @@ IO_Handle* IO_Open_4F2320(const char_type* fileName, s32 modeFlag)
         return nullptr;
     }
 
-    memset(pHandle, 0, sizeof(IO_Handle));
-
     const char_type* mode = nullptr;
     if ((modeFlag & 3) == 3)
     {
