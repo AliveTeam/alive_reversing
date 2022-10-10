@@ -9,6 +9,7 @@
 #include "../Font.hpp"
 
 
+#if SDL_VERTEX_IS_SUPPORTED
 void set_pixel(SDL_Surface* surface, int x, int y, u32 pixel)
 {
     Uint8* target_pixel = (Uint8*) surface->pixels + y * surface->pitch + x * sizeof(u32);
@@ -767,3 +768,4 @@ void SoftwareRenderer::Upload(BitDepth bitDepth, const PSX_RECT& /*rect*/, const
             break;
     }
 }
+#endif

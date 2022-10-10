@@ -2,6 +2,9 @@
 
 #include "IRenderer.hpp"
 
+#define SDL_VERTEX_IS_SUPPORTED SDL_MAJOR_VERSION > 2 || (SDL_MAJOR_VERSION == 2 && (SDL_MINOR_VERSION > 0 || SDL_PATCHLEVEL >= 18))
+
+#if SDL_VERTEX_IS_SUPPORTED
 class SoftwareRenderer : public IRenderer
 {
 public:
@@ -47,3 +50,4 @@ private:
     s32 mFrame_xOff = 0;
     s32 mFrame_yOff = 0;
 };
+#endif
