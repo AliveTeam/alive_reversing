@@ -1935,48 +1935,16 @@ s8 MainMenuController::checkIfDemoFileExists_4D1430(char_type* input)
     {
         inputMod++;
     }
+
     char_type buffer[256] = {};
     MainMenuController::remove_ISO9660_Suffix_4D1660(buffer, inputMod);
 
-    char_type fileName[256] = {};
-    strcpy(fileName, sCdEmu_Path1_C14620);
-    strcat(fileName, buffer);
-    if (access_impl(fileName, 0) == 0)
-    {
-        return 1;
-    }
-    strcpy(fileName, sCdEmu_Path2_C144C0);
-    strcat(fileName, buffer);
-    if (access_impl(fileName, 0) == 0)
+    if (access_impl(buffer, 0) == 0)
     {
         return 1;
     }
 
-    if (!sCdRomDrives_5CA488[0])
-    {
-        return 0;
-    }
-    strcpy(fileName, sCdEmu_Path3_C145A0);
-    strcat(fileName, buffer);
-    fileName[0] = sCdRomDrives_5CA488[0];
-
-    int idx = 1;
-    while (access_impl(fileName, 0) != 0)
-    {
-        fileName[0] = sCdRomDrives_5CA488[idx++];
-        if (!fileName[0])
-        {
-            return 0;
-        }
-    }
-    if (fileName[0])
-    {
-        return 1;
-    }
-    else
-    {
-        return 0;
-    }
+    return 0;
 }
 
 // true if demo was started manually from the demos menu,
@@ -3119,19 +3087,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
         case 2:
             if (sMainMenuPages_561960[field_214_page_index].field_A_transition_effect == camTransEffectState::eUnknown_7)
             {
-                char_type buffer[256] = {};
-                // Use path 2
-                strcpy(buffer, sCdEmu_Path2_C144C0);
-                strcat(buffer, "movies");
-
-                if (!IO_DirectoryExists(buffer))
-                {
-                    // Can't enumerate anything at all in path 2, try path 3
-                    strcpy(buffer, sCdEmu_Path3_C145A0);
-                    strcat(buffer, "movies");
-                }
-
-                // Find the record for GTILOGO.STR
+                // Find the record for GTILOGO.DDV
                 FmvInfo* pFmvRecord = Path_Get_FMV_Record(EReliveLevelIds::eMenu, 3u);
                 if (!GetGameAutoPlayer().IsRecording() && !GetGameAutoPlayer().IsPlaying())
                 {
@@ -3173,7 +3129,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 }
 
                 // Create movie object for the DD logo
-                Get_fmvs_sectors("DDLOGO.STR", 0, 0, &pos, 0, 0);
+                Get_fmvs_sectors("DDLOGO.DDV", 0, 0, &pos, 0, 0);
                 sLevelId_dword_5CA408 = 0;
                 pMovie = relive_new Movie(pFmvRecord->field_4_id,
                                        pos,

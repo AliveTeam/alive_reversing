@@ -58,7 +58,6 @@ s16 sNum_CamSwappers_5C1B66 = 0;
 s32 dword_5C2F78 = 0;
 s16 bSkipGameObjectUpdates_5C2FA0 = 0;
 
-s8 sCdRomDrives_5CA488[30] = {};
 s32 dword_5CA4D4 = 0;
 s32 k1_dword_55EF90 = 1;
 bool byte_55EF88 = true;
@@ -261,28 +260,6 @@ void Main_ParseCommandLineArguments_494EA0(const char_type* /*pCmdLineNotUsed*/,
 {
     //nullsub_2(); // Note: Pruned
     IO_Init_494230();
-
-    // Default the CD drive to C:
-    char_type strDrive[3] = {};
-    strcpy(strDrive, "C:");
-
-    // Collect up all CD rom drives
-    s32 pos = 0;
-    for (s8 drive = 'D'; drive < 'Z'; drive++)
-    {
-        if (Is_Cd_Rom_Drive_495470(drive))
-        {
-            sCdRomDrives_5CA488[pos++] = drive;
-        }
-    }
-
-    // Use the first found CD ROM drive as the game location
-    if (sCdRomDrives_5CA488[0])
-    {
-        strDrive[0] = sCdRomDrives_5CA488[0];
-    }
-
-    PSX_EMU_Set_Cd_Emulation_Paths_4FAA70(".", strDrive, strDrive);
 
     std::string windowTitle = WindowTitleAE();
     

@@ -52,8 +52,6 @@ void PSX_Prevent_Rendering_44FFB0();
 
 s32 PSX_ResetCallBack_49AFB0();
 
-s32 PSX_EMU_Set_Cd_Emulation_Paths_49B000(const char_type* pPath1, const char_type* pPath2, const char_type* pPath3);
-
 void PSX_EMU_Init_49A1D0(bool bShowVRam);
 
 s32 PSX_EMU_VideoAlloc_49A2B0();
@@ -71,8 +69,5 @@ CdlFILE* PSX_CdSearchFile_49B930(CdlFILE*, const char_type*);
 s32 PSX_CdLoc_To_Pos_49B3B0(const CdlLOC* pLoc);
 
 void Init_VGA_AndPsxVram();
-
-
-s32 PSX_CD_OpenFile(const char_type* pFileName, s32 bTryAllPaths);
 
 } // namespace AO

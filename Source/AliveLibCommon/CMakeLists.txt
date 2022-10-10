@@ -44,7 +44,6 @@ target_include_directories(AliveLibCommon PUBLIC
 
 target_compile_definitions(AliveLibCommon PRIVATE "_CRT_SECURE_NO_WARNINGS")
 target_compile_definitions(AliveLibCommon PRIVATE "BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE")
-target_compile_definitions(AliveLibCommon PRIVATE "BEHAVIOUR_CHANGE_SUB_DATA_FOLDERS")
 
 if (MSVC)
     if (CMAKE_SIZEOF_VOID_P EQUAL 4)

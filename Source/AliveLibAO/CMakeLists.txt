@@ -308,7 +308,6 @@ target_include_directories(AliveLibAO PUBLIC
 target_compile_definitions(AliveLibAO PRIVATE "_CRT_SECURE_NO_WARNINGS")
 # Not implemented for AO yet
 #target_compile_definitions(AliveLibAO PRIVATE "BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE")
-#target_compile_definitions(AliveLibAO PRIVATE "BEHAVIOUR_CHANGE_SUB_DATA_FOLDERS")
 
 if (MSVC)
     if (CMAKE_SIZEOF_VOID_P EQUAL 4)

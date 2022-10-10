@@ -182,10 +182,6 @@ s32 gFileOffset_NotUsed_507B10 = 0;
 s8 gDDCheatMode_508BF8 = 0;
 s8 byte_508BFC = 0;
 
-s8 gDriveLetter_4CECC8[3] = {'D', ':', '0'};
-
-
-
 s32 Game_End_Frame_4505D0(u32 bSkip)
 {
     return Game_End_Frame_4950F0(bSkip);
@@ -194,18 +190,6 @@ s32 Game_End_Frame_4505D0(u32 bSkip)
 static void Main_ParseCommandLineArguments()
 {
     IO_Init_48E1A0(0);
-
-    // TODO: I guess some code got removed that picked the CD-ROM drive like in AE since this
-    // doesn't really make any sense anymore.
-    char_type cdDrivePath[3] = {};
-    cdDrivePath[0] = gDriveLetter_4CECC8[0];
-    cdDrivePath[1] = gDriveLetter_4CECC8[1];
-    if (gDriveLetter_4CECC8[0] > 'Z')
-    {
-        cdDrivePath[0] = 'C';
-    }
-
-    PSX_EMU_Set_Cd_Emulation_Paths_49B000(".", cdDrivePath, nullptr);
 
     std::string windowTitle = WindowTitleAO();
 

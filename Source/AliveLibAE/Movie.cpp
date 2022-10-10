@@ -170,17 +170,9 @@ void DD_Null_Flip_4940F0()
 
 static Masher* Open_DDV(const char_type* pMovieName)
 {
-    char_type pFileName[256] = {};
-    strcpy(pFileName, sCdEmu_Path1_C14620);
-    strcat(pFileName, pMovieName);
-
-    // Replace STR with DDV
-    strcpy(strstr(pFileName, ".STR"), ".DDV");
-
     s32 errCode = 0;
-
     Masher* pMasher = Masher_Alloc_4EAB80(
-        pFileName,
+        pMovieName,
         &pMasher_header_5CA1E4,
         &pMasher_video_header_5CA204,
         &pMasher_audio_header_5CA1E0,
@@ -188,106 +180,7 @@ static Masher* Open_DDV(const char_type* pMovieName)
 
     if (errCode)
     {
-#if !_WIN32
-        const size_t len = strlen(pFileName);
-        for (size_t i = 0; i < len; i++)
-        {
-            pFileName[i] = static_cast<s8>(tolower(pFileName[i]));
-        }
-
-        pMasher = Masher_Alloc_4EAB80(
-            pFileName,
-            &pMasher_header_5CA1E4,
-            &pMasher_video_header_5CA204,
-            &pMasher_audio_header_5CA1E0,
-            &errCode);
-#endif
-    }
-
-    if (errCode)
-    {
-#if BEHAVIOUR_CHANGE_SUB_DATA_FOLDERS
-        // Load movies from a sub folder called "movies"
-        strcpy(pFileName, "");
-        strcat(pFileName, "movies\\");
-        strcat(pFileName, pMovieName);
-
-        strcpy(strstr(pFileName, ".STR"), ".ddv");
-
-        pMasher = Masher_Alloc_4EAB80(
-            pFileName,
-            &pMasher_header_5CA1E4,
-            &pMasher_video_header_5CA204,
-            &pMasher_audio_header_5CA1E0,
-            &errCode);
-
-        if (!errCode)
-        {
-            return pMasher;
-        }
-#endif
-
-        strcpy(pFileName, sCdEmu_Path2_C144C0);
-        strcat(pFileName, "movies\\");
-        strcat(pFileName, pMovieName);
-
-        strcpy(strstr(pFileName, ".STR"), ".ddv");
-
-        pMasher = Masher_Alloc_4EAB80(
-            pFileName,
-            &pMasher_header_5CA1E4,
-            &pMasher_video_header_5CA204,
-            &pMasher_audio_header_5CA1E0,
-            &errCode);
-
-        if (errCode)
-        {
-            strcpy(pFileName, sCdEmu_Path3_C145A0);
-            strcat(pFileName, "movies\\");
-            strcat(pFileName, pMovieName);
-            strcpy(strstr(pFileName, ".STR"), ".ddv");
-
-            s8 curCdDriveLetter = sCdRomDrives_5CA488[0];
-            if (sCdRomDrives_5CA488[0])
-            {
-                s8* pCdDriveIter = sCdRomDrives_5CA488;
-                while (*pCdDriveIter)
-                {
-                    pFileName[0] = curCdDriveLetter;
-
-                    if (curCdDriveLetter != sCdEmu_Path2_C144C0[0])
-                    {
-                        pMasher = Masher_Alloc_4EAB80(
-                            pFileName,
-                            &pMasher_header_5CA1E4,
-                            &pMasher_video_header_5CA204,
-                            &pMasher_audio_header_5CA1E0,
-                            &errCode);
-
-                        if (!errCode)
-                        {
-                            break;
-                        }
-                    }
-
-                    curCdDriveLetter = (pCdDriveIter++)[1];
-                }
-
-                if (errCode)
-                {
-                    return nullptr;
-                }
-                curCdDriveLetter = pFileName[0];
-            }
-            else
-            {
-                if (errCode)
-                {
-                    return nullptr;
-                }
-            }
-            sCdEmu_Path2_C144C0[0] = curCdDriveLetter;
-        }
+        return nullptr;
     }
     return pMasher;
 }

@@ -106,7 +106,6 @@ target_include_directories(relive_lib PUBLIC
 
 target_compile_definitions(relive_lib PRIVATE "_CRT_SECURE_NO_WARNINGS")
 target_compile_definitions(relive_lib PRIVATE "BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE")
-target_compile_definitions(relive_lib PRIVATE "BEHAVIOUR_CHANGE_SUB_DATA_FOLDERS")
 target_compile_definitions(relive_lib PRIVATE "JSON_DISABLE_ENUM_SERIALIZATION=1")
 
 if (MSVC)

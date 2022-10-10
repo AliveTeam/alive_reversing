@@ -125,11 +125,6 @@ s32 PSX_MoveImage(const PSX_RECT* pRect, s32 xpos, s32 ypos)
     return ::PSX_MoveImage(pRect, xpos, ypos);
 }
 
-s32 PSX_EMU_Set_Cd_Emulation_Paths_49B000(const char_type* pPath1, const char_type* pPath2, const char_type* pPath3)
-{
-    return PSX_EMU_Set_Cd_Emulation_Paths_4FAA70(pPath1, pPath2, pPath3);
-}
-
 void PSX_EMU_Init_49A1D0(bool bShowVRam)
 {
     PSX_EMU_Init_4F9CD0(bShowVRam);
@@ -226,12 +221,6 @@ void Init_VGA_AndPsxVram()
             exit(0);
             return;
     }
-}
-
-s32 PSX_CD_OpenFile(const char_type* pFileName, s32 bTryAllPaths)
-{
-    // TODO: Need to return 0 if not using AE funcs to avoid any side effects
-    return PSX_CD_OpenFile_4FAE80(pFileName, bTryAllPaths);
 }
 
 } // namespace AO
