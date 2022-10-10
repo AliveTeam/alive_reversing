@@ -31,7 +31,7 @@ s32 Path_GoodEndingMuds(EReliveLevelIds lvlId, u32 pathNum)
     return sMudExtData[static_cast<u32>(MapWrapper::ToAO(lvlId))][pathNum].mGoodEnding;
 }
 
-static u8* sPathExtData[static_cast<u32>(LevelIds::eDesertEscape_15) + 1] = {};
+//static u8* sPathExtData[static_cast<u32>(LevelIds::eDesertEscape_15) + 1] = {};
 
 s32 sub_402560();
 

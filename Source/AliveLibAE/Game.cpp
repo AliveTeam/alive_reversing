@@ -175,7 +175,7 @@ f64 Calculate_FPS_495250(s32 frameCount)
 void DrawFps_4952F0(Bitmap* pBmp, s32 x, s32 y, f32 fps)
 {
     char_type strBuffer[125] = {};
-    sprintf(strBuffer, "%02.1f fps ", fps);
+    sprintf(strBuffer, "%02.1f fps ", static_cast<f64>(fps));
     sNumRenderedPrims_C2D03C = 0;
     BMP_Draw_String_4F2230(pBmp, x, y, 0xFF80FFu, 1, strBuffer);
     Add_Dirty_Area_4ED970(0, 0, 97, 32);

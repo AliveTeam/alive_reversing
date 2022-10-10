@@ -34,7 +34,7 @@ s16 sSFXPitchVariationEnabled_560F58 = true;
 s16 sNeedToHashSeqNames_560F40 = 1;
 
 // I think this is the burrrrrrrrrrrrrrrrrrrr loading sound
-const PathSoundInfo soundBlock = {"MONK.VH", "MONK.VB", {}, {}, {}};
+const PathSoundInfo soundBlock = {"MONK.VH", "MONK.VB", {}, {}, {}, {}};
 
 PathSoundInfo sMonkVh_Vb_560F48 = soundBlock;
 

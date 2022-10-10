@@ -15,13 +15,13 @@ using IO_FileHandleType = struct FILE*;
 
 struct IO_Handle final
 {
-    s32 mTlvFlags;
-    s32 field_4;
-    IO_FileHandleType field_8_hFile;
-    s32 field_C_last_api_result;
-    std::atomic<bool> field_10_bDone; // Note: OG bug - appears to be no thread sync on this
-    HANDLE field_14_hThread;
-    HANDLE field_18_hEvent;
+    s32 mTlvFlags = 0;
+    s32 field_4 = 0;
+    IO_FileHandleType field_8_hFile = nullptr;
+    s32 field_C_last_api_result = 0;
+    std::atomic<bool> field_10_bDone = {}; // Note: OG bug - appears to be no thread sync on this
+    HANDLE field_14_hThread = 0;
+    HANDLE field_18_hEvent = 0;
 };
 ALIVE_ASSERT_SIZEOF(IO_Handle, 0x1C);
 

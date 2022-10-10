@@ -7,7 +7,7 @@
 
 namespace relive {
 class Path_TLV;
-};
+}
 
 class PathLine;
 

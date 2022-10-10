@@ -151,7 +151,7 @@ AnimResource ResourceManagerWrapper::LoadAnimation(AnimId anim)
     newRes.mJsonPtr = pAnimationAttributesAndFrames;
     newRes.mTgaPtr = pTgaData;
     newRes.mCurPal = newRes.mTgaPtr->mPal;
-    mAnims[anim] = {pAnimationAttributesAndFrames, pTgaData};
+    mAnims[anim] = {pAnimationAttributesAndFrames, pTgaData, {}};
 
     return newRes;
 }
