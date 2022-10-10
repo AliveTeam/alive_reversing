@@ -305,7 +305,7 @@ void PSX_PutDispEnv_Impl_4F5640(const PSX_DISPENV* pDispEnv, s8 a2)
         }
         else
         {
-            VGA_CopyToFront_4F3EB0(&sVGA_bmp_primary_BD2A20, &rect, sScreenMode_BD146D);
+            VGA_CopyToFront(&rect);
         }
 
         // TODO: Removed dead increment here

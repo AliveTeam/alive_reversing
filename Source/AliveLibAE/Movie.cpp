@@ -185,7 +185,7 @@ static Masher* Open_DDV(const char_type* pMovieName)
     return pMasher;
 }
 
-static void Render_DDV_Frame(Bitmap& tmpBmp)
+static void Render_DDV_Frame()
 {
     // Copy into the emulated vram - when FMV ends the "screen" still have the last video frame "stick"
     // giving us a nice seamless transistion.
@@ -193,7 +193,7 @@ static void Render_DDV_Frame(Bitmap& tmpBmp)
     //SDL_BlitScaled(tmpBmp.field_0_pSurface, nullptr, sPsxVram_C1D160.field_0_pSurface, &bufferSize);
 
     // Copy to full window/primary buffer
-    VGA_CopyToFront_4F3710(&tmpBmp, nullptr);
+    VGA_CopyToFront(nullptr);
 }
 
 s8 DDV_Play_Impl_4932E0(const char_type* pMovieName)
@@ -256,31 +256,11 @@ s8 DDV_Play_Impl_4932E0(const char_type* pMovieName)
             fmv_num_read_frames_5CA23C++;
 
             // Lock the back buffer
-#if USE_SDL2
+
             // Decode the video frame to the bitmap pixel buffer
             SDL_LockSurface(tmpBmp.field_0_pSurface);
             Masher_DecodeVideoFrame_4EAC40(pMasherInstance_5CA1EC, tmpBmp.field_0_pSurface->pixels);
             SDL_UnlockSurface(tmpBmp.field_0_pSurface);
-#else
-            DDSURFACEDESC surfaceDesc = {};
-            surfaceDesc.dwSize = sizeof(DDSURFACEDESC);
-            HRESULT hr = sDD_surface_backbuffer_BBC3CC->Lock(nullptr, &surfaceDesc, 1, 0);
-            if (hr == DDERR_SURFACELOST)
-            {
-                if (SUCCEEDED(sDD_surface_backbuffer_BBC3CC->Restore()))
-                {
-                    hr = sDD_surface_backbuffer_BBC3CC->Lock(nullptr, &surfaceDesc, 1, 0);
-                }
-            }
-            // Decompress the frame and "render" it into the back buffer
-            Masher_DecodeVideoFrame_4EAC40(pMasherInstance_5CA1EC, FAILED(hr) ? nullptr : surfaceDesc.lpSurface);
-            // Unlock the back buffer
-
-            if (SUCCEEDED(hr))
-            {
-                sDD_surface_backbuffer_BBC3CC->Unlock(0);
-            }
-#endif
 
             if (!bNoAudioOrAudioError_5CA1F4)
             {
@@ -324,11 +304,9 @@ s8 DDV_Play_Impl_4932E0(const char_type* pMovieName)
                     }
 
                     DDV_Null_493F30();
-#if USE_SDL2
-                    Render_DDV_Frame(tmpBmp);
-#else
-                    DD_Flip_4F15D0();
-#endif
+
+                    Render_DDV_Frame();
+
                     DD_Null_Flip_4940F0();
 
                     while (AreMovieSkippingInputsHeld())
@@ -347,11 +325,7 @@ s8 DDV_Play_Impl_4932E0(const char_type* pMovieName)
                 Input_IsVKPressed_4EDD40(VK_RETURN);
             }
 
-#if USE_SDL2
-            Render_DDV_Frame(tmpBmp);
-#else
-            DD_Flip_4F15D0();
-#endif
+            Render_DDV_Frame();
 
             const s32 bMoreFrames = Masher_ReadNextFrame_4EAC20(pMasherInstance_5CA1EC); // read audio and video frame
             if (bNoAudioOrAudioError_5CA1F4)
@@ -421,11 +395,9 @@ s8 DDV_Play_Impl_4932E0(const char_type* pMovieName)
             {
                 // End of stream
                 DDV_Null_493F30();
-#if USE_SDL2
-                Render_DDV_Frame(tmpBmp);
-#else
-                DD_Flip_4F15D0();
-#endif
+
+                Render_DDV_Frame();
+
                 break;
             }
         }
@@ -443,9 +415,8 @@ s8 DDV_Play_Impl_4932E0(const char_type* pMovieName)
 
     Masher_DeAlloc_4EAC00(pMasherInstance_5CA1EC);
     pMasherInstance_5CA1EC = nullptr;
-#if USE_SDL2
     Bmp_Free_4F1950(&tmpBmp);
-#endif
+
     return 1;
 }
 

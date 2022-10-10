@@ -274,7 +274,7 @@ void Movie::VScreenChanged()
     // Empty
 }
 
-static void Render_Str_Frame(Bitmap& tmpBmp)
+static void Render_Str_Frame()
 {
     // Copy into the emulated vram - when FMV ends the "screen" still have the last video frame "stick"
     // giving us a nice seamless transition.
@@ -282,7 +282,7 @@ static void Render_Str_Frame(Bitmap& tmpBmp)
     //SDL_BlitScaled(tmpBmp.field_0_pSurface, nullptr, GetPsxVram().field_0_pSurface, &bufferSize);
 
     // Copy to full window/primary buffer
-    VGA_CopyToFront_4F3710(&tmpBmp, nullptr);
+    VGA_CopyToFront(nullptr);
 }
 
 class TempSurface
@@ -455,7 +455,7 @@ void Movie::VUpdate()
             Input_IsVKPressed_4EDD40(VK_RETURN);
         }
 
-        Render_Str_Frame(tmpBmp);
+        Render_Str_Frame();
 
         const int maxAudioSyncTimeWait = 1000 * fmv_num_read_frames / kFmvFrameRate - 200;
 

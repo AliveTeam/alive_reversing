@@ -965,7 +965,7 @@ static void QuitEvent(bool isRecordedEvent, bool isRecording)
         forcedWindowMode = true;
         SDL_SetWindowFullscreen(Sys_GetWindowHandle_4EE180(), 0);
         //RECT rect = {0, 0, 640, 240};
-        //VGA_CopyToFront_4F3710(&sPsxVram_C1D160, &rect);
+        //VGA_CopyToFront(&rect);
     }
 
     bool actuallyQuit = false;
