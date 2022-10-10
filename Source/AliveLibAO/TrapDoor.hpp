@@ -3,7 +3,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "Map.hpp"
 #include "PlatformBase.hpp"
-#include "../AliveLibAE/Path.hpp"
+#include "Path.hpp"
 
 class PathLine;
 

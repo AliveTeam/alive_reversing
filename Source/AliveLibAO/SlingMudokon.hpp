@@ -4,7 +4,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "Map.hpp"
 #include "GameSpeak.hpp"
-#include "../AliveLibAE/Path.hpp"
+#include "Path.hpp"
 
 void SlingMud_ForceLink();
 

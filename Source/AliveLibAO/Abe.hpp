@@ -5,7 +5,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "Map.hpp"
 #include "Input.hpp"
-#include "../AliveLibAE/Path.hpp"
+#include "Path.hpp"
 #include "../relive_lib/data_conversion/PathTlvsAO.hpp"
 
 namespace AO {

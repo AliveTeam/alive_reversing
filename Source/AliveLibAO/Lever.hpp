@@ -4,7 +4,7 @@
 #include "Map.hpp"
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "ScopedSeq.hpp"
-#include "../AliveLibAE/Path.hpp"
+#include "Path.hpp"
 #include "SwitchStates.hpp"
 
 namespace AO {

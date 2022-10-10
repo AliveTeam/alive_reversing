@@ -4,7 +4,7 @@
 #include "Map.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
 #include "../relive_lib/Layer.hpp"
-#include "../AliveLibAE/Path.hpp"
+#include "Path.hpp"
 
 namespace AO {
 

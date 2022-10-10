@@ -4,7 +4,7 @@
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Map.hpp"
 #include "../relive_lib/DynamicArray.hpp"
-#include "../AliveLibAE/Path.hpp"
+#include "Path.hpp"
 
 enum class EReliveLevelIds : s16;
 

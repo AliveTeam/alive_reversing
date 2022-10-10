@@ -4,7 +4,7 @@
 #include "../relive_lib/BaseGameObject.hpp"
 #include "Psx.hpp"
 #include "Map.hpp"
-#include "../AliveLibAE/Path.hpp"
+#include "Path.hpp"
 
 namespace AO {
 

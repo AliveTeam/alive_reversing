@@ -4,7 +4,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "Map.hpp"
 #include "Abe.hpp"
-#include "../AliveLibAE/Path.hpp"
+#include "Path.hpp"
 
 void Scrab_ForceLink();
 
