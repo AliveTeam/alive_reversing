@@ -30,16 +30,16 @@ namespace AO {
 
 const s32 kSeqTableSizeAO = 164;
 
-ALIVE_VAR(1, 0x9F12D8, SeqIds, sSeq_Ids_word_9F12D8, {});
-ALIVE_VAR(1, 0x9F1DC4, u16, sSnd_ReloadAbeResources_9F1DC4, 0);
-ALIVE_VAR(1, 0x9F1DBC, OpenSeqHandle*, sSeqDataTable_9F1DBC, nullptr);
-ALIVE_VAR(1, 0x9F1DC0, s16, sSeqsPlaying_count_word_9F1DC0, 0);
-ALIVE_VAR(1, 0x4D0018, s16, sSFXPitchVariationEnabled_4D0018, true);
-ALIVE_VAR(1, 0x4D0000, s16, sNeedToHashSeqNames_4D0000, 1);
+SeqIds sSeq_Ids_word_9F12D8 = {};
+u16 sSnd_ReloadAbeResources_9F1DC4 = 0;
+OpenSeqHandle* sSeqDataTable_9F1DBC = nullptr;
+s16 sSeqsPlaying_count_word_9F1DC0 = 0;
+s16 sSFXPitchVariationEnabled_4D0018 = true;
+s16 sNeedToHashSeqNames_4D0000 = 1;
 
 // I think this is the burrrrrrrrrrrrrrrrrrrr loading sound
 const PathSoundInfo soundBlock = {"MONK.VH", "MONK.VB", {}, {}, {}, {}};
-ALIVE_VAR(1, 0x4D0008, PathSoundInfo, sMonkVh_Vb_4D0008, soundBlock);
+PathSoundInfo sMonkVh_Vb_4D0008 = soundBlock;
 
 class AOMidiVars final : public IMidiVars
 {
@@ -95,21 +95,21 @@ private:
 
 static AOMidiVars sAoMidiVars;
 
-ALIVE_VAR(1, 0xA8918E, s16, sGlobalVolumeLevel_right_A8918E, 0);
-ALIVE_VAR(1, 0xA8918C, s16, sGlobalVolumeLevel_left_A8918C, 0);
-ALIVE_VAR(1, 0xABF8C0, VabUnknown, s512_byte_ABF8C0, {});
-ALIVE_ARY(1, 0xA9289C, u8, kMaxVabs, sVagCounts_A9289C, {});
-ALIVE_ARY(1, 0xA92898, u8, kMaxVabs, sProgCounts_A92898, {});
-ALIVE_ARY(1, 0xABF8A0, VabHeader*, 4, spVabHeaders_ABF8A0, {});
-ALIVE_VAR(1, 0xA9B8A0, ConvertedVagTable, sConvertedVagTable_A9B8A0, {});
-ALIVE_VAR(1, 0xA928A0, SoundEntryTable, sSoundEntryTable16_A928A0, {});
-ALIVE_VAR(1, 0xAC07C0, MidiChannels, sMidi_Channels_AC07C0, {});
-ALIVE_VAR(1, 0xABFB40, MidiSeqSongsTable, sMidiSeqSongs_ABFB40, {});
-ALIVE_VAR(1, 0xA89198, s32, sMidi_Inited_dword_A89198, 0);
-ALIVE_VAR(1, 0xA89194, u32, sMidiTime_A89194, 0);
-ALIVE_VAR(1, 0xA89190, s8, sbDisableSeqs_A89190, 0);
-ALIVE_VAR(1, 0x4E8FD8, u32, sLastTime_4E8FD8, 0xFFFFFFFF);
-ALIVE_VAR(1, 0xA8919C, u8, sControllerValue_A8919C, 0);
+s16 sGlobalVolumeLevel_right_A8918E = 0;
+s16 sGlobalVolumeLevel_left_A8918C = 0;
+VabUnknown s512_byte_ABF8C0 = {};
+u8 sVagCounts_A9289C[kMaxVabs] = {};
+u8 sProgCounts_A92898[kMaxVabs] = {};
+VabHeader* spVabHeaders_ABF8A0[4] = {};
+ConvertedVagTable sConvertedVagTable_A9B8A0 = {};
+SoundEntryTable sSoundEntryTable16_A928A0 = {};
+MidiChannels sMidi_Channels_AC07C0 = {};
+MidiSeqSongsTable sMidiSeqSongs_ABFB40 = {};
+s32 sMidi_Inited_dword_A89198 = 0;
+u32 sMidiTime_A89194 = 0;
+s8 sbDisableSeqs_A89190 = 0;
+u32 sLastTime_4E8FD8 = 0xFFFFFFFF;
+u8 sControllerValue_A8919C = 0;
 
 s32 MIDI_ParseMidiMessage_49DD30(s32 idx);
 void SsUtKeyOffV_49EE50(s16 idx);

@@ -3,7 +3,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Map.hpp"
-#include "../AliveLibAE/Path.hpp"
+#include "Path.hpp"
 
 namespace AO {
 
@@ -33,6 +33,5 @@ public:
     FireBackgroundGlow* mFireBackgroundGlow = nullptr;
     FlameSparks* mFlameSparks = nullptr;
 };
-ALIVE_ASSERT_SIZEOF(DoorFlame, 0x100);
 
 } // namespace AO

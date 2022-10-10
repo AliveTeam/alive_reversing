@@ -31,10 +31,10 @@ void Add_Dirty_Area_4ED970(s32 x, s32 y, s32 w, s32 h);
 
 void Psx_Render_Float_Table_Init();
 
-ALIVE_VAR_EXTERN(s32, sScreenXOffSet_BD30E4);
-ALIVE_VAR_EXTERN(s32, sScreenYOffset_BD30A4);
+extern s32 sScreenXOffSet_BD30E4;
+extern s32 sScreenYOffset_BD30A4;
 
-ALIVE_VAR_EXTERN(u32, sSemiTransShift_C215C0);
-ALIVE_VAR_EXTERN(u32, sRedShift_C215C4);
-ALIVE_VAR_EXTERN(u32, sGreenShift_C1D180);
-ALIVE_VAR_EXTERN(u32, sBlueShift_C19140);
+extern u32 sSemiTransShift_C215C0;
+extern u32 sRedShift_C215C4;
+extern u32 sGreenShift_C1D180;
+extern u32 sBlueShift_C19140;

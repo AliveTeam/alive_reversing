@@ -72,9 +72,9 @@ using TSoundBufferType = struct IDirectSoundBuffer;
 
 #if USE_SDL2_SOUND
 class SDLSoundSystem;
-ALIVE_VAR_EXTERN(SDLSoundSystem*, sDSound_BBC344);
+extern SDLSoundSystem* sDSound_BBC344;
 #else
-ALIVE_VAR_EXTERN(LPDIRECTSOUND, sDSound_BBC344);
+extern LPDIRECTSOUND sDSound_BBC344;
 #endif
 
 struct SoundEntry final
@@ -165,9 +165,9 @@ struct SoundApi final
 SoundApi& GetSoundAPI();
 
 // Vars used only by other sound driver impls
-ALIVE_ARY_EXTERN(s32, 127, sVolumeTable_BBBD38);
-ALIVE_ARY_EXTERN(SoundEntry*, 256, sSoundSamples_BBBF38);
-ALIVE_ARY_EXTERN(SoundBuffer, 32, sSoundBuffers_BBBAB8);
+extern s32 sVolumeTable_BBBD38[127];
+extern SoundEntry* sSoundSamples_BBBF38[256];
+extern SoundBuffer sSoundBuffers_BBBAB8[32];
 
-ALIVE_VAR_EXTERN(s32, sLoadedSoundsCount_BBC394);
-ALIVE_VAR_EXTERN(s32, sLastNotePlayTime_BBC33C);
+extern s32 sLoadedSoundsCount_BBC394;
+extern s32 sLastNotePlayTime_BBC33C;

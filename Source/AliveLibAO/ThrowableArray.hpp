@@ -25,8 +25,7 @@ public:
     s16 field_10_count = 0;
     s16 field_12_flags = 0;
 };
-ALIVE_ASSERT_SIZEOF(ThrowableArray, 0x14);
 
-ALIVE_VAR_EXTERN(ThrowableArray*, gpThrowableArray_50E26C);
+extern ThrowableArray* gpThrowableArray_50E26C;
 
 } // namespace AO

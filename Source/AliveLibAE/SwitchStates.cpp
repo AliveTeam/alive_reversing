@@ -2,7 +2,7 @@
 #include "SwitchStates.hpp"
 #include "Function.hpp"
 
-ALIVE_VAR(1, 0x5c1a28, SwitchStates, sSwitchStates_5C1A28, {});
+SwitchStates sSwitchStates_5C1A28 = {};
 
 void SwitchStates_SetRange(u16 start, u16 end)
 {

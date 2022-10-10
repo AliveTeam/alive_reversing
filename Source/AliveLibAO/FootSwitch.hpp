@@ -3,7 +3,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Map.hpp"
-#include "../AliveLibAE/Path.hpp"
+#include "Path.hpp"
 #include "SwitchStates.hpp"
 
 namespace AO {
@@ -33,7 +33,6 @@ public:
     relive::Path_FootSwitch::FootSwitchTriggerBy mTriggeredBy = relive::Path_FootSwitch::FootSwitchTriggerBy::eAbe;
     BaseAliveGameObject* mStoodOnMe = nullptr;
 };
-ALIVE_ASSERT_SIZEOF(FootSwitch, 0xF4);
 
 
 } // namespace AO

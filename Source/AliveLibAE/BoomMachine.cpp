@@ -138,7 +138,6 @@ private:
     s32 field_F8_timer = 0;
     s16 field_FC_numGrenades = 0;
 };
-ALIVE_ASSERT_SIZEOF(GrenadeMachineNozzle, 0x100);
 
 void BoomMachine::LoadAnimations()
 {

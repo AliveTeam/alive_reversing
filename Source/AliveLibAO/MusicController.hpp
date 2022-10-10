@@ -90,6 +90,5 @@ public:
     s16 field_4E_vol = 0;
     s32 field_50_music_volume_change_time = 0;
 };
-ALIVE_ASSERT_SIZEOF(MusicController, 0x54);
 
 } // namespace AO

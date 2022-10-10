@@ -84,7 +84,6 @@ private:
 public:
     PathLine* field_130_pLine = nullptr;
 };
-ALIVE_ASSERT_SIZEOF(Meat, 0x134);
 
 class MeatSack final : public BaseAliveGameObject
 {
@@ -106,4 +105,3 @@ private:
     FP field_124_velX = {};
     FP field_128_velY = {};
 };
-ALIVE_ASSERT_SIZEOF(MeatSack, 0x12C);

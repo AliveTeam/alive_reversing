@@ -19,7 +19,7 @@ const u32 MOVIE_SKIPPER_GAMEPAD_INPUTS = (InputCommands::Enum::eUnPause_OrConfir
 // Tells whether reverb was enabled before starting the FMV
 static bool wasReverbEnabled;
 
-ALIVE_VAR(1, 0x5ca208, SoundEntry, fmv_sound_entry_5CA208, {});
+SoundEntry fmv_sound_entry_5CA208 = {};
 
 Masher* Masher_Alloc_4EAB80(
     const char_type* pFileName,
@@ -67,18 +67,18 @@ void Masher_DecodeVideoFrame_4EAC40(Masher* pMasher, void* pSurface)
     pMasher->VideoFrameDecode_4E6C60((u8*) pSurface);
 }
 
-ALIVE_VAR(1, 0x5CA234, bool, bHasAudio_5CA234, false);
-ALIVE_VAR(1, 0x5CA238, s32, fmv_audio_sample_offset_5CA238, 0);
-ALIVE_VAR(1, 0x5CA23C, s32, fmv_num_read_frames_5CA23C, 0);
-ALIVE_VAR(1, 0x5CA1E4, Masher_Header*, pMasher_header_5CA1E4, nullptr);
-ALIVE_VAR(1, 0x5CA204, Masher_VideoHeader*, pMasher_video_header_5CA204, nullptr);
-ALIVE_VAR(1, 0x5CA1E0, Masher_AudioHeader*, pMasher_audio_header_5CA1E0, nullptr);
-ALIVE_VAR(1, 0x5CA1F4, bool, bNoAudioOrAudioError_5CA1F4, false);
-ALIVE_VAR(1, 0x5CA1EC, Masher*, pMasherInstance_5CA1EC, nullptr);
-ALIVE_VAR(1, 0x5CA240, s32, fmv_single_audio_frame_size_in_samples_5CA240, 0);
-ALIVE_VAR(1, 0x5CA1F0, s32, current_audio_offset_5CA1F0, 0);
-ALIVE_VAR(1, 0x5CA1FC, s32, fmv_num_played_audio_frames_5CA1FC, 0);
-ALIVE_VAR(1, 0x5CA22C, s32, oldBufferPlayPos_5CA22C, 0);
+bool bHasAudio_5CA234 = false;
+s32 fmv_audio_sample_offset_5CA238 = 0;
+s32 fmv_num_read_frames_5CA23C = 0;
+Masher_Header* pMasher_header_5CA1E4 = nullptr;
+Masher_VideoHeader* pMasher_video_header_5CA204 = nullptr;
+Masher_AudioHeader* pMasher_audio_header_5CA1E0 = nullptr;
+bool bNoAudioOrAudioError_5CA1F4 = false;
+Masher* pMasherInstance_5CA1EC = nullptr;
+s32 fmv_single_audio_frame_size_in_samples_5CA240 = 0;
+s32 current_audio_offset_5CA1F0 = 0;
+s32 fmv_num_played_audio_frames_5CA1FC = 0;
+s32 oldBufferPlayPos_5CA22C = 0;
 
 s8 DDV_StartAudio_493DF0()
 {
@@ -571,10 +571,10 @@ s8 DDV_Play(const char_type* pDDVName)
     return ret;
 }
 
-ALIVE_VAR(1, 0x563a88, s16, sMovie_Kill_SEQs_563A88, 1);
-ALIVE_VAR(1, 0xbb4ab2, s16, word_BB4AB2, 0);
-ALIVE_VAR(1, 0xbb4ae4, s32, sMovie_ref_count_BB4AE4, 0);
-ALIVE_VAR(1, 0x5ca4c4, u8, sMovieNameIdx_5CA4C4, 0);
+s16 sMovie_Kill_SEQs_563A88 = 1;
+s16 word_BB4AB2 = 0;
+s32 sMovie_ref_count_BB4AE4 = 0;
+u8 sMovieNameIdx_5CA4C4 = 0;
 
 struct MovieName final
 {
@@ -586,7 +586,7 @@ struct MovieQueue final
     MovieName mNames[3];
 };
 
-ALIVE_VAR(1, 0x5CA348, MovieQueue, sMovieNames_5CA348, {});
+MovieQueue sMovieNames_5CA348 = {};
 
 void Get_fmvs_sectors(const char_type* pMovieName1, const char_type* pMovieName2, const char_type* pMovieName3, u32* pMovie1Sector, u32* pMovie2Sector, u32* pMovie3Sector)
 {

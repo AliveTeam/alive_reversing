@@ -11,7 +11,7 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x4D1488, u8, sWellRndSeed_4D1488, 4);
+u8 sWellRndSeed_4D1488 = 4;
 
 static s16 Well_NextRandom()
 {

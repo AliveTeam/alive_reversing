@@ -23,6 +23,5 @@ public:
     virtual void VUpdate() override;
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 };
-ALIVE_ASSERT_SIZEOF(MinesAlarm, 0x20);
 
-ALIVE_VAR_EXTERN(s32, sTimerValue_5C1BFC);
+extern s32 sTimerValue_5C1BFC;

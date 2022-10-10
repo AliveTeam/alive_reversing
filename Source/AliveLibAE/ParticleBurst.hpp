@@ -35,4 +35,3 @@ private:
     BurstType field_104_type = BurstType::eFallingRocks_0;
     s16 field_106_count = 0;
 };
-ALIVE_ASSERT_SIZEOF(ParticleBurst, 0x108);

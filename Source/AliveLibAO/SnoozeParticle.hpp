@@ -42,7 +42,6 @@ public:
     Prim_SetTPage field_1B4_tPage[2] = {};
     SnoozeParticleState mState = SnoozeParticleState::eRising_0;
 };
-ALIVE_ASSERT_SIZEOF(SnoozeParticle, 0x1D8);
 
 
 } // namespace AO

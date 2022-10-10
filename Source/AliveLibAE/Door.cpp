@@ -518,8 +518,8 @@ void Door::VScreenChanged()
 
 // ================================================================================================
 
-ALIVE_VAR(1, 0xBB4AA0, FP, sTrainDoorXPos_BB4AA0, {});
-ALIVE_VAR(1, 0xBB4AA4, FP, sTrainDoorYPos_BB4AA4, {});
+FP sTrainDoorXPos_BB4AA0 = {};
+FP sTrainDoorYPos_BB4AA4 = {};
 
 void TrainDoor::LoadAnimations()
 {

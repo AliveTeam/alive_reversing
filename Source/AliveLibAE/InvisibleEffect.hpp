@@ -53,4 +53,3 @@ private:
     TPageAbr field_48_old_render_mode = TPageAbr::eBlend_0;
     BitField16<Flags_4A> field_4A_flags = {};
 };
-ALIVE_ASSERT_SIZEOF(InvisibleEffect, 0x4C);

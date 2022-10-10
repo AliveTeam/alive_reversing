@@ -3,7 +3,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Map.hpp"
-#include "../AliveLibAE/Path.hpp"
+#include "Path.hpp"
 #include "../AliveLibCommon/AnimResources.hpp"
 
 namespace AO {
@@ -57,6 +57,5 @@ public:
     s32 field_130_sound_channels = 0;
     s32 field_134_created_gnFrame = 0;
 };
-ALIVE_ASSERT_SIZEOF(FallingItem, 0x138);
 
 } // namespace AO

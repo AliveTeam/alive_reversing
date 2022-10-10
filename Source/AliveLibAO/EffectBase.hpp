@@ -31,6 +31,5 @@ protected:
     s16 mEffectBaseBlue = 0;
     s16 mSemiTrans = 0;
 };
-ALIVE_ASSERT_SIZEOF(EffectBase, 0x68);
 
 } // namespace AO

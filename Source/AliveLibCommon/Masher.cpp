@@ -5,7 +5,7 @@
 #include <assert.h>
 #include "FatalError.hpp"
 
-ALIVE_VAR(1, 0xbbb314, Movie_IO, sMovie_IO_BBB314, {});
+Movie_IO sMovie_IO_BBB314 = {};
 
 Movie_IO& GetMovieIO()
 {
@@ -1070,8 +1070,8 @@ void Masher::VideoFrameDecode_4E6C60(u8* pPixelBuffer)
     }
 }
 
-ALIVE_VAR(1, 0xbbb9b4, s32, gMasher_num_channels_BBB9B4, 0);
-ALIVE_VAR(1, 0xbbb9a8, s32, gMasher_bits_per_sample_BBB9A8, 0);
+s32 gMasher_num_channels_BBB9B4 = 0;
+s32 gMasher_bits_per_sample_BBB9A8 = 0;
 
 void Masher::DDV_Set_Channels_And_BitsPerSample_4ECFD0(s32 numChannels, s32 bitsPerSample)
 {

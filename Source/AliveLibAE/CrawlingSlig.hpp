@@ -191,4 +191,3 @@ private:
     TCrawlingSligBrainFn mBrainState = nullptr;
     s16 mBrainSubState = 0;
 };
-ALIVE_ASSERT_SIZEOF(CrawlingSlig, 0x20C);

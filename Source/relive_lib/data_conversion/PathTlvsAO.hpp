@@ -401,7 +401,7 @@ struct Path_BirdPortalExit final : public Path_TLV
     PortalSide mExitSide;
     Scale_short mScale;
 };
-ALIVE_ASSERT_SIZEOF(Path_BirdPortalExit, 0x1C);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_BirdPortalExit, 0x1C);
 
 
 struct Path_BoomMachine final : public Path_TLV
@@ -1017,7 +1017,7 @@ struct Path_SwitchStateBooleanLogic final : public Path_TLV
     s16 field_1C_output;
     BooleanOperatorType field_1E_operator;
 };
-ALIVE_ASSERT_SIZEOF(Path_SwitchStateBooleanLogic, 0x20);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_SwitchStateBooleanLogic, 0x20);
 
 struct Path_Slig final : public Path_TLV
 {
@@ -1254,7 +1254,7 @@ struct Path_Stone final : public Path_TLV
 {
     AllStone field_18_data;
 };
-ALIVE_ASSERT_SIZEOF(Path_Stone, 0x2C);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_Stone, 0x2C);
 
 struct Path_SoftLanding final : public Path_TLV
 {

@@ -157,9 +157,9 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(ResourceManager, 0x54);
 
-ALIVE_VAR_EXTERN(ResourceManager*, pResourceManager_5C1BB0);
-ALIVE_VAR_EXTERN(u32, sManagedMemoryUsedSize_AB4A04);
-ALIVE_VAR_EXTERN(u32, sPeakedManagedMemUsage_AB4A08);
-ALIVE_VAR_EXTERN(s16, sbLoadingInProgress_5C1B96);
-ALIVE_VAR_EXTERN(s16, bHideLoadingIcon_5C1BAA);
-ALIVE_VAR_EXTERN(s32, loading_ticks_5C1BAC);
+extern ResourceManager* pResourceManager_5C1BB0;
+extern u32 sManagedMemoryUsedSize_AB4A04;
+extern u32 sPeakedManagedMemUsage_AB4A08;
+extern s16 sbLoadingInProgress_5C1B96;
+extern s16 bHideLoadingIcon_5C1BAA;
+extern s32 loading_ticks_5C1BAC;

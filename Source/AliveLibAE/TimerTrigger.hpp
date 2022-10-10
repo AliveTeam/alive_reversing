@@ -50,4 +50,3 @@ private:
     s32 mActivationDelay = 0;
     s16 mStartingSwitchState = 0;
 };
-ALIVE_ASSERT_SIZEOF(TimerTrigger, 0x3C);

@@ -14,7 +14,7 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x507734, DoorFlame*, pFlameControllingTheSound_507734, nullptr);
+DoorFlame* pFlameControllingTheSound_507734 = nullptr;
 
 class FireBackgroundGlow final : public BaseAnimatedWithPhysicsGameObject
 {
@@ -109,7 +109,6 @@ public:
     FP field_EC_xOff;
     FP field_F0_yOff;
 };
-ALIVE_ASSERT_SIZEOF(FireBackgroundGlow, 0xF4);
 
 struct FlameSpark final
 {
@@ -269,7 +268,6 @@ public:
     FP field_400_xpos;
     FP field_404_ypos;
 };
-ALIVE_ASSERT_SIZEOF(FlameSparks, 0x408);
 
 void DoorFlame::VStopAudio()
 {

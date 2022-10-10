@@ -124,13 +124,13 @@ public:
     static void LoadingLoop_41EAD0(s16 bShowLoadingIcon);
 };
 
-ALIVE_VAR_EXTERN(s16, bHideLoadingIcon_5076A0);
-ALIVE_VAR_EXTERN(s32, loading_ticks_5076A4);
-ALIVE_VAR_EXTERN(s32, gFilesPending_507714);
-ALIVE_VAR_EXTERN(s16, bLoadingAFile_50768C);
-ALIVE_VAR_EXTERN(DynamicArrayT<ResourceManager::ResourceManager_FileRecord>*, ObjList_5009E0);
+extern s16 bHideLoadingIcon_5076A0;
+extern s32 loading_ticks_5076A4;
+extern s32 gFilesPending_507714;
+extern s16 bLoadingAFile_50768C;
+extern DynamicArrayT<ResourceManager::ResourceManager_FileRecord>* ObjList_5009E0;
 
-ALIVE_VAR_EXTERN(u32, sManagedMemoryUsedSize_9F0E48);
-ALIVE_VAR_EXTERN(u32, sPeakedManagedMemUsage_9F0E4C);
+extern u32 sManagedMemoryUsedSize_9F0E48;
+extern u32 sPeakedManagedMemUsage_9F0E4C;
 
 } // namespace AO

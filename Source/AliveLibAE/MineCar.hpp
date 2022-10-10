@@ -135,4 +135,3 @@ private:
     s16 field_1D4_previous_input = 0;      //TODO change to InputCommands::Enum type when we can drop sizeof assert
     s16 field_1D6_continue_move_input = 0; //TODO change to InputCommands::Enum type when we can drop sizeof assert
 };
-ALIVE_ASSERT_SIZEOF(MineCar, 0x1D8);

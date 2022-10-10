@@ -10,13 +10,13 @@
     #include <mmeapi.h>
     #include <timeapi.h>
 
-ALIVE_VAR(1, 0xbbc388, LPDIRECTSOUNDBUFFER, sPrimarySoundBuffer_BBC388, 0);
+LPDIRECTSOUNDBUFFER sPrimarySoundBuffer_BBC388 = 0;
 
-ALIVE_VAR(1, 0xbbc340, s32, sPrimarySoundBufferSampleRate_BBC340, 0);
-ALIVE_VAR(1, 0xbbbab0, s8, sPrimarySoundBufferChannels_BBBAB0, 0);
-ALIVE_VAR(1, 0xbbc338, s8, sPrimarySoundBufferBitsPerSample_BBC338, 0);
+s32 sPrimarySoundBufferSampleRate_BBC340 = 0;
+s8 sPrimarySoundBufferChannels_BBBAB0 = 0;
+s8 sPrimarySoundBufferBitsPerSample_BBC338 = 0;
 
-ALIVE_ARY(1, 0xBBC348, s8, 64, sDSoundErrorBuffer_BBC348, {});
+s8 sDSoundErrorBuffer_BBC348[64] = {};
 
 const s8* SND_HR_Err_To_String_DSound(HRESULT hr)
 {

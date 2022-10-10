@@ -20,7 +20,7 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x9F309C, s32, sMovie_ref_count_9F309C, 0);
+s32 sMovie_ref_count_9F309C = 0;
 
 struct MovieName
 {
@@ -32,8 +32,8 @@ struct MovieQueue
     MovieName mNames[3];
 };
 
-ALIVE_VAR(1, 0x508B08, MovieQueue, sMovieNames_508B08, {});
-ALIVE_VAR(1, 0x508C0C, BYTE, sMovieNameIdx_508C0C, 0);
+MovieQueue sMovieNames_508B08 = {};
+BYTE sMovieNameIdx_508C0C = 0;
 
 SoundEntry fmv_sound_entry;
 

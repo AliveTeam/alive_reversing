@@ -17,4 +17,3 @@ public:
     Animation* field_68_anim_ptr = nullptr;
     FP field_6C_scale = {};
 };
-ALIVE_ASSERT_SIZEOF(AnimationUnknown, 0x70);

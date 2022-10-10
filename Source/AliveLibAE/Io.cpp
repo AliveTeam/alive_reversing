@@ -11,15 +11,15 @@
     #include <dirent.h>
 #endif
 
-ALIVE_VAR(1, 0xBBC4BC, std::atomic<IO_Handle*>, sIOHandle_BBC4BC, {});
-ALIVE_VAR(1, 0xBBC4C4, std::atomic<void*>, sIO_ReadBuffer_BBC4C4, {});
-ALIVE_VAR(1, 0xBBC4C0, std::atomic<s32>, sIO_Thread_Operation_BBC4C0, {});
-ALIVE_VAR(1, 0xBBC4C8, std::atomic<size_t>, sIO_BytesToRead_BBC4C8, {});
-ALIVE_VAR(1, 0xBBC558, u32, sIoThreadId_BBC558, 0);
+std::atomic<IO_Handle*> sIOHandle_BBC4BC = {};
+std::atomic<void*> sIO_ReadBuffer_BBC4C4 = {};
+std::atomic<s32> sIO_Thread_Operation_BBC4C0 = {};
+std::atomic<size_t> sIO_BytesToRead_BBC4C8 = {};
+u32 sIoThreadId_BBC558 = 0;
 
 // I/O
-ALIVE_VAR(1, 0xBD2A5C, bool, sIOSyncReads_BD2A5C, FALSE);
-ALIVE_VAR(1, 0xBBC55C, HANDLE, sIoThreadHandle_BBC55C, nullptr);
+bool sIOSyncReads_BD2A5C = FALSE;
+HANDLE sIoThreadHandle_BBC55C = nullptr;
 
 
 // SDL/C IO Wrappers

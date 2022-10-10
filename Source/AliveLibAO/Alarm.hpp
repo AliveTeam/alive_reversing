@@ -34,8 +34,7 @@ private:
     s32 mAlarmDurationTimer = 0;
     s16 mAlarmSwitchId = 0;
 };
-ALIVE_ASSERT_SIZEOF(Alarm, 0x7C);
 
-ALIVE_VAR_EXTERN(s16, alarmInstanceCount_5076A8);
+extern s16 alarmInstanceCount_5076A8;
 
 } // namespace AO

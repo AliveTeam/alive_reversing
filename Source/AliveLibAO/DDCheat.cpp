@@ -20,17 +20,17 @@ struct DDCheatProperties final
 {
     DDCheatProperty props[10];
 };
-ALIVE_VAR(1, 0x4FF7D8, DDCheatProperties, DDCheatProperties_4FF7D8, {});
+DDCheatProperties DDCheatProperties_4FF7D8 = {};
 
-ALIVE_VAR(1, 0x5076FC, s32, gDoorsOpen_5076FC, 0);
-ALIVE_VAR(1, 0x5076D8, s32, gTweak_X_5076D8, 0);
-ALIVE_VAR(1, 0x5076DC, s32, gTweak_Y_5076DC, 0);
+s32 gDoorsOpen_5076FC = 0;
+s32 gTweak_X_5076D8 = 0;
+s32 gTweak_Y_5076DC = 0;
 
-ALIVE_VAR(1, 0x5076C0, s16, sRescuedMudokons_5076C0, 0);
-ALIVE_VAR(1, 0x5076BC, s16, sKilledMudokons_5076BC, 0);
+s16 sRescuedMudokons_5076C0 = 0;
+s16 sKilledMudokons_5076BC = 0;
 
-ALIVE_VAR(1, 0x5076E0, s16, showDebugCreatureInfo_5076E0, 0);
-ALIVE_VAR(1, 0x50771C, s16, sDDCheat_FlyingEnabled_50771C, 0);
+s16 showDebugCreatureInfo_5076E0 = 0;
+s16 sDDCheat_FlyingEnabled_50771C = 0;
 
 using TDDCheatFn = decltype(&DDCheat::Teleport);
 
@@ -84,19 +84,19 @@ void DDCheat::VScreenChanged()
     // Empty
 }
 
-ALIVE_VAR(1, 0x4FF868, u16, unused_4FF868, 0);
+u16 unused_4FF868 = 0;
 
-ALIVE_VAR(1, 0x4C315C, s32, level_4C315C, 3);
-ALIVE_VAR(1, 0x4C3160, u16, path_4C3160, 1);
-ALIVE_VAR(1, 0x4FF864, u32, gVox_4FF864, 0);
-ALIVE_VAR(1, 0x4FF860, u16, doNothing_4FF860, 0);
-ALIVE_VAR_EXTERN(s8, gDDCheatMode_508BF8);
+s32 level_4C315C = 3;
+u16 path_4C3160 = 1;
+u32 gVox_4FF864 = 0;
+u16 doNothing_4FF860 = 0;
+extern s8 gDDCheatMode_508BF8;
 
-ALIVE_VAR(1, 0x9F0E40, u32, dword_9F0E40, 0);
-ALIVE_VAR(1, 0x9F0E44, u32, dword_9F0E44, 1);
+u32 dword_9F0E40 = 0;
+u32 dword_9F0E44 = 1;
 
-ALIVE_VAR(1, 0x4FF854, u32, currentlyPressedButtons_4FF854, 0);
-ALIVE_VAR(1, 0x4C31A8, u32, dword_4C31A8, 10);
+u32 currentlyPressedButtons_4FF854 = 0;
+u32 dword_4C31A8 = 10;
 
 
 template <typename T>
@@ -396,7 +396,7 @@ const char_type* lvl_names_4C3168[16] = {
     "Forest Level Ender",
     "Desert Level Ender"};
 
-ALIVE_VAR(1, 0x4C3164, s16, camera_4C3164, 1);
+s16 camera_4C3164 = 1;
 
 void DDCheat::Teleport()
 {
@@ -473,7 +473,7 @@ void DDCheat::Teleport()
     }
 }
 
-ALIVE_VAR(1, 0x4C3158, u32, gScale_4C3158, 100);
+u32 gScale_4C3158 = 100;
 
 void DDCheat::Misc()
 {

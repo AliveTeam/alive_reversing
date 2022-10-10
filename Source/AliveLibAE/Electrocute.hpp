@@ -45,4 +45,3 @@ private:
     };
     States field_44_state = States::eSetNewColour_0;
 };
-ALIVE_ASSERT_SIZEOF(Electrocute, 0x54);

@@ -3,7 +3,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Map.hpp"
-#include "../AliveLibAE/Path.hpp"
+#include "Path.hpp"
 
 namespace AO {
 
@@ -50,6 +50,5 @@ public:
     s16 field_118_max_idx = 0;
     s16 field_11A_unused = 0;
 };
-ALIVE_ASSERT_SIZEOF(SecurityDoor, 0x11C);
 
 } // namespace AO

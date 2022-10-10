@@ -17,6 +17,5 @@ public:
 
     FP field_E4_explosion_size = {};
 };
-ALIVE_ASSERT_SIZEOF(Explosion, 0xE8);
 
 } // namespace AO

@@ -50,4 +50,3 @@ private:
     s32 mTimer = 0;
     SparkType mSparkType = SparkType::eSmallChantParticle_0;
 };
-ALIVE_ASSERT_SIZEOF(Spark, 0x68);

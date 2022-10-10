@@ -7,7 +7,7 @@
 #include <assert.h>
 #include "Path.hpp"
 
-ALIVE_VAR(1, 0xbb47c0, Path*, sPathInfo, nullptr);
+Path* sPathInfo = nullptr;
 
 Path::Path()
 {

@@ -7,9 +7,9 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x9F11D0, Sound_Ambiance_Array, sTopBottomAmbiance_9F11D0, {});
-ALIVE_VAR(1, 0x9F1228, Sound_Ambiance_Array, sRightAmbiance_9F1228, {});
-ALIVE_VAR(1, 0x9F1280, Sound_Ambiance_Array, sLeftAmbiance_9F1280, {});
+Sound_Ambiance_Array sTopBottomAmbiance_9F11D0 = {};
+Sound_Ambiance_Array sRightAmbiance_9F1228 = {};
+Sound_Ambiance_Array sLeftAmbiance_9F1280 = {};
 
 void SND_Reset_Ambiance()
 {

@@ -41,4 +41,3 @@ public:
     u32 mSingleTickTimer = 0;
     BitField32<TimedMineFlags> mTimedMineFlags = {};
 };
-ALIVE_ASSERT_SIZEOF(TimedMine, 0x1C8);

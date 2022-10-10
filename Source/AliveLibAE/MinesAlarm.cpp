@@ -7,8 +7,8 @@
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
 
-ALIVE_VAR(1, 0x5BC030, s32, bCreated_5BC030, FALSE);
-ALIVE_VAR(1, 0x5C1BFC, s32, sTimerValue_5C1BFC, 0);
+s32 bCreated_5BC030 = FALSE;
+s32 sTimerValue_5C1BFC = 0;
 
 void MinesAlarm::Create(s32 timer)
 {

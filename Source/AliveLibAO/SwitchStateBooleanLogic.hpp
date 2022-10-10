@@ -22,7 +22,6 @@ public:
     Path_SwitchStateBooleanLogic::BooleanOperatorType field_16_operator = Path_SwitchStateBooleanLogic::BooleanOperatorType::eAllOn_0;
     Guid field_18_tlvInfo;
 };
-ALIVE_ASSERT_SIZEOF(SwitchStateBooleanLogic, 0x1C);
 
 
 } // namespace AO

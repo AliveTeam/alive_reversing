@@ -435,7 +435,6 @@ private:
     s16 mPreventDepossession = 0;
     s32 field_294_next_gamespeak_motion = 0;
 };
-ALIVE_ASSERT_SIZEOF(Slig, 0x298);
 
 void Animation_OnFrame_Slig_4C0600(BaseGameObject* pObj, u32&, const Point32& point);
 void Slig_SoundEffect_4BFFE0(SligSfx effect, BaseAliveGameObject* pObj);

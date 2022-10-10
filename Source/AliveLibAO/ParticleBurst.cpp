@@ -26,7 +26,6 @@ struct ParticleBurst_Item final
     FP field_14_z_speed;
     AnimationUnknown field_18_animation;
 };
-ALIVE_ASSERT_SIZEOF(ParticleBurst_Item, 0x88);
 
 static inline FP Random_Speed(FP scale)
 {

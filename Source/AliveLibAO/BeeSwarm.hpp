@@ -75,9 +75,8 @@ public:
     PathLine* mLine = nullptr;
     FP mLineFollowSpeed = {};
 };
-ALIVE_ASSERT_SIZEOF(BeeSwarm, 0xDB0);
 
-ALIVE_VAR_EXTERN(s16, gBeeInstanceCount);
-ALIVE_VAR_EXTERN(s16, gBeesNearAbe);
+extern s16 gBeeInstanceCount;
+extern s16 gBeesNearAbe;
 
 } // namespace AO

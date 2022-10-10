@@ -132,8 +132,8 @@ static const TintEntry sMudTints_4CD320[] = {
     {EReliveLevelIds::eStockYardsReturn, 25u, 25u, 25u},
     {EReliveLevelIds::eNone, 87u, 103u, 67u}};
 
-ALIVE_VAR(1, 0x507B90, s16, sAlertedMudCount_507B90, 0);
-ALIVE_VAR(1, 0x507B94, s16, sMudRunningToPortalCount_507B94, 0);
+s16 sAlertedMudCount_507B90 = 0;
+s16 sMudRunningToPortalCount_507B94 = 0;
 
 Mudokon::Mudokon(relive::Path_TLV* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()

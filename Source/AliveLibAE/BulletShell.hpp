@@ -18,4 +18,3 @@ private:
     s16 field_FC_hitCount = 0;
     FP field_100_speed = {};
 };
-ALIVE_ASSERT_SIZEOF(BulletShell, 0x104);

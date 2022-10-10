@@ -45,4 +45,3 @@ private:
     s16 mSwitchId = 0;
     Guid mTlvInfo;
 };
-ALIVE_ASSERT_SIZEOF(SlamDoor, 0x134);

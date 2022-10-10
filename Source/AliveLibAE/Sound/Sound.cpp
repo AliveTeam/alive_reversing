@@ -12,13 +12,13 @@
 #include "PsxSpuApi.hpp"
 #include "../../AliveLibCommon/FatalError.hpp"
 
-ALIVE_VAR(1, 0xBBC394, s32, sLoadedSoundsCount_BBC394, 0);
-ALIVE_VAR(1, 0xbbc33c, s32, sLastNotePlayTime_BBC33C, 0);
+s32 sLoadedSoundsCount_BBC394 = 0;
+s32 sLastNotePlayTime_BBC33C = 0;
 
 
-ALIVE_ARY(1, 0xBBBAB8, SoundBuffer, 32, sSoundBuffers_BBBAB8, {});
-ALIVE_ARY(1, 0xBBBD38, s32, 127, sVolumeTable_BBBD38, {});
-ALIVE_ARY(1, 0xBBBF38, SoundEntry*, 256, sSoundSamples_BBBF38, {});
+SoundBuffer sSoundBuffers_BBBAB8[32] = {};
+s32 sVolumeTable_BBBD38[127] = {};
+SoundEntry* sSoundSamples_BBBF38[256] = {};
 
 const u32 k127_dword_575158 = 127;
 
@@ -30,9 +30,9 @@ SoundApi& GetSoundAPI()
 }
 
 #if USE_SDL2_SOUND
-ALIVE_VAR(1, 0xBBC344, SDLSoundSystem*, sDSound_BBC344, nullptr);
+SDLSoundSystem* sDSound_BBC344 = nullptr;
 #else
-ALIVE_VAR(1, 0xBBC344, LPDIRECTSOUND, sDSound_BBC344, nullptr);
+LPDIRECTSOUND sDSound_BBC344 = nullptr;
 #endif
 
 s32 SND_CreateDS_4EEAA0(u32 sampleRate, s32 bitsPerSample, s32 isStereo)

@@ -43,4 +43,3 @@ private:
 public:
     SnoozeParticleState mState = SnoozeParticleState::eRising_0;
 };
-ALIVE_ASSERT_SIZEOF(SnoozeParticle, 0x1E8);

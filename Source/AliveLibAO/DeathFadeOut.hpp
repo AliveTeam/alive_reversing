@@ -24,6 +24,5 @@ public:
     s16 field_70_destroy_on_done = 0;
     s16 field_72 = 0;
 };
-ALIVE_ASSERT_SIZEOF(DeathFadeOut, 0x74);
 
 } // namespace AO

@@ -4,7 +4,7 @@
 #include "Map.hpp"
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "ScopedSeq.hpp"
-#include "../AliveLibAE/Path.hpp"
+#include "Path.hpp"
 #include "SwitchStates.hpp"
 
 namespace AO {
@@ -39,6 +39,5 @@ public:
     relive::Path_Lever::LeverSoundType mOffSound = relive::Path_Lever::LeverSoundType::eNone;
     relive::Path_Lever::LeverSoundDirection mSoundDirection = relive::Path_Lever::LeverSoundDirection::eLeftAndRight;
 };
-ALIVE_ASSERT_SIZEOF(Lever, 0xFC);
 
 } // namespace AO

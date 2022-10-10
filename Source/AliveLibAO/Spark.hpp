@@ -21,7 +21,6 @@ struct SparkRes final
     FP field_18_len;
     Line_G2 field_1C_pLineG2s[2];
 };
-ALIVE_ASSERT_SIZEOF(SparkRes, 0x4C);
 
 class Spark final : public ::BaseGameObject
 {
@@ -45,7 +44,6 @@ public:
     s16 mSparkCount = 0;
     s32 mTimer = 0;
 };
-ALIVE_ASSERT_SIZEOF(Spark, 0x54);
 
 
 } // namespace AO

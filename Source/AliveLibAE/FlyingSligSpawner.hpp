@@ -38,4 +38,3 @@ private:
     s32 field_3C_bSpawned = 0;
     s16 field_40_bFirstUpdate = 0;
 };
-ALIVE_ASSERT_SIZEOF(FlyingSligSpawner, 0x44);

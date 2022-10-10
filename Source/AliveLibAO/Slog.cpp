@@ -95,8 +95,8 @@ const AnimId sSlogMotionAnimIds[25] = {
     AnimId::Slog_Scratch,
     AnimId::Slog_Growl};
 
-ALIVE_VAR(1, 0x9F11C8, s16, gNumSlogs_9F11C8, 0);
-ALIVE_VAR(1, 0x9F11C4, u8, sSlogRndSeed_9F11C4, 0);
+s16 gNumSlogs_9F11C8 = 0;
+u8 sSlogRndSeed_9F11C4 = 0;
 
 static u8 Slog_NextRandom()
 {

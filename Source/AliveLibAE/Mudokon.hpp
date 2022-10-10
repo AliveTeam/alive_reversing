@@ -465,4 +465,3 @@ private:
     s32 field_198_turning_wheel_timer = 0;
     bool mChisleMud = false;
 };
-ALIVE_ASSERT_SIZEOF(Mudokon, 0x19C);

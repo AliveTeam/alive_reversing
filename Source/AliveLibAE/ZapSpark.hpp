@@ -16,4 +16,3 @@ public:
 private:
     s16 mSparkTimer = 0;
 };
-ALIVE_ASSERT_SIZEOF(ZapSpark, 0xFC);

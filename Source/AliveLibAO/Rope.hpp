@@ -24,7 +24,6 @@ public:
     s16 field_F0_right = 0;
     s16 field_F2_bottom = 0;
 };
-ALIVE_ASSERT_SIZEOF(Rope, 0xF4);
 
 void ClipPoly_Vertically_4584B0(Poly_FT4* pPoly, s32 minY, s32 maxY);
 

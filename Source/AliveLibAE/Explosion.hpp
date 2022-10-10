@@ -19,4 +19,3 @@ private:
     FP field_F8_scale = {};
     FP field_FC_explosion_size = {};
 };
-ALIVE_ASSERT_SIZEOF(Explosion, 0x100);

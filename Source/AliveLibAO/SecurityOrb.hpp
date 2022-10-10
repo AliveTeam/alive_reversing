@@ -3,7 +3,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "Map.hpp"
 #include "BaseAliveGameObject.hpp"
-#include "../AliveLibAE/Path.hpp"
+#include "Path.hpp"
 
 namespace AO {
 
@@ -29,6 +29,5 @@ private:
     s32 mTimer = 0;
     s32 mSoundChannelsMask = 0;
 };
-ALIVE_ASSERT_SIZEOF(SecurityOrb, 0x11C);
 
 } // namespace AO

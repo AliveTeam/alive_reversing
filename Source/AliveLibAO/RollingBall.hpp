@@ -3,7 +3,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "Map.hpp"
 #include "BaseAliveGameObject.hpp"
-#include "../AliveLibAE/Path.hpp"
+#include "Path.hpp"
 
 class PathLine;
 
@@ -39,7 +39,6 @@ public:
     FP mMaxSpeed = {};
     FP mAcceleration = {};
 };
-ALIVE_ASSERT_SIZEOF(RollingBall, 0x12C);
 
 
 } // namespace AO

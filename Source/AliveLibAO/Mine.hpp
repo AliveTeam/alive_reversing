@@ -3,7 +3,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "Map.hpp"
 #include "BaseAliveGameObject.hpp"
-#include "../AliveLibAE/Path.hpp"
+#include "Path.hpp"
 
 namespace AO {
 
@@ -31,6 +31,5 @@ public:
     Animation field_118_animation;
     s32 field_1B0_flags = 0;
 };
-ALIVE_ASSERT_SIZEOF(Mine, 0x1B4);
 
 } // namespace AO

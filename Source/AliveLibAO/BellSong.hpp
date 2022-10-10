@@ -19,6 +19,5 @@ public:
     s32 mCode = 0;
     s16 mCodeLength = 0;
 };
-ALIVE_ASSERT_SIZEOF(BellSong, 0x20);
 
 } // namespace AO

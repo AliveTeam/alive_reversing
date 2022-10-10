@@ -48,8 +48,8 @@ const u8 byte_4C5080[32] = {
     24u,
     216u};
 
-ALIVE_VAR(1, 0x507700, s32, sGasTimer_507700, 0);
-ALIVE_VAR(1, 0x4FF888, s16, gGasOn_4FF888, 0);
+s32 sGasTimer_507700 = 0;
+s16 gGasOn_4FF888 = 0;
 
 GasCountDown::GasCountDown(relive::Path_GasCountDown* pTlv, const Guid& tlvId)
     : BaseGameObject(TRUE, 0)

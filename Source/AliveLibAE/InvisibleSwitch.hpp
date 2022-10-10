@@ -31,4 +31,3 @@ private:
     relive::reliveChoice field_3A_set_off_alarm = relive::reliveChoice::eNo;
     relive::Path_InvisibleSwitch::InvisibleSwitchScale field_3C_scale = relive::Path_InvisibleSwitch::InvisibleSwitchScale::eHalf;
 };
-ALIVE_ASSERT_SIZEOF(InvisibleSwitch, 0x40);

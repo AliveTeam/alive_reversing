@@ -43,47 +43,41 @@
 
 using TExitGameCallBack = AddPointer_t<void CC()>;
 
-ALIVE_VAR(1, 0xBBFB00, TExitGameCallBack, sGame_OnExitCallback_BBFB00, nullptr);
+TExitGameCallBack sGame_OnExitCallback_BBFB00 = nullptr;
 
-ALIVE_VAR(1, 0x5C1B84, u32, sGnFrame, 0);
+u32 sGnFrame = 0;
 
 // Timer
-ALIVE_VAR(1, 0xBBB9D4, u32, sTimer_period_BBB9D4, 0);
+u32 sTimer_period_BBB9D4 = 0;
 
 // Arrays of things
-ALIVE_VAR(1, 0x5C1B78, DynamicArrayT<BaseGameObject>*, ObjList_5C1B78, nullptr);
-ALIVE_VAR(1, 0x5BD4D8, DynamicArray*, ObjList_5BD4D8, nullptr);
+DynamicArrayT<BaseGameObject>* ObjList_5C1B78 = nullptr;
+DynamicArray* ObjList_5BD4D8 = nullptr;
 
-ALIVE_VAR(1, 0x5C2FE0, s16, sBreakGameLoop_5C2FE0, 0);
-ALIVE_VAR(1, 0x5C1B66, s16, sNum_CamSwappers_5C1B66, 0);
-ALIVE_VAR(1, 0x5C2F78, s32, dword_5C2F78, 0);
-ALIVE_VAR(1, 0x5C2FA0, s16, bSkipGameObjectUpdates_5C2FA0, 0);
+s16 sBreakGameLoop_5C2FE0 = 0;
+s16 sNum_CamSwappers_5C1B66 = 0;
+s32 dword_5C2F78 = 0;
+s16 bSkipGameObjectUpdates_5C2FA0 = 0;
 
-ALIVE_ARY(1, 0x5CA488, s8, 30, sCdRomDrives_5CA488, {});
-ALIVE_VAR(1, 0x5CA4D4, s32, dword_5CA4D4, 0);
-ALIVE_VAR(1, 0x55EF90, s32, k1_dword_55EF90, 1);
-ALIVE_VAR(1, 0x55EF88, bool, byte_55EF88, true);
-ALIVE_VAR(1, 0x5CA4D0, bool, sCommandLine_ShowFps_5CA4D0, false);
-ALIVE_VAR(1, 0x5CA4B5, bool, sCommandLine_DDCheatEnabled_5CA4B5, false);
-ALIVE_VAR(1, 0x5CA4D2, bool, byte_5CA4D2, false);
-ALIVE_VAR(1, 0x5CA4E0, s32, dword_5CA4E0, 0);
+s8 sCdRomDrives_5CA488[30] = {};
+s32 dword_5CA4D4 = 0;
+s32 k1_dword_55EF90 = 1;
+bool byte_55EF88 = true;
+bool sCommandLine_ShowFps_5CA4D0 = false;
+bool sCommandLine_DDCheatEnabled_5CA4B5 = false;
+bool byte_5CA4D2 = false;
+s32 dword_5CA4E0 = 0;
 
 // Fps calcs
-ALIVE_VAR(1, 0xBD0F08, s8, bQuitting_BD0F08, 0);
-ALIVE_VAR(1, 0x55EFDC, f64, sFps_55EFDC, 0.0);
-ALIVE_VAR(1, 0x5CA4DC, s32, sFrameDiff_5CA4DC, 0);
-ALIVE_VAR(1, 0xC2D03C, s32, sNumRenderedPrims_C2D03C, 0);
-ALIVE_VAR(1, 0x5CA300, s32, sFrameCount_5CA300, 0);
+s8 bQuitting_BD0F08 = 0;
+f64 sFps_55EFDC = 0.0;
+s32 sFrameDiff_5CA4DC = 0;
+s32 sNumRenderedPrims_C2D03C = 0;
+s32 sFrameCount_5CA300 = 0;
 
-ALIVE_VAR(1, 0x5C1B94, s16, word_5C1B94, 0);
+u16 gAttract_5C1BA0 = 0;
 
-ALIVE_VAR(1, 0x5C2F6C, u32, dword_5C2F6C, 0);
-ALIVE_VAR(1, 0x5C1BA0, u16, gAttract_5C1BA0, 0);
-ALIVE_VAR(1, 0x5C2F70, u32, dword_5C2F70, 0);
-
-
-
-ALIVE_VAR(1, 0x5c1b68, Abe*, sActiveHero, 0);
+Abe* sActiveHero = nullptr;
 
 bool gDebugHelpersEnabled = false;
 
@@ -382,7 +376,6 @@ s32 CreateTimer_4EDEC0(UINT /*uDelay*/, void* /*callBack*/)
 void Init_Sound_DynamicArrays_And_Others_43BDB0()
 {
     DebugFont_Init();
-    word_5C1B94 = 1; // Used in dead overlay stuff, CD number ??
     //Overlays_Init_43BFC0(); // Note: Pointless because never used in PC
     pPauseMenu_5C9300 = nullptr;
     sActiveHero = nullptr;
@@ -458,9 +451,7 @@ void Game_Run_466D40()
 {
     // Begin start up
     SYS_EventsPump_494580();
-    dword_5C2F6C = 6000;
     gAttract_5C1BA0 = 0;
-    dword_5C2F70 = 34;
     SYS_EventsPump_494580();
 
     PSX_ResetCallBack_4FAA20();

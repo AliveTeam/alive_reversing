@@ -22,14 +22,14 @@ struct Data_Byte final
     u8 data[2][5][5];
 };
 
-ALIVE_VAR(1, 0x5BC600, Data_FP, xData_5BC600, {});
-ALIVE_ARY(1, 0x5BC6C8, Prim_SetTPage, 2, gGasTPages_5BC6C8, {});
-ALIVE_VAR(1, 0x5BC6E8, GasPolys, gasPolys_5BC6E8, {});
-ALIVE_VAR(1, 0x5BD0E8, Data_Byte, sbyte_3_5BD0E8, {});
-ALIVE_VAR(1, 0x5BD11C, Data_FP, yData_5BD11C, {});
-ALIVE_VAR(1, 0x5BD1E4, Data_Byte, sbyte_1_5BD1E4, {});
-ALIVE_VAR(1, 0x5BD218, Data_Byte, sbyte_2_5BD218, {});
-ALIVE_VAR(1, 0x5BD24C, s32, gDeathGasCount_5BD24C, 0);
+Data_FP xData_5BC600 = {};
+Prim_SetTPage gGasTPages_5BC6C8[2] = {};
+GasPolys gasPolys_5BC6E8 = {};
+Data_Byte sbyte_3_5BD0E8 = {};
+Data_FP yData_5BD11C = {};
+Data_Byte sbyte_1_5BD1E4 = {};
+Data_Byte sbyte_2_5BD218 = {};
+s32 gDeathGasCount_5BD24C = 0;
 
 DeathGas::DeathGas(Layer layer, s32 amount)
     : BaseGameObject(TRUE, 0)

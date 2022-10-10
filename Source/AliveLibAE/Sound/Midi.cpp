@@ -26,17 +26,17 @@ const s32 kSeqTableSizeAE = 144;
 static TSNDStopAll sSNDStopAllCallBack = nullptr;
 static TSNDRestart sSNDRestartCallBack = nullptr;
 
-ALIVE_VAR(1, 0xBB2354, SeqIds, sSeq_Ids_word_BB2354, {});
-ALIVE_VAR(1, 0xbb2e3e, u16, sSnd_ReloadAbeResources_BB2E3E, 0);
-ALIVE_VAR(1, 0xbb2e38, OpenSeqHandle*, sSeqDataTable_BB2E38, nullptr);
-ALIVE_VAR(1, 0xbb2e3c, s16, sSeqsPlaying_count_word_BB2E3C, 0);
-ALIVE_VAR(1, 0x560f58, s16, sSFXPitchVariationEnabled_560F58, true);
-ALIVE_VAR(1, 0x560f40, s16, sNeedToHashSeqNames_560F40, 1);
+SeqIds sSeq_Ids_word_BB2354 = {};
+u16 sSnd_ReloadAbeResources_BB2E3E = 0;
+OpenSeqHandle* sSeqDataTable_BB2E38 = nullptr;
+s16 sSeqsPlaying_count_word_BB2E3C = 0;
+s16 sSFXPitchVariationEnabled_560F58 = true;
+s16 sNeedToHashSeqNames_560F40 = 1;
 
 // I think this is the burrrrrrrrrrrrrrrrrrrr loading sound
 const PathSoundInfo soundBlock = {"MONK.VH", "MONK.VB", {}, {}, {}};
 
-ALIVE_VAR(1, 0x560F48, PathSoundInfo, sMonkVh_Vb_560F48, soundBlock);
+PathSoundInfo sMonkVh_Vb_560F48 = soundBlock;
 
 class AEMidiVars final : public IMidiVars
 {

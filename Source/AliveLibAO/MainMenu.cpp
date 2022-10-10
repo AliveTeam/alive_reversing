@@ -34,7 +34,7 @@ const AnimId buttonAnimIds_4BB1B8[4] = {
     AnimId::None};
 
 // TODO: Move out
-ALIVE_VAR(1, 0x507690, s16, sSoundMono_507690, 0);
+s16 sSoundMono_507690 = 0;
 
 // TODO: Move out
 void SND_Set_Mono_477020()
@@ -50,7 +50,7 @@ void SND_Set_Stereo_477030()
     sSoundMono_507690 = 0;
 }
 
-ALIVE_VAR(1, 0x9F2DE8, s16, bWaitingForRemapInput_9F2DE8, 0);
+s16 bWaitingForRemapInput_9F2DE8 = 0;
 
 struct Buttons final
 {
@@ -79,7 +79,7 @@ struct Buttons final
             InputCommands::eRightGameSpeak,
         }};
 };
-ALIVE_VAR(1, 0x4D0030, const Buttons, sRemappableInputs_4D0030, {});
+const Buttons sRemappableInputs_4D0030 = {};
 
 struct Menu_Button final
 {
@@ -199,26 +199,26 @@ struct SaveName final
     char_type field_0_mName[32];
 };
 
-ALIVE_ARY(1, 0x9F1DD8, SaveName, 128, sSaveNames_9F1DD8, {}); // Got more than 128 saves? Hard luck mate
+SaveName sSaveNames_9F1DD8[128] = {}; // Got more than 128 saves? Hard luck mate
 
-ALIVE_VAR(1, 0x507694, s16, gDemoPlay_507694, 0);
-ALIVE_VAR(1, 0x50769C, u8, sJoyResId_50769C, 0);
+s16 gDemoPlay_507694 = 0;
+u8 sJoyResId_50769C = 0;
 
-ALIVE_VAR(1, 0x9F2DE0, s32, gMainMenuInstanceCount_9F2DE0, 0);
-ALIVE_VAR(1, 0x507688, s16, sFontLoaded_507688, 0);
-ALIVE_VAR(1, 0x4D0228, s16, sListCount_4D0228, -1);
+s32 gMainMenuInstanceCount_9F2DE0 = 0;
+s16 sFontLoaded_507688 = 0;
+s16 sListCount_4D0228 = -1;
 
 // The total number of valid controllers - includes the keyboard as well
-ALIVE_VAR(1, 0x4CE598, s32, sAvailableControllers_4CE598, 0);
-ALIVE_VAR(1, 0x5079A4, s32, gJoystickAvailable_5079A4, 0);
+s32 sAvailableControllers_4CE598 = 0;
+s32 gJoystickAvailable_5079A4 = 0;
 
-ALIVE_VAR(1, 0x9F2DDC, s32, sSelectedSaveIdx_9F2DDC, 0);
-ALIVE_VAR(1, 0x9F2DD8, s32, sSaveIdx_9F2DD8, 0);
+s32 sSelectedSaveIdx_9F2DDC = 0;
+s32 sSaveIdx_9F2DD8 = 0;
 
 
 struct MenuFMV;
 
-ALIVE_VAR(1, 0x9F2DE4, const MenuFMV*, sActiveList_9F2DE4, nullptr);
+const MenuFMV* sActiveList_9F2DE4 = nullptr;
 
 const u8 sFontPal_4D0090[32] = {
     0u,

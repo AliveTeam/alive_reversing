@@ -23,8 +23,7 @@ public:
     s32 mNextCameraTimer = 0;
     s16 mCurrentCamera = 0;
 };
-ALIVE_ASSERT_SIZEOF(CreditsController, 0x18);
 
-ALIVE_VAR_EXTERN(s16, gCreditsControllerExists);
+extern s16 gCreditsControllerExists;
 
 } // namespace AO

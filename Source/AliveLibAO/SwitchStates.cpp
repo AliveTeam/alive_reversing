@@ -5,7 +5,7 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x505568, SwitchStates, sSwitchStates_505568, {});
+SwitchStates sSwitchStates_505568 = {};
 
 void SwitchStates_Set(u16 idx, s8 value)
 {

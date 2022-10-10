@@ -10,8 +10,8 @@
 #include "FallingItem.hpp"
 #include "Grid.hpp"
 
-ALIVE_VAR(1, 0x5BBF68, ExplosionSet*, pExplosionSet_5BBF68, nullptr);
-ALIVE_VAR(1, 0x5C1BB6, s16, bEnabled_5C1BB6, FALSE);
+ExplosionSet* pExplosionSet_5BBF68 = nullptr;
+s16 bEnabled_5C1BB6 = FALSE;
 
 ExplosionSet::ExplosionSet()
     : BaseGameObject(TRUE, 0)

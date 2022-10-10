@@ -3,7 +3,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Map.hpp"
-#include "../AliveLibAE/Path.hpp"
+#include "Path.hpp"
 
 namespace AO {
 
@@ -79,6 +79,5 @@ public:
     };
     BellPositions field_164_ChimeLock_num[2] = {};
 };
-ALIVE_ASSERT_SIZEOF(ChimeLock, 0x168);
 
 } // namespace AO

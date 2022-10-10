@@ -28,7 +28,7 @@
 #include "Sfx.hpp"
 #include "Grid.hpp"
 
-const TintEntry kCrawlingSligTints_5514B8[18] = {
+const static TintEntry kCrawlingSligTints[18] = {
     {EReliveLevelIds::eMines, 127u, 127u, 127u},
     {EReliveLevelIds::eNecrum, 137u, 137u, 137u},
     {EReliveLevelIds::eMudomoVault, 127u, 127u, 127u},
@@ -45,7 +45,7 @@ const TintEntry kCrawlingSligTints_5514B8[18] = {
     {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
     {EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
-const AnimId sCrawlingSligAnimIdTable[18] = {
+const static AnimId sCrawlingSligAnimIdTable[18] = {
     AnimId::CrawlingSlig_Idle,
     AnimId::CrawlingSlig_UsingButton,
     AnimId::CrawlingSlig_WakingUp,
@@ -66,25 +66,26 @@ const AnimId sCrawlingSligAnimIdTable[18] = {
     AnimId::CrawlingSlig_EndPushingWall 
 };
 
-ALIVE_ARY(1, 0x551428, TCrawlingSligMotionFn, 18, sCrawlingSligMotions,
-          {&CrawlingSlig::Motion_0_Idle,
-           &CrawlingSlig::Motion_1_UsingButton,
-           &CrawlingSlig::Motion_2_WakingUp,
-           &CrawlingSlig::Motion_3_Crawling,
-           &CrawlingSlig::Motion_4_StartFalling,
-           &CrawlingSlig::Motion_5_Falling,
-           &CrawlingSlig::Motion_6_Landing,
-           &CrawlingSlig::Motion_7_ToShakingToIdle,
-           &CrawlingSlig::Motion_8_Speaking,
-           &CrawlingSlig::Motion_9_Snoozing,
-           &CrawlingSlig::Motion_10_PushingWall,
-           &CrawlingSlig::Motion_11_TurnAround,
-           &CrawlingSlig::Motion_12_Shaking,
-           &CrawlingSlig::Motion_13_Empty,
-           &CrawlingSlig::Motion_14_ShakingToIdle,
-           &CrawlingSlig::Motion_15_EndCrawling,
-           &CrawlingSlig::Motion_16_IdleToPushingWall,
-           &CrawlingSlig::Motion_17_EndPushingWall});
+const static TCrawlingSligMotionFn sCrawlingSligMotions[18] = {
+    &CrawlingSlig::Motion_0_Idle,
+    &CrawlingSlig::Motion_1_UsingButton,
+    &CrawlingSlig::Motion_2_WakingUp,
+    &CrawlingSlig::Motion_3_Crawling,
+    &CrawlingSlig::Motion_4_StartFalling,
+    &CrawlingSlig::Motion_5_Falling,
+    &CrawlingSlig::Motion_6_Landing,
+    &CrawlingSlig::Motion_7_ToShakingToIdle,
+    &CrawlingSlig::Motion_8_Speaking,
+    &CrawlingSlig::Motion_9_Snoozing,
+    &CrawlingSlig::Motion_10_PushingWall,
+    &CrawlingSlig::Motion_11_TurnAround,
+    &CrawlingSlig::Motion_12_Shaking,
+    &CrawlingSlig::Motion_13_Empty,
+    &CrawlingSlig::Motion_14_ShakingToIdle,
+    &CrawlingSlig::Motion_15_EndCrawling,
+    &CrawlingSlig::Motion_16_IdleToPushingWall,
+    &CrawlingSlig::Motion_17_EndPushingWall
+};
 
 
 const static TCrawlingSligBrainFn sCrawlingSligBrainTable[6] = {
@@ -145,7 +146,7 @@ CrawlingSlig::CrawlingSlig(relive::Path_CrawlingSlig* pTlv, const Guid& guid)
     LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::CrawlingSlig_Idle));
 
-    SetTint(&kCrawlingSligTints_5514B8[0], gMap.mCurrentLevel);
+    SetTint(&kCrawlingSligTints[0], gMap.mCurrentLevel);
 
     mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanBePossessed);
 
@@ -1338,7 +1339,7 @@ void CrawlingSlig::Motion_1_UsingButton()
 
                     if (BrainIs(&CrawlingSlig::Brain_3_Possessed))
                     {
-                        pFlyingSlig->ToPlayerControlled_4360C0();
+                        pFlyingSlig->ToPlayerControlled();
                         pFlyingSlig->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::ePossessed);
                         pFlyingSlig->mAbeLevel = mAbeLevel;
                         pFlyingSlig->mAbePath = mAbePath;

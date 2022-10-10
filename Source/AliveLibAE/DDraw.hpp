@@ -20,9 +20,9 @@ s32 DD_Enable_4F0380(HWND hwnd, s32 width, s32 height, s32 bpp, s32 flipMode, s3
 void DD_render_back_buffer_4F0D90(IDirectDrawSurface* pSurf, RECT* pRect, s32 screenMode);
 void DD_Flip_4F15D0();
 
-ALIVE_VAR_EXTERN(LPDIRECTDRAW, sDDraw_BBC3D4);
-ALIVE_VAR_EXTERN(LPDIRECTDRAWSURFACE, sDD_primary_surface_BBC3C8);
-ALIVE_VAR_EXTERN(LPDIRECTDRAWSURFACE, sDD_surface_backbuffer_BBC3CC);
-ALIVE_VAR_EXTERN(LPDIRECTDRAWPALETTE, sDD_Pal_BBC3D8);
+extern LPDIRECTDRAW sDDraw_BBC3D4;
+extern LPDIRECTDRAWSURFACE sDD_primary_surface_BBC3C8;
+extern LPDIRECTDRAWSURFACE sDD_surface_backbuffer_BBC3CC;
+extern LPDIRECTDRAWPALETTE sDD_Pal_BBC3D8;
     #endif
 #endif

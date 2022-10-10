@@ -4,7 +4,7 @@
 #include "Map.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "../relive_lib/DynamicArray.hpp"
-#include "../AliveLibAE/Path.hpp"
+#include "Path.hpp"
 
 namespace AO {
 
@@ -55,6 +55,5 @@ public:
     PSX_Point field_138_bottom_right = {};
     DynamicArrayT<MotionDetector>* field_13C_pArray;
 };
-ALIVE_ASSERT_SIZEOF(SecurityClaw, 0x140);
 
 } // namespace AO

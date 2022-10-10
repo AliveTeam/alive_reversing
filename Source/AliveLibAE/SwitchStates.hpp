@@ -24,4 +24,4 @@ struct SwitchStates final
     s8 mData[256];
 };
 
-ALIVE_VAR_EXTERN(SwitchStates, sSwitchStates_5C1A28);
+extern SwitchStates sSwitchStates_5C1A28;

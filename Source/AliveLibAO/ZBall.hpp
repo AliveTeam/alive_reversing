@@ -3,7 +3,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Map.hpp"
-#include "../AliveLibAE/Path.hpp"
+#include "Path.hpp"
 
 namespace AO {
 
@@ -18,6 +18,5 @@ public:
     s16 mFrameAbove12 = 0;
     s16 mSoundPitch = 0;
 };
-ALIVE_ASSERT_SIZEOF(ZBall, 0xEC);
 
 } // namespace AO

@@ -21,13 +21,13 @@ struct Data_Byte final
     u8 data[2][5][5];
 };
 
-ALIVE_ARY(1, 0x5008E8, Prim_SetTPage, 2, gGasTPages_5008E8, {});
+Prim_SetTPage gGasTPages_5008E8[2] = {};
 
-ALIVE_VAR(1, 0x4FFDE8, GasPolys, prims_dword_4FFDE8, {});
+GasPolys prims_dword_4FFDE8 = {};
 
-ALIVE_VAR(1, 0x4FFDB0, Data_Byte, sbyte_1_4FFDB0, {});
-ALIVE_VAR(1, 0x5008B0, Data_Byte, sbyte_2_5008B0, {});
-ALIVE_VAR(1, 0x5009D0, s32, gDeathGasCount_5009D0, 0);
+Data_Byte sbyte_1_4FFDB0 = {};
+Data_Byte sbyte_2_5008B0 = {};
+s32 gDeathGasCount_5009D0 = 0;
 
 DeathGas::DeathGas(Layer layer, s32 amount)
     : BaseGameObject(TRUE, 0)
@@ -114,9 +114,9 @@ struct Data_FP final
 {
     FP data[2][5][5];
 };
-ALIVE_VAR(1, 0x500908, Data_FP, xData_500908, {});
-ALIVE_VAR(1, 0x5007E8, Data_FP, yData_5007E8, {});
-ALIVE_VAR(1, 0x4FFD78, Data_Byte, sbyte_3_4FFD78, {});
+Data_FP xData_500908 = {};
+Data_FP yData_5007E8 = {};
+Data_Byte sbyte_3_4FFD78 = {};
 
 void DeathGas::VRender(PrimHeader** ppOt)
 {

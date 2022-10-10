@@ -3,7 +3,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "Map.hpp"
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
-#include "../AliveLibAE/Path.hpp"
+#include "Path.hpp"
 
 namespace AO {
 
@@ -55,7 +55,6 @@ public:
     };
     BitField16<flags_1A8> field_1A8_flags = {};
 };
-ALIVE_ASSERT_SIZEOF(MeatSaw, 0x1AC);
 
 
 } // namespace AO

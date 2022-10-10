@@ -63,10 +63,9 @@ public:
     s32 field_30_poly_count = 0;
     FontContext* field_34_font_context = nullptr;
 };
-ALIVE_ASSERT_SIZEOF(AliveFont, 0x38);
 
-ALIVE_VAR_EXTERN(FontContext, sFontContext_4FFD68);
-ALIVE_VAR_EXTERN(s16, sDisableFontFlicker_5080E4);
-ALIVE_VAR_EXTERN(u8, sFontDrawScreenSpace_508BF4);
+extern FontContext sFontContext_4FFD68;
+extern s16 sDisableFontFlicker_5080E4;
+extern u8 sFontDrawScreenSpace_508BF4;
 
 } // namespace AO

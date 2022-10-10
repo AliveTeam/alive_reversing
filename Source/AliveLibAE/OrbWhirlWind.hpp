@@ -33,4 +33,3 @@ private:
     FP field_70_ypos = {};
     FP field_74_scale = {};
 };
-ALIVE_ASSERT_SIZEOF(OrbWhirlWind, 0x78);

@@ -31,9 +31,9 @@
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs_serialization.hpp"
 
-ALIVE_VAR(1, 0x5c311c, s16, sMap_bDoPurpleLightEffect_5C311C, 0);
-ALIVE_VAR(1, 0x5c3118, Camera*, sCameraBeingLoaded_5C3118, nullptr);
-ALIVE_VAR(1, 0x5c3120, u32, sSoundChannelsMask_5C3120, 0);
+s16 sMap_bDoPurpleLightEffect_5C311C = 0;
+Camera* sCameraBeingLoaded_5C3118 = nullptr;
+u32 sSoundChannelsMask_5C3120 = 0;
 
 
 // Map Path_ChangeTLV::field_18_wipe to CameraSwapEffects
@@ -1302,4 +1302,4 @@ s16 Map::SetActiveCameraDelayed(MapDirections direction, BaseAliveGameObject* pO
     return 1;
 }
 
-ALIVE_VAR(1, 0x5C3030, Map, gMap, {});
+Map gMap = {};

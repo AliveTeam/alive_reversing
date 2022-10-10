@@ -42,8 +42,8 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x9F11BC, s32, unused_9F11BC, 0);
-ALIVE_VAR(1, 0x9F11C0, s32, unused_9F11C0, 0);
+s32 unused_9F11BC = 0;
+s32 unused_9F11C0 = 0;
 
 const TintEntry kSligTints_4CFB10[3] = {
     {EReliveLevelIds::eStockYards, 127u, 127u, 127u},

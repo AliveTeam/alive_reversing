@@ -5,10 +5,10 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x9F7718, LPSTR, sCommandLine_9F7718, 0);
-ALIVE_VAR(1, 0x9F771C, HINSTANCE, sInstance_9F771C, 0);
-ALIVE_VAR(1, 0x9F772C, s32, sCmdShow_9F772C, 0);
-ALIVE_VAR(1, 0xA8A600, u32, sIsAKeyDown_A8A600, 0);
+LPSTR sCommandLine_9F7718 = 0;
+HINSTANCE sInstance_9F771C = 0;
+s32 sCmdShow_9F772C = 0;
+u32 sIsAKeyDown_A8A600 = 0;
 
 s32 Sys_IsAnyKeyDown_48E6C0()
 {

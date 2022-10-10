@@ -17,9 +17,9 @@
  then do x /= 0.575;
 */
 
-ALIVE_VAR(1, 0x5c9304, s8, sDisableFontFlicker_5C9304, 0);
+s8 sDisableFontFlicker_5C9304 = 0;
 
-ALIVE_VAR(1, 0x5ca4b4, u8, sFontDrawScreenSpace_5CA4B4, 0);
+u8 sFontDrawScreenSpace_5CA4B4 = 0;
 
 
 namespace Alive {
@@ -311,7 +311,7 @@ void Font_Context::dtor_433510()
 }
 
 
-ALIVE_ARY(1, 0x551D34, Font_AtlasEntry, 169, sFont1Atlas_551D34,
+Font_AtlasEntry sFont1Atlas_551D34[169] =
           {{0u, 0u, 2u, 0u},
            {0u, 0u, 9u, 0u},
            {43u, 80u, 6u, 23u},
@@ -480,9 +480,9 @@ ALIVE_ARY(1, 0x551D34, Font_AtlasEntry, 169, sFont1Atlas_551D34,
            {131u, 162u, 16u, 24u},
            {148u, 162u, 16u, 24u},
            {163u, 162u, 16u, 24u},
-           {180u, 162u, 16u, 24u}});
+           {180u, 162u, 16u, 24u}};
 
-ALIVE_ARY(1, 0x551FD8, Font_AtlasEntry, 169, sFont2Atlas_551FD8,
+Font_AtlasEntry sFont2Atlas_551FD8[169] =
           {{0u, 0u, 2u, 0u},
            {0u, 0u, 14u, 0u},
            {105u, 42u, 14u, 13u},
@@ -651,4 +651,4 @@ ALIVE_ARY(1, 0x551FD8, Font_AtlasEntry, 169, sFont2Atlas_551FD8,
            {0u, 0u, 0u, 0u},
            {0u, 0u, 0u, 0u},
            {0u, 0u, 0u, 0u},
-           {0u, 0u, 0u, 0u}});
+           {0u, 0u, 0u, 0u}};

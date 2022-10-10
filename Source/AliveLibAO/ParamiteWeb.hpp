@@ -25,6 +25,5 @@ public:
     AnimationUnknown* field_EC_pRes = nullptr;
     s16 field_F0_bEnabled = 0;
 };
-ALIVE_ASSERT_SIZEOF(ParamiteWeb, 0xF4);
 
 } // namespace AO

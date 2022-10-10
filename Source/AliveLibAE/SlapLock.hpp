@@ -64,4 +64,3 @@ private:
     Guid mPossessionFlickerId;
     s32 mShinyParticleTimer = 0;
 };
-ALIVE_ASSERT_SIZEOF(SlapLock, 0x140);

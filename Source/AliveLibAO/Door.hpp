@@ -4,7 +4,7 @@
 #include "PathData.hpp"
 #include "Map.hpp"
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
-#include "../AliveLibAE/Path.hpp"
+#include "Path.hpp"
 #include "Path.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
@@ -36,6 +36,5 @@ public:
     s16 mSwitchId = 0;
     s16 field_F2_hubs_ids[8] = {};
 };
-ALIVE_ASSERT_SIZEOF(Door, 0x104);
 
 } // namespace AO

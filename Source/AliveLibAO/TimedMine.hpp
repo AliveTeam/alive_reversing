@@ -3,7 +3,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "Map.hpp"
 #include "BaseAliveGameObject.hpp"
-#include "../AliveLibAE/Path.hpp"
+#include "Path.hpp"
 
 namespace AO {
 
@@ -39,6 +39,5 @@ public:
     s32 mSingleTickTimer = 0;
     BitField16<TimedMineFlags> mTimedMineFlags = {};
 };
-ALIVE_ASSERT_SIZEOF(TimedMine, 0x1BC);
 
 } // namespace AO

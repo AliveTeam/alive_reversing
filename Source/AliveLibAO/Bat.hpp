@@ -3,7 +3,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Map.hpp"
-#include "../AliveLibAE/Path.hpp"
+#include "Path.hpp"
 
 class PathLine;
 
@@ -44,6 +44,5 @@ public:
     FP mEnemyYPos = {};
     BaseAliveGameObject* mAttackTarget = nullptr;
 };
-ALIVE_ASSERT_SIZEOF(Bat, 0x110);
 
 } // namespace AO

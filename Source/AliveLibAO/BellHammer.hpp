@@ -4,7 +4,7 @@
 #include "Map.hpp"
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "SwitchStates.hpp"
-#include "../AliveLibAE/Path.hpp"
+#include "Path.hpp"
 
 namespace AO {
 
@@ -30,7 +30,6 @@ public:
     Guid mTlvInfo;
     bool mSpawnElum = false;
 };
-ALIVE_ASSERT_SIZEOF(BellHammer, 0xF4);
 
 
 } // namespace AO

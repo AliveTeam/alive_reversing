@@ -87,7 +87,6 @@ public:
     RingTypes mRingType = RingTypes::eExplosive_Pulse_0;
     BaseAliveGameObject* mTargetObj = nullptr; // stored as object id in AE
 };
-ALIVE_ASSERT_SIZEOF(AbilityRing, 0x27C);
 
 
 

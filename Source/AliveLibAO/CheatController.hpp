@@ -17,13 +17,12 @@ public:
     s16 field_10 = 0;
     s16 field_12 = 0;
 };
-ALIVE_ASSERT_SIZEOF(CheatController, 0x14);
 
-ALIVE_VAR_EXTERN(CheatController*, pCheatController_4FF958);
+extern CheatController* pCheatController_4FF958;
 
-ALIVE_VAR_EXTERN(s16, sEnableFartGasCheat_507704);
-ALIVE_VAR_EXTERN(s16, sVoiceCheat_507708);
-ALIVE_VAR_EXTERN(s16, sEnableCheatFMV_50770C);
-ALIVE_VAR_EXTERN(s16, sEnableCheatLevelSelect_507710);
+extern s16 sEnableFartGasCheat_507704;
+extern s16 sVoiceCheat_507708;
+extern s16 sEnableCheatFMV_50770C;
+extern s16 sEnableCheatLevelSelect_507710;
 
 } // namespace AO

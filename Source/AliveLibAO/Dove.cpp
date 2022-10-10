@@ -196,7 +196,7 @@ void Dove::FlyAway(bool spookedInstantly)
     }
 }
 
-ALIVE_VAR(1, 0x4FF944, s32, bExtraSeqStarted_4FF944, 0);
+s32 bExtraSeqStarted_4FF944 = 0;
 
 void Dove::All_FlyAway()
 {

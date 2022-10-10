@@ -23,4 +23,3 @@ private:
     relive::Path_WheelSyncer::OutputRequirement mOutputRequirement = relive::Path_WheelSyncer::OutputRequirement::eAllOn;
     Guid mTlvInfo;
 };
-ALIVE_ASSERT_SIZEOF(WheelSyncer, 0x34);

@@ -258,10 +258,9 @@ public:
     const PathData* mPathData = nullptr;
     BinaryPath* field_10_ppRes = nullptr; // Non owning ptr
 };
-ALIVE_ASSERT_SIZEOF(Path, 0x14);
 
 enum class CameraPos : s16;
 
 void Stop_slig_sounds(CameraPos direction, s8 kZero);
 
-ALIVE_VAR_EXTERN(Path*, sPathInfo);
+extern Path* sPathInfo;

@@ -19,6 +19,5 @@ public:
     s16 mShakeNumber = 0;
     bool mEnableShakeEvent = false;
 };
-ALIVE_ASSERT_SIZEOF(ScreenShake, 0x34);
 
 } // namespace AO

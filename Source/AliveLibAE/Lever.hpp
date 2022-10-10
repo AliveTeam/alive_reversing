@@ -38,4 +38,3 @@ private:
     relive::Path_Lever::LeverSoundType field_106_off_sound = relive::Path_Lever::LeverSoundType::eNone;
     relive::Path_Lever::LeverSoundDirection field_108_sound_direction = relive::Path_Lever::LeverSoundDirection::eLeftAndRight;
 };
-ALIVE_ASSERT_SIZEOF(Lever, 0x10C);

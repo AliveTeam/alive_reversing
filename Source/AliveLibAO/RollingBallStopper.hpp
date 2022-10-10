@@ -3,7 +3,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Map.hpp"
-#include "../AliveLibAE/Path.hpp"
+#include "Path.hpp"
 
 class PathLine;
 
@@ -30,6 +30,5 @@ public:
     u16 mBallSwitchId = 0;
     PathLine* mCollisionLine = nullptr;
 };
-ALIVE_ASSERT_SIZEOF(RollingBallStopper, 0x11C);
 
 } // namespace AO

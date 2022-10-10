@@ -3,7 +3,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "Map.hpp"
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
-#include "../AliveLibAE/Path.hpp"
+#include "Path.hpp"
 
 namespace AO {
 
@@ -38,7 +38,6 @@ public:
     FP mObjectYPos = {};
     u16 mChaseTime = 0;
 };
-ALIVE_ASSERT_SIZEOF(HoneySack, 0x104);
 
 
 } // namespace AO

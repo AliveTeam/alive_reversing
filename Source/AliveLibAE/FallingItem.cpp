@@ -33,7 +33,7 @@ const AnimId sFallingItemData_544DC0[15][2] = {
     {AnimId::AE_FallingRock_Falling, AnimId::AE_FallingRock_Waiting},
     {AnimId::FallingCrate_Falling, AnimId::FallingCrate_Waiting}};
 
-ALIVE_VAR(1, 0x5BC208, FallingItem*, pPrimaryFallingItem_5BC208, nullptr);
+FallingItem* pPrimaryFallingItem_5BC208 = nullptr;
 
 void FallingItem::LoadAnimations()
 {

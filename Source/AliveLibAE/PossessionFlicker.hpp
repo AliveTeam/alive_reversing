@@ -29,4 +29,3 @@ private:
 
     Guid field_30_obj_id;
 };
-ALIVE_ASSERT_SIZEOF(PossessionFlicker, 0x34);

@@ -43,4 +43,3 @@ private:
     s32 field_130_sound_channels = 0;
     relive::reliveChoice field_136_persist_offscreen = relive::reliveChoice::eNo;
 };
-ALIVE_ASSERT_SIZEOF(MovingBomb, 0x138);

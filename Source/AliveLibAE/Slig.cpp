@@ -165,8 +165,8 @@ TintEntry sSligTint_560570[15] = {
     {EReliveLevelIds::eBonewerkz_Ender, 102u, 127u, 118u},
     {EReliveLevelIds::eNone, 102u, 127u, 118u}};
 
-ALIVE_VAR(1, 0xBAF7E4, s32, unused_BAF7E4, 0);
-ALIVE_VAR(1, 0xBAF7E8, s16, sSligsUnderControlCount_BAF7E8, 0);
+s32 unused_BAF7E4 = 0;
+s16 sSligsUnderControlCount_BAF7E8 = 0;
 
 const AnimId sSligAnimIdTable[52] = {
     AnimId::Slig_Idle,
@@ -6100,7 +6100,7 @@ void Slig::ToPanicTurn_4BC750()
     SetBrain(&Slig::Brain_PanicTurning_12_4BC490);
 }
 
-ALIVE_VAR(1, 0xBAF7EC, s16, sDelayIdx_BAF7EC, 0);
+s16 sDelayIdx_BAF7EC = 0;
 const s16 sDelayTable_56075C[6] = {0, 6, 10, 8, 4, 12};
 
 

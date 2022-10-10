@@ -28,4 +28,3 @@ private:
     relive::reliveChoice mListenToSligs = relive::reliveChoice::eNo; // AE only
     s16 mChaseDelay = 0; // AE only
 };
-ALIVE_ASSERT_SIZEOF(SlogSpawner, 0x44);

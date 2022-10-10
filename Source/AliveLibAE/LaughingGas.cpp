@@ -10,8 +10,8 @@
 #include <math.h>
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 
-ALIVE_VAR(1, 0x5BC214, s32, gGasInstanceCount_5BC214, 0);
-ALIVE_VAR(1, 0x5C1BA4, s16, gLaughingGasOn_5C1BA4, FALSE);
+s32 gGasInstanceCount_5BC214 = 0;
+s16 gLaughingGasOn_5C1BA4 = FALSE;
 
 // On linux not using this random algorithm produces much bigger numbers
 // which causes flickering in the gas rendering. Apparently this is the MSVC algorithm.

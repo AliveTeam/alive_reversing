@@ -27,6 +27,5 @@ public:
     s16 field_20_old_g = 0;
     s16 field_22_old_b = 0;
 };
-ALIVE_ASSERT_SIZEOF(PossessionFlicker, 0x24);
 
 } // namespace AO

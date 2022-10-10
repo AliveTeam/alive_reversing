@@ -15,7 +15,7 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x4FFA54, FallingItem*, pPrimaryFallingItem_4FFA54, nullptr);
+FallingItem* pPrimaryFallingItem_4FFA54 = nullptr;
 
 const FallingItem_Data sFallingItemData_4BAB20[16] = {
     {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting, 76, 38}, // menu

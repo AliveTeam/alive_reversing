@@ -4,7 +4,7 @@
 #include "Map.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
 #include "../relive_lib/Layer.hpp"
-#include "../AliveLibAE/Path.hpp"
+#include "Path.hpp"
 
 namespace AO {
 
@@ -25,6 +25,5 @@ public:
     s32 mTimer = 0;
     s16 mZzzInterval = 0;
 };
-ALIVE_ASSERT_SIZEOF(ZzzSpawner, 0x2C);
 
 } // namespace AO

@@ -99,9 +99,8 @@ public:
     s32 field_28_last_event_index = 0;
     s8 field_2C_event_buffer[32] = {};
 };
-ALIVE_ASSERT_SIZEOF(GameSpeak, 0x4C);
 
-ALIVE_VAR_EXTERN(GameSpeak*, pEventSystem_5BC11C);
+extern GameSpeak* pEventSystem_5BC11C;
 
 s16 Code_Length(u32 code);
 

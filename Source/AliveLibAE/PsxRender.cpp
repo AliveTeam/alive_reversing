@@ -23,24 +23,24 @@ struct OtUnknown final
     s32** field_8_pOt_End;
 };
 
-ALIVE_ARY(1, 0xBD0D88, OtUnknown, 32, sOt_Stack_BD0D88, {});
-ALIVE_VAR(1, 0xBD0C08, s32, sOtIdxRollOver_BD0C08, 0);
+OtUnknown sOt_Stack_BD0D88[32] = {};
+s32 sOtIdxRollOver_BD0C08 = 0;
 
 
-ALIVE_VAR(1, 0x578318, s16, sActiveTPage_578318, -1);
-ALIVE_VAR(1, 0xbd0f0c, u32, sTexture_page_x_BD0F0C, 0);
-ALIVE_VAR(1, 0xbd0f10, u32, sTexture_page_y_BD0F10, 0);
-ALIVE_VAR(1, 0xbd0f14, u32, sTexture_mode_BD0F14, 0);
-ALIVE_VAR(1, 0x57831c, u32, tpage_width_57831C, 10);
-ALIVE_VAR(1, 0xBD0F18, u32, sTexture_page_abr_BD0F18, 0);
-ALIVE_VAR(1, 0xbd0f1c, u16*, sTPage_src_ptr_BD0F1C, nullptr);
+s16 sActiveTPage_578318 = -1;
+u32 sTexture_page_x_BD0F0C = 0;
+u32 sTexture_page_y_BD0F10 = 0;
+u32 sTexture_mode_BD0F14 = 0;
+u32 tpage_width_57831C = 10;
+u32 sTexture_page_abr_BD0F18 = 0;
+u16* sTPage_src_ptr_BD0F1C = nullptr;
 
-ALIVE_VAR(1, 0xBD2A04, u32, sTile_r_BD2A04, 0);
-ALIVE_VAR(1, 0xBD2A00, u32, sTile_g_BD2A00, 0);
-ALIVE_VAR(1, 0xBD29FC, u32, sTile_b_BD29FC, 0);
+u32 sTile_r_BD2A04 = 0;
+u32 sTile_g_BD2A00 = 0;
+u32 sTile_b_BD29FC = 0;
 
-ALIVE_ARY(1, 0xC19160, f32, 4096, sPsxEmu_float_table_C19160, {});
-ALIVE_ARY(1, 0xC1D5C0, s32, 4096, sPsxEmu_fixed_point_table_C1D5C0, {});
+f32 sPsxEmu_float_table_C19160[4096] = {};
+s32 sPsxEmu_fixed_point_table_C1D5C0[4096] = {};
 
 struct Render_Unknown final
 {
@@ -57,13 +57,13 @@ struct Render_Unknown final
 };
 ALIVE_ASSERT_SIZEOF(Render_Unknown, 0x28);
 
-ALIVE_VAR(1, 0xbd3350, u16, sPoly_fill_colour_BD3350, 0);
+u16 sPoly_fill_colour_BD3350 = 0;
 
-ALIVE_VAR(1, 0xbd3320, Render_Unknown, left_side_BD3320, {});
-ALIVE_VAR(1, 0xbd3200, Render_Unknown, slope_1_BD3200, {});
+Render_Unknown left_side_BD3320 = {};
+Render_Unknown slope_1_BD3200 = {};
 
-ALIVE_VAR(1, 0xbd32a0, Render_Unknown, right_side_BD32A0, {});
-ALIVE_VAR(1, 0xbd32e0, Render_Unknown, slope_2_BD32E0, {});
+Render_Unknown right_side_BD32A0 = {};
+Render_Unknown slope_2_BD32E0 = {};
 
 struct Psx_Test final
 {
@@ -73,7 +73,7 @@ struct Psx_Test final
 };
 ALIVE_ASSERT_SIZEOF(Psx_Test, 0x1800); // 3072 words
 
-ALIVE_ARY(1, 0xC215E0, Psx_Test, 4, sPsx_abr_lut_C215E0, {});
+Psx_Test sPsx_abr_lut_C215E0[4] = {};
 
 
 struct OT_Vert final
@@ -109,21 +109,21 @@ struct OT_Prim final
 };
 ALIVE_ASSERT_SIZEOF(OT_Prim, 380); // could be up to 380
 
-ALIVE_ARY(1, 0xBD0C0C, u8, 380, byte_BD0C0C, {});
+u8 byte_BD0C0C[380] = {};
 
-ALIVE_VAR(1, 0x578330, OT_Prim*, off_578330, reinterpret_cast<OT_Prim*>(&byte_BD0C0C[0]));
+OT_Prim* off_578330 = reinterpret_cast<OT_Prim*>(&byte_BD0C0C[0]);
 
-ALIVE_VAR(1, 0xbd3264, OT_Vert*, pVerts_dword_BD3264, nullptr);
-ALIVE_VAR(1, 0xbd3270, u16*, pClut_src_BD3270, nullptr);
-ALIVE_VAR(1, 0xbd32c8, u16*, pTPage_src_BD32C8, nullptr);
+OT_Vert* pVerts_dword_BD3264 = nullptr;
+u16* pClut_src_BD3270 = nullptr;
+u16* pTPage_src_BD32C8 = nullptr;
 
-ALIVE_VAR(1, 0xbd3308, s16*, r_lut_dword_BD3308, nullptr);
-ALIVE_VAR(1, 0xbd32d8, s16*, g_lut_dword_BD32D8, nullptr);
-ALIVE_VAR(1, 0xbd3348, s16*, b_lut_dword_BD3348, nullptr);
+s16* r_lut_dword_BD3308 = nullptr;
+s16* g_lut_dword_BD32D8 = nullptr;
+s16* b_lut_dword_BD3348 = nullptr;
 
-ALIVE_VAR(1, 0xbd32cc, u8*, rTable_dword_BD32CC, nullptr);
-ALIVE_VAR(1, 0xbd3358, u8*, gTable_dword_BD3358, nullptr);
-ALIVE_VAR(1, 0xbd334c, u8*, bTable_dword_BD334C, nullptr);
+u8* rTable_dword_BD32CC = nullptr;
+u8* gTable_dword_BD3358 = nullptr;
+u8* bTable_dword_BD334C = nullptr;
 
 enum TextureModes
 {
@@ -903,22 +903,22 @@ void PSX_EMU_Render_Polys_GShaded_NoTexture_SemiTrans_51C8D0(u16* pVram, s32 yCo
     }
 }
 
-ALIVE_VAR(1, 0xC2D04C, decltype(&PSX_EMU_Render_SPRT_51EF90), pPSX_EMU_Render_SPRT_51EF90_C2D04C, nullptr);
-ALIVE_VAR(1, 0xBD3364, decltype(&PSX_EMU_Render_Polys_Textured_Blending_Opqaue_51CCA0), pPSX_EMU_51CCA0_BD3364, nullptr);
-ALIVE_VAR(1, 0xBD328C, decltype(&PSX_EMU_Render_Polys_Textured_NoBlending_Opaque_51E140), pPSX_EMU_51E140_BD328C, nullptr);
-ALIVE_VAR(1, 0xBD3360, decltype(&PSX_EMU_Render_Polys_Textured_Unknown_Opqaue_51D890), pPSX_EMU_51D890_BD3360, nullptr);
-ALIVE_VAR(1, 0xBD32D4, decltype(&PSX_EMU_Render_Polys_FShaded_NoTexture_Opqaue_51C4C0), pPSX_EMU_51C4C0_BD32D4, nullptr);
-ALIVE_VAR(1, 0xBD32D0, decltype(&PSX_EMU_Render_Polys_GShaded_NoTexture_Opqaue_51C6E0), pPSX_EMU_51C6E0_BD32D0, nullptr);
-ALIVE_VAR(1, 0xBD327C, decltype(&PSX_EMU_Render_Polys_Textured_Blending_SemiTrans_51D2B0), pPSX_EMU_51D2B0_BD327C, nullptr);
-ALIVE_VAR(1, 0xBD326C, decltype(&PSX_EMU_Render_Polys_Textured_NoBlending_SemiTrans_51E890), pPSX_EMU_51E890_BD326C, nullptr);
-ALIVE_VAR(1, 0xBD3274, decltype(&PSX_EMU_Render_Polys_Textured_Unknown_SemiTrans_51DC90), pPSX_EMU_51DC90_BD3274, nullptr);
-ALIVE_VAR(1, 0xBD3354, decltype(&PSX_EMU_Render_Polys_FShaded_NoTexture_SemiTrans_51C590), pPSX_EMU_51C590_BD3354, nullptr);
-ALIVE_VAR(1, 0xBD335C, decltype(&PSX_EMU_Render_Polys_GShaded_NoTexture_SemiTrans_51C8D0), pPSX_EMU_51C8D0_BD335C, nullptr);
+decltype(&PSX_EMU_Render_SPRT_51EF90) pPSX_EMU_Render_SPRT_51EF90_C2D04C = nullptr;
+decltype(&PSX_EMU_Render_Polys_Textured_Blending_Opqaue_51CCA0) pPSX_EMU_51CCA0_BD3364 = nullptr;
+decltype(&PSX_EMU_Render_Polys_Textured_NoBlending_Opaque_51E140) pPSX_EMU_51E140_BD328C = nullptr;
+decltype(&PSX_EMU_Render_Polys_Textured_Unknown_Opqaue_51D890) pPSX_EMU_51D890_BD3360 = nullptr;
+decltype(&PSX_EMU_Render_Polys_FShaded_NoTexture_Opqaue_51C4C0) pPSX_EMU_51C4C0_BD32D4 = nullptr;
+decltype(&PSX_EMU_Render_Polys_GShaded_NoTexture_Opqaue_51C6E0) pPSX_EMU_51C6E0_BD32D0 = nullptr;
+decltype(&PSX_EMU_Render_Polys_Textured_Blending_SemiTrans_51D2B0) pPSX_EMU_51D2B0_BD327C = nullptr;
+decltype(&PSX_EMU_Render_Polys_Textured_NoBlending_SemiTrans_51E890) pPSX_EMU_51E890_BD326C = nullptr;
+decltype(&PSX_EMU_Render_Polys_Textured_Unknown_SemiTrans_51DC90) pPSX_EMU_51DC90_BD3274 = nullptr;
+decltype(&PSX_EMU_Render_Polys_FShaded_NoTexture_SemiTrans_51C590) pPSX_EMU_51C590_BD3354 = nullptr;
+decltype(&PSX_EMU_Render_Polys_GShaded_NoTexture_SemiTrans_51C8D0) pPSX_EMU_51C8D0_BD335C = nullptr;
 
-ALIVE_VAR(1, 0xc215c0, u32, sSemiTransShift_C215C0, 0);
-ALIVE_VAR(1, 0xc215c4, u32, sRedShift_C215C4, 0);
-ALIVE_VAR(1, 0xc1d180, u32, sGreenShift_C1D180, 0);
-ALIVE_VAR(1, 0xc19140, u32, sBlueShift_C19140, 0);
+u32 sSemiTransShift_C215C0 = 0;
+u32 sRedShift_C215C4 = 0;
+u32 sGreenShift_C1D180 = 0;
+u32 sBlueShift_C19140 = 0;
 
 struct Psx_Data final
 {
@@ -926,8 +926,8 @@ struct Psx_Data final
 };
 ALIVE_ASSERT_SIZEOF(Psx_Data, 32);
 
-ALIVE_ARY(1, 0xC1D1C0, Psx_Data, 32, stru_C1D1C0, {});
-ALIVE_VAR(1, 0xC146C0, Psx_Test, stru_C146C0, {});
+Psx_Data stru_C1D1C0[32] = {};
+Psx_Test stru_C146C0 = {};
 
 
 static void CalculateBlendingModesLUT()
@@ -1269,7 +1269,7 @@ static s32 sLast_TILE_r_578328 = 0;
 static s32 sLast_TILE_g_C3D0E0 = 0;
 static s32 sLast_TILE_b_C3D0DC = 0;
 static u32 sLast_Tile_abr_57832C = 0;
-ALIVE_ARY(1, 0xC2D080, s16, 16384, word_C2D080, {});
+s16 word_C2D080[16384] = {};
 
 void PSX_Render_TILE_Blended_Large_Impl(u16* pVRam, s32 width, s32 height, s32 r, s32 g, s32 b, s32 pitch)
 {
@@ -2644,8 +2644,8 @@ void PSX_Render_Internal_Format_Polygon_4F7960(OT_Prim* prim, s32 xoff, s32 yoff
     sPsx_drawenv_cliph_BDCD4C -= 16;
 }
 
-ALIVE_VAR(1, 0xbd30e4, s32, sScreenXOffSet_BD30E4, 0);
-ALIVE_VAR(1, 0xbd30a4, s32, sScreenYOffset_BD30A4, 0);
+s32 sScreenXOffSet_BD30E4 = 0;
+s32 sScreenYOffset_BD30A4 = 0;
 
 enum LineSegmentClipEdges
 {
@@ -4011,7 +4011,7 @@ void PSX_EMU_Render_SPRT_51EF90(s16 x, s16 y, s32 u, s32 v, u8 r, u8 g, u8 b, s1
     }
 }
 
-ALIVE_ARY(1, 0xBD1D00, OT_Prim, 7, stru_BD1D00, {});
+OT_Prim stru_BD1D00[7] = {};
 
 static OT_Vert* GetVert(OT_Prim* prim, s32 idx)
 {

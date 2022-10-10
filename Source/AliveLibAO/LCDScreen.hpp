@@ -47,6 +47,5 @@ public:
     s16 field_2DC_message_rand_max = 0;
     s16 pad_2DE = 0;
 };
-ALIVE_ASSERT_SIZEOF(LCDScreen, 0x2E0);
 
 } // namespace AO

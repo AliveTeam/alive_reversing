@@ -21,4 +21,3 @@ public:
     AnimationUnknown* field_100_pRes = nullptr;
     s16 field_104_bEnabled = 0;
 };
-ALIVE_ASSERT_SIZEOF(ParamiteWeb, 0x108);

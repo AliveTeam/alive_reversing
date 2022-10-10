@@ -43,4 +43,3 @@ private:
     TorturedMudokonState mState = TorturedMudokonState::eBeingTortured_0;
     s16 mPainSoundPitch = 0;
 };
-ALIVE_ASSERT_SIZEOF(TorturedMudokon, 0x244);

@@ -208,10 +208,9 @@ public:
     s32 field_8_item_count = 0;
     s32 field_C_max_count = 0;
 };
-ALIVE_ASSERT_SIZEOF(Collisions, 0x10);
 
 struct PSX_RECT;
 
 PSX_RECT* Rect_Clear(PSX_RECT* pRect);
 
-ALIVE_VAR_EXTERN(Collisions*, sCollisions);
+extern Collisions* sCollisions;

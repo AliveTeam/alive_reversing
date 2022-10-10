@@ -4,7 +4,7 @@
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Map.hpp"
 #include "FixedPoint.hpp"
-#include "../AliveLibAE/Path.hpp"
+#include "Path.hpp"
 
 namespace AO {
 
@@ -44,6 +44,5 @@ public:
     s32 mJoinDeadTimer = 0;
     s8 mAngle = 0;
 };
-ALIVE_ASSERT_SIZEOF(Dove, 0x108);
 
 } // namespace AO

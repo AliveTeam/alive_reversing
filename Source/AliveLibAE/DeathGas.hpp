@@ -4,7 +4,7 @@
 #include "../relive_lib/BaseGameObject.hpp"
 #include "../relive_lib/Layer.hpp"
 
-ALIVE_VAR_EXTERN(s32, gDeathGasCount_5BD24C);
+extern s32 gDeathGasCount_5BD24C;
 
 class DeathGas final : public BaseGameObject
 {
@@ -23,4 +23,3 @@ private:
     s16 field_26_flag = 0;
     Layer field_28_layer = Layer::eLayer_0;
 };
-ALIVE_ASSERT_SIZEOF(DeathGas, 0x30);

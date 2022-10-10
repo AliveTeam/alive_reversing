@@ -6,7 +6,7 @@
 #include "PathData.hpp"
 #include "Throwable.hpp"
 
-ALIVE_VAR(1, 0x5d1e2c, ThrowableArray*, gpThrowableArray, nullptr);
+ThrowableArray* gpThrowableArray = nullptr;
 
 void FreeResourceArray_49AEC0(DynamicArrayT<u8*>* pArray)
 {

@@ -17,13 +17,13 @@
 #include "PathDataExtensions.hpp"
 #include "GameAutoPlayer.hpp"
 
-ALIVE_VAR(1, 0x5ca4d8, s8, sQuicksave_SaveNextFrame_5CA4D8, 0);
-ALIVE_VAR(1, 0x5ca4d9, s8, sQuicksave_LoadNextFrame_5CA4D9, 0);
+s8 sQuicksave_SaveNextFrame_5CA4D8 = 0;
+s8 sQuicksave_LoadNextFrame_5CA4D9 = 0;
 
-ALIVE_ARY(1, 0x5C92F0, char_type, 16, sScreenStringBuffer_5C92F0, {0});
+char_type sScreenStringBuffer_5C92F0[16] = {0};
 
 
-ALIVE_ARY(1, 0x5C931C, char_type, 32, sSaveString_5C931C, {});
+char_type sSaveString_5C931C[32] = {};
 
 
 // MENUS
@@ -273,8 +273,8 @@ PauseMenu::PauseMenuPage sPM_Page_Save_5465C8 = {
     0,
     0};
 
-ALIVE_ARY(1, 0x55e718, char_type, 32, sPauseMenu_Of300Mudokons_55E718, {});
-ALIVE_ARY(1, 0x55e738, char_type, 56, sHasBeenTerminated_55E738, {});
+char_type sPauseMenu_Of300Mudokons_55E718[32] = {};
+char_type sHasBeenTerminated_55E738[56] = {};
 
 PauseMenuPageEntry sStatusEntries_55E758[6] = {
     {2, 184, 205, 0, "EXIT", 128u, 16u, 255u, 1u},
@@ -296,13 +296,15 @@ PauseMenu::PauseMenuPage sPM_Page_Status_5465F8 = {
     0u,
     0u};
 
-ALIVE_ARY(1, 0x55DE40, PauseMenuPageEntry*, 6, sControlActionsPages_55DE40,
-          {PauseMenu__PageEntryList_ControlActions_55d820,
-           PauseMenu__PageEntryList_GameSpeak_55d930,
-           PauseMenu__PageEntryList_SligSpeak_55da80,
-           PauseMenu__PageEntryList_GlukkonSpeak_55dbb0,
-           PauseMenu__PageEntryList_ParamiteSpeak_55dce0,
-           PauseMenu__PageEntryList_ScrabSpeak_55ddd0});
+PauseMenuPageEntry* sControlActionsPages_55DE40[6] =
+{
+    PauseMenu__PageEntryList_ControlActions_55d820,
+    PauseMenu__PageEntryList_GameSpeak_55d930,
+    PauseMenu__PageEntryList_SligSpeak_55da80,
+    PauseMenu__PageEntryList_GlukkonSpeak_55dbb0,
+    PauseMenu__PageEntryList_ParamiteSpeak_55dce0,
+    PauseMenu__PageEntryList_ScrabSpeak_55ddd0
+};
 
 struct DumpEntry final
 {
@@ -964,7 +966,7 @@ void PauseMenu::RestartPath()
 }
 
 const char_type kArrowChar = 3;
-ALIVE_ARY(1, 0x55E398, char_type, 2, sArrowStr_55E398, {kArrowChar, 0});
+char_type sArrowStr_55E398[2] = {kArrowChar, 0};
 
 void PauseMenu::Page_Main_Update()
 {
@@ -1705,4 +1707,4 @@ void PauseMenu::VUpdate()
     sDisableFontFlicker_5C9304 = 0;
 }
 
-ALIVE_VAR(1, 0x5C9300, PauseMenu*, pPauseMenu_5C9300, nullptr);
+PauseMenu* pPauseMenu_5C9300 = nullptr;

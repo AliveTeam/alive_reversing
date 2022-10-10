@@ -5,7 +5,7 @@
 #include "Game.hpp"
 #include "Map.hpp"
 
-ALIVE_VAR(1, 0x5c1b90, s16, gCreditsControllerExists, false);
+s16 gCreditsControllerExists = false;
 
 constexpr s32 kShowCreditScreenForTicks = 160;
 

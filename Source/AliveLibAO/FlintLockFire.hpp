@@ -3,7 +3,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "Map.hpp"
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
-#include "../AliveLibAE/Path.hpp"
+#include "Path.hpp"
 
 namespace AO {
 
@@ -34,6 +34,5 @@ public:
     Animation field_188_anim;
     Animation field_220_anim;
 };
-ALIVE_ASSERT_SIZEOF(FlintLockFire, 0x2B8);
 
 } // namespace AO

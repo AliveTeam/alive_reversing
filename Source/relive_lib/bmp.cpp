@@ -3,7 +3,7 @@
 #include "Error.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
 
-ALIVE_VAR(1, 0xBC0BB4, u8, gVGA_force_sys_memory_surfaces_BC0BB4, 0);
+u8 gVGA_force_sys_memory_surfaces_BC0BB4 = 0;
 
 #if USE_SDL2
 
@@ -1362,7 +1362,7 @@ s32 BMP_Blt_4F1E50(Bitmap* pDstBmp, s32 xPos, s32 yPos, Bitmap* pSrcBmp, LPRECT 
     return -1;
 }
 
-ALIVE_VAR(1, 0xBBC458, DDBLTFX, blt_fx_stru_BBC458, {});
+DDBLTFX blt_fx_stru_BBC458 = {};
 
 s32 BMP_ClearRect(Bitmap* pBmp, const RECT* pRect, u32 fillColour)
 {
@@ -1699,7 +1699,7 @@ s32 BMP_New_4F1990(Bitmap* pBitmap, s32 width, s32 height, s32 pixelFormat, s32 
     return 0;
 }
 
-ALIVE_VAR(1, 0xBBC3E8, DDSURFACEDESC, sBmpSurfaceDesc_BBC3E8, {});
+DDSURFACEDESC sBmpSurfaceDesc_BBC3E8 = {};
 
 LPVOID BMP_Lock_4F1FF0(Bitmap* pBitmap)
 {

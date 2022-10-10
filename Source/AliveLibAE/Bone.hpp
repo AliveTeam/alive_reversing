@@ -84,7 +84,6 @@ private:
     s32 mTimeToLiveTimer = 0;
     s16 mHitObject = 0; // TODO: flag
 };
-ALIVE_ASSERT_SIZEOF(Bone, 0x134);
 
 class BoneBag final : public BaseAliveGameObject
 {
@@ -106,4 +105,3 @@ private:
     FP mVelX = {};
     FP mVelY = {};
 };
-ALIVE_ASSERT_SIZEOF(BoneBag, 0x12C);

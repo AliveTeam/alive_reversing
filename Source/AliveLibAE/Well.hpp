@@ -32,4 +32,3 @@ private:
     FP mLeafY = {};
     relive::reliveChoice mEmitLeaves = relive::reliveChoice::eNo;
 };
-ALIVE_ASSERT_SIZEOF(Well, 0x40);

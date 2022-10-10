@@ -16,7 +16,6 @@ public:
 
     s16 field_E4_bHitGround;
 };
-ALIVE_ASSERT_SIZEOF(HoistParticle, 0xE8);
 
 class HoistRocksEffect final : public ::BaseGameObject
 {
@@ -31,6 +30,5 @@ public:
     FP field_14_ypos = {};
     Guid field_18_tlvInfo;
 };
-ALIVE_ASSERT_SIZEOF(HoistRocksEffect, 0x2C);
 
 } // namespace AO

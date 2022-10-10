@@ -30,6 +30,5 @@ public:
     s16 field_CC_xpos = 0;
     s16 field_CE_ypos = 0;
 };
-ALIVE_ASSERT_SIZEOF(LCDStatusBoard, 0xD0);
 
 } // namespace AO

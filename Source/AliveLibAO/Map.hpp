@@ -185,12 +185,11 @@ public:
     std::vector<std::unique_ptr<class BinaryPath>> mLoadedPaths;
 };
 
-ALIVE_ASSERT_SIZEOF(Map, 0xE4);
 
-ALIVE_VAR_EXTERN(Map, gMap);
-ALIVE_VAR_EXTERN(s16, sMap_bDoPurpleLightEffect_507C9C);
+extern Map gMap;
+extern s16 sMap_bDoPurpleLightEffect_507C9C;
 
-ALIVE_VAR_EXTERN(Camera*, sCameraBeingLoaded_507C98);
+extern Camera* sCameraBeingLoaded_507C98;
 
 s32 MaxGridBlocks_41FA10(FP scale);
 

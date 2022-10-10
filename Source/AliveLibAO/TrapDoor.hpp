@@ -3,7 +3,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "Map.hpp"
 #include "PlatformBase.hpp"
-#include "../AliveLibAE/Path.hpp"
+#include "Path.hpp"
 
 class PathLine;
 
@@ -44,7 +44,6 @@ public:
     FP mTrapDoorY = {};
     PSX_RECT mBoundingRect = {};
 };
-ALIVE_ASSERT_SIZEOF(TrapDoor, 0x150);
 
 
 } // namespace AO

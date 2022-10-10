@@ -95,4 +95,3 @@ private:
     s16 field_134_bExplodeNow = 0;
     BaseGameObject* field_138_pOwner = nullptr;
 };
-ALIVE_ASSERT_SIZEOF(Grenade, 0x13C);

@@ -22,7 +22,7 @@ const TintEntry kMovingBombTints_55C734[4] = {
     {EReliveLevelIds::eBrewery_Ender, 127u, 127u, 127u},
     {EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
-ALIVE_VAR(1, 0x5C300C, MovingBomb*, gMovingBomb_5C300C, nullptr);
+MovingBomb* gMovingBomb_5C300C = nullptr;
 
 MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(0)

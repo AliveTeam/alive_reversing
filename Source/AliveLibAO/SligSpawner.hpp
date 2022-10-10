@@ -25,6 +25,5 @@ private:
     s16 mSpawnerFlags = 0;
     relive::Path_TLV mPathTlv = {};
 };
-ALIVE_ASSERT_SIZEOF(SligSpawner, 0x30);
 
 } // namespace AO

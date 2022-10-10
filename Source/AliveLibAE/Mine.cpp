@@ -11,7 +11,7 @@
 #include "Map.hpp"
 #include "Path.hpp"
 
-ALIVE_VAR(0, 0x5C3008, Mine*, sMineSFXOwner_5C3008, nullptr);
+Mine* sMineSFXOwner_5C3008 = nullptr;
 
 void Mine::LoadAnimations()
 {

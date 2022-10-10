@@ -11,8 +11,8 @@ struct ErrorData final
 };
 ALIVE_ASSERT_SIZEOF(ErrorData, 0x10C);
 
-ALIVE_ARY(1, 0xBBC570, ErrorData, 32, sErrors_BBC570, {});
-ALIVE_VAR(1, 0xBBC564, s32, sErrorIndex_BBC564, 0);
+ErrorData sErrors_BBC570[32] = {};
+s32 sErrorIndex_BBC564 = 0;
 
 void Error_PushErrorRecord_4F2920(const char_type* pSourceFileName, s32 lineNumber, s32 minusOne, const char_type* errMsg)
 {

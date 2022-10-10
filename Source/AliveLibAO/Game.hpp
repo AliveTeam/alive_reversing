@@ -13,21 +13,21 @@ extern u32 sGnFrame; // NOTE: Points to AE copy till moved to common lib
 namespace AO {
 
 
-ALIVE_VAR_EXTERN(s16, gAttract_507698);
+extern s16 gAttract_507698;
 extern DynamicArrayT<BaseGameObject>* gLoadingFiles;
-ALIVE_VAR_EXTERN(s16, sBreakGameLoop_507B78);
-ALIVE_VAR_EXTERN(s8, gDDCheatMode_508BF8);
+extern s16 sBreakGameLoop_507B78;
+extern s8 gDDCheatMode_508BF8;
 
-ALIVE_VAR_EXTERN(s16, gRestartRuptureFarmsKilledMuds_5076C4);
-ALIVE_VAR_EXTERN(s16, gRestartRuptureFarmsSavedMuds_5076C8);
+extern s16 gRestartRuptureFarmsKilledMuds_5076C4;
+extern s16 gRestartRuptureFarmsSavedMuds_5076C8;
 
-ALIVE_VAR_EXTERN(s16, gOldKilledMuds_5076D0);
-ALIVE_VAR_EXTERN(s16, gOldSavedMuds_5076D4);
+extern s16 gOldKilledMuds_5076D0;
+extern s16 gOldSavedMuds_5076D4;
 
-ALIVE_VAR_EXTERN(s16, gbKillUnsavedMudsDone_5076CC);
+extern s16 gbKillUnsavedMudsDone_5076CC;
 
 
-ALIVE_VAR_EXTERN(DynamicArrayT<::BaseGameObject>*, ObjListPlatforms_50766C);
+extern DynamicArrayT<::BaseGameObject>* ObjListPlatforms_50766C;
 
 void Init_GameStates();
 

@@ -17,36 +17,36 @@
 
 extern bool gLatencyHack;
 
-ALIVE_VAR(1, 0xBD0F2C, s32, sVSyncLastMillisecond_BD0F2C, 0);
-ALIVE_VAR(1, 0xBD0F24, s32, sLastFrameTimestampMilliseconds_BD0F24, 0);
+s32 sVSyncLastMillisecond_BD0F2C = 0;
+s32 sLastFrameTimestampMilliseconds_BD0F24 = 0;
 
-ALIVE_VAR(1, 0xC3D080, PSX_DRAWENV, sPSX_EMU_DrawEnvState_C3D080, {});
-ALIVE_VAR(1, 0x578E88, s32, sConst_1000_578E88, 1000);
-ALIVE_VAR(1, 0xBD1464, u8, bDontUseXYOffsetInRender_BD1464, 0);
+PSX_DRAWENV sPSX_EMU_DrawEnvState_C3D080 = {};
+s32 sConst_1000_578E88 = 1000;
+u8 bDontUseXYOffsetInRender_BD1464 = 0;
 
-ALIVE_VAR(1, 0xBDCD40, s32, sPsx_drawenv_clipx_BDCD40, 0);
-ALIVE_VAR(1, 0xBDCD44, s32, sPsx_drawenv_clipy_BDCD44, 0);
-ALIVE_VAR(1, 0xBDCD48, s32, sPsx_drawenv_clipw_BDCD48, 0);
-ALIVE_VAR(1, 0xBDCD4C, s32, sPsx_drawenv_cliph_BDCD4C, 0);
-ALIVE_VAR(1, 0xBDCD50, s32, sPsx_drawenv_k500_BDCD50, 0);
-ALIVE_VAR(1, 0xBDCD54, u8*, sPsx_drawenv_buffer_BDCD54, nullptr);
-ALIVE_VAR(1, 0xBD1465, u8, sPsxEMU_show_vram_BD1465, 0);
+s32 sPsx_drawenv_clipx_BDCD40 = 0;
+s32 sPsx_drawenv_clipy_BDCD44 = 0;
+s32 sPsx_drawenv_clipw_BDCD48 = 0;
+s32 sPsx_drawenv_cliph_BDCD4C = 0;
+s32 sPsx_drawenv_k500_BDCD50 = 0;
+u8* sPsx_drawenv_buffer_BDCD54 = nullptr;
+u8 sPsxEMU_show_vram_BD1465 = 0;
 
-ALIVE_VAR(1, 0xC1D160, Bitmap, sPsxVram_C1D160, {});
-ALIVE_VAR(1, 0xC1D1A0, Bitmap, sBitmap_C1D1A0, {}); // Note: never used?
+Bitmap sPsxVram_C1D160 = {};
+Bitmap sBitmap_C1D1A0 = {}; // Note: never used?
 
-ALIVE_VAR(1, 0xC2D060, PSX_DISPENV, sLastDispEnv_C2D060, {});
-ALIVE_VAR(1, 0xBD146D, u8, sScreenMode_BD146D, 0);
-ALIVE_VAR(1, 0xBD0F20, u8, turn_off_rendering_BD0F20, 0);
-ALIVE_VAR(1, 0x578324, u8, byte_578324, 1);
+PSX_DISPENV sLastDispEnv_C2D060 = {};
+u8 sScreenMode_BD146D = 0;
+u8 turn_off_rendering_BD0F20 = 0;
+u8 byte_578324 = 1;
 
 
-ALIVE_ARY(1, 0xC14620, char_type, 128, sCdEmu_Path1_C14620, {});
-ALIVE_ARY(1, 0xC144C0, char_type, 128, sCdEmu_Path2_C144C0, {});
-ALIVE_ARY(1, 0xC145A0, char_type, 128, sCdEmu_Path3_C145A0, {});
+char_type sCdEmu_Path1_C14620[128] = {};
+char_type sCdEmu_Path2_C144C0[128] = {};
+char_type sCdEmu_Path3_C145A0[128] = {};
 
-ALIVE_VAR(1, 0xBD1CC4, IO_Handle*, sCdFileHandle_BD1CC4, nullptr);
-ALIVE_VAR(1, 0xBD1894, s32, sCdReadPos_BD1894, 0);
+IO_Handle* sCdFileHandle_BD1CC4 = nullptr;
+s32 sCdReadPos_BD1894 = 0;
 
 s32 PSX_CD_OpenFile_4FAE80(const char_type* pFileName, s32 bTryAllPaths)
 {
@@ -205,10 +205,10 @@ Bitmap& GetPsxVram()
     return sPsxVram_C1D160;
 }
 
-ALIVE_VAR(1, 0xC1D184, TPsxEmuCallBack, sPsxEmu_put_disp_env_callback_C1D184, nullptr);
-ALIVE_VAR(1, 0xC1D17C, TPsxEmuCallBack, sPsxEmu_EndFrameFnPtr_C1D17C, nullptr);
-ALIVE_VAR(1, 0xBD0F21, u8, sPsxDontChangeDispEnv_BD0F21, 0);
-ALIVE_VAR(1, 0xBD145C, bool, sbBitmapsAllocated_BD145C, false);
+TPsxEmuCallBack sPsxEmu_put_disp_env_callback_C1D184 = nullptr;
+TPsxEmuCallBack sPsxEmu_EndFrameFnPtr_C1D17C = nullptr;
+u8 sPsxDontChangeDispEnv_BD0F21 = 0;
+bool sbBitmapsAllocated_BD145C = false;
 
 
 
@@ -222,7 +222,7 @@ void PSX_DispEnv_Reset_Unknown_4ED9E0()
     
 }
 
-ALIVE_VAR(1, 0xC2D038, Bitmap*, spBitmap_C2D038, nullptr);
+Bitmap* spBitmap_C2D038 = nullptr;
 
 
 
@@ -240,7 +240,7 @@ void PSX_EMU_Init_4F9CD0(bool bShowVRam)
     // Note: sPsxEmu_BD1454 removed
 }
 
-ALIVE_VAR(1, 0xBD1468, s32, sVGA_DisplayType_BD1468, 0);
+s32 sVGA_DisplayType_BD1468 = 0;
 
 void PSX_EMU_SetCallBack_4F9430(s32 callBackType, TPsxEmuCallBack fnPtr)
 {
@@ -846,7 +846,7 @@ bool PSX_Rects_overlap_4FA0B0(const PSX_RECT* pRect1, const PSX_RECT* pRect2)
         && pRect2->y < (pRect1->y + pRect1->h);
 }
 
-ALIVE_VAR(1, 0xbbb9c4, s32, sDispEnv_mode_BBB9C4, 0);
+s32 sDispEnv_mode_BBB9C4 = 0;
 
 void PSX_DispEnv_Set_4ED960(s32 mode)
 {

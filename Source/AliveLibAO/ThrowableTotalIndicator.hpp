@@ -42,8 +42,7 @@ public:
     ThrowableTotalIndicatorState mState = ThrowableTotalIndicatorState::eCreated;
     s16 mFade = 0;
 };
-ALIVE_ASSERT_SIZEOF(ThrowableTotalIndicator, 0x1A0);
 
-ALIVE_VAR_EXTERN(u16, bThrowableIndicatorExists_504C70);
+extern u16 bThrowableIndicatorExists_504C70;
 
 } // namespace AO

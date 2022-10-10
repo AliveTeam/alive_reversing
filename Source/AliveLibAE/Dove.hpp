@@ -43,4 +43,3 @@ private:
     s32 mJoinDeadTimer = 0;
     s8 mAngle = 0;
 };
-ALIVE_ASSERT_SIZEOF(Dove, 0x118);

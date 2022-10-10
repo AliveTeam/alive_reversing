@@ -143,9 +143,8 @@ public:
     Poly_F4 field_210_polygons[2] = {};
     Prim_SetTPage field_248_padding[2] = {};
 };
-ALIVE_ASSERT_SIZEOF(PauseMenu, 0x268);
 
-ALIVE_VAR_EXTERN(PauseMenu*, pPauseMenu_5C9300);
-ALIVE_VAR_EXTERN(s8, sQuicksave_SaveNextFrame_5CA4D8);
-ALIVE_VAR_EXTERN(s8, sQuicksave_LoadNextFrame_5CA4D9);
-ALIVE_ARY_EXTERN(u8, 32, pauseMenuFontPal);
+extern PauseMenu* pPauseMenu_5C9300;
+extern s8 sQuicksave_SaveNextFrame_5CA4D8;
+extern s8 sQuicksave_LoadNextFrame_5CA4D9;
+extern u8 pauseMenuFontPal[32];

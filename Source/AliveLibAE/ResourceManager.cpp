@@ -10,27 +10,27 @@
 #include "GameAutoPlayer.hpp"
 #include "Camera.hpp"
 
-ALIVE_VAR(1, 0x5C1BB0, ResourceManager*, pResourceManager_5C1BB0, nullptr);
+ResourceManager* pResourceManager_5C1BB0 = nullptr;
 
-ALIVE_VAR(1, 0xab4a04, u32, sManagedMemoryUsedSize_AB4A04, 0);
-ALIVE_VAR(1, 0xab4a08, u32, sPeakedManagedMemUsage_AB4A08, 0);
+u32 sManagedMemoryUsedSize_AB4A04 = 0;
+u32 sPeakedManagedMemUsage_AB4A08 = 0;
 
-ALIVE_VAR(1, 0x5C1B96, s16, sbLoadingInProgress_5C1B96, 0);
-ALIVE_VAR(1, 0x5C1BAA, s16, bHideLoadingIcon_5C1BAA, 0);
-ALIVE_VAR(1, 0x5C1BAC, s32, loading_ticks_5C1BAC, 0);
-ALIVE_VAR(1, 0xAB49F4, s16, sResources_Pending_Loading_AB49F4, 0);
-ALIVE_VAR(1, 0xAB4A0C, s16, sAllocationFailed_AB4A0C, 0);
+s16 sbLoadingInProgress_5C1B96 = 0;
+s16 bHideLoadingIcon_5C1BAA = 0;
+s32 loading_ticks_5C1BAC = 0;
+s16 sResources_Pending_Loading_AB49F4 = 0;
+s16 sAllocationFailed_AB4A0C = 0;
 
-ALIVE_VAR(1, 0x5D29EC, ResourceManager::ResourceHeapItem*, sFirstLinkedListItem_5D29EC, nullptr);
-ALIVE_VAR(1, 0x5D29E8, ResourceManager::ResourceHeapItem*, sSecondLinkedListItem_5D29E8, nullptr);
+ResourceManager::ResourceHeapItem* sFirstLinkedListItem_5D29EC = nullptr;
+ResourceManager::ResourceHeapItem* sSecondLinkedListItem_5D29E8 = nullptr;
 
 const u32 kResHeapSize = 5120000;
-ALIVE_ARY(1, 0x5D29F4, u8, kResHeapSize, sResourceHeap_5D29F4, {}); // Huge 5.4 MB static resource buffer
+u8 sResourceHeap_5D29F4[kResHeapSize] = {}; // Huge 5.4 MB static resource buffer
 
 const u32 kLinkedListArraySize = 375;
-ALIVE_ARY(1, 0x5D1E30, ResourceManager::ResourceHeapItem, kLinkedListArraySize, sResourceLinkedList_5D1E30, {});
+ResourceManager::ResourceHeapItem sResourceLinkedList_5D1E30[kLinkedListArraySize] = {};
 
-ALIVE_VAR(1, 0xAB49F8, u8*, spResourceHeapEnd_AB49F8, nullptr);
+u8* spResourceHeapEnd_AB49F8 = nullptr;
 
 // TODO: Move to own file
 void sub_465BC0(s32 /*a1*/)

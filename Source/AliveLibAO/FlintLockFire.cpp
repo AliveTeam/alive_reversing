@@ -25,7 +25,6 @@ struct FlintLockFireData final
     s32 field_20_hammers_maxH;
     s32 field_24_bFire;
 };
-ALIVE_ASSERT_SIZEOF(FlintLockFireData, 0x28);
 
 const FlintLockFireData sFlintLockFireData_4BAC70[] = {
     {0, AnimId::None, 0, 0, 0, AnimId::None, AnimId::None, 0, 0, 0},

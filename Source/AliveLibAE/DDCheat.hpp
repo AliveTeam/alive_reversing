@@ -95,17 +95,16 @@ private:
     BitField16<Flags_3C> field_3C_flags = {};
 };
 
-ALIVE_ASSERT_SIZEOF(DDCheat, 0x40);
 
-ALIVE_VAR_EXTERN(bool, sDDCheat_FlyingEnabled_5C2C08);
+extern bool sDDCheat_FlyingEnabled_5C2C08;
 
-ALIVE_VAR_EXTERN(s16, sRescuedMudokons_5C1BC2);
-ALIVE_VAR_EXTERN(s16, sKilledMudokons_5C1BC0);
+extern s16 sRescuedMudokons_5C1BC2;
+extern s16 sKilledMudokons_5C1BC0;
 
-ALIVE_VAR_EXTERN(s32, sTweakX_5C1BD0);
-ALIVE_VAR_EXTERN(s32, sTweakY_5C1BD4);
+extern s32 sTweakX_5C1BD0;
+extern s32 sTweakY_5C1BD4;
 
-ALIVE_VAR_EXTERN(s16, sVisitedBonewerks_5C1C02);
-ALIVE_VAR_EXTERN(s16, sVisitedBarracks_5C1C04);
-ALIVE_VAR_EXTERN(s16, sVisitedFeecoEnder_5C1C06);
-ALIVE_VAR_EXTERN(bool, sDDCheat_ShowAI_Info);
+extern s16 sVisitedBonewerks_5C1C02;
+extern s16 sVisitedBarracks_5C1C04;
+extern s16 sVisitedFeecoEnder_5C1C06;
+extern bool sDDCheat_ShowAI_Info;

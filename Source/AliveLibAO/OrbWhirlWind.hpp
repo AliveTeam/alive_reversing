@@ -36,6 +36,5 @@ public:
     FP field_5C_ypos = {};
     FP field_60_scale = {};
 };
-ALIVE_ASSERT_SIZEOF(OrbWhirlWind, 0x64);
 
 } // namespace AO

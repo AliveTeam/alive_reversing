@@ -9,7 +9,7 @@
 #include "ScreenManager.hpp"
 #include "../AliveLibCommon/Sys_common.hpp"
 
-ALIVE_VAR(1, 0x5C1130, PsxDisplay, gPsxDisplay, {});
+PsxDisplay gPsxDisplay = {};
 
 
 void PSX_Calc_FrameSkip_4945D0()
@@ -68,8 +68,8 @@ struct DebugTexts final
 };
 ALIVE_ASSERT_SIZEOF(DebugTexts, 0x80C);
 
-ALIVE_VAR(1, 0xBD0F28, s32, sFntCount_BD0F28, 0);
-ALIVE_ARY(1, 0xC27640, DebugTexts, 4, sTexts_C27640, {});
+s32 sFntCount_BD0F28 = 0;
+DebugTexts sTexts_C27640[4] = {};
 
 void DebugFont_Reset_4F8B40()
 {
@@ -86,9 +86,9 @@ void DebugFont_Update_Text_4F8BE0(s32 idx)
     }
 }
 
-ALIVE_ARY(1, 0xBB47CC, char_type, 600, sDebugFontTmpBuffer_BB47CC, {});
-ALIVE_VAR(1, 0xBB4A24, s16, sbDebugFontLoaded, 0);
-ALIVE_VAR(1, 0xBB47C8, s32, sDebugTextIdx_BB47C8, 0);
+char_type sDebugFontTmpBuffer_BB47CC[600] = {};
+s16 sbDebugFontLoaded = 0;
+s32 sDebugTextIdx_BB47C8 = 0;
 
 
 s32 DebugFont_Open_4F8AB0(u8 xMargin, u8 yMargin, u8 displayWidth, u8 displayHeight, u8 bgColour, u32 maxLenChars)
@@ -237,8 +237,8 @@ void PsxDisplay::PutCurrentDispEnv()
     PSX_PutDispEnv_4F5890(&mDrawEnvs[mBufferIndex].mDisplayEnv);
 }
 
-ALIVE_VAR(1, 0x5CA4D1, bool, sCommandLine_NoFrameSkip, false);
-ALIVE_VAR(1, 0x55EF8C, s32, sbDisplayRenderFrame, 1);
+bool sCommandLine_NoFrameSkip = false;
+s32 sbDisplayRenderFrame = 1;
 
 void PsxDisplay::RenderOrderingTable()
 {

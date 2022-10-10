@@ -40,4 +40,3 @@ public:
     PalResource mPal1;
     PalResource mPal2;
 };
-ALIVE_ASSERT_SIZEOF(LCDScreen, 0x2D0);

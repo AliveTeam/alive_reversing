@@ -11,8 +11,8 @@
 #include "Function.hpp"
 #include "Path.hpp"
 
-ALIVE_VAR(1, 0x5BD4C8, GasEmitter*, sMainGasEmitter_5BD4C8, nullptr);
-ALIVE_VAR(1, 0x5BD4CC, u32, sGasEmiterAudioMask_5BD4CC, 0);
+GasEmitter* sMainGasEmitter_5BD4C8 = nullptr;
+u32 sGasEmiterAudioMask_5BD4CC = 0;
 
 GasEmitter::GasEmitter(relive::Path_GasEmitter* pTlv, const Guid& tlvId)
     : BaseGameObject(TRUE, 0)

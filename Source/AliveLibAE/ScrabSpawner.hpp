@@ -40,4 +40,3 @@ private:
     Guid field_3C_spawned_scrab_id;
     s16 field_40_bFindSpawnedScrab = 0;
 };
-ALIVE_ASSERT_SIZEOF(ScrabSpawner, 0x44);

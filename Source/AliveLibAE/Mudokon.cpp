@@ -34,7 +34,7 @@
 #include "AnimationCallBacks.hpp"
 #include "Map.hpp"
 
-ALIVE_VAR(1, 0x5C3012, s16, sGoingToBirdPortalMudCount_5C3012, 0);
+s16 sGoingToBirdPortalMudCount_5C3012 = 0;
 
 
 enum Brain_0_GiveRings
@@ -684,8 +684,8 @@ const AnimId kMudMotionAnimIds[60] = {
     AnimId::Mudokon_TurnWheel,
     AnimId::Mudokon_TurnWheelEnd};
 
-ALIVE_VAR(1, 0x5C3010, s16, sAlertedMudCount_5C3010, 0);
-ALIVE_VAR(1, 0x5C3018, s16, sIsMudStandingUp_5C3018, 0);
+s16 sAlertedMudCount_5C3010 = 0;
+s16 sIsMudStandingUp_5C3018 = 0;
 
 void Mudokon::LoadAnimations()
 {
@@ -1903,7 +1903,7 @@ const s16 kDelayTable_55CF7C[6] = {
     24,
     30,
 };
-ALIVE_VAR(1, 0x5C3014, s16, sDelayIdx_5C3014, 0);
+s16 sDelayIdx_5C3014 = 0;
 
 s16 Mudokon::Brain_1_Chisel()
 {

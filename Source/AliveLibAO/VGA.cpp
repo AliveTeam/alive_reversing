@@ -5,7 +5,7 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0xA8A4C0, Bitmap, sVGA_bmp_primary_A8A4C0, {});
+Bitmap sVGA_bmp_primary_A8A4C0 = {};
 
 s32 VGA_FullScreenSet_490160(bool bFullScreen)
 {

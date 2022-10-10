@@ -10,9 +10,9 @@
 #include "PathData.hpp"
 #include "BaseGameAutoPlayer.hpp"
 
-ALIVE_VAR(1, 0x5C3020, MusicController*, pMusicController_5C3020, nullptr);
-ALIVE_VAR(1, 0x5C301C, u32, sMusicControllerBaseTimeStamp_5C301C, 0);
-ALIVE_VAR(1, 0x5c3024, u32, sMusicTime_5C3024, 0);
+MusicController* pMusicController_5C3020 = nullptr;
+u32 sMusicControllerBaseTimeStamp_5C301C = 0;
+u32 sMusicTime_5C3024 = 0;
 
 struct MusicController_Record3_Sub final
 {

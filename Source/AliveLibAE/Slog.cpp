@@ -27,7 +27,7 @@
 #include "AnimationCallBacks.hpp"
 #include "Path.hpp"
 
-ALIVE_VAR(1, 0xBAF7F2, s16, sSlogCount, 0);
+s16 sSlogCount = 0;
 
 const AnimId sSlogAnimIdTable[24] = {
     AnimId::Slog_Idle,
@@ -212,7 +212,7 @@ Slog::Slog(relive::Path_Slog* pTlv, const Guid& tlvId)
     VUpdate();
 }
 
-ALIVE_VAR(1, 0xBAF7F0, u8, sSlogRandomIdx_BAF7F0, 0);
+u8 sSlogRandomIdx_BAF7F0 = 0;
 
 s32 Slog::VGetSaveState(u8* pSaveBuffer)
 {

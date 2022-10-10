@@ -17,7 +17,7 @@
 #include "Grid.hpp"
 #include "Path.hpp"
 
-ALIVE_VAR(1, 0x5C1B7C, DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObjects, nullptr);
+DynamicArrayT<BaseAliveGameObject>* gBaseAliveGameObjects = nullptr;
 
 BaseAliveGameObject::BaseAliveGameObject(s16 resourceArraySize)
     : BaseAnimatedWithPhysicsGameObject(resourceArraySize)

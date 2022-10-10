@@ -12,7 +12,6 @@ public:
 public:
     FP field_F4_scale_amount = {};
 };
-ALIVE_ASSERT_SIZEOF(Particle, 0xF8);
 
 Particle* New_DestroyOrCreateObject_Particle(FP xpos, FP ypos, FP scale);
 Particle* New_Orb_Particle(FP xpos, FP ypos, FP velX, FP velY, FP scale, Layer layer, u8 r, u8 b, u8 g);

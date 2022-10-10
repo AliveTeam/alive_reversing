@@ -36,4 +36,3 @@ private:
     };
     BitField16<Flags_40> field_40_flags = {};
 };
-ALIVE_ASSERT_SIZEOF(MultiSwitchController, 0x44);

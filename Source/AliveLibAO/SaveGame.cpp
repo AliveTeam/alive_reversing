@@ -12,17 +12,17 @@
 
 namespace AO {
 
-ALIVE_VAR_EXTERN(s32, sGasTimer_507700);
-ALIVE_VAR_EXTERN(s16, sRescuedMudokons_5076C0);
-ALIVE_VAR_EXTERN(s16, sKilledMudokons_5076BC);
-ALIVE_VAR(1, 0x4CF2B0, Save_PSX_Header, sSaveHeader2_4CF2B0, {});
-ALIVE_VAR(1, 0x4BC250, Save_PSX_Header, sSaveHeader1_4BC250, {});
-ALIVE_VAR(1, 0x5076B4, u16, bUseAltSaveHeader_5076B4, 0);
+extern s32 sGasTimer_507700;
+extern s16 sRescuedMudokons_5076C0;
+extern s16 sKilledMudokons_5076BC;
+Save_PSX_Header sSaveHeader2_4CF2B0 = {};
+Save_PSX_Header sSaveHeader1_4BC250 = {};
+u16 bUseAltSaveHeader_5076B4 = 0;
 
-ALIVE_VAR(1, 0x500C184, u32, dword_500C18, 0);
-ALIVE_VAR(1, 0x500A18, SaveData, gSaveBuffer_500A18, {});
+u32 dword_500C18 = 0;
+SaveData gSaveBuffer_500A18 = {};
 
-ALIVE_VAR(1, 0x505668, SaveData, gSaveBuffer_505668, {});
+SaveData gSaveBuffer_505668 = {};
 
 void Kill_Objects_451720()
 {

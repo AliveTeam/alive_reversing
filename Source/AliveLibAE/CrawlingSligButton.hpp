@@ -26,4 +26,3 @@ private:
     s16 field_100_sound_direction = 0;
     s16 field_102_in_use = 0;
 };
-ALIVE_ASSERT_SIZEOF(CrawlingSligButton, 0x104);

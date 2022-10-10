@@ -4,7 +4,7 @@
 #include "Map.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Throwable.hpp"
-#include "../AliveLibAE/Path.hpp"
+#include "Path.hpp"
 
 namespace AO {
 
@@ -27,7 +27,6 @@ public:
     FP field_118_velX = FP_FromInteger(0);
     FP field_11C_velY = FP_FromInteger(0);
 };
-ALIVE_ASSERT_SIZEOF(MeatSack, 0x120);
 
 
 class Meat final : public BaseThrowable
@@ -58,7 +57,6 @@ public:
     s32 field_120_deadtimer = 0;
     PathLine* field_124_pLine = nullptr;
 };
-ALIVE_ASSERT_SIZEOF(Meat, 0x128);
 
 
 } // namespace AO

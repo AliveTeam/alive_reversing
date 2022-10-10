@@ -8,10 +8,10 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x4FFD68, FontContext, sFontContext_4FFD68, {});
+FontContext sFontContext_4FFD68 = {};
 
-ALIVE_VAR(1, 0x5080E4, s16, sDisableFontFlicker_5080E4, 0);
-ALIVE_VAR(1, 0x508BF4, u8, sFontDrawScreenSpace_508BF4, 0);
+s16 sDisableFontFlicker_5080E4 = 0;
+u8 sFontDrawScreenSpace_508BF4 = 0;
 
 const Font_AtlasEntry sFont1Atlas_4C56E8[116] = {
     {0, 0, 2, 0},

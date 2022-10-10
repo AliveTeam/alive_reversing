@@ -33,4 +33,3 @@ public:
     s16 field_30_flags = 0;
 };
 #pragma pack(pop)
-ALIVE_ASSERT_SIZEOF(Camera, 0x32);

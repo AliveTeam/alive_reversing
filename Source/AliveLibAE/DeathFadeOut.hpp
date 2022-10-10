@@ -28,4 +28,3 @@ private:
     s16 field_80_destroy_on_done = 0;
     s16 field_82 = 0;
 };
-ALIVE_ASSERT_SIZEOF(DeathFadeOut, 0x84);

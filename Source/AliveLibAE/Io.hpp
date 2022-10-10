@@ -61,5 +61,5 @@ bool IO_DirectoryExists(const char_type* pDirName);
 using TEnumCallBack = void(const char_type*, u32);
 void IO_EnumerateDirectory(const char_type* fileName, TEnumCallBack cb);
 
-ALIVE_VAR_EXTERN(u32, sIoThreadId_BBC558);
-ALIVE_VAR_EXTERN(bool, sIOSyncReads_BD2A5C);
+extern u32 sIoThreadId_BBC558;
+extern bool sIOSyncReads_BD2A5C;

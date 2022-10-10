@@ -136,7 +136,6 @@ public:
     s32 mCurrentFrame = 0;
     BaseGameObject* mGameObj = nullptr;
 };
-ALIVE_ASSERT_SIZEOF(Animation, 0x98);
 
 inline bool IsLastFrame(const Animation* pAnim)
 {

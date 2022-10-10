@@ -8,11 +8,11 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x5009E8, InputObject, sInputObject, {});
-ALIVE_VAR(1, 0x5076B8, u16, sCurrentControllerIndex, 0);
-ALIVE_VAR(1, 0x508A60, s32, sJoystickEnabled, 0);
-ALIVE_VAR(1, 0x9F7710, u8, sInputEnabled, 0);
-ALIVE_VAR(1, 0xA8A604, u32, sLastPressedKey, 0);
+InputObject sInputObject = {};
+u16 sCurrentControllerIndex = 0;
+s32 sJoystickEnabled = 0;
+u8 sInputEnabled = 0;
+u32 sLastPressedKey = 0;
 
 const InputCommands sInputKey_Right = eRight;
 const InputCommands sInputKey_Left = eLeft;
@@ -50,8 +50,8 @@ void InputObject::InitPad(u32 /*padCount*/)
     Input_EnableInput_4EDDD0();
 }
 
-ALIVE_ARY(1, 0x507778, u8, 64, sPad1Buffer_507778, {});
-ALIVE_ARY(1, 0x507738, u8, 64, sPad2Buffer_507738, {});
+u8 sPad1Buffer_507778[64] = {};
+u8 sPad2Buffer_507738[64] = {};
 
 static void ConvertAEGamespeakAEtoAOGamespeak(BitField32<AO::InputCommands>& value, const BitField32<::InputCommands::Enum>& aeInput)
 {
@@ -555,7 +555,7 @@ s8 Input_IsVKPressed(s32 key)
 }
 
 // from the MainMenu class
-ALIVE_VAR_EXTERN(s32, gJoystickAvailable_5079A4);
+extern s32 gJoystickAvailable_5079A4;
 
 void Input_Init()
 {
@@ -662,7 +662,7 @@ void Input_SetJoyStickEnabled(bool enabled)
     //sJoystickEnabled = enabled;
 }
 
-ALIVE_VAR(1, 0x508A64, u32, dword_508A64, 0);
+u32 dword_508A64 = 0;
 
 s32 Input_SaveSettingsIni()
 {
