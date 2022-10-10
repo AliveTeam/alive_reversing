@@ -93,15 +93,21 @@ static void Renderer_DecodePalette(const u8* srcPalData, RGBAPixel* dst, s32 pal
 }
 
 
-
 u32 OpenGLRenderer::PreparePalette(AnimationPal& pCache)
 {
     if (mPaletteTextureId == 0)
     {
+        RGBAPixel black[256] = {};
+
         mPaletteTextureId = Renderer_CreateTexture();
 
         GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mPaletteTextureId));
         GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, GL_PALETTE_DEPTH, GL_AVAILABLE_PALETTES, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0));
+
+        for (int i = 0; i < GL_AVAILABLE_PALETTES; i++)
+        {
+            GL_VERIFY(glTexSubImage2D(GL_TEXTURE_2D, 0, 0, i, GL_PALETTE_DEPTH, 1, GL_RGBA, GL_UNSIGNED_BYTE, black));
+        }
     }
 
     // Check we don't already have this palette
