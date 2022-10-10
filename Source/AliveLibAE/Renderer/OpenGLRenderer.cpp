@@ -5,6 +5,7 @@
 #include "StbImageImplementation.hpp"
 #include "../relive_lib/Animation.hpp"
 #include "../Font.hpp"
+#include "../AliveLibCommon/FatalError.hpp"
 
 #define GL_DEBUG 1
 

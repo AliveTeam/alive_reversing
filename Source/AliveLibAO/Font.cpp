@@ -5,6 +5,7 @@
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../AliveLibCommon/Function.hpp"
 #include "Math.hpp"
+#include "../AliveLibCommon/FatalError.hpp"
 
 namespace AO {
 

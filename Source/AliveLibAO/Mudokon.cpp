@@ -28,6 +28,7 @@
 #include "AbilityRing.hpp"
 #include "CheatController.hpp"
 #include "Grid.hpp"
+#include "../AliveLibCommon/FatalError.hpp"
 
 void Mud_ForceLink()
 { }

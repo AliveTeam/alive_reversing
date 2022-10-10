@@ -12,6 +12,7 @@
 #include "Sfx.hpp"
 #include "Movie.hpp"
 #include "ScreenClipper.hpp"
+#include "../AliveLibCommon/FatalError.hpp"
 
 CameraSwapper::CameraSwapper(CamResource& ppCamRes, s32 movieSector, s32 movieId, s32 movieFlag, s32 movieFlags, s32 movieVol)
     : BaseGameObject(TRUE, 0)

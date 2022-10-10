@@ -8,6 +8,7 @@
 #include "Abe.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Game.hpp"
+#include "../AliveLibCommon/FatalError.hpp"
 
 namespace AO {
 

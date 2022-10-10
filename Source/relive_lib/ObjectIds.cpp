@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "ObjectIds.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
+#include "../AliveLibCommon/FatalError.hpp"
 
 ObjectIds sObjectIds;
 

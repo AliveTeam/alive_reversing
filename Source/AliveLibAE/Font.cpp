@@ -2,6 +2,8 @@
 #include "Font.hpp"
 #include "Function.hpp"
 #include "FixedPoint.hpp"
+#include "../AliveLibCommon/FatalError.hpp"
+
 /*
  Notes for when coming across crazy width conversions:
  If it looks like this:

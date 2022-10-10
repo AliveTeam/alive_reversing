@@ -5,13 +5,13 @@
 #include "Game.hpp"
 #include "Sys.hpp"
 #include "Sound/Sound.hpp"
-#include "DebugHelpers.hpp"
 #include "../relive_lib/Events.hpp"
 #include "PsxRender.hpp"
 #include "Sys.hpp"
 #include "VGA.hpp"
 #include "TouchController.hpp"
 #include "GameAutoPlayer.hpp"
+#include "../relive_lib/data_conversion/string_util.hpp"
 
 #if USE_SDL2
 static SDL_GameController* pSDLController = nullptr;
@@ -900,7 +900,7 @@ void Input_SetGamePadBinding_4931D0(const char_type* pButtonName, s32 inputComma
 
 std::vector<std::string> Ini_SplitParams(std::string line)
 {
-    auto paramSplit = SplitString(line, '=');
+    auto paramSplit = string_util::SplitString(line, '=');
     for (u32 i = 0; i < paramSplit.size(); i++)
     {
         if (paramSplit[i].size() == 0)
@@ -944,14 +944,13 @@ struct IniCustomSaveEntry final
 bool canOverwriteIni = true;
 bool gLatencyHack = true;
 
-std::vector<IniCustomSaveEntry> gCustomSaveEntries = {
+const std::vector<IniCustomSaveEntry> gCustomSaveEntries = {
     {"keep_aspect", {&s_VGA_KeepAspectRatio}, true},
     {"filter_screen", {&s_VGA_FilterScreen}, true},
 #if USE_SDL2_SOUND
     {"reverb", {&gReverbEnabled}, true},
     {"audio_stereo", {&gAudioStereo}, true},
 #endif
-    {"debug_mode", {&gDebugHelpersEnabled}, true},
     {"overwrite_ini_by_game", {&canOverwriteIni}, true},
     {"latency_hack", {&gLatencyHack}, true},
 };
@@ -972,9 +971,12 @@ const char_type* iniCategories[4] = {
     "Gamepad",
     "Alive"};
 
+
+
 void NewParseSettingsIni()
 {
-    auto abeBuffer = FS::ReadFile(FS::GetPrefPath() + "abe2.ini");
+    FileSystem fs;
+    auto abeBuffer = fs.LoadToVec("abe2.ini");
 
     // Save the ini data to the recording or overwrite the data we read from
     // disk with the previously saved ini file data buffer that is in the recording
@@ -984,7 +986,7 @@ void NewParseSettingsIni()
     abeBuffer = GetGameAutoPlayer().RestoreFileBuffer(abeBuffer);
 
     const std::string abeConfig(reinterpret_cast<const char_type*>(abeBuffer.data()), abeBuffer.size());
-    std::vector<std::string> configSplit = SplitString(abeConfig, '\n');
+    std::vector<std::string> configSplit = string_util::SplitString(abeConfig, '\n');
 
     IniCategory currentCategory = IniCategory::eNone;
 
@@ -1072,7 +1074,7 @@ void NewParseSettingsIni()
                 }
                 else if (currentCategory == IniCategory::eAlive)
                 {
-                    for (IniCustomSaveEntry& s : gCustomSaveEntries)
+                    for (const IniCustomSaveEntry& s : gCustomSaveEntries)
                     {
                         if (param[0] == s.name)
                         {
@@ -1243,11 +1245,15 @@ void Input_SaveSettingsIni_Common()
         }
     }
 
-    std::string strPath = FS::GetPrefPath() + "abe2.ini";
-    std::ofstream fileOut(strPath.c_str());
-
-    fileOut << output.rdbuf();
-    fileOut.close();
+    FileSystem fs;
+    FileSystem::Path iniPath;
+    iniPath.Append("abe2.ini");
+    const auto iniDataStr = output.str();
+    std::vector<u8> buf(iniDataStr.begin(), iniDataStr.end());
+    if (!fs.Save(iniPath, buf))
+    {
+        ALIVE_FATAL("Saving abe2.ini failed");
+    }
 
     Input_Init_Names_491870();
 }

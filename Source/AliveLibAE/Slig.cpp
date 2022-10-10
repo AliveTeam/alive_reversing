@@ -34,6 +34,7 @@
 #include "Electrocute.hpp"
 #include "Grid.hpp"
 #include "AnimationCallBacks.hpp"
+#include "../AliveLibCommon/FatalError.hpp"
 
 const relive::SfxDefinition kSfxInfoTable_5607E0[17] = {
     {0u, 1u, 58u, 40u, -256, -256},

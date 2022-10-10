@@ -55,6 +55,7 @@
 #include "AnimationCallBacks.hpp"
 #include "Grid.hpp"
 #include "../AliveLibAE/Sound/Midi.hpp"
+#include "../AliveLibCommon/FatalError.hpp"
 
 namespace AO {
 

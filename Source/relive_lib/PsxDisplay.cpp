@@ -8,6 +8,7 @@
 #include "GameType.hpp"
 #include "ScreenManager.hpp"
 #include "../AliveLibCommon/Sys_common.hpp"
+#include "../AliveLibCommon/FatalError.hpp"
 
 PsxDisplay gPsxDisplay = {};
 

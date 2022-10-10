@@ -30,30 +30,6 @@ static bool ExtractNamePairArgument(char* pOutArgument, const char* pCmdLine, co
     return true;
 }
 
-u32 AutoFILE::PeekU32()
-{
-    const auto oldPos = ::ftell(mFile);
-
-    const u32 data = ReadU32();
-
-    if (::fseek(mFile, oldPos, SEEK_SET) != 0)
-    {
-        ALIVE_FATAL("Seek back failed");
-    }
-
-    return data;
-}
-
-u32 AutoFILE::ReadU32() const
-{
-    u32 value = 0;
-    if (::fread(&value, sizeof(u32), 1, mFile) != 1)
-    {
-        ALIVE_FATAL("Read U32 failed");
-    }
-    return value;
-}
-
 void BaseRecorder::Init(const char* pFileName, bool autoFlushFile)
 {
     LOG_INFO("Recording to " << pFileName << " auto flush=" << (autoFlushFile ? "yes" : "no"));

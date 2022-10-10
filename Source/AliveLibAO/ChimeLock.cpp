@@ -14,6 +14,7 @@
 #include "MusicTrigger.hpp"
 #include "Input.hpp"
 #include "../relive_lib/Particle.hpp"
+#include "../AliveLibCommon/FatalError.hpp"
 
 namespace AO {
 

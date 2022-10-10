@@ -3,8 +3,6 @@
 #include "TlvsAO.hpp"
 #include "TypesCollectionAO.hpp"
 
-#include "../../AliveLibAE/DebugHelpers.hpp"
-
 #include "../../AliveLibCommon/stdafx_common.h"
 #include "../../AliveLibCommon/logger.hpp"
 
@@ -93,7 +91,8 @@ template <typename... Ts>
 {
     std::vector<u8>& buf = getStaticFileBuffer();
 
-    if (!FS::ReadFileInto(buf, filePath))
+    FileSystem fs;
+    if (!fs.LoadToVec(filePath.c_str(), buf))
     {
         std::cerr << "Failure reading file '" << filePath << "'\n";
         std::abort();

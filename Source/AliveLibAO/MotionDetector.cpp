@@ -12,6 +12,7 @@
 #include "Alarm.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
+#include "../AliveLibCommon/FatalError.hpp"
 
 namespace AO {
 

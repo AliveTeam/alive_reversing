@@ -11,6 +11,7 @@
 #include <gmock/gmock.h>
 #include "VGA.hpp"
 #include "Renderer/IRenderer.hpp"
+#include "../AliveLibCommon/FatalError.hpp"
 
 // TODO: Refactor + remove these
 #define BYTEn(x, n) (*((u8*) &(x) + n))

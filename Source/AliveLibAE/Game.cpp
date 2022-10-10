@@ -23,7 +23,6 @@
 #include "Sound/Midi.hpp"
 #include <atomic>
 #include <fstream>
-#include "DebugHelpers.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Abe.hpp"
 #include "PathData.hpp"
@@ -78,8 +77,6 @@ s32 sFrameCount_5CA300 = 0;
 u16 gAttract_5C1BA0 = 0;
 
 Abe* sActiveHero = nullptr;
-
-bool gDebugHelpersEnabled = false;
 
 #include "GameEnderController.hpp"
 #include "ColourfulMeter.hpp"
@@ -334,13 +331,6 @@ void Main_ParseCommandLineArguments_494EA0(const char_type* /*pCmdLineNotUsed*/,
         {
             sCommandLine_DDCheatEnabled_5CA4B5 = true;
         }
-
-#if DEVELOPER_MODE
-        if (strstr(pCommandLine, "-debug"))
-        {
-            gDebugHelpersEnabled = true;
-        }
-#endif
     }
 
     if (dword_5CA4E0 == 1)
@@ -504,11 +494,6 @@ void Game_Run_466D40()
     pEventSystem_5BC11C = relive_new GameSpeak();
 
     pCheatController_5BC120 = relive_new CheatController();
-
-    if (gDebugHelpersEnabled)
-    {
-        DebugHelpers_Init(); // Custom helper code
-    }
 
     Game_Init_LoadingIcon_482CD0();
 

@@ -23,6 +23,7 @@
 #include "AbilityRing.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
+#include "../AliveLibCommon/FatalError.hpp"
 
 void BirdPortal::LoadAnimations()
 {

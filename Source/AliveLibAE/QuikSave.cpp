@@ -44,7 +44,7 @@
 #include "Slog.hpp"
 #include "Grenade.hpp"
 #include "Mudokon.hpp"
-
+#include "../AliveLibCommon/FatalError.hpp"
 
 u16 bUseAltSaveHeader_5C1BBC = 0;
 

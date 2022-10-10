@@ -9,6 +9,7 @@
 #include "Game.hpp"
 #include "BirdPortal.hpp"
 #include "Grid.hpp"
+#include "../AliveLibCommon/FatalError.hpp"
 
 namespace AO {
 

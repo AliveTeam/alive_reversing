@@ -10,6 +10,7 @@
 #include "../relive_lib/Particle.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "ResourceManager.hpp"
+#include "../AliveLibCommon/FatalError.hpp"
 
 void Animation_OnFrame_Common_Null_455F40(BaseGameObject*, u32&, const Point32&)
 {

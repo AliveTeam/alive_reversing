@@ -10,8 +10,8 @@
 #include "../AliveLibCommon/PathDataExtensionsTypes.hpp"
 #include "Renderer/IRenderer.hpp"
 #include "Map.hpp"
-#include "DebugHelpers.hpp"
 #include "Path.hpp"
+#include "Input.hpp"
 
 // TODO: Remove spaces and add them at runtime.
 static const char_type* sLCDMessageTable_555768[101] = {

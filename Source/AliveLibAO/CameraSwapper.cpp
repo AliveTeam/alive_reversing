@@ -12,6 +12,7 @@
 #include "../relive_lib/ScreenManager.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "Sfx.hpp"
+#include "../AliveLibCommon/FatalError.hpp"
 
 namespace AO {
 

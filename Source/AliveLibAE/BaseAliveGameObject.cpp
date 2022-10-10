@@ -16,6 +16,7 @@
 #include "../relive_lib/Events.hpp"
 #include "Grid.hpp"
 #include "Path.hpp"
+#include "../AliveLibCommon/FatalError.hpp"
 
 DynamicArrayT<BaseAliveGameObject>* gBaseAliveGameObjects = nullptr;
 

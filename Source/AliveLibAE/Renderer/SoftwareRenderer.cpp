@@ -8,6 +8,7 @@
 
 #include "../Font.hpp"
 
+#include "../AliveLibCommon/FatalError.hpp"
 
 #if SDL_VERTEX_IS_SUPPORTED
 void set_pixel(SDL_Surface* surface, int x, int y, u32 pixel)

@@ -30,6 +30,8 @@
 
 #include "../AliveLibAE/Io.hpp"
 
+#include "../relive_lib/data_conversion/file_system.hpp"
+
 namespace AutoSplitterData {
 struct GuidStr
 {
@@ -126,17 +128,6 @@ void PopulateAutoSplitterVars(GameType gameType)
     AutoSplitterData::gameType = gameType;
 }
 
-static bool FileExists(const char_type* fileName)
-{
-    FILE* f = fopen(fileName, "r");
-    if (f)
-    {
-        fclose(f);
-        return true;
-    }
-    return false;
-}
-
 // Only used on Windows for logging to help when people have issues launching the game
 static void ShowCwd()
 {
@@ -163,9 +154,10 @@ static void GameDirListing()
 
 static bool CheckRequiredGameFilesExist(GameType gameType, bool showError)
 {
+    FileSystem fs;
     if (gameType == GameType::eAe)
     {
-        if (!FileExists("st.lvl") || !FileExists("mi.lvl"))
+        if (!fs.FileExists("st.lvl") || !fs.FileExists("mi.lvl"))
         {
             if (showError)
             {
@@ -179,7 +171,7 @@ static bool CheckRequiredGameFilesExist(GameType gameType, bool showError)
     }
     else if (gameType == GameType::eAo)
     {
-        if (!FileExists("s1.lvl") || !FileExists("r1.lvl"))
+        if (!fs.FileExists("s1.lvl") || !fs.FileExists("r1.lvl"))
         {
             if (showError)
             {

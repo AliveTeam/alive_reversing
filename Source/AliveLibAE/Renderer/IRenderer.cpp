@@ -7,6 +7,8 @@
 #include "OpenGLRenderer.hpp"
 //#endif
 
+#include "../AliveLibCommon/FatalError.hpp"
+
 static IRenderer* gRenderer = nullptr;
 
 IRenderer* IRenderer::GetRenderer()

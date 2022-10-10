@@ -4,7 +4,6 @@
 #include "Map.hpp"
 #include "Game.hpp"
 #include "PathData.hpp"
-#include "DebugHelpers.hpp"
 #include "StringFormatters.hpp"
 #include "CreditsController.hpp"
 #include "MusicController.hpp"
@@ -2266,7 +2265,7 @@ MainMenuNextCam MainMenuController::tLoadGame_Input_4D3EF0(u32 input)
         strcpy(filename, sSaveFileRecords_BB31D8[sSavedGameToLoadIdx_BB43FC].field_0_fileName);
         strcat(filename, ".sav");
 
-        std::string strPath = FS::GetPrefPath() + filename;
+        std::string strPath = filename;
         IO_FileHandleType hFile = IO_Open(strPath.c_str(), "rb");
 
         if (!hFile)

@@ -1,17 +1,6 @@
 #pragma once
 
-#include "../../AliveLibCommon/FatalError.hpp"
 #include "../../AliveLibAE/stdafx.h"
-
-#if !_WIN32
-#include <sys/stat.h>
-#endif
-
-#if _WIN32
-constexpr inline char kDirSeparator = '\\';
-#else
-constexpr inline char kDirSeparator = '/';
-#endif
 
 // TODO: Lots of stuff missing, needs to do utf8 -> utf16 on windows
 class FileSystem final
@@ -20,124 +9,93 @@ public:
     class Path final
     {
     public:
-        Path& Append(const std::string& directory)
-        {
-            if (!directory.empty() && directory[directory.size() - 1] == kDirSeparator)
-            {
-                ALIVE_FATAL("Directory ends with slash");
-            }
-            if (!mPath.empty())
-            {
-                mPath += kDirSeparator;
-            }
-            mPath += directory;
-            return *this;
-        }
+        Path& Append(const std::string& directory);
 
-        Path Parent() const
-        {
-            const auto pos = mPath.find_last_of(kDirSeparator);
-            if (pos != std::string::npos)
-            {
-                Path parent;
-                parent.mPath = mPath.substr(0, pos);
-                return parent;
-            }
-            return {};
-        }
+        Path Parent() const;
 
-        const std::string& GetPath() const
-        {
-            return mPath;
-        }
+        const std::string& GetPath() const;
 
     private:
         std::string mPath;
     };
 
-    void Save(const Path& path, const std::vector<u8>& data)
+    bool Save(const Path& path, const std::vector<u8>& data);
+
+    std::string LoadToString(const Path& path);
+
+    std::string LoadToString(const char* path);
+
+    std::vector<u8> LoadToVec(const Path& path);
+    std::vector<u8> LoadToVec(const char* path);
+
+    bool LoadToVec(const Path& path, std::vector<u8>& buffer);
+    bool LoadToVec(const char* path, std::vector<u8>& buffer);
+
+    void CreateDirectory(const Path& path);
+
+    bool FileExists(const char_type* fileName);
+};
+
+
+class [[nodiscard]] AutoFILE final
+{
+public:
+    AutoFILE(const AutoFILE&) = delete;
+    AutoFILE& operator=(const AutoFILE&) const = delete;
+    AutoFILE() = default;
+
+    bool Open(const char* pFileName, const char* pMode, bool autoFlushFile);
+
+    ~AutoFILE();
+
+    FILE* GetFile();
+
+    bool Write(const u8* pBytes, u32 numBytes);
+
+    template <typename TypeToWrite>
+    bool Write(const TypeToWrite& value)
     {
-        CreateDirectory(path.Parent());
-        FILE* pFile = ::fopen(path.GetPath().c_str(), "wb");
-        if (pFile)
-        {
-            ::fwrite(data.data(), 1, data.size(), pFile);
-            ::fclose(pFile);
-        }
+        static_assert(std::is_pod<TypeToWrite>::value, "TypeToWrite must be pod");
+        const bool ret = ::fwrite(&value, sizeof(TypeToWrite), 1, mFile) == 1;
+        Flush();
+        return ret;
     }
 
-    std::string LoadToString(const Path& path)
+    template <typename TypeToWrite>
+    bool Write(const std::vector<TypeToWrite>& value)
     {
-        return LoadToString(path.GetPath().c_str());
+        static_assert(std::is_pod<TypeToWrite>::value, "TypeToWrite must be pod");
+        const bool ret = ::fwrite(value.data(), sizeof(TypeToWrite), value.size(), mFile) == value.size();
+        Flush();
+        return ret;
     }
 
-    std::string LoadToString(const char* path)
+    template <typename TypeToRead>
+    bool Read(TypeToRead& value)
     {
-        FILE* pFile = ::fopen(path, "rb");
-        if (pFile)
-        {
-            ::fseek(pFile, 0, SEEK_END);
-            const auto fsize = ftell(pFile);
-            ::fseek(pFile, 0, SEEK_SET);
-            std::string r;
-            r.resize(fsize);
-            ::fread(r.data(), 1, fsize, pFile);
-            ::fclose(pFile);
-            return r;
-        }
-        return {};
+        static_assert(std::is_pod<TypeToRead>::value, "TypeToRead must be pod");
+        return ::fread(&value, sizeof(TypeToRead), 1, mFile) == 1;
     }
 
-    std::vector<u8> LoadToVec(const Path& path)
+    template <typename TypeToRead>
+    bool Read(std::vector<TypeToRead>& value)
     {
-        return LoadToVec(path.GetPath().c_str());
+        static_assert(std::is_pod<TypeToRead>::value, "TypeToRead must be pod");
+        return ::fread(value.data(), sizeof(TypeToRead), value.size(), mFile) == value.size();
     }
 
-    std::vector<u8> LoadToVec(const char* path)
-    {
-        FILE* pFile = ::fopen(path, "rb");
-        if (pFile)
-        {
-            ::fseek(pFile, 0, SEEK_END);
-            const auto fsize = ftell(pFile);
-            ::fseek(pFile, 0, SEEK_SET);
-            std::vector<u8> r;
-            r.resize(fsize);
-            ::fread(r.data(), 1, fsize, pFile);
-            ::fclose(pFile);
-            return r;
-        }
-        return {};
-    }
+    u32 PeekU32();
 
-    void CreateDirectory(const Path& path)
-    {
-        std::string dirPart;
+    u32 ReadU32() const;
 
-        std::string fullPath = path.GetPath();
+    long FileSize();
 
-        auto dirPos = fullPath.find_first_of(kDirSeparator);
-        do
-        {
-            if (dirPos != std::string::npos)
-            {
-                dirPart = dirPart + fullPath.substr(0, dirPos);
-                #ifdef _WIN32
-                ::CreateDirectoryA(dirPart.c_str(), nullptr);
-                #else
-                mkdir(dirPart.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-                #endif
-                dirPart.append(1, kDirSeparator);
-                fullPath = fullPath.substr(dirPos + 1);
-                dirPos = fullPath.find_first_of(kDirSeparator);
-            }
-        }
-        while (dirPos != std::string::npos);
-        #ifdef _WIN32
-        ::CreateDirectoryA(path.GetPath().c_str(), nullptr);
-        #else
-        mkdir(path.GetPath().c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-        #endif
-    }
+    void Close();
 
+private:
+    void Flush();
+
+    FILE* mFile = nullptr;
+    bool mIsWriter = false;
+    bool mAutoFlushFile = false;
 };

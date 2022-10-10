@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "../AliveLibCommon/Primitives_common.hpp"
+#include "../AliveLibCommon/FatalError.hpp"
 
 void Init_SetTPage(Prim_SetTPage* pPrim, s32 /*notUsed1*/, s32 /*notUsed2*/, s32 tpage)
 {

@@ -2,12 +2,11 @@
 #include "TypesCollectionAO.hpp"
 #include "TypesCollectionAE.hpp"
 
-#include "../../AliveLibAE/DebugHelpers.hpp"
-
 #include "../../AliveLibCommon/stdafx_common.h"
 
 #include "../../relive_lib/data_conversion/guid.hpp"
 #include "../../relive_lib/data_conversion/PathTlvsAE.hpp"
+#include "../../relive_lib/data_conversion/file_system.hpp"
 
 #include "JsonModelTypes.hpp"
 #include "JsonReaderBase.hpp"
@@ -35,7 +34,8 @@ namespace {
 {
     std::vector<u8>& buf = getStaticFileBuffer();
 
-    if (!FS::ReadFileInto(buf, filePath))
+    FileSystem fs;
+    if (!fs.LoadToVec(filePath.c_str(), buf))
     {
         std::cerr << "Failure reading file '" << filePath << "'\n";
         std::abort();

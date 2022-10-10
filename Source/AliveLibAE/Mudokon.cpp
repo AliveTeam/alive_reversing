@@ -33,9 +33,9 @@
 #include "Grid.hpp"
 #include "AnimationCallBacks.hpp"
 #include "Map.hpp"
+#include "../AliveLibCommon/FatalError.hpp"
 
 s16 sGoingToBirdPortalMudCount_5C3012 = 0;
-
 
 enum Brain_0_GiveRings
 {

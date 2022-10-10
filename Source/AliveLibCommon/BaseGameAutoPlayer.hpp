@@ -4,6 +4,7 @@
 #include <type_traits>
 #include "FatalError.hpp"
 #include "Types.hpp"
+#include "../relive_lib/data_conversion/file_system.hpp"
 
 enum RecordTypes : u32
 {
@@ -42,116 +43,6 @@ struct RecordedEvent final
 {
     u32 mType;
     u32 mData;
-};
-
-class [[nodiscard]] AutoFILE final
-{
-public:
-    AutoFILE(const AutoFILE&) = delete;
-    AutoFILE& operator=(const AutoFILE&) const = delete;
-    AutoFILE() = default;
-
-    bool Open(const char* pFileName, const char* pMode, bool autoFlushFile)
-    {
-        Close();
-        mFile = ::fopen(pFileName, pMode);
-        if (strchr(pMode, 'w'))
-        {
-            mIsWriter = true;
-        }
-        mAutoFlushFile = autoFlushFile;
-        return mFile != nullptr;
-    }
-
-    ~AutoFILE()
-    {
-        Close();
-    }
-
-    FILE* GetFile()
-    {
-        return mFile;
-    }
-
-    bool Write(const u8* pBytes, u32 numBytes)
-    {
-        const bool ret = ::fwrite(pBytes, 1, numBytes, mFile) == 1;
-        Flush();
-        return ret;
-    }
-
-    template <typename TypeToWrite>
-    bool Write(const TypeToWrite& value)
-    {
-        static_assert(std::is_pod<TypeToWrite>::value, "TypeToWrite must be pod");
-        const bool ret = ::fwrite(&value, sizeof(TypeToWrite), 1, mFile) == 1;
-        Flush();
-        return ret;
-    }
-
-    template <typename TypeToWrite>
-    bool Write(const std::vector<TypeToWrite>& value)
-    {
-        static_assert(std::is_pod<TypeToWrite>::value, "TypeToWrite must be pod");
-        const bool ret = ::fwrite(value.data(), sizeof(TypeToWrite), value.size(), mFile) == value.size();
-        Flush();
-        return ret;
-    }
-
-    template <typename TypeToRead>
-    bool Read(TypeToRead& value)
-    {
-        static_assert(std::is_pod<TypeToRead>::value, "TypeToRead must be pod");
-        return ::fread(&value, sizeof(TypeToRead), 1, mFile) == 1;
-    }
-
-    template <typename TypeToRead>
-    bool Read(std::vector<TypeToRead>& value)
-    {
-        static_assert(std::is_pod<TypeToRead>::value, "TypeToRead must be pod");
-        return ::fread(value.data(), sizeof(TypeToRead), value.size(), mFile) == value.size();
-    }
-
-    u32 PeekU32();
-
-    u32 ReadU32() const;
-
-    long FileSize()
-    {
-        const long oldPos = ftell(mFile);
-        fseek(mFile, 0, SEEK_END);
-        const long fileSize = ftell(mFile);
-        fseek(mFile, oldPos, SEEK_SET);
-        return fileSize;
-    }
-
-    void Close()
-    {
-        if (mFile)
-        {
-            if (mIsWriter)
-            {
-                ::fflush(mFile);
-            }
-            ::fclose(mFile);
-        }
-    }
-
-private:
-    void Flush()
-    {
-        if (mAutoFlushFile)
-        {
-            if (::fflush(mFile) != 0)
-            {
-                ALIVE_FATAL("fflush failed");
-            }
-        }
-    }
-
-    FILE* mFile = nullptr; 
-    bool mIsWriter = false;
-    bool mAutoFlushFile = false;
 };
 
 struct Pads final

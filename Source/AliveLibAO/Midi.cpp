@@ -21,6 +21,7 @@
 #include "../AliveLibAE/PathData.hpp"
 
 #include "../relive_lib/BinaryPath.hpp"
+#include "../AliveLibCommon/FatalError.hpp"
 
 // TODO: Refactor + remove these
 #define BYTEn(x, n) (*((u8*) &(x) + n))

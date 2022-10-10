@@ -31,6 +31,7 @@
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs_serialization.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
+#include "../AliveLibCommon/FatalError.hpp"
 
 
 class BaseGameObject;

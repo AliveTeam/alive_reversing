@@ -28,6 +28,7 @@
 #include "Grid.hpp"
 #include "Function.hpp"
 #include "AnimationCallBacks.hpp"
+#include "../AliveLibCommon/FatalError.hpp"
 
 // Warning, index is saved, order matters here
 const static TFlyingSligBrainFn sFlyingSligMotionTable[26] =

@@ -3,8 +3,6 @@
 #include "stdlib.hpp"
 #include "Function.hpp"
 #include "Map.hpp"
-#include "DebugHelpers.hpp"
-#include "SwitchStates.hpp"
 #include "StringFormatters.hpp"
 #include "Abe.hpp"
 #include "Sfx.hpp"
@@ -305,93 +303,6 @@ PauseMenuPageEntry* sControlActionsPages_55DE40[6] =
     PauseMenu__PageEntryList_ParamiteSpeak_55dce0,
     PauseMenu__PageEntryList_ScrabSpeak_55ddd0
 };
-
-struct DumpEntry final
-{
-    void* address;
-    std::string name;
-};
-
-void DumpMenus()
-{
-    std::vector<DumpEntry> menuListArrays;
-    menuListArrays.push_back({(void*) 0x55D820, "ControlActions"});
-    menuListArrays.push_back({(void*) 0x55D930, "GameSpeak"});
-    menuListArrays.push_back({(void*) 0x55DA80, "SligSpeak"});
-    menuListArrays.push_back({(void*) 0x55DBB0, "GlukkonSpeak"});
-    menuListArrays.push_back({(void*) 0x55DCE0, "ParamiteSpeak"});
-    menuListArrays.push_back({(void*) 0x55DDD0, "ScrabSpeak"});
-
-    menuListArrays.push_back({(void*) 0x55E4C8, "Save"});
-    menuListArrays.push_back({(void*) 0x55E278, "ReallyQuit"});
-    menuListArrays.push_back({(void*) 0x55E738, "Status"});
-    menuListArrays.push_back({(void*) 0x55E3A0, "Load"});
-
-    // menuListArrays.push_back({ 0x55DDD0, "" });
-
-    std::stringstream output;
-    std::stringstream output_override;
-
-    for (auto a : menuListArrays)
-    {
-        std::stringstream menuAddr;
-        menuAddr << std::hex << a.address;
-
-        s32 count = 0;
-        PauseMenuPageEntry* c = reinterpret_cast<PauseMenuPageEntry*>(a.address);
-
-        while (c->field_8_text)
-        {
-            count++;
-            c++;
-        }
-
-        output << "PauseMenuPageEntry PauseMenu__PageEntryList_" + a.name + "_" + menuAddr.str() + "[" + std::to_string(count + 1) + "] =\n{\n";
-
-        PauseMenuPageEntry* e = reinterpret_cast<PauseMenuPageEntry*>(a.address);
-
-        while (e->field_8_text)
-        {
-            std::string alignment;
-            switch (e->field_F_alignment)
-            {
-                case 0:
-                    alignment = "Left";
-                    break;
-                case 1:
-                    alignment = "Centre";
-                    break;
-                case 2:
-                    alignment = "Right";
-                    break;
-                default:
-                    alignment = "UnknownAlignment";
-                    break;
-            }
-
-            output << "\t{ ";
-            output << e->field_0_unknown2 << ", ";
-            output << e->field_2_x << ", ";
-            output << e->y << ", ";
-            output << e->field_6_unknown << ", ";
-            output << "\"" << EscapeUnknownCharacters(e->field_8_text) << "\""
-                   << ", ";
-            output << (s32) e->field_C_r << ", ";
-            output << (s32) e->field_D_g << ", ";
-            output << (s32) e->field_E_b << ", ";
-            output << alignment;
-            output << " },\n";
-
-            e++;
-        }
-
-        output << "\t{ 1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u }\n};\n\n";
-    }
-
-    std::ofstream fileOut("menu_dump.h");
-    fileOut << output.rdbuf() << "\n\n"
-            << output_override.rdbuf();
-}
 
 void PauseMenu::LoadAnimations()
 {

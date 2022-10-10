@@ -85,9 +85,6 @@ SET(AliveLibAESrc
     Resources.cpp
     Font.hpp
     Font.cpp
-    RenderingTestTimData.hpp
-    DebugHelpers.hpp
-    DebugHelpers.cpp
     SwitchStates.hpp
     SwitchStates.cpp
     StringFormatters.hpp
