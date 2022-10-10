@@ -37,8 +37,6 @@ class FontContext
 public:
     void LoadFontType(FontType resourceID);
 
-    ~FontContext();
-
 
     const Font_AtlasEntry* field_8_atlas_array = nullptr;
     FontResource field_C_resource_id;
@@ -48,7 +46,7 @@ public:
 class AliveFont
 {
 public:
-    void Load(s32 maxCharLength, const u8* palette, FontContext* fontContext);
+    void Load(s32 maxCharLength, const PalResource& pal, FontContext* fontContext);
     ~AliveFont();
 
     u32 MeasureTextWidth(const char_type* text);
@@ -64,7 +62,6 @@ public:
     FontContext* field_34_font_context = nullptr;
 };
 
-extern FontContext sFontContext_4FFD68;
 extern s16 sDisableFontFlicker_5080E4;
 extern u8 sFontDrawScreenSpace_508BF4;
 

@@ -25,41 +25,6 @@ namespace AO {
 
 PauseMenu* pPauseMenu_5080E0 = nullptr;
 
-const u8 byte_4C5EE8[32] = {
-    0u,
-    0u,
-    33u,
-    132u,
-    66u,
-    136u,
-    99u,
-    140u,
-    132u,
-    144u,
-    165u,
-    20u,
-    231u,
-    28u,
-    8u,
-    33u,
-    41u,
-    37u,
-    74u,
-    41u,
-    107u,
-    45u,
-    140u,
-    49u,
-    173u,
-    53u,
-    239u,
-    61u,
-    16u,
-    66u,
-    115u,
-    78u};
-
-
 PauseMenu::PauseMenu()
     : BaseAnimatedWithPhysicsGameObject(0)
 {
@@ -70,7 +35,9 @@ PauseMenu::PauseMenu()
     mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
 
     gObjListDrawables->Push_Back(this);
-    field_E4_font.Load(175, byte_4C5EE8, &sFontContext_4FFD68);
+    mPal = ResourceManagerWrapper::LoadPal(PalId::MainMenuFont_PauseMenu);
+    mFontContext.LoadFontType(FontType::PauseMenu);
+    field_E4_font.Load(175, mPal, &mFontContext);
     field_130 = 0;
     field_11C = 0;
     sDisableFontFlicker_5080E4 = FALSE;

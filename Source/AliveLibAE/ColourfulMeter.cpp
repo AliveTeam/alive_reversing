@@ -70,7 +70,6 @@ ColourfulMeter::~ColourfulMeter()
     gObjListDrawables->Remove_Item(this);
     Path::TLV_Reset(mTlvInfo, -1, 0, 0);
     field_30_font.dtor_433540();
-    field_20_font_context.dtor_433510();
 }
 
 void ColourfulMeter::VScreenChanged()

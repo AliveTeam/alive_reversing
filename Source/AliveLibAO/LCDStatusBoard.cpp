@@ -11,40 +11,6 @@
 
 namespace AO {
 
-const u8 sStatsSignFontPalette_4CD570[32] = {
-    0u,
-    0u,
-    1u,
-    128u,
-    1u,
-    132u,
-    32u,
-    132u,
-    33u,
-    128u,
-    32u,
-    132u,
-    33u,
-    132u,
-    101u,
-    206u,
-    101u,
-    140u,
-    140u,
-    177u,
-    19u,
-    148u,
-    100u,
-    206u,
-    101u,
-    206u,
-    215u,
-    152u,
-    20u,
-    161u,
-    24u,
-    216u};
-
 void LCDStatusBoard::VScreenChanged()
 {
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -61,9 +27,12 @@ LCDStatusBoard::LCDStatusBoard(relive::Path_LCDStatusBoard* pTlv, const Guid& tl
 {
     field_C8_tlv = tlvId;
     field_10_fontContext.LoadFontType(FontType::LcdFont);
-    field_20_font1.Load(3, sStatsSignFontPalette_4CD570, &field_10_fontContext);
-    field_58_font2.Load(3, sStatsSignFontPalette_4CD570, &field_10_fontContext);
-    field_90_font3.Load(3, sStatsSignFontPalette_4CD570, &field_10_fontContext);
+
+    mPal = ResourceManagerWrapper::LoadPal(PalId::LedFont_Red);
+
+    field_20_font1.Load(3, mPal, &field_10_fontContext);
+    field_58_font2.Load(3, mPal, &field_10_fontContext);
+    field_90_font3.Load(3, mPal, &field_10_fontContext);
 
     mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
     gObjListDrawables->Push_Back(this);

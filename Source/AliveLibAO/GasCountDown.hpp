@@ -24,6 +24,7 @@ public:
 
     void DealDamage();
 
+    PalResource mPal;
     FontContext field_10_font_context;
     AliveFont field_20_font;
     Guid field_58_tlvInfo;

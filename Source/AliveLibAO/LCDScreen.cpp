@@ -18,74 +18,6 @@
 
 namespace AO {
 
-const u8 sLCDScreen_Palette_4C75A8[32] = {
-    0u,
-    0u,
-    1u,
-    128u,
-    1u,
-    132u,
-    32u,
-    132u,
-    33u,
-    128u,
-    32u,
-    132u,
-    33u,
-    132u,
-    101u,
-    206u,
-    57u,
-    231u,
-    140u,
-    177u,
-    96u,
-    142u,
-    100u,
-    206u,
-    101u,
-    206u,
-    215u,
-    152u,
-    20u,
-    161u,
-    24u,
-    216u};
-
-const u8 sLCDScreen_Palette2_4C7588[32] = {
-    0u,
-    0u,
-    1u,
-    128u,
-    1u,
-    132u,
-    32u,
-    132u,
-    33u,
-    128u,
-    32u,
-    132u,
-    33u,
-    132u,
-    5u,
-    132u,
-    57u,
-    231u,
-    140u,
-    177u,
-    19u,
-    148u,
-    100u,
-    206u,
-    101u,
-    206u,
-    215u,
-    152u,
-    20u,
-    161u,
-    24u,
-    216u};
-
 static const char_type* sLCDMessageTable_4C7420[90] = {
     "",
     "                               The profits justify the means.",
@@ -227,7 +159,11 @@ LCDScreen::LCDScreen(relive::Path_LCDScreen* pTlv, const Guid& tlvId)
     field_2AC_message_1_id = pTlv->mMessageId1;
 
     field_50_font_context.LoadFontType(FontType::LcdFont);
-    field_60_font.Load(60, sLCDScreen_Palette_4C75A8, &field_50_font_context);
+
+    mPal1 = ResourceManagerWrapper::LoadPal(PalId::LedFont_1);
+    mPal2 = ResourceManagerWrapper::LoadPal(PalId::LedFont_2);
+
+    field_60_font.Load(60, mPal1, &field_50_font_context);
 
     IRenderer::PalRecord rec;
     rec.depth = 16;
@@ -241,7 +177,7 @@ LCDScreen::LCDScreen(relive::Path_LCDScreen* pTlv, const Guid& tlvId)
     field_98_pal_rect.w = rec.depth;
     field_98_pal_rect.h = 1;
 
-    IRenderer::GetRenderer()->PalSetData(rec, sLCDScreen_Palette2_4C7588);
+    //IRenderer::GetRenderer()->PalSetData(rec, sLCDScreen_Palette2_4C7588);
 
     if (Input_JoyStickEnabled() || field_2AC_message_1_id != 62)
     {
@@ -261,8 +197,6 @@ LCDScreen::LCDScreen(relive::Path_LCDScreen* pTlv, const Guid& tlvId)
     mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
 
     field_2D8_message_rand_min = pTlv->mMessageRandMinId;
-    pad_2DA = pTlv->mMessageRandMaxId;
-
     field_2DC_message_rand_max = pTlv->mMessageRandMaxId;
 
     sFontDrawScreenSpace_508BF4 = 1;
@@ -324,6 +258,9 @@ void LCDScreen::VUpdate()
                         field_AC_message_buffer,
                         "                               To alert a Mudokon, mSay hello by holding (1) on the keyboard.   Then, talk to Mudokons by using the keyboard numbers (1) thru (8).   Experiment!");
                 }
+
+                 // Change pal
+                field_60_font.field_34_font_context->field_C_resource_id.mCurPal = mPal2.mPal;
             }
             else
             {
@@ -341,7 +278,11 @@ void LCDScreen::VUpdate()
                         field_AC_message_buffer,
                         "                               To alert a Mudokon, mSay hello by holding (1) on the keyboard.   Then, talk to Mudokons by using the keyboard numbers (1) thru (8).   Experiment!");
                 }
+
+                // Change pal
+                field_60_font.field_34_font_context->field_C_resource_id.mCurPal = mPal1.mPal;
             }
+
             // TODO
             //auto palSwap = field_98_pal_rect;
             //field_98_pal_rect = field_60_font.field_28_palette_rect;

@@ -171,7 +171,7 @@ LCDScreen::LCDScreen(relive::Path_LCDScreen* params, const Guid& tlvId)
     field_2BC_tlv_item_info = tlvId;
 
     mFontContext.LoadFontType_433400(FontType::LcdFont);
-    
+
     mPal1 = ResourceManagerWrapper::LoadPal(PalId::LedFont_1);
     mPal2 = ResourceManagerWrapper::LoadPal(PalId::LedFont_2);
 
@@ -365,6 +365,5 @@ LCDScreen::~LCDScreen()
     gObjListDrawables->Remove_Item(this);
     Path::TLV_Reset(field_2BC_tlv_item_info, -1, 0, 0);
 
-    mFontContext.dtor_433510();
     field_60_font.dtor_433540();
 }

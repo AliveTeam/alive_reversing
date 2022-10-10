@@ -244,6 +244,8 @@ public:
 
     s32 field_D4[4] = {};
    // u8** field_E4_res_array[6] = {};
+    FontContext mFontContext;
+    PalResource mPal;
     AliveFont field_FC_font;
     Animation field_134_anim;
 

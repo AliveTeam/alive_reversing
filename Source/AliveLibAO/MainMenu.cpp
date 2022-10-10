@@ -205,7 +205,6 @@ s16 gDemoPlay_507694 = 0;
 u8 sJoyResId_50769C = 0;
 
 s32 gMainMenuInstanceCount_9F2DE0 = 0;
-s16 sFontLoaded_507688 = 0;
 s16 sListCount_4D0228 = -1;
 
 // The total number of valid controllers - includes the keyboard as well
@@ -219,40 +218,6 @@ s32 sSaveIdx_9F2DD8 = 0;
 struct MenuFMV;
 
 const MenuFMV* sActiveList_9F2DE4 = nullptr;
-
-const u8 sFontPal_4D0090[32] = {
-    0u,
-    0u,
-    33u,
-    132u,
-    66u,
-    136u,
-    99u,
-    140u,
-    132u,
-    144u,
-    165u,
-    148u,
-    231u,
-    156u,
-    8u,
-    33u,
-    41u,
-    37u,
-    74u,
-    41u,
-    107u,
-    45u,
-    140u,
-    49u,
-    173u,
-    53u,
-    239u,
-    61u,
-    16u,
-    66u,
-    115u,
-    78u};
 
 struct MenuFMV final
 {
@@ -677,13 +642,9 @@ Menu::Menu(relive::Path_TLV* /*pTlv*/, const Guid& tlvId)
 
     gMainMenuInstanceCount_9F2DE0++;
 
-    if (sFontLoaded_507688 == 0)
-    {
-        sFontContext_4FFD68.LoadFontType(FontType::PauseMenu);
-        sFontLoaded_507688 = 1;
-    }
-
-    field_FC_font.Load(240, sFontPal_4D0090, &sFontContext_4FFD68);
+    mFontContext.LoadFontType(FontType::PauseMenu);
+    mPal = ResourceManagerWrapper::LoadPal(PalId::MainMenuFont_MainMenu);
+    field_FC_font.Load(240, mPal, &mFontContext);
     
     // 30 = fmv select
     if (gMap.mCurrentCamera == 30)

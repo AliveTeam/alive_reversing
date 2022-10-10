@@ -22,6 +22,7 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
+    PalResource mPal;
     FontContext field_10_fontContext;
     AliveFont field_20_font1;
     AliveFont field_58_font2;

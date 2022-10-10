@@ -40,7 +40,7 @@ struct Font_Context final
     FontResource field_C_resource_id;
 
     void LoadFontType_433400(FontType resourceID);
-    void dtor_433510();
+
 };
 ALIVE_ASSERT_SIZEOF(Font_Context, 0x10);
 

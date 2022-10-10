@@ -14,40 +14,6 @@
 
 namespace AO {
 
-const u8 byte_4C5080[32] = {
-    0u,
-    0u,
-    1u,
-    128u,
-    1u,
-    132u,
-    32u,
-    132u,
-    33u,
-    128u,
-    32u,
-    132u,
-    33u,
-    132u,
-    101u,
-    206u,
-    101u,
-    140u,
-    140u,
-    177u,
-    19u,
-    148u,
-    100u,
-    206u,
-    101u,
-    206u,
-    215u,
-    152u,
-    20u,
-    161u,
-    24u,
-    216u};
-
 s32 sGasTimer_507700 = 0;
 s16 gGasOn_4FF888 = 0;
 
@@ -56,8 +22,10 @@ GasCountDown::GasCountDown(relive::Path_GasCountDown* pTlv, const Guid& tlvId)
 {
     SetType(ReliveTypes::eGasCountDown);
     field_58_tlvInfo = tlvId;
+
+    mPal = ResourceManagerWrapper::LoadPal(PalId::LedFont_Red);
     field_10_font_context.LoadFontType(FontType::LcdFont);
-    field_20_font.Load(5, byte_4C5080, &field_10_font_context);
+    field_20_font.Load(5, mPal, &field_10_font_context);
     mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
     gObjListDrawables->Push_Back(this);
 

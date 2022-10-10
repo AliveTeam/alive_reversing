@@ -29,6 +29,9 @@ public:
     void DrawEntries(PrimHeader** ppOt, PauseEntry* entries, s16 compilerhack, s32 polyOffset);
 
     s32 field_D4[4] = {};
+
+    FontContext mFontContext;
+    PalResource mPal;
     AliveFont field_E4_font;
     s16 field_11C = 0;
     s16 field_11E_selected_glow = 0;

@@ -49,7 +49,6 @@ BrewMachine::~BrewMachine()
 {
     Path::TLV_Reset(mTlvInfo, -1, 0, 0);
     mFont.dtor_433540();
-    mFontContext.dtor_433510();
 }
 
 void BrewMachine::VUpdate()

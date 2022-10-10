@@ -43,9 +43,9 @@ public:
     relive::Path_TLV* field_2BC_tlv = {};
     s32 field_2D4 = 0;
     s16 field_2D8_message_rand_min = 0;
-    s16 pad_2DA = 0;
     s16 field_2DC_message_rand_max = 0;
-    s16 pad_2DE = 0;
+    PalResource mPal1;
+    PalResource mPal2;
 };
 
 } // namespace AO

@@ -18,7 +18,6 @@ LCDStatusBoard::LCDStatusBoard(relive::Path_LCDStatusBoard* params, const Guid& 
 
     mFontContext.LoadFontType_433400(FontType::LcdFont);
 
-    
     mPal = ResourceManagerWrapper::LoadPal(PalId::LedFont_Red);
 
     field_20_font1.ctor_433590(3, mPal, &mFontContext);
@@ -44,8 +43,6 @@ LCDStatusBoard::~LCDStatusBoard()
 {
     gObjListDrawables->Remove_Item(this);
     Path::TLV_Reset(field_100_objectId, -1, 0, 0);
-
-    mFontContext.dtor_433510();
 
     field_C8_font4.dtor_433540();
     field_90_font3.dtor_433540();

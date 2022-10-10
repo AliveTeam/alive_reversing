@@ -8,8 +8,6 @@
 
 namespace AO {
 
-FontContext sFontContext_4FFD68 = {};
-
 s16 sDisableFontFlicker_5080E4 = 0;
 u8 sFontDrawScreenSpace_508BF4 = 0;
 
@@ -237,113 +235,22 @@ const Font_AtlasEntry sFont2Atlas_4C58B8[104] = {
     {40, 132, 20, 15},
     {60, 132, 20, 15}};
 
-void FontContext::LoadFontType(FontType resourceID)
-{
-    FontResource fontRes = ResourceManagerWrapper::LoadFont(resourceID);
-    field_C_resource_id = fontRes;
 
-    // TODO: Will get moved to a json file in FontResource
-    switch (resourceID)
-    {
-        case FontType::PauseMenu:
-            field_8_atlas_array = sFont1Atlas_4C56E8;
-            break;
-        case FontType::LcdFont:
-            field_8_atlas_array = sFont2Atlas_4C58B8;
-            break;
-        default:
-            ALIVE_FATAL("Unknown font resource ID !!!");
-            break;
-    }
-}
-
-FontContext::~FontContext()
-{
-
-}
-
-void AliveFont::Load(s32 maxCharLength, const u8* /*palette*/, FontContext* fontContext)
+void AliveFont::Load(s32 maxCharLength, const PalResource& pal, FontContext* fontContext)
 {
     // TODO: Use pal
     field_34_font_context = fontContext;
+    field_34_font_context->field_C_resource_id.mCurPal = pal.mPal;
     field_30_poly_count = maxCharLength;
     field_24_fnt_poly_array = relive_new Poly_FT4[maxCharLength * 2];
 }
 
-u32 AliveFont::MeasureTextWidth(const char_type* text)
+AliveFont::~AliveFont()
 {
-    s32 result = 0;
-
-    for (u32 i = 0; i < strlen(text); i++)
-    {
-        const char_type c = text[i];
-        s32 charIndex = 0;
-
-        if (c <= 32 || static_cast<u8>(c) > 175)
-        {
-            if (c < 7 || c > 31)
-            {
-                result += field_34_font_context->field_8_atlas_array[1].field_2_width;
-                continue;
-            }
-            else
-            {
-                charIndex = c + 137;
-            }
-        }
-        else
-        {
-            charIndex = c - 31;
-        }
-
-        result += field_34_font_context->field_8_atlas_array[0].field_2_width;
-        result += field_34_font_context->field_8_atlas_array[charIndex].field_2_width;
-    }
-
-    if (!sFontDrawScreenSpace_508BF4)
-    {
-        result -= field_34_font_context->field_8_atlas_array[0].field_2_width;
-        result = PCToPsxX(result, 20);
-    }
-
-    return result;
+    relive_delete[] field_24_fnt_poly_array;
 }
 
-s32 AliveFont::MeasureCharacterWidth(char_type character)
-{
-    s32 result = 0;
-    s32 charIndex = 0;
-
-    if (character <= 32 /*|| character > 175*/) // character > 175 always false
-    {
-        if (character < 8 || character > 31)
-        {
-            return field_34_font_context->field_8_atlas_array[1].field_2_width;
-        }
-        charIndex = character + 84;
-    }
-    else
-    {
-        charIndex = character - 31;
-    }
-    result = field_34_font_context->field_8_atlas_array[charIndex].field_2_width;
-
-    if (!sFontDrawScreenSpace_508BF4)
-    {
-        result = static_cast<s32>(result * 0.575);
-    }
-
-    return result;
-}
-
-
-s32 AliveFont::MeasureScaledTextWidth(const char_type* text, FP scale)
-{
-    const FP width = FP_FromInteger(MeasureTextWidth(text));
-    return FP_GetExponent((width * scale) + FP_FromDouble(0.5));
-}
-
-s32 AliveFont::DrawString(PrimHeader** ppOt, const char_type* text, s16 x, s16 y, TPageAbr /*abr*/, s32 bSemiTrans, s32 blendMode, Layer layer, u8 r, u8 g, u8 b, s32 polyOffset, FP scale, s32 maxRenderWidth, s32 colorRandomRange)
+s32 AliveFont::DrawString(PrimHeader** ppOt, const char_type* text, s16 x, s16 y, TPageAbr abr, s32 bSemiTrans, s32 blendMode, Layer layer, u8 r, u8 g, u8 b, s32 polyOffset, FP scale, s32 maxRenderWidth, s32 colorRandomRange)
 {
     if (!sFontDrawScreenSpace_508BF4)
     {
@@ -387,6 +294,8 @@ s32 AliveFont::DrawString(PrimHeader** ppOt, const char_type* text, s16 x, s16 y
 
         const s8 charWidth = atlasEntry->field_2_width;
         const auto charHeight = atlasEntry->field_3_height;
+
+        // TODO: Recalc when atlas is converted
         const s8 texture_u = static_cast<s8>(atlasEntry->x);
         const s8 texture_v = static_cast<s8>(atlasEntry->field_1_y);
 
@@ -429,6 +338,15 @@ s32 AliveFont::DrawString(PrimHeader** ppOt, const char_type* text, s16 x, s16 y
         SetXY3(poly, offsetX + widthScaled, y + heightScaled);
         SetUV3(poly, texture_u + charWidth, texture_v + charHeight);
 
+        // TPage blend mode start
+        u16 tpageEmptyBlend = GetTPage(poly) & 0xFFCF;
+        u16 blendModeBit = ((u16) abr) << 4;
+        SetTPage(poly, tpageEmptyBlend | blendModeBit);
+        
+        // Its over, for now
+        //poly->mFont = field_34_font_context;
+        // TPage blend mode start
+
         OrderingTable_Add(OtLayer(ppOt, layer), &poly->mBase.header);
 
         ++characterRenderCount;
@@ -437,14 +355,85 @@ s32 AliveFont::DrawString(PrimHeader** ppOt, const char_type* text, s16 x, s16 y
 
         poly += 2;
     }
+
     return polyOffset + characterRenderCount;
 }
 
-AliveFont::~AliveFont()
+u32 AliveFont::MeasureTextWidth(const char_type* text)
 {
-    relive_delete[] field_24_fnt_poly_array;
+    s32 result = 0;
+
+    for (u32 i = 0; i < strlen(text); i++)
+    {
+        const char_type c = text[i];
+        s32 charIndex = 0;
+
+        if (c <= 32 || static_cast<u8>(c) > 175)
+        {
+            if (c < 7 || c > 31)
+            {
+                result += field_34_font_context->field_8_atlas_array[1].field_2_width;
+                continue;
+            }
+            else
+            {
+                charIndex = c + 137;
+            }
+        }
+        else
+        {
+            charIndex = c - 31;
+        }
+
+        result += field_34_font_context->field_8_atlas_array[0].field_2_width;
+        result += field_34_font_context->field_8_atlas_array[charIndex].field_2_width;
+    }
+
+    if (!sFontDrawScreenSpace_508BF4)
+    {
+        result -= field_34_font_context->field_8_atlas_array[0].field_2_width;
+        result = PCToPsxX(result, 20);
+    }
+
+    return result;
 }
 
+// Measures the width of a string with scale applied.
+s32 AliveFont::MeasureScaledTextWidth(const char_type* text, FP scale)
+{
+    const FP width = FP_FromInteger(MeasureTextWidth(text));
+    return FP_GetExponent((width * scale) + FP_FromDouble(0.5));
+}
+
+// Measures the width of a single character.
+s32 AliveFont::MeasureCharacterWidth(char_type character)
+{
+    s32 result = 0;
+    s32 charIndex = 0;
+
+    if (character <= 32 /*|| character > 175*/) // character > 175 always false
+    {
+        if (character < 8 || character > 31)
+        {
+            return field_34_font_context->field_8_atlas_array[1].field_2_width;
+        }
+        charIndex = character + 84;
+    }
+    else
+    {
+        charIndex = character - 31;
+    }
+    result = field_34_font_context->field_8_atlas_array[charIndex].field_2_width;
+
+    if (!sFontDrawScreenSpace_508BF4)
+    {
+        result = static_cast<s32>(result * 0.575);
+    }
+
+    return result;
+}
+
+// Wasn't too sure what to call this. Returns the s8 offset of where the text is cut off. (left and right region)
 const char_type* AliveFont::SliceText(const char_type* text, s32 left, FP scale, s32 right)
 {
     s32 xOff = 0;
@@ -483,5 +472,27 @@ const char_type* AliveFont::SliceText(const char_type* text, s32 left, FP scale,
 
     return text;
 }
+
+void FontContext::LoadFontType(FontType resourceID)
+{
+    FontResource fontRes = ResourceManagerWrapper::LoadFont(resourceID);
+    field_C_resource_id = fontRes;
+
+    // TODO: Will get moved to a json file in FontResource
+    switch (resourceID)
+    {
+        case FontType::PauseMenu:
+            field_8_atlas_array = sFont1Atlas_4C56E8;
+            break;
+        case FontType::LcdFont:
+            field_8_atlas_array = sFont2Atlas_4C58B8;
+            break;
+        default:
+            ALIVE_FATAL("Unknown font resource ID !!!");
+            break;
+    }
+}
+
+
 
 } // namespace AO
