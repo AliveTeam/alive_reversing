@@ -17,9 +17,9 @@
  then do x /= 0.575;
 */
 
-ALIVE_VAR(1, 0x5c9304, s8, sDisableFontFlicker_5C9304, 0);
+s8 sDisableFontFlicker_5C9304 = 0;
 
-ALIVE_VAR(1, 0x5ca4b4, u8, sFontDrawScreenSpace_5CA4B4, 0);
+u8 sFontDrawScreenSpace_5CA4B4 = 0;
 
 
 namespace Alive {

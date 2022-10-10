@@ -15,7 +15,7 @@ namespace AO {
 void Alarm_ForceLink()
 { }
 
-ALIVE_VAR(1, 0x5076A8, s16, alarmInstanceCount_5076A8, 0);
+s16 alarmInstanceCount_5076A8 = 0;
 
 Alarm::Alarm(s32 duration_timer, s32 switchId, s32 timer, Layer layer)
     : EffectBase(layer, TPageAbr::eBlend_1)

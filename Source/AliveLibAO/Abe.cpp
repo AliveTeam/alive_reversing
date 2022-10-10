@@ -58,8 +58,8 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x5076E4, s16, gAbeInvulnerableCheat_5076E4, 0);
-ALIVE_VAR(1, 0x5076F8, s16, gAbeInvisibleCheat_5076F8, 0);
+s16 gAbeInvulnerableCheat_5076E4 = 0;
+s16 gAbeInvisibleCheat_5076F8 = 0;
 
 ALIVE_VAR_EXTERN(SaveData, gSaveBuffer_505668);
 
@@ -568,8 +568,8 @@ const AnimId sAbeMotionAnimIds[166] = {
     27748,
     0};*/
 
-ALIVE_VAR(1, 0x507678, Abe*, sActiveHero, nullptr);
-ALIVE_VAR(1, 0x50767C, BaseAliveGameObject*, sControlledCharacter, nullptr);
+Abe* sActiveHero = nullptr;
+BaseAliveGameObject* sControlledCharacter = nullptr;
 
 const relive::SfxDefinition sSFXList_4C6638[49] = {
     {0, 3, 69, 60, -1, 1},
@@ -7236,7 +7236,7 @@ void Abe::Motion_77_WellBegin_430F10()
     }
 }
 
-ALIVE_VAR(1, 0x4C73CC, FP, gPointlessWellScale_4C73CC, FP_FromDouble(1.8));
+FP gPointlessWellScale_4C73CC = FP_FromDouble(1.8);
 
 void Abe::Motion_78_InsideWellLocal_4310A0()
 {
@@ -7571,10 +7571,10 @@ void Abe::Motion_87_ToFall_428FA0()
     Motion_3_Fall_42E7F0();
 }
 
-ALIVE_VAR(1, 0x507728, s32, gCounter_507728, 0);
-ALIVE_VAR(1, 0x50772C, u8**, gpDemoPlaybackRes_50772C, nullptr);
-ALIVE_VAR(1, 0x507730, s32, sAbeSound_507730, 0);
-ALIVE_VAR(1, 0x507724, BellSong*, sBellSong, nullptr);
+s32 gCounter_507728 = 0;
+u8** gpDemoPlaybackRes_50772C = nullptr;
+s32 sAbeSound_507730 = 0;
+BellSong* sBellSong = nullptr;
 
 void Abe::Motion_88_HandstoneBegin_430590()
 {

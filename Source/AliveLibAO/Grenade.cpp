@@ -15,7 +15,7 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x5076EC, s16, gInfiniteGrenades_5076EC, 0);
+s16 gInfiniteGrenades_5076EC = 0;
 
 Grenade::Grenade(FP xpos, FP ypos, s16 numGrenades)
     : BaseThrowable()

@@ -46,9 +46,9 @@
 #include "Mudokon.hpp"
 
 
-ALIVE_VAR(1, 0x5c1bbc, u16, bUseAltSaveHeader_5C1BBC, 0);
+u16 bUseAltSaveHeader_5C1BBC = 0;
 
-ALIVE_VAR(1, 0xbb234c, u16, sQuickSave_saved_switchResetters_count_BB234C, 0);
+u16 sQuickSave_saved_switchResetters_count_BB234C = 0;
 
 static s32 RestoreObjectState(AETypes type, const u8* pData)
 {
@@ -206,10 +206,10 @@ void QuikSave_RestoreBlyData(const u8* pSaveData)
 }
 
 
-ALIVE_VAR(1, 0xBAF7F8, Quicksave, sActiveQuicksaveData, {});
+Quicksave sActiveQuicksaveData = {};
 ALIVE_ARY(1, 0xBB31D8, SaveFileRec, 128, sSaveFileRecords_BB31D8, {});
-ALIVE_VAR(1, 0xBB43FC, s32, sSavedGameToLoadIdx_BB43FC, 0);
-ALIVE_VAR(1, 0xBB43E0, s32, sTotalSaveFilesCount_BB43E0, 0);
+s32 sSavedGameToLoadIdx_BB43FC = 0;
+s32 sTotalSaveFilesCount_BB43E0 = 0;
 
 extern s32 sAccumulatedObjectCount_5C1BF4;
 
@@ -433,8 +433,8 @@ void MEMCARD_Write_Timestamp_SJISC_String_4A2290(u8* dst)
         }
     }
 }
-ALIVE_VAR(1, 0xBB19F8, Quicksave_PSX_Header, sSaveHeader2_BB19F8, {});
-ALIVE_VAR(1, 0xBB17F8, Quicksave_PSX_Header, sSaveHeader1_BB17F8, {});
+Quicksave_PSX_Header sSaveHeader2_BB19F8 = {};
+Quicksave_PSX_Header sSaveHeader1_BB17F8 = {};
 
 void Quicksave_SaveToMemory_4C91A0(Quicksave* pSave)
 {

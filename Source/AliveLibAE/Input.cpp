@@ -53,46 +53,46 @@ const InputCommands::Enum sInputKey_Chant = InputCommands::Enum::eChant;
 const u32 AllMenuCommandsMask = (InputCommands::Enum::ePause | InputCommands::Enum::eUnPause_OrConfirm | InputCommands::Enum::eBack | InputCommands::Enum::eConfigure);
 
 // Is a joystick plugged in and can be switched to?
-ALIVE_VAR(1, 0x5C2EF4, bool, sJoystickAvailable, false);
+bool sJoystickAvailable = false;
 
 // Is the joystick selected as the active controller device (instead of keyboard)?
-ALIVE_VAR(1, 0x5c9f70, s32, sJoystickEnabled, 0);
+s32 sJoystickEnabled = 0;
 
-ALIVE_VAR(1, 0x5C2EFC, s32, sJoystickNumButtons_5C2EFC, 0);
-ALIVE_VAR(1, 0x5C2F00, s32, sJoystickID_5C2F00, 0);
-ALIVE_VAR(1, 0x5c2edc, s32, sJoystickCapFlags_5C2EDC, 0);
-ALIVE_VAR(1, 0x5c2ee0, bool, sJoyStateIsInit_5C2EE0, 0);
-ALIVE_VAR(1, 0x5c2eec, s32, sJoyLastTick_5C2EEC, 0);
-ALIVE_VAR(1, 0x5C2EF8, s32, sGamepadCapFlags_5C2EF8, 0);
+s32 sJoystickNumButtons_5C2EFC = 0;
+s32 sJoystickID_5C2F00 = 0;
+s32 sJoystickCapFlags_5C2EDC = 0;
+bool sJoyStateIsInit_5C2EE0 = 0;
+s32 sJoyLastTick_5C2EEC = 0;
+s32 sGamepadCapFlags_5C2EF8 = 0;
 #if !USE_SDL2 && _WIN32
-ALIVE_VAR(1, 0x5c2d10, tagJOYCAPSA, sJoystickCaps_5C2D10, {});
-ALIVE_VAR(1, 0x5c2ea8, joyinfoex_tag, sJoystickInfo_5C2EA8, {});
+tagJOYCAPSA sJoystickCaps_5C2D10 = {};
+joyinfoex_tag sJoystickInfo_5C2EA8 = {};
 #endif
 
 ALIVE_ARY(1, 0xBD2F60, u8, 256, sInputKeyStates_BD2F60, {});
-ALIVE_VAR(1, 0xBBB9D0, u8, sInputEnabled_BBB9D0, 0);
-ALIVE_VAR(1, 0x5BD4E0, InputObject, sInputObject, {});
-ALIVE_VAR(1, 0x5C1BBE, u16, sCurrentControllerIndex, 0);
-ALIVE_VAR(1, 0x5C1B9A, s16, bLongerTimeoutToNextDemo, 0);
-ALIVE_VAR(1, 0xbd30a0, u32, sLastPressedKey, 0);
-ALIVE_VAR(1, 0xbd309c, s32, sIsAKeyDown, 0);
+u8 sInputEnabled_BBB9D0 = 0;
+InputObject sInputObject = {};
+u16 sCurrentControllerIndex = 0;
+s16 bLongerTimeoutToNextDemo = 0;
+u32 sLastPressedKey = 0;
+s32 sIsAKeyDown = 0;
 ALIVE_ARY(1, 0x5C9D30, s8, 256, sAllowedGameKeys_5C9D30, {});
 ALIVE_ARY(1, 0x5C9394, const char_type*, 256, sKeyNames_5C9394, {});
 ALIVE_ARY(1, 0x5C9908, const char_type*, 10, sJoyButtonNames_5C9908, {});
 ALIVE_ARY(1, 0x5C9930, u32, 256, sKeyboardBindings_5C9930, {});
 ALIVE_ARY(1, 0x5C98E0, s32, 10, sGamePadBindings_5C98E0, {});
-ALIVE_VAR(1, 0xbd1870, t_InputCallback, sInputCallbackFunc_BD1870, 0);
+t_InputCallback sInputCallbackFunc_BD1870 = 0;
 
 ALIVE_ARY(1, 0x555708, char_type, 32, sGamePadStr_555708, {"Game Pad"});
 ALIVE_ARY(1, 0x55E85C, char_type, 32, sGamePadStr_55E85C, {"Game Pad"});
 
-ALIVE_VAR(1, 0x5c2ee8, s32, bAbsX_5C2EE8, 0);
-ALIVE_VAR(1, 0x5c2ea4, s32, bAbsY_5C2EA4, 0);
-ALIVE_VAR(1, 0x5c2ee4, s32, bAutoX_5C2EE4, 0);
-ALIVE_VAR(1, 0x5c2ef0, s32, bAutoY_5C2EF0, 0);
+s32 bAbsX_5C2EE8 = 0;
+s32 bAbsY_5C2EA4 = 0;
+s32 bAutoX_5C2EE4 = 0;
+s32 bAutoY_5C2EF0 = 0;
 
-ALIVE_VAR(1, 0xbd1878, u32, sLastPad_Input_BD1878, 0);
-ALIVE_VAR(1, 0xbd1874, bool, sReadPadEnable_BD1874, false);
+u32 sLastPad_Input_BD1878 = 0;
+bool sReadPadEnable_BD1874 = false;
 
 ALIVE_ARY(1, 0x55EAD8, InputBinding, 36, sDefaultKeyboardBindings_55EAD8, {{VK_LEFT, InputCommands::Enum::eLeft}, {VK_RIGHT, InputCommands::Enum::eRight}, {VK_UP, InputCommands::Enum::eUp}, {VK_DOWN, InputCommands::Enum::eDown}, {VK_CONTROL, InputCommands::Enum::eDoAction}, {VK_MENU, InputCommands::Enum::eSneak}, {VK_SHIFT, InputCommands::Enum::eRun}, {VK_SPACE, InputCommands::Enum::eHop}, {'Z', InputCommands::Enum::eThrowItem}, {'X', static_cast<InputCommands::Enum>(InputCommands::Enum::eUnPause_OrConfirm | InputCommands::Enum::eFartOrRoll)}, {VK_ESCAPE, static_cast<InputCommands::Enum>(InputCommands::Enum::ePause | InputCommands::Enum::eBack)}, {VK_RETURN, static_cast<InputCommands::Enum>(InputCommands::Enum::eUnPause_OrConfirm | InputCommands::Enum::eFartOrRoll)}, {VK_TAB, InputCommands::Enum::eCheatMode}, {'1', InputCommands::Enum::eGameSpeak1}, {'2', InputCommands::Enum::eGameSpeak2}, {'3', InputCommands::Enum::eGameSpeak3}, {'4', InputCommands::Enum::eGameSpeak4}, {'5', InputCommands::Enum::eGameSpeak5}, {'6', InputCommands::Enum::eGameSpeak6}, {'7', InputCommands::Enum::eGameSpeak7}, {'8', InputCommands::Enum::eGameSpeak8}, {'0', InputCommands::Enum::eChant}, {VK_NUMPAD1, InputCommands::Enum::eGameSpeak1}, {VK_NUMPAD2, InputCommands::Enum::eGameSpeak2}, {VK_NUMPAD3, InputCommands::Enum::eGameSpeak3}, {VK_NUMPAD4, InputCommands::Enum::eGameSpeak4}, {VK_NUMPAD5, InputCommands::Enum::eGameSpeak5}, {VK_NUMPAD6, InputCommands::Enum::eGameSpeak6}, {VK_NUMPAD7, InputCommands::Enum::eGameSpeak7}, {VK_NUMPAD8, InputCommands::Enum::eGameSpeak8}, {VK_NUMPAD0, InputCommands::Enum::eChant}, {'C', InputCommands::Enum::eConfigure}, {VK_PRIOR, static_cast<InputCommands::Enum>(0x20000000)}, {VK_NEXT, static_cast<InputCommands::Enum>(0x40000000)}, {VK_DELETE, static_cast<InputCommands::Enum>(0x10000000)}, {0, static_cast<InputCommands::Enum>(0)}});
 
@@ -544,8 +544,8 @@ struct KeyNames final
     KeyName keys[32];
 };
 
-ALIVE_VAR(1, 0x5C9E30, KeyNames, sKeyboardDisplayKeyNames_5C9E30, {});
-ALIVE_VAR(1, 0x5C9798, KeyNames, sGamepadDisplayKeyNames_5C9798, {});
+KeyNames sKeyboardDisplayKeyNames_5C9E30 = {};
+KeyNames sGamepadDisplayKeyNames_5C9798 = {};
 
 void Input_Init_Names_491870()
 {
@@ -1226,13 +1226,13 @@ void Input_LoadSettingsIni_492D40()
     NewParseSettingsIni();
 }
 
-ALIVE_VAR(1, 0x55ebf8, u32, dword_55EBF8, 0);
-ALIVE_VAR(1, 0x5c9390, u8, sFlags_5C9390, 0);
-ALIVE_VAR(1, 0x5c98d8, u32, sPrevTimeStamp_5C98D8, 0);
-ALIVE_VAR(1, 0x5c98dc, u32, dword_5C98DC, 0);
-ALIVE_VAR(1, 0x5c9f74, u32, sPrevious_down_keyboard_keys_5C9F74, 0);
-ALIVE_VAR(1, 0x5c9f78, u32, dword_5C9F78, 0);
-ALIVE_VAR(1, 0x5c9794, s32, sKeyboardBindings_5C9794, 0);
+u32 dword_55EBF8 = 0;
+u8 sFlags_5C9390 = 0;
+u32 sPrevTimeStamp_5C98D8 = 0;
+u32 dword_5C98DC = 0;
+u32 sPrevious_down_keyboard_keys_5C9F74 = 0;
+u32 dword_5C9F78 = 0;
+s32 sKeyboardBindings_5C9794 = 0;
 
 #if ORIGINAL_PS1_BEHAVIOR // OG Change - chant with any shoulder button combo
 static bool IsChantingAnyShoulderButton(s32 shoulderButtonsPressedCount)

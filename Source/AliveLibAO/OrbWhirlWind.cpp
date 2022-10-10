@@ -7,7 +7,7 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x9F30A0, s32, gOrbWhirlWind_instace_count_9F30A0, 0);
+s32 gOrbWhirlWind_instace_count_9F30A0 = 0;
 
 void OrbWhirlWind::ToSpin(FP xpos, FP ypos, BaseAliveGameObject* pObj)
 {

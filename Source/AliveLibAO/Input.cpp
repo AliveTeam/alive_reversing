@@ -8,11 +8,11 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x5009E8, InputObject, sInputObject, {});
-ALIVE_VAR(1, 0x5076B8, u16, sCurrentControllerIndex, 0);
-ALIVE_VAR(1, 0x508A60, s32, sJoystickEnabled, 0);
-ALIVE_VAR(1, 0x9F7710, u8, sInputEnabled, 0);
-ALIVE_VAR(1, 0xA8A604, u32, sLastPressedKey, 0);
+InputObject sInputObject = {};
+u16 sCurrentControllerIndex = 0;
+s32 sJoystickEnabled = 0;
+u8 sInputEnabled = 0;
+u32 sLastPressedKey = 0;
 
 const InputCommands sInputKey_Right = eRight;
 const InputCommands sInputKey_Left = eLeft;
@@ -662,7 +662,7 @@ void Input_SetJoyStickEnabled(bool enabled)
     //sJoystickEnabled = enabled;
 }
 
-ALIVE_VAR(1, 0x508A64, u32, dword_508A64, 0);
+u32 dword_508A64 = 0;
 
 s32 Input_SaveSettingsIni()
 {

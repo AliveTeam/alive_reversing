@@ -260,15 +260,15 @@ const s8* DX_HR_To_String_4F4EC0(HRESULT hr)
     return "Unrecognized error value.";
 }
 
-ALIVE_VAR(1, 0xBBC3D4, LPDIRECTDRAW, sDDraw_BBC3D4, nullptr);
-ALIVE_VAR(1, 0xBBC3B0, HWND, sDD_hWnd_BBC3B0, nullptr);
-ALIVE_VAR(1, 0xBBC3DC, LPDIRECTDRAWCLIPPER, sDD_Clipper_BBC3DC, nullptr);
-ALIVE_VAR(1, 0xBBC3C8, LPDIRECTDRAWSURFACE, sDD_primary_surface_BBC3C8, nullptr);
-ALIVE_VAR(1, 0xBBC3CC, LPDIRECTDRAWSURFACE, sDD_surface_backbuffer_BBC3CC, nullptr);
-ALIVE_VAR(1, 0xBBC3D8, LPDIRECTDRAWPALETTE, sDD_Pal_BBC3D8, nullptr);
+LPDIRECTDRAW sDDraw_BBC3D4 = nullptr;
+HWND sDD_hWnd_BBC3B0 = nullptr;
+LPDIRECTDRAWCLIPPER sDD_Clipper_BBC3DC = nullptr;
+LPDIRECTDRAWSURFACE sDD_primary_surface_BBC3C8 = nullptr;
+LPDIRECTDRAWSURFACE sDD_surface_backbuffer_BBC3CC = nullptr;
+LPDIRECTDRAWPALETTE sDD_Pal_BBC3D8 = nullptr;
 
-ALIVE_VAR(1, 0xBBC3AC, s32, sbDD_FlipMode_BBC3AC, 0); // TODO: Make Enum
-ALIVE_VAR(1, 0xBBC3E0, LONG, sDD_old_win_style_BBC3E0, 0);
+s32 sbDD_FlipMode_BBC3AC = 0; // TODO: Make Enum
+LONG sDD_old_win_style_BBC3E0 = 0;
 
 
 s32 DD_Shutdown_4F0790(s32 bDestroyDD)
@@ -311,10 +311,10 @@ s32 DD_Shutdown_4F0790(s32 bDestroyDD)
     return 1;
 }
 
-ALIVE_VAR(1, 0xBBC3B8, bool, sDD_Caps_BBC3B8, FALSE); // Force ram surfaces?
-ALIVE_VAR(1, 0xBBC3A0, bool, sDD_VideoMemory_BBC3A0, FALSE);
-ALIVE_VAR(1, 0xBBC3C0, u32, sDDColourKey_BBC3C0, 0);
-ALIVE_VAR(1, 0xBBC3BC, bool, sbFullScreen_BBC3BC, 0);
+bool sDD_Caps_BBC3B8 = FALSE; // Force ram surfaces?
+bool sDD_VideoMemory_BBC3A0 = FALSE;
+u32 sDDColourKey_BBC3C0 = 0;
+bool sbFullScreen_BBC3BC = 0;
 
 LPDIRECTDRAWSURFACE DD_Create_Surface_4F0CB0(s32 width, s32 height, s32 bSetUnknownCaps)
 {
@@ -523,8 +523,8 @@ s32 DD_SetDisplayMode_4F0730(u32 width, u32 height, u32 bpp)
     return sDDraw_BBC3D4->SetDisplayMode(width, height, bpp);
 }
 
-ALIVE_VAR(1, 0xBBC3A4, s32, sDD_Width_BBC3A4, 0);
-ALIVE_VAR(1, 0xBBC3A8, s32, sDD_Height_BBC3A8, 0);
+s32 sDD_Width_BBC3A4 = 0;
+s32 sDD_Height_BBC3A8 = 0;
 
 s32 DD_Enable_4F0380(HWND /*hwnd*/, s32 width, s32 height, s32 bpp, s32 flipMode, s32 a6)
 {

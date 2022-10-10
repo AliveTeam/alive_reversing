@@ -12,7 +12,7 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x4FFA4C, s16, word_4FFA4C, 0);
+s16 word_4FFA4C = 0;
 
 void BaseBomb::VUpdate()
 {

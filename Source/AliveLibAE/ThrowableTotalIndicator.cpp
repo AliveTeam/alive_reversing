@@ -7,7 +7,7 @@
 #include "../relive_lib/PsxDisplay.hpp"
 #include "stdlib.hpp"
 
-ALIVE_VAR(1, 0x5c112c, u16, bThrowableIndicatorExists_5C112C, 0);
+u16 bThrowableIndicatorExists_5C112C = 0;
 
 const s16 kNum_0_551994[17] = {
     4,

@@ -9,7 +9,7 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x4D148C, u8, sLeafRandIdx_4D148C, 8);
+u8 sLeafRandIdx_4D148C = 8;
 
 void Leaf::VUpdate()
 {

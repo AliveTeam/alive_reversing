@@ -15,7 +15,7 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x507668, s16, sNumCamSwappers_507668, 0);
+s16 sNumCamSwappers_507668 = 0;
 
 CameraSwapper::CameraSwapper(CamResource& ppBits, s32 movieId, s32 movieFlag, s8 movieFlags, s16 flags, s16 volume)
     : BaseGameObject(TRUE, 0)

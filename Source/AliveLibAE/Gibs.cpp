@@ -26,7 +26,7 @@ const TintEntry kGibTints_55C744[] = {
     {EReliveLevelIds::eBonewerkz_Ender, 87u, 103u, 67u},
     {EReliveLevelIds::eNone, 87u, 103u, 67u}};
 
-ALIVE_VAR(1, 0x550e80, s16, sGibRandom_550E80, 13);
+s16 sGibRandom_550E80 = 13;
 
 FP Random_40FAF0(FP scale)
 {

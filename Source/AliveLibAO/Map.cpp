@@ -41,7 +41,7 @@ namespace AO {
 void Map_ForceLink()
 { }
 
-ALIVE_VAR(1, 0x507C98, Camera*, sCameraBeingLoaded_507C98, nullptr);
+Camera* sCameraBeingLoaded_507C98 = nullptr;
 
 OpenSeqHandle g_SeqTable_4C9E70[165] = {
     {"D1AMB.SEQ", 0, 0, 100, -1, {}},
@@ -241,9 +241,9 @@ const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect_4CDC78[10]
     CameraSwapEffects::eUnknown_11,
     CameraSwapEffects::eInstantChange_0};
 
-ALIVE_VAR(1, 0x507BA8, Map, gMap, {});
-ALIVE_VAR(1, 0x507C9C, s16, sMap_bDoPurpleLightEffect_507C9C, 0);
-ALIVE_VAR(1, 0x507CA0, s32, gSndChannels_507CA0, 0);
+Map gMap = {};
+s16 sMap_bDoPurpleLightEffect_507C9C = 0;
+s32 gSndChannels_507CA0 = 0;
 
 Map::Map()
 {

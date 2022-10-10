@@ -159,28 +159,28 @@ void Sys_SetWindowProc_Filter_48E950(TFilter)
 #endif
 
 
-ALIVE_VAR(1, 0x50766C, DynamicArrayT<BaseGameObject>*, ObjListPlatforms_50766C, nullptr);
+DynamicArrayT<BaseGameObject>* ObjListPlatforms_50766C = nullptr;
 
 void Game_ForceLink()
 {
 }
 
-ALIVE_VAR(1, 0x5076CC, s16, gbKillUnsavedMudsDone_5076CC, 0);
+s16 gbKillUnsavedMudsDone_5076CC = 0;
 
 // TODO: Move to game ender controller for AO sync
-ALIVE_VAR(1, 0x5076C4, s16, gRestartRuptureFarmsKilledMuds_5076C4, 0);
-ALIVE_VAR(1, 0x5076C8, s16, gRestartRuptureFarmsSavedMuds_5076C8, 0);
+s16 gRestartRuptureFarmsKilledMuds_5076C4 = 0;
+s16 gRestartRuptureFarmsSavedMuds_5076C8 = 0;
 
-ALIVE_VAR(1, 0x5076D0, s16, gOldKilledMuds_5076D0, 0);
-ALIVE_VAR(1, 0x5076D4, s16, gOldSavedMuds_5076D4, 0);
+s16 gOldKilledMuds_5076D0 = 0;
+s16 gOldSavedMuds_5076D4 = 0;
 
-ALIVE_VAR(1, 0x507B78, s16, sBreakGameLoop_507B78, 0);
-ALIVE_VAR(1, 0x507698, s16, gAttract_507698, 0);
-ALIVE_VAR(1, 0x507B0C, s32, gTimeOut_NotUsed_507B0C, 0);
-ALIVE_VAR(1, 0x507B10, s32, gFileOffset_NotUsed_507B10, 0);
+s16 sBreakGameLoop_507B78 = 0;
+s16 gAttract_507698 = 0;
+s32 gTimeOut_NotUsed_507B0C = 0;
+s32 gFileOffset_NotUsed_507B10 = 0;
 
-ALIVE_VAR(1, 0x508BF8, s8, gDDCheatMode_508BF8, 0);
-ALIVE_VAR(1, 0x508BFC, s8, byte_508BFC, 0);
+s8 gDDCheatMode_508BF8 = 0;
+s8 byte_508BFC = 0;
 
 ALIVE_ARY(1, 0x4CECC8, s8, 3, gDriveLetter_4CECC8, {'D', ':', '0'});
 
@@ -353,7 +353,7 @@ void Game_Free_LoadingIcon_445E80()
 
 using TExitGameCB = AddPointer_t<void CC()>;
 
-ALIVE_VAR(1, 0x9F664C, TExitGameCB, sGame_OnExitCallback_9F664C, nullptr);
+TExitGameCB sGame_OnExitCallback_9F664C = nullptr;
 
 void Game_SetExitCallBack_48E040(TExitGameCB)
 {

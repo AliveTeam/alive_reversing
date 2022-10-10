@@ -12,7 +12,7 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x504C70, u16, bThrowableIndicatorExists_504C70, 0);
+u16 bThrowableIndicatorExists_504C70 = 0;
 
 ThrowableTotalIndicator::~ThrowableTotalIndicator()
 {

@@ -25,8 +25,8 @@
 #include "Map.hpp"
 #include "Path.hpp"
 
-ALIVE_VAR(1, 0x5BC20C, u8, sFleechRandomIdx_5BC20C, 0);
-ALIVE_VAR(1, 0x5BC20E, s16, sFleechCount_5BC20E, 0);
+u8 sFleechRandomIdx_5BC20C = 0;
+s16 sFleechCount_5BC20E = 0;
 
 const static AnimId sFleechAnimFromMotion[19] = {
     AnimId::Fleech_Sleeping,
@@ -202,7 +202,7 @@ Fleech::Fleech(relive::Path_Fleech* pTlv, const Guid& tlvId)
     }
 }
 
-ALIVE_VAR(1, 0x551840, Guid, current_target_object_id_551840, {});
+Guid current_target_object_id_551840 = {};
 
 void Fleech::LoadAnimations()
 {

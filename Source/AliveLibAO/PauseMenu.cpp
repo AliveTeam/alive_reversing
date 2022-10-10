@@ -23,7 +23,7 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x5080E0, PauseMenu*, pPauseMenu_5080E0, nullptr);
+PauseMenu* pPauseMenu_5080E0 = nullptr;
 
 const u8 byte_4C5EE8[32] = {
     0u,
@@ -90,12 +90,12 @@ void PauseMenu::VScreenChanged()
     }
 }
 
-ALIVE_VAR(1, 0x9F1188, s16, word_9F1188, 0);
-ALIVE_VAR(1, 0x504620, s16, word_504620, 0);
-ALIVE_VAR(1, 0x504622, s16, word_504622, 0);
-ALIVE_VAR(1, 0x9F0E60, u16, word_9F0E60, 0);
-ALIVE_VAR(1, 0x504624, u16, word_504624, 0);
-ALIVE_VAR(1, 0x504626, u16, word_504626, 0);
+s16 word_9F1188 = 0;
+s16 word_504620 = 0;
+s16 word_504622 = 0;
+u16 word_9F0E60 = 0;
+u16 word_504624 = 0;
+u16 word_504626 = 0;
 
 s16 Reset_Unknown_45A5B0()
 {
@@ -112,7 +112,7 @@ struct saveName final
 {
     char_type characters[26];
 };
-ALIVE_VAR(1, 0x5080C6, saveName, saveNameBuffer_5080C6, {});
+saveName saveNameBuffer_5080C6 = {};
 
 const char_type* gLevelNames_4CE1D4[20] = {
     "¸",
@@ -522,7 +522,7 @@ void PauseMenu::VUpdate()
     }
 }
 
-ALIVE_VAR(1, 0xA88B90, s8, byte_A88B90, 0);
+s8 byte_A88B90 = 0;
 
 PauseMenu::PauseEntry pauseEntries_4CDE50[6] = {
     {184, 85, "CONTINUE", 128u, 16u, 255u, '\x01'},

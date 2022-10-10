@@ -11,7 +11,7 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x507B88, Mine*, sMinePlayingSound_507B88, nullptr);
+Mine* sMinePlayingSound_507B88 = nullptr;
 
 
 void Mine::LoadAnimations()

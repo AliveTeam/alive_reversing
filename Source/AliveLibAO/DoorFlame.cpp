@@ -14,7 +14,7 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x507734, DoorFlame*, pFlameControllingTheSound_507734, nullptr);
+DoorFlame* pFlameControllingTheSound_507734 = nullptr;
 
 class FireBackgroundGlow final : public BaseAnimatedWithPhysicsGameObject
 {

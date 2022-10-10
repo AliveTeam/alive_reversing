@@ -13,8 +13,8 @@
 #include "Function.hpp"
 #include "PathDataExtensions.hpp"
 
-ALIVE_VAR(1, 0x5C1BC6, s16, sFeeco_Restart_KilledMudCount_5C1BC6, 0);
-ALIVE_VAR(1, 0x5C1BC8, s16, sFeecoRestart_SavedMudCount_5C1BC8, 0);
+s16 sFeeco_Restart_KilledMudCount_5C1BC6 = 0;
+s16 sFeecoRestart_SavedMudCount_5C1BC8 = 0;
 
 void CreateGameEnderController_43B7A0()
 {

@@ -17,8 +17,8 @@
 #include "PathDataExtensions.hpp"
 #include "GameAutoPlayer.hpp"
 
-ALIVE_VAR(1, 0x5ca4d8, s8, sQuicksave_SaveNextFrame_5CA4D8, 0);
-ALIVE_VAR(1, 0x5ca4d9, s8, sQuicksave_LoadNextFrame_5CA4D9, 0);
+s8 sQuicksave_SaveNextFrame_5CA4D8 = 0;
+s8 sQuicksave_LoadNextFrame_5CA4D9 = 0;
 
 ALIVE_ARY(1, 0x5C92F0, char_type, 16, sScreenStringBuffer_5C92F0, {0});
 
@@ -1705,4 +1705,4 @@ void PauseMenu::VUpdate()
     sDisableFontFlicker_5C9304 = 0;
 }
 
-ALIVE_VAR(1, 0x5C9300, PauseMenu*, pPauseMenu_5C9300, nullptr);
+PauseMenu* pPauseMenu_5C9300 = nullptr;

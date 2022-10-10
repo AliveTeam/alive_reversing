@@ -12,8 +12,8 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x5009D4, GasEmitter*, gGasEmitter_5009D4, nullptr);
-ALIVE_VAR(1, 0x5009D8, u32, gGasEmitterFx_5009D8, 0);
+GasEmitter* gGasEmitter_5009D4 = nullptr;
+u32 gGasEmitterFx_5009D8 = 0;
 
 void GasEmitter::VScreenChanged()
 {

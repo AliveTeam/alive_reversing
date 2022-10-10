@@ -8,8 +8,8 @@
 #include "Sfx.hpp"
 #include "Path.hpp"
 
-ALIVE_VAR(1, 0x5c1bb4, s16, alarmInstanceCount_5C1BB4, 0);
-ALIVE_VAR(1, 0x550d70, Guid, sAlarmObjId_550D70, Guid{});
+s16 alarmInstanceCount_5C1BB4 = 0;
+Guid sAlarmObjId_550D70 = Guid{};
 
 Alarm::Alarm(relive::Path_Alarm* pTlv, const Guid& tlvId)
     : EffectBase(Layer::eLayer_Above_FG1_39, TPageAbr::eBlend_3)

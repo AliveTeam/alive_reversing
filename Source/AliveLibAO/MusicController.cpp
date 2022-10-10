@@ -11,16 +11,16 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x507B98, MusicController*, pMusicController_507B98, nullptr);
+MusicController* pMusicController_507B98 = nullptr;
 
 using TRootCallBackFn = decltype(&MusicController::OnRootCounter);
 
 constexpr auto RCntCNT3 = 0xf2000003; // VSync (VBlank)
 
 // TODO: Move out PSX emu parts
-ALIVE_VAR(1, 0x507BA0, s32, psx_root_event_507BA0, 0);
-ALIVE_VAR(1, 0xAC0BE0, TRootCallBackFn, sRootCounerFn_AC0BE0, nullptr);
-ALIVE_VAR(1, 0x507B9C, s32, sMusicTime_507B9C, 0);
+s32 psx_root_event_507BA0 = 0;
+TRootCallBackFn sRootCounerFn_AC0BE0 = nullptr;
+s32 sMusicTime_507B9C = 0;
 
 
 s32 Psx_Root_Counter_49C280(s32 event, s32 unknown1, s32 unknown2, TRootCallBackFn pFn)

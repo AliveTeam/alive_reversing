@@ -11,7 +11,7 @@
 #include "Game.hpp"
 #include "Map.hpp"
 
-ALIVE_VAR(1, 0x5c1bde, u16, gInfiniteThrowables, 0);
+u16 gInfiniteThrowables = 0;
 
 // Overlay to throwable type table ??
 const AETypes throwable_types_55FAFC[252] = {

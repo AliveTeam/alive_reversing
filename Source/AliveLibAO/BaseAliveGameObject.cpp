@@ -15,7 +15,7 @@ namespace AO {
 void BaseAliveGameObject_ForceLink()
 { }
 
-ALIVE_VAR(1, 0x4FC8A0, DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObjects, nullptr);
+DynamicArrayT<BaseAliveGameObject>* gBaseAliveGameObjects = nullptr;
 
 BaseAliveGameObject::BaseAliveGameObject()
     : BaseAnimatedWithPhysicsGameObject(0)

@@ -19,15 +19,15 @@
     #include <timeapi.h>
 #endif
 
-ALIVE_VAR(1, 0xBBBA00, bool, sAppIsActivated_BBBA00, FALSE);
-ALIVE_VAR(1, 0xBBB9F4, TWindowHandleType, sHwnd_BBB9F4, nullptr);
+bool sAppIsActivated_BBBA00 = FALSE;
+TWindowHandleType sHwnd_BBB9F4 = nullptr;
 #if _WIN32
-ALIVE_VAR(1, 0xBBB9F8, TWindowProcFilter, sWindowProcFilter_BBB9F8, nullptr);
+TWindowProcFilter sWindowProcFilter_BBB9F8 = nullptr;
 #endif
-ALIVE_VAR(1, 0xBBB9E8, LPSTR, sCommandLine_BBB9E8, nullptr);
-ALIVE_VAR(1, 0xBBB9EC, HINSTANCE, sInstance_BBB9EC, nullptr);
-ALIVE_VAR(1, 0xBBB9FC, s32, sCmdShow_BBB9FC, 0);
-ALIVE_VAR(1, 0xBBFB04, TWindowHandleType, hWnd_BBFB04, nullptr);
+LPSTR sCommandLine_BBB9E8 = nullptr;
+HINSTANCE sInstance_BBB9EC = nullptr;
+s32 sCmdShow_BBB9FC = 0;
+TWindowHandleType hWnd_BBFB04 = nullptr;
 
 #if AUTO_SWITCH_CONTROLLER // OG Change - Used for Auto-switching active controller (gamepad/keyboard)
 static int totalConnectedJoysticks = 0;
@@ -238,7 +238,7 @@ void Sys_SetWindowProc_Filter_4EE197(TWindowProcFilter pFilter)
 }
 #endif
 
-ALIVE_VAR(1, 0x5CA230, SoundEntry*, sMovieSoundEntry_5CA230, nullptr);
+SoundEntry* sMovieSoundEntry_5CA230 = nullptr;
 
 #if _WIN32
     #if !USE_SDL2

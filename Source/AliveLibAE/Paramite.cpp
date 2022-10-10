@@ -6105,7 +6105,7 @@ void Paramite::HandleInputRunning()
     }
 }
 
-ALIVE_VAR(1, 0x5C92EC, s16, sParamiteDelayIdx_5C92EC, 0);
+s16 sParamiteDelayIdx_5C92EC = 0;
 
 const s16 sParamiteDelayTable_55D7B8[4] = {0, 5, 10, 0};
 

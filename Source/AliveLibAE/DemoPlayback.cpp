@@ -7,7 +7,7 @@
 #include "stdlib.hpp"
 #include "Function.hpp"
 
-ALIVE_VAR(1, 0x5D1E20, DemoPlayback*, sDemoObj_dword_5D1E20, nullptr);
+DemoPlayback* sDemoObj_dword_5D1E20 = nullptr;
 
 DemoPlayback::DemoPlayback()
     : BaseGameObject(TRUE, 0)

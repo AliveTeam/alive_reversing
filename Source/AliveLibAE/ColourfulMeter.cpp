@@ -7,8 +7,8 @@
 #include "MinesAlarm.hpp"
 #include "Path.hpp"
 
-ALIVE_VAR(1, 0x5c1bfa, u8, gTotalMeterBars_5C1BFA, 0);
-ALIVE_VAR(1, 0x5c1bf8, u16, gbDrawMeterCountDown_5C1BF8, 0);
+u8 gTotalMeterBars_5C1BFA = 0;
+u16 gbDrawMeterCountDown_5C1BF8 = 0;
 
 ColourfulMeter::ColourfulMeter(relive::Path_ColourfulMeter* pTlv, const Guid& tlvId)
     : BaseGameObject(TRUE, 0)

@@ -6,7 +6,7 @@
 #include "Sfx.hpp"
 #include "Map.hpp"
 
-ALIVE_VAR(1, 0xBAF7E0, s16, sShellCount_BAF7E0, 0);
+s16 sShellCount_BAF7E0 = 0;
 
 BulletShell::BulletShell(FP xpos, FP ypos, s16 direction, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)

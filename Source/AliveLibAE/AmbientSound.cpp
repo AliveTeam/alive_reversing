@@ -20,9 +20,9 @@ struct Sound_Ambiance_Array final
     Sound_Ambiance mArray[8];
 };
 
-ALIVE_VAR(1, 0xBB3078, Sound_Ambiance_Array, sTopBottomAmbiance_BB3078, {});
-ALIVE_VAR(1, 0xBB30D8, Sound_Ambiance_Array, sRightAmbiance_BB30D8, {});
-ALIVE_VAR(1, 0xBB3138, Sound_Ambiance_Array, sLeftAmbiance_BB3138, {});
+Sound_Ambiance_Array sTopBottomAmbiance_BB3078 = {};
+Sound_Ambiance_Array sRightAmbiance_BB30D8 = {};
+Sound_Ambiance_Array sLeftAmbiance_BB3138 = {};
 
 
 void SND_Init_Ambiance()

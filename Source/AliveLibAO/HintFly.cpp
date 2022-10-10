@@ -1342,7 +1342,7 @@ const u8* pHintFlyAlphabet_4C7268[] = {
     HintFlyLetter_Z_4C7010,
 };
 
-ALIVE_VAR(1, 0x4C6AA4, u8, sHintFlyRndSeed_4C6AA4, 37);
+u8 sHintFlyRndSeed_4C6AA4 = 37;
 
 static u8 HintFly_NextRandom()
 {

@@ -9,7 +9,7 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x50E26C, ThrowableArray*, gpThrowableArray_50E26C, nullptr);
+ThrowableArray* gpThrowableArray_50E26C = nullptr;
 
 void LoadRockTypes(EReliveLevelIds levelNumber, u16 path)
 {

@@ -13,8 +13,8 @@
 
 namespace AO {
 
-ALIVE_VAR(1, 0x4C30A8, s32, gNextDoorLightUpdate_4C30A8, -1);
-ALIVE_VAR(1, 0x4FC8A4, s32, gDoorLightUpdateTimer_4FC8A4, 0);
+s32 gNextDoorLightUpdate_4C30A8 = -1;
+s32 gDoorLightUpdateTimer_4FC8A4 = 0;
 
 DoorLight::DoorLight(relive::Path_LightEffect* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)

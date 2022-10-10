@@ -29,15 +29,15 @@
 
 MainMenuController* MainMenuController::gMainMenuController = nullptr;
 
-ALIVE_VAR(1, 0xbb4400, s32, sMainMenuObjectCounter_BB4400, 0);
+s32 sMainMenuObjectCounter_BB4400 = 0;
 
-ALIVE_VAR(1, 0x5c1bee, s8, sEnableCheatLevelSelect_5C1BEE, 0);
-ALIVE_VAR(1, 0x5c1bec, s8, sEnableCheatFMV_5C1BEC, 0);
+s8 sEnableCheatLevelSelect_5C1BEE = 0;
+s8 sEnableCheatFMV_5C1BEC = 0;
 
-ALIVE_VAR(1, 0x5c1b9e, s16, sDemoIdChosenFromDemoMenu_5C1B9E, 0);
+s16 sDemoIdChosenFromDemoMenu_5C1B9E = 0;
 
-ALIVE_VAR(1, 0x561538, s16, sMenuItemCount_561538, 0);
-ALIVE_VAR(1, 0x5C1B50, PerPathMudStats, sSavedKilledMudsPerZulag_5C1B50, {});
+s16 sMenuItemCount_561538 = 0;
+PerPathMudStats sSavedKilledMudsPerZulag_5C1B50 = {};
 
 union DemoOrFmv
 {
@@ -45,8 +45,8 @@ union DemoOrFmv
     MenuFMV* mFmvRec;
 };
 
-ALIVE_VAR(1, 0xbb4414, DemoOrFmv, pDemosOrFmvs_BB4414, {});
-ALIVE_VAR(1, 0x5c2f68, const char_type, byte_5C2F68, 0);
+DemoOrFmv pDemosOrFmvs_BB4414 = {};
+const char_type byte_5C2F68 = 0;
 
 // HACK HACK FIX ME - all of these buttons are in one contiguous array in the real game
 // we need to replicate this as the game will access this array with the index of the PREVIOUS screen
@@ -1099,8 +1099,8 @@ static s32 DrawMenuStringWithShadow(PrimHeader** ppOt, Alive::Font& field_120_fo
     return polyOffset;
 }
 
-ALIVE_VAR(1, 0xBB43F0, FP, sTextYPos_BB43F0, {});
-ALIVE_VAR(1, 0xBB43E4, FP, dword_BB43E4, {});
+FP sTextYPos_BB43F0 = {};
+FP dword_BB43E4 = {};
 
 static void RenderScrollableTextEntries(
     PrimHeader** ot, s32& targetEntry, s32& selectedEntry, s32 totalItemsCount,
@@ -1215,9 +1215,9 @@ const SaveFileRec aKeyboard_1[2] = //used SaveFileRec as workaround for RenderSc
         {"Keyboard", 0},
         {"Game Pad", 0}};
 
-ALIVE_VAR(1, 0xBB43D8, s32, sControllerEntryToSelect_BB43D8, 0);
-ALIVE_VAR(1, 0xBB43F4, s32, sSelectedControllerEntry_BB43F4, 0);
-ALIVE_VAR(1, 0x55E838, s32, sControllerCount_55E838, ALIVE_COUNTOF(aKeyboard_1));
+s32 sControllerEntryToSelect_BB43D8 = 0;
+s32 sSelectedControllerEntry_BB43F4 = 0;
+s32 sControllerCount_55E838 = ALIVE_COUNTOF(aKeyboard_1);
 
 void MainMenuController::ControllerMenu_Render_Text_4D26C0(PrimHeader** ot)
 {
@@ -1230,7 +1230,7 @@ void MainMenuController::ControllerMenu_Render_Text_4D26C0(PrimHeader** ot)
     }
 }
 
-ALIVE_VAR(1, 0xBB4418, s16, word_BB4418, 0);
+s16 word_BB4418 = 0;
 
 void MainMenuController::Demo_And_FMV_List_Render_4D4F30(PrimHeader** ppOt)
 {
@@ -1359,7 +1359,7 @@ void MainMenuController::t_Load_AbeSpeak_Res_4D4A20()
     field_25E_Inside_CheatLevelSelect_Screen = 0;
 }
 
-ALIVE_VAR(1, 0x55C128, s32, dword_55C128, 0);
+s32 dword_55C128 = 0;
 
 MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
 {
@@ -1506,7 +1506,7 @@ MainMenuText sLoadButtonGraphics[2] = {
     {32, 27, "x", 3u, 0u, 0u, 0u, 0.75, 0u, 0u, 0u, 0u},
     {331, 204, "esc", 3u, 0u, 0u, 0u, 0.75, 0u, 0u, 0u, 0u}};
 
-ALIVE_VAR(1, 0xBB43E8, s32, sSelectedSavedGameIdx_BB43E8, 0);
+s32 sSelectedSavedGameIdx_BB43E8 = 0;
 
 void MainMenuController::tLoadGame_Render_4D44D0(PrimHeader** ot)
 {
@@ -1694,8 +1694,8 @@ void MainMenuController::Page_Front_Render_4D24B0(PrimHeader** ot)
     RenderOnScreenTextHelper(ot, &sMMT_FrontPage_5623A0[0], ALIVE_COUNTOF(sMMT_FrontPage_5623A0), 1);
 }
 
-ALIVE_VAR(1, 0xbb43dc, s16, word_BB43DC, 0);
-ALIVE_VAR(1, 0x5c1b88, s32, sGameStartedFrame_5C1B88, 0);
+s16 word_BB43DC = 0;
+s32 sGameStartedFrame_5C1B88 = 0;
 
 MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
 {
@@ -1982,9 +1982,9 @@ s8 MainMenuController::checkIfDemoFileExists_4D1430(char_type* input)
 
 // true if demo was started manually from the demos menu,
 // false if demo was started automatically due to idling
-ALIVE_VAR(1, 0x5C1B9C, s16, gIsDemoStartedManually_5C1B9C, FALSE);
+s16 gIsDemoStartedManually_5C1B9C = FALSE;
 
-ALIVE_VAR(1, 0x5C1BA2, u8, sCurrentDemoIdForIdlingDemoPlayback_5C1BA2, 0);
+u8 sCurrentDemoIdForIdlingDemoPlayback_5C1BA2 = 0;
 MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
 {
     const s32 maxDemoId = ALIVE_COUNTOF(sDemos_5617F0);
@@ -2420,8 +2420,8 @@ MainMenuNextCam MainMenuController::PSX_Gamemode_Selection_Update_4D48C0(u32 inp
     return MainMenuNextCam(MainMenuCams::eNoChange);
 }
 
-ALIVE_VAR(1, 0xBB43F8, s32, dword_BB43F8, 0);
-ALIVE_VAR(1, 0xBB43EC, s32, sButtonToRemapIdx_BB43EC, 0);
+s32 dword_BB43F8 = 0;
+s32 sButtonToRemapIdx_BB43EC = 0;
 
 void MainMenuController::RemapInput_Load_4D17E0()
 {
@@ -3061,7 +3061,7 @@ void MainMenuController::Load_Anim_Pal_4D06A0(Animation* pAnim)
     pAnim->ReloadPal();
 }
 
-ALIVE_VAR(1, 0x5ca408, u32, sLevelId_dword_5CA408, 0);
+u32 sLevelId_dword_5CA408 = 0;
 
 s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
 {

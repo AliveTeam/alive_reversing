@@ -13,24 +13,24 @@
 #include "Renderer/DirectX9Renderer.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
 
-ALIVE_VAR(1, 0xBD0BFA, bool, sVGA_own_surfaces_BD0BFA, false);
-ALIVE_VAR(1, 0xBC0BB8, bool, sVGA_Inited_BC0BB8, false);
-ALIVE_VAR(1, 0xBD0BF8, bool, sVGA_IsWindowMode_BD0BF8, false);
+bool sVGA_own_surfaces_BD0BFA = false;
+bool sVGA_Inited_BC0BB8 = false;
+bool sVGA_IsWindowMode_BD0BF8 = false;
 
-ALIVE_VAR(1, 0xBD0BD0, Bitmap, sVGA_Bmp0_BD0BD0, {});
-ALIVE_VAR(1, 0xBD2A20, Bitmap, sVGA_bmp_primary_BD2A20, {});
-ALIVE_VAR(1, 0xBD2A40, Bitmap, sVGA_bmp_back_buffer_BD2A40, {});
+Bitmap sVGA_Bmp0_BD0BD0 = {};
+Bitmap sVGA_bmp_primary_BD2A20 = {};
+Bitmap sVGA_bmp_back_buffer_BD2A40 = {};
 
 
-ALIVE_VAR(1, 0xBD0BBC, s8, sVGA_BD0BBC, 0);
-ALIVE_VAR(1, 0xBD0BF9, s8, sVGA_bpp_BD0BF9, 0);
-ALIVE_VAR(1, 0xBD0BEC, u16, sVGA_height_BD0BEC, 0);
-ALIVE_VAR(1, 0xBD0BC4, u16, sVGA_width_BD0BC4, 0);
+s8 sVGA_BD0BBC = 0;
+s8 sVGA_bpp_BD0BF9 = 0;
+u16 sVGA_height_BD0BEC = 0;
+u16 sVGA_width_BD0BC4 = 0;
 
-ALIVE_VAR(1, 0xBD0BF0, s32, sbVga_LockedType_BD0BF0, 0); // TODO: Enum
-ALIVE_VAR(1, 0xBD0BC8, HDC, sVga_HDC_BD0BC8, 0);
-ALIVE_VAR(1, 0xBD0BC0, s32, sVga_LockPType_BD0BC0, 0);
-ALIVE_VAR(1, 0xBD0BF4, LPVOID, sVgaLockBuffer_BD0BF4, 0);
+s32 sbVga_LockedType_BD0BF0 = 0; // TODO: Enum
+HDC sVga_HDC_BD0BC8 = 0;
+s32 sVga_LockPType_BD0BC0 = 0;
+LPVOID sVgaLockBuffer_BD0BF4 = 0;
 
 bool s_VGA_KeepAspectRatio = true;
 bool s_VGA_FilterScreen = false;

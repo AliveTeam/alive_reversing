@@ -12,7 +12,7 @@
 #include "Map.hpp"
 #include "Path.hpp"
 
-ALIVE_VAR(1, 0x5C2C6C, DoorFlame*, pFlameControllingTheSound_5C2C6C, nullptr);
+DoorFlame* pFlameControllingTheSound_5C2C6C = nullptr;
 
 class FireBackgroundGlow final : public ::BaseAnimatedWithPhysicsGameObject
 {

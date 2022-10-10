@@ -24,7 +24,7 @@ const TintEntry kMovingBombTints_4CD310[4] = {
     {EReliveLevelIds::eStockYardsReturn, 30u, 30u, 55u},
     {EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
-ALIVE_VAR(1, 0x507B8C, MovingBomb*, gMovingBomb_507B8C, nullptr);
+MovingBomb* gMovingBomb_507B8C = nullptr;
 
 MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()

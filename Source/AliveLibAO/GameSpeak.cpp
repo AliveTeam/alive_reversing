@@ -52,7 +52,7 @@ GameSpeakEvents Code_LookUp(u32 code, u16 idx, u16 code_len)
     return static_cast<GameSpeakEvents>(code / dword_4CFFCC[code_len_to_use - idx] % 10);
 }
 
-ALIVE_VAR(1, 0x4FF954, GameSpeak*, pEventSystem_4FF954, nullptr);
+GameSpeak* pEventSystem_4FF954 = nullptr;
 
 GameSpeak::GameSpeak()
     : BaseGameObject(TRUE, 0)

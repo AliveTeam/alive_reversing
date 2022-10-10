@@ -556,7 +556,7 @@ s32 XGrid_Index_To_XPos_4498F0(FP scale, s32 xGridIndex)
     return (374 / 2);
 }
 
-ALIVE_VAR(1, 0x5c1b8c, BaseAliveGameObject*, sControlledCharacter, nullptr);
+BaseAliveGameObject* sControlledCharacter = nullptr;
 
 static constexpr s32 kResourceArraySize = 28;
 
@@ -909,7 +909,7 @@ const FP sAbe_yVel_table_545790[8] = {
     FP_FromInteger(4),
     FP_FromInteger(4)};
 
-ALIVE_VAR(1, 0x5c1bda, s16, gAbeBulletProof_5C1BDA, 0);
+s16 gAbeBulletProof_5C1BDA = 0;
 
 
 void Abe::HandleDDCheat()
@@ -6101,7 +6101,7 @@ void Abe::jMotion_85_Fall_455070()
     Motion_3_Fall_459B60();
 }
 
-ALIVE_VAR(1, 0x5c2c68, s32, sHandstoneSoundChannels_5C2C68, 0);
+s32 sHandstoneSoundChannels_5C2C68 = 0;
 
 void Abe::Motion_86_HandstoneBegin_45BD00()
 {
