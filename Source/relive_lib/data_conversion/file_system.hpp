@@ -3,7 +3,15 @@
 #include "../../AliveLibCommon/FatalError.hpp"
 #include "../../AliveLibAE/stdafx.h"
 
-constexpr inline char kDirSeperator = '\\';
+#if !_WIN32
+#include <sys/stat.h>
+#endif
+
+#if _WIN32
+constexpr inline char kDirSeparator = '\\';
+#else
+constexpr inline char kDirSeparator = '/';
+#endif
 
 // TODO: Lots of stuff missing, needs to do utf8 -> utf16 on windows
 class FileSystem final
@@ -14,13 +22,13 @@ public:
     public:
         Path& Append(const std::string& directory)
         {
-            if (!directory.empty() && directory[directory.size() - 1] == kDirSeperator)
+            if (!directory.empty() && directory[directory.size() - 1] == kDirSeparator)
             {
                 ALIVE_FATAL("Directory ends with slash");
             }
             if (!mPath.empty())
             {
-                mPath += kDirSeperator;
+                mPath += kDirSeparator;
             }
             mPath += directory;
             return *this;
@@ -28,7 +36,7 @@ public:
 
         Path Parent() const
         {
-            const auto pos = mPath.find_last_of(kDirSeperator);
+            const auto pos = mPath.find_last_of(kDirSeparator);
             if (pos != std::string::npos)
             {
                 Path parent;
@@ -108,7 +116,7 @@ public:
 
         std::string fullPath = path.GetPath();
 
-        auto dirPos = fullPath.find_first_of(kDirSeperator);
+        auto dirPos = fullPath.find_first_of(kDirSeparator);
         do
         {
             if (dirPos != std::string::npos)
@@ -117,18 +125,18 @@ public:
                 #ifdef _WIN32
                 ::CreateDirectoryA(dirPart.c_str(), nullptr);
                 #else
-                mkdir(dirPart.c_str(), 777);
+                mkdir(dirPart.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
                 #endif
-                dirPart.append(1, kDirSeperator);
+                dirPart.append(1, kDirSeparator);
                 fullPath = fullPath.substr(dirPos + 1);
-                dirPos = fullPath.find_first_of(kDirSeperator);
+                dirPos = fullPath.find_first_of(kDirSeparator);
             }
         }
         while (dirPos != std::string::npos);
         #ifdef _WIN32
         ::CreateDirectoryA(path.GetPath().c_str(), nullptr);
         #else
-        mkdir(dirPart.c_str(), 777);
+        mkdir(path.GetPath().c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
         #endif
     }
 
