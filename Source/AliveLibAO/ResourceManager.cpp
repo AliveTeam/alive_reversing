@@ -30,10 +30,10 @@ ResourceManager::ResourceHeapItem* sFirstLinkedListItem_50EE2C = nullptr;
 ResourceManager::ResourceHeapItem* sSecondLinkedListItem_50EE28 = nullptr;
 
 const u32 kResHeapSize = 5120000;
-ALIVE_ARY(1, 0x50EE38, u8, kResHeapSize, sResourceHeap_50EE38, {}); // Huge 5.4 MB static resource buffer
+u8 sResourceHeap_50EE38[kResHeapSize] = {}; // Huge 5.4 MB static resource buffer
 
 const u32 kLinkedListArraySize = 375;
-ALIVE_ARY(1, 0x50E270, ResourceManager::ResourceHeapItem, kLinkedListArraySize, sResourceLinkedList_50E270, {});
+ResourceManager::ResourceHeapItem sResourceLinkedList_50E270[kLinkedListArraySize] = {};
 
 u8* spResourceHeapStart_50EE30 = nullptr;
 u8* spResourceHeapEnd_9F0E3C = nullptr;

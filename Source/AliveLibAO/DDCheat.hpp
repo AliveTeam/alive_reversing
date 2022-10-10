@@ -76,12 +76,12 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(DDCheat, 0x28);
 
-ALIVE_VAR_EXTERN(s32, gTweak_X_5076D8);
-ALIVE_VAR_EXTERN(s32, gTweak_Y_5076DC);
+extern s32 gTweak_X_5076D8;
+extern s32 gTweak_Y_5076DC;
 
-ALIVE_VAR_EXTERN(s16, sRescuedMudokons_5076C0);
-ALIVE_VAR_EXTERN(s16, sKilledMudokons_5076BC);
-ALIVE_VAR_EXTERN(s16, showDebugCreatureInfo_5076E0);
-ALIVE_VAR_EXTERN(s16, sDDCheat_FlyingEnabled_50771C);
+extern s16 sRescuedMudokons_5076C0;
+extern s16 sKilledMudokons_5076BC;
+extern s16 showDebugCreatureInfo_5076E0;
+extern s16 sDDCheat_FlyingEnabled_50771C;
 
 } // namespace AO

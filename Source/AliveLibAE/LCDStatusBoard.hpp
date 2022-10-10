@@ -29,5 +29,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(LCDStatusBoard, 0x10C);
 
-ALIVE_VAR_EXTERN(s16, sMudokonsInArea_5C1BC4);
-ALIVE_VAR_EXTERN(s8, sZulagNumber_5C1A20);
+extern s16 sMudokonsInArea_5C1BC4;
+extern s8 sZulagNumber_5C1A20;

@@ -33,4 +33,4 @@ void setSaveMenuOpen(bool val);
 
 struct SoundEntry;
 
-ALIVE_VAR_EXTERN(SoundEntry*, sMovieSoundEntry_5CA230);
+extern SoundEntry* sMovieSoundEntry_5CA230;

@@ -34,5 +34,5 @@ protected:
     s16 mBaseThrowableDead = 0;
 };
 
-ALIVE_VAR_EXTERN(u16, gInfiniteThrowables);
+extern u16 gInfiniteThrowables;
 extern const AETypes throwable_types_55FAFC[252];

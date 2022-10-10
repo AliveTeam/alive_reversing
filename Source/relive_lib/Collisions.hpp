@@ -214,4 +214,4 @@ struct PSX_RECT;
 
 PSX_RECT* Rect_Clear(PSX_RECT* pRect);
 
-ALIVE_VAR_EXTERN(Collisions*, sCollisions);
+extern Collisions* sCollisions;

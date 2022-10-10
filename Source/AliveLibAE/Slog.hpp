@@ -291,4 +291,4 @@ private:
     BitField16<Flags_160> field_160_flags = {};
 };
 
-ALIVE_VAR_EXTERN(s16, sSlogCount);
+extern s16 sSlogCount;

@@ -56,4 +56,4 @@ private:
     Poly_FT4 mPoly = {};
 };
 
-ALIVE_VAR_EXTERN(ScreenManager*, pScreenManager);
+extern ScreenManager* pScreenManager;

@@ -100,4 +100,4 @@ private:
 ALIVE_ASSERT_SIZEOF(MusicController, 0x5C);
 
 
-ALIVE_VAR_EXTERN(MusicController*, pMusicController_5C3020);
+extern MusicController* pMusicController_5C3020;

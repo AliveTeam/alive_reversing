@@ -15,5 +15,5 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(DemoPlayback, 0x20);
 
-ALIVE_VAR_EXTERN(DemoPlayback*, sDemoObj_dword_5D1E20);
-ALIVE_VAR_EXTERN(s16, gIsDemoStartedManually_5C1B9C);
+extern DemoPlayback* sDemoObj_dword_5D1E20;
+extern s16 gIsDemoStartedManually_5C1B9C;

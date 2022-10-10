@@ -46,4 +46,4 @@ s32 BMP_New_4F1990(Bitmap* pBitmap, s32 width, s32 height, s32 pixelFormat, s32 
 void BMP_Draw_String_4F2230(Bitmap* pBmp, s32 x, s32 y, u32 fgColour, s32 bgColour, LPCSTR lpString);
 LONG BMP_Get_Font_Height_4F21F0(Bitmap* pBmp);
 
-ALIVE_VAR_EXTERN(u8, gVGA_force_sys_memory_surfaces_BC0BB4);
+extern u8 gVGA_force_sys_memory_surfaces_BC0BB4;

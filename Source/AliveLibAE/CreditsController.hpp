@@ -26,4 +26,4 @@ public:
 #pragma pack(pop)
 ALIVE_ASSERT_SIZEOF(CreditsController, 0x26);
 
-ALIVE_VAR_EXTERN(s16, gCreditsControllerExists);
+extern s16 gCreditsControllerExists;

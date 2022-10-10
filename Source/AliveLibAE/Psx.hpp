@@ -58,22 +58,22 @@ s32 PSX_CD_FileIOWait_4FB260(s32 bASync);
 
 Bitmap& GetPsxVram();
 
-ALIVE_VAR_EXTERN(Bitmap, sPsxVram_C1D160);
-ALIVE_VAR_EXTERN(u8, turn_off_rendering_BD0F20);
-ALIVE_VAR_EXTERN(PSX_DRAWENV, sPSX_EMU_DrawEnvState_C3D080);
-ALIVE_VAR_EXTERN(u8, sPsxEMU_show_vram_BD1465);
-ALIVE_VAR_EXTERN(Bitmap*, spBitmap_C2D038);
+extern Bitmap sPsxVram_C1D160;
+extern u8 turn_off_rendering_BD0F20;
+extern PSX_DRAWENV sPSX_EMU_DrawEnvState_C3D080;
+extern u8 sPsxEMU_show_vram_BD1465;
+extern Bitmap* spBitmap_C2D038;
 
-ALIVE_VAR_EXTERN(TPsxEmuCallBack, sPsxEmu_EndFrameFnPtr_C1D17C);
-ALIVE_VAR_EXTERN(u8, bDontUseXYOffsetInRender_BD1464);
-ALIVE_VAR_EXTERN(Bitmap, sBitmap_C1D1A0);
-ALIVE_VAR_EXTERN(s32, sVGA_DisplayType_BD1468);
+extern TPsxEmuCallBack sPsxEmu_EndFrameFnPtr_C1D17C;
+extern u8 bDontUseXYOffsetInRender_BD1464;
+extern Bitmap sBitmap_C1D1A0;
+extern s32 sVGA_DisplayType_BD1468;
 
-ALIVE_ARY_EXTERN(char_type, 128, sCdEmu_Path1_C14620);
-ALIVE_ARY_EXTERN(char_type, 128, sCdEmu_Path2_C144C0);
-ALIVE_ARY_EXTERN(char_type, 128, sCdEmu_Path3_C145A0);
+extern char_type sCdEmu_Path1_C14620[128];
+extern char_type sCdEmu_Path2_C144C0[128];
+extern char_type sCdEmu_Path3_C145A0[128];
 
-ALIVE_VAR_EXTERN(s32, sPsx_drawenv_clipx_BDCD40);
-ALIVE_VAR_EXTERN(s32, sPsx_drawenv_clipy_BDCD44);
-ALIVE_VAR_EXTERN(s32, sPsx_drawenv_clipw_BDCD48);
-ALIVE_VAR_EXTERN(s32, sPsx_drawenv_cliph_BDCD4C);
+extern s32 sPsx_drawenv_clipx_BDCD40;
+extern s32 sPsx_drawenv_clipy_BDCD44;
+extern s32 sPsx_drawenv_clipw_BDCD48;
+extern s32 sPsx_drawenv_cliph_BDCD4C;

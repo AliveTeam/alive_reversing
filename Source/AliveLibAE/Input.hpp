@@ -195,9 +195,9 @@ ALIVE_ASSERT_SIZEOF(InputObject, 0x44);
 
 InputObject& Input();
 
-ALIVE_VAR_EXTERN(InputObject, sInputObject);
-ALIVE_VAR_EXTERN(u16, sCurrentControllerIndex);
-ALIVE_VAR_EXTERN(u32, sLastPressedKey);
-ALIVE_VAR_EXTERN(s32, sIsAKeyDown);
-ALIVE_VAR_EXTERN(s16, bLongerTimeoutToNextDemo);
-ALIVE_VAR_EXTERN(s32, sJoystickEnabled);
+extern InputObject sInputObject;
+extern u16 sCurrentControllerIndex;
+extern u32 sLastPressedKey;
+extern s32 sIsAKeyDown;
+extern s16 bLongerTimeoutToNextDemo;
+extern s32 sJoystickEnabled;

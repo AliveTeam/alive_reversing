@@ -67,5 +67,5 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(LaughingGas, 0x3200);
 
-ALIVE_VAR_EXTERN(s32, gGasInstanceCount_5BC214);
-ALIVE_VAR_EXTERN(s16, gLaughingGasOn_5C1BA4);
+extern s32 gGasInstanceCount_5BC214;
+extern s16 gLaughingGasOn_5C1BA4;

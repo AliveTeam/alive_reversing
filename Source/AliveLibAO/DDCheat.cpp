@@ -90,7 +90,7 @@ s32 level_4C315C = 3;
 u16 path_4C3160 = 1;
 u32 gVox_4FF864 = 0;
 u16 doNothing_4FF860 = 0;
-ALIVE_VAR_EXTERN(s8, gDDCheatMode_508BF8);
+extern s8 gDDCheatMode_508BF8;
 
 u32 dword_9F0E40 = 0;
 u32 dword_9F0E44 = 1;

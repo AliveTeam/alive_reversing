@@ -12,8 +12,8 @@
 #include "Path.hpp"
 
 u16 sSlurg_Step_Watch_Points_Idx_5C1C08 = 0;
-ALIVE_ARY(1, 0x5BD4DC, s8, 2, sSlurg_Step_Watch_Points_Count_5BD4DC, {});
-ALIVE_ARY(1, 0x5C1B28, Slurg_Step_Watch_Points, 2, sSlurg_Step_Watch_Points_5C1B28, {});
+s8 sSlurg_Step_Watch_Points_Count_5BD4DC[2] = {};
+Slurg_Step_Watch_Points sSlurg_Step_Watch_Points_5C1B28[2] = {};
 
 void Slurg::LoadAnimations()
 {

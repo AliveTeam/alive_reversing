@@ -37,4 +37,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(CheatController, 0x40);
 
-ALIVE_VAR_EXTERN(CheatController*, pCheatController_5BC120);
+extern CheatController* pCheatController_5BC120;

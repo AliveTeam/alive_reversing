@@ -68,9 +68,9 @@ public:
 ALIVE_ASSERT_SIZEOF(Font, 0x38);
 } // namespace Alive
 
-ALIVE_VAR_EXTERN(u8, sFontDrawScreenSpace_5CA4B4);
+extern u8 sFontDrawScreenSpace_5CA4B4;
 
-ALIVE_VAR_EXTERN(s8, sDisableFontFlicker_5C9304);
+extern s8 sDisableFontFlicker_5C9304;
 
-ALIVE_ARY_EXTERN(Font_AtlasEntry, 169, sFont1Atlas_551D34);
-ALIVE_ARY_EXTERN(Font_AtlasEntry, 169, sFont2Atlas_551FD8);
+extern Font_AtlasEntry sFont1Atlas_551D34[169];
+extern Font_AtlasEntry sFont2Atlas_551FD8[169];

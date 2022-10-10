@@ -831,10 +831,10 @@ ALIVE_ASSERT_SIZEOF(Abe, 0x1BC);
 
 bool IsActiveHero(BaseGameObject* pObj);
 
-ALIVE_VAR_EXTERN(Abe*, sActiveHero);
-ALIVE_VAR_EXTERN(BaseAliveGameObject*, sControlledCharacter);
+extern Abe* sActiveHero;
+extern BaseAliveGameObject* sControlledCharacter;
 
-ALIVE_VAR_EXTERN(s16, gAbeBulletProof_5C1BDA);
+extern s16 gAbeBulletProof_5C1BDA;
 
 extern const char_type* const sAbeMotionNames[130];
 

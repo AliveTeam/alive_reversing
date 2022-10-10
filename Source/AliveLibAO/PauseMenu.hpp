@@ -49,7 +49,7 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(PauseMenu, 0x190);
 
-ALIVE_VAR_EXTERN(PauseMenu*, pPauseMenu_5080E0);
-ALIVE_VAR_EXTERN(s8, byte_A88B90);
+extern PauseMenu* pPauseMenu_5080E0;
+extern s8 byte_A88B90;
 
 } // namespace AO

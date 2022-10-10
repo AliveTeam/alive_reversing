@@ -207,7 +207,7 @@ void QuikSave_RestoreBlyData(const u8* pSaveData)
 
 
 Quicksave sActiveQuicksaveData = {};
-ALIVE_ARY(1, 0xBB31D8, SaveFileRec, 128, sSaveFileRecords_BB31D8, {});
+SaveFileRec sSaveFileRecords_BB31D8[128] = {};
 s32 sSavedGameToLoadIdx_BB43FC = 0;
 s32 sTotalSaveFilesCount_BB43E0 = 0;
 
@@ -294,7 +294,7 @@ struct SaveFlagsAndData final
     BitField8<relive::TlvFlags> flags;
     u8 data;
 };
-ALIVE_ARY(1, 0xBB233C, SaveFlagsAndData, 8, sSwitchReset_Saved_States_BB233C, {});
+SaveFlagsAndData sSwitchReset_Saved_States_BB233C[8] = {};
 
 void Quicksave_SaveSwitchResetterStates()
 {

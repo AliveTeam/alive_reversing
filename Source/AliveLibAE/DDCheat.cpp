@@ -33,17 +33,17 @@ s32 sDDCheat_DebugInputDelay_550FA8 = 0;
 using TDDCheatMenu = decltype(&DDCheat::Menu_Teleport);
 
 #define DDCHEAT_MENU_COUNT 2
-ALIVE_ARY(1, 0x550f50, TDDCheatMenu, DDCHEAT_MENU_COUNT, sDDCheat_FnTable_550F50, {
-                                                                                      &DDCheat::Menu_Teleport,
-                                                                                      &DDCheat::Menu_Movies,
-                                                                                  });
+TDDCheatMenu sDDCheat_FnTable_550F50[DDCHEAT_MENU_COUNT] = {
+    &DDCheat::Menu_Teleport,
+    &DDCheat::Menu_Movies,
+};
 
 s16 sScreenshotOnNextFrame_5BC008 = 0;
 s32 sDDCheat_Unused2_AB49FC = 0;
 s32 sDDCheat_Unused1_AB4A00 = 0;
 
 s16 sDDCheat_MovieSelectIdx_5BBFF0 = 0;
-ALIVE_VAR_EXTERN(u32, sLevelId_dword_5CA408);
+extern u32 sLevelId_dword_5CA408;
 
 void DDCheat_SaveScreenshot_415550()
 {
@@ -58,25 +58,25 @@ struct DDCheatProperties final
 
 DDCheatProperties DDCheatProperties_5BBF78 = {};
 
-ALIVE_ARY(1, 0x550f64, const char_type*, 17, sTeleportLevelNameTable_550F64, {
-                                                                          "Start screen",
-                                                                          "Mines",
-                                                                          "Necrum",
-                                                                          "Paramite Vault",
-                                                                          "Scrab Vault",
-                                                                          "Feeco Depot",
-                                                                          "Slig Barracks",
-                                                                          "Scrab Ender",
-                                                                          "Bonewerks",
-                                                                          "Soulstorm Brewery",
-                                                                          "Brewery Ender",
-                                                                          "Paramite Ender",
-                                                                          "Feeco Ender",
-                                                                          "Barracks Ender",
-                                                                          "Bonewerks Ender",
-                                                                          "Test Level",
-                                                                          "Credits",
-                                                                      });
+const char_type* sTeleportLevelNameTable_550F64[17] = {
+    "Start screen",
+    "Mines",
+    "Necrum",
+    "Paramite Vault",
+    "Scrab Vault",
+    "Feeco Depot",
+    "Slig Barracks",
+    "Scrab Ender",
+    "Bonewerks",
+    "Soulstorm Brewery",
+    "Brewery Ender",
+    "Paramite Ender",
+    "Feeco Ender",
+    "Barracks Ender",
+    "Bonewerks Ender",
+    "Test Level",
+    "Credits",
+};
 
 
 void DDCheat::Menu_Teleport()

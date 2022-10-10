@@ -46,5 +46,5 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(GameEnderController, 0x28);
 
-ALIVE_VAR_EXTERN(s16, sFeeco_Restart_KilledMudCount_5C1BC6);
-ALIVE_VAR_EXTERN(s16, sFeecoRestart_SavedMudCount_5C1BC8);
+extern s16 sFeeco_Restart_KilledMudCount_5C1BC6;
+extern s16 sFeecoRestart_SavedMudCount_5C1BC8;

@@ -74,7 +74,7 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(GameSpeak, 0x3C);
 
-ALIVE_VAR_EXTERN(GameSpeak*, pEventSystem_4FF954);
+extern GameSpeak* pEventSystem_4FF954;
 
 s16 Code_Length(u32 code);
 s32 Code_Convert(u16 code1, u16 code2);

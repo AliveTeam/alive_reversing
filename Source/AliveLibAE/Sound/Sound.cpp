@@ -16,9 +16,9 @@ s32 sLoadedSoundsCount_BBC394 = 0;
 s32 sLastNotePlayTime_BBC33C = 0;
 
 
-ALIVE_ARY(1, 0xBBBAB8, SoundBuffer, 32, sSoundBuffers_BBBAB8, {});
-ALIVE_ARY(1, 0xBBBD38, s32, 127, sVolumeTable_BBBD38, {});
-ALIVE_ARY(1, 0xBBBF38, SoundEntry*, 256, sSoundSamples_BBBF38, {});
+SoundBuffer sSoundBuffers_BBBAB8[32] = {};
+s32 sVolumeTable_BBBD38[127] = {};
+SoundEntry* sSoundSamples_BBBF38[256] = {};
 
 const u32 k127_dword_575158 = 127;
 

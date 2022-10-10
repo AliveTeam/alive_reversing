@@ -636,7 +636,7 @@ const s32 sBobbingValuesTurning_552550[11] = {
 
 
 
-ALIVE_ARY(1, 0x55257C, const s32*, 4, sBobbingValuesTables_55257C, {nullptr, sBobbingValuesHorizontalMovement_552500, sBobbingValuesIdle_552524, sBobbingValuesTurning_552550});
+const s32* sBobbingValuesTables_55257C[4] = {nullptr, sBobbingValuesHorizontalMovement_552500, sBobbingValuesIdle_552524, sBobbingValuesTurning_552550};
 
 void FlyingSlig::Movement()
 {

@@ -31,4 +31,4 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(Movie, 0x48);
 
-ALIVE_VAR_EXTERN(s32, sMovie_ref_count_BB4AE4);
+extern s32 sMovie_ref_count_BB4AE4;

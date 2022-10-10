@@ -141,7 +141,7 @@ relive::SfxDefinition mainMenu_stru_55D7C0[] = {
     {0u, 0u, 0u, 0u, 0, 0},
     {0u, 0u, 0u, 0u, 0, 0}};
 
-ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
+MainMenuPage sMainMenuPages_561960[24] = 
           {{// Page 0: Controller selection menu
             MainMenuCams::eControllerSelectionCam,
             0, 0, 0, -1, 0,
@@ -339,7 +339,7 @@ ALIVE_ARY(1, 0x561960, MainMenuPage, 24, sMainMenuPages_561960,
             &MainMenuController::BackStory_Or_NewGame_Render_4D2630,
             sBtnArray_Game_BackStory_Or_NewGame_561420,
             &MainMenuController::BackStory_Or_NewGame_Load_4D1BA0,
-            &MainMenuController::BackStory_Or_NewGame_Unload_4D1BE0}});
+            &MainMenuController::BackStory_Or_NewGame_Unload_4D1BE0}};
 
 inline std::int16_t operator"" _s(unsigned long long value)
 {

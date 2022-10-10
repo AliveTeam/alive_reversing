@@ -182,7 +182,7 @@ s32 gFileOffset_NotUsed_507B10 = 0;
 s8 gDDCheatMode_508BF8 = 0;
 s8 byte_508BFC = 0;
 
-ALIVE_ARY(1, 0x4CECC8, s8, 3, gDriveLetter_4CECC8, {'D', ':', '0'});
+s8 gDriveLetter_4CECC8[3] = {'D', ':', '0'};
 
 
 

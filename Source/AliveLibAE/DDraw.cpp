@@ -702,7 +702,7 @@ s32 DD_Enable_4F0380(HWND /*hwnd*/, s32 width, s32 height, s32 bpp, s32 flipMode
 }
 
 // Not used, part of 8 bpp mode
-//ALIVE_ARY(1, 0xBD2A80, PALETTEENTRY, 256, sDDPalEntry_BD2A80, {});
+PALETTEENTRY sDDPalEntry_BD2A80[256] = {};
 
 static s32 InitColourKeyAndPallete(LPDIRECTDRAWSURFACE pSurface)
 {

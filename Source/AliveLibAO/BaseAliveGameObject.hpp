@@ -128,6 +128,6 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(BaseAliveGameObject, 0x10C);
 
-ALIVE_VAR_EXTERN(DynamicArrayT<BaseAliveGameObject>*, gBaseAliveGameObjects);
+extern DynamicArrayT<BaseAliveGameObject>* gBaseAliveGameObjects;
 
 } // namespace AO

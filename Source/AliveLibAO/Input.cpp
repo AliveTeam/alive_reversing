@@ -50,8 +50,8 @@ void InputObject::InitPad(u32 /*padCount*/)
     Input_EnableInput_4EDDD0();
 }
 
-ALIVE_ARY(1, 0x507778, u8, 64, sPad1Buffer_507778, {});
-ALIVE_ARY(1, 0x507738, u8, 64, sPad2Buffer_507738, {});
+u8 sPad1Buffer_507778[64] = {};
+u8 sPad2Buffer_507738[64] = {};
 
 static void ConvertAEGamespeakAEtoAOGamespeak(BitField32<AO::InputCommands>& value, const BitField32<::InputCommands::Enum>& aeInput)
 {
@@ -555,7 +555,7 @@ s8 Input_IsVKPressed(s32 key)
 }
 
 // from the MainMenu class
-ALIVE_VAR_EXTERN(s32, gJoystickAvailable_5079A4);
+extern s32 gJoystickAvailable_5079A4;
 
 void Input_Init()
 {

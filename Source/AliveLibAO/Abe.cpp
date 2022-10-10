@@ -61,7 +61,7 @@ namespace AO {
 s16 gAbeInvulnerableCheat_5076E4 = 0;
 s16 gAbeInvisibleCheat_5076F8 = 0;
 
-ALIVE_VAR_EXTERN(SaveData, gSaveBuffer_505668);
+extern SaveData gSaveBuffer_505668;
 
 using TAbeMotionFunction = decltype(&Abe::Motion_0_Idle_423520);
 

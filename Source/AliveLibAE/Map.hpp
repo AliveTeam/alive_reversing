@@ -142,6 +142,6 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(Map, 0xDC);
 
-ALIVE_VAR_EXTERN(Map, gMap);
-ALIVE_VAR_EXTERN(s16, sMap_bDoPurpleLightEffect_5C311C);
+extern Map gMap;
+extern s16 sMap_bDoPurpleLightEffect_5C311C;
 extern const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect_55D55C[10];

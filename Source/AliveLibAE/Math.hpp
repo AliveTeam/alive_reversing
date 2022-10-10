@@ -19,4 +19,4 @@ s32 Math_Distance(s32 x1, s32 y1, s32 x2, s32 y2);
 
 FP Math_Tan_496F70(FP value1, FP value2);
 
-ALIVE_ARY_EXTERN(u8, 256, sRandomBytes_546744);
+extern u8 sRandomBytes_546744[256];

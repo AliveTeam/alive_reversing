@@ -436,10 +436,10 @@ struct PerPathMudStats final
     s8 mData[21];
 };
 
-ALIVE_VAR_EXTERN(s32, sMainMenuObjectCounter_BB4400);
+extern s32 sMainMenuObjectCounter_BB4400;
 
-ALIVE_VAR_EXTERN(s8, sEnableCheatLevelSelect_5C1BEE);
-ALIVE_VAR_EXTERN(s8, sEnableCheatFMV_5C1BEC);
-ALIVE_VAR_EXTERN(PerPathMudStats, sSavedKilledMudsPerZulag_5C1B50);
-ALIVE_VAR_EXTERN(u32, sLevelId_dword_5CA408);
-ALIVE_VAR_EXTERN(s32, sGameStartedFrame_5C1B88);
+extern s8 sEnableCheatLevelSelect_5C1BEE;
+extern s8 sEnableCheatFMV_5C1BEC;
+extern PerPathMudStats sSavedKilledMudsPerZulag_5C1B50;
+extern u32 sLevelId_dword_5CA408;
+extern s32 sGameStartedFrame_5C1B88;

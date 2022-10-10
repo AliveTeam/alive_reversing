@@ -31,5 +31,5 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(GasCountDown, 0x78);
 
-ALIVE_VAR_EXTERN(s32, sGasTimer_5C1BE8);
-ALIVE_VAR_EXTERN(s16, gGasOn_5C1C00);
+extern s32 sGasTimer_5C1BE8;
+extern s16 gGasOn_5C1C00;

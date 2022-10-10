@@ -63,11 +63,11 @@ struct SaveFileRec final
 };
 ALIVE_ASSERT_SIZEOF(SaveFileRec, 0x24);
 
-ALIVE_ARY_EXTERN(SaveFileRec, 128, sSaveFileRecords_BB31D8);
-ALIVE_VAR_EXTERN(Quicksave, sActiveQuicksaveData);
-ALIVE_VAR_EXTERN(s32, sSavedGameToLoadIdx_BB43FC);
-ALIVE_VAR_EXTERN(s32, sTotalSaveFilesCount_BB43E0);
-ALIVE_VAR_EXTERN(u16, sQuickSave_saved_switchResetters_count_BB234C);
+extern SaveFileRec sSaveFileRecords_BB31D8[128];
+extern Quicksave sActiveQuicksaveData;
+extern s32 sSavedGameToLoadIdx_BB43FC;
+extern s32 sTotalSaveFilesCount_BB43E0;
+extern u16 sQuickSave_saved_switchResetters_count_BB234C;
 
 void Quicksave_LoadActive();
 void DoQuicksave();

@@ -605,10 +605,10 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(Abe, 0x2B4);
 
-ALIVE_VAR_EXTERN(Abe*, sActiveHero);
-ALIVE_VAR_EXTERN(BaseAliveGameObject*, sControlledCharacter);
-ALIVE_VAR_EXTERN(s16, gAbeInvulnerableCheat_5076E4);
-ALIVE_VAR_EXTERN(s16, gAbeInvisibleCheat_5076F8);
+extern Abe* sActiveHero;
+extern BaseAliveGameObject* sControlledCharacter;
+extern s16 gAbeInvulnerableCheat_5076E4;
+extern s16 gAbeInvisibleCheat_5076F8;
 
 s32 Environment_SFX_42A220(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseAliveGameObject* pAliveObj);
 

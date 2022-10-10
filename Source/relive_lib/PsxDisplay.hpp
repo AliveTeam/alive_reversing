@@ -51,10 +51,10 @@ public:
     PSX_Display_Buffer mDrawEnvs[2] = {};
 };
 
-ALIVE_VAR_EXTERN(PsxDisplay, gPsxDisplay);
-ALIVE_VAR_EXTERN(bool, sCommandLine_NoFrameSkip);
-ALIVE_VAR_EXTERN(s16, sbDebugFontLoaded);
-ALIVE_VAR_EXTERN(s32, sbDisplayRenderFrame);
+extern PsxDisplay gPsxDisplay;
+extern bool sCommandLine_NoFrameSkip;
+extern s16 sbDebugFontLoaded;
+extern s32 sbDisplayRenderFrame;
 
 void DebugFont_Flush();
 s32 DebugFont_Printf(s32 idx, const char_type* formatStr, ...);

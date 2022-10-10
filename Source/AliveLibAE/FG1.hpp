@@ -38,4 +38,4 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(FG1, 0x34);
 
-ALIVE_VAR_EXTERN(DynamicArrayT<FG1>*, gFG1List_5D1E28);
+extern DynamicArrayT<FG1>* gFG1List_5D1E28;

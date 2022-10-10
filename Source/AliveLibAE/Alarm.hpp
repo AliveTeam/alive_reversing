@@ -39,5 +39,5 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(Alarm, 0x94);
 
-ALIVE_VAR_EXTERN(s16, alarmInstanceCount_5C1BB4);
-ALIVE_VAR_EXTERN(Guid, sAlarmObjId_550D70);
+extern s16 alarmInstanceCount_5C1BB4;
+extern Guid sAlarmObjId_550D70;

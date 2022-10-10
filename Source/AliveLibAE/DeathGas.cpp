@@ -23,7 +23,7 @@ struct Data_Byte final
 };
 
 Data_FP xData_5BC600 = {};
-ALIVE_ARY(1, 0x5BC6C8, Prim_SetTPage, 2, gGasTPages_5BC6C8, {});
+Prim_SetTPage gGasTPages_5BC6C8[2] = {};
 GasPolys gasPolys_5BC6E8 = {};
 Data_Byte sbyte_3_5BD0E8 = {};
 Data_FP yData_5BD11C = {};

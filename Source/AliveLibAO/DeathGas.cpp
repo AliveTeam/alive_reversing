@@ -21,7 +21,7 @@ struct Data_Byte final
     u8 data[2][5][5];
 };
 
-ALIVE_ARY(1, 0x5008E8, Prim_SetTPage, 2, gGasTPages_5008E8, {});
+Prim_SetTPage gGasTPages_5008E8[2] = {};
 
 GasPolys prims_dword_4FFDE8 = {};
 

@@ -41,9 +41,9 @@ u8 turn_off_rendering_BD0F20 = 0;
 u8 byte_578324 = 1;
 
 
-ALIVE_ARY(1, 0xC14620, char_type, 128, sCdEmu_Path1_C14620, {});
-ALIVE_ARY(1, 0xC144C0, char_type, 128, sCdEmu_Path2_C144C0, {});
-ALIVE_ARY(1, 0xC145A0, char_type, 128, sCdEmu_Path3_C145A0, {});
+char_type sCdEmu_Path1_C14620[128] = {};
+char_type sCdEmu_Path2_C144C0[128] = {};
+char_type sCdEmu_Path3_C145A0[128] = {};
 
 IO_Handle* sCdFileHandle_BD1CC4 = nullptr;
 s32 sCdReadPos_BD1894 = 0;

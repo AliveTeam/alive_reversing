@@ -25,6 +25,6 @@ public:
 };
 ALIVE_ASSERT_SIZEOF(CreditsController, 0x18);
 
-ALIVE_VAR_EXTERN(s16, gCreditsControllerExists);
+extern s16 gCreditsControllerExists;
 
 } // namespace AO

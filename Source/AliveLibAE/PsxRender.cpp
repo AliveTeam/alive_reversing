@@ -23,7 +23,7 @@ struct OtUnknown final
     s32** field_8_pOt_End;
 };
 
-ALIVE_ARY(1, 0xBD0D88, OtUnknown, 32, sOt_Stack_BD0D88, {});
+OtUnknown sOt_Stack_BD0D88[32] = {};
 s32 sOtIdxRollOver_BD0C08 = 0;
 
 
@@ -39,8 +39,8 @@ u32 sTile_r_BD2A04 = 0;
 u32 sTile_g_BD2A00 = 0;
 u32 sTile_b_BD29FC = 0;
 
-ALIVE_ARY(1, 0xC19160, f32, 4096, sPsxEmu_float_table_C19160, {});
-ALIVE_ARY(1, 0xC1D5C0, s32, 4096, sPsxEmu_fixed_point_table_C1D5C0, {});
+f32 sPsxEmu_float_table_C19160[4096] = {};
+s32 sPsxEmu_fixed_point_table_C1D5C0[4096] = {};
 
 struct Render_Unknown final
 {
@@ -73,7 +73,7 @@ struct Psx_Test final
 };
 ALIVE_ASSERT_SIZEOF(Psx_Test, 0x1800); // 3072 words
 
-ALIVE_ARY(1, 0xC215E0, Psx_Test, 4, sPsx_abr_lut_C215E0, {});
+Psx_Test sPsx_abr_lut_C215E0[4] = {};
 
 
 struct OT_Vert final
@@ -109,7 +109,7 @@ struct OT_Prim final
 };
 ALIVE_ASSERT_SIZEOF(OT_Prim, 380); // could be up to 380
 
-ALIVE_ARY(1, 0xBD0C0C, u8, 380, byte_BD0C0C, {});
+u8 byte_BD0C0C[380] = {};
 
 OT_Prim* off_578330 = reinterpret_cast<OT_Prim*>(&byte_BD0C0C[0]);
 
@@ -926,7 +926,7 @@ struct Psx_Data final
 };
 ALIVE_ASSERT_SIZEOF(Psx_Data, 32);
 
-ALIVE_ARY(1, 0xC1D1C0, Psx_Data, 32, stru_C1D1C0, {});
+Psx_Data stru_C1D1C0[32] = {};
 Psx_Test stru_C146C0 = {};
 
 
@@ -1269,7 +1269,7 @@ static s32 sLast_TILE_r_578328 = 0;
 static s32 sLast_TILE_g_C3D0E0 = 0;
 static s32 sLast_TILE_b_C3D0DC = 0;
 static u32 sLast_Tile_abr_57832C = 0;
-ALIVE_ARY(1, 0xC2D080, s16, 16384, word_C2D080, {});
+s16 word_C2D080[16384] = {};
 
 void PSX_Render_TILE_Blended_Large_Impl(u16* pVRam, s32 width, s32 height, s32 r, s32 g, s32 b, s32 pitch)
 {
@@ -4011,7 +4011,7 @@ void PSX_EMU_Render_SPRT_51EF90(s16 x, s16 y, s32 u, s32 v, u8 r, u8 g, u8 b, s1
     }
 }
 
-ALIVE_ARY(1, 0xBD1D00, OT_Prim, 7, stru_BD1D00, {});
+OT_Prim stru_BD1D00[7] = {};
 
 static OT_Vert* GetVert(OT_Prim* prim, s32 idx)
 {

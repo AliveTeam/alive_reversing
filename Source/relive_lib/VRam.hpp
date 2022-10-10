@@ -3,7 +3,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "../AliveLibAE/Psx.hpp"
 
-ALIVE_VAR_EXTERN(u16, unused_5CC88C);
+extern u16 unused_5CC88C;
 
 s16 Vram_alloc(u16 width, s16 height, u16 colourDepth, PSX_RECT* pRect);
 

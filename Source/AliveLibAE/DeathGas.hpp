@@ -4,7 +4,7 @@
 #include "../relive_lib/BaseGameObject.hpp"
 #include "../relive_lib/Layer.hpp"
 
-ALIVE_VAR_EXTERN(s32, gDeathGasCount_5BD24C);
+extern s32 gDeathGasCount_5BD24C;
 
 class DeathGas final : public BaseGameObject
 {

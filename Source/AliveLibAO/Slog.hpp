@@ -157,6 +157,6 @@ public:
    // u8** field_184_resources[5] = {};
 };
 
-ALIVE_VAR_EXTERN(s16, gNumSlogs_9F11C8);
+extern s16 gNumSlogs_9F11C8;
 
 } // namespace AO
