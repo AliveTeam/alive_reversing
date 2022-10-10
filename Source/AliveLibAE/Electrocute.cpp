@@ -113,7 +113,6 @@ private:
 public:
     s16 field_CE_bDone = 0;
 };
-ALIVE_ASSERT_SIZEOF(PalleteOverwriter, 0xD0);
 
 s32 Electrocute::VSub_4E6630()
 {

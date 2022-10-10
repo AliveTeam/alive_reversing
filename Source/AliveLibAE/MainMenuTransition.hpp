@@ -44,4 +44,3 @@ private:
     s16 field_252_tbl_idx = 0;
     s8 field_colour_fade_value = 0;
 };
-ALIVE_ASSERT_SIZEOF(MainMenuTransition, 0x258);

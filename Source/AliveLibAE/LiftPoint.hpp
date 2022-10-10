@@ -91,4 +91,3 @@ private:
     };
     BitField16<LiftFlags> field_280_flags = {};
 };
-ALIVE_ASSERT_SIZEOF(LiftPoint, 0x284);

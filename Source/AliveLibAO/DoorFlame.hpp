@@ -33,6 +33,5 @@ public:
     FireBackgroundGlow* mFireBackgroundGlow = nullptr;
     FlameSparks* mFlameSparks = nullptr;
 };
-ALIVE_ASSERT_SIZEOF(DoorFlame, 0x100);
 
 } // namespace AO

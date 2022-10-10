@@ -99,7 +99,6 @@ public:
     s32 field_28_last_event_index = 0;
     s8 field_2C_event_buffer[32] = {};
 };
-ALIVE_ASSERT_SIZEOF(GameSpeak, 0x4C);
 
 extern GameSpeak* pEventSystem_5BC11C;
 

@@ -75,7 +75,6 @@ public:
     PathLine* mLine = nullptr;
     FP mLineFollowSpeed = {};
 };
-ALIVE_ASSERT_SIZEOF(BeeSwarm, 0xDB0);
 
 extern s16 gBeeInstanceCount;
 extern s16 gBeesNearAbe;

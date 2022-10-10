@@ -109,7 +109,6 @@ public:
     FP field_EC_xOff;
     FP field_F0_yOff;
 };
-ALIVE_ASSERT_SIZEOF(FireBackgroundGlow, 0xF4);
 
 struct FlameSpark final
 {
@@ -269,7 +268,6 @@ public:
     FP field_400_xpos;
     FP field_404_ypos;
 };
-ALIVE_ASSERT_SIZEOF(FlameSparks, 0x408);
 
 void DoorFlame::VStopAudio()
 {

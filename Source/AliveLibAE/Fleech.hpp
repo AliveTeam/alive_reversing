@@ -296,6 +296,5 @@ private:
     Poly_G4 mTonguePolys2[4][2] = {};
     Prim_SetTPage field_40C[2] = {};
 };
-ALIVE_ASSERT_SIZEOF(Fleech, 0x42C);
 
 void Animation_OnFrame_Fleech_449A60(BaseGameObject* pObj, u32&, const Point32&);

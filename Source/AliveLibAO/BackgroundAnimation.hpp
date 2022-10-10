@@ -29,6 +29,5 @@ public:
     relive::Path_BackgroundAnimation::BgAnimSounds mSoundEffect = relive::Path_BackgroundAnimation::BgAnimSounds::eNone;
     s32 field_104_sound_channels_mask = 0;
 };
-ALIVE_ASSERT_SIZEOF(BackgroundAnimation, 0x108);
 
 } // namespace AO

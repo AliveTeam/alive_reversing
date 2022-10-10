@@ -62,4 +62,3 @@ private:
     s16 field_5D4_parts_used_count = 0;
     bool field_5D6_bMakeSmaller = false;
 };
-ALIVE_ASSERT_SIZEOF(Gibs, 0x5D8);

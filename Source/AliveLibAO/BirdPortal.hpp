@@ -25,7 +25,6 @@ public:
     
     void Fadeout();
 };
-ALIVE_ASSERT_SIZEOF(BirdPortalTerminator, 0xE4);
 
 class OrbWhirlWind;
 class ThrowableTotalIndicator;
@@ -115,6 +114,5 @@ public:
     s16 mCurrentPath = 0;
     s32 mSfxPlaying = 0;
 };
-ALIVE_ASSERT_SIZEOF(BirdPortal, 0x6C);
 
 } // namespace AO

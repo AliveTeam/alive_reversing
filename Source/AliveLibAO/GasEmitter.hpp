@@ -27,6 +27,5 @@ public:
     FP field_1C_ypos = {};
     FP field_20_fp_not_used = {};
 };
-ALIVE_ASSERT_SIZEOF(GasEmitter, 0x24);
 
 } // namespace AO

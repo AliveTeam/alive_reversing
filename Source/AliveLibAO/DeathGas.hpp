@@ -25,6 +25,5 @@ public:
     s16 field_1C = 0;
     s16 field_1E = 0;
 };
-ALIVE_ASSERT_SIZEOF(DeathGas, 0x20);
 
 } // namespace AO

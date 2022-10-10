@@ -61,6 +61,5 @@ public:
     s16 field_122_target_count = 0;
     Guid field_124_tlvInfo;
 };
-ALIVE_ASSERT_SIZEOF(HintFly, 0x128);
 
 } // namespace AO

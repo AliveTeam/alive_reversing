@@ -17,7 +17,6 @@ public:
     MotionDetectorLaser(FP xpos, FP ypos, FP scale, Layer layer);
 
 };
-ALIVE_ASSERT_SIZEOF(MotionDetectorLaser, 0xF4);
 
 
 class MotionDetector final : public BaseAnimatedWithPhysicsGameObject
@@ -66,4 +65,3 @@ private:
     FP field_174_speed = {};
     s16 field_178_bObjectInLaser = 0;
 };
-ALIVE_ASSERT_SIZEOF(MotionDetector, 0x17C);

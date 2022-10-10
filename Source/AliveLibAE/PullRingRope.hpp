@@ -38,4 +38,3 @@ private:
     s32 field_10C_is_pulled = 0;
     Guid field_110_tlvInfo;
 };
-ALIVE_ASSERT_SIZEOF(PullRingRope, 0x114);

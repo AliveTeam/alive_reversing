@@ -44,6 +44,5 @@ public:
     FP mEnemyYPos = {};
     BaseAliveGameObject* mAttackTarget = nullptr;
 };
-ALIVE_ASSERT_SIZEOF(Bat, 0x110);
 
 } // namespace AO

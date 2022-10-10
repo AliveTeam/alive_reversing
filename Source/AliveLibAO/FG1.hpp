@@ -32,6 +32,5 @@ public:
     Fg1Resource mFG1Res;
     CamResource mCamRes;
 };
-ALIVE_ASSERT_SIZEOF(FG1, 0x24);
 
 } // namespace AO

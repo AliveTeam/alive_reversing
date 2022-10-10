@@ -34,7 +34,6 @@ public:
     s16 field_E8_bDestroyOnDone;
     s16 field_EA;
 };
-ALIVE_ASSERT_SIZEOF(MainMenuFade, 0xEC);
 
 struct MainMenuTransition_Polys final
 {
@@ -68,7 +67,6 @@ public:
     s16 field_242_idx = 0;
     s8 field_246_colour_fade_value = 0;
 };
-ALIVE_ASSERT_SIZEOF(MainMenuTransition, 0x248);
 
 struct Path_TLV;
 
@@ -293,7 +291,6 @@ public:
     FP field_22C = {};
     s32 field_230_bGoBack = 0;
 };
-ALIVE_ASSERT_SIZEOF(Menu, 0x234);
 
 extern s32 gMainMenuInstanceCount_9F2DE0;
 extern u8 sJoyResId_50769C;

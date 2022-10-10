@@ -93,7 +93,6 @@ public:
     s16 field_BC_bFirstUpdate = 0;
     s16 field_BE_bDone = 0;
 };
-ALIVE_ASSERT_SIZEOF(PalleteOverwriter, 0xC0);
 
 Electrocute::Electrocute(BaseAliveGameObject* pTargetObj, s32 bExtraOverwriter)
     : BaseGameObject(TRUE, 0)

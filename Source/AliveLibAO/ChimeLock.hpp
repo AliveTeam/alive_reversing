@@ -79,6 +79,5 @@ public:
     };
     BellPositions field_164_ChimeLock_num[2] = {};
 };
-ALIVE_ASSERT_SIZEOF(ChimeLock, 0x168);
 
 } // namespace AO

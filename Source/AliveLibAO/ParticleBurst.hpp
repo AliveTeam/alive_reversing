@@ -31,6 +31,5 @@ public:
     s32 field_F0_timer = 0;
     BurstType field_F4_type = BurstType::eFallingRocks_0;
 };
-ALIVE_ASSERT_SIZEOF(ParticleBurst, 0xF8);
 
 } // namespace AO

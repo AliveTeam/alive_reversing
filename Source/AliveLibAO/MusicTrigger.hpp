@@ -34,6 +34,5 @@ public:
     MusicController::MusicTypes field_1C_music_type = MusicController::MusicTypes::eType0;
     u16 field_1E_switch_id = 0;
 };
-ALIVE_ASSERT_SIZEOF(MusicTrigger, 0x20);
 
 } // namespace AO

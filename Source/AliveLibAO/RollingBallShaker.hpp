@@ -21,6 +21,5 @@ public:
     s16 mShakeTableIdx = 0;
     bool mStopShaking = false;
 };
-ALIVE_ASSERT_SIZEOF(RollingBallShaker, 0x34);
 
 } // namespace AO

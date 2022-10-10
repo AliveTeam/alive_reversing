@@ -39,6 +39,5 @@ public:
     States field_32_state = States::eSetNewColour_0;
     PSX_RECT field_38_pal_rect = {};
 };
-ALIVE_ASSERT_SIZEOF(Electrocute, 0x40);
 
 } // namespace AO

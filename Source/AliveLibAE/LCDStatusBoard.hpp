@@ -27,7 +27,6 @@ public:
     s16 field_108_is_hidden = 0;
     s16 field_10A_muds_left_in_area = 0;
 };
-ALIVE_ASSERT_SIZEOF(LCDStatusBoard, 0x10C);
 
 extern s16 sMudokonsInArea_5C1BC4;
 extern s8 sZulagNumber_5C1A20;

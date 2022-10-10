@@ -36,7 +36,6 @@ public:
     s16 field_1A8_fade_colour = 0;
     s16 field_1AA_speed = 0;
 };
-ALIVE_ASSERT_SIZEOF(CircularFade, 0x1AC);
 
 CircularFade* Make_Circular_Fade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone);
 

@@ -23,7 +23,6 @@ public:
     s32 mNextCameraTimer = 0;
     s16 mCurrentCamera = 0;
 };
-ALIVE_ASSERT_SIZEOF(CreditsController, 0x18);
 
 extern s16 gCreditsControllerExists;
 

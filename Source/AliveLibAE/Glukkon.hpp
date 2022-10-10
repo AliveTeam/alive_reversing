@@ -231,4 +231,3 @@ private:
     s16 field_212_currentWalkPitch = 0;
     Guid field_214_tlv_info;
 };
-ALIVE_ASSERT_SIZEOF(Glukkon, 0x218);

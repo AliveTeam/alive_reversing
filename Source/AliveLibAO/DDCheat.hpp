@@ -74,7 +74,6 @@ public:
     s32 field_20_bTeleportCheatActive = 0;
     s32 field_24_input = 0;
 };
-ALIVE_ASSERT_SIZEOF(DDCheat, 0x28);
 
 extern s32 gTweak_X_5076D8;
 extern s32 gTweak_Y_5076DC;

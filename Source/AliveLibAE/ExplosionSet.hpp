@@ -44,7 +44,6 @@ private:
     };
     BitField16<Flags_5C> field_5C_flags = {};
 };
-ALIVE_ASSERT_SIZEOF(ExplosionSet, 0x60);
 
 extern ExplosionSet* pExplosionSet_5BBF68;
 extern s16 bEnabled_5C1BB6;

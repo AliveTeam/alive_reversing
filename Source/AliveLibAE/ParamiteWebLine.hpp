@@ -36,4 +36,3 @@ private:
     s16 field_1A2_pulse_position_speed = 0;
     s16 field_1A4_delay_counter = 0;
 };
-ALIVE_ASSERT_SIZEOF(ParamiteWebLine, 0x1AC);

@@ -31,6 +31,5 @@ public:
     Map* mPlatformBaseMap = nullptr;
     Guid mPlatformBaseTlvInfo;
 };
-ALIVE_ASSERT_SIZEOF(PlatformBase, 0x12C);
 
 } // namespace AO

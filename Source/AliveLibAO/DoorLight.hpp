@@ -25,6 +25,5 @@ public:
     s16 field_EE_switch_value = 0;
     s16 field_F0_switch_id = 0;
 };
-ALIVE_ASSERT_SIZEOF(DoorLight, 0xF4);
 
 } // namespace AO

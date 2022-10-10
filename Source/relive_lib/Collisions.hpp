@@ -208,7 +208,6 @@ public:
     s32 field_8_item_count = 0;
     s32 field_C_max_count = 0;
 };
-ALIVE_ASSERT_SIZEOF(Collisions, 0x10);
 
 struct PSX_RECT;
 

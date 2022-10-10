@@ -47,7 +47,6 @@ public:
     s16 field_44_YSlices = 0;
     s16 field_46_slice_width = 0;
 };
-ALIVE_ASSERT_SIZEOF(CameraSwapper, 0x48);
 
 extern s16 sNumCamSwappers_507668; // TODO: Move to own file
 

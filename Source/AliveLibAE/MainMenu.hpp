@@ -407,7 +407,6 @@ public:
 private:
     void Unload_Resource(AnimId res);
 };
-ALIVE_ASSERT_SIZEOF(MainMenuController, 0x260);
 
 using TFnInput = MainMenuNextCam (MainMenuController::*)(u32);
 using TFnRender = void (MainMenuController::*)(PrimHeader**);

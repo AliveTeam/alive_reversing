@@ -37,7 +37,6 @@ protected:
     s16 field_100_switch_id = 0;
     s16 field_102_hub_ids[8] = {};
 };
-ALIVE_ASSERT_SIZEOF(Door, 0x114);
 
 class TrainDoor final : public Door
 {
@@ -49,4 +48,3 @@ public:
 
     virtual void VUpdate() override;
 };
-ALIVE_ASSERT_SIZEOF(TrainDoor, 0x114);

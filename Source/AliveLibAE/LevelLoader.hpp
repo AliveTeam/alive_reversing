@@ -32,4 +32,3 @@ private:
     Guid field_2C_tlvInfo;
     Guid field_30_fade_id;
 };
-ALIVE_ASSERT_SIZEOF(LevelLoader, 0x34);

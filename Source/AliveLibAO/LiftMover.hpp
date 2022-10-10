@@ -31,6 +31,5 @@ public:
     FP field_1C_speed = {};
     s16 field_20_state = 0;
 };
-ALIVE_ASSERT_SIZEOF(LiftMover, 0x24);
 
 } // namespace AO

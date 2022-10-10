@@ -24,7 +24,6 @@ public:
     u16 field_28_chase_time = 0;
     u16 field_2A_speed = 0;
 };
-ALIVE_ASSERT_SIZEOF(BeeSwarmHole, 0x2C);
 
 
 } // namespace AO

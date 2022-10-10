@@ -37,4 +37,3 @@ private:
     FP field_2C_scale = {};
     HoistRockParticle field_30_rocks[4] = {};
 };
-ALIVE_ASSERT_SIZEOF(HoistRocksEffect, 0x2D0);

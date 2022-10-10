@@ -57,6 +57,5 @@ public:
     GibPart field_F4_parts[7] = {};
     s16 field_5C4_parts_used_count = 0;
 };
-ALIVE_ASSERT_SIZEOF(Gibs, 0x5C8);
 
 } // namespace AO

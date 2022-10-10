@@ -28,6 +28,5 @@ public:
     s32 field_F4_rnd3= 0;
     s32 field_F8_rnd4= 0;
 };
-ALIVE_ASSERT_SIZEOF(LightEffect, 0xFC);
 
 } // namespace AO

@@ -14,4 +14,3 @@ public:
 private:
     s16 field_F4_bHitSomething = 0;
 };
-ALIVE_ASSERT_SIZEOF(Leaf, 0xF8);

@@ -31,4 +31,3 @@ protected:
     PathLine* field_124_pCollisionLine = nullptr;
     Guid mPlatformBaseTlvInfo;
 };
-ALIVE_ASSERT_SIZEOF(PlatformBase, 0x12C);

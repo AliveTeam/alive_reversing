@@ -24,6 +24,5 @@ public:
     s32 field_E8_start = 0;
     s16 field_EC_bPlaySound = 0;
 };
-ALIVE_ASSERT_SIZEOF(DeathBirdParticle, 0xF0);
 
 } // namespace AO

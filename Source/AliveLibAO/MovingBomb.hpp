@@ -44,6 +44,5 @@ public:
     s16 field_128_disabled_resources = 0;
     relive::reliveChoice field_12A_persist_offscreen = relive::reliveChoice::eNo;
 };
-ALIVE_ASSERT_SIZEOF(MovingBomb, 0x12C);
 
 } // namespace AO

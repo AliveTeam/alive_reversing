@@ -258,7 +258,6 @@ public:
     const PathData* mPathData = nullptr;
     BinaryPath* field_10_ppRes = nullptr; // Non owning ptr
 };
-ALIVE_ASSERT_SIZEOF(Path, 0x14);
 
 enum class CameraPos : s16;
 

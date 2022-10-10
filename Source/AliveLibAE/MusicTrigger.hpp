@@ -32,4 +32,3 @@ private:
     PSX_Point field_2C_tl = {};
     PSX_Point field_30_br = {};
 };
-ALIVE_ASSERT_SIZEOF(MusicTrigger, 0x34);

@@ -25,4 +25,3 @@ private:
     FP field_34_ypos = {};
     FP field_38_fp_not_used = {};
 };
-ALIVE_ASSERT_SIZEOF(GasEmitter, 0x3C);

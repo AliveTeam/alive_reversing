@@ -39,6 +39,5 @@ public:
     relive::Path_Lever::LeverSoundType mOffSound = relive::Path_Lever::LeverSoundType::eNone;
     relive::Path_Lever::LeverSoundDirection mSoundDirection = relive::Path_Lever::LeverSoundDirection::eLeftAndRight;
 };
-ALIVE_ASSERT_SIZEOF(Lever, 0xFC);
 
 } // namespace AO

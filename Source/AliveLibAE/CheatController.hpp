@@ -35,6 +35,5 @@ public:
     s32 field_38 = 0;
     s32 field_3C = 0;
 };
-ALIVE_ASSERT_SIZEOF(CheatController, 0x40);
 
 extern CheatController* pCheatController_5BC120;

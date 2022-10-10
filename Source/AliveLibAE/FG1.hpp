@@ -36,6 +36,5 @@ public:
     Fg1Resource mFG1Res;
     CamResource mCamRes;
 };
-ALIVE_ASSERT_SIZEOF(FG1, 0x34);
 
 extern DynamicArrayT<FG1>* gFG1List_5D1E28;

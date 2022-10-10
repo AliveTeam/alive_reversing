@@ -41,7 +41,6 @@ private:
 
     friend class DynamicArrayIter;
 };
-ALIVE_ASSERT_SIZEOF(DynamicArray, 0xC);
 
 // Typed wrapper for DynamicArray
 template <class T>
@@ -100,4 +99,3 @@ public:
     s16 field_4_idx;
     // padding
 };
-ALIVE_ASSERT_SIZEOF(DynamicArrayIter, 0x8);

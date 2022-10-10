@@ -14,4 +14,3 @@ private:
 
     FP mBombSpriteScale = {};
 };
-ALIVE_ASSERT_SIZEOF(BaseBomb, 0xF8);

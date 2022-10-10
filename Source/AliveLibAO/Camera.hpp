@@ -31,6 +31,5 @@ public:
     s16 field_32 = 0;
     u32 field_1C_camera_number = 0;
 };
-ALIVE_ASSERT_SIZEOF(Camera, 0x34);
 
 }

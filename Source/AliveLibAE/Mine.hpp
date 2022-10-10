@@ -39,4 +39,3 @@ public:
     Animation field_124_animation = {};
     BitField32<Mine_Flags_1BC> field_1BC_flags = {};
 };
-ALIVE_ASSERT_SIZEOF(Mine, 0x1C0);

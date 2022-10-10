@@ -34,4 +34,3 @@ private:
     PSX_Point field_11C_bottom_right = {};
     s32 field_120_timer = 0;
 };
-ALIVE_ASSERT_SIZEOF(GlukkonSwitch, 0x124);

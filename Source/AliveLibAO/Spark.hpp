@@ -21,7 +21,6 @@ struct SparkRes final
     FP field_18_len;
     Line_G2 field_1C_pLineG2s[2];
 };
-ALIVE_ASSERT_SIZEOF(SparkRes, 0x4C);
 
 class Spark final : public ::BaseGameObject
 {

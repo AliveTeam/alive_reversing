@@ -97,7 +97,6 @@ private:
     u32 field_54_music_volume_change_time = 0;
     BitField16<Flags_58> field_58_flags = {};
 };
-ALIVE_ASSERT_SIZEOF(MusicController, 0x5C);
 
 
 extern MusicController* pMusicController_5C3020;

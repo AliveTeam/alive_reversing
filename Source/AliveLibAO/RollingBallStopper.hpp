@@ -30,6 +30,5 @@ public:
     u16 mBallSwitchId = 0;
     PathLine* mCollisionLine = nullptr;
 };
-ALIVE_ASSERT_SIZEOF(RollingBallStopper, 0x11C);
 
 } // namespace AO

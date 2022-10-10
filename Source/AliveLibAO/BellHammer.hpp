@@ -30,7 +30,6 @@ public:
     Guid mTlvInfo;
     bool mSpawnElum = false;
 };
-ALIVE_ASSERT_SIZEOF(BellHammer, 0xF4);
 
 
 } // namespace AO

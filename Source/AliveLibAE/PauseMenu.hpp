@@ -143,7 +143,6 @@ public:
     Poly_F4 field_210_polygons[2] = {};
     Prim_SetTPage field_248_padding[2] = {};
 };
-ALIVE_ASSERT_SIZEOF(PauseMenu, 0x268);
 
 extern PauseMenu* pPauseMenu_5C9300;
 extern s8 sQuicksave_SaveNextFrame_5CA4D8;

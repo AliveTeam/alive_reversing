@@ -71,6 +71,5 @@ public:
     FP mYPosOffset2 = {};
     FP mScaleOffsetSpinAtTarget = {};
 };
-//ALIVE_ASSERT_SIZEOF(OrbWhirlWindParticle, 0x104);
 
 } // namespace AO

@@ -52,4 +52,3 @@ private:
     s16 field_54_YSlices = 0;
     s16 field_56_slice_width = 0;
 };
-ALIVE_ASSERT_SIZEOF(CameraSwapper, 0x58);

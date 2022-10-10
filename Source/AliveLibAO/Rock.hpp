@@ -42,7 +42,6 @@ public:
     FP field_120_ypos = {};
     s32 field_124_shimmer_timer = 0;
 };
-ALIVE_ASSERT_SIZEOF(Rock, 0x128);
 
 
 } // namespace AO

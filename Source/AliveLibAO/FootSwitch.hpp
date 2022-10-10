@@ -33,7 +33,6 @@ public:
     relive::Path_FootSwitch::FootSwitchTriggerBy mTriggeredBy = relive::Path_FootSwitch::FootSwitchTriggerBy::eAbe;
     BaseAliveGameObject* mStoodOnMe = nullptr;
 };
-ALIVE_ASSERT_SIZEOF(FootSwitch, 0xF4);
 
 
 } // namespace AO

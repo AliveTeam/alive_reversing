@@ -45,4 +45,3 @@ private:
     BaseAliveGameObject* mBulletParent = nullptr;
     s16 mNumberOfBullets = 0;
 };
-ALIVE_ASSERT_SIZEOF(Bullet, 0x48);

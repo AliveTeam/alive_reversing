@@ -55,7 +55,6 @@ public:
     };
     BitField16<flags_1A8> field_1A8_flags = {};
 };
-ALIVE_ASSERT_SIZEOF(MeatSaw, 0x1AC);
 
 
 } // namespace AO

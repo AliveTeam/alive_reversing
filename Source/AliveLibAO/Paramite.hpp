@@ -166,6 +166,5 @@ public:
     Meat* mMeat = nullptr;
     ParamiteWeb* mParamiteWeb = nullptr;
 };
-ALIVE_ASSERT_SIZEOF(Paramite, 0x190);
 
 } // namespace AO

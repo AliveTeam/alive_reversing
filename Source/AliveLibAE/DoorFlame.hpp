@@ -33,4 +33,3 @@ private:
     Guid mFireBackgroundGlowId;
     Guid mFlameSparksId;
 };
-ALIVE_ASSERT_SIZEOF(DoorFlame, 0x110);

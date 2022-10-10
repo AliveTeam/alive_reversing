@@ -93,6 +93,5 @@ public:
     Guid BaseAliveGameObject_PlatformId;
     BitField16<AliveObjectFlags> mBaseAliveGameObjectFlags = {};
 };
-ALIVE_ASSERT_SIZEOF(BaseAliveGameObject, 0x118);
 
 extern DynamicArrayT<BaseAliveGameObject>* gBaseAliveGameObjects;

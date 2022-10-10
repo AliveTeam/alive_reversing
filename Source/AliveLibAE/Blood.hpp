@@ -36,4 +36,3 @@ private:
     s32 mUpdateCalls = 0;
     Layer mOtLayer = Layer::eLayer_0;
 };
-ALIVE_ASSERT_SIZEOF(Blood, 0x130);

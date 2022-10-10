@@ -13,4 +13,3 @@ public:
 private:
     s32 mFlashTime = 0;
 };
-ALIVE_ASSERT_SIZEOF(Flash, 0x7C);

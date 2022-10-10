@@ -22,7 +22,6 @@ public:
         // Empty
     }
 };
-ALIVE_ASSERT_SIZEOF(MotionDetectorLaser, 0xE4);
 
 class MotionDetector final : public BaseAnimatedWithPhysicsGameObject
 {
@@ -60,6 +59,5 @@ public:
     FP field_15C_speed = {};
     s16 field_160_bObjectInLaser = 0;
 };
-ALIVE_ASSERT_SIZEOF(MotionDetector, 0x164);
 
 } // namespace AO

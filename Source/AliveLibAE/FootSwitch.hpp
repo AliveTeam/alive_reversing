@@ -45,4 +45,3 @@ private:
     bool mCreateSparks = false;
     bool mFindStander = false;
 };
-ALIVE_ASSERT_SIZEOF(FootSwitch, 0x108);

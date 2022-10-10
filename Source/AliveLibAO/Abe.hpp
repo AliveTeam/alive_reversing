@@ -603,7 +603,6 @@ public:
     SaveData* field_2AC_pSaveData = nullptr;
     bool mRidingElum = false;
 };
-ALIVE_ASSERT_SIZEOF(Abe, 0x2B4);
 
 extern Abe* sActiveHero;
 extern BaseAliveGameObject* sControlledCharacter;

@@ -63,7 +63,6 @@ public:
     s32 field_30_poly_count = 0;
     FontContext* field_34_font_context = nullptr;
 };
-ALIVE_ASSERT_SIZEOF(AliveFont, 0x38);
 
 extern FontContext sFontContext_4FFD68;
 extern s16 sDisableFontFlicker_5080E4;

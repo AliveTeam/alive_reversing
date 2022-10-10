@@ -35,7 +35,6 @@ public:
     relive::reliveChoice mSetOffAlarm = relive::reliveChoice::eNo;
     relive::Path_InvisibleSwitch::InvisibleSwitchScale field_2C_scale = relive::Path_InvisibleSwitch::InvisibleSwitchScale::eFull;
 };
-ALIVE_ASSERT_SIZEOF(InvisibleSwitch, 0x30);
 
 
 } // namespace AO

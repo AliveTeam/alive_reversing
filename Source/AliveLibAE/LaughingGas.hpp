@@ -65,7 +65,6 @@ private:
     s32 field_31F8_w_count = 0;
     s32 field_31FC_h_count = 0;
 };
-ALIVE_ASSERT_SIZEOF(LaughingGas, 0x3200);
 
 extern s32 gGasInstanceCount_5BC214;
 extern s16 gLaughingGasOn_5C1BA4;

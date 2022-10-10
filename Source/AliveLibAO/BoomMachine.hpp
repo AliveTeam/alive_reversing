@@ -36,6 +36,5 @@ public:
     s16 field_E8_bIsButtonOn = 0;
     GrenadeMachineNozzle* field_EC_pNozzle = nullptr;
 };
-ALIVE_ASSERT_SIZEOF(BoomMachine, 0xF0);
 
 } // namespace AO

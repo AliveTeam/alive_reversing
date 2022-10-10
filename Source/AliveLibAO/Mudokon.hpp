@@ -280,6 +280,5 @@ public:
     s16 field_1C4_bDoPathTrans = 0;
     s16 field_1C6 = 0;
 };
-ALIVE_ASSERT_SIZEOF(Mudokon, 0x1C8);
 
 } // namespace AO

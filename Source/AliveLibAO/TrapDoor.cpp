@@ -16,10 +16,7 @@ struct TrapDoor_Data final
     AnimId field_4_closed;
     AnimId field_8_opening;
     AnimId field_C_closing;
-    //s16 field_10_maxW;
-    //s16 field_12_maxH;
 };
-//ALIVE_ASSERT_SIZEOF(TrapDoor_Data, 0x14);
 
 
 const TrapDoor_Data sTrapDoorData_4BD4A0[16] = {

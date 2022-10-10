@@ -17,7 +17,6 @@ public:
     s16 field_10 = 0;
     s16 field_12 = 0;
 };
-ALIVE_ASSERT_SIZEOF(CheatController, 0x14);
 
 extern CheatController* pCheatController_4FF958;
 

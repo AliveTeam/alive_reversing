@@ -40,7 +40,6 @@ public:
     FP mSpeed = {};
     BeeSwarm* mBeeSwarm = nullptr;
 };
-ALIVE_ASSERT_SIZEOF(BeeNest, 0x38);
 
 
 } // namespace AO

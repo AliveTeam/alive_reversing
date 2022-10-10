@@ -32,7 +32,6 @@ public:
     u16 field_60_start_switch_id = 0;
     s16 field_62_time_left = 0;
 };
-ALIVE_ASSERT_SIZEOF(GasCountDown, 0x64);
 
 extern s16 gGasOn_4FF888;
 extern s32 sGasTimer_507700;

@@ -42,7 +42,6 @@ public:
     relive::Path_PullRingRope::PullRingSwitchSound field_FE_off_sound = relive::Path_PullRingRope::PullRingSwitchSound::eNone;
     relive::Path_PullRingRope::PullRingSoundDirection field_100_sound_direction = relive::Path_PullRingRope::PullRingSoundDirection::eLeftAndRight;
 };
-ALIVE_ASSERT_SIZEOF(PullRingRope, 0x104);
 
 
 } // namespace AO

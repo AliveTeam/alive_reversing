@@ -10,7 +10,7 @@ struct Path_OneShotSwitchIdSetter final : public Path_TLV
 {
     s16 field_18_ids_to_clear[8];
 };
-ALIVE_ASSERT_SIZEOF(Path_OneShotSwitchIdSetter, 0x28);
+ALIVE_ASSERT_SIZEOF_ALWAYS(Path_OneShotSwitchIdSetter, 0x28);
 
 class OneShotSwitchIdSetter final : public ::BaseGameObject
 {
@@ -22,6 +22,5 @@ public:
 
     Guid field_10_tlvInfo;
 };
-ALIVE_ASSERT_SIZEOF(OneShotSwitchIdSetter, 0x14);
 
 } // namespace AO

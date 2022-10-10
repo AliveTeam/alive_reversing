@@ -60,6 +60,5 @@ public:
     s32 field_7C = 0;
     s32 field_80 = 0;
 };
-ALIVE_ASSERT_SIZEOF(DemoPlayback, 0x84);
 
 } // namespace AO

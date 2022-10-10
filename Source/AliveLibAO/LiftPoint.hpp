@@ -75,6 +75,5 @@ public:
     BitField16<Flags> field_27A_flags = {};
 };
 
-ALIVE_ASSERT_SIZEOF(LiftPoint, 0x27C);
 
 } // namespace AO

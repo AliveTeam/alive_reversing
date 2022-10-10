@@ -140,7 +140,6 @@ private:
 
     std::vector<std::unique_ptr<BinaryPath>> mLoadedPaths;
 };
-ALIVE_ASSERT_SIZEOF(Map, 0xDC);
 
 extern Map gMap;
 extern s16 sMap_bDoPurpleLightEffect_5C311C;

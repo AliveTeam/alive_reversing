@@ -47,7 +47,6 @@ public:
     Prim_SetTPage field_138_tPage[2] = {};
     Poly_F4 field_158[2] = {};
 };
-ALIVE_ASSERT_SIZEOF(PauseMenu, 0x190);
 
 extern PauseMenu* pPauseMenu_5080E0;
 extern s8 byte_A88B90;

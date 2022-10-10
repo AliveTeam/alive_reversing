@@ -22,4 +22,3 @@ private:
     s32 field_F8_start = 0;
     s16 field_FC_bPlaySound = 0;
 };
-ALIVE_ASSERT_SIZEOF(DeathBirdParticle, 0x100);

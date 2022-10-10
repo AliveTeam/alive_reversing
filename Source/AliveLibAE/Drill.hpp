@@ -72,4 +72,3 @@ private:
     };
     BitField16<Flags> field_128_flags = {};
 };
-ALIVE_ASSERT_SIZEOF(Drill, 0x12C);

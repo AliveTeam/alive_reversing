@@ -16,6 +16,5 @@ public:
 
     FP field_E4_scale = {};
 };
-ALIVE_ASSERT_SIZEOF(BaseBomb, 0xE8);
 
 } // namespace AO

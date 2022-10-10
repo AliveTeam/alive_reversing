@@ -78,4 +78,3 @@ private:
     s32 mBackToAbeTimer = 0;
     s32 mSoundChannels = 0;
 };
-ALIVE_ASSERT_SIZEOF(EvilFart, 0x134);

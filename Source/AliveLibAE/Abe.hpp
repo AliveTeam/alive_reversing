@@ -827,7 +827,6 @@ private:
         &Abe::Motion_128_TurnWheelEnd_4569A0,
         &Abe::Motion_129_PoisonGasDeath_4565C0};
 };
-ALIVE_ASSERT_SIZEOF(Abe, 0x1BC);
 
 bool IsActiveHero(BaseGameObject* pObj);
 

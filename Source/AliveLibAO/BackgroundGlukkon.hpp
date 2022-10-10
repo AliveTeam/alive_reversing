@@ -38,6 +38,5 @@ public:
     s32 field_11C_voice_adjust = 0;
     s16 field_120_target_id = 0;
 };
-ALIVE_ASSERT_SIZEOF(BackgroundGlukkon, 0x124);
 
 } // namespace AO

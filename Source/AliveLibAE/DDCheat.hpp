@@ -95,7 +95,6 @@ private:
     BitField16<Flags_3C> field_3C_flags = {};
 };
 
-ALIVE_ASSERT_SIZEOF(DDCheat, 0x40);
 
 extern bool sDDCheat_FlyingEnabled_5C2C08;
 

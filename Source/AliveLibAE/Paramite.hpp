@@ -356,4 +356,3 @@ private:
     };
     BitField16<Flags_178> field_178_flags = {};
 };
-ALIVE_ASSERT_SIZEOF(Paramite, 0x17C);

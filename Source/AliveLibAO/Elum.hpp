@@ -221,7 +221,6 @@ public:
     BitField16<Flags_170> field_170_flags = {};
     Guid field_1F0_tlvInfo;
 };
-ALIVE_ASSERT_SIZEOF(Elum, 0x1F4);
 
 extern Elum* gElum;
 

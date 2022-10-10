@@ -16,4 +16,3 @@ public:
 private:
     s16 field_20_music_id = 0;
 };
-ALIVE_ASSERT_SIZEOF(BackgroundMusic, 0x24);

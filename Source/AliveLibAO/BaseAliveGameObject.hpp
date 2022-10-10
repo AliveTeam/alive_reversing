@@ -126,7 +126,6 @@ public:
     s16 field_108_bMotionChanged = 0;
     BitField16<Flags_10A> mBaseAliveGameObjectFlags = {};
 };
-ALIVE_ASSERT_SIZEOF(BaseAliveGameObject, 0x10C);
 
 extern DynamicArrayT<BaseAliveGameObject>* gBaseAliveGameObjects;
 

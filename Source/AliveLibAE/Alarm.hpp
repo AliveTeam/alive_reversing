@@ -37,7 +37,6 @@ private:
     };
     States mAlarmState = States::eWaitForSwitchEnable_0;
 };
-ALIVE_ASSERT_SIZEOF(Alarm, 0x94);
 
 extern s16 alarmInstanceCount_5C1BB4;
 extern Guid sAlarmObjId_550D70;

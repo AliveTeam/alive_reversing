@@ -26,7 +26,6 @@ public:
 
     void Fadeout();
 };
-ALIVE_ASSERT_SIZEOF(BirdPortalTerminator, 0xF4);
 
 class OrbWhirlWind;
 enum Event : s16;
@@ -127,4 +126,3 @@ private:
     s16 mCurrentPath = 0;
     s32 mSfxPlaying = 0;
 };
-ALIVE_ASSERT_SIZEOF(BirdPortal, 0x100);

@@ -53,4 +53,3 @@ private:
     LiftMoverStates field_30_state = LiftMoverStates::eInactive_0;
     s16 field_32_bMoveInProgress = 0;
 };
-ALIVE_ASSERT_SIZEOF(LiftMover, 0x34);

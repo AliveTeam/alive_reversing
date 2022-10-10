@@ -38,6 +38,5 @@ public:
     s8 mSoundPitchFactor = 0;
     s32 mSoundCooldownTimer = 0;
 };
-ALIVE_ASSERT_SIZEOF(Bells, 0xF8);
 
 } // namespace AO

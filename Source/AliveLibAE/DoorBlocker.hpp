@@ -22,4 +22,3 @@ private:
     s16 field_11A_switch_id = 0;
     Guid field_11C_tlvInfo;
 };
-ALIVE_ASSERT_SIZEOF(DoorBlocker, 0x124);

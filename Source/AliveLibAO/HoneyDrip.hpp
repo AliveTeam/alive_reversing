@@ -15,6 +15,5 @@ public:
 
     bool mSoundPlaying = false;
 };
-ALIVE_ASSERT_SIZEOF(HoneyDrip, 0xE8);
 
 } // namespace AO

@@ -312,4 +312,3 @@ public:
     FP field_2B4_max_slow_down = {};
     FP field_2B8_max_speed_up = {};
 };
-ALIVE_ASSERT_SIZEOF(FlyingSlig, 0x2BC);

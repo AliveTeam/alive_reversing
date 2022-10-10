@@ -191,7 +191,6 @@ public:
     bool isHeld(u32 command);
     bool IsReleased(u32 keys);
 };
-ALIVE_ASSERT_SIZEOF(InputObject, 0x44);
 
 InputObject& Input();
 

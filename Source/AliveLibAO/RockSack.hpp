@@ -25,5 +25,4 @@ public:
     FP field_118_x_vel = {};
     FP field_11C_y_vel = {};
 };
-ALIVE_ASSERT_SIZEOF(RockSack, 0x120);
 }

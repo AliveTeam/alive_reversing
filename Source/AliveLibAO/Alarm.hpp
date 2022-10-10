@@ -34,7 +34,6 @@ private:
     s32 mAlarmDurationTimer = 0;
     s16 mAlarmSwitchId = 0;
 };
-ALIVE_ASSERT_SIZEOF(Alarm, 0x7C);
 
 extern s16 alarmInstanceCount_5076A8;
 

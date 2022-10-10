@@ -15,6 +15,5 @@ public:
 
     s16 field_E4_bHitSomething = 0;
 };
-ALIVE_ASSERT_SIZEOF(Leaf, 0xE8);
 
 } // namespace AO

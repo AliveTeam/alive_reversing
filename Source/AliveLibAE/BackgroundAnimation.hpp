@@ -22,4 +22,3 @@ private:
     FP mObjectXPos = {};
     FP mObjectYPos = {};
 };
-ALIVE_ASSERT_SIZEOF(BackgroundAnimation, 0x104);

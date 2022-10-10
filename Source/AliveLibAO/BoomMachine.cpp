@@ -94,7 +94,6 @@ public:
     s32 field_E8_timer = 0;
     s16 field_EC_num_grenades = 0;
 };
-ALIVE_ASSERT_SIZEOF(GrenadeMachineNozzle, 0xF0);
 
 void BoomMachine::VHandleButton()
 {

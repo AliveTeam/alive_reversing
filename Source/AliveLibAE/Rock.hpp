@@ -75,4 +75,3 @@ private:
     FP field_124_ypos = {};
     s32 field_128_shimmer_timer = 0;
 };
-ALIVE_ASSERT_SIZEOF(Rock, 0x12C);

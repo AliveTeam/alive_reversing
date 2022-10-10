@@ -111,4 +111,3 @@ public:
     s16 field_13E_targetOnLeft = 0;
     s16 field_140_targetOnRight = 0;
 };
-ALIVE_ASSERT_SIZEOF(Greeter, 0x144);
