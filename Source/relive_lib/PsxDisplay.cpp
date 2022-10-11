@@ -64,7 +64,6 @@ struct DebugTexts final
     u8 field_2_displayWidth;
     u8 field_3_displayHeight;
     u32 field_4_max_len;
-    u8 field_8_bgColour;
     TextRecords field_9_text;
 };
 ALIVE_ASSERT_SIZEOF(DebugTexts, 0x80C);
@@ -92,7 +91,7 @@ s16 sbDebugFontLoaded = 0;
 s32 sDebugTextIdx_BB47C8 = 0;
 
 
-s32 DebugFont_Open_4F8AB0(u8 xMargin, u8 yMargin, u8 displayWidth, u8 displayHeight, u8 bgColour, u32 maxLenChars)
+s32 DebugFont_Open_4F8AB0(u8 xMargin, u8 yMargin, u8 displayWidth, u8 displayHeight, u32 maxLenChars)
 {
     const s32 idx = sFntCount_BD0F28;
     if (sFntCount_BD0F28 == 4)
@@ -106,7 +105,6 @@ s32 DebugFont_Open_4F8AB0(u8 xMargin, u8 yMargin, u8 displayWidth, u8 displayHei
     sTexts_C27640[idx].field_1_yMargin = yMargin;
     sTexts_C27640[idx].field_2_displayWidth = displayWidth;
     sTexts_C27640[idx].field_3_displayHeight = displayHeight;
-    sTexts_C27640[idx].field_8_bgColour = bgColour | 1;
     sTexts_C27640[idx].field_9_text.field_0_src_txt[0] = 0;
     sTexts_C27640[idx].field_9_text.field_400_dst_txt[0] = 0;
 
@@ -128,7 +126,7 @@ s32 DebugFont_Init() // Font
         sbDebugFontLoaded = 1;
     }
     DebugFont_Reset_4F8B40();
-    sDebugTextIdx_BB47C8 = DebugFont_Open_4F8AB0(8, 16, static_cast<u8>(gPsxDisplay.mWidth), 200, 0, 600u);
+    sDebugTextIdx_BB47C8 = DebugFont_Open_4F8AB0(8, 16, static_cast<u8>(gPsxDisplay.mWidth), 200, 600u);
     //nullsub_7(sTextIdx_BB47C8);
     sDebugFontTmpBuffer_BB47CC[0] = 0;
     return 0;
@@ -170,11 +168,9 @@ void PSX_DrawDebugTextBuffers(Bitmap* pBmp, const RECT& rect)
         DebugTexts* pRecord = &sTexts_C27640[i];
         const s32 xpos = rect.left + pRecord->field_0_xMargin;
         s32 ypos = rect.top + pRecord->field_1_yMargin;
-        const s32 bgColour = pRecord->field_8_bgColour;
         for (char_type* j = strtok(pRecord->field_9_text.field_400_dst_txt, "\n\r"); j; j = strtok(0, "\n\r"))
         {
-            s32 fontColour = Bmp_Convert_Colour_4F17D0(pBmp, 255, 255, 191);
-            BMP_Draw_String_4F2230(pBmp, xpos, ypos, fontColour, bgColour, j);
+            BMP_Draw_String_4F2230(pBmp, xpos, ypos, j);
             ypos += fontHeight;
         }
     }

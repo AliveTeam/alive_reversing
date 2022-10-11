@@ -489,8 +489,8 @@ void Game_Loop_437630()
 
     } // Main loop end
 
-    const PSX_RECT rect = {0, 0, 368, 480};
-    PSX_ClearImage_496020(&rect, 0, 0, 0);
+    //const PSX_RECT rect = {0, 0, 368, 480};
+    //PSX_ClearImage_496020(&rect, 0, 0, 0);
     PSX_DrawSync_496750(0);
     PSX_VSync_496620(0);
 

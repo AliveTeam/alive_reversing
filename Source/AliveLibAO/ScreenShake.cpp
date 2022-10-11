@@ -105,7 +105,7 @@ void ScreenShake::VRender(PrimHeader** ppOt)
 
             clearRect.x = 0;
             clearRect.w = 640; // Could probably replace with `gPsxDisplay.mWidth`
-            PSX_ClearImage_496020(&clearRect, 0, 0, 0);
+            //PSX_ClearImage_496020(&clearRect, 0, 0, 0);
         }
 
         if (offset.x != 0)
@@ -124,7 +124,7 @@ void ScreenShake::VRender(PrimHeader** ppOt)
 
             clearRect.y = 0;
             clearRect.h = gPsxDisplay.mHeight;
-            PSX_ClearImage_496020(&clearRect, 0, 0, 0);
+            //PSX_ClearImage_496020(&clearRect, 0, 0, 0);
         }
 
         if (!mShakeNumber)

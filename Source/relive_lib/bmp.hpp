@@ -37,13 +37,11 @@ ALIVE_ASSERT_SIZEOF(Bitmap, 0x1C);
 
 s32 BMP_Blt_4F1E50(Bitmap* pDstBmp, s32 xPos, s32 yPos, Bitmap* pSrcBmp, LPRECT pRect, s32 flags);
 void Bmp_Free_4F1950(Bitmap* pBmp);
-s32 Bmp_Convert_Colour_4F17D0(Bitmap* pBmp, s32 r, s32 g, s32 b);
-s32 BMP_ClearRect(Bitmap* pBmp, const RECT* pRect, u32 fillColour);
 void BMP_unlock_4F2100(Bitmap* pBmp);
 void BMP_Release_DC_4F21A0(Bitmap* pBmp, HDC hdc);
 LPVOID BMP_Lock_4F1FF0(Bitmap* pBitmap);
 s32 BMP_New_4F1990(Bitmap* pBitmap, s32 width, s32 height, s32 pixelFormat, s32 createFlags);
-void BMP_Draw_String_4F2230(Bitmap* pBmp, s32 x, s32 y, u32 fgColour, s32 bgColour, LPCSTR lpString);
+void BMP_Draw_String_4F2230(Bitmap* pBmp, s32 x, s32 y, LPCSTR lpString);
 LONG BMP_Get_Font_Height_4F21F0(Bitmap* pBmp);
 
 extern u8 gVGA_force_sys_memory_surfaces_BC0BB4;

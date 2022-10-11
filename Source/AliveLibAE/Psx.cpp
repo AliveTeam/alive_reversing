@@ -235,37 +235,6 @@ void Init_VGA_AndPsxVram_494690()
 {
     VGA_FullScreenSet_4F31F0(true);
     VGA_DisplaySet_4F32C0(640u, 480u, 16u, 2u, 0);
-
-    RECT rect = {};
-    rect.left = 0;
-    rect.top = 0;
-    rect.right = 640;
-    rect.bottom = 480;
-    BMP_ClearRect(&sVGA_bmp_primary_BD2A20, &rect, 0);
-
-    switch (VGA_GetPixelFormat_4F3EE0())
-    {
-        case 8:
-            //PSX_EMU_SetDispType_4F9960(1);
-            break;
-        case 15:
-            //PSX_EMU_SetDispType_4F9960(4);
-            break;
-        case 32: // Allow 32bit colour
-        case 16:
-            //PSX_EMU_SetDispType_4F9960(2);
-            break;
-        case 115:
-            //PSX_EMU_SetDispType_4F9960(5);
-            break;
-        case 116:
-           // PSX_EMU_SetDispType_4F9960(3);
-            break;
-        default:
-            Error_WarningMessageBox("This program requires a high-color display mode of 32768 or 65536 colors at 640x480 resolution.");
-            Error_ShowErrorStackToUser(false);
-            return;
-    }
 }
 
 void PSX_EMU_VideoDeAlloc_4FA010()

@@ -63,21 +63,6 @@ Bitmap* VGA_GetBitmap_4F3F00()
     return &sVGA_bmp_primary_BD2A20;
 }
 
-s32 VGA_GetPixelFormat_4F3EE0()
-{
-    return sVGA_bmp_primary_BD2A20.field_15_pixel_format;
-}
-
-s32 VGA_Convert_Colour_4F4DB0(s32 r, s32 g, s32 b)
-{
-    return Bmp_Convert_Colour_4F17D0(VGA_GetBitmap_4F3F00(), r, g, b);
-}
-
-s32 VGA_ClearRect_4F4CF0(RECT* pRect, u32 fillColour)
-{
-    return BMP_ClearRect(VGA_GetBitmap_4F3F00(), pRect, fillColour);
-}
-
 void VGA_CopyToFront(RECT* pRect)
 {
     SDL_Rect copyRect = {};
