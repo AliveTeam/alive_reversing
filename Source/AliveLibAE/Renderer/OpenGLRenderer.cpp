@@ -871,13 +871,21 @@ void OpenGLRenderer::Draw(Poly_G4& poly)
 
 void OpenGLRenderer::EndFrame()
 {
+    // Ensure any remaining data is drawn
+    InvalidateBatch();
+
+    // Always decrease resource lifetimes regardless of drawing to prevent
+    // memory leaks
+    DecreaseResourceLifetimes();
+
+    // The rest of this method writes to the screen, we early return now
+    // because:
+    //     Sometimes EndFrame is called before StartFrame
+    //     When minimised, rendering to the screen blows up Intel HD 2000
     if (!mFrameStarted || SDL_GetWindowFlags(mWindow) & SDL_WINDOW_MINIMIZED)
     {
         return;
     }
-
-    // Ensure any remaining data is drawn
-    InvalidateBatch();
 
     // Adjust the viewport for the window rather than the PSX resolution
     s32 wW, wH;
@@ -912,9 +920,6 @@ void OpenGLRenderer::EndFrame()
 
     // Render end
     SDL_GL_SwapWindow(mWindow);
-
-    // Bin resources
-    DecreaseResourceLifetimes();
 
     mFrameStarted = false;
 }
