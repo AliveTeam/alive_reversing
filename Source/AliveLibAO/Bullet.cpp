@@ -153,10 +153,9 @@ void Bullet::VUpdate()
 
             shootRect.x = FP_GetExponent(distX_1 - distX_2);
             shootRect.w = shootRect.x + 2;
-            // TODO field_8_data.points[2].y
             shootRect.y = static_cast<s16>(FP_GetExponent(sActiveHero->mYPos)
               
-                        + sActiveHero->mAnim.Get_FrameHeader(-1)->mPoints[0].mPoint.y // or points 3?!
+                        + sActiveHero->mAnim.Get_FrameHeader(-1)->mBoundMin.y // or points 3?!
                         - 10);
             shootRect.h = shootRect.y + 10;
 
