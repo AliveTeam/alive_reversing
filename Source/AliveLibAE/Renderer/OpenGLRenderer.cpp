@@ -1494,9 +1494,6 @@ void OpenGLRenderer::SetupBlendMode(u16 blendMode)
 
 void OpenGLRenderer::DebugWindow()
 {
-    //ImGuiStyle& style = ImGui::GetStyle();
-    //ImGuiIO& io = ImGui::GetIO();
-
     if (ImGui::BeginMainMenuBar())
     {
         if (ImGui::BeginMenu("Developer"))
@@ -1528,42 +1525,6 @@ void OpenGLRenderer::DebugWindow()
         ImGui::EndMainMenuBar();
     }
 
-    //ImGui::ShowDemoWindow();
-    /*
-    if (ImGui::Begin("Texture Window", nullptr, ImGuiWindowFlags_MenuBar))
-    {
-        f32 widthSpace = ImGui::GetContentRegionAvailWidth();
-        f32 currentWidth = 0;
-        for (size_t i = 0; i < gRendererTextures.size(); i++)
-        {
-            f32 textureWidth = static_cast<f32>(gRendererTextures[i].mVramRect.w);
-            f32 textureHeight = static_cast<f32>(gRendererTextures[i].mVramRect.h);
-
-            ImVec4 tint_col = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);   // No tint
-            ImVec4 border_col = ImVec4(1.0f, 1.0f, 1.0f, 0.5f); // 50% opaque white
-
-            if (currentWidth >= widthSpace)
-                currentWidth = 0;
-            else
-                ImGui::SameLine();
-
-            ImGui::Image(GL_TO_IMGUI_TEX(gRendererTextures[i].mTextureID), {textureWidth, textureHeight});
-            ImVec2 pos = ImGui::GetCursorScreenPos();
-            if (ImGui::IsItemHovered())
-            {
-                ImGui::BeginTooltip();
-                ImGui::Text("%d, %d, %d, %d", gRendererTextures[i].mVramRect.x, gRendererTextures[i].mVramRect.y, gRendererTextures[i].mVramRect.w, gRendererTextures[i].mVramRect.h);
-                ImVec2 uv0 = ImVec2(0.0f, 0.0f);
-                ImVec2 uv1 = ImVec2(1.0f, 1.0f);
-                ImGui::Image(GL_TO_IMGUI_TEX(gRendererTextures[i].mTextureID), ImVec2(textureWidth * 4, textureHeight * 4), uv0, uv1, tint_col, border_col);
-                ImGui::EndTooltip();
-            }
-            ImVec2 imgSize = ImGui::GetItemRectSize();
-            currentWidth += imgSize.x + style.ItemSpacing.x;
-        }
-    }
-    ImGui::End();*/
-
     if (ImGui::Begin("Render stats"))
     {
         ImGui::Text("Cams %d", mStats.mCamUploadCount);
@@ -1574,50 +1535,4 @@ void OpenGLRenderer::DebugWindow()
         ImGui::Text("Invalidations %d", mStats.mInvalidationsCount);
     }
     ImGui::End();
-
-    /*
-    if (ImGui::Begin("Palettes", nullptr, ImGuiWindowFlags_MenuBar))
-    {
-        f32 width = ImGui::GetWindowContentRegionWidth();
-        for (auto& pal : gRendererPals)
-        {
-            ImGui::Image(GL_TO_IMGUI_TEX(pal.mPalTextureID), ImVec2(width, 16));
-        }
-    }
-    ImGui::End();
-    */
-
-    /*
-    if (ImGui::Begin("VRAM", nullptr, ImGuiWindowFlags_MenuBar))
-    {
-        ImVec2 pos = ImGui::GetWindowPos();
-
-        for (s32 i = 0; i < (1500 / 64); i++)
-        {
-            ImVec2 pos1Line = ImVec2(pos.x + (i * 64), pos.y);
-            ImVec2 pos2Line = ImVec2(pos.x + (i * 64), pos.y + 512);
-            ImGui::GetWindowDrawList()->AddLine(pos1Line, pos2Line, ImGui::GetColorU32(ImVec4(1.0f, 1.0f, 1.0f, 0.2f)));
-        }
-
-
-        for (size_t i = 0; i < gRendererTextures.size(); i++)
-        {
-            ImGui::SetCursorPos(ImVec2(static_cast<f32>(gRendererTextures[i].mVramRect.x), static_cast<f32>(gRendererTextures[i].mVramRect.y + 50)));
-            ImVec2 xpos = ImGui::GetCursorScreenPos();
-            f32 textureWidth = static_cast<f32>(gRendererTextures[i].mVramRect.w);
-            f32 textureHeight = static_cast<f32>(gRendererTextures[i].mVramRect.h);
-
-            ImVec2 size = ImVec2(xpos.x + textureWidth, xpos.y + textureHeight);
-            ImGui::Image(GL_TO_IMGUI_TEX(gRendererTextures[i].mTextureID), {textureWidth, textureHeight});
-            ImGui::GetWindowDrawList()->AddRect(xpos, size, ImGui::GetColorU32(ImVec4(1.0f, 1.0f, 1.0f, 0.3f)));
-        }
-        if (ImGui::IsWindowHovered())
-        {
-            ImGui::BeginTooltip();
-            ImGui::Text("%d, %d", (s32)(io.MousePos.x - pos.x), (s32)(io.MousePos.y - pos.y));
-            ImGui::EndTooltip();
-        }
-    }
-    ImGui::End();
-    */
 }
