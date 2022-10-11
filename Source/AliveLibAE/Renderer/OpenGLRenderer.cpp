@@ -1429,7 +1429,7 @@ void OpenGLRenderer::PushVertexData(GLenum mode, VertexData* pVertData, int coun
             for (int i = 0; i < numObjects; i++)
             {
                 mBatchIndicies.push_back(nextIndex);
-                mBatchIndicies.push_back(nextIndex++);
+                mBatchIndicies.push_back(++nextIndex);
             }
 
             break;
