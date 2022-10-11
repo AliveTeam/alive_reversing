@@ -81,7 +81,7 @@ void Slig_SoundEffect_4BFFE0(SligSfx effect, BaseAliveGameObject* pObj)
     }
 }
 
-void Animation_OnFrame_Slig_4C0600(BaseGameObject* pObj, u32&, const Point32& point)
+void Animation_OnFrame_Slig_4C0600(BaseGameObject* pObj, u32&, const IndexedPoint& point)
 {
     auto pSlig = reinterpret_cast<Slig*>(pObj);
 
@@ -100,8 +100,8 @@ void Animation_OnFrame_Slig_4C0600(BaseGameObject* pObj, u32&, const Point32& po
         bulletType = BulletType::eNormalBullet_2;
     }
 
-    const FP xOff = (pSlig->mSpriteScale * FP_FromInteger(point.x));
-    const FP yOff = (pSlig->mSpriteScale * FP_FromInteger(point.y));
+    const FP xOff = (pSlig->mSpriteScale * FP_FromInteger(point.mPoint.x));
+    const FP yOff = (pSlig->mSpriteScale * FP_FromInteger(point.mPoint.y));
 
     Bullet* pBullet = nullptr;
 
@@ -6357,7 +6357,7 @@ void Slig::RespondToEnemyOrPatrol_4B3140()
 
 s16 Slig::IsAbeEnteringDoor_4BB990(BaseAliveGameObject* pThis)
 {
-    if (((pThis->Type() == ReliveTypes::eAbe) && (pThis->mCurrentMotion == eAbeMotions::Motion_114_DoorEnter_459470 && pThis->mAnim.mCurrentFrame > 7)) || (pThis->mCurrentMotion == eAbeMotions::Motion_115_DoorExit_459A40 && pThis->mAnim.mCurrentFrame < 4))
+    if (((pThis->Type() == ReliveTypes::eAbe) && (pThis->mCurrentMotion == eAbeMotions::Motion_114_DoorEnter && pThis->mAnim.mCurrentFrame > 7)) || (pThis->mCurrentMotion == eAbeMotions::Motion_115_DoorExit && pThis->mAnim.mCurrentFrame < 4))
     {
         return 1;
     }

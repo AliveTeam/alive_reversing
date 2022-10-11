@@ -62,7 +62,7 @@ void GameEnderController::VUpdate()
             if (field_10_timer <= static_cast<s32>(sGnFrame))
             {
                 // Wait for murdering everyone to finish
-                if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_162_ToShrykull_42F410 && sActiveHero->mCurrentMotion != eAbeMotions::Motion_163_ShrykullEnd_42F520)
+                if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_162_ToShrykull && sActiveHero->mCurrentMotion != eAbeMotions::Motion_163_ShrykullEnd)
                 {
                     // Kill certain types of objects to prevent them appearing on the ending screen or crashing the game
                     // by trying to use the sControlledCharacter pointer.

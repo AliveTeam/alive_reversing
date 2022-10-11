@@ -908,7 +908,7 @@ void MineCar::State_0_ParkedWithoutAbe()
     const PSX_RECT abeRect = sActiveHero->VGetBoundingRect();
 
     if (
-        sActiveHero->mCurrentMotion == eAbeMotions::Motion_117_InMineCar_4587C0 &&
+        sActiveHero->mCurrentMotion == eAbeMotions::Motion_117_InMineCar &&
         PSX_Rects_overlap_4FA0B0(&carRect, &abeRect) &&
         sActiveHero->mSpriteScale == mSpriteScale
     )
@@ -940,7 +940,7 @@ void MineCar::State_1_ParkedWithAbe()
 
     // Abe exits minecar
     //
-    if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_117_InMineCar_4587C0)
+    if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_117_InMineCar)
     {
         sActiveHero->mXPos = mXPos;
         sActiveHero->mYPos = mYPos;

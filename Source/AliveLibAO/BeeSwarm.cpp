@@ -112,7 +112,7 @@ void BeeSwarm::VScreenChanged()
         }
     }
 
-    if (!sActiveHero || (mChaseTarget == sActiveHero && sActiveHero->mCurrentMotion == eAbeMotions::Motion_156_DoorEnter_42D370))
+    if (!sActiveHero || (mChaseTarget == sActiveHero && sActiveHero->mCurrentMotion == eAbeMotions::Motion_156_DoorEnter))
     {
         mBaseGameObjectFlags.Set(Options::eDead);
     }

@@ -12,17 +12,17 @@
 #include "ResourceManager.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
 
-void Animation_OnFrame_Common_Null_455F40(BaseGameObject*, u32&, const Point32&)
+void Animation_OnFrame_Common_Null_455F40(BaseGameObject*, u32&, const IndexedPoint&)
 {
 
 }
 
-void Animation_OnFrame_Null_455F60(BaseGameObject*, u32&, const Point32&)
+void Animation_OnFrame_Null_455F60(BaseGameObject*, u32&, const IndexedPoint&)
 {
 
 }
 
-void Animation_OnFrame_Common_4561B0(BaseGameObject* pObjPtr, u32&, const Point32& point)
+void Animation_OnFrame_Common_4561B0(BaseGameObject* pObjPtr, u32&, const IndexedPoint& point)
 {
     auto pObj = static_cast<BaseAliveGameObject*>(pObjPtr);
     AnimResource ppAnimData = ResourceManagerWrapper::LoadAnimation(AnimId::Dust_Particle);
@@ -30,15 +30,15 @@ void Animation_OnFrame_Common_4561B0(BaseGameObject* pObjPtr, u32&, const Point3
     FP xOff = {};
     if (pObj->mAnim.mFlags.Get(AnimFlags::eFlipX))
     {
-        xOff = -(pObj->mSpriteScale * FP_FromInteger(point.x));
+        xOff = -(pObj->mSpriteScale * FP_FromInteger(point.mPoint.x));
     }
     else
     {
-        xOff = (pObj->mSpriteScale * FP_FromInteger(point.x));
+        xOff = (pObj->mSpriteScale * FP_FromInteger(point.mPoint.x));
     }
 
     FP xpos = xOff + pObj->mXPos;
-    FP ypos = (pObj->mSpriteScale * FP_FromInteger(point.y)) + pObj->mYPos + FP_FromInteger(25);
+    FP ypos = (pObj->mSpriteScale * FP_FromInteger(point.mPoint.y)) + pObj->mYPos + FP_FromInteger(25);
     if (!pObj->BaseAliveGameObjectCollisionLine)
     {
         return;
@@ -111,7 +111,7 @@ void Animation_OnFrame_Common_4561B0(BaseGameObject* pObjPtr, u32&, const Point3
     return;
 }
 
-void Animation_OnFrame_FlyingSlig(BaseGameObject* pObjPtr, u32&, const Point32& point)
+void Animation_OnFrame_FlyingSlig(BaseGameObject* pObjPtr, u32&, const IndexedPoint& point)
 {
     auto pObj = static_cast<BaseAliveGameObject*>(pObjPtr);
 
@@ -130,15 +130,15 @@ void Animation_OnFrame_FlyingSlig(BaseGameObject* pObjPtr, u32&, const Point32& 
     FP xOff = {};
     if (pObj->mAnim.mFlags.Get(AnimFlags::eFlipX))
     {
-        xOff = -(pObj->mSpriteScale * FP_FromInteger(point.x));
+        xOff = -(pObj->mSpriteScale * FP_FromInteger(point.mPoint.x));
     }
     else
     {
-        xOff = (pObj->mSpriteScale * FP_FromInteger(point.x));
+        xOff = (pObj->mSpriteScale * FP_FromInteger(point.mPoint.x));
     }
 
     FP xpos = xOff + pObj->mXPos;
-    FP ypos = (pObj->mSpriteScale * (FP_FromInteger(point.y) + FP_FromInteger(25))) + pObj->mYPos;
+    FP ypos = (pObj->mSpriteScale * (FP_FromInteger(point.mPoint.y) + FP_FromInteger(25))) + pObj->mYPos;
 
     if (EventGet(kEventDeathReset))
     {
@@ -155,7 +155,7 @@ void Animation_OnFrame_FlyingSlig(BaseGameObject* pObjPtr, u32&, const Point32& 
     }
 }
 
-void Animation_OnFrame_Slog_4C3030(BaseGameObject* pObjPtr, u32&, const Point32& point)
+void Animation_OnFrame_Slog_4C3030(BaseGameObject* pObjPtr, u32&, const IndexedPoint& point)
 {
     auto pSlog = static_cast<Slog*>(pObjPtr);
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(pSlog->field_118_target_id));
@@ -185,14 +185,14 @@ void Animation_OnFrame_Slog_4C3030(BaseGameObject* pObjPtr, u32&, const Point32&
     FP bloodX = {};
     if (pSlog->mAnim.mFlags.Get(AnimFlags::eFlipX))
     {
-        bloodX = pSlog->mXPos - (pSlog->mSpriteScale * FP_FromInteger(point.x));
+        bloodX = pSlog->mXPos - (pSlog->mSpriteScale * FP_FromInteger(point.mPoint.x));
     }
     else
     {
-        bloodX = (pSlog->mSpriteScale * FP_FromInteger(point.x)) + pSlog->mXPos;
+        bloodX = (pSlog->mSpriteScale * FP_FromInteger(point.mPoint.x)) + pSlog->mXPos;
     }
 
-    const FP bloodY = (pSlog->mSpriteScale * FP_FromInteger(point.y)) + pSlog->mYPos;
+    const FP bloodY = (pSlog->mSpriteScale * FP_FromInteger(point.mPoint.y)) + pSlog->mYPos;
 
     relive_new Blood(
         bloodX,

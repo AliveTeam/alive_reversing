@@ -223,21 +223,21 @@ AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const
             {
                 switch (pFirstFrame->field_6_colour_depth)
                 {
-                    case 4: // 4bit indcies converted to 8bit in decompress frame
-                    case 8:
-                    {
-                        const u8 value = decompressionBuffer[(y * imageWidth) + x];
-                        spriteSheetBuffer[(y * sheetWidth) + (x + (bestMaxSize.mMaxW * i))] = value;
-                        break;
-                    }
+                case 4: // 4bit indcies converted to 8bit in decompress frame
+                case 8:
+                {
+                    const u8 value = decompressionBuffer[(y * imageWidth) + x];
+                    spriteSheetBuffer[(y * sheetWidth) + (x + (bestMaxSize.mMaxW * i))] = value;
+                    break;
+                }
 
-                    case 16:
-                        LOG_ERROR("16 bpp not implemented");
-                        break;
+                case 16:
+                    LOG_ERROR("16 bpp not implemented");
+                    break;
                 }
             }
         }
-    
+
 
         perFrameInfos[i].mWidth = pFrameHeader->field_4_width;
         perFrameInfos[i].mHeight = pFrameHeader->field_5_height;
@@ -261,29 +261,58 @@ AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const
         perFrameInfos[i].mBoundMax.x = pFrameInfoHeader->field_8_data.offsetAndRect.mMax.x;
         perFrameInfos[i].mBoundMax.y = pFrameInfoHeader->field_8_data.offsetAndRect.mMax.y;
 
-        perFrameInfos[i].mPointCount = pFrameInfoHeader->field_6_count;
+
         if (pFrameInfoHeader->field_6_count > 2)
         {
             ALIVE_FATAL("No OG data should have more than 2 points");
         }
 
+        u32 numPoints = pFrameInfoHeader->field_6_count;
         if (pFrameInfoHeader->field_6_count > 0)
         {
             // NOTE: Matches data on disk, size matters
             struct PointAndIndex final
             {
                 u32 index;
-                Point point;
+                Point point[1]; // NOTE: Var length in 1 case only
             };
             auto pPointAndIndex = reinterpret_cast<const PointAndIndex*>(&pFrameInfoHeader->field_8_data.points[3]);
 
             for (s32 j = 0; j < pFrameInfoHeader->field_6_count; j++)
             {
                 perFrameInfos[i].mPoints[j].mIndex = pPointAndIndex[j].index;
-                perFrameInfos[i].mPoints[j].mPoint.x = pPointAndIndex[j].point.x;
-                perFrameInfos[i].mPoints[j].mPoint.y = pPointAndIndex[j].point.y;
+                perFrameInfos[i].mPoints[j].mPoint.x = pPointAndIndex[j].point[0].x;
+                perFrameInfos[i].mPoints[j].mPoint.y = pPointAndIndex[j].point[0].y;
+
+                switch (rec.mId)
+                {
+                case AnimId::Swinging_Ball_Fast:
+                    [[fallthrough]];
+                case AnimId::Swinging_Ball_Normal:
+                    [[fallthrough]];
+                case AnimId::Swinging_Ball_Slow:
+                    // The only exception to the rule of a single point in the data is the ZBALLS
+                    // so in this case only read 2 points by shoving them into the next points record
+                    if (pFrameInfoHeader->field_6_count != 1)
+                    {
+                        ALIVE_FATAL("ZBALL has too many point entries");
+                    }
+                    // Yep there really isn't an index for the 2nd entry, its just 2 tightly packed points making a rect
+                    perFrameInfos[i].mPoints[j + 1].mIndex = pPointAndIndex[j].index;
+                    perFrameInfos[i].mPoints[j + 1].mPoint.x = pPointAndIndex[j].point[1].x;
+                    perFrameInfos[i].mPoints[j + 1].mPoint.y = pPointAndIndex[j].point[1].y;
+
+                    // Fix up the point count from 1 to 2
+                    numPoints = 2;
+                    break;
+
+                default:
+                    break;
+                }
             }
         }
+        perFrameInfos[i].mPointCount = numPoints;
+
         // Clear because the buffer is re-used to reduce memory allocs
         decompressionBuffer.clear();
         decompressionBuffer.resize(decompressionBufferSize);

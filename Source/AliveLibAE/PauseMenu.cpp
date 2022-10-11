@@ -1427,9 +1427,9 @@ void PauseMenu::VUpdate()
         if (!(sControlledCharacter->mBaseAliveGameObjectFlags.Get(eTeleporting)))
         {
             const s16 heroState = sActiveHero->mCurrentMotion;
-            if (heroState != eAbeMotions::Motion_86_HandstoneBegin_45BD00
-                && heroState != eAbeMotions::Motion_119_ToShrykull_45A990
-                && heroState != eAbeMotions::Motion_120_EndShrykull_45AB00
+            if (heroState != eAbeMotions::Motion_86_HandstoneBegin
+                && heroState != eAbeMotions::Motion_119_ToShrykull
+                && heroState != eAbeMotions::Motion_120_EndShrykull
                 && heroState != eAbeMotions::Motion_75_JumpIntoWell_45C7B0
                 && heroState != eAbeMotions::Motion_76_ToInsideOfAWellLocal_45CA40
                 && heroState != eAbeMotions::Motion_77_ToWellShotOut_45D130
@@ -1475,9 +1475,9 @@ void PauseMenu::VUpdate()
             && !(pControlledChar->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eTeleporting)))
         {
             const s16 heroState = pHero->mCurrentMotion;
-            if (heroState != eAbeMotions::Motion_86_HandstoneBegin_45BD00
-                && heroState != eAbeMotions::Motion_119_ToShrykull_45A990
-                && heroState != eAbeMotions::Motion_120_EndShrykull_45AB00
+            if (heroState != eAbeMotions::Motion_86_HandstoneBegin
+                && heroState != eAbeMotions::Motion_119_ToShrykull
+                && heroState != eAbeMotions::Motion_120_EndShrykull
                 && heroState != eAbeMotions::Motion_75_JumpIntoWell_45C7B0
                 && heroState != eAbeMotions::Motion_76_ToInsideOfAWellLocal_45CA40
                 && heroState != eAbeMotions::Motion_77_ToWellShotOut_45D130

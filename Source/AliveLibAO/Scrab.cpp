@@ -819,8 +819,8 @@ s16 Scrab::CanSeeAbe(BaseAliveGameObject* pObj)
 
     if (pObj == sActiveHero)
     {
-        if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_66_LedgeHang_428D90
-            || sActiveHero->mCurrentMotion == eAbeMotions::Motion_68_LedgeHangWobble_428E50)
+        if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_66_LedgeHang
+            || sActiveHero->mCurrentMotion == eAbeMotions::Motion_68_LedgeHangWobble)
         {
             return VOnSameYLevel(pObj);
         }

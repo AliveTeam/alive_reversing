@@ -92,50 +92,50 @@
     ENTRY(Motion_83_WellExpressShotOut_45CF70)       \
     ENTRY(Motion_84_FallLandDie_45A420)              \
     ENTRY(jMotion_85_Fall_455070)                    \
-    ENTRY(Motion_86_HandstoneBegin_45BD00)           \
-    ENTRY(Motion_87_HandstoneEnd_45C4F0)             \
-    ENTRY(Motion_88_GrenadeMachineUse_45C510)        \
-    ENTRY(Motion_89_BrewMachineBegin_4584C0)         \
-    ENTRY(Motion_90_BrewMachineEnd_4585B0)           \
-    ENTRY(Motion_91_FallingFromGrab_4557B0)          \
-    ENTRY(Motion_92_ForceDownFromHoist_455800)       \
-    ENTRY(Motion_93_WalkOffEdge_455970)              \
-    ENTRY(Motion_94_RunOffEdge_4559A0)               \
-    ENTRY(Motion_95_SneakOffEdge_4559C0)             \
-    ENTRY(Motion_96_HopToFall_4559E0)                \
-    ENTRY(Motion_97_RunJumpToFall_455A80)            \
-    ENTRY(Motion_98_RollOffEdge_455AA0)              \
-    ENTRY(Motion_99_LeverUse_455AC0)                 \
-    ENTRY(Motion_100_SlapBomb_455B60)                \
-    ENTRY(Motion_101_KnockForward_455420)            \
-    ENTRY(Motion_102_RollingKnockForward_455310)     \
-    ENTRY(jMotion_103_KnockForwardGetUp_455380)      \
-    ENTRY(Motion_104_RockThrowStandingHold_455DF0)   \
-    ENTRY(Motion_105_RockThrowStandingThrow_456460)  \
-    ENTRY(Motion_106_RockThrowStandingEnd_455F20)    \
-    ENTRY(Motion_107_RockThrowCrouchingHold_454410)  \
-    ENTRY(Motion_108_RockThrowCrouchingThrow_454500) \
-    ENTRY(Motion_109_ZShotRolling_455550)            \
-    ENTRY(Motion_110_ZShot_455670)                   \
-    ENTRY(Motion_111_PickupItem_4564A0)              \
-    ENTRY(Motion_112_Chant_45B1C0)                   \
-    ENTRY(Motion_113_ChantEnd_45BBE0)                \
-    ENTRY(Motion_114_DoorEnter_459470)               \
-    ENTRY(Motion_115_DoorExit_459A40)                \
-    ENTRY(Motion_116_MineCarEnter_458780)            \
-    ENTRY(Motion_117_InMineCar_4587C0)               \
-    ENTRY(Motion_118_MineCarExit_458890)             \
-    ENTRY(Motion_119_ToShrykull_45A990)              \
-    ENTRY(Motion_120_EndShrykull_45AB00)             \
-    ENTRY(Motion_121_LiftGrabBegin_45A600)           \
-    ENTRY(Motion_122_LiftGrabEnd_45A670)             \
-    ENTRY(Motion_123_LiftGrabIdle_45A6A0)            \
-    ENTRY(Motion_124_LiftUseUp_45A780)               \
-    ENTRY(Motion_125_LiftUseDown_45A7B0)             \
-    ENTRY(Motion_126_TurnWheelBegin_456700)          \
-    ENTRY(Motion_127_TurnWheelLoop_456750)           \
-    ENTRY(Motion_128_TurnWheelEnd_4569A0)            \
-    ENTRY(Motion_129_PoisonGasDeath_4565C0)
+    ENTRY(Motion_86_HandstoneBegin)           \
+    ENTRY(Motion_87_HandstoneEnd)             \
+    ENTRY(Motion_88_GrenadeMachineUse)        \
+    ENTRY(Motion_89_BrewMachineBegin)         \
+    ENTRY(Motion_90_BrewMachineEnd)           \
+    ENTRY(Motion_91_FallingFromGrab)          \
+    ENTRY(Motion_92_ForceDownFromHoist)       \
+    ENTRY(Motion_93_WalkOffEdge)              \
+    ENTRY(Motion_94_RunOffEdge)               \
+    ENTRY(Motion_95_SneakOffEdge)             \
+    ENTRY(Motion_96_HopToFall)                \
+    ENTRY(Motion_97_RunJumpToFall)            \
+    ENTRY(Motion_98_RollOffEdge)              \
+    ENTRY(Motion_99_LeverUse)                 \
+    ENTRY(Motion_100_SlapBomb)                \
+    ENTRY(Motion_101_KnockForward)            \
+    ENTRY(Motion_102_RollingKnockForward)     \
+    ENTRY(jMotion_103_KnockForwardGetUp)      \
+    ENTRY(Motion_104_RockThrowStandingHold)   \
+    ENTRY(Motion_105_RockThrowStandingThrow)  \
+    ENTRY(Motion_106_RockThrowStandingEnd)    \
+    ENTRY(Motion_107_RockThrowCrouchingHold)  \
+    ENTRY(Motion_108_RockThrowCrouchingThrow) \
+    ENTRY(Motion_109_ZShotRolling)            \
+    ENTRY(Motion_110_ZShot)                   \
+    ENTRY(Motion_111_PickupItem)              \
+    ENTRY(Motion_112_Chant)                   \
+    ENTRY(Motion_113_ChantEnd)                \
+    ENTRY(Motion_114_DoorEnter)               \
+    ENTRY(Motion_115_DoorExit)                \
+    ENTRY(Motion_116_MineCarEnter)            \
+    ENTRY(Motion_117_InMineCar)               \
+    ENTRY(Motion_118_MineCarExit)             \
+    ENTRY(Motion_119_ToShrykull)              \
+    ENTRY(Motion_120_EndShrykull)             \
+    ENTRY(Motion_121_LiftGrabBegin)           \
+    ENTRY(Motion_122_LiftGrabEnd)             \
+    ENTRY(Motion_123_LiftGrabIdle)            \
+    ENTRY(Motion_124_LiftUseUp)               \
+    ENTRY(Motion_125_LiftUseDown)             \
+    ENTRY(Motion_126_TurnWheelBegin)          \
+    ENTRY(Motion_127_TurnWheelLoop)           \
+    ENTRY(Motion_128_TurnWheelEnd)            \
+    ENTRY(Motion_129_PoisonGasDeath)
 
 #define MAKE_ENUM(VAR) VAR,
 enum eAbeMotions : s32
@@ -572,50 +572,50 @@ private:
     void Motion_83_WellExpressShotOut_45CF70();
     void Motion_84_FallLandDie_45A420();
     void jMotion_85_Fall_455070();
-    void Motion_86_HandstoneBegin_45BD00();
-    void Motion_87_HandstoneEnd_45C4F0();
-    void Motion_88_GrenadeMachineUse_45C510();
-    void Motion_89_BrewMachineBegin_4584C0();
-    void Motion_90_BrewMachineEnd_4585B0();
-    void Motion_91_FallingFromGrab_4557B0();
-    void Motion_92_ForceDownFromHoist_455800();
-    void Motion_93_WalkOffEdge_455970();
-    void Motion_94_RunOffEdge_4559A0();
-    void Motion_95_SneakOffEdge_4559C0();
-    void Motion_96_HopToFall_4559E0();
-    void Motion_97_RunJumpToFall_455A80();
-    void Motion_98_RollOffEdge_455AA0();
-    void Motion_99_LeverUse_455AC0();
-    void Motion_100_SlapBomb_455B60();
-    void Motion_101_KnockForward_455420();
-    void Motion_102_RollingKnockForward_455310();
-    void jMotion_103_KnockForwardGetUp_455380();
-    void Motion_104_RockThrowStandingHold_455DF0();
-    void Motion_105_RockThrowStandingThrow_456460();
-    void Motion_106_RockThrowStandingEnd_455F20();
-    void Motion_107_RockThrowCrouchingHold_454410();
-    void Motion_108_RockThrowCrouchingThrow_454500();
-    void Motion_109_ZShotRolling_455550();
-    void Motion_110_ZShot_455670();
-    void Motion_111_PickupItem_4564A0();
-    void Motion_112_Chant_45B1C0();
-    void Motion_113_ChantEnd_45BBE0();
-    void Motion_114_DoorEnter_459470();
-    void Motion_115_DoorExit_459A40();
-    void Motion_116_MineCarEnter_458780();
-    void Motion_117_InMineCar_4587C0();
-    void Motion_118_MineCarExit_458890();
-    void Motion_119_ToShrykull_45A990();
-    void Motion_120_EndShrykull_45AB00();
-    void Motion_121_LiftGrabBegin_45A600();
-    void Motion_122_LiftGrabEnd_45A670();
-    void Motion_123_LiftGrabIdle_45A6A0();
-    void Motion_124_LiftUseUp_45A780();
-    void Motion_125_LiftUseDown_45A7B0();
-    void Motion_126_TurnWheelBegin_456700();
-    void Motion_127_TurnWheelLoop_456750();
-    void Motion_128_TurnWheelEnd_4569A0();
-    void Motion_129_PoisonGasDeath_4565C0();
+    void Motion_86_HandstoneBegin();
+    void Motion_87_HandstoneEnd();
+    void Motion_88_GrenadeMachineUse();
+    void Motion_89_BrewMachineBegin();
+    void Motion_90_BrewMachineEnd();
+    void Motion_91_FallingFromGrab();
+    void Motion_92_ForceDownFromHoist();
+    void Motion_93_WalkOffEdge();
+    void Motion_94_RunOffEdge();
+    void Motion_95_SneakOffEdge();
+    void Motion_96_HopToFall();
+    void Motion_97_RunJumpToFall();
+    void Motion_98_RollOffEdge();
+    void Motion_99_LeverUse();
+    void Motion_100_SlapBomb();
+    void Motion_101_KnockForward();
+    void Motion_102_RollingKnockForward();
+    void jMotion_103_KnockForwardGetUp();
+    void Motion_104_RockThrowStandingHold();
+    void Motion_105_RockThrowStandingThrow();
+    void Motion_106_RockThrowStandingEnd();
+    void Motion_107_RockThrowCrouchingHold();
+    void Motion_108_RockThrowCrouchingThrow();
+    void Motion_109_ZShotRolling();
+    void Motion_110_ZShot();
+    void Motion_111_PickupItem();
+    void Motion_112_Chant();
+    void Motion_113_ChantEnd();
+    void Motion_114_DoorEnter();
+    void Motion_115_DoorExit();
+    void Motion_116_MineCarEnter();
+    void Motion_117_InMineCar();
+    void Motion_118_MineCarExit();
+    void Motion_119_ToShrykull();
+    void Motion_120_EndShrykull();
+    void Motion_121_LiftGrabBegin();
+    void Motion_122_LiftGrabEnd();
+    void Motion_123_LiftGrabIdle();
+    void Motion_124_LiftUseUp();
+    void Motion_125_LiftUseDown();
+    void Motion_126_TurnWheelBegin();
+    void Motion_127_TurnWheelLoop();
+    void Motion_128_TurnWheelEnd();
+    void Motion_129_PoisonGasDeath();
 
     void jMotion_81_WellBegin_4017F8();
 
@@ -782,50 +782,50 @@ private:
         &Abe::Motion_83_WellExpressShotOut_45CF70,
         &Abe::Motion_84_FallLandDie_45A420,
         &Abe::jMotion_85_Fall_455070,
-        &Abe::Motion_86_HandstoneBegin_45BD00,
-        &Abe::Motion_87_HandstoneEnd_45C4F0,
-        &Abe::Motion_88_GrenadeMachineUse_45C510,
-        &Abe::Motion_89_BrewMachineBegin_4584C0,
-        &Abe::Motion_90_BrewMachineEnd_4585B0,
-        &Abe::Motion_91_FallingFromGrab_4557B0,
-        &Abe::Motion_92_ForceDownFromHoist_455800,
-        &Abe::Motion_93_WalkOffEdge_455970,
-        &Abe::Motion_94_RunOffEdge_4559A0,
-        &Abe::Motion_95_SneakOffEdge_4559C0,
-        &Abe::Motion_96_HopToFall_4559E0,
-        &Abe::Motion_97_RunJumpToFall_455A80,
-        &Abe::Motion_98_RollOffEdge_455AA0,
-        &Abe::Motion_99_LeverUse_455AC0,
-        &Abe::Motion_100_SlapBomb_455B60,
-        &Abe::Motion_101_KnockForward_455420,
-        &Abe::Motion_102_RollingKnockForward_455310,
-        &Abe::jMotion_103_KnockForwardGetUp_455380,
-        &Abe::Motion_104_RockThrowStandingHold_455DF0,
-        &Abe::Motion_105_RockThrowStandingThrow_456460,
-        &Abe::Motion_106_RockThrowStandingEnd_455F20,
-        &Abe::Motion_107_RockThrowCrouchingHold_454410,
-        &Abe::Motion_108_RockThrowCrouchingThrow_454500,
-        &Abe::Motion_109_ZShotRolling_455550,
-        &Abe::Motion_110_ZShot_455670,
-        &Abe::Motion_111_PickupItem_4564A0,
-        &Abe::Motion_112_Chant_45B1C0,
-        &Abe::Motion_113_ChantEnd_45BBE0,
-        &Abe::Motion_114_DoorEnter_459470,
-        &Abe::Motion_115_DoorExit_459A40,
-        &Abe::Motion_116_MineCarEnter_458780,
-        &Abe::Motion_117_InMineCar_4587C0,
-        &Abe::Motion_118_MineCarExit_458890,
-        &Abe::Motion_119_ToShrykull_45A990,
-        &Abe::Motion_120_EndShrykull_45AB00,
-        &Abe::Motion_121_LiftGrabBegin_45A600,
-        &Abe::Motion_122_LiftGrabEnd_45A670,
-        &Abe::Motion_123_LiftGrabIdle_45A6A0,
-        &Abe::Motion_124_LiftUseUp_45A780,
-        &Abe::Motion_125_LiftUseDown_45A7B0,
-        &Abe::Motion_126_TurnWheelBegin_456700,
-        &Abe::Motion_127_TurnWheelLoop_456750,
-        &Abe::Motion_128_TurnWheelEnd_4569A0,
-        &Abe::Motion_129_PoisonGasDeath_4565C0};
+        &Abe::Motion_86_HandstoneBegin,
+        &Abe::Motion_87_HandstoneEnd,
+        &Abe::Motion_88_GrenadeMachineUse,
+        &Abe::Motion_89_BrewMachineBegin,
+        &Abe::Motion_90_BrewMachineEnd,
+        &Abe::Motion_91_FallingFromGrab,
+        &Abe::Motion_92_ForceDownFromHoist,
+        &Abe::Motion_93_WalkOffEdge,
+        &Abe::Motion_94_RunOffEdge,
+        &Abe::Motion_95_SneakOffEdge,
+        &Abe::Motion_96_HopToFall,
+        &Abe::Motion_97_RunJumpToFall,
+        &Abe::Motion_98_RollOffEdge,
+        &Abe::Motion_99_LeverUse,
+        &Abe::Motion_100_SlapBomb,
+        &Abe::Motion_101_KnockForward,
+        &Abe::Motion_102_RollingKnockForward,
+        &Abe::jMotion_103_KnockForwardGetUp,
+        &Abe::Motion_104_RockThrowStandingHold,
+        &Abe::Motion_105_RockThrowStandingThrow,
+        &Abe::Motion_106_RockThrowStandingEnd,
+        &Abe::Motion_107_RockThrowCrouchingHold,
+        &Abe::Motion_108_RockThrowCrouchingThrow,
+        &Abe::Motion_109_ZShotRolling,
+        &Abe::Motion_110_ZShot,
+        &Abe::Motion_111_PickupItem,
+        &Abe::Motion_112_Chant,
+        &Abe::Motion_113_ChantEnd,
+        &Abe::Motion_114_DoorEnter,
+        &Abe::Motion_115_DoorExit,
+        &Abe::Motion_116_MineCarEnter,
+        &Abe::Motion_117_InMineCar,
+        &Abe::Motion_118_MineCarExit,
+        &Abe::Motion_119_ToShrykull,
+        &Abe::Motion_120_EndShrykull,
+        &Abe::Motion_121_LiftGrabBegin,
+        &Abe::Motion_122_LiftGrabEnd,
+        &Abe::Motion_123_LiftGrabIdle,
+        &Abe::Motion_124_LiftUseUp,
+        &Abe::Motion_125_LiftUseDown,
+        &Abe::Motion_126_TurnWheelBegin,
+        &Abe::Motion_127_TurnWheelLoop,
+        &Abe::Motion_128_TurnWheelEnd,
+        &Abe::Motion_129_PoisonGasDeath};
 };
 
 bool IsActiveHero(BaseGameObject* pObj);
@@ -839,6 +839,6 @@ extern const char_type* const sAbeMotionNames[130];
 
 s32 Environment_SFX_457A40(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseAliveGameObject* pAliveObj);
 
-void Animation_OnFrame_Abe_455F80(BaseGameObject* pPtr, u32&, const Point32& point);
+void Animation_OnFrame_Abe_455F80(BaseGameObject* pPtr, u32&, const IndexedPoint& point);
 
 s32 XGrid_Index_To_XPos_4498F0(FP scale, s32 xGridIndex);

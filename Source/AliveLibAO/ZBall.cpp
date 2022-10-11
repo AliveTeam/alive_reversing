@@ -13,7 +13,7 @@ ZBall* gCenterZBall = nullptr;
 ZBall* gOutZBall = nullptr;
 
 // TODO: Pass the whole object because this decides to read 2 points as a rect
-void Animation_OnFrame_ZBallSmacker(::BaseGameObject* pObj, u32& idx, const Point32& points)
+void Animation_OnFrame_ZBallSmacker(::BaseGameObject* pObj, u32& idx, const IndexedPoint& points)
 {
     auto pZBall = static_cast<ZBall*>(pObj);
     for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
@@ -31,9 +31,12 @@ void Animation_OnFrame_ZBallSmacker(::BaseGameObject* pObj, u32& idx, const Poin
 
             const PSX_RECT bRect = pAliveObj->VGetBoundingRect();
 
-             const Point32* pPoints = &points;
+             const IndexedPoint* pPoints = &points;
 
-            if (bRect.x <= (FP_GetExponent(pZBall->mXPos) + pPoints[1].x) && bRect.w >= (FP_GetExponent(pZBall->mXPos) + pPoints[0].x) && bRect.h >= (FP_GetExponent(pZBall->mYPos) + pPoints[0].y) && bRect.y <= (FP_GetExponent(pZBall->mYPos) + pPoints[1].y))
+            if (bRect.x <= (FP_GetExponent(pZBall->mXPos) + pPoints[1].mPoint.x) &&
+                bRect.w >= (FP_GetExponent(pZBall->mXPos) + pPoints[0].mPoint.x) &&
+                bRect.h >= (FP_GetExponent(pZBall->mYPos) + pPoints[0].mPoint.y) &&
+                bRect.y <= (FP_GetExponent(pZBall->mYPos) + pPoints[1].mPoint.y))
             {
                 pAliveObj->VTakeDamage(pZBall);
             }

@@ -217,7 +217,7 @@ Door::Door(relive::Path_Door* pTlvData, const Guid& tlvId)
         }
     }
 
-    if ((sActiveHero->mCurrentMotion == eAbeMotions::Motion_114_DoorEnter_459470 || sActiveHero->mCurrentMotion == eAbeMotions::Motion_115_DoorExit_459A40) && field_FC_current_state == relive::Path_Door::DoorStates::eClosed && field_FA_door_number == sActiveHero->field_1A0_door_id)
+    if ((sActiveHero->mCurrentMotion == eAbeMotions::Motion_114_DoorEnter || sActiveHero->mCurrentMotion == eAbeMotions::Motion_115_DoorExit) && field_FC_current_state == relive::Path_Door::DoorStates::eClosed && field_FA_door_number == sActiveHero->field_1A0_door_id)
     {
         // Force open is abe is in the door
         field_FC_current_state = relive::Path_Door::DoorStates::eOpen;
@@ -404,7 +404,7 @@ void Door::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_114_DoorEnter_459470 || sActiveHero->mCurrentMotion == eAbeMotions::Motion_115_DoorExit_459A40)
+    if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_114_DoorEnter || sActiveHero->mCurrentMotion == eAbeMotions::Motion_115_DoorExit)
     {
         if (field_FC_current_state == relive::Path_Door::DoorStates::eClosed && field_FA_door_number == sActiveHero->field_1A0_door_id)
         {
@@ -575,7 +575,7 @@ void TrainDoor::VUpdate()
     if (field_FC_current_state == relive::Path_Door::DoorStates::eOpen)
     {
         // Wait for Abe to GTFO
-        if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_115_DoorExit_459A40 && sActiveHero->mCurrentMotion != eAbeMotions::Motion_114_DoorEnter_459470)
+        if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_115_DoorExit && sActiveHero->mCurrentMotion != eAbeMotions::Motion_114_DoorEnter)
         {
             // Then close
             mAnim.Set_Animation_Data(GetAnimRes(AnimId::Door_Train_Closing));

@@ -233,7 +233,7 @@ s16 MotionDetector::IsInLaser(BaseAliveGameObject* pWho, BaseGameObject* pOwner)
     if (pWho->Type() == ReliveTypes::eAbe)
     {
         // Abe is safe in these states or if electrocuted or in ddcheat fly mode.
-        if (pWho->mCurrentMotion == eAbeMotions::Motion_0_Idle_44EEB0 || pWho->mCurrentMotion == eAbeMotions::Motion_17_CrouchIdle_456BC0 || pWho->mCurrentMotion == eAbeMotions::Motion_67_LedgeHang_454E20 || pWho->mCurrentMotion == eAbeMotions::Motion_60_Unused_4A3200 || pWho->mCurrentMotion == eAbeMotions::Motion_57_Dead_4589A0 || pWho->mCurrentMotion == eAbeMotions::Motion_117_InMineCar_4587C0 || pWho->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted) || sDDCheat_FlyingEnabled_5C2C08)
+        if (pWho->mCurrentMotion == eAbeMotions::Motion_0_Idle_44EEB0 || pWho->mCurrentMotion == eAbeMotions::Motion_17_CrouchIdle_456BC0 || pWho->mCurrentMotion == eAbeMotions::Motion_67_LedgeHang_454E20 || pWho->mCurrentMotion == eAbeMotions::Motion_60_Unused_4A3200 || pWho->mCurrentMotion == eAbeMotions::Motion_57_Dead_4589A0 || pWho->mCurrentMotion == eAbeMotions::Motion_117_InMineCar || pWho->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted) || sDDCheat_FlyingEnabled_5C2C08)
         {
             return 0;
         }

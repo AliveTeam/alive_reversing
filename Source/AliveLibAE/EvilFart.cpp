@@ -284,12 +284,12 @@ void EvilFart::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_86_HandstoneBegin_45BD00)
+    if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_86_HandstoneBegin)
     {
         mPossessedAliveTimer--;
     }
 
-    if ((sActiveHero->mCurrentMotion != eAbeMotions::Motion_86_HandstoneBegin_45BD00) && mPossessedAliveTimer + 1 <= 0)
+    if ((sActiveHero->mCurrentMotion != eAbeMotions::Motion_86_HandstoneBegin) && mPossessedAliveTimer + 1 <= 0)
     {
         if (!mFartExploded)
         {

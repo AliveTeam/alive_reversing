@@ -13,7 +13,7 @@ struct AnimRecord;
 const AnimRecord PerGameAnimRec(AnimId id);
 class BaseGameObject;
 
-using TFrameCallBackType = void(*)(BaseGameObject*, u32& pointIdx, const Point32&);
+using TFrameCallBackType = void(*)(BaseGameObject*, u32& pointIdx, const IndexedPoint&);
 
 // TODO: Move to converter, won't be used in engine
 struct AnimationFileHeader final
