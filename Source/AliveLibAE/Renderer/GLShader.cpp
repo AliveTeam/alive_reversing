@@ -322,10 +322,10 @@ flat in uvec2 fsTexIndexing;
 
 out vec4 outColor;
 
-uniform sampler2D texPalette;
+uniform usampler2D texPalette;
 uniform sampler2D texGas;
 uniform sampler2D texCamera;
-uniform sampler2D texFG1Masks[4];
+uniform usampler2D texFG1Masks[4];
 uniform sampler2D texSpriteSheets[8];
 
 const int BLEND_MODE_HALF_DST_ADD_HALF_SRC = 0;
@@ -341,11 +341,6 @@ const int DRAW_GAS         = 4;
 
 const vec2 frameSize = vec2(640.0, 240.0);
 
-
-vec4 PixelToPalette(float v)
-{
-    return texture(texPalette, vec2(v, fsTexIndexing.x / 255.0));
-}
 
 bool dither()
 {
@@ -450,9 +445,17 @@ void draw_default_ft4()
             break;
     }
 
-    vec4 texelPal = PixelToPalette(texelSprite);
+    uvec4 texelPal =
+        texelFetch(
+            texPalette,
+            ivec2(
+                texelSprite * 255.0,
+                fsTexIndexing.x
+            ),
+            0
+        );
 
-    outColor = handle_final_color(texelPal);
+    outColor = handle_final_color(texelPal / 255.0);
 }
 
 void draw_cam()
@@ -465,29 +468,30 @@ void draw_cam()
 void draw_fg1()
 {
     vec4 mask = vec4(0.0);
+    ivec2 uFragCoord = ivec2(gl_FragCoord.x - 0.5, frameSize.y - gl_FragCoord.y + 0.5);
 
     switch (fsTexIndexing.y)
     {
         case 0u:
-            mask = texture(texFG1Masks[0u], fsUV);
+            mask = texelFetch(texFG1Masks[0u], uFragCoord, 0);
             break;
 
         case 1u:
-            mask = texture(texFG1Masks[1u], fsUV);
+            mask = texelFetch(texFG1Masks[1u], uFragCoord, 0);
             break;
 
         case 2u:
-            mask = texture(texFG1Masks[2u], fsUV);
+            mask = texelFetch(texFG1Masks[2u], uFragCoord, 0);
             break;
 
         case 3u:
-            mask = texture(texFG1Masks[3u], fsUV);
+            mask = texelFetch(texFG1Masks[3u], uFragCoord, 0);
             break;
     }
 
     outColor = vec4(texture(texCamera, fsUV).rgb, 0.0);
 
-    if (mask.rgb == vec3(0.0))
+    if (mask.rgb == uvec3(0.0))
     {
         outColor = vec4(0.0, 0.0, 0.0, 1.0);
     }

@@ -102,11 +102,11 @@ u32 OpenGLRenderer::PreparePalette(AnimationPal& pCache)
         mPaletteTextureId = Renderer_CreateTexture();
 
         GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mPaletteTextureId));
-        GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, GL_PALETTE_DEPTH, GL_AVAILABLE_PALETTES, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0));
+        GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8UI, GL_PALETTE_DEPTH, GL_AVAILABLE_PALETTES, 0, GL_RGBA_INTEGER, GL_UNSIGNED_BYTE, 0));
 
         for (int i = 0; i < GL_AVAILABLE_PALETTES; i++)
         {
-            GL_VERIFY(glTexSubImage2D(GL_TEXTURE_2D, 0, 0, i, GL_PALETTE_DEPTH, 1, GL_RGBA, GL_UNSIGNED_BYTE, black));
+            GL_VERIFY(glTexSubImage2D(GL_TEXTURE_2D, 0, 0, i, GL_PALETTE_DEPTH, 1, GL_RGBA_INTEGER, GL_UNSIGNED_BYTE, black));
         }
     }
 
@@ -161,7 +161,7 @@ u32 OpenGLRenderer::PreparePalette(AnimationPal& pCache)
     // Write palette data
     GL_VERIFY(glActiveTexture(GL_TEXTURE1));
     GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mPaletteTextureId));
-    GL_VERIFY(glTexSubImage2D(GL_TEXTURE_2D, 0, 0, nextIndex, GL_PALETTE_DEPTH, 1, GL_RGBA, GL_UNSIGNED_BYTE, dst));
+    GL_VERIFY(glTexSubImage2D(GL_TEXTURE_2D, 0, 0, nextIndex, GL_PALETTE_DEPTH, 1, GL_RGBA_INTEGER, GL_UNSIGNED_BYTE, dst));
 
     mStats.mPalUploadCount++;
 
@@ -252,7 +252,7 @@ u32 OpenGLRenderer::PrepareTextureFromPoly(Poly_FT4& poly)
 
             GL_VERIFY(glBindTexture(GL_TEXTURE_2D, textureId));
             GL_VERIFY(glPixelStorei(GL_UNPACK_ALIGNMENT, 4));
-            GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, poly.mFg1->mImage.mWidth, poly.mFg1->mImage.mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, poly.mFg1->mImage.mPixels->data()));
+            GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8UI, poly.mFg1->mImage.mWidth, poly.mFg1->mImage.mHeight, 0, GL_RGBA_INTEGER, GL_UNSIGNED_BYTE, poly.mFg1->mImage.mPixels->data()));
 
             mStats.mFg1UploadCount++;
         }
