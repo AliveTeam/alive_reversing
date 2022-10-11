@@ -94,7 +94,7 @@ void RockSack::VUpdate()
                 Environment_SFX_42A220(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
             }
 
-            if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_33_RunJumpMid_426FA0)
+            if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_33_RunJumpMid)
             {
                 mAnim.Set_Animation_Data(GetAnimRes(AnimId::RockSack_HardHit));
             }

@@ -64,8 +64,8 @@ void InvisibleSwitch::VUpdate()
                 {
                     // TODO: ???
                     if (!IsActiveHero(sActiveHero)
-                        || (sActiveHero->mCurrentMotion != eAbeMotions::Motion_115_DoorExit_459A40
-                            && sActiveHero->mCurrentMotion != eAbeMotions::Motion_114_DoorEnter_459470))
+                        || (sActiveHero->mCurrentMotion != eAbeMotions::Motion_115_DoorExit
+                            && sActiveHero->mCurrentMotion != eAbeMotions::Motion_114_DoorEnter))
                     {
                         // Scale matches ?
                         if (field_3C_scale == relive::Path_InvisibleSwitch::InvisibleSwitchScale::eAny

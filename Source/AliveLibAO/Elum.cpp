@@ -940,7 +940,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
                 }
             }
 
-            if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_139_ElumMountBegin_42E090)
+            if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_139_ElumMountBegin)
             {
                 mCurrentMotion = eElumMotions::Motion_48_AbeMoutingBegin_415C40;
                 return 16;
@@ -1077,7 +1077,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
                 return 7;
             }
 
-            if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_139_ElumMountBegin_42E090)
+            if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_139_ElumMountBegin)
             {
                 mCurrentMotion = eElumMotions::Motion_48_AbeMoutingBegin_415C40;
                 return 16;
@@ -1344,7 +1344,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
                         mNextMotion = eElumMotions::Motion_25_LickingHoney_415B50;
                         if (sControlledCharacter == this)
                         {
-                            SetAbeAsPlayer_412520(eAbeMotions::Motion_128_KnockForward_429330);
+                            SetAbeAsPlayer_412520(eAbeMotions::Motion_128_KnockForward);
                         }
                         return 3;
                     }
@@ -1368,7 +1368,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
                         mNextMotion = eElumMotions::Motion_25_LickingHoney_415B50;
                         if (sControlledCharacter == this)
                         {
-                            SetAbeAsPlayer_412520(eAbeMotions::Motion_128_KnockForward_429330);
+                            SetAbeAsPlayer_412520(eAbeMotions::Motion_128_KnockForward);
                         }
                         return 3;
                     }
@@ -1396,7 +1396,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
                     mNextMotion = eElumMotions::Motion_25_LickingHoney_415B50;
                     if (sControlledCharacter == this)
                     {
-                        SetAbeAsPlayer_412520(eAbeMotions::Motion_128_KnockForward_429330);
+                        SetAbeAsPlayer_412520(eAbeMotions::Motion_128_KnockForward);
                     }
                     return 3;
                 }
@@ -1409,7 +1409,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
                     mNextMotion = eElumMotions::Motion_25_LickingHoney_415B50;
                     if (sControlledCharacter == this)
                     {
-                        SetAbeAsPlayer_412520(eAbeMotions::Motion_128_KnockForward_429330);
+                        SetAbeAsPlayer_412520(eAbeMotions::Motion_128_KnockForward);
                     }
                     return 3;
                 }
@@ -1435,7 +1435,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
 
             if (sControlledCharacter == this)
             {
-                SetAbeAsPlayer_412520(eAbeMotions::Motion_128_KnockForward_429330);
+                SetAbeAsPlayer_412520(eAbeMotions::Motion_128_KnockForward);
             }
 
             mNextMotion = eElumMotions::Motion_25_LickingHoney_415B50;
@@ -1680,13 +1680,13 @@ void Elum::Motion_1_Idle_412990()
 {
     CheckLiftPointGoneAndSetCamera();
 
-    if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_115_ElumSpeak_4299F0 && !ToNextMotion_4120F0())
+    if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_115_ElumSpeak && !ToNextMotion_4120F0())
     {
-        if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_150_Chant_42FD50 && sControlledCharacter == sActiveHero)
+        if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_150_Chant && sControlledCharacter == sActiveHero)
         {
             mCurrentMotion = eElumMotions::Motion_9_ToYell_415890;
         }
-        else if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_137_ElumUnmountBegin_42E2B0)
+        else if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_137_ElumUnmountBegin)
         {
             mCurrentMotion = eElumMotions::Motion_49_AbeUnmountingBegin_415D00;
         }
@@ -2442,7 +2442,7 @@ void Elum::Motion_26_LickingToStruggling_415AC0()
 
 void Elum::Motion_27_AbeMountingEnd_415CA0()
 {
-    if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_136_ElumMountEnd_42E110)
+    if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_136_ElumMountEnd)
     {
         ToIdle();
     }
@@ -2450,7 +2450,7 @@ void Elum::Motion_27_AbeMountingEnd_415CA0()
 
 void Elum::Motion_28_AbeUnmountingEnd_415D60()
 {
-    if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_138_ElumUnmountEnd_42E390)
+    if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_138_ElumUnmountEnd)
     {
         ToIdle();
     }
@@ -2898,7 +2898,7 @@ void Elum::Motion_37_RunSlideStop_4142E0()
             field_118_jump_velx = FP_FromInteger(0);
             mVelX = FP_FromInteger(0);
             mVelY = FP_FromInteger(0);
-            mCurrentMotion = eAbeMotions::Motion_1_WalkLoop_423F90;
+            mCurrentMotion = eAbeMotions::Motion_1_WalkLoop;
             field_110_timer = sGnFrame;
             field_10E_pressed = 0;
             MapFollowMe_401D30(TRUE);
@@ -3200,7 +3200,7 @@ void Elum::Motion_47_Unknown_415A30()
 
 void Elum::Motion_48_AbeMoutingBegin_415C40()
 {
-    if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_136_ElumMountEnd_42E110)
+    if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_136_ElumMountEnd)
     {
         mCurrentMotion = eElumMotions::Motion_27_AbeMountingEnd_415CA0;
     }
@@ -3208,7 +3208,7 @@ void Elum::Motion_48_AbeMoutingBegin_415C40()
 
 void Elum::Motion_49_AbeUnmountingBegin_415D00()
 {
-    if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_137_ElumUnmountBegin_42E2B0)
+    if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_137_ElumUnmountBegin)
     {
         mCurrentMotion = eElumMotions::Motion_28_AbeUnmountingEnd_415D60;
     }

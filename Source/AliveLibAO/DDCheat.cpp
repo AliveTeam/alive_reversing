@@ -203,7 +203,7 @@ void DDCheat::VUpdate()
                 cheat_enabled = 1;
                 pAbe->mXPos = FP_FromInteger(point.x + 448);
                 pAbe->mYPos = FP_FromInteger(point.y + 180);
-                pAbe->mCurrentMotion = eAbeMotions::Motion_3_Fall_42E7F0;
+                pAbe->mCurrentMotion = eAbeMotions::Motion_3_Fall;
                 pAbe->field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
                 pAbe->mCurrentLevel = MapWrapper::FromAO(static_cast<LevelIds>(level_4C315C));
                 pAbe->mCurrentPath = static_cast<s16>(path_4C3160);
@@ -234,7 +234,7 @@ void DDCheat::VUpdate()
                             }
                             case ReliveTypes::eAbe:
                             {
-                                sControlledCharacter->mCurrentMotion = eAbeMotions::Motion_3_Fall_42E7F0;
+                                sControlledCharacter->mCurrentMotion = eAbeMotions::Motion_3_Fall;
                                 break;
                             }
                             case ReliveTypes::eSlig:

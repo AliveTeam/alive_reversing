@@ -454,7 +454,7 @@ void Slig::Init()
             {
                 SetBrain(&Slig::Brain_Sleeping_46B4E0);
                 SetBrain2(&Slig::Brain_Sleeping_46B4E0);
-                mCurrentMotion = eAbeMotions::Motion_33_RunJumpMid_426FA0;
+                mCurrentMotion = eAbeMotions::Motion_33_RunJumpMid;
                 VUpdateAnimData();
             }
             break;
@@ -1597,7 +1597,7 @@ bool Slig::RenderLayerIs_46C0A0(BaseAliveGameObject* pThis)
 
 s16 Slig::IsAbeEnteringDoor_46BEE0(BaseAliveGameObject* pThis)
 {
-    if (((pThis->Type() == ReliveTypes::eAbe) && (pThis->mCurrentMotion == eAbeMotions::Motion_156_DoorEnter_42D370 && pThis->mAnim.mCurrentFrame > 7)) || (pThis->mCurrentMotion == eAbeMotions::Motion_157_DoorExit_42D780 && pThis->mAnim.mCurrentFrame < 4))
+    if (((pThis->Type() == ReliveTypes::eAbe) && (pThis->mCurrentMotion == eAbeMotions::Motion_156_DoorEnter && pThis->mAnim.mCurrentFrame > 7)) || (pThis->mCurrentMotion == eAbeMotions::Motion_157_DoorExit && pThis->mAnim.mCurrentFrame < 4))
     {
         return 1;
     }
@@ -5437,10 +5437,10 @@ s16 Slig::Brain_Shooting_46EFD0()
         field_200_num_times_to_shoot++;
 
         if (field_200_num_times_to_shoot < field_174_tlv->mData.mNumTimesToShoot
-            || sActiveHero->mCurrentMotion == eAbeMotions::Motion_137_ElumUnmountBegin_42E2B0
-            || sActiveHero->mCurrentMotion == eAbeMotions::Motion_139_ElumMountBegin_42E090
-            || sActiveHero->mCurrentMotion == eAbeMotions::Motion_138_ElumUnmountEnd_42E390
-            || sActiveHero->mCurrentMotion == eAbeMotions::Motion_136_ElumMountEnd_42E110)
+            || sActiveHero->mCurrentMotion == eAbeMotions::Motion_137_ElumUnmountBegin
+            || sActiveHero->mCurrentMotion == eAbeMotions::Motion_139_ElumMountBegin
+            || sActiveHero->mCurrentMotion == eAbeMotions::Motion_138_ElumUnmountEnd
+            || sActiveHero->mCurrentMotion == eAbeMotions::Motion_136_ElumMountEnd)
         {
             mNextMotion = eSligMotions::Motion_6_Shoot_468820;
             return 111;
@@ -5530,10 +5530,10 @@ s16 Slig::Brain_ZShooting_46F290()
         return 127;
     }
 
-    if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_138_ElumUnmountEnd_42E390
-        || sActiveHero->mCurrentMotion == eAbeMotions::Motion_136_ElumMountEnd_42E110
-        || sActiveHero->mCurrentMotion == eAbeMotions::Motion_137_ElumUnmountBegin_42E2B0
-        || sActiveHero->mCurrentMotion == eAbeMotions::Motion_139_ElumMountBegin_42E090)
+    if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_138_ElumUnmountEnd
+        || sActiveHero->mCurrentMotion == eAbeMotions::Motion_136_ElumMountEnd
+        || sActiveHero->mCurrentMotion == eAbeMotions::Motion_137_ElumUnmountBegin
+        || sActiveHero->mCurrentMotion == eAbeMotions::Motion_139_ElumMountBegin)
     {
         return 127;
     }

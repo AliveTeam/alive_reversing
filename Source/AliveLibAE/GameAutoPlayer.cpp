@@ -53,7 +53,16 @@ bool Player::ValidateObjectStates()
 
     if (static_cast<u32>(gBaseGameObjects->Size()) != objCount)
     {
-        LOG_ERROR("Got " << gBaseGameObjects->Size() << " objects but expected " << objCount);
+        for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
+        {
+            auto pObj = gBaseGameObjects->ItemAt(i);
+            if (!pObj)
+            {
+                break;
+            }
+            LOG_INFO("object at " << i << " with type " << (s32)pObj->Type());
+        }
+        LOG_ERROR("Got " << gBaseGameObjects->Size() << " objects but expected " << objCount << " on gnframe " << sGnFrame);
         return false;
     }
 

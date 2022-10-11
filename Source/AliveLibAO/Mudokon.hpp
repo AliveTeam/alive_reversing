@@ -76,7 +76,7 @@ namespace AO {
     ENTRY(Motion_62_PoisonGasDeath)
 
 #define MAKE_ENUM(VAR) VAR,
-enum eMudMotions : s32
+enum class eMudMotions : s32
 {
     MUD_STATES_ENUM(MAKE_ENUM)
 };
@@ -109,6 +109,18 @@ public:
 
     virtual void VUpdateResBlock();
 
+    eMudMotions GetNextMotion() const
+    {
+        return static_cast<eMudMotions>(mNextMotion);
+    }
+    eMudMotions GetCurrentMotion() const
+    {
+        return static_cast<eMudMotions>(mCurrentMotion);
+    }
+    eMudMotions GetPreviousMotion() const
+    {
+        return static_cast<eMudMotions>(mPreviousMotion);
+    }
 
     s16 DoSmashDamage();
     void KillBirdPortal();

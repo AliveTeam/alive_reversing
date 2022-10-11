@@ -327,7 +327,7 @@ void BirdPortal::VUpdate()
                 sActiveHero->mHaveShrykull = TRUE;
                 sActiveHero->mHaveInvisibility = 0;
                 mState = PortalStates::CollapseTerminators_10;
-                if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_112_Chant_45B1C0)
+                if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_112_Chant)
                 {
                     sActiveHero->ChangeChantState_45BB90(0);
                 }
@@ -743,7 +743,7 @@ void BirdPortal::VGiveShrykull(s16 bPlaySound)
                 sActiveHero->mSpriteScale,
                 0);
 
-            if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_112_Chant_45B1C0)
+            if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_112_Chant)
             {
                 sActiveHero->ChangeChantState_45BB90(1);
             }
@@ -751,7 +751,7 @@ void BirdPortal::VGiveShrykull(s16 bPlaySound)
         else
         {
             mState = PortalStates::CollapseTerminators_10;
-            if ((mPortalType == relive::Path_BirdPortal::PortalType::eWorker || mPortalType == relive::Path_BirdPortal::PortalType::eShrykull) && sActiveHero->mCurrentMotion == eAbeMotions::Motion_112_Chant_45B1C0)
+            if ((mPortalType == relive::Path_BirdPortal::PortalType::eWorker || mPortalType == relive::Path_BirdPortal::PortalType::eShrykull) && sActiveHero->mCurrentMotion == eAbeMotions::Motion_112_Chant)
             {
                 sActiveHero->ChangeChantState_45BB90(0);
             }
