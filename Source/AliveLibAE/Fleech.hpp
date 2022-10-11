@@ -297,4 +297,4 @@ private:
     Prim_SetTPage field_40C[2] = {};
 };
 
-void Animation_OnFrame_Fleech_449A60(BaseGameObject* pObj, u32&, const Point32&);
+void Animation_OnFrame_Fleech_449A60(BaseGameObject* pObj, u32&, const IndexedPoint&);

@@ -490,7 +490,7 @@ const FP_Point sThrowVelocities_555118[9] = {
     {FP_FromInteger(0), FP_FromInteger(0)}};
 
 
-void Animation_OnFrame_Abe_455F80(BaseGameObject* pPtr, u32&, const Point32& point)
+void Animation_OnFrame_Abe_455F80(BaseGameObject* pPtr, u32&, const IndexedPoint& point)
 {
     auto pAbe = static_cast<Abe*>(pPtr);
 
@@ -503,11 +503,11 @@ void Animation_OnFrame_Abe_455F80(BaseGameObject* pPtr, u32&, const Point32& poi
     if (sActiveHero->mAnim.mFlags.Get(AnimFlags::eFlipX))
     {
         tableX = -tableX;
-        xOff = -(pAbe->mSpriteScale * FP_FromInteger(point.x));
+        xOff = -(pAbe->mSpriteScale * FP_FromInteger(point.mPoint.x));
     }
     else
     {
-        xOff = pAbe->mSpriteScale * FP_FromInteger(point.x);
+        xOff = pAbe->mSpriteScale * FP_FromInteger(point.mPoint.x);
     }
 
     PathLine* pLine = nullptr;
@@ -515,9 +515,9 @@ void Animation_OnFrame_Abe_455F80(BaseGameObject* pPtr, u32&, const Point32& poi
     FP hitY = {};
     if (sCollisions->Raycast(
             pAbe->mXPos,
-            pAbe->mYPos + FP_FromInteger(point.y),
+            pAbe->mYPos + FP_FromInteger(point.mPoint.y),
             xOff + pAbe->mXPos,
-            pAbe->mYPos + FP_FromInteger(point.y),
+            pAbe->mYPos + FP_FromInteger(point.mPoint.y),
             &pLine,
             &hitX,
             &hitY,
@@ -530,7 +530,7 @@ void Animation_OnFrame_Abe_455F80(BaseGameObject* pPtr, u32&, const Point32& poi
     if (pThrowable)
     {
         pThrowable->mXPos = xOff + sActiveHero->mXPos;
-        pThrowable->mYPos = (pAbe->mSpriteScale * FP_FromInteger(point.y)) + sActiveHero->mYPos;
+        pThrowable->mYPos = (pAbe->mSpriteScale * FP_FromInteger(point.mPoint.y)) + sActiveHero->mYPos;
         pThrowable->VThrow(tableX, tableY);
         pThrowable->mSpriteScale = pAbe->mSpriteScale;
         pThrowable->mScale = pAbe->mScale;

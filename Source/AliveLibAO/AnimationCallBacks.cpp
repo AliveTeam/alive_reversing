@@ -14,7 +14,7 @@
 
 namespace AO {
 
-void Animation_OnFrame_Slig(::BaseGameObject* pObj, u32&, const Point32& pData)
+void Animation_OnFrame_Slig(::BaseGameObject* pObj, u32&, const IndexedPoint& pData)
 {
     auto pSlig = static_cast<Slig*>(pObj);
     if (pSlig->UpdateDelay() != 0)
@@ -33,8 +33,8 @@ void Animation_OnFrame_Slig(::BaseGameObject* pObj, u32&, const Point32& pData)
         bulletType = BulletType::eNormalBullet_1;
     }
 
-    const FP xOff = pSlig->mSpriteScale * FP_FromInteger(pData.x);
-    const FP yOff = pSlig->mSpriteScale * FP_FromInteger(pData.y);
+    const FP xOff = pSlig->mSpriteScale * FP_FromInteger(pData.mPoint.x);
+    const FP yOff = pSlig->mSpriteScale * FP_FromInteger(pData.mPoint.y);
     if (pSlig->mAnim.mFlags.Get(AnimFlags::eFlipX))
     {
         relive_new Bullet(
@@ -97,9 +97,9 @@ void Animation_OnFrame_Slig(::BaseGameObject* pObj, u32&, const Point32& pData)
     Dove::All_FlyAway();
 }
 
-void Animation_OnFrame_ZBallSmacker(::BaseGameObject* pObj, u32& idx, const Point32& pData);
+void Animation_OnFrame_ZBallSmacker(::BaseGameObject* pObj, u32& idx, const IndexedPoint& pData);
 
-void Slog_OnFrame(::BaseGameObject* pObj, u32&, const Point32& pData)
+void Slog_OnFrame(::BaseGameObject* pObj, u32&, const IndexedPoint& pData)
 {
     auto pSlog = static_cast<Slog*>(pObj);
     if (pSlog->field_10C_pTarget)
@@ -116,14 +116,14 @@ void Slog_OnFrame(::BaseGameObject* pObj, u32&, const Point32& pData)
                     FP blood_xpos = {};
                     if (pSlog->mAnim.mFlags.Get(AnimFlags::eFlipX))
                     {
-                        blood_xpos = pSlog->mXPos - (pSlog->mSpriteScale * FP_FromInteger(pData.x));
+                        blood_xpos = pSlog->mXPos - (pSlog->mSpriteScale * FP_FromInteger(pData.mPoint.x));
                     }
                     else
                     {
-                        blood_xpos = pSlog->mXPos + (pSlog->mSpriteScale * FP_FromInteger(pData.x));
+                        blood_xpos = pSlog->mXPos + (pSlog->mSpriteScale * FP_FromInteger(pData.mPoint.x));
                     }
 
-                    const FP blood_ypos = (pSlog->mSpriteScale * FP_FromInteger(pData.y)) + pSlog->mYPos;
+                    const FP blood_ypos = (pSlog->mSpriteScale * FP_FromInteger(pData.mPoint.y)) + pSlog->mYPos;
 
                     relive_new Blood(
                         blood_xpos,
@@ -150,7 +150,7 @@ const FP_Point kAbeVelTable_4C6608[6] = {
     {FP_FromInteger(10), FP_FromInteger(-4)},
     {FP_FromInteger(4), FP_FromInteger(-3)}};
 
-void Abe_OnFrame(::BaseGameObject* pObj, u32&, const Point32& pData)
+void Abe_OnFrame(::BaseGameObject* pObj, u32&, const IndexedPoint& pData)
 {
     auto pAbe = static_cast<Abe*>(pObj);
 
@@ -161,14 +161,14 @@ void Abe_OnFrame(::BaseGameObject* pObj, u32&, const Point32& pData)
     if (sActiveHero->mAnim.mFlags.Get(AnimFlags::eFlipX))
     {
         xVel = -xVel;
-        directed_x = -(pAbe->mSpriteScale * FP_FromInteger(pData.x));
+        directed_x = -(pAbe->mSpriteScale * FP_FromInteger(pData.mPoint.x));
     }
     else
     {
-        directed_x = (pAbe->mSpriteScale * FP_FromInteger(pData.x));
+        directed_x = (pAbe->mSpriteScale * FP_FromInteger(pData.mPoint.x));
     }
 
-    FP data_y = FP_FromInteger(pData.y);
+    FP data_y = FP_FromInteger(pData.mPoint.y);
 
     FP hitX = {};
     FP hitY = {};

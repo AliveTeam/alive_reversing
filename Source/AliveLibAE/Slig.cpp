@@ -81,7 +81,7 @@ void Slig_SoundEffect_4BFFE0(SligSfx effect, BaseAliveGameObject* pObj)
     }
 }
 
-void Animation_OnFrame_Slig_4C0600(BaseGameObject* pObj, u32&, const Point32& point)
+void Animation_OnFrame_Slig_4C0600(BaseGameObject* pObj, u32&, const IndexedPoint& point)
 {
     auto pSlig = reinterpret_cast<Slig*>(pObj);
 
@@ -100,8 +100,8 @@ void Animation_OnFrame_Slig_4C0600(BaseGameObject* pObj, u32&, const Point32& po
         bulletType = BulletType::eNormalBullet_2;
     }
 
-    const FP xOff = (pSlig->mSpriteScale * FP_FromInteger(point.x));
-    const FP yOff = (pSlig->mSpriteScale * FP_FromInteger(point.y));
+    const FP xOff = (pSlig->mSpriteScale * FP_FromInteger(point.mPoint.x));
+    const FP yOff = (pSlig->mSpriteScale * FP_FromInteger(point.mPoint.y));
 
     Bullet* pBullet = nullptr;
 
