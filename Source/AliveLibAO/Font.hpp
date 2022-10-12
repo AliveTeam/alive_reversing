@@ -29,8 +29,8 @@ struct Font_AtlasEntry final
     u8 field_1_y;
     u8 field_2_width;
     u8 field_3_height;
+    std::string mCharName;
 };
-ALIVE_ASSERT_SIZEOF(Font_AtlasEntry, 0x4);
 
 class FontContext
 {
