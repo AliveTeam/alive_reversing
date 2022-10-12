@@ -418,35 +418,35 @@ void draw_default_ft4()
     switch (fsTexIndexing.y)
     {
         case 0u:
-            texelSprite = texture(texSpriteSheets[0u], fsUV).r;
+            texelSprite = texture(texSpriteSheets[0], fsUV).r;
             break;
 
         case 1u:
-            texelSprite = texture(texSpriteSheets[1u], fsUV).r;
+            texelSprite = texture(texSpriteSheets[1], fsUV).r;
             break;
 
         case 2u:
-            texelSprite = texture(texSpriteSheets[2u], fsUV).r;
+            texelSprite = texture(texSpriteSheets[2], fsUV).r;
             break;
 
         case 3u:
-            texelSprite = texture(texSpriteSheets[3u], fsUV).r;
+            texelSprite = texture(texSpriteSheets[3], fsUV).r;
             break;
 
         case 4u:
-            texelSprite = texture(texSpriteSheets[4u], fsUV).r;
+            texelSprite = texture(texSpriteSheets[4], fsUV).r;
             break;
 
         case 5u:
-            texelSprite = texture(texSpriteSheets[5u], fsUV).r;
+            texelSprite = texture(texSpriteSheets[5], fsUV).r;
             break;
 
         case 6u:
-            texelSprite = texture(texSpriteSheets[6u], fsUV).r;
+            texelSprite = texture(texSpriteSheets[6], fsUV).r;
             break;
 
         case 7u:
-            texelSprite = texture(texSpriteSheets[7u], fsUV).r;
+            texelSprite = texture(texSpriteSheets[7], fsUV).r;
             break;
     }
 
@@ -469,19 +469,19 @@ void draw_fg1()
     switch (fsTexIndexing.y)
     {
         case 0u:
-            mask = texture(texFG1Masks[0u], fsUV);
+            mask = texture(texFG1Masks[0], fsUV);
             break;
 
         case 1u:
-            mask = texture(texFG1Masks[1u], fsUV);
+            mask = texture(texFG1Masks[1], fsUV);
             break;
 
         case 2u:
-            mask = texture(texFG1Masks[2u], fsUV);
+            mask = texture(texFG1Masks[2], fsUV);
             break;
 
         case 3u:
-            mask = texture(texFG1Masks[3u], fsUV);
+            mask = texture(texFG1Masks[3], fsUV);
             break;
     }
 
