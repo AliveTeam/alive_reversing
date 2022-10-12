@@ -472,10 +472,10 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
     GL_VERIFY(glDrawBuffers(1, fbTargets));
 
     // Init batch vectors
-    mCurFG1TextureIds.reserve(sizeof(GLuint) * 4);
-    mBatchData.reserve(sizeof(VertexData) * 200);
-    mBatchIndicies.reserve(sizeof(u32) * 200 * 4);
-    mBatchTextureIds.reserve(sizeof(GLuint) * GL_USE_NUM_TEXTURE_UNITS);
+    mCurFG1TextureIds.reserve(4);
+    mBatchData.reserve(GL_RESERVE_QUADS * 4);
+    mBatchIndicies.reserve(GL_RESERVE_QUADS * 6);
+    mBatchTextureIds.reserve(GL_USE_NUM_TEXTURE_UNITS);
 
     // Init array we pass to texture uniform to specify the units we're using
     // which is the number of units starting at GL_TEXTURE7

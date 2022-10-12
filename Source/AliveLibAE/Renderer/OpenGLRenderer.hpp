@@ -39,6 +39,12 @@
 
 #define GL_USE_NUM_TEXTURE_UNITS 8
 
+// We reserve space for X amount of VertexData structs for the batching (to
+// lower the need to realloc per Paul's request)
+//
+// It's quite high because the game draws like 260 quads for the splines
+#define GL_RESERVE_QUADS 300
+
 enum class AnimId;
 
 struct VertexData final
