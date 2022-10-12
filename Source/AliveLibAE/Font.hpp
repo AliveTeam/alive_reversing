@@ -28,11 +28,11 @@ struct File_Font final
 struct Font_AtlasEntry final
 {
     u8 x;
-    u8 field_1_y;
-    u8 field_2_width;
-    u8 field_3_height;
+    u8 mY;
+    u8 mWidth;
+    u8 mHeight;
+    std::string mCharName;
 };
-ALIVE_ASSERT_SIZEOF(Font_AtlasEntry, 0x4);
 
 struct Font_Context final
 {
@@ -72,5 +72,5 @@ extern u8 sFontDrawScreenSpace_5CA4B4;
 
 extern s8 sDisableFontFlicker_5C9304;
 
-extern Font_AtlasEntry sFont1Atlas_551D34[169];
-extern Font_AtlasEntry sFont2Atlas_551FD8[169];
+extern Font_AtlasEntry sPauseMenuFontAtlas[169];
+extern Font_AtlasEntry sLcdFontAtlas[169];
