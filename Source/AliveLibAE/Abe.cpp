@@ -710,6 +710,10 @@ Abe::~Abe()
 
     mWorkWheelId = Guid{};
 
+    if (sControlledCharacter == this)
+    {
+        sControlledCharacter = nullptr;
+    }
     sActiveHero = nullptr;
 }
 
