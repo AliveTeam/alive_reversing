@@ -103,7 +103,7 @@ TouchController::TouchController()
 
 #if _WIN32
     s_VGA_KeepAspectRatio = true;
-    SDL_SetWindowSize(Sys_GetWindowHandle_4EE180(), 1280, 720);
+    SDL_SetWindowSize(Sys_GetWindowHandle(), 1280, 720);
 #endif
 }
 
@@ -180,10 +180,10 @@ void TouchController::Update()
 
 void TouchController::Render()
 {
-    SDL_Renderer* pRenderer = SDL_GetRenderer(Sys_GetWindowHandle_4EE180());
+    SDL_Renderer* pRenderer = SDL_GetRenderer(Sys_GetWindowHandle());
 
     s32 w, h;
-    SDL_GetWindowSize(Sys_GetWindowHandle_4EE180(), &w, &h);
+    SDL_GetWindowSize(Sys_GetWindowHandle(), &w, &h);
 
     xRatio = w / 1280.0f;
     yRatio = h / 720.0f;

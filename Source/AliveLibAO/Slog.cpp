@@ -100,7 +100,7 @@ u8 sSlogRndSeed_9F11C4 = 0;
 
 static u8 Slog_NextRandom()
 {
-    return sRandomBytes_4BBE30[sSlogRndSeed_9F11C4++];
+    return gRandomBytes[sSlogRndSeed_9F11C4++];
 }
 
 void Slog::LoadAnimations()
@@ -271,9 +271,9 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
             return 1;
         }
 
-        case ReliveTypes::eBaseBomb:
+        case ReliveTypes::eGroundExplosion:
         case ReliveTypes::eMeatSaw:
-        case ReliveTypes::eExplosion:
+        case ReliveTypes::eAirExplosion:
         {
             Sfx(9);
             mHealth = FP_FromInteger(0);

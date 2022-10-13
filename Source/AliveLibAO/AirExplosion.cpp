@@ -1,5 +1,5 @@
 #include "stdafx_ao.h"
-#include "Explosion.hpp"
+#include "AirExplosion.hpp"
 #include "Function.hpp"
 #include "Map.hpp"
 #include "../relive_lib/Particle.hpp"
@@ -18,17 +18,17 @@
 
 namespace AO {
 
-Explosion::Explosion(FP xpos, FP ypos, FP exposion_size)
+AirExplosion::AirExplosion(FP xpos, FP ypos, FP exposion_size)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    SetType(ReliveTypes::eExplosion);
+    SetType(ReliveTypes::eAirExplosion);
 
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Explosion));
-    Animation_Init(GetAnimRes(AnimId::Explosion));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::AirExplosion));
+    Animation_Init(GetAnimRes(AnimId::AirExplosion));
 
     mAnim.mFlags.Clear(AnimFlags::eIsLastFrame);
     mAnim.mRenderMode = TPageAbr::eBlend_1;
-    field_E4_explosion_size = exposion_size;
+    mExplosionSize = exposion_size;
 
     mSpriteScale = exposion_size * FP_FromInteger(2);
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
@@ -48,7 +48,7 @@ Explosion::Explosion(FP xpos, FP ypos, FP exposion_size)
     SND_SEQ_PlaySeq_4775A0(SeqId::eExplosion1_21, 1, 1);
 }
 
-void Explosion::VUpdate()
+void AirExplosion::VUpdate()
 {
     EventBroadcast(kEventShooting, this);
     EventBroadcast(kEventLoudNoise, this);
@@ -59,10 +59,10 @@ void Explosion::VUpdate()
     switch (mAnim.mCurrentFrame)
     {
         case 2:
-            rect.x = FP_GetExponent(FP_FromInteger(-20) * field_E4_explosion_size);
-            rect.w = FP_GetExponent(FP_FromInteger(20) * field_E4_explosion_size);
-            rect.y = FP_GetExponent(FP_FromInteger(-20) * field_E4_explosion_size);
-            rect.h = FP_GetExponent(FP_FromInteger(10) * field_E4_explosion_size);
+            rect.x = FP_GetExponent(FP_FromInteger(-20) * mExplosionSize);
+            rect.w = FP_GetExponent(FP_FromInteger(20) * mExplosionSize);
+            rect.y = FP_GetExponent(FP_FromInteger(-20) * mExplosionSize);
+            rect.h = FP_GetExponent(FP_FromInteger(10) * mExplosionSize);
             DealBlastDamage(&rect);
             break;
 
@@ -78,19 +78,19 @@ void Explosion::VUpdate()
         {
             relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u, TPageAbr::eBlend_1, 1);
 
-            rect.x = FP_GetExponent(FP_FromInteger(-38) * field_E4_explosion_size);
-            rect.w = FP_GetExponent(FP_FromInteger(38) * field_E4_explosion_size);
-            rect.y = FP_GetExponent(FP_FromInteger(-38) * field_E4_explosion_size);
-            rect.h = FP_GetExponent(FP_FromInteger(19) * field_E4_explosion_size);
+            rect.x = FP_GetExponent(FP_FromInteger(-38) * mExplosionSize);
+            rect.w = FP_GetExponent(FP_FromInteger(38) * mExplosionSize);
+            rect.y = FP_GetExponent(FP_FromInteger(-38) * mExplosionSize);
+            rect.h = FP_GetExponent(FP_FromInteger(19) * mExplosionSize);
             DealBlastDamage(&rect);
             break;
         }
 
         case 6:
-            rect.x = FP_GetExponent(FP_FromInteger(-60) * field_E4_explosion_size);
-            rect.w = FP_GetExponent(FP_FromInteger(60) * field_E4_explosion_size);
-            rect.y = FP_GetExponent(FP_FromInteger(-60) * field_E4_explosion_size);
-            rect.h = FP_GetExponent(FP_FromInteger(30) * field_E4_explosion_size);
+            rect.x = FP_GetExponent(FP_FromInteger(-60) * mExplosionSize);
+            rect.w = FP_GetExponent(FP_FromInteger(60) * mExplosionSize);
+            rect.y = FP_GetExponent(FP_FromInteger(-60) * mExplosionSize);
+            rect.h = FP_GetExponent(FP_FromInteger(30) * mExplosionSize);
             DealBlastDamage(&rect);
             break;
 
@@ -113,7 +113,7 @@ void Explosion::VUpdate()
 
     if (mAnim.mCurrentFrame == 1)
     {
-        auto pParticle = relive_new Particle(mXPos, mYPos, GetAnimRes(AnimId::Explosion));
+        auto pParticle = relive_new Particle(mXPos, mYPos, GetAnimRes(AnimId::AirExplosion));
         if (pParticle)
         {
             if (pParticle->mBaseGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
@@ -138,7 +138,7 @@ void Explosion::VUpdate()
     }
 }
 
-void Explosion::VScreenChanged()
+void AirExplosion::VScreenChanged()
 {
     if (gMap.mOverlayId != gMap.GetOverlayId())
     {
@@ -146,7 +146,7 @@ void Explosion::VScreenChanged()
     }
 }
 
-void Explosion::DealBlastDamage(PSX_RECT* pRect)
+void AirExplosion::DealBlastDamage(PSX_RECT* pRect)
 {
     if (!gBaseAliveGameObjects)
     {
@@ -194,7 +194,7 @@ void Explosion::DealBlastDamage(PSX_RECT* pRect)
         if (pObj->mBaseGameObjectFlags.Get(Options::eIsBaseAliveGameObject_Bit6))
         {
             const PSX_RECT rect = pObj->VGetBoundingRect();
-            if (PSX_Rects_overlap_no_adjustment(&rect, &expandedRect) && field_E4_explosion_size == pObj->mSpriteScale)
+            if (PSX_Rects_overlap_no_adjustment(&rect, &expandedRect) && mExplosionSize == pObj->mSpriteScale)
             {
                 pObj->VTakeDamage(this);
             }

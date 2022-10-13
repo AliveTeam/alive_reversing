@@ -5,51 +5,52 @@
 
 namespace AO {
 
-LPSTR sCommandLine_9F7718 = 0;
-HINSTANCE sInstance_9F771C = 0;
-s32 sCmdShow_9F772C = 0;
-u32 sIsAKeyDown_A8A600 = 0;
+static LPSTR sCommandLine = 0;
+static HINSTANCE sInstance = 0;
+static s32 sCmdShow = 0;
 
-s32 Sys_IsAnyKeyDown_48E6C0()
+//static u32 sIsAKeyDown = 0;
+
+s32 Sys_IsAnyKeyDown()
 {
     // AE impl
-    return ::Sys_IsAnyKeyDown_4EDDF0();
+    return ::Sys_IsAnyKeyDown();
 
     // AO impl
-    //return sIsAKeyDown_A8A600;
+    //return sIsAKeyDown;
 }
 
 void AO_Sys_Main(HINSTANCE hInstance, LPSTR lpCmdLine, s32 nShowCmd)
 {
-    sInstance_9F771C = hInstance;
-    sCmdShow_9F772C = nShowCmd;
-    sCommandLine_9F7718 = lpCmdLine;
+    sInstance = hInstance;
+    sCmdShow = nShowCmd;
+    sCommandLine = lpCmdLine;
     Sys_Main_Common();
 }
 
-LPSTR Sys_GetCommandLine_48E920()
+LPSTR Sys_GetCommandLine()
 {
-    return sCommandLine_9F7718;
+    return sCommandLine;
 }
 
-TWindowHandleType Sys_GetWindowHandle_48E930()
+TWindowHandleType Sys_GetWindowHandle()
 {
-    return Sys_GetWindowHandle_4EE180();
+    return ::Sys_GetWindowHandle();
 }
 
-void Sys_Set_Hwnd_48E340(TWindowHandleType hwnd)
+void Sys_Set_Hwnd(TWindowHandleType hwnd)
 {
-    Sys_Set_Hwnd_4F2C50(hwnd);
+    ::Sys_Set_Hwnd(hwnd);
 }
 
-s32 Sys_WindowClass_Register_48E9E0(LPCSTR lpClassName, LPCSTR lpWindowName, s32 X, s32 Y, s32 nWidth, s32 nHeight)
+s32 Sys_WindowClass_Register(LPCSTR lpClassName, LPCSTR lpWindowName, s32 X, s32 Y, s32 nWidth, s32 nHeight)
 {
-    return Sys_WindowClass_Register_4EE22F(lpClassName, lpWindowName, X, Y, nWidth, nHeight);
+    return ::Sys_WindowClass_Register(lpClassName, lpWindowName, X, Y, nWidth, nHeight);
 }
 
-void SYS_EventsPump_44FF90()
+void SYS_EventsPump()
 {
-    SYS_EventsPump_494580();
+    ::SYS_EventsPump();
 }
 
 } // namespace AO

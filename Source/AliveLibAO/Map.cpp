@@ -600,7 +600,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
 
             PSX_DrawSync_496750(0);
             pScreenManager->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
-            SYS_EventsPump_44FF90();
+            SYS_EventsPump();
             gPsxDisplay.RenderOrderingTable();
         }
 
@@ -741,9 +741,9 @@ relive::Path_TLV* Map::Get_First_TLV_For_Offsetted_Camera(s16 cam_x_idx, s16 cam
 
 void Map::SaveBlyData(u8* pSaveBuffer)
 {
-    memcpy(pSaveBuffer, sSwitchStates_505568.mData, sizeof(sSwitchStates_505568.mData));
+    memcpy(pSaveBuffer, gSwitchStates.mData, sizeof(gSwitchStates.mData));
 
-    u8* pAfterSwitchStates = pSaveBuffer + sizeof(sSwitchStates_505568.mData);
+    u8* pAfterSwitchStates = pSaveBuffer + sizeof(gSwitchStates.mData);
     for (s16 i = 1; i < AO::Path_Get_Num_Paths(mCurrentLevel); i++)
     {
         const PathBlyRec* pPathRec = Path_Get_Bly_Record_434650(mCurrentLevel, i);
@@ -788,8 +788,8 @@ void Map::TLV_Reset(const Guid& tlvId, s16 hiFlags, s8 bSetCreated, s8 bSetDestr
 
 void Map::RestoreBlyData(const u8* pSaveData)
 {
-    memcpy(sSwitchStates_505568.mData, pSaveData, sizeof(sSwitchStates_505568.mData));
-    const u8* pAfterSwitchStates = pSaveData + sizeof(sSwitchStates_505568.mData);
+    memcpy(gSwitchStates.mData, pSaveData, sizeof(gSwitchStates.mData));
+    const u8* pAfterSwitchStates = pSaveData + sizeof(gSwitchStates.mData);
 
     for (s16 i = 1; i < AO::Path_Get_Num_Paths(mCurrentLevel); i++)
     {
@@ -1486,7 +1486,7 @@ void Map::GoTo_Camera()
         CameraSwapper* pFmvRet = FMV_Camera_Change(nullRes, this, mCurrentLevel);
         do
         {
-            SYS_EventsPump_44FF90();
+            SYS_EventsPump();
             for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
             {
                 ::BaseGameObject* pBaseGameObj = gBaseGameObjects->ItemAt(i);
@@ -1569,7 +1569,7 @@ void Map::GoTo_Camera()
         // TODO: Re-add function
         for (s32 i = 0; i < 236; i++)
         {
-            sSwitchStates_505568.mData[i] = 0;
+            gSwitchStates.mData[i] = 0;
         }
 
         if (field_DC_free_all_anim_and_palts)

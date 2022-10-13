@@ -1524,7 +1524,7 @@ void Abe::ToKnockback_422D90(s16 bKnockbackSound, s16 bDelayedAnger)
         {
             field_198_pThrowable->VToDead();
             field_198_pThrowable = nullptr;
-            if (gInfiniteGrenades_5076EC == 0)
+            if (gInfiniteGrenades == 0)
             {
                 field_19C_throwable_count++;
             }
@@ -2972,8 +2972,8 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
             Mudokon_SFX(MudSounds::eOops_16, 0, 0, this);
             break;
 
-        case ReliveTypes::eBaseBomb:
-        case ReliveTypes::eExplosion:
+        case ReliveTypes::eGroundExplosion:
+        case ReliveTypes::eAirExplosion:
             if (mAnim.mFlags.Get(AnimFlags::eRender))
             {
                 if (mHealth > FP_FromInteger(0))
@@ -3616,7 +3616,7 @@ void Abe::Motion_0_Idle()
     {
         if (Input().IsAnyHeld(sInputKey_ThrowItem) && mCurrentMotion == eAbeMotions::Motion_0_Idle)
         {
-            if (field_19C_throwable_count > 0 || gInfiniteGrenades_5076EC)
+            if (field_19C_throwable_count > 0 || gInfiniteGrenades)
             {
                 field_198_pThrowable = Make_Throwable(
                     mXPos,
@@ -3636,7 +3636,7 @@ void Abe::Motion_0_Idle()
                 }
                 mCurrentMotion = eAbeMotions::Motion_142_RockThrowStandingHold;
 
-                if (gInfiniteGrenades_5076EC == 0)
+                if (gInfiniteGrenades == 0)
                 {
                     field_19C_throwable_count--;
                 }
@@ -4533,7 +4533,7 @@ void Abe::Motion_19_CrouchIdle()
     {
         if (mCurrentMotion == eAbeMotions::Motion_19_CrouchIdle)
         {
-            if (field_19C_throwable_count > 0 || gInfiniteGrenades_5076EC)
+            if (field_19C_throwable_count > 0 || gInfiniteGrenades)
             {
                 field_198_pThrowable = Make_Throwable(
                     mXPos,
@@ -4554,7 +4554,7 @@ void Abe::Motion_19_CrouchIdle()
 
                 mCurrentMotion = eAbeMotions::Motion_145_RockThrowCrouchingHold;
 
-                if (!gInfiniteGrenades_5076EC)
+                if (!gInfiniteGrenades)
                 {
                     field_19C_throwable_count--;
                 }
@@ -4563,7 +4563,7 @@ void Abe::Motion_19_CrouchIdle()
             }
         }
 
-        if (!field_19C_throwable_count && !gInfiniteGrenades_5076EC)
+        if (!field_19C_throwable_count && !gInfiniteGrenades)
         {
             Mudokon_SFX(MudSounds::eDunno_15, 0, 0, this);
             mCurrentMotion = eAbeMotions::Motion_23_CrouchSpeak;
@@ -6716,11 +6716,11 @@ void Abe::Motion_62_LoadedSaveSpawn()
                 gThrowableArray = relive_new ThrowableArray();
             }
             gThrowableArray->Add(1);
-            gInfiniteGrenades_5076EC = 1;
+            gInfiniteGrenades = 1;
         }
         else
         {
-            gInfiniteGrenades_5076EC = 0;
+            gInfiniteGrenades = 0;
         }
         if (pSaveData->field_25A_bElumExists)
         {
@@ -8676,7 +8676,7 @@ void Abe::Motion_142_RockThrowStandingHold()
         field_198_pThrowable->VToDead();
         field_198_pThrowable = nullptr;
         mCurrentMotion = eAbeMotions::Motion_144_RockThrowStandingEnd;
-        if (!gInfiniteGrenades_5076EC)
+        if (!gInfiniteGrenades)
         {
             field_19C_throwable_count++;
         }
@@ -8724,7 +8724,7 @@ void Abe::Motion_145_RockThrowCrouchingHold()
         field_198_pThrowable->VToDead();
         field_198_pThrowable = nullptr;
         mCurrentMotion = eAbeMotions::Motion_19_CrouchIdle;
-        if (!gInfiniteGrenades_5076EC)
+        if (!gInfiniteGrenades)
         {
             field_19C_throwable_count++;
         }

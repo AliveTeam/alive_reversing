@@ -113,7 +113,7 @@ extern "C"
         &AO::sActiveHero,
         offsetof(AO::Abe, mYPos) + sizeof(s16), // +2 for exp only
         &AO::sDisableFontFlicker_5080E4,
-        &AO::sSwitchStates_505568.mData[70]};
+        &AO::gSwitchStates.mData[70]};
 
     const void* GetAoInfo()
     {

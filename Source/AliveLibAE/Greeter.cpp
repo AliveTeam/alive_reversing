@@ -5,7 +5,7 @@
 #include "../relive_lib/Shadow.hpp"
 #include "stdlib.hpp"
 #include "Gibs.hpp"
-#include "Explosion.hpp"
+#include "AirExplosion.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "Abe.hpp"
 #include "Sfx.hpp"
@@ -252,7 +252,7 @@ void Greeter::BlowUp()
 {
     mHealth = FP_FromInteger(0);
 
-    relive_new Explosion(
+    relive_new AirExplosion(
         mXPos,
         mYPos - (mSpriteScale * FP_FromInteger(5)),
         mSpriteScale,
@@ -390,11 +390,11 @@ s16 Greeter::VTakeDamage(BaseGameObject* pFrom)
 
         case ReliveTypes::eDrill:
         case ReliveTypes::eElectricWall:
-        case ReliveTypes::eBaseBomb:
+        case ReliveTypes::eGroundExplosion:
         case ReliveTypes::eRockSpawner:
         case ReliveTypes::eMeatSaw:
         case ReliveTypes::eMineCar:
-        case ReliveTypes::eExplosion:
+        case ReliveTypes::eAirExplosion:
             BlowUp();
             return 1;
 

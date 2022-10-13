@@ -111,8 +111,8 @@ SET(AliveLibSrcAO
    CircularFade.cpp
    SecurityDoor.hpp
    SecurityDoor.cpp
-   BaseBomb.hpp
-   BaseBomb.cpp
+   GroundExplosion.hpp
+   GroundExplosion.cpp
    Lever.hpp
    Lever.cpp
    RollingBall.hpp
@@ -163,8 +163,8 @@ SET(AliveLibSrcAO
    Gibs.cpp
    ScreenShake.hpp
    ScreenShake.cpp
-   Explosion.hpp
-   Explosion.cpp
+   AirExplosion.hpp
+   AirExplosion.cpp
    MotionDetector.hpp
    MotionDetector.cpp
    SecurityClaw.hpp

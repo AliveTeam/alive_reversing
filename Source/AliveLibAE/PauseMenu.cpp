@@ -1557,7 +1557,7 @@ void PauseMenu::VUpdate()
                         pResourceManager_5C1BB0->VUpdate();
                     }
 
-                    SYS_EventsPump_494580();
+                    SYS_EventsPump();
 
                     for (s32 i = 0; i < gObjListDrawables->Size(); i++)
                     {

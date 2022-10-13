@@ -19,6 +19,6 @@ s32 Math_SquareRoot_Int_4511B0(s32 a1);
 
 FP Math_SquareRoot_FP(FP v);
 
-extern u8 sRandomBytes_4BBE30[256];
+extern u8 gRandomBytes[256];
 
 } // namespace AO

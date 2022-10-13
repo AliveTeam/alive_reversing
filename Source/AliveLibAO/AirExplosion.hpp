@@ -5,17 +5,17 @@
 
 namespace AO {
 
-class Explosion final : public BaseAnimatedWithPhysicsGameObject
+class AirExplosion final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    Explosion(FP xpos, FP ypos, FP scale);
+    AirExplosion(FP xpos, FP ypos, FP scale);
 
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
     void DealBlastDamage(PSX_RECT* pRect);
 
-    FP field_E4_explosion_size = {};
+    FP mExplosionSize = {};
 };
 
 } // namespace AO

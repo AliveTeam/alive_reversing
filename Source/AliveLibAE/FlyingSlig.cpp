@@ -21,7 +21,7 @@
 #include "Gibs.hpp"
 #include "Blood.hpp"
 #include "GameSpeak.hpp"
-#include "Explosion.hpp"
+#include "AirExplosion.hpp"
 #include "Bullet.hpp"
 #include "ParticleBurst.hpp"
 #include "Lever.hpp"
@@ -907,7 +907,7 @@ s16 FlyingSlig::VTakeDamage(BaseGameObject* pFrom)
                 return 1;
             }
             BlowUp();
-            auto pExplosion = relive_new Explosion(mXPos, mYPos - (mSpriteScale * FP_FromInteger(5)), mSpriteScale, 1);
+            auto pExplosion = relive_new AirExplosion(mXPos, mYPos - (mSpriteScale * FP_FromInteger(5)), mSpriteScale, 1);
             if (!pExplosion)
             {
                 return 1;
@@ -919,8 +919,8 @@ s16 FlyingSlig::VTakeDamage(BaseGameObject* pFrom)
             Slig_GameSpeak_SFX_4C04F0(SligSpeak::eHelp_10, 0, field_15C_voice_pitch_min, this);
             break;
 
-        case ReliveTypes::eBaseBomb:
-        case ReliveTypes::eExplosion:
+        case ReliveTypes::eGroundExplosion:
+        case ReliveTypes::eAirExplosion:
             if (!BrainIs(&FlyingSlig::Brain_1_Death))
             {
                 BlowUp();

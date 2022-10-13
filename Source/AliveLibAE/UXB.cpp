@@ -7,7 +7,7 @@
 #include "Game.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "Abe.hpp"
-#include "BaseBomb.hpp"
+#include "GroundExplosion.hpp"
 #include "Grid.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
@@ -42,7 +42,7 @@ void UXB::LoadAnimations()
         AnimId::Bomb_Flash,
         AnimId::Mudokon_SlapBomb,
         AnimId::Explosion_Rocks,
-        AnimId::Explosion_Mine,
+        AnimId::GroundExplosion,
         AnimId::Abe_Head_Gib,
         AnimId::Abe_Arm_Gib,
         AnimId::Abe_Body_Gib,
@@ -276,10 +276,7 @@ void UXB::VOnPickUpOrSlapped()
 
 void UXB::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
-    relive_new BaseBomb(mXPos,
-                                  mYPos,
-                                  0,
-                                  mSpriteScale);
+    relive_new GroundExplosion(mXPos, mYPos, mSpriteScale);
     mCurrentState = UXBState::eExploding;
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     mNextStateTimer = sGnFrame;
@@ -304,7 +301,7 @@ s16 UXB::VTakeDamage(BaseGameObject* pFrom)
 
         case ReliveTypes::eMineCar:
         case ReliveTypes::eAbilityRing:
-        case ReliveTypes::eExplosion:
+        case ReliveTypes::eAirExplosion:
         case ReliveTypes::eShrykull:
             break;
 
@@ -314,10 +311,7 @@ s16 UXB::VTakeDamage(BaseGameObject* pFrom)
 
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 
-    relive_new BaseBomb(mXPos,
-                                 mYPos,
-                                 0,
-                                 mSpriteScale);
+    relive_new GroundExplosion(mXPos, mYPos, mSpriteScale);
     mCurrentState = UXBState::eExploding;
     mNextStateTimer = sGnFrame;
 
@@ -419,7 +413,7 @@ void UXB::VUpdate()
         case UXBState::eExploding:
             if (sGnFrame >= mNextStateTimer)
             {
-                relive_new BaseBomb(mXPos, mYPos, 0, mSpriteScale);
+                relive_new GroundExplosion(mXPos, mYPos, mSpriteScale);
                 mBaseGameObjectFlags.Set(Options::eDead);
             }
             break;

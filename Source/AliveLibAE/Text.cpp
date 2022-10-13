@@ -179,7 +179,7 @@ s8 Display_Full_Screen_Message_Blocking(s32 /*not_used*/, MessageType messageTyp
 
    // const PSX_RECT rect = {0, 0, 640, 240};
     //PSX_ClearImage_4F5BD0(&rect, 0, 0, 0);
-    SYS_EventsPump_494580();
+    SYS_EventsPump();
     pTextObj->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
 
     if (pTextObj2)
@@ -226,13 +226,13 @@ s8 Display_Full_Screen_Message_Blocking(s32 /*not_used*/, MessageType messageTyp
                 // Wait for escape to come back up
                 while (Input_IsVKPressed_4EDD40(VK_ESCAPE))
                 {
-                    SYS_EventsPump_494580();
+                    SYS_EventsPump();
                 }
                 waitReturn = false;
                 break;
             }
 
-            SYS_EventsPump_494580();
+            SYS_EventsPump();
 
             if (GetGameAutoPlayer().SysGetTicks() >= displayForMsecs)
             {
@@ -248,7 +248,7 @@ s8 Display_Full_Screen_Message_Blocking(s32 /*not_used*/, MessageType messageTyp
             {
                 while (Input_IsVKPressed_4EDD40(VK_RETURN))
                 {
-                    SYS_EventsPump_494580();
+                    SYS_EventsPump();
                 }
             }
         }
@@ -259,7 +259,7 @@ s8 Display_Full_Screen_Message_Blocking(s32 /*not_used*/, MessageType messageTyp
         GetSoundAPI().SND_Restart();
     }
 
-    SYS_EventsPump_494580();
+    SYS_EventsPump();
     //PSX_ClearImage_4F5BD0(&rect, 0, 0, 0);
     PSX_DrawSync_4F6280(0);
     //Add_Dirty_Area_4ED970(0, 0, 640, 240);

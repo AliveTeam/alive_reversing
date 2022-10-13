@@ -24,8 +24,8 @@ Particle::Particle(FP xpos, FP ypos, AnimResource& res, bool explosionSizeHack)
     {
         // TODO: Reimplement whatever this hack did in a sane way
 
-        // AnimId::Explosion_Small and AnimId::Explosion have different width/height but for some reason
-        // OG inits both with the AnimId::Explosion width and height in Explosion.cpp
+        // AnimId::Explosion_Small and AnimId::AirExplosion have different width/height but for some reason
+        // OG inits both with the AnimId::AirExplosion width and height in AirExplosion.cpp
         // TODO
         //Animation_Init(res, 202, 91);
 

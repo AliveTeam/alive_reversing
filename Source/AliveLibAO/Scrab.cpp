@@ -330,8 +330,8 @@ s16 Scrab::VTakeDamage(BaseGameObject* pFrom)
                 vUpdateAnim();
                 break;
 
-            case ReliveTypes::eBaseBomb:
-            case ReliveTypes::eExplosion:
+            case ReliveTypes::eGroundExplosion:
+            case ReliveTypes::eAirExplosion:
             {
                 relive_new Gibs(
                     GibType::Slog_2,

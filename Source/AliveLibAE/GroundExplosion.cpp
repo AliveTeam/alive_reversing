@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "BaseBomb.hpp"
+#include "GroundExplosion.hpp"
 #include "Function.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/Events.hpp"
@@ -15,13 +15,13 @@
 #include "ResourceManager.hpp"
 #include "Map.hpp"
 
-BaseBomb::BaseBomb(FP x, FP y, s32 /*unused*/, FP scale)
+GroundExplosion::GroundExplosion(FP x, FP y, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    SetType(ReliveTypes::eBaseBomb);
+    SetType(ReliveTypes::eGroundExplosion);
 
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Explosion_Mine));
-    Animation_Init(GetAnimRes(AnimId::Explosion_Mine));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::GroundExplosion));
+    Animation_Init(GetAnimRes(AnimId::GroundExplosion));
 
     mAnim.mFlags.Clear(AnimFlags::eIsLastFrame); // Double Check
     mAnim.mFlags.Set(AnimFlags::eBit24);
@@ -72,7 +72,7 @@ BaseBomb::BaseBomb(FP x, FP y, s32 /*unused*/, FP scale)
     staticIdFlip = !staticIdFlip;
 }
 
-void BaseBomb::VUpdate()
+void GroundExplosion::VUpdate()
 {
     PSX_RECT rect = {};
 
@@ -155,7 +155,7 @@ void BaseBomb::VUpdate()
         Particle* pParticle = relive_new Particle(
             mXPos,
             mYPos,
-            GetAnimRes(AnimId::Explosion_Mine));
+            GetAnimRes(AnimId::GroundExplosion));
         if (pParticle)
         {
             pParticle->mAnim.mFlags.Set(AnimFlags::eFlipX);
@@ -172,7 +172,7 @@ void BaseBomb::VUpdate()
     }
 }
 
-void BaseBomb::DealDamageRect(const PSX_RECT* pRect)
+void GroundExplosion::DealDamageRect(const PSX_RECT* pRect)
 {
     if (gBaseAliveGameObjects)
     {

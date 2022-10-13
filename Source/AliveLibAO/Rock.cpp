@@ -20,7 +20,7 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
 {
     SetType(ReliveTypes::eRock);
 
-    field_10E_bDead = 0;
+    mIsDead = 0;
 
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Rock));
     Animation_Init(GetAnimRes(AnimId::Rock));
@@ -38,7 +38,7 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
     mVelX = FP_FromInteger(0);
     mVelY = FP_FromInteger(0);
 
-    field_10C_count = count;
+    mThrowableCount = count;
     field_110_state = States::eNone_0;
 
     mLoadedPals.push_back(ResourceManagerWrapper::LoadPal(PalId::BlueRock));
@@ -61,11 +61,11 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
 
 Rock::~Rock()
 {
-    if (!gInfiniteGrenades_5076EC && !field_10E_bDead)
+    if (!gInfiniteGrenades && !mIsDead)
     {
         if (gThrowableArray)
         {
-            gThrowableArray->Remove(field_10C_count >= 1u ? field_10C_count : 1);
+            gThrowableArray->Remove(mThrowableCount >= 1u ? mThrowableCount : 1);
         }
     }
 }
@@ -207,7 +207,7 @@ void Rock::VThrow(FP velX, FP velY)
 
     mAnim.mFlags.Set(AnimFlags::eRender);
 
-    if (field_10C_count == 0)
+    if (mThrowableCount == 0)
     {
         field_110_state = States::eBouncing_4;
     }

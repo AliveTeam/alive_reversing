@@ -13,7 +13,7 @@
 namespace AO {
 
 // Overlay to throwable type table ??
-const AOTypes word_4CF158[54] = {
+const AOTypes gThrowableFromOverlayId[54] = {
     AOTypes::eNone_0, AOTypes::eNone_0, AOTypes::eNone_0, AOTypes::eGrenade_40, AOTypes::eNone_0, AOTypes::eNone_0, AOTypes::eRock_70, AOTypes::eNone_0, AOTypes::eRock_70, AOTypes::eRock_70,
     AOTypes::eNone_0, AOTypes::eRock_70, AOTypes::eNone_0, AOTypes::eRock_70, AOTypes::eNone_0, AOTypes::eRock_70, AOTypes::eNone_0, AOTypes::eNone_0, AOTypes::eRock_70, AOTypes::eNone_0,
     AOTypes::eMeat_54, AOTypes::eNone_0, AOTypes::eMeat_54, AOTypes::eNone_0, AOTypes::eRock_70, AOTypes::eNone_0, AOTypes::eRock_70, AOTypes::eRock_70, AOTypes::eRock_70, AOTypes::eNone_0,
@@ -23,7 +23,7 @@ const AOTypes word_4CF158[54] = {
 
 BaseThrowable* Make_Throwable(FP xpos, FP ypos, s16 count)
 {
-    switch (word_4CF158[gMap.mOverlayId])
+    switch (gThrowableFromOverlayId[gMap.mOverlayId])
     {
         case AOTypes::eGrenade_40:
         {
@@ -65,12 +65,12 @@ BaseThrowable* Make_Throwable(FP xpos, FP ypos, s16 count)
 void BaseThrowable::VToDead()
 {
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-    field_10E_bDead = TRUE;
+    mIsDead = TRUE;
 }
 
 s16 BaseThrowable::VGetCount()
 {
-    return field_10C_count;
+    return mThrowableCount;
 }
 
 void BaseThrowable::VOnPickUpOrSlapped()

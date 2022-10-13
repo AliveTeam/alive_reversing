@@ -1851,7 +1851,7 @@ MainMenuNextCam MainMenuController::BackStory_Or_NewGame_Update_4D1C60(u32 input
             {
                 while (Input_IsVKPressed_4EDD40(VK_RETURN))
                 {
-                    SYS_EventsPump_494580();
+                    SYS_EventsPump();
                 }
             }
 
@@ -3093,7 +3093,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 {
                     while (Input_IsVKPressed_4EDD40(VK_RETURN))
                     {
-                        SYS_EventsPump_494580();
+                        SYS_EventsPump();
                     }
                 }
 
@@ -3124,7 +3124,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 {
                     while (Input_IsVKPressed_4EDD40(VK_RETURN))
                     {
-                        SYS_EventsPump_494580();
+                        SYS_EventsPump();
                     }
                 }
 

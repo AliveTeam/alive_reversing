@@ -10,7 +10,7 @@
 #include "PossessionFlicker.hpp"
 #include "Game.hpp"
 #include "Sfx.hpp"
-#include "Explosion.hpp"
+#include "AirExplosion.hpp"
 #include "ZapLine.hpp"
 #include "Function.hpp"
 #include "ZapSpark.hpp"
@@ -104,7 +104,7 @@ s16 SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
 
     if (pFrom->Type() == ReliveTypes::eMineCar || pFrom->Type() == ReliveTypes::eAbilityRing || pFrom->Type() == ReliveTypes::eShrykull)
     {
-        relive_new Explosion(
+        relive_new AirExplosion(
             mXPos,
             mYPos - (mSpriteScale * FP_FromInteger(5)),
             mSpriteScale,

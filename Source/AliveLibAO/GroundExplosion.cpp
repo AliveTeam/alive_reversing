@@ -1,6 +1,6 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
-#include "BaseBomb.hpp"
+#include "GroundExplosion.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "ParticleBurst.hpp"
 #include "ScreenShake.hpp"
@@ -12,9 +12,7 @@
 
 namespace AO {
 
-s16 word_4FFA4C = 0;
-
-void BaseBomb::VUpdate()
+void GroundExplosion::VUpdate()
 {
     PSX_RECT rect = {};
 
@@ -25,26 +23,26 @@ void BaseBomb::VUpdate()
     switch (mAnim.mCurrentFrame)
     {
         case 0:
-            rect.x = FP_GetExponent(FP_FromInteger(-30) * field_E4_scale);
-            rect.w = FP_GetExponent(FP_FromInteger(30) * field_E4_scale);
-            rect.y = FP_GetExponent(FP_FromInteger(-20) * field_E4_scale);
-            rect.h = FP_GetExponent(FP_FromInteger(20) * field_E4_scale);
+            rect.x = FP_GetExponent(FP_FromInteger(-30) * mObjectScale);
+            rect.w = FP_GetExponent(FP_FromInteger(30) * mObjectScale);
+            rect.y = FP_GetExponent(FP_FromInteger(-20) * mObjectScale);
+            rect.h = FP_GetExponent(FP_FromInteger(20) * mObjectScale);
             DealDamageRect(&rect);
             break;
 
         case 1:
-            rect.x = FP_GetExponent(FP_FromInteger(-50) * field_E4_scale);
-            rect.w = FP_GetExponent(FP_FromInteger(50) * field_E4_scale);
-            rect.y = FP_GetExponent(FP_FromInteger(-30) * field_E4_scale);
-            rect.h = FP_GetExponent(FP_FromInteger(30) * field_E4_scale);
+            rect.x = FP_GetExponent(FP_FromInteger(-50) * mObjectScale);
+            rect.w = FP_GetExponent(FP_FromInteger(50) * mObjectScale);
+            rect.y = FP_GetExponent(FP_FromInteger(-30) * mObjectScale);
+            rect.h = FP_GetExponent(FP_FromInteger(30) * mObjectScale);
             DealDamageRect(&rect);
             break;
 
         case 2:
-            rect.x = FP_GetExponent(FP_FromInteger(-80) * field_E4_scale);
-            rect.w = FP_GetExponent(FP_FromInteger(80) * field_E4_scale);
-            rect.y = FP_GetExponent(FP_FromInteger(-40) * field_E4_scale);
-            rect.h = FP_GetExponent(FP_FromInteger(40) * field_E4_scale);
+            rect.x = FP_GetExponent(FP_FromInteger(-80) * mObjectScale);
+            rect.w = FP_GetExponent(FP_FromInteger(80) * mObjectScale);
+            rect.y = FP_GetExponent(FP_FromInteger(-40) * mObjectScale);
+            rect.h = FP_GetExponent(FP_FromInteger(40) * mObjectScale);
             DealDamageRect(&rect);
             break;
 
@@ -59,10 +57,10 @@ void BaseBomb::VUpdate()
 
             relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
 
-            rect.x = FP_GetExponent(FP_FromInteger(-113) * field_E4_scale);
-            rect.w = FP_GetExponent(FP_FromInteger(113) * field_E4_scale);
-            rect.y = FP_GetExponent(FP_FromInteger(-50) * field_E4_scale);
-            rect.h = FP_GetExponent(FP_FromInteger(50) * field_E4_scale);
+            rect.x = FP_GetExponent(FP_FromInteger(-113) * mObjectScale);
+            rect.w = FP_GetExponent(FP_FromInteger(113) * mObjectScale);
+            rect.y = FP_GetExponent(FP_FromInteger(-50) * mObjectScale);
+            rect.h = FP_GetExponent(FP_FromInteger(50) * mObjectScale);
             DealDamageRect(&rect);
             break;
         }
@@ -95,7 +93,7 @@ void BaseBomb::VUpdate()
         Particle* pParticle = relive_new Particle(
             mXPos,
             mYPos,
-            GetAnimRes(AnimId::Explosion_Mine));
+            GetAnimRes(AnimId::GroundExplosion));
         if (pParticle)
         {
             pParticle->mAnim.mFlags.Set(AnimFlags::eFlipX);
@@ -112,7 +110,7 @@ void BaseBomb::VUpdate()
     }
 }
 
-void BaseBomb::DealDamageRect(const PSX_RECT* pRect)
+void GroundExplosion::DealDamageRect(const PSX_RECT* pRect)
 {
     if (gBaseAliveGameObjects)
     {
@@ -186,13 +184,13 @@ void BaseBomb::DealDamageRect(const PSX_RECT* pRect)
     }
 }
 
-BaseBomb::BaseBomb(FP xpos, FP ypos, s32 /*unused*/, FP scale)
+GroundExplosion::GroundExplosion(FP xpos, FP ypos, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    SetType(ReliveTypes::eBaseBomb);
+    SetType(ReliveTypes::eGroundExplosion);
 
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Explosion_Mine));
-    Animation_Init(GetAnimRes(AnimId::Explosion_Mine));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::GroundExplosion));
+    Animation_Init(GetAnimRes(AnimId::GroundExplosion));
 
     mAnim.mFlags.Clear(AnimFlags::eIsLastFrame);
 
@@ -202,7 +200,7 @@ BaseBomb::BaseBomb(FP xpos, FP ypos, s32 /*unused*/, FP scale)
     mAnim.mGreen = 128;
     mAnim.mRed = 128;
 
-    field_E4_scale = scale;
+    mObjectScale = scale;
 
     if (scale == FP_FromInteger(1))
     {
@@ -225,17 +223,16 @@ BaseBomb::BaseBomb(FP xpos, FP ypos, s32 /*unused*/, FP scale)
         mXPos,
         mYPos,
         35,
-        field_E4_scale,
+        mObjectScale,
         BurstType::eFallingRocks_0);
 
     PSX_RECT damageRect = {
-        FP_GetExponent(FP_FromInteger(-10) * field_E4_scale),
-        FP_GetExponent(FP_FromInteger(-10) * field_E4_scale),
-        FP_GetExponent(FP_FromInteger(10) * field_E4_scale),
-        FP_GetExponent(FP_FromInteger(10) * field_E4_scale)};
+        FP_GetExponent(FP_FromInteger(-10) * mObjectScale),
+        FP_GetExponent(FP_FromInteger(-10) * mObjectScale),
+        FP_GetExponent(FP_FromInteger(10) * mObjectScale),
+        FP_GetExponent(FP_FromInteger(10) * mObjectScale)};
     DealDamageRect(&damageRect);
 
-    word_4FFA4C = 0;
     SND_SEQ_PlaySeq_4775A0(SeqId::eExplosion1_21, 1, 1);
 }
 

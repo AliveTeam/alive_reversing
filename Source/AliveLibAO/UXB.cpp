@@ -4,7 +4,7 @@
 #include "Sfx.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "Game.hpp"
-#include "BaseBomb.hpp"
+#include "GroundExplosion.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "Grid.hpp"
@@ -214,7 +214,7 @@ s16 UXB::VTakeDamage(BaseGameObject* pFrom)
             break;
 
         case ReliveTypes::eAbilityRing:
-        case ReliveTypes::eExplosion:
+        case ReliveTypes::eAirExplosion:
         case ReliveTypes::eShrykull:
             break;
 
@@ -224,11 +224,7 @@ s16 UXB::VTakeDamage(BaseGameObject* pFrom)
 
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 
-    relive_new BaseBomb(
-        mXPos,
-        mYPos,
-        0,
-        mSpriteScale);
+    relive_new GroundExplosion(mXPos, mYPos, mSpriteScale);
 
     mCurrentState = UXBState::eExploding;
     mNextStateTimer = sGnFrame;
@@ -238,11 +234,7 @@ s16 UXB::VTakeDamage(BaseGameObject* pFrom)
 
 void UXB::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
-    relive_new BaseBomb(
-        mXPos,
-        mYPos,
-        0,
-        mSpriteScale);
+    relive_new GroundExplosion(mXPos, mYPos, mSpriteScale);
 
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     mCurrentState = UXBState::eExploding;
@@ -378,11 +370,7 @@ void UXB::VUpdate()
         case UXBState::eExploding:
             if (static_cast<s32>(sGnFrame) >= mNextStateTimer)
             {
-                relive_new BaseBomb(
-                    mXPos,
-                    mYPos,
-                    0,
-                    mSpriteScale);
+                relive_new GroundExplosion(mXPos, mYPos, mSpriteScale);
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
             break;

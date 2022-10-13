@@ -1956,7 +1956,7 @@ void Menu::NewGameStart()
         else
         {
             // Start the game in the biggest meat processing plant
-            gInfiniteGrenades_5076EC = FALSE;
+            gInfiniteGrenades = FALSE;
             gMap.SetActiveCam(EReliveLevelIds::eRuptureFarms, 15, 1, CameraSwapEffects::ePlay1FMV_5, 102, 0);
 
             // What if someone made a level editor and wanted to change where abe spawns on the first map? Well... hard luck pal

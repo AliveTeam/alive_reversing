@@ -42,7 +42,7 @@ void setSaveMenuOpen(bool val)
 }
 #endif
 
-void Sys_Set_Hwnd_4F2C50(TWindowHandleType hwnd)
+void Sys_Set_Hwnd(TWindowHandleType hwnd)
 {
     hWnd_BBFB04 = hwnd;
     // Note: Not setting byte BBE6F8
@@ -53,7 +53,7 @@ TWindowHandleType Sys_GetHWnd()
     return hWnd_BBFB04;
 }
 
-bool Sys_IsAnyKeyDown_4EDDF0()
+bool Sys_IsAnyKeyDown()
 {
     return sIsAKeyDown;
 }
@@ -918,14 +918,14 @@ static void KeyDownEvent(SDL_Scancode scanCode)
         }
         else if (vk == VK_F12)
         {
-            const Uint32 flags = SDL_GetWindowFlags(Sys_GetWindowHandle_4EE180());
+            const Uint32 flags = SDL_GetWindowFlags(Sys_GetWindowHandle());
             if (flags & SDL_WINDOW_FULLSCREEN_DESKTOP)
             {
-                SDL_SetWindowFullscreen(Sys_GetWindowHandle_4EE180(), 0);
+                SDL_SetWindowFullscreen(Sys_GetWindowHandle(), 0);
             }
             else
             {
-                SDL_SetWindowFullscreen(Sys_GetWindowHandle_4EE180(), SDL_WINDOW_FULLSCREEN_DESKTOP);
+                SDL_SetWindowFullscreen(Sys_GetWindowHandle(), SDL_WINDOW_FULLSCREEN_DESKTOP);
             }
         }
     }
@@ -958,12 +958,12 @@ static void QuitEvent(bool isRecordedEvent, bool isRecording)
     }
 
     // Full screen message boxes act really strange.. so force window mode before we show it
-    const Uint32 flags = SDL_GetWindowFlags(Sys_GetWindowHandle_4EE180());
+    const Uint32 flags = SDL_GetWindowFlags(Sys_GetWindowHandle());
     bool forcedWindowMode = false;
     if (flags & SDL_WINDOW_FULLSCREEN_DESKTOP)
     {
         forcedWindowMode = true;
-        SDL_SetWindowFullscreen(Sys_GetWindowHandle_4EE180(), 0);
+        SDL_SetWindowFullscreen(Sys_GetWindowHandle(), 0);
         //RECT rect = {0, 0, 640, 240};
         //VGA_CopyToFront(&rect);
     }
@@ -977,7 +977,7 @@ static void QuitEvent(bool isRecordedEvent, bool isRecording)
     }
 
     const MessageBoxButton recordedButtonResult = actuallyQuit ? MessageBoxButton::eYes : MessageBoxButton::eNo;
-    const MessageBoxButton button = isRecordedEvent ? recordedButtonResult : Sys_MessageBox(Sys_GetWindowHandle_4EE180(), "Do you really want to quit?", "R.E.L.I.V.E.", MessageBoxType::eQuestion);
+    const MessageBoxButton button = isRecordedEvent ? recordedButtonResult : Sys_MessageBox(Sys_GetWindowHandle(), "Do you really want to quit?", "R.E.L.I.V.E.", MessageBoxType::eQuestion);
 
     if (isRecording)
     {
@@ -1008,7 +1008,7 @@ static void QuitEvent(bool isRecordedEvent, bool isRecording)
     {
         if (forcedWindowMode)
         {
-            SDL_SetWindowFullscreen(Sys_GetWindowHandle_4EE180(), SDL_WINDOW_FULLSCREEN_DESKTOP);
+            SDL_SetWindowFullscreen(Sys_GetWindowHandle(), SDL_WINDOW_FULLSCREEN_DESKTOP);
         }
     }
 }
@@ -1195,7 +1195,7 @@ s8 Sys_PumpMessages_4EE4F4()
 #endif
 }
 
-TWindowHandleType Sys_GetWindowHandle_4EE180()
+TWindowHandleType Sys_GetWindowHandle()
 {
     return sHwnd_BBB9F4;
 }
@@ -1208,8 +1208,8 @@ LPSTR Sys_GetCommandLine_4EE176()
 void Sys_SetWindowPos_4EE1B1(s32 width, s32 height)
 {
 #if USE_SDL2
-    SDL_SetWindowSize(Sys_GetWindowHandle_4EE180(), width, height);
-    SDL_SetWindowPosition(Sys_GetWindowHandle_4EE180(), 0, 0);
+    SDL_SetWindowSize(Sys_GetWindowHandle(), width, height);
+    SDL_SetWindowPosition(Sys_GetWindowHandle(), 0, 0);
 #else
     RECT clientRect = {};
     ::SetWindowPos(Sys_GetWindowHandle_4EE180(), HWND_TOPMOST, 0, 0, width, height, SWP_NOREPOSITION | SWP_NOZORDER);
@@ -1313,7 +1313,7 @@ static s32 Sys_WindowClass_Register_Win32(LPCSTR lpClassName, LPCSTR lpWindowNam
 }
 #endif
 
-s32 Sys_WindowClass_Register_4EE22F(LPCSTR lpClassName, LPCSTR lpWindowName, s32 x, s32 y, s32 nWidth, s32 nHeight)
+s32 Sys_WindowClass_Register(LPCSTR lpClassName, LPCSTR lpWindowName, s32 x, s32 y, s32 nWidth, s32 nHeight)
 {
 #if USE_SDL2
     return Sys_WindowClass_Register_SDL(lpClassName, lpWindowName, x, y, nWidth, nHeight);

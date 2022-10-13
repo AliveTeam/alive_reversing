@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "Explosion.hpp"
+#include "AirExplosion.hpp"
 #include "Function.hpp"
 #include "Map.hpp"
 #include "../relive_lib/Particle.hpp"
@@ -13,21 +13,21 @@
 #include "ExplosionSet.hpp"
 #include "Path.hpp"
 
-Explosion::Explosion(FP xpos, FP ypos, FP scale, bool bSmall)
+AirExplosion::AirExplosion(FP xpos, FP ypos, FP scale, bool bSmall)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    SetType(ReliveTypes::eExplosion);
+    SetType(ReliveTypes::eAirExplosion);
 
-    field_F4_bSmall = bSmall;
-    if (field_F4_bSmall)
+    mSmallExplosion = bSmall;
+    if (mSmallExplosion)
     {
-        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Explosion_Small));
-        Animation_Init(GetAnimRes(AnimId::Explosion_Small));
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::AirExplosion_Small));
+        Animation_Init(GetAnimRes(AnimId::AirExplosion_Small));
     }
     else
     {
-        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Explosion));
-        Animation_Init(GetAnimRes(AnimId::Explosion));
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::AirExplosion));
+        Animation_Init(GetAnimRes(AnimId::AirExplosion));
     }
 
     mAnim.mFlags.Clear(AnimFlags::eIsLastFrame);
@@ -36,7 +36,7 @@ Explosion::Explosion(FP xpos, FP ypos, FP scale, bool bSmall)
     mScale = scale == FP_FromInteger(1) ? Scale::Fg : Scale::Bg;
     mSpriteScale = scale * FP_FromInteger(2);
 
-    if (field_F4_bSmall)
+    if (mSmallExplosion)
     {
         field_FC_explosion_size = scale * FP_FromDouble(0.5);
     }
@@ -49,7 +49,7 @@ Explosion::Explosion(FP xpos, FP ypos, FP scale, bool bSmall)
     mXPos = xpos;
     mYPos = ypos;
 
-    relive_new ScreenShake(bEnabled_5C1BB6 ? 0 : 1, field_F4_bSmall);
+    relive_new ScreenShake(gExplosionSetEnabled ? false : true, mSmallExplosion);
 
     PSX_RECT rect = {};
     rect.x = FP_GetExponent(FP_FromInteger(-10) * field_FC_explosion_size);
@@ -62,7 +62,7 @@ Explosion::Explosion(FP xpos, FP ypos, FP scale, bool bSmall)
     SND_SEQ_PlaySeq(SeqId::Explosion1_14, 1, 1);
 }
 
-void Explosion::VUpdate()
+void AirExplosion::VUpdate()
 {
     EventBroadcast(kEventShooting, this);
     EventBroadcast(kEventLoudNoise, this);
@@ -102,7 +102,7 @@ void Explosion::VUpdate()
 
         case 8:
         {
-            relive_new ParticleBurst(mXPos, mYPos, field_F4_bSmall ? 6 : 20, field_F8_scale, BurstType::eBigRedSparks_3, field_F4_bSmall ? 11 : 13);
+            relive_new ParticleBurst(mXPos, mYPos, mSmallExplosion ? 6 : 20, field_F8_scale, BurstType::eBigRedSparks_3, mSmallExplosion ? 11 : 13);
             relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, TPageAbr::eBlend_3, 1);
             break;
         }
@@ -113,7 +113,7 @@ void Explosion::VUpdate()
 
     if (mAnim.mCurrentFrame > 9)
     {
-        if (field_F4_bSmall)
+        if (mSmallExplosion)
         {
             mSpriteScale -= FP_FromDouble(0.066);
         }
@@ -125,7 +125,7 @@ void Explosion::VUpdate()
 
     if (mAnim.mCurrentFrame == 1)
     {
-        const AnimId explosionId = field_F4_bSmall ? AnimId::Explosion_Small : AnimId::Explosion;
+        const AnimId explosionId = mSmallExplosion ? AnimId::AirExplosion_Small : AnimId::AirExplosion;
         auto pParticle = relive_new Particle(
             mXPos, mYPos,
             GetAnimRes(explosionId),
@@ -160,7 +160,7 @@ void Explosion::VUpdate()
     }
 }
 
-void Explosion::VScreenChanged()
+void AirExplosion::VScreenChanged()
 {
     if (gMap.mOverlayId != gMap.GetOverlayId())
     {
@@ -168,7 +168,7 @@ void Explosion::VScreenChanged()
     }
 }
 
-void Explosion::DealBlastDamage(PSX_RECT* pRect)
+void AirExplosion::DealBlastDamage(PSX_RECT* pRect)
 {
     if (!gBaseAliveGameObjects)
     {

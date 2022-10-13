@@ -2120,8 +2120,8 @@ s16 Fleech::VTakeDamage(BaseGameObject* pFrom)
     {
         case ReliveTypes::eBullet:
         case ReliveTypes::eDrill:
-        case ReliveTypes::eBaseBomb:
-        case ReliveTypes::eExplosion:
+        case ReliveTypes::eGroundExplosion:
+        case ReliveTypes::eAirExplosion:
         case ReliveTypes::eSlig:
         {
             Sound(FleechSound::Scared_7);

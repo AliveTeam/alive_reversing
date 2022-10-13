@@ -614,9 +614,9 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
             Mudokon_SFX(MudSounds::eDeathDropScream_17, 0, 0, this);
             return 1;
 
-        case ReliveTypes::eBaseBomb:
+        case ReliveTypes::eGroundExplosion:
         case ReliveTypes::eMeatSaw:
-        case ReliveTypes::eExplosion:
+        case ReliveTypes::eAirExplosion:
             if (mHealth > FP_FromInteger(0))
             {
                 mHealth = FP_FromInteger(0);

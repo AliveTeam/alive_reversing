@@ -46,4 +46,4 @@ private:
 };
 
 extern ExplosionSet* pExplosionSet_5BBF68;
-extern s16 bEnabled_5C1BB6;
+extern bool gExplosionSetEnabled;

@@ -3,12 +3,12 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "PlatformBase.hpp"
 
-class BaseBomb final : public ::BaseAnimatedWithPhysicsGameObject
+class GroundExplosion final : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     virtual void VUpdate() override;
 
-    BaseBomb(FP x, FP y, s32 unused, FP scale);
+    GroundExplosion(FP x, FP y, FP scale);
 private:
     void DealDamageRect(const PSX_RECT* pRect);
 

@@ -276,7 +276,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
 
             PSX_DrawSync_4F6280(0);
             pScreenManager->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
-            SYS_EventsPump_494580();
+            SYS_EventsPump();
             gPsxDisplay.RenderOrderingTable();
         }
 
@@ -560,7 +560,7 @@ void Map::GoTo_Camera()
         BaseGameObject* pFmvRet = FMV_Camera_Change(nullRes, this, mCurrentLevel);
         do
         {
-            SYS_EventsPump_494580();
+            SYS_EventsPump();
 
             for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
             {

@@ -133,11 +133,11 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
             mBloodParticle[i].x = FP_FromInteger(mBloodXPos);
             mBloodParticle[i].y = FP_FromInteger(mBloodYPos);
 
-            const FP randX = (FP_FromInteger(sRandomBytes_4BBE30[mRandSeed++]) / FP_FromInteger(16));
+            const FP randX = (FP_FromInteger(gRandomBytes[mRandSeed++]) / FP_FromInteger(16));
             const FP adjustedX = FP_FromDouble(1.3) * (randX - FP_FromInteger(8));
             mBloodParticle[i].mOffX = mSpriteScale * (xOff + adjustedX);
 
-            const FP randY = (FP_FromInteger(sRandomBytes_4BBE30[mRandSeed++]) / FP_FromInteger(16));
+            const FP randY = (FP_FromInteger(gRandomBytes[mRandSeed++]) / FP_FromInteger(16));
             const FP adjustedY = FP_FromDouble(1.3) * (randY - FP_FromInteger(8));
             mBloodParticle[i].mOffY = mSpriteScale * (yOff + adjustedY);
         }

@@ -5369,8 +5369,8 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
     switch (pFrom->Type())
     {
         case ReliveTypes::eDrill:
-        case ReliveTypes::eBaseBomb:
-        case ReliveTypes::eExplosion:
+        case ReliveTypes::eGroundExplosion:
+        case ReliveTypes::eAirExplosion:
         {
             EventBroadcast(kScrabOrParamiteDied, this);
             relive_new Gibs(GibType::Slog_2, mXPos, mYPos, mVelX, mVelY, mSpriteScale, 0);

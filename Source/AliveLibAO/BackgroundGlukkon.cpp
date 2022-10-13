@@ -2,7 +2,7 @@
 #include "Function.hpp"
 #include "BackgroundGlukkon.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "Explosion.hpp"
+#include "AirExplosion.hpp"
 #include "Math.hpp"
 #include "Sfx.hpp"
 #include "Abe.hpp"
@@ -111,7 +111,7 @@ s16 BackgroundGlukkon::VTakeDamage(BaseGameObject* pFrom)
     {
         mHealth = FP_FromInteger(0);
 
-        relive_new Explosion(
+        relive_new AirExplosion(
             mXPos,
             mYPos - (mSpriteScale * FP_FromInteger(40)),
             mSpriteScale);

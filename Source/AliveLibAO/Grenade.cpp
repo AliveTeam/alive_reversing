@@ -7,7 +7,7 @@
 #include "Map.hpp"
 #include "Math.hpp"
 #include "Sfx.hpp"
-#include "Explosion.hpp"
+#include "AirExplosion.hpp"
 #include "Gibs.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/Collisions.hpp"
@@ -15,12 +15,12 @@
 
 namespace AO {
 
-s16 gInfiniteGrenades_5076EC = 0;
+s16 gInfiniteGrenades = 0;
 
 Grenade::Grenade(FP xpos, FP ypos, s16 numGrenades)
     : BaseThrowable()
 {
-    field_10E_bDead = 0;
+    mIsDead = 0;
     SetType(ReliveTypes::eGrenade);
 
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Grenade));
@@ -40,7 +40,7 @@ Grenade::Grenade(FP xpos, FP ypos, s16 numGrenades)
 
     mVelX = FP_FromInteger(0);
     mVelY = FP_FromInteger(0);
-    field_10C_count = numGrenades;
+    mThrowableCount = numGrenades;
 
     if (numGrenades > 0)
     {
@@ -63,7 +63,7 @@ Grenade::~Grenade()
         field_11C->mBaseGameObjectRefCount--;
     }
 
-    if (!gInfiniteGrenades_5076EC && !field_10E_bDead)
+    if (!gInfiniteGrenades && !mIsDead)
     {
         if (mLiftPoint)
         {
@@ -75,9 +75,9 @@ Grenade::~Grenade()
         if (gThrowableArray)
         {
             s16 count = 0;
-            if (field_10C_count >= 1u)
+            if (mThrowableCount >= 1u)
             {
-                count = field_10C_count;
+                count = mThrowableCount;
             }
             else
             {
@@ -105,7 +105,7 @@ void Grenade::VThrow(FP velX, FP velY)
     mVelX = velX;
     mVelY = velY;
 
-    if (field_10C_count == 0)
+    if (mThrowableCount == 0)
     {
         field_110_state = States::eFalling_4;
     }
@@ -459,7 +459,7 @@ s16 Grenade::BlowUpAfterCountdown()
         return 0;
     }
 
-    auto pExplosion = relive_new Explosion(
+    auto pExplosion = relive_new AirExplosion(
         mXPos,
         mYPos - (mSpriteScale * FP_FromInteger(5)),
         mSpriteScale);

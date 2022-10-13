@@ -160,7 +160,7 @@ void MeatSack::VScreenChanged()
 Meat::Meat(FP xpos, FP ypos, s16 count)
     : BaseThrowable()
 {
-    field_10E_bDead = 0;
+    mIsDead = 0;
 
     SetType(ReliveTypes::eMeat);
 
@@ -183,7 +183,7 @@ Meat::Meat(FP xpos, FP ypos, s16 count)
 
     field_120_deadtimer = sGnFrame + 600;
     field_124_pLine = 0;
-    field_10C_count = count;
+    mThrowableCount = count;
     field_110_state = 0;
 
     mShadow = relive_new Shadow();
@@ -191,11 +191,11 @@ Meat::Meat(FP xpos, FP ypos, s16 count)
 
 Meat::~Meat()
 {
-    if (!field_10E_bDead)
+    if (!mIsDead)
     {
         if (gThrowableArray)
         {
-            gThrowableArray->Remove(field_10C_count >= 1u ? field_10C_count : 1);
+            gThrowableArray->Remove(mThrowableCount >= 1u ? mThrowableCount : 1);
         }
     }
 }
@@ -215,7 +215,7 @@ void Meat::VThrow(FP velX, FP velY)
     mVelX = velX;
     mVelY = velY;
 
-    if (field_10C_count == 0)
+    if (mThrowableCount == 0)
     {
         field_110_state = 2;
     }
@@ -527,12 +527,12 @@ void Meat::VOnTrapDoorOpen()
 
 s16 Meat::VGetCount()
 {
-    if (field_110_state == 4 && field_10C_count == 0)
+    if (field_110_state == 4 && mThrowableCount == 0)
     {
         return 1;
     }
 
-    return field_10C_count;
+    return mThrowableCount;
 }
 
 } // namespace AO

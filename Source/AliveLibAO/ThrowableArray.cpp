@@ -16,7 +16,7 @@ void LoadRockTypes(EReliveLevelIds levelNumber, u16 path)
     bool bDoLoadingLoop = FALSE;
     const u8 throwableTypeIdx = Path_Get_Bly_Record_434650(levelNumber, path)->field_C_overlay_id & 0xFF;
 
-    switch (word_4CF158[throwableTypeIdx])
+    switch (gThrowableFromOverlayId[throwableTypeIdx])
     {
         case AOTypes::eGrenade_40:
             break;
@@ -58,7 +58,7 @@ void ThrowableArray::VScreenChanged()
 {
     if (gMap.mNextLevel != EReliveLevelIds::eMenu && gMap.mNextLevel != EReliveLevelIds::eCredits)
     {
-        if (word_4CF158[gMap.mOverlayId] != word_4CF158[gMap.GetOverlayId()])
+        if (gThrowableFromOverlayId[gMap.mOverlayId] != gThrowableFromOverlayId[gMap.GetOverlayId()])
         {
             if (!(field_12_flags & 1))
             {
@@ -114,7 +114,7 @@ void ThrowableArray::Remove(s16 count)
 
     if (field_12_flags & 2)
     {
-        switch (word_4CF158[gMap.mOverlayId])
+        switch (gThrowableFromOverlayId[gMap.mOverlayId])
         {
             case AOTypes::eGrenade_40:
                 break;
@@ -146,7 +146,7 @@ void ThrowableArray::Add(s16 count)
     {
         if (!(field_12_flags & 2))
         {
-            switch (word_4CF158[gMap.mOverlayId])
+            switch (gThrowableFromOverlayId[gMap.mOverlayId])
             {
                 case AOTypes::eGrenade_40:
                     break;

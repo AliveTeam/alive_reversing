@@ -11,11 +11,11 @@
 
 namespace AO {
 
-u8 sWellRndSeed_4D1488 = 4;
+static u8 sWellRndSeed = 4;
 
 static s16 Well_NextRandom()
 {
-    return sRandomBytes_4BBE30[sWellRndSeed_4D1488++];
+    return gRandomBytes[sWellRndSeed++];
 }
 
 Well::~Well()
@@ -33,11 +33,11 @@ void Well::VScreenChanged()
 
 void Well::VRender(PrimHeader** ppOt)
 {
-    mXPos += FP_FromInteger(gTweak_X_5076D8);
-    mYPos += FP_FromInteger(gTweak_Y_5076DC);
+    mXPos += FP_FromInteger(gTweakX);
+    mYPos += FP_FromInteger(gTweakY);
     BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
-    mXPos -= FP_FromInteger(gTweak_X_5076D8);
-    mYPos -= FP_FromInteger(gTweak_Y_5076DC);
+    mXPos -= FP_FromInteger(gTweakX);
+    mYPos -= FP_FromInteger(gTweakY);
 }
 
 void Well::VUpdate()

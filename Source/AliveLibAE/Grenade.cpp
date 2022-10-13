@@ -8,7 +8,7 @@
 #include "../relive_lib/ObjectIds.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Gibs.hpp"
-#include "Explosion.hpp"
+#include "AirExplosion.hpp"
 #include "Grid.hpp"
 #include "Map.hpp"
 #include "../relive_lib/Collisions.hpp"
@@ -223,7 +223,7 @@ void Grenade::VTimeToExplodeRandom()
 
 void Grenade::BlowUp(s16 bSmallExplosion)
 {
-    auto pExplosion = relive_new Explosion(
+    auto pExplosion = relive_new AirExplosion(
         mXPos,
         mYPos - (mSpriteScale * FP_FromInteger(5)),
         mSpriteScale,

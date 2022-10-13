@@ -1037,9 +1037,9 @@ AnimRecConversionInfo kAnimRecConversionInfo[910] = {
 
     { AnimId::Electric_Wall, EAnimGroup::ElectricWall, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
 
-    { AnimId::Explosion, EAnimGroup::Explosions, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
-    { AnimId::Explosion_Mine, EAnimGroup::Explosions, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
-    { AnimId::Explosion_Small, EAnimGroup::Explosions, EReliveLevelIds::eMines, EReliveLevelIds::eNone, false },
+    { AnimId::AirExplosion, EAnimGroup::Explosions, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
+    { AnimId::GroundExplosion, EAnimGroup::Explosions, EReliveLevelIds::eMines, EReliveLevelIds::eRuptureFarms, false },
+    { AnimId::AirExplosion_Small, EAnimGroup::Explosions, EReliveLevelIds::eMines, EReliveLevelIds::eNone, false },
 
     { AnimId::FallingCrate_Falling, EAnimGroup::FallingItems, EReliveLevelIds::eBonewerkz, EReliveLevelIds::eNone, false },
     { AnimId::FallingCrate_Waiting, EAnimGroup::FallingItems, EReliveLevelIds::eBonewerkz, EReliveLevelIds::eNone, false },

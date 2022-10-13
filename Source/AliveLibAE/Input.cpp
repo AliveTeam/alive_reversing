@@ -1892,7 +1892,7 @@ void Input_Init_491BC0()
 
 u32 Input_GetLastPressedKey_492610()
 {
-    if (!Sys_IsAnyKeyDown_4EDDF0())
+    if (!Sys_IsAnyKeyDown())
     {
         return 0;
     }

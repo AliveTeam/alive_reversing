@@ -810,9 +810,9 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
             Slig_GameSpeak_SFX(SligSpeak::eHelp_10, 0, mGameSpeakPitchMin, this);
             return 1;
 
-        case ReliveTypes::eBaseBomb:
+        case ReliveTypes::eGroundExplosion:
         case ReliveTypes::eMeatSaw:
-        case ReliveTypes::eExplosion:
+        case ReliveTypes::eAirExplosion:
             if (mAnim.mFlags.Get(AnimFlags::eRender))
             {
                 relive_new Gibs(

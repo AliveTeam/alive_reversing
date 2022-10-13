@@ -150,7 +150,7 @@ ReliveTypes BaseGameObject::FromAO(AO::AOTypes aoType)
         case AO::AOTypes::ePalOverwriter_29:
             return ReliveTypes::ePalOverwriter;
         case AO::AOTypes::eBaseBomb_30:
-            return ReliveTypes::eBaseBomb;
+            return ReliveTypes::eGroundExplosion;
         case AO::AOTypes::eSecurityClaw_31:
             return ReliveTypes::eSecurityClaw;
         case AO::AOTypes::eRockSpawner_32:
@@ -228,7 +228,7 @@ ReliveTypes BaseGameObject::FromAO(AO::AOTypes aoType)
         case AO::AOTypes::eRope_73:
             return ReliveTypes::eRope;
         case AO::AOTypes::eExplosion_74:
-            return ReliveTypes::eExplosion;
+            return ReliveTypes::eAirExplosion;
         case AO::AOTypes::eMudokon_75:
             return ReliveTypes::eMudokon;
         case AO::AOTypes::eRedLaser_76:
@@ -336,7 +336,7 @@ AO::AOTypes BaseGameObject::ToAO(ReliveTypes reliveType)
             return AO::AOTypes::eBellHammer_27;
         case ReliveTypes::ePalOverwriter:
             return AO::AOTypes::ePalOverwriter_29;
-        case ReliveTypes::eBaseBomb:
+        case ReliveTypes::eGroundExplosion:
             return AO::AOTypes::eBaseBomb_30;
         case ReliveTypes::eSecurityClaw:
             return AO::AOTypes::eSecurityClaw_31;
@@ -414,7 +414,7 @@ AO::AOTypes BaseGameObject::ToAO(ReliveTypes reliveType)
             return AO::AOTypes::eRollingBall_72;
         case ReliveTypes::eRope:
             return AO::AOTypes::eRope_73;
-        case ReliveTypes::eExplosion:
+        case ReliveTypes::eAirExplosion:
             return AO::AOTypes::eExplosion_74;
         case ReliveTypes::eMudokon:
             return AO::AOTypes::eMudokon_75;
@@ -540,7 +540,7 @@ ReliveTypes BaseGameObject::FromAE(AETypes aeType)
         case AETypes::eEvilFart_45:
             return ReliveTypes::eEvilFart;
         case AETypes::eBaseBomb_46:
-            return ReliveTypes::eBaseBomb;
+            return ReliveTypes::eGroundExplosion;
         case AETypes::eSecurityClaw_47:
             return ReliveTypes::eSecurityClaw;
         case AETypes::eRockSpawner_48:
@@ -636,7 +636,7 @@ ReliveTypes BaseGameObject::FromAE(AETypes aeType)
         case AETypes::eRope_108:
             return ReliveTypes::eRope;
         case AETypes::eExplosion_109:
-            return ReliveTypes::eExplosion;
+            return ReliveTypes::eAirExplosion;
         case AETypes::eMudokon_110:
             return ReliveTypes::eMudokon;
         case AETypes::eRedLaser_111:
@@ -762,7 +762,7 @@ AETypes BaseGameObject::ToAE(ReliveTypes reliveType)
             return AETypes::ePalOverwriter_44;
         case ReliveTypes::eEvilFart:
             return AETypes::eEvilFart_45;
-        case ReliveTypes::eBaseBomb:
+        case ReliveTypes::eGroundExplosion:
             return AETypes::eBaseBomb_46;
         case ReliveTypes::eSecurityClaw:
             return AETypes::eSecurityClaw_47;
@@ -858,7 +858,7 @@ AETypes BaseGameObject::ToAE(ReliveTypes reliveType)
             return AETypes::eRockSack_106;
         case ReliveTypes::eRope:
             return AETypes::eRope_108;
-        case ReliveTypes::eExplosion:
+        case ReliveTypes::eAirExplosion:
             return AETypes::eExplosion_109;
         case ReliveTypes::eMudokon:
             return AETypes::eMudokon_110;

@@ -195,8 +195,8 @@ s16 Elum::VTakeDamage(BaseGameObject* pFrom)
     switch (pFrom->Type())
     {
         case ReliveTypes::eBullet:
-        case ReliveTypes::eBaseBomb:
-        case ReliveTypes::eExplosion:
+        case ReliveTypes::eGroundExplosion:
+        case ReliveTypes::eAirExplosion:
             if (mHealth > FP_FromInteger(0))
             {
                 Elum_SFX_416E10(ElumSounds::eExploding_7, 0);

@@ -3342,8 +3342,8 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
         }
 
         case ReliveTypes::eDrill:
-        case ReliveTypes::eBaseBomb:
-        case ReliveTypes::eExplosion:
+        case ReliveTypes::eGroundExplosion:
+        case ReliveTypes::eAirExplosion:
         {
             Sfx(SlogSound::DeathWhine_9);
             mHealth = FP_FromInteger(0);

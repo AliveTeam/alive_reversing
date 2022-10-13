@@ -18,10 +18,10 @@ void Leaf::VUpdate()
     mVelX = mVelX * FP_FromDouble(0.8);
     mVelY = mVelY * FP_FromDouble(0.8);
 
-    const s32 randX = sRandomBytes_4BBE30[sLeafRandIdx_4D148C++] - 127;
+    const s32 randX = gRandomBytes[sLeafRandIdx_4D148C++] - 127;
     mVelX += mSpriteScale * (FP_FromInteger(randX) / FP_FromInteger(64));
 
-    const s32 randY = sRandomBytes_4BBE30[sLeafRandIdx_4D148C++] - 127;
+    const s32 randY = gRandomBytes[sLeafRandIdx_4D148C++] - 127;
     mVelY += (mSpriteScale * (FP_FromInteger(randY) / FP_FromInteger(64)));
 
     const FP x2 = mVelX + mXPos;

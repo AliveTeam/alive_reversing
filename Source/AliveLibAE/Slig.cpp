@@ -6595,8 +6595,8 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
         }
 
         case ReliveTypes::eDrill:
-        case ReliveTypes::eBaseBomb:
-        case ReliveTypes::eExplosion:
+        case ReliveTypes::eGroundExplosion:
+        case ReliveTypes::eAirExplosion:
         {
             if (!mAnim.mFlags.Get(AnimFlags::eRender))
             {

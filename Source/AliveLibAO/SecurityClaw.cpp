@@ -6,7 +6,7 @@
 #include "Midi.hpp"
 #include "MotionDetector.hpp"
 #include "Gibs.hpp"
-#include "Explosion.hpp"
+#include "AirExplosion.hpp"
 #include "ZapLine.hpp"
 #include "Sfx.hpp"
 #include "ZapSpark.hpp"
@@ -165,7 +165,7 @@ s16 SecurityClaw::VTakeDamage(BaseGameObject* pFrom)
             field_12C_pDetector = 0;
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 
-            relive_new Explosion(
+            relive_new AirExplosion(
                 mXPos,
                 mYPos - mSpriteScale * FP_FromInteger(5),
                 mSpriteScale);

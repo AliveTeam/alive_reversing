@@ -130,7 +130,7 @@ void PauseMenu::VUpdate()
         while (1)
         {
             sDisableFontFlicker_5080E4 = 1;
-            SYS_EventsPump_44FF90();
+            SYS_EventsPump();
 
             for (s32 idx = 0; idx < gObjListDrawables->Size(); idx++)
             {

@@ -5,13 +5,13 @@
 #include "Map.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/Events.hpp"
-#include "Explosion.hpp"
+#include "AirExplosion.hpp"
 #include "SwitchStates.hpp"
 #include "FallingItem.hpp"
 #include "Grid.hpp"
 
 ExplosionSet* pExplosionSet_5BBF68 = nullptr;
-s16 bEnabled_5C1BB6 = FALSE;
+bool gExplosionSetEnabled = false;
 
 ExplosionSet::ExplosionSet()
     : BaseGameObject(TRUE, 0)
@@ -31,7 +31,7 @@ ExplosionSet::ExplosionSet()
         field_42 = 1;
         field_44_start_delay = 0;
         field_46_spacing_multiplicator = 0;
-        bEnabled_5C1BB6 = FALSE;
+        gExplosionSetEnabled = false;
         field_5C_flags.Clear(Flags_5C::eBit3_Active);
         gObjListDrawables->Push_Back(this);
     }
@@ -39,7 +39,7 @@ ExplosionSet::ExplosionSet()
 
 void ExplosionSet::Start()
 {
-    bEnabled_5C1BB6 = 1;
+    gExplosionSetEnabled = true;
 }
 
 void ExplosionSet::Init(relive::Path_ExplosionSet* pTlv)
@@ -63,9 +63,9 @@ void ExplosionSet::Init(relive::Path_ExplosionSet* pTlv)
     field_5A_increasing_grid_spacing = FP_GetExponent(FP_FromInteger(pTlv->mIncreasingGridSpacing) * ScaleToGridSize(field_50_scale));
     field_54_switch_id = pTlv->mSwitchId;
 
-    if (!bEnabled_5C1BB6)
+    if (!gExplosionSetEnabled)
     {
-        bEnabled_5C1BB6 = static_cast<s16>(pTlv->mStartEnabled);
+        gExplosionSetEnabled = static_cast<s16>(pTlv->mStartEnabled);
     }
 
     field_5C_flags.Set(Flags_5C::eBit3_Active);
@@ -111,7 +111,7 @@ const Point2 stru_550F38[12] = {
 
 void ExplosionSet::VRender(PrimHeader** ppOt)
 {
-    if (bEnabled_5C1BB6)
+    if (gExplosionSetEnabled)
     {
         Prim_ScreenOffset* pScreenOff = &field_20[gPsxDisplay.mBufferIndex];
 
@@ -135,7 +135,7 @@ void ExplosionSet::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (bEnabled_5C1BB6)
+    if (gExplosionSetEnabled)
     {
         field_40 += field_42;
 
@@ -181,7 +181,7 @@ void ExplosionSet::VUpdate()
             {
                 const FP explodeX = FP_FromInteger(Math_RandomRange(field_48_tlv_rect.y + 20, field_48_tlv_rect.y + 230));
                 const FP explodeY = FP_FromInteger(Math_RandomRange(field_48_tlv_rect.x, xpos));
-                relive_new Explosion(explodeY, explodeX, field_50_scale, 0);
+                relive_new AirExplosion(explodeY, explodeX, field_50_scale, 0);
             }
         }
     }
@@ -193,7 +193,7 @@ void ExplosionSet::VUpdate()
             {
                 if (SwitchStates_Get(field_54_switch_id))
                 {
-                    bEnabled_5C1BB6 = 1;
+                    gExplosionSetEnabled = true;
                 }
             }
         }

@@ -51,7 +51,7 @@ void GameEnderController::VUpdate()
     switch (field_14_state)
     {
         case GameEnderController_States::eInit_0:
-            if (sSwitchStates_505568.mData[70])
+            if (gSwitchStates.mData[70])
             {
                 field_14_state = GameEnderController_States::eDetermineEnding_1;
                 field_10_timer = sGnFrame + 50;
@@ -86,7 +86,7 @@ void GameEnderController::VUpdate()
                         // Stop the death timer
                         sGasTimer_507700 = 0;
 
-                        gInfiniteGrenades_5076EC = 0;
+                        gInfiniteGrenades = 0;
                         gRestartRuptureFarmsKilledMuds_5076C4 = 0;
                         gRestartRuptureFarmsSavedMuds_5076C8 = 0;
 
@@ -115,7 +115,7 @@ void GameEnderController::VUpdate()
                         if (sKilledMudokons_5076BC >= Path_BadEndingMuds(gMap.mCurrentLevel, gMap.mCurrentPath))
                         {
                             // Very bad ending
-                            gInfiniteGrenades_5076EC = TRUE;
+                            gInfiniteGrenades = TRUE;
 
                             if (!gThrowableArray)
                             {
@@ -139,7 +139,7 @@ void GameEnderController::VUpdate()
                             // Bad ending
                             sActiveHero->mBaseGameObjectFlags.Set(Options::eDead);
 
-                            gInfiniteGrenades_5076EC = FALSE;
+                            gInfiniteGrenades = FALSE;
 
                             gMap.SetActiveCam(EReliveLevelIds::eBoardRoom, 6, 10, CameraSwapEffects::eUnknown_11, 304, 0);
                             field_14_state = GameEnderController_States::eBadEnding_3;

@@ -202,11 +202,11 @@ static void Main_ParseCommandLineArguments()
         windowTitle += " [AutoPlay]";
     }
 
-    Sys_WindowClass_Register_48E9E0("ABE_WINCLASS", windowTitle.c_str(), 32, 64, 640, 480);
+    Sys_WindowClass_Register("ABE_WINCLASS", windowTitle.c_str(), 32, 64, 640, 480);
 
-    Sys_Set_Hwnd_48E340(Sys_GetWindowHandle_48E930());
+    Sys_Set_Hwnd(Sys_GetWindowHandle());
 
-    const LPSTR pCmdLine = Sys_GetCommandLine_48E920();
+    const LPSTR pCmdLine = Sys_GetCommandLine();
     if (pCmdLine)
     {
         if (_strcmpi(pCmdLine, "-it_is_me_your_father") == 0)
@@ -262,14 +262,14 @@ static void Main_ParseCommandLineArguments()
     PSX_EMU_Init_49A1D0();
     PSX_EMU_VideoAlloc_49A2B0();
     PSX_EMU_SetCallBack_499920(1, Game_End_Frame_4505D0);
-    //Main_Set_HWND_499900(Sys_GetWindowHandle_48E930()); // Note: Set global is never read
+    //Main_Set_HWND_499900(Sys_GetWindowHandle()); // Note: Set global is never read
 }
 
 void Init_GameStates()
 {
     sKilledMudokons_5076BC = gRestartRuptureFarmsKilledMuds_5076C4;
     sRescuedMudokons_5076C0 = gRestartRuptureFarmsSavedMuds_5076C8;
-    sSwitchStates_505568 = {};
+    gSwitchStates = {};
     gOldKilledMuds_5076D0 = 0;
     gOldSavedMuds_5076D4 = 0;
     gbKillUnsavedMudsDone_5076CC = 0;
@@ -457,7 +457,7 @@ void Game_Loop_437630()
         DebugFont_Flush();
         PSX_DrawSync_496750(0);
         pScreenManager->VRender(ppOt);
-        SYS_EventsPump_44FF90();
+        SYS_EventsPump();
 
         gPsxDisplay.RenderOrderingTable();
 
@@ -517,14 +517,14 @@ void DDCheat_Allocate_409560()
 
 void Game_Run_4373D0()
 {
-    SYS_EventsPump_44FF90();
+    SYS_EventsPump();
 
     gAttract_507698 = 0;
     gTimeOut_NotUsed_507B0C = 6000;
     gFileOffset_NotUsed_507B10 = 34;
 
     DDCheat::DebugStr("Abe's Oddysee Attract=%d Timeout=%d FileOffset=%d DA Track=NA\n", 0, 200, 34);
-    SYS_EventsPump_44FF90();
+    SYS_EventsPump();
     PSX_ResetCallBack_49AFB0();
 
     //Nop_49BAF0();
@@ -585,7 +585,7 @@ void Game_Main()
 {
     BaseAliveGameObject_ForceLink();
 
-    GetGameAutoPlayer().ParseCommandLine(Sys_GetCommandLine_48E920());
+    GetGameAutoPlayer().ParseCommandLine(Sys_GetCommandLine());
 
     Main_ParseCommandLineArguments();
     Game_SetExitCallBack_48E040(Game_ExitGame_450730);

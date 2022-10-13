@@ -118,8 +118,8 @@ void BackgroundAnimation::VUpdate()
                     break;
             }
         }
-        mXPos = field_F8_animXPos + FP_FromInteger(gTweak_X_5076D8);
-        mYPos = field_FC_animYPos + FP_FromInteger(gTweak_Y_5076DC);
+        mXPos = field_F8_animXPos + FP_FromInteger(gTweakX);
+        mYPos = field_FC_animYPos + FP_FromInteger(gTweakY);
     }
 }
 

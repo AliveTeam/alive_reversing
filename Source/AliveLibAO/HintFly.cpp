@@ -1346,7 +1346,7 @@ u8 sHintFlyRndSeed_4C6AA4 = 37;
 
 static u8 HintFly_NextRandom()
 {
-    return sRandomBytes_4BBE30[sHintFlyRndSeed_4C6AA4++];
+    return gRandomBytes[sHintFlyRndSeed_4C6AA4++];
 }
 
 HintFly::HintFly(relive::Path_HintFly* pTlv, const Guid& tlvId)

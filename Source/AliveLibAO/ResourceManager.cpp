@@ -152,7 +152,7 @@ void ResourceManager::LoadingLoop_41EAD0(s16)
     /*
     while (gFilesPending_507714 > 0)
     {
-        SYS_EventsPump_44FF90();
+        SYS_EventsPump();
 
         for (s32 i = 0; i < gLoadingFiles->Size(); i++)
         {

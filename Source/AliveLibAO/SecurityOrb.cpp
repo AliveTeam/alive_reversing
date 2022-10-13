@@ -3,7 +3,7 @@
 #include "SecurityOrb.hpp"
 #include "Midi.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "Explosion.hpp"
+#include "AirExplosion.hpp"
 #include "Gibs.hpp"
 #include "ZapLine.hpp"
 #include "Sfx.hpp"
@@ -81,7 +81,7 @@ s16 SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eAbilityRing:
         case ReliveTypes::eShrykull:
         {
-            relive_new Explosion(
+            relive_new AirExplosion(
                 mXPos,
                 mYPos - (mSpriteScale * FP_FromInteger(5)),
                 mSpriteScale);

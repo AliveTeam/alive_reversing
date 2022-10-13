@@ -8,7 +8,7 @@
 #include "ThrowableTotalIndicator.hpp"
 #include "../relive_lib/Particle.hpp"
 #include "Sound/Midi.hpp"
-#include "Explosion.hpp"
+#include "AirExplosion.hpp"
 #include "Sfx.hpp"
 #include "Function.hpp"
 #include "Map.hpp"
@@ -537,7 +537,7 @@ void EvilFart::VUpdate()
 
 void EvilFart::BlowUp()
 {
-    relive_new Explosion(mXPos,
+    relive_new AirExplosion(mXPos,
         mYPos - (mSpriteScale * FP_FromInteger(50)),
         mSpriteScale,
         0);

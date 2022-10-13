@@ -5,13 +5,13 @@
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
-#include "BaseBomb.hpp"
+#include "GroundExplosion.hpp"
 #include "Grid.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 
 namespace AO {
 
-Mine* sMinePlayingSound_507B88 = nullptr;
+static Mine* sMinePlayingSound = nullptr;
 
 
 void Mine::LoadAnimations()
@@ -99,9 +99,9 @@ Mine::~Mine()
 
     mBaseGameObjectFlags.Clear(Options::eInteractive_Bit8);
 
-    if (sMinePlayingSound_507B88 == this)
+    if (sMinePlayingSound == this)
     {
-        sMinePlayingSound_507B88 = nullptr;
+        sMinePlayingSound = nullptr;
     }
 }
 
@@ -124,15 +124,11 @@ s16 Mine::VTakeDamage(BaseGameObject* pFrom)
     {
         case ReliveTypes::eAbe:
         case ReliveTypes::eAbilityRing:
-        case ReliveTypes::eExplosion:
+        case ReliveTypes::eAirExplosion:
         case ReliveTypes::eShrykull:
         {
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-            relive_new BaseBomb(
-                mXPos,
-                mYPos,
-                0,
-                mSpriteScale);
+            relive_new GroundExplosion(mXPos, mYPos, mSpriteScale);
             field_10C_detonating = 1;
             field_114_gnframe = sGnFrame;
             return 1;
@@ -145,11 +141,7 @@ s16 Mine::VTakeDamage(BaseGameObject* pFrom)
 
 void Mine::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
-    relive_new BaseBomb(
-        mXPos,
-        mYPos,
-        0,
-        mSpriteScale);
+    relive_new GroundExplosion(mXPos, mYPos, mSpriteScale);
     field_10C_detonating = 1;
 }
 
@@ -194,11 +186,7 @@ void Mine::VUpdate()
     {
         if (field_10C_detonating == 1 && static_cast<s32>(sGnFrame) >= field_114_gnframe)
         {
-            relive_new BaseBomb(
-                mXPos,
-                mYPos,
-                0,
-                mSpriteScale);
+            relive_new GroundExplosion(mXPos, mYPos, mSpriteScale);
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
     }
@@ -206,13 +194,13 @@ void Mine::VUpdate()
     {
         if (mAnim.mCurrentFrame == 1)
         {
-            if (sMinePlayingSound_507B88 == nullptr || sMinePlayingSound_507B88 == this)
+            if (sMinePlayingSound == nullptr || sMinePlayingSound == this)
             {
                 if (bInCamera)
                 {
                     SfxPlayMono(relive::SoundEffects::RedTick, 35);
                 }
-                sMinePlayingSound_507B88 = this;
+                sMinePlayingSound = this;
             }
         }
 

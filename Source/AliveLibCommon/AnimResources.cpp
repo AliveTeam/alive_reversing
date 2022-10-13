@@ -1525,14 +1525,14 @@ constexpr CombinedAnimRecord kAnimRecords[916] = {
     {AnimId::Electric_Wall,
         {"ELECWALL.BAN", 15384, 50, 80, kElecwallResID, PalId::Default},
         {"ELECWALL.BAN", 14536, 50, 80, AO::kElecwallAOResID, PalId::Default}},
-    {AnimId::Explosion, 
+    {AnimId::AirExplosion, 
         {"EXPLO2.BAN", 51156, 202, 91, kExplo2ResID, PalId::Default},
         {"EXPLO2.BAN", 27376, 200, 91, AO::kExplo2AOResID, PalId::Default}},
-    {AnimId::Explosion_Mine, 
+    {AnimId::GroundExplosion, 
         {"EXPLODE.BND", 51588, 214, 49, kBgexpldResID, PalId::Default},
         {"BGEXPLD.BAN", 51600, 214, 49, AO::kBgexpldAOResID, PalId::Default}},
 
-    {AnimId::Explosion_Small, { "SMEXP.BAN", 14108, 99, 46, kSmallExplo2ResID, PalId::Default}, kNullAnimDetails },
+    {AnimId::AirExplosion_Small, { "SMEXP.BAN", 14108, 99, 46, kSmallExplo2ResID, PalId::Default}, kNullAnimDetails },
     {AnimId::FallingCrate_Falling, { "FALLBONZ.BAN", 8076, 86, 47, kF2rockResID, PalId::Default}, kNullAnimDetails },
     {AnimId::FallingCrate_Waiting, { "FALLBONZ.BAN", 8100, 86, 47, kF2rockResID, PalId::Default}, kNullAnimDetails },
     {AnimId::AE_FallingRock_Falling, { "FALLROCK.BAN", 4232, 64, 28, kF2rockResID, PalId::Default}, kNullAnimDetails },
@@ -1946,8 +1946,8 @@ void FrameTableOffsetExists(u32 frameTableOffset, bool isAe, int maxW, int maxH)
                 return;
             }
 
-            // special handling for some weird OG behavior (see Explosion.cpp line 184)
-            if (entry.mId == AnimId::Explosion_Small)
+            // special handling for some weird OG behavior (see AirExplosion.cpp line 184)
+            if (entry.mId == AnimId::AirExplosion_Small)
             {
                 return;
             }

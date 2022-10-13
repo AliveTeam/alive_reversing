@@ -223,8 +223,8 @@ SET(AliveLibAESrc
     FallingItem.hpp
     MineCar.cpp
     MineCar.hpp
-    BaseBomb.cpp
-    BaseBomb.hpp
+    GroundExplosion.cpp
+    GroundExplosion.hpp
     ElectricWall.cpp
     ElectricWall.hpp
     Electrocute.cpp
@@ -237,8 +237,8 @@ SET(AliveLibAESrc
     DemoPlayback.hpp
     SecurityOrb.cpp
     SecurityOrb.hpp
-    Explosion.hpp
-    Explosion.cpp
+    AirExplosion.hpp
+    AirExplosion.cpp
     Greeter.hpp
     Greeter.cpp
     ZapLine.hpp

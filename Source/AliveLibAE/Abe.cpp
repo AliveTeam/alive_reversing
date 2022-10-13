@@ -1853,9 +1853,9 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
             Mudokon_SFX(MudSounds::eOops_14, 0, 0, this);
             break;
 
-        case ReliveTypes::eBaseBomb:
+        case ReliveTypes::eGroundExplosion:
         case ReliveTypes::eMineCar:
-        case ReliveTypes::eExplosion:
+        case ReliveTypes::eAirExplosion:
             if (mAnim.mFlags.Get(AnimFlags::eRender))
             {
                 if (mHealth > FP_FromInteger(0))

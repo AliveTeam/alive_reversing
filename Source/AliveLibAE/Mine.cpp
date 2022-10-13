@@ -6,7 +6,7 @@
 #include "Sfx.hpp"
 #include "Game.hpp"
 #include "../relive_lib/ScreenManager.hpp"
-#include "BaseBomb.hpp"
+#include "GroundExplosion.hpp"
 #include "Grid.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
@@ -133,7 +133,7 @@ void Mine::VUpdate()
     {
         if (field_118_detonating == 1 && sGnFrame >= field_120_gnframe)
         {
-            relive_new BaseBomb(mXPos, mYPos, 0, mSpriteScale);
+            relive_new GroundExplosion(mXPos, mYPos, mSpriteScale);
             mBaseGameObjectFlags.Set(Options::eDead);
         }
     }
@@ -211,7 +211,7 @@ void Mine::VOnPickUpOrSlapped()
 
 void Mine::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
-    relive_new BaseBomb(mXPos, mYPos, 0, mSpriteScale);
+    relive_new GroundExplosion(mXPos, mYPos, mSpriteScale);
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     field_118_detonating = 1;
 }
@@ -232,10 +232,10 @@ s16 Mine::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eAbe:
         case ReliveTypes::eMineCar:
         case ReliveTypes::eAbilityRing:
-        case ReliveTypes::eExplosion:
+        case ReliveTypes::eAirExplosion:
         case ReliveTypes::eMudokon:
         case ReliveTypes::eShrykull:
-            relive_new BaseBomb(mXPos, mYPos, 0, mSpriteScale);
+            relive_new GroundExplosion(mXPos, mYPos, mSpriteScale);
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             field_118_detonating = 1;
             field_120_gnframe = sGnFrame;

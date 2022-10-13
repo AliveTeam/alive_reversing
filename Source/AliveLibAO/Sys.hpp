@@ -5,20 +5,20 @@
 
 namespace AO {
 
-TWindowHandleType Sys_GetWindowHandle_48E930();
+TWindowHandleType Sys_GetWindowHandle();
 
-void Sys_Set_Hwnd_48E340(TWindowHandleType hwnd);
+void Sys_Set_Hwnd(TWindowHandleType hwnd);
 
-s32 Sys_WindowClass_Register_48E9E0(LPCSTR lpClassName, LPCSTR lpWindowName, s32 X, s32 Y, s32 nWidth, s32 nHeight);
+s32 Sys_WindowClass_Register(LPCSTR lpClassName, LPCSTR lpWindowName, s32 X, s32 Y, s32 nWidth, s32 nHeight);
 
-void SYS_EventsPump_44FF90();
+void SYS_EventsPump();
 
-LPSTR Sys_GetCommandLine_48E920();
+LPSTR Sys_GetCommandLine();
 
 void AO_Sys_Main(HINSTANCE hInstance, LPSTR lpCmdLine, s32 nShowCmd);
 
-s32 Sys_IsAnyKeyDown_48E6C0();
+s32 Sys_IsAnyKeyDown();
 
-extern u32 sIsAKeyDown_A8A600;
+//extern u32 sIsAKeyDown;
 
 } // namespace AO

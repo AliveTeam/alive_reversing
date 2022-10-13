@@ -464,7 +464,7 @@ void Movie::VUpdate()
             // Wait for the amount of time the frame would take to display at the given framerate
         }
 
-        SYS_EventsPump_44FF90();
+        SYS_EventsPump();
         PSX_VSync_496620(0);
     }
 

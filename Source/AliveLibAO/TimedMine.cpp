@@ -4,7 +4,7 @@
 #include "Game.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "LiftPoint.hpp"
-#include "BaseBomb.hpp"
+#include "GroundExplosion.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
@@ -119,15 +119,11 @@ s16 TimedMine::VTakeDamage(BaseGameObject* pFrom)
     {
         case ReliveTypes::eAbe:
         case ReliveTypes::eAbilityRing:
-        case ReliveTypes::eExplosion:
+        case ReliveTypes::eAirExplosion:
         case ReliveTypes::eShrykull:
         {
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-            relive_new BaseBomb(
-                mXPos,
-                mYPos,
-                0,
-                mSpriteScale);
+            relive_new GroundExplosion(mXPos, mYPos, mSpriteScale);
             mSlappedMine = 1;
             mExplosionTimer = sGnFrame;
             return 1;
@@ -271,11 +267,7 @@ void TimedMine::VUpdate()
         }
         if (static_cast<s32>(sGnFrame) >= mExplosionTimer)
         {
-            relive_new BaseBomb(
-                mXPos,
-                mYPos,
-                0,
-                mSpriteScale);
+            relive_new GroundExplosion(mXPos, mYPos, mSpriteScale);
 
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
@@ -284,11 +276,7 @@ void TimedMine::VUpdate()
 
 void TimedMine::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
-    relive_new BaseBomb(
-        mXPos,
-        mYPos,
-        0,
-        mSpriteScale);
+    relive_new GroundExplosion(mXPos, mYPos, mSpriteScale);
 
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     mSlappedMine = 1;

@@ -3016,9 +3016,9 @@ s16 Glukkon::VTakeDamage(BaseGameObject* pFrom)
         break;
 
         case ReliveTypes::eDrill:
-        case ReliveTypes::eBaseBomb:
+        case ReliveTypes::eGroundExplosion:
         case ReliveTypes::eMeatSaw:
-        case ReliveTypes::eExplosion:
+        case ReliveTypes::eAirExplosion:
             SetBrain(&Glukkon::Brain_4_Death_442010);
             mBrainSubState = 2;
             EventBroadcast(kEventMudokonComfort, this);

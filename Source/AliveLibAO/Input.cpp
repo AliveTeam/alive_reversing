@@ -609,13 +609,13 @@ s8 Input_GetLastPressedKey()
     return static_cast<s8>(::Input_GetLastPressedKey_492610());
 
     // AO impl
-    //if (!Sys_IsAnyKeyDown_48E6C0())
+    //if (!Sys_IsAnyKeyDown())
     //{
     //    return 0;
     //}
 
     //const s8 result = static_cast<s8>(sLastPressedKey);
-    //sIsAKeyDown_A8A600 = 0;
+    //sIsAKeyDown = 0;
     //sLastPressedKey = 0;
     //return result;
 }

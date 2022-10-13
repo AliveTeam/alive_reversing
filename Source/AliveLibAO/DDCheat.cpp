@@ -23,8 +23,8 @@ struct DDCheatProperties final
 DDCheatProperties DDCheatProperties_4FF7D8 = {};
 
 s32 gDoorsOpen_5076FC = 0;
-s32 gTweak_X_5076D8 = 0;
-s32 gTweak_Y_5076DC = 0;
+s32 gTweakX = 0;
+s32 gTweakY = 0;
 
 s16 sRescuedMudokons_5076C0 = 0;
 s16 sKilledMudokons_5076BC = 0;
@@ -54,8 +54,8 @@ DDCheat::DDCheat()
     ClearProperties();
 
     AddPropertyEntry("Doors Open ", DDCheatValueType::eShort_4, &gDoorsOpen_5076FC);
-    AddPropertyEntry("Tweak X ", DDCheatValueType::eInt_6, &gTweak_X_5076D8);
-    AddPropertyEntry("Tweak Y ", DDCheatValueType::eInt_6, &gTweak_Y_5076DC);
+    AddPropertyEntry("Tweak X ", DDCheatValueType::eInt_6, &gTweakX);
+    AddPropertyEntry("Tweak Y ", DDCheatValueType::eInt_6, &gTweakY);
     AddPropertyEntry("RescuedMudokons ", DDCheatValueType::eShort_4, &sRescuedMudokons_5076C0);
 }
 

@@ -385,7 +385,7 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
     pSaveData->field_24C_field_118 = sActiveHero->field_118_timer;
     pSaveData->field_250_throwable_count = sActiveHero->field_19C_throwable_count;
     pSaveData->field_253_scrabania_done = sActiveHero->field_2A8_flags.Get(Flags_2A8::e2A8_eBit13_bScrabaniaDone);
-    pSaveData->field_264_bInfiniteGrenades = gInfiniteGrenades_5076EC ? -1 : 0;
+    pSaveData->field_264_bInfiniteGrenades = gInfiniteGrenades ? -1 : 0;
     pSaveData->field_252_paramonia_done = sActiveHero->field_2A8_flags.Get(Flags_2A8::e2A8_Bit12_bParamoniaDone);
     pSaveData->field_25A_bElumExists = gElum != nullptr;
     if (gElum != 0)

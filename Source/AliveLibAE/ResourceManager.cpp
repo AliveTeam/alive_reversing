@@ -105,7 +105,7 @@ void ResourceManager::LoadingLoop_465590(s16 )
     /*
     while (!field_20_files_pending_loading.IsEmpty())
     {
-        SYS_EventsPump_494580();
+        SYS_EventsPump();
         VUpdate(); // vLoadFile_StateMachine_464A70 - process loading of files
         PSX_VSync_4F6170(0);
         const s32 ticks = loading_ticks_5C1BAC++ + 1;

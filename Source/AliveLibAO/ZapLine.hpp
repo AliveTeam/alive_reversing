@@ -49,8 +49,6 @@ public:
     void UpdateSpriteVertexPositions();
     void CalculateSpritePositionsInner(s32 idx1, s32 idx2, s32 idx3, s16 idx4);
 
-    s32 field_D4[4] = {};
-
     enum class ZapLineState : s16
     {
         eInit_0 = 0,
@@ -60,7 +58,7 @@ public:
         eUpdateSpriteVertices_4 = 4
     };
 
-    ZapLineState field_E4_state = ZapLineState::eInit_0;
+    ZapLineState mState = ZapLineState::eInit_0;
 
     Prim_SetTPage field_EC_tPage_p8[2] = {};
     s16 field_10C_x_position_source = 0;

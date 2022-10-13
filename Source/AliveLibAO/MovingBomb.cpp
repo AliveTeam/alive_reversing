@@ -9,7 +9,7 @@
 #include "PlatformBase.hpp"
 #include "Midi.hpp"
 #include "Gibs.hpp"
-#include "Explosion.hpp"
+#include "AirExplosion.hpp"
 #include "Sfx.hpp"
 #include "SwitchStates.hpp"
 #include "../relive_lib/Events.hpp"
@@ -144,14 +144,14 @@ s16 MovingBomb::VTakeDamage(BaseGameObject* pFrom)
         return 1;
     }
 
-    if (pFrom->Type() != ReliveTypes::eAbilityRing && pFrom->Type() != ReliveTypes::eExplosion && pFrom->Type() != ReliveTypes::eShrykull)
+    if (pFrom->Type() != ReliveTypes::eAbilityRing && pFrom->Type() != ReliveTypes::eAirExplosion && pFrom->Type() != ReliveTypes::eShrykull)
     {
         return 0;
     }
 
     mHealth = FP_FromInteger(0);
 
-    relive_new Explosion(
+    relive_new AirExplosion(
         mXPos,
         mYPos,
         mSpriteScale);
@@ -419,7 +419,7 @@ void MovingBomb::VUpdate()
 
                 mHealth = FP_FromInteger(0);
 
-                relive_new Explosion(
+                relive_new AirExplosion(
                     mXPos,
                     mYPos,
                     mSpriteScale);

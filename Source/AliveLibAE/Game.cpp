@@ -244,8 +244,8 @@ void Main_ParseCommandLineArguments_494EA0(const char_type* /*pCmdLineNotUsed*/,
         windowTitle += " [AutoPlay]";
     }
 
-    Sys_WindowClass_Register_4EE22F("ABE_WINCLASS", windowTitle.c_str(), 32, 64, 640, 480);
-    Sys_Set_Hwnd_4F2C50(Sys_GetWindowHandle_4EE180());
+    Sys_WindowClass_Register("ABE_WINCLASS", windowTitle.c_str(), 32, 64, 640, 480);
+    Sys_Set_Hwnd(Sys_GetWindowHandle());
 
     dword_5CA4D4 = 0;
     k1_dword_55EF90 = 1; // Global way to turn off semi trans rendering?
@@ -302,7 +302,7 @@ void Main_ParseCommandLineArguments_494EA0(const char_type* /*pCmdLineNotUsed*/,
     PSX_EMU_Init_4F9CD0();
     PSX_EMU_VideoAlloc_4F9D70();
     PSX_EMU_SetCallBack_4F9430(1, Game_End_Frame_4950F0);
-    //Main_Set_HWND_4F9410(Sys_GetWindowHandle_4EE180()); // Note: Set but never read
+    //Main_Set_HWND_4F9410(Sys_GetWindowHandle()); // Note: Set but never read
     VLC_Tables_Init_496720();
 }
 
@@ -337,7 +337,7 @@ void Init_Sound_DynamicArrays_And_Others_43BDB0()
     Init_GameStates_43BF40(); // Init other vars + switch states
 }
 
-void SYS_EventsPump_494580()
+void SYS_EventsPump()
 {
     if (Sys_PumpMessages_4EE4F4())
     {
@@ -389,9 +389,9 @@ extern bool gBootToLoadScreen;
 void Game_Run_466D40()
 {
     // Begin start up
-    SYS_EventsPump_494580();
+    SYS_EventsPump();
     gAttract_5C1BA0 = 0;
-    SYS_EventsPump_494580();
+    SYS_EventsPump();
 
     PSX_ResetCallBack_4FAA20();
     gPsxDisplay.Init();
@@ -682,7 +682,7 @@ void Game_Loop_467230()
         DebugFont_Flush();
         PSX_DrawSync_4F6280(0);
         pScreenManager->VRender(ppOtBuffer);
-        SYS_EventsPump_494580(); // Exit checking?
+        SYS_EventsPump(); // Exit checking?
 
         GetGameAutoPlayer().SyncPoint(SyncPoints::RenderOT);
         gPsxDisplay.RenderOrderingTable();

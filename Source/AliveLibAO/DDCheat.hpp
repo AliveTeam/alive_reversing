@@ -75,8 +75,8 @@ public:
     s32 field_24_input = 0;
 };
 
-extern s32 gTweak_X_5076D8;
-extern s32 gTweak_Y_5076DC;
+extern s32 gTweakX;
+extern s32 gTweakY;
 
 extern s16 sRescuedMudokons_5076C0;
 extern s16 sKilledMudokons_5076BC;

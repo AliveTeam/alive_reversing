@@ -368,7 +368,7 @@ void ResourceManagerWrapper::LoadingLoop(bool bShowLoadingIcon)
     while (!mFilesPendingLoading.empty())
     {
         // TODO: Fix
-        //SYS_EventsPump_494580();
+        //SYS_EventsPump();
         ProcessLoadingFiles();
         PSX_VSync_4F6170(0);
         const s32 ticks = loading_ticks_5C1BAC++ + 1;

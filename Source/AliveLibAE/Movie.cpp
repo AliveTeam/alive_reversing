@@ -211,7 +211,7 @@ s8 DDV_Play_Impl_4932E0(const char_type* pMovieName)
 
     while (AreMovieSkippingInputsHeld())
     {
-        SYS_EventsPump_494580();
+        SYS_EventsPump();
     }
 
     bHasAudio_5CA234 = ((u32) pMasher_header_5CA1E4->field_4_contains >> 1) & 1;
@@ -311,7 +311,7 @@ s8 DDV_Play_Impl_4932E0(const char_type* pMovieName)
 
                     while (AreMovieSkippingInputsHeld())
                     {
-                        SYS_EventsPump_494580();
+                        SYS_EventsPump();
                     }
 
                     break;
@@ -388,7 +388,7 @@ s8 DDV_Play_Impl_4932E0(const char_type* pMovieName)
                 }
             }
 
-            SYS_EventsPump_494580();
+            SYS_EventsPump();
             PSX_VSync_4F6170(0);
 
             if (!bMoreFrames)

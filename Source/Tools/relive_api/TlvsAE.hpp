@@ -1316,8 +1316,8 @@ struct Path_ExplosionSet final : public ReliveAPI::TlvObjectBaseAE
         ADD("Increasing Grid Spacing", mTlv.mIncreasingGridSpacing);
         ADD("Scale", mTlv.mScale);
 
-        ADD_RESOURCE(AnimId::Explosion, ReliveAPI::AddResourceTo::File);
-        ADD_RESOURCE(AnimId::Explosion_Small, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::AirExplosion, ReliveAPI::AddResourceTo::File);
+        ADD_RESOURCE(AnimId::AirExplosion_Small, ReliveAPI::AddResourceTo::File);
     }
 };
 

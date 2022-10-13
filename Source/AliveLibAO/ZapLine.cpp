@@ -63,7 +63,7 @@ ZapLine::ZapLine(FP x1, FP y1, FP x2, FP y2, s32 aliveTime, ZapLineType type, La
     mXPos = x1;
     mYPos = y1;
 
-    field_E4_state = ZapLineState::eInit_0;
+    mState = ZapLineState::eInit_0;
     field_116_alive_timer = 0;
 
     if (mAnim.mFlags.Get(AnimFlags::eIs8Bit))
@@ -323,7 +323,7 @@ void ZapLine::VUpdate()
     field_116_alive_timer++;
 
     // TODO: States 3 and 4 might not actually be needed, since states 1 and 2 do the same thing; though the class only seems to render in states 3 and 4.
-    switch (field_E4_state)
+    switch (mState)
     {
         case ZapLineState::eInit_0:
             CalculateZapPoints_479380();
@@ -337,12 +337,12 @@ void ZapLine::VUpdate()
                 CalculateThickSpriteSegmentPositions();
             }
 
-            field_E4_state = ZapLineState::eInitSpritePositions_1;
+            mState = ZapLineState::eInitSpritePositions_1;
             break;
 
         case ZapLineState::eInitSpritePositions_1:
             CalculateSpritePositionsOuter();
-            field_E4_state = ZapLineState::eInitSpriteVertices_2;
+            mState = ZapLineState::eInitSpriteVertices_2;
             break;
 
         case ZapLineState::eInitSpriteVertices_2:
@@ -363,12 +363,12 @@ void ZapLine::VUpdate()
             {
                 CalculateThickSpriteSegmentPositions();
             }
-            field_E4_state = ZapLineState::eUpdateSpritePositions_3;
+            mState = ZapLineState::eUpdateSpritePositions_3;
             break;
 
         case ZapLineState::eUpdateSpritePositions_3:
             CalculateSpritePositionsOuter();
-            field_E4_state = ZapLineState::eUpdateSpriteVertices_4;
+            mState = ZapLineState::eUpdateSpriteVertices_4;
             break;
     }
 }
@@ -381,7 +381,7 @@ void ZapLine::VRender(PrimHeader** ppOt)
             mXPos,
             mYPos,
             0)
-        && field_E4_state > ZapLineState::eInitSpriteVertices_2)
+        && mState > ZapLineState::eInitSpriteVertices_2)
     {
         const auto bufferIdx = gPsxDisplay.mBufferIndex;
 

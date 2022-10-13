@@ -584,12 +584,12 @@ s16 CrawlingSlig::VTakeDamage(BaseGameObject* pFrom)
         {
             case ReliveTypes::eBullet:
             case ReliveTypes::eDrill:
-            case ReliveTypes::eBaseBomb:
+            case ReliveTypes::eGroundExplosion:
             case ReliveTypes::eRockSpawner:
             case ReliveTypes::eMeatSaw:
             case ReliveTypes::eMineCar:
             //case ReliveTypes::eNeverSet:
-            case ReliveTypes::eExplosion:
+            case ReliveTypes::eAirExplosion:
                 if (!BrainIs(&CrawlingSlig::Brain_4_GetKilled))
                 {
                     SetBrain(&CrawlingSlig::Brain_4_GetKilled);
