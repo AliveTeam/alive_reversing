@@ -2,7 +2,6 @@
 #include "../Compression.hpp"
 #include "../relive_lib/VRam.hpp"
 #include "../relive_lib/Primitives.hpp"
-#include "StbImageImplementation.hpp"
 #include "../relive_lib/Animation.hpp"
 #include "../Font.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
@@ -1194,8 +1193,8 @@ void OpenGLRenderer::DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height
     mPassthruShader.Use();
 
     mPassthruShader.Uniform1i("TextureSampler", 0);
-    mPassthruShader.UniformVec2("vsViewportSize", {(f32) viewportW, (f32) viewportH});
-    mPassthruShader.UniformVec2("vsTexSize", {GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT});
+    mPassthruShader.UniformVec2("vsViewportSize", (f32) viewportW, (f32) viewportH);
+    mPassthruShader.UniformVec2("vsTexSize", GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT);
 
     GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, 0));
 
@@ -1262,7 +1261,7 @@ void OpenGLRenderer::InvalidateBatch()
     GL_VERIFY(glVertexAttribIPointer(4, 2, GL_UNSIGNED_INT, sizeof(VertexData), (void*) offsetof(VertexData, paletteIndex)));
 
     // Inform our internal resolution
-    mPsxShader.UniformVec2("vsViewportSize", {(f32) GL_FRAMEBUFFER_PSX_WIDTH, (f32) GL_FRAMEBUFFER_PSX_HEIGHT});
+    mPsxShader.UniformVec2("vsViewportSize", GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT);
 
     // Bind palette texture
     GL_VERIFY(glActiveTexture(GL_TEXTURE0));

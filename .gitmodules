@@ -13,15 +13,9 @@
 [submodule "3rdParty/glew-cmake"]
 	path = 3rdParty/glew-cmake
 	url = https://github.com/Perlmint/glew-cmake.git
-[submodule "3rdParty/glm"]
-	path = 3rdParty/glm
-	url = https://github.com/g-truc/glm.git
 [submodule "3rdParty/imgui"]
 	path = 3rdParty/imgui
 	url = https://github.com/ocornut/imgui.git
-[submodule "3rdParty/stb"]
-	path = 3rdParty/stb
-	url = https://github.com/nothings/stb.git
 [submodule "3rdParty/lodepng"]
 	path = 3rdParty/lodepng
 	url = https://github.com/lvandeve/lodepng.git

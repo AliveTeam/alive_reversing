@@ -115,24 +115,19 @@ GLuint GLShader::GetAttributeLocation(const char_type* attr)
     return glGetAttribLocation(mProgramID, attr);
 }
 
-void GLShader::UniformMatrix4fv(const char_type* name, glm::mat4 matrix)
+void GLShader::UniformVec2(const char_type* name, f32 x, f32 y)
 {
-    glUniformMatrix4fv(glGetUniformLocation(mProgramID, name), 1, GL_FALSE, glm::value_ptr(matrix));
+    glUniform2f(glGetUniformLocation(mProgramID, name), x, y);
 }
 
-void GLShader::UniformVec2(const char_type* name, glm::vec2 vector)
+void GLShader::UniformVec3(const char_type* name, f32 x, f32 y, f32 z)
 {
-    glUniform2f(glGetUniformLocation(mProgramID, name), vector.x, vector.y);
+    glUniform3f(glGetUniformLocation(mProgramID, name), x, y, z);
 }
 
-void GLShader::UniformVec3(const char_type* name, glm::vec3 vector)
+void GLShader::UniformVec4(const char_type* name, f32 x, f32 y, f32 z, f32 w)
 {
-    glUniform3f(glGetUniformLocation(mProgramID, name), vector.x, vector.y, vector.z);
-}
-
-void GLShader::UniformVec4(const char_type* name, glm::vec4 vector)
-{
-    glUniform4f(glGetUniformLocation(mProgramID, name), vector.x, vector.y, vector.z, vector.w);
+    glUniform4f(glGetUniformLocation(mProgramID, name), x, y, z, w);
 }
 
 void GLShader::Uniform1i(const char_type* name, GLint v)

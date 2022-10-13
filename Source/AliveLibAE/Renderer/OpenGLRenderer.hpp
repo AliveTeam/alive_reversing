@@ -5,13 +5,6 @@
 #include <GL/glew.h>
 #include <SDL_opengl.h>
 
-#define GLM_FORCE_SILENT_WARNINGS
-
-#include <glm/glm.hpp>
-#include <glm/matrix.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-
 #include "imgui.h"
 #include "imgui_impl_sdl.h"
 #include "imgui_impl_opengl3.h"

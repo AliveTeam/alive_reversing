@@ -3,13 +3,6 @@
 #include <GL/glew.h>
 #include <SDL_opengl.h>
 
-#define GLM_FORCE_SILENT_WARNINGS
-
-#include <glm/glm.hpp>
-#include <glm/matrix.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-
 #include "logger.hpp"
 
 #include <string>
@@ -25,10 +18,9 @@ public:
     GLuint GetProgramID();
     GLuint GetAttributeLocation(const char_type* attr);
 
-    void UniformMatrix4fv(const char_type* name, glm::mat4 matrix);
-    void UniformVec2(const char_type* name, glm::vec2 vector);
-    void UniformVec3(const char_type* name, glm::vec3 vector);
-    void UniformVec4(const char_type* name, glm::vec4 vector);
+    void UniformVec2(const char_type* name, f32 x, f32 y);
+    void UniformVec3(const char_type* name, f32 x, f32 y, f32 z);
+    void UniformVec4(const char_type* name, f32 x, f32 y, f32 z, f32 w);
     void Uniform1i(const char_type* name, GLint v);
     void Uniform1iv(const char_type* name, GLsizei count, const GLint* value);
 
