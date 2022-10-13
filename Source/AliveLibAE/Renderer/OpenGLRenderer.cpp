@@ -33,6 +33,9 @@ static bool gRenderEnable_F4 = true;
 static bool gRenderEnable_F3 = true;
 static bool gRenderEnable_F2 = true;
 
+static const f32 pi = 3.14f;
+static const f32 halfPi = 1.57f;
+
 
 #if GL_DEBUG > 0
 static void CheckGLError()
@@ -629,6 +632,8 @@ void OpenGLRenderer::Draw(Prim_Tile& tile)
 
 void OpenGLRenderer::Draw(Line_F2& line)
 {
+    static const f32 lineThickness = 1;
+
     if (!gRenderEnable_F2)
     {
         return;
@@ -646,7 +651,7 @@ void OpenGLRenderer::Draw(Line_F2& line)
         {X0(&line), Y0(&line), r, g, b, 0, 0, 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded, blendMode, 0, 0},
         {X1(&line), Y1(&line), r, g, b, 0, 0, 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded, blendMode, 0, 0}};
 
-    PushVertexData(GL_LINES, verts, 2);
+    PushLines(verts, 2);
 }
 
 void OpenGLRenderer::Draw(Line_G2& line)
@@ -664,7 +669,7 @@ void OpenGLRenderer::Draw(Line_G2& line)
         {X0(&line), Y0(&line), R0(&line), G0(&line), B0(&line), 0, 0, 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded, blendMode, 0, 0},
         {X1(&line), Y1(&line), R1(&line), G1(&line), B1(&line), 0, 0, 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded, blendMode, 0, 0}};
 
-    PushVertexData(GL_LINES, verts, 2);
+    PushLines(verts, 2);
 }
 
 void OpenGLRenderer::Draw(Line_G4& line)
@@ -684,7 +689,7 @@ void OpenGLRenderer::Draw(Line_G4& line)
         {X2(&line), Y2(&line), R2(&line), G2(&line), B2(&line), 0, 0, 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded, blendMode, 0, 0},
         {X3(&line), Y3(&line), R3(&line), G3(&line), B3(&line), 0, 0, 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded, blendMode, 0, 0}};
 
-    PushVertexData(GL_LINES, verts, 4);
+    PushLines(verts, 4);
 }
 
 void OpenGLRenderer::Draw(Poly_F3& poly)
@@ -1336,6 +1341,55 @@ void OpenGLRenderer::InvalidateBatch()
     mBatchTextureIds.clear();
     mStats.mInvalidationsCount++;
 }
+
+void OpenGLRenderer::PushLines(VertexData* vertices, int count)
+{
+    static const f32 halfThickness = 0.5f;
+
+    const int numLines = count - 1;
+
+    for (int i = 0; i < numLines; i++)
+    {
+        VertexData vertA = vertices[i];
+        VertexData vertB = vertices[i + 1];
+
+        f32 x0 = (f32) vertA.x;
+        f32 y0 = (f32) vertA.y;
+
+        f32 x1 = (f32) vertB.x;
+        f32 y1 = (f32) vertB.y;
+
+        f32 dx = x1 - x0;
+        f32 dy = y1 - y0;
+
+        f32 x = std::atan(dy / dx);
+        f32 normal = halfPi - x;
+
+        f32 dxTarget = halfThickness * std::cos(normal);
+        f32 dyTarget = halfThickness * std::sin(normal);
+
+        s16 finalX0 = (s16) std::ceil(x0 + dxTarget);
+        s16 finalY0 = (s16) std::ceil(y0 - dyTarget);
+
+        s16 finalX1 = (s16) std::ceil(x0 - dxTarget);
+        s16 finalY1 = (s16) std::ceil(y0 + dyTarget);
+
+        s16 finalX2 = (s16) std::ceil(x1 + dxTarget);
+        s16 finalY2 = (s16) std::ceil(y1 - dyTarget);
+
+        s16 finalX3 = (s16) std::ceil(x1 - dxTarget);
+        s16 finalY3 = (s16) std::ceil(y1 + dyTarget);
+
+        VertexData triangleVerts[4] = {
+            {finalX0, finalY0, vertA.r, vertA.g, vertA.b, 0, 0, 0, 0, vertA.drawType, vertA.isSemiTrans, vertA.isShaded, vertA.blendMode, 0, 0},
+            {finalX1, finalY1, vertA.r, vertA.g, vertA.b, 0, 0, 0, 0, vertA.drawType, vertA.isSemiTrans, vertA.isShaded, vertA.blendMode, 0, 0},
+            {finalX2, finalY2, vertB.r, vertB.g, vertB.b, 0, 0, 0, 0, vertB.drawType, vertB.isSemiTrans, vertB.isShaded, vertB.blendMode, 0, 0},
+            {finalX3, finalY3, vertB.r, vertB.g, vertB.b, 0, 0, 0, 0, vertB.drawType, vertB.isSemiTrans, vertB.isShaded, vertB.blendMode, 0, 0}};
+
+        PushVertexData(GL_TRIANGLES, triangleVerts, 4);
+    }
+}
+
 
 void OpenGLRenderer::PushVertexData(GLenum mode, VertexData* pVertData, int count, GLuint textureId)
 {

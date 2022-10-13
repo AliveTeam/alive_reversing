@@ -178,6 +178,7 @@ private:
     GLuint GetCachedTextureId(u32 uniqueId, s32 bump = 0);
     u16 GetTPageBlendMode(u16 tPage);
     void InvalidateBatch();
+    void PushLines(VertexData* vertices, int count);
     void PushVertexData(GLenum mode, VertexData* pVertData, int count, GLuint textureId = 0);
     void SetupBlendMode(u16 blendMode);
     
