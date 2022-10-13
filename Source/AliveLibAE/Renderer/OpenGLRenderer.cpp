@@ -562,7 +562,7 @@ void OpenGLRenderer::Draw(Prim_Sprt& sprt)
         {sprt.mBase.vert.x, sprt.mBase.vert.y + sprt.field_16_h, r, g, b, u0, v1, texW, texH, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded, blendMode, palIndex, 0},
         {sprt.mBase.vert.x + sprt.field_14_w, sprt.mBase.vert.y + sprt.field_16_h, r, g, b, u1, v1, texW, texH, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded, blendMode, palIndex, 0}};
 
-    PushVertexData(GL_TRIANGLES, verts, 4, sprtTextureId);
+    PushVertexData(verts, 4, sprtTextureId);
 }
 
 void OpenGLRenderer::Draw(Prim_GasEffect& gasEffect)
@@ -603,7 +603,7 @@ void OpenGLRenderer::Draw(Prim_GasEffect& gasEffect)
         {gasEffect.x, gasEffect.h, r, g, b, 0, (u32) gasHeight, (u32) gasWidth, (u32) gasHeight, GL_PSX_DRAW_MODE_GAS, isSemiTrans, isShaded, blendMode, 0, 0},
         {gasEffect.w, gasEffect.h, r, g, b, (u32) gasWidth, (u32) gasHeight, (u32) gasWidth, (u32) gasHeight, GL_PSX_DRAW_MODE_GAS, isSemiTrans, isShaded, blendMode, 0, 0}};
     
-    PushVertexData(GL_TRIANGLES, verts, 4, mCurGasTextureId);
+    PushVertexData(verts, 4, mCurGasTextureId);
 }
 
 void OpenGLRenderer::Draw(Prim_Tile& tile)
@@ -627,7 +627,7 @@ void OpenGLRenderer::Draw(Prim_Tile& tile)
         {tile.mBase.vert.x, tile.mBase.vert.y + tile.field_16_h, r, g, b, 0, 0, 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded, blendMode, 0, 0},
         {tile.mBase.vert.x + tile.field_14_w, tile.mBase.vert.y + tile.field_16_h, r, g, b, 0, 0, 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded, blendMode, 0, 0}};
 
-    PushVertexData(GL_TRIANGLES, verts, 4);
+    PushVertexData(verts, 4);
 }
 
 void OpenGLRenderer::Draw(Line_F2& line)
@@ -712,7 +712,7 @@ void OpenGLRenderer::Draw(Poly_F3& poly)
         {X1(&poly), Y1(&poly), r, g, b, 0, 0, 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded, blendMode, 0, 0},
         {X2(&poly), Y2(&poly), r, g, b, 0, 0, 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded, blendMode, 0, 0}};
 
-    PushVertexData(GL_TRIANGLES, verts, 3);
+    PushVertexData(verts, 3);
 }
 
 void OpenGLRenderer::Draw(Poly_G3& poly)
@@ -731,7 +731,7 @@ void OpenGLRenderer::Draw(Poly_G3& poly)
         {X1(&poly), Y1(&poly), R1(&poly), G1(&poly), B1(&poly), 0, 0, 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded, blendMode, 0, 0},
         {X2(&poly), Y2(&poly), R2(&poly), G2(&poly), B2(&poly), 0, 0, 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded, blendMode, 0, 0}};
 
-    PushVertexData(GL_TRIANGLES, verts, 3);
+    PushVertexData(verts, 3);
 }
 
 void OpenGLRenderer::Draw(Poly_F4& poly)
@@ -755,7 +755,7 @@ void OpenGLRenderer::Draw(Poly_F4& poly)
         {X2(&poly), Y2(&poly), r, g, b, 0, 0, 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded, blendMode, 0, 0},
         {X3(&poly), Y3(&poly), r, g, b, 0, 0, 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded, blendMode, 0, 0}};
 
-    PushVertexData(GL_TRIANGLES, verts, 4);
+    PushVertexData(verts, 4);
 }
 
 void OpenGLRenderer::Draw(Poly_FT4& poly)
@@ -783,7 +783,7 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
             {poly.mVerts[1].mVert.x, poly.mVerts[1].mVert.y, r, g, b, 0, GL_FRAMEBUFFER_PSX_HEIGHT, GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT, GL_PSX_DRAW_MODE_FG1, isSemiTrans, isShaded, blendMode, 0, 0},
             {poly.mVerts[2].mVert.x, poly.mVerts[2].mVert.y, r, g, b, GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT, GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT, GL_PSX_DRAW_MODE_FG1, isSemiTrans, isShaded, blendMode, 0, 0}};
 
-        PushVertexData(GL_TRIANGLES, verts, 4, textureId);
+        PushVertexData(verts, 4, textureId);
     }
     else if (poly.mCam)
     {
@@ -793,7 +793,7 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
             {poly.mVerts[1].mVert.x, poly.mVerts[1].mVert.y, r, g, b, 0, GL_FRAMEBUFFER_PSX_HEIGHT, GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT, GL_PSX_DRAW_MODE_CAM, isSemiTrans, isShaded, blendMode, 0, 0},
             {poly.mVerts[2].mVert.x, poly.mVerts[2].mVert.y, r, g, b, GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT, GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT, GL_PSX_DRAW_MODE_CAM, isSemiTrans, isShaded, blendMode, 0, 0}};
 
-        PushVertexData(GL_TRIANGLES, verts, 4, textureId);
+        PushVertexData(verts, 4, textureId);
     }
     else if (poly.mAnim)
     {
@@ -824,7 +824,7 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
             {poly.mVerts[1].mVert.x, poly.mVerts[1].mVert.y, r, g, b, u0, v1, pTga->mWidth, pTga->mHeight, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded, blendMode, palIndex, 0},
             {poly.mVerts[2].mVert.x, poly.mVerts[2].mVert.y, r, g, b, u1, v1, pTga->mWidth, pTga->mHeight, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded, blendMode, palIndex, 0}};
         
-        PushVertexData(GL_TRIANGLES, verts, 4, textureId);
+        PushVertexData(verts, 4, textureId);
     }
     else if (poly.mFont)
     {
@@ -846,7 +846,7 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
             {poly.mVerts[1].mVert.x, poly.mVerts[1].mVert.y, r, g, b, u0, v1, pTga->mWidth, pTga->mHeight, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded, blendMode, palIndex, 0},
             {poly.mVerts[2].mVert.x, poly.mVerts[2].mVert.y, r, g, b, u1, v1, pTga->mWidth, pTga->mHeight, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded, blendMode, palIndex, 0}};
 
-        PushVertexData(GL_TRIANGLES, verts, 4, textureId);
+        PushVertexData(verts, 4, textureId);
     }
     else
     {
@@ -871,7 +871,7 @@ void OpenGLRenderer::Draw(Poly_G4& poly)
         {X2(&poly), Y2(&poly), R2(&poly), G2(&poly), B2(&poly), 0, 0, 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded, blendMode, 0, 0},
         {X3(&poly), Y3(&poly), R3(&poly), G3(&poly), B3(&poly), 0, 0, 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded, blendMode, 0, 0}};
 
-    PushVertexData(GL_TRIANGLES, verts, 4);
+    PushVertexData(verts, 4);
 }
 
 void OpenGLRenderer::EndFrame()
@@ -1317,7 +1317,7 @@ void OpenGLRenderer::InvalidateBatch()
     }
 
     // Set index data and render
-    GL_VERIFY(glDrawElements(mBatchDrawMode, (u32) mBatchIndicies.size(), GL_UNSIGNED_INT, NULL));
+    GL_VERIFY(glDrawElements(GL_TRIANGLES, (u32) mBatchIndicies.size(), GL_UNSIGNED_INT, NULL));
 
     // Tear down
     GL_VERIFY(glDeleteBuffers(1, &vboId));
@@ -1336,7 +1336,6 @@ void OpenGLRenderer::InvalidateBatch()
 
     mBatchBlendMode = BATCH_VALUE_UNSET;
     mBatchData.clear();
-    mBatchDrawMode = BATCH_VALUE_UNSET;
     mBatchIndicies.clear();
     mBatchTextureIds.clear();
     mStats.mInvalidationsCount++;
@@ -1362,8 +1361,7 @@ void OpenGLRenderer::PushLines(VertexData* vertices, int count)
         f32 dx = x1 - x0;
         f32 dy = y1 - y0;
 
-        f32 x = std::atan(dy / dx);
-        f32 normal = halfPi - x;
+        f32 normal = halfPi - std::atan(dy / dx);
 
         f32 dxTarget = halfThickness * std::cos(normal);
         f32 dyTarget = halfThickness * std::sin(normal);
@@ -1386,12 +1384,12 @@ void OpenGLRenderer::PushLines(VertexData* vertices, int count)
             {finalX2, finalY2, vertB.r, vertB.g, vertB.b, 0, 0, 0, 0, vertB.drawType, vertB.isSemiTrans, vertB.isShaded, vertB.blendMode, 0, 0},
             {finalX3, finalY3, vertB.r, vertB.g, vertB.b, 0, 0, 0, 0, vertB.drawType, vertB.isSemiTrans, vertB.isShaded, vertB.blendMode, 0, 0}};
 
-        PushVertexData(GL_TRIANGLES, triangleVerts, 4);
+        PushVertexData(triangleVerts, 4);
     }
 }
 
 
-void OpenGLRenderer::PushVertexData(GLenum mode, VertexData* pVertData, int count, GLuint textureId)
+void OpenGLRenderer::PushVertexData(VertexData* pVertData, int count, GLuint textureId)
 {
     if (!mFrameStarted)
     {
@@ -1403,12 +1401,12 @@ void OpenGLRenderer::PushVertexData(GLenum mode, VertexData* pVertData, int coun
 
     // Check if we need to invalidate the existing batched data
     //
-    // The only reason we need to invalidate here is if:
-    //     The blend mode switches to/from subtractive blending
-    //     The draw mode switches (TRIANGLES/LINES)
+    // The only reason we need to invalidate here is if the blend mode switches
+    // to/from subtractive blending
     if (
-        (mBatchBlendMode != blendMode && mBatchBlendMode != BATCH_VALUE_UNSET && (mBatchBlendMode == 2 || blendMode == 2)) ||
-        (mBatchDrawMode != mode && mBatchDrawMode != BATCH_VALUE_UNSET))
+        mBatchBlendMode != blendMode &&
+        mBatchBlendMode != BATCH_VALUE_UNSET &&
+        (mBatchBlendMode == 2 || blendMode == 2))
     {
         InvalidateBatch();
     }
@@ -1469,50 +1467,26 @@ void OpenGLRenderer::PushVertexData(GLenum mode, VertexData* pVertData, int coun
     }
 
     mBatchBlendMode = blendMode;
-    mBatchDrawMode = mode;
 
     // Push indicies for this data
     u32 nextIndex = (u32) mBatchData.size();
-    s32 numObjects;
+    s32 numTriangles = count - 2;
 
-    switch (mode)
+    if (numTriangles == 1)
     {
-        case GL_LINES:
-            numObjects = count - 1;
+        mBatchIndicies.push_back(nextIndex);
+        mBatchIndicies.push_back(nextIndex + 1);
+        mBatchIndicies.push_back(nextIndex + 2);
+    }
+    else if (numTriangles == 2)
+    {
+        mBatchIndicies.push_back(nextIndex + 1);
+        mBatchIndicies.push_back(nextIndex);
+        mBatchIndicies.push_back(nextIndex + 3);
 
-            for (int i = 0; i < numObjects; i++)
-            {
-                mBatchIndicies.push_back(nextIndex);
-                mBatchIndicies.push_back(++nextIndex);
-            }
-
-            break;
-
-        case GL_TRIANGLES:
-            numObjects = count - 2;
-
-            if (numObjects == 1)
-            {
-                mBatchIndicies.push_back(nextIndex);
-                mBatchIndicies.push_back(nextIndex + 1);
-                mBatchIndicies.push_back(nextIndex + 2);
-            }
-            else if (numObjects == 2)
-            {
-                mBatchIndicies.push_back(nextIndex + 1);
-                mBatchIndicies.push_back(nextIndex);
-                mBatchIndicies.push_back(nextIndex + 3);
-
-                mBatchIndicies.push_back(nextIndex + 3);
-                mBatchIndicies.push_back(nextIndex);
-                mBatchIndicies.push_back(nextIndex + 2);
-            }
-            
-            break;
-
-        default:
-            ALIVE_FATAL("Draw mode not implemented.");
-            break;
+        mBatchIndicies.push_back(nextIndex + 3);
+        mBatchIndicies.push_back(nextIndex);
+        mBatchIndicies.push_back(nextIndex + 2);
     }
 
     // Push vertex data

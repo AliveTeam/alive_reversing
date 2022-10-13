@@ -152,7 +152,6 @@ private:
     
     u32 mBatchBlendMode = BATCH_VALUE_UNSET;
     std::vector<VertexData> mBatchData;
-    GLenum mBatchDrawMode = BATCH_VALUE_UNSET;
     std::vector<u32> mBatchIndicies;
 
     GLuint mPaletteTextureId = 0;
@@ -179,7 +178,7 @@ private:
     u16 GetTPageBlendMode(u16 tPage);
     void InvalidateBatch();
     void PushLines(VertexData* vertices, int count);
-    void PushVertexData(GLenum mode, VertexData* pVertData, int count, GLuint textureId = 0);
+    void PushVertexData(VertexData* pVertData, int count, GLuint textureId = 0);
     void SetupBlendMode(u16 blendMode);
     
     u32 PreparePalette(AnimationPal& pCache);
