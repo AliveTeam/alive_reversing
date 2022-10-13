@@ -145,7 +145,7 @@ void DoorLight::VUpdate()
     {
         const FP lightAngle = (FP_FromInteger(128) * FP_FromInteger(sGnFrame - gNextDoorLightUpdate_4C30A8) / FP_FromInteger(gDoorLightUpdateTimer_4FC8A4 - gNextDoorLightUpdate_4C30A8));
 
-        const FP lightAngleCosine = -Math_Cosine_4510A0(FP_GetExponent(lightAngle) & 0xFF);
+        const FP lightAngleCosine = -Math_Cosine(FP_GetExponent(lightAngle) & 0xFF);
         const s32 rgbVal = FP_GetExponent(FP_FromInteger(255) * lightAngleCosine) + 32;
 
         u8 rgb = 0;
@@ -191,7 +191,7 @@ void DoorLight::VUpdate()
 
 void DoorLight::VRender(PrimHeader** ppOt)
 {
-    if (sNumCamSwappers_507668 == 0)
+    if (gNumCamSwappers == 0)
     {
         const FP xpos = FP_FromInteger(pScreenManager->mCamXOff) + mXPos - pScreenManager->mCamPos->x;
         const FP ypos = FP_FromInteger(pScreenManager->mCamYOff) + mYPos - pScreenManager->mCamPos->y;

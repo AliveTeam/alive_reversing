@@ -208,6 +208,6 @@ void SND_Shutdown_476EC0();
 
 void SND_SEQ_SetVol_477970(SeqId idx, s16 volLeft, s16 volRight);
 
-void SND_StopAll_4762D0();
+void SND_StopAll();
 
 } // namespace AO

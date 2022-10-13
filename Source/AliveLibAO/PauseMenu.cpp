@@ -115,7 +115,7 @@ void PauseMenu::VUpdate()
 {
     if (Input().IsAnyHeld(InputCommands::ePause))
     {
-        SND_StopAll_4762D0();
+        SND_StopAll();
         SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
         mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
         field_11C = 1;

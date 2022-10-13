@@ -72,7 +72,7 @@ Grenade::~Grenade()
             mLiftPoint = nullptr;
         }
 
-        if (gpThrowableArray_50E26C)
+        if (gThrowableArray)
         {
             s16 count = 0;
             if (field_10C_count >= 1u)
@@ -83,7 +83,7 @@ Grenade::~Grenade()
             {
                 count = 1;
             }
-            gpThrowableArray_50E26C->Remove(count);
+            gThrowableArray->Remove(count);
         }
     }
 }

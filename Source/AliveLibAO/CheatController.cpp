@@ -7,28 +7,28 @@
 
 namespace AO {
 
-CheatController* pCheatController_4FF958 = nullptr;
+CheatController* gCheatController = nullptr;
 
-s16 sEnableFartGasCheat_507704 = 0;
-s16 sVoiceCheat_507708 = 0;
-s16 sEnableCheatFMV_50770C = 0;
-s16 sEnableCheatLevelSelect_507710 = 0;
+s16 gEnableFartGasCheat = 0;
+s16 gVoiceCheat = 0;
+s16 gEnableCheatFMV = 0;
+s16 gEnableCheatLevelSelect = 0;
 
 void CheatController_Cheat_FartGas()
 {
-    sEnableFartGasCheat_507704 = sEnableFartGasCheat_507704 == 0;
+    gEnableFartGasCheat = gEnableFartGasCheat == 0;
 }
 
 void CheatController_Cheat_VoiceLocks()
 {
-    sVoiceCheat_507708 = sVoiceCheat_507708 == 0;
+    gVoiceCheat = gVoiceCheat == 0;
 }
 
 void CheatController_Cheat_LevelSelect()
 {
     if (gMap.mCurrentCamera == 1)
     {
-        sEnableCheatLevelSelect_507710 = sEnableCheatLevelSelect_507710 == 0;
+        gEnableCheatLevelSelect = gEnableCheatLevelSelect == 0;
     }
 }
 
@@ -36,7 +36,7 @@ void CheatController_Cheat_FMV()
 {
     if (gMap.mCurrentCamera == 1)
     {
-        sEnableCheatFMV_50770C = sEnableCheatFMV_50770C == 0;
+        gEnableCheatFMV = gEnableCheatFMV == 0;
     }
 }
 
@@ -51,7 +51,7 @@ struct CheatEntry final
 ALIVE_ASSERT_SIZEOF(CheatEntry, 0x14);
 
 
-const InputCommands sCheatKeyArray_FartGas_4C50B8[] = {
+const InputCommands sCheatKeyArray_FartGas[] = {
     eThrowItem,
     eThrowItem,
     eThrowItem,
@@ -60,7 +60,7 @@ const InputCommands sCheatKeyArray_FartGas_4C50B8[] = {
     eThrowItem,
 };
 
-const InputCommands sCheatKeyArray_VoiceLocks_4C50C8[] = {
+const InputCommands sCheatKeyArray_VoiceLocks[] = {
     eCrouchOrRoll,
     eDown,
     eThrowItem,
@@ -69,7 +69,7 @@ const InputCommands sCheatKeyArray_VoiceLocks_4C50C8[] = {
     eCrouchOrRoll,
 };
 
-const InputCommands sCheatKeyArray_FMV_4C50D8[] = {
+const InputCommands sCheatKeyArray_FMV[] = {
     eUp,
     eLeft,
     eRight,
@@ -80,7 +80,7 @@ const InputCommands sCheatKeyArray_FMV_4C50D8[] = {
     eDown,
 };
 
-const InputCommands sCheatKeyArray_LevelSelect_4C50E8[] = {
+const InputCommands sCheatKeyArray_LevelSelect[] = {
     eDown,
     eRight,
     eLeft,
@@ -92,10 +92,10 @@ const InputCommands sCheatKeyArray_LevelSelect_4C50E8[] = {
 };
 
 CheatEntry stru_4C50F8[4] = {
-    {~0, ALIVE_COUNTOF(sCheatKeyArray_FartGas_4C50B8), sCheatKeyArray_FartGas_4C50B8, 0, &CheatController_Cheat_FartGas},
-    {~0, ALIVE_COUNTOF(sCheatKeyArray_VoiceLocks_4C50C8), sCheatKeyArray_VoiceLocks_4C50C8, 0, &CheatController_Cheat_VoiceLocks},
-    {1, ALIVE_COUNTOF(sCheatKeyArray_FMV_4C50D8), sCheatKeyArray_FMV_4C50D8, 0, &CheatController_Cheat_FMV},
-    {1, ALIVE_COUNTOF(sCheatKeyArray_LevelSelect_4C50E8), sCheatKeyArray_LevelSelect_4C50E8, 0, &CheatController_Cheat_LevelSelect}};
+    {~0, ALIVE_COUNTOF(sCheatKeyArray_FartGas), sCheatKeyArray_FartGas, 0, &CheatController_Cheat_FartGas},
+    {~0, ALIVE_COUNTOF(sCheatKeyArray_VoiceLocks), sCheatKeyArray_VoiceLocks, 0, &CheatController_Cheat_VoiceLocks},
+    {1, ALIVE_COUNTOF(sCheatKeyArray_FMV), sCheatKeyArray_FMV, 0, &CheatController_Cheat_FMV},
+    {1, ALIVE_COUNTOF(sCheatKeyArray_LevelSelect), sCheatKeyArray_LevelSelect, 0, &CheatController_Cheat_LevelSelect}};
 
 CheatController::CheatController()
     : BaseGameObject(TRUE, 0)
@@ -112,7 +112,7 @@ void CheatController::VScreenChanged()
 
 CheatController::~CheatController()
 {
-    pCheatController_4FF958 = nullptr;
+    gCheatController = nullptr;
 }
 
 void CheatController::VUpdate()

@@ -28,11 +28,9 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
-    s32 field_D4[4];
-    s16 field_E4;
-    s16 field_E6;
+    s16 mRgbValue;
+    s16 mRgbModifier;
     s16 field_E8_bDestroyOnDone;
-    s16 field_EA;
 };
 
 struct MainMenuTransition_Polys final
@@ -152,149 +150,140 @@ public:
     void ProgressInProgressFilesLoading();
 
 
-    void WaitForDoorToOpen_47B550();
-    void WaitForAbesHeadPoppingThroughDoor_47B5E0();
-    void AbePopThroughDoor_47B620();
-    void CopyRight_Update_47B4C0();
-    void FMV_Select_Update_47E8D0();
-    void SayHelloWaitForLoading_47B690();
-    void WaitForAbeSayHello_47B770();
-    void MainScreen_Update_47AF60();
-    void GoToSelectedMenuPage_47BC50();
-    void WaitForSpeakFinishAndStartChangeEffect_47BB90();
-    void ToNextMenuPage_47BD80();
-    void ToLoading_47B7E0();
-    void ToGameSpeak_Update_47D620();
-    void To_FMV_Or_Level_Select_Update_47EC30();
-    void Update_NoRefs_47E3C0();
-    void To_Load_Update_47D8E0();
-    void To_Options_Update_47C250();
-    void Loading_Update_47B870();
-    void NewGameStart_47B9C0();
-    void Options_Update_47BF90();
-    void Options_WaitForAbeSpeak_Update_47C280();
-    void Option_GoTo_Selected_Update_47C2C0();
-    void Options_To_Selected_After_Cam_Change_Update_47C330();
-    void To_Options_Controller_Update_47F2E0();
-    void To_Options_Sound_Update_47C6F0();
-    void To_MainScreen_Update_47BB60();
-    void Options_Sound_Update_47C420();
-    void Options_WaitForAbeSayOK_Update_47C720();
-    void Options_WaitForScreenTrans_Update_47C760();
-    void To_MainOptions_Screen_After_Camera_Change_Update_47C7A0();
-    void GameSpeak_Update_47CBD0();
-    void FMV_Or_Level_Select_To_Back_Update_47EC70();
-    void To_Credits_Update_47F140();
-    void Level_Cheat_To_Loading_Update_47ED50();
-    void Options_Controller_Update_47F210();
-    void GoTo_ControllerConfigure_Or_Back_AfterScreenTrans_Update_47F330();
-    void Goto_ConfigureController_OrSave_SettingIni_Update_47F380();
-    void To_ButtonRemap_Update_47F860();
-    void ButtonRemap_Update_47F6F0();
-    void To_LoadSave_Update_47DB10();
-    void LoadSave_Update_47DB40();
-    void SaveLoadFailed_Update_47DCD0();
-    void To_ShowAbeMotions_ChangeCamera_Update_47F8A0();
-    void To_ShowAbeMotions_SaveSettings_Update_47F8E0();
-    void To_ToggleMotions_Update_47C9E0();
-    void Credits_Update_47F190();
-    void CreditsEnd_BackTo_FMV_Or_Level_List_Update_47F170();
+    void WaitForDoorToOpen();
+    void WaitForAbesHeadPoppingThroughDoor();
+    void AbePopThroughDoor();
+    void CopyRight_Update();
+    void FMV_Select_Update();
+    void SayHelloWaitForLoading();
+    void WaitForAbeSayHello();
+    void MainScreen_Update();
+    void GoToSelectedMenuPage();
+    void WaitForSpeakFinishAndStartChangeEffect();
+    void ToNextMenuPage();
+    void ToLoading();
+    void ToGameSpeak_Update();
+    void To_FMV_Or_Level_Select_Update();
+    void Update_NoRefs();
+    void To_Load_Update();
+    void To_Options_Update();
+    void Loading_Update();
+    void NewGameStart();
+    void Options_Update();
+    void Options_WaitForAbeSpeak_Update();
+    void Option_GoTo_Selected_Update();
+    void Options_To_Selected_After_Cam_Change_Update();
+    void To_Options_Controller_Update();
+    void To_Options_Sound_Update();
+    void To_MainScreen_Update();
+    void Options_Sound_Update();
+    void Options_WaitForAbeSayOK_Update();
+    void Options_WaitForScreenTrans_Update();
+    void To_MainOptions_Screen_After_Camera_Change_Update();
+    void GameSpeak_Update();
+    void FMV_Or_Level_Select_To_Back_Update();
+    void To_Credits_Update();
+    void Level_Cheat_To_Loading_Update();
+    void Options_Controller_Update();
+    void GoTo_ControllerConfigure_Or_Back_AfterScreenTrans_Update();
+    void Goto_ConfigureController_OrSave_SettingIni_Update();
+    void To_ButtonRemap_Update();
+    void ButtonRemap_Update();
+    void To_LoadSave_Update();
+    void LoadSave_Update();
+    void SaveLoadFailed_Update();
+    void To_ShowAbeMotions_ChangeCamera_Update();
+    void To_ShowAbeMotions_SaveSettings_Update();
+    void To_ToggleMotions_Update();
+    void Credits_Update();
+    void CreditsEnd_BackTo_FMV_Or_Level_List_Update();
 
-    void Load_Update_47D760();
+    void Load_Update();
     void CycleGameSpeakIdleAnims();
 
-    static s32 StringsEqual_47DA20(const void* pStr1, const void* pStr2);
+    static s32 StringsEqual(const void* pStr1, const void* pStr2);
 
     // Compared via address
-    void ToggleMotions_Update_47C800();
-    void Toggle_Motions_Screens_Update_47C8F0();
+    void ToggleMotions_Update();
+    void Toggle_Motions_Screens_Update();
 
-    void MotionsScreen_Back_Update_47CA10();
+    void MotionsScreen_Back_Update();
 
-    void Motions_ToOptions_Update_47CA50();
+    void Motions_ToOptions_Update();
 
-    void To_MainScreenOrLoad_Update_47DA90();
+    void To_MainScreenOrLoad_Update();
 
-    void Load_BackToMainScreen_Update_47DA40();
+    void Load_BackToMainScreen_Update();
 
-    void GameSpeakBack_WaitForAbeGoodbye_Update_47D5E0();
+    void GameSpeakBack_WaitForAbeGoodbye_Update();
 
-    void GamespeakBack_WaitForScreenTrans_Update_47D650();
+    void GamespeakBack_WaitForScreenTrans_Update();
 
-    void GameSpeak_To_MainScreen_Update_47D690();
+    void GameSpeak_To_MainScreen_Update();
 
-    void ToggleMotions_Render_47CAB0(PrimHeader** ppOt);
-    void SaveLoadFailed_Render_47DCF0(PrimHeader** ppOt);
-    void ButtonRemap_Render_47F940(PrimHeader** ppOt);
-    void Options_Sound_Render_47C630(PrimHeader** ppOt);
-    void Options_Controller_Render_47F430(PrimHeader** ppOt);
-    void Empty_Render_47AC80(PrimHeader** ppOt);
-    void FMV_Or_Level_Select_Render_47EEA0(PrimHeader** ppOt);
-    void MainScreen_Render_47BED0(PrimHeader** ppOt);
-    void GameSpeak_Render_47D700(PrimHeader** ppOt);
-    void Render_NoRefs_47E5B0(PrimHeader** ppOt);
-    void Load_Render_47DDA0(PrimHeader** ppOt);
-    void Options_Render_47C190(PrimHeader** ppOt);
+    void ToggleMotions_Render(PrimHeader** ppOt);
+    void SaveLoadFailed_Render(PrimHeader** ppOt);
+    void ButtonRemap_Render(PrimHeader** ppOt);
+    void Options_Sound_Render(PrimHeader** ppOt);
+    void Options_Controller_Render(PrimHeader** ppOt);
+    void Empty_Render(PrimHeader** ppOt);
+    void FMV_Or_Level_Select_Render(PrimHeader** ppOt);
+    void MainScreen_Render(PrimHeader** ppOt);
+    void GameSpeak_Render(PrimHeader** ppOt);
+    void Render_NoRefs(PrimHeader** ppOt);
+    void Load_Render(PrimHeader** ppOt);
+    void Options_Render(PrimHeader** ppOt);
 
-    void FMV_Or_Level_Select_Back_Update_47ECB0();
+    void FMV_Or_Level_Select_Back_Update();
 
-    static void OnResourceLoaded_47ADA0(Menu* pMenu);
+    static void OnResourceLoaded(Menu* pMenu);
 
-    static void RenderElement_47A4E0(s32 xpos, s32 ypos, s32 input_command, PrimHeader** ot, AliveFont* pFont, s32* pPolyOffset);
+    static void RenderElement(s32 xpos, s32 ypos, s32 input_command, PrimHeader** ot, AliveFont* pFont, s32* pPolyOffset);
 
-    s32 field_D4[4] = {};
    // u8** field_E4_res_array[6] = {};
     FontContext mFontContext;
     PalResource mPal;
-    AliveFont field_FC_font;
-    Animation field_134_anim;
+    AliveFont mFont;
+    Animation mButtonAnim;
 
-    using TUpdateFn = decltype(&Menu::WaitForDoorToOpen_47B550);
+    using TUpdateFn = decltype(&Menu::WaitForDoorToOpen);
 
-    TUpdateFn field_1CC_fn_update = nullptr;
+    TUpdateFn mFnUpdate = nullptr;
 
-    using TRenderFn = decltype(&Menu::Empty_Render_47AC80);
+    using TRenderFn = decltype(&Menu::Empty_Render);
 
-    TRenderFn field_1D0_fn_render = nullptr;
+    TRenderFn mFnRender = nullptr;
 
     Guid field_1D4_tlvInfo;
     s32 field_1D8_timer = 0;
-    s32 field_1DC_idle_input_counter = 0;
-    MenuOption field_1E0_selected_index;
-    s16 field_1E2_rgb = 0;
-    s16 field_1E4_colour_counter = 0;
-    s16 field_1E6 = 0;
-    MainMenuTransition* field_1E8_pMenuTrans = nullptr;
-    MainMenuFade* field_1EC_pObj1 = nullptr;
-    MainMenuFade* field_1F0_pObj2 = nullptr;
+    s32 mIdleInputCounter = 0;
+    MenuOption mSelectedButtonIndex;
+    s16 mButtonRgb = 0;
+    s16 mButtonRgbModifier = 0;
+    MainMenuTransition* mMenuTrans = nullptr;
+    MainMenuFade* mMenuFade1 = nullptr;
+    MainMenuFade* mMenuFade2 = nullptr;
     const char_type* field_1F4_text = nullptr;
-    s16 field_1F8 = 0;
-    s16 field_1FA = 0;
-    s16 field_1FC = 0;
-    s16 field_1FE = 0;
-    s16 field_200 = 0;
-    s16 field_202 = 0;
+    bool mLoadSave = false;
     s16 field_204_flags = 0;
-    s16 field_206 = 0;
-    s32 field_208_camera = 0;
-    s16 field_20C_bStartInSpecificMap = 0;
-    EReliveLevelIds field_20E_level = EReliveLevelIds::eNone;
-    s16 field_210_path = 0;
-    s16 field_212_camera = 0;
-    s16 field_214_abe_xpos = 0;
-    s16 field_216_abe_ypos = 0;
+    s32 mCurrentCreditsCamera = 0;
+    bool mUsingLvlSelectCheat = false;
+    EReliveLevelIds mLvlSelectCheatLevel = EReliveLevelIds::eNone;
+    s16 mLvlSelectCheatPath = 0;
+    s16 mLvlSelectCheatCamera = 0;
+    s16 mLvlSelectCheatAbeSpawnX = 0;
+    s16 mLvlSelectCheatAbeSpawnY = 0;
     s16 field_218_previous_fmv_or_level_selection = 0;
-    s16 field_21A = 0;
     FP field_21C = {};
     FP field_220 = {};
-    s16 field_224_bToFmvSelect = 0;
-    s16 field_226_bToLevelSelect = 0;
+    bool mToFmvSelect = false;
+    bool mToLevelSelect = false;
     FP field_228 = {};
     FP field_22C = {};
     s32 field_230_bGoBack = 0;
 };
 
-extern s32 gMainMenuInstanceCount_9F2DE0;
-extern u8 sJoyResId_50769C;
+extern s32 gMainMenuInstanceCount;
+extern u8 gJoyResId;
 
 } // namespace AO

@@ -113,8 +113,8 @@ public:
     void WalkToNextMotion_4130D0();
     void SlowOnX_414210(FP amount);
     void CheckLiftPointGoneAndSetCamera();
-    void MoveOnLine_412580(s16 xLookAhead);
-    void SetAbeAsPlayer_412520(s16 abeMotion);
+    void MoveOnLine(s16 xLookAhead);
+    void SetAbeAsPlayer(s16 abeMotion);
     s16 ToNextMotion_4120F0();
     s16 ToNextMotionAbeControlled_411E40();
     void HandleElumPathTrans_411460();

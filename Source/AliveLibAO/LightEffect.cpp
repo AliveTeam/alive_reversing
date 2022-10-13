@@ -49,7 +49,7 @@ void LightEffect::VRender(PrimHeader** /*ppOt*/)
     // Pretty much the same as door effect render - commented out because OG is empty which means the "stock yard stars" are missing.
     // However rendering as-is produces over bright ugly looking stars and is probably why DD turned it off
     /*
-    if (sNumCamSwappers_507668 == 0)
+    if (gNumCamSwappers == 0)
     {
         const FP xpos = FP_FromInteger(pScreenManager->mCamXOff) + mXPos - pScreenManager->mCamPos->x;
         const FP ypos = FP_FromInteger(pScreenManager->mCamYOff) + mYPos - pScreenManager->mCamPos->y;
@@ -94,7 +94,7 @@ void LightEffect::VUpdate()
         }
 
         const FP v9 = (FP_FromInteger(128) * FP_FromInteger(sGnFrame - field_EC_rnd1) / FP_FromInteger(v6));
-        const FP v11 = -Math_Cosine_4510A0(FP_GetExponent(v9) & 0xFF);
+        const FP v11 = -Math_Cosine(FP_GetExponent(v9) & 0xFF);
 
         s32 tmp = field_F4_rnd3 + FP_GetExponent(FP_FromInteger(field_F8_rnd4) * v11);
 

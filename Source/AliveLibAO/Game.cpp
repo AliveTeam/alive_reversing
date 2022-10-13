@@ -283,7 +283,7 @@ void Init_Sound_DynamicArrays_And_Others_41CD20()
     pPauseMenu_5080E0 = nullptr;
     sActiveHero = nullptr;
     sControlledCharacter = nullptr;
-    sNumCamSwappers_507668 = 0;
+    gNumCamSwappers = 0;
     sGnFrame = 0;
 
     gFilesPending_507714 = 0;
@@ -392,7 +392,7 @@ void Game_Loop_437630()
                 break;
             }
 
-            if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eUpdatable_Bit2) && !pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && (sNumCamSwappers_507668 == 0 || pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
+            if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eUpdatable_Bit2) && !pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && (gNumCamSwappers == 0 || pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
             {
                 const s32 updateDelay = pObjIter->UpdateDelay();
                 if (pObjIter->UpdateDelay() > 0)
@@ -409,7 +409,7 @@ void Game_Loop_437630()
         for (s32 i = 0; i < gLoadingFiles->Size(); i++)
         {
             BaseGameObject* pObjIter = gLoadingFiles->ItemAt(i);
-            if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eUpdatable_Bit2) && !pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && (sNumCamSwappers_507668 == 0 || pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
+            if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eUpdatable_Bit2) && !pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && (gNumCamSwappers == 0 || pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
             {
                 const s32 updateDelay = pObjIter->UpdateDelay();
                 if (pObjIter->UpdateDelay() > 0)
@@ -432,7 +432,7 @@ void Game_Loop_437630()
         GetGameAutoPlayer().SyncPoint(SyncPoints::EndGameObjectUpdate);
 
         // Animate everything
-        if (sNumCamSwappers_507668 <= 0)
+        if (gNumCamSwappers <= 0)
         {
             AnimationBase::AnimateAll(AnimationBase::gAnimations);
         }
@@ -480,7 +480,7 @@ void Game_Loop_437630()
         gMap.ScreenChange();
         Input().Update(GetGameAutoPlayer());
 
-        if (sNumCamSwappers_507668 == 0)
+        if (gNumCamSwappers == 0)
         {
             sGnFrame++;
         }
@@ -552,9 +552,9 @@ void Game_Run_4373D0()
 
     DDCheat_Allocate_409560();
 
-    pEventSystem_4FF954 = relive_new GameSpeak();
+    gEventSystem = relive_new GameSpeak();
 
-    pCheatController_4FF958 = relive_new CheatController();
+    gCheatController = relive_new CheatController();
 
     Game_Init_LoadingIcon_445E30();
     Game_Loop_437630();

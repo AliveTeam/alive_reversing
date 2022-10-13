@@ -121,7 +121,7 @@ void Spark::VUpdate()
     {
         mBaseGameObjectFlags.Set(Options::eDead);
     }
-    if (!sNumCamSwappers_507668)
+    if (!gNumCamSwappers)
     {
         if (static_cast<s32>(sGnFrame) < mTimer)
         {
@@ -131,10 +131,10 @@ void Spark::VUpdate()
             }
             for (s32 idx = 0; idx < mSparkCount; idx++)
             {
-                mSparkRes[idx].field_0_x0 = mSparkRes[idx].field_14_radius * Math_Sine_451110(mSparkRes[idx].field_10_ang);
-                mSparkRes[idx].field_4_y0 = mSparkRes[idx].field_14_radius * Math_Cosine_4510A0(mSparkRes[idx].field_10_ang);
-                mSparkRes[idx].field_8_x1 = (mSparkRes[idx].field_18_len + mSparkRes[idx].field_14_radius) * Math_Sine_451110(mSparkRes[idx].field_10_ang);
-                mSparkRes[idx].field_C_y1 = (mSparkRes[idx].field_18_len + mSparkRes[idx].field_14_radius) * Math_Cosine_4510A0(mSparkRes[idx].field_10_ang);
+                mSparkRes[idx].field_0_x0 = mSparkRes[idx].field_14_radius * Math_Sine(mSparkRes[idx].field_10_ang);
+                mSparkRes[idx].field_4_y0 = mSparkRes[idx].field_14_radius * Math_Cosine(mSparkRes[idx].field_10_ang);
+                mSparkRes[idx].field_8_x1 = (mSparkRes[idx].field_18_len + mSparkRes[idx].field_14_radius) * Math_Sine(mSparkRes[idx].field_10_ang);
+                mSparkRes[idx].field_C_y1 = (mSparkRes[idx].field_18_len + mSparkRes[idx].field_14_radius) * Math_Cosine(mSparkRes[idx].field_10_ang);
                 mSparkRes[idx].field_14_radius = mSparkRes[idx].field_18_len + FP_FromInteger(Math_RandomRange(2, 5));
                 mSparkRes[idx].field_18_len = mSparkRes[idx].field_18_len + FP_FromInteger(2);
             }

@@ -133,7 +133,7 @@ void Bat::VUpdate()
         mBaseGameObjectFlags.Set(Options::eDead);
     }
 
-    if (sNumCamSwappers_507668 != 0)
+    if (gNumCamSwappers != 0)
     {
         return;
     }

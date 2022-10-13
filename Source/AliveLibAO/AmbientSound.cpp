@@ -7,36 +7,36 @@
 
 namespace AO {
 
-Sound_Ambiance_Array sTopBottomAmbiance_9F11D0 = {};
-Sound_Ambiance_Array sRightAmbiance_9F1228 = {};
-Sound_Ambiance_Array sLeftAmbiance_9F1280 = {};
+static Sound_Ambiance_Array sTopBottomAmbiance = {};
+static Sound_Ambiance_Array sRightAmbiance = {};
+static Sound_Ambiance_Array sLeftAmbiance = {};
 
 void SND_Reset_Ambiance()
 {
-    for (auto& amb : sTopBottomAmbiance_9F11D0.mArray)
+    for (auto& amb : sTopBottomAmbiance.mArray)
     {
-        if (amb.field_8_pScopedSeq)
+        if (amb.mScopedSeq)
         {
-            delete amb.field_8_pScopedSeq;
-            amb.field_8_pScopedSeq = nullptr;
+            delete amb.mScopedSeq;
+            amb.mScopedSeq = nullptr;
         }
     }
 
-    for (auto& amb : sRightAmbiance_9F1228.mArray)
+    for (auto& amb : sRightAmbiance.mArray)
     {
-        if (amb.field_8_pScopedSeq)
+        if (amb.mScopedSeq)
         {
-            delete amb.field_8_pScopedSeq;
-            amb.field_8_pScopedSeq = nullptr;
+            delete amb.mScopedSeq;
+            amb.mScopedSeq = nullptr;
         }
     }
 
-    for (auto& amb : sLeftAmbiance_9F1280.mArray)
+    for (auto& amb : sLeftAmbiance.mArray)
     {
-        if (amb.field_8_pScopedSeq)
+        if (amb.mScopedSeq)
         {
-            delete amb.field_8_pScopedSeq;
-            amb.field_8_pScopedSeq = nullptr;
+            delete amb.mScopedSeq;
+            amb.mScopedSeq = nullptr;
         }
     }
 }
@@ -50,15 +50,15 @@ void Start_Sounds_for_TLV(CameraPos direction, relive::Path_TLV* pTlv)
     {
         case CameraPos::eCamTop_1:
         case CameraPos::eCamBottom_2:
-            pAmbianceTbl = sTopBottomAmbiance_9F11D0.mArray;
+            pAmbianceTbl = sTopBottomAmbiance.mArray;
             break;
 
         case CameraPos::eCamLeft_3:
-            pAmbianceTbl = sRightAmbiance_9F1228.mArray;
+            pAmbianceTbl = sRightAmbiance.mArray;
             break;
 
         case CameraPos::eCamRight_4:
-            pAmbianceTbl = sRightAmbiance_9F1228.mArray;
+            pAmbianceTbl = sRightAmbiance.mArray;
             break;
 
         default:
@@ -72,17 +72,17 @@ void Start_Sounds_for_TLV(CameraPos direction, relive::Path_TLV* pTlv)
             case ReliveTypes::eSlig:
                 if (static_cast<relive::Path_Slig*>(pTlv)->mData.mStartState == relive::Path_Slig_Data::StartState::Patrol)
                 {
-                    if (!pAmbianceTbl[1].field_8_pScopedSeq)
+                    if (!pAmbianceTbl[1].mScopedSeq)
                     {
-                        pAmbianceTbl[1].field_8_pScopedSeq = relive_new ScopedSeq(1, direction);
+                        pAmbianceTbl[1].mScopedSeq = relive_new ScopedSeq(1, direction);
                         bDangerMusic = true;
                     }
                 }
                 else if (static_cast<relive::Path_Slig*>(pTlv)->mData.mStartState == relive::Path_Slig_Data::StartState::Sleeping)
                 {
-                    if (!pAmbianceTbl->field_8_pScopedSeq)
+                    if (!pAmbianceTbl->mScopedSeq)
                     {
-                        pAmbianceTbl[0].field_8_pScopedSeq = relive_new ScopedSeq(0, direction);
+                        pAmbianceTbl[0].mScopedSeq = relive_new ScopedSeq(0, direction);
                         bDangerMusic = true;
                     }
                 }
@@ -91,42 +91,42 @@ void Start_Sounds_for_TLV(CameraPos direction, relive::Path_TLV* pTlv)
             case ReliveTypes::eSlog:
                 if (static_cast<relive::Path_Slog*>(pTlv)->mAsleep == relive::reliveChoice::eYes)
                 {
-                    if (!pAmbianceTbl[3].field_8_pScopedSeq)
+                    if (!pAmbianceTbl[3].mScopedSeq)
                     {
-                        pAmbianceTbl[3].field_8_pScopedSeq = relive_new ScopedSeq(3, direction);
+                        pAmbianceTbl[3].mScopedSeq = relive_new ScopedSeq(3, direction);
                         bDangerMusic = true;
                     }
                 }
                 else
                 {
-                    if (!pAmbianceTbl[2].field_8_pScopedSeq)
+                    if (!pAmbianceTbl[2].mScopedSeq)
                     {
-                        pAmbianceTbl[2].field_8_pScopedSeq = relive_new ScopedSeq(2, direction);
+                        pAmbianceTbl[2].mScopedSeq = relive_new ScopedSeq(2, direction);
                         bDangerMusic = true;
                     }
                 }
                 break;
 
             case ReliveTypes::eParamite:
-                if (!pAmbianceTbl[4].field_8_pScopedSeq)
+                if (!pAmbianceTbl[4].mScopedSeq)
                 {
-                    pAmbianceTbl[4].field_8_pScopedSeq = relive_new ScopedSeq(4, direction);
+                    pAmbianceTbl[4].mScopedSeq = relive_new ScopedSeq(4, direction);
                     bDangerMusic = true;
                 }
                 break;
 
             case ReliveTypes::eScrab:
-                if (!pAmbianceTbl[5].field_8_pScopedSeq)
+                if (!pAmbianceTbl[5].mScopedSeq)
                 {
-                    pAmbianceTbl[5].field_8_pScopedSeq = relive_new ScopedSeq(5, direction);
+                    pAmbianceTbl[5].mScopedSeq = relive_new ScopedSeq(5, direction);
                     bDangerMusic = true;
                 }
                 break;
 
             case ReliveTypes::eMeatSaw:
-                if (!pAmbianceTbl[6].field_8_pScopedSeq)
+                if (!pAmbianceTbl[6].mScopedSeq)
                 {
-                    pAmbianceTbl[6].field_8_pScopedSeq = relive_new ScopedSeq(6, direction);
+                    pAmbianceTbl[6].mScopedSeq = relive_new ScopedSeq(6, direction);
                 }
                 break;
 
@@ -148,19 +148,19 @@ void Start_Slig_sounds(CameraPos direction, s8 kZero)
     {
         case CameraPos::eCamTop_1:
         case CameraPos::eCamBottom_2:
-            pTable = &sTopBottomAmbiance_9F11D0;
+            pTable = &sTopBottomAmbiance;
             break;
         case CameraPos::eCamLeft_3:
-            pTable = &sLeftAmbiance_9F1280;
+            pTable = &sLeftAmbiance;
             break;
         case CameraPos::eCamRight_4:
-            pTable = &sRightAmbiance_9F1228;
+            pTable = &sRightAmbiance;
             break;
         default:
             return;
     }
 
-    ScopedSeq** ppSeqPtr = &pTable->mArray[kZero].field_8_pScopedSeq;
+    ScopedSeq** ppSeqPtr = &pTable->mArray[kZero].mScopedSeq;
     if (!*ppSeqPtr)
     {
         *ppSeqPtr = relive_new ScopedSeq(kZero, direction);
@@ -174,41 +174,41 @@ void Stop_slig_sounds(CameraPos direction, s8 kZero)
     {
         case CameraPos::eCamTop_1:
         case CameraPos::eCamBottom_2:
-            pTable = &sTopBottomAmbiance_9F11D0;
+            pTable = &sTopBottomAmbiance;
             break;
         case CameraPos::eCamLeft_3:
-            pTable = &sLeftAmbiance_9F1280;
+            pTable = &sLeftAmbiance;
             break;
         case CameraPos::eCamRight_4:
-            pTable = &sRightAmbiance_9F1228;
+            pTable = &sRightAmbiance;
             break;
         default:
             return;
     }
 
-    if (pTable->mArray[kZero].field_8_pScopedSeq)
+    if (pTable->mArray[kZero].mScopedSeq)
     {
-        delete pTable->mArray[kZero].field_8_pScopedSeq;
-        pTable->mArray[kZero].field_8_pScopedSeq = nullptr;
+        delete pTable->mArray[kZero].mScopedSeq;
+        pTable->mArray[kZero].mScopedSeq = nullptr;
     }
 }
 
 
 void SND_Init_Ambiance()
 {
-    for (auto& amb : sTopBottomAmbiance_9F11D0.mArray)
+    for (auto& amb : sTopBottomAmbiance.mArray)
     {
-        amb.field_8_pScopedSeq = nullptr;
+        amb.mScopedSeq = nullptr;
     }
 
-    for (auto& amb : sRightAmbiance_9F1228.mArray)
+    for (auto& amb : sRightAmbiance.mArray)
     {
-        amb.field_8_pScopedSeq = nullptr;
+        amb.mScopedSeq = nullptr;
     }
 
-    for (auto& amb : sLeftAmbiance_9F1280.mArray)
+    for (auto& amb : sLeftAmbiance.mArray)
     {
-        amb.field_8_pScopedSeq = nullptr;
+        amb.mScopedSeq = nullptr;
     }
 }
 

@@ -26,6 +26,6 @@ public:
     s16 field_12_flags = 0;
 };
 
-extern ThrowableArray* gpThrowableArray_50E26C;
+extern ThrowableArray* gThrowableArray;
 
 } // namespace AO

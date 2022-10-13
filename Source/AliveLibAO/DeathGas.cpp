@@ -128,8 +128,8 @@ void DeathGas::VRender(PrimHeader** ppOt)
         {
             for (s32 k = 0; k < 5; k++)
             {
-                xData_500908.data[i][j][k] = FP_FromInteger(10) * Math_Cosine_4510A0(sbyte_1_4FFDB0.data[i][j][k]);
-                yData_5007E8.data[i][j][k] = FP_FromInteger(10) * Math_Sine_451110(sbyte_1_4FFDB0.data[i][j][k]);
+                xData_500908.data[i][j][k] = FP_FromInteger(10) * Math_Cosine(sbyte_1_4FFDB0.data[i][j][k]);
+                yData_5007E8.data[i][j][k] = FP_FromInteger(10) * Math_Sine(sbyte_1_4FFDB0.data[i][j][k]);
                 sbyte_1_4FFDB0.data[i][j][k] += sbyte_2_5008B0.data[i][j][k];
             }
         }
@@ -139,8 +139,8 @@ void DeathGas::VRender(PrimHeader** ppOt)
     {
         for (s32 j = 0; j < 5; j++)
         {
-            const FP cosVal = Math_Cosine_4510A0(sbyte_1_4FFDB0.data[0][i][j]);
-            const FP sinVal = Math_Sine_451110(sbyte_1_4FFDB0.data[0][i][j]);
+            const FP cosVal = Math_Cosine(sbyte_1_4FFDB0.data[0][i][j]);
+            const FP sinVal = Math_Sine(sbyte_1_4FFDB0.data[0][i][j]);
             const s16 cosMul10 = FP_GetExponent(FP_FromInteger(20) * cosVal);
             const s16 sinMul10 = FP_GetExponent(FP_FromInteger(20) * sinVal);
 
@@ -166,7 +166,7 @@ void DeathGas::VRender(PrimHeader** ppOt)
     {
         for (s32 j = 0; j < 5; j++)
         {
-            const FP cosVal = Math_Cosine_4510A0(sbyte_1_4FFDB0.data[1][i][j]);
+            const FP cosVal = Math_Cosine(sbyte_1_4FFDB0.data[1][i][j]);
             const s16 cosMul10 = FP_GetExponent(FP_FromInteger(20) * cosVal);
 
             s32 tableVal = 0;

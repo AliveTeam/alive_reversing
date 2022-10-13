@@ -1008,10 +1008,10 @@ void SND_Init_476E40()
 
     SND_Init();
     SND_Restart_SetCallBack(SND_Restart);
-    SND_StopAll_SetCallBack(SND_StopAll_4762D0);
+    SND_StopAll_SetCallBack(SND_StopAll);
 }
 
-void SND_StopAll_4762D0()
+void SND_StopAll()
 {
     MusicController::EnableMusic(0);
 

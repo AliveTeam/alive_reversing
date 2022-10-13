@@ -73,7 +73,7 @@ public:
     s8 field_1C_event_buffer[32] = {};
 };
 
-extern GameSpeak* pEventSystem_4FF954;
+extern GameSpeak* gEventSystem;
 
 s16 Code_Length(u32 code);
 s32 Code_Convert(u16 code1, u16 code2);

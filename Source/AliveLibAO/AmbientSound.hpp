@@ -7,8 +7,6 @@ enum class CameraPos : s16;
 
 namespace AO {
 
-struct Path_TLV;
-
 void SND_Reset_Ambiance();
 
 void Start_Sounds_for_TLV(CameraPos direction, relive::Path_TLV* pTlv);
@@ -22,7 +20,7 @@ void Stop_slig_sounds(CameraPos direction, s8 kZero);
 class ScopedSeq;
 struct Sound_Ambiance final
 {
-    ScopedSeq* field_8_pScopedSeq;
+    ScopedSeq* mScopedSeq;
 };
 ALIVE_ASSERT_SIZEOF(Sound_Ambiance, 0xC);
 

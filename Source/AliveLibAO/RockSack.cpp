@@ -72,14 +72,14 @@ void RockSack::VUpdate()
             && bRect.y <= bPlayerRect.h
             && mSpriteScale == sActiveHero->mSpriteScale)
         {
-            if (!gpThrowableArray_50E26C || !gpThrowableArray_50E26C->field_10_count)
+            if (!gThrowableArray || !gThrowableArray->field_10_count)
             {
-                if (!gpThrowableArray_50E26C)
+                if (!gThrowableArray)
                 {
-                    gpThrowableArray_50E26C = relive_new ThrowableArray();
+                    gThrowableArray = relive_new ThrowableArray();
                 }
 
-                gpThrowableArray_50E26C->Add(field_112_rock_amount);
+                gThrowableArray->Add(field_112_rock_amount);
 
                 auto pRock = relive_new Rock(
                     mXPos,

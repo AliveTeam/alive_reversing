@@ -18,11 +18,11 @@ public:
     s16 field_12 = 0;
 };
 
-extern CheatController* pCheatController_4FF958;
+extern CheatController* gCheatController;
 
-extern s16 sEnableFartGasCheat_507704;
-extern s16 sVoiceCheat_507708;
-extern s16 sEnableCheatFMV_50770C;
-extern s16 sEnableCheatLevelSelect_507710;
+extern s16 gEnableFartGasCheat;
+extern s16 gVoiceCheat;
+extern s16 gEnableCheatFMV;
+extern s16 gEnableCheatLevelSelect;
 
 } // namespace AO

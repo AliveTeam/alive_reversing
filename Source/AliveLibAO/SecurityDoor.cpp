@@ -141,7 +141,7 @@ void SecurityDoor::VUpdate()
             break;
 
         case SecurityDoorStates::eSayingHi_2:
-            Slig::Slig_GameSpeak_SFX_46F560(SligSpeak::eHi_0, 127, -200, 0);
+            Slig::Slig_GameSpeak_SFX(SligSpeak::eHi_0, 127, -200, 0);
             mAnim.Set_Animation_Data(GetAnimRes(AnimId::Security_Door_Speak));
             field_E8_state = SecurityDoorStates::eListeningForHi_3;
             field_114_timer = sGnFrame + 150;
@@ -150,9 +150,9 @@ void SecurityDoor::VUpdate()
         case SecurityDoorStates::eListeningForHi_3:
         {
             GameSpeakEvents last_event = {};
-            if (field_F4_event_idx == pEventSystem_4FF954->field_18_last_event_index)
+            if (field_F4_event_idx == gEventSystem->field_18_last_event_index)
             {
-                if (pEventSystem_4FF954->field_10_last_event == GameSpeakEvents::eNone_m1)
+                if (gEventSystem->field_10_last_event == GameSpeakEvents::eNone_m1)
                 {
                     last_event = GameSpeakEvents::eNone_m1;
                 }
@@ -163,8 +163,8 @@ void SecurityDoor::VUpdate()
             }
             else
             {
-                last_event = pEventSystem_4FF954->field_10_last_event;
-                field_F4_event_idx = pEventSystem_4FF954->field_18_last_event_index;
+                last_event = gEventSystem->field_10_last_event;
+                field_F4_event_idx = gEventSystem->field_18_last_event_index;
             }
 
             if (last_event == GameSpeakEvents::Slig_Hi_23)
@@ -198,16 +198,16 @@ void SecurityDoor::VUpdate()
             switch (code)
             {
                 case GameSpeakEvents::eUnknown_5:
-                    Slig::Slig_GameSpeak_SFX_46F560(SligSpeak::eBullshit_4, 127, -100, 0);
+                    Slig::Slig_GameSpeak_SFX(SligSpeak::eBullshit_4, 127, -100, 0);
                     break;
                 case GameSpeakEvents::Slig_LookOut_6:
-                    Slig::Slig_GameSpeak_SFX_46F560(SligSpeak::eLookOut_5, 127, -100, 0);
+                    Slig::Slig_GameSpeak_SFX(SligSpeak::eLookOut_5, 127, -100, 0);
                     break;
                 case GameSpeakEvents::eUnknown_7:
-                    Slig::Slig_GameSpeak_SFX_46F560(SligSpeak::eBullshit2_6, 127, -100, 0);
+                    Slig::Slig_GameSpeak_SFX(SligSpeak::eBullshit2_6, 127, -100, 0);
                     break;
                 case GameSpeakEvents::eUnknown_8:
-                    Slig::Slig_GameSpeak_SFX_46F560(SligSpeak::eHereBoy_1, 127, -100, 0);
+                    Slig::Slig_GameSpeak_SFX(SligSpeak::eHereBoy_1, 127, -100, 0);
                     break;
                 default:
                     LOG_WARNING("eSayingPassword_6 code was " << magic_enum::enum_name(code) << ". This is unhandled.");
@@ -247,9 +247,9 @@ void SecurityDoor::VUpdate()
             }
 
             GameSpeakEvents last_event = {};
-            if (field_F4_event_idx == pEventSystem_4FF954->field_18_last_event_index)
+            if (field_F4_event_idx == gEventSystem->field_18_last_event_index)
             {
-                if (pEventSystem_4FF954->field_10_last_event == GameSpeakEvents::eNone_m1)
+                if (gEventSystem->field_10_last_event == GameSpeakEvents::eNone_m1)
                 {
                     last_event = GameSpeakEvents::eNone_m1;
                 }
@@ -260,8 +260,8 @@ void SecurityDoor::VUpdate()
             }
             else
             {
-                last_event = pEventSystem_4FF954->field_10_last_event;
-                field_F4_event_idx = pEventSystem_4FF954->field_18_last_event_index;
+                last_event = gEventSystem->field_10_last_event;
+                field_F4_event_idx = gEventSystem->field_18_last_event_index;
             }
 
             if (last_event != GameSpeakEvents::eNone_m1)
@@ -274,9 +274,9 @@ void SecurityDoor::VUpdate()
         case SecurityDoorStates::eCheckingIfPasswordMatches_9:
         {
             GameSpeakEvents last_event = {};
-            if (field_F4_event_idx == pEventSystem_4FF954->field_18_last_event_index)
+            if (field_F4_event_idx == gEventSystem->field_18_last_event_index)
             {
-                if (pEventSystem_4FF954->field_10_last_event == GameSpeakEvents::eNone_m1)
+                if (gEventSystem->field_10_last_event == GameSpeakEvents::eNone_m1)
                 {
                     last_event = GameSpeakEvents::eNone_m1;
                 }
@@ -287,15 +287,15 @@ void SecurityDoor::VUpdate()
             }
             else
             {
-                field_F4_event_idx = pEventSystem_4FF954->field_18_last_event_index;
-                last_event = pEventSystem_4FF954->field_10_last_event;
+                field_F4_event_idx = gEventSystem->field_18_last_event_index;
+                last_event = gEventSystem->field_10_last_event;
             }
 
             if (last_event == GameSpeakEvents::eNone_m1)
             {
-                const auto MatchBuffer = pEventSystem_4FF954->MatchBuffer(field_F8_stru, field_108_max_idx, field_10A_event_idx);
+                const auto MatchBuffer = gEventSystem->MatchBuffer(field_F8_stru, field_108_max_idx, field_10A_event_idx);
                 field_11A_unused = static_cast<s16>(MatchBuffer);
-                if (MatchBuffer == GameSpeakMatch::eFullMatch_1 || sVoiceCheat_507708)
+                if (MatchBuffer == GameSpeakMatch::eFullMatch_1 || gVoiceCheat)
                 {
                     mAnim.mFlags.Clear(AnimFlags::eRender);
                     SwitchStates_Set(field_EA_switch_id, 1);

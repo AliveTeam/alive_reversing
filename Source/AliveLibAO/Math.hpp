@@ -9,9 +9,9 @@ u8 Math_NextRandom();
 
 s16 Math_RandomRange(s16 min, s16 max);
 
-FP Math_Sine_451110(u8 v);
+FP Math_Sine(u8 v);
 
-FP Math_Cosine_4510A0(u8 v);
+FP Math_Cosine(u8 v);
 
 s32 Math_Distance(s32 x1, s32 y1, s32 x2, s32 y2);
 

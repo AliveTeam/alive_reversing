@@ -216,7 +216,7 @@ public:
 
     virtual void VRender(PrimHeader** ppOt) override
     {
-        if (sNumCamSwappers_507668 == 0)
+        if (gNumCamSwappers == 0)
         {
             if (field_E4_bRender)
             {

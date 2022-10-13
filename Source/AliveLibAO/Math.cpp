@@ -41,13 +41,13 @@ s16 Math_RandomRange(s16 min, s16 max)
     return ::Math_RandomRange(min, max);
 }
 
-FP Math_Sine_451110(u8 v)
+FP Math_Sine(u8 v)
 {
     // AE_IMPLEMENTED();
     return Math_Sine_496DD0(v);
 }
 
-FP Math_Cosine_4510A0(u8 v)
+FP Math_Cosine(u8 v)
 {
     // AE_IMPLEMENTED();
     return Math_Cosine_496CD0(v);

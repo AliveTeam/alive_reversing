@@ -344,7 +344,7 @@ void Map::Handle_PathTransition()
     relive::Path_PathTransition* pTlv = nullptr;
     if (field_18_pAliveObj)
     {
-        pTlv = static_cast<relive::Path_PathTransition*>(TLV_Get_At_446260(
+        pTlv = static_cast<relive::Path_PathTransition*>(TLV_Get_At(
             FP_GetExponent(field_18_pAliveObj->mXPos),
             FP_GetExponent(field_18_pAliveObj->mYPos),
             FP_GetExponent(field_18_pAliveObj->mXPos),
@@ -897,7 +897,7 @@ s16 Map::SetActiveCameraDelayed(MapDirections direction, BaseAliveGameObject* pO
     CameraSwapEffects convertedSwapEffect = CameraSwapEffects::eInstantChange_0;
     if (pObj)
     {
-        pPathChangeTLV = static_cast<relive::Path_PathTransition*>(TLV_Get_At_446260(
+        pPathChangeTLV = static_cast<relive::Path_PathTransition*>(TLV_Get_At(
             FP_GetExponent(pObj->mXPos),
             FP_GetExponent(pObj->mYPos),
             FP_GetExponent(pObj->mXPos),
@@ -1128,7 +1128,7 @@ CameraPos Map::GetDirection(EReliveLevelIds level, s32 path, FP xpos, FP ypos)
     }
 }
 
-relive::Path_TLV* Map::TLV_Get_At_446260(s16 xpos, s16 ypos, s16 width, s16 height, ReliveTypes typeToFind)
+relive::Path_TLV* Map::TLV_Get_At(s16 xpos, s16 ypos, s16 width, s16 height, ReliveTypes typeToFind)
 {
     s32 right = 0;
     s32 left = 0;
@@ -1194,7 +1194,7 @@ relive::Path_TLV* Map::TLV_Get_At_446260(s16 xpos, s16 ypos, s16 width, s16 heig
     return pTlvIter;
 }
 
-relive::Path_TLV* Map::TLV_Get_At_446060(relive::Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP height)
+relive::Path_TLV* Map::TLV_Get_At(relive::Path_TLV* pTlv, FP xpos, FP ypos, FP width, FP height)
 {
     bool bContinue = true;
 
@@ -1497,7 +1497,7 @@ void Map::GoTo_Camera()
 
                 if (pBaseGameObj->mBaseGameObjectFlags.Get(::BaseGameObject::eUpdatable_Bit2))
                 {
-                    if (!pBaseGameObj->mBaseGameObjectFlags.Get(::BaseGameObject::eDead) && (!sNumCamSwappers_507668 || pBaseGameObj->mBaseGameObjectFlags.Get(::BaseGameObject::eUpdateDuringCamSwap_Bit10)))
+                    if (!pBaseGameObj->mBaseGameObjectFlags.Get(::BaseGameObject::eDead) && (!gNumCamSwappers || pBaseGameObj->mBaseGameObjectFlags.Get(::BaseGameObject::eUpdateDuringCamSwap_Bit10)))
                     {
                         const s32 updateDelay = pBaseGameObj->UpdateDelay();
                         if (pBaseGameObj->UpdateDelay() > 0)

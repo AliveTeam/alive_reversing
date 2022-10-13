@@ -16,7 +16,7 @@
 
 namespace AO {
 
-s16 sNumCamSwappers_507668 = 0;
+s16 gNumCamSwappers = 0;
 
 CameraSwapper::CameraSwapper(CamResource& ppBits, s32 movieId, s32 movieFlag, s8 movieFlags, s16 flags, s16 volume)
     : BaseGameObject(TRUE, 0)
@@ -86,7 +86,7 @@ CameraSwapper::CameraSwapper(CamResource& ppBits, CameraSwapEffects changeEffect
 
 CameraSwapper::~CameraSwapper()
 {
-    sNumCamSwappers_507668--;
+    gNumCamSwappers--;
 
     if (field_24_pSubObject)
     {
@@ -121,9 +121,9 @@ void CameraSwapper::Init(CamResource& ppCamRes, CameraSwapEffects changeEffect)
         pScreenManager->DecompressCameraToVRam(ppCamRes);
     }
 
-    sNumCamSwappers_507668++;
+    gNumCamSwappers++;
 
-    if (sNumCamSwappers_507668 != 1)
+    if (gNumCamSwappers != 1)
     {
         mBaseGameObjectFlags.Clear(BaseGameObject::eUpdatable_Bit2);
         mBaseGameObjectFlags.Set(BaseGameObject::eListAddFailed_Bit1);

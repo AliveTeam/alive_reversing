@@ -149,7 +149,7 @@ void MotionDetector::VUpdate()
         mBaseGameObjectFlags.Set(Options::eDead);
     }
 
-    if (!sNumCamSwappers_507668)
+    if (!gNumCamSwappers)
     {
         if (SwitchStates_Get(field_F0_disable_switch_id))
         {

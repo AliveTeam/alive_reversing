@@ -332,8 +332,8 @@ void Dove::VUpdate()
             mAngle += 4;
 
             // Spin around this point
-            mXPos = ((Math_Sine_451110(mAngle) * FP_FromInteger(30)) * mSpriteScale) + mJoinX;
-            mYPos = ((Math_Cosine_4510A0(mAngle) * FP_FromInteger(35)) * mSpriteScale) + mJoinY;
+            mXPos = ((Math_Sine(mAngle) * FP_FromInteger(30)) * mSpriteScale) + mJoinX;
+            mYPos = ((Math_Cosine(mAngle) * FP_FromInteger(35)) * mSpriteScale) + mJoinY;
             return;
 
         case State::eAlmostACircle_4:
@@ -352,8 +352,8 @@ void Dove::VUpdate()
                 }
             }
             mAngle += 4;
-            mXPos = ((Math_Sine_451110(mAngle) * FP_FromInteger(sAbePortalWidth)) * mSpriteScale) + mJoinX;
-            mYPos = ((Math_Cosine_4510A0(mAngle) * FP_FromInteger(35)) * mSpriteScale) + mJoinY;
+            mXPos = ((Math_Sine(mAngle) * FP_FromInteger(sAbePortalWidth)) * mSpriteScale) + mJoinX;
+            mYPos = ((Math_Cosine(mAngle) * FP_FromInteger(35)) * mSpriteScale) + mJoinY;
             return;
 
         default:

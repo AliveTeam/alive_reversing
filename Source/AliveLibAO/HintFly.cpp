@@ -1613,8 +1613,8 @@ void HintFly::UpdateParticles()
         else if (pParticle->field_8_state == 3)
         {
             pParticle->field_20_angle = pParticle->field_20_angle + pParticle->field_21_angle_speed;
-            pParticle->field_0_xpos += (Math_Sine_451110(pParticle->field_20_angle) * FP_FromInteger(5));
-            pParticle->field_4_ypos += (Math_Cosine_4510A0(pParticle->field_20_angle) * FP_FromInteger(2));
+            pParticle->field_0_xpos += (Math_Sine(pParticle->field_20_angle) * FP_FromInteger(5));
+            pParticle->field_4_ypos += (Math_Cosine(pParticle->field_20_angle) * FP_FromInteger(2));
             if (i < 1 && Math_RandomRange(0, 100) < 20)
             {
                 SfxPlayMono(relive::SoundEffects::HintFly, Math_RandomRange(18, 24));

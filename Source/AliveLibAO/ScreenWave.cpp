@@ -88,17 +88,17 @@ ScreenWave::ScreenWave(FP xpos, FP ypos, Layer layer, FP width, FP speed, s32 ra
         u8 ang = 128;
         for (s32 j = 0; j < 5; j++)
         {
-            pData->field_0_uv1[i][j].x = ((FP_FromInteger(j) * uv1_off) * Math_Sine_451110(ang2));
-            pData->field_0_uv1[i][j].y = ((FP_FromInteger(j) * uv1_off) * Math_Cosine_4510A0(ang2));
+            pData->field_0_uv1[i][j].x = ((FP_FromInteger(j) * uv1_off) * Math_Sine(ang2));
+            pData->field_0_uv1[i][j].y = ((FP_FromInteger(j) * uv1_off) * Math_Cosine(ang2));
 
-            pData->field_500_uv2[i][j].x = (((Math_Sine_451110(ang) * uv2_off) + uv2_off) * Math_Sine_451110(ang2));
-            pData->field_500_uv2[i][j].y = (((Math_Sine_451110(ang) * uv2_off) + uv2_off) * Math_Cosine_4510A0(ang2));
+            pData->field_500_uv2[i][j].x = (((Math_Sine(ang) * uv2_off) + uv2_off) * Math_Sine(ang2));
+            pData->field_500_uv2[i][j].y = (((Math_Sine(ang) * uv2_off) + uv2_off) * Math_Cosine(ang2));
 
             ang -= 32;
         }
 
-        pData->field_A00_xy[i].x = (Math_Sine_451110(ang2) * speed);
-        pData->field_A00_xy[i].y = (Math_Cosine_4510A0(ang2) * speed);
+        pData->field_A00_xy[i].x = (Math_Sine(ang2) * speed);
+        pData->field_A00_xy[i].y = (Math_Cosine(ang2) * speed);
         ang2 += 8;
     }
 

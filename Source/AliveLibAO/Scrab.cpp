@@ -265,7 +265,7 @@ void Scrab::VUpdate()
 
         if (old_x != mXPos || old_y != mYPos)
         {
-            BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446060(
+            BaseAliveGameObjectPathTLV = gMap.TLV_Get_At(
                 nullptr,
                 mXPos,
                 mYPos,
@@ -373,7 +373,7 @@ void Scrab::VOnTlvCollision(relive::Path_TLV* pTlv)
             mHealth = FP_FromInteger(0);
         }
 
-        pTlv = gMap.TLV_Get_At_446060(
+        pTlv = gMap.TLV_Get_At(
             pTlv,
             mXPos,
             mYPos,
@@ -412,7 +412,7 @@ void Scrab::ToStand()
     mVelX = FP_FromInteger(0);
     mVelY = FP_FromInteger(0);
     mCurrentMotion = eScrabMotions::Motion_1_Stand;
-    MapFollowMe_401D30(1);
+    MapFollowMe(1);
 }
 
 void Scrab::vUpdateAnim()
@@ -450,7 +450,7 @@ void Scrab::VOnTrapDoorOpen()
 
 s16 Scrab::ToNextMotion()
 {
-    MapFollowMe_401D30(1);
+    MapFollowMe(1);
 
     switch (mNextMotion)
     {
@@ -470,7 +470,7 @@ s16 Scrab::ToNextMotion()
         case eScrabMotions::Motion_3_Run:
             if (mAnim.mFlags.Get(AnimFlags::eFlipX))
             {
-                if (WallHit_401930(mSpriteScale * FP_FromInteger(30), -ScaleToGridSize(mSpriteScale)))
+                if (WallHit(mSpriteScale * FP_FromInteger(30), -ScaleToGridSize(mSpriteScale)))
                 {
                     return 0;
                 }
@@ -484,7 +484,7 @@ s16 Scrab::ToNextMotion()
             }
             else
             {
-                if (WallHit_401930(mSpriteScale * FP_FromInteger(30), ScaleToGridSize(mSpriteScale)))
+                if (WallHit(mSpriteScale * FP_FromInteger(30), ScaleToGridSize(mSpriteScale)))
                 {
                     return 0;
                 }
@@ -501,7 +501,7 @@ s16 Scrab::ToNextMotion()
         case eScrabMotions::Motion_2_Walk:
             if (mAnim.mFlags.Get(AnimFlags::eFlipX))
             {
-                if (WallHit_401930(mSpriteScale * FP_FromInteger(30), -ScaleToGridSize(mSpriteScale)))
+                if (WallHit(mSpriteScale * FP_FromInteger(30), -ScaleToGridSize(mSpriteScale)))
                 {
                     return 0;
                 }
@@ -515,7 +515,7 @@ s16 Scrab::ToNextMotion()
             }
             else
             {
-                if (WallHit_401930(mSpriteScale * FP_FromInteger(30), ScaleToGridSize(mSpriteScale)))
+                if (WallHit(mSpriteScale * FP_FromInteger(30), ScaleToGridSize(mSpriteScale)))
                 {
                     return 0;
                 }
@@ -536,14 +536,14 @@ s16 Scrab::ToNextMotion()
         case eScrabMotions::Motion_7_HopMidair:
             if (mAnim.mFlags.Get(AnimFlags::eFlipX))
             {
-                if (WallHit_401930(mSpriteScale * FP_FromInteger(30), -ScaleToGridSize(mSpriteScale)))
+                if (WallHit(mSpriteScale * FP_FromInteger(30), -ScaleToGridSize(mSpriteScale)))
                 {
                     return 0;
                 }
             }
             else
             {
-                if (WallHit_401930(mSpriteScale * FP_FromInteger(30), ScaleToGridSize(mSpriteScale)))
+                if (WallHit(mSpriteScale * FP_FromInteger(30), ScaleToGridSize(mSpriteScale)))
                 {
                     return 0;
                 }
@@ -777,7 +777,7 @@ Scrab* Scrab::FindScrabToFight()
 
 s16 Scrab::FindAbeOrMud()
 {
-    if (CanSeeAbe(sActiveHero) && sActiveHero->mHealth > FP_FromInteger(0) && sActiveHero->mSpriteScale == mSpriteScale && !WallHit_401930(sActiveHero->mXPos - mXPos, mSpriteScale * FP_FromInteger(35)))
+    if (CanSeeAbe(sActiveHero) && sActiveHero->mHealth > FP_FromInteger(0) && sActiveHero->mSpriteScale == mSpriteScale && !WallHit(sActiveHero->mXPos - mXPos, mSpriteScale * FP_FromInteger(35)))
     {
         mAbeOrMudTarget = sActiveHero;
         sActiveHero->mBaseGameObjectRefCount++;
@@ -798,7 +798,7 @@ s16 Scrab::FindAbeOrMud()
 
             if (pObj->Type() == ReliveTypes::eRingOrLiftMud || pObj->Type() == ReliveTypes::eMudokon || pObj->Type() == ReliveTypes::SlingMud)
             {
-                if (CanSeeAbe(pObj) && pObj->mHealth > FP_FromInteger(0) && pObj->mSpriteScale == mSpriteScale && !WallHit_401930(pObj->mXPos - mXPos, mSpriteScale * FP_FromInteger(35)))
+                if (CanSeeAbe(pObj) && pObj->mHealth > FP_FromInteger(0) && pObj->mSpriteScale == mSpriteScale && !WallHit(pObj->mXPos - mXPos, mSpriteScale * FP_FromInteger(35)))
                 {
                     mAbeOrMudTarget = pObj;
                     mAbeOrMudTarget->mBaseGameObjectRefCount++;
@@ -830,7 +830,7 @@ s16 Scrab::CanSeeAbe(BaseAliveGameObject* pObj)
 
 void Scrab::Motion_0_Empty()
 {
-    if (sNumCamSwappers_507668 <= 0)
+    if (gNumCamSwappers <= 0)
     {
         if (sControlledCharacter == this)
         {
@@ -920,7 +920,7 @@ void Scrab::Motion_2_Walk()
     mVelX = (mSpriteScale * vel);
 
     const FP xOff = mVelX + FP_FromRaw(mVelX.fpValue / 2);
-    if (WallHit_401930(mSpriteScale * FP_FromInteger(30), xOff))
+    if (WallHit(mSpriteScale * FP_FromInteger(30), xOff))
     {
         ToStand();
         return;
@@ -955,7 +955,7 @@ void Scrab::Motion_2_Walk()
 
             if (!(field_188_flags & 2))
             {
-                MapFollowMe_401D30(1);
+                MapFollowMe(1);
                 field_188_flags |= 2u;
             }
         }
@@ -1018,7 +1018,7 @@ void Scrab::Motion_3_Run()
     }
     mVelX = (mSpriteScale * vel);
 
-    if (WallHit_401930(mSpriteScale * FP_FromInteger(30), mVelX))
+    if (WallHit(mSpriteScale * FP_FromInteger(30), mVelX))
     {
         ToStand();
     }
@@ -1081,7 +1081,7 @@ void Scrab::Motion_3_Run()
 
                 if (!(field_188_flags & 2))
                 {
-                    MapFollowMe_401D30(1);
+                    MapFollowMe(1);
                     field_188_flags |= 2;
                 }
             }
@@ -1147,7 +1147,7 @@ void Scrab::Motion_5_RunToStand()
         mVelX = (mSpriteScale * sRunToStandVelTable_4BC838[mAnim.mCurrentFrame]);
     }
 
-    if (WallHit_401930(mSpriteScale * FP_FromInteger(30), mVelX))
+    if (WallHit(mSpriteScale * FP_FromInteger(30), mVelX))
     {
         ToStand();
         return;
@@ -1181,7 +1181,7 @@ void Scrab::Motion_5_RunToStand()
 
         if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
         {
-            MapFollowMe_401D30(1);
+            MapFollowMe(1);
 
             if (!ToNextMotion())
             {
@@ -1210,7 +1210,7 @@ void Scrab::Motion_6_HopBegin()
         mVelX = (mSpriteScale * sHopBeginVelTable_4BC860[mAnim.mCurrentFrame]);
     }
 
-    if (!WallHit_401930(mSpriteScale * FP_FromInteger(30), mVelX))
+    if (!WallHit(mSpriteScale * FP_FromInteger(30), mVelX))
     {
         mXPos += mVelX;
 
@@ -1264,7 +1264,7 @@ void Scrab::Motion_7_HopMidair()
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    if (WallHit_401930(mSpriteScale * FP_FromInteger(30), mVelX))
+    if (WallHit(mSpriteScale * FP_FromInteger(30), mVelX))
     {
         ToStand();
         mCurrentMotion = eScrabMotions::Motion_9_JumpToFall;
@@ -1341,7 +1341,7 @@ void Scrab::Motion_8_HopLand()
         mVelX = (mSpriteScale * sLandVelXTable_4BC890[mAnim.mCurrentFrame]);
     }
 
-    if (WallHit_401930(mSpriteScale * FP_FromInteger(30), mVelX))
+    if (WallHit(mSpriteScale * FP_FromInteger(30), mVelX))
     {
         ToStand();
         return;
@@ -1402,7 +1402,7 @@ void Scrab::Motion_9_JumpToFall()
 
                 mXPos = hitX;
                 mYPos = hitY;
-                MapFollowMe_401D30(1);
+                MapFollowMe(1);
                 break;
             }
 
@@ -1435,7 +1435,7 @@ void Scrab::Motion_10_StandToWalk()
         mVelX = (mSpriteScale * vel);
     }
 
-    if (WallHit_401930(mSpriteScale * FP_FromInteger(30), mVelX))
+    if (WallHit(mSpriteScale * FP_FromInteger(30), mVelX))
     {
         ToStand();
     }
@@ -1469,7 +1469,7 @@ void Scrab::Motion_11_StandToRun()
         mVelX = (mSpriteScale * sStandToRunVel_4BC7F0[mAnim.mCurrentFrame]);
     }
 
-    if (WallHit_401930(mSpriteScale * FP_FromInteger(30), mVelX))
+    if (WallHit(mSpriteScale * FP_FromInteger(30), mVelX))
     {
         ToStand();
     }
@@ -1503,7 +1503,7 @@ void Scrab::Motion_12_WalkToStand()
         mVelX = (mSpriteScale * sWalkToStandVel_4BC7E0[mAnim.mCurrentFrame]);
     }
 
-    if (WallHit_401930(mSpriteScale * FP_FromInteger(30), mVelX))
+    if (WallHit(mSpriteScale * FP_FromInteger(30), mVelX))
     {
         ToStand();
     }
@@ -1550,7 +1550,7 @@ void Scrab::Motion_13_RunJumpBegin()
         mVelX = (mSpriteScale * sRunJumpBeginVelTable_4BC8A0[mAnim.mCurrentFrame]);
     }
 
-    if (WallHit_401930(mSpriteScale * FP_FromInteger(30), mVelX))
+    if (WallHit(mSpriteScale * FP_FromInteger(30), mVelX))
     {
         ToStand();
         mCurrentMotion = eScrabMotions::Motion_9_JumpToFall;
@@ -1635,7 +1635,7 @@ void Scrab::Motion_14_RunJumpEnd()
         mVelX = (mSpriteScale * sRunJumpEndVelTable_4BC8C0[mAnim.mCurrentFrame]);
     }
 
-    if (WallHit_401930(mSpriteScale * FP_FromInteger(30), mVelX))
+    if (WallHit(mSpriteScale * FP_FromInteger(30), mVelX))
     {
         ToStand();
         return;
@@ -1870,7 +1870,7 @@ void Scrab::Motion_25_ToFeed()
 
     if ((field_188_flags >> 2) & 1)
     {
-        if (WallHit_401930(mSpriteScale * FP_FromInteger(30), mVelX))
+        if (WallHit(mSpriteScale * FP_FromInteger(30), mVelX))
         {
             ToStand();
         }
@@ -2012,7 +2012,7 @@ s16 Scrab::Brain_Fighting()
     switch (mBrainSubState)
     {
         case 0:
-            if (sNumCamSwappers_507668 > 0)
+            if (gNumCamSwappers > 0)
             {
                 return mBrainSubState;
             }
@@ -2095,13 +2095,13 @@ s16 Scrab::Brain_Fighting()
             FP xpos = {};
             if (mAnim.mFlags.Get(AnimFlags::eFlipX))
             {
-                if (WallHit_401930(mSpriteScale * FP_FromInteger(30), -(ScaleToGridSize(mSpriteScale) * FP_FromInteger(2))))
+                if (WallHit(mSpriteScale * FP_FromInteger(30), -(ScaleToGridSize(mSpriteScale) * FP_FromInteger(2))))
                 {
                     mNextMotion = eScrabMotions::Motion_4_Turn;
                     return 4;
                 }
 
-                if (Check_IsOnEndOfLine_4021A0(1, 2))
+                if (Check_IsOnEndOfLine(1, 2))
                 {
                     mNextMotion = eScrabMotions::Motion_4_Turn;
                     return 4;
@@ -2116,13 +2116,13 @@ s16 Scrab::Brain_Fighting()
             }
             else
             {
-                if (WallHit_401930(mSpriteScale * FP_FromInteger(30), ScaleToGridSize(mSpriteScale) * FP_FromInteger(2)))
+                if (WallHit(mSpriteScale * FP_FromInteger(30), ScaleToGridSize(mSpriteScale) * FP_FromInteger(2)))
                 {
                     mNextMotion = eScrabMotions::Motion_4_Turn;
                     return 4;
                 }
 
-                if (Check_IsOnEndOfLine_4021A0(0, 2))
+                if (Check_IsOnEndOfLine(0, 2))
                 {
                     mNextMotion = eScrabMotions::Motion_4_Turn;
                     return 4;
@@ -2233,7 +2233,7 @@ s16 Scrab::Brain_Fighting()
                 return mBrainSubState;
             }
 
-            MapFollowMe_401D30(TRUE);
+            MapFollowMe(TRUE);
 
             if (mScrabTarget->mAnim.mFlags.Get(AnimFlags::eRender))
             {
@@ -2433,14 +2433,14 @@ s16 Scrab::Brain_ChasingEnemy()
         bool bCloseToEdge = false;
         if (mAnim.mFlags.Get(AnimFlags::eFlipX))
         {
-            if (!Check_IsOnEndOfLine_4021A0(1, 2))
+            if (!Check_IsOnEndOfLine(1, 2))
             {
                 bCloseToEdge = true;
             }
         }
         else
         {
-            if (!Check_IsOnEndOfLine_4021A0(0, 2))
+            if (!Check_IsOnEndOfLine(0, 2))
             {
                 bCloseToEdge = true;
             }
@@ -2467,7 +2467,7 @@ s16 Scrab::Brain_ChasingEnemy()
     switch (mBrainSubState)
     {
         case 0:
-            if (sNumCamSwappers_507668 > 0)
+            if (gNumCamSwappers > 0)
             {
                 return mBrainSubState;
             }
@@ -2483,7 +2483,7 @@ s16 Scrab::Brain_ChasingEnemy()
                      mXPos,
                      mYPos,
                      0))
-                || WallHit_401930(mSpriteScale * FP_FromInteger(30), mAbeOrMudTarget->mXPos - mXPos)
+                || WallHit(mSpriteScale * FP_FromInteger(30), mAbeOrMudTarget->mXPos - mXPos)
                 || mAbeOrMudTarget->mHealth <= FP_FromInteger(0))
             {
                 if (mCurrentMotion == eScrabMotions::Motion_1_Stand && Math_NextRandom() < 26u && (field_188_flags & 0x20) && (sGnFrame - field_140_last_shriek_timer) > 60)
@@ -2511,7 +2511,7 @@ s16 Scrab::Brain_ChasingEnemy()
                 {
                     mCurrentMotion = eScrabMotions::Motion_4_Turn;
                     mNextMotion = -1;
-                    MapFollowMe_401D30(TRUE);
+                    MapFollowMe(TRUE);
                 }
                 return 2;
             }
@@ -2537,7 +2537,7 @@ s16 Scrab::Brain_ChasingEnemy()
             relive::Path_TLV* pTlv = nullptr;
             if (mAnim.mFlags.Get(AnimFlags::eFlipX))
             {
-                pTlv = gMap.TLV_Get_At_446260(
+                pTlv = gMap.TLV_Get_At(
                     FP_GetExponent(mXPos - kGridSize),
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos - kGridSize),
@@ -2546,7 +2546,7 @@ s16 Scrab::Brain_ChasingEnemy()
             }
             else
             {
-                pTlv = gMap.TLV_Get_At_446260(
+                pTlv = gMap.TLV_Get_At(
                     FP_GetExponent(mXPos + kGridSize),
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos + kGridSize),
@@ -2556,7 +2556,7 @@ s16 Scrab::Brain_ChasingEnemy()
 
             if (!pTlv)
             {
-                pTlv = gMap.TLV_Get_At_446260(
+                pTlv = gMap.TLV_Get_At(
                     FP_GetExponent(mXPos),
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos),
@@ -2619,17 +2619,17 @@ s16 Scrab::Brain_ChasingEnemy()
             {
                 const s16 x_exp = FP_GetExponent(mXPos);
                 const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid(mSpriteScale, x_exp & 0x3FF);
-                if (abs(xSnapped - x_exp) < 6 && Check_IsOnEndOfLine_4021A0(0, 1))
+                if (abs(xSnapped - x_exp) < 6 && Check_IsOnEndOfLine(0, 1))
                 {
                     if (mAbeOrMudTarget->mYPos - mYPos < FP_FromInteger(5)
-                        || gMap.TLV_Get_At_446260(
+                        || gMap.TLV_Get_At(
                             FP_GetExponent(mXPos + kGridSize),
                             FP_GetExponent(mYPos + FP_FromInteger(10)),
                             FP_GetExponent(mXPos + kGridSize),
                             FP_GetExponent(mYPos + FP_FromInteger(10)),
                             ReliveTypes::eScrabNoFall))
                     {
-                        if (!Check_IsOnEndOfLine_4021A0(0, 4))
+                        if (!Check_IsOnEndOfLine(0, 4))
                         {
                             ToJump();
                             mNextMotion = -1;
@@ -2638,7 +2638,7 @@ s16 Scrab::Brain_ChasingEnemy()
                     }
                 }
 
-                BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446260(
+                BaseAliveGameObjectPathTLV = gMap.TLV_Get_At(
                     FP_GetExponent(mXPos + (kGridSize * FP_FromInteger(2))),
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos + (kGridSize * FP_FromInteger(2))),
@@ -2662,17 +2662,17 @@ s16 Scrab::Brain_ChasingEnemy()
             {
                 const s16 x_exp = FP_GetExponent(mXPos);
                 const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid(mSpriteScale, x_exp & 0x3FF);
-                if (abs(xSnapped - x_exp) < 6 && Check_IsOnEndOfLine_4021A0(1, 1))
+                if (abs(xSnapped - x_exp) < 6 && Check_IsOnEndOfLine(1, 1))
                 {
                     if ((mAbeOrMudTarget->mYPos - mYPos < FP_FromInteger(5))
-                        || gMap.TLV_Get_At_446260(
+                        || gMap.TLV_Get_At(
                             FP_GetExponent(mXPos - kGridSize),
                             FP_GetExponent(mYPos + FP_FromInteger(10)),
                             FP_GetExponent(mXPos - kGridSize),
                             FP_GetExponent(mYPos + FP_FromInteger(10)),
                             ReliveTypes::eScrabNoFall))
                     {
-                        if (!Check_IsOnEndOfLine_4021A0(1, 4))
+                        if (!Check_IsOnEndOfLine(1, 4))
                         {
                             ToJump();
                             mNextMotion = -1;
@@ -2681,7 +2681,7 @@ s16 Scrab::Brain_ChasingEnemy()
                     }
                 }
 
-                BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446260(
+                BaseAliveGameObjectPathTLV = gMap.TLV_Get_At(
                     FP_GetExponent(mXPos - (kGridSize * FP_FromInteger(2))),
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos - (kGridSize * FP_FromInteger(2))),
@@ -2717,7 +2717,7 @@ s16 Scrab::Brain_ChasingEnemy()
                 {
                     mCurrentMotion = eScrabMotions::Motion_4_Turn;
                     mNextMotion = -1;
-                    MapFollowMe_401D30(TRUE);
+                    MapFollowMe(TRUE);
                 }
                 return 2;
             }
@@ -2726,7 +2726,7 @@ s16 Scrab::Brain_ChasingEnemy()
                 && mCurrentMotion == eScrabMotions::Motion_3_Run
                 && VOnSameYLevel(mAbeOrMudTarget))
             {
-                if (WallHit_401930(mSpriteScale * FP_FromInteger(30), mAbeOrMudTarget->mXPos - mXPos))
+                if (WallHit(mSpriteScale * FP_FromInteger(30), mAbeOrMudTarget->mXPos - mXPos))
                 {
                     mNextMotion = eScrabMotions::Motion_1_Stand;
                     return 1;
@@ -2804,7 +2804,7 @@ s16 Scrab::Brain_ChasingEnemy()
 
             if (VIsObjNearby(kGridSize * FP_FromDouble(1.5), mAbeOrMudTarget) && VOnSameYLevel(mAbeOrMudTarget))
             {
-                if (WallHit_401930(mSpriteScale * FP_FromInteger(30), mAbeOrMudTarget->mXPos - mXPos))
+                if (WallHit(mSpriteScale * FP_FromInteger(30), mAbeOrMudTarget->mXPos - mXPos))
                 {
                     return 1;
                 }
@@ -2829,7 +2829,7 @@ s16 Scrab::Brain_ChasingEnemy()
                 return mBrainSubState;
             }
 
-            BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446260(
+            BaseAliveGameObjectPathTLV = gMap.TLV_Get_At(
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),
@@ -2852,7 +2852,7 @@ s16 Scrab::Brain_ChasingEnemy()
 
             if (mAnim.mFlags.Get(AnimFlags::eFlipX))
             {
-                if (Check_IsOnEndOfLine_4021A0(1, 1))
+                if (Check_IsOnEndOfLine(1, 1))
                 {
                     mNextMotion = eScrabMotions::Motion_7_HopMidair;
                     return 6;
@@ -2860,7 +2860,7 @@ s16 Scrab::Brain_ChasingEnemy()
             }
             else
             {
-                if (Check_IsOnEndOfLine_4021A0(0, 1))
+                if (Check_IsOnEndOfLine(0, 1))
                 {
                     mNextMotion = eScrabMotions::Motion_7_HopMidair;
                     return 6;
@@ -2950,7 +2950,7 @@ s16 Scrab::Brain_ChasingEnemy()
 
             if (VIsObjNearby(kGridSize * FP_FromDouble(1.5), mAbeOrMudTarget))
             {
-                if (WallHit_401930(mSpriteScale * FP_FromInteger(30), mAbeOrMudTarget->mXPos - mXPos))
+                if (WallHit(mSpriteScale * FP_FromInteger(30), mAbeOrMudTarget->mXPos - mXPos))
                 {
                     return 1;
                 }
@@ -3116,7 +3116,7 @@ s16 Scrab::Brain_Patrol()
     {
         case 0:
         {
-            if (sNumCamSwappers_507668 > 0)
+            if (gNumCamSwappers > 0)
             {
                 return mBrainSubState;
             }
@@ -3134,7 +3134,7 @@ s16 Scrab::Brain_Patrol()
                 }
             }
 
-            auto pStopper = static_cast<relive::Path_EnemyStopper*>(gMap.TLV_Get_At_446260(
+            auto pStopper = static_cast<relive::Path_EnemyStopper*>(gMap.TLV_Get_At(
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),
@@ -3167,7 +3167,7 @@ s16 Scrab::Brain_Patrol()
 
             if (mAnim.mFlags.Get(AnimFlags::eFlipX))
             {
-                BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446260(
+                BaseAliveGameObjectPathTLV = gMap.TLV_Get_At(
                     FP_GetExponent(mXPos),
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos),
@@ -3182,7 +3182,7 @@ s16 Scrab::Brain_Patrol()
             }
             else
             {
-                BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446260(
+                BaseAliveGameObjectPathTLV = gMap.TLV_Get_At(
                     FP_GetExponent(mXPos),
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos),
@@ -3209,7 +3209,7 @@ s16 Scrab::Brain_Patrol()
                 }
             }
 
-            if (gMap.TLV_Get_At_446260(
+            if (gMap.TLV_Get_At(
                     FP_GetExponent(mXPos - ScaleToGridSize(mSpriteScale)),
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos - ScaleToGridSize(mSpriteScale)),
@@ -3277,7 +3277,7 @@ s16 Scrab::Brain_Patrol()
                 }
             }
 
-            if (gMap.TLV_Get_At_446260(
+            if (gMap.TLV_Get_At(
                     FP_GetExponent(ScaleToGridSize(mSpriteScale) + mXPos),
                     FP_GetExponent(mYPos),
                     FP_GetExponent(ScaleToGridSize(mSpriteScale) + mXPos),
@@ -3419,7 +3419,7 @@ s16 Scrab::Brain_WalkAround()
     switch (mBrainSubState)
     {
         case 0:
-            if (sNumCamSwappers_507668 > 0)
+            if (gNumCamSwappers > 0)
             {
                 return mBrainSubState;
             }
@@ -3452,7 +3452,7 @@ s16 Scrab::Brain_WalkAround()
 
             if (mAnim.mFlags.Get(AnimFlags::eFlipX))
             {
-                auto pStopper = static_cast<relive::Path_EnemyStopper*>(gMap.TLV_Get_At_446260(
+                auto pStopper = static_cast<relive::Path_EnemyStopper*>(gMap.TLV_Get_At(
                     FP_GetExponent(mXPos),
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos),
@@ -3470,7 +3470,7 @@ s16 Scrab::Brain_WalkAround()
                     }
                 }
 
-                if (WallHit_401930(mSpriteScale * FP_FromInteger(30), -ScaleToGridSize(mSpriteScale) * FP_FromDouble(1.5)) || Check_IsOnEndOfLine_4021A0(1, 2))
+                if (WallHit(mSpriteScale * FP_FromInteger(30), -ScaleToGridSize(mSpriteScale) * FP_FromDouble(1.5)) || Check_IsOnEndOfLine(1, 2))
                 {
                     mNextMotion = eScrabMotions::Motion_4_Turn;
                     return 4;
@@ -3480,7 +3480,7 @@ s16 Scrab::Brain_WalkAround()
             }
             else
             {
-                auto pStopper = static_cast<relive::Path_EnemyStopper*>(gMap.TLV_Get_At_446260(
+                auto pStopper = static_cast<relive::Path_EnemyStopper*>(gMap.TLV_Get_At(
                     FP_GetExponent(mXPos),
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos),
@@ -3498,8 +3498,8 @@ s16 Scrab::Brain_WalkAround()
                     }
                 }
 
-                if (WallHit_401930(mSpriteScale * FP_FromInteger(30), ScaleToGridSize(mSpriteScale) * FP_FromDouble(1.5))
-                    || Check_IsOnEndOfLine_4021A0(0, 2))
+                if (WallHit(mSpriteScale * FP_FromInteger(30), ScaleToGridSize(mSpriteScale) * FP_FromDouble(1.5))
+                    || Check_IsOnEndOfLine(0, 2))
                 {
                     mNextMotion = eScrabMotions::Motion_4_Turn;
                     return 4;
@@ -3511,7 +3511,7 @@ s16 Scrab::Brain_WalkAround()
 
         case 2:
         {
-            auto pStopper = static_cast<relive::Path_EnemyStopper*>(gMap.TLV_Get_At_446260(
+            auto pStopper = static_cast<relive::Path_EnemyStopper*>(gMap.TLV_Get_At(
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),
@@ -3535,8 +3535,8 @@ s16 Scrab::Brain_WalkAround()
                 return 4;
             }
 
-            if (WallHit_401930(mSpriteScale * FP_FromInteger(30), -ScaleToGridSize(mSpriteScale) * FP_FromDouble(1.5))
-                || Check_IsOnEndOfLine_4021A0(1, 2))
+            if (WallHit(mSpriteScale * FP_FromInteger(30), -ScaleToGridSize(mSpriteScale) * FP_FromDouble(1.5))
+                || Check_IsOnEndOfLine(1, 2))
             {
                 mNextMotion = eScrabMotions::Motion_4_Turn;
                 return 4;
@@ -3566,7 +3566,7 @@ s16 Scrab::Brain_WalkAround()
 
         case 3:
         {
-            auto pStopper = static_cast<relive::Path_EnemyStopper*>(gMap.TLV_Get_At_446260(
+            auto pStopper = static_cast<relive::Path_EnemyStopper*>(gMap.TLV_Get_At(
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),
@@ -3585,8 +3585,8 @@ s16 Scrab::Brain_WalkAround()
             }
 
             if (mXPos - field_12C > FP_FromInteger(368)
-                || WallHit_401930(mSpriteScale * FP_FromInteger(30), ScaleToGridSize(mSpriteScale) * FP_FromDouble(1.5))
-                || Check_IsOnEndOfLine_4021A0(0, 2))
+                || WallHit(mSpriteScale * FP_FromInteger(30), ScaleToGridSize(mSpriteScale) * FP_FromDouble(1.5))
+                || Check_IsOnEndOfLine(0, 2))
             {
                 mNextMotion = eScrabMotions::Motion_4_Turn;
                 return 4;
@@ -3674,7 +3674,7 @@ bool Scrab::BrainIs(TBrainType fn)
 
 s16 Scrab::HandleRunning()
 {
-    BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446260(
+    BaseAliveGameObjectPathTLV = gMap.TLV_Get_At(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos),
@@ -3695,7 +3695,7 @@ s16 Scrab::HandleRunning()
 
     if (!mAnim.mFlags.Get(AnimFlags::eFlipX))
     {
-        if (Check_IsOnEndOfLine_4021A0(0, 1))
+        if (Check_IsOnEndOfLine(0, 1))
         {
             mNextMotion = eScrabMotions::Motion_7_HopMidair;
             return 6;
@@ -3703,7 +3703,7 @@ s16 Scrab::HandleRunning()
     }
     else
     {
-        if (Check_IsOnEndOfLine_4021A0(1, 1))
+        if (Check_IsOnEndOfLine(1, 1))
         {
             mNextMotion = eScrabMotions::Motion_7_HopMidair;
             return 6;

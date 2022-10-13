@@ -187,7 +187,7 @@ void ChimeLock::VUnPosses()
 
 s16 ChimeLock::DoNote(s16 note)
 {
-    if ((field_130_song_matching || sVoiceCheat_507708) && field_124_code1 / dword_4C5054[field_120_max_idx - field_128_idx] % 10 == note)
+    if ((field_130_song_matching || gVoiceCheat) && field_124_code1 / dword_4C5054[field_120_max_idx - field_128_idx] % 10 == note)
     {
         field_128_idx++;
         if (field_128_idx >= field_120_max_idx)
@@ -197,7 +197,7 @@ s16 ChimeLock::DoNote(s16 note)
         return 0;
     }
 
-    if ((!field_130_song_matching && !sVoiceCheat_507708) || (field_124_code1 / dword_4C5054[field_120_max_idx]) != note)
+    if ((!field_130_song_matching && !gVoiceCheat) || (field_124_code1 / dword_4C5054[field_120_max_idx]) != note)
     {
         field_128_idx = 0;
         return 0;
@@ -256,16 +256,16 @@ s16 ChimeLock::UpdateBall()
     switch (field_15C_ball_state)
     {
         case BallStates::eIdle_0:
-            mXPos = (FP_FromInteger(5) * Math_Cosine_4510A0((4 * field_15E_ball_angle) & 0xFF)) + field_13C_targetX;
-            mYPos = (FP_FromInteger(3) * Math_Cosine_4510A0((3 * field_15E_ball_angle) & 0xFF)) + field_140_targetY;
+            mXPos = (FP_FromInteger(5) * Math_Cosine((4 * field_15E_ball_angle) & 0xFF)) + field_13C_targetX;
+            mYPos = (FP_FromInteger(3) * Math_Cosine((3 * field_15E_ball_angle) & 0xFF)) + field_140_targetY;
             return 0;
 
         case BallStates::eMovingToBell_1:
         case BallStates::eMovingBackToIdle_2:
             field_144_ball_start_x += mVelX;
             field_148_ball_start_y += mVelY;
-            mXPos = (FP_FromInteger(field_158_xSize) * Math_Cosine_4510A0(FP_GetExponent(FP_FromInteger(field_15E_ball_angle) * field_150_xpos_offset) & 0xFF)) + field_144_ball_start_x;
-            mYPos = (FP_FromInteger(field_15A_ySize) * Math_Cosine_4510A0(FP_GetExponent(FP_FromInteger(field_15E_ball_angle) * field_154_ypos_offset) & 0xFF)) + field_148_ball_start_y;
+            mXPos = (FP_FromInteger(field_158_xSize) * Math_Cosine(FP_GetExponent(FP_FromInteger(field_15E_ball_angle) * field_150_xpos_offset) & 0xFF)) + field_144_ball_start_x;
+            mYPos = (FP_FromInteger(field_15A_ySize) * Math_Cosine(FP_GetExponent(FP_FromInteger(field_15E_ball_angle) * field_154_ypos_offset) & 0xFF)) + field_148_ball_start_y;
             if (field_15E_ball_angle >= field_160_ball_timer)
             {
                 field_15E_ball_angle = 0;
@@ -451,7 +451,7 @@ void ChimeLock::VUpdate()
                 }
             }
 
-            if (!field_130_song_matching && !sVoiceCheat_507708)
+            if (!field_130_song_matching && !gVoiceCheat)
             {
                 if (!Input_IsChanting())
                 {

@@ -48,6 +48,6 @@ public:
     s16 field_46_slice_width = 0;
 };
 
-extern s16 sNumCamSwappers_507668; // TODO: Move to own file
+extern s16 gNumCamSwappers; // TODO: Move to own file
 
 } // namespace AO

@@ -314,7 +314,7 @@ void LCDScreen::VUpdate()
 
 void LCDScreen::VRender(PrimHeader** ppOt)
 {
-    if (sNumCamSwappers_507668 == 0)
+    if (gNumCamSwappers == 0)
     {
         const FP_Point* camPos = pScreenManager->mCamPos;
 

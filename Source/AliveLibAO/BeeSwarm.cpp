@@ -150,7 +150,7 @@ void BeeSwarm::Chase(BaseAliveGameObject* pChaseTarget)
 
 void BeeSwarm::VUpdate()
 {
-    if (sNumCamSwappers_507668 != 0)
+    if (gNumCamSwappers != 0)
     {
         return;
     }
@@ -466,10 +466,10 @@ void BeeSwarm::VUpdate()
 
 
         const FP rnd1 = field_D7C_pos_offset + FP_FromInteger(((Math_NextRandom() & 3) + 4));
-        pBee->mXPos += (rnd1 * Math_Sine_451110(pBee->field_8_angle));
+        pBee->mXPos += (rnd1 * Math_Sine(pBee->field_8_angle));
 
         const FP rnd4 = field_D7C_pos_offset + FP_FromInteger(((Math_NextRandom() & 3) + 4));
-        pBee->mYPos += (rnd4 * Math_Cosine_4510A0(pBee->field_8_angle));
+        pBee->mYPos += (rnd4 * Math_Cosine(pBee->field_8_angle));
 
         pBee->mXPos += xMove; // ??? overwrites above calc
         pBee->field_8_angle += pBee->field_9_angle_speed;

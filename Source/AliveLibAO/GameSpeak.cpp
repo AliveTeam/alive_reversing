@@ -52,7 +52,7 @@ GameSpeakEvents Code_LookUp(u32 code, u16 idx, u16 code_len)
     return static_cast<GameSpeakEvents>(code / dword_4CFFCC[code_len_to_use - idx] % 10);
 }
 
-GameSpeak* pEventSystem_4FF954 = nullptr;
+GameSpeak* gEventSystem = nullptr;
 
 GameSpeak::GameSpeak()
     : BaseGameObject(TRUE, 0)
@@ -71,7 +71,7 @@ void GameSpeak::VScreenChanged()
 
 GameSpeak::~GameSpeak()
 {
-    pEventSystem_4FF954 = nullptr;
+    gEventSystem = nullptr;
 }
 
 void GameSpeak::VPushEvent(GameSpeakEvents event)

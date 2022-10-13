@@ -199,7 +199,7 @@ bool Bullet::InZBulletCover(FP xpos, FP ypos, const PSX_RECT& objRect)
     relive::Path_TLV* pZCover = nullptr;
     while (1)
     {
-        pZCover = gMap.TLV_Get_At_446060(
+        pZCover = gMap.TLV_Get_At(
             pZCover,
             xpos,
             ypos,

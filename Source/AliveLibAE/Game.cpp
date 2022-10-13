@@ -464,7 +464,7 @@ void Game_Run_466D40()
     relive_delete gBaseAliveGameObjects;
     relive_delete sCollisions;
 
-    pMusicController_5C3020 = nullptr; // Note: OG bug - should have been set to nullptr after shutdown call?
+    gMusicController = nullptr; // Note: OG bug - should have been set to nullptr after shutdown call?
     MusicController::Shutdown();
 
     SND_Reset_Ambiance();

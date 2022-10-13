@@ -221,7 +221,7 @@ Gibs::~Gibs()
 
 void Gibs::VRender(PrimHeader** ppOt)
 {
-    if (sNumCamSwappers_507668 != 0)
+    if (gNumCamSwappers != 0)
     {
         // Don't do anything during screen change
         return;

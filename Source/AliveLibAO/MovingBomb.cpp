@@ -19,12 +19,12 @@
 
 namespace AO {
 
-const TintEntry kMovingBombTints_4CD310[4] = {
+static const TintEntry kMovingBombTints[4] = {
     {EReliveLevelIds::eStockYards, 30u, 30u, 55u},
     {EReliveLevelIds::eStockYardsReturn, 30u, 30u, 55u},
     {EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
-MovingBomb* gMovingBomb_507B8C = nullptr;
+static MovingBomb* sMovingBomb = nullptr;
 
 MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
@@ -72,7 +72,7 @@ MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
         mAnim.mFlags.Clear(AnimFlags::eRender);
     }
 
-    SetTint(kMovingBombTints_4CD310, gMap.mCurrentLevel);
+    SetTint(kMovingBombTints, gMap.mCurrentLevel);
 
     mLiftPoint = nullptr;
 
@@ -113,14 +113,14 @@ MovingBomb::~MovingBomb()
         Path::TLV_Reset(field_110_tlvInfo, -1, 0, 0);
     }
 
-    if (gMovingBomb_507B8C == this)
+    if (sMovingBomb == this)
     {
         if (field_124_sound_channels)
         {
             SND_Stop_Channels_Mask(field_124_sound_channels);
             field_124_sound_channels = 0;
         }
-        gMovingBomb_507B8C = nullptr;
+        sMovingBomb = nullptr;
     }
 }
 
@@ -290,11 +290,11 @@ void MovingBomb::VUpdate()
         }
     }
 
-    if (!gMovingBomb_507B8C || gMovingBomb_507B8C == this)
+    if (!sMovingBomb || sMovingBomb == this)
     {
         if (mAnim.mCurrentFrame != 0 && mAnim.mCurrentFrame != 7)
         {
-            gMovingBomb_507B8C = this;
+            sMovingBomb = this;
         }
         else
         {
@@ -322,12 +322,12 @@ void MovingBomb::VUpdate()
                 if (field_10C_state == States::eWaitABit_4)
                 {
                     field_124_sound_channels = 0;
-                    gMovingBomb_507B8C = this;
+                    sMovingBomb = this;
                 }
                 else
                 {
                     field_124_sound_channels = SfxPlayMono(relive::SoundEffects::SecurityOrb, 12);
-                    gMovingBomb_507B8C = this;
+                    sMovingBomb = this;
                 }
             }
         }
@@ -358,7 +358,7 @@ void MovingBomb::VUpdate()
 
             FollowLine();
 
-            BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446260(
+            BaseAliveGameObjectPathTLV = gMap.TLV_Get_At(
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),
@@ -400,7 +400,7 @@ void MovingBomb::VUpdate()
 
             FollowLine();
 
-            BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446260(
+            BaseAliveGameObjectPathTLV = gMap.TLV_Get_At(
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),

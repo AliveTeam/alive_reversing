@@ -366,13 +366,13 @@ public:
     s16 MoveLiftUpOrDown_42F190(FP ySpeed);
     void ElumFree_4228F0();
     s16 DoGameSpeak_42F5C0(u16 input);
-    void SyncToElum_42D850(s16 elumMotion);
+    void SyncToElum(s16 elumMotion);
     void PickUpThrowabe_Or_PressBomb_428260(FP fpX, s32 fpY, s16 bStandToCrouch);
     void CrouchingGameSpeak_427F90();
     void FallOnBombs_4231B0();
     s16 ToLeftRightMovement_422AA0();
     void MoveWithVelocity_4257F0(FP speed);
-    void ToNewElumSyncMotion_422520(s32 elum_frame);
+    void ToNewElumSyncMotion(s32 elum_frame);
     void SetActiveControlledCharacter_421480();
     PullRingRope* GetPullRope_422580();
     void ElumKnockForward_42E780(s32 not_used);
@@ -605,8 +605,8 @@ public:
 
 extern Abe* sActiveHero;
 extern BaseAliveGameObject* sControlledCharacter;
-extern s16 gAbeInvulnerableCheat_5076E4;
-extern s16 gAbeInvisibleCheat_5076F8;
+extern s16 gAbeInvulnerableCheat;
+extern s16 gAbeInvisibleCheat;
 
 s32 Environment_SFX_42A220(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseAliveGameObject* pAliveObj);
 

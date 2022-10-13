@@ -117,12 +117,12 @@ void GameEnderController::VUpdate()
                             // Very bad ending
                             gInfiniteGrenades_5076EC = TRUE;
 
-                            if (!gpThrowableArray_50E26C)
+                            if (!gThrowableArray)
                             {
-                                gpThrowableArray_50E26C = relive_new ThrowableArray();
-                                if (gpThrowableArray_50E26C)
+                                gThrowableArray = relive_new ThrowableArray();
+                                if (gThrowableArray)
                                 {
-                                    gpThrowableArray_50E26C->Add(1);
+                                    gThrowableArray->Add(1);
                                 }
                             }
 

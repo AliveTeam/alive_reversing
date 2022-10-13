@@ -61,7 +61,7 @@ void DeathBirdParticle::VUpdate()
             break;
     }
 
-    mXPos += FP_FromInteger(2) * Math_Sine_451110(field_E4_random);
+    mXPos += FP_FromInteger(2) * Math_Sine(field_E4_random);
     mYPos -= FP_FromInteger(2);
     field_E4_random += 5;
 }

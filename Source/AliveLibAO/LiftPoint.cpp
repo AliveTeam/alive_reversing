@@ -113,7 +113,7 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, Map* pPath, const Guid& tlvId
     }
 
     const FP oldX = mXPos;
-    MapFollowMe_401D30(1);
+    MapFollowMe(1);
     const FP newX = mXPos;
 
     mAnim.mFlags.Set(AnimFlags::eSemiTrans);
@@ -328,7 +328,7 @@ void LiftPoint::VUpdate()
             const FP lineY = FP_FromInteger(mPlatformBaseCollisionLine->mRect.y);
 
             relive::Path_LiftPoint* pLiftTlv = nullptr;
-            relive::Path_TLV* pTlvIter = gMap.TLV_Get_At_446060(
+            relive::Path_TLV* pTlvIter = gMap.TLV_Get_At(
                 nullptr,
                 mXPos,
                 lineY,
@@ -342,7 +342,7 @@ void LiftPoint::VUpdate()
                     mLiftPointStopType = pLiftTlv->mLiftPointStopType;
                     break;
                 }
-                pTlvIter = gMap.TLV_Get_At_446060(
+                pTlvIter = gMap.TLV_Get_At(
                     pTlvIter,
                     mXPos,
                     lineY,
@@ -680,7 +680,7 @@ LiftPoint::~LiftPoint()
 
     Path::TLV_Reset(mPlatformBaseTlvInfo, -1, 0, 0);
 
-    auto pLiftPointTlv = gMap.TLV_Get_At_446260(
+    auto pLiftPointTlv = gMap.TLV_Get_At(
         FP_GetExponent(mXPos),
         FP_GetExponent(FP_FromInteger(mPlatformBaseCollisionLine->mRect.y)),
         FP_GetExponent(mXPos),
@@ -719,7 +719,7 @@ void LiftPoint::CreatePulleyIfExists(s16 camX, s16 camY)
                 }
             }
 
-            pTlv = gMap.TLV_Get_At_446060(pTlv, FP_FromInteger(-1), FP_FromInteger(-1), FP_FromInteger(-1), FP_FromInteger(-1));
+            pTlv = gMap.TLV_Get_At(pTlv, FP_FromInteger(-1), FP_FromInteger(-1), FP_FromInteger(-1), FP_FromInteger(-1));
             if (!pTlv)
             {
                 return;

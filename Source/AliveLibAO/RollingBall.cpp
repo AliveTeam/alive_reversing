@@ -96,7 +96,7 @@ RollingBall::RollingBall(relive::Path_RollingBall* pTlv, const Guid& tlvId)
         mYPos = castY;
     }
 
-    MapFollowMe_401D30(TRUE);
+    MapFollowMe(TRUE);
     field_10C_tlvInfo = tlvId;
     mState = States::eInactive;
     mRollingBallShaker = nullptr;
@@ -192,7 +192,7 @@ void RollingBall::VUpdate()
             CamX_VoidSkipper(mXPos, mVelX, 50, &result);
             if (result == 1 || result == 2)
             {
-                MapFollowMe_401D30(0);
+                MapFollowMe(0);
             }
 
             CrushThingsInTheWay();
@@ -220,7 +220,7 @@ void RollingBall::VUpdate()
 
         case States::eFallingAndHittingWall:
         {
-            if (WallHit_401930(FP_FromInteger(30), mVelX))
+            if (WallHit(FP_FromInteger(30), mVelX))
             {
                 relive_new ParticleBurst(
                     mXPos,

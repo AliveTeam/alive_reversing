@@ -10,9 +10,9 @@
 #include "PathData.hpp"
 #include "BaseGameAutoPlayer.hpp"
 
-MusicController* pMusicController_5C3020 = nullptr;
-u32 sMusicControllerBaseTimeStamp_5C301C = 0;
-u32 sMusicTime_5C3024 = 0;
+MusicController* gMusicController = nullptr;
+static u32 sMusicControllerBaseTimeStamp = 0;
+static u32 sMusicTime = 0;
 
 struct MusicController_Record3_Sub final
 {
@@ -330,36 +330,36 @@ const MusicController_Record2 stru_55D008[118] = {
 
 s32 MusicController::Create()
 {
-    if (pMusicController_5C3020)
+    if (gMusicController)
     {
         return 0;
     }
 
-    pMusicController_5C3020 = relive_new MusicController();
-    if (pMusicController_5C3020)
+    gMusicController = relive_new MusicController();
+    if (gMusicController)
     {
         MusicController::SetBaseTimeStamp();
-        pMusicController_5C3020->EnableMusic(FALSE);
+        gMusicController->EnableMusic(FALSE);
     }
     return 1;
 }
 
 void MusicController::SetBaseTimeStamp()
 {
-    sMusicControllerBaseTimeStamp_5C301C = GetGameAutoPlayer().SysGetTicks();
+    sMusicControllerBaseTimeStamp = GetGameAutoPlayer().SysGetTicks();
 }
 
 void MusicController::UpdateMusicTime()
 {
-    sMusicTime_5C3024 = (3 * GetGameAutoPlayer().SysGetTicks() - 3 * sMusicControllerBaseTimeStamp_5C301C) / 100;
+    sMusicTime = (3 * GetGameAutoPlayer().SysGetTicks() - 3 * sMusicControllerBaseTimeStamp) / 100;
 }
 
 void MusicController::Shutdown()
 {
-    if (pMusicController_5C3020)
+    if (gMusicController)
     {
-        pMusicController_5C3020->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-        pMusicController_5C3020 = nullptr;
+        gMusicController->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        gMusicController = nullptr;
         //nullsub_8(); // TODO: Check if PSX stub
         //sub_4FBAD0(dword_5C3028); // Some other likely strange PSX specific thing that does nothing
         //nullsub_27(); // TODO: Check if PSX stub
@@ -383,10 +383,10 @@ MusicController::MusicTypes MusicController::GetMusicType(u16* seq, u16* seq2, u
     {
         if (field_42_type != MusicTypes::eNone_0)
         {
-            *seqTime = field_30_music_time - sMusicTime_5C3024;
+            *seqTime = field_30_music_time - sMusicTime;
             return field_42_type;
         }
-        *seqTime = field_44 - sMusicTime_5C3024;
+        *seqTime = field_44 - sMusicTime;
     }
 
     return field_42_type;
@@ -394,9 +394,9 @@ MusicController::MusicTypes MusicController::GetMusicType(u16* seq, u16* seq2, u
 
 MusicController::MusicTypes MusicController::static_GetMusicType(u16* seq1, u16* seq2, u32* seqTime)
 {
-    if (pMusicController_5C3020)
+    if (gMusicController)
     {
-        return pMusicController_5C3020->GetMusicType(seq1, seq2, seqTime);
+        return gMusicController->GetMusicType(seq1, seq2, seqTime);
     }
     return MusicTypes::eTypeNull;
 }
@@ -463,7 +463,7 @@ void MusicController::EnableMusic(s16 bEnable)
 
             field_44 = 0;
             field_30_music_time = 0;
-            field_48_last_music_frame = sMusicTime_5C3024;
+            field_48_last_music_frame = sMusicTime;
 
             if (field_42_type == MusicTypes::eTension_4 || field_42_type == MusicTypes::eIntenseChase_7 || field_42_type == MusicTypes::ePossessed_9)
             {
@@ -485,8 +485,8 @@ void MusicController::SetMusicVolumeDelayed(s16 vol, s16 delay)
     {
         field_4E_starting_volume = field_50_current_vol;
         field_52_target_volume = (vol <= 0) ? 0 : vol; // Clamp to 0
-        field_34_music_start_time = sMusicTime_5C3024;
-        field_54_music_volume_change_time = sMusicTime_5C3024 + delay;
+        field_34_music_start_time = sMusicTime;
+        field_54_music_volume_change_time = sMusicTime + delay;
 
         if (vol)
         {
@@ -507,8 +507,8 @@ void MusicController::UpdateVolumeState()
     {
         case 0:
             field_30_music_time = 0;
-            field_34_music_start_time = sMusicTime_5C3024;
-            field_48_last_music_frame = sMusicTime_5C3024;
+            field_34_music_start_time = sMusicTime;
+            field_48_last_music_frame = sMusicTime;
             break;
 
         case 1:
@@ -579,7 +579,7 @@ void MusicController::VUpdate()
             field_30_music_time = 0;
             field_58_flags.Clear(Flags_58::e58_Dead_Bit3);
             field_58_flags.Set(Flags_58::e58_Bit4);
-            field_48_last_music_frame = sMusicTime_5C3024;
+            field_48_last_music_frame = sMusicTime;
             field_28_object_id = Guid{};
 
             if (field_2C_flags_and_seq_idx > 0)
@@ -605,7 +605,7 @@ void MusicController::VUpdate()
         }
     }
 
-    if (field_42_type > MusicTypes::eType1 && sMusicTime_5C3024 - field_48_last_music_frame >= 160)
+    if (field_42_type > MusicTypes::eType1 && sMusicTime - field_48_last_music_frame >= 160)
     {
         PlayMusic(MusicTypes::eNone_0, 0, 1, 0);
     }
@@ -634,7 +634,7 @@ void MusicController::PlayMusic(MusicTypes typeToSet, const BaseGameObject* pObj
         {
             if (typeToSet != MusicTypes::eNone_0)
             {
-                field_48_last_music_frame = sMusicTime_5C3024;
+                field_48_last_music_frame = sMusicTime;
             }
 
             if (field_28_object_id != Guid{} && field_28_object_id == pObj->mBaseGameObjectId)
@@ -664,7 +664,7 @@ void MusicController::PlayMusic(MusicTypes typeToSet, const BaseGameObject* pObj
             }
 
             field_58_flags.Set(Flags_58::e58_UnPause_Bit6);
-            field_48_last_music_frame = sMusicTime_5C3024;
+            field_48_last_music_frame = sMusicTime;
             field_42_type = typeToSet;
             field_44 = 0;
         }
@@ -674,7 +674,7 @@ void MusicController::PlayMusic(MusicTypes typeToSet, const BaseGameObject* pObj
             field_58_flags.Clear(Flags_58::e58_Dead_Bit3);
             field_58_flags.Set(Flags_58::e58_Dead_Bit3, (bFlag4 & 1));
             field_58_flags.Set(Flags_58::e58_UnPause_Bit6);
-            field_48_last_music_frame = sMusicTime_5C3024;
+            field_48_last_music_frame = sMusicTime;
             field_42_type = typeToSet;
             field_44 = 0;
         }
@@ -813,7 +813,7 @@ void MusicController::UpdateMusic()
         if (idx > 0)
         {
             field_40_flags_and_idx = stru_55D008[idx].field_0_idx;
-            field_44 = sMusicTime_5C3024 + stru_55D008[idx].field_2_duration;
+            field_44 = sMusicTime + stru_55D008[idx].field_2_duration;
             SND_SEQ_Play(field_40_flags_and_idx, 1, field_50_current_vol, field_50_current_vol);
         }
         else
@@ -822,7 +822,7 @@ void MusicController::UpdateMusic()
             field_44 = 0;
         }
 
-        field_38_unused = sMusicTime_5C3024;
+        field_38_unused = sMusicTime;
 
         if (field_58_flags.Get(Flags_58::e58_UnPause_Bit6))
         {
@@ -848,16 +848,16 @@ void MusicController::UpdateAmbiance()
         {
             field_30_music_time = 0;
             field_58_flags.Clear(Flags_58::e58_Bit4);
-            field_34_music_start_time = sMusicTime_5C3024;
+            field_34_music_start_time = sMusicTime;
         }
 
-        s32 musicTime = sMusicTime_5C3024;
-        if (sMusicTime_5C3024 >= field_30_music_time && field_58_flags.Get(Flags_58::e58_AmbientMusicEnabled_Bit5))
+        s32 musicTime = sMusicTime;
+        if (sMusicTime >= field_30_music_time && field_58_flags.Get(Flags_58::e58_AmbientMusicEnabled_Bit5))
         {
             if (field_2C_flags_and_seq_idx > 0)
             {
                 SND_SEQ_Stop(field_2C_flags_and_seq_idx);
-                musicTime = sMusicTime_5C3024;
+                musicTime = sMusicTime;
             }
 
             s16 random = 0; // TODO: minus 1 ??
@@ -888,7 +888,7 @@ void MusicController::UpdateAmbiance()
                 if (!found)
                 {
                     field_2C_flags_and_seq_idx = -1;
-                    field_30_music_time = sMusicTime_5C3024;
+                    field_30_music_time = sMusicTime;
                     return;
                 }
             }
@@ -896,13 +896,13 @@ void MusicController::UpdateAmbiance()
             if (random < 0)
             {
                 field_2C_flags_and_seq_idx = -1;
-                field_30_music_time = sMusicTime_5C3024;
+                field_30_music_time = sMusicTime;
             }
             else
             {
                 field_2C_flags_and_seq_idx = stru_55D008[random].field_0_idx;
                 SND_SEQ_Play(field_2C_flags_and_seq_idx, stru_55D1E0[static_cast<s32>(MapWrapper::ToAE(field_24_currentLevelID))].field_C_repeat_count, field_50_current_vol, field_50_current_vol);
-                field_30_music_time = sMusicTime_5C3024 + stru_55D008[random].field_2_duration;
+                field_30_music_time = sMusicTime + stru_55D008[random].field_2_duration;
             }
         }
     }
@@ -915,13 +915,13 @@ void MusicController::UpdateAmbiance()
 
 void MusicController::static_PlayMusic(MusicTypes typeToSet, const BaseGameObject* pObj, s16 bFlag4, s8 bFlag0x20)
 {
-    if (pMusicController_5C3020)
+    if (gMusicController)
     {
-        pMusicController_5C3020->PlayMusic(typeToSet, pObj, bFlag4, bFlag0x20);
+        gMusicController->PlayMusic(typeToSet, pObj, bFlag4, bFlag0x20);
     }
 }
 
 void MusicController::static_EnableMusic(s16 bOn)
 {
-    pMusicController_5C3020->EnableMusic(bOn);
+    gMusicController->EnableMusic(bOn);
 }

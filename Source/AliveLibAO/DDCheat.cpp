@@ -239,7 +239,7 @@ void DDCheat::VUpdate()
                             }
                             case ReliveTypes::eSlig:
                             {
-                                sControlledCharacter->mCurrentMotion = eSligMotions::Motion_7_Falling_46A1A0;
+                                sControlledCharacter->mCurrentMotion = eSligMotions::Motion_7_Falling;
                                 break;
                             }
                             default:
@@ -504,24 +504,24 @@ void DDCheat::Misc()
     }
     else if (field_24_input & InputCommands::eHop)
     {
-        gAbeInvulnerableCheat_5076E4 = gAbeInvulnerableCheat_5076E4 == 0;
+        gAbeInvulnerableCheat = gAbeInvulnerableCheat == 0;
     }
     else if (field_24_input & InputCommands::eCrouchOrRoll)
     {
-        gAbeInvisibleCheat_5076F8 = gAbeInvisibleCheat_5076F8 == 0;
+        gAbeInvisibleCheat = gAbeInvisibleCheat == 0;
     }
     DebugStr("\nScale: up=+5 down=-5 left=100 right=50\n");
     DebugStr("Scale: %d\n\n", gScale_4C3158);
 
     const char_type* invulnerableDisplayText = "on";
-    if (!gAbeInvulnerableCheat_5076E4)
+    if (!gAbeInvulnerableCheat)
     {
         invulnerableDisplayText = "off";
     }
     DebugStr("triangle=invulnerable (%s)\n", invulnerableDisplayText);
 
     const char_type* invisibleDisplayText = "on";
-    if (!gAbeInvisibleCheat_5076F8)
+    if (!gAbeInvisibleCheat)
     {
         invisibleDisplayText = "off";
     }

@@ -84,8 +84,8 @@ SecurityClaw::SecurityClaw(relive::Path_SecurityClaw* pTlv, const Guid& tlvId)
 
     field_124 = 0; // LOBYTE
 
-    mXPos = mClawX + ((Math_Sine_451110(0) * mSpriteScale) * FP_FromInteger(8)) * FP_FromDouble(0.25);
-    mYPos = mClawY + ((Math_Cosine_4510A0(0) * mSpriteScale) * FP_FromInteger(8));
+    mXPos = mClawX + ((Math_Sine(0) * mSpriteScale) * FP_FromInteger(8)) * FP_FromDouble(0.25);
+    mYPos = mClawY + ((Math_Cosine(0) * mSpriteScale) * FP_FromInteger(8));
     SetTint(&kSecurityClawTints_4C5488[0], gMap.mCurrentLevel);
 
     field_134_top_left.x = pTlv->mTopLeftX;
@@ -239,11 +239,11 @@ void SecurityClaw::VUpdate()
         }
     }
 
-    mXPos = mClawX + (((Math_Sine_451110(field_124) * mSpriteScale) * FP_FromInteger(8)) * FP_FromDouble(0.25));
+    mXPos = mClawX + (((Math_Sine(field_124) * mSpriteScale) * FP_FromInteger(8)) * FP_FromDouble(0.25));
 
     field_124 += 2;
 
-    mYPos = mClawY + ((Math_Cosine_4510A0(field_124) * mSpriteScale) * FP_FromInteger(8));
+    mYPos = mClawY + ((Math_Cosine(field_124) * mSpriteScale) * FP_FromInteger(8));
 
     mClaw->mXPos = mXPos;
     mClaw->mYPos = mYPos;

@@ -99,4 +99,4 @@ private:
 };
 
 
-extern MusicController* pMusicController_5C3020;
+extern MusicController* gMusicController;

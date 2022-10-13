@@ -116,21 +116,21 @@ void MeatSack::VUpdate()
     {
         if (mSpriteScale == sActiveHero->mSpriteScale)
         {
-            if (!gpThrowableArray_50E26C)
+            if (!gThrowableArray)
             {
-                gpThrowableArray_50E26C = relive_new ThrowableArray();
+                gThrowableArray = relive_new ThrowableArray();
             }
 
-            if (gpThrowableArray_50E26C)
+            if (gThrowableArray)
             {
-                if (gpThrowableArray_50E26C->field_10_count > 0)
+                if (gThrowableArray->field_10_count > 0)
                 {
                     mAnim.Set_Animation_Data(GetAnimRes(AnimId::MeatSack_Hit));
                     field_110_bDoMeatSackIdleAnim = 1;
                     return;
                 }
 
-                gpThrowableArray_50E26C->Add(field_112_num_items);
+                gThrowableArray->Add(field_112_num_items);
             }
 
             auto pMeat = relive_new Meat(
@@ -193,9 +193,9 @@ Meat::~Meat()
 {
     if (!field_10E_bDead)
     {
-        if (gpThrowableArray_50E26C)
+        if (gThrowableArray)
         {
-            gpThrowableArray_50E26C->Remove(field_10C_count >= 1u ? field_10C_count : 1);
+            gThrowableArray->Remove(field_10C_count >= 1u ? field_10C_count : 1);
         }
     }
 }
@@ -365,7 +365,7 @@ void Meat::InTheAir()
 
 void Meat::VUpdate()
 {
-    if (sNumCamSwappers_507668 == 0)
+    if (gNumCamSwappers == 0)
     {
         if (EventGet(kEventDeathReset))
         {

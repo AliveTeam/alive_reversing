@@ -63,9 +63,9 @@ Rock::~Rock()
 {
     if (!gInfiniteGrenades_5076EC && !field_10E_bDead)
     {
-        if (gpThrowableArray_50E26C)
+        if (gThrowableArray)
         {
-            gpThrowableArray_50E26C->Remove(field_10C_count >= 1u ? field_10C_count : 1);
+            gThrowableArray->Remove(field_10C_count >= 1u ? field_10C_count : 1);
         }
     }
 }

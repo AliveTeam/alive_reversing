@@ -1128,7 +1128,7 @@ static void Factory_MeatSaw(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& t
 
 static void Factory_MainMenuController(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
 {
-    if (gMainMenuInstanceCount_9F2DE0 == 0)
+    if (gMainMenuInstanceCount == 0)
     {
         if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
         {

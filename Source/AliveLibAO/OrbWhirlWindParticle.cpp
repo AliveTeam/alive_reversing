@@ -24,8 +24,8 @@ void OrbWhirlWindParticle::CalculateRenderProperties(s16 bStarted)
         mRadiusX += FP_FromInteger(4);
     }
 
-    mXPosRenderOffset = ((mCurrentScale * mRadiusX) * Math_Sine_451110(static_cast<u8>(mRenderAngle))) + mXPosMid;
-    mYPosRenderOffset = ((mCurrentScale * mRadiusY) * Math_Cosine_4510A0(static_cast<u8>(mRenderAngle))) + mYPosMid;
+    mXPosRenderOffset = ((mCurrentScale * mRadiusX) * Math_Sine(static_cast<u8>(mRenderAngle))) + mXPosMid;
+    mYPosRenderOffset = ((mCurrentScale * mRadiusY) * Math_Cosine(static_cast<u8>(mRenderAngle))) + mYPosMid;
     mRenderAsScale = (mCurrentScale * mRandomScale);
     if (mCurrentScale > FP_FromDouble(0.599))
     {
@@ -140,8 +140,8 @@ void OrbWhirlWindParticle::Update()
                     const FP v25 = FP_FromInteger(16 - (mPositionTimer - sGnFrame)) / FP_FromInteger(16);
                     mXPosOffset2 = ((xpos - mXPosOffset) * v25) + mXPosOffset;
                     mYPosOffset2 = ((ypos - mYPosOffset) * v25) + mYPosOffset;
-                    mXPosMid = mXPosOffset2 + ((FP_FromInteger(32) * mCurrentScale) * Math_Sine_451110(FP_GetExponent(FP_FromInteger(128) * v25) & 0xFF));
-                    mYPosMid = mYPosOffset2 + ((FP_FromInteger(32) * mCurrentScale) * Math_Cosine_4510A0(FP_GetExponent(FP_FromInteger(128) * v25) & 0xFF));
+                    mXPosMid = mXPosOffset2 + ((FP_FromInteger(32) * mCurrentScale) * Math_Sine(FP_GetExponent(FP_FromInteger(128) * v25) & 0xFF));
+                    mYPosMid = mYPosOffset2 + ((FP_FromInteger(32) * mCurrentScale) * Math_Cosine(FP_GetExponent(FP_FromInteger(128) * v25) & 0xFF));
                 }
                 else
                 {
@@ -165,7 +165,7 @@ void OrbWhirlWindParticle::Update()
             {
                 SetActive(IsActive() ? 0 : 1);
             }
-            mYPosMid = (mScaleOffsetSpinAtTarget * Math_Cosine_4510A0(FP_GetExponent(FP_FromInteger(128) * FP_FromInteger(32 - (mPositionTimer + sGnFrame)) / FP_FromInteger(32)) & 0xFF)) + mYPosOffset2;
+            mYPosMid = (mScaleOffsetSpinAtTarget * Math_Cosine(FP_GetExponent(FP_FromInteger(128) * FP_FromInteger(32 - (mPositionTimer + sGnFrame)) / FP_FromInteger(32)) & 0xFF)) + mYPosOffset2;
             mRadiusX -= mRadiusOffsetX;
             CalculateRenderProperties(1);
             break;

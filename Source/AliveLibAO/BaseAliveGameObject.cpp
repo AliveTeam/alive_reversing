@@ -89,7 +89,7 @@ void BaseAliveGameObject::VSetXSpawn(s16 camWorldX, s32 screenXPos)
 
     mXPos = FP_FromInteger(camWorldX + XGrid_Index_To_XPos(mSpriteScale, screenXPos));
 
-    BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446060(0, mXPos, old_y, mXPos, old_y);
+    BaseAliveGameObjectPathTLV = gMap.TLV_Get_At(0, mXPos, old_y, mXPos, old_y);
 
     if (mLiftPoint)
     {
@@ -177,7 +177,7 @@ void BaseAliveGameObject::VSetYSpawn(s32 camWorldY, s16 bLeft)
         mYPos = FP_FromInteger(camWorldY + 124);
     }
 
-    BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446060(
+    BaseAliveGameObjectPathTLV = gMap.TLV_Get_At(
         nullptr,
         mXPos,
         mYPos,
@@ -384,7 +384,7 @@ s16 BaseAliveGameObject::SetBaseAnimPaletteTint(const TintEntry* pTintArray, ERe
     return 1;
 }
 
-s16 BaseAliveGameObject::Check_IsOnEndOfLine_4021A0(s16 direction, s16 dist)
+s16 BaseAliveGameObject::Check_IsOnEndOfLine(s16 direction, s16 dist)
 {
     // Check if distance grid blocks from current snapped X is still on the line or not, if not then we are
     // about to head off an edge.
@@ -483,7 +483,7 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
     }
 
     // Find the start controller at the position we will be at in the new map
-    BaseAliveGameObjectPathTLV = gMap.TLV_Get_At_446260(static_cast<s16>(xpos), static_cast<s16>(ypos), static_cast<s16>(width), static_cast<s16>(height), ReliveTypes::eStartController);
+    BaseAliveGameObjectPathTLV = gMap.TLV_Get_At(static_cast<s16>(xpos), static_cast<s16>(ypos), static_cast<s16>(width), static_cast<s16>(height), ReliveTypes::eStartController);
 
     if (!BaseAliveGameObjectPathTLV)
     {
@@ -593,7 +593,7 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
 }
 
 
-s16 BaseAliveGameObject::MapFollowMe_401D30(s16 snapToGrid)
+s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
 {
     PSX_Point camCoords = {};
     gMap.GetCurrentCamCoords(&camCoords);
@@ -746,7 +746,7 @@ void BaseAliveGameObject::SetActiveCameraDelayedFromDir_401C90()
 
 
 
-s16 BaseAliveGameObject::WallHit_401930(FP offY, FP offX)
+s16 BaseAliveGameObject::WallHit(FP offY, FP offX)
 {
     PathLine* pLine = nullptr;
     return sCollisions->Raycast(
@@ -794,7 +794,7 @@ void BaseAliveGameObject::OnResourceLoaded_4019A0(BaseAliveGameObject* /*ppRes*/
 
 void BaseAliveGameObject::UsePathTransScale_4020D0()
 {
-    auto pPathTrans = static_cast<relive::Path_PathTransition*>(gMap.TLV_Get_At_446260(
+    auto pPathTrans = static_cast<relive::Path_PathTransition*>(gMap.TLV_Get_At(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos),

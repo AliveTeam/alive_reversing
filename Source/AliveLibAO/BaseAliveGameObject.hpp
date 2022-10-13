@@ -96,17 +96,17 @@ protected:
 
 
 
-    s16 WallHit_401930(FP offY, FP offX);
+    s16 WallHit(FP offY, FP offX);
 
     s16 InAirCollision_4019C0(PathLine** ppLine, FP* hitX, FP* hitY, FP vely);
 
     s16 SetBaseAnimPaletteTint(const TintEntry* pTintArray, EReliveLevelIds lvl, PalId palId);
 
-    s16 Check_IsOnEndOfLine_4021A0(s16 direction, s16 dist);
+    s16 Check_IsOnEndOfLine(s16 direction, s16 dist);
 
 public:
     s16 OnTrapDoorIntersection_401C10(PlatformBase* pPlatform);
-    s16 MapFollowMe_401D30(s16 snapToGrid);
+    s16 MapFollowMe(s16 snapToGrid);
 
 public:
     FP_RECT mCollectionRect = {};

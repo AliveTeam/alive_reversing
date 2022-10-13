@@ -9,7 +9,7 @@
 
 namespace AO {
 
-ThrowableArray* gpThrowableArray_50E26C = nullptr;
+ThrowableArray* gThrowableArray = nullptr;
 
 void LoadRockTypes(EReliveLevelIds levelNumber, u16 path)
 {
@@ -76,7 +76,7 @@ void ThrowableArray::VScreenChanged()
 
 ThrowableArray::~ThrowableArray()
 {
-    gpThrowableArray_50E26C = nullptr;
+    gThrowableArray = nullptr;
     if (field_10_count > 0)
     {
         Remove(field_10_count);
@@ -89,7 +89,7 @@ ThrowableArray::ThrowableArray()
 {
     mBaseGameObjectFlags.Clear(Options::eUpdatable_Bit2);
     field_10_count = 0;
-    gpThrowableArray_50E26C = this;
+    gThrowableArray = this;
     field_12_flags &= ~7u;
 }
 

@@ -22,7 +22,7 @@ u16 bUseAltSaveHeader_5076B4 = 0;
 u32 dword_500C18 = 0;
 SaveData gSaveBuffer_500A18 = {};
 
-SaveData gSaveBuffer_505668 = {};
+SaveData gSaveBuffer = {};
 
 void Kill_Objects_451720()
 {
@@ -472,12 +472,12 @@ s16 SaveGame::LoadFromFile(const char_type* name)
     auto hashVal = Hash(&gSaveBuffer_500A18);
     if (hashVal == gSaveBuffer_500A18.field_200_hashValue)
     {
-        gSaveBuffer_505668 = gSaveBuffer_500A18;
-        LoadFromMemory(&gSaveBuffer_505668, 1);
-        gSaveBuffer_505668.field_238_current_camera = gSaveBuffer_505668.field_216_saved_camera;
+        gSaveBuffer = gSaveBuffer_500A18;
+        LoadFromMemory(&gSaveBuffer, 1);
+        gSaveBuffer.field_238_current_camera = gSaveBuffer.field_216_saved_camera;
         Input().SetCurrentController(InputObject::PadIndex::First);
-        gSaveBuffer_505668.field_234_current_level = gSaveBuffer_505668.field_212_saved_level;
-        gSaveBuffer_505668.field_236_current_path = gSaveBuffer_505668.field_214_saved_path;
+        gSaveBuffer.field_234_current_level = gSaveBuffer.field_212_saved_level;
+        gSaveBuffer.field_236_current_path = gSaveBuffer.field_214_saved_path;
         return 1;
     }
     else
@@ -497,7 +497,7 @@ bool SaveGame::SaveToFile(const char_type* name)
     {
         return 0;
     }
-    const auto written = fwrite(&gSaveBuffer_505668, 1, sizeof(SaveData), file);
+    const auto written = fwrite(&gSaveBuffer, 1, sizeof(SaveData), file);
     fclose(file);
 
     return written == sizeof(SaveData) ? 1 : 0;

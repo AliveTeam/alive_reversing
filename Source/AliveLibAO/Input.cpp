@@ -555,7 +555,7 @@ s8 Input_IsVKPressed(s32 key)
 }
 
 // from the MainMenu class
-extern s32 gJoystickAvailable_5079A4;
+extern s32 gJoystickAvailable;
 
 void Input_Init()
 {
@@ -563,7 +563,7 @@ void Input_Init()
 
     if (Input_JoyStickAvailable())
     {
-        gJoystickAvailable_5079A4 = 1;
+        gJoystickAvailable = 1;
     }
 }
 
