@@ -134,9 +134,6 @@ public:
                 {
                     if (mFormat == FG1Format::AO)
                     {
-                        // Does nothing on PC
-                        //PSX_DrawSync_496750(0);
-
                         // Go back to the saved ptr
                         pChunkIter = reinterpret_cast<Fg1Chunk*>(pSavedChunkIter);
                         pSavedChunkIter = nullptr;

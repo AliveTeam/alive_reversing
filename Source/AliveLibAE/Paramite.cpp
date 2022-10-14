@@ -2941,10 +2941,10 @@ s16 Paramite::Brain_9_ParamiteSpawn()
             break;
 
         case ParamiteEnums::Brain_9_ParamiteSpawn::eBrain9_SlowDescend_2:
-            if (field_160_last_event_index != pEventSystem_5BC11C->field_28_last_event_index)
+            if (field_160_last_event_index != gEventSystem->field_28_last_event_index)
             {
-                field_160_last_event_index = pEventSystem_5BC11C->field_28_last_event_index;
-                if (pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::Paramite_Howdy_48)
+                field_160_last_event_index = gEventSystem->field_28_last_event_index;
+                if (gEventSystem->field_20_last_event == GameSpeakEvents::Paramite_Howdy_48)
                 {
                     GetAnimation().mFlags.Set(AnimFlags::eRender);
                     SetBrain(&Paramite::Brain_8_ControlledByGameSpeak);
@@ -2954,11 +2954,11 @@ s16 Paramite::Brain_9_ParamiteSpawn()
             break;
 
         case ParamiteEnums::Brain_9_ParamiteSpawn::eBrain9_SlowerDescend_3:
-            if (field_160_last_event_index != pEventSystem_5BC11C->field_28_last_event_index)
+            if (field_160_last_event_index != gEventSystem->field_28_last_event_index)
             {
-                field_160_last_event_index = pEventSystem_5BC11C->field_28_last_event_index;
+                field_160_last_event_index = gEventSystem->field_28_last_event_index;
 
-                if (pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::Paramite_Howdy_48)
+                if (gEventSystem->field_20_last_event == GameSpeakEvents::Paramite_Howdy_48)
                 {
                     GetAnimation().mFlags.Set(AnimFlags::eRender);
                     mVelY = FP_FromInteger(0);
@@ -4135,7 +4135,7 @@ void Paramite::Motion_21_PreHiss()
 
             if (sControlledCharacter == this)
             {
-                pEventSystem_5BC11C->PushEvent(GameSpeakEvents::Paramite_Howdy_48);
+                gEventSystem->PushEvent(GameSpeakEvents::Paramite_Howdy_48);
             }
             break;
 
@@ -4198,7 +4198,7 @@ void Paramite::Motion_22_Hiss1()
 
         if (sControlledCharacter == this)
         {
-            pEventSystem_5BC11C->PushEvent(GameSpeakEvents::Paramite_Stay_49);
+            gEventSystem->PushEvent(GameSpeakEvents::Paramite_Stay_49);
         }
     }
 
@@ -4234,7 +4234,7 @@ void Paramite::Motion_23_Hiss2()
         Sound(ParamiteSpeak::CMon_or_Attack_0, 0);
         if (sControlledCharacter == this)
         {
-            pEventSystem_5BC11C->PushEvent(GameSpeakEvents::Paramite_CMon_or_Attack_50);
+            gEventSystem->PushEvent(GameSpeakEvents::Paramite_CMon_or_Attack_50);
         }
     }
 
@@ -4256,7 +4256,7 @@ void Paramite::Motion_25_AllOYaGameSpeakBegin()
         Sound(ParamiteSpeak::AllYa_9, 0);
         if (sControlledCharacter == this)
         {
-            pEventSystem_5BC11C->PushEvent(GameSpeakEvents::Paramite_AllYa_52);
+            gEventSystem->PushEvent(GameSpeakEvents::Paramite_AllYa_52);
         }
     }
     else if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
@@ -4278,7 +4278,7 @@ void Paramite::Motion_26_Hiss3()
         Sound(ParamiteSpeak::DoIt_2, 0);
         if (sControlledCharacter == this)
         {
-            pEventSystem_5BC11C->PushEvent(GameSpeakEvents::Paramite_DoIt_51);
+            gEventSystem->PushEvent(GameSpeakEvents::Paramite_DoIt_51);
         }
     }
 
@@ -6233,9 +6233,9 @@ void Paramite::UpdateSlurgWatchPoints()
 GameSpeakEvents Paramite::LastSpeak()
 {
     GameSpeakEvents ret = GameSpeakEvents::eNone_m1;
-    if (field_160_last_event_index == pEventSystem_5BC11C->field_28_last_event_index)
+    if (field_160_last_event_index == gEventSystem->field_28_last_event_index)
     {
-        if (pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::eNone_m1)
+        if (gEventSystem->field_20_last_event == GameSpeakEvents::eNone_m1)
         {
             ret = GameSpeakEvents::eNone_m1;
         }
@@ -6246,8 +6246,8 @@ GameSpeakEvents Paramite::LastSpeak()
     }
     else
     {
-        field_160_last_event_index = pEventSystem_5BC11C->field_28_last_event_index;
-        ret = pEventSystem_5BC11C->field_20_last_event;
+        field_160_last_event_index = gEventSystem->field_28_last_event_index;
+        ret = gEventSystem->field_20_last_event;
     }
 
     if (gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 1))

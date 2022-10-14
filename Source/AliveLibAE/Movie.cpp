@@ -562,7 +562,6 @@ void Movie::DeInit()
     //sub_4F92A0(0); // Clear a call back thats never used
     //sub_4FB440(); // Frees/resets some sound stuff guarded by always false conditions
 
-    PSX_CdControlB_4FB320(9, 0, 0);
     PSX_VSync_4F6170(2);
 
     if (word_BB4AB2 & 1)

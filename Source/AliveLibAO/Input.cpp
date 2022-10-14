@@ -559,7 +559,7 @@ extern s32 gJoystickAvailable;
 
 void Input_Init()
 {
-    Input_Init_491BC0();
+    ::Input_Init();
 
     if (Input_JoyStickAvailable())
     {

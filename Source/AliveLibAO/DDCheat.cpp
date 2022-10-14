@@ -45,7 +45,6 @@ DDCheat::DDCheat()
     mBaseGameObjectFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
 
     SetType(ReliveTypes::eDDCheat);
-    field_10_bInvalidateRect = 0;
     field_14_SelectedCheat = 0;
     field_18_backInputPressed = 0;
     field_1C_unused = 0;
@@ -84,8 +83,6 @@ void DDCheat::VScreenChanged()
     // Empty
 }
 
-u16 unused_4FF868 = 0;
-
 s32 level_4C315C = 3;
 u16 path_4C3160 = 1;
 u32 gVox_4FF864 = 0;
@@ -105,70 +102,6 @@ static void writeHeaderElement(const T& element, FILE* f)
     ::fwrite(&element, 1, sizeof(T), f);
 }
 
-void DDCheat::ScreenShot()
-{
-    auto pixelBuffer = relive_new u16[640 * gPsxDisplay.mHeight];
-    if (pixelBuffer)
-    {
-        char_type fileNameBuffer[16] = {};
-        ::sprintf(fileNameBuffer, "SD%06ld.TGA", static_cast<long int>(sGnFrame % 1000000));
-        const auto fileHandle = ::fopen(fileNameBuffer, "wb");
-        if (!fileHandle)
-        {
-            return;
-        }
-        const PSX_RECT rect = {0, 0, 640, static_cast<s16>(gPsxDisplay.mHeight)};
-        //PSX_StoreImage_496320(&rect, pixelBuffer);
-        PSX_DrawSync_496750(0);
-
-        for (s32 i = 0; i < 640 * gPsxDisplay.mHeight; i++)
-        {
-            const u16 pixel = pixelBuffer[i];
-            pixelBuffer[i] = ((pixel >> 10) & 0x1F) + (32 * (32 * (pixel & 0x1F) + ((pixel >> 5) & 0x1F)));
-        }
-
-        struct
-        {
-            s8 idlength = 0;
-            s8 colourmaptype = 0;
-            s8 datatypecode = 2;
-            s16 colourmaporigin = 0;
-            s16 colourmaplength = 0;
-            s8 colourmapdepth = 0;
-            s16 x_origin = 0;
-            s16 y_origin = 0;
-            s16 width = 640;
-            s16 height = 480;
-            s8 bitsperpixel = 16;
-            s8 imagedescriptor = 0;
-        } headerTGA;
-
-        writeHeaderElement(headerTGA.idlength, fileHandle);
-        writeHeaderElement(headerTGA.colourmaptype, fileHandle);
-        writeHeaderElement(headerTGA.datatypecode, fileHandle);
-        writeHeaderElement(headerTGA.colourmaporigin, fileHandle);
-        writeHeaderElement(headerTGA.colourmaplength, fileHandle);
-        writeHeaderElement(headerTGA.colourmapdepth, fileHandle);
-        writeHeaderElement(headerTGA.x_origin, fileHandle);
-        writeHeaderElement(headerTGA.y_origin, fileHandle);
-        writeHeaderElement(headerTGA.width, fileHandle);
-        writeHeaderElement(headerTGA.height, fileHandle);
-        writeHeaderElement(headerTGA.bitsperpixel, fileHandle);
-        writeHeaderElement(headerTGA.bitsperpixel, fileHandle);
-
-        u8* rowOfPixels = reinterpret_cast<u8*>(pixelBuffer + 640 * 239);
-        const s32 rowNum = 240;
-        for (s32 i = 0; i < rowNum; i++)
-        {
-            fwrite(rowOfPixels, 1, 640 * sizeof(u16), fileHandle);
-            fwrite(rowOfPixels, 1, 640 * sizeof(u16), fileHandle);
-            rowOfPixels -= 640 * sizeof(u16);
-        }
-        ::fclose(fileHandle);
-        relive_delete[] pixelBuffer;
-    }
-}
-
 s32 sub_49AD50(s32 /*a1*/)
 {
     return 0;
@@ -181,12 +114,6 @@ void DDCheat::VUpdate()
         const InputObject::PadIndex otherController = Input().CurrentController() == InputObject::PadIndex::First ? InputObject::PadIndex::Second : InputObject::PadIndex::First;
         Abe* pAbe = sActiveHero;
         s32 cheat_enabled = 0;
-
-        if (unused_4FF868)
-        {
-            ScreenShot();
-        }
-        field_10_bInvalidateRect = 0;
 
         if (field_20_bTeleportCheatActive == 0)
         {
@@ -250,130 +177,115 @@ void DDCheat::VUpdate()
             }
         }
 
-        /*const auto screenshotCombination = InputCommands::eDoAction | InputCommands::eSneak | InputCommands::eRun;
-        if (Input().IsAllPressed(otherController, screenshotCombination))
+
+        if (cheat_enabled)
         {
-            // will always be true in the dll version so we disable it because
-            // it would take a bunch of screenshots every frame
-            //ScreenShot();
+            if (pAbe)
+            {
+                pAbe->field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
+            }
+
+            if (sControlledCharacter)
+            {
+                sControlledCharacter->BaseAliveGameObjectCollisionLine = nullptr;
+                sControlledCharacter->BaseAliveGameObjectLastLineYPos = sControlledCharacter->mYPos;
+            }
         }
-        else*/
+
+        if (!(sGnFrame % 10))
         {
-            if (cheat_enabled)
+            gVox_4FF864 = 0;
+            auto counter = 0;
+            while (counter < 24)
             {
-                if (pAbe)
+                if (sub_49AD50(1 << counter))
                 {
-                    pAbe->field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
+                    gVox_4FF864++;
                 }
-
-                if (sControlledCharacter)
-                {
-                    sControlledCharacter->BaseAliveGameObjectCollisionLine = nullptr;
-                    sControlledCharacter->BaseAliveGameObjectLastLineYPos = sControlledCharacter->mYPos;
-                }
+                counter++;
             }
+            cheat_enabled = sDDCheat_FlyingEnabled_50771C;
+        }
 
-            if (!(sGnFrame % 10))
-            {
-                gVox_4FF864 = 0;
-                auto counter = 0;
-                while (counter < 24)
-                {
-                    if (sub_49AD50(1 << counter))
-                    {
-                        gVox_4FF864++;
-                    }
-                    counter++;
-                }
-                cheat_enabled = sDDCheat_FlyingEnabled_50771C;
-            }
+        if (cheat_enabled || showDebugCreatureInfo_5076E0 || doNothing_4FF860)
+        {
+            DebugStr(
+                "\n%sP%dC%d %6d",
+                Path_Get_Lvl_Name(gMap.mCurrentLevel),
+                gMap.mCurrentPath,
+                gMap.mCurrentCamera,
+                sGnFrame);
+            DebugStr(
+                " mem used %5d mem peak %5d",
+                (sManagedMemoryUsedSize_9F0E48 + 999) / 1000,
+                (sPeakedManagedMemUsage_9F0E4C + 999) / 1000);
+            // DebugStr(" Vox %d\n", gVox_4FF864);
 
-            if (cheat_enabled || showDebugCreatureInfo_5076E0 || doNothing_4FF860)
+            if (sActiveHero)
             {
                 DebugStr(
-                    "\n%sP%dC%d %6d",
-                    Path_Get_Lvl_Name(gMap.mCurrentLevel),
-                    gMap.mCurrentPath,
-                    gMap.mCurrentCamera,
-                    sGnFrame);
-                DebugStr(
-                    " mem used %5d mem peak %5d",
-                    (sManagedMemoryUsedSize_9F0E48 + 999) / 1000,
-                    (sPeakedManagedMemUsage_9F0E4C + 999) / 1000);
-                //DebugStr(" Vox %d\n", gVox_4FF864);
-
-                if (sActiveHero)
-                {
-                    DebugStr(
-                        "\nheroxy=%4d,%4d\n",
-                        FP_GetExponent(sActiveHero->mXPos),
-                        FP_GetExponent(sActiveHero->mYPos));
-                }
-
-                cheat_enabled = sDDCheat_FlyingEnabled_50771C;
-                field_10_bInvalidateRect = 6;
+                    "\nheroxy=%4d,%4d\n",
+                    FP_GetExponent(sActiveHero->mXPos),
+                    FP_GetExponent(sActiveHero->mYPos));
             }
 
-            if (cheat_enabled)
-            {
-                auto isHeld = Input().Held();
-                if (isHeld & InputCommands::eDoAction)
-                {
-                    showDebugCreatureInfo_5076E0 = showDebugCreatureInfo_5076E0 == 0;
-                }
-                if (isHeld & InputCommands::eThrowItem)
-                {
-                    sPeakedManagedMemUsage_9F0E4C = sManagedMemoryUsedSize_9F0E48;
-                    dword_9F0E44 = dword_9F0E40;
-                }
-                if (isHeld & InputCommands::eHop)
-                {
-                    doNothing_4FF860 = doNothing_4FF860 == 0;
-                }
-            }
-            field_24_input = Input().Held(otherController);
-            auto isPressed = Input().Pressed(otherController);
-            if (currentlyPressedButtons_4FF854 == isPressed && currentlyPressedButtons_4FF854)
-            {
-                dword_4C31A8--;
-                if (dword_4C31A8 == 0)
-                {
-                    field_24_input = currentlyPressedButtons_4FF854;
-                    dword_4C31A8 = 2;
-                }
-            }
-            else
-            {
-                currentlyPressedButtons_4FF854 = isPressed;
-                dword_4C31A8 = 10;
-            }
+            cheat_enabled = sDDCheat_FlyingEnabled_50771C;
+        }
 
-            if (field_24_input & InputCommands::eBack)
+        if (cheat_enabled)
+        {
+            auto isHeld = Input().Held();
+            if (isHeld & InputCommands::eDoAction)
             {
-                field_18_backInputPressed = field_18_backInputPressed == 0;
+                showDebugCreatureInfo_5076E0 = showDebugCreatureInfo_5076E0 == 0;
             }
-
-            if (field_18_backInputPressed)
+            if (isHeld & InputCommands::eThrowItem)
             {
-                if (isPressed & InputCommands::eSneak && isPressed & InputCommands::eCheatMode)
+                sPeakedManagedMemUsage_9F0E4C = sManagedMemoryUsedSize_9F0E48;
+                dword_9F0E44 = dword_9F0E40;
+            }
+            if (isHeld & InputCommands::eHop)
+            {
+                doNothing_4FF860 = doNothing_4FF860 == 0;
+            }
+        }
+        field_24_input = Input().Held(otherController);
+        auto isPressed = Input().Pressed(otherController);
+        if (currentlyPressedButtons_4FF854 == isPressed && currentlyPressedButtons_4FF854)
+        {
+            dword_4C31A8--;
+            if (dword_4C31A8 == 0)
+            {
+                field_24_input = currentlyPressedButtons_4FF854;
+                dword_4C31A8 = 2;
+            }
+        }
+        else
+        {
+            currentlyPressedButtons_4FF854 = isPressed;
+            dword_4C31A8 = 10;
+        }
+
+        if (field_24_input & InputCommands::eBack)
+        {
+            field_18_backInputPressed = field_18_backInputPressed == 0;
+        }
+
+        if (field_18_backInputPressed)
+        {
+            if (isPressed & InputCommands::eSneak && isPressed & InputCommands::eCheatMode)
+            {
+                field_14_SelectedCheat = 0;
+            }
+            else if (field_24_input & InputCommands::eCheatMode)
+            {
+                field_14_SelectedCheat++;
+                if (field_14_SelectedCheat >= 2)
                 {
                     field_14_SelectedCheat = 0;
                 }
-                else if (field_24_input & InputCommands::eCheatMode)
-                {
-                    field_14_SelectedCheat++;
-                    if (field_14_SelectedCheat >= 2)
-                    {
-                        field_14_SelectedCheat = 0;
-                    }
-                }
-                (this->*CheatsFn_4C3150[field_14_SelectedCheat])();
             }
-
-            if (field_10_bInvalidateRect)
-            {
-
-            }
+            (this->*CheatsFn_4C3150[field_14_SelectedCheat])();
         }
     }
 }
@@ -406,7 +318,6 @@ void DDCheat::Teleport()
     DebugStr("Camera (Left/Right): %d \n", static_cast<u16>(camera_4C3164));
     DebugStr("Teleport = [] Reset = O\n"); //TODO don't display PSX buttons
     s32 input = field_24_input;
-    field_10_bInvalidateRect = 6;
     if (input & InputCommands::eSneak)
     {
         if (level_4C315C)
@@ -527,7 +438,6 @@ void DDCheat::Misc()
     }
     DebugStr("cross = invisible (%s)\n", invisibleDisplayText);
 
-    field_10_bInvalidateRect = 9;
     if (!gElum)
     {
         if (sControlledCharacter != gElum)

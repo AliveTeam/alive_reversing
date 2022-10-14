@@ -57,7 +57,7 @@ GameSpeakEvents Code_LookUp(u32 code, u16 idx, u16 code_len)
     return static_cast<GameSpeakEvents>(code / code_base_560F0C[code_len_to_use - idx] % 10);
 }
 
-GameSpeak* pEventSystem_5BC11C = nullptr;
+GameSpeak* gEventSystem = nullptr;
 
 GameSpeak::GameSpeak()
     : BaseGameObject(TRUE, 0)
@@ -143,7 +143,7 @@ s32 GameSpeak::FillBuffer(s32 code, u8* pBufffer)
 
 GameSpeak::~GameSpeak()
 {
-    pEventSystem_5BC11C = nullptr;
+    gEventSystem = nullptr;
 }
 
 void GameSpeak::VRender(PrimHeader** /*ppOt*/)

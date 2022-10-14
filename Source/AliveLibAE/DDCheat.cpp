@@ -38,17 +38,11 @@ TDDCheatMenu sDDCheat_FnTable_550F50[DDCHEAT_MENU_COUNT] = {
     &DDCheat::Menu_Movies,
 };
 
-s16 sScreenshotOnNextFrame_5BC008 = 0;
 s32 sDDCheat_Unused2_AB49FC = 0;
 s32 sDDCheat_Unused1_AB4A00 = 0;
 
 s16 sDDCheat_MovieSelectIdx_5BBFF0 = 0;
 extern u32 sLevelId_dword_5CA408;
-
-void DDCheat_SaveScreenshot_415550()
-{
-    
-}
 
 struct DDCheatProperties final
 {
@@ -239,11 +233,6 @@ void DDCheat::VUpdate()
     if (!sActiveHero)
     {
         return;
-    }
-
-    if (sScreenshotOnNextFrame_5BC008)
-    {
-        DDCheat_SaveScreenshot_415550();
     }
 
     field_20 = 0;

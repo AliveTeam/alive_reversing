@@ -122,11 +122,11 @@ void GlukkonSwitch::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    const s32 lastEventIdx = pEventSystem_5BC11C->field_28_last_event_index;
+    const s32 lastEventIdx = gEventSystem->field_28_last_event_index;
     GameSpeakEvents lastEventIdx2 = GameSpeakEvents::eNone_m1;
     if (field_100_last_event_idx == lastEventIdx)
     {
-        if (pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::eNone_m1)
+        if (gEventSystem->field_20_last_event == GameSpeakEvents::eNone_m1)
         {
             lastEventIdx2 = GameSpeakEvents::eNone_m1;
         }
@@ -138,7 +138,7 @@ void GlukkonSwitch::VUpdate()
     else
     {
         field_100_last_event_idx = lastEventIdx;
-        lastEventIdx2 = pEventSystem_5BC11C->field_20_last_event;
+        lastEventIdx2 = gEventSystem->field_20_last_event;
     }
 
     switch (field_F8_state)

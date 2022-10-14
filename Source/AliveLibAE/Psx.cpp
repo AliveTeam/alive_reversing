@@ -141,11 +141,6 @@ void PSX_EMU_SetCallBack_4F9430(s32 callBackType, TPsxEmuCallBack fnPtr)
     }
 }
 
-void PSX_EMU_Set_screen_mode_4F9420(s8 /*mode*/)
-{
-    
-}
-
 s32 PSX_CD_Add_EMU_Path_4FAC00(const char_type* /*filePath*/)
 {
     
@@ -164,21 +159,6 @@ s32 PSX_ResetCallBack_4FAA20()
 }
 
 s32 PSX_StopCallBack_4FAA30()
-{
-    return 0;
-}
-
-s32 PSX_CdInit_4FB2C0()
-{
-    return 1;
-}
-
-s32 PSX_CdSetDebug_4FB330(s32 /*mode*/)
-{
-    return 1;
-}
-
-s32 PSX_CdControlB_4FB320(s32, s32, s32)
 {
     return 0;
 }
@@ -472,12 +452,6 @@ bool PSX_Rects_overlap_4FA0B0(const PSX_RECT* pRect1, const PSX_RECT* pRect2)
         && pRect2->y < (pRect1->y + pRect1->h);
 }
 
-s32 sDispEnv_mode_BBB9C4 = 0;
-
-void PSX_DispEnv_Set_4ED960(s32 mode)
-{
-    sDispEnv_mode_BBB9C4 = mode;
-}
 
 void PSX_Prevent_Rendering_4945B0()
 {
@@ -541,9 +515,4 @@ void PSX_VSync_4F6170(s32 mode)
         sVSyncLastMillisecond_BD0F2C += frameTimeInMilliseconds;
         sLastFrameTimestampMilliseconds_BD0F24 = currentTime + frameTimeInMilliseconds;
     }
-}
-
-s32 PSX_DrawSync_4F6280(s32 /*mode*/)
-{
-    return 0;
 }

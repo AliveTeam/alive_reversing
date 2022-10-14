@@ -52,7 +52,7 @@ s32 CALLBACK WinMain_4EE631(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR 
     LOG_INFO("Main enter");
     AE_Sys_Main(hInstance, lpCmdLine, nShowCmd);
     sPrevInstance_BBBA54 = hPrevInstance;
-    Game_Main_4949F0();
+    Game_Main();
     LOG_INFO("Main exit");
     return sExitCode_BBBA04;
 }

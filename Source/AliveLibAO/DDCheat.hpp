@@ -61,13 +61,11 @@ public:
 
     void VUpdate() override;
 
-    void ScreenShot();
     void Teleport();
     void Misc();
     static s32 DebugFont_Printf(s32 idx, const char_type* formatStr, ...);
     static s32 DebugStr(const char_type* pStr, ...);
 
-    s32 field_10_bInvalidateRect = 0;
     s32 field_14_SelectedCheat = 0;
     s32 field_18_backInputPressed = 0;
     s32 field_1C_unused = 0;

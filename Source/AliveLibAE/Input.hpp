@@ -10,7 +10,7 @@ void Input_InitKeyStateArray_4EDD60();
 void Input_SaveSettingsIni_Common();
 void Input_SaveSettingsIni_492840();
 void Input_DisableInputForPauseMenuAndDebug_4EDDC0();
-void Input_Init_491BC0();
+void Input_Init();
 void Input_SetKeyState_4EDD80(s32 key, s8 bIsDown);
 bool Input_IsVKPressed_4EDD40(s32 key);
 u32 Input_GetLastPressedKey_492610();

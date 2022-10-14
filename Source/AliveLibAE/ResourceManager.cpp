@@ -53,7 +53,6 @@ void Game_ShowLoadingIcon_482D80()
     pParticle->GetAnimation().SetRenderLayer(Layer::eLayer_0);
     PSX_SetDefDrawEnv_4F5AA0(&dispBuffer.mDrawEnv, 0, 0, 640, 240);
     PSX_PutDrawEnv_4F5980(&dispBuffer.mDrawEnv);
-    PSX_DrawSync_4F6280(0);
 
     // This was doing something odd with OT index.. I think its trying to simulate f64 buffering by
     // using other parts of the OT while another part is drawn, but it was bugged because it cleared the other anyway
@@ -61,12 +60,10 @@ void Game_ShowLoadingIcon_482D80()
     PSX_ClearOTag_4F6290(dispBuffer.mOrderingTable, 43);
     pParticle->GetAnimation().VRender(320, 220, dispBuffer.mOrderingTable, 0, 0);
     PSX_DrawOTag_4F6540(dispBuffer.mOrderingTable);
-    PSX_DrawSync_4F6280(0);
 
     PSX_ClearOTag_4F6290(dispBuffer.mOrderingTable, 43);
     pParticle->GetAnimation().VRender(320, 640 - 164, dispBuffer.mOrderingTable, 0, 0);
     PSX_DrawOTag_4F6540(dispBuffer.mOrderingTable);
-    PSX_DrawSync_4F6280(0);
 
     PSX_SetDefDispEnv_4F55A0(&dispBuffer.mDisplayEnv, 0, 0, 640, 240);
     PSX_PutDispEnv_4F5890(&dispBuffer.mDisplayEnv);

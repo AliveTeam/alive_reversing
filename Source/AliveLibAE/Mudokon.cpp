@@ -1714,14 +1714,14 @@ s16 Mudokon::Brain_0_GiveRings()
             }
             else
             {
-                const s32 lastEventIdx = pEventSystem_5BC11C->field_28_last_event_index;
+                const s32 lastEventIdx = gEventSystem->field_28_last_event_index;
                 const bool bSameAsLastIdx = field_140_last_event_index == lastEventIdx;
                 if (!bSameAsLastIdx)
                 {
                     field_140_last_event_index = lastEventIdx;
                 }
 
-                if (bSameAsLastIdx || pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::eNone_m1 || pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::eSameAsLast_m2)
+                if (bSameAsLastIdx || gEventSystem->field_20_last_event == GameSpeakEvents::eNone_m1 || gEventSystem->field_20_last_event == GameSpeakEvents::eSameAsLast_m2)
                 {
                     if (!(field_16C_flags.Get(Flags_16C::eBit1_Unknown)) && static_cast<s32>(sGnFrame) > field_194_timer)
                     {
@@ -1731,7 +1731,7 @@ s16 Mudokon::Brain_0_GiveRings()
                 else
                 {
                     field_194_timer = MudResponseDelay() + sGnFrame + 20;
-                    if (pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::eHello_9)
+                    if (gEventSystem->field_20_last_event == GameSpeakEvents::eHello_9)
                     {
                         return Brain_0_GiveRings::eBrain0_GoodGameSpeak_3;
                     }
@@ -6786,10 +6786,10 @@ GameSpeakEvents Mudokon::LastGameSpeak()
 {
     GameSpeakEvents actualEvent = GameSpeakEvents::eNone_m1;
 
-    const s32 lastEventIdx = pEventSystem_5BC11C->field_28_last_event_index;
+    const s32 lastEventIdx = gEventSystem->field_28_last_event_index;
     if (field_140_last_event_index == lastEventIdx)
     {
-        if (pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::eNone_m1)
+        if (gEventSystem->field_20_last_event == GameSpeakEvents::eNone_m1)
         {
             actualEvent = GameSpeakEvents::eNone_m1;
         }
@@ -6801,7 +6801,7 @@ GameSpeakEvents Mudokon::LastGameSpeak()
     else
     {
         field_140_last_event_index = lastEventIdx;
-        actualEvent = pEventSystem_5BC11C->field_20_last_event;
+        actualEvent = gEventSystem->field_20_last_event;
     }
 
     // Not valid if not in the same camera

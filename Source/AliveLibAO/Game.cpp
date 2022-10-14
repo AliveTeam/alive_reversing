@@ -57,11 +57,8 @@ s16 gOldSavedMuds_5076D4 = 0;
 
 s16 sBreakGameLoop_507B78 = 0;
 s16 gAttract_507698 = 0;
-s32 gTimeOut_NotUsed_507B0C = 0;
-s32 gFileOffset_NotUsed_507B10 = 0;
 
 s8 gDDCheatMode_508BF8 = 0;
-s8 byte_508BFC = 0;
 
 s32 Game_End_Frame_4505D0(u32 bSkip)
 {
@@ -96,46 +93,12 @@ static void Main_ParseCommandLineArguments()
             if (Input_IsVKPressed(VK_SHIFT))
             {
                 gDDCheatMode_508BF8 = 1;
-                PSX_DispEnv_Set_48D900(2);
-                PSX_EMU_Set_screen_mode_499910(2);
             }
         }
         // Force DDCheat
 #if FORCE_DDCHEAT
         gDDCheatMode_508BF8 = 1;
 #endif
-    }
-
-    if (!pCmdLine)
-    {
-        PSX_DispEnv_Set_48D900(2);
-        PSX_EMU_Set_screen_mode_499910(2);
-    }
-    else
-    {
-        if (_strcmpi(pCmdLine, "-interline") == 0)
-        {
-            PSX_DispEnv_Set_48D900(1);
-            PSX_EMU_Set_screen_mode_499910(1);
-            byte_508BFC = 0;
-        }
-        else if (_strcmpi(pCmdLine, "-vstretch") == 0)
-        {
-            PSX_DispEnv_Set_48D900(0);
-            PSX_EMU_Set_screen_mode_499910(0);
-            byte_508BFC = 0;
-        }
-        else if (_strcmpi(pCmdLine, "-vdouble") == 0)
-        {
-            PSX_DispEnv_Set_48D900(0);
-            PSX_EMU_Set_screen_mode_499910(0);
-            byte_508BFC = 1;
-        }
-        else
-        {
-            PSX_DispEnv_Set_48D900(2);
-            PSX_EMU_Set_screen_mode_499910(2);
-        }
     }
 
     Init_VGA_AndPsxVram();
@@ -190,7 +153,7 @@ void Init_Sound_DynamicArrays_And_Others_41CD20()
     SwitchStates_ClearAll();
 }
 
-void Game_Init_LoadingIcon_445E30()
+void Game_Init_LoadingIcon()
 {
     /*
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kLoadingAOResID, 1, 0);
@@ -203,7 +166,7 @@ void Game_Init_LoadingIcon_445E30()
     */
 }
 
-void Game_Free_LoadingIcon_445E80()
+void Game_Free_LoadingIcon()
 {
     /*
     u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kLoadingAOResID, 0, 0);
@@ -219,12 +182,12 @@ using TExitGameCB = AddPointer_t<void CC()>;
 
 TExitGameCB sGame_OnExitCallback_9F664C = nullptr;
 
-void Game_SetExitCallBack_48E040(TExitGameCB)
+void Game_SetExitCallBack(TExitGameCB)
 {
     
 }
 
-void Game_ExitGame_450730()
+void Game_ExitGame()
 {
     PSX_EMU_VideoDeAlloc_49A550();
 }
@@ -236,7 +199,7 @@ s32 CreateTimer_48F030(s32, void*)
     return 0;
 }
 
-void Game_Shutdown_48E050()
+void Game_Shutdown()
 {
     if (sGame_OnExitCallback_9F664C)
     {
@@ -254,7 +217,7 @@ void Game_Shutdown_48E050()
 }
 
 
-void Game_Loop_437630()
+void Game_Loop()
 {
     sBreakGameLoop_507B78 = 0;
 
@@ -335,7 +298,6 @@ void Game_Loop_437630()
         }
 
         DebugFont_Flush();
-        PSX_DrawSync_496750(0);
         pScreenManager->VRender(ppOt);
         SYS_EventsPump();
 
@@ -369,9 +331,6 @@ void Game_Loop_437630()
 
     } // Main loop end
 
-    //const PSX_RECT rect = {0, 0, 368, 480};
-    //PSX_ClearImage_496020(&rect, 0, 0, 0);
-    PSX_DrawSync_496750(0);
     PSX_VSync_496620(0);
 
     for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
@@ -390,25 +349,19 @@ void Game_Loop_437630()
     }
 }
 
-void DDCheat_Allocate_409560()
+void DDCheat_Allocate()
 {
     relive_new DDCheat();
 }
 
-void Game_Run_4373D0()
+void Game_Run()
 {
     SYS_EventsPump();
 
     gAttract_507698 = 0;
-    gTimeOut_NotUsed_507B0C = 6000;
-    gFileOffset_NotUsed_507B10 = 34;
 
-    DDCheat::DebugStr("Abe's Oddysee Attract=%d Timeout=%d FileOffset=%d DA Track=NA\n", 0, 200, 34);
     SYS_EventsPump();
     PSX_ResetCallBack_49AFB0();
-
-    //Nop_49BAF0();
-    //Nop_49BB50();
 
     gPsxDisplay.Init();
     Input().InitPad(1);
@@ -422,23 +375,21 @@ void Game_Run_4373D0()
     Init_Sound_DynamicArrays_And_Others_41CD20();
     Input_Init();
 
-#if DEVELOPER_MODE
-    // Boot directly to the "abe hello" screen
-    gMap.Init(EReliveLevelIds::eMenu, 1, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
-#else
-    // Normal copy right screen boot
     gMap.Init(EReliveLevelIds::eMenu, 1, 10, CameraSwapEffects::eInstantChange_0, 0, 0);
-#endif
 
-    DDCheat_Allocate_409560();
+    DDCheat_Allocate();
 
     gEventSystem = relive_new GameSpeak();
 
     gCheatController = relive_new CheatController();
 
-    Game_Init_LoadingIcon_445E30();
-    Game_Loop_437630();
-    Game_Free_LoadingIcon_445E80();
+    Game_Init_LoadingIcon();
+
+    // Main loop start
+    Game_Loop();
+
+    // Shut down start
+    Game_Free_LoadingIcon();
 
     DDCheat::ClearProperties();
 
@@ -447,17 +398,16 @@ void Game_Run_4373D0()
     AnimationBase::FreeAnimationArray();
     BaseAnimatedWithPhysicsGameObject::FreeArray();
     relive_delete gBaseGameObjects;
+    relive_delete gPlatformsArray;
 
     MusicController::Shutdown();
+
     SND_Reset_Ambiance();
     SND_Shutdown_476EC0();
-    PSX_CdControlB_49BB40(8, 0, 0);
     PSX_ResetCallBack_49AFB0();
     PSX_StopCallBack_49AFC0();
     InputObject::Shutdown();
     PSX_ResetGraph_4987E0(3);
-
-    DDCheat::DebugStr("Abe's Oddysee Demo Done\n");
 }
 
 
@@ -466,12 +416,14 @@ void Game_Main()
     GetGameAutoPlayer().ParseCommandLine(Sys_GetCommandLine());
 
     Main_ParseCommandLineArguments();
-    Game_SetExitCallBack_48E040(Game_ExitGame_450730);
 
-    Game_Run_4373D0();
+    Game_SetExitCallBack(Game_ExitGame);
+
+    // Only returns once the engine is shutting down
+    Game_Run();
 
     // TODO: AE inlined calls here (pull AE's code into another func)
-    Game_Shutdown_48E050();
+    Game_Shutdown();
 }
 
 } // namespace AO

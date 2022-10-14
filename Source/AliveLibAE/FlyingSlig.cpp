@@ -1512,28 +1512,28 @@ void FlyingSlig::Motion_8_GameSpeak()
             switch (field_17D_next_speak)
             {
                 case SligSpeak::eHi_0:
-                    pEventSystem_5BC11C->PushEvent(GameSpeakEvents::Slig_Hi_27);
+                    gEventSystem->PushEvent(GameSpeakEvents::Slig_Hi_27);
                     break;
                 case SligSpeak::eHereBoy_1:
-                    pEventSystem_5BC11C->PushEvent(GameSpeakEvents::Slig_HereBoy_28);
+                    gEventSystem->PushEvent(GameSpeakEvents::Slig_HereBoy_28);
                     break;
                 case SligSpeak::eGetHim_2:
-                    pEventSystem_5BC11C->PushEvent(GameSpeakEvents::Slig_GetEm_29);
+                    gEventSystem->PushEvent(GameSpeakEvents::Slig_GetEm_29);
                     break;
                 case SligSpeak::eLaugh_3:
-                    pEventSystem_5BC11C->PushEvent(GameSpeakEvents::Slig_Laugh_8);
+                    gEventSystem->PushEvent(GameSpeakEvents::Slig_Laugh_8);
                     break;
                 case SligSpeak::eBullshit_5:
-                    pEventSystem_5BC11C->PushEvent(GameSpeakEvents::Slig_BS_5);
+                    gEventSystem->PushEvent(GameSpeakEvents::Slig_BS_5);
                     break;
                 case SligSpeak::eLookOut_6:
-                    pEventSystem_5BC11C->PushEvent(GameSpeakEvents::Slig_LookOut_6);
+                    gEventSystem->PushEvent(GameSpeakEvents::Slig_LookOut_6);
                     break;
                 case SligSpeak::eBullshit2_7:
-                    pEventSystem_5BC11C->PushEvent(GameSpeakEvents::Slig_BS2_7);
+                    gEventSystem->PushEvent(GameSpeakEvents::Slig_BS2_7);
                     break;
                 case SligSpeak::eFreeze_8:
-                    pEventSystem_5BC11C->PushEvent(GameSpeakEvents::Slig_Freeze_31);
+                    gEventSystem->PushEvent(GameSpeakEvents::Slig_Freeze_31);
                     break;
                 default:
                     break;

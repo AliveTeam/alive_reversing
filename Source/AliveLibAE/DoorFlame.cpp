@@ -82,23 +82,20 @@ public:
     {
         if (Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
         {
-            //if (k1_dword_55EF90)
-            {
-                GetAnimation().SetRGB(mRGB.r & 0xFF, mRGB.g & 0xFF, mRGB.b & 0xFF);
+            GetAnimation().SetRGB(mRGB.r & 0xFF, mRGB.g & 0xFF, mRGB.b & 0xFF);
 
-                const FP xOff = field_FC_xOff - field_F4_xPos;
-                const FP yOff = field_100_yOff - field_F8_yPos;
+            const FP xOff = field_FC_xOff - field_F4_xPos;
+            const FP yOff = field_100_yOff - field_F8_yPos;
 
-                GetAnimation().VRender(
-                    FP_GetExponent(field_F4_xPos),
-                    FP_GetExponent(field_F8_yPos),
-                    ppOt,
-                    FP_GetExponent(xOff) + 1,
-                    FP_GetExponent(yOff) + 1);
+            GetAnimation().VRender(
+                FP_GetExponent(field_F4_xPos),
+                FP_GetExponent(field_F8_yPos),
+                ppOt,
+                FP_GetExponent(xOff) + 1,
+                FP_GetExponent(yOff) + 1);
 
-                PSX_RECT frameRect = {};
-                GetAnimation().Get_Frame_Rect(&frameRect);
-            }
+            PSX_RECT frameRect = {};
+            GetAnimation().Get_Frame_Rect(&frameRect);
         }
     }
 

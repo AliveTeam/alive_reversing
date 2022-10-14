@@ -2984,10 +2984,10 @@ s16 Slig::Brain_ListenToGlukkon_Moving(BaseAliveGameObject* pGlukkonObj)
         return Brain_ListeningToGlukkon_States::IdleListening_1;
     }
 
-    if (field_160_last_event_index != pEventSystem_5BC11C->field_28_last_event_index)
+    if (field_160_last_event_index != gEventSystem->field_28_last_event_index)
     {
-        field_160_last_event_index = pEventSystem_5BC11C->field_28_last_event_index;
-        if (pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::Glukkon_StayHere_38 && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
+        field_160_last_event_index = gEventSystem->field_28_last_event_index;
+        if (gEventSystem->field_20_last_event == GameSpeakEvents::Glukkon_StayHere_38 && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
         {
             field_216_flags.Clear(Flags_216::eBit1_FollowGlukkon);
             NextCommand_4B9A00(Brain_ListeningToGlukkon_GlukkonCommands::Stay_2, Brain_ListeningToGlukkon_States::IdleListening_1);
@@ -5436,7 +5436,7 @@ s16 Slig::GetNextMotionIncGameSpeak_4B5080(s32 input)
                 break;
         }
 
-        pEventSystem_5BC11C->PushEvent(event);
+        gEventSystem->PushEvent(event);
     }
 
     if (mNextMotion >= eSligMotions::M_SpeakHereBoy_20_4B5330 && mNextMotion <= eSligMotions::M_Blurgh_31_4B5510)
@@ -5560,10 +5560,10 @@ GameSpeakEvents Slig::LastGlukkonSpeak_4B3090()
         return GameSpeakEvents::eNone_m1;
     }
 
-    const s32 last_event_idx = pEventSystem_5BC11C->field_28_last_event_index;
+    const s32 last_event_idx = gEventSystem->field_28_last_event_index;
     if (field_160_last_event_index == last_event_idx)
     {
-        if (pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::eNone_m1)
+        if (gEventSystem->field_20_last_event == GameSpeakEvents::eNone_m1)
         {
             return GameSpeakEvents::eNone_m1;
         }
@@ -5575,7 +5575,7 @@ GameSpeakEvents Slig::LastGlukkonSpeak_4B3090()
 
     field_160_last_event_index = last_event_idx;
 
-    return pEventSystem_5BC11C->field_20_last_event;
+    return gEventSystem->field_20_last_event;
 }
 
 s16 Slig::ListenToGlukkonCommands_4B95D0()
@@ -5696,13 +5696,13 @@ void Slig::TurnOrSayWhat_4BEBC0()
 
 void Slig::GameSpeakResponse_4BF470()
 {
-    const s32 lastIdx = pEventSystem_5BC11C->field_28_last_event_index;
+    const s32 lastIdx = gEventSystem->field_28_last_event_index;
 
     GameSpeakEvents speak = GameSpeakEvents::eNone_m1;
 
     if (field_160_last_event_index == lastIdx)
     {
-        if (pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::eNone_m1)
+        if (gEventSystem->field_20_last_event == GameSpeakEvents::eNone_m1)
         {
             speak = GameSpeakEvents::eNone_m1;
         }
@@ -5714,7 +5714,7 @@ void Slig::GameSpeakResponse_4BF470()
     else
     {
         field_160_last_event_index = lastIdx;
-        speak = pEventSystem_5BC11C->field_20_last_event;
+        speak = gEventSystem->field_20_last_event;
     }
 
     switch (speak)

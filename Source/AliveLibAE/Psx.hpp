@@ -9,9 +9,7 @@ struct Bitmap;
 
 using TPsxEmuCallBack = AddPointer_t<s32(u32)>;
 
-void PSX_DispEnv_Set_4ED960(s32 mode);
 void PSX_VSync_4F6170(s32 mode);
-s32 PSX_DrawSync_4F6280(s32 mode);
 s32 PSX_SetDispMask_4F89F0(s32 mode);
 s32 PSX_SetVideoMode_4FA8F0();
 s32 PSX_ResetGraph_4F8800(s32);
@@ -23,15 +21,11 @@ void PSX_PutDispEnv_4F5890(PSX_DISPENV* pDispEnv);
 void PSX_PutDispEnv_4F58E0(const PSX_DISPENV* pDispEnv);
 void PSX_EMU_VideoDeAlloc_4FA010();
 s32 PSX_ResetCallBack_4FAA20();
-s32 PSX_CdInit_4FB2C0();
-s32 PSX_CdSetDebug_4FB330(s32 mode);
-s32 PSX_CdControlB_4FB320(s32, s32, s32);
 s32 PSX_StopCallBack_4FAA30();
 s32 PSX_EMU_VideoAlloc_4F9D70();
 void Init_VGA_AndPsxVram_494690();
 void PSX_EMU_Init_4F9CD0();
 void PSX_EMU_SetCallBack_4F9430(s32 callBackType, TPsxEmuCallBack fnPtr);
-void PSX_EMU_Set_screen_mode_4F9420(s8 mode);
 s32 PSX_MoveImage(const PSX_RECT* pRect, s32 xpos, s32 ypos);
 s32 PSX_LoadImage_4F5FB0(const PSX_RECT* pRect, const u8* pData);
 

@@ -226,7 +226,6 @@ void PsxDisplay::Init()
     PSX_ClearImage_4F5BD0(&rect, 0, 0, 0);
     */
 
-    PSX_DrawSync_4F6280(0);
     PSX_VSync_4F6170(0);
     PSX_SetDispMask_4F89F0(1);
 }
@@ -249,14 +248,12 @@ void PsxDisplay::RenderOrderingTable()
         if (sCommandLine_NoFrameSkip)
         {
             PSX_DrawOTag_4F6540(mDrawEnvs[0].mOrderingTable);
-            PSX_DrawSync_4F6280(0);
         }
         else
         {
             if (sbDisplayRenderFrame)
             {
                 PSX_DrawOTag_4F6540(mDrawEnvs[0].mOrderingTable);
-                PSX_DrawSync_4F6280(0);
             }
             else
             {

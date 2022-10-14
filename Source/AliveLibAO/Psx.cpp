@@ -15,11 +15,6 @@ void PSX_PutDispEnv_495D30(PSX_DISPENV* pDispEnv)
     PSX_PutDispEnv_4F58E0(pDispEnv);
 }
 
-s32 PSX_DrawSync_496750(s32 mode)
-{
-    return PSX_DrawSync_4F6280(mode);
-}
-
 void PSX_VSync_496620(s32 mode)
 {
     PSX_VSync_4F6170(mode);
@@ -80,11 +75,6 @@ s32 PSX_StopCallBack_49AFC0()
     return PSX_StopCallBack_4FAA30();
 }
 
-s32 PSX_CdControlB_49BB40(s32 a1, s32 a2, s32 a3)
-{
-    return PSX_CdControlB_4FB320(a1, a2, a3);
-}
-
 void PSX_SetDispMask_4989D0(s32 mode)
 {
     PSX_SetDispMask_4F89F0(mode);
@@ -128,16 +118,6 @@ s32 PSX_EMU_VideoAlloc_49A2B0()
 void PSX_EMU_SetCallBack_499920(s32 callBackType, TPsxEmuCallBack fnPtr)
 {
     PSX_EMU_SetCallBack_4F9430(callBackType, fnPtr);
-}
-
-void PSX_EMU_Set_screen_mode_499910(s8 a1)
-{
-    PSX_EMU_Set_screen_mode_4F9420(a1);
-}
-
-void PSX_DispEnv_Set_48D900(s32 mode)
-{
-    PSX_DispEnv_Set_4ED960(mode);
 }
 
 void PSX_EMU_VideoDeAlloc_49A550()

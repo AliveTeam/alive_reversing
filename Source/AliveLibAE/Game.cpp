@@ -42,7 +42,7 @@
 
 using TExitGameCallBack = AddPointer_t<void CC()>;
 
-TExitGameCallBack sGame_OnExitCallback_BBFB00 = nullptr;
+TExitGameCallBack sGame_OnExitCallback = nullptr;
 
 u32 sGnFrame = 0;
 
@@ -51,7 +51,6 @@ u32 sTimer_period_BBB9D4 = 0;
 
 // Arrays of things
 DynamicArrayT<BaseGameObject>* gPlatformsArray = nullptr;
-DynamicArray* ObjList_5BD4D8 = nullptr;
 
 s16 sBreakGameLoop_5C2FE0 = 0;
 s16 sNum_CamSwappers_5C1B66 = 0;
@@ -59,12 +58,10 @@ s32 dword_5C2F78 = 0;
 s16 bSkipGameObjectUpdates_5C2FA0 = 0;
 
 s32 dword_5CA4D4 = 0;
-s32 k1_dword_55EF90 = 1;
 bool byte_55EF88 = true;
 bool sCommandLine_ShowFps_5CA4D0 = false;
 bool sCommandLine_DDCheatEnabled_5CA4B5 = false;
 bool byte_5CA4D2 = false;
-s32 dword_5CA4E0 = 0;
 
 // Fps calcs
 s8 bQuitting_BD0F08 = 0;
@@ -209,7 +206,7 @@ void VLC_Tables_Init_496720()
     
 }
 
-void Main_ParseCommandLineArguments_494EA0(const char_type* /*pCmdLineNotUsed*/, const char_type* pCommandLine)
+void Main_ParseCommandLineArguments(const char_type* /*pCmdLineNotUsed*/, const char_type* pCommandLine)
 {
     //nullsub_2(); // Note: Pruned
     IO_Init_494230();
@@ -229,7 +226,6 @@ void Main_ParseCommandLineArguments_494EA0(const char_type* /*pCmdLineNotUsed*/,
     Sys_Set_Hwnd(Sys_GetWindowHandle());
 
     dword_5CA4D4 = 0;
-    k1_dword_55EF90 = 1; // Global way to turn off semi trans rendering?
     byte_55EF88 = true;
 
     if (pCommandLine)
@@ -249,34 +245,12 @@ void Main_ParseCommandLineArguments_494EA0(const char_type* /*pCmdLineNotUsed*/,
             byte_5CA4D2 = true;
             dword_5CA4D4 = 1;
             byte_55EF88 = false;
-            dword_5CA4E0 = 2;
-        }
-
-        if (strstr(pCommandLine, "-ddfastest"))
-        {
-            dword_5CA4E0 = 1;
         }
 
         if (strstr(pCommandLine, "-ddcheat"))
         {
             sCommandLine_DDCheatEnabled_5CA4B5 = true;
         }
-    }
-
-    if (dword_5CA4E0 == 1)
-    {
-        PSX_DispEnv_Set_4ED960(1);
-        PSX_EMU_Set_screen_mode_4F9420(1);
-    }
-    else if (dword_5CA4E0 == 2)
-    {
-        PSX_DispEnv_Set_4ED960(0);
-        PSX_EMU_Set_screen_mode_4F9420(0);
-    }
-    else
-    {
-        PSX_DispEnv_Set_4ED960(2);
-        PSX_EMU_Set_screen_mode_4F9420(2);
     }
 
     Init_VGA_AndPsxVram_494690();
@@ -306,8 +280,6 @@ void Init_Sound_DynamicArrays_And_Others_43BDB0()
 
     gPlatformsArray = relive_new DynamicArrayT<BaseGameObject>(20); // For trap doors/dynamic platforms?
 
-    ObjList_5BD4D8 = relive_new DynamicArray(10); // Never seems to be used?
-
     ShadowZone::MakeArray();
 
     gBaseAliveGameObjects = relive_new DynamicArrayT<BaseAliveGameObject>(20);
@@ -328,17 +300,12 @@ void SYS_EventsPump()
     sub_4FBA20();
 }
 
-void DDCheat_Allocate_415320()
-{
-    relive_new DDCheat();
-}
-
-void Game_Loop_467230();
+void Game_Loop();
 
 
 //static AnimResource gLoadingResource;
 
-void Game_Init_LoadingIcon_482CD0()
+void Game_Init_LoadingIcon()
 {
     //gLoadingResource = ResourceManagerWrapper::LoadAnimation(AnimId::Mudokon_FallLandDie);
     /*
@@ -352,7 +319,7 @@ void Game_Init_LoadingIcon_482CD0()
     */
 }
 
-void Game_Free_LoadingIcon_482D40()
+void Game_Free_LoadingIcon()
 {
     //gLoadingResource.Clear();
     /*
@@ -368,22 +335,22 @@ extern bool gBootToLoadScreen;
 #endif
 
 
-void Game_SetExitCallBack_4F2BA0(TExitGameCallBack callBack)
+void Game_SetExitCallBack(TExitGameCallBack callBack)
 {
-    sGame_OnExitCallback_BBFB00 = callBack;
+    sGame_OnExitCallback = callBack;
 }
 
-void Game_ExitGame_4954B0()
+void Game_ExitGame()
 {
     PSX_EMU_VideoDeAlloc_4FA010();
 }
 
-void Game_Shutdown_4F2C30()
+void Game_Shutdown()
 {
-    if (sGame_OnExitCallback_BBFB00)
+    if (sGame_OnExitCallback)
     {
-        sGame_OnExitCallback_BBFB00();
-        sGame_OnExitCallback_BBFB00 = nullptr;
+        sGame_OnExitCallback();
+        sGame_OnExitCallback = nullptr;
     }
 
     CreateTimer_4EDEC0(0, nullptr); // Creates a timer that calls a call back which is always null, therefore seems like dead code?
@@ -420,7 +387,7 @@ s32 Init_Input_Timer_And_IO_4F2BF0(bool forceSystemMemorySurfaces)
     {
         // OG: Change - this gets called normally anyway, using atexit results in a f64 call that
         // will f64 free and use freed objects
-        //atexit(Game_Shutdown_4F2C30);
+        //atexit(Game_Shutdown);
         sbGameShutdownSet_BBC560 = 1;
         gVGA_force_sys_memory_surfaces_BC0BB4 = forceSystemMemorySurfaces;
     }
@@ -445,7 +412,7 @@ s32 Init_Input_Timer_And_IO_4F2BF0(bool forceSystemMemorySurfaces)
     return 0;
 }
 
-void Game_Loop_467230()
+void Game_Loop()
 {
     dword_5C2F78 = 0;
     sBreakGameLoop_5C2FE0 = 0;
@@ -525,7 +492,6 @@ void Game_Loop_467230()
         GetGameAutoPlayer().SyncPoint(SyncPoints::DrawAllEnd);
 
         DebugFont_Flush();
-        PSX_DrawSync_4F6280(0);
         pScreenManager->VRender(ppOtBuffer);
         SYS_EventsPump(); // Exit checking?
 
@@ -588,16 +554,6 @@ void Game_Loop_467230()
 
     } // Main loop end
 
-    // Clear the screen to black
-    /*
-    PSX_RECT rect = {};
-    rect.x = 0;
-    rect.y = 0;
-    rect.w = 640;
-    rect.h = 240;
-    PSX_ClearImage_4F5BD0(&rect, 0, 0, 0);
-    */
-    PSX_DrawSync_4F6280(0);
     PSX_VSync_4F6170(0);
 
     // Destroy all game objects
@@ -619,21 +575,24 @@ void Game_Loop_467230()
     }
 }
 
+void DDCheat_Allocate()
+{
+    relive_new DDCheat();
+}
 
-void Game_Run_466D40()
+void Game_Run()
 {
     // Begin start up
     SYS_EventsPump();
+
     gAttract_5C1BA0 = 0;
     SYS_EventsPump();
 
     PSX_ResetCallBack_4FAA20();
     gPsxDisplay.Init();
-    PSX_CdInit_4FB2C0();
-    PSX_CdSetDebug_4FB330(0);
     Input_Pads_Reset_4FA960(); // starts card/pads on psx ver
 
-    gBaseGameObjects = relive_new DynamicArrayT<BaseGameObject>(50);
+    gBaseGameObjects = relive_new DynamicArrayT<BaseGameObject>(90);
 
     gObjListDrawables = relive_new DynamicArrayT<BaseGameObject>(30);
 
@@ -657,40 +616,32 @@ void Game_Run_466D40()
 
     camera.Free();
 
-    Input_Init_491BC0();
-    s16 cameraId = 25;
-#if DEVELOPER_MODE
-    #if _WIN32
-    if (GetKeyState(VK_LSHIFT) >= 0)
-    {
-        gBootToLoadScreen = true;
-        cameraId = 1;
-    }
-    #endif
-#endif
+    Input_Init();
 
-    gMap.Init(EReliveLevelIds::eMenu, 1, cameraId, CameraSwapEffects::eInstantChange_0, 0, 0);
+    gMap.Init(EReliveLevelIds::eMenu, 1, 25, CameraSwapEffects::eInstantChange_0, 0, 0);
 
-    DDCheat_Allocate_415320();
-    pEventSystem_5BC11C = relive_new GameSpeak();
+    DDCheat_Allocate();
 
-    pCheatController_5BC120 = relive_new CheatController();
+    gEventSystem = relive_new GameSpeak();
 
-    Game_Init_LoadingIcon_482CD0();
+    gCheatController = relive_new CheatController();
+
+    Game_Init_LoadingIcon();
 
     // Main loop start
-    Game_Loop_467230();
+    Game_Loop();
 
     // Shut down start
-    Game_Free_LoadingIcon_482D40();
+    Game_Free_LoadingIcon();
+
     DDCheat::ClearProperties();
+
     gMap.Shutdown();
 
     AnimationBase::FreeAnimationArray();
     BaseAnimatedWithPhysicsGameObject::FreeArray();
     relive_delete gBaseGameObjects;
     relive_delete gPlatformsArray;
-    relive_delete ObjList_5BD4D8;
     ShadowZone::FreeArray();
     relive_delete gBaseAliveGameObjects;
     relive_delete sCollisions;
@@ -700,36 +651,31 @@ void Game_Run_466D40()
 
     SND_Reset_Ambiance();
     SND_Shutdown();
-    PSX_CdControlB_4FB320(8, 0, 0);
     PSX_ResetCallBack_4FAA20();
     PSX_StopCallBack_4FAA30();
     Input().ShutDown_45F020();
     PSX_ResetGraph_4F8800(0);
 }
 
-void Game_Main_4949F0()
+void Game_Main()
 {
     // Inits
     Init_Input_Timer_And_IO_4F2BF0(false);
 
     GetGameAutoPlayer().ParseCommandLine(Sys_GetCommandLine());
 
-    Main_ParseCommandLineArguments_494EA0(Sys_GetCommandLine(), Sys_GetCommandLine());
+    Main_ParseCommandLineArguments(Sys_GetCommandLine(), Sys_GetCommandLine());
 
-    Game_SetExitCallBack_4F2BA0(Game_ExitGame_4954B0);
-#if _WIN32
-    #if !USE_SDL2
-    Sys_SetWindowProc_Filter_4EE197(Sys_WindowMessageHandler_494A40);
-    #endif
-#endif
+    Game_SetExitCallBack(Game_ExitGame);
+
     // Only returns once the engine is shutting down
-    Game_Run_466D40();
+    Game_Run();
 
-    if (sGame_OnExitCallback_BBFB00)
+    if (sGame_OnExitCallback)
     {
-        sGame_OnExitCallback_BBFB00();
-        sGame_OnExitCallback_BBFB00 = nullptr;
+        sGame_OnExitCallback();
+        sGame_OnExitCallback = nullptr;
     }
 
-    Game_Shutdown_4F2C30();
+    Game_Shutdown();
 }

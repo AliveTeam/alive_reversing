@@ -36,4 +36,4 @@ public:
     s32 field_3C = 0;
 };
 
-extern CheatController* pCheatController_5BC120;
+extern CheatController* gCheatController;

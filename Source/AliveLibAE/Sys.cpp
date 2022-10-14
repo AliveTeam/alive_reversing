@@ -785,7 +785,7 @@ s8 Sys_PumpMessages_4EE4F4()
             {
                 totalConnectedJoysticks++;
                 LOG_INFO("User just inserted joystick!");
-                Input_Init_491BC0();
+                Input_Init();
                 sJoystickEnabled = 1;
             }
             else if (event.type == SDL_JOYDEVICEREMOVED && !isRecording)
@@ -795,7 +795,7 @@ s8 Sys_PumpMessages_4EE4F4()
 
                 if (totalConnectedJoysticks > 0)
                 {
-                    Input_Init_491BC0(); // Ensures next joystick is usable
+                    Input_Init(); // Ensures next joystick is usable
                 }
                 else
                 {

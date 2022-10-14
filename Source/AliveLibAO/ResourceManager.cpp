@@ -122,20 +122,17 @@ void Game_ShowLoadingIcon_445EB0()
 
         PSX_SetDefDrawEnv_495EF0(&drawEnv, 0, 0, 640, 240);
         PSX_PutDrawEnv_495DD0(&drawEnv);
-        PSX_DrawSync_496750(0);
         PSX_ClearOTag_496760(local_ot, 42);
 
         pParticle->GetAnimation().VRender(320, 220, local_ot, 0, 0);
 
         PSX_DrawOTag_4969F0(local_ot);
-        PSX_DrawSync_496750(0);
 
         PSX_ClearOTag_496760(local_ot, 42);
 
         pParticle->GetAnimation().VRender(320, gPsxDisplay.mHeight + 220, local_ot, 0, 0);
 
         PSX_DrawOTag_4969F0(local_ot);
-        PSX_DrawSync_496750(0);
 
         PSX_DISPENV dispEnv = {};
         PSX_SetDefDispEnv_4959D0(&dispEnv, 0, 0, 640, 240);

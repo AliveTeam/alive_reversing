@@ -1714,7 +1714,7 @@ void Input_InitJoyStick_460080()
 #endif
 }
 
-void Input_Init_491BC0()
+void Input_Init()
 {
     // This seems so stupid
     strncpy(sGamePadStr_555708, sGamePadStr_55E85C, 32u);

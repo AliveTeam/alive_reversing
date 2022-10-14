@@ -78,8 +78,6 @@ void Map::ScreenChange()
         RemoveObjectsWithPurpleLight(1);
     }
 
-    PSX_DrawSync_4F6280(0);
-
     for (s32 i = 0; i < 2; i++) // Not sure why this is done twice?
     {
         DynamicArrayIter iter = {};
@@ -274,7 +272,6 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                 }
             }
 
-            PSX_DrawSync_4F6280(0);
             pScreenManager->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
             SYS_EventsPump();
             gPsxDisplay.RenderOrderingTable();

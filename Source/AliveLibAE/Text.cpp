@@ -187,7 +187,6 @@ s8 Display_Full_Screen_Message_Blocking(s32 /*not_used*/, MessageType messageTyp
         pTextObj2->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
     }
 
-    PSX_DrawSync_4F6280(0);
     //Add_Dirty_Area_4ED970(0, 0, 640, 240);
     sbDisplayRenderFrame = 0;
     gPsxDisplay.RenderOrderingTable();
@@ -260,9 +259,7 @@ s8 Display_Full_Screen_Message_Blocking(s32 /*not_used*/, MessageType messageTyp
     }
 
     SYS_EventsPump();
-    //PSX_ClearImage_4F5BD0(&rect, 0, 0, 0);
-    PSX_DrawSync_4F6280(0);
-    //Add_Dirty_Area_4ED970(0, 0, 640, 240);
+
     sbDisplayRenderFrame = 0;
     gPsxDisplay.RenderOrderingTable();
 

@@ -1417,9 +1417,9 @@ s16 Slog::Brain_ListeningToSlig_State_2_Listening(const FP xpos1GridAHead, BaseA
     }
 
     GameSpeakEvents speakValue = GameSpeakEvents::eNone_m1;
-    if (field_134_last_event_index == pEventSystem_5BC11C->field_28_last_event_index)
+    if (field_134_last_event_index == gEventSystem->field_28_last_event_index)
     {
-        if (pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::eNone_m1)
+        if (gEventSystem->field_20_last_event == GameSpeakEvents::eNone_m1)
         {
             speakValue = GameSpeakEvents::eNone_m1;
         }
@@ -1430,8 +1430,8 @@ s16 Slog::Brain_ListeningToSlig_State_2_Listening(const FP xpos1GridAHead, BaseA
     }
     else
     {
-        field_134_last_event_index = pEventSystem_5BC11C->field_28_last_event_index;
-        speakValue = pEventSystem_5BC11C->field_20_last_event;
+        field_134_last_event_index = gEventSystem->field_28_last_event_index;
+        speakValue = gEventSystem->field_20_last_event;
     }
 
     switch (speakValue)
@@ -1601,10 +1601,10 @@ s16 Slog::Brain_1_Idle()
         field_118_target_id = Guid{};
     }
 
-    if (field_134_last_event_index != pEventSystem_5BC11C->field_28_last_event_index)
+    if (field_134_last_event_index != gEventSystem->field_28_last_event_index)
     {
-        field_134_last_event_index = pEventSystem_5BC11C->field_28_last_event_index;
-        if (pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::Slig_HereBoy_28 && sControlledCharacter->Type() == ReliveTypes::eSlig)
+        field_134_last_event_index = gEventSystem->field_28_last_event_index;
+        if (gEventSystem->field_20_last_event == GameSpeakEvents::Slig_HereBoy_28 && sControlledCharacter->Type() == ReliveTypes::eSlig)
         {
             field_120_brain_state_idx = 0;
             field_118_target_id = Guid{};
@@ -1813,10 +1813,10 @@ s16 Slog::Brain_2_ChasingAbe()
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_118_target_id));
     if (field_160_flags.Get(Flags_160::eBit2_ListenToSligs))
     {
-        if (field_134_last_event_index != pEventSystem_5BC11C->field_28_last_event_index)
+        if (field_134_last_event_index != gEventSystem->field_28_last_event_index)
         {
-            field_134_last_event_index = pEventSystem_5BC11C->field_28_last_event_index;
-            if (pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::Slig_HereBoy_28 && sControlledCharacter->Type() == ReliveTypes::eSlig)
+            field_134_last_event_index = gEventSystem->field_28_last_event_index;
+            if (gEventSystem->field_20_last_event == GameSpeakEvents::Slig_HereBoy_28 && sControlledCharacter->Type() == ReliveTypes::eSlig)
             {
                 field_120_brain_state_idx = 0;
                 field_118_target_id = Guid{};

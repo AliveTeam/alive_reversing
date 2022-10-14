@@ -2981,7 +2981,7 @@ void Scrab::Motion_26_HowlBegin()
             Scrab_SFX(ScrabSounds::eYell_8, 0, Math_RandomRange(-1600, -900), 1);
             if (BrainIs(&Scrab::Brain_5_Possessed))
             {
-                pEventSystem_5BC11C->PushEvent(GameSpeakEvents::Scrab_Howl_53);
+                gEventSystem->PushEvent(GameSpeakEvents::Scrab_Howl_53);
             }
         }
     }
@@ -3079,7 +3079,7 @@ void Scrab::Motion_30_Shriek()
             Scrab_SFX(ScrabSounds::eHowl_0, 0, 0x7FFF, 1);
             if (BrainIs(&Scrab::Brain_5_Possessed))
             {
-                pEventSystem_5BC11C->PushEvent(GameSpeakEvents::Scrab_Shriek_54);
+                gEventSystem->PushEvent(GameSpeakEvents::Scrab_Shriek_54);
             }
         }
     }
@@ -4269,9 +4269,9 @@ GameSpeakEvents Scrab::LastSpeak()
         return GameSpeakEvents::eNone_m1;
     }
 
-    if (field_17C_last_event == pEventSystem_5BC11C->field_28_last_event_index)
+    if (field_17C_last_event == gEventSystem->field_28_last_event_index)
     {
-        if (pEventSystem_5BC11C->field_20_last_event == GameSpeakEvents::eNone_m1)
+        if (gEventSystem->field_20_last_event == GameSpeakEvents::eNone_m1)
         {
             return GameSpeakEvents::eNone_m1;
         }
@@ -4282,7 +4282,7 @@ GameSpeakEvents Scrab::LastSpeak()
     }
     else
     {
-        field_17C_last_event = pEventSystem_5BC11C->field_28_last_event_index;
-        return pEventSystem_5BC11C->field_20_last_event;
+        field_17C_last_event = gEventSystem->field_28_last_event_index;
+        return gEventSystem->field_20_last_event;
     }
 }

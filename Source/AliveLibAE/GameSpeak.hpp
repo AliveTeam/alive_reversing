@@ -100,7 +100,7 @@ public:
     s8 field_2C_event_buffer[32] = {};
 };
 
-extern GameSpeak* pEventSystem_5BC11C;
+extern GameSpeak* gEventSystem;
 
 s16 Code_Length(u32 code);
 

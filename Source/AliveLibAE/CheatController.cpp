@@ -7,7 +7,7 @@
 #include "MainMenu.hpp"
 #include "QuikSave.hpp"
 
-CheatController* pCheatController_5BC120 = nullptr;
+CheatController* gCheatController = nullptr;
 
 const InputCommands::Enum sCheatKeyArray_MovieSelect_5515C0[8] = {
     InputCommands::Enum::eUp,
@@ -81,7 +81,7 @@ CheatController::CheatController()
 
 CheatController::~CheatController()
 {
-    pCheatController_5BC120 = nullptr;
+    gCheatController = nullptr;
 }
 
 void CheatController::VUpdate()

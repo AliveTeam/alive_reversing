@@ -10,8 +10,6 @@ using TPsxEmuCallBack = AddPointer_t<s32(u32)>;
 
 void PSX_PutDispEnv_495D30(PSX_DISPENV* pDispEnv);
 
-s32 PSX_DrawSync_496750(s32 mode);
-
 void PSX_VSync_496620(s32 mode);
 
 void PSX_SetDefDrawEnv_495EF0(PSX_DRAWENV* pDrawEnv, s16 x, s16 y, s16 w, s16 h);
@@ -36,8 +34,6 @@ s32 PSX_ResetGraph_4987E0(s32 mode);
 
 s32 PSX_StopCallBack_49AFC0();
 
-s32 PSX_CdControlB_49BB40(s32, s32, s32);
-
 void PSX_SetDispMask_4989D0(s32);
 
 void PSX_SetGraphDebug_4989F0(s32);
@@ -53,10 +49,6 @@ void PSX_EMU_Init_49A1D0();
 s32 PSX_EMU_VideoAlloc_49A2B0();
 
 void PSX_EMU_SetCallBack_499920(s32 callBackType, TPsxEmuCallBack fnPtr);
-
-void PSX_EMU_Set_screen_mode_499910(s8 a1);
-
-void PSX_DispEnv_Set_48D900(s32 mode);
 
 void PSX_EMU_VideoDeAlloc_49A550();
 
