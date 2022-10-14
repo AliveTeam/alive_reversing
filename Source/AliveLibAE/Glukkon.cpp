@@ -1639,10 +1639,9 @@ s16 Glukkon::Brain_3_PlayerControlled_441A30()
 
             const FmvInfo* pFmvRec = Path_Get_FMV_Record(gMap.mCurrentLevel, field_1A8_tlvData.mMovieId);
 
-            u32 pos = 0;
-            Get_fmvs_sectors(pFmvRec->field_0_pName, 0, 0, &pos, 0, 0);
+            Get_fmvs_sectors(pFmvRec->field_0_pName, 0, 0);
 
-            relive_new Movie(pFmvRec->field_4_id, pos, pFmvRec->field_6_flags & 1, pFmvRec->field_8_flags, pFmvRec->field_A_volume);
+            relive_new Movie(pFmvRec->field_6_flags & 1, pFmvRec->field_A_volume);
         }
             return 5;
 

@@ -8,9 +8,9 @@ class ScreenClipper;
 class CameraSwapper final : public BaseGameObject
 {
 public:
-    CameraSwapper(CamResource& ppCamRes, s32 movieSector, s32 movieId, s32 movieFlag, s32 movieFlags, s32 movieVol);
-    CameraSwapper(CamResource& ppCamRes, s32 moviePos1, s32 movieId1, s32 moviePos2, s32 movieId2, s32 movieFlag1, s32 movieFlags1, s32 movieVol1, s32 movieFlag2, s32 movieFlags2, s32 movieVol2);
-    CameraSwapper(CamResource& ppCamRes, s32 moviePos1, s32 movieId1, s32 moviePos2, s32 movieId2, s32 moviePos3, s32 movieId3, s32 movieFlag1, s32 movieFlags1, s32 movieVol1, s32 movieFlag2, s32 movieFlags2, s32 movieVol2, s32 moveFlag3, s32 movieFlags3, s32 movieVol3);
+    CameraSwapper(CamResource& ppCamRes, s32 movieFlag, s32 movieFlags, s32 movieVol);
+    CameraSwapper(CamResource& ppCamRes, s32 movieFlag1, s32 movieFlags1, s32 movieVol1, s32 movieFlag2, s32 movieFlags2, s32 movieVol2);
+    CameraSwapper(CamResource& ppCamRes, s32 movieFlag1, s32 movieFlags1, s32 movieVol1, s32 movieFlag2, s32 movieFlags2, s32 movieVol2, s32 moveFlag3, s32 movieFlags3, s32 movieVol3);
     CameraSwapper(CamResource& ppCamRes, CameraSwapEffects changeEffect, s32 xpos, s32 ypos);
     ~CameraSwapper();
 
@@ -20,12 +20,6 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    s32 field_20_movie_pos_3 = 0;
-    s32 field_24_movie_id_3 = 0;
-
-    s32 field_28_movie_pos_2 = 0;
-    s32 field_2C_movie_id_2 = 0;
-
     CamResource field_30_ppCamRes;
     ScreenClipper* field_34_pSubObject = nullptr;
 

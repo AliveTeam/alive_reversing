@@ -51,47 +51,6 @@ CdlLOC* PSX_Pos_To_CdLoc_4FADD0(s32 pos, CdlLOC* pLoc)
     return pLoc;
 }
 
-s32 PSX_CdLoc_To_Pos_4FAE40(const CdlLOC* pLoc)
-{
-    s32 min = pLoc->field_0_minute;
-    if (min < 2)
-    {
-        min = 2;
-    }
-    return pLoc->field_2_sector + 75 * (pLoc->field_1_second + 20 * (3 * min - 6));
-}
-
-s32 PSX_CD_File_Seek_4FB1E0(s8 mode, const CdlLOC* pLoc)
-{
-    if (mode != 2)
-    {
-        return 0;
-    }
-    sCdReadPos_BD1894 = PSX_CdLoc_To_Pos_4FAE40(pLoc);
-    return 1;
-}
-
-s32 PSX_CD_File_Read_4FB210(s32 numSectors, void* pBuffer)
-{
-    IO_Seek_4F2490(sCdFileHandle_BD1CC4, sCdReadPos_BD1894 << 11, 0);
-    IO_Read_4F23A0(sCdFileHandle_BD1CC4, pBuffer, numSectors << 11);
-    sCdReadPos_BD1894 += numSectors;
-    return 1;
-}
-
-s32 PSX_CD_FileIOWait_4FB260(s32 bASync)
-{
-    if (!sCdFileHandle_BD1CC4)
-    {
-        return -1;
-    }
-
-    if (!bASync)
-    {
-        IO_WaitForComplete_4F2510(sCdFileHandle_BD1CC4);
-    }
-    return sCdFileHandle_BD1CC4->field_10_bDone != 0;
-}
 
 TPsxEmuCallBack sPsxEmu_put_disp_env_callback_C1D184 = nullptr;
 TPsxEmuCallBack sPsxEmu_EndFrameFnPtr_C1D17C = nullptr;
@@ -152,11 +111,6 @@ const char_type kDirChar[] = "\\";
 #else
 const char_type kDirChar[] = "/";
 #endif
-
-s32 PSX_ResetCallBack_4FAA20()
-{
-    return 0;
-}
 
 s32 PSX_StopCallBack_4FAA30()
 {
@@ -272,11 +226,6 @@ s32 PSX_SetVideoMode_4FA8F0()
     return 0;
 }
 
-s32 PSX_SetGraphDebug_4F8A10(s32)
-{
-    return 0;
-}
-
 void PSX_PutDispEnv_4F58E0(const PSX_DISPENV* pDispEnv)
 {
     if (!sPsxEmu_put_disp_env_callback_C1D184 || !sPsxEmu_put_disp_env_callback_C1D184(0))
@@ -380,16 +329,6 @@ void PSX_PutDispEnv_4F5890(PSX_DISPENV* pDispEnv)
     }
 }
 
-s32 PSX_SetDispMask_4F89F0(s32 /*mode*/)
-{
-    return 0;
-}
-
-s32 PSX_LoadImage_4F5FB0(const PSX_RECT*, const u8*)
-{
-    return 1;
-}
-
 void PSX_SetDrawEnv_Impl_4FE420(s32 x, s32 y, s32 w, s32 h, s32 unknown, u8* pBuffer)
 {
     sPsx_drawenv_clipx_BDCD40 = x;
@@ -418,11 +357,6 @@ void PSX_PutDrawEnv_4F5980(const PSX_DRAWENV* pDrawEnv)
     {
         Error_PushErrorRecord_4F2920("C:\\abe2\\code\\PSXEmu\\LIBGPU.C", 371, -1, "PutDrawEnv(): env == NULL");
     }
-}
-
-s32 PSX_MoveImage(const PSX_RECT*, s32 , s32)
-{
-    return 0;
 }
 
 void PSX_CD_Normalize_FileName_4FAD90(char_type* pNormalized, const char_type* pFileName)

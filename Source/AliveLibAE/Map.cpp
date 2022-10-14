@@ -1032,25 +1032,13 @@ BaseGameObject* Map::FMV_Camera_Change(CamResource& ppBits, Map* pMap, EReliveLe
         FmvInfo* pFmvRec2 = Path_Get_FMV_Record(lvlId, pMap->mFmvBaseId / 100 % 100);
         FmvInfo* pFmvRec3 = Path_Get_FMV_Record(lvlId, pMap->mFmvBaseId % 100);
         sLevelId_dword_5CA408 = static_cast<s32>(MapWrapper::ToAE(lvlId)); // TODO: Strongly type this, but it hasn't got the same underlaying type as the enum grr..
-        u32 pos1 = 0;
-        u32 pos2 = 0;
-        u32 pos3 = 0;
+
         Get_fmvs_sectors(
             pFmvRec1->field_0_pName,
             pFmvRec2->field_0_pName,
-            pFmvRec3->field_0_pName,
-            &pos1,
-            &pos2,
-            &pos3);
+            pFmvRec3->field_0_pName);
 
         return relive_new CameraSwapper(ppBits,
-                                              pos1,
-                                              pFmvRec1->field_4_id,
-                                              pos2,
-                                              pFmvRec2->field_4_id,
-                                              pos3,
-                                              pFmvRec3->field_4_id,
-
                                               pFmvRec1->field_6_flags & 1,
                                               pFmvRec1->field_8_flags,
                                               pFmvRec1->field_A_volume,
@@ -1068,16 +1056,9 @@ BaseGameObject* Map::FMV_Camera_Change(CamResource& ppBits, Map* pMap, EReliveLe
         // Double FMV
         FmvInfo* pFmvRec1 = Path_Get_FMV_Record(lvlId, pMap->mFmvBaseId / 100);
         FmvInfo* pFmvRec2 = Path_Get_FMV_Record(lvlId, pMap->mFmvBaseId % 100);
-        u32 cdPos1 = 0;
-        u32 cdPos2 = 0;
-        Get_fmvs_sectors(pFmvRec1->field_0_pName, pFmvRec2->field_0_pName, 0, &cdPos1, &cdPos2, 0);
+        Get_fmvs_sectors(pFmvRec1->field_0_pName, pFmvRec2->field_0_pName, 0);
         sLevelId_dword_5CA408 = static_cast<s32>(MapWrapper::ToAE(lvlId)); // HACK
         return relive_new CameraSwapper(ppBits,
-                                              cdPos1,
-                                              pFmvRec1->field_4_id,
-                                              cdPos2,
-                                              pFmvRec2->field_4_id,
-
                                               pFmvRec1->field_6_flags & 1,
                                               pFmvRec1->field_8_flags,
                                               pFmvRec1->field_A_volume,
@@ -1090,12 +1071,9 @@ BaseGameObject* Map::FMV_Camera_Change(CamResource& ppBits, Map* pMap, EReliveLe
     {
         // Single FMV
         FmvInfo* pFmvRec1 = Path_Get_FMV_Record(lvlId, pMap->mFmvBaseId);
-        u32 cdPos = 0;
-        Get_fmvs_sectors(pFmvRec1->field_0_pName, 0, 0, &cdPos, 0, 0);
+        Get_fmvs_sectors(pFmvRec1->field_0_pName, 0, 0);
         sLevelId_dword_5CA408 = static_cast<s32>(MapWrapper::ToAE(lvlId)); // HACK
         return relive_new CameraSwapper(ppBits,
-                                              cdPos,
-                                              pFmvRec1->field_4_id,
                                               pFmvRec1->field_6_flags & 1,
                                               pFmvRec1->field_8_flags,
                                               pFmvRec1->field_A_volume);

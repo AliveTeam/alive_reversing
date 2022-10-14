@@ -23,8 +23,6 @@ CameraSwapper::CameraSwapper(CamResource& ppBits, s32 movieId, s32 movieFlag, s8
 {
     Init(ppBits, CameraSwapEffects::ePlay1FMV_5);
 
-    PSX_ResetCallBack_49AFB0();
-
     relive_new Movie(movieFlag, movieId, movieFlags, flags, volume);
 
     field_3C_movie_bPutDispEnv = flags;
@@ -34,8 +32,6 @@ CameraSwapper::CameraSwapper(CamResource& ppBits, s32 moviePos1, s32 movieId1, s
     : BaseGameObject(TRUE, 0)
 {
     Init(ppBits, CameraSwapEffects::ePlay2FMVs_9);
-
-    PSX_ResetCallBack_49AFB0();
 
     relive_new Movie(movieId1, moviePos1, movieFlags1, movieVol1, movieFlag2);
 
@@ -53,7 +49,6 @@ CameraSwapper::CameraSwapper(CamResource& ppBits, s32 moviePos1, s32 movieIds1, 
 {
     Init(ppBits, CameraSwapEffects::ePlay3FMVs_10);
 
-    PSX_ResetCallBack_49AFB0();
     relive_new Movie(movieIds1, moviePos1, movieFlag1, movieFlags1, movieVol1);
 
     field_18_movie_pos_2 = moviePos2;

@@ -361,7 +361,6 @@ void Game_Run()
     gAttract_507698 = 0;
 
     SYS_EventsPump();
-    PSX_ResetCallBack_49AFB0();
 
     gPsxDisplay.Init();
     Input().InitPad(1);
@@ -404,10 +403,7 @@ void Game_Run()
 
     SND_Reset_Ambiance();
     SND_Shutdown_476EC0();
-    PSX_ResetCallBack_49AFB0();
-    PSX_StopCallBack_49AFC0();
     InputObject::Shutdown();
-    PSX_ResetGraph_4987E0(3);
 }
 
 

@@ -588,7 +588,6 @@ void Game_Run()
     gAttract_5C1BA0 = 0;
     SYS_EventsPump();
 
-    PSX_ResetCallBack_4FAA20();
     gPsxDisplay.Init();
     Input_Pads_Reset_4FA960(); // starts card/pads on psx ver
 
@@ -651,7 +650,6 @@ void Game_Run()
 
     SND_Reset_Ambiance();
     SND_Shutdown();
-    PSX_ResetCallBack_4FAA20();
     PSX_StopCallBack_4FAA30();
     Input().ShutDown_45F020();
     PSX_ResetGraph_4F8800(0);

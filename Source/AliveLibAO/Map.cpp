@@ -1814,24 +1814,19 @@ CameraSwapper* Map::FMV_Camera_Change(CamResource& ppBits, Map* pMap, EReliveLev
             MusicController::EnableMusic(0);
         }
 
-        u32 pos1 = 0;
-        u32 pos2 = 0;
-        u32 pos3 = 0;
-        Get_fmvs_sectors_44FEB0(
+
+        Get_fmvs_sectors(
             pFmvRec1->field_0_pName,
             pFmvRec2->field_0_pName,
-            pFmvRec3->field_0_pName,
-            &pos1,
-            &pos2,
-            &pos3);
+            pFmvRec3->field_0_pName);
 
         return relive_new CameraSwapper(
             ppBits,
-            pos1,
+            0,
             pFmvRec1->field_4_id,
-            pos2,
+            0,
             pFmvRec2->field_4_id,
-            pos3,
+            0,
             pFmvRec3->field_4_id,
 
             static_cast<s8>(pFmvRec1->field_6),
@@ -1857,15 +1852,13 @@ CameraSwapper* Map::FMV_Camera_Change(CamResource& ppBits, Map* pMap, EReliveLev
             MusicController::EnableMusic(0);
         }
 
-        u32 cdPos1 = 0;
-        u32 cdPos2 = 0;
-        Get_fmvs_sectors_44FEB0(pFmvRec1->field_0_pName, pFmvRec2->field_0_pName, 0, &cdPos1, &cdPos2, 0);
+        Get_fmvs_sectors(pFmvRec1->field_0_pName, pFmvRec2->field_0_pName, 0);
 
         return relive_new CameraSwapper(
             ppBits,
-            cdPos1,
+            0,
             pFmvRec1->field_4_id,
-            cdPos2,
+            0,
             pFmvRec2->field_4_id,
 
             static_cast<s8>(pFmvRec1->field_6),
@@ -1886,11 +1879,10 @@ CameraSwapper* Map::FMV_Camera_Change(CamResource& ppBits, Map* pMap, EReliveLev
             MusicController::EnableMusic(0);
         }
 
-        u32 cdPos = 0;
-        Get_fmvs_sectors_44FEB0(pFmvRecord->field_0_pName, 0, 0, &cdPos, 0, 0);
+        Get_fmvs_sectors(pFmvRecord->field_0_pName, 0, 0);
         return relive_new CameraSwapper(
             ppBits,
-            cdPos,
+            0,
             pFmvRecord->field_4_id,
             static_cast<s8>(pFmvRecord->field_6),
             pFmvRecord->field_A,

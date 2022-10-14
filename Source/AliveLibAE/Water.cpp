@@ -131,15 +131,18 @@ Water::Water(relive::Path_Water* pTlv, const Guid& tlvId)
         field_100_screen_x = FP_GetExponent(mXPos - pScreenManager->CamXPos());
         field_102_screen_y = FP_GetExponent(mYPos - pScreenManager->CamYPos());
 
+        /*
+        // TODO: Move to data conversion
         PSX_RECT rect = {};
-        rect.y = 0;//mAnim.mPalVramXY.y;
-        rect.x = 0 /*mAnim.mPalVramXY.x*/ + 1;
+        rect.y = 0;
+        rect.x = 1;
         rect.w = 1;
         rect.h = 1;
 
         // Some sort of hack to set the first 2 pixels to black/transparent?
         const u8 zeroedData[4] = {};
         PSX_LoadImage_4F5FB0(&rect, zeroedData); // TODO: FIX ME - won't work with other renderers
+        */
 
         field_144_sound_channels = 0;
     }

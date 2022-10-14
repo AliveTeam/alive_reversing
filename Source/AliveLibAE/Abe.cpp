@@ -6206,12 +6206,10 @@ void Abe::Motion_86_HandstoneBegin()
                     pScreenManager->EnableRendering();
 
                     FmvInfo* pFmvRec = Path_Get_FMV_Record(gMap.mCurrentLevel, mFmvId);
-                    u32 pos = 0;
-
-                    Get_fmvs_sectors(pFmvRec->field_0_pName, 0, 0, &pos, 0, 0);
+                    Get_fmvs_sectors(pFmvRec->field_0_pName, 0, 0);
                     sLevelId_dword_5CA408 = static_cast<u32>(MapWrapper::ToAE(gMap.mCurrentLevel));
 
-                    relive_new Movie(pFmvRec->field_4_id, pos, static_cast<s16>(pFmvRec->field_6_flags & 1), static_cast<s16>(pFmvRec->field_8_flags), pFmvRec->field_A_volume);
+                    relive_new Movie(static_cast<s16>(pFmvRec->field_6_flags & 1), pFmvRec->field_A_volume);
                     field_120_state.stone = StoneStates::eHandstoneMovieDone_2;
                 }
                 else if (mHandStoneType == ReliveTypes::eHandStone)

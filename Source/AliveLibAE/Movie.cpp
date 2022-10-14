@@ -445,7 +445,7 @@ struct MovieQueue final
 
 MovieQueue sMovieNames_5CA348 = {};
 
-void Get_fmvs_sectors(const char_type* pMovieName1, const char_type* pMovieName2, const char_type* pMovieName3, u32* pMovie1Sector, u32* pMovie2Sector, u32* pMovie3Sector)
+void Get_fmvs_sectors(const char_type* pMovieName1, const char_type* pMovieName2, const char_type* pMovieName3)
 {
     // NOTE: Unused globals that also had the "fake" sector number assigned have been omitted.
     sMovieNameIdx_5CA4C4 = 0;
@@ -453,19 +453,16 @@ void Get_fmvs_sectors(const char_type* pMovieName1, const char_type* pMovieName2
     if (pMovieName1)
     {
         strcpy(sMovieNames_5CA348.mNames[0].mName, pMovieName1);
-        *pMovie1Sector = 0x11111111;
     }
 
     if (pMovieName2)
     {
         strcpy(sMovieNames_5CA348.mNames[1].mName, pMovieName2);
-        *pMovie2Sector = 0x22222222;
     }
 
     if (pMovieName3)
     {
         strcpy(sMovieNames_5CA348.mNames[2].mName, pMovieName3);
-        *pMovie3Sector = 0x33333333;
     }
 }
 
@@ -474,7 +471,7 @@ void Movie::VScreenChanged()
     // Null sub 0x4E02A0
 }
 
-void Movie::Init(s32 id, CdlLOC* pCdPos, s16 bUnknown, s16 flags, s16 volume)
+void Movie::Init(s16 flags, s16 volume)
 {
     mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     mBaseGameObjectFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
@@ -482,23 +479,6 @@ void Movie::Init(s32 id, CdlLOC* pCdPos, s16 bUnknown, s16 flags, s16 volume)
     SetType(ReliveTypes::eMovie);
 
     ++sMovie_ref_count_BB4AE4;
-
-    field_3C_unused = 0;
-
-    if (bUnknown & 1)
-    {
-        field_20_unused |= 4; // TODO: Strongly type these flags
-    }
-    else
-    {
-        field_20_unused &= ~4;
-    }
-
-    field_38_unused = id;
-    field_44_cd_loc_min = pCdPos->field_0_minute;
-    field_45_cd_loc_sec = pCdPos->field_1_second;
-    field_20_unused &= ~3;
-    field_46_cd_loc_sector = pCdPos->field_2_sector;
 
     sMovie_Kill_SEQs_563A88 = 1;
 
@@ -512,12 +492,10 @@ void Movie::Init(s32 id, CdlLOC* pCdPos, s16 bUnknown, s16 flags, s16 volume)
 
 }
 
-Movie::Movie(s32 id, u32 pos, s32 bUnknown, s32 flags, s32 volume)
+Movie::Movie(s32 flags, s32 volume)
     : BaseGameObject(TRUE, 0)
 {
-    CdlLOC cdLoc = {};
-    PSX_Pos_To_CdLoc_4FADD0(pos, &cdLoc);
-    Init(id, &cdLoc, static_cast<s16>(bUnknown), static_cast<s16>(flags), static_cast<s16>(volume));
+    Init(static_cast<s16>(flags), static_cast<s16>(volume));
 }
 
 void Movie::VUpdate()

@@ -7676,13 +7676,12 @@ void Abe::Motion_88_HandstoneBegin()
                         auto pFmvInfo = Path_Get_FMV_Record_434680(
                             gMap.mCurrentLevel,
                             mMovieStone->mMovieId);
-                        u32 aux = 0;
-                        Get_fmvs_sectors_44FEB0(
-                            pFmvInfo->field_0_pName, 0, 0, &aux, 0, 0);
+                        Get_fmvs_sectors(
+                            pFmvInfo->field_0_pName, 0, 0);
 
                         relive_new Movie(
                             pFmvInfo->field_4_id,
-                            aux,
+                            0,
                             static_cast<s8>(pFmvInfo->field_6),
                             pFmvInfo->field_A,
                             pFmvInfo->field_C_volume);

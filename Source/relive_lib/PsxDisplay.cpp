@@ -178,7 +178,6 @@ void PSX_DrawDebugTextBuffers(Bitmap* pBmp, const RECT& rect)
 
 void PsxDisplay::Init()
 {
-    PSX_SetDispMask_4F89F0(0);
     PSX_VSync_4F6170(0);
     PSX_SetVideoMode_4FA8F0();
 
@@ -191,7 +190,6 @@ void PsxDisplay::Init()
     mMaxBuffers = 1;
     mBufferSize = 43;
 
-    PSX_SetGraphDebug_4F8A10(0);
     PSX_ResetGraph_4F8800(0);
 
     Vram_init();
@@ -217,17 +215,7 @@ void PsxDisplay::Init()
     PSX_PutDrawEnv_4F5980(&mDrawEnvs[0].mDrawEnv);
     PSX_PutDispEnv_4F5890(&mDrawEnvs[0].mDisplayEnv);
 
-    /*
-    PSX_RECT rect = {};
-    rect.x = 0;
-    rect.y = 0;
-    rect.w = 1024;
-    rect.h = 512;
-    PSX_ClearImage_4F5BD0(&rect, 0, 0, 0);
-    */
-
     PSX_VSync_4F6170(0);
-    PSX_SetDispMask_4F89F0(1);
 }
 
 void PsxDisplay::PutCurrentDispEnv()

@@ -14,29 +14,23 @@
 #include "ScreenClipper.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
 
-CameraSwapper::CameraSwapper(CamResource& ppCamRes, s32 movieSector, s32 movieId, s32 movieFlag, s32 movieFlags, s32 movieVol)
+CameraSwapper::CameraSwapper(CamResource& ppCamRes, s32 movieFlag, s32 movieFlags, s32 movieVol)
     : BaseGameObject(TRUE, 0)
 {
     Init(ppCamRes, CameraSwapEffects::ePlay1FMV_5);
 
-    PSX_ResetCallBack_4FAA20();
-
-    relive_new Movie(movieId, movieSector, movieFlag, movieFlags, movieVol);
+    relive_new Movie(movieFlag, movieVol);
 
     field_4C_movie_bPutDispEnv = static_cast<s16>(movieFlags);
 }
 
-CameraSwapper::CameraSwapper(CamResource& ppCamRes, s32 moviePos1, s32 movieId1, s32 moviePos2, s32 movieId2, s32 movieFlag1, s32 movieFlags1, s32 movieVol1, s32 movieFlag2, s32 movieFlags2, s32 movieVol2)
+CameraSwapper::CameraSwapper(CamResource& ppCamRes, s32 movieFlag1, s32 movieFlags1, s32 movieVol1, s32 movieFlag2, s32 movieFlags2, s32 movieVol2)
     : BaseGameObject(TRUE, 0)
 {
     Init(ppCamRes, CameraSwapEffects::ePlay2FMVs_9);
 
-    PSX_ResetCallBack_4FAA20();
+    relive_new Movie(movieFlag1, movieVol1);
 
-    relive_new Movie(movieId1, moviePos1, movieFlag1, movieFlags1, movieVol1);
-
-    field_24_movie_id_3 = movieId2;
-    field_20_movie_pos_3 = moviePos2;
     field_44_movie_vol_3 = static_cast<s16>(movieVol2);
     field_42_movie_flags_3 = static_cast<s16>(movieFlags2);
     field_40_movie_flag_3 = static_cast<s16>(movieFlag2);
@@ -44,22 +38,17 @@ CameraSwapper::CameraSwapper(CamResource& ppCamRes, s32 moviePos1, s32 movieId1,
     field_4C_movie_bPutDispEnv = static_cast<s16>(movieFlags1);
 }
 
-CameraSwapper::CameraSwapper(CamResource& ppCamRes, s32 moviePos1, s32 movieId1, s32 moviePos2, s32 movieId2, s32 moviePos3, s32 movieId3, s32 movieFlag1, s32 movieFlags1, s32 movieVol1, s32 movieFlag2, s32 movieFlags2, s32 movieVol2, s32 moveFlag3, s32 movieFlags3, s32 movieVol3)
+CameraSwapper::CameraSwapper(CamResource& ppCamRes, s32 movieFlag1, s32 movieFlags1, s32 movieVol1, s32 movieFlag2, s32 movieFlags2, s32 movieVol2, s32 moveFlag3, s32 movieFlags3, s32 movieVol3)
     : BaseGameObject(TRUE, 0)
 {
     Init(ppCamRes, CameraSwapEffects::ePlay3FMVs_10);
 
-    PSX_ResetCallBack_4FAA20();
-    relive_new Movie(movieId1, moviePos1, movieFlag1, movieFlags1, movieVol1);
+    relive_new Movie(movieFlag1, movieVol1);
 
-    field_2C_movie_id_2 = movieId2;
-    field_28_movie_pos_2 = moviePos2;
     field_46_movie_flag_2 = static_cast<s16>(movieFlag2);
     field_48_movie_flags_2 = static_cast<s16>(movieFlags2);
     field_4A_movie_vol_2 = static_cast<s16>(movieVol2);
 
-    field_24_movie_id_3 = movieId3;
-    field_20_movie_pos_3 = moviePos3;
     field_40_movie_flag_3 = static_cast<s16>(moveFlag3);
     field_42_movie_flags_3 = static_cast<s16>(movieFlags3);
     field_44_movie_vol_3 = static_cast<s16>(movieVol3);
@@ -423,11 +412,7 @@ void CameraSwapper::VUpdate()
             // When no movie is playing start the next one
             if (sMovie_ref_count_BB4AE4 == 0)
             {
-                relive_new Movie(field_24_movie_id_3,
-                                            field_20_movie_pos_3,
-                                            field_40_movie_flag_3,
-                                            field_42_movie_flags_3,
-                                            field_44_movie_vol_3);
+                relive_new Movie(field_40_movie_flag_3, field_44_movie_vol_3);
                 field_38_changeEffect = CameraSwapEffects::ePlay1FMV_5;
                 field_4C_movie_bPutDispEnv = field_48_movie_flags_2;
             }
@@ -442,11 +427,7 @@ void CameraSwapper::VUpdate()
             // When no movie is playing start the next one
             if (sMovie_ref_count_BB4AE4 == 0)
             {
-                relive_new Movie(field_2C_movie_id_2,
-                                            field_28_movie_pos_2,
-                                            field_46_movie_flag_2,
-                                            field_48_movie_flags_2,
-                                            field_4A_movie_vol_2);
+                relive_new Movie(field_46_movie_flag_2, field_4A_movie_vol_2);
                 field_38_changeEffect = CameraSwapEffects::ePlay2FMVs_9;
                 field_4C_movie_bPutDispEnv = field_48_movie_flags_2;
             }

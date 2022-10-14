@@ -910,10 +910,9 @@ void Menu::FMV_Select_Update()
                     SND_StopAll();
 
                     const FmvInfo* pFmvRec = Path_Get_FMV_Record_434680(sActiveList[mSelectedButtonIndex.raw].mLevel, sActiveList[mSelectedButtonIndex.raw].mFmvId);
-                    u32 movie1Sector = 0;
-                    Get_fmvs_sectors_44FEB0(pFmvRec->field_0_pName, 0, 0, &movie1Sector, 0, 0);
+                    Get_fmvs_sectors(pFmvRec->field_0_pName, 0, 0);
 
-                    relive_new Movie(pFmvRec->field_4_id, movie1Sector, static_cast<s8>(pFmvRec->field_6), pFmvRec->field_A, pFmvRec->field_C_volume);
+                    relive_new Movie(pFmvRec->field_4_id, 0, static_cast<s8>(pFmvRec->field_6), pFmvRec->field_A, pFmvRec->field_C_volume);
 
                     while (sMovie_ref_count_9F309C)
                     {

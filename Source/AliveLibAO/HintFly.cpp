@@ -1456,20 +1456,6 @@ HintFly::HintFly(relive::Path_HintFly* pTlv, const Guid& tlvId)
         field_114_xScreen = FP_GetExponent(mXPos + FP_FromInteger(pScreenManager->mCamXOff) - pScreenManager->mCamPos->x);
         field_116_yScreen = FP_GetExponent(mYPos + FP_FromInteger(pScreenManager->mCamYOff) - pScreenManager->mCamPos->y);
 
-        // Some unknown pal hack that seems to do nothing
-        /*
-        const PSX_RECT rect = { static_cast<s16>(mAnim.mPalVramXY.x + 1), mAnim.mPalVramXY.y, 1, 1 };
-        const u8 data[] = { 0, 0, 0, 0 };
-        if (mAnim.mFlags.Get(AnimFlags::eIs16Bit))
-        {
-            PSX_LoadImage16_4962A0(&rect, data);
-        }
-        else
-        {
-            PSX_LoadImage_496480(&rect, data);
-        }
-        */
-
         for (s32 i = 0; i < field_118_counter; i++)
         {
             HintFlyParticle* pParticle = &field_E8_pRes[i];

@@ -211,28 +211,23 @@ public:
 
 };
 
-void Get_fmvs_sectors_44FEB0(const char_type* pMovieName1, const char_type* pMovieName2, const char_type* pMovieName3, u32* pMovie1Sector, u32* pMovie2Sector, u32* pMovie3Sector)
+void Get_fmvs_sectors(const char_type* pMovieName1, const char_type* pMovieName2, const char_type* pMovieName3)
 {
-    // AE_IMPLEMENTED();
-
     sMovieNameIdx_508C0C = 0;
 
     if (pMovieName1)
     {
         strcpy(sMovieNames_508B08.mNames[0].mName, pMovieName1);
-        *pMovie1Sector = 0x11111111;
     }
 
     if (pMovieName2)
     {
         strcpy(sMovieNames_508B08.mNames[1].mName, pMovieName2);
-        *pMovie2Sector = 0x22222222;
     }
 
     if (pMovieName3)
     {
         strcpy(sMovieNames_508B08.mNames[2].mName, pMovieName3);
-        *pMovie3Sector = 0x33333333;
     }
 }
 
