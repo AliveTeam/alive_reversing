@@ -79,7 +79,6 @@ public:
     void BltBackBuffer(const SDL_Rect* pCopyRect, const SDL_Rect* pDst) override;
     void Clear(u8 r, u8 g, u8 b) override;
     bool Create(TWindowHandleType window) override;
-    void CreateBackBuffer(bool filter, s32 format, s32 w, s32 h) override;
     void Destroy() override;
     void Draw(Prim_Sprt& sprt) override;
     void Draw(Prim_GasEffect& gasEffect) override;
@@ -94,15 +93,10 @@ public:
     void Draw(Poly_G4& poly) override;
     void EndFrame() override;
     void OutputSize(s32* w, s32* h) override;
-    bool PalAlloc(PalRecord& record) override;
-    void PalFree(const PalRecord& record) override;
-    void PalSetData(const PalRecord& record, const u8* pPixels) override;
     void SetClip(Prim_PrimClipper& clipper) override;
     void SetScreenOffset(Prim_ScreenOffset& offset) override;
     void SetTPage(u16 tPage) override;
     void StartFrame(s32 xOff, s32 yOff) override;
-    bool UpdateBackBuffer(const void* pPixels, s32 pitch) override;
-    void Upload(BitDepth bitDepth, const PSX_RECT& rect, const u8* pPixels) override;
 
 private:
     struct Stats final

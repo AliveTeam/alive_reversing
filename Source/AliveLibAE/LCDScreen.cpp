@@ -179,11 +179,7 @@ LCDScreen::LCDScreen(relive::Path_LCDScreen* params, const Guid& tlvId)
 
     IRenderer::PalRecord rec;
     rec.depth = 16;
-    if (!IRenderer::GetRenderer()->PalAlloc(rec))
-    {
-        LOG_ERROR("PalAlloc failed");
-    }
-
+    
     field_98_pal_rect.x = rec.x;
     field_98_pal_rect.y = rec.y;
     field_98_pal_rect.w = rec.depth;
@@ -360,8 +356,6 @@ void LCDScreen::VScreenChanged()
 
 LCDScreen::~LCDScreen()
 {
-    IRenderer::GetRenderer()->PalFree(IRenderer::PalRecord{field_98_pal_rect.x, field_98_pal_rect.y, field_98_pal_rect.w});
-
     gObjListDrawables->Remove_Item(this);
     Path::TLV_Reset(field_2BC_tlv_item_info, -1, 0, 0);
 

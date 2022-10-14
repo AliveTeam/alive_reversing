@@ -45,19 +45,11 @@ public:
     virtual void EndFrame() = 0;
     virtual void BltBackBuffer(const SDL_Rect* pCopyRect, const SDL_Rect* pDst) = 0;
     virtual void OutputSize(s32* w, s32* h) = 0;
-    virtual bool UpdateBackBuffer(const void* pPixels, s32 pitch) = 0;
-    virtual void CreateBackBuffer(bool filter, s32 format, s32 w, s32 h) = 0;
 
     virtual void SetTPage(u16 tPage) = 0;
 
     virtual void SetClip(Prim_PrimClipper& clipper) = 0;
     virtual void SetScreenOffset(Prim_ScreenOffset& offset) = 0;
-
-    virtual void PalFree(const PalRecord& record) = 0; // Use to free textures/pals via a vram point.
-    [[nodiscard]] virtual bool PalAlloc(PalRecord& record) = 0;
-    virtual void PalSetData(const PalRecord& record, const u8* pPixels) = 0;
-
-    virtual void Upload(BitDepth bitDepth, const PSX_RECT& rect, const u8* pPixels) = 0;
 
     // FG1/zaplines/blood/hintfly
     virtual void Draw(Prim_Sprt& sprt) = 0;
