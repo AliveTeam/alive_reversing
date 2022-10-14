@@ -7,13 +7,11 @@
 #include "FG1Reader.hpp"
 #include "../relive_lib/Primitives.hpp"
 
-DynamicArrayT<FG1>* gFG1List_5D1E28 = nullptr;
-
-const static Layer sFg1_layer_to_bits_layer_5469BC[4] = {Layer::eLayer_Well_Half_4, Layer::eLayer_FG1_Half_18, Layer::eLayer_Well_23, Layer::eLayer_FG1_37};
+extern DynamicArrayT<BaseGameObject>* gObjListDrawables;
 
 FG1::~FG1()
 {
-    gFG1List_5D1E28->Remove_Item(this);
+    gObjListDrawables->Remove_Item(this);
 }
 
 FG1::FG1(Fg1Resource& pFg1Res, CamResource& camRes)
@@ -30,7 +28,7 @@ FG1::FG1(Fg1Resource& pFg1Res, CamResource& camRes)
     field_24_level_id = gMap.mCurrentLevel;
     field_26_path_id = gMap.mCurrentPath;
 
-    gFG1List_5D1E28->Push_Back(this);
+    gObjListDrawables->Push_Back(this);
 }
 
 void FG1::VScreenChanged()

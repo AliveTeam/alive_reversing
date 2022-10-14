@@ -20,4 +20,4 @@ extern s16 sNum_CamSwappers_5C1B66;
 extern s32 dword_5CA4D4;
 extern s32 k1_dword_55EF90;
 extern s16 sBreakGameLoop_5C2FE0;
-extern DynamicArrayT<BaseGameObject>* ObjList_5C1B78;
+extern DynamicArrayT<BaseGameObject>* gPlatformsArray;

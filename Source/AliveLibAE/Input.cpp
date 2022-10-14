@@ -1094,10 +1094,6 @@ void NewParseSettingsIni()
             }
         }
     }
-
-#if __ANDROID__ //TODO check/add support
-    sJoystickEnabled = 1;
-#endif
 }
 
 void Input_SaveSettingsIni_Common()

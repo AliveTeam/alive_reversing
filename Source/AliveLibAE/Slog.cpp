@@ -719,7 +719,7 @@ void Slog::Motion_4_Fall()
                     VOnCollisionWith(
                         xy,
                         wh,
-                        ObjList_5C1B78,
+                        gPlatformsArray,
                         (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
                 }
                 SetCurrentMotion(eSlogMotions::Motion_10_Land);
@@ -2809,7 +2809,7 @@ void Slog::Init()
             const PSX_RECT bRect = VGetBoundingRect();
             const PSX_Point xy = {bRect.x, static_cast<s16>(bRect.y + 5)};
             const PSX_Point wh = {bRect.w, static_cast<s16>(bRect.h + 5)};
-            VOnCollisionWith(xy, wh, ObjList_5C1B78, (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
+            VOnCollisionWith(xy, wh, gPlatformsArray, (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
         }
     }
 
@@ -3098,7 +3098,7 @@ void Slog::MoveOnLine()
                 const PSX_RECT bRect = VGetBoundingRect();
                 const PSX_Point xy = {bRect.x, static_cast<s16>(bRect.y + 5)};
                 const PSX_Point wh = {bRect.w, static_cast<s16>(bRect.h + 5)};
-                VOnCollisionWith(xy, wh, ObjList_5C1B78, (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
+                VOnCollisionWith(xy, wh, gPlatformsArray, (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
             }
         }
         else

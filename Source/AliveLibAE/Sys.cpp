@@ -11,19 +11,13 @@
 #include "PauseMenu.hpp"
 #include "GameAutoPlayer.hpp"
 
-#if USE_SDL2
-    #include "SDL.h"
-    #include "SDL_syswm.h"
-    #include "VGA.hpp"
-#elif _WIN32
-    #include <timeapi.h>
-#endif
+#include "SDL.h"
+#include "SDL_syswm.h"
+#include "VGA.hpp"
+
 
 bool sAppIsActivated_BBBA00 = FALSE;
 TWindowHandleType sHwnd_BBB9F4 = nullptr;
-#if _WIN32
-TWindowProcFilter sWindowProcFilter_BBB9F8 = nullptr;
-#endif
 LPSTR sCommandLine_BBB9E8 = nullptr;
 HINSTANCE sInstance_BBB9EC = nullptr;
 s32 sCmdShow_BBB9FC = 0;
@@ -58,123 +52,6 @@ bool Sys_IsAnyKeyDown()
     return sIsAKeyDown;
 }
 
-#if _WIN32
-LRESULT CALLBACK Sys_WindowProc_4EE32D(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-    #if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
-    switch (msg)
-    {
-        case WM_ERASEBKGND:
-        {
-            RECT rcWin;
-            HDC hDC = GetDC(hWnd);
-            GetClipBox((HDC) wParam, &rcWin);
-            FillRect(hDC, &rcWin, GetSysColorBrush(COLOR_DESKTOP)); // hBrush can be obtained by calling GetWindowLong()
-        }
-            return TRUE;
-
-        case WM_GETICON:
-        case WM_MOUSEACTIVATE:
-        case WM_NCLBUTTONDOWN:
-        case WM_NCMOUSELEAVE:
-        case WM_KILLFOCUS:
-        case WM_SETFOCUS:
-        case WM_NCHITTEST:
-        case WM_ACTIVATE:
-        case WM_LBUTTONDOWN:
-        case WM_LBUTTONUP:
-        case WM_LBUTTONDBLCLK:
-        case WM_NCCALCSIZE:
-        case WM_MOVE:
-        case WM_WINDOWPOSCHANGED:
-        case WM_WINDOWPOSCHANGING:
-        case WM_NCMOUSEMOVE:
-        case WM_MOUSEMOVE:
-            return DefWindowProc(hWnd, msg, wParam, lParam);
-        case WM_SETCURSOR:
-        {
-            // Set the cursor so the resize cursor or whatever doesn't "stick"
-            // when we move the mouse over the game window.
-            static HCURSOR cur = LoadCursor(0, IDC_ARROW);
-            if (cur)
-            {
-                SetCursor(cur);
-            }
-            return DefWindowProc(hWnd, msg, wParam, lParam);
-        }
-
-        case WM_PAINT:
-        {
-            PAINTSTRUCT ps;
-            BeginPaint(hWnd, &ps);
-            EndPaint(hWnd, &ps);
-        }
-            return FALSE;
-    }
-    #endif
-
-    if (sWindowProcFilter_BBB9F8)
-    {
-        const LRESULT filterRet = sWindowProcFilter_BBB9F8(hWnd, msg, wParam, lParam);
-        if (filterRet > 0)
-        {
-            return ::DefWindowProcA(hWnd, msg, wParam, lParam);
-        }
-        else if (filterRet < 0)
-        {
-            return -1 - filterRet;
-        }
-    }
-
-    switch (msg)
-    {
-        case WM_SETCURSOR:
-            return 1;
-
-        case WM_DESTROY:
-            PostQuitMessage(0);
-            break;
-
-        case WM_PAINT:
-        {
-            PAINTSTRUCT paint = {};
-            BeginPaint(hWnd, &paint);
-            EndPaint(hWnd, &paint);
-        }
-        break;
-
-        case WM_ACTIVATEAPP:
-            sAppIsActivated_BBBA00 = static_cast<bool>(wParam);
-            break;
-
-        case WM_KEYDOWN:
-            if (!Input_GetInputEnabled_4EDDE0())
-            {
-                // Store the ASCII of a single key press. Used for typing in text for save names etc.
-                sIsAKeyDown = TRUE;
-                u8 KeyState[256] = {};
-                ::GetKeyboardState(KeyState);
-
-                const UINT vKey = static_cast<UINT>(wParam);
-                const UINT scanCode = HIWORD(lParam);
-                char_type translated[4] = {};
-                // TODO: can be negative but is never checked
-                const s32 numBytesWritten = ::ToAscii(vKey, scanCode, KeyState, reinterpret_cast<u16*>(&translated), 0);
-                translated[numBytesWritten] = 0;
-                ::CharToOemA(translated, translated);
-                sLastPressedKey = translated[0];
-            }
-            break;
-
-        case WM_KEYUP:
-            sIsAKeyDown = 0;
-            sLastPressedKey = 0;
-            break;
-    }
-    return ::DefWindowProcA(hWnd, msg, wParam, lParam);
-}
-#endif
-
 #if USE_SDL2
     #if _WIN32
 HWND Sys_Win32FromSDLWindow(TWindowHandleType windowHandle)
@@ -189,29 +66,15 @@ HWND Sys_Win32FromSDLWindow(TWindowHandleType windowHandle)
 
 void Sys_SetWindowText(TWindowHandleType windowHandle, const char_type* title)
 {
-#if USE_SDL2
     SDL_SetWindowTitle(windowHandle, title);
-#else
-    ::SetWindowText(windowHandle, title);
-#endif
 }
 
 POINT Sys_GetScreenMousePos()
 {
-#if USE_SDL2
     s32 x = 0;
     s32 y = 0;
     SDL_GetMouseState(&x, &y);
     return {x, y};
-#else
-    HWND windowHandle = Sys_GetWindowHandle_4EE180();
-    POINT mousePos;
-    RECT r;
-    GetClientRect(windowHandle, &r);
-    GetCursorPos(&mousePos);
-    ScreenToClient(windowHandle, &mousePos);
-    return mousePos;
-#endif
 }
 
 bool Sys_IsMouseButtonDown(MouseButtons button)
@@ -231,150 +94,8 @@ void AE_Sys_Main(HINSTANCE hInstance, LPSTR lpCmdLine, s32 nShowCmd)
     Sys_Main_Common();
 }
 
-#if _WIN32
-void Sys_SetWindowProc_Filter_4EE197(TWindowProcFilter pFilter)
-{
-    sWindowProcFilter_BBB9F8 = pFilter;
-}
-#endif
-
 SoundEntry* sMovieSoundEntry_5CA230 = nullptr;
 
-#if _WIN32
-    #if !USE_SDL2
-LRESULT Sys_WindowMessageHandler_494A40(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-    LRESULT ret = 0;
-
-    switch (msg)
-    {
-        case WM_PAINT:
-        {
-            RECT rect = {};
-            PAINTSTRUCT paint = {};
-            BeginPaint(hWnd, &paint);
-            GetClientRect(hWnd, &rect);
-            PatBlt(paint.hdc, 0, 0, rect.right, rect.bottom, BLACKNESS); // use pal 0
-            EndPaint(hWnd, &paint);
-            Add_Dirty_Area_4ED970(0, 0, 640, 240);
-        }
-            return 1;
-
-        case WM_CLOSE:
-            sDDraw_BBC3D4->FlipToGDISurface();
-
-        #if !USE_SDL2_SOUND
-            if (sMovieSoundEntry_5CA230)
-            {
-                LPDIRECTSOUNDBUFFER pDSoundBuffer = sMovieSoundEntry_5CA230->field_4_pDSoundBuffer;
-                if (pDSoundBuffer)
-                {
-                    pDSoundBuffer->Stop();
-                }
-            }
-        #endif
-
-            if (SND_Seq_Table_Valid_4CAFE0())
-            {
-                SND_StopAll_4CB060();
-            }
-
-            ret = -(MessageBoxA(hWnd, "Do you really want to quit?", "Abe's Exoddus 1.0", 0x124u) != 6); // TODO: Constants, refactor negation
-
-
-            if (SND_Seq_Table_Valid_4CAFE0())
-            {
-                GetSoundAPI().SND_Restart();
-            }
-
-            if (!sMovieSoundEntry_5CA230)
-            {
-                return ret;
-            }
-
-            if (!sMovieSoundEntry_5CA230->field_4_pDSoundBuffer)
-            {
-                return ret;
-            }
-
-        #if !USE_SDL2_SOUND
-            sMovieSoundEntry_5CA230->field_4_pDSoundBuffer->Play(0, 0, 1);
-        #endif
-            return ret;
-
-        case WM_SETCURSOR:
-            SetCursor(nullptr);
-            return -1;
-
-        case WM_NCLBUTTONDOWN:
-            return -1;
-
-        case WM_KEYFIRST:
-            if (wParam == VK_F5)
-            {
-                sQuicksave_SaveNextFrame_5CA4D8 = 1;
-            }
-            else if (wParam == VK_F6)
-            {
-                sQuicksave_LoadNextFrame_5CA4D9 = 1;
-                Input_SetKeyState_4EDD80(VK_F6, 1);
-                return 0;
-            }
-            Input_SetKeyState_4EDD80(static_cast<s32>(wParam), 1);
-            return 0;
-
-        case WM_KEYUP:
-            Input_SetKeyState_4EDD80(static_cast<s32>(wParam), 0);
-            return 1;
-
-        case WM_ACTIVATE:
-        case WM_SETFOCUS:
-        case WM_KILLFOCUS:
-        case WM_ENTERMENULOOP:
-        case WM_EXITMENULOOP:
-        case WM_ENTERSIZEMOVE:
-        case WM_EXITSIZEMOVE:
-            Input_InitKeyStateArray_4EDD60();
-            break;
-
-        case WM_INITMENUPOPUP:
-            // TODO: Constants for wParam
-            if ((u32) lParam >> 16)
-            {
-                return -1;
-            }
-            return ret;
-
-        case WM_SYSKEYDOWN:
-            // TODO: Constants for wParam
-            if (wParam == 18 || wParam == 32)
-            {
-                ret = -1;
-            }
-            Input_SetKeyState_4EDD80(wParam, 1);
-            break;
-
-        case WM_SYSKEYUP:
-            // TODO: Constants for wParam
-            if (wParam == 18 || wParam == 32)
-            {
-                ret = -1;
-            }
-            Input_SetKeyState_4EDD80(wParam, 0);
-            break;
-
-        case WM_TIMER:
-            return 1;
-
-        default:
-            return ret;
-    }
-    return ret;
-}
-    #endif
-#endif
-
-#if USE_SDL2
 static s32 sdl_key_to_win32_vkey(SDL_Scancode key)
 {
     switch (key)
@@ -827,7 +548,6 @@ static s32 sdl_key_to_win32_vkey(SDL_Scancode key)
 // This is a combination of the window proc and the window proc "filter"
 
 static bool bNeedToQuit = false;
-#endif
 
 bool Sys_IsAppActive_4EDF30()
 {
@@ -1015,7 +735,6 @@ static void QuitEvent(bool isRecordedEvent, bool isRecording)
 
 s8 Sys_PumpMessages_4EE4F4()
 {
-#if USE_SDL2
     GetGameAutoPlayer().SyncPoint(SyncPoints::PumpEventsStart);
 
     SDL_Event event = {};
@@ -1165,34 +884,6 @@ s8 Sys_PumpMessages_4EE4F4()
     }
 
     return 0;
-#else
-    MSG msg = {};
-    u32 paintMessageCount = 0;
-    while (::PeekMessageA(&msg, 0, 0, 0, PM_REMOVE))
-    {
-        if (msg.message == WM_QUIT)
-        {
-            return 1;
-        }
-
-        // I guess this stops the game hanging from paint request spam, seems like a hack.
-        if (msg.message == WM_PAINT && ++paintMessageCount >= 10)
-        {
-            break;
-        }
-
-        if (msg.message != WM_SYSKEYDOWN || msg.wParam != 32)
-        {
-            ::TranslateMessage(&msg);
-            ::DispatchMessageA(&msg);
-            if (msg.message == WM_QUIT)
-            {
-                return 1;
-            }
-        }
-    }
-    return 0;
-#endif
 }
 
 TWindowHandleType Sys_GetWindowHandle()
@@ -1200,28 +891,17 @@ TWindowHandleType Sys_GetWindowHandle()
     return sHwnd_BBB9F4;
 }
 
-LPSTR Sys_GetCommandLine_4EE176()
+LPSTR Sys_GetCommandLine()
 {
     return sCommandLine_BBB9E8;
 }
 
 void Sys_SetWindowPos_4EE1B1(s32 width, s32 height)
 {
-#if USE_SDL2
     SDL_SetWindowSize(Sys_GetWindowHandle(), width, height);
     SDL_SetWindowPosition(Sys_GetWindowHandle(), 0, 0);
-#else
-    RECT clientRect = {};
-    ::SetWindowPos(Sys_GetWindowHandle_4EE180(), HWND_TOPMOST, 0, 0, width, height, SWP_NOREPOSITION | SWP_NOZORDER);
-    ::GetClientRect(Sys_GetWindowHandle_4EE180(), &clientRect);
-    if (width != clientRect.right || height != clientRect.bottom)
-    {
-        ::SetWindowPos(Sys_GetWindowHandle_4EE180(), HWND_TOPMOST, 0, 0, width - clientRect.right + width, height - clientRect.bottom + height, SWP_NOREPOSITION | SWP_NOZORDER);
-    }
-#endif
 }
 
-#if USE_SDL2
 static s32 Sys_WindowClass_Register_SDL(LPCSTR /*lpClassName*/, LPCSTR lpWindowName, s32 x, s32 y, s32 nWidth, s32 nHeight)
 {
     s32 sdlWindowAttributes = 0;
@@ -1229,19 +909,8 @@ static s32 Sys_WindowClass_Register_SDL(LPCSTR /*lpClassName*/, LPCSTR lpWindowN
     //#if RENDERER_OPENGL
     sdlWindowAttributes |= SDL_WINDOW_OPENGL;
    // #endif
-    #if __ANDROID__
-    SDL_Rect gScreenRect = {0, 0, 640, 480};
-    SDL_DisplayMode displayMode;
-    if (SDL_GetCurrentDisplayMode(0, &displayMode) == 0)
-    {
-        gScreenRect.w = displayMode.w;
-        gScreenRect.h = displayMode.h;
-    }
 
-    sHwnd_BBB9F4 = SDL_CreateWindow(lpWindowName, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, gScreenRect.w, gScreenRect.h, SDL_WINDOW_SHOWN | SDL_WINDOW_FULLSCREEN | sdlWindowAttributes);
-    #else
     sHwnd_BBB9F4 = SDL_CreateWindow(lpWindowName, x, y, nWidth, nHeight, SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI | sdlWindowAttributes);
-    #endif
 
     Input_InitKeyStateArray_4EDD60();
 
@@ -1255,69 +924,9 @@ static s32 Sys_WindowClass_Register_SDL(LPCSTR /*lpClassName*/, LPCSTR lpWindowN
 
     return 0;
 }
-#else
-static s32 Sys_WindowClass_Register_Win32(LPCSTR lpClassName, LPCSTR lpWindowName, s32 x, s32 y, s32 nWidth, s32 nHeight)
-{
-    WNDCLASSA windowClass = {};
-    windowClass.style = CS_VREDRAW | CS_HREDRAW;
-    windowClass.lpfnWndProc = Sys_WindowProc_4EE32D;
-    windowClass.cbClsExtra = 0;
-    windowClass.cbWndExtra = 0;
-    windowClass.hInstance = sInstance_BBB9EC;
-    windowClass.hIcon = ::LoadIconA(sInstance_BBB9EC, MAKEINTRESOURCE(IDI_MAIN_ICON));
-    windowClass.hCursor = ::LoadCursorA(sInstance_BBB9EC, IDC_WAIT);
-    windowClass.hbrBackground = nullptr;
-    windowClass.lpszMenuName = lpClassName;
-    windowClass.lpszClassName = lpClassName;
-    ::RegisterClassA(&windowClass);
 
-    u32 style = WS_CAPTION | WS_VISIBLE;
-    #if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
-    style |= WS_OVERLAPPEDWINDOW;
-    #endif
-
-    const HWND hWnd = ::CreateWindowExA(
-        0, // ExStyle
-        lpClassName,
-        lpWindowName,
-        style,
-        x,
-        y,
-        nWidth,
-        nHeight,
-        0, // hWndParent
-        0, // hMenu
-        sInstance_BBB9EC,
-        0); // lpParam
-
-    if (!hWnd)
-    {
-        return -1;
-    }
-
-    sHwnd_BBB9F4 = hWnd;
-
-    #if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
-    Sys_SetWindowPos_4EE1B1(nWidth, nHeight);
-    #else
-    RECT rc;
-    SetRect(&rc, 0, 0, nWidth, nHeight);
-    AdjustWindowRectEx(&rc, WS_OVERLAPPEDWINDOW | WS_VISIBLE, TRUE, 0);
-    SetWindowPos(hWnd, NULL, 0, 0, rc.right - rc.left, rc.bottom - rc.top, SWP_SHOWWINDOW);
-    #endif
-
-    ::ShowWindow(hWnd, sCmdShow_BBB9FC);
-    ::UpdateWindow(hWnd);
-    ::ShowCursor(TRUE);
-    return 0;
-}
-#endif
 
 s32 Sys_WindowClass_Register(LPCSTR lpClassName, LPCSTR lpWindowName, s32 x, s32 y, s32 nWidth, s32 nHeight)
 {
-#if USE_SDL2
     return Sys_WindowClass_Register_SDL(lpClassName, lpWindowName, x, y, nWidth, nHeight);
-#else
-    return Sys_WindowClass_Register_Win32(lpClassName, lpWindowName, x, y, nWidth, nHeight);
-#endif
 }

@@ -1639,9 +1639,9 @@ void Map::GoTo_Camera()
                 }
             }
 
-            if (ObjListPlatforms_50766C->Size() > 0)
+            if (gPlatformsArray->Size() > 0)
             {
-                LOG_ERROR(ObjListPlatforms_50766C->Size() << " Platforms have been leaked!");
+                LOG_ERROR(gPlatformsArray->Size() << " Platforms have been leaked!");
                 ALIVE_FATAL("Platforms leaked!");
             }
 

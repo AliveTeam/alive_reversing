@@ -187,7 +187,7 @@ void TrapDoor::Open()
 
     Rect_Clear(&mPlatformBaseCollisionLine->mRect);
     mPlatformBaseCollisionLine = nullptr;
-    ObjListPlatforms_50766C->Remove_Item(this);
+    gPlatformsArray->Remove_Item(this);
 }
 
 void TrapDoor::VUpdate()
@@ -262,7 +262,7 @@ void TrapDoor::VUpdate()
                     mBoundingRect.y,
                     eLineTypes::eDynamicCollision_32
                 );
-                ObjListPlatforms_50766C->Push_Back(this);
+                gPlatformsArray->Push_Back(this);
                 mState = TrapDoorState::eClosed_0;
                 SwitchStates_Set(mSwitchId, mStartState == 0);
             }

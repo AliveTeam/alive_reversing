@@ -98,9 +98,9 @@ void BaseThrowable::BaseAddToPlatform()
         if (pLine->mLineType == eLineTypes::eDynamicCollision_32 ||
             pLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
         {
-            for (s32 i = 0; i < ObjListPlatforms_50766C->Size(); i++)
+            for (s32 i = 0; i < gPlatformsArray->Size(); i++)
             {
-                BaseGameObject* pObjIter = ObjListPlatforms_50766C->ItemAt(i);
+                BaseGameObject* pObjIter = gPlatformsArray->ItemAt(i);
                 if (!pObjIter)
                 {
                     break;

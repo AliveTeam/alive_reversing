@@ -1887,7 +1887,7 @@ void Slig::MoveOnLine()
                     VOnCollisionWith(
                         {bRect.x, bRect.y},
                         {bRect.w, bRect.h},
-                        ObjListPlatforms_50766C,
+                        gPlatformsArray,
                         (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
                 }
             }
@@ -2890,7 +2890,7 @@ void Slig::Motion_7_Falling()
                 VOnCollisionWith(
                     {bRect.x, bRect.y},
                     {bRect.w, bRect.h},
-                    ObjListPlatforms_50766C,
+                    gPlatformsArray,
                     (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
 
                 mXPos = hitX;

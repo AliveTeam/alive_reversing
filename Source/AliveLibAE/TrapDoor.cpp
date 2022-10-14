@@ -220,7 +220,7 @@ void TrapDoor::Open()
 
     Rect_Clear(&field_124_pCollisionLine->mRect);
     field_124_pCollisionLine = nullptr;
-    ObjList_5C1B78->Remove_Item(this);
+    gPlatformsArray->Remove_Item(this);
 }
 
 void TrapDoor::VUpdate()
@@ -335,5 +335,5 @@ void TrapDoor::Add_To_Collisions_Array()
         field_124_pCollisionLine->mLineType = eLineTypes::eBackgroundDynamicCollision_36;
     }
 
-    ObjList_5C1B78->Push_Back(this);
+    gPlatformsArray->Push_Back(this);
 }

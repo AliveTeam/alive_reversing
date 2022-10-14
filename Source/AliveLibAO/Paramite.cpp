@@ -710,7 +710,7 @@ void Paramite::MoveOnLine()
                     VOnCollisionWith(
                         {bRect.x, static_cast<s16>(bRect.y + 5)},
                         {bRect.w, static_cast<s16>(bRect.h + 5)},
-                        ObjListPlatforms_50766C,
+                        gPlatformsArray,
                         (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
                 }
             }
@@ -2952,7 +2952,7 @@ void Paramite::Motion_6_Hop()
                     VOnCollisionWith(
                         {bRect.x, bRect.y},
                         {bRect.y, bRect.h},
-                        ObjListPlatforms_50766C,
+                        gPlatformsArray,
                         (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
                     mXPos = hitX;
                     mYPos = hitY;
@@ -3196,7 +3196,7 @@ void Paramite::Motion_12_Falling()
                 VOnCollisionWith(
                     {bRect.x, bRect.y},
                     {bRect.w, bRect.h},
-                    ObjListPlatforms_50766C,
+                    gPlatformsArray,
                     (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
 
                 mXPos = hitX;
@@ -3483,7 +3483,7 @@ void Paramite::Motion_18_RunningAttack()
                 VOnCollisionWith(
                     {r.x, r.y},
                     {r.w, r.h},
-                    ObjListPlatforms_50766C,
+                    gPlatformsArray,
                     (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
             }
             mYPos = hitY;
@@ -3547,7 +3547,7 @@ void Paramite::Motion_20_SurpriseWeb()
             VOnCollisionWith(
                 {bRect.x, bRect.y},
                 {bRect.w, bRect.h},
-                ObjListPlatforms_50766C,
+                gPlatformsArray,
                 (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
         }
     }

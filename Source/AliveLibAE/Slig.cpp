@@ -4710,7 +4710,7 @@ void Slig::VUpdate()
                     VOnCollisionWith(
                         {bRect.x, static_cast<s16>(bRect.y + 5)},
                         {bRect.w, static_cast<s16>(bRect.h + 5)},
-                        ObjList_5C1B78,
+                        gPlatformsArray,
                         (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
                 }
             }
@@ -5623,7 +5623,7 @@ void Slig::PlatformCollide_4B4E00()
     VOnCollisionWith(
         xy,
         wh,
-        ObjList_5C1B78,
+        gPlatformsArray,
         (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
 }
 

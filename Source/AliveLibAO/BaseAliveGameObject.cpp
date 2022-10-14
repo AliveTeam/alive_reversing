@@ -13,9 +13,6 @@
 
 namespace AO {
 
-void BaseAliveGameObject_ForceLink()
-{ }
-
 DynamicArrayT<BaseAliveGameObject>* gBaseAliveGameObjects = nullptr;
 
 BaseAliveGameObject::BaseAliveGameObject()
@@ -265,7 +262,7 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid_401A90(s32 distance)
                     VOnCollisionWith(
                         {bRect.x, bRect.y},
                         {bRect.w, bRect.h},
-                        ObjListPlatforms_50766C,
+                        gPlatformsArray,
                         (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
                 }
             }

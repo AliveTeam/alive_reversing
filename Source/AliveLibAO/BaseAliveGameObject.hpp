@@ -11,9 +11,6 @@ enum class CameraPos : s16;
 
 namespace AO {
 
-void BaseAliveGameObject_ForceLink();
-
-
 class PlatformBase;
 class BirdPortal;
 

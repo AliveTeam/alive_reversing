@@ -40,126 +40,7 @@ namespace AO {
 
 DynamicArrayT<BaseGameObject>* gLoadingFiles = nullptr;
 
-// TODO: Move these few funcs to correct location
-#ifdef _WIN32
-s32 Add_Dirty_Area_48D910(s32, s32, s32, s32)
-{
-    
-    return 0;
-}
-
-s32 MessageBox_48E3F0(const char_type* /*pTitle*/, s32 /*lineNumber*/, const char_type* /*pMsg*/, ...)
-{
-    
-    return 0;
-}
-
-s32 Sys_WindowMessageHandler_4503B0(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-    LRESULT ret = 0;
-
-    switch (msg)
-    {
-        case WM_PAINT:
-        {
-            RECT rect = {};
-            PAINTSTRUCT paint = {};
-            BeginPaint(hWnd, &paint);
-            GetClientRect(hWnd, &rect);
-            PatBlt(paint.hdc, 0, 0, rect.right, rect.bottom, BLACKNESS); // use pal 0
-            EndPaint(hWnd, &paint);
-            Add_Dirty_Area_48D910(0, 0, 640, 240);
-        }
-            return 1;
-
-        case WM_CLOSE:
-            return (MessageBoxA(hWnd, "Do you really want to quit ?", "Abe's Oddysee", MB_DEFBUTTON2 | MB_ICONQUESTION | MB_YESNO) == IDNO) ? -1 : 0;
-
-        case WM_KEYDOWN:
-            if (wParam == VK_F1)
-            {
-                MessageBox_48E3F0(
-                    "About Abe",
-                    -1,
-                    "Oddworld Abe's Oddysee 2.0\nPC version by Digital Dialect\n\nBuild date: %s %s\n",
-                    "Oct 22 1997",
-                    "14:32:52");
-                Input_InitKeyStateArray();
-            }
-            Input_SetKeyState(static_cast<s32>(wParam), 1);
-            return 0;
-
-        case WM_KEYUP:
-            Input_SetKeyState(static_cast<s32>(wParam), 0);
-            break;
-
-        case WM_SETCURSOR:
-        {
-            static auto hCursor = LoadCursor(nullptr, IDC_ARROW);
-            SetCursor(hCursor);
-        }
-            return -1;
-
-    #ifndef BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
-        case WM_NCLBUTTONDOWN:
-            // Prevent window being moved when click + dragged
-            return -1;
-    #endif
-
-        case WM_ACTIVATE:
-        case WM_SETFOCUS:
-        case WM_KILLFOCUS:
-        case WM_ENTERMENULOOP:
-        case WM_EXITMENULOOP:
-        case WM_ENTERSIZEMOVE:
-        case WM_EXITSIZEMOVE:
-            Input_InitKeyStateArray();
-            break;
-
-        case WM_INITMENUPOPUP:
-            // TODO: Constants for wParam
-            if ((u32) lParam >> 16)
-            {
-                return -1;
-            }
-            break;
-
-        case WM_SYSKEYDOWN:
-            // TODO: Constants for wParam
-            if (wParam == 18 || wParam == 32)
-            {
-                ret = -1;
-            }
-            Input_SetKeyState(static_cast<s32>(wParam), 1);
-            break;
-
-        case WM_SYSKEYUP:
-            // TODO: Constants for wParam
-            if (wParam == 18 || wParam == 32)
-            {
-                ret = -1;
-            }
-            Input_SetKeyState(static_cast<s32>(wParam), 0);
-            break;
-
-        case WM_TIMER:
-            return 1;
-        default:
-            return static_cast<s32>(ret);
-    }
-    return static_cast<s32>(ret);
-}
-using TFilter = AddPointer_t<s32 CC(HWND, UINT, WPARAM, LPARAM)>;
-
-void Sys_SetWindowProc_Filter_48E950(TFilter)
-{
-    
-}
-
-#endif
-
-
-DynamicArrayT<BaseGameObject>* ObjListPlatforms_50766C = nullptr;
+DynamicArrayT<BaseGameObject>* gPlatformsArray = nullptr;
 
 void Game_ForceLink()
 {
@@ -262,7 +143,6 @@ static void Main_ParseCommandLineArguments()
     PSX_EMU_Init_49A1D0();
     PSX_EMU_VideoAlloc_49A2B0();
     PSX_EMU_SetCallBack_499920(1, Game_End_Frame_4505D0);
-    //Main_Set_HWND_499900(Sys_GetWindowHandle()); // Note: Set global is never read
 }
 
 void Init_GameStates()
@@ -289,7 +169,7 @@ void Init_Sound_DynamicArrays_And_Others_41CD20()
     gFilesPending_507714 = 0;
     bLoadingAFile_50768C = 0;
 
-    ObjListPlatforms_50766C = relive_new DynamicArrayT<BaseGameObject>(20);
+    gPlatformsArray = relive_new DynamicArrayT<BaseGameObject>(20);
 
     ObjList_5009E0 = relive_new DynamicArrayT<ResourceManager::ResourceManager_FileRecord>(10); // not used in AE
 
@@ -583,16 +463,11 @@ void Game_Run_4373D0()
 
 void Game_Main()
 {
-    BaseAliveGameObject_ForceLink();
-
     GetGameAutoPlayer().ParseCommandLine(Sys_GetCommandLine());
 
     Main_ParseCommandLineArguments();
     Game_SetExitCallBack_48E040(Game_ExitGame_450730);
-#ifdef _WIN32
-    // Only SDL2 supported in AO
-    Sys_SetWindowProc_Filter_48E950(Sys_WindowMessageHandler_4503B0);
-#endif
+
     Game_Run_4373D0();
 
     // TODO: AE inlined calls here (pull AE's code into another func)

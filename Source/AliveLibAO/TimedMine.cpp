@@ -192,11 +192,11 @@ void TimedMine::StickToLiftPoint()
         if (pLine->mLineType == eLineTypes ::eDynamicCollision_32 ||
             pLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
         {
-            if (ObjListPlatforms_50766C)
+            if (gPlatformsArray)
             {
-                for (s32 i = 0; i < ObjListPlatforms_50766C->Size(); i++)
+                for (s32 i = 0; i < gPlatformsArray->Size(); i++)
                 {
-                    BaseGameObject* pObj = ObjListPlatforms_50766C->ItemAt(i);
+                    BaseGameObject* pObj = gPlatformsArray->ItemAt(i);
                     if (!pObj)
                     {
                         break;

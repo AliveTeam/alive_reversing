@@ -27,7 +27,7 @@ extern s16 gOldSavedMuds_5076D4;
 extern s16 gbKillUnsavedMudsDone_5076CC;
 
 
-extern DynamicArrayT<::BaseGameObject>* ObjListPlatforms_50766C;
+extern DynamicArrayT<::BaseGameObject>* gPlatformsArray;
 
 void Init_GameStates();
 

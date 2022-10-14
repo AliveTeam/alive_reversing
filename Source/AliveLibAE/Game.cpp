@@ -50,7 +50,7 @@ u32 sGnFrame = 0;
 u32 sTimer_period_BBB9D4 = 0;
 
 // Arrays of things
-DynamicArrayT<BaseGameObject>* ObjList_5C1B78 = nullptr;
+DynamicArrayT<BaseGameObject>* gPlatformsArray = nullptr;
 DynamicArray* ObjList_5BD4D8 = nullptr;
 
 s16 sBreakGameLoop_5C2FE0 = 0;
@@ -86,11 +86,6 @@ void Init_GameStates_43BF40()
     sKilledMudokons_5C1BC0 = sFeeco_Restart_KilledMudCount_5C1BC6;
     sRescuedMudokons_5C1BC2 = sFeecoRestart_SavedMudCount_5C1BC8;
 
-    // TODO: Check that the unused vars here really are unused
-    //word_5C1BCA = 0;
-    //word_5C1B= 0;
-    //word_5C1BF0 = 0;
-
     gGasOn_5C1C00 = 0;
     sGasTimer_5C1BE8 = 0;
 
@@ -102,26 +97,12 @@ void Init_GameStates_43BF40()
     SwitchStates_SetRange(2u, 255u);
 }
 
-bool Is_Cd_Rom_Drive_495470([[maybe_unused]] CHAR driveLetter)
-{
-#if _WIN32
-    CHAR RootPathName[4] = {};
-    strcpy(RootPathName, "C:\\");
-    RootPathName[0] = driveLetter;
-    return ::GetDriveTypeA(RootPathName) == DRIVE_CDROM;
-#else
-    return false;
-#endif
-}
-
 void DestroyObjects_4A1F20()
 {
     pResourceManager_5C1BB0->LoadingLoop_465590(FALSE);
     for (s32 iterations = 0; iterations < 2; iterations++)
     {
         s16 idx = 0;
-
-
 
         while (idx < gBaseGameObjects->Size())
         {
@@ -323,7 +304,7 @@ void Init_Sound_DynamicArrays_And_Others_43BDB0()
     sGnFrame = 0;
     sbLoadingInProgress_5C1B96 = 0;
 
-    ObjList_5C1B78 = relive_new DynamicArrayT<BaseGameObject>(20); // For trap doors/dynamic platforms?
+    gPlatformsArray = relive_new DynamicArrayT<BaseGameObject>(20); // For trap doors/dynamic platforms?
 
     ObjList_5BD4D8 = relive_new DynamicArray(10); // Never seems to be used?
 
@@ -386,95 +367,6 @@ void Game_Free_LoadingIcon_482D40()
 extern bool gBootToLoadScreen;
 #endif
 
-void Game_Run_466D40()
-{
-    // Begin start up
-    SYS_EventsPump();
-    gAttract_5C1BA0 = 0;
-    SYS_EventsPump();
-
-    PSX_ResetCallBack_4FAA20();
-    gPsxDisplay.Init();
-    PSX_CdInit_4FB2C0();
-    PSX_CdSetDebug_4FB330(0);
-    Input_Pads_Reset_4FA960(); // starts card/pads on psx ver
-
-    gBaseGameObjects = relive_new DynamicArrayT<BaseGameObject>(50);
-
-    gObjListDrawables = relive_new DynamicArrayT<BaseGameObject>(30);
-
-    gFG1List_5D1E28 = relive_new DynamicArrayT<FG1>(4);
-
-    AnimationBase::CreateAnimationArray();
-
-    pResourceManager_5C1BB0 = relive_new ResourceManager();
-
-    Init_Sound_DynamicArrays_And_Others_43BDB0();
-
-    Camera camera;
-
-    // Load the first camera we see on boot
-    camera.field_C_pCamRes = ResourceManagerWrapper::LoadCam(EReliveLevelIds::eMenu, 1, 25);
-
-    gMap.field_24_camera_offset.y = FP_FromInteger(0);
-    gMap.field_24_camera_offset.x = FP_FromInteger(0);
-
-    pScreenManager = relive_new ScreenManager(camera.field_C_pCamRes, &gMap.field_24_camera_offset);
-
-    pScreenManager->DecompressCameraToVRam(camera.field_C_pCamRes);
-
-    camera.Free();
-
-    Input_Init_491BC0();
-    s16 cameraId = 25;
-#if DEVELOPER_MODE
-    #if _WIN32
-    if (GetKeyState(VK_LSHIFT) >= 0)
-    {
-        gBootToLoadScreen = true;
-        cameraId = 1;
-    }
-    #endif
-#endif
-
-    gMap.Init(EReliveLevelIds::eMenu, 1, cameraId, CameraSwapEffects::eInstantChange_0, 0, 0);
-
-    DDCheat_Allocate_415320();
-    pEventSystem_5BC11C = relive_new GameSpeak();
-
-    pCheatController_5BC120 = relive_new CheatController();
-
-    Game_Init_LoadingIcon_482CD0();
-
-    // Main loop start
-    Game_Loop_467230();
-
-    // Shut down start
-    Game_Free_LoadingIcon_482D40();
-    DDCheat::ClearProperties();
-    gMap.Shutdown();
-
-    AnimationBase::FreeAnimationArray();
-    BaseAnimatedWithPhysicsGameObject::FreeArray();
-    relive_delete gFG1List_5D1E28;
-    relive_delete gBaseGameObjects;
-    relive_delete ObjList_5C1B78;
-    relive_delete ObjList_5BD4D8;
-    ShadowZone::FreeArray();
-    relive_delete gBaseAliveGameObjects;
-    relive_delete sCollisions;
-
-    gMusicController = nullptr; // Note: OG bug - should have been set to nullptr after shutdown call?
-    MusicController::Shutdown();
-
-    SND_Reset_Ambiance();
-    SND_Shutdown();
-    PSX_CdControlB_4FB320(8, 0, 0);
-    PSX_ResetCallBack_4FAA20();
-    PSX_StopCallBack_4FAA30();
-    Input().ShutDown_45F020();
-    PSX_ResetGraph_4F8800(0);
-}
 
 void Game_SetExitCallBack_4F2BA0(TExitGameCallBack callBack)
 {
@@ -542,7 +434,7 @@ s32 Init_Input_Timer_And_IO_4F2BF0(bool forceSystemMemorySurfaces)
         return -1;
     }
 
-    if (strstr(Sys_GetCommandLine_4EE176(), "-syncread"))
+    if (strstr(Sys_GetCommandLine(), "-syncread"))
     {
         sIOSyncReads_BD2A5C = TRUE;
     }
@@ -551,33 +443,6 @@ s32 Init_Input_Timer_And_IO_4F2BF0(bool forceSystemMemorySurfaces)
         sIOSyncReads_BD2A5C = FALSE;
     }
     return 0;
-}
-
-void Game_Main_4949F0()
-{
-    // Inits
-    Init_Input_Timer_And_IO_4F2BF0(false);
-
-    GetGameAutoPlayer().ParseCommandLine(Sys_GetCommandLine_4EE176());
-
-    Main_ParseCommandLineArguments_494EA0(Sys_GetCommandLine_4EE176(), Sys_GetCommandLine_4EE176());
-
-    Game_SetExitCallBack_4F2BA0(Game_ExitGame_4954B0);
-#if _WIN32
-    #if !USE_SDL2
-    Sys_SetWindowProc_Filter_4EE197(Sys_WindowMessageHandler_494A40);
-    #endif
-#endif
-    // Only returns once the engine is shutting down
-    Game_Run_466D40();
-
-    if (sGame_OnExitCallback_BBFB00)
-    {
-        sGame_OnExitCallback_BBFB00();
-        sGame_OnExitCallback_BBFB00 = nullptr;
-    }
-
-    Game_Shutdown_4F2C30();
 }
 
 void Game_Loop_467230()
@@ -658,26 +523,6 @@ void Game_Loop_467230()
             }
         }
         GetGameAutoPlayer().SyncPoint(SyncPoints::DrawAllEnd);
-
-        // Render FG1's
-        for (s32 i = 0; i < gFG1List_5D1E28->Size(); i++)
-        {
-            FG1* pFG1 = gFG1List_5D1E28->ItemAt(i);
-            if (!pFG1)
-            {
-                break;
-            }
-
-            if (pFG1->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
-            {
-                pFG1->mBaseGameObjectFlags.Clear(BaseGameObject::eCantKill_Bit11);
-            }
-            else if (pFG1->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
-            {
-                pFG1->mBaseGameObjectFlags.Set(BaseGameObject::eCantKill_Bit11);
-                pFG1->VRender(ppOtBuffer);
-            }
-        }
 
         DebugFont_Flush();
         PSX_DrawSync_4F6280(0);
@@ -772,4 +617,119 @@ void Game_Loop_467230()
             relive_delete pObj;
         }
     }
+}
+
+
+void Game_Run_466D40()
+{
+    // Begin start up
+    SYS_EventsPump();
+    gAttract_5C1BA0 = 0;
+    SYS_EventsPump();
+
+    PSX_ResetCallBack_4FAA20();
+    gPsxDisplay.Init();
+    PSX_CdInit_4FB2C0();
+    PSX_CdSetDebug_4FB330(0);
+    Input_Pads_Reset_4FA960(); // starts card/pads on psx ver
+
+    gBaseGameObjects = relive_new DynamicArrayT<BaseGameObject>(50);
+
+    gObjListDrawables = relive_new DynamicArrayT<BaseGameObject>(30);
+
+    AnimationBase::CreateAnimationArray();
+
+    pResourceManager_5C1BB0 = relive_new ResourceManager();
+
+    Init_Sound_DynamicArrays_And_Others_43BDB0();
+
+    Camera camera;
+
+    // Load the first camera we see on boot
+    camera.field_C_pCamRes = ResourceManagerWrapper::LoadCam(EReliveLevelIds::eMenu, 1, 25);
+
+    gMap.field_24_camera_offset.y = FP_FromInteger(0);
+    gMap.field_24_camera_offset.x = FP_FromInteger(0);
+
+    pScreenManager = relive_new ScreenManager(camera.field_C_pCamRes, &gMap.field_24_camera_offset);
+
+    pScreenManager->DecompressCameraToVRam(camera.field_C_pCamRes);
+
+    camera.Free();
+
+    Input_Init_491BC0();
+    s16 cameraId = 25;
+#if DEVELOPER_MODE
+    #if _WIN32
+    if (GetKeyState(VK_LSHIFT) >= 0)
+    {
+        gBootToLoadScreen = true;
+        cameraId = 1;
+    }
+    #endif
+#endif
+
+    gMap.Init(EReliveLevelIds::eMenu, 1, cameraId, CameraSwapEffects::eInstantChange_0, 0, 0);
+
+    DDCheat_Allocate_415320();
+    pEventSystem_5BC11C = relive_new GameSpeak();
+
+    pCheatController_5BC120 = relive_new CheatController();
+
+    Game_Init_LoadingIcon_482CD0();
+
+    // Main loop start
+    Game_Loop_467230();
+
+    // Shut down start
+    Game_Free_LoadingIcon_482D40();
+    DDCheat::ClearProperties();
+    gMap.Shutdown();
+
+    AnimationBase::FreeAnimationArray();
+    BaseAnimatedWithPhysicsGameObject::FreeArray();
+    relive_delete gBaseGameObjects;
+    relive_delete gPlatformsArray;
+    relive_delete ObjList_5BD4D8;
+    ShadowZone::FreeArray();
+    relive_delete gBaseAliveGameObjects;
+    relive_delete sCollisions;
+
+    gMusicController = nullptr; // Note: OG bug - should have been set to nullptr after shutdown call?
+    MusicController::Shutdown();
+
+    SND_Reset_Ambiance();
+    SND_Shutdown();
+    PSX_CdControlB_4FB320(8, 0, 0);
+    PSX_ResetCallBack_4FAA20();
+    PSX_StopCallBack_4FAA30();
+    Input().ShutDown_45F020();
+    PSX_ResetGraph_4F8800(0);
+}
+
+void Game_Main_4949F0()
+{
+    // Inits
+    Init_Input_Timer_And_IO_4F2BF0(false);
+
+    GetGameAutoPlayer().ParseCommandLine(Sys_GetCommandLine());
+
+    Main_ParseCommandLineArguments_494EA0(Sys_GetCommandLine(), Sys_GetCommandLine());
+
+    Game_SetExitCallBack_4F2BA0(Game_ExitGame_4954B0);
+#if _WIN32
+    #if !USE_SDL2
+    Sys_SetWindowProc_Filter_4EE197(Sys_WindowMessageHandler_494A40);
+    #endif
+#endif
+    // Only returns once the engine is shutting down
+    Game_Run_466D40();
+
+    if (sGame_OnExitCallback_BBFB00)
+    {
+        sGame_OnExitCallback_BBFB00();
+        sGame_OnExitCallback_BBFB00 = nullptr;
+    }
+
+    Game_Shutdown_4F2C30();
 }

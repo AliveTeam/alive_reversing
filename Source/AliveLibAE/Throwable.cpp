@@ -85,11 +85,11 @@ void BaseThrowable::BaseAddToPlatform(BaseThrowable::FnTypeMatcher cb)
         if (pLine->mLineType == eLineTypes ::eDynamicCollision_32 ||
             pLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
         {
-            if (ObjList_5C1B78)
+            if (gPlatformsArray)
             {
-                for (s32 idx = 0; idx < ObjList_5C1B78->Size(); idx++)
+                for (s32 idx = 0; idx < gPlatformsArray->Size(); idx++)
                 {
-                    BaseGameObject* pObj = ObjList_5C1B78->ItemAt(idx);
+                    BaseGameObject* pObj = gPlatformsArray->ItemAt(idx);
                     if (!pObj)
                     {
                         break;

@@ -63,7 +63,7 @@ void PlatformBase::AddDynamicCollision(AnimId animId, relive::Path_TLV* pTlv, Ma
     mPlatformBaseYOffset = FP_GetExponent(FP_FromInteger(pTlv->mTopLeftY) - mYPos);
     mPlatformBaseHeightOffset = FP_GetExponent(FP_FromInteger(pTlv->mTopLeftY) - mYPos);
 
-    if (!ObjListPlatforms_50766C->Push_Back(this))
+    if (!gPlatformsArray->Push_Back(this))
     {
         mBaseGameObjectFlags.Set(Options::eListAddFailed_Bit1);
     }
@@ -71,7 +71,7 @@ void PlatformBase::AddDynamicCollision(AnimId animId, relive::Path_TLV* pTlv, Ma
 
 PlatformBase::~PlatformBase()
 {
-    ObjListPlatforms_50766C->Remove_Item(this);
+    gPlatformsArray->Remove_Item(this);
 
     if (mPlatformBaseCollisionLine)
     {

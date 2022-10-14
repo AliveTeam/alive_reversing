@@ -224,8 +224,8 @@ static s32 AEMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine,
 
 static void ConvertData()
 {
-    //DataConversion dataConversion;
-    //dataConversion.ConvertDataAE();
+    DataConversion dataConversion;
+    dataConversion.ConvertDataAE();
 }
 
 s32 WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)
@@ -285,11 +285,7 @@ s32 WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     }
 }
 
-#if __ANDROID__
-extern "C" __attribute__((visibility("default"))) s32 SDL_main(s32 argc, s8** argv)
-#else
 s32 main(s32 argc, char_type** argv)
-#endif
 {
     std::string args;
     for (s32 i = 0; i < argc; i++)

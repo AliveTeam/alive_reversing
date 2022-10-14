@@ -36,5 +36,3 @@ public:
     Fg1Resource mFG1Res;
     CamResource mCamRes;
 };
-
-extern DynamicArrayT<FG1>* gFG1List_5D1E28;
