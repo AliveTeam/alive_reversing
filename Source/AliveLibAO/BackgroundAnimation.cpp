@@ -89,12 +89,12 @@ BackgroundAnimation::BackgroundAnimation(relive::Path_BackgroundAnimation* pTlv,
 
     Animation_Init(res);
 
-    mAnim.mFlags.Set(AnimFlags::eSemiTrans, pTlv->mIsSemiTrans == relive::reliveChoice::eYes);
-    mAnim.mFlags.Set(AnimFlags::eBlending);
+    GetAnimation().mFlags.Set(AnimFlags::eSemiTrans, pTlv->mIsSemiTrans == relive::reliveChoice::eYes);
+    GetAnimation().mFlags.Set(AnimFlags::eBlending);
 
-    mAnim.mRenderMode = pTlv->mSemiTransMode;
+    GetAnimation().SetRenderMode(pTlv->mSemiTransMode);
 
-    mAnim.mRenderLayer = Layer::eLayer_1;
+    GetAnimation().SetRenderLayer(Layer::eLayer_1);
     mYOffset = 0;
 
     mSoundEffect = pTlv->mSoundEffect;

@@ -31,11 +31,11 @@ HoistParticle::HoistParticle(FP xpos, FP ypos, FP scale, AnimId animId)
 
     if (scale == FP_FromInteger(1))
     {
-        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
+        GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_25);
     }
     else
     {
-        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
+        GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_Half_6);
     }
 
     field_E4_bHitGround = 0;

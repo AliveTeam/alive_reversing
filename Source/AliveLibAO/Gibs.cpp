@@ -65,13 +65,13 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
     if (scale == FP_FromInteger(1))
     {
         field_E8_z = FP_FromInteger(0);
-        mAnim.mRenderLayer = Layer::eLayer_FG1_37;
+        GetAnimation().SetRenderLayer(Layer::eLayer_FG1_37);
         mScale = Scale::Fg;
     }
     else if (scale == FP_FromDouble(0.5))
     {
         field_E8_z = FP_FromInteger(100);
-        mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+        GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
         mScale = Scale::Bg;
     }
     else
@@ -140,15 +140,13 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
             }
         }
 
-        pPart->field_18_animation.mRenderLayer = mAnim.mRenderLayer;
-        pPart->field_18_animation.field_14_scale = scale;
+        pPart->field_18_animation.SetRenderLayer(GetAnimation().GetRenderLayer());
+        pPart->field_18_animation.SetSpriteScale(scale);
 
         pPart->field_18_animation.mFlags.Clear(AnimFlags::eBlending);
         pPart->field_18_animation.mFlags.Clear(AnimFlags::eSemiTrans);
 
-        pPart->field_18_animation.mRed = static_cast<u8>(mRGB.r);
-        pPart->field_18_animation.mGreen = static_cast<u8>(mRGB.g);
-        pPart->field_18_animation.mBlue = static_cast<u8>(mRGB.b);
+        pPart->field_18_animation.SetRGB(mRGB.r, mRGB.g, mRGB.b);
 
         pPart->x = mXPos;
         pPart->y = mYPos;
@@ -246,14 +244,14 @@ void Gibs::VRender(PrimHeader** ppOt)
         {
             if (pGib->y >= up && pGib->y <= down)
             {
-                pGib->field_18_animation.field_14_scale = FP_FromInteger(100) / (pGib->field_8_z + FP_FromInteger(100));
-                if (pGib->field_18_animation.field_14_scale < FP_FromInteger(1))
+                pGib->field_18_animation.SetSpriteScale(FP_FromInteger(100) / (pGib->field_8_z + FP_FromInteger(100)));
+                if (pGib->field_18_animation.GetSpriteScale() < FP_FromInteger(1))
                 {
-                    pGib->field_18_animation.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+                    pGib->field_18_animation.SetRenderLayer(Layer::eLayer_Foreground_Half_17);
                 }
                 else
                 {
-                    pGib->field_18_animation.mRenderLayer = Layer::eLayer_FG1_37;
+                    pGib->field_18_animation.SetRenderLayer(Layer::eLayer_FG1_37);
                 }
 
                 pGib->field_18_animation.VRender(

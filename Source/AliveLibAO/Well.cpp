@@ -69,11 +69,11 @@ void Well::VUpdate()
                     {
                         if (mLeafScale == FP_FromDouble(0.5))
                         {
-                            pLeaf->mAnim.mRenderLayer = Layer::eLayer_BeforeWell_Half_3;
+                            pLeaf->GetAnimation().SetRenderLayer(Layer::eLayer_BeforeWell_Half_3);
                         }
                         else
                         {
-                            pLeaf->mAnim.mRenderLayer = Layer::eLayer_BeforeWell_22;
+                            pLeaf->GetAnimation().SetRenderLayer(Layer::eLayer_BeforeWell_22);
                         }
                     }
                 }
@@ -95,7 +95,7 @@ void Well::WellExpress_Init(relive::Path_WellExpress* pTlv, FP /*xpos*/, FP ypos
         //Animation_Init(anim.mFrameTableOffset, anim.mMaxW, anim.mMaxH, ppRes);
         // TODO: Fix bg anims
         Animation_Init(ResourceManagerWrapper::LoadAnimation(AnimId::Abe_Head_Gib));
-        mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
+        GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
         mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
     }
     /*
@@ -107,12 +107,12 @@ void Well::WellExpress_Init(relive::Path_WellExpress* pTlv, FP /*xpos*/, FP ypos
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        mAnim.mRenderLayer = Layer::eLayer_Well_Half_4;
+        GetAnimation().SetRenderLayer(Layer::eLayer_Well_Half_4);
         mLeafScale = FP_FromDouble(0.5);
     }
     else
     {
-        mAnim.mRenderLayer = Layer::eLayer_Well_23;
+        GetAnimation().SetRenderLayer(Layer::eLayer_Well_23);
         mLeafScale = FP_FromInteger(1);
     }
 
@@ -154,7 +154,7 @@ void Well::WellLocal_Init(relive::Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
         Animation_Init(ResourceManagerWrapper::LoadAnimation(AnimId::Abe_Head_Gib));
         //Animation_Init(anim.mFrameTableOffset, anim.mMaxW, anim.mMaxH, ppRes);
 
-        mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
+        GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
         mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
     }
     /*
@@ -166,13 +166,13 @@ void Well::WellLocal_Init(relive::Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        mAnim.mRenderLayer = Layer::eLayer_Well_Half_4;
+        GetAnimation().SetRenderLayer(Layer::eLayer_Well_Half_4);
         mLeafScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
     }
     else
     {
-        mAnim.mRenderLayer = Layer::eLayer_Well_23;
+        GetAnimation().SetRenderLayer(Layer::eLayer_Well_23);
         mLeafScale = FP_FromInteger(1);
         mScale = Scale::Fg;
     }

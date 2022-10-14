@@ -29,19 +29,17 @@ public:
 
         mVisualFlags.Set(VisualFlags::eApplyShadowZoneColour);
 
-        mAnim.mFlags.Clear(AnimFlags::eBlending);
-        mAnim.mFlags.Set(AnimFlags::eSemiTrans);
-        mAnim.mFlags.Set(AnimFlags::eIgnorePosOffset);
+        GetAnimation().mFlags.Clear(AnimFlags::eBlending);
+        GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
+        GetAnimation().mFlags.Set(AnimFlags::eIgnorePosOffset);
 
         mXPos = xpos;
         mYPos = ypos + FP_FromInteger(4);
 
-        mAnim.mRenderLayer = Layer::eLayer_DoorFlameRollingBallFallingItemPortalClip_Half_12;
-        mAnim.mRenderMode = TPageAbr::eBlend_3;
+        GetAnimation().SetRenderLayer(Layer::eLayer_DoorFlameRollingBallFallingItemPortalClip_Half_12);
+        GetAnimation().SetRenderMode(TPageAbr::eBlend_3);
 
-        mAnim.mRed = 100;
-        mAnim.mGreen = 100;
-        mAnim.mBlue = 63;
+        GetAnimation().SetRGB(100, 100, 63);
 
         mSpriteScale = scale;
 
@@ -57,11 +55,9 @@ public:
     {
         if (Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
         {
-            mAnim.mRed = static_cast<u8>(mRGB.r);
-            mAnim.mGreen = static_cast<u8>(mRGB.g);
-            mAnim.mBlue = static_cast<u8>(mRGB.b);
+            GetAnimation().SetRGB(mRGB.r, mRGB.g, mRGB.b);
 
-            mAnim.VRender(
+            GetAnimation().VRender(
                 FP_GetExponent(field_E4_xPos),
                 FP_GetExponent(field_E8_yPos),
                 ppOt,
@@ -77,8 +73,8 @@ public:
         s16 frameW = 0;
         s16 frameH = 0;
 
-        mAnim.Get_Frame_Width_Height(&frameW, &frameH);
-        mAnim.Get_Frame_Offset(&xy.x, &xy.y);
+        GetAnimation().Get_Frame_Width_Height(&frameW, &frameH);
+        GetAnimation().Get_Frame_Offset(&xy.x, &xy.y);
 
         const auto& pCamPos = pScreenManager->mCamPos;
         const FP screenX = FP_FromInteger(pScreenManager->mCamXOff) + mXPos - pCamPos->x;
@@ -133,10 +129,10 @@ public:
         mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::ChantOrb_Particle_Small));
         Animation_Init(GetAnimRes(AnimId::ChantOrb_Particle_Small));
 
-        mAnim.mFlags.Set(AnimFlags::eSemiTrans);
+        GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
 
         mVisualFlags.Set(VisualFlags::eApplyShadowZoneColour);
-        mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+        GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
 
         mXPos = xpos;
         mYPos = ypos;
@@ -147,13 +143,13 @@ public:
 
         for (auto& anim : field_E8_sparks)
         {
-            anim.field_14.field_68_anim_ptr = &mAnim;
+            anim.field_14.field_68_anim_ptr = &GetAnimation();
 
             anim.field_14.mFlags.Set(AnimFlags::eRender);
             anim.field_14.mFlags.Set(AnimFlags::eBlending);
 
-            const s16 rndLayer = static_cast<s16>(mAnim.mRenderLayer) + Math_RandomRange(-1, 1);
-            anim.field_14.mRenderLayer = static_cast<Layer>(rndLayer);
+            const s16 rndLayer = static_cast<s16>(GetAnimation().GetRenderLayer()) + Math_RandomRange(-1, 1);
+            anim.field_14.SetRenderLayer(static_cast<Layer>(rndLayer));
             anim.field_14.field_6C_scale = mSpriteScale;
 
             anim.x = mXPos;
@@ -220,9 +216,7 @@ public:
         {
             if (field_E4_bRender)
             {
-                mAnim.mGreen = 32;
-                mAnim.mBlue = 32;
-                mAnim.mRed = 240;
+                GetAnimation().SetRGB(240, 32, 32);
 
                 const FP_Point* pCamPos = pScreenManager->mCamPos;
 
@@ -231,7 +225,7 @@ public:
                 const FP screen_top = pCamPos->y - FP_FromInteger(pScreenManager->mCamYOff);
                 const FP screen_bottom = pCamPos->y + FP_FromInteger(pScreenManager->mCamYOff);
 
-                mAnim.VRender(
+                GetAnimation().VRender(
                     FP_GetExponent(PsxToPCX(mXPos - screen_left)),
                     FP_GetExponent(mYPos - screen_top),
                     ppOt,
@@ -239,7 +233,7 @@ public:
                     0);
 
                 PSX_RECT frameRect = {};
-                mAnim.Get_Frame_Rect(&frameRect);
+                GetAnimation().Get_Frame_Rect(&frameRect);
 
                 for (auto& anim : field_E8_sparks)
                 {
@@ -308,10 +302,10 @@ DoorFlame::DoorFlame(relive::Path_DoorFlame* pTlv, const Guid& tlvId)
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Fire));
     Animation_Init(GetAnimRes(AnimId::Fire));
 
-    mAnim.mFlags.Set(AnimFlags::eSemiTrans);
+    GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
     mVisualFlags.Set(VisualFlags::eApplyShadowZoneColour);
-    mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
-    mFrameCount = mAnim.Get_Frame_Count();
+    GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
+    mFrameCount = GetAnimation().Get_Frame_Count();
     mSwitchId = pTlv->mSwitchId;
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
@@ -348,16 +342,16 @@ DoorFlame::DoorFlame(relive::Path_DoorFlame* pTlv, const Guid& tlvId)
 
     if (SwitchStates_Get(pTlv->mSwitchId))
     {
-        mAnim.mFlags.Set(AnimFlags::eRender);
+        GetAnimation().mFlags.Set(AnimFlags::eRender);
         mState = States::eEnabled_1;
     }
     else
     {
-        mAnim.mFlags.Clear(AnimFlags::eRender);
+        GetAnimation().mFlags.Clear(AnimFlags::eRender);
         mState = States::eDisabled_0;
     }
 
-    mAnim.mFlags.Set(AnimFlags::eAnimate);
+    GetAnimation().mFlags.Set(AnimFlags::eAnimate);
     mRandom = Math_NextRandom() & 1;
 
     mFlameSparks = relive_new FlameSparks(mXPos, mYPos);
@@ -372,7 +366,7 @@ void DoorFlame::VUpdate()
     switch (mState)
     {
         case States::eDisabled_0:
-            mAnim.mFlags.Clear(AnimFlags::eRender);
+            GetAnimation().mFlags.Clear(AnimFlags::eRender);
             if (mFlameSparks)
             {
                 mFlameSparks->field_E4_bRender = 0;
@@ -407,7 +401,7 @@ void DoorFlame::VUpdate()
                 }
             }
 
-            mAnim.mFlags.Set(AnimFlags::eRender);
+            GetAnimation().mFlags.Set(AnimFlags::eRender);
             if (mFlameSparks)
             {
                 mFlameSparks->field_E4_bRender = 1;

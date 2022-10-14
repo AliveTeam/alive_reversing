@@ -27,7 +27,7 @@ WorkWheel::WorkWheel(relive::Path_WorkWheel* pTlv, const Guid& tlvId)
 
     Animation_Init(GetAnimRes(AnimId::Work_Wheel_Idle));
 
-    mAnim.mFlags.Set(eSemiTrans);
+    GetAnimation().mFlags.Set(eSemiTrans);
 
     mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
@@ -37,14 +37,14 @@ WorkWheel::WorkWheel(relive::Path_WorkWheel* pTlv, const Guid& tlvId)
         if (pTlv->mScale == relive::reliveScale::eHalf)
         {
             mSpriteScale = FP_FromDouble(0.5);
-            mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
+            GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_Half_6);
             mScale = Scale::Bg;
         }
     }
     else
     {
         mSpriteScale = FP_FromInteger(1);
-        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
+        GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_25);
         mScale = Scale::Fg;
     }
 
@@ -177,7 +177,7 @@ void WorkWheel::VStartTurning()
     if (mState == WheelStates::eIdle_0)
     {
         mState = WheelStates::eTurning_1;
-        mAnim.Set_Animation_Data(GetAnimRes(AnimId::Work_Wheel_Turning));
+        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Work_Wheel_Turning));
     }
 }
 
@@ -188,7 +188,7 @@ void WorkWheel::VStopTurning(s16 bResetSwitch)
         mState = WheelStates::eIdle_0;
 
         // Spin it.
-        mAnim.Set_Animation_Data(GetAnimRes(AnimId::Work_Wheel_Idle));
+        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Work_Wheel_Idle));
 
         if (mTurnOffWhenStopped == relive::reliveChoice::eYes)
         {

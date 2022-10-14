@@ -76,21 +76,20 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, 
                 ppRes);
             if (pParticle)
             {
-                pParticle->mAnim.mFlags.Set(AnimFlags::eSemiTrans);
-                pParticle->mAnim.mFlags.Set(AnimFlags::eBlending);
+                pParticle->GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
+                pParticle->GetAnimation().mFlags.Set(AnimFlags::eBlending);
 
-                pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
-                pParticle->mAnim.mRed = 128;
-                pParticle->mAnim.mGreen = 128;
-                pParticle->mAnim.mBlue = 128;
+                pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+
+                pParticle->GetAnimation().SetRGB(128, 128, 128);
 
                 if (scale == FP_FromInteger(1))
                 {
-                    pParticle->mAnim.mRenderLayer = Layer::eLayer_Foreground_36;
+                    pParticle->GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_36);
                 }
                 else
                 {
-                    pParticle->mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+                    pParticle->GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
                 }
 
                 pParticle->mSpriteScale = scale;

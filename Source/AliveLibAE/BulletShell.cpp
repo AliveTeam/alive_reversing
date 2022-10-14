@@ -28,15 +28,15 @@ BulletShell::BulletShell(FP xpos, FP ypos, s16 direction, FP scale)
 
         if (scale == FP_FromInteger(1))
         {
-            mAnim.mRenderLayer = Layer::eLayer_Foreground_36;
+            GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_36);
         }
         else
         {
-            mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+            GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
         }
 
         mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
-        mAnim.mFlags.Set(AnimFlags::eFlipX, direction & 1);
+        GetAnimation().mFlags.Set(AnimFlags::eFlipX, direction & 1);
 
         field_FC_hitCount = 0;
 

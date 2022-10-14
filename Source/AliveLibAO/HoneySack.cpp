@@ -32,7 +32,7 @@ HoneySack::HoneySack(relive::Path_HoneySack* pTlv, const Guid& tlvId)
     mTlvInfo = tlvId;
 
     mChaseTime = pTlv->mChaseTime;
-    mAnim.mRenderLayer = Layer::eLayer_FallingItemDoorFlameRollingBallPortalClip_Half_31;
+    GetAnimation().SetRenderLayer(Layer::eLayer_FallingItemDoorFlameRollingBallPortalClip_Half_31);
 
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
@@ -56,7 +56,7 @@ HoneySack::HoneySack(relive::Path_HoneySack* pTlv, const Guid& tlvId)
         mYPos += FP_FromInteger(pTlv->mTlvSpecificMeaning);
 
         mState = State::eUpdateHoneySackOnGround_3;
-        mAnim.Set_Animation_Data(GetAnimRes(AnimId::HoneySack_OnGround));
+        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::HoneySack_OnGround));
         mBeeSwarm = nullptr;
     }
     else
@@ -158,7 +158,7 @@ void HoneySack::VUpdate()
         case State::eSetFallAnimation_1:
             if (static_cast<s32>(sGnFrame) > mTimer - 68)
             {
-                mAnim.Set_Animation_Data(GetAnimRes(AnimId::HoneySack_Falling));
+                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::HoneySack_Falling));
                 mState = State::eFallOnGround_2;
                 mVelX = FP_FromInteger(0);
                 mVelY = FP_FromInteger(0);
@@ -199,7 +199,7 @@ void HoneySack::VUpdate()
                 Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 90, -1000, nullptr);
                 mYPos = hitY;
                 mState = State::eUpdateHoneySackOnGround_3;
-                mAnim.Set_Animation_Data(GetAnimRes(AnimId::HoneySack_FallingToSmashed));
+                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::HoneySack_FallingToSmashed));
 
                 auto pNewBee = relive_new BeeSwarm(
                     mXPos,

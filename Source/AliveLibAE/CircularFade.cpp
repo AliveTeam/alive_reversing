@@ -30,14 +30,13 @@ CircularFade::CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroy
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 
-    mAnim.mFlags.Clear(AnimFlags::eBlending);
+    GetAnimation().mFlags.Clear(AnimFlags::eBlending);
     mSpriteScale.fpValue = scale.fpValue * 2;
-    mAnim.field_14_scale.fpValue = scale.fpValue * 2;
-
+    GetAnimation().SetSpriteScale(FP_FromInteger(scale.fpValue * 2));
     mXPos = xpos;
     mYPos = ypos;
-    mAnim.mRenderMode = TPageAbr::eBlend_2;
-    mAnim.mRenderLayer = Layer::eLayer_FadeFlash_40;
+    GetAnimation().SetRenderMode(TPageAbr::eBlend_2);
+    GetAnimation().SetRenderLayer(Layer::eLayer_FadeFlash_40);
     mRGB.SetRGB(field_1B8_fade_colour, field_1B8_fade_colour, field_1B8_fade_colour);
 
     Init_SetTPage(&field_198_tPages[0], 0, 0, PSX_getTPage(TPageMode::e16Bit_2, TPageAbr::eBlend_2, 0, 0));
@@ -57,11 +56,9 @@ void CircularFade::VRender(PrimHeader** ppOt)
     const u8 fade_rgb = static_cast<u8>((field_1B8_fade_colour * 60) / 100);
 
     mRGB.SetRGB(fade_rgb, fade_rgb, fade_rgb);
-    mAnim.mRed = fade_rgb;
-    mAnim.mGreen = fade_rgb;
-    mAnim.mBlue = fade_rgb;
+    GetAnimation().SetRGB(fade_rgb, fade_rgb, fade_rgb);
 
-    mAnim.VRender(
+    GetAnimation().VRender(
         FP_GetExponent(FP_FromInteger(mXOffset) + mXPos - pScreenManager->CamXPos()),
         FP_GetExponent(FP_FromInteger(mYOffset) + mYPos - pScreenManager->CamYPos()),
         ppOt,
@@ -69,7 +66,7 @@ void CircularFade::VRender(PrimHeader** ppOt)
         0);
 
     PSX_RECT frameRect = {};
-    mAnim.Get_Frame_Rect(&frameRect);
+    GetAnimation().Get_Frame_Rect(&frameRect);
 
     frameRect.h--;
     frameRect.w--;
@@ -103,7 +100,7 @@ void CircularFade::VRender(PrimHeader** ppOt)
     pTile1->field_14_w = gPsxDisplay.mWidth;
     pTile1->field_16_h = frameRect.y;
     Poly_Set_SemiTrans(&pTile1->mBase.header, 1);
-    OrderingTable_Add(OtLayer(ppOt, mAnim.mRenderLayer), &pTile1->mBase.header);
+    OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pTile1->mBase.header);
 
 
     Prim_Tile* pTile2 = &field_120_tile2[gPsxDisplay.mBufferIndex];
@@ -111,7 +108,7 @@ void CircularFade::VRender(PrimHeader** ppOt)
     SetRGB0(pTile2, fadeColour, fadeColour, fadeColour);
     SetXY0(pTile2, 0, frameRect.y);
 
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         pTile2->field_14_w = frameRect.x + 1;
     }
@@ -121,7 +118,7 @@ void CircularFade::VRender(PrimHeader** ppOt)
     }
     pTile2->field_16_h = frameRect.h - frameRect.y;
     Poly_Set_SemiTrans(&pTile2->mBase.header, 1);
-    OrderingTable_Add(OtLayer(ppOt, mAnim.mRenderLayer), &pTile2->mBase.header);
+    OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pTile2->mBase.header);
 
     Prim_Tile* pTile3 = &field_148_tile3[gPsxDisplay.mBufferIndex];
     Init_Tile(pTile3);
@@ -130,7 +127,7 @@ void CircularFade::VRender(PrimHeader** ppOt)
     pTile3->field_14_w = gPsxDisplay.mWidth - frameRect.w;
     pTile3->field_16_h = frameRect.h - frameRect.y;
     Poly_Set_SemiTrans(&pTile3->mBase.header, 1);
-    OrderingTable_Add(OtLayer(ppOt, mAnim.mRenderLayer), &pTile3->mBase.header);
+    OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pTile3->mBase.header);
 
     Prim_Tile* pTile4 = &field_170_tile4[gPsxDisplay.mBufferIndex];
     Init_Tile(pTile4);
@@ -139,9 +136,9 @@ void CircularFade::VRender(PrimHeader** ppOt)
     pTile4->field_14_w = gPsxDisplay.mWidth;
     pTile4->field_16_h = gPsxDisplay.mHeight - frameRect.h;
     Poly_Set_SemiTrans(&pTile4->mBase.header, 1);
-    OrderingTable_Add(OtLayer(ppOt, mAnim.mRenderLayer), &pTile4->mBase.header);
+    OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pTile4->mBase.header);
 
-    OrderingTable_Add(OtLayer(ppOt, mAnim.mRenderLayer), &field_198_tPages[gPsxDisplay.mBufferIndex].mBase);
+    OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &field_198_tPages[gPsxDisplay.mBufferIndex].mBase);
 
     if ((field_1B8_fade_colour == 255 && field_F4_flags.Get(Flags::eBit1_FadeIn)) || (field_1B8_fade_colour == 0 && !(field_F4_flags.Get(Flags::eBit1_FadeIn))))
     {

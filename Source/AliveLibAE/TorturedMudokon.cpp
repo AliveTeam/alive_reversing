@@ -31,7 +31,7 @@ TorturedMudokon::TorturedMudokon(relive::Path_TorturedMudokon* pTlv, const Guid&
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
     Animation_Init(GetAnimRes(AnimId::Tortured_Mudokon));
-    mAnim.SetFrame(Math_RandomRange(0, static_cast<s16>(mAnim.Get_Frame_Count() - 1)));
+    GetAnimation().SetFrame(Math_RandomRange(0, static_cast<s16>(GetAnimation().Get_Frame_Count() - 1)));
     mKillSwitchId = pTlv->mKillSwitchId;
     mReleaseSwitchId = pTlv->mReleaseSwitchId;
     mState = TorturedMudokonState::eBeingTortured_0;
@@ -46,11 +46,9 @@ void TorturedMudokon::SetupTearsAnimation(Animation* pAnim)
 {
     if (pAnim->Init(GetAnimRes(AnimId::Tortured_Mudokon_Tears), this))
     {
-        pAnim->mRenderLayer = mAnim.mRenderLayer;
-        pAnim->field_14_scale = mSpriteScale;
-        pAnim->mRed = 128;
-        pAnim->mGreen = 128;
-        pAnim->mBlue = 128;
+        pAnim->SetRenderLayer(GetAnimation().GetRenderLayer());
+        pAnim->SetSpriteScale(mSpriteScale);
+        pAnim->SetRGB(128, 128, 128);
     }
     else
     {
@@ -63,12 +61,10 @@ void TorturedMudokon::SetupZapAnimation(Animation* pAnim)
     if (pAnim->Init(GetAnimRes(AnimId::Electric_Wall), this))
     {
         // TODO: clean this up
-        const s32 layerM1 = static_cast<s32>(mAnim.mRenderLayer) - 1;
-        pAnim->mRenderLayer = static_cast<Layer>(layerM1);
-        pAnim->field_14_scale = mSpriteScale;
-        pAnim->mRed = 128;
-        pAnim->mGreen = 128;
-        pAnim->mBlue = 128;
+        const s32 layerM1 = static_cast<s32>(GetAnimation().GetRenderLayer()) - 1;
+        pAnim->SetRenderLayer(static_cast<Layer>(layerM1));
+        pAnim->SetSpriteScale(mSpriteScale);
+        pAnim->SetRGB(128, 128, 128);
     }
     else
     {
@@ -137,12 +133,12 @@ void TorturedMudokon::VUpdate()
             if (SwitchStates_Get(mKillSwitchId))
             {
                 mState = TorturedMudokonState::eKilled_1;
-                mAnim.Set_Animation_Data(GetAnimRes(AnimId::Tortured_Mudokon_Zap));
+                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Tortured_Mudokon_Zap));
             }
             break;
 
         case TorturedMudokonState::eKilled_1:
-            if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+            if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
@@ -155,9 +151,9 @@ void TorturedMudokon::VUpdate()
             break;
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
-        if (mAnim.mFrameChangeCounter == mAnim.mFrameDelay)
+        if (GetAnimation().GetFrameChangeCounter() == GetAnimation().GetFrameDelay())
         {
             mZapAnim.mFlags.Clear(AnimFlags::eRender);
             if (!Math_RandomRange(0, 8))
@@ -167,11 +163,11 @@ void TorturedMudokon::VUpdate()
         }
     }
 
-    if (mAnim.mCurrentFrame == 6)
+    if (GetAnimation().GetCurrentFrame() == 6)
     {
         if (Math_RandomRange(0, 2))
         {
-            mAnim.mCurrentFrame = 0;
+            GetAnimation().SetCurrentFrame(0);
         }
     }
 
@@ -195,7 +191,7 @@ void TorturedMudokon::VUpdate()
             break;
     }
 
-    if (mAnim.mCurrentFrame == 6 && mAnim.mFrameChangeCounter == mAnim.mFrameDelay)
+    if (GetAnimation().GetCurrentFrame() == 6 && GetAnimation().GetFrameChangeCounter() == GetAnimation().GetFrameDelay())
     {
         relive_new Flash(Layer::eLayer_Above_FG1_39, rgbBase + 50, rgbBase + 50, rgbBase + 110, TPageAbr::eBlend_1, 1);
         mZapAnim.mFlags.Set(AnimFlags::eRender);
@@ -214,7 +210,7 @@ void TorturedMudokon::VUpdate()
         }
     }
 
-    if (mAnim.mCurrentFrame >= 7 && !Math_RandomRange(0, 10))
+    if (GetAnimation().GetCurrentFrame() >= 7 && !Math_RandomRange(0, 10))
     {
         relive_new Flash(Layer::eLayer_Above_FG1_39, rgbBase + 10, rgbBase + 10, rgbBase + 50, TPageAbr::eBlend_1, 1);
     }
@@ -222,7 +218,7 @@ void TorturedMudokon::VUpdate()
     if (SwitchStates_Get(mReleaseSwitchId))
     {
         mState = TorturedMudokonState::eReleased_2;
-        mAnim.Set_Animation_Data(GetAnimRes(AnimId::Tortured_Mudokon_Released));
+        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Tortured_Mudokon_Released));
         mTearsAnim.mFlags.Clear(AnimFlags::eRender);
         mZapAnim.mFlags.Clear(AnimFlags::eRender);
         relive::Path_TLV* pTlv = sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo);

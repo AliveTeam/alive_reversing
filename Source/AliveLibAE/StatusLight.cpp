@@ -27,14 +27,14 @@ StatusLight::StatusLight(relive::Path_StatusLight* pTlv, const Guid& tlvId)
         if (pTlv->mScale == relive::reliveScale::eHalf)
         {
             mSpriteScale = FP_FromDouble(0.5);
-            mAnim.mRenderLayer = Layer::eLayer_8;
+            GetAnimation().SetRenderLayer(Layer::eLayer_8);
             mScale = Scale::Bg;
         }
     }
     else
     {
         mSpriteScale = FP_FromInteger(1);
-        mAnim.mRenderLayer = Layer::eLayer_27;
+        GetAnimation().SetRenderLayer(Layer::eLayer_27);
         mScale = Scale::Fg;
     }
 
@@ -48,7 +48,7 @@ StatusLight::StatusLight(relive::Path_StatusLight* pTlv, const Guid& tlvId)
     Animation_Init(GetAnimRes(AnimId::Status_Light_Red));
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
-    mAnim.mFlags.Clear(AnimFlags::eRender);
+    GetAnimation().mFlags.Clear(AnimFlags::eRender);
 
     mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
 
@@ -105,13 +105,13 @@ void StatusLight::VUpdate()
             isLinkedAndDisabled(mLinkedStatusLightSwitchId5) ||
             (sGnFrame % 8) >= 4)
         {
-            mAnim.mFlags.Set(AnimFlags::eRender);
+            GetAnimation().mFlags.Set(AnimFlags::eRender);
         }
         else
         {
-            mAnim.mFlags.Clear(AnimFlags::eRender);
+            GetAnimation().mFlags.Clear(AnimFlags::eRender);
         }
-        mAnim.Set_Animation_Data(GetAnimRes(AnimId::Status_Light_Green));
+        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Status_Light_Green));
     }
     else if (SwitchStates_Get(mLinkedStatusLightSwitchId1) ||
         SwitchStates_Get(mLinkedStatusLightSwitchId2) ||
@@ -121,18 +121,18 @@ void StatusLight::VUpdate()
     {
         if ((sGnFrame % 8) >= 4)
         {
-            mAnim.mFlags.Set(AnimFlags::eRender);
+            GetAnimation().mFlags.Set(AnimFlags::eRender);
         }
         else
         {
-            mAnim.mFlags.Clear(AnimFlags::eRender);
+            GetAnimation().mFlags.Clear(AnimFlags::eRender);
         }
-        mAnim.Set_Animation_Data(GetAnimRes(AnimId::Status_Light_Red));
+        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Status_Light_Red));
     }
     else
     {
-        mAnim.mFlags.Clear(AnimFlags::eRender);
-        mAnim.Set_Animation_Data(GetAnimRes(AnimId::Status_Light_Red));
+        GetAnimation().mFlags.Clear(AnimFlags::eRender);
+        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Status_Light_Red));
     }
 }
 

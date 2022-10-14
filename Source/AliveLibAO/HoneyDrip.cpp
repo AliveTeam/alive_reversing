@@ -15,7 +15,7 @@ HoneyDrip::HoneyDrip(FP xpos, FP ypos)
     mYPos = ypos;
     mXPos = xpos;
 
-    mAnim.mRenderLayer = Layer::eLayer_BeforeWell_22;
+    GetAnimation().SetRenderLayer(Layer::eLayer_BeforeWell_22);
 
     mSoundPlaying = false;
 }
@@ -25,13 +25,13 @@ void HoneyDrip::VUpdate()
     mXPos += mVelX;
     mYPos += mVelY;
 
-    if (mAnim.mCurrentFrame == 7 && !mSoundPlaying)
+    if (GetAnimation().GetCurrentFrame() == 7 && !mSoundPlaying)
     {
         SfxPlayMono(relive::SoundEffects::HoneyDrip, 0);
         mSoundPlaying = true;
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

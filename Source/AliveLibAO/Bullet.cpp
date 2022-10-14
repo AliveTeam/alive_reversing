@@ -155,7 +155,7 @@ void Bullet::VUpdate()
             shootRect.w = shootRect.x + 2;
             shootRect.y = static_cast<s16>(FP_GetExponent(sActiveHero->mYPos)
               
-                        + sActiveHero->mAnim.Get_FrameHeader(-1)->mBoundMin.y // or points 3?!
+                        + sActiveHero->GetAnimation().Get_FrameHeader(-1)->mBoundMin.y // or points 3?!
                         - 10);
             shootRect.h = shootRect.y + 10;
 
@@ -243,7 +243,7 @@ BaseAliveGameObject* Bullet::ShootObject(PSX_RECT* pRect)
 
         if (pObjIter != mBulletParent)
         {
-            if (pObjIter->mAnim.mFlags.Get(AnimFlags::eRender))
+            if (pObjIter->GetAnimation().mFlags.Get(AnimFlags::eRender))
             {
                 if ((mBulletType == BulletType::ePossessedSlig_0
                      && (pObjIter->Type() == ReliveTypes::eSlig

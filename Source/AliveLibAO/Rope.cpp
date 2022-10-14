@@ -77,22 +77,20 @@ Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
             break;
         }
     }
-    mAnim.field_14_scale = scale;
+    GetAnimation().SetSpriteScale(scale);
     mSpriteScale = scale;
     if (scale == FP_FromInteger(1))
     {
-        mAnim.mRenderLayer = Layer::eLayer_RopeWebDrillMeatSaw_24;
+        GetAnimation().SetRenderLayer(Layer::eLayer_RopeWebDrillMeatSaw_24);
         mScale = Scale::Fg;
     }
     else
     {
-        mAnim.mRenderLayer = Layer::eLayer_RopeWebDrillMeatSaw_Half_5;
+        GetAnimation().SetRenderLayer(Layer::eLayer_RopeWebDrillMeatSaw_Half_5);
         mScale = Scale::Bg;
     }
 
-    mAnim.mRed = 128;
-    mAnim.mGreen = 128;
-    mAnim.mBlue = 128;
+    GetAnimation().SetRGB(128, 128, 128);
 
     field_F2_bottom = static_cast<s16>(bottom);
     field_E4_rope_segment_count = 240 / field_E6_rope_length + 1;
@@ -110,8 +108,8 @@ Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
         {
             AnimationUnknown* pSegment = &field_E8_pRopeRes[i];
             pSegment->mFlags.Set(AnimFlags::eRender);
-            pSegment->field_68_anim_ptr = &mAnim;
-            pSegment->mRenderLayer = mAnim.mRenderLayer;
+            pSegment->field_68_anim_ptr = &GetAnimation();
+            pSegment->SetRenderLayer(GetAnimation().GetRenderLayer());
             pSegment->field_6C_scale = scale;
             pSegment->mFlags.Clear(AnimFlags::eSemiTrans);
             pSegment->mFlags.Clear(AnimFlags::eBlending);
@@ -169,7 +167,7 @@ void Rope::VRender(PrimHeader** ppOt)
                     maxY = 240;
                 }
 
-                mAnim.VRender(640, 240, ppOt, 0, 0);
+                GetAnimation().VRender(640, 240, ppOt, 0, 0);
                 if (screenY >= minY)
                 {
                     for (s32 idx = 0; idx < field_E4_rope_segment_count; idx++)
@@ -185,9 +183,7 @@ void Rope::VRender(PrimHeader** ppOt)
                             &g,
                             &b);
 
-                        field_E8_pRopeRes[idx].mRed = static_cast<u8>(r);
-                        field_E8_pRopeRes[idx].mGreen = static_cast<u8>(g);
-                        field_E8_pRopeRes[idx].mBlue = static_cast<u8>(b);
+                        field_E8_pRopeRes[idx].SetRGB(r, g, b);
 
                         field_E8_pRopeRes[idx].VRender(
                             screenX,

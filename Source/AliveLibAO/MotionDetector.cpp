@@ -27,9 +27,9 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::MotionDetector_Flare));
     Animation_Init(GetAnimRes(AnimId::MotionDetector_Flare));
 
-    mAnim.mFlags.Set(AnimFlags::eSwapXY);
-    mAnim.mRenderMode = TPageAbr::eBlend_1;
-    mAnim.mRenderLayer = Layer::eLayer_Foreground_36;
+    GetAnimation().mFlags.Set(AnimFlags::eSwapXY);
+    GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+    GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_36);
     mYOffset = 0;
     mRGB.SetRGB(64, 0, 0);
     field_160_bObjectInLaser = 0;
@@ -66,8 +66,8 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
             
             pMotionDetectors->Animation_Init(pMotionDetectors->GetAnimRes(AnimId::MotionDetector_Laser));
             
-            pMotionDetectors->mAnim.mRenderMode = TPageAbr::eBlend_1;
-            pMotionDetectors->mAnim.mRenderLayer = Layer::eLayer_Foreground_36;
+            pMotionDetectors->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+            pMotionDetectors->GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_36);
 
             pMotionDetectors->mXPos = field_F8_top_left_x;
             pMotionDetectors->mYPos = field_104_bottom_right_y;
@@ -87,8 +87,8 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
             
             pMotionDetectors->Animation_Init(pMotionDetectors->GetAnimRes(AnimId::MotionDetector_Laser));
             
-            pMotionDetectors->mAnim.mRenderMode = TPageAbr::eBlend_1;
-            pMotionDetectors->mAnim.mRenderLayer = Layer::eLayer_Foreground_36;
+            pMotionDetectors->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+            pMotionDetectors->GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_36);
             pMotionDetectors->mXPos = field_100_bottom_right_x;
             pMotionDetectors->mYPos = field_104_bottom_right_y;
             pMotionDetectors->mSpriteScale = mSpriteScale;
@@ -105,9 +105,9 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
 
     field_F0_disable_switch_id = pTlv->mDisableSwitchId;
 
-    field_108_pLaser->mAnim.mFlags.Set(AnimFlags::eRender, SwitchStates_Get(field_F0_disable_switch_id) == 0);
+    field_108_pLaser->GetAnimation().mFlags.Set(AnimFlags::eRender, SwitchStates_Get(field_F0_disable_switch_id) == 0);
 
-    mAnim.mFlags.Set(AnimFlags::eRender, pTlv->mDrawFlare == relive::reliveChoice::eYes);
+    GetAnimation().mFlags.Set(AnimFlags::eRender, pTlv->mDrawFlare == relive::reliveChoice::eYes);
 
     field_F4_alarm_duration = pTlv->mAlarmDuration;
 
@@ -153,11 +153,11 @@ void MotionDetector::VUpdate()
     {
         if (SwitchStates_Get(field_F0_disable_switch_id))
         {
-            field_108_pLaser->mAnim.mFlags.Clear(AnimFlags::eRender);
+            field_108_pLaser->GetAnimation().mFlags.Clear(AnimFlags::eRender);
         }
         else
         {
-            field_108_pLaser->mAnim.mFlags.Set(AnimFlags::eRender);
+            field_108_pLaser->GetAnimation().mFlags.Set(AnimFlags::eRender);
 
             const PSX_RECT laserRect = field_108_pLaser->VGetBoundingRect();
 
@@ -301,11 +301,11 @@ void MotionDetector::VRender(PrimHeader** ppOt)
 
         // Add triangle
         Poly_Set_SemiTrans(&pPrim->mBase.header, TRUE);
-        OrderingTable_Add(OtLayer(ppOt, mAnim.mRenderLayer), &pPrim->mBase.header);
+        OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pPrim->mBase.header);
 
         // Add tpage
         Init_SetTPage(&field_13C_tPage[gPsxDisplay.mBufferIndex], 0, 0, PSX_getTPage(TPageMode::e16Bit_2, field_160_bObjectInLaser != 0 ? TPageAbr::eBlend_1 : TPageAbr::eBlend_3, 0, 0)); // When detected transparency is off, gives the "solid red" triangle
-        OrderingTable_Add(OtLayer(ppOt, mAnim.mRenderLayer), &field_13C_tPage[gPsxDisplay.mBufferIndex].mBase);
+        OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &field_13C_tPage[gPsxDisplay.mBufferIndex].mBase);
     }
 }
 

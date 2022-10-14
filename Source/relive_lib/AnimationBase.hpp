@@ -5,6 +5,7 @@
 #include "ResourceManagerWrapper.hpp"
 #include "DynamicArray.hpp"
 #include "../AliveLibCommon/BitField.hpp"
+#include "../AliveLibCommon/RGB16.hpp"
 
 enum AnimFlags
 {
@@ -59,12 +60,26 @@ public:
 
     BitField32<AnimFlags> mFlags = {};
     AnimResource mAnimRes;
-    u8 mRed = 0;
-    u8 mGreen = 0;
-    u8 mBlue = 0;
+
+    TPageAbr GetRenderMode() const { return mRenderMode; }
+    void SetRenderMode(TPageAbr val) { mRenderMode = val; }
+    Layer GetRenderLayer() const { return mRenderLayer; }
+    void SetRenderLayer(Layer val) { mRenderLayer = val; }
+    u32 GetFrameChangeCounter() const { return mFrameChangeCounter; }
+    void SetFrameChangeCounter(u32 val) { mFrameChangeCounter = val; }
+    void SetRGB(s16 rValue, s16 gValue, s16 bValue) { mRgb.SetRGB(rValue, gValue, bValue); }
+    void SetRGB(const RGB16& rgb) { mRgb = rgb; }
+    const RGB16& GetRgb() const { return mRgb; }
+    RGB16& GetRgb() { return mRgb; }
+
+    static DynamicArrayT<AnimationBase>* gAnimations;
+
+private:
     TPageAbr mRenderMode = TPageAbr::eBlend_0;
     Layer mRenderLayer = Layer::eLayer_0;
     u32 mFrameChangeCounter = 0;
 
-    static DynamicArrayT<AnimationBase>* gAnimations;
+protected:
+    RGB16 mRgb;
+
 };

@@ -166,7 +166,7 @@ void BaseAliveGameObject::VSetYSpawn(s32 camWorldY, s16 bLeft)
     const FP oldx = mXPos;
     const FP oldy = mYPos;
 
-    const PerFrameInfo* pFrameInfo = mAnim.Get_FrameHeader(-1);
+    const PerFrameInfo* pFrameInfo = GetAnimation().Get_FrameHeader(-1);
 
     if (bLeft == 1)
     {
@@ -312,13 +312,13 @@ BirdPortal* BaseAliveGameObject::IntoBirdPortal_402350(s16 distance)
                 {
                     if (pPortal->mXPos - mXPos <= (ScaleToGridSize(mSpriteScale) * FP_FromInteger(distance)))
                     {
-                        if (!mAnim.mFlags.Get(AnimFlags::eFlipX))
+                        if (!GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                         {
                             if (FP_Abs(mYPos - pPortal->mHitY) < mSpriteScale * FP_FromInteger(10))
                             {
                                 if (pPortal->VPortalClipper(1))
                                 {
-                                    mAnim.mRenderLayer = mSpriteScale != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30;
+                                    GetAnimation().SetRenderLayer(mSpriteScale != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30);
                                     return pPortal;
                                 }
                             }
@@ -332,13 +332,13 @@ BirdPortal* BaseAliveGameObject::IntoBirdPortal_402350(s16 distance)
                 {
                     if (mXPos - pPortal->mXPos <= (ScaleToGridSize(mSpriteScale) * FP_FromInteger(distance)))
                     {
-                        if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+                        if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                         {
                             if (FP_Abs(mYPos - pPortal->mHitY) < (mSpriteScale * FP_FromInteger(10)))
                             {
                                 if (pPortal->VPortalClipper(1))
                                 {
-                                    mAnim.mRenderLayer = mSpriteScale != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30;
+                                    GetAnimation().SetRenderLayer(mSpriteScale != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30);
                                     return pPortal;
                                 }
                             }
@@ -379,7 +379,7 @@ s16 BaseAliveGameObject::SetBaseAnimPaletteTint(const TintEntry* pTintArray, ERe
     if (palId != PalId::Default)
     {
         PalResource res = ResourceManagerWrapper::LoadPal(palId);
-        mAnim.LoadPal(res);
+        GetAnimation().LoadPal(res);
     }
     return 1;
 }
@@ -443,7 +443,7 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
             height = camWorldY + 170;
 
             // Get the fame header for the first frame in the animation and take its height
-            const PerFrameInfo* pFrameInfo = mAnim.Get_FrameHeader(-1);
+            const PerFrameInfo* pFrameInfo = GetAnimation().Get_FrameHeader(-1);
             const s32 frameH = pFrameInfo->mHeight;
 
             mXPos = FP_FromInteger(camWorldX + (FP_GetExponent(oldx) % 1024));
@@ -490,7 +490,7 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
         BaseAliveGameObjectPathTLV = gMap.TLV_First_Of_Type_In_Camera(ReliveTypes::eStartController, 0);
         LOG_INFO("Flip direction after the path trans as we are not touching the start controller");
         mVelX = -mVelX;
-        mAnim.mFlags.Toggle(AnimFlags::eFlipX);
+        GetAnimation().mFlags.Toggle(AnimFlags::eFlipX);
     }
     else
     {
@@ -579,13 +579,13 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
         }
     }
 
-    if (mSpriteScale == FP_FromInteger(1) && mAnim.field_14_scale == FP_FromDouble(0.5))
+    if (mSpriteScale == FP_FromInteger(1) && GetAnimation().GetSpriteScale() == FP_FromDouble(0.5))
     {
         mVelX = (mVelX * FP_FromInteger(2));
         return;
     }
 
-    if (mSpriteScale == FP_FromDouble(0.5) && mAnim.field_14_scale == FP_FromInteger(1))
+    if (mSpriteScale == FP_FromDouble(0.5) && GetAnimation().GetSpriteScale() == FP_FromInteger(1))
     {
         mVelX = (mVelX * FP_FromDouble(0.5));
         return;

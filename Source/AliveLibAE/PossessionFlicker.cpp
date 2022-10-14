@@ -39,7 +39,7 @@ PossessionFlicker::PossessionFlicker(BaseAliveGameObject* pToApplyFlicker, s32 d
 
     field_20_time_to_flicker = duration + sGnFrame;
 
-    pToApplyFlicker->mAnim.mRenderMode = TPageAbr::eBlend_1;
+    pToApplyFlicker->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
 }
 
 PossessionFlicker::~PossessionFlicker()
@@ -48,7 +48,7 @@ PossessionFlicker::~PossessionFlicker()
     BaseAnimatedWithPhysicsGameObject* pToApplyFlicker = static_cast<BaseAnimatedWithPhysicsGameObject*>(sObjectIds.Find_Impl(field_30_obj_id));
     if (pToApplyFlicker)
     {
-        pToApplyFlicker->mAnim.mRenderMode = TPageAbr::eBlend_0;
+        pToApplyFlicker->GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
         pToApplyFlicker->mRGB.SetRGB(field_2A_old_r, field_2C_old_g, field_2E_old_b);
     }
 }

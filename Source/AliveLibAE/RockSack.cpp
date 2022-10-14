@@ -34,7 +34,7 @@ RockSack::RockSack(relive::Path_RockSack* pTlv, const Guid& tlvId)
 
     Animation_Init(GetAnimRes(AnimId::RockSack_Idle));
 
-    mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
+    GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 
@@ -87,7 +87,7 @@ void RockSack::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (mAnim.mCurrentFrame == 2)
+    if (GetAnimation().GetCurrentFrame() == 2)
     {
         if (field_120_can_play_wobble_sound)
         {
@@ -106,17 +106,17 @@ void RockSack::VUpdate()
 
     if (field_11C_has_been_hit)
     {
-        if (field_11C_has_been_hit == 1 && mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+        if (field_11C_has_been_hit == 1 && GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
         {
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::RockSack_Idle));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::RockSack_Idle));
             field_11C_has_been_hit = 0;
         }
     }
     else
     {
-        if (mAnim.mFrameChangeCounter == 0)
+        if (GetAnimation().GetFrameChangeCounter() == 0)
         {
-            mAnim.mFrameChangeCounter = Math_RandomRange(2, 10);
+            GetAnimation().SetFrameChangeCounter(Math_RandomRange(2, 10));
         }
 
         const PSX_RECT bPlayerRect = sActiveHero->VGetBoundingRect();
@@ -130,11 +130,11 @@ void RockSack::VUpdate()
                 {
                     if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_31_RunJumpMid_452C10)
                     {
-                        mAnim.Set_Animation_Data(GetAnimRes(AnimId::RockSack_HardHit));
+                        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::RockSack_HardHit));
                     }
                     else
                     {
-                        mAnim.Set_Animation_Data(GetAnimRes(AnimId::RockSack_SoftHit));
+                        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::RockSack_SoftHit));
                     }
                     field_11C_has_been_hit = 1;
                     return;
@@ -158,11 +158,11 @@ void RockSack::VUpdate()
 
             if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_31_RunJumpMid_452C10)
             {
-                mAnim.Set_Animation_Data(GetAnimRes(AnimId::RockSack_HardHit));
+                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::RockSack_HardHit));
             }
             else
             {
-                mAnim.Set_Animation_Data(GetAnimRes(AnimId::RockSack_SoftHit));
+                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::RockSack_SoftHit));
             }
             field_11C_has_been_hit = 1;
         }

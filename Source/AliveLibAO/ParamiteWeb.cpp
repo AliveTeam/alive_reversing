@@ -43,24 +43,21 @@ ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::ParamiteWeb));
     Animation_Init(GetAnimRes(AnimId::ParamiteWeb));
 
-    mAnim.field_14_scale = scale;
+    GetAnimation().SetSpriteScale(scale);
     mSpriteScale = scale;
 
     if (scale == FP_FromInteger(1))
     {
-        mAnim.mRenderLayer = Layer::eLayer_RopeWebDrillMeatSaw_24;
+        GetAnimation().SetRenderLayer(Layer::eLayer_RopeWebDrillMeatSaw_24);
         mScale = Scale::Fg;
     }
     else
     {
-        mAnim.mRenderLayer = Layer::eLayer_RopeWebDrillMeatSaw_Half_5;
+        GetAnimation().SetRenderLayer(Layer::eLayer_RopeWebDrillMeatSaw_Half_5);
         mScale = Scale::Bg;
     }
 
-
-    mAnim.mRed = 128;
-    mAnim.mGreen = 128;
-    mAnim.mBlue = 128;
+    GetAnimation().SetRGB(128, 128, 128);
 
     mXPos = xpos;
     field_EA_ttl_remainder = static_cast<s16>(top);
@@ -76,8 +73,8 @@ ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
         {
             AnimationUnknown* pSegment = &field_EC_pRes[i];
             pSegment->mFlags.Set(AnimFlags::eRender);
-            pSegment->field_68_anim_ptr = &mAnim;
-            pSegment->mRenderLayer = mAnim.mRenderLayer;
+            pSegment->field_68_anim_ptr = &GetAnimation();
+            pSegment->SetRenderLayer(GetAnimation().GetRenderLayer());
             pSegment->field_6C_scale = mSpriteScale;
             pSegment->mFlags.Clear(AnimFlags::eSemiTrans);
             pSegment->mFlags.Clear(AnimFlags::eBlending);
@@ -139,7 +136,7 @@ void ParamiteWeb::VRender(PrimHeader** ppOt)
                 maxY = 240;
             }
 
-            mAnim.VRender(640, 240, ppOt, 0, 0);
+            GetAnimation().VRender(640, 240, ppOt, 0, 0);
 
             if (y_start >= minY)
             {
@@ -149,9 +146,7 @@ void ParamiteWeb::VRender(PrimHeader** ppOt)
                     s16 g = 128;
                     s16 b = 128;
                     ShadowZone::ShadowZones_Calculate_Colour(FP_GetExponent(mXPos), ypos_int - (idx * field_E6_segment_length), mScale, &r, &g, &b);
-                    field_EC_pRes[idx].mRed = static_cast<u8>(r);
-                    field_EC_pRes[idx].mGreen = static_cast<u8>(g);
-                    field_EC_pRes[idx].mBlue = static_cast<u8>(b);
+                    field_EC_pRes[idx].SetRGB(r, g, b);
                     field_EC_pRes[idx].VRender(x_start, y_start + mYOffset, ppOt, 0, 0);
                     PSX_RECT rect = {};
                     field_EC_pRes[idx].GetRenderedSize(&rect);

@@ -117,7 +117,7 @@ void SecurityOrb::VUpdate()
     switch (mState)
     {
         case States::eIdle_0:
-            if (mAnim.mCurrentFrame == 2 || mAnim.mCurrentFrame == 6 || mAnim.mCurrentFrame == 10)
+            if (GetAnimation().GetCurrentFrame() == 2 || GetAnimation().GetCurrentFrame() == 6 || GetAnimation().GetCurrentFrame() == 10)
             {
                 if (mSoundChannelsMask)
                 {

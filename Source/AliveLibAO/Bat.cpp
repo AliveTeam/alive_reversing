@@ -28,7 +28,7 @@ Bat::Bat(relive::Path_Bat* pTlv, const Guid& tlvId)
     LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::Bat));
 
-    mAnim.mRenderLayer = Layer::eLayer_SligGreeterFartsBats_33;
+    GetAnimation().SetRenderLayer(Layer::eLayer_SligGreeterFartsBats_33);
 
     FP hitX = {};
     FP hitY = {};
@@ -59,13 +59,13 @@ Bat::Bat(relive::Path_Bat* pTlv, const Guid& tlvId)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
-        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
+        GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_Half_6);
     }
     else
     {
         mSpriteScale = FP_FromInteger(1);
         mScale = Scale::Fg;
-        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
+        GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_25);
     }
 
     mBatState = BatStates::eSetTimer_0;
@@ -153,7 +153,7 @@ void Bat::VUpdate()
             {
                 mBatState = BatStates::eStartMoving_2;
                 mBatVelX = FP_FromInteger(0);
-                mAnim.Set_Animation_Data(GetAnimRes(AnimId::Bat_Unknown));
+                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Bat_Unknown));
             }
             break;
 
@@ -172,10 +172,10 @@ void Bat::VUpdate()
                 mBatLine = mBatLine->MoveOnLine(&mXPos, &mYPos, mBatVelX);
             }
 
-            if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+            if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 mBatState = BatStates::eFlying_3;
-                mAnim.Set_Animation_Data(GetAnimRes(AnimId::Bat_Flying));
+                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Bat_Flying));
                 mTimer = sGnFrame + Math_RandomRange(0, 90);
             }
             break;
@@ -190,7 +190,7 @@ void Bat::VUpdate()
                 }
             }
 
-            if (!(mAnim.mCurrentFrame % 3))
+            if (!(GetAnimation().GetCurrentFrame() % 3))
             {
                 SfxPlayMono(relive::RandomSfx(relive::SoundEffects::Bat1, relive::SoundEffects::Bat2), Math_RandomRange(20, 26));
             }
@@ -242,7 +242,7 @@ void Bat::VUpdate()
                                     pBat->mAttackTarget->mBaseGameObjectRefCount++;
 
                                     pBat->mBatState = BatStates::eAttackTarget_4;
-                                    pBat->mAnim.Set_Animation_Data(GetAnimRes(AnimId::Bat_Flying));
+                                    pBat->GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Bat_Flying));
 
                                     pBat->mTimer = 0;
                                     pBat->mAttackDurationTimer = sGnFrame + pBat->mAttackDuration;

@@ -29,11 +29,11 @@ void OrbWhirlWindParticle::CalculateRenderProperties(s16 bStarted)
     mRenderAsScale = (mCurrentScale * mRandomScale);
     if (mCurrentScale > FP_FromDouble(0.599))
     {
-        mAnim.mRenderLayer = Layer::eLayer_AbeMenu_32;
+        mAnim.SetRenderLayer(Layer::eLayer_AbeMenu_32);
     }
     else
     {
-        mAnim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
+        mAnim.SetRenderLayer(Layer::eLayer_AbeMenu_Half_13);
     }
 }
 
@@ -50,7 +50,7 @@ s32 OrbWhirlWindParticle::IsActive()
 
 void OrbWhirlWindParticle::Render(PrimHeader** ppOt)
 {
-    mAnim.field_14_scale = mRenderAsScale;
+    mAnim.SetSpriteScale(mRenderAsScale);
 
     const s16 xpos = FP_GetExponent(FP_FromInteger(pScreenManager->mCamXOff)
                                     + mXPosRenderOffset
@@ -189,12 +189,10 @@ OrbWhirlWindParticle::OrbWhirlWindParticle(FP xpos, FP ypos, FP scale)
 
     mAnim.mFlags.Set(AnimFlags::eSemiTrans);
 
-    mAnim.mRenderLayer = Layer::eLayer_AbeMenu_32;
-    mAnim.mRenderMode = TPageAbr::eBlend_1;
+    mAnim.SetRenderLayer(Layer::eLayer_AbeMenu_32);
+    mAnim.SetRenderMode(TPageAbr::eBlend_1);
 
-    mAnim.mRed = 80;
-    mAnim.mGreen = 80;
-    mAnim.mBlue = 80;
+    mAnim.SetRGB(80, 80, 80);
 
     mAnim.SetFrame(Math_RandomRange(0, static_cast<s16>(mAnim.Get_Frame_Count() - 1)));
     mFlags.Clear(Flags::eIsActive);

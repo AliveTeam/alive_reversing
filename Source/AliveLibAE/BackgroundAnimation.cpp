@@ -36,26 +36,26 @@ BackgroundAnimation::BackgroundAnimation(relive::Path_BackgroundAnimation* pTlv,
 
     //Animation_Init(anim.mFrameTableOffset, anim.mMaxW, anim.mMaxH, reinterpret_cast<u8**>(field_F4_res));
 
-    mAnim.mFlags.Set(AnimFlags::eSemiTrans, pTlv->mIsSemiTrans == relive::reliveChoice::eYes);
-    mAnim.mFlags.Set(AnimFlags::eBlending);
+    GetAnimation().mFlags.Set(AnimFlags::eSemiTrans, pTlv->mIsSemiTrans == relive::reliveChoice::eYes);
+    GetAnimation().mFlags.Set(AnimFlags::eBlending);
 
-    mAnim.mRenderMode = pTlv->mSemiTransMode;
+    GetAnimation().SetRenderMode(pTlv->mSemiTransMode);
 
     if (pTlv->mLayer > relive::Path_BackgroundAnimation::Layer::eLayer0)
     {
         const s32 translatedLayer = static_cast<s32>(pTlv->mLayer) - 1;
         if (!translatedLayer)
         {
-            mAnim.mRenderLayer = Layer::eLayer_Above_FG1_Half_20;
+            GetAnimation().SetRenderLayer(Layer::eLayer_Above_FG1_Half_20);
         }
         if (translatedLayer == 1)
         {
-            mAnim.mRenderLayer = Layer::eLayer_Above_FG1_39;
+            GetAnimation().SetRenderLayer(Layer::eLayer_Above_FG1_39);
         }
     }
     else
     {
-        mAnim.mRenderLayer = Layer::eLayer_1;
+        GetAnimation().SetRenderLayer(Layer::eLayer_1);
     }
 }
 

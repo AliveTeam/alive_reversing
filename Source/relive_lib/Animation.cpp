@@ -76,7 +76,7 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
     Poly_Set_SemiTrans(&pPoly->mBase.header, mFlags.Get(AnimFlags::eSemiTrans));
     Poly_Set_Blending(&pPoly->mBase.header, mFlags.Get(AnimFlags::eBlending));
 
-    SetRGB0(pPoly, mRed, mGreen, mBlue);
+    SetRGB0(pPoly, mRgb);
 
     u8 u1 = 0 /*mVramRect.x & 63*/;
 
@@ -85,17 +85,17 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
     const u8 u0 = static_cast<u8>(pFrameInfoHeader->mWidth) + u1 - 1;
     const u8 v1 = static_cast<u8>(pFrameInfoHeader->mHeight) + v0 - 1;
 
-    if (field_14_scale != FP_FromInteger(1))
+    if (mSpriteScale != FP_FromInteger(1))
     {
         // Apply scale to x/y pos
-        scaled_height *= field_14_scale;
-        scaled_width *= field_14_scale;
+        scaled_height *= mSpriteScale;
+        scaled_width *= mSpriteScale;
 
 		// TODO: Factor out when data conversion completed
 		if (GetGameType() == GameType::eAe)
 		{
 			// If applied to AO causes BG sprites to bounce by 1 pixel on Y
-	        if (field_14_scale == FP_FromDouble(0.5))
+	        if (mSpriteScale == FP_FromDouble(0.5))
 	        {
 	            // Add 1 if half scale
 	            scaled_height += FP_FromDouble(1.0);
@@ -104,8 +104,8 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
 		}
 
         // Apply scale to x/y offset
-        xOffSet_scaled *= field_14_scale;
-        yOffset_scaled = (yOffset_scaled * field_14_scale) - FP_FromInteger(1);
+        xOffSet_scaled *= mSpriteScale;
+        yOffset_scaled = (yOffset_scaled * mSpriteScale) - FP_FromInteger(1);
     }
 
     s16 polyXPos = 0;
@@ -147,7 +147,7 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
 
     // TPage blend mode
     u16 tpageEmptyBlend = GetTPage(pPoly) & 0xFFCF;
-    u16 blendModeBit = ((u16) mRenderMode) << 4;
+    u16 blendModeBit = ((u16) GetRenderMode()) << 4;
 
     SetTPage(pPoly, tpageEmptyBlend | blendModeBit);
 
@@ -157,7 +157,7 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
 
     SetPrimExtraPointerHack(pPoly, &mAnimRes);
 
-    OrderingTable_Add(OtLayer(ppOt, mRenderLayer), &pPoly->mBase.header);
+    OrderingTable_Add(OtLayer(ppOt, GetRenderLayer()), &pPoly->mBase.header);
 }
 
 void Animation::VCleanUp()
@@ -185,7 +185,7 @@ bool Animation::DecodeCommon()
     {
         // Loop backwards
         const s32 prevFrameNum = --mCurrentFrame;
-        mFrameChangeCounter = mFrameDelay;
+        SetFrameChangeCounter(mFrameDelay);
 
         if (prevFrameNum < static_cast<s32>(mAnimRes.mJsonPtr->mAttributes.mLoopStartFrame))
         {
@@ -197,7 +197,7 @@ bool Animation::DecodeCommon()
             else
             {
                 // Stay on current frame
-                mFrameChangeCounter = 0;
+                SetFrameChangeCounter(0);
                 mCurrentFrame = prevFrameNum + 1;
             }
 
@@ -214,7 +214,7 @@ bool Animation::DecodeCommon()
     {
         // Loop forwards
         const s32 nextFrameNum = ++mCurrentFrame;
-        mFrameChangeCounter = mFrameDelay;
+        SetFrameChangeCounter(mFrameDelay);
 
         // Animation reached end point
         if (nextFrameNum >= static_cast<s32>(mAnimRes.mJsonPtr->mFrames.size()))
@@ -228,7 +228,7 @@ bool Animation::DecodeCommon()
             {
                 // Stay on current frame
                 mCurrentFrame = nextFrameNum - 1;
-                mFrameChangeCounter = 0;
+                SetFrameChangeCounter(0);
             }
 
             mFlags.Set(AnimFlags::eForwardLoopCompleted);
@@ -297,13 +297,13 @@ s16 Animation::Set_Animation_Data(AnimResource& pAnimRes)
         mFlags.Set(AnimFlags::eLoop);
     }
 
-    mFrameChangeCounter = 1;
+    SetFrameChangeCounter(1);
     mCurrentFrame = -1;
 
     VDecode();
 
     // Reset to start frame
-    mFrameChangeCounter = 1;
+    SetFrameChangeCounter(1);
     mCurrentFrame = -1;
 
     return 1;
@@ -337,13 +337,10 @@ s16 Animation::Init(const AnimResource& ppAnimData, BaseGameObject* pGameObj)
     mFlags.Set(AnimFlags::eBlending);
 
     mFrameDelay = mAnimRes.mJsonPtr->mAttributes.mFrameRate;
-    mFrameChangeCounter = 1;
+    SetFrameChangeCounter(1);
     mCurrentFrame = -1;
-    mRenderMode = TPageAbr::eBlend_0;
-    mBlue = 0;
-    mGreen = 0;
-    mRed = 0;
-    field_14_scale = FP_FromInteger(1);
+    SetRenderMode(TPageAbr::eBlend_0);
+    mSpriteScale = FP_FromInteger(1);
 
     // NOTE: OG bug or odd compiler code gen? Why isn't it using the passed in list which appears to always be this anyway ??
     if (!AnimationBase::gAnimations->Push_Back(this))
@@ -355,8 +352,8 @@ s16 Animation::Init(const AnimResource& ppAnimData, BaseGameObject* pGameObj)
     // Get first frame decompressed/into VRAM
     VDecode();
 
-    mFrameChangeCounter = 1;
-    mCurrentFrame = -1;
+    SetFrameChangeCounter(1);
+    SetCurrentFrame(-1);
 
     return 1;
 }
@@ -373,7 +370,7 @@ void Animation::SetFrame(s32 newFrame)
         newFrame = static_cast<s32>(mAnimRes.mJsonPtr->mFrames.size());
     }
 
-    mFrameChangeCounter = 1;
+    SetFrameChangeCounter(1);
     mCurrentFrame = newFrame - 1;
 }
 

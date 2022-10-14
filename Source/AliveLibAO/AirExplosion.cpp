@@ -26,8 +26,8 @@ AirExplosion::AirExplosion(FP xpos, FP ypos, FP exposion_size)
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::AirExplosion));
     Animation_Init(GetAnimRes(AnimId::AirExplosion));
 
-    mAnim.mFlags.Clear(AnimFlags::eIsLastFrame);
-    mAnim.mRenderMode = TPageAbr::eBlend_1;
+    GetAnimation().mFlags.Clear(AnimFlags::eIsLastFrame);
+    GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
     mExplosionSize = exposion_size;
 
     mSpriteScale = exposion_size * FP_FromInteger(2);
@@ -56,7 +56,7 @@ void AirExplosion::VUpdate()
 
     PSX_RECT rect = {};
 
-    switch (mAnim.mCurrentFrame)
+    switch (GetAnimation().GetCurrentFrame())
     {
         case 2:
             rect.x = FP_GetExponent(FP_FromInteger(-20) * mExplosionSize);
@@ -106,12 +106,12 @@ void AirExplosion::VUpdate()
             break;
     }
 
-    if (mAnim.mCurrentFrame > 9)
+    if (GetAnimation().GetCurrentFrame() > 9)
     {
         mSpriteScale -= FP_FromDouble(0.2);
     }
 
-    if (mAnim.mCurrentFrame == 1)
+    if (GetAnimation().GetCurrentFrame() == 1)
     {
         auto pParticle = relive_new Particle(mXPos, mYPos, GetAnimRes(AnimId::AirExplosion));
         if (pParticle)
@@ -122,8 +122,8 @@ void AirExplosion::VUpdate()
             }
 
             pParticle->mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
-            pParticle->mAnim.mFlags.Clear(AnimFlags::eFlipX);
-            pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
+            pParticle->GetAnimation().mFlags.Clear(AnimFlags::eFlipX);
+            pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
             pParticle->mSpriteScale = mSpriteScale * FP_FromDouble(0.25);
         }
         else
@@ -132,7 +132,7 @@ void AirExplosion::VUpdate()
         }
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eForwardLoopCompleted))
+    if (GetAnimation().mFlags.Get(AnimFlags::eForwardLoopCompleted))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

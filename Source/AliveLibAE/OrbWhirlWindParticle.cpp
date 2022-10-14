@@ -13,21 +13,17 @@ OrbWhirlWindParticle::OrbWhirlWindParticle(FP xpos, FP ypos, FP scale, s16 bIsMu
 
     mAnim.mFlags.Set(AnimFlags::eSemiTrans);
 
-    mAnim.mRenderLayer = Layer::eLayer_AbeMenu_32;
-    mAnim.mRenderMode = TPageAbr::eBlend_1;
+    mAnim.SetRenderLayer(Layer::eLayer_AbeMenu_32);
+    mAnim.SetRenderMode(TPageAbr::eBlend_1);
     if (bIsMudokonSpirit == 1)
     {
-        mAnim.mRed = 0;
         mAnim.mFlags.Clear(AnimFlags::eBlending);
-        mAnim.mGreen = 255;
-        mAnim.mBlue = 32;
+        mAnim.SetRGB(0, 255, 32);
     }
     else
     {
         mAnim.mFlags.Set(AnimFlags::eBlending);
-        mAnim.mRed = 80;
-        mAnim.mGreen = 80;
-        mAnim.mBlue = 80;
+        mAnim.SetRGB(80, 80, 80);
     }
 
     mAnim.SetFrame(Math_RandomRange(0, static_cast<s16>(mAnim.Get_Frame_Count() - 1)));
@@ -197,7 +193,7 @@ void OrbWhirlWindParticle::Render(PrimHeader** ppOt)
     {
         if (mYPosRenderOffset + FP_FromInteger(5) >= y && mYPosRenderOffset + FP_FromInteger(5) <= h)
         {
-            mAnim.field_14_scale = mRenderAsScale;
+            mAnim.SetSpriteScale(mRenderAsScale);
             const FP xpos = mXPosRenderOffset - pScreenManager->CamXPos();
             const FP ypos = mYPosRenderOffset - pScreenManager->CamYPos() + FP_FromInteger(5);
 
@@ -239,11 +235,11 @@ void OrbWhirlWindParticle::CalculateRenderProperties(s16 bStarted)
 
     if (mCurrentScale > FP_FromDouble(0.599)) // TODO: Check VS 39321
     {
-        mAnim.mRenderLayer = Layer::eLayer_AbeMenu_32;
+        mAnim.SetRenderLayer(Layer::eLayer_AbeMenu_32);
     }
     else
     {
-        mAnim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
+        mAnim.SetRenderLayer(Layer::eLayer_AbeMenu_Half_13);
     }
 }
 

@@ -14,7 +14,7 @@ Shadow::Shadow()
     mFlags.Clear(Flags::eShadowAtBottom);
     mFlags.Set(Flags::eEnabled);
 
-    mAnim.mRenderMode = TPageAbr::eBlend_2;
+    mAnim.SetRenderMode(TPageAbr::eBlend_2);
 
     mAnim.mFlags.Clear(AnimFlags::eRender);
     mAnim.mFlags.Clear(AnimFlags::eBlending);
@@ -146,11 +146,11 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
 
         if (scale == Scale::Fg)
         {
-            mAnim.mRenderLayer = Layer::eLayer_Shadow_26;
+            mAnim.SetRenderLayer(Layer::eLayer_Shadow_26);
         }
         else
         {
-            mAnim.mRenderLayer = Layer::eLayer_Shadow_Half_7;
+            mAnim.SetRenderLayer(Layer::eLayer_Shadow_Half_7);
         }
     }
 }
@@ -159,18 +159,14 @@ void Shadow::Render(PrimHeader** ppOt)
 {
     if (mFlags.Get(Flags::eEnabled))
     {
-        mAnim.field_14_scale = FP_FromInteger(1);
+        mAnim.SetSpriteScale(FP_FromInteger(1));
         if (mSpriteScale == FP_FromDouble(0.5))
         {
-            mAnim.mRed = 63;
-            mAnim.mGreen = 63;
-            mAnim.mBlue = 63;
+            mAnim.SetRGB(63, 63, 63);
         }
         else
         {
-            mAnim.mRed = 127;
-            mAnim.mGreen = 127;
-            mAnim.mBlue = 127;
+            mAnim.SetRGB(127, 127, 127);
         }
 
         mAnim.VRender(

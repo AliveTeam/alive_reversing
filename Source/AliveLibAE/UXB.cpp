@@ -60,14 +60,12 @@ void UXB::InitBlinkAnim(Animation* pAnimation)
 {
     if (pAnimation->Init(GetAnimRes(AnimId::Bomb_RedGreenTick), this))
     {
-        pAnimation->mRenderLayer = mAnim.mRenderLayer;
+        pAnimation->SetRenderLayer(GetAnimation().GetRenderLayer());
         pAnimation->mFlags.Set(AnimFlags::eSemiTrans);
         pAnimation->mFlags.Set(AnimFlags::eBlending);
-        pAnimation->field_14_scale = mSpriteScale;
-        pAnimation->mRed = 128;
-        pAnimation->mGreen = 128;
-        pAnimation->mBlue = 128;
-        pAnimation->mRenderMode = TPageAbr::eBlend_1;
+        pAnimation->SetSpriteScale(mSpriteScale);
+        pAnimation->SetRGB(128, 128, 128);
+        pAnimation->SetRenderMode(TPageAbr::eBlend_1);
     }
     else
     {
@@ -101,7 +99,7 @@ s32 UXB::IsColliding()
             break;
         }
 
-        if (pObj->mBaseAliveGameObjectFlags.Get(eCanSetOffExplosives) && pObj->mAnim.mFlags.Get(AnimFlags::eRender))
+        if (pObj->mBaseAliveGameObjectFlags.Get(eCanSetOffExplosives) && pObj->GetAnimation().mFlags.Get(AnimFlags::eRender))
         {
             const PSX_RECT objBound = pObj->VGetBoundingRect();
 
@@ -129,8 +127,8 @@ UXB::UXB(relive::Path_UXB* tlv_params, const Guid& tlvId)
     Animation_Init(GetAnimRes(AnimId::UXB_Active));
     mLoadedPals.push_back(ResourceManagerWrapper::LoadPal(PalId::GreenFlash));
 
-    mAnim.mFlags.Set(AnimFlags::eSemiTrans);
-    mAnim.mRenderMode = TPageAbr::eBlend_0;
+    GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
+    GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
 
     SetTint(sTintMap_UXB_563A3C, gMap.mCurrentLevel);
 
@@ -159,14 +157,14 @@ UXB::UXB(relive::Path_UXB* tlv_params, const Guid& tlvId)
         if (tlv_params->mScale == relive::reliveScale::eHalf)
         {
             mSpriteScale = FP_FromDouble(0.5);
-            mAnim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_Half_16;
+            GetAnimation().SetRenderLayer(Layer::eLayer_RollingBallBombMineCar_Half_16);
             mScale = Scale::Bg;
         }
     }
     else
     {
         mSpriteScale = FP_FromDouble(1.0);
-        mAnim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_35;
+        GetAnimation().SetRenderLayer(Layer::eLayer_RollingBallBombMineCar_35);
         mScale = Scale::Fg;
     }
 
@@ -181,7 +179,7 @@ UXB::UXB(relive::Path_UXB* tlv_params, const Guid& tlvId)
             mFlashAnim.Set_Animation_Data(GetAnimRes(AnimId::Bomb_RedGreenTick));
             PlaySFX(relive::SoundEffects::GreenTick);
 
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::UXB_Disabled));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::UXB_Disabled));
             mCurrentState = UXBState::eDeactivated;
             mStartingState = UXBState::eDelay;
         }
@@ -201,7 +199,7 @@ UXB::UXB(relive::Path_UXB* tlv_params, const Guid& tlvId)
             mIsRed = 0;
             mFlashAnim.Set_Animation_Data(GetAnimRes(AnimId::Bomb_RedGreenTick));
 
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::UXB_Disabled));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::UXB_Disabled));
             mStartingState = UXBState::eDeactivated;
             mCurrentState = UXBState::eDeactivated;
         }
@@ -258,7 +256,7 @@ void UXB::VOnPickUpOrSlapped()
                 mFlashAnim.Set_Animation_Data(GetAnimRes(AnimId::Bomb_RedGreenTick));
                 PlaySFX(relive::SoundEffects::GreenTick);
 
-                mAnim.Set_Animation_Data(GetAnimRes(AnimId::UXB_Toggle));
+                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::UXB_Toggle));
                 mCurrentState = UXBState::eDeactivated;
 
                 mNextStateTimer = sGnFrame + 10;
@@ -268,7 +266,7 @@ void UXB::VOnPickUpOrSlapped()
         {
             mCurrentState = UXBState::eDelay;
             SetUpdateDelay(6);
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::UXB_Active));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::UXB_Active));
             PlaySFX(relive::SoundEffects::RedTick);
         }
     }
@@ -445,7 +443,7 @@ void UXB::VUpdate()
 
 void UXB::VRender(PrimHeader** ppOt)
 {
-    if (mAnim.mFlags.Get(AnimFlags::eRender))
+    if (GetAnimation().mFlags.Get(AnimFlags::eRender))
     {
         if (gMap.Is_Point_In_Current_Camera(
                 mCurrentLevel,
@@ -521,7 +519,7 @@ s32 UXB::CreateFromSaveState(const u8* __pSaveState)
     {
         pUXB->mFlashAnim.LoadPal(pUXB->GetPalRes(PalId::GreenFlash));
         pUXB->mFlashAnim.Set_Animation_Data(pUXB->GetAnimRes(AnimId::Bomb_RedGreenTick));
-        pUXB->mAnim.Set_Animation_Data(pUXB->GetAnimRes(AnimId::UXB_Disabled));
+        pUXB->GetAnimation().Set_Animation_Data(pUXB->GetAnimRes(AnimId::UXB_Disabled));
     }
 
     pUXB->mNextStateTimer = pSaveState->mNextStateTimer;

@@ -40,11 +40,11 @@ SlapLock::SlapLock(relive::Path_SlapLock* pTlv, const Guid& tlvId)
 
     if (mSlapLockTlv->mScale != relive::reliveScale::eFull)
     {
-        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
+        GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_Half_6);
     }
     else
     {
-        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
+        GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_25);
     }
 
     mState = SlapLockStates::eShaking_0;
@@ -83,7 +83,7 @@ SlapLock::SlapLock(relive::Path_SlapLock* pTlv, const Guid& tlvId)
         return;
     }
 
-    mAnim.mFlags.Clear(AnimFlags::eRender);
+    GetAnimation().mFlags.Clear(AnimFlags::eRender);
 
     mTimer1 = sGnFrame + 60;
     mShinyParticleTimer = sGnFrame + 30;
@@ -112,7 +112,7 @@ s32 SlapLock::CreateFromSaveState(const u8* pBuffer)
     auto pSlapLock = relive_new SlapLock(pTlv, pState->mTlvInfo);
     if (pSlapLock)
     {
-        pSlapLock->mAnim.mFlags.Set(AnimFlags::eRender, pState->mAnimRender & 1);
+        pSlapLock->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->mAnimRender & 1);
 
         pSlapLock->mTlvInfo = pState->mTlvInfo;
 
@@ -153,7 +153,7 @@ s32 SlapLock::VGetSaveState(u8* pSaveBuffer)
     auto pState = reinterpret_cast<SlapLock_State*>(pSaveBuffer);
 
     pState->mType = AETypes::eLockedSoul_61;
-    pState->mAnimRender = mAnim.mFlags.Get(AnimFlags::eRender) & 1;
+    pState->mAnimRender = GetAnimation().mFlags.Get(AnimFlags::eRender) & 1;
     pState->mTlvInfo = mTlvInfo;
     pState->mTlvState = sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo)->mTlvSpecificMeaning;
     pState->mState = mState;
@@ -241,7 +241,7 @@ void SlapLock::VUpdate()
                     return;
                 }
 
-                mAnim.Set_Animation_Data(GetAnimRes(AnimId::SlapLock_Shaking));
+                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::SlapLock_Shaking));
 
                 mState = SlapLockStates::eIdle_1;
                 SfxPlayMono(relive::SoundEffects::SpiritLockShake, 0);
@@ -261,12 +261,12 @@ void SlapLock::VUpdate()
                     }
                 }
 
-                if (!(mAnim.mFlags.Get(AnimFlags::eIsLastFrame)))
+                if (!(GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame)))
                 {
                     return;
                 }
 
-                mAnim.Set_Animation_Data(GetAnimRes(AnimId::SlapLock_Initiate));
+                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::SlapLock_Initiate));
 
                 mState = SlapLockStates::eShaking_0;
                 mTimer1 = Math_NextRandom() + sGnFrame + 25;
@@ -274,12 +274,12 @@ void SlapLock::VUpdate()
             }
             case SlapLockStates::eSlapped_2:
             {
-                if (!(mAnim.mFlags.Get(AnimFlags::eIsLastFrame)))
+                if (!(GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame)))
                 {
                     return;
                 }
 
-                mAnim.mFlags.Clear(AnimFlags::eRender);
+                GetAnimation().mFlags.Clear(AnimFlags::eRender);
 
                 if (mSlapLockTlv->mGiveInvisibilityPowerup == relive::reliveChoice::eNo)
                 {
@@ -305,7 +305,7 @@ void SlapLock::VUpdate()
                     (mSpriteScale * (FP_FromInteger(Math_RandomRange(-2, 2)) + FP_FromInteger(1))) + mXPos,
                     (mSpriteScale * (FP_FromInteger(Math_RandomRange(-3, 3)) - FP_FromInteger(33))) + mYPos,
                     FP_FromDouble(0.3),
-                    mAnim.mRenderLayer);
+                    GetAnimation().GetRenderLayer());
 
                 mShinyParticleTimer = Math_RandomRange(-30, 30) + sGnFrame + 60;
                 return;
@@ -346,7 +346,7 @@ void SlapLock::VUpdate()
                     (mSpriteScale * (FP_FromInteger(Math_RandomRange(-2, 2)) + FP_FromInteger(1))) + mXPos,
                     (mSpriteScale * (FP_FromInteger(Math_RandomRange(-3, 3)) - FP_FromInteger(33))) + mYPos,
                     FP_FromDouble(0.3),
-                    mAnim.mRenderLayer);
+                    GetAnimation().GetRenderLayer());
 
                 mShinyParticleTimer = Math_RandomRange(-30, 30) + sGnFrame + 60;
                 return;
@@ -478,7 +478,7 @@ s16 SlapLock::VTakeDamage(BaseGameObject* pFrom)
         BurstType::eGreenSparks_5,
         11);
 
-    mAnim.Set_Animation_Data(GetAnimRes(AnimId::SlapLock_Punched));
+    GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::SlapLock_Punched));
 
     mSlapLockTlv->mTlvSpecificMeaning = 1;
     return 1;

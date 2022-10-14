@@ -36,14 +36,14 @@ EvilFart::EvilFart()
     mScale = sActiveHero->mScale;
     if (mScale == Scale::Fg)
     {
-        mAnim.mRenderLayer = Layer::eLayer_SligGreeterFartsBats_33;
+        GetAnimation().SetRenderLayer(Layer::eLayer_SligGreeterFartsBats_33);
     }
     else
     {
-        mAnim.mRenderLayer = Layer::eLayer_SligGreeterFartsBat_Half_14;
+        GetAnimation().SetRenderLayer(Layer::eLayer_SligGreeterFartsBat_Half_14);
     }
 
-    if (sActiveHero->mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (sActiveHero->GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         mXPos = sActiveHero->mXPos + (FP_FromInteger(12) * mSpriteScale);
     }
@@ -70,7 +70,7 @@ EvilFart::EvilFart()
         mXPos = sActiveHero->mXPos;
     }
     
-    mAnim.mFlags.Set(AnimFlags::eSemiTrans);
+    GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
 
     mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::ePossessed);
     mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanBePossessed);
@@ -86,7 +86,7 @@ EvilFart::EvilFart()
 
     mPossessed = false;
 
-    mAnim.mRenderMode = TPageAbr::eBlend_1;
+    GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
     mPossessedAliveTimer = 220;
 }
 
@@ -113,15 +113,15 @@ s32 EvilFart::CreateFromSaveState(const u8* pBuffer)
 
     pFart->mRGB.SetRGB(pState->mRed, pState->mGreen, pState->mBlue);
 
-    pFart->mAnim.mCurrentFrame = pState->mCurrentFrame;
-    pFart->mAnim.mFrameChangeCounter = pState->mFrameChangeCounter;
+    pFart->GetAnimation().SetCurrentFrame(pState->mCurrentFrame);
+    pFart->GetAnimation().SetFrameChangeCounter(pState->mFrameChangeCounter);
 
     pFart->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->mDrawable & 1);
-    pFart->mAnim.mFlags.Set(AnimFlags::eRender, pState->mAnimRender & 1);
+    pFart->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->mAnimRender & 1);
 
-    if (IsLastFrame(&pFart->mAnim))
+    if (IsLastFrame(&pFart->GetAnimation()))
     {
-        pFart->mAnim.mFlags.Set(AnimFlags::eIsLastFrame);
+        pFart->GetAnimation().mFlags.Set(AnimFlags::eIsLastFrame);
     }
 
     pFart->mAbeLevel = MapWrapper::FromAESaveData(pState->mAbeLevel);
@@ -155,11 +155,11 @@ s32 EvilFart::VGetSaveState(u8* pSaveBuffer)
     pState->mBlue = mRGB.b;
 
     pState->field_2C.Set(EvilFart_State::eBit1_bControlled, sControlledCharacter == this);
-    pState->mCurrentFrame = static_cast<s16>(mAnim.mCurrentFrame);
-    pState->mFrameChangeCounter = static_cast<s16>(mAnim.mFrameChangeCounter);
+    pState->mCurrentFrame = static_cast<s16>(GetAnimation().GetCurrentFrame());
+    pState->mFrameChangeCounter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
 
     pState->mDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
-    pState->mAnimRender = mAnim.mFlags.Get(AnimFlags::eRender);
+    pState->mAnimRender = GetAnimation().mFlags.Get(AnimFlags::eRender);
 
     pState->mAbeLevel = MapWrapper::ToAE(mAbeLevel);
     pState->mAbePath = mAbePath;
@@ -239,11 +239,11 @@ void EvilFart::InputControlFart()
 void EvilFart::VPossessed()
 {
     mBaseAliveGameObjectFlags.Set(AliveObjectFlags::ePossessed);
-    mAnim.mFlags.Set(AnimFlags::eSemiTrans);
+    GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
 
     mPossessedAliveTimer = 900;
 
-    mAnim.mRenderMode = TPageAbr::eBlend_1;
+    GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
 
     mAbeLevel = gMap.mCurrentLevel;
     mAbePath = gMap.mCurrentPath;
@@ -300,7 +300,7 @@ void EvilFart::VUpdate()
             }
             else
             {
-                mAnim.mFlags.Clear(AnimFlags::eRender);
+                GetAnimation().mFlags.Clear(AnimFlags::eRender);
                 mFartExploded = 1;
                 mBackToAbeTimer = sGnFrame + 35;
             }
@@ -324,8 +324,8 @@ void EvilFart::VUpdate()
                 relive_new ThrowableTotalIndicator(
                     mXPos,
                     mYPos - (mSpriteScale * FP_FromInteger(50)),
-                    mAnim.mRenderLayer,
-                    mAnim.field_14_scale,
+                    GetAnimation().GetRenderLayer(),
+                    GetAnimation().GetSpriteScale(),
                     mPossessedAliveTimer / 50,
                     1);
 
@@ -479,9 +479,9 @@ void EvilFart::VUpdate()
             mPossessed = false;
         }
 
-        mAnim.mFlags.Set(AnimFlags::eSemiTrans);
+        GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
 
-        mAnim.mRenderMode = TPageAbr::eBlend_1;
+        GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
         if (mVelX == FP_FromInteger(0) && mVelY == FP_FromInteger(0))
         {
             if (Input_IsChanting_45F260())
@@ -528,7 +528,7 @@ void EvilFart::VUpdate()
         {
             BlowUp();
 
-            mAnim.mFlags.Clear(AnimFlags::eRender);
+            GetAnimation().mFlags.Clear(AnimFlags::eRender);
             mFartExploded = 1;
         }
         return;

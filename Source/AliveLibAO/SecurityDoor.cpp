@@ -42,12 +42,12 @@ SecurityDoor::SecurityDoor(relive::Path_SecurityDoor* pTlv, const Guid& tlvId)
 
     Animation_Init(GetAnimRes(AnimId::Security_Door_Idle));
 
-    mAnim.mFlags.Clear(AnimFlags::eRender);
+    GetAnimation().mFlags.Clear(AnimFlags::eRender);
 
     field_E4_tlvInfo = tlvId;
 
     mYOffset = 0;
-    mAnim.mRenderLayer = Layer::eLayer_BeforeWell_22;
+    GetAnimation().SetRenderLayer(Layer::eLayer_BeforeWell_22);
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
@@ -123,12 +123,12 @@ void SecurityDoor::VUpdate()
             {
                 if (IsPlayerNear())
                 {
-                    mAnim.mFlags.Set(AnimFlags::eRender);
+                    GetAnimation().mFlags.Set(AnimFlags::eRender);
                     field_E8_state = SecurityDoorStates::eSayingHi_2;
                 }
                 else
                 {
-                    mAnim.mFlags.Clear(AnimFlags::eRender);
+                    GetAnimation().mFlags.Clear(AnimFlags::eRender);
                 }
             }
             break;
@@ -142,7 +142,7 @@ void SecurityDoor::VUpdate()
 
         case SecurityDoorStates::eSayingHi_2:
             Slig::Slig_GameSpeak_SFX(SligSpeak::eHi_0, 127, -200, 0);
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::Security_Door_Speak));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Security_Door_Speak));
             field_E8_state = SecurityDoorStates::eListeningForHi_3;
             field_114_timer = sGnFrame + 150;
             break;
@@ -214,7 +214,7 @@ void SecurityDoor::VUpdate()
                     break;
             }
 
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::Security_Door_Speak));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Security_Door_Speak));
 
             field_118_max_idx++;
             if (field_118_max_idx >= field_F0_code_len)
@@ -297,7 +297,7 @@ void SecurityDoor::VUpdate()
                 field_11A_unused = static_cast<s16>(MatchBuffer);
                 if (MatchBuffer == GameSpeakMatch::eFullMatch_1 || gVoiceCheat)
                 {
-                    mAnim.mFlags.Clear(AnimFlags::eRender);
+                    GetAnimation().mFlags.Clear(AnimFlags::eRender);
                     SwitchStates_Set(field_EA_switch_id, 1);
                     SFX_Play_Pitch(relive::SoundEffects::SligBleh, 127, -700);
                     field_E8_state = SecurityDoorStates::eSuccessChime_1;

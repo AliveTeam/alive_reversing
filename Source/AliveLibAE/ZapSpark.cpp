@@ -20,12 +20,10 @@ ZapSpark::ZapSpark(FP xpos, FP ypos, FP scale)
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 
-    mAnim.mRenderLayer = Layer::eLayer_FG1_37;
-    mAnim.mRenderMode = TPageAbr::eBlend_1;
+    GetAnimation().SetRenderLayer(Layer::eLayer_FG1_37);
+    GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
 
-    mAnim.mBlue = 80;
-    mAnim.mGreen = 80;
-    mAnim.mRed = 80;
+    GetAnimation().SetRGB(80, 80, 80);
 
     mSpriteScale = scale * (((FP_FromInteger(Math_NextRandom() % 6)) / FP_FromInteger(10)) + FP_FromDouble(0.7));
     mSparkTimer = Math_RandomRange(0, 16);
@@ -46,7 +44,7 @@ void ZapSpark::VUpdate()
 
     if (mSparkTimer == 0)
     {
-        mAnim.Set_Animation_Data(GetAnimRes(AnimId::AE_ZapSpark));
+        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::AE_ZapSpark));
         mSparkTimer = -1;
     }
 

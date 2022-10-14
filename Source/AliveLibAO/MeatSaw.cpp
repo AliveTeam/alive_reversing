@@ -44,19 +44,19 @@ MeatSaw::MeatSaw(relive::Path_MeatSaw* pTlv, const Guid& tlvId)
 
     Animation_Init(GetAnimRes(AnimId::MeatSaw_Idle));
     
-    mAnim.mFlags.Set(AnimFlags::eSemiTrans);
-    mAnim.mRenderMode = TPageAbr::eBlend_0;
+    GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
+    GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
-        mAnim.mRenderLayer = Layer::eLayer_RopeWebDrillMeatSaw_Half_5;
+        GetAnimation().SetRenderLayer(Layer::eLayer_RopeWebDrillMeatSaw_Half_5);
         mScale = Scale::Bg;
     }
     else
     {
         mSpriteScale = FP_FromInteger(1);
-        mAnim.mRenderLayer = Layer::eLayer_RopeWebDrillMeatSaw_24;
+        GetAnimation().SetRenderLayer(Layer::eLayer_RopeWebDrillMeatSaw_24);
         mScale = Scale::Fg;
     }
 
@@ -142,14 +142,12 @@ MeatSaw::MeatSaw(relive::Path_MeatSaw* pTlv, const Guid& tlvId)
         GetAnimRes(AnimId::MeatSawMotor),
             this))
     {
-        field_110_anim.mRenderLayer = mAnim.mRenderLayer;
-        field_110_anim.field_14_scale = mSpriteScale;
+        field_110_anim.SetRenderLayer(GetAnimation().GetRenderLayer());
+        field_110_anim.SetSpriteScale(mSpriteScale);
 
-        field_110_anim.mRed = static_cast<u8>(mRGB.r);
-        field_110_anim.mGreen = static_cast<u8>(mRGB.g);
-        field_110_anim.mBlue = static_cast<u8>(mRGB.b);
+        field_110_anim.SetRGB(mRGB.r, mRGB.g, mRGB.b);
 
-        field_110_anim.mRenderMode = TPageAbr::eBlend_0;
+        field_110_anim.SetRenderMode(TPageAbr::eBlend_0);
 
         field_110_anim.mFlags.Clear(AnimFlags::eBlending);
         field_110_anim.mFlags.Set(AnimFlags::eSemiTrans);
@@ -205,7 +203,7 @@ void MeatSaw::VUpdate()
                 (!field_1A8_flags.Get(flags_1A8::eBit1_ResetOffscreen) || SwitchStates_Get(field_EE_switch_id) == field_F0_switch_value))
             {
                 field_E4_state = MeatSawStates::eGoingDown_1;
-                mAnim.Set_Animation_Data(GetAnimRes(AnimId::MeatSaw_Moving));
+                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MeatSaw_Moving));
                 field_1A8_flags.Clear(flags_1A8::eBit3_AutomaticMeatSawIsDown);
                 field_E8_speed2 = field_EA_speed1;
                 field_108_SFX_timer = sGnFrame + 2;
@@ -221,7 +219,7 @@ void MeatSaw::VUpdate()
                             if (field_104_idle_timer <= static_cast<s32>(sGnFrame))
                             {
                                 field_E4_state = MeatSawStates::eGoingDown_1;
-                                mAnim.Set_Animation_Data(GetAnimRes(AnimId::MeatSaw_Moving));
+                                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MeatSaw_Moving));
                                 field_1A8_flags.Set(flags_1A8::eBit3_AutomaticMeatSawIsDown);
                                 field_E8_speed2 = field_EC_off_speed;
                                 field_108_SFX_timer = sGnFrame + 2;
@@ -273,7 +271,7 @@ void MeatSaw::VUpdate()
                 }
 
                 field_104_idle_timer = sGnFrame + Math_RandomRange(minRnd, maxRnd);
-                mAnim.Set_Animation_Data(GetAnimRes(AnimId::MeatSaw_Idle));
+                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MeatSaw_Idle));
                 if (field_1A8_flags.Get(flags_1A8::eBit2_SwitchIdMeatSaw))
                 {
                     SwitchStates_Set(field_EE_switch_id, field_F0_switch_value == 0 ? 1 : 0);

@@ -158,13 +158,13 @@ CrawlingSlig::CrawlingSlig(relive::Path_CrawlingSlig* pTlv, const Guid& guid)
     if (mTlv.mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
-        mAnim.mRenderLayer = Layer::eLayer_8;
+        GetAnimation().SetRenderLayer(Layer::eLayer_8);
         mScale = Scale::Bg;
     }
     else if (mTlv.mScale == relive::reliveScale::eFull)
     {
         mSpriteScale = FP_FromInteger(1);
-        mAnim.mRenderLayer = Layer::eLayer_27;
+        GetAnimation().SetRenderLayer(Layer::eLayer_27);
         mScale = Scale::Fg;
     }
 
@@ -180,11 +180,11 @@ CrawlingSlig::CrawlingSlig(relive::Path_CrawlingSlig* pTlv, const Guid& guid)
     {
         if (mSpriteScale == FP_FromInteger(1))
         {
-            mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
+            GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_25);
         }
         else
         {
-            mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
+            GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_Half_6);
         }
         Set_AnimAndMotion(CrawlingSligMotion::Motion_9_Snoozing, TRUE);
         SetBrain(&CrawlingSlig::Brain_0_Sleeping);
@@ -261,19 +261,19 @@ s32 CrawlingSlig::CreateFromSaveState(const u8* pBuffer)
 
         pCrawlingSlig->mCurrentMotion = pState->field_28_current_motion;
 
-        pCrawlingSlig->mAnim.Set_Animation_Data(pCrawlingSlig->GetAnimRes(sCrawlingSligAnimIdTable[pState->field_28_current_motion]));
-        pCrawlingSlig->mAnim.mCurrentFrame = pState->field_2A_anim_cur_frame;
+        pCrawlingSlig->GetAnimation().Set_Animation_Data(pCrawlingSlig->GetAnimRes(sCrawlingSligAnimIdTable[pState->field_28_current_motion]));
+        pCrawlingSlig->GetAnimation().SetCurrentFrame(pState->field_2A_anim_cur_frame);
 
-        pCrawlingSlig->mAnim.mFrameChangeCounter = pState->field_2C_anim_frame_change_counter;
+        pCrawlingSlig->GetAnimation().SetFrameChangeCounter(pState->field_2C_anim_frame_change_counter);
 
-        pCrawlingSlig->mAnim.mFlags.Set(AnimFlags::eFlipX, pState->field_26_bFlipX & 1);
-        pCrawlingSlig->mAnim.mFlags.Set(AnimFlags::eRender, pState->field_2E_bRender & 1);
+        pCrawlingSlig->GetAnimation().mFlags.Set(AnimFlags::eFlipX, pState->field_26_bFlipX & 1);
+        pCrawlingSlig->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->field_2E_bRender & 1);
 
         pCrawlingSlig->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_2F_bDrawable & 1);
 
-        if (IsLastFrame(&pCrawlingSlig->mAnim))
+        if (IsLastFrame(&pCrawlingSlig->GetAnimation()))
         {
-            pCrawlingSlig->mAnim.mFlags.Set(AnimFlags::eIsLastFrame);
+            pCrawlingSlig->GetAnimation().mFlags.Set(AnimFlags::eIsLastFrame);
         }
 
         pCrawlingSlig->mHealth = pState->field_30_health;
@@ -326,12 +326,12 @@ s32 CrawlingSlig::VGetSaveState(u8* pSaveBuffer)
     pState->mRingRed = mRGB.r;
     pState->mRingGreen = mRGB.g;
     pState->mRingBlue = mRGB.b;
-    pState->field_26_bFlipX = mAnim.mFlags.Get(AnimFlags::eFlipX);
+    pState->field_26_bFlipX = GetAnimation().mFlags.Get(AnimFlags::eFlipX);
     pState->field_28_current_motion = mCurrentMotion;
-    pState->field_2A_anim_cur_frame = static_cast<s16>(mAnim.mCurrentFrame);
-    pState->field_2C_anim_frame_change_counter = static_cast<s16>(mAnim.mFrameChangeCounter);
+    pState->field_2A_anim_cur_frame = static_cast<s16>(GetAnimation().GetCurrentFrame());
+    pState->field_2C_anim_frame_change_counter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
     pState->field_2F_bDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
-    pState->field_2E_bRender = mAnim.mFlags.Get(AnimFlags::eRender);
+    pState->field_2E_bRender = GetAnimation().mFlags.Get(AnimFlags::eRender);
     pState->field_30_health = mHealth;
     pState->field_34_cur_motion = mCurrentMotion;
     pState->field_36_next_motion = mNextMotion;
@@ -389,7 +389,7 @@ void CrawlingSlig::VPossessed()
 
 void CrawlingSlig::Set_AnimAndMotion(CrawlingSligMotion currentMotion, s16 bClearNextMotion)
 {
-    mAnim.Set_Animation_Data(GetAnimRes(sCrawlingSligAnimIdTable[static_cast<s16>(currentMotion)]));
+    GetAnimation().Set_Animation_Data(GetAnimRes(sCrawlingSligAnimIdTable[static_cast<s16>(currentMotion)]));
     mCurrentMotion = static_cast<s16>(currentMotion);
 
     UpdateAnimBlock();
@@ -402,7 +402,7 @@ void CrawlingSlig::Set_AnimAndMotion(CrawlingSligMotion currentMotion, s16 bClea
 
 void CrawlingSlig::UpdateAnimBlock()
 {
-    mAnim.Set_Animation_Data(GetAnimRes(sCrawlingSligAnimIdTable[mCurrentMotion]));
+    GetAnimation().Set_Animation_Data(GetAnimRes(sCrawlingSligAnimIdTable[mCurrentMotion]));
 }
 
 u8** CrawlingSlig::GetAnimBlock(s32 /*currentMotion*/)
@@ -478,7 +478,7 @@ s16 CrawlingSlig::HandleEnemyStopper(FP /*velX*/)
 {
     FP gridSizeDirected = ScaleToGridSize(mSpriteScale);
     relive::Path_EnemyStopper::StopDirection direction = relive::Path_EnemyStopper::StopDirection::Both;
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         direction = relive::Path_EnemyStopper::StopDirection::Left;
         gridSizeDirected = -gridSizeDirected;
@@ -652,7 +652,7 @@ s16 CrawlingSlig::VTakeDamage(BaseGameObject* pFrom)
             case ReliveTypes::eElectrocute:
                 if (!BrainIs(&CrawlingSlig::Brain_4_GetKilled))
                 {
-                    mAnim.mFlags.Clear(AnimFlags::eRender);
+                    GetAnimation().mFlags.Clear(AnimFlags::eRender);
                     mHealth = FP_FromInteger(0);
                     field_1AC_timer = sGnFrame + 1;
                     SetBrain(&CrawlingSlig::Brain_4_GetKilled);
@@ -764,18 +764,18 @@ s16 CrawlingSlig::Brain_0_Sleeping()
 
     if (mBrainSubState != Brain_0_Sleeping::eBrain0_IsAwake_2 ||
         GetCurrentMotion() != CrawlingSligMotion::Motion_2_WakingUp ||
-        !(mAnim.mFlags.Get(AnimFlags::eIsLastFrame)))
+        !(GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame)))
     {
         return mBrainSubState;
     }
 
     if (mSpriteScale == FP_FromInteger(1))
     {
-        mAnim.mRenderLayer = Layer::eLayer_27;
+        GetAnimation().SetRenderLayer(Layer::eLayer_27);
     }
     else
     {
-        mAnim.mRenderLayer = Layer::eLayer_8;
+        GetAnimation().SetRenderLayer(Layer::eLayer_8);
     }
 
     ToIdle();
@@ -822,7 +822,7 @@ s16 CrawlingSlig::Brain_2_PanicGetALocker()
     switch (mBrainSubState)
     {
         case Brain_2_PanicGetALocker::eBrain2_DetermineCrawlDirection_0:
-            if ((mCrawlDirection != relive::Path_CrawlingSlig::CrawlDirection::eRight || !(mAnim.mFlags.Get(AnimFlags::eFlipX))) && (mCrawlDirection != relive::Path_CrawlingSlig::CrawlDirection::eLeft || mAnim.mFlags.Get(AnimFlags::eFlipX)))
+            if ((mCrawlDirection != relive::Path_CrawlingSlig::CrawlDirection::eRight || !(GetAnimation().mFlags.Get(AnimFlags::eFlipX))) && (mCrawlDirection != relive::Path_CrawlingSlig::CrawlDirection::eLeft || GetAnimation().mFlags.Get(AnimFlags::eFlipX)))
             {
                 SetNextMotion(CrawlingSligMotion::Motion_3_Crawling);
                 return Brain_2_PanicGetALocker::eBrain2_SearchLocker_2;
@@ -865,7 +865,7 @@ s16 CrawlingSlig::Brain_2_PanicGetALocker()
             break;
 
         case Brain_2_PanicGetALocker::eBrain2_TurnAroundForLocker_3:
-            if (GetCurrentMotion() != CrawlingSligMotion::Motion_11_TurnAround || !(mAnim.mFlags.Get(AnimFlags::eIsLastFrame)))
+            if (GetCurrentMotion() != CrawlingSligMotion::Motion_11_TurnAround || !(GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame)))
             {
                 return mBrainSubState;
             }
@@ -874,13 +874,13 @@ s16 CrawlingSlig::Brain_2_PanicGetALocker()
 
         case Brain_2_PanicGetALocker::eBrain2_SearchLockerOrTurnAround_4:
         {
-            if (GetCurrentMotion() != CrawlingSligMotion::Motion_8_Speaking || !(mAnim.mFlags.Get(AnimFlags::eIsLastFrame)))
+            if (GetCurrentMotion() != CrawlingSligMotion::Motion_8_Speaking || !(GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame)))
             {
                 return mBrainSubState;
             }
 
             FP gridScale = {};
-            if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+            if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
                 gridScale = -ScaleToGridSize(mSpriteScale);
             }
@@ -939,7 +939,7 @@ s16 CrawlingSlig::Brain_2_PanicGetALocker()
             return mBrainSubState;
 
         case Brain_2_PanicGetALocker::eBrain2_TurnAround_7:
-            if (GetCurrentMotion() == CrawlingSligMotion::Motion_11_TurnAround && mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+            if (GetCurrentMotion() == CrawlingSligMotion::Motion_11_TurnAround && GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 SetNextMotion(CrawlingSligMotion::Motion_3_Crawling);
                 return Brain_2_PanicGetALocker::eBrain2_Crawling_8;
@@ -971,13 +971,13 @@ s16 CrawlingSlig::Brain_2_PanicGetALocker()
 
         case Brain_2_PanicGetALocker::eBrain2_CheckIfWallHit_9:
         {
-            if (GetCurrentMotion() != CrawlingSligMotion::Motion_8_Speaking || !(mAnim.mFlags.Get(AnimFlags::eIsLastFrame)))
+            if (GetCurrentMotion() != CrawlingSligMotion::Motion_8_Speaking || !(GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame)))
             {
                 return mBrainSubState;
             }
 
             FP gridScale = {};
-            if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+            if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
                 gridScale = -ScaleToGridSize(mSpriteScale);
             }
@@ -1002,7 +1002,7 @@ s16 CrawlingSlig::Brain_2_PanicGetALocker()
         case Brain_2_PanicGetALocker::eBrain2_BeatBySlig_10:
             if (GetCurrentMotion() == CrawlingSligMotion::Motion_14_ShakingToIdle)
             {
-                if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+                if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
                 {
                     Set_AnimAndMotion(CrawlingSligMotion::Motion_0_Idle, TRUE);
                     mBrainSubState = Brain_2_PanicGetALocker::eBrain2_DetermineCrawlDirection_0;
@@ -1093,7 +1093,7 @@ s16 CrawlingSlig::Brain_3_Possessed()
                 return mBrainSubState;
             }
 
-            if (!(mAnim.mFlags.Get(AnimFlags::eIsLastFrame)))
+            if (!(GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame)))
             {
                 return mBrainSubState;
             }
@@ -1123,7 +1123,7 @@ s16 CrawlingSlig::Brain_4_GetKilled()
     switch (mBrainSubState)
     {
         case Brain_4_GetKilled::eBrain4_Unknown_0:
-            if (GetCurrentMotion() != CrawlingSligMotion::Motion_7_ToShakingToIdle || !(mAnim.mFlags.Get(AnimFlags::eIsLastFrame)))
+            if (GetCurrentMotion() != CrawlingSligMotion::Motion_7_ToShakingToIdle || !(GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame)))
             {
                 return mBrainSubState;
             }
@@ -1180,8 +1180,8 @@ s16 CrawlingSlig::Brain_4_GetKilled()
             SfxPlayMono(relive::SoundEffects::KillEffect, 128, mSpriteScale);
             SfxPlayMono(relive::SoundEffects::FallingItemHit, 90, mSpriteScale);
 
-            mAnim.mFlags.Clear(AnimFlags::eRender);
-            mAnim.mFlags.Clear(AnimFlags::eAnimate);
+            GetAnimation().mFlags.Clear(AnimFlags::eRender);
+            GetAnimation().mFlags.Clear(AnimFlags::eAnimate);
 
             Set_AnimAndMotion(CrawlingSligMotion::Motion_12_Shaking, TRUE);
             mVelY = FP_FromInteger(0);
@@ -1269,7 +1269,7 @@ void CrawlingSlig::Motion_1_UsingButton()
 {
     // Check for using a slig button which is a button than can trigger an id
     auto pSligButton = static_cast<CrawlingSligButton*>(sObjectIds.Find_Impl(field_1D0_slig_button_id));
-    if (pSligButton && mAnim.mCurrentFrame == 8)
+    if (pSligButton && GetAnimation().GetCurrentFrame() == 8)
     {
         pSligButton->UseButton();
         field_1D0_slig_button_id = Guid{};
@@ -1277,7 +1277,7 @@ void CrawlingSlig::Motion_1_UsingButton()
     // If not using a button check if we are on a locker to get pants or wings
     else if (mTlvHeader)
     {
-        if (mAnim.mCurrentFrame == 7)
+        if (GetAnimation().GetCurrentFrame() == 7)
         {
             SfxPlayMono(relive::SoundEffects::CrawlingSligTransformStart, 0);
         }
@@ -1304,7 +1304,7 @@ void CrawlingSlig::Motion_1_UsingButton()
 
                     pWalkingSlig->mSpriteScale = mSpriteScale;
 
-                    pWalkingSlig->mAnim.mFlags.Set(AnimFlags::eFlipX, mAnim.mFlags.Get(AnimFlags::eFlipX));
+                    pWalkingSlig->GetAnimation().mFlags.Set(AnimFlags::eFlipX, GetAnimation().mFlags.Get(AnimFlags::eFlipX));
 
                     if (BrainIs(&CrawlingSlig::Brain_3_Possessed))
                     {
@@ -1335,7 +1335,7 @@ void CrawlingSlig::Motion_1_UsingButton()
                     pFlyingSlig->field_294_nextXPos = mXPos;
                     pFlyingSlig->field_298_nextYPos = pFlyingSlig->mYPos;
                     pFlyingSlig->mSpriteScale = mSpriteScale;
-                    pFlyingSlig->mAnim.mFlags.Set(AnimFlags::eFlipX, mAnim.mFlags.Get(AnimFlags::eFlipX));
+                    pFlyingSlig->GetAnimation().mFlags.Set(AnimFlags::eFlipX, GetAnimation().mFlags.Get(AnimFlags::eFlipX));
 
                     if (BrainIs(&CrawlingSlig::Brain_3_Possessed))
                     {
@@ -1369,14 +1369,14 @@ void CrawlingSlig::Motion_1_UsingButton()
             mVelY = FP_FromInteger(0);
             mVelX = FP_FromInteger(0);
             Set_AnimAndMotion(CrawlingSligMotion::Motion_0_Idle, TRUE);
-            mAnim.mFlags.Clear(AnimFlags::eAnimate);
-            mAnim.mFlags.Clear(AnimFlags::eRender);
+            GetAnimation().mFlags.Clear(AnimFlags::eAnimate);
+            GetAnimation().mFlags.Clear(AnimFlags::eRender);
             SetType(ReliveTypes::eNone);
         }
     }
     else
     {
-        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
         {
             HandleCommon();
         }
@@ -1399,7 +1399,7 @@ void CrawlingSlig::Motion_2_WakingUp()
         }
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         HandleCommon();
     }
@@ -1409,11 +1409,11 @@ void CrawlingSlig::Motion_3_Crawling()
 {
     if (CanCrawl())
     {
-        if (mAnim.mCurrentFrame == 3 || mAnim.mCurrentFrame == 6)
+        if (GetAnimation().GetCurrentFrame() == 3 || GetAnimation().GetCurrentFrame() == 6)
         {
             Slig_SoundEffect_4BFFE0(static_cast<SligSfx>(Math_RandomRange(14, 16)), this);
         }
-        else if (mAnim.mCurrentFrame == 11)
+        else if (GetAnimation().GetCurrentFrame() == 11)
         {
             if (sControlledCharacter != this || mHealth <= FP_FromInteger(0))
             {
@@ -1437,7 +1437,7 @@ void CrawlingSlig::Motion_3_Crawling()
 void CrawlingSlig::Motion_4_StartFalling()
 {
     Motion_5_Falling();
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         Set_AnimAndMotion(CrawlingSligMotion::Motion_5_Falling, TRUE);
     }
@@ -1509,7 +1509,7 @@ void CrawlingSlig::Motion_5_Falling()
 
 void CrawlingSlig::Motion_6_Landing()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         Set_AnimAndMotion(CrawlingSligMotion::Motion_14_ShakingToIdle, TRUE);
     }
@@ -1517,7 +1517,7 @@ void CrawlingSlig::Motion_6_Landing()
 
 void CrawlingSlig::Motion_7_ToShakingToIdle()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         if (GetNextMotion() == CrawlingSligMotion::Motion_14_ShakingToIdle)
         {
@@ -1528,7 +1528,7 @@ void CrawlingSlig::Motion_7_ToShakingToIdle()
 
 void CrawlingSlig::Motion_8_Speaking()
 {
-    if (mAnim.mCurrentFrame == 2 && mSpeak != SligSpeak::eNone)
+    if (GetAnimation().GetCurrentFrame() == 2 && mSpeak != SligSpeak::eNone)
     {
         if (gMap.mCurrentPath == mCurrentPath && gMap.mCurrentLevel == mCurrentLevel && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
         {
@@ -1537,7 +1537,7 @@ void CrawlingSlig::Motion_8_Speaking()
         mSpeak = SligSpeak::eNone;
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         HandleCommon();
     }
@@ -1568,7 +1568,7 @@ void CrawlingSlig::Motion_9_Snoozing()
                 0))
         {
             FP xOff = {};
-            if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+            if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
                 xOff = -(mSpriteScale * FP_FromInteger(-10));
             }
@@ -1581,8 +1581,8 @@ void CrawlingSlig::Motion_9_Snoozing()
             relive_new SnoozeParticle(
                 mXPos + xOff,
                 mYPos + yOff,
-                mAnim.mRenderLayer,
-                mAnim.field_14_scale);
+                GetAnimation().GetRenderLayer(),
+                GetAnimation().GetSpriteScale());
         }
     }
 }
@@ -1591,7 +1591,7 @@ void CrawlingSlig::Motion_10_PushingWall()
 {
     MoveOnLine();
 
-    if (mAnim.mCurrentFrame == 4 || mAnim.mCurrentFrame == 8)
+    if (GetAnimation().GetCurrentFrame() == 4 || GetAnimation().GetCurrentFrame() == 8)
     {
         MapFollowMe(TRUE);
         mVelX = FP_FromInteger(0);
@@ -1600,7 +1600,7 @@ void CrawlingSlig::Motion_10_PushingWall()
 
     if (BrainIs(&CrawlingSlig::Brain_3_Possessed))
     {
-        const bool flipX = mAnim.mFlags.Get(AnimFlags::eFlipX);
+        const bool flipX = GetAnimation().mFlags.Get(AnimFlags::eFlipX);
         if ((!flipX && Input().isPressed(InputCommands::Enum::eLeft)) || (flipX && Input().isPressed(InputCommands::Enum::eRight)) || !(Input().isPressed(InputCommands::Enum::eLeft | InputCommands::Enum::eRight)))
         {
             Set_AnimAndMotion(CrawlingSligMotion::Motion_17_EndPushingWall, TRUE);
@@ -1634,14 +1634,14 @@ void CrawlingSlig::Motion_10_PushingWall()
 
 void CrawlingSlig::Motion_11_TurnAround()
 {
-    if (mAnim.mCurrentFrame == 8)
+    if (GetAnimation().GetCurrentFrame() == 8)
     {
         Slig_SoundEffect_4BFFE0(static_cast<SligSfx>(Math_RandomRange(14, 16)), this);
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
-        mAnim.mFlags.Toggle(AnimFlags::eFlipX);
+        GetAnimation().mFlags.Toggle(AnimFlags::eFlipX);
         MapFollowMe(TRUE);
         HandleCommon();
     }
@@ -1659,7 +1659,7 @@ void CrawlingSlig::Motion_13_Empty()
 
 void CrawlingSlig::Motion_14_ShakingToIdle()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         if (mHealth > FP_FromInteger(0))
         {
@@ -1671,7 +1671,7 @@ void CrawlingSlig::Motion_14_ShakingToIdle()
 
 void CrawlingSlig::Motion_15_EndCrawling()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         HandleCommon();
     }
@@ -1679,7 +1679,7 @@ void CrawlingSlig::Motion_15_EndCrawling()
 
 void CrawlingSlig::Motion_16_IdleToPushingWall()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         Slig_GameSpeak_SFX_4C04F0(static_cast<SligSpeak>(Math_RandomRange(static_cast<s32>(SligSpeak::eOuch1_13), static_cast<s32>(SligSpeak::eOuch2_14))), 0, 0, this);
         Set_AnimAndMotion(CrawlingSligMotion::Motion_10_PushingWall, TRUE);
@@ -1688,7 +1688,7 @@ void CrawlingSlig::Motion_16_IdleToPushingWall()
 
 void CrawlingSlig::Motion_17_EndPushingWall()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         ToIdle();
     }
@@ -1702,7 +1702,7 @@ void CrawlingSlig::HandleCommon()
     {
         if (Input().isPressed(InputCommands::Enum::eRight))
         {
-            if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+            if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
                 SetNextMotion(CrawlingSligMotion::Motion_11_TurnAround);
             }
@@ -1713,7 +1713,7 @@ void CrawlingSlig::HandleCommon()
         }
         else if (Input().isPressed(InputCommands::Enum::eLeft))
         {
-            if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+            if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
                 SetNextMotion(CrawlingSligMotion::Motion_3_Crawling);
             }
@@ -1811,7 +1811,7 @@ void CrawlingSlig::HandleCommon()
         case CrawlingSligMotion::Motion_3_Crawling:
         {
             FP gridScale = {};
-            if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+            if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
                 gridScale = -ScaleToGridSize(mSpriteScale);
             }
@@ -1855,10 +1855,10 @@ const FP sCrawlingSligXVels_54471C[15] = {
 
 s16 CrawlingSlig::CanCrawl()
 {
-    mVelX = sCrawlingSligXVels_54471C[mAnim.mCurrentFrame];
+    mVelX = sCrawlingSligXVels_54471C[GetAnimation().GetCurrentFrame()];
 
     FP gridScale = ScaleToGridSize(mSpriteScale);
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         mVelX = -mVelX;
         gridScale = -gridScale;

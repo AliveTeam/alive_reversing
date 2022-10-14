@@ -48,8 +48,8 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
             {
                 mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Rock_Gib));
                 Animation_Init(GetAnimRes(AnimId::Rock_Gib));
-                mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
-                mAnim.mFlags.Set(AnimFlags::eBlending);
+                GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
+                GetAnimation().mFlags.Set(AnimFlags::eBlending);
                 break;
             }
 
@@ -58,8 +58,8 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
                 mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Stick_Gib));
                 Animation_Init(GetAnimRes(AnimId::Stick_Gib));
                 scale = FP_FromDouble(0.4) * scale;
-                mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
-                mAnim.mFlags.Set(AnimFlags::eBlending);
+                GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
+                GetAnimation().mFlags.Set(AnimFlags::eBlending);
                 break;
             }
 
@@ -67,9 +67,9 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
             {
                 mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::DeathFlare_2));
                 Animation_Init(GetAnimRes(AnimId::DeathFlare_2));
-                mAnim.mFlags.Set(AnimFlags::eSemiTrans);
-                mAnim.mFlags.Set(AnimFlags::eBlending);
-                mAnim.mRenderMode = TPageAbr::eBlend_1;
+                GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
+                GetAnimation().mFlags.Set(AnimFlags::eBlending);
+                GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
                 break;
             }
 
@@ -78,13 +78,11 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
                 mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::DeathFlare_2));
                 Animation_Init(GetAnimRes(AnimId::DeathFlare_2));
 
-                mAnim.mRenderMode = TPageAbr::eBlend_1;
-                mAnim.mFlags.Set(AnimFlags::eSemiTrans);
-                mAnim.mFlags.Clear(AnimFlags::eBlending);
+                GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+                GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
+                GetAnimation().mFlags.Clear(AnimFlags::eBlending);
 
-                mAnim.mRed = 254;
-                mAnim.mGreen = 148;
-                mAnim.mBlue = 18;
+                GetAnimation().SetRGB(254, 148, 18);
                 break;
             }
 
@@ -92,8 +90,8 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
             {
                 mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Meat_Gib));
                 Animation_Init(GetAnimRes(AnimId::Meat_Gib));
-                mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
-                mAnim.mFlags.Set(AnimFlags::eBlending);
+                GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
+                GetAnimation().mFlags.Set(AnimFlags::eBlending);
                 break;
             }
 
@@ -110,12 +108,12 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
             if (mSpriteScale == FP_FromInteger(1))
             {
                 mScale = Scale::Fg;
-                mAnim.mRenderLayer = Layer::eLayer_Above_FG1_39;
+                GetAnimation().SetRenderLayer(Layer::eLayer_Above_FG1_39);
             }
             else
             {
                 mScale = Scale::Bg;
-                mAnim.mRenderLayer = Layer::eLayer_Above_FG1_Half_20;
+                GetAnimation().SetRenderLayer(Layer::eLayer_Above_FG1_Half_20);
             }
 
             field_EC_count = static_cast<s16>(particleCount);
@@ -125,15 +123,15 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
 
             for (s32 i = 0; i < particleCount; i++)
             {
-                field_E8_pRes[i].field_18_animation.field_68_anim_ptr = &mAnim;
-                field_E8_pRes[i].field_18_animation.mRenderLayer = mAnim.mRenderLayer;
+                field_E8_pRes[i].field_18_animation.field_68_anim_ptr = &GetAnimation();
+                field_E8_pRes[i].field_18_animation.SetRenderLayer(GetAnimation().GetRenderLayer());
                 field_E8_pRes[i].field_18_animation.field_6C_scale = FP_FromDouble(0.95) * mSpriteScale;
 
                 field_E8_pRes[i].field_18_animation.mFlags.Set(AnimFlags::eRender);
 
-                field_E8_pRes[i].field_18_animation.mFlags.Set(AnimFlags::eSemiTrans, mAnim.mFlags.Get(AnimFlags::eSemiTrans));
+                field_E8_pRes[i].field_18_animation.mFlags.Set(AnimFlags::eSemiTrans, GetAnimation().mFlags.Get(AnimFlags::eSemiTrans));
 
-                field_E8_pRes[i].field_18_animation.mFlags.Set(AnimFlags::eBlending, mAnim.mFlags.Get(AnimFlags::eBlending));
+                field_E8_pRes[i].field_18_animation.mFlags.Set(AnimFlags::eBlending, GetAnimation().mFlags.Get(AnimFlags::eBlending));
 
                 if (type == BurstType::eBigPurpleSparks_2)
                 {
@@ -143,9 +141,8 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
                     }
                 }
 
-                field_E8_pRes[i].field_18_animation.mRed = mAnim.mRed;
-                field_E8_pRes[i].field_18_animation.mGreen = mAnim.mGreen;
-                field_E8_pRes[i].field_18_animation.mBlue = mAnim.mBlue;
+                const auto rgb = GetAnimation().GetRgb();
+                field_E8_pRes[i].field_18_animation.SetRGB(rgb.r, rgb.g, rgb.b);
 
                 field_E8_pRes[i].x = xpos;
                 field_E8_pRes[i].y = ypos;
@@ -248,7 +245,7 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
         return;
     }
 
-    mAnim.field_14_scale = mSpriteScale;
+    GetAnimation().SetSpriteScale(mSpriteScale);
 
     const FP_Point* pCamPos = pScreenManager->mCamPos;
     const FP screen_left = pCamPos->x - FP_FromInteger(pScreenManager->mCamXOff);
@@ -268,14 +265,14 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
                 PSX_RECT rect = {};
                 if (bFirst)
                 {
-                    mAnim.field_14_scale = FP_FromInteger(100) / (pItem->field_8_z + FP_FromInteger(300));
-                    mAnim.VRender(
+                    GetAnimation().SetSpriteScale(FP_FromInteger(100) / (pItem->field_8_z + FP_FromInteger(300)));
+                    GetAnimation().VRender(
                         FP_GetExponent(PsxToPCX(pItem->x - screen_left, FP_FromInteger(11))),
                         FP_GetExponent(pItem->y - screen_bottom),
                         ppOt,
                         0,
                         0);
-                    mAnim.Get_Frame_Rect(&rect);
+                    GetAnimation().Get_Frame_Rect(&rect);
                     bFirst = false;
                 }
                 else

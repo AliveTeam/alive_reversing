@@ -127,16 +127,27 @@ public:
     bool DecodeCommon();
     void DecompressFrame();
 
-    u32 mFrameDelay = 0;
-    u16 field_12_scale = 0; // padding?
-    FP field_14_scale = {};
-    TFrameCallBackType* mFnPtrArray = nullptr;
+    u32 GetFrameDelay() const { return mFrameDelay; }
+    void SetFrameDelay(u32 val) { mFrameDelay = val; }
+    s32 GetCurrentFrame() const { return mCurrentFrame; }
+    void SetCurrentFrame(s32 val) { mCurrentFrame = val; }
+    TFrameCallBackType* GetFnPtrArray() const { return mFnPtrArray; }
+    void SetFnPtrArray(TFrameCallBackType* val) { mFnPtrArray = val; }
+    FP GetSpriteScale() const { return mSpriteScale; }
+    void SetSpriteScale(FP val) { mSpriteScale = val; }
+
     Poly_FT4 mOtData[2] = {};
+
+private:
+    u32 mFrameDelay = 0;
     s32 mCurrentFrame = 0;
+    TFrameCallBackType* mFnPtrArray = nullptr;
+    FP mSpriteScale = {};
     BaseGameObject* mGameObj = nullptr;
+
 };
 
 inline bool IsLastFrame(const Animation* pAnim)
 {
-    return pAnim->mCurrentFrame == static_cast<s32>(pAnim->mAnimRes.mJsonPtr->mFrames.size() - 1);
+    return pAnim->GetCurrentFrame() == static_cast<s32>(pAnim->mAnimRes.mJsonPtr->mFrames.size() - 1);
 }

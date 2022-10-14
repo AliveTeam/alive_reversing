@@ -840,7 +840,7 @@ Abe::Abe()
     LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::Mudokon_Walk));
 
-    mAnim.mFnPtrArray = kAbe_Anim_Frame_Fns_4CEBEC;
+    GetAnimation().SetFnPtrArray(kAbe_Anim_Frame_Fns_4CEBEC);
 
     PSX_Point pPoint = {};
     gMap.GetCurrentCamCoords(&pPoint);
@@ -855,7 +855,7 @@ Abe::Abe()
     mCurrentMotion = eAbeMotions::Motion_3_Fall;
 
     field_112_prev_motion = -1;
-    mAnim.mRenderLayer = Layer::eLayer_AbeMenu_32;
+    GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_32);
     field_15C_pThrowable = nullptr;
     field_19C_throwable_count = 0;
     field_198_pThrowable = nullptr;
@@ -890,8 +890,8 @@ Abe::Abe()
     // Changes Abe's "default" colour depending on the level we are in
     SetTint(sAbeTints_4C6438, gMap.mCurrentLevel);
 
-    mAnim.mFlags.Set(AnimFlags::eSemiTrans);
-    mAnim.mRenderMode = TPageAbr::eBlend_0;
+    GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
+    GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
 
     field_10C_prev_held = 0; // lowest to base class
     mBaseAliveGameObjectLastAnimFrame = 0;
@@ -1054,7 +1054,7 @@ void Abe::VUpdate()
         }
         else
         {
-            mAnim.mFlags.Set(AnimFlags::eAnimate);
+            GetAnimation().mFlags.Set(AnimFlags::eAnimate);
 
 
             // Execute the current state
@@ -1113,23 +1113,23 @@ void Abe::VUpdate()
 
                     if (mCurrentMotion != eAbeMotions::Motion_15_Null && !field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel))
                     {
-                        mAnim.Set_Animation_Data(GetAnimRes(sAbeMotionAnimIds[mCurrentMotion]));
+                        GetAnimation().Set_Animation_Data(GetAnimRes(sAbeMotionAnimIds[mCurrentMotion]));
 
                         field_12C_timer = sGnFrame;
 
                         if (motion_idx == eAbeMotions::Motion_15_Null || motion_idx == eAbeMotions::Motion_62_LoadedSaveSpawn)
                         {
-                            mAnim.SetFrame(mBaseAliveGameObjectLastAnimFrame);
+                            GetAnimation().SetFrame(mBaseAliveGameObjectLastAnimFrame);
                         }
                     }
                 }
                 else if (field_2A8_flags.Get(Flags_2A8::e2A8_Bit2_return_to_previous_motion))
                 {
                     mCurrentMotion = mPreviousMotion;
-                    mAnim.Set_Animation_Data(GetAnimRes(sAbeMotionAnimIds[mCurrentMotion]));
+                    GetAnimation().Set_Animation_Data(GetAnimRes(sAbeMotionAnimIds[mCurrentMotion]));
 
                     field_12C_timer = sGnFrame;
-                    mAnim.SetFrame(mBaseAliveGameObjectLastAnimFrame);
+                    GetAnimation().SetFrame(mBaseAliveGameObjectLastAnimFrame);
                     field_2A8_flags.Clear(Flags_2A8::e2A8_Bit2_return_to_previous_motion);
                 }
 
@@ -1140,7 +1140,7 @@ void Abe::VUpdate()
 
                 if (field_168_ring_pulse_timer)
                 {
-                    if (mAnim.mFlags.Get(AnimFlags::eRender))
+                    if (GetAnimation().mFlags.Get(AnimFlags::eRender))
                     {
                         if (static_cast<s32>(sGnFrame) <= field_168_ring_pulse_timer || field_16C_bHaveShrykull)
                         {
@@ -1245,7 +1245,7 @@ void Abe::VRender(PrimHeader** ppOt)
     // When in death shrivel don't reset scale else can't shrivel into a black blob
     if (!(field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel)))
     {
-        mAnim.field_14_scale = mSpriteScale;
+        GetAnimation().SetSpriteScale(mSpriteScale);
     }
 
     if (mCurrentMotion != eAbeMotions::Motion_15_Null && mCurrentMotion != eAbeMotions::Motion_78_InsideWellLocal && mCurrentMotion != eAbeMotions::Motion_81_InsideWellExpress && mCurrentMotion != eAbeMotions::Motion_84_ToInsideWellLocal && mCurrentMotion != eAbeMotions::Motion_75_ToInsideOfAWellLocal)
@@ -1362,8 +1362,8 @@ void Abe::FollowLift_42EE90()
 
 void Abe::ExitShrykull_42F440(s16 bResetRingTimer)
 {
-    mAnim.mFlags.Set(AnimFlags::eAnimate);
-    mAnim.mFlags.Set(AnimFlags::eRender);
+    GetAnimation().mFlags.Set(AnimFlags::eAnimate);
+    GetAnimation().mFlags.Set(AnimFlags::eRender);
 
     mCurrentMotion = eAbeMotions::Motion_163_ShrykullEnd;
 
@@ -1378,7 +1378,7 @@ void Abe::ExitShrykull_42F440(s16 bResetRingTimer)
 
 s16 Abe::RunTryEnterWell_425880()
 {
-    if (!Input().IsAnyPressed(sInputKey_Up) || mAnim.mCurrentFrame < 4)
+    if (!Input().IsAnyPressed(sInputKey_Up) || GetAnimation().GetCurrentFrame() < 4)
     {
         return 0;
     }
@@ -1755,7 +1755,7 @@ s16 Abe::DoGameSpeak_42F5C0(u16 input)
             if (gEnableFartGasCheat)
             {
                 FP xPos = mXPos;
-                if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+                if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                 {
                     xPos += (FP_FromInteger(12) * mSpriteScale);
                 }
@@ -1790,148 +1790,148 @@ void Abe::SyncToElum(s16 elumMotion)
         {
             case eElumMotions::Motion_1_Idle_412990:
                 mCurrentMotion = eAbeMotions::Motion_103_ElumIdle;
-                ToNewElumSyncMotion(gElum->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 BaseAliveGameObjectCollisionLine = gElum->BaseAliveGameObjectCollisionLine;
                 break;
 
             case eElumMotions::Motion_3_WalkLoop_412C90:
                 mCurrentMotion = eAbeMotions::Motion_102_ElumWalkLoop;
-                ToNewElumSyncMotion(gElum->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 BaseAliveGameObjectCollisionLine = gElum->BaseAliveGameObjectCollisionLine;
                 break;
 
             case eElumMotions::Motion_4_Turn_4140F0:
                 mCurrentMotion = eAbeMotions::Motion_113_ElumTurn;
-                ToNewElumSyncMotion(gElum->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 break;
 
             case eElumMotions::Motion_5_WalkToIdle_4132D0:
                 mCurrentMotion = eAbeMotions::Motion_124_ElumWalkEnd;
-                ToNewElumSyncMotion(gElum->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 break;
 
             case eElumMotions::Motion_6_MidWalkToIdle_4133F0:
                 mCurrentMotion = eAbeMotions::Motion_125_ElumMidWalkEnd;
-                ToNewElumSyncMotion(gElum->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 break;
 
             case eElumMotions::Motion_7_IdleToWalk1_413200:
                 mCurrentMotion = eAbeMotions::Motion_116_Null;
-                ToNewElumSyncMotion(gElum->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 break;
 
             case eElumMotions::Motion_8_IdleToWalk2_413270:
                 mCurrentMotion = eAbeMotions::Motion_117_ElumWalkBegin;
-                ToNewElumSyncMotion(gElum->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 break;
 
             case eElumMotions::Motion_12_RunTurn_414520:
                 mCurrentMotion = eAbeMotions::Motion_105_ElumRunTurn;
-                ToNewElumSyncMotion(gElum->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 break;
 
             case eElumMotions::Motion_13_RunTurnToWalk_4147C0:
                 mCurrentMotion = eAbeMotions::Motion_123_ElumRunTurnToWalk;
-                ToNewElumSyncMotion(gElum->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 break;
 
             case eElumMotions::Motion_21_Land_414A20:
                 mCurrentMotion = eAbeMotions::Motion_153_ElumFall;
-                ToNewElumSyncMotion(gElum->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 BaseAliveGameObjectCollisionLine = nullptr;
                 break;
 
             case eElumMotions::Motion_22_RunOffEdge_415810:
                 mCurrentMotion = eAbeMotions::Motion_154_ElumLand;
-                ToNewElumSyncMotion(gElum->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 BaseAliveGameObjectCollisionLine = gElum->BaseAliveGameObjectCollisionLine;
                 break;
 
             case eElumMotions::Motion_23_WalkOffEdge_415E90:
                 mCurrentMotion = eAbeMotions::Motion_152_ElumFallOffEdge;
-                ToNewElumSyncMotion(gElum->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 BaseAliveGameObjectCollisionLine = nullptr;
                 break;
 
             case eElumMotions::Motion_24_JumpToFall_415ED0:
                 mCurrentMotion = eAbeMotions::Motion_155_ElumJumpToFall;
-                ToNewElumSyncMotion(gElum->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 BaseAliveGameObjectCollisionLine = nullptr;
                 break;
 
             case eElumMotions::Motion_30_HopBegin_414E30:
                 mCurrentMotion = eAbeMotions::Motion_107_ElumHopBegin;
-                ToNewElumSyncMotion(gElum->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 BaseAliveGameObjectCollisionLine = nullptr;
                 break;
 
             case eElumMotions::Motion_31_HopMid_414C70:
                 mCurrentMotion = eAbeMotions::Motion_108_ElumHopMid;
-                ToNewElumSyncMotion(gElum->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 break;
 
             case eElumMotions::Motion_32_HopLand_415140:
                 mCurrentMotion = eAbeMotions::Motion_109_ElumHopLand;
-                ToNewElumSyncMotion(gElum->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 BaseAliveGameObjectCollisionLine = gElum->BaseAliveGameObjectCollisionLine;
                 break;
 
             case eElumMotions::Motion_33_RunJumpBegin_415400:
                 mCurrentMotion = eAbeMotions::Motion_110_ElumRunJumpBegin;
-                ToNewElumSyncMotion(gElum->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 BaseAliveGameObjectCollisionLine = nullptr;
                 break;
 
             case eElumMotions::Motion_34_RunJumpMid_415240:
                 mCurrentMotion = eAbeMotions::Motion_111_ElumRunJumpMid;
-                ToNewElumSyncMotion(gElum->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 break;
 
             case eElumMotions::Motion_35_RunJumpLand_415580:
                 mCurrentMotion = eAbeMotions::Motion_112_ElumRunJumpLand;
-                ToNewElumSyncMotion(gElum->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 BaseAliveGameObjectCollisionLine = gElum->BaseAliveGameObjectCollisionLine;
                 break;
 
             case eElumMotions::Motion_36_RunLoop_413720:
                 mCurrentMotion = eAbeMotions::Motion_114_ElumRunLoop;
-                ToNewElumSyncMotion(gElum->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 BaseAliveGameObjectCollisionLine = gElum->BaseAliveGameObjectCollisionLine;
                 break;
 
             case eElumMotions::Motion_37_RunSlideStop_4142E0:
                 mCurrentMotion = eAbeMotions::Motion_104_ElumRunSlideStop;
-                ToNewElumSyncMotion(gElum->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 break;
 
             case eElumMotions::Motion_38_RunTurnToRun_414810:
                 mCurrentMotion = eAbeMotions::Motion_122_ElumRunTurnToRun;
-                ToNewElumSyncMotion(gElum->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 break;
 
             case eElumMotions::Motion_39_IdleToRun_413B00:
                 mCurrentMotion = eAbeMotions::Motion_118_ElumRunBegin;
-                ToNewElumSyncMotion(gElum->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 break;
 
             case eElumMotions::Motion_40_WalkToRun_4134B0:
                 mCurrentMotion = eAbeMotions::Motion_119_Null;
-                ToNewElumSyncMotion(gElum->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 break;
 
             case eElumMotions::Motion_41_MidWalkToRun_413560:
                 mCurrentMotion = eAbeMotions::Motion_120_ElumRunToWalk;
-                ToNewElumSyncMotion(gElum->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 break;
 
             case eElumMotions::Motion_43_MidRunToWalk_413E20:
                 mCurrentMotion = eAbeMotions::Motion_121_ElumMidRunToWalk;
-                ToNewElumSyncMotion(gElum->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 break;
 
             case eElumMotions::Motion_50_Knockback_415DC0:
                 mCurrentMotion = eAbeMotions::Motion_158_ElumKnockback;
-                ToNewElumSyncMotion(gElum->mAnim.mCurrentFrame);
+                ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 break;
 
             default:
@@ -1998,8 +1998,8 @@ void Abe::PickUpThrowabe_Or_PressBomb_428260(FP fpX, s32 fpY, s16 bStandToCrouch
                     relive_new ThrowableTotalIndicator(
                                                                           (mSpriteScale * FP_FromInteger(0)) + mXPos,
                                                                                v16,
-                                                                               mAnim.mRenderLayer,
-                                                                               mAnim.field_14_scale,
+                                                                               GetAnimation().GetRenderLayer(),
+                                                                               GetAnimation().GetSpriteScale(),
                                                                                field_19C_throwable_count,
                                                                                1);
                 }
@@ -2091,7 +2091,7 @@ void Abe::CrouchingGameSpeak_427F90()
             if (gEnableFartGasCheat)
             {
                 FP xPos = {};
-                if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+                if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                 {
                     xPos = mXPos + FP_FromDouble(10) * mSpriteScale;
                 }
@@ -2147,7 +2147,7 @@ s16 Abe::ToLeftRightMovement_422AA0()
     }
 
     const FP gridSize = ScaleToGridSize(mSpriteScale);
-    const bool flipX = mAnim.mFlags.Get(AnimFlags::eFlipX);
+    const bool flipX = GetAnimation().mFlags.Get(AnimFlags::eFlipX);
 
     if ((flipX && Input().IsAnyPressed(sInputKey_Right)) || (!flipX && Input().IsAnyPressed(sInputKey_Left)))
     {
@@ -2226,11 +2226,11 @@ void Abe::MoveWithVelocity_4257F0(FP speed)
 
 void Abe::ToNewElumSyncMotion(s32 elum_frame)
 {
-    mAnim.Set_Animation_Data(GetAnimRes(sAbeMotionAnimIds[mCurrentMotion]));
+    GetAnimation().Set_Animation_Data(GetAnimRes(sAbeMotionAnimIds[mCurrentMotion]));
 
     field_12C_timer = sGnFrame;
-    mAnim.SetFrame(elum_frame + 1);
-    mAnim.mFlags.Set(AnimFlags::eFlipX, gElum->mAnim.mFlags.Get(AnimFlags::eFlipX));
+    GetAnimation().SetFrame(elum_frame + 1);
+    GetAnimation().mFlags.Set(AnimFlags::eFlipX, gElum->GetAnimation().mFlags.Get(AnimFlags::eFlipX));
 }
 
 void Abe::SetActiveControlledCharacter_421480()
@@ -2272,7 +2272,7 @@ void Abe::ElumKnockForward_42E780(s32 /*not_used*/)
     mCurrentMotion = eAbeMotions::Motion_128_KnockForward;
     mNextMotion = eAbeMotions::Motion_0_Idle;
     field_108_bMotionChanged = 1;
-    mAnim.Set_Animation_Data(GetAnimRes(sAbeMotionAnimIds[mCurrentMotion]));
+    GetAnimation().Set_Animation_Data(GetAnimRes(sAbeMotionAnimIds[mCurrentMotion]));
 
     sControlledCharacter = sActiveHero;
     gElum->field_154_bAbeForcedDownFromElum = 1;
@@ -2284,7 +2284,7 @@ s16 Abe::TryMountElum_42E600()
     {
         if (FP_Abs(mXPos - gElum->mXPos) <= FP_FromInteger(2) && FP_Abs(mYPos - gElum->mYPos) <= FP_FromInteger(2))
         {
-            if (gElum->mAnim.mFlags.Get(AnimFlags::eFlipX) != mAnim.mFlags.Get(AnimFlags::eFlipX))
+            if (gElum->GetAnimation().mFlags.Get(AnimFlags::eFlipX) != GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
                 mNextMotion = eAbeMotions::Motion_139_ElumMountBegin;
                 return eAbeMotions::Motion_2_StandingTurn;
@@ -2387,7 +2387,7 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
                         ElumKnockForward_42E780(1);
                     }
 
-                    if (mAnim.mFlags.Get(AnimFlags::eFlipX) != (pBullet->mXDistance > FP_FromInteger(0)))
+                    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX) != (pBullet->mXDistance > FP_FromInteger(0)))
                     {
                         mCurrentMotion = eAbeMotions::Motion_128_KnockForward;
                     }
@@ -2414,7 +2414,7 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
                 }
                 case ShootKind::eRolling_2:
                 {
-                    if (mAnim.mFlags.Get(AnimFlags::eFlipX) == (pBullet->mXDistance > FP_FromInteger(0)))
+                    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX) == (pBullet->mXDistance > FP_FromInteger(0)))
                     {
                         mNextMotion = eAbeMotions::Motion_73_RollingKnockback;
                     }
@@ -2541,7 +2541,7 @@ s16 Abe::RunTryEnterDoor_4259C0()
     {
         return 0;
     }
-    if (mAnim.mCurrentFrame < 4)
+    if (GetAnimation().GetCurrentFrame() < 4)
     {
         return 0;
     }
@@ -2583,7 +2583,7 @@ s16 Abe::MoveLiftUpOrDown_42F190(FP yVelocity)
     {
         return eAbeMotions::Motion_141_BeesStrugglingOnLift;
     }
-    if (sControlledCharacter == this && !mAnim.mFlags.Get(AnimFlags::eIsLastFrame) && mAnim.mCurrentFrame != 5)
+    if (sControlledCharacter == this && !GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame) && GetAnimation().GetCurrentFrame() != 5)
     {
         return mCurrentMotion;
     }
@@ -2719,8 +2719,8 @@ void Abe::VOnTlvCollision(relive::Path_TLV* pTlv)
                 }
                 const FP indicator_ypos = mYPos + (mSpriteScale * FP_FromInteger(-50));
 
-                relive_new ThrowableTotalIndicator(indicator_xpos, indicator_ypos, mAnim.mRenderLayer,
-                                                                            mAnim.field_14_scale, 11, 1);
+                relive_new ThrowableTotalIndicator(indicator_xpos, indicator_ypos, GetAnimation().GetRenderLayer(),
+                                                                            GetAnimation().GetSpriteScale(), 11, 1);
             }
         }
         else if (pTlv->mTlvType == ReliveTypes::eDeathDrop)
@@ -2772,7 +2772,7 @@ s16 Abe::HandleDoAction_429A70()
                 if (FP_FromInteger(FP_GetExponent(mXPos) - pTlv->mTopLeftX) < ScaleToGridSize(mSpriteScale))
                 {
                     // Wrong dir
-                    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+                    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                     {
                         return eAbeMotions::Motion_36_DunnoBegin;
                     }
@@ -2793,7 +2793,7 @@ s16 Abe::HandleDoAction_429A70()
                 else if (FP_FromInteger(pTlv->mBottomRightX - FP_GetExponent(mXPos)) < ScaleToGridSize(mSpriteScale))
                 {
                     // Wrong dir
-                    if (!mAnim.mFlags.Get(AnimFlags::eFlipX))
+                    if (!GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                     {
                         return eAbeMotions::Motion_36_DunnoBegin;
                     }
@@ -2887,7 +2887,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
             return 0;
     }
 
-    if (gAbeInvulnerableCheat || field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel) || !mAnim.mFlags.Get(AnimFlags::eRender))
+    if (gAbeInvulnerableCheat || field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel) || !GetAnimation().mFlags.Get(AnimFlags::eRender))
     {
         return 0;
     }
@@ -2974,7 +2974,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
 
         case ReliveTypes::eGroundExplosion:
         case ReliveTypes::eAirExplosion:
-            if (mAnim.mFlags.Get(AnimFlags::eRender))
+            if (GetAnimation().mFlags.Get(AnimFlags::eRender))
             {
                 if (mHealth > FP_FromInteger(0))
                 {
@@ -2994,7 +2994,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                     FP_FromInteger(0),
                     mSpriteScale);
 
-                mAnim.mFlags.Clear(AnimFlags::eRender);
+                GetAnimation().mFlags.Clear(AnimFlags::eRender);
                 mShadow->mFlags.Clear(Shadow::eEnabled);
             }
             break;
@@ -3065,7 +3065,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                     FP_FromInteger(0),
                     mSpriteScale);
 
-                mAnim.mFlags.Clear(AnimFlags::eRender);
+                GetAnimation().mFlags.Clear(AnimFlags::eRender);
             }
             break;
 
@@ -3125,20 +3125,20 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
 
                 if (pAliveObj->mXPos < mXPos)
                 {
-                    if (!(mAnim.mFlags.Get(AnimFlags::eFlipX)))
+                    if (!(GetAnimation().mFlags.Get(AnimFlags::eFlipX)))
                     {
                         mCurrentMotion = eAbeMotions::Motion_128_KnockForward;
                     }
                 }
                 else if (pAliveObj->mXPos > mXPos)
                 {
-                    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+                    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                     {
                         mCurrentMotion = eAbeMotions::Motion_128_KnockForward;
                     }
                 }
 
-                if (pAliveObj->mAnim.mFlags.Get(AnimFlags::eFlipX))
+                if (pAliveObj->GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                 {
                     mVelX = (mSpriteScale * FP_FromDouble(-7.8));
                 }
@@ -3182,14 +3182,14 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
 
                 if (pAliveObj->mXPos < mXPos)
                 {
-                    if (!mAnim.mFlags.Get(AnimFlags::eFlipX))
+                    if (!GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                     {
                         mCurrentMotion = eAbeMotions::Motion_128_KnockForward;
                     }
                 }
                 else if (pAliveObj->mXPos > mXPos)
                 {
-                    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+                    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                     {
                         mCurrentMotion = eAbeMotions::Motion_128_KnockForward;
                     }
@@ -3277,7 +3277,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
             break;
 
         case ReliveTypes::eElectrocute:
-            mAnim.mFlags.Clear(AnimFlags::eRender);
+            GetAnimation().mFlags.Clear(AnimFlags::eRender);
             ToDieFinal_42C400();
             break;
 
@@ -3325,11 +3325,11 @@ static bool IsSameScaleAsHoist(relive::Path_Hoist* pHoist, BaseAliveGameObject* 
 
 static bool IsFacingSameDirectionAsHoist(relive::Path_Hoist* pHoist, BaseAliveGameObject* pObj)
 {
-    if (pHoist->mGrabDirection == relive::Path_Hoist::GrabDirection::eFacingLeft && !pObj->mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (pHoist->mGrabDirection == relive::Path_Hoist::GrabDirection::eFacingLeft && !pObj->GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         return false;
     }
-    else if (pHoist->mGrabDirection == relive::Path_Hoist::GrabDirection::eFacingRight && pObj->mAnim.mFlags.Get(AnimFlags::eFlipX))
+    else if (pHoist->mGrabDirection == relive::Path_Hoist::GrabDirection::eFacingRight && pObj->GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         return false;
     }
@@ -3432,7 +3432,7 @@ void Abe::Motion_0_Idle()
             if (mLiftPoint->Type() == ReliveTypes::eLiftPoint && FP_Abs(mXPos - liftPlatformXMidPoint) < halfGrid)
             {
                 //AO exclusive - Abe only uses lift facing one side
-                if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+                if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                 {
                     mCurrentMotion = eAbeMotions::Motion_2_StandingTurn;
                     mNextMotion = eAbeMotions::Motion_133_LiftGrabBegin;
@@ -3494,7 +3494,7 @@ void Abe::Motion_0_Idle()
                 if (xPosToMidLiftPlatformDistance < halfGrid)
                 {
                     //AO exclusive - Abe only uses lift facing one side
-                    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+                    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                     {
                         mCurrentMotion = eAbeMotions::Motion_2_StandingTurn;
                         mNextMotion = eAbeMotions::Motion_133_LiftGrabBegin;
@@ -3625,12 +3625,12 @@ void Abe::Motion_0_Idle()
 
                 if (bThrowableIndicatorExists_504C70 == 0)
                 {
-                    const FP xOffSet = mAnim.mFlags.Get(AnimFlags::eFlipX) ? FP_FromInteger(15) : FP_FromInteger(-15) * mSpriteScale;
+                    const FP xOffSet = GetAnimation().mFlags.Get(AnimFlags::eFlipX) ? FP_FromInteger(15) : FP_FromInteger(-15) * mSpriteScale;
 
                     relive_new ThrowableTotalIndicator(mXPos + xOffSet,
                                                                                     mYPos + mSpriteScale * FP_FromInteger(-50),
-                                                                                    mAnim.mRenderLayer,
-                                                                                    mAnim.field_14_scale,
+                                                                                    GetAnimation().GetRenderLayer(),
+                                                                                    GetAnimation().GetSpriteScale(),
                                                                                     field_19C_throwable_count,
                                                                                     TRUE);
                 }
@@ -3704,7 +3704,7 @@ void Abe::Motion_1_WalkLoop()
 
     if (mCurrentMotion == eAbeMotions::Motion_1_WalkLoop)
     {
-        switch (mAnim.mCurrentFrame)
+        switch (GetAnimation().GetCurrentFrame())
         {
             case 2:
             {
@@ -3731,7 +3731,7 @@ void Abe::Motion_1_WalkLoop()
                 else
                 {
                     FP directedScale = {};
-                    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+                    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                     {
                         directedScale = -ScaleToGridSize(mSpriteScale);
                     }
@@ -3764,7 +3764,7 @@ void Abe::Motion_1_WalkLoop()
                     else if (Input().IsAnyPressed(sInputKey_Right | sInputKey_Left))
                     {
                         FP directedScale = {};
-                        if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+                        if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                         {
                             directedScale = -ScaleToGridSize(mSpriteScale);
                         }
@@ -3833,7 +3833,7 @@ void Abe::Motion_2_StandingTurn()
 {
     FollowLift_42EE90();
 
-    if (mAnim.mCurrentFrame == 4)
+    if (GetAnimation().GetCurrentFrame() == 4)
     {
         if (Input().IsAnyPressed(sInputKey_Run) && Input().IsAnyPressed(sInputKey_Right | sInputKey_Left))
         {
@@ -3842,9 +3842,9 @@ void Abe::Motion_2_StandingTurn()
 #endif
 
             mCurrentMotion = eAbeMotions::Motion_63_TurnToRun;
-            mAnim.mFlags.Toggle(AnimFlags::eFlipX);
+            GetAnimation().mFlags.Toggle(AnimFlags::eFlipX);
 
-            if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+            if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
                 mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
             }
@@ -3856,14 +3856,14 @@ void Abe::Motion_2_StandingTurn()
         }
     }
 
-    if (!mAnim.mCurrentFrame)
+    if (!GetAnimation().GetCurrentFrame())
     {
         Environment_SFX_42A220(EnvironmentSfx::eGenericMovement_9, 0, 0x7FFF, this);
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
-        mAnim.mFlags.Toggle(AnimFlags::eFlipX);
+        GetAnimation().mFlags.Toggle(AnimFlags::eFlipX);
 
         if (mNextMotion)
         {
@@ -3875,7 +3875,7 @@ void Abe::Motion_2_StandingTurn()
                 if (mNextMotion == eAbeMotions::Motion_101_LeverUse)
                 {
                     Lever* pSwitch;
-                    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+                    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                     {
                         pSwitch = static_cast<Lever*>(FindObjectOfType_418280(ReliveTypes::eLever, mXPos - ScaleToGridSize(mSpriteScale), mYPos - FP_FromInteger(5)));
                     }
@@ -3910,7 +3910,7 @@ void Abe::Motion_2_StandingTurn()
         {
             if (ToLeftRightMovement_422AA0())
             {
-                mAnim.Set_Animation_Data(mAnim.mAnimRes);
+                GetAnimation().Set_Animation_Data(GetAnimation().mAnimRes);
                 return;
             }
         }
@@ -3920,11 +3920,11 @@ void Abe::Motion_2_StandingTurn()
 
 static bool isEdgeGrabbable(relive::Path_Edge* pEdge, BaseAliveGameObject* pObj)
 {
-    if (pEdge->mGrabDirection == relive::Path_Edge::GrabDirection::eFacingLeft && pObj->mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (pEdge->mGrabDirection == relive::Path_Edge::GrabDirection::eFacingLeft && pObj->GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         return true;
     }
-    else if (pEdge->mGrabDirection == relive::Path_Edge::GrabDirection::eFacingRight && !pObj->mAnim.mFlags.Get(AnimFlags::eFlipX))
+    else if (pEdge->mGrabDirection == relive::Path_Edge::GrabDirection::eFacingRight && !pObj->GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         return true;
     }
@@ -4130,9 +4130,9 @@ void Abe::Motion_4_WalkToIdle()
 
     MoveForward_422FC0();
 
-    if (mAnim.mCurrentFrame != 0)
+    if (GetAnimation().GetCurrentFrame() != 0)
     {
-        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
         {
             MapFollowMe(1);
 
@@ -4174,9 +4174,9 @@ void Abe::Motion_5_MidWalkToIdle()
 
     MoveForward_422FC0();
 
-    if (mAnim.mCurrentFrame)
+    if (GetAnimation().GetCurrentFrame())
     {
-        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
         {
             MapFollowMe(1);
             if (mNextMotion == eAbeMotions::Motion_30_HopMid)
@@ -4216,7 +4216,7 @@ void Abe::Motion_6_WalkBegin()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eAbeMotions::Motion_1_WalkLoop;
     }
@@ -4280,7 +4280,7 @@ void Abe::Motion_16_HoistBegin()
 {
     FollowLift_42EE90();
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         BaseAliveGameObjectLastLineYPos = mYPos;
         const FP velY = mSpriteScale * FP_FromInteger(-8);
@@ -4431,7 +4431,7 @@ void Abe::Motion_18_HoistLand()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    if (mAnim.mCurrentFrame == 2)
+    if (GetAnimation().GetCurrentFrame() == 2)
     {
         if (mPreviousMotion == 3)
         {
@@ -4469,7 +4469,7 @@ void Abe::Motion_18_HoistLand()
         }
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         ToIdle_422D50();
     }
@@ -4511,7 +4511,7 @@ void Abe::Motion_19_CrouchIdle()
         if (!Input().IsAnyPressed(sInputKey_Right | sInputKey_Left))
         {
             FP gridSize = {};
-            if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+            if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
                 gridSize = -ScaleToGridSize(mSpriteScale);
             }
@@ -4543,11 +4543,11 @@ void Abe::Motion_19_CrouchIdle()
                 if (!bThrowableIndicatorExists_504C70)
                 {
                     const FP yOff = mYPos + (mSpriteScale * FP_FromInteger(-30));
-                    const FP xOff = mSpriteScale * (mAnim.mFlags.Get(AnimFlags::eFlipX) ? FP_FromInteger(-10) : FP_FromInteger(10));
+                    const FP xOff = mSpriteScale * (GetAnimation().mFlags.Get(AnimFlags::eFlipX) ? FP_FromInteger(-10) : FP_FromInteger(10));
                     relive_new ThrowableTotalIndicator(mXPos + xOff,
                                                                              yOff,
-                                                                             mAnim.mRenderLayer,
-                                                                             mAnim.field_14_scale,
+                                                                             GetAnimation().GetRenderLayer(),
+                                                                             GetAnimation().GetSpriteScale(),
                                                                              field_19C_throwable_count,
                                                                              1);
                 }
@@ -4595,7 +4595,7 @@ void Abe::Motion_19_CrouchIdle()
     // Crouching turns
     if (Input().IsAnyPressed(sInputKey_Right))
     {
-        if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+        if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
         {
             mCurrentMotion = eAbeMotions::Motion_39_CrouchTurn;
         }
@@ -4608,7 +4608,7 @@ void Abe::Motion_19_CrouchIdle()
 
     if (Input().IsAnyPressed(sInputKey_Left))
     {
-        if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+        if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
         {
             mCurrentMotion = eAbeMotions::Motion_24_RollBegin;
             field_10E_released_buttons = 0;
@@ -4624,7 +4624,7 @@ void Abe::Motion_20_CrouchToStand()
 {
     FollowLift_42EE90();
 
-    if (mAnim.mCurrentFrame == 3)
+    if (GetAnimation().GetCurrentFrame() == 3)
     {
         if (Input().IsAnyPressed(0xA000)) // TODO: Flags
         {
@@ -4632,7 +4632,7 @@ void Abe::Motion_20_CrouchToStand()
         }
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         ToIdle_422D50();
     }
@@ -4642,7 +4642,7 @@ void Abe::Motion_21_StandToCrouch()
 {
     FollowLift_42EE90();
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         PickUpThrowabe_Or_PressBomb_428260(
             mXPos,
@@ -4661,7 +4661,7 @@ void Abe::Motion_23_CrouchSpeak()
 {
     field_10C_prev_held |= Input().Held();
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eAbeMotions::Motion_19_CrouchIdle;
 
@@ -4678,7 +4678,7 @@ void Abe::Motion_23_CrouchSpeak()
 
 void Abe::Motion_24_RollBegin()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
     }
@@ -4697,7 +4697,7 @@ void Abe::Motion_24_RollBegin()
     {
         MoveForward_422FC0();
 
-        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
         {
             if (mCurrentMotion == eAbeMotions::Motion_24_RollBegin)
             {
@@ -4742,7 +4742,7 @@ void Abe::Motion_25_RollLoop()
 
         if (mCurrentMotion == eAbeMotions::Motion_25_RollLoop)
         {
-            if (mAnim.mCurrentFrame == 1 || mAnim.mCurrentFrame == 5 || mAnim.mCurrentFrame == 9)
+            if (GetAnimation().GetCurrentFrame() == 1 || GetAnimation().GetCurrentFrame() == 5 || GetAnimation().GetCurrentFrame() == 9)
             {
                 if (!Input().IsAnyPressed(sInputKey_Run)
                     || Input().IsAnyPressed(sInputKey_FartRoll)
@@ -4764,7 +4764,7 @@ void Abe::Motion_25_RollLoop()
                     field_10C_prev_held = 0;
                 }
             }
-            else if (mAnim.mCurrentFrame == 0 || mAnim.mCurrentFrame == 4 || mAnim.mCurrentFrame == 8)
+            else if (GetAnimation().GetCurrentFrame() == 0 || GetAnimation().GetCurrentFrame() == 4 || GetAnimation().GetCurrentFrame() == 8)
             {
                 MapFollowMe(TRUE);
 
@@ -4775,7 +4775,7 @@ void Abe::Motion_25_RollLoop()
                 }
             }
 
-            if (mAnim.mCurrentFrame == 0 || mAnim.mCurrentFrame == 6)
+            if (GetAnimation().GetCurrentFrame() == 0 || GetAnimation().GetCurrentFrame() == 6)
             {
                 Environment_SFX_42A220(EnvironmentSfx::eRollingNoise_8, 0, 0x7FFF, this);
             }
@@ -4799,7 +4799,7 @@ void Abe::Motion_26_RollEnd()
 
         if (mCurrentMotion == eAbeMotions::Motion_26_RollEnd)
         {
-            if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+            if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 MapFollowMe(1);
                 mCurrentMotion = eAbeMotions::Motion_19_CrouchIdle;
@@ -4825,9 +4825,9 @@ void Abe::Motion_27_RunSlideStop()
             && !RunTryEnterWell_425880()
             && !RunTryEnterDoor_4259C0())
         {
-            if (mAnim.mCurrentFrame >= 9)
+            if (GetAnimation().GetCurrentFrame() >= 9)
             {
-                if (mAnim.mCurrentFrame == 15)
+                if (GetAnimation().GetCurrentFrame() == 15)
                 {
                     Environment_SFX_42A220(EnvironmentSfx::eSlideStop_0, 0, 0x7FFF, this);
                     MapFollowMe(1);
@@ -4838,11 +4838,11 @@ void Abe::Motion_27_RunSlideStop()
                     }
                 }
             }
-            else if ((mAnim.mFlags.Get(AnimFlags::eFlipX) && Input().IsAnyPressed(sInputKey_Right)) || (!mAnim.mFlags.Get(AnimFlags::eFlipX) && Input().IsAnyPressed(sInputKey_Left)))
+            else if ((GetAnimation().mFlags.Get(AnimFlags::eFlipX) && Input().IsAnyPressed(sInputKey_Right)) || (!GetAnimation().mFlags.Get(AnimFlags::eFlipX) && Input().IsAnyPressed(sInputKey_Left)))
             {
                 field_2A8_flags.Set(Flags_2A8::e2A8_Bit2_return_to_previous_motion);
                 mPreviousMotion = eAbeMotions::Motion_28_RunTurn;
-                mBaseAliveGameObjectLastAnimFrame = mAnim.mCurrentFrame;
+                mBaseAliveGameObjectLastAnimFrame = GetAnimation().GetCurrentFrame();
             }
         }
     }
@@ -4864,12 +4864,12 @@ void Abe::Motion_28_RunTurn()
             && !RunTryEnterWell_425880()
             && !RunTryEnterDoor_4259C0())
         {
-            if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+            if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 MapFollowMe(TRUE);
 
                 const FP gridSize = ScaleToGridSize(mSpriteScale);
-                if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+                if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                 {
                     if (Input().IsAnyPressed(sInputKey_Run))
                     {
@@ -4906,9 +4906,9 @@ void Abe::Motion_29_HopBegin()
 {
     FollowLift_42EE90();
 
-    if (mAnim.mCurrentFrame == 9)
+    if (GetAnimation().GetCurrentFrame() == 9)
     {
-        const FP velX = mSpriteScale * (mAnim.mFlags.Get(AnimFlags::eFlipX) ? FP_FromInteger(-17) : FP_FromInteger(17));
+        const FP velX = mSpriteScale * (GetAnimation().mFlags.Get(AnimFlags::eFlipX) ? FP_FromInteger(-17) : FP_FromInteger(17));
         mVelX = velX;
 
         if (!field_1A0_portal)
@@ -4925,10 +4925,10 @@ void Abe::Motion_29_HopBegin()
         mXPos += mVelX;
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         BaseAliveGameObjectLastLineYPos = mYPos;
-        const FP velX = mSpriteScale * (mAnim.mFlags.Get(AnimFlags::eFlipX) ? FP_FromDouble(-13.57) : FP_FromDouble(13.57));
+        const FP velX = mSpriteScale * (GetAnimation().mFlags.Get(AnimFlags::eFlipX) ? FP_FromDouble(-13.57) : FP_FromDouble(13.57));
         mVelX = velX;
         mXPos += velX;
 
@@ -4969,7 +4969,7 @@ void Abe::IntoPortalStates_4262A0()
             PSX_RECT bRect = VGetBoundingRect();
             if ((mVelX > FP_FromInteger(0) && FP_FromInteger(bRect.x) > field_1A0_portal->mXPos) || (mVelX < FP_FromInteger(0) && FP_FromInteger(bRect.w) < field_1A0_portal->mXPos))
             {
-                mAnim.mFlags.Clear(AnimFlags::eRender);
+                GetAnimation().mFlags.Clear(AnimFlags::eRender);
                 mVelY = FP_FromInteger(0);
                 mVelX = FP_FromInteger(0);
                 field_1A0_portal->VKillPortalClipper();
@@ -5001,7 +5001,7 @@ void Abe::IntoPortalStates_4262A0()
             if (field_1A0_portal->VPortalExit_AbeExitting())
             {
                 field_1A0_portal->VPortalClipper(0);
-                mAnim.mFlags.Set(AnimFlags::eRender);
+                GetAnimation().mFlags.Set(AnimFlags::eRender);
                 mCurrentMotion = eAbeMotions::Motion_29_HopBegin;
                 field_1A0_portal->VIncreaseTimerAndKillPortalClipper();
                 field_1A0_portal = 0;
@@ -5012,9 +5012,9 @@ void Abe::IntoPortalStates_4262A0()
         {
             field_1A0_portal->VExitPortal();
             field_19E_portal_sub_state = PortalSubStates::eHopOutOfPortal_2;
-            mAnim.mFlags.Set(AnimFlags::eFlipX, field_1A0_portal->mEnterSide == relive::Path_BirdPortal::PortalSide::eLeft);
+            GetAnimation().mFlags.Set(AnimFlags::eFlipX, field_1A0_portal->mEnterSide == relive::Path_BirdPortal::PortalSide::eLeft);
 
-            if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+            if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
                 mXPos = ScaleToGridSize(mSpriteScale) + field_1A0_portal->mExitX;
             }
@@ -5105,12 +5105,12 @@ void Abe::Motion_30_HopMid()
                         break;
                 }
             }
-            if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+            if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 if (mCurrentMotion == eAbeMotions::Motion_30_HopMid)
                 {
                     mVelX = FP_FromRaw(mVelX.fpValue / 2);
-                    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+                    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                     {
                         mXPos += mSpriteScale * FP_FromInteger(5);
                     }
@@ -5132,7 +5132,7 @@ void Abe::Motion_31_HopLand()
 {
     FollowLift_42EE90();
 
-    if (mAnim.mCurrentFrame == 2 && Input().IsAnyPressed(sInputKey_Hop))
+    if (GetAnimation().GetCurrentFrame() == 2 && Input().IsAnyPressed(sInputKey_Hop))
     {
         field_2A8_flags.Set(Flags_2A8::e2A8_Bit2_return_to_previous_motion);
         mPreviousMotion = eAbeMotions::Motion_29_HopBegin;
@@ -5140,7 +5140,7 @@ void Abe::Motion_31_HopLand()
     }
     else
     {
-        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
         {
             if (!ToLeftRightMovement_422AA0())
             {
@@ -5164,16 +5164,16 @@ void Abe::Motion_32_RunJumpBegin()
         FollowLift_42EE90();
 
         mXPos += mVelX;
-        if (mAnim.mCurrentFrame == 0)
+        if (GetAnimation().GetCurrentFrame() == 0)
         {
             Environment_SFX_42A220(EnvironmentSfx::eRunJumpOrLedgeHoist_11, 0, 0x7FFF, this);
         }
 
-        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
         {
             BaseAliveGameObjectLastLineYPos = mYPos;
 
-            if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+            if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
                 mVelX = (mSpriteScale * FP_FromDouble(-7.6));
             }
@@ -5342,7 +5342,7 @@ void Abe::Motion_33_RunJumpMid()
         }
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         if (mCurrentMotion == eAbeMotions::Motion_33_RunJumpMid)
         {
@@ -5358,7 +5358,7 @@ void Abe::Motion_34_RunJumpLand()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 0, 0x7FFF, this);
         MapFollowMe(1);
@@ -5367,7 +5367,7 @@ void Abe::Motion_34_RunJumpLand()
         {
             if (!(sInputKey_Hop & field_10C_prev_held))
             {
-                if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+                if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                 {
                     if (Input().IsAnyPressed(sInputKey_Run))
                     {
@@ -5438,7 +5438,7 @@ void Abe::Motion_34_RunJumpLand()
                 return;
             }
 
-            if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+            if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
                 mCurrentMotion = eAbeMotions::Motion_28_RunTurn;
                 Environment_SFX_42A220(EnvironmentSfx::eRunSlide_4, 0, 0x7FFF, this);
@@ -5469,7 +5469,7 @@ void Abe::Motion_34_RunJumpLand()
             if (!(sInputKey_Hop & field_10C_prev_held))
             {
                 mCurrentMotion = eAbeMotions::Motion_27_RunSlideStop;
-                if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+                if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                 {
                     mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
                     Environment_SFX_42A220(EnvironmentSfx::eRunSlide_4, 0, 0x7FFF, this);
@@ -5546,7 +5546,7 @@ void Abe::Motion_35_RunLoop()
         return;
     }
 
-    if (mAnim.mCurrentFrame == 0 || mAnim.mCurrentFrame == 8)
+    if (GetAnimation().GetCurrentFrame() == 0 || GetAnimation().GetCurrentFrame() == 8)
     {
         if (!field_2A8_flags.Get(e2A8_Bit3_WalkToRun))
         {
@@ -5556,7 +5556,7 @@ void Abe::Motion_35_RunLoop()
 
         CheckForPortalAndRunJump();
     }
-    else if (mAnim.mCurrentFrame == 4 || mAnim.mCurrentFrame == 12)
+    else if (GetAnimation().GetCurrentFrame() == 4 || GetAnimation().GetCurrentFrame() == 12)
     {
         Environment_SFX_42A220(EnvironmentSfx::eRunningFootstep_2, 0, 0x7FFF, this);
 
@@ -5588,7 +5588,7 @@ void Abe::Motion_35_RunLoop()
             mCurrentMotion = eAbeMotions::Motion_40_RunToRoll;
 
             // For some reason dont clear released in the frame 12 case
-            if (mAnim.mCurrentFrame == 4)
+            if (GetAnimation().GetCurrentFrame() == 4)
             {
                 field_10E_released_buttons = 0;
             }
@@ -5629,7 +5629,7 @@ void Abe::Motion_35_RunLoop()
         }
         else
         {
-            if (mAnim.mCurrentFrame == 4)
+            if (GetAnimation().GetCurrentFrame() == 4)
             {
                 mCurrentMotion = eAbeMotions::Motion_52_RunToWalk;
             }
@@ -5651,7 +5651,7 @@ void Abe::Motion_36_DunnoBegin()
 {
     FollowLift_42EE90();
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         Mudokon_SFX(MudSounds::eDunno_15, 0, 0, this);
 
@@ -5670,7 +5670,7 @@ void Abe::Motion_37_DunnoMid()
 {
     FollowLift_42EE90();
 
-    if (!Input().IsAnyPressed(sInputKey_DoAction | sInputKey_ThrowItem) || mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (!Input().IsAnyPressed(sInputKey_DoAction | sInputKey_ThrowItem) || GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eAbeMotions::Motion_38_DunnoEnd;
     }
@@ -5680,7 +5680,7 @@ void Abe::Motion_38_DunnoEnd()
 {
     FollowLift_42EE90();
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         ToIdle_422D50();
     }
@@ -5690,11 +5690,11 @@ void Abe::Motion_39_CrouchTurn()
 {
     FollowLift_42EE90();
 
-    if (mAnim.mCurrentFrame)
+    if (GetAnimation().GetCurrentFrame())
     {
-        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
         {
-            mAnim.mFlags.Toggle(AnimFlags::eFlipX);
+            GetAnimation().mFlags.Toggle(AnimFlags::eFlipX);
 
             if (mNextMotion == eAbeMotions::Motion_0_Idle)
             {
@@ -5718,7 +5718,7 @@ void Abe::Motion_40_RunToRoll()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
     }
@@ -5736,7 +5736,7 @@ void Abe::Motion_40_RunToRoll()
     {
         MoveForward_422FC0();
 
-        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
         {
             if (mCurrentMotion == eAbeMotions::Motion_40_RunToRoll)
             {
@@ -5748,7 +5748,7 @@ void Abe::Motion_40_RunToRoll()
 
 void Abe::Motion_41_StandingToRun()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eAbeMotions::Motion_35_RunLoop;
     }
@@ -5781,10 +5781,10 @@ void Abe::Motion_42_SneakLoop()
 
     if (mCurrentMotion == eAbeMotions::Motion_42_SneakLoop)
     {
-        if (mAnim.mCurrentFrame == 3)
+        if (GetAnimation().GetCurrentFrame() == 3)
         {
             FP directedScale = {};
-            if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+            if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
                 directedScale = -ScaleToGridSize(mSpriteScale);
             }
@@ -5800,7 +5800,7 @@ void Abe::Motion_42_SneakLoop()
             return;
         }
 
-        if (mAnim.mCurrentFrame == 6)
+        if (GetAnimation().GetCurrentFrame() == 6)
         {
             Environment_SFX_42A220(EnvironmentSfx::eSneakFootstep_3, 0, 0x7FFF, this);
             MapFollowMe(1);
@@ -5816,9 +5816,9 @@ void Abe::Motion_42_SneakLoop()
             return;
         }
 
-        if (mAnim.mCurrentFrame != 13)
+        if (GetAnimation().GetCurrentFrame() != 13)
         {
-            if (mAnim.mCurrentFrame != 16)
+            if (GetAnimation().GetCurrentFrame() != 16)
             {
                 return;
             }
@@ -5838,7 +5838,7 @@ void Abe::Motion_42_SneakLoop()
         }
 
         FP directedScale = {};
-        if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+        if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
         {
             directedScale = -ScaleToGridSize(mSpriteScale);
         }
@@ -5858,7 +5858,7 @@ void Abe::Motion_43_WalkToSneak()
 {
     field_10C_prev_held |= Input().Pressed();
 
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(10));
     }
@@ -5867,7 +5867,7 @@ void Abe::Motion_43_WalkToSneak()
         mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(10));
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eAbeMotions::Motion_42_SneakLoop;
     }
@@ -5887,7 +5887,7 @@ void Abe::Motion_44_SneakToWalk()
 {
     field_10C_prev_held |= Input().Pressed();
 
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
     }
@@ -5896,7 +5896,7 @@ void Abe::Motion_44_SneakToWalk()
         mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eAbeMotions::Motion_1_WalkLoop;
     }
@@ -5916,7 +5916,7 @@ void Abe::Motion_45_MidWalkToSneak()
 {
     field_10C_prev_held |= Input().Pressed();
 
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(10));
     }
@@ -5925,7 +5925,7 @@ void Abe::Motion_45_MidWalkToSneak()
         mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(10));
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         field_2A8_flags.Set(Flags_2A8::e2A8_Bit2_return_to_previous_motion);
         mPreviousMotion = 42;
@@ -5947,7 +5947,7 @@ void Abe::Motion_46_MidSneakToWalk()
 {
     field_10C_prev_held |= Input().Pressed();
 
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
     }
@@ -5956,7 +5956,7 @@ void Abe::Motion_46_MidSneakToWalk()
         mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         field_2A8_flags.Set(Flags_2A8::e2A8_Bit2_return_to_previous_motion);
         mPreviousMotion = 1;
@@ -5978,7 +5978,7 @@ void Abe::Motion_47_SneakBegin()
 {
     field_10C_prev_held |= Input().Pressed();
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eAbeMotions::Motion_42_SneakLoop;
     }
@@ -5996,14 +5996,14 @@ void Abe::Motion_47_SneakBegin()
 
 void Abe::Motion_48_SneakToIdle()
 {
-    if (mAnim.mCurrentFrame == 0)
+    if (GetAnimation().GetCurrentFrame() == 0)
     {
         Environment_SFX_42A220(EnvironmentSfx::eSneakFootstep_3, 0, 0x7FFF, this);
     }
 
     MoveForward_422FC0();
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         MapFollowMe(1);
         ToIdle_422D50();
@@ -6012,14 +6012,14 @@ void Abe::Motion_48_SneakToIdle()
 
 void Abe::Motion_49_MidSneakToIdle()
 {
-    if (!mAnim.mCurrentFrame)
+    if (!GetAnimation().GetCurrentFrame())
     {
         Environment_SFX_42A220(EnvironmentSfx::eSneakFootstep_3, 0, 0x7FFF, this);
     }
 
     MoveForward_422FC0();
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         MapFollowMe(1);
 
@@ -6034,7 +6034,7 @@ void Abe::Motion_50_WalkToRun()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
     }
@@ -6043,7 +6043,7 @@ void Abe::Motion_50_WalkToRun()
         mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eAbeMotions::Motion_35_RunLoop;
         field_10C_prev_held = 0;
@@ -6067,7 +6067,7 @@ void Abe::Motion_51_MidWalkToRun()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
     }
@@ -6076,7 +6076,7 @@ void Abe::Motion_51_MidWalkToRun()
         mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         field_2A8_flags.Set(Flags_2A8::e2A8_Bit2_return_to_previous_motion);
         mPreviousMotion = 35;
@@ -6101,7 +6101,7 @@ void Abe::Motion_52_RunToWalk()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
     }
@@ -6110,7 +6110,7 @@ void Abe::Motion_52_RunToWalk()
         mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eAbeMotions::Motion_1_WalkLoop;
     }
@@ -6132,7 +6132,7 @@ void Abe::Motion_53_MidRunToWalk()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
     }
@@ -6141,7 +6141,7 @@ void Abe::Motion_53_MidRunToWalk()
         mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         field_2A8_flags.Set(Flags_2A8::e2A8_Bit2_return_to_previous_motion);
         mPreviousMotion = 1;
@@ -6173,10 +6173,10 @@ void Abe::Motion_54_RunTurnToRun()
     {
         MoveForward_422FC0();
 
-        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
         {
             mCurrentMotion = eAbeMotions::Motion_35_RunLoop;
-            mAnim.mFlags.Toggle(AnimFlags::eFlipX);
+            GetAnimation().mFlags.Toggle(AnimFlags::eFlipX);
         }
     }
 }
@@ -6197,10 +6197,10 @@ void Abe::Motion_55_RunTurnToWalk()
     {
         MoveForward_422FC0();
 
-        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
         {
             mCurrentMotion = eAbeMotions::Motion_1_WalkLoop;
-            mAnim.mFlags.Toggle(AnimFlags::eFlipX);
+            GetAnimation().mFlags.Toggle(AnimFlags::eFlipX);
         }
     }
 }
@@ -6218,7 +6218,7 @@ void Abe::Motion_56_RunJumpLandRun()
     {
         MoveForward_422FC0();
 
-        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
         {
             mCurrentMotion = eAbeMotions::Motion_35_RunLoop;
         }
@@ -6238,7 +6238,7 @@ void Abe::Motion_57_RunJumpLand_Walk()
     {
         MoveForward_422FC0();
 
-        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
         {
             mCurrentMotion = eAbeMotions::Motion_1_WalkLoop;
         }
@@ -6251,7 +6251,7 @@ void Abe::Motion_58_ToSpeak()
 
     field_10C_prev_held |= Input().Held();
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = DoGameSpeak_42F5C0(field_10C_prev_held);
         if (mCurrentMotion == -1)
@@ -6268,7 +6268,7 @@ void Abe::Motion_58_ToSpeak()
 
 void Abe::Motion_59_DeathDropFall()
 {
-    mAnim.mFlags.Clear(AnimFlags::eAnimate);
+    GetAnimation().mFlags.Clear(AnimFlags::eAnimate);
 
     FollowLift_42EE90();
 
@@ -6306,7 +6306,7 @@ void Abe::Motion_59_DeathDropFall()
 
 void Abe::Motion_60_Dead()
 {
-    mAnim.mFlags.Clear(AnimFlags::eAnimate);
+    GetAnimation().mFlags.Clear(AnimFlags::eAnimate);
     FollowLift_42EE90();
 
     switch (field_114_gnFrame)
@@ -6481,7 +6481,7 @@ void Abe::Motion_61_Respawn()
         return;
     }
 
-    mAnim.mFlags.Clear(AnimFlags::eAnimate);
+    GetAnimation().mFlags.Clear(AnimFlags::eAnimate);
     FollowLift_42EE90();
     EventBroadcast(kEventResetting, this);
 
@@ -6545,7 +6545,7 @@ void Abe::Motion_61_Respawn()
 
             BaseAliveGameObjectLastLineYPos = mYPos;
 
-            mAnim.mFlags.Set(AnimFlags::eFlipX, field_2A8_flags.Get(Flags_2A8::eAbeSpawnDir));
+            GetAnimation().mFlags.Set(AnimFlags::eFlipX, field_2A8_flags.Get(Flags_2A8::eAbeSpawnDir));
             MapFollowMe(TRUE);
             SetTint(sAbeTints_4C6438, gMap.mCurrentLevel);
             if (gElum)
@@ -6554,25 +6554,25 @@ void Abe::Motion_61_Respawn()
             }
             if (mSpriteScale == FP_FromDouble(0.5))
             {
-                mAnim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
+                GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_Half_13);
                 mScale = Scale::Bg;
                 if (gElum)
                 {
-                    gElum->mAnim.mRenderLayer = Layer::eLayer_ZapLinesMudsElum_Half_9;
+                    gElum->GetAnimation().SetRenderLayer(Layer::eLayer_ZapLinesMudsElum_Half_9);
                     gElum->mScale = Scale::Bg;
                 }
             }
             else
             {
-                mAnim.mRenderLayer = Layer::eLayer_AbeMenu_32;
+                GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_32);
                 mScale = Scale::Fg;
                 if (gElum)
                 {
-                    gElum->mAnim.mRenderLayer = Layer::eLayer_ZapLinesElumMuds_28;
+                    gElum->GetAnimation().SetRenderLayer(Layer::eLayer_ZapLinesElumMuds_28);
                     gElum->mScale = Scale::Fg;
                 }
             }
-            mAnim.mFlags.Clear(AnimFlags::eRender);
+            GetAnimation().mFlags.Clear(AnimFlags::eRender);
             EventBroadcast(kEventDeathResetEnd, this);
 
             //TODO not used?
@@ -6643,7 +6643,7 @@ void Abe::Motion_61_Respawn()
                 mShadow->mFlags.Clear(Shadow::Flags::eShadowAtBottom);
                 MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
                 field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
-                mAnim.mFlags.Set(AnimFlags::eRender);
+                GetAnimation().mFlags.Set(AnimFlags::eRender);
                 mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
                 mCurrentMotion = eAbeMotions::Motion_3_Fall;
 
@@ -6695,9 +6695,9 @@ void Abe::Motion_62_LoadedSaveSpawn()
         sActiveHero->field_110_state.raw = static_cast<s16>(pSaveData->field_244_stone_state);
         sActiveHero->field_114_gnFrame = pSaveData->field_248_gnFrame;
         sActiveHero->mBaseAliveGameObjectLastAnimFrame = pSaveData->field_240_last_anim_frame;
-        sActiveHero->mAnim.mFlags.Set(AnimFlags::eFlipX, pSaveData->field_23C_ah_flipX & 1);
+        sActiveHero->GetAnimation().mFlags.Set(AnimFlags::eFlipX, pSaveData->field_23C_ah_flipX & 1);
         sActiveHero->MapFollowMe(TRUE);
-        sActiveHero->mAnim.mFlags.Set(AnimFlags::eRender);
+        sActiveHero->GetAnimation().mFlags.Set(AnimFlags::eRender);
         if (sActiveHero->field_19C_throwable_count)
         {
             if (!gThrowableArray)
@@ -6732,7 +6732,7 @@ void Abe::Motion_62_LoadedSaveSpawn()
             if (gElum)
             {
                 gElum->mBaseGameObjectFlags.Clear(Options::eUpdatable_Bit2);
-                gElum->mAnim.mFlags.Clear(AnimFlags::eRender);
+                gElum->GetAnimation().mFlags.Clear(AnimFlags::eRender);
                 gElum->mContinueRect = pSaveData->field_28C_elum_continue_rect;
                 gElum->mContinueZoneNumber = pSaveData->field_294_continue_zone_number;
                 gElum->field_142_zone_number = pSaveData->field_296_elum_zone_number;
@@ -6744,7 +6744,7 @@ void Abe::Motion_62_LoadedSaveSpawn()
                 gElum->mCurrentPath = pSaveData->field_262_elum_path_number;
                 gElum->mXPos = FP_FromInteger(pSaveData->field_268_elum_xpos);
                 gElum->mYPos = FP_FromInteger(pSaveData->field_26C_elum_ypos);
-                gElum->mAnim.mFlags.Set(AnimFlags::eFlipX, pSaveData->field_272_elum_flipX & 1);
+                gElum->GetAnimation().mFlags.Set(AnimFlags::eFlipX, pSaveData->field_272_elum_flipX & 1);
                 gElum->mBaseAliveGameObjectLastAnimFrame = 0;
                 gElum->field_120_bUnknown = 1;
                 gElum->mDontFollowAbe = pSaveData->field_276_bDontFollowAbe;
@@ -6798,7 +6798,7 @@ void Abe::Motion_62_LoadedSaveSpawn()
                 }
                 gElum->MapFollowMe(TRUE);
                 gElum->mBaseGameObjectFlags.Set(Options::eUpdatable_Bit2);
-                gElum->mAnim.mFlags.Set(AnimFlags::eRender);
+                gElum->GetAnimation().mFlags.Set(AnimFlags::eRender);
             }
         }
     }
@@ -6823,7 +6823,7 @@ void Abe::Motion_63_TurnToRun()
 
         if (mCurrentMotion == eAbeMotions::Motion_63_TurnToRun)
         {
-            if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+            if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 mCurrentMotion = eAbeMotions::Motion_35_RunLoop;
             }
@@ -6835,16 +6835,16 @@ void Abe::Motion_64_LedgeAscend()
 {
     FollowLift_42EE90();
 
-    if (mAnim.mCurrentFrame == 0)
+    if (GetAnimation().GetCurrentFrame() == 0)
     {
         Environment_SFX_42A220(EnvironmentSfx::eExhaustingHoistNoise_10, 0, 0x7FFF, this);
     }
-    if (mAnim.mCurrentFrame == 4)
+    if (GetAnimation().GetCurrentFrame() == 4)
     {
         Environment_SFX_42A220(EnvironmentSfx::eRunJumpOrLedgeHoist_11, 0, 0x7FFF, this);
         mShadow->mFlags.Clear(Shadow::eShadowAtBottom);
     }
-    else if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    else if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         MapFollowMe(1);
         ToIdle_422D50();
@@ -6855,12 +6855,12 @@ void Abe::Motion_65_LedgeDescend()
 {
     FollowLift_42EE90();
 
-    if (mAnim.mCurrentFrame == 2)
+    if (GetAnimation().GetCurrentFrame() == 2)
     {
         Environment_SFX_42A220(EnvironmentSfx::eRunJumpOrLedgeHoist_11, 0, 0x7FFF, this);
         mShadow->mFlags.Toggle(Shadow::eShadowAtBottom);
     }
-    else if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    else if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eAbeMotions::Motion_66_LedgeHang;
     }
@@ -6936,7 +6936,7 @@ void Abe::Motion_67_ToOffScreenHoist()
 
 void Abe::Motion_68_LedgeHangWobble()
 {
-    if (mAnim.mCurrentFrame == 0)
+    if (GetAnimation().GetCurrentFrame() == 0)
     {
         if (!field_2AA_flags.Get(Flags_2AA::e2AA_Bit2_bSfxPlaying))
         {
@@ -6944,7 +6944,7 @@ void Abe::Motion_68_LedgeHangWobble()
             Environment_SFX_42A220(EnvironmentSfx::eWalkingFootstep_1, 0, 127, this);
         }
     }
-    else if (mAnim.mCurrentFrame == 2)
+    else if (GetAnimation().GetCurrentFrame() == 2)
     {
         if (!field_2AA_flags.Get(Flags_2AA::e2AA_Bit2_bSfxPlaying))
         {
@@ -6981,7 +6981,7 @@ void Abe::Motion_68_LedgeHangWobble()
             mShadow->mFlags.Clear(Shadow::eShadowAtBottom);
             BaseAliveGameObjectLastLineYPos = mYPos;
         }
-        else if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+        else if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
         {
             field_2AA_flags.Clear(Flags_2AA::e2AA_Bit2_bSfxPlaying);
             mCurrentMotion = eAbeMotions::Motion_66_LedgeHang;
@@ -7010,12 +7010,12 @@ void Abe::Motion_70_Knockback()
         field_1A0_portal = nullptr;
     }
 
-    if (mAnim.mCurrentFrame == 12)
+    if (GetAnimation().GetCurrentFrame() == 12)
     {
         FallOnBombs_4231B0();
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eRender))
+    if (GetAnimation().mFlags.Get(AnimFlags::eRender))
     {
         if (BaseAliveGameObjectCollisionLine)
         {
@@ -7029,7 +7029,7 @@ void Abe::Motion_70_Knockback()
             if ((gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms
                  || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn
                  || gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom)
-                && mAnim.mCurrentFrame == 7)
+                && GetAnimation().GetCurrentFrame() == 7)
             {
                 Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 80, -200, this);
                 EventBroadcast(kEventNoise, this);
@@ -7049,9 +7049,9 @@ void Abe::Motion_70_Knockback()
         }
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eForwardLoopCompleted))
+    if (GetAnimation().mFlags.Get(AnimFlags::eForwardLoopCompleted))
     {
-        if ((BaseAliveGameObjectCollisionLine || !mAnim.mFlags.Get(AnimFlags::eRender)))
+        if ((BaseAliveGameObjectCollisionLine || !GetAnimation().mFlags.Get(AnimFlags::eRender)))
         {
             if (mRidingElum)
             {
@@ -7078,7 +7078,7 @@ void Abe::Motion_71_KnockbackGetUp()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         ToIdle_422D50();
     }
@@ -7089,7 +7089,7 @@ void Abe::Motion_72_PushWall()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    if (mAnim.mCurrentFrame == 10)
+    if (GetAnimation().GetCurrentFrame() == 10)
     {
         if (Math_NextRandom() <= 127u)
         {
@@ -7097,7 +7097,7 @@ void Abe::Motion_72_PushWall()
         }
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         ToIdle_422D50();
     }
@@ -7105,7 +7105,7 @@ void Abe::Motion_72_PushWall()
 
 void Abe::Motion_73_RollingKnockback()
 {
-    if (mAnim.mCurrentFrame == 12)
+    if (GetAnimation().GetCurrentFrame() == 12)
     {
         FallOnBombs_4231B0();
     }
@@ -7113,7 +7113,7 @@ void Abe::Motion_73_RollingKnockback()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         if (field_114_gnFrame <= static_cast<s32>(sGnFrame))
         {
@@ -7135,11 +7135,11 @@ void Abe::Motion_74_JumpIntoWell()
 
     if (mSpriteScale == FP_FromDouble(0.5))
     {
-        mAnim.mRenderLayer = Layer::eLayer_BeforeWell_Half_3;
+        GetAnimation().SetRenderLayer(Layer::eLayer_BeforeWell_Half_3);
     }
     else
     {
-        mAnim.mRenderLayer = Layer::eLayer_BeforeWell_22;
+        GetAnimation().SetRenderLayer(Layer::eLayer_BeforeWell_22);
     }
 
     Motion_77_WellBegin();
@@ -7158,7 +7158,7 @@ void Abe::Motion_76_ToWellShotOut()
 void Abe::Motion_77_WellBegin()
 {
     EventBroadcast(kEventNoise, this);
-    if (mAnim.mCurrentFrame > 10)
+    if (GetAnimation().GetCurrentFrame() > 10)
     {
         mShadow->mFlags.Clear(Shadow::Flags::eEnabled);
 
@@ -7189,18 +7189,18 @@ void Abe::Motion_77_WellBegin()
             mXPos += mSpriteScale;
         }
     }
-    if (mAnim.mCurrentFrame == 11)
+    if (GetAnimation().GetCurrentFrame() == 11)
     {
         if (mSpriteScale == FP_FromDouble(0.5))
         {
-            mAnim.mRenderLayer = Layer::eLayer_BeforeWell_Half_3;
+            GetAnimation().SetRenderLayer(Layer::eLayer_BeforeWell_Half_3);
         }
         else
         {
-            mAnim.mRenderLayer = Layer::eLayer_BeforeWell_22;
+            GetAnimation().SetRenderLayer(Layer::eLayer_BeforeWell_22);
         }
     }
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         field_114_gnFrame = 15;
         SfxPlayMono(relive::SoundEffects::WellEnter, 0, mSpriteScale);
@@ -7296,11 +7296,11 @@ void Abe::Motion_78_InsideWellLocal()
 
         if (mVelX >= FP_FromInteger(0))
         {
-            mAnim.mFlags.Clear(AnimFlags::eFlipX);
+            GetAnimation().mFlags.Clear(AnimFlags::eFlipX);
         }
         else
         {
-            mAnim.mFlags.Set(AnimFlags::eFlipX);
+            GetAnimation().mFlags.Set(AnimFlags::eFlipX);
         }
 
         SfxPlayMono(relive::SoundEffects::WellExit, 0, mSpriteScale);
@@ -7309,11 +7309,11 @@ void Abe::Motion_78_InsideWellLocal()
 
         if (mSpriteScale == FP_FromDouble(0.5))
         {
-            mAnim.mRenderLayer = Layer::eLayer_BeforeWell_Half_3;
+            GetAnimation().SetRenderLayer(Layer::eLayer_BeforeWell_Half_3);
         }
         else
         {
-            mAnim.mRenderLayer = Layer::eLayer_BeforeWell_22;
+            GetAnimation().SetRenderLayer(Layer::eLayer_BeforeWell_22);
         }
 
         BaseAliveGameObjectCollisionLine = nullptr;
@@ -7342,18 +7342,18 @@ void Abe::Motion_79_WellShotOut()
             mYPos);
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eForwardLoopCompleted)
+    if (GetAnimation().mFlags.Get(AnimFlags::eForwardLoopCompleted)
         || (mCurrentMotion != eAbeMotions::Motion_79_WellShotOut
             && mCurrentMotion != eAbeMotions::Motion_85_ToWellShotOut
             && mCurrentMotion != eAbeMotions::Motion_76_ToWellShotOut))
     {
         if (mSpriteScale == FP_FromDouble(0.5))
         {
-            mAnim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
+            GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_Half_13);
         }
         else
         {
-            mAnim.mRenderLayer = Layer::eLayer_AbeMenu_32;
+            GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_32);
         }
 
         mShadow->mFlags.Set(Shadow::eEnabled);
@@ -7551,14 +7551,14 @@ void Abe::Motion_86_FallLandDie()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    if (mAnim.mCurrentFrame == 0)
+    if (GetAnimation().GetCurrentFrame() == 0)
     {
         SfxPlayMono(relive::SoundEffects::KillEffect, 85);
         SND_SEQ_Play_477760(SeqId::eHitBottomOfDeathPit_10, 1, 95, 95);
         relive_new ScreenShake(true);
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         if (static_cast<s32>(sGnFrame) >= field_114_gnFrame)
         {
@@ -7583,7 +7583,7 @@ void Abe::Motion_88_HandstoneBegin()
     {
         case StoneStates::eHandstoneStart_0:
         {
-            if (mAnim.mFlags.Get(AnimFlags::eForwardLoopCompleted))
+            if (GetAnimation().mFlags.Get(AnimFlags::eForwardLoopCompleted))
             {
                 field_164_pCircularFade = Make_Circular_Fade(
                     mXPos,
@@ -7592,9 +7592,9 @@ void Abe::Motion_88_HandstoneBegin()
                     1,
                     0);
 
-                field_164_pCircularFade->mAnim.mFlags.Set(
+                field_164_pCircularFade->GetAnimation().mFlags.Set(
                     AnimFlags::eFlipX,
-                    mAnim.mFlags.Get(AnimFlags::eFlipX));
+                    GetAnimation().mFlags.Get(AnimFlags::eFlipX));
 
                 field_110_state.stone = StoneStates::eGetHandstoneType_1;
                 SfxPlayMono(relive::SoundEffects::IngameTransition, 90);
@@ -7715,7 +7715,7 @@ void Abe::Motion_88_HandstoneBegin()
                         break;*/
                     case ReliveTypes::eHandStone:
                     {
-                        mAnim.mFlags.Clear(AnimFlags::eRender);
+                        GetAnimation().mFlags.Clear(AnimFlags::eRender);
                         field_110_state.stone = StoneStates::eWaitForInput_6;
                         field_16E_cameraIdx = 1;
                         field_164_pCircularFade->mBaseGameObjectFlags.Set(Options::eDead);
@@ -7762,9 +7762,9 @@ void Abe::Motion_88_HandstoneBegin()
                     0,
                     0);
 
-                field_164_pCircularFade->mAnim.mFlags.Set(
+                field_164_pCircularFade->GetAnimation().mFlags.Set(
                     AnimFlags::eFlipX,
-                    mAnim.mFlags.Get(AnimFlags::eFlipX));
+                    GetAnimation().mFlags.Get(AnimFlags::eFlipX));
             }
             break;
         }
@@ -7852,7 +7852,7 @@ void Abe::Motion_88_HandstoneBegin()
         case StoneStates::eSetActiveCamToAbe_12:
             if (field_158_pDeathFadeout->field_6E_bDone)
             {
-                mAnim.mFlags.Set(AnimFlags::eRender);
+                GetAnimation().mFlags.Set(AnimFlags::eRender);
                 field_110_state.stone = StoneStates::eCircularFadeExit_13;
                 gMap.SetActiveCam(field_190_level, field_192_path, field_194_camera, CameraSwapEffects::eInstantChange_0, 0, 0);
             }
@@ -7864,9 +7864,9 @@ void Abe::Motion_88_HandstoneBegin()
 
             field_164_pCircularFade = Make_Circular_Fade(mXPos, mYPos, mSpriteScale, 0, 0);
             field_110_state.stone = StoneStates::eHandstoneEnd_5;
-            field_164_pCircularFade->mAnim.mFlags.Set(
+            field_164_pCircularFade->GetAnimation().mFlags.Set(
                 AnimFlags::eFlipX,
-                mAnim.mFlags.Get(AnimFlags::eFlipX));
+                GetAnimation().mFlags.Get(AnimFlags::eFlipX));
 
             if (sAbeSound_507730)
             {
@@ -7882,7 +7882,7 @@ void Abe::Motion_88_HandstoneBegin()
 
 void Abe::Motion_89_HandstoneEnd()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eForwardLoopCompleted))
+    if (GetAnimation().mFlags.Get(AnimFlags::eForwardLoopCompleted))
     {
         mCurrentMotion = eAbeMotions::Motion_0_Idle;
     }
@@ -7890,7 +7890,7 @@ void Abe::Motion_89_HandstoneEnd()
 
 void Abe::Motion_90_GrenadeMachineUse()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eForwardLoopCompleted))
+    if (GetAnimation().mFlags.Get(AnimFlags::eForwardLoopCompleted))
     {
         mCurrentMotion = eAbeMotions::Motion_0_Idle;
     }
@@ -7898,7 +7898,7 @@ void Abe::Motion_90_GrenadeMachineUse()
 
 void Abe::Motion_91_FallingFromGrab()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eAbeMotions::Motion_87_ToFall;
     }
@@ -7930,7 +7930,7 @@ void Abe::Motion_92_ForceDownFromHoist()
 
 void Abe::Motion_93_WalkOffEdge()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eAbeMotions::Motion_87_ToFall;
     }
@@ -7939,7 +7939,7 @@ void Abe::Motion_93_WalkOffEdge()
 
 void Abe::Motion_94_RunOffEdge()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eAbeMotions::Motion_87_ToFall;
     }
@@ -7948,7 +7948,7 @@ void Abe::Motion_94_RunOffEdge()
 
 void Abe::Motion_95_SneakOffEdge()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eAbeMotions::Motion_87_ToFall;
     }
@@ -7957,7 +7957,7 @@ void Abe::Motion_95_SneakOffEdge()
 
 void Abe::Motion_96_HopToFall()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         mXPos += (mSpriteScale * FP_FromInteger(5));
     }
@@ -7968,7 +7968,7 @@ void Abe::Motion_96_HopToFall()
 
     mVelY += (mSpriteScale * FP_FromInteger(4));
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eAbeMotions::Motion_87_ToFall;
     }
@@ -7978,7 +7978,7 @@ void Abe::Motion_96_HopToFall()
 
 void Abe::Motion_97_RunJumpToFall()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eAbeMotions::Motion_87_ToFall;
     }
@@ -7989,7 +7989,7 @@ void Abe::Motion_98_LandSoft()
 {
     FollowLift_42EE90();
 
-    if (mAnim.mCurrentFrame == 2)
+    if (GetAnimation().GetCurrentFrame() == 2)
     {
         if (!(field_2A8_flags.Get(Flags_2A8::e2A8_Bit8_bLandSoft)))
         {
@@ -8014,7 +8014,7 @@ void Abe::Motion_98_LandSoft()
         }
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         ToIdle_422D50();
     }
@@ -8024,7 +8024,7 @@ void Abe::Motion_99_HoistBeginLong()
 {
     FollowLift_42EE90();
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         BaseAliveGameObjectLastLineYPos = mYPos;
         mVelY = (mSpriteScale * FP_FromInteger(-8)) * FP_FromDouble(1.3);
@@ -8037,7 +8037,7 @@ void Abe::Motion_99_HoistBeginLong()
 
 void Abe::Motion_100_RollOffLedge()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eAbeMotions::Motion_87_ToFall;
     }
@@ -8046,7 +8046,7 @@ void Abe::Motion_100_RollOffLedge()
 
 void Abe::Motion_101_LeverUse()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         ToIdle_422D50();
     }
@@ -8178,7 +8178,7 @@ void Abe::Motion_115_ElumSpeak()
 {
     EventBroadcast(kEventSpeaking, this);
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eAbeMotions::Motion_103_ElumIdle;
     }
@@ -8241,7 +8241,7 @@ void Abe::Motion_126_ElumBeesStruggling()
 
 void Abe::Motion_127_SlapBomb()
 {
-    if (sActiveHero->mAnim.mCurrentFrame >= 6)
+    if (sActiveHero->GetAnimation().GetCurrentFrame() >= 6)
     {
         if (field_15C_pThrowable)
         {
@@ -8251,7 +8251,7 @@ void Abe::Motion_127_SlapBomb()
         }
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eAbeMotions::Motion_19_CrouchIdle;
     }
@@ -8261,7 +8261,7 @@ void Abe::Motion_128_KnockForward()
 {
     ElumFree_4228F0();
 
-    if (mAnim.mCurrentFrame == 12)
+    if (GetAnimation().GetCurrentFrame() == 12)
     {
         FallOnBombs_4231B0();
     }
@@ -8271,7 +8271,7 @@ void Abe::Motion_128_KnockForward()
 
     FollowLift_42EE90();
 
-    if (mAnim.mFlags.Get(AnimFlags::eRender))
+    if (GetAnimation().mFlags.Get(AnimFlags::eRender))
     {
         if (BaseAliveGameObjectCollisionLine)
         {
@@ -8293,9 +8293,9 @@ void Abe::Motion_128_KnockForward()
         }
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eForwardLoopCompleted))
+    if (GetAnimation().mFlags.Get(AnimFlags::eForwardLoopCompleted))
     {
-        if ((BaseAliveGameObjectCollisionLine || !mAnim.mFlags.Get(AnimFlags::eRender)) /*&& !field_104_pending_resource_count*/)
+        if ((BaseAliveGameObjectCollisionLine || !GetAnimation().mFlags.Get(AnimFlags::eRender)) /*&& !field_104_pending_resource_count*/)
         {
             if (mRidingElum)
             {
@@ -8319,7 +8319,7 @@ void Abe::Motion_128_KnockForward()
 
 void Abe::Motion_129_RollingKnockForward()
 {
-    if (mAnim.mCurrentFrame == 12)
+    if (GetAnimation().GetCurrentFrame() == 12)
     {
         FallOnBombs_4231B0();
     }
@@ -8327,7 +8327,7 @@ void Abe::Motion_129_RollingKnockForward()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    if (mAnim.mFlags.Get(AnimFlags::eForwardLoopCompleted))
+    if (GetAnimation().mFlags.Get(AnimFlags::eForwardLoopCompleted))
     {
         if (field_114_gnFrame <= static_cast<s32>(sGnFrame))
         {
@@ -8348,7 +8348,7 @@ void Abe::Motion_130_KnockForwardGetUp()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         ToIdle_422D50();
     }
@@ -8370,7 +8370,7 @@ void Abe::Motion_133_LiftGrabBegin()
     pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
 
     mVelY = FP_FromInteger(0);
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         if (Input().IsAnyPressed(sInputKey_Up))
         {
@@ -8395,7 +8395,7 @@ void Abe::Motion_133_LiftGrabBegin()
 void Abe::Motion_134_LiftGrabEnd()
 {
     mVelY = FP_FromInteger(0);
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         ToIdle_422D50();
     }
@@ -8442,7 +8442,7 @@ void Abe::Motion_135_LiftGrabIdle()
 
 void Abe::Motion_136_ElumMountEnd()
 {
-    switch (mAnim.mCurrentFrame)
+    switch (GetAnimation().GetCurrentFrame())
     {
         case 0:
             if (!field_2AA_flags.Get(Flags_2AA::e2AA_Bit2_bSfxPlaying))
@@ -8482,7 +8482,7 @@ void Abe::Motion_136_ElumMountEnd()
             break;
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eAbeMotions::Motion_103_ElumIdle;
         sControlledCharacter = gElum;
@@ -8494,7 +8494,7 @@ void Abe::Motion_136_ElumMountEnd()
 
 void Abe::Motion_137_ElumUnmountBegin()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eAbeMotions::Motion_138_ElumUnmountEnd;
     }
@@ -8502,7 +8502,7 @@ void Abe::Motion_137_ElumUnmountBegin()
 
 void Abe::Motion_138_ElumUnmountEnd()
 {
-    switch (mAnim.mCurrentFrame)
+    switch (GetAnimation().GetCurrentFrame())
     {
         case 4:
             if (!field_2AA_flags.Get(Flags_2AA::e2AA_Bit2_bSfxPlaying))
@@ -8541,7 +8541,7 @@ void Abe::Motion_138_ElumUnmountEnd()
             break;
     }
 
-    if (mAnim.mCurrentFrame >= 28)
+    if (GetAnimation().GetCurrentFrame() >= 28)
     {
         mRidingElum = false;
         BaseAliveGameObjectCollisionLine = gElum->BaseAliveGameObjectCollisionLine;
@@ -8580,7 +8580,7 @@ void Abe::Motion_138_ElumUnmountEnd()
 
 void Abe::Motion_139_ElumMountBegin()
 {
-    if (/*!field_104_pending_resource_count &&*/ mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (/*!field_104_pending_resource_count &&*/ GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         /*
         while (!ResourceManager::FreeResource_455550(field_1A4_resources.res[61]))
@@ -8633,13 +8633,13 @@ void Abe::Motion_141_BeesStrugglingOnLift()
 
 void Abe::Motion_142_RockThrowStandingHold()
 {
-    if (mAnim.mCurrentFrame >= 4)
+    if (GetAnimation().GetCurrentFrame() >= 4)
     {
         if (Input().IsAnyPressed(sInputKey_Right | sInputKey_Left | sInputKey_Up | sInputKey_Down))
         {
             if (Input().IsAnyPressed(sInputKey_Right))
             {
-                if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+                if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                 {
                     field_19D_throw_direction = 0;
                 }
@@ -8650,7 +8650,7 @@ void Abe::Motion_142_RockThrowStandingHold()
             }
             else if (Input().IsAnyPressed(sInputKey_Left))
             {
-                if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+                if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                 {
                     field_19D_throw_direction = 2;
                 }
@@ -8685,12 +8685,12 @@ void Abe::Motion_142_RockThrowStandingHold()
 
 void Abe::Motion_143_RockThrowStandingThrow()
 {
-    if (mAnim.mCurrentFrame == 0)
+    if (GetAnimation().GetCurrentFrame() == 0)
     {
         SfxPlayMono(relive::SoundEffects::AirStream, 0, mSpriteScale);
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eForwardLoopCompleted))
+    if (GetAnimation().mFlags.Get(AnimFlags::eForwardLoopCompleted))
     {
         ToIdle_422D50();
     }
@@ -8698,7 +8698,7 @@ void Abe::Motion_143_RockThrowStandingThrow()
 
 void Abe::Motion_144_RockThrowStandingEnd()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eForwardLoopCompleted))
+    if (GetAnimation().mFlags.Get(AnimFlags::eForwardLoopCompleted))
     {
         ToIdle_422D50();
     }
@@ -8706,7 +8706,7 @@ void Abe::Motion_144_RockThrowStandingEnd()
 
 void Abe::Motion_145_RockThrowCrouchingHold()
 {
-    if (mAnim.mCurrentFrame >= 4)
+    if (GetAnimation().GetCurrentFrame() >= 4)
     {
         if (Input().IsAnyPressed(sInputKey_Right | sInputKey_Left | sInputKey_Up | sInputKey_Down))
         {
@@ -8735,12 +8735,12 @@ void Abe::Motion_146_RockThrowCrouchingThrow()
 {
     FollowLift_42EE90();
 
-    if (!mAnim.mCurrentFrame)
+    if (!GetAnimation().GetCurrentFrame())
     {
         SfxPlayMono(relive::SoundEffects::AirStream, 0, mSpriteScale);
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eAbeMotions::Motion_19_CrouchIdle;
     }
@@ -8769,7 +8769,7 @@ void Abe::Motion_147_ShotRolling()
             mYPos,
             0))
     {
-        if (mAnim.mFlags.Get(AnimFlags::eForwardLoopCompleted))
+        if (GetAnimation().mFlags.Get(AnimFlags::eForwardLoopCompleted))
         {
             mYPos += FP_FromInteger(240);
             Mudokon_SFX(MudSounds::eDeathDropScream_17, 0, 0, this);
@@ -8801,7 +8801,7 @@ void Abe::Motion_148_Shot()
             mYPos,
             0))
     {
-        if (mAnim.mFlags.Get(AnimFlags::eForwardLoopCompleted))
+        if (GetAnimation().mFlags.Get(AnimFlags::eForwardLoopCompleted))
         {
             mYPos += FP_FromInteger(240);
             Mudokon_SFX(MudSounds::eDeathDropScream_17, 0, 0, this);
@@ -8812,17 +8812,17 @@ void Abe::Motion_148_Shot()
 
 void Abe::Motion_149_PickupItem()
 {
-    if (mAnim.mCurrentFrame == 7)
+    if (GetAnimation().GetCurrentFrame() == 7)
     {
         SfxPlayMono(relive::SoundEffects::PickupItem, 0, mSpriteScale);
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eForwardLoopCompleted))
+    if (GetAnimation().mFlags.Get(AnimFlags::eForwardLoopCompleted))
     {
         mCurrentMotion = eAbeMotions::Motion_19_CrouchIdle;
     }
 
-    if (sActiveHero->mAnim.mCurrentFrame >= 5)
+    if (sActiveHero->GetAnimation().GetCurrentFrame() >= 5)
     {
         if (field_15C_pThrowable)
         {
@@ -8861,8 +8861,8 @@ void Abe::Motion_150_Chant()
                 }
             }
 
-            if ((mAnim.mFlags.Get(AnimFlags::eIsLastFrame)
-                 || mAnim.mCurrentFrame == 3)
+            if ((GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame)
+                 || GetAnimation().GetCurrentFrame() == 3)
                 && !Input_IsChanting())
             {
                 mCurrentMotion = eAbeMotions::Motion_151_ChantEnd;
@@ -8884,7 +8884,7 @@ void Abe::Motion_150_Chant()
                     if (!field_188_pOrbWhirlWind)
                     {
                         FP xPos = {};
-                        if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+                        if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                         {
                             xPos = mXPos + FP_FromInteger(-4);
                         }
@@ -8996,7 +8996,7 @@ void Abe::Motion_150_Chant()
                 SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 70, 400);
                 field_110_state.chant = ChantStates::eWaitForUnpossessing_3;
             }
-            else if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+            else if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 mCurrentMotion = eAbeMotions::Motion_151_ChantEnd;
             }
@@ -9021,7 +9021,7 @@ void Abe::Motion_150_Chant()
             }
             if (static_cast<s32>(sGnFrame) > field_114_gnFrame)
             {
-                if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+                if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
                 {
                     mCurrentMotion = eAbeMotions::Motion_151_ChantEnd;
                 }
@@ -9050,7 +9050,7 @@ void Abe::Motion_151_ChantEnd()
 
     FollowLift_42EE90();
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         if (field_2A8_flags.Get(Flags_2A8::e2A8_Bit11_bLaughAtChantEnd))
         {
@@ -9091,10 +9091,10 @@ void Abe::Motion_156_DoorEnter()
     {
         case AbeDoorStates::eAbeComesIn_0:
         {
-            if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+            if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 field_110_state.door = AbeDoorStates::eWaitABit_2;
-                mAnim.mFlags.Clear(AnimFlags::eRender);
+                GetAnimation().mFlags.Clear(AnimFlags::eRender);
                 field_118_timer = sGnFrame + 3;
             }
             return;
@@ -9201,13 +9201,13 @@ void Abe::Motion_156_DoorEnter()
                 if (pPathDoor->mScale == relive::reliveScale::eHalf)
                 {
                     mSpriteScale = FP_FromDouble(0.5);
-                    mAnim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
+                    GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_Half_13);
                     mScale = Scale::Bg;
                 }
                 else
                 {
                     mSpriteScale = FP_FromInteger(1);
-                    mAnim.mRenderLayer = Layer::eLayer_AbeMenu_32;
+                    GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_32);
                     mScale = Scale::Fg;
                 }
             }
@@ -9224,7 +9224,7 @@ void Abe::Motion_156_DoorEnter()
                     mScale = Scale::Fg;
                 }
             }
-            mAnim.mFlags.Set(AnimFlags::eFlipX, pPathDoor->mExitDirection == relive::reliveXDirection::eRight);
+            GetAnimation().mFlags.Set(AnimFlags::eFlipX, pPathDoor->mExitDirection == relive::reliveXDirection::eRight);
             mXPos = FP_FromInteger((BaseAliveGameObjectPathTLV->Width()) / 2)
                           + FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeftX);
             MapFollowMe(TRUE);
@@ -9252,7 +9252,7 @@ void Abe::Motion_156_DoorEnter()
         {
             if (field_118_timer <= static_cast<s32>(sGnFrame))
             {
-                mAnim.mFlags.Set(AnimFlags::eRender);
+                GetAnimation().mFlags.Set(AnimFlags::eRender);
                 field_110_state.door = AbeDoorStates::eAbeComesIn_0;
                 mCurrentMotion = eAbeMotions::Motion_157_DoorExit;
             }
@@ -9265,7 +9265,7 @@ void Abe::Motion_156_DoorEnter()
 
 void Abe::Motion_157_DoorExit()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         BaseAliveGameObjectPathTLV = gMap.TLV_Get_At(
             nullptr,
@@ -9287,7 +9287,7 @@ void Abe::Motion_158_ElumKnockback()
 
 void Abe::Motion_159_Idle_RubEyes()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         ToIdle_422D50();
     }
@@ -9307,10 +9307,10 @@ void Abe::Motion_162_ToShrykull()
 {
     if (field_110_state.raw == 0)
     {
-        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
         {
-            mAnim.mFlags.Clear(AnimFlags::eAnimate);
-            mAnim.mFlags.Clear(AnimFlags::eRender);
+            GetAnimation().mFlags.Clear(AnimFlags::eAnimate);
+            GetAnimation().mFlags.Clear(AnimFlags::eRender);
 
             field_110_state.raw = 1;
 
@@ -9325,7 +9325,7 @@ void Abe::Motion_163_ShrykullEnd()
     {
         field_114_gnFrame = field_114_gnFrame - 1;
     }
-    else if (mAnim.mFlags.Get(AnimFlags::eForwardLoopCompleted))
+    else if (GetAnimation().mFlags.Get(AnimFlags::eForwardLoopCompleted))
     {
         mCurrentMotion = eAbeMotions::Motion_9_Speak;
         Mudokon_SFX(MudSounds::eLaugh1_8, 0, 0, this);
@@ -9334,7 +9334,7 @@ void Abe::Motion_163_ShrykullEnd()
 
 void Abe::Motion_164_PoisonGasDeath()
 {
-    switch (mAnim.mCurrentFrame)
+    switch (GetAnimation().GetCurrentFrame())
     {
         case 0:
             SFX_Play_Pitch(relive::SoundEffects::Choke, 127, 128);
@@ -9358,7 +9358,7 @@ void Abe::Motion_164_PoisonGasDeath()
             break;
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         const s32 v2 = field_114_gnFrame;
         field_114_gnFrame--;

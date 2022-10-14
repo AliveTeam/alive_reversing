@@ -30,8 +30,8 @@ AirExplosion::AirExplosion(FP xpos, FP ypos, FP scale, bool bSmall)
         Animation_Init(GetAnimRes(AnimId::AirExplosion));
     }
 
-    mAnim.mFlags.Clear(AnimFlags::eIsLastFrame);
-    mAnim.mRenderMode = TPageAbr::eBlend_1;
+    GetAnimation().mFlags.Clear(AnimFlags::eIsLastFrame);
+    GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
     field_F8_scale = scale;
     mScale = scale == FP_FromInteger(1) ? Scale::Fg : Scale::Bg;
     mSpriteScale = scale * FP_FromInteger(2);
@@ -70,7 +70,7 @@ void AirExplosion::VUpdate()
 
     PSX_RECT rect = {};
 
-    switch (mAnim.mCurrentFrame)
+    switch (GetAnimation().GetCurrentFrame())
     {
         case 2:
             rect.x = FP_GetExponent(FP_FromInteger(-20) * field_FC_explosion_size);
@@ -111,7 +111,7 @@ void AirExplosion::VUpdate()
             break;
     }
 
-    if (mAnim.mCurrentFrame > 9)
+    if (GetAnimation().GetCurrentFrame() > 9)
     {
         if (mSmallExplosion)
         {
@@ -123,7 +123,7 @@ void AirExplosion::VUpdate()
         }
     }
 
-    if (mAnim.mCurrentFrame == 1)
+    if (GetAnimation().GetCurrentFrame() == 1)
     {
         const AnimId explosionId = mSmallExplosion ? AnimId::AirExplosion_Small : AnimId::AirExplosion;
         auto pParticle = relive_new Particle(
@@ -139,22 +139,22 @@ void AirExplosion::VUpdate()
             }
 
             pParticle->mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
-            pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
+            pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
 
-            if (mAnim.mCurrentFrame == 3)
+            if (GetAnimation().GetCurrentFrame() == 3)
             {
-                pParticle->mAnim.mFlags.Set(AnimFlags::eFlipX);
+                pParticle->GetAnimation().mFlags.Set(AnimFlags::eFlipX);
                 pParticle->mSpriteScale = mSpriteScale * FP_FromDouble(0.5);
             }
             else
             {
-                pParticle->mAnim.mFlags.Clear(AnimFlags::eFlipX);
+                pParticle->GetAnimation().mFlags.Clear(AnimFlags::eFlipX);
                 pParticle->mSpriteScale = mSpriteScale * FP_FromDouble(0.25);
             }
         }
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eForwardLoopCompleted))
+    if (GetAnimation().mFlags.Get(AnimFlags::eForwardLoopCompleted))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

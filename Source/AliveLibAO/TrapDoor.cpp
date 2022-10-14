@@ -92,10 +92,10 @@ TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, Map* pMap, const Guid& tlvId)
     mTrapDoorY = FP_FromInteger(pTlv->mTopLeftY);
     mTrapDoorX = FP_FromInteger(pTlv->mTopLeftX);
 
-    mAnim.Set_Animation_Data(GetAnimRes(animId));
+    GetAnimation().Set_Animation_Data(GetAnimRes(animId));
     if (pTlv->mDirection == relive::reliveXDirection::eRight)
     {
-        mAnim.mFlags.Set(AnimFlags::eFlipX);
+        GetAnimation().mFlags.Set(AnimFlags::eFlipX);
     }
 
     mPlatformBaseXOffset = FP_GetExponent(FP_FromInteger(pTlv->mTopLeftX) - mXPos);
@@ -212,7 +212,7 @@ void TrapDoor::VUpdate()
                 mState = TrapDoorState::eOpening_1;
 
                 const s32 cur_lvl = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
-                mAnim.Set_Animation_Data(
+                GetAnimation().Set_Animation_Data(
                     GetAnimRes(sTrapDoorData_4BD4A0[cur_lvl].field_8_opening));
 
                 SFX_Play_Camera(relive::SoundEffects::Trapdoor, 70, direction);
@@ -226,7 +226,7 @@ void TrapDoor::VUpdate()
             break;
 
         case TrapDoorState::eOpening_1:
-            if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+            if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 mState = TrapDoorState::eOpen_2;
                 mStayOpenTimeTimer = 20; // NOTE: AE has another variable to save and re-use the path tlv value
@@ -238,7 +238,7 @@ void TrapDoor::VUpdate()
             if ((mSelfClosing == relive::reliveChoice::eYes && !mStayOpenTimeTimer) || SwitchStates_Get(mSwitchId) != SwitchStates_Get(mStartState))
             {
                 const s32 cur_lvl = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
-                mAnim.Set_Animation_Data(
+                GetAnimation().Set_Animation_Data(
                     GetAnimRes(sTrapDoorData_4BD4A0[cur_lvl].field_C_closing));
                 mState = TrapDoorState::eClosing_3;
 
@@ -253,7 +253,7 @@ void TrapDoor::VUpdate()
             break;
 
         case TrapDoorState::eClosing_3:
-            if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+            if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 mPlatformBaseCollisionLine = sCollisions->Add_Dynamic_Collision_Line(
                     mBoundingRect.x,

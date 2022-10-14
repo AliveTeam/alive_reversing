@@ -42,8 +42,8 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
     }
 
     //mAnim.mFlags.Set(AnimFlags::eBit25_bDecompressDone); // HIBYTE |= 1
-    mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
-    mAnim.mRenderLayer = layer;
+    GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
+    GetAnimation().SetRenderLayer(layer);
     field_132_number_of_sprites = field_12E_number_of_segments * field_130_number_of_pieces_per_segment;
 
 
@@ -60,11 +60,11 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
     field_F4_state = ZapLineState::eInit_0;
     field_126_alive_timer = 0;
 
-    if (mAnim.mFlags.Get(AnimFlags::eIs8Bit))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIs8Bit))
     {
         field_124_tPageMode = TPageMode::e8Bit_1;
     }
-    else if (mAnim.mFlags.Get(AnimFlags::eIs16Bit))
+    else if (GetAnimation().mFlags.Get(AnimFlags::eIs16Bit))
     {
         field_124_tPageMode = TPageMode::e16Bit_2;
     }
@@ -83,7 +83,7 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
         u0 = 4 * u0;
     }
 
-    auto pFrameHeader = mAnim.Get_FrameHeader(-1);
+    auto pFrameHeader = GetAnimation().Get_FrameHeader(-1);
 
     const auto frameW = pFrameHeader->mWidth;
     const auto frameH = pFrameHeader->mHeight;
@@ -100,7 +100,7 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
                 Poly_Set_SemiTrans(&pSprt->mBase.header, 1);
                 Poly_Set_Blending(&pSprt->mBase.header, 1);
 
-                pSprt->mAnim = &mAnim;
+                pSprt->mAnim = &GetAnimation();
 
                 SetUV0(pSprt, u0, 0 /*mAnim.mVramRect.y & 0xFF*/);
                 pSprt->field_14_w = static_cast<s16>(frameW - 1);
@@ -124,7 +124,7 @@ void ZapLine::CalculateSourceAndDestinationPositions(FP xPosSource, FP yPosSourc
 
     s16 xOff = 0;
     s16 yOff = 0;
-    mAnim.Get_Frame_Offset(&xOff, &yOff);
+    GetAnimation().Get_Frame_Offset(&xOff, &yOff);
 
     field_11C_x_position_source = FP_GetExponent(FP_FromInteger(xOff) + FP_FromInteger(field_11C_x_position_source));
     field_11E_y_position_source = FP_GetExponent(FP_FromInteger(yOff) + FP_FromInteger(field_11E_y_position_source));
@@ -384,7 +384,7 @@ void ZapLine::VRender(PrimHeader** ppOt)
             for (s32 j = 0; j < field_130_number_of_pieces_per_segment; j++)
             {
                 Prim_Sprt* pSprt = &field_134_pSprites->field_0_sprts[j + (i * field_130_number_of_pieces_per_segment)];
-                OrderingTable_Add(OtLayer(ppOt, mAnim.mRenderLayer), &pSprt[bufferIdx].mBase.header);
+                OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pSprt[bufferIdx].mBase.header);
             }
         }
 
@@ -396,7 +396,7 @@ void ZapLine::VRender(PrimHeader** ppOt)
 
         Prim_SetTPage* pTPage = &field_FC_tPage_p8[bufferIdx];
         Init_SetTPage(pTPage, 0, 0, calcTPage);
-        OrderingTable_Add(OtLayer(ppOt, mAnim.mRenderLayer), &pTPage->mBase);
+        OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pTPage->mBase);
 
         PSX_RECT* pRect = &field_144_rects[bufferIdx];
         pRect->x = 32767;

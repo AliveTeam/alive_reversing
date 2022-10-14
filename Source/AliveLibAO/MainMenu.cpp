@@ -302,7 +302,7 @@ MainMenuFade::MainMenuFade(s32 xpos, s32 ypos, buttonType buttonType, s32 bDestr
     LoadAnimations();
     Animation_Init(GetAnimRes(sButtonAnimIds[buttonType]));
 
-    mAnim.mRenderMode = TPageAbr::eBlend_1;
+    GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
     mXPos = FP_FromInteger(xpos);
     mYPos = FP_FromInteger(ypos);
     field_E8_bDestroyOnDone = static_cast<s16>(bDestroyOnDone);
@@ -344,14 +344,12 @@ void MainMenuFade::VUpdate()
         mRgbModifier = -mRgbModifier;
     }
 
-    mAnim.mBlue = static_cast<u8>(mRgbValue);
-    mAnim.mGreen = static_cast<u8>(mRgbValue);
-    mAnim.mRed = static_cast<u8>(mRgbValue);
+    GetAnimation().SetRGB(mRgbValue, mRgbValue, mRgbValue);
 }
 
 void MainMenuFade::VRender(PrimHeader** ppOt)
 {
-    mAnim.VRender(
+    GetAnimation().VRender(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         ppOt,
@@ -359,7 +357,7 @@ void MainMenuFade::VRender(PrimHeader** ppOt)
         0);
 
     PSX_RECT rect = {};
-    mAnim.Get_Frame_Rect(&rect);
+    GetAnimation().Get_Frame_Rect(&rect);
 }
 
 struct MainMenu_TransitionData final
@@ -663,18 +661,16 @@ Menu::Menu(relive::Path_TLV* /*pTlv*/, const Guid& tlvId)
         Animation_Init(GetAnimRes(AnimId::MenuDoor));
     }
 
-    mAnim.mBlue = 127;
-    mAnim.mGreen = 127;
-    mAnim.mRed = 127;
+    GetAnimation().SetRGB(127, 127, 127);
 
     mButtonAnim.Init(GetAnimRes(AnimId::MenuHighlight_Circle), this);
 
     mButtonAnim.mFlags.Clear(AnimFlags::eBlending);
     mButtonAnim.mFlags.Set(AnimFlags::eSemiTrans);
 
-    mButtonAnim.mRenderLayer = Layer::eLayer_MainMenuButtonBees_38;
-    mButtonAnim.field_14_scale = mSpriteScale;
-    mButtonAnim.mRenderMode = TPageAbr::eBlend_1;
+    mButtonAnim.SetRenderLayer(Layer::eLayer_MainMenuButtonBees_38);
+    mButtonAnim.SetSpriteScale(mSpriteScale);
+    mButtonAnim.SetRenderMode(TPageAbr::eBlend_1);
     mButtonAnim.LoadPal(GetPalRes(PalId::WhiteHighlite));
     field_204_flags &= ~6u;
     mButtonRgb = 40;
@@ -691,7 +687,7 @@ Menu::Menu(relive::Path_TLV* /*pTlv*/, const Guid& tlvId)
     {
         mFnUpdate = &Menu::WaitForDoorToOpen;
         field_204_flags |= 2;
-        mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuDoor));
+        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuDoor));
     }
 
     mFnRender = &Menu::Empty_Render;
@@ -729,9 +725,9 @@ Menu::Menu(relive::Path_TLV* /*pTlv*/, const Guid& tlvId)
         sActiveList = sFmvList;
         sListCount = ALIVE_COUNTOF(sFmvList);
 
-        mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
+        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
 
-        mAnim.ReloadPal();
+        GetAnimation().ReloadPal();
     }
 
     sAvailableControllers = (gJoystickAvailable != 0) + 1;
@@ -775,10 +771,10 @@ void Menu::VRender(PrimHeader** ppOt)
 {
     if ((field_204_flags >> 1) & 1)
     {
-        mAnim.VRender(184, 162, ppOt, 0, 0);
+        GetAnimation().VRender(184, 162, ppOt, 0, 0);
 
         PSX_RECT rect = {};
-        mAnim.Get_Frame_Rect(&rect);
+        GetAnimation().Get_Frame_Rect(&rect);
     }
     (this->*mFnRender)(ppOt);
 }
@@ -798,9 +794,7 @@ void Menu::VUpdate()
         mButtonRgbModifier = -mButtonRgbModifier;
     }
 
-    mButtonAnim.mRed = static_cast<u8>(mButtonRgb);
-    mButtonAnim.mBlue = static_cast<u8>(mButtonRgb);
-    mButtonAnim.mGreen = static_cast<u8>(mButtonRgb);
+    mButtonAnim.SetRGB(mButtonRgb, mButtonRgb, mButtonRgb);
 
     (this->*mFnUpdate)();
 }
@@ -809,10 +803,10 @@ void Menu::VUpdate()
 void Menu::WaitForDoorToOpen()
 {
     field_204_flags |= 2u;
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
-        mAnim.Set_Animation_Data(GetAnimRes(AnimId::AbeIntro));
-        mAnim.ReloadPal();
+        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::AbeIntro));
+        GetAnimation().ReloadPal();
         mFnUpdate = &Menu::WaitForAbesHeadPoppingThroughDoor;
        // ResourceManager::FreeResource_455550(field_E4_res_array[3]);
         field_204_flags &= ~2u;
@@ -826,17 +820,17 @@ void Menu::WaitForAbesHeadPoppingThroughDoor()
     if (field_1D8_timer <= static_cast<s32>(sGnFrame))
     {
         field_204_flags |= 2u;
-        mAnim.Set_Animation_Data(GetAnimRes(AnimId::AbeIntro));
+        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::AbeIntro));
         mFnUpdate = &Menu::AbePopThroughDoor;
     }
 }
 
 void Menu::AbePopThroughDoor()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         // Put abe into the bug eyed idle loop
-        mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_IdleBlink));
+        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_IdleBlink));
         mFnUpdate = &Menu::SayHelloWaitForLoading;
         mIdleInputCounter = 0;
         /*
@@ -862,7 +856,7 @@ void Menu::CopyRight_Update()
         {
             gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eMainMenu_1, CameraSwapEffects::ePlay1FMV_5, 30102, 0);
             mFnUpdate = &Menu::WaitForDoorToOpen;
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuDoor));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuDoor));
         }
     }
 }
@@ -1141,7 +1135,7 @@ void Menu::FMV_Or_Level_Select_Render(PrimHeader** ppOt)
 void Menu::SayHelloWaitForLoading()
 {
     // After 1 idle anim loop
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         // Wait for in progress loading (gamespeak ban) to finish
         /*
@@ -1150,18 +1144,18 @@ void Menu::SayHelloWaitForLoading()
             ProgressInProgressFilesLoading();
         }*/
         Mudokon_SFX(MudSounds::eHello_3, 0, 0, 0);
-        mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Hello));
+        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Hello));
         mFnUpdate = &Menu::WaitForAbeSayHello;
     }
 }
 
 void Menu::WaitForAbeSayHello()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         // Abe has finished saying hello, go to main menu handler
-        mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
-        mAnim.SetFrame(7u);
+        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
+        GetAnimation().SetFrame(7u);
         mFnUpdate = &Menu::MainScreen_Update;
         mFnRender = &Menu::MainScreen_Render;
         field_1D8_timer = sGnFrame + Math_RandomRange(300, 450);
@@ -1266,13 +1260,13 @@ void Menu::MainScreen_Update()
                 {
                     // Begin/new game
                     Mudokon_SFX(MudSounds::eFollowMe_4, 0, 0, 0);
-                    mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_FollowMe));
+                    GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_FollowMe));
                 }
                 else if (mSelectedButtonIndex.mainmenu == MainMenuOptions::eQuit_2)
                 {
                     // Quit
                     Mudokon_SFX(MudSounds::eGoodbye_12, 0, 0, 0);
-                    mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Goodbye));
+                    GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Goodbye));
                 }
                 else
                 {
@@ -1280,7 +1274,7 @@ void Menu::MainScreen_Update()
                     // 3 = load
                     // 4 = options
                     Mudokon_SFX(MudSounds::eOkay_13, 0, 0, 0);
-                    mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Ok));
+                    GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Ok));
                 }
 
                 mFnUpdate = &Menu::WaitForSpeakFinishAndStartChangeEffect;
@@ -1341,7 +1335,7 @@ void Menu::MainScreen_Update()
        // if (field_E4_res_array[0])
         {
             Mudokon_SFX(MudSounds::eOkay_13, 0, 0, 0);
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Ok));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Ok));
             mFnUpdate = &Menu::WaitForSpeakFinishAndStartChangeEffect;
         }
         // TODO: probably binned now
@@ -1375,7 +1369,7 @@ void Menu::MainScreen_Update()
        // if (field_E4_res_array[0])
         {
             Mudokon_SFX(MudSounds::eOkay_13, 0, 0, 0);
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Ok));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Ok));
             mFnUpdate = &Menu::WaitForSpeakFinishAndStartChangeEffect;
         }
         /*
@@ -1403,18 +1397,18 @@ void Menu::MainScreen_Update()
     // Some sort of idle anim toggling
     if (((field_204_flags) >> 2) & 1)
     {
-        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
         {
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
             field_204_flags &= ~4u;
             field_1D8_timer = sGnFrame + Math_RandomRange(120, 450);
         }
     }
     else if (field_1D8_timer <= static_cast<s32>(sGnFrame))
     {
-        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
         {
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_IdleBlink));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_IdleBlink));
             field_204_flags |= 4u;
         }
     }
@@ -1457,9 +1451,7 @@ void Menu::GoToSelectedMenuPage()
 
                 mFnUpdate = &Menu::ToNextMenuPage;
 
-                mButtonAnim.mBlue = 127;
-                mButtonAnim.mGreen = 127;
-                mButtonAnim.mRed = 127;
+                mButtonAnim.SetRGB(127, 127, 127);
                 break;
 
             // Begin
@@ -1495,7 +1487,7 @@ void Menu::GoToSelectedMenuPage()
 void Menu::WaitForSpeakFinishAndStartChangeEffect()
 {
     // Abe finished speaking?
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         if (mMenuTrans)
         {
@@ -1510,7 +1502,7 @@ void Menu::WaitForSpeakFinishAndStartChangeEffect()
             }
         }
 
-        mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
+        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
         mFnUpdate = &Menu::GoToSelectedMenuPage;
     }
 }
@@ -1912,7 +1904,7 @@ void Menu::Loading_Update()
                     ProgressInProgressFilesLoading();
                 }*/
 
-                mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
+                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
                 //ResourceManager::FreeResource_455550(field_E4_res_array[0]);
                 //field_E4_res_array[0] = nullptr;
                 //ResourceManager::Reclaim_Memory_455660(0);
@@ -2014,7 +2006,7 @@ void Menu::Options_Update()
     if (Input().IsAnyHeld(InputObject::PadIndex::First, InputCommands::eUnPause_OrConfirm | InputCommands::eDoAction))
     {
         Mudokon_SFX(MudSounds::eOkay_13, 0, 0, 0);
-        mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Ok));
+        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Ok));
         mFnUpdate = &Menu::Options_WaitForAbeSpeak_Update;
     }
 
@@ -2024,25 +2016,25 @@ void Menu::Options_Update()
         mSelectedButtonIndex.options_menu = OptionsMenuOptions::eMainMenu_2;
         mButtonAnim.Set_Animation_Data(GetAnimRes(sOptionsButtons[2].animId));
         Mudokon_SFX(MudSounds::eOkay_13, 0, 0, 0);
-        mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Ok));
+        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Ok));
         mFnUpdate = &Menu::Options_WaitForAbeSpeak_Update;
     }
 
     // Some sort of idle anim toggle?
     if (((field_204_flags) >> 2) & 1)
     {
-        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
         {
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
             field_204_flags &= ~4u;
             field_1D8_timer = sGnFrame + Math_RandomRange(120, 450);
         }
     }
     else if (field_1D8_timer <= static_cast<s32>(sGnFrame))
     {
-        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
         {
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_IdleBlink));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_IdleBlink));
             field_204_flags |= 4u;
         }
     }
@@ -2050,9 +2042,9 @@ void Menu::Options_Update()
 
 void Menu::Options_WaitForAbeSpeak_Update()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
-        mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
+        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
         mMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
         mFnUpdate = &Menu::Option_GoTo_Selected_Update;
     }
@@ -2367,7 +2359,7 @@ void Menu::Options_Sound_Update()
 
         Mudokon_SFX(MudSounds::eOkay_13, 0, 0, nullptr);
 
-        mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Ok));
+        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Ok));
         mFnUpdate = &Menu::Options_WaitForAbeSayOK_Update;
     }
 
@@ -2376,25 +2368,25 @@ void Menu::Options_Sound_Update()
         mSelectedButtonIndex.sound_menu = SoundOptions::eExit_2;
         mButtonAnim.Set_Animation_Data(GetAnimRes(sSoundOptionsButtons[2].animId));
         Mudokon_SFX(MudSounds::eOkay_13, 0, 0, nullptr);
-        mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Ok));
+        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Ok));
         mFnUpdate = &Menu::Options_WaitForAbeSayOK_Update;
     }
 
     // Idle anim toggle ?
     if (((field_204_flags) >> 2) & 1)
     {
-        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
         {
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
             field_204_flags &= ~4u;
             field_1D8_timer = sGnFrame + Math_RandomRange(120, 450);
         }
     }
     else if (field_1D8_timer <= static_cast<s32>(sGnFrame))
     {
-        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
         {
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_IdleBlink));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_IdleBlink));
             field_204_flags |= 4u;
         }
     }
@@ -2402,9 +2394,9 @@ void Menu::Options_Sound_Update()
 
 void Menu::Options_WaitForAbeSayOK_Update()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
-        mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
+        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
         mMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
         mFnUpdate = &Menu::Options_WaitForScreenTrans_Update;
     }
@@ -2459,12 +2451,12 @@ void Menu::GameSpeak_Update()
                 GetAnimRes(AnimId::OptionChantOrb_Particle));
             if (pParticle)
             {
-                pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
-                pParticle->mAnim.mRenderLayer = Layer::eLayer_Above_FG1_39;
+                pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+                pParticle->GetAnimation().SetRenderLayer(Layer::eLayer_Above_FG1_39);
             }
         }
 
-        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
         {
             if (mSelectedButtonIndex.gamespeak_menu == GameSpeakOptions::eChant_8)
             {
@@ -2481,7 +2473,7 @@ void Menu::GameSpeak_Update()
                         mMenuFade2 = nullptr;
                     }
 
-                    mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_ChantEnd));
+                    GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_ChantEnd));
                     mSelectedButtonIndex.gamespeak_menu = GameSpeakOptions::eHello_1;
                 }
             }
@@ -2490,12 +2482,12 @@ void Menu::GameSpeak_Update()
                 field_204_flags &= ~1u;
                 if (mSelectedButtonIndex.gamespeak_menu == GameSpeakOptions::eLaugh_6 || mSelectedButtonIndex.gamespeak_menu == GameSpeakOptions::eHello_1)
                 {
-                    mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_IdleBlink));
-                    mAnim.SetFrame(7u);
+                    GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_IdleBlink));
+                    GetAnimation().SetFrame(7u);
                 }
                 else
                 {
-                    mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
+                    GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
                 }
             }
         }
@@ -2508,7 +2500,7 @@ void Menu::GameSpeak_Update()
         SND_SEQ_PlaySeq_4775A0(SeqId::eMudokonChant1_11, 0, 1);
 
         field_204_flags |= 1u;
-        mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Chant));
+        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Chant));
         mSelectedButtonIndex.gamespeak_menu = GameSpeakOptions::eChant_8;
 
         if (!mMenuFade1)
@@ -2560,7 +2552,7 @@ void Menu::GameSpeak_Update()
         {
             Mudokon_SFX(MudSounds::eFollowMe_4, 0, 0, 0);
             field_204_flags |= 1u;
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_FollowMe));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_FollowMe));
             mSelectedButtonIndex.gamespeak_menu = GameSpeakOptions::eFollowMe_2;
             relive_new MainMenuFade(sGameSpeakButtons[2].xpos, sGameSpeakButtons[2].ypos + 36, buttonType::eCircle_0, 1);
         }
@@ -2568,7 +2560,7 @@ void Menu::GameSpeak_Update()
         {
             Mudokon_SFX(MudSounds::eWait_6, 0, 0, 0);
             field_204_flags |= 1u;
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Wait));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Wait));
             mSelectedButtonIndex.gamespeak_menu = GameSpeakOptions::eWait_0;
             relive_new MainMenuFade(sGameSpeakButtons[0].xpos, sGameSpeakButtons[0].ypos + 36, buttonType::eCircle_0, 1);
         }
@@ -2576,7 +2568,7 @@ void Menu::GameSpeak_Update()
         {
             Mudokon_SFX(MudSounds::eHello_3, 0, 0, 0);
             field_204_flags |= 1u;
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Hello));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Hello));
             mSelectedButtonIndex.gamespeak_menu = GameSpeakOptions::eHello_1;
             relive_new MainMenuFade(sGameSpeakButtons[1].xpos, sGameSpeakButtons[1].ypos + 36, buttonType::eCircle_0, 1);
         }
@@ -2584,7 +2576,7 @@ void Menu::GameSpeak_Update()
         {
             Mudokon_SFX(MudSounds::eAngry_5, 0, 0, 0);
             field_204_flags |= 1u;
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Anger));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Anger));
             mSelectedButtonIndex.gamespeak_menu = GameSpeakOptions::eAngry_3;
             relive_new MainMenuFade(sGameSpeakButtons[3].xpos, sGameSpeakButtons[3].ypos + 36, buttonType::eCircle_0, 1);
         }
@@ -2612,7 +2604,7 @@ void Menu::GameSpeak_Update()
         {
             Mudokon_SFX(MudSounds::eWhistleHigh_1, 0, 0, 0);
             field_204_flags |= 1u;
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_WhistleHigh));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_WhistleHigh));
             mSelectedButtonIndex.gamespeak_menu = GameSpeakOptions::eWhistleHigh_4;
             relive_new MainMenuFade(sGameSpeakButtons[4].xpos, sGameSpeakButtons[4].ypos + 36, buttonType::eCircle_0, 1);
         }
@@ -2620,7 +2612,7 @@ void Menu::GameSpeak_Update()
         {
             Mudokon_SFX(MudSounds::eWhistleLow_2, 0, 0, 0);
             field_204_flags |= 1u;
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_WhistleLow));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_WhistleLow));
             mSelectedButtonIndex.gamespeak_menu = GameSpeakOptions::eWhistleLow_5;
             relive_new MainMenuFade(sGameSpeakButtons[5].xpos, sGameSpeakButtons[5].ypos + 36, buttonType::eCircle_0, 1);
         }
@@ -2628,7 +2620,7 @@ void Menu::GameSpeak_Update()
         {
             Mudokon_SFX(MudSounds::eLaugh2_11, 0, 0, 0);
             field_204_flags |= 1u;
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Laugh));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Laugh));
             mSelectedButtonIndex.gamespeak_menu = GameSpeakOptions::eLaugh_6;
             relive_new MainMenuFade(sGameSpeakButtons[6].xpos, sGameSpeakButtons[6].ypos + 36, buttonType::eCircle_0, 1);
         }
@@ -2636,7 +2628,7 @@ void Menu::GameSpeak_Update()
         {
             Mudokon_SFX(MudSounds::eFart_7, 0, 0, 0);
             field_204_flags |= 1u;
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Fart));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Fart));
             mSelectedButtonIndex.gamespeak_menu = GameSpeakOptions::eFart_7;
             relive_new MainMenuFade(sGameSpeakButtons[7].xpos, sGameSpeakButtons[7].ypos + 36, buttonType::eCircle_0, 1);
         }
@@ -2658,7 +2650,7 @@ void Menu::GameSpeak_Update()
     Mudokon_SFX(MudSounds::eGoodbye_12, 0, 0, 0);
 
     field_204_flags |= 1u;
-    mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Goodbye));
+    GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Goodbye));
     mSelectedButtonIndex.gamespeak_menu = GameSpeakOptions::eMainMenu_9;
 
     relive_new MainMenuFade(sGameSpeakButtons[9].xpos, sGameSpeakButtons[9].ypos + 36, buttonType::eCircle_0, 1);
@@ -2686,9 +2678,9 @@ void Menu::CycleGameSpeakIdleAnims()
     {
         if ((field_204_flags >> 2) & 1)
         {
-            if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+            if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
-                mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
+                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
                 field_204_flags &= ~4u;
                 field_1D8_timer = sGnFrame + Math_RandomRange(120, 450);
             }
@@ -2697,9 +2689,9 @@ void Menu::CycleGameSpeakIdleAnims()
         {
             if (field_1D8_timer <= static_cast<s32>(sGnFrame))
             {
-                if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+                if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
                 {
-                    mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_IdleBlink));
+                    GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_IdleBlink));
                     field_204_flags |= 4u;
                 }
             }
@@ -3568,9 +3560,9 @@ void Menu::Load_BackToMainScreen_Update()
 
 void Menu::GameSpeakBack_WaitForAbeGoodbye_Update()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
-        mAnim.Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
+        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
         mMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
         mFnUpdate = &Menu::GamespeakBack_WaitForScreenTrans_Update;
     }

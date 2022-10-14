@@ -47,7 +47,7 @@ PullRingRope::PullRingRope(relive::Path_PullRingRope* pTlv, const Guid& tlvId)
 
     SetTint(sPullRingRopeTints_55FD1C, gMap.mCurrentLevel);
 
-    mAnim.mFlags.Set(AnimFlags::eSemiTrans);
+    GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
     mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
     mYPos = FP_FromInteger(pTlv->mTopLeftY + 24);
 
@@ -62,13 +62,13 @@ PullRingRope::PullRingRope(relive::Path_PullRingRope* pTlv, const Guid& tlvId)
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
-        mAnim.mRenderLayer = Layer::eLayer_8;
+        GetAnimation().SetRenderLayer(Layer::eLayer_8);
         mScale = Scale::Bg;
     }
     else
     {
         mSpriteScale = FP_FromInteger(1);
-        mAnim.mRenderLayer = Layer::eLayer_27;
+        GetAnimation().SetRenderLayer(Layer::eLayer_27);
         mScale = Scale::Fg;
     }
 
@@ -122,7 +122,7 @@ void PullRingRope::VUpdate()
     switch (field_100_state)
     {
         case States::eBeingPulled_1:
-            if (mAnim.mCurrentFrame == 2)
+            if (GetAnimation().GetCurrentFrame() == 2)
             {
                 SfxPlayMono(relive::SoundEffects::RingRopePull, 0);
             }
@@ -151,7 +151,7 @@ void PullRingRope::VUpdate()
                 field_FC_ring_puller_id = Guid{};
                 field_100_state = States::eReturnToIdle_3;
                 field_F4_stay_in_state_ticks = 3;
-                mAnim.Set_Animation_Data(GetAnimRes(AnimId::PullRingRope_UseEnd));
+                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::PullRingRope_UseEnd));
 
                 const s32 oldSwitchValue = SwitchStates_Get(field_102_switch_id);
                 SwitchStates_Do_Operation(field_102_switch_id, field_104_action);
@@ -222,7 +222,7 @@ void PullRingRope::VUpdate()
             {
                 mVelY = FP_FromInteger(0);
                 field_100_state = States::eIdle_0;
-                mAnim.Set_Animation_Data(GetAnimRes(AnimId::PullRingRope_Idle));
+                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::PullRingRope_Idle));
             }
             break;
 
@@ -256,7 +256,7 @@ s16 PullRingRope::VPull(BaseGameObject* pObj)
     field_100_state = States::eBeingPulled_1;
     mVelY = FP_FromInteger(2) * mSpriteScale;
     field_F4_stay_in_state_ticks = 6;
-    mAnim.Set_Animation_Data(GetAnimRes(AnimId::PullRingRope_UseBegin));
+    GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::PullRingRope_UseBegin));
     SfxPlayMono(relive::SoundEffects::RingRopePull, 0);
     return 1;
 }

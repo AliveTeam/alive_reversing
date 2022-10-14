@@ -169,13 +169,13 @@ Scrab::Scrab(relive::Path_Scrab* pTlv, const Guid& tlvId, relive::Path_ScrabSpaw
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
-        mAnim.mRenderLayer = Layer::eLayer_8;
+        GetAnimation().SetRenderLayer(Layer::eLayer_8);
         mScale = Scale::Bg;
     }
     else if (pTlv->mScale == relive::reliveScale::eFull)
     {
         mSpriteScale = FP_FromInteger(1);
-        mAnim.mRenderLayer = Layer::eLayer_27;
+        GetAnimation().SetRenderLayer(Layer::eLayer_27);
         mScale = Scale::Fg;
     }
 
@@ -290,19 +290,19 @@ s32 Scrab::CreateFromSaveState(const u8* pBuffer)
         pScrab->mRGB.SetRGB(pState->mRingRed, pState->mRingGreen, pState->mRingBlue);
         pScrab->mCurrentMotion = pState->field_28_current_motion;
 
-        pScrab->mAnim.Set_Animation_Data(pScrab->GetAnimRes(sScrabMotionAnimIds[pState->field_28_current_motion]));
+        pScrab->GetAnimation().Set_Animation_Data(pScrab->GetAnimRes(sScrabMotionAnimIds[pState->field_28_current_motion]));
 
-        pScrab->mAnim.mCurrentFrame = pState->field_2A_current_frame;
-        pScrab->mAnim.mFrameChangeCounter = pState->field_2C_frame_change_counter;
+        pScrab->GetAnimation().SetCurrentFrame(pState->field_2A_current_frame);
+        pScrab->GetAnimation().SetFrameChangeCounter(pState->field_2C_frame_change_counter);
 
         pScrab->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_2F_bDrawable & 1);
 
-        pScrab->mAnim.mFlags.Set(AnimFlags::eFlipX, pState->field_26_bAnimFlipX & 1);
-        pScrab->mAnim.mFlags.Set(AnimFlags::eRender, pState->field_2E_bAnimRender & 1);
+        pScrab->GetAnimation().mFlags.Set(AnimFlags::eFlipX, pState->field_26_bAnimFlipX & 1);
+        pScrab->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->field_2E_bAnimRender & 1);
 
-        if (IsLastFrame(&pScrab->mAnim))
+        if (IsLastFrame(&pScrab->GetAnimation()))
         {
-            pScrab->mAnim.mFlags.Set(AnimFlags::eIsLastFrame);
+            pScrab->GetAnimation().mFlags.Set(AnimFlags::eIsLastFrame);
         }
 
         pScrab->mHealth = pState->field_30_health;
@@ -376,12 +376,12 @@ s32 Scrab::VGetSaveState(u8* pSaveBuffer)
     pState->mRingGreen = mRGB.g;
     pState->mRingBlue = mRGB.b;
 
-    pState->field_26_bAnimFlipX = mAnim.mFlags.Get(AnimFlags::eFlipX);
+    pState->field_26_bAnimFlipX = GetAnimation().mFlags.Get(AnimFlags::eFlipX);
     pState->field_28_current_motion = mCurrentMotion;
-    pState->field_2A_current_frame = static_cast<s16>(mAnim.mCurrentFrame);
-    pState->field_2C_frame_change_counter = static_cast<s16>(mAnim.mFrameChangeCounter);
+    pState->field_2A_current_frame = static_cast<s16>(GetAnimation().GetCurrentFrame());
+    pState->field_2C_frame_change_counter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
     pState->field_2F_bDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
-    pState->field_2E_bAnimRender = mAnim.mFlags.Get(AnimFlags::eRender);
+    pState->field_2E_bAnimRender = GetAnimation().mFlags.Get(AnimFlags::eRender);
     pState->field_30_health = mHealth;
     pState->field_34_current_motion = mCurrentMotion;
     pState->field_36_next_motion = mNextMotion;
@@ -506,7 +506,7 @@ void Scrab::VOnTrapDoorOpen()
 
 void Scrab::vUpdateAnim()
 {
-    mAnim.Set_Animation_Data(GetAnimRes(sScrabMotionAnimIds[mCurrentMotion]));
+    GetAnimation().Set_Animation_Data(GetAnimRes(sScrabMotionAnimIds[mCurrentMotion]));
 }
 
 s16 Scrab::OnFloor()
@@ -652,8 +652,8 @@ void Scrab::VUpdate()
         {
             if (mHealth > FP_FromInteger(0))
             {
-                mAnim.mFlags.Set(AnimFlags::eAnimate);
-                mAnim.mFlags.Set(AnimFlags::eRender);
+                GetAnimation().mFlags.Set(AnimFlags::eAnimate);
+                GetAnimation().mFlags.Set(AnimFlags::eRender);
             }
 
             if (!Input_IsChanting_45F260())
@@ -717,7 +717,7 @@ void Scrab::VUpdate()
                 // NOTE: This never gets set to true, so this branch will never be executed.
                 mCurrentMotion = mPreviousMotion;
                 vUpdateAnim();
-                mAnim.SetFrame(mBaseAliveGameObjectLastAnimFrame);
+                GetAnimation().SetFrame(mBaseAliveGameObjectLastAnimFrame);
                 field_11E_return_to_previous_motion = 0;
             }
 
@@ -778,8 +778,8 @@ void Scrab::VUpdate()
 
     if (field_1AA_flags.Get(Flags_1AA::eBit6_persistant))
     {
-        mAnim.mFlags.Clear(AnimFlags::eAnimate);
-        mAnim.mFlags.Clear(AnimFlags::eRender);
+        GetAnimation().mFlags.Clear(AnimFlags::eAnimate);
+        GetAnimation().mFlags.Clear(AnimFlags::eRender);
     }
     else
     {
@@ -926,7 +926,7 @@ s16 Scrab::Brain_0_Patrol()
             }
 
             if (Check_IsOnEndOfLine(
-                    mAnim.mFlags.Get(AnimFlags::eFlipX),
+                    GetAnimation().mFlags.Get(AnimFlags::eFlipX),
                     mCurrentMotion != eScrabMotions::Motion_2_Run ? 1 : 3)
                 || Handle_SlamDoor_or_EnemyStopper(mVelX, 1))
             {
@@ -955,7 +955,7 @@ s16 Scrab::Brain_0_Patrol()
                 }
 
                 if (Check_IsOnEndOfLine(
-                        mAnim.mFlags.Get(AnimFlags::eFlipX),
+                        GetAnimation().mFlags.Get(AnimFlags::eFlipX),
                         mCurrentMotion != eScrabMotions::Motion_2_Run ? 1 : 3)
                     || // TODO: check order is correct
                     Handle_SlamDoor_or_EnemyStopper(mVelX, 1))
@@ -982,7 +982,7 @@ s16 Scrab::Brain_0_Patrol()
 
         case Brain_0_Patrol::eBrain0_Turning_2:
         {
-            if (mCurrentMotion != eScrabMotions::Motion_3_Turn || !mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+            if (mCurrentMotion != eScrabMotions::Motion_3_Turn || !GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 return mBrainSubState;
             }
@@ -991,7 +991,7 @@ s16 Scrab::Brain_0_Patrol()
 
             s16 maxTimer = 0;
             s16 minTimer = 0;
-            if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+            if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
                 maxTimer = mPauseLeftMax;
                 minTimer = mPauseLeftMin;
@@ -1042,7 +1042,7 @@ s16 Scrab::Brain_0_Patrol()
             {
                 return mBrainSubState;
             }
-            if (mCurrentMotion == eScrabMotions::Motion_26_HowlBegin && mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+            if (mCurrentMotion == eScrabMotions::Motion_26_HowlBegin && GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 mNextMotion = eScrabMotions::Motion_0_Stand;
                 return Brain_0_Patrol::eBrain0_ToMoving_0;
@@ -1050,7 +1050,7 @@ s16 Scrab::Brain_0_Patrol()
             return mBrainSubState;
 
         case Brain_0_Patrol::eBrain0_Shriek_5:
-            if (mCurrentMotion == eScrabMotions::Motion_30_Shriek && mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+            if (mCurrentMotion == eScrabMotions::Motion_30_Shriek && GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 mNextMotion = eScrabMotions::Motion_0_Stand;
                 return Brain_0_Patrol::eBrain0_ToMoving_0;
@@ -1074,7 +1074,7 @@ s16 Scrab::Brain_0_Patrol()
             break;
 
         case Brain_0_Patrol::eBrain0_KickFleech_7:
-            if (mCurrentMotion == eScrabMotions::Motion_38_LegKick && mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+            if (mCurrentMotion == eScrabMotions::Motion_38_LegKick && GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 mNextMotion = eScrabMotions::Motion_0_Stand;
                 return Brain_0_Patrol::eBrain0_ToMoving_0;
@@ -1108,7 +1108,7 @@ s16 Scrab::Brain_0_Patrol()
             break;
 
         case Brain_0_Patrol::eBrain0_UsingInvisibility_9:
-            if (mCurrentMotion != eScrabMotions::Motion_26_HowlBegin || !(mAnim.mFlags.Get(AnimFlags::eIsLastFrame)))
+            if (mCurrentMotion != eScrabMotions::Motion_26_HowlBegin || !(GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame)))
             {
                 return mBrainSubState;
             }
@@ -1117,7 +1117,7 @@ s16 Scrab::Brain_0_Patrol()
             return Brain_0_Patrol::eBrain0_PostInvisibilitySmash_10;
 
         case Brain_0_Patrol::eBrain0_PostInvisibilitySmash_10:
-            if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame) && static_cast<s32>(sGnFrame) > field_12C_timer)
+            if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame) && static_cast<s32>(sGnFrame) > field_12C_timer)
             {
                 mNextMotion = eScrabMotions::Motion_0_Stand;
                 return Brain_0_Patrol::eBrain0_ToMoving_0;
@@ -1268,7 +1268,7 @@ s16 Scrab::Brain_1_ChasingEnemy()
         case Brain_1_ChasingEnemy::eBrain1_Turning_3:
             if (mCurrentMotion == eScrabMotions::Motion_3_Turn)
             {
-                if (!mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+                if (!GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
                 {
                     return mBrainSubState;
                 }
@@ -1286,7 +1286,7 @@ s16 Scrab::Brain_1_ChasingEnemy()
                 return mBrainSubState;
             }
 
-            if (!mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+            if (!GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 return mBrainSubState;
             }
@@ -1332,7 +1332,7 @@ s16 Scrab::Brain_1_ChasingEnemy()
         case Brain_1_ChasingEnemy::eBrain1_Attacking_8:
             if ((mCurrentMotion != eScrabMotions::Motion_37_AttackLunge
                  && mCurrentMotion != eScrabMotions::Motion_38_LegKick)
-                || !mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+                || !GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 return mBrainSubState;
             }
@@ -1370,7 +1370,7 @@ s16 Scrab::Brain_1_ChasingEnemy()
             return Brain_1_ChasingEnemy::eBrain1_SmashingEnemy_11;
 
         case Brain_1_ChasingEnemy::eBrain1_EnemyDead_10:
-            if (mCurrentMotion != eScrabMotions::Motion_3_Turn || !mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+            if (mCurrentMotion != eScrabMotions::Motion_3_Turn || !GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 return mBrainSubState;
             }
@@ -1406,7 +1406,7 @@ s16 Scrab::Brain_1_ChasingEnemy()
         case Brain_1_ChasingEnemy::eBrain1_Eating_12:
             if (mCurrentMotion == eScrabMotions::Motion_33_FeedToGulp)
             {
-                if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+                if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
                 {
                     mNextMotion = eScrabMotions::Motion_35_StandToFeed;
                 }
@@ -1424,7 +1424,7 @@ s16 Scrab::Brain_1_ChasingEnemy()
             {
                 return mBrainSubState;
             }
-            if (!mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+            if (!GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 return mBrainSubState;
             }
@@ -1437,7 +1437,7 @@ s16 Scrab::Brain_1_ChasingEnemy()
                 return mBrainSubState;
             }
 
-            if (!mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+            if (!GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 return mBrainSubState;
             }
@@ -1672,7 +1672,7 @@ s16 Scrab::Brain_2_Fighting()
             break;
 
         case Brain_2_Fighting::eBrain2_SpottedOpponent_1:
-            if (mCurrentMotion != eScrabMotions::Motion_3_Turn || !mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+            if (mCurrentMotion != eScrabMotions::Motion_3_Turn || !GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 return mBrainSubState;
             }
@@ -1690,7 +1690,7 @@ s16 Scrab::Brain_2_Fighting()
             break;
 
         case Brain_2_Fighting::eBrain2_Turning_2:
-            if (mCurrentMotion != eScrabMotions::Motion_3_Turn || !mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+            if (mCurrentMotion != eScrabMotions::Motion_3_Turn || !GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 return mBrainSubState;
             }
@@ -1701,7 +1701,7 @@ s16 Scrab::Brain_2_Fighting()
         {
             auto xPos = mXPos;
             s16 sIsFlipped = 0;
-            if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+            if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
                 sIsFlipped = 1;
                 xPos -= FP_FromInteger(50);
@@ -1725,7 +1725,7 @@ s16 Scrab::Brain_2_Fighting()
             {
                 return mBrainSubState;
             }
-            if (!mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+            if (!GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 return mBrainSubState;
             }
@@ -1741,7 +1741,7 @@ s16 Scrab::Brain_2_Fighting()
             return Brain_2_Fighting::eBrain2_Shriek_7;
 
         case Brain_2_Fighting::eBrain2_Yelling_6:
-            if (mCurrentMotion != eScrabMotions::Motion_26_HowlBegin || !mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+            if (mCurrentMotion != eScrabMotions::Motion_26_HowlBegin || !GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 return mBrainSubState;
             }
@@ -1750,7 +1750,7 @@ s16 Scrab::Brain_2_Fighting()
             return Brain_2_Fighting::eBrain2_Idle_5;
 
         case Brain_2_Fighting::eBrain2_Shriek_7:
-            if (mCurrentMotion != eScrabMotions::Motion_30_Shriek || !mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+            if (mCurrentMotion != eScrabMotions::Motion_30_Shriek || !GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 return mBrainSubState;
             }
@@ -1772,9 +1772,9 @@ s16 Scrab::Brain_2_Fighting()
                 return mBrainSubState;
             }
 
-            if (pTarget->mAnim.mFlags.Get(AnimFlags::eRender))
+            if (pTarget->GetAnimation().mFlags.Get(AnimFlags::eRender))
             {
-                mAnim.mFlags.Clear(AnimFlags::eRender);
+                GetAnimation().mFlags.Clear(AnimFlags::eRender);
                 mHealth = FP_FromInteger(0);
             }
 
@@ -1795,12 +1795,12 @@ s16 Scrab::Brain_2_Fighting()
             Scrab_SFX(ScrabSounds::eYell_8, 0, -1571, 1);
             Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 0, -383, 0);
 
-            if (!mAnim.mFlags.Get(AnimFlags::eRender))
+            if (!GetAnimation().mFlags.Get(AnimFlags::eRender))
             {
                 SetBrain(&Scrab::Brain_3_Death);
                 mXPos = pTarget->mXPos;
                 mCurrentMotion = eScrabMotions::Motion_39_DeathBegin;
-                mAnim.mFlags.Set(AnimFlags::eRender);
+                GetAnimation().mFlags.Set(AnimFlags::eRender);
                 field_12C_timer = sGnFrame + 90;
                 return mBrainSubState;
             }
@@ -1823,7 +1823,7 @@ s16 Scrab::Brain_2_Fighting()
                 return mBrainSubState;
             }
 
-            if (!mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+            if (!GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 return mBrainSubState;
             }
@@ -1837,7 +1837,7 @@ s16 Scrab::Brain_2_Fighting()
             return Brain_2_Fighting::eBrain2_VictoryYell_13;
 
         case Brain_2_Fighting::eBrain2_VictoryYell_13:
-            if (mCurrentMotion != eScrabMotions::Motion_26_HowlBegin || !mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+            if (mCurrentMotion != eScrabMotions::Motion_26_HowlBegin || !GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 return mBrainSubState;
             }
@@ -1860,7 +1860,7 @@ s16 Scrab::Brain_2_Fighting()
             {
                 return mBrainSubState;
             }
-            if (!mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+            if (!GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 return mBrainSubState;
             }
@@ -2008,7 +2008,7 @@ void Scrab::Motion_0_Stand()
             const FP k45Scaled = (mSpriteScale * FP_FromInteger(45));
             const FP kGridSize = ScaleToGridSize(mSpriteScale);
 
-            if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+            if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
                 if (!WallHit(k45Scaled, -kGridSize))
                 {
@@ -2057,9 +2057,9 @@ const FP sScrabWalkXVels_546E54[22] = {
 
 void Scrab::Motion_1_Walk()
 {
-    mVelX = mSpriteScale * sScrabWalkXVels_546E54[mAnim.mCurrentFrame];
+    mVelX = mSpriteScale * sScrabWalkXVels_546E54[GetAnimation().GetCurrentFrame()];
 
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         mVelX = -mVelX;
     }
@@ -2072,7 +2072,7 @@ void Scrab::Motion_1_Walk()
     }
 
     FP kGridSize = {};
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         kGridSize = -ScaleToGridSize(mSpriteScale);
     }
@@ -2087,7 +2087,7 @@ void Scrab::Motion_1_Walk()
         return;
     }
 
-    switch (mAnim.mCurrentFrame)
+    switch (GetAnimation().GetCurrentFrame())
     {
         case 3:
         case 13:
@@ -2184,15 +2184,15 @@ static const FP sScrabRunVelX_546EC4[14] = {
 void Scrab::Motion_2_Run()
 {
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mTargetGuid));
-    mVelX = mSpriteScale * sScrabRunVelX_546EC4[mAnim.mCurrentFrame];
+    mVelX = mSpriteScale * sScrabRunVelX_546EC4[GetAnimation().GetCurrentFrame()];
 
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         mVelX = -mVelX;
     }
 
     FP gridSize = {};
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         gridSize = -ScaleToGridSize(mSpriteScale);
     }
@@ -2212,7 +2212,7 @@ void Scrab::Motion_2_Run()
     if (mCurrentMotion == eScrabMotions::Motion_2_Run)
     {
         KillTarget(pTarget);
-        switch (mAnim.mCurrentFrame)
+        switch (GetAnimation().GetCurrentFrame())
         {
             case 0:
             case 5:
@@ -2301,14 +2301,14 @@ void Scrab::Motion_2_Run()
 
 void Scrab::Motion_3_Turn()
 {
-    if (mAnim.mCurrentFrame == 5 || mAnim.mCurrentFrame == 9 || mAnim.mCurrentFrame == 11)
+    if (GetAnimation().GetCurrentFrame() == 5 || GetAnimation().GetCurrentFrame() == 9 || GetAnimation().GetCurrentFrame() == 11)
     {
         Scrab_SFX(ScrabSounds::eWalk1_6, Math_RandomRange(40, 50), 0x7FFF, 1);
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
-        mAnim.mFlags.Toggle(AnimFlags::eFlipX);
+        GetAnimation().mFlags.Toggle(AnimFlags::eFlipX);
         TryMoveOrStand();
     }
 }
@@ -2328,8 +2328,8 @@ const FP dword_546EFC[10] = {
 void Scrab::Motion_4_RunToStand()
 {
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mTargetGuid));
-    mVelX = mSpriteScale * dword_546EFC[mAnim.mCurrentFrame]; // TODO: check size
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    mVelX = mSpriteScale * dword_546EFC[GetAnimation().GetCurrentFrame()]; // TODO: check size
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         mVelX = -mVelX;
     }
@@ -2346,7 +2346,7 @@ void Scrab::Motion_4_RunToStand()
         {
             KillTarget(pTarget);
 
-            if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+            if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 MapFollowMe(TRUE);
                 TryMoveOrStand();
@@ -2366,19 +2366,19 @@ void Scrab::Motion_5_HopBegin()
     EventBroadcast(kEventNoise, this);
 
     FP frameVelX = {};
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        frameVelX = -sScrabHopBeginVelX_546F24[mAnim.mCurrentFrame];
+        frameVelX = -sScrabHopBeginVelX_546F24[GetAnimation().GetCurrentFrame()];
     }
     else
     {
-        frameVelX = sScrabHopBeginVelX_546F24[mAnim.mCurrentFrame];
+        frameVelX = sScrabHopBeginVelX_546F24[GetAnimation().GetCurrentFrame()];
     }
 
     mVelX = mSpriteScale * frameVelX;
 
     FP gridSize = {};
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         gridSize = -ScaleToGridSize(mSpriteScale);
     }
@@ -2395,11 +2395,11 @@ void Scrab::Motion_5_HopBegin()
     else
     {
         mXPos += mVelX;
-        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
         {
             SFX_Play_Pitch(relive::SoundEffects::PickupItem, 50, -800);
             BaseAliveGameObjectLastLineYPos = mYPos;
-            if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+            if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
                 mVelX = mSpriteScale * FP_FromDouble(-5.67);
             }
@@ -2431,19 +2431,19 @@ void Scrab::Motion_6_HopMidair()
     EventBroadcast(kEventNoise, this);
 
     FP frameVelX = {};
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        frameVelX = -sScrabHopMidAirVelX_546F34[mAnim.mCurrentFrame];
+        frameVelX = -sScrabHopMidAirVelX_546F34[GetAnimation().GetCurrentFrame()];
     }
     else
     {
-        frameVelX = sScrabHopMidAirVelX_546F34[mAnim.mCurrentFrame];
+        frameVelX = sScrabHopMidAirVelX_546F34[GetAnimation().GetCurrentFrame()];
     }
 
     mVelX = mSpriteScale * frameVelX;
 
     FP kGridSize = {};
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         kGridSize = -ScaleToGridSize(mSpriteScale);
     }
@@ -2507,7 +2507,7 @@ const FP sScrabHopLandVelX_546F54[4] = {
 
 void Scrab::Motion_7_HopLand()
 {
-    if (mAnim.mCurrentFrame == 0)
+    if (GetAnimation().GetCurrentFrame() == 0)
     {
         Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 80, 400, this);
         Scrab_SFX(ScrabSounds::eHitCollision_4, 0, 0x7FFF, 1);
@@ -2516,18 +2516,18 @@ void Scrab::Motion_7_HopLand()
     EventBroadcast(kEventNoise, this);
 
     FP frameVelX = {};
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        frameVelX = -sScrabHopLandVelX_546F54[mAnim.mCurrentFrame];
+        frameVelX = -sScrabHopLandVelX_546F54[GetAnimation().GetCurrentFrame()];
     }
     else
     {
-        frameVelX = sScrabHopLandVelX_546F54[mAnim.mCurrentFrame];
+        frameVelX = sScrabHopLandVelX_546F54[GetAnimation().GetCurrentFrame()];
     }
     mVelX = (mSpriteScale * frameVelX);
 
     FP gridSize = {};
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         gridSize = -ScaleToGridSize(mSpriteScale);
     }
@@ -2543,7 +2543,7 @@ void Scrab::Motion_7_HopLand()
     else
     {
         MoveOnLine();
-        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
         {
             ToStand();
         }
@@ -2610,8 +2610,8 @@ const FP sStandToWalkVels_546E48[3] = {
 
 void Scrab::Motion_9_StandToWalk()
 {
-    mVelX = (mSpriteScale * sStandToWalkVels_546E48[mAnim.mCurrentFrame & 3]); // TODO: Check size of 3 is correct
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    mVelX = (mSpriteScale * sStandToWalkVels_546E48[GetAnimation().GetCurrentFrame() & 3]); // TODO: Check size of 3 is correct
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         mVelX = -mVelX;
     }
@@ -2620,7 +2620,7 @@ void Scrab::Motion_9_StandToWalk()
 
     if (mCurrentMotion == eScrabMotions::Motion_9_StandToWalk)
     {
-        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
         {
             mCurrentMotion = eScrabMotions::Motion_1_Walk;
         }
@@ -2634,8 +2634,8 @@ const FP sStandToRunVels_546EB8[3] = {
 
 void Scrab::Motion_10_StandToRun()
 {
-    mVelX = mSpriteScale * sStandToRunVels_546EB8[mAnim.mCurrentFrame & 3]; // TODO: Check size of 3 is correct
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    mVelX = mSpriteScale * sStandToRunVels_546EB8[GetAnimation().GetCurrentFrame() & 3]; // TODO: Check size of 3 is correct
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         mVelX = -mVelX;
     }
@@ -2650,7 +2650,7 @@ void Scrab::Motion_10_StandToRun()
 
         if (mCurrentMotion == eScrabMotions::Motion_10_StandToRun)
         {
-            if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+            if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 mCurrentMotion = eScrabMotions::Motion_2_Run;
             }
@@ -2665,8 +2665,8 @@ const FP sWalkToStandVels_546EAC[3] = {
 
 void Scrab::Motion_11_WalkToStand()
 {
-    mVelX = (mSpriteScale * sWalkToStandVels_546EAC[mAnim.mCurrentFrame & 3]); // TODO: Check size of 3 is correct
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    mVelX = (mSpriteScale * sWalkToStandVels_546EAC[GetAnimation().GetCurrentFrame() & 3]); // TODO: Check size of 3 is correct
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         mVelX = -mVelX;
     }
@@ -2675,7 +2675,7 @@ void Scrab::Motion_11_WalkToStand()
 
     if (mCurrentMotion == eScrabMotions::Motion_11_WalkToStand)
     {
-        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
         {
             TryMoveOrStand();
         }
@@ -2694,7 +2694,7 @@ const FP dword_546F64[8] = {
 
 void Scrab::Motion_12_RunJumpBegin()
 {
-    if (mAnim.mCurrentFrame == 1)
+    if (GetAnimation().GetCurrentFrame() == 1)
     {
         SFX_Play_Pitch(relive::SoundEffects::PickupItem, 50, -800);
     }
@@ -2702,13 +2702,13 @@ void Scrab::Motion_12_RunJumpBegin()
     EventBroadcast(kEventNoise, this);
 
     FP velX = {};
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        velX = -dword_546F64[mAnim.mCurrentFrame & 8]; // TODO: Check size
+        velX = -dword_546F64[GetAnimation().GetCurrentFrame() & 8]; // TODO: Check size
     }
     else
     {
-        velX = dword_546F64[mAnim.mCurrentFrame & 8]; // TODO: Check size
+        velX = dword_546F64[GetAnimation().GetCurrentFrame() & 8]; // TODO: Check size
     }
 
     mVelX = mSpriteScale * velX;
@@ -2788,8 +2788,8 @@ const FP sEndRunJumpVels_546F84[21] = {
 void Scrab::Motion_13_RunJumpEnd()
 {
     EventBroadcast(kEventNoise, this);
-    mVelX = (mSpriteScale * sEndRunJumpVels_546F84[mAnim.mCurrentFrame & 21]); // TODO: Check size
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    mVelX = (mSpriteScale * sEndRunJumpVels_546F84[GetAnimation().GetCurrentFrame() & 21]); // TODO: Check size
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         mVelX = -mVelX;
     }
@@ -2801,7 +2801,7 @@ void Scrab::Motion_13_RunJumpEnd()
     else
     {
         MoveOnLine();
-        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
         {
             Scrab_SFX(ScrabSounds::eHitCollision_4, 0, 0x7FFF, 1);
             if (!ToNextMotion())
@@ -2832,7 +2832,7 @@ void Scrab::Motion_15_RunToFall()
 
 void Scrab::Motion_16_WalkToRun()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eScrabMotions::Motion_2_Run;
         mNextMotion = -1;
@@ -2841,7 +2841,7 @@ void Scrab::Motion_16_WalkToRun()
 
 void Scrab::Motion_17_RunToWalk()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eScrabMotions::Motion_1_Walk;
         mNextMotion = -1;
@@ -2859,17 +2859,17 @@ void Scrab::Motion_18_Knockback()
         Motion_8_JumpToFall();
     }
 
-    if (mAnim.mCurrentFrame == 0)
+    if (GetAnimation().GetCurrentFrame() == 0)
     {
         Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 80, 400, this);
     }
 
-    else if (mAnim.mCurrentFrame == 2)
+    else if (GetAnimation().GetCurrentFrame() == 2)
     {
         Scrab_SFX(ScrabSounds::eHitCollision_4, 0, 0x7FFF, 1);
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         if (BaseAliveGameObjectCollisionLine)
         {
@@ -2884,7 +2884,7 @@ void Scrab::Motion_18_Knockback()
 
 void Scrab::Motion_19_GetEaten()
 {
-    if (mAnim.mCurrentFrame == 3)
+    if (GetAnimation().GetCurrentFrame() == 3)
     {
         SFX_Play_Pitch(relive::SoundEffects::PickupItem, 120, -1000);
     }
@@ -2892,7 +2892,7 @@ void Scrab::Motion_19_GetEaten()
 
 void Scrab::Motion_20_Fall()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 80, 400, this);
         Scrab_SFX(ScrabSounds::eHitCollision_4, 0, 0x7FFF, 1);
@@ -2903,7 +2903,7 @@ void Scrab::Motion_20_Fall()
 
 void Scrab::Motion_21_Stamp()
 {
-    if (mAnim.mCurrentFrame == 9)
+    if (GetAnimation().GetCurrentFrame() == 9)
     {
         if (BrainIs(&Scrab::Brain_5_Possessed))
         {
@@ -2914,7 +2914,7 @@ void Scrab::Motion_21_Stamp()
         SFX_Play_Pitch(relive::SoundEffects::KillEffect, 60, Math_RandomRange(-255, 255));
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         Scrab_SFX(ScrabSounds::eHowl_0, 60, 511, 1);
 
@@ -2931,12 +2931,12 @@ void Scrab::Motion_21_Stamp()
 
 void Scrab::Motion_22_GetPossessed()
 {
-    if (mAnim.mCurrentFrame == 9)
+    if (GetAnimation().GetCurrentFrame() == 9)
     {
         Scrab_SFX(ScrabSounds::eHitCollision_4, 0, 0x7FFF, 1);
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         if (mNextMotion)
         {
@@ -2975,7 +2975,7 @@ void Scrab::Motion_25_Empty()
 
 void Scrab::Motion_26_HowlBegin()
 {
-    if (mAnim.mCurrentFrame == 2)
+    if (GetAnimation().GetCurrentFrame() == 2)
     {
         if (sGnFrame & 1)
         {
@@ -2988,7 +2988,7 @@ void Scrab::Motion_26_HowlBegin()
         }
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mShredPowerActive = 1;
 
@@ -3005,7 +3005,7 @@ void Scrab::Motion_26_HowlBegin()
 
 void Scrab::Motion_27_HowlEnd()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         if (BrainIs(&Scrab::Brain_5_Possessed))
         {
@@ -3027,12 +3027,12 @@ void Scrab::Motion_28_GetDepossessedBegin()
 
     if (sControlledCharacter == this)
     {
-        if (mAnim.mCurrentFrame == 2)
+        if (GetAnimation().GetCurrentFrame() == 2)
         {
             Scrab_SFX(ScrabSounds::eYell_8, 0, Math_RandomRange(-1600, -900), 1);
         }
 
-        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
         {
             if (!Input_IsChanting_45F260())
             {
@@ -3065,7 +3065,7 @@ void Scrab::Motion_28_GetDepossessedBegin()
 
 void Scrab::Motion_29_GetDepossessedEnd()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         ToStand();
     }
@@ -3073,7 +3073,7 @@ void Scrab::Motion_29_GetDepossessedEnd()
 
 void Scrab::Motion_30_Shriek()
 {
-    if (mAnim.mCurrentFrame == 4)
+    if (GetAnimation().GetCurrentFrame() == 4)
     {
         if (sGnFrame & 1)
         {
@@ -3086,7 +3086,7 @@ void Scrab::Motion_30_Shriek()
         }
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         if (!ToNextMotion())
         {
@@ -3097,12 +3097,12 @@ void Scrab::Motion_30_Shriek()
 
 void Scrab::Motion_31_ScrabBattleAnim()
 {
-    if (mAnim.mCurrentFrame == 0)
+    if (GetAnimation().GetCurrentFrame() == 0)
     {
         field_160_sfx_bitmask = Scrab_SFX(ScrabSounds::eShredding_5, 100, Math_RandomRange(-600, 200), 1);
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         ToNextMotion();
     }
@@ -3119,7 +3119,7 @@ void Scrab::Motion_32_AttackSpin()
         return;
     }
 
-    if (mAnim.mCurrentFrame == 0)
+    if (GetAnimation().GetCurrentFrame() == 0)
     {
         field_160_sfx_bitmask = Scrab_SFX(ScrabSounds::eShredding_5, 100, Math_RandomRange(-600, 200), 1);
     }
@@ -3201,7 +3201,7 @@ void Scrab::Motion_32_AttackSpin()
 
 void Scrab::Motion_33_FeedToGulp()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         if (mNextMotion == eScrabMotions::Motion_35_StandToFeed)
         {
@@ -3217,7 +3217,7 @@ void Scrab::Motion_33_FeedToGulp()
 
 void Scrab::Motion_34_GulpToStand()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         ToStand();
     }
@@ -3225,7 +3225,7 @@ void Scrab::Motion_34_GulpToStand()
 
 void Scrab::Motion_35_StandToFeed()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eScrabMotions::Motion_36_Feed;
     }
@@ -3233,9 +3233,9 @@ void Scrab::Motion_35_StandToFeed()
 
 void Scrab::Motion_36_Feed()
 {
-    if (mAnim.mCurrentFrame)
+    if (GetAnimation().GetCurrentFrame())
     {
-        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
         {
             mCurrentMotion = eScrabMotions::Motion_33_FeedToGulp;
         }
@@ -3251,11 +3251,11 @@ void Scrab::Motion_37_AttackLunge()
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mTargetGuid));
     KillTarget(pTarget);
 
-    if (mAnim.mCurrentFrame == 4)
+    if (GetAnimation().GetCurrentFrame() == 4)
     {
         Scrab_SFX(ScrabSounds::eHowl_0, 0, 0x7FFF, 1);
     }
-    else if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    else if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         ToStand();
     }
@@ -3277,7 +3277,7 @@ void Scrab::Motion_39_DeathBegin()
             mCurrentMotion = eScrabMotions::Motion_39_DeathBegin;
         }
     }
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mCurrentMotion = eScrabMotions::Motion_24_DeathEnd;
     }
@@ -3558,7 +3558,7 @@ s16 Scrab::ToNextMotion()
     // Check if going to run into a wall.
     if (mNextMotion == eScrabMotions::Motion_2_Run)
     {
-        if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+        if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
         {
             if (WallHit(k45Scaled, -kGridSize))
             {
@@ -3601,7 +3601,7 @@ s16 Scrab::ToNextMotion()
             return 0;
         }
 
-        if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+        if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
         {
             if (WallHit(k45Scaled, -kGridSize))
             {
@@ -3630,7 +3630,7 @@ s16 Scrab::ToNextMotion()
     }
     else
     {
-        if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+        if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
         {
             if (WallHit(k45Scaled, -kGridSize))
             {
@@ -3668,7 +3668,7 @@ s16 Scrab::PlayerControlled()
 
     if (Input().isPressed(sInputKey_Right))
     {
-        if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+        if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
         {
             mCurrentMotion = eScrabMotions::Motion_3_Turn;
             return 1;
@@ -3696,7 +3696,7 @@ s16 Scrab::PlayerControlled()
     }
     else if (Input().isPressed(sInputKey_Left))
     {
-        if (!mAnim.mFlags.Get(AnimFlags::eFlipX))
+        if (!GetAnimation().mFlags.Get(AnimFlags::eFlipX))
         {
             mCurrentMotion = eScrabMotions::Motion_3_Turn;
             return 1;
@@ -3744,7 +3744,7 @@ void Scrab::ToJump()
 {
     BaseAliveGameObjectLastLineYPos = mYPos;
 
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         mVelX = mSpriteScale * -FP_FromDouble(-5.67);
     }
@@ -3785,11 +3785,11 @@ s16 Scrab::VTakeDamage(BaseGameObject* pFrom)
 
             if (static_cast<BaseAliveGameObject*>(pFrom)->mXPos >= mXPos)
             {
-                mAnim.mFlags.Clear(AnimFlags::eFlipX);
+                GetAnimation().mFlags.Clear(AnimFlags::eFlipX);
             }
             else
             {
-                mAnim.mFlags.Set(AnimFlags::eFlipX);
+                GetAnimation().mFlags.Set(AnimFlags::eFlipX);
             }
 
             EventBroadcast(kScrabOrParamiteDied, this);
@@ -3839,7 +3839,7 @@ void Scrab::KnockBack()
     const FP kGridSize = ScaleToGridSize(mSpriteScale);
 
     FP v4 = {};
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         v4 = (kGridSize / FP_FromDouble(3.5));
     }
@@ -4092,7 +4092,7 @@ s16 Scrab::CanSeeAbe(BaseAliveGameObject* pObj)
     if (VOnSameYLevel(pObj))
     {
         FP offX = {};
-        if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+        if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
         {
             offX = -ScaleToGridSize(mSpriteScale);
         }
@@ -4206,7 +4206,7 @@ s16 Scrab::Handle_SlamDoor_or_EnemyStopper(FP velX, s16 bCheckLeftRightBounds)
 
     ReliveTypes objectType = {};
     relive::Path_EnemyStopper::StopDirection stopDirection = relive::Path_EnemyStopper::StopDirection::Both;
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         objectType = ReliveTypes::eScrabLeftBound;
         stopDirection = relive::Path_EnemyStopper::StopDirection::Left;

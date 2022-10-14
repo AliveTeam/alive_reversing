@@ -501,10 +501,10 @@ void BeeSwarm::VUpdate()
         pBee->field_10_anim.mFlags.Set(AnimFlags::eRender);
         pBee->field_10_anim.mFlags.Set(AnimFlags::eBlending); // TODO: or higher byte
 
-        pBee->field_10_anim.field_68_anim_ptr = &mAnim;
+        pBee->field_10_anim.field_68_anim_ptr = &GetAnimation();
         pBee->field_10_anim.field_6C_scale = mSpriteScale;
 
-        pBee->field_10_anim.mRenderLayer = Layer::eLayer_MainMenuButtonBees_38;
+        pBee->field_10_anim.SetRenderLayer(Layer::eLayer_MainMenuButtonBees_38);
 
         pBee->mXPos = field_D68_xpos;
         pBee->mYPos = field_D6C_ypos;
@@ -538,11 +538,9 @@ void BeeSwarm::ToFlyAwayAndDie()
 
 void BeeSwarm::VRender(PrimHeader** ppOt)
 {
-    mAnim.mRenderLayer = Layer::eLayer_MainMenuButtonBees_38;
-    mAnim.mRed = static_cast<u8>(mRGB.r);
-    mAnim.mGreen = static_cast<u8>(mRGB.g);
-    mAnim.mBlue = static_cast<u8>(mRGB.b);
-    mAnim.field_14_scale = mSpriteScale;
+    GetAnimation().SetRenderLayer(Layer::eLayer_MainMenuButtonBees_38);
+    GetAnimation().SetRGB(mRGB.r, mRGB.g, mRGB.b);
+    GetAnimation().SetSpriteScale(mSpriteScale);
 
     const auto campos_x_delta = pScreenManager->mCamPos->x - FP_FromInteger(pScreenManager->mCamXOff);
     const auto campos_y_delta = pScreenManager->mCamPos->y - FP_FromInteger(pScreenManager->mCamYOff);
@@ -561,14 +559,14 @@ void BeeSwarm::VRender(PrimHeader** ppOt)
         {
             if (bDontClear)
             {
-                mAnim.VRender(
+                GetAnimation().VRender(
                     FP_GetExponent(bee->mXPos - campos_x_delta),
                     FP_GetExponent(bee->mYPos - campos_y_delta),
                     ppOt,
                     0,
                     0);
                 bDontClear = 0;
-                mAnim.Get_Frame_Rect(&out);
+                GetAnimation().Get_Frame_Rect(&out);
             }
             else
             {

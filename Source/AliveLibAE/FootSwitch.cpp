@@ -79,7 +79,7 @@ FootSwitch::FootSwitch(relive::Path_FootSwitch* pTlv, const Guid& tlvId)
 
     Animation_Init(GetAnimRes(sFootSwitchData_547D60[idx][0]));
 
-    mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
+    GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_25);
 
     SetTint(sFootSwitchTints_5639F4, gMap.mCurrentLevel);
 
@@ -89,7 +89,7 @@ FootSwitch::FootSwitch(relive::Path_FootSwitch* pTlv, const Guid& tlvId)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
-        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
+        GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_Half_6);
     }
 
     mAction = pTlv->mAction;
@@ -119,7 +119,7 @@ void FootSwitch::VUpdate()
         if (pLastStoodOnMe)
         {
             mStoodOnMeId = pLastStoodOnMe->mBaseGameObjectId;
-            mAnim.Set_Animation_Data(GetAnimRes(sFootSwitchData_547D60[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]));
+            GetAnimation().Set_Animation_Data(GetAnimRes(sFootSwitchData_547D60[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]));
             mState = States::eWaitForGetOffMe;
         }
     }
@@ -136,7 +136,7 @@ void FootSwitch::VUpdate()
                 SwitchStates_Do_Operation(mSwitchId, mAction);
                 mState = States::eWaitForGetOffMe;
 
-                mAnim.Set_Animation_Data(GetAnimRes(sFootSwitchData_547D60[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]));
+                GetAnimation().Set_Animation_Data(GetAnimRes(sFootSwitchData_547D60[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]));
 
                 relive_new ParticleBurst(mXPos,
                                                             mYPos + FP_FromInteger(10),
@@ -156,7 +156,7 @@ void FootSwitch::VUpdate()
                 }
             }
 
-            if (mAnim.mCurrentFrame == 0)
+            if (GetAnimation().GetCurrentFrame() == 0)
             {
                 mCreateSparks = true;
                 return;
@@ -182,7 +182,7 @@ void FootSwitch::VUpdate()
                 mCreateSparks = false;
             }
 
-            if (mAnim.mCurrentFrame == 0)
+            if (GetAnimation().GetCurrentFrame() == 0)
             {
                 mCreateSparks = true;
             }
@@ -198,7 +198,7 @@ void FootSwitch::VUpdate()
                 pLastStoodOnMe->mXPos < FP_FromInteger(bRect.x) || pLastStoodOnMe->mXPos > FP_FromInteger(bRect.w) || pLastStoodOnMe->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
             {
                 mState = States::eWaitForStepOnMe;
-                mAnim.Set_Animation_Data(GetAnimRes(sFootSwitchData_547D60[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][0]));
+                GetAnimation().Set_Animation_Data(GetAnimRes(sFootSwitchData_547D60[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][0]));
                 mStoodOnMeId = Guid{};
             }
             break;

@@ -20,7 +20,7 @@ PossessionFlicker::~PossessionFlicker()
 {
     if (field_10_pObj)
     {
-        field_10_pObj->mAnim.mRenderMode = TPageAbr::eBlend_0;
+        field_10_pObj->GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
 
         field_10_pObj->mRGB.r = field_1E_old_r;
         field_10_pObj->mRGB.g = field_20_old_g;
@@ -44,7 +44,7 @@ PossessionFlicker::PossessionFlicker(BaseAliveGameObject* pToApplyFlicker, s32 d
     field_20_old_g = pToApplyFlicker->mRGB.g;
     field_22_old_b = pToApplyFlicker->mRGB.b;
 
-    pToApplyFlicker->mAnim.mRenderMode = TPageAbr::eBlend_1;
+    pToApplyFlicker->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
 
     field_14_time_to_flicker = sGnFrame + duration;
 }

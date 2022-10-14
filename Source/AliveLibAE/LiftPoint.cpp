@@ -102,11 +102,11 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, const Guid& tlvId)
 
     if (mSpriteScale == FP_FromInteger(1))
     {
-        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
+        GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_25);
     }
     else
     {
-        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
+        GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_Half_6);
         field_124_pCollisionLine->mLineType = eLineTypes::eBackgroundDynamicCollision_36;
     }
 
@@ -118,7 +118,7 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, const Guid& tlvId)
     mPlatformBaseXOffset -= xSnapDelta;
     mPlatformBaseWidthOffset -= xSnapDelta;
 
-    mAnim.mFlags.Set(AnimFlags::eSemiTrans);
+    GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
 
 
     const LiftPointData& rLiftWheelData = sLiftPointData_545AC8[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))];
@@ -128,13 +128,13 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, const Guid& tlvId)
     {
         if (pTlv->mScale != relive::reliveScale::eFull)
         {
-            field_13C_lift_wheel.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
-            field_13C_lift_wheel.field_14_scale = mSpriteScale;
+            field_13C_lift_wheel.SetRenderLayer(Layer::eLayer_BeforeShadow_Half_6);
+            field_13C_lift_wheel.SetSpriteScale(mSpriteScale);
         }
         else
         {
-            field_13C_lift_wheel.mRenderLayer = Layer::eLayer_BeforeShadow_25;
-            field_13C_lift_wheel.field_14_scale = mSpriteScale;
+            field_13C_lift_wheel.SetRenderLayer(Layer::eLayer_BeforeShadow_25);
+            field_13C_lift_wheel.SetSpriteScale(mSpriteScale);
         }
 
         field_13C_lift_wheel.mFlags.Clear(AnimFlags::eAnimate);
@@ -148,10 +148,13 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, const Guid& tlvId)
         field_280_flags.Clear(LiftFlags::eBit3_bBottomFloor);
         field_280_flags.Clear(LiftFlags::eBit5_bMoveToFloorLevel);
 
-        field_13C_lift_wheel.mGreen = static_cast<u8>(mRGB.g);
-        field_13C_lift_wheel.mRed = static_cast<u8>(mRGB.b);
-        field_13C_lift_wheel.mBlue = static_cast<u8>(mRGB.r);
-        field_13C_lift_wheel.mRenderMode = TPageAbr::eBlend_0;
+        // TODO: red is set to blue and vice versa - fix me
+        //field_13C_lift_wheel.mGreen = static_cast<u8>(mRGB.g);
+        //field_13C_lift_wheel.mRed = static_cast<u8>(mRGB.b);
+        //field_13C_lift_wheel.mBlue = static_cast<u8>(mRGB.r);
+
+        field_13C_lift_wheel.SetRGB(mRGB.r, mRGB.g, mRGB.b);
+        field_13C_lift_wheel.SetRenderMode(TPageAbr::eBlend_0);
 
         mVelX = FP_FromInteger(0);
         mVelY = FP_FromInteger(0);
@@ -360,9 +363,7 @@ void LiftPoint::VRender(PrimHeader** ppOt)
                 &g,
                 &b);
 
-            field_13C_lift_wheel.mRed = static_cast<u8>(r);
-            field_13C_lift_wheel.mGreen = static_cast<u8>(g);
-            field_13C_lift_wheel.mBlue = static_cast<u8>(b);
+            field_13C_lift_wheel.SetRGB(r, g, b);
 
             if (gMap.mCurrentLevel != EReliveLevelIds::eNecrum && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
             {
@@ -398,9 +399,7 @@ void LiftPoint::VRender(PrimHeader** ppOt)
                         &g,
                         &b);
 
-                    field_1D4_pulley_anim.mRed = static_cast<u8>(r);
-                    field_1D4_pulley_anim.mGreen = static_cast<u8>(g);
-                    field_1D4_pulley_anim.mBlue = static_cast<u8>(b);
+                    field_1D4_pulley_anim.SetRGB(r, g, b);
 
                     field_1D4_pulley_anim.VRender(
                         FP_GetExponent(FP_FromInteger(field_26C_pulley_xpos) - pScreenManager->CamXPos()),
@@ -699,12 +698,12 @@ void LiftPoint::VUpdate()
 
     if (gMap.mCurrentLevel == EReliveLevelIds::eNecrum || gMap.mCurrentLevel == EReliveLevelIds::eMudomoVault || gMap.mCurrentLevel == EReliveLevelIds::eMudomoVault_Ender || gMap.mCurrentLevel == EReliveLevelIds::eMudancheeVault || gMap.mCurrentLevel == EReliveLevelIds::eMudancheeVault_Ender)
     {
-        if (field_13C_lift_wheel.mCurrentFrame == 1 && field_13C_lift_wheel.mFlags.Get(AnimFlags::eAnimate))
+        if (field_13C_lift_wheel.GetCurrentFrame() == 1 && field_13C_lift_wheel.mFlags.Get(AnimFlags::eAnimate))
         {
             SfxPlayMono(relive::SoundEffects::WheelSqueak, 0);
         }
     }
-    else if (field_13C_lift_wheel.mCurrentFrame == 1 && field_13C_lift_wheel.mFlags.Get(AnimFlags::eAnimate) && sGnFrame & 1)
+    else if (field_13C_lift_wheel.GetCurrentFrame() == 1 && field_13C_lift_wheel.mFlags.Get(AnimFlags::eAnimate) && sGnFrame & 1)
     {
         SfxPlayMono(relive::SoundEffects::WheelSqueak, 0);
     }
@@ -870,14 +869,12 @@ void LiftPoint::CreatePulleyIfExists()
 
     field_280_flags.Set(LiftFlags::eBit4_bHasPulley);
 
-    field_1D4_pulley_anim.mRenderLayer = mAnim.mRenderLayer;
-    field_1D4_pulley_anim.field_14_scale = mSpriteScale;
+    field_1D4_pulley_anim.SetRenderLayer(GetAnimation().GetRenderLayer());
+    field_1D4_pulley_anim.SetSpriteScale(mSpriteScale);
 
-    field_1D4_pulley_anim.mRed = static_cast<u8>(mRGB.r);
-    field_1D4_pulley_anim.mGreen = static_cast<u8>(mRGB.g);
-    field_1D4_pulley_anim.mBlue = static_cast<u8>(mRGB.b);
+    field_1D4_pulley_anim.SetRGB(mRGB.r, mRGB.g, mRGB.b);
 
-    field_1D4_pulley_anim.mRenderMode = TPageAbr::eBlend_0;
+    field_1D4_pulley_anim.SetRenderMode(TPageAbr::eBlend_0);
 
     // Set the top of the ropes to be the bottom of the pulley
     Rope* pRope1 = static_cast<Rope*>(sObjectIds.Find(field_134_rope2_id, ReliveTypes::eRope));

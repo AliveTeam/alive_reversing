@@ -47,14 +47,14 @@ MineCar::MineCar(relive::Path_MineCar* pTlv, const Guid& tlvId, s32 /*a4*/, s32 
 
     mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
     field_1BE_unused = 0;
-    mAnim.mRenderLayer = Layer::eLayer_Shadow_26;
+    GetAnimation().SetRenderLayer(Layer::eLayer_Shadow_26);
     mSpriteScale = FP_FromInteger(1);
     mScale = Scale::Fg;
 
     if (field_11E_scale != relive::reliveScale::eFull)
     {
         mSpriteScale = FP_FromDouble(0.5);
-        mAnim.mRenderLayer = Layer::eLayer_Shadow_Half_7;
+        GetAnimation().SetRenderLayer(Layer::eLayer_Shadow_Half_7);
         mScale = Scale::Bg;
     }
 
@@ -145,43 +145,43 @@ s32 MineCar::CreateFromSaveState(const u8* pBuffer)
         switch (pState->field_24_frame_table)
         {
         case 10860:
-            pMineCar->mAnim.Set_Animation_Data(pMineCar->GetAnimRes(sMineCarAnimIdTable[6]));
+            pMineCar->GetAnimation().Set_Animation_Data(pMineCar->GetAnimRes(sMineCarAnimIdTable[6]));
             break;
         case 10884:
-            pMineCar->mAnim.Set_Animation_Data(pMineCar->GetAnimRes(sMineCarAnimIdTable[1]));
+            pMineCar->GetAnimation().Set_Animation_Data(pMineCar->GetAnimRes(sMineCarAnimIdTable[1]));
             break;
         case 10896:
-            pMineCar->mAnim.Set_Animation_Data(pMineCar->GetAnimRes(sMineCarAnimIdTable[4]));
+            pMineCar->GetAnimation().Set_Animation_Data(pMineCar->GetAnimRes(sMineCarAnimIdTable[4]));
             break;
         case 10908:
-            pMineCar->mAnim.Set_Animation_Data(pMineCar->GetAnimRes(sMineCarAnimIdTable[0]));
+            pMineCar->GetAnimation().Set_Animation_Data(pMineCar->GetAnimRes(sMineCarAnimIdTable[0]));
             break;
         case 10920:
-            pMineCar->mAnim.Set_Animation_Data(pMineCar->GetAnimRes(sMineCarAnimIdTable[5]));
+            pMineCar->GetAnimation().Set_Animation_Data(pMineCar->GetAnimRes(sMineCarAnimIdTable[5]));
             break;
         case 10944:
-            pMineCar->mAnim.Set_Animation_Data(pMineCar->GetAnimRes(sMineCarAnimIdTable[2]));
+            pMineCar->GetAnimation().Set_Animation_Data(pMineCar->GetAnimRes(sMineCarAnimIdTable[2]));
             break;
         case 10972:
-            pMineCar->mAnim.Set_Animation_Data(pMineCar->GetAnimRes(sMineCarAnimIdTable[3]));
+            pMineCar->GetAnimation().Set_Animation_Data(pMineCar->GetAnimRes(sMineCarAnimIdTable[3]));
             break;
         default:
             break;
         }
 
-        pMineCar->mAnim.mCurrentFrame = pState->field_2A_current_anim_frame;
+        pMineCar->GetAnimation().SetCurrentFrame(pState->field_2A_current_anim_frame);
 
 
-        pMineCar->mAnim.mFrameChangeCounter = pState->field_2C_frame_change_counter;
+        pMineCar->GetAnimation().SetFrameChangeCounter(pState->field_2C_frame_change_counter);
 
-        pMineCar->mAnim.mFlags.Set(AnimFlags::eFlipX, pState->field_22_xFlip & 1);
-        pMineCar->mAnim.mFlags.Set(AnimFlags::eRender, pState->field_2E_render & 1);
+        pMineCar->GetAnimation().mFlags.Set(AnimFlags::eFlipX, pState->field_22_xFlip & 1);
+        pMineCar->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->field_2E_render & 1);
 
         pMineCar->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_2F_drawable & 1);
 
-        if (IsLastFrame(&pMineCar->mAnim))
+        if (IsLastFrame(&pMineCar->GetAnimation()))
         {
-            pMineCar->mAnim.mFlags.Set(AnimFlags::eIsLastFrame);
+            pMineCar->GetAnimation().mFlags.Set(AnimFlags::eIsLastFrame);
         }
 
         // TODO: replace Set_Animation_Data sMineCarAnimIdTable[] with the actual anim id's
@@ -212,7 +212,7 @@ s32 MineCar::CreateFromSaveState(const u8* pBuffer)
             break;
         }
 
-        pMineCar->mTreadAnim.mCurrentFrame = pState->field_2A_current_anim_frame;
+        pMineCar->mTreadAnim.SetCurrentFrame(pState->field_2A_current_anim_frame);
 
 
         // TODO: OG Bug same flags but save state saves 2 sets one for each anim ??
@@ -220,7 +220,7 @@ s32 MineCar::CreateFromSaveState(const u8* pBuffer)
         pMineCar->mTreadAnim.mFlags.Set(AnimFlags::eRender, pState->field_2E_render & 1);
 
 
-        pMineCar->mTreadAnim.mFrameChangeCounter = pState->field_2C_frame_change_counter;
+        pMineCar->mTreadAnim.SetFrameChangeCounter(pState->field_2C_frame_change_counter);
 
         pMineCar->mHealth = pState->field_3C_health;
         pMineCar->mCurrentMotion = pState->field_40_current_motion;
@@ -262,12 +262,10 @@ void MineCar::LoadAnimation(Animation* pAnim)
 {
     if (pAnim->Init(GetAnimRes(AnimId::Mine_Car_Tread_Idle), this))
     {
-        pAnim->mRenderLayer = mAnim.mRenderLayer;
+        pAnim->SetRenderLayer(GetAnimation().GetRenderLayer());
         pAnim->mFlags.Clear(AnimFlags::eBlending);
-        pAnim->field_14_scale = mSpriteScale;
-        pAnim->mRed = 128;
-        pAnim->mGreen = 128;
-        pAnim->mBlue = 128;
+        pAnim->SetSpriteScale(mSpriteScale);
+        pAnim->SetRGB(128, 128, 128);
     }
     else
     {
@@ -356,7 +354,7 @@ bool MineCar::CheckFloorCollision(FP hitX, FP hitY)
 
 void MineCar::VRender(PrimHeader** ppOt)
 {
-    if (mAnim.mFlags.Get(AnimFlags::eRender))
+    if (GetAnimation().mFlags.Get(AnimFlags::eRender))
     {
         s16 r = mRGB.g;
         s16 g = mRGB.r;
@@ -375,9 +373,7 @@ void MineCar::VRender(PrimHeader** ppOt)
                 &b);
         }
 
-        mTreadAnim.mRed = static_cast<u8>(r);
-        mTreadAnim.mGreen = static_cast<u8>(g);
-        mTreadAnim.mBlue = static_cast<u8>(b);
+        mTreadAnim.SetRGB(r, g, b);
 
         if (gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos + FP_FromInteger(30), mYPos, 0) || gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos - (mSpriteScale * FP_FromInteger(60)), 0) || gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos - FP_FromInteger(30), mYPos, 0))
         {
@@ -405,7 +401,7 @@ void MineCar::Stop()
 
     SfxPlayMono(relive::SoundEffects::MinecarStop, 127, mSpriteScale);
     
-    mAnim.Set_Animation_Data(GetAnimRes(AnimId::Mine_Car_Closed));
+    GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Mine_Car_Closed));
     mTreadAnim.Set_Animation_Data(GetAnimRes(AnimId::Mine_Car_Tread_Idle));
 
     field_1C4_velx_index = 0;
@@ -415,7 +411,7 @@ void MineCar::Stop()
 
 void MineCar::Move(AnimId animId, FP velX, FP velY, InputCommands::Enum input, MineCarDirs turnDirection, s8 bChangeDirection)
 {
-    mAnim.Set_Animation_Data(GetAnimRes(animId));
+    GetAnimation().Set_Animation_Data(GetAnimRes(animId));
 
     field_11C_state = MineCarStates::eMoving_2;
     field_1C8_frame_mod_16 = static_cast<s32>(sGnFrame) % 16;
@@ -692,15 +688,15 @@ s32 MineCar::VGetSaveState(u8* pSaveBuffer)
     pState->field_20_b = mRGB.b;
 
     pState->field_28_current_motion = mCurrentMotion;
-    pState->field_2A_current_anim_frame = static_cast<s16>(mAnim.mCurrentFrame);
-    pState->field_2C_frame_change_counter = static_cast<s16>(mAnim.mFrameChangeCounter);
+    pState->field_2A_current_anim_frame = static_cast<s16>(GetAnimation().GetCurrentFrame());
+    pState->field_2C_frame_change_counter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
 
     pState->field_2F_drawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
-    pState->field_22_xFlip = mAnim.mFlags.Get(AnimFlags::eFlipX);
-    pState->field_2E_render = mAnim.mFlags.Get(AnimFlags::eRender);
+    pState->field_22_xFlip = GetAnimation().mFlags.Get(AnimFlags::eFlipX);
+    pState->field_2E_render = GetAnimation().mFlags.Get(AnimFlags::eRender);
 
     // this makes no sense because we convert pState->field_24_frame_table back to the actual offset in CreateFromSaveState
-    switch (mAnim.mAnimRes.mId)
+    switch (GetAnimation().mAnimRes.mId)
     {
         case AnimId::Mine_Car_Tread_Move_B:
             pState->field_24_frame_table = 10860;
@@ -727,8 +723,8 @@ s32 MineCar::VGetSaveState(u8* pSaveBuffer)
             break;
     }
 
-    pState->field_34_unused = static_cast<s16>(mTreadAnim.mCurrentFrame);
-    pState->field_36_unused = static_cast<s16>(mTreadAnim.mFrameChangeCounter);
+    pState->field_34_unused = static_cast<s16>(mTreadAnim.GetCurrentFrame());
+    pState->field_36_unused = static_cast<s16>(mTreadAnim.GetFrameChangeCounter());
 
     pState->field_32_unused = mTreadAnim.mFlags.Get(AnimFlags::eFlipX);
     pState->field_30_unused = mTreadAnim.mFlags.Get(AnimFlags::eRender);
@@ -913,16 +909,16 @@ void MineCar::State_0_ParkedWithoutAbe()
         sActiveHero->mSpriteScale == mSpriteScale
     )
     {
-        mAnim.Set_Animation_Data(GetAnimRes(AnimId::Mine_Car_Closed));
+        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Mine_Car_Closed));
         field_11C_state = MineCarStates::eParkedWithAbe_1;
         sControlledCharacter = this;
-        mAnim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_35;
-        mTreadAnim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_35;
+        GetAnimation().SetRenderLayer(Layer::eLayer_RollingBallBombMineCar_35);
+        mTreadAnim.SetRenderLayer(Layer::eLayer_RollingBallBombMineCar_35);
 
         if (mSpriteScale == FP_FromDouble(0.5))
         {
-            mAnim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_Half_16;
-            mTreadAnim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_Half_16;
+            GetAnimation().SetRenderLayer(Layer::eLayer_RollingBallBombMineCar_Half_16);
+            mTreadAnim.SetRenderLayer(Layer::eLayer_RollingBallBombMineCar_Half_16);
         }
 
         SFX_Play_Pitch(relive::SoundEffects::DoorEffect, 100, 500, mSpriteScale);
@@ -947,7 +943,7 @@ void MineCar::State_1_ParkedWithAbe()
         field_11C_state = MineCarStates::eParkedWithoutAbe_0;
         
         mTreadAnim.Set_Animation_Data(GetAnimRes(AnimId::Mine_Car_Tread_Idle));
-        mAnim.Set_Animation_Data(GetAnimRes(AnimId::Mine_Car_Open));
+        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Mine_Car_Open));
 
         sControlledCharacter = sActiveHero;
         field_1CC_spawned_path = gMap.mCurrentPath;
@@ -959,13 +955,13 @@ void MineCar::State_1_ParkedWithAbe()
 
         if (mSpriteScale == FP_FromDouble(0.5))
         {
-            mAnim.mRenderLayer = Layer::eLayer_Shadow_Half_7;
-            mTreadAnim.mRenderLayer = Layer::eLayer_Shadow_Half_7;
+            GetAnimation().SetRenderLayer(Layer::eLayer_Shadow_Half_7);
+            mTreadAnim.SetRenderLayer(Layer::eLayer_Shadow_Half_7);
         }
         else
         {
-            mAnim.mRenderLayer = Layer::eLayer_Shadow_26;
-            mTreadAnim.mRenderLayer = Layer::eLayer_Shadow_26;
+            GetAnimation().SetRenderLayer(Layer::eLayer_Shadow_26);
+            mTreadAnim.SetRenderLayer(Layer::eLayer_Shadow_26);
         }
 
         return;
@@ -1475,7 +1471,7 @@ void MineCar::State_2_Moving()
 
         if (++field_1C4_velx_index == 2)
         {
-            ++mTreadAnim.mFrameDelay;
+            mTreadAnim.SetFrameDelay(mTreadAnim.GetFrameDelay() + 1);
         }
     }
 

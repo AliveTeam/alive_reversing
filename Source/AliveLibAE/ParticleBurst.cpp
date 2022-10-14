@@ -53,25 +53,25 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
             case BurstType::eFallingRocks_0:
             {
                 Animation_Init(ResourceManagerWrapper::LoadAnimation(AnimId::Explosion_Rocks));
-                mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
-                mAnim.mFlags.Set(AnimFlags::eBlending);
+                GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
+                GetAnimation().mFlags.Set(AnimFlags::eBlending);
                 break;
             }
 
             case BurstType::eSticks_1:
             {
                 Animation_Init(ResourceManagerWrapper::LoadAnimation(AnimId::Explosion_Sticks));
-                mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
-                mAnim.mFlags.Set(AnimFlags::eBlending);
+                GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
+                GetAnimation().mFlags.Set(AnimFlags::eBlending);
                 break;
             }
 
             case BurstType::eBigPurpleSparks_2:
             {
                 Animation_Init(ResourceManagerWrapper::LoadAnimation(AnimId::DeathFlare_2));
-                mAnim.mFlags.Set(AnimFlags::eSemiTrans);
-                mAnim.mFlags.Set(AnimFlags::eBlending);
-                mAnim.mRenderMode = TPageAbr::eBlend_1;
+                GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
+                GetAnimation().mFlags.Set(AnimFlags::eBlending);
+                GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
                 break;
             }
 
@@ -80,27 +80,21 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
             case BurstType::eSmallPurpleSparks_6:
             {
                 Animation_Init(ResourceManagerWrapper::LoadAnimation(AnimId::DeathFlare_2));
-                mAnim.mRenderMode = TPageAbr::eBlend_1;
-                mAnim.mFlags.Set(AnimFlags::eSemiTrans);
-                mAnim.mFlags.Clear(AnimFlags::eBlending);
+                GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+                GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
+                GetAnimation().mFlags.Clear(AnimFlags::eBlending);
 
                 if (field_104_type == BurstType::eBigRedSparks_3)
                 {
-                    mAnim.mRed = 254;
-                    mAnim.mGreen = 148;
-                    mAnim.mBlue = 18;
+                    GetAnimation().SetRGB(254, 148, 18);
                 }
                 else if (field_104_type == BurstType::eSmallPurpleSparks_6)
                 {
-                    mAnim.mRed = 127;
-                    mAnim.mGreen = 127;
-                    mAnim.mBlue = 127;
+                    GetAnimation().SetRGB(127, 127, 127);
                 }
                 else
                 {
-                    mAnim.mRed = 0;
-                    mAnim.mGreen = 255;
-                    mAnim.mBlue = 32;
+                    GetAnimation().SetRGB(0, 255, 32);
                 }
                 break;
             }
@@ -117,12 +111,12 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
             if (mSpriteScale == FP_FromInteger(1))
             {
                 mScale = Scale::Fg;
-                mAnim.mRenderLayer = Layer::eLayer_Above_FG1_39;
+                GetAnimation().SetRenderLayer(Layer::eLayer_Above_FG1_39);
             }
             else
             {
                 mScale = Scale::Bg;
-                mAnim.mRenderLayer = Layer::eLayer_Above_FG1_Half_20;
+                GetAnimation().SetRenderLayer(Layer::eLayer_Above_FG1_Half_20);
             }
 
             field_FC_number_of_particles = static_cast<s16>(numOfParticles);
@@ -132,16 +126,16 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
 
             for (u32 i = 0; i < numOfParticles; i++)
             {
-                field_F8_pRes[i].field_18_animation.field_68_anim_ptr = &mAnim;
-                field_F8_pRes[i].field_18_animation.mRenderLayer = mAnim.mRenderLayer;
+                field_F8_pRes[i].field_18_animation.field_68_anim_ptr = &GetAnimation();
+                field_F8_pRes[i].field_18_animation.SetRenderLayer(GetAnimation().GetRenderLayer());
                 field_F8_pRes[i].field_18_animation.field_6C_scale = FP_FromDouble(0.95) * mSpriteScale;
 
                 field_F8_pRes[i].field_18_animation.mFlags.Set(AnimFlags::eRender);
                 //field_F8_pRes[i].field_18_animation.mFlags.Set(AnimFlags::eBit25_bDecompressDone); // TODO: HIWORD &= ~0x0100u ??
 
-                field_F8_pRes[i].field_18_animation.mFlags.Set(AnimFlags::eSemiTrans, mAnim.mFlags.Get(AnimFlags::eSemiTrans));
+                field_F8_pRes[i].field_18_animation.mFlags.Set(AnimFlags::eSemiTrans, GetAnimation().mFlags.Get(AnimFlags::eSemiTrans));
 
-                field_F8_pRes[i].field_18_animation.mFlags.Set(AnimFlags::eBlending, mAnim.mFlags.Get(AnimFlags::eBlending));
+                field_F8_pRes[i].field_18_animation.mFlags.Set(AnimFlags::eBlending, GetAnimation().mFlags.Get(AnimFlags::eBlending));
 
                 if (type == BurstType::eBigPurpleSparks_2)
                 {
@@ -151,9 +145,7 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
                     }
                 }
 
-                field_F8_pRes[i].field_18_animation.mRed = mAnim.mRed;
-                field_F8_pRes[i].field_18_animation.mGreen = mAnim.mGreen;
-                field_F8_pRes[i].field_18_animation.mBlue = mAnim.mBlue;
+                field_F8_pRes[i].field_18_animation.SetRGB(GetAnimation().GetRgb());
 
                 field_F8_pRes[i].x = mXPos;
                 field_F8_pRes[i].y = mYPos;
@@ -190,7 +182,7 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
     bool bFirst = true;
     if (sNum_CamSwappers_5C1B66 == 0)
     {
-        mAnim.field_14_scale = mSpriteScale;
+        GetAnimation().SetSpriteScale(mSpriteScale);
         const FP camX = pScreenManager->CamXPos();
         const FP camY = pScreenManager->CamYPos();
 
@@ -221,13 +213,13 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
             // TODO: Much duplicated code in each branch
             if (bFirst)
             {
-                mAnim.field_14_scale = FP_FromInteger(100) / (zPos + FP_FromInteger(300));
-                mAnim.field_14_scale *= mSpriteScale;
-                mAnim.field_14_scale *= FP_FromInteger(field_106_count) / FP_FromInteger(13);
+                GetAnimation().SetSpriteScale(FP_FromInteger(100) / (zPos + FP_FromInteger(300)));
+                GetAnimation().SetSpriteScale(GetAnimation().GetSpriteScale() * mSpriteScale);
+                GetAnimation().SetSpriteScale(GetAnimation().GetSpriteScale() * FP_FromInteger(field_106_count) / FP_FromInteger(13));
 
-                if (mAnim.field_14_scale <= FP_FromInteger(1))
+                if (GetAnimation().GetSpriteScale() <= FP_FromInteger(1))
                 {
-                    mAnim.VRender(
+                    GetAnimation().VRender(
                         FP_GetExponent(field_F8_pRes[i].x - camX),
                         FP_GetExponent(field_F8_pRes[i].y - camY),
                         ppOt,
@@ -237,34 +229,35 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
                     bFirst = false;
 
                     PSX_RECT frameRect = {};
-                    mAnim.Get_Frame_Rect(&frameRect);
+                    GetAnimation().Get_Frame_Rect(&frameRect);
                     if (field_106_count == 9)
                     {
-                        if (mAnim.mRed > 5)
+                        RGB16& rgb = GetAnimation().GetRgb();
+                        if (rgb.r > 5)
                         {
-                            mAnim.mRed -= 6;
+                            rgb.r -= 6;
                         }
                         else
                         {
-                            mAnim.mRed = 0;
+                            rgb.r = 0;
                         }
 
-                        if (mAnim.mGreen > 5)
+                        if (rgb.g > 5)
                         {
-                            mAnim.mGreen -= 6;
+                            rgb.g -= 6;
                         }
                         else
                         {
-                            mAnim.mGreen = 0;
+                            rgb.g = 0;
                         }
 
-                        if (mAnim.mBlue > 5)
+                        if (rgb.b > 5)
                         {
-                            mAnim.mBlue -= 6;
+                            rgb.b -= 6;
                         }
                         else
                         {
-                            mAnim.mBlue = 0;
+                            rgb.b = 0;
                         }
                     }
                 }
@@ -289,31 +282,32 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
 
                     if (field_106_count == 9)
                     {
-                        if (field_F8_pRes[i].field_18_animation.mRed > 5)
+                        RGB16& rgb = field_F8_pRes[i].field_18_animation.GetRgb();
+                        if (rgb.r > 5)
                         {
-                            field_F8_pRes[i].field_18_animation.mRed -= 6;
+                            rgb.r -= 6;
                         }
                         else
                         {
-                            field_F8_pRes[i].field_18_animation.mRed = 0;
+                            rgb.r = 0;
                         }
 
-                        if (field_F8_pRes[i].field_18_animation.mGreen > 5)
+                        if (rgb.g > 5)
                         {
-                            field_F8_pRes[i].field_18_animation.mGreen -= 6;
+                            rgb.g -= 6;
                         }
                         else
                         {
-                            field_F8_pRes[i].field_18_animation.mGreen = 0;
+                            rgb.g = 0;
                         }
 
-                        if (field_F8_pRes[i].field_18_animation.mBlue > 5)
+                        if (rgb.b > 5)
                         {
-                            field_F8_pRes[i].field_18_animation.mBlue -= 6;
+                            rgb.b -= 6;
                         }
                         else
                         {
-                            field_F8_pRes[i].field_18_animation.mBlue = 0;
+                            rgb.b = 0;
                         }
                     }
                 }

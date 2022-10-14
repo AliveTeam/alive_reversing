@@ -26,7 +26,7 @@ BellHammer::BellHammer(relive::Path_BellHammer* pTlv, const Guid& tlvId)
     LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::BellHammer_Idle));
 
-    mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
+    GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
     mSpawnElum = false;
     mState = BellHammerStates::eWaitForActivation_0;
 
@@ -40,18 +40,18 @@ BellHammer::BellHammer(relive::Path_BellHammer* pTlv, const Guid& tlvId)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
-        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
+        GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_Half_6);
     }
     else
     {
         mSpriteScale = FP_FromInteger(1);
         mScale = Scale::Fg;
-        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
+        GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_25);
     }
 
     if (pTlv->mDirection == relive::reliveXDirection::eRight)
     {
-        mAnim.mFlags.Set(AnimFlags::eFlipX);
+        GetAnimation().mFlags.Set(AnimFlags::eFlipX);
     }
 
     if (gElum)
@@ -78,15 +78,15 @@ void BellHammer::VUpdate()
             if (SwitchStates_Get(mSwitchId))
             {
                 mState = BellHammerStates::eSmashingBell_1;
-                mAnim.Set_Animation_Data(GetAnimRes(AnimId::BellHammer_Smashing));
+                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::BellHammer_Smashing));
             }
             break;
 
         case BellHammerStates::eSmashingBell_1:
-            if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+            if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 mState = BellHammerStates::eWaitForActivation_0;
-                mAnim.Set_Animation_Data(GetAnimRes(AnimId::BellHammer_Idle));
+                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::BellHammer_Idle));
                 SwitchStates_Set(mSwitchId, 0);
 
                 // Spawn the foo if he ain't already here
@@ -98,11 +98,11 @@ void BellHammer::VUpdate()
             else
             {
                 // Play those bell smashing sounds
-                if (mAnim.mCurrentFrame == 5)
+                if (GetAnimation().GetCurrentFrame() == 5)
                 {
                     SfxPlayMono(relive::SoundEffects::RingBellHammer, 0);
                 }
-                else if (mAnim.mCurrentFrame == 15)
+                else if (GetAnimation().GetCurrentFrame() == 15)
                 {
                     SND_SEQ_PlaySeq_4775A0(SeqId::eRingBellHammerAndExtraSound_13, 1, 1);
                 }

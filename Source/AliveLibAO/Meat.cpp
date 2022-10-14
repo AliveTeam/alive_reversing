@@ -55,13 +55,13 @@ MeatSack::MeatSack(relive::Path_MeatSack* pTlv, const Guid& tlvId)
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
-        mAnim.mRenderLayer = Layer::eLayer_8;
+        GetAnimation().SetRenderLayer(Layer::eLayer_8);
         mScale = Scale::Bg;
     }
     else
     {
         mSpriteScale = FP_FromInteger(1);
-        mAnim.mRenderLayer = Layer::eLayer_27;
+        GetAnimation().SetRenderLayer(Layer::eLayer_27);
         mScale = Scale::Fg;
     }
 
@@ -82,7 +82,7 @@ void MeatSack::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (mAnim.mCurrentFrame == 2)
+    if (GetAnimation().GetCurrentFrame() == 2)
     {
         if (field_114_bPlayWobbleSound)
         {
@@ -101,9 +101,9 @@ void MeatSack::VUpdate()
 
     if (field_110_bDoMeatSackIdleAnim == 1)
     {
-        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
         {
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::MeatSack_Idle));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MeatSack_Idle));
             field_110_bDoMeatSackIdleAnim = 0;
         }
         return;
@@ -125,7 +125,7 @@ void MeatSack::VUpdate()
             {
                 if (gThrowableArray->field_10_count > 0)
                 {
-                    mAnim.Set_Animation_Data(GetAnimRes(AnimId::MeatSack_Hit));
+                    GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MeatSack_Hit));
                     field_110_bDoMeatSackIdleAnim = 1;
                     return;
                 }
@@ -145,7 +145,7 @@ void MeatSack::VUpdate()
 
             SfxPlayMono(relive::SoundEffects::SackHit, 0);
             Environment_SFX_42A220(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, nullptr);
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::MeatSack_Hit));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MeatSack_Hit));
             field_110_bDoMeatSackIdleAnim = 1;
             return;
         }
@@ -178,8 +178,8 @@ Meat::Meat(FP xpos, FP ypos, s16 count)
     field_11C_timer = 0;
     mBaseGameObjectFlags.Clear(Options::eInteractive_Bit8);
 
-    mAnim.mFlags.Clear(AnimFlags::eRender);
-    mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
+    GetAnimation().mFlags.Clear(AnimFlags::eRender);
+    GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
 
     field_120_deadtimer = sGnFrame + 600;
     field_124_pLine = 0;
@@ -210,7 +210,7 @@ void Meat::VScreenChanged()
 
 void Meat::VThrow(FP velX, FP velY)
 {
-    mAnim.mFlags.Set(AnimFlags::eRender);
+    GetAnimation().mFlags.Set(AnimFlags::eRender);
 
     mVelX = velX;
     mVelY = velY;
@@ -399,7 +399,7 @@ void Meat::VUpdate()
             case 3:
                 if (FP_Abs(mVelX) < FP_FromInteger(1))
                 {
-                    mAnim.mFlags.Clear(AnimFlags::eLoop);
+                    GetAnimation().mFlags.Clear(AnimFlags::eLoop);
                 }
 
                 if (FP_Abs(mVelX) >= FP_FromDouble(0.5))
@@ -417,7 +417,7 @@ void Meat::VUpdate()
                     if (!field_124_pLine)
                     {
                         field_110_state = 2;
-                        mAnim.mFlags.Set(AnimFlags::eLoop);
+                        GetAnimation().mFlags.Set(AnimFlags::eLoop);
                     }
                 }
                 else

@@ -55,8 +55,8 @@ Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
     LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::Drill_Vertical_Off));
 
-    mAnim.mFlags.Set(AnimFlags::eSemiTrans);
-    mAnim.mRenderMode = TPageAbr::eBlend_0;
+    GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
+    GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
 
     SetTint(kDrillTints_551548, gMap.mCurrentLevel);
     relive::Path_Drill tlvData = *pTlv;
@@ -84,13 +84,13 @@ Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
     if (tlvData.mScale == relive::reliveScale::eFull)
     {
         mSpriteScale = FP_FromInteger(1);
-        mAnim.mRenderLayer = Layer::eLayer_RopeWebDrillMeatSaw_24;
+        GetAnimation().SetRenderLayer(Layer::eLayer_RopeWebDrillMeatSaw_24);
         mScale = Scale::Fg;
     }
     else
     {
         mSpriteScale = FP_FromDouble(0.5);
-        mAnim.mRenderLayer = Layer::eLayer_RopeWebDrillMeatSaw_Half_5;
+        GetAnimation().SetRenderLayer(Layer::eLayer_RopeWebDrillMeatSaw_Half_5);
         mScale = Scale::Bg;
     }
 
@@ -132,11 +132,11 @@ Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
 
             if (field_128_flags.Get(Flags::eBit2_ToggleStartState_StartOn))
             {
-                mAnim.Set_Animation_Data(GetAnimRes(AnimId::Drill_Vertical_On));
+                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Drill_Vertical_On));
             }
             else
             {
-                mAnim.Set_Animation_Data(GetAnimRes(AnimId::Drill_Vertical_Off));
+                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Drill_Vertical_Off));
             }
 
             mDrillDistance = pTlv->mBottomRightY - pTlv->mTopLeftY;
@@ -158,11 +158,11 @@ Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
 
             if (field_128_flags.Get(Flags::eBit2_ToggleStartState_StartOn))
             {
-                mAnim.Set_Animation_Data(GetAnimRes(AnimId::Drill_Horizontal_On));
+                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Drill_Horizontal_On));
             }
             else
             {
-                mAnim.Set_Animation_Data(GetAnimRes(AnimId::Drill_Horizontal_Off));
+                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Drill_Horizontal_Off));
             }
 
             mDrillDistance = pTlv->mBottomRightX - pTlv->mTopLeftX;
@@ -178,7 +178,7 @@ Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
             break;
 
         case relive::Path_Drill::DrillDirection::eLeft:
-            mAnim.mFlags.Set(AnimFlags::eFlipX);
+            GetAnimation().mFlags.Set(AnimFlags::eFlipX);
 
             mAdjustedXPos = FP_FromInteger(pTlv->mBottomRightX - 12);
             mAdjustedYPos = FP_FromInteger(pTlv->mBottomRightY);
@@ -186,11 +186,11 @@ Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
 
             if (field_128_flags.Get(Flags::eBit2_ToggleStartState_StartOn))
             {
-                mAnim.Set_Animation_Data(GetAnimRes(AnimId::Drill_Horizontal_On));
+                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Drill_Horizontal_On));
             }
             else
             {
-                mAnim.Set_Animation_Data(GetAnimRes(AnimId::Drill_Horizontal_Off));
+                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Drill_Horizontal_Off));
             }
 
             mDrillDistance = pTlv->mBottomRightX - pTlv->mTopLeftX;
@@ -261,13 +261,13 @@ s32 Drill::CreateFromSaveState(const u8* pData)
         {
             case relive::Path_Drill::DrillDirection::eDown:
             {
-                pDrill->mAnim.Set_Animation_Data(pDrill->GetAnimRes(AnimId::Drill_Vertical_On));
+                pDrill->GetAnimation().Set_Animation_Data(pDrill->GetAnimRes(AnimId::Drill_Vertical_On));
                 break;
             }
             case relive::Path_Drill::DrillDirection::eRight:
             case relive::Path_Drill::DrillDirection::eLeft:
             {
-                pDrill->mAnim.Set_Animation_Data(pDrill->GetAnimRes(AnimId::Drill_Horizontal_On));
+                pDrill->GetAnimation().Set_Animation_Data(pDrill->GetAnimRes(AnimId::Drill_Horizontal_On));
                 break;
             }
         }
@@ -301,13 +301,13 @@ void Drill::VUpdate()
                     {
                         case relive::Path_Drill::DrillDirection::eDown:
                         {
-                            mAnim.Set_Animation_Data(GetAnimRes(AnimId::Drill_Vertical_On));
+                            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Drill_Vertical_On));
                             break;
                         }
                         case relive::Path_Drill::DrillDirection::eRight:
                         case relive::Path_Drill::DrillDirection::eLeft:
                         {
-                            mAnim.Set_Animation_Data(GetAnimRes(AnimId::Drill_Horizontal_On));
+                            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Drill_Horizontal_On));
                             break;
                         }
                     }
@@ -327,20 +327,20 @@ void Drill::VUpdate()
                 {
                     case relive::Path_Drill::DrillDirection::eDown:
                     {
-                        mAnim.Set_Animation_Data(GetAnimRes(AnimId::Drill_Vertical_On));
+                        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Drill_Vertical_On));
                         break;
                     }
 
                     case relive::Path_Drill::DrillDirection::eRight:
                     {
-                        mAnim.Set_Animation_Data(GetAnimRes(AnimId::Drill_Horizontal_On));
+                        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Drill_Horizontal_On));
                         break;
                     }
 
                     case relive::Path_Drill::DrillDirection::eLeft:
                     {
-                        mAnim.Set_Animation_Data(GetAnimRes(AnimId::Drill_Horizontal_On));
-                        mAnim.mFlags.Set(AnimFlags::eFlipX);
+                        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Drill_Horizontal_On));
+                        GetAnimation().mFlags.Set(AnimFlags::eFlipX);
                         break;
                     }
                 }
@@ -405,11 +405,11 @@ void Drill::VUpdate()
 
                 if (mDrillDirection == relive::Path_Drill::DrillDirection::eDown)
                 {
-                    mAnim.Set_Animation_Data(GetAnimRes(AnimId::Drill_Vertical_Off));
+                    GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Drill_Vertical_Off));
                 }
                 else
                 {
-                    mAnim.Set_Animation_Data(GetAnimRes(AnimId::Drill_Horizontal_Off));
+                    GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Drill_Horizontal_Off));
                 }
 
                 if (field_128_flags.Get(eBit4_Toggle))

@@ -43,12 +43,12 @@ public:
                 if (static_cast<s32>(sGnFrame) > field_E8_timer)
                 {
                     field_E4_state = BoomMachineStates::eDropGrenade_3;
-                    mAnim.Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Nozzle_DropGrenade));
+                    GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Nozzle_DropGrenade));
                 }
                 break;
 
             case BoomMachineStates::eDropGrenade_3:
-                if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+                if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
                 {
                     SFX_Play_Pitch(relive::SoundEffects::PickupItem, 127, -900);
                     if (!gThrowableArray)
@@ -59,7 +59,7 @@ public:
                     gThrowableArray->Add(field_EC_num_grenades);
 
                     FP directedScale = {};
-                    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+                    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                     {
                         directedScale = -mSpriteScale;
                     }
@@ -73,10 +73,10 @@ public:
                         field_EC_num_grenades);
                     if (pNewNade)
                     {
-                        pNewNade->VThrow(mAnim.mFlags.Get(AnimFlags::eFlipX) ? FP_FromDouble(-0.75) : FP_FromDouble(0.75), FP_FromInteger(3));
+                        pNewNade->VThrow(GetAnimation().mFlags.Get(AnimFlags::eFlipX) ? FP_FromDouble(-0.75) : FP_FromDouble(0.75), FP_FromInteger(3));
                     }
 
-                    mAnim.Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Nozzle_Idle));
+                    GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Nozzle_Idle));
                     field_E4_state = BoomMachineStates::eInactive_0;
                 }
                 break;
@@ -132,7 +132,7 @@ void BoomMachine::VUpdate()
         if (!gThrowableArray || gThrowableArray->field_10_count == 0)
         {
             field_E8_bIsButtonOn = 1;
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Button_On));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Button_On));
         }
     }
     else if (field_E8_bIsButtonOn == 1)
@@ -140,10 +140,10 @@ void BoomMachine::VUpdate()
         if (gThrowableArray && gThrowableArray->field_10_count > 0)
         {
             field_E8_bIsButtonOn = 0;
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Button_Off));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Button_Off));
         }
 
-        if (mAnim.mCurrentFrame == 3)
+        if (GetAnimation().GetCurrentFrame() == 3)
         {
             SFX_Play_Pitch(relive::SoundEffects::RedTick, 25, -1200);
         }
@@ -178,7 +178,7 @@ BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId)
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
     field_E4_tlvInfo = tlvId;
-    mAnim.mRenderMode = TPageAbr::eBlend_1;
+    GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
@@ -203,7 +203,7 @@ BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId)
 
         pNozzle->Animation_Init(pNozzle->GetAnimRes(AnimId::BoomMachine_Nozzle_Idle));
 
-        pNozzle->mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
+        pNozzle->GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
         pNozzle->mSpriteScale = mSpriteScale;
         pNozzle->mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
         pNozzle->field_E4_state = BoomMachineStates::eInactive_0;
@@ -212,7 +212,7 @@ BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId)
         pNozzle->field_EC_num_grenades = static_cast<s16>(pTlv->mGrenadeAmount);
     }
 
-    pNozzle->mAnim.mFlags.Set(AnimFlags::eFlipX, pTlv->mNozzleSide == relive::Path_BoomMachine::NozzleSide::eLeft);
+    pNozzle->GetAnimation().mFlags.Set(AnimFlags::eFlipX, pTlv->mNozzleSide == relive::Path_BoomMachine::NozzleSide::eLeft);
 
     pNozzle->mBaseGameObjectRefCount++;
     field_EC_pNozzle = pNozzle;
@@ -220,7 +220,7 @@ BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId)
     if (gThrowableArray && gThrowableArray->field_10_count)
     {
         field_E8_bIsButtonOn = 1;
-        mAnim.Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Button_On));
+        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Button_On));
     }
     else
     {

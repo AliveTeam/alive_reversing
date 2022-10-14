@@ -60,27 +60,25 @@ Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
 
     SetTint(kRopeTints_55FD68, gMap.mCurrentLevel);
 
-    mAnim.field_14_scale = scale;
+    GetAnimation().SetSpriteScale(scale);
     mSpriteScale = scale;
 
     if (scale == FP_FromInteger(1))
     {
         field_F6_rope_length = 15;
-        mAnim.mRenderLayer = Layer::eLayer_RopeWebDrillMeatSaw_24;
+        GetAnimation().SetRenderLayer(Layer::eLayer_RopeWebDrillMeatSaw_24);
         mScale = Scale::Fg;
     }
     else
     {
         field_F6_rope_length = 7;
-        mAnim.mRenderLayer = Layer::eLayer_RopeWebDrillMeatSaw_Half_5;
-        mAnim.field_14_scale = FP_FromDouble(0.7);
+        GetAnimation().SetRenderLayer(Layer::eLayer_RopeWebDrillMeatSaw_Half_5);
+        GetAnimation().SetSpriteScale(FP_FromDouble(0.7));
         mSpriteScale = FP_FromDouble(0.7);
         mScale = Scale::Bg;
     };
 
-    mAnim.mRed = static_cast<u8>(mRGB.r);
-    mAnim.mGreen = static_cast<u8>(mRGB.g);
-    mAnim.mBlue = static_cast<u8>(mRGB.b);
+    GetAnimation().SetRGB(mRGB.r, mRGB.g, mRGB.b);
 
     field_102_top = static_cast<s16>(top);
     field_106_bottom = static_cast<s16>(bottom);
@@ -100,8 +98,8 @@ Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
         {
             AnimationUnknown* pSegment = &field_FC_pRopeRes[i];
             pSegment->mFlags.Set(AnimFlags::eRender);
-            pSegment->field_68_anim_ptr = &mAnim;
-            pSegment->mRenderLayer = mAnim.mRenderLayer;
+            pSegment->field_68_anim_ptr = &GetAnimation();
+            pSegment->SetRenderLayer(GetAnimation().GetRenderLayer());
             pSegment->field_6C_scale = scale;
             pSegment->mFlags.Clear(AnimFlags::eSemiTrans);
             pSegment->mFlags.Clear(AnimFlags::eBlending);
@@ -160,7 +158,7 @@ void Rope::VRender(PrimHeader** ppOt)
                 maxY = 240;
             }
 
-            mAnim.VRender(640, 240, ppOt, 0, 0);
+            GetAnimation().VRender(640, 240, ppOt, 0, 0);
 
             if (screenY >= minY)
             {
@@ -179,9 +177,7 @@ void Rope::VRender(PrimHeader** ppOt)
                         &g,
                         &b);
 
-                    field_FC_pRopeRes[idx].mRed = static_cast<u8>(r);
-                    field_FC_pRopeRes[idx].mGreen = static_cast<u8>(g);
-                    field_FC_pRopeRes[idx].mBlue = static_cast<u8>(b);
+                    field_FC_pRopeRes[idx].SetRGB(r, g, b);
 
                     // Render the segment
                     field_FC_pRopeRes[idx].VRender(

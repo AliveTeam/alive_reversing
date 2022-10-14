@@ -52,7 +52,7 @@ Bells::Bells(BellSize bellType, FP xpos, FP ypos, FP scale)
     mXPos = xpos;
     mYPos = ypos;
 
-    mAnim.mRenderLayer = Layer::eLayer_Foreground_36;
+    GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_36);
 
     mSmashing = false;
 
@@ -129,19 +129,19 @@ void Bells::VUpdate()
 
 void Bells::PlaySounds()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         if (mBellPitch == BellPitch::eLowPitch)
         {
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::BigChime));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::BigChime));
         }
         else if (mBellPitch == BellPitch::eMediumPitch)
         {
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::MediumChime));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MediumChime));
         }
         else if (mBellPitch == BellPitch::eHighPitch)
         {
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::SmallChime));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::SmallChime));
         }
 
         mSmashing = false;
@@ -164,17 +164,17 @@ void Bells::Ring()
         if (mBellPitch == BellPitch::eLowPitch)
         {
             mSoundPitchFactor = 1;
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::BigChime_Moving));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::BigChime_Moving));
         }
         else if (mBellPitch == BellPitch::eMediumPitch)
         {
             mSoundPitchFactor = 2;
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::MediumChime_Moving));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MediumChime_Moving));
         }
         else if (mBellPitch == BellPitch::eHighPitch)
         {
             mSoundPitchFactor = 3;
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::SmallChime_Moving));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::SmallChime_Moving));
         }
     }
 }

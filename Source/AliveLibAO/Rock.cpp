@@ -26,8 +26,8 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
     Animation_Init(GetAnimRes(AnimId::Rock));
 
     mBaseGameObjectFlags.Clear(Options::eInteractive_Bit8);
-    mAnim.mFlags.Clear(AnimFlags::eRender);
-    mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
+    GetAnimation().mFlags.Clear(AnimFlags::eRender);
+    GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
 
     mXPos = xpos;
     field_11C_xpos = xpos;
@@ -47,11 +47,11 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
     {
         // TODO: I think this only existed in certain lvls, will need a way to know
         // which pal to use per lvl/path
-        mAnim.LoadPal(GetPalRes(PalId::BlueRock));
+        GetAnimation().LoadPal(GetPalRes(PalId::BlueRock));
     }
     else
     {
-        mAnim.ReloadPal();
+        GetAnimation().ReloadPal();
     }
 
     field_118_vol = 0;
@@ -103,7 +103,7 @@ void Rock::VUpdate()
                 if (!field_114_pLine)
                 {
                     field_110_state = States::eBouncing_4;
-                    mAnim.mFlags.Set(AnimFlags::eLoop);
+                    GetAnimation().mFlags.Set(AnimFlags::eLoop);
                 }
             }
             else
@@ -119,7 +119,7 @@ void Rock::VUpdate()
                     if (!field_114_pLine)
                     {
                         field_110_state = States::eBouncing_4;
-                        mAnim.mFlags.Set(AnimFlags::eLoop);
+                        GetAnimation().mFlags.Set(AnimFlags::eLoop);
                     }
                 }
                 else
@@ -130,7 +130,7 @@ void Rock::VUpdate()
 
                     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
 
-                    mAnim.mFlags.Clear(AnimFlags::eLoop);
+                    GetAnimation().mFlags.Clear(AnimFlags::eLoop);
                     mCollectionRect.y = mYPos - ScaleToGridSize(mSpriteScale);
                     mCollectionRect.h = mYPos;
                     field_110_state = States::eOnGround_3;
@@ -205,7 +205,7 @@ void Rock::VThrow(FP velX, FP velY)
     mVelX = velX;
     mVelY = velY;
 
-    mAnim.mFlags.Set(AnimFlags::eRender);
+    GetAnimation().mFlags.Set(AnimFlags::eRender);
 
     if (mThrowableCount == 0)
     {

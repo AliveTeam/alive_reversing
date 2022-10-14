@@ -22,13 +22,13 @@ ElectricWall::ElectricWall(relive::Path_ElectricWall* pTlv, const Guid& tlvId)
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Electric_Wall));
     Animation_Init(GetAnimRes(AnimId::Electric_Wall));
 
-    mAnim.mFlags.Set(AnimFlags::eSemiTrans);
-    mAnim.mRenderMode = TPageAbr::eBlend_1;
-    mAnim.mRenderLayer = Layer::eLayer_Foreground_36;
+    GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
+    GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+    GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_36);
 
-    if (mAnim.Get_Frame_Count() > 0)
+    if (GetAnimation().Get_Frame_Count() > 0)
     {
-        mAnim.SetFrame(Math_NextRandom() % mAnim.Get_Frame_Count());
+        GetAnimation().SetFrame(Math_NextRandom() % GetAnimation().Get_Frame_Count());
     }
 
     mRGB.SetRGB(80, 80, 80);
@@ -52,7 +52,7 @@ ElectricWall::ElectricWall(relive::Path_ElectricWall* pTlv, const Guid& tlvId)
 
     if (SwitchStates_Get(pTlv->mSwitchId) == mStartState)
     {
-        mAnim.mFlags.Clear(AnimFlags::eRender);
+        GetAnimation().mFlags.Clear(AnimFlags::eRender);
     }
 
     mSoundTimer = 0;
@@ -86,16 +86,16 @@ void ElectricWall::VUpdate()
 
     if (SwitchStates_Get(mSwitchId) == mStartState)
     {
-        mAnim.mFlags.Clear(AnimFlags::eRender);
+        GetAnimation().mFlags.Clear(AnimFlags::eRender);
     }
     else
     {
-        mAnim.mFlags.Set(AnimFlags::eRender);
+        GetAnimation().mFlags.Set(AnimFlags::eRender);
 
         // Keep flipping direction
         if (!(sGnFrame % 8))
         {
-            mAnim.mFlags.Toggle(AnimFlags::eFlipX);
+            GetAnimation().mFlags.Toggle(AnimFlags::eFlipX);
         }
 
         // Play sound every so often

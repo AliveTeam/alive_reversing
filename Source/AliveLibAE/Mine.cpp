@@ -36,14 +36,14 @@ Mine::Mine(relive::Path_Mine* pPath, const Guid& tlv)
         if (pPath->mScale == relive::reliveScale::eHalf)
         {
             mSpriteScale = FP_FromDouble(0.5);
-            mAnim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_Half_16;
+            GetAnimation().SetRenderLayer(Layer::eLayer_RollingBallBombMineCar_Half_16);
             mScale = Scale::Bg;
         }
     }
     else
     {
         mSpriteScale = FP_FromDouble(1);
-        mAnim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_35;
+        GetAnimation().SetRenderLayer(Layer::eLayer_RollingBallBombMineCar_35);
         mScale = Scale::Fg;
     }
 
@@ -75,11 +75,9 @@ Mine::Mine(relive::Path_Mine* pPath, const Guid& tlv)
     field_124_animation.mFlags.Set(AnimFlags::eSemiTrans);
     field_124_animation.mFlags.Set(AnimFlags::eBlending);
 
-    field_124_animation.mRenderLayer = mAnim.mRenderLayer;
-    field_124_animation.field_14_scale = mSpriteScale;
-    field_124_animation.mRed = 128;
-    field_124_animation.mGreen = 128;
-    field_124_animation.mBlue = 128;
+    field_124_animation.SetRenderLayer(GetAnimation().GetRenderLayer());
+    field_124_animation.SetSpriteScale(mSpriteScale);
+    field_124_animation.SetRGB(128, 128, 128);
 
     field_11A_disabled_resources = pPath->mDisabledResources;
 
@@ -139,7 +137,7 @@ void Mine::VUpdate()
     }
     else
     {
-        if (mAnim.mCurrentFrame == 1
+        if (GetAnimation().GetCurrentFrame() == 1
             && (!sMineSFXOwner_5C3008 || sMineSFXOwner_5C3008 == this))
         {
             if (onScreen)
@@ -170,7 +168,7 @@ void Mine::VUpdate()
 
 void Mine::VRender(PrimHeader** ppOt)
 {
-    if (mAnim.mFlags.Get(AnimFlags::eRender))
+    if (GetAnimation().mFlags.Get(AnimFlags::eRender))
     {
         if (gMap.Is_Point_In_Current_Camera(
                 mCurrentLevel,
@@ -257,7 +255,7 @@ bool Mine::IsColliding()
         }
 
         // e114_Bit6 May be "can set off explosives?"
-        if (pObj->mBaseAliveGameObjectFlags.Get(eCanSetOffExplosives) && pObj->mAnim.mFlags.Get(AnimFlags::eRender))
+        if (pObj->mBaseAliveGameObjectFlags.Get(eCanSetOffExplosives) && pObj->GetAnimation().mFlags.Get(AnimFlags::eRender))
         {
             const PSX_RECT objBound = pObj->VGetBoundingRect();
 

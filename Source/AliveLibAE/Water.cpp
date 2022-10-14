@@ -23,7 +23,7 @@ Water::Water(relive::Path_Water* pTlv, const Guid& tlvId)
 
     Animation_Init(GetAnimRes(AnimId::WaterDrop));
     // mAnim.mFlags.Set(AnimFlags::eBit25_bDecompressDone);
-    mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
+    GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
 
     field_114_tlvInfo = tlvId;
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
@@ -69,11 +69,11 @@ Water::Water(relive::Path_Water* pTlv, const Guid& tlvId)
         field_10C_particle_count = 0;
         field_10E_current_particle_idx = 0;
 
-        if (mAnim.mFlags.Get(AnimFlags::eIs8Bit))
+        if (GetAnimation().mFlags.Get(AnimFlags::eIs8Bit))
         {
             field_FE_texture_mode = TPageMode::e8Bit_1;
         }
-        else if (mAnim.mFlags.Get(AnimFlags::eIs16Bit))
+        else if (GetAnimation().mFlags.Get(AnimFlags::eIs16Bit))
         {
             field_FE_texture_mode = TPageMode::e16Bit_2;
         }
@@ -94,7 +94,7 @@ Water::Water(relive::Path_Water* pTlv, const Guid& tlvId)
 
         const u8 v0 = 0; // mAnim.mVramRect.y & 0xFF;
 
-        const PerFrameInfo* pFrameHeader = mAnim.Get_FrameHeader(-1);
+        const PerFrameInfo* pFrameHeader = GetAnimation().Get_FrameHeader(-1);
         field_120_frame_width = static_cast<s16>(pFrameHeader->mWidth);
         field_122_frame_height = static_cast<s16>(pFrameHeader->mHeight);
 
@@ -120,7 +120,7 @@ Water::Water(relive::Path_Water* pTlv, const Guid& tlvId)
 
             SetTPage(pPoly, static_cast<s16>(tPage));
 
-            pPoly->mAnim = &mAnim;
+            pPoly->mAnim = &GetAnimation();
 
             SetUV0(pPoly, u0, v0);
             SetUV1(pPoly, u1, v0);

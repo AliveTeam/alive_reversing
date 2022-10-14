@@ -112,11 +112,11 @@ TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, const Guid& tlvId)
 
     if (mSpriteScale == FP_FromInteger(1))
     {
-        mAnim.mRenderLayer = Layer::eLayer_Shadow_26;
+        GetAnimation().SetRenderLayer(Layer::eLayer_Shadow_26);
     }
     else
     {
-        mAnim.mRenderLayer = Layer::eLayer_Shadow_Half_7;
+        GetAnimation().SetRenderLayer(Layer::eLayer_Shadow_Half_7);
         field_124_pCollisionLine->mLineType = eLineTypes::eBackgroundDynamicCollision_36;
     }
 
@@ -125,11 +125,11 @@ TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, const Guid& tlvId)
     mTrapDoorX = FP_FromInteger(pTlv->mTopLeftX);
     mTrapDoorY = FP_FromInteger(pTlv->mTopLeftY);
 
-    mAnim.Set_Animation_Data(GetAnimRes(animId));
+    GetAnimation().Set_Animation_Data(GetAnimRes(animId));
 
     if (pTlv->mDirection == relive::reliveXDirection::eRight) // TODO: check if this is the correct direction
     {
-        mAnim.mFlags.Set(AnimFlags::eFlipX);
+        GetAnimation().mFlags.Set(AnimFlags::eFlipX);
     }
 
     mPlatformBaseXOffset = FP_GetExponent(FP_FromInteger(pTlv->mTopLeftX) - mXPos);
@@ -239,7 +239,7 @@ void TrapDoor::VUpdate()
         {
             Open();
             mState = TrapDoorState::eOpening_1;
-            mAnim.Set_Animation_Data(GetAnimRes(sTrapDoorData_547B78[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))].field_8_opening));
+            GetAnimation().Set_Animation_Data(GetAnimRes(sTrapDoorData_547B78[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))].field_8_opening));
 
             if (gMap.mCurrentLevel == EReliveLevelIds::eMines || gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz || gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz_Ender || gMap.mCurrentLevel == EReliveLevelIds::eFeeCoDepot || gMap.mCurrentLevel == EReliveLevelIds::eFeeCoDepot_Ender || gMap.mCurrentLevel == EReliveLevelIds::eBarracks || gMap.mCurrentLevel == EReliveLevelIds::eBarracks_Ender || gMap.mCurrentLevel == EReliveLevelIds::eBrewery || gMap.mCurrentLevel == EReliveLevelIds::eBrewery_Ender)
             {
@@ -250,7 +250,7 @@ void TrapDoor::VUpdate()
         break;
 
     case TrapDoorState::eOpening_1:
-        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
         {
             SFX_Play_Camera(relive::SoundEffects::TrapdoorOpen, 70, direction);
             mState = TrapDoorState::eOpen_2;
@@ -263,7 +263,7 @@ void TrapDoor::VUpdate()
 
         if ((mSelfClosing == relive::reliveChoice::eYes && mStayOpenTimeTimer + 1 <= 0) || SwitchStates_Get(mSwitchId) != mStartState)
         {
-            mAnim.Set_Animation_Data(GetAnimRes(sTrapDoorData_547B78[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))].field_C_closing));
+            GetAnimation().Set_Animation_Data(GetAnimRes(sTrapDoorData_547B78[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))].field_C_closing));
 
             mState = TrapDoorState::eClosing_3;
 
@@ -276,7 +276,7 @@ void TrapDoor::VUpdate()
         break;
 
     case TrapDoorState::eClosing_3:
-        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
         {
             SFX_Play_Camera(relive::SoundEffects::TrapdoorClose, 70, direction);
             Add_To_Collisions_Array();

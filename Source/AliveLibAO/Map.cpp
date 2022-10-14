@@ -376,21 +376,21 @@ void Map::Handle_PathTransition()
         {
             case relive::reliveScale::eFull:
                 sActiveHero->mSpriteScale = FP_FromInteger(1);
-                sActiveHero->mAnim.mRenderLayer = Layer::eLayer_AbeMenu_32;
+                sActiveHero->GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_32);
                 if (gElum)
                 {
                     gElum->mSpriteScale = sActiveHero->mSpriteScale;
-                    gElum->mAnim.mRenderLayer = Layer::eLayer_ZapLinesElumMuds_28;
+                    gElum->GetAnimation().SetRenderLayer(Layer::eLayer_ZapLinesElumMuds_28);
                 }
                 break;
 
             case relive::reliveScale::eHalf:
                 sActiveHero->mSpriteScale = FP_FromDouble(0.5);
-                sActiveHero->mAnim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
+                sActiveHero->GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_Half_13);
                 if (gElum)
                 {
                     gElum->mSpriteScale = sActiveHero->mSpriteScale;
-                    gElum->mAnim.mRenderLayer = Layer::eLayer_ZapLinesMudsElum_Half_9;
+                    gElum->GetAnimation().SetRenderLayer(Layer::eLayer_ZapLinesMudsElum_Half_9);
                 }
                 break;
 
@@ -493,7 +493,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
 
         if (pObjIter->mBaseGameObjectFlags.Get(::BaseGameObject::eDrawable_Bit4)
             && pObjIter->mBaseAliveGameObjectFlags.Get(Flags_10A::e10A_Bit6)
-            && pObjIter->mAnim.mFlags.Get(AnimFlags::eRender)
+            && pObjIter->GetAnimation().mFlags.Get(AnimFlags::eRender)
             && !pObjIter->mBaseGameObjectFlags.Get(::BaseGameObject::eDead)
             && pObjIter != sControlledCharacter)
         {
@@ -547,7 +547,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                     {
                         break;
                     }
-                    pObj->mAnim.mFlags.Clear(AnimFlags::eRender);
+                    pObj->GetAnimation().mFlags.Clear(AnimFlags::eRender);
                 }
             }
 
@@ -576,7 +576,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
 
                 if (!pLight->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
                 {
-                    pLight->mAnim.VDecode();
+                    pLight->GetAnimation().VDecode();
                 }
             }
 
@@ -614,7 +614,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                 {
                     break;
                 }
-                pObj->mAnim.mFlags.Set(AnimFlags::eRender);
+                pObj->GetAnimation().mFlags.Set(AnimFlags::eRender);
             }
         }
     }

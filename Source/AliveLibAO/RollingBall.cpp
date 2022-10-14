@@ -51,24 +51,24 @@ RollingBall::RollingBall(relive::Path_RollingBall* pTlv, const Guid& tlvId)
 
     Animation_Init(GetAnimRes(AnimId::Stone_Ball));
 
-    mAnim.mRenderLayer = Layer::eLayer_FallingItemDoorFlameRollingBallPortalClip_Half_31;
+    GetAnimation().SetRenderLayer(Layer::eLayer_FallingItemDoorFlameRollingBallPortalClip_Half_31);
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
-        mAnim.mRenderLayer = Layer::eLayer_DoorFlameRollingBallFallingItemPortalClip_Half_12;
+        GetAnimation().SetRenderLayer(Layer::eLayer_DoorFlameRollingBallFallingItemPortalClip_Half_12);
         mScale = Scale::Bg;
     }
 
     if (pTlv->mRollDirection == relive::reliveXDirection::eLeft)
     {
-        mAnim.mFlags.Set(AnimFlags::eFlipX);
+        GetAnimation().mFlags.Set(AnimFlags::eFlipX);
     }
 
     mReleaseSwitchId = pTlv->mReleaseSwitchId;
     mMaxSpeed = FP_FromRaw(pTlv->mMaxSpeed << 8);
 
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         mMaxSpeed = -FP_FromRaw(pTlv->mMaxSpeed << 8);
     }
@@ -110,10 +110,10 @@ RollingBall::RollingBall(relive::Path_RollingBall* pTlv, const Guid& tlvId)
 
     if (gMap.mCurrentLevel == EReliveLevelIds::eForestTemple && gMap.mCurrentPath == 2)
     {
-        mAnim.mFlags.Clear(AnimFlags::eAnimate);
+        GetAnimation().mFlags.Clear(AnimFlags::eAnimate);
         mXPos = FP_FromInteger(2522);
         mYPos = FP_FromInteger(1300);
-        mAnim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_35;
+        GetAnimation().SetRenderLayer(Layer::eLayer_RollingBallBombMineCar_35);
         mState = States::eCrushedBees;
     }
 }
@@ -127,7 +127,7 @@ void RollingBall::VUpdate()
             {
                 mVelY = FP_FromDouble(2.5);
                 mState = States::eStartRolling;
-                mAnim.Set_Animation_Data(GetAnimRes(AnimId::Stone_Ball_Rolling));
+                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Stone_Ball_Rolling));
                 mRollingBallShaker = relive_new RollingBallShaker();
                 if (mRollingBallShaker)
                 {
@@ -147,7 +147,7 @@ void RollingBall::VUpdate()
 
         case States::eStartRolling:
         {
-            if (!(mAnim.mCurrentFrame % 3))
+            if (!(GetAnimation().GetCurrentFrame() % 3))
             {
                 SfxPlayMono(relive::RandomSfx(relive::SoundEffects::RollingBallNoise1, relive::SoundEffects::RollingBallNoise2), 0);
             }
@@ -176,7 +176,7 @@ void RollingBall::VUpdate()
 
         case States::eRolling:
         {
-            if (!(mAnim.mCurrentFrame % 3))
+            if (!(GetAnimation().GetCurrentFrame() % 3))
             {
                 SfxPlayMono(relive::RandomSfx(relive::SoundEffects::RollingBallNoise1, relive::SoundEffects::RollingBallNoise2), 0);
             }
@@ -281,10 +281,10 @@ void RollingBall::VUpdate()
                         && gMap.mCurrentPath == 2
                         && !sActiveHero->field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel))
                     {
-                        mAnim.mFlags.Clear(AnimFlags::eAnimate);
+                        GetAnimation().mFlags.Clear(AnimFlags::eAnimate);
                         mXPos = FP_FromInteger(2522);
                         mYPos = FP_FromInteger(1300);
-                        mAnim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_35;
+                        GetAnimation().SetRenderLayer(Layer::eLayer_RollingBallBombMineCar_35);
                         mState = States::eCrushedBees;
                         CrushThingsInTheWay();
                         return;
@@ -348,7 +348,7 @@ void RollingBall::VUpdate()
 
 void RollingBall::Accelerate()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         if (mVelX > mMaxSpeed)
         {

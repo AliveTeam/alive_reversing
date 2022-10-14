@@ -26,13 +26,13 @@ DoorBlocker::DoorBlocker(relive::Path_DoorBlocker* pTlv, const Guid& tlvId)
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
-        mAnim.mRenderLayer = Layer::eLayer_Shadow_Half_7;
+        GetAnimation().SetRenderLayer(Layer::eLayer_Shadow_Half_7);
         mScale = Scale::Bg;
     }
     else
     {
         mSpriteScale = FP_FromInteger(1);
-        mAnim.mRenderLayer = Layer::eLayer_Shadow_26;
+        GetAnimation().SetRenderLayer(Layer::eLayer_Shadow_26);
         mScale = Scale::Fg;
     }
 
@@ -66,7 +66,7 @@ void DoorBlocker::VUpdate()
     {
         if (field_118_bDone & 1)
         {
-            if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+            if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
@@ -75,7 +75,7 @@ void DoorBlocker::VUpdate()
         {
             SFX_Play_Pitch(relive::SoundEffects::DoorEffect, 100, 900);
             SFX_Play_Pitch(relive::SoundEffects::DoorEffect, 100, -100);
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::Door_Lock_Open));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Door_Lock_Open));
             field_118_bDone |= 1u;
         }
     }

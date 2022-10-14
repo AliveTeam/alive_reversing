@@ -92,7 +92,7 @@ DoorLight::DoorLight(relive::Path_LightEffect* pTlv, const Guid& tlvId)
             break;
     }
 
-    mAnim.mFlags.Set(AnimFlags::eFlipX, pTlv->mDirection == relive::reliveXDirection::eLeft);
+    GetAnimation().mFlags.Set(AnimFlags::eFlipX, pTlv->mDirection == relive::reliveXDirection::eLeft);
 
     if (gNextDoorLightUpdate_4C30A8 < 0)
     {
@@ -100,16 +100,16 @@ DoorLight::DoorLight(relive::Path_LightEffect* pTlv, const Guid& tlvId)
         gDoorLightUpdateTimer_4FC8A4 = gNextDoorLightUpdate_4C30A8 + Math_RandomRange(30, 45);
     }
 
-    mAnim.mFlags.Set(AnimFlags::eIgnorePosOffset);
+    GetAnimation().mFlags.Set(AnimFlags::eIgnorePosOffset);
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
-    mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
-    mAnim.mRenderMode = TPageAbr::eBlend_3;
+    GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
+    GetAnimation().SetRenderMode(TPageAbr::eBlend_3);
 
-    mAnim.mFlags.Clear(AnimFlags::eBlending);
-    mAnim.mFlags.Set(AnimFlags::eSemiTrans);
+    GetAnimation().mFlags.Clear(AnimFlags::eBlending);
+    GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
 
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         mXPos = FP_FromInteger(pTlv->mTopLeftX - xOff);
     }
@@ -196,11 +196,9 @@ void DoorLight::VRender(PrimHeader** ppOt)
         const FP xpos = FP_FromInteger(pScreenManager->mCamXOff) + mXPos - pScreenManager->mCamPos->x;
         const FP ypos = FP_FromInteger(pScreenManager->mCamYOff) + mYPos - pScreenManager->mCamPos->y;
 
-        mAnim.mRed = static_cast<u8>(mRGB.r);
-        mAnim.mGreen = static_cast<u8>(mRGB.g);
-        mAnim.mBlue = static_cast<u8>(mRGB.b);
+        GetAnimation().SetRGB(mRGB.r, mRGB.g, mRGB.b);
 
-        mAnim.VRender(
+        GetAnimation().VRender(
             FP_GetExponent(FP_FromInteger((FP_GetExponent(xpos) - field_E8_width / 2))),
             FP_GetExponent(FP_FromInteger((FP_GetExponent(ypos) - field_EA_height / 2))),
             ppOt,

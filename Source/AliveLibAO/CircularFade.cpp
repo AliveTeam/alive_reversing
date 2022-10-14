@@ -31,14 +31,14 @@ CircularFade::CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroy
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 
-    mAnim.mFlags.Clear(AnimFlags::eBlending);
+    GetAnimation().mFlags.Clear(AnimFlags::eBlending);
     mSpriteScale.fpValue = scale.fpValue * 2;
-    mAnim.field_14_scale.fpValue = scale.fpValue * 2;
+    GetAnimation().SetSpriteScale(FP_FromInteger(scale.fpValue * 2));
 
     mXPos = xpos;
     mYPos = ypos;
-    mAnim.mRenderMode = TPageAbr::eBlend_2;
-    mAnim.mRenderLayer = Layer::eLayer_FadeFlash_40;
+    GetAnimation().SetRenderMode(TPageAbr::eBlend_2);
+    GetAnimation().SetRenderLayer(Layer::eLayer_FadeFlash_40);
     mRGB.SetRGB(field_1A8_fade_colour, field_1A8_fade_colour, field_1A8_fade_colour);
 
     Init_SetTPage(&field_188_tPage[0], 0, 0, PSX_getTPage(TPageMode::e16Bit_2, TPageAbr::eBlend_2, 0, 0));
@@ -51,18 +51,16 @@ void CircularFade::VRender(PrimHeader** ppOt)
 
     mRGB.SetRGB(fade_rgb, fade_rgb, fade_rgb);
 
-    mAnim.mRed = fade_rgb;
-    mAnim.mGreen = fade_rgb;
-    mAnim.mBlue = fade_rgb;
+    GetAnimation().SetRGB(fade_rgb, fade_rgb, fade_rgb);
 
-    mAnim.VRender(
+    GetAnimation().VRender(
         FP_GetExponent(mXPos + (FP_FromInteger(pScreenManager->mCamXOff + mXOffset)) - pScreenManager->mCamPos->x),
         FP_GetExponent(mYPos + (FP_FromInteger(pScreenManager->mCamYOff + mYOffset)) - pScreenManager->mCamPos->y),
         ppOt,
         0,
         0);
     PSX_RECT frameRect = {};
-    mAnim.Get_Frame_Rect(&frameRect);
+    GetAnimation().Get_Frame_Rect(&frameRect);
 
     frameRect.h--;
     frameRect.w--;
@@ -97,14 +95,14 @@ void CircularFade::VRender(PrimHeader** ppOt)
     pTile->field_14_w = gPsxDisplay.mWidth;
     pTile->field_16_h = frameRect.y;
     Poly_Set_SemiTrans(&pTile->mBase.header, 1);
-    OrderingTable_Add(OtLayer(ppOt, mAnim.mRenderLayer), &pTile->mBase.header);
+    OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pTile->mBase.header);
 
     Prim_Tile* pTile2_1 = &field_110[gPsxDisplay.mBufferIndex];
     Init_Tile(pTile2_1);
     SetRGB0(pTile2_1, fadeColour, fadeColour, fadeColour);
 
     s16 w = 0;
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         w = frameRect.x + 1;
     }
@@ -116,7 +114,7 @@ void CircularFade::VRender(PrimHeader** ppOt)
     pTile2_1->field_14_w = w;
     pTile2_1->field_16_h = frameRect.h - frameRect.y;
     Poly_Set_SemiTrans(&pTile2_1->mBase.header, 1);
-    OrderingTable_Add(OtLayer(ppOt, mAnim.mRenderLayer), &pTile2_1->mBase.header);
+    OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pTile2_1->mBase.header);
 
     Prim_Tile* pTile2 = &field_138[gPsxDisplay.mBufferIndex];
     Init_Tile(pTile2);
@@ -125,7 +123,7 @@ void CircularFade::VRender(PrimHeader** ppOt)
     pTile2->field_14_w = gPsxDisplay.mWidth - frameRect.w;
     pTile2->field_16_h = frameRect.h - frameRect.y;
     Poly_Set_SemiTrans(&pTile2->mBase.header, 1);
-    OrderingTable_Add(OtLayer(ppOt, mAnim.mRenderLayer), &pTile2->mBase.header);
+    OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pTile2->mBase.header);
 
     Prim_Tile* pTile3 = &field_160[gPsxDisplay.mBufferIndex];
     Init_Tile(pTile3);
@@ -134,8 +132,8 @@ void CircularFade::VRender(PrimHeader** ppOt)
     pTile3->field_14_w = gPsxDisplay.mWidth;
     pTile3->field_16_h = gPsxDisplay.mHeight - frameRect.h;
     Poly_Set_SemiTrans(&pTile3->mBase.header, 1);
-    OrderingTable_Add(OtLayer(ppOt, mAnim.mRenderLayer), &pTile3->mBase.header);
-    OrderingTable_Add(OtLayer(ppOt, mAnim.mRenderLayer), &field_188_tPage[gPsxDisplay.mBufferIndex].mBase);
+    OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pTile3->mBase.header);
+    OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &field_188_tPage[gPsxDisplay.mBufferIndex].mBase);
 
     if ((field_1A8_fade_colour == 255 && field_E4_flags.Get(CircularFade::eBit1_FadeIn)) || (field_1A8_fade_colour == 0 && !field_E4_flags.Get(CircularFade::eBit1_FadeIn)))
     {

@@ -17,7 +17,7 @@ RollingBallStopper::RollingBallStopper(relive::Path_RollingBallStopper* pTlv, co
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Stone_Ball_Stopper));
     Animation_Init(GetAnimRes(AnimId::Stone_Ball_Stopper));
 
-    mAnim.mRenderLayer = Layer::eLayer_FG1_37;
+    GetAnimation().SetRenderLayer(Layer::eLayer_FG1_37);
 
     mStopperSwitchId = pTlv->mStopperSwitchId;
 
@@ -31,13 +31,13 @@ RollingBallStopper::RollingBallStopper(relive::Path_RollingBallStopper* pTlv, co
 
     if (pTlv->mStopDirection == relive::reliveXDirection::eLeft)
     {
-        mAnim.mFlags.Set(AnimFlags::eFlipX);
+        GetAnimation().mFlags.Set(AnimFlags::eFlipX);
     }
 
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
-    mVelX = mAnim.mFlags.Get(AnimFlags::eFlipX) ? FP_FromInteger(22) : FP_FromInteger(-22);
+    mVelX = GetAnimation().mFlags.Get(AnimFlags::eFlipX) ? FP_FromInteger(22) : FP_FromInteger(-22);
     mVelY = FP_FromInteger(0);
 
     mTlvInfo = tlvId;
@@ -46,7 +46,7 @@ RollingBallStopper::RollingBallStopper(relive::Path_RollingBallStopper* pTlv, co
     if (pTlv->mTlvSpecificMeaning)
     {
         mYPos += mSpriteScale * FP_FromInteger(70);
-        if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+        if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
         {
             mState = States::eMovingDone;
             mXPos += mSpriteScale * FP_FromInteger(35);
@@ -69,7 +69,7 @@ RollingBallStopper::RollingBallStopper(relive::Path_RollingBallStopper* pTlv, co
     mXPos = oldXPos;
 
     FP lineXPos = {};
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         lineXPos = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2)) + FP_NoFractional(oldXPos);
     }

@@ -91,26 +91,26 @@ FlintLockFire::FlintLockFire(relive::Path_FlintLockFire* pTlv, const Guid& tlvId
     const s32 cur_lvl = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
 
     Animation_Init(GetAnimRes(sFlintLockFireData_4BAC70[cur_lvl].field_14_hammers_disabled_anim_id));
-    mAnim.mFlags.Set(AnimFlags::eSemiTrans);
+    GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
 
     field_F0_anim.Init(
         GetAnimRes(sFlintLockFireData_4BAC70[cur_lvl].field_4_gourd_anim_id),
         this);
 
-    field_F0_anim.mRenderMode = TPageAbr::eBlend_0;
+    field_F0_anim.SetRenderMode(TPageAbr::eBlend_0);
     field_F0_anim.mFlags.Clear(AnimFlags::eAnimate);
     field_F0_anim.mFlags.Set(AnimFlags::eSemiTrans);
 
     if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
     {
         field_188_anim.Init(GetAnimRes(AnimId::Fire), this);
-        field_188_anim.mRenderMode = TPageAbr::eBlend_0;
+        field_188_anim.SetRenderMode(TPageAbr::eBlend_0);
         field_188_anim.mFlags.Clear(AnimFlags::eAnimate);
         field_188_anim.mFlags.Clear(AnimFlags::eRender);
         field_188_anim.mFlags.Set(AnimFlags::eSemiTrans);
 
         field_220_anim.Init(GetAnimRes(AnimId::Fire), this);
-        field_220_anim.mRenderMode = TPageAbr::eBlend_0;
+        field_220_anim.SetRenderMode(TPageAbr::eBlend_0);
         field_220_anim.mFlags.Clear(AnimFlags::eAnimate);
         field_220_anim.mFlags.Clear(AnimFlags::eRender);
         field_220_anim.mFlags.Set(AnimFlags::eSemiTrans);
@@ -139,22 +139,22 @@ FlintLockFire::FlintLockFire(relive::Path_FlintLockFire* pTlv, const Guid& tlvId
         mScale = Scale::Fg;
     }
 
-    mAnim.mRenderLayer = layer;
-    field_F0_anim.mRenderLayer = layer;
+    GetAnimation().SetRenderLayer(layer);
+    field_F0_anim.SetRenderLayer(layer);
 
     if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
     {
-        field_188_anim.mRenderLayer = layer;
-        field_220_anim.mRenderLayer = layer;
+        field_188_anim.SetRenderLayer(layer);
+        field_220_anim.SetRenderLayer(layer);
     }
 
     if (SwitchStates_Get(pTlv->mSwitchId))
     {
         field_E4_state = States::eActivated_2;
-        mAnim.Set_Animation_Data(GetAnimRes(sFlintLockFireData_4BAC70[cur_lvl].field_18_hammers_activating_anim_id));
-        mAnim.SetFrame(mAnim.Get_Frame_Count() - 1);
-        mAnim.VDecode();
-        mAnim.mFlags.Set(AnimFlags::eSemiTrans);
+        GetAnimation().Set_Animation_Data(GetAnimRes(sFlintLockFireData_4BAC70[cur_lvl].field_18_hammers_activating_anim_id));
+        GetAnimation().SetFrame(GetAnimation().Get_Frame_Count() - 1);
+        GetAnimation().VDecode();
+        GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
         field_F0_anim.mFlags.Set(AnimFlags::eAnimate);
 
         if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
@@ -185,21 +185,21 @@ void FlintLockFire::VUpdate()
             if (SwitchStates_Get(field_E6_switch_id))
             {
                 field_E4_state = States::eActivating_1;
-                mAnim.Set_Animation_Data(GetAnimRes(sFlintLockFireData_4BAC70[cur_lvl].field_18_hammers_activating_anim_id));
+                GetAnimation().Set_Animation_Data(GetAnimRes(sFlintLockFireData_4BAC70[cur_lvl].field_18_hammers_activating_anim_id));
             }
             break;
 
         case States::eActivating_1:
             if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
             {
-                if (mAnim.mCurrentFrame == 6)
+                if (GetAnimation().GetCurrentFrame() == 6)
                 {
                     SfxPlayMono(relive::SoundEffects::FlintLock, 0);
                     SfxPlayMono(relive::SoundEffects::PostFlint, 0);
                 }
             }
 
-            if (mAnim.mFlags.Get(AnimFlags::eForwardLoopCompleted))
+            if (GetAnimation().mFlags.Get(AnimFlags::eForwardLoopCompleted))
             {
                 field_E4_state = States::eActivated_2;
 
@@ -239,13 +239,13 @@ void FlintLockFire::VRender(PrimHeader** ppOt)
     if (Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
     {
         const s32 cur_lvl = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
-        mAnim.field_14_scale = mSpriteScale;
-        field_F0_anim.field_14_scale = mSpriteScale;
+        GetAnimation().SetSpriteScale(mSpriteScale);
+        field_F0_anim.SetSpriteScale(mSpriteScale);
 
         if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
         {
-            field_188_anim.field_14_scale = (mSpriteScale * FP_FromDouble(1.33));
-            field_220_anim.field_14_scale = mSpriteScale;
+            field_188_anim.SetSpriteScale((mSpriteScale * FP_FromDouble(1.33)));
+            field_220_anim.SetSpriteScale(mSpriteScale);
         }
 
         s16 r = mRGB.r;
@@ -266,23 +266,13 @@ void FlintLockFire::VRender(PrimHeader** ppOt)
         }
 
 
-        mAnim.mRed = static_cast<u8>(r);
-        mAnim.mGreen = static_cast<u8>(g);
-        mAnim.mBlue = static_cast<u8>(b);
-
-        field_F0_anim.mRed = static_cast<u8>(r);
-        field_F0_anim.mGreen = static_cast<u8>(g);
-        field_F0_anim.mBlue = static_cast<u8>(b);
+        GetAnimation().SetRGB(r, g, b);
+        field_F0_anim.SetRGB(r, g, b);
 
         if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
         {
-            field_188_anim.mRed = static_cast<u8>(r);
-            field_188_anim.mGreen = static_cast<u8>(g);
-            field_188_anim.mBlue = static_cast<u8>(b);
-
-            field_220_anim.mRed = static_cast<u8>(r);
-            field_220_anim.mGreen = static_cast<u8>(g);
-            field_220_anim.mBlue = static_cast<u8>(b);
+            field_188_anim.SetRGB(r, g, b);
+            field_220_anim.SetRGB(r, g, b);
 
             field_220_anim.VRender(
                 FP_GetExponent(mXPos + (FP_FromInteger(pScreenManager->mCamXOff)) - pScreenManager->mCamPos->x),
@@ -299,7 +289,7 @@ void FlintLockFire::VRender(PrimHeader** ppOt)
                 0);
         }
 
-        mAnim.VRender(
+        GetAnimation().VRender(
             FP_GetExponent(mXPos + FP_FromInteger(pScreenManager->mCamXOff) - pScreenManager->mCamPos->x),
             FP_GetExponent(mYPos + (FP_FromInteger(mYOffset + pScreenManager->mCamYOff)) - pScreenManager->mCamPos->y),
             ppOt,
@@ -318,7 +308,7 @@ void FlintLockFire::VRender(PrimHeader** ppOt)
             0);
 
         PSX_RECT frameRect = {};
-        mAnim.Get_Frame_Rect(&frameRect);
+        GetAnimation().Get_Frame_Rect(&frameRect);
 
         field_F0_anim.Get_Frame_Rect(&frameRect);
 

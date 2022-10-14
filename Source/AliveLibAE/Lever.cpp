@@ -44,7 +44,7 @@ Lever::Lever(relive::Path_Lever* pTlv, const Guid& tlvId)
     LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::Lever_Idle));
 
-    mAnim.mFlags.Set(AnimFlags::eSemiTrans);
+    GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
     field_F4_switch_id = pTlv->mSwitchId;
     field_102_action = pTlv->mAction;
     field_100_flags.Clear(Flags_100::eBit1_lever_anim_left_direction);
@@ -61,13 +61,13 @@ Lever::Lever(relive::Path_Lever* pTlv, const Guid& tlvId)
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
-        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
+        GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_Half_6);
         mScale = Scale::Bg;
     }
     else if (pTlv->mScale == relive::reliveScale::eFull)
     {
         mSpriteScale = FP_FromInteger(1);
-        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
+        GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_25);
         mScale = Scale::Fg;
     }
 
@@ -123,12 +123,12 @@ void Lever::VUpdate()
 
     if (field_F8_state == LeverState::ePulled_1)
     {
-        if (mAnim.mCurrentFrame == 3)
+        if (GetAnimation().GetCurrentFrame() == 3)
         {
             SfxPlayMono(relive::SoundEffects::LeverPull, 0);
         }
 
-        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
         {
             if (gMap.mCurrentLevel == EReliveLevelIds::eMines
                 || gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz
@@ -147,11 +147,11 @@ void Lever::VUpdate()
 
             if (field_100_flags.Get(Flags_100::eBit1_lever_anim_left_direction))
             {
-                mAnim.Set_Animation_Data(GetAnimRes(AnimId::Lever_Pull_Release_Left));
+                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Lever_Pull_Release_Left));
             }
             else
             {
-                mAnim.Set_Animation_Data(GetAnimRes(AnimId::Lever_Pull_Release_Right));
+                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Lever_Pull_Release_Right));
             }
 
             const s32 switch_state = SwitchStates_Get(field_F4_switch_id);
@@ -267,10 +267,10 @@ void Lever::VUpdate()
     }
     else if (field_F8_state == LeverState::eFinished_2)
     {
-        if (mAnim.mFlags.Get(AnimFlags::eForwardLoopCompleted))
+        if (GetAnimation().mFlags.Get(AnimFlags::eForwardLoopCompleted))
         {
             field_F8_state = LeverState::eWaiting_0;
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::Lever_Idle));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Lever_Idle));
         }
     }
 }
@@ -286,12 +286,12 @@ s16 Lever::VPull(s16 bLeftDirection)
 
     if (bLeftDirection)
     {
-        mAnim.Set_Animation_Data(GetAnimRes(AnimId::Lever_Pull_Left));
+        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Lever_Pull_Left));
         field_100_flags.Set(Flags_100::eBit1_lever_anim_left_direction);
     }
     else
     {
-        mAnim.Set_Animation_Data(GetAnimRes(AnimId::Lever_Pull_Right));
+        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Lever_Pull_Right));
         field_100_flags.Clear(Flags_100::eBit1_lever_anim_left_direction);
     }
 

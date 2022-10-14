@@ -28,7 +28,7 @@ void RockSack::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (mAnim.mCurrentFrame == 2)
+    if (GetAnimation().GetCurrentFrame() == 2)
     {
         if (field_114_can_play_wobble_sound)
         {
@@ -49,18 +49,18 @@ void RockSack::VUpdate()
     {
         if (field_110_has_been_hit == 1)
         {
-            if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+            if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
-                mAnim.Set_Animation_Data(GetAnimRes(AnimId::RockSack_Idle));
+                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::RockSack_Idle));
                 field_110_has_been_hit = 0;
             }
         }
     }
     else
     {
-        if (mAnim.mFrameChangeCounter == 0)
+        if (GetAnimation().GetFrameChangeCounter() == 0)
         {
-            mAnim.mFrameChangeCounter = Math_RandomRange(2, 10);
+            GetAnimation().SetFrameChangeCounter(Math_RandomRange(2, 10));
         }
 
         const PSX_RECT bPlayerRect = sActiveHero->VGetBoundingRect();
@@ -96,11 +96,11 @@ void RockSack::VUpdate()
 
             if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_33_RunJumpMid)
             {
-                mAnim.Set_Animation_Data(GetAnimRes(AnimId::RockSack_HardHit));
+                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::RockSack_HardHit));
             }
             else
             {
-                mAnim.Set_Animation_Data(GetAnimRes(AnimId::RockSack_SoftHit));
+                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::RockSack_SoftHit));
             }
 
             field_110_has_been_hit = 1;
@@ -121,7 +121,7 @@ RockSack::RockSack(relive::Path_RockSack* pTlv, const Guid& tlvId)
     LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::RockSack_Idle));
 
-    mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
+    GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
 
     field_10C_tlvInfo = tlvId;
     field_110_has_been_hit = 0;
@@ -154,7 +154,7 @@ RockSack::RockSack(relive::Path_RockSack* pTlv, const Guid& tlvId)
     if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
     {
         mLoadedPals.push_back(ResourceManagerWrapper::LoadPal(PalId::BlueRockSack));
-        mAnim.LoadPal(GetPalRes(PalId::BlueRockSack));
+        GetAnimation().LoadPal(GetPalRes(PalId::BlueRockSack));
     }
 
     mShadow = relive_new Shadow();

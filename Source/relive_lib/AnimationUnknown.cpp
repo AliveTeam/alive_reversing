@@ -98,9 +98,9 @@ void AnimationUnknown::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 /*widt
 
         if (!mFlags.Get(AnimFlags::eBlending))
         {
-            SetRGB0(pPoly, mRed, mGreen, mBlue);
+            SetRGB0(pPoly, mRgb);
         }
-
+        
         SetXYWH(pPoly,
                 static_cast<s16>(polyX),
                 static_cast<s16>(polyY),
@@ -110,7 +110,7 @@ void AnimationUnknown::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 /*widt
 
         // TODO: Or pass this mAnimRes ?
         SetPrimExtraPointerHack(pPoly, &field_68_anim_ptr->mAnimRes);
-        OrderingTable_Add(OtLayer(ppOt, mRenderLayer), &pPoly->mBase.header);
+        OrderingTable_Add(OtLayer(ppOt, GetRenderLayer()), &pPoly->mBase.header);
     }
 }
 

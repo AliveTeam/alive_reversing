@@ -214,7 +214,7 @@ void Teleporter::VUpdate()
                 }
             }
 
-            sControlledCharacter->mAnim.mFlags.Clear(AnimFlags::eRender);
+            sControlledCharacter->GetAnimation().mFlags.Clear(AnimFlags::eRender);
 
             gMap.mTeleporterTransition = 1;
 
@@ -271,7 +271,7 @@ void Teleporter::VUpdate()
                     sControlledCharacter->mVelY *= FP_FromDouble(0.5);
                 }
                 sControlledCharacter->mSpriteScale = FP_FromDouble(0.5);
-                sControlledCharacter->mAnim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
+                sControlledCharacter->GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_Half_13);
                 sControlledCharacter->mScale = Scale::Bg;
             }
             else
@@ -282,7 +282,7 @@ void Teleporter::VUpdate()
                     sControlledCharacter->mVelY *= FP_FromInteger(2);
                 }
                 sControlledCharacter->mSpriteScale = FP_FromInteger(1);
-                sControlledCharacter->mAnim.mRenderLayer = Layer::eLayer_AbeMenu_32;
+                sControlledCharacter->GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_32);
                 sControlledCharacter->mScale = Scale::Fg;
             }
 
@@ -349,7 +349,7 @@ void Teleporter::VUpdate()
             }
 
             field_54_effect_created = 0;
-            sControlledCharacter->mAnim.mFlags.Set(AnimFlags::eRender);
+            sControlledCharacter->GetAnimation().mFlags.Set(AnimFlags::eRender);
             sControlledCharacter->mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eTeleporting);
             field_2C_switch_state = SwitchStates_Get(field_34_mTlvData.mSwitchId);
             field_30_state = TeleporterState::eWaitForSwitchOn_0;

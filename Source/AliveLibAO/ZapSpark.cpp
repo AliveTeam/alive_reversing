@@ -22,14 +22,12 @@ ZapSpark::ZapSpark(FP xpos, FP ypos, FP scale)
 
     Animation_Init(GetAnimRes(AnimId::ChantOrb_Particle_Small));
 
-    mAnim.mBlue = 80;
-    mAnim.mGreen = 80;
-    mAnim.mRed = 80;
+    GetAnimation().SetRGB(80, 80, 80);
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 
-    mAnim.mRenderLayer = Layer::eLayer_FG1_37;
-    mAnim.mRenderMode = TPageAbr::eBlend_1;
+    GetAnimation().SetRenderLayer(Layer::eLayer_FG1_37);
+    GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
 
     mSpriteScale = scale * ((FP_FromInteger(Math_NextRandom() % 6) / FP_FromInteger(10)) + FP_FromDouble(0.2));
     mSparkTimer = Math_RandomRange(0, 16);
@@ -50,7 +48,7 @@ void ZapSpark::VUpdate()
 
     if (mSparkTimer == 0)
     {
-        mAnim.Set_Animation_Data(GetAnimRes(AnimId::ChantOrb_Particle));
+        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::ChantOrb_Particle));
         mSparkTimer = -1;
     }
 

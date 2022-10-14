@@ -39,7 +39,7 @@ Bone::Bone(FP xpos, FP ypos, s16 countId)
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Bone));
     Animation_Init(GetAnimRes(AnimId::Bone));
 
-    mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
+    GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
 
     mXPos = xpos;
     mYPos = ypos;
@@ -50,7 +50,7 @@ Bone::Bone(FP xpos, FP ypos, s16 countId)
     mBaseGameObjectFlags.Clear(BaseGameObject::eInteractive_Bit8);
     mHitObject &= ~1u;
 
-    mAnim.mFlags.Clear(AnimFlags::eRender);
+    GetAnimation().mFlags.Clear(AnimFlags::eRender);
 
     mTimeToLiveTimer = sGnFrame + 300;
     mBaseThrowableCount = countId;
@@ -90,8 +90,8 @@ s32 Bone::CreateFromSaveState(const u8* pData)
 
     pBone->mScale = pState->mSpriteScale > FP_FromDouble(0.75) ? Scale::Fg : Scale::Bg;
 
-    pBone->mAnim.mFlags.Set(AnimFlags::eLoop, pState->field_20_flags.Get(Bone_SaveState::eBit3_bLoop));
-    pBone->mAnim.mFlags.Set(AnimFlags::eRender, pState->field_20_flags.Get(Bone_SaveState::eBit1_bRender));
+    pBone->GetAnimation().mFlags.Set(AnimFlags::eLoop, pState->field_20_flags.Get(Bone_SaveState::eBit3_bLoop));
+    pBone->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->field_20_flags.Get(Bone_SaveState::eBit1_bRender));
 
     pBone->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_20_flags.Get(Bone_SaveState::eBit2_bDrawable));
     pBone->mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8, pState->field_20_flags.Get(Bone_SaveState::eBit4_bInteractive));
@@ -141,7 +141,7 @@ void Bone::VThrow(FP velX, FP velY)
     mVelX = velX;
     mVelY = velY;
 
-    mAnim.mFlags.Set(AnimFlags::eRender);
+    GetAnimation().mFlags.Set(AnimFlags::eRender);
 
     if (mBaseThrowableCount == 0)
     {
@@ -255,8 +255,8 @@ s32 Bone::VGetSaveState(u8* pSaveBuffer)
 
     pState->mSpriteScale = mSpriteScale;
 
-    pState->field_20_flags.Set(Bone_SaveState::eBit3_bLoop, mAnim.mFlags.Get(AnimFlags::eLoop));
-    pState->field_20_flags.Set(Bone_SaveState::eBit1_bRender, mAnim.mFlags.Get(AnimFlags::eRender));
+    pState->field_20_flags.Set(Bone_SaveState::eBit3_bLoop, GetAnimation().mFlags.Get(AnimFlags::eLoop));
+    pState->field_20_flags.Set(Bone_SaveState::eBit1_bRender, GetAnimation().mFlags.Get(AnimFlags::eRender));
 
     pState->field_20_flags.Set(Bone_SaveState::eBit2_bDrawable, mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4));
     pState->field_20_flags.Set(Bone_SaveState::eBit4_bInteractive, mBaseGameObjectFlags.Get(BaseGameObject::eInteractive_Bit8));
@@ -477,7 +477,7 @@ void Bone::VUpdate()
 
                     mState = BoneStates::eOnGround_3;
                     mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8);
-                    mAnim.mFlags.Clear(AnimFlags::eLoop);
+                    GetAnimation().mFlags.Clear(AnimFlags::eLoop);
                     mShineTimer = sGnFrame;
                     AddToPlatform();
                     return;
@@ -490,7 +490,7 @@ void Bone::VUpdate()
                 return;
             }
 
-            mAnim.mFlags.Set(AnimFlags::eLoop);
+            GetAnimation().mFlags.Set(AnimFlags::eLoop);
             mState = BoneStates::eEdible_4;
         }
             return;
@@ -581,7 +581,7 @@ BoneBag::BoneBag(relive::Path_BoneBag* pTlv, const Guid& tlvId)
 
     LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::BoneBag_Idle));
-    mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
+    GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
     SetTint(&kBoneTints_550EC0[0], gMap.mCurrentLevel);
 
     mIsBagHit = false;
@@ -635,7 +635,7 @@ void BoneBag::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (mAnim.mCurrentFrame == 2)
+    if (GetAnimation().GetCurrentFrame() == 2)
     {
         if (mAllowSound)
         {
@@ -659,19 +659,19 @@ void BoneBag::VUpdate()
             return;
         }
 
-        if (!mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+        if (!GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
         {
             return;
         }
 
-        mAnim.Set_Animation_Data(GetAnimRes(AnimId::BoneBag_Idle));
+        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::BoneBag_Idle));
         mIsBagHit = false;
         return;
     }
 
-    if (mAnim.mFrameChangeCounter == 0)
+    if (GetAnimation().GetFrameChangeCounter() == 0)
     {
-        mAnim.mFrameChangeCounter = Math_RandomRange(2, 10);
+        GetAnimation().SetFrameChangeCounter(Math_RandomRange(2, 10));
     }
 
     const PSX_RECT bPlayerRect = sActiveHero->VGetBoundingRect();
@@ -685,11 +685,11 @@ void BoneBag::VUpdate()
             {
                 if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_31_RunJumpMid_452C10)
                 {
-                    mAnim.Set_Animation_Data(GetAnimRes(AnimId::BoneBag_HardHit));
+                    GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::BoneBag_HardHit));
                 }
                 else
                 {
-                    mAnim.Set_Animation_Data(GetAnimRes(AnimId::BoneBag_SoftHit));
+                    GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::BoneBag_SoftHit));
                 }
                 mIsBagHit = true;
                 return;
@@ -714,11 +714,11 @@ void BoneBag::VUpdate()
 
         if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_31_RunJumpMid_452C10)
         {
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::BoneBag_HardHit));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::BoneBag_HardHit));
         }
         else
         {
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::BoneBag_SoftHit));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::BoneBag_SoftHit));
         }
 
         mIsBagHit = true;

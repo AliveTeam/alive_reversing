@@ -28,7 +28,7 @@ void Animation_OnFrame_Common_4561B0(BaseGameObject* pObjPtr, u32&, const Indexe
     AnimResource ppAnimData = ResourceManagerWrapper::LoadAnimation(AnimId::Dust_Particle);
 
     FP xOff = {};
-    if (pObj->mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (pObj->GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         xOff = -(pObj->mSpriteScale * FP_FromInteger(point.mPoint.x));
     }
@@ -76,15 +76,15 @@ void Animation_OnFrame_Common_4561B0(BaseGameObject* pObjPtr, u32&, const Indexe
     auto pPartical = relive_new Particle(xpos, ypos, ppAnimData);
     if (pPartical)
     {
-        pPartical->mAnim.mRenderMode = TPageAbr::eBlend_1;
+        pPartical->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
 
         if (pObj->mScale == Scale::Fg)
         {
-            pPartical->mAnim.mRenderLayer = Layer::eLayer_Foreground_36;
+            pPartical->GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_36);
         }
         else
         {
-            pPartical->mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+            pPartical->GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
         }
 
         pPartical->mRGB.SetRGB(45, 35, 5);
@@ -128,7 +128,7 @@ void Animation_OnFrame_FlyingSlig(BaseGameObject* pObjPtr, u32&, const IndexedPo
 
     // flying slig: kVaporResID
     FP xOff = {};
-    if (pObj->mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (pObj->GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         xOff = -(pObj->mSpriteScale * FP_FromInteger(point.mPoint.x));
     }
@@ -148,8 +148,8 @@ void Animation_OnFrame_FlyingSlig(BaseGameObject* pObjPtr, u32&, const IndexedPo
     auto pParticle = relive_new Particle(xpos, ypos, pObj->GetAnimRes(AnimId::Vaporize_Particle));
     if (pParticle)
     {
-        pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
-        pParticle->mAnim.mRenderLayer = Layer::eLayer_Foreground_36;
+        pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+        pParticle->GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_36);
         pParticle->mRGB.SetRGB(64, 64, 64);
         pParticle->mSpriteScale = FP_FromDouble(0.6) * pObj->mSpriteScale;
     }
@@ -183,7 +183,7 @@ void Animation_OnFrame_Slog_4C3030(BaseGameObject* pObjPtr, u32&, const IndexedP
     }
 
     FP bloodX = {};
-    if (pSlog->mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (pSlog->GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         bloodX = pSlog->mXPos - (pSlog->mSpriteScale * FP_FromInteger(point.mPoint.x));
     }

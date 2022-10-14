@@ -72,13 +72,13 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
-        mAnim.mRenderLayer = Layer::eLayer_DoorFlameRollingBallFallingItemPortalClip_Half_12;
+        GetAnimation().SetRenderLayer(Layer::eLayer_DoorFlameRollingBallFallingItemPortalClip_Half_12);
     }
     else
     {
         mSpriteScale = FP_FromInteger(1);
         mScale = Scale::Fg;
-        mAnim.mRenderLayer = Layer::eLayer_FallingItemDoorFlameRollingBallPortalClip_Half_31;
+        GetAnimation().SetRenderLayer(Layer::eLayer_FallingItemDoorFlameRollingBallPortalClip_Half_31);
     }
 
     field_124_fall_interval = pTlv->mFallInterval;
@@ -123,7 +123,7 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
     LoadAnimations();
     Animation_Init(GetAnimRes(sFallingItemData_544DC0[lvlIdx][0]));
 
-    mAnim.mRenderLayer = Layer::eLayer_FallingItemDoorFlameRollingBallPortalClip_Half_31;
+    GetAnimation().SetRenderLayer(Layer::eLayer_FallingItemDoorFlameRollingBallPortalClip_Half_31);
 
     if (id)
     {
@@ -235,7 +235,7 @@ void FallingItem::VUpdate()
                 mVelX = FP_FromInteger(0);
                 mVelY = FP_FromInteger(0);
 
-                mAnim.Set_Animation_Data(GetAnimRes(sFallingItemData_544DC0[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]));
+                GetAnimation().Set_Animation_Data(GetAnimRes(sFallingItemData_544DC0[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]));
 
                 field_128_fall_interval_timer = sGnFrame + field_124_fall_interval;
             }
@@ -249,7 +249,7 @@ void FallingItem::VUpdate()
             mVelX = FP_FromInteger(0);
             mVelY = FP_FromInteger(0);
 
-            mAnim.Set_Animation_Data(GetAnimRes(sFallingItemData_544DC0[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]));
+            GetAnimation().Set_Animation_Data(GetAnimRes(sFallingItemData_544DC0[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]));
 
             field_128_fall_interval_timer = sGnFrame + field_124_fall_interval;
             break;
@@ -340,7 +340,7 @@ void FallingItem::VUpdate()
                                                   GetAnimRes(AnimId::AirExplosion));
                 if (pParticle)
                 {
-                    pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
+                    pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
                     pParticle->mSpriteScale = mSpriteScale * FP_FromDouble(0.75);
                 }
             }
@@ -391,7 +391,7 @@ void FallingItem::VUpdate()
             }
             else
             {
-                mAnim.Set_Animation_Data(GetAnimRes(sFallingItemData_544DC0[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][0]));
+                GetAnimation().Set_Animation_Data(GetAnimRes(sFallingItemData_544DC0[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][0]));
                 mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
                 mVelY = FP_FromInteger(0);
                 mVelX = FP_FromInteger(0);

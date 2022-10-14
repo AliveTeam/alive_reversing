@@ -54,7 +54,7 @@ void Particle::VUpdate()
 
     mSpriteScale += field_F4_scale_amount;
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -71,16 +71,16 @@ Particle* New_DestroyOrCreateObject_Particle(FP xpos, FP ypos, FP scale)
         return nullptr;
     }
 
-    pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
+    pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
     pParticle->mSpriteScale = FP_FromInteger(2) * scale;
 
     if (scale == FP_FromInteger(1))
     {
-        pParticle->mAnim.mRenderLayer = Layer::eLayer_Above_FG1_39;
+        pParticle->GetAnimation().SetRenderLayer(Layer::eLayer_Above_FG1_39);
     }
     else
     {
-        pParticle->mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+        pParticle->GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
     }
 
     pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
@@ -101,9 +101,9 @@ void New_Smoke_Particles(FP xpos, FP ypos, FP scale, s16 count, u8 r, u8 g, u8 b
         if (pParticle)
         {
             pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
-            pParticle->mAnim.mFlags.Clear(AnimFlags::eBlending);
-            pParticle->mAnim.mFlags.Set(AnimFlags::eSemiTrans);
-            pParticle->mAnim.mRenderMode = TPageAbr::eBlend_3;
+            pParticle->GetAnimation().mFlags.Clear(AnimFlags::eBlending);
+            pParticle->GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
+            pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_3);
 
             pParticle->mRGB.SetRGB(r, g, b);
 
@@ -113,18 +113,18 @@ void New_Smoke_Particles(FP xpos, FP ypos, FP scale, s16 count, u8 r, u8 g, u8 b
 
             if (scale == FP_FromInteger(1))
             {
-                pParticle->mAnim.mRenderLayer = Layer::eLayer_Foreground_36;
+                pParticle->GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_36);
             }
             else
             {
-                pParticle->mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+                pParticle->GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
             }
 
             pParticle->field_F4_scale_amount = scale * FP_FromDouble(0.03);
-            pParticle->mAnim.mFrameDelay = static_cast<u16>((i + 3) / 2);
+            pParticle->GetAnimation().SetFrameDelay(static_cast<u16>((i + 3) / 2));
             if (Math_NextRandom() < 127)
             {
-                pParticle->mAnim.mFlags.Set(AnimFlags::eFlipX);
+                pParticle->GetAnimation().mFlags.Set(AnimFlags::eFlipX);
             }
         }
         velYCounter -= FP_FromInteger(1);
@@ -138,7 +138,7 @@ Particle* New_Orb_Particle(FP xpos, FP ypos, FP velX, FP velY, FP scale, Layer l
     if (pParticle)
     {
         pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
-        pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
+        pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
 
         pParticle->mRGB.SetRGB(r, g, b);
 
@@ -147,15 +147,15 @@ Particle* New_Orb_Particle(FP xpos, FP ypos, FP velX, FP velY, FP scale, Layer l
 
         if (layer != Layer::eLayer_0)
         {
-            pParticle->mAnim.mRenderLayer = layer;
+            pParticle->GetAnimation().SetRenderLayer(layer);
         }
         else if (scale == FP_FromInteger(1))
         {
-            pParticle->mAnim.mRenderLayer = Layer::eLayer_Foreground_36;
+            pParticle->GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_36);
         }
         else
         {
-            pParticle->mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+            pParticle->GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
         }
 
         pParticle->mSpriteScale = scale;
@@ -199,15 +199,15 @@ void New_ShootingZFire_Particle(FP xpos, FP ypos, FP scale)
 
         pParticle->mRGB.SetRGB(55, 55, 55);
 
-        pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
+        pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
 
         if (scale == FP_FromInteger(1))
         {
-            pParticle->mAnim.mRenderLayer = Layer::eLayer_Foreground_36;
+            pParticle->GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_36);
         }
         else
         {
-            pParticle->mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+            pParticle->GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
         }
 
         pParticle->mSpriteScale = scale;
@@ -222,18 +222,18 @@ void New_ShootingFire_Particle(FP xpos, FP ypos, s8 direction, FP scale)
     {
         pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
         pParticle->mRGB.SetRGB(55, 55, 55);
-        pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
+        pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
 
         if (scale == FP_FromInteger(1))
         {
-            pParticle->mAnim.mRenderLayer = Layer::eLayer_Foreground_36;
+            pParticle->GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_36);
         }
         else
         {
-            pParticle->mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+            pParticle->GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
         }
 
-        pParticle->mAnim.mFlags.Set(AnimFlags::eFlipX, direction & 1);
+        pParticle->GetAnimation().mFlags.Set(AnimFlags::eFlipX, direction & 1);
         pParticle->mSpriteScale = scale;
     }
 }

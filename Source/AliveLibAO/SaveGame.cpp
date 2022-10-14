@@ -99,9 +99,9 @@ void SaveGame::LoadFromMemory(SaveData* pData, s32 bKillObjects)
     sActiveHero->field_2A8_flags.Set(Flags_2A8::e2A8_Bit12_bParamoniaDone, pData->field_252_paramonia_done & 1);
     sActiveHero->field_2A8_flags.Set(Flags_2A8::e2A8_eBit13_bScrabaniaDone, pData->field_253_scrabania_done & 1);
 
-    sActiveHero->mAnim.mFlags.Set(AnimFlags::eFlipX, pData->field_23C_ah_flipX & 1);
+    sActiveHero->GetAnimation().mFlags.Set(AnimFlags::eFlipX, pData->field_23C_ah_flipX & 1);
 
-    sActiveHero->mAnim.mFlags.Clear(AnimFlags::eRender);
+    sActiveHero->GetAnimation().mFlags.Clear(AnimFlags::eRender);
 
     gMap.field_E0_save_data = pData->field_2B0_pSaveBuffer;
 
@@ -365,7 +365,7 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
     pSaveData->field_2A2_killed_mudokons = sKilledMudokons_5076BC;
     pSaveData->field_238_current_camera = gMap.mCurrentCamera;
     pSaveData->field_2A6_restartRuptureFarmsKilledMudokons = gRestartRuptureFarmsKilledMuds_5076C4;
-    pSaveData->field_240_last_anim_frame = static_cast<u16>(sActiveHero->mAnim.mCurrentFrame);
+    pSaveData->field_240_last_anim_frame = static_cast<u16>(sActiveHero->GetAnimation().GetCurrentFrame());
     pSaveData->field_23E_current_motion = sActiveHero->mCurrentMotion;
     pSaveData->field_224_xpos = FP_GetExponent(sActiveHero->mXPos);
     pSaveData->field_228_ypos = FP_GetExponent(sActiveHero->mYPos);
@@ -378,7 +378,7 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
         pSaveData->field_23A_mode_mask = 0;
     }
     pSaveData->field_22C_ah_health = sActiveHero->mHealth;
-    pSaveData->field_23C_ah_flipX = sActiveHero->mAnim.mFlags.Get(AnimFlags::eFlipX);
+    pSaveData->field_23C_ah_flipX = sActiveHero->GetAnimation().mFlags.Get(AnimFlags::eFlipX);
     pSaveData->field_230_ah_sprite_scale = sActiveHero->mSpriteScale;
     pSaveData->field_244_stone_state = static_cast<s32>(sActiveHero->field_110_state.raw);
     pSaveData->field_248_gnFrame = sActiveHero->field_114_gnFrame;
@@ -411,7 +411,7 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
             pSaveData->field_270_elum_line_type = -1;
         }
         pSaveData->field_274_elum_current_motion = gElum->mCurrentMotion;
-        pSaveData->field_272_elum_flipX = gElum->mAnim.mFlags.Get(AnimFlags::eFlipX);
+        pSaveData->field_272_elum_flipX = gElum->GetAnimation().mFlags.Get(AnimFlags::eFlipX);
         pSaveData->field_278_brain_idx = gElum->field_128_brain_idx;
         pSaveData->field_276_bDontFollowAbe = gElum->mDontFollowAbe;
         pSaveData->field_27C_honey_xpos = gElum->field_12C_honey_xpos;

@@ -154,14 +154,14 @@ void BaseAliveGameObject::VOnPathTransition(s16 cameraWorldXPos, s16 cameraWorld
     {
         case CameraPos::eCamTop_1:
             mXPos = FP_FromInteger(cameraWorldXPos + FP_GetExponent(mXPos) % 375);
-            if (mAnim.mFlags.Get(AnimFlags::eBit22_DeadMode))
+            if (GetAnimation().mFlags.Get(AnimFlags::eBit22_DeadMode))
             {
                 ALIVE_FATAL("Impossible case BaseAliveGameObject::vOnPathTransition_408320 AnimFlags::eBit22_DeadMode");
             }
             else
             {
                 // TODO: This is actually wrong!!
-                const u32 off = mAnim.Get_FrameHeader(-1)->mHeight;
+                const u32 off = GetAnimation().Get_FrameHeader(-1)->mHeight;
                 mYPos = FP_FromInteger(off + cameraWorldYPos + 236);
             }
             break;
@@ -233,13 +233,13 @@ void BaseAliveGameObject::VOnPathTransition(s16 cameraWorldXPos, s16 cameraWorld
         }
     }
 
-    if (mSpriteScale == FP_FromInteger(1) && mAnim.field_14_scale == FP_FromDouble(0.5))
+    if (mSpriteScale == FP_FromInteger(1) && GetAnimation().GetSpriteScale() == FP_FromDouble(0.5))
     {
         // From 0.5 to 1 scale, f64 velx
         mVelX = mVelX * FP_FromInteger(2);
     }
 
-    if (mSpriteScale == FP_FromDouble(0.5) && mAnim.field_14_scale == FP_FromInteger(1))
+    if (mSpriteScale == FP_FromDouble(0.5) && GetAnimation().GetSpriteScale() == FP_FromInteger(1))
     {
         // From 1 to 0.5 scale, halve velx
         mVelX = mVelX * FP_FromDouble(0.5);
@@ -327,11 +327,11 @@ BirdPortal* BaseAliveGameObject::VIntoBirdPortal(s16 numGridBlocks)
             {
                 if (pBirdPortal->mEnterSide == relive::Path_BirdPortal::PortalSide::eLeft)
                 {
-                    if (pBirdPortal->mXPos - mXPos <= (ScaleToGridSize(mSpriteScale) * FP_FromInteger(numGridBlocks)) && !(mAnim.mFlags.Get(AnimFlags::eFlipX)))
+                    if (pBirdPortal->mXPos - mXPos <= (ScaleToGridSize(mSpriteScale) * FP_FromInteger(numGridBlocks)) && !(GetAnimation().mFlags.Get(AnimFlags::eFlipX)))
                     {
                         if (FP_Abs(mYPos - pBirdPortal->mHitY) < mSpriteScale * FP_FromInteger(10) && pBirdPortal->VPortalClipper(1))
                         {
-                            mAnim.mRenderLayer = mSpriteScale != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30;
+                            GetAnimation().SetRenderLayer(mSpriteScale != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30);
                             return pBirdPortal;
                         }
                     }
@@ -341,11 +341,11 @@ BirdPortal* BaseAliveGameObject::VIntoBirdPortal(s16 numGridBlocks)
             {
                 if (mXPos - pBirdPortal->mXPos <= ScaleToGridSize(mSpriteScale) * FP_FromInteger(numGridBlocks))
                 {
-                    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+                    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                     {
                         if (FP_Abs(mYPos - pBirdPortal->mHitY) < mSpriteScale * FP_FromInteger(10) && pBirdPortal->VPortalClipper(1))
                         {
-                            mAnim.mRenderLayer = mSpriteScale != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30;
+                            GetAnimation().SetRenderLayer(mSpriteScale != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30);
                             return pBirdPortal;
                         }
                     }
@@ -380,7 +380,7 @@ s16 BaseAliveGameObject::SetBaseAnimPaletteTint(TintEntry* pTintArray, EReliveLe
     if (resourceID != PalId::Default)
     {
         PalResource res = ResourceManagerWrapper::LoadPal(resourceID);
-        mAnim.LoadPal(res);
+        GetAnimation().LoadPal(res);
     }
 
     return 1;
@@ -512,7 +512,7 @@ s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
     gMap.GetCurrentCamCoords(&currentCamXY);
 
     // Gone off the left edge of the current screen
-    if (xposSnapped < currentCamXY.x && (mAnim.mFlags.Get(AnimFlags::eFlipX) || mVelX < FP_FromInteger(0)))
+    if (xposSnapped < currentCamXY.x && (GetAnimation().mFlags.Get(AnimFlags::eFlipX) || mVelX < FP_FromInteger(0)))
     {
         if (sControlledCharacter == this && gMap.SetActiveCameraDelayed(Map::MapDirections::eMapLeft_0, this, -1))
         {
@@ -522,7 +522,7 @@ s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
         }
     }
     // Gone off the right edge of the current screen
-    else if (xposSnapped > currentCamXY.x + 368 && (!(mAnim.mFlags.Get(AnimFlags::eFlipX)) || mVelX > FP_FromInteger(0)))
+    else if (xposSnapped > currentCamXY.x + 368 && (!(GetAnimation().mFlags.Get(AnimFlags::eFlipX)) || mVelX > FP_FromInteger(0)))
     {
         if (sControlledCharacter == this && gMap.SetActiveCameraDelayed(Map::MapDirections::eMapRight_1, this, -1))
         {

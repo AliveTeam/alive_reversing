@@ -27,10 +27,10 @@ Grenade::Grenade(FP xpos, FP ypos, s16 numGrenades)
     Animation_Init(GetAnimRes(AnimId::Grenade));
 
     mBaseGameObjectFlags.Clear(Options::eInteractive_Bit8);
-    mAnim.mRenderMode = TPageAbr::eBlend_0;
+    GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
 
-    mAnim.mFlags.Clear(AnimFlags::eRender);
-    mAnim.mFlags.Set(AnimFlags::eSemiTrans);
+    GetAnimation().mFlags.Clear(AnimFlags::eRender);
+    GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
 
     mXPos = xpos;
     field_120_xpos = xpos;
@@ -100,7 +100,7 @@ void Grenade::VTimeToExplodeRandom()
 
 void Grenade::VThrow(FP velX, FP velY)
 {
-    mAnim.mFlags.Set(AnimFlags::eRender);
+    GetAnimation().mFlags.Set(AnimFlags::eRender);
 
     mVelX = velX;
     mVelY = velY;
@@ -465,7 +465,7 @@ s16 Grenade::BlowUpAfterCountdown()
         mSpriteScale);
     if (pExplosion)
     {
-        mAnim.mFlags.Clear(AnimFlags::eRender);
+        GetAnimation().mFlags.Clear(AnimFlags::eRender);
         field_11C = pExplosion;
         pExplosion->mBaseGameObjectRefCount++;
         field_110_state = States::eWaitForExplodeEnd_6;

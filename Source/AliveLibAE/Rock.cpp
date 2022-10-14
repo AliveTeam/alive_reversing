@@ -27,8 +27,8 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
     Animation_Init(GetAnimRes(AnimId::Rock));
 
     mBaseGameObjectFlags.Clear(BaseGameObject::eInteractive_Bit8);
-    mAnim.mFlags.Clear(AnimFlags::eRender);
-    mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
+    GetAnimation().mFlags.Clear(AnimFlags::eRender);
+    GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
 
     mXPos = xpos;
     mYPos = ypos;
@@ -106,7 +106,7 @@ void Rock::VThrow(FP velX, FP velY)
     mVelX = velX;
     mVelY = velY;
 
-    mAnim.mFlags.Set(AnimFlags::eRender);
+    GetAnimation().mFlags.Set(AnimFlags::eRender);
 
     if (mBaseThrowableCount == 0)
     {
@@ -352,7 +352,7 @@ void Rock::VUpdate()
                     mCollectionRect.h = mYPos;
                     mCollectionRect.y = mYPos - ScaleToGridSize(mSpriteScale);
                     field_11C_state = RockStates::eOnGround_3;
-                    mAnim.mFlags.Clear(AnimFlags::eLoop);
+                    GetAnimation().mFlags.Clear(AnimFlags::eLoop);
                     field_128_shimmer_timer = sGnFrame;
                     return;
                 }
@@ -364,7 +364,7 @@ void Rock::VUpdate()
                 return;
             }
 
-            mAnim.mFlags.Set(AnimFlags::eLoop);
+            GetAnimation().mFlags.Set(AnimFlags::eLoop);
             field_11C_state = RockStates::eBouncing_4;
             return;
 
@@ -429,10 +429,10 @@ s32 Rock::VGetSaveState(u8* pSaveBuffer)
 
     pState->field_18_sprite_scale = mSpriteScale;
 
-    pState->field_20_flags.Set(RockSaveState::eBit1_bRender, mAnim.mFlags.Get(AnimFlags::eRender));
+    pState->field_20_flags.Set(RockSaveState::eBit1_bRender, GetAnimation().mFlags.Get(AnimFlags::eRender));
     pState->field_20_flags.Set(RockSaveState::eBit2_bDrawable, mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4));
 
-    pState->field_20_flags.Set(RockSaveState::eBit3_bLoop, mAnim.mFlags.Get(AnimFlags::eLoop));
+    pState->field_20_flags.Set(RockSaveState::eBit3_bLoop, GetAnimation().mFlags.Get(AnimFlags::eLoop));
     pState->field_20_flags.Set(RockSaveState::eBit4_bInteractive, mBaseGameObjectFlags.Get(BaseGameObject::eInteractive_Bit8));
 
     if (BaseAliveGameObjectCollisionLine)
@@ -477,8 +477,8 @@ s32 Rock::CreateFromSaveState(const u8* pData)
     pRock->mSpriteScale = pState->field_18_sprite_scale;
     pRock->mScale = pState->field_18_sprite_scale > FP_FromDouble(0.75) ? Scale::Fg : Scale::Bg;
 
-    pRock->mAnim.mFlags.Set(AnimFlags::eRender, pState->field_20_flags.Get(RockSaveState::eBit1_bRender));
-    pRock->mAnim.mFlags.Set(AnimFlags::eLoop, pState->field_20_flags.Get(RockSaveState::eBit3_bLoop));
+    pRock->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->field_20_flags.Get(RockSaveState::eBit1_bRender));
+    pRock->GetAnimation().mFlags.Set(AnimFlags::eLoop, pState->field_20_flags.Get(RockSaveState::eBit3_bLoop));
 
     pRock->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_20_flags.Get(RockSaveState::eBit2_bDrawable));
     pRock->mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8, pState->field_20_flags.Get(RockSaveState::eBit4_bInteractive));

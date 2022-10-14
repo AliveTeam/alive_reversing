@@ -48,8 +48,8 @@ public:
     }
 
 
+    Animation& GetAnimation() { return mAnim; }
 public:
-    Animation mAnim = {};
     FP mXPos = {};
     FP mYPos = {};
     s16 mCurrentPath = 0;
@@ -68,6 +68,10 @@ public:
     };
     BitField16<VisualFlags> mVisualFlags = {};
     Shadow* mShadow = nullptr;
+
+private:
+    Animation mAnim = {};
+
 };
 
 #ifdef _MSC_VER

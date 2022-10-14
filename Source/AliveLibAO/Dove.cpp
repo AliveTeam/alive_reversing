@@ -33,37 +33,37 @@ Dove::Dove(AnimId animId, const Guid& tlvId, FP scale)
     LoadAnimations();
     Animation_Init(GetAnimRes(animId));
 
-    mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
+    GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
 
     gDovesArray.Push_Back(this);
 
-    mAnim.field_14_scale = scale;
+    GetAnimation().SetSpriteScale(scale);
     mSpriteScale = scale;
     if (scale == FP_FromInteger(1))
     {
         mScale = Scale::Fg;
-        mAnim.mRenderLayer = Layer::eLayer_27;
+        GetAnimation().SetRenderLayer(Layer::eLayer_27);
     }
     else
     {
         mScale = Scale::Bg;
-        mAnim.mRenderLayer = Layer::eLayer_8;
+        GetAnimation().SetRenderLayer(Layer::eLayer_8);
     }
 
     mVelX = FP_FromInteger((Math_NextRandom() / 12 - 11));
     if (mVelX >= FP_FromInteger(0))
     {
-        mAnim.mFlags.Clear(AnimFlags::eFlipX);
+        GetAnimation().mFlags.Clear(AnimFlags::eFlipX);
     }
     else
     {
-        mAnim.mFlags.Set(AnimFlags::eFlipX);
+        GetAnimation().mFlags.Set(AnimFlags::eFlipX);
     }
 
     mDoveState = State::eOnGround_0;
 
     mVelY = FP_FromInteger(-4 - (Math_NextRandom() & 3));
-    mAnim.SetFrame(Math_NextRandom() & 7);
+    GetAnimation().SetFrame(Math_NextRandom() & 7);
     mKeepInGlobalArray = FALSE;
     mTlvInfo = tlvId;
 
@@ -89,27 +89,27 @@ Dove::Dove(AnimId animId, FP xpos, FP ypos, FP scale)
     LoadAnimations();
     Animation_Init(GetAnimRes(animId));
 
-    mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
-    mAnim.field_14_scale = scale;
+    GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
+    GetAnimation().SetSpriteScale(scale);
     mSpriteScale = scale;
 
     if (scale == FP_FromInteger(1))
     {
-        mAnim.mRenderLayer = Layer::eLayer_27;
+        GetAnimation().SetRenderLayer(Layer::eLayer_27);
     }
     else
     {
-        mAnim.mRenderLayer = Layer::eLayer_8;
+        GetAnimation().SetRenderLayer(Layer::eLayer_8);
     }
 
     mVelX = FP_FromInteger(Math_NextRandom() / 12 - 11);
     if (scale >= FP_FromInteger(0))
     {
-        mAnim.mFlags.Clear(AnimFlags::eFlipX);
+        GetAnimation().mFlags.Clear(AnimFlags::eFlipX);
     }
     else
     {
-        mAnim.mFlags.Set(AnimFlags::eFlipX);
+        GetAnimation().mFlags.Set(AnimFlags::eFlipX);
     }
 
     mVelY = FP_FromInteger(-4 - ((Math_NextRandom()) & 3));
@@ -122,7 +122,7 @@ Dove::Dove(AnimId animId, FP xpos, FP ypos, FP scale)
 
     mTlvInfo = {};
 
-    mAnim.SetFrame((Math_NextRandom() & 6) + 1);
+    GetAnimation().SetFrame((Math_NextRandom() & 6) + 1);
 
     if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
     {
@@ -287,7 +287,7 @@ void Dove::VUpdate()
             mFlyAwayCounter++;
             if (mFlyAwayCounter == 0)
             {
-                mAnim.Set_Animation_Data(GetAnimRes(AnimId::Dove_Flying));
+                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Dove_Flying));
                 if (!bExtraSeqStarted_4FF944)
                 {
                     bExtraSeqStarted_4FF944 = 16;
@@ -310,7 +310,7 @@ void Dove::VUpdate()
                 mVelX = -mVelX;
             }
 
-            mAnim.mFlags.Set(AnimFlags::eFlipX, mVelX < FP_FromInteger(0));
+            GetAnimation().mFlags.Set(AnimFlags::eFlipX, mVelX < FP_FromInteger(0));
             break;
 
         case State::eJoin_2:
@@ -320,7 +320,7 @@ void Dove::VUpdate()
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
 
-            const FP k4Directed = mAnim.mFlags.Get(AnimFlags::eFlipX) ? FP_FromInteger(4) : FP_FromInteger(-4);
+            const FP k4Directed = GetAnimation().mFlags.Get(AnimFlags::eFlipX) ? FP_FromInteger(4) : FP_FromInteger(-4);
             mVelX = (k4Directed + mJoinX - mXPos) / FP_FromInteger(8);
             mXPos += mVelX;
             mVelY = (mJoinY - mYPos) / FP_FromInteger(8);

@@ -358,11 +358,9 @@ void PauseMenu::Init()
 {
     if (field_158_animation.Init(GetAnimRes(AnimId::NormalMudIcon), this))
     {
-        this->field_158_animation.mRenderLayer = mAnim.mRenderLayer;
-        this->field_158_animation.field_14_scale = mSpriteScale;
-        this->field_158_animation.mRed = 127;
-        this->field_158_animation.mGreen = 127;
-        this->field_158_animation.mBlue = 127;
+        this->field_158_animation.SetRenderLayer(GetAnimation().GetRenderLayer());
+        this->field_158_animation.SetSpriteScale(mSpriteScale);
+        this->field_158_animation.SetRGB(127, 127, 127);
     }
     else
     {
@@ -1246,7 +1244,7 @@ void PauseMenu::Page_Status_Update()
 void PauseMenu::Page_Status_Render(PrimHeader** ot, PauseMenuPage* pPage)
 {
     // Render the status icon
-    field_158_animation.mRenderLayer = Layer::eLayer_Menu_41;
+    field_158_animation.SetRenderLayer(Layer::eLayer_Menu_41);
     field_158_animation.VRender(180, 100, ot, 0, 0);
 
     // Render the text

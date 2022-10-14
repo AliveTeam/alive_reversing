@@ -45,11 +45,11 @@ CrawlingSligButton::CrawlingSligButton(relive::Path_CrawlingSligButton* pTlv, co
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
-        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
+        GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_Half_6);
     }
     else if (pTlv->mScale == relive::reliveScale::eFull)
     {
-        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
+        GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_25);
     }
 
     field_F8_switch_id = pTlv->mSwitchId;
@@ -70,7 +70,7 @@ void CrawlingSligButton::UseButton()
     if (!field_102_in_use)
     {
         field_102_in_use = 1;
-        mAnim.Set_Animation_Data(GetAnimRes(AnimId::CrawlingSligButtonUse));
+        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::CrawlingSligButtonUse));
     }
 }
 
@@ -117,6 +117,6 @@ void CrawlingSligButton::VUpdate()
         }
 
         field_102_in_use = 0;
-        mAnim.Set_Animation_Data(GetAnimRes(AnimId::CrawlingSligButton));
+        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::CrawlingSligButton));
     }
 }

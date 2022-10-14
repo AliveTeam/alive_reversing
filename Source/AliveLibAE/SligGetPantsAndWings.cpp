@@ -28,11 +28,11 @@ SligGetPantsAndWings::SligGetPantsAndWings(relive::Path_TLV* pTlv, const Guid& t
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
-        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
+        GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_Half_6);
     }
     else if (pHack->mData.mScale == relive::reliveScale::eFull)
     {
-        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
+        GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_25);
     }
 
     mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
@@ -62,15 +62,15 @@ void SligGetPantsAndWings::VUpdate()
             {
                 mState = State::eFinished;
                 SfxPlayMono(relive::SoundEffects::NakedSligTransformEnd, 0);
-                mAnim.Set_Animation_Data(GetAnimRes(AnimId::CrawlingSligLocker_Open));
+                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::CrawlingSligLocker_Open));
             }
             break;
 
         case State::eFinished:
-            if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+            if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 mState = State::eWaiting;
-                mAnim.Set_Animation_Data(GetAnimRes(AnimId::CrawlingSligLocker_Closed));
+                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::CrawlingSligLocker_Closed));
                 pTlv->mTlvSpecificMeaning = 0;
             }
             break;

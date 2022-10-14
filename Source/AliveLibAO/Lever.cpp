@@ -59,12 +59,12 @@ void Lever::VUpdate()
 
     if (mState == LeverState::ePulled_1)
     {
-        if (mAnim.mCurrentFrame == 3)
+        if (GetAnimation().GetCurrentFrame() == 3)
         {
             SfxPlayMono(relive::SoundEffects::LeverPull, 0);
         }
 
-        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
         {
             EventBroadcast(kEventNoise, this);
             EventBroadcast(kEventSuspiciousNoise, this);
@@ -87,7 +87,7 @@ void Lever::VUpdate()
                 animId = gLeverData_4BCF40[lvl_idx].field_10_releasing_left_animId;
             }
 
-            mAnim.Set_Animation_Data(GetAnimRes(animId));
+            GetAnimation().Set_Animation_Data(GetAnimRes(animId));
 
             const auto oldSwitchState = SwitchStates_Get(mSwitchId);
             SwitchStates_Do_Operation(mSwitchId, mAction);
@@ -165,10 +165,10 @@ void Lever::VUpdate()
     }
     else if (mState == LeverState::eFinished_2)
     {
-        if (mAnim.mFlags.Get(AnimFlags::eForwardLoopCompleted))
+        if (GetAnimation().mFlags.Get(AnimFlags::eForwardLoopCompleted))
         {
             mState = LeverState::eWaiting_0;
-            mAnim.Set_Animation_Data(
+            GetAnimation().Set_Animation_Data(
                 GetAnimRes(gLeverData_4BCF40[static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))].field_0_idle_animId));
         }
     }
@@ -194,7 +194,7 @@ Lever::Lever(relive::Path_Lever* pTlv, const Guid& tlvId)
     const s32 lvl_idx = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
     Animation_Init(GetAnimRes(gLeverData_4BCF40[lvl_idx].field_0_idle_animId));
 
-    mAnim.mFlags.Set(AnimFlags::eSemiTrans);
+    GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
 
     mXPos = FP_FromInteger((pTlv->mBottomRightX
                                     + pTlv->mTopLeftX)
@@ -207,13 +207,13 @@ Lever::Lever(relive::Path_Lever* pTlv, const Guid& tlvId)
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
-        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
+        GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_Half_6);
         mScale = Scale::Bg;
     }
     else
     {
         mSpriteScale = FP_FromInteger(1);
-        mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
+        GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_25);
         mScale = Scale::Fg;
     }
 
@@ -233,13 +233,13 @@ s32 Lever::VPull(s16 bLeftDirection)
         mState = LeverState::ePulled_1;
         if (bLeftDirection)
         {
-            mAnim.Set_Animation_Data(
+            GetAnimation().Set_Animation_Data(
                 GetAnimRes(gLeverData_4BCF40[lvl_idx].field_C_pulling_left_animId));
             field_F0_bPulledFromLeft = 1;
         }
         else
         {
-            mAnim.Set_Animation_Data(
+            GetAnimation().Set_Animation_Data(
                 GetAnimRes(gLeverData_4BCF40[lvl_idx].field_14_pulling_right_animId));
             field_F0_bPulledFromLeft = 0;
         }

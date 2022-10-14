@@ -23,14 +23,14 @@ void DeathBirdParticle::VUpdate()
             if (static_cast<s32>(sGnFrame) > field_E8_start)
             {
                 // Death "star"
-                mAnim.Set_Animation_Data(GetAnimRes(AnimId::DeathFlare_2));
+                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::DeathFlare_2));
                 field_E5_state = States::eTransformStarsToDoves_1;
             }
             break;
 
         case States::eTransformStarsToDoves_1:
             // Has the Death "star" finished animating?
-            if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+            if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 // Yes so magic it into a dove
                 auto pDove = relive_new Dove(
@@ -40,7 +40,7 @@ void DeathBirdParticle::VUpdate()
                     mSpriteScale);
                 if (pDove)
                 {
-                    if (pDove->mAnim.mFlags.Get(AnimFlags::eFlipX))
+                    if (pDove->GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                     {
                         pDove->mXPos += FP_FromInteger(8);
                     }
@@ -82,16 +82,16 @@ DeathBirdParticle::DeathBirdParticle(FP xpos, FP ypos, s32 start, s32 bPlaySound
     else
     {
         mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
-        mAnim.mRenderMode = TPageAbr::eBlend_1;
+        GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
         mSpriteScale = scale;
-        mAnim.field_14_scale = scale;
+        GetAnimation().SetSpriteScale(scale);
         if (scale <= FP_FromDouble(0.5))
         {
-            mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+            GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
         }
         else
         {
-            mAnim.mRenderLayer = Layer::eLayer_Above_FG1_39;
+            GetAnimation().SetRenderLayer(Layer::eLayer_Above_FG1_39);
         }
 
         mXPos = xpos;

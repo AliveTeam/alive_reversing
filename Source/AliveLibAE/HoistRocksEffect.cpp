@@ -53,23 +53,21 @@ HoistRocksEffect::HoistRocksEffect(relive::Path_Hoist* pTlv, const Guid& tlvId)
     {
         particle.field_10_mAnim.Init(GetAnimRes(AnimId::HoistRock1), this);
 
-        particle.field_10_mAnim.mRed = 255;
-        particle.field_10_mAnim.mGreen = 255;
-        particle.field_10_mAnim.mBlue = 255;
+        particle.field_10_mAnim.SetRGB(255, 255, 255);
 
         if (pTlv->mScale == relive::reliveScale::eHalf)
         {
-            particle.field_10_mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_Half_6;
+            particle.field_10_mAnim.SetRenderLayer(Layer::eLayer_BeforeShadow_Half_6);
         }
         else
         {
-            particle.field_10_mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
+            particle.field_10_mAnim.SetRenderLayer(Layer::eLayer_BeforeShadow_25);
         }
 
-        particle.field_10_mAnim.mRenderMode = TPageAbr::eBlend_0;
+        particle.field_10_mAnim.SetRenderMode(TPageAbr::eBlend_0);
         particle.field_10_mAnim.mFlags.Clear(AnimFlags::eBlending);
         particle.field_10_mAnim.mFlags.Set(AnimFlags::eSemiTrans);
-        particle.field_10_mAnim.field_14_scale = field_2C_scale;
+        particle.field_10_mAnim.SetSpriteScale(field_2C_scale);
 
         particle.field_0_state = 0;
     }

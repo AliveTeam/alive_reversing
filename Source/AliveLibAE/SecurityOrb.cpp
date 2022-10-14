@@ -56,13 +56,13 @@ SecurityOrb::SecurityOrb(relive::Path_SecurityOrb* pTlv, const Guid& tlvId)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
-        mAnim.mRenderLayer = Layer::eLayer_8;
+        GetAnimation().SetRenderLayer(Layer::eLayer_8);
     }
     else
     {
         mSpriteScale = FP_FromInteger(1);
         mScale = Scale::Fg;
-        mAnim.mRenderLayer = Layer::eLayer_27;
+        GetAnimation().SetRenderLayer(Layer::eLayer_27);
     }
 
     mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
@@ -133,7 +133,7 @@ void SecurityOrb::VUpdate()
     switch (mState)
     {
         case States::eIdle_0:
-            if (mAnim.mCurrentFrame == 2 || mAnim.mCurrentFrame == 6 || mAnim.mCurrentFrame == 10)
+            if (GetAnimation().GetCurrentFrame() == 2 || GetAnimation().GetCurrentFrame() == 6 || GetAnimation().GetCurrentFrame() == 10)
             {
                 if (mSoundChannelsMask)
                 {

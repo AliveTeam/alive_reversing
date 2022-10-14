@@ -166,13 +166,13 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
     if (scale == FP_FromInteger(1))
     {
         field_F8_z = FP_FromInteger(0);
-        mAnim.mRenderLayer = Layer::eLayer_FG1_37;
+        GetAnimation().SetRenderLayer(Layer::eLayer_FG1_37);
         mScale = Scale::Fg;
     }
     else if (scale == FP_FromDouble(0.5))
     {
         field_F8_z = FP_FromInteger(100);
-        mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+        GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
         mScale = Scale::Bg;
     }
     else
@@ -240,13 +240,11 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
             }
         }
 
-        pPart->field_18_animation.mRenderLayer = mAnim.mRenderLayer;
-        pPart->field_18_animation.field_14_scale = scale;
+        pPart->field_18_animation.SetRenderLayer(GetAnimation().GetRenderLayer());
+        pPart->field_18_animation.SetSpriteScale(scale);
         pPart->field_18_animation.mFlags.Clear(AnimFlags::eBlending);
 
-        pPart->field_18_animation.mRed = static_cast<u8>(mRGB.r);
-        pPart->field_18_animation.mGreen = static_cast<u8>(mRGB.g);
-        pPart->field_18_animation.mBlue = static_cast<u8>(mRGB.b);
+        pPart->field_18_animation.SetRGB(mRGB.r, mRGB.g, mRGB.b);
 
         pPart->x = mXPos;
         pPart->y = mYPos;
@@ -349,23 +347,23 @@ void Gibs::VRender(PrimHeader** ppOt)
             // Part is within camera Y?
             if (field_104_parts[i].y >= camYPos && field_104_parts[i].y <= camYPos + FP_FromInteger(240))
             {
-                field_104_parts[i].field_18_animation.field_14_scale = FP_FromInteger(100) / (field_104_parts[i].field_8_z + FP_FromInteger(100));
+                field_104_parts[i].field_18_animation.SetSpriteScale(FP_FromInteger(100) / (field_104_parts[i].field_8_z + FP_FromInteger(100)));
 
                 if (field_5D6_bMakeSmaller)
                 {
-                    field_104_parts[i].field_18_animation.field_14_scale /= FP_FromInteger(2);
+                    field_104_parts[i].field_18_animation.SetSpriteScale(field_104_parts[i].field_18_animation.GetSpriteScale() / FP_FromInteger(2));
                 }
 
-                if (field_104_parts[i].field_18_animation.field_14_scale < FP_FromInteger(1))
+                if (field_104_parts[i].field_18_animation.GetSpriteScale() < FP_FromInteger(1))
                 {
-                    field_104_parts[i].field_18_animation.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+                    field_104_parts[i].field_18_animation.SetRenderLayer(Layer::eLayer_Foreground_Half_17);
                 }
                 else
                 {
-                    field_104_parts[i].field_18_animation.mRenderLayer = Layer::eLayer_FG1_37;
+                    field_104_parts[i].field_18_animation.SetRenderLayer(Layer::eLayer_FG1_37);
                 }
 
-                if (field_104_parts[i].field_18_animation.field_14_scale <= FP_FromInteger(1))
+                if (field_104_parts[i].field_18_animation.GetSpriteScale() <= FP_FromInteger(1))
                 {
                     const s32 xpos = FP_GetExponent(field_104_parts[i].x - camXPos);
                     const s32 ypos = FP_GetExponent(field_104_parts[i].y - camYPos);

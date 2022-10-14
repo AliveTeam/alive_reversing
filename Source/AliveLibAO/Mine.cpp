@@ -36,13 +36,13 @@ Mine::Mine(relive::Path_Mine* pTlv, const Guid& tlvId)
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
-        mAnim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_Half_16;
+        GetAnimation().SetRenderLayer(Layer::eLayer_RollingBallBombMineCar_Half_16);
         mScale = Scale::Bg;
     }
     else
     {
         mSpriteScale = FP_FromInteger(1);
-        mAnim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_35;
+        GetAnimation().SetRenderLayer(Layer::eLayer_RollingBallBombMineCar_35);
         mScale = Scale::Fg;
     }
 
@@ -53,16 +53,14 @@ Mine::Mine(relive::Path_Mine* pTlv, const Guid& tlvId)
 
     field_118_animation.Init(GetAnimRes(AnimId::Mine_Flash), this);
 
-    field_118_animation.mRenderLayer = mAnim.mRenderLayer;
+    field_118_animation.SetRenderLayer(GetAnimation().GetRenderLayer());
     field_118_animation.mFlags.Set(AnimFlags::eBlending);
     field_118_animation.mFlags.Set(AnimFlags::eSemiTrans);
-    field_118_animation.field_14_scale = mSpriteScale;
+    field_118_animation.SetSpriteScale(mSpriteScale);
 
-    field_118_animation.mRed = 128;
-    field_118_animation.mGreen = 128;
-    field_118_animation.mBlue = 128;
+    field_118_animation.SetRGB(128, 128, 128);
 
-    field_118_animation.mRenderMode = TPageAbr::eBlend_0;
+    field_118_animation.SetRenderMode(TPageAbr::eBlend_0);
     field_10E_disabled_resources = pTlv->mDisabledResources;
 
     // TODO
@@ -192,7 +190,7 @@ void Mine::VUpdate()
     }
     else
     {
-        if (mAnim.mCurrentFrame == 1)
+        if (GetAnimation().GetCurrentFrame() == 1)
         {
             if (sMinePlayingSound == nullptr || sMinePlayingSound == this)
             {
@@ -234,7 +232,7 @@ s16 Mine::IsColliding()
 
         if (pObj->mBaseAliveGameObjectFlags.Get(Flags_10A::e10A_Bit4_SetOffExplosives))
         {
-            if (pObj->mAnim.mFlags.Get(AnimFlags::eRender))
+            if (pObj->GetAnimation().mFlags.Get(AnimFlags::eRender))
             {
                 const PSX_RECT bObjRect = pObj->VGetBoundingRect();
 

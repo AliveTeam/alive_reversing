@@ -58,7 +58,7 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
     const s32 lvlIdx = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
     Animation_Init(GetAnimRes(sFallingItemData_4BAB20[lvlIdx].field_0_falling_animId));
 
-    mAnim.mRenderLayer = Layer::eLayer_FallingItemDoorFlameRollingBallPortalClip_Half_31;
+    GetAnimation().SetRenderLayer(Layer::eLayer_FallingItemDoorFlameRollingBallPortalClip_Half_31);
     if (gMap.mCurrentLevel == EReliveLevelIds::eLines)
     {
         mRGB.SetRGB(77, 120, 190);
@@ -179,7 +179,7 @@ void FallingItem::VUpdate()
             field_110_state = State::eWaitForFallDelay_2;
             mVelX = FP_FromInteger(0);
             mVelY = FP_FromInteger(0);
-            mAnim.Set_Animation_Data(GetAnimRes(sFallingItemData_4BAB20[static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))].field_4_waiting_animId));
+            GetAnimation().Set_Animation_Data(GetAnimRes(sFallingItemData_4BAB20[static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))].field_4_waiting_animId));
             field_11C_delay_timer = sGnFrame + mFallInterval;
             break;
         }
@@ -314,7 +314,7 @@ void FallingItem::VUpdate()
             }
             else
             {
-                mAnim.Set_Animation_Data(GetAnimRes(sFallingItemData_4BAB20[static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))].field_0_falling_animId));
+                GetAnimation().Set_Animation_Data(GetAnimRes(sFallingItemData_4BAB20[static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))].field_0_falling_animId));
                 mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
                 mVelY = FP_FromInteger(0);
                 mVelX = FP_FromInteger(0);

@@ -43,15 +43,15 @@ BirdPortalTerminator::BirdPortalTerminator(FP xpos, FP ypos, FP scale, relive::P
 
     Animation_Init(GetAnimRes(AnimId::BirdPortal_TerminatorGrow));
     
-    mAnim.mRenderMode = TPageAbr::eBlend_1;
+    GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
     mSpriteScale = scale;
     if (scale == FP_FromInteger(1))
     {
-        mAnim.mRenderLayer = Layer::eLayer_Above_FG1_39;
+        GetAnimation().SetRenderLayer(Layer::eLayer_Above_FG1_39);
     }
     else
     {
-        mAnim.mRenderLayer = Layer::eLayer_Above_FG1_Half_20;
+        GetAnimation().SetRenderLayer(Layer::eLayer_Above_FG1_Half_20);
     }
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
@@ -136,11 +136,11 @@ BirdPortal::~BirdPortal()
         {
             if (mSpriteScale == FP_FromInteger(1))
             {
-                sActiveHero->mAnim.mRenderLayer = Layer::eLayer_AbeMenu_32;
+                sActiveHero->GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_32);
             }
             else
             {
-                sActiveHero->mAnim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
+                sActiveHero->GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_Half_13);
             }
         }
     }
@@ -403,10 +403,10 @@ void BirdPortal::VUpdate()
 
         case PortalStates::CreateTerminators_4:
             EventBroadcast(kEventPortalOpen, this);
-            if (mTerminator1->mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+            if (mTerminator1->GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
-                mTerminator1->mAnim.Set_Animation_Data(mTerminator1->GetAnimRes(AnimId::BirdPortal_TerminatorIdle));
-                mTerminator2->mAnim.Set_Animation_Data(mTerminator2->GetAnimRes(AnimId::BirdPortal_TerminatorIdle));
+                mTerminator1->GetAnimation().Set_Animation_Data(mTerminator1->GetAnimRes(AnimId::BirdPortal_TerminatorIdle));
+                mTerminator2->GetAnimation().Set_Animation_Data(mTerminator2->GetAnimRes(AnimId::BirdPortal_TerminatorIdle));
                 mTimer = sGnFrame + 12;
                 mState = PortalStates::ExpandTerminators_5;
                 mSfxPlaying = SfxPlayMono(relive::SoundEffects::PortalOpening, 0);
@@ -438,14 +438,14 @@ void BirdPortal::VUpdate()
                     if (pParticle)
                     {
                         pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
-                        pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
+                        pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
                         pParticle->SetType(ReliveTypes::eBirdPortalTerminator);
                         pParticle->mSpriteScale = mSpriteScale;
 
                         if (sGnFrame % 2)
                         {
-                            pParticle->mAnim.mFlags.Set(AnimFlags::eLoopBackwards);
-                            pParticle->mAnim.SetFrame(pParticle->mAnim.Get_Frame_Count());
+                            pParticle->GetAnimation().mFlags.Set(AnimFlags::eLoopBackwards);
+                            pParticle->GetAnimation().SetFrame(pParticle->GetAnimation().Get_Frame_Count());
                         }
                     }
 
@@ -552,7 +552,7 @@ void BirdPortal::VUpdate()
                 if (pParticle_1)
                 {
                     pParticle_1->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
-                    pParticle_1->mAnim.mRenderMode = TPageAbr::eBlend_1;
+                    pParticle_1->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
                     pParticle_1->mSpriteScale = mSpriteScale;
                 }
 
@@ -625,10 +625,10 @@ void BirdPortal::VUpdate()
         break;
 
         case PortalStates::PortalExit_CreateTerminators_18:
-            if (mTerminator1->mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+            if (mTerminator1->GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
-                mTerminator1->mAnim.Set_Animation_Data(mTerminator1->GetAnimRes(AnimId::BirdPortal_TerminatorIdle));
-                mTerminator2->mAnim.Set_Animation_Data(mTerminator2->GetAnimRes(AnimId::BirdPortal_TerminatorIdle));
+                mTerminator1->GetAnimation().Set_Animation_Data(mTerminator1->GetAnimRes(AnimId::BirdPortal_TerminatorIdle));
+                mTerminator2->GetAnimation().Set_Animation_Data(mTerminator2->GetAnimRes(AnimId::BirdPortal_TerminatorIdle));
                 mState = PortalStates::PortalExit_ExpandTerminators_19;
                 mTimer = sGnFrame + 12;
             }
@@ -646,8 +646,8 @@ void BirdPortal::VUpdate()
         case PortalStates::KillPortalClipper_21:
             if (static_cast<s32>(sGnFrame) > mTimer)
             {
-                mTerminator1->mAnim.Set_Animation_Data(mTerminator1->GetAnimRes(AnimId::BirdPortal_TerminatorShrink));
-                mTerminator2->mAnim.Set_Animation_Data(mTerminator2->GetAnimRes(AnimId::BirdPortal_TerminatorShrink));
+                mTerminator1->GetAnimation().Set_Animation_Data(mTerminator1->GetAnimRes(AnimId::BirdPortal_TerminatorShrink));
+                mTerminator2->GetAnimation().Set_Animation_Data(mTerminator2->GetAnimRes(AnimId::BirdPortal_TerminatorShrink));
                 mState = PortalStates::FadeoutTerminators_22;
                 mTimer = sGnFrame + 30;
 
@@ -877,12 +877,12 @@ void BirdPortal::VExitPortal()
         if (pPortalExitTlv->mScale == relive::reliveScale::eHalf)
         {
             mSpriteScale = FP_FromDouble(0.5);
-            sActiveHero->mAnim.mRenderLayer = Layer::eLayer_InBirdPortal_Half_11;
+            sActiveHero->GetAnimation().SetRenderLayer(Layer::eLayer_InBirdPortal_Half_11);
         }
         else
         {
             mSpriteScale = FP_FromInteger(1);
-            sActiveHero->mAnim.mRenderLayer = Layer::eLayer_InBirdPortal_30;
+            sActiveHero->GetAnimation().SetRenderLayer(Layer::eLayer_InBirdPortal_30);
         }
 
         sActiveHero->mSpriteScale = mSpriteScale;

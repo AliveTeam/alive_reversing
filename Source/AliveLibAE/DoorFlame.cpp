@@ -27,15 +27,15 @@ public:
 
         mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 
-        mAnim.mFlags.Clear(AnimFlags::eBlending);
-        mAnim.mFlags.Set(AnimFlags::eSemiTrans);
-        mAnim.mFlags.Set(AnimFlags::eIgnorePosOffset);
+        GetAnimation().mFlags.Clear(AnimFlags::eBlending);
+        GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
+        GetAnimation().mFlags.Set(AnimFlags::eIgnorePosOffset);
 
         mXPos = xpos;
         mYPos = ypos + FP_FromInteger(4);
 
-        mAnim.mRenderLayer = Layer::eLayer_DoorFlameRollingBallFallingItemPortalClip_Half_12;
-        mAnim.mRenderMode = TPageAbr::eBlend_3;
+        GetAnimation().SetRenderLayer(Layer::eLayer_DoorFlameRollingBallFallingItemPortalClip_Half_12);
+        GetAnimation().SetRenderMode(TPageAbr::eBlend_3);
 
         mRGB.SetRGB(140, 90, 53);
 
@@ -56,8 +56,8 @@ public:
         s16 frameW = 0;
         s16 frameH = 0;
 
-        mAnim.Get_Frame_Width_Height(&frameW, &frameH);
-        mAnim.Get_Frame_Offset(&xy.x, &xy.y);
+        GetAnimation().Get_Frame_Width_Height(&frameW, &frameH);
+        GetAnimation().Get_Frame_Offset(&xy.x, &xy.y);
 
         const FP screenX = mXPos - pScreenManager->CamXPos();
         const FP screenY = mYPos - pScreenManager->CamYPos();
@@ -84,14 +84,12 @@ public:
         {
             //if (k1_dword_55EF90)
             {
-                mAnim.mRed = mRGB.r & 0xFF;
-                mAnim.mBlue = mRGB.b & 0xFF;
-                mAnim.mGreen = mRGB.g & 0xFF;
+                GetAnimation().SetRGB(mRGB.r & 0xFF, mRGB.g & 0xFF, mRGB.b & 0xFF);
 
                 const FP xOff = field_FC_xOff - field_F4_xPos;
                 const FP yOff = field_100_yOff - field_F8_yPos;
 
-                mAnim.VRender(
+                GetAnimation().VRender(
                     FP_GetExponent(field_F4_xPos),
                     FP_GetExponent(field_F8_yPos),
                     ppOt,
@@ -99,7 +97,7 @@ public:
                     FP_GetExponent(yOff) + 1);
 
                 PSX_RECT frameRect = {};
-                mAnim.Get_Frame_Rect(&frameRect);
+                GetAnimation().Get_Frame_Rect(&frameRect);
             }
         }
     }
@@ -136,10 +134,10 @@ public:
         mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::ChantOrb_Particle_Small));
         Animation_Init(GetAnimRes(AnimId::ChantOrb_Particle_Small));
 
-        mAnim.mFlags.Set(AnimFlags::eSemiTrans);
+        GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
 
         mVisualFlags.Set(VisualFlags::eApplyShadowZoneColour);
-        mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+        GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
 
         mXPos = xpos;
         mYPos = ypos;
@@ -150,14 +148,14 @@ public:
 
         for (auto& anim : field_F8_sparks)
         {
-            anim.field_14.field_68_anim_ptr = &mAnim;
+            anim.field_14.field_68_anim_ptr = &GetAnimation();
 
             anim.field_14.mFlags.Set(AnimFlags::eRender);
             anim.field_14.mFlags.Set(AnimFlags::eBlending);
 
             // TODO: clean this up
-            const s32 rndLayer = static_cast<s32>(mAnim.mRenderLayer) + Math_RandomRange(-1, 1);
-            anim.field_14.mRenderLayer = static_cast<Layer>(rndLayer);
+            const s32 rndLayer = static_cast<s32>(GetAnimation().GetRenderLayer()) + Math_RandomRange(-1, 1);
+            anim.field_14.SetRenderLayer(static_cast<Layer>(rndLayer));
             anim.field_14.field_6C_scale = mSpriteScale;
 
             anim.x = mXPos;
@@ -242,11 +240,9 @@ private:
         {
             if (field_F4_bRender)
             {
-                mAnim.mRed = 240;
-                mAnim.mGreen = 32;
-                mAnim.mBlue = 32;
+                GetAnimation().SetRGB(240, 32, 32);
 
-                mAnim.VRender(
+                GetAnimation().VRender(
                     FP_GetExponent(mXPos - pScreenManager->CamXPos()),
                     FP_GetExponent(mYPos - pScreenManager->CamYPos()),
                     ppOt,
@@ -254,7 +250,7 @@ private:
                     0);
 
                 PSX_RECT frameRect = {};
-                mAnim.Get_Frame_Rect(&frameRect);
+                GetAnimation().Get_Frame_Rect(&frameRect);
 
                 for (auto& anim : field_F8_sparks)
                 {
@@ -297,11 +293,11 @@ DoorFlame::DoorFlame(relive::Path_DoorFlame* pTlv, const Guid& tlvId)
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Fire));
     Animation_Init(GetAnimRes(AnimId::Fire));
 
-    mAnim.mFlags.Set(AnimFlags::eSemiTrans);
+    GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
     mVisualFlags.Set(VisualFlags::eApplyShadowZoneColour);
-    mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
-    mFrameCount = static_cast<s16>(mAnim.Get_Frame_Count());
-    mAnim.SetFrame(Math_RandomRange(0, mFrameCount - 1));
+    GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
+    mFrameCount = static_cast<s16>(GetAnimation().Get_Frame_Count());
+    GetAnimation().SetFrame(Math_RandomRange(0, mFrameCount - 1));
 
     mSwitchId = pTlv->mSwitchId;
 
@@ -316,12 +312,12 @@ DoorFlame::DoorFlame(relive::Path_DoorFlame* pTlv, const Guid& tlvId)
 
     if (SwitchStates_Get(mSwitchId))
     {
-        mAnim.mFlags.Set(AnimFlags::eRender);
+        GetAnimation().mFlags.Set(AnimFlags::eRender);
         mState = States::eEnabled_1;
     }
     else
     {
-        mAnim.mFlags.Clear(AnimFlags::eRender);
+        GetAnimation().mFlags.Clear(AnimFlags::eRender);
         mState = States::eDisabled_0;
     }
 
@@ -394,7 +390,7 @@ void DoorFlame::VUpdate()
     switch (mState)
     {
         case States::eDisabled_0:
-            mAnim.mFlags.Clear(AnimFlags::eRender);
+            GetAnimation().mFlags.Clear(AnimFlags::eRender);
 
             if (pFlameSparks)
             {
@@ -430,7 +426,7 @@ void DoorFlame::VUpdate()
                 }
             }
 
-            mAnim.mFlags.Set(AnimFlags::eRender);
+            GetAnimation().mFlags.Set(AnimFlags::eRender);
 
             if (pFlameSparks)
             {

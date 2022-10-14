@@ -24,7 +24,7 @@ FootSwitch::FootSwitch(relive::Path_FootSwitch* pTlv, const Guid& tlvId)
 
     Animation_Init(GetAnimRes(AnimId::Foot_Switch_Temple));
 
-    mAnim.mRenderLayer = Layer::eLayer_BeforeShadow_25;
+    GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_25);
 
     mSwitchId = pTlv->mSwitchId;
     if (pTlv->mScale == relive::reliveScale::eHalf)
@@ -66,7 +66,7 @@ void FootSwitch::VUpdate()
                 mStoodOnMe->mBaseGameObjectRefCount++;
                 SwitchStates_Do_Operation(mSwitchId, mAction);
                 mState = States::eWaitForGetOffMe_1;
-                mAnim.Set_Animation_Data(GetAnimRes(AnimId::Foot_Switch_Temple_Pressed));
+                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Foot_Switch_Temple_Pressed));
                 SfxPlayMono(relive::SoundEffects::FootSwitchPress, 0);
             }
             break;
@@ -78,7 +78,7 @@ void FootSwitch::VUpdate()
             if (mStoodOnMe->mXPos < FP_FromInteger(bRect.x) || mStoodOnMe->mXPos > FP_FromInteger(bRect.w) || mStoodOnMe->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
             {
                 mState = States::eWaitForStepOnMe_0;
-                mAnim.Set_Animation_Data(GetAnimRes(AnimId::Foot_Switch_Temple));
+                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Foot_Switch_Temple));
                 mStoodOnMe->mBaseGameObjectRefCount--;
             }
             break;

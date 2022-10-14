@@ -482,7 +482,7 @@ void DDCheat::Misc()
         gScale_4C3158 = 100;
         sControlledCharacter->mSpriteScale = FP_FromInteger(1);
         sControlledCharacter->mScale = Scale::Fg;
-        sControlledCharacter->mAnim.mRenderLayer = Layer::eLayer_AbeMenu_32;
+        sControlledCharacter->GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_32);
     }
     else if (field_24_input & InputCommands::eRight)
     {
@@ -490,7 +490,7 @@ void DDCheat::Misc()
         gScale_4C3158 = 50;
         sControlledCharacter->mSpriteScale = FP_FromDouble(0.5);
         sControlledCharacter->mScale = Scale::Bg;
-        sControlledCharacter->mAnim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
+        sControlledCharacter->GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_Half_13);
     }
     else if (field_24_input & InputCommands::eDown)
     {

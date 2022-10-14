@@ -22,13 +22,13 @@ LightEffect::LightEffect(relive::Path_LightEffect* pTlv, const Guid& tlvId)
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 
-    mAnim.mFlags.Set(AnimFlags::eIgnorePosOffset);
-    mAnim.mFlags.Set(AnimFlags::eSemiTrans);
-    mAnim.mFlags.Set(AnimFlags::eBlending);
+    GetAnimation().mFlags.Set(AnimFlags::eIgnorePosOffset);
+    GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
+    GetAnimation().mFlags.Set(AnimFlags::eBlending);
 
-    mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
-    mAnim.mRenderMode = TPageAbr::eBlend_0;
-    mAnim.SetFrame(1);
+    GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
+    GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
+    GetAnimation().SetFrame(1);
 
     // maybe width height like in door effect
     field_E8 = 0;

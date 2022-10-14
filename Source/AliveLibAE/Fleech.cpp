@@ -160,7 +160,7 @@ Fleech::Fleech(relive::Path_Fleech* pTlv, const Guid& tlvId)
     field_11C_obj_id = Guid{};
     field_170_danger_obj = Guid{};
 
-    mAnim.mFlags.Set(AnimFlags::eFlipX, pTlv->mFacing == relive::reliveXDirection::eLeft);
+    GetAnimation().mFlags.Set(AnimFlags::eFlipX, pTlv->mFacing == relive::reliveXDirection::eLeft);
 
     mFleechFlags.Set(FleechFlags::eAsleep, pTlv->mAsleep == relive::reliveChoice::eYes);
     mFleechFlags.Set(FleechFlags::eGoesToSleep, pTlv->mGoesToSleep == relive::reliveChoice::eYes);
@@ -240,18 +240,18 @@ s32 Fleech::CreateFromSaveState(const u8* pBuffer)
         pFleech->mRGB.SetRGB(pState->mRingRed, pState->mRingGreen, pState->mRingBlue);
 
         pFleech->mCurrentMotion = pState->field_28_current_motion;
-        pFleech->mAnim.Set_Animation_Data(pFleech->GetAnimRes(sFleechAnimFromMotion[pFleech->mCurrentMotion]));
-        pFleech->mAnim.mCurrentFrame = pState->field_2A_anim_current_frame;
-        pFleech->mAnim.mFrameChangeCounter = pState->field_2C_frame_change_counter;
+        pFleech->GetAnimation().Set_Animation_Data(pFleech->GetAnimRes(sFleechAnimFromMotion[pFleech->mCurrentMotion]));
+        pFleech->GetAnimation().SetCurrentFrame(pState->field_2A_anim_current_frame);
+        pFleech->GetAnimation().SetFrameChangeCounter(pState->field_2C_frame_change_counter);
 
-        pFleech->mAnim.mFlags.Set(AnimFlags::eFlipX, pState->field_26_bFlipX & 1);
-        pFleech->mAnim.mFlags.Set(AnimFlags::eRender, pState->field_2E_bRender & 1);
+        pFleech->GetAnimation().mFlags.Set(AnimFlags::eFlipX, pState->field_26_bFlipX & 1);
+        pFleech->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->field_2E_bRender & 1);
 
         pFleech->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_2F_bDrawable & 1);
 
-        if (IsLastFrame(&pFleech->mAnim))
+        if (IsLastFrame(&pFleech->GetAnimation()))
         {
-            pFleech->mAnim.mFlags.Set(AnimFlags::eIsLastFrame);
+            pFleech->GetAnimation().mFlags.Set(AnimFlags::eIsLastFrame);
         }
         pFleech->mHealth = pState->mHealth;
         pFleech->mCurrentMotion = pState->mCurrentMotion;
@@ -351,12 +351,12 @@ s32 Fleech::VGetSaveState(u8* pSaveBuffer)
     pState->mRingRed = mRGB.r;
     pState->mRingGreen = mRGB.g;
     pState->mRingBlue = mRGB.b;
-    pState->field_26_bFlipX = mAnim.mFlags.Get(AnimFlags::eFlipX);
+    pState->field_26_bFlipX = GetAnimation().mFlags.Get(AnimFlags::eFlipX);
     pState->field_28_current_motion = mCurrentMotion;
-    pState->field_2A_anim_current_frame = static_cast<s16>(mAnim.mCurrentFrame);
-    pState->field_2C_frame_change_counter = static_cast<s16>(mAnim.mFrameChangeCounter);
+    pState->field_2A_anim_current_frame = static_cast<s16>(GetAnimation().GetCurrentFrame());
+    pState->field_2C_frame_change_counter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
     pState->field_2F_bDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
-    pState->field_2E_bRender = mAnim.mFlags.Get(AnimFlags::eRender);
+    pState->field_2E_bRender = GetAnimation().mFlags.Get(AnimFlags::eRender);
     pState->mHealth = mHealth;
     pState->mCurrentMotion = mCurrentMotion;
     pState->mNextMotion = mNextMotion;
@@ -480,9 +480,9 @@ void Fleech::Motion_0_Sleeping()
 {
     if (mNextMotion == -1)
     {
-        if (mAnim.mCurrentFrame || sGnFrame & 3)
+        if (GetAnimation().GetCurrentFrame() || sGnFrame & 3)
         {
-            if (mAnim.mCurrentFrame == 4 && !(sGnFrame & 3))
+            if (GetAnimation().GetCurrentFrame() == 4 && !(sGnFrame & 3))
             {
                 Sound(FleechSound::SleepingExhale_4);
 
@@ -490,7 +490,7 @@ void Fleech::Motion_0_Sleeping()
                 {
                     const FP yPos = (mSpriteScale * FP_FromInteger(-20)) + mYPos;
                     FP xOff = {};
-                    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+                    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                     {
                         xOff = -(mSpriteScale * FP_FromInteger(10));
                     }
@@ -498,7 +498,7 @@ void Fleech::Motion_0_Sleeping()
                     {
                         xOff = (mSpriteScale * FP_FromInteger(10));
                     }
-                    relive_new SnoozeParticle(xOff + mXPos, yPos, mAnim.mRenderLayer, mAnim.field_14_scale);
+                    relive_new SnoozeParticle(xOff + mXPos, yPos, GetAnimation().GetRenderLayer(), GetAnimation().GetSpriteScale());
                 }
             }
         }
@@ -532,7 +532,7 @@ void Fleech::Motion_1_WakingUp()
 
     if (mNextMotion != -1)
     {
-        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
         {
             mCurrentMotion = mNextMotion;
             mNextMotion = -1;
@@ -546,7 +546,7 @@ void Fleech::Motion_2_Unknown()
 {
     if (mNextMotion != -1)
     {
-        if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
         {
             mCurrentMotion = mNextMotion;
             mNextMotion = -1;
@@ -563,7 +563,7 @@ void Fleech::Motion_3_Idle()
             FP hitX = {};
             FP hitY = {};
             PathLine* pLine = nullptr;
-            if (mCurrentMotion == eFleechMotions::Motion_3_Idle && mAnim.mCurrentFrame == 0 && !sCollisions->Raycast(mXPos - FP_FromInteger(5), mYPos - FP_FromInteger(5), mXPos + FP_FromInteger(5), mYPos + FP_FromInteger(1), &pLine, &hitX, &hitY, mScale == Scale::Fg ? kFgFloor : kBgFloor))
+            if (mCurrentMotion == eFleechMotions::Motion_3_Idle && GetAnimation().GetCurrentFrame() == 0 && !sCollisions->Raycast(mXPos - FP_FromInteger(5), mYPos - FP_FromInteger(5), mXPos + FP_FromInteger(5), mYPos + FP_FromInteger(1), &pLine, &hitX, &hitY, mScale == Scale::Fg ? kFgFloor : kBgFloor))
             {
                 field_138_velx_factor = FP_FromInteger(0);
                 BaseAliveGameObjectLastLineYPos = mYPos;
@@ -589,24 +589,24 @@ const FP sFleechCrawlVelX_544FA0[7] = {
 
 void Fleech::Motion_4_Crawl()
 {
-    if (mAnim.mCurrentFrame > 6)
+    if (GetAnimation().GetCurrentFrame() > 6)
     {
-        mAnim.mCurrentFrame = 0;
+        GetAnimation().SetCurrentFrame(0);
     }
 
     FP velXTable = {};
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        velXTable = -sFleechCrawlVelX_544FA0[mAnim.mCurrentFrame];
+        velXTable = -sFleechCrawlVelX_544FA0[GetAnimation().GetCurrentFrame()];
     }
     else
     {
-        velXTable = sFleechCrawlVelX_544FA0[mAnim.mCurrentFrame];
+        velXTable = sFleechCrawlVelX_544FA0[GetAnimation().GetCurrentFrame()];
     }
 
     mVelX = (mSpriteScale * velXTable);
 
-    const FP k1Directed = FP_FromInteger((mAnim.mFlags.Get(AnimFlags::eFlipX) != 0) ? -1 : 1);
+    const FP k1Directed = FP_FromInteger((GetAnimation().mFlags.Get(AnimFlags::eFlipX) != 0) ? -1 : 1);
     if (WallHit(FP_FromInteger((mSpriteScale >= FP_FromInteger(1)) ? 10 : 5), ScaleToGridSize(mSpriteScale) * k1Directed))
     {
         ToIdle();
@@ -616,11 +616,11 @@ void Fleech::Motion_4_Crawl()
         MoveAlongFloor();
         if (mCurrentMotion == eFleechMotions::Motion_4_Crawl)
         {
-            if (mAnim.mCurrentFrame == 4)
+            if (GetAnimation().GetCurrentFrame() == 4)
             {
                 Sound(FleechSound::CrawlRNG1_14);
             }
-            else if (mAnim.mCurrentFrame == 6)
+            else if (GetAnimation().GetCurrentFrame() == 6)
             {
                 if (field_130_bDidMapFollowMe == 0)
                 {
@@ -649,13 +649,13 @@ void Fleech::Motion_4_Crawl()
 
 void Fleech::Motion_5_PatrolCry()
 {
-    if (mAnim.mCurrentFrame == 0)
+    if (GetAnimation().GetCurrentFrame() == 0)
     {
         Sound(FleechSound::PatrolCry_0);
         field_13C_unused = 1;
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         ToIdle();
     }
@@ -663,32 +663,32 @@ void Fleech::Motion_5_PatrolCry()
 
 void Fleech::Motion_6_Knockback()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
-        mAnim.mFlags.Toggle(AnimFlags::eFlipX);
+        GetAnimation().mFlags.Toggle(AnimFlags::eFlipX);
         ToIdle();
     }
 }
 
 void Fleech::Motion_7_StopCrawling()
 {
-    const FP k1Directed = FP_FromInteger(mAnim.mFlags.Get(AnimFlags::eFlipX) != 0 ? -1 : 1);
+    const FP k1Directed = FP_FromInteger(GetAnimation().mFlags.Get(AnimFlags::eFlipX) != 0 ? -1 : 1);
     if (WallHit(FP_FromInteger(mSpriteScale >= FP_FromInteger(1) ? 10 : 5), ScaleToGridSize(mSpriteScale) * k1Directed))
     {
         ToIdle();
     }
-    else if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    else if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         MapFollowMe(TRUE);
-        if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+        if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
         {
             mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(7));
-            mAnim.mFlags.Clear(AnimFlags::eFlipX);
+            GetAnimation().mFlags.Clear(AnimFlags::eFlipX);
         }
         else
         {
             mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(7));
-            mAnim.mFlags.Set(AnimFlags::eFlipX);
+            GetAnimation().mFlags.Set(AnimFlags::eFlipX);
         }
         mCurrentMotion = eFleechMotions::Motion_4_Crawl;
     }
@@ -696,11 +696,11 @@ void Fleech::Motion_7_StopCrawling()
 
 void Fleech::Motion_8_StopMidCrawlCycle()
 {
-    const FP k1Directed = FP_FromInteger(mAnim.mFlags.Get(AnimFlags::eFlipX) ? -1 : 1); // TODO: Correct way around ??
+    const FP k1Directed = FP_FromInteger(GetAnimation().mFlags.Get(AnimFlags::eFlipX) ? -1 : 1); // TODO: Correct way around ??
     if (WallHit(
             FP_FromInteger(mSpriteScale >= FP_FromInteger(1) ? 10 : 5),
             ScaleToGridSize(mSpriteScale) * k1Directed)
-        || mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+        || GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         ToIdle();
     }
@@ -812,12 +812,12 @@ void Fleech::Motion_9_Fall()
 
 void Fleech::Motion_10_Land()
 {
-    if (mAnim.mCurrentFrame == 0)
+    if (GetAnimation().GetCurrentFrame() == 0)
     {
         Sound(FleechSound::LandOnFloor_9);
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         ToIdle();
     }
@@ -825,7 +825,7 @@ void Fleech::Motion_10_Land()
 
 void Fleech::Motion_11_RaiseHead()
 {
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         mFleechFlags.Clear(FleechFlags::eHoistDone);
         mCurrentMotion = eFleechMotions::Motion_12_Climb;
@@ -858,7 +858,7 @@ void Fleech::Motion_11_RaiseHead()
         BaseAliveGameObjectCollisionLine = nullptr;
         field_16C_hoistX_distance = FP_Abs(mXPos - FP_FromInteger(field_160_hoistX));
 
-        if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+        if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
         {
             field_166_angle = -64;
         }
@@ -869,9 +869,9 @@ void Fleech::Motion_11_RaiseHead()
         field_164_always_0 = 0;
         sub_42BA10();
     }
-    else if (mAnim.mCurrentFrame < 4)
+    else if (GetAnimation().GetCurrentFrame() < 4)
     {
-        mXPos += FP_FromInteger((mAnim.mFlags.Get(AnimFlags::eFlipX)) != 0 ? 1 : -1);
+        mXPos += FP_FromInteger((GetAnimation().mFlags.Get(AnimFlags::eFlipX)) != 0 ? 1 : -1);
     }
 }
 
@@ -977,7 +977,7 @@ void Fleech::Motion_12_Climb()
 
 void Fleech::Motion_13_SettleOnGround()
 {
-    if (!mAnim.mCurrentFrame)
+    if (!GetAnimation().GetCurrentFrame())
     {
         SetTongueState5();
 
@@ -999,7 +999,7 @@ void Fleech::Motion_13_SettleOnGround()
         }
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         Fleech::ToIdle();
     }
@@ -1011,7 +1011,7 @@ void Fleech::Motion_14_ExtendTongueFromEnemy()
     {
         ToIdle();
     }
-    else if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    else if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         PullTargetIn();
         mCurrentMotion = eFleechMotions::Motion_15_RetractTongueFromEnemey;
@@ -1068,16 +1068,16 @@ void Fleech::Motion_17_SleepingWithTongue()
     }
     else
     {
-        if (mAnim.mCurrentFrame || sGnFrame & 3)
+        if (GetAnimation().GetCurrentFrame() || sGnFrame & 3)
         {
-            if (mAnim.mCurrentFrame == 4 && !(sGnFrame & 3))
+            if (GetAnimation().GetCurrentFrame() == 4 && !(sGnFrame & 3))
             {
                 Sound(FleechSound::SleepingExhale_4);
                 if (gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
                 {
                     const FP yPos = (mSpriteScale * FP_FromInteger(-20)) + mYPos;
                     FP xOff = {};
-                    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+                    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                     {
                         xOff = -(mSpriteScale * FP_FromInteger(10));
                     }
@@ -1085,7 +1085,7 @@ void Fleech::Motion_17_SleepingWithTongue()
                     {
                         xOff = (mSpriteScale * FP_FromInteger(10));
                     }
-                    relive_new SnoozeParticle(xOff + mXPos, yPos, mAnim.mRenderLayer, mAnim.field_14_scale);
+                    relive_new SnoozeParticle(xOff + mXPos, yPos, GetAnimation().GetRenderLayer(), GetAnimation().GetSpriteScale());
                 }
             }
         }
@@ -1101,11 +1101,11 @@ void Fleech::Motion_17_SleepingWithTongue()
 
 void Fleech::Motion_18_Consume()
 {
-    if (mAnim.mCurrentFrame == 2)
+    if (GetAnimation().GetCurrentFrame() == 2)
     {
         Sound(FleechSound::Digesting_2);
     }
-    else if (mAnim.mCurrentFrame == 15 && field_11C_obj_id == sActiveHero->mBaseGameObjectId)
+    else if (GetAnimation().GetCurrentFrame() == 15 && field_11C_obj_id == sActiveHero->mBaseGameObjectId)
     {
         sActiveHero->SetAsDead_459430();
 
@@ -1119,7 +1119,7 @@ void Fleech::Motion_18_Consume()
                 mYPos + FP_FromInteger(10),
                 mSpriteScale);
 
-            if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+            if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
                 pDove->mXPos += (mSpriteScale * FP_FromInteger(15));
             }
@@ -1132,7 +1132,7 @@ void Fleech::Motion_18_Consume()
         }
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         ToIdle();
     }
@@ -1234,7 +1234,7 @@ void Fleech::VUpdate()
             {
                 mCurrentMotion = mPreviousMotion;
                 SetAnim();
-                mAnim.SetFrame(mBaseAliveGameObjectLastAnimFrame);
+                GetAnimation().SetFrame(mBaseAliveGameObjectLastAnimFrame);
                 field_128 = 0;
             }
         }
@@ -1372,7 +1372,7 @@ void Fleech::RenderEx(PrimHeader** ot)
                 static_cast<u8>(g),
                 static_cast<u8>(b));
 
-            OrderingTable_Add(OtLayer(ot, mAnim.mRenderLayer), &currTonguePoly1->mBase.header);
+            OrderingTable_Add(OtLayer(ot, GetAnimation().GetRenderLayer()), &currTonguePoly1->mBase.header);
 
             Poly_G4* currTonguePoly2 = &mTonguePolys2[i][gPsxDisplay.mBufferIndex];
 
@@ -1420,11 +1420,11 @@ void Fleech::RenderEx(PrimHeader** ot)
                 static_cast<u8>(g),
                 static_cast<u8>(b));
 
-            OrderingTable_Add(OtLayer(ot, mAnim.mRenderLayer), &currTonguePoly2->mBase.header);
+            OrderingTable_Add(OtLayer(ot, GetAnimation().GetRenderLayer()), &currTonguePoly2->mBase.header);
         }
         const s32 tPage = PSX_getTPage(TPageMode::e4Bit_0, TPageAbr::eBlend_0, 0, 0);
         Init_SetTPage(&field_40C[gPsxDisplay.mBufferIndex], 1, 0, tPage);
-        OrderingTable_Add(OtLayer(ot, mAnim.mRenderLayer), &field_40C[gPsxDisplay.mBufferIndex].mBase);
+        OrderingTable_Add(OtLayer(ot, GetAnimation().GetRenderLayer()), &field_40C[gPsxDisplay.mBufferIndex].mBase);
         return;
     }
 }
@@ -1554,7 +1554,7 @@ void Fleech::Init()
 {
     Animation_Init(GetAnimRes(AnimId::Fleech_Idle));
 
-    mAnim.mFnPtrArray = kFleech_Anim_Frame_Fns_55EFD0;
+    GetAnimation().SetFnPtrArray(kFleech_Anim_Frame_Fns_55EFD0);
 
     SetType(ReliveTypes::eFleech);
 
@@ -1579,12 +1579,12 @@ void Fleech::Init()
 
     if (mSpriteScale == FP_FromInteger(1))
     {
-        mAnim.mRenderLayer = Layer::eLayer_SlogFleech_34;
+        GetAnimation().SetRenderLayer(Layer::eLayer_SlogFleech_34);
         mScale = Scale::Fg;
     }
     else
     {
-        mAnim.mRenderLayer = Layer::eLayer_SlogFleech_Half_15;
+        GetAnimation().SetRenderLayer(Layer::eLayer_SlogFleech_Half_15);
         mScale = Scale::Bg;
     }
 
@@ -1649,7 +1649,7 @@ void Fleech::InitTonguePolys()
 
 void Fleech::SetAnim()
 {
-    mAnim.Set_Animation_Data(GetAnimRes(sFleechAnimFromMotion[mCurrentMotion]));
+    GetAnimation().Set_Animation_Data(GetAnimRes(sFleechAnimFromMotion[mCurrentMotion]));
 }
 
 void Fleech::ResetTarget()
@@ -1766,7 +1766,7 @@ void Fleech::TongueUpdate()
                             relive_new Blood(
                                 FP_FromInteger(mEnemyXPos),
                                 FP_FromInteger(mEnemyYPos),
-                                mAnim.mFlags.Get(AnimFlags::eFlipX) != 0 ? FP_FromInteger(2) : FP_FromInteger(-2),
+                                GetAnimation().mFlags.Get(AnimFlags::eFlipX) != 0 ? FP_FromInteger(2) : FP_FromInteger(-2),
                                 FP_FromInteger(1),
                                 mSpriteScale, 20);
                             break;
@@ -1836,7 +1836,7 @@ void Fleech::TongueUpdate()
                     case 5:
                         if (mTongueSubState == 5 && pTarget->Type() == ReliveTypes::eScrab)
                         {
-                            pTarget->mAnim.mFlags.Clear(AnimFlags::eRender);
+                            pTarget->GetAnimation().mFlags.Clear(AnimFlags::eRender);
                         }
                         pTarget->mXPos -= (pTarget->mXPos - mXPos) * FP_FromDouble(0.25);
                         pTarget->mYPos -= (pTarget->mYPos - mYPos) * FP_FromDouble(0.25);
@@ -1845,7 +1845,7 @@ void Fleech::TongueUpdate()
                     case 6:
                         mTongueFlags.Clear(TongueFlags::eRender);
                         mTongueState = 8;
-                        pTarget->mAnim.mFlags.Clear(AnimFlags::eRender);
+                        pTarget->GetAnimation().mFlags.Clear(AnimFlags::eRender);
                         pTarget->mXPos = mXPos;
                         pTarget->mYPos = mYPos;
                         if (IsActiveHero(pTarget))
@@ -2006,7 +2006,7 @@ s16 Fleech::CanMove()
         return 0;
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(7));
     }
@@ -2016,7 +2016,7 @@ s16 Fleech::CanMove()
     }
 
     const FP yDist = FP_FromInteger(mSpriteScale >= FP_FromInteger(1) ? 10 : 5);
-    const FP xDist = ScaleToGridSize(mSpriteScale) * FP_FromInteger(mAnim.mFlags.Get(AnimFlags::eFlipX) ? -1 : 1); // TODO: Correct way around ?
+    const FP xDist = ScaleToGridSize(mSpriteScale) * FP_FromInteger(GetAnimation().mFlags.Get(AnimFlags::eFlipX) ? -1 : 1); // TODO: Correct way around ?
     if (!WallHit(yDist, xDist) && !HandleEnemyStopperOrSlamDoor(1))
     {
         mCurrentMotion = eFleechMotions::Motion_4_Crawl;
@@ -2032,7 +2032,7 @@ s16 Fleech::HandleEnemyStopperOrSlamDoor(s32 velX)
 {
     const FP kGridSize = ScaleToGridSize(mSpriteScale);
     FP nextXPos = {};
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         nextXPos = mXPos - (kGridSize * FP_FromInteger(velX));
     }
@@ -2150,7 +2150,7 @@ s16 Fleech::VTakeDamage(BaseGameObject* pFrom)
             field_12C_shrivel_timer = sGnFrame + 127;
             mCurrentMotion = eFleechMotions::Motion_3_Idle;
             SetAnim();
-            mAnim.mFlags.Set(AnimFlags::eAnimate);
+            GetAnimation().mFlags.Set(AnimFlags::eAnimate);
             break;
 
         case ReliveTypes::eParamite:
@@ -2161,7 +2161,7 @@ s16 Fleech::VTakeDamage(BaseGameObject* pFrom)
         {
             relive_new Gibs(GibType::Fleech_10, mXPos, mYPos, mVelX, mVelY, mSpriteScale, 0);
 
-            if (static_cast<BaseAliveGameObject*>(pFrom)->mAnim.mFlags.Get(AnimFlags::eFlipX))
+            if (static_cast<BaseAliveGameObject*>(pFrom)->GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
                 relive_new Blood(mXPos, mYPos - FP_FromInteger(8), -FP_FromInteger(5), -FP_FromInteger(5), mSpriteScale, 50);
             }
@@ -2182,7 +2182,7 @@ s16 Fleech::VTakeDamage(BaseGameObject* pFrom)
             field_12C_shrivel_timer = sGnFrame + 127;
             mNextMotion = -1;
             SetAnim();
-            mAnim.mFlags.Set(AnimFlags::eAnimate);
+            GetAnimation().mFlags.Set(AnimFlags::eAnimate);
             mFleechFlags.Set(FleechFlags::eShrivelDeath);
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             sFleechCount_5BC20E--;
@@ -2451,7 +2451,7 @@ bool Fleech::Collision(s16 alwaysOne)
     const FP quaterScaled = (kGridSize * FP_FromDouble(0.25));
 
     FP x2 = {};
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         x2 = mXPos - (quaterScaled * FP_FromInteger(alwaysOne >= 0 ? 1 : -1));
     }
@@ -2461,7 +2461,7 @@ bool Fleech::Collision(s16 alwaysOne)
     }
 
     FP x1 = {};
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         x1 = mXPos - (kGridSize * FP_FromInteger(alwaysOne));
     }
@@ -2492,7 +2492,7 @@ relive::Path_Hoist* Fleech::TryGetHoist(s32 xDistance, s16 bIgnoreDirection)
 
     const FP xSnapped = FP_FromInteger(SnapToXGrid(mSpriteScale, FP_GetExponent(mXPos)));
     FP xCheck = {};
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         xCheck = xSnapped - (ScaleToGridSize(mSpriteScale) * FP_FromInteger(xDistance));
     }
@@ -2535,7 +2535,7 @@ relive::Path_Hoist* Fleech::TryGetHoist(s32 xDistance, s16 bIgnoreDirection)
         return pHoist;
     }
 
-    if (pHoist->mGrabDirection == (mAnim.mFlags.Get(AnimFlags::eFlipX) ? relive::Path_Hoist::GrabDirection::eFacingLeft : relive::Path_Hoist::GrabDirection::eFacingRight) || pHoist->mGrabDirection == relive::Path_Hoist::GrabDirection::eFacingAnyDirection)
+    if (pHoist->mGrabDirection == (GetAnimation().mFlags.Get(AnimFlags::eFlipX) ? relive::Path_Hoist::GrabDirection::eFacingLeft : relive::Path_Hoist::GrabDirection::eFacingRight) || pHoist->mGrabDirection == relive::Path_Hoist::GrabDirection::eFacingAnyDirection)
     {
         return pHoist;
     }
@@ -2546,7 +2546,7 @@ relive::Path_Hoist* Fleech::TryGetHoist(s32 xDistance, s16 bIgnoreDirection)
 void Fleech::VOnFrame(const Point32& point)
 {
     FP xpos = {};
-    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         xpos = mXPos - (mSpriteScale * FP_FromInteger(point.x));
     }
@@ -2831,7 +2831,7 @@ s16 Fleech::Brain_Patrol_State_4(BaseAliveGameObject* pTarget)
     // TODO: Check OFSUB branches
     if (field_14E_ScrabParamiteEventXPos >= 0)
     {
-        if ((FP_FromInteger(field_14E_ScrabParamiteEventXPos) > mXPos && !mAnim.mFlags.Get(AnimFlags::eFlipX)) || (FP_FromInteger(field_14E_ScrabParamiteEventXPos) < mXPos && mAnim.mFlags.Get(AnimFlags::eFlipX)))
+        if ((FP_FromInteger(field_14E_ScrabParamiteEventXPos) > mXPos && !GetAnimation().mFlags.Get(AnimFlags::eFlipX)) || (FP_FromInteger(field_14E_ScrabParamiteEventXPos) < mXPos && GetAnimation().mFlags.Get(AnimFlags::eFlipX)))
         {
             if (mCurrentMotion == eFleechMotions::Motion_4_Crawl)
             {
@@ -2896,7 +2896,7 @@ s16 Fleech::Brain_Patrol_State_4(BaseAliveGameObject* pTarget)
 
     if (mCurrentMotion == eFleechMotions::Motion_4_Crawl)
     {
-        if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+        if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
         {
             if (mXPos < FP_FromInteger(field_154))
             {
@@ -2924,7 +2924,7 @@ s16 Fleech::Brain_Patrol_State_4(BaseAliveGameObject* pTarget)
                     }
                     field_154 = patrolRangeDelta;
 
-                    if (!mAnim.mFlags.Get(AnimFlags::eFlipX))
+                    if (!GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                     {
                         mCurrentMotion = eFleechMotions::Motion_6_Knockback;
                     }
@@ -2938,7 +2938,7 @@ s16 Fleech::Brain_Patrol_State_4(BaseAliveGameObject* pTarget)
                     }
                     field_154 = patrolRangeDelta;
 
-                    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+                    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                     {
                         mCurrentMotion = eFleechMotions::Motion_6_Knockback;
                     }
@@ -2952,7 +2952,7 @@ s16 Fleech::Brain_Patrol_State_4(BaseAliveGameObject* pTarget)
                 // TODO: Check __OFSUB__ on else branch
                 if (FP_FromInteger(field_14C_EventXPos) > mXPos)
                 {
-                    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+                    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                     {
                         mCurrentMotion = eFleechMotions::Motion_6_Knockback;
                         field_14C_EventXPos = -1;
@@ -2960,7 +2960,7 @@ s16 Fleech::Brain_Patrol_State_4(BaseAliveGameObject* pTarget)
                 }
                 else if (FP_FromInteger(field_14C_EventXPos) < mXPos)
                 {
-                    if (!mAnim.mFlags.Get(AnimFlags::eFlipX))
+                    if (!GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                     {
                         mCurrentMotion = eFleechMotions::Motion_6_Knockback;
                         field_14C_EventXPos = -1;
@@ -2978,7 +2978,7 @@ s16 Fleech::Brain_Patrol_State_4(BaseAliveGameObject* pTarget)
                 }
                 else
                 {
-                    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+                    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                     {
                         field_154 = FP_GetExponent(mXPos) - Fleech_NextRandom() * (FP_GetExponent(mXPos) + field_150_patrol_range - field_152_old_xpos) / 255;
                     }
@@ -3014,8 +3014,8 @@ s16 Fleech::Brain_Patrol_State_5()
         return mBrainSubState;
     }
 
-    if ((FP_FromInteger(field_14E_ScrabParamiteEventXPos) > mXPos && !mAnim.mFlags.Get(AnimFlags::eFlipX)) ||
-        (FP_FromInteger(field_14E_ScrabParamiteEventXPos) < mXPos && mAnim.mFlags.Get(AnimFlags::eFlipX)))
+    if ((FP_FromInteger(field_14E_ScrabParamiteEventXPos) > mXPos && !GetAnimation().mFlags.Get(AnimFlags::eFlipX)) ||
+        (FP_FromInteger(field_14E_ScrabParamiteEventXPos) < mXPos && GetAnimation().mFlags.Get(AnimFlags::eFlipX)))
     {
         if (mCurrentMotion != eFleechMotions::Motion_4_Crawl)
         {
@@ -3087,7 +3087,7 @@ s16 Fleech::Brain_Patrol_State_9()
     {
         return mBrainSubState;
     }
-    if ((mAnim.mFlags.Get(AnimFlags::eFlipX) && FP_FromInteger(field_160_hoistX) > mXPos) || (!mAnim.mFlags.Get(AnimFlags::eFlipX) && FP_FromInteger(field_160_hoistX) < mXPos))
+    if ((GetAnimation().mFlags.Get(AnimFlags::eFlipX) && FP_FromInteger(field_160_hoistX) > mXPos) || (!GetAnimation().mFlags.Get(AnimFlags::eFlipX) && FP_FromInteger(field_160_hoistX) < mXPos))
     {
         mCurrentMotion = eFleechMotions::Motion_6_Knockback;
         return mBrainSubState;
@@ -3367,7 +3367,7 @@ s16 Fleech::Brain_1_ChasingAbe()
             {
                 return mBrainSubState;
             }
-            if ((mAnim.mFlags.Get(AnimFlags::eFlipX) && FP_FromInteger(field_160_hoistX) > mXPos) || (!mAnim.mFlags.Get(AnimFlags::eFlipX) && FP_FromInteger(field_160_hoistX) < mXPos))
+            if ((GetAnimation().mFlags.Get(AnimFlags::eFlipX) && FP_FromInteger(field_160_hoistX) > mXPos) || (!GetAnimation().mFlags.Get(AnimFlags::eFlipX) && FP_FromInteger(field_160_hoistX) < mXPos))
             {
                 mCurrentMotion = eFleechMotions::Motion_6_Knockback;
                 return mBrainSubState;
@@ -3397,7 +3397,7 @@ s16 Fleech::Brain_ChasingAbe_State_9(BaseAliveGameObject* pObj)
     auto pDangerObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_170_danger_obj));
     if (pDangerObj == sControlledCharacter)
     {
-        if (Collision(1) || HandleEnemyStopperOrSlamDoor(1) || WallHit(FP_FromInteger(mSpriteScale >= FP_FromInteger(1) ? 10 : 5), ScaleToGridSize(mSpriteScale) * FP_FromInteger(mAnim.mFlags.Get(AnimFlags::eFlipX) != 0 ? -1 : 1)))
+        if (Collision(1) || HandleEnemyStopperOrSlamDoor(1) || WallHit(FP_FromInteger(mSpriteScale >= FP_FromInteger(1) ? 10 : 5), ScaleToGridSize(mSpriteScale) * FP_FromInteger(GetAnimation().mFlags.Get(AnimFlags::eFlipX) != 0 ? -1 : 1)))
         {
             mCurrentMotion = eFleechMotions::Motion_6_Knockback;
             mBrainState = eFleechBrains::eBrain_2_Scared;
@@ -3559,7 +3559,7 @@ s16 Fleech::Brain_ChasingAbe_State_1(BaseAliveGameObject* pObj)
     if (mVelX != FP_FromInteger(0))
     {
         // Check for blocked by wall
-        const FP k1Directed = FP_FromInteger((mAnim.mFlags.Get(AnimFlags::eFlipX)) != 0 ? -1 : 1);
+        const FP k1Directed = FP_FromInteger((GetAnimation().mFlags.Get(AnimFlags::eFlipX)) != 0 ? -1 : 1);
         if (WallHit(FP_FromInteger(mSpriteScale >= FP_FromInteger(1) ? 10 : 5), ScaleToGridSize(mSpriteScale) * k1Directed))
         {
             mNextMotion = eFleechMotions::Motion_8_StopMidCrawlCycle;
@@ -3574,7 +3574,7 @@ s16 Fleech::Brain_ChasingAbe_State_1(BaseAliveGameObject* pObj)
             mFleechFlags.Set(FleechFlags::eChasingOrScaredCrawlingLeft, mVelX < FP_FromInteger(0));
 
             FP xOffset = mXPos;
-            if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+            if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
                 xOffset -= ScaleToGridSize(mSpriteScale);
             }
@@ -3702,7 +3702,7 @@ s16 Fleech::Brain_ChasingAbe_State_1(BaseAliveGameObject* pObj)
         if (mCurrentMotion == eFleechMotions::Motion_3_Idle)
         {
             // TODO: Check left VS flip is correct
-            if ((pHoist->mGrabDirection == relive::Path_Hoist::GrabDirection::eFacingLeft && mAnim.mFlags.Get(AnimFlags::eFlipX)) && pHoist->mGrabDirection != relive::Path_Hoist::GrabDirection::eFacingAnyDirection)
+            if ((pHoist->mGrabDirection == relive::Path_Hoist::GrabDirection::eFacingLeft && GetAnimation().mFlags.Get(AnimFlags::eFlipX)) && pHoist->mGrabDirection != relive::Path_Hoist::GrabDirection::eFacingAnyDirection)
             {
                 mCurrentMotion = eFleechMotions::Motion_6_Knockback;
             }
@@ -3791,12 +3791,12 @@ s16 Fleech::Brain_ChasingAbe_State1_Helper(BaseAliveGameObject* pObj)
     {
         if (VIsFacingMe(pObj))
         {
-            const FP v48 = FP_FromInteger((mAnim.mFlags.Get(AnimFlags::eFlipX)) != 0 ? -1 : 1);
+            const FP v48 = FP_FromInteger((GetAnimation().mFlags.Get(AnimFlags::eFlipX)) != 0 ? -1 : 1);
             if (WallHit(
                     FP_FromInteger(mSpriteScale >= FP_FromInteger(1) ? 10 : 5),
                     ScaleToGridSize(mSpriteScale) * v48))
             {
-                mFleechFlags.Set(FleechFlags::eChasingOrScaredCrawlingLeft, mAnim.mFlags.Get(AnimFlags::eFlipX));
+                mFleechFlags.Set(FleechFlags::eChasingOrScaredCrawlingLeft, GetAnimation().mFlags.Get(AnimFlags::eFlipX));
                 return Brain_1_ChasingAbe::eBlockedByWall_4;
             }
             mNextMotion = eFleechMotions::Motion_4_Crawl;
@@ -3941,7 +3941,7 @@ s16 Fleech::Brain_2_Scared()
 
             if (mVelX != FP_FromInteger(0))
             {
-                const FP v9 = FP_FromInteger((mAnim.mFlags.Get(AnimFlags::eFlipX)) != 0 ? -1 : 1);
+                const FP v9 = FP_FromInteger((GetAnimation().mFlags.Get(AnimFlags::eFlipX)) != 0 ? -1 : 1);
                 if (WallHit(FP_FromInteger(mSpriteScale >= FP_FromInteger(0) ? 10 : 5), ScaleToGridSize(mSpriteScale) * v9))
                 {
                     mNextMotion = eFleechMotions::Motion_8_StopMidCrawlCycle;
@@ -3982,12 +3982,12 @@ s16 Fleech::Brain_2_Scared()
                 }
                 else
                 {
-                    const FP k1Directed = FP_FromInteger(mAnim.mFlags.Get(AnimFlags::eFlipX) != 0 ? -1 : 1);
+                    const FP k1Directed = FP_FromInteger(GetAnimation().mFlags.Get(AnimFlags::eFlipX) != 0 ? -1 : 1);
                     if (WallHit(
                             FP_FromInteger(mSpriteScale >= FP_FromInteger(1) ? 10 : 5),
                             ScaleToGridSize(mSpriteScale) * k1Directed))
                     {
-                        mFleechFlags.Set(FleechFlags::eChasingOrScaredCrawlingLeft, mAnim.mFlags.Get(AnimFlags::eFlipX));
+                        mFleechFlags.Set(FleechFlags::eChasingOrScaredCrawlingLeft, GetAnimation().mFlags.Get(AnimFlags::eFlipX));
                         return Brain_2_Scared::eCornered_4;
                     }
                     mNextMotion = eFleechMotions::Motion_4_Crawl;
@@ -4201,8 +4201,8 @@ s16 Fleech::Brain_2_Scared()
             {
                 return mBrainSubState;
             }
-            if ((!mAnim.mFlags.Get(AnimFlags::eFlipX) || FP_FromInteger(field_160_hoistX) <= mXPos) &&
-                (mAnim.mFlags.Get(AnimFlags::eFlipX) || FP_FromInteger(field_160_hoistX) >= mXPos))
+            if ((!GetAnimation().mFlags.Get(AnimFlags::eFlipX) || FP_FromInteger(field_160_hoistX) <= mXPos) &&
+                (GetAnimation().mFlags.Get(AnimFlags::eFlipX) || FP_FromInteger(field_160_hoistX) >= mXPos))
             {
                 mNextMotion = eFleechMotions::Motion_11_RaiseHead;
                 return Brain_2_Scared::eHoisting_11;

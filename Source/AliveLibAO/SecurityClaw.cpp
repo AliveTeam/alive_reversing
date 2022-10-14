@@ -102,7 +102,7 @@ SecurityClaw::SecurityClaw(relive::Path_SecurityClaw* pTlv, const Guid& tlvId)
     if (mClaw)
     {
         mClaw->mSpriteScale = mSpriteScale;
-        mClaw->mAnim.mRenderLayer = mSpriteScale == FP_FromInteger(1) ? Layer::eLayer_ZapLinesElumMuds_28 : Layer::eLayer_ZapLinesMudsElum_Half_9;
+        mClaw->GetAnimation().SetRenderLayer(mSpriteScale == FP_FromInteger(1) ? Layer::eLayer_ZapLinesElumMuds_28 : Layer::eLayer_ZapLinesMudsElum_Half_9);
 
         mClaw->mXPos = mClawX;
         mClaw->mYPos = mClawY;
@@ -279,7 +279,7 @@ void SecurityClaw::VUpdate()
                     auto pDetector = static_cast<MotionDetector*>(pObjIter);
                     if (!field_13C_pArray)
                     {
-                        mAnim.Set_Animation_Data(GetAnimRes(AnimId::Security_Claw_Upper_NoRotation));
+                        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Security_Claw_Upper_NoRotation));
                         field_13C_pArray = relive_new DynamicArrayT<MotionDetector>(10);
                     }
 
@@ -298,7 +298,7 @@ void SecurityClaw::VUpdate()
             {
                 field_114_timer = sGnFrame + 20;
                 field_110_state = SecurityClawStates::eDoZapEffects_2;
-                mClaw->mAnim.Set_Animation_Data(GetAnimRes(AnimId::Security_Claw_Lower_Open));
+                mClaw->GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Security_Claw_Lower_Open));
                 SfxPlayMono(relive::SoundEffects::IndustrialNoise3, 60);
                 SFX_Play_Pitch(relive::SoundEffects::IndustrialNoise3, 90, -1000);
             }
@@ -391,7 +391,7 @@ void SecurityClaw::VUpdate()
             if (static_cast<s32>(sGnFrame) > field_114_timer)
             {
                 field_110_state = SecurityClawStates::eIdle_1;
-                mClaw->mAnim.Set_Animation_Data(GetAnimRes(AnimId::Security_Claw_Lower_Close));
+                mClaw->GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Security_Claw_Lower_Close));
                 SfxPlayMono(relive::SoundEffects::IndustrialTrigger, 0);
             }
             break;

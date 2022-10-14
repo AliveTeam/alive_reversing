@@ -34,21 +34,21 @@ MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::MovingBomb));
     Animation_Init(GetAnimRes(AnimId::MovingBomb));
 
-    mAnim.mFlags.Set(AnimFlags::eSemiTrans);
-    mAnim.mRenderMode = TPageAbr::eBlend_0;
+    GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
+    GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
     field_118_state = States::eTriggeredBySwitch_1;
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
-        mAnim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_Half_16;
+        GetAnimation().SetRenderLayer(Layer::eLayer_RollingBallBombMineCar_Half_16);
     }
     else if (pTlv->mScale == relive::reliveScale::eFull)
     {
         mSpriteScale = FP_FromInteger(1);
         mScale = Scale::Fg;
-        mAnim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_35;
+        GetAnimation().SetRenderLayer(Layer::eLayer_RollingBallBombMineCar_35);
     }
 
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
@@ -66,7 +66,7 @@ MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
     if (pTlv->mTriggeredByAlarm == relive::reliveChoice::eYes)
     {
         field_118_state = States::eTriggeredByAlarm_0;
-        mAnim.mFlags.Clear(AnimFlags::eRender);
+        GetAnimation().mFlags.Clear(AnimFlags::eRender);
     }
 
     SetTint(&kMovingBombTints_55C734[0], gMap.mCurrentLevel);
@@ -130,7 +130,7 @@ void MovingBomb::BlowUp()
 
 void MovingBomb::VRender(PrimHeader** ot)
 {
-    if (mAnim.mFlags.Get(AnimFlags::eRender))
+    if (GetAnimation().mFlags.Get(AnimFlags::eRender))
     {
         BaseAnimatedWithPhysicsGameObject::VRender(ot);
     }
@@ -189,7 +189,7 @@ s16 MovingBomb::VTakeDamage(BaseGameObject* pFrom)
 
             field_118_state = States::eKillMovingBomb_7;
 
-            mAnim.mFlags.Clear(AnimFlags::eRender);
+            GetAnimation().mFlags.Clear(AnimFlags::eRender);
             field_120_timer = sGnFrame + 4;
         }
             return 0;
@@ -260,7 +260,7 @@ void MovingBomb::VUpdate()
 
     if (gMovingBomb_5C300C == nullptr || gMovingBomb_5C300C == this)
     {
-        if (mAnim.mCurrentFrame != 0 && mAnim.mCurrentFrame != 7)
+        if (GetAnimation().GetCurrentFrame() != 0 && GetAnimation().GetCurrentFrame() != 7)
         {
             gMovingBomb_5C300C = this;
         }
@@ -308,7 +308,7 @@ void MovingBomb::VUpdate()
         case States::eTriggeredByAlarm_0:
             if (EventGet(kEventAlarm))
             {
-                mAnim.mFlags.Set(AnimFlags::eRender);
+                GetAnimation().mFlags.Set(AnimFlags::eRender);
                 field_118_state = States::eMoving_2;
             }
             break;
@@ -406,7 +406,7 @@ void MovingBomb::VUpdate()
                     0);
 
                 field_118_state = States::eKillMovingBomb_7;
-                mAnim.mFlags.Clear(AnimFlags::eRender);
+                GetAnimation().mFlags.Clear(AnimFlags::eRender);
                 field_120_timer = sGnFrame + 4;
             }
             break;

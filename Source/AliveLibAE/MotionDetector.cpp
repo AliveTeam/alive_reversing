@@ -23,10 +23,10 @@ MotionDetectorLaser::MotionDetectorLaser(FP xpos, FP ypos, FP scale, Layer layer
     SetType(ReliveTypes::eRedLaser);
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::MotionDetector_Laser));
     Animation_Init(GetAnimRes(AnimId::MotionDetector_Laser));
-    mAnim.mRenderLayer = layer;
+    GetAnimation().SetRenderLayer(layer);
     mXPos = xpos;
     mSpriteScale = scale;
-    mAnim.mRenderMode = TPageAbr::eBlend_1;
+    GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
     mYPos = ypos;
 }
 
@@ -40,9 +40,9 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::MotionDetector_Flare));
     Animation_Init(GetAnimRes(AnimId::MotionDetector_Flare));
 
-    mAnim.mFlags.Set(AnimFlags::eSemiTrans);
-    mAnim.mRenderMode = TPageAbr::eBlend_1;
-    mAnim.mRenderLayer = Layer::eLayer_Foreground_36;
+    GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
+    GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+    GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_36);
 
     mYOffset = 0;
 
@@ -102,11 +102,11 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
 
         if (pTlv->mDrawFlare == relive::reliveChoice::eYes)
         {
-            mAnim.mFlags.Set(AnimFlags::eRender);
+            GetAnimation().mFlags.Set(AnimFlags::eRender);
         }
         else
         {
-            mAnim.mFlags.Clear(AnimFlags::eRender);
+            GetAnimation().mFlags.Clear(AnimFlags::eRender);
         }
 
         if (pLaser)
@@ -116,11 +116,11 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
 
             if (SwitchStates_Get(field_108_disable_switch_id) == 0)
             {
-                pLaser->mAnim.mFlags.Set(AnimFlags::eRender);
+                pLaser->GetAnimation().mFlags.Set(AnimFlags::eRender);
             }
             else
             {
-                pLaser->mAnim.mFlags.Clear(AnimFlags::eRender);
+                pLaser->GetAnimation().mFlags.Clear(AnimFlags::eRender);
             }
         }
 
@@ -149,7 +149,7 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
         field_F8_laser_id = pLaserMem->mBaseGameObjectId;
     }
 
-    mAnim.mFlags.Set(AnimFlags::eRender);
+    GetAnimation().mFlags.Set(AnimFlags::eRender);
     field_FC_owner_id = pOwner->mBaseGameObjectId;
     field_10A_alarm_switch_id = 0;
     field_10C_alarm_duration = 0;
@@ -191,7 +191,7 @@ void MotionDetector::VRender(PrimHeader** ppOt)
 {
     BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
 
-    if (mAnim.mFlags.Get(AnimFlags::eRender))
+    if (GetAnimation().mFlags.Get(AnimFlags::eRender))
     {
         auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find(field_F8_laser_id, ReliveTypes::eRedLaser));
         const PSX_RECT bLaserRect = pLaser->VGetBoundingRect();
@@ -218,13 +218,13 @@ void MotionDetector::VRender(PrimHeader** ppOt)
 
         // Add triangle
         Poly_Set_SemiTrans(&pPrim->mBase.header, TRUE);
-        OrderingTable_Add(OtLayer(ppOt, mAnim.mRenderLayer), &pPrim->mBase.header);
+        OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pPrim->mBase.header);
 
         // Add tpage
         const s32 tpage = PSX_getTPage(TPageMode::e16Bit_2, field_178_bObjectInLaser != 0 ? TPageAbr::eBlend_1 : TPageAbr::eBlend_3, 0, 0); // When detected transparency is off, gives the "solid red" triangle
         Prim_SetTPage* pTPage = &field_154_tPage[gPsxDisplay.mBufferIndex];
         Init_SetTPage(pTPage, 0, 0, tpage);
-        OrderingTable_Add(OtLayer(ppOt, mAnim.mRenderLayer), &pTPage->mBase);
+        OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pTPage->mBase);
     }
 }
 
@@ -258,7 +258,7 @@ s16 MotionDetector::IsInLaser(BaseAliveGameObject* pWho, BaseGameObject* pOwner)
         return 0;
     }
 
-    if (!(mAnim.mFlags.Get(AnimFlags::eRender)))
+    if (!(GetAnimation().mFlags.Get(AnimFlags::eRender)))
     {
         // Not being rendered so can't set off the motion beam
         return 0;
@@ -290,10 +290,10 @@ void MotionDetector::VUpdate()
             // A laser not part of greeter and disabled, do nothing.
             if (SwitchStates_Get(field_108_disable_switch_id))
             {
-                pLaser->mAnim.mFlags.Clear(AnimFlags::eRender);
+                pLaser->GetAnimation().mFlags.Clear(AnimFlags::eRender);
                 return;
             }
-            pLaser->mAnim.mFlags.Set(AnimFlags::eRender);
+            pLaser->GetAnimation().mFlags.Set(AnimFlags::eRender);
         }
 
         const PSX_RECT bLaserRect = pLaser->VGetBoundingRect();
@@ -356,8 +356,8 @@ void MotionDetector::VUpdate()
                                 pOwner->field_140_targetOnRight = 1;
                             }
 
-                            mAnim.mFlags.Clear(AnimFlags::eRender);
-                            pLaser->mAnim.mFlags.Clear(AnimFlags::eRender);
+                            GetAnimation().mFlags.Clear(AnimFlags::eRender);
+                            pLaser->GetAnimation().mFlags.Clear(AnimFlags::eRender);
                         }
                         break;
                     }
@@ -379,15 +379,15 @@ void MotionDetector::VUpdate()
 
             if (pOwner->field_13C_brain_state == GreeterBrainStates::eBrain_0_Patrol || pOwner->field_13C_brain_state == GreeterBrainStates::eBrain_1_PatrolTurn)
             {
-                mAnim.mFlags.Set(AnimFlags::eRender);
-                pLaser->mAnim.mFlags.Set(AnimFlags::eRender);
+                GetAnimation().mFlags.Set(AnimFlags::eRender);
+                pLaser->GetAnimation().mFlags.Set(AnimFlags::eRender);
                 pLaser->mYPos = pOwner->mYPos;
             }
 
             if (pOwner->field_13C_brain_state == GreeterBrainStates::eBrain_4_Chase || pOwner->field_13C_brain_state == GreeterBrainStates::eBrain_6_ToChase)
             {
-                mAnim.mFlags.Clear(AnimFlags::eRender);
-                pLaser->mAnim.mFlags.Clear(AnimFlags::eRender);
+                GetAnimation().mFlags.Clear(AnimFlags::eRender);
+                pLaser->GetAnimation().mFlags.Clear(AnimFlags::eRender);
             }
         }
 

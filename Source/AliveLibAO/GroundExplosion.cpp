@@ -20,7 +20,7 @@ void GroundExplosion::VUpdate()
     EventBroadcast(kEventLoudNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    switch (mAnim.mCurrentFrame)
+    switch (GetAnimation().GetCurrentFrame())
     {
         case 0:
             rect.x = FP_GetExponent(FP_FromInteger(-30) * mObjectScale);
@@ -88,7 +88,7 @@ void GroundExplosion::VUpdate()
             break;
     }
 
-    if (mAnim.mCurrentFrame == 3)
+    if (GetAnimation().GetCurrentFrame() == 3)
     {
         Particle* pParticle = relive_new Particle(
             mXPos,
@@ -96,14 +96,14 @@ void GroundExplosion::VUpdate()
             GetAnimRes(AnimId::GroundExplosion));
         if (pParticle)
         {
-            pParticle->mAnim.mFlags.Set(AnimFlags::eFlipX);
+            pParticle->GetAnimation().mFlags.Set(AnimFlags::eFlipX);
             pParticle->mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
-            pParticle->mAnim.mRenderMode = TPageAbr::eBlend_1;
+            pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
             pParticle->mSpriteScale = mSpriteScale * FP_FromDouble(0.7);
         }
     }
 
-    if (mAnim.mFlags.Get(AnimFlags::eForwardLoopCompleted)) // Animation ended
+    if (GetAnimation().mFlags.Get(AnimFlags::eForwardLoopCompleted)) // Animation ended
     {
         // Time to die
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -192,23 +192,21 @@ GroundExplosion::GroundExplosion(FP xpos, FP ypos, FP scale)
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::GroundExplosion));
     Animation_Init(GetAnimRes(AnimId::GroundExplosion));
 
-    mAnim.mFlags.Clear(AnimFlags::eIsLastFrame);
+    GetAnimation().mFlags.Clear(AnimFlags::eIsLastFrame);
 
-    mAnim.mRenderMode = TPageAbr::eBlend_1;
+    GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
 
-    mAnim.mBlue = 128;
-    mAnim.mGreen = 128;
-    mAnim.mRed = 128;
+    GetAnimation().SetRGB(128, 128, 128);
 
     mObjectScale = scale;
 
     if (scale == FP_FromInteger(1))
     {
-        mAnim.mRenderLayer = Layer::eLayer_Foreground_36;
+        GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_36);
     }
     else
     {
-        mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+        GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
     }
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);

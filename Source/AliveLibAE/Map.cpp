@@ -184,7 +184,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
 
                 if (pBaseObj->mVisualFlags.Get(BaseAnimatedWithPhysicsGameObject::VisualFlags::eDoPurpleLightEffect))
                 {
-                    if (pBaseObj->mAnim.mFlags.Get(AnimFlags::eRender))
+                    if (pBaseObj->GetAnimation().mFlags.Get(AnimFlags::eRender))
                     {
                         if (!pBaseObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && pBaseObj != sControlledCharacter && gMap.Rect_Location_Relative_To_Active_Camera(&objRect) == CameraPos::eCamCurrent_0)
                         {
@@ -223,7 +223,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                     {
                         break;
                     }
-                    pObj->mAnim.mFlags.Clear(AnimFlags::eRender);
+                    pObj->GetAnimation().mFlags.Clear(AnimFlags::eRender);
                 }
             }
 
@@ -252,7 +252,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
 
                 if (!pLight->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
                 {
-                    pLight->mAnim.VDecode();
+                    pLight->GetAnimation().VDecode();
                 }
             }
 
@@ -290,7 +290,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                 {
                     break;
                 }
-                pObj->mAnim.mFlags.Set(AnimFlags::eRender);
+                pObj->GetAnimation().mFlags.Set(AnimFlags::eRender);
             }
         }
     }
@@ -336,12 +336,12 @@ void Map::Handle_PathTransition()
         {
             case relive::reliveScale::eFull:
                 sActiveHero->mSpriteScale = FP_FromDouble(1.0);
-                sActiveHero->mAnim.mRenderLayer = Layer::eLayer_AbeMenu_32;
+                sActiveHero->GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_32);
                 break;
 
             case relive::reliveScale::eHalf:
                 sActiveHero->mSpriteScale = FP_FromDouble(0.5);
-                sActiveHero->mAnim.mRenderLayer = Layer::eLayer_AbeMenu_Half_13;
+                sActiveHero->GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_Half_13);
                 break;
 
             default:

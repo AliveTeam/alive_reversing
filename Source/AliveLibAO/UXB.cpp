@@ -30,8 +30,8 @@ UXB::UXB(relive::Path_UXB* pTlv, const Guid& tlvId)
     Animation_Init(GetAnimRes(AnimId::UXB_Active));
     mLoadedPals.push_back(ResourceManagerWrapper::LoadPal(PalId::GreenFlash));
 
-    mAnim.mFlags.Set(AnimFlags::eSemiTrans);
-    mAnim.mRenderMode = TPageAbr::eBlend_0;
+    GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
+    GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
 
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
     mCurrentState = UXBState::eDelay;
@@ -56,13 +56,13 @@ UXB::UXB(relive::Path_UXB* pTlv, const Guid& tlvId)
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         mSpriteScale = FP_FromDouble(0.5);
-        mAnim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_Half_16;
+        GetAnimation().SetRenderLayer(Layer::eLayer_RollingBallBombMineCar_Half_16);
         mScale = Scale::Bg;
     }
     else
     {
         mSpriteScale = FP_FromInteger(1);
-        mAnim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_35;
+        GetAnimation().SetRenderLayer(Layer::eLayer_RollingBallBombMineCar_35);
         mScale = Scale::Fg;
     }
 
@@ -87,7 +87,7 @@ UXB::UXB(relive::Path_UXB* pTlv, const Guid& tlvId)
                 SfxPlayMono(relive::SoundEffects::GreenTick, 35);
             }
 
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::UXB_Disabled));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::UXB_Disabled));
 
             mCurrentState = UXBState::eDeactivated;
             mStartingState = UXBState::eDelay;
@@ -110,7 +110,7 @@ UXB::UXB(relive::Path_UXB* pTlv, const Guid& tlvId)
 
             mFlashAnim.Set_Animation_Data(GetAnimRes(AnimId::Bomb_RedGreenTick));
 
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::UXB_Disabled));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::UXB_Disabled));
 
             mStartingState = UXBState::eDeactivated;
             mCurrentState = UXBState::eDeactivated;
@@ -145,12 +145,10 @@ void UXB::InitBlinkAnim()
         mFlashAnim.mFlags.Set(AnimFlags::eSemiTrans);
         mFlashAnim.mFlags.Set(AnimFlags::eBlending);
 
-        mFlashAnim.mRenderLayer = mAnim.mRenderLayer;
-        mFlashAnim.field_14_scale = mSpriteScale;
-        mFlashAnim.mRed = 128;
-        mFlashAnim.mGreen = 128;
-        mFlashAnim.mBlue = 128;
-        mFlashAnim.mRenderMode = TPageAbr::eBlend_1;
+        mFlashAnim.SetRenderLayer(GetAnimation().GetRenderLayer());
+        mFlashAnim.SetSpriteScale(mSpriteScale);
+        mFlashAnim.SetRGB(128, 128, 128);
+        mFlashAnim.SetRenderMode(TPageAbr::eBlend_1);
     }
     else
     {
@@ -264,7 +262,7 @@ void UXB::VOnPickUpOrSlapped()
                 {
                     SfxPlayMono(relive::SoundEffects::GreenTick, 35);
                 }
-                mAnim.Set_Animation_Data(GetAnimRes(AnimId::UXB_Toggle));
+                GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::UXB_Toggle));
                 mCurrentState = UXBState::eDeactivated;
                 mNextStateTimer = sGnFrame + 10;
             }
@@ -273,7 +271,7 @@ void UXB::VOnPickUpOrSlapped()
         {
             mCurrentState = UXBState::eDelay;
             SetUpdateDelay(6);
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::UXB_Active));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::UXB_Active));
             if (gMap.Is_Point_In_Current_Camera(
                     mCurrentLevel,
                     mCurrentPath,
@@ -414,7 +412,7 @@ s16 UXB::IsColliding()
 
         if (pObj->mBaseAliveGameObjectFlags.Get(Flags_10A::e10A_Bit4_SetOffExplosives))
         {
-            if (pObj->mAnim.mFlags.Get(AnimFlags::eRender))
+            if (pObj->GetAnimation().mFlags.Get(AnimFlags::eRender))
             {
                 const PSX_RECT objBound = pObj->VGetBoundingRect();
 

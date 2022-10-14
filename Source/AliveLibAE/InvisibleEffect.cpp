@@ -14,22 +14,22 @@ InvisibleEffect::InvisibleEffect(BaseAliveGameObject* pTarget)
 
     field_44_objId = pTarget->mBaseGameObjectId;
 
-    mPal1.mPal = std::make_shared<AnimationPal>(*pTarget->mAnim.mAnimRes.mTgaPtr->mPal);
-    mPal2.mPal = std::make_shared<AnimationPal>(*pTarget->mAnim.mAnimRes.mTgaPtr->mPal);
+    mPal1.mPal = std::make_shared<AnimationPal>(*pTarget->GetAnimation().mAnimRes.mTgaPtr->mPal);
+    mPal2.mPal = std::make_shared<AnimationPal>(*pTarget->GetAnimation().mAnimRes.mTgaPtr->mPal);
 
     field_4A_flags.Clear();
 
-    if (pTarget->mAnim.mFlags.Get(AnimFlags::eSemiTrans))
+    if (pTarget->GetAnimation().mFlags.Get(AnimFlags::eSemiTrans))
     {
         field_4A_flags.Set(Flags_4A::eSemiTrans_Bit1);
     }
-    if (pTarget->mAnim.mFlags.Get(AnimFlags::eBlending))
+    if (pTarget->GetAnimation().mFlags.Get(AnimFlags::eBlending))
     {
         field_4A_flags.Set(Flags_4A::eBlending_Bit2);
     }
 
     field_4A_flags.Clear(Flags_4A::eIsInvisible_Bit3);
-    field_48_old_render_mode = pTarget->mAnim.mRenderMode;
+    field_48_old_render_mode = pTarget->GetAnimation().GetRenderMode();
     field_20_state_or_op = InvisibleState::eSetRenderMode1_0;
 }
 
@@ -80,7 +80,7 @@ void InvisibleEffect::VUpdate()
         {
             case InvisibleState::eSetRenderMode1_0:
             {
-                pTarget->mAnim.mRenderMode = TPageAbr::eBlend_1;
+                pTarget->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
                 return;
             }
             case InvisibleState::eSetInvisibile_1:
@@ -93,9 +93,9 @@ void InvisibleEffect::VUpdate()
 
                 pTarget->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eInvisible);
 
-                pTarget->mAnim.mFlags.Clear(AnimFlags::eBlending);
-                pTarget->mAnim.mFlags.Set(AnimFlags::eSemiTrans);
-                pTarget->mAnim.mRenderMode = TPageAbr::eBlend_1;
+                pTarget->GetAnimation().mFlags.Clear(AnimFlags::eBlending);
+                pTarget->GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
+                pTarget->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
 
                 SetUpdateDelay(1);
                 field_20_state_or_op = InvisibleState::eBecomeInvisible_2;
@@ -152,7 +152,7 @@ void InvisibleEffect::VUpdate()
                 else
                 {
                     // TODO: Allow setting anim
-                    pTarget->mAnim.LoadPal(mPal2);
+                    pTarget->GetAnimation().LoadPal(mPal2);
                     SetUpdateDelay(1);
                 }
 
@@ -168,7 +168,7 @@ void InvisibleEffect::VUpdate()
                     mPal2.mPal->mPal[i] &= 0x8000u;
                 }
                 // TODO
-                pTarget->mAnim.LoadPal(mPal2);
+                pTarget->GetAnimation().LoadPal(mPal2);
                 //Pal_Set(pTarget->mAnim.mPalVramXY, pTarget->mAnim.mPalDepth, (u8*) field_30_pPal2, &field_34_pal_rect2);
 
                 field_4A_flags.Clear(Flags_4A::eIsInvisible_Bit3);
@@ -210,11 +210,11 @@ void InvisibleEffect::VUpdate()
                 if (v3)
                 {
                     // TODO
-                    pTarget->mAnim.LoadPal(mPal2);
+                    pTarget->GetAnimation().LoadPal(mPal2);
 
                     //Pal_Set(pTarget->mAnim.mPalVramXY, pTarget->mAnim.mPalDepth, (u8*) field_30_pPal2, &field_34_pal_rect2);
 
-                    pTarget->mAnim.mRenderMode = TPageAbr::eBlend_1;
+                    pTarget->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
                     SetUpdateDelay(5);
                 }
                 else
@@ -226,13 +226,13 @@ void InvisibleEffect::VUpdate()
             case InvisibleState::eClearInvisibility_5:
             {
                 // TODO
-                 pTarget->mAnim.LoadPal(mPal1);
+                 pTarget->GetAnimation().LoadPal(mPal1);
 
                 //Pal_Set(pTarget->mAnim.mPalVramXY, pTarget->mAnim.mPalDepth, (u8*) field_24_pPal1, &field_28_pal_rect1);
 
-                pTarget->mAnim.mFlags.Set(AnimFlags::eSemiTrans, field_4A_flags.Get(Flags_4A::eSemiTrans_Bit1));
-                pTarget->mAnim.mFlags.Set(AnimFlags::eBlending, field_4A_flags.Get(Flags_4A::eBlending_Bit2));
-                pTarget->mAnim.mRenderMode = field_48_old_render_mode;
+                pTarget->GetAnimation().mFlags.Set(AnimFlags::eSemiTrans, field_4A_flags.Get(Flags_4A::eSemiTrans_Bit1));
+                pTarget->GetAnimation().mFlags.Set(AnimFlags::eBlending, field_4A_flags.Get(Flags_4A::eBlending_Bit2));
+                pTarget->GetAnimation().SetRenderMode(field_48_old_render_mode);
 
                 pTarget->mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eInvisible);
 

@@ -43,13 +43,13 @@ TimedMine::TimedMine(relive::Path_TimedMine* pTlv, const Guid& tlvId)
     {
         mSpriteScale = FP_FromDouble(0.5);
         mScale = Scale::Bg;
-        mAnim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_Half_16;
+        GetAnimation().SetRenderLayer(Layer::eLayer_RollingBallBombMineCar_Half_16);
     }
     else
     {
         mSpriteScale = FP_FromInteger(1);
         mScale = Scale::Fg;
-        mAnim.mRenderLayer = Layer::eLayer_RollingBallBombMineCar_35;
+        GetAnimation().SetRenderLayer(Layer::eLayer_RollingBallBombMineCar_35);
     }
 
     InitTickAnimation();
@@ -162,12 +162,10 @@ void TimedMine::InitTickAnimation()
     {
         mTickAnim.mFlags.Set(AnimFlags::eSemiTrans);
         mTickAnim.mFlags.Set(AnimFlags::eBlending);
-        mTickAnim.mRenderLayer = mAnim.mRenderLayer;
-        mTickAnim.field_14_scale = mSpriteScale;
-        mTickAnim.mRed = 128;
-        mTickAnim.mGreen = 128;
-        mTickAnim.mBlue = 128;
-        mTickAnim.mRenderMode = TPageAbr::eBlend_1;
+        mTickAnim.SetRenderLayer(GetAnimation().GetRenderLayer());
+        mTickAnim.SetSpriteScale(mSpriteScale);
+        mTickAnim.SetRGB(128, 128, 128);
+        mTickAnim.SetRenderMode(TPageAbr::eBlend_1);
     }
     else
     {
@@ -297,7 +295,7 @@ void TimedMine::VOnPickUpOrSlapped()
             mSingleTickTimer = mTicksUntilExplosion >> 2;
         }
         mOldGnFrame = sGnFrame;
-        mAnim.Set_Animation_Data(GetAnimRes(AnimId::TimedMine_Activated));
+        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::TimedMine_Activated));
         mExplosionTimer = sGnFrame + mTicksUntilExplosion;
         mTickAnim.Set_Animation_Data(GetAnimRes(AnimId::Bomb_Flash));
         SfxPlayMono(relive::SoundEffects::GreenTick, 0);

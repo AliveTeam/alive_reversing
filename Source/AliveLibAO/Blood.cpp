@@ -27,10 +27,8 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BloodDrop));
     Animation_Init(GetAnimRes(AnimId::BloodDrop));
 
-    mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
-    mAnim.mRed = 127;
-    mAnim.mGreen = 127;
-    mAnim.mBlue = 127;
+    GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
+    GetAnimation().SetRGB(127, 127, 127);
 
     if (mSpriteScale == FP_FromInteger(1))
     {
@@ -43,7 +41,7 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
 
     if (mSpriteScale != FP_FromInteger(1))
     {
-        mAnim.SetFrame((mAnim.Get_Frame_Count() >> 1) + 1);
+        GetAnimation().SetFrame((GetAnimation().Get_Frame_Count() >> 1) + 1);
     }
 
     mTotalBloodCount = static_cast<s16>(count);
@@ -60,11 +58,11 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
         mBloodXPos = FP_GetExponent(xpos - FP_FromInteger(12) + FP_FromInteger(pScreenManager->mCamXOff) - pScreenManager->mCamPos->x);
         mBloodYPos = FP_GetExponent(ypos - FP_FromInteger(12) + FP_FromInteger(pScreenManager->mCamYOff) - pScreenManager->mCamPos->y);
 
-        if (mAnim.mFlags.Get(AnimFlags::eIs8Bit))
+        if (GetAnimation().mFlags.Get(AnimFlags::eIs8Bit))
         {
             mTextureMode = TPageMode::e8Bit_1;
         }
-        else if (mAnim.mFlags.Get(AnimFlags::eIs16Bit))
+        else if (GetAnimation().mFlags.Get(AnimFlags::eIs16Bit))
         {
             mTextureMode = TPageMode::e16Bit_2;
         }
@@ -85,12 +83,12 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
 
         u8 v0 = 0;//mAnim.mVramRect.y & 0xFF;
 
-        const PerFrameInfo* pFrameHeader = mAnim.Get_FrameHeader(-1);
+        const PerFrameInfo* pFrameHeader = GetAnimation().Get_FrameHeader(-1);
 
         const s32 frameW = pFrameHeader->mWidth;
         const s32 frameH = pFrameHeader->mHeight;
 
-        mAnim.mFlags.Set(AnimFlags::eBlending);
+        GetAnimation().mFlags.Set(AnimFlags::eBlending);
 
         for (s32 i = 0; i < mTotalBloodCount; i++)
         {
@@ -102,15 +100,15 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
                 Sprt_Init(pSprt);
                 Poly_Set_SemiTrans(&pSprt->mBase.header, 1);
 
-                if (mAnim.mFlags.Get(AnimFlags::eBlending))
+                if (GetAnimation().mFlags.Get(AnimFlags::eBlending))
                 {
                     Poly_Set_Blending(&pSprt->mBase.header, 1);
                 }
                 else
                 {
                     Poly_Set_Blending(&pSprt->mBase.header, 0);
-
-                    SetRGB0(pSprt, mAnim.mRed, mAnim.mGreen, mAnim.mBlue);
+                    const auto rgb = GetAnimation().GetRgb();
+                    SetRGB0(pSprt, rgb.r, rgb.g, rgb.b);
                 }
 
                 /* TODO: Just set anim ptr
@@ -220,7 +218,7 @@ void Blood::VRender(PrimHeader** ppOt)
 
             SetUV0(pSprt, u0, 0 /*static_cast<u8>(mAnim.mVramRect.y)*/);
 
-            const PerFrameInfo* pFrameHeader = mAnim.Get_FrameHeader(-1);
+            const PerFrameInfo* pFrameHeader = GetAnimation().Get_FrameHeader(-1);
 
             pSprt->field_14_w = static_cast<s16>(pFrameHeader->mWidth - 1);
             pSprt->field_16_h = static_cast<s16>(pFrameHeader->mHeight - 1);
@@ -230,9 +228,10 @@ void Blood::VRender(PrimHeader** ppOt)
 
             SetXY0(pSprt, x0, y0);
 
-            if (!mAnim.mFlags.Get(AnimFlags::eBlending))
+            if (!GetAnimation().mFlags.Get(AnimFlags::eBlending))
             {
-                SetRGB0(pSprt, mAnim.mRed, mAnim.mGreen, mAnim.mBlue);
+                const auto rgb = GetAnimation().GetRgb();
+                SetRGB0(pSprt, rgb.r, rgb.g, rgb.b);
             }
 
             OrderingTable_Add(OtLayer(ppOt, mOtLayer), &pSprt->mBase.header);

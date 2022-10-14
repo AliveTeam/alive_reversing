@@ -31,7 +31,7 @@ ChimeLock::ChimeLock(relive::Path_ChimeLock* pTlv, const Guid& tlvId)
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Chime_Ball));
     Animation_Init(GetAnimRes(AnimId::Chime_Ball));
 
-    mAnim.mRenderLayer = Layer::eLayer_FG1_37;
+    GetAnimation().SetRenderLayer(Layer::eLayer_FG1_37);
 
     FP scale = {};
     if (pTlv->mScale == relive::reliveScale::eHalf)

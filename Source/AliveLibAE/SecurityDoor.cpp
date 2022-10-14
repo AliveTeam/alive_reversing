@@ -29,11 +29,11 @@ SecurityDoor::SecurityDoor(relive::Path_SecurityDoor* pTlv, const Guid& tlvId)
 
     Animation_Init(GetAnimRes(AnimId::Security_Door_Idle));
 
-    mAnim.mFlags.Clear(AnimFlags::eRender);
+    GetAnimation().mFlags.Clear(AnimFlags::eRender);
 
     field_F4_tlvInfo = tlvId;
 
-    mAnim.mRenderLayer = Layer::eLayer_BeforeWell_22;
+    GetAnimation().SetRenderLayer(Layer::eLayer_BeforeWell_22);
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
@@ -142,12 +142,12 @@ void SecurityDoor::VUpdate()
 
             if (IsPlayerNear())
             {
-                mAnim.mFlags.Set(AnimFlags::eRender);
+                GetAnimation().mFlags.Set(AnimFlags::eRender);
                 field_F8_state = SecurityDoorStates::eSayingHi_2;
             }
             else
             {
-                mAnim.mFlags.Clear(AnimFlags::eRender);
+                GetAnimation().mFlags.Clear(AnimFlags::eRender);
             }
             return;
 
@@ -161,7 +161,7 @@ void SecurityDoor::VUpdate()
         case SecurityDoorStates::eSayingHi_2:
         {
             Slig_GameSpeak_SFX_4C04F0(SligSpeak::eHi_0, 127, -200, 0);
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::Security_Door_Speak));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Security_Door_Speak));
             field_F8_state = SecurityDoorStates::eListeningForHi_3;
             field_124_timer = sGnFrame + 150;
             return;
@@ -223,7 +223,7 @@ void SecurityDoor::VUpdate()
                     break;
             }
 
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::Security_Door_Speak));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Security_Door_Speak));
             if (++field_128_max_idx >= field_100_code_len)
             {
                 field_F8_state = SecurityDoorStates::eListeningForPassword_9;
@@ -301,7 +301,7 @@ void SecurityDoor::VUpdate()
             }
             field_12A_unused = 1;
             SwitchStates_Set(field_FA_switch_id, 1);
-            mAnim.mFlags.Clear(AnimFlags::eRender);
+            GetAnimation().mFlags.Clear(AnimFlags::eRender);
             SFX_Play_Pitch(relive::SoundEffects::GlukkonSwitchBleh, 127, -700);
             field_F8_state = SecurityDoorStates::eSuccessChime_1;
             field_124_timer = sGnFrame + 15;

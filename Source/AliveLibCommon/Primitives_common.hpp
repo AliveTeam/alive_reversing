@@ -2,7 +2,7 @@
 
 #include "Psx_common.hpp"
 #include "../AliveLibCommon/Function.hpp"
-
+#include "RGB16.hpp"
 
 struct PrimHeaderPart_Normal final
 {
@@ -385,11 +385,19 @@ union PrimAny
 ALIVE_ASSERT_SIZEOF(PrimAny, sizeof(void*));
 
 template <class T>
-inline void SetRGB0(T* prim, u8 r, u8 g, u8 b)
+inline void SetRGB0(T* prim, const RGB16& rgb)
 {
-    prim->mBase.header.rgb_code.r = r;
-    prim->mBase.header.rgb_code.g = g;
-    prim->mBase.header.rgb_code.b = b;
+    prim->mBase.header.rgb_code.r = static_cast<u8>(rgb.r);
+    prim->mBase.header.rgb_code.g = static_cast<u8>(rgb.g);
+    prim->mBase.header.rgb_code.b = static_cast<u8>(rgb.b);
+}
+
+template <class T>
+inline void SetRGB0(T* prim, u32 r, u32 g, u32 b)
+{
+    prim->mBase.header.rgb_code.r = static_cast<u8>(r);
+    prim->mBase.header.rgb_code.g = static_cast<u8>(g);
+    prim->mBase.header.rgb_code.b = static_cast<u8>(b);
 }
 
 template <class T>

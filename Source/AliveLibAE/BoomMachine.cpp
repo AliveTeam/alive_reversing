@@ -32,7 +32,7 @@ public:
         LoadAnimations();
         Animation_Init(GetAnimRes(AnimId::BoomMachine_Nozzle_Idle));
 
-        mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
+        GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
         mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 
         mSpriteScale = scale;
@@ -91,12 +91,12 @@ private:
                 if (static_cast<s32>(sGnFrame) > field_F8_timer)
                 {
                     field_F4_state = BoomMachineStates::eDropGrenade_3;
-                    mAnim.Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Nozzle_DropGrenade));
+                    GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Nozzle_DropGrenade));
                 }
                 break;
 
             case BoomMachineStates::eDropGrenade_3:
-                if (mAnim.mFlags.Get(AnimFlags::eForwardLoopCompleted))
+                if (GetAnimation().mFlags.Get(AnimFlags::eForwardLoopCompleted))
                 {
                     SFX_Play_Pitch(relive::SoundEffects::PickupItem, 127, -900);
 
@@ -108,7 +108,7 @@ private:
                     gpThrowableArray->Add(field_FC_numGrenades);
 
                     FP directedScale = {};
-                    if (mAnim.mFlags.Get(AnimFlags::eFlipX))
+                    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                     {
                         directedScale = -mSpriteScale;
                     }
@@ -124,9 +124,9 @@ private:
                         0,
                         nullptr);
  
-                    pGrenade->VThrow((mAnim.mFlags.Get(AnimFlags::eFlipX)) != 0 ? -FP_FromDouble(0.75) : FP_FromDouble(0.75), FP_FromInteger(3));
+                    pGrenade->VThrow((GetAnimation().mFlags.Get(AnimFlags::eFlipX)) != 0 ? -FP_FromDouble(0.75) : FP_FromDouble(0.75), FP_FromInteger(3));
 
-                    mAnim.Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Nozzle_Idle));
+                    GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Nozzle_Idle));
                     field_F4_state = BoomMachineStates::eInactive_0;
                 }
                 break;
@@ -158,7 +158,7 @@ BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId)
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
     field_F4_tlvInfo = tlvId;
-    mAnim.mRenderMode = TPageAbr::eBlend_1;
+    GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
@@ -179,14 +179,14 @@ BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId)
         pTlv->mGrenadeAmount);
     if (pNozzle)
     {
-        pNozzle->mAnim.mFlags.Set(AnimFlags::eFlipX, pTlv->mNozzleSide == relive::Path_BoomMachine::NozzleSide::eLeft);
+        pNozzle->GetAnimation().mFlags.Set(AnimFlags::eFlipX, pTlv->mNozzleSide == relive::Path_BoomMachine::NozzleSide::eLeft);
         field_F8_nozzle_id = pNozzle->mBaseGameObjectId;
     }
 
     if (gpThrowableArray && gpThrowableArray->field_20_count)
     {
         field_FC_bIsButtonOn = 1;
-        mAnim.Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Button_On));
+        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Button_On));
     }
     else
     {
@@ -206,7 +206,7 @@ void BoomMachine::VUpdate()
         if (!gpThrowableArray || gpThrowableArray->field_20_count == 0)
         {
             field_FC_bIsButtonOn = 1;
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Button_On));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Button_On));
         }
     }
     else if (field_FC_bIsButtonOn)
@@ -214,10 +214,10 @@ void BoomMachine::VUpdate()
         if (gpThrowableArray && gpThrowableArray->field_20_count > 0)
         {
             field_FC_bIsButtonOn = 0;
-            mAnim.Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Button_Off));
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Button_Off));
         }
 
-        if (mAnim.mCurrentFrame == 3)
+        if (GetAnimation().GetCurrentFrame() == 3)
         {
             SFX_Play_Pitch(relive::SoundEffects::RedTick, 25, -1200);
         }

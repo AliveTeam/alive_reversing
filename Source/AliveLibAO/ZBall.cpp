@@ -88,24 +88,24 @@ ZBall::ZBall(relive::Path_ZBall* pTlv, const Guid& tlvId)
         switch (pTlv->mStartPos)
         {
             case relive::Path_ZBall::StartPos::eCenter:
-                mAnim.SetFrame(6u);
+                GetAnimation().SetFrame(6u);
                 gCenterZBall = this;
                 mSoundPitch = -800;
                 break;
 
             case relive::Path_ZBall::StartPos::eOut:
-                mAnim.SetFrame(0);
+                GetAnimation().SetFrame(0);
                 gOutZBall = this;
                 mSoundPitch = -400;
                 break;
 
             case relive::Path_ZBall::StartPos::eIn:
-                mAnim.SetFrame(13u);
+                GetAnimation().SetFrame(13u);
                 mSoundPitch = 0;
                 break;
         }
 
-        mAnim.VDecode();
+        GetAnimation().VDecode();
     }
 
     if (pTlv->mScale != relive::reliveScale::eFull)
@@ -115,7 +115,7 @@ ZBall::ZBall(relive::Path_ZBall* pTlv, const Guid& tlvId)
     }
 
     mTlvInfo = tlvId;
-    mAnim.mFnPtrArray = kZBall_Anim_Frame_Fns_4CEBF8;
+    GetAnimation().SetFnPtrArray(kZBall_Anim_Frame_Fns_4CEBF8);
 }
 
 void ZBall::VUpdate()
@@ -127,7 +127,7 @@ void ZBall::VUpdate()
 
     if (gCenterZBall == this || gOutZBall == this)
     {
-        if (mAnim.mCurrentFrame == 0 || mAnim.mCurrentFrame == 13)
+        if (GetAnimation().GetCurrentFrame() == 0 || GetAnimation().GetCurrentFrame() == 13)
         {
             SFX_Play_Pitch(relive::SoundEffects::ZBall, 50, mSoundPitch);
         }
@@ -135,33 +135,33 @@ void ZBall::VUpdate()
 
     if (gCenterZBall == this)
     {
-        if (mAnim.mCurrentFrame == 3 || mAnim.mCurrentFrame == 16)
+        if (GetAnimation().GetCurrentFrame() == 3 || GetAnimation().GetCurrentFrame() == 16)
         {
             SFX_Play_Pitch(relive::SoundEffects::SackWobble, 40, mSoundPitch - 2400);
         }
     }
 
-    if (mAnim.mCurrentFrame <= 6 || mAnim.mCurrentFrame >= 19)
+    if (GetAnimation().GetCurrentFrame() <= 6 || GetAnimation().GetCurrentFrame() >= 19)
     {
         if (mSpriteScale == FP_FromInteger(1))
         {
-            mAnim.mRenderLayer = Layer::eLayer_Foreground_36;
+            GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_36);
         }
         else
         {
-            mAnim.mRenderLayer = Layer::eLayer_Foreground_Half_17;
+            GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
         }
     }
     else if (mSpriteScale == FP_FromInteger(1))
     {
-        mAnim.mRenderLayer = Layer::eLayer_BeforeWell_22;
+        GetAnimation().SetRenderLayer(Layer::eLayer_BeforeWell_22);
     }
     else
     {
-        mAnim.mRenderLayer = Layer::eLayer_BeforeWell_Half_3;
+        GetAnimation().SetRenderLayer(Layer::eLayer_BeforeWell_Half_3);
     }
 
-    mFrameAbove12 = mAnim.mCurrentFrame >= 13;
+    mFrameAbove12 = GetAnimation().GetCurrentFrame() >= 13;
 
     if (!gMap.Is_Point_In_Current_Camera(
             mCurrentLevel,

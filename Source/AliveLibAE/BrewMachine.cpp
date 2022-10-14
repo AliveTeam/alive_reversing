@@ -20,7 +20,7 @@ BrewMachine::BrewMachine(relive::Path_BrewMachine* pTlv, const Guid& tlvId)
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
     mTlvInfo = tlvId;
-    mAnim.mRenderLayer = Layer::eLayer_Well_23;
+    GetAnimation().SetRenderLayer(Layer::eLayer_Well_23);
     mRemainingBrewCount = pTlv->mBrewCount;
 
     const u8 savedBrewCount = pTlv->mTlvSpecificMeaning;

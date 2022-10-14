@@ -1355,7 +1355,7 @@ HintFly::HintFly(relive::Path_HintFly* pTlv, const Guid& tlvId)
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::HintFly));
     Animation_Init(GetAnimRes(AnimId::HintFly));
 
-    mAnim.mFlags.Clear(AnimFlags::eSemiTrans);
+    GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
     field_124_tlvInfo = tlvId;
     field_11E_msg_idx = 0;
 
@@ -1403,11 +1403,11 @@ HintFly::HintFly(relive::Path_HintFly* pTlv, const Guid& tlvId)
         field_112_state = State::eIdleWaitForChanting_1;
         field_10C_timer = 0;
 
-        if (mAnim.mFlags.Get(AnimFlags::eIs8Bit))
+        if (GetAnimation().mFlags.Get(AnimFlags::eIs8Bit))
         {
             field_110_bitMode = TPageMode::e8Bit_1;
         }
-        else if (mAnim.mFlags.Get(AnimFlags::eIs16Bit))
+        else if (GetAnimation().mFlags.Get(AnimFlags::eIs16Bit))
         {
             field_110_bitMode = TPageMode::e16Bit_2;
         }
@@ -1426,7 +1426,7 @@ HintFly::HintFly(relive::Path_HintFly* pTlv, const Guid& tlvId)
             vram_x = 4 * vram_x;
         }
 
-        const auto pHeader = mAnim.Get_FrameHeader(-1);
+        const auto pHeader = GetAnimation().Get_FrameHeader(-1);
 
         for (s32 i = 0; i < field_11A_msg_len; i++)
         {
