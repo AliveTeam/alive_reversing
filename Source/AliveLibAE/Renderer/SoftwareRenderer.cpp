@@ -91,25 +91,6 @@ void SoftwareRenderer::StartFrame(s32 xOff, s32 yOff)
     }
 }
 
-void SoftwareRenderer::PalFree(const IRenderer::PalRecord& record)
-{
-    Pal_free(PSX_Point{record.x, record.y}, record.depth);
-}
-
-bool SoftwareRenderer::PalAlloc(IRenderer::PalRecord& record)
-{
-    PSX_RECT rect = {};
-    const bool ret = Pal_Allocate(&rect, record.depth);
-    record.x = rect.x;
-    record.y = rect.y;
-    return ret;
-}
-
-void SoftwareRenderer::PalSetData(const IRenderer::PalRecord& , const u8* )
-{
-
-}
-
 void SoftwareRenderer::EndFrame()
 {
     SDL_RenderPresent(mRenderer);
@@ -128,40 +109,6 @@ void SoftwareRenderer::BltBackBuffer(const SDL_Rect* /*pCopyRect*/, const SDL_Re
 void SoftwareRenderer::OutputSize(s32* w, s32* h)
 {
     SDL_GetRendererOutputSize(mRenderer, w, h);
-}
-
-bool SoftwareRenderer::UpdateBackBuffer(const void* pPixels, s32 pitch)
-{
-    if (!mBackBufferTexture)
-    {
-        return false;
-    }
-    SDL_UpdateTexture(mBackBufferTexture, nullptr, pPixels, pitch);
-    return true;
-}
-
-void SoftwareRenderer::CreateBackBuffer(bool filter, s32 format, s32 w, s32 h)
-{
-    if (!mBackBufferTexture || mLastW != w || mLastH != h)
-    {
-        if (filter)
-        {
-            SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
-        }
-        else
-        {
-            SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "0");
-        }
-
-        if (mBackBufferTexture)
-        {
-            SDL_DestroyTexture(mBackBufferTexture);
-        }
-        mBackBufferTexture = SDL_CreateTexture(mRenderer, format, SDL_TextureAccess::SDL_TEXTUREACCESS_STREAMING, w, h);
-
-        mLastH = w;
-        mLastW = h;
-    }
 }
 
 void SoftwareRenderer::SetTPage(u16 /*tPage*/)
@@ -746,22 +693,4 @@ void SoftwareRenderer::Draw(Poly_G4& poly)
     SDL_RenderGeometry(mRenderer, nullptr, vert, 4, indexList, 6);
 }
 
-void SoftwareRenderer::Upload(BitDepth bitDepth, const PSX_RECT& /*rect*/, const u8* /*pPixels*/)
-{
-    switch (bitDepth)
-    {
-        case BitDepth::e16Bit:
-            // PSX_LoadImage16_4F5E20(&rect, pPixels);
-            break;
-
-        case BitDepth::e8Bit:
-        case BitDepth::e4Bit:
-            // PSX_LoadImage_4F5FB0(&rect, pPixels);
-            break;
-
-        default:
-            ALIVE_FATAL("unknown bit depth");
-            break;
-    }
-}
 #endif

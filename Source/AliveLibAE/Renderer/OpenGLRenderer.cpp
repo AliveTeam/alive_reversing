@@ -489,10 +489,6 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
     return true;
 }
 
-void OpenGLRenderer::CreateBackBuffer(bool /*filter*/, s32 /*format*/, s32 /*w*/, s32 /*h*/)
-{
-}
-
 void OpenGLRenderer::Destroy()
 {
     ImGui_ImplSDL2_Shutdown();
@@ -933,44 +929,6 @@ void OpenGLRenderer::OutputSize(s32* w, s32* h)
     SDL_GL_GetDrawableSize(mWindow, w, h);
 }
 
-bool OpenGLRenderer::PalAlloc(PalRecord& record)
-{
-    PSX_RECT rect = {};
-    // TODO: Stop depending on this
-    const bool ret = Pal_Allocate(&rect, record.depth);
-    record.x = rect.x;
-    record.y = rect.y;
-    return ret;
-}
-
-// This function should free both vrams allocations AND palettes, cause theyre kinda the same thing.
-void OpenGLRenderer::PalFree(const PalRecord& record)
-{
-    Pal_free(PSX_Point{record.x, record.y}, record.depth); // TODO: Stop depending on this
-
-    /*
-    Renderer_FreePalette({
-        record.x,
-        record.y,
-    });*/
-
-    /*
-    Renderer_FreeTexture({
-        record.x,
-        record.y,
-    });*/
-}
-
-void OpenGLRenderer::PalSetData(const PalRecord& record, const u8* pPixels)
-{
-    PSX_RECT rect = {};
-    rect.x = record.x;
-    rect.y = record.y;
-    rect.w = record.depth;
-    rect.h = 1;
-    Upload(IRenderer::BitDepth::e16Bit, rect, pPixels);
-}
-
 void OpenGLRenderer::SetClip(Prim_PrimClipper& clipper)
 {
     SDL_Rect rect;
@@ -1017,102 +975,6 @@ void OpenGLRenderer::StartFrame(s32 /*xOff*/, s32 /*yOff*/)
     GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId));
     GL_VERIFY(glViewport(0, 0, GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT));
 }
-
-bool OpenGLRenderer::UpdateBackBuffer(const void* /*pPixels*/, s32 /*pitch*/)
-{
-    return true;
-}
-
-void OpenGLRenderer::Upload(BitDepth /*bitDepth*/, const PSX_RECT& /*rect*/, const u8* /*pPixels*/)
-{
-    /*
-    // Palettes are the only texture that is 1 in height.
-    // So we're gonna hook in here to steal palettes for our
-    // new renderer.
-    if (rect.h == 1)
-    {
-        if (bitDepth == BitDepth::e16Bit)
-        {
-            Renderer_LoadPalette({rect.x, rect.y}, reinterpret_cast<const u8*>(pPixels), rect.w);
-        }
-        return;
-    }
-
-    if (!Renderer_TexExists(rect))
-    {
-        TextureCache cache = {};
-        cache.mTextureID = Renderer_CreateTexture();
-        cache.mVramRect = rect;
-
-        gRendererTextures.push_back(cache);
-    }
-
-    TextureCache* tc = Renderer_TexFromVRam(rect);
-    tc->mVramRect = rect;
-
-    if (ImGui::Begin("VRAM", nullptr, ImGuiWindowFlags_MenuBar))
-    {
-        ImGui::SetCursorPos(ImVec2(static_cast<f32>(tc->mVramRect.x), static_cast<f32>(tc->mVramRect.y + 50)));
-        f32 textureWidth = static_cast<f32>(tc->mVramRect.w);
-        f32 textureHeight = static_cast<f32>(tc->mVramRect.h);
-        ImVec2 xpos = ImGui::GetCursorScreenPos();
-        ImVec2 size = ImVec2(xpos.x + textureWidth, xpos.y + textureHeight);
-        ImGui::GetWindowDrawList()->AddRect(xpos, size, ImGui::GetColorU32(ImVec4(0.0f, 1.0f, 0.0f, 1.0f)));
-    }
-    ImGui::End();
-
-    glBindTexture(GL_TEXTURE_2D, tc->mTextureID);
-
-    bool aoFG1 = true;
-
-    if (rect.h == 240)
-    {
-        bitDepth = BitDepth::e16Bit;
-        aoFG1 = false;
-    }
-
-    switch (bitDepth)
-    {
-        case BitDepth::e16Bit:
-            if (aoFG1)
-            {
-                RGBAPixel* pixelBuffer = reinterpret_cast<RGBAPixel*>(gDecodeBuffer);
-                ConvertAOFG1(pPixels, pixelBuffer, rect.w * rect.h);
-                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, rect.w, rect.h, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixelBuffer);
-            }
-            else
-            {
-                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB565, rect.w, rect.h, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, pPixels);
-
-                if (rect.w == 16 && rect.h == 240)
-                {
-                    StitchAOCam(rect.x, rect.y - 272, rect.w, rect.h, pPixels);
-
-                    if (rect.x == 624)
-                    {
-                        if (mBackgroundTexture == 0)
-                            mBackgroundTexture = Renderer_CreateTexture();
-
-                        glBindTexture(GL_TEXTURE_2D, mBackgroundTexture);
-                        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB565, 640, 240, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, gDecodeBuffer);
-                    }
-                }
-            }
-            break;
-
-        case BitDepth::e8Bit:
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, rect.w * 2, rect.h, 0, GL_RED, GL_UNSIGNED_BYTE, pPixels);
-            break;
-        case BitDepth::e4Bit: // Usually only fonts.
-            Convert4bppTextureFont(rect, pPixels);
-            break;
-
-        default:
-            ALIVE_FATAL("unknown bit depth");
-            break;
-    }*/
-}
-
 
 // ROZZA FRAMEBUFFER STUFF
 

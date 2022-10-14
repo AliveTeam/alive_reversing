@@ -198,13 +198,6 @@ void Vram_alloc(s16 x, s16 y, s16 w, s16 h)
 
 void Vram_free(PSX_Point xy, PSX_Point wh)
 {
-//#if RENDERER_OPENGL
-    auto pRend = IRenderer::GetRenderer();
-    if (pRend)
-    {
-        pRend->PalFree(IRenderer::PalRecord{xy.x, xy.y, 0});
-    }
-//#endif
     // Find the allocation
     for (s32 i = 0; i < sVramNumberOfAllocations_5CC888; i++)
     {
@@ -379,11 +372,10 @@ u32 Pal_Make_Colour(u8 r, u8 g, u8 b, s16 bOpaque)
     return (bOpaque != 0 ? 0x8000 : 0) + ((u32) r >> 3) + 4 * ((g & 0xF8) + 32 * (b & 0xF8));
 }
 
-void Pal_Set(PSX_Point xy, s16 w, const u8* palData, PSX_RECT* rect)
+void Pal_Set(PSX_Point xy, s16 w, const u8* /*palData*/, PSX_RECT* rect)
 {
     rect->x = xy.x;
     rect->y = xy.y;
     rect->w = w;
     rect->h = 1;
-    IRenderer::GetRenderer()->PalSetData(IRenderer::PalRecord{xy.x, xy.y, w}, palData);
 }
