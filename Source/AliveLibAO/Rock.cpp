@@ -56,7 +56,7 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
 
     field_118_vol = 0;
 
-    mShadow = relive_new Shadow();
+    CreateShadow();
 }
 
 Rock::~Rock()
@@ -109,7 +109,7 @@ void Rock::VUpdate()
             else
             {
                 const s16 x_exp = FP_GetExponent(mXPos);
-                const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid(mSpriteScale, x_exp & 0x3FF);
+                const s32 xSnapped = (x_exp & 0xFC00) + SnapToXGrid(GetSpriteScale(), x_exp & 0x3FF);
                 if (abs(xSnapped - x_exp) > 1)
                 {
                     field_114_pLine = field_114_pLine->MoveOnLine(
@@ -125,13 +125,13 @@ void Rock::VUpdate()
                 else
                 {
                     mVelX = FP_FromInteger(0);
-                    mCollectionRect.x = mXPos - (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2));
-                    mCollectionRect.w = mXPos + (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2));
+                    mCollectionRect.x = mXPos - (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
+                    mCollectionRect.w = mXPos + (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
 
                     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
 
                     GetAnimation().mFlags.Clear(AnimFlags::eLoop);
-                    mCollectionRect.y = mYPos - ScaleToGridSize(mSpriteScale);
+                    mCollectionRect.y = mYPos - ScaleToGridSize(GetSpriteScale());
                     mCollectionRect.h = mYPos;
                     field_110_state = States::eOnGround_3;
                     field_124_shimmer_timer = sGnFrame;
@@ -143,8 +143,8 @@ void Rock::VUpdate()
             if (static_cast<s32>(sGnFrame) > field_124_shimmer_timer)
             {
                 New_TintShiny_Particle(
-                    (mSpriteScale * FP_FromInteger(1)) + mXPos,
-                    (mSpriteScale * FP_FromInteger(-7)) + mYPos,
+                    (GetSpriteScale() * FP_FromInteger(1)) + mXPos,
+                    (GetSpriteScale() * FP_FromInteger(-7)) + mYPos,
                     FP_FromDouble(0.3),
                     Layer::eLayer_Foreground_36);
                 field_124_shimmer_timer = (Math_NextRandom() % 16) + sGnFrame + 60;
@@ -251,7 +251,7 @@ void Rock::InTheAir()
             &field_114_pLine,
             &hitX,
             &hitY,
-            mSpriteScale == FP_FromInteger(1) ? kFgWallsOrFloor : kBgWallsOrFloor))
+            GetSpriteScale() == FP_FromInteger(1) ? kFgWallsOrFloor : kBgWallsOrFloor))
     {
         switch (field_114_pLine->mLineType)
         {

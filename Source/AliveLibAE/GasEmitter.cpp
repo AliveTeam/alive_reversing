@@ -68,23 +68,23 @@ void GasEmitter::VUpdate()
         switch (field_2C_gas_colour)
         {
             case relive::Path_GasEmitter::GasColour::eYellow:
-                New_Smoke_Particles(field_30_xpos, field_34_ypos, FP_FromDouble(0.5), 1, 128, 128, 32);
+                New_Smoke_Particles(field_30_xpos, field_34_ypos, FP_FromDouble(0.5), 1, RGB16{ 128, 128, 32 });
                 break;
 
             case relive::Path_GasEmitter::GasColour::eRed:
-                New_Smoke_Particles(field_30_xpos, field_34_ypos, FP_FromDouble(0.5), 1, 128, 32, 32);
+                New_Smoke_Particles(field_30_xpos, field_34_ypos, FP_FromDouble(0.5), 1, RGB16{ 128, 32, 32 });
                 break;
 
             case relive::Path_GasEmitter::GasColour::eGreen:
-                New_Smoke_Particles(field_30_xpos, field_34_ypos, FP_FromDouble(0.5), 1, 32, 128, 32);
+                New_Smoke_Particles(field_30_xpos, field_34_ypos, FP_FromDouble(0.5), 1, RGB16{ 32, 128, 32 });
                 break;
 
             case relive::Path_GasEmitter::GasColour::eBlue:
-                New_Smoke_Particles(field_30_xpos, field_34_ypos, FP_FromDouble(0.5), 1, 32, 32, 128);
+                New_Smoke_Particles(field_30_xpos, field_34_ypos, FP_FromDouble(0.5), 1, RGB16{ 32, 32, 128 });
                 break;
 
             case relive::Path_GasEmitter::GasColour::eWhite:
-                New_Smoke_Particles(field_30_xpos, field_34_ypos, FP_FromDouble(0.5), 1, 128, 128, 128);
+                New_Smoke_Particles(field_30_xpos, field_34_ypos, FP_FromDouble(0.5), 1, RGB16{ 128, 128, 128 });
                 break;
 
             default:

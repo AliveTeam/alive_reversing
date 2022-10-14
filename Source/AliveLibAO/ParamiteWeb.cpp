@@ -44,17 +44,17 @@ ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
     Animation_Init(GetAnimRes(AnimId::ParamiteWeb));
 
     GetAnimation().SetSpriteScale(scale);
-    mSpriteScale = scale;
+    SetSpriteScale(scale);
 
     if (scale == FP_FromInteger(1))
     {
         GetAnimation().SetRenderLayer(Layer::eLayer_RopeWebDrillMeatSaw_24);
-        mScale = Scale::Fg;
+        SetScale(Scale::Fg);
     }
     else
     {
         GetAnimation().SetRenderLayer(Layer::eLayer_RopeWebDrillMeatSaw_Half_5);
-        mScale = Scale::Bg;
+        SetScale(Scale::Bg);
     }
 
     GetAnimation().SetRGB(128, 128, 128);
@@ -75,7 +75,7 @@ ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
             pSegment->mFlags.Set(AnimFlags::eRender);
             pSegment->field_68_anim_ptr = &GetAnimation();
             pSegment->SetRenderLayer(GetAnimation().GetRenderLayer());
-            pSegment->field_6C_scale = mSpriteScale;
+            pSegment->field_6C_scale = GetSpriteScale();
             pSegment->mFlags.Clear(AnimFlags::eSemiTrans);
             pSegment->mFlags.Clear(AnimFlags::eBlending);
         }
@@ -145,7 +145,7 @@ void ParamiteWeb::VRender(PrimHeader** ppOt)
                     s16 r = 128;
                     s16 g = 128;
                     s16 b = 128;
-                    ShadowZone::ShadowZones_Calculate_Colour(FP_GetExponent(mXPos), ypos_int - (idx * field_E6_segment_length), mScale, &r, &g, &b);
+                    ShadowZone::ShadowZones_Calculate_Colour(FP_GetExponent(mXPos), ypos_int - (idx * field_E6_segment_length), GetScale(), &r, &g, &b);
                     field_EC_pRes[idx].SetRGB(r, g, b);
                     field_EC_pRes[idx].VRender(x_start, y_start + mYOffset, ppOt, 0, 0);
                     PSX_RECT rect = {};

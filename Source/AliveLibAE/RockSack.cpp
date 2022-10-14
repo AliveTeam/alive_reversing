@@ -52,20 +52,20 @@ RockSack::RockSack(relive::Path_RockSack* pTlv, const Guid& tlvId)
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
-        mScale = Scale::Bg;
+        SetSpriteScale(FP_FromDouble(0.5));
+        SetScale(Scale::Bg);
     }
     else if (pTlv->mScale == relive::reliveScale::eFull)
     {
-        mSpriteScale = FP_FromInteger(1);
-        mScale = Scale::Fg;
+        SetSpriteScale(FP_FromInteger(1));
+        SetScale(Scale::Fg);
     }
 
     field_11E_rock_amount = pTlv->mRockAmount;
     field_120_can_play_wobble_sound = 1;
     field_122_force_wobble_sound = 1;
 
-    mShadow = relive_new Shadow();
+    CreateShadow();
 
     mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
 }
@@ -122,7 +122,7 @@ void RockSack::VUpdate()
         const PSX_RECT bPlayerRect = sActiveHero->VGetBoundingRect();
         const PSX_RECT bRect = VGetBoundingRect();
 
-        if (bRect.x <= bPlayerRect.w && bRect.w >= bPlayerRect.x && bRect.h >= bPlayerRect.y && bRect.y <= bPlayerRect.h && mSpriteScale == sActiveHero->mSpriteScale)
+        if (bRect.x <= bPlayerRect.w && bRect.w >= bPlayerRect.x && bRect.h >= bPlayerRect.y && bRect.y <= bPlayerRect.h && GetSpriteScale() == sActiveHero->GetSpriteScale())
         {
             if (gpThrowableArray)
             {

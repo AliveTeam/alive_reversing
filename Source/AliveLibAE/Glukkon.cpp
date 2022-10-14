@@ -137,7 +137,7 @@ s32 Glukkon::CreateFromSaveState(const u8* pData)
         pGlukkon->field_1D8_falling_velx_scale_factor = pSaveState->field_58_falling_velx_scale_factor;
         pGlukkon->mCurrentPath = pSaveState->field_18_path;
         pGlukkon->mCurrentLevel = MapWrapper::FromAESaveData(pSaveState->field_1A_level);
-        pGlukkon->mSpriteScale = pSaveState->field_1C_sprite_scale;
+        pGlukkon->SetSpriteScale(pSaveState->field_1C_sprite_scale);
 
         pGlukkon->mRGB.SetRGB(pSaveState->mRingRed, pSaveState->mRingGreen, pSaveState->mRingBlue);
 
@@ -296,7 +296,7 @@ s32 Glukkon::VGetSaveState(u8* pSaveBuffer)
     pSaveState->field_14_yvel = mVelY;
     pSaveState->field_18_path = mCurrentPath;
     pSaveState->field_1A_level = MapWrapper::ToAE(mCurrentLevel);
-    pSaveState->field_1C_sprite_scale = mSpriteScale;
+    pSaveState->field_1C_sprite_scale = GetSpriteScale();
     pSaveState->mRingRed = mRGB.r;
     pSaveState->mRingGreen = mRGB.g;
     pSaveState->mRingBlue = mRGB.b;
@@ -510,7 +510,7 @@ void Glukkon::M_Jump_4_443030()
         BaseAliveGameObjectCollisionLine = nullptr;
     }
 
-    mVelY = (mSpriteScale * sGlukkonVelY_5453DC[GetAnimation().GetCurrentFrame()]);
+    mVelY = (GetSpriteScale() * sGlukkonVelY_5453DC[GetAnimation().GetCurrentFrame()]);
 
     FP velXTableValue = {};
     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
@@ -522,19 +522,19 @@ void Glukkon::M_Jump_4_443030()
         velXTableValue = sGlukkonJumpVelX_54539C[GetAnimation().GetCurrentFrame()];
     }
 
-    mVelX = (mSpriteScale * velXTableValue);
+    mVelX = (GetSpriteScale() * velXTableValue);
 
-    if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX) || WallHit(mSpriteScale * FP_FromInteger(2), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX) || WallHit(GetSpriteScale() * FP_FromInteger(2), mVelX))
     {
         mVelY = FP_FromInteger(0);
         field_1D8_falling_velx_scale_factor = FP_FromDouble(0.35);
         if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
         {
-            mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(6));
+            mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(6));
         }
         else
         {
-            mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(6));
+            mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(6));
         }
         SetAnim(eGlukkonMotions::M_KnockBack_3_442F40, TRUE);
         MapFollowMe(TRUE);
@@ -668,7 +668,7 @@ void Glukkon::M_Fall_7_443510()
 {
     if (mVelX > FP_FromInteger(0))
     {
-        mVelX = mVelX - (mSpriteScale * field_1D8_falling_velx_scale_factor);
+        mVelX = mVelX - (GetSpriteScale() * field_1D8_falling_velx_scale_factor);
         if (mVelX < FP_FromInteger(0))
         {
             mVelX = FP_FromInteger(0);
@@ -676,7 +676,7 @@ void Glukkon::M_Fall_7_443510()
     }
     else if (mVelX < FP_FromInteger(0))
     {
-        mVelX = (mSpriteScale * field_1D8_falling_velx_scale_factor) + mVelX;
+        mVelX = (GetSpriteScale() * field_1D8_falling_velx_scale_factor) + mVelX;
         if (mVelX > FP_FromInteger(0))
         {
             mVelX = FP_FromInteger(0);
@@ -708,7 +708,7 @@ void Glukkon::M_Fall_7_443510()
 
                 GetOnPlatforms();
 
-                if (hitY - BaseAliveGameObjectLastLineYPos > (ScaleToGridSize(mSpriteScale) * FP_FromInteger(7)))
+                if (hitY - BaseAliveGameObjectLastLineYPos > (ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(7)))
                 {
                     SetAnim(eGlukkonMotions::M_DeathFall_8_443760, TRUE);
                     SetBrain(&Glukkon::Brain_4_Death_442010);
@@ -923,7 +923,7 @@ void Glukkon::M_GetShot_21_443A60()
         if (GetAnimation().mFlags.Get(AnimFlags::eRender))
         {
             mBrainSubState = 2;
-            const FP shotXVel = FP_FromInteger(20) * mSpriteScale;
+            const FP shotXVel = FP_FromInteger(20) * GetSpriteScale();
             if (mVelX >= FP_FromInteger(0))
             {
                 mVelX = mVelX <= FP_FromInteger(0) ? FP_FromInteger(0) : shotXVel;
@@ -1012,7 +1012,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
                         kEventAbeOhm,
                         mXPos,
                         mYPos,
-                        AsEventScale(mScale)))
+                        AsEventScale(GetScale())))
                 {
                     field_1D4_timer = sGnFrame + 10;
                 }
@@ -1029,7 +1029,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
                 kEventGlukkonUnknown,
                 mXPos,
                 mYPos,
-                AsEventScale(mScale));
+                AsEventScale(GetScale()));
             if (pEvent17 && pEvent17 != this)
             {
                 field_1D4_timer = sGnFrame + 20;
@@ -1060,7 +1060,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
                         kEventAbeOhm,
                         mXPos,
                         mYPos,
-                        AsEventScale(mScale)))
+                        AsEventScale(GetScale())))
                 {
                     field_1D4_timer = sGnFrame + 10;
                 }
@@ -1079,7 +1079,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
                     kEventGlukkonUnknown,
                     mXPos,
                     mYPos,
-                    AsEventScale(mScale));
+                    AsEventScale(GetScale()));
                 if (pEvent17_1 && pEvent17_1 != this)
                 {
                     field_1D4_timer = sGnFrame + 20;
@@ -1148,7 +1148,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
                         kEventAbeOhm,
                         mXPos,
                         mYPos,
-                        AsEventScale(mScale)))
+                        AsEventScale(GetScale())))
                 {
                     field_1D4_timer = sGnFrame + 10;
                 }
@@ -1165,7 +1165,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
                 kEventGlukkonUnknown,
                 mXPos,
                 mYPos,
-                AsEventScale(mScale));
+                AsEventScale(GetScale()));
             if (pEvent17 && pEvent17 != this)
             {
                 field_1D4_timer = sGnFrame + 20;
@@ -1189,7 +1189,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
                         kEventAbeOhm,
                         mXPos,
                         mYPos,
-                        AsEventScale(mScale)))
+                        AsEventScale(GetScale())))
                 {
                     field_1D4_timer = sGnFrame + 10;
                 }
@@ -1207,7 +1207,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
                     kEventGlukkonUnknown,
                     mXPos,
                     mYPos,
-                    AsEventScale(mScale));
+                    AsEventScale(GetScale()));
                 if (pEvent17_3 && pEvent17_3 != this)
                 {
                     field_1D4_timer = sGnFrame + 20;
@@ -1591,9 +1591,9 @@ s16 Glukkon::Brain_3_PlayerControlled_441A30()
                     const FP xRand = FP_FromInteger(Math_RandomRange(-20, 20));
                     const FP yRand = FP_FromInteger(Math_RandomRange(20, 50));
                     New_TintChant_Particle(
-                        (mSpriteScale * xRand) + mXPos,
-                        mYPos - (mSpriteScale * yRand),
-                        mSpriteScale,
+                        (GetSpriteScale() * xRand) + mXPos,
+                        mYPos - (GetSpriteScale() * yRand),
+                        GetSpriteScale(),
                         Layer::eLayer_0);
                 }
 
@@ -1727,7 +1727,7 @@ s16 Glukkon::Brain_4_Death_442010()
             }
             else
             {
-                mSpriteScale -= FP_FromDouble(0.008);
+                SetSpriteScale(GetSpriteScale() - FP_FromDouble(0.008));
 
                 mRGB.r -= 2;
                 mRGB.g -= 2;
@@ -1747,28 +1747,26 @@ s16 Glukkon::Brain_4_Death_442010()
                 mYPos,
                 mVelX,
                 mVelY,
-                mSpriteScale,
+                GetSpriteScale(),
                 0);
 
             relive_new Blood(
                 mXPos,
-                mYPos - (FP_FromInteger(30) * mSpriteScale),
+                mYPos - (FP_FromInteger(30) * GetSpriteScale()),
                 FP_FromInteger(0),
                 FP_FromInteger(0),
-                mSpriteScale,
+                GetSpriteScale(),
                 20);
 
             New_Smoke_Particles(
                 mXPos,
-                mYPos - (FP_FromInteger(30) * mSpriteScale),
-                mSpriteScale,
+                mYPos - (FP_FromInteger(30) * GetSpriteScale()),
+                GetSpriteScale(),
                 3,
-                128u,
-                128u,
-                128u);
+                RGB16{128, 128, 128});
 
-            SfxPlayMono(relive::SoundEffects::KillEffect, 128, mSpriteScale);
-            SfxPlayMono(relive::SoundEffects::FallingItemHit, 90, mSpriteScale);
+            SfxPlayMono(relive::SoundEffects::KillEffect, 128, GetSpriteScale());
+            SfxPlayMono(relive::SoundEffects::FallingItemHit, 90, GetSpriteScale());
 
             GetAnimation().mFlags.Clear(AnimFlags::eAnimate);
             GetAnimation().mFlags.Clear(AnimFlags::eRender);
@@ -1876,8 +1874,8 @@ s16 Glukkon::Brain_5_WaitToSpawn_442490()
 
             New_DestroyOrCreateObject_Particle(
                 FP_FromInteger((bRect.x + bRect.w) / 2),
-                FP_FromInteger((bRect.y + bRect.h) / 2) + (mSpriteScale * FP_FromInteger(60)),
-                mSpriteScale);
+                FP_FromInteger((bRect.y + bRect.h) / 2) + (GetSpriteScale() * FP_FromInteger(60)),
+                GetSpriteScale());
 
             relive_new ParticleBurst(
                 mXPos,
@@ -1920,12 +1918,12 @@ void Glukkon::Init()
     {
         if (field_1A8_tlvData.mSpawnType == relive::Path_Glukkon::SpawnType::eFacingLeft)
         {
-            mXPos -= ScaleToGridSize(mSpriteScale);
+            mXPos -= ScaleToGridSize(GetSpriteScale());
             GetAnimation().mFlags.Clear(AnimFlags::eFlipX);
         }
         else if (field_1A8_tlvData.mSpawnType == relive::Path_Glukkon::SpawnType::eFacingRight)
         {
-            mXPos += ScaleToGridSize(mSpriteScale);
+            mXPos += ScaleToGridSize(GetSpriteScale());
             GetAnimation().mFlags.Set(AnimFlags::eFlipX);
         }
         mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eCanBePossessed);
@@ -1944,14 +1942,14 @@ void Glukkon::Init()
 
     if (field_1A8_tlvData.mScale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
-        mScale = Scale::Bg;
+        SetSpriteScale(FP_FromDouble(0.5));
+        SetScale(Scale::Bg);
         GetAnimation().SetRenderLayer(Layer::eLayer_8);
     }
     else if (field_1A8_tlvData.mScale == relive::reliveScale::eFull)
     {
-        mSpriteScale = FP_FromInteger(1);
-        mScale = Scale::Fg;
+        SetSpriteScale(FP_FromInteger(1));
+        SetScale(Scale::Fg);
         GetAnimation().SetRenderLayer(Layer::eLayer_27);
     }
 
@@ -1965,7 +1963,7 @@ void Glukkon::Init()
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            mScale == Scale::Fg ? kFgFloor : kBgFloor)
+            GetScale() == Scale::Fg ? kFgFloor : kBgFloor)
         == 1)
     {
         mYPos = hitY;
@@ -1987,9 +1985,9 @@ void Glukkon::Init()
     field_204_getting_shot_timer = 0;
     field_1DC_previous_ypos = mYPos;
 
-    if (!mShadow)
+    if (!GetShadow())
     {
-        mShadow = relive_new Shadow();
+        CreateShadow();
     }
 }
 
@@ -2308,13 +2306,13 @@ void Glukkon::HandleInput()
             FP xOff = {};
             if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
-                xOff = -ScaleToGridSize(mSpriteScale);
+                xOff = -ScaleToGridSize(GetSpriteScale());
             }
             else
             {
-                xOff = ScaleToGridSize(mSpriteScale);
+                xOff = ScaleToGridSize(GetSpriteScale());
             }
-            if (!WallHit(mSpriteScale * FP_FromInteger(50), xOff))
+            if (!WallHit(GetSpriteScale() * FP_FromInteger(50), xOff))
             {
                 SetAnim(mNextMotion, TRUE);
             }
@@ -2354,7 +2352,7 @@ s16 Glukkon::ShouldPanic(s16 panicEvenIfNotFacingMe)
             kEventAbeOhm,
             mXPos,
             mYPos,
-            AsEventScale(mScale)))
+            AsEventScale(GetScale())))
     {
         return 1;
     }
@@ -2370,13 +2368,13 @@ s16 Glukkon::ShouldPanic(s16 panicEvenIfNotFacingMe)
         kEventSpeaking,
         mXPos,
         mYPos,
-        AsEventScale(mScale));
+        AsEventScale(GetScale()));
     return pSpeakEvent && pSpeakEvent == sControlledCharacter;
 }
 
 s16 Glukkon::PathBlocked(FP /*a2*/, s16 checkBounds)
 {
-    FP gridSize = ScaleToGridSize(mSpriteScale);
+    FP gridSize = ScaleToGridSize(GetSpriteScale());
     if (mCurrentMotion == eGlukkonMotions::M_Jump_4_443030)
     {
         gridSize = (gridSize * FP_FromInteger(4));
@@ -2396,7 +2394,7 @@ s16 Glukkon::PathBlocked(FP /*a2*/, s16 checkBounds)
         direction = relive::Path_EnemyStopper::StopDirection::Right;
     }
 
-    if (WallHit(mSpriteScale * FP_FromInteger(50), gridSize * FP_FromInteger(1)))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(50), gridSize * FP_FromInteger(1)))
     {
         return 1;
     }
@@ -2405,7 +2403,7 @@ s16 Glukkon::PathBlocked(FP /*a2*/, s16 checkBounds)
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos), // TODO Abs() ??
         FP_GetExponent(mXPos + gridSize),
-        FP_GetExponent(mYPos - ScaleToGridSize(mSpriteScale)),
+        FP_GetExponent(mYPos - ScaleToGridSize(GetSpriteScale())),
         ReliveTypes::eSlamDoor);
 
     auto pSlamDoorTlv = static_cast<relive::Path_SlamDoor*>(BaseAliveGameObjectPathTLV);
@@ -2419,7 +2417,7 @@ s16 Glukkon::PathBlocked(FP /*a2*/, s16 checkBounds)
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos + gridSize),
-        FP_GetExponent(mYPos - ScaleToGridSize(mSpriteScale)),
+        FP_GetExponent(mYPos - ScaleToGridSize(GetSpriteScale())),
         ReliveTypes::eEnemyStopper);
 
     auto pEnemyStopper = static_cast<relive::Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
@@ -2439,7 +2437,7 @@ s16 Glukkon::PathBlocked(FP /*a2*/, s16 checkBounds)
             FP_GetExponent(mXPos),
             FP_GetExponent(mYPos), // TODO: Abs() ??
             FP_GetExponent(mXPos + gridSize),
-            FP_GetExponent(mYPos - ScaleToGridSize(mSpriteScale)),
+            FP_GetExponent(mYPos - ScaleToGridSize(GetSpriteScale())),
             boundType))
     {
         return 1;
@@ -2543,19 +2541,19 @@ s16 Glukkon::DoMovement()
         mVelX = FP_FromInteger(0);
     }
 
-    mVelX = mVelX * mSpriteScale;
+    mVelX = mVelX * GetSpriteScale();
 
-    if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
         field_1D8_falling_velx_scale_factor = FP_FromInteger(0);
         mVelY = FP_FromInteger(0);
         if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
         {
-            mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(6));
+            mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(6));
         }
         else
         {
-            mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(6));
+            mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(6));
         }
         MapFollowMe(TRUE);
         SetAnim(eGlukkonMotions::M_KnockBack_3_442F40, TRUE);
@@ -2661,7 +2659,7 @@ void Glukkon::PlaySound(s32 sndIdx, Glukkon* pGlukkon)
         pitch = 127 * pitchCap;
     }
 
-    if (pGlukkon->mSpriteScale == FP_FromInteger(1))
+    if (pGlukkon->GetSpriteScale() == FP_FromInteger(1))
     {
         volumeRight = defaultSndIdxVol;
     }
@@ -2709,7 +2707,7 @@ void Glukkon::PlaySound(s32 sndIdx, Glukkon* pGlukkon)
             return;
     }
 
-    if (pGlukkon->mSpriteScale == FP_FromDouble(0.5)) //TODO figure out if this does actually happen
+    if (pGlukkon->GetSpriteScale() == FP_FromDouble(0.5)) //TODO figure out if this does actually happen
     {
         volumeLeft = FP_GetExponent(FP_FromInteger(volumeLeft * 2) / FP_FromInteger(3));
         volumeRight = FP_GetExponent(FP_FromInteger(volumeRight * 2) / FP_FromInteger(3));
@@ -2825,7 +2823,7 @@ void Glukkon::PlaySound_GameSpeak(GlukkonSpeak sndIdx, s16 volume, s16 pitch, Gl
     }
     if (pGlukkon)
     {
-        if (pGlukkon->mSpriteScale == FP_FromDouble(0.5))
+        if (pGlukkon->GetSpriteScale() == FP_FromDouble(0.5))
         {
             calcedVolume = FP_GetExponent(FP_FromInteger(calcedVolume * 2) / FP_FromInteger(3));
         }
@@ -2851,7 +2849,7 @@ bool Glukkon::IsLineOfSightBetween(Glukkon* pGlukkon, BaseAliveGameObject* pOthe
                &pathLine,
                &hitX,
                &hitY,
-               pGlukkon->mScale == Scale::Fg ? kFgFloorWallOrCeiling
+               pGlukkon->GetScale() == Scale::Fg ? kFgFloorWallOrCeiling
                : kBgFloorWallOrCeiling)
         != 1;
 }
@@ -2874,7 +2872,7 @@ void Glukkon::SlowDown(FP speed)
         {
             if (mVelX < FP_FromInteger(0))
             {
-                mVelX = (mSpriteScale * speed) + mVelX;
+                mVelX = (GetSpriteScale() * speed) + mVelX;
                 if (mVelX > FP_FromInteger(0))
                 {
                     mVelX = FP_FromInteger(0);
@@ -2883,7 +2881,7 @@ void Glukkon::SlowDown(FP speed)
         }
         else
         {
-            mVelX = mVelX - (mSpriteScale * speed);
+            mVelX = mVelX - (GetSpriteScale() * speed);
             if (mVelX < FP_FromInteger(0))
             {
                 mVelX = FP_FromInteger(0);
@@ -2935,24 +2933,24 @@ s16 Glukkon::VTakeDamage(BaseGameObject* pFrom)
                         const FP yRand = (FP_FromInteger(Math_NextRandom() % 16)) - FP_FromInteger(8);
                         const FP xRand = FP_FromInteger(Math_NextRandom() & 0xF); // TODO: Might be wrong as was trying to make this abs() but result is unsigned anyway ??
 
-                        const FP xPos = (mSpriteScale * (pBullet->mXDistance <= FP_FromInteger(0) ? -FP_FromInteger(6) : FP_FromInteger(6)));
+                        const FP xPos = (GetSpriteScale() * (pBullet->mXDistance <= FP_FromInteger(0) ? -FP_FromInteger(6) : FP_FromInteger(6)));
                         relive_new Blood(
                             xPos + mXPos,
-                            mYPos - (FP_FromInteger(25) * mSpriteScale),
+                            mYPos - (FP_FromInteger(25) * GetSpriteScale()),
                             ((pBullet->mXDistance <= FP_FromInteger(0) ? -FP_FromInteger(1) : FP_FromInteger(1)) * xRand + FP_FromInteger(16)),
                             yRand,
-                            mSpriteScale,
+                            GetSpriteScale(),
                             12);
                     }
 
                     {
-                        const FP xPos = (mSpriteScale * (pBullet->mXDistance <= FP_FromInteger(0) ? -FP_FromInteger(12) : FP_FromInteger(12)));
+                        const FP xPos = (GetSpriteScale() * (pBullet->mXDistance <= FP_FromInteger(0) ? -FP_FromInteger(12) : FP_FromInteger(12)));
                         relive_new Blood(
                             xPos + mXPos,
-                            mYPos - (FP_FromInteger(25) * mSpriteScale),
+                            mYPos - (FP_FromInteger(25) * GetSpriteScale()),
                             pBullet->mXDistance <= FP_FromInteger(0) ? -FP_FromInteger(6) : FP_FromInteger(6),
                             FP_FromInteger(0),
-                            mSpriteScale,
+                            GetSpriteScale(),
                             8);
                     }
                 }
@@ -2963,10 +2961,10 @@ s16 Glukkon::VTakeDamage(BaseGameObject* pFrom)
                 {
                     relive_new Blood(
                         mXPos,
-                        mYPos - (FP_FromInteger(25) * mSpriteScale),
+                        mYPos - (FP_FromInteger(25) * GetSpriteScale()),
                         FP_FromInteger(0),
                         FP_FromInteger(0),
-                        mSpriteScale,
+                        GetSpriteScale(),
                         25);
                 }
                 break;

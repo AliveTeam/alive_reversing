@@ -150,22 +150,22 @@ CrawlingSlig::CrawlingSlig(relive::Path_CrawlingSlig* pTlv, const Guid& guid)
 
     mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanBePossessed);
 
-    mShadow = relive_new Shadow();
+    CreateShadow();
 
     mGuid = guid;
     mTlv = *pTlv;
 
     if (mTlv.mScale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
+        SetSpriteScale(FP_FromDouble(0.5));
         GetAnimation().SetRenderLayer(Layer::eLayer_8);
-        mScale = Scale::Bg;
+        SetScale(Scale::Bg);
     }
     else if (mTlv.mScale == relive::reliveScale::eFull)
     {
-        mSpriteScale = FP_FromInteger(1);
+        SetSpriteScale(FP_FromInteger(1));
         GetAnimation().SetRenderLayer(Layer::eLayer_27);
-        mScale = Scale::Fg;
+        SetScale(Scale::Fg);
     }
 
     mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
@@ -178,7 +178,7 @@ CrawlingSlig::CrawlingSlig(relive::Path_CrawlingSlig* pTlv, const Guid& guid)
     }
     else
     {
-        if (mSpriteScale == FP_FromInteger(1))
+        if (GetSpriteScale() == FP_FromInteger(1))
         {
             GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_25);
         }
@@ -209,7 +209,7 @@ CrawlingSlig::CrawlingSlig(relive::Path_CrawlingSlig* pTlv, const Guid& guid)
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            mScale == Scale::Fg ? kFgFloor : kBgFloor)
+            GetScale() == Scale::Fg ? kFgFloor : kBgFloor)
         == 1)
     {
         mYPos = hitY;
@@ -251,7 +251,7 @@ s32 CrawlingSlig::CreateFromSaveState(const u8* pBuffer)
 
         pCrawlingSlig->mCurrentPath = pState->field_18_path_number;
         pCrawlingSlig->mCurrentLevel = MapWrapper::FromAESaveData(pState->field_1A_lvl_number);
-        pCrawlingSlig->mSpriteScale = pState->field_1C_sprite_scale;
+        pCrawlingSlig->SetSpriteScale(pState->field_1C_sprite_scale);
 
         pCrawlingSlig->field_1A4_r = pState->mRingRed;
         pCrawlingSlig->field_1A6_g = pState->mRingGreen;
@@ -321,7 +321,7 @@ s32 CrawlingSlig::VGetSaveState(u8* pSaveBuffer)
 
     pState->field_18_path_number = mCurrentPath;
     pState->field_1A_lvl_number = MapWrapper::ToAE(mCurrentLevel);
-    pState->field_1C_sprite_scale = mSpriteScale;
+    pState->field_1C_sprite_scale = GetSpriteScale();
 
     pState->mRingRed = mRGB.r;
     pState->mRingGreen = mRGB.g;
@@ -476,7 +476,7 @@ void CrawlingSlig::VUpdate()
 
 s16 CrawlingSlig::HandleEnemyStopper(FP /*velX*/)
 {
-    FP gridSizeDirected = ScaleToGridSize(mSpriteScale);
+    FP gridSizeDirected = ScaleToGridSize(GetSpriteScale());
     relive::Path_EnemyStopper::StopDirection direction = relive::Path_EnemyStopper::StopDirection::Both;
     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
@@ -488,12 +488,12 @@ s16 CrawlingSlig::HandleEnemyStopper(FP /*velX*/)
         direction = relive::Path_EnemyStopper::StopDirection::Right;
     }
 
-    if (WallHit(mSpriteScale * FP_FromInteger(30), gridSizeDirected * FP_FromDouble(1.5)))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(30), gridSizeDirected * FP_FromDouble(1.5)))
     {
         return 1;
     }
 
-    const FP gridSize = ScaleToGridSize(mSpriteScale);
+    const FP gridSize = ScaleToGridSize(GetSpriteScale());
     auto pSlamDoor = static_cast<relive::Path_SlamDoor*>(sPathInfo->TLV_Get_At_4DB4B0(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
@@ -534,7 +534,7 @@ relive::Path_TLV* CrawlingSlig::FindPantsOrWings()
 
 BaseGameObject* CrawlingSlig::FindSligButton()
 {
-    return FindObjectOfType(ReliveTypes::eSligButton, mXPos, mYPos - (FP_FromInteger(30) * mSpriteScale));
+    return FindObjectOfType(ReliveTypes::eSligButton, mXPos, mYPos - (FP_FromInteger(30) * GetSpriteScale()));
 }
 
 void CrawlingSlig::VOnTrapDoorOpen()
@@ -769,7 +769,7 @@ s16 CrawlingSlig::Brain_0_Sleeping()
         return mBrainSubState;
     }
 
-    if (mSpriteScale == FP_FromInteger(1))
+    if (GetSpriteScale() == FP_FromInteger(1))
     {
         GetAnimation().SetRenderLayer(Layer::eLayer_27);
     }
@@ -882,11 +882,11 @@ s16 CrawlingSlig::Brain_2_PanicGetALocker()
             FP gridScale = {};
             if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
-                gridScale = -ScaleToGridSize(mSpriteScale);
+                gridScale = -ScaleToGridSize(GetSpriteScale());
             }
             else
             {
-                gridScale = ScaleToGridSize(mSpriteScale);
+                gridScale = ScaleToGridSize(GetSpriteScale());
             }
 
             if (!WallHit(FP_FromInteger(35), gridScale))
@@ -979,11 +979,11 @@ s16 CrawlingSlig::Brain_2_PanicGetALocker()
             FP gridScale = {};
             if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
-                gridScale = -ScaleToGridSize(mSpriteScale);
+                gridScale = -ScaleToGridSize(GetSpriteScale());
             }
             else
             {
-                gridScale = ScaleToGridSize(mSpriteScale);
+                gridScale = ScaleToGridSize(GetSpriteScale());
             }
 
             if (WallHit(FP_FromInteger(35), gridScale))
@@ -1058,9 +1058,9 @@ s16 CrawlingSlig::Brain_3_Possessed()
                 if (!(static_cast<s32>(sGnFrame) % 4))
                 {
                     New_TintChant_Particle(
-                        (mSpriteScale * FP_FromInteger(Math_RandomRange(-20, 20))) + mXPos,
-                        mYPos - (mSpriteScale * FP_FromInteger(Math_RandomRange(0, 30))),
-                        mSpriteScale,
+                        (GetSpriteScale() * FP_FromInteger(Math_RandomRange(-20, 20))) + mXPos,
+                        mYPos - (GetSpriteScale() * FP_FromInteger(Math_RandomRange(0, 30))),
+                        GetSpriteScale(),
                         Layer::eLayer_0);
                 }
 
@@ -1132,7 +1132,7 @@ s16 CrawlingSlig::Brain_4_GetKilled()
         case Brain_4_GetKilled::eBrain4_Vaporize_1:
             if (field_1AC_timer < static_cast<s32>((sGnFrame + 80)))
             {
-                mSpriteScale -= FP_FromDouble(0.008);
+                SetSpriteScale(GetSpriteScale() - FP_FromDouble(0.008));
                 mRGB.r -= 2;
                 mRGB.g -= 2;
                 mRGB.b -= 2;
@@ -1157,28 +1157,26 @@ s16 CrawlingSlig::Brain_4_GetKilled()
                 mYPos,
                 mVelX,
                 mVelY,
-                mSpriteScale,
+                GetSpriteScale(),
                 0);
 
             relive_new Blood(
                 mXPos,
-                mYPos - (FP_FromInteger(30) * mSpriteScale),
+                mYPos - (FP_FromInteger(30) * GetSpriteScale()),
                 FP_FromInteger(0),
                 FP_FromInteger(0),
-                mSpriteScale,
+                GetSpriteScale(),
                 20);
 
             New_Smoke_Particles(
                 mXPos,
-                mYPos - (FP_FromInteger(30) * mSpriteScale),
-                mSpriteScale,
+                mYPos - (FP_FromInteger(30) * GetSpriteScale()),
+                GetSpriteScale(),
                 3,
-                128u,
-                128u,
-                128u);
+                RGB16{128, 128, 128});
 
-            SfxPlayMono(relive::SoundEffects::KillEffect, 128, mSpriteScale);
-            SfxPlayMono(relive::SoundEffects::FallingItemHit, 90, mSpriteScale);
+            SfxPlayMono(relive::SoundEffects::KillEffect, 128, GetSpriteScale());
+            SfxPlayMono(relive::SoundEffects::FallingItemHit, 90, GetSpriteScale());
 
             GetAnimation().mFlags.Clear(AnimFlags::eRender);
             GetAnimation().mFlags.Clear(AnimFlags::eAnimate);
@@ -1286,8 +1284,8 @@ void CrawlingSlig::Motion_1_UsingButton()
         {
             New_DestroyOrCreateObject_Particle(
                 mXPos,
-                (mSpriteScale * FP_FromInteger(45)) + mYPos,
-                mSpriteScale);
+                (GetSpriteScale() * FP_FromInteger(45)) + mYPos,
+                GetSpriteScale());
         }
         else if (static_cast<s32>(sGnFrame) > field_1AC_timer)
         {
@@ -1302,7 +1300,7 @@ void CrawlingSlig::Motion_1_UsingButton()
                 {
                     field_1D8_obj_id = pWalkingSlig->mBaseGameObjectId;
 
-                    pWalkingSlig->mSpriteScale = mSpriteScale;
+                    pWalkingSlig->SetSpriteScale(GetSpriteScale());
 
                     pWalkingSlig->GetAnimation().mFlags.Set(AnimFlags::eFlipX, GetAnimation().mFlags.Get(AnimFlags::eFlipX));
 
@@ -1334,7 +1332,7 @@ void CrawlingSlig::Motion_1_UsingButton()
                     pFlyingSlig->mYPos = mYPos - FP_FromInteger(15);
                     pFlyingSlig->field_294_nextXPos = mXPos;
                     pFlyingSlig->field_298_nextYPos = pFlyingSlig->mYPos;
-                    pFlyingSlig->mSpriteScale = mSpriteScale;
+                    pFlyingSlig->SetSpriteScale(GetSpriteScale());
                     pFlyingSlig->GetAnimation().mFlags.Set(AnimFlags::eFlipX, GetAnimation().mFlags.Get(AnimFlags::eFlipX));
 
                     if (BrainIs(&CrawlingSlig::Brain_3_Possessed))
@@ -1345,11 +1343,11 @@ void CrawlingSlig::Motion_1_UsingButton()
                         pFlyingSlig->mAbePath = mAbePath;
                         pFlyingSlig->mAbeCamera = mAbeCamera;
                         sControlledCharacter = pFlyingSlig;
-                        pFlyingSlig->field_2A8_max_x_speed = (FP_FromDouble(5.5) * mSpriteScale);
-                        pFlyingSlig->field_2AC_up_vel = (-FP_FromDouble(5.5) * mSpriteScale);
-                        pFlyingSlig->field_2B0_down_vel = (FP_FromDouble(5.5) * mSpriteScale);
-                        pFlyingSlig->field_2B4_max_slow_down = (FP_FromDouble(0.3) * mSpriteScale);
-                        pFlyingSlig->field_2B8_max_speed_up = (FP_FromDouble(0.8) * mSpriteScale);
+                        pFlyingSlig->field_2A8_max_x_speed = (FP_FromDouble(5.5) * GetSpriteScale());
+                        pFlyingSlig->field_2AC_up_vel = (-FP_FromDouble(5.5) * GetSpriteScale());
+                        pFlyingSlig->field_2B0_down_vel = (FP_FromDouble(5.5) * GetSpriteScale());
+                        pFlyingSlig->field_2B4_max_slow_down = (FP_FromDouble(0.3) * GetSpriteScale());
+                        pFlyingSlig->field_2B8_max_speed_up = (FP_FromDouble(0.8) * GetSpriteScale());
                     }
                     else
                     {
@@ -1447,7 +1445,7 @@ void CrawlingSlig::Motion_5_Falling()
 {
     if (mVelX > FP_FromInteger(0))
     {
-        mVelX = mVelX - (mSpriteScale * field_1B0_velx_scale_factor);
+        mVelX = mVelX - (GetSpriteScale() * field_1B0_velx_scale_factor);
         if (mVelX < FP_FromInteger(0))
         {
             mVelX = FP_FromInteger(0);
@@ -1455,7 +1453,7 @@ void CrawlingSlig::Motion_5_Falling()
     }
     else if (mVelX < FP_FromInteger(0))
     {
-        mVelX = (mSpriteScale * field_1B0_velx_scale_factor) + mVelX;
+        mVelX = (GetSpriteScale() * field_1B0_velx_scale_factor) + mVelX;
         if (mVelX > FP_FromInteger(0))
         {
             mVelX = FP_FromInteger(0);
@@ -1485,7 +1483,7 @@ void CrawlingSlig::Motion_5_Falling()
                 mYPos = hitY;
                 mXPos = hitX;
                 MapFollowMe(TRUE);
-                if ((hitY - BaseAliveGameObjectLastLineYPos) > (ScaleToGridSize(mSpriteScale) * FP_FromInteger(5)))
+                if ((hitY - BaseAliveGameObjectLastLineYPos) > (ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(5)))
                 {
                     SetBrain(&CrawlingSlig::Brain_4_GetKilled);
                     mBrainSubState = Brain_4_GetKilled::eBrain4_GibsDeath_2;
@@ -1570,14 +1568,14 @@ void CrawlingSlig::Motion_9_Snoozing()
             FP xOff = {};
             if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
-                xOff = -(mSpriteScale * FP_FromInteger(-10));
+                xOff = -(GetSpriteScale() * FP_FromInteger(-10));
             }
             else
             {
-                xOff = (mSpriteScale * FP_FromInteger(-10));
+                xOff = (GetSpriteScale() * FP_FromInteger(-10));
             }
 
-            const FP yOff = (mSpriteScale * FP_FromInteger(-10));
+            const FP yOff = (GetSpriteScale() * FP_FromInteger(-10));
             relive_new SnoozeParticle(
                 mXPos + xOff,
                 mYPos + yOff,
@@ -1610,14 +1608,14 @@ void CrawlingSlig::Motion_10_PushingWall()
             FP yPos = {};
             if (flipX)
             {
-                yPos = -ScaleToGridSize(mSpriteScale);
+                yPos = -ScaleToGridSize(GetSpriteScale());
             }
             else
             {
-                yPos = ScaleToGridSize(mSpriteScale);
+                yPos = ScaleToGridSize(GetSpriteScale());
             }
 
-            if (!WallHit(mSpriteScale * FP_FromInteger(30), yPos))
+            if (!WallHit(GetSpriteScale() * FP_FromInteger(30), yPos))
             {
                 Set_AnimAndMotion(CrawlingSligMotion::Motion_3_Crawling, TRUE);
             }
@@ -1813,14 +1811,14 @@ void CrawlingSlig::HandleCommon()
             FP gridScale = {};
             if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
-                gridScale = -ScaleToGridSize(mSpriteScale);
+                gridScale = -ScaleToGridSize(GetSpriteScale());
             }
             else
             {
-                gridScale = ScaleToGridSize(mSpriteScale);
+                gridScale = ScaleToGridSize(GetSpriteScale());
             }
 
-            if (WallHit(mSpriteScale * FP_FromInteger(30), gridScale))
+            if (WallHit(GetSpriteScale() * FP_FromInteger(30), gridScale))
             {
                 if (sControlledCharacter == this)
                 {
@@ -1857,21 +1855,21 @@ s16 CrawlingSlig::CanCrawl()
 {
     mVelX = sCrawlingSligXVels_54471C[GetAnimation().GetCurrentFrame()];
 
-    FP gridScale = ScaleToGridSize(mSpriteScale);
+    FP gridScale = ScaleToGridSize(GetSpriteScale());
     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         mVelX = -mVelX;
         gridScale = -gridScale;
     }
 
-    mVelX = (mVelX * mSpriteScale);
+    mVelX = (mVelX * GetSpriteScale());
 
-    if (sControlledCharacter == this && WallHit(mSpriteScale * FP_FromInteger(30), gridScale))
+    if (sControlledCharacter == this && WallHit(GetSpriteScale() * FP_FromInteger(30), gridScale))
     {
         field_1B0_velx_scale_factor = FP_FromInteger(0);
         mVelY = FP_FromInteger(0);
         Set_AnimAndMotion(CrawlingSligMotion::Motion_10_PushingWall, TRUE);
-        const s32 snappedX = SnapToXGrid(mSpriteScale, FP_GetExponent(mXPos));
+        const s32 snappedX = SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos));
         mVelX = ((FP_FromInteger(snappedX) - mXPos) / FP_FromInteger(4));
         Slig_GameSpeak_SFX_4C04F0(static_cast<SligSpeak>(Math_RandomRange(static_cast<s32>(SligSpeak::eOuch1_13), static_cast<s32>(SligSpeak::eOuch2_14))), 0, 0, this);
         return FALSE;

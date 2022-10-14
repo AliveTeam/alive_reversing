@@ -83,7 +83,7 @@ SlingMudokon::SlingMudokon(relive::Path_SlingMudokon* pTlv, const Guid& tlvId)
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            mSpriteScale != FP_FromDouble(0.5) ? kFgFloor : kBgFloor)
+            GetSpriteScale() != FP_FromDouble(0.5) ? kFgFloor : kBgFloor)
         == 1)
     {
         mXPos = hitX;
@@ -92,13 +92,13 @@ SlingMudokon::SlingMudokon(relive::Path_SlingMudokon* pTlv, const Guid& tlvId)
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
-        mScale = Scale::Bg;
+        SetSpriteScale(FP_FromDouble(0.5));
+        SetScale(Scale::Bg);
     }
     else
     {
-        mSpriteScale = FP_FromInteger(1);
-        mScale = Scale::Fg;
+        SetSpriteScale(FP_FromInteger(1));
+        SetScale(Scale::Fg);
     }
 
     if (pTlv->mDontWhistlePassword == relive::reliveChoice::eYes)
@@ -312,7 +312,7 @@ void SlingMudokon::Motion_3_ShootStart()
                 bulletXPos,
                 mYPos - FP_FromInteger(24),
                 xDistance,
-                mSpriteScale,
+                GetSpriteScale(),
                 0);
             SetCurrentMotion(eSlingMudMotions::Motion_4_ShootEnd);
         }
@@ -533,8 +533,8 @@ s16 SlingMudokon::Brain_1_Spawn()
             SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 45, 400);
             New_DestroyOrCreateObject_Particle(
                 mXPos,
-                (mSpriteScale * FP_FromInteger(20)) + mYPos,
-                mSpriteScale);
+                (GetSpriteScale() * FP_FromInteger(20)) + mYPos,
+                GetSpriteScale());
             field_140_timer = sGnFrame + 2;
             return Brain_1_Spawn::eBrain1_CreateFlash_2;
 
@@ -597,7 +597,7 @@ s16 SlingMudokon::Brain_1_Spawn()
             break;
 
         case Brain_1_Spawn::eBrain1_PrepareToShoot_5:
-            if (VIsObjNearby((ScaleToGridSize(mSpriteScale) * FP_FromInteger(4)), sActiveHero))
+            if (VIsObjNearby((ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(4)), sActiveHero))
             {
                 field_11E_flags.Set(Flags_11E::eBit1_bDontSetDestroyed);
                 SetNextMotion(eSlingMudMotions::Motion_3_ShootStart);
@@ -644,7 +644,7 @@ s16 SlingMudokon::Brain_1_Spawn()
                         AnimId::Dove_Flying,
                         mXPos + FP_FromInteger(Math_NextRandom() % 16),
                         mYPos - FP_FromInteger(Math_NextRandom() % 16),
-                        mSpriteScale);
+                        GetSpriteScale());
                     if (pDove)
                     {
                         if (pDove->GetAnimation().mFlags.Get(AnimFlags::eFlipX))
@@ -672,7 +672,7 @@ s16 SlingMudokon::Brain_1_Spawn()
                 }
 
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-                New_DestroyOrCreateObject_Particle(mXPos, (mSpriteScale * FP_FromInteger(20)) + mYPos, mSpriteScale);
+                New_DestroyOrCreateObject_Particle(mXPos, (GetSpriteScale() * FP_FromInteger(20)) + mYPos, GetSpriteScale());
 
                 relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
             }
@@ -703,8 +703,8 @@ s16 SlingMudokon::Brain_2_AskForPassword()
 
             New_DestroyOrCreateObject_Particle(
                 mXPos,
-                (mSpriteScale * FP_FromInteger(20)) + mYPos,
-                mSpriteScale);
+                (GetSpriteScale() * FP_FromInteger(20)) + mYPos,
+                GetSpriteScale());
 
             field_140_timer = sGnFrame + 2;
             return 2;
@@ -885,7 +885,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
             break;
 
         case 7:
-            if (VIsObjNearby((ScaleToGridSize(mSpriteScale) * FP_FromInteger(4)), sActiveHero))
+            if (VIsObjNearby((ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(4)), sActiveHero))
             {
                 field_11E_flags.Set(Flags_11E::eBit1_bDontSetDestroyed);
                 SetNextMotion(eSlingMudMotions::Motion_3_ShootStart);
@@ -925,7 +925,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
                         AnimId::Dove_Flying,
                         mXPos + FP_FromInteger(Math_NextRandom() % 16),
                         mYPos - FP_FromInteger(Math_NextRandom() % 16),
-                        mSpriteScale);;
+                        GetSpriteScale());;
                     if (pDove)
                     {
                         if (pDove->GetAnimation().mFlags.Get(AnimFlags::eFlipX))
@@ -953,7 +953,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
                 }
 
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-                New_DestroyOrCreateObject_Particle(mXPos, (mSpriteScale * FP_FromInteger(20)) + mYPos, mSpriteScale);
+                New_DestroyOrCreateObject_Particle(mXPos, (GetSpriteScale() * FP_FromInteger(20)) + mYPos, GetSpriteScale());
 
                 relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
             }

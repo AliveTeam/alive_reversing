@@ -114,21 +114,21 @@ SlamDoor::SlamDoor(relive::Path_SlamDoor* pTlv, const Guid& tlvId)
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
+        SetSpriteScale(FP_FromDouble(0.5));
         GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_Half_6);
-        mScale = Scale::Bg;
+        SetScale(Scale::Bg);
     }
     else
     {
-        mSpriteScale = FP_FromDouble(1.0);
+        SetSpriteScale(FP_FromDouble(1.0));
         GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_25);
-        mScale = Scale::Fg;
+        SetScale(Scale::Fg);
     }
 
     if (mSlamDoorFlags.Get(SlamDoorFlags::eSlamDoorFlipY))
     {
         GetAnimation().mFlags.Set(AnimFlags::eFlipY);
-        mYOffset = FP_GetExponent(mSpriteScale * FP_FromDouble(-68.0));
+        mYOffset = FP_GetExponent(GetSpriteScale() * FP_FromDouble(-68.0));
     }
 
     s32 switchState = SwitchStates_Get(mSwitchId);
@@ -156,7 +156,7 @@ SlamDoor::SlamDoor(relive::Path_SlamDoor* pTlv, const Guid& tlvId)
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            mScale == Scale::Fg ? kFgFloor : kBgFloor)
+            GetScale() == Scale::Fg ? kFgFloor : kBgFloor)
         == 1)
     {
         mYPos = hitY;
@@ -164,11 +164,11 @@ SlamDoor::SlamDoor(relive::Path_SlamDoor* pTlv, const Guid& tlvId)
 
     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        mCollisionX = FP_GetExponent((ScaleToGridSize(mSpriteScale) / FP_FromDouble(2.0)) + FP_FromInteger(FP_GetExponent(mXPos)));
+        mCollisionX = FP_GetExponent((ScaleToGridSize(GetSpriteScale()) / FP_FromDouble(2.0)) + FP_FromInteger(FP_GetExponent(mXPos)));
     }
     else
     {
-        mCollisionX = FP_GetExponent(FP_FromInteger(FP_GetExponent(mXPos)) - (ScaleToGridSize(mSpriteScale) / FP_FromDouble(2.0)));
+        mCollisionX = FP_GetExponent(FP_FromInteger(FP_GetExponent(mXPos)) - (ScaleToGridSize(GetSpriteScale()) / FP_FromDouble(2.0)));
     }
 
     mCollisionY = FP_GetExponent(mYPos);
@@ -177,7 +177,7 @@ SlamDoor::SlamDoor(relive::Path_SlamDoor* pTlv, const Guid& tlvId)
     {
         PathLine* pPathLine = nullptr;
 
-        if (mSpriteScale == FP_FromDouble(1.0))
+        if (GetSpriteScale() == FP_FromDouble(1.0))
         {
             const FP lineHeight = FP_FromDouble(80.0);
 
@@ -187,10 +187,10 @@ SlamDoor::SlamDoor(relive::Path_SlamDoor* pTlv, const Guid& tlvId)
                 mCollisionX,
                 mCollisionY,
                 eLineTypes::eWallRight_2);
-            const FP x2 = FP_FromInteger(mCollisionX) + ScaleToGridSize(mSpriteScale);
+            const FP x2 = FP_FromInteger(mCollisionX) + ScaleToGridSize(GetSpriteScale());
             const FP y1 = FP_FromInteger(mCollisionY)
-                        - (mSpriteScale * FP_FromDouble(80.0));
-            const FP x1 = ScaleToGridSize(mSpriteScale) + FP_FromInteger(mCollisionX);
+                        - (GetSpriteScale() * FP_FromDouble(80.0));
+            const FP x1 = ScaleToGridSize(GetSpriteScale()) + FP_FromInteger(mCollisionX);
             pPathLine = sCollisions->Add_Dynamic_Collision_Line(
                 FP_GetExponent(x1),
                 FP_GetExponent(y1),
@@ -200,7 +200,7 @@ SlamDoor::SlamDoor(relive::Path_SlamDoor* pTlv, const Guid& tlvId)
         }
         else
         {
-            const FP lineHeight = mSpriteScale * FP_FromDouble(80.0);
+            const FP lineHeight = GetSpriteScale() * FP_FromDouble(80.0);
 
             mCollisionLine1 = sCollisions->Add_Dynamic_Collision_Line(
                 mCollisionX,
@@ -208,9 +208,9 @@ SlamDoor::SlamDoor(relive::Path_SlamDoor* pTlv, const Guid& tlvId)
                 mCollisionX,
                 mCollisionY,
                 eLineTypes::eBackgroundWallRight_6);
-            const FP x2 = FP_FromInteger(mCollisionX) + ScaleToGridSize(mSpriteScale);
-            const FP y1 = FP_FromInteger(mCollisionY) - (mSpriteScale * FP_FromDouble(80.0));
-            const FP x1 = ScaleToGridSize(mSpriteScale) + FP_FromInteger(mCollisionX);
+            const FP x2 = FP_FromInteger(mCollisionX) + ScaleToGridSize(GetSpriteScale());
+            const FP y1 = FP_FromInteger(mCollisionY) - (GetSpriteScale() * FP_FromDouble(80.0));
+            const FP x1 = ScaleToGridSize(GetSpriteScale()) + FP_FromInteger(mCollisionX);
             pPathLine = sCollisions->Add_Dynamic_Collision_Line(
                 FP_GetExponent(x1),
                 FP_GetExponent(y1),
@@ -302,7 +302,7 @@ void SlamDoor::VUpdate()
 
             GetAnimation().Set_Animation_Data(GetAnimRes(sSlamDoorAnimIds[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][2]));
 
-            if (mSpriteScale == FP_FromInteger(1))
+            if (GetSpriteScale() == FP_FromInteger(1))
             {
                 mCollisionLine1 = sCollisions->Add_Dynamic_Collision_Line(
                     mCollisionX,
@@ -311,9 +311,9 @@ void SlamDoor::VUpdate()
                     mCollisionY,
                     eLineTypes::eWallLeft_1);
                 mCollisionLine2 = sCollisions->Add_Dynamic_Collision_Line(
-                    FP_GetExponent(ScaleToGridSize(mSpriteScale) + FP_FromInteger(mCollisionX)),
-                    FP_GetExponent(FP_FromInteger(mCollisionY) - (FP_FromInteger(80) * mSpriteScale)),
-                    FP_GetExponent(FP_FromInteger(mCollisionX) + ScaleToGridSize(mSpriteScale)),
+                    FP_GetExponent(ScaleToGridSize(GetSpriteScale()) + FP_FromInteger(mCollisionX)),
+                    FP_GetExponent(FP_FromInteger(mCollisionY) - (FP_FromInteger(80) * GetSpriteScale())),
+                    FP_GetExponent(FP_FromInteger(mCollisionX) + ScaleToGridSize(GetSpriteScale())),
                     mCollisionY,
                     eLineTypes::eWallRight_2);
             }
@@ -321,14 +321,14 @@ void SlamDoor::VUpdate()
             {
                 mCollisionLine1 = sCollisions->Add_Dynamic_Collision_Line(
                     mCollisionX,
-                    FP_GetExponent(FP_FromInteger(mCollisionY) - (FP_FromInteger(80) * mSpriteScale)),
+                    FP_GetExponent(FP_FromInteger(mCollisionY) - (FP_FromInteger(80) * GetSpriteScale())),
                     mCollisionX,
                     mCollisionY,
                     eLineTypes::eBackgroundWallLeft_5);
                 mCollisionLine2 = sCollisions->Add_Dynamic_Collision_Line(
-                    FP_GetExponent(ScaleToGridSize(mSpriteScale) + FP_FromInteger(mCollisionX)),
-                    FP_GetExponent(FP_FromInteger(mCollisionY) - (FP_FromInteger(80) * mSpriteScale)),
-                    FP_GetExponent(FP_FromInteger(mCollisionX) + ScaleToGridSize(mSpriteScale)),
+                    FP_GetExponent(ScaleToGridSize(GetSpriteScale()) + FP_FromInteger(mCollisionX)),
+                    FP_GetExponent(FP_FromInteger(mCollisionY) - (FP_FromInteger(80) * GetSpriteScale())),
+                    FP_GetExponent(FP_FromInteger(mCollisionX) + ScaleToGridSize(GetSpriteScale())),
                     mCollisionY,
                     eLineTypes::eBackgroundWallRight_6);
             }
@@ -337,8 +337,8 @@ void SlamDoor::VUpdate()
 
             if (mSlamDoorFlags.Get(SlamDoorFlags::eSlamDoorFlipY))
             {
-                bRect.y += FP_GetExponent(FP_FromInteger(-110) * mSpriteScale);
-                bRect.h += FP_GetExponent(FP_FromInteger(-110) * mSpriteScale);
+                bRect.y += FP_GetExponent(FP_FromInteger(-110) * GetSpriteScale());
+                bRect.h += FP_GetExponent(FP_FromInteger(-110) * GetSpriteScale());
             }
 
             for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
@@ -357,7 +357,7 @@ void SlamDoor::VUpdate()
                         // Some hack that prevents Abe getting knocked back when rolling or falling near a closing slam door
                         bObjRect.x += 3;
 
-                        if (PSX_Rects_overlap_no_adjustment(&bRect, &bObjRect) && pObj->mSpriteScale == mSpriteScale)
+                        if (PSX_Rects_overlap_no_adjustment(&bRect, &bObjRect) && pObj->GetSpriteScale() == GetSpriteScale())
                         {
                             ClearInsideSlamDoor(pObj, bRect.x, bRect.w);
                         }
@@ -382,8 +382,8 @@ void SlamDoor::VUpdate()
 
         if (mSlamDoorFlags.Get(SlamDoorFlags::eSlamDoorFlipY))
         {
-            bRect.y += FP_GetExponent(FP_FromInteger(-110) * mSpriteScale);
-            bRect.h += FP_GetExponent(FP_FromInteger(-110) * mSpriteScale) - FP_GetExponent(FP_FromInteger(20) * mSpriteScale);
+            bRect.y += FP_GetExponent(FP_FromInteger(-110) * GetSpriteScale());
+            bRect.h += FP_GetExponent(FP_FromInteger(-110) * GetSpriteScale()) - FP_GetExponent(FP_FromInteger(20) * GetSpriteScale());
         }
 
         for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
@@ -402,7 +402,7 @@ void SlamDoor::VUpdate()
 
                     if (FP_GetExponent(pObj->mXPos) > bRect.x && FP_GetExponent(pObj->mXPos) < bRect.w && PSX_Rects_overlap_no_adjustment(&bRect, &bObjRect))
                     {
-                        if (pObj->mSpriteScale == mSpriteScale || (pObj->Type() == ReliveTypes::eSlog && mSpriteScale == FP_FromInteger(1)))
+                        if (pObj->GetSpriteScale() == GetSpriteScale() || (pObj->Type() == ReliveTypes::eSlog && GetSpriteScale() == FP_FromInteger(1)))
                         {
                             ClearInsideSlamDoor(pObj, bRect.x, bRect.w);
                         }
@@ -429,11 +429,11 @@ void SlamDoor::ClearInsideSlamDoor(BaseAliveGameObject* pObj, s16 xPosition, s16
 {
     if (FP_GetExponent(pObj->mXPos) - xPosition >= width - FP_GetExponent(pObj->mXPos))
     {
-        pObj->mXPos = (ScaleToGridSize(mSpriteScale) * FP_FromDouble(0.5)) + FP_FromDouble(1.0) + pObj->mXPos;
+        pObj->mXPos = (ScaleToGridSize(GetSpriteScale()) * FP_FromDouble(0.5)) + FP_FromDouble(1.0) + pObj->mXPos;
     }
     else
     {
-        pObj->mXPos = pObj->mXPos - (ScaleToGridSize(mSpriteScale) * FP_FromDouble(0.5));
+        pObj->mXPos = pObj->mXPos - (ScaleToGridSize(GetSpriteScale()) * FP_FromDouble(0.5));
     }
 
     if (pObj->Type() == ReliveTypes::eRingOrLiftMud || pObj->Type() == ReliveTypes::eMudokon || pObj->Type() == ReliveTypes::eAbe)

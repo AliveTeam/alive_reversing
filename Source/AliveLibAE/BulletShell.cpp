@@ -24,7 +24,7 @@ BulletShell::BulletShell(FP xpos, FP ypos, s16 direction, FP scale)
         mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Bullet_Shell));
         Animation_Init(GetAnimRes(AnimId::Bullet_Shell));
 
-        mSpriteScale = scale;
+        SetSpriteScale(scale);
 
         if (scale == FP_FromInteger(1))
         {
@@ -83,7 +83,7 @@ void BulletShell::VUpdate()
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            mScale == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls)
+            GetScale() == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls)
         == 1)
     {
         if (BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eFloor_0 ||

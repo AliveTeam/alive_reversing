@@ -66,15 +66,15 @@ PullRingRope::PullRingRope(relive::Path_PullRingRope* pTlv, const Guid& tlvId)
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
+        SetSpriteScale(FP_FromDouble(0.5));
         GetAnimation().SetRenderLayer(Layer::eLayer_8);
-        mScale = Scale::Bg;
+        SetScale(Scale::Bg);
     }
     else
     {
-        mSpriteScale = FP_FromInteger(1);
+        SetSpriteScale(FP_FromInteger(1));
         GetAnimation().SetRenderLayer(Layer::eLayer_27);
-        mScale = Scale::Fg;
+        SetScale(Scale::Fg);
     }
 
     field_100_sound_direction = pTlv->mSoundDirection;
@@ -88,7 +88,7 @@ PullRingRope::PullRingRope(relive::Path_PullRingRope* pTlv, const Guid& tlvId)
         FP_GetExponent(mXPos + FP_FromInteger((lvl_x_off + 1))),
         FP_GetExponent(mYPos) - pTlv->mRopeLength,
         FP_GetExponent(mYPos + (FP_FromInteger(mYOffset))),
-        mSpriteScale);
+        GetSpriteScale());
     if (field_F8_pRope)
     {
         field_F8_pRope->mBaseGameObjectRefCount++;

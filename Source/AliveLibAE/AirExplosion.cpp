@@ -33,8 +33,8 @@ AirExplosion::AirExplosion(FP xpos, FP ypos, FP scale, bool bSmall)
     GetAnimation().mFlags.Clear(AnimFlags::eIsLastFrame);
     GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
     field_F8_scale = scale;
-    mScale = scale == FP_FromInteger(1) ? Scale::Fg : Scale::Bg;
-    mSpriteScale = scale * FP_FromInteger(2);
+    SetScale(scale == FP_FromInteger(1) ? Scale::Fg : Scale::Bg);
+    SetSpriteScale(scale * FP_FromInteger(2));
 
     if (mSmallExplosion)
     {
@@ -115,11 +115,11 @@ void AirExplosion::VUpdate()
     {
         if (mSmallExplosion)
         {
-            mSpriteScale -= FP_FromDouble(0.066);
+            SetSpriteScale(GetSpriteScale() - FP_FromDouble(0.066));
         }
         else
         {
-            mSpriteScale -= FP_FromDouble(0.2);
+            SetSpriteScale(GetSpriteScale() - FP_FromDouble(0.2));
         }
     }
 
@@ -144,12 +144,12 @@ void AirExplosion::VUpdate()
             if (GetAnimation().GetCurrentFrame() == 3)
             {
                 pParticle->GetAnimation().mFlags.Set(AnimFlags::eFlipX);
-                pParticle->mSpriteScale = mSpriteScale * FP_FromDouble(0.5);
+                pParticle->SetSpriteScale(GetSpriteScale() * FP_FromDouble(0.5));
             }
             else
             {
                 pParticle->GetAnimation().mFlags.Clear(AnimFlags::eFlipX);
-                pParticle->mSpriteScale = mSpriteScale * FP_FromDouble(0.25);
+                pParticle->SetSpriteScale(GetSpriteScale() * FP_FromDouble(0.25));
             }
         }
     }
@@ -200,7 +200,7 @@ void AirExplosion::DealBlastDamage(PSX_RECT* pRect)
         {
             const PSX_RECT boundRect = pObj->VGetBoundingRect();
 
-            if (PSX_Rects_overlap_no_adjustment(&boundRect, &expandedRect) && mScale == pObj->mScale)
+            if (PSX_Rects_overlap_no_adjustment(&boundRect, &expandedRect) && GetScale() == pObj->GetScale())
             {
                 pObj->VTakeDamage(this);
             }

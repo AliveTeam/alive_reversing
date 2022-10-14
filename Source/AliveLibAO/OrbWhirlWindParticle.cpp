@@ -114,7 +114,7 @@ void OrbWhirlWindParticle::Update()
                     mXPosOffset = mXPosMid;
                     mYPosOffset2 = mYPosMid;
                     mYPosOffset = mYPosMid;
-                    mScaleOffsetFlyToTarget = (mTargetObj->mSpriteScale - mCurrentScale) / FP_FromInteger(16);
+                    mScaleOffsetFlyToTarget = (mTargetObj->GetSpriteScale() - mCurrentScale) / FP_FromInteger(16);
                     mPositionTimer = sGnFrame + 16;
                     mState = State::eFlyToTarget;
                     CalculateRenderProperties(1);

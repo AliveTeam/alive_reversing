@@ -61,7 +61,7 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
 
     field_11E_volume = 0;
 
-    mShadow = relive_new Shadow();
+    CreateShadow();
 }
 
 void Rock::VTimeToExplodeRandom()
@@ -143,7 +143,7 @@ void Rock::InTheAir()
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            mScale == Scale::Fg ? kFgFloorOrCeiling : kBgFloorOrCeiling)
+            GetScale() == Scale::Fg ? kFgFloorOrCeiling : kBgFloorOrCeiling)
         == 1)
     {
         switch (BaseAliveGameObjectCollisionLine->mLineType)
@@ -223,7 +223,7 @@ void Rock::InTheAir()
         }
     }
 
-    if (sCollisions->Raycast(field_120_xpos, field_124_ypos, mXPos, mYPos, &BaseAliveGameObjectCollisionLine, &hitX, &hitY, mScale == Scale::Fg ? kFgWalls : kBgWalls) == 1)
+    if (sCollisions->Raycast(field_120_xpos, field_124_ypos, mXPos, mYPos, &BaseAliveGameObjectCollisionLine, &hitX, &hitY, GetScale() == Scale::Fg ? kFgWalls : kBgWalls) == 1)
     {
         switch (BaseAliveGameObjectCollisionLine->mLineType)
         {
@@ -343,14 +343,14 @@ void Rock::VUpdate()
             }
             else
             {
-                if (abs(SnapToXGrid(mSpriteScale, FP_GetExponent(mXPos)) - FP_GetExponent(mXPos)) <= 1)
+                if (abs(SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos)) - FP_GetExponent(mXPos)) <= 1)
                 {
                     mVelX = FP_FromInteger(0);
-                    mCollectionRect.x = mXPos - (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2));
-                    mCollectionRect.w = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2)) + mXPos;
+                    mCollectionRect.x = mXPos - (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
+                    mCollectionRect.w = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2)) + mXPos;
                     mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8);
                     mCollectionRect.h = mYPos;
-                    mCollectionRect.y = mYPos - ScaleToGridSize(mSpriteScale);
+                    mCollectionRect.y = mYPos - ScaleToGridSize(GetSpriteScale());
                     field_11C_state = RockStates::eOnGround_3;
                     GetAnimation().mFlags.Clear(AnimFlags::eLoop);
                     field_128_shimmer_timer = sGnFrame;
@@ -375,8 +375,8 @@ void Rock::VUpdate()
             }
             // The strange shimmering that rocks give off.
             New_TintShiny_Particle(
-                (mSpriteScale * FP_FromInteger(1)) + mXPos,
-                (mSpriteScale * FP_FromInteger(-7)) + mYPos,
+                (GetSpriteScale() * FP_FromInteger(1)) + mXPos,
+                (GetSpriteScale() * FP_FromInteger(-7)) + mYPos,
                 FP_FromDouble(0.3),
                 Layer::eLayer_Foreground_36);
             field_128_shimmer_timer = (Math_NextRandom() % 16) + sGnFrame + 60;
@@ -427,7 +427,7 @@ s32 Rock::VGetSaveState(u8* pSaveBuffer)
     pState->field_1C_path_number = mCurrentPath;
     pState->field_1E_lvl_number = MapWrapper::ToAE(mCurrentLevel);
 
-    pState->field_18_sprite_scale = mSpriteScale;
+    pState->field_18_sprite_scale = GetSpriteScale();
 
     pState->field_20_flags.Set(RockSaveState::eBit1_bRender, GetAnimation().mFlags.Get(AnimFlags::eRender));
     pState->field_20_flags.Set(RockSaveState::eBit2_bDrawable, mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4));
@@ -463,10 +463,10 @@ s32 Rock::CreateFromSaveState(const u8* pData)
     pRock->mXPos = pState->field_8_xpos;
     pRock->mYPos = pState->field_C_ypos;
 
-    pRock->mCollectionRect.x = pRock->mXPos - (ScaleToGridSize(pRock->mSpriteScale) / FP_FromInteger(2));
-    pRock->mCollectionRect.w = pRock->mXPos + (ScaleToGridSize(pRock->mSpriteScale) / FP_FromInteger(2));
+    pRock->mCollectionRect.x = pRock->mXPos - (ScaleToGridSize(pRock->GetSpriteScale()) / FP_FromInteger(2));
+    pRock->mCollectionRect.w = pRock->mXPos + (ScaleToGridSize(pRock->GetSpriteScale()) / FP_FromInteger(2));
     pRock->mCollectionRect.h = pRock->mYPos;
-    pRock->mCollectionRect.y = pRock->mYPos - ScaleToGridSize(pRock->mSpriteScale);
+    pRock->mCollectionRect.y = pRock->mYPos - ScaleToGridSize(pRock->GetSpriteScale());
 
     pRock->mVelX = pState->field_10_velx;
     pRock->mVelY = pState->field_14_vely;
@@ -474,8 +474,8 @@ s32 Rock::CreateFromSaveState(const u8* pData)
     pRock->mCurrentPath = pState->field_1C_path_number;
     pRock->mCurrentLevel = MapWrapper::FromAESaveData(pState->field_1E_lvl_number);
 
-    pRock->mSpriteScale = pState->field_18_sprite_scale;
-    pRock->mScale = pState->field_18_sprite_scale > FP_FromDouble(0.75) ? Scale::Fg : Scale::Bg;
+    pRock->SetSpriteScale(pState->field_18_sprite_scale);
+    pRock->SetScale(pState->field_18_sprite_scale > FP_FromDouble(0.75) ? Scale::Fg : Scale::Bg);
 
     pRock->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->field_20_flags.Get(RockSaveState::eBit1_bRender));
     pRock->GetAnimation().mFlags.Set(AnimFlags::eLoop, pState->field_20_flags.Get(RockSaveState::eBit3_bLoop));

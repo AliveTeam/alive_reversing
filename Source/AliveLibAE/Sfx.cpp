@@ -82,7 +82,7 @@ s16 Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysicsGameObject* pObj, s1
             pObj->mCurrentLevel, pObj->mCurrentPath,
             pObj->mXPos, pObj->mYPos - yOff);
 
-        if (pObj->mSpriteScale != FP_FromInteger(1))
+        if (pObj->GetSpriteScale() != FP_FromInteger(1))
         {
             // Background layer stuff isn't as loud
             defaultVol = (2 * defaultVol) / 3;

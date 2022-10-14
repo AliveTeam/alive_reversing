@@ -39,7 +39,7 @@ public:
 
         mRGB.SetRGB(140, 90, 53);
 
-        mSpriteScale = scale;
+        SetSpriteScale(scale);
 
         Calc_Rect_45DA00();
     }
@@ -62,11 +62,11 @@ public:
         const FP screenX = mXPos - pScreenManager->CamXPos();
         const FP screenY = mYPos - pScreenManager->CamYPos();
 
-        const FP frameWScaled = (FP_FromInteger(frameW) * mSpriteScale);
-        const FP frameHScaled = (FP_FromInteger(frameH) * mSpriteScale);
+        const FP frameWScaled = (FP_FromInteger(frameW) * GetSpriteScale());
+        const FP frameHScaled = (FP_FromInteger(frameH) * GetSpriteScale());
 
-        const FP offXScaled = (FP_FromInteger(xy.x) * mSpriteScale);
-        const s16 offYScaled = FP_GetExponent((FP_FromInteger(xy.y) * mSpriteScale));
+        const FP offXScaled = (FP_FromInteger(xy.x) * GetSpriteScale());
+        const s16 offYScaled = FP_GetExponent((FP_FromInteger(xy.y) * GetSpriteScale()));
 
         // TODO: Refactor PSX <> PC width conversion
         const FP frameWScaled_converted = (((frameWScaled * FP_FromInteger(23)) + FP_FromInteger(20)) / FP_FromInteger(40));
@@ -144,7 +144,7 @@ public:
         field_410_xpos = xpos;
         field_414_ypos = ypos;
 
-        mSpriteScale = FP_FromDouble(0.3);
+        SetSpriteScale(FP_FromDouble(0.3));
 
         for (auto& anim : field_F8_sparks)
         {
@@ -156,7 +156,7 @@ public:
             // TODO: clean this up
             const s32 rndLayer = static_cast<s32>(GetAnimation().GetRenderLayer()) + Math_RandomRange(-1, 1);
             anim.field_14.SetRenderLayer(static_cast<Layer>(rndLayer));
-            anim.field_14.field_6C_scale = mSpriteScale;
+            anim.field_14.field_6C_scale = GetSpriteScale();
 
             anim.x = mXPos;
             anim.y = mYPos;
@@ -303,12 +303,12 @@ DoorFlame::DoorFlame(relive::Path_DoorFlame* pTlv, const Guid& tlvId)
 
     if (pTlv->mScale != relive::reliveScale::eFull)
     {
-        mSpriteScale = FP_FromDouble(0.5);
+        SetSpriteScale(FP_FromDouble(0.5));
     }
 
-    mXPos = FP_FromInteger(pTlv->mTopLeftX) + (FP_FromInteger(12) * mSpriteScale);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX) + (FP_FromInteger(12) * GetSpriteScale());
     mFireBackgroundGlowId = Guid{};
-    mYPos = FP_FromInteger(pTlv->mTopLeftY) + (FP_FromInteger(15) * mSpriteScale);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY) + (FP_FromInteger(15) * GetSpriteScale());
 
     if (SwitchStates_Get(mSwitchId))
     {
@@ -320,7 +320,7 @@ DoorFlame::DoorFlame(relive::Path_DoorFlame* pTlv, const Guid& tlvId)
         GetAnimation().mFlags.Clear(AnimFlags::eRender);
         mState = States::eDisabled_0;
     }
-
+    
     mRandom = Math_NextRandom() % 2;
 
     auto pFlameSparks = relive_new FlameSparks(mXPos, mYPos);
@@ -442,7 +442,7 @@ void DoorFlame::VUpdate()
             {
                 pFireBackgroundGlow = relive_new FireBackgroundGlow(mXPos,
                                                                  mYPos,
-                                                                 mSpriteScale);
+                                                                 GetSpriteScale());
                 if (pFireBackgroundGlow)
                 {
                     mFireBackgroundGlowId = pFireBackgroundGlow->mBaseGameObjectId;

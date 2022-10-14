@@ -57,14 +57,14 @@ Bat::Bat(relive::Path_Bat* pTlv, const Guid& tlvId)
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
-        mScale = Scale::Bg;
+        SetSpriteScale(FP_FromDouble(0.5));
+        SetScale(Scale::Bg);
         GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_Half_6);
     }
     else
     {
-        mSpriteScale = FP_FromInteger(1);
-        mScale = Scale::Fg;
+        SetSpriteScale(FP_FromInteger(1));
+        SetScale(Scale::Fg);
         GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_25);
     }
 
@@ -224,7 +224,7 @@ void Bat::VUpdate()
                     if (pObjIter->Type() != ReliveTypes::eSecurityOrb && pObjIter->Type() != ReliveTypes::eSlig && pObjIter->Type() != ReliveTypes::eSlog)
                     {
                         const PSX_RECT bObjRect = pObjIter->VGetBoundingRect();
-                        if (FP_GetExponent(mXPos) >= bObjRect.x && FP_GetExponent(mXPos) <= bObjRect.w && FP_GetExponent(mYPos) >= bObjRect.y && FP_GetExponent(mYPos) <= bObjRect.h && pObjIter->mSpriteScale == mSpriteScale)
+                        if (FP_GetExponent(mXPos) >= bObjRect.x && FP_GetExponent(mXPos) <= bObjRect.w && FP_GetExponent(mYPos) >= bObjRect.y && FP_GetExponent(mYPos) <= bObjRect.h && pObjIter->GetSpriteScale() == GetSpriteScale())
                         {
                             for (s32 j = 0; j < gBaseGameObjects->Size(); j++)
                             {

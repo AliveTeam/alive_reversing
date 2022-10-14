@@ -23,8 +23,8 @@ RollingBallStopper::RollingBallStopper(relive::Path_RollingBallStopper* pTlv, co
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
-        mScale = Scale::Bg;
+        SetSpriteScale(FP_FromDouble(0.5));
+        SetScale(Scale::Bg);
     }
 
     mBallSwitchId = pTlv->mBallSwitchId;
@@ -45,16 +45,16 @@ RollingBallStopper::RollingBallStopper(relive::Path_RollingBallStopper* pTlv, co
     // Check its enabled ?
     if (pTlv->mTlvSpecificMeaning)
     {
-        mYPos += mSpriteScale * FP_FromInteger(70);
+        mYPos += GetSpriteScale() * FP_FromInteger(70);
         if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
         {
             mState = States::eMovingDone;
-            mXPos += mSpriteScale * FP_FromInteger(35);
+            mXPos += GetSpriteScale() * FP_FromInteger(35);
         }
         else
         {
             mState = States::eMovingDone;
-            mXPos -= mSpriteScale * FP_FromInteger(35);
+            mXPos -= GetSpriteScale() * FP_FromInteger(35);
         }
     }
     else
@@ -71,16 +71,16 @@ RollingBallStopper::RollingBallStopper(relive::Path_RollingBallStopper* pTlv, co
     FP lineXPos = {};
     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        lineXPos = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2)) + FP_NoFractional(oldXPos);
+        lineXPos = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2)) + FP_NoFractional(oldXPos);
     }
     else
     {
-        lineXPos = FP_NoFractional(oldXPos) - (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2));
+        lineXPos = FP_NoFractional(oldXPos) - (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
     }
 
     const auto x1 = FP_GetExponent(lineXPos);
     const auto y1 = FP_GetExponent(mYPos);
-    if (mSpriteScale == FP_FromInteger(1))
+    if (GetSpriteScale() == FP_FromInteger(1))
     {
         mCollisionLine = sCollisions->Add_Dynamic_Collision_Line(x1, y1 - 70, x1, y1, eLineTypes::eWallLeft_1);
     }
@@ -132,11 +132,11 @@ void RollingBallStopper::VUpdate()
             break;
 
         case States::eMoveStopper:
-            mVelY += (mSpriteScale * FP_FromInteger(25));
-            if (mVelY <= (mSpriteScale * FP_FromInteger(70)))
+            mVelY += (GetSpriteScale() * FP_FromInteger(25));
+            if (mVelY <= (GetSpriteScale() * FP_FromInteger(70)))
             {
                 mXPos += mVelX;
-                mYPos += (mSpriteScale * FP_FromInteger(25));
+                mYPos += (GetSpriteScale() * FP_FromInteger(25));
             }
             else
             {

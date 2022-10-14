@@ -25,7 +25,7 @@ MotionDetectorLaser::MotionDetectorLaser(FP xpos, FP ypos, FP scale, Layer layer
     Animation_Init(GetAnimRes(AnimId::MotionDetector_Laser));
     GetAnimation().SetRenderLayer(layer);
     mXPos = xpos;
-    mSpriteScale = scale;
+    SetSpriteScale(scale);
     GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
     mYPos = ypos;
 }
@@ -57,11 +57,11 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
         field_FC_owner_id = Guid{};
 
         field_F4_tlvInfo = tlvId;
-        mSpriteScale = FP_FromInteger(1);
+        SetSpriteScale(FP_FromInteger(1));
 
         if (pTlv->mScale != relive::reliveScale::eFull)
         {
-            mSpriteScale = FP_FromDouble(0.5);
+            SetSpriteScale(FP_FromDouble(0.5));
         }
 
         field_114_x1_fp = FP_FromInteger(pTlv->mTopLeftX);
@@ -88,12 +88,12 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
         if (pTlv->mInitialMoveDirection == relive::Path_MotionDetector::InitialMoveDirection::eLeft)
         {
             field_100_state = States::eMoveLeft_2;
-            pLaser = relive_new MotionDetectorLaser(field_11C_y1_fp, field_120_y2_fp, mSpriteScale, Layer::eLayer_Foreground_36);
+            pLaser = relive_new MotionDetectorLaser(field_11C_y1_fp, field_120_y2_fp, GetSpriteScale(), Layer::eLayer_Foreground_36);
         }
         else if (pTlv->mInitialMoveDirection == relive::Path_MotionDetector::InitialMoveDirection::eRight)
         {
             field_100_state = States::eMoveRight_0;
-            pLaser = relive_new MotionDetectorLaser(field_114_x1_fp, field_120_y2_fp, mSpriteScale, Layer::eLayer_Foreground_36);
+            pLaser = relive_new MotionDetectorLaser(field_114_x1_fp, field_120_y2_fp, GetSpriteScale(), Layer::eLayer_Foreground_36);
         }
         else
         {
@@ -130,20 +130,20 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
     }
 
     field_10E_bUnknown = 1;
-    mSpriteScale = pOwner->mSpriteScale;
+    SetSpriteScale(pOwner->GetSpriteScale());
 
-    field_114_x1_fp = pOwner->mXPos - (mSpriteScale * FP_FromInteger(75));
-    field_11C_y1_fp = (mSpriteScale * FP_FromInteger(75)) + pOwner->mXPos;
-    field_118_x2_fp = pOwner->mYPos - (mSpriteScale * FP_FromInteger(20));
+    field_114_x1_fp = pOwner->mXPos - (GetSpriteScale() * FP_FromInteger(75));
+    field_11C_y1_fp = (GetSpriteScale() * FP_FromInteger(75)) + pOwner->mXPos;
+    field_118_x2_fp = pOwner->mYPos - (GetSpriteScale() * FP_FromInteger(20));
     field_120_y2_fp = pOwner->mYPos;
 
     mXPos = pOwner->mXPos;
-    mYPos = pOwner->mYPos - (mSpriteScale * FP_FromInteger(20));
+    mYPos = pOwner->mYPos - (GetSpriteScale() * FP_FromInteger(20));
 
     field_174_speed = FP_FromInteger(2);
     field_100_state = States::eMoveRight_0;
 
-    auto pLaserMem = relive_new MotionDetectorLaser(pOwner->mXPos, pOwner->mYPos, mSpriteScale, Layer::eLayer_Foreground_36);
+    auto pLaserMem = relive_new MotionDetectorLaser(pOwner->mXPos, pOwner->mYPos, GetSpriteScale(), Layer::eLayer_Foreground_36);
     if (pLaserMem)
     {
         field_F8_laser_id = pLaserMem->mBaseGameObjectId;
@@ -317,7 +317,7 @@ void MotionDetector::VUpdate()
                     && bLaserRect.w >= (objRect.x + 8)
                     && bLaserRect.h >= objRect.y
                     && bLaserRect.y <= objRect.h
-                    && pObj->mSpriteScale == mSpriteScale)
+                    && pObj->GetSpriteScale() == GetSpriteScale())
                 {
                     if (IsActiveHero(pObj))
                     {
@@ -368,13 +368,13 @@ void MotionDetector::VUpdate()
         if (pOwner)
         {
             mXPos = pOwner->mXPos;
-            mYPos = pOwner->mYPos - (mSpriteScale * FP_FromInteger(20));
+            mYPos = pOwner->mYPos - (GetSpriteScale() * FP_FromInteger(20));
 
             pLaser->mXPos += pOwner->mVelX;
 
-            field_114_x1_fp = pOwner->mXPos - (mSpriteScale * FP_FromInteger(75));
-            field_11C_y1_fp = (mSpriteScale * FP_FromInteger(75)) + pOwner->mXPos;
-            field_118_x2_fp = pOwner->mYPos - (mSpriteScale * FP_FromInteger(20));
+            field_114_x1_fp = pOwner->mXPos - (GetSpriteScale() * FP_FromInteger(75));
+            field_11C_y1_fp = (GetSpriteScale() * FP_FromInteger(75)) + pOwner->mXPos;
+            field_118_x2_fp = pOwner->mYPos - (GetSpriteScale() * FP_FromInteger(20));
             field_120_y2_fp = pOwner->mYPos;
 
             if (pOwner->field_13C_brain_state == GreeterBrainStates::eBrain_0_Patrol || pOwner->field_13C_brain_state == GreeterBrainStates::eBrain_1_PatrolTurn)
@@ -403,7 +403,7 @@ void MotionDetector::VUpdate()
                         mCurrentPath,
                         mXPos,
                         mYPos);
-                    SFX_Play_Camera(relive::SoundEffects::MenuNavigation, 0, soundDirection, mSpriteScale);
+                    SFX_Play_Camera(relive::SoundEffects::MenuNavigation, 0, soundDirection, GetSpriteScale());
                 }
                 else
                 {
@@ -428,7 +428,7 @@ void MotionDetector::VUpdate()
                         mCurrentPath,
                         mXPos,
                         mYPos);
-                    SFX_Play_Camera(relive::SoundEffects::MenuNavigation, 0, soundDirection, mSpriteScale);
+                    SFX_Play_Camera(relive::SoundEffects::MenuNavigation, 0, soundDirection, GetSpriteScale());
                 }
                 else
                 {

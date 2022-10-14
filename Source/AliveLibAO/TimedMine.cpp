@@ -41,14 +41,14 @@ TimedMine::TimedMine(relive::Path_TimedMine* pTlv, const Guid& tlvId)
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
-        mScale = Scale::Bg;
+        SetSpriteScale(FP_FromDouble(0.5));
+        SetScale(Scale::Bg);
         GetAnimation().SetRenderLayer(Layer::eLayer_RollingBallBombMineCar_Half_16);
     }
     else
     {
-        mSpriteScale = FP_FromInteger(1);
-        mScale = Scale::Fg;
+        SetSpriteScale(FP_FromInteger(1));
+        SetScale(Scale::Fg);
         GetAnimation().SetRenderLayer(Layer::eLayer_RollingBallBombMineCar_35);
     }
 
@@ -63,10 +63,10 @@ TimedMine::TimedMine(relive::Path_TimedMine* pTlv, const Guid& tlvId)
     mTlvInfo = tlvId;
 
     SetBaseAnimPaletteTint(kTimedMineTints_4C3140, gMap.mCurrentLevel, PalId::Bomb);
-    mCollectionRect.x = mXPos - (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2));
-    mCollectionRect.w = mXPos + (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2));
+    mCollectionRect.x = mXPos - (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
+    mCollectionRect.w = mXPos + (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
     mCollectionRect.h = mYPos;
-    mCollectionRect.y = mYPos - ScaleToGridSize(mSpriteScale);
+    mCollectionRect.y = mYPos - ScaleToGridSize(GetSpriteScale());
 
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
     mLiftPoint = nullptr;
@@ -123,7 +123,7 @@ s16 TimedMine::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eShrykull:
         {
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-            relive_new GroundExplosion(mXPos, mYPos, mSpriteScale);
+            relive_new GroundExplosion(mXPos, mYPos, GetSpriteScale());
             mSlappedMine = 1;
             mExplosionTimer = sGnFrame;
             return 1;
@@ -144,7 +144,7 @@ void TimedMine::VRender(PrimHeader** ppOt)
     {
         mTickAnim.VRender(
             FP_GetExponent(mXPos + FP_FromInteger(pScreenManager->mCamXOff) - pScreenManager->mCamPos->x),
-            FP_GetExponent(mYPos + FP_FromInteger(pScreenManager->mCamYOff - FP_GetExponent(mSpriteScale * FP_FromInteger(14)))
+            FP_GetExponent(mYPos + FP_FromInteger(pScreenManager->mCamYOff - FP_GetExponent(GetSpriteScale() * FP_FromInteger(14)))
                            - pScreenManager->mCamPos->y),
             ppOt,
             0,
@@ -163,7 +163,7 @@ void TimedMine::InitTickAnimation()
         mTickAnim.mFlags.Set(AnimFlags::eSemiTrans);
         mTickAnim.mFlags.Set(AnimFlags::eBlending);
         mTickAnim.SetRenderLayer(GetAnimation().GetRenderLayer());
-        mTickAnim.SetSpriteScale(mSpriteScale);
+        mTickAnim.SetSpriteScale(GetSpriteScale());
         mTickAnim.SetRGB(128, 128, 128);
         mTickAnim.SetRenderMode(TPageAbr::eBlend_1);
     }
@@ -187,7 +187,7 @@ void TimedMine::StickToLiftPoint()
             &pLine,
             &hitX,
             &hitY,
-            (mSpriteScale != FP_FromDouble(0.5)) ? kFgWallsOrFloor : kBgWallsOrFloor))
+            (GetSpriteScale() != FP_FromDouble(0.5)) ? kFgWallsOrFloor : kBgWallsOrFloor))
     {
         if (pLine->mLineType == eLineTypes ::eDynamicCollision_32 ||
             pLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
@@ -236,9 +236,9 @@ void TimedMine::VUpdate()
 
     if (pPlatform && pPlatform->OnAnyFloor())
     {
-        mCollectionRect.x = mXPos - ScaleToGridSize(mSpriteScale) / FP_FromInteger(2);
-        mCollectionRect.y = mYPos - ScaleToGridSize(mSpriteScale);
-        mCollectionRect.w = mXPos + ScaleToGridSize(mSpriteScale) / FP_FromInteger(2);
+        mCollectionRect.x = mXPos - ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2);
+        mCollectionRect.y = mYPos - ScaleToGridSize(GetSpriteScale());
+        mCollectionRect.w = mXPos + ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2);
         mCollectionRect.h = mYPos;
     }
     if (mSlappedMine == 1)
@@ -265,7 +265,7 @@ void TimedMine::VUpdate()
         }
         if (static_cast<s32>(sGnFrame) >= mExplosionTimer)
         {
-            relive_new GroundExplosion(mXPos, mYPos, mSpriteScale);
+            relive_new GroundExplosion(mXPos, mYPos, GetSpriteScale());
 
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
@@ -274,7 +274,7 @@ void TimedMine::VUpdate()
 
 void TimedMine::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
-    relive_new GroundExplosion(mXPos, mYPos, mSpriteScale);
+    relive_new GroundExplosion(mXPos, mYPos, GetSpriteScale());
 
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     mSlappedMine = 1;

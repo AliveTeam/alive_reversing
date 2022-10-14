@@ -33,8 +33,8 @@ void Animation_OnFrame_Slig(::BaseGameObject* pObj, u32&, const IndexedPoint& pD
         bulletType = BulletType::eNormalBullet_1;
     }
 
-    const FP xOff = pSlig->mSpriteScale * FP_FromInteger(pData.mPoint.x);
-    const FP yOff = pSlig->mSpriteScale * FP_FromInteger(pData.mPoint.y);
+    const FP xOff = pSlig->GetSpriteScale() * FP_FromInteger(pData.mPoint.x);
+    const FP yOff = pSlig->GetSpriteScale() * FP_FromInteger(pData.mPoint.y);
     if (pSlig->GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         relive_new Bullet(
@@ -43,20 +43,20 @@ void Animation_OnFrame_Slig(::BaseGameObject* pObj, u32&, const IndexedPoint& pD
             pSlig->mXPos,
             yOff + pSlig->mYPos,
             FP_FromInteger(-640),
-            pSlig->mSpriteScale,
+            pSlig->GetSpriteScale(),
             0);
 
         New_ShootingFire_Particle(
             pSlig->mXPos - xOff,
             pSlig->mYPos + yOff,
             1,
-            pSlig->mSpriteScale);
+            pSlig->GetSpriteScale());
 
         relive_new BulletShell(
             pSlig->mXPos,
             pSlig->mYPos + yOff,
             0,
-            pSlig->mSpriteScale);
+            pSlig->GetSpriteScale());
     }
     else
     {
@@ -66,23 +66,23 @@ void Animation_OnFrame_Slig(::BaseGameObject* pObj, u32&, const IndexedPoint& pD
             pSlig->mXPos,
             yOff + pSlig->mYPos,
             FP_FromInteger(640),
-            pSlig->mSpriteScale,
+            pSlig->GetSpriteScale(),
             0);
 
         New_ShootingFire_Particle(
             pSlig->mXPos + xOff,
             pSlig->mYPos + yOff,
             0,
-            pSlig->mSpriteScale);
+            pSlig->GetSpriteScale());
 
         relive_new BulletShell(
             pSlig->mXPos,
             pSlig->mYPos + yOff,
             1,
-            pSlig->mSpriteScale);
+            pSlig->GetSpriteScale());
     }
 
-    if (pSlig->mSpriteScale == FP_FromDouble(0.5))
+    if (pSlig->GetSpriteScale() == FP_FromDouble(0.5))
     {
         SfxPlayMono(relive::SoundEffects::SligShoot, 85);
     }
@@ -109,28 +109,28 @@ void Slog_OnFrame(::BaseGameObject* pObj, u32&, const IndexedPoint& pData)
 
         if (RectsOverlap(slogRect, targetRect))
         {
-            if (pSlog->field_10C_pTarget->mSpriteScale == pSlog->mSpriteScale && !pSlog->field_110)
+            if (pSlog->field_10C_pTarget->GetSpriteScale() == pSlog->GetSpriteScale() && !pSlog->field_110)
             {
                 if (pSlog->field_10C_pTarget->VTakeDamage(pSlog))
                 {
                     FP blood_xpos = {};
                     if (pSlog->GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                     {
-                        blood_xpos = pSlog->mXPos - (pSlog->mSpriteScale * FP_FromInteger(pData.mPoint.x));
+                        blood_xpos = pSlog->mXPos - (pSlog->GetSpriteScale() * FP_FromInteger(pData.mPoint.x));
                     }
                     else
                     {
-                        blood_xpos = pSlog->mXPos + (pSlog->mSpriteScale * FP_FromInteger(pData.mPoint.x));
+                        blood_xpos = pSlog->mXPos + (pSlog->GetSpriteScale() * FP_FromInteger(pData.mPoint.x));
                     }
 
-                    const FP blood_ypos = (pSlog->mSpriteScale * FP_FromInteger(pData.mPoint.y)) + pSlog->mYPos;
+                    const FP blood_ypos = (pSlog->GetSpriteScale() * FP_FromInteger(pData.mPoint.y)) + pSlog->mYPos;
 
                     relive_new Blood(
                         blood_xpos,
                         blood_ypos - FP_FromInteger(8),
                         (pSlog->mVelX * FP_FromInteger(2)),
                         FP_FromInteger(0),
-                        pSlog->mSpriteScale,
+                        pSlog->GetSpriteScale(),
                         50);
 
                     pSlog->field_110 = 1;
@@ -154,18 +154,18 @@ void Abe_OnFrame(::BaseGameObject* pObj, u32&, const IndexedPoint& pData)
 {
     auto pAbe = static_cast<Abe*>(pObj);
 
-    FP xVel = kAbeVelTable_4C6608[pAbe->field_19D_throw_direction].x * pAbe->mSpriteScale;
-    const FP yVel = kAbeVelTable_4C6608[pAbe->field_19D_throw_direction].y * pAbe->mSpriteScale;
+    FP xVel = kAbeVelTable_4C6608[pAbe->field_19D_throw_direction].x * pAbe->GetSpriteScale();
+    const FP yVel = kAbeVelTable_4C6608[pAbe->field_19D_throw_direction].y * pAbe->GetSpriteScale();
 
     FP directed_x = {};
     if (sActiveHero->GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         xVel = -xVel;
-        directed_x = -(pAbe->mSpriteScale * FP_FromInteger(pData.mPoint.x));
+        directed_x = -(pAbe->GetSpriteScale() * FP_FromInteger(pData.mPoint.x));
     }
     else
     {
-        directed_x = (pAbe->mSpriteScale * FP_FromInteger(pData.mPoint.x));
+        directed_x = (pAbe->GetSpriteScale() * FP_FromInteger(pData.mPoint.x));
     }
 
     FP data_y = FP_FromInteger(pData.mPoint.y);
@@ -181,7 +181,7 @@ void Abe_OnFrame(::BaseGameObject* pObj, u32&, const IndexedPoint& pData)
             &pLine,
             &hitX,
             &hitY,
-            pAbe->mSpriteScale != FP_FromDouble(0.5) ? kFgWalls : kBgWalls))
+            pAbe->GetSpriteScale() != FP_FromDouble(0.5) ? kFgWalls : kBgWalls))
     {
         directed_x = hitX - pAbe->mXPos;
         xVel = -xVel;
@@ -191,9 +191,9 @@ void Abe_OnFrame(::BaseGameObject* pObj, u32&, const IndexedPoint& pData)
     {
         sActiveHero->field_198_pThrowable->mXPos = directed_x + sActiveHero->mXPos;
         BaseThrowable* pThrowable = sActiveHero->field_198_pThrowable;
-        pThrowable->mYPos = (pAbe->mSpriteScale * data_y) + sActiveHero->mYPos;
+        pThrowable->mYPos = (pAbe->GetSpriteScale() * data_y) + sActiveHero->mYPos;
         pThrowable->VThrow(xVel, yVel);
-        pThrowable->mSpriteScale = pAbe->mSpriteScale;
+        pThrowable->SetSpriteScale(pAbe->GetSpriteScale());
         sActiveHero->field_198_pThrowable = nullptr;
     }
 }

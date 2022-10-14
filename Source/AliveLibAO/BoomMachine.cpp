@@ -61,11 +61,11 @@ public:
                     FP directedScale = {};
                     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                     {
-                        directedScale = -mSpriteScale;
+                        directedScale = -GetSpriteScale();
                     }
                     else
                     {
-                        directedScale = mSpriteScale;
+                        directedScale = GetSpriteScale();
                     }
                     auto pNewNade = relive_new Grenade(
                         mXPos + (FP_FromInteger(6) * directedScale),
@@ -182,20 +182,20 @@ BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId)
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
+        SetSpriteScale(FP_FromDouble(0.5));
     }
     else
     {
-        mSpriteScale = FP_FromInteger(1);
+        SetSpriteScale(FP_FromInteger(1));
     }
 
-    mXPos = FP_FromInteger(pTlv->mTopLeftX) + (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2));
+    mXPos = FP_FromInteger(pTlv->mTopLeftX) + (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
     auto pNozzle = relive_new GrenadeMachineNozzle();
     if (pNozzle)
     {
-        FP directedScale = mSpriteScale;
+        FP directedScale = GetSpriteScale();
         if (pTlv->mNozzleSide == relive::Path_BoomMachine::NozzleSide::eLeft)
         {
             directedScale = -directedScale;
@@ -204,11 +204,11 @@ BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId)
         pNozzle->Animation_Init(pNozzle->GetAnimRes(AnimId::BoomMachine_Nozzle_Idle));
 
         pNozzle->GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
-        pNozzle->mSpriteScale = mSpriteScale;
+        pNozzle->SetSpriteScale(GetSpriteScale());
         pNozzle->mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
         pNozzle->field_E4_state = BoomMachineStates::eInactive_0;
         pNozzle->mXPos = mXPos + (directedScale * FP_FromInteger(30));
-        pNozzle->mYPos = mYPos + (mSpriteScale * FP_FromInteger(-30));
+        pNozzle->mYPos = mYPos + (GetSpriteScale() * FP_FromInteger(-30));
         pNozzle->field_EC_num_grenades = static_cast<s16>(pTlv->mGrenadeAmount);
     }
 

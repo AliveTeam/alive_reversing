@@ -29,7 +29,7 @@ ZapSpark::ZapSpark(FP xpos, FP ypos, FP scale)
     GetAnimation().SetRenderLayer(Layer::eLayer_FG1_37);
     GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
 
-    mSpriteScale = scale * ((FP_FromInteger(Math_NextRandom() % 6) / FP_FromInteger(10)) + FP_FromDouble(0.2));
+    SetSpriteScale(scale * ((FP_FromInteger(Math_NextRandom() % 6) / FP_FromInteger(10)) + FP_FromDouble(0.2)));
     mSparkTimer = Math_RandomRange(0, 16);
 
     mXPos = xpos;

@@ -157,7 +157,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
         return;
     }
 
-    mSpriteScale = scale;
+    SetSpriteScale(scale);
     mXPos = xpos;
     mYPos = ypos + FP_FromInteger(2);
 
@@ -167,13 +167,13 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
     {
         field_F8_z = FP_FromInteger(0);
         GetAnimation().SetRenderLayer(Layer::eLayer_FG1_37);
-        mScale = Scale::Fg;
+        SetScale(Scale::Fg);
     }
     else if (scale == FP_FromDouble(0.5))
     {
         field_F8_z = FP_FromInteger(100);
         GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
-        mScale = Scale::Bg;
+        SetScale(Scale::Bg);
     }
     else
     {
@@ -327,10 +327,10 @@ void Gibs::VRender(PrimHeader** ppOt)
         return;
     }
 
-    mSpriteScale = FP_FromInteger(100) / (field_F8_z + FP_FromInteger(100));
+    SetSpriteScale(FP_FromInteger(100) / (field_F8_z + FP_FromInteger(100)));
     if (field_5D6_bMakeSmaller)
     {
-        mSpriteScale /= FP_FromInteger(2);
+        SetSpriteScale(GetSpriteScale() / FP_FromInteger(2));
     }
 
     // Head part rendering

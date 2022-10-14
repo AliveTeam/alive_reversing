@@ -38,11 +38,11 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
+        SetSpriteScale(FP_FromDouble(0.5));
     }
     else
     {
-        mSpriteScale = FP_FromInteger(1);
+        SetSpriteScale(FP_FromInteger(1));
     }
 
     field_F8_top_left_x = FP_FromInteger(pTlv->mTopLeftX);
@@ -72,7 +72,7 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
             pMotionDetectors->mXPos = field_F8_top_left_x;
             pMotionDetectors->mYPos = field_104_bottom_right_y;
 
-            pMotionDetectors->mSpriteScale = mSpriteScale;
+            pMotionDetectors->SetSpriteScale(GetSpriteScale());
             pMotionDetectors->mYOffset = 0;
             field_108_pLaser = pMotionDetectors;
         }
@@ -91,7 +91,7 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
             pMotionDetectors->GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_36);
             pMotionDetectors->mXPos = field_100_bottom_right_x;
             pMotionDetectors->mYPos = field_104_bottom_right_y;
-            pMotionDetectors->mSpriteScale = mSpriteScale;
+            pMotionDetectors->SetSpriteScale(GetSpriteScale());
             pMotionDetectors->mYOffset = 0;
             field_108_pLaser = pMotionDetectors;
         }
@@ -175,7 +175,7 @@ void MotionDetector::VUpdate()
                 {
                     const PSX_RECT objRect = pObj->VGetBoundingRect();
 
-                    if (laserRect.x <= (objRect.w - 8) && laserRect.w >= (objRect.x + 8) && laserRect.h >= objRect.y && laserRect.y <= objRect.h && pObj->mSpriteScale == mSpriteScale)
+                    if (laserRect.x <= (objRect.w - 8) && laserRect.w >= (objRect.x + 8) && laserRect.h >= objRect.y && laserRect.y <= objRect.h && pObj->GetSpriteScale() == GetSpriteScale())
                     {
                         if (pObj == sActiveHero)
                         {

@@ -206,15 +206,15 @@ Lever::Lever(relive::Path_Lever* pTlv, const Guid& tlvId)
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
+        SetSpriteScale(FP_FromDouble(0.5));
         GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_Half_6);
-        mScale = Scale::Bg;
+        SetScale(Scale::Bg);
     }
     else
     {
-        mSpriteScale = FP_FromInteger(1);
+        SetSpriteScale(FP_FromInteger(1));
         GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_25);
-        mScale = Scale::Fg;
+        SetScale(Scale::Fg);
     }
 
     mOnSound = pTlv->mOnSound;

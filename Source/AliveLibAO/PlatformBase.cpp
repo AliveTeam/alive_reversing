@@ -34,20 +34,20 @@ void PlatformBase::AddDynamicCollision(AnimId animId, relive::Path_TLV* pTlv, Ma
 
     Animation_Init(GetAnimRes(animId));
 
-    if (mSpriteScale == FP_FromInteger(1))
+    if (GetSpriteScale() == FP_FromInteger(1))
     {
         GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_25);
-        mScale = Scale::Fg;
+        SetScale(Scale::Fg);
     }
     else
     {
         GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_Half_6);
-        mScale = Scale::Bg;
+        SetScale(Scale::Bg);
     }
 
     const PerFrameInfo* pFrameHeader = GetAnimation().Get_FrameHeader(0);
     // TODO: Check field_8_data.points[1].y
-    mYPos += FP_NoFractional(FP_FromInteger(-pFrameHeader->mBoundMin.y) * mSpriteScale);
+    mYPos += FP_NoFractional(FP_FromInteger(-pFrameHeader->mBoundMin.y) * GetSpriteScale());
     mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
 
     mPlatformBaseCollisionLine = sCollisions->Add_Dynamic_Collision_Line(

@@ -359,7 +359,7 @@ void PauseMenu::Init()
     if (field_158_animation.Init(GetAnimRes(AnimId::NormalMudIcon), this))
     {
         this->field_158_animation.SetRenderLayer(GetAnimation().GetRenderLayer());
-        this->field_158_animation.SetSpriteScale(mSpriteScale);
+        this->field_158_animation.SetSpriteScale(GetSpriteScale());
         this->field_158_animation.SetRGB(127, 127, 127);
     }
     else
@@ -757,13 +757,13 @@ void PauseMenu_ForceLink()
 
                                             if (levelSelectEntry.field_A_id & 1)
                                             {
-                                                sActiveHero->mScale = 1;
-                                                sActiveHero->mSpriteScale = FP_FromDouble(1.0);
+                                                sActiveHero->SetScale(1);
+                                                sActiveHero->SetSpriteScale(FP_FromDouble(1.0));
                                             }
                                             else
                                             {
-                                                sActiveHero->mScale = 0;
-                                                sActiveHero->mSpriteScale = FP_FromDouble(0.5);
+                                                sActiveHero->SetScale(0);
+                                                sActiveHero->SetSpriteScale(FP_FromDouble(0.5));
                                             }
 
                                             sActiveHero->field_F8_LastLineYPos = sActiveHero->mYPos;

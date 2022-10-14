@@ -30,15 +30,15 @@ void Animation_OnFrame_Common_4561B0(BaseGameObject* pObjPtr, u32&, const Indexe
     FP xOff = {};
     if (pObj->GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        xOff = -(pObj->mSpriteScale * FP_FromInteger(point.mPoint.x));
+        xOff = -(pObj->GetSpriteScale() * FP_FromInteger(point.mPoint.x));
     }
     else
     {
-        xOff = (pObj->mSpriteScale * FP_FromInteger(point.mPoint.x));
+        xOff = (pObj->GetSpriteScale() * FP_FromInteger(point.mPoint.x));
     }
 
     FP xpos = xOff + pObj->mXPos;
-    FP ypos = (pObj->mSpriteScale * FP_FromInteger(point.mPoint.y)) + pObj->mYPos + FP_FromInteger(25);
+    FP ypos = (pObj->GetSpriteScale() * FP_FromInteger(point.mPoint.y)) + pObj->mYPos + FP_FromInteger(25);
     if (!pObj->BaseAliveGameObjectCollisionLine)
     {
         return;
@@ -58,12 +58,12 @@ void Animation_OnFrame_Common_4561B0(BaseGameObject* pObjPtr, u32&, const Indexe
         return;
     }
 
-    if (pObj->mSpriteScale == FP_FromDouble(0.5))
+    if (pObj->GetSpriteScale() == FP_FromDouble(0.5))
     {
         ypos -= FP_FromInteger(14);
     }
 
-    if (pObj->mCurrentMotion == eAbeMotions::Motion_71_Knockback_455090 && pObj->mSpriteScale == FP_FromDouble(0.5))
+    if (pObj->mCurrentMotion == eAbeMotions::Motion_71_Knockback_455090 && pObj->GetSpriteScale() == FP_FromDouble(0.5))
     {
         ypos += FP_FromInteger(5);
     }
@@ -78,7 +78,7 @@ void Animation_OnFrame_Common_4561B0(BaseGameObject* pObjPtr, u32&, const Indexe
     {
         pPartical->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
 
-        if (pObj->mScale == Scale::Fg)
+        if (pObj->GetScale() == Scale::Fg)
         {
             pPartical->GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_36);
         }
@@ -92,19 +92,19 @@ void Animation_OnFrame_Common_4561B0(BaseGameObject* pObjPtr, u32&, const Indexe
         switch (pObj->mCurrentMotion)
         {
             case eAbeMotions::Motion_1_WalkLoop_44FBA0:
-                pPartical->mSpriteScale = FP_FromDouble(0.3) * pObj->mSpriteScale;
+                pPartical->SetSpriteScale(FP_FromDouble(0.3) * pObj->GetSpriteScale());
                 break;
 
             case eAbeMotions::Motion_40_SneakLoop_450550:
-                pPartical->mSpriteScale = FP_FromInteger(0);
+                pPartical->SetSpriteScale(FP_FromInteger(0));
                 break;
 
             case eAbeMotions::Motion_71_Knockback_455090:
-                pPartical->mSpriteScale = FP_FromInteger(1) * pObj->mSpriteScale;
+                pPartical->SetSpriteScale(FP_FromInteger(1) * pObj->GetSpriteScale());
                 break;
 
             default:
-                pPartical->mSpriteScale = FP_FromDouble(0.6) * pObj->mSpriteScale;
+                pPartical->SetSpriteScale(FP_FromDouble(0.6) * pObj->GetSpriteScale());
                 break;
         }
     }
@@ -130,15 +130,15 @@ void Animation_OnFrame_FlyingSlig(BaseGameObject* pObjPtr, u32&, const IndexedPo
     FP xOff = {};
     if (pObj->GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        xOff = -(pObj->mSpriteScale * FP_FromInteger(point.mPoint.x));
+        xOff = -(pObj->GetSpriteScale() * FP_FromInteger(point.mPoint.x));
     }
     else
     {
-        xOff = (pObj->mSpriteScale * FP_FromInteger(point.mPoint.x));
+        xOff = (pObj->GetSpriteScale() * FP_FromInteger(point.mPoint.x));
     }
 
     FP xpos = xOff + pObj->mXPos;
-    FP ypos = (pObj->mSpriteScale * (FP_FromInteger(point.mPoint.y) + FP_FromInteger(25))) + pObj->mYPos;
+    FP ypos = (pObj->GetSpriteScale() * (FP_FromInteger(point.mPoint.y) + FP_FromInteger(25))) + pObj->mYPos;
 
     if (EventGet(kEventDeathReset))
     {
@@ -151,7 +151,7 @@ void Animation_OnFrame_FlyingSlig(BaseGameObject* pObjPtr, u32&, const IndexedPo
         pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
         pParticle->GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_36);
         pParticle->mRGB.SetRGB(64, 64, 64);
-        pParticle->mSpriteScale = FP_FromDouble(0.6) * pObj->mSpriteScale;
+        pParticle->SetSpriteScale(FP_FromDouble(0.6) * pObj->GetSpriteScale());
     }
 }
 
@@ -172,7 +172,7 @@ void Animation_OnFrame_Slog_4C3030(BaseGameObject* pObjPtr, u32&, const IndexedP
     const PSX_RECT bTargetRect = pTarget->VGetBoundingRect();
     const PSX_RECT bSlogRect = pSlog->VGetBoundingRect();
 
-    if (bSlogRect.x > bTargetRect.w || bSlogRect.w < bTargetRect.x || bSlogRect.h < bTargetRect.y || bSlogRect.y > bTargetRect.h || pTarget->mSpriteScale != FP_FromInteger(1) || pSlog->field_11C_biting_target)
+    if (bSlogRect.x > bTargetRect.w || bSlogRect.w < bTargetRect.x || bSlogRect.h < bTargetRect.y || bSlogRect.y > bTargetRect.h || pTarget->GetSpriteScale() != FP_FromInteger(1) || pSlog->field_11C_biting_target)
     {
         return;
     }
@@ -185,21 +185,21 @@ void Animation_OnFrame_Slog_4C3030(BaseGameObject* pObjPtr, u32&, const IndexedP
     FP bloodX = {};
     if (pSlog->GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        bloodX = pSlog->mXPos - (pSlog->mSpriteScale * FP_FromInteger(point.mPoint.x));
+        bloodX = pSlog->mXPos - (pSlog->GetSpriteScale() * FP_FromInteger(point.mPoint.x));
     }
     else
     {
-        bloodX = (pSlog->mSpriteScale * FP_FromInteger(point.mPoint.x)) + pSlog->mXPos;
+        bloodX = (pSlog->GetSpriteScale() * FP_FromInteger(point.mPoint.x)) + pSlog->mXPos;
     }
 
-    const FP bloodY = (pSlog->mSpriteScale * FP_FromInteger(point.mPoint.y)) + pSlog->mYPos;
+    const FP bloodY = (pSlog->GetSpriteScale() * FP_FromInteger(point.mPoint.y)) + pSlog->mYPos;
 
     relive_new Blood(
         bloodX,
         bloodY - FP_FromInteger(8),
         pSlog->mVelX * FP_FromInteger(2),
         FP_FromInteger(0),
-        pSlog->mSpriteScale,
+        pSlog->GetSpriteScale(),
         50);
 
     pSlog->field_11C_biting_target = 1;

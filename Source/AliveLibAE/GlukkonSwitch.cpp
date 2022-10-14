@@ -38,13 +38,13 @@ GlukkonSwitch::GlukkonSwitch(relive::Path_GlukkonSwitch* pTlv, const Guid& tlvId
 
     if (pTlv->mScale == relive::reliveScale::eFull)
     {
-        mSpriteScale = FP_FromInteger(1);
-        mScale = Scale::Fg;
+        SetSpriteScale(FP_FromInteger(1));
+        SetScale(Scale::Fg);
     }
     else if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
-        mScale = Scale::Bg;
+        SetSpriteScale(FP_FromDouble(0.5));
+        SetScale(Scale::Bg);
     }
 
     field_FA_ok_switch_id = pTlv->mOkSwitchId;

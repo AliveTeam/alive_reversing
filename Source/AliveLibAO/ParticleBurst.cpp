@@ -36,7 +36,7 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eParticleBurst);
-    mSpriteScale = scale;
+    SetSpriteScale(scale);
 
     field_E8_pRes = relive_new ParticleBurst_Item[particleCount];
     if (field_E8_pRes)
@@ -105,14 +105,14 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
         }
         else
         {
-            if (mSpriteScale == FP_FromInteger(1))
+            if (GetSpriteScale() == FP_FromInteger(1))
             {
-                mScale = Scale::Fg;
+                SetScale(Scale::Fg);
                 GetAnimation().SetRenderLayer(Layer::eLayer_Above_FG1_39);
             }
             else
             {
-                mScale = Scale::Bg;
+                SetScale(Scale::Bg);
                 GetAnimation().SetRenderLayer(Layer::eLayer_Above_FG1_Half_20);
             }
 
@@ -125,7 +125,7 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
             {
                 field_E8_pRes[i].field_18_animation.field_68_anim_ptr = &GetAnimation();
                 field_E8_pRes[i].field_18_animation.SetRenderLayer(GetAnimation().GetRenderLayer());
-                field_E8_pRes[i].field_18_animation.field_6C_scale = FP_FromDouble(0.95) * mSpriteScale;
+                field_E8_pRes[i].field_18_animation.field_6C_scale = FP_FromDouble(0.95) * GetSpriteScale();
 
                 field_E8_pRes[i].field_18_animation.mFlags.Set(AnimFlags::eRender);
 
@@ -245,7 +245,7 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
         return;
     }
 
-    GetAnimation().SetSpriteScale(mSpriteScale);
+    GetAnimation().SetSpriteScale(GetSpriteScale());
 
     const FP_Point* pCamPos = pScreenManager->mCamPos;
     const FP screen_left = pCamPos->x - FP_FromInteger(pScreenManager->mCamXOff);

@@ -54,20 +54,20 @@ MeatSack::MeatSack(relive::Path_MeatSack* pTlv, const Guid& tlvId)
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
+        SetSpriteScale(FP_FromDouble(0.5));
         GetAnimation().SetRenderLayer(Layer::eLayer_8);
-        mScale = Scale::Bg;
+        SetScale(Scale::Bg);
     }
     else
     {
-        mSpriteScale = FP_FromInteger(1);
+        SetSpriteScale(FP_FromInteger(1));
         GetAnimation().SetRenderLayer(Layer::eLayer_27);
-        mScale = Scale::Fg;
+        SetScale(Scale::Fg);
     }
 
     field_112_num_items = pTlv->mMeatAmount;
 
-    mShadow = relive_new Shadow();
+    CreateShadow();
 }
 
 MeatSack::~MeatSack()
@@ -114,7 +114,7 @@ void MeatSack::VUpdate()
 
     if (RectsOverlap(ourRect, abeRect))
     {
-        if (mSpriteScale == sActiveHero->mSpriteScale)
+        if (GetSpriteScale() == sActiveHero->GetSpriteScale())
         {
             if (!gThrowableArray)
             {
@@ -140,7 +140,7 @@ void MeatSack::VUpdate()
             if (pMeat)
             {
                 pMeat->VThrow(field_118_velX, field_11C_velY);
-                pMeat->mSpriteScale = mSpriteScale;
+                pMeat->SetSpriteScale(GetSpriteScale());
             }
 
             SfxPlayMono(relive::SoundEffects::SackHit, 0);
@@ -186,7 +186,7 @@ Meat::Meat(FP xpos, FP ypos, s16 count)
     mThrowableCount = count;
     field_110_state = 0;
 
-    mShadow = relive_new Shadow();
+    CreateShadow();
 }
 
 Meat::~Meat()
@@ -286,7 +286,7 @@ void Meat::InTheAir()
         &field_124_pLine,
         &hitX,
         &hitY,
-        mSpriteScale == FP_FromInteger(1) ? kFgWallsOrFloor : kBgWallsOrFloor) ? 1 : 0;
+        GetSpriteScale() == FP_FromInteger(1) ? kFgWallsOrFloor : kBgWallsOrFloor) ? 1 : 0;
 
 
     if (CollisionRaycast == 1)
@@ -301,7 +301,7 @@ void Meat::InTheAir()
                 {
                     field_110_state = 3;
 
-                    mXPos = FP_FromInteger(SnapToXGrid(mSpriteScale, FP_GetExponent(hitX)));
+                    mXPos = FP_FromInteger(SnapToXGrid(GetSpriteScale(), FP_GetExponent(hitX)));
                     mYPos = hitY;
 
                     mVelY = FP_FromInteger(0);
@@ -423,9 +423,9 @@ void Meat::VUpdate()
                 else
                 {
                     mVelX = FP_FromInteger(0);
-                    mCollectionRect.x = mXPos - ScaleToGridSize(mSpriteScale) / FP_FromInteger(2);
-                    mCollectionRect.y = mYPos - ScaleToGridSize(mSpriteScale);
-                    mCollectionRect.w = mXPos + ScaleToGridSize(mSpriteScale) / FP_FromInteger(2);
+                    mCollectionRect.x = mXPos - ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2);
+                    mCollectionRect.y = mYPos - ScaleToGridSize(GetSpriteScale());
+                    mCollectionRect.w = mXPos + ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2);
                     mCollectionRect.h = mYPos;
 
                     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
@@ -442,8 +442,8 @@ void Meat::VUpdate()
                 if (static_cast<s32>(sGnFrame) > field_11C_timer)
                 {
                     New_TintShiny_Particle(
-                        mXPos + mSpriteScale,
-                        mYPos + (mSpriteScale * FP_FromInteger(-7)),
+                        mXPos + GetSpriteScale(),
+                        mYPos + (GetSpriteScale() * FP_FromInteger(-7)),
                         FP_FromDouble(0.3),
                         Layer::eLayer_Foreground_36);
                     field_11C_timer = Math_NextRandom() % 16 + sGnFrame + 60;

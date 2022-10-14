@@ -33,7 +33,7 @@ SlapLock::SlapLock(relive::Path_SlapLock* pTlv, const Guid& tlvId)
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
+        SetSpriteScale(FP_FromDouble(0.5));
     }
 
     Animation_Init(GetAnimRes(AnimId::SlapLock_Initiate));
@@ -225,9 +225,9 @@ void SlapLock::VUpdate()
                     {
                         AbilityRing::Factory(
                             mXPos,
-                            mYPos - (FP_FromInteger(40) * mSpriteScale),
+                            mYPos - (FP_FromInteger(40) * GetSpriteScale()),
                             RingTypes::eInvisible_Pulse_Large_8,
-                            mSpriteScale);
+                            GetSpriteScale());
                     }
                 }
 
@@ -255,9 +255,9 @@ void SlapLock::VUpdate()
                     {
                         AbilityRing::Factory(
                             mXPos,
-                            mYPos - (FP_FromInteger(40) * mSpriteScale),
+                            mYPos - (FP_FromInteger(40) * GetSpriteScale()),
                             RingTypes::eInvisible_Pulse_Large_8,
-                            mSpriteScale);
+                            GetSpriteScale());
                     }
                 }
 
@@ -302,8 +302,8 @@ void SlapLock::VUpdate()
                 }
 
                 New_TintShiny_Particle(
-                    (mSpriteScale * (FP_FromInteger(Math_RandomRange(-2, 2)) + FP_FromInteger(1))) + mXPos,
-                    (mSpriteScale * (FP_FromInteger(Math_RandomRange(-3, 3)) - FP_FromInteger(33))) + mYPos,
+                    (GetSpriteScale() * (FP_FromInteger(Math_RandomRange(-2, 2)) + FP_FromInteger(1))) + mXPos,
+                    (GetSpriteScale() * (FP_FromInteger(Math_RandomRange(-3, 3)) - FP_FromInteger(33))) + mYPos,
                     FP_FromDouble(0.3),
                     GetAnimation().GetRenderLayer());
 
@@ -325,9 +325,9 @@ void SlapLock::VUpdate()
                     {
                         AbilityRing::Factory(
                             mXPos,
-                            mYPos - (FP_FromInteger(40) * mSpriteScale),
+                            mYPos - (FP_FromInteger(40) * GetSpriteScale()),
                             RingTypes::eInvisible_Pulse_Large_8,
-                            mSpriteScale);
+                            GetSpriteScale());
                         mTimer1 = Math_RandomRange(1, 10) + sGnFrame + 55;
                     }
                     else
@@ -343,8 +343,8 @@ void SlapLock::VUpdate()
                 }
 
                 New_TintShiny_Particle(
-                    (mSpriteScale * (FP_FromInteger(Math_RandomRange(-2, 2)) + FP_FromInteger(1))) + mXPos,
-                    (mSpriteScale * (FP_FromInteger(Math_RandomRange(-3, 3)) - FP_FromInteger(33))) + mYPos,
+                    (GetSpriteScale() * (FP_FromInteger(Math_RandomRange(-2, 2)) + FP_FromInteger(1))) + mXPos,
+                    (GetSpriteScale() * (FP_FromInteger(Math_RandomRange(-3, 3)) - FP_FromInteger(33))) + mYPos,
                     FP_FromDouble(0.3),
                     GetAnimation().GetRenderLayer());
 
@@ -403,9 +403,9 @@ void SlapLock::SetInvisibilityTarget()
 {
     AbilityRing::Factory(
         mXPos,
-        mYPos - (FP_FromInteger(40) * mSpriteScale),
+        mYPos - (FP_FromInteger(40) * GetSpriteScale()),
         RingTypes::eInvisible_Pulse_Emit_9,
-        mSpriteScale);
+        GetSpriteScale());
 
     const PSX_RECT bRect = sActiveHero->VGetBoundingRect();
 
@@ -413,7 +413,7 @@ void SlapLock::SetInvisibilityTarget()
         FP_FromInteger((bRect.x + bRect.w) / 2),
         FP_FromInteger((bRect.y + bRect.h) / 2),
         RingTypes::eInvisible_Pulse_Give_10,
-        sActiveHero->mSpriteScale);
+        sActiveHero->GetSpriteScale());
 
     pRing->mBaseGameObjectTlvInfo = mBaseGameObjectTlvInfo;
     mAbilityRingId = pRing->mBaseGameObjectId;
@@ -456,8 +456,8 @@ s16 SlapLock::VTakeDamage(BaseGameObject* pFrom)
             mSlapLockTlv->mTargetTombSwitchId1,
             mSlapLockTlv->mTargetTombSwitchId2,
             mXPos,
-            mYPos - (FP_FromInteger(40) * mSpriteScale),
-            mSpriteScale);
+            mYPos - (FP_FromInteger(40) * GetSpriteScale()),
+            GetSpriteScale());
     }
 
     if (mSlapLockTlv->mGiveInvisibilityPowerup == relive::reliveChoice::eYes)
@@ -467,14 +467,14 @@ s16 SlapLock::VTakeDamage(BaseGameObject* pFrom)
 
     mState = SlapLockStates::eSlapped_2;
     SwitchStates_Do_Operation(mSlapLockTlv->mSlapOutputSwitchId, relive::reliveSwitchOp::eToggle);
-    SfxPlayMono(relive::SoundEffects::SpiritLockBreak, 0, mSpriteScale);
+    SfxPlayMono(relive::SoundEffects::SpiritLockBreak, 0, GetSpriteScale());
     EventBroadcast(kEventLoudNoise, this);
 
     relive_new ParticleBurst(
         mXPos,
-        mYPos - (FP_FromInteger(40) * mSpriteScale),
+        mYPos - (FP_FromInteger(40) * GetSpriteScale()),
         15,
-        mSpriteScale,
+        GetSpriteScale(),
         BurstType::eGreenSparks_5,
         11);
 

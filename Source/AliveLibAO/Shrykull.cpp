@@ -60,13 +60,13 @@ Shrykull::Shrykull()
 
     mXPos = sActiveHero->mXPos;
     mYPos = sActiveHero->mYPos;
-    mSpriteScale = sActiveHero->mSpriteScale;
-    mScale = sActiveHero->mScale;
+    SetSpriteScale(sActiveHero->GetSpriteScale());
+    SetScale(sActiveHero->GetScale());
     field_10C_state = State::eTransform_0;
 
     GetAnimation().mFlags.Set(AnimFlags::eFlipX, sActiveHero->GetAnimation().mFlags.Get(AnimFlags::eFlipX));
 
-    mShadow = relive_new Shadow();
+    CreateShadow();
 
     field_122_bResetRingTimer = 0;
 }
@@ -285,7 +285,7 @@ void Shrykull::VUpdate()
                             FP_FromInteger((zapRect.x + zapRect.w) / 2),
                             FP_FromInteger((zapRect.y + zapRect.h) / 2),
                             20,
-                            mSpriteScale,
+                            GetSpriteScale(),
                             BurstType::eBigPurpleSparks_2);
 
                        relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);

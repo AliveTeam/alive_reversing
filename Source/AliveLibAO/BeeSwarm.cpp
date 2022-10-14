@@ -502,7 +502,7 @@ void BeeSwarm::VUpdate()
         pBee->field_10_anim.mFlags.Set(AnimFlags::eBlending); // TODO: or higher byte
 
         pBee->field_10_anim.field_68_anim_ptr = &GetAnimation();
-        pBee->field_10_anim.field_6C_scale = mSpriteScale;
+        pBee->field_10_anim.field_6C_scale = GetSpriteScale();
 
         pBee->field_10_anim.SetRenderLayer(Layer::eLayer_MainMenuButtonBees_38);
 
@@ -540,7 +540,7 @@ void BeeSwarm::VRender(PrimHeader** ppOt)
 {
     GetAnimation().SetRenderLayer(Layer::eLayer_MainMenuButtonBees_38);
     GetAnimation().SetRGB(mRGB.r, mRGB.g, mRGB.b);
-    GetAnimation().SetSpriteScale(mSpriteScale);
+    GetAnimation().SetSpriteScale(GetSpriteScale());
 
     const auto campos_x_delta = pScreenManager->mCamPos->x - FP_FromInteger(pScreenManager->mCamXOff);
     const auto campos_y_delta = pScreenManager->mCamPos->y - FP_FromInteger(pScreenManager->mCamYOff);

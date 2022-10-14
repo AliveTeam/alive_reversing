@@ -168,13 +168,13 @@ void Well::WellLocal_Init(relive::Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
     {
         GetAnimation().SetRenderLayer(Layer::eLayer_Well_Half_4);
         mLeafScale = FP_FromDouble(0.5);
-        mScale = Scale::Bg;
+        SetScale(Scale::Bg);
     }
     else
     {
         GetAnimation().SetRenderLayer(Layer::eLayer_Well_23);
         mLeafScale = FP_FromInteger(1);
-        mScale = Scale::Fg;
+        SetScale(Scale::Fg);
     }
 
     mSwitchId = pTlv->mSwitchId;

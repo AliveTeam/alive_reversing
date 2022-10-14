@@ -37,15 +37,15 @@ Dove::Dove(AnimId animId, const Guid& tlvId, FP scale)
     gDovesArray.Push_Back(this);
 
     GetAnimation().SetSpriteScale(scale);
-    mSpriteScale = scale;
+    SetSpriteScale(scale);
     if (scale == FP_FromInteger(1))
     {
-        mScale = Scale::Fg;
+        SetScale(Scale::Fg);
         GetAnimation().SetRenderLayer(Layer::eLayer_27);
     }
     else
     {
-        mScale = Scale::Bg;
+        SetScale(Scale::Bg);
         GetAnimation().SetRenderLayer(Layer::eLayer_8);
     }
 
@@ -84,7 +84,7 @@ Dove::Dove(AnimId animId, FP xpos, FP ypos, FP scale)
 
     GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
     GetAnimation().SetSpriteScale(scale);
-    mSpriteScale = scale;
+    SetSpriteScale(scale);
 
     if (scale == FP_FromInteger(1))
     {
@@ -213,11 +213,11 @@ void Dove::VUpdate()
             if (EventGet(kEventNoise))
             {
                 // player getting near
-                if (VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromInteger(2), sControlledCharacter))
+                if (VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(2), sControlledCharacter))
                 {
                     Dove::All_FlyAway(1);
                 }
-                if (VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromInteger(4), sControlledCharacter))
+                if (VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(4), sControlledCharacter))
                 {
                     // noise is too near, leg it
                     Dove::All_FlyAway(0);
@@ -290,8 +290,8 @@ void Dove::VUpdate()
             mAngle += 4;
 
             // Spin around this point
-            mXPos = ((Math_Sine_496DD0(mAngle) * FP_FromInteger(30)) * mSpriteScale) + mJoinX;
-            mYPos = ((Math_Cosine_496CD0(mAngle) * FP_FromInteger(35)) * mSpriteScale) + mJoinY;
+            mXPos = ((Math_Sine_496DD0(mAngle) * FP_FromInteger(30)) * GetSpriteScale()) + mJoinX;
+            mYPos = ((Math_Cosine_496CD0(mAngle) * FP_FromInteger(35)) * GetSpriteScale()) + mJoinY;
             return;
 
         case State::eAlmostACircle_4:
@@ -313,8 +313,8 @@ void Dove::VUpdate()
                 }
             }
             mAngle += 4;
-            mXPos = ((Math_Sine_496DD0(mAngle) * FP_FromInteger(sAbePortalWidth)) * mSpriteScale) + mJoinX;
-            mYPos = ((Math_Cosine_496CD0(mAngle) * FP_FromInteger(35)) * mSpriteScale) + mJoinY;
+            mXPos = ((Math_Sine_496DD0(mAngle) * FP_FromInteger(sAbePortalWidth)) * GetSpriteScale()) + mJoinX;
+            mYPos = ((Math_Cosine_496CD0(mAngle) * FP_FromInteger(35)) * GetSpriteScale()) + mJoinY;
             return;
 
         default:

@@ -43,8 +43,8 @@ CrawlingSligButton::CrawlingSligButton(relive::Path_CrawlingSligButton* pTlv, co
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
-        mScale = Scale::Bg;
+        SetSpriteScale(FP_FromDouble(0.5));
+        SetScale(Scale::Bg);
         GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_Half_6);
     }
     else if (pTlv->mScale == relive::reliveScale::eFull)
@@ -109,7 +109,7 @@ void CrawlingSligButton::VUpdate()
                             entry.field_0_block_idx,
                             entry.field_2_note + entry.field_4_pitch_min * (field_100_sound_direction & 2),
                             entry.field_2_note + entry.field_4_pitch_min * (field_100_sound_direction & 1),
-                            mSpriteScale);
+                            GetSpriteScale());
                         break;
                     }
                 }

@@ -375,21 +375,21 @@ void Map::Handle_PathTransition()
         switch (next_path_scale)
         {
             case relive::reliveScale::eFull:
-                sActiveHero->mSpriteScale = FP_FromInteger(1);
+                sActiveHero->SetSpriteScale(FP_FromInteger(1));
                 sActiveHero->GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_32);
                 if (gElum)
                 {
-                    gElum->mSpriteScale = sActiveHero->mSpriteScale;
+                    gElum->SetSpriteScale(sActiveHero->GetSpriteScale());
                     gElum->GetAnimation().SetRenderLayer(Layer::eLayer_ZapLinesElumMuds_28);
                 }
                 break;
 
             case relive::reliveScale::eHalf:
-                sActiveHero->mSpriteScale = FP_FromDouble(0.5);
+                sActiveHero->SetSpriteScale(FP_FromDouble(0.5));
                 sActiveHero->GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_Half_13);
                 if (gElum)
                 {
-                    gElum->mSpriteScale = sActiveHero->mSpriteScale;
+                    gElum->SetSpriteScale(sActiveHero->GetSpriteScale());
                     gElum->GetAnimation().SetRenderLayer(Layer::eLayer_ZapLinesMudsElum_Half_9);
                 }
                 break;
@@ -431,7 +431,7 @@ void Map::Handle_PathTransition()
                 {
                     field_18_pAliveObj->VSetXSpawn(
                         field_20_camX_idx * field_D4_pPathData->field_C_grid_width,
-                        MaxGridBlocks_41FA10(field_18_pAliveObj->mSpriteScale) - 1);
+                        MaxGridBlocks_41FA10(field_18_pAliveObj->GetSpriteScale()) - 1);
                 }
                 field_10_screenChangeEffect = CameraSwapEffects::eRightToLeft_2;
                 break;
@@ -515,11 +515,11 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
 
                 const PSX_RECT objRect = pObjIter->VGetBoundingRect();
 
-                const FP k60Scaled = pObjIter->mSpriteScale * FP_FromInteger(60);
+                const FP k60Scaled = pObjIter->GetSpriteScale() * FP_FromInteger(60);
                 auto pPurpleLight = New_DestroyOrCreateObject_Particle(
                     FP_FromInteger((objRect.x + objRect.w) / 2),
                     FP_FromInteger((objRect.y + objRect.h) / 2) + k60Scaled,
-                    pObjIter->mSpriteScale);
+                    pObjIter->GetSpriteScale());
 
                 if (pPurpleLight)
                 {

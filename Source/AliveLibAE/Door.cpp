@@ -273,15 +273,15 @@ Door::Door(relive::Path_Door* pTlvData, const Guid& tlvId)
     {
         if (pTlvData->mScale == relive::reliveScale::eHalf)
         {
-            mSpriteScale = FP_FromDouble(0.5);
-            mScale = Scale::Bg;
+            SetSpriteScale(FP_FromDouble(0.5));
+            SetScale(Scale::Bg);
             GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_Half_6);
         }
     }
     else
     {
-        mSpriteScale = FP_FromInteger(1);
-        mScale = Scale::Fg;
+        SetSpriteScale(FP_FromInteger(1));
+        SetScale(Scale::Fg);
         GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_25);
     }
 
@@ -299,13 +299,13 @@ Door::Door(relive::Path_Door* pTlvData, const Guid& tlvId)
             &pathLine,
             xOff,
             yOff,
-            (mScale == Scale::Fg) ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
+            (GetScale() == Scale::Fg) ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
     {
         // Move up off the line we hit
-        *yOff -= FP_FromInteger(12) * mSpriteScale;
+        *yOff -= FP_FromInteger(12) * GetSpriteScale();
 
         // Snap on X
-        *xOff = FP_FromInteger(SnapToXGrid(mSpriteScale, FP_GetExponent(*xOff)));
+        *xOff = FP_FromInteger(SnapToXGrid(GetSpriteScale(), FP_GetExponent(*xOff)));
     }
     else
     {
@@ -324,12 +324,12 @@ Door::Door(relive::Path_Door* pTlvData, const Guid& tlvId)
     {
         if (gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz || gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz_Ender)
         {
-            yAdjustHack = FP_FromInteger(10) * mSpriteScale;
+            yAdjustHack = FP_FromInteger(10) * GetSpriteScale();
         }
     }
     else
     {
-        yAdjustHack = FP_FromInteger(14) * mSpriteScale;
+        yAdjustHack = FP_FromInteger(14) * GetSpriteScale();
     }
     *yOff += yAdjustHack;
 
@@ -379,7 +379,7 @@ void Door::vSetClosed()
 void Door::PlaySound()
 {
     s16 volume = 0;
-    if (field_F8_door_type != relive::Path_Door::DoorTypes::eBasicDoor || mSpriteScale != FP_FromInteger(1))
+    if (field_F8_door_type != relive::Path_Door::DoorTypes::eBasicDoor || GetSpriteScale() != FP_FromInteger(1))
     {
         volume = 60;
     }

@@ -172,12 +172,12 @@ void BaseAliveGameObject::VOnPathTransition(s16 cameraWorldXPos, s16 cameraWorld
             break;
 
         case CameraPos::eCamLeft_3:
-            mXPos = FP_FromInteger(cameraWorldXPos + (XGrid_Index_To_XPos_4498F0(mSpriteScale, MaxGridBlocks_449880(mSpriteScale) - 1)));
+            mXPos = FP_FromInteger(cameraWorldXPos + (XGrid_Index_To_XPos_4498F0(GetSpriteScale(), MaxGridBlocks_449880(GetSpriteScale()) - 1)));
             mYPos = FP_FromInteger(cameraWorldYPos + FP_GetExponent(mYPos) % 260);
             break;
 
         case CameraPos::eCamRight_4:
-            mXPos = FP_FromInteger(cameraWorldXPos + XGrid_Index_To_XPos_4498F0(mSpriteScale, 1));
+            mXPos = FP_FromInteger(cameraWorldXPos + XGrid_Index_To_XPos_4498F0(GetSpriteScale(), 1));
             mYPos = FP_FromInteger(cameraWorldYPos + FP_GetExponent(mYPos) % 260);
             break;
 
@@ -185,7 +185,7 @@ void BaseAliveGameObject::VOnPathTransition(s16 cameraWorldXPos, s16 cameraWorld
             break;
     }
 
-    mXPos = FP_FromInteger(SnapToXGrid(mSpriteScale, FP_GetExponent(mXPos)));
+    mXPos = FP_FromInteger(SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos)));
 
     if (IsActiveHero(this) && gMap.mCurrentLevel == EReliveLevelIds::eNecrum && gMap.mCurrentPath == 2 && (mCurrentMotion == eAbeMotions::Motion_23_RollLoop_453A90 || mCurrentMotion == eAbeMotions::Motion_17_CrouchIdle_456BC0))
     {
@@ -206,7 +206,7 @@ void BaseAliveGameObject::VOnPathTransition(s16 cameraWorldXPos, s16 cameraWorld
             if (sCollisions->Raycast(
                     mXPos, mYPos - FP_FromInteger(40),
                     mXPos, mYPos + FP_FromInteger(40),
-                    &pLine, &hitX, &hitY, mScale == Scale::Fg ? kFgFloor : kBgFloor))
+                    &pLine, &hitX, &hitY, GetScale() == Scale::Fg ? kFgFloor : kBgFloor))
             {
                 mYPos = hitY;
                 BaseAliveGameObjectCollisionLine = pLine;
@@ -222,7 +222,7 @@ void BaseAliveGameObject::VOnPathTransition(s16 cameraWorldXPos, s16 cameraWorld
             if (sCollisions->Raycast(
                     mXPos, BaseAliveGameObjectLastLineYPos - FP_FromInteger(40),
                     mXPos, BaseAliveGameObjectLastLineYPos + FP_FromInteger(40),
-                    &pLine, &hitX, &hitY, mScale == Scale::Fg ? kFgFloor : kBgFloor))
+                    &pLine, &hitX, &hitY, GetScale() == Scale::Fg ? kFgFloor : kBgFloor))
             {
                 mYPos = hitY - BaseAliveGameObjectLastLineYPos + mYPos;
             }
@@ -233,13 +233,13 @@ void BaseAliveGameObject::VOnPathTransition(s16 cameraWorldXPos, s16 cameraWorld
         }
     }
 
-    if (mSpriteScale == FP_FromInteger(1) && GetAnimation().GetSpriteScale() == FP_FromDouble(0.5))
+    if (GetSpriteScale() == FP_FromInteger(1) && GetAnimation().GetSpriteScale() == FP_FromDouble(0.5))
     {
         // From 0.5 to 1 scale, f64 velx
         mVelX = mVelX * FP_FromInteger(2);
     }
 
-    if (mSpriteScale == FP_FromDouble(0.5) && GetAnimation().GetSpriteScale() == FP_FromInteger(1))
+    if (GetSpriteScale() == FP_FromDouble(0.5) && GetAnimation().GetSpriteScale() == FP_FromInteger(1))
     {
         // From 1 to 0.5 scale, halve velx
         mVelX = mVelX * FP_FromDouble(0.5);
@@ -286,7 +286,7 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid(s16 distance)
             &pLine,
             &hitX,
             &hitY,
-            mScale == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
+            GetScale() == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
     {
         BaseAliveGameObjectCollisionLine = pLine;
         mYPos = hitY;
@@ -327,11 +327,11 @@ BirdPortal* BaseAliveGameObject::VIntoBirdPortal(s16 numGridBlocks)
             {
                 if (pBirdPortal->mEnterSide == relive::Path_BirdPortal::PortalSide::eLeft)
                 {
-                    if (pBirdPortal->mXPos - mXPos <= (ScaleToGridSize(mSpriteScale) * FP_FromInteger(numGridBlocks)) && !(GetAnimation().mFlags.Get(AnimFlags::eFlipX)))
+                    if (pBirdPortal->mXPos - mXPos <= (ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(numGridBlocks)) && !(GetAnimation().mFlags.Get(AnimFlags::eFlipX)))
                     {
-                        if (FP_Abs(mYPos - pBirdPortal->mHitY) < mSpriteScale * FP_FromInteger(10) && pBirdPortal->VPortalClipper(1))
+                        if (FP_Abs(mYPos - pBirdPortal->mHitY) < GetSpriteScale() * FP_FromInteger(10) && pBirdPortal->VPortalClipper(1))
                         {
-                            GetAnimation().SetRenderLayer(mSpriteScale != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30);
+                            GetAnimation().SetRenderLayer(GetSpriteScale() != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30);
                             return pBirdPortal;
                         }
                     }
@@ -339,13 +339,13 @@ BirdPortal* BaseAliveGameObject::VIntoBirdPortal(s16 numGridBlocks)
             }
             else if (pBirdPortal->mEnterSide == relive::Path_BirdPortal::PortalSide::eRight)
             {
-                if (mXPos - pBirdPortal->mXPos <= ScaleToGridSize(mSpriteScale) * FP_FromInteger(numGridBlocks))
+                if (mXPos - pBirdPortal->mXPos <= ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(numGridBlocks))
                 {
                     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                     {
-                        if (FP_Abs(mYPos - pBirdPortal->mHitY) < mSpriteScale * FP_FromInteger(10) && pBirdPortal->VPortalClipper(1))
+                        if (FP_Abs(mYPos - pBirdPortal->mHitY) < GetSpriteScale() * FP_FromInteger(10) && pBirdPortal->VPortalClipper(1))
                         {
-                            GetAnimation().SetRenderLayer(mSpriteScale != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30);
+                            GetAnimation().SetRenderLayer(GetSpriteScale() != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30);
                             return pBirdPortal;
                         }
                     }
@@ -391,7 +391,7 @@ bool BaseAliveGameObject::Check_IsOnEndOfLine(s16 direction, s16 distance)
     // Check if distance grid blocks from current snapped X is still on the line or not, if not then we are
     // about to head off an edge.
 
-    const FP gridSize = ScaleToGridSize(mSpriteScale);
+    const FP gridSize = ScaleToGridSize(GetSpriteScale());
 
     FP xLoc = {};
     if (direction == 1)
@@ -403,7 +403,7 @@ bool BaseAliveGameObject::Check_IsOnEndOfLine(s16 direction, s16 distance)
         xLoc = gridSize * FP_FromInteger(distance);
     }
 
-    const FP xPosSnapped = FP_FromInteger(SnapToXGrid(mSpriteScale, FP_GetExponent(mXPos)));
+    const FP xPosSnapped = FP_FromInteger(SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos)));
 
     PathLine* pLine = nullptr;
     FP hitX = {};
@@ -416,7 +416,7 @@ bool BaseAliveGameObject::Check_IsOnEndOfLine(s16 direction, s16 distance)
                &pLine,
                &hitX,
                &hitY,
-               mScale == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls)
+               GetScale() == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls)
         == 0;
 }
 
@@ -502,7 +502,7 @@ void BaseAliveGameObject::SetActiveCameraDelayedFromDir()
 
 s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
 {
-    const s32 xposSnapped = SnapToXGrid(mSpriteScale, FP_GetExponent(mXPos));
+    const s32 xposSnapped = SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos));
     if (snapToGrid)
     {
         mXPos = FP_FromInteger(xposSnapped);
@@ -545,16 +545,16 @@ bool BaseAliveGameObject::WallHit(FP offY, FP offX)
                &pLine,
                &offX,
                &offY,
-               mScale == Scale::Fg ? kFgWalls : kBgWalls)
+               GetScale() == Scale::Fg ? kFgWalls : kBgWalls)
         != 0;
 }
 
 bool BaseAliveGameObject::InAirCollision(PathLine** ppPathLine, FP* hitX, FP* hitY, FP velY)
 {
-    mVelY += mSpriteScale * velY;
-    if (mVelY > (mSpriteScale * FP_FromInteger(20)))
+    mVelY += GetSpriteScale() * velY;
+    if (mVelY > (GetSpriteScale() * FP_FromInteger(20)))
     {
-        mVelY = mSpriteScale * FP_FromInteger(20);
+        mVelY = GetSpriteScale() * FP_FromInteger(20);
     }
 
     const FP oldYPos = mYPos;
@@ -571,7 +571,7 @@ bool BaseAliveGameObject::InAirCollision(PathLine** ppPathLine, FP* hitX, FP* hi
         ppPathLine,
         hitX,
         hitY,
-        mScale == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls);
+        GetScale() == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls);
 
     if (bCollision)
     {
@@ -592,7 +592,7 @@ bool BaseAliveGameObject::InAirCollision(PathLine** ppPathLine, FP* hitX, FP* hi
         ppPathLine,
         hitX,
         hitY,
-        mScale == Scale::Fg ? kFgFloor : kBgFloor);
+        GetScale() == Scale::Fg ? kFgFloor : kBgFloor);
 
     if (bCollision)
     {
@@ -611,7 +611,7 @@ bool BaseAliveGameObject::InAirCollision(PathLine** ppPathLine, FP* hitX, FP* hi
         return bCollision;
     }
 
-    const FP k10Scaled = mSpriteScale * FP_FromInteger(10);
+    const FP k10Scaled = GetSpriteScale() * FP_FromInteger(10);
     return sCollisions->Raycast(
         oldXPos,
         oldYPos - k10Scaled,
@@ -620,7 +620,7 @@ bool BaseAliveGameObject::InAirCollision(PathLine** ppPathLine, FP* hitX, FP* hi
         ppPathLine,
         hitX,
         hitY,
-        mScale == Scale::Fg ? kFgWalls : kBgWalls);
+        GetScale() == Scale::Fg ? kFgWalls : kBgWalls);
 }
 
 BaseGameObject* BaseAliveGameObject::FindObjectOfType(ReliveTypes typeToFind, FP xpos, FP ypos)
@@ -639,7 +639,7 @@ BaseGameObject* BaseAliveGameObject::FindObjectOfType(ReliveTypes typeToFind, FP
         if (pObj->Type() == typeToFind && pObj != this)
         {
             auto pCasted = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
-            if (pCasted->mScale == mScale)
+            if (pCasted->GetScale() == GetScale())
             {
                 const PSX_RECT bRect = pCasted->VGetBoundingRect();
                 if (xposI >= bRect.x && xposI <= bRect.w && yposI >= bRect.y && yposI <= bRect.h)

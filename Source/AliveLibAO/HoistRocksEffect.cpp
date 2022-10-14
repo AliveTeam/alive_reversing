@@ -27,7 +27,7 @@ HoistParticle::HoistParticle(FP xpos, FP ypos, FP scale, AnimId animId)
     //Animation_Init(frameTableOffset, maxW, 4, ppRes);
 
 
-    mSpriteScale = scale;
+    SetSpriteScale(scale);
 
     if (scale == FP_FromInteger(1))
     {
@@ -43,7 +43,7 @@ HoistParticle::HoistParticle(FP xpos, FP ypos, FP scale, AnimId animId)
 
 void HoistParticle::VUpdate()
 {
-    if (mVelY >= (mSpriteScale * FP_FromInteger(10)))
+    if (mVelY >= (GetSpriteScale() * FP_FromInteger(10)))
     {
         if (!gMap.Is_Point_In_Current_Camera(
                 mCurrentLevel,
@@ -57,7 +57,7 @@ void HoistParticle::VUpdate()
     }
     else
     {
-        mVelY += (mSpriteScale * FP_FromDouble(0.6));
+        mVelY += (GetSpriteScale() * FP_FromDouble(0.6));
     }
 
     const FP oldY = mYPos;
@@ -76,7 +76,7 @@ void HoistParticle::VUpdate()
                 &pLine,
                 &hitX,
                 &hitY,
-                mSpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor))
+                GetSpriteScale() != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor))
         {
             mYPos = hitY;
             mVelY = (mVelY * FP_FromDouble(-0.3));

@@ -128,15 +128,15 @@ FlintLockFire::FlintLockFire(relive::Path_FlintLockFire* pTlv, const Guid& tlvId
     Layer layer = Layer::eLayer_0;
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
+        SetSpriteScale(FP_FromDouble(0.5));
         layer = Layer::eLayer_BeforeShadow_Half_6;
-        mScale = Scale::Bg;
+        SetScale(Scale::Bg);
     }
     else
     {
-        mSpriteScale = FP_FromInteger(1);
+        SetSpriteScale(FP_FromInteger(1));
         layer = Layer::eLayer_BeforeShadow_25;
-        mScale = Scale::Fg;
+        SetScale(Scale::Fg);
     }
 
     GetAnimation().SetRenderLayer(layer);
@@ -239,13 +239,13 @@ void FlintLockFire::VRender(PrimHeader** ppOt)
     if (Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
     {
         const s32 cur_lvl = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
-        GetAnimation().SetSpriteScale(mSpriteScale);
-        field_F0_anim.SetSpriteScale(mSpriteScale);
+        GetAnimation().SetSpriteScale(GetSpriteScale());
+        field_F0_anim.SetSpriteScale(GetSpriteScale());
 
         if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
         {
-            field_188_anim.SetSpriteScale((mSpriteScale * FP_FromDouble(1.33)));
-            field_220_anim.SetSpriteScale(mSpriteScale);
+            field_188_anim.SetSpriteScale((GetSpriteScale() * FP_FromDouble(1.33)));
+            field_220_anim.SetSpriteScale(GetSpriteScale());
         }
 
         s16 r = mRGB.r;
@@ -259,7 +259,7 @@ void FlintLockFire::VRender(PrimHeader** ppOt)
             ShadowZone::ShadowZones_Calculate_Colour(
                 FP_GetExponent(mXPos),
                 FP_GetExponent(FP_FromInteger((bRect.y + bRect.h) / 2)),
-                mScale,
+                GetScale(),
                 &r,
                 &g,
                 &b);

@@ -61,18 +61,18 @@ PullRingRope::PullRingRope(relive::Path_PullRingRope* pTlv, const Guid& tlvId)
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
+        SetSpriteScale(FP_FromDouble(0.5));
         GetAnimation().SetRenderLayer(Layer::eLayer_8);
-        mScale = Scale::Bg;
+        SetScale(Scale::Bg);
     }
     else
     {
-        mSpriteScale = FP_FromInteger(1);
+        SetSpriteScale(FP_FromInteger(1));
         GetAnimation().SetRenderLayer(Layer::eLayer_27);
-        mScale = Scale::Fg;
+        SetScale(Scale::Fg);
     }
 
-    mXPos = FP_FromInteger(SnapToXGrid(mSpriteScale, FP_GetExponent(mXPos)));
+    mXPos = FP_FromInteger(SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos)));
 
     field_106_on_sound = pTlv->mOnSound;
     field_108_off_sound = pTlv->mOffSound;
@@ -82,11 +82,11 @@ PullRingRope::PullRingRope(relive::Path_PullRingRope* pTlv, const Guid& tlvId)
     auto pRope = relive_new Rope(FP_GetExponent(mXPos + FP_FromInteger(2)),
                               FP_GetExponent(mYPos) - pTlv->mRopeLength,
                               FP_GetExponent(mYPos),
-                              mSpriteScale);
+                              GetSpriteScale());
     if (pRope)
     {
         field_F8_rope_id = pRope->mBaseGameObjectId;
-        pRope->mYPos = FP_NoFractional(mYPos - (mSpriteScale * FP_FromInteger(16)));
+        pRope->mYPos = FP_NoFractional(mYPos - (GetSpriteScale() * FP_FromInteger(16)));
     }
 
     mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
@@ -147,7 +147,7 @@ void PullRingRope::VUpdate()
         case States::eTriggerEvent_2:
             if (field_10C_is_pulled & 1)
             {
-                mVelY = FP_FromInteger(4) * mSpriteScale;
+                mVelY = FP_FromInteger(4) * GetSpriteScale();
                 field_FC_ring_puller_id = Guid{};
                 field_100_state = States::eReturnToIdle_3;
                 field_F4_stay_in_state_ticks = 3;
@@ -232,7 +232,7 @@ void PullRingRope::VUpdate()
 
     if (pRope)
     {
-        pRope->mYPos = FP_NoFractional(mYPos - (mSpriteScale * FP_FromInteger(16)));
+        pRope->mYPos = FP_NoFractional(mYPos - (GetSpriteScale() * FP_FromInteger(16)));
     }
 }
 
@@ -254,7 +254,7 @@ s16 PullRingRope::VPull(BaseGameObject* pObj)
 
     field_FC_ring_puller_id = pObj->mBaseGameObjectId;
     field_100_state = States::eBeingPulled_1;
-    mVelY = FP_FromInteger(2) * mSpriteScale;
+    mVelY = FP_FromInteger(2) * GetSpriteScale();
     field_F4_stay_in_state_ticks = 6;
     GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::PullRingRope_UseBegin));
     SfxPlayMono(relive::SoundEffects::RingRopePull, 0);

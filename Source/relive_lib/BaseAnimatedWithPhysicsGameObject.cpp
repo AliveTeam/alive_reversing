@@ -1,15 +1,8 @@
 #include "stdafx.h"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
-//#include "Function.hpp"
 #include "MapWrapper.hpp"
-//#include "Map.hpp"
-//#include "Game.hpp"
-//#include "stdlib.hpp"
 #include "../relive_lib/Shadow.hpp"
 #include "../relive_lib/ScreenManager.hpp"
-//#include "ShadowZone.hpp"
-//#include "BaseAliveGameObject.hpp"
-//#include "AnimResources.hpp"
 #include "Sfx.hpp"
 #include "Particle.hpp"
 #include "../AliveLibAE/Grid.hpp"
@@ -17,6 +10,11 @@
 #include "ShadowZone.hpp"
 
 DynamicArrayT<BaseGameObject>* gObjListDrawables;
+
+void IBaseAnimatedWithPhysicsGameObject::CreateShadow()
+{
+    mShadow = relive_new Shadow();
+}
 
 void BaseAnimatedWithPhysicsGameObject::MakeArray()
 {
@@ -44,38 +42,38 @@ BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject(s16 resourc
     mXPos = FP_FromInteger(0);
     mYPos = FP_FromInteger(0);
 
-	// TODO: This can be removed if everything uses the tint table or passes down the RGB
-	if (GetGameType() == GameType::eAe)
-	{
-    	mRGB.SetRGB(127, 127, 127);
-	}
-	else
-	{
-		mRGB.SetRGB(105, 105, 105);
-	}
-	
+    // TODO: This can be removed if everything uses the tint table or passes down the RGB
+    if (GetGameType() == GameType::eAe)
+    {
+        mRGB.SetRGB(127, 127, 127);
+    }
+    else
+    {
+        mRGB.SetRGB(105, 105, 105);
+    }
+    
     mBaseGameObjectFlags.Clear(BaseGameObject::eInteractive_Bit8);
     mBaseGameObjectFlags.Clear(BaseGameObject::eCanExplode_Bit7);
 
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
     mBaseGameObjectFlags.Set(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5);
 
-    mSpriteScale = FP_FromInteger(1);
+    SetSpriteScale(FP_FromInteger(1));
 
-    mScale = Scale::Fg;
-	
+    SetScale(Scale::Fg);
+
     mXOffset = 0;
-	
-	// TODO: factor this out, not yet known why AO needs an offset of 5
-	if (GetGameType() == GameType::eAe)
-	{
-    	mYOffset = 0;
-	}
-	else
-	{
-		mYOffset = 5;
-	}
-	
+
+    // TODO: factor this out, not yet known why AO needs an offset of 5
+    if (GetGameType() == GameType::eAe)
+    {
+        mYOffset = 0;
+    }
+    else
+    {
+        mYOffset = 5;
+    }
+    
     mShadow = nullptr;
 }
 
@@ -89,7 +87,7 @@ BaseAnimatedWithPhysicsGameObject::~BaseAnimatedWithPhysicsGameObject()
             GetAnimation().VCleanUp();
         }
 
-        delete mShadow;
+        delete GetShadow();
     }
 }
 
@@ -102,7 +100,7 @@ void BaseAnimatedWithPhysicsGameObject::VRender(PrimHeader** ppOt)
             && GetMap().mCurrentLevel == mCurrentLevel
             && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
         {
-            GetAnimation().SetSpriteScale(mSpriteScale);
+            GetAnimation().SetSpriteScale(GetSpriteScale());
 
             s16 r = mRGB.r;
             s16 g = mRGB.g;
@@ -115,7 +113,7 @@ void BaseAnimatedWithPhysicsGameObject::VRender(PrimHeader** ppOt)
                 ShadowZone::ShadowZones_Calculate_Colour(
                     FP_GetExponent(mXPos),         // Left side
                     (boundingRect.y + boundingRect.h) / 2, // Middle of Height
-                    mScale,
+                    GetScale(),
                     &r,
                     &g,
                     &b);
@@ -147,15 +145,15 @@ void BaseAnimatedWithPhysicsGameObject::VRender(PrimHeader** ppOt)
             PSX_RECT frameRect = {};
             GetAnimation().Get_Frame_Rect(&frameRect);
 
-            if (mShadow)
+            if (GetShadow())
             {
-                mShadow->Calculate_Position(
+                GetShadow()->Calculate_Position(
                     mXPos,
                     mYPos,
                     &frameRect,
-                    mSpriteScale,
-                    mScale);
-                mShadow->Render(ppOt);
+                    GetSpriteScale(),
+                    GetScale());
+                GetShadow()->Render(ppOt);
             }
         }
     }
@@ -165,14 +163,14 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init(const AnimResource& res)
 {
     if (GetAnimation().Init(res, this))
     {
-        if (mSpriteScale == FP_FromInteger(1))
+        if (GetSpriteScale() == FP_FromInteger(1))
         {
             GetAnimation().SetRenderLayer(Layer::eLayer_27);
         }
         else
         {
             GetAnimation().SetRenderLayer(Layer::eLayer_8);
-            mScale = Scale::Bg;
+            SetScale(Scale::Bg);
         }
 
         const bool added = gObjListDrawables->Push_Back(this) ? true : false;
@@ -207,15 +205,15 @@ void BaseAnimatedWithPhysicsGameObject::DeathSmokeEffect(bool bPlaySound)
     if (!(sGnFrame % 5))
     {
         New_Smoke_Particles(
-            mXPos + (FP_FromInteger(Math_RandomRange(-24, 24)) * mSpriteScale),
+            mXPos + (FP_FromInteger(Math_RandomRange(-24, 24)) * GetSpriteScale()),
             mYPos - FP_FromInteger(6),
-            mSpriteScale / FP_FromInteger(2),
+            GetSpriteScale() / FP_FromInteger(2),
             2,
-            128u, 128u, 128u);
+            RGB16{128, 128, 128});
 
         if (bPlaySound == true)
         {
-            SFX_Play_Pitch(relive::SoundEffects::Vaporize, 25, FP_GetExponent(FP_FromInteger(2200) * mSpriteScale));
+            SFX_Play_Pitch(relive::SoundEffects::Vaporize, 25, FP_GetExponent(FP_FromInteger(2200) * GetSpriteScale()));
         }
     }
 }
@@ -240,14 +238,14 @@ void BaseAnimatedWithPhysicsGameObject::VOnCollisionWith(PSX_Point xy, PSX_Point
                     const PSX_RECT bRect = pObj->VGetBoundingRect();
                     if (xy.x <= bRect.w && wh.x >= bRect.x && wh.y >= bRect.y && xy.y <= bRect.h)
                     {
-						// NOTE: AO ignored scale here
-						if (GetGameType() == GameType::eAo || (GetGameType() == GameType::eAe && mScale == pObj->mScale))
-						{
-	                        if (!(this->*(pFn))(pObj))
-	                        {
-	                            break;
-	                        }
-						}
+                        // NOTE: AO ignored scale here
+                        if (GetGameType() == GameType::eAo || (GetGameType() == GameType::eAe && GetScale() == pObj->GetScale()))
+                        {
+                            if (!(this->*(pFn))(pObj))
+                            {
+                                break;
+                            }
+                        }
                     }
                 }
             }
@@ -258,14 +256,14 @@ void BaseAnimatedWithPhysicsGameObject::VOnCollisionWith(PSX_Point xy, PSX_Point
 s16 BaseAnimatedWithPhysicsGameObject::VIsObjNearby(FP radius, BaseAnimatedWithPhysicsGameObject* pOtherObj)
 {
     FP distance = FP_Abs(pOtherObj->mXPos - mXPos);
-	// TODO: Factor out
-	if (GetGameType() == GameType::eAo)
-	{
- 		if (distance > FP_FromInteger(400))
-    	{
-        	distance += ScaleToGridSize(mSpriteScale) - FP_FromInteger(656);
-    	}	
-	}
+    // TODO: Factor out
+    if (GetGameType() == GameType::eAo)
+    {
+        if (distance > FP_FromInteger(400))
+        {
+            distance += ScaleToGridSize(GetSpriteScale()) - FP_FromInteger(656);
+        }
+    }
     return distance <= radius;
 }
 
@@ -362,7 +360,7 @@ void BaseAnimatedWithPhysicsGameObject::VStackOnObjectsOfType(ReliveTypes typeTo
 	// NOTE: AO ignored scale here
 	if (GetGameType() == GameType::eAe)
 	{
-    	mXOffset = FP_GetExponent(FP_FromInteger(offsets[array_idx]) * mSpriteScale);
+    	mXOffset = FP_GetExponent(FP_FromInteger(offsets[array_idx]) * GetSpriteScale());
 	}
 	else
 	{
@@ -406,10 +404,10 @@ PSX_RECT BaseAnimatedWithPhysicsGameObject::VGetBoundingRect()
         rect.h = -rect.h;
     }
 
-    rect.x = FP_GetExponent((FP_FromInteger(rect.x) * mSpriteScale));
-    rect.y = FP_GetExponent((FP_FromInteger(rect.y) * mSpriteScale));
-    rect.w = FP_GetExponent((FP_FromInteger(rect.w) * mSpriteScale));
-    rect.h = FP_GetExponent((FP_FromInteger(rect.h) * mSpriteScale));
+    rect.x = FP_GetExponent((FP_FromInteger(rect.x) * GetSpriteScale()));
+    rect.y = FP_GetExponent((FP_FromInteger(rect.y) * GetSpriteScale()));
+    rect.w = FP_GetExponent((FP_FromInteger(rect.w) * GetSpriteScale()));
+    rect.h = FP_GetExponent((FP_FromInteger(rect.h) * GetSpriteScale()));
 
     const s16 xpos = FP_GetExponent(mXPos);
     const s16 ypos = FP_GetExponent(mYPos);

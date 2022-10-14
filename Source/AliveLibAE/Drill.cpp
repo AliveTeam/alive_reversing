@@ -83,15 +83,15 @@ Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
 
     if (tlvData.mScale == relive::reliveScale::eFull)
     {
-        mSpriteScale = FP_FromInteger(1);
+        SetSpriteScale(FP_FromInteger(1));
         GetAnimation().SetRenderLayer(Layer::eLayer_RopeWebDrillMeatSaw_24);
-        mScale = Scale::Fg;
+        SetScale(Scale::Fg);
     }
     else
     {
-        mSpriteScale = FP_FromDouble(0.5);
+        SetSpriteScale(FP_FromDouble(0.5));
         GetAnimation().SetRenderLayer(Layer::eLayer_RopeWebDrillMeatSaw_Half_5);
-        mScale = Scale::Bg;
+        SetScale(Scale::Bg);
     }
 
     mDrillDirection = tlvData.mDrillDirection;
@@ -246,7 +246,7 @@ Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
     mTlvInfo = tlvId;
     mAudioChannelsMask = 0;
 
-    mShadow = relive_new Shadow();
+    CreateShadow();
 }
 
 s32 Drill::CreateFromSaveState(const u8* pData)
@@ -557,17 +557,17 @@ void Drill::EmitSparks()
         {
             if (mDrillDirection == relive::Path_Drill::DrillDirection::eRight)
             {
-                relive_new Spark(mXPos - (mSpriteScale * FP_FromInteger(17)) + FP_FromInteger(speed),
-                                             mYPos - (mSpriteScale * FP_FromInteger(12)),
-                                             mSpriteScale,
+                relive_new Spark(mXPos - (GetSpriteScale() * FP_FromInteger(17)) + FP_FromInteger(speed),
+                                             mYPos - (GetSpriteScale() * FP_FromInteger(12)),
+                                             GetSpriteScale(),
                                              6u,
                                              50,
                                              205,
                                              SparkType::eSmallChantParticle_0);
 
-                relive_new Spark(mXPos + (mSpriteScale * FP_FromInteger(17)) + FP_FromInteger(speed),
-                                             mYPos - (mSpriteScale * FP_FromInteger(12)),
-                                             mSpriteScale,
+                relive_new Spark(mXPos + (GetSpriteScale() * FP_FromInteger(17)) + FP_FromInteger(speed),
+                                             mYPos - (GetSpriteScale() * FP_FromInteger(12)),
+                                             GetSpriteScale(),
                                              6u,
                                              50,
                                              205,
@@ -575,17 +575,17 @@ void Drill::EmitSparks()
             }
             else if (mDrillDirection == relive::Path_Drill::DrillDirection::eLeft)
             {
-                relive_new Spark(mXPos + (mSpriteScale * FP_FromInteger(17)) - FP_FromInteger(speed),
-                                             mYPos - (mSpriteScale * FP_FromInteger(12)),
-                                             mSpriteScale,
+                relive_new Spark(mXPos + (GetSpriteScale() * FP_FromInteger(17)) - FP_FromInteger(speed),
+                                             mYPos - (GetSpriteScale() * FP_FromInteger(12)),
+                                             GetSpriteScale(),
                                              6u,
                                              50,
                                              205,
                                              SparkType::eSmallChantParticle_0);
 
-                relive_new Spark(mXPos - (mSpriteScale * FP_FromInteger(17)) - FP_FromInteger(speed),
-                                             mYPos - (mSpriteScale * FP_FromInteger(12)),
-                                             mSpriteScale,
+                relive_new Spark(mXPos - (GetSpriteScale() * FP_FromInteger(17)) - FP_FromInteger(speed),
+                                             mYPos - (GetSpriteScale() * FP_FromInteger(12)),
+                                             GetSpriteScale(),
                                              6u,
                                              50,
                                              205,
@@ -594,16 +594,16 @@ void Drill::EmitSparks()
             else if (mDrillDirection == relive::Path_Drill::DrillDirection::eDown)
             {
                 relive_new Spark(mXPos,
-                                             mYPos - (mSpriteScale * FP_FromInteger(22)) - FP_FromInteger(speed),
-                                             mSpriteScale,
+                                             mYPos - (GetSpriteScale() * FP_FromInteger(22)) - FP_FromInteger(speed),
+                                             GetSpriteScale(),
                                              6u,
                                              50,
                                              205,
                                              SparkType::eSmallChantParticle_0);
 
                 relive_new Spark(mXPos,
-                                             mYPos + (mSpriteScale * FP_FromInteger(4)) - FP_FromInteger(speed),
-                                             mSpriteScale,
+                                             mYPos + (GetSpriteScale() * FP_FromInteger(4)) - FP_FromInteger(speed),
+                                             GetSpriteScale(),
                                              6u,
                                              50,
                                              205,
@@ -639,7 +639,7 @@ s16 Drill::DamageTouchingObjects()
                 {
                     const PSX_RECT objRect = pObj->VGetBoundingRect();
 
-                    if (RectsOverlap(drillRect, objRect) && pObj->mScale == mScale && pObj->mHealth > FP_FromInteger(0))
+                    if (RectsOverlap(drillRect, objRect) && pObj->GetScale() == GetScale() && pObj->mHealth > FP_FromInteger(0))
                     {
                         if (pObj->mXPos + FP_FromInteger(3) >= FP_FromInteger(drillRect.x) && pObj->mXPos - FP_FromInteger(3) <= FP_FromInteger(drillRect.w))
                         {
@@ -668,7 +668,7 @@ s16 Drill::DamageTouchingObjects()
                                 FP_FromInteger(drillRect.h - 10),
                                 FP_FromInteger(-5),
                                 FP_FromInteger(5),
-                                mSpriteScale,
+                                GetSpriteScale(),
                                 50);
 
 
@@ -676,14 +676,14 @@ s16 Drill::DamageTouchingObjects()
                                  FP_FromInteger(drillRect.h - 10),
                                  FP_FromInteger(0),
                                  FP_FromInteger(5),
-                                 mSpriteScale,
+                                 GetSpriteScale(),
                                  50);
 
     relive_new Blood(pFound->mXPos,
                                  FP_FromInteger(drillRect.h - 10),
                                  FP_FromInteger(5),
                                  FP_FromInteger(5),
-                                 mSpriteScale,
+                                 GetSpriteScale(),
                                  50);
 
     SFX_Play_Pitch(relive::SoundEffects::DrillCollision, 127, -500);

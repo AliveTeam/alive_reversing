@@ -173,11 +173,9 @@ void Teleporter::VUpdate()
                         New_Smoke_Particles(
                             sControlledCharacter->mXPos,
                             sControlledCharacter->mYPos - FP_FromInteger(9), // 18/2
-                            sControlledCharacter->mSpriteScale,
+                            sControlledCharacter->GetSpriteScale(),
                             3,
-                            128u,
-                            128u,
-                            128u);
+                            RGB16{ 128, 128, 128 });
 
                         relive_new ParticleBurst(sControlledCharacter->mXPos,
                                               sControlledCharacter->mYPos - FP_FromInteger(9), // 18/2
@@ -192,11 +190,9 @@ void Teleporter::VUpdate()
                         New_Smoke_Particles(
                             sControlledCharacter->mXPos,
                             sControlledCharacter->mYPos - FP_FromInteger(18),
-                            sControlledCharacter->mSpriteScale,
+                            sControlledCharacter->GetSpriteScale(),
                             3,
-                            128u,
-                            128u,
-                            128u);
+                            RGB16{128, 128, 128});
 
                        relive_new ParticleBurst(sControlledCharacter->mXPos,
                                                                     sControlledCharacter->mYPos - FP_FromInteger(18),
@@ -265,25 +261,25 @@ void Teleporter::VUpdate()
 
             if (tlvData.mScale != relive::reliveScale::eFull)
             {
-                if (sControlledCharacter->mScale == Scale::Fg)
+                if (sControlledCharacter->GetScale() == Scale::Fg)
                 {
                     sControlledCharacter->mVelX *= FP_FromDouble(0.5);
                     sControlledCharacter->mVelY *= FP_FromDouble(0.5);
                 }
-                sControlledCharacter->mSpriteScale = FP_FromDouble(0.5);
+                sControlledCharacter->SetSpriteScale(FP_FromDouble(0.5));
                 sControlledCharacter->GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_Half_13);
-                sControlledCharacter->mScale = Scale::Bg;
+                sControlledCharacter->SetScale(Scale::Bg);
             }
             else
             {
-                if (sControlledCharacter->mScale == Scale::Bg)
+                if (sControlledCharacter->GetScale() == Scale::Bg)
                 {
                     sControlledCharacter->mVelX *= FP_FromInteger(2);
                     sControlledCharacter->mVelY *= FP_FromInteger(2);
                 }
-                sControlledCharacter->mSpriteScale = FP_FromInteger(1);
+                sControlledCharacter->SetSpriteScale(FP_FromInteger(1));
                 sControlledCharacter->GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_32);
-                sControlledCharacter->mScale = Scale::Fg;
+                sControlledCharacter->SetScale(Scale::Fg);
             }
 
             // XPos = TLV xpos + TLV middle point
@@ -302,7 +298,7 @@ void Teleporter::VUpdate()
                     &pPathLine,
                     &hitX,
                     &hitY,
-                    sControlledCharacter->mScale == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
+                    sControlledCharacter->GetScale() == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
             {
                 sControlledCharacter->BaseAliveGameObjectCollisionLine = pPathLine;
                 sControlledCharacter->mYPos = hitY;
@@ -325,11 +321,11 @@ void Teleporter::VUpdate()
             // White flash in the middle of Abe's body.
             New_DestroyOrCreateObject_Particle(
                 FP_FromInteger((bRect.x + bRect.w) / 2),
-                FP_FromInteger((bRect.y + bRect.h) / 2) + (sControlledCharacter->mSpriteScale * FP_FromInteger(60)),
-                sControlledCharacter->mSpriteScale);
+                FP_FromInteger((bRect.y + bRect.h) / 2) + (sControlledCharacter->GetSpriteScale() * FP_FromInteger(60)),
+                sControlledCharacter->GetSpriteScale());
 
             // Spawn the falling "red" sparks from Abe's feet that appear after you've arrived at the destination.
-            if (sControlledCharacter->mSpriteScale == FP_FromDouble(0.5))
+            if (sControlledCharacter->GetSpriteScale() == FP_FromDouble(0.5))
             {
                 relive_new ParticleBurst(sControlledCharacter->mXPos,
                                                             sControlledCharacter->mYPos - FP_FromInteger(9),

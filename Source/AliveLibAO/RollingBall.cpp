@@ -55,9 +55,9 @@ RollingBall::RollingBall(relive::Path_RollingBall* pTlv, const Guid& tlvId)
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
+        SetSpriteScale(FP_FromDouble(0.5));
         GetAnimation().SetRenderLayer(Layer::eLayer_DoorFlameRollingBallFallingItemPortalClip_Half_12);
-        mScale = Scale::Bg;
+        SetScale(Scale::Bg);
     }
 
     if (pTlv->mRollDirection == relive::reliveXDirection::eLeft)
@@ -90,7 +90,7 @@ RollingBall::RollingBall(relive::Path_RollingBall* pTlv, const Guid& tlvId)
             &castX,
             &castY,
             // yeah this should be simplified, WTF!
-            mSpriteScale - FP_FromDouble(0.5) != FP_FromInteger(0) ? kFgFloor : kBgFloor)
+            GetSpriteScale() - FP_FromDouble(0.5) != FP_FromInteger(0) ? kFgFloor : kBgFloor)
         == 1)
     {
         mYPos = castY;
@@ -101,7 +101,7 @@ RollingBall::RollingBall(relive::Path_RollingBall* pTlv, const Guid& tlvId)
     mState = States::eInactive;
     mRollingBallShaker = nullptr;
 
-    mShadow = relive_new Shadow();
+    CreateShadow();
 
     if (!SwitchStates_Get(mReleaseSwitchId))
     {
@@ -226,7 +226,7 @@ void RollingBall::VUpdate()
                     mXPos,
                     mYPos - FP_FromInteger(30),
                     150,
-                    mSpriteScale,
+                    GetSpriteScale(),
                     BurstType::eFallingRocks_0);
 
                 relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, TPageAbr::eBlend_1, 1);

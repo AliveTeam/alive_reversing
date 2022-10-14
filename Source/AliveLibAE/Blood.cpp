@@ -11,7 +11,7 @@
 Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    mSpriteScale = scale;
+    SetSpriteScale(scale);
 
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BloodDrop));
 
@@ -21,7 +21,7 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
     GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
     GetAnimation().SetRGB(127, 127, 127);
 
-    if (mSpriteScale == FP_FromInteger(1))
+    if (GetSpriteScale() == FP_FromInteger(1))
     {
         mOtLayer = Layer::eLayer_Foreground_36;
     }
@@ -114,11 +114,11 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
 
             const FP randX = FP_FromInteger(sRandomBytes_546744[mRandSeed++]) / FP_FromInteger(16);
             const FP adjustedX = FP_FromDouble(1.3) * (randX - FP_FromInteger(8));
-            mBloodParticle[i].mOffX = mSpriteScale * (xOff + adjustedX);
+            mBloodParticle[i].mOffX = GetSpriteScale() * (xOff + adjustedX);
 
             const FP randY = FP_FromInteger(sRandomBytes_546744[mRandSeed++]) / FP_FromInteger(16);
             const FP adjustedY = FP_FromDouble(1.3) * (randY - FP_FromInteger(8));
-            mBloodParticle[i].mOffY = mSpriteScale * (yOff + adjustedY);
+            mBloodParticle[i].mOffY = GetSpriteScale() * (yOff + adjustedY);
         }
     }
     else

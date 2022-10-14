@@ -131,9 +131,9 @@ void Grenade::VUpdate()
         case States::eFallingToBeCollected_0:
             if (!InTheAir())
             {
-                mCollectionRect.x = mXPos - (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2));
-                mCollectionRect.y = mYPos - ScaleToGridSize(mSpriteScale);
-                mCollectionRect.w = mXPos + (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2));
+                mCollectionRect.x = mXPos - (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
+                mCollectionRect.y = mYPos - ScaleToGridSize(GetSpriteScale());
+                mCollectionRect.w = mXPos + (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
                 mCollectionRect.h = mYPos;
 
                 mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
@@ -175,7 +175,7 @@ void Grenade::VUpdate()
                     field_110_state = States::eFallingToBeCollected_0;
                 }
             }
-            else if (abs(SnapToXGrid(mSpriteScale, FP_GetExponent(mXPos)) - FP_GetExponent(mXPos)) > 1)
+            else if (abs(SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos)) - FP_GetExponent(mXPos)) > 1)
             {
                 const auto oldLine = field_114_pCollisionLine;
                 field_114_pCollisionLine = field_114_pCollisionLine->MoveOnLine(&mXPos, &mYPos, mVelX);
@@ -198,9 +198,9 @@ void Grenade::VUpdate()
             {
                 mVelX = FP_FromInteger(0);
 
-                mCollectionRect.x = mXPos - (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2));
-                mCollectionRect.y = mYPos - ScaleToGridSize(mSpriteScale);
-                mCollectionRect.w = mXPos + (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2));
+                mCollectionRect.x = mXPos - (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
+                mCollectionRect.y = mYPos - ScaleToGridSize(GetSpriteScale());
+                mCollectionRect.w = mXPos + (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
                 mCollectionRect.h = mYPos;
 
                 mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
@@ -320,7 +320,7 @@ s16 Grenade::InTheAir()
         &field_114_pCollisionLine,
         &hitX,
         &hitY,
-        mSpriteScale != FP_FromDouble(0.5) ? kFgFloor : kBgFloor);
+        GetSpriteScale() != FP_FromDouble(0.5) ? kFgFloor : kBgFloor);
 
     result = bHit ? 1 : 0;
 
@@ -365,7 +365,7 @@ s16 Grenade::InTheAir()
         &field_114_pCollisionLine,
         &hitX,
         &hitY,
-        mSpriteScale != FP_FromDouble(0.5) ? kFgWalls : kBgWalls);
+        GetSpriteScale() != FP_FromDouble(0.5) ? kFgWalls : kBgWalls);
 
     if (v20 == 1)
     {
@@ -461,8 +461,8 @@ s16 Grenade::BlowUpAfterCountdown()
 
     auto pExplosion = relive_new AirExplosion(
         mXPos,
-        mYPos - (mSpriteScale * FP_FromInteger(5)),
-        mSpriteScale);
+        mYPos - (GetSpriteScale() * FP_FromInteger(5)),
+        GetSpriteScale());
     if (pExplosion)
     {
         GetAnimation().mFlags.Clear(AnimFlags::eRender);
@@ -471,7 +471,7 @@ s16 Grenade::BlowUpAfterCountdown()
         field_110_state = States::eWaitForExplodeEnd_6;
     }
 
-    relive_new Gibs(GibType::Metal_5, mXPos, mYPos, FP_FromInteger(0), FP_FromInteger(5), mSpriteScale);
+    relive_new Gibs(GibType::Metal_5, mXPos, mYPos, FP_FromInteger(0), FP_FromInteger(5), GetSpriteScale());
     return 1;
 }
 

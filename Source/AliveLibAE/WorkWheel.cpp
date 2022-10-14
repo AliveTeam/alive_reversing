@@ -36,16 +36,16 @@ WorkWheel::WorkWheel(relive::Path_WorkWheel* pTlv, const Guid& tlvId)
     {
         if (pTlv->mScale == relive::reliveScale::eHalf)
         {
-            mSpriteScale = FP_FromDouble(0.5);
+            SetSpriteScale(FP_FromDouble(0.5));
             GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_Half_6);
-            mScale = Scale::Bg;
+            SetScale(Scale::Bg);
         }
     }
     else
     {
-        mSpriteScale = FP_FromInteger(1);
+        SetSpriteScale(FP_FromInteger(1));
         GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_25);
-        mScale = Scale::Fg;
+        SetScale(Scale::Fg);
     }
 
     mSwitchId = pTlv->mSwitchId;
@@ -65,13 +65,13 @@ WorkWheel::WorkWheel(relive::Path_WorkWheel* pTlv, const Guid& tlvId)
             &pathLine,
             &hitX,
             &hitY,
-            (mScale == Scale::Fg) ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
+            (GetScale() == Scale::Fg) ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls))
     {
         mYPos = hitY;
     }
     else
     {
-        mYPos += FP_FromInteger(20) * mSpriteScale;
+        mYPos += FP_FromInteger(20) * GetSpriteScale();
     }
 
 

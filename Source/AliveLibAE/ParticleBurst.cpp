@@ -43,7 +43,7 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
     }
 
     field_106_count = static_cast<s16>(count);
-    mSpriteScale = scale;
+    SetSpriteScale(scale);
     field_F8_pRes = relive_new ParticleBurst_Item[numOfParticles];
     if (field_F8_pRes)
     {
@@ -108,14 +108,14 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
         }
         else
         {
-            if (mSpriteScale == FP_FromInteger(1))
+            if (GetSpriteScale() == FP_FromInteger(1))
             {
-                mScale = Scale::Fg;
+                SetScale(Scale::Fg);
                 GetAnimation().SetRenderLayer(Layer::eLayer_Above_FG1_39);
             }
             else
             {
-                mScale = Scale::Bg;
+                SetScale(Scale::Bg);
                 GetAnimation().SetRenderLayer(Layer::eLayer_Above_FG1_Half_20);
             }
 
@@ -128,7 +128,7 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
             {
                 field_F8_pRes[i].field_18_animation.field_68_anim_ptr = &GetAnimation();
                 field_F8_pRes[i].field_18_animation.SetRenderLayer(GetAnimation().GetRenderLayer());
-                field_F8_pRes[i].field_18_animation.field_6C_scale = FP_FromDouble(0.95) * mSpriteScale;
+                field_F8_pRes[i].field_18_animation.field_6C_scale = FP_FromDouble(0.95) * GetSpriteScale();
 
                 field_F8_pRes[i].field_18_animation.mFlags.Set(AnimFlags::eRender);
                 //field_F8_pRes[i].field_18_animation.mFlags.Set(AnimFlags::eBit25_bDecompressDone); // TODO: HIWORD &= ~0x0100u ??
@@ -168,7 +168,7 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
 FP* ParticleBurst::Random_Speed(FP* random)
 {
     const FP v2 = FP_FromRaw((Math_NextRandom() - 128) << LOBYTE(field_106_count));
-    *random = v2 * mSpriteScale;
+    *random = v2 * GetSpriteScale();
     return random;
 }
 
@@ -182,7 +182,7 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
     bool bFirst = true;
     if (sNum_CamSwappers_5C1B66 == 0)
     {
-        GetAnimation().SetSpriteScale(mSpriteScale);
+        GetAnimation().SetSpriteScale(GetSpriteScale());
         const FP camX = pScreenManager->CamXPos();
         const FP camY = pScreenManager->CamYPos();
 
@@ -214,7 +214,7 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
             if (bFirst)
             {
                 GetAnimation().SetSpriteScale(FP_FromInteger(100) / (zPos + FP_FromInteger(300)));
-                GetAnimation().SetSpriteScale(GetAnimation().GetSpriteScale() * mSpriteScale);
+                GetAnimation().SetSpriteScale(GetAnimation().GetSpriteScale() * GetSpriteScale());
                 GetAnimation().SetSpriteScale(GetAnimation().GetSpriteScale() * FP_FromInteger(field_106_count) / FP_FromInteger(13));
 
                 if (GetAnimation().GetSpriteScale() <= FP_FromInteger(1))
@@ -265,7 +265,7 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
             else
             {
                 field_F8_pRes[i].field_18_animation.field_6C_scale = FP_FromInteger(100) / (zPos + FP_FromInteger(300));
-                field_F8_pRes[i].field_18_animation.field_6C_scale *= mSpriteScale;
+                field_F8_pRes[i].field_18_animation.field_6C_scale *= GetSpriteScale();
                 field_F8_pRes[i].field_18_animation.field_6C_scale *= FP_FromInteger(field_106_count) / FP_FromInteger(13);
 
                 if (field_F8_pRes[i].field_18_animation.field_6C_scale <= FP_FromInteger(1))
@@ -318,7 +318,7 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
 
 void ParticleBurst::VUpdate()
 {
-    const s32 v3 = mSpriteScale != FP_FromInteger(1) ? 2 : 4;
+    const s32 v3 = GetSpriteScale() != FP_FromInteger(1) ? 2 : 4;
     for (s32 i = 0; i < field_FC_number_of_particles; i++)
     {
         field_F8_pRes[i].x += field_F8_pRes[i].field_C_x_speed;

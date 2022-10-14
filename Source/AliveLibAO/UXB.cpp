@@ -55,15 +55,15 @@ UXB::UXB(relive::Path_UXB* pTlv, const Guid& tlvId)
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
+        SetSpriteScale(FP_FromDouble(0.5));
         GetAnimation().SetRenderLayer(Layer::eLayer_RollingBallBombMineCar_Half_16);
-        mScale = Scale::Bg;
+        SetScale(Scale::Bg);
     }
     else
     {
-        mSpriteScale = FP_FromInteger(1);
+        SetSpriteScale(FP_FromInteger(1));
         GetAnimation().SetRenderLayer(Layer::eLayer_RollingBallBombMineCar_35);
-        mScale = Scale::Fg;
+        SetScale(Scale::Fg);
     }
 
     InitBlinkAnim();
@@ -129,7 +129,7 @@ UXB::UXB(relive::Path_UXB* pTlv, const Guid& tlvId)
         mRGB.SetRGB(80, 90, 110);
     }
 
-    const FP gridSnap = ScaleToGridSize(mSpriteScale);
+    const FP gridSnap = ScaleToGridSize(GetSpriteScale());
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
 
     mCollectionRect.x = mXPos - (gridSnap / FP_FromInteger(2));
@@ -146,7 +146,7 @@ void UXB::InitBlinkAnim()
         mFlashAnim.mFlags.Set(AnimFlags::eBlending);
 
         mFlashAnim.SetRenderLayer(GetAnimation().GetRenderLayer());
-        mFlashAnim.SetSpriteScale(mSpriteScale);
+        mFlashAnim.SetSpriteScale(GetSpriteScale());
         mFlashAnim.SetRGB(128, 128, 128);
         mFlashAnim.SetRenderMode(TPageAbr::eBlend_1);
     }
@@ -222,7 +222,7 @@ s16 UXB::VTakeDamage(BaseGameObject* pFrom)
 
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 
-    relive_new GroundExplosion(mXPos, mYPos, mSpriteScale);
+    relive_new GroundExplosion(mXPos, mYPos, GetSpriteScale());
 
     mCurrentState = UXBState::eExploding;
     mNextStateTimer = sGnFrame;
@@ -232,7 +232,7 @@ s16 UXB::VTakeDamage(BaseGameObject* pFrom)
 
 void UXB::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
-    relive_new GroundExplosion(mXPos, mYPos, mSpriteScale);
+    relive_new GroundExplosion(mXPos, mYPos, GetSpriteScale());
 
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     mCurrentState = UXBState::eExploding;
@@ -368,7 +368,7 @@ void UXB::VUpdate()
         case UXBState::eExploding:
             if (static_cast<s32>(sGnFrame) >= mNextStateTimer)
             {
-                relive_new GroundExplosion(mXPos, mYPos, mSpriteScale);
+                relive_new GroundExplosion(mXPos, mYPos, GetSpriteScale());
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
             break;
@@ -419,7 +419,7 @@ s16 UXB::IsColliding()
                 const s32 objX = FP_GetExponent(pObj->mXPos);
                 const s32 objY = FP_GetExponent(pObj->mYPos);
 
-                if (objX > uxbBound.x && objX < uxbBound.w && objY < uxbBound.h + 5 && uxbBound.x <= objBound.w && uxbBound.w >= objBound.x && uxbBound.h >= objBound.y && uxbBound.y <= objBound.h && pObj->mSpriteScale == mSpriteScale)
+                if (objX > uxbBound.x && objX < uxbBound.w && objY < uxbBound.h + 5 && uxbBound.x <= objBound.w && uxbBound.w >= objBound.x && uxbBound.h >= objBound.y && uxbBound.y <= objBound.h && pObj->GetSpriteScale() == GetSpriteScale())
                 {
                     return 1;
                 }
@@ -443,7 +443,7 @@ void UXB::VRender(PrimHeader** ppOt)
                            + FP_FromInteger(pScreenManager->mCamXOff)
                            - pScreenManager->mCamPos->x),
             FP_GetExponent(mYPos
-                           + (FP_FromInteger(pScreenManager->mCamYOff) - FP_NoFractional(mSpriteScale * FP_FromInteger(12)))
+                           + (FP_FromInteger(pScreenManager->mCamYOff) - FP_NoFractional(GetSpriteScale() * FP_FromInteger(12)))
                            - pScreenManager->mCamPos->y),
             ppOt,
             0,

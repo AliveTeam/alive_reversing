@@ -87,13 +87,13 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, Map* pPath, const Guid& tlvId
     const s32 lvl_idx = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
-        mScale = Scale::Bg;
+        SetSpriteScale(FP_FromDouble(0.5));
+        SetScale(Scale::Bg);
     }
     else
     {
-        mSpriteScale = FP_FromInteger(1);
-        mScale = Scale::Fg;
+        SetSpriteScale(FP_FromInteger(1));
+        SetScale(Scale::Fg);
     }
 
     AddDynamicCollision(
@@ -102,7 +102,7 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, Map* pPath, const Guid& tlvId
         pPath,
         tlvId);
 
-    if (mSpriteScale == FP_FromInteger(1))
+    if (GetSpriteScale() == FP_FromInteger(1))
     {
         GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_25);
     }
@@ -135,7 +135,7 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, Map* pPath, const Guid& tlvId
             field_13C_lift_wheel.SetRenderLayer(Layer::eLayer_BeforeShadow_25);
         }
 
-        field_13C_lift_wheel.SetSpriteScale(mSpriteScale);
+        field_13C_lift_wheel.SetSpriteScale(GetSpriteScale());
 
         field_27A_flags.Clear(Flags::eBit6_bMoveToFloorLevel);
         field_27A_flags.Clear(Flags::eBit4_bBottomFloor);
@@ -156,10 +156,10 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, Map* pPath, const Guid& tlvId
         mLiftPointStopType = relive::Path_LiftPoint::LiftPointStopType::eStartPointOnly;
 
         auto pRopeMem = relive_new Rope(
-            FP_GetExponent(mXPos + (FP_FromInteger(13) * mSpriteScale) + FP_FromInteger(stru_4BB640[lvl_idx].field_4)),
+            FP_GetExponent(mXPos + (FP_FromInteger(13) * GetSpriteScale()) + FP_FromInteger(stru_4BB640[lvl_idx].field_4)),
             0,
-            FP_GetExponent(mYPos + (FP_FromInteger(25) * mSpriteScale)),
-            mSpriteScale);
+            FP_GetExponent(mYPos + (FP_FromInteger(25) * GetSpriteScale())),
+            GetSpriteScale());
         if (pRopeMem)
         {
             pRopeMem->mBaseGameObjectRefCount++;
@@ -167,22 +167,22 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, Map* pPath, const Guid& tlvId
         }
 
         auto pRopeMem2 = relive_new Rope(
-            FP_GetExponent(mXPos + (FP_FromInteger(-10) * mSpriteScale) + FP_FromInteger(stru_4BB640[lvl_idx].field_0)),
+            FP_GetExponent(mXPos + (FP_FromInteger(-10) * GetSpriteScale()) + FP_FromInteger(stru_4BB640[lvl_idx].field_0)),
             0,
-            FP_GetExponent(mYPos + (FP_FromInteger(25) * mSpriteScale)),
-            mSpriteScale);;
+            FP_GetExponent(mYPos + (FP_FromInteger(25) * GetSpriteScale())),
+            GetSpriteScale());;
         if (pRopeMem2)
         {
             pRopeMem2->mBaseGameObjectRefCount++;
             field_134_pRope2 = pRopeMem2;
         }
 
-        field_134_pRope2->field_F2_bottom = FP_GetExponent((FP_FromInteger(25) * mSpriteScale) + FP_FromInteger(mPlatformBaseCollisionLine->mRect.y));
-        field_138_pRope1->field_F2_bottom = FP_GetExponent((FP_FromInteger(25) * mSpriteScale) + FP_FromInteger(mPlatformBaseCollisionLine->mRect.y));
+        field_134_pRope2->field_F2_bottom = FP_GetExponent((FP_FromInteger(25) * GetSpriteScale()) + FP_FromInteger(mPlatformBaseCollisionLine->mRect.y));
+        field_138_pRope1->field_F2_bottom = FP_GetExponent((FP_FromInteger(25) * GetSpriteScale()) + FP_FromInteger(mPlatformBaseCollisionLine->mRect.y));
 
-        const FP v29 = FP_FromRaw(FP_GetExponent((mYPos * FP_FromDouble(1.5)) * mSpriteScale) % FP_FromInteger(field_134_pRope2->field_E6_rope_length).fpValue);
-        field_134_pRope2->mYPos = FP_NoFractional(mYPos + v29 + (FP_FromInteger(25) * mSpriteScale) + FP_FromInteger(field_134_pRope2->field_E6_rope_length));
-        field_138_pRope1->mYPos = FP_NoFractional(mYPos + v29 - (FP_FromInteger(25) * mSpriteScale) + FP_FromInteger(field_138_pRope1->field_E6_rope_length));
+        const FP v29 = FP_FromRaw(FP_GetExponent((mYPos * FP_FromDouble(1.5)) * GetSpriteScale()) % FP_FromInteger(field_134_pRope2->field_E6_rope_length).fpValue);
+        field_134_pRope2->mYPos = FP_NoFractional(mYPos + v29 + (FP_FromInteger(25) * GetSpriteScale()) + FP_FromInteger(field_134_pRope2->field_E6_rope_length));
+        field_138_pRope1->mYPos = FP_NoFractional(mYPos + v29 - (FP_FromInteger(25) * GetSpriteScale()) + FP_FromInteger(field_138_pRope1->field_E6_rope_length));
 
         field_27A_flags.Clear(Flags::eBit5_bHasPulley);
 
@@ -296,15 +296,15 @@ void LiftPoint::VUpdate()
                 absDistToFloor = distToFloor;
             }
 
-            if (absDistToFloor >= (FP_FromInteger(2) * mSpriteScale))
+            if (absDistToFloor >= (FP_FromInteger(2) * GetSpriteScale()))
             {
                 if (distToFloor >= FP_FromInteger(0))
                 {
-                    mVelY = (FP_FromInteger(2) * mSpriteScale);
+                    mVelY = (FP_FromInteger(2) * GetSpriteScale());
                 }
                 else
                 {
-                    mVelY = -(FP_FromInteger(2) * mSpriteScale);
+                    mVelY = -(FP_FromInteger(2) * GetSpriteScale());
                 }
                 field_12C_bMoving |= 1u;
             }
@@ -331,7 +331,7 @@ void LiftPoint::VUpdate()
                 mXPos,
                 lineY,
                 mXPos,
-                (mSpriteScale * FP_FromInteger(30)) + lineY);
+                (GetSpriteScale() * FP_FromInteger(30)) + lineY);
             while (pTlvIter)
             {
                 if (pTlvIter->mTlvType == ReliveTypes::eLiftPoint)
@@ -345,7 +345,7 @@ void LiftPoint::VUpdate()
                     mXPos,
                     lineY,
                     mXPos,
-                    lineY + (mSpriteScale * FP_FromInteger(30)));
+                    lineY + (GetSpriteScale() * FP_FromInteger(30)));
             }
 
             if (pLiftTlv && pLiftTlv->mIsStartPoint == relive::reliveChoice::eYes)
@@ -370,8 +370,8 @@ void LiftPoint::VUpdate()
             }
 
             const auto distanceToFloor = field_270_floorYLevel - mYPos;
-            const FP kMinus25Scaled = (mSpriteScale * FP_FromInteger(-25));
-            const FP k30Scaled = (mSpriteScale * FP_FromInteger(30));
+            const FP kMinus25Scaled = (GetSpriteScale() * FP_FromInteger(-25));
+            const FP k30Scaled = (GetSpriteScale() * FP_FromInteger(30));
 
             switch (mLiftPointStopType)
             {
@@ -482,8 +482,8 @@ void LiftPoint::VUpdate()
         KeepThingsOnPlatform(mVelX);
     }
 
-    const FP FP_25xScale = FP_FromInteger(25) * mSpriteScale;
-    const FP FP_m19xScale = FP_FromInteger(-19) * mSpriteScale;
+    const FP FP_25xScale = FP_FromInteger(25) * GetSpriteScale();
+    const FP FP_m19xScale = FP_FromInteger(-19) * GetSpriteScale();
 
     Rope* pRope2 = field_134_pRope2;
     Rope* pRope1 = field_138_pRope1;
@@ -505,7 +505,7 @@ void LiftPoint::VUpdate()
     }
 
     const FP new_ypos = (mYPos * FP_FromDouble(1.5));
-    const FP remaining_rope = FP_FromRaw(FP_GetExponent(new_ypos * mSpriteScale) % rope2_rope_length.fpValue);
+    const FP remaining_rope = FP_FromRaw(FP_GetExponent(new_ypos * GetSpriteScale()) % rope2_rope_length.fpValue);
 
     pRope2->mYPos = FP_NoFractional((mYPos + remaining_rope) + (FP_25xScale + rope2_rope_length));
     pRope1->mYPos = FP_NoFractional((mYPos + FP_25xScale) + (rope1_rope_length - remaining_rope));
@@ -568,15 +568,15 @@ void LiftPoint::VRender(PrimHeader** ppOt)
                 ShadowZone::ShadowZones_Calculate_Colour(
                     FP_GetExponent(mXPos),
                     (boundingRect.y + boundingRect.h) / 2,
-                    mScale,
+                    GetScale(),
                     &liftWheelR,
                     &liftWheelG,
                     &liftWheelB);
 
                 field_13C_lift_wheel.SetRGB(liftWheelR, liftWheelG, liftWheelB);
 
-                const FP xOff = (FP_FromInteger(3) * mSpriteScale);
-                const FP yOff = (FP_FromInteger(-5) * mSpriteScale);
+                const FP xOff = (FP_FromInteger(3) * GetSpriteScale());
+                const FP yOff = (FP_FromInteger(-5) * GetSpriteScale());
 
                 field_13C_lift_wheel.VRender(
                     FP_GetExponent(mXPos
@@ -610,7 +610,7 @@ void LiftPoint::VRender(PrimHeader** ppOt)
                         ShadowZone::ShadowZones_Calculate_Colour(
                             field_26C_pulley_xpos,
                             field_26E_pulley_ypos,
-                            mScale,
+                            GetScale(),
                             &r,
                             &g,
                             &b);
@@ -678,7 +678,7 @@ LiftPoint::~LiftPoint()
         FP_GetExponent(mXPos),
         FP_GetExponent(FP_FromInteger(mPlatformBaseCollisionLine->mRect.y)),
         FP_GetExponent(mXPos),
-        FP_GetExponent((mSpriteScale * FP_FromInteger(30)) + FP_FromInteger(mPlatformBaseCollisionLine->mRect.y)),
+        FP_GetExponent((GetSpriteScale() * FP_FromInteger(30)) + FP_FromInteger(mPlatformBaseCollisionLine->mRect.y)),
         ReliveTypes::eLiftPoint);
 
     if (pLiftPointTlv)
@@ -720,8 +720,8 @@ void LiftPoint::CreatePulleyIfExists(s16 camX, s16 camY)
             }
         }
 
-        const FP k13_scaled = FP_FromInteger(13) * mSpriteScale;
-        const FP kM10_scaled = FP_FromInteger(-10) * mSpriteScale;
+        const FP k13_scaled = FP_FromInteger(13) * GetSpriteScale();
+        const FP kM10_scaled = FP_FromInteger(-10) * GetSpriteScale();
 
         field_26C_pulley_xpos = FP_GetExponent(((k13_scaled + kM10_scaled) / FP_FromInteger(2)) + FP_NoFractional(mXPos));
 
@@ -738,7 +738,7 @@ void LiftPoint::CreatePulleyIfExists(s16 camX, s16 camY)
         field_1D4_pulley_anim.SetRGB(128, 128, 128);
 
         field_1D4_pulley_anim.SetRenderLayer(GetAnimation().GetRenderLayer());
-        field_1D4_pulley_anim.SetSpriteScale(mSpriteScale);
+        field_1D4_pulley_anim.SetSpriteScale(GetSpriteScale());
         field_1D4_pulley_anim.SetRenderMode(TPageAbr::eBlend_0);
 
         field_134_pRope2->field_EE_top = FP_GetExponent(FP_FromInteger(field_26E_pulley_ypos) + (FP_FromInteger(-19) * field_1D4_pulley_anim.GetSpriteScale()));

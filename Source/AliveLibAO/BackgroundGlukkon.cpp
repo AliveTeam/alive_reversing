@@ -47,7 +47,7 @@ BackgroundGlukkon::BackgroundGlukkon(relive::Path_BackgroundGlukkon* pTlv, const
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
-    mSpriteScale = FP_FromInteger(pTlv->mScalePercent) / FP_FromInteger(100);
+    SetSpriteScale(FP_FromInteger(pTlv->mScalePercent) / FP_FromInteger(100));
 
     PalId pal = PalId::Default;
     if (pTlv->mPalId == AOResourceID::kGlukredAOResID)
@@ -113,8 +113,8 @@ s16 BackgroundGlukkon::VTakeDamage(BaseGameObject* pFrom)
 
         relive_new AirExplosion(
             mXPos,
-            mYPos - (mSpriteScale * FP_FromInteger(40)),
-            mSpriteScale);
+            mYPos - (GetSpriteScale() * FP_FromInteger(40)),
+            GetSpriteScale());
 
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

@@ -41,14 +41,14 @@ MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
-        mScale = Scale::Bg;
+        SetSpriteScale(FP_FromDouble(0.5));
+        SetScale(Scale::Bg);
         GetAnimation().SetRenderLayer(Layer::eLayer_RollingBallBombMineCar_Half_16);
     }
     else
     {
-        mSpriteScale = FP_FromInteger(1);
-        mScale = Scale::Fg;
+        SetSpriteScale(FP_FromInteger(1));
+        SetScale(Scale::Fg);
         GetAnimation().SetRenderLayer(Layer::eLayer_RollingBallBombMineCar_35);
     }
 
@@ -92,7 +92,7 @@ MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
         mXPos = hitX;
     }
 
-    mShadow = relive_new Shadow();
+    CreateShadow();
 }
 
 MovingBomb::~MovingBomb()
@@ -154,7 +154,7 @@ s16 MovingBomb::VTakeDamage(BaseGameObject* pFrom)
     relive_new AirExplosion(
         mXPos,
         mYPos,
-        mSpriteScale);
+        GetSpriteScale());
 
     relive_new Gibs(
         GibType::Metal_5,
@@ -162,7 +162,7 @@ s16 MovingBomb::VTakeDamage(BaseGameObject* pFrom)
         mYPos,
         FP_FromInteger(0),
         FP_FromInteger(5),
-        mSpriteScale);
+        GetSpriteScale());
 
     field_10C_state = States::eKillMovingBomb_7;
     GetAnimation().mFlags.Clear(AnimFlags::eRender);
@@ -205,7 +205,7 @@ s16 MovingBomb::HitObject()
                 if (pObjIter->mHealth > FP_FromInteger(0))
                 {
                     const PSX_RECT objRect = pObjIter->VGetBoundingRect();
-                    if (RectsOverlap(ourRect, objRect) && pObjIter->mSpriteScale == mSpriteScale)
+                    if (RectsOverlap(ourRect, objRect) && pObjIter->GetSpriteScale() == GetSpriteScale())
                     {
                         return 1;
                     }
@@ -353,7 +353,7 @@ void MovingBomb::VUpdate()
         case States::eMoving_2:
             if (mVelX < field_118_speed)
             {
-                mVelX += (mSpriteScale * FP_FromDouble(0.5));
+                mVelX += (GetSpriteScale() * FP_FromDouble(0.5));
             }
 
             FollowLine();
@@ -375,7 +375,7 @@ void MovingBomb::VUpdate()
             break;
 
         case States::eStopMoving_3:
-            mVelX -= (mSpriteScale * FP_FromDouble(0.5));
+            mVelX -= (GetSpriteScale() * FP_FromDouble(0.5));
             if (mVelX < FP_FromInteger(0))
             {
                 field_10C_state = States::eWaitABit_4;
@@ -395,7 +395,7 @@ void MovingBomb::VUpdate()
         case States::eToMoving_5:
             if (mVelX < field_118_speed)
             {
-                mVelX += (mSpriteScale * FP_FromDouble(0.5));
+                mVelX += (GetSpriteScale() * FP_FromDouble(0.5));
             }
 
             FollowLine();
@@ -422,7 +422,7 @@ void MovingBomb::VUpdate()
                 relive_new AirExplosion(
                     mXPos,
                     mYPos,
-                    mSpriteScale);
+                    GetSpriteScale());
 
                 relive_new Gibs(
                     GibType::Metal_5,
@@ -430,7 +430,7 @@ void MovingBomb::VUpdate()
                     mYPos,
                     FP_FromInteger(0),
                     FP_FromInteger(5),
-                    mSpriteScale);
+                    GetSpriteScale());
 
                 field_10C_state = States::eKillMovingBomb_7;
                 GetAnimation().mFlags.Clear(AnimFlags::eRender);

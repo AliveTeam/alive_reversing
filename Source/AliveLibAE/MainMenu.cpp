@@ -527,7 +527,7 @@ MainMenuController::MainMenuController(relive::Path_TLV* /*pTlv*/, const Guid& t
 
     field_158_animation.Init(GetAnimRes(AnimId::MenuHighlight_Circle), this);
 
-    field_158_animation.SetSpriteScale(mSpriteScale);
+    field_158_animation.SetSpriteScale(GetSpriteScale());
 
     field_158_animation.mFlags.Clear(AnimFlags::eBlending);
     field_158_animation.mFlags.Set(AnimFlags::eSemiTrans);
@@ -1798,14 +1798,14 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
 
         if (field_24E_start_scale == -1)
         {
-            sActiveHero->mSpriteScale = FP_FromDouble(1.0);
-            sActiveHero->mScale = Scale::Fg;
+            sActiveHero->SetSpriteScale(FP_FromDouble(1.0));
+            sActiveHero->SetScale(Scale::Fg);
             sActiveHero->GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_32);
         }
         else if (field_24E_start_scale == -2)
         {
-            sActiveHero->mSpriteScale = FP_FromDouble(0.5);
-            sActiveHero->mScale = Scale::Bg;
+            sActiveHero->SetSpriteScale(FP_FromDouble(0.5));
+            sActiveHero->SetScale(Scale::Bg);
             sActiveHero->GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_Half_13);
         }
     }

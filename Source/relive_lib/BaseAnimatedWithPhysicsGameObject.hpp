@@ -46,9 +46,13 @@ public:
     virtual ~IBaseAnimatedWithPhysicsGameObject()
     {
     }
-
-
+    const Scale& GetScale() const { return mScale; }
+    void SetScale(Scale val) { mScale = val; }
+    const FP& GetSpriteScale() const { return mSpriteScale; }
+    void SetSpriteScale(FP val) { mSpriteScale = val; }
     Animation& GetAnimation() { return mAnim; }
+    void CreateShadow();
+
 public:
     FP mXPos = {};
     FP mYPos = {};
@@ -56,9 +60,8 @@ public:
     EReliveLevelIds mCurrentLevel = EReliveLevelIds::eNone;
     FP mVelX = {};
     FP mVelY = {};
-    FP mSpriteScale = {};
+
     RGB16 mRGB;
-    Scale mScale = Scale::Fg;
     s16 mYOffset = 0;
     s16 mXOffset = 0;
     enum VisualFlags : s16
@@ -67,11 +70,15 @@ public:
         eDoPurpleLightEffect = 0x2
     };
     BitField16<VisualFlags> mVisualFlags = {};
-    Shadow* mShadow = nullptr;
-
+    const Shadow* GetShadow() const { return mShadow; }
+    Shadow* GetShadow() { return mShadow; }
 private:
     Animation mAnim = {};
+    Scale mScale = Scale::Fg;
+    FP mSpriteScale = {};
 
+protected:
+    Shadow* mShadow = nullptr;
 };
 
 #ifdef _MSC_VER

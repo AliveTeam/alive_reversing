@@ -72,13 +72,13 @@ Slurg::Slurg(relive::Path_Slurg* pTlv, const Guid& tlvId)
     {
         mSlurgSpriteScale = FP_FromDouble(0.5);
         GetAnimation().SetRenderLayer(Layer::eLayer_SligGreeterFartsBat_Half_14);
-        mScale = Scale::Bg;
+        SetScale(Scale::Bg);
     }
     else if (pTlv->mScale == relive::reliveScale::eFull)
     {
         mSlurgSpriteScale = FP_FromInteger(1);
         GetAnimation().SetRenderLayer(Layer::eLayer_SligGreeterFartsBats_33);
-        mScale = Scale::Fg;
+        SetScale(Scale::Fg);
     }
 
     mMovingTimer = pTlv->mMovingTimer;
@@ -96,7 +96,7 @@ Slurg::Slurg(relive::Path_Slurg* pTlv, const Guid& tlvId)
             &mSlurgLine,
             &hitX,
             &hitY,
-            mScale == Scale::Fg ? kFgFloor : kBgFloor)
+            GetScale() == Scale::Fg ? kFgFloor : kBgFloor)
         == 1)
     {
         mYPos = hitY;
@@ -113,7 +113,7 @@ Slurg::Slurg(relive::Path_Slurg* pTlv, const Guid& tlvId)
 
     VStackOnObjectsOfType(ReliveTypes::eSlurg);
     mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
-    mShadow = relive_new Shadow();
+    CreateShadow();
 }
 
 s32 Slurg::CreateFromSaveState(const u8* pData)

@@ -282,15 +282,15 @@ Mudokon::Mudokon(relive::Path_TLV* pTlv, const Guid& tlvId)
 
     if (scale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
+        SetSpriteScale(FP_FromDouble(0.5));
         GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_Half_13);
-        mScale = Scale::Bg;
+        SetScale(Scale::Bg);
     }
     else
     {
-        mSpriteScale = FP_FromInteger(1);
+        SetSpriteScale(FP_FromInteger(1));
         GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_32);
-        mScale = Scale::Fg;
+        SetScale(Scale::Fg);
     }
 
     FP hitX = {};
@@ -303,7 +303,7 @@ Mudokon::Mudokon(relive::Path_TLV* pTlv, const Guid& tlvId)
         &BaseAliveGameObjectCollisionLine,
         &hitX,
         &hitY,
-        mSpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor) ? 1 : 0;
+        GetSpriteScale() != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor) ? 1 : 0;
 
     mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
 
@@ -350,7 +350,7 @@ Mudokon::Mudokon(relive::Path_TLV* pTlv, const Guid& tlvId)
     field_1AC_pBirdPortal = nullptr;
     field_194_pLiftPoint = nullptr;
 
-    mShadow = relive_new Shadow();
+    CreateShadow();
 
     VUpdate();
 }
@@ -627,7 +627,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                     mYPos,
                     FP_FromInteger(0),
                     FP_FromInteger(0),
-                    mSpriteScale);
+                    GetSpriteScale());
 
                 relive_new Gibs(
                     GibType::Mud_4,
@@ -635,7 +635,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                     mYPos,
                     FP_FromInteger(0),
                     FP_FromInteger(0),
-                    mSpriteScale);
+                    GetSpriteScale());
 
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 EventBroadcast(kEventMudokonDead, sActiveHero);
@@ -665,7 +665,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                     pBullet->mYPos,
                     bloodXOff,
                     FP_FromInteger(0),
-                    mSpriteScale,
+                    GetSpriteScale(),
                     50);
 
                 EventBroadcast(kEventMudokonDead, sActiveHero);
@@ -859,11 +859,11 @@ void Mudokon::DoPathTrans()
 
     if (sActiveHero->GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        mXPos = FP_FromInteger((camCoords.x + XGrid_Index_To_XPos(mSpriteScale, MaxGridBlocks_41FA10(mSpriteScale)))) + ScaleToGridSize(mSpriteScale);
+        mXPos = FP_FromInteger((camCoords.x + XGrid_Index_To_XPos(GetSpriteScale(), MaxGridBlocks_41FA10(GetSpriteScale())))) + ScaleToGridSize(GetSpriteScale());
     }
     else
     {
-        mXPos = (FP_FromInteger(camCoords.x + XGrid_Index_To_XPos(mSpriteScale, 0))) - ScaleToGridSize(mSpriteScale);
+        mXPos = (FP_FromInteger(camCoords.x + XGrid_Index_To_XPos(GetSpriteScale(), 0))) - ScaleToGridSize(GetSpriteScale());
     }
 
     if (sActiveHero->BaseAliveGameObjectCollisionLine)
@@ -895,7 +895,7 @@ void Mudokon::DoPathTrans()
                 &pLine,
                 &hitX,
                 &hitY,
-                mSpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor))
+                GetSpriteScale() != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor))
         {
             mYPos = hitY;
             BaseAliveGameObjectCollisionLine = pLine;
@@ -958,11 +958,11 @@ void Mudokon::ToKnockback()
     {
         if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
         {
-            mXPos += mVelX + (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2));
+            mXPos += mVelX + (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
         }
         else
         {
-            mXPos += mVelX - (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2));
+            mXPos += mVelX - (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
         }
     }
     MapFollowMe(field_144_flags.Get(Flags_144::e144_Bit4_bSnapToGrid));
@@ -982,7 +982,7 @@ void Mudokon::ReduceXVelocityBy(FP amount)
 {
     if (mVelX > FP_FromInteger(0))
     {
-        mVelX -= (mSpriteScale * amount);
+        mVelX -= (GetSpriteScale() * amount);
         if (mVelX < FP_FromInteger(0))
         {
             mVelX = FP_FromInteger(0);
@@ -990,7 +990,7 @@ void Mudokon::ReduceXVelocityBy(FP amount)
     }
     else if (mVelX < FP_FromInteger(0))
     {
-        mVelX += (mSpriteScale * amount);
+        mVelX += (GetSpriteScale() * amount);
         if (mVelX > FP_FromInteger(0))
         {
             mVelX = FP_FromInteger(0);
@@ -1230,11 +1230,11 @@ void Mudokon::Motion_0_Idle()
         case eMudMotions::Motion_1_WalkLoop:
             if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
-                mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
+                mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(9));
             }
             else
             {
-                mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
+                mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(9));
             }
             SetCurrentMotion(eMudMotions::Motion_7_WalkBegin);
             SetNextMotion(-1);
@@ -1243,11 +1243,11 @@ void Mudokon::Motion_0_Idle()
         case eMudMotions::Motion_35_SneakLoop:
             if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
-                mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(10));
+                mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(10));
             }
             else
             {
-                mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(10));
+                mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(10));
             }
             SetCurrentMotion(eMudMotions::Motion_40_SneakBegin);
             SetNextMotion(-1);
@@ -1256,11 +1256,11 @@ void Mudokon::Motion_0_Idle()
         case eMudMotions::Motion_29_RunLoop:
             if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
-                mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
+                mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
             }
             else
             {
-                mVelX = ScaleToGridSize(mSpriteScale) / FP_FromInteger(4);
+                mVelX = ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4);
             }
             SetCurrentMotion(eMudMotions::Motion_45_StandToRun);
             SetNextMotion(-1);
@@ -1303,7 +1303,7 @@ void Mudokon::Motion_1_WalkLoop()
     EventBroadcast(kEventSuspiciousNoise, this);
 
     if (WallHit(
-            mSpriteScale * FP_FromInteger(50),
+            GetSpriteScale() * FP_FromInteger(50),
             mVelX))
     {
         ToStand();
@@ -1429,7 +1429,7 @@ void Mudokon::Motion_7_WalkBegin()
     EventBroadcast(kEventSuspiciousNoise, this);
 
     if (WallHit(
-            mSpriteScale * FP_FromInteger(50),
+            GetSpriteScale() * FP_FromInteger(50),
             mVelX))
     {
         ToStand();
@@ -1450,7 +1450,7 @@ void Mudokon::Motion_8_WalkToIdle()
     EventBroadcast(kEventSuspiciousNoise, this);
 
     if (WallHit(
-            mSpriteScale * FP_FromInteger(50),
+            GetSpriteScale() * FP_FromInteger(50),
             mVelX))
     {
         ToStand();
@@ -1703,11 +1703,11 @@ void Mudokon::Motion_27_WalkToRun()
 
     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
+        mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
     }
     else
     {
-        mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
+        mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
     }
 
     if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
@@ -1715,7 +1715,7 @@ void Mudokon::Motion_27_WalkToRun()
         SetCurrentMotion(eMudMotions::Motion_29_RunLoop);
     }
 
-    if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
         ToStand();
     }
@@ -1732,11 +1732,11 @@ void Mudokon::Motion_28_MidWalkToRun()
 
     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
+        mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
     }
     else
     {
-        mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
+        mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
     }
 
     if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
@@ -1747,7 +1747,7 @@ void Mudokon::Motion_28_MidWalkToRun()
         field_1BC = 1;
     }
 
-    if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
         ToStand();
     }
@@ -1762,7 +1762,7 @@ void Mudokon::Motion_29_RunLoop()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
         ToKnockback();
         return;
@@ -1848,11 +1848,11 @@ void Mudokon::Motion_30_RunToWalk()
 
     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
+        mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(9));
     }
     else
     {
-        mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
+        mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(9));
     }
 
     if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
@@ -1860,7 +1860,7 @@ void Mudokon::Motion_30_RunToWalk()
         SetCurrentMotion(eMudMotions::Motion_1_WalkLoop);
     }
 
-    if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
         ToStand();
     }
@@ -1877,11 +1877,11 @@ void Mudokon::Motion_31_MidRunToWalk()
 
     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
+        mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(9));
     }
     else
     {
-        mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
+        mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(9));
     }
 
     if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
@@ -1891,7 +1891,7 @@ void Mudokon::Motion_31_MidRunToWalk()
         field_1BC = 1;
     }
 
-    if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
         ToStand();
     }
@@ -1906,7 +1906,7 @@ void Mudokon::Motion_32_RunSlideStop()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
         ToKnockback();
     }
@@ -1931,7 +1931,7 @@ void Mudokon::Motion_33_RunSlideTurn()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
         ToKnockback();
     }
@@ -1947,12 +1947,12 @@ void Mudokon::Motion_33_RunSlideTurn()
 
                 if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                 {
-                    mVelX = ScaleToGridSize(mSpriteScale) / FP_FromInteger(4);
+                    mVelX = ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4);
                     SetCurrentMotion(eMudMotions::Motion_34_RunTurnToRun);
                 }
                 else
                 {
-                    mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
+                    mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
                     SetCurrentMotion(eMudMotions::Motion_34_RunTurnToRun);
                 }
             }
@@ -1965,7 +1965,7 @@ void Mudokon::Motion_34_RunTurnToRun()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
         ToStand();
     }
@@ -1982,7 +1982,7 @@ void Mudokon::Motion_34_RunTurnToRun()
 
 void Mudokon::Motion_35_SneakLoop()
 {
-    if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
         ToStand();
     }
@@ -2039,11 +2039,11 @@ void Mudokon::Motion_36_MidWalkToSneak()
 {
     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(10));
+        mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(10));
     }
     else
     {
-        mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(10));
+        mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(10));
     }
 
     if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
@@ -2051,7 +2051,7 @@ void Mudokon::Motion_36_MidWalkToSneak()
         SetCurrentMotion(eMudMotions::Motion_35_SneakLoop);
     }
 
-    if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
         ToStand();
     }
@@ -2065,11 +2065,11 @@ void Mudokon::Motion_37_SneakToWalk()
 {
     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
+        mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(9));
     }
     else
     {
-        mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
+        mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(9));
     }
 
     if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
@@ -2077,7 +2077,7 @@ void Mudokon::Motion_37_SneakToWalk()
         SetCurrentMotion(eMudMotions::Motion_1_WalkLoop);
     }
 
-    if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
         ToStand();
     }
@@ -2091,11 +2091,11 @@ void Mudokon::Motion_38_WalkToSneak()
 {
     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(10));
+        mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(10));
     }
     else
     {
-        mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(10));
+        mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(10));
     }
 
     if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
@@ -2105,7 +2105,7 @@ void Mudokon::Motion_38_WalkToSneak()
         field_1BC = 1;
     }
 
-    if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
         ToStand();
     }
@@ -2119,11 +2119,11 @@ void Mudokon::Motion_39_MidSneakToWalk()
 {
     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
+        mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(9));
     }
     else
     {
-        mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
+        mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(9));
     }
 
     if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
@@ -2133,7 +2133,7 @@ void Mudokon::Motion_39_MidSneakToWalk()
         field_1BC = 1;
     }
 
-    if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
         ToStand();
     }
@@ -2150,7 +2150,7 @@ void Mudokon::Motion_40_SneakBegin()
         SetCurrentMotion(eMudMotions::Motion_35_SneakLoop);
     }
 
-    if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
         ToStand();
     }
@@ -2202,14 +2202,14 @@ void Mudokon::Motion_43_RunJumpBegin()
 
         if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
         {
-            mVelX = mSpriteScale * FP_FromDouble(-7.6);
+            mVelX = GetSpriteScale() * FP_FromDouble(-7.6);
         }
         else
         {
-            mVelX = mSpriteScale * FP_FromDouble(7.6);
+            mVelX = GetSpriteScale() * FP_FromDouble(7.6);
         }
 
-        mVelY = (mSpriteScale * FP_FromDouble(-9.6));
+        mVelY = (GetSpriteScale() * FP_FromDouble(-9.6));
         mYPos += mVelY;
         VOnTrapDoorOpen();
         SetCurrentMotion(eMudMotions::Motion_44_RunJumpMid);
@@ -2256,7 +2256,7 @@ void Mudokon::Motion_44_RunJumpMid()
         }
     }
 
-    mVelY += (mSpriteScale * FP_FromDouble(1.8));
+    mVelY += (GetSpriteScale() * FP_FromDouble(1.8));
     mXPos += mVelX;
     mYPos += mVelY;
 }
@@ -2271,7 +2271,7 @@ void Mudokon::Motion_45_StandToRun()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
         ToStand();
     }
@@ -2385,7 +2385,7 @@ void Mudokon::Motion_51_Fall()
 {
     if (mVelX > FP_FromInteger(0))
     {
-        mVelX -= mSpriteScale * field_11C;
+        mVelX -= GetSpriteScale() * field_11C;
         if (mVelX < FP_FromInteger(0))
         {
             mVelX = FP_FromInteger(0);
@@ -2393,7 +2393,7 @@ void Mudokon::Motion_51_Fall()
     }
     else if (mVelX < FP_FromInteger(0))
     {
-        mVelX += mSpriteScale * field_11C;
+        mVelX += GetSpriteScale() * field_11C;
         if (mVelX > FP_FromInteger(0))
         {
             mVelX = FP_FromInteger(0);
@@ -2420,7 +2420,7 @@ void Mudokon::Motion_51_Fall()
                     BaseAliveGameObjectLastLineYPos += FP_FromInteger(240);
                 }
 
-                if (mYPos - BaseAliveGameObjectLastLineYPos < (mSpriteScale * FP_FromInteger(180)) && (mHealth > FP_FromInteger(0) || gAbeInvulnerableCheat))
+                if (mYPos - BaseAliveGameObjectLastLineYPos < (GetSpriteScale() * FP_FromInteger(180)) && (mHealth > FP_FromInteger(0) || gAbeInvulnerableCheat))
                 {
                     SetCurrentMotion(eMudMotions::Motion_50_LandSoft);
                 }
@@ -2474,9 +2474,9 @@ void Mudokon::Motion_52_Chant()
         const FP rndY = FP_FromInteger(30 * Math_NextRandom() / 256 + 30);
 
         New_TintChant_Particle(
-            mXPos + (mSpriteScale * rndX),
-            mYPos - (mSpriteScale * rndY),
-            mSpriteScale,
+            mXPos + (GetSpriteScale() * rndX),
+            mYPos - (GetSpriteScale() * rndY),
+            GetSpriteScale(),
             Layer::eLayer_0);
     }
 
@@ -2568,15 +2568,15 @@ void Mudokon::Motion_59_CrouchChant()
         const FP rndY = FP_FromInteger(20 * Math_NextRandom() / 256 + 10);
 
         New_TintChant_Particle(
-            mXPos + (mSpriteScale * rndX),
-            mYPos - (mSpriteScale * rndY),
-            mSpriteScale,
+            mXPos + (GetSpriteScale() * rndX),
+            mYPos - (GetSpriteScale() * rndY),
+            GetSpriteScale(),
             Layer::eLayer_0);
     }
 
     if (!SND_SsIsEos_DeInlined_477930(SeqId::eMudokonChant_12))
     {
-        if (mSpriteScale == FP_FromDouble(0.5))
+        if (GetSpriteScale() == FP_FromDouble(0.5))
         {
             SND_SEQ_Play_477760(SeqId::eMudokonChant_12, 1, 30, 30);
         }
@@ -3190,14 +3190,14 @@ s16 Mudokon::Brain_6_LeverUse()
     FP directedGridSize = {};
     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        directedGridSize = -ScaleToGridSize(mSpriteScale);
+        directedGridSize = -ScaleToGridSize(GetSpriteScale());
     }
     else
     {
-        directedGridSize = ScaleToGridSize(mSpriteScale);
+        directedGridSize = ScaleToGridSize(GetSpriteScale());
     }
 
-    auto pSwitch = static_cast<Lever*>(FindObjectOfType_418280(ReliveTypes::eLever, mXPos + directedGridSize, mYPos - ScaleToGridSize(mSpriteScale)));
+    auto pSwitch = static_cast<Lever*>(FindObjectOfType_418280(ReliveTypes::eLever, mXPos + directedGridSize, mYPos - ScaleToGridSize(GetSpriteScale())));
     if (pSwitch)
     {
         pSwitch->VPull(mXPos < pSwitch->mXPos);
@@ -3486,7 +3486,7 @@ s16 Mudokon::Brain_9_CrouchScrub()
                         kEventSpeaking,
                         mXPos,
                         mYPos,
-                        mSpriteScale))
+                        GetSpriteScale()))
                 {
                     field_1C0_timer = (Math_NextRandom() % 64) + sGnFrame + 15;
                     return 4;
@@ -3619,13 +3619,13 @@ s16 Mudokon::Brain_10_ListeningToAbe()
             FP gridSizeDirected = {};
             if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
-                gridSizeDirected = -ScaleToGridSize(mSpriteScale);
+                gridSizeDirected = -ScaleToGridSize(GetSpriteScale());
             }
             else
             {
-                gridSizeDirected = ScaleToGridSize(mSpriteScale);
+                gridSizeDirected = ScaleToGridSize(GetSpriteScale());
             }
-            const s16 bHitWall = WallHit(mSpriteScale * FP_FromInteger(50), gridSizeDirected);
+            const s16 bHitWall = WallHit(GetSpriteScale() * FP_FromInteger(50), gridSizeDirected);
             const s16 bEndOfLine = Check_IsOnEndOfLine(GetAnimation().mFlags.Get(AnimFlags::eFlipX), 1);
 
             if (GetCurrentMotion() != eMudMotions::Motion_0_Idle)
@@ -3646,7 +3646,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
                     return field_1BA_brain_sub_state;
                 }
 
-                if (VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromInteger(2), sActiveHero)
+                if (VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(2), sActiveHero)
                     || bHitWall
                     || bEndOfLine)
                 {
@@ -3780,14 +3780,14 @@ s16 Mudokon::Brain_10_ListeningToAbe()
             FP gridSizeDirected = {};
             if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
-                gridSizeDirected = -ScaleToGridSize(mSpriteScale);
+                gridSizeDirected = -ScaleToGridSize(GetSpriteScale());
             }
             else
             {
-                gridSizeDirected = ScaleToGridSize(mSpriteScale);
+                gridSizeDirected = ScaleToGridSize(GetSpriteScale());
             }
 
-            const s16 bHitWall = WallHit(mSpriteScale * FP_FromInteger(50), gridSizeDirected);
+            const s16 bHitWall = WallHit(GetSpriteScale() * FP_FromInteger(50), gridSizeDirected);
 
             if (Check_IsOnEndOfLine(GetAnimation().mFlags.Get(AnimFlags::eFlipX), 1) || bHitWall)
             {
@@ -3801,7 +3801,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
                 return 3;
             }
 
-            if (VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromInteger(2), sActiveHero))
+            if (VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(2), sActiveHero))
             {
                 SetNextMotion(eMudMotions::Motion_0_Idle);
                 return 3;
@@ -3869,14 +3869,14 @@ s16 Mudokon::Brain_10_ListeningToAbe()
             FP gridSizeDirected = {};
             if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
-                gridSizeDirected = -ScaleToGridSize(mSpriteScale);
+                gridSizeDirected = -ScaleToGridSize(GetSpriteScale());
             }
             else
             {
-                gridSizeDirected = ScaleToGridSize(mSpriteScale);
+                gridSizeDirected = ScaleToGridSize(GetSpriteScale());
             }
 
-            const s16 bHitWall = WallHit(mSpriteScale * FP_FromInteger(50), gridSizeDirected * FP_FromInteger(3));
+            const s16 bHitWall = WallHit(GetSpriteScale() * FP_FromInteger(50), gridSizeDirected * FP_FromInteger(3));
             if (Check_IsOnEndOfLine(GetAnimation().mFlags.Get(AnimFlags::eFlipX) ? 1 : 0, 4)
                 || bHitWall)
             {
@@ -3900,7 +3900,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
                         Mudokon_SFX(MudSounds::eLaugh1_8, 0, field_124_voice_pitch, this);
                     }
 
-                    if (VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromInteger(2), sActiveHero))
+                    if (VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(2), sActiveHero))
                     {
                         SetNextMotion(eMudMotions::Motion_0_Idle);
                         return 3;
@@ -4105,19 +4105,18 @@ s16 Mudokon::Brain_10_ListeningToAbe()
 
                 if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                 {
-                    const FP fart_scale = (FP_FromDouble(0.5) * mSpriteScale);
-                    const FP fart_y = mYPos - (FP_FromInteger(24) * mSpriteScale);
-                    const FP fart_x = (FP_FromInteger(12) * mSpriteScale) + mXPos;
-                    New_Smoke_Particles(fart_x, fart_y, fart_scale, 3, 32, 128, 32);
+                    const FP fart_scale = (FP_FromDouble(0.5) * GetSpriteScale());
+                    const FP fart_y = mYPos - (FP_FromInteger(24) * GetSpriteScale());
+                    const FP fart_x = (FP_FromInteger(12) * GetSpriteScale()) + mXPos;
+                    New_Smoke_Particles(fart_x, fart_y, fart_scale, 3, RGB16{32, 128, 32});
                 }
                 else
                 {
-                    const FP fart_scale = (FP_FromDouble(0.5) * mSpriteScale);
-                    const FP fart_y = mYPos - (FP_FromInteger(24) * mSpriteScale);
-                    const FP fart_x = mXPos - (FP_FromInteger(12) * mSpriteScale);
-                    New_Smoke_Particles(fart_x, fart_y, fart_scale, 3, 32, 128, 32);
+                    const FP fart_scale = (FP_FromDouble(0.5) * GetSpriteScale());
+                    const FP fart_y = mYPos - (FP_FromInteger(24) * GetSpriteScale());
+                    const FP fart_x = mXPos - (FP_FromInteger(12) * GetSpriteScale());
+                    New_Smoke_Particles(fart_x, fart_y, fart_scale, 3, RGB16{32, 128, 32});
                 }
-
                 return field_1B0;
             }
             break;
@@ -4171,7 +4170,7 @@ s16 Mudokon::Brain_11_ShrivelDeath()
         mRGB.r -= 2;
         mRGB.g -= 2;
         mRGB.b -= 2;
-        mSpriteScale = mSpriteScale - FP_FromDouble(0.008);
+        SetSpriteScale(GetSpriteScale() - FP_FromDouble(0.008));
     }
 
     if (static_cast<s32>(sGnFrame) < field_1C0_timer - 24)
@@ -4179,7 +4178,7 @@ s16 Mudokon::Brain_11_ShrivelDeath()
         DeathSmokeEffect(true);
     }
 
-    if (mSpriteScale < FP_FromInteger(0))
+    if (GetSpriteScale() < FP_FromInteger(0))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -4224,7 +4223,7 @@ s16 Mudokon::Brain_12_Escape()
         case 1:
             if (static_cast<s32>(sGnFrame) > field_1C0_timer)
             {
-                if (FP_Abs(pPortal->mXPos - mXPos) >= ScaleToGridSize(mSpriteScale))
+                if (FP_Abs(pPortal->mXPos - mXPos) >= ScaleToGridSize(GetSpriteScale()))
                 {
                     return 2;
                 }
@@ -4307,7 +4306,7 @@ s16 Mudokon::Brain_12_Escape()
 
             if (GetCurrentMotion() == eMudMotions::Motion_29_RunLoop)
             {
-                if (FP_Abs(pPortal->mXPos - mXPos) <= ScaleToGridSize(mSpriteScale))
+                if (FP_Abs(pPortal->mXPos - mXPos) <= ScaleToGridSize(GetSpriteScale()))
                 {
                     return field_1BA_brain_sub_state;
                 }

@@ -90,7 +90,7 @@ void SaveGame::LoadFromMemory(SaveData* pData, s32 bKillObjects)
 
     sActiveHero->mHealth = FP_FromInteger(1);
     sActiveHero->field_11C_regen_health_timer = sGnFrame;
-    sActiveHero->mSpriteScale = pData->field_230_ah_sprite_scale;
+    sActiveHero->SetSpriteScale(pData->field_230_ah_sprite_scale);
     sActiveHero->field_118_timer = pData->field_24C_field_118;
     sActiveHero->field_19C_throwable_count = static_cast<s8>(pData->field_250_throwable_count); // TODO: Type check when other save func done
     sActiveHero->field_106_shot = 0;
@@ -379,7 +379,7 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
     }
     pSaveData->field_22C_ah_health = sActiveHero->mHealth;
     pSaveData->field_23C_ah_flipX = sActiveHero->GetAnimation().mFlags.Get(AnimFlags::eFlipX);
-    pSaveData->field_230_ah_sprite_scale = sActiveHero->mSpriteScale;
+    pSaveData->field_230_ah_sprite_scale = sActiveHero->GetSpriteScale();
     pSaveData->field_244_stone_state = static_cast<s32>(sActiveHero->field_110_state.raw);
     pSaveData->field_248_gnFrame = sActiveHero->field_114_gnFrame;
     pSaveData->field_24C_field_118 = sActiveHero->field_118_timer;

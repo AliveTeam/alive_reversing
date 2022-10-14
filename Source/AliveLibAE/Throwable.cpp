@@ -80,7 +80,7 @@ void BaseThrowable::BaseAddToPlatform(BaseThrowable::FnTypeMatcher cb)
             &pLine,
             &hitX,
             &hitY,
-            mScale == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls)) // todo: mouze check me 0x10F changed to 0x0F
+            GetScale() == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls)) // todo: mouze check me 0x10F changed to 0x0F
     {
         if (pLine->mLineType == eLineTypes ::eDynamicCollision_32 ||
             pLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)

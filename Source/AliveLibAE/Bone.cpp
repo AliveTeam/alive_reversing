@@ -57,7 +57,7 @@ Bone::Bone(FP xpos, FP ypos, s16 countId)
     mState = BoneStates::eSpawned_0;
     mVolumeModifier = 0;
 
-    mShadow = relive_new Shadow();
+    CreateShadow();
 }
 
 void Bone::VTimeToExplodeRandom()
@@ -76,9 +76,9 @@ s32 Bone::CreateFromSaveState(const u8* pData)
     pBone->mXPos = pState->mXPos;
     pBone->mYPos = pState->mYPos;
 
-    pBone->mCollectionRect.x = pBone->mXPos - (ScaleToGridSize(pBone->mSpriteScale) / FP_FromInteger(2));
-    pBone->mCollectionRect.y = pBone->mYPos - ScaleToGridSize(pBone->mSpriteScale);
-    pBone->mCollectionRect.w = (ScaleToGridSize(pBone->mSpriteScale) / FP_FromInteger(2)) + pBone->mXPos;
+    pBone->mCollectionRect.x = pBone->mXPos - (ScaleToGridSize(pBone->GetSpriteScale()) / FP_FromInteger(2));
+    pBone->mCollectionRect.y = pBone->mYPos - ScaleToGridSize(pBone->GetSpriteScale());
+    pBone->mCollectionRect.w = (ScaleToGridSize(pBone->GetSpriteScale()) / FP_FromInteger(2)) + pBone->mXPos;
     pBone->mCollectionRect.h = pBone->mYPos;
 
     pBone->mVelX = pState->mVelX;
@@ -86,9 +86,9 @@ s32 Bone::CreateFromSaveState(const u8* pData)
 
     pBone->mCurrentPath = pState->mCurrentPath;
     pBone->mCurrentLevel = MapWrapper::FromAESaveData(pState->mCurrentLevel);
-    pBone->mSpriteScale = pState->mSpriteScale;
+    pBone->SetSpriteScale(pState->mSpriteScale);
 
-    pBone->mScale = pState->mSpriteScale > FP_FromDouble(0.75) ? Scale::Fg : Scale::Bg;
+    pBone->SetScale(pState->mSpriteScale > FP_FromDouble(0.75) ? Scale::Fg : Scale::Bg);
 
     pBone->GetAnimation().mFlags.Set(AnimFlags::eLoop, pState->field_20_flags.Get(Bone_SaveState::eBit3_bLoop));
     pBone->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->field_20_flags.Get(Bone_SaveState::eBit1_bRender));
@@ -189,7 +189,7 @@ s16 Bone::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
         return 1;
     }
 
-    if (pObj->Type() == ReliveTypes::eSecurityOrb && sControlledCharacter->mScale != pObj->mScale)
+    if (pObj->Type() == ReliveTypes::eSecurityOrb && sControlledCharacter->GetScale() != pObj->GetScale())
     {
         return 1;
     }
@@ -253,7 +253,7 @@ s32 Bone::VGetSaveState(u8* pSaveBuffer)
     pState->mCurrentPath = mCurrentPath;
     pState->mCurrentLevel = MapWrapper::ToAE(mCurrentLevel);
 
-    pState->mSpriteScale = mSpriteScale;
+    pState->mSpriteScale = GetSpriteScale();
 
     pState->field_20_flags.Set(Bone_SaveState::eBit3_bLoop, GetAnimation().mFlags.Get(AnimFlags::eLoop));
     pState->field_20_flags.Set(Bone_SaveState::eBit1_bRender, GetAnimation().mFlags.Get(AnimFlags::eRender));
@@ -309,7 +309,7 @@ void Bone::InTheAir()
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            mScale == Scale::Fg ? kFgFloorOrCeiling : kBgFloorOrCeiling)
+            GetScale() == Scale::Fg ? kFgFloorOrCeiling : kBgFloorOrCeiling)
         == 1)
     {
         switch (BaseAliveGameObjectCollisionLine->mLineType)
@@ -378,7 +378,7 @@ void Bone::InTheAir()
         }
     }
 
-    if (sCollisions->Raycast(mInitialXPos, mInitialYPos, mXPos, mYPos, &BaseAliveGameObjectCollisionLine, &hitX, &hitY, mScale == Scale::Fg ? kFgWalls : kBgWalls) == 1)
+    if (sCollisions->Raycast(mInitialXPos, mInitialYPos, mXPos, mYPos, &BaseAliveGameObjectCollisionLine, &hitX, &hitY, GetScale() == Scale::Fg ? kFgWalls : kBgWalls) == 1)
     {
         switch (BaseAliveGameObjectCollisionLine->mLineType)
         {
@@ -443,7 +443,7 @@ void Bone::VUpdate()
         case BoneStates::eCollided_2:
         {
             const PSX_RECT bRect = VGetBoundingRect();
-            const s16 offset = mScale == Scale::Fg ? 5 : 0;
+            const s16 offset = GetScale() == Scale::Fg ? 5 : 0;
             const PSX_Point xy{bRect.x, static_cast<s16>(bRect.y + offset)};
             const PSX_Point wh{bRect.w, static_cast<s16>(bRect.h + offset)};
             VOnCollisionWith(xy, wh, gBaseGameObjects, (TCollisionCallBack) &Bone::OnCollision);
@@ -457,22 +457,22 @@ void Bone::VUpdate()
             {
                 if (mVelX <= FP_FromInteger(0))
                 {
-                    mVelX = (FP_FromDouble(0.01) / mSpriteScale) + mVelX;
+                    mVelX = (FP_FromDouble(0.01) / GetSpriteScale()) + mVelX;
                 }
                 else
                 {
-                    mVelX = mVelX - (FP_FromDouble(0.01) / mSpriteScale);
+                    mVelX = mVelX - (FP_FromDouble(0.01) / GetSpriteScale());
                 }
                 BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&mXPos, &mYPos, mVelX);
             }
             else
             {
-                if (abs(SnapToXGrid(mSpriteScale, FP_GetExponent(mXPos)) - FP_GetExponent(mXPos)) <= 1)
+                if (abs(SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos)) - FP_GetExponent(mXPos)) <= 1)
                 {
                     mVelX = FP_FromInteger(0);
-                    mCollectionRect.x = mXPos - (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2));
-                    mCollectionRect.y = mYPos - ScaleToGridSize(mSpriteScale);
-                    mCollectionRect.w = mXPos + (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2));
+                    mCollectionRect.x = mXPos - (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
+                    mCollectionRect.y = mYPos - ScaleToGridSize(GetSpriteScale());
+                    mCollectionRect.w = mXPos + (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
                     mCollectionRect.h = mYPos;
 
                     mState = BoneStates::eOnGround_3;
@@ -505,8 +505,8 @@ void Bone::VUpdate()
             {
                 // For the shiny star twinkle effect.
                 New_TintShiny_Particle(
-                    mXPos + (mSpriteScale * FP_FromInteger(1)),
-                    (mSpriteScale * FP_FromInteger(-7)) + mYPos,
+                    mXPos + (GetSpriteScale() * FP_FromInteger(1)),
+                    (GetSpriteScale() * FP_FromInteger(-7)) + mYPos,
                     FP_FromDouble(0.3),
                     Layer::eLayer_Foreground_36);
 
@@ -523,7 +523,7 @@ void Bone::VUpdate()
         {
             InTheAir();
             const PSX_RECT bRect = VGetBoundingRect();
-            const s16 offset = mScale == Scale::Fg ? 5 : 0;
+            const s16 offset = GetScale() == Scale::Fg ? 5 : 0;
             const PSX_Point xy{bRect.x, static_cast<s16>(bRect.y + offset)};
             const PSX_Point wh{bRect.w, static_cast<s16>(bRect.h + offset)};
             VOnCollisionWith(xy, wh, gBaseGameObjects, (TCollisionCallBack) &Bone::OnCollision);
@@ -602,20 +602,20 @@ BoneBag::BoneBag(relive::Path_BoneBag* pTlv, const Guid& tlvId)
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
-        mScale = Scale::Bg;
+        SetSpriteScale(FP_FromDouble(0.5));
+        SetScale(Scale::Bg);
     }
     else if (pTlv->mScale == relive::reliveScale::eFull)
     {
-        mSpriteScale = FP_FromInteger(1);
-        mScale = Scale::Fg;
+        SetSpriteScale(FP_FromInteger(1));
+        SetScale(Scale::Fg);
     }
 
     mBoneAmount = pTlv->mBoneAmount;
     mAllowSound = true;
     mForcePlayWobbleSound = true;
 
-    mShadow = relive_new Shadow();
+    CreateShadow();
 }
 
 void BoneBag::VScreenChanged()
@@ -677,7 +677,7 @@ void BoneBag::VUpdate()
     const PSX_RECT bPlayerRect = sActiveHero->VGetBoundingRect();
     const PSX_RECT bRect = VGetBoundingRect();
 
-    if (bRect.x <= bPlayerRect.w && bRect.w >= bPlayerRect.x && bRect.h >= bPlayerRect.y && bRect.y <= bPlayerRect.h && mSpriteScale == sActiveHero->mSpriteScale)
+    if (bRect.x <= bPlayerRect.w && bRect.w >= bPlayerRect.x && bRect.h >= bPlayerRect.y && bRect.y <= bPlayerRect.h && GetSpriteScale() == sActiveHero->GetSpriteScale())
     {
         if (gpThrowableArray)
         {
@@ -704,8 +704,8 @@ void BoneBag::VUpdate()
 
         auto pBone = relive_new Bone(mXPos, mYPos - FP_FromInteger(30), mBoneAmount);
 
-        pBone->mSpriteScale = mSpriteScale;
-        pBone->mScale = mScale;
+        pBone->SetSpriteScale(GetSpriteScale());
+        pBone->SetScale(GetScale());
 
         pBone->VThrow(mVelX, mVelY);
 

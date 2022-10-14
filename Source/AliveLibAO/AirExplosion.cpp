@@ -30,7 +30,7 @@ AirExplosion::AirExplosion(FP xpos, FP ypos, FP exposion_size)
     GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
     mExplosionSize = exposion_size;
 
-    mSpriteScale = exposion_size * FP_FromInteger(2);
+    SetSpriteScale(exposion_size * FP_FromInteger(2));
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
     mYPos = ypos;
     mXPos = xpos;
@@ -68,7 +68,7 @@ void AirExplosion::VUpdate()
 
         case 3:
         {
-            relive_new ParticleBurst(mXPos, mYPos, 20, mSpriteScale, BurstType::eBigRedSparks_3);
+            relive_new ParticleBurst(mXPos, mYPos, 20, GetSpriteScale(), BurstType::eBigRedSparks_3);
 
             relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
             break;
@@ -96,7 +96,7 @@ void AirExplosion::VUpdate()
 
         case 8:
         {
-            relive_new ParticleBurst(mXPos, mYPos, 20, mSpriteScale, BurstType::eBigRedSparks_3);
+            relive_new ParticleBurst(mXPos, mYPos, 20, GetSpriteScale(), BurstType::eBigRedSparks_3);
 
             relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
             break;
@@ -108,7 +108,7 @@ void AirExplosion::VUpdate()
 
     if (GetAnimation().GetCurrentFrame() > 9)
     {
-        mSpriteScale -= FP_FromDouble(0.2);
+        SetSpriteScale(GetSpriteScale() - FP_FromDouble(0.2));
     }
 
     if (GetAnimation().GetCurrentFrame() == 1)
@@ -124,7 +124,7 @@ void AirExplosion::VUpdate()
             pParticle->mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
             pParticle->GetAnimation().mFlags.Clear(AnimFlags::eFlipX);
             pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
-            pParticle->mSpriteScale = mSpriteScale * FP_FromDouble(0.25);
+            pParticle->SetSpriteScale(GetSpriteScale() * FP_FromDouble(0.25));
         }
         else
         {
@@ -194,7 +194,7 @@ void AirExplosion::DealBlastDamage(PSX_RECT* pRect)
         if (pObj->mBaseGameObjectFlags.Get(Options::eIsBaseAliveGameObject_Bit6))
         {
             const PSX_RECT rect = pObj->VGetBoundingRect();
-            if (PSX_Rects_overlap_no_adjustment(&rect, &expandedRect) && mExplosionSize == pObj->mSpriteScale)
+            if (PSX_Rects_overlap_no_adjustment(&rect, &expandedRect) && mExplosionSize == pObj->GetSpriteScale())
             {
                 pObj->VTakeDamage(this);
             }

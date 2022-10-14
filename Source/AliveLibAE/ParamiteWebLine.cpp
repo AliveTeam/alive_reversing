@@ -30,8 +30,8 @@ ParamiteWebLine::ParamiteWebLine(relive::Path_ParamiteWebLine* pTlv, const Guid&
     {
         GetAnimation().SetRenderLayer(Layer::eLayer_RopeWebDrillMeatSaw_Half_5);
         GetAnimation().SetSpriteScale(FP_FromDouble(0.7));
-        mSpriteScale = FP_FromDouble(0.7);
-        mScale = Scale::Bg;
+        SetSpriteScale(FP_FromDouble(0.7));
+        SetScale(Scale::Bg);
         field_F6_piece_length = 7;
         field_1A2_pulse_position_speed = 1;
         mRGB.SetRGB(50, 50, 200);
@@ -40,8 +40,8 @@ ParamiteWebLine::ParamiteWebLine(relive::Path_ParamiteWebLine* pTlv, const Guid&
     {
         GetAnimation().SetRenderLayer(Layer::eLayer_RopeWebDrillMeatSaw_24);
         GetAnimation().SetSpriteScale(FP_FromInteger(1));
-        mSpriteScale = FP_FromInteger(1);
-        mScale = Scale::Fg;
+        SetSpriteScale(FP_FromInteger(1));
+        SetScale(Scale::Fg);
         field_F6_piece_length = 15;
         field_1A2_pulse_position_speed = 2;
         mRGB.SetRGB(10, 10, 10);
@@ -98,7 +98,7 @@ ParamiteWebLine::ParamiteWebLine(relive::Path_ParamiteWebLine* pTlv, const Guid&
             field_FC_pRes[i].mFlags.Set(AnimFlags::eRender);
             field_FC_pRes[i].field_68_anim_ptr = &GetAnimation();
             field_FC_pRes[i].SetRenderLayer(GetAnimation().GetRenderLayer());
-            field_FC_pRes[i].field_6C_scale = mSpriteScale;
+            field_FC_pRes[i].field_6C_scale = GetSpriteScale();
             field_FC_pRes[i].mFlags.Clear(AnimFlags::eSemiTrans);
             field_FC_pRes[i].mFlags.Clear(AnimFlags::eBlending);
         }
@@ -244,7 +244,7 @@ void ParamiteWebLine::VRender(PrimHeader** ppOt)
         }
 
         const s16 render_xpos = FP_GetExponent(xVal);
-        ShadowZone::ShadowZones_Calculate_Colour(render_xpos, render_ypos, mScale, &r, &g, &b);
+        ShadowZone::ShadowZones_Calculate_Colour(render_xpos, render_ypos, GetScale(), &r, &g, &b);
         field_FC_pRes[idx].SetRGB(r, g, b);
 
         field_FC_pRes[idx].VRender(

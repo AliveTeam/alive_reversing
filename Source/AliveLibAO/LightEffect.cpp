@@ -34,7 +34,7 @@ LightEffect::LightEffect(relive::Path_LightEffect* pTlv, const Guid& tlvId)
     field_E8 = 0;
     field_EA = 0;
 
-    mSpriteScale = FP_FromDouble(0.4);
+    SetSpriteScale(FP_FromDouble(0.4));
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
 }

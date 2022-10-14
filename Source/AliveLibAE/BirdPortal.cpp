@@ -233,7 +233,7 @@ void BirdPortal::VUpdate()
                             pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
                             pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
                             pParticle->SetType(ReliveTypes::eBirdPortalTerminator);
-                            pParticle->mSpriteScale = mSpriteScale;
+                            pParticle->SetSpriteScale(mSpriteScale);
 
                             if (static_cast<s32>(sGnFrame) % 2)
                             {
@@ -304,15 +304,15 @@ void BirdPortal::VUpdate()
                         mSpriteScale);
 
                     SfxPlayMono(relive::SoundEffects::Dove, 70, mSpriteScale);
-                    pDove_1->mSpriteScale = mSpriteScale;
+                    pDove_1->SetSpriteScale(mSpriteScale);
                     pDove_1->AsJoin(sActiveHero->mXPos, FP_FromInteger(Math_RandomRange(-36, 4)) + sActiveHero->mYPos);
                     mReceivedDovesCount++;
                     if (mReceivedDovesCount == 6)
                     {
                         mOrbWhirlWind->ToSpin(
                             sActiveHero->mXPos,
-                            sActiveHero->mYPos - (sActiveHero->mSpriteScale * FP_FromInteger(38)),
-                            sActiveHero->mSpriteScale,
+                            sActiveHero->mYPos - (sActiveHero->GetSpriteScale() * FP_FromInteger(38)),
+                            sActiveHero->GetSpriteScale(),
                             sActiveHero);
                         mOrbWhirlWind = nullptr;
                     }
@@ -346,7 +346,7 @@ void BirdPortal::VUpdate()
                     GetAnimRes(AnimId::BirdPortal_Flash));
                 pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
                 pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
-                pParticle->mSpriteScale = mSpriteScale;
+                pParticle->SetSpriteScale(mSpriteScale);
 
                 mState = PortalStates::StopSound_11;
                 mTimer = sGnFrame + 5;
@@ -739,8 +739,8 @@ void BirdPortal::VGiveShrykull(s16 bPlaySound)
 
             mOrbWhirlWind = relive_new OrbWhirlWind(
                 sActiveHero->mXPos,
-                sActiveHero->mYPos - (sActiveHero->mSpriteScale * FP_FromInteger(38)),
-                sActiveHero->mSpriteScale,
+                sActiveHero->mYPos - (sActiveHero->GetSpriteScale() * FP_FromInteger(38)),
+                sActiveHero->GetSpriteScale(),
                 0);
 
             if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_112_Chant)
@@ -801,16 +801,16 @@ void BirdPortal::VExitPortal()
         {
             mSpriteScale = FP_FromDouble(0.5);
             sActiveHero->GetAnimation().SetRenderLayer(Layer::eLayer_InBirdPortal_Half_11);
-            sActiveHero->mScale = Scale::Bg;
+            sActiveHero->SetScale(Scale::Bg);
         }
         else
         {
             mSpriteScale = FP_FromInteger(1);
             sActiveHero->GetAnimation().SetRenderLayer(Layer::eLayer_InBirdPortal_30);
-            sActiveHero->mScale = Scale::Fg;
+            sActiveHero->SetScale(Scale::Fg);
         }
 
-        sActiveHero->mSpriteScale = mSpriteScale;
+        sActiveHero->SetSpriteScale(mSpriteScale);
         sActiveHero->mCurrentLevel = gMap.mCurrentLevel;
         sActiveHero->mCurrentPath = gMap.mCurrentPath;
 
@@ -943,7 +943,7 @@ s16 BirdPortal::IsScaredAway()
                     continue;
                 }
 
-                if (FP_Abs(pObj->mYPos - mHitY) >= FP_FromInteger(30) || pObj->mSpriteScale != mSpriteScale)
+                if (FP_Abs(pObj->mYPos - mHitY) >= FP_FromInteger(30) || pObj->GetSpriteScale() != mSpriteScale)
                 {
                     continue;
                 }
@@ -973,7 +973,7 @@ void BirdPortal::CreateDovesAndShrykullNumber()
         {
             pDove->AsACircle(mXPos, (mSpriteScale * FP_FromInteger(30)) + mYPos, 42 * i);
         }
-        pDove->mSpriteScale = mSpriteScale;
+        pDove->SetSpriteScale(mSpriteScale);
     }
 
     if (mPortalType == relive::Path_BirdPortal::PortalType::eShrykull)
@@ -1067,8 +1067,8 @@ BirdPortalTerminator::BirdPortalTerminator(FP xpos, FP ypos, FP scale, relive::P
     Animation_Init(GetAnimRes(AnimId::BirdPortal_TerminatorGrow));
 
     GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
-    mSpriteScale = scale;
-    if (mSpriteScale == FP_FromInteger(1))
+    SetSpriteScale(scale);
+    if (GetSpriteScale() == FP_FromInteger(1))
     {
         GetAnimation().SetRenderLayer(Layer::eLayer_Above_FG1_39);
     }

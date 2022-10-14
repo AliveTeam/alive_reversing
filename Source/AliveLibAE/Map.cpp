@@ -189,11 +189,11 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                         if (!pBaseObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && pBaseObj != sControlledCharacter && gMap.Rect_Location_Relative_To_Active_Camera(&objRect) == CameraPos::eCamCurrent_0)
                         {
                             pObjectsWithLightsArray->Push_Back(pBaseObj);
-                            const FP k60Scaled = (pBaseObj->mSpriteScale * FP_FromInteger(60));
+                            const FP k60Scaled = (pBaseObj->GetSpriteScale() * FP_FromInteger(60));
                             Particle* pPurpleLight = New_DestroyOrCreateObject_Particle(
                                 FP_FromInteger((objRect.x + objRect.w) / 2),
                                 FP_FromInteger(((objRect.y + objRect.h) / 2)) + k60Scaled,
-                                pBaseObj->mSpriteScale);
+                                pBaseObj->GetSpriteScale());
 
                             if (pPurpleLight)
                             {
@@ -335,12 +335,12 @@ void Map::Handle_PathTransition()
         switch (nextScale)
         {
             case relive::reliveScale::eFull:
-                sActiveHero->mSpriteScale = FP_FromDouble(1.0);
+                sActiveHero->SetSpriteScale(FP_FromDouble(1.0));
                 sActiveHero->GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_32);
                 break;
 
             case relive::reliveScale::eHalf:
-                sActiveHero->mSpriteScale = FP_FromDouble(0.5);
+                sActiveHero->SetSpriteScale(FP_FromDouble(0.5));
                 sActiveHero->GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_Half_13);
                 break;
 

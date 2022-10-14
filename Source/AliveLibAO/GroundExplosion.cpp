@@ -52,7 +52,7 @@ void GroundExplosion::VUpdate()
                 mXPos,
                 mYPos,
                 20,
-                mSpriteScale,
+                GetSpriteScale(),
                 BurstType::eBigRedSparks_3);
 
             relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
@@ -77,7 +77,7 @@ void GroundExplosion::VUpdate()
                 mXPos,
                 mYPos,
                 20,
-                mSpriteScale,
+                GetSpriteScale(),
                 BurstType::eBigRedSparks_3);
 
             relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
@@ -99,7 +99,7 @@ void GroundExplosion::VUpdate()
             pParticle->GetAnimation().mFlags.Set(AnimFlags::eFlipX);
             pParticle->mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
             pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
-            pParticle->mSpriteScale = mSpriteScale * FP_FromDouble(0.7);
+            pParticle->SetSpriteScale(GetSpriteScale() * FP_FromDouble(0.7));
         }
     }
 
@@ -175,7 +175,7 @@ void GroundExplosion::DealDamageRect(const PSX_RECT* pRect)
             if (obj_xpos >= left && obj_xpos <= right)
             {
                 const s16 obj_ypos = FP_GetExponent(pObj->mYPos);
-                if (obj_ypos >= top && obj_ypos <= bottom && mSpriteScale == (pObj->mSpriteScale * FP_FromDouble(2.75)))
+                if (obj_ypos >= top && obj_ypos <= bottom && GetSpriteScale() == (pObj->GetSpriteScale() * FP_FromDouble(2.75)))
                 {
                     pObj->VTakeDamage(this);
                 }
@@ -210,7 +210,7 @@ GroundExplosion::GroundExplosion(FP xpos, FP ypos, FP scale)
     }
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
-    mSpriteScale = scale * FP_FromDouble(2.75);
+    SetSpriteScale(scale * FP_FromDouble(2.75));
 
     mXPos = xpos;
     mYPos = ypos;

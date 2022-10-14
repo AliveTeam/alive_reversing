@@ -92,7 +92,7 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, 
                     pParticle->GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
                 }
 
-                pParticle->mSpriteScale = scale;
+                pParticle->SetSpriteScale(scale);
             }
         }
     }

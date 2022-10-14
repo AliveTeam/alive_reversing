@@ -118,7 +118,7 @@ DoorLight::DoorLight(relive::Path_LightEffect* pTlv, const Guid& tlvId)
         mXPos = FP_FromInteger(xOff + pTlv->mTopLeftX);
     }
 
-    mSpriteScale = FP_FromInteger(1);
+    SetSpriteScale(FP_FromInteger(1));
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
 }
 

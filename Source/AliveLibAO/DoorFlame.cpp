@@ -41,7 +41,7 @@ public:
 
         GetAnimation().SetRGB(100, 100, 63);
 
-        mSpriteScale = scale;
+        SetSpriteScale(scale);
 
         Calc_Rect();
     }
@@ -80,11 +80,11 @@ public:
         const FP screenX = FP_FromInteger(pScreenManager->mCamXOff) + mXPos - pCamPos->x;
         const FP screenY = FP_FromInteger(pScreenManager->mCamYOff) + mYPos - pCamPos->y;
 
-        const FP frameWScaled = (FP_FromInteger(frameW) * mSpriteScale);
-        const FP frameHScaled = (FP_FromInteger(frameH) * mSpriteScale);
+        const FP frameWScaled = (FP_FromInteger(frameW) * GetSpriteScale());
+        const FP frameHScaled = (FP_FromInteger(frameH) * GetSpriteScale());
 
-        const s32 offXScaled = FP_GetExponent(FP_FromInteger(xy.x) * mSpriteScale);
-        const s32 offYScaled = FP_GetExponent(FP_FromInteger(xy.y) * mSpriteScale);
+        const s32 offXScaled = FP_GetExponent(FP_FromInteger(xy.x) * GetSpriteScale());
+        const s32 offYScaled = FP_GetExponent(FP_FromInteger(xy.y) * GetSpriteScale());
 
         // TODO: Refactor PSX <> PC width conversion
         const FP frameWScaled_converted = ((frameWScaled * FP_FromInteger(23)) + FP_FromInteger(20)) / FP_FromInteger(40);
@@ -139,7 +139,7 @@ public:
         field_400_xpos = xpos;
         field_404_ypos = ypos;
 
-        mSpriteScale = FP_FromDouble(0.3);
+        SetSpriteScale(FP_FromDouble(0.3));
 
         for (auto& anim : field_E8_sparks)
         {
@@ -150,7 +150,7 @@ public:
 
             const s16 rndLayer = static_cast<s16>(GetAnimation().GetRenderLayer()) + Math_RandomRange(-1, 1);
             anim.field_14.SetRenderLayer(static_cast<Layer>(rndLayer));
-            anim.field_14.field_6C_scale = mSpriteScale;
+            anim.field_14.field_6C_scale = GetSpriteScale();
 
             anim.x = mXPos;
             anim.y = mYPos;
@@ -310,13 +310,13 @@ DoorFlame::DoorFlame(relive::Path_DoorFlame* pTlv, const Guid& tlvId)
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
+        SetSpriteScale(FP_FromDouble(0.5));
         mXPos = FP_FromInteger(pTlv->mTopLeftX + 12);
         mYPos = FP_FromInteger(pTlv->mTopLeftY + 15);
     }
     else if (pTlv->mScale == relive::reliveScale::eFull)
     {
-        mSpriteScale = FP_FromInteger(1);
+        SetSpriteScale(FP_FromInteger(1));
         mXPos = FP_FromInteger(pTlv->mTopLeftX + 12);
         mYPos = FP_FromInteger(pTlv->mTopLeftY + 15);
     }

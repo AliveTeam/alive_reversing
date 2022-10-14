@@ -70,14 +70,14 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
-        mScale = Scale::Bg;
+        SetSpriteScale(FP_FromDouble(0.5));
+        SetScale(Scale::Bg);
         GetAnimation().SetRenderLayer(Layer::eLayer_DoorFlameRollingBallFallingItemPortalClip_Half_12);
     }
     else
     {
-        mSpriteScale = FP_FromInteger(1);
-        mScale = Scale::Fg;
+        SetSpriteScale(FP_FromInteger(1));
+        SetScale(Scale::Fg);
         GetAnimation().SetRenderLayer(Layer::eLayer_FallingItemDoorFlameRollingBallPortalClip_Half_31);
     }
 
@@ -108,7 +108,7 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
         field_144_created_gnFrame = sGnFrame;
     }
 
-    mShadow = relive_new Shadow();
+    CreateShadow();
 }
 
  FallingItem::FallingItem(s32 xpos, s32 ypos, s32 scale, s32 id, s32 fallInterval, s32 numItems, s32 bResetIdAfterUse)
@@ -136,13 +136,13 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
 
     if (scale)
     {
-        mSpriteScale = FP_FromDouble(0.5);
-        mScale = Scale::Bg;
+        SetSpriteScale(FP_FromDouble(0.5));
+        SetScale(Scale::Bg);
     }
     else
     {
-        mSpriteScale = FP_FromInteger(1);
-        mScale = Scale::Fg;
+        SetSpriteScale(FP_FromInteger(1));
+        SetScale(Scale::Fg);
     }
 
     field_124_fall_interval = static_cast<s16>(fallInterval);
@@ -170,7 +170,7 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
         field_144_created_gnFrame = sGnFrame;
     }
 
-    mShadow = relive_new Shadow();
+    CreateShadow();
 }
 
 FallingItem::~FallingItem()
@@ -202,7 +202,7 @@ void FallingItem::VUpdate()
     {
         if (!((sGnFrame - field_144_created_gnFrame) % 87))
         {
-            if (mScale == Scale::Fg)
+            if (GetScale() == Scale::Fg)
             {
                 SfxPlayMono(relive::SoundEffects::FallingItemPresence1, 45);
             }
@@ -214,7 +214,7 @@ void FallingItem::VUpdate()
 
         if (!((sGnFrame - field_144_created_gnFrame) % 25))
         {
-            if (mScale == Scale::Fg)
+            if (GetScale() == Scale::Fg)
             {
                 SfxPlayMono(relive::SoundEffects::FallingItemPresence2, 45);
             }
@@ -260,7 +260,7 @@ void FallingItem::VUpdate()
             {
                 field_11C_state = State::eFalling_3;
                 field_12E_do_sound_in_state_falling = TRUE;
-                if (mScale == Scale::Fg)
+                if (GetScale() == Scale::Fg)
                 {
                     field_140_sound_channels = SFX_Play_Pitch(relive::SoundEffects::AirStream, 50, -2600);
                 }
@@ -278,7 +278,7 @@ void FallingItem::VUpdate()
                 if (mYPos >= sActiveHero->mYPos - FP_FromInteger(240 / 2))
                 {
                     field_12E_do_sound_in_state_falling = FALSE;
-                    if (mScale == Scale::Fg)
+                    if (GetScale() == Scale::Fg)
                     {
                         SFX_Play_Pitch(relive::SoundEffects::AirStream, 127, -1300);
                     }
@@ -293,7 +293,7 @@ void FallingItem::VUpdate()
 
             if (mVelY < FP_FromInteger(20))
             {
-                mVelY += mSpriteScale * FP_FromDouble(1.8);
+                mVelY += GetSpriteScale() * FP_FromDouble(1.8);
             }
 
             PathLine* pathLine = nullptr;
@@ -307,7 +307,7 @@ void FallingItem::VUpdate()
                     &pathLine,
                     &hitX,
                     &hitY,
-                    mScale == Scale::Fg ? kFgFloor : kBgFloor)
+                    GetScale() == Scale::Fg ? kFgFloor : kBgFloor)
                 == 1)
             {
                 if (!field_134_bHitDrillOrMineCar)
@@ -324,24 +324,24 @@ void FallingItem::VUpdate()
             field_134_bHitDrillOrMineCar = FALSE;
             field_11C_state = State::eSmashed_4;
 
-            relive_new ScreenShake(0, mSpriteScale == FP_FromDouble(0.5));
+            relive_new ScreenShake(0, GetSpriteScale() == FP_FromDouble(0.5));
 
             if (gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz)
             {
                 relive_new ParticleBurst(mXPos,
                                                    mYPos,
                                                    20,
-                                                   mSpriteScale,
+                                                   GetSpriteScale(),
                                                    BurstType::eSticks_1,
                                                    13);
 
                 auto pParticle = relive_new Particle(mXPos,
-                                                  mYPos - (FP_FromInteger(15) * mSpriteScale),
+                                                  mYPos - (FP_FromInteger(15) * GetSpriteScale()),
                                                   GetAnimRes(AnimId::AirExplosion));
                 if (pParticle)
                 {
                     pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
-                    pParticle->mSpriteScale = mSpriteScale * FP_FromDouble(0.75);
+                    pParticle->SetSpriteScale(GetSpriteScale() * FP_FromDouble(0.75));
                 }
             }
             else
@@ -349,7 +349,7 @@ void FallingItem::VUpdate()
                 relive_new ParticleBurst(mXPos,
                                                         mYPos,
                                                         25,
-                                                        mSpriteScale,
+                                                        GetSpriteScale(),
                                                         BurstType::eFallingRocks_0,
                                                         13);
             }
@@ -364,9 +364,9 @@ void FallingItem::VUpdate()
             }
 
             EventBroadcast(kEventLoudNoise, this);
-            SfxPlayMono(relive::SoundEffects::FallingItemLand, 0, mSpriteScale);
+            SfxPlayMono(relive::SoundEffects::FallingItemLand, 0, GetSpriteScale());
 
-            if (mScale == Scale::Fg)
+            if (GetScale() == Scale::Fg)
             {
                 SFX_Play_Pitch(relive::SoundEffects::FallingItemHit, 110, -1536);
             }
@@ -424,7 +424,7 @@ void FallingItem::DamageHitItems()
                 PSX_RECT fallingItemRect = VGetBoundingRect();
                 PSX_RECT objRect = pAliveObj->VGetBoundingRect();
 
-                if (pAliveObj->mSpriteScale == mSpriteScale)
+                if (pAliveObj->GetSpriteScale() == GetSpriteScale())
                 {
                     if (pAliveObj->Type() == ReliveTypes::eDrill || pAliveObj->Type() == ReliveTypes::eMineCar)
                     {

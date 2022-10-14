@@ -73,19 +73,19 @@ SecurityClaw::SecurityClaw(relive::Path_SecurityClaw* pTlv, const Guid& tlvId)
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
-        mScale = Scale::Bg;
+        SetSpriteScale(FP_FromDouble(0.5));
+        SetScale(Scale::Bg);
     }
     else
     {
-        mSpriteScale = FP_FromInteger(1);
-        mScale = Scale::Fg;
+        SetSpriteScale(FP_FromInteger(1));
+        SetScale(Scale::Fg);
     }
 
     field_124 = 0; // LOBYTE
 
-    mXPos = mClawX + ((Math_Sine(0) * mSpriteScale) * FP_FromInteger(8)) * FP_FromDouble(0.25);
-    mYPos = mClawY + ((Math_Cosine(0) * mSpriteScale) * FP_FromInteger(8));
+    mXPos = mClawX + ((Math_Sine(0) * GetSpriteScale()) * FP_FromInteger(8)) * FP_FromDouble(0.25);
+    mYPos = mClawY + ((Math_Cosine(0) * GetSpriteScale()) * FP_FromInteger(8));
     SetTint(&kSecurityClawTints_4C5488[0], gMap.mCurrentLevel);
 
     field_134_top_left.x = pTlv->mTopLeftX;
@@ -101,8 +101,8 @@ SecurityClaw::SecurityClaw(relive::Path_SecurityClaw* pTlv, const Guid& tlvId)
     mClaw = relive_new Claw();
     if (mClaw)
     {
-        mClaw->mSpriteScale = mSpriteScale;
-        mClaw->GetAnimation().SetRenderLayer(mSpriteScale == FP_FromInteger(1) ? Layer::eLayer_ZapLinesElumMuds_28 : Layer::eLayer_ZapLinesMudsElum_Half_9);
+        mClaw->SetSpriteScale(GetSpriteScale());
+        mClaw->GetAnimation().SetRenderLayer(GetSpriteScale() == FP_FromInteger(1) ? Layer::eLayer_ZapLinesElumMuds_28 : Layer::eLayer_ZapLinesMudsElum_Half_9);
 
         mClaw->mXPos = mClawX;
         mClaw->mYPos = mClawY;
@@ -167,8 +167,8 @@ s16 SecurityClaw::VTakeDamage(BaseGameObject* pFrom)
 
             relive_new AirExplosion(
                 mXPos,
-                mYPos - mSpriteScale * FP_FromInteger(5),
-                mSpriteScale);
+                mYPos - GetSpriteScale() * FP_FromInteger(5),
+                GetSpriteScale());
 
             relive_new Gibs(
                 GibType::Metal_5,
@@ -176,7 +176,7 @@ s16 SecurityClaw::VTakeDamage(BaseGameObject* pFrom)
                 mYPos + FP_FromInteger(50),
                 FP_FromInteger(0),
                 FP_FromInteger(0),
-                mSpriteScale);
+                GetSpriteScale());
         }
         else
         {
@@ -188,7 +188,7 @@ s16 SecurityClaw::VTakeDamage(BaseGameObject* pFrom)
                 mYPos + FP_FromInteger(50),
                 FP_FromInteger(0),
                 FP_FromInteger(0),
-                mSpriteScale);
+                GetSpriteScale());
 
             relive_new Gibs(
                 GibType::Metal_5,
@@ -196,7 +196,7 @@ s16 SecurityClaw::VTakeDamage(BaseGameObject* pFrom)
                 mYPos + FP_FromInteger(50),
                 FP_FromInteger(0),
                 FP_FromInteger(0),
-                mSpriteScale);
+                GetSpriteScale());
 
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
@@ -239,11 +239,11 @@ void SecurityClaw::VUpdate()
         }
     }
 
-    mXPos = mClawX + (((Math_Sine(field_124) * mSpriteScale) * FP_FromInteger(8)) * FP_FromDouble(0.25));
+    mXPos = mClawX + (((Math_Sine(field_124) * GetSpriteScale()) * FP_FromInteger(8)) * FP_FromDouble(0.25));
 
     field_124 += 2;
 
-    mYPos = mClawY + ((Math_Cosine(field_124) * mSpriteScale) * FP_FromInteger(8));
+    mYPos = mClawY + ((Math_Cosine(field_124) * GetSpriteScale()) * FP_FromInteger(8));
 
     mClaw->mXPos = mXPos;
     mClaw->mYPos = mYPos;
@@ -322,8 +322,8 @@ void SecurityClaw::VUpdate()
                 relive_new ScreenShake(1);
 
                 relive_new ZapLine(
-                    mXPos - (FP_FromInteger(3) * mSpriteScale),
-                    mYPos + (FP_FromInteger(5) * mSpriteScale),
+                    mXPos - (FP_FromInteger(3) * GetSpriteScale()),
+                    mYPos + (FP_FromInteger(5) * GetSpriteScale()),
                     hero_mid_x,
                     hero_mid_y,
                     8, ZapLineType::eThick_0,
@@ -335,8 +335,8 @@ void SecurityClaw::VUpdate()
 
                 auto pSpark = relive_new ZapSpark(
                     mXPos,
-                    mYPos - (FP_FromInteger(8) * mSpriteScale),
-                    mSpriteScale);
+                    mYPos - (FP_FromInteger(8) * GetSpriteScale()),
+                    GetSpriteScale());
                 if (pSpark)
                 {
                     pSpark->mRGB.SetRGB(255, 65, 65);
@@ -344,8 +344,8 @@ void SecurityClaw::VUpdate()
 
                 auto pSpark2 = relive_new ZapSpark(
                     mXPos,
-                    mYPos - (FP_FromInteger(8) * mSpriteScale),
-                    mSpriteScale);
+                    mYPos - (FP_FromInteger(8) * GetSpriteScale()),
+                    GetSpriteScale());
                 if (pSpark2)
                 {
                     pSpark2->mRGB.SetRGB(255, 65, 65);
@@ -356,7 +356,7 @@ void SecurityClaw::VUpdate()
                     auto pSpark3 = relive_new ZapSpark(
                         hero_mid_x,
                         hero_mid_y,
-                        mSpriteScale);
+                        GetSpriteScale());
                     if (pSpark3)
                     {
                         pSpark3->mRGB.SetRGB(255, 65, 65);

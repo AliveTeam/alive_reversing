@@ -41,13 +41,13 @@ ElectricWall::ElectricWall(relive::Path_ElectricWall* pTlv, const Guid& tlvId)
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
-        mScale = Scale::Bg;
+        SetSpriteScale(FP_FromDouble(0.5));
+        SetScale(Scale::Bg);
     }
     else
     {
-        mSpriteScale = FP_FromInteger(1);
-        mScale = Scale::Fg;
+        SetSpriteScale(FP_FromInteger(1));
+        SetScale(Scale::Fg);
     }
 
     mSwitchId = pTlv->mSwitchId;
@@ -113,7 +113,7 @@ void ElectricWall::VUpdate()
         // Play sound every so often
         if (static_cast<s32>(sGnFrame) >= mSoundTimer)
         {
-            SFX_Play_Camera(relive::SoundEffects::BirdPortalSpark, 45, soundDirection, mSpriteScale);
+            SFX_Play_Camera(relive::SoundEffects::BirdPortalSpark, 45, soundDirection, GetSpriteScale());
             mSoundTimer = sGnFrame + Math_RandomRange(24, 40);
         }
 
@@ -144,7 +144,7 @@ void ElectricWall::VUpdate()
                     break;
 
                 default:
-                    if (pObj->mScale == mScale)
+                    if (pObj->GetScale() == GetScale())
                     {
                         PSX_RECT objRect = pObj->VGetBoundingRect();
 
@@ -161,7 +161,7 @@ void ElectricWall::VUpdate()
                                 if (RectsOverlap(bRectBigger, objRect) && pObj->mHealth > FP_FromInteger(0))
                                 {
                                     // When near play the buzzing sound
-                                    SFX_Play_Camera(relive::SoundEffects::ElectricGateLoud, 45, soundDirection, mSpriteScale);
+                                    SFX_Play_Camera(relive::SoundEffects::ElectricGateLoud, 45, soundDirection, GetSpriteScale());
                                 }
                             }
                         }
@@ -176,7 +176,7 @@ void ElectricWall::VUpdate()
 
                                 pObj->VTakeDamage(this);
 
-                                SFX_Play_Camera(relive::SoundEffects::ElectricZap, 127, soundDirection, mSpriteScale);
+                                SFX_Play_Camera(relive::SoundEffects::ElectricZap, 127, soundDirection, GetSpriteScale());
 
                                 relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, TPageAbr::eBlend_3, 1);
                             }

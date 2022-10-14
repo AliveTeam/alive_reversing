@@ -47,7 +47,7 @@ Bells::Bells(BellSize bellType, FP xpos, FP ypos, FP scale)
     }
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
-    mSpriteScale = scale;
+    SetSpriteScale(scale);
 
     mXPos = xpos;
     mYPos = ypos;
@@ -119,7 +119,7 @@ void Bells::VUpdate()
             {
                 const FP sparkx = mXPos + FP_FromInteger(Math_RandomRange(-2, 2)) + xOff;
                 const FP sparky = mYPos + FP_FromInteger(Math_RandomRange(-2, 2)) + yOff;
-                relive_new ZapSpark(sparkx, sparky, mSpriteScale);
+                relive_new ZapSpark(sparkx, sparky, GetSpriteScale());
             }
         }
 

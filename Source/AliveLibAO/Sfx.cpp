@@ -11,7 +11,7 @@ s32 SFX_Play_Stereo(relive::SoundEffects sfxId, s32 leftVol, s32 rightVol, BaseA
     s16 left = 0;
     s16 right = 0;
 
-    if (pObj && pObj->mSpriteScale == FP_FromDouble(0.5))
+    if (pObj && pObj->GetSpriteScale() == FP_FromDouble(0.5))
     {
         left = static_cast<s16>(2 * leftVol / 3);
         right = static_cast<s16>(2 * rightVol / 3);

@@ -201,7 +201,7 @@ void Slig::Slig_SoundEffect(SligSfx sfxIdx)
         mYPos);
 
     auto sfxIdxInt = static_cast<s32>(sfxIdx);
-    if (mSpriteScale == FP_FromInteger(1))
+    if (GetSpriteScale() == FP_FromInteger(1))
     {
         volRight = sSligSounds_4CFB30[sfxIdxInt].field_C_default_volume;
     }
@@ -241,7 +241,7 @@ void Slig::Slig_SoundEffect(SligSfx sfxIdx)
         default:
             return;
     }
-    if (mSpriteScale == FP_FromDouble(0.5))
+    if (GetSpriteScale() == FP_FromDouble(0.5))
     {
         volLeft = volLeft * 2 / 3;
         volRight = volRight * 2 / 3;
@@ -311,15 +311,15 @@ Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
 
     if (pTlv->mData.mScale == relive::reliveScale::eFull)
     {
-        mSpriteScale = FP_FromInteger(1);
+        SetSpriteScale(FP_FromInteger(1));
         GetAnimation().SetRenderLayer(Layer::eLayer_SligGreeterFartsBats_33);
-        mScale = Scale::Fg;
+        SetScale(Scale::Fg);
     }
     else
     {
-        mSpriteScale = FP_FromDouble(0.5);
+        SetSpriteScale(FP_FromDouble(0.5));
         GetAnimation().SetRenderLayer(Layer::eLayer_SligGreeterFartsBat_Half_14);
-        mScale = Scale::Bg;
+        SetScale(Scale::Bg);
     }
 
     SetBaseAnimPaletteTint(
@@ -337,7 +337,7 @@ Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            mSpriteScale != FP_FromDouble(0.5) ? kFgFloor : kBgFloor)
+            GetSpriteScale() != FP_FromDouble(0.5) ? kFgFloor : kBgFloor)
         == 1)
     {
         mCurrentMotion = 0;
@@ -352,7 +352,7 @@ Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
 
     mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit6);
 
-    mShadow = relive_new Shadow();
+    CreateShadow();
 }
 
 Slig::~Slig()
@@ -745,19 +745,19 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
                 {
                     const FP yOff = FP_FromInteger(Math_NextRandom() % 16) - FP_FromInteger(8);
                     const FP xOff = (pBullet->mXDistance <= FP_FromInteger(0) ? FP_FromInteger(-1) : FP_FromInteger(1) * FP_FromInteger(Math_NextRandom() & 15) + FP_FromInteger(16));
-                    const FP xPos = (mSpriteScale * pBullet->mXDistance <= FP_FromInteger(0) ? FP_FromInteger(-6) : FP_FromInteger(6));
+                    const FP xPos = (GetSpriteScale() * pBullet->mXDistance <= FP_FromInteger(0) ? FP_FromInteger(-6) : FP_FromInteger(6));
 
                     relive_new Blood(
                         xPos + mXPos,
                         pBullet->mYPos,
                         xOff,
                         yOff,
-                        mSpriteScale,
+                        GetSpriteScale(),
                         12);
                 }
 
                 {
-                    const FP xPos = (mSpriteScale * pBullet->mXDistance <= FP_FromInteger(0) ? FP_FromInteger(-12) : FP_FromInteger(12));
+                    const FP xPos = (GetSpriteScale() * pBullet->mXDistance <= FP_FromInteger(0) ? FP_FromInteger(-12) : FP_FromInteger(12));
                     const FP xOff = pBullet->mXDistance <= FP_FromInteger(0) ? FP_FromInteger(-6) : FP_FromInteger(6);
 
                     relive_new Blood(
@@ -765,7 +765,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
                         pBullet->mYPos,
                         xPos,
                         FP_FromInteger(0),
-                        mSpriteScale,
+                        GetSpriteScale(),
                         8);
                 }
             }
@@ -821,7 +821,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
                     mYPos,
                     mVelX,
                     mVelY,
-                    mSpriteScale);
+                    GetSpriteScale());
 
                 mHealth = FP_FromInteger(0);
                 SfxPlayMono(relive::SoundEffects::FallingItemHit, 90);
@@ -852,11 +852,11 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
             {
                 if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                 {
-                    mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
+                    mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
                 }
                 else
                 {
-                    mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
+                    mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
                 }
                 field_108_bMotionChanged = TRUE;
                 field_128_timer = sGnFrame + 10;
@@ -1142,7 +1142,7 @@ void Slig::WaitOrWalk()
     SetBrain(&Slig::Brain_Walking);
 
     // Right rect bound
-    if (!IsFacingEffectiveLeft(this) && (ScaleToGridSize(mSpriteScale) * FP_FromInteger(2)) + mXPos >= FP_FromInteger(field_13C_zone_rect.w))
+    if (!IsFacingEffectiveLeft(this) && (ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(2)) + mXPos >= FP_FromInteger(field_13C_zone_rect.w))
     {
         PauseALittle();
         MusicController::static_PlayMusic(MusicController::MusicTypes::eChase_4, this, 0, 0);
@@ -1150,7 +1150,7 @@ void Slig::WaitOrWalk()
     }
 
     // Left rect bound
-    if (IsFacingEffectiveLeft(this) && (mXPos - (ScaleToGridSize(mSpriteScale) * FP_FromInteger(2))) <= FP_FromInteger(field_13C_zone_rect.x))
+    if (IsFacingEffectiveLeft(this) && (mXPos - (ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(2))) <= FP_FromInteger(field_13C_zone_rect.x))
     {
         PauseALittle();
         MusicController::static_PlayMusic(MusicController::MusicTypes::eChase_4, this, 0, 0);
@@ -1268,7 +1268,7 @@ inline PSX_RECT MakeMinMaxRect(FP x, FP y, FP w, FP h, bool flipToMaxMin = false
 
 s16 Slig::FindBeatTarget(s32 /*typeToFind*/, s32 gridBlocks)
 {
-    const FP kGridSize = ScaleToGridSize(mSpriteScale);
+    const FP kGridSize = ScaleToGridSize(GetSpriteScale());
     const FP k2Scaled = FP_FromInteger(2) * kGridSize;
     const FP kGridBlocksScaled = FP_FromInteger(gridBlocks) * kGridSize;
 
@@ -1309,7 +1309,7 @@ s16 Slig::HandleEnemyStopper(s32 gridBlocks)
         directedGirdBlocks = -gridBlocks;
     }
 
-    const auto dirScaled = ScaleToGridSize(mSpriteScale) * FP_FromInteger(directedGirdBlocks) + mXPos;
+    const auto dirScaled = ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(directedGirdBlocks) + mXPos;
     auto pStopper = static_cast<relive::Path_EnemyStopper*>(gMap.TLV_Get_At(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
@@ -1365,7 +1365,7 @@ void Slig::RespondToEnemyOrPatrol()
     }
     else if (VIsFacingMe(sControlledCharacter))
     {
-        if (mSpriteScale == sControlledCharacter->mSpriteScale)
+        if (GetSpriteScale() == sControlledCharacter->GetSpriteScale())
         {
             ToShoot();
         }
@@ -1386,7 +1386,7 @@ void Slig::TurnOrWalk(s32 a2)
     {
         if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
         {
-            if (mXPos > FP_FromInteger(field_13C_zone_rect.x) + (ScaleToGridSize(mSpriteScale) * FP_FromInteger(4)))
+            if (mXPos > FP_FromInteger(field_13C_zone_rect.x) + (ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(4)))
             {
                 ToTurn();
                 return;
@@ -1394,7 +1394,7 @@ void Slig::TurnOrWalk(s32 a2)
         }
         else
         {
-            if (mXPos < FP_FromInteger(field_13C_zone_rect.w) - (ScaleToGridSize(mSpriteScale) * FP_FromInteger(4)))
+            if (mXPos < FP_FromInteger(field_13C_zone_rect.w) - (ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(4)))
             {
                 ToTurn();
                 return;
@@ -1404,7 +1404,7 @@ void Slig::TurnOrWalk(s32 a2)
 
     if (!GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        if (mXPos > FP_FromInteger(field_13C_zone_rect.w) - (ScaleToGridSize(mSpriteScale) * FP_FromInteger(4)))
+        if (mXPos > FP_FromInteger(field_13C_zone_rect.w) - (ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(4)))
         {
             ToTurn();
             return;
@@ -1412,7 +1412,7 @@ void Slig::TurnOrWalk(s32 a2)
     }
     else
     {
-        if (mXPos < FP_FromInteger(field_13C_zone_rect.x) + (ScaleToGridSize(mSpriteScale) * FP_FromInteger(4)))
+        if (mXPos < FP_FromInteger(field_13C_zone_rect.x) + (ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(4)))
         {
             ToTurn();
             return;
@@ -1601,7 +1601,7 @@ s16 Slig::IsWallBetween(Slig* pLeft, BaseAliveGameObject* pRight)
                &pLine,
                &hitX,
                &hitY,
-               pLeft->mSpriteScale != FP_FromDouble(0.5) ? kFgWalls : kBgWalls)
+               pLeft->GetSpriteScale() != FP_FromDouble(0.5) ? kFgWalls : kBgWalls)
         == 1;
 }
 
@@ -1614,7 +1614,7 @@ void Slig::Slig_GameSpeak_SFX(SligSpeak effectId, s32 defaultVol, s32 pitch_min,
     }
     if (pObj)
     {
-        if (pObj->mSpriteScale == FP_FromDouble(0.5))
+        if (pObj->GetSpriteScale() == FP_FromDouble(0.5))
         {
             volume = FP_GetExponent(FP_FromInteger(volume * 2) / FP_FromInteger(3));
         }
@@ -1940,7 +1940,7 @@ void Slig::OperateLift()
 
 s16 Slig::HandlePlayerControlled()
 {
-    FP kScaleGrid = ScaleToGridSize(mSpriteScale);
+    FP kScaleGrid = ScaleToGridSize(GetSpriteScale());
 
     const auto pressed = Input().Pressed();
     if (pressed & sInputKey_Right)
@@ -1954,14 +1954,14 @@ s16 Slig::HandlePlayerControlled()
                 return 1;
             }
 
-            if (!WallHit(mSpriteScale * FP_FromInteger(35), kScaleGrid * FP_FromInteger(2)))
+            if (!WallHit(GetSpriteScale() * FP_FromInteger(35), kScaleGrid * FP_FromInteger(2)))
             {
                 mVelX = kScaleGrid / FP_FromInteger(9);
                 mCurrentMotion = eSligMotions::Motion_16_StandingToStep;
                 return 1;
             }
 
-            if (WallHit(mSpriteScale * FP_FromInteger(35), kScaleGrid))
+            if (WallHit(GetSpriteScale() * FP_FromInteger(35), kScaleGrid))
             {
                 return 0;
             }
@@ -1989,13 +1989,13 @@ s16 Slig::HandlePlayerControlled()
                 mVelX = -(kScaleGrid / FP_FromInteger(4));
                 return 1;
             }
-            if (!WallHit(mSpriteScale * FP_FromInteger(35), -kScaleGrid * FP_FromInteger(2)))
+            if (!WallHit(GetSpriteScale() * FP_FromInteger(35), -kScaleGrid * FP_FromInteger(2)))
             {
                 mCurrentMotion = eSligMotions::Motion_16_StandingToStep;
                 mVelX = -(kScaleGrid / FP_FromInteger(9));
                 return 1;
             }
-            if (WallHit(mSpriteScale * FP_FromInteger(35), -kScaleGrid))
+            if (WallHit(GetSpriteScale() * FP_FromInteger(35), -kScaleGrid))
             {
                 return 0;
             }
@@ -2162,7 +2162,7 @@ void Slig::PlayerControlRunningSlideStopOrTurn(s16 last_anim_frame)
 {
     if (mVelX > FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Left))
     {
-        mVelX = mSpriteScale * FP_FromDouble(13.2);
+        mVelX = GetSpriteScale() * FP_FromDouble(13.2);
         mCurrentMotion = eSligMotions::Motion_10_SlidingTurn;
         field_126_input = 0;
         return;
@@ -2170,7 +2170,7 @@ void Slig::PlayerControlRunningSlideStopOrTurn(s16 last_anim_frame)
 
     if (mVelX < FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Right))
     {
-        mVelX = mSpriteScale * FP_FromDouble(-13.2);
+        mVelX = GetSpriteScale() * FP_FromDouble(-13.2);
         mCurrentMotion = eSligMotions::Motion_10_SlidingTurn;
         field_126_input = 0;
         return;
@@ -2180,11 +2180,11 @@ void Slig::PlayerControlRunningSlideStopOrTurn(s16 last_anim_frame)
     {
         if (mVelX >= FP_FromInteger(0))
         {
-            mVelX = mSpriteScale * FP_FromDouble(13.2);
+            mVelX = GetSpriteScale() * FP_FromDouble(13.2);
         }
         else
         {
-            mVelX = mSpriteScale * FP_FromDouble(-13.2);
+            mVelX = GetSpriteScale() * FP_FromDouble(-13.2);
         }
 
         mCurrentMotion = eSligMotions::Motion_9_SlidingToStand;
@@ -2204,11 +2204,11 @@ void Slig::PlayerControlRunningSlideStopOrTurn(s16 last_anim_frame)
 
     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
+        mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(9));
     }
     else
     {
-        mVelX = ScaleToGridSize(mSpriteScale) / FP_FromInteger(9);
+        mVelX = ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(9);
     }
     field_126_input = 0;
 }
@@ -2233,7 +2233,7 @@ void Slig::SlowDown(FP speed)
         {
             if (mVelX < FP_FromInteger(0))
             {
-                mVelX += (mSpriteScale * speed);
+                mVelX += (GetSpriteScale() * speed);
                 if (mVelX > FP_FromInteger(0))
                 {
                     mVelX = FP_FromInteger(0);
@@ -2242,7 +2242,7 @@ void Slig::SlowDown(FP speed)
         }
         else
         {
-            mVelX -= (mSpriteScale * speed);
+            mVelX -= (GetSpriteScale() * speed);
             if (mVelX < FP_FromInteger(0))
             {
                 mVelX = FP_FromInteger(0);
@@ -2269,19 +2269,19 @@ s16 Slig::MainMovement()
 
             if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
-                if (WallHit(mSpriteScale * FP_FromInteger(35), -ScaleToGridSize(mSpriteScale)))
+                if (WallHit(GetSpriteScale() * FP_FromInteger(35), -ScaleToGridSize(GetSpriteScale())))
                 {
                     return 0;
                 }
-                mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
+                mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(9));
             }
             else
             {
-                if (WallHit(mSpriteScale * FP_FromInteger(35), ScaleToGridSize(mSpriteScale)))
+                if (WallHit(GetSpriteScale() * FP_FromInteger(35), ScaleToGridSize(GetSpriteScale())))
                 {
                     return 0;
                 }
-                mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
+                mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(9));
             }
 
             mCurrentMotion = eSligMotions::Motion_1_StandToWalk;
@@ -2291,11 +2291,11 @@ s16 Slig::MainMovement()
 
             if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
-                mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
+                mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
             }
             else
             {
-                mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
+                mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
             }
 
             mCurrentMotion = eSligMotions::Motion_3_StandToRun;
@@ -2349,11 +2349,11 @@ void Slig::ToKnockBack()
     {
         if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
         {
-            mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
+            mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
         }
         else
         {
-            mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
+            mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
         }
     }
     else
@@ -2438,7 +2438,7 @@ void Slig::Motion_2_Walking()
 
     field_126_input |= Input().Held();
 
-    if (WallHit(mSpriteScale * FP_FromInteger(35), mVelX * FP_FromInteger(2)))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(35), mVelX * FP_FromInteger(2)))
     {
         Motion_46_ToIdle();
         return;
@@ -2470,11 +2470,11 @@ void Slig::Motion_2_Walking()
                         if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                         {
                             field_126_input = 0;
-                            mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
+                            mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
                             return;
                         }
 
-                        mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
+                        mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
                         field_126_input = 0;
                         return;
                     }
@@ -2486,14 +2486,14 @@ void Slig::Motion_2_Walking()
 
                 if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                 {
-                    v12 = -(ScaleToGridSize(mSpriteScale));
+                    v12 = -(ScaleToGridSize(GetSpriteScale()));
                 }
                 else
                 {
-                    v12 = (ScaleToGridSize(mSpriteScale));
+                    v12 = (ScaleToGridSize(GetSpriteScale()));
                 }
 
-                if (WallHit(mSpriteScale * FP_FromInteger(35), v12 * FP_FromDouble(2.5)))
+                if (WallHit(GetSpriteScale() * FP_FromInteger(35), v12 * FP_FromDouble(2.5)))
                 {
                     mCurrentMotion = eSligMotions::Motion_19_WalkToStand;
                 }
@@ -2541,11 +2541,11 @@ void Slig::Motion_2_Walking()
                         if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                         {
                             field_126_input = 0;
-                            mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
+                            mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
                             return;
                         }
 
-                        mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
+                        mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
                         field_126_input = 0;
                         return;
                     }
@@ -2572,7 +2572,7 @@ void Slig::Motion_3_StandToRun()
 
     EventBroadcast(kEventNoise, this);
 
-    if (WallHit(mSpriteScale * FP_FromInteger(35), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(35), mVelX))
     {
         ToKnockBack();
     }
@@ -2599,7 +2599,7 @@ void Slig::Motion_4_Running()
 
     EventBroadcast(kEventNoise, this);
 
-    if (WallHit(mSpriteScale * FP_FromInteger(35), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(35), mVelX))
     {
         ToKnockBack();
     }
@@ -2639,11 +2639,11 @@ void Slig::Motion_4_Running()
 
                         if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                         {
-                            mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
+                            mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(9));
                         }
                         else
                         {
-                            mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
+                            mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(9));
                         }
                     }
                     else if (mNextMotion == eSligMotions::Motion_6_Shoot)
@@ -2656,11 +2656,11 @@ void Slig::Motion_4_Running()
                     {
                         if (mVelX >= FP_FromInteger(0))
                         {
-                            mVelX = (mSpriteScale * FP_FromDouble(13.2));
+                            mVelX = (GetSpriteScale() * FP_FromDouble(13.2));
                         }
                         else
                         {
-                            mVelX = (mSpriteScale * FP_FromDouble(-13.2));
+                            mVelX = (GetSpriteScale() * FP_FromDouble(-13.2));
                         }
 
                         mCurrentMotion = eSligMotions::Motion_9_SlidingToStand;
@@ -2705,8 +2705,8 @@ void Slig::Motion_6_Shoot()
         {
             if (Input().IsAnyPressed(sInputKey_ThrowItem))
             {
-                const FP k35Scaled = mSpriteScale * FP_FromInteger(35);
-                const FP kGridSize = ScaleToGridSize(mSpriteScale);
+                const FP k35Scaled = GetSpriteScale() * FP_FromInteger(35);
+                const FP kGridSize = ScaleToGridSize(GetSpriteScale());
                 const FP k8 = FP_FromInteger(8);
 
                 // Recoil right
@@ -2723,7 +2723,7 @@ void Slig::Motion_6_Shoot()
                             &pLine,
                             &hitX,
                             &hitY,
-                            mSpriteScale != FP_FromDouble(0.5) ? kFgWalls : kBgWalls)
+                            GetSpriteScale() != FP_FromDouble(0.5) ? kFgWalls : kBgWalls)
                         || sCollisions->Raycast(
                             mXPos,
                             mYPos - k35Scaled,
@@ -2732,7 +2732,7 @@ void Slig::Motion_6_Shoot()
                             &pLine,
                             &hitX,
                             &hitY,
-                            mSpriteScale != FP_FromDouble(0.5) ? kFgWalls : kBgWalls))
+                            GetSpriteScale() != FP_FromDouble(0.5) ? kFgWalls : kBgWalls))
                     {
                         return;
                     }
@@ -2755,7 +2755,7 @@ void Slig::Motion_6_Shoot()
                             &pLine,
                             &hitX,
                             &hitY,
-                            mSpriteScale != FP_FromDouble(0.5) ? kFgWalls : kBgWalls)
+                            GetSpriteScale() != FP_FromDouble(0.5) ? kFgWalls : kBgWalls)
                         || sCollisions->Raycast(
                             mXPos,
                             mYPos - k35Scaled,
@@ -2764,7 +2764,7 @@ void Slig::Motion_6_Shoot()
                             &pLine,
                             &hitX,
                             &hitY,
-                            mSpriteScale != FP_FromDouble(0.5) ? kFgWalls : kBgWalls))
+                            GetSpriteScale() != FP_FromDouble(0.5) ? kFgWalls : kBgWalls))
                     {
                         return;
                     }
@@ -2802,7 +2802,7 @@ void Slig::Motion_6_Shoot()
                         &pLine,
                         &hitX,
                         &hitY,
-                        mSpriteScale != FP_FromDouble(0.5) ? kFgWalls : kBgWalls)
+                        GetSpriteScale() != FP_FromDouble(0.5) ? kFgWalls : kBgWalls)
                     || sCollisions->Raycast(
                         mXPos,
                         mYPos - k35Scaled,
@@ -2811,7 +2811,7 @@ void Slig::Motion_6_Shoot()
                         &pLine,
                         &hitX,
                         &hitY,
-                        mSpriteScale != FP_FromDouble(0.5) ? kFgWalls : kBgWalls))
+                        GetSpriteScale() != FP_FromDouble(0.5) ? kFgWalls : kBgWalls))
                 {
                     mVelX = FP_FromInteger(0);
                 }
@@ -2850,7 +2850,7 @@ void Slig::Motion_7_Falling()
 {
     if (mVelX > FP_FromInteger(0))
     {
-        mVelX -= mSpriteScale * field_12C_falling_velx_scale_factor;
+        mVelX -= GetSpriteScale() * field_12C_falling_velx_scale_factor;
         if (mVelX < FP_FromInteger(0))
         {
             mVelX = FP_FromInteger(0);
@@ -2858,7 +2858,7 @@ void Slig::Motion_7_Falling()
     }
     else if (mVelX < FP_FromInteger(0))
     {
-        mVelX += mSpriteScale * field_12C_falling_velx_scale_factor;
+        mVelX += GetSpriteScale() * field_12C_falling_velx_scale_factor;
         if (mVelX > FP_FromInteger(0))
         {
             mVelX = FP_FromInteger(0);
@@ -2947,7 +2947,7 @@ void Slig::Motion_9_SlidingToStand()
 {
     EventBroadcast(kEventNoise, this);
 
-    if (WallHit(mSpriteScale * FP_FromInteger(35), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(35), mVelX))
     {
         ToKnockBack();
     }
@@ -2979,7 +2979,7 @@ void Slig::Motion_9_SlidingToStand()
 void Slig::Motion_10_SlidingTurn()
 {
     EventBroadcast(kEventNoise, this);
-    if (WallHit(mSpriteScale * FP_FromInteger(35), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(35), mVelX))
     {
         ToKnockBack();
         return;
@@ -2997,7 +2997,7 @@ void Slig::Motion_10_SlidingTurn()
             {
                 if (mNextMotion == 4)
                 {
-                    mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
+                    mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
                     mCurrentMotion = eSligMotions::Motion_12_SlidingTurnToRun;
                     return;
                 }
@@ -3006,12 +3006,12 @@ void Slig::Motion_10_SlidingTurn()
             {
                 if (Input().IsAnyPressed(sInputKey_Run))
                 {
-                    mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
+                    mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
                     mCurrentMotion = eSligMotions::Motion_12_SlidingTurnToRun;
                     return;
                 }
             }
-            mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
+            mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(9));
             mCurrentMotion = eSligMotions::Motion_11_SlidingTurnToWalk;
         }
         else
@@ -3021,7 +3021,7 @@ void Slig::Motion_10_SlidingTurn()
                 if (mNextMotion == eSligMotions::Motion_4_Running)
                 {
                     mCurrentMotion = eSligMotions::Motion_12_SlidingTurnToRun;
-                    mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
+                    mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
                     return;
                 }
             }
@@ -3030,12 +3030,12 @@ void Slig::Motion_10_SlidingTurn()
                 if (Input().IsAnyPressed(sInputKey_Run))
                 {
                     mCurrentMotion = eSligMotions::Motion_12_SlidingTurnToRun;
-                    mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
+                    mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
                     return;
                 }
             }
             mCurrentMotion = eSligMotions::Motion_11_SlidingTurnToWalk;
-            mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
+            mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(9));
         }
     }
 }
@@ -3084,7 +3084,7 @@ void Slig::Motion_15_SteppingToStand()
         Slig_SoundEffect(SligSfx::eWalkingStep_2);
     }
 
-    if (WallHit(mSpriteScale * FP_FromInteger(35), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(35), mVelX))
     {
         ToKnockBack();
     }
@@ -3113,11 +3113,11 @@ void Slig::Motion_16_StandingToStep()
         else if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
         {
             mCurrentMotion = eSligMotions::Motion_15_SteppingToStand;
-            mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(6));
+            mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(6));
         }
         else
         {
-            mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(6));
+            mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(6));
             mCurrentMotion = eSligMotions::Motion_15_SteppingToStand;
         }
     }
@@ -3195,7 +3195,7 @@ void Slig::Motion_20_Recoil()
             }
         }
     }
-    else if (mSpriteScale == FP_FromDouble(0.5))
+    else if (GetSpriteScale() == FP_FromDouble(0.5))
     {
         SfxPlayMono(relive::SoundEffects::SligShoot, 85);
     }
@@ -3351,33 +3351,33 @@ void Slig::Motion_34_SleepingToStand()
         case 9:
             if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
-                mXPos -= (mSpriteScale * FP_FromInteger(7));
+                mXPos -= (GetSpriteScale() * FP_FromInteger(7));
             }
             else
             {
-                mXPos += (mSpriteScale * FP_FromInteger(7));
+                mXPos += (GetSpriteScale() * FP_FromInteger(7));
             }
             break;
 
         case 10:
             if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
-                mXPos -= (mSpriteScale * FP_FromInteger(12));
+                mXPos -= (GetSpriteScale() * FP_FromInteger(12));
             }
             else
             {
-                mXPos += (mSpriteScale * FP_FromInteger(12));
+                mXPos += (GetSpriteScale() * FP_FromInteger(12));
             }
             break;
 
         case 11:
             if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
-                mXPos -= (mSpriteScale * FP_FromInteger(6));
+                mXPos -= (GetSpriteScale() * FP_FromInteger(6));
             }
             else
             {
-                mXPos += (mSpriteScale * FP_FromInteger(6));
+                mXPos += (GetSpriteScale() * FP_FromInteger(6));
             }
             break;
 
@@ -3449,36 +3449,36 @@ void Slig::Motion_36_KnockbackToStand()
     FP gridSize = {};
     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        gridSize = -ScaleToGridSize(mSpriteScale);
+        gridSize = -ScaleToGridSize(GetSpriteScale());
     }
     else
     {
-        gridSize = ScaleToGridSize(mSpriteScale);
+        gridSize = ScaleToGridSize(GetSpriteScale());
     }
 
-    if (!WallHit(mSpriteScale * FP_FromInteger(35), gridSize))
+    if (!WallHit(GetSpriteScale() * FP_FromInteger(35), gridSize))
     {
         switch (GetAnimation().GetCurrentFrame())
         {
             case 9:
                 if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                 {
-                    mXPos += (mSpriteScale * mSpriteScale) * FP_FromInteger(-3);
+                    mXPos += (GetSpriteScale() * GetSpriteScale()) * FP_FromInteger(-3);
                 }
                 else
                 {
-                    mXPos += (mSpriteScale * mSpriteScale) * FP_FromInteger(3);
+                    mXPos += (GetSpriteScale() * GetSpriteScale()) * FP_FromInteger(3);
                 }
                 break;
 
             case 10:
                 if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                 {
-                    mXPos += (mSpriteScale * mSpriteScale) * FP_FromInteger(-13);
+                    mXPos += (GetSpriteScale() * GetSpriteScale()) * FP_FromInteger(-13);
                 }
                 else
                 {
-                    mXPos += (mSpriteScale * mSpriteScale) * FP_FromInteger(13);
+                    mXPos += (GetSpriteScale() * GetSpriteScale()) * FP_FromInteger(13);
                 }
 
                 break;
@@ -3486,11 +3486,11 @@ void Slig::Motion_36_KnockbackToStand()
             case 11:
                 if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                 {
-                    mXPos += ((mSpriteScale * mSpriteScale) * FP_FromInteger(-9));
+                    mXPos += ((GetSpriteScale() * GetSpriteScale()) * FP_FromInteger(-9));
                 }
                 else
                 {
-                    mXPos += ((mSpriteScale * mSpriteScale) * FP_FromInteger(9));
+                    mXPos += ((GetSpriteScale() * GetSpriteScale()) * FP_FromInteger(9));
                 }
                 break;
 
@@ -3522,9 +3522,9 @@ void Slig::Motion_37_Depossessing()
             const FP xRand = FP_FromInteger(Math_RandomRange(-20, 20));
             const FP yRand = FP_FromInteger(Math_RandomRange(20, 50));
             New_TintChant_Particle(
-                mXPos + (mSpriteScale * xRand),
-                mYPos - (mSpriteScale * yRand),
-                mSpriteScale,
+                mXPos + (GetSpriteScale() * xRand),
+                mYPos - (GetSpriteScale() * yRand),
+                GetSpriteScale(),
                 Layer::eLayer_0);
         }
 
@@ -3550,7 +3550,7 @@ void Slig::Motion_38_Possess()
     {
         if (GetAnimation().mFlags.Get(AnimFlags::eRender))
         {
-            FP xOff = (FP_FromInteger(20) * mSpriteScale);
+            FP xOff = (FP_FromInteger(20) * GetSpriteScale());
             if (mVelX < FP_FromInteger(0))
             {
                 xOff = -xOff;
@@ -3562,16 +3562,16 @@ void Slig::Motion_38_Possess()
                 mYPos,
                 xOff,
                 FP_FromInteger(0),
-                mSpriteScale);
+                GetSpriteScale());
 
             New_Smoke_Particles(
                 mXPos,
-                mYPos - (FP_FromInteger(30) * mSpriteScale),
-                mSpriteScale,
+                mYPos - (FP_FromInteger(30) * GetSpriteScale()),
+                GetSpriteScale(),
                 3,
-                128, 128, 128);
+                RGB16{128, 128, 128});
 
-            if (mSpriteScale == FP_FromDouble(0.5))
+            if (GetSpriteScale() == FP_FromDouble(0.5))
             {
                 SfxPlayMono(relive::SoundEffects::KillEffect, 80);
                 SfxPlayMono(relive::SoundEffects::FallingItemHit, 60);
@@ -3703,15 +3703,15 @@ void Slig::Motion_43_ShootZ()
             mXPos,
             mYPos - FP_FromInteger(12),
             FP_FromInteger(640),
-            mSpriteScale,
+            GetSpriteScale(),
             field_174_tlv->mData.mNumTimesToShoot - mShootCount - 1);
 
         New_ShootingZFire_Particle(
             mXPos,
             mYPos - FP_FromInteger(12),
-            mSpriteScale);
+            GetSpriteScale());
 
-        if (mSpriteScale == FP_FromDouble(0.5))
+        if (GetSpriteScale() == FP_FromDouble(0.5))
         {
             SfxPlayMono(relive::SoundEffects::SligShoot, 85);
         }
@@ -3860,7 +3860,7 @@ void Slig::Motion_52_Beat()
     }
     if (GetAnimation().GetCurrentFrame() == 8)
     {
-        const FP kGridSize = ScaleToGridSize(mSpriteScale);
+        const FP kGridSize = ScaleToGridSize(GetSpriteScale());
         const FP k2Scaled = FP_FromInteger(2) * kGridSize;
 
         PSX_RECT hitRect = {};
@@ -3912,7 +3912,7 @@ s16 Slig::Brain_SpottedEnemy()
     {
         if (VOnSameYLevel(sControlledCharacter)
             && VIsObj_GettingNear_On_X(sControlledCharacter)
-            && VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromInteger(3), sControlledCharacter) && !EventGet(kEventResetting))
+            && VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(3), sControlledCharacter) && !EventGet(kEventResetting))
         {
             ToShoot();
         }
@@ -4149,11 +4149,11 @@ s16 Slig::Brain_Unknown()
                     pEvent = static_cast<BaseAliveGameObject*>(EventGet(kEventSpeaking));
                 }
 
-                if (pEvent && pEvent->mSpriteScale == mSpriteScale && pEvent != this && field_114_timer <= static_cast<s32>(sGnFrame) && !EventGet(kEventResetting))
+                if (pEvent && pEvent->GetSpriteScale() == GetSpriteScale() && pEvent != this && field_114_timer <= static_cast<s32>(sGnFrame) && !EventGet(kEventResetting))
                 {
                     ToTurn();
                 }
-                else if (sControlledCharacter->mSpriteScale <= mSpriteScale
+                else if (sControlledCharacter->GetSpriteScale() <= GetSpriteScale()
                          || (sControlledCharacter != sActiveHero
                              && sControlledCharacter != gElum)
                          || !VIsFacingMe(sControlledCharacter)
@@ -4222,9 +4222,9 @@ s16 Slig::Brain_Sleeping()
     const auto pEvent = static_cast<BaseAliveGameObject*>(EventGet(kEventNoise));
     if (pEvent)
     {
-        if (pEvent->mSpriteScale == mSpriteScale)
+        if (pEvent->GetSpriteScale() == GetSpriteScale())
         {
-            const auto kScaleGrid = ScaleToGridSize(mSpriteScale);
+            const auto kScaleGrid = ScaleToGridSize(GetSpriteScale());
             const auto wake_up_dist_scaled = kScaleGrid * FP_FromInteger(field_174_tlv->mData.mNoiseWakeUpDistance);
             if (VIsObjNearby(wake_up_dist_scaled, pEvent) && field_114_timer <= static_cast<s32>(sGnFrame) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting))
             {
@@ -4282,7 +4282,7 @@ s16 Slig::Brain_Inactive()
         {
             if (!VOnSameYLevel(sControlledCharacter)
                 || !VIsFacingMe(sControlledCharacter)
-                || !VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromInteger(1), sControlledCharacter)
+                || !VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(1), sControlledCharacter)
                 || IsInInvisibleZone(sControlledCharacter)
                 || IsWallBetween(this, sControlledCharacter)
                 || EventGet(kEventResetting))
@@ -4400,12 +4400,12 @@ s16 Slig::Brain_Death_46C3A0()
 {
     if (GetAnimation().mFlags.Get(AnimFlags::eRender) && field_114_timer < static_cast<s32>(sGnFrame) + 30)
     {
-        mSpriteScale -= FP_FromDouble(0.01);
+        SetSpriteScale(GetSpriteScale() - FP_FromDouble(0.01));
         mRGB.r -= 2;
         mRGB.g -= 2;
         mRGB.b -= 2;
 
-        if (mSpriteScale >= FP_FromDouble(0.3))
+        if (GetSpriteScale() >= FP_FromDouble(0.3))
         {
             DeathSmokeEffect(true);
         }
@@ -4444,7 +4444,7 @@ s16 Slig::Brain_Death_46C3A0()
         }
     }
 
-    if (mSpriteScale < FP_FromInteger(0))
+    if (GetSpriteScale() < FP_FromInteger(0))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -4598,7 +4598,7 @@ s16 Slig::Brain_PanicTurning()
 
 s16 Slig::Brain_PanicRunning()
 {
-    if ((mVelX > FP_FromInteger(4) && (ScaleToGridSize(mSpriteScale) * FP_FromInteger(4)) + mXPos > FP_FromInteger(field_13C_zone_rect.w)) || (mVelX < FP_FromInteger(-4) && (mXPos - (ScaleToGridSize(mSpriteScale) * FP_FromInteger(4))) < FP_FromInteger(field_13C_zone_rect.x))
+    if ((mVelX > FP_FromInteger(4) && (ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(4)) + mXPos > FP_FromInteger(field_13C_zone_rect.w)) || (mVelX < FP_FromInteger(-4) && (mXPos - (ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(4))) < FP_FromInteger(field_13C_zone_rect.x))
         || HandleEnemyStopper(4))
     {
         mNextMotion = eSligMotions::Motion_5_TurnAroundStanding;
@@ -4828,9 +4828,9 @@ s16 Slig::Brain_Idle()
         pEvent = static_cast<BaseAliveGameObject*>(EventGet(kEventSpeaking));
     }
 
-    if (!pEvent || pEvent->mSpriteScale != mSpriteScale || pEvent == this || !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) || EventGet(kEventResetting))
+    if (!pEvent || pEvent->GetSpriteScale() != GetSpriteScale() || pEvent == this || !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) || EventGet(kEventResetting))
     {
-        if (sControlledCharacter->mSpriteScale > mSpriteScale
+        if (sControlledCharacter->GetSpriteScale() > GetSpriteScale()
             && (sControlledCharacter == sActiveHero
                 || sControlledCharacter == gElum))
         {
@@ -4857,7 +4857,7 @@ s16 Slig::Brain_Idle()
                     ReliveTypes::eLever));
                 if (pTlv)
                 {
-                    FP kScaleGrid = ScaleToGridSize(mSpriteScale);
+                    FP kScaleGrid = ScaleToGridSize(GetSpriteScale());
                     if ((FP_FromInteger(FP_GetExponent(mXPos) - pTlv->mTopLeftX) < kScaleGrid && !(GetAnimation().mFlags.Get(AnimFlags::eFlipX))) || (FP_FromInteger(pTlv->mBottomRightX - FP_GetExponent(mXPos)) < kScaleGrid && GetAnimation().mFlags.Get(AnimFlags::eFlipX)))
                     {
                         auto pSwitch = static_cast<Lever*>(FindObjectOfType_418280(
@@ -4987,7 +4987,7 @@ s16 Slig::Brain_Walking()
         return 108;
     }
 
-    FP kScaleGrid = ScaleToGridSize(mSpriteScale);
+    FP kScaleGrid = ScaleToGridSize(GetSpriteScale());
     FP kScaleGrid2 = kScaleGrid * FP_FromInteger(2);
     if (mVelX > FP_FromInteger(0))
     {
@@ -5049,7 +5049,7 @@ s16 Slig::Brain_Walking()
     {
         pEvent = static_cast<BaseAliveGameObject*>(EventGet(kEventSpeaking));
     }
-    if (pEvent && pEvent->mSpriteScale == mSpriteScale && pEvent != this && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting))
+    if (pEvent && pEvent->GetSpriteScale() == GetSpriteScale() && pEvent != this && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting))
     {
         if (VIsFacingMe(sControlledCharacter))
         {
@@ -5080,7 +5080,7 @@ s16 Slig::Brain_Walking()
         SetBrain(&Slig::Brain_Discussion);
         return 108;
     }
-    else if (sControlledCharacter->mSpriteScale <= mSpriteScale
+    else if (sControlledCharacter->GetSpriteScale() <= GetSpriteScale()
              || (sControlledCharacter != sActiveHero
                  && sControlledCharacter != gElum)
              || !VIsFacingMe(sControlledCharacter)
@@ -5542,24 +5542,24 @@ void Slig::BlowToGibs()
         mYPos,
         mVelX,
         mVelY,
-        mSpriteScale);
+        GetSpriteScale());
 
     relive_new Blood(
         mXPos,
-        mYPos - (FP_FromInteger(30) * mSpriteScale),
+        mYPos - (FP_FromInteger(30) * GetSpriteScale()),
         FP_FromInteger(0),
         FP_FromInteger(0),
-        mSpriteScale,
+        GetSpriteScale(),
         20);
 
     New_Smoke_Particles(
         mXPos,
-        mYPos - (FP_FromInteger(30) * mSpriteScale),
-        mSpriteScale,
+        mYPos - (FP_FromInteger(30) * GetSpriteScale()),
+        GetSpriteScale(),
         3,
-        128, 128, 128);
+        RGB16{128, 128, 128});
 
-    if (mSpriteScale == FP_FromDouble(0.5))
+    if (GetSpriteScale() == FP_FromDouble(0.5))
     {
         SfxPlayMono(relive::SoundEffects::KillEffect, 80);
         SfxPlayMono(relive::SoundEffects::FallingItemHit, 60);

@@ -38,14 +38,14 @@ BellHammer::BellHammer(relive::Path_BellHammer* pTlv, const Guid& tlvId)
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
-        mScale = Scale::Bg;
+        SetSpriteScale(FP_FromDouble(0.5));
+        SetScale(Scale::Bg);
         GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_Half_6);
     }
     else
     {
-        mSpriteScale = FP_FromInteger(1);
-        mScale = Scale::Fg;
+        SetSpriteScale(FP_FromInteger(1));
+        SetScale(Scale::Fg);
         GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_25);
     }
 
@@ -123,7 +123,7 @@ void BellHammer::VUpdate()
 
         if (gElum)
         {
-            gElum->mXPos = (FP_FromInteger(mapCoords.x + XGrid_Index_To_XPos(mSpriteScale, 0))) - ScaleToGridSize(mSpriteScale);
+            gElum->mXPos = (FP_FromInteger(mapCoords.x + XGrid_Index_To_XPos(GetSpriteScale(), 0))) - ScaleToGridSize(GetSpriteScale());
             gElum->mYPos = gElum->mYPos + FP_FromInteger(450);
         }
     }

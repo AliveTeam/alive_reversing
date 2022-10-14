@@ -49,15 +49,15 @@ MeatSaw::MeatSaw(relive::Path_MeatSaw* pTlv, const Guid& tlvId)
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
+        SetSpriteScale(FP_FromDouble(0.5));
         GetAnimation().SetRenderLayer(Layer::eLayer_RopeWebDrillMeatSaw_Half_5);
-        mScale = Scale::Bg;
+        SetScale(Scale::Bg);
     }
     else
     {
-        mSpriteScale = FP_FromInteger(1);
+        SetSpriteScale(FP_FromInteger(1));
         GetAnimation().SetRenderLayer(Layer::eLayer_RopeWebDrillMeatSaw_24);
-        mScale = Scale::Fg;
+        SetScale(Scale::Fg);
     }
 
     mXPos = FP_FromInteger(pTlv->mTopLeftX + 8);
@@ -143,7 +143,7 @@ MeatSaw::MeatSaw(relive::Path_MeatSaw* pTlv, const Guid& tlvId)
             this))
     {
         field_110_anim.SetRenderLayer(GetAnimation().GetRenderLayer());
-        field_110_anim.SetSpriteScale(mSpriteScale);
+        field_110_anim.SetSpriteScale(GetSpriteScale());
 
         field_110_anim.SetRGB(mRGB.r, mRGB.g, mRGB.b);
 
@@ -152,7 +152,7 @@ MeatSaw::MeatSaw(relive::Path_MeatSaw* pTlv, const Guid& tlvId)
         field_110_anim.mFlags.Clear(AnimFlags::eBlending);
         field_110_anim.mFlags.Set(AnimFlags::eSemiTrans);
 
-        mShadow = relive_new Shadow();
+        CreateShadow();
     }
     else
     {
@@ -305,7 +305,7 @@ void MeatSaw::GrindUpObjects_439CD0()
                 {
                     const PSX_RECT objRect = pObjIter->VGetBoundingRect();
 
-                    if (RectsOverlap(ourRect, objRect) && pObjIter->mSpriteScale == mSpriteScale && pObjIter->mHealth > FP_FromInteger(0))
+                    if (RectsOverlap(ourRect, objRect) && pObjIter->GetSpriteScale() == GetSpriteScale() && pObjIter->mHealth > FP_FromInteger(0))
                     {
                         if (pObjIter->mXPos >= FP_FromInteger(ourRect.x) && pObjIter->mXPos <= FP_FromInteger(ourRect.w))
                         {
@@ -319,7 +319,7 @@ void MeatSaw::GrindUpObjects_439CD0()
                                 FP_FromInteger(ourRect.h - 10),
                                 FP_FromInteger(-5),
                                 FP_FromInteger(5),
-                                mSpriteScale,
+                                GetSpriteScale(),
                                 50);
 
                             relive_new Blood(
@@ -327,7 +327,7 @@ void MeatSaw::GrindUpObjects_439CD0()
                                 FP_FromInteger(ourRect.h - 10),
                                 FP_FromInteger(0),
                                 FP_FromInteger(5),
-                                mSpriteScale,
+                                GetSpriteScale(),
                                 50);
 
                             relive_new Blood(
@@ -335,7 +335,7 @@ void MeatSaw::GrindUpObjects_439CD0()
                                 FP_FromInteger(ourRect.h - 10),
                                 FP_FromInteger(5),
                                 FP_FromInteger(5),
-                                mSpriteScale,
+                                GetSpriteScale(),
                                 50);
 
                             SfxPlayMono(relive::SoundEffects::KillEffect, 127);

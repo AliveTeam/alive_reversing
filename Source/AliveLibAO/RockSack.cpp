@@ -70,7 +70,7 @@ void RockSack::VUpdate()
             && bRect.w >= bPlayerRect.x
             && bRect.h >= bPlayerRect.y
             && bRect.y <= bPlayerRect.h
-            && mSpriteScale == sActiveHero->mSpriteScale)
+            && GetSpriteScale() == sActiveHero->GetSpriteScale())
         {
             if (!gThrowableArray || !gThrowableArray->field_10_count)
             {
@@ -138,13 +138,13 @@ RockSack::RockSack(relive::Path_RockSack* pTlv, const Guid& tlvId)
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
-        mScale = Scale::Bg;
+        SetSpriteScale(FP_FromDouble(0.5));
+        SetScale(Scale::Bg);
     }
     else
     {
-        mSpriteScale = FP_FromInteger(1);
-        mScale = Scale::Fg;
+        SetSpriteScale(FP_FromInteger(1));
+        SetScale(Scale::Fg);
     }
 
     field_112_rock_amount = pTlv->mRockAmount;
@@ -157,7 +157,7 @@ RockSack::RockSack(relive::Path_RockSack* pTlv, const Guid& tlvId)
         GetAnimation().LoadPal(GetPalRes(PalId::BlueRockSack));
     }
 
-    mShadow = relive_new Shadow();
+    CreateShadow();
 }
 
 void RockSack::VScreenChanged()

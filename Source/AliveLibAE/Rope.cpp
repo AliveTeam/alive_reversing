@@ -61,21 +61,21 @@ Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
     SetTint(kRopeTints_55FD68, gMap.mCurrentLevel);
 
     GetAnimation().SetSpriteScale(scale);
-    mSpriteScale = scale;
+    SetSpriteScale(scale);
 
     if (scale == FP_FromInteger(1))
     {
         field_F6_rope_length = 15;
         GetAnimation().SetRenderLayer(Layer::eLayer_RopeWebDrillMeatSaw_24);
-        mScale = Scale::Fg;
+        SetScale(Scale::Fg);
     }
     else
     {
         field_F6_rope_length = 7;
         GetAnimation().SetRenderLayer(Layer::eLayer_RopeWebDrillMeatSaw_Half_5);
         GetAnimation().SetSpriteScale(FP_FromDouble(0.7));
-        mSpriteScale = FP_FromDouble(0.7);
-        mScale = Scale::Bg;
+        SetSpriteScale(FP_FromDouble(0.7));
+        SetScale(Scale::Bg);
     };
 
     GetAnimation().SetRGB(mRGB.r, mRGB.g, mRGB.b);
@@ -172,7 +172,7 @@ void Rope::VRender(PrimHeader** ppOt)
                     ShadowZone::ShadowZones_Calculate_Colour(
                         FP_GetExponent(mXPos),
                         ypos - (idx * field_F6_rope_length),
-                        mScale,
+                        GetScale(),
                         &r,
                         &g,
                         &b);

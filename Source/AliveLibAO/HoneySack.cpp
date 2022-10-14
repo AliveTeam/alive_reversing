@@ -42,13 +42,13 @@ HoneySack::HoneySack(relive::Path_HoneySack* pTlv, const Guid& tlvId)
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
-        mScale = Scale::Bg;
+        SetSpriteScale(FP_FromDouble(0.5));
+        SetScale(Scale::Bg);
     }
     else
     {
-        mSpriteScale = FP_FromInteger(1);
-        mScale = Scale::Fg;
+        SetSpriteScale(FP_FromInteger(1));
+        SetScale(Scale::Fg);
     }
 
     if (pTlv->mTlvSpecificMeaning)
@@ -70,7 +70,7 @@ HoneySack::HoneySack(relive::Path_HoneySack* pTlv, const Guid& tlvId)
         if (mBeeSwarm)
         {
             mBeeSwarm->mBaseGameObjectRefCount++;
-            mBeeSwarm->mSpriteScale = mSpriteScale;
+            mBeeSwarm->SetSpriteScale(GetSpriteScale());
         }
 
         mDripTargetX = FP_FromInteger(0);
@@ -193,7 +193,7 @@ void HoneySack::VUpdate()
                     &pLine,
                     &hitX,
                     &hitY,
-                    mSpriteScale == FP_FromInteger(1) ? kFgFloor : kBgFloor))
+                    GetSpriteScale() == FP_FromInteger(1) ? kFgFloor : kBgFloor))
             {
                 SfxPlayMono(relive::SoundEffects::MountingElum, 90);
                 Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 90, -1000, nullptr);

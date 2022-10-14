@@ -26,16 +26,16 @@ StatusLight::StatusLight(relive::Path_StatusLight* pTlv, const Guid& tlvId)
     {
         if (pTlv->mScale == relive::reliveScale::eHalf)
         {
-            mSpriteScale = FP_FromDouble(0.5);
+            SetSpriteScale(FP_FromDouble(0.5));
             GetAnimation().SetRenderLayer(Layer::eLayer_8);
-            mScale = Scale::Bg;
+            SetScale(Scale::Bg);
         }
     }
     else
     {
-        mSpriteScale = FP_FromInteger(1);
+        SetSpriteScale(FP_FromInteger(1));
         GetAnimation().SetRenderLayer(Layer::eLayer_27);
-        mScale = Scale::Fg;
+        SetScale(Scale::Fg);
     }
 
     mLinkedStatusLightSwitchId1 = pTlv->mLinkedStatusLightSwitchId1;
@@ -54,7 +54,7 @@ StatusLight::StatusLight(relive::Path_StatusLight* pTlv, const Guid& tlvId)
 
     if (mIgnoreGridSnapping == relive::reliveChoice::eNo)
     {
-        mXPos = FP_FromInteger(SnapToXGrid(mSpriteScale, FP_GetExponent(mXPos)));
+        mXPos = FP_FromInteger(SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos)));
     }
 
     mYPos = FP_FromInteger((pTlv->mTopLeftY + pTlv->mBottomRightY) / 2);
@@ -66,17 +66,17 @@ StatusLight::StatusLight(relive::Path_StatusLight* pTlv, const Guid& tlvId)
         mXPos,
         mYPos,
         mXPos,
-        mYPos + (mSpriteScale * FP_FromInteger(56)),
+        mYPos + (GetSpriteScale() * FP_FromInteger(56)),
         &pPathLine,
         &hitX,
         &hitY,
-        mScale == Scale::Fg ? kFgFloor : kBgFloor); // TODO: mouze check, 0xF1 : 0x10 seemed like it should be 0x1 : 0x10
+        GetScale() == Scale::Fg ? kFgFloor : kBgFloor); // TODO: mouze check, 0xF1 : 0x10 seemed like it should be 0x1 : 0x10
 
     if (mIgnoreGridSnapping == relive::reliveChoice::eNo)
     {
         if (bCollision)
         {
-            mYPos = hitY - (mSpriteScale * FP_FromInteger(56));
+            mYPos = hitY - (GetSpriteScale() * FP_FromInteger(56));
         }
     }
 

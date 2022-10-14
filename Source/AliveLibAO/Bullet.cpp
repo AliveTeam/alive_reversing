@@ -93,7 +93,7 @@ void Bullet::VUpdate()
                     {
                         relive_new Spark(hitX, hitY, mSpriteScale, 6u, 50, 205);
                     }
-                    New_Smoke_Particles(hitX, hitY, mSpriteScale, 3, 128, 128, 128);
+                    New_Smoke_Particles(hitX, hitY, mSpriteScale, 3, RGB16{128, 128, 128});
                     if (Math_RandomRange(0, 100) < 90 || Math_RandomRange(0, 128) >= 64)
                     {
                         SfxPlayMono(relive::SoundEffects::Bullet2, volume);
@@ -178,7 +178,7 @@ void Bullet::VUpdate()
                     CollisionMask(eBulletWall_10)))
             {
                 relive_new Spark(hitX, hitY, FP_FromInteger(1), 9u, -31, 159);
-                New_Smoke_Particles(hitX, hitY, FP_FromInteger(1), 3, 128, 128, 128);
+                New_Smoke_Particles(hitX, hitY, FP_FromInteger(1), 3, RGB16{ 128, 128, 128 });
             }
 
             if (Math_RandomRange(0, 128) < 64)
@@ -258,7 +258,7 @@ BaseAliveGameObject* Bullet::ShootObject(PSX_RECT* pRect)
                     const PSX_RECT bRect = pObjIter->VGetBoundingRect();
                     if (pRect->x <= bRect.w && pRect->w >= bRect.x && pRect->h >= bRect.y && pRect->y <= bRect.h)
                     {
-                        if (mBulletType == BulletType::eZBullet_2 || mBulletParent->mSpriteScale == pObjIter->mSpriteScale)
+                        if (mBulletType == BulletType::eZBullet_2 || mBulletParent->GetSpriteScale() == pObjIter->GetSpriteScale())
                         {
                             if (pObjectToShoot)
                             {

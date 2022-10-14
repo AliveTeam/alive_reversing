@@ -54,14 +54,14 @@ SecurityOrb::SecurityOrb(relive::Path_SecurityOrb* pTlv, const Guid& tlvId)
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
-        mScale = Scale::Bg;
+        SetSpriteScale(FP_FromDouble(0.5));
+        SetScale(Scale::Bg);
         GetAnimation().SetRenderLayer(Layer::eLayer_8);
     }
     else
     {
-        mSpriteScale = FP_FromInteger(1);
-        mScale = Scale::Fg;
+        SetSpriteScale(FP_FromInteger(1));
+        SetScale(Scale::Fg);
         GetAnimation().SetRenderLayer(Layer::eLayer_27);
     }
 
@@ -106,8 +106,8 @@ s16 SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
     {
         relive_new AirExplosion(
             mXPos,
-            mYPos - (mSpriteScale * FP_FromInteger(5)),
-            mSpriteScale,
+            mYPos - (GetSpriteScale() * FP_FromInteger(5)),
+            GetSpriteScale(),
             0);
 
         relive_new Gibs(
@@ -116,7 +116,7 @@ s16 SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
             mYPos,
             FP_FromInteger(0),
             FP_FromInteger(0),
-            mSpriteScale,
+            GetSpriteScale(),
             0);
     }
 
@@ -140,19 +140,19 @@ void SecurityOrb::VUpdate()
                     SND_Stop_Channels_Mask(mSoundChannelsMask);
                 }
 
-                if (mSpriteScale == FP_FromDouble(0.5))
+                if (GetSpriteScale() == FP_FromDouble(0.5))
                 {
-                    mSoundChannelsMask = SFX_Play_Pitch(relive::SoundEffects::SecurityOrb, 35, 720, mSpriteScale);
+                    mSoundChannelsMask = SFX_Play_Pitch(relive::SoundEffects::SecurityOrb, 35, 720, GetSpriteScale());
                 }
                 else
                 {
-                    mSoundChannelsMask = SFX_Play_Pitch(relive::SoundEffects::SecurityOrb, 55, 700, mSpriteScale);
+                    mSoundChannelsMask = SFX_Play_Pitch(relive::SoundEffects::SecurityOrb, 55, 700, GetSpriteScale());
                 }
             }
 
             if (EventGet(kEventAbeOhm))
             {
-                if (!sActiveHero->mRingPulseTimer || !sActiveHero->mHaveShrykull || sActiveHero->mSpriteScale != FP_FromInteger(1))
+                if (!sActiveHero->mRingPulseTimer || !sActiveHero->mHaveShrykull || sActiveHero->GetSpriteScale() != FP_FromInteger(1))
                 {
                     mState = States::eDoZapEffects_1;
                     mTimer = sGnFrame + 20;
@@ -170,7 +170,7 @@ void SecurityOrb::VUpdate()
 
                 relive_new ZapLine(
                     mXPos,
-                    mYPos - (FP_FromInteger(8) * mSpriteScale),
+                    mYPos - (FP_FromInteger(8) * GetSpriteScale()),
                     xpos,
                     ypos,
                     8,
@@ -189,13 +189,13 @@ void SecurityOrb::VUpdate()
 
                 relive_new ScreenShake(1, 0);
 
-                auto pSpark = relive_new ZapSpark(mXPos, mYPos - (FP_FromInteger(8) * mSpriteScale), mSpriteScale);
+                auto pSpark = relive_new ZapSpark(mXPos, mYPos - (FP_FromInteger(8) * GetSpriteScale()), GetSpriteScale());
                 if (pSpark)
                 {
                     pSpark->mRGB.SetRGB(255, 65, 65);
                 }
 
-                auto pSpark2 = relive_new ZapSpark(mXPos, mYPos - (FP_FromInteger(8) * mSpriteScale), mSpriteScale);
+                auto pSpark2 = relive_new ZapSpark(mXPos, mYPos - (FP_FromInteger(8) * GetSpriteScale()), GetSpriteScale());
                 if (pSpark2)
                 {
                     pSpark2->mRGB.SetRGB(255, 65, 65);
@@ -203,7 +203,7 @@ void SecurityOrb::VUpdate()
 
                 for (s32 i = 0; i < 9; i++)
                 {
-                    auto pSpark3 = relive_new ZapSpark(xpos, ypos, mSpriteScale);
+                    auto pSpark3 = relive_new ZapSpark(xpos, ypos, GetSpriteScale());
                     if (pSpark3)
                     {
                         pSpark3->mRGB.SetRGB(255, 65, 65);
@@ -225,11 +225,11 @@ void SecurityOrb::VUpdate()
             const s32 timerFrame = mTimer - sGnFrame;
             if (timerFrame == 4)
             {
-                SfxPlayMono(relive::SoundEffects::Zap1, 0, mSpriteScale);
+                SfxPlayMono(relive::SoundEffects::Zap1, 0, GetSpriteScale());
             }
             else if (timerFrame == 1)
             {
-                SfxPlayMono(relive::SoundEffects::Zap2, 0, mSpriteScale);
+                SfxPlayMono(relive::SoundEffects::Zap2, 0, GetSpriteScale());
             }
 
             if (static_cast<s32>(sGnFrame) > mTimer)

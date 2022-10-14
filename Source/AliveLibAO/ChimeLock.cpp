@@ -297,7 +297,7 @@ s16 ChimeLock::UpdateBall()
                     &BaseAliveGameObjectCollisionLine,
                     &hitX,
                     &hitY,
-                    mSpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor)
+                    GetSpriteScale() != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor)
                 == 1)
             {
                 if (BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eFloor_0 ||
@@ -566,9 +566,9 @@ void ChimeLock::VUpdate()
             }
 
             New_TintChant_Particle(
-                field_13C_targetX + (mSpriteScale * FP_FromInteger(Math_RandomRange(-30, 30))),
-                field_140_targetY - (mSpriteScale * FP_FromInteger(Math_RandomRange(-20, 20))),
-                mSpriteScale,
+                field_13C_targetX + (GetSpriteScale() * FP_FromInteger(Math_RandomRange(-30, 30))),
+                field_140_targetY - (GetSpriteScale() * FP_FromInteger(Math_RandomRange(-20, 20))),
+                GetSpriteScale(),
                 Layer::eLayer_0);
             return;
 

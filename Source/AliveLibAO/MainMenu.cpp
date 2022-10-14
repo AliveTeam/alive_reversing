@@ -669,7 +669,7 @@ Menu::Menu(relive::Path_TLV* /*pTlv*/, const Guid& tlvId)
     mButtonAnim.mFlags.Set(AnimFlags::eSemiTrans);
 
     mButtonAnim.SetRenderLayer(Layer::eLayer_MainMenuButtonBees_38);
-    mButtonAnim.SetSpriteScale(mSpriteScale);
+    mButtonAnim.SetSpriteScale(GetSpriteScale());
     mButtonAnim.SetRenderMode(TPageAbr::eBlend_1);
     mButtonAnim.LoadPal(GetPalRes(PalId::WhiteHighlite));
     field_204_flags &= ~6u;

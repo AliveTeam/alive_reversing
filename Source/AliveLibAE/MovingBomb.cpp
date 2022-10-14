@@ -40,14 +40,14 @@ MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
-        mScale = Scale::Bg;
+        SetSpriteScale(FP_FromDouble(0.5));
+        SetScale(Scale::Bg);
         GetAnimation().SetRenderLayer(Layer::eLayer_RollingBallBombMineCar_Half_16);
     }
     else if (pTlv->mScale == relive::reliveScale::eFull)
     {
-        mSpriteScale = FP_FromInteger(1);
-        mScale = Scale::Fg;
+        SetSpriteScale(FP_FromInteger(1));
+        SetScale(Scale::Fg);
         GetAnimation().SetRenderLayer(Layer::eLayer_RollingBallBombMineCar_35);
     }
 
@@ -87,7 +87,7 @@ MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
         mXPos = hitX;
     }
 
-    mShadow = relive_new Shadow();
+    CreateShadow();
 }
 
 MovingBomb::~MovingBomb()
@@ -125,7 +125,7 @@ void MovingBomb::BlowUp()
     field_118_state = States::eBlowingUp_6;
     mVelY = FP_FromInteger(0);
     field_120_timer = sGnFrame + 1;
-    SfxPlayMono(relive::SoundEffects::GreenTick, 100, mSpriteScale);
+    SfxPlayMono(relive::SoundEffects::GreenTick, 100, GetSpriteScale());
 }
 
 void MovingBomb::VRender(PrimHeader** ot)
@@ -183,9 +183,9 @@ s16 MovingBomb::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eShrykull:
         {
             mHealth = FP_FromInteger(0);
-            relive_new AirExplosion(mXPos, mYPos, mSpriteScale, 0);
+            relive_new AirExplosion(mXPos, mYPos, GetSpriteScale(), 0);
 
-            relive_new Gibs(GibType::Metal_5, mXPos, mYPos, FP_FromInteger(0), FP_FromInteger(5), mSpriteScale, 0);
+            relive_new Gibs(GibType::Metal_5, mXPos, mYPos, FP_FromInteger(0), FP_FromInteger(5), GetSpriteScale(), 0);
 
             field_118_state = States::eKillMovingBomb_7;
 
@@ -229,7 +229,7 @@ s16 MovingBomb::HitObject()
                 if (pObj->mHealth > FP_FromInteger(0))
                 {
                     const PSX_RECT objRect = pObj->VGetBoundingRect();
-                    if (bRect.x <= objRect.w && bRect.w >= objRect.x && bRect.h >= objRect.y && bRect.y <= objRect.h && pObj->mSpriteScale == mSpriteScale && pObj->mCurrentPath == mCurrentPath)
+                    if (bRect.x <= objRect.w && bRect.w >= objRect.x && bRect.h >= objRect.y && bRect.y <= objRect.h && pObj->GetSpriteScale() == GetSpriteScale() && pObj->mCurrentPath == mCurrentPath)
                     {
                         return 1;
                     }
@@ -278,11 +278,11 @@ void MovingBomb::VUpdate()
                 {
                     if (field_118_state == States::eWaitABit_4)
                     {
-                        field_130_sound_channels = SfxPlayMono(relive::SoundEffects::SecurityOrb, 55, mSpriteScale);
+                        field_130_sound_channels = SfxPlayMono(relive::SoundEffects::SecurityOrb, 55, GetSpriteScale());
                     }
                     else
                     {
-                        field_130_sound_channels = SfxPlayMono(relive::SoundEffects::SecurityOrb, 80, mSpriteScale);
+                        field_130_sound_channels = SfxPlayMono(relive::SoundEffects::SecurityOrb, 80, GetSpriteScale());
                     }
                     gMovingBomb_5C300C = this;
                 }
@@ -295,7 +295,7 @@ void MovingBomb::VUpdate()
                     }
                     else
                     {
-                        field_130_sound_channels = SfxPlayMono(relive::SoundEffects::SecurityOrb, 12, mSpriteScale);
+                        field_130_sound_channels = SfxPlayMono(relive::SoundEffects::SecurityOrb, 12, GetSpriteScale());
                         gMovingBomb_5C300C = this;
                     }
                 }
@@ -323,7 +323,7 @@ void MovingBomb::VUpdate()
         case States::eMoving_2:
             if (mVelX < field_124_speed)
             {
-                mVelX += (mSpriteScale * FP_FromDouble(0.5));
+                mVelX += (GetSpriteScale() * FP_FromDouble(0.5));
             }
 
             FollowLine();
@@ -345,7 +345,7 @@ void MovingBomb::VUpdate()
             break;
 
         case States::eStopMoving_3:
-            mVelX -= (mSpriteScale * FP_FromDouble(0.5));
+            mVelX -= (GetSpriteScale() * FP_FromDouble(0.5));
             if (mVelX < FP_FromInteger(0))
             {
                 field_118_state = States::eWaitABit_4;
@@ -365,7 +365,7 @@ void MovingBomb::VUpdate()
         case States::eToMoving_5:
             if (mVelX < field_124_speed)
             {
-                mVelX += (mSpriteScale * FP_FromDouble(0.5));
+                mVelX += (GetSpriteScale() * FP_FromDouble(0.5));
             }
 
             FollowLine();
@@ -386,14 +386,14 @@ void MovingBomb::VUpdate()
         case States::eBlowingUp_6:
             if (field_120_timer <= static_cast<s32>(sGnFrame))
             {
-                SfxPlayMono(relive::SoundEffects::GreenTick, 100, mSpriteScale);
+                SfxPlayMono(relive::SoundEffects::GreenTick, 100, GetSpriteScale());
 
                 mHealth = FP_FromInteger(0);
 
                 relive_new AirExplosion(
                     mXPos,
                     mYPos,
-                    mSpriteScale,
+                    GetSpriteScale(),
                     0);
 
                 relive_new Gibs(
@@ -402,7 +402,7 @@ void MovingBomb::VUpdate()
                     mYPos,
                     FP_FromInteger(0),
                     FP_FromInteger(5),
-                    mSpriteScale,
+                    GetSpriteScale(),
                     0);
 
                 field_118_state = States::eKillMovingBomb_7;

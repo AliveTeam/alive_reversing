@@ -53,16 +53,16 @@ s32 Grenade::CreateFromSaveState(const u8* pBuffer)
     pGrenade->mXPos = pState->field_8_xpos;
     pGrenade->mYPos = pState->field_C_ypos;
 
-    pGrenade->mCollectionRect.x = pGrenade->mXPos - (ScaleToGridSize(pGrenade->mSpriteScale) / FP_FromInteger(2));
-    pGrenade->mCollectionRect.w = pGrenade->mXPos + (ScaleToGridSize(pGrenade->mSpriteScale) / FP_FromInteger(2));
+    pGrenade->mCollectionRect.x = pGrenade->mXPos - (ScaleToGridSize(pGrenade->GetSpriteScale()) / FP_FromInteger(2));
+    pGrenade->mCollectionRect.w = pGrenade->mXPos + (ScaleToGridSize(pGrenade->GetSpriteScale()) / FP_FromInteger(2));
     pGrenade->mCollectionRect.h = pGrenade->mYPos;
-    pGrenade->mCollectionRect.y = pGrenade->mYPos - ScaleToGridSize(pGrenade->mSpriteScale);
+    pGrenade->mCollectionRect.y = pGrenade->mYPos - ScaleToGridSize(pGrenade->GetSpriteScale());
 
     pGrenade->mVelX = pState->field_10_velx;
     pGrenade->mVelY = pState->field_14_vely;
     pGrenade->mCurrentPath = pState->field_1C_path_number;
     pGrenade->mCurrentLevel = MapWrapper::FromAESaveData(pState->field_1E_lvl_number);
-    pGrenade->mSpriteScale = pState->field_18_sprite_scale;
+    pGrenade->SetSpriteScale(pState->field_18_sprite_scale);
 
     pGrenade->GetAnimation().mFlags.Set(AnimFlags::eLoop, pState->field_20_flags.Get(Grenade_SaveState::eBit3_bLoop));
     pGrenade->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->field_20_flags.Get(Grenade_SaveState::eBit1_bRender));
@@ -102,7 +102,7 @@ s32 Grenade::VGetSaveState(u8* pSaveBuffer)
 
     pState->field_1C_path_number = mCurrentPath;
     pState->field_1E_lvl_number = MapWrapper::ToAE(mCurrentLevel);
-    pState->field_18_sprite_scale = mSpriteScale;
+    pState->field_18_sprite_scale = GetSpriteScale();
 
     pState->field_20_flags.Set(Grenade_SaveState::eBit3_bLoop, GetAnimation().mFlags.Get(AnimFlags::eLoop));
     pState->field_20_flags.Set(Grenade_SaveState::eBit2_bDrawable, mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4));
@@ -225,8 +225,8 @@ void Grenade::BlowUp(s16 bSmallExplosion)
 {
     auto pExplosion = relive_new AirExplosion(
         mXPos,
-        mYPos - (mSpriteScale * FP_FromInteger(5)),
-        mSpriteScale,
+        mYPos - (GetSpriteScale() * FP_FromInteger(5)),
+        GetSpriteScale(),
         bSmallExplosion);
     if (pExplosion)
     {
@@ -237,7 +237,7 @@ void Grenade::BlowUp(s16 bSmallExplosion)
 
     field_120_state = GrenadeStates::eWaitForExplodeEnd_6;
 
-    relive_new Gibs(GibType::Metal_5, mXPos, mYPos, FP_FromInteger(0), FP_FromInteger(5), mSpriteScale, bSmallExplosion);
+    relive_new Gibs(GibType::Metal_5, mXPos, mYPos, FP_FromInteger(0), FP_FromInteger(5), GetSpriteScale(), bSmallExplosion);
 }
 
 Grenade::~Grenade()
@@ -306,9 +306,9 @@ void Grenade::VUpdate()
         case GrenadeStates::eFallingToBeCollected_0:
             if (!InTheAir(FALSE))
             {
-                mCollectionRect.x = mXPos - (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2));
-                mCollectionRect.y = mYPos - ScaleToGridSize(mSpriteScale);
-                mCollectionRect.w = mXPos + (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2));
+                mCollectionRect.x = mXPos - (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
+                mCollectionRect.y = mYPos - ScaleToGridSize(GetSpriteScale());
+                mCollectionRect.w = mXPos + (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
                 mCollectionRect.h = mYPos;
 
                 mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8);
@@ -341,7 +341,7 @@ void Grenade::VUpdate()
                     field_120_state = GrenadeStates::eFallingToBeCollected_0;
                 }
             }
-            else if (abs(SnapToXGrid(mSpriteScale, FP_GetExponent(mXPos)) - FP_GetExponent(mXPos)) > 1)
+            else if (abs(SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos)) - FP_GetExponent(mXPos)) > 1)
             {
                 auto oldLine = BaseAliveGameObjectCollisionLine;
                 BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&mXPos, &mYPos, mVelX);
@@ -360,9 +360,9 @@ void Grenade::VUpdate()
             {
                 mVelX = FP_FromInteger(0);
 
-                mCollectionRect.x = mXPos - (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2));
-                mCollectionRect.y = mYPos - ScaleToGridSize(mSpriteScale);
-                mCollectionRect.w = mXPos + (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2));
+                mCollectionRect.x = mXPos - (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
+                mCollectionRect.y = mYPos - ScaleToGridSize(GetSpriteScale());
+                mCollectionRect.w = mXPos + (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
                 mCollectionRect.h = mYPos;
 
                 mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8);
@@ -486,7 +486,7 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            mScale == Scale::Fg ? kFgFloor : kBgFloor)
+            GetScale() == Scale::Fg ? kFgFloor : kBgFloor)
         == 1)
     {
         if (mVelY <= FP_FromInteger(0))
@@ -552,7 +552,7 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            mScale == Scale::Fg ? kFgWalls : kBgWalls)
+            GetScale() == Scale::Fg ? kFgWalls : kBgWalls)
         == 1)
     {
         switch (BaseAliveGameObjectCollisionLine->mLineType)
@@ -617,7 +617,7 @@ s16 Grenade::OnCollision_BounceOff(BaseGameObject* pHit)
     }
 
     auto pHit2 = static_cast<BaseAliveGameObject*>(pHit);
-    if (pHit2->mSpriteScale != mSpriteScale)
+    if (pHit2->GetSpriteScale() != GetSpriteScale())
     {
         return 1;
     }
@@ -649,7 +649,7 @@ s16 Grenade::OnCollision_InstantExplode(BaseGameObject* pHit)
         return 1;
     }
 
-    if (pHit->mBaseGameObjectFlags.Get(BaseGameObject::eCanExplode_Bit7) && static_cast<BaseAliveGameObject*>(pHit)->mSpriteScale == mSpriteScale)
+    if (pHit->mBaseGameObjectFlags.Get(BaseGameObject::eCanExplode_Bit7) && static_cast<BaseAliveGameObject*>(pHit)->GetSpriteScale() == GetSpriteScale())
     {
         field_134_bExplodeNow = 1;
         return 0;

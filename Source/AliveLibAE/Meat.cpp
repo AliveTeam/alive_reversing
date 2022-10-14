@@ -44,7 +44,7 @@ Meat::Meat(FP xpos, FP ypos, s16 count)
     mBaseThrowableCount = count;
     field_11C_state = MeatStates::eCreated_0;
 
-    mShadow = relive_new Shadow();
+    CreateShadow();
 }
 
 void Meat::VTimeToExplodeRandom()
@@ -144,7 +144,7 @@ void Meat::InTheAir()
 
     FP hitX = {};
     FP hitY = {};
-    if (sCollisions->Raycast(field_120_xpos, field_124_ypos, mXPos, mYPos, &field_130_pLine, &hitX, &hitY, mScale == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls) == 1)
+    if (sCollisions->Raycast(field_120_xpos, field_124_ypos, mXPos, mYPos, &field_130_pLine, &hitX, &hitY, GetScale() == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls) == 1)
     {
         switch (field_130_pLine->mLineType)
         {
@@ -154,7 +154,7 @@ void Meat::InTheAir()
             case eLineTypes::eBackgroundDynamicCollision_36:
                 if (mVelY > FP_FromInteger(0))
                 {
-                    mXPos = FP_FromInteger(SnapToXGrid(mSpriteScale, FP_GetExponent(hitX)));
+                    mXPos = FP_FromInteger(SnapToXGrid(GetSpriteScale(), FP_GetExponent(hitX)));
                     mYPos = hitY;
                     field_11C_state = MeatStates::eBecomeAPickUp_3;
                     mVelY = FP_FromInteger(0);
@@ -316,9 +316,9 @@ void Meat::VUpdate()
                 {
                     mVelX = FP_FromInteger(0);
 
-                    mCollectionRect.x = mXPos - (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2));
-                    mCollectionRect.y = mYPos - ScaleToGridSize(mSpriteScale);
-                    mCollectionRect.w = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2)) + mXPos;
+                    mCollectionRect.x = mXPos - (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
+                    mCollectionRect.y = mYPos - ScaleToGridSize(GetSpriteScale());
+                    mCollectionRect.w = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2)) + mXPos;
                     mCollectionRect.h = mYPos;
 
                     mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8);
@@ -336,8 +336,8 @@ void Meat::VUpdate()
                 {
                     // That strange "shimmer" the meat gives off
                     New_TintShiny_Particle(
-                        (mSpriteScale * FP_FromInteger(1)) + mXPos,
-                        mYPos + (mSpriteScale * FP_FromInteger(-7)),
+                        (GetSpriteScale() * FP_FromInteger(1)) + mXPos,
+                        mYPos + (GetSpriteScale() * FP_FromInteger(-7)),
                         FP_FromDouble(0.3),
                         Layer::eLayer_Foreground_36);
                     field_128_timer = Math_NextRandom() % 16 + sGnFrame + 60;
@@ -422,20 +422,20 @@ MeatSack::MeatSack(relive::Path_MeatSack* pTlv, const Guid& tlvId)
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
+        SetSpriteScale(FP_FromDouble(0.5));
         GetAnimation().SetRenderLayer(Layer::eLayer_8);
-        mScale = Scale::Bg;
+        SetScale(Scale::Bg);
     }
     else if (pTlv->mScale == relive::reliveScale::eFull)
     {
-        mSpriteScale = FP_FromInteger(1);
+        SetSpriteScale(FP_FromInteger(1));
         GetAnimation().SetRenderLayer(Layer::eLayer_27);
-        mScale = Scale::Fg;
+        SetScale(Scale::Fg);
     }
 
     field_11E_amount_of_meat = pTlv->mMeatAmount;
 
-    mShadow = relive_new Shadow();
+    CreateShadow();
 }
 
 s32 Meat::CreateFromSaveState(const u8* pBuffer)
@@ -449,9 +449,9 @@ s32 Meat::CreateFromSaveState(const u8* pBuffer)
     pMeat->mXPos = pState->field_8_xpos;
     pMeat->mYPos = pState->field_C_ypos;
 
-    pMeat->mCollectionRect.x = pMeat->mXPos - (ScaleToGridSize(pMeat->mSpriteScale) / FP_FromInteger(2));
-    pMeat->mCollectionRect.y = pMeat->mYPos - ScaleToGridSize(pMeat->mSpriteScale);
-    pMeat->mCollectionRect.w = (ScaleToGridSize(pMeat->mSpriteScale) / FP_FromInteger(2)) + pMeat->mXPos;
+    pMeat->mCollectionRect.x = pMeat->mXPos - (ScaleToGridSize(pMeat->GetSpriteScale()) / FP_FromInteger(2));
+    pMeat->mCollectionRect.y = pMeat->mYPos - ScaleToGridSize(pMeat->GetSpriteScale());
+    pMeat->mCollectionRect.w = (ScaleToGridSize(pMeat->GetSpriteScale()) / FP_FromInteger(2)) + pMeat->mXPos;
     pMeat->mCollectionRect.h = pMeat->mYPos;
 
     pMeat->mVelX = pState->field_10_velx;
@@ -460,7 +460,7 @@ s32 Meat::CreateFromSaveState(const u8* pBuffer)
     pMeat->mCurrentPath = pState->field_1C_path_number;
     pMeat->mCurrentLevel = MapWrapper::FromAESaveData(pState->field_1E_lvl_number);
 
-    pMeat->mSpriteScale = pState->field_18_sprite_scale;
+    pMeat->SetSpriteScale(pState->field_18_sprite_scale);
 
     pMeat->GetAnimation().mFlags.Set(AnimFlags::eLoop, pState->field_20_flags.Get(Meat_SaveState::eBit3_bLoop));
     pMeat->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->field_20_flags.Get(Meat_SaveState::eBit1_bRender));
@@ -530,7 +530,7 @@ void MeatSack::VUpdate()
         const PSX_RECT abeRect = sActiveHero->VGetBoundingRect();
         const PSX_RECT ourRect = VGetBoundingRect();
 
-        if (RectsOverlap(ourRect, abeRect) && mSpriteScale == sActiveHero->mSpriteScale)
+        if (RectsOverlap(ourRect, abeRect) && GetSpriteScale() == sActiveHero->GetSpriteScale())
         {
             if (gpThrowableArray)
             {
@@ -550,7 +550,7 @@ void MeatSack::VUpdate()
 
             auto pMeat = relive_new Meat(mXPos, mYPos - FP_FromInteger(30), field_11E_amount_of_meat);
              pMeat->VThrow(field_124_velX, field_128_velY);
-            pMeat->mSpriteScale = mSpriteScale;
+            pMeat->SetSpriteScale(GetSpriteScale());
 
             SfxPlayMono(relive::SoundEffects::SackHit, 0);
             Environment_SFX_457A40(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
@@ -577,7 +577,7 @@ s32 Meat::VGetSaveState(u8* pSaveBuffer)
     pState->field_1C_path_number = mCurrentPath;
     pState->field_1E_lvl_number = MapWrapper::ToAE(mCurrentLevel);
 
-    pState->field_18_sprite_scale = mSpriteScale;
+    pState->field_18_sprite_scale = GetSpriteScale();
 
     pState->field_20_flags.Set(Meat_SaveState::eBit3_bLoop, GetAnimation().mFlags.Get(AnimFlags::eLoop));
     pState->field_20_flags.Set(Meat_SaveState::eBit1_bRender, GetAnimation().mFlags.Get(AnimFlags::eRender));

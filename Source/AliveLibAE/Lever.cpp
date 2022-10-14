@@ -60,20 +60,20 @@ Lever::Lever(relive::Path_Lever* pTlv, const Guid& tlvId)
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
+        SetSpriteScale(FP_FromDouble(0.5));
         GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_Half_6);
-        mScale = Scale::Bg;
+        SetScale(Scale::Bg);
     }
     else if (pTlv->mScale == relive::reliveScale::eFull)
     {
-        mSpriteScale = FP_FromInteger(1);
+        SetSpriteScale(FP_FromInteger(1));
         GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_25);
-        mScale = Scale::Fg;
+        SetScale(Scale::Fg);
     }
 
     SetTint(&kLeverTints_563228[0], gMap.mCurrentLevel);
     mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
-    mXPos = FP_FromInteger(SnapToXGrid(mSpriteScale, FP_GetExponent(mXPos)));
+    mXPos = FP_FromInteger(SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos)));
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
     PathLine* pPathLine = nullptr;
@@ -87,7 +87,7 @@ Lever::Lever(relive::Path_Lever* pTlv, const Guid& tlvId)
             &pPathLine,
             &hitX,
             &hitY,
-            mScale == Scale::Fg ? kFgFloor : kBgFloor))
+            GetScale() == Scale::Fg ? kFgFloor : kBgFloor))
     {
         mYPos = hitY;
     }

@@ -25,7 +25,7 @@ ZapSpark::ZapSpark(FP xpos, FP ypos, FP scale)
 
     GetAnimation().SetRGB(80, 80, 80);
 
-    mSpriteScale = scale * (((FP_FromInteger(Math_NextRandom() % 6)) / FP_FromInteger(10)) + FP_FromDouble(0.7));
+    SetSpriteScale(scale * (((FP_FromInteger(Math_NextRandom() % 6)) / FP_FromInteger(10)) + FP_FromDouble(0.7)));
     mSparkTimer = Math_RandomRange(0, 16);
 
     mXPos = xpos;

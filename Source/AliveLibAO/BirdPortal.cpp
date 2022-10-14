@@ -44,7 +44,7 @@ BirdPortalTerminator::BirdPortalTerminator(FP xpos, FP ypos, FP scale, relive::P
     Animation_Init(GetAnimRes(AnimId::BirdPortal_TerminatorGrow));
     
     GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
-    mSpriteScale = scale;
+    SetSpriteScale(scale);
     if (scale == FP_FromInteger(1))
     {
         GetAnimation().SetRenderLayer(Layer::eLayer_Above_FG1_39);
@@ -232,7 +232,7 @@ void BirdPortal::CreateDovesAndShrykullNumber()
                 pDove->AsACircle(mXPos, mYPos + (mSpriteScale * FP_FromInteger(30)), 42 * i);
             }
 
-            pDove->mSpriteScale = mSpriteScale;
+            pDove->SetSpriteScale(mSpriteScale);
             mDovesArray->Push_Back(pDove);
         }
     }
@@ -440,7 +440,7 @@ void BirdPortal::VUpdate()
                         pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
                         pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
                         pParticle->SetType(ReliveTypes::eBirdPortalTerminator);
-                        pParticle->mSpriteScale = mSpriteScale;
+                        pParticle->SetSpriteScale(mSpriteScale);
 
                         if (sGnFrame % 2)
                         {
@@ -508,7 +508,7 @@ void BirdPortal::VUpdate()
                     if (pDoveMem)
                     {
                         SfxPlayMono(relive::SoundEffects::Dove, 70);
-                        pDoveMem->mSpriteScale = mSpriteScale;
+                        pDoveMem->SetSpriteScale(mSpriteScale);
                         pDoveMem->AsJoin(sActiveHero->mXPos,
                             FP_FromInteger(Math_RandomRange(-36, 4)) + sActiveHero->mYPos);
                     }
@@ -518,7 +518,7 @@ void BirdPortal::VUpdate()
                     {
                         mOrbWhirlWind->ToSpin(
                             sActiveHero->mXPos,
-                            sActiveHero->mYPos - (sActiveHero->mSpriteScale * FP_FromInteger(38)),
+                            sActiveHero->mYPos - (sActiveHero->GetSpriteScale() * FP_FromInteger(38)),
                             sActiveHero);
                         mOrbWhirlWind = nullptr;
                     }
@@ -553,7 +553,7 @@ void BirdPortal::VUpdate()
                 {
                     pParticle_1->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
                     pParticle_1->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
-                    pParticle_1->mSpriteScale = mSpriteScale;
+                    pParticle_1->SetSpriteScale(mSpriteScale);
                 }
 
                 mState = PortalStates::StopSound_11;
@@ -710,7 +710,7 @@ s16 BirdPortal::IsScaredAway()
                     continue;
                 }
 
-                if (FP_Abs(pObj->mXPos - mXPos) >= FP_FromInteger(75) || FP_Abs(pObj->mYPos - mHitY) >= FP_FromInteger(30) || pObj->mSpriteScale != mSpriteScale)
+                if (FP_Abs(pObj->mXPos - mXPos) >= FP_FromInteger(75) || FP_Abs(pObj->mYPos - mHitY) >= FP_FromInteger(30) || pObj->GetSpriteScale() != mSpriteScale)
                 {
                     continue;
                 }
@@ -733,8 +733,8 @@ void BirdPortal::VGiveShrykull(s16 bPlaySound)
 
         mOrbWhirlWind = relive_new OrbWhirlWind(
             sActiveHero->mXPos,
-            sActiveHero->mYPos - (sActiveHero->mSpriteScale * FP_FromInteger(38)),
-            sActiveHero->mSpriteScale);
+            sActiveHero->mYPos - (sActiveHero->GetSpriteScale() * FP_FromInteger(38)),
+            sActiveHero->GetSpriteScale());
 
         if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_150_Chant)
         {
@@ -885,7 +885,7 @@ void BirdPortal::VExitPortal()
             sActiveHero->GetAnimation().SetRenderLayer(Layer::eLayer_InBirdPortal_30);
         }
 
-        sActiveHero->mSpriteScale = mSpriteScale;
+        sActiveHero->SetSpriteScale(mSpriteScale);
         mState = PortalStates::PortalExit_SetPosition_17;
         sActiveHero->mCurrentLevel = gMap.mCurrentLevel;
         sActiveHero->mCurrentPath = gMap.mCurrentPath;

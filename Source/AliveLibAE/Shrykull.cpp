@@ -38,14 +38,14 @@ Shrykull::Shrykull()
 
     mXPos = sActiveHero->mXPos;
     mYPos = sActiveHero->mYPos;
-    mSpriteScale = sActiveHero->mSpriteScale;
-    mScale = sActiveHero->mScale;
+    SetSpriteScale(sActiveHero->GetSpriteScale());
+    SetScale(sActiveHero->GetScale());
 
     field_118_state = State::eTransform_0;
 
     GetAnimation().mFlags.Set(AnimFlags::eFlipX, sActiveHero->GetAnimation().mFlags.Get(AnimFlags::eFlipX));
 
-    mShadow = relive_new Shadow();
+    CreateShadow();
 
     field_12E_bResetRingTimer = 0;
 }
@@ -186,13 +186,13 @@ void Shrykull::VUpdate()
                     AbilityRing::Factory(
                         FP_FromInteger((objRect.x + objRect.w) / 2),
                         FP_FromInteger((objRect.y + objRect.h) / 2),
-                        RingTypes::eShrykull_Pulse_Large_5, pObj->mSpriteScale);
+                        RingTypes::eShrykull_Pulse_Large_5, pObj->GetSpriteScale());
 
                     relive_new PossessionFlicker(this, 8, 255, 255, 255);
                     AbilityRing::Factory(
                         FP_FromInteger((ourRect.x + ourRect.w) / 2),
                         FP_FromInteger((ourRect.y + ourRect.h) / 2),
-                        RingTypes::eShrykull_Pulse_Large_5, mSpriteScale);
+                        RingTypes::eShrykull_Pulse_Large_5, GetSpriteScale());
 
                     pObj->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eZappedByShrykull);
 
@@ -276,7 +276,7 @@ void Shrykull::VUpdate()
                         relive_new ParticleBurst(
                             FP_FromInteger((zapRect.x + zapRect.w) / 2),
                             FP_FromInteger((zapRect.y + zapRect.h) / 2),
-                            20, mSpriteScale, BurstType::eBigPurpleSparks_2, 13);
+                            20, GetSpriteScale(), BurstType::eBigPurpleSparks_2, 13);
 
                         relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, TPageAbr::eBlend_3, 1);
                     }

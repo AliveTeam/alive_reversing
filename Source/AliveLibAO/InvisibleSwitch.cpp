@@ -66,8 +66,8 @@ void InvisibleSwitch::VUpdate()
                     {
                         // Scale matches ?
                         if (field_2C_scale == relive::Path_InvisibleSwitch::InvisibleSwitchScale::eAny
-                            || (field_2C_scale == relive::Path_InvisibleSwitch::InvisibleSwitchScale::eHalf && sControlledCharacter->mSpriteScale == FP_FromDouble(0.5))
-                            || (field_2C_scale == relive::Path_InvisibleSwitch::InvisibleSwitchScale::eFull && sControlledCharacter->mSpriteScale == FP_FromInteger(1)))
+                            || (field_2C_scale == relive::Path_InvisibleSwitch::InvisibleSwitchScale::eHalf && sControlledCharacter->GetSpriteScale() == FP_FromDouble(0.5))
+                            || (field_2C_scale == relive::Path_InvisibleSwitch::InvisibleSwitchScale::eFull && sControlledCharacter->GetSpriteScale() == FP_FromInteger(1)))
                         {
                             field_28_state = States::eWaitForDelayTimer_1;
                             field_18_delay_timer = sGnFrame + field_1C_delay;

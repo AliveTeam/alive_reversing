@@ -87,7 +87,7 @@ void BaseAliveGameObject::VSetXSpawn(s16 camWorldX, s32 screenXPos)
     const FP old_x = mXPos;
     const FP old_y = mYPos;
 
-    mXPos = FP_FromInteger(camWorldX + XGrid_Index_To_XPos(mSpriteScale, screenXPos));
+    mXPos = FP_FromInteger(camWorldX + XGrid_Index_To_XPos(GetSpriteScale(), screenXPos));
 
     BaseAliveGameObjectPathTLV = gMap.TLV_Get_At(0, mXPos, old_y, mXPos, old_y);
 
@@ -153,7 +153,7 @@ void BaseAliveGameObject::VSetXSpawn(s16 camWorldX, s32 screenXPos)
                     &pLine,
                     &hitX,
                     &hitY,
-                    mSpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor))
+                    GetSpriteScale() != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor))
             {
                 mYPos += hitY - BaseAliveGameObjectLastLineYPos;
             }
@@ -235,7 +235,7 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid_401A90(s32 distance)
         FP hitX = {};
         FP hitY = {};
 
-        const CollisionMask mask = mSpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor;
+        const CollisionMask mask = GetSpriteScale() != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor;
         if (sCollisions->Raycast(
                 mXPos,
                 mYPos - FP_FromInteger(distance),
@@ -310,15 +310,15 @@ BirdPortal* BaseAliveGameObject::IntoBirdPortal_402350(s16 distance)
             {
                 if (pPortal->mEnterSide == relive::Path_BirdPortal::PortalSide::eLeft)
                 {
-                    if (pPortal->mXPos - mXPos <= (ScaleToGridSize(mSpriteScale) * FP_FromInteger(distance)))
+                    if (pPortal->mXPos - mXPos <= (ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(distance)))
                     {
                         if (!GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                         {
-                            if (FP_Abs(mYPos - pPortal->mHitY) < mSpriteScale * FP_FromInteger(10))
+                            if (FP_Abs(mYPos - pPortal->mHitY) < GetSpriteScale() * FP_FromInteger(10))
                             {
                                 if (pPortal->VPortalClipper(1))
                                 {
-                                    GetAnimation().SetRenderLayer(mSpriteScale != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30);
+                                    GetAnimation().SetRenderLayer(GetSpriteScale() != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30);
                                     return pPortal;
                                 }
                             }
@@ -330,15 +330,15 @@ BirdPortal* BaseAliveGameObject::IntoBirdPortal_402350(s16 distance)
             {
                 if (pPortal->mEnterSide == relive::Path_BirdPortal::PortalSide::eRight)
                 {
-                    if (mXPos - pPortal->mXPos <= (ScaleToGridSize(mSpriteScale) * FP_FromInteger(distance)))
+                    if (mXPos - pPortal->mXPos <= (ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(distance)))
                     {
                         if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                         {
-                            if (FP_Abs(mYPos - pPortal->mHitY) < (mSpriteScale * FP_FromInteger(10)))
+                            if (FP_Abs(mYPos - pPortal->mHitY) < (GetSpriteScale() * FP_FromInteger(10)))
                             {
                                 if (pPortal->VPortalClipper(1))
                                 {
-                                    GetAnimation().SetRenderLayer(mSpriteScale != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30);
+                                    GetAnimation().SetRenderLayer(GetSpriteScale() != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30);
                                     return pPortal;
                                 }
                             }
@@ -388,7 +388,7 @@ s16 BaseAliveGameObject::Check_IsOnEndOfLine(s16 direction, s16 dist)
 {
     // Check if distance grid blocks from current snapped X is still on the line or not, if not then we are
     // about to head off an edge.
-    const FP gridSize = ScaleToGridSize(mSpriteScale);
+    const FP gridSize = ScaleToGridSize(GetSpriteScale());
 
     FP xLoc = {};
     if (direction == 1)
@@ -401,7 +401,7 @@ s16 BaseAliveGameObject::Check_IsOnEndOfLine(s16 direction, s16 dist)
     }
 
     const s16 xposRounded = FP_GetExponent(mXPos) & 1023;
-    const FP xPosSnapped = FP_FromInteger((FP_GetExponent(mXPos) & 0xFC00) + SnapToXGrid(mSpriteScale, xposRounded));
+    const FP xPosSnapped = FP_FromInteger((FP_GetExponent(mXPos) & 0xFC00) + SnapToXGrid(GetSpriteScale(), xposRounded));
     if (xposRounded < (240 + 16) || xposRounded > (640 - 16))
     {
         return 0;
@@ -418,7 +418,7 @@ s16 BaseAliveGameObject::Check_IsOnEndOfLine(s16 direction, s16 dist)
                &pLine,
                &hitX,
                &hitY,
-               mSpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor)
+               GetSpriteScale() != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor)
         == 0;
 }
 
@@ -465,7 +465,7 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
             xpos = camWorldX + 524;
             ypos = camWorldY + 70;
             height = camWorldY + 410;
-            mXPos = FP_FromInteger(camWorldX + XGrid_Index_To_XPos(mSpriteScale, MaxGridBlocks_41FA10(mSpriteScale) - 1));
+            mXPos = FP_FromInteger(camWorldX + XGrid_Index_To_XPos(GetSpriteScale(), MaxGridBlocks_41FA10(GetSpriteScale()) - 1));
             mYPos = FP_FromInteger(camWorldY + (FP_GetExponent(oldy) % 480));
             break;
 
@@ -474,7 +474,7 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
             xpos = camWorldX + 206;
             ypos = camWorldY + 70;
             height = camWorldY + 410;
-            mXPos = FP_FromInteger(camWorldX + XGrid_Index_To_XPos(mSpriteScale, 1));
+            mXPos = FP_FromInteger(camWorldX + XGrid_Index_To_XPos(GetSpriteScale(), 1));
             mYPos = FP_FromInteger(camWorldY + (FP_GetExponent(oldy) % 480));
             break;
 
@@ -509,7 +509,7 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
     mXPos = FP_FromInteger((BaseAliveGameObjectPathTLV->mBottomRightX + BaseAliveGameObjectPathTLV->mTopLeftX) / 2);
     mYPos = FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeftY);
 
-    mXPos = FP_FromInteger(camLoc.x + SnapToXGrid(mSpriteScale, FP_GetExponent(mXPos - FP_FromInteger(camLoc.x))));
+    mXPos = FP_FromInteger(camLoc.x + SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos - FP_FromInteger(camLoc.x))));
 
     if (mLiftPoint)
     {
@@ -542,7 +542,7 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
                     &pLine,
                     &hitX,
                     &hitY,
-                    mSpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor))
+                    GetSpriteScale() != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor))
             {
                 BaseAliveGameObjectCollisionLine = pLine;
                 mYPos = hitY;
@@ -572,20 +572,20 @@ void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY,
                     &pLine,
                     &hitX,
                     &hitY,
-                    mSpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor))
+                    GetSpriteScale() != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor))
             {
                 mYPos += hitY - BaseAliveGameObjectLastLineYPos;
             }
         }
     }
 
-    if (mSpriteScale == FP_FromInteger(1) && GetAnimation().GetSpriteScale() == FP_FromDouble(0.5))
+    if (GetSpriteScale() == FP_FromInteger(1) && GetAnimation().GetSpriteScale() == FP_FromDouble(0.5))
     {
         mVelX = (mVelX * FP_FromInteger(2));
         return;
     }
 
-    if (mSpriteScale == FP_FromDouble(0.5) && GetAnimation().GetSpriteScale() == FP_FromInteger(1))
+    if (GetSpriteScale() == FP_FromDouble(0.5) && GetAnimation().GetSpriteScale() == FP_FromInteger(1))
     {
         mVelX = (mVelX * FP_FromDouble(0.5));
         return;
@@ -602,7 +602,7 @@ s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
     if (mCurrentLevel == gMap.mCurrentLevel && mCurrentPath == gMap.mCurrentPath && mXPos > FP_FromInteger(camCoords.x) && mXPos < FP_FromInteger(camCoords.x + 1024))
     {
         // Snapped XPos in camera space
-        const s32 snappedXLocalCoords = SnapToXGrid(mSpriteScale, FP_GetExponent(mXPos - FP_FromInteger(camCoords.x)));
+        const s32 snappedXLocalCoords = SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos - FP_FromInteger(camCoords.x)));
 
         // In the left camera void and moving left?
         if (snappedXLocalCoords < 256 && mVelX < FP_FromInteger(0))
@@ -622,9 +622,9 @@ s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
                     UsePathTransScale_4020D0();
 
                     // Put at the right side of the camera to the left
-                    const s32 cam1GridBeforeRight = XGrid_Index_To_XPos(mSpriteScale, (MaxGridBlocks_41FA10(mSpriteScale) - 1));
+                    const s32 cam1GridBeforeRight = XGrid_Index_To_XPos(GetSpriteScale(), (MaxGridBlocks_41FA10(GetSpriteScale()) - 1));
                     const s32 camRightEdge = x_i - camXIndex - 1024;
-                    mXPos = FP_FromInteger(camRightEdge) + FP_FromInteger(cam1GridBeforeRight) + ScaleToGridSize(mSpriteScale);
+                    mXPos = FP_FromInteger(camRightEdge) + FP_FromInteger(cam1GridBeforeRight) + ScaleToGridSize(GetSpriteScale());
 
                     VCheckCollisionLineStillValid(40);
                 }
@@ -651,9 +651,9 @@ s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
                     UsePathTransScale_4020D0();
 
                     // Put at the left side of the camera to the right
-                    const s32 cam1GridAfterLeft = XGrid_Index_To_XPos(mSpriteScale, 1);
+                    const s32 cam1GridAfterLeft = XGrid_Index_To_XPos(GetSpriteScale(), 1);
                     const s32 camLeftEdge = x_i - camXIndex + 1024;
-                    mXPos = FP_FromInteger(camLeftEdge) + FP_FromInteger(cam1GridAfterLeft) - ScaleToGridSize(mSpriteScale);
+                    mXPos = FP_FromInteger(camLeftEdge) + FP_FromInteger(cam1GridAfterLeft) - ScaleToGridSize(GetSpriteScale());
 
                     VCheckCollisionLineStillValid(40);
                 }
@@ -678,9 +678,9 @@ s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
             {
                 UsePathTransScale_4020D0();
 
-                const s32 camRightGrid = XGrid_Index_To_XPos(mSpriteScale, MaxGridBlocks_41FA10(mSpriteScale));
+                const s32 camRightGrid = XGrid_Index_To_XPos(GetSpriteScale(), MaxGridBlocks_41FA10(GetSpriteScale()));
                 const s32 camRightEdge = x_i - camXIndex - 1024;
-                mXPos = FP_FromInteger(camRightEdge) + FP_FromInteger(camRightGrid) + ScaleToGridSize(mSpriteScale);
+                mXPos = FP_FromInteger(camRightEdge) + FP_FromInteger(camRightGrid) + ScaleToGridSize(GetSpriteScale());
 
                 VCheckCollisionLineStillValid(40);
             }
@@ -693,9 +693,9 @@ s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
             {
                 UsePathTransScale_4020D0();
 
-                const s32 camLeftGrid = XGrid_Index_To_XPos(mSpriteScale, 0);
+                const s32 camLeftGrid = XGrid_Index_To_XPos(GetSpriteScale(), 0);
                 const s32 camLeftEdge = x_i - camXIndex + 1024;
-                mXPos = FP_FromInteger(camLeftEdge) + FP_FromInteger(camLeftGrid) - ScaleToGridSize(mSpriteScale);
+                mXPos = FP_FromInteger(camLeftEdge) + FP_FromInteger(camLeftGrid) - ScaleToGridSize(GetSpriteScale());
 
                 VCheckCollisionLineStillValid(40);
             }
@@ -757,17 +757,17 @@ s16 BaseAliveGameObject::WallHit(FP offY, FP offX)
                &pLine,
                &offX,
                &offY,
-               mSpriteScale != FP_FromDouble(0.5) ? kFgWalls : kBgWalls)
+               GetSpriteScale() != FP_FromDouble(0.5) ? kFgWalls : kBgWalls)
         != 0;
 }
 
 s16 BaseAliveGameObject::InAirCollision_4019C0(PathLine** ppLine, FP* hitX, FP* hitY, FP vely)
 {
-    mVelY += (mSpriteScale * vely);
+    mVelY += (GetSpriteScale() * vely);
 
-    if (mVelY > (mSpriteScale * FP_FromInteger(20)))
+    if (mVelY > (GetSpriteScale() * FP_FromInteger(20)))
     {
-        mVelY = (mSpriteScale * FP_FromInteger(20));
+        mVelY = (GetSpriteScale() * FP_FromInteger(20));
     }
 
     const FP old_xpos = mXPos;
@@ -784,7 +784,7 @@ s16 BaseAliveGameObject::InAirCollision_4019C0(PathLine** ppLine, FP* hitX, FP* 
         ppLine,
         hitX,
         hitY,
-        mSpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor) ? 1 : 0;
+        GetSpriteScale() != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor) ? 1 : 0;
 }
 
 void BaseAliveGameObject::OnResourceLoaded_4019A0(BaseAliveGameObject* /*ppRes*/)
@@ -805,19 +805,19 @@ void BaseAliveGameObject::UsePathTransScale_4020D0()
     {
         if (pPathTrans->mNextPathScale == relive::reliveScale::eHalf)
         {
-            if (mSpriteScale != FP_FromDouble(0.5))
+            if (GetSpriteScale() != FP_FromDouble(0.5))
             {
-                mSpriteScale = FP_FromDouble(0.5);
-                mScale = Scale::Bg;
+                SetSpriteScale(FP_FromDouble(0.5));
+                SetScale(Scale::Bg);
                 mVelX = (mVelX * FP_FromDouble(0.5));
             }
         }
         else if (pPathTrans->mNextPathScale == relive::reliveScale::eFull)
         {
-            if (mSpriteScale != FP_FromInteger(1))
+            if (GetSpriteScale() != FP_FromInteger(1))
             {
-                mSpriteScale = FP_FromInteger(1);
-                mScale = Scale::Fg;
+                SetSpriteScale(FP_FromInteger(1));
+                SetScale(Scale::Fg);
                 mVelX = (mVelX * FP_FromInteger(2));
             }
         }

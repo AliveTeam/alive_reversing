@@ -52,7 +52,7 @@ void Particle::VUpdate()
     mXPos += mVelX;
     mYPos += mVelY;
 
-    mSpriteScale += field_F4_scale_amount;
+    SetSpriteScale(GetSpriteScale() + field_F4_scale_amount);
 
     if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
@@ -72,7 +72,7 @@ Particle* New_DestroyOrCreateObject_Particle(FP xpos, FP ypos, FP scale)
     }
 
     pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
-    pParticle->mSpriteScale = FP_FromInteger(2) * scale;
+    pParticle->SetSpriteScale(FP_FromInteger(2) * scale);
 
     if (scale == FP_FromInteger(1))
     {
@@ -89,7 +89,7 @@ Particle* New_DestroyOrCreateObject_Particle(FP xpos, FP ypos, FP scale)
 }
 
 // Fart/dust cloud particle spawner
-void New_Smoke_Particles(FP xpos, FP ypos, FP scale, s16 count, u8 r, u8 g, u8 b)
+void New_Smoke_Particles(FP xpos, FP ypos, FP scale, s16 count, RGB16 rgb)
 {
     FP velYCounter = {};
     for (s32 i = 0; i < count; i++)
@@ -105,11 +105,11 @@ void New_Smoke_Particles(FP xpos, FP ypos, FP scale, s16 count, u8 r, u8 g, u8 b
             pParticle->GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
             pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_3);
 
-            pParticle->mRGB.SetRGB(r, g, b);
+            pParticle->mRGB = rgb;
 
             pParticle->mVelX = (scale * FP_FromInteger(Math_RandomRange(-10, 10))) / FP_FromInteger(10);
             pParticle->mVelY = ((scale * velYCounter) * FP_FromInteger(Math_RandomRange(50, 50))) / FP_FromInteger(100);
-            pParticle->mSpriteScale = scale;
+            pParticle->SetSpriteScale(scale);
 
             if (scale == FP_FromInteger(1))
             {
@@ -131,7 +131,7 @@ void New_Smoke_Particles(FP xpos, FP ypos, FP scale, s16 count, u8 r, u8 g, u8 b
     }
 }
 
-Particle* New_Orb_Particle(FP xpos, FP ypos, FP velX, FP velY, FP scale, Layer layer, u8 r, u8 b, u8 g)
+Particle* New_Orb_Particle(FP xpos, FP ypos, FP velX, FP velY, FP scale, Layer layer, RGB16 rgb)
 {
     AnimResource ppRes = ResourceManagerWrapper::LoadAnimation(AnimId::ChantOrb_Particle);
     auto pParticle = relive_new Particle(xpos, ypos, ppRes);
@@ -140,7 +140,7 @@ Particle* New_Orb_Particle(FP xpos, FP ypos, FP velX, FP velY, FP scale, Layer l
         pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
         pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
 
-        pParticle->mRGB.SetRGB(r, g, b);
+        pParticle->mRGB = rgb;
 
         pParticle->mVelY = velY;
         pParticle->mVelX = velX;
@@ -158,34 +158,34 @@ Particle* New_Orb_Particle(FP xpos, FP ypos, FP velX, FP velY, FP scale, Layer l
             pParticle->GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
         }
 
-        pParticle->mSpriteScale = scale;
+        pParticle->SetSpriteScale(scale);
     }
     return pParticle;
 }
 
 Particle* New_TintShiny_Particle(FP xpos, FP ypos, FP scale, Layer layer)
 {
-    return New_Orb_Particle(xpos, ypos, FP_FromInteger(0), FP_FromInteger(0), scale, layer, 100u, 100u, 100u);
+    return New_Orb_Particle(xpos, ypos, FP_FromInteger(0), FP_FromInteger(0), scale, layer, RGB16{100, 100, 100});
 }
 
 Particle* New_TintChant_Particle(FP xpos, FP ypos, FP scale, Layer layer)
 {
-    return New_Orb_Particle(xpos, ypos, FP_FromInteger(0), FP_FromInteger(0), scale, layer, 128u, 128u, 128u);
+    return New_Orb_Particle(xpos, ypos, FP_FromInteger(0), FP_FromInteger(0), scale, layer, RGB16{128, 128, 128});
 }
 
 void New_RandomizedChant_Particle(BaseAnimatedWithPhysicsGameObject* pObj)
 {
 	if (GetGameType() == GameType::eAe)
 	{
-	    const FP xpos = (pObj->mSpriteScale * FP_FromInteger(Math_RandomRange(-20, 20))) + pObj->mXPos;
-	    const FP ypos = pObj->mYPos - (pObj->mSpriteScale * FP_FromInteger(Math_RandomRange(30, 60)));
-	    New_TintChant_Particle(xpos, ypos, pObj->mSpriteScale, Layer::eLayer_0);
+	    const FP xpos = (pObj->GetSpriteScale() * FP_FromInteger(Math_RandomRange(-20, 20))) + pObj->mXPos;
+	    const FP ypos = pObj->mYPos - (pObj->GetSpriteScale() * FP_FromInteger(Math_RandomRange(30, 60)));
+	    New_TintChant_Particle(xpos, ypos, pObj->GetSpriteScale(), Layer::eLayer_0);
 	}
 	else
 	{
-	 	const auto xpos = pObj->mXPos + pObj->mSpriteScale * FP_FromInteger(40 * Math_NextRandom() / 256 - 20);
-	    const auto ypos = pObj->mYPos - (pObj->mSpriteScale * FP_FromInteger(30 * Math_NextRandom() / 256 + 30));
-	    New_TintChant_Particle(xpos, ypos, pObj->mSpriteScale, Layer::eLayer_0);	
+	 	const auto xpos = pObj->mXPos + pObj->GetSpriteScale() * FP_FromInteger(40 * Math_NextRandom() / 256 - 20);
+	    const auto ypos = pObj->mYPos - (pObj->GetSpriteScale() * FP_FromInteger(30 * Math_NextRandom() / 256 + 30));
+	    New_TintChant_Particle(xpos, ypos, pObj->GetSpriteScale(), Layer::eLayer_0);	
 	}
 }
 
@@ -210,7 +210,7 @@ void New_ShootingZFire_Particle(FP xpos, FP ypos, FP scale)
             pParticle->GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
         }
 
-        pParticle->mSpriteScale = scale;
+        pParticle->SetSpriteScale(scale);
     }
 }
 
@@ -234,6 +234,6 @@ void New_ShootingFire_Particle(FP xpos, FP ypos, s8 direction, FP scale)
         }
 
         pParticle->GetAnimation().mFlags.Set(AnimFlags::eFlipX, direction & 1);
-        pParticle->mSpriteScale = scale;
+        pParticle->SetSpriteScale(scale);
     }
 }

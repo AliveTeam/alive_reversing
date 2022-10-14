@@ -35,7 +35,7 @@ public:
         GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
         mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 
-        mSpriteScale = scale;
+        SetSpriteScale(scale);
 
         mXPos = xpos;
         mYPos = ypos;
@@ -110,15 +110,15 @@ private:
                     FP directedScale = {};
                     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                     {
-                        directedScale = -mSpriteScale;
+                        directedScale = -GetSpriteScale();
                     }
                     else
                     {
-                        directedScale = mSpriteScale;
+                        directedScale = GetSpriteScale();
                     }
                     auto pGrenade = relive_new Grenade(
                         (FP_FromInteger(6) * directedScale) + mXPos,
-                        (-FP_FromInteger(6) * mSpriteScale) + mYPos,
+                        (-FP_FromInteger(6) * GetSpriteScale()) + mYPos,
                         field_FC_numGrenades,
                         0,
                         0,
@@ -162,20 +162,20 @@ BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId)
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
+        SetSpriteScale(FP_FromDouble(0.5));
     }
     else if (pTlv->mScale == relive::reliveScale::eFull)
     {
-        mSpriteScale = FP_FromInteger(1);
+        SetSpriteScale(FP_FromInteger(1));
     }
 
-    mXPos = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(2)) + FP_FromInteger(pTlv->mTopLeftX);
+    mXPos = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2)) + FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
     auto pNozzle = relive_new GrenadeMachineNozzle(
-        ((pTlv->mNozzleSide == relive::Path_BoomMachine::NozzleSide::eLeft ? -mSpriteScale : mSpriteScale) * FP_FromInteger(30)) + mXPos,
-        (mSpriteScale * FP_FromInteger(-30)) + mYPos,
-        mSpriteScale,
+        ((pTlv->mNozzleSide == relive::Path_BoomMachine::NozzleSide::eLeft ? -GetSpriteScale() : GetSpriteScale()) * FP_FromInteger(30)) + mXPos,
+        (GetSpriteScale() * FP_FromInteger(-30)) + mYPos,
+        GetSpriteScale(),
         pTlv->mGrenadeAmount);
     if (pNozzle)
     {

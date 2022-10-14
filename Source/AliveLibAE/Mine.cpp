@@ -35,16 +35,16 @@ Mine::Mine(relive::Path_Mine* pPath, const Guid& tlv)
     {
         if (pPath->mScale == relive::reliveScale::eHalf)
         {
-            mSpriteScale = FP_FromDouble(0.5);
+            SetSpriteScale(FP_FromDouble(0.5));
             GetAnimation().SetRenderLayer(Layer::eLayer_RollingBallBombMineCar_Half_16);
-            mScale = Scale::Bg;
+            SetScale(Scale::Bg);
         }
     }
     else
     {
-        mSpriteScale = FP_FromDouble(1);
+        SetSpriteScale(FP_FromDouble(1));
         GetAnimation().SetRenderLayer(Layer::eLayer_RollingBallBombMineCar_35);
-        mScale = Scale::Fg;
+        SetScale(Scale::Fg);
     }
 
     const s32 v7 = pPath->mTopLeftX + pPath->mBottomRightX;
@@ -63,7 +63,7 @@ Mine::Mine(relive::Path_Mine* pPath, const Guid& tlv)
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            mScale == Scale::Fg ? kFgFloor : kBgFloor)
+            GetScale() == Scale::Fg ? kFgFloor : kBgFloor)
         == 1)
     {
         mYPos = hitY;
@@ -76,7 +76,7 @@ Mine::Mine(relive::Path_Mine* pPath, const Guid& tlv)
     field_124_animation.mFlags.Set(AnimFlags::eBlending);
 
     field_124_animation.SetRenderLayer(GetAnimation().GetRenderLayer());
-    field_124_animation.SetSpriteScale(mSpriteScale);
+    field_124_animation.SetSpriteScale(GetSpriteScale());
     field_124_animation.SetRGB(128, 128, 128);
 
     field_11A_disabled_resources = pPath->mDisabledResources;
@@ -87,7 +87,7 @@ Mine::Mine(relive::Path_Mine* pPath, const Guid& tlv)
         field_1BC_flags.Set(Mine_Flags_1BC::eBit1_PersistOffscreen);
     }
 
-    const FP gridSnap = ScaleToGridSize(mSpriteScale);
+    const FP gridSnap = ScaleToGridSize(GetSpriteScale());
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
     mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
 
@@ -131,7 +131,7 @@ void Mine::VUpdate()
     {
         if (field_118_detonating == 1 && sGnFrame >= field_120_gnframe)
         {
-            relive_new GroundExplosion(mXPos, mYPos, mSpriteScale);
+            relive_new GroundExplosion(mXPos, mYPos, GetSpriteScale());
             mBaseGameObjectFlags.Set(Options::eDead);
         }
     }
@@ -209,7 +209,7 @@ void Mine::VOnPickUpOrSlapped()
 
 void Mine::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
-    relive_new GroundExplosion(mXPos, mYPos, mSpriteScale);
+    relive_new GroundExplosion(mXPos, mYPos, GetSpriteScale());
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     field_118_detonating = 1;
 }
@@ -233,7 +233,7 @@ s16 Mine::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eAirExplosion:
         case ReliveTypes::eMudokon:
         case ReliveTypes::eShrykull:
-            relive_new GroundExplosion(mXPos, mYPos, mSpriteScale);
+            relive_new GroundExplosion(mXPos, mYPos, GetSpriteScale());
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             field_118_detonating = 1;
             field_120_gnframe = sGnFrame;
@@ -262,7 +262,7 @@ bool Mine::IsColliding()
             s32 objX = FP_GetExponent(pObj->mXPos);
             s32 objY = FP_GetExponent(pObj->mYPos);
 
-            if (objX > mineBound.x && objX < mineBound.w && objY < mineBound.h + 12 && mineBound.x <= objBound.w && mineBound.w >= objBound.x && mineBound.h >= objBound.y && mineBound.y <= objBound.h && pObj->mSpriteScale == mSpriteScale)
+            if (objX > mineBound.x && objX < mineBound.w && objY < mineBound.h + 12 && mineBound.x <= objBound.w && mineBound.w >= objBound.x && mineBound.h >= objBound.y && mineBound.y <= objBound.h && pObj->GetSpriteScale() == GetSpriteScale())
             {
                 return 1;
             }

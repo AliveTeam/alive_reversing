@@ -96,13 +96,13 @@ TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, const Guid& tlvId)
     mSelfClosing = pTlv->mSelfClosing;
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
-        mScale = Scale::Bg;
+        SetSpriteScale(FP_FromDouble(0.5));
+        SetScale(Scale::Bg);
     }
     else
     {
-        mSpriteScale = FP_FromInteger(1);
-        mScale = Scale::Fg;
+        SetSpriteScale(FP_FromInteger(1));
+        SetScale(Scale::Fg);
     }
 
     AddDynamicCollision(
@@ -110,7 +110,7 @@ TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, const Guid& tlvId)
         pTlv,
         tlvId);
 
-    if (mSpriteScale == FP_FromInteger(1))
+    if (GetSpriteScale() == FP_FromInteger(1))
     {
         GetAnimation().SetRenderLayer(Layer::eLayer_Shadow_26);
     }
@@ -330,7 +330,7 @@ void TrapDoor::Add_To_Collisions_Array()
         mBoundingRect.y,
         eLineTypes::eDynamicCollision_32);
 
-    if (mSpriteScale != FP_FromInteger(1))
+    if (GetSpriteScale() != FP_FromInteger(1))
     {
         field_124_pCollisionLine->mLineType = eLineTypes::eBackgroundDynamicCollision_36;
     }

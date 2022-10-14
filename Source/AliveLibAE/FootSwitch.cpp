@@ -87,8 +87,8 @@ FootSwitch::FootSwitch(relive::Path_FootSwitch* pTlv, const Guid& tlvId)
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
-        mScale = Scale::Bg;
+        SetSpriteScale(FP_FromDouble(0.5));
+        SetScale(Scale::Bg);
         GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_Half_6);
     }
 
@@ -141,7 +141,7 @@ void FootSwitch::VUpdate()
                 relive_new ParticleBurst(mXPos,
                                                             mYPos + FP_FromInteger(10),
                                                             3,
-                                                            mSpriteScale,
+                                                            GetSpriteScale(),
                                                             BurstType::eBigRedSparks_3,
                                                             9);
 
@@ -165,17 +165,17 @@ void FootSwitch::VUpdate()
             if (mCreateSparks)
             {
                 relive_new Spark(mXPos,
-                                            mYPos + (mSpriteScale * FP_FromInteger(6)),
-                                            mSpriteScale,
+                                            mYPos + (GetSpriteScale() * FP_FromInteger(6)),
+                                            GetSpriteScale(),
                                             10,
                                             100,
                                             255,
                                             SparkType::eSmallChantParticle_0);
 
                 relive_new ParticleBurst(mXPos,
-                                                            mYPos + (mSpriteScale * FP_FromInteger(10)),
+                                                            mYPos + (GetSpriteScale() * FP_FromInteger(10)),
                                                             1,
-                                                            mSpriteScale,
+                                                            GetSpriteScale(),
                                                             BurstType::eBigRedSparks_3,
                                                             9);
 
@@ -237,7 +237,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe()
 
                 const s32 xpos = FP_GetExponent(pAliveObj->mXPos);
 
-                if (xpos > bRectSwitch.x && xpos < bRectSwitch.w && bRectSwitch.x <= theirRect.w && bRectSwitch.w >= theirRect.x && bRectSwitch.h >= theirRect.y && bRectSwitch.y <= theirRect.h && pAliveObj->mScale == mScale)
+                if (xpos > bRectSwitch.x && xpos < bRectSwitch.w && bRectSwitch.x <= theirRect.w && bRectSwitch.w >= theirRect.x && bRectSwitch.h >= theirRect.y && bRectSwitch.y <= theirRect.h && pAliveObj->GetScale() == GetScale())
                 {
                     return pAliveObj;
                 }
@@ -250,7 +250,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe()
 
         const s32 xpos = FP_GetExponent(sActiveHero->mXPos);
 
-        if (xpos > bRectSwitch.x && xpos < bRectSwitch.w && bRectSwitch.x <= bRect.w && bRectSwitch.w >= bRect.x && bRectSwitch.h >= bRect.y && bRectSwitch.y <= bRect.h && sActiveHero->mScale == mScale)
+        if (xpos > bRectSwitch.x && xpos < bRectSwitch.w && bRectSwitch.x <= bRect.w && bRectSwitch.w >= bRect.x && bRectSwitch.h >= bRect.y && bRectSwitch.y <= bRect.h && sActiveHero->GetScale() == GetScale())
         {
             return sActiveHero;
         }

@@ -480,27 +480,27 @@ void DDCheat::Misc()
     if (field_24_input & InputCommands::eLeft)
     {
         gScale_4C3158 = 100;
-        sControlledCharacter->mSpriteScale = FP_FromInteger(1);
-        sControlledCharacter->mScale = Scale::Fg;
+        sControlledCharacter->SetSpriteScale(FP_FromInteger(1));
+        sControlledCharacter->SetScale(Scale::Fg);
         sControlledCharacter->GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_32);
     }
     else if (field_24_input & InputCommands::eRight)
     {
         sControlledCharacter = sControlledCharacter; // TODO: rev bug? check in IDA
         gScale_4C3158 = 50;
-        sControlledCharacter->mSpriteScale = FP_FromDouble(0.5);
-        sControlledCharacter->mScale = Scale::Bg;
+        sControlledCharacter->SetSpriteScale(FP_FromDouble(0.5));
+        sControlledCharacter->SetScale(Scale::Bg);
         sControlledCharacter->GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_Half_13);
     }
     else if (field_24_input & InputCommands::eDown)
     {
         gScale_4C3158 -= 5;
-        sControlledCharacter->mSpriteScale = FP_FromInteger(gScale_4C3158) * FP_FromDouble(0.01);
+        sControlledCharacter->SetSpriteScale(FP_FromInteger(gScale_4C3158) * FP_FromDouble(0.01));
     }
     else if (field_24_input & InputCommands::eUp)
     {
         gScale_4C3158 += 5;
-        sControlledCharacter->mSpriteScale = FP_FromInteger(gScale_4C3158) * FP_FromDouble(0.01);
+        sControlledCharacter->SetSpriteScale(FP_FromInteger(gScale_4C3158) * FP_FromDouble(0.01));
     }
     else if (field_24_input & InputCommands::eHop)
     {
@@ -537,15 +537,15 @@ void DDCheat::Misc()
     }
     else if (sControlledCharacter != gElum)
     {
-        gElum->mSpriteScale = sControlledCharacter->mSpriteScale;
-        gElum->mScale = sControlledCharacter->mScale;
+        gElum->SetSpriteScale(sControlledCharacter->GetSpriteScale());
+        gElum->SetScale(sControlledCharacter->GetScale());
         if (sControlledCharacter != gElum)
         {
             return;
         }
     }
-    sActiveHero->mSpriteScale = sControlledCharacter->mSpriteScale;
-    sActiveHero->mScale = sControlledCharacter->mScale;
+    sActiveHero->SetSpriteScale(sControlledCharacter->GetSpriteScale());
+    sActiveHero->SetScale(sControlledCharacter->GetScale());
 }
 
 

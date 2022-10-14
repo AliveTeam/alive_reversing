@@ -656,7 +656,7 @@ s32 Environment_SFX_42A220(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseA
         {
             s32 v4 = 0;
             s32 v5 = 0;
-            if (volume > 0 || !pAliveObj || pAliveObj->mSpriteScale != FP_FromDouble(0.5))
+            if (volume > 0 || !pAliveObj || pAliveObj->GetSpriteScale() != FP_FromDouble(0.5))
             {
                 v4 = SFX_SfxDefinition_Play_Mono(sSFXList_4C6638[2], volume, pitchMin, 0x7FFF);
                 v5 = SFX_SfxDefinition_Play_Mono(sSFXList_4C6638[48], volume, pitchMin, 0x7FFF);
@@ -689,7 +689,7 @@ s32 Environment_SFX_42A220(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseA
         case EnvironmentSfx::eRunJumpOrLedgeHoist_11:
         {
             s32 result = 0;
-            if (pAliveObj && pAliveObj->mSpriteScale == FP_FromDouble(0.5))
+            if (pAliveObj && pAliveObj->GetSpriteScale() == FP_FromDouble(0.5))
             {
                 result = SfxPlayMono(relive::SoundEffects::AbeGenericMovement, 20);
             }
@@ -747,7 +747,7 @@ s32 Environment_SFX_42A220(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseA
     }
     if (pAliveObj)
     {
-        if (pAliveObj->mSpriteScale == FP_FromDouble(0.5))
+        if (pAliveObj->GetSpriteScale() == FP_FromDouble(0.5))
         {
             volume *= 2;
             volume /= 3;
@@ -766,7 +766,7 @@ s32 Mudokon_SFX(MudSounds idx, s32 volume, s32 pitch, BaseAliveGameObject* pHero
     }
     if (idx == MudSounds::eOops_16)
     {
-        if (pHero && pHero->mSpriteScale == FP_FromDouble(0.5))
+        if (pHero && pHero->GetSpriteScale() == FP_FromDouble(0.5))
         {
             SND_SEQ_Play_477760(SeqId::eAbeOops_23, 1, 85, 85);
             return 0;
@@ -786,7 +786,7 @@ s32 Mudokon_SFX(MudSounds idx, s32 volume, s32 pitch, BaseAliveGameObject* pHero
         }
         if (pHero)
         {
-            if (pHero->mSpriteScale == FP_FromDouble(0.5))
+            if (pHero->GetSpriteScale() == FP_FromDouble(0.5))
             {
                 volume *= 2;
                 volume /= 3;
@@ -844,7 +844,7 @@ Abe::Abe()
 
     PSX_Point pPoint = {};
     gMap.GetCurrentCamCoords(&pPoint);
-    mXPos = FP_FromInteger(pPoint.x + XGrid_Index_To_XPos(mSpriteScale, 4));
+    mXPos = FP_FromInteger(pPoint.x + XGrid_Index_To_XPos(GetSpriteScale(), 4));
     mYPos = FP_FromInteger(pPoint.y + 240);
     field_120_x_vel_slow_by = FP_FromInteger(0);
     field_124_unused = 0;
@@ -875,7 +875,7 @@ Abe::Abe()
     field_2AA_flags.Clear(Flags_2AA::e2AA_Bit4_ElumMountEnd);
     field_2AA_flags.Clear(Flags_2AA::e2AA_Bit5_ElumUnmountBegin);
 
-    mContinueSpriteScale = mSpriteScale;
+    mContinueSpriteScale = GetSpriteScale();
     mContinueLevel = gMap.mCurrentLevel;
     mContinuePath = -1;
     mContinueClearFromId = 0;
@@ -909,8 +909,7 @@ Abe::Abe()
     // Set Abe to be the current player controlled object
     sControlledCharacter = this;
 
-    // Create shadow
-    mShadow = relive_new Shadow();
+    CreateShadow();
 
     // Animation test code
     //auto testAnim = relive_new TestAnimation(); testAnim->ctor();
@@ -1245,7 +1244,7 @@ void Abe::VRender(PrimHeader** ppOt)
     // When in death shrivel don't reset scale else can't shrivel into a black blob
     if (!(field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel)))
     {
-        GetAnimation().SetSpriteScale(mSpriteScale);
+        GetAnimation().SetSpriteScale(GetSpriteScale());
     }
 
     if (mCurrentMotion != eAbeMotions::Motion_15_Null && mCurrentMotion != eAbeMotions::Motion_78_InsideWellLocal && mCurrentMotion != eAbeMotions::Motion_81_InsideWellExpress && mCurrentMotion != eAbeMotions::Motion_84_ToInsideWellLocal && mCurrentMotion != eAbeMotions::Motion_75_ToInsideOfAWellLocal)
@@ -1391,8 +1390,8 @@ s16 Abe::RunTryEnterWell_425880()
         ReliveTypes::eWellLocal));
     if (pWellLocal)
     {
-        if ((pWellLocal->mScale == relive::reliveScale::eFull && mSpriteScale == FP_FromInteger(1)) ||
-            (pWellLocal->mScale == relive::reliveScale::eHalf && mSpriteScale == FP_FromDouble(0.5)))
+        if ((pWellLocal->mScale == relive::reliveScale::eFull && GetSpriteScale() == FP_FromInteger(1)) ||
+            (pWellLocal->mScale == relive::reliveScale::eHalf && GetSpriteScale() == FP_FromDouble(0.5)))
         {
             field_2A8_flags.Clear(Flags_2A8::e2A8_Bit4_snap_abe);
             BaseAliveGameObjectPathTLV = pWellLocal;
@@ -1409,8 +1408,8 @@ s16 Abe::RunTryEnterWell_425880()
         ReliveTypes::eWellExpress));
     if (pWellExpress)
     {
-        if ((pWellExpress->mScale == relive::reliveScale::eFull && mSpriteScale == FP_FromInteger(1)) ||
-            (pWellExpress->mScale == relive::reliveScale::eHalf && mSpriteScale == FP_FromDouble(0.5)))
+        if ((pWellExpress->mScale == relive::reliveScale::eFull && GetSpriteScale() == FP_FromInteger(1)) ||
+            (pWellExpress->mScale == relive::reliveScale::eHalf && GetSpriteScale() == FP_FromDouble(0.5)))
         {
             field_2A8_flags.Clear(Flags_2A8::e2A8_Bit4_snap_abe);
             BaseAliveGameObjectPathTLV = pWellExpress;
@@ -1507,7 +1506,7 @@ void Abe::ToKnockback_422D90(s16 bKnockbackSound, s16 bDelayedAnger)
             sControlledCharacter = this;
             BaseAliveGameObjectLastLineYPos = mYPos;
             BaseAliveGameObjectCollisionLine = nullptr;
-            mYPos -= (mSpriteScale * FP_FromInteger(20));
+            mYPos -= (GetSpriteScale() * FP_FromInteger(20));
             VOnTrapDoorOpen();
             FreeElumRes_420F80();
         }
@@ -1558,7 +1557,7 @@ void Abe::MoveForward_422FC0()
     }
 
     // TODO: Check mask is correct
-    const s32 mask = mSpriteScale != FP_FromDouble(0.5) ? 1 : 0x10;
+    const s32 mask = GetSpriteScale() != FP_FromDouble(0.5) ? 1 : 0x10;
     if (BaseAliveGameObjectCollisionLine && (mask & (1 << BaseAliveGameObjectCollisionLine->mLineType)))
     {
         if (mLiftPoint)
@@ -1757,18 +1756,18 @@ s16 Abe::DoGameSpeak_42F5C0(u16 input)
                 FP xPos = mXPos;
                 if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                 {
-                    xPos += (FP_FromInteger(12) * mSpriteScale);
+                    xPos += (FP_FromInteger(12) * GetSpriteScale());
                 }
                 else
                 {
-                    xPos -= (FP_FromInteger(12) * mSpriteScale);
+                    xPos -= (FP_FromInteger(12) * GetSpriteScale());
                 }
                 New_Smoke_Particles(
                     xPos,
-                    mYPos - (FP_FromInteger(24) * mSpriteScale),
-                    FP_FromDouble(0.5) * mSpriteScale,
+                    mYPos - (FP_FromInteger(24) * GetSpriteScale()),
+                    FP_FromDouble(0.5) * GetSpriteScale(),
                     3,
-                    32, 128, 32);
+                    RGB16{ 32, 128, 32 });
             }
             field_130_say = 8;
             field_134_auto_say_timer = sGnFrame + 15;
@@ -1994,9 +1993,9 @@ void Abe::PickUpThrowabe_Or_PressBomb_428260(FP fpX, s32 fpY, s16 bStandToCrouch
 
                 if (!bThrowableIndicatorExists_504C70)
                 {
-                    const FP v16 = (mSpriteScale * FP_FromInteger(-30)) + mYPos;
+                    const FP v16 = (GetSpriteScale() * FP_FromInteger(-30)) + mYPos;
                     relive_new ThrowableTotalIndicator(
-                                                                          (mSpriteScale * FP_FromInteger(0)) + mXPos,
+                                                                          (GetSpriteScale() * FP_FromInteger(0)) + mXPos,
                                                                                v16,
                                                                                GetAnimation().GetRenderLayer(),
                                                                                GetAnimation().GetSpriteScale(),
@@ -2022,7 +2021,7 @@ void Abe::PickUpThrowabe_Or_PressBomb_428260(FP fpX, s32 fpY, s16 bStandToCrouch
             {
                 if (bStandToCrouch)
                 {
-                    SfxPlayMono(relive::SoundEffects::PickupItem, 0, mSpriteScale);
+                    SfxPlayMono(relive::SoundEffects::PickupItem, 0, GetSpriteScale());
                     field_15C_pThrowable->mBaseGameObjectRefCount--;
                     field_15C_pThrowable->VOnPickUpOrSlapped();
                     field_15C_pThrowable = nullptr;
@@ -2093,18 +2092,18 @@ void Abe::CrouchingGameSpeak_427F90()
                 FP xPos = {};
                 if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                 {
-                    xPos = mXPos + FP_FromDouble(10) * mSpriteScale;
+                    xPos = mXPos + FP_FromDouble(10) * GetSpriteScale();
                 }
                 else
                 {
-                    xPos = mXPos - FP_FromDouble(10) * mSpriteScale;
+                    xPos = mXPos - FP_FromDouble(10) * GetSpriteScale();
                 }
                 New_Smoke_Particles(
                     xPos,
-                    mYPos - FP_FromDouble(6) * mSpriteScale,
-                    mSpriteScale * FP_FromDouble(0.5),
+                    mYPos - FP_FromDouble(6) * GetSpriteScale(),
+                    GetSpriteScale() * FP_FromDouble(0.5),
                     3,
-                    32, 128, 32);
+                    RGB16{ 32, 128, 32 });
             }
             field_130_say = 8;
             mCurrentMotion = eAbeMotions::Motion_22_CrouchSpeak;
@@ -2146,7 +2145,7 @@ s16 Abe::ToLeftRightMovement_422AA0()
         return 0;
     }
 
-    const FP gridSize = ScaleToGridSize(mSpriteScale);
+    const FP gridSize = ScaleToGridSize(GetSpriteScale());
     const bool flipX = GetAnimation().mFlags.Get(AnimFlags::eFlipX);
 
     if ((flipX && Input().IsAnyPressed(sInputKey_Right)) || (!flipX && Input().IsAnyPressed(sInputKey_Left)))
@@ -2175,15 +2174,15 @@ s16 Abe::ToLeftRightMovement_422AA0()
             mCurrentMotion = eAbeMotions::Motion_6_WalkBegin;
         }
 
-        if (!WallHit(mSpriteScale * FP_FromInteger(50), directionX * gridSize))
+        if (!WallHit(GetSpriteScale() * FP_FromInteger(50), directionX * gridSize))
         {
-            if (!WallHit(mSpriteScale * FP_FromInteger(20), directionX * gridSize))
+            if (!WallHit(GetSpriteScale() * FP_FromInteger(20), directionX * gridSize))
             {
                 return 1;
             }
         }
 
-        if (WallHit(mSpriteScale * FP_FromInteger(20), directionX * gridSize))
+        if (WallHit(GetSpriteScale() * FP_FromInteger(20), directionX * gridSize))
         {
             mVelX = FP_FromInteger(0);
             mCurrentMotion = eAbeMotions::Motion_72_PushWall;
@@ -2203,7 +2202,7 @@ void Abe::MoveWithVelocity_4257F0(FP speed)
 {
     if (mVelX > FP_FromInteger(0))
     {
-        mVelX = mVelX - (mSpriteScale * speed);
+        mVelX = mVelX - (GetSpriteScale() * speed);
         if (mVelX < FP_FromInteger(0))
         {
             mVelX = FP_FromInteger(0);
@@ -2211,7 +2210,7 @@ void Abe::MoveWithVelocity_4257F0(FP speed)
     }
     else if (mVelX < FP_FromInteger(0))
     {
-        mVelX = (mSpriteScale * speed) + mVelX;
+        mVelX = (GetSpriteScale() * speed) + mVelX;
         if (mVelX > FP_FromInteger(0))
         {
             mVelX = FP_FromInteger(0);
@@ -2254,7 +2253,7 @@ PullRingRope* Abe::GetPullRope_422580()
             PullRingRope* pRope = static_cast<PullRingRope*>(pObj);
 
             const PSX_RECT bRect = pRope->VGetBoundingRect();
-            if ((mYPos - pRope->mYPos - (mSpriteScale * FP_FromInteger(80))) <= FP_FromInteger(0))
+            if ((mYPos - pRope->mYPos - (GetSpriteScale() * FP_FromInteger(80))) <= FP_FromInteger(0))
             {
                 if (mXPos > FP_FromInteger(bRect.x) && mXPos < FP_FromInteger(bRect.w))
                 {
@@ -2371,7 +2370,7 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
                 pBullet->mYPos,
                 bloodXOff,
                 FP_FromInteger(0),
-                mSpriteScale,
+                GetSpriteScale(),
                 50);
 
             switch (shootKind)
@@ -2396,11 +2395,11 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
 
                     if (pBullet->mXDistance >= FP_FromInteger(0))
                     {
-                        mVelX = mSpriteScale * FP_FromDouble(7.8);
+                        mVelX = GetSpriteScale() * FP_FromDouble(7.8);
                     }
                     else
                     {
-                        mVelX = -mSpriteScale * FP_FromDouble(7.8);
+                        mVelX = -GetSpriteScale() * FP_FromDouble(7.8);
                     }
                     break;
                 }
@@ -2431,7 +2430,7 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
         }
         case BulletType::eZBullet_2:
         {
-            if (mSpriteScale == FP_FromDouble(0.5))
+            if (GetSpriteScale() == FP_FromDouble(0.5))
             {
                 field_106_shot = 0;
                 mHealth = FP_FromInteger(1);
@@ -2500,8 +2499,8 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
     Environment_SFX_42A220(EnvironmentSfx::eElumHitWall_14, 0, 0x7FFF, this);
     Mudokon_SFX(MudSounds::eKnockbackOuch_10, 127, 0, this);
     Environment_SFX_42A220(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, this);
-    SFX_Play_Pitch(relive::SoundEffects::Eating1, 0, -500, mSpriteScale);
-    SfxPlayMono(relive::SoundEffects::KillEffect, 0, mSpriteScale);
+    SFX_Play_Pitch(relive::SoundEffects::Eating1, 0, -500, GetSpriteScale());
+    SfxPlayMono(relive::SoundEffects::KillEffect, 0, GetSpriteScale());
 }
 
 bool Abe::NearDoorIsOpen()
@@ -2684,7 +2683,7 @@ void Abe::VOnTlvCollision(relive::Path_TLV* pTlv)
                 mContinueTopLeft.y = pContinuePointTlv->mTopLeftY;
                 mContinueBottomRight.x = pContinuePointTlv->mBottomRightX;
                 mContinueBottomRight.y = pContinuePointTlv->mBottomRightY;
-                mContinueSpriteScale = mSpriteScale;
+                mContinueSpriteScale = GetSpriteScale();
 
                 field_2A8_flags.Set(Flags_2A8::eAbeSpawnDir, pContinuePointTlv->mAbeSpawnDir == relive::Path_ContinuePoint::spawnDirection::eLeft);
 
@@ -2711,13 +2710,13 @@ void Abe::VOnTlvCollision(relive::Path_TLV* pTlv)
                 FP indicator_xpos = {};
                 if (mXPos - camXPos >= FP_FromInteger(384 / 2)) // mid screen x
                 {
-                    indicator_xpos = mXPos - ScaleToGridSize(mSpriteScale);
+                    indicator_xpos = mXPos - ScaleToGridSize(GetSpriteScale());
                 }
                 else
                 {
-                    indicator_xpos = ScaleToGridSize(mSpriteScale) + mXPos;
+                    indicator_xpos = ScaleToGridSize(GetSpriteScale()) + mXPos;
                 }
-                const FP indicator_ypos = mYPos + (mSpriteScale * FP_FromInteger(-50));
+                const FP indicator_ypos = mYPos + (GetSpriteScale() * FP_FromInteger(-50));
 
                 relive_new ThrowableTotalIndicator(indicator_xpos, indicator_ypos, GetAnimation().GetRenderLayer(),
                                                                             GetAnimation().GetSpriteScale(), 11, 1);
@@ -2769,7 +2768,7 @@ s16 Abe::HandleDoAction_429A70()
                 return eAbeMotions::Motion_77_WellBegin;
 
             case ReliveTypes::eLever:
-                if (FP_FromInteger(FP_GetExponent(mXPos) - pTlv->mTopLeftX) < ScaleToGridSize(mSpriteScale))
+                if (FP_FromInteger(FP_GetExponent(mXPos) - pTlv->mTopLeftX) < ScaleToGridSize(GetSpriteScale()))
                 {
                     // Wrong dir
                     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
@@ -2780,7 +2779,7 @@ s16 Abe::HandleDoAction_429A70()
                     // Get switch
                     auto pSwitch = static_cast<Lever*>(FindObjectOfType_418280(
                         ReliveTypes::eLever,
-                        mXPos + ScaleToGridSize(mSpriteScale),
+                        mXPos + ScaleToGridSize(GetSpriteScale()),
                         mYPos - FP_FromInteger(5)));
 
                     // Pull it
@@ -2790,7 +2789,7 @@ s16 Abe::HandleDoAction_429A70()
                         return eAbeMotions::Motion_101_LeverUse;
                     }
                 }
-                else if (FP_FromInteger(pTlv->mBottomRightX - FP_GetExponent(mXPos)) < ScaleToGridSize(mSpriteScale))
+                else if (FP_FromInteger(pTlv->mBottomRightX - FP_GetExponent(mXPos)) < ScaleToGridSize(GetSpriteScale()))
                 {
                     // Wrong dir
                     if (!GetAnimation().mFlags.Get(AnimFlags::eFlipX))
@@ -2801,7 +2800,7 @@ s16 Abe::HandleDoAction_429A70()
                     // Get switch
                     auto pSwitch = static_cast<Lever*>(FindObjectOfType_418280(
                         ReliveTypes::eLever,
-                        mXPos - ScaleToGridSize(mSpriteScale),
+                        mXPos - ScaleToGridSize(GetSpriteScale()),
                         mYPos - FP_FromInteger(5)));
 
                     // Pull it
@@ -2822,7 +2821,7 @@ s16 Abe::HandleDoAction_429A70()
                 auto pBoomMachine = static_cast<BoomMachine*>(FindObjectOfType_418280(
                     ReliveTypes::eBoomMachine,
                     mXPos,
-                    mYPos - (mSpriteScale * FP_FromInteger(25))));
+                    mYPos - (GetSpriteScale() * FP_FromInteger(25))));
 
                 if (pBoomMachine && pBoomMachine->VIsButtonOn())
                 {
@@ -2992,10 +2991,10 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                     mYPos,
                     FP_FromInteger(0),
                     FP_FromInteger(0),
-                    mSpriteScale);
+                    GetSpriteScale());
 
                 GetAnimation().mFlags.Clear(AnimFlags::eRender);
-                mShadow->mFlags.Clear(Shadow::eEnabled);
+                GetShadow()->mFlags.Clear(Shadow::eEnabled);
             }
             break;
 
@@ -3011,7 +3010,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                 const FP rand1 = FP_FromRaw((Math_NextRandom() - 127) << 11); // TODO: Wat?
                 const FP rand2 = (FP_FromDouble(0.03125) * FP_FromRaw(Math_NextRandom())) - FP_FromInteger(2);
                 field_198_pThrowable->VThrow(rand1, rand2);
-                field_198_pThrowable->mSpriteScale = mSpriteScale;
+                field_198_pThrowable->SetSpriteScale(GetSpriteScale());
                 field_198_pThrowable->VTimeToExplodeRandom();
                 field_198_pThrowable = nullptr;
             }
@@ -3055,7 +3054,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                     mYPos,
                     FP_FromInteger(0),
                     FP_FromInteger(0),
-                    mSpriteScale);
+                    GetSpriteScale());
 
                 relive_new Gibs(
                     GibType::Abe_0,
@@ -3063,7 +3062,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                     mYPos,
                     FP_FromInteger(0),
                     FP_FromInteger(0),
-                    mSpriteScale);
+                    GetSpriteScale());
 
                 GetAnimation().mFlags.Clear(AnimFlags::eRender);
             }
@@ -3084,7 +3083,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                         FP_FromInteger(abeRect.h + abeRect.y) / FP_FromInteger(2),
                         FP_FromInteger(-24),
                         FP_FromInteger(0),
-                        mSpriteScale,
+                        GetSpriteScale(),
                         50);
                 }
                 else
@@ -3094,7 +3093,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                         FP_FromInteger(abeRect.h + abeRect.y) / FP_FromInteger(2),
                         FP_FromInteger(24),
                         FP_FromInteger(0),
-                        mSpriteScale,
+                        GetSpriteScale(),
                         50);
                 }
 
@@ -3140,11 +3139,11 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
 
                 if (pAliveObj->GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                 {
-                    mVelX = (mSpriteScale * FP_FromDouble(-7.8));
+                    mVelX = (GetSpriteScale() * FP_FromDouble(-7.8));
                 }
                 else
                 {
-                    mVelX = (mSpriteScale * FP_FromDouble(7.8));
+                    mVelX = (GetSpriteScale() * FP_FromDouble(7.8));
                 }
 
                 SfxPlayMono(relive::SoundEffects::KillEffect, 127);
@@ -3197,11 +3196,11 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
 
                 if (pAliveObj->mVelX >= FP_FromInteger(0))
                 {
-                    mVelX = (mSpriteScale * FP_FromDouble(7.8));
+                    mVelX = (GetSpriteScale() * FP_FromDouble(7.8));
                 }
                 else
                 {
-                    mVelX = (mSpriteScale * FP_FromDouble(-7.8));
+                    mVelX = (GetSpriteScale() * FP_FromDouble(-7.8));
                 }
 
                 SfxPlayMono(relive::SoundEffects::KillEffect, 127);
@@ -3313,7 +3312,7 @@ static bool IsSameScaleAsHoist(relive::Path_Hoist* pHoist, BaseAliveGameObject* 
     auto width = pHoist->Width();
 
     //The width is used to determine the layer as there is no layer property in the TLV
-    if (pObj->mSpriteScale == FP_FromInteger(1))
+    if (pObj->GetSpriteScale() == FP_FromInteger(1))
     {
         return width > 18;
     }
@@ -3349,7 +3348,7 @@ void Abe::TryHoist_423420()
 
     if (pHoist && IsSameScaleAsHoist(pHoist, this))
     {
-        if (FP_FromInteger(pHoist->Height()) <= mSpriteScale * FP_FromInteger(95))
+        if (FP_FromInteger(pHoist->Height()) <= GetSpriteScale() * FP_FromInteger(95))
         {
             mCurrentMotion = eAbeMotions::Motion_16_HoistBegin;
         }
@@ -3427,7 +3426,7 @@ void Abe::Motion_0_Idle()
         if (mLiftPoint)
         {
             const FP liftPlatformXMidPoint = FP_FromInteger((BaseAliveGameObjectCollisionLine->mRect.x + BaseAliveGameObjectCollisionLine->mRect.w) / 2);
-            const FP halfGrid = ScaleToGridSize(mSpriteScale) / FP_FromInteger(2);
+            const FP halfGrid = ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2);
 
             if (mLiftPoint->Type() == ReliveTypes::eLiftPoint && FP_Abs(mXPos - liftPlatformXMidPoint) < halfGrid)
             {
@@ -3488,7 +3487,7 @@ void Abe::Motion_0_Idle()
         {
             if (mLiftPoint->Type() == ReliveTypes::eLiftPoint)
             {
-                const FP halfGrid = ScaleToGridSize(mSpriteScale) / FP_FromInteger(2);
+                const FP halfGrid = ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2);
                 const FP liftPlatformXMidPoint = FP_FromInteger((BaseAliveGameObjectCollisionLine->mRect.x + BaseAliveGameObjectCollisionLine->mRect.w) / 2);
                 const FP xPosToMidLiftPlatformDistance = FP_Abs(mXPos - liftPlatformXMidPoint);
                 if (xPosToMidLiftPlatformDistance < halfGrid)
@@ -3544,8 +3543,8 @@ void Abe::Motion_0_Idle()
                 case ReliveTypes::eWellLocal:
                 {
                     auto well = static_cast<relive::Path_WellLocal*>(pTlv);
-                    if ((well->mScale != relive::reliveScale::eFull || mSpriteScale != FP_FromInteger(1)) &&
-                        (well->mScale != relive::reliveScale::eHalf || mSpriteScale != FP_FromDouble(0.5)))
+                    if ((well->mScale != relive::reliveScale::eFull || GetSpriteScale() != FP_FromInteger(1)) &&
+                        (well->mScale != relive::reliveScale::eHalf || GetSpriteScale() != FP_FromDouble(0.5)))
                     {
                         break;
                     }
@@ -3557,8 +3556,8 @@ void Abe::Motion_0_Idle()
                 case ReliveTypes::eWellExpress:
                 {
                     auto well = static_cast<relive::Path_WellExpress*>(pTlv);
-                    if ((well->mScale != relive::reliveScale::eFull || mSpriteScale != FP_FromInteger(1)) &&
-                        (well->mScale != relive::reliveScale::eHalf || mSpriteScale != FP_FromDouble(0.5)))
+                    if ((well->mScale != relive::reliveScale::eFull || GetSpriteScale() != FP_FromInteger(1)) &&
+                        (well->mScale != relive::reliveScale::eHalf || GetSpriteScale() != FP_FromDouble(0.5)))
                     {
                         break;
                     }
@@ -3582,7 +3581,7 @@ void Abe::Motion_0_Idle()
                     auto pMachineButton = static_cast<BoomMachine*>(FindObjectOfType_418280(
                         ReliveTypes::eBoomMachine,
                         mXPos,
-                        mYPos - mSpriteScale * FP_FromInteger(25)));
+                        mYPos - GetSpriteScale() * FP_FromInteger(25)));
                     if (pMachineButton)
                     {
                         pMachineButton->VHandleButton();
@@ -3625,10 +3624,10 @@ void Abe::Motion_0_Idle()
 
                 if (bThrowableIndicatorExists_504C70 == 0)
                 {
-                    const FP xOffSet = GetAnimation().mFlags.Get(AnimFlags::eFlipX) ? FP_FromInteger(15) : FP_FromInteger(-15) * mSpriteScale;
+                    const FP xOffSet = GetAnimation().mFlags.Get(AnimFlags::eFlipX) ? FP_FromInteger(15) : FP_FromInteger(-15) * GetSpriteScale();
 
                     relive_new ThrowableTotalIndicator(mXPos + xOffSet,
-                                                                                    mYPos + mSpriteScale * FP_FromInteger(-50),
+                                                                                    mYPos + GetSpriteScale() * FP_FromInteger(-50),
                                                                                     GetAnimation().GetRenderLayer(),
                                                                                     GetAnimation().GetSpriteScale(),
                                                                                     field_19C_throwable_count,
@@ -3733,14 +3732,14 @@ void Abe::Motion_1_WalkLoop()
                     FP directedScale = {};
                     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                     {
-                        directedScale = -ScaleToGridSize(mSpriteScale);
+                        directedScale = -ScaleToGridSize(GetSpriteScale());
                     }
                     else
                     {
-                        directedScale = ScaleToGridSize(mSpriteScale);
+                        directedScale = ScaleToGridSize(GetSpriteScale());
                     }
 
-                    if (WallHit(mSpriteScale * FP_FromInteger(50), directedScale * FP_FromDouble(1.5)))
+                    if (WallHit(GetSpriteScale() * FP_FromInteger(50), directedScale * FP_FromDouble(1.5)))
                     {
                         mCurrentMotion = eAbeMotions::Motion_5_MidWalkToIdle;
                         field_10C_prev_held = 0;
@@ -3766,14 +3765,14 @@ void Abe::Motion_1_WalkLoop()
                         FP directedScale = {};
                         if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                         {
-                            directedScale = -ScaleToGridSize(mSpriteScale);
+                            directedScale = -ScaleToGridSize(GetSpriteScale());
                         }
                         else
                         {
-                            directedScale = ScaleToGridSize(mSpriteScale);
+                            directedScale = ScaleToGridSize(GetSpriteScale());
                         }
 
-                        if (!WallHit(mSpriteScale * FP_FromInteger(50), directedScale * FP_FromDouble(1.5)))
+                        if (!WallHit(GetSpriteScale() * FP_FromInteger(50), directedScale * FP_FromDouble(1.5)))
                         {
                             field_10C_prev_held = 0;
                             return;
@@ -3846,11 +3845,11 @@ void Abe::Motion_2_StandingTurn()
 
             if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
-                mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
+                mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
             }
             else
             {
-                mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
+                mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
             }
             return;
         }
@@ -3877,11 +3876,11 @@ void Abe::Motion_2_StandingTurn()
                     Lever* pSwitch;
                     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                     {
-                        pSwitch = static_cast<Lever*>(FindObjectOfType_418280(ReliveTypes::eLever, mXPos - ScaleToGridSize(mSpriteScale), mYPos - FP_FromInteger(5)));
+                        pSwitch = static_cast<Lever*>(FindObjectOfType_418280(ReliveTypes::eLever, mXPos - ScaleToGridSize(GetSpriteScale()), mYPos - FP_FromInteger(5)));
                     }
                     else
                     {
-                        pSwitch = static_cast<Lever*>(FindObjectOfType_418280(ReliveTypes::eLever, mXPos + ScaleToGridSize(mSpriteScale), mYPos - FP_FromInteger(5)));
+                        pSwitch = static_cast<Lever*>(FindObjectOfType_418280(ReliveTypes::eLever, mXPos + ScaleToGridSize(GetSpriteScale()), mYPos - FP_FromInteger(5)));
                     }
 
                     if (pSwitch)
@@ -3940,7 +3939,7 @@ void Abe::Motion_3_Fall()
 {
     if (mVelX > FP_FromInteger(0))
     {
-        mVelX -= (mSpriteScale * field_120_x_vel_slow_by);
+        mVelX -= (GetSpriteScale() * field_120_x_vel_slow_by);
         if (mVelX < FP_FromInteger(0))
         {
             mVelX = FP_FromInteger(0);
@@ -3948,7 +3947,7 @@ void Abe::Motion_3_Fall()
     }
     else if (mVelX < FP_FromInteger(0))
     {
-        mVelX += (mSpriteScale * field_120_x_vel_slow_by);
+        mVelX += (GetSpriteScale() * field_120_x_vel_slow_by);
         if (mVelX > FP_FromInteger(0))
         {
             mVelX = FP_FromInteger(0);
@@ -3976,8 +3975,8 @@ void Abe::Motion_3_Fall()
             {
                 // The well must be on the same scale/layer
                 relive::Path_WellBase* pWellBase = static_cast<relive::Path_WellBase*>(BaseAliveGameObjectPathTLV);
-                if ((pWellBase->mScale == relive::reliveScale::eFull && mSpriteScale == FP_FromInteger(1)) ||
-                    (pWellBase->mScale == relive::reliveScale::eHalf && mSpriteScale == FP_FromDouble(0.5)))
+                if ((pWellBase->mScale == relive::reliveScale::eFull && GetSpriteScale() == FP_FromInteger(1)) ||
+                    (pWellBase->mScale == relive::reliveScale::eHalf && GetSpriteScale() == FP_FromDouble(0.5)))
                 {
                     field_2A8_flags.Set(Flags_2A8::e2A8_Bit4_snap_abe);
                     mCurrentMotion = eAbeMotions::Motion_74_JumpIntoWell;
@@ -4015,7 +4014,7 @@ void Abe::Motion_3_Fall()
 
                 if (field_2A8_flags.Get(Flags_2A8::e2A8_Bit8_bLandSoft)
                     || (pSoftLanding && mHealth > FP_FromInteger(0))
-                    || ((mYPos - BaseAliveGameObjectLastLineYPos) < (mSpriteScale * FP_FromInteger(180))
+                    || ((mYPos - BaseAliveGameObjectLastLineYPos) < (GetSpriteScale() * FP_FromInteger(180))
                         && (mHealth > FP_FromInteger(0) || gAbeInvulnerableCheat)))
                 {
                     mCurrentMotion = eAbeMotions::Motion_98_LandSoft;
@@ -4059,7 +4058,7 @@ void Abe::Motion_3_Fall()
     bool tryToHang = false;
     relive::Path_Edge* pEdge = static_cast<relive::Path_Edge*>(gMap.TLV_Get_At(
         FP_GetExponent(mXPos),
-        FP_GetExponent(mYPos - mSpriteScale * FP_FromInteger(80)),
+        FP_GetExponent(mYPos - GetSpriteScale() * FP_FromInteger(80)),
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         ReliveTypes::eEdge));
@@ -4076,9 +4075,9 @@ void Abe::Motion_3_Fall()
     {
         relive::Path_Hoist* pHoist = static_cast<relive::Path_Hoist*>(gMap.TLV_Get_At(
             FP_GetExponent(mXPos),
-            FP_GetExponent(mYPos - mSpriteScale * FP_FromInteger(20)),
+            FP_GetExponent(mYPos - GetSpriteScale() * FP_FromInteger(20)),
             FP_GetExponent(mXPos),
-            FP_GetExponent(mYPos - mSpriteScale * FP_FromInteger(20)),
+            FP_GetExponent(mYPos - GetSpriteScale() * FP_FromInteger(20)),
             ReliveTypes::eHoist));
 
         if (pHoist)
@@ -4105,20 +4104,20 @@ void Abe::Motion_3_Fall()
 
         if (sCollisions->Raycast(
                 mXPos,
-                mYPos - mSpriteScale * FP_FromInteger(20) - mSpriteScale * FP_FromInteger(80),
+                mYPos - GetSpriteScale() * FP_FromInteger(20) - GetSpriteScale() * FP_FromInteger(80),
                 mXPos,
                 mYPos,
                 &pPathLine,
                 &hitX,
                 &hitY,
-                mSpriteScale != FP_FromDouble(0.5) ? kFgFloor : kBgFloor))
+                GetSpriteScale() != FP_FromDouble(0.5) ? kFgFloor : kBgFloor))
         {
             mVelX = FP_FromInteger(0);
             mVelY = FP_FromInteger(0);
             mYPos = hitY;
             BaseAliveGameObjectCollisionLine = pPathLine;
             mCurrentMotion = eAbeMotions::Motion_68_LedgeHangWobble;
-            mShadow->mFlags.Set(Shadow::Flags::eShadowAtBottom);
+            GetShadow()->mFlags.Set(Shadow::Flags::eShadowAtBottom);
         }
     }
 }
@@ -4221,7 +4220,7 @@ void Abe::Motion_6_WalkBegin()
         mCurrentMotion = eAbeMotions::Motion_1_WalkLoop;
     }
 
-    if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
         ToIdle_422D50();
     }
@@ -4283,7 +4282,7 @@ void Abe::Motion_16_HoistBegin()
     if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         BaseAliveGameObjectLastLineYPos = mYPos;
-        const FP velY = mSpriteScale * FP_FromInteger(-8);
+        const FP velY = GetSpriteScale() * FP_FromInteger(-8);
         mVelY = velY;
         mYPos += velY;
         VOnTrapDoorOpen();
@@ -4367,8 +4366,8 @@ void Abe::Motion_17_HoistIdle()
                         mCurrentMotion = eAbeMotions::Motion_67_ToOffScreenHoist;
                         return;
                     }
-                    mYPos -= mSpriteScale * FP_FromInteger(80);
-                    mShadow->mFlags.Set(Shadow::Flags::eShadowAtBottom);
+                    mYPos -= GetSpriteScale() * FP_FromInteger(80);
+                    GetShadow()->mFlags.Set(Shadow::Flags::eShadowAtBottom);
                 }
 
                 mCurrentMotion = eAbeMotions::Motion_66_LedgeHang;
@@ -4377,13 +4376,13 @@ void Abe::Motion_17_HoistIdle()
 
                 if (sCollisions->Raycast(
                         mXPos,
-                        mYPos - mSpriteScale * FP_FromInteger(80),
+                        mYPos - GetSpriteScale() * FP_FromInteger(80),
                         mXPos,
                         mYPos,
                         &pPathLine,
                         &hitX,
                         &hitY,
-                        mSpriteScale != FP_FromDouble(0.5) ? kFgFloor : kBgFloor))
+                        GetSpriteScale() != FP_FromDouble(0.5) ? kFgFloor : kBgFloor))
                 {
                     mYPos = hitY;
                     BaseAliveGameObjectCollisionLine = pPathLine;
@@ -4404,7 +4403,7 @@ void Abe::Motion_17_HoistIdle()
                                 (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
                         }
                     }
-                    mShadow->mFlags.Set(Shadow::Flags::eShadowAtBottom);
+                    GetShadow()->mFlags.Set(Shadow::Flags::eShadowAtBottom);
                 }
                 else
                 {
@@ -4513,11 +4512,11 @@ void Abe::Motion_19_CrouchIdle()
             FP gridSize = {};
             if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
-                gridSize = -ScaleToGridSize(mSpriteScale);
+                gridSize = -ScaleToGridSize(GetSpriteScale());
             }
             else
             {
-                gridSize = ScaleToGridSize(mSpriteScale);
+                gridSize = ScaleToGridSize(GetSpriteScale());
             }
 
             PickUpThrowabe_Or_PressBomb_428260(
@@ -4542,8 +4541,8 @@ void Abe::Motion_19_CrouchIdle()
 
                 if (!bThrowableIndicatorExists_504C70)
                 {
-                    const FP yOff = mYPos + (mSpriteScale * FP_FromInteger(-30));
-                    const FP xOff = mSpriteScale * (GetAnimation().mFlags.Get(AnimFlags::eFlipX) ? FP_FromInteger(-10) : FP_FromInteger(10));
+                    const FP yOff = mYPos + (GetSpriteScale() * FP_FromInteger(-30));
+                    const FP xOff = GetSpriteScale() * (GetAnimation().mFlags.Get(AnimFlags::eFlipX) ? FP_FromInteger(-10) : FP_FromInteger(10));
                     relive_new ThrowableTotalIndicator(mXPos + xOff,
                                                                              yOff,
                                                                              GetAnimation().GetRenderLayer(),
@@ -4581,11 +4580,11 @@ void Abe::Motion_19_CrouchIdle()
                 mXPos,
                 mYPos,
                 mXPos,
-                mYPos - (mSpriteScale * FP_FromInteger(60)),
+                mYPos - (GetSpriteScale() * FP_FromInteger(60)),
                 &pLine,
                 &hitX,
                 &hitY,
-                mSpriteScale != FP_FromDouble(0.5) ? kFgCeiling : kBgCeiling))
+                GetSpriteScale() != FP_FromDouble(0.5) ? kFgCeiling : kBgCeiling))
         {
             mCurrentMotion = eAbeMotions::Motion_20_CrouchToStand;
             return;
@@ -4680,14 +4679,14 @@ void Abe::Motion_24_RollBegin()
 {
     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
+        mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
     }
     else
     {
-        mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
+        mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
     }
 
-    if (WallHit(mSpriteScale * FP_FromInteger(20), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(20), mVelX))
     {
         ToKnockback_422D90(1, 1);
 
@@ -4716,11 +4715,11 @@ bool Abe::Is_Celling_Above()
                mXPos,
                mYPos,
                mXPos,
-               mYPos - (mSpriteScale * FP_FromInteger(60)),
+               mYPos - (GetSpriteScale() * FP_FromInteger(60)),
                &pLine,
                &hitX,
                &hitY,
-               mSpriteScale != FP_FromDouble(0.5) ? kFgCeiling : kBgCeiling)
+               GetSpriteScale() != FP_FromDouble(0.5) ? kFgCeiling : kBgCeiling)
         != 0;
 }
 
@@ -4731,7 +4730,7 @@ void Abe::Motion_25_RollLoop()
 
     field_10E_released_buttons |= Input().Released();
 
-    if (WallHit(mSpriteScale * FP_FromInteger(20), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(20), mVelX))
     {
         ToKnockback_422D90(1, 1);
         mCurrentMotion = eAbeMotions::Motion_73_RollingKnockback;
@@ -4788,7 +4787,7 @@ void Abe::Motion_26_RollEnd()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    if (WallHit(mSpriteScale * FP_FromInteger(20), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(20), mVelX))
     {
         ToKnockback_422D90(1, 1);
         mCurrentMotion = eAbeMotions::Motion_73_RollingKnockback;
@@ -4814,7 +4813,7 @@ void Abe::Motion_27_RunSlideStop()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
         ToKnockback_422D90(1, 1);
     }
@@ -4853,7 +4852,7 @@ void Abe::Motion_28_RunTurn()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
         ToKnockback_422D90(1, 1);
     }
@@ -4868,7 +4867,7 @@ void Abe::Motion_28_RunTurn()
             {
                 MapFollowMe(TRUE);
 
-                const FP gridSize = ScaleToGridSize(mSpriteScale);
+                const FP gridSize = ScaleToGridSize(GetSpriteScale());
                 if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                 {
                     if (Input().IsAnyPressed(sInputKey_Run))
@@ -4908,12 +4907,12 @@ void Abe::Motion_29_HopBegin()
 
     if (GetAnimation().GetCurrentFrame() == 9)
     {
-        const FP velX = mSpriteScale * (GetAnimation().mFlags.Get(AnimFlags::eFlipX) ? FP_FromInteger(-17) : FP_FromInteger(17));
+        const FP velX = GetSpriteScale() * (GetAnimation().mFlags.Get(AnimFlags::eFlipX) ? FP_FromInteger(-17) : FP_FromInteger(17));
         mVelX = velX;
 
         if (!field_1A0_portal)
         {
-            if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
+            if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
             {
                 EventBroadcast(kEventNoise, this);
                 EventBroadcast(kEventSuspiciousNoise, this);
@@ -4928,11 +4927,11 @@ void Abe::Motion_29_HopBegin()
     if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         BaseAliveGameObjectLastLineYPos = mYPos;
-        const FP velX = mSpriteScale * (GetAnimation().mFlags.Get(AnimFlags::eFlipX) ? FP_FromDouble(-13.57) : FP_FromDouble(13.57));
+        const FP velX = GetSpriteScale() * (GetAnimation().mFlags.Get(AnimFlags::eFlipX) ? FP_FromDouble(-13.57) : FP_FromDouble(13.57));
         mVelX = velX;
         mXPos += velX;
 
-        const FP velY = mSpriteScale * FP_FromDouble(-2.7);
+        const FP velY = GetSpriteScale() * FP_FromDouble(-2.7);
         mVelY = velY;
         mYPos += velY;
 
@@ -4976,7 +4975,7 @@ void Abe::IntoPortalStates_4262A0()
                 field_1A0_portal->VGiveShrykull(TRUE);
                 field_19E_portal_sub_state = PortalSubStates::eSetNewActiveCamera_1;
             }
-            mVelY += mSpriteScale * FP_FromDouble(1.8);
+            mVelY += GetSpriteScale() * FP_FromDouble(1.8);
             mXPos += mVelX;
             mYPos += mVelY;
             return;
@@ -5016,11 +5015,11 @@ void Abe::IntoPortalStates_4262A0()
 
             if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
-                mXPos = ScaleToGridSize(mSpriteScale) + field_1A0_portal->mExitX;
+                mXPos = ScaleToGridSize(GetSpriteScale()) + field_1A0_portal->mExitX;
             }
             else
             {
-                mXPos = field_1A0_portal->mExitX - ScaleToGridSize(mSpriteScale);
+                mXPos = field_1A0_portal->mExitX - ScaleToGridSize(GetSpriteScale());
             }
 
             mYPos = field_1A0_portal->mExitY;
@@ -5041,15 +5040,15 @@ void Abe::Motion_30_HopMid()
     }
     else
     {
-        if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
+        if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
         {
             EventBroadcast(kEventNoise, this);
             EventBroadcast(kEventSuspiciousNoise, this);
             if (gMap.TLV_Get_At(
                     FP_GetExponent(mVelX + mXPos),
-                    FP_GetExponent(mYPos - mSpriteScale * FP_FromInteger(50)),
+                    FP_GetExponent(mYPos - GetSpriteScale() * FP_FromInteger(50)),
                     FP_GetExponent(mVelX + mXPos),
-                    FP_GetExponent(mYPos - mSpriteScale * FP_FromInteger(50)),
+                    FP_GetExponent(mYPos - GetSpriteScale() * FP_FromInteger(50)),
                     ReliveTypes::eElumStart))
             {
                 SfxPlayMono(relive::SoundEffects::RingBellHammer, 0);
@@ -5112,14 +5111,14 @@ void Abe::Motion_30_HopMid()
                     mVelX = FP_FromRaw(mVelX.fpValue / 2);
                     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                     {
-                        mXPos += mSpriteScale * FP_FromInteger(5);
+                        mXPos += GetSpriteScale() * FP_FromInteger(5);
                     }
                     else
                     {
-                        mXPos -= mSpriteScale * FP_FromInteger(5);
+                        mXPos -= GetSpriteScale() * FP_FromInteger(5);
                     }
                     field_120_x_vel_slow_by = FP_FromDouble(0.55);
-                    mYPos += mSpriteScale * FP_FromInteger(2);
+                    mYPos += GetSpriteScale() * FP_FromInteger(2);
                     mCurrentMotion = eAbeMotions::Motion_96_HopToFall;
                     mNextMotion = eAbeMotions::Motion_0_Idle;
                 }
@@ -5155,7 +5154,7 @@ void Abe::Motion_32_RunJumpBegin()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
         ToKnockback_422D90(1, 1);
     }
@@ -5175,14 +5174,14 @@ void Abe::Motion_32_RunJumpBegin()
 
             if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
-                mVelX = (mSpriteScale * FP_FromDouble(-7.6));
+                mVelX = (GetSpriteScale() * FP_FromDouble(-7.6));
             }
             else
             {
-                mVelX = (mSpriteScale * FP_FromDouble(7.6));
+                mVelX = (GetSpriteScale() * FP_FromDouble(7.6));
             }
 
-            mVelY = (mSpriteScale * FP_FromDouble(-9.6));
+            mVelY = (GetSpriteScale() * FP_FromDouble(-9.6));
             mYPos += mVelY;
             VOnTrapDoorOpen();
             mCurrentMotion = eAbeMotions::Motion_33_RunJumpMid;
@@ -5201,13 +5200,13 @@ void Abe::Motion_33_RunJumpMid()
         IntoPortalStates_4262A0();
         return;
     }
-    if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
         if (gMap.TLV_Get_At(
                 FP_GetExponent(mVelX + mXPos),
-                FP_GetExponent(mYPos - mSpriteScale * FP_FromInteger(50)),
+                FP_GetExponent(mYPos - GetSpriteScale() * FP_FromInteger(50)),
                 FP_GetExponent(mVelX + mXPos),
-                FP_GetExponent(mYPos - mSpriteScale * FP_FromInteger(50)),
+                FP_GetExponent(mYPos - GetSpriteScale() * FP_FromInteger(50)),
                 ReliveTypes::eElumStart))
         {
             SfxPlayMono(relive::SoundEffects::RingBellHammer, 0);
@@ -5295,20 +5294,20 @@ void Abe::Motion_33_RunJumpMid()
         {
             if (sCollisions->Raycast(
                     mXPos,
-                    mYPos - mSpriteScale * FP_FromInteger(100),
+                    mYPos - GetSpriteScale() * FP_FromInteger(100),
                     mXPos,
                     mYPos,
                     &pLine,
                     &hitX,
                     &hitY,
-                    mSpriteScale != FP_FromDouble(0.5) ? kFgFloor : kBgFloor))
+                    GetSpriteScale() != FP_FromDouble(0.5) ? kFgFloor : kBgFloor))
             {
                 mXPos = FP_FromInteger(
                     (BaseAliveGameObjectPathTLV->mBottomRightX + BaseAliveGameObjectPathTLV->mTopLeftX) / 2);
                 MapFollowMe(TRUE);
                 mYPos = hitY;
                 mCurrentMotion = eAbeMotions::Motion_68_LedgeHangWobble;
-                mShadow->mFlags.Set(Shadow::Flags::eShadowAtBottom);
+                GetShadow()->mFlags.Set(Shadow::Flags::eShadowAtBottom);
                 BaseAliveGameObjectCollisionLine = pLine;
                 mVelX = FP_FromInteger(0);
                 mVelY = FP_FromInteger(0);
@@ -5372,26 +5371,26 @@ void Abe::Motion_34_RunJumpLand()
                     if (Input().IsAnyPressed(sInputKey_Run))
                     {
                         mCurrentMotion = eAbeMotions::Motion_56_RunJumpLandRun;
-                        mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
+                        mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
                     }
                     else
                     {
-                        if (WallHit(mSpriteScale * FP_FromInteger(50), -ScaleToGridSize(mSpriteScale)))
+                        if (WallHit(GetSpriteScale() * FP_FromInteger(50), -ScaleToGridSize(GetSpriteScale())))
                         {
                             mCurrentMotion = eAbeMotions::Motion_27_RunSlideStop;
-                            mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
+                            mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
                         }
                         else
                         {
                             mCurrentMotion = eAbeMotions::Motion_57_RunJumpLand_Walk;
-                            mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
+                            mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(9));
                         }
                     }
                     return;
                 }
 
                 mCurrentMotion = eAbeMotions::Motion_28_RunTurn;
-                mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
+                mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
                 Environment_SFX_42A220(EnvironmentSfx::eRunSlide_4, 0, 0x7FFF, this);
                 return;
             }
@@ -5447,19 +5446,19 @@ void Abe::Motion_34_RunJumpLand()
 
             if (Input().IsAnyPressed(sInputKey_Run))
             {
-                mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
+                mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
                 mCurrentMotion = eAbeMotions::Motion_56_RunJumpLandRun;
             }
             else
             {
-                if (WallHit(mSpriteScale * FP_FromInteger(50), ScaleToGridSize(mSpriteScale)))
+                if (WallHit(GetSpriteScale() * FP_FromInteger(50), ScaleToGridSize(GetSpriteScale())))
                 {
                     mCurrentMotion = eAbeMotions::Motion_27_RunSlideStop;
-                    mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
+                    mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
                 }
                 else
                 {
-                    mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
+                    mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(9));
                     mCurrentMotion = eAbeMotions::Motion_57_RunJumpLand_Walk;
                 }
             }
@@ -5471,12 +5470,12 @@ void Abe::Motion_34_RunJumpLand()
                 mCurrentMotion = eAbeMotions::Motion_27_RunSlideStop;
                 if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                 {
-                    mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
+                    mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
                     Environment_SFX_42A220(EnvironmentSfx::eRunSlide_4, 0, 0x7FFF, this);
                 }
                 else
                 {
-                    mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
+                    mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
                     Environment_SFX_42A220(EnvironmentSfx::eRunSlide_4, 0, 0x7FFF, this);
                 }
                 return;
@@ -5533,7 +5532,7 @@ void Abe::Motion_35_RunLoop()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
         ToKnockback_422D90(1, 1);
         return;
@@ -5616,14 +5615,14 @@ void Abe::Motion_35_RunLoop()
         FP gridSize = {};
         if (mVelX >= FP_FromInteger(0))
         {
-            gridSize = ScaleToGridSize(mSpriteScale);
+            gridSize = ScaleToGridSize(GetSpriteScale());
         }
         else
         {
-            gridSize = -ScaleToGridSize(mSpriteScale);
+            gridSize = -ScaleToGridSize(GetSpriteScale());
         }
 
-        if (WallHit(mSpriteScale * FP_FromInteger(50), gridSize))
+        if (WallHit(GetSpriteScale() * FP_FromInteger(50), gridSize))
         {
             ToKnockback_422D90(1, 1);
         }
@@ -5720,14 +5719,14 @@ void Abe::Motion_40_RunToRoll()
 
     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
+        mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
     }
     else
     {
-        mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
+        mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
     }
 
-    if (WallHit(mSpriteScale * FP_FromInteger(20), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(20), mVelX))
     {
         ToKnockback_422D90(1, 1);
         mCurrentMotion = eAbeMotions::Motion_73_RollingKnockback;
@@ -5758,7 +5757,7 @@ void Abe::Motion_41_StandingToRun()
 
     field_10C_prev_held |= Input().Pressed();
 
-    if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
         ToIdle_422D50();
     }
@@ -5770,7 +5769,7 @@ void Abe::Motion_41_StandingToRun()
 
 void Abe::Motion_42_SneakLoop()
 {
-    if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
         ToIdle_422D50();
         MapFollowMe(1);
@@ -5786,14 +5785,14 @@ void Abe::Motion_42_SneakLoop()
             FP directedScale = {};
             if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
-                directedScale = -ScaleToGridSize(mSpriteScale);
+                directedScale = -ScaleToGridSize(GetSpriteScale());
             }
             else
             {
-                directedScale = ScaleToGridSize(mSpriteScale);
+                directedScale = ScaleToGridSize(GetSpriteScale());
             }
 
-            if (WallHit(mSpriteScale * FP_FromInteger(50), directedScale) || (mVelX > FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Left)) || (mVelX < FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Right)) || !Input().IsAnyPressed(sInputKey_Right | sInputKey_Left))
+            if (WallHit(GetSpriteScale() * FP_FromInteger(50), directedScale) || (mVelX > FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Left)) || (mVelX < FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Right)) || !Input().IsAnyPressed(sInputKey_Right | sInputKey_Left))
             {
                 mCurrentMotion = eAbeMotions::Motion_48_SneakToIdle;
             }
@@ -5840,14 +5839,14 @@ void Abe::Motion_42_SneakLoop()
         FP directedScale = {};
         if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
         {
-            directedScale = -ScaleToGridSize(mSpriteScale);
+            directedScale = -ScaleToGridSize(GetSpriteScale());
         }
         else
         {
-            directedScale = ScaleToGridSize(mSpriteScale);
+            directedScale = ScaleToGridSize(GetSpriteScale());
         }
 
-        if (WallHit(mSpriteScale * FP_FromInteger(50), directedScale) || (mVelX > FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Left)) || (mVelX < FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Right)) || !Input().IsAnyPressed(sInputKey_Right | sInputKey_Left))
+        if (WallHit(GetSpriteScale() * FP_FromInteger(50), directedScale) || (mVelX > FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Left)) || (mVelX < FP_FromInteger(0) && Input().IsAnyPressed(sInputKey_Right)) || !Input().IsAnyPressed(sInputKey_Right | sInputKey_Left))
         {
             mCurrentMotion = eAbeMotions::Motion_49_MidSneakToIdle;
         }
@@ -5860,11 +5859,11 @@ void Abe::Motion_43_WalkToSneak()
 
     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(10));
+        mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(10));
     }
     else
     {
-        mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(10));
+        mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(10));
     }
 
     if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
@@ -5872,7 +5871,7 @@ void Abe::Motion_43_WalkToSneak()
         mCurrentMotion = eAbeMotions::Motion_42_SneakLoop;
     }
 
-    if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
         ToIdle_422D50();
         MapFollowMe(1);
@@ -5889,11 +5888,11 @@ void Abe::Motion_44_SneakToWalk()
 
     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
+        mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(9));
     }
     else
     {
-        mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
+        mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(9));
     }
 
     if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
@@ -5901,7 +5900,7 @@ void Abe::Motion_44_SneakToWalk()
         mCurrentMotion = eAbeMotions::Motion_1_WalkLoop;
     }
 
-    if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
         ToIdle_422D50();
         MapFollowMe(1);
@@ -5918,11 +5917,11 @@ void Abe::Motion_45_MidWalkToSneak()
 
     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(10));
+        mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(10));
     }
     else
     {
-        mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(10));
+        mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(10));
     }
 
     if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
@@ -5932,7 +5931,7 @@ void Abe::Motion_45_MidWalkToSneak()
         mBaseAliveGameObjectLastAnimFrame = 10;
     }
 
-    if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
         ToIdle_422D50();
         MapFollowMe(1);
@@ -5949,11 +5948,11 @@ void Abe::Motion_46_MidSneakToWalk()
 
     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
+        mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(9));
     }
     else
     {
-        mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
+        mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(9));
     }
 
     if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
@@ -5963,7 +5962,7 @@ void Abe::Motion_46_MidSneakToWalk()
         mBaseAliveGameObjectLastAnimFrame = 9;
     }
 
-    if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
         ToIdle_422D50();
         MapFollowMe(1);
@@ -5983,7 +5982,7 @@ void Abe::Motion_47_SneakBegin()
         mCurrentMotion = eAbeMotions::Motion_42_SneakLoop;
     }
 
-    if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
         ToIdle_422D50();
         MapFollowMe(1);
@@ -6036,11 +6035,11 @@ void Abe::Motion_50_WalkToRun()
 
     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
+        mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
     }
     else
     {
-        mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
+        mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
     }
 
     if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
@@ -6049,7 +6048,7 @@ void Abe::Motion_50_WalkToRun()
         field_10C_prev_held = 0;
     }
 
-    if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
         ToIdle_422D50();
         MapFollowMe(1);
@@ -6069,11 +6068,11 @@ void Abe::Motion_51_MidWalkToRun()
 
     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
+        mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
     }
     else
     {
-        mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(4));
+        mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
     }
 
     if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
@@ -6083,7 +6082,7 @@ void Abe::Motion_51_MidWalkToRun()
         mBaseAliveGameObjectLastAnimFrame = 8;
     }
 
-    if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
         ToIdle_422D50();
         MapFollowMe(1);
@@ -6103,11 +6102,11 @@ void Abe::Motion_52_RunToWalk()
 
     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
+        mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(9));
     }
     else
     {
-        mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
+        mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(9));
     }
 
     if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
@@ -6115,7 +6114,7 @@ void Abe::Motion_52_RunToWalk()
         mCurrentMotion = eAbeMotions::Motion_1_WalkLoop;
     }
 
-    if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
         ToIdle_422D50();
     }
@@ -6134,11 +6133,11 @@ void Abe::Motion_53_MidRunToWalk()
 
     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        mVelX = -(ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
+        mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(9));
     }
     else
     {
-        mVelX = (ScaleToGridSize(mSpriteScale) / FP_FromInteger(9));
+        mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(9));
     }
 
     if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
@@ -6148,7 +6147,7 @@ void Abe::Motion_53_MidRunToWalk()
         mBaseAliveGameObjectLastAnimFrame = 9;
     }
 
-    if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
         ToIdle_422D50();
     }
@@ -6165,7 +6164,7 @@ void Abe::Motion_54_RunTurnToRun()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
         ToIdle_422D50();
     }
@@ -6189,7 +6188,7 @@ void Abe::Motion_55_RunTurnToWalk()
     EventBroadcast(kEventSuspiciousNoise, this);
 
 
-    if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
         ToIdle_422D50();
     }
@@ -6210,7 +6209,7 @@ void Abe::Motion_56_RunJumpLandRun()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
         ToIdle_422D50();
     }
@@ -6230,7 +6229,7 @@ void Abe::Motion_57_RunJumpLand_Walk()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
         ToIdle_422D50();
     }
@@ -6338,7 +6337,7 @@ void Abe::Motion_60_Dead()
                 ypos,
                 (Math_NextRandom() % 8) + field_118_timer + aux,
                 1,
-                mSpriteScale);
+                GetSpriteScale());
 
             return;
         }
@@ -6363,9 +6362,9 @@ void Abe::Motion_60_Dead()
                     ypos,
                     (Math_NextRandom() % 8) + field_118_timer + aux,
                     0,
-                    mSpriteScale);
+                    GetSpriteScale());
             }
-            mSpriteScale -= FP_FromDouble(0.008);
+            SetSpriteScale(GetSpriteScale() - FP_FromDouble(0.008));
 
             mRGB.r -= 2;
             mRGB.g -= 2;
@@ -6456,7 +6455,7 @@ void Abe::Motion_60_Dead()
                     field_168_ring_pulse_timer = 0;
                 }
                 field_130_say = -1;
-                mShadow->mFlags.Clear(Shadow::Flags::eEnabled);
+                GetShadow()->mFlags.Clear(Shadow::Flags::eEnabled);
             }
             return;
         }
@@ -6541,7 +6540,7 @@ void Abe::Motion_61_Respawn()
             mCurrentLevel = mContinueLevel;
             mCurrentPath = mContinuePath;
             mXPos = FP_FromInteger(mContinueTopLeft.x);
-            mYPos = FP_FromInteger(mContinueTopLeft.y) + mSpriteScale * FP_FromInteger(30);
+            mYPos = FP_FromInteger(mContinueTopLeft.y) + GetSpriteScale() * FP_FromInteger(30);
 
             BaseAliveGameObjectLastLineYPos = mYPos;
 
@@ -6550,26 +6549,26 @@ void Abe::Motion_61_Respawn()
             SetTint(sAbeTints_4C6438, gMap.mCurrentLevel);
             if (gElum)
             {
-                gElum->mSpriteScale = mSpriteScale;
+                gElum->SetSpriteScale(GetSpriteScale());
             }
-            if (mSpriteScale == FP_FromDouble(0.5))
+            if (GetSpriteScale() == FP_FromDouble(0.5))
             {
                 GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_Half_13);
-                mScale = Scale::Bg;
+                SetScale(Scale::Bg);
                 if (gElum)
                 {
                     gElum->GetAnimation().SetRenderLayer(Layer::eLayer_ZapLinesMudsElum_Half_9);
-                    gElum->mScale = Scale::Bg;
+                    gElum->SetScale(Scale::Bg);
                 }
             }
             else
             {
                 GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_32);
-                mScale = Scale::Fg;
+                SetScale(Scale::Fg);
                 if (gElum)
                 {
                     gElum->GetAnimation().SetRenderLayer(Layer::eLayer_ZapLinesElumMuds_28);
-                    gElum->mScale = Scale::Fg;
+                    gElum->SetScale(Scale::Fg);
                 }
             }
             GetAnimation().mFlags.Clear(AnimFlags::eRender);
@@ -6603,16 +6602,16 @@ void Abe::Motion_61_Respawn()
                         AnimId::Dove_Flying,
                         xDiff + FP_FromInteger(Math_NextRandom() * 2),
                         yDiff - FP_FromInteger(Math_NextRandom() % 32),
-                        mSpriteScale);
+                        GetSpriteScale());
                     if (pDove)
                     {
                         pDove->AsJoin(
                             mXPos + FP_FromInteger((Math_NextRandom() % 16) - 8),
                             mYPos + FP_FromInteger((Math_NextRandom() % 16) - 20));
-                        pDove->mSpriteScale = mSpriteScale;
+                        pDove->SetSpriteScale(GetSpriteScale());
                     }
                 }
-                SfxPlayMono(relive::SoundEffects::RespawnDove, 0, mSpriteScale);
+                SfxPlayMono(relive::SoundEffects::RespawnDove, 0, GetSpriteScale());
                 field_118_timer = sGnFrame + 45;
                 field_114_gnFrame = 3;
             }
@@ -6628,8 +6627,8 @@ void Abe::Motion_61_Respawn()
             {
                 New_DestroyOrCreateObject_Particle(
                     mXPos,
-                    mSpriteScale * FP_FromInteger(25) + mYPos,
-                    mSpriteScale);
+                    GetSpriteScale() * FP_FromInteger(25) + mYPos,
+                    GetSpriteScale());
                 field_114_gnFrame = 4;
                 field_118_timer = sGnFrame + 2;
             }
@@ -6639,8 +6638,8 @@ void Abe::Motion_61_Respawn()
         {
             if (static_cast<s32>(sGnFrame) > field_118_timer)
             {
-                mShadow->mFlags.Set(Shadow::Flags::eEnabled);
-                mShadow->mFlags.Clear(Shadow::Flags::eShadowAtBottom);
+                GetShadow()->mFlags.Set(Shadow::Flags::eEnabled);
+                GetShadow()->mFlags.Clear(Shadow::Flags::eShadowAtBottom);
                 MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
                 field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
                 GetAnimation().mFlags.Set(AnimFlags::eRender);
@@ -6813,7 +6812,7 @@ void Abe::Motion_63_TurnToRun()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
         ToKnockback_422D90(1, 1);
     }
@@ -6842,7 +6841,7 @@ void Abe::Motion_64_LedgeAscend()
     if (GetAnimation().GetCurrentFrame() == 4)
     {
         Environment_SFX_42A220(EnvironmentSfx::eRunJumpOrLedgeHoist_11, 0, 0x7FFF, this);
-        mShadow->mFlags.Clear(Shadow::eShadowAtBottom);
+        GetShadow()->mFlags.Clear(Shadow::eShadowAtBottom);
     }
     else if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
@@ -6858,7 +6857,7 @@ void Abe::Motion_65_LedgeDescend()
     if (GetAnimation().GetCurrentFrame() == 2)
     {
         Environment_SFX_42A220(EnvironmentSfx::eRunJumpOrLedgeHoist_11, 0, 0x7FFF, this);
-        mShadow->mFlags.Toggle(Shadow::eShadowAtBottom);
+        GetShadow()->mFlags.Toggle(Shadow::eShadowAtBottom);
     }
     else if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
@@ -6870,7 +6869,7 @@ void Abe::Motion_66_LedgeHang()
 {
     FollowLift_42EE90();
 
-    mShadow->mFlags.Set(Shadow::eShadowAtBottom);
+    GetShadow()->mFlags.Set(Shadow::eShadowAtBottom);
 
     if (Input().IsAnyPressed(sInputKey_Up))
     {
@@ -6882,30 +6881,30 @@ void Abe::Motion_66_LedgeHang()
 
         BaseAliveGameObjectCollisionLine = nullptr;
         mCurrentMotion = eAbeMotions::Motion_91_FallingFromGrab;
-        mYPos += (mSpriteScale * FP_FromInteger(80)) + FP_FromInteger(3);
+        mYPos += (GetSpriteScale() * FP_FromInteger(80)) + FP_FromInteger(3);
         BaseAliveGameObjectLastLineYPos = mYPos;
-        mShadow->mFlags.Clear(Shadow::eShadowAtBottom);
+        GetShadow()->mFlags.Clear(Shadow::eShadowAtBottom);
     }
 }
 
 void Abe::Motion_67_ToOffScreenHoist()
 {
-    mYPos -= (mSpriteScale * FP_FromInteger(80));
+    mYPos -= (GetSpriteScale() * FP_FromInteger(80));
 
-    mShadow->mFlags.Toggle(Shadow::eShadowAtBottom);
+    GetShadow()->mFlags.Toggle(Shadow::eShadowAtBottom);
 
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
     if (sCollisions->Raycast(
             mXPos,
-            mYPos - (mSpriteScale * FP_FromInteger(80)),
+            mYPos - (GetSpriteScale() * FP_FromInteger(80)),
             mXPos,
             mYPos,
             &pLine,
             &hitX,
             &hitY,
-            mSpriteScale != FP_FromDouble(0.5) ? kFgFloor : kBgFloor))
+            GetSpriteScale() != FP_FromDouble(0.5) ? kFgFloor : kBgFloor))
     {
         mYPos = hitY;
         BaseAliveGameObjectCollisionLine = pLine;
@@ -6977,8 +6976,8 @@ void Abe::Motion_68_LedgeHangWobble()
             BaseAliveGameObjectCollisionLine = nullptr;
 
             mCurrentMotion = eAbeMotions::Motion_91_FallingFromGrab;
-            mYPos += (mSpriteScale * FP_FromInteger(80)) + FP_FromInteger(3);
-            mShadow->mFlags.Clear(Shadow::eShadowAtBottom);
+            mYPos += (GetSpriteScale() * FP_FromInteger(80)) + FP_FromInteger(3);
+            GetShadow()->mFlags.Clear(Shadow::eShadowAtBottom);
             BaseAliveGameObjectLastLineYPos = mYPos;
         }
         else if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
@@ -7019,7 +7018,7 @@ void Abe::Motion_70_Knockback()
     {
         if (BaseAliveGameObjectCollisionLine)
         {
-            if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
+            if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
             {
                 mVelX = FP_FromInteger(0);
             }
@@ -7131,9 +7130,9 @@ void Abe::Motion_73_RollingKnockback()
 
 void Abe::Motion_74_JumpIntoWell()
 {
-    mShadow->mFlags.Clear(Shadow::Flags::eEnabled);
+    GetShadow()->mFlags.Clear(Shadow::Flags::eEnabled);
 
-    if (mSpriteScale == FP_FromDouble(0.5))
+    if (GetSpriteScale() == FP_FromDouble(0.5))
     {
         GetAnimation().SetRenderLayer(Layer::eLayer_BeforeWell_Half_3);
     }
@@ -7160,7 +7159,7 @@ void Abe::Motion_77_WellBegin()
     EventBroadcast(kEventNoise, this);
     if (GetAnimation().GetCurrentFrame() > 10)
     {
-        mShadow->mFlags.Clear(Shadow::Flags::eEnabled);
+        GetShadow()->mFlags.Clear(Shadow::Flags::eEnabled);
 
         BaseAliveGameObjectPathTLV = gMap.TLV_Get_At(
             FP_GetExponent(mXPos),
@@ -7182,16 +7181,16 @@ void Abe::Motion_77_WellBegin()
         const auto tlv_mid_x = (BaseAliveGameObjectPathTLV->mBottomRightX + BaseAliveGameObjectPathTLV->mTopLeftX) / 2;
         if (xpos > tlv_mid_x)
         {
-            mXPos -= mSpriteScale;
+            mXPos -= GetSpriteScale();
         }
         else if (xpos < tlv_mid_x)
         {
-            mXPos += mSpriteScale;
+            mXPos += GetSpriteScale();
         }
     }
     if (GetAnimation().GetCurrentFrame() == 11)
     {
-        if (mSpriteScale == FP_FromDouble(0.5))
+        if (GetSpriteScale() == FP_FromDouble(0.5))
         {
             GetAnimation().SetRenderLayer(Layer::eLayer_BeforeWell_Half_3);
         }
@@ -7203,7 +7202,7 @@ void Abe::Motion_77_WellBegin()
     if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         field_114_gnFrame = 15;
-        SfxPlayMono(relive::SoundEffects::WellEnter, 0, mSpriteScale);
+        SfxPlayMono(relive::SoundEffects::WellEnter, 0, GetSpriteScale());
 
         switch (mCurrentMotion)
         {
@@ -7270,8 +7269,8 @@ void Abe::Motion_78_InsideWellLocal()
         if (field_2A8_flags.Get(Flags_2A8::e2A8_Bit4_snap_abe))
         {
             // Snap to exit point
-            mVelX = (mSpriteScale * (FP_FromInteger(pWellBase->mExitX) / FP_FromInteger(100)));
-            mVelY = (mSpriteScale * (FP_FromInteger(pWellBase->mExitY) / FP_FromInteger(100)));
+            mVelX = (GetSpriteScale() * (FP_FromInteger(pWellBase->mExitX) / FP_FromInteger(100)));
+            mVelY = (GetSpriteScale() * (FP_FromInteger(pWellBase->mExitY) / FP_FromInteger(100)));
             field_2A8_flags.Clear(Flags_2A8::e2A8_Bit4_snap_abe);
         }
         else
@@ -7279,13 +7278,13 @@ void Abe::Motion_78_InsideWellLocal()
             if (SwitchStates_Get(pWellBase->mSwitchId))
             {
                 auto pLocalWell = static_cast<relive::Path_WellLocal*>(BaseAliveGameObjectPathTLV);
-                mVelX = (mSpriteScale * FP_FromInteger(pLocalWell->mOnDestX) / FP_FromInteger(100));
-                mVelY = (mSpriteScale * FP_FromInteger(pLocalWell->mOnDestY) / FP_FromInteger(100));
+                mVelX = (GetSpriteScale() * FP_FromInteger(pLocalWell->mOnDestX) / FP_FromInteger(100));
+                mVelY = (GetSpriteScale() * FP_FromInteger(pLocalWell->mOnDestY) / FP_FromInteger(100));
             }
             else
             {
-                mVelX = (mSpriteScale * FP_FromInteger(pWellBase->mOffDestX) / FP_FromInteger(100));
-                mVelY = (mSpriteScale * FP_FromInteger(pWellBase->mOffDestY) / FP_FromInteger(100));
+                mVelX = (GetSpriteScale() * FP_FromInteger(pWellBase->mOffDestX) / FP_FromInteger(100));
+                mVelY = (GetSpriteScale() * FP_FromInteger(pWellBase->mOffDestY) / FP_FromInteger(100));
             }
         }
 
@@ -7303,11 +7302,11 @@ void Abe::Motion_78_InsideWellLocal()
             GetAnimation().mFlags.Set(AnimFlags::eFlipX);
         }
 
-        SfxPlayMono(relive::SoundEffects::WellExit, 0, mSpriteScale);
+        SfxPlayMono(relive::SoundEffects::WellExit, 0, GetSpriteScale());
 
         mCurrentMotion++; // can be motion 76 and 79 maybe more?
 
-        if (mSpriteScale == FP_FromDouble(0.5))
+        if (GetSpriteScale() == FP_FromDouble(0.5))
         {
             GetAnimation().SetRenderLayer(Layer::eLayer_BeforeWell_Half_3);
         }
@@ -7328,7 +7327,7 @@ void Abe::Motion_79_WellShotOut()
     }
     else
     {
-        mVelY += (mSpriteScale * gPointlessWellScale_4C73CC);
+        mVelY += (GetSpriteScale() * gPointlessWellScale_4C73CC);
 
         mXPos += mVelX;
         mYPos += mVelY;
@@ -7347,7 +7346,7 @@ void Abe::Motion_79_WellShotOut()
             && mCurrentMotion != eAbeMotions::Motion_85_ToWellShotOut
             && mCurrentMotion != eAbeMotions::Motion_76_ToWellShotOut))
     {
-        if (mSpriteScale == FP_FromDouble(0.5))
+        if (GetSpriteScale() == FP_FromDouble(0.5))
         {
             GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_Half_13);
         }
@@ -7356,7 +7355,7 @@ void Abe::Motion_79_WellShotOut()
             GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_32);
         }
 
-        mShadow->mFlags.Set(Shadow::eEnabled);
+        GetShadow()->mFlags.Set(Shadow::eEnabled);
     }
 
     if (mCurrentMotion == eAbeMotions::Motion_86_FallLandDie)
@@ -7506,13 +7505,13 @@ void Abe::Motion_82_WellExpressShotOut()
     {
         if (pWell->mScale == relive::reliveScale::eHalf)
         {
-            mSpriteScale = FP_FromDouble(0.5);
-            mScale = Scale::Bg;
+            SetSpriteScale(FP_FromDouble(0.5));
+            SetScale(Scale::Bg);
         }
         else
         {
-            mSpriteScale = FP_FromInteger(1);
-            mScale = Scale::Fg;
+            SetSpriteScale(FP_FromInteger(1));
+            SetScale(Scale::Fg);
         }
 
         mCurrentMotion = eAbeMotions::Motion_78_InsideWellLocal;
@@ -7526,8 +7525,8 @@ void Abe::Motion_82_WellExpressShotOut()
     {
         mXPos = FP_FromInteger(camCoords.x + 450);
         mYPos = FP_FromInteger(camCoords.y + 320);
-        mVelX = (mSpriteScale * -FP_FromDouble(2.7));
-        mVelY = (mSpriteScale * -FP_FromInteger(15));
+        mVelX = (GetSpriteScale() * -FP_FromDouble(2.7));
+        mVelY = (GetSpriteScale() * -FP_FromInteger(15));
     }
 }
 
@@ -7588,7 +7587,7 @@ void Abe::Motion_88_HandstoneBegin()
                 field_164_pCircularFade = Make_Circular_Fade(
                     mXPos,
                     mYPos,
-                    mSpriteScale,
+                    GetSpriteScale(),
                     1,
                     0);
 
@@ -7758,7 +7757,7 @@ void Abe::Motion_88_HandstoneBegin()
                 field_164_pCircularFade = Make_Circular_Fade(
                     mXPos,
                     mYPos,
-                    mSpriteScale,
+                    GetSpriteScale(),
                     0,
                     0);
 
@@ -7862,7 +7861,7 @@ void Abe::Motion_88_HandstoneBegin()
             field_158_pDeathFadeout->mBaseGameObjectFlags.Set(Options::eDead);
             field_158_pDeathFadeout = 0;
 
-            field_164_pCircularFade = Make_Circular_Fade(mXPos, mYPos, mSpriteScale, 0, 0);
+            field_164_pCircularFade = Make_Circular_Fade(mXPos, mYPos, GetSpriteScale(), 0, 0);
             field_110_state.stone = StoneStates::eHandstoneEnd_5;
             field_164_pCircularFade->GetAnimation().mFlags.Set(
                 AnimFlags::eFlipX,
@@ -7917,8 +7916,8 @@ void Abe::Motion_92_ForceDownFromHoist()
 {
     if (field_114_gnFrame == 0)
     {
-        mYPos += (mSpriteScale * FP_FromInteger(80));
-        mShadow->mFlags.Clear(Shadow::eShadowAtBottom);
+        mYPos += (GetSpriteScale() * FP_FromInteger(80));
+        GetShadow()->mFlags.Clear(Shadow::eShadowAtBottom);
         VOnTrapDoorOpen();
         BaseAliveGameObjectCollisionLine = nullptr;
         BaseAliveGameObjectLastLineYPos = mYPos;
@@ -7959,14 +7958,14 @@ void Abe::Motion_96_HopToFall()
 {
     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        mXPos += (mSpriteScale * FP_FromInteger(5));
+        mXPos += (GetSpriteScale() * FP_FromInteger(5));
     }
     else
     {
-        mXPos -= (mSpriteScale * FP_FromInteger(5));
+        mXPos -= (GetSpriteScale() * FP_FromInteger(5));
     }
 
-    mVelY += (mSpriteScale * FP_FromInteger(4));
+    mVelY += (GetSpriteScale() * FP_FromInteger(4));
 
     if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
@@ -8027,7 +8026,7 @@ void Abe::Motion_99_HoistBeginLong()
     if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         BaseAliveGameObjectLastLineYPos = mYPos;
-        mVelY = (mSpriteScale * FP_FromInteger(-8)) * FP_FromDouble(1.3);
+        mVelY = (GetSpriteScale() * FP_FromInteger(-8)) * FP_FromDouble(1.3);
         mYPos += mVelY;
         VOnTrapDoorOpen();
         mCurrentMotion = eAbeMotions::Motion_17_HoistIdle;
@@ -8275,7 +8274,7 @@ void Abe::Motion_128_KnockForward()
     {
         if (BaseAliveGameObjectCollisionLine)
         {
-            if (WallHit(mSpriteScale * FP_FromInteger(50), mVelX))
+            if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
             {
                 mVelX = FP_FromInteger(0);
             }
@@ -8448,7 +8447,7 @@ void Abe::Motion_136_ElumMountEnd()
             if (!field_2AA_flags.Get(Flags_2AA::e2AA_Bit2_bSfxPlaying))
             {
                 field_2AA_flags.Set(Flags_2AA::e2AA_Bit2_bSfxPlaying);
-                SfxPlayMono(relive::SoundEffects::AbeGenericMovement, 0, mSpriteScale);
+                SfxPlayMono(relive::SoundEffects::AbeGenericMovement, 0, GetSpriteScale());
             }
             break;
 
@@ -8465,7 +8464,7 @@ void Abe::Motion_136_ElumMountEnd()
             {
                 field_2AA_flags.Set(Flags_2AA::e2AA_Bit2_bSfxPlaying);
                 Environment_SFX_42A220(EnvironmentSfx::eMountElumSmackNoise_17, 0, 0x7FFF, this);
-                SfxPlayMono(relive::SoundEffects::MountingElum, 0, mSpriteScale);
+                SfxPlayMono(relive::SoundEffects::MountingElum, 0, GetSpriteScale());
             }
             break;
 
@@ -8487,7 +8486,7 @@ void Abe::Motion_136_ElumMountEnd()
         mCurrentMotion = eAbeMotions::Motion_103_ElumIdle;
         sControlledCharacter = gElum;
         MusicController::static_PlayMusic(MusicController::MusicTypes::eAbeOnElum_1, nullptr, 0, 0);
-        sActiveHero->mShadow->mFlags.Clear(Shadow::Flags::eEnabled);
+        sActiveHero->GetShadow()->mFlags.Clear(Shadow::Flags::eEnabled);
         Environment_SFX_42A220(EnvironmentSfx::eAbeMountedElumNoise_19, 0, 0x7FFF, this);
     }
 }
@@ -8508,7 +8507,7 @@ void Abe::Motion_138_ElumUnmountEnd()
             if (!field_2AA_flags.Get(Flags_2AA::e2AA_Bit2_bSfxPlaying))
             {
                 field_2AA_flags.Set(Flags_2AA::e2AA_Bit2_bSfxPlaying);
-                SfxPlayMono(relive::SoundEffects::AbeGenericMovement, 17, mSpriteScale);
+                SfxPlayMono(relive::SoundEffects::AbeGenericMovement, 17, GetSpriteScale());
             }
             break;
 
@@ -8532,7 +8531,7 @@ void Abe::Motion_138_ElumUnmountEnd()
             if (!field_2AA_flags.Get(Flags_2AA::e2AA_Bit2_bSfxPlaying))
             {
                 field_2AA_flags.Set(Flags_2AA::e2AA_Bit2_bSfxPlaying);
-                SfxPlayMono(relive::SoundEffects::MountingElum, 0, mSpriteScale);
+                SfxPlayMono(relive::SoundEffects::MountingElum, 0, GetSpriteScale());
             }
             break;
 
@@ -8573,7 +8572,7 @@ void Abe::Motion_138_ElumUnmountEnd()
         }
         sControlledCharacter = sActiveHero;
         MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
-        sActiveHero->mShadow->mFlags.Clear(Shadow::Flags::eEnabled);
+        sActiveHero->GetShadow()->mFlags.Clear(Shadow::Flags::eEnabled);
         ToIdle_422D50();
     }
 }
@@ -8687,7 +8686,7 @@ void Abe::Motion_143_RockThrowStandingThrow()
 {
     if (GetAnimation().GetCurrentFrame() == 0)
     {
-        SfxPlayMono(relive::SoundEffects::AirStream, 0, mSpriteScale);
+        SfxPlayMono(relive::SoundEffects::AirStream, 0, GetSpriteScale());
     }
 
     if (GetAnimation().mFlags.Get(AnimFlags::eForwardLoopCompleted))
@@ -8737,7 +8736,7 @@ void Abe::Motion_146_RockThrowCrouchingThrow()
 
     if (!GetAnimation().GetCurrentFrame())
     {
-        SfxPlayMono(relive::SoundEffects::AirStream, 0, mSpriteScale);
+        SfxPlayMono(relive::SoundEffects::AirStream, 0, GetSpriteScale());
     }
 
     if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
@@ -8759,7 +8758,7 @@ void Abe::Motion_147_ShotRolling()
     {
         mCurrentMotion = eAbeMotions::Motion_147_ShotRolling;
         BaseAliveGameObjectCollisionLine = nullptr;
-        mYPos += (mSpriteScale * FP_FromInteger(4));
+        mYPos += (GetSpriteScale() * FP_FromInteger(4));
     }
 
     if (!gMap.Is_Point_In_Current_Camera(
@@ -8791,7 +8790,7 @@ void Abe::Motion_148_Shot()
     {
         mCurrentMotion = eAbeMotions::Motion_148_Shot;
         BaseAliveGameObjectCollisionLine = nullptr;
-        mYPos += (mSpriteScale * FP_FromInteger(4));
+        mYPos += (GetSpriteScale() * FP_FromInteger(4));
     }
 
     if (!gMap.Is_Point_In_Current_Camera(
@@ -8814,7 +8813,7 @@ void Abe::Motion_149_PickupItem()
 {
     if (GetAnimation().GetCurrentFrame() == 7)
     {
-        SfxPlayMono(relive::SoundEffects::PickupItem, 0, mSpriteScale);
+        SfxPlayMono(relive::SoundEffects::PickupItem, 0, GetSpriteScale());
     }
 
     if (GetAnimation().mFlags.Get(AnimFlags::eForwardLoopCompleted))
@@ -8894,8 +8893,8 @@ void Abe::Motion_150_Chant()
                         }
                         field_188_pOrbWhirlWind = relive_new OrbWhirlWind(
                             xPos,
-                            mYPos - mSpriteScale * FP_FromInteger(38),
-                            mSpriteScale);;
+                            mYPos - GetSpriteScale() * FP_FromInteger(38),
+                            GetSpriteScale());;
                     }
                 }
                 else
@@ -9200,28 +9199,28 @@ void Abe::Motion_156_DoorEnter()
             {
                 if (pPathDoor->mScale == relive::reliveScale::eHalf)
                 {
-                    mSpriteScale = FP_FromDouble(0.5);
+                    SetSpriteScale(FP_FromDouble(0.5));
                     GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_Half_13);
-                    mScale = Scale::Bg;
+                    SetScale(Scale::Bg);
                 }
                 else
                 {
-                    mSpriteScale = FP_FromInteger(1);
+                    SetSpriteScale(FP_FromInteger(1));
                     GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_32);
-                    mScale = Scale::Fg;
+                    SetScale(Scale::Fg);
                 }
             }
             else if (pPathDoor->mDoorType == relive::Path_Door::DoorTypes::eTrialDoor || pPathDoor->mDoorType == relive::Path_Door::DoorTypes::eHubDoor)
             {
                 if (gMap.mCurrentLevel != EReliveLevelIds::eRuptureFarmsReturn)
                 {
-                    mSpriteScale = FP_FromDouble(0.5);
-                    mScale = Scale::Bg;
+                    SetSpriteScale(FP_FromDouble(0.5));
+                    SetScale(Scale::Bg);
                 }
                 else
                 {
-                    mSpriteScale = FP_FromInteger(1);
-                    mScale = Scale::Fg;
+                    SetSpriteScale(FP_FromInteger(1));
+                    SetScale(Scale::Fg);
                 }
             }
             GetAnimation().mFlags.Set(AnimFlags::eFlipX, pPathDoor->mExitDirection == relive::reliveXDirection::eRight);
@@ -9239,7 +9238,7 @@ void Abe::Motion_156_DoorEnter()
                     &BaseAliveGameObjectCollisionLine,
                     &hitX,
                     &hitY,
-                    mSpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor))
+                    GetSpriteScale() != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor))
             {
                 mYPos = hitY;
             }

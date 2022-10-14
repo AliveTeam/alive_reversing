@@ -63,7 +63,7 @@ void UXB::InitBlinkAnim(Animation* pAnimation)
         pAnimation->SetRenderLayer(GetAnimation().GetRenderLayer());
         pAnimation->mFlags.Set(AnimFlags::eSemiTrans);
         pAnimation->mFlags.Set(AnimFlags::eBlending);
-        pAnimation->SetSpriteScale(mSpriteScale);
+        pAnimation->SetSpriteScale(GetSpriteScale());
         pAnimation->SetRGB(128, 128, 128);
         pAnimation->SetRenderMode(TPageAbr::eBlend_1);
     }
@@ -106,7 +106,7 @@ s32 UXB::IsColliding()
             const s32 objX = FP_GetExponent(pObj->mXPos);
             const s32 objY = FP_GetExponent(pObj->mYPos);
 
-            if (objX > uxbBound.x && objX < uxbBound.w && objY < uxbBound.h + 5 && uxbBound.x <= objBound.w && uxbBound.w >= objBound.x && uxbBound.h >= objBound.y && uxbBound.y <= objBound.h && pObj->mSpriteScale == mSpriteScale)
+            if (objX > uxbBound.x && objX < uxbBound.w && objY < uxbBound.h + 5 && uxbBound.x <= objBound.w && uxbBound.w >= objBound.x && uxbBound.h >= objBound.y && uxbBound.y <= objBound.h && pObj->GetSpriteScale() == GetSpriteScale())
             {
                 return 1;
             }
@@ -156,16 +156,16 @@ UXB::UXB(relive::Path_UXB* tlv_params, const Guid& tlvId)
     {
         if (tlv_params->mScale == relive::reliveScale::eHalf)
         {
-            mSpriteScale = FP_FromDouble(0.5);
+            SetSpriteScale(FP_FromDouble(0.5));
             GetAnimation().SetRenderLayer(Layer::eLayer_RollingBallBombMineCar_Half_16);
-            mScale = Scale::Bg;
+            SetScale(Scale::Bg);
         }
     }
     else
     {
-        mSpriteScale = FP_FromDouble(1.0);
+        SetSpriteScale(FP_FromDouble(1.0));
         GetAnimation().SetRenderLayer(Layer::eLayer_RollingBallBombMineCar_35);
-        mScale = Scale::Fg;
+        SetScale(Scale::Fg);
     }
 
     InitBlinkAnim(&mFlashAnim);
@@ -220,7 +220,7 @@ UXB::UXB(relive::Path_UXB* tlv_params, const Guid& tlvId)
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            mScale == Scale::Fg ? kFgFloor : kBgFloor)
+            GetScale() == Scale::Fg ? kFgFloor : kBgFloor)
         == 1)
     {
         mYPos = hitY;
@@ -229,7 +229,7 @@ UXB::UXB(relive::Path_UXB* tlv_params, const Guid& tlvId)
     mTlvInfo = tlvId;
     mNextStateTimer = sGnFrame;
 
-    const FP gridSnap = ScaleToGridSize(mSpriteScale);
+    const FP gridSnap = ScaleToGridSize(GetSpriteScale());
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
     mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
 
@@ -274,7 +274,7 @@ void UXB::VOnPickUpOrSlapped()
 
 void UXB::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
-    relive_new GroundExplosion(mXPos, mYPos, mSpriteScale);
+    relive_new GroundExplosion(mXPos, mYPos, GetSpriteScale());
     mCurrentState = UXBState::eExploding;
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     mNextStateTimer = sGnFrame;
@@ -309,7 +309,7 @@ s16 UXB::VTakeDamage(BaseGameObject* pFrom)
 
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 
-    relive_new GroundExplosion(mXPos, mYPos, mSpriteScale);
+    relive_new GroundExplosion(mXPos, mYPos, GetSpriteScale());
     mCurrentState = UXBState::eExploding;
     mNextStateTimer = sGnFrame;
 
@@ -411,7 +411,7 @@ void UXB::VUpdate()
         case UXBState::eExploding:
             if (sGnFrame >= mNextStateTimer)
             {
-                relive_new GroundExplosion(mXPos, mYPos, mSpriteScale);
+                relive_new GroundExplosion(mXPos, mYPos, GetSpriteScale());
                 mBaseGameObjectFlags.Set(Options::eDead);
             }
             break;
@@ -454,7 +454,7 @@ void UXB::VRender(PrimHeader** ppOt)
         {
             mFlashAnim.VRender(
                 FP_GetExponent((mXPos - pScreenManager->CamXPos())),
-                FP_GetExponent((mYPos - pScreenManager->CamYPos() - FP_NoFractional(mSpriteScale * FP_FromInteger(17)))),
+                FP_GetExponent((mYPos - pScreenManager->CamYPos() - FP_NoFractional(GetSpriteScale() * FP_FromInteger(17)))),
                 ppOt,
                 0,
                 0);

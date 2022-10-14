@@ -37,7 +37,7 @@ void DeathBirdParticle::VUpdate()
                     AnimId::Dove_Flying,
                     mXPos,
                     mYPos - FP_FromInteger(15),
-                    mSpriteScale);
+                    GetSpriteScale());
                 if (pDove)
                 {
                     if (pDove->GetAnimation().mFlags.Get(AnimFlags::eFlipX))
@@ -51,7 +51,7 @@ void DeathBirdParticle::VUpdate()
 
                     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 
-                    pDove->mSpriteScale = mSpriteScale;
+                    pDove->SetSpriteScale(GetSpriteScale());
                     if (field_EC_bPlaySound)
                     {
                         SfxPlayMono(relive::SoundEffects::AbeDove, 0);
@@ -83,7 +83,7 @@ DeathBirdParticle::DeathBirdParticle(FP xpos, FP ypos, s32 start, s32 bPlaySound
     {
         mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
         GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
-        mSpriteScale = scale;
+        SetSpriteScale(scale);
         GetAnimation().SetSpriteScale(scale);
         if (scale <= FP_FromDouble(0.5))
         {

@@ -110,8 +110,8 @@ ZBall::ZBall(relive::Path_ZBall* pTlv, const Guid& tlvId)
 
     if (pTlv->mScale != relive::reliveScale::eFull)
     {
-        mSpriteScale = FP_FromDouble(0.5);
-        mScale = Scale::Bg;
+        SetSpriteScale(FP_FromDouble(0.5));
+        SetScale(Scale::Bg);
     }
 
     mTlvInfo = tlvId;
@@ -143,7 +143,7 @@ void ZBall::VUpdate()
 
     if (GetAnimation().GetCurrentFrame() <= 6 || GetAnimation().GetCurrentFrame() >= 19)
     {
-        if (mSpriteScale == FP_FromInteger(1))
+        if (GetSpriteScale() == FP_FromInteger(1))
         {
             GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_36);
         }
@@ -152,7 +152,7 @@ void ZBall::VUpdate()
             GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
         }
     }
-    else if (mSpriteScale == FP_FromInteger(1))
+    else if (GetSpriteScale() == FP_FromInteger(1))
     {
         GetAnimation().SetRenderLayer(Layer::eLayer_BeforeWell_22);
     }

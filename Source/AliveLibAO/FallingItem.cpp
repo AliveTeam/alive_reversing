@@ -67,13 +67,13 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
     field_112_switch_id = pTlv->mSwitchId;
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
-        mScale = Scale::Bg;
+        SetSpriteScale(FP_FromDouble(0.5));
+        SetScale(Scale::Bg);
     }
     else
     {
-        mSpriteScale = FP_FromInteger(1);
-        mScale = Scale::Fg;
+        SetSpriteScale(FP_FromInteger(1));
+        SetScale(Scale::Fg);
     }
 
 
@@ -101,7 +101,7 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
         field_134_created_gnFrame = sGnFrame;
     }
 
-    mShadow = relive_new Shadow();
+    CreateShadow();
 }
 
 FallingItem::~FallingItem()
@@ -134,7 +134,7 @@ void FallingItem::DamageHitItems()
 
                 if (fallingItemRect.x <= objRect.w && fallingItemRect.w >= objRect.x && fallingItemRect.y <= objRect.h && fallingItemRect.h >= objRect.y)
                 {
-                    if (pAliveObj->mSpriteScale == mSpriteScale)
+                    if (pAliveObj->GetSpriteScale() == GetSpriteScale())
                     {
                         static_cast<BaseAliveGameObject*>(pAliveObj)->VTakeDamage(this);
                     }
@@ -208,7 +208,7 @@ void FallingItem::VUpdate()
 
             if (mVelY < FP_FromInteger(20))
             {
-                mVelY += mSpriteScale * FP_FromDouble(1.8);
+                mVelY += GetSpriteScale() * FP_FromDouble(1.8);
             }
 
             PathLine* pLine = nullptr;
@@ -223,7 +223,7 @@ void FallingItem::VUpdate()
                     &pLine,
                     &hitX,
                     &hitY,
-                    mSpriteScale != FP_FromDouble(0.5) ? kFgFloor : kBgFloor)
+                    GetSpriteScale() != FP_FromDouble(0.5) ? kFgFloor : kBgFloor)
                 == 1)
             {
                 mYPos = hitY;
@@ -237,7 +237,7 @@ void FallingItem::VUpdate()
                         mXPos,
                         mYPos,
                         25,
-                        mSpriteScale,
+                        GetSpriteScale(),
                         BurstType::eMeat_4);
                 }
                 else
@@ -246,7 +246,7 @@ void FallingItem::VUpdate()
                         mXPos,
                         mYPos,
                         25,
-                        mSpriteScale,
+                        GetSpriteScale(),
                         BurstType::eFallingRocks_0);
                 }
 
@@ -254,7 +254,7 @@ void FallingItem::VUpdate()
                     mXPos,
                     mYPos,
                     25,
-                    mSpriteScale,
+                    GetSpriteScale(),
                     BurstType::eSticks_1);
             }
             else

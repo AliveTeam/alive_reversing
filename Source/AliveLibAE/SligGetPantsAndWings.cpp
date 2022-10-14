@@ -26,8 +26,8 @@ SligGetPantsAndWings::SligGetPantsAndWings(relive::Path_TLV* pTlv, const Guid& t
     auto pHack = static_cast<relive::Path_Slig*>(pTlv);
     if (pHack->mData.mScale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
-        mScale = Scale::Bg;
+        SetSpriteScale(FP_FromDouble(0.5));
+        SetScale(Scale::Bg);
         GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_Half_6);
     }
     else if (pHack->mData.mScale == relive::reliveScale::eFull)

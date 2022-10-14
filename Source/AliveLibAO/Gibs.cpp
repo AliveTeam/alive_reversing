@@ -56,7 +56,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
     // The base class renders the head gib
     Animation_Init(GetAnimRes(field_E4_pGibData->field_0_head));
 
-    mSpriteScale = scale;
+    SetSpriteScale(scale);
     mXPos = xpos;
     mYPos = ypos + FP_FromInteger(2);
 
@@ -66,13 +66,13 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
     {
         field_E8_z = FP_FromInteger(0);
         GetAnimation().SetRenderLayer(Layer::eLayer_FG1_37);
-        mScale = Scale::Fg;
+        SetScale(Scale::Fg);
     }
     else if (scale == FP_FromDouble(0.5))
     {
         field_E8_z = FP_FromInteger(100);
         GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
-        mScale = Scale::Bg;
+        SetScale(Scale::Bg);
     }
     else
     {
@@ -225,7 +225,7 @@ void Gibs::VRender(PrimHeader** ppOt)
         return;
     }
 
-    mSpriteScale = FP_FromInteger(100) / (field_E8_z + FP_FromInteger(100));
+    SetSpriteScale(FP_FromInteger(100) / (field_E8_z + FP_FromInteger(100)));
 
     // Head part rendering
     BaseAnimatedWithPhysicsGameObject::VRender(ppOt);

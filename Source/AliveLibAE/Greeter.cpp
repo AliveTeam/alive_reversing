@@ -43,14 +43,14 @@ Greeter::Greeter(relive::Path_Greeter* pTlv, const Guid& tlvId)
     if (pTlv->mScale != relive::reliveScale::eFull)
     {
         GetAnimation().SetRenderLayer(Layer::eLayer_SligGreeterFartsBat_Half_14);
-        mSpriteScale = FP_FromDouble(0.5);
-        mScale = Scale::Bg;
+        SetSpriteScale(FP_FromDouble(0.5));
+        SetScale(Scale::Bg);
     }
     else
     {
         GetAnimation().SetRenderLayer(Layer::eLayer_SligGreeterFartsBats_33);
-        mSpriteScale = FP_FromInteger(1);
-        mScale = Scale::Fg;
+        SetSpriteScale(FP_FromInteger(1));
+        SetScale(Scale::Fg);
     }
 
 
@@ -83,7 +83,7 @@ Greeter::Greeter(relive::Path_Greeter* pTlv, const Guid& tlvId)
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            mScale == Scale::Fg ? kFgFloor : kBgFloor))
+            GetScale() == Scale::Fg ? kFgFloor : kBgFloor))
     {
         mYPos = hitY;
     }
@@ -101,7 +101,7 @@ Greeter::Greeter(relive::Path_Greeter* pTlv, const Guid& tlvId)
 
     field_12C_timesShot = 0;
 
-    mShadow = relive_new Shadow();
+    CreateShadow();
 
     mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanSetOffExplosives);
     field_130_bChasing = 0;
@@ -122,7 +122,7 @@ s32 Greeter::CreateFromSaveState(const u8* pBuffer)
 
         pGreeter->mCurrentPath = pState->field_8_path_number;
         pGreeter->mCurrentLevel = MapWrapper::FromAESaveData(pState->field_A_lvl_number);
-        pGreeter->mSpriteScale = pState->field_1C_sprite_scale;
+        pGreeter->SetSpriteScale(pState->field_1C_sprite_scale);
 
         pGreeter->mRGB.SetRGB(pState->field_2_r, pState->field_4_g, pState->field_6_b);
 
@@ -177,7 +177,7 @@ s32 Greeter::VGetSaveState(u8* pSaveBuffer)
 
     pState->field_8_path_number = mCurrentPath;
     pState->field_A_lvl_number = MapWrapper::ToAE(mCurrentLevel);
-    pState->field_1C_sprite_scale = mSpriteScale;
+    pState->field_1C_sprite_scale = GetSpriteScale();
 
     pState->field_2_r = mRGB.r;
     pState->field_4_g = mRGB.g;
@@ -254,8 +254,8 @@ void Greeter::BlowUp()
 
     relive_new AirExplosion(
         mXPos,
-        mYPos - (mSpriteScale * FP_FromInteger(5)),
-        mSpriteScale,
+        mYPos - (GetSpriteScale() * FP_FromInteger(5)),
+        GetSpriteScale(),
         0);
 
     relive_new Gibs(
@@ -264,7 +264,7 @@ void Greeter::BlowUp()
         mYPos + FP_FromInteger(50),
         FP_FromInteger(0),
         FP_FromInteger(0),
-        mSpriteScale,
+        GetSpriteScale(),
         0);
 
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -298,7 +298,7 @@ void Greeter::BounceBackFromShot()
     GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Greeter_Hit));
 
     const CameraPos soundDirection = gMap.GetDirection(mCurrentLevel, mCurrentPath, mXPos, mYPos);
-    SFX_Play_Camera(relive::SoundEffects::GreeterKnockback, 0, soundDirection, mSpriteScale);
+    SFX_Play_Camera(relive::SoundEffects::GreeterKnockback, 0, soundDirection, GetSpriteScale());
 }
 
 void Greeter::HandleRollingAlong()
@@ -344,7 +344,7 @@ void Greeter::HandleRollingAlong()
 
     if (field_13C_brain_state == GreeterBrainStates::eBrain_0_Patrol)
     {
-        if ((GetAnimation().mFlags.Get(AnimFlags::eFlipX) && Check_IsOnEndOfLine(0, 1)) || WallHit(mSpriteScale * FP_FromInteger(40), mVelX * FP_FromInteger(3)) || (!(GetAnimation().mFlags.Get(AnimFlags::eFlipX)) && Check_IsOnEndOfLine(1, 1)))
+        if ((GetAnimation().mFlags.Get(AnimFlags::eFlipX) && Check_IsOnEndOfLine(0, 1)) || WallHit(GetSpriteScale() * FP_FromInteger(40), mVelX * FP_FromInteger(3)) || (!(GetAnimation().mFlags.Get(AnimFlags::eFlipX)) && Check_IsOnEndOfLine(1, 1)))
         {
             ChangeDirection();
         }
@@ -352,7 +352,7 @@ void Greeter::HandleRollingAlong()
 
     if (field_13C_brain_state == GreeterBrainStates::eBrain_4_Chase)
     {
-        if (WallHit(mSpriteScale * FP_FromInteger(40), mVelX * FP_FromInteger(3))) // TODO: OG bug, raw * 3 here ??
+        if (WallHit(GetSpriteScale() * FP_FromInteger(40), mVelX * FP_FromInteger(3))) // TODO: OG bug, raw * 3 here ??
         {
             BounceBackFromShot();
         }
@@ -424,7 +424,7 @@ void Greeter::ZapTarget(FP xpos, FP ypos, BaseAliveGameObject* pTarget)
 
     relive_new ZapLine(
         mXPos,
-        mYPos - (FP_FromInteger(20) * mSpriteScale),
+        mYPos - (FP_FromInteger(20) * GetSpriteScale()),
         xpos,
         ypos,
         8,
@@ -442,7 +442,7 @@ void Greeter::ZapTarget(FP xpos, FP ypos, BaseAliveGameObject* pTarget)
 
     relive_new ZapLine(
         mXPos,
-        mYPos - (FP_FromInteger(50) * mSpriteScale),
+        mYPos - (FP_FromInteger(50) * GetSpriteScale()),
         xpos,
         ypos,
         8,
@@ -453,15 +453,15 @@ void Greeter::ZapTarget(FP xpos, FP ypos, BaseAliveGameObject* pTarget)
         xpos,
         ypos,
         10,
-        mSpriteScale,
+        GetSpriteScale(),
         BurstType::eBigRedSparks_3,
         11);
 
     relive_new ParticleBurst(
         mXPos,
-        mYPos - (FP_FromInteger(10) * mSpriteScale),
+        mYPos - (FP_FromInteger(10) * GetSpriteScale()),
         10,
-        mSpriteScale,
+        GetSpriteScale(),
         BurstType::eBigRedSparks_3,
         11);
 
@@ -477,8 +477,8 @@ void Greeter::ZapTarget(FP xpos, FP ypos, BaseAliveGameObject* pTarget)
         mXPos,
         mYPos);
 
-    SFX_Play_Camera(relive::SoundEffects::Zap1, 0, soundDirection, mSpriteScale);
-    SFX_Play_Camera(relive::SoundEffects::Zap2, 0, soundDirection, mSpriteScale);
+    SFX_Play_Camera(relive::SoundEffects::Zap1, 0, soundDirection, GetSpriteScale());
+    SFX_Play_Camera(relive::SoundEffects::Zap2, 0, soundDirection, GetSpriteScale());
 
     RandomishSpeak(GreeterSpeak::eLaugh_3);
 
@@ -522,7 +522,7 @@ bool Greeter::ZapIsNotBlocked(BaseAliveGameObject* pUs, BaseAliveGameObject* pTh
                &pLine,
                &hitX,
                &hitY,
-               pUs->mScale == Scale::Fg ? kFgWalls : kBgWalls)
+               pUs->GetScale() == Scale::Fg ? kFgWalls : kBgWalls)
         == 1;
 }
 
@@ -543,7 +543,7 @@ BaseAliveGameObject* Greeter::GetMudToZap()
             const FP xMid = FP_FromInteger((bRect.x + bRect.w) / 2);
             const FP yMid = FP_FromInteger((bRect.y + bRect.h) / 2);
 
-            if (xMid - mXPos < (mSpriteScale * FP_FromInteger(60)) && mXPos - xMid < (mSpriteScale * FP_FromInteger(60)) && yMid - (mYPos - FP_FromInteger(4)) < (mSpriteScale * FP_FromInteger(60)) && mYPos - FP_FromInteger(4) - yMid < (mSpriteScale * FP_FromInteger(60)) && !(sActiveHero->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted)) && !ZapIsNotBlocked(this, pObj))
+            if (xMid - mXPos < (GetSpriteScale() * FP_FromInteger(60)) && mXPos - xMid < (GetSpriteScale() * FP_FromInteger(60)) && yMid - (mYPos - FP_FromInteger(4)) < (GetSpriteScale() * FP_FromInteger(60)) && mYPos - FP_FromInteger(4) - yMid < (GetSpriteScale() * FP_FromInteger(60)) && !(sActiveHero->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted)) && !ZapIsNotBlocked(this, pObj))
             {
                 return pObj;
             }
@@ -569,13 +569,13 @@ void Greeter::VUpdate()
                     mCurrentPath,
                     mXPos,
                     mYPos);
-                SFX_Play_Camera(relive::SoundEffects::WheelSqueak, 10, soundDirection, mSpriteScale);
+                SFX_Play_Camera(relive::SoundEffects::WheelSqueak, 10, soundDirection, GetSpriteScale());
             }
 
             mVelY = FP_FromInteger(0);
             if ((GetAnimation().mFlags.Get(AnimFlags::eFlipX)) == 0)
             {
-                mVelX = -(mSpriteScale * FP_FromInteger(3));
+                mVelX = -(GetSpriteScale() * FP_FromInteger(3));
                 if (field_13E_targetOnLeft)
                 {
                     RandomishSpeak(GreeterSpeak::eHi_0);
@@ -589,7 +589,7 @@ void Greeter::VUpdate()
             }
             else
             {
-                mVelX = (mSpriteScale * FP_FromInteger(3));
+                mVelX = (GetSpriteScale() * FP_FromInteger(3));
                 if (field_140_targetOnRight)
                 {
                     RandomishSpeak(GreeterSpeak::eHi_0);
@@ -657,13 +657,13 @@ void Greeter::VUpdate()
                     mCurrentPath,
                     mXPos,
                     mYPos);
-                SFX_Play_Camera(relive::SoundEffects::WheelSqueak, 10, soundDirection2, mSpriteScale);
+                SFX_Play_Camera(relive::SoundEffects::WheelSqueak, 10, soundDirection2, GetSpriteScale());
             }
 
-            mVelX = -(mSpriteScale * FP_FromInteger(5));
+            mVelX = -(GetSpriteScale() * FP_FromInteger(5));
             if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
-                mVelX = mSpriteScale * FP_FromInteger(5);
+                mVelX = GetSpriteScale() * FP_FromInteger(5);
             }
 
             const PSX_RECT bRect = sActiveHero->VGetBoundingRect();
@@ -671,7 +671,7 @@ void Greeter::VUpdate()
             const FP midX = FP_FromInteger((bRect.x + bRect.w) / 2);
             const FP midY = FP_FromInteger((bRect.y + bRect.h) / 2);
 
-            if (midX - mXPos >= (mSpriteScale * FP_FromInteger(60)) || mXPos - midX >= (mSpriteScale * FP_FromInteger(60)) || midY - (mYPos - FP_FromInteger(4)) >= (mSpriteScale * FP_FromInteger(60)) || mYPos - FP_FromInteger(4) - midY >= (mSpriteScale * FP_FromInteger(60)) || sActiveHero->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted) || sActiveHero->CantBeDamaged_44BAB0() || ZapIsNotBlocked(this, sActiveHero))
+            if (midX - mXPos >= (GetSpriteScale() * FP_FromInteger(60)) || mXPos - midX >= (GetSpriteScale() * FP_FromInteger(60)) || midY - (mYPos - FP_FromInteger(4)) >= (GetSpriteScale() * FP_FromInteger(60)) || mYPos - FP_FromInteger(4) - midY >= (GetSpriteScale() * FP_FromInteger(60)) || sActiveHero->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted) || sActiveHero->CantBeDamaged_44BAB0() || ZapIsNotBlocked(this, sActiveHero))
             {
                 BaseAliveGameObject* pGonnaZapYa = GetMudToZap();
                 if (pGonnaZapYa)
@@ -692,7 +692,7 @@ void Greeter::VUpdate()
         break;
 
         case GreeterBrainStates::eBrain_5_Knockback:
-            if (WallHit(mSpriteScale * FP_FromInteger(40), FP_FromRaw(3 * mVelX.fpValue))) // TODO: OG bug, why * 3 and not * FP 3??
+            if (WallHit(GetSpriteScale() * FP_FromInteger(40), FP_FromRaw(3 * mVelX.fpValue))) // TODO: OG bug, why * 3 and not * FP 3??
             {
                 mVelX = FP_FromInteger(0);
             }
@@ -738,7 +738,7 @@ void Greeter::VUpdate()
                     mXPos,
                     hitY);
 
-                SFX_Play_Camera(relive::SoundEffects::GreeterLand, 0, soundDirection3, mSpriteScale);
+                SFX_Play_Camera(relive::SoundEffects::GreeterLand, 0, soundDirection3, GetSpriteScale());
                 if (mVelY > -FP_FromInteger(1))
                 {
                     mVelY = FP_FromInteger(0);

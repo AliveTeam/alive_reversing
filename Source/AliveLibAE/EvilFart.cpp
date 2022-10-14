@@ -31,10 +31,10 @@ EvilFart::EvilFart()
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 
-    mSpriteScale = sActiveHero->mSpriteScale;
+    SetSpriteScale(sActiveHero->GetSpriteScale());
 
-    mScale = sActiveHero->mScale;
-    if (mScale == Scale::Fg)
+    SetScale(sActiveHero->GetScale());
+    if (GetScale() == Scale::Fg)
     {
         GetAnimation().SetRenderLayer(Layer::eLayer_SligGreeterFartsBats_33);
     }
@@ -45,14 +45,14 @@ EvilFart::EvilFart()
 
     if (sActiveHero->GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        mXPos = sActiveHero->mXPos + (FP_FromInteger(12) * mSpriteScale);
+        mXPos = sActiveHero->mXPos + (FP_FromInteger(12) * GetSpriteScale());
     }
     else
     {
-        mXPos = sActiveHero->mXPos - (FP_FromInteger(12) * mSpriteScale);
+        mXPos = sActiveHero->mXPos - (FP_FromInteger(12) * GetSpriteScale());
     }
 
-    mYPos = (mSpriteScale * FP_FromInteger(22)) + sActiveHero->mYPos;
+    mYPos = (GetSpriteScale() * FP_FromInteger(22)) + sActiveHero->mYPos;
 
     FP hitX = {};
     FP hitY = {};
@@ -65,7 +65,7 @@ EvilFart::EvilFart()
             &pLine,
             &hitX,
             &hitY,
-            mScale == Scale::Fg ? CollisionMask(eFlyingObjectWall_17, eWallRight_2, eWallLeft_1) : CollisionMask(eBackgroundFlyingObjectWall_18, eBackgroundWallRight_6, eBackgroundWallLeft_5)))
+            GetScale() == Scale::Fg ? CollisionMask(eFlyingObjectWall_17, eWallRight_2, eWallLeft_1) : CollisionMask(eBackgroundFlyingObjectWall_18, eBackgroundWallRight_6, eBackgroundWallLeft_5)))
     {
         mXPos = sActiveHero->mXPos;
     }
@@ -109,7 +109,7 @@ s32 EvilFart::CreateFromSaveState(const u8* pBuffer)
 
     pFart->mCurrentPath = pState->mCurrentPath;
     pFart->mCurrentLevel = MapWrapper::FromAESaveData(pState->mCurrentLevel);
-    pFart->mSpriteScale = pState->mSpriteScale;
+    pFart->SetSpriteScale(pState->mSpriteScale);
 
     pFart->mRGB.SetRGB(pState->mRed, pState->mGreen, pState->mBlue);
 
@@ -148,7 +148,7 @@ s32 EvilFart::VGetSaveState(u8* pSaveBuffer)
 
     pState->mCurrentPath = mCurrentPath;
     pState->mCurrentLevel = MapWrapper::ToAE(mCurrentLevel);
-    pState->mSpriteScale = mSpriteScale;
+    pState->mSpriteScale = GetSpriteScale();
 
     pState->mRed = mRGB.r;
     pState->mGreen = mRGB.g;
@@ -323,15 +323,15 @@ void EvilFart::VUpdate()
             {
                 relive_new ThrowableTotalIndicator(
                     mXPos,
-                    mYPos - (mSpriteScale * FP_FromInteger(50)),
+                    mYPos - (GetSpriteScale() * FP_FromInteger(50)),
                     GetAnimation().GetRenderLayer(),
                     GetAnimation().GetSpriteScale(),
                     mPossessedAliveTimer / 50,
                     1);
 
-                mYPos = mYPos - (mSpriteScale * FP_FromInteger(50));
+                mYPos = mYPos - (GetSpriteScale() * FP_FromInteger(50));
                 Mudokon_SFX(MudSounds::eFart_7, 0, 10 * (300 - mPossessedAliveTimer), this);
-                mYPos += mSpriteScale * FP_FromInteger(50);
+                mYPos += GetSpriteScale() * FP_FromInteger(50);
             }
         }
     }
@@ -383,13 +383,11 @@ void EvilFart::VUpdate()
                 }
 
                 New_Smoke_Particles(
-                    mXPos * mSpriteScale,
-                    (mYPos - FP_FromInteger(55)) * mSpriteScale,
-                    FP_FromDouble(0.5) * mSpriteScale,
+                    mXPos * GetSpriteScale(),
+                    (mYPos - FP_FromInteger(55)) * GetSpriteScale(),
+                    FP_FromDouble(0.5) * GetSpriteScale(),
                     3,
-                    static_cast<u8>(mRGB.r),
-                    static_cast<u8>(mRGB.g),
-                    0x20u);
+                    RGB16{mRGB.r, mRGB.b, 32});
 
 
                 if (mSoundChannels)
@@ -442,13 +440,13 @@ void EvilFart::VUpdate()
         FP hitY = {};
         if (sCollisions->Raycast(
                 mXPos,
-                mYPos - (mSpriteScale * FP_FromInteger(54)),
+                mYPos - (GetSpriteScale() * FP_FromInteger(54)),
                 x2Offset + mXPos + mVelX,
-                y2Offset + mYPos + mVelY - (mSpriteScale * FP_FromInteger(54)),
+                y2Offset + mYPos + mVelY - (GetSpriteScale() * FP_FromInteger(54)),
                 &pLine,
                 &hitX,
                 &hitY,
-                mScale == Scale::Fg ? CollisionMask(eFlyingObjectWall_17, eWallRight_2, eWallLeft_1) : CollisionMask(eBackgroundFlyingObjectWall_18, eBackgroundWallRight_6, eBackgroundWallLeft_5)))
+                GetScale() == Scale::Fg ? CollisionMask(eFlyingObjectWall_17, eWallRight_2, eWallLeft_1) : CollisionMask(eBackgroundFlyingObjectWall_18, eBackgroundWallRight_6, eBackgroundWallLeft_5)))
         {
             mVelX = FP_FromInteger(0);
         }
@@ -459,13 +457,13 @@ void EvilFart::VUpdate()
 
         if (sCollisions->Raycast(
                 mXPos,
-                mYPos - (mSpriteScale * FP_FromInteger(54)),
+                mYPos - (GetSpriteScale() * FP_FromInteger(54)),
                 mXPos + mVelX + x2Offset,
-                y2Offset + mYPos + mVelY - (mSpriteScale * FP_FromInteger(54)),
+                y2Offset + mYPos + mVelY - (GetSpriteScale() * FP_FromInteger(54)),
                 &pLine,
                 &hitX,
                 &hitY,
-                mScale == Scale::Fg ? CollisionMask(eFlyingObjectWall_17, eCeiling_3, eFloor_0, eDynamicCollision_32) : CollisionMask(eBackgroundFlyingObjectWall_18, eBackgroundCeiling_7, eBackgroundFloor_4, eBackgroundDynamicCollision_36)))
+                GetScale() == Scale::Fg ? CollisionMask(eFlyingObjectWall_17, eCeiling_3, eFloor_0, eDynamicCollision_32) : CollisionMask(eBackgroundFlyingObjectWall_18, eBackgroundCeiling_7, eBackgroundFloor_4, eBackgroundDynamicCollision_36)))
         {
             mVelY = FP_FromInteger(0);
         }
@@ -515,12 +513,12 @@ void EvilFart::VUpdate()
                 return;
             }
 
-            const FP yposOffset = (mSpriteScale * FP_FromInteger(Math_RandomRange(-20, 10)));
-            const FP xposOffset = (mSpriteScale * FP_FromInteger(Math_RandomRange(-20, 20)));
+            const FP yposOffset = (GetSpriteScale() * FP_FromInteger(Math_RandomRange(-20, 10)));
+            const FP xposOffset = (GetSpriteScale() * FP_FromInteger(Math_RandomRange(-20, 20)));
             New_TintChant_Particle(
                 xposOffset + mXPos,
-                yposOffset + mYPos - (mSpriteScale * FP_FromInteger(54)),
-                mSpriteScale,
+                yposOffset + mYPos - (GetSpriteScale() * FP_FromInteger(54)),
+                GetSpriteScale(),
                 Layer::eLayer_0);
         }
 
@@ -538,8 +536,8 @@ void EvilFart::VUpdate()
 void EvilFart::BlowUp()
 {
     relive_new AirExplosion(mXPos,
-        mYPos - (mSpriteScale * FP_FromInteger(50)),
-        mSpriteScale,
+        mYPos - (GetSpriteScale() * FP_FromInteger(50)),
+        GetSpriteScale(),
         0);
 }
 

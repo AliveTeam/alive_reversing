@@ -29,8 +29,8 @@ FootSwitch::FootSwitch(relive::Path_FootSwitch* pTlv, const Guid& tlvId)
     mSwitchId = pTlv->mSwitchId;
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
-        mScale = Scale::Bg;
+        SetSpriteScale(FP_FromDouble(0.5));
+        SetScale(Scale::Bg);
     }
 
     mState = States::eWaitForStepOnMe_0;
@@ -117,7 +117,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe()
 
                 const s32 xpos = FP_GetExponent(pAliveObj->mXPos);
 
-                if (xpos > bRectSwitch.x && xpos < bRectSwitch.w && bRectSwitch.x <= theirRect.w && bRectSwitch.w >= theirRect.x && bRectSwitch.h >= theirRect.y && bRectSwitch.y <= theirRect.h && pAliveObj->mSpriteScale == mSpriteScale)
+                if (xpos > bRectSwitch.x && xpos < bRectSwitch.w && bRectSwitch.x <= theirRect.w && bRectSwitch.w >= theirRect.x && bRectSwitch.h >= theirRect.y && bRectSwitch.y <= theirRect.h && pAliveObj->GetSpriteScale() == GetSpriteScale())
                 {
                     return pAliveObj;
                 }
@@ -129,7 +129,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe()
         const PSX_RECT bRect = sActiveHero->VGetBoundingRect();
         const s32 xpos = FP_GetExponent(sActiveHero->mXPos);
 
-        if (xpos > bRectSwitch.x && xpos < bRectSwitch.w && bRectSwitch.x <= bRect.w && bRectSwitch.w >= bRect.x && bRectSwitch.h >= bRect.y && bRectSwitch.y <= bRect.h && sActiveHero->mSpriteScale == mSpriteScale)
+        if (xpos > bRectSwitch.x && xpos < bRectSwitch.w && bRectSwitch.x <= bRect.w && bRectSwitch.w >= bRect.x && bRectSwitch.h >= bRect.y && bRectSwitch.y <= bRect.h && sActiveHero->GetSpriteScale() == GetSpriteScale())
         {
             return sActiveHero;
         }

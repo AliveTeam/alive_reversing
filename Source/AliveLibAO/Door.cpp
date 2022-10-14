@@ -121,14 +121,14 @@ Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
 
                 if (pTlv->mScale == relive::reliveScale::eHalf)
                 {
-                    mSpriteScale = FP_FromDouble(0.5);
-                    mScale = Scale::Bg;
+                    SetSpriteScale(FP_FromDouble(0.5));
+                    SetScale(Scale::Bg);
                     GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_Half_6);
                 }
                 else
                 {
-                    mSpriteScale = FP_FromInteger(1);
-                    mScale = Scale::Fg;
+                    SetSpriteScale(FP_FromInteger(1));
+                    SetScale(Scale::Fg);
                     GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_25);
                 }
 
@@ -140,11 +140,11 @@ Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
                     &pLine,
                     &mXPos,
                     &mYPos,
-                        mSpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor))
+                        GetSpriteScale() != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor))
                 {
-                    mYPos -= (FP_FromInteger(12) * mSpriteScale);
+                    mYPos -= (FP_FromInteger(12) * GetSpriteScale());
                     gMap.GetCurrentCamCoords(&mapCoords);
-                    auto aux = SnapToXGrid(mSpriteScale, FP_GetExponent(mXPos) - mapCoords.x);
+                    auto aux = SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos) - mapCoords.x);
                     mXPos = FP_FromInteger((aux)+mapCoords.x);
                 }
                 else
@@ -207,7 +207,7 @@ Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
                 mXPos = FP_FromInteger(pTlv->mTopLeftX);
                 mYPos = FP_FromInteger(pTlv->mTopLeftY);
             }
-            mSpriteScale = FP_FromInteger(1);
+            SetSpriteScale(FP_FromInteger(1));
             break;
         }
 
@@ -239,7 +239,7 @@ Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
                         &mYPos,
                         kFgWallsOrFloor)) // ?? only check bg for some reason
                     {
-                        mYPos -= (FP_FromInteger(12) * mSpriteScale);
+                        mYPos -= (FP_FromInteger(12) * GetSpriteScale());
                         gMap.GetCurrentCamCoords(&mapCoords);
                         mXPos = FP_FromInteger(SnapToXGrid(FP_FromInteger(1), FP_GetExponent(mXPos) - mapCoords.x) + mapCoords.x);
                     }
@@ -255,7 +255,7 @@ Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
                     mYPos = FP_FromInteger(pTlv->mTopLeftY + 20);
                 }
 
-                mSpriteScale = FP_FromInteger(1);
+                SetSpriteScale(FP_FromInteger(1));
 
                 field_F2_hubs_ids[0] = pTlv->mHub1;
                 field_F2_hubs_ids[1] = pTlv->mHub2;
@@ -327,10 +327,10 @@ void Door::PlaySound()
 
     if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
     {
-        volume = mSpriteScale != FP_FromDouble(0.5) ? 90 : 127;
+        volume = GetSpriteScale() != FP_FromDouble(0.5) ? 90 : 127;
         SND_SEQ_Play_477760(SeqId::eHitBottomOfDeathPit_10, 1, 75, 75);
     }
-    else if (mDoorType == relive::Path_Door::DoorTypes::eBasicDoor && mSpriteScale == FP_FromInteger(1))
+    else if (mDoorType == relive::Path_Door::DoorTypes::eBasicDoor && GetSpriteScale() == FP_FromInteger(1))
     {
         volume = 90;
     }

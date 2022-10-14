@@ -17,7 +17,7 @@ BulletShell::BulletShell(FP xpos, FP ypos, s32 direction, FP scale)
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Bullet_Shell));
     Animation_Init(GetAnimRes(AnimId::Bullet_Shell));
 
-    mSpriteScale = scale;
+    SetSpriteScale(scale);
 
     if (scale == FP_FromInteger(1))
     {
@@ -65,7 +65,7 @@ void BulletShell::VUpdate()
             &mLine,
             &hitX,
             &hitY,
-            mSpriteScale != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor)
+            GetSpriteScale() != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor)
         == 1)
     {
         if (mLine->mLineType == eLineTypes ::eFloor_0 ||

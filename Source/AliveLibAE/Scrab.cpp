@@ -168,24 +168,24 @@ Scrab::Scrab(relive::Path_Scrab* pTlv, const Guid& tlvId, relive::Path_ScrabSpaw
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
-        mSpriteScale = FP_FromDouble(0.5);
+        SetSpriteScale(FP_FromDouble(0.5));
         GetAnimation().SetRenderLayer(Layer::eLayer_8);
-        mScale = Scale::Bg;
+        SetScale(Scale::Bg);
     }
     else if (pTlv->mScale == relive::reliveScale::eFull)
     {
-        mSpriteScale = FP_FromInteger(1);
+        SetSpriteScale(FP_FromInteger(1));
         GetAnimation().SetRenderLayer(Layer::eLayer_27);
-        mScale = Scale::Fg;
+        SetScale(Scale::Fg);
     }
 
     if (spawnDirection == relive::Path_ScrabSpawner::SpawnDirection::eLeft)
     {
-        mXPos -= ScaleToGridSize(mSpriteScale);
+        mXPos -= ScaleToGridSize(GetSpriteScale());
     }
     else if (spawnDirection == relive::Path_ScrabSpawner::SpawnDirection::eRight)
     {
-        mXPos += ScaleToGridSize(mSpriteScale);
+        mXPos += ScaleToGridSize(GetSpriteScale());
     }
 
     mAttackDelay = pTlv->mAttackDelay;
@@ -222,7 +222,7 @@ Scrab::Scrab(relive::Path_Scrab* pTlv, const Guid& tlvId, relive::Path_ScrabSpaw
 
     ToPatrol();
 
-    mShadow = relive_new Shadow();
+    CreateShadow();
 }
 
 void Scrab::VOnTlvCollision(relive::Path_TLV* pTlv)
@@ -286,7 +286,7 @@ s32 Scrab::CreateFromSaveState(const u8* pBuffer)
         pScrab->field_134_falling_velx_scale_factor = pState->field_64_falling_velx_scale_factor;
         pScrab->mCurrentPath = pState->field_18_path_number;
         pScrab->mCurrentLevel = MapWrapper::FromAESaveData(pState->field_1A_lvl_number);
-        pScrab->mSpriteScale = pState->field_1C_sprite_scale;
+        pScrab->SetSpriteScale(pState->field_1C_sprite_scale);
         pScrab->mRGB.SetRGB(pState->mRingRed, pState->mRingGreen, pState->mRingBlue);
         pScrab->mCurrentMotion = pState->field_28_current_motion;
 
@@ -370,7 +370,7 @@ s32 Scrab::VGetSaveState(u8* pSaveBuffer)
 
     pState->field_18_path_number = mCurrentPath;
     pState->field_1A_lvl_number = MapWrapper::ToAE(mCurrentLevel);
-    pState->field_1C_sprite_scale = mSpriteScale;
+    pState->field_1C_sprite_scale = GetSpriteScale();
 
     pState->mRingRed = mRGB.r;
     pState->mRingGreen = mRGB.g;
@@ -521,7 +521,7 @@ s16 Scrab::OnFloor()
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            mScale == Scale::Fg ? kFgFloor : kBgFloor))
+            GetScale() == Scale::Fg ? kFgFloor : kBgFloor))
     {
         mYPos = hitY;
         ToStand();
@@ -736,8 +736,8 @@ void Scrab::VUpdate()
                     // Draw green particle
                     s16 particleXRand = Math_RandomRange(40, 50);
                     const s16 particleYRand = Math_RandomRange(45, 55);
-                    FP particleVelX = (FP_FromInteger(-7) * mSpriteScale);
-                    FP particleVelY = (FP_FromDouble(0.3) * mSpriteScale);
+                    FP particleVelX = (FP_FromInteger(-7) * GetSpriteScale());
+                    FP particleVelY = (FP_FromDouble(0.3) * GetSpriteScale());
 
                     if (Math_NextRandom() & 1)
                     {
@@ -750,19 +750,17 @@ void Scrab::VUpdate()
                         particleVelY = -particleVelY;
                     }
 
-                    const FP particleYPos = mYPos - (mSpriteScale * FP_FromInteger(particleYRand));
-                    const FP particleXPos = mXPos + (mSpriteScale * FP_FromInteger(particleXRand));
+                    const FP particleYPos = mYPos - (GetSpriteScale() * FP_FromInteger(particleYRand));
+                    const FP particleXPos = mXPos + (GetSpriteScale() * FP_FromInteger(particleXRand));
 
                     New_Orb_Particle(
                         particleXPos,
                         particleYPos,
                         particleVelX,
                         particleVelY,
-                        mSpriteScale,
+                        GetSpriteScale(),
                         Layer::eLayer_0,
-                        255,
-                        0,
-                        0);
+                        RGB16{255, 0, 0});
                 }
             }
 
@@ -1231,10 +1229,10 @@ s16 Scrab::Brain_1_ChasingEnemy()
                 return Brain_1_ChasingEnemy::eBrain1_Turning_3;
             }
 
-            if (VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromDouble(1.5), pObj)
+            if (VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromDouble(1.5), pObj)
                 && VOnSameYLevel(pObj))
             {
-                if (!VIsObjNearby(ScaleToGridSize(mSpriteScale), pObj))
+                if (!VIsObjNearby(ScaleToGridSize(GetSpriteScale()), pObj))
                 {
                     mNextMotion = eScrabMotions::Motion_37_AttackLunge;
                     return Brain_1_ChasingEnemy::eBrain1_Attacking_8;
@@ -1294,7 +1292,7 @@ s16 Scrab::Brain_1_ChasingEnemy()
             return Brain_1_ChasingEnemy::eBrain1_Idle_1;
 
         case Brain_1_ChasingEnemy::eBrain1_Panic_4:
-            if (VIsObjNearby(ScaleToGridSize(mSpriteScale), pObj)
+            if (VIsObjNearby(ScaleToGridSize(GetSpriteScale()), pObj)
                 && VOnSameYLevel(pObj))
             {
                 mNextMotion = eScrabMotions::Motion_38_LegKick;
@@ -1345,9 +1343,9 @@ s16 Scrab::Brain_1_ChasingEnemy()
 
             if (VIsFacingMe(pObj))
             {
-                if (!VIsObjNearby(ScaleToGridSize(mSpriteScale), pObj))
+                if (!VIsObjNearby(ScaleToGridSize(GetSpriteScale()), pObj))
                 {
-                    if (!VIsObjNearby(ScaleToGridSize(mSpriteScale), pObj))
+                    if (!VIsObjNearby(ScaleToGridSize(GetSpriteScale()), pObj))
                     {
                         mNextMotion = eScrabMotions::Motion_1_Walk;
                     }
@@ -1361,7 +1359,7 @@ s16 Scrab::Brain_1_ChasingEnemy()
             }
 
         case Brain_1_ChasingEnemy::eBrain1_Walking_9:
-            if (!VIsObjNearby(ScaleToGridSize(mSpriteScale), pObj))
+            if (!VIsObjNearby(ScaleToGridSize(GetSpriteScale()), pObj))
             {
                 return mBrainSubState;
             }
@@ -1375,7 +1373,7 @@ s16 Scrab::Brain_1_ChasingEnemy()
                 return mBrainSubState;
             }
 
-            if (!VIsObjNearby(ScaleToGridSize(mSpriteScale), pObj))
+            if (!VIsObjNearby(ScaleToGridSize(GetSpriteScale()), pObj))
             {
                 mNextMotion = eScrabMotions::Motion_1_Walk;
             }
@@ -1500,10 +1498,10 @@ s16 Scrab::Brain_ChasingEnemy_State_2_Running(BaseAliveGameObject* pObj)
         return Brain_1_ChasingEnemy::eBrain1_Idle_1;
     }
 
-    s32 xPosition = abs(FP_GetExponent(mXPos) - SnapToXGrid(mSpriteScale, FP_GetExponent(mXPos)));
+    s32 xPosition = abs(FP_GetExponent(mXPos) - SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos)));
 
     //Jump at the end of the ledge
-    FP xOffset = (mVelX >= FP_FromInteger(0)) ? ScaleToGridSize(mSpriteScale) : -ScaleToGridSize(mSpriteScale);
+    FP xOffset = (mVelX >= FP_FromInteger(0)) ? ScaleToGridSize(GetSpriteScale()) : -ScaleToGridSize(GetSpriteScale());
     if (xPosition < 6
         && Check_IsOnEndOfLine(mVelX < FP_FromInteger(0), 1)
         && ((pObj->mYPos - mYPos < FP_FromInteger(5))
@@ -1522,7 +1520,7 @@ s16 Scrab::Brain_ChasingEnemy_State_2_Running(BaseAliveGameObject* pObj)
 
     if (VIsFacingMe(pObj))
     {
-        if (VIsObjNearby(ScaleToGridSize(mSpriteScale) / FP_FromInteger(7), pObj)
+        if (VIsObjNearby(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(7), pObj)
             && pObj->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::ePossessed)
             && pObj->Type() == ReliveTypes::eScrab)
         {
@@ -1538,11 +1536,11 @@ s16 Scrab::Brain_ChasingEnemy_State_2_Running(BaseAliveGameObject* pObj)
             }
         }
 
-        if (VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromInteger(3), pObj)
+        if (VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(3), pObj)
             && mCurrentMotion == eScrabMotions::Motion_2_Run
             && VOnSameYLevel(pObj))
         {
-            if (WallHit(mSpriteScale * FP_FromInteger(45), pObj->mXPos - mXPos))
+            if (WallHit(GetSpriteScale() * FP_FromInteger(45), pObj->mXPos - mXPos))
             {
                 mNextMotion = eScrabMotions::Motion_0_Stand;
                 return Brain_1_ChasingEnemy::eBrain1_Idle_1;
@@ -1586,7 +1584,7 @@ s16 Scrab::Brain_ChasingEnemy_State_2_Running(BaseAliveGameObject* pObj)
 s16 Scrab::Brain_2_Fighting()
 {
     auto pTarget = static_cast<Scrab*>(sObjectIds.Find_Impl(mFightTargetId));
-    if (mBrainSubState != Brain_2_Fighting::eBrain2_Battling_10 && mBrainSubState != Brain_2_Fighting::eBrain2_Victorious_11 && mBrainSubState != Brain_2_Fighting::eBrain2_SmashingOpponent_12 && mBrainSubState != Brain_2_Fighting::eBrain2_VictoryYell_13 && (!pTarget || pTarget->mBaseGameObjectFlags.Get(BaseGameObject::eDead) || (WallHit(mSpriteScale * FP_FromInteger(45), pTarget->mXPos - mXPos)) || !VOnSameYLevel(pTarget)))
+    if (mBrainSubState != Brain_2_Fighting::eBrain2_Battling_10 && mBrainSubState != Brain_2_Fighting::eBrain2_Victorious_11 && mBrainSubState != Brain_2_Fighting::eBrain2_SmashingOpponent_12 && mBrainSubState != Brain_2_Fighting::eBrain2_VictoryYell_13 && (!pTarget || pTarget->mBaseGameObjectFlags.Get(BaseGameObject::eDead) || (WallHit(GetSpriteScale() * FP_FromInteger(45), pTarget->mXPos - mXPos)) || !VOnSameYLevel(pTarget)))
     {
         mNextMotion = eScrabMotions::Motion_0_Stand;
         ToPatrol();
@@ -1645,7 +1643,7 @@ s16 Scrab::Brain_2_Fighting()
             {
                 if (VIsFacingMe(pTarget))
                 {
-                    if (!VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromInteger(8), pTarget))
+                    if (!VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(8), pTarget))
                     {
                         if (pTarget->mCurrentMotion == eScrabMotions::Motion_26_HowlBegin)
                         {
@@ -1677,7 +1675,7 @@ s16 Scrab::Brain_2_Fighting()
                 return mBrainSubState;
             }
 
-            if (VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromInteger(8), pTarget))
+            if (VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(8), pTarget))
             {
                 mNextMotion = eScrabMotions::Motion_3_Turn;
                 return Brain_2_Fighting::eBrain2_Turning_2;
@@ -1710,7 +1708,7 @@ s16 Scrab::Brain_2_Fighting()
             {
                 xPos += FP_FromInteger(50);
             }
-            if (!Handle_SlamDoor_or_EnemyStopper(mVelX, 0) && !Check_IsOnEndOfLine(sIsFlipped, 2) && VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromInteger(10), pTarget))
+            if (!Handle_SlamDoor_or_EnemyStopper(mVelX, 0) && !Check_IsOnEndOfLine(sIsFlipped, 2) && VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(10), pTarget))
             {
                 if (gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, xPos, mYPos, 0))
                 {
@@ -1767,7 +1765,7 @@ s16 Scrab::Brain_2_Fighting()
             return Brain_2_Fighting::eBrain2_Running_9;
 
         case Brain_2_Fighting::eBrain2_Running_9:
-            if (!VIsObjNearby(ScaleToGridSize(mSpriteScale), pTarget) || !BaseAliveGameObjectCollisionLine || !pTarget->BaseAliveGameObjectCollisionLine)
+            if (!VIsObjNearby(ScaleToGridSize(GetSpriteScale()), pTarget) || !BaseAliveGameObjectCollisionLine || !pTarget->BaseAliveGameObjectCollisionLine)
             {
                 return mBrainSubState;
             }
@@ -1884,7 +1882,7 @@ s16 Scrab::Brain_3_Death()
 {
     if (field_12C_timer < static_cast<s32>((sGnFrame + 80)))
     {
-        mSpriteScale -= FP_FromDouble(0.008);
+        SetSpriteScale(GetSpriteScale() - FP_FromDouble(0.008));
         mRGB.r -= 2;
         mRGB.g -= 2;
         mRGB.b -= 2;
@@ -1905,13 +1903,13 @@ s16 Scrab::Brain_3_Death()
 
 s16 Scrab::Brain_4_ShrinkDeath()
 {
-    if (mScale == Scale::Fg)
+    if (GetScale() == Scale::Fg)
     {
-        mSpriteScale -= FP_FromDouble(0.06);
+        SetSpriteScale(GetSpriteScale() - FP_FromDouble(0.06));
     }
     else
     {
-        mSpriteScale -= FP_FromDouble(0.03);
+        SetSpriteScale(GetSpriteScale() - FP_FromDouble(0.03));
     }
 
     if (field_12C_timer < static_cast<s32>(sGnFrame))
@@ -2005,8 +2003,8 @@ void Scrab::Motion_0_Stand()
 
         if (Input().isPressed(sInputKey_Hop))
         {
-            const FP k45Scaled = (mSpriteScale * FP_FromInteger(45));
-            const FP kGridSize = ScaleToGridSize(mSpriteScale);
+            const FP k45Scaled = (GetSpriteScale() * FP_FromInteger(45));
+            const FP kGridSize = ScaleToGridSize(GetSpriteScale());
 
             if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
@@ -2057,7 +2055,7 @@ const FP sScrabWalkXVels_546E54[22] = {
 
 void Scrab::Motion_1_Walk()
 {
-    mVelX = mSpriteScale * sScrabWalkXVels_546E54[GetAnimation().GetCurrentFrame()];
+    mVelX = GetSpriteScale() * sScrabWalkXVels_546E54[GetAnimation().GetCurrentFrame()];
 
     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
@@ -2074,14 +2072,14 @@ void Scrab::Motion_1_Walk()
     FP kGridSize = {};
     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        kGridSize = -ScaleToGridSize(mSpriteScale);
+        kGridSize = -ScaleToGridSize(GetSpriteScale());
     }
     else
     {
-        kGridSize = ScaleToGridSize(mSpriteScale);
+        kGridSize = ScaleToGridSize(GetSpriteScale());
     }
 
-    if (WallHit(mSpriteScale * FP_FromInteger(45), kGridSize * FP_FromDouble(0.5)))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(45), kGridSize * FP_FromDouble(0.5)))
     {
         KnockBack();
         return;
@@ -2096,7 +2094,7 @@ void Scrab::Motion_1_Walk()
 
         case 5:
         case 15:
-            if (WallHit(mSpriteScale * FP_FromInteger(45), kGridSize * FP_FromInteger(1)))
+            if (WallHit(GetSpriteScale() * FP_FromInteger(45), kGridSize * FP_FromInteger(1)))
             {
                 mCurrentMotion = eScrabMotions::Motion_11_WalkToStand;
             }
@@ -2184,7 +2182,7 @@ static const FP sScrabRunVelX_546EC4[14] = {
 void Scrab::Motion_2_Run()
 {
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mTargetGuid));
-    mVelX = mSpriteScale * sScrabRunVelX_546EC4[GetAnimation().GetCurrentFrame()];
+    mVelX = GetSpriteScale() * sScrabRunVelX_546EC4[GetAnimation().GetCurrentFrame()];
 
     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
@@ -2194,14 +2192,14 @@ void Scrab::Motion_2_Run()
     FP gridSize = {};
     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        gridSize = -ScaleToGridSize(mSpriteScale);
+        gridSize = -ScaleToGridSize(GetSpriteScale());
     }
     else
     {
-        gridSize = ScaleToGridSize(mSpriteScale);
+        gridSize = ScaleToGridSize(GetSpriteScale());
     }
 
-    if (WallHit(mSpriteScale * FP_FromInteger(45), gridSize * FP_FromDouble(0.5)))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(45), gridSize * FP_FromDouble(0.5)))
     {
         KnockBack();
         return;
@@ -2328,13 +2326,13 @@ const FP dword_546EFC[10] = {
 void Scrab::Motion_4_RunToStand()
 {
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mTargetGuid));
-    mVelX = mSpriteScale * dword_546EFC[GetAnimation().GetCurrentFrame()]; // TODO: check size
+    mVelX = GetSpriteScale() * dword_546EFC[GetAnimation().GetCurrentFrame()]; // TODO: check size
     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         mVelX = -mVelX;
     }
 
-    if (WallHit(mSpriteScale * FP_FromInteger(45), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(45), mVelX))
     {
         KnockBack();
     }
@@ -2375,19 +2373,19 @@ void Scrab::Motion_5_HopBegin()
         frameVelX = sScrabHopBeginVelX_546F24[GetAnimation().GetCurrentFrame()];
     }
 
-    mVelX = mSpriteScale * frameVelX;
+    mVelX = GetSpriteScale() * frameVelX;
 
     FP gridSize = {};
     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        gridSize = -ScaleToGridSize(mSpriteScale);
+        gridSize = -ScaleToGridSize(GetSpriteScale());
     }
     else
     {
-        gridSize = ScaleToGridSize(mSpriteScale);
+        gridSize = ScaleToGridSize(GetSpriteScale());
     }
 
-    if (WallHit(mSpriteScale * FP_FromInteger(45), gridSize * FP_FromDouble(0.75)))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(45), gridSize * FP_FromDouble(0.75)))
     {
         KnockBack();
         mCurrentMotion = eScrabMotions::Motion_8_JumpToFall;
@@ -2401,13 +2399,13 @@ void Scrab::Motion_5_HopBegin()
             BaseAliveGameObjectLastLineYPos = mYPos;
             if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
-                mVelX = mSpriteScale * FP_FromDouble(-5.67);
+                mVelX = GetSpriteScale() * FP_FromDouble(-5.67);
             }
             else
             {
-                mVelX = mSpriteScale * FP_FromDouble(5.67);
+                mVelX = GetSpriteScale() * FP_FromDouble(5.67);
             }
-            mVelY = mSpriteScale * FP_FromDouble(-9.8);
+            mVelY = GetSpriteScale() * FP_FromDouble(-9.8);
             mYPos += mVelY;
             VOnTrapDoorOpen();
             mCurrentMotion = eScrabMotions::Motion_6_HopMidair;
@@ -2440,19 +2438,19 @@ void Scrab::Motion_6_HopMidair()
         frameVelX = sScrabHopMidAirVelX_546F34[GetAnimation().GetCurrentFrame()];
     }
 
-    mVelX = mSpriteScale * frameVelX;
+    mVelX = GetSpriteScale() * frameVelX;
 
     FP kGridSize = {};
     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        kGridSize = -ScaleToGridSize(mSpriteScale);
+        kGridSize = -ScaleToGridSize(GetSpriteScale());
     }
     else
     {
-        kGridSize = ScaleToGridSize(mSpriteScale);
+        kGridSize = ScaleToGridSize(GetSpriteScale());
     }
 
-    if (WallHit(mSpriteScale * FP_FromInteger(45), kGridSize * FP_FromDouble(0.75)))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(45), kGridSize * FP_FromDouble(0.75)))
     {
         KnockBack();
     }
@@ -2524,19 +2522,19 @@ void Scrab::Motion_7_HopLand()
     {
         frameVelX = sScrabHopLandVelX_546F54[GetAnimation().GetCurrentFrame()];
     }
-    mVelX = (mSpriteScale * frameVelX);
+    mVelX = (GetSpriteScale() * frameVelX);
 
     FP gridSize = {};
     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        gridSize = -ScaleToGridSize(mSpriteScale);
+        gridSize = -ScaleToGridSize(GetSpriteScale());
     }
     else
     {
-        gridSize = ScaleToGridSize(mSpriteScale);
+        gridSize = ScaleToGridSize(GetSpriteScale());
     }
 
-    if (WallHit(mSpriteScale * FP_FromInteger(45), gridSize * FP_FromDouble(0.75)))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(45), gridSize * FP_FromDouble(0.75)))
     {
         KnockBack();
     }
@@ -2554,7 +2552,7 @@ void Scrab::Motion_8_JumpToFall()
 {
     if (mVelX > FP_FromInteger(0))
     {
-        mVelX = mVelX - (mSpriteScale * field_134_falling_velx_scale_factor);
+        mVelX = mVelX - (GetSpriteScale() * field_134_falling_velx_scale_factor);
         if (mVelX < FP_FromInteger(0))
         {
             mVelX = FP_FromInteger(0);
@@ -2562,7 +2560,7 @@ void Scrab::Motion_8_JumpToFall()
     }
     else if (mVelX < FP_FromInteger(0))
     {
-        mVelX = (mSpriteScale * field_134_falling_velx_scale_factor) + mVelX;
+        mVelX = (GetSpriteScale() * field_134_falling_velx_scale_factor) + mVelX;
         if (mVelX > FP_FromInteger(0))
         {
             mVelX = FP_FromInteger(0);
@@ -2610,7 +2608,7 @@ const FP sStandToWalkVels_546E48[3] = {
 
 void Scrab::Motion_9_StandToWalk()
 {
-    mVelX = (mSpriteScale * sStandToWalkVels_546E48[GetAnimation().GetCurrentFrame() & 3]); // TODO: Check size of 3 is correct
+    mVelX = (GetSpriteScale() * sStandToWalkVels_546E48[GetAnimation().GetCurrentFrame() & 3]); // TODO: Check size of 3 is correct
     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         mVelX = -mVelX;
@@ -2634,13 +2632,13 @@ const FP sStandToRunVels_546EB8[3] = {
 
 void Scrab::Motion_10_StandToRun()
 {
-    mVelX = mSpriteScale * sStandToRunVels_546EB8[GetAnimation().GetCurrentFrame() & 3]; // TODO: Check size of 3 is correct
+    mVelX = GetSpriteScale() * sStandToRunVels_546EB8[GetAnimation().GetCurrentFrame() & 3]; // TODO: Check size of 3 is correct
     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         mVelX = -mVelX;
     }
 
-    if (WallHit(mSpriteScale * FP_FromInteger(45), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(45), mVelX))
     {
         KnockBack();
     }
@@ -2665,7 +2663,7 @@ const FP sWalkToStandVels_546EAC[3] = {
 
 void Scrab::Motion_11_WalkToStand()
 {
-    mVelX = (mSpriteScale * sWalkToStandVels_546EAC[GetAnimation().GetCurrentFrame() & 3]); // TODO: Check size of 3 is correct
+    mVelX = (GetSpriteScale() * sWalkToStandVels_546EAC[GetAnimation().GetCurrentFrame() & 3]); // TODO: Check size of 3 is correct
     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         mVelX = -mVelX;
@@ -2711,9 +2709,9 @@ void Scrab::Motion_12_RunJumpBegin()
         velX = dword_546F64[GetAnimation().GetCurrentFrame() & 8]; // TODO: Check size
     }
 
-    mVelX = mSpriteScale * velX;
+    mVelX = GetSpriteScale() * velX;
 
-    if (WallHit(mSpriteScale * FP_FromInteger(45), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(45), mVelX))
     {
         KnockBack();
     }
@@ -2788,13 +2786,13 @@ const FP sEndRunJumpVels_546F84[21] = {
 void Scrab::Motion_13_RunJumpEnd()
 {
     EventBroadcast(kEventNoise, this);
-    mVelX = (mSpriteScale * sEndRunJumpVels_546F84[GetAnimation().GetCurrentFrame() & 21]); // TODO: Check size
+    mVelX = (GetSpriteScale() * sEndRunJumpVels_546F84[GetAnimation().GetCurrentFrame() & 21]); // TODO: Check size
     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         mVelX = -mVelX;
     }
 
-    if (WallHit(mSpriteScale * FP_FromInteger(45), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(45), mVelX))
     {
         KnockBack();
     }
@@ -3044,9 +3042,9 @@ void Scrab::Motion_28_GetDepossessedBegin()
         {
             const FP xRnd = FP_FromInteger(Math_RandomRange(-20, 20));
             const FP yRnd = FP_FromInteger(Math_RandomRange(20, 50));
-            const FP ypos = mYPos - (mSpriteScale * yRnd);
-            const FP xpos = (mSpriteScale * xRnd) + mXPos;
-            New_TintChant_Particle(xpos, ypos, mSpriteScale, Layer::eLayer_0);
+            const FP ypos = mYPos - (GetSpriteScale() * yRnd);
+            const FP xpos = (GetSpriteScale() * xRnd) + mXPos;
+            New_TintChant_Particle(xpos, ypos, GetSpriteScale(), Layer::eLayer_0);
         }
 
         if (static_cast<s32>(sGnFrame) > field_130_depossession_timer || sActiveHero->mHealth <= FP_FromInteger(0))
@@ -3124,7 +3122,7 @@ void Scrab::Motion_32_AttackSpin()
         field_160_sfx_bitmask = Scrab_SFX(ScrabSounds::eShredding_5, 100, Math_RandomRange(-600, 200), 1);
     }
 
-    const FP kGridSize = ScaleToGridSize(mSpriteScale);
+    const FP kGridSize = ScaleToGridSize(GetSpriteScale());
     if (sControlledCharacter != this)
     {
         if (pObj)
@@ -3185,7 +3183,7 @@ void Scrab::Motion_32_AttackSpin()
 
     MapFollowMe(0);
 
-    if (WallHit(mSpriteScale * FP_FromInteger(45), mVelX))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(45), mVelX))
     {
         mVelX = (-mVelX / FP_FromInteger(2));
     }
@@ -3288,7 +3286,7 @@ s16 Scrab::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
     const PSX_RECT ourRect = VGetBoundingRect();
     const PSX_RECT otherRect = pOther->VGetBoundingRect();
 
-    const FP k10Scaled = (FP_FromInteger(10) * mSpriteScale);
+    const FP k10Scaled = (FP_FromInteger(10) * GetSpriteScale());
     if (FP_FromInteger(ourRect.y) <= (FP_FromInteger(otherRect.h) - k10Scaled) && ourRect.y >= otherRect.y)
     {
         return TRUE;
@@ -3412,11 +3410,11 @@ BaseAliveGameObject* Scrab::Find_Fleech()
             {
                 if (pAliveObj->VOnSameYLevel(pAliveObj))
                 {
-                    if (pAliveObj->VIsObjNearby(ScaleToGridSize(mSpriteScale) * FP_FromInteger(3), pAliveObj))
+                    if (pAliveObj->VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(3), pAliveObj))
                     {
                         if (pAliveObj->VIsFacingMe(pAliveObj))
                         {
-                            if (!WallHit(mSpriteScale * FP_FromInteger(45), pAliveObj->mXPos - mXPos) && gMap.Is_Point_In_Current_Camera(pAliveObj->mCurrentLevel, pAliveObj->mCurrentPath, pAliveObj->mXPos, pAliveObj->mYPos, 0) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
+                            if (!WallHit(GetSpriteScale() * FP_FromInteger(45), pAliveObj->mXPos - mXPos) && gMap.Is_Point_In_Current_Camera(pAliveObj->mCurrentLevel, pAliveObj->mCurrentPath, pAliveObj->mXPos, pAliveObj->mYPos, 0) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
                             {
                                 return pAliveObj;
                             }
@@ -3552,8 +3550,8 @@ s16 Scrab::ToNextMotion()
         return 1;
     }
 
-    const FP k45Scaled = (mSpriteScale * FP_FromInteger(45));
-    const FP kGridSize = ScaleToGridSize(mSpriteScale);
+    const FP k45Scaled = (GetSpriteScale() * FP_FromInteger(45));
+    const FP kGridSize = ScaleToGridSize(GetSpriteScale());
 
     // Check if going to run into a wall.
     if (mNextMotion == eScrabMotions::Motion_2_Run)
@@ -3663,8 +3661,8 @@ s16 Scrab::ToNextMotion()
 
 s16 Scrab::PlayerControlled()
 {
-    const FP kGridSize = ScaleToGridSize(mSpriteScale);
-    const FP k45Scaled = (mSpriteScale * FP_FromInteger(45));
+    const FP kGridSize = ScaleToGridSize(GetSpriteScale());
+    const FP k45Scaled = (GetSpriteScale() * FP_FromInteger(45));
 
     if (Input().isPressed(sInputKey_Right))
     {
@@ -3746,14 +3744,14 @@ void Scrab::ToJump()
 
     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        mVelX = mSpriteScale * -FP_FromDouble(-5.67);
+        mVelX = GetSpriteScale() * -FP_FromDouble(-5.67);
     }
     else
     {
-        mVelX = mSpriteScale * -FP_FromDouble(5.67);
+        mVelX = GetSpriteScale() * -FP_FromDouble(5.67);
     }
 
-    mVelY = mSpriteScale * FP_FromDouble(-9.6);
+    mVelY = GetSpriteScale() * FP_FromDouble(-9.6);
     mYPos += mVelY;
 
     VOnTrapDoorOpen();
@@ -3836,7 +3834,7 @@ void Scrab::KnockBack()
 {
     field_134_falling_velx_scale_factor = FP_FromDouble(0.35);
 
-    const FP kGridSize = ScaleToGridSize(mSpriteScale);
+    const FP kGridSize = ScaleToGridSize(GetSpriteScale());
 
     FP v4 = {};
     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
@@ -3884,7 +3882,7 @@ s32 Scrab::Scrab_SFX(ScrabSounds soundId, s32 vol, s32 pitch, s16 applyDirection
         volumeRight = defaultSndIdxVol;
     }
 
-    if (mSpriteScale == FP_FromDouble(0.5))
+    if (GetSpriteScale() == FP_FromDouble(0.5))
     {
         volumeRight /= 2;
     }
@@ -3977,10 +3975,10 @@ void Scrab::KillTarget(BaseAliveGameObject* pTarget)
                                 //pObj->Type() == ReliveTypes::eNevetSet ||
                                 pObj->Type() == ReliveTypes::eFleech ||
                                 pObj->Type() == ReliveTypes::eScrab) &&
-                                mScale == pObj->mScale && pObj->mHealth > FP_FromInteger(0))
+                                GetScale() == pObj->GetScale() && pObj->mHealth > FP_FromInteger(0))
                             {
                                 const FP xDist = pObj->mXPos - mXPos;
-                                if (!WallHit(mSpriteScale * FP_FromInteger(45), xDist))
+                                if (!WallHit(GetSpriteScale() * FP_FromInteger(45), xDist))
                                 {
                                     if (!pObj->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible))
                                     {
@@ -4036,9 +4034,9 @@ void Scrab::KillTarget(BaseAliveGameObject* pTarget)
 
 s16 Scrab::FindAbeOrMud()
 {
-    if (CanSeeAbe(sActiveHero) && sActiveHero->mHealth > FP_FromInteger(0) && sActiveHero->mSpriteScale == mSpriteScale && !sActiveHero->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible))
+    if (CanSeeAbe(sActiveHero) && sActiveHero->mHealth > FP_FromInteger(0) && sActiveHero->GetSpriteScale() == GetSpriteScale() && !sActiveHero->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible))
     {
-        if (!WallHit(mSpriteScale * FP_FromInteger(45), sActiveHero->mXPos - mXPos))
+        if (!WallHit(GetSpriteScale() * FP_FromInteger(45), sActiveHero->mXPos - mXPos))
         {
             mTargetGuid = sActiveHero->mBaseGameObjectId;
             return TRUE;
@@ -4056,9 +4054,9 @@ s16 Scrab::FindAbeOrMud()
         if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
-            if ((pAliveObj->Type() == ReliveTypes::eRingOrLiftMud || pAliveObj->Type() == ReliveTypes::eMudokon || pAliveObj->Type() == ReliveTypes::eScrab) && (pAliveObj->Type() != ReliveTypes::eScrab || pAliveObj->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::ePossessed)) && CanSeeAbe(pAliveObj) && pAliveObj->mHealth > FP_FromInteger(0) && pAliveObj->mSpriteScale == mSpriteScale)
+            if ((pAliveObj->Type() == ReliveTypes::eRingOrLiftMud || pAliveObj->Type() == ReliveTypes::eMudokon || pAliveObj->Type() == ReliveTypes::eScrab) && (pAliveObj->Type() != ReliveTypes::eScrab || pAliveObj->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::ePossessed)) && CanSeeAbe(pAliveObj) && pAliveObj->mHealth > FP_FromInteger(0) && pAliveObj->GetSpriteScale() == GetSpriteScale())
             {
-                if (!WallHit(mSpriteScale * FP_FromInteger(45), pAliveObj->mXPos - mXPos))
+                if (!WallHit(GetSpriteScale() * FP_FromInteger(45), pAliveObj->mXPos - mXPos))
                 {
                     mTargetGuid = pAliveObj->mBaseGameObjectId;
                     return TRUE;
@@ -4071,7 +4069,7 @@ s16 Scrab::FindAbeOrMud()
 
 s16 Scrab::CanSeeAbe(BaseAliveGameObject* pObj)
 {
-    if (pObj->mSpriteScale != mSpriteScale)
+    if (pObj->GetSpriteScale() != GetSpriteScale())
     {
         return 0;
     }
@@ -4084,7 +4082,7 @@ s16 Scrab::CanSeeAbe(BaseAliveGameObject* pObj)
         }
     }
 
-    if (pObj->mYPos <= (mYPos - (mSpriteScale * FP_FromInteger(45))) || !LineOfSightTo(this, pObj))
+    if (pObj->mYPos <= (mYPos - (GetSpriteScale() * FP_FromInteger(45))) || !LineOfSightTo(this, pObj))
     {
         return 0;
     }
@@ -4094,14 +4092,14 @@ s16 Scrab::CanSeeAbe(BaseAliveGameObject* pObj)
         FP offX = {};
         if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
         {
-            offX = -ScaleToGridSize(mSpriteScale);
+            offX = -ScaleToGridSize(GetSpriteScale());
         }
         else
         {
-            offX = ScaleToGridSize(mSpriteScale);
+            offX = ScaleToGridSize(GetSpriteScale());
         }
 
-        if (WallHit(mSpriteScale * FP_FromInteger(45), offX))
+        if (WallHit(GetSpriteScale() * FP_FromInteger(45), offX))
         {
             return 0;
         }
@@ -4127,7 +4125,7 @@ bool Scrab::LineOfSightTo(Scrab* pThis, BaseAliveGameObject* pObj)
                &pLine,
                &hitX,
                &hitY,
-               pThis->mScale == Scale::Fg ? kFgFloorWallOrCeiling
+               pThis->GetScale() == Scale::Fg ? kFgFloorWallOrCeiling
                : kBgFloorWallOrCeiling)
         != 1;
 } 
@@ -4154,7 +4152,7 @@ Scrab* Scrab::FindScrabToFight()
             {
                 if (VOnSameYLevel(pScrab))
                 {
-                    if (!WallHit(mSpriteScale * FP_FromInteger(45), pScrab->mXPos - mXPos) && gMap.Is_Point_In_Current_Camera(pScrab->mCurrentLevel, pScrab->mCurrentPath, pScrab->mXPos, pScrab->mYPos, 0) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
+                    if (!WallHit(GetSpriteScale() * FP_FromInteger(45), pScrab->mXPos - mXPos) && gMap.Is_Point_In_Current_Camera(pScrab->mCurrentLevel, pScrab->mCurrentPath, pScrab->mXPos, pScrab->mYPos, 0) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
                     {
                         if (pScrab->mFightTargetId == Guid{})
                         {
@@ -4198,7 +4196,7 @@ s16 Scrab::Handle_SlamDoor_or_EnemyStopper(FP velX, s16 bCheckLeftRightBounds)
         velX = -velX;
     }
 
-    FP gridSize = ScaleToGridSize(mSpriteScale);
+    FP gridSize = ScaleToGridSize(GetSpriteScale());
     if (velX > FP_FromInteger(5))
     {
         gridSize = (gridSize * FP_FromInteger(2));
@@ -4218,7 +4216,7 @@ s16 Scrab::Handle_SlamDoor_or_EnemyStopper(FP velX, s16 bCheckLeftRightBounds)
         stopDirection = relive::Path_EnemyStopper::StopDirection::Right;
     }
 
-    if (WallHit(mSpriteScale * FP_FromInteger(45), gridSize * FP_FromInteger(1)))
+    if (WallHit(GetSpriteScale() * FP_FromInteger(45), gridSize * FP_FromInteger(1)))
     {
         return 1;
     }
@@ -4227,7 +4225,7 @@ s16 Scrab::Handle_SlamDoor_or_EnemyStopper(FP velX, s16 bCheckLeftRightBounds)
         FP_GetExponent(mXPos),
         FP_GetExponent(FP_Abs(mYPos)),
         FP_GetExponent(mXPos + gridSize),
-        FP_GetExponent(mYPos - ScaleToGridSize(mSpriteScale)),
+        FP_GetExponent(mYPos - ScaleToGridSize(GetSpriteScale())),
         ReliveTypes::eSlamDoor);
 
     auto pSlamDoorTlv = static_cast<relive::Path_SlamDoor*>(BaseAliveGameObjectPathTLV);
@@ -4240,7 +4238,7 @@ s16 Scrab::Handle_SlamDoor_or_EnemyStopper(FP velX, s16 bCheckLeftRightBounds)
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos + gridSize),
-        FP_GetExponent(mYPos - ScaleToGridSize(mSpriteScale)),
+        FP_GetExponent(mYPos - ScaleToGridSize(GetSpriteScale())),
         ReliveTypes::eEnemyStopper);
 
     auto pPathEnemyStopper = static_cast<relive::Path_EnemyStopper*>(BaseAliveGameObjectPathTLV);
@@ -4255,7 +4253,7 @@ s16 Scrab::Handle_SlamDoor_or_EnemyStopper(FP velX, s16 bCheckLeftRightBounds)
                 FP_GetExponent(mXPos),
                 FP_GetExponent(FP_Abs(mYPos)),
                 FP_GetExponent(mXPos + gridSize),
-                FP_GetExponent(mYPos - ScaleToGridSize(mSpriteScale)),
+                FP_GetExponent(mYPos - ScaleToGridSize(GetSpriteScale())),
                 objectType))
         {
             return 1;
