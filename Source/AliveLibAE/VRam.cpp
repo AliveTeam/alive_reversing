@@ -4,6 +4,7 @@
 #include "PsxDisplay.hpp"
 #include <gmock/gmock.h>
 #include "Renderer/IRenderer.hpp"
+#include "BaseGameAutoPlayer.hpp"
 
 const s32 kMaxAllocs = 512;
 
@@ -166,6 +167,15 @@ EXPORT s16 CC Vram_alloc_4956C0(u16 width, s16 height, u16 colourDepth, PSX_RECT
 
     if (sVramNumberOfAllocations_5CC888 >= kMaxAllocs || !Vram_alloc_block_4957B0(&rect, depth))
     {
+        if (GetGameAutoPlayer().IsRecording() || GetGameAutoPlayer().IsPlaying())
+        {
+            LOG_WARNING("Fat vram alloc hax");
+            pRect->w = 1;
+            pRect->h = 1;
+            pRect->x = 1024 - 1;
+            pRect->y = 512 - 1;
+            return 1;
+        }
         return 0;
     }
 
