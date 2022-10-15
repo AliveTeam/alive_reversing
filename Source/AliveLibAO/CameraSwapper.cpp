@@ -18,52 +18,35 @@ namespace AO {
 
 s16 gNumCamSwappers = 0;
 
-CameraSwapper::CameraSwapper(CamResource& ppBits, s32 movieId, s32 movieFlag, s8 movieFlags, s16 flags, s16 volume)
+CameraSwapper::CameraSwapper(CamResource& ppBits, bool bPutDispEnv1, const char_type* pFmv1, bool bPutDispEnv2, const char_type* pFmv2, bool bPutDispEnv3, const char_type* pFmv3)
     : BaseGameObject(TRUE, 0)
-{
-    Init(ppBits, CameraSwapEffects::ePlay1FMV_5);
+    {
 
-    relive_new Movie(movieFlag, movieId, movieFlags, flags, volume);
+    mFmvs[0] = pFmv1;
+    mPutDispEnv[0] = bPutDispEnv1;
 
-    field_3C_movie_bPutDispEnv = flags;
-}
+    mFmvs[1] = pFmv2;
+    mPutDispEnv[1] = bPutDispEnv2;
 
-CameraSwapper::CameraSwapper(CamResource& ppBits, s32 moviePos1, s32 movieId1, s32 moviePos2, s32 movieFlag1, s8 movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlag2_1, s16 movieFlags2_1, s16 movieVol2)
-    : BaseGameObject(TRUE, 0)
-{
-    Init(ppBits, CameraSwapEffects::ePlay2FMVs_9);
+    mFmvs[2] = pFmv3;
+    mPutDispEnv[2] = bPutDispEnv3;
 
-    relive_new Movie(movieId1, moviePos1, movieFlags1, movieVol1, movieFlag2);
+    if (pFmv1 && pFmv2 && pFmv3)
+    {
+        Init(ppBits, CameraSwapEffects::ePlay3FMVs_10);
 
-    field_14_movie_id_3 = movieFlag1;
-    field_10_movie_pos_3 = moviePos2;
-    field_34_movie_vol_3 = movieVol2;
-    field_32_movie_flags_3 = movieFlags2_1;
-    field_30_movie_flag_3 = movieFlag2_1;
+    }
+    else if (pFmv1 && pFmv2)
+    {
+        Init(ppBits, CameraSwapEffects::ePlay2FMVs_9);
+    }
+    else
+    {
+        Init(ppBits, CameraSwapEffects::ePlay1FMV_5);
+    }
 
-    field_3C_movie_bPutDispEnv = movieVol1;
-}
-
-CameraSwapper::CameraSwapper(CamResource& ppBits, s32 moviePos1, s32 movieIds1, s32 moviePos2, s32 movieId2, s32 moviePos3, s32 movieId3, s8 movieFlag1, s16 movieFlags1, s16 movieVol1, s16 movieFlag2, s16 movieFlags2, s16 movieVol2, s16 movieFlag3, s16 movieFlags3, s16 movieVol3)
-    : BaseGameObject(TRUE, 0)
-{
-    Init(ppBits, CameraSwapEffects::ePlay3FMVs_10);
-
-    relive_new Movie(movieIds1, moviePos1, movieFlag1, movieFlags1, movieVol1);
-
-    field_18_movie_pos_2 = moviePos2;
-    field_1C_movie_id_2 = movieId2;
-    field_38_movie_flags_2 = movieFlags2;
-    field_36_movie_flag_2 = movieFlag2;
-    field_3A_movie_vol_2 = movieVol2;
-
-    field_14_movie_id_3 = movieId3;
-    field_10_movie_pos_3 = moviePos3;
-    field_30_movie_flag_3 = movieFlag3;
-    field_34_movie_vol_3 = movieVol3;
-    field_32_movie_flags_3 = movieFlags3;
-
-    field_3C_movie_bPutDispEnv = movieFlags1;
+    relive_new Movie(mFmvs[0]);
+    field_3C_movie_bPutDispEnv = mPutDispEnv[0];
 }
 
 void CameraSwapper::VScreenChanged()
@@ -434,15 +417,10 @@ void CameraSwapper::VUpdate()
             // When no movie is playing start the next one
             if (sMovie_ref_count_9F309C == 0)
             {
-                relive_new Movie(
-                    field_14_movie_id_3,
-                    field_10_movie_pos_3,
-                    static_cast<s8>(field_30_movie_flag_3),
-                    field_32_movie_flags_3,
-                    field_34_movie_vol_3);
+                relive_new Movie(mFmvs[2]);
 
                 field_28_changeEffect = CameraSwapEffects::ePlay1FMV_5;
-                field_3C_movie_bPutDispEnv = field_32_movie_flags_3;
+                field_3C_movie_bPutDispEnv = mPutDispEnv[2];
             }
             break;
 
@@ -459,15 +437,10 @@ void CameraSwapper::VUpdate()
             // When no movie is playing start the next one
             if (sMovie_ref_count_9F309C == 0)
             {
-                relive_new Movie(
-                    field_1C_movie_id_2,
-                    field_18_movie_pos_2,
-                    static_cast<s8>(field_36_movie_flag_2),
-                    field_38_movie_flags_2,
-                    field_3A_movie_vol_2);
+                relive_new Movie(mFmvs[1]);
 
                 field_28_changeEffect = CameraSwapEffects::ePlay2FMVs_9;
-                field_3C_movie_bPutDispEnv = field_38_movie_flags_2;
+                field_3C_movie_bPutDispEnv = mPutDispEnv[1];
             }
             break;
 

@@ -17,7 +17,7 @@
 const u32 MOVIE_SKIPPER_GAMEPAD_INPUTS = (InputCommands::Enum::eUnPause_OrConfirm | InputCommands::Enum::eBack | InputCommands::Enum::ePause);
 
 // Tells whether reverb was enabled before starting the FMV
-static bool wasReverbEnabled;
+static bool wasReverbEnabled = false;
 
 SoundEntry fmv_sound_entry_5CA208 = {};
 
@@ -146,7 +146,6 @@ s8 DDV_StartAudio_493DF0()
     return 0;
 }
 
-#if USE_SDL2
 void DDV_Null_493F30()
 {
     // Do nothing
@@ -156,17 +155,6 @@ void DD_Null_Flip_4940F0()
 {
     // Do nothing
 }
-#else
-void DDV_Null_493F30()
-{
-    
-}
-
-void DD_Null_Flip_4940F0()
-{
-    
-}
-#endif
 
 static Masher* Open_DDV(const char_type* pMovieName)
 {
@@ -429,49 +417,14 @@ s8 DDV_Play(const char_type* pDDVName)
 }
 
 s16 sMovie_Kill_SEQs_563A88 = 1;
-s16 word_BB4AB2 = 0;
 s32 sMovie_ref_count_BB4AE4 = 0;
-u8 sMovieNameIdx_5CA4C4 = 0;
-
-struct MovieName final
-{
-    char_type mName[64];
-};
-
-struct MovieQueue final
-{
-    MovieName mNames[3];
-};
-
-MovieQueue sMovieNames_5CA348 = {};
-
-void Get_fmvs_sectors(const char_type* pMovieName1, const char_type* pMovieName2, const char_type* pMovieName3)
-{
-    // NOTE: Unused globals that also had the "fake" sector number assigned have been omitted.
-    sMovieNameIdx_5CA4C4 = 0;
-
-    if (pMovieName1)
-    {
-        strcpy(sMovieNames_5CA348.mNames[0].mName, pMovieName1);
-    }
-
-    if (pMovieName2)
-    {
-        strcpy(sMovieNames_5CA348.mNames[1].mName, pMovieName2);
-    }
-
-    if (pMovieName3)
-    {
-        strcpy(sMovieNames_5CA348.mNames[2].mName, pMovieName3);
-    }
-}
 
 void Movie::VScreenChanged()
 {
     // Null sub 0x4E02A0
 }
 
-void Movie::Init(s16 flags, s16 volume)
+void Movie::Init()
 {
     mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     mBaseGameObjectFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
@@ -482,20 +435,20 @@ void Movie::Init(s16 flags, s16 volume)
 
     sMovie_Kill_SEQs_563A88 = 1;
 
+    /*
+    // TODO: never seemed to be used, compare with psx to check
     if (flags & 0x4000)
     {
         sMovie_Kill_SEQs_563A88 = 0;
     }
-    word_BB4AB2 = 2;
-
-    field_22_volume = volume;
-
+    */
 }
 
-Movie::Movie(s32 flags, s32 volume)
+Movie::Movie(const char_type* pName)
     : BaseGameObject(TRUE, 0)
+    , mName(pName)
 {
-    Init(static_cast<s16>(flags), static_cast<s16>(volume));
+    Init();
 }
 
 void Movie::VUpdate()
@@ -512,7 +465,7 @@ void Movie::VUpdate()
             SND_StopAll();
         }
 
-        while (!DDV_Play(sMovieNames_5CA348.mNames[sMovieNameIdx_5CA4C4].mName))
+        while (!DDV_Play(mName))
         {
             if (gAttract_5C1BA0)
             {
@@ -524,11 +477,6 @@ void Movie::VUpdate()
                 break;
             }
         }
-
-        if (++sMovieNameIdx_5CA4C4 == ALIVE_COUNTOF(sMovieNames_5CA348.mNames))
-        {
-            sMovieNameIdx_5CA4C4 = 0;
-        }
     }
     DeInit();
 }
@@ -536,16 +484,7 @@ void Movie::VUpdate()
 
 void Movie::DeInit()
 {
-    //YuvToRgb_4F8C60(1); // mdec reset
-    //sub_4F92A0(0); // Clear a call back thats never used
-    //sub_4FB440(); // Frees/resets some sound stuff guarded by always false conditions
-
     PSX_VSync_4F6170(2);
-
-    if (word_BB4AB2 & 1)
-    {
-        field_2C_ppRes = nullptr;
-    }
 
     sbLoadingInProgress_5C1B96 = FALSE;
     --sMovie_ref_count_BB4AE4;

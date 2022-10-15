@@ -88,7 +88,6 @@ private:
 
     static void AddPropertyEntry(const char_type* text, DDCheatValueType valueType, DDCheatValue valuePtr);
 
-    s32 field_20 = 0;
     s16 field_24_fn_idx = 0;
     s16 field_26_next_fn_idx = 0;
     s32 field_38_input_pressed = 0;

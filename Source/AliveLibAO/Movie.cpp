@@ -22,19 +22,6 @@ namespace AO {
 
 s32 sMovie_ref_count_9F309C = 0;
 
-struct MovieName
-{
-    char_type mName[64];
-};
-
-struct MovieQueue
-{
-    MovieName mNames[3];
-};
-
-MovieQueue sMovieNames_508B08 = {};
-BYTE sMovieNameIdx_508C0C = 0;
-
 SoundEntry fmv_sound_entry;
 
 
@@ -211,55 +198,14 @@ public:
 
 };
 
-void Get_fmvs_sectors(const char_type* pMovieName1, const char_type* pMovieName2, const char_type* pMovieName3)
-{
-    sMovieNameIdx_508C0C = 0;
-
-    if (pMovieName1)
-    {
-        strcpy(sMovieNames_508B08.mNames[0].mName, pMovieName1);
-    }
-
-    if (pMovieName2)
-    {
-        strcpy(sMovieNames_508B08.mNames[1].mName, pMovieName2);
-    }
-
-    if (pMovieName3)
-    {
-        strcpy(sMovieNames_508B08.mNames[2].mName, pMovieName3);
-    }
-}
-
-Movie::Movie(s32 id, s32 /*pos*/, s8 bUnknown, s32 /*flags*/, s16 volume)
+Movie::Movie(const char_type* pFmvName)
     : BaseGameObject(TRUE, 0)
+    , mFmvName(pFmvName)
 {
-    // AE_IMPLEMENTED();
-
     mBaseGameObjectFlags.Set(Options::eSurviveDeathReset_Bit9);
     mBaseGameObjectFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
 
-    /*
-    // TODO: FIX MOI
-    PSX_Pos_To_CdLoc_49B340(pos, &loc);
-
-    word_9F3064 = 2;
-
-    sMovie_ref_count_9F309C = v7 + 1;
-    LOWORD(v7) = *(_WORD*)&loc.field_0_minute;
-    LOBYTE(v7) = loc.field_2_sector;
-    field_35 = BYTE1(sMovie_ref_count_9F309C);
-    field_36 = sMovie_ref_count_9F309C;
-    field_34_min = sMovie_ref_count_9F309C;
-    */
-
-    field_28 = id;
     SetType(ReliveTypes::eMovie);
-    field_2C = 0;
-    field_10_flags = 4 * (bUnknown & 1) | (field_10_flags & ~7);
-    field_3C = 1;
-
-    field_12 = volume;
 
     IO_Init_494230(); // Set up IO funcs
 }
@@ -280,7 +226,7 @@ static void Render_Str_Frame()
     VGA_CopyToFront(nullptr);
 }
 
-class TempSurface
+class TempSurface final
 {
 public:
     bool InitIf(int width, int height)
@@ -363,14 +309,7 @@ void Movie::VUpdate()
     }
 
     // Open the file
-    void* hMovieFile = GetMovieIO().mIO_Open(sMovieNames_508B08.mNames[sMovieNameIdx_508C0C].mName);
-
-    // Go to the next movie next time we come in
-    sMovieNameIdx_508C0C++;
-    if (sMovieNameIdx_508C0C == 3)
-    {
-        sMovieNameIdx_508C0C = 0;
-    }
+    void* hMovieFile = GetMovieIO().mIO_Open(mFmvName);
 
     // Bail if failed to open
     if (!hMovieFile)

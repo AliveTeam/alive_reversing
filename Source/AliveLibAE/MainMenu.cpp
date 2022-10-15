@@ -1455,12 +1455,11 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
         if (pMenuFMV->field_A_fmv_id >= 0)
         {
             FmvInfo* pFmvRecord = Path_Get_FMV_Record(pMenuFMV->field_4_level_id, pMenuFMV->field_A_fmv_id);
-            Get_fmvs_sectors(pFmvRecord->field_0_pName, 0, 0);
             sLevelId_dword_5CA408 = static_cast<u32>(MapWrapper::ToAE(pMenuFMV->field_4_level_id));
 
             dword_55C128 = -1;
 
-            auto pMovie = relive_new Movie(pFmvRecord->field_6_flags & 1, pFmvRecord->field_A_volume);
+            auto pMovie = relive_new Movie(pFmvRecord->field_0_pName);
 
             while (sMovie_ref_count_BB4AE4)
             {
@@ -1853,12 +1852,9 @@ MainMenuNextCam MainMenuController::BackStory_Or_NewGame_Update_4D1C60(u32 input
                 }
             }
 
-            Get_fmvs_sectors(pFmvRecord->field_0_pName, nullptr, nullptr);
             sLevelId_dword_5CA408 = 0;
 
-            auto pMovie = relive_new Movie(
-                                        pFmvRecord->field_6_flags & 1,
-                                        pFmvRecord->field_A_volume);
+            auto pMovie = relive_new Movie(pFmvRecord->field_0_pName);
 
             while (sMovie_ref_count_BB4AE4)
             {
@@ -3081,7 +3077,6 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
             if (sMainMenuPages_561960[field_214_page_index].field_A_transition_effect == camTransEffectState::eUnknown_7)
             {
                 // Find the record for GTILOGO.DDV
-                FmvInfo* pFmvRecord = Path_Get_FMV_Record(EReliveLevelIds::eMenu, 3u);
                 if (!GetGameAutoPlayer().IsRecording() && !GetGameAutoPlayer().IsPlaying())
                 {
                     while (Input_IsVKPressed_4EDD40(VK_RETURN))
@@ -3090,13 +3085,9 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                     }
                 }
 
-                Get_fmvs_sectors(pFmvRecord->field_0_pName, 0, 0);
                 sLevelId_dword_5CA408 = 0;
 
-                // Create a movie object for the GTI logo
-                auto pMovie = relive_new Movie(
-                                            pFmvRecord->field_6_flags & 1,
-                                            pFmvRecord->field_A_volume);
+                auto pMovie = relive_new Movie("GTILOGO.DDV");
 
                 // Run the movie till its done
                 while (sMovie_ref_count_BB4AE4 > 0)
@@ -3119,10 +3110,8 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 }
 
                 // Create movie object for the DD logo
-                Get_fmvs_sectors("DDLOGO.DDV", 0, 0);
                 sLevelId_dword_5CA408 = 0;
-                pMovie = relive_new Movie(pFmvRecord->field_6_flags & 1,
-                                          pFmvRecord->field_A_volume);
+                pMovie = relive_new Movie("DDLOGO.DDV");
 
                 // Run the movie till its done
                 while (sMovie_ref_count_BB4AE4 > 0)

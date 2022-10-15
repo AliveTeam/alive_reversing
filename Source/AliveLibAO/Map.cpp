@@ -1814,32 +1814,14 @@ CameraSwapper* Map::FMV_Camera_Change(CamResource& ppBits, Map* pMap, EReliveLev
             MusicController::EnableMusic(0);
         }
 
-
-        Get_fmvs_sectors(
-            pFmvRec1->field_0_pName,
-            pFmvRec2->field_0_pName,
-            pFmvRec3->field_0_pName);
-
         return relive_new CameraSwapper(
             ppBits,
-            0,
-            pFmvRec1->field_4_id,
-            0,
-            pFmvRec2->field_4_id,
-            0,
-            pFmvRec3->field_4_id,
-
-            static_cast<s8>(pFmvRec1->field_6),
-            pFmvRec1->field_A,
-            pFmvRec1->field_C_volume,
-
-            pFmvRec2->field_6,
-            pFmvRec2->field_A,
-            pFmvRec2->field_C_volume,
-
-            pFmvRec3->field_6,
-            pFmvRec3->field_A,
-            pFmvRec3->field_C_volume);
+            pFmvRec1->field_A == 1,
+            pFmvRec1->field_0_pName,
+            pFmvRec2->field_A == 1,
+            pFmvRec2->field_0_pName,
+            pFmvRec3->field_A == 1,
+            pFmvRec3->field_0_pName);
     }
     else if (fmvBaseId > 100u)
     {
@@ -1852,22 +1834,12 @@ CameraSwapper* Map::FMV_Camera_Change(CamResource& ppBits, Map* pMap, EReliveLev
             MusicController::EnableMusic(0);
         }
 
-        Get_fmvs_sectors(pFmvRec1->field_0_pName, pFmvRec2->field_0_pName, 0);
-
         return relive_new CameraSwapper(
             ppBits,
-            0,
-            pFmvRec1->field_4_id,
-            0,
-            pFmvRec2->field_4_id,
-
-            static_cast<s8>(pFmvRec1->field_6),
-            pFmvRec1->field_A,
-            pFmvRec1->field_C_volume,
-
-            pFmvRec2->field_6,
-            pFmvRec2->field_A,
-            pFmvRec2->field_C_volume);
+            pFmvRec1->field_A == 1,
+            pFmvRec1->field_0_pName,
+            pFmvRec2->field_A == 1,
+            pFmvRec2->field_0_pName);
     }
     else // < 100
     {
@@ -1879,14 +1851,10 @@ CameraSwapper* Map::FMV_Camera_Change(CamResource& ppBits, Map* pMap, EReliveLev
             MusicController::EnableMusic(0);
         }
 
-        Get_fmvs_sectors(pFmvRecord->field_0_pName, 0, 0);
         return relive_new CameraSwapper(
             ppBits,
-            0,
-            pFmvRecord->field_4_id,
-            static_cast<s8>(pFmvRecord->field_6),
-            pFmvRecord->field_A,
-            pFmvRecord->field_C_volume);
+            pFmvRecord->field_A == 1,
+            pFmvRecord->field_0_pName);
     }
 }
 

@@ -81,8 +81,6 @@ void DDCheat::Menu_Teleport()
     DebugStr("Camera (Left/Right): %d\n", sTeleport_Cam_550F60);
     DebugStr("Teleport = Enter Reset = Alt\n");
 
-    field_20 += 6;
-
     if (field_38_input_pressed & InputCommands::Enum::eGameSpeak1)
     {
         if (sTeleport_Level_550F5C)
@@ -155,15 +153,12 @@ void DDCheat::Menu_Movies()
     if (field_38_input_pressed & InputCommands::Enum::eUp)
     {
         FmvInfo* movieToPlayInfo = Path_Get_FMV_Record(gMap.mCurrentLevel, sDDCheat_MovieSelectIdx_5BBFF0);
-        Get_fmvs_sectors(movieToPlayInfo->field_0_pName, 0, 0);
         sLevelId_dword_5CA408 = static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel));
-        relive_new Movie(movieToPlayInfo->field_6_flags & 1,
-                         movieToPlayInfo->field_A_volume);
+        relive_new Movie(movieToPlayInfo->field_0_pName);
     }
 
     const FmvInfo* fmvInfo = Path_Get_FMV_Record(gMap.mCurrentLevel, sDDCheat_MovieSelectIdx_5BBFF0);
     DDCheat::DebugStr("\n<- Movie -> %d %d %s \n", sDDCheat_MovieSelectIdx_5BBFF0, fmvInfo->field_4_id, fmvInfo->field_0_pName);
-    field_20 += 6;
 }
 
 DDCheat::DDCheat()
@@ -173,7 +168,6 @@ DDCheat::DDCheat()
     mBaseGameObjectFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
     field_3C_flags.Clear(DDCheat::Flags_3C::e3C_Bit4);
     SetType(ReliveTypes::eDDCheat);
-    field_20 = 0;
     field_24_fn_idx = 0;
 
     ClearProperties();
@@ -230,8 +224,6 @@ void DDCheat::VUpdate()
     {
         return;
     }
-
-    field_20 = 0;
 
     auto activePadPressed = Input().mPads[sCurrentControllerIndex].mHeld;
 
@@ -337,8 +329,6 @@ void DDCheat::VUpdate()
                 FP_GetExponent(sActiveHero->mYPos));
 #endif
 
-            field_20 = 6;
-
             if (sDDCheat_FlyingEnabled_5C2C08)
             {
                 if (activePadPressed & InputCommands::Enum::eDoAction)
@@ -433,7 +423,6 @@ void DDCheat::VUpdate()
                 }
 
                 field_24_fn_idx = field_26_next_fn_idx; // Always set new func index
-                field_20 += 4;
             }
             else
             {

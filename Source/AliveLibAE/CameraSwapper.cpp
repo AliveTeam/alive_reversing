@@ -14,46 +14,34 @@
 #include "ScreenClipper.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
 
-CameraSwapper::CameraSwapper(CamResource& ppCamRes, s32 movieFlag, s32 movieFlags, s32 movieVol)
+CameraSwapper::CameraSwapper(CamResource& ppCamRes, bool bPutDispEnv1, const char_type* pFmv1, bool bPutDispEnv2, const char_type* pFmv2, bool bPutDispEnv3, const char_type* pFmv3)
     : BaseGameObject(TRUE, 0)
 {
-    Init(ppCamRes, CameraSwapEffects::ePlay1FMV_5);
+    mFmvs[0] = pFmv1;
+    mPutDispEnv[0] = bPutDispEnv1;
 
-    relive_new Movie(movieFlag, movieVol);
+    mFmvs[1] = pFmv2;
+    mPutDispEnv[1] = bPutDispEnv2;
 
-    field_4C_movie_bPutDispEnv = static_cast<s16>(movieFlags);
-}
+    mFmvs[2] = pFmv3;
+    mPutDispEnv[2] = bPutDispEnv3;
 
-CameraSwapper::CameraSwapper(CamResource& ppCamRes, s32 movieFlag1, s32 movieFlags1, s32 movieVol1, s32 movieFlag2, s32 movieFlags2, s32 movieVol2)
-    : BaseGameObject(TRUE, 0)
-{
-    Init(ppCamRes, CameraSwapEffects::ePlay2FMVs_9);
+    if (mFmvs[0] && mFmvs[1] && mFmvs[2])
+    {
+        Init(ppCamRes, CameraSwapEffects::ePlay3FMVs_10);
+    }
+    else if (mFmvs[0] && mFmvs[1])
+    {
+        Init(ppCamRes, CameraSwapEffects::ePlay2FMVs_9);
+    }
+    else
+    {
+        Init(ppCamRes, CameraSwapEffects::ePlay1FMV_5);
+    }
 
-    relive_new Movie(movieFlag1, movieVol1);
+    relive_new Movie(mFmvs[0]);
 
-    field_44_movie_vol_3 = static_cast<s16>(movieVol2);
-    field_42_movie_flags_3 = static_cast<s16>(movieFlags2);
-    field_40_movie_flag_3 = static_cast<s16>(movieFlag2);
-
-    field_4C_movie_bPutDispEnv = static_cast<s16>(movieFlags1);
-}
-
-CameraSwapper::CameraSwapper(CamResource& ppCamRes, s32 movieFlag1, s32 movieFlags1, s32 movieVol1, s32 movieFlag2, s32 movieFlags2, s32 movieVol2, s32 moveFlag3, s32 movieFlags3, s32 movieVol3)
-    : BaseGameObject(TRUE, 0)
-{
-    Init(ppCamRes, CameraSwapEffects::ePlay3FMVs_10);
-
-    relive_new Movie(movieFlag1, movieVol1);
-
-    field_46_movie_flag_2 = static_cast<s16>(movieFlag2);
-    field_48_movie_flags_2 = static_cast<s16>(movieFlags2);
-    field_4A_movie_vol_2 = static_cast<s16>(movieVol2);
-
-    field_40_movie_flag_3 = static_cast<s16>(moveFlag3);
-    field_42_movie_flags_3 = static_cast<s16>(movieFlags3);
-    field_44_movie_vol_3 = static_cast<s16>(movieVol3);
-
-    field_4C_movie_bPutDispEnv = static_cast<s16>(movieFlags1);
+    field_4C_movie_bPutDispEnv = mPutDispEnv[0];
 }
 
 CameraSwapper::CameraSwapper(CamResource& ppCamRes, CameraSwapEffects changeEffect, s32 xpos, s32 ypos)
@@ -412,9 +400,9 @@ void CameraSwapper::VUpdate()
             // When no movie is playing start the next one
             if (sMovie_ref_count_BB4AE4 == 0)
             {
-                relive_new Movie(field_40_movie_flag_3, field_44_movie_vol_3);
+                relive_new Movie(mFmvs[1]);
                 field_38_changeEffect = CameraSwapEffects::ePlay1FMV_5;
-                field_4C_movie_bPutDispEnv = field_48_movie_flags_2;
+                field_4C_movie_bPutDispEnv = mPutDispEnv[1]; 
             }
             break;
 
@@ -427,9 +415,9 @@ void CameraSwapper::VUpdate()
             // When no movie is playing start the next one
             if (sMovie_ref_count_BB4AE4 == 0)
             {
-                relive_new Movie(field_46_movie_flag_2, field_4A_movie_vol_2);
+                relive_new Movie(mFmvs[2]);
                 field_38_changeEffect = CameraSwapEffects::ePlay2FMVs_9;
-                field_4C_movie_bPutDispEnv = field_48_movie_flags_2;
+                field_4C_movie_bPutDispEnv = mPutDispEnv[1]; // TODO another master branch bug
             }
             break;
 
@@ -440,4 +428,5 @@ void CameraSwapper::VUpdate()
 
 void CameraSwapper::VScreenChanged()
 {
+
 }

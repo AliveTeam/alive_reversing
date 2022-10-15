@@ -1031,52 +1031,36 @@ BaseGameObject* Map::FMV_Camera_Change(CamResource& ppBits, Map* pMap, EReliveLe
         FmvInfo* pFmvRec1 = Path_Get_FMV_Record(lvlId, pMap->mFmvBaseId / 10000);
         FmvInfo* pFmvRec2 = Path_Get_FMV_Record(lvlId, pMap->mFmvBaseId / 100 % 100);
         FmvInfo* pFmvRec3 = Path_Get_FMV_Record(lvlId, pMap->mFmvBaseId % 100);
-        sLevelId_dword_5CA408 = static_cast<s32>(MapWrapper::ToAE(lvlId)); // TODO: Strongly type this, but it hasn't got the same underlaying type as the enum grr..
-
-        Get_fmvs_sectors(
-            pFmvRec1->field_0_pName,
-            pFmvRec2->field_0_pName,
-            pFmvRec3->field_0_pName);
+        sLevelId_dword_5CA408 = static_cast<s32>(MapWrapper::ToAE(lvlId)); // HACK
 
         return relive_new CameraSwapper(ppBits,
-                                              pFmvRec1->field_6_flags & 1,
-                                              pFmvRec1->field_8_flags,
-                                              pFmvRec1->field_A_volume,
-
-                                              pFmvRec2->field_6_flags & 1,
-                                              pFmvRec2->field_8_flags,
-                                              pFmvRec2->field_A_volume,
-
-                                              pFmvRec3->field_6_flags & 1,
-                                              pFmvRec3->field_8_flags,
-                                              pFmvRec3->field_A_volume);
+                                        pFmvRec1->field_8_flags == 1,
+                                        pFmvRec1->field_0_pName,
+                                        pFmvRec2->field_8_flags == 1, // TODO: Master branch gobbed
+                                        pFmvRec2->field_0_pName,
+                                        pFmvRec3->field_8_flags == 1,
+                                        pFmvRec3->field_0_pName);
     }
     else if (pMap->mFmvBaseId >= 100u)
     {
         // Double FMV
         FmvInfo* pFmvRec1 = Path_Get_FMV_Record(lvlId, pMap->mFmvBaseId / 100);
         FmvInfo* pFmvRec2 = Path_Get_FMV_Record(lvlId, pMap->mFmvBaseId % 100);
-        Get_fmvs_sectors(pFmvRec1->field_0_pName, pFmvRec2->field_0_pName, 0);
         sLevelId_dword_5CA408 = static_cast<s32>(MapWrapper::ToAE(lvlId)); // HACK
         return relive_new CameraSwapper(ppBits,
-                                              pFmvRec1->field_6_flags & 1,
-                                              pFmvRec1->field_8_flags,
-                                              pFmvRec1->field_A_volume,
-
-                                              pFmvRec2->field_6_flags & 1,
-                                              pFmvRec2->field_8_flags,
-                                              pFmvRec2->field_A_volume);
+                                              pFmvRec1->field_8_flags == 1,
+                                              pFmvRec1->field_0_pName,
+                                              pFmvRec2->field_8_flags == 1,
+                                              pFmvRec2->field_0_pName);
     }
     else // < 100
     {
         // Single FMV
         FmvInfo* pFmvRec1 = Path_Get_FMV_Record(lvlId, pMap->mFmvBaseId);
-        Get_fmvs_sectors(pFmvRec1->field_0_pName, 0, 0);
         sLevelId_dword_5CA408 = static_cast<s32>(MapWrapper::ToAE(lvlId)); // HACK
         return relive_new CameraSwapper(ppBits,
-                                              pFmvRec1->field_6_flags & 1,
-                                              pFmvRec1->field_8_flags,
-                                              pFmvRec1->field_A_volume);
+                                              pFmvRec1->field_8_flags == 1,
+                                              pFmvRec1->field_0_pName);
     }
 }
 
