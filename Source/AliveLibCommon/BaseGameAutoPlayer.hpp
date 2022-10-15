@@ -20,8 +20,6 @@ enum RecordTypes : u32
 
 enum SyncPoints : u32
 {
-    StartGameObjectUpdate = 1,
-    EndGameObjectUpdate = 2,
     PumpEventsStart = 3,
     MainLoopStart = 4,
     ObjectsUpdateStart = 5,
