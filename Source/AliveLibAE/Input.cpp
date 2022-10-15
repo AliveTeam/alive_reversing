@@ -945,8 +945,8 @@ bool canOverwriteIni = true;
 bool gLatencyHack = true;
 
 const std::vector<IniCustomSaveEntry> gCustomSaveEntries = {
-    {"keep_aspect", {&s_VGA_KeepAspectRatio}, true},
-    {"filter_screen", {&s_VGA_FilterScreen}, true},
+//    {"keep_aspect", {&s_VGA_KeepAspectRatio}, true},
+//    {"filter_screen", {&s_VGA_FilterScreen}, true},
 #if USE_SDL2_SOUND
     {"reverb", {&gReverbEnabled}, true},
     {"audio_stereo", {&gAudioStereo}, true},

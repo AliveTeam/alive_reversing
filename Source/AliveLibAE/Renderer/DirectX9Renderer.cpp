@@ -87,10 +87,6 @@ void DirectX9Renderer::EndFrame()
     SDL_RenderPresent(mRenderer);
 }
 
-void DirectX9Renderer::BltBackBuffer(const SDL_Rect* /*pCopyRect*/, const SDL_Rect* /*pDst*/)
-{
-}
-
 void DirectX9Renderer::OutputSize(s32* w, s32* h)
 {
     SDL_GetRendererOutputSize(mRenderer, w, h);
@@ -105,6 +101,14 @@ void DirectX9Renderer::SetClip(Prim_PrimClipper& /*clipper*/)
 }
 
 void DirectX9Renderer::SetScreenOffset(Prim_ScreenOffset& /*offset*/)
+{
+}
+
+void DirectX9Renderer::ToggleFilterScreen()
+{
+}
+
+void DirectX9Renderer::ToggleKeepAspectRatio()
 {
 }
 

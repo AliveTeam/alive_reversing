@@ -102,7 +102,6 @@ TouchController::TouchController()
     touchButtons.push_back({80, 40, 80, TOUCH_CONTROLLER_BUTTON_LEFTSHOULDER});
 
 #if _WIN32
-    s_VGA_KeepAspectRatio = true;
     SDL_SetWindowSize(Sys_GetWindowHandle(), 1280, 720);
 #endif
 }

@@ -299,12 +299,6 @@ u32 OpenGLRenderer::PrepareTextureFromPoly(Poly_FT4& poly)
     return textureId;
 }
 
-
-void OpenGLRenderer::BltBackBuffer(const SDL_Rect* /*pCopyRect*/, const SDL_Rect* pDst)
-{
-    mBlitRect = *pDst;
-}
-
 void OpenGLRenderer::Clear(u8 r, u8 g, u8 b)
 {
     if (!mFrameStarted || SDL_GetWindowFlags(mWindow) & SDL_WINDOW_MINIMIZED)
@@ -893,12 +887,14 @@ void OpenGLRenderer::EndFrame()
     GL_VERIFY(glViewport(0, 0, wW, wH));
 
     // Draw the final composed framebuffer to the screen
+    SDL_Rect drawRect = GetTargetDrawRect();
+
     GL_VERIFY(glDisable(GL_SCISSOR_TEST));
     DrawFramebufferToScreen(
-        mBlitRect.x,
-        mBlitRect.y,
-        mBlitRect.w,
-        mBlitRect.h);
+        drawRect.x,
+        drawRect.y,
+        drawRect.w,
+        drawRect.h);
 
     // Switch back to the main frame buffer
     GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, 0));
@@ -949,10 +945,10 @@ void OpenGLRenderer::SetClip(Prim_PrimClipper& clipper)
     GL_VERIFY(glScissor(rect.x, GL_FRAMEBUFFER_PSX_HEIGHT - rect.y - rect.h, rect.w, rect.h));
 }
 
-void OpenGLRenderer::SetScreenOffset(Prim_ScreenOffset& /*offset*/)
+void OpenGLRenderer::SetScreenOffset(Prim_ScreenOffset& offset)
 {
-    //mBlitRect.x = (s32) offset.field_C_xoff;
-    //mBlitRect.y = (s32) offset.field_E_yoff;
+    mOffsetX = offset.field_C_xoff;
+    mOffsetY = offset.field_E_yoff;
 }
 
 void OpenGLRenderer::SetTPage(u16 tPage)
@@ -960,7 +956,7 @@ void OpenGLRenderer::SetTPage(u16 tPage)
     mGlobalTPage = tPage;
 }
 
-void OpenGLRenderer::StartFrame(s32 /*xOff*/, s32 /*yOff*/)
+void OpenGLRenderer::StartFrame(s32 xOff, s32 yOff)
 {
     if (SDL_GetWindowFlags(mWindow) & SDL_WINDOW_MINIMIZED)
     {
@@ -971,9 +967,29 @@ void OpenGLRenderer::StartFrame(s32 /*xOff*/, s32 /*yOff*/)
 
     mFrameStarted = true;
 
+    // Set offsets for the screen (this is for the screen shake effect)
+    mOffsetX = xOff;
+    mOffsetY = yOff;
+
     // Always render to PSX framebuffer
     GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId));
     GL_VERIFY(glViewport(0, 0, GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT));
+}
+
+void OpenGLRenderer::ToggleFilterScreen()
+{
+    mFramebufferFilter = mFramebufferFilter == GL_NEAREST ? GL_LINEAR : GL_NEAREST;
+
+    GL_VERIFY(glActiveTexture(GL_TEXTURE0));
+    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mPsxFramebufferTexId));
+
+    GL_VERIFY(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, mFramebufferFilter));
+    GL_VERIFY(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, mFramebufferFilter));
+}
+
+void OpenGLRenderer::ToggleKeepAspectRatio()
+{
+    mKeepAspectRatio = !mKeepAspectRatio;
 }
 
 // ROZZA FRAMEBUFFER STUFF
@@ -1083,6 +1099,41 @@ void OpenGLRenderer::DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height
 
     // Set the framebuffer target back to the PSX framebuffer
     GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId));
+}
+
+SDL_Rect OpenGLRenderer::GetTargetDrawRect()
+{
+    SDL_Rect rect = {};
+
+    s32 wndWidth = 0;
+    s32 wndHeight = 0;
+
+    OutputSize(&wndWidth, &wndHeight);
+
+    // Calculate the draw size, aspect ratio dealt with here 
+    rect.w = wndWidth;
+    rect.h = wndHeight;
+
+    if (mKeepAspectRatio)
+    {
+        if (3 * wndWidth > 4 * wndHeight)
+        {
+            rect.w = (wndHeight * 4) / 3;
+        }
+        else
+        {
+            rect.h = (wndWidth * 3) / 4;
+        }
+    }
+
+    // Calculate any screen shake
+    s32 shakeX = static_cast<s32>(mOffsetX * (rect.w / 640.0f));
+    s32 shakeY = static_cast<s32>(mOffsetY * (rect.h / 480.0f));
+
+    rect.x = shakeX + ((wndWidth - rect.w) / 2);
+    rect.y = shakeY + ((wndHeight - rect.h) / 2);
+
+    return rect;
 }
 
 u16 OpenGLRenderer::GetTPageBlendMode(u16 tpage)

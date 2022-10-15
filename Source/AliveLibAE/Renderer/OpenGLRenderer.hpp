@@ -76,7 +76,6 @@ struct TextureAndUniqueResId final
 class OpenGLRenderer final : public IRenderer
 {
 public:
-    void BltBackBuffer(const SDL_Rect* pCopyRect, const SDL_Rect* pDst) override;
     void Clear(u8 r, u8 g, u8 b) override;
     bool Create(TWindowHandleType window) override;
     void Destroy() override;
@@ -97,6 +96,8 @@ public:
     void SetScreenOffset(Prim_ScreenOffset& offset) override;
     void SetTPage(u16 tPage) override;
     void StartFrame(s32 xOff, s32 yOff) override;
+    void ToggleFilterScreen() override;
+    void ToggleKeepAspectRatio() override;
 
 private:
     struct Stats final
@@ -128,14 +129,16 @@ private:
 
     // ROZZA STUFF
 
-    SDL_Rect mBlitRect = {};
-
     GLShader mPassthruShader = {};
     GLShader mPsxShader = {};
 
     GLuint mPsxFramebufferId = 0;
     GLuint mPsxFramebufferTexId = 0;
 
+    GLint mFramebufferFilter = GL_NEAREST;
+    bool mKeepAspectRatio = true;
+    s32 mOffsetX = 0;
+    s32 mOffsetY = 0;
     
     u32 mBatchBlendMode = BATCH_VALUE_UNSET;
     std::vector<VertexData> mBatchData;
@@ -162,6 +165,7 @@ private:
     void DecreaseResourceLifetimes();
     void DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height);
     GLuint GetCachedTextureId(u32 uniqueId, s32 bump = 0);
+    SDL_Rect GetTargetDrawRect();
     u16 GetTPageBlendMode(u16 tPage);
     void InvalidateBatch();
     void PushLines(VertexData* vertices, int count);

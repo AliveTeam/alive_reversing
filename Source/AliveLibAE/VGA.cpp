@@ -32,9 +32,6 @@ HDC sVga_HDC_BD0BC8 = 0;
 s32 sVga_LockPType_BD0BC0 = 0;
 LPVOID sVgaLockBuffer_BD0BF4 = 0;
 
-bool s_VGA_KeepAspectRatio = true;
-bool s_VGA_FilterScreen = false;
-
 s32 VGA_FullScreenSet_4F31F0(bool /*bFullScreen*/)
 {
     //  
@@ -63,61 +60,9 @@ Bitmap* VGA_GetBitmap_4F3F00()
     return &sVGA_bmp_primary_BD2A20;
 }
 
-void VGA_CopyToFront(RECT* pRect)
+void VGA_CopyToFront(RECT* /*pRect*/)
 {
-    SDL_Rect copyRect = {};
-    if (pRect)
-    {
-        copyRect = {
-            pRect->left,
-            pRect->top,
-            pRect->right,
-            pRect->bottom};
-    }
-
-    SDL_Rect* pCopyRect = pRect ? &copyRect : nullptr;
-
-    s32 w = 0;
-    s32 h = 0;
-    IRenderer::GetRenderer()->OutputSize(&w, &h);
-
-    s32 renderedWidth = w;
-    s32 renderedHeight = h;
-
-    if (s_VGA_KeepAspectRatio)
-    {
-        if (3 * w > 4 * h)
-        {
-            renderedWidth = h * 4 / 3;
-        }
-        else
-        {
-            renderedHeight = w * 3 / 4;
-        }
-    }
-
-    SDL_Rect dst = {};
-    if (pCopyRect)
-    {
-        // Make sure our screen shake also sizes with the window.
-        s32 screenShakeOffsetX = static_cast<s32>(sScreenXOffSet_BD30E4 * (renderedWidth / 640.0f));
-        s32 screenShakeOffsetY = static_cast<s32>(sScreenYOffset_BD30A4 * (renderedHeight / 480.0f));
-
-        dst.x = screenShakeOffsetX + ((w - renderedWidth) / 2);
-        dst.y = screenShakeOffsetY + ((h - renderedHeight) / 2);
-        dst.w = renderedWidth;
-        dst.h = renderedHeight;
-    }
-    else
-    {
-        dst.x = (w - renderedWidth) / 2;
-        dst.y = (h - renderedHeight) / 2;
-        dst.w = renderedWidth;
-        dst.h = renderedHeight;
-    }
-
     IRenderer::GetRenderer()->Clear(0, 0, 0);
-    IRenderer::GetRenderer()->BltBackBuffer(pCopyRect, &dst);
     IRenderer::GetRenderer()->EndFrame();
 }
 
