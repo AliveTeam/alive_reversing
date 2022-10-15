@@ -220,69 +220,59 @@ void Game_Shutdown()
 void Game_Loop()
 {
     sBreakGameLoop_507B78 = 0;
-
-    while (!sBreakGameLoop_507B78 && !gBaseGameObjects->Empty())
+    bool bPauseMenuObjectFound = false;
+    while (!gBaseGameObjects->Empty())
     {
+        GetGameAutoPlayer().SyncPoint(SyncPoints::MainLoopStart);
+
         EventsResetActive();
 
         // Update objects
-        GetGameAutoPlayer().SyncPoint(SyncPoints::StartGameObjectUpdate);
+        GetGameAutoPlayer().SyncPoint(SyncPoints::ObjectsUpdateStart);
         for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
         {
-            BaseGameObject* pObjIter = gBaseGameObjects->ItemAt(i);
-            if (!pObjIter)
+            BaseGameObject* pBaseGameObject = gBaseGameObjects->ItemAt(i);
+            if (!pBaseGameObject)
             {
                 break;
             }
 
-            if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eUpdatable_Bit2) && !pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && (gNumCamSwappers == 0 || pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
+            if (pBaseGameObject->mBaseGameObjectFlags.Get(BaseGameObject::eUpdatable_Bit2)
+			    && !pBaseGameObject->mBaseGameObjectFlags.Get(BaseGameObject::eDead) 
+				&& (gNumCamSwappers == 0 || pBaseGameObject->mBaseGameObjectFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
             {
-                const s32 updateDelay = pObjIter->UpdateDelay();
-                if (pObjIter->UpdateDelay() > 0)
+                const s32 updateDelay = pBaseGameObject->UpdateDelay();
+                if (updateDelay <= 0)
                 {
-                    pObjIter->SetUpdateDelay(updateDelay - 1);
+                    if (pBaseGameObject == pPauseMenu_5080E0)
+                    {
+                        bPauseMenuObjectFound = true;
+                    }
+                    else
+                    {
+                        pBaseGameObject->VUpdate();
+                    }
                 }
                 else
                 {
-                    pObjIter->VUpdate();
+                    pBaseGameObject->SetUpdateDelay(updateDelay - 1);
                 }
             }
         }
-
-        for (s32 i = 0; i < gLoadingFiles->Size(); i++)
-        {
-            BaseGameObject* pObjIter = gLoadingFiles->ItemAt(i);
-            if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eUpdatable_Bit2) && !pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && (gNumCamSwappers == 0 || pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
-            {
-                const s32 updateDelay = pObjIter->UpdateDelay();
-                if (pObjIter->UpdateDelay() > 0)
-                {
-                    pObjIter->SetUpdateDelay(updateDelay - 1);
-                }
-                else
-                {
-                    pObjIter->VUpdate();
-                }
-            }
-
-            if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && pObjIter->mBaseGameObjectRefCount == 0)
-            {
-                i = gLoadingFiles->RemoveAt(i);
-                relive_delete pObjIter;
-            }
-        }
-
-        GetGameAutoPlayer().SyncPoint(SyncPoints::EndGameObjectUpdate);
+        GetGameAutoPlayer().SyncPoint(SyncPoints::ObjectsUpdateEnd);
 
         // Animate everything
         if (gNumCamSwappers <= 0)
         {
+            GetGameAutoPlayer().SyncPoint(SyncPoints::AnimateAll);
             AnimationBase::AnimateAll(AnimationBase::gAnimations);
         }
 
         // Render objects
         PrimHeader** ppOt = gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable;
 
+        // Render objects
+        GetGameAutoPlayer().SyncPoint(SyncPoints::DrawAllStart);
         for (s32 i = 0; i < gObjListDrawables->Size(); i++)
         {
             BaseGameObject* pDrawable = gObjListDrawables->ItemAt(i);
@@ -291,17 +281,26 @@ void Game_Loop()
                 break;
             }
 
-            if (!pDrawable->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && pDrawable->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
+            if (pDrawable->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
             {
+                pDrawable->mBaseGameObjectFlags.Clear(BaseGameObject::eCantKill_Bit11);
+            }
+            else if (pDrawable->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
+            {
+                pDrawable->mBaseGameObjectFlags.Set(BaseGameObject::eCantKill_Bit11);
                 pDrawable->VRender(ppOt);
             }
         }
+        GetGameAutoPlayer().SyncPoint(SyncPoints::DrawAllEnd);
 
         DebugFont_Flush();
         pScreenManager->VRender(ppOt);
-        SYS_EventsPump();
+        SYS_EventsPump(); // Exit checking?
 
+        GetGameAutoPlayer().SyncPoint(SyncPoints::RenderOT);
         gPsxDisplay.RenderOrderingTable();
+        
+        GetGameAutoPlayer().SyncPoint(SyncPoints::RenderStart);
 
         // Destroy objects with certain flags
         for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
@@ -319,12 +318,28 @@ void Game_Loop()
             }
         }
 
+        GetGameAutoPlayer().SyncPoint(SyncPoints::RenderEnd);
+
+        if (bPauseMenuObjectFound && pPauseMenu_5080E0)
+        {
+            pPauseMenu_5080E0->VUpdate();
+        }
+
+        bPauseMenuObjectFound = false;
+
         gMap.ScreenChange();
         Input().Update(GetGameAutoPlayer());
 
         if (gNumCamSwappers == 0)
         {
+            GetGameAutoPlayer().SyncPoint(SyncPoints::IncrementFrame);
             sGnFrame++;
+        }
+
+        if (sBreakGameLoop_507B78)
+        {
+            GetGameAutoPlayer().SyncPoint(SyncPoints::MainLoopExit);
+            break;
         }
 
         GetGameAutoPlayer().ValidateObjectStates();
@@ -333,6 +348,7 @@ void Game_Loop()
 
     PSX_VSync_496620(0);
 
+    // Destroy all game objects
     for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
     {
         BaseGameObject* pObjToKill = gBaseGameObjects->ItemAt(i);
@@ -356,6 +372,7 @@ void DDCheat_Allocate()
 
 void Game_Run()
 {
+    // Begin start up
     SYS_EventsPump();
 
     gAttract_507698 = 0;

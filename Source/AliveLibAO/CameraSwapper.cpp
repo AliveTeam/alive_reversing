@@ -384,7 +384,7 @@ void CameraSwapper::VUpdate()
 
             if (field_3C_movie_bPutDispEnv == 1)
             {
-                gPsxDisplay.PutCurrentDispEnv();
+                //gPsxDisplay.PutCurrentDispEnv();
             }
 
             // Now apply the camera we where storing now that the movie is finished

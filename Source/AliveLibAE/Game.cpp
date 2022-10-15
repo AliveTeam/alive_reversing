@@ -54,14 +54,11 @@ DynamicArrayT<BaseGameObject>* gPlatformsArray = nullptr;
 
 s16 sBreakGameLoop_5C2FE0 = 0;
 s16 sNum_CamSwappers_5C1B66 = 0;
-s32 dword_5C2F78 = 0;
 s16 bSkipGameObjectUpdates_5C2FA0 = 0;
 
-s32 dword_5CA4D4 = 0;
 bool byte_55EF88 = true;
 bool sCommandLine_ShowFps_5CA4D0 = false;
 bool sCommandLine_DDCheatEnabled_5CA4B5 = false;
-bool byte_5CA4D2 = false;
 
 // Fps calcs
 s8 bQuitting_BD0F08 = 0;
@@ -225,7 +222,6 @@ void Main_ParseCommandLineArguments(const char_type* /*pCmdLineNotUsed*/, const 
     Sys_WindowClass_Register("ABE_WINCLASS", windowTitle.c_str(), 32, 64, 640, 480);
     Sys_Set_Hwnd(Sys_GetWindowHandle());
 
-    dword_5CA4D4 = 0;
     byte_55EF88 = true;
 
     if (pCommandLine)
@@ -242,8 +238,6 @@ void Main_ParseCommandLineArguments(const char_type* /*pCmdLineNotUsed*/, const 
 
         if (strstr(pCommandLine, "-ddfast"))
         {
-            byte_5CA4D2 = true;
-            dword_5CA4D4 = 1;
             byte_55EF88 = false;
         }
 
@@ -345,41 +339,6 @@ void Game_ExitGame()
     PSX_EMU_VideoDeAlloc_4FA010();
 }
 
-void Game_Shutdown()
-{
-    if (sGame_OnExitCallback)
-    {
-        sGame_OnExitCallback();
-        sGame_OnExitCallback = nullptr;
-    }
-
-    CreateTimer_4EDEC0(0, nullptr); // Creates a timer that calls a call back which is always null, therefore seems like dead code?
-    Input_DisableInputForPauseMenuAndDebug_4EDDC0();
-    //SND_MCI_Close_4F0060(nullptr); // TODO: Seems like more dead code because the mci is never set?
-    GetSoundAPI().SND_SsQuit();
-    IO_Stop_ASync_IO_Thread_4F26B0();
-    VGA_Shutdown_4F3170();
-}
-
-s32 TMR_Init_4EDE20()
-{
-#if USE_SDL2
-    return 0;
-#else
-    struct timecaps_tag ptc = {};
-    if (::timeGetDevCaps(&ptc, sizeof(timecaps_tag)))
-    {
-        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\TMR.C", 25, 0, "TMR_Init: timeGetDevCaps() failed !");
-        return -1;
-    }
-
-    sTimer_period_BBB9D4 = ptc.wPeriodMin;
-    // This makes timers as accurate as possible increasing cpu/power usage as a trade off
-    ::timeBeginPeriod(ptc.wPeriodMin);
-    return 0;
-#endif
-}
-
 s32 Init_Input_Timer_And_IO_4F2BF0(bool forceSystemMemorySurfaces)
 {
     static bool sbGameShutdownSet_BBC560 = false;
@@ -394,7 +353,6 @@ s32 Init_Input_Timer_And_IO_4F2BF0(bool forceSystemMemorySurfaces)
 
     Input_EnableInput_4EDDD0();
     Input_InitKeyStateArray_4EDD60();
-    TMR_Init_4EDE20();
 
     if (!IO_CreateThread())
     {
@@ -412,9 +370,25 @@ s32 Init_Input_Timer_And_IO_4F2BF0(bool forceSystemMemorySurfaces)
     return 0;
 }
 
+void Game_Shutdown()
+{
+    if (sGame_OnExitCallback)
+    {
+        sGame_OnExitCallback();
+        sGame_OnExitCallback = nullptr;
+    }
+
+    CreateTimer_4EDEC0(0, nullptr); // Creates a timer that calls a call back which is always null, therefore seems like dead code?
+    Input_DisableInputForPauseMenuAndDebug_4EDDC0();
+    //SND_MCI_Close_4F0060(nullptr); // TODO: Seems like more dead code because the mci is never set?
+    GetSoundAPI().SND_SsQuit();
+    IO_Stop_ASync_IO_Thread_4F26B0();
+    VGA_Shutdown_4F3170();
+}
+
+
 void Game_Loop()
 {
-    dword_5C2F78 = 0;
     sBreakGameLoop_5C2FE0 = 0;
     bool bPauseMenuObjectFound = false;
     while (!gBaseGameObjects->IsEmpty())
@@ -437,7 +411,7 @@ void Game_Loop()
             }
 
             if (pBaseGameObject->mBaseGameObjectFlags.Get(BaseGameObject::eUpdatable_Bit2)
-                && pBaseGameObject->mBaseGameObjectFlags.Get(BaseGameObject::eDead) == false
+			    && !pBaseGameObject->mBaseGameObjectFlags.Get(BaseGameObject::eDead) 
                 && (sNum_CamSwappers_5C1B66 == 0 || pBaseGameObject->mBaseGameObjectFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
             {
                 const s32 updateDelay = pBaseGameObject->UpdateDelay();
@@ -467,32 +441,33 @@ void Game_Loop()
             AnimationBase::AnimateAll(AnimationBase::gAnimations);
         }
 
-        PrimHeader** ppOtBuffer = gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable;
+        // Render objects
+        PrimHeader** ppOt = gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable;
 
         // Render objects
         GetGameAutoPlayer().SyncPoint(SyncPoints::DrawAllStart);
         for (s32 i = 0; i < gObjListDrawables->Size(); i++)
         {
-            BaseGameObject* pObj = gObjListDrawables->ItemAt(i);
-            if (!pObj)
+            BaseGameObject* pDrawable = gObjListDrawables->ItemAt(i);
+            if (!pDrawable)
             {
                 break;
             }
 
-            if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+            if (pDrawable->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
             {
-                pObj->mBaseGameObjectFlags.Clear(BaseGameObject::eCantKill_Bit11);
+                pDrawable->mBaseGameObjectFlags.Clear(BaseGameObject::eCantKill_Bit11);
             }
-            else if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
+            else if (pDrawable->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
             {
-                pObj->mBaseGameObjectFlags.Set(BaseGameObject::eCantKill_Bit11);
-                pObj->VRender(ppOtBuffer);
+                pDrawable->mBaseGameObjectFlags.Set(BaseGameObject::eCantKill_Bit11);
+                pDrawable->VRender(ppOt);
             }
         }
         GetGameAutoPlayer().SyncPoint(SyncPoints::DrawAllEnd);
 
         DebugFont_Flush();
-        pScreenManager->VRender(ppOtBuffer);
+        pScreenManager->VRender(ppOt);
         SYS_EventsPump(); // Exit checking?
 
         GetGameAutoPlayer().SyncPoint(SyncPoints::RenderOT);
@@ -501,7 +476,7 @@ void Game_Loop()
         GetGameAutoPlayer().SyncPoint(SyncPoints::RenderStart);
 
         // Destroy objects with certain flags
-        for (s16 idx = 0; idx < gBaseGameObjects->Size(); idx++)
+        for (s32 idx = 0; idx < gBaseGameObjects->Size(); idx++)
         {
             BaseGameObject* pObj = gBaseGameObjects->ItemAt(idx);
             if (!pObj)
@@ -511,11 +486,7 @@ void Game_Loop()
 
             if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && pObj->mBaseGameObjectFlags.Get(BaseGameObject::eCantKill_Bit11) == false)
             {
-                DynamicArrayIter it;
-                it.field_0_pDynamicArray = gBaseGameObjects;
-                it.field_4_idx = idx + 1;
-
-                it.Remove_At_Iter();
+                idx = gBaseGameObjects->RemoveAt(idx);
                 delete pObj;
             }
         }
@@ -544,12 +515,6 @@ void Game_Loop()
             break;
         }
 
-        // Enabled only for ddfast option
-        if (byte_5CA4D2)
-        {
-            pResourceManager_5C1BB0->LoadingLoop_465590(0);
-        }
-
         GetGameAutoPlayer().ValidateObjectStates();
 
     } // Main loop end
@@ -557,20 +522,18 @@ void Game_Loop()
     PSX_VSync_4F6170(0);
 
     // Destroy all game objects
-    while (!gBaseGameObjects->IsEmpty())
+    for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
     {
-        DynamicArrayIter iter = {};
-        iter.field_0_pDynamicArray = gBaseGameObjects;
-        for (s16 idx = 0; idx < gBaseGameObjects->Size(); idx++)
+        BaseGameObject* pObjToKill = gBaseGameObjects->ItemAt(i);
+        if (!pObjToKill)
         {
-            BaseGameObject* pObj = gBaseGameObjects->ItemAt(idx);
-            iter.field_4_idx = idx + 1;
-            if (!pObj)
-            {
-                break;
-            }
-            iter.Remove_At_Iter();
-            relive_delete pObj;
+            break;
+        }
+
+        if (pObjToKill->mBaseGameObjectRefCount == 0)
+        {
+            i = gBaseGameObjects->RemoveAt(i);
+            delete pObjToKill;
         }
     }
 }
@@ -586,6 +549,7 @@ void Game_Run()
     SYS_EventsPump();
 
     gAttract_5C1BA0 = 0;
+
     SYS_EventsPump();
 
     gPsxDisplay.Init();
