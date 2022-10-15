@@ -360,7 +360,7 @@ vec3 handle_shading(in vec3 texelT)
     return texelP;
 }
 
-vec4 handle_final_color(in vec4 src)
+vec4 handle_final_color(in vec4 src, in bool doShading)
 {
     int blendMode = int(fsFlags.w);
     bool isSemiTrans = int(fsFlags.y) > 0;
@@ -371,7 +371,10 @@ vec4 handle_final_color(in vec4 src)
         return vec4(0.0, 0.0, 0.0, 1.0);
     }
 
-    ret.rgb = handle_shading(ret.rgb);
+    if (doShading)
+    {
+        ret.rgb = handle_shading(src.rgb);
+    }
 
     if (isSemiTrans && src.a == 1.0)
     {
@@ -403,7 +406,7 @@ void draw_flat()
 {
     outColor.rgb = fsShadeColor / 255.0;
 
-    outColor = handle_final_color(vec4(outColor.rgb, 1.0));
+    outColor = handle_final_color(vec4(outColor.rgb, 1.0), false);
 }
 
 void draw_default_ft4()
@@ -447,7 +450,7 @@ void draw_default_ft4()
 
     vec4 texelPal = PixelToPalette(texelSprite);
 
-    outColor = handle_final_color(texelPal);
+    outColor = handle_final_color(texelPal, true);
 }
 
 void draw_cam()

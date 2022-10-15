@@ -4,6 +4,7 @@
 #include "Input.hpp"
 #include <assert.h>
 #include "../relive/resource.h"
+#include "Renderer/IRenderer.hpp"
 
 #include "PsxRender.hpp"
 #include "Sound/Sound.hpp"
@@ -630,11 +631,11 @@ static void KeyDownEvent(SDL_Scancode scanCode)
         }
         else if (vk == VK_F10)
         {
-            s_VGA_FilterScreen = !s_VGA_FilterScreen;
+            IRenderer::GetRenderer()->ToggleFilterScreen();
         }
         else if (vk == VK_F11)
         {
-            s_VGA_KeepAspectRatio = !s_VGA_KeepAspectRatio;
+            IRenderer::GetRenderer()->ToggleKeepAspectRatio();
         }
         else if (vk == VK_F12)
         {

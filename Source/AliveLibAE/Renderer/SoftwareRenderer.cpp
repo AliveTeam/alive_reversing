@@ -101,11 +101,6 @@ void SoftwareRenderer::EndFrame()
     //SDL_RenderClear(mRenderer);
 }
 
-void SoftwareRenderer::BltBackBuffer(const SDL_Rect* /*pCopyRect*/, const SDL_Rect* /*pDst*/)
-{
-    // SDL_RenderCopy(mRenderer, mBackBufferTexture, pCopyRect, pDst);
-}
-
 void SoftwareRenderer::OutputSize(s32* w, s32* h)
 {
     SDL_GetRendererOutputSize(mRenderer, w, h);
@@ -134,6 +129,16 @@ void SoftwareRenderer::SetClip(Prim_PrimClipper& clipper)
         //LOG_INFO("Set clip " << rect.x << ", " << rect.y << " " << rect.w << " " << rect.h);
         SDL_RenderSetClipRect(mRenderer, &rect);
     }
+}
+
+void SoftwareRenderer::ToggleFilterScreen()
+{
+    // TODO: Implement this
+}
+
+void SoftwareRenderer::ToggleKeepAspectRatio()
+{
+    // TODO: Implement this
 }
 
 // ExplosionSet, ScreenShake, RollingBallShaker
