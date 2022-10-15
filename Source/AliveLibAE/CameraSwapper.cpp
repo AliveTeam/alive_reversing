@@ -428,5 +428,5 @@ void CameraSwapper::VUpdate()
 
 void CameraSwapper::VScreenChanged()
 {
-
+    // Empty
 }

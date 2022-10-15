@@ -20,8 +20,7 @@ s16 gNumCamSwappers = 0;
 
 CameraSwapper::CameraSwapper(CamResource& ppBits, bool bPutDispEnv1, const char_type* pFmv1, bool bPutDispEnv2, const char_type* pFmv2, bool bPutDispEnv3, const char_type* pFmv3)
     : BaseGameObject(TRUE, 0)
-    {
-
+{
     mFmvs[0] = pFmv1;
     mPutDispEnv[0] = bPutDispEnv1;
 
@@ -31,10 +30,9 @@ CameraSwapper::CameraSwapper(CamResource& ppBits, bool bPutDispEnv1, const char_
     mFmvs[2] = pFmv3;
     mPutDispEnv[2] = bPutDispEnv3;
 
-    if (pFmv1 && pFmv2 && pFmv3)
+    if (mFmvs[0] && mFmvs[1] && mFmvs[2])
     {
         Init(ppBits, CameraSwapEffects::ePlay3FMVs_10);
-
     }
     else if (pFmv1 && pFmv2)
     {
@@ -46,12 +44,8 @@ CameraSwapper::CameraSwapper(CamResource& ppBits, bool bPutDispEnv1, const char_
     }
 
     relive_new Movie(mFmvs[0]);
-    field_3C_movie_bPutDispEnv = mPutDispEnv[0];
-}
 
-void CameraSwapper::VScreenChanged()
-{
-    // Empty
+    field_3C_movie_bPutDispEnv = mPutDispEnv[0];
 }
 
 CameraSwapper::CameraSwapper(CamResource& ppBits, CameraSwapEffects changeEffect, s32 xpos, s32 ypos)
@@ -198,7 +192,6 @@ void CameraSwapper::Init(CamResource& ppCamRes, CameraSwapEffects changeEffect)
             field_24_pSubObject = relive_new ScreenClipper(xy, wh, Layer::eLayer_0);
             break;
 
-
         case CameraSwapEffects::eHorizontalSplit_7:
             field_46_slice_width = 15; // ??
             field_2C_slices_per_tick = 1;
@@ -252,8 +245,8 @@ void CameraSwapper::Init(CamResource& ppCamRes, CameraSwapEffects changeEffect)
 
             // "Whoosh" door sound effect
             SfxPlayMono(relive::SoundEffects::IngameTransition, 127);
-            break;
         }
+        break;
 
         case CameraSwapEffects::ePlay1FMV_5:
         case CameraSwapEffects::ePlay2FMVs_9:
@@ -319,29 +312,6 @@ void CameraSwapper::VUpdate()
         }
         break;
 
-        case CameraSwapEffects::ePlay1FMV_5:
-        {
-            if (sMovie_ref_count_9F309C)
-            {
-                // A movie is still playing
-                return;
-            }
-
-            if (field_3C_movie_bPutDispEnv == 1)
-            {
-                gPsxDisplay.PutCurrentDispEnv();
-            }
-
-            // Now apply the camera we where storing now that the movie is finished
-            if (field_20_ppCamRes.mData.mPixels)
-            {
-                pScreenManager->DecompressCameraToVRam(field_20_ppCamRes);
-                pScreenManager->EnableRendering();
-            }
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-        }
-        break;
-
         case CameraSwapEffects::eVerticalSplit_6:
         {
             field_2A_current_slice += field_2C_slices_per_tick;
@@ -354,6 +324,7 @@ void CameraSwapper::VUpdate()
 
             const s16 xpos = field_46_slice_width * field_2A_current_slice;
             const s16 halfDisplayWidth = gPsxDisplay.mWidth / 2;
+
             field_24_pSubObject->Update_Clip_Rect({static_cast<s16>(halfDisplayWidth - xpos), 0}, {static_cast<s16>(xpos + halfDisplayWidth + 1), static_cast<s16>(gPsxDisplay.mHeight)});
         }
         break;
@@ -403,6 +374,30 @@ void CameraSwapper::VUpdate()
         }
         break;
 
+        case CameraSwapEffects::ePlay1FMV_5:
+        {
+            if (sMovie_ref_count_9F309C)
+            {
+                // A movie is still playing
+                return;
+            }
+
+            if (field_3C_movie_bPutDispEnv == 1)
+            {
+                gPsxDisplay.PutCurrentDispEnv();
+            }
+
+            // Now apply the camera we where storing now that the movie is finished
+            if (field_20_ppCamRes.mData.mPixels)
+            {
+                pScreenManager->DecompressCameraToVRam(field_20_ppCamRes);
+                pScreenManager->EnableRendering();
+            }
+
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        }
+        break;
+
         // TODO: 2 and 3 FMV cases can be de-duped
         case CameraSwapEffects::ePlay2FMVs_9:
             if (field_2A_current_slice < 1)
@@ -418,7 +413,6 @@ void CameraSwapper::VUpdate()
             if (sMovie_ref_count_9F309C == 0)
             {
                 relive_new Movie(mFmvs[2]);
-
                 field_28_changeEffect = CameraSwapEffects::ePlay1FMV_5;
                 field_3C_movie_bPutDispEnv = mPutDispEnv[2];
             }
@@ -438,7 +432,6 @@ void CameraSwapper::VUpdate()
             if (sMovie_ref_count_9F309C == 0)
             {
                 relive_new Movie(mFmvs[1]);
-
                 field_28_changeEffect = CameraSwapEffects::ePlay2FMVs_9;
                 field_3C_movie_bPutDispEnv = mPutDispEnv[1];
             }
@@ -447,6 +440,11 @@ void CameraSwapper::VUpdate()
         default:
             break;
     }
+}
+
+void CameraSwapper::VScreenChanged()
+{
+    // Empty
 }
 
 } // namespace AO
