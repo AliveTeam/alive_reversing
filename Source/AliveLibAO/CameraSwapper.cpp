@@ -412,7 +412,7 @@ void CameraSwapper::VUpdate()
             // When no movie is playing start the next one
             if (sMovie_ref_count_9F309C == 0)
             {
-                relive_new Movie(mFmvs[2]);
+                relive_new Movie(mFmvs[1]);
                 field_28_changeEffect = CameraSwapEffects::ePlay1FMV_5;
                 field_3C_movie_bPutDispEnv = mPutDispEnv[2];
             }
@@ -431,7 +431,7 @@ void CameraSwapper::VUpdate()
             // When no movie is playing start the next one
             if (sMovie_ref_count_9F309C == 0)
             {
-                relive_new Movie(mFmvs[1]);
+                relive_new Movie(mFmvs[2]);
                 field_28_changeEffect = CameraSwapEffects::ePlay2FMVs_9;
                 field_3C_movie_bPutDispEnv = mPutDispEnv[1];
             }
