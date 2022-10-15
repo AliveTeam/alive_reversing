@@ -13,6 +13,7 @@
 #include "Movie.hpp"
 #include "ScreenClipper.hpp"
 #include "Sys_common.hpp"
+#include "BaseGameAutoPlayer.hpp"
 
 CameraSwapper* CameraSwapper::ctor_4E4CA0(u8** ppCamRes, s32 movieSector, s32 movieId, s8 movieFlag, s16 movieFlags, s16 movieVol)
 {
@@ -479,7 +480,11 @@ void CameraSwapper::vUpdate_4E5850()
 
             if (field_4C_movie_bPutDispEnv == 1)
             {
-                gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
+                if (!GetGameAutoPlayer().IsRecording() && !GetGameAutoPlayer().IsPlaying())
+                {
+                    // abi_break never calls this, so don't in recording to avoid de-sync
+                    gPsxDisplay_5C1130.PutCurrentDispEnv_41DFA0();
+                }
             }
 
             pScreenManager_5BB5F4->field_44_unused = 1;
