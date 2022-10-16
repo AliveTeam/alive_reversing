@@ -476,7 +476,7 @@ void Game_Loop()
         GetGameAutoPlayer().SyncPoint(SyncPoints::RenderStart);
 
         // Destroy objects with certain flags
-        for (s32 idx = 0; idx < gBaseGameObjects->Size(); idx++)
+        for (s16 idx = 0; idx < gBaseGameObjects->Size(); idx++)
         {
             BaseGameObject* pObj = gBaseGameObjects->ItemAt(idx);
             if (!pObj)
@@ -486,7 +486,11 @@ void Game_Loop()
 
             if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && pObj->mBaseGameObjectFlags.Get(BaseGameObject::eCantKill_Bit11) == false)
             {
-                idx = gBaseGameObjects->RemoveAt(idx);
+                DynamicArrayIter it;
+		    	it.field_0_pDynamicArray = gBaseGameObjects;
+                it.field_4_idx = idx + 1;
+
+                it.Remove_At_Iter();
                 delete pObj;
             }
         }
