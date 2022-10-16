@@ -1232,7 +1232,7 @@ static void SaveLevelInfoJson(const FileSystem::Path& dataDir, EReliveLevelIds /
     for (u32 j = 0; j < pathBndFile.ChunkCount(); j++)
     {
         const ReliveAPI::LvlFileChunk& pathBndChunk = pathBndFile.ChunkAt(j);
-        if (pathBndChunk.Header().mResourceType == AO::ResourceManager::Resource_Path)
+        if (pathBndChunk.Header().mResourceType == ResourceManagerWrapper::Resource_Path)
         {
             // Write out what paths exist so the game knows what files to load
             jsonPathFilesArray.push_back(std::to_string(pathBndChunk.Header().field_C_id) + ".json");
@@ -1372,7 +1372,7 @@ static void ConvertPathBND(const FileSystem::Path& dataDir, const std::string& f
     for (u32 j = 0; j < pathBndFile.ChunkCount(); j++)
     {
         const ReliveAPI::LvlFileChunk& pathBndChunk = pathBndFile.ChunkAt(j);
-        if (pathBndChunk.Header().mResourceType == AO::ResourceManager::Resource_Path)
+        if (pathBndChunk.Header().mResourceType == ResourceManagerWrapper::Resource_Path)
         {
             ConvertPath<TlvType, LevelIdType>(fs, dataDir, pathBndChunk, reliveLvl, lvlIdxAsLvl, lvlReader, fileBuffer, isAo);
         }

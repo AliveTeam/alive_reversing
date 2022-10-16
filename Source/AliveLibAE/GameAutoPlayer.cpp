@@ -63,10 +63,9 @@ bool Player::ValidateObjectStates()
             LOG_INFO("object at " << i << " with type " << (s32)pObj->Type());
         }
         LOG_ERROR("Got " << gBaseGameObjects->Size() << " objects but expected " << objCount << " on gnframe " << sGnFrame);
-        return false;
     }
 
-    for (u32 i = 0; i < objCount; i++)
+    for (u32 i = 0; i < std::min(objCount, static_cast<u32>(gBaseGameObjects->Size())); i++)
     {
         ValidateNextTypeIs(RecordTypes::ObjectStates);
 
@@ -101,6 +100,22 @@ bool Player::ValidateObjectStates()
             }
         }
     }
+
+    if (gBaseGameObjects->Size() != static_cast<s32>(objCount))
+    {
+        if (gBaseGameObjects->Size() < static_cast<s32>(objCount))
+        {
+            ValidateNextTypeIs(RecordTypes::ObjectStates);
+
+            s16 objType = 0;
+            mFile.Read(objType);
+
+            ReliveTypes reliveObjType = BaseGameObject::FromAE(static_cast<AETypes>(objType));
+            LOG_INFO("First extra object type is " << static_cast<u32>(reliveObjType));
+        }
+        return false;
+    }
+
     return true;
 }
 

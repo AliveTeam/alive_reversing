@@ -16,36 +16,17 @@ namespace AO {
 
 DynamicArrayT<ResourceManager::ResourceManager_FileRecord>* ObjList_5009E0 = nullptr;
 
-u32 sManagedMemoryUsedSize_9F0E48 = 0;
-u32 sPeakedManagedMemUsage_9F0E4C = 0;
-
 s16 bHideLoadingIcon_5076A0 = 0;
 s32 loading_ticks_5076A4 = 0;
 s16 sResources_Pending_Loading_9F0E38 = 0;
 s16 sAllocationFailed_9F0E50 = 0;
 
 
-
-ResourceManager::ResourceHeapItem* sFirstLinkedListItem_50EE2C = nullptr;
-ResourceManager::ResourceHeapItem* sSecondLinkedListItem_50EE28 = nullptr;
-
-const u32 kResHeapSize = 5120000;
-u8 sResourceHeap_50EE38[kResHeapSize] = {}; // Huge 5.4 MB static resource buffer
-
-const u32 kLinkedListArraySize = 375;
-ResourceManager::ResourceHeapItem sResourceLinkedList_50E270[kLinkedListArraySize] = {};
-
-u8* spResourceHeapStart_50EE30 = nullptr;
-u8* spResourceHeapEnd_9F0E3C = nullptr;
-
 // TODO: move to correct location
 void Odd_Sleep_48DD90(u32 /*dwMilliseconds*/)
 {
     
 }
-
-s32 gFilesPending_507714 = 0;
-s16 bLoadingAFile_50768C = 0;
 
 class LoadingFile final : public BaseGameObject
 {
@@ -54,7 +35,6 @@ public:
         : BaseGameObject(FALSE, 0) // DON'T add to BGE list
     {
 
-        gFilesPending_507714++;
         
         mBaseGameObjectFlags.Set(Options::eSurviveDeathReset_Bit9);
         mBaseGameObjectFlags.Set(Options::eUpdateDuringCamSwap_Bit10);

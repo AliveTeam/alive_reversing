@@ -215,11 +215,6 @@ void DDCheat::VUpdate()
                 gMap.mCurrentPath,
                 gMap.mCurrentCamera,
                 sGnFrame);
-            DebugStr(
-                " mem used %5d mem peak %5d",
-                (sManagedMemoryUsedSize_9F0E48 + 999) / 1000,
-                (sPeakedManagedMemUsage_9F0E4C + 999) / 1000);
-            // DebugStr(" Vox %d\n", gVox_4FF864);
 
             if (sActiveHero)
             {
@@ -241,7 +236,6 @@ void DDCheat::VUpdate()
             }
             if (isHeld & InputCommands::eThrowItem)
             {
-                sPeakedManagedMemUsage_9F0E4C = sManagedMemoryUsedSize_9F0E48;
                 dword_9F0E44 = dword_9F0E40;
             }
             if (isHeld & InputCommands::eHop)

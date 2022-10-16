@@ -129,9 +129,6 @@ void Init_Sound_DynamicArrays_And_Others_41CD20()
     gNumCamSwappers = 0;
     sGnFrame = 0;
 
-    gFilesPending_507714 = 0;
-    bLoadingAFile_50768C = 0;
-
     gPlatformsArray = relive_new DynamicArrayT<BaseGameObject>(20);
 
     ObjList_5009E0 = relive_new DynamicArrayT<ResourceManager::ResourceManager_FileRecord>(10); // not used in AE
