@@ -413,6 +413,8 @@ EXPORT void CC Game_Loop_437630()
     bool bPauseMenuObjectFound = false;
     while (!gBaseGameObject_list_9F2DF0->Empty())
     {
+        GetGameAutoPlayer().SyncPoint(SyncPoints::MainLoopStart);
+
         Events_Reset_Active_417320();
 
         // Update objects
