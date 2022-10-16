@@ -277,6 +277,8 @@ Movie* Movie::ctor_489C90(s32 id, s32 /*pos*/, s8 bUnknown, s32 /*flags*/, s16 v
 
     IO_Init_494230(); // Set up IO funcs
 
+    sMovie_ref_count_9F309C++;
+
     return this;
 }
 
@@ -287,6 +289,8 @@ BaseGameObject* Movie::VDestructor(s32 flags)
 
 BaseGameObject* Movie::Vdtor_475FB0(s32 flags)
 {
+    sMovie_ref_count_9F309C--;
+
     dtor_487DF0();
     if (flags & 1)
     {
