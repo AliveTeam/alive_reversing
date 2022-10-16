@@ -202,12 +202,21 @@ Movie::Movie(const char_type* pFmvName)
     : BaseGameObject(TRUE, 0)
     , mFmvName(pFmvName)
 {
+    LOG_INFO("Create movie " << mFmvName);
     mBaseGameObjectFlags.Set(Options::eSurviveDeathReset_Bit9);
     mBaseGameObjectFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
 
     SetType(ReliveTypes::eMovie);
 
     IO_Init_494230(); // Set up IO funcs
+
+    sMovie_ref_count_9F309C++;
+}
+
+Movie::~Movie()
+{
+    LOG_INFO("Destroy movie " << mFmvName);
+    sMovie_ref_count_9F309C--;
 }
 
 void Movie::VScreenChanged()

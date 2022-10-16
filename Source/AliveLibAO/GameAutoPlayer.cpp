@@ -104,7 +104,7 @@ bool Player::ValidateObjectStates()
         LOG_ERROR("Got " << CountWithOutLoadingFiles() << " objects but expected " << objCount);
         validateFailed = true;
         // TODO: This can be smarter and try to validate the list until the obj types no longer match
-        for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
+        for (s32 i = 0; i < std::min(static_cast<s32>(objCount), gBaseGameObjects->Size()); i++)
         {
             BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
             // Skip loading files
