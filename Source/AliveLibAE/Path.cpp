@@ -277,19 +277,23 @@ relive::Path_TLV* Path::TLV_Next_Of_Type(relive::Path_TLV* pTlv, ReliveTypes typ
 
 void Path::TLV_Reset(const Guid& tlvId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed)
 {
-    BinaryPath* pBinPath = gMap.GetPathResourceBlockPtr(gMap.mCurrentPath);
-    if (pBinPath)
+    auto& paths = gMap.GetLoadedPaths();
+    for (std::unique_ptr<BinaryPath>& pBinPath : paths)
     {
-        relive::Path_TLV* pTlv = pBinPath->TlvsById(tlvId);
-        if (pTlv)
+        if (pBinPath)
         {
-            pTlv->mTlvFlags.Set(relive::TlvFlags::eBit2_Destroyed, bSetDestroyed & 1);
-            pTlv->mTlvFlags.Set(relive::TlvFlags::eBit1_Created, bSetCreated & 1);
-
-            if (hiFlags != -1)
+            relive::Path_TLV* pTlv = pBinPath->TlvsById(tlvId);
+            if (pTlv)
             {
-                // Seems to be a blob per TLV specific bits
-                pTlv->mTlvSpecificMeaning = static_cast<u8>(hiFlags);
+                pTlv->mTlvFlags.Set(relive::TlvFlags::eBit2_Destroyed, bSetDestroyed & 1);
+                pTlv->mTlvFlags.Set(relive::TlvFlags::eBit1_Created, bSetCreated & 1);
+
+                if (hiFlags != -1)
+                {
+                    // Seems to be a blob per TLV specific bits
+                    pTlv->mTlvSpecificMeaning = static_cast<u8>(hiFlags);
+                }
+                break;
             }
         }
     }

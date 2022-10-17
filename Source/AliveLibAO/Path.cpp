@@ -6,7 +6,8 @@
 namespace AO {
 void Path::TLV_Reset(const Guid& tlvId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed)
 {
-    BinaryPath* pBinPath = gMap.GetPathResourceBlockPtr(gMap.mCurrentPath);
+    auto& paths = gMap.GetLoadedPaths();
+    for (std::unique_ptr<BinaryPath>& pBinPath : paths)
     if (pBinPath)
     {
         relive::Path_TLV* pTlv = pBinPath->TlvsById(tlvId);
@@ -20,6 +21,7 @@ void Path::TLV_Reset(const Guid& tlvId, s16 hiFlags, s8 bSetCreated, s8 bSetDest
                 // Seems to be a blob per TLV specific bits
                 pTlv->mTlvSpecificMeaning = static_cast<u8>(hiFlags);
             }
+            return;
         }
     }
 }

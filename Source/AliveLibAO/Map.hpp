@@ -149,6 +149,11 @@ public:
 
     void SaveBlyData(u8* pSaveBuffer);
 
+    std::vector<std::unique_ptr<BinaryPath>>& GetLoadedPaths()
+    {
+        return mLoadedPaths;
+    }
+
     void TLV_Reset(const Guid& tlvId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed) override;
 
     enum class CamChangeStates : s16
