@@ -545,8 +545,8 @@ const AnimId sMudFrameTables_4CD330[64] = {
     AnimId::Mudokon_WalkToIdle,
     AnimId::Mudokon_MidWalkToIdle,
     AnimId::Mudokon_Idle,
-    AnimId::Mudokon_AO_Null,
-    AnimId::Mudokon_AO_LiftUse,
+    AnimId::Mudokon_LiftUseUp,
+    AnimId::Mudokon_LiftUseDown,
     AnimId::Mudokon_LiftGrabBegin,
     AnimId::Mudokon_LiftGrabEnd,
     AnimId::Mudokon_LeverUse,
@@ -580,12 +580,12 @@ const AnimId sMudFrameTables_4CD330[64] = {
     AnimId::Mudokon_RunJumpBegin,
     AnimId::Mudokon_RunJumpMid,
     AnimId::Mudokon_StandToRun,
-    AnimId::Mudokon_FallLandDie,
+    AnimId::Mudokon_KnockForward,
     AnimId::Mudokon_Knockback,
     AnimId::Mudokon_KnockbackGetUp,
     AnimId::Mudokon_WalkOffEdge,
-    AnimId::Mudokon_LandSoft,
-    AnimId::Mudokon_Fall,
+    AnimId::Mudokon_AO_LandSoft_Long,
+    AnimId::Mudokon_FallingFromGrab, // check/rename
     AnimId::Mudokon_Chant,
     AnimId::Mudokon_ChantEnd,
     AnimId::Mudokon_ToDuck,
@@ -597,7 +597,7 @@ const AnimId sMudFrameTables_4CD330[64] = {
     AnimId::Mudokon_CrouchChantToStruggle,
     AnimId::Mudokon_DuckKnockback,
     AnimId::Mudokon_PoisonGasDeath,
-    AnimId::None};
+    AnimId::None };
 
 void Mudokon::VUpdateResBlock_43EDB0()
 {

@@ -72,7 +72,7 @@ Spark* Spark::ctor_477B70(FP xpos, FP ypos, FP scale, u8 count, s16 min, s16 max
 
         field_50_timer = gnFrameCount_507670 + 3;
 
-        const AnimRecord& rec = AO::AnimRec(AnimId::Zap_Sparks);
+        const AnimRecord& rec = AO::AnimRec(AnimId::ChantOrb_Particle_Small);
         u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
         auto pParticle = ao_new<Particle>();
         if (pParticle)

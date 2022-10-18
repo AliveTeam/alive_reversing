@@ -212,7 +212,7 @@ EXPORT void CC DrawFps_4952F0(Bitmap* pBmp, s32 x, s32 y, f32 fps)
 
 EXPORT void CC sub_4FBA20()
 {
-    NOT_IMPLEMENTED();
+    //NOT_IMPLEMENTED();
 }
 
 EXPORT void CC CheckShiftCapslock_4953B0()

@@ -30,7 +30,7 @@ BaseBomb* BaseBomb::ctor_423E70(FP x, FP y, s32 /*unused*/, FP scale)
     SetVTable(this, 0x544C54);
     SetType(AETypes::eBaseBomb_46);
 
-    const AnimRecord& rec = AnimRec(AnimId::Explosion_Mine);
+    const AnimRecord& rec = AnimRec(AnimId::GroundExplosion);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, BaseGameObject::Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId), 1, 1);
 
     field_20_animation.field_4_flags.Clear(AnimFlags::eBit18_IsLastFrame); // Double Check
@@ -192,7 +192,7 @@ void BaseBomb::vUpdate_424180()
 
     if (field_20_animation.field_92_current_frame == 3)
     {
-        const AnimRecord& rec = AnimRec(AnimId::Explosion_Mine);
+        const AnimRecord& rec = AnimRec(AnimId::GroundExplosion);
         u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
         if (ppRes)
         {

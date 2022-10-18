@@ -90,7 +90,7 @@ Spark* Spark::ctor_4CBBB0(FP xpos, FP ypos, FP scale, u8 count, s16 minAngle, s1
         else
         {
             // Normal drill type sparks
-            const AnimRecord& rec = AnimRec(AnimId::Zap_Sparks);
+            const AnimRecord& rec = AnimRec(AnimId::ChantOrb_Particle_Small);
             u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
             auto pParticle = ae_new<Particle>();
             if (pParticle)

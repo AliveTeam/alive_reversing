@@ -377,7 +377,7 @@ EXPORT void FallingItem::vUpdate_427780()
                 auto pParticle = ae_new<Particle>();
                 if (pParticle)
                 {
-                    const AnimRecord& rec = AnimRec(AnimId::Explosion);
+                    const AnimRecord& rec = AnimRec(AnimId::AirExplosion);
                     u8** ppRes = ResourceManager::GetLoadedResource_49C2A0(ResourceManager::Resource_Animation, rec.mResourceId, 0, 0);
                     pParticle->ctor_4CC4C0(
                         field_B8_xpos,

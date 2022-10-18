@@ -62,7 +62,7 @@ SecurityDoor* SecurityDoor::ctor_461840(Path_SecurityDoor* pTlv, s32 tlvInfo)
 
     SetVTable(this, 0x4BC918);
 
-    const AnimRecord rec = AO::AnimRec(AnimId::Security_Door);
+    const AnimRecord rec = AO::AnimRec(AnimId::Security_Door_Idle);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 

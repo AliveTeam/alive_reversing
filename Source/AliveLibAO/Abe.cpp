@@ -259,7 +259,7 @@ const AnimId sAbeFrameOffsetTable_4C61A0[166] = {
     AnimId::Mudokon_AO_M_15_Null,
     AnimId::Mudokon_HoistBegin,
     AnimId::Mudokon_HoistIdle,
-    AnimId::Mudokon_AO_Unknown4, // LandSoft but different from regular mudokon?
+    AnimId::Mudokon_LandSoft,
     AnimId::Mudokon_CrouchIdle,
     AnimId::Mudokon_CrouchToStand,
     AnimId::Mudokon_StandToCrouch,
@@ -327,20 +327,20 @@ const AnimId sAbeFrameOffsetTable_4C61A0[166] = {
     AnimId::Mudokon_WellBegin,
     AnimId::Mudokon_Well_Idle,
     AnimId::Mudokon_Well_Idle,
-    AnimId::Mudokon_AO_Unknown3, // FallLandDie but AnimId already used?? or did i mess up the order
-    AnimId::Mudokon_AO_Unknown2, // to fall
-    AnimId::Mudokon_HandstoneBegin, 
+    AnimId::Mudokon_FallLandDie,
+    AnimId::Mudokon_Fall,
+    AnimId::Mudokon_HandstoneBegin,
     AnimId::Mudokon_HandstoneEnd,
     AnimId::Mudokon_GrenadeMachineUse,
-    AnimId::Mudokon_Fall,
-    AnimId::Mudokon_Fall,
+    AnimId::Mudokon_FallingFromGrab,
+    AnimId::Mudokon_FallingFromGrab,
     AnimId::Mudokon_WalkOffEdge,
     AnimId::Mudokon_RunOffEdge,
     AnimId::Mudokon_SneakOffEdge,
     AnimId::Mudokon_HopToFall,
     AnimId::Mudokon_RunJumpToFall,
-    AnimId::Mudokon_LandSoft,
-    AnimId::Mudokon_AO_Unknown1, // ledge hoist up
+    AnimId::Mudokon_AO_LandSoft_Long,
+    AnimId::Mudokon_AO_HoistBegin_Long,
     AnimId::Mudokon_RollOffEdge,
     AnimId::Mudokon_LeverUse,
     AnimId::Mudokon_ElumWalkLoop,
@@ -369,11 +369,11 @@ const AnimId sAbeFrameOffsetTable_4C61A0[166] = {
     AnimId::Mudokon_ElumMidWalkEnd,
     AnimId::Mudokon_ElumBeesStruggling,
     AnimId::Mudokon_SlapBomb,
-    AnimId::Mudokon_FallLandDie, // knock forward?
+    AnimId::Mudokon_KnockForward,
     AnimId::Mudokon_RollingKnockForward,
-    AnimId::Mudokon_Idle, // knock forward get up?
-    AnimId::Mudokon_AO_Null, // lift use up
-    AnimId::Mudokon_AO_LiftUse, // lift use down
+    AnimId::Mudokon_Idle,
+    AnimId::Mudokon_LiftUseUp,
+    AnimId::Mudokon_LiftUseDown,
     AnimId::Mudokon_LiftGrabBegin,
     AnimId::Mudokon_LiftGrabEnd,
     AnimId::Mudokon_LiftGrabIdle,
@@ -403,10 +403,10 @@ const AnimId sAbeFrameOffsetTable_4C61A0[166] = {
     AnimId::Mudokon_Idle_RubEyes,
     AnimId::Mudokon_Idle_StretchArms,
     AnimId::Mudokon_Idle_Yawn,
-    AnimId::Mudokon_AO_ToShrykull,
-    AnimId::Mudokon_AO_ShrykullEnd,
+    AnimId::Mudokon_ToShrykull,
+    AnimId::Mudokon_EndShrykull,
     AnimId::Mudokon_PoisonGasDeath,
-    AnimId::None};
+    AnimId::None };
 
 /*const s32 sAbeFrameOffsetTable_4C61A0[166] = {
     55968,

@@ -55,7 +55,7 @@ Rope* Rope::ctor_4A0A70(u16 left, s16 top, u16 bottom, FP scale)
 
     SetType(AETypes::eLiftRope_108);
 
-    const AnimRecord& rec = AnimRec(AnimId::Lift_Rope);
+    const AnimRecord& rec = AnimRec(AnimId::AE_Rope);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
     SetTint_425600(kRopeTints_55FD68, gMap_5C3030.field_0_current_level);

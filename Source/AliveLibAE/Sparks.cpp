@@ -9,7 +9,7 @@ Sparks* Sparks::ctor_416390(FP xpos, FP ypos, FP scale)
     SetVTable(this, 0x544534);
     SetType(AETypes::eSparks_22);
 
-    const AnimRecord& rec = AnimRec(AnimId::Sparks);
+    const AnimRecord& rec = AnimRec(AnimId::AE_ZapSpark);
     u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
     Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 
@@ -57,7 +57,7 @@ void Sparks::vUpdate_416570()
 
     if (field_FA_16_random == 0)
     {
-        const AnimRecord& animRec = AnimRec(AnimId::Sparks);
+        const AnimRecord& animRec = AnimRec(AnimId::AE_ZapSpark);
         field_20_animation.Set_Animation_Data_409C80(animRec.mFrameTableOffset, nullptr);
         field_FA_16_random = -1;
     }

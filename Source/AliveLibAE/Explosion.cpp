@@ -23,13 +23,13 @@ Explosion* Explosion::ctor_4A1200(FP xpos, FP ypos, FP scale, s16 bSmall)
     field_F4_bSmall = bSmall;
     if (field_F4_bSmall)
     {
-        const AnimRecord& rec = AnimRec(AnimId::Explosion_Small);
+        const AnimRecord& rec = AnimRec(AnimId::AirExplosion_Small);
         u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
         Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
     }
     else
     {
-        const AnimRecord& rec = AnimRec(AnimId::Explosion);
+        const AnimRecord& rec = AnimRec(AnimId::AirExplosion);
         u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
         Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
     }
@@ -179,7 +179,7 @@ void Explosion::vUpdate_4A1510()
             auto pParticle = ae_new<Particle>();
             if (pParticle)
             {
-                const AnimRecord& rec = field_F4_bSmall ? AnimRec(AnimId::Explosion_Small) : AnimRec(AnimId::Explosion);
+                const AnimRecord& rec = field_F4_bSmall ? AnimRec(AnimId::AirExplosion_Small) : AnimRec(AnimId::AirExplosion);
                 pParticle->ctor_4CC4C0(field_B8_xpos, field_BC_ypos, rec.mFrameTableOffset,
                                        202, // Same size for both explosions for some reason
                                        91,  // ^^^

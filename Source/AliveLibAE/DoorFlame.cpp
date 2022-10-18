@@ -170,7 +170,7 @@ public:
         SetVTable(this, 0x545974);
         SetType(AETypes::eNone_0);
 
-        const AnimRecord& rec = AnimRec(AnimId::Zap_Sparks);
+        const AnimRecord& rec = AnimRec(AnimId::ChantOrb_Particle_Small);
         u8** ppRes = Add_Resource_4DC130(ResourceManager::Resource_Animation, rec.mResourceId);
         Animation_Init_424E10(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1, 1);
 

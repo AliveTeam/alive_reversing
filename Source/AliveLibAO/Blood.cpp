@@ -27,7 +27,7 @@ Blood* Blood::ctor_4072B0(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s16 coun
 
     field_BC_sprite_scale = scale;
 
-    const AnimRecord rec = AO::AnimRec(AnimId::Blood);
+    const AnimRecord rec = AO::AnimRec(AnimId::BloodDrop);
     u8** ppRes = ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, rec.mResourceId, 1, 0);
     Animation_Init_417FD0(rec.mFrameTableOffset, rec.mMaxW, rec.mMaxH, ppRes, 1);
 
