@@ -135,11 +135,6 @@ void BeeSwarm::VScreenChanged()
 
 void BeeSwarm::VScreenChange_480D40()
 {
-    if (gMap_507BA8.field_28_cd_or_overlay_num != gMap_507BA8.GetOverlayId_4440B0())
-    {
-        field_6_flags.Set(Options::eDead_Bit3);
-    }
-
     if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level
         || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path)
     {

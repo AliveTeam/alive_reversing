@@ -99,14 +99,9 @@ void Map::ScreenChange_480B80()
 
     for (s32 i = 0; i < 2; i++) // Not sure why this is done twice?
     {
-        DynamicArrayIter iter = {};
-        iter.field_4_idx = 0;
-        iter.field_0_pDynamicArray = gBaseGameObject_list_BB47C4;
-
-        while (iter.field_4_idx < iter.field_0_pDynamicArray->field_4_used_size)
+        for (s32 j = 0; j < gBaseGameObject_list_BB47C4->Size(); j++)
         {
-            BaseGameObject* pItem = gBaseGameObject_list_BB47C4->ItemAt(iter.field_4_idx);
-            ++iter.field_4_idx;
+            BaseGameObject* pItem = gBaseGameObject_list_BB47C4->ItemAt(j);
             if (!pItem)
             {
                 break;
@@ -117,7 +112,7 @@ void Map::ScreenChange_480B80()
             // Did the screen change kill the object?
             if (pItem->field_6_flags.Get(BaseGameObject::eDead_Bit3))
             {
-                iter.Remove_At_Iter_40CCA0();
+                j = gBaseGameObject_list_BB47C4->Remove_Item(pItem);
                 pItem->VDestructor(1);
             }
         }

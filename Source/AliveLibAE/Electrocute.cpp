@@ -238,7 +238,7 @@ void Electrocute::vScreenChanged_4E65E0()
 {
     BaseAliveGameObject* pTargetObj = static_cast<BaseAliveGameObject*>(sObjectIds_5C1B70.Find_449CF0(field_20_target_obj_id));
     // If the map has changed or target we are tracking has died then..
-    if (gMap_5C3030.field_22_overlayID != gMap_5C3030.GetOverlayId_480710() || (pTargetObj && pTargetObj->field_6_flags.Get(BaseGameObject::eDead_Bit3)))
+    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level || gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path || (pTargetObj && pTargetObj->field_6_flags.Get(BaseGameObject::eDead_Bit3)))
     {
         VStop_4E6150();
     }

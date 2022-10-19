@@ -136,7 +136,7 @@ Lever* Lever::vdtor_4D5AD0(s32 flags)
 
 void Lever::vScreenChanged_4D5B90()
 {
-    if (!field_100_flags.Get(Flags_100::eBit2_persist_offscreen) || gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level || gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path || gMap_5C3030.field_22_overlayID != gMap_5C3030.GetOverlayId_480710())
+    if (!field_100_flags.Get(Flags_100::eBit2_persist_offscreen) || gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level || gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }

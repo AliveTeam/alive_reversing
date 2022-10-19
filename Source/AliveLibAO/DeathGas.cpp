@@ -99,7 +99,7 @@ BaseGameObject* DeathGas::dtor_41D0E0()
 
 void DeathGas::VScreenChanged_41D700()
 {
-    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level || gMap_507BA8.field_28_cd_or_overlay_num != gMap_507BA8.GetOverlayId_4440B0() || !sActiveHero_507678)
+    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path || !sActiveHero_507678)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }

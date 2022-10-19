@@ -209,7 +209,7 @@ Electrocute* Electrocute::Vdtor_48D8E0(s32 flags)
 void Electrocute::VScreenChanged_48D8B0()
 {
     // If the map has changed or target we are tracking has died then..
-    if (gMap_507BA8.field_28_cd_or_overlay_num != gMap_507BA8.GetOverlayId_4440B0()
+    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path
         || (field_10_obj_target && field_10_obj_target->field_6_flags.Get(BaseGameObject::eDead_Bit3)))
     {
         Stop_48D510();

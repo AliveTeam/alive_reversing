@@ -84,11 +84,6 @@ void BeeNest::VScreenChanged()
 
 void BeeNest::VScreenChanged_481040()
 {
-    if (gMap_507BA8.field_28_cd_or_overlay_num != gMap_507BA8.GetOverlayId_4440B0())
-    {
-        field_6_flags.Set(BaseGameObject::eDead_Bit3);
-    }
-
     if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path || !field_34_pBeeSwarm)
     {
         gMap_507BA8.TLV_Reset_446870(field_1C_tlvInfo, -1, 0, 0);
