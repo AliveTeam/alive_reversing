@@ -266,6 +266,49 @@ void main()
 }
 )";
 
+const char_type* gShader_PassthruFilterFSH = R"(
+#version 140
+
+in vec2 fsUV;
+
+out vec4 outColor;
+
+uniform sampler2D TextureSampler;
+
+// HACK -- Maybe the fragment shader should translate to UV coords?
+uniform vec2 vsTexSize;
+
+
+float singlePixelSize()
+{
+    return 1.0f / vsTexSize.y;
+}
+
+void main()
+{
+    bool scanline = int(mod(gl_FragCoord.y, 2.0f)) > 0;
+
+    if (scanline)
+    {
+        vec4 texelCurRow = texture(TextureSampler, fsUV);
+        vec4 texelNxtRow = texture(TextureSampler, vec2(fsUV.x, fsUV.y + singlePixelSize()));
+
+        vec3 newRGB =
+            vec3(
+                clamp(texelCurRow.r, 0.0f, 0.65f) + clamp(texelNxtRow.r, 0.0f, 0.65f),
+                clamp(texelCurRow.g, 0.0f, 0.5f) + clamp(texelNxtRow.g, 0.0f, 0.5f),
+                clamp(texelCurRow.b, 0.0f, 0.45f) + clamp(texelNxtRow.b, 0.0f, 0.45f)
+            ) / 2.0f;
+
+        outColor = vec4(newRGB.rgb, 1.0);
+    }
+    else
+    {
+        outColor = texture(TextureSampler, fsUV);
+    }
+}
+)";
+
 const char_type* gShader_PsxVSH = R"(
 #version 140
 #extension GL_ARB_explicit_attrib_location : enable
