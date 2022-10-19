@@ -73,11 +73,7 @@ s16 DynamicArray::Remove_Item_40CB60(void* pItemToRemove)
 
         if (pCurrentItem == pItemToRemove)
         {
-            if (idx + 1 < field_4_used_size)
-            {
-                field_0_array[idx] = field_0_array[idx + 1];
-            }
-            field_4_used_size--;
+            RemoveAt(idx);
             return 1;
         }
     }

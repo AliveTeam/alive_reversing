@@ -148,7 +148,7 @@ void DestroyObjects_4A1F20()
 
             if (!(pObj->field_6_flags.Get(BaseGameObject::eSurviveDeathReset_Bit9)))
             {
-                idx = gBaseGameObject_list_BB47C4->Remove_Item(pObj);
+                idx = gBaseGameObject_list_BB47C4->RemoveAt(idx);
                 pObj->VDestructor(1);
             }
         }
@@ -831,7 +831,7 @@ EXPORT void CC Game_Loop_467230()
         GetGameAutoPlayer().SyncPoint(SyncPoints::RenderStart);
 
         // Destroy objects with certain flags
-        for (s16 idx = 0; idx < gBaseGameObject_list_BB47C4->Size(); idx++)
+        for (s32 idx = 0; idx < gBaseGameObject_list_BB47C4->Size(); idx++)
         {
             BaseGameObject* pObj = gBaseGameObject_list_BB47C4->ItemAt(idx);
             if (!pObj)
@@ -841,7 +841,7 @@ EXPORT void CC Game_Loop_467230()
 
             if (pObj->field_6_flags.Get(BaseGameObject::eDead_Bit3) && pObj->field_6_flags.Get(BaseGameObject::eCantKill_Bit11) == false)
             {
-                idx = gBaseGameObject_list_BB47C4->Remove_Item(pObj);
+                idx = gBaseGameObject_list_BB47C4->RemoveAt(idx);
                 pObj->VDestructor(1);
             }
         }
@@ -903,7 +903,7 @@ EXPORT void CC Game_Loop_467230()
                 break;
             }
 
-            idx = gBaseGameObject_list_BB47C4->Remove_Item(pObj);
+            idx = gBaseGameObject_list_BB47C4->RemoveAt(idx);
             pObj->VDestructor(1);
         }
     }

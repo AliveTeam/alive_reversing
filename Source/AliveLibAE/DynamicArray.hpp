@@ -22,6 +22,16 @@ public:
         return field_4_used_size;
     }
 
+    s32 RemoveAt(s32 idx)
+    {
+        field_4_used_size--;
+
+        // Overwrite the items to remove with the item from the end
+        field_0_array[idx] = field_0_array[field_4_used_size];
+
+        return idx - 1;
+    }
+
 public:
     EXPORT s16 Push_Back_40CAF0(void* pValue);
 

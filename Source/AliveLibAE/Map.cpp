@@ -112,7 +112,7 @@ void Map::ScreenChange_480B80()
             // Did the screen change kill the object?
             if (pItem->field_6_flags.Get(BaseGameObject::eDead_Bit3))
             {
-                j = gBaseGameObject_list_BB47C4->Remove_Item(pItem);
+                j = gBaseGameObject_list_BB47C4->RemoveAt(j);
                 pItem->VDestructor(1);
             }
         }
