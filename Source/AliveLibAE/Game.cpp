@@ -96,13 +96,9 @@ void DestroyObjects_4A1F20()
     pResourceManager_5C1BB0->LoadingLoop_465590(FALSE);
     for (s32 iterations = 0; iterations < 2; iterations++)
     {
-        s16 idx = 0;
-
-        while (idx < gBaseGameObjects->Size())
+        for (s32 idx = 0;idx < gBaseGameObjects->Size(); idx++)
         {
             BaseGameObject* pObj = gBaseGameObjects->ItemAt(idx);
-            idx++;
-
             if (!pObj)
             {
                 break;
@@ -110,15 +106,9 @@ void DestroyObjects_4A1F20()
 
             if (!(pObj->mBaseGameObjectFlags.Get(BaseGameObject::eSurviveDeathReset_Bit9)))
             {
-                DynamicArrayIter iter;
-                iter.field_0_pDynamicArray = gBaseGameObjects;
-                iter.field_4_idx = idx;
-                iter.Remove_At_Iter();
+                idx = gBaseGameObjects->RemoveAt(idx);
 
                 delete pObj;
-
-                // Don't go forwards as we just removed an item otherwise we'd miss one
-                idx = iter.field_4_idx;
             }
         }
     }
@@ -476,7 +466,7 @@ void Game_Loop()
         GetGameAutoPlayer().SyncPoint(SyncPoints::RenderStart);
 
         // Destroy objects with certain flags
-        for (s16 idx = 0; idx < gBaseGameObjects->Size(); idx++)
+        for (s32 idx = 0; idx < gBaseGameObjects->Size(); idx++)
         {
             BaseGameObject* pObj = gBaseGameObjects->ItemAt(idx);
             if (!pObj)
@@ -486,11 +476,7 @@ void Game_Loop()
 
             if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && pObj->mBaseGameObjectFlags.Get(BaseGameObject::eCantKill_Bit11) == false)
             {
-                DynamicArrayIter it;
-		    	it.field_0_pDynamicArray = gBaseGameObjects;
-                it.field_4_idx = idx + 1;
-
-                it.Remove_At_Iter();
+                idx = gBaseGameObjects->RemoveAt(idx);
                 delete pObj;
             }
         }

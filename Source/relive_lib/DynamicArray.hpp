@@ -24,11 +24,21 @@ public:
         return field_4_used_size;
     }
 
+    s32 RemoveAt(s32 idx)
+    {
+        field_4_used_size--;
+
+        // Overwrite the items to remove with the item from the end
+        field_0_array[idx] = field_0_array[field_4_used_size];
+
+        return idx - 1;
+    }
+
 public:
     s16 Push_Back(void* pValue);
 
 protected:
-    s16 Remove_Item(void* pItemToRemove);
+    void Remove_Item(void* pItemToRemove);
     void** field_0_array = nullptr;
 
 public:
@@ -38,8 +48,6 @@ private:
     s16 field_6_max_size = 0;
     s16 field_8_expand_size = 0;
     // padding
-
-    friend class DynamicArrayIter;
 };
 
 // Typed wrapper for DynamicArray
@@ -54,9 +62,9 @@ public:
         return DynamicArray::Push_Back(pValue);
     }
 
-    s16 Remove_Item(T* pItemToRemove)
+    void Remove_Item(T* pItemToRemove)
     {
-        return DynamicArray::Remove_Item(pItemToRemove);
+        DynamicArray::Remove_Item(pItemToRemove);
     }
 
     T* ItemAt(s32 idx)
@@ -78,24 +86,4 @@ public:
     {
         return field_4_used_size == 0;
     }
-
-    s32 RemoveAt(s32 idx)
-    {
-        field_4_used_size--;
-
-        // Overwrite the items to remove with the item from the end
-        field_0_array[idx] = field_0_array[field_4_used_size];
-
-        return idx - 1;
-    }
-};
-
-class DynamicArrayIter final
-{
-public:
-    void Remove_At_Iter();
-
-    DynamicArray* field_0_pDynamicArray;
-    s16 field_4_idx;
-    // padding
 };

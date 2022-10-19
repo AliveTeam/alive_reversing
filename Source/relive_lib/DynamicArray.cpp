@@ -44,16 +44,11 @@ s16 DynamicArray::Push_Back(void* pValue)
     return 1;
 }
 
-s16 DynamicArray::Remove_Item(void* pItemToRemove)
+void DynamicArray::Remove_Item(void* pItemToRemove)
 {
-    DynamicArrayIter arrayIter;
-    arrayIter.field_0_pDynamicArray = this;
-    arrayIter.field_4_idx = 0;
-    for (s16 idx = 0; idx < field_4_used_size; idx++)
+    for (s32 idx = 0; idx < field_4_used_size; idx++)
     {
         void* pCurrentItem = field_0_array[idx];
-        arrayIter.field_4_idx = idx + 1;
-
         if (!pCurrentItem)
         {
             break;
@@ -61,11 +56,10 @@ s16 DynamicArray::Remove_Item(void* pItemToRemove)
 
         if (pCurrentItem == pItemToRemove)
         {
-            arrayIter.Remove_At_Iter();
-            return 1;
+            RemoveAt(idx);
+            break;
         }
     }
-    return 0;
 }
 
 s16 DynamicArray::Expand(s16 expandSize)
@@ -93,13 +87,4 @@ s16 DynamicArray::Expand(s16 expandSize)
     field_0_array = pNewBuffer;
 
     return 1;
-}
-
-void DynamicArrayIter::Remove_At_Iter()
-{
-    field_4_idx--;
-    field_0_pDynamicArray->field_4_used_size--;
-
-    // Overwrite the items to remove with the item from the end
-    field_0_pDynamicArray->field_0_array[field_4_idx] = field_0_pDynamicArray->field_0_array[field_0_pDynamicArray->field_4_used_size];
 }
