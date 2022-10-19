@@ -1,7 +1,6 @@
 #include "stdafx_ao.h"
 #include "Psx.hpp"
 #include "Function.hpp"
-#include "../relive_lib/bmp.hpp"
 #include "VGA.hpp"
 #include "PsxRender.hpp"
 #include "../relive_lib/Error.hpp"
@@ -57,7 +56,7 @@ void PSX_EMU_SetCallBack_499920(s32 callBackType, TPsxEmuCallBack fnPtr)
 
 void Init_VGA_AndPsxVram()
 {
-    VGA_DisplaySet_490230(640u, 480u, 16, 1, 0);
+    VGA_DisplaySet_490230(640u, 480u, 16, 1);
 }
 
 } // namespace AO

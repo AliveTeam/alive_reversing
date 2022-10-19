@@ -232,8 +232,8 @@ s8 DDV_Play_Impl_4932E0(const char_type* pMovieName)
     fmv_num_read_frames_5CA23C = 0;
 
 #if USE_SDL2
-    Bitmap tmpBmp = {};
-    BMP_New_4F1990(&tmpBmp, 640, 480, 15, 0);
+    //Bitmap tmpBmp = {};
+    //BMP_New_4F1990(&tmpBmp, 640, 480, 15, 0);
 #endif
 
     if (DDV_StartAudio_493DF0() && Masher_ReadNextFrame_4EAC20(pMasherInstance_5CA1EC) && Masher_ReadNextFrame_4EAC20(pMasherInstance_5CA1EC))
@@ -246,9 +246,9 @@ s8 DDV_Play_Impl_4932E0(const char_type* pMovieName)
             // Lock the back buffer
 
             // Decode the video frame to the bitmap pixel buffer
-            SDL_LockSurface(tmpBmp.field_0_pSurface);
-            Masher_DecodeVideoFrame_4EAC40(pMasherInstance_5CA1EC, tmpBmp.field_0_pSurface->pixels);
-            SDL_UnlockSurface(tmpBmp.field_0_pSurface);
+            //SDL_LockSurface(tmpBmp.field_0_pSurface);
+            //Masher_DecodeVideoFrame_4EAC40(pMasherInstance_5CA1EC, tmpBmp.field_0_pSurface->pixels);
+            //SDL_UnlockSurface(tmpBmp.field_0_pSurface);
 
             if (!bNoAudioOrAudioError_5CA1F4)
             {
@@ -403,7 +403,7 @@ s8 DDV_Play_Impl_4932E0(const char_type* pMovieName)
 
     Masher_DeAlloc_4EAC00(pMasherInstance_5CA1EC);
     pMasherInstance_5CA1EC = nullptr;
-    Bmp_Free_4F1950(&tmpBmp);
+    //Bmp_Free_4F1950(&tmpBmp);
 
     return 1;
 }

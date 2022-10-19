@@ -3,7 +3,6 @@
 #include "Game.hpp"
 #include "Sys.hpp"
 #include "VGA.hpp"
-#include "../relive_lib/bmp.hpp"
 #include "Input.hpp"
 #include "Psx.hpp"
 #include "../relive_lib/DynamicArray.hpp"
@@ -114,12 +113,12 @@ f64 Calculate_FPS_495250(s32 frameCount)
     return sFps_55EFDC;
 }
 
-void DrawFps_4952F0(Bitmap* pBmp, s32 x, s32 y, f32 fps)
+void DrawFps_4952F0(s32 /*x*/, s32 /*y*/, f32 fps)
 {
     char_type strBuffer[125] = {};
     sprintf(strBuffer, "%02.1f fps ", static_cast<f64>(fps));
     sNumRenderedPrims_C2D03C = 0;
-    BMP_Draw_String_4F2230(pBmp, x, y, strBuffer);
+    //BMP_Draw_String_4F2230(pBmp, x, y, strBuffer);
 }
 
 void sub_4FBA20()
@@ -151,7 +150,6 @@ s32 Game_End_Frame_4950F0(u32 flags)
     if (sCommandLine_ShowFps_5CA4D0)
     {
         DrawFps_4952F0(
-            spBitmap_C2D038,
             sPSX_EMU_DrawEnvState_C3D080.field_0_clip.x + 4,
             sPSX_EMU_DrawEnvState_C3D080.field_0_clip.y + 4,
             static_cast<f32>(fps));

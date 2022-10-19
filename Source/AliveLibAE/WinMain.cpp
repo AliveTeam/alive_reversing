@@ -3,7 +3,6 @@
 #include "logger.hpp"
 #include "Function.hpp"
 #include "../relive_lib/Primitives.hpp"
-#include "../relive_lib/bmp.hpp"
 #include "Sys.hpp"
 #include "VGA.hpp"
 #include "Psx.hpp"

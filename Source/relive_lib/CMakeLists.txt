@@ -42,8 +42,6 @@ SET(relive_lib_src
     PsxDisplay.hpp
     Compression.hpp
     Compression.cpp
-    bmp.cpp
-    bmp.hpp
     Error.cpp
     Error.hpp
     VRam.hpp

@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "PsxDisplay.hpp"
 #include "Error.hpp"
-#include "bmp.hpp"
 #include <type_traits>
 #include "VRam.hpp"
 #include "../AliveLibAE/PsxRender.hpp"
@@ -155,7 +154,7 @@ void DebugFont_Flush()
     sDebugFontTmpBuffer_BB47CC[0] = 0;
 }
 
-void PSX_DrawDebugTextBuffers(Bitmap* pBmp, const RECT& rect)
+void PSX_DrawDebugTextBuffers(Bitmap* pBmp, const RECT& /*rect*/)
 {
     if (sFntCount_BD0F28 <= 0)
     {
@@ -164,6 +163,7 @@ void PSX_DrawDebugTextBuffers(Bitmap* pBmp, const RECT& rect)
 
     if (pBmp)
     {
+        /*
         const LONG fontHeight = BMP_Get_Font_Height_4F21F0(pBmp);
         for (s32 i = 0; i < sFntCount_BD0F28; i++)
         {
@@ -175,7 +175,7 @@ void PSX_DrawDebugTextBuffers(Bitmap* pBmp, const RECT& rect)
                 BMP_Draw_String_4F2230(pBmp, xpos, ypos, j);
                 ypos += fontHeight;
             }
-        }
+        }*/
     }
 }
 

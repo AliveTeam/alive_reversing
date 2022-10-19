@@ -2,7 +2,6 @@
 #include "Psx.hpp"
 #include "Function.hpp"
 #include "../relive_lib/Error.hpp"
-#include "../relive_lib/bmp.hpp"
 #include "Sound/PsxSpuApi.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "VGA.hpp"
@@ -30,8 +29,6 @@ s32 sPsx_drawenv_k500_BDCD50 = 0;
 u8* sPsx_drawenv_buffer_BDCD54 = nullptr;
 u8 sPsxEMU_show_vram_BD1465 = 0;
 
-Bitmap sBitmap_C1D1A0 = {}; // Note: never used?
-
 PSX_DISPENV sLastDispEnv_C2D060 = {};
 u8 sScreenMode_BD146D = 0;
 u8 turn_off_rendering_BD0F20 = 0;
@@ -49,8 +46,6 @@ Bitmap* spBitmap_C2D038 = nullptr;
 
 void PSX_EMU_Init_4F9CD0()
 {
-    memset(&sBitmap_C1D1A0, 0, sizeof(sBitmap_C1D1A0));
-
     sPsxEmu_EndFrameFnPtr_C1D17C = nullptr;
     sPsxEmu_put_disp_env_callback_C1D184 = nullptr;
 
@@ -84,7 +79,7 @@ const char_type kDirChar[] = "/";
 
 void Init_VGA_AndPsxVram_494690()
 {
-    VGA_DisplaySet_4F32C0(640u, 480u, 16u, 2u, 0);
+    VGA_DisplaySet_4F32C0(640u, 480u, 16u, 2u);
 }
 
 

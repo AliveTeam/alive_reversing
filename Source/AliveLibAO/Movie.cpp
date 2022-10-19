@@ -7,7 +7,6 @@
 #include "PSXMDECDecoder.h"
 #include "Masher.hpp"
 #include "../AliveLibAE/Io.hpp"
-#include "../relive_lib/bmp.hpp"
 #include "Sys.hpp"
 #include "../AliveLibAE/Psx.hpp"
 #include "../AliveLibAE/VGA.hpp"
@@ -349,7 +348,7 @@ void Movie::VUpdate()
     int fmv_num_read_frames = 0;
 
     TempSurface tempSurface;
-    Bitmap tmpBmp = {};
+    //Bitmap tmpBmp = {};
 
     // Till EOF decoding loop
     const auto movieStartTimeStamp = SYS_GetTicks();
@@ -366,19 +365,20 @@ void Movie::VUpdate()
             if (tempSurface.InitIf(psxStr.mFrameW, psxStr.mFrameH))
             {
                 // Ditto
+                /*
                 if (tmpBmp.field_0_pSurface)
                 {
                     Bmp_Free_4F1950(&tmpBmp);
                     tmpBmp = {};
                 }
-                BMP_New_4F1990(&tmpBmp, psxStr.mFrameW, psxStr.mFrameH, 15, 0);
+                BMP_New_4F1990(&tmpBmp, psxStr.mFrameW, psxStr.mFrameH, 15, 0);*/
             }
 
             // Copy decoded frame to tempSurface
             tempSurface.SetPixels(psxStr.pixelBuffer);
 
             // Copy temp surface to tmpBmp (colour depth conversion)
-            tempSurface.BlitScaledTo(tmpBmp.field_0_pSurface);
+            //tempSurface.BlitScaledTo(tmpBmp.field_0_pSurface);
         }
 
         // Check for quitting video every 15 frames
@@ -419,7 +419,7 @@ void Movie::VUpdate()
         fmv_sound_entry.field_4_pDSoundBuffer = nullptr;
     }
 
-    Bmp_Free_4F1950(&tmpBmp);
+    //Bmp_Free_4F1950(&tmpBmp);
 
     GetMovieIO().mIO_Close(hMovieFile);
 

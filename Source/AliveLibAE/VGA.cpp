@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "VGA.hpp"
-#include "../relive_lib/bmp.hpp"
 #include "Function.hpp"
 #include "../relive_lib/Error.hpp"
 #include "Sys.hpp"
@@ -41,7 +40,7 @@ void VGA_CopyToFront(RECT* /*pRect*/)
     IRenderer::GetRenderer()->EndFrame();
 }
 
-s32 VGA_DisplaySet_4F32C0(u16 width, u16 height, u8 bpp, u8 backbufferCount, TSurfaceType** ppSurface)
+s32 VGA_DisplaySet_4F32C0(u16 width, u16 height, u8 bpp, u8 backbufferCount)
 {
     // TODO: Window sub classing for VGA_WindowSubClass_4F2F50 removed as it only exists to support 8 bpp mode.
 
@@ -50,15 +49,9 @@ s32 VGA_DisplaySet_4F32C0(u16 width, u16 height, u8 bpp, u8 backbufferCount, TSu
         VGA_Shutdown_4F3170();
     }
 
-    if (ppSurface)
-    {
-        sVGA_own_surfaces_BD0BFA = false;
-        backbufferCount = 1;
-    }
-    else
-    {
-        sVGA_own_surfaces_BD0BFA = true;
-    }
+   
+    sVGA_own_surfaces_BD0BFA = true;
+    
 
     sVGA_BD0BBC = backbufferCount;
     sVGA_bpp_BD0BF9 = bpp;
