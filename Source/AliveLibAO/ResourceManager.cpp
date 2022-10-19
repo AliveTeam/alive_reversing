@@ -29,7 +29,7 @@ void Odd_Sleep_48DD90(u32 /*dwMilliseconds*/)
 class LoadingFile final : public BaseGameObject
 {
 public:
-    LoadingFile(s32 pos, s32 size, TLoaderFn pFn, void* fnArg, Camera* pArray)
+    LoadingFile(s32 , s32 size, TLoaderFn pFn, void* fnArg, Camera* pArray)
         : BaseGameObject(FALSE, 0) // DON'T add to BGE list
     {
 
@@ -44,7 +44,6 @@ public:
         SetType(ReliveTypes::eLoadingFile);
         field_1C_pCamera = pArray;
 
-        PSX_Pos_To_CdLoc_49B340(pos, &field_2A_cdLoc);
 
         field_28_state = 0;
 

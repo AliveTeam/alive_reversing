@@ -10,16 +10,11 @@ struct Bitmap;
 using TPsxEmuCallBack = AddPointer_t<s32(u32)>;
 
 void PSX_VSync_4F6170(s32 mode);
-s32 PSX_SetVideoMode_4FA8F0();
-s32 PSX_ResetGraph_4F8800(s32);
 void PSX_SetDefDrawEnv_4F5AA0(PSX_DRAWENV* pDrawEnv, s16 x, s16 y, s16 w, s16 h);
 void PSX_SetDefDispEnv_4F55A0(PSX_DISPENV* pOutEnv, s16 x, s16 y, s16 w, s16 h);
 void PSX_PutDrawEnv_4F5980(const PSX_DRAWENV* pDrawEnv);
 void PSX_PutDispEnv_4F5890(PSX_DISPENV* pDispEnv);
 void PSX_PutDispEnv_4F58E0(const PSX_DISPENV* pDispEnv);
-void PSX_EMU_VideoDeAlloc_4FA010();
-s32 PSX_StopCallBack_4FAA30();
-s32 PSX_EMU_VideoAlloc_4F9D70();
 void Init_VGA_AndPsxVram_494690();
 void PSX_EMU_Init_4F9CD0();
 void PSX_EMU_SetCallBack_4F9430(s32 callBackType, TPsxEmuCallBack fnPtr);
@@ -34,15 +29,12 @@ void PSX_CD_Normalize_FileName_4FAD90(char_type* pNormalized, const char_type* p
 void PSX_Prevent_Rendering_4945B0();
 
 
-CdlLOC* PSX_Pos_To_CdLoc_4FADD0(s32 pos, CdlLOC* pLoc);
-
 extern u8 turn_off_rendering_BD0F20;
 extern PSX_DRAWENV sPSX_EMU_DrawEnvState_C3D080;
 extern Bitmap* spBitmap_C2D038;
 
 extern TPsxEmuCallBack sPsxEmu_EndFrameFnPtr_C1D17C;
 extern Bitmap sBitmap_C1D1A0;
-extern s32 sVGA_DisplayType_BD1468;
 
 extern s32 sPsx_drawenv_clipx_BDCD40;
 extern s32 sPsx_drawenv_clipy_BDCD44;

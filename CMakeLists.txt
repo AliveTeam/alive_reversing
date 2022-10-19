@@ -124,8 +124,7 @@ endif()
 # Setup cross-platform PCH
 
 # AE needs its own PCH that can be reused from `AliveLibCommon`, because they
-# both define the same values for `BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE`,
-# `BEHAVIOUR_CHANGE_SUB_DATA_FOLDERS`, and `_CRT_SECURE_NO_WARNINGS'
+# both define the same values for `BEHAVIOUR_CHANGE_SUB_DATA_FOLDERS`, and `_CRT_SECURE_NO_WARNINGS'
 target_precompile_headers(
     AliveLibCommon PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}/Source/AliveLibCommon/pch_shared.h"
@@ -136,8 +135,7 @@ target_precompile_headers(
     AliveLibAE PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}/Source/AliveLibCommon/pch_shared.h"
 )
-# AO needs its own PCH because of different `BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE`
-# and `BEHAVIOUR_CHANGE_SUB_DATA_FOLDERS` defines with `AliveLibCommon`
+# AO needs its own PCH because of different `BEHAVIOUR_CHANGE_SUB_DATA_FOLDERS` defines with `AliveLibCommon`
 target_precompile_headers(
     AliveLibAO PRIVATE
     "${CMAKE_CURRENT_SOURCE_DIR}/Source/AliveLibCommon/pch_shared.h"

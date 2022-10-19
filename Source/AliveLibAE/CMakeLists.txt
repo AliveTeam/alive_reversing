@@ -23,8 +23,6 @@ SET(AliveLibAESrc
     Sys.hpp
     VGA.cpp
     VGA.hpp
-    DDraw.cpp
-    DDraw.hpp
     Psx.cpp
     Psx.hpp
     PsxRender.cpp
@@ -356,7 +354,6 @@ target_include_directories(AliveLibAE PUBLIC
     PRIVATE src ${CMAKE_BINARY_DIR})
 
 target_compile_definitions(AliveLibAE PRIVATE "_CRT_SECURE_NO_WARNINGS")
-target_compile_definitions(AliveLibAE PRIVATE "BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE")
 target_compile_definitions(AliveLibAE PRIVATE "BEHAVIOUR_CHANGE_SUB_DATA_FOLDERS")
 
 if (MSVC)

@@ -215,7 +215,6 @@ void Main_ParseCommandLineArguments(const char_type* /*pCmdLineNotUsed*/, const 
 
     Init_VGA_AndPsxVram_494690();
     PSX_EMU_Init_4F9CD0();
-    PSX_EMU_VideoAlloc_4F9D70();
     PSX_EMU_SetCallBack_4F9430(1, Game_End_Frame_4950F0);
 }
 
@@ -297,12 +296,6 @@ void Game_Free_LoadingIcon()
 #if DEVELOPER_MODE
 extern bool gBootToLoadScreen;
 #endif
-
-void Game_ExitGame()
-{
-    PSX_EMU_VideoDeAlloc_4FA010();
-}
-
 
 void Game_Shutdown()
 {
@@ -540,9 +533,7 @@ void Game_Run()
 
     SND_Reset_Ambiance();
     SND_Shutdown();
-    PSX_StopCallBack_4FAA30();
     Input().ShutDown_45F020();
-    PSX_ResetGraph_4F8800(0);
 }
 
 

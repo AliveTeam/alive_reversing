@@ -43,7 +43,6 @@ target_include_directories(AliveLibCommon PUBLIC
     PRIVATE src ${CMAKE_BINARY_DIR})
 
 target_compile_definitions(AliveLibCommon PRIVATE "_CRT_SECURE_NO_WARNINGS")
-target_compile_definitions(AliveLibCommon PRIVATE "BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE")
 
 if (MSVC)
     if (CMAKE_SIZEOF_VOID_P EQUAL 4)

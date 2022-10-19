@@ -101,7 +101,6 @@ static void Main_ParseCommandLineArguments()
     Init_VGA_AndPsxVram();
 
     PSX_EMU_Init_49A1D0();
-    PSX_EMU_VideoAlloc_49A2B0();
     PSX_EMU_SetCallBack_499920(1, Game_End_Frame_4505D0);
 }
 
@@ -168,13 +167,6 @@ void Game_Free_LoadingIcon()
     }
     */
 }
-
-
-void Game_ExitGame()
-{
-    PSX_EMU_VideoDeAlloc_49A550();
-}
-
 
 void Game_Shutdown()
 {

@@ -41,36 +41,11 @@ u8 byte_578324 = 1;
 IO_Handle* sCdFileHandle_BD1CC4 = nullptr;
 s32 sCdReadPos_BD1894 = 0;
 
-CdlLOC* PSX_Pos_To_CdLoc_4FADD0(s32 pos, CdlLOC* pLoc)
-{
-    pLoc->field_3_track = 0;
-    pLoc->field_0_minute = static_cast<u8>(pos / 75 / 60 + 2);
-    pLoc->field_1_second = pos / 75 % 60;
-    pLoc->field_2_sector = static_cast<u8>(pos + 108 * (pos / 75 / 60) - 75 * (pos / 75 % 60));
-    return pLoc;
-}
-
-
 TPsxEmuCallBack sPsxEmu_put_disp_env_callback_C1D184 = nullptr;
 TPsxEmuCallBack sPsxEmu_EndFrameFnPtr_C1D17C = nullptr;
 u8 sPsxDontChangeDispEnv_BD0F21 = 0;
-bool sbBitmapsAllocated_BD145C = false;
-
-
-
-void PSX_DispEnv_4EDAB0(Bitmap* /*pBmp*/, s32 /*left*/, s32 /*top*/, s32 /*width*/)
-{
-    
-}
-
-void PSX_DispEnv_Reset_Unknown_4ED9E0()
-{
-    
-}
 
 Bitmap* spBitmap_C2D038 = nullptr;
-
-
 
 void PSX_EMU_Init_4F9CD0()
 {
@@ -99,11 +74,6 @@ void PSX_EMU_SetCallBack_4F9430(s32 callBackType, TPsxEmuCallBack fnPtr)
     }
 }
 
-s32 PSX_CD_Add_EMU_Path_4FAC00(const char_type* /*filePath*/)
-{
-    
-    return 0;
-}
 
 #if _WIN32
 const char_type kDirChar[] = "\\";
@@ -111,75 +81,14 @@ const char_type kDirChar[] = "\\";
 const char_type kDirChar[] = "/";
 #endif
 
-s32 PSX_StopCallBack_4FAA30()
-{
-    return 0;
-}
-
-s32 PSX_EMU_VideoAlloc_4F9D70()
-{
-    if (!sbBitmapsAllocated_BD145C)
-    {
-        if (sVGA_DisplayType_BD1468 == 1)
-        {
-            sVGA_DisplayType_BD1468 = 4;
-          
-            //PSX_EMU_SetDispType_4F9960(sVGA_DisplayType_BD1468);
-        }
-        else
-        {
-            s32 pixelFormat = 0;
-            switch (sVGA_DisplayType_BD1468)
-            {
-                case 2:
-                    pixelFormat = 16;
-                    break;
-                case 3:
-                    pixelFormat = 116;
-                    break;
-                case 4:
-                    pixelFormat = 15;
-                    break;
-                case 5:
-                    pixelFormat = 115;
-                    break;
-                default:
-                    pixelFormat = 0;
-                    break;
-            }
-
-        }
-
-        sbBitmapsAllocated_BD145C = 1;
-    }
-
-    /*
-    PSX_RECT rect = {};
-    rect.x = 0;
-    rect.y = 0;
-    rect.w = 1024;
-    rect.h = 512;
-    PSX_ClearImage_4F5BD0(&rect, 0, 0, 0);
-    */
-    return 0;
-}
 
 void Init_VGA_AndPsxVram_494690()
 {
-    VGA_FullScreenSet_4F31F0(true);
     VGA_DisplaySet_4F32C0(640u, 480u, 16u, 2u, 0);
 }
 
-void PSX_EMU_VideoDeAlloc_4FA010()
-{
-    if (sbBitmapsAllocated_BD145C)
-    {
-        sbBitmapsAllocated_BD145C = false;
-    }
-}
 
-
-void PSX_PutDispEnv_Impl_4F5640(const PSX_DISPENV* pDispEnv, s8 a2)
+void PSX_PutDispEnv_Impl_4F5640(const PSX_DISPENV* pDispEnv)
 {
     if (!pDispEnv)
     {
@@ -198,31 +107,12 @@ void PSX_PutDispEnv_Impl_4F5640(const PSX_DISPENV* pDispEnv, s8 a2)
         rect.right = sLastDispEnv_C2D060.disp.x + sLastDispEnv_C2D060.disp.w;
         rect.bottom = sLastDispEnv_C2D060.disp.y + sLastDispEnv_C2D060.disp.h;
 
-        PSX_DrawDebugTextBuffers(&sVGA_bmp_primary_BD2A20, rect);
+        PSX_DrawDebugTextBuffers(nullptr, rect);
 
-        if (a2 && VGA_IsWindowMode_4F31E0())
-        {
-            PSX_DispEnv_4EDAB0(&sVGA_bmp_primary_BD2A20, rect.left, rect.top, rect.right - rect.left);
-            PSX_DispEnv_Reset_Unknown_4ED9E0();
-        }
-        else
-        {
-            VGA_CopyToFront(&rect);
-        }
-
-        // TODO: Removed dead increment here
+        // Clear/end frame
+        VGA_CopyToFront(&rect);
     }
     SsSeqCalledTbyT_4FDC80();
-}
-
-s32 PSX_ResetGraph_4F8800(s32)
-{
-    return 0;
-}
-
-s32 PSX_SetVideoMode_4FA8F0()
-{
-    return 0;
 }
 
 void PSX_PutDispEnv_4F58E0(const PSX_DISPENV* pDispEnv)
@@ -231,14 +121,7 @@ void PSX_PutDispEnv_4F58E0(const PSX_DISPENV* pDispEnv)
     {
         if (!sPsxDontChangeDispEnv_BD0F21)
         {
-            if (sVGA_bmp_primary_BD2A20.field_8_width != 320 || pDispEnv->disp.w != 640)
-            {
-                PSX_PutDispEnv_Impl_4F5640(pDispEnv, 1);
-            }
-            else
-            {
-                PSX_PutDispEnv_Impl_4F5640(pDispEnv, 0);
-            }
+            PSX_PutDispEnv_Impl_4F5640(pDispEnv);
         }
 
         if (sPsxEmu_put_disp_env_callback_C1D184)
@@ -318,7 +201,7 @@ void PSX_PutDispEnv_4F5890(PSX_DISPENV* pDispEnv)
 
     if (!sPsxDontChangeDispEnv_BD0F21)
     {
-        PSX_PutDispEnv_Impl_4F5640(pDispEnv, 0);
+        PSX_PutDispEnv_Impl_4F5640(pDispEnv);
         pFn = sPsxEmu_put_disp_env_callback_C1D184;
     }
 

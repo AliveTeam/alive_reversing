@@ -162,16 +162,19 @@ void PSX_DrawDebugTextBuffers(Bitmap* pBmp, const RECT& rect)
         return;
     }
 
-    const LONG fontHeight = BMP_Get_Font_Height_4F21F0(pBmp);
-    for (s32 i = 0; i < sFntCount_BD0F28; i++)
+    if (pBmp)
     {
-        DebugTexts* pRecord = &sTexts_C27640[i];
-        const s32 xpos = rect.left + pRecord->field_0_xMargin;
-        s32 ypos = rect.top + pRecord->field_1_yMargin;
-        for (char_type* j = strtok(pRecord->field_9_text.field_400_dst_txt, "\n\r"); j; j = strtok(0, "\n\r"))
+        const LONG fontHeight = BMP_Get_Font_Height_4F21F0(pBmp);
+        for (s32 i = 0; i < sFntCount_BD0F28; i++)
         {
-            BMP_Draw_String_4F2230(pBmp, xpos, ypos, j);
-            ypos += fontHeight;
+            DebugTexts* pRecord = &sTexts_C27640[i];
+            const s32 xpos = rect.left + pRecord->field_0_xMargin;
+            s32 ypos = rect.top + pRecord->field_1_yMargin;
+            for (char_type* j = strtok(pRecord->field_9_text.field_400_dst_txt, "\n\r"); j; j = strtok(0, "\n\r"))
+            {
+                BMP_Draw_String_4F2230(pBmp, xpos, ypos, j);
+                ypos += fontHeight;
+            }
         }
     }
 }
@@ -179,7 +182,6 @@ void PSX_DrawDebugTextBuffers(Bitmap* pBmp, const RECT& rect)
 void PsxDisplay::Init()
 {
     PSX_VSync_4F6170(0);
-    PSX_SetVideoMode_4FA8F0();
 
     mBufferIndex = 0;
     mBitsPerPixel = 16;
@@ -189,8 +191,6 @@ void PsxDisplay::Init()
 
     mMaxBuffers = 1;
     mBufferSize = 43;
-
-    PSX_ResetGraph_4F8800(0);
 
     Vram_init();
     Vram_alloc(0, 0, 639, 271);

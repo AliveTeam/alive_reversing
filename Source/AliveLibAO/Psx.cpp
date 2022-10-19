@@ -40,11 +40,6 @@ void PSX_PutDispEnv_495CE0(PSX_DISPENV* pDispEnv)
     PSX_PutDispEnv_4F5890(pDispEnv);
 }
 
-CdlLOC* PSX_Pos_To_CdLoc_49B340(s32 pos, CdlLOC* pLoc)
-{
-    return PSX_Pos_To_CdLoc_4FADD0(pos, pLoc);
-}
-
 void PSX_Prevent_Rendering_44FFB0()
 {
     PSX_Prevent_Rendering_4945B0();
@@ -55,33 +50,14 @@ void PSX_EMU_Init_49A1D0()
     PSX_EMU_Init_4F9CD0();
 }
 
-s32 PSX_EMU_VideoAlloc_49A2B0()
-{
-    return PSX_EMU_VideoAlloc_4F9D70();
-}
-
 void PSX_EMU_SetCallBack_499920(s32 callBackType, TPsxEmuCallBack fnPtr)
 {
     PSX_EMU_SetCallBack_4F9430(callBackType, fnPtr);
 }
 
-void PSX_EMU_VideoDeAlloc_49A550()
-{
-    PSX_EMU_VideoDeAlloc_4FA010();
-}
-
 void Init_VGA_AndPsxVram()
 {
-    bool bFullScreen = true;
-#if BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE
-    LOG_INFO("Force window mode hack");
-    bFullScreen = false;
-#endif
-    VGA_FullScreenSet_490160(bFullScreen);
-
-    // VGA_DisplaySet_490230 resets the window style - puts it back to something sane.
     VGA_DisplaySet_490230(640u, 480u, 16, 1, 0);
-
 }
 
 } // namespace AO

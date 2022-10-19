@@ -20,17 +20,11 @@ void PSX_SetDefDispEnv_4959D0(PSX_DISPENV* pOutEnv, s16 x, s16 y, s16 w, s16 h);
 
 void PSX_PutDispEnv_495CE0(PSX_DISPENV* pDispEnv);
 
-CdlLOC* PSX_Pos_To_CdLoc_49B340(s32 pos, CdlLOC* pLoc);
-
 void PSX_Prevent_Rendering_44FFB0();
 
 void PSX_EMU_Init_49A1D0();
 
-s32 PSX_EMU_VideoAlloc_49A2B0();
-
 void PSX_EMU_SetCallBack_499920(s32 callBackType, TPsxEmuCallBack fnPtr);
-
-void PSX_EMU_VideoDeAlloc_49A550();
 
 void Init_VGA_AndPsxVram();
 

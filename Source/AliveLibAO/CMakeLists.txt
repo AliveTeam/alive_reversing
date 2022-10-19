@@ -306,8 +306,6 @@ target_include_directories(AliveLibAO PUBLIC
     PRIVATE src ${CMAKE_BINARY_DIR})
 
 target_compile_definitions(AliveLibAO PRIVATE "_CRT_SECURE_NO_WARNINGS")
-# Not implemented for AO yet
-#target_compile_definitions(AliveLibAO PRIVATE "BEHAVIOUR_CHANGE_FORCE_WINDOW_MODE")
 
 if (MSVC)
     if (CMAKE_SIZEOF_VOID_P EQUAL 4)
