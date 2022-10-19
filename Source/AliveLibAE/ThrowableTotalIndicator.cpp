@@ -192,7 +192,7 @@ void ThrowableTotalIndicator::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (sNum_CamSwappers_5C1B66 != 0)
+    if (gNumCamSwappers != 0)
     {
         return;
     }

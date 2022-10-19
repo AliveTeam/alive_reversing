@@ -185,7 +185,7 @@ DDCheat::DDCheat()
     AddPropertyEntry("Visited Feeco Ender ", DDCheatValueType::eShort_1, &sVisitedFeecoEnder_5C1C06);
 
 #if FORCE_DDCHEAT
-    sCommandLine_DDCheatEnabled_5CA4B5 = true;
+    gDDCheatOn = true;
 #endif
 }
 
@@ -227,7 +227,7 @@ void DDCheat::VUpdate()
 
     auto activePadPressed = Input().mPads[sCurrentControllerIndex].mHeld;
 
-    if (sCommandLine_DDCheatEnabled_5CA4B5)
+    if (gDDCheatOn)
     {
         if (field_3C_flags.Get(DDCheat::Flags_3C::eOnTeleport_Bit3))
         {

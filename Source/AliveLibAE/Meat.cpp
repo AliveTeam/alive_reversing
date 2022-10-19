@@ -255,7 +255,7 @@ s16 Meat::OnCollision(BaseGameObject* pHit)
 void Meat::VUpdate()
 {
     auto v2 = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
-    if (sNum_CamSwappers_5C1B66 == 0)
+    if (gNumCamSwappers == 0)
     {
         if (EventGet(kEventDeathReset))
         {

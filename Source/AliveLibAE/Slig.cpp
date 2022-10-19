@@ -4387,7 +4387,7 @@ s16 Slig::Brain_ChaseAndDisappear_35_4BF640()
 
     if (mBrainSubState == Brain_35_ChaseAndDisappear::eBrain35_Summoned_0)
     {
-        if (sNum_CamSwappers_5C1B66 > 0 || sActiveHero->field_1AC_flags.Get(Abe::e1AC_Bit5_shrivel))
+        if (gNumCamSwappers > 0 || sActiveHero->field_1AC_flags.Get(Abe::e1AC_Bit5_shrivel))
         {
             return mBrainSubState;
         }

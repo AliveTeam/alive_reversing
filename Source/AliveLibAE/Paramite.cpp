@@ -557,7 +557,7 @@ s16 Paramite::Brain_0_Patrol()
     switch (mBrainSubState)
     {
         case ParamiteEnums::Brain_0_Patrol::eBrain0_Inactive_0:
-            if (sNum_CamSwappers_5C1B66 > 0)
+            if (gNumCamSwappers > 0)
             {
                 return mBrainSubState;
             }
@@ -1945,7 +1945,7 @@ s16 Paramite::Brain_3_SurpriseWeb()
     switch (mBrainSubState)
     {
         case ParamiteEnums::Brain_3_SurpriseWeb::eBrain3_Loading_0:
-            if (sNum_CamSwappers_5C1B66 <= 0)
+            if (gNumCamSwappers <= 0)
             {
                 SetCurrentMotion(eParamiteMotions::Motion_0_Idle);
                 MapFollowMe(TRUE);

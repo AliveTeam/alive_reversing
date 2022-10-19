@@ -51,7 +51,7 @@ public:
     Poly_F4 field_158[2] = {};
 };
 
-extern PauseMenu* pPauseMenu_5080E0;
+extern PauseMenu* gPauseMenu;
 extern s8 byte_A88B90;
 
 } // namespace AO

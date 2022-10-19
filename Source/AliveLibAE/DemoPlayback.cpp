@@ -21,9 +21,10 @@ DemoPlayback::DemoPlayback()
         sDemoObj_dword_5D1E20 = this;
         mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
 
-        u32** ppRes = reinterpret_cast<u32**>(Add_Resource(ResourceManager::Resource_Demo, AEResourceID::kDemoResID));
+        // TODO: FIX ME - should pass this resource in
+        //u32** ppRes = reinterpret_cast<u32**>(Add_Resource(ResourceManager::Resource_Demo, AEResourceID::kDemoResID));
         SetUpdateDelay(1);
-        Input().SetDemoResource_45F1E0(ppRes);
+        //Input().SetDemoResource_45F1E0(ppRes);
         SetType(ReliveTypes::eDemoPlayback);
     }
 }

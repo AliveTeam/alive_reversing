@@ -233,7 +233,7 @@ private:
 
     void vRender_45E260(PrimHeader** ppOt)
     {
-        if (sNum_CamSwappers_5C1B66 == 0)
+        if (gNumCamSwappers == 0)
         {
             if (field_F4_bRender)
             {

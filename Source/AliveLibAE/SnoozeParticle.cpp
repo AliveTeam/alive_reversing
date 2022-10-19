@@ -115,7 +115,7 @@ void SnoozeParticle::VUpdate()
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
-    if (!sNum_CamSwappers_5C1B66)
+    if (!gNumCamSwappers)
     {
         switch (mState)
         {

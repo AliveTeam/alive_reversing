@@ -62,4 +62,3 @@ using TEnumCallBack = void(const char_type*, u32);
 void IO_EnumerateDirectory(const char_type* fileName, TEnumCallBack cb);
 
 extern u32 sIoThreadId_BBC558;
-extern bool sIOSyncReads_BD2A5C;

@@ -144,7 +144,7 @@ public:
     Prim_SetTPage field_248_padding[2] = {};
 };
 
-extern PauseMenu* pPauseMenu_5C9300;
+extern PauseMenu* gPauseMenu;
 extern s8 sQuicksave_SaveNextFrame_5CA4D8;
 extern s8 sQuicksave_LoadNextFrame_5CA4D9;
 extern u8 pauseMenuFontPal[32];

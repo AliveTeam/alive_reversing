@@ -87,7 +87,7 @@ s32 level_4C315C = 3;
 u16 path_4C3160 = 1;
 u32 gVox_4FF864 = 0;
 u16 doNothing_4FF860 = 0;
-extern s8 gDDCheatMode_508BF8;
+extern s8 gDDCheatOn;
 
 u32 dword_9F0E40 = 0;
 u32 dword_9F0E44 = 1;
@@ -109,7 +109,7 @@ s32 sub_49AD50(s32 /*a1*/)
 
 void DDCheat::VUpdate()
 {
-    if (gDDCheatMode_508BF8)
+    if (gDDCheatOn)
     {
         const InputObject::PadIndex otherController = Input().CurrentController() == InputObject::PadIndex::First ? InputObject::PadIndex::Second : InputObject::PadIndex::First;
         Abe* pAbe = sActiveHero;

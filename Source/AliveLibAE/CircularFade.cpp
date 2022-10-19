@@ -47,7 +47,7 @@ CircularFade::~CircularFade()
 {
     if (!(field_F4_flags.Get(Flags::eBit2_Done)))
     {
-        --sNum_CamSwappers_5C1B66;
+        --gNumCamSwappers;
     }
 }
 
@@ -145,7 +145,7 @@ void CircularFade::VRender(PrimHeader** ppOt)
         if (!(field_F4_flags.Get(Flags::eBit2_Done)))
         {
             field_F4_flags.Set(Flags::eBit2_Done);
-            --sNum_CamSwappers_5C1B66;
+            --gNumCamSwappers;
         }
 
         if (field_F4_flags.Get(Flags::eBit3_DestroyOnDone))
@@ -176,7 +176,7 @@ void CircularFade::VUpdate()
 
 s32 CircularFade::VFadeIn(s16 direction, s8 destroyOnDone) // TODO: Likely no return
 {
-    sNum_CamSwappers_5C1B66++;
+    gNumCamSwappers++;
 
     field_F4_flags.Set(Flags::eBit1_FadeIn, direction);
 

@@ -1465,7 +1465,7 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
             {
                 if (pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eUpdatable_Bit2))
                 {
-                    if (!pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && (!sNum_CamSwappers_5C1B66 || pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
+                    if (!pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && (!gNumCamSwappers || pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
                     {
                         pMovie->VUpdate();
                     }
@@ -1715,9 +1715,9 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
             */
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
 
-            if (!pPauseMenu_5C9300)
+            if (!gPauseMenu)
             {
-                pPauseMenu_5C9300 = relive_new PauseMenu();
+                gPauseMenu = relive_new PauseMenu();
             }
 
             if (!sActiveHero)
@@ -1774,9 +1774,9 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
     */
     GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
 
-    if (!pPauseMenu_5C9300)
+    if (!gPauseMenu)
     {
-        pPauseMenu_5C9300 = relive_new PauseMenu();
+        gPauseMenu = relive_new PauseMenu();
     }
 
     if (!sActiveHero)
@@ -1860,7 +1860,7 @@ MainMenuNextCam MainMenuController::BackStory_Or_NewGame_Update_4D1C60(u32 input
             {
                 if (pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eUpdatable_Bit2))
                 {
-                    if (!(pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && (!sNum_CamSwappers_5C1B66 || (pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))))
+                    if (!(pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && (!gNumCamSwappers || (pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))))
                     {
                         pMovie->VUpdate();
                     }
@@ -2310,7 +2310,7 @@ MainMenuNextCam MainMenuController::Options_Update_4D1AB0(u32 input)
 
 MainMenuNextCam MainMenuController::AbeMotions_Update_4D1F50(u32 input)
 {
-    if (sNum_CamSwappers_5C1B66 > 0)
+    if (gNumCamSwappers > 0)
     {
         // Camera is changing - stay in this screen
         return MainMenuNextCam(MainMenuCams::eNoChange);
@@ -3094,7 +3094,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 {
                     if (pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eUpdatable_Bit2))
                     {
-                        if (pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eDead) == false && (!sNum_CamSwappers_5C1B66 || pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
+                        if (pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eDead) == false && (!gNumCamSwappers || pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
                         {
                             pMovie->VUpdate();
                         }
@@ -3118,7 +3118,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 {
                     if (pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eUpdatable_Bit2))
                     {
-                        if (pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eDead) == false && (!sNum_CamSwappers_5C1B66 || pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
+                        if (pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eDead) == false && (!gNumCamSwappers || pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
                         {
                             pMovie->VUpdate();
                         }
@@ -3191,7 +3191,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
 
         case 4:
         {
-            if (sNum_CamSwappers_5C1B66 > 0)
+            if (gNumCamSwappers > 0)
             {
                 return 1;
             }

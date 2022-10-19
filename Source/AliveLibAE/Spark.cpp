@@ -109,7 +109,7 @@ void Spark::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (sNum_CamSwappers_5C1B66 == 0)
+    if (gNumCamSwappers == 0)
     {
         if (static_cast<s32>(sGnFrame) < mTimer)
         {

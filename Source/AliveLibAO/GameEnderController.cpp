@@ -90,10 +90,10 @@ void GameEnderController::VUpdate()
                         gRestartRuptureFarmsKilledMuds_5076C4 = 0;
                         gRestartRuptureFarmsSavedMuds_5076C8 = 0;
 
-                        if (pPauseMenu_5080E0)
+                        if (gPauseMenu)
                         {
-                            pPauseMenu_5080E0->mBaseGameObjectFlags.Set(Options::eDead);
-                            pPauseMenu_5080E0 = nullptr;
+                            gPauseMenu->mBaseGameObjectFlags.Set(Options::eDead);
+                            gPauseMenu = nullptr;
                         }
 
                         if (sRescuedMudokons_5076C0 >= Path_GetTotalMuds(gMap.mCurrentLevel, gMap.mCurrentPath))

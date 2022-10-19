@@ -23,7 +23,7 @@
 
 namespace AO {
 
-PauseMenu* pPauseMenu_5080E0 = nullptr;
+PauseMenu* gPauseMenu = nullptr;
 
 PauseMenu::PauseMenu()
     : BaseAnimatedWithPhysicsGameObject(0)
@@ -455,15 +455,15 @@ void PauseMenu::VUpdate()
                     {
                         field_11C = 0;
                         SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
-                        if (pPauseMenu_5080E0 && pPauseMenu_5080E0 == this)
+                        if (gPauseMenu && gPauseMenu == this)
                         {
-                            pPauseMenu_5080E0->mBaseGameObjectFlags.Set(Options::eDead);
+                            gPauseMenu->mBaseGameObjectFlags.Set(Options::eDead);
                         }
                         else
                         {
                             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                         }
-                        pPauseMenu_5080E0 = 0;
+                        gPauseMenu = 0;
                         gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eMainMenu_1, CameraSwapEffects::eInstantChange_0, 0, 0);
                         gMap.field_DC_free_all_anim_and_palts = 1;
                         Input().SetCurrentController(InputObject::PadIndex::First);

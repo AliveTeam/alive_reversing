@@ -590,9 +590,9 @@ static void Factory_AbeStart(relive::Path_TLV* pTlv, Path*, const Guid& /*tlvId*
 {
     if (loadmode != LoadMode::LoadResourceFromList_1 && loadmode != LoadMode::LoadResource_2 && !gAttract_5C1BA0)
     {
-        if (!pPauseMenu_5C9300)
+        if (!gPauseMenu)
         {
-            pPauseMenu_5C9300 = relive_new PauseMenu();
+            gPauseMenu = relive_new PauseMenu();
         }
 
         if (!sActiveHero)

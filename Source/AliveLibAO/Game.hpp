@@ -3,7 +3,6 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/DynamicArray.hpp"
 
-void Game_ForceLink();
 
 class BaseGameObject;
 class AnimationBase;
@@ -16,7 +15,7 @@ namespace AO {
 extern s16 gAttract_507698;
 extern DynamicArrayT<BaseGameObject>* gLoadingFiles;
 extern s16 sBreakGameLoop_507B78;
-extern s8 gDDCheatMode_508BF8;
+extern s8 gDDCheatOn;
 
 extern s16 gRestartRuptureFarmsKilledMuds_5076C4;
 extern s16 gRestartRuptureFarmsSavedMuds_5076C8;

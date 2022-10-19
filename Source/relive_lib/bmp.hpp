@@ -43,5 +43,3 @@ LPVOID BMP_Lock_4F1FF0(Bitmap* pBitmap);
 s32 BMP_New_4F1990(Bitmap* pBitmap, s32 width, s32 height, s32 pixelFormat, s32 createFlags);
 void BMP_Draw_String_4F2230(Bitmap* pBmp, s32 x, s32 y, LPCSTR lpString);
 LONG BMP_Get_Font_Height_4F21F0(Bitmap* pBmp);
-
-extern u8 gVGA_force_sys_memory_surfaces_BC0BB4;

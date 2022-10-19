@@ -14,8 +14,6 @@
 
 namespace AO {
 
-DynamicArrayT<ResourceManager::ResourceManager_FileRecord>* ObjList_5009E0 = nullptr;
-
 s16 bHideLoadingIcon_5076A0 = 0;
 s32 loading_ticks_5076A4 = 0;
 s16 sResources_Pending_Loading_9F0E38 = 0;

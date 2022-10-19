@@ -1930,9 +1930,9 @@ void Menu::NewGameStart()
     }
     else
     {
-        if (!pPauseMenu_5080E0)
+        if (!gPauseMenu)
         {
-            pPauseMenu_5080E0 = relive_new PauseMenu();
+            gPauseMenu = relive_new PauseMenu();
         }
 
         if (mUsingLvlSelectCheat)
@@ -3135,9 +3135,9 @@ void Menu::LoadSave_Update()
         ProgressInProgressFilesLoading();
     }*/
 
-    if (!pPauseMenu_5080E0)
+    if (!gPauseMenu)
     {
-        pPauseMenu_5080E0 = relive_new PauseMenu();
+        gPauseMenu = relive_new PauseMenu();
     }
 
 
@@ -3157,10 +3157,10 @@ void Menu::LoadSave_Update()
 void Menu::SaveLoadFailed_Update()
 {
     // Kill the pause menu and stay in this state - have to force restart the game when a save fails to load :)
-    if (pPauseMenu_5080E0)
+    if (gPauseMenu)
     {
-        pPauseMenu_5080E0->mBaseGameObjectFlags.Set(Options::eDead);
-        pPauseMenu_5080E0 = nullptr;
+        gPauseMenu->mBaseGameObjectFlags.Set(Options::eDead);
+        gPauseMenu = nullptr;
     }
 }
 

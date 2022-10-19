@@ -56,8 +56,6 @@ public:
     ReliveTypes Type() const;
 
 protected:
-    u8** Add_Resource(u32 type, s32 resourceID);
-
     static Guid RefreshId(const Guid& objectId);
 
     // Helper to check if a timer has expired

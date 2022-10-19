@@ -54,7 +54,7 @@ CameraSwapper::CameraSwapper(CamResource& ppCamRes, CameraSwapEffects changeEffe
 
 CameraSwapper::~CameraSwapper()
 {
-    sNum_CamSwappers_5C1B66--;
+    gNumCamSwappers--;
 
     if (field_34_pSubObject)
     {
@@ -91,9 +91,9 @@ void CameraSwapper::Init(CamResource& ppCamRes, CameraSwapEffects changeEffect)
         pScreenManager->DecompressCameraToVRam(ppCamRes);
     }
 
-    sNum_CamSwappers_5C1B66++;
+    gNumCamSwappers++;
 
-    if (sNum_CamSwappers_5C1B66 != 1)
+    if (gNumCamSwappers != 1)
     {
         mBaseGameObjectFlags.Clear(BaseGameObject::eUpdatable_Bit2);
         mBaseGameObjectFlags.Set(BaseGameObject::eListAddFailed_Bit1);

@@ -18,7 +18,6 @@ std::atomic<size_t> sIO_BytesToRead_BBC4C8 = {};
 u32 sIoThreadId_BBC558 = 0;
 
 // I/O
-bool sIOSyncReads_BD2A5C = FALSE;
 HANDLE sIoThreadHandle_BBC55C = nullptr;
 
 
@@ -466,26 +465,6 @@ void IO_Stop_ASync_IO_Thread_4F26B0()
 #endif
 }
 
-bool IO_CreateThread()
-{
-#if _WIN32 && !USE_SDL2_IO
-    if (!sIoThreadHandle_BBC55C)
-    {
-        sIoThreadHandle_BBC55C = ::CreateThread(
-            0,
-            0x4000u,
-            FS_IOThread_4F25A0,
-            0,
-            0,
-            &sIoThreadId_BBC558);
-        if (!sIoThreadHandle_BBC55C)
-        {
-            return false;
-        }
-    }
-#endif
-    return true;
-}
 
 bool IO_DirectoryExists(const char_type* pDirName)
 {

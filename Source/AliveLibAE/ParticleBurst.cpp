@@ -180,7 +180,7 @@ ParticleBurst::~ParticleBurst()
 void ParticleBurst::VRender(PrimHeader** ppOt)
 {
     bool bFirst = true;
-    if (sNum_CamSwappers_5C1B66 == 0)
+    if (gNumCamSwappers == 0)
     {
         GetAnimation().SetSpriteScale(GetSpriteScale());
         const FP camX = pScreenManager->CamXPos();

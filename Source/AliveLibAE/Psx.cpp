@@ -8,7 +8,6 @@
 #include "VGA.hpp"
 #include "stdlib.hpp"
 #include "Io.hpp"
-#include "Game.hpp" // sIOSyncReads_BD2A5C, sCdRomDrives_5CA488
 #include "PsxRender.hpp"
 #include "PsxRender.hpp"
 #include "Renderer/IRenderer.hpp"

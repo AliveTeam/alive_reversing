@@ -3,8 +3,6 @@
 #include "Error.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
 
-u8 gVGA_force_sys_memory_surfaces_BC0BB4 = 0;
-
 s32 BMP_Blt_4F1E50(Bitmap* pDstBmp, s32 xPos, s32 yPos, Bitmap* pSrcBmp, LPRECT pRect, s32 flags)
 {
     if (flags != 0)

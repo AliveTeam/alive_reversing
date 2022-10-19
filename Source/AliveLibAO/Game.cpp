@@ -42,9 +42,6 @@ DynamicArrayT<BaseGameObject>* gLoadingFiles = nullptr;
 
 DynamicArrayT<BaseGameObject>* gPlatformsArray = nullptr;
 
-void Game_ForceLink()
-{
-}
 
 s16 gbKillUnsavedMudsDone_5076CC = 0;
 
@@ -58,7 +55,7 @@ s16 gOldSavedMuds_5076D4 = 0;
 s16 sBreakGameLoop_507B78 = 0;
 s16 gAttract_507698 = 0;
 
-s8 gDDCheatMode_508BF8 = 0;
+s8 gDDCheatOn = 0;
 
 s32 Game_End_Frame_4505D0(u32 bSkip)
 {
@@ -92,12 +89,12 @@ static void Main_ParseCommandLineArguments()
             Input_GetCurrentKeyStates();
             if (Input_IsVKPressed(VK_SHIFT))
             {
-                gDDCheatMode_508BF8 = 1;
+                gDDCheatOn = 1;
             }
         }
         // Force DDCheat
 #if FORCE_DDCHEAT
-        gDDCheatMode_508BF8 = 1;
+        gDDCheatOn = 1;
 #endif
     }
 
@@ -123,15 +120,13 @@ void Init_Sound_DynamicArrays_And_Others_41CD20()
 {
     DebugFont_Init();
 
-    pPauseMenu_5080E0 = nullptr;
+    gPauseMenu = nullptr;
     sActiveHero = nullptr;
     sControlledCharacter = nullptr;
     gNumCamSwappers = 0;
     sGnFrame = 0;
 
-    gPlatformsArray = relive_new DynamicArrayT<BaseGameObject>(20);
-
-    ObjList_5009E0 = relive_new DynamicArrayT<ResourceManager::ResourceManager_FileRecord>(10); // not used in AE
+    gPlatformsArray = relive_new DynamicArrayT<BaseGameObject>(20); // For trap doors/dynamic platforms
 
     ShadowZone::MakeArray();
 
@@ -175,38 +170,15 @@ void Game_Free_LoadingIcon()
 }
 
 
-using TExitGameCB = AddPointer_t<void CC()>;
-
-TExitGameCB sGame_OnExitCallback_9F664C = nullptr;
-
-void Game_SetExitCallBack(TExitGameCB)
-{
-    
-}
-
 void Game_ExitGame()
 {
     PSX_EMU_VideoDeAlloc_49A550();
 }
 
 
-s32 CreateTimer_48F030(s32, void*)
-{
-    
-    return 0;
-}
-
 void Game_Shutdown()
 {
-    if (sGame_OnExitCallback_9F664C)
-    {
-        sGame_OnExitCallback_9F664C();
-        sGame_OnExitCallback_9F664C = nullptr;
-    }
-
-    CreateTimer_48F030(0, nullptr); // Creates a timer that calls a call back which is always null, therefore seems like dead code?
     Input_DisableInput();
-    //SND_MCI_Close_493C30(); // TODO: Seems like more dead code because the mci is never set?
     SND_SsQuit();
     IO_Stop_ASync_IO_Thread_491A80();
     VGA_Shutdown_4900E0();
@@ -241,7 +213,7 @@ void Game_Loop()
                 const s32 updateDelay = pBaseGameObject->UpdateDelay();
                 if (updateDelay <= 0)
                 {
-                    if (pBaseGameObject == pPauseMenu_5080E0)
+                    if (pBaseGameObject == gPauseMenu)
                     {
                         bPauseMenuObjectFound = true;
                     }
@@ -317,9 +289,9 @@ void Game_Loop()
 
         GetGameAutoPlayer().SyncPoint(SyncPoints::RenderEnd);
 
-        if (bPauseMenuObjectFound && pPauseMenu_5080E0)
+        if (bPauseMenuObjectFound && gPauseMenu)
         {
-            pPauseMenu_5080E0->VUpdate();
+            gPauseMenu->VUpdate();
         }
 
         bPauseMenuObjectFound = false;
@@ -427,12 +399,9 @@ void Game_Main()
 
     Main_ParseCommandLineArguments();
 
-    Game_SetExitCallBack(Game_ExitGame);
-
     // Only returns once the engine is shutting down
     Game_Run();
 
-    // TODO: AE inlined calls here (pull AE's code into another func)
     Game_Shutdown();
 }
 

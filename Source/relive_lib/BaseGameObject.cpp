@@ -931,11 +931,6 @@ ReliveTypes BaseGameObject::Type() const
     return mBaseGameObjectTypeId;
 }
 
-u8** BaseGameObject::Add_Resource(u32 /*type*/, s32 /*resourceID*/)
-{
-    return nullptr;
-}
-
 Guid BaseGameObject::RefreshId(const Guid& objectId)
 {
     static Guid nullGuid;

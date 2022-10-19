@@ -124,10 +124,10 @@ void GameEnderController::VUpdate()
                         sFeeco_Restart_KilledMudCount_5C1BC6 = 0;
                         sFeecoRestart_SavedMudCount_5C1BC8 = 0;
 
-                        if (pPauseMenu_5C9300)
+                        if (gPauseMenu)
                         {
-                            pPauseMenu_5C9300->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-                            pPauseMenu_5C9300 = nullptr;
+                            gPauseMenu->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                            gPauseMenu = nullptr;
                         }
 
                         if (sRescuedMudokons_5C1BC2 >= Path_GetTotalMuds(gMap.mCurrentLevel, gMap.mCurrentPath))

@@ -478,7 +478,7 @@ public:
 
     void ClosePauseMenu()
     {
-        pPauseMenu_5C9300->word12C_flags &= ~1;
+        gPauseMenu->word12C_flags &= ~1;
         SFX_Play_Pitch(SoundEffect::PossessEffect_17, 40, 2400);
         GetSoundAPI().SND_Restart();
         customMenuStack.clear();
@@ -526,7 +526,7 @@ public:
     {
         CompileEntries();
         customMenuStack.push_back(this);
-        SetLastPageStack(pPauseMenu_5C9300);
+        SetLastPageStack(gPauseMenu);
     }
 
     void GoBack(PauseMenu* pm)
@@ -617,7 +617,7 @@ void DestroyAliveObjects()
     for (s32 i = 0; i < gObjListDrawables->Size(); i++)
     {
         BaseGameObject* pObj = gObjListDrawables->ItemAt(i);
-        if (!pObj || pObj == pPauseMenu_5C9300 || pObj->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6) == false)
+        if (!pObj || pObj == gPauseMenu || pObj->mFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6) == false)
         {
             continue;
         }
@@ -636,7 +636,7 @@ void DestroyAllObjects()
     for (s32 i = 0; i < gObjListDrawables->Size(); i++)
     {
         BaseGameObject* pObj = gObjListDrawables->ItemAt(i);
-        if (!pObj || pObj == pPauseMenu_5C9300)
+        if (!pObj || pObj == gPauseMenu)
         {
             continue;
         }
@@ -1036,16 +1036,16 @@ void PauseMenu::Page_ReallyQuit_Update()
         word12C_flags &= ~1u;
         SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
 
-        if (pPauseMenu_5C9300 && pPauseMenu_5C9300 == this)
+        if (gPauseMenu && gPauseMenu == this)
         {
-            pPauseMenu_5C9300->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            gPauseMenu->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
         else
         {
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
 
-        pPauseMenu_5C9300 = 0;
+        gPauseMenu = 0;
         gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
         gMap.mFreeAllAnimAndPalts = 1;
         sCurrentControllerIndex = 0;
@@ -1615,4 +1615,4 @@ void PauseMenu::VUpdate()
     sDisableFontFlicker_5C9304 = 0;
 }
 
-PauseMenu* pPauseMenu_5C9300 = nullptr;
+PauseMenu* gPauseMenu = nullptr;

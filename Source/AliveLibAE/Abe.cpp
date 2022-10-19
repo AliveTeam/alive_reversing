@@ -578,7 +578,7 @@ Abe::Abe()
     // Set the well level to the current level for the path start quick save
     mDstWellLevel = gMap.mCurrentLevel;
 
-    Init_GameStates_43BF40();
+    Init_GameStates();
 
     LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::Mudokon_Idle));

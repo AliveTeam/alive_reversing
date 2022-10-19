@@ -78,6 +78,5 @@ public:
 
 extern s16 bHideLoadingIcon_5076A0;
 extern s32 loading_ticks_5076A4;
-extern DynamicArrayT<ResourceManager::ResourceManager_FileRecord>* ObjList_5009E0;
 
 } // namespace AO

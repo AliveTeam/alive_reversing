@@ -302,7 +302,7 @@ void LCDScreen::VUpdate()
 
 void LCDScreen::VRender(PrimHeader** ppOt)
 {
-    if (sNum_CamSwappers_5C1B66 == 0)
+    if (gNumCamSwappers == 0)
     {
         const s32 screenX = field_2C0_tlv.mTopLeftX - FP_GetExponent(pScreenManager->CamXPos());
         const s32 screenY = ((field_2C0_tlv.mTopLeftY + field_2C0_tlv.mBottomRightY) / 2 - FP_GetExponent(pScreenManager->CamYPos())) - 7;
