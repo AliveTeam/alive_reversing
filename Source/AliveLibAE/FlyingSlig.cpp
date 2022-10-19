@@ -514,7 +514,7 @@ FlyingSlig::~FlyingSlig()
 
 void FlyingSlig::VScreenChanged()
 {
-    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mOverlayId != gMap.GetOverlayId() || (gMap.mCurrentPath != gMap.mNextPath && (this != sControlledCharacter || field_17E_flags.Get(Flags_17E::eBit13_Persistant))))
+    if (gMap.LevelChanged() || (gMap.PathChanged() && (this != sControlledCharacter || field_17E_flags.Get(Flags_17E::eBit13_Persistant))))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

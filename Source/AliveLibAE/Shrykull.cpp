@@ -65,7 +65,7 @@ Shrykull::~Shrykull()
 
 void Shrykull::VScreenChanged()
 {
-    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mOverlayId != gMap.GetOverlayId())
+    if (gMap.LevelChanged() || gMap.PathChanged())
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

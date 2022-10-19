@@ -567,7 +567,7 @@ void Mudokon::VUpdateResBlock()
 void Mudokon::VScreenChanged()
 {
     // Map/overlay changed or mud shouldn't persist
-    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mOverlayId != gMap.GetOverlayId() || !field_144_flags.Get(Flags_144::e144_Bit6_bPersist))
+    if (gMap.LevelChanged() || !field_144_flags.Get(Flags_144::e144_Bit6_bPersist))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         KillBirdPortal();
@@ -575,8 +575,7 @@ void Mudokon::VScreenChanged()
         return;
     }
 
-    // Path changed?
-    if (gMap.mCurrentPath != gMap.mNextPath)
+    if (gMap.PathChanged())
     {
         // See if we need to go to the next path
         auto pTlv = gMap.TLV_Get_At(nullptr, mXPos, mYPos, mXPos, mYPos);

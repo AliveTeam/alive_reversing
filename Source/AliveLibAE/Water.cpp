@@ -189,7 +189,7 @@ void Water::VScreenChanged()
         field_144_sound_channels = 0;
     }
 
-    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath || gMap.mOverlayId != gMap.GetOverlayId())
+    if (gMap.LevelChanged() || gMap.PathChanged())
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

@@ -9,7 +9,7 @@ namespace AO {
 
 void SwitchStateBooleanLogic::VScreenChanged()
 {
-    if (gMap.mOverlayId != gMap.GetOverlayId())
+    if (gMap.LevelChanged() || gMap.PathChanged())
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

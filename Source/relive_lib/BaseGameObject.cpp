@@ -84,9 +84,7 @@ IMap& GetMap()
 void BaseGameObject::VScreenChanged()
 {
     auto& map = GetMap();
-    if (map.mCurrentLevel != map.mNextLevel
-        || map.mCurrentPath != map.mNextPath
-        || map.mOverlayId != map.GetOverlayId())
+    if (map.LevelChanged() || map.PathChanged())
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

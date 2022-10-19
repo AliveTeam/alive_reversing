@@ -144,7 +144,7 @@ void Alarm::VUpdate()
 
 void Alarm::VScreenChanged()
 {
-    if (gMap.mOverlayId != gMap.GetOverlayId())
+    if (gMap.LevelChanged() || gMap.PathChanged())
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

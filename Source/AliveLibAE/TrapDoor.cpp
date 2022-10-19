@@ -170,7 +170,7 @@ void TrapDoor::VAdd(BaseAliveGameObject* pObj)
 
 void TrapDoor::VScreenChanged()
 {
-    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath || gMap.mOverlayId != gMap.GetOverlayId())
+    if (gMap.LevelChanged() || gMap.PathChanged())
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         if (mSelfClosing == relive::reliveChoice::eYes)

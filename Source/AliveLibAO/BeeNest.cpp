@@ -43,12 +43,7 @@ BeeNest::~BeeNest()
 
 void BeeNest::VScreenChanged()
 {
-    if (gMap.mOverlayId != gMap.GetOverlayId())
-    {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-    }
-
-    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath || !mBeeSwarm)
+    if (gMap.LevelChanged() || gMap.PathChanged() || !mBeeSwarm)
     {
         Path::TLV_Reset(mTlvInfo, -1, 0, 0);
         if (mBeeSwarm)

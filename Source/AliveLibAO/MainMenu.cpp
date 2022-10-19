@@ -401,7 +401,7 @@ const MainMenu_TransitionData stru_55C038[24] = // 3 x 8's ?
 
 void MainMenuTransition::VScreenChanged()
 {
-    if (gMap.mOverlayId != gMap.GetOverlayId())
+    if (gMap.LevelChanged() || gMap.PathChanged())
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

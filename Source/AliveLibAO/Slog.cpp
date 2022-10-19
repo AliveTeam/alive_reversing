@@ -778,9 +778,7 @@ BaseAliveGameObject* Slog::FindAbeMudOrSlig()
 
 void Slog::VScreenChanged()
 {
-    if (gMap.mCurrentLevel != gMap.mNextLevel
-        || gMap.mCurrentPath != gMap.mNextPath
-        || gMap.mOverlayId != gMap.GetOverlayId())
+    if (gMap.LevelChanged() || gMap.PathChanged())
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 

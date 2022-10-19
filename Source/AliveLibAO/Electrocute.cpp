@@ -146,7 +146,7 @@ Electrocute::~Electrocute()
 void Electrocute::VScreenChanged()
 {
     // If the map has changed or target we are tracking has died then..
-    if (gMap.mOverlayId != gMap.GetOverlayId()
+    if (gMap.LevelChanged() || gMap.PathChanged()
         || (field_10_obj_target && field_10_obj_target->mBaseGameObjectFlags.Get(BaseGameObject::eDead)))
     {
         Stop();

@@ -3502,7 +3502,7 @@ void Scrab::VScreenChanged()
 {
     BaseGameObject* pChaseTarget = sObjectIds.Find_Impl(mTargetGuid);
 
-    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath || gMap.mOverlayId != gMap.GetOverlayId())
+    if (gMap.LevelChanged() || gMap.PathChanged())
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

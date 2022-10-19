@@ -108,7 +108,7 @@ Lever::~Lever()
 
 void Lever::VScreenChanged()
 {
-    if (!field_100_flags.Get(Flags_100::eBit2_persist_offscreen) || gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath || gMap.mOverlayId != gMap.GetOverlayId())
+    if (!field_100_flags.Get(Flags_100::eBit2_persist_offscreen) || gMap.LevelChanged() || gMap.PathChanged())
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

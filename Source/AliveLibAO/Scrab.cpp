@@ -384,9 +384,7 @@ void Scrab::VOnTlvCollision(relive::Path_TLV* pTlv)
 
 void Scrab::VScreenChanged()
 {
-    if (gMap.mCurrentLevel != gMap.mNextLevel
-        || gMap.mCurrentPath != gMap.mNextPath
-        || gMap.mOverlayId != gMap.GetOverlayId())
+    if (gMap.LevelChanged() || gMap.PathChanged())
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

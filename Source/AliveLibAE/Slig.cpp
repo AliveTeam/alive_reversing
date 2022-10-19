@@ -4786,7 +4786,7 @@ void Slig::VUpdate()
 
 void Slig::VScreenChanged()
 {
-    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mOverlayId != gMap.GetOverlayId() || (gMap.mCurrentPath != gMap.mNextPath && this != sControlledCharacter))
+    if (gMap.LevelChanged() || (gMap.PathChanged() && this != sControlledCharacter))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

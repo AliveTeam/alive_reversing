@@ -314,9 +314,7 @@ void Paramite::VOnTlvCollision(relive::Path_TLV* pTlv)
 
 void Paramite::VScreenChanged()
 {
-    if (gMap.mOverlayId != gMap.GetOverlayId()
-        || gMap.mCurrentPath != gMap.mNextPath
-        || gMap.mCurrentLevel != gMap.mNextLevel)
+    if (gMap.LevelChanged() || gMap.PathChanged())
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

@@ -88,13 +88,7 @@ BeeSwarm::~BeeSwarm()
 
 void BeeSwarm::VScreenChanged()
 {
-    if (gMap.mOverlayId != gMap.GetOverlayId())
-    {
-        mBaseGameObjectFlags.Set(Options::eDead);
-    }
-
-    if (gMap.mCurrentLevel != gMap.mNextLevel
-        || gMap.mCurrentPath != gMap.mNextPath)
+    if (gMap.LevelChanged() || gMap.PathChanged())
     {
         mBaseGameObjectFlags.Set(Options::eDead);
     }

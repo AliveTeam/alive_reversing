@@ -140,7 +140,7 @@ void AirExplosion::VUpdate()
 
 void AirExplosion::VScreenChanged()
 {
-    if (gMap.mOverlayId != gMap.GetOverlayId())
+    if (gMap.LevelChanged() || gMap.PathChanged())
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

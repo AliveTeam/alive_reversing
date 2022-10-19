@@ -74,6 +74,21 @@ public:
 
     }
 
+    bool LevelChanged() const
+    {
+        return mCurrentLevel != mNextLevel;
+    }
+
+    bool PathChanged() const
+    {
+        return mCurrentPath != mNextPath;
+    }
+
+    bool CameraChanged() const
+    {
+        return mCurrentCamera != mNextCamera;
+    }
+
     EReliveLevelIds mCurrentLevel;
     s16 mCurrentPath;
     s16 mCurrentCamera;

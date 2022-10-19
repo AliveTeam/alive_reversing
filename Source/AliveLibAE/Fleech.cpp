@@ -1431,7 +1431,7 @@ void Fleech::RenderEx(PrimHeader** ot)
 
 void Fleech::VScreenChanged()
 {
-    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath || gMap.mOverlayId != gMap.GetOverlayId())
+    if (gMap.LevelChanged() || gMap.PathChanged())
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         field_11C_obj_id = Guid{};

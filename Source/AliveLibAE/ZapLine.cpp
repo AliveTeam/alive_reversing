@@ -135,7 +135,7 @@ void ZapLine::CalculateSourceAndDestinationPositions(FP xPosSource, FP yPosSourc
 
 void ZapLine::VScreenChanged()
 {
-    if (gMap.mOverlayId != gMap.GetOverlayId())
+    if (gMap.LevelChanged() || gMap.PathChanged())
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
