@@ -173,12 +173,8 @@ EXPORT BaseGameObject* Elum::dtor_410BC0()
     ResourceManager::FreeResource_455550(
         ResourceManager::GetLoadedResource_4554F0(ResourceManager::Resource_Animation, AOResourceID::kAneprmntAOResID, 0, 0));
 
-    if (field_104_pending_resource_count)
-    {
-        ResourceManager::WaitForPendingResources_41EA60(this);
-    }
-    field_104_pending_resource_count = 0;
-
+    WaitForResourcesToLoad();
+   
     const AOResourceID resIDs[] = { 
         AOResourceID::kElmaloneAOResID_230, 
         AOResourceID::kElmprmntAOResID__222,
@@ -664,6 +660,8 @@ void Elum::SetAbeAsPlayer_412520(s16 abeMotion)
         "ELMPRMNT.BAN",
         BaseAliveGameObject::OnResourceLoaded_4019A0,
         this);
+
+    WaitForResourcesToLoad();
 }
 
 s16 Elum::ToNextMotion_4120F0()
@@ -3453,6 +3451,8 @@ void Elum::Motion_48_AbeMoutingBegin_415C40()
             BaseAliveGameObject::OnResourceLoaded_4019A0,
             this);
 
+        WaitForResourcesToLoad();
+
         field_FC_current_motion = eElumMotions::Motion_27_AbeMountingEnd_415CA0;
     }
 }
@@ -3474,6 +3474,8 @@ void Elum::Motion_49_AbeUnmountingBegin_415D00()
             "ELMPRMNT.BAN",
             BaseAliveGameObject::OnResourceLoaded_4019A0,
             this);
+
+        WaitForResourcesToLoad();
 
         field_FC_current_motion = eElumMotions::Motion_28_AbeUnmountingEnd_415D60;
     }
@@ -3512,6 +3514,16 @@ void Elum::Motion_50_Knockback_415DC0()
         }
     }
 }
+
+void Elum::WaitForResourcesToLoad()
+{
+    if (field_104_pending_resource_count)
+    {
+        ResourceManager::WaitForPendingResources_41EA60(this);
+    }
+    field_104_pending_resource_count = 0;
+}
+
 
 void Elum::VUpdate()
 {
@@ -3996,6 +4008,8 @@ Elum* Elum::ctor_410870(s32, anythingForTheTimeBeing, anythingForTheTimeBeing, s
     {
         field_D0_pShadow->ctor_461FB0();
     }
+
+    WaitForResourcesToLoad();
 
     return this;
 }

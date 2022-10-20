@@ -251,6 +251,8 @@ public:
         u8** res[31];
     };
 
+    void WaitForResourcesToLoad();
+
     s16 field_10C_bFootStep2;
     s16 field_10E_pressed;
     s32 field_110_timer;
