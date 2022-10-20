@@ -1867,6 +1867,15 @@ void Map::GoTo_Camera_445050()
                     break;
                 }
 
+                if (pObjIter->field_4_typeId == Types::eScrab_77)
+                {
+                    auto pScrab = static_cast<BaseAliveGameObject*>(pObjIter);
+                    if (pScrab->field_B0_path_number != field_2_current_path || pScrab->field_B2_lvl_number != field_0_current_level)
+                    {
+                        ALIVE_FATAL("Scrab(s) leaked!");
+                    }
+                }
+
                 if (pObjIter->field_6_flags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
                 {
                     auto pBaseAliveGameObj = static_cast<BaseAliveGameObject*>(pObjIter);
