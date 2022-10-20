@@ -318,8 +318,8 @@ void main()
         int nxtRGB565 = get565(texelNxtRow.rgb);
 
         int pixelResult =
-            (((curRGB565 & 0xF7DEF7DF) + (nxtRGB565 & 0xF7DEF7DF) >> 1) |
-            ((curRGB565 & 0xF7DEF7DF) + (nxtRGB565 & 0xF7DEF7DF) << 31)) & 0xFFFF;
+            ((curRGB565 & 0xF7DE) + (nxtRGB565 & 0xF7DE) >> 1) |
+            ((curRGB565 & 0xF7DE) + (nxtRGB565 & 0xF7DE) << 15);
 
         vec3 newRGB = getNormalized(pixelResult);
 
