@@ -284,6 +284,27 @@ float singlePixelSize()
     return 1.0f / vsTexSize.y;
 }
 
+int get565(in vec3 rgbInput)
+{
+    int rValue = int(rgbInput.r * 32f);
+    int gValue = int(rgbInput.g * 64f);
+    int bValue = int(rgbInput.b * 32f);
+
+    rValue = rValue << 11;
+    gValue = gValue << 5;
+
+    return rValue | gValue | bValue;
+}
+
+vec3 getNormalized(in int rgbInput)
+{
+    float rValue = float((rgbInput >> 11) & 0x1F) / 32f;
+    float gValue = float((rgbInput >> 5) & 0x3F) / 64f;
+    float bValue = float(rgbInput & 0x1F) / 32f;
+
+    return vec3(rValue, gValue, bValue);
+}
+
 void main()
 {
     bool scanline = int(mod(gl_FragCoord.y, 2.0f)) > 0;
@@ -293,12 +314,14 @@ void main()
         vec4 texelCurRow = texture(TextureSampler, fsUV);
         vec4 texelNxtRow = texture(TextureSampler, vec2(fsUV.x, fsUV.y + singlePixelSize()));
 
-        vec3 newRGB =
-            vec3(
-                clamp(texelCurRow.r, 0.0f, 0.65f) + clamp(texelNxtRow.r, 0.0f, 0.65f),
-                clamp(texelCurRow.g, 0.0f, 0.5f) + clamp(texelNxtRow.g, 0.0f, 0.5f),
-                clamp(texelCurRow.b, 0.0f, 0.45f) + clamp(texelNxtRow.b, 0.0f, 0.45f)
-            ) / 2.0f;
+        int curRGB565 = get565(texelCurRow.rgb);
+        int nxtRGB565 = get565(texelNxtRow.rgb);
+
+        int pixelResult =
+            (((curRGB565 & 0xF7DEF7DF) + (nxtRGB565 & 0xF7DEF7DF) >> 1) |
+            ((curRGB565 & 0xF7DEF7DF) + (nxtRGB565 & 0xF7DEF7DF) << 31)) & 0xFFFF;
+
+        vec3 newRGB = getNormalized(pixelResult);
 
         outColor = vec4(newRGB.rgb, 1.0);
     }
