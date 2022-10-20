@@ -235,7 +235,6 @@ layout (location = 1) in vec2 vsUV;
 out vec2 fsUV;
 
 uniform vec2 vsViewportSize;
-uniform vec2 vsTexSize;
 
 
 void main()
@@ -246,7 +245,7 @@ void main()
     gl_Position.w = 1.0;
 
     // Pass-thru
-    fsUV = vsUV / vsTexSize;
+    fsUV = vsUV;
 }
 )";
 
@@ -257,12 +256,15 @@ in vec2 fsUV;
 
 out vec4 outColor;
 
-uniform sampler2D TextureSampler;
+uniform vec2 fsTexSize;
+uniform sampler2D texTextureData;
 
 
 void main()
 {
-    outColor = texture(TextureSampler, fsUV);
+    vec2 scaledUV = fsUV / fsTexSize;
+
+    outColor = texture(texTextureData, scaledUV);
 }
 )";
 
@@ -273,18 +275,11 @@ in vec2 fsUV;
 
 out vec4 outColor;
 
-uniform sampler2D TextureSampler;
-
-// HACK -- Maybe the fragment shader should translate to UV coords?
-uniform vec2 vsTexSize;
+uniform vec2 fsTexSize;
+uniform sampler2D texTextureData;
 
 
-float singlePixelSize()
-{
-    return 1.0f / vsTexSize.y;
-}
-
-int get565(in vec3 rgbInput)
+int get565FromNormalized(in vec3 rgbInput)
 {
     int rValue = int(rgbInput.r * 32f);
     int gValue = int(rgbInput.g * 64f);
@@ -296,7 +291,7 @@ int get565(in vec3 rgbInput)
     return rValue | gValue | bValue;
 }
 
-vec3 getNormalized(in int rgbInput)
+vec3 getNormalizedFrom565(in int rgbInput)
 {
     float rValue = float((rgbInput >> 11) & 0x1F) / 32f;
     float gValue = float((rgbInput >> 5) & 0x3F) / 64f;
@@ -305,29 +300,83 @@ vec3 getNormalized(in int rgbInput)
     return vec3(rValue, gValue, bValue);
 }
 
+vec2 getScaledUV(in vec2 coord)
+{
+    return coord / fsTexSize;
+}
+
+int pack565Pair(in int first, int second)
+{
+    return (first << 16) | second;
+}
+
+void unpack565Pair(in int pair, out int first, out int second)
+{
+    first = pair >> 16;
+    second = pair & 0xFFFF;
+}
+
+int get565Pair(in vec2 first, in vec2 second)
+{
+    vec4 texelFirst = texture(texTextureData, getScaledUV(first));
+    vec4 texelSecond = texture(texTextureData, getScaledUV(second));
+
+    return pack565Pair(
+        get565FromNormalized(texelFirst.rgb),
+        get565FromNormalized(texelSecond.rgb)
+    );
+}
+
 void main()
 {
     bool scanline = int(mod(gl_FragCoord.y, 2.0f)) > 0;
 
     if (scanline)
     {
-        vec4 texelCurRow = texture(TextureSampler, fsUV);
-        vec4 texelNxtRow = texture(TextureSampler, vec2(fsUV.x, fsUV.y + singlePixelSize()));
+        bool scanlineX = int(mod(gl_FragCoord.x, 2.0f)) > 0;
 
-        int curRGB565 = get565(texelCurRow.rgb);
-        int nxtRGB565 = get565(texelNxtRow.rgb);
+        int firstPair = 0;
+        int secondPair = 0;
 
+        if (!scanlineX) // First pixel in pair
+        {
+            firstPair = get565Pair(fsUV, vec2(fsUV.x + 1.0, fsUV.y));
+            secondPair = get565Pair(vec2(fsUV.x, fsUV.y + 1.0), vec2(fsUV.x + 1.0, fsUV.y + 1.0));
+        }
+        else // Second pixel in pair
+        {
+            firstPair = get565Pair(vec2(fsUV.x - 1.0, fsUV.y), fsUV);
+            secondPair = get565Pair(vec2(fsUV.x - 1.0, fsUV.y + 1.0), vec2(fsUV.x, fsUV.y + 1.0));
+        }
+
+        // Do the bit rotation stuff
         int pixelResult =
-            ((curRGB565 & 0xF7DE) + (nxtRGB565 & 0xF7DE) >> 1) |
-            ((curRGB565 & 0xF7DE) + (nxtRGB565 & 0xF7DE) << 15);
+            ((secondPair & 0xF7DEF7DF) + (firstPair & 0xF7DEF7DF) >> 1) |
+            ((secondPair & 0xF7DEF7DF) + (firstPair & 0xF7DEF7DF) << 31);
 
-        vec3 newRGB = getNormalized(pixelResult);
+        // Unpack the two 16bpp values
+        int finalFirst = 0;
+        int finalSecond = 0;
+
+        unpack565Pair(pixelResult, finalFirst, finalSecond);
+
+        // Retrieve the pixel we want
+        vec3 newRGB = vec3(0.0);
+
+        if (!scanlineX) // First pixel in pair
+        {
+            newRGB = getNormalizedFrom565(finalFirst);
+        }
+        else // Second pixel in pair
+        {
+            newRGB = getNormalizedFrom565(finalSecond);
+        }
 
         outColor = vec4(newRGB.rgb, 1.0);
     }
     else
     {
-        outColor = texture(TextureSampler, fsUV);
+        outColor = texture(texTextureData, getScaledUV(fsUV));
     }
 }
 )";

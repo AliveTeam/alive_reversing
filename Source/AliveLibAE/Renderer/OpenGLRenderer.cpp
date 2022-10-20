@@ -1089,9 +1089,9 @@ void OpenGLRenderer::DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height
 
     mPassthruShader.Use();
 
-    mPassthruShader.Uniform1i("TextureSampler", 0);
+    mPassthruShader.Uniform1i("texTextureData", 0);
     mPassthruShader.UniformVec2("vsViewportSize", (f32) viewportW, (f32) viewportH);
-    mPassthruShader.UniformVec2("vsTexSize", texWidth, texHeight);
+    mPassthruShader.UniformVec2("fsTexSize", texWidth, texHeight);
 
     GL_VERIFY(glViewport(0, 0, viewportW, viewportH));
 
@@ -1167,9 +1167,9 @@ void OpenGLRenderer::UpdateFilterFramebuffer()
     // Bind framebuffers and draw
     mPassthruFilterShader.Use();
 
-    mPassthruFilterShader.Uniform1i("TextureSampler", 0);
+    mPassthruFilterShader.Uniform1i("texTextureData", 0);
     mPassthruFilterShader.UniformVec2("vsViewportSize", GL_FRAMEBUFFER_FILTER_WIDTH, GL_FRAMEBUFFER_FILTER_HEIGHT);
-    mPassthruFilterShader.UniformVec2("vsTexSize", GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT);
+    mPassthruFilterShader.UniformVec2("fsTexSize", GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT);
 
     GL_VERIFY(glViewport(0, 0, GL_FRAMEBUFFER_FILTER_WIDTH, GL_FRAMEBUFFER_FILTER_HEIGHT));
 
