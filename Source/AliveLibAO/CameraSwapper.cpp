@@ -13,6 +13,8 @@
 #include "../relive_lib/PsxDisplay.hpp"
 #include "Sfx.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
+#include "Sys_common.hpp"
+#include "BaseGameAutoPlayer.hpp"
 
 namespace AO {
 
