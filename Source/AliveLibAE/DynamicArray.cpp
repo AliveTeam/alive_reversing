@@ -63,14 +63,9 @@ s16 DynamicArray::Push_Back_40CAF0(void* pValue)
 
 s16 DynamicArray::Remove_Item_40CB60(void* pItemToRemove)
 {
-    DynamicArrayIter arrayIter;
-    arrayIter.field_0_pDynamicArray = this;
-    arrayIter.field_4_idx = 0;
-    for (s16 idx = 0; idx < field_4_used_size; idx++)
+    for (s32 idx = 0; idx < field_4_used_size; idx++)
     {
         void* pCurrentItem = field_0_array[idx];
-        arrayIter.field_4_idx = idx + 1;
-
         if (!pCurrentItem)
         {
             break;
@@ -78,7 +73,7 @@ s16 DynamicArray::Remove_Item_40CB60(void* pItemToRemove)
 
         if (pCurrentItem == pItemToRemove)
         {
-            arrayIter.Remove_At_Iter_40CCA0();
+            RemoveAt(idx);
             return 1;
         }
     }

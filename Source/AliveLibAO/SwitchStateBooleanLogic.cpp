@@ -31,7 +31,7 @@ BaseGameObject* SwitchStateBooleanLogic::VDestructor(s32 flags)
 
 void SwitchStateBooleanLogic::VScreenChanged_436C40()
 {
-    if (gMap_507BA8.field_28_cd_or_overlay_num != gMap_507BA8.GetOverlayId_4440B0())
+    if (gMap_507BA8.field_0_current_level != gMap_507BA8.field_A_level || gMap_507BA8.field_2_current_path != gMap_507BA8.field_C_path)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }

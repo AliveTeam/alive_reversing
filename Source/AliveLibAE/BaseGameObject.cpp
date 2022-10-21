@@ -26,9 +26,7 @@ void BaseGameObject::VScreenChanged()
 
 void BaseGameObject::ScreenChanged_4DC0A0()
 {
-    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level
-        || gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path
-        || (gMap_5C3030.field_22_overlayID != gMap_5C3030.GetOverlayId_480710()))
+    if (gMap_5C3030.field_0_current_level != gMap_5C3030.field_A_level || gMap_5C3030.field_2_current_path != gMap_5C3030.field_C_path)
     {
         field_6_flags.Set(BaseGameObject::eDead_Bit3);
     }

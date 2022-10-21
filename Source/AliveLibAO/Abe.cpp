@@ -1540,6 +1540,7 @@ void Abe::FreeElumRes_420F80()
             field_104_pending_resource_count++;
             ResourceManager::LoadResourceFile("ABEOMM.BAN", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
         }
+        ResourceManager::LoadingLoop_41EAD0(0);
     }
 }
 
@@ -2773,6 +2774,7 @@ void Abe::LoadMountElumResources_42E690()
 
     field_104_pending_resource_count++;
     ResourceManager::LoadResourceFile("ANEMOUNT.BND", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
+    ResourceManager::LoadingLoop_41EAD0(0);
 }
 
 void Abe::ElumKnockForward_42E780(s32 /*not_used*/)
@@ -8792,6 +8794,7 @@ void Abe::Motion_103_ElumIdle_42DCD0()
             field_1A4_resources.res[46] = nullptr;
             ResourceManager::LoadResourceFile("ANEDSMNT.BND", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
             field_FC_current_motion = eAbeMotions::Motion_137_ElumUnmountBegin_42E2B0;
+            ResourceManager::LoadingLoop_41EAD0(0);
         }
     }
     else
@@ -9255,6 +9258,7 @@ void Abe::Motion_137_ElumUnmountBegin_42E2B0()
             ResourceManager::LoadResourceFile("ABEOMM.BAN", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
         }
         field_FC_current_motion = eAbeMotions::Motion_138_ElumUnmountEnd_42E390;
+        ResourceManager::LoadingLoop_41EAD0(0);
     }
 }
 

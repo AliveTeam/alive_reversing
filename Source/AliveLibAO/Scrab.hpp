@@ -205,6 +205,8 @@ public:
 
     bool BrainIs(TBrainType fn);
 
+    void SetFightTarget(Scrab* pTarget);
+    void SetTarget(BaseAliveGameObject* pTarget);
 
     TBrainType field_10C_fn;
     s16 field_110_brain_sub_state;
