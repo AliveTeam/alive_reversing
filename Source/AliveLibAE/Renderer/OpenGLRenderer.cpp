@@ -168,7 +168,11 @@ void LoadAllExternalTextures(std::string dir = "hd/sprites")
 
                 gLoadedExternalTextures[id].textures = std::vector<ExternalTexture>();
 
-                gLoadedExternalTextures[id].meta.LoadJSONFromFile(assetDirectory + "meta.json");
+                if (!gLoadedExternalTextures[id].meta.LoadJSONFromFile(assetDirectory + "meta.json"))
+                {
+                    LOG_ERROR("Failed to load animation meta json for " << folderName);
+                    ALIVE_FATAL("Failed to load animation meta json");
+                }
 
                 for (int i = 0; i < gLoadedExternalTextures[id].meta.frame_count; i++)
                 {

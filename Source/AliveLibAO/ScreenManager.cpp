@@ -5,6 +5,8 @@
 #include "VRam.hpp"
 #include "stdlib.hpp"
 #include "../AliveLibAE/Renderer/IRenderer.hpp"
+#include "Map.hpp"
+#include "PathData.hpp"
 
 #undef min
 #undef max
@@ -93,6 +95,15 @@ void ScreenManager::DecompressCameraToVRam_407110(u16** ppBits)
         field_58_20x16_dirty_bits[2] = {};
         field_58_20x16_dirty_bits[3] = {};
     }
+
+    char camName[32] = {};
+    Path_Format_CameraName_4346B0(
+        camName,
+        gMap_507BA8.field_0_current_level,
+        gMap_507BA8.field_2_current_path,
+        gMap_507BA8.field_4_current_camera);
+
+    IRenderer::GetRenderer()->LoadExternalCam(camName, reinterpret_cast<const unsigned char*>(*ppBits), 512);
 }
 
 void ScreenManager::InvalidateRect_406CC0(s32 x, s32 y, s32 width, s32 height)
