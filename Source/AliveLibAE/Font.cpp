@@ -4,21 +4,6 @@
 #include "FixedPoint.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
 
-/*
- Notes for when coming across crazy width conversions:
- If it looks like this:
-
- (40 * x + 11) / 23
-
- Then its probably x *= 0.575;
- If it looks like:
-
- v17 = (s32)(40 * x + 11 + ((s64)(-1307163959i64 * (40 * x + 11)) >> 32)) >> 4;
- x = (v17 >> 31) + v17;
-
- then do x /= 0.575;
-*/
-
 s8 sDisableFontFlicker = 0;
 
 u8 sFontDrawScreenSpace = 0;
@@ -409,9 +394,9 @@ s32 AliveFont::DrawString(PrimHeader** ppOt, const char_type* text, s32 x, s16 y
         }
 
         const u8 c = text[i];
-        if (c <= 0x20u || c > 0xAFu)
+        if (c <= 32 || c > 175)
         {
-            if (c < 7u || c > 0x1Fu)
+            if (c < 7u || c > 31)
             {
                 offsetX += field_34_FontContext->field_8_atlas_array[1].mWidth;
                 continue;
@@ -480,7 +465,7 @@ s32 AliveFont::DrawString(PrimHeader** ppOt, const char_type* text, s32 x, s16 y
 
         ++characterRenderCount;
 
-        offsetX += widthScaled + static_cast<s16>(field_34_FontContext->field_8_atlas_array[0].mWidth * FP_GetExponent(scale));
+        offsetX += widthScaled + FP_GetExponent(FP_FromInteger(field_34_FontContext->field_8_atlas_array[0].mWidth) * scale);
 
         poly += 2;
     }
@@ -529,8 +514,8 @@ s32 AliveFont::MeasureTextWidth(const char_type* text)
 // Measures the width of a string with scale applied.
 s32 AliveFont::MeasureScaledTextWidth(const char_type* text, FP scale)
 {
-    FP ret = (FP_FromInteger(MeasureTextWidth(text)) * scale) + FP_FromDouble(0.5);
-    return FP_GetExponent(ret);
+    const FP width = FP_FromInteger(MeasureTextWidth(text));
+    return FP_GetExponent((width * scale) + FP_FromDouble(0.5));
 }
 
 // Measures the width of a single character.
@@ -539,9 +524,9 @@ s32 AliveFont::MeasureCharacterWidth(char_type character)
     s32 result = 0;
     s32 charIndex = 0;
 
-    if (character <= 32u || character > 175u)
+    if (character <= 32 || character > 175)
     {
-        if (character < 7u || character > 31u)
+        if (character < 7 || character > 31)
         {
             return field_34_FontContext->field_8_atlas_array[1].mWidth;
         }
@@ -583,12 +568,12 @@ const char_type* AliveFont::SliceText(const char_type* text, s32 left, FP scale,
         char_type character = *strPtr;
         if (xOff >= rightWorldSpace)
         {
-            return strPtr;
+            break;
         }
 
-        if (character <= 0x20u || character > 0x7Au)
+        if (character <= 32 || character > 122)
         {
-            if (character < 7u || character > 0x1Fu)
+            if (character < 7 || character > 31)
             {
                 xOff += field_34_FontContext->field_8_atlas_array[1].mWidth;
                 continue;
@@ -600,7 +585,7 @@ const char_type* AliveFont::SliceText(const char_type* text, s32 left, FP scale,
             atlasIdx = character - 31;
         }
 
-        xOff += static_cast<s32>(field_34_FontContext->field_8_atlas_array[atlasIdx].mWidth * FP_GetDouble(scale)) / 0x10000 + field_34_FontContext->field_8_atlas_array->mWidth;
+        xOff += static_cast<s32>(field_34_FontContext->field_8_atlas_array[atlasIdx].mWidth * FP_GetDouble(scale)) + field_34_FontContext->field_8_atlas_array->mWidth;
     }
 
     return text;
