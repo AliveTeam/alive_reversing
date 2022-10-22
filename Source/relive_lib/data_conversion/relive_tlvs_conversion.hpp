@@ -3449,7 +3449,7 @@ public:
             r.mData.mCanBeat = true;
         }
 
-        if (tlv.mDisabledResources & 0x2)
+        if (tlv.mDisabledResources & 0x4)
         {
             r.mData.mCanZShoot = false;
         }
@@ -3617,7 +3617,7 @@ public:
             r.mData.mCanBeat = true;
         }
 
-         if (tlv.mDisabledResources & 0x2)
+         if (tlv.mDisabledResources & 0x4)
         {
             r.mData.mCanZShoot = false;
         }
@@ -4544,7 +4544,7 @@ public:
             r.mData.mCanBeat = true;
         }
 
-        if (tlv.disable_resources & 0x2)
+        if (tlv.disable_resources & 0x4)
         {
             r.mData.mCanZShoot = false;
         }
