@@ -389,6 +389,7 @@ s32 AliveFont::MeasureTextWidth(const char_type* text)
 
     if (!sFontDrawScreenSpace)
     {
+        // sub 2??
         result -= field_34_FontContext->field_8_atlas_array[0].mWidth;
         result = PCToPsxX(result, 20);
     }
@@ -458,7 +459,12 @@ const char_type* AliveFont::SliceText(const char_type* text, s32 left, FP scale,
 
         if (character <= 32 || character > 122)
         {
-            atlasIdx = character < 8 || character > 31 ? 1 : character + 84;
+            if (character < 8 || character> 31)
+            {
+                xOff += field_34_FontContext->field_8_atlas_array[1].mWidth;
+                continue;
+            }
+            atlasIdx = character + 84;
         }
         else
         {
@@ -466,7 +472,6 @@ const char_type* AliveFont::SliceText(const char_type* text, s32 left, FP scale,
         }
 
         xOff += static_cast<s32>(field_34_FontContext->field_8_atlas_array[atlasIdx].mWidth * FP_GetDouble(scale)) + field_34_FontContext->field_8_atlas_array->mWidth;
-        text = strPtr;
     }
 
     return text;
