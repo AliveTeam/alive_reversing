@@ -158,12 +158,12 @@ LCDScreen::LCDScreen(relive::Path_LCDScreen* pTlv, const Guid& tlvId)
 
     field_2AC_message_1_id = pTlv->mMessageId1;
 
-    field_50_font_context.LoadFontType(FontType::LcdFont);
+    field_50_FontContext.LoadFontType(FontType::LcdFont);
 
     mPal1 = ResourceManagerWrapper::LoadPal(PalId::LedFont_1);
     mPal2 = ResourceManagerWrapper::LoadPal(PalId::LedFont_2);
 
-    field_60_font.Load(60, mPal1, &field_50_font_context);
+    field_60_font.Load(60, mPal1, &field_50_FontContext);
 
     IRenderer::PalRecord rec;
     rec.depth = 16;
@@ -254,7 +254,7 @@ void LCDScreen::VUpdate()
                 }
 
                  // Change pal
-                field_60_font.field_34_font_context->field_C_resource_id.mCurPal = mPal2.mPal;
+                field_60_font.field_34_FontContext->field_C_resource_id.mCurPal = mPal2.mPal;
             }
             else
             {
@@ -274,7 +274,7 @@ void LCDScreen::VUpdate()
                 }
 
                 // Change pal
-                field_60_font.field_34_font_context->field_C_resource_id.mCurPal = mPal1.mPal;
+                field_60_font.field_34_FontContext->field_C_resource_id.mCurPal = mPal1.mPal;
             }
 
             // TODO
@@ -357,7 +357,7 @@ void LCDScreen::VRender(PrimHeader** ppOt)
             0,
             FP_FromInteger(1),
             maxWidth,
-            fontFlickerAmount);
+            static_cast<s16>(fontFlickerAmount));
         sFontDrawScreenSpace = 0;
 
         PSX_RECT clipRect2 = {};

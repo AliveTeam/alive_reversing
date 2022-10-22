@@ -33,7 +33,7 @@ Text::Text(const char_type* pMessage, s32 renderCount, s32 bShadow)
 
     gObjListDrawables->Push_Back(this);
 
-    mFontContext.LoadFontType_433400(FontType::PauseMenu);
+    mFontContext.LoadFontType(FontType::PauseMenu);
     mPal = ResourceManagerWrapper::LoadPal(PalId::MainMenuFont_PauseMenu);
     field_20_font.Load(static_cast<s32>((bShadow + 1) * strlen(pMessage)), mPal, &mFontContext);
 
@@ -54,7 +54,6 @@ Text::~Text()
 {
     gObjListDrawables->Remove_Item(this);
     mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
-    field_20_font.dtor_433540();
 }
 
 void Text::SetYPos(s32 /*not_used*/, s16 ypos)
@@ -67,7 +66,7 @@ void Text::VRender(PrimHeader** ppOt)
     const s16 ypos = field_5E_ypos + 100;
     const s32 xpos = (368 / 2) - (field_5C_xpos / 2);
 
-    s32 drawRet1 = field_20_font.DrawString_4337D0(
+    s32 drawRet1 = field_20_font.DrawString(
         ppOt,
         field_68_txt_buffer,
         xpos,
@@ -87,7 +86,7 @@ void Text::VRender(PrimHeader** ppOt)
     // Draw again with offsets on x/y to create a shadow effect
     if (field_60_bShadow)
     {
-        s32 drawRet2 = field_20_font.DrawString_4337D0(
+        s32 drawRet2 = field_20_font.DrawString(
             ppOt,
             field_68_txt_buffer,
             xpos + 2,
@@ -104,7 +103,7 @@ void Text::VRender(PrimHeader** ppOt)
             640,
             0);
 
-        field_20_font.DrawString_4337D0(
+        field_20_font.DrawString(
             ppOt,
             field_68_txt_buffer,
             xpos - 1,

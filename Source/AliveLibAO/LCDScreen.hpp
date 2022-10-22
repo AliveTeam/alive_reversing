@@ -29,7 +29,7 @@ public:
 
 
     Prim_PrimClipper field_10_prim_clippers[2][2] = {};
-    FontContext field_50_font_context;
+    FontContext field_50_FontContext;
     AliveFont field_60_font;
     PSX_RECT field_98_pal_rect = {};
     char_type* field_A0_message = nullptr;

@@ -24,8 +24,8 @@ GasCountDown::GasCountDown(relive::Path_GasCountDown* pTlv, const Guid& tlvId)
     field_58_tlvInfo = tlvId;
 
     mPal = ResourceManagerWrapper::LoadPal(PalId::LedFont_Red);
-    field_10_font_context.LoadFontType(FontType::LcdFont);
-    field_20_font.Load(5, mPal, &field_10_font_context);
+    field_10_FontContext.LoadFontType(FontType::LcdFont);
+    field_20_font.Load(5, mPal, &field_10_FontContext);
     mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
     gObjListDrawables->Push_Back(this);
 

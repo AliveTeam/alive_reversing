@@ -366,30 +366,29 @@ Font_AtlasEntry sLcdFontAtlas[169] =
            {0u, 0u, 0u, 0u},
            {0u, 0u, 0u, 0u}};
 
-namespace Alive {
-Font::Font()
+AliveFont::AliveFont()
 {
 }
 
-Font::Font(s32 maxCharLength, const PalResource& pal, Font_Context* fontContext)
+AliveFont::AliveFont(s32 maxCharLength, const PalResource& pal, FontContext* fontContext)
 {
     Load(maxCharLength, pal, fontContext);
 }
 
-void Font::Load(s32 maxCharLength, const PalResource& pal, Font_Context* fontContext)
+void AliveFont::Load(s32 maxCharLength, const PalResource& pal, FontContext* fontContext)
 {
-    field_34_font_context = fontContext;
-    field_34_font_context->field_C_resource_id.mCurPal = pal.mPal;
+    field_34_FontContext = fontContext;
+    field_34_FontContext->field_C_resource_id.mCurPal = pal.mPal;
     field_30_poly_count = maxCharLength;
     field_24_fnt_poly_array = relive_new Poly_FT4[maxCharLength * 2];
 }
 
-void Font::dtor_433540()
+AliveFont::~AliveFont()
 {
     relive_delete[] field_24_fnt_poly_array;
 }
 
-s32 Font::DrawString_4337D0(PrimHeader** ppOt, const char_type* text, s32 x, s16 y, TPageAbr abr, s32 bSemiTrans, s32 blendMode, Layer layer, u8 r, u8 g, u8 b, s32 polyOffset, FP scale, s32 maxRenderWidth, s16 colorRandomRange)
+s32 AliveFont::DrawString(PrimHeader** ppOt, const char_type* text, s32 x, s16 y, TPageAbr abr, s32 bSemiTrans, s32 blendMode, Layer layer, u8 r, u8 g, u8 b, s32 polyOffset, FP scale, s32 maxRenderWidth, s16 colorRandomRange)
 {
     if (!sFontDrawScreenSpace)
     {
@@ -401,10 +400,6 @@ s32 Font::DrawString_4337D0(PrimHeader** ppOt, const char_type* text, s32 x, s16
     s16 offsetX = static_cast<s16>(x);
     s32 charInfoIndex = 0;
     auto poly = &field_24_fnt_poly_array[gPsxDisplay.mBufferIndex + (2 * polyOffset)];
-
-    // TODO: Just set the FontRes ptr 
-    //s32 tpage = PSX_getTPage(TPageMode::e4Bit_0, abr, field_34_font_context->mRect.x & 0xFFC0, field_34_font_context->mRect.y & 0xFF00);
-    //s32 clut = PSX_getClut(field_28_palette_rect.x, field_28_palette_rect.y);
 
     for (u32 i = 0; i < strlen(text); i++)
     {
@@ -418,7 +413,7 @@ s32 Font::DrawString_4337D0(PrimHeader** ppOt, const char_type* text, s32 x, s16
         {
             if (c < 7u || c > 0x1Fu)
             {
-                offsetX += field_34_font_context->field_8_atlas_array[1].mWidth;
+                offsetX += field_34_FontContext->field_8_atlas_array[1].mWidth;
                 continue;
             }
             charInfoIndex = c + 137;
@@ -428,7 +423,7 @@ s32 Font::DrawString_4337D0(PrimHeader** ppOt, const char_type* text, s32 x, s16
             charInfoIndex = c - 31;
         }
 
-        const auto fContext = field_34_font_context;
+        const auto fContext = field_34_FontContext;
         const auto atlasEntry = &fContext->field_8_atlas_array[charInfoIndex];
 
         const s8 charWidth = atlasEntry->mWidth;
@@ -454,9 +449,6 @@ s32 Font::DrawString_4337D0(PrimHeader** ppOt, const char_type* text, s32 x, s16
             static_cast<u8>(g + Math_RandomRange(-colorRandomRange, colorRandomRange)),
             static_cast<u8>(b + Math_RandomRange(-colorRandomRange, colorRandomRange)));
 
-        //SetTPage(poly, static_cast<s16>(tpage));
-        //SetClut(poly, static_cast<s16>(clut));
-
         // Padding
         poly->mVerts[1].mUv.tpage_clut_pad = 0;
         poly->mVerts[2].mUv.tpage_clut_pad = 0;
@@ -481,14 +473,14 @@ s32 Font::DrawString_4337D0(PrimHeader** ppOt, const char_type* text, s32 x, s16
         u16 tpageEmptyBlend = GetTPage(poly) & 0xFFCF;
         u16 blendModeBit = ((u16) abr) << 4;
         SetTPage(poly, tpageEmptyBlend | blendModeBit);
-        poly->mFont = field_34_font_context;
+        poly->mFont = field_34_FontContext;
         // TPage blend mode start
 
         OrderingTable_Add(OtLayer(ppOt, layer), &poly->mBase.header);
 
         ++characterRenderCount;
 
-        offsetX += widthScaled + static_cast<s16>(field_34_font_context->field_8_atlas_array[0].mWidth * FP_GetExponent(scale));
+        offsetX += widthScaled + static_cast<s16>(field_34_FontContext->field_8_atlas_array[0].mWidth * FP_GetExponent(scale));
 
         poly += 2;
     }
@@ -496,7 +488,7 @@ s32 Font::DrawString_4337D0(PrimHeader** ppOt, const char_type* text, s32 x, s16
     return polyOffset + characterRenderCount;
 }
 
-s32 Font::MeasureTextWidth(const char_type* text)
+s32 AliveFont::MeasureTextWidth(const char_type* text)
 {
     s32 result = 0;
 
@@ -509,7 +501,7 @@ s32 Font::MeasureTextWidth(const char_type* text)
         {
             if (c < 7 || c > 31)
             {
-                result += field_34_font_context->field_8_atlas_array[1].mWidth;
+                result += field_34_FontContext->field_8_atlas_array[1].mWidth;
                 continue;
             }
             else
@@ -522,8 +514,8 @@ s32 Font::MeasureTextWidth(const char_type* text)
             charIndex = c - 31;
         }
 
-        result += field_34_font_context->field_8_atlas_array[0].mWidth;
-        result += field_34_font_context->field_8_atlas_array[charIndex].mWidth;
+        result += field_34_FontContext->field_8_atlas_array[0].mWidth;
+        result += field_34_FontContext->field_8_atlas_array[charIndex].mWidth;
     }
 
     if (!sFontDrawScreenSpace)
@@ -535,14 +527,14 @@ s32 Font::MeasureTextWidth(const char_type* text)
 }
 
 // Measures the width of a string with scale applied.
-s32 Font::MeasureScaledTextWidth(const char_type* text, FP scale)
+s32 AliveFont::MeasureScaledTextWidth(const char_type* text, FP scale)
 {
     FP ret = (FP_FromInteger(MeasureTextWidth(text)) * scale) + FP_FromDouble(0.5);
     return FP_GetExponent(ret);
 }
 
 // Measures the width of a single character.
-s32 Font::MeasureCharacterWidth(char_type character)
+s32 AliveFont::MeasureCharacterWidth(char_type character)
 {
     s32 result = 0;
     s32 charIndex = 0;
@@ -551,7 +543,7 @@ s32 Font::MeasureCharacterWidth(char_type character)
     {
         if (character < 7u || character > 31u)
         {
-            return field_34_font_context->field_8_atlas_array[1].mWidth;
+            return field_34_FontContext->field_8_atlas_array[1].mWidth;
         }
         charIndex = character + 137;
     }
@@ -559,7 +551,7 @@ s32 Font::MeasureCharacterWidth(char_type character)
     {
         charIndex = character - 31;
     }
-    result = field_34_font_context->field_8_atlas_array[charIndex].mWidth;
+    result = field_34_FontContext->field_8_atlas_array[charIndex].mWidth;
 
     if (!sFontDrawScreenSpace)
     {
@@ -570,7 +562,7 @@ s32 Font::MeasureCharacterWidth(char_type character)
 }
 
 // Wasn't too sure what to call this. Returns the s8 offset of where the text is cut off. (left and right region)
-const char_type* Font::SliceText(const char_type* text, s32 left, FP scale, s32 right)
+const char_type* AliveFont::SliceText(const char_type* text, s32 left, FP scale, s32 right)
 {
     s32 xOff = 0;
     s32 rightWorldSpace = static_cast<s32>(right * 0.575);
@@ -598,7 +590,7 @@ const char_type* Font::SliceText(const char_type* text, s32 left, FP scale, s32 
         {
             if (character < 7u || character > 0x1Fu)
             {
-                xOff += field_34_font_context->field_8_atlas_array[1].mWidth;
+                xOff += field_34_FontContext->field_8_atlas_array[1].mWidth;
                 continue;
             }
             atlasIdx = character + 137;
@@ -608,14 +600,13 @@ const char_type* Font::SliceText(const char_type* text, s32 left, FP scale, s32 
             atlasIdx = character - 31;
         }
 
-        xOff += static_cast<s32>(field_34_font_context->field_8_atlas_array[atlasIdx].mWidth * FP_GetDouble(scale)) / 0x10000 + field_34_font_context->field_8_atlas_array->mWidth;
+        xOff += static_cast<s32>(field_34_FontContext->field_8_atlas_array[atlasIdx].mWidth * FP_GetDouble(scale)) / 0x10000 + field_34_FontContext->field_8_atlas_array->mWidth;
     }
 
     return text;
 }
-} // namespace Alive
 
-void Font_Context::LoadFontType_433400(FontType resourceID)
+void FontContext::LoadFontType(FontType resourceID)
 {
     FontResource fontRes = ResourceManagerWrapper::LoadFont(resourceID);
     field_C_resource_id = fontRes;

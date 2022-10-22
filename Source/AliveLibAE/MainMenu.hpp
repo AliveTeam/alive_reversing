@@ -229,7 +229,7 @@ public:
     s32 ChangeScreenAndIntroLogic_4CF640();
     void AnimationAndSoundLogic_4CFE80();
     void UpdateHighliteGlow_4D0630();
-    static void DrawMenuText_4D20D0(const MainMenuText* array, PrimHeader** ot, Alive::Font* font, s32* polyIndex, s8 a5);
+    static void DrawMenuText_4D20D0(const MainMenuText* array, PrimHeader** ot, AliveFont* font, s32* polyIndex, s8 a5);
 
     // Page Functions
     void AbeSpeak_Render_4D2060(PrimHeader** ot);
@@ -355,8 +355,8 @@ public:
     };
 
     PalResource mPal;
-    Font_Context mFontContext;
-    Alive::Font field_120_font = {};
+    FontContext mFontContext;
+    AliveFont field_120_font = {};
     Animation field_158_animation = {};
     Guid mTlvId;
     s32 field_1F4_credits_next_frame = 0;

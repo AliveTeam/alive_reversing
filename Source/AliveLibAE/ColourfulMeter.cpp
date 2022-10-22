@@ -20,8 +20,8 @@ ColourfulMeter::ColourfulMeter(relive::Path_ColourfulMeter* pTlv, const Guid& tl
     mTlvY = pTlv->mTopLeftY;
 
     mPal = ResourceManagerWrapper::LoadPal(PalId::LedFont_ColourfulMeter);
-    field_20_font_context.LoadFontType_433400(FontType::LcdFont);
-    field_30_font.Load(5, mPal, &field_20_font_context);
+    field_20_FontContext.LoadFontType(FontType::LcdFont);
+    field_30_font.Load(5, mPal, &field_20_FontContext);
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
     gObjListDrawables->Push_Back(this);
 
@@ -69,7 +69,6 @@ ColourfulMeter::~ColourfulMeter()
 {
     gObjListDrawables->Remove_Item(this);
     Path::TLV_Reset(mTlvInfo, -1, 0, 0);
-    field_30_font.dtor_433540();
 }
 
 void ColourfulMeter::VScreenChanged()
@@ -226,7 +225,7 @@ void ColourfulMeter::VRender(PrimHeader** ppOt)
             colourRand = 0;
         }
 
-        field_30_font.DrawString_4337D0(
+        field_30_font.DrawString(
             ppOt,
             text,
             mTextX + 1,

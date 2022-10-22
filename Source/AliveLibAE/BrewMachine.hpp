@@ -17,8 +17,8 @@ public:
     s16 mTotalBrewCount = 0;
 
 private:
-    Font_Context mFontContext = {};
-    Alive::Font mFont = {};
+    FontContext mFontContext = {};
+    AliveFont mFont = {};
     s16 mTextX = 0;
     s16 mTextY = 0;
     Guid mTlvInfo;

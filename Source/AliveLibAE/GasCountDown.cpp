@@ -20,8 +20,8 @@ GasCountDown::GasCountDown(relive::Path_GasCountDown* pTlv, const Guid& tlvInfo)
     field_68_tlvInfo = tlvInfo;
 
     mPal = ResourceManagerWrapper::LoadPal(PalId::LedFont_Red);
-    field_20_font_context.LoadFontType_433400(FontType::LcdFont);
-    field_30_font.Load(5, mPal, &field_20_font_context);
+    field_20_FontContext.LoadFontType(FontType::LcdFont);
+    field_30_font.Load(5, mPal, &field_20_FontContext);
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
     gObjListDrawables->Push_Back(this);
 
@@ -54,7 +54,6 @@ GasCountDown::~GasCountDown()
 {
     gObjListDrawables->Remove_Item(this);
     Path::TLV_Reset(field_68_tlvInfo, -1, 0, 0);
-    field_30_font.dtor_433540();
 }
 
 void GasCountDown::VScreenChanged()
@@ -72,7 +71,7 @@ void GasCountDown::VRender(PrimHeader** ppOt)
     sprintf(text, "%02d:%02d", field_74_time_left / 60, field_74_time_left % 60);
 
     const auto textWidth = field_30_font.MeasureTextWidth(text);
-    field_30_font.DrawString_4337D0(
+    field_30_font.DrawString(
         ppOt,
         text,
         field_6C_xpos,

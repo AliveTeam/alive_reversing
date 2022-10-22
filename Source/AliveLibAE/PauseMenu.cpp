@@ -336,7 +336,7 @@ PauseMenu::PauseMenu()
     field_13E_unused = 0;
     field_140_unused = 0;
 
-    mFontContext.LoadFontType_433400(FontType::PauseMenu);
+    mFontContext.LoadFontType(FontType::PauseMenu);
     mPal = ResourceManagerWrapper::LoadPal(PalId::MainMenuFont_PauseMenu);
     field_F4_font.Load(256, mPal, &mFontContext);
 
@@ -351,7 +351,6 @@ PauseMenu::~PauseMenu()
 
     gObjListDrawables->Remove_Item(this);
     field_158_animation.VCleanUp();
-    field_F4_font.dtor_433540();
 }
 
 void PauseMenu::Init()
@@ -814,7 +813,7 @@ void PauseMenu::Page_Base_Render(PrimHeader** ot, PauseMenu::PauseMenuPage* mp)
             }
         }
 
-        field_142_poly_offset = static_cast<s16>(field_F4_font.DrawString_4337D0(
+        field_142_poly_offset = static_cast<s16>(field_F4_font.DrawString(
             ot,
             textFormatted,
             x,            // X

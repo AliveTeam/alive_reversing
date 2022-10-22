@@ -19,8 +19,8 @@ private:
 
 private:
     PalResource mPal;
-    Font_Context field_20_font_context = {};
-    Alive::Font field_30_font = {};
+    FontContext field_20_FontContext = {};
+    AliveFont field_30_font = {};
     Guid field_68_tlvInfo;
     s16 field_6C_xpos = 0;
     s16 field_6E_ypos = 0;

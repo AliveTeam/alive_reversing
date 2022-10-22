@@ -12,7 +12,7 @@ BrewMachine::BrewMachine(relive::Path_BrewMachine* pTlv, const Guid& tlvId)
 
     mPal = ResourceManagerWrapper::LoadPal(PalId::LedFont_Red);
 
-    mFontContext.LoadFontType_433400(FontType::LcdFont);
+    mFontContext.LoadFontType(FontType::LcdFont);
     mFont.Load(3, mPal, &mFontContext);
 
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BrewMachine_Button));
@@ -48,7 +48,6 @@ BrewMachine::BrewMachine(relive::Path_BrewMachine* pTlv, const Guid& tlvId)
 BrewMachine::~BrewMachine()
 {
     Path::TLV_Reset(mTlvInfo, -1, 0, 0);
-    mFont.dtor_433540();
 }
 
 void BrewMachine::VUpdate()
@@ -82,7 +81,7 @@ void BrewMachine::VRender(PrimHeader** ppOt)
             flickerAmount = 0;
         }
 
-        mFont.DrawString_4337D0(
+        mFont.DrawString(
             ppOt,
             text,
             mTextX,

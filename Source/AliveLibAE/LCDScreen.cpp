@@ -170,7 +170,7 @@ LCDScreen::LCDScreen(relive::Path_LCDScreen* params, const Guid& tlvId)
     field_2B2_toggle_message_switch_id = static_cast<u16>(params->mToggleMessageSwitchId);
     field_2BC_tlv_item_info = tlvId;
 
-    mFontContext.LoadFontType_433400(FontType::LcdFont);
+    mFontContext.LoadFontType(FontType::LcdFont);
 
     mPal1 = ResourceManagerWrapper::LoadPal(PalId::LedFont_1);
     mPal2 = ResourceManagerWrapper::LoadPal(PalId::LedFont_2);
@@ -241,7 +241,7 @@ void LCDScreen::VUpdate()
                 field_A0_message = gLCDMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, Math_RandomRange(field_2B6_message_rand_min_id, field_2B8_message_rand_max_id));
 
                 // Change pal
-                field_60_font.field_34_font_context->field_C_resource_id.mCurPal = mPal2.mPal;
+                field_60_font.field_34_FontContext->field_C_resource_id.mCurPal = mPal2.mPal;
             }
             else
             {
@@ -256,7 +256,7 @@ void LCDScreen::VUpdate()
                 }
 
                 // Change pal
-                field_60_font.field_34_font_context->field_C_resource_id.mCurPal = mPal1.mPal;
+                field_60_font.field_34_FontContext->field_C_resource_id.mCurPal = mPal1.mPal;
             }
 
             String_FormatString(field_A0_message, field_A8_message_buffer, 512, 1);
@@ -319,7 +319,7 @@ void LCDScreen::VRender(PrimHeader** ppOt)
         OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_RopeWebDrillMeatSaw_24), &field_20_prim_clippers[0][gPsxDisplay.mBufferIndex].mBase);
 
         sFontDrawScreenSpace = 1;
-        field_60_font.DrawString_4337D0(
+        field_60_font.DrawString(
             ppOt,
             field_A0_message,
             static_cast<s16>(screenXWorld - field_2AC_x_offset),
@@ -358,6 +358,4 @@ LCDScreen::~LCDScreen()
 {
     gObjListDrawables->Remove_Item(this);
     Path::TLV_Reset(field_2BC_tlv_item_info, -1, 0, 0);
-
-    field_60_font.dtor_433540();
 }

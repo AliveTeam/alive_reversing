@@ -134,7 +134,7 @@ struct Poly_FT4 final
     bool mFlipX;
     bool mFlipY;
     class CamResource* mCam;
-    struct Font_Context* mFont;
+    class FontContext* mFont;
     class Fg1Layer* mFg1;
 
 };

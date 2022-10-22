@@ -17,7 +17,7 @@ LCDStatusBoard::LCDStatusBoard(relive::Path_LCDStatusBoard* params, const Guid& 
 {
     field_100_objectId = tlvId;
 
-    mFontContext.LoadFontType_433400(FontType::LcdFont);
+    mFontContext.LoadFontType(FontType::LcdFont);
 
     mPal = ResourceManagerWrapper::LoadPal(PalId::LedFont_Red);
 
@@ -44,11 +44,6 @@ LCDStatusBoard::~LCDStatusBoard()
 {
     gObjListDrawables->Remove_Item(this);
     Path::TLV_Reset(field_100_objectId, -1, 0, 0);
-
-    field_C8_font4.dtor_433540();
-    field_90_font3.dtor_433540();
-    field_58_font2.dtor_433540();
-    field_20_font1.dtor_433540();
 }
 
 void LCDStatusBoard::VUpdate()
@@ -75,7 +70,7 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
         }
 
         // Muds In This Level
-        field_90_font3.DrawString_4337D0(
+        field_90_font3.DrawString(
             ppOt,
             text,
             field_104_position_x - maxWidth + 33,
@@ -97,7 +92,7 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
         // Muds in this Area
         sprintf(text, "%3d", mudsLeftInArea);
         const s32 font4Width = field_C8_font4.MeasureTextWidth(text);
-        field_C8_font4.DrawString_4337D0(
+        field_C8_font4.DrawString(
             ppOt,
             text,
             field_104_position_x - font4Width + 33,
@@ -118,7 +113,7 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
         // Saved Mudokons
         sprintf(text, "%3d", sRescuedMudokons_5C1BC2);
         const s32 font2Width = field_58_font2.MeasureTextWidth(text);
-        field_58_font2.DrawString_4337D0(
+        field_58_font2.DrawString(
             ppOt,
             text,
             field_104_position_x - font2Width + 33,
@@ -139,7 +134,7 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
         // Killed mudokons
         sprintf(text, "%3d", sKilledMudokons_5C1BC0);
         const s32 font1Width = field_20_font1.MeasureTextWidth(text);
-        field_20_font1.DrawString_4337D0(
+        field_20_font1.DrawString(
             ppOt,
             text,
             field_104_position_x - font1Width + 33,

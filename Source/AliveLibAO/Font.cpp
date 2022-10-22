@@ -233,12 +233,19 @@ Font_AtlasEntry sLcdFontAtlas[104] = {
     {20, 132, 20, 15, "Button_Down"},
     {40, 132, 20, 15, "Button_Left"},
     {60, 132, 20, 15, "Button_Right"}};
+AliveFont::AliveFont()
+{
+}
+
+AliveFont::AliveFont(s32 maxCharLength, const PalResource& pal, FontContext* fontContext)
+{
+    Load(maxCharLength, pal, fontContext);
+}
 
 void AliveFont::Load(s32 maxCharLength, const PalResource& pal, FontContext* fontContext)
 {
-    // TODO: Use pal
-    field_34_font_context = fontContext;
-    field_34_font_context->field_C_resource_id.mCurPal = pal.mPal;
+    field_34_FontContext = fontContext;
+    field_34_FontContext->field_C_resource_id.mCurPal = pal.mPal;
     field_30_poly_count = maxCharLength;
     field_24_fnt_poly_array = relive_new Poly_FT4[maxCharLength * 2];
 }
@@ -248,7 +255,7 @@ AliveFont::~AliveFont()
     relive_delete[] field_24_fnt_poly_array;
 }
 
-s32 AliveFont::DrawString(PrimHeader** ppOt, const char_type* text, s16 x, s16 y, TPageAbr abr, s32 bSemiTrans, s32 blendMode, Layer layer, u8 r, u8 g, u8 b, s32 polyOffset, FP scale, s32 maxRenderWidth, s32 colorRandomRange)
+s32 AliveFont::DrawString(PrimHeader** ppOt, const char_type* text, s32 x, s16 y, TPageAbr abr, s32 bSemiTrans, s32 blendMode, Layer layer, u8 r, u8 g, u8 b, s32 polyOffset, FP scale, s32 maxRenderWidth, s16 colorRandomRange)
 {
     if (!sFontDrawScreenSpace)
     {
@@ -257,10 +264,9 @@ s32 AliveFont::DrawString(PrimHeader** ppOt, const char_type* text, s16 x, s16 y
 
     s32 characterRenderCount = 0;
     const s32 maxRenderX = PsxToPCX(maxRenderWidth, 11);
-    s16 offsetX = x;
+    s16 offsetX = static_cast<s16>(x);
     s32 charInfoIndex = 0;
     auto poly = &field_24_fnt_poly_array[gPsxDisplay.mBufferIndex + (2 * polyOffset)];
-
 
     for (u32 i = 0; i < strlen(text); i++)
     {
@@ -270,12 +276,11 @@ s32 AliveFont::DrawString(PrimHeader** ppOt, const char_type* text, s16 x, s16 y
         }
 
         const u8 c = text[i];
-
         if (c <= 32 || c > 175)
         {
             if (c < 8 || c > 31)
             {
-                offsetX += field_34_font_context->field_8_atlas_array[0].mWidth + field_34_font_context->field_8_atlas_array[1].mWidth;
+                offsetX += field_34_FontContext->field_8_atlas_array[0].mWidth + field_34_FontContext->field_8_atlas_array[1].mWidth;
                 continue;
             }
             charInfoIndex = c + 84;
@@ -285,7 +290,7 @@ s32 AliveFont::DrawString(PrimHeader** ppOt, const char_type* text, s16 x, s16 y
             charInfoIndex = c - 31;
         }
 
-        const auto fContext = field_34_font_context;
+        const auto fContext = field_34_FontContext;
         const auto atlasEntry = &fContext->field_8_atlas_array[charInfoIndex];
 
         const s8 charWidth = atlasEntry->mWidth;
@@ -307,9 +312,9 @@ s32 AliveFont::DrawString(PrimHeader** ppOt, const char_type* text, s16 x, s16 y
 
         SetRGB0(
             poly,
-            static_cast<u8>(r + Math_RandomRange(static_cast<s16>(-colorRandomRange), static_cast<s16>(colorRandomRange))),
-            static_cast<u8>(g + Math_RandomRange(static_cast<s16>(-colorRandomRange), static_cast<s16>(colorRandomRange))),
-            static_cast<u8>(b + Math_RandomRange(static_cast<s16>(-colorRandomRange), static_cast<s16>(colorRandomRange))));
+            static_cast<u8>(r + Math_RandomRange(-colorRandomRange, colorRandomRange)),
+            static_cast<u8>(g + Math_RandomRange(-colorRandomRange, colorRandomRange)),
+            static_cast<u8>(b + Math_RandomRange(-colorRandomRange, colorRandomRange)));
 
         // Padding
         poly->mVerts[1].mUv.tpage_clut_pad = 0;
@@ -337,14 +342,14 @@ s32 AliveFont::DrawString(PrimHeader** ppOt, const char_type* text, s16 x, s16 y
         SetTPage(poly, tpageEmptyBlend | blendModeBit);
         
         // It's over, for now
-        //poly->mFont = field_34_font_context;
+        //poly->mFont = field_34_FontContext;
         // TPage blend mode start
 
         OrderingTable_Add(OtLayer(ppOt, layer), &poly->mBase.header);
 
         ++characterRenderCount;
 
-        offsetX += widthScaled + FP_GetExponent(FP_FromInteger(field_34_font_context->field_8_atlas_array[0].mWidth) * scale);
+        offsetX += widthScaled + FP_GetExponent(FP_FromInteger(field_34_FontContext->field_8_atlas_array[0].mWidth) * scale);
 
         poly += 2;
     }
@@ -352,20 +357,20 @@ s32 AliveFont::DrawString(PrimHeader** ppOt, const char_type* text, s16 x, s16 y
     return polyOffset + characterRenderCount;
 }
 
-u32 AliveFont::MeasureTextWidth(const char_type* text)
+s32 AliveFont::MeasureTextWidth(const char_type* text)
 {
     s32 result = 0;
 
     for (u32 i = 0; i < strlen(text); i++)
     {
-        const char_type c = text[i];
+        const s8 c = text[i];
         s32 charIndex = 0;
 
         if (c <= 32 || static_cast<u8>(c) > 175)
         {
             if (c < 7 || c > 31)
             {
-                result += field_34_font_context->field_8_atlas_array[1].mWidth;
+                result += field_34_FontContext->field_8_atlas_array[1].mWidth;
                 continue;
             }
             else
@@ -378,13 +383,13 @@ u32 AliveFont::MeasureTextWidth(const char_type* text)
             charIndex = c - 31;
         }
 
-        result += field_34_font_context->field_8_atlas_array[0].mWidth;
-        result += field_34_font_context->field_8_atlas_array[charIndex].mWidth;
+        result += field_34_FontContext->field_8_atlas_array[0].mWidth;
+        result += field_34_FontContext->field_8_atlas_array[charIndex].mWidth;
     }
 
     if (!sFontDrawScreenSpace)
     {
-        result -= field_34_font_context->field_8_atlas_array[0].mWidth;
+        result -= field_34_FontContext->field_8_atlas_array[0].mWidth;
         result = PCToPsxX(result, 20);
     }
 
@@ -408,7 +413,7 @@ s32 AliveFont::MeasureCharacterWidth(char_type character)
     {
         if (character < 8 || character > 31)
         {
-            return field_34_font_context->field_8_atlas_array[1].mWidth;
+            return field_34_FontContext->field_8_atlas_array[1].mWidth;
         }
         charIndex = character + 84;
     }
@@ -416,11 +421,11 @@ s32 AliveFont::MeasureCharacterWidth(char_type character)
     {
         charIndex = character - 31;
     }
-    result = field_34_font_context->field_8_atlas_array[charIndex].mWidth;
+    result = field_34_FontContext->field_8_atlas_array[charIndex].mWidth;
 
     if (!sFontDrawScreenSpace)
     {
-        result = static_cast<s32>(result * 0.575);
+        result = static_cast<s32>(result * 0.575); // Convert screen space to world space.
     }
 
     return result;
@@ -460,7 +465,7 @@ const char_type* AliveFont::SliceText(const char_type* text, s32 left, FP scale,
             atlasIdx = character - 31;
         }
 
-        xOff += static_cast<s32>(field_34_font_context->field_8_atlas_array[atlasIdx].mWidth * FP_GetDouble(scale)) + field_34_font_context->field_8_atlas_array->mWidth;
+        xOff += static_cast<s32>(field_34_FontContext->field_8_atlas_array[atlasIdx].mWidth * FP_GetDouble(scale)) + field_34_FontContext->field_8_atlas_array->mWidth;
         text = strPtr;
     }
 

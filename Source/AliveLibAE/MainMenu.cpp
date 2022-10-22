@@ -509,7 +509,7 @@ MainMenuController::MainMenuController(relive::Path_TLV* /*pTlv*/, const Guid& t
 
     gMainMenuController = this;
 
-    mFontContext.LoadFontType_433400(FontType::PauseMenu);
+    mFontContext.LoadFontType(FontType::PauseMenu);
 
     mPal = ResourceManagerWrapper::LoadPal(PalId::MainMenuFont_MainMenu);
     field_120_font.Load(240, mPal, &mFontContext);
@@ -631,8 +631,6 @@ MainMenuController::~MainMenuController()
     field_158_animation.VCleanUp();
 
     sMainMenuObjectCounter_BB4400--;
-
-    field_120_font.dtor_433540();
 }
 
 void MainMenuController::VRender(PrimHeader** ppOt)
@@ -1057,10 +1055,10 @@ void MainMenuController::ParamiteSpeak_Load_4D3B70()
     Set_Anim_4D05E0(MainMenuGamespeakAnimIds::eParamite_Idle);
 }
 
-static s32 DrawMenuStringWithShadow(PrimHeader** ppOt, Alive::Font& field_120_font, const char_type* text, s16 x, s16 y, u8 r, u8 g, u8 b, s32& polyOffset)
+static s32 DrawMenuStringWithShadow(PrimHeader** ppOt, AliveFont& field_120_font, const char_type* text, s16 x, s16 y, u8 r, u8 g, u8 b, s32& polyOffset)
 {
     s32 polyOff = polyOffset;
-    polyOff = field_120_font.DrawString_4337D0(
+    polyOff = field_120_font.DrawString(
         ppOt,
         text,
         x,
@@ -1077,7 +1075,7 @@ static s32 DrawMenuStringWithShadow(PrimHeader** ppOt, Alive::Font& field_120_fo
         640,
         0);
 
-    polyOffset = field_120_font.DrawString_4337D0(
+    polyOffset = field_120_font.DrawString(
         ppOt,
         text,
         x + 2,
@@ -1101,7 +1099,7 @@ FP dword_BB43E4 = {};
 
 static void RenderScrollableTextEntries(
     PrimHeader** ot, s32& targetEntry, s32& selectedEntry, s32 totalItemsCount,
-    FP& TextYPos, FP& TextYPos2, const char_type* field_234_pStr, const SaveFileRec* stringList, Alive::Font& field_120_font, s32& polyOffset)
+    FP& TextYPos, FP& TextYPos2, const char_type* field_234_pStr, const SaveFileRec* stringList, AliveFont& field_120_font, s32& polyOffset)
 {
     s32 i_start = 0;
     s32 i_end = 0;
@@ -1328,13 +1326,13 @@ void MainMenuController::Demo_And_FMV_List_Render_4D4F30(PrimHeader** ppOt)
             const s16 textYPos = static_cast<s16>((FP_GetExponent(field_254 + FP_FromDouble(0.5))) + 26 * loopCount + 117);
             if (loopCount)
             {
-                polyIndex = field_120_font.DrawString_4337D0(ppOt, field_234_pStr, nextTextXPos, textYPos, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_AbeMenu_32, 210, 150, 80, polyIndex, FP_FromInteger(1), 640, 0);
+                polyIndex = field_120_font.DrawString(ppOt, field_234_pStr, nextTextXPos, textYPos, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_AbeMenu_32, 210, 150, 80, polyIndex, FP_FromInteger(1), 640, 0);
             }
             else
             {
-                polyIndex = field_120_font.DrawString_4337D0(ppOt, field_234_pStr, nextTextXPos, textYPos, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_AbeMenu_32, 255, 218, 140, polyIndex, FP_FromInteger(1), 640, 0);
+                polyIndex = field_120_font.DrawString(ppOt, field_234_pStr, nextTextXPos, textYPos, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_AbeMenu_32, 255, 218, 140, polyIndex, FP_FromInteger(1), 640, 0);
             }
-            polyIndex = field_120_font.DrawString_4337D0(ppOt, field_234_pStr, nextTextXPos + 2, textYPos + 2, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_AbeMenu_32, 0, 0, 0, polyIndex, FP_FromInteger(1), 640, 0);
+            polyIndex = field_120_font.DrawString(ppOt, field_234_pStr, nextTextXPos + 2, textYPos + 2, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_AbeMenu_32, 0, 0, 0, polyIndex, FP_FromInteger(1), 640, 0);
         }
         loopCount++;
     }
@@ -2441,7 +2439,7 @@ void MainMenuController::RemapInput_Render_4D2A10(PrimHeader** ppOt)
         {
             nextTextXPos = (368 - textWidth) / 2;
         }
-        polyIndex = field_120_font.DrawString_4337D0(ppOt, field_234_pStr, nextTextXPos, 88, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_Menu_41, 40, 20, 0, polyIndex, FP_FromInteger(1), 640, 0);
+        polyIndex = field_120_font.DrawString(ppOt, field_234_pStr, nextTextXPos, 88, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_Menu_41, 40, 20, 0, polyIndex, FP_FromInteger(1), 640, 0);
         char_type buffer[512] = {};
         sprintf(buffer, "for %s", sInputButtonNames_562790[sButtonToRemapIdx_BB43EC]);
         field_234_pStr = buffer;
@@ -2454,7 +2452,7 @@ void MainMenuController::RemapInput_Render_4D2A10(PrimHeader** ppOt)
         {
             nextTextXPos = (368 - textWidth) / 2;
         }
-        polyIndex = field_120_font.DrawString_4337D0(ppOt, field_234_pStr, nextTextXPos, 120, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_Menu_41, 40, 20, 0, polyIndex, FP_FromInteger(1), 640, 0);
+        polyIndex = field_120_font.DrawString(ppOt, field_234_pStr, nextTextXPos, 120, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_Menu_41, 40, 20, 0, polyIndex, FP_FromInteger(1), 640, 0);
         field_234_pStr = "Press BackSpace for none, Esc to exit";
         textWidth = field_120_font.MeasureScaledTextWidth(field_234_pStr, FP_FromInteger(1));
         if (textWidth >= 336)
@@ -2465,7 +2463,7 @@ void MainMenuController::RemapInput_Render_4D2A10(PrimHeader** ppOt)
         {
             nextTextXPos = (368 - textWidth) / 2;
         }
-        field_120_font.DrawString_4337D0(ppOt, field_234_pStr, nextTextXPos, 152, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_Menu_41, 40, 20, 0, polyIndex, FP_FromInteger(1), 640, 0);
+        field_120_font.DrawString(ppOt, field_234_pStr, nextTextXPos, 152, TPageAbr::eBlend_0, 1, 0, Layer::eLayer_Menu_41, 40, 20, 0, polyIndex, FP_FromInteger(1), 640, 0);
     }
     else
     {
@@ -3561,7 +3559,7 @@ void MainMenuController::UpdateHighliteGlow_4D0630()
     field_158_animation.SetRGB(field_1FE_highlite_alpha, field_1FE_highlite_alpha, field_1FE_highlite_alpha);
 }
 
-void MainMenuController::DrawMenuText_4D20D0(const MainMenuText* array, PrimHeader** ot, Alive::Font* font, s32* polyIndex, s8 op2)
+void MainMenuController::DrawMenuText_4D20D0(const MainMenuText* array, PrimHeader** ot, AliveFont* font, s32* polyIndex, s8 op2)
 {
     const bool bSpeak1 = strstr(array->field_8_text, kSpeak1) != 0;
     const bool bSpeak2 = strstr(array->field_8_text, kSpeak2) != 0;
@@ -3623,7 +3621,7 @@ void MainMenuController::DrawMenuText_4D20D0(const MainMenuText* array, PrimHead
     const u8 oldDrawInScreenSpace = sFontDrawScreenSpace;
     sFontDrawScreenSpace = 1;
 
-    *polyIndex = font->DrawString_4337D0(
+    *polyIndex = font->DrawString(
         ot,
         textBuffer,
         text_xpos,
