@@ -332,6 +332,11 @@ AnimId Slig::MotionToAnimId(u32 motion)
         mCurrentMotion = eSligMotions::M_StandIdle_0_4B4EC0;
         return AnimId::Slig_Idle;
     }
+    else if (motion == eSligMotions::M_ShootZ_42_4B7560 && !mSligTlv.mData.mCanZShoot)
+    {
+        mCurrentMotion = eSligMotions::M_StandIdle_0_4B4EC0;
+        return AnimId::Slig_Idle;
+    }
 
     return sSligAnimIdTable[motion];
 }

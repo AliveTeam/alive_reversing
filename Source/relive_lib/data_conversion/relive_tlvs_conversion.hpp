@@ -3449,6 +3449,15 @@ public:
             r.mData.mCanBeat = true;
         }
 
+        if (tlv.mDisabledResources & 0x2)
+        {
+            r.mData.mCanZShoot = false;
+        }
+        else
+        {
+            r.mData.mCanZShoot = true;
+        }
+
         return r;
     }
 
@@ -3606,6 +3615,15 @@ public:
         else
         {
             r.mData.mCanBeat = true;
+        }
+
+         if (tlv.mDisabledResources & 0x2)
+        {
+            r.mData.mCanZShoot = false;
+        }
+        else
+        {
+            r.mData.mCanZShoot = true;
         }
 
         return r;
@@ -4524,6 +4542,15 @@ public:
         else
         {
             r.mData.mCanBeat = true;
+        }
+
+        if (tlv.disable_resources & 0x2)
+        {
+            r.mData.mCanZShoot = false;
+        }
+        else
+        {
+            r.mData.mCanZShoot = true;
         }
 
         return r;
