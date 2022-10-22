@@ -178,7 +178,7 @@ Font_AtlasEntry sPauseMenuFontAtlas[169] =
            {0u, 210u, 36u, 22u, "Button_F"},
            {39u, 210u, 36u, 22u, "Button_G"},
            {78u, 210u, 36u, 22u, "Button_H"},
-           {189u, 124u, 30u, 19u, "Dpoad_Up"},
+           {189u, 124u, 30u, 19u, "Dpad_Up"},
            {221u, 124u, 30u, 20u, "Dpad_Down"},
            {224u, 143u, 25u, 21u, "Dpad_Left"},
            {193u, 143u, 25u, 21u, "Dpad_Right"},
@@ -392,11 +392,11 @@ s32 AliveFont::DrawString(PrimHeader** ppOt, const char_type* text, s32 x, s16 y
 {
     if (!sFontDrawScreenSpace)
     {
-        x = static_cast<s32>(x / 0.575); // 368 to 640. Convert world space to screen space coords.
+        x = PsxToPCX(x, 11);
     }
 
     s32 characterRenderCount = 0;
-    const s32 maxRenderX = static_cast<s32>(maxRenderWidth / 0.575);
+    const s32 maxRenderX = PsxToPCX(maxRenderWidth, 11);
     s16 offsetX = static_cast<s16>(x);
     s32 charInfoIndex = 0;
     auto poly = &field_24_fnt_poly_array[gPsxDisplay.mBufferIndex + (2 * polyOffset)];
@@ -520,7 +520,7 @@ s32 AliveFont::MeasureTextWidth(const char_type* text)
 
     if (!sFontDrawScreenSpace)
     {
-        result = static_cast<s32>(result * 0.575); // Convert screen space to world space.
+        result = PCToPsxX(result, 20);
     }
 
     return result;
@@ -565,7 +565,7 @@ s32 AliveFont::MeasureCharacterWidth(char_type character)
 const char_type* AliveFont::SliceText(const char_type* text, s32 left, FP scale, s32 right)
 {
     s32 xOff = 0;
-    s32 rightWorldSpace = static_cast<s32>(right * 0.575);
+    s32 rightWorldSpace = PsxToPCX(right, 11);
 
     if (sFontDrawScreenSpace)
     {
@@ -573,7 +573,7 @@ const char_type* AliveFont::SliceText(const char_type* text, s32 left, FP scale,
     }
     else
     {
-        xOff = static_cast<s32>(left / 0.575);
+        xOff = PsxToPCX(left, 11);
     }
 
 
