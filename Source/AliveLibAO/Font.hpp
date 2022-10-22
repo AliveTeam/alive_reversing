@@ -5,8 +5,10 @@
 #include "Psx.hpp"
 #include "../relive_lib/Primitives.hpp"
 #include "../relive_lib/ResourceManagerWrapper.hpp"
+#include "../AliveLibAE/Font.hpp"
 
 struct PrimHeader;
+class FontContext;
 
 namespace AO {
 
@@ -31,17 +33,6 @@ struct Font_AtlasEntry final
     u8 mHeight;
     std::string mCharName;
 };
-
-class FontContext final
-{
-public:
-    const Font_AtlasEntry* field_8_atlas_array = nullptr;
-    FontResource field_C_resource_id;
-
-    void LoadFontType(FontType resourceID);
-
-};
-
 
 class AliveFont final
 {
