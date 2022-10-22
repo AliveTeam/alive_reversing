@@ -51,13 +51,15 @@ struct Font final
 public:
     Font();
     Font(s32 maxCharLength, const PalResource& pal, Font_Context* fontContext);
-
-    void ctor_433590(s32 maxCharLength, const PalResource& pal, Font_Context* fontContext);
+    void Load(s32 maxCharLength, const PalResource& pal, Font_Context* fontContext);
     void dtor_433540();
-    s32 DrawString_4337D0(PrimHeader** ppOt, const char_type* text, s32 x, s16 y, TPageAbr abr, s32 bSemiTrans, s32 a2, Layer layer, u8 r, u8 g, u8 b, s32 polyOffset, FP scale, s32 a15, s16 colorRandomRange);
+	
     s32 MeasureTextWidth(const char_type* text);
-    s32 MeasureScaledTextWidth(const char_type* text, FP scale);
     s32 MeasureCharacterWidth(char_type character);
+    s32 MeasureScaledTextWidth(const char_type* text, FP scale);
+
+    s32 DrawString_4337D0(PrimHeader** ppOt, const char_type* text, s32 x, s16 y, TPageAbr abr, s32 bSemiTrans, s32 a2, Layer layer, u8 r, u8 g, u8 b, s32 polyOffset, FP scale, s32 a15, s16 colorRandomRange);
+
     const char_type* SliceText(const char_type* text, s32 left, FP scale, s32 right);
 
 public:
@@ -68,9 +70,5 @@ public:
 ALIVE_ASSERT_SIZEOF(Font, 0x38);
 } // namespace Alive
 
-extern u8 sFontDrawScreenSpace_5CA4B4;
-
-extern s8 sDisableFontFlicker_5C9304;
-
-extern Font_AtlasEntry sPauseMenuFontAtlas[169];
-extern Font_AtlasEntry sLcdFontAtlas[169];
+extern s8 sDisableFontFlicker;
+extern u8 sFontDrawScreenSpace;

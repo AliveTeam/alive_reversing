@@ -13,7 +13,7 @@ BrewMachine::BrewMachine(relive::Path_BrewMachine* pTlv, const Guid& tlvId)
     mPal = ResourceManagerWrapper::LoadPal(PalId::LedFont_Red);
 
     mFontContext.LoadFontType_433400(FontType::LcdFont);
-    mFont.ctor_433590(3, mPal, &mFontContext);
+    mFont.Load(3, mPal, &mFontContext);
 
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BrewMachine_Button));
     Animation_Init(GetAnimRes(AnimId::BrewMachine_Button));
@@ -77,7 +77,7 @@ void BrewMachine::VRender(PrimHeader** ppOt)
         sprintf(text, "%02d", mTotalBrewCount);
         const s32 textWidth = mFont.MeasureTextWidth(text);
         s16 flickerAmount = 50;
-        if (sDisableFontFlicker_5C9304)
+        if (sDisableFontFlicker)
         {
             flickerAmount = 0;
         }

@@ -338,11 +338,11 @@ PauseMenu::PauseMenu()
 
     mFontContext.LoadFontType_433400(FontType::PauseMenu);
     mPal = ResourceManagerWrapper::LoadPal(PalId::MainMenuFont_PauseMenu);
-    field_F4_font.ctor_433590(256, mPal, &mFontContext);
+    field_F4_font.Load(256, mPal, &mFontContext);
 
     Init();
 
-    sDisableFontFlicker_5C9304 = 0;
+    sDisableFontFlicker = 0;
 }
 
 PauseMenu::~PauseMenu()
@@ -1544,7 +1544,7 @@ void PauseMenu::VUpdate()
 
                 field_158_animation.ReloadPal();
 
-                sDisableFontFlicker_5C9304 = 1;
+                sDisableFontFlicker = 1;
                 field_144_active_menu = sPM_Page_Main_5465B0;
 
                 // Start pause menu update/render loop
@@ -1612,7 +1612,7 @@ void PauseMenu::VUpdate()
             }
         }
     }
-    sDisableFontFlicker_5C9304 = 0;
+    sDisableFontFlicker = 0;
 }
 
 PauseMenu* gPauseMenu = nullptr;

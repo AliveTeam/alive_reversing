@@ -49,7 +49,7 @@ struct AOGameInfo
     u32* gnFrame;          // 4
     AO::Abe** pAbe;        // 5
     s32 abeYOffSet;        // 6
-    s16* isGameRunning;    // 7
+    s8* isGameRunning;     // 7
     s8* isGameBeaten;      // 8
 };
 
@@ -95,7 +95,7 @@ extern "C"
         &sGnFrame,
         &sActiveHero,
         offsetof(Abe, mYPos),
-        & sDisableFontFlicker_5C9304};
+        & sDisableFontFlicker};
 
     const void* GetAeInfo()
     {
@@ -112,7 +112,7 @@ extern "C"
         &::sGnFrame,
         &AO::sActiveHero,
         offsetof(AO::Abe, mYPos) + sizeof(s16), // +2 for exp only
-        &AO::sDisableFontFlicker_5080E4,
+        &sDisableFontFlicker,
         &AO::gSwitchStates.mData[70]};
 
     const void* GetAoInfo()
@@ -224,8 +224,8 @@ static s32 AEMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine,
 
 static void ConvertData()
 {
-    //DataConversion dataConversion;
-    //dataConversion.ConvertDataAE();
+    DataConversion dataConversion;
+    dataConversion.ConvertDataAE();
 }
 
 s32 WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)

@@ -21,7 +21,7 @@ GasCountDown::GasCountDown(relive::Path_GasCountDown* pTlv, const Guid& tlvInfo)
 
     mPal = ResourceManagerWrapper::LoadPal(PalId::LedFont_Red);
     field_20_font_context.LoadFontType_433400(FontType::LcdFont);
-    field_30_font.ctor_433590(5, mPal, &field_20_font_context);
+    field_30_font.Load(5, mPal, &field_20_font_context);
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
     gObjListDrawables->Push_Back(this);
 
@@ -87,7 +87,7 @@ void GasCountDown::VRender(PrimHeader** ppOt)
         0,
         FP_FromInteger(1),
         field_6C_xpos + textWidth,
-        sDisableFontFlicker_5C9304 ? 0 : 50);
+        sDisableFontFlicker ? 0 : 50);
 }
 
 void GasCountDown::DealDamage()

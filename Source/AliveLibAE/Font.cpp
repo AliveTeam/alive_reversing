@@ -19,9 +19,9 @@
  then do x /= 0.575;
 */
 
-s8 sDisableFontFlicker_5C9304 = 0;
+s8 sDisableFontFlicker = 0;
 
-u8 sFontDrawScreenSpace_5CA4B4 = 0;
+u8 sFontDrawScreenSpace = 0;
 
 // OG bug: many entries seem to be misaligned
 Font_AtlasEntry sPauseMenuFontAtlas[169] =
@@ -373,10 +373,10 @@ Font::Font()
 
 Font::Font(s32 maxCharLength, const PalResource& pal, Font_Context* fontContext)
 {
-    ctor_433590(maxCharLength, pal, fontContext);
+    Load(maxCharLength, pal, fontContext);
 }
 
-void Font::ctor_433590(s32 maxCharLength, const PalResource& pal, Font_Context* fontContext)
+void Font::Load(s32 maxCharLength, const PalResource& pal, Font_Context* fontContext)
 {
     field_34_font_context = fontContext;
     field_34_font_context->field_C_resource_id.mCurPal = pal.mPal;
@@ -391,7 +391,7 @@ void Font::dtor_433540()
 
 s32 Font::DrawString_4337D0(PrimHeader** ppOt, const char_type* text, s32 x, s16 y, TPageAbr abr, s32 bSemiTrans, s32 blendMode, Layer layer, u8 r, u8 g, u8 b, s32 polyOffset, FP scale, s32 maxRenderWidth, s16 colorRandomRange)
 {
-    if (!sFontDrawScreenSpace_5CA4B4)
+    if (!sFontDrawScreenSpace)
     {
         x = static_cast<s32>(x / 0.575); // 368 to 640. Convert world space to screen space coords.
     }
@@ -526,7 +526,7 @@ s32 Font::MeasureTextWidth(const char_type* text)
         result += field_34_font_context->field_8_atlas_array[charIndex].mWidth;
     }
 
-    if (!sFontDrawScreenSpace_5CA4B4)
+    if (!sFontDrawScreenSpace)
     {
         result = static_cast<s32>(result * 0.575); // Convert screen space to world space.
     }
@@ -561,7 +561,7 @@ s32 Font::MeasureCharacterWidth(char_type character)
     }
     result = field_34_font_context->field_8_atlas_array[charIndex].mWidth;
 
-    if (!sFontDrawScreenSpace_5CA4B4)
+    if (!sFontDrawScreenSpace)
     {
         result = static_cast<s32>(result * 0.575); // Convert screen space to world space.
     }
@@ -575,7 +575,7 @@ const char_type* Font::SliceText(const char_type* text, s32 left, FP scale, s32 
     s32 xOff = 0;
     s32 rightWorldSpace = static_cast<s32>(right * 0.575);
 
-    if (sFontDrawScreenSpace_5CA4B4)
+    if (sFontDrawScreenSpace)
     {
         xOff = left;
     }
@@ -608,8 +608,6 @@ const char_type* Font::SliceText(const char_type* text, s32 left, FP scale, s32 
             atlasIdx = character - 31;
         }
 
-        // v12 = field_34_font_context->field_8_atlas_array[atlasIdx].mHeight;
-        // Math_FixedPoint_Multiply_496C50(v12 << 16, scale);
         xOff += static_cast<s32>(field_34_font_context->field_8_atlas_array[atlasIdx].mWidth * FP_GetDouble(scale)) / 0x10000 + field_34_font_context->field_8_atlas_array->mWidth;
     }
 
@@ -619,20 +617,6 @@ const char_type* Font::SliceText(const char_type* text, s32 left, FP scale, s32 
 
 void Font_Context::LoadFontType_433400(FontType resourceID)
 {
-    // Override game fonts with our XInput friendly ones.
-#if XINPUT_SUPPORT
-    if (resourceID == 2)
-    {
-        LoadFontTypeFromOddFontMem(sOddFontXboxLCD, nullptr);
-        return;
-    }
-    if (resourceID == 1)
-    {
-        LoadFontTypeFromOddFontMem(sOddFontXboxMenu, nullptr);
-        return;
-    }
-#endif
-
     FontResource fontRes = ResourceManagerWrapper::LoadFont(resourceID);
     field_C_resource_id = fontRes;
 

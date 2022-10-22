@@ -17,7 +17,7 @@ struct File_Font final
     s16 mHeight;
     s16 field_4_color_depth;
     s16 field_6_palette_size;
-    u8 field_8_palette[32];
+    u16 field_8_palette[32/2];
     u8 field_28_pixel_buffer[1];
 };
 //ALIVE_ASSERT_SIZEOF(File_Font, 0x28);
@@ -26,9 +26,9 @@ struct File_Font final
 struct Font_AtlasEntry final
 {
     u8 x;
-    u8 field_1_y;
-    u8 field_2_width;
-    u8 field_3_height;
+    u8 mY;
+    u8 mWidth;
+    u8 mHeight;
     std::string mCharName;
 };
 
@@ -62,7 +62,7 @@ public:
     FontContext* field_34_font_context = nullptr;
 };
 
-extern s16 sDisableFontFlicker_5080E4;
-extern u8 sFontDrawScreenSpace_508BF4;
-
 } // namespace AO
+
+extern s8 sDisableFontFlicker;
+extern u8 sFontDrawScreenSpace;

@@ -175,7 +175,7 @@ LCDScreen::LCDScreen(relive::Path_LCDScreen* params, const Guid& tlvId)
     mPal1 = ResourceManagerWrapper::LoadPal(PalId::LedFont_1);
     mPal2 = ResourceManagerWrapper::LoadPal(PalId::LedFont_2);
 
-    field_60_font.ctor_433590(60, mPal1, &mFontContext);
+    field_60_font.Load(60, mPal1, &mFontContext);
 
     IRenderer::PalRecord rec;
     rec.depth = 16;
@@ -203,9 +203,9 @@ LCDScreen::LCDScreen(relive::Path_LCDScreen* params, const Guid& tlvId)
     field_A0_message = field_A8_message_buffer;
     field_A4_message_cutoff_ptr = nullptr;
     field_2AC_x_offset = 0;
-    sFontDrawScreenSpace_5CA4B4 = 1;
+    sFontDrawScreenSpace = 1;
     field_2AE_character_width = static_cast<u16>(field_60_font.MeasureCharacterWidth(*field_A0_message) + 2);
-    sFontDrawScreenSpace_5CA4B4 = 0;
+    sFontDrawScreenSpace = 0;
     field_2B4_show_random_message = 1;
     field_2B6_message_rand_min_id = params->mMessageRandMinId;
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
@@ -271,21 +271,21 @@ void LCDScreen::VUpdate()
 
         }
 
-        sFontDrawScreenSpace_5CA4B4 = 1;
+        sFontDrawScreenSpace = 1;
         field_2AE_character_width = static_cast<u16>(field_60_font.MeasureCharacterWidth(*field_A0_message) + 2);
-        sFontDrawScreenSpace_5CA4B4 = 0;
+        sFontDrawScreenSpace = 0;
     }
 
     auto screenLeft = field_2C0_tlv.mTopLeftX - FP_GetExponent(pScreenManager->CamXPos());
     auto screenRight = field_2C0_tlv.mBottomRightX - FP_GetExponent(pScreenManager->CamXPos());
 
-    sFontDrawScreenSpace_5CA4B4 = 1;
+    sFontDrawScreenSpace = 1;
     auto slicedText = field_60_font.SliceText(
         field_A0_message,
         PCToPsxX(screenLeft) - field_2AC_x_offset,
         FP_FromInteger(1),
         screenRight);
-    sFontDrawScreenSpace_5CA4B4 = 0;
+    sFontDrawScreenSpace = 0;
     if (slicedText != field_A4_message_cutoff_ptr)
     {
         field_2A8_play_sound_toggle = !field_2A8_play_sound_toggle;
@@ -318,7 +318,7 @@ void LCDScreen::VRender(PrimHeader** ppOt)
         Init_PrimClipper(&field_20_prim_clippers[0][gPsxDisplay.mBufferIndex], &clipRect);
         OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_RopeWebDrillMeatSaw_24), &field_20_prim_clippers[0][gPsxDisplay.mBufferIndex].mBase);
 
-        sFontDrawScreenSpace_5CA4B4 = 1;
+        sFontDrawScreenSpace = 1;
         field_60_font.DrawString_4337D0(
             ppOt,
             field_A0_message,
@@ -334,8 +334,8 @@ void LCDScreen::VRender(PrimHeader** ppOt)
             0,
             FP_FromInteger(1),
             maxWidth,
-            sDisableFontFlicker_5C9304 != 0 ? 0 : 40);
-        sFontDrawScreenSpace_5CA4B4 = 0;
+            sDisableFontFlicker != 0 ? 0 : 40);
+        sFontDrawScreenSpace = 0;
 
         clipRect = {
             static_cast<s16>(screenXWorld),

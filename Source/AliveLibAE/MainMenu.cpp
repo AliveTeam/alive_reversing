@@ -512,7 +512,7 @@ MainMenuController::MainMenuController(relive::Path_TLV* /*pTlv*/, const Guid& t
     mFontContext.LoadFontType_433400(FontType::PauseMenu);
 
     mPal = ResourceManagerWrapper::LoadPal(PalId::MainMenuFont_MainMenu);
-    field_120_font.ctor_433590(240, mPal, &mFontContext);
+    field_120_font.Load(240, mPal, &mFontContext);
 
     if (gMap.mCurrentCamera == MainMenuCams::eCheatMenu_SelectFMVCam)
     {
@@ -3620,8 +3620,8 @@ void MainMenuController::DrawMenuText_4D20D0(const MainMenuText* array, PrimHead
 
     const FP text_ypos = FP_FromInteger(-10) * fontScale; // -655360
 
-    const u8 oldDrawInScreenSpace = sFontDrawScreenSpace_5CA4B4;
-    sFontDrawScreenSpace_5CA4B4 = 1;
+    const u8 oldDrawInScreenSpace = sFontDrawScreenSpace;
+    sFontDrawScreenSpace = 1;
 
     *polyIndex = font->DrawString_4337D0(
         ot,
@@ -3640,5 +3640,5 @@ void MainMenuController::DrawMenuText_4D20D0(const MainMenuText* array, PrimHead
         640,
         0);
 
-    sFontDrawScreenSpace_5CA4B4 = oldDrawInScreenSpace;
+    sFontDrawScreenSpace = oldDrawInScreenSpace;
 }

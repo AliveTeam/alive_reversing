@@ -21,10 +21,10 @@ LCDStatusBoard::LCDStatusBoard(relive::Path_LCDStatusBoard* params, const Guid& 
 
     mPal = ResourceManagerWrapper::LoadPal(PalId::LedFont_Red);
 
-    field_20_font1.ctor_433590(3, mPal, &mFontContext);
-    field_58_font2.ctor_433590(3, mPal, &mFontContext);
-    field_90_font3.ctor_433590(3, mPal, &mFontContext);
-    field_C8_font4.ctor_433590(3, mPal, &mFontContext);
+    field_20_font1.Load(3, mPal, &mFontContext);
+    field_58_font2.Load(3, mPal, &mFontContext);
+    field_90_font3.Load(3, mPal, &mFontContext);
+    field_C8_font4.Load(3, mPal, &mFontContext);
 
     mBaseGameObjectFlags.Set(eDrawable_Bit4);
     gObjListDrawables->Push_Back(this);
@@ -69,7 +69,7 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
         s32 maxWidth = field_90_font3.MeasureTextWidth(text);
 
         s16 flickerAmount = 50; // ax
-        if (sDisableFontFlicker_5C9304)
+        if (sDisableFontFlicker)
         {
             flickerAmount = 0;
         }
