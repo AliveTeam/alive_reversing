@@ -1481,35 +1481,41 @@ void Map::GoTo_Camera()
     {
         CamResource nullRes;
         CameraSwapper* pFmvRet = FMV_Camera_Change(nullRes, this, mCurrentLevel);
-        do
+        for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
         {
             SYS_EventsPump();
-            for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
+
+            BaseGameObject* pBaseGameObj = gBaseGameObjects->ItemAt(i);
+            if (!pBaseGameObj)
             {
-                ::BaseGameObject* pBaseGameObj = gBaseGameObjects->ItemAt(i);
-                if (!pBaseGameObj)
+                break;
+            }
+
+            if (pBaseGameObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && pBaseGameObj->mBaseGameObjectRefCount == 0)
+            {
+                i = gBaseGameObjects->RemoveAt(i);
+                relive_delete pBaseGameObj;
+                if (pBaseGameObj == pFmvRet)
                 {
+                    // FMV trans done
                     break;
                 }
-
-                if (pBaseGameObj->mBaseGameObjectFlags.Get(::BaseGameObject::eUpdatable_Bit2))
+            }
+            else if (pBaseGameObj->mBaseGameObjectFlags.Get(BaseGameObject::eUpdatable_Bit2))
+            {
+                if (!pBaseGameObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && (!gNumCamSwappers || pBaseGameObj->mBaseGameObjectFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
                 {
-                    if (!pBaseGameObj->mBaseGameObjectFlags.Get(::BaseGameObject::eDead) && (!gNumCamSwappers || pBaseGameObj->mBaseGameObjectFlags.Get(::BaseGameObject::eUpdateDuringCamSwap_Bit10)))
+                    if (pBaseGameObj->UpdateDelay() > 0)
                     {
-                        const s32 updateDelay = pBaseGameObj->UpdateDelay();
-                        if (pBaseGameObj->UpdateDelay() > 0)
-                        {
-                            pBaseGameObj->SetUpdateDelay(updateDelay - 1);
-                        }
-                        else
-                        {
-                            pBaseGameObj->VUpdate();
-                        }
+                        pBaseGameObj->SetUpdateDelay(pBaseGameObj->UpdateDelay() - 1);
+                    }
+                    else
+                    {
+                        pBaseGameObj->VUpdate();
                     }
                 }
             }
         }
-        while (!pFmvRet->mBaseGameObjectFlags.Get(::BaseGameObject::eDead));
     }
 
     // NOTE: None check changed to match AE
@@ -1629,7 +1635,7 @@ void Map::GoTo_Camera()
                     break;
                 }
 
-                if (pObjIter->mBaseGameObjectFlags.Get(::BaseGameObject::eIsBaseAliveGameObject_Bit6))
+                if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
                 {
                     auto pBaseAliveGameObj = static_cast<BaseAliveGameObject*>(pObjIter);
                     pBaseAliveGameObj->BaseAliveGameObjectCollisionLine = nullptr;

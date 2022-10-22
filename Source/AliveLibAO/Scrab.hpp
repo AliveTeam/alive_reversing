@@ -136,6 +136,8 @@ public:
 
     bool BrainIs(TBrainType fn);
 
+    void SetFightTarget(Scrab* pTarget);
+    void SetTarget(BaseAliveGameObject* pTarget);
 
     TBrainType mBrainState = nullptr;
     s16 mBrainSubState = 0;

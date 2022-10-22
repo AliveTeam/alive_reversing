@@ -550,36 +550,42 @@ void Map::GoTo_Camera()
     {
         CamResource nullRes;
         BaseGameObject* pFmvRet = FMV_Camera_Change(nullRes, this, mCurrentLevel);
-        do
+        for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
         {
             SYS_EventsPump();
 
-            for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
+            BaseGameObject* pBaseGameObj = gBaseGameObjects->ItemAt(i);
+            if (!pBaseGameObj)
             {
-                BaseGameObject* pBaseGameObj = gBaseGameObjects->ItemAt(i);
-                if (!pBaseGameObj)
+                break;
+            }
+
+            if (pBaseGameObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && pBaseGameObj->mBaseGameObjectFlags.Get(BaseGameObject::eCantKill_Bit11) == false)
+            {
+                i = gBaseGameObjects->RemoveAt(i);
+                relive_delete pBaseGameObj;
+                if (pBaseGameObj == pFmvRet)
                 {
+                    // FMV trans done
                     break;
                 }
-
-                if (pBaseGameObj->mBaseGameObjectFlags.Get(BaseGameObject::eUpdatable_Bit2))
+            }
+            else if (pBaseGameObj->mBaseGameObjectFlags.Get(BaseGameObject::eUpdatable_Bit2))
+            {
+                if (!(pBaseGameObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead)) && (!gNumCamSwappers || pBaseGameObj->mBaseGameObjectFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
                 {
-                    if (!(pBaseGameObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead)) && (!gNumCamSwappers || pBaseGameObj->mBaseGameObjectFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
+                    const s32 updateDelay = pBaseGameObj->UpdateDelay();
+                    if (updateDelay > 0)
                     {
-                        const s32 updateDelay = pBaseGameObj->UpdateDelay();
-                        if (updateDelay > 0)
-                        {
-                            pBaseGameObj->SetUpdateDelay(updateDelay - 1);
-                        }
-                        else
-                        {
-                            pBaseGameObj->VUpdate();
-                        }
+                        pBaseGameObj->SetUpdateDelay(updateDelay - 1);
+                    }
+                    else
+                    {
+                        pBaseGameObj->VUpdate();
                     }
                 }
             }
         }
-        while (!pFmvRet->mBaseGameObjectFlags.Get(BaseGameObject::eDead));
 
         if (sSoundChannelsMask_5C3120)
         {

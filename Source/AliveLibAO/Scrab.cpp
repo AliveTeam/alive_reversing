@@ -88,8 +88,8 @@ Scrab::Scrab(relive::Path_Scrab* pTlv, const Guid& tlvId)
     mCurrentMotion = 1;
     field_112 = 0;
 
-    mScrabTarget = nullptr;
-    mAbeOrMudTarget = nullptr;
+    SetFightTarget(nullptr);
+    SetTarget(nullptr);
 
     field_140_last_shriek_timer = 0;
 
@@ -156,16 +156,8 @@ Scrab::Scrab(relive::Path_Scrab* pTlv, const Guid& tlvId)
 
 Scrab::~Scrab()
 {
-    if (mScrabTarget)
-    {
-        mScrabTarget->mBaseGameObjectRefCount--;
-    }
-
-    if (mAbeOrMudTarget)
-    {
-        mAbeOrMudTarget->mBaseGameObjectRefCount--;
-    }
-
+    SetFightTarget(nullptr);
+    SetTarget(nullptr);
     VOnTrapDoorOpen();
 
     if (mHealth <= FP_FromInteger(0))
@@ -386,6 +378,8 @@ void Scrab::VScreenChanged()
 {
     if (gMap.LevelChanged() || gMap.PathChanged())
     {
+        SetTarget(nullptr);
+        SetFightTarget(nullptr);
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
     else
@@ -394,8 +388,7 @@ void Scrab::VScreenChanged()
         {
             if (mAbeOrMudTarget->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
             {
-                mAbeOrMudTarget->mBaseGameObjectRefCount--;
-                mAbeOrMudTarget = nullptr;
+                SetTarget(nullptr);
                 mNextMotion = eScrabMotions::Motion_1_Stand;
                 SetBrain(&Scrab::Brain_WalkAround);
                 mBrainSubState = 0;
@@ -777,8 +770,7 @@ s16 Scrab::FindAbeOrMud()
 {
     if (CanSeeAbe(sActiveHero) && sActiveHero->mHealth > FP_FromInteger(0) && sActiveHero->GetSpriteScale() == GetSpriteScale() && !WallHit(sActiveHero->mXPos - mXPos, GetSpriteScale() * FP_FromInteger(35)))
     {
-        mAbeOrMudTarget = sActiveHero;
-        sActiveHero->mBaseGameObjectRefCount++;
+        SetTarget(sActiveHero);
         return 1;
     }
 
@@ -798,8 +790,7 @@ s16 Scrab::FindAbeOrMud()
             {
                 if (CanSeeAbe(pObj) && pObj->mHealth > FP_FromInteger(0) && pObj->GetSpriteScale() == GetSpriteScale() && !WallHit(pObj->mXPos - mXPos, GetSpriteScale() * FP_FromInteger(35)))
                 {
-                    mAbeOrMudTarget = pObj;
-                    mAbeOrMudTarget->mBaseGameObjectRefCount++;
+                    SetTarget(pObj);
                     return 1;
                 }
             }
@@ -1999,9 +1990,8 @@ s16 Scrab::Brain_Fighting()
     Scrab* pFighter = mScrabTarget;
     if (pFighter && (pFighter->mBaseGameObjectFlags.Get(BaseGameObject::eDead) || !VOnSameYLevel(mScrabTarget)))
     {
-        mScrabTarget->mBaseGameObjectRefCount--;
+        SetFightTarget(nullptr);
         field_188_flags &= ~1u;
-        mScrabTarget = nullptr;
         mNextMotion = eScrabMotions::Motion_1_Stand;
         SetBrain(&Scrab::Brain_WalkAround); // patrol ??
         return 0;
@@ -2256,10 +2246,9 @@ s16 Scrab::Brain_Fighting()
             Scrab_SFX(ScrabSounds::eDeathHowl_1, 0, -1571, 1);
             Scrab_SFX(ScrabSounds::eYell_8, 0, -1571, 1);
             Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 0, -383, 0);
-            mScrabTarget->mBaseGameObjectRefCount--;
             if (GetAnimation().mFlags.Get(AnimFlags::eRender))
             {
-                mScrabTarget = nullptr;
+                SetFightTarget(nullptr);
                 mCurrentMotion = eScrabMotions::Motion_1_Stand;
                 field_118_timer = sGnFrame + 20;
                 return 13;
@@ -2268,7 +2257,7 @@ s16 Scrab::Brain_Fighting()
             {
                 GetAnimation().mFlags.Set(AnimFlags::eRender);
                 mXPos = mScrabTarget->mXPos;
-                mScrabTarget = nullptr;
+                SetFightTarget(nullptr);
                 SetBrain(&Scrab::Brain_Death);
                 mCurrentMotion = eScrabMotions::Motion_29_DeathBegin;
                 field_118_timer = sGnFrame + 90;
@@ -2406,12 +2395,11 @@ s16 Scrab::Brain_ChasingEnemy()
         mBaseGameObjectFlags.Set(Options::eDead);
     }
 
-    mScrabTarget = FindScrabToFight();
-    if (mScrabTarget)
+    auto pFightTarget = FindScrabToFight();
+    if (pFightTarget)
     {
-        mAbeOrMudTarget->mBaseGameObjectRefCount--;
-        mAbeOrMudTarget = nullptr;
-        mScrabTarget->mBaseGameObjectRefCount++;
+        SetFightTarget(pFightTarget);
+        SetTarget(nullptr);
         SetBrain(&Scrab::Brain_Fighting);
         mNextMotion = eScrabMotions::Motion_1_Stand;
         return 0;
@@ -2446,8 +2434,7 @@ s16 Scrab::Brain_ChasingEnemy()
 
         if (bCloseToEdge)
         {
-            mAbeOrMudTarget->mBaseGameObjectRefCount--;
-            mAbeOrMudTarget = nullptr;
+            SetTarget(nullptr);
             mNextMotion = eScrabMotions::Motion_1_Stand;
             SetBrain(&Scrab::Brain_WalkAround);
             return 0;
@@ -3083,10 +3070,10 @@ s16 Scrab::Brain_Patrol()
         mBaseGameObjectFlags.Set(Options::eDead);
     }
 
-    mScrabTarget = FindScrabToFight();
-    if (mScrabTarget)
+    auto pFightTarget = FindScrabToFight();
+    if (pFightTarget)
     {
-        mScrabTarget->mBaseGameObjectRefCount++;
+        SetFightTarget(pFightTarget);
         mNextMotion = eScrabMotions::Motion_1_Stand;
         SetBrain(&Scrab::Brain_Fighting);
         return 0;
@@ -3100,8 +3087,7 @@ s16 Scrab::Brain_Patrol()
             SetBrain(&Scrab::Brain_ChasingEnemy);
             return 0;
         }
-        mAbeOrMudTarget->mBaseGameObjectRefCount--;
-        mAbeOrMudTarget = nullptr;
+        SetTarget(nullptr);
     }
 
     if (EventGet(kEventAbeOhm))
@@ -3387,10 +3373,10 @@ s16 Scrab::Brain_WalkAround()
         mBaseGameObjectFlags.Set(Options::eDead);
     }
 
-    mScrabTarget = FindScrabToFight();
-    if (mScrabTarget)
+    auto pFightTarget = FindScrabToFight();
+    if (pFightTarget)
     {
-        mScrabTarget->mBaseGameObjectRefCount++;
+        SetFightTarget(pFightTarget);
         SetBrain(&Scrab::Brain_Fighting);
         mNextMotion = eScrabMotions::Motion_1_Stand;
         return 0;
@@ -3404,8 +3390,7 @@ s16 Scrab::Brain_WalkAround()
             SetBrain(&Scrab::Brain_ChasingEnemy);
             return 0;
         }
-        mAbeOrMudTarget->mBaseGameObjectRefCount--;
-        mAbeOrMudTarget = nullptr;
+        SetTarget(nullptr);
     }
 
     if (EventGet(kEventAbeOhm))
@@ -3668,6 +3653,45 @@ void Scrab::SetBrain(TBrainType fn)
 bool Scrab::BrainIs(TBrainType fn)
 {
     return mBrainState == fn;
+}
+
+void Scrab::SetFightTarget(Scrab* pTarget)
+{
+    if (!pTarget)
+    {
+        if (mScrabTarget)
+        {
+            mScrabTarget->mBaseGameObjectRefCount--;
+            LOG_INFO(this << " clear fight target " << mScrabTarget << " ref " << (u32) mScrabTarget->mBaseGameObjectRefCount);
+            mScrabTarget = nullptr;
+        }
+    }
+    else
+    {
+        mScrabTarget = pTarget;
+        mScrabTarget->mBaseGameObjectRefCount++;
+        LOG_INFO(this << " set fight target " << mScrabTarget << " ref " << (u32) mScrabTarget->mBaseGameObjectRefCount);
+    }
+}
+
+void Scrab::SetTarget(BaseAliveGameObject* pTarget)
+{
+    if (!pTarget)
+    {
+        if (mAbeOrMudTarget)
+        {
+            mAbeOrMudTarget->mBaseGameObjectRefCount--;
+            LOG_INFO(this << " clear target " << mAbeOrMudTarget << " ref " << (u32) mAbeOrMudTarget->mBaseGameObjectRefCount);
+            mAbeOrMudTarget = nullptr;
+        }
+    }
+    else
+    {
+        mAbeOrMudTarget = pTarget;
+        mAbeOrMudTarget->mBaseGameObjectRefCount++;
+        LOG_INFO(this << " set target " << mAbeOrMudTarget << " ref " << (u32) mAbeOrMudTarget->mBaseGameObjectRefCount);
+
+    }
 }
 
 s16 Scrab::HandleRunning()
