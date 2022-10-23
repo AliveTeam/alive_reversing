@@ -2,7 +2,7 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "../AliveLibCommon/FixedPoint_common.hpp"
-#include "Psx.hpp"
+#include "../AliveLibAE/Psx.hpp"
 #include "../relive_lib/Primitives.hpp"
 #include "../relive_lib/ResourceManagerWrapper.hpp"
 #include "../AliveLibAE/Font.hpp"

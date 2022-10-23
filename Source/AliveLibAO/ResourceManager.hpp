@@ -2,7 +2,7 @@
 
 #include "../relive_lib/BaseGameObject.hpp"
 #include "../AliveLibCommon/Function.hpp"
-#include "Psx.hpp"
+#include "../AliveLibAE/Psx.hpp"
 #include "../AliveLibCommon/AnimResources.hpp"
 #include "Factory.hpp"
 

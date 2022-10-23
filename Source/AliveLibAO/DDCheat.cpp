@@ -1,7 +1,7 @@
 #include "stdafx_ao.h"
 #include "DDCheat.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
-#include "Psx.hpp"
+#include "../AliveLibAE/Psx.hpp"
 #include "ResourceManager.hpp"
 #include "Function.hpp"
 #include "PathData.hpp"

@@ -4,7 +4,7 @@
 #include "../relive_lib/Particle.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
-#include "Psx.hpp"
+#include "../AliveLibAE/Psx.hpp"
 #include "PsxRender.hpp"
 #include "Game.hpp"
 #include "Map.hpp"
@@ -97,8 +97,8 @@ void Game_ShowLoadingIcon_445EB0()
         PrimHeader* local_ot[42] = {};
         PSX_DRAWENV drawEnv = {};
 
-        PSX_SetDefDrawEnv_495EF0(&drawEnv, 0, 0, 640, 240);
-        PSX_PutDrawEnv_495DD0(&drawEnv);
+        PSX_SetDefDrawEnv_4F5AA0(&drawEnv, 0, 0, 640, 240);
+        PSX_PutDrawEnv_4F5980(&drawEnv);
         PSX_ClearOTag_496760(local_ot, 42);
 
         pParticle->GetAnimation().VRender(320, 220, local_ot, 0, 0);
@@ -112,8 +112,8 @@ void Game_ShowLoadingIcon_445EB0()
         PSX_DrawOTag_4969F0(local_ot);
 
         PSX_DISPENV dispEnv = {};
-        PSX_SetDefDispEnv_4959D0(&dispEnv, 0, 0, 640, 240);
-        PSX_PutDispEnv_495CE0(&dispEnv);
+        PSX_SetDefDispEnv_4F55A0(&dispEnv, 0, 0, 640, 240);
+        PSX_PutDispEnv_4F5890(&dispEnv);
         pParticle->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         bHideLoadingIcon_5076A0 = TRUE;
     }
@@ -149,7 +149,7 @@ void ResourceManager::LoadingLoop_41EAD0(s16)
         }
 
         Odd_Sleep_48DD90(16u);
-        PSX_VSync_496620(0);
+        PSX_VSync_4F6170(0);
 
         loading_ticks_5076A4++;
 

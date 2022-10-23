@@ -241,8 +241,6 @@ SET(AliveLibSrcAO
    GasCountDown.cpp
    Font.hpp
    Font.cpp
-   Psx.hpp
-   Psx.cpp
    Midi.hpp
    Midi.cpp
    BaseAliveGameObject.hpp

@@ -5,7 +5,7 @@
 #include "SwitchStates.hpp"
 #include "DDCheat.hpp"
 #include "Io.hpp"
-#include "Psx.hpp"
+#include "../AliveLibAE/Psx.hpp"
 #include "../AliveLibAE/Sys.hpp"
 #include "../relive_lib/DynamicArray.hpp"
 #include "BaseAliveGameObject.hpp"
@@ -96,7 +96,7 @@ static void Main_ParseCommandLineArguments(const char_type* pCommandLine)
 
     VGA_CreateRenderer();
 
-    PSX_EMU_SetCallBack_499920(1, Game_End_Frame_4505D0);
+    PSX_EMU_SetCallBack_4F9430(1, Game_End_Frame_4505D0);
 }
 
 void Init_GameStates()
@@ -303,7 +303,7 @@ void Game_Loop()
 
     } // Main loop end
 
-    PSX_VSync_496620(0);
+    PSX_VSync_4F6170(0);
 
     // Destroy all game objects
     for (s32 i = 0; i < gBaseGameObjects->Size(); i++)

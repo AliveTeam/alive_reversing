@@ -5,7 +5,7 @@
 #include "ResourceManager.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "PathData.hpp"
-#include "Psx.hpp"
+#include "../AliveLibAE/Psx.hpp"
 #include "Game.hpp"
 #include "Midi.hpp"
 #include "BaseAliveGameObject.hpp"

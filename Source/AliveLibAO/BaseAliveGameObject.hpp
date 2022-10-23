@@ -3,7 +3,7 @@
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "../AliveLibCommon/Function.hpp"
 #include "../AliveLibCommon/BitField.hpp"
-#include "Psx.hpp"
+#include "../AliveLibAE/Psx.hpp"
 
 class PathLine;
 

@@ -4,7 +4,7 @@
 #include "Midi.hpp"
 #include "PauseMenu.hpp"
 #include "../relive_lib/Primitives.hpp"
-#include "Psx.hpp"
+#include "../AliveLibAE/Psx.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "ResourceManager.hpp"
 #include "SaveGame.hpp"

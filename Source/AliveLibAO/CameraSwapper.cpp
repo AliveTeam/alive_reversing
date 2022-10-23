@@ -5,7 +5,7 @@
 #include "Movie.hpp"
 #include "Map.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "Psx.hpp"
+#include "../AliveLibAE/Psx.hpp"
 #include "ScreenClipper.hpp"
 #include "MusicController.hpp"
 #include "BackgroundMusic.hpp"
