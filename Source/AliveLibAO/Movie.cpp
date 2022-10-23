@@ -7,7 +7,7 @@
 #include "PSXMDECDecoder.h"
 #include "Masher.hpp"
 #include "../AliveLibAE/Io.hpp"
-#include "Sys.hpp"
+#include "../AliveLibAE/Sys.hpp"
 #include "../AliveLibAE/Psx.hpp"
 #include "../AliveLibAE/VGA.hpp"
 #include "../AliveLibAE/Input.hpp"

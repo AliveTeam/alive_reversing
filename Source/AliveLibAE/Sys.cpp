@@ -87,7 +87,7 @@ bool Sys_IsMouseButtonDown(MouseButtons button)
     return !!(SDL_GetMouseState(nullptr, nullptr) & SDL_BUTTON(SDL_BUTTON_LEFT));
 }
 
-void AE_Sys_Main(HINSTANCE hInstance, LPSTR lpCmdLine, s32 nShowCmd)
+void Sys_Main(HINSTANCE hInstance, LPSTR lpCmdLine, s32 nShowCmd)
 {
     sInstance_BBB9EC = hInstance;
     sCmdShow_BBB9FC = nShowCmd;
@@ -903,7 +903,7 @@ void Sys_SetWindowPos_4EE1B1(s32 width, s32 height)
     SDL_SetWindowPosition(Sys_GetWindowHandle(), 0, 0);
 }
 
-static s32 Sys_WindowClass_Register_SDL(LPCSTR /*lpClassName*/, LPCSTR lpWindowName, s32 x, s32 y, s32 nWidth, s32 nHeight)
+static s32 Sys_WindowClass_Register_SDL(LPCSTR lpWindowName, s32 x, s32 y, s32 nWidth, s32 nHeight)
 {
     s32 sdlWindowAttributes = SDL_WINDOW_OPENGL;
 
@@ -923,7 +923,7 @@ static s32 Sys_WindowClass_Register_SDL(LPCSTR /*lpClassName*/, LPCSTR lpWindowN
 }
 
 
-s32 Sys_WindowClass_Register(LPCSTR lpClassName, LPCSTR lpWindowName, s32 x, s32 y, s32 nWidth, s32 nHeight)
+s32 Sys_WindowClass_Register(LPCSTR lpWindowName, s32 x, s32 y, s32 nWidth, s32 nHeight)
 {
-    return Sys_WindowClass_Register_SDL(lpClassName, lpWindowName, x, y, nWidth, nHeight);
+    return Sys_WindowClass_Register_SDL(lpWindowName, x, y, nWidth, nHeight);
 }

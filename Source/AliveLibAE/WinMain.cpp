@@ -42,16 +42,11 @@
 
 INITIALIZE_EASYLOGGINGPP
 
-s32 sExitCode_BBBA04 = 0;
-HINSTANCE sPrevInstance_BBBA54 = nullptr;
-
-
-s32 CALLBACK WinMain_4EE631(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)
+s32 CALLBACK WinMain_4EE631(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR lpCmdLine, s32 nShowCmd)
 {
     LOG_INFO("Main enter");
-    AE_Sys_Main(hInstance, lpCmdLine, nShowCmd);
-    sPrevInstance_BBBA54 = hPrevInstance;
+    Sys_Main(hInstance, lpCmdLine, nShowCmd);
     Game_Main();
     LOG_INFO("Main exit");
-    return sExitCode_BBBA04;
+    return 0;
 }

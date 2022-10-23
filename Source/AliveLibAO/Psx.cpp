@@ -4,7 +4,7 @@
 #include "PsxRender.hpp"
 #include "../relive_lib/Error.hpp"
 #include "../AliveLibAE/Psx.hpp"
-#include "Sys.hpp"
+#include "../AliveLibAE/Sys.hpp"
 #include "../AliveLibAE/VGA.hpp"
 
 namespace AO {

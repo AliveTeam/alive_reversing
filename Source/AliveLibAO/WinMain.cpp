@@ -16,21 +16,17 @@
 #include "ScreenWave.hpp"
 #include "GameEnderController.hpp"
 #include "Spark.hpp"
-#include "Sys.hpp"
+#include "../AliveLibAE/Sys.hpp"
 
 namespace AO {
 
-s32 sExitCode_9F7734 = 0;
-HINSTANCE sPrevInstance_9F7784 = 0;
-
-s32 CALLBACK WinMain_48EF50(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)
+s32 CALLBACK WinMain_48EF50(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR lpCmdLine, s32 nShowCmd)
 {
     LOG_INFO("Main enter");
-    AO_Sys_Main(hInstance, lpCmdLine, nShowCmd);
-    sPrevInstance_9F7784 = hPrevInstance;
+    Sys_Main(hInstance, lpCmdLine, nShowCmd);
     Game_Main();
     LOG_INFO("Main exit");
-    return sExitCode_9F7734;
+    return 0;
 }
 
 } // namespace AO

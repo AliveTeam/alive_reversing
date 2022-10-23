@@ -6,7 +6,7 @@
 #include "DDCheat.hpp"
 #include "Io.hpp"
 #include "Psx.hpp"
-#include "Sys.hpp"
+#include "../AliveLibAE/Sys.hpp"
 #include "../relive_lib/DynamicArray.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "../AliveLibAE/stdlib.hpp"
@@ -63,7 +63,7 @@ s32 Game_End_Frame_4505D0(u32 bSkip)
     return Game_End_Frame_4950F0(bSkip);
 }
 
-static void Main_ParseCommandLineArguments()
+static void Main_ParseCommandLineArguments(const char_type* pCommandLine)
 {
     IO_Init_48E1A0(0);
 
@@ -78,20 +78,15 @@ static void Main_ParseCommandLineArguments()
         windowTitle += " [AutoPlay]";
     }
 
-    Sys_WindowClass_Register("ABE_WINCLASS", windowTitle.c_str(), 32, 64, 640, 480);
+    Sys_WindowClass_Register(windowTitle.c_str(), 32, 64, 640, 480);
 
     Sys_Set_Hwnd(Sys_GetWindowHandle());
 
-    const LPSTR pCmdLine = Sys_GetCommandLine();
-    if (pCmdLine)
+    if (pCommandLine)
     {
-        if (_strcmpi(pCmdLine, "-it_is_me_your_father") == 0)
+        if (_strcmpi(pCommandLine, "-it_is_me_your_father") == 0)
         {
-            Input_GetCurrentKeyStates();
-            if (Input_IsVKPressed(VK_SHIFT))
-            {
-                gDDCheatOn = 1;
-            }
+            gDDCheatOn = 1;
         }
         // Force DDCheat
 #if FORCE_DDCHEAT
@@ -389,7 +384,7 @@ void Game_Main()
 {
     GetGameAutoPlayer().ParseCommandLine(Sys_GetCommandLine());
 
-    Main_ParseCommandLineArguments();
+    Main_ParseCommandLineArguments(Sys_GetCommandLine());
 
     // Only returns once the engine is shutting down
     Game_Run();

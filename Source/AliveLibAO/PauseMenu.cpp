@@ -13,7 +13,7 @@
 #include "Sound.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "Sfx.hpp"
-#include "Sys.hpp"
+#include "../AliveLibAE/Sys.hpp"
 #include "Map.hpp"
 #include "GameAutoPlayer.hpp"
 

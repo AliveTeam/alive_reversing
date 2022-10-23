@@ -12,11 +12,11 @@ enum class MouseButtons
 };
 bool Sys_IsMouseButtonDown(MouseButtons button);
 void SYS_EventsPump();
-void AE_Sys_Main(HINSTANCE hInstance, LPSTR lpCmdLine, s32 nShowCmd);
+void Sys_Main(HINSTANCE hInstance, LPSTR lpCmdLine, s32 nShowCmd);
 LPSTR Sys_GetCommandLine();
 void Sys_Set_Hwnd(TWindowHandleType hwnd);
 TWindowHandleType Sys_GetHWnd();
-s32 Sys_WindowClass_Register(LPCSTR lpClassName, LPCSTR lpWindowName, s32 x, s32 y, s32 nWidth, s32 nHeight);
+s32 Sys_WindowClass_Register(LPCSTR lpWindowName, s32 x, s32 y, s32 nWidth, s32 nHeight);
 TWindowHandleType Sys_GetWindowHandle();
 bool Sys_IsAnyKeyDown();
 bool Sys_IsAppActive_4EDF30();

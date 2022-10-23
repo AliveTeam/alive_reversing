@@ -23,7 +23,7 @@
 #include "SwitchStates.hpp"
 #include "Sfx.hpp"
 #include "Elum.hpp"
-#include "Sys.hpp"
+#include "../AliveLibAE/Sys.hpp"
 #include "Camera.hpp"
 
 #include "../relive_lib/data_conversion/file_system.hpp"

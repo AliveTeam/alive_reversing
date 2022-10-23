@@ -8,7 +8,7 @@
 #include "PsxRender.hpp"
 #include "Game.hpp"
 #include "Map.hpp"
-#include "Sys.hpp"
+#include "../AliveLibAE/Sys.hpp"
 #include "Camera.hpp"
 #include "GameAutoPlayer.hpp"
 

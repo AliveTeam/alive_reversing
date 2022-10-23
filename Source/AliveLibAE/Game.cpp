@@ -167,7 +167,7 @@ s32 Game_End_Frame_4950F0(u32 flags)
     return 0;
 }
 
-void Main_ParseCommandLineArguments(const char_type* /*pCmdLineNotUsed*/, const char_type* pCommandLine)
+void Main_ParseCommandLineArguments(const char_type* pCommandLine)
 {
     IO_Init_494230();
 
@@ -182,7 +182,7 @@ void Main_ParseCommandLineArguments(const char_type* /*pCmdLineNotUsed*/, const 
         windowTitle += " [AutoPlay]";
     }
 
-    Sys_WindowClass_Register("ABE_WINCLASS", windowTitle.c_str(), 32, 64, 640, 480);
+    Sys_WindowClass_Register(windowTitle.c_str(), 32, 64, 640, 480);
 
     Sys_Set_Hwnd(Sys_GetWindowHandle());
 
@@ -536,7 +536,7 @@ void Game_Main()
 
     GetGameAutoPlayer().ParseCommandLine(Sys_GetCommandLine());
 
-    Main_ParseCommandLineArguments(Sys_GetCommandLine(), Sys_GetCommandLine());
+    Main_ParseCommandLineArguments(Sys_GetCommandLine());
 
     // Only returns once the engine is shutting down
     Game_Run();
