@@ -435,7 +435,7 @@ void Slog::MoveOnLine()
                     PSX_RECT rect = VGetBoundingRect();
                     rect.y += 5;
                     rect.h += 5;
-                    VOnCollisionWith(
+                    OnCollisionWith(
                         {rect.x, rect.y},
                         {rect.w, rect.h},
                         gPlatformsArray,
@@ -1138,7 +1138,7 @@ void Slog::Motion_4_Fall_4750C0()
                     PSX_RECT bRect = VGetBoundingRect();
                     bRect.y += 5;
                     bRect.h = FP_GetExponent(mYPos) + 5;
-                    VOnCollisionWith(
+                    OnCollisionWith(
                         {bRect.x, bRect.y},
                         {bRect.w, bRect.h},
                         gPlatformsArray,

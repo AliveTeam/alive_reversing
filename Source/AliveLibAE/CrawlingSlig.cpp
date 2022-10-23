@@ -1930,7 +1930,7 @@ void CrawlingSlig::PlatformCollide()
     xy.y += 5;
     wh.y += 5;
 
-    VOnCollisionWith(
+    OnCollisionWith(
         xy,
         wh,
         gPlatformsArray,

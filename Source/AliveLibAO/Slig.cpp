@@ -1883,7 +1883,7 @@ void Slig::MoveOnLine()
                     bRect.y += 5;
                     bRect.h += 5;
 
-                    VOnCollisionWith(
+                    OnCollisionWith(
                         {bRect.x, bRect.y},
                         {bRect.w, bRect.h},
                         gPlatformsArray,
@@ -2886,7 +2886,7 @@ void Slig::Motion_7_Falling()
                 bRect.y += 5;
                 bRect.h += 5;
 
-                VOnCollisionWith(
+                OnCollisionWith(
                     {bRect.x, bRect.y},
                     {bRect.w, bRect.h},
                     gPlatformsArray,

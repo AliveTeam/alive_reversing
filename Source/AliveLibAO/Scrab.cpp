@@ -415,7 +415,7 @@ void Scrab::PlatformCollide()
     bRect.y += 5;
     bRect.h += 5;
 
-    VOnCollisionWith(
+    OnCollisionWith(
         {bRect.x, bRect.y},
         {bRect.w, bRect.h},
         gPlatformsArray,
@@ -1274,7 +1274,7 @@ void Scrab::Motion_7_HopMidair()
                     bRect.y += 5;
                     bRect.h += 5;
 
-                    VOnCollisionWith(
+                    OnCollisionWith(
                         {bRect.x, bRect.y},
                         {bRect.w, bRect.h},
                         gPlatformsArray,
@@ -1380,7 +1380,7 @@ void Scrab::Motion_9_JumpToFall()
                 bRect.y += 5;
                 bRect.h += 5;
 
-                VOnCollisionWith(
+                OnCollisionWith(
                     {bRect.x, bRect.y},
                     {bRect.y, bRect.w},
                     gPlatformsArray,
@@ -1563,7 +1563,7 @@ void Scrab::Motion_13_RunJumpBegin()
                     bRect.y += 5;
                     bRect.h += 5;
 
-                    VOnCollisionWith(
+                    OnCollisionWith(
                         {bRect.x, bRect.y},
                         {bRect.w, bRect.h},
                         gPlatformsArray,

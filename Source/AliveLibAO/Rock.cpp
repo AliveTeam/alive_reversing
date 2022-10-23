@@ -157,7 +157,7 @@ void Rock::VUpdate()
             const PSX_RECT bRect = VGetBoundingRect();
             const PSX_Point xy = {bRect.x, static_cast<s16>(bRect.y + 5)};
             const PSX_Point wh = {bRect.w, static_cast<s16>(bRect.h + 5)};
-            VOnCollisionWith(
+            OnCollisionWith(
                 xy,
                 wh,
                 gBaseGameObjects,

@@ -6062,7 +6062,7 @@ void Paramite::CheckForPlatform()
     wh.x = FP_GetExponent(mXPos + FP_FromInteger(5));
     wh.y = FP_GetExponent(mYPos + FP_FromInteger(5));
 
-    VOnCollisionWith(xy, wh, gPlatformsArray, (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
+    OnCollisionWith(xy, wh, gPlatformsArray, (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
 }
 
 void Paramite::HandleStopWalking()

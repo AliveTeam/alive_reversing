@@ -238,7 +238,7 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid(s32 distance)
                     bRect.y += 5;
                     bRect.h += 5;
 
-                    VOnCollisionWith(
+                    OnCollisionWith(
                         {bRect.x, bRect.y},
                         {bRect.w, bRect.h},
                         gPlatformsArray,
@@ -825,7 +825,7 @@ s16 BaseAliveGameObject::OnTrapDoorIntersection_401C10(PlatformBase* pPlatform)
     }
 
     // OG bug fix, when we call VCheckCollisionLineStillValid it can place us on a new lift
-    // but then we call VOnCollisionWith which can sometimes add us to the same lift again
+    // but then we call OnCollisionWith which can sometimes add us to the same lift again
     // result in the lift being leaked and then memory corruption/crash later.
     if (mLiftPoint != pPlatform)
     {

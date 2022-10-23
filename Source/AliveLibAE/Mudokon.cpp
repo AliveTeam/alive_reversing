@@ -593,7 +593,7 @@ Mudokon::Mudokon(relive::Path_Mudokon* pTlv, const Guid& tlvId)
             BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
         {
             const PSX_RECT bRect = VGetBoundingRect();
-            VOnCollisionWith(
+            OnCollisionWith(
                 {bRect.x, static_cast<s16>(bRect.y + 5)},
                 {bRect.w, static_cast<s16>(bRect.h + 5)},
                 gPlatformsArray,
@@ -985,7 +985,7 @@ void Mudokon::VUpdate()
                 BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
             {
                 const PSX_RECT bRect = VGetBoundingRect();
-                VOnCollisionWith(
+                OnCollisionWith(
                     {bRect.x, static_cast<s16>(bRect.y + 5)},
                     {bRect.w, static_cast<s16>(bRect.h + 5)},
                     gPlatformsArray,
@@ -2304,7 +2304,7 @@ s16 Mudokon::Brain_2_CrouchScrub()
         return Brain_2_CrouchScrub::eBrain2_Duck_6;
     }
 
-    IBaseAnimatedWithPhysicsGameObject* pAbuse = IsEventInRange(
+    BaseAnimatedWithPhysicsGameObject* pAbuse = IsEventInRange(
         kEventMudokonAbuse,
         mXPos,
         mYPos,
@@ -5387,7 +5387,7 @@ void Mudokon::Motion_0_Idle()
         if ((BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eDynamicCollision_32 || BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36) && BaseAliveGameObject_PlatformId == Guid{})
         {
             const PSX_RECT bRect = VGetBoundingRect();
-            VOnCollisionWith(
+            OnCollisionWith(
                 {bRect.x, static_cast<s16>(bRect.y + 5)},
                 {bRect.w, static_cast<s16>(bRect.h + 5)},
                 gPlatformsArray, (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
@@ -6328,7 +6328,7 @@ void Mudokon::Motion_40_HoistLand()
                 BaseAliveGameObjectCollisionLine = pLine;
                 mCurrentMotion = eMudMotions::Motion_41_LandSoft1;
                 bRect = VGetBoundingRect();
-                VOnCollisionWith(
+                OnCollisionWith(
                     {bRect.x, static_cast<s16>(bRect.y + 5)},
                     {bRect.w, static_cast<s16>(bRect.h + 5)},
                     gPlatformsArray,
@@ -6533,7 +6533,7 @@ void Mudokon::Motion_49_Fall()
 
                 mPreviousMotion = eMudMotions::Motion_49_Fall;
 
-                VOnCollisionWith(
+                OnCollisionWith(
                     {FP_GetExponent(mXPos - FP_FromInteger(10)), FP_GetExponent(mYPos - FP_FromInteger(10))},
                     {FP_GetExponent(mXPos + FP_FromInteger(10)), FP_GetExponent(mYPos + FP_FromInteger(10))},
                     gPlatformsArray,
@@ -7105,7 +7105,7 @@ void Mudokon::MoveOnLine()
         if (BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eDynamicCollision_32 || BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
         {
             const PSX_RECT bRect = VGetBoundingRect();
-            VOnCollisionWith(
+            OnCollisionWith(
                 {bRect.x, static_cast<s16>(bRect.y + 5)},
                 {bRect.w, static_cast<s16>(bRect.h + 5)},
                 gPlatformsArray, (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);

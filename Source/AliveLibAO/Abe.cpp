@@ -1578,7 +1578,7 @@ void Abe::MoveForward_422FC0()
             bRect.h += 5;
             bRect.w += 5; // TODO: Seems wrong - same in AE
 
-            VOnCollisionWith(
+            OnCollisionWith(
                 {bRect.x, bRect.y},
                 {bRect.w, bRect.h},
                 gPlatformsArray,
@@ -4029,7 +4029,7 @@ void Abe::Motion_3_Fall()
 
                 PSX_Point xy{FP_GetExponent(mXPos - FP_FromInteger(25)), FP_GetExponent(mYPos - FP_FromInteger(25))};
                 PSX_Point wh{FP_GetExponent(mXPos + FP_FromInteger(25)), FP_GetExponent(mYPos + FP_FromInteger(25))};
-                VOnCollisionWith(
+                OnCollisionWith(
                     xy,
                     wh,
                     gPlatformsArray,
@@ -4321,7 +4321,7 @@ void Abe::Motion_17_HoistIdle()
                 rect.y += 5;
                 rect.h += 5;
 
-                VOnCollisionWith(
+                OnCollisionWith(
                     {rect.x, rect.y},
                     {rect.w, rect.h},
                     gPlatformsArray,
@@ -4396,7 +4396,7 @@ void Abe::Motion_17_HoistIdle()
                             rect.y += 5;
                             rect.h += 5;
 
-                            VOnCollisionWith(
+                            OnCollisionWith(
                                 {rect.x, rect.y},
                                 {rect.w, rect.h},
                                 gPlatformsArray,
@@ -5088,7 +5088,7 @@ void Abe::Motion_30_HopMid()
                         rect.y += 5;
                         rect.h += 5;
 
-                        VOnCollisionWith(
+                        OnCollisionWith(
                             {rect.x, rect.y},
                             {rect.w, rect.h},
                             gPlatformsArray,
@@ -5243,7 +5243,7 @@ void Abe::Motion_33_RunJumpMid()
 
                 if (pLine->mLineType == eLineTypes::eDynamicCollision_32)
                 {
-                    VOnCollisionWith(
+                    OnCollisionWith(
                         {rect.x, rect.y},
                         {rect.w, rect.h},
                         gPlatformsArray,
@@ -5321,7 +5321,7 @@ void Abe::Motion_33_RunJumpMid()
                         rect.y += 5;
                         rect.h += 5;
 
-                        VOnCollisionWith(
+                        OnCollisionWith(
                             {rect.x, rect.y},
                             {rect.w, rect.h},
                             gPlatformsArray,
@@ -6918,7 +6918,7 @@ void Abe::Motion_67_ToOffScreenHoist()
                 bRect.y += 5;
                 bRect.h += 5;
 
-                VOnCollisionWith(
+                OnCollisionWith(
                     {bRect.x, bRect.y},
                     {bRect.w, bRect.h},
                     gPlatformsArray,
@@ -8555,7 +8555,7 @@ void Abe::Motion_138_ElumUnmountEnd()
                 PSX_RECT bRect = VGetBoundingRect();
                 bRect.y += 5;
                 bRect.h += 5;
-                VOnCollisionWith(
+                OnCollisionWith(
                     {bRect.x, bRect.y},
                     {bRect.w, bRect.h},
                     gPlatformsArray,

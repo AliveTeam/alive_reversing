@@ -417,7 +417,7 @@ void Elum::MoveOnLine(s16 xLookAhead)
         else if (BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eDynamicCollision_32)
         {
             const PSX_RECT bRect = VGetBoundingRect();
-            VOnCollisionWith(
+            OnCollisionWith(
                 {bRect.x, static_cast<s16>(bRect.y + 5)},
                 {bRect.w, static_cast<s16>(bRect.h + 5)},
                 gPlatformsArray,
@@ -2337,7 +2337,7 @@ void Elum::Motion_21_Land_414A20()
                 wh.x = FP_GetExponent(mXPos + FP_FromInteger(10));
                 wh.y = FP_GetExponent(mYPos + FP_FromInteger(10));
 
-                VOnCollisionWith(
+                OnCollisionWith(
                     xy,
                     wh,
                     gPlatformsArray,
@@ -2626,7 +2626,7 @@ void Elum::Motion_32_HopLand_415140()
     {
         const PSX_RECT bRect = VGetBoundingRect();
 
-        VOnCollisionWith(
+        OnCollisionWith(
             {bRect.x, static_cast<s16>(bRect.y + 5)},
             {bRect.w, static_cast<s16>(bRect.h + 5)},
             gPlatformsArray,
@@ -2694,7 +2694,7 @@ void Elum::Motion_35_RunJumpLand_415580()
     {
         const PSX_RECT bRect = VGetBoundingRect();
 
-        VOnCollisionWith(
+        OnCollisionWith(
             {bRect.x, static_cast<s16>(bRect.y + 5)},
             {bRect.w, static_cast<s16>(bRect.h + 5)},
             gPlatformsArray,
@@ -3011,7 +3011,7 @@ void Elum::Motion_42_RunToWalk_413B60()
 
         PSX_Point xy{FP_GetExponent(mXPos - FP_FromInteger(10)), FP_GetExponent(mYPos - FP_FromInteger(10))};
         PSX_Point wh{FP_GetExponent(mXPos + FP_FromInteger(10)), FP_GetExponent(mYPos + FP_FromInteger(10))};
-        VOnCollisionWith(
+        OnCollisionWith(
             xy,
             wh,
             gPlatformsArray,
@@ -3072,7 +3072,7 @@ void Elum::Motion_43_MidRunToWalk_413E20()
         PSX_Point xy{FP_GetExponent(mXPos - FP_FromInteger(10)), FP_GetExponent(mYPos - FP_FromInteger(10))};
         PSX_Point wh{FP_GetExponent(mXPos + FP_FromInteger(10)), FP_GetExponent(mYPos + FP_FromInteger(10))};
 
-        VOnCollisionWith(
+        OnCollisionWith(
             xy,
             wh,
             gPlatformsArray,
@@ -3376,7 +3376,7 @@ void Elum::VUpdate()
 
             const PSX_RECT bRect = VGetBoundingRect();
 
-            VOnCollisionWith(
+            OnCollisionWith(
                 {bRect.x, static_cast<s16>(bRect.y + 5)},
                 {bRect.w, static_cast<s16>(bRect.h + 5)},
                 gPlatformsArray,

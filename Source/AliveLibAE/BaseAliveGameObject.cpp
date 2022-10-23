@@ -301,7 +301,7 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid(s32 distance)
             xy.y += 5;
             wh.y += 5;
 
-            VOnCollisionWith(xy, wh, gPlatformsArray, (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
+            OnCollisionWith(xy, wh, gPlatformsArray, (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
         }
     }
     else

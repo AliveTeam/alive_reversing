@@ -4712,7 +4712,7 @@ void Slig::VUpdate()
                 if (BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eDynamicCollision_32 || BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
                 {
                     const PSX_RECT bRect = VGetBoundingRect();
-                    VOnCollisionWith(
+                    OnCollisionWith(
                         {bRect.x, static_cast<s16>(bRect.y + 5)},
                         {bRect.w, static_cast<s16>(bRect.h + 5)},
                         gPlatformsArray,
@@ -5625,7 +5625,7 @@ void Slig::PlatformCollide_4B4E00()
     wh.x = FP_GetExponent(mXPos + FP_FromInteger(5));
     wh.y = FP_GetExponent(mYPos + FP_FromInteger(5));
 
-    VOnCollisionWith(
+    OnCollisionWith(
         xy,
         wh,
         gPlatformsArray,

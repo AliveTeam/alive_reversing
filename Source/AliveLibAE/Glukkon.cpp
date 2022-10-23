@@ -2036,7 +2036,7 @@ void Glukkon::VUpdate()
                 xy.y += 5;
                 wh.y += 5;
 
-                VOnCollisionWith(xy, wh, gPlatformsArray, (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
+                OnCollisionWith(xy, wh, gPlatformsArray, (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
             }
         }
         field_208_obj_id = BaseGameObject::RefreshId(field_208_obj_id);
@@ -2623,7 +2623,7 @@ void Glukkon::FollowLine()
 
 void Glukkon::GetOnPlatforms()
 {
-    VOnCollisionWith(
+    OnCollisionWith(
         {FP_GetExponent(mXPos - FP_FromInteger(5)), FP_GetExponent(mYPos - FP_FromInteger(5))},
         {FP_GetExponent(mXPos + FP_FromInteger(5)), FP_GetExponent(mYPos + FP_FromInteger(5))},
         gPlatformsArray,

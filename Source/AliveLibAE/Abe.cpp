@@ -3062,7 +3062,7 @@ void Abe::Motion_3_Fall_459B60()
 
                 PSX_Point xy{FP_GetExponent(mXPos - FP_FromInteger(10)), FP_GetExponent(mYPos - FP_FromInteger(10))};
                 PSX_Point wh{FP_GetExponent(mXPos + FP_FromInteger(10)), FP_GetExponent(mYPos + FP_FromInteger(10))};
-                VOnCollisionWith(
+                OnCollisionWith(
                     xy,
                     wh,
                     gPlatformsArray,
@@ -3332,7 +3332,7 @@ void Abe::Motion_14_HoistIdle_452440()
                 mCurrentMotion = eAbeMotions::Motion_15_HoistLand_452BA0;
                 mPreviousMotion = eAbeMotions::Motion_14_HoistIdle_452440;
 
-                VOnCollisionWith(
+                OnCollisionWith(
                     {FP_GetExponent(mXPos), FP_GetExponent(mYPos)},
                     {FP_GetExponent(mXPos), FP_GetExponent((mYPos + FP_FromInteger(5)))},
                     gPlatformsArray,
@@ -3441,7 +3441,7 @@ void Abe::Motion_14_HoistIdle_452440()
                     if (BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eDynamicCollision_32 || 
                         BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
                     {
-                        VOnCollisionWith(
+                        OnCollisionWith(
                             {FP_GetExponent(mXPos), FP_GetExponent(mYPos)},
                             {FP_GetExponent(mXPos), FP_GetExponent(mYPos + FP_FromInteger(5))},
                             gPlatformsArray,
@@ -4027,7 +4027,7 @@ void Abe::Motion_28_HopMid_451C50()
                 mVelX = FP_FromInteger(0);
                 mVelY = FP_FromInteger(0);
 
-                VOnCollisionWith(
+                OnCollisionWith(
                     {FP_GetExponent(mXPos), FP_GetExponent(mYPos)},
                     {FP_GetExponent(mXPos), FP_GetExponent(mYPos + FP_FromInteger(5))},
                     gPlatformsArray,
@@ -4203,7 +4203,7 @@ void Abe::Motion_31_RunJumpMid_452C10()
                 mYPos = FP_NoFractional(hitY + FP_FromDouble(0.5));
                 if (pLine->mLineType == eLineTypes::eDynamicCollision_32)
                 {
-                    VOnCollisionWith(
+                    OnCollisionWith(
                         {FP_GetExponent(mXPos), FP_GetExponent(mYPos)},
                         {FP_GetExponent(mXPos), FP_GetExponent(mYPos + FP_FromInteger(5))},
                         gPlatformsArray,
@@ -4292,7 +4292,7 @@ void Abe::Motion_31_RunJumpMid_452C10()
                     if (BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eDynamicCollision_32 ||
                         BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
                     {
-                        VOnCollisionWith(
+                        OnCollisionWith(
                             {FP_GetExponent(mXPos), FP_GetExponent(mYPos)},
                             {FP_GetExponent(mXPos), FP_GetExponent(mYPos + FP_FromInteger(5))},
                             gPlatformsArray,
@@ -5488,7 +5488,7 @@ void Abe::Motion_68_ToOffScreenHoist_454B80()
             if (BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eDynamicCollision_32 ||
                 BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
             {
-                VOnCollisionWith(
+                OnCollisionWith(
                     {FP_GetExponent(mXPos), FP_GetExponent(mYPos)},
                     {FP_GetExponent(mXPos), FP_GetExponent(mYPos + FP_FromInteger(5))},
                     gPlatformsArray,
@@ -8086,7 +8086,7 @@ void Abe::MoveForward_44E9A0()
             }
 
             const PSX_RECT bRect = VGetBoundingRect();
-            VOnCollisionWith(
+            OnCollisionWith(
                 {bRect.x, static_cast<s16>(bRect.y + 5)},
                 {static_cast<s16>(bRect.w + 5), 
                  static_cast<s16>(bRect.h + 5)}, // TODO: Is it really on both ??
