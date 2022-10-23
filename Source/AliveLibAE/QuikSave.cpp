@@ -218,7 +218,7 @@ void Quicksave_LoadFromMemory_4C95A0(Quicksave* quicksaveData)
     sAccumulatedObjectCount_5C1BF4 = quicksaveData->field_200_accumulated_obj_count;
     DestroyObjects_4A1F20();
     EventsReset();
-    bSkipGameObjectUpdates_5C2FA0 = 1;
+    bSkipGameObjectUpdates = 1;
     Quicksave_ReadWorldInfo(&quicksaveData->field_204_world_info);
     sSwitchStates_5C1A28 = quicksaveData->field_45C_switch_states;
     gMap.mRestoreQuickSaveData = reinterpret_cast<u8*>(quicksaveData->field_55C_objects_state_data);

@@ -1436,7 +1436,7 @@ void Abe::VScreenChanged()
     if (gMap.mCurrentLevel != gMap.mNextLevel)
     {
         // Hack to make Abe mSay hello in the first screen of the mines
-        if (gMap.mNextLevel == EReliveLevelIds::eMines && !gAttract_5C1BA0)
+        if (gMap.mNextLevel == EReliveLevelIds::eMines && !gAttract)
         {
             field_128.mSay = MudSounds::eHelloNeutral_3;
             mAutoSayTimer = sGnFrame + 35;

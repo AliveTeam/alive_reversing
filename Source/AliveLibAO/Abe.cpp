@@ -6468,7 +6468,7 @@ void Abe::Motion_61_Respawn()
 {
     // This will crash the game if abe didnt touch a checkpoint yet
 
-    if (gAttract_507698)
+    if (gAttract)
     {
         // Depending on the randomn seed value abe can die in a demo, if so the checkpoint save will load
         // depending on the saved camera number on returning the main menu this can crash. Hack fix it

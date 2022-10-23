@@ -36,40 +36,34 @@
 #include "Function.hpp"
 #include "../relive_lib/ShadowZone.hpp"
 #include "../relive_lib/ResourceManagerWrapper.hpp"
-#include <string>
 #include "Camera.hpp"
+#include "GameEnderController.hpp"
+#include "ColourfulMeter.hpp"
+#include "GasCountDown.hpp"
+#include <string>
 
 
 u32 sGnFrame = 0;
-
-// Timer
-u32 sTimer_period_BBB9D4 = 0;
 
 // Arrays of things
 DynamicArrayT<BaseGameObject>* gPlatformsArray = nullptr;
 
 s16 sBreakGameLoop = 0;
 s16 gNumCamSwappers = 0;
-s16 bSkipGameObjectUpdates_5C2FA0 = 0;
+s16 bSkipGameObjectUpdates = 0;
 
-bool byte_55EF88 = true;
-bool sCommandLine_ShowFps_5CA4D0 = false;
+bool sCommandLine_ShowFps = false;
 bool gDDCheatOn = false;
 
 // Fps calcs
-s8 bQuitting_BD0F08 = 0;
 f64 sFps_55EFDC = 0.0;
 s32 sFrameDiff_5CA4DC = 0;
-s32 sNumRenderedPrims_C2D03C = 0;
 s32 sFrameCount_5CA300 = 0;
 
-u16 gAttract_5C1BA0 = 0;
+u16 gAttract = 0;
 
 Abe* sActiveHero = nullptr;
 
-#include "GameEnderController.hpp"
-#include "ColourfulMeter.hpp"
-#include "GasCountDown.hpp"
 
 void DestroyObjects_4A1F20()
 {
@@ -117,25 +111,13 @@ void DrawFps_4952F0(s32 /*x*/, s32 /*y*/, f32 fps)
 {
     char_type strBuffer[125] = {};
     sprintf(strBuffer, "%02.1f fps ", static_cast<f64>(fps));
-    sNumRenderedPrims_C2D03C = 0;
     //BMP_Draw_String_4F2230(pBmp, x, y, strBuffer);
-}
-
-void sub_4FBA20()
-{
-    
-}
-
-void CheckShiftCapslock_4953B0()
-{
-    
 }
 
 void Draw_Debug_Strings_4F2800()
 {
-    
+    // TODO
 }
-
 
 s32 Game_End_Frame_4950F0(u32 flags)
 {
@@ -146,8 +128,7 @@ s32 Game_End_Frame_4950F0(u32 flags)
     }
 
     const f64 fps = Calculate_FPS_495250(sFrameCount_5CA300);
-    CheckShiftCapslock_4953B0();
-    if (sCommandLine_ShowFps_5CA4D0)
+    if (sCommandLine_ShowFps)
     {
         DrawFps_4952F0(
             sPSX_EMU_DrawEnvState_C3D080.field_0_clip.x + 4,
@@ -160,10 +141,8 @@ s32 Game_End_Frame_4950F0(u32 flags)
 
     if (Sys_PumpMessages_4EE4F4())
     {
-        bQuitting_BD0F08 = 1;
         exit(0);
     }
-    sub_4FBA20();
     return 0;
 }
 
@@ -186,23 +165,16 @@ void Main_ParseCommandLineArguments(const char_type* pCommandLine)
 
     Sys_Set_Hwnd(Sys_GetWindowHandle());
 
-    byte_55EF88 = true;
-
     if (pCommandLine)
     {
         if (strstr(pCommandLine, "-ddfps"))
         {
-            sCommandLine_ShowFps_5CA4D0 = true;
+            sCommandLine_ShowFps = true;
         }
 
         if (strstr(pCommandLine, "-ddnoskip"))
         {
             sCommandLine_NoFrameSkip = true;
-        }
-
-        if (strstr(pCommandLine, "-ddfast"))
-        {
-            byte_55EF88 = false;
         }
 
         if (strstr(pCommandLine, "-ddcheat"))
@@ -212,6 +184,7 @@ void Main_ParseCommandLineArguments(const char_type* pCommandLine)
     }
 
     VGA_CreateRenderer();
+
     PSX_EMU_SetCallBack_4F9430(1, Game_End_Frame_4950F0);
 }
 
@@ -231,7 +204,7 @@ void Init_GameStates()
     SwitchStates_SetRange(2u, 255u);
 }
 
-void Init_Sound_DynamicArrays_And_Others_43BDB0()
+void Init_Sound_DynamicArrays_And_Others()
 {
     DebugFont_Init();
 
@@ -251,6 +224,7 @@ void Init_Sound_DynamicArrays_And_Others_43BDB0()
     SND_Init();
     SND_Init_Ambiance();
     MusicController::Create();
+
     Init_GameStates(); // Init other vars + switch states
 }
 
@@ -258,13 +232,9 @@ void SYS_EventsPump()
 {
     if (Sys_PumpMessages_4EE4F4())
     {
-        bQuitting_BD0F08 = 1;
         exit(0);
     }
-    sub_4FBA20();
 }
-
-void Game_Loop();
 
 void Game_Init_LoadingIcon()
 {
@@ -309,7 +279,7 @@ void Game_Loop()
 
         EventsResetActive();
         Slurg::Clear_Slurg_Step_Watch_Points();
-        bSkipGameObjectUpdates_5C2FA0 = 0;
+        bSkipGameObjectUpdates = 0;
 
         // Update objects
         GetGameAutoPlayer().SyncPoint(SyncPoints::ObjectsUpdateStart);
@@ -317,7 +287,7 @@ void Game_Loop()
         {
             BaseGameObject* pBaseGameObject = gBaseGameObjects->ItemAt(baseObjIdx);
 
-            if (!pBaseGameObject || bSkipGameObjectUpdates_5C2FA0)
+            if (!pBaseGameObject || bSkipGameObjectUpdates)
             {
                 break;
             }
@@ -460,7 +430,7 @@ void Game_Run()
     // Begin start up
     SYS_EventsPump();
 
-    gAttract_5C1BA0 = 0;
+    gAttract = 0;
 
     SYS_EventsPump();
 
@@ -475,7 +445,7 @@ void Game_Run()
 
     pResourceManager_5C1BB0 = relive_new ResourceManager();
 
-    Init_Sound_DynamicArrays_And_Others_43BDB0();
+    Init_Sound_DynamicArrays_And_Others();
 
     Camera camera;
 

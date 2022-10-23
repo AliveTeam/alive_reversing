@@ -22,7 +22,7 @@ DemoPlayback::DemoPlayback(u8** ppPlaybackData, s32 bFromHandStone)
     SetType(ReliveTypes::eDemoPlayback);
     field_1C_bFromHandStone = static_cast<s16>(bFromHandStone);
     sDDCheat_FlyingEnabled_50771C = 0;
-    if (gAttract_507698 == 0)
+    if (gAttract == 0)
     {
         field_18_ppRes = relive_new SaveData();
         if (!field_18_ppRes)
@@ -78,9 +78,9 @@ void DemoPlayback::VUpdate()
         case States::eState_1_Playing:
             if (!Input().IsDemoPlaying())
             {
-                if (gAttract_507698)
+                if (gAttract)
                 {
-                    gAttract_507698 = 0;
+                    gAttract = 0;
 
                     // To the next demo of 30
                     gJoyResId++;

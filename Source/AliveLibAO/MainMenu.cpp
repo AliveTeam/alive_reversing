@@ -1302,7 +1302,7 @@ void Menu::MainScreen_Update()
             // Play a demo
             sDemoPlay = 1;
             mSelectedButtonIndex.mainmenu = MainMenuOptions::eBegin_1;
-            gAttract_507698 = 1;
+            gAttract = 1;
 
             char_type fileNameBuf[20] = {};
             sprintf(fileNameBuf, "PLAYBK%02d.JOY", gJoyResId);
@@ -1877,13 +1877,13 @@ void Menu::FMV_Or_Level_Select_Back_Update()
 
 void Menu::Loading_Update()
 {
-    if (!gAttract_507698)
+    if (!gAttract)
     {
         if (mMenuTrans)
         {
             if (mMenuTrans->field_16_bDone)
             {
-                if (gAttract_507698)
+                if (gAttract)
                 {
                     char_type buffer[92] = {};
                     sprintf(buffer, "loading Joy # %d\n", gJoyResId);
@@ -1918,7 +1918,7 @@ void Menu::NewGameStart()
         sActiveHero = relive_new Abe();
     }
 
-    if (gAttract_507698)
+    if (gAttract)
     {
         // OG bug fix: the demo will load a save which will call Kill_Objects_451720 which will delete this object
         // resulting in a crash when we try access any member vars at the end. Bump the ref count so we can kill ourselves instead.

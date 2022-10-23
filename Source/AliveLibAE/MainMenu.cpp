@@ -580,7 +580,7 @@ MainMenuController::MainMenuController(relive::Path_TLV* /*pTlv*/, const Guid& t
     sEnableCheatLevelSelect_5C1BEE = 0;
     sKilledMudokons_5C1BC0 = 0;
     sRescuedMudokons_5C1BC2 = 0;
-    gAttract_5C1BA0 = 0;
+    gAttract = 0;
     sSavedKilledMudsPerZulag_5C1B50.mData[ALIVE_COUNTOF(sSavedKilledMudsPerZulag_5C1B50.mData) - 1] = 0;
     sFeeco_Restart_KilledMudCount_5C1BC6 = 0;
     sFeecoRestart_SavedMudCount_5C1BC8 = 0;
@@ -1988,7 +1988,7 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
             }
         }
         
-        gAttract_5C1BA0 = 1;
+        gAttract = 1;
 
         if (field_208_transition_obj)
         {
@@ -2038,7 +2038,7 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
 
 MainMenuNextCam MainMenuController::DemoSelect_Update_4D0E10(u32 input)
 {
-    gAttract_5C1BA0 = 0;
+    gAttract = 0;
     gIsDemoStartedManually_5C1B9C = FALSE;
 
     s32 input_or_field_204 = input;

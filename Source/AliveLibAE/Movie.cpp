@@ -467,7 +467,7 @@ void Movie::VUpdate()
 
         while (!DDV_Play(mName))
         {
-            if (gAttract_5C1BA0)
+            if (gAttract)
             {
                 break;
             }

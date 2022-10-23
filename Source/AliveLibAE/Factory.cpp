@@ -588,7 +588,7 @@ static void Factory_SecurityOrb(relive::Path_TLV* pTlv, Path*, const Guid& tlvId
 
 static void Factory_AbeStart(relive::Path_TLV* pTlv, Path*, const Guid& /*tlvId*/, LoadMode loadmode)
 {
-    if (loadmode != LoadMode::LoadResourceFromList_1 && loadmode != LoadMode::LoadResource_2 && !gAttract_5C1BA0)
+    if (loadmode != LoadMode::LoadResourceFromList_1 && loadmode != LoadMode::LoadResource_2 && !gAttract)
     {
         if (!gPauseMenu)
         {
@@ -1329,7 +1329,7 @@ static void Factory_DemoSpawnPoint(relive::Path_TLV*, Path*, const Guid& /*tlvId
 {
     if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2)
     {
-        if (gAttract_5C1BA0)
+        if (gAttract)
         {
             if (!sDemoObj_dword_5D1E20)
             {

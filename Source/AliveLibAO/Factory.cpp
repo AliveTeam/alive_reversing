@@ -651,7 +651,7 @@ static void Factory_HoneySack(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid&
 
 static void Factory_AbeStart(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& /*tlvId*/, LoadMode loadMode)
 {
-    if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2 && !gAttract_507698)
+    if (loadMode != LoadMode::LoadResourceFromList_1 && loadMode != LoadMode::LoadResource_2 && !gAttract)
     {
         if (!gPauseMenu)
         {

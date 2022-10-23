@@ -12,7 +12,7 @@ extern u32 sGnFrame; // NOTE: Points to AE copy till moved to common lib
 namespace AO {
 
 
-extern s16 gAttract_507698;
+extern s16 gAttract;
 extern DynamicArrayT<BaseGameObject>* gLoadingFiles;
 extern s16 sBreakGameLoop;
 extern s8 gDDCheatOn;

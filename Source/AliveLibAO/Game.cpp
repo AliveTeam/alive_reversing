@@ -54,7 +54,7 @@ s16 gOldKilledMuds_5076D0 = 0;
 s16 gOldSavedMuds_5076D4 = 0;
 
 s16 sBreakGameLoop = 0;
-s16 gAttract_507698 = 0;
+s16 gAttract = 0;
 
 s8 gDDCheatOn = 0;
 
@@ -110,7 +110,7 @@ void Init_GameStates()
 }
 
 
-void Init_Sound_DynamicArrays_And_Others_41CD20()
+void Init_Sound_DynamicArrays_And_Others()
 {
     DebugFont_Init();
 
@@ -185,9 +185,10 @@ void Game_Loop()
 
         // Update objects
         GetGameAutoPlayer().SyncPoint(SyncPoints::ObjectsUpdateStart);
-        for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
+        for (s32 baseObjIdx = 0; baseObjIdx < gBaseGameObjects->Size(); baseObjIdx++)
         {
-            BaseGameObject* pBaseGameObject = gBaseGameObjects->ItemAt(i);
+            BaseGameObject* pBaseGameObject = gBaseGameObjects->ItemAt(baseObjIdx);
+
             if (!pBaseGameObject)
             {
                 break;
@@ -195,7 +196,7 @@ void Game_Loop()
 
             if (pBaseGameObject->mBaseGameObjectFlags.Get(BaseGameObject::eUpdatable_Bit2)
 			    && !pBaseGameObject->mBaseGameObjectFlags.Get(BaseGameObject::eDead) 
-				&& (gNumCamSwappers == 0 || pBaseGameObject->mBaseGameObjectFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
+                && (gNumCamSwappers == 0 || pBaseGameObject->mBaseGameObjectFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
             {
                 const s32 updateDelay = pBaseGameObject->UpdateDelay();
                 if (updateDelay <= 0)
@@ -259,9 +260,9 @@ void Game_Loop()
         GetGameAutoPlayer().SyncPoint(SyncPoints::RenderStart);
 
         // Destroy objects with certain flags
-        for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
+        for (s32 idx = 0; idx < gBaseGameObjects->Size(); idx++)
         {
-            BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
+            BaseGameObject* pObj = gBaseGameObjects->ItemAt(idx);
             if (!pObj)
             {
                 break;
@@ -269,7 +270,7 @@ void Game_Loop()
 
             if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && pObj->mBaseGameObjectRefCount == 0)
             {
-                i = gBaseGameObjects->RemoveAt(i);
+                idx = gBaseGameObjects->RemoveAt(idx);
                 delete pObj;
             }
         }
@@ -331,7 +332,7 @@ void Game_Run()
     // Begin start up
     SYS_EventsPump();
 
-    gAttract_507698 = 0;
+    gAttract = 0;
 
     SYS_EventsPump();
 
@@ -344,7 +345,7 @@ void Game_Run()
 
     AnimationBase::CreateAnimationArray();
 
-    Init_Sound_DynamicArrays_And_Others_41CD20();
+    Init_Sound_DynamicArrays_And_Others();
     Input_Init();
 
     gMap.Init(EReliveLevelIds::eMenu, 1, 10, CameraSwapEffects::eInstantChange_0, 0, 0);
