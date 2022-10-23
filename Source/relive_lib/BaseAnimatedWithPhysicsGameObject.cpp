@@ -11,7 +11,7 @@
 
 DynamicArrayT<BaseGameObject>* gObjListDrawables;
 
-void IBaseAnimatedWithPhysicsGameObject::CreateShadow()
+void BaseAnimatedWithPhysicsGameObject::CreateShadow()
 {
     mShadow = relive_new Shadow();
 }
@@ -28,7 +28,7 @@ void BaseAnimatedWithPhysicsGameObject::FreeArray()
 }
 
 BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject(s16 resourceArraySize)
-    : IBaseAnimatedWithPhysicsGameObject(resourceArraySize)
+    : BaseGameObject(true, resourceArraySize)
 {
     mVisualFlags.Clear(VisualFlags::eDoPurpleLightEffect);
     mVisualFlags.Set(VisualFlags::eApplyShadowZoneColour);

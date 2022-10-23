@@ -46,7 +46,7 @@ public:
     virtual void VOnPathTransition(s16 cameraWorldXPos, s16 cameraWorldYPos, CameraPos direction);
     virtual s16 VTakeDamage(BaseGameObject* pFrom);
     virtual void VOnTlvCollision(relive::Path_TLV* pTlv);
-    virtual void VCheckCollisionLineStillValid(s16 distance);
+    virtual void VCheckCollisionLineStillValid(s32 distance);
     virtual BirdPortal* VIntoBirdPortal(s16 gridBlocks);
     virtual void VOnTrapDoorOpen();
 
@@ -72,7 +72,7 @@ protected:
         mPreviousMotion = static_cast<s16>(motion);
     }
 
-    s16 SetBaseAnimPaletteTint(TintEntry* pTintArray, EReliveLevelIds level_id, PalId resourceID);
+    s16 SetBaseAnimPaletteTint(const TintEntry* pTintArray, EReliveLevelIds level_id, PalId resourceID);
     bool Check_IsOnEndOfLine(s16 direction, s16 distance);
     BaseAliveGameObject* GetStackedSlapTarget(const Guid& idToFind, ReliveTypes typeToFind, FP xpos, FP ypos);
     bool WallHit(FP offY, FP offX);

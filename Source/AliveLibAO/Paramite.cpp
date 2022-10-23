@@ -2928,7 +2928,7 @@ void Paramite::Motion_6_Hop()
         FP hitX = {};
         FP hitY = {};
 
-        if (InAirCollision_4019C0(&pLine, &hitX, &hitY, FP_FromDouble(0.9)))
+        if (InAirCollision(&pLine, &hitX, &hitY, FP_FromDouble(0.9)))
         {
             switch (pLine->mLineType)
             {
@@ -3171,7 +3171,7 @@ void Paramite::Motion_12_Falling()
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    if (InAirCollision_4019C0(&pLine, &hitX, &hitY, FP_FromDouble(1.8)))
+    if (InAirCollision(&pLine, &hitX, &hitY, FP_FromDouble(1.8)))
     {
         switch (pLine->mLineType)
         {

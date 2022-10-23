@@ -257,7 +257,7 @@ void BaseAliveGameObject::VOnTlvCollision(relive::Path_TLV* /*pTlv*/)
     // Empty
 }
 
-void BaseAliveGameObject::VCheckCollisionLineStillValid(s16 distance)
+void BaseAliveGameObject::VCheckCollisionLineStillValid(s32 distance)
 {
     PlatformBase* pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (!BaseAliveGameObjectCollisionLine)
@@ -361,28 +361,15 @@ void BaseAliveGameObject::VOnTrapDoorOpen()
     // Empty
 }
 
-s16 BaseAliveGameObject::SetBaseAnimPaletteTint(TintEntry* pTintArray, EReliveLevelIds level_id, PalId resourceID)
+s16 BaseAliveGameObject::SetBaseAnimPaletteTint(const TintEntry* pTintArray, EReliveLevelIds level_id, PalId palId)
 {
     SetTint(pTintArray, level_id); // Actually bugged for inputs that never happen as it should return 0
 
-    /*
-    u8** pPalResource = ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, resourceID, 1u, 0);
-
-    if (!pPalResource)
+    if (palId != PalId::Default)
     {
-        return 0;
-    }
-
-    mAnim.LoadPal(pPalResource, 0);
-    ResourceManager::FreeResource_49C330(pPalResource);
-    */
-
-    if (resourceID != PalId::Default)
-    {
-        PalResource res = ResourceManagerWrapper::LoadPal(resourceID);
+        PalResource res = ResourceManagerWrapper::LoadPal(palId);
         GetAnimation().LoadPal(res);
     }
-
     return 1;
 }
 
@@ -549,16 +536,17 @@ bool BaseAliveGameObject::WallHit(FP offY, FP offX)
         != 0;
 }
 
-bool BaseAliveGameObject::InAirCollision(PathLine** ppPathLine, FP* hitX, FP* hitY, FP velY)
+bool BaseAliveGameObject::InAirCollision(PathLine** ppLine, FP* hitX, FP* hitY, FP velY)
 {
     mVelY += GetSpriteScale() * velY;
+
     if (mVelY > (GetSpriteScale() * FP_FromInteger(20)))
     {
         mVelY = GetSpriteScale() * FP_FromInteger(20);
     }
 
-    const FP oldYPos = mYPos;
     const FP oldXPos = mXPos;
+    const FP oldYPos = mYPos;
 
     mXPos += mVelX;
     mYPos += mVelY;
@@ -568,7 +556,7 @@ bool BaseAliveGameObject::InAirCollision(PathLine** ppPathLine, FP* hitX, FP* hi
         oldYPos,
         mXPos,
         mYPos,
-        ppPathLine,
+        ppLine,
         hitX,
         hitY,
         GetScale() == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls);
@@ -589,21 +577,20 @@ bool BaseAliveGameObject::InAirCollision(PathLine** ppPathLine, FP* hitX, FP* hi
         mYPos,
         mXPos + mVelX,
         velYClamped + mYPos,
-        ppPathLine,
+        ppLine,
         hitX,
         hitY,
         GetScale() == Scale::Fg ? kFgFloor : kBgFloor);
 
     if (bCollision)
     {
-        if ((*ppPathLine)->mLineType == eLineTypes::eDynamicCollision_32 ||
-            (*ppPathLine)->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
+        if ((*ppLine)->mLineType == eLineTypes::eDynamicCollision_32 || (*ppLine)->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
         {
             return bCollision;
         }
 
         bCollision = FALSE;
-        *ppPathLine = nullptr;
+        *ppLine = nullptr;
     }
 
     if (!IsActiveHero(this))
@@ -617,7 +604,7 @@ bool BaseAliveGameObject::InAirCollision(PathLine** ppPathLine, FP* hitX, FP* hi
         oldYPos - k10Scaled,
         mXPos,
         mYPos - k10Scaled,
-        ppPathLine,
+        ppLine,
         hitX,
         hitY,
         GetScale() == Scale::Fg ? kFgWalls : kBgWalls);

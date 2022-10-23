@@ -54,9 +54,9 @@ inline constexpr EventScale AsEventScale(Scale scale)
     return EventScale::Half;
 }
 
-IBaseAnimatedWithPhysicsGameObject* IsEventInRange(Event eventType, FP xpos, FP ypos, EventScale scale);
+BaseAnimatedWithPhysicsGameObject* IsEventInRange(Event eventType, FP xpos, FP ypos, EventScale scale);
 
 // TODO: Get AO to stop using the FP scale and merge both copies
-IBaseAnimatedWithPhysicsGameObject* IsEventInRange(Event eventType, FP xpos, FP ypos, FP scale);
+BaseAnimatedWithPhysicsGameObject* IsEventInRange(Event eventType, FP xpos, FP ypos, FP scale);
 
 void EventCancelForObj(BaseGameObject* pObj);

@@ -53,7 +53,7 @@ void EventsResetActive()
 const s32 kGridMapWidth = 375;
 const s32 kGridMapHeight = 260;
 
-IBaseAnimatedWithPhysicsGameObject* IsEventInRange(Event eventType, FP xpos, FP ypos, EventScale scale)
+BaseAnimatedWithPhysicsGameObject* IsEventInRange(Event eventType, FP xpos, FP ypos, EventScale scale)
 {
     BaseGameObject* pObj = sEventPtrs.mEvents[sEventsToUse].mEventPtrs[eventType];
     if (!pObj)
@@ -67,7 +67,7 @@ IBaseAnimatedWithPhysicsGameObject* IsEventInRange(Event eventType, FP xpos, FP 
     }
 
     // At this point we known the type must be BaseAnimatedWithPhysicsGameObject
-    auto pDerived = static_cast<IBaseAnimatedWithPhysicsGameObject*>(pObj);
+    auto pDerived = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
     if (GetGameType() == GameType::eAe)
     {
         if ((scale == EventScale::Both || AsEventScale(pDerived->GetScale()) == scale)
@@ -88,7 +88,7 @@ IBaseAnimatedWithPhysicsGameObject* IsEventInRange(Event eventType, FP xpos, FP 
     return nullptr;
 }
 
-IBaseAnimatedWithPhysicsGameObject* IsEventInRange(Event eventType, FP xpos, FP ypos, FP scale)
+BaseAnimatedWithPhysicsGameObject* IsEventInRange(Event eventType, FP xpos, FP ypos, FP scale)
 {
     BaseGameObject* pObj = sEventPtrs.mEvents[sEventsToUse].mEventPtrs[eventType];
     if (!pObj)
@@ -102,7 +102,7 @@ IBaseAnimatedWithPhysicsGameObject* IsEventInRange(Event eventType, FP xpos, FP 
     }
 
     // At this point we known the type must be BaseAnimatedWithPhysicsGameObject
-    auto pDerived = static_cast<IBaseAnimatedWithPhysicsGameObject*>(pObj);
+    auto pDerived = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
     if (pDerived->GetSpriteScale() == scale && FP_Abs(xpos - pDerived->mXPos) < FP_FromInteger(640) && // gPsxDisplay.mWidth
         FP_Abs(ypos - pDerived->mYPos) < FP_FromInteger(240))                                       // gPsxDisplay.mHeight
     {

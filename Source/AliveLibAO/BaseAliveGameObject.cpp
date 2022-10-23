@@ -193,17 +193,7 @@ void BaseAliveGameObject::VSetYSpawn(s32 camWorldY, s16 bLeft)
     }
 }
 
-void BaseAliveGameObject::VOnPathTransition(s16 camWorldX, s32 camWorldY, CameraPos direction)
-{
-    VOnPathTransition_401470(camWorldX, camWorldY, direction);
-}
-
-s16 BaseAliveGameObject::VTakeDamage(BaseGameObject* pFrom)
-{
-    return VTakeDamage_401920(pFrom);
-}
-
-s16 BaseAliveGameObject::VTakeDamage_401920(BaseGameObject* /*pFrom*/)
+s16 BaseAliveGameObject::VTakeDamage(BaseGameObject* /*pFrom*/)
 {
     // Defaults to no damage.
     return 0;
@@ -215,16 +205,6 @@ void BaseAliveGameObject::VOnTlvCollision(relive::Path_TLV* /*pTlv*/)
 }
 
 void BaseAliveGameObject::VCheckCollisionLineStillValid(s32 distance)
-{
-    VCheckCollisionLineStillValid_401A90(distance);
-}
-
-void BaseAliveGameObject::VOnTrapDoorOpen()
-{
-    // Empty
-}
-
-void BaseAliveGameObject::VCheckCollisionLineStillValid_401A90(s32 distance)
 {
     if (BaseAliveGameObjectCollisionLine)
     {
@@ -247,8 +227,7 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid_401A90(s32 distance)
             mYPos = hitY;
             if (mLiftPoint)
             {
-                if (pLine->mLineType == eLineTypes ::eDynamicCollision_32 ||
-                    pLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
+                if (pLine->mLineType == eLineTypes ::eDynamicCollision_32 || pLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
                 {
                     // OG bug fix: didn't remove ourself from the lift!
                     mLiftPoint->VRemove(this);
@@ -348,30 +327,14 @@ BirdPortal* BaseAliveGameObject::IntoBirdPortal_402350(s16 distance)
     return nullptr;
 }
 
-
-s16 BaseAliveGameObject::SetBaseAnimPaletteTint(const TintEntry* pTintArray, EReliveLevelIds lvl, PalId palId)
+void BaseAliveGameObject::VOnTrapDoorOpen()
 {
-    const TintEntry* pIter = pTintArray;
-    while (pIter->field_0_level != lvl)
-    {
-        if (pIter->field_0_level == EReliveLevelIds::eNone) // End of entries
-        {
-            return 0;
-        }
-        pIter++;
-    }
+    // Empty
+}
 
-    mRGB.SetRGB(pIter->field_1_r, pIter->field_2_g, pIter->field_3_b);
-
-    /*
-    u8** ppRes = ResourceManager::GetLoadedResource(ResourceManager::Resource_Palt, palId, 1, 0);
-    if (!ppRes)
-    {
-        return 0;
-    }
-    mAnim.LoadPal(ppRes, 0);
-    ResourceManager::FreeResource_455550(ppRes);
-    */
+s16 BaseAliveGameObject::SetBaseAnimPaletteTint(const TintEntry* pTintArray, EReliveLevelIds level_id, PalId palId)
+{
+    SetTint(pTintArray, level_id); // Actually bugged for inputs that never happen as it should return 0
 
     if (palId != PalId::Default)
     {
@@ -381,20 +344,21 @@ s16 BaseAliveGameObject::SetBaseAnimPaletteTint(const TintEntry* pTintArray, ERe
     return 1;
 }
 
-s16 BaseAliveGameObject::Check_IsOnEndOfLine(s16 direction, s16 dist)
+bool BaseAliveGameObject::Check_IsOnEndOfLine(s16 direction, s16 distance)
 {
     // Check if distance grid blocks from current snapped X is still on the line or not, if not then we are
     // about to head off an edge.
+
     const FP gridSize = ScaleToGridSize(GetSpriteScale());
 
     FP xLoc = {};
     if (direction == 1)
     {
-        xLoc = -(gridSize * FP_FromInteger(dist));
+        xLoc = -(gridSize * FP_FromInteger(distance));
     }
     else
     {
-        xLoc = gridSize * FP_FromInteger(dist);
+        xLoc = gridSize * FP_FromInteger(distance);
     }
 
     const s16 xposRounded = FP_GetExponent(mXPos) & 1023;
@@ -419,7 +383,7 @@ s16 BaseAliveGameObject::Check_IsOnEndOfLine(s16 direction, s16 dist)
         == 0;
 }
 
-void BaseAliveGameObject::VOnPathTransition_401470(s16 camWorldX, s32 camWorldY, CameraPos direction)
+void BaseAliveGameObject::VOnPathTransition(s16 camWorldX, s32 camWorldY, CameraPos direction)
 {
     const FP oldx = mXPos;
     const FP oldy = mYPos;
@@ -701,7 +665,7 @@ s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
     }
 }
 
-void BaseAliveGameObject::SetActiveCameraDelayedFromDir_401C90()
+void BaseAliveGameObject::SetActiveCameraDelayedFromDir()
 {
     if (sControlledCharacter == this)
     {
@@ -735,6 +699,10 @@ void BaseAliveGameObject::SetActiveCameraDelayedFromDir_401C90()
                 }
                 break;
 
+            case CameraPos::eCamCurrent_0:
+            case CameraPos::eCamNone_5:
+                return;
+
             default:
                 return;
         }
@@ -758,13 +726,13 @@ s16 BaseAliveGameObject::WallHit(FP offY, FP offX)
         != 0;
 }
 
-s16 BaseAliveGameObject::InAirCollision_4019C0(PathLine** ppLine, FP* hitX, FP* hitY, FP vely)
+bool BaseAliveGameObject::InAirCollision(PathLine** ppLine, FP* hitX, FP* hitY, FP vely)
 {
-    mVelY += (GetSpriteScale() * vely);
+    mVelY += GetSpriteScale() * vely;
 
     if (mVelY > (GetSpriteScale() * FP_FromInteger(20)))
     {
-        mVelY = (GetSpriteScale() * FP_FromInteger(20));
+        mVelY = GetSpriteScale() * FP_FromInteger(20);
     }
 
     const FP old_xpos = mXPos;
@@ -821,7 +789,7 @@ void BaseAliveGameObject::UsePathTransScale_4020D0()
     }
 }
 
-BaseGameObject* BaseAliveGameObject::FindObjectOfType_418280(ReliveTypes typeToFind, FP xpos, FP ypos)
+BaseGameObject* BaseAliveGameObject::FindObjectOfType(ReliveTypes typeToFind, FP xpos, FP ypos)
 {
     const s32 xpos_int = FP_GetExponent(xpos);
     const s32 ypos_int = FP_GetExponent(ypos);

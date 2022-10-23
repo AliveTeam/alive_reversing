@@ -1040,7 +1040,7 @@ void Abe::VUpdate()
                 if (mYPos >= FP_FromInteger(mapSize.y))
                 {
                     mYPos = FP_FromInteger(mapSize.y) - FP_FromInteger(1);
-                    SetActiveCameraDelayedFromDir_401C90();
+                    SetActiveCameraDelayedFromDir();
                     return;
                 }
             }
@@ -1049,7 +1049,7 @@ void Abe::VUpdate()
                 mVelX = FP_FromInteger(0);
                 mVelY = FP_FromInteger(0);
             }
-            SetActiveCameraDelayedFromDir_401C90();
+            SetActiveCameraDelayedFromDir();
         }
         else
         {
@@ -1355,7 +1355,7 @@ void Abe::FollowLift_42EE90()
             mLiftPoint->VOnPickUpOrSlapped();
             field_2A8_flags.Set(Flags_2A8::e2A8_Bit1);
         }
-        SetActiveCameraDelayedFromDir_401C90();
+        SetActiveCameraDelayedFromDir();
     }
 }
 
@@ -2777,7 +2777,7 @@ s16 Abe::HandleDoAction_429A70()
                     }
 
                     // Get switch
-                    auto pSwitch = static_cast<Lever*>(FindObjectOfType_418280(
+                    auto pSwitch = static_cast<Lever*>(FindObjectOfType(
                         ReliveTypes::eLever,
                         mXPos + ScaleToGridSize(GetSpriteScale()),
                         mYPos - FP_FromInteger(5)));
@@ -2798,7 +2798,7 @@ s16 Abe::HandleDoAction_429A70()
                     }
 
                     // Get switch
-                    auto pSwitch = static_cast<Lever*>(FindObjectOfType_418280(
+                    auto pSwitch = static_cast<Lever*>(FindObjectOfType(
                         ReliveTypes::eLever,
                         mXPos - ScaleToGridSize(GetSpriteScale()),
                         mYPos - FP_FromInteger(5)));
@@ -2818,7 +2818,7 @@ s16 Abe::HandleDoAction_429A70()
 
             case ReliveTypes::eBoomMachine:
             {
-                auto pBoomMachine = static_cast<BoomMachine*>(FindObjectOfType_418280(
+                auto pBoomMachine = static_cast<BoomMachine*>(FindObjectOfType(
                     ReliveTypes::eBoomMachine,
                     mXPos,
                     mYPos - (GetSpriteScale() * FP_FromInteger(25))));
@@ -3578,7 +3578,7 @@ void Abe::Motion_0_Idle()
                 }
                 case ReliveTypes::eBoomMachine:
                 {
-                    auto pMachineButton = static_cast<BoomMachine*>(FindObjectOfType_418280(
+                    auto pMachineButton = static_cast<BoomMachine*>(FindObjectOfType(
                         ReliveTypes::eBoomMachine,
                         mXPos,
                         mYPos - GetSpriteScale() * FP_FromInteger(25)));
@@ -3876,11 +3876,11 @@ void Abe::Motion_2_StandingTurn()
                     Lever* pSwitch;
                     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                     {
-                        pSwitch = static_cast<Lever*>(FindObjectOfType_418280(ReliveTypes::eLever, mXPos - ScaleToGridSize(GetSpriteScale()), mYPos - FP_FromInteger(5)));
+                        pSwitch = static_cast<Lever*>(FindObjectOfType(ReliveTypes::eLever, mXPos - ScaleToGridSize(GetSpriteScale()), mYPos - FP_FromInteger(5)));
                     }
                     else
                     {
-                        pSwitch = static_cast<Lever*>(FindObjectOfType_418280(ReliveTypes::eLever, mXPos + ScaleToGridSize(GetSpriteScale()), mYPos - FP_FromInteger(5)));
+                        pSwitch = static_cast<Lever*>(FindObjectOfType(ReliveTypes::eLever, mXPos + ScaleToGridSize(GetSpriteScale()), mYPos - FP_FromInteger(5)));
                     }
 
                     if (pSwitch)
@@ -3957,8 +3957,8 @@ void Abe::Motion_3_Fall()
     FP hitX = {};
     FP hitY = {};
     PathLine* pPathLine = nullptr;
-    const s32 bCollision = InAirCollision_4019C0(&pPathLine, &hitX, &hitY, FP_FromDouble(1.8));
-    SetActiveCameraDelayedFromDir_401C90();
+    const s32 bCollision = InAirCollision(&pPathLine, &hitX, &hitY, FP_FromDouble(1.8));
+    SetActiveCameraDelayedFromDir();
 
     BaseAliveGameObjectPathTLV = gMap.TLV_Get_At(
         nullptr,
@@ -4296,8 +4296,8 @@ void Abe::Motion_17_HoistIdle()
     PathLine* pPathLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    const auto bCollision = InAirCollision_4019C0(&pPathLine, &hitX, &hitY, FP_FromDouble(1.8));
-    SetActiveCameraDelayedFromDir_401C90();
+    const auto bCollision = InAirCollision(&pPathLine, &hitX, &hitY, FP_FromDouble(1.8));
+    SetActiveCameraDelayedFromDir();
     if (bCollision)
     {
         switch (pPathLine->mLineType)
@@ -5062,11 +5062,11 @@ void Abe::Motion_30_HopMid()
             FP hitX = {};
             FP hitY = {};
 
-            // this has to be called before SetActiveCameraDelayedFromDir_401C90,
+            // this has to be called before SetActiveCameraDelayedFromDir,
             // due to both of them modifying the same private fields in a fixed order
-            bool hasCollidedWithAir = InAirCollision_4019C0(&pLine, &hitX, &hitY, FP_FromDouble(1.80));
+            bool hasCollidedWithAir = InAirCollision(&pLine, &hitX, &hitY, FP_FromDouble(1.80));
 
-            SetActiveCameraDelayedFromDir_401C90();
+            SetActiveCameraDelayedFromDir();
 
             if (hasCollidedWithAir)
             {
@@ -5219,9 +5219,9 @@ void Abe::Motion_33_RunJumpMid()
     FP hitX = {};
     FP hitY = {};
     PathLine* pLine = nullptr;
-    auto bCollision = InAirCollision_4019C0(&pLine, &hitX, &hitY, FP_FromDouble(1.8));
+    auto bCollision = InAirCollision(&pLine, &hitX, &hitY, FP_FromDouble(1.8));
 
-    SetActiveCameraDelayedFromDir_401C90();
+    SetActiveCameraDelayedFromDir();
 
     if (bCollision)
     {
@@ -7332,7 +7332,7 @@ void Abe::Motion_79_WellShotOut()
         mXPos += mVelX;
         mYPos += mVelY;
 
-        SetActiveCameraDelayedFromDir_401C90();
+        SetActiveCameraDelayedFromDir();
         BaseAliveGameObjectPathTLV = gMap.TLV_Get_At(
             nullptr,
             mXPos,
@@ -8611,7 +8611,7 @@ void Abe::Motion_141_BeesStrugglingOnLift()
             VOnTrapDoorOpen();
             field_2A8_flags.Set(Flags_2A8::e2A8_Bit1);
         }
-        SetActiveCameraDelayedFromDir_401C90();
+        SetActiveCameraDelayedFromDir();
     }
 
     mVelY = pLiftPoint->mVelY;

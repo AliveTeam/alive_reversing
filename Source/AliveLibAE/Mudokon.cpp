@@ -1932,9 +1932,9 @@ s16 Mudokon::Brain_1_Chisel()
         }
     }
 
-    IBaseAnimatedWithPhysicsGameObject* pAbuseEvent = IsEventInRange(kEventMudokonAbuse, mXPos, mYPos, AsEventScale(GetScale()));
-    IBaseAnimatedWithPhysicsGameObject* pDeadMudEvent = IsEventInRange(kEventMudokonDied, mXPos, mYPos, AsEventScale(GetScale()));
-    IBaseAnimatedWithPhysicsGameObject* pLoudNoiseEvent = IsEventInRange(kEventLoudNoise, mXPos, mYPos, AsEventScale(GetScale()));
+    BaseAnimatedWithPhysicsGameObject* pAbuseEvent = IsEventInRange(kEventMudokonAbuse, mXPos, mYPos, AsEventScale(GetScale()));
+    BaseAnimatedWithPhysicsGameObject* pDeadMudEvent = IsEventInRange(kEventMudokonDied, mXPos, mYPos, AsEventScale(GetScale()));
+    BaseAnimatedWithPhysicsGameObject* pLoudNoiseEvent = IsEventInRange(kEventLoudNoise, mXPos, mYPos, AsEventScale(GetScale()));
 
     const bool reactToAbused = (pAbuseEvent && pAbuseEvent != this && mBrainSubState != Brain_1_Chisle::eBrain1_StandUp_3 && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0));
 
@@ -2344,7 +2344,7 @@ s16 Mudokon::Brain_2_CrouchScrub()
         }
     }
 
-    IBaseAnimatedWithPhysicsGameObject* pDied = IsEventInRange(
+    BaseAnimatedWithPhysicsGameObject* pDied = IsEventInRange(
         kEventMudokonDied,
         mXPos,
         mYPos,
@@ -2384,7 +2384,7 @@ s16 Mudokon::Brain_2_CrouchScrub()
         }
     }
 
-    IBaseAnimatedWithPhysicsGameObject* pLoudNoise = IsEventInRange(
+    BaseAnimatedWithPhysicsGameObject* pLoudNoise = IsEventInRange(
         kEventLoudNoise,
         mXPos,
         mYPos,
@@ -2780,7 +2780,7 @@ s16 Mudokon::Brain_3_TurnWheel()
         }
     }
 
-    IBaseAnimatedWithPhysicsGameObject* pMudAbuseEvent = IsEventInRange(
+    BaseAnimatedWithPhysicsGameObject* pMudAbuseEvent = IsEventInRange(
         kEventMudokonAbuse,
         mXPos,
         mYPos,
@@ -2819,7 +2819,7 @@ s16 Mudokon::Brain_3_TurnWheel()
         }
     }
 
-    IBaseAnimatedWithPhysicsGameObject* pLoudNoiseEvent = IsEventInRange(
+    BaseAnimatedWithPhysicsGameObject* pLoudNoiseEvent = IsEventInRange(
         kEventLoudNoise,
         mXPos,
         mYPos,
@@ -3078,7 +3078,7 @@ s16 Mudokon::Brain_4_ListeningToAbe()
         field_17E_delayed_speak = MudAction::eDuck_13;
     }
 
-    IBaseAnimatedWithPhysicsGameObject* pNoiseEvent = IsEventInRange(
+    BaseAnimatedWithPhysicsGameObject* pNoiseEvent = IsEventInRange(
         kEventLoudNoise,
         mXPos,
         mYPos,

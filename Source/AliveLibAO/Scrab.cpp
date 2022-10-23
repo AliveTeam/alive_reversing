@@ -1257,7 +1257,7 @@ void Scrab::Motion_7_HopMidair()
     }
     else
     {
-        if (InAirCollision_4019C0(&pLine, &hitX, &hitY, FP_FromDouble(1.8)))
+        if (InAirCollision(&pLine, &hitX, &hitY, FP_FromDouble(1.8)))
         {
             switch (pLine->mLineType)
             {
@@ -1363,7 +1363,7 @@ void Scrab::Motion_9_JumpToFall()
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    if (InAirCollision_4019C0(&pLine, &hitX, &hitY, FP_FromDouble(1.8)))
+    if (InAirCollision(&pLine, &hitX, &hitY, FP_FromDouble(1.8)))
     {
         switch (pLine->mLineType)
         {
@@ -1546,7 +1546,7 @@ void Scrab::Motion_13_RunJumpBegin()
         PathLine* pLine = nullptr;
         FP hitX = {};
         FP hitY = {};
-        if (InAirCollision_4019C0(&pLine, &hitX, &hitY, FP_FromDouble(1.8)))
+        if (InAirCollision(&pLine, &hitX, &hitY, FP_FromDouble(1.8)))
         {
             switch (pLine->mLineType)
             {

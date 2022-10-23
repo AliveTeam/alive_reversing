@@ -34,53 +34,6 @@ enum class Scale : s16
     Fg = 1,
 };
 
-// Another glue/adapter interface
-class IBaseAnimatedWithPhysicsGameObject : public BaseGameObject
-{
-public:
-    explicit IBaseAnimatedWithPhysicsGameObject(s16 resourceArraySize)
-        : BaseGameObject(true, resourceArraySize)
-    {
-    }
-
-    virtual ~IBaseAnimatedWithPhysicsGameObject()
-    {
-    }
-    const Scale& GetScale() const { return mScale; }
-    void SetScale(Scale val) { mScale = val; }
-    const FP& GetSpriteScale() const { return mSpriteScale; }
-    void SetSpriteScale(FP val) { mSpriteScale = val; }
-    Animation& GetAnimation() { return mAnim; }
-    void CreateShadow();
-
-public:
-    FP mXPos = {};
-    FP mYPos = {};
-    s16 mCurrentPath = 0;
-    EReliveLevelIds mCurrentLevel = EReliveLevelIds::eNone;
-    FP mVelX = {};
-    FP mVelY = {};
-
-    RGB16 mRGB;
-    s16 mYOffset = 0;
-    s16 mXOffset = 0;
-    enum VisualFlags : s16
-    {
-        eApplyShadowZoneColour = 0x1,
-        eDoPurpleLightEffect = 0x2
-    };
-    BitField16<VisualFlags> mVisualFlags = {};
-    const Shadow* GetShadow() const { return mShadow; }
-    Shadow* GetShadow() { return mShadow; }
-private:
-    Animation mAnim = {};
-    Scale mScale = Scale::Fg;
-    FP mSpriteScale = {};
-
-protected:
-    Shadow* mShadow = nullptr;
-};
-
 #ifdef _MSC_VER
 // NOTE: __single_inheritance required to workaround MSVC code gen bug
 // https://stackoverflow.com/questions/8676879/member-function-pointer-runtime-error-the-value-of-esp-was-not-properly-saved
@@ -91,7 +44,7 @@ class BaseAnimatedWithPhysicsGameObject;
 
 using TCollisionCallBack = s16 (BaseGameObject::*)(BaseGameObject*); // Typically points to something in the derived type.. pretty strange, probably also why its a function pointer
 
-class BaseAnimatedWithPhysicsGameObject : public IBaseAnimatedWithPhysicsGameObject
+class BaseAnimatedWithPhysicsGameObject : public BaseGameObject
 {
 public:
     static void MakeArray();
@@ -130,6 +83,69 @@ protected:
     };
 
     BetweenCamPos BetweenCameras_418500();
+
+public:
+    FP mXPos = {};
+    FP mYPos = {};
+    s16 mCurrentPath = 0;
+    EReliveLevelIds mCurrentLevel = EReliveLevelIds::eNone;
+    FP mVelX = {};
+    FP mVelY = {};
+
+    RGB16 mRGB;
+    s16 mYOffset = 0;
+    s16 mXOffset = 0;
+    enum VisualFlags : s16
+    {
+        eApplyShadowZoneColour = 0x1,
+        eDoPurpleLightEffect = 0x2
+    };
+    BitField16<VisualFlags> mVisualFlags = {};
+
+    const Shadow* GetShadow() const
+    {
+        return mShadow;
+    }
+
+    Shadow* GetShadow()
+    {
+        return mShadow;
+    }
+
+    const Scale& GetScale() const
+    {
+        return mScale;
+    }
+
+    void SetScale(Scale val)
+    {
+        mScale = val;
+    }
+
+    const FP& GetSpriteScale() const
+    {
+        return mSpriteScale;
+    }
+
+    void SetSpriteScale(FP val)
+    {
+        mSpriteScale = val;
+    }
+
+    Animation& GetAnimation()
+    {
+        return mAnim;
+    }
+
+    void CreateShadow();
+
+private:
+    Animation mAnim = {};
+    Scale mScale = Scale::Fg;
+    FP mSpriteScale = {};
+
+protected:
+    Shadow* mShadow = nullptr;
 };
 
 extern DynamicArrayT<BaseGameObject>* gObjListDrawables;

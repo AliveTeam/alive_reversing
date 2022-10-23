@@ -1119,7 +1119,7 @@ void Slog::Motion_4_Fall_4750C0()
     FP hitX = {};
     FP hitY = {};
 
-    if (InAirCollision_4019C0(&pLine, &hitX, &hitY, FP_FromDouble(1.8)))
+    if (InAirCollision(&pLine, &hitX, &hitY, FP_FromDouble(1.8)))
     {
         switch (pLine->mLineType)
         {

@@ -2399,7 +2399,7 @@ void Mudokon::Motion_51_Fall()
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    if (InAirCollision_4019C0(&pLine, &hitX, &hitY, FP_FromDouble(1.8)))
+    if (InAirCollision(&pLine, &hitX, &hitY, FP_FromDouble(1.8)))
     {
         switch (pLine->mLineType)
         {
@@ -3193,7 +3193,7 @@ s16 Mudokon::Brain_6_LeverUse()
         directedGridSize = ScaleToGridSize(GetSpriteScale());
     }
 
-    auto pSwitch = static_cast<Lever*>(FindObjectOfType_418280(ReliveTypes::eLever, mXPos + directedGridSize, mYPos - ScaleToGridSize(GetSpriteScale())));
+    auto pSwitch = static_cast<Lever*>(FindObjectOfType(ReliveTypes::eLever, mXPos + directedGridSize, mYPos - ScaleToGridSize(GetSpriteScale())));
     if (pSwitch)
     {
         pSwitch->VPull(mXPos < pSwitch->mXPos);

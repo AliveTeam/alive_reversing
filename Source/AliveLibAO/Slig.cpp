@@ -606,7 +606,7 @@ void Slig::VUpdate()
             mVelY = FP_FromInteger(0);
         }
 
-        SetActiveCameraDelayedFromDir_401C90();
+        SetActiveCameraDelayedFromDir();
 
         BaseAliveGameObjectLastLineYPos = mYPos;
     }
@@ -1680,7 +1680,7 @@ void Slig::CheckPlatformVanished()
             VOnTrapDoorOpen();
             mCurrentMotion = oldMotion;
         }
-        SetActiveCameraDelayedFromDir_401C90();
+        SetActiveCameraDelayedFromDir();
     }
 }
 
@@ -2030,7 +2030,7 @@ s16 Slig::HandlePlayerControlled()
                 {
                     if (!(GetAnimation().mFlags.Get(AnimFlags::eFlipX)))
                     {
-                        auto pSwitch = static_cast<Lever*>(FindObjectOfType_418280(
+                        auto pSwitch = static_cast<Lever*>(FindObjectOfType(
                             ReliveTypes::eLever,
                             mXPos + kScaleGrid,
                             mYPos - FP_FromInteger(5)));
@@ -2052,7 +2052,7 @@ s16 Slig::HandlePlayerControlled()
                 {
                     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                     {
-                        auto pSwitch = static_cast<Lever*>(FindObjectOfType_418280(ReliveTypes::eLever, mXPos - kScaleGrid, mYPos - FP_FromInteger(5)));
+                        auto pSwitch = static_cast<Lever*>(FindObjectOfType(ReliveTypes::eLever, mXPos - kScaleGrid, mYPos - FP_FromInteger(5)));
                         if (pSwitch)
                         {
                             pSwitch->VPull(
@@ -2867,8 +2867,8 @@ void Slig::Motion_7_Falling()
     FP hitX = {};
     FP hitY = {};
     PathLine* pLine = nullptr;
-    const s16 bHit = InAirCollision_4019C0(&pLine, &hitX, &hitY, FP_FromDouble(1.8));
-    SetActiveCameraDelayedFromDir_401C90();
+    const s16 bHit = InAirCollision(&pLine, &hitX, &hitY, FP_FromDouble(1.8));
+    SetActiveCameraDelayedFromDir();
     if (bHit)
     {
         switch (pLine->mLineType)
@@ -4859,7 +4859,7 @@ s16 Slig::Brain_Idle()
                     FP kScaleGrid = ScaleToGridSize(GetSpriteScale());
                     if ((FP_FromInteger(FP_GetExponent(mXPos) - pTlv->mTopLeftX) < kScaleGrid && !(GetAnimation().mFlags.Get(AnimFlags::eFlipX))) || (FP_FromInteger(pTlv->mBottomRightX - FP_GetExponent(mXPos)) < kScaleGrid && GetAnimation().mFlags.Get(AnimFlags::eFlipX)))
                     {
-                        auto pSwitch = static_cast<Lever*>(FindObjectOfType_418280(
+                        auto pSwitch = static_cast<Lever*>(FindObjectOfType(
                             ReliveTypes::eLever,
                             mXPos + kScaleGrid,
                             mYPos - FP_FromInteger(5)));

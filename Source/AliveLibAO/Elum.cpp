@@ -388,7 +388,7 @@ void Elum::CheckLiftPointGoneAndSetCamera()
 
         if (sControlledCharacter == this)
         {
-            SetActiveCameraDelayedFromDir_401C90();
+            SetActiveCameraDelayedFromDir();
         }
     }
 }
@@ -2298,11 +2298,11 @@ void Elum::Motion_21_Land_414A20()
     PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
-    const s16 bHit = InAirCollision_4019C0(&pLine, &hitX, &hitY, FP_FromDouble(1.8));
+    const s16 bHit = InAirCollision(&pLine, &hitX, &hitY, FP_FromDouble(1.8));
 
     if (sControlledCharacter == this)
     {
-        SetActiveCameraDelayedFromDir_401C90();
+        SetActiveCameraDelayedFromDir();
     }
 
     if (bHit)
@@ -2558,14 +2558,14 @@ void Elum::RunJumpMidAndHopMid(MidType midType)
         const FP velY = midType == MidType::eRunJumpMid ? FP_FromDouble(0.8) : FP_FromDouble(0.9);
         const FP jump_velx = midType == MidType::eRunJumpMid ? FP_FromDouble(1.1) : FP_FromDouble(2.15);
 
-        const auto InAirCollision = InAirCollision_4019C0(&BaseAliveGameObjectCollisionLine, &hitX, &hitY, velY);
+        const auto bInAirCollision = InAirCollision(&BaseAliveGameObjectCollisionLine, &hitX, &hitY, velY);
 
         if (sControlledCharacter == this)
         {
-            SetActiveCameraDelayedFromDir_401C90();
+            SetActiveCameraDelayedFromDir();
         }
 
-        if (InAirCollision)
+        if (bInAirCollision)
         {
             switch (BaseAliveGameObjectCollisionLine->mLineType)
             {
@@ -3314,7 +3314,7 @@ void Elum::VUpdate()
             mVelY = FP_FromInteger(0);
         }
 
-        SetActiveCameraDelayedFromDir_401C90();
+        SetActiveCameraDelayedFromDir();
 
         sActiveHero->mXPos = mXPos;
         sActiveHero->mYPos = mYPos;

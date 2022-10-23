@@ -996,7 +996,7 @@ s16 Glukkon::Brain_0_Calm_WalkAround_440B40()
         return 6;
     }
 
-    IBaseAnimatedWithPhysicsGameObject* pEvent17 = nullptr;
+    BaseAnimatedWithPhysicsGameObject* pEvent17 = nullptr;
 
     switch (mBrainSubState)
     {

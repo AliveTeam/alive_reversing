@@ -53,17 +53,6 @@ public:
     virtual void VCheckCollisionLineStillValid(s32 distance);
     virtual void VOnTrapDoorOpen();
 
-
-
-private:
-
-    s16 VTakeDamage_401920(BaseGameObject* pFrom);
-
-    void VOnPathTransition_401470(s16 camWorldX, s32 camWorldY, CameraPos direction);
-
-
-    void VCheckCollisionLineStillValid_401A90(s32 distance);
-
 protected:
     template<class T>
     inline void SetCurrentMotion(T motion)
@@ -81,13 +70,13 @@ protected:
         mPreviousMotion = static_cast<s16>(motion);
     }
 
-    void SetActiveCameraDelayedFromDir_401C90();
+    void SetActiveCameraDelayedFromDir();
 
     static void OnResourceLoaded_4019A0(BaseAliveGameObject* ppRes);
 
     void UsePathTransScale_4020D0();
 
-    static BaseGameObject* FindObjectOfType_418280(ReliveTypes typeToFind, FP xpos, FP ypos);
+    static BaseGameObject* FindObjectOfType(ReliveTypes typeToFind, FP xpos, FP ypos);
 
     BirdPortal* IntoBirdPortal_402350(s16 distance);
 
@@ -95,11 +84,11 @@ protected:
 
     s16 WallHit(FP offY, FP offX);
 
-    s16 InAirCollision_4019C0(PathLine** ppLine, FP* hitX, FP* hitY, FP vely);
+    bool InAirCollision(PathLine** ppLine, FP* hitX, FP* hitY, FP vely);
 
     s16 SetBaseAnimPaletteTint(const TintEntry* pTintArray, EReliveLevelIds lvl, PalId palId);
 
-    s16 Check_IsOnEndOfLine(s16 direction, s16 dist);
+    bool Check_IsOnEndOfLine(s16 direction, s16 distance);
 
 public:
     s16 OnTrapDoorIntersection_401C10(PlatformBase* pPlatform);

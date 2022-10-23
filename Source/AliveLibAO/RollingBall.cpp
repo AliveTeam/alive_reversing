@@ -158,7 +158,7 @@ void RollingBall::VUpdate()
             FP hitX = {};
             FP hitY = {};
 
-            if (InAirCollision_4019C0(&pLine, &hitX, &hitY, FP_FromInteger(0)))
+            if (InAirCollision(&pLine, &hitX, &hitY, FP_FromInteger(0)))
             {
                 if (pLine->mLineType != eLineTypes::eFloor_0 && pLine->mLineType != eLineTypes::eBackgroundFloor_4)
                 {
@@ -273,7 +273,7 @@ void RollingBall::VUpdate()
             PathLine* pLine = nullptr;
             FP hitX = {};
             FP hitY = {};
-            if (!InAirCollision_4019C0(&pLine, &hitX, &hitY, FP_FromDouble(1.8)))
+            if (!InAirCollision(&pLine, &hitX, &hitY, FP_FromDouble(1.8)))
             {
                 if (mYPos - BaseAliveGameObjectLastLineYPos > FP_FromInteger(240))
                 {
