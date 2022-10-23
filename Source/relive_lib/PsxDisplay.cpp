@@ -195,8 +195,8 @@ void PsxDisplay::Init()
     Vram_init();
     Vram_alloc(0, 0, 639, 271);
     Pal_Area_Init(0, 240, 640, 32);
-    PSX_ClearOTag_4F6290(mDrawEnvs[0].mOrderingTable, mBufferSize);
-    PSX_ClearOTag_4F6290(mDrawEnvs[1].mOrderingTable, mBufferSize);
+    PSX_ClearOTag(mDrawEnvs[0].mOrderingTable, mBufferSize);
+    PSX_ClearOTag(mDrawEnvs[1].mOrderingTable, mBufferSize);
     PSX_SetDefDrawEnv_4F5AA0(&mDrawEnvs[0].mDrawEnv, 0, 0, mWidth, mHeight);
     PSX_SetDefDispEnv_4F55A0(&mDrawEnvs[0].mDisplayEnv, 0, 0, mWidth, mHeight);
 
@@ -235,13 +235,13 @@ void PsxDisplay::RenderOrderingTable()
         PSX_Calc_FrameSkip_4945D0();
         if (sCommandLine_NoFrameSkip)
         {
-            PSX_DrawOTag_4F6540(mDrawEnvs[0].mOrderingTable);
+            PSX_DrawOTag(mDrawEnvs[0].mOrderingTable);
         }
         else
         {
             if (sbDisplayRenderFrame)
             {
-                PSX_DrawOTag_4F6540(mDrawEnvs[0].mOrderingTable);
+                PSX_DrawOTag(mDrawEnvs[0].mOrderingTable);
             }
             else
             {
@@ -250,7 +250,7 @@ void PsxDisplay::RenderOrderingTable()
             PSX_VSync_4F6170(2);
         }
         PSX_PutDispEnv_4F58E0();
-        PSX_ClearOTag_4F6290(mDrawEnvs[0].mOrderingTable, mBufferSize);
+        PSX_ClearOTag(mDrawEnvs[0].mOrderingTable, mBufferSize);
         mBufferIndex = 0;
     }
     else

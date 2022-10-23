@@ -365,11 +365,7 @@ void ZapLine::VRender(PrimHeader** ppOt)
             }
         }
 
-        const s32 calcTPage = PSX_getTPage(
-            field_124_tPageMode,
-            field_12C_tPageAbr,
-            0,
-            0);
+        const s32 calcTPage = PSX_getTPage(field_12C_tPageAbr);
 
         Prim_SetTPage* pTPage = &field_FC_tPage_p8[bufferIdx];
         Init_SetTPage(pTPage, 0, 0, calcTPage);

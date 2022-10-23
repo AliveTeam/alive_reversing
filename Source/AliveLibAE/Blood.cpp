@@ -158,15 +158,7 @@ void Blood::VRender(PrimHeader** ppOt)
             BloodParticle* pParticle = &mBloodParticle[i];
             Prim_Sprt* pSprt = &pParticle->field_10_prims[gPsxDisplay.mBufferIndex];
 
-            u8 u0 = 0; //mAnim.mVramRect.x & 63;
-            if (mTextureMode == TPageMode::e8Bit_1)
-            {
-                u0 *= 2;
-            }
-            else if (mTextureMode == TPageMode::e4Bit_0)
-            {
-                u0 *= 4;
-            }
+            const u8 u0 = 0; //mAnim.mVramRect.x & 63;
 
             SetUV0(pSprt, u0, 0 /*static_cast<u8>(mAnim.mVramRect.y)*/);
 

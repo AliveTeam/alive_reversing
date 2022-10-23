@@ -136,7 +136,7 @@ static bool Pop_OTInformation(PrimHeader** otBuffer, OTInformation& info)
 s32 sScreenXOffSet_BD30E4 = 0;
 s32 sScreenYOffset_BD30A4 = 0;
 
-void PSX_ClearOTag_4F6290(PrimHeader** otBuffer, s32 otBufferSize)
+void PSX_ClearOTag(PrimHeader** otBuffer, s32 otBufferSize)
 {
     // PSX_OrderingTable_SaveRecord_4F62C0(otBuffer, otBufferSize);
     Push_OTInformation(otBuffer, otBufferSize);
@@ -224,7 +224,7 @@ static bool DrawOTagImpl(PrimHeader** ppOt, s16 drawEnv_of0, s16 drawEnv_of1)
     return false;
 }
 
-void PSX_DrawOTag_4F6540(PrimHeader** ppOt)
+void PSX_DrawOTag(PrimHeader** ppOt)
 {
     if (turn_off_rendering_BD0F20)
     {

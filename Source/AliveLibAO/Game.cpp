@@ -25,7 +25,6 @@
 #include "../relive_lib/ShadowZone.hpp"
 #include "CameraSwapper.hpp"
 #include "AmbientSound.hpp"
-#include "PsxRender.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "../relive_lib/Error.hpp"
 #include "../relive_lib/Events.hpp"

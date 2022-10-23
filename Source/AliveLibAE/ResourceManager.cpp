@@ -56,13 +56,13 @@ void Game_ShowLoadingIcon_482D80()
     // This was doing something odd with OT index.. I think its trying to simulate f64 buffering by
     // using other parts of the OT while another part is drawn, but it was bugged because it cleared the other anyway
     // on PC it seems fine to just always start at zero.
-    PSX_ClearOTag_4F6290(dispBuffer.mOrderingTable, 43);
+    PSX_ClearOTag(dispBuffer.mOrderingTable, 43);
     pParticle->GetAnimation().VRender(320, 220, dispBuffer.mOrderingTable, 0, 0);
-    PSX_DrawOTag_4F6540(dispBuffer.mOrderingTable);
+    PSX_DrawOTag(dispBuffer.mOrderingTable);
 
-    PSX_ClearOTag_4F6290(dispBuffer.mOrderingTable, 43);
+    PSX_ClearOTag(dispBuffer.mOrderingTable, 43);
     pParticle->GetAnimation().VRender(320, 640 - 164, dispBuffer.mOrderingTable, 0, 0);
-    PSX_DrawOTag_4F6540(dispBuffer.mOrderingTable);
+    PSX_DrawOTag(dispBuffer.mOrderingTable);
 
     PSX_SetDefDispEnv_4F55A0(&dispBuffer.mDisplayEnv, 0, 0, 640, 240);
     PSX_PutDispEnv_4F5890();

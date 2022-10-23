@@ -5,7 +5,7 @@
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../AliveLibAE/Psx.hpp"
-#include "PsxRender.hpp"
+#include "../AliveLibAE/PsxRender.hpp"
 #include "Game.hpp"
 #include "Map.hpp"
 #include "../AliveLibAE/Sys.hpp"
@@ -33,17 +33,17 @@ void Game_ShowLoadingIcon_445EB0()
 
         PSX_SetDefDrawEnv_4F5AA0(&drawEnv, 0, 0, 640, 240);
         PSX_PutDrawEnv_4F5980(&drawEnv);
-        PSX_ClearOTag_496760(local_ot, 42);
+        PSX_ClearOTag(local_ot, 42);
 
         pParticle->GetAnimation().VRender(320, 220, local_ot, 0, 0);
 
-        PSX_DrawOTag_4969F0(local_ot);
+        PSX_DrawOTag(local_ot);
 
-        PSX_ClearOTag_496760(local_ot, 42);
+        PSX_ClearOTag(local_ot, 42);
 
         pParticle->GetAnimation().VRender(320, gPsxDisplay.mHeight + 220, local_ot, 0, 0);
 
-        PSX_DrawOTag_4969F0(local_ot);
+        PSX_DrawOTag(local_ot);
 
         PSX_PutDispEnv_4F5890();
         pParticle->mBaseGameObjectFlags.Set(BaseGameObject::eDead);

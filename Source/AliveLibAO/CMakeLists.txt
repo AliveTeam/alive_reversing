@@ -183,8 +183,6 @@ SET(AliveLibSrcAO
    Bells.cpp
    ChimeLock.hpp
    ChimeLock.cpp
-   PsxRender.hpp
-   PsxRender.cpp
    ZapSpark.hpp
    ZapSpark.cpp
    Spark.hpp
