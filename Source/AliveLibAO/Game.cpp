@@ -17,7 +17,7 @@
 #include "CheatController.hpp"
 #include "DDCheat.hpp"
 #include "MusicController.hpp"
-#include "VGA.hpp"
+#include "../AliveLibAE/VGA.hpp"
 #include "Input.hpp"
 #include "Midi.hpp"
 #include "PauseMenu.hpp"
@@ -35,6 +35,7 @@
 #include "PathDataExtensions.hpp"
 #include "GameAutoPlayer.hpp"
 #include "../relive_lib/Error.hpp"
+#include "../AliveLibAE/VGA.hpp"
 
 namespace AO {
 
@@ -98,9 +99,8 @@ static void Main_ParseCommandLineArguments()
 #endif
     }
 
-    Init_VGA_AndPsxVram();
+    VGA_CreateRenderer();
 
-    PSX_EMU_Init_49A1D0();
     PSX_EMU_SetCallBack_499920(1, Game_End_Frame_4505D0);
 }
 
@@ -173,7 +173,7 @@ void Game_Shutdown()
     Input_DisableInput();
     SND_SsQuit();
     IO_Stop_ASync_IO_Thread_491A80();
-    VGA_Shutdown_4900E0();
+    VGA_Shutdown();
     Error_ShowErrorStackToUser(true);
 }
 

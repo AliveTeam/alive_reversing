@@ -1,11 +1,11 @@
 #include "stdafx_ao.h"
 #include "Psx.hpp"
 #include "Function.hpp"
-#include "VGA.hpp"
 #include "PsxRender.hpp"
 #include "../relive_lib/Error.hpp"
 #include "../AliveLibAE/Psx.hpp"
 #include "Sys.hpp"
+#include "../AliveLibAE/VGA.hpp"
 
 namespace AO {
 
@@ -44,19 +44,9 @@ void PSX_Prevent_Rendering_44FFB0()
     PSX_Prevent_Rendering_4945B0();
 }
 
-void PSX_EMU_Init_49A1D0()
-{
-    PSX_EMU_Init_4F9CD0();
-}
-
 void PSX_EMU_SetCallBack_499920(s32 callBackType, TPsxEmuCallBack fnPtr)
 {
     PSX_EMU_SetCallBack_4F9430(callBackType, fnPtr);
-}
-
-void Init_VGA_AndPsxVram()
-{
-    VGA_DisplaySet_490230(640u, 480u, 16, 1);
 }
 
 } // namespace AO

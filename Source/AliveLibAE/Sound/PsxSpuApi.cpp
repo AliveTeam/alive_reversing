@@ -692,7 +692,7 @@ s32 MIDI_PlayMidiNote_4FCB30(s32 vabId, s32 program, s32 note, s32 leftVolume, s
                         MIDI_Wait_4FCE50();
                     }
 
-                    GetSoundAPI().SND_PlayEx(
+                    SND_PlayEx_4EF740(
                         &gSpuVars->sSoundEntryTable16().table[vabId][pVagIter->field_10_vag],
                         panLeft,
                         panRight,

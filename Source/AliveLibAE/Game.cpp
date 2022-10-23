@@ -211,8 +211,7 @@ void Main_ParseCommandLineArguments(const char_type* /*pCmdLineNotUsed*/, const 
         }
     }
 
-    Init_VGA_AndPsxVram_494690();
-    PSX_EMU_Init_4F9CD0();
+    VGA_CreateRenderer();
     PSX_EMU_SetCallBack_4F9430(1, Game_End_Frame_4950F0);
 }
 
@@ -296,7 +295,7 @@ void Game_Shutdown()
     Input_DisableInputForPauseMenuAndDebug_4EDDC0();
     GetSoundAPI().SND_SsQuit();
     IO_Stop_ASync_IO_Thread_4F26B0();
-    VGA_Shutdown_4F3170();
+    VGA_Shutdown();
 }
 
 

@@ -42,16 +42,6 @@ TPsxEmuCallBack sPsxEmu_put_disp_env_callback_C1D184 = nullptr;
 TPsxEmuCallBack sPsxEmu_EndFrameFnPtr_C1D17C = nullptr;
 u8 sPsxDontChangeDispEnv_BD0F21 = 0;
 
-Bitmap* spBitmap_C2D038 = nullptr;
-
-void PSX_EMU_Init_4F9CD0()
-{
-    sPsxEmu_EndFrameFnPtr_C1D17C = nullptr;
-    sPsxEmu_put_disp_env_callback_C1D184 = nullptr;
-
-    // Note: sPsxEmu_BD1454 removed
-}
-
 s32 sVGA_DisplayType_BD1468 = 0;
 
 void PSX_EMU_SetCallBack_4F9430(s32 callBackType, TPsxEmuCallBack fnPtr)
@@ -76,13 +66,6 @@ const char_type kDirChar[] = "\\";
 const char_type kDirChar[] = "/";
 #endif
 
-
-void Init_VGA_AndPsxVram_494690()
-{
-    VGA_DisplaySet_4F32C0(640u, 480u, 16u, 2u);
-}
-
-
 void PSX_PutDispEnv_Impl_4F5640(const PSX_DISPENV* pDispEnv)
 {
     if (!pDispEnv)
@@ -105,7 +88,7 @@ void PSX_PutDispEnv_Impl_4F5640(const PSX_DISPENV* pDispEnv)
         PSX_DrawDebugTextBuffers(nullptr, rect);
 
         // Clear/end frame
-        VGA_CopyToFront(&rect);
+        VGA_EndFrame();
     }
     SsSeqCalledTbyT_4FDC80();
 }
@@ -234,25 +217,6 @@ void PSX_PutDrawEnv_4F5980(const PSX_DRAWENV* pDrawEnv)
     {
         Error_PushErrorRecord_4F2920("C:\\abe2\\code\\PSXEmu\\LIBGPU.C", 371, -1, "PutDrawEnv(): env == NULL");
     }
-}
-
-void PSX_CD_Normalize_FileName_4FAD90(char_type* pNormalized, const char_type* pFileName)
-{
-    const char_type* fileNameIter = pFileName;
-    char_type* pNormalizedIter = pNormalized;
-    while (*fileNameIter)
-    {
-        if (*fileNameIter == ';')
-        {
-            break;
-        }
-
-        *pNormalizedIter = static_cast<s8>(tolower(*fileNameIter));
-
-        ++fileNameIter;
-        ++pNormalizedIter;
-    }
-    *pNormalizedIter = 0;
 }
 
 bool PSX_Rects_overlap_4FA0B0(const PSX_RECT* pRect1, const PSX_RECT* pRect2)

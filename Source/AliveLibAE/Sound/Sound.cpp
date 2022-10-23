@@ -667,5 +667,4 @@ SoundApi::SoundApi()
     SND_Buffer_Set_Frequency2 = SND_Buffer_Set_Frequency_4EFC00;
     SND_LoadSamples = SND_LoadSamples_4EF1C0;
     SND_unknown = SND_4F00B0;
-    SND_PlayEx = SND_PlayEx_4EF740;
 }

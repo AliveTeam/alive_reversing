@@ -22,10 +22,6 @@ void PSX_PutDispEnv_495CE0(PSX_DISPENV* pDispEnv);
 
 void PSX_Prevent_Rendering_44FFB0();
 
-void PSX_EMU_Init_49A1D0();
-
 void PSX_EMU_SetCallBack_499920(s32 callBackType, TPsxEmuCallBack fnPtr);
-
-void Init_VGA_AndPsxVram();
 
 } // namespace AO

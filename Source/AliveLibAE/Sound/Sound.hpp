@@ -159,7 +159,6 @@ struct SoundApi final
     decltype(&SND_Buffer_Set_Frequency_4EFC00) SND_Buffer_Set_Frequency2;
     decltype(&SND_LoadSamples_4EF1C0) SND_LoadSamples;
     decltype(&SND_4F00B0) SND_unknown;
-    decltype(&SND_PlayEx_4EF740) SND_PlayEx;
 };
 
 SoundApi& GetSoundAPI();

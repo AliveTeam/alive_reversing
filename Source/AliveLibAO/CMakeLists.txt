@@ -9,8 +9,6 @@ SET(AliveLibSrcAO
    PathDataExtensions.cpp
    Sys.hpp
    Sys.cpp
-   VGA.hpp
-   VGA.cpp
    Io.hpp
    Io.cpp
    Sound.hpp

@@ -140,7 +140,7 @@ public:
                         SND_StopAll();
 
                         bStartedPlayingSound = true;
-                        if (FAILED(GetSoundAPI().SND_PlayEx(&fmv_sound_entry, 116, 116, 1.0, 0, 1, 100)))
+                        if (FAILED(SND_PlayEx_4EF740(&fmv_sound_entry, 116, 116, 1.0, 0, 1, 100)))
                         {
                             bNoAudioOrAudioError = 1;
                         }
@@ -231,7 +231,7 @@ static void Render_Str_Frame()
     //SDL_BlitScaled(tmpBmp.field_0_pSurface, nullptr, GetPsxVram().field_0_pSurface, &bufferSize);
 
     // Copy to full window/primary buffer
-    VGA_CopyToFront(nullptr);
+    VGA_EndFrame();
 }
 
 class TempSurface final

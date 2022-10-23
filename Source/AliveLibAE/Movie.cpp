@@ -133,7 +133,7 @@ s8 DDV_StartAudio_493DF0()
         if (!bNoAudioOrAudioError_5CA1F4)
         {
             // Sound entry is created and populated with 1 frame, play it
-            if (FAILED(GetSoundAPI().SND_PlayEx(&fmv_sound_entry_5CA208, 116, 116, 1.0, 0, 1, 100)))
+            if (FAILED(SND_PlayEx_4EF740(&fmv_sound_entry_5CA208, 116, 116, 1.0, 0, 1, 100)))
             {
                 bNoAudioOrAudioError_5CA1F4 = 1;
             }
@@ -181,7 +181,7 @@ static void Render_DDV_Frame()
     //SDL_BlitScaled(tmpBmp.field_0_pSurface, nullptr, sPsxVram_C1D160.field_0_pSurface, &bufferSize);
 
     // Copy to full window/primary buffer
-    VGA_CopyToFront(nullptr);
+    VGA_EndFrame();
 }
 
 s8 DDV_Play_Impl_4932E0(const char_type* pMovieName)

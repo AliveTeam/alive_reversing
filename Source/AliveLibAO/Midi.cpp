@@ -999,7 +999,6 @@ void SND_Init_476E40()
     SetMidiApiVars(&sAoMidiVars);
 
     GetSoundAPI().SND_Load = SND_Load_492F40;
-    GetSoundAPI().SND_PlayEx = SND_PlayEx_493040;
     GetSoundAPI().SND_Get_Buffer_Status = SND_Get_Buffer_Status_491D40;
     GetSoundAPI().SND_Stop_Sample_At_Idx = SND_Stop_Sample_At_Idx_493570;
     GetSoundAPI().SND_Buffer_Set_Frequency2 = SND_Buffer_Set_Frequency_493820;
