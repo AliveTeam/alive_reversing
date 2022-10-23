@@ -393,9 +393,9 @@ void CameraSwapper::VUpdate()
             if (field_20_ppCamRes.mData.mPixels)
             {
                 pScreenManager->DecompressCameraToVRam(field_20_ppCamRes);
-                pScreenManager->EnableRendering();
             }
 
+            pScreenManager->EnableRendering();
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
         break;
