@@ -4,9 +4,9 @@
 #include "../relive_lib/BaseGameObject.hpp"
 #include "SwitchStates.hpp"
 #include "DDCheat.hpp"
-#include "Io.hpp"
 #include "../AliveLibAE/Psx.hpp"
 #include "../AliveLibAE/Sys.hpp"
+#include "../AliveLibAE/Io.hpp"
 #include "../relive_lib/DynamicArray.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "../AliveLibAE/stdlib.hpp"
@@ -65,7 +65,7 @@ s32 Game_End_Frame_4505D0(u32 bSkip)
 
 static void Main_ParseCommandLineArguments(const char_type* pCommandLine)
 {
-    IO_Init_48E1A0(0);
+    IO_Init_494230();
 
     std::string windowTitle = WindowTitleAO();
 
@@ -167,7 +167,7 @@ void Game_Shutdown()
 {
     Input_DisableInput();
     SND_SsQuit();
-    IO_Stop_ASync_IO_Thread_491A80();
+    IO_Stop_ASync_IO_Thread_4F26B0();
     VGA_Shutdown();
     Error_ShowErrorStackToUser(true);
 }

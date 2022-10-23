@@ -7,8 +7,6 @@ SET(AliveLibSrcAO
    GameAutoPlayer.hpp
    PathDataExtensions.hpp
    PathDataExtensions.cpp
-   Io.hpp
-   Io.cpp
    Sound.hpp
    Sound.cpp
    DemoPlayback.hpp
