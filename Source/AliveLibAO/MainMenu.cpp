@@ -1162,6 +1162,7 @@ void Menu::WaitForAbeSayHello()
 void Menu::ProgressInProgressFilesLoading()
 {
     TRACE_ENTRYEXIT;
+    /*
     do
     {
         for (s32 i = 0; i < gLoadingFiles->Size(); i++)
@@ -1180,6 +1181,7 @@ void Menu::ProgressInProgressFilesLoading()
         }
     }
     while (!gLoadingFiles->IsEmpty());
+    */
 }
 
 void Menu::MainScreen_Render(PrimHeader** ppOt)

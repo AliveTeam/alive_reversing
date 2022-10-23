@@ -289,33 +289,20 @@ static bool DrawOTagImpl(PrimHeader** ppOt, s16 drawEnv_of0, s16 drawEnv_of1)
 
 void PSX_DrawOTag_4F6540(PrimHeader** ppOt)
 {
-    if (!sPsxEmu_EndFrameFnPtr_C1D17C || !sPsxEmu_EndFrameFnPtr_C1D17C(0))
+    if (turn_off_rendering_BD0F20)
     {
-        if (turn_off_rendering_BD0F20)
-        {
-            if (sPsxEmu_EndFrameFnPtr_C1D17C)
-            {
-                sPsxEmu_EndFrameFnPtr_C1D17C(1);
-            }
-            return;
-        }
+        return;
+    }
 
-        s16 drawEnv_of0 = 0;
-        s16 drawEnv_of1 = 0;
+    s16 drawEnv_of0 = 0;
+    s16 drawEnv_of1 = 0;
 
 
-        drawEnv_of0 = sPSX_EMU_DrawEnvState_C3D080.field_8_ofs[0];
-        drawEnv_of1 = sPSX_EMU_DrawEnvState_C3D080.field_8_ofs[1];
+    drawEnv_of0 = sPSX_EMU_DrawEnvState_C3D080.field_8_ofs[0];
+    drawEnv_of1 = sPSX_EMU_DrawEnvState_C3D080.field_8_ofs[1];
 
-        if (DrawOTagImpl(ppOt, drawEnv_of0, drawEnv_of1))
-        {
-            return;
-        }
-
-        if (sPsxEmu_EndFrameFnPtr_C1D17C)
-        {
-            sPsxEmu_EndFrameFnPtr_C1D17C(1);
-        }
+    if (DrawOTagImpl(ppOt, drawEnv_of0, drawEnv_of1))
+    {
         return;
     }
 }

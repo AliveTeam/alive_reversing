@@ -13,7 +13,6 @@ namespace AO {
 
 
 extern s16 gAttract;
-extern DynamicArrayT<BaseGameObject>* gLoadingFiles;
 extern s16 sBreakGameLoop;
 extern s8 gDDCheatOn;
 

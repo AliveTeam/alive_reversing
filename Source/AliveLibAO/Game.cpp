@@ -39,8 +39,6 @@
 
 namespace AO {
 
-DynamicArrayT<BaseGameObject>* gLoadingFiles = nullptr;
-
 DynamicArrayT<BaseGameObject>* gPlatformsArray = nullptr;
 
 
@@ -90,13 +88,13 @@ static void Main_ParseCommandLineArguments(const char_type* pCommandLine)
         }
         // Force DDCheat
 #if FORCE_DDCHEAT
-        gDDCheatOn = 1;
+        gDDCheatOn = true;
 #endif
     }
 
     VGA_CreateRenderer();
 
-    PSX_EMU_SetCallBack_4F9430(1, Game_End_Frame_4505D0);
+    PSX_EMU_SetCallBack_4F9430(Game_End_Frame_4505D0);
 }
 
 void Init_GameStates()
@@ -126,13 +124,11 @@ void Init_Sound_DynamicArrays_And_Others()
 
     gBaseAliveGameObjects = relive_new DynamicArrayT<BaseAliveGameObject>(20);
 
-    gLoadingFiles = relive_new DynamicArrayT<BaseGameObject>(20); // TODO: Leaked on purpose for now
-
     SND_Init_476E40();
     SND_Init_Ambiance();
     MusicController::Create();
 
-    Init_GameStates(); // Note: inlined
+    Init_GameStates(); // Init other vars + switch states
 
     // TODO: The switch state clearing is done in Init_GameStates in AE
     // check this is not an AO bug

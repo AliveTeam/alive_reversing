@@ -39,24 +39,13 @@ IO_Handle* sCdFileHandle_BD1CC4 = nullptr;
 s32 sCdReadPos_BD1894 = 0;
 
 TPsxEmuCallBack sPsxEmu_put_disp_env_callback_C1D184 = nullptr;
-TPsxEmuCallBack sPsxEmu_EndFrameFnPtr_C1D17C = nullptr;
 u8 sPsxDontChangeDispEnv_BD0F21 = 0;
 
 s32 sVGA_DisplayType_BD1468 = 0;
 
-void PSX_EMU_SetCallBack_4F9430(s32 callBackType, TPsxEmuCallBack fnPtr)
+void PSX_EMU_SetCallBack_4F9430(TPsxEmuCallBack fnPtr)
 {
-    if (callBackType)
-    {
-        if (callBackType == 1)
-        {
-            sPsxEmu_put_disp_env_callback_C1D184 = fnPtr;
-        }
-    }
-    else
-    {
-        sPsxEmu_EndFrameFnPtr_C1D17C = fnPtr;
-    }
+    sPsxEmu_put_disp_env_callback_C1D184 = fnPtr;
 }
 
 

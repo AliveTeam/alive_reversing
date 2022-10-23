@@ -486,7 +486,6 @@ void Movie::DeInit()
 {
     PSX_VSync_4F6170(2);
 
-    sbLoadingInProgress_5C1B96 = FALSE;
     --sMovie_ref_count_BB4AE4;
 
     #if USE_SDL2_SOUND

@@ -146,7 +146,7 @@ s32 Game_End_Frame_4950F0(u32 flags)
     return 0;
 }
 
-void Main_ParseCommandLineArguments(const char_type* pCommandLine)
+static void Main_ParseCommandLineArguments(const char_type* pCommandLine)
 {
     IO_Init_494230();
 
@@ -185,7 +185,7 @@ void Main_ParseCommandLineArguments(const char_type* pCommandLine)
 
     VGA_CreateRenderer();
 
-    PSX_EMU_SetCallBack_4F9430(1, Game_End_Frame_4950F0);
+    PSX_EMU_SetCallBack_4F9430(Game_End_Frame_4950F0);
 }
 
 void Init_GameStates()
@@ -213,7 +213,6 @@ void Init_Sound_DynamicArrays_And_Others()
     sControlledCharacter = nullptr;
     gNumCamSwappers = 0;
     sGnFrame = 0;
-    sbLoadingInProgress_5C1B96 = 0;
 
     gPlatformsArray = relive_new DynamicArrayT<BaseGameObject>(20); // For trap doors/dynamic platforms
 
@@ -447,19 +446,9 @@ void Game_Run()
 
     Init_Sound_DynamicArrays_And_Others();
 
-    Camera camera;
-
-    // Load the first camera we see on boot
-    camera.field_C_pCamRes = ResourceManagerWrapper::LoadCam(EReliveLevelIds::eMenu, 1, 25);
-
-    gMap.field_24_camera_offset.y = FP_FromInteger(0);
-    gMap.field_24_camera_offset.x = FP_FromInteger(0);
-
-    pScreenManager = relive_new ScreenManager(camera.field_C_pCamRes, &gMap.field_24_camera_offset);
-
-    pScreenManager->DecompressCameraToVRam(camera.field_C_pCamRes);
-
-    camera.Free();
+    // Not technically needed yet but will de-sync if not instantiated here
+    CamResource nullCamRes;
+    pScreenManager = relive_new ScreenManager(nullCamRes, &gMap.field_24_camera_offset);
 
     Input_Init();
 

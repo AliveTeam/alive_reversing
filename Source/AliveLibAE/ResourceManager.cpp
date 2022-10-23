@@ -15,7 +15,6 @@ ResourceManager* pResourceManager_5C1BB0 = nullptr;
 u32 sManagedMemoryUsedSize_AB4A04 = 0;
 u32 sPeakedManagedMemUsage_AB4A08 = 0;
 
-s16 sbLoadingInProgress_5C1B96 = 0;
 s16 bHideLoadingIcon_5C1BAA = 0;
 s32 loading_ticks_5C1BAC = 0;
 s16 sResources_Pending_Loading_AB49F4 = 0;
