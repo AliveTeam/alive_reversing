@@ -117,14 +117,6 @@ struct Poly_F4 final
 };
 ALIVE_ASSERT_SIZEOF(Poly_F4, 0x1C);
 
-struct Poly_FT3 final
-{
-    Poly_Base mBase;
-    UV mUv;
-    TVert mVerts[2];
-};
-ALIVE_ASSERT_SIZEOF(Poly_FT3, 0x24);
-
 struct Poly_FT4 final
 {
     Poly_Base mBase;
@@ -146,22 +138,6 @@ struct Poly_G4 final
     GVert mVerts[3];
 };
 ALIVE_ASSERT_SIZEOF(Poly_G4, 0x28);
-
-struct Poly_GT4 final
-{
-    Poly_Base mBase;
-    UV mUv;
-    TGVert mVerts[3];
-};
-// TODO: Assert size
-
-struct Poly_GT3 final
-{
-    Poly_Base mBase;
-    UV mUv;
-    TGVert mVerts[2];
-};
-// TODO: Assert size
 
 // TODO: FIX ME - in hacked window mode screen offset doesn't actually work. Notice how explosion/screen shakes do nothing.
 struct Prim_ScreenOffset final
@@ -194,33 +170,10 @@ struct Line_F2 final
 };
 ALIVE_ASSERT_SIZEOF(Line_F2, 0x14);
 
-struct Line_F3 final
-{
-    Poly_Base mBase;
-    FVertWrapper mVerts[2];
-    u32 pad;
-};
-// TODO: Assert size
-
-struct Line_F4 final
-{
-    Poly_Base mBase;
-    FVertWrapper mVerts[3];
-    u32 pad;
-};
-// TODO: Assert size
-
 struct Line_G2 final
 {
     Poly_Base mBase;
     GVert mVerts[1];
-};
-// TODO: Assert size
-
-struct Line_G3 final
-{
-    Poly_Base mBase;
-    GVert mVerts[2];
 };
 // TODO: Assert size
 
@@ -242,17 +195,6 @@ struct Prim_Sprt final
 };
 ALIVE_ASSERT_SIZEOF(Prim_Sprt, 0x18);
 
-struct Prim_Sprt_16 final
-{
-    Poly_Base mBase;
-    UV mUv;
-};
-
-struct Prim_Sprt_8 final
-{
-    Poly_Base mBase;
-    UV mUv;
-};
 
 struct Prim_Tile final
 {
@@ -261,27 +203,11 @@ struct Prim_Tile final
     s16 field_16_h;
 };
 
-struct Prim_Tile_16 final
-{
-    Poly_Base mBase;
-};
-
-struct Prim_Tile_8 final
-{
-    Poly_Base mBase;
-};
-
-struct Prim_Tile_1 final
-{
-    Poly_Base mBase;
-};
-
 enum PrimTypeCodes
 {
     eSetTPage = 0x80,
     ePrimClipper = 0x81,
     eScreenOffset = 0x82,
-    eMoveImage = 0x83,
     eLaughingGas = 0x84,
 
     // TODO: Type 2
@@ -289,19 +215,12 @@ enum PrimTypeCodes
     // Sprite/tile prims
     eTile = 0x60,
     eSprt = 0x64,
-    eTile1 = 0x68,
-    eTile8 = 0x70,
-    eSprt8 = 0x74,
-    eTile16 = 0x78,
-    eSprt16 = 0x7C,
 
     //                         F  3  T
     ePolyF3 = 0x20,  // 0b1[0][0][0]00
-    ePolyFT3 = 0x24, // 0b1[0][0][1]00
 
     //                         G  3  T
     ePolyG3 = 0x30,  // 0b1[1][0][0]00
-    ePolyGT3 = 0x34, // 0b1[1][0][1]00
 
     //                         F  4  T
     ePolyF4 = 0x28,  // 0b1[0][1][0]00
@@ -309,24 +228,11 @@ enum PrimTypeCodes
 
     //                         G  4  T
     ePolyG4 = 0x38,  // 0b1[1][1][0]00
-    ePolyGT4 = 0x3C, // 0b1[1][1][1]00
-
 
     // Line prims
     eLineF2 = 0x40,
-    eLineF3 = 0x48,
-    eLineF4 = 0x4C,
     eLineG2 = 0x50,
-    eLineG3 = 0x58,
     eLineG4 = 0x5C
-};
-
-struct Prim_MoveImage final
-{
-    PrimHeader mPrimHeader;
-    s32 xPos;
-    s32 yPos;
-    PSX_RECT rect;
 };
 
 // Could be used for other stuff but only seen for gas so far
@@ -348,38 +254,23 @@ union PrimAny
     Prim_SetTPage* mSetTPage;
     Prim_PrimClipper* mPrimClipper;
     Prim_ScreenOffset* mScreenOffset;
-    // TODO: Type 2
-    // TODO: Type 0x83 (move image?)
-    // TODO: Type 0x84 (used in gas rendering)
 
     Prim_Sprt* mSprt;
-    Prim_Sprt_16* mSprt16;
-    Prim_Sprt_8* mSprt8;
 
     Prim_Tile* mTile;
-    Prim_Tile_16* mTile16;
-    Prim_Tile_8* mTile8;
-    Prim_Tile_1* mTile1;
 
     Poly_F3* mPolyF3;
-    Poly_FT3* mPolyFT3;
     Poly_G3* mPolyG3;
-    Poly_GT3* mPolyGT3;
 
     Poly_F4* mPolyF4;
     Poly_FT4* mPolyFT4;
     Poly_G4* mPolyG4;
-    Poly_GT4* mPolyGT4;
 
     Line_F2* mLineF2;
-    Line_F3* mLineF3;
-    Line_F4* mLineF4;
 
     Line_G2* mLineG2;
-    Line_G3* mLineG3;
     Line_G4* mLineG4;
 
-    Prim_MoveImage* mMoveImage;
     Prim_GasEffect* mGas;
 };
 ALIVE_ASSERT_SIZEOF(PrimAny, sizeof(void*));
@@ -719,30 +610,18 @@ void SetUnknown(PrimHeader* pPrim);
 void SetNumLongs(PrimHeader* pPrim, s8 numLongs);
 
 void PolyF3_Init(Poly_F3* pPoly);
-void PolyFT3_Init(Poly_FT3* pPoly);
-void PolyGT3_Init(Poly_GT3* pPoly);
 
 void Line_F2_Init(Line_F2* pLine);
-void Line_F3_Init(Line_F3* pLine);
-void Line_F4_Init(Line_F4* pLine);
 
 void LineG2_Init(Line_G2* pLine);
-void LineG3_Init(Line_G3* pLine);
 void LineG4_Init(Line_G4* pLine);
 
-void Init_Tile1(Prim_Tile_1* pTile);
-void Init_Tile8(Prim_Tile_8* pTile);
-void Init_Tile16(Prim_Tile_16* pTile);
 void Init_Tile(Prim_Tile* pTile);
 
-void Init_Sprt_8(Prim_Sprt_8* pPrim);
-void Init_Sprt_16(Prim_Sprt_16* pPrim);
 
 void PolyFT4_Init(Poly_FT4* pPrim);
 
 void PolyF4_Init(Poly_F4* pPrim);
-
-void Prim_Init_MoveImage(Prim_MoveImage* pPrim, PSX_RECT* pRect, s32 xpos, s32 ypos);
 
 s32 PSX_Prim_Code_Without_Blending_Or_SemiTransparency(s32 code);
 

@@ -13,10 +13,6 @@
 #include "Renderer/IRenderer.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
 
-// TODO: Refactor + remove these
-#define BYTEn(x, n) (*((u8*) &(x) + n))
-#define BYTE1(x) BYTEn(x, 1)
-
 struct OtUnknown final
 {
     s32** field_0_pOtStart;
@@ -24,67 +20,13 @@ struct OtUnknown final
     s32** field_8_pOt_End;
 };
 
-OtUnknown sOt_Stack_BD0D88[32] = {};
-s32 sOtIdxRollOver_BD0C08 = 0;
-
-
-s16 sActiveTPage_578318 = -1;
-u32 sTexture_page_x_BD0F0C = 0;
-u32 sTexture_page_y_BD0F10 = 0;
-u32 sTexture_mode_BD0F14 = 0;
-u32 tpage_width_57831C = 10;
-u32 sTexture_page_abr_BD0F18 = 0;
-u16* sTPage_src_ptr_BD0F1C = nullptr;
-
+static OtUnknown sOt_Stack_BD0D88[32] = {};
+static s32 sOtIdxRollOver_BD0C08 = 0;
 
 static void DrawOTag_HandlePrimRendering(IRenderer& renderer, PrimAny& any)
 {
     switch (PSX_Prim_Code_Without_Blending_Or_SemiTransparency(any.mPrimHeader->rgb_code.code_or_pad))
     {
-        case PrimTypeCodes::eSprt8:
-            ALIVE_FATAL("Never expected eSprt8 to be added to the OT");
-            break;
-
-        case PrimTypeCodes::eSprt16:
-            ALIVE_FATAL("Never expected eSprt16 to be added to the OT");
-            break;
-
-        case PrimTypeCodes::eTile1:
-            ALIVE_FATAL("Never expected eTile1 to be added to the OT");
-            break;
-
-        case PrimTypeCodes::eTile8:
-            ALIVE_FATAL("Never expected eTile8 to be added to the OT");
-            break;
-
-        case PrimTypeCodes::eTile16:
-            ALIVE_FATAL("Never expected eTile16 to be added to the OT");
-            break;
-
-        case PrimTypeCodes::eLineF3:
-            ALIVE_FATAL("Never expected eLineF3 to be added to the OT");
-            break;
-
-        case PrimTypeCodes::eLineF4:
-            ALIVE_FATAL("Never expected eLineF4 to be added to the OT");
-            break;
-
-        case PrimTypeCodes::eLineG3:
-            ALIVE_FATAL("Never expected eLineG3 to be added to the OT");
-            break;
-
-        case PrimTypeCodes::ePolyFT3:
-            ALIVE_FATAL("Never expected ePolyFT3 to be added to the OT");
-            break;
-
-        case PrimTypeCodes::ePolyGT3:
-            ALIVE_FATAL("Never expected ePolyGT3 to be added to the OT");
-            break;
-
-        case PrimTypeCodes::ePolyGT4:
-            ALIVE_FATAL("Never expected ePolyGT4 to be added to the OT");
-            break;
-
         case PrimTypeCodes::eSprt:
             renderer.Draw(*any.mSprt);
             break;
@@ -216,7 +158,6 @@ static bool DrawOTagImpl(PrimHeader** ppOt, s16 drawEnv_of0, s16 drawEnv_of1)
 {
     sScreenXOffSet_BD30E4 = 0;
     sScreenYOffset_BD30A4 = 0;
-    sActiveTPage_578318 = -1;
 
     OTInformation otInfo = {};
     if (!Pop_OTInformation(ppOt, otInfo))
@@ -262,10 +203,6 @@ static bool DrawOTagImpl(PrimHeader** ppOt, s16 drawEnv_of0, s16 drawEnv_of1)
                     sScreenYOffset_BD30A4 = any.mScreenOffset->field_E_yoff;
                     break;
 
-                case PrimTypeCodes::eMoveImage:
-                    ALIVE_FATAL("eMoveImage should never be added to the OT");
-                    break;
-
                 case PrimTypeCodes::eLaughingGas:
                     renderer.Draw(*any.mGas);
                     break;
@@ -294,14 +231,7 @@ void PSX_DrawOTag_4F6540(PrimHeader** ppOt)
         return;
     }
 
-    s16 drawEnv_of0 = 0;
-    s16 drawEnv_of1 = 0;
-
-
-    drawEnv_of0 = sPSX_EMU_DrawEnvState_C3D080.field_8_ofs[0];
-    drawEnv_of1 = sPSX_EMU_DrawEnvState_C3D080.field_8_ofs[1];
-
-    if (DrawOTagImpl(ppOt, drawEnv_of0, drawEnv_of1))
+    if (DrawOTagImpl(ppOt, sPSX_EMU_DrawEnvState_C3D080.field_8_ofs[0], sPSX_EMU_DrawEnvState_C3D080.field_8_ofs[1]))
     {
         return;
     }
