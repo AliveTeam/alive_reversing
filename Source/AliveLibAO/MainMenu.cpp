@@ -440,7 +440,7 @@ MainMenuTransition::MainMenuTransition(Layer layer, s32 fadeDirection, s32 bKill
 
     for (s32 i = 0; i < 2; i++)
     {
-        Init_SetTPage(&field_21C_tPage[i], 0, 1, PSX_getTPage(TPageMode::e16Bit_2, abr, 0, 0));
+        Init_SetTPage(&field_21C_tPage[i], 0, 1, PSX_getTPage(abr));
     }
 
     for (s32 i = 0; i < 8; i++)

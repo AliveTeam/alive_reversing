@@ -36,7 +36,6 @@ public:
     HintFlyParticle* field_E8_pRes = nullptr;
     Prim_SetTPage field_EC_tPages[2] = {};
     s32 field_10C_timer = 0;
-    TPageMode field_110_bitMode = TPageMode::e4Bit_0;
 
     enum class State : s16
     {

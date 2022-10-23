@@ -55,30 +55,8 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
         mBloodXPos = FP_GetExponent(xpos - FP_FromInteger(12) + FP_FromInteger(pScreenManager->mCamXOff) - pScreenManager->mCamPos->x);
         mBloodYPos = FP_GetExponent(ypos - FP_FromInteger(12) + FP_FromInteger(pScreenManager->mCamYOff) - pScreenManager->mCamPos->y);
 
-        if (GetAnimation().mFlags.Get(AnimFlags::eIs8Bit))
-        {
-            mTextureMode = TPageMode::e8Bit_1;
-        }
-        else if (GetAnimation().mFlags.Get(AnimFlags::eIs16Bit))
-        {
-            mTextureMode = TPageMode::e16Bit_2;
-        }
-        else
-        {
-            mTextureMode = TPageMode::e4Bit_0;
-        }
-
-        u8 u0 = 0;// mAnim.mVramRect.x & 0x3F;
-        if (mTextureMode == TPageMode::e8Bit_1)
-        {
-            u0 = 2 * u0;
-        }
-        else if (mTextureMode == TPageMode::e4Bit_0)
-        {
-            u0 = 4 * u0;
-        }
-
-        u8 v0 = 0;//mAnim.mVramRect.y & 0xFF;
+        const u8 u0 = 0;// mAnim.mVramRect.x & 0x3F;
+        const u8 v0 = 0;//mAnim.mVramRect.y & 0xFF;
 
         const PerFrameInfo* pFrameHeader = GetAnimation().Get_FrameHeader(-1);
 
@@ -108,13 +86,6 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
                     SetRGB0(pSprt, rgb.r, rgb.g, rgb.b);
                 }
 
-                /* TODO: Just set anim ptr
-                SetClut(pSprt,
-                        static_cast<s16>(
-                            PSX_getClut(
-                                mAnim.mPalVramXY.x,
-                                mAnim.mPalVramXY.y)));
-                                */
                 SetUV0(pSprt, u0, v0);
                 pSprt->field_14_w = static_cast<s16>(frameW - 1);
                 pSprt->field_16_h = static_cast<s16>(frameH - 1);
@@ -203,15 +174,7 @@ void Blood::VRender(PrimHeader** ppOt)
             BloodParticle* pParticle = &mBloodParticle[i];
             Prim_Sprt* pSprt = &pParticle->field_10_prims[gPsxDisplay.mBufferIndex];
 
-            u8 u0 = 0; // mAnim.mVramRect.x & 63;
-            if (mTextureMode == TPageMode::e8Bit_1)
-            {
-                u0 *= 2;
-            }
-            else if (mTextureMode == TPageMode::e4Bit_0)
-            {
-                u0 *= 4;
-            }
+            const u8 u0 = 0; // mAnim.mVramRect.x & 63;
 
             SetUV0(pSprt, u0, 0 /*static_cast<u8>(mAnim.mVramRect.y)*/);
 

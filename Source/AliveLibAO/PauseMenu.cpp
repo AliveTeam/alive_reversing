@@ -648,7 +648,7 @@ void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry* entry, s16 selectedEn
     SetXY2(pPrim, 0, 240);
     SetXY3(pPrim, 640, 240);
     Prim_SetTPage* prim_tpage = &field_138_tPage[gPsxDisplay.mBufferIndex];
-    Init_SetTPage(prim_tpage, 0, 0, PSX_getTPage(TPageMode::e4Bit_0, TPageAbr::eBlend_2, 0, 0));
+    Init_SetTPage(prim_tpage, 0, 0, PSX_getTPage(TPageAbr::eBlend_2));
     OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_Menu_41), &pPrim->mBase.header);
     OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_Menu_41), &prim_tpage->mBase);
 }

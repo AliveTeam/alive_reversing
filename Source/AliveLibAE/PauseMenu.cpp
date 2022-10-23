@@ -364,7 +364,7 @@ void PauseMenu::VRender(PrimHeader** ot)
     SetXY1(pPolys, 640, 0);
     SetXY2(pPolys, 0, 240);
     SetXY3(pPolys, 640, 240);
-    Init_SetTPage(pTPage, 0, 0, PSX_getTPage(TPageMode::e4Bit_0, TPageAbr::eBlend_2, 0, 0));
+    Init_SetTPage(pTPage, 0, 0, PSX_getTPage(TPageAbr::eBlend_2));
     OrderingTable_Add(OtLayer(ot, Layer::eLayer_Menu_41), &pPolys->mBase.header);
     OrderingTable_Add(OtLayer(ot, Layer::eLayer_Menu_41), &pTPage->mBase);
 }

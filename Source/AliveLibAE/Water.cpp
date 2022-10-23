@@ -69,29 +69,9 @@ Water::Water(relive::Path_Water* pTlv, const Guid& tlvId)
         field_10C_particle_count = 0;
         field_10E_current_particle_idx = 0;
 
-        if (GetAnimation().mFlags.Get(AnimFlags::eIs8Bit))
-        {
-            field_FE_texture_mode = TPageMode::e8Bit_1;
-        }
-        else if (GetAnimation().mFlags.Get(AnimFlags::eIs16Bit))
-        {
-            field_FE_texture_mode = TPageMode::e16Bit_2;
-        }
-        else
-        {
-            field_FE_texture_mode = TPageMode::e4Bit_0;
-        }
+      
 
-        u8 u0 =0;// mAnim.mVramRect.x & 63;
-        if (field_FE_texture_mode == TPageMode::e8Bit_1)
-        {
-            u0 = 2 * u0;
-        }
-        else if (field_FE_texture_mode == TPageMode::e4Bit_0)
-        {
-            u0 = 4 * u0;
-        }
-
+        u8 u0 = 0;// mAnim.mVramRect.x & 63;
         const u8 v0 = 0; // mAnim.mVramRect.y & 0xFF;
 
         const PerFrameInfo* pFrameHeader = GetAnimation().Get_FrameHeader(-1);
@@ -101,18 +81,13 @@ Water::Water(relive::Path_Water* pTlv, const Guid& tlvId)
         const u8 u1 = static_cast<u8>(pFrameHeader->mWidth + u0 - 1);
         const u8 v1 = static_cast<u8>(pFrameHeader->mHeight + v0 - 1);
 
-        const s32 tPage = PSX_getTPage(
-            field_FE_texture_mode,
-            TPageAbr::eBlend_3,
-            0,
-            0);
-        
+        const s32 tPage = PSX_getTPage(TPageAbr::eBlend_3);
 
         for (s32 i = 0; i < field_124_tlv_data.mMaxDrops; i++)
         {
             field_F8_pWaterRes[i].field_18_enabled = 0;
             // HACK/OG BUG: PC only uses first poly ??
-            Poly_FT4* pPoly = field_F8_pWaterRes[i].field_20_polys;
+            Poly_FT4* pPoly = &field_F8_pWaterRes[i].field_20_polys[0];
 
             PolyFT4_Init(pPoly);
             Poly_Set_SemiTrans(&pPoly->mBase.header, TRUE);

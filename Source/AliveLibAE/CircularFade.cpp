@@ -39,8 +39,8 @@ CircularFade::CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroy
     GetAnimation().SetRenderLayer(Layer::eLayer_FadeFlash_40);
     mRGB.SetRGB(field_1B8_fade_colour, field_1B8_fade_colour, field_1B8_fade_colour);
 
-    Init_SetTPage(&field_198_tPages[0], 0, 0, PSX_getTPage(TPageMode::e16Bit_2, TPageAbr::eBlend_2, 0, 0));
-    Init_SetTPage(&field_198_tPages[1], 0, 0, PSX_getTPage(TPageMode::e16Bit_2, TPageAbr::eBlend_2, 0, 0));
+    Init_SetTPage(&field_198_tPages[0], 0, 0, PSX_getTPage(TPageAbr::eBlend_2));
+    Init_SetTPage(&field_198_tPages[1], 0, 0, PSX_getTPage(TPageAbr::eBlend_2));
 }
 
 CircularFade::~CircularFade()

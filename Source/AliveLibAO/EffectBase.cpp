@@ -19,7 +19,7 @@ EffectBase::EffectBase(Layer layer, TPageAbr abr)
     mEffectBaseLevelId = gMap.mCurrentLevel;
     for (s32 i = 0; i < 2; i++)
     {
-        Init_SetTPage(&mEffectBaseTPage[i], 0, 0, static_cast<s16>(PSX_getTPage(TPageMode::e16Bit_2, abr, 0, 0)));
+        Init_SetTPage(&mEffectBaseTPage[i], 0, 0, static_cast<s16>(PSX_getTPage(abr)));
     }
     mEffectBaseLayer = layer;
     mSemiTrans = 1;

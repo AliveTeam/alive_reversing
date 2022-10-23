@@ -60,29 +60,6 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
     field_F4_state = ZapLineState::eInit_0;
     field_126_alive_timer = 0;
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eIs8Bit))
-    {
-        field_124_tPageMode = TPageMode::e8Bit_1;
-    }
-    else if (GetAnimation().mFlags.Get(AnimFlags::eIs16Bit))
-    {
-        field_124_tPageMode = TPageMode::e16Bit_2;
-    }
-    else
-    {
-        field_124_tPageMode = TPageMode::e4Bit_0;
-    }
-
-    u8 u0 = 0 /*mAnim.mVramRect.x & 0x3F*/;
-    if (field_124_tPageMode == TPageMode::e8Bit_1)
-    {
-        u0 = 2 * u0;
-    }
-    else if (field_124_tPageMode == TPageMode::e4Bit_0)
-    {
-        u0 = 4 * u0;
-    }
-
     auto pFrameHeader = GetAnimation().Get_FrameHeader(-1);
 
     const auto frameW = pFrameHeader->mWidth;
@@ -102,7 +79,7 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
 
                 pSprt->mAnim = &GetAnimation();
 
-                SetUV0(pSprt, u0, 0 /*mAnim.mVramRect.y & 0xFF*/);
+                SetUV0(pSprt, 0, 0);
                 pSprt->field_14_w = static_cast<s16>(frameW - 1);
                 pSprt->field_16_h = static_cast<s16>(frameH - 1);
             }

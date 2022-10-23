@@ -14,8 +14,8 @@ EffectBase::EffectBase(Layer layer, TPageAbr abr)
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
     mEffectBasePathId = gMap.mCurrentPath;
     mEffectBaseLevelId = gMap.mCurrentLevel;
-    Init_SetTPage(&mEffectBaseTPage[0], 0, 0, PSX_getTPage(TPageMode::e16Bit_2, abr, 0, 0));
-    Init_SetTPage(&mEffectBaseTPage[1], 0, 0, PSX_getTPage(TPageMode::e16Bit_2, abr, 0, 0));
+    Init_SetTPage(&mEffectBaseTPage[0], 0, 0, PSX_getTPage(abr));
+    Init_SetTPage(&mEffectBaseTPage[1], 0, 0, PSX_getTPage(abr));
     mEffectBaseLayer = layer;
     mSemiTrans = 1;
 }

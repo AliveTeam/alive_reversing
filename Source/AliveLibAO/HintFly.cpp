@@ -1400,28 +1400,7 @@ HintFly::HintFly(relive::Path_HintFly* pTlv, const Guid& tlvId)
         field_112_state = State::eIdleWaitForChanting_1;
         field_10C_timer = 0;
 
-        if (GetAnimation().mFlags.Get(AnimFlags::eIs8Bit))
-        {
-            field_110_bitMode = TPageMode::e8Bit_1;
-        }
-        else if (GetAnimation().mFlags.Get(AnimFlags::eIs16Bit))
-        {
-            field_110_bitMode = TPageMode::e16Bit_2;
-        }
-        else
-        {
-            field_110_bitMode = TPageMode::e4Bit_0;
-        }
-
-        s32 vram_x = 0 /* mAnim.mVramRect.x & 0x3F*/;
-        if (field_110_bitMode == TPageMode::e8Bit_1)
-        {
-            vram_x = 2 * vram_x;
-        }
-        else if (field_110_bitMode == TPageMode::e4Bit_0)
-        {
-            vram_x = 4 * vram_x;
-        }
+        const s32 vram_x = 0 /* mAnim.mVramRect.x & 0x3F*/;
 
         const auto pHeader = GetAnimation().Get_FrameHeader(-1);
 
@@ -1435,12 +1414,6 @@ HintFly::HintFly(relive::Path_HintFly* pTlv, const Guid& tlvId)
 
                 Poly_Set_SemiTrans(&pSprt->mBase.header, 1);
                 Poly_Set_Blending(&pSprt->mBase.header, 1);
-
-                // TODO: Set anim ptr
-                /* SetClut(pSprt, static_cast<s16>(PSX_getClut(
-                                    mAnim.mPalVramXY.x,
-                                    mAnim.mPalVramXY.y)));
-                                    */
 
                 SetUV0(pSprt, vram_x & 0xFF, 0 /* mAnim.mVramRect.y & 0xFF*/);
 

@@ -63,7 +63,6 @@ public:
     s16 field_10E_y_position_source = 0;
     s16 field_110_x_position_destination = 0;
     s16 field_112_y_position_destination = 0;
-    TPageMode field_114_tPageMode = TPageMode::e4Bit_0;
     s16 field_116_alive_timer = 0;
     s16 field_118_max_alive_time = 0;
     ZapLineType field_11A_type = ZapLineType::eThick_0;

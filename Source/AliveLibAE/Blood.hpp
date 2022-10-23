@@ -27,7 +27,6 @@ public:
 
 private:
     BloodParticle* mBloodParticle = nullptr;
-    TPageMode mTextureMode = TPageMode::e4Bit_0;
     s16 mBloodXPos = 0;
     s16 mBloodYPos = 0;
     s16 mCurrentBloodCount = 0;

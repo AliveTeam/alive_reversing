@@ -41,8 +41,8 @@ DeathGas::DeathGas(Layer layer, s32 amount)
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
     field_26_flag = 0;
 
-    Init_SetTPage(&gGasTPages_5BC6C8[0], 0, 1, PSX_getTPage(TPageMode::e16Bit_2, TPageAbr::eBlend_1, 0, 0));
-    Init_SetTPage(&gGasTPages_5BC6C8[1], 0, 1, PSX_getTPage(TPageMode::e16Bit_2, TPageAbr::eBlend_1, 0, 0));
+    Init_SetTPage(&gGasTPages_5BC6C8[0], 0, 1, PSX_getTPage(TPageAbr::eBlend_1));
+    Init_SetTPage(&gGasTPages_5BC6C8[1], 0, 1, PSX_getTPage(TPageAbr::eBlend_1));
 
     for (s32 i = 0; i < 2; i++)
     {

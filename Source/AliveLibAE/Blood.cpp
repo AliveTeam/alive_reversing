@@ -44,30 +44,8 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
         mBloodXPos = FP_GetExponent(xpos - FP_FromInteger(12) - pScreenManager->CamXPos());
         mBloodYPos = FP_GetExponent(ypos - FP_FromInteger(12) - pScreenManager->CamYPos());
 
-        if (GetAnimation().mFlags.Get(AnimFlags::eIs8Bit))
-        {
-            mTextureMode = TPageMode::e8Bit_1;
-        }
-        else if (GetAnimation().mFlags.Get(AnimFlags::eIs16Bit))
-        {
-            mTextureMode = TPageMode::e16Bit_2;
-        }
-        else
-        {
-            // 4 bit
-            mTextureMode = TPageMode::e4Bit_0;
-        }
-
+      
         u8 u0 = 0; //mAnim.mVramRect.x & 63;
-        if (mTextureMode == TPageMode::e8Bit_1)
-        {
-            u0 = 2 * u0;
-        }
-        else if (mTextureMode == TPageMode::e4Bit_0)
-        {
-            u0 = 4 * u0;
-        }
-
         u8 v0 = 0; //mAnim.mVramRect.y & 0xFF;
 
         const PerFrameInfo* pFrameHeader = GetAnimation().Get_FrameHeader(-1);

@@ -54,8 +54,8 @@ MainMenuTransition::MainMenuTransition(Layer layer, s32 fadeDirection, s32 bKill
 
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
 
-    Init_SetTPage(&field_22C_tPage[0], 0, 1, PSX_getTPage(TPageMode::e16Bit_2, abr, 0, 0));
-    Init_SetTPage(&field_22C_tPage[1], 0, 1, PSX_getTPage(TPageMode::e16Bit_2, abr, 0, 0));
+    Init_SetTPage(&field_22C_tPage[0], 0, 1, PSX_getTPage(abr));
+    Init_SetTPage(&field_22C_tPage[1], 0, 1, PSX_getTPage(abr));
 
     for (s32 i = 0; i < 8; i++)
     {

@@ -48,7 +48,6 @@ private:
     };
 
     WaterState field_FC_state = WaterState::eInit_0;
-    TPageMode field_FE_texture_mode = TPageMode::e4Bit_0;
     s16 field_100_screen_x = 0;
     s16 field_102_screen_y = 0;
     PSX_Point field_104_top_left = {};

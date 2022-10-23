@@ -63,28 +63,7 @@ ZapLine::ZapLine(FP x1, FP y1, FP x2, FP y2, s32 aliveTime, ZapLineType type, La
     mState = ZapLineState::eInit_0;
     field_116_alive_timer = 0;
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eIs8Bit))
-    {
-        field_114_tPageMode = TPageMode::e8Bit_1;
-    }
-    else if (GetAnimation().mFlags.Get(AnimFlags::eIs16Bit))
-    {
-        field_114_tPageMode = TPageMode::e16Bit_2;
-    }
-    else
-    {
-        field_114_tPageMode = TPageMode::e4Bit_0;
-    }
-
-    u8 u0 = 0;//mAnim.mVramRect.x & 0x3F;
-    if (field_114_tPageMode == TPageMode::e8Bit_1)
-    {
-        u0 = 2 * u0;
-    }
-    else if (field_114_tPageMode == TPageMode::e4Bit_0)
-    {
-        u0 = 4 * u0;
-    }
+    const u8 u0 = 0;//mAnim.mVramRect.x & 0x3F;
 
     auto pFrameHeader = GetAnimation().Get_FrameHeader(-1);
 
