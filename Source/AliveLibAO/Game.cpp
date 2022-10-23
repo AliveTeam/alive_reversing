@@ -52,7 +52,7 @@ s16 gRestartRuptureFarmsSavedMuds_5076C8 = 0;
 s16 gOldKilledMuds_5076D0 = 0;
 s16 gOldSavedMuds_5076D4 = 0;
 
-s16 sBreakGameLoop_507B78 = 0;
+s16 sBreakGameLoop = 0;
 s16 gAttract_507698 = 0;
 
 s8 gDDCheatOn = 0;
@@ -180,9 +180,9 @@ void Game_Shutdown()
 
 void Game_Loop()
 {
-    sBreakGameLoop_507B78 = 0;
+    sBreakGameLoop = 0;
     bool bPauseMenuObjectFound = false;
-    while (!gBaseGameObjects->Empty())
+    while (!gBaseGameObjects->IsEmpty())
     {
         GetGameAutoPlayer().SyncPoint(SyncPoints::MainLoopStart);
 
@@ -297,7 +297,7 @@ void Game_Loop()
             sGnFrame++;
         }
 
-        if (sBreakGameLoop_507B78)
+        if (sBreakGameLoop)
         {
             GetGameAutoPlayer().SyncPoint(SyncPoints::MainLoopExit);
             break;

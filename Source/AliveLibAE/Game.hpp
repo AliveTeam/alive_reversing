@@ -17,5 +17,5 @@ extern bool sCommandLine_ShowFps_5CA4D0;
 extern u16 gAttract_5C1BA0;
 extern s16 bSkipGameObjectUpdates_5C2FA0;
 extern s16 gNumCamSwappers;
-extern s16 sBreakGameLoop_5C2FE0;
+extern s16 sBreakGameLoop;
 extern DynamicArrayT<BaseGameObject>* gPlatformsArray;

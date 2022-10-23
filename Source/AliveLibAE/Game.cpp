@@ -48,7 +48,7 @@ u32 sTimer_period_BBB9D4 = 0;
 // Arrays of things
 DynamicArrayT<BaseGameObject>* gPlatformsArray = nullptr;
 
-s16 sBreakGameLoop_5C2FE0 = 0;
+s16 sBreakGameLoop = 0;
 s16 gNumCamSwappers = 0;
 s16 bSkipGameObjectUpdates_5C2FA0 = 0;
 
@@ -291,10 +291,6 @@ void Game_Free_LoadingIcon()
     }*/
 }
 
-#if DEVELOPER_MODE
-extern bool gBootToLoadScreen;
-#endif
-
 void Game_Shutdown()
 {
     Input_DisableInputForPauseMenuAndDebug_4EDDC0();
@@ -306,7 +302,7 @@ void Game_Shutdown()
 
 void Game_Loop()
 {
-    sBreakGameLoop_5C2FE0 = 0;
+    sBreakGameLoop = 0;
     bool bPauseMenuObjectFound = false;
     while (!gBaseGameObjects->IsEmpty())
     {
@@ -426,7 +422,7 @@ void Game_Loop()
             sGnFrame++;
         }
 
-        if (sBreakGameLoop_5C2FE0)
+        if (sBreakGameLoop)
         {
             GetGameAutoPlayer().SyncPoint(SyncPoints::MainLoopExit);
             break;

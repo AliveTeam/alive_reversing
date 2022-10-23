@@ -9,9 +9,6 @@
 #include "Game.hpp"
 #include "Math.hpp"
 
-void ZapLine_ForceLink()
-{ }
-
 namespace AO {
 
 ZapLine::~ZapLine()

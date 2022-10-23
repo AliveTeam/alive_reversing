@@ -2,10 +2,7 @@
 #include "IRenderer.hpp"
 #include "SoftwareRenderer.hpp"
 #include "DirectX9Renderer.hpp"
-
-//#if RENDERER_OPENGL
 #include "OpenGLRenderer.hpp"
-//#endif
 
 #include "../AliveLibCommon/FatalError.hpp"
 
@@ -32,11 +29,9 @@ void IRenderer::CreateRenderer(Renderers type)
             break;
 #endif
 
-//#if RENDERER_OPENGL
         case Renderers::OpenGL:
             gRenderer = new OpenGLRenderer();
             break;
-//#endif
 
 #ifdef _WIN32
         // Windows only

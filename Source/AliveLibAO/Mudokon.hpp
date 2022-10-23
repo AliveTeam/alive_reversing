@@ -6,8 +6,6 @@
 #include "Path.hpp"
 #include "SwitchStates.hpp"
 
-void Mud_ForceLink();
-
 namespace AO {
 
 #define MUD_STATES_ENUM(ENTRY)                   \

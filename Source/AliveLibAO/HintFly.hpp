@@ -4,8 +4,6 @@
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Map.hpp"
 
-void HintFly_ForceLink();
-
 struct StringTable;
 
 namespace relive

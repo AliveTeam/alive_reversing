@@ -471,10 +471,6 @@ MainMenuFrameTable sMainMenuFrameTable_561CC8[49] = {
     {AnimId::MenuParamiteSpeak_DoIt, 10, 2, 41, 14},
     {AnimId::MenuParamiteSpeak_AllAYa, 10, 0, 41, 14}};
 
-#if DEVELOPER_MODE
-bool gBootToLoadScreen = false;
-#endif
-
 void MainMenuController::LoadAnimations()
 {
     for (auto& info : sMainMenuFrameTable_561CC8)
@@ -562,13 +558,6 @@ MainMenuController::MainMenuController(relive::Path_TLV* /*pTlv*/, const Guid& t
     {
         MainMenuController::Set_Anim_4D05E0(eAbe_EnterThroughDoor, 0);
         field_23C_T80.Set(Flags::eBit17_bDisableChangingSelection);
-#if DEVELOPER_MODE
-        if (gBootToLoadScreen)
-        {
-            // So we don't have to wait all year for abe to mSay hello
-            field_23C_T80.Clear(Flags::eBit17_bDisableChangingSelection);
-        }
-#endif
     }
 
     field_23C_T80.Clear(Flags::eBit19_unused);
@@ -1597,18 +1586,6 @@ void MainMenuController::BackStory_Or_NewGame_Render_4D2630(PrimHeader** ot)
 
 MainMenuNextCam MainMenuController::Page_Front_Update_4D0720(u32 input)
 {
-#if DEVELOPER_MODE
-    static bool first = true;
-    if (first && gBootToLoadScreen)
-    {
-        first = false;
-        // Force enter pressed
-        input |= InputCommands::Enum::eUnPause_OrConfirm;
-        // Force load game selected
-        field_1FC_button_index = 2;
-    }
-
-#endif
     // Reset time out if any input detected
     if (Input().mPads[0].mPressed)
     {
@@ -2673,7 +2650,7 @@ void MainMenuController::tLoadGame_Unload_4D4360()
 
 void MainMenuController::Game_Force_Quit_Load_4D1A90()
 {
-    sBreakGameLoop_5C2FE0 = TRUE;
+    sBreakGameLoop = TRUE;
 }
 
 MainMenuNextCam MainMenuController::HandleGameSpeakInput(u32 input_held, std::function<MainMenuNextCam(InputCommands::Enum cmd)> fnOnGameSpeak)

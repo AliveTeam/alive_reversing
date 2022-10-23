@@ -16,9 +16,6 @@
 #undef min
 #undef max
 
-void Spark_ForceLink()
-{ }
-
 namespace AO {
 
 Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 min, s32 max)

@@ -25,9 +25,6 @@
 #include "Grid.hpp"
 #include "AnimationCallBacks.hpp"
 
-void Slog_ForceLink()
-{ }
-
 namespace AO {
 
 using TSlogMotionFunction = decltype(&Slog::Motion_0_Idle_4742E0);

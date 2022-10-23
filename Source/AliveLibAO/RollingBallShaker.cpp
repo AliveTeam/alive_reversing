@@ -7,9 +7,6 @@
 #include "../relive_lib/Primitives.hpp"
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 
-void RollingBallShaker_ForceLink()
-{ }
-
 namespace AO {
 
 const static PSX_Pos16 sRollingBallShakerScreenOffsets[18] = {

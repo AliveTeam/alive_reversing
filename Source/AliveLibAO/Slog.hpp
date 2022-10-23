@@ -4,8 +4,6 @@
 #include "BaseAliveGameObject.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
-void Slog_ForceLink();
-
 namespace AO {
 
 #define SLOG_STATES_ENUM(ENTRY)             \

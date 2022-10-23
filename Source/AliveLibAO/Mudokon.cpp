@@ -30,9 +30,6 @@
 #include "Grid.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
 
-void Mud_ForceLink()
-{ }
-
 namespace AO {
 
 using TMudStateFunction = decltype(&Mudokon::Motion_0_Idle);

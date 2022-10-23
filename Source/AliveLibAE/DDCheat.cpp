@@ -301,33 +301,10 @@ void DDCheat::VUpdate()
                 gMap.mCurrentCamera,
                 sGnFrame);
 
-
-
-#if DEVELOPER_MODE
-            if (sActiveHero && gMap.mCurrentLevel != LevelIds::eMenu_0)
-            {
-                // HACK When quitting sControlledCharacter becomes a dangling pointer
-                // probably this should be removed as there is no sane way to check this pointer is still valid
-                DebugStr(
-                    "\n[obj %i] xy=%.3f,%.3f flags=%x",
-                    sControlledCharacter->Type(),
-                    FP_GetDouble(sControlledCharacter->mXPos),
-                    FP_GetDouble(sControlledCharacter->mYPos),
-                    sControlledCharacter->mFlags);
-
-                DebugStr("\nLine=%X\nState=%i", sControlledCharacter->field_100_pCollisionLine, sControlledCharacter->field_106_current_motion);
-
-                if (sControlledCharacter->Type() == AETypes::eAbe_69)
-                {
-                    DebugStr("\nStateName=%s", sAbeMotionNames[sControlledCharacter->field_106_current_motion]);
-                }
-            }
-#else
             DebugStr(
                 "\nheroxy=%4d,%4d",
                 FP_GetExponent(sActiveHero->mXPos),
                 FP_GetExponent(sActiveHero->mYPos));
-#endif
 
             if (sDDCheat_FlyingEnabled_5C2C08)
             {

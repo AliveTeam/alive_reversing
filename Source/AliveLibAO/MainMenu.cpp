@@ -1179,7 +1179,7 @@ void Menu::ProgressInProgressFilesLoading()
             }
         }
     }
-    while (!gLoadingFiles->Empty());
+    while (!gLoadingFiles->IsEmpty());
 }
 
 void Menu::MainScreen_Render(PrimHeader** ppOt)
@@ -1458,7 +1458,7 @@ void Menu::GoToSelectedMenuPage()
 
             // Quit
             case MainMenuOptions::eQuit_2:
-                sBreakGameLoop_507B78 = 1;
+                sBreakGameLoop = 1;
                 exit(0);
                 break;
 

@@ -4,8 +4,6 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "Primitives_common.hpp"
 
-void RollingBallShaker_ForceLink();
-
 namespace AO {
 
 class RollingBallShaker final : public ::BaseGameObject

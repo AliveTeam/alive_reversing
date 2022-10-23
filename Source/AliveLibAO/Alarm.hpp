@@ -6,9 +6,6 @@
 
 namespace AO {
 
-void Alarm_ForceLink();
-
-
 class Alarm final : public EffectBase
 {
 public:

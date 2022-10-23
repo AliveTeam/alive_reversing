@@ -295,20 +295,10 @@ bool Collisions::Raycast(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, Pat
         *hitY = FP_FromRaw(yh << 8);
 
         *ppLine = pNearestMatch;
-
-#if DEVELOPER_MODE
-        //DebugAddRaycast({X1_16_16, Y1_16_16, X2_16_16, Y2_16_16, *hitX, *hitY, *ppLine, modeMask});
-#endif
-
         return TRUE;
     }
 
     *ppLine = nullptr;
-
-
-#if DEVELOPER_MODE
-    //DebugAddRaycast({X1_16_16, Y1_16_16, X2_16_16, Y2_16_16, *hitX, *hitY, *ppLine, modeMask});
-#endif
 
     return FALSE;
 }

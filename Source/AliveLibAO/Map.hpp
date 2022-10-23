@@ -15,8 +15,6 @@ namespace relive
 
 namespace AO {
 
-void Map_ForceLink();
-
 struct PathData;
 class Camera;
 class BaseAliveGameObject;

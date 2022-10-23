@@ -16,9 +16,6 @@
 
 namespace AO {
 
-void Blood_ForceLink()
-{ }
-
 Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
     : BaseAnimatedWithPhysicsGameObject(0)
 {

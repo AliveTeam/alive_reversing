@@ -3,8 +3,6 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
 
-void GameEnderController_ForceLink();
-
 namespace AO {
 
 enum class GameEnderController_States : s16

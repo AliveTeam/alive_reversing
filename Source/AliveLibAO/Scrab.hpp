@@ -6,8 +6,6 @@
 #include "Abe.hpp"
 #include "Path.hpp"
 
-void Scrab_ForceLink();
-
 namespace AO {
 
 #define SCRAB_MOTIONS_ENUM_AO(ENTRY)           \

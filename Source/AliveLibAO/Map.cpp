@@ -38,10 +38,6 @@ class BaseGameObject;
 
 namespace AO {
 
-
-void Map_ForceLink()
-{ }
-
 Camera* sCameraBeingLoaded_507C98 = nullptr;
 
 OpenSeqHandle g_SeqTable_4C9E70[165] = {

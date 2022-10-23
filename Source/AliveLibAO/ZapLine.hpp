@@ -3,8 +3,6 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 
-void ZapLine_ForceLink();
-
 namespace AO {
 
 struct ZapLineSprites final

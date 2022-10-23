@@ -24,9 +24,6 @@
 #include "Grid.hpp"
 #include "BeeSwarm.hpp"
 
-void Paramite_ForceLink()
-{ }
-
 namespace AO {
 
 using TParamiteMotionFunction = decltype(&Paramite::Motion_0_Idle);

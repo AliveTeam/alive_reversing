@@ -35,7 +35,7 @@ void CreditsController::VUpdate()
             mNextCameraTimer = sGnFrame + 60;
             mCurrentCamera = 1;
             gMap.SetActiveCam(EReliveLevelIds::eCredits, 1, 1, CameraSwapEffects::eTopToBottom_3, 0, 0);
-            sBreakGameLoop_507B78 = 1;
+            sBreakGameLoop = 1;
         }
         else
         {

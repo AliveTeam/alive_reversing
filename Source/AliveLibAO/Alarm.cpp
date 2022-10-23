@@ -12,9 +12,6 @@
 
 namespace AO {
 
-void Alarm_ForceLink()
-{ }
-
 s16 alarmInstanceCount_5076A8 = 0;
 
 Alarm::Alarm(s32 duration_timer, s32 switchId, s32 timer, Layer layer)

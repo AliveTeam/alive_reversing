@@ -8,8 +8,6 @@
 
 namespace AO {
 
-void Blood_ForceLink();
-
 struct BloodParticle final
 {
     FP x;

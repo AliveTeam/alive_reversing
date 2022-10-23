@@ -5,8 +5,6 @@
 #include "FixedPoint.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
 
-void Spark_ForceLink();
-
 namespace AO {
 
 struct SparkRes final

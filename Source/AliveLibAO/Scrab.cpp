@@ -19,9 +19,6 @@
 #include "SwitchStates.hpp"
 #include "Grid.hpp"
 
-void Scrab_ForceLink()
-{ }
-
 namespace AO {
 
 using TScrabMotionFunction = decltype(&Scrab::Motion_0_Empty);

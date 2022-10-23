@@ -6,8 +6,6 @@
 #include "GameSpeak.hpp"
 #include "Path.hpp"
 
-void SlingMud_ForceLink();
-
 namespace AO {
 
 enum class eSlingMudMotions : s32

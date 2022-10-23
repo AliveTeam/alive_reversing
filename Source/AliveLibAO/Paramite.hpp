@@ -5,8 +5,6 @@
 #include "Map.hpp"
 #include "Path.hpp"
 
-void Paramite_ForceLink();
-
 namespace AO {
 
 // TODO: check me, enum taken from AE

@@ -16,9 +16,6 @@
 #include "Grid.hpp"
 #include "../relive_lib/Events.hpp"
 
-void SlingMud_ForceLink()
-{ }
-
 namespace AO {
 
 using TSlingMudStateFunction = decltype(&SlingMudokon::Motion_0_Idle);

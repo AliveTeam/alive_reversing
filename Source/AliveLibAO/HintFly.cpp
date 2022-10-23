@@ -13,9 +13,6 @@
 #include "PathData.hpp"
 #include "Path.hpp"
 
-void HintFly_ForceLink()
-{ }
-
 namespace AO {
 
 const char_type* gHintFlyMessages_4C6A10[] = {

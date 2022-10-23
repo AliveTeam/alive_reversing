@@ -20,35 +20,12 @@
 
 namespace AO {
 
-void WinMain_ForceLink()
-{
-}
-
-void ForceLinks()
-{
-    RollingBallShaker_ForceLink();
-    Blood_ForceLink();
-    Paramite_ForceLink();
-    Scrab_ForceLink();
-    Slog_ForceLink();
-    Mud_ForceLink();
-    SlingMud_ForceLink();
-    HintFly_ForceLink();
-    ZapLine_ForceLink();
-    Forcelink_ScreenWave();
-    GameEnderController_ForceLink();
-    Spark_ForceLink();
-    Alarm_ForceLink();
-}
-
-
 s32 sExitCode_9F7734 = 0;
 HINSTANCE sPrevInstance_9F7784 = 0;
 
 s32 CALLBACK WinMain_48EF50(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)
 {
     LOG_INFO("Main enter");
-    ForceLinks();
     AO_Sys_Main(hInstance, lpCmdLine, nShowCmd);
     sPrevInstance_9F7784 = hPrevInstance;
     Game_Main();

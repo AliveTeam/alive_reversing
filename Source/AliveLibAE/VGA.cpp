@@ -63,12 +63,7 @@ s32 VGA_DisplaySet_4F32C0(u16 width, u16 height, u8 bpp, u8 backbufferCount)
         sVGA_Inited_BC0BB8 = 1;
 
         //IRenderer::CreateRenderer(IRenderer::Renderers::DirectX9);
-
-    //#if RENDERER_OPENGL
         IRenderer::CreateRenderer(IRenderer::Renderers::OpenGL);
-    //#else
-    //    IRenderer::CreateRenderer(IRenderer::Renderers::DirectX9);
-    //#endif
 
         if (!IRenderer::GetRenderer()->Create(Sys_GetHWnd()))
         {
@@ -78,7 +73,6 @@ s32 VGA_DisplaySet_4F32C0(u16 width, u16 height, u8 bpp, u8 backbufferCount)
 
         IRenderer::GetRenderer()->Clear(0, 0, 0);
     }
-
 
     return 0;
 }

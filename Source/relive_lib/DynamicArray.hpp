@@ -19,7 +19,7 @@ public:
         return field_4_used_size == 0;
     }
 
-    s16 Size() const
+    s32 Size() const
     {
         return field_4_used_size;
     }
@@ -75,15 +75,5 @@ public:
     void SetAt(s32 idx, T* itemToSet)
     {
         field_0_array[idx] = itemToSet;
-    }
-
-    s32 Size() const
-    {
-        return field_4_used_size;
-    }
-
-    bool Empty() const
-    {
-        return field_4_used_size == 0;
     }
 };

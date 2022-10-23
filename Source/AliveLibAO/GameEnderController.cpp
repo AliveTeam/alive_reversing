@@ -16,9 +16,6 @@
 #include "GasCountDown.hpp"
 #include "PathDataExtensions.hpp"
 
-void GameEnderController_ForceLink()
-{ }
-
 namespace AO {
 
 void GameEnderController::CreateGameEnderController()
