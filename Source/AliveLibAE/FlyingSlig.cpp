@@ -2363,7 +2363,7 @@ void FlyingSlig::HandlePlayerControls()
     if (!(byte_5BC5F4 & 1))
     {
         byte_5BC5F4 |= 1u;
-        dword_5BC5F8 = Math_FixedPoint_Divide_496B70(0x800000, field_2B8);
+        dword_5BC5F8 = Math_FixedPoint_Divide(0x800000, field_2B8);
     }
     if (!(byte_5BC5F4 & 2))
     {

@@ -2,7 +2,7 @@
 
 #include "../relive_lib/BaseGameObject.hpp"
 #include "../AliveLibCommon/Function.hpp"
-#include "FixedPoint.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
 
 namespace AO {
 

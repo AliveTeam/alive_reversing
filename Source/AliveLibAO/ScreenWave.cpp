@@ -11,9 +11,6 @@
 #include "Math.hpp"
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 
-void Forcelink_ScreenWave()
-{ }
-
 namespace AO {
 
 static constexpr s32 kMaxUVCount = 32;

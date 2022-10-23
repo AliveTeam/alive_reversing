@@ -29,7 +29,7 @@ u8 sRandomBytes_546744[256] =
 
 u8 sRandomSeed = 0;
 
-u32 Math_FixedPoint_Multiply_496C50(s32 op1, s32 op2)
+u32 Math_FixedPoint_Multiply(s32 op1, s32 op2)
 {
     u32 op1a;   // ecx
     u32 op2a;   // esi
@@ -49,7 +49,7 @@ u32 Math_FixedPoint_Multiply_496C50(s32 op1, s32 op2)
     return result;
 }
 
-u32 Math_FixedPoint_Divide_496B70(s32 op1, s32 op2)
+u32 Math_FixedPoint_Divide(s32 op1, s32 op2)
 {
     s32 op1a;   // ebx
     u32 op1b;   // edi

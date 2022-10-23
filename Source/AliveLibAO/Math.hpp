@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../AliveLibCommon/Function.hpp"
-#include "FixedPoint.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
 
 namespace AO {
 

@@ -2,7 +2,7 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
-#include "FixedPoint.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
 
 enum class EReliveLevelIds : s16;
 

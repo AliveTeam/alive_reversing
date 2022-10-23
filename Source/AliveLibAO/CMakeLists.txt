@@ -241,8 +241,6 @@ SET(AliveLibSrcAO
    Midi.cpp
    BaseAliveGameObject.hpp
    BaseAliveGameObject.cpp
-   FixedPoint.hpp
-   FixedPoint.cpp
    AmbientSound.hpp
    AmbientSound.cpp
    FG1.hpp

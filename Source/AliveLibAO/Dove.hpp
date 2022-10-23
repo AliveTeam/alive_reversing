@@ -3,7 +3,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Map.hpp"
-#include "FixedPoint.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
 #include "Path.hpp"
 
 namespace AO {

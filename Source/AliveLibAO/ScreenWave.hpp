@@ -3,10 +3,8 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
 #include "../relive_lib/MapWrapper.hpp"
-#include "FixedPoint.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
 #include "../relive_lib/Layer.hpp"
-
-void Forcelink_ScreenWave();
 
 enum class EReliveLevelIds : s16;
 enum class Layer : s16;

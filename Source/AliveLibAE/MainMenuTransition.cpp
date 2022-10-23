@@ -165,14 +165,14 @@ void MainMenuTransition::VRender(PrimHeader** ppOt)
         s32 v8 = stru_55C038[idx].field_4 << 8;
         s32 v9 = stru_55C038[idx].field_2 << 16;
         s32 v10 = (s16) stru_55C038[idx].field_0 << 16;
-        s32 v11 = Math_FixedPoint_Multiply_496C50(v9, val1);
-        s32 v12 = Math_FixedPoint_Multiply_496C50(v10, val2) - v11;
-        s32 v13 = Math_FixedPoint_Multiply_496C50(op1, v8);
-        s16 x0 = this->field_24E_width + 640 * ((s32) Math_FixedPoint_Multiply_496C50(v12, v13) >> 16) / 368;
-        s32 v14 = Math_FixedPoint_Multiply_496C50(v9, val2);
-        s32 v15 = Math_FixedPoint_Multiply_496C50(v10, val1) + v14;
-        s32 v16 = Math_FixedPoint_Multiply_496C50(op1, v8);
-        s16 y0 = this->field_250_k120 + (Math_FixedPoint_Multiply_496C50(v15, v16) >> 16);
+        s32 v11 = Math_FixedPoint_Multiply(v9, val1);
+        s32 v12 = Math_FixedPoint_Multiply(v10, val2) - v11;
+        s32 v13 = Math_FixedPoint_Multiply(op1, v8);
+        s16 x0 = this->field_24E_width + 640 * ((s32) Math_FixedPoint_Multiply(v12, v13) >> 16) / 368;
+        s32 v14 = Math_FixedPoint_Multiply(v9, val2);
+        s32 v15 = Math_FixedPoint_Multiply(v10, val1) + v14;
+        s32 v16 = Math_FixedPoint_Multiply(op1, v8);
+        s16 y0 = this->field_250_k120 + (Math_FixedPoint_Multiply(v15, v16) >> 16);
 
         s32 v17 = 0;
         if (i < 7)
@@ -209,15 +209,15 @@ void MainMenuTransition::VRender(PrimHeader** ppOt)
         }
         s32 y1 = stru_55C038[v21 + idx2].field_4 << 8;
 
-        s32 v23 = Math_FixedPoint_Multiply_496C50(v20, val1);
-        s32 x1 = Math_FixedPoint_Multiply_496C50(v36, val2) - v23;
-        s32 v25 = Math_FixedPoint_Multiply_496C50(op1, y1);
+        s32 v23 = Math_FixedPoint_Multiply(v20, val1);
+        s32 x1 = Math_FixedPoint_Multiply(v36, val2) - v23;
+        s32 v25 = Math_FixedPoint_Multiply(op1, y1);
         // TODO: Use PsxToPCX
-        x1 = this->field_24E_width + 40 * ((s32) Math_FixedPoint_Multiply_496C50(x1, v25) >> 16) / 23; // LOWORD
-        s32 v26 = Math_FixedPoint_Multiply_496C50(v38, val2);
-        s32 v27 = v26 + Math_FixedPoint_Multiply_496C50(v36, val1);
-        s32 v28 = Math_FixedPoint_Multiply_496C50(op1, y1);
-        y1 = this->field_250_k120 + (Math_FixedPoint_Multiply_496C50(v27, v28) >> 16); // LOWORD
+        x1 = this->field_24E_width + 40 * ((s32) Math_FixedPoint_Multiply(x1, v25) >> 16) / 23; // LOWORD
+        s32 v26 = Math_FixedPoint_Multiply(v38, val2);
+        s32 v27 = v26 + Math_FixedPoint_Multiply(v36, val1);
+        s32 v28 = Math_FixedPoint_Multiply(op1, y1);
+        y1 = this->field_250_k120 + (Math_FixedPoint_Multiply(v27, v28) >> 16); // LOWORD
         Poly_G3* pPoly = &field_2C_polys[gPsxDisplay.mBufferIndex].field_0_polys[i];
 
         SetRGB0(pPoly, static_cast<u8>(r0g0), static_cast<u8>(r0g0), 255);

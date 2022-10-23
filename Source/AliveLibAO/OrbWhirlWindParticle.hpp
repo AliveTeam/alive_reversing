@@ -2,7 +2,7 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/Animation.hpp"
-#include "FixedPoint.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
 
 namespace AO {
 
