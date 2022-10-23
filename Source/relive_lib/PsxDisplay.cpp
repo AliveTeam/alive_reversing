@@ -154,14 +154,14 @@ void DebugFont_Flush()
     sDebugFontTmpBuffer_BB47CC[0] = 0;
 }
 
-void PSX_DrawDebugTextBuffers(Bitmap* pBmp, const RECT& /*rect*/)
+void PSX_DrawDebugTextBuffers()
 {
     if (sFntCount_BD0F28 <= 0)
     {
         return;
     }
 
-    if (pBmp)
+    //if (pBmp)
     {
         /*
         const LONG fontHeight = BMP_Get_Font_Height_4F21F0(pBmp);
@@ -213,14 +213,14 @@ void PsxDisplay::Init()
     mDrawEnvs[0].mDisplayEnv.screen.h = 240;
 
     PSX_PutDrawEnv_4F5980(&mDrawEnvs[0].mDrawEnv);
-    PSX_PutDispEnv_4F5890(&mDrawEnvs[0].mDisplayEnv);
+    PSX_PutDispEnv_4F5890();
 
     PSX_VSync_4F6170(0);
 }
 
 void PsxDisplay::PutCurrentDispEnv()
 {
-    PSX_PutDispEnv_4F5890(&mDrawEnvs[mBufferIndex].mDisplayEnv);
+    PSX_PutDispEnv_4F5890();
 }
 
 bool sCommandLine_NoFrameSkip = false;
@@ -249,7 +249,7 @@ void PsxDisplay::RenderOrderingTable()
             }
             PSX_VSync_4F6170(2);
         }
-        PSX_PutDispEnv_4F58E0(&mDrawEnvs[0].mDisplayEnv);
+        PSX_PutDispEnv_4F58E0();
         PSX_ClearOTag_4F6290(mDrawEnvs[0].mOrderingTable, mBufferSize);
         mBufferIndex = 0;
     }

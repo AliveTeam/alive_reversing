@@ -60,5 +60,4 @@ void DebugFont_Flush();
 s32 DebugFont_Printf(s32 idx, const char_type* formatStr, ...);
 s32 DebugFont_Init();
 
-struct Bitmap;
-void PSX_DrawDebugTextBuffers(Bitmap* pBmp, const RECT& rect);
+void PSX_DrawDebugTextBuffers();

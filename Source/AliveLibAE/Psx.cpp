@@ -15,81 +15,36 @@
 
 extern bool gLatencyHack;
 
-s32 sVSyncLastMillisecond_BD0F2C = 0;
-s32 sLastFrameTimestampMilliseconds_BD0F24 = 0;
+static s32 sVSyncLastMillisecond_BD0F2C = 0;
+static s32 sLastFrameTimestampMilliseconds_BD0F24 = 0;
+static TPsxEmuCallBack sPsxEmu_put_disp_env_callback_C1D184 = nullptr;
 
 PSX_DRAWENV sPSX_EMU_DrawEnvState_C3D080 = {};
-s32 sConst_1000_578E88 = 1000;
-
-s32 sPsx_drawenv_clipx_BDCD40 = 0;
-s32 sPsx_drawenv_clipy_BDCD44 = 0;
-s32 sPsx_drawenv_clipw_BDCD48 = 0;
-s32 sPsx_drawenv_cliph_BDCD4C = 0;
-s32 sPsx_drawenv_k500_BDCD50 = 0;
-u8* sPsx_drawenv_buffer_BDCD54 = nullptr;
-u8 sPsxEMU_show_vram_BD1465 = 0;
-
-PSX_DISPENV sLastDispEnv_C2D060 = {};
-u8 sScreenMode_BD146D = 0;
 u8 turn_off_rendering_BD0F20 = 0;
-u8 byte_578324 = 1;
-
-
-IO_Handle* sCdFileHandle_BD1CC4 = nullptr;
-s32 sCdReadPos_BD1894 = 0;
-
-TPsxEmuCallBack sPsxEmu_put_disp_env_callback_C1D184 = nullptr;
-u8 sPsxDontChangeDispEnv_BD0F21 = 0;
-
-s32 sVGA_DisplayType_BD1468 = 0;
 
 void PSX_EMU_SetCallBack_4F9430(TPsxEmuCallBack fnPtr)
 {
     sPsxEmu_put_disp_env_callback_C1D184 = fnPtr;
 }
 
-
-#if _WIN32
-const char_type kDirChar[] = "\\";
-#else
-const char_type kDirChar[] = "/";
-#endif
-
-void PSX_PutDispEnv_Impl_4F5640(const PSX_DISPENV* pDispEnv)
+static void PSX_PutDispEnv_Impl_4F5640()
 {
-    if (!pDispEnv)
-    {
-        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\PSXEmu\\LIBGPU.C", 217, -1, "PutDispEnv(): env == NULL");
-        return;
-    }
-
     SsSeqCalledTbyT_4FDC80();
-    memcpy(&sLastDispEnv_C2D060, pDispEnv, sizeof(sLastDispEnv_C2D060));
 
-    if (!turn_off_rendering_BD0F20 && byte_578324)
+    if (!turn_off_rendering_BD0F20)
     {
-        RECT rect = {};
-        rect.left = sLastDispEnv_C2D060.disp.x;
-        rect.top = sLastDispEnv_C2D060.disp.y;
-        rect.right = sLastDispEnv_C2D060.disp.x + sLastDispEnv_C2D060.disp.w;
-        rect.bottom = sLastDispEnv_C2D060.disp.y + sLastDispEnv_C2D060.disp.h;
-
-        PSX_DrawDebugTextBuffers(nullptr, rect);
-
-        // Clear/end frame
+        PSX_DrawDebugTextBuffers();
         VGA_EndFrame();
     }
+
     SsSeqCalledTbyT_4FDC80();
 }
 
-void PSX_PutDispEnv_4F58E0(const PSX_DISPENV* pDispEnv)
+void PSX_PutDispEnv_4F58E0()
 {
     if (!sPsxEmu_put_disp_env_callback_C1D184 || !sPsxEmu_put_disp_env_callback_C1D184(0))
     {
-        if (!sPsxDontChangeDispEnv_BD0F21)
-        {
-            PSX_PutDispEnv_Impl_4F5640(pDispEnv);
-        }
+        PSX_PutDispEnv_Impl_4F5640();
 
         if (sPsxEmu_put_disp_env_callback_C1D184)
         {
@@ -154,38 +109,21 @@ void PSX_SetDefDispEnv_4F55A0(PSX_DISPENV* pOutEnv, s16 x, s16 y, s16 w, s16 h)
     memcpy(pOutEnv, &defEnv, sizeof(PSX_DISPENV));
 }
 
-void PSX_PutDispEnv_4F5890(PSX_DISPENV* pDispEnv)
+void PSX_PutDispEnv_4F5890()
 {
-    auto pFn = sPsxEmu_put_disp_env_callback_C1D184;
     if (sPsxEmu_put_disp_env_callback_C1D184)
     {
         if (sPsxEmu_put_disp_env_callback_C1D184(0))
         {
             return;
         }
-        pFn = sPsxEmu_put_disp_env_callback_C1D184;
     }
 
-    if (!sPsxDontChangeDispEnv_BD0F21)
+    PSX_PutDispEnv_Impl_4F5640();
+    if (sPsxEmu_put_disp_env_callback_C1D184)
     {
-        PSX_PutDispEnv_Impl_4F5640(pDispEnv);
-        pFn = sPsxEmu_put_disp_env_callback_C1D184;
+        sPsxEmu_put_disp_env_callback_C1D184(1);
     }
-
-    if (pFn)
-    {
-        pFn(1);
-    }
-}
-
-void PSX_SetDrawEnv_Impl_4FE420(s32 x, s32 y, s32 w, s32 h, s32 unknown, u8* pBuffer)
-{
-    sPsx_drawenv_clipx_BDCD40 = x;
-    sPsx_drawenv_clipy_BDCD44 = y;
-    sPsx_drawenv_clipw_BDCD48 = w;
-    sPsx_drawenv_cliph_BDCD4C = h;
-    sPsx_drawenv_k500_BDCD50 = unknown;
-    sPsx_drawenv_buffer_BDCD54 = pBuffer;
 }
 
 void PSX_PutDrawEnv_4F5980(const PSX_DRAWENV* pDrawEnv)
@@ -193,14 +131,6 @@ void PSX_PutDrawEnv_4F5980(const PSX_DRAWENV* pDrawEnv)
     if (pDrawEnv)
     {
         memcpy(&sPSX_EMU_DrawEnvState_C3D080, pDrawEnv, sizeof(sPSX_EMU_DrawEnvState_C3D080));
-
-        PSX_SetDrawEnv_Impl_4FE420(
-            16 * sPSX_EMU_DrawEnvState_C3D080.field_0_clip.x,
-            16 * sPSX_EMU_DrawEnvState_C3D080.field_0_clip.y,
-            16 * (sPSX_EMU_DrawEnvState_C3D080.field_0_clip.x + sPSX_EMU_DrawEnvState_C3D080.field_0_clip.w) - 16,
-            16 * (sPSX_EMU_DrawEnvState_C3D080.field_0_clip.y + sPSX_EMU_DrawEnvState_C3D080.field_0_clip.h) - 16,
-            sConst_1000_578E88 / 2,
-            nullptr);
     }
     else
     {
