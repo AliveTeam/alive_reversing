@@ -218,41 +218,6 @@ void BaseAnimatedWithPhysicsGameObject::DeathSmokeEffect(bool bPlaySound)
     }
 }
 
-void BaseAnimatedWithPhysicsGameObject::OnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, TCollisionCallBack pFn)
-{
-    if (pObjList)
-    {
-        for (s32 i = 0; i < pObjList->Size(); i++)
-        {
-            BaseGameObject* pObjIter = pObjList->ItemAt(i);
-            if (!pObjIter)
-            {
-                break;
-            }
-
-            if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5))
-            {
-                if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
-                {
-                    BaseAnimatedWithPhysicsGameObject* pObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObjIter);
-                    const PSX_RECT bRect = pObj->VGetBoundingRect();
-                    if (xy.x <= bRect.w && wh.x >= bRect.x && wh.y >= bRect.y && xy.y <= bRect.h)
-                    {
-                        // NOTE: AO ignored scale here
-                        if (GetGameType() == GameType::eAo || (GetGameType() == GameType::eAe && GetScale() == pObj->GetScale()))
-                        {
-                            if (!(this->*(pFn))(pObj))
-                            {
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
 s16 BaseAnimatedWithPhysicsGameObject::VIsObjNearby(FP radius, BaseAnimatedWithPhysicsGameObject* pOtherObj)
 {
     FP distance = FP_Abs(pOtherObj->mXPos - mXPos);

@@ -34,16 +34,6 @@ enum class Scale : s16
     Fg = 1,
 };
 
-#ifdef _MSC_VER
-// NOTE: __single_inheritance required to workaround MSVC code gen bug
-// https://stackoverflow.com/questions/8676879/member-function-pointer-runtime-error-the-value-of-esp-was-not-properly-saved
-class __multiple_inheritance BaseAnimatedWithPhysicsGameObject;
-#else
-class BaseAnimatedWithPhysicsGameObject;
-#endif
-
-using TCollisionCallBack = s16 (BaseGameObject::*)(BaseGameObject*); // Typically points to something in the derived type.. pretty strange, probably also why its a function pointer
-
 class BaseAnimatedWithPhysicsGameObject : public BaseGameObject
 {
 public:
@@ -55,7 +45,6 @@ public:
 
     virtual void VRender(PrimHeader** ppOt) override;
 
-    void OnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, TCollisionCallBack pFn);
     virtual PSX_RECT VGetBoundingRect();
     virtual s16 VIsObjNearby(FP radius, BaseAnimatedWithPhysicsGameObject* pObj);
     virtual s16 VIsObj_GettingNear_On_X(BaseAnimatedWithPhysicsGameObject* pObj);
