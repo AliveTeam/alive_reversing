@@ -22,6 +22,8 @@ SET(relive_lib_src
     BinaryPath.cpp
     ShadowZone.hpp
     ShadowZone.cpp
+    VRam.hpp
+    VRam.cpp
     Sfx.hpp
     Sfx.cpp
     ObjectIds.hpp
@@ -42,10 +44,6 @@ SET(relive_lib_src
     PsxDisplay.hpp
     Compression.hpp
     Compression.cpp
-    Error.cpp
-    Error.hpp
-    VRam.hpp
-    VRam.cpp
     ScreenManager.cpp
     ScreenManager.hpp
     Math.hpp

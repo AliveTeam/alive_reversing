@@ -6,7 +6,6 @@
 #include "Sound/PsxSpuApi.hpp"
 #include "../relive_lib/Primitives.hpp"
 #include "Game.hpp"
-#include "../relive_lib/Error.hpp"
 #include "Compression.hpp"
 #include <gmock/gmock.h>
 #include "VGA.hpp"

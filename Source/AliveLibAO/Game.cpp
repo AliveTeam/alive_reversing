@@ -26,14 +26,12 @@
 #include "CameraSwapper.hpp"
 #include "AmbientSound.hpp"
 #include "../relive_lib/ScreenManager.hpp"
-#include "../relive_lib/Error.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Sound.hpp"
 #include "../AliveLibAE/Game.hpp"
 #include "AddPointer.hpp"
 #include "PathDataExtensions.hpp"
 #include "GameAutoPlayer.hpp"
-#include "../relive_lib/Error.hpp"
 #include "../AliveLibAE/VGA.hpp"
 
 namespace AO {
@@ -164,7 +162,6 @@ void Game_Shutdown()
     SND_SsQuit();
     IO_Stop_ASync_IO_Thread_4F26B0();
     VGA_Shutdown();
-    Error_ShowErrorStackToUser(true);
 }
 
 

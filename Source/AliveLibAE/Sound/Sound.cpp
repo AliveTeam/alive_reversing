@@ -2,7 +2,6 @@
 #include "Sound.hpp"
 #include "Function.hpp"
 #include "../stdlib.hpp"
-#include "../relive_lib/Error.hpp"
 #include "../Sys.hpp"
 #include <mutex>
 #include "SoundSDL.hpp"
@@ -144,8 +143,7 @@ s32 SND_PlayEx_4EF740(const SoundEntry* pSnd, s32 panLeft, s32 panRight, f32 fre
 
     if (!pSnd)
     {
-        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 845, -1, "SND_PlayEx: NULL SAMPLE !!!");
-        return -1;
+        ALIVE_FATAL("SND_PlayEx: NULL SAMPLE !!!");
     }
 
     TSoundBufferType* pDSoundBuffer = pSnd->field_4_pDSoundBuffer;
@@ -201,8 +199,7 @@ s32 SND_PlayEx_4EF740(const SoundEntry* pSnd, s32 panLeft, s32 panRight, f32 fre
         HRESULT v15 = sDSound_BBC344->DuplicateSoundBuffer(pDSoundBuffer, &pSoundBuffer->field_0_pDSoundBuffer);
         if (FAILED(v15))
         {
-            Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 921, -1, GetSoundAPI().SND_HR_Err_To_String(v15));
-            return -1;
+            ALIVE_FATAL(GetSoundAPI().SND_HR_Err_To_String(v15));
         }
 
         pDSoundBuffer = pSoundBuffer->field_0_pDSoundBuffer;
@@ -299,9 +296,7 @@ s32 SND_New_4EEFF0(SoundEntry* pSnd, s32 sampleLength, s32 sampleRate, s32 bitsP
         const HRESULT sbHR = sDSound_BBC344->CreateSoundBuffer(&bufferDesc, &pSnd->field_4_pDSoundBuffer, 0);
         if (FAILED(sbHR))
         {
-            Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 598, -1, "SND_New(): Cannot create ds sound buffer");
-            Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 599, -1, GetSoundAPI().SND_HR_Err_To_String(sbHR));
-            return -1;
+            ALIVE_FATAL("SND_New(): Cannot create ds sound buffer");
         }
         else
         {
@@ -332,19 +327,13 @@ s32 SND_New_4EEFF0(SoundEntry* pSnd, s32 sampleLength, s32 sampleRate, s32 bitsP
             else
             {
                 pSnd->field_4_pDSoundBuffer->Release();
-                Error_PushErrorRecord_4F2920(
-                    "C:\\abe2\\code\\POS\\SND.C",
-                    608,
-                    -1,
-                    "SND_New(): Cannot create original data sound buffer");
-                return -1;
+                ALIVE_FATAL("SND_New(): Cannot create original data sound buffer");
             }
         }
     }
     else
     {
-        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 568, -1, "SND_New: out of samples");
-        return -1;
+        ALIVE_FATAL("SND_New: out of samples");
     }
 }
 
@@ -353,8 +342,7 @@ s32 SND_Renew_4EEDD0(SoundEntry* pSnd)
 {
     if (!sDSound_BBC344)
     {
-        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 351, -1, "DirectSound not initialized");
-        return -1;
+        ALIVE_FATAL("DirectSound not initialized");
     }
 
     WAVEFORMATEX waveFormat;
@@ -376,8 +364,7 @@ s32 SND_Renew_4EEDD0(SoundEntry* pSnd)
 
     if (FAILED(sDSound_BBC344->CreateSoundBuffer(&bufferDesc, &pSnd->field_4_pDSoundBuffer, 0)))
     {
-        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 371, -1, "SND_Renew(): Cannot create ds sound buffer");
-        return -1;
+        ALIVE_FATAL("SND_Renew(): Cannot create ds sound buffer");
     }
     else
     {
@@ -438,8 +425,7 @@ s32 SND_Load_4EF680(SoundEntry* pSnd, const void* pWaveData, s32 waveDataLen)
     {
         if (waveDataLen * pSnd->field_1D_blockAlign > pSnd->field_C_buffer_size_bytes)
         {
-            Error_PushErrorRecord_4F2920("C:\\abe2\\code\\POS\\SND.C", 804, -1, "SND_Load(): data too big !!");
-            return -1;
+            ALIVE_FATAL("SND_Load(): data too big !!");
         }
 
         if (pSnd->field_8_pSoundBuffer)

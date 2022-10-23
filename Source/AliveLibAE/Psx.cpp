@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Psx.hpp"
 #include "Function.hpp"
-#include "../relive_lib/Error.hpp"
 #include "Sound/PsxSpuApi.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "VGA.hpp"
@@ -87,7 +86,7 @@ void PSX_SetDefDrawEnv_4F5AA0(PSX_DRAWENV* pDrawEnv, s16 x, s16 y, s16 w, s16 h)
     }
     else
     {
-        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\PSXEmu\\LIBGPU.C", 442, -1, "SetDefDrawEnv(): env == NULL");
+        ALIVE_FATAL("SetDefDrawEnv(): env == NULL");
     }
 }
 
@@ -95,7 +94,7 @@ void PSX_SetDefDispEnv_4F55A0(PSX_DISPENV* pOutEnv, s16 x, s16 y, s16 w, s16 h)
 {
     if (!pOutEnv)
     {
-        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\PSXEmu\\LIBGPU.C", 180, -1, "SetDefDispEnv(): env == NULL");
+        ALIVE_FATAL("SetDefDispEnv(): env == NULL");
         return;
     }
 
@@ -134,7 +133,7 @@ void PSX_PutDrawEnv_4F5980(const PSX_DRAWENV* pDrawEnv)
     }
     else
     {
-        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\PSXEmu\\LIBGPU.C", 371, -1, "PutDrawEnv(): env == NULL");
+        ALIVE_FATAL("PutDrawEnv(): env == NULL");
     }
 }
 
@@ -176,7 +175,7 @@ void PSX_VSync_4F6170(s32 mode)
     }
     else if (mode < 0) // Error
     {
-        Error_PushErrorRecord_4F2920("C:\\abe2\\code\\PSXEmu\\LIBGPU.C", 756, -1, "VSync(): negative param unsupported");
+        ALIVE_FATAL("VSync(): negative param unsupported");
     }
     else
     {

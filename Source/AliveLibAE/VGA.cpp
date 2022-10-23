@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "VGA.hpp"
 #include "Function.hpp"
-#include "../relive_lib/Error.hpp"
 #include "Sys.hpp"
 #include "PsxRender.hpp"
 #include "Psx.hpp"

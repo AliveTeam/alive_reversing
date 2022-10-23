@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "PsxDisplay.hpp"
-#include "Error.hpp"
 #include <type_traits>
 #include "VRam.hpp"
 #include "../AliveLibAE/PsxRender.hpp"

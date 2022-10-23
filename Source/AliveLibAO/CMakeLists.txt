@@ -1,18 +1,44 @@
 project(AliveLibAO VERSION 0.1 LANGUAGES CXX)
 
 SET(AliveLibSrcAO
+   Font.hpp
+   Font.cpp
+   Midi.hpp
+   Midi.cpp
+   Sfx.hpp
+   Sfx.cpp
+   Math.hpp
+   Math.cpp
    Grid.cpp
    Grid.hpp
+   StringFormatters.hpp
+   StringFormatters.cpp
+   BaseAliveGameObject.hpp
+   BaseAliveGameObject.cpp
    GameAutoPlayer.cpp
    GameAutoPlayer.hpp
    PathDataExtensions.hpp
    PathDataExtensions.cpp
+   Game.hpp
+   Game.cpp
+   Map.hpp
+   Map.cpp
    Sound.hpp
    Sound.cpp
-   DemoPlayback.hpp
-   DemoPlayback.cpp
    SaveGame.hpp
    SaveGame.cpp
+   CameraSwapper.hpp
+   CameraSwapper.cpp
+   Input.hpp
+   Input.cpp
+   PauseMenu.hpp
+   PauseMenu.cpp
+   Path.hpp
+   Path.cpp
+   DDCheat.hpp
+   DDCheat.cpp
+   DemoPlayback.hpp
+   DemoPlayback.cpp
    SwitchStateBooleanLogic.hpp
    SwitchStateBooleanLogic.cpp
    OneShotSwitchIdSetter.hpp
@@ -25,8 +51,6 @@ SET(AliveLibSrcAO
    ScreenWave.cpp
    UXB.hpp
    UXB.cpp
-   StringFormatters.hpp
-   StringFormatters.cpp
    LCDScreen.hpp
    LCDScreen.cpp
    MainMenu.hpp
@@ -209,18 +233,12 @@ SET(AliveLibSrcAO
    BellHammer.cpp
    Bat.hpp
    Bat.cpp
-   Math.hpp
-   Math.cpp
    Slig.hpp
    Slig.cpp
    SligSpawner.hpp
    SligSpawner.cpp
-   Game.hpp
-   Game.cpp
    EffectBase.hpp
    EffectBase.cpp
-   Map.hpp
-   Map.cpp
    Alarm.hpp
    Alarm.cpp
    PathData.hpp
@@ -235,12 +253,6 @@ SET(AliveLibSrcAO
    Factory.cpp
    GasCountDown.hpp
    GasCountDown.cpp
-   Font.hpp
-   Font.cpp
-   Midi.hpp
-   Midi.cpp
-   BaseAliveGameObject.hpp
-   BaseAliveGameObject.cpp
    AmbientSound.hpp
    AmbientSound.cpp
    FG1.hpp
@@ -251,34 +263,22 @@ SET(AliveLibSrcAO
    BackgroundMusic.cpp
    MusicController.hpp
    MusicController.cpp
-   CameraSwapper.hpp
-   CameraSwapper.cpp
-   Input.hpp
-   Input.cpp
+   CheatController.hpp
+   CheatController.cpp
    GameSpeak.hpp
    GameSpeak.cpp
    Abe.hpp
    Abe.cpp
-   PauseMenu.hpp
-   PauseMenu.cpp
-   DDCheat.hpp
-   DDCheat.cpp
-   CheatController.hpp
-   CheatController.cpp
    RollingBallStopper.hpp
    RollingBallStopper.cpp
    SwitchStates.hpp
    SwitchStates.cpp
-   Sfx.hpp
-   Sfx.cpp
    ThrowableArray.hpp
    ThrowableArray.cpp
    Elum.hpp
    Elum.cpp
    ZBall.hpp
    ZBall.cpp
-   Path.hpp
-   Path.cpp
    RollingBallShaker.hpp
    RollingBallShaker.cpp
 )
