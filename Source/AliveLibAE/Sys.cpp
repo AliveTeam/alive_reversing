@@ -19,9 +19,6 @@
 
 bool sAppIsActivated_BBBA00 = FALSE;
 TWindowHandleType sHwnd_BBB9F4 = nullptr;
-LPSTR sCommandLine_BBB9E8 = nullptr;
-HINSTANCE sInstance_BBB9EC = nullptr;
-s32 sCmdShow_BBB9FC = 0;
 TWindowHandleType hWnd_BBFB04 = nullptr;
 
 #if AUTO_SWITCH_CONTROLLER // OG Change - Used for Auto-switching active controller (gamepad/keyboard)
@@ -85,14 +82,6 @@ bool Sys_IsMouseButtonDown(MouseButtons button)
         return !!(SDL_GetMouseState(nullptr, nullptr) & SDL_BUTTON(SDL_BUTTON_RIGHT));
     }
     return !!(SDL_GetMouseState(nullptr, nullptr) & SDL_BUTTON(SDL_BUTTON_LEFT));
-}
-
-void Sys_Main(HINSTANCE hInstance, LPSTR lpCmdLine, s32 nShowCmd)
-{
-    sInstance_BBB9EC = hInstance;
-    sCmdShow_BBB9FC = nShowCmd;
-    sCommandLine_BBB9E8 = lpCmdLine;
-    Sys_Main_Common();
 }
 
 SoundEntry* sMovieSoundEntry_5CA230 = nullptr;
@@ -890,11 +879,6 @@ s8 Sys_PumpMessages_4EE4F4()
 TWindowHandleType Sys_GetWindowHandle()
 {
     return sHwnd_BBB9F4;
-}
-
-LPSTR Sys_GetCommandLine()
-{
-    return sCommandLine_BBB9E8;
 }
 
 void Sys_SetWindowPos_4EE1B1(s32 width, s32 height)

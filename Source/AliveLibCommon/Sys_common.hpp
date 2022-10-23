@@ -32,7 +32,6 @@ enum class MessageBoxButton
 };
 
 MessageBoxButton Sys_MessageBox(TWindowHandleType windowHandle, const char_type* message, const char_type* title, MessageBoxType type = MessageBoxType::eStandard);
-void Sys_Main_Common();
 
 #include <string>
 

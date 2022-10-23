@@ -6,7 +6,7 @@
 #include "../relive_lib/Primitives.hpp"
 #include "PathData.hpp"
 
-void Game_Main();
+void Game_Main(const char_type* pCommandLine);
 void DestroyObjects_4A1F20();
 void Init_GameStates();
 s32 Game_End_Frame_4950F0(u32 flags);

@@ -6,8 +6,6 @@
     #include <windows.h>
 #endif
 
-#include "../AliveLibAE/WinMain.hpp"
-#include "../AliveLibAO/WinMain.hpp"
 #include "W32CrashHandler.hpp"
 #include "SDL.h"
 #include "Sys_common.hpp"
@@ -31,6 +29,8 @@
 #include "../AliveLibAE/Io.hpp"
 
 #include "../relive_lib/data_conversion/file_system.hpp"
+
+INITIALIZE_EASYLOGGINGPP
 
 namespace AutoSplitterData {
 struct GuidStr
@@ -146,6 +146,30 @@ static void ShowCwd()
 #endif
 }
 
+static void PrintSDL2Versions()
+{
+    SDL_version compiled = {};
+    SDL_version linked = {};
+
+    SDL_VERSION(&compiled);
+    SDL_GetVersion(&linked);
+    LOG_INFO("Compiled with SDL2 ver " << static_cast<int>(compiled.major) << "." << static_cast<int>(compiled.minor) << "." << static_cast<int>(compiled.patch));
+    LOG_INFO("Runtime SDL2 ver " << static_cast<int>(linked.major) << "." << static_cast<int>(linked.minor) << "." << static_cast<int>(linked.patch));
+}
+
+static void SDL2_Init()
+{
+#if USE_SDL2
+    PrintSDL2Versions(); // Ok to call before init
+
+    if (SDL_Init(SDL_INIT_TIMER | SDL_INIT_VIDEO | SDL_INIT_EVENTS | SDL_INIT_HAPTIC | SDL_INIT_JOYSTICK | SDL_INIT_GAMECONTROLLER) != 0)
+    {
+        LOG_ERROR(SDL_GetError());
+        ALIVE_FATAL(SDL_GetError());
+    }
+#endif
+}
+
 static void GameDirListing()
 {
     IO_EnumerateDirectory("*.*", [](const char_type* fileName, u32)
@@ -208,18 +232,18 @@ BaseGameAutoPlayer& GetGameAutoPlayer()
     return *pAutoPlayer;
 }
 
-static s32 AOMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)
+static void AOMain(LPSTR lpCmdLine)
 {
     LOG_INFO("AO standalone starting...");
     PopulateAutoSplitterVars(GameType::eAo);
-    return AO::WinMain_48EF50(hInstance, hPrevInstance, lpCmdLine, nShowCmd);
+    AO::Game_Main(lpCmdLine);
 }
 
-static s32 AEMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)
+static void AEMain(LPSTR lpCmdLine)
 {
     LOG_INFO("AE standalone starting...");
     PopulateAutoSplitterVars(GameType::eAe);
-    return WinMain_4EE631(hInstance, hPrevInstance, lpCmdLine, nShowCmd);
+    Game_Main(lpCmdLine);
 }
 
 static void ConvertData()
@@ -228,7 +252,7 @@ static void ConvertData()
     //dataConversion.ConvertDataAE();
 }
 
-s32 WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)
+s32 WINAPI WinMain(HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR lpCmdLine, s32 /*nShowCmd*/)
 {
     Install_Crash_Handler();
 #if _WIN32
@@ -244,6 +268,8 @@ s32 WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     // Default to AE but allow switching to AO with a command line, if AO is anywhere in the command line then assume we want to run AO
     GameType gameToRun = strstr(lpCmdLine, "AO") ? GameType::eAo : GameType::eAe;
     ShowCwd();
+
+    SDL2_Init();
 
     ConvertData();
 
@@ -276,13 +302,14 @@ s32 WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
     if (gameToRun == GameType::eAo)
     {
         pAutoPlayer = &GetGameAutoPlayerAO();
-        return AOMain(hInstance, hPrevInstance, lpCmdLine, nShowCmd);
+        AOMain(lpCmdLine);
     }
     else
     {
         pAutoPlayer = &GetGameAutoPlayerAE();
-        return AEMain(hInstance, hPrevInstance, lpCmdLine, nShowCmd);
+        AEMain(lpCmdLine);
     }
+    return 0;
 }
 
 s32 main(s32 argc, char_type** argv)

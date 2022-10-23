@@ -117,8 +117,6 @@ SET(AliveLibAESrc
     CameraSwapper.hpp
     MainMenuTransition.hpp
     MainMenuTransition.cpp
-    WinMain.cpp
-    WinMain.hpp
     Text.cpp
     Text.hpp
     ThrowableArray.cpp

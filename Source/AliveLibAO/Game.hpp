@@ -30,6 +30,6 @@ extern DynamicArrayT<::BaseGameObject>* gPlatformsArray;
 
 void Init_GameStates();
 
-void Game_Main();
+void Game_Main(const char_type* pCommandLine);
 
 } // namespace AO

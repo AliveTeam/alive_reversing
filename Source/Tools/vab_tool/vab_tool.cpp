@@ -13,6 +13,8 @@
 
 #include <string>
 
+INITIALIZE_EASYLOGGINGPP
+
 // TODO: This tool is broken till its updated to use the converted lvl data
 
 BaseGameAutoPlayer& GetGameAutoPlayer()

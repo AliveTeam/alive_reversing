@@ -530,13 +530,13 @@ void Game_Run()
 }
 
 
-void Game_Main()
+void Game_Main(const char_type* pCommandLine)
 {
     Input_EnableInput_4EDDD0();
 
-    GetGameAutoPlayer().ParseCommandLine(Sys_GetCommandLine());
+    GetGameAutoPlayer().ParseCommandLine(pCommandLine);
 
-    Main_ParseCommandLineArguments(Sys_GetCommandLine());
+    Main_ParseCommandLineArguments(pCommandLine);
 
     // Only returns once the engine is shutting down
     Game_Run();

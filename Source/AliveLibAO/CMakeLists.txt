@@ -227,8 +227,6 @@ SET(AliveLibSrcAO
    Map.cpp
    Alarm.hpp
    Alarm.cpp
-   WinMain.hpp
-   WinMain.cpp
    PathData.hpp
    PathData.cpp
    AnimationCallBacks.cpp
