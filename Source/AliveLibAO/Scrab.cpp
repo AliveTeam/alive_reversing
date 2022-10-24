@@ -418,8 +418,7 @@ void Scrab::PlatformCollide()
     OnCollisionWith(
         {bRect.x, bRect.y},
         {bRect.w, bRect.h},
-        gPlatformsArray,
-        (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+        gPlatformsArray);
 }
 
 void Scrab::VOnTrapDoorOpen()
@@ -1277,8 +1276,7 @@ void Scrab::Motion_7_HopMidair()
                     OnCollisionWith(
                         {bRect.x, bRect.y},
                         {bRect.w, bRect.h},
-                        gPlatformsArray,
-                        (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+                        gPlatformsArray);
 
                     mXPos = hitX;
                     mYPos = hitY;
@@ -1383,8 +1381,7 @@ void Scrab::Motion_9_JumpToFall()
                 OnCollisionWith(
                     {bRect.x, bRect.y},
                     {bRect.y, bRect.w},
-                    gPlatformsArray,
-                    (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+                    gPlatformsArray);
 
                 mXPos = hitX;
                 mYPos = hitY;
@@ -1566,8 +1563,7 @@ void Scrab::Motion_13_RunJumpBegin()
                     OnCollisionWith(
                         {bRect.x, bRect.y},
                         {bRect.w, bRect.h},
-                        gPlatformsArray,
-                        (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+                        gPlatformsArray);
 
                     mXPos = hitX;
                     mYPos = hitY;

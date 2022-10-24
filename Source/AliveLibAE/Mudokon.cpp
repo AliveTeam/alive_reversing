@@ -596,8 +596,7 @@ Mudokon::Mudokon(relive::Path_Mudokon* pTlv, const Guid& tlvId)
             OnCollisionWith(
                 {bRect.x, static_cast<s16>(bRect.y + 5)},
                 {bRect.w, static_cast<s16>(bRect.h + 5)},
-                gPlatformsArray,
-                (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
+                gPlatformsArray);
         }
     }
 
@@ -988,8 +987,7 @@ void Mudokon::VUpdate()
                 OnCollisionWith(
                     {bRect.x, static_cast<s16>(bRect.y + 5)},
                     {bRect.w, static_cast<s16>(bRect.h + 5)},
-                    gPlatformsArray,
-                    (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
+                    gPlatformsArray);
             }
         }
 
@@ -5390,7 +5388,7 @@ void Mudokon::Motion_0_Idle()
             OnCollisionWith(
                 {bRect.x, static_cast<s16>(bRect.y + 5)},
                 {bRect.w, static_cast<s16>(bRect.h + 5)},
-                gPlatformsArray, (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
+                gPlatformsArray);
         }
     }
 
@@ -6331,8 +6329,7 @@ void Mudokon::Motion_40_HoistLand()
                 OnCollisionWith(
                     {bRect.x, static_cast<s16>(bRect.y + 5)},
                     {bRect.w, static_cast<s16>(bRect.h + 5)},
-                    gPlatformsArray,
-                    (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
+                    gPlatformsArray);
                 break;
             default:
                 return;
@@ -6536,8 +6533,7 @@ void Mudokon::Motion_49_Fall()
                 OnCollisionWith(
                     {FP_GetExponent(mXPos - FP_FromInteger(10)), FP_GetExponent(mYPos - FP_FromInteger(10))},
                     {FP_GetExponent(mXPos + FP_FromInteger(10)), FP_GetExponent(mYPos + FP_FromInteger(10))},
-                    gPlatformsArray,
-                    (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
+                    gPlatformsArray);
                 break;
 
             case 1u:
@@ -7108,7 +7104,7 @@ void Mudokon::MoveOnLine()
             OnCollisionWith(
                 {bRect.x, static_cast<s16>(bRect.y + 5)},
                 {bRect.w, static_cast<s16>(bRect.h + 5)},
-                gPlatformsArray, (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
+                gPlatformsArray);
         }
     }
     else

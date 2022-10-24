@@ -781,8 +781,7 @@ void Fleech::Motion_9_Fall()
                     OnCollisionWith(
                         {bRect.x, static_cast<s16>(bRect.y + 5)},
                         {bRect.w, static_cast<s16>(FP_GetExponent(mYPos) + 5)},
-                        gPlatformsArray,
-                        (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
+                        gPlatformsArray);
                 }
                 if (mYPos - BaseAliveGameObjectLastLineYPos <= FP_FromInteger((GetSpriteScale() >= FP_FromInteger(1) ? 20 : 10)) * FP_FromInteger(15))
                 {
@@ -2401,7 +2400,7 @@ void Fleech::MoveAlongFloor()
                 const PSX_RECT bRect = VGetBoundingRect();
                 const PSX_Point xy = {bRect.x, static_cast<s16>(bRect.y + 5)};
                 const PSX_Point wh = {bRect.w, static_cast<s16>(bRect.h + 5)};
-                OnCollisionWith(xy, wh, gPlatformsArray, (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
+                OnCollisionWith(xy, wh, gPlatformsArray);
             }
         }
         else if (mBrainState != eFleechBrains::eBrain_0_Patrol)

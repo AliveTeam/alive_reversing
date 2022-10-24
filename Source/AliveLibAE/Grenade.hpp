@@ -69,9 +69,19 @@ public:
     virtual void VTimeToExplodeRandom() override;
 
 
-    // Next 2 virtuals are base
-
     static s32 CreateFromSaveState(const u8* pBuffer);
+
+    virtual s16 VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform) override
+    {
+        if (mDoBounceOff)
+        {
+            return OnCollision_BounceOff(pPlatform);
+        }
+        else
+        {
+            return OnCollision_InstantExplode(pPlatform);
+        }
+    }
 
 private:
     void Init(FP xpos, FP ypos);
@@ -94,4 +104,5 @@ private:
     s16 field_132_bBlowUpOnCollision = 0;
     s16 field_134_bExplodeNow = 0;
     BaseGameObject* field_138_pOwner = nullptr;
+    bool mDoBounceOff = false;
 };

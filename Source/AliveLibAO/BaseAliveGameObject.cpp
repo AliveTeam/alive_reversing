@@ -242,8 +242,7 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid(s32 distance)
                     OnCollisionWith(
                         {bRect.x, bRect.y},
                         {bRect.w, bRect.h},
-                        gPlatformsArray,
-                        (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+                        gPlatformsArray);
                 }
             }
         }
@@ -329,7 +328,7 @@ BirdPortal* BaseAliveGameObject::IntoBirdPortal_402350(s16 distance)
 }
 
 
-void BaseAliveGameObject::OnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, TCollisionCallBack pFn)
+void BaseAliveGameObject::OnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList)
 {
     if (pObjList)
     {
@@ -352,7 +351,7 @@ void BaseAliveGameObject::OnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArr
                         // NOTE: AO ignored scale here
                         if (GetGameType() == GameType::eAo || (GetGameType() == GameType::eAe && GetScale() == pObj->GetScale()))
                         {
-                            if (!(this->*(pFn))(pObj))
+                            if (!VOnPlatformIntersection(pObj))
                             {
                                 break;
                             }
@@ -853,7 +852,7 @@ BaseGameObject* BaseAliveGameObject::FindObjectOfType(ReliveTypes typeToFind, FP
     return nullptr;
 }
 
-s16 BaseAliveGameObject::OnTrapDoorIntersection_401C10(PlatformBase* pPlatform)
+s16 BaseAliveGameObject::VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform)
 {
     const PSX_RECT rect = pPlatform->VGetBoundingRect();
     if (FP_GetExponent(mXPos) < rect.x || FP_GetExponent(mXPos) > rect.w || FP_GetExponent(mYPos) > rect.h)
@@ -866,7 +865,7 @@ s16 BaseAliveGameObject::OnTrapDoorIntersection_401C10(PlatformBase* pPlatform)
     // result in the lift being leaked and then memory corruption/crash later.
     if (mLiftPoint != pPlatform)
     {
-        mLiftPoint = pPlatform;
+        mLiftPoint = static_cast<PlatformBase*>(pPlatform);
         mLiftPoint->VAdd(this);
         mLiftPoint->mBaseGameObjectRefCount++;
     }

@@ -31,8 +31,6 @@ enum AliveObjectFlags
     eElectrocuting = 0x400,
 };
 
-using TCollisionCallBack = s16 (BaseGameObject::*)(BaseGameObject*); // Typically points to something in the derived type.. pretty strange, probably also why its a function pointer
-
 class BaseAliveGameObject : public ::BaseAnimatedWithPhysicsGameObject
 {
 
@@ -55,9 +53,9 @@ public:
     static s16 IsInInvisibleZone(BaseAliveGameObject* pObj);
     void SetActiveCameraDelayedFromDir();
     s16 MapFollowMe(s16 snapToGrid);
-    s16 OnTrapDoorIntersection(PlatformBase* pOther);
 
-    void OnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, TCollisionCallBack pFn);
+    void OnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList);
+    virtual s16 VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform);
 
 protected:
     template<class T>

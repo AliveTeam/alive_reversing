@@ -2036,7 +2036,7 @@ void Glukkon::VUpdate()
                 xy.y += 5;
                 wh.y += 5;
 
-                OnCollisionWith(xy, wh, gPlatformsArray, (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
+                OnCollisionWith(xy, wh, gPlatformsArray);
             }
         }
         field_208_obj_id = BaseGameObject::RefreshId(field_208_obj_id);
@@ -2626,8 +2626,7 @@ void Glukkon::GetOnPlatforms()
     OnCollisionWith(
         {FP_GetExponent(mXPos - FP_FromInteger(5)), FP_GetExponent(mYPos - FP_FromInteger(5))},
         {FP_GetExponent(mXPos + FP_FromInteger(5)), FP_GetExponent(mYPos + FP_FromInteger(5))},
-        gPlatformsArray,
-        (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
+        gPlatformsArray);
 }
 
 const relive::SfxDefinition stepSfx_554840[3] = {

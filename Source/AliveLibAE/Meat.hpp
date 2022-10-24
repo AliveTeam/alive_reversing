@@ -68,6 +68,10 @@ public:
 
     static s32 CreateFromSaveState(const u8* pBuffer);
 
+    virtual s16 VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform) override
+    {
+        return OnCollision(pPlatform);
+    }
 
 private:
     void AddToPlatform();

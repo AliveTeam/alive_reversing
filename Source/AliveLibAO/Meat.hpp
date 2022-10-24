@@ -49,6 +49,11 @@ public:
     void AddToPlatform();
     s16 OnCollision(BaseAliveGameObject* pObj);
 
+    s16 VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform) override
+    {
+        return OnCollision(static_cast<BaseAliveGameObject*>(pPlatform));
+    }
+
     s16 field_110_state = 0;
     s16 field_112 = 0;
     FP field_114_xpos = {};

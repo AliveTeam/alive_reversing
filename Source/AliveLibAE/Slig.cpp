@@ -4715,8 +4715,7 @@ void Slig::VUpdate()
                     OnCollisionWith(
                         {bRect.x, static_cast<s16>(bRect.y + 5)},
                         {bRect.w, static_cast<s16>(bRect.h + 5)},
-                        gPlatformsArray,
-                        (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
+                        gPlatformsArray);
                 }
             }
         }
@@ -5625,11 +5624,7 @@ void Slig::PlatformCollide_4B4E00()
     wh.x = FP_GetExponent(mXPos + FP_FromInteger(5));
     wh.y = FP_GetExponent(mYPos + FP_FromInteger(5));
 
-    OnCollisionWith(
-        xy,
-        wh,
-        gPlatformsArray,
-        (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
+    OnCollisionWith(xy, wh, gPlatformsArray);
 }
 
 // TODO: rename to ToKnockBack() to match AO

@@ -1933,6 +1933,5 @@ void CrawlingSlig::PlatformCollide()
     OnCollisionWith(
         xy,
         wh,
-        gPlatformsArray,
-        (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
+        gPlatformsArray);
 }

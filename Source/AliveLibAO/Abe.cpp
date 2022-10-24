@@ -1581,8 +1581,7 @@ void Abe::MoveForward_422FC0()
             OnCollisionWith(
                 {bRect.x, bRect.y},
                 {bRect.w, bRect.h},
-                gPlatformsArray,
-                (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+                gPlatformsArray);
         }
     }
     else
@@ -4032,8 +4031,7 @@ void Abe::Motion_3_Fall()
                 OnCollisionWith(
                     xy,
                     wh,
-                    gPlatformsArray,
-                    reinterpret_cast<TCollisionCallBack>(&BaseAliveGameObject::OnTrapDoorIntersection_401C10));
+                    gPlatformsArray);
                 break;
             }
             case eLineTypes::eWallLeft_1:
@@ -4324,8 +4322,7 @@ void Abe::Motion_17_HoistIdle()
                 OnCollisionWith(
                     {rect.x, rect.y},
                     {rect.w, rect.h},
-                    gPlatformsArray,
-                    (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+                    gPlatformsArray);
                 break;
             }
         }
@@ -4399,8 +4396,7 @@ void Abe::Motion_17_HoistIdle()
                             OnCollisionWith(
                                 {rect.x, rect.y},
                                 {rect.w, rect.h},
-                                gPlatformsArray,
-                                (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+                                gPlatformsArray);
                         }
                     }
                     GetShadow()->mFlags.Set(Shadow::Flags::eShadowAtBottom);
@@ -5091,8 +5087,7 @@ void Abe::Motion_30_HopMid()
                         OnCollisionWith(
                             {rect.x, rect.y},
                             {rect.w, rect.h},
-                            gPlatformsArray,
-                            (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+                            gPlatformsArray);
                         mXPos = hitX;
                         mYPos = hitY;
                         mVelX = FP_FromInteger(0);
@@ -5246,8 +5241,7 @@ void Abe::Motion_33_RunJumpMid()
                     OnCollisionWith(
                         {rect.x, rect.y},
                         {rect.w, rect.h},
-                        gPlatformsArray,
-                        (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+                        gPlatformsArray);
                 }
                 mNextMotion = eAbeMotions::Motion_0_Idle;
                 return;
@@ -5324,8 +5318,7 @@ void Abe::Motion_33_RunJumpMid()
                         OnCollisionWith(
                             {rect.x, rect.y},
                             {rect.w, rect.h},
-                            gPlatformsArray,
-                            (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+                            gPlatformsArray);
                     }
                 }
             }
@@ -6921,8 +6914,7 @@ void Abe::Motion_67_ToOffScreenHoist()
                 OnCollisionWith(
                     {bRect.x, bRect.y},
                     {bRect.w, bRect.h},
-                    gPlatformsArray,
-                    (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+                    gPlatformsArray);
             }
         }
         mCurrentMotion = eAbeMotions::Motion_66_LedgeHang;
@@ -8558,8 +8550,7 @@ void Abe::Motion_138_ElumUnmountEnd()
                 OnCollisionWith(
                     {bRect.x, bRect.y},
                     {bRect.w, bRect.h},
-                    gPlatformsArray,
-                    (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+                    gPlatformsArray);
             }
         }
         sControlledCharacter = sActiveHero;

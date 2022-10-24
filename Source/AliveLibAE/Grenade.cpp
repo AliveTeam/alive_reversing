@@ -386,7 +386,8 @@ void Grenade::VUpdate()
 
                     const PSX_Point xy = {bRect.x, static_cast<s16>(bRect.y + 5)};
                     const PSX_Point wh = {bRect.w, static_cast<s16>(bRect.h + 5)};
-                    OnCollisionWith(xy, wh, gBaseGameObjects, (TCollisionCallBack) &Grenade::OnCollision_BounceOff);
+                    mDoBounceOff = true;
+                    OnCollisionWith(xy, wh, gBaseGameObjects);
                 }
             }
             else
@@ -431,7 +432,8 @@ void Grenade::VUpdate()
 
             const PSX_Point xy = {bRect.x, static_cast<s16>(bRect.y + 5)};
             const PSX_Point wh = {bRect.w, static_cast<s16>(bRect.h + 5)};
-            OnCollisionWith(xy, wh, gBaseGameObjects, (TCollisionCallBack) &Grenade::OnCollision_InstantExplode);
+            mDoBounceOff = false;
+            OnCollisionWith(xy, wh, gBaseGameObjects);
 
             if (field_134_bExplodeNow)
             {

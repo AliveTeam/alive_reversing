@@ -438,8 +438,7 @@ void Slog::MoveOnLine()
                     OnCollisionWith(
                         {rect.x, rect.y},
                         {rect.w, rect.h},
-                        gPlatformsArray,
-                        (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+                        gPlatformsArray);
                 }
             }
         }
@@ -1141,8 +1140,7 @@ void Slog::Motion_4_Fall_4750C0()
                     OnCollisionWith(
                         {bRect.x, bRect.y},
                         {bRect.w, bRect.h},
-                        gPlatformsArray,
-                        (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+                        gPlatformsArray);
                 }
                 mCurrentMotion = eSlogMotions::Motion_11_Land_475AB0;
                 break;

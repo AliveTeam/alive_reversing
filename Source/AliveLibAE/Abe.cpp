@@ -3062,11 +3062,7 @@ void Abe::Motion_3_Fall_459B60()
 
                 PSX_Point xy{FP_GetExponent(mXPos - FP_FromInteger(10)), FP_GetExponent(mYPos - FP_FromInteger(10))};
                 PSX_Point wh{FP_GetExponent(mXPos + FP_FromInteger(10)), FP_GetExponent(mYPos + FP_FromInteger(10))};
-                OnCollisionWith(
-                    xy,
-                    wh,
-                    gPlatformsArray,
-                    reinterpret_cast<TCollisionCallBack>(&BaseAliveGameObject::OnTrapDoorIntersection)); // Danger danger.. but will probably work.. can't see how else they would have got this to work
+                OnCollisionWith(xy, wh, gPlatformsArray);
             }
             break;
 
@@ -3335,8 +3331,7 @@ void Abe::Motion_14_HoistIdle_452440()
                 OnCollisionWith(
                     {FP_GetExponent(mXPos), FP_GetExponent(mYPos)},
                     {FP_GetExponent(mXPos), FP_GetExponent((mYPos + FP_FromInteger(5)))},
-                    gPlatformsArray,
-                    (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
+                    gPlatformsArray);
                 break;
             }
         }
@@ -3444,8 +3439,7 @@ void Abe::Motion_14_HoistIdle_452440()
                         OnCollisionWith(
                             {FP_GetExponent(mXPos), FP_GetExponent(mYPos)},
                             {FP_GetExponent(mXPos), FP_GetExponent(mYPos + FP_FromInteger(5))},
-                            gPlatformsArray,
-                            (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
+                            gPlatformsArray);
                     }
                 }
                 GetShadow()->mFlags.Set(Shadow::Flags::eShadowAtBottom);
@@ -4030,8 +4024,7 @@ void Abe::Motion_28_HopMid_451C50()
                 OnCollisionWith(
                     {FP_GetExponent(mXPos), FP_GetExponent(mYPos)},
                     {FP_GetExponent(mXPos), FP_GetExponent(mYPos + FP_FromInteger(5))},
-                    gPlatformsArray,
-                    (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
+                    gPlatformsArray);
 
                 MapFollowMe(TRUE);
                 mCurrentMotion = eAbeMotions::Motion_29_HopLand_4523D0;
@@ -4206,8 +4199,7 @@ void Abe::Motion_31_RunJumpMid_452C10()
                     OnCollisionWith(
                         {FP_GetExponent(mXPos), FP_GetExponent(mYPos)},
                         {FP_GetExponent(mXPos), FP_GetExponent(mYPos + FP_FromInteger(5))},
-                        gPlatformsArray,
-                        (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
+                        gPlatformsArray);
                 }
                 mNextMotion = eAbeMotions::Motion_0_Idle_44EEB0;
                 return;
@@ -4295,8 +4287,7 @@ void Abe::Motion_31_RunJumpMid_452C10()
                         OnCollisionWith(
                             {FP_GetExponent(mXPos), FP_GetExponent(mYPos)},
                             {FP_GetExponent(mXPos), FP_GetExponent(mYPos + FP_FromInteger(5))},
-                            gPlatformsArray,
-                            (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
+                            gPlatformsArray);
                     }
                 }
             }
@@ -5491,8 +5482,7 @@ void Abe::Motion_68_ToOffScreenHoist_454B80()
                 OnCollisionWith(
                     {FP_GetExponent(mXPos), FP_GetExponent(mYPos)},
                     {FP_GetExponent(mXPos), FP_GetExponent(mYPos + FP_FromInteger(5))},
-                    gPlatformsArray,
-                    (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
+                    gPlatformsArray);
             }
         }
         mCurrentMotion = eAbeMotions::Motion_67_LedgeHang_454E20;
@@ -8090,8 +8080,7 @@ void Abe::MoveForward_44E9A0()
                 {bRect.x, static_cast<s16>(bRect.y + 5)},
                 {static_cast<s16>(bRect.w + 5), 
                  static_cast<s16>(bRect.h + 5)}, // TODO: Is it really on both ??
-                gPlatformsArray,
-                (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
+                gPlatformsArray);
         }
         else if (pTrapdoor)
         {

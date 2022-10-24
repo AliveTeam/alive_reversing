@@ -225,7 +225,7 @@ void Grenade::VUpdate()
                     const PSX_Point xy = {bRect.x, static_cast<s16>(bRect.y + 5)};
                     const PSX_Point wh = {bRect.w, static_cast<s16>(bRect.h + 5)};
 
-                    OnCollisionWith(xy, wh, gBaseGameObjects, (TCollisionCallBack) &Grenade::OnCollision_BounceOff);
+                    OnCollisionWith(xy, wh, gBaseGameObjects);
                 }
             }
             else

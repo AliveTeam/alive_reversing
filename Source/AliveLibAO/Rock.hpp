@@ -24,6 +24,11 @@ public:
     s16 OnCollision(BaseAnimatedWithPhysicsGameObject* pObj);
     void BounceHorizontally( FP hitX, FP hitY );
 
+    virtual s16 VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform) override
+    {
+        return OnCollision(pPlatform);
+    }
+
     enum class States : s16
     {
         eNone_0 = 0,

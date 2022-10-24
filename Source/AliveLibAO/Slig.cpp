@@ -1886,8 +1886,7 @@ void Slig::MoveOnLine()
                     OnCollisionWith(
                         {bRect.x, bRect.y},
                         {bRect.w, bRect.h},
-                        gPlatformsArray,
-                        (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+                        gPlatformsArray);
                 }
             }
         }
@@ -2889,8 +2888,7 @@ void Slig::Motion_7_Falling()
                 OnCollisionWith(
                     {bRect.x, bRect.y},
                     {bRect.w, bRect.h},
-                    gPlatformsArray,
-                    (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+                    gPlatformsArray);
 
                 mXPos = hitX;
                 mCurrentMotion = eSligMotions::Motion_41_LandingSoft;

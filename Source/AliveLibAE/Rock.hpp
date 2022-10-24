@@ -62,6 +62,11 @@ public:
 
     static s32 CreateFromSaveState(const u8* pData);
 
+    virtual s16 VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform) override
+    {
+        return OnCollision(static_cast<BaseAliveGameObject*>(pPlatform));
+    }
+
 private:
     void InTheAir();
     s16 OnCollision(BaseAliveGameObject* pObj);

@@ -35,8 +35,6 @@ enum Flags_10A
     e10A_Bit16 = 0x8000,
 };
 
-using TCollisionCallBack = s16 (BaseGameObject::*)(BaseGameObject*); // Typically points to something in the derived type.. pretty strange, probably also why its a function pointer
-
 class BaseAliveGameObject : public BaseAnimatedWithPhysicsGameObject
 {
 public:
@@ -55,7 +53,8 @@ public:
     virtual void VCheckCollisionLineStillValid(s32 distance);
     virtual void VOnTrapDoorOpen();
 
-    void OnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, TCollisionCallBack pFn);
+    void OnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList);
+    virtual s16 VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform);
 
 protected:
     template<class T>
@@ -95,7 +94,7 @@ protected:
     bool Check_IsOnEndOfLine(s16 direction, s16 distance);
 
 public:
-    s16 OnTrapDoorIntersection_401C10(PlatformBase* pPlatform);
+  
     s16 MapFollowMe(s16 snapToGrid);
 
 public:

@@ -313,8 +313,7 @@ Mudokon::Mudokon(relive::Path_TLV* pTlv, const Guid& tlvId)
             OnCollisionWith(
                 PSX_Point{bRect.x, static_cast<s16>(bRect.y + 5)},
                 PSX_Point{bRect.w, static_cast<s16>(bRect.h + 5)},
-                gPlatformsArray,
-                (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+                gPlatformsArray);
         }
     }
 
@@ -1033,8 +1032,7 @@ void Mudokon::MoveOnLine()
                 OnCollisionWith(
                     PSX_Point{bRect.x, static_cast<s16>(bRect.y + 5)},
                     PSX_Point{bRect.w, static_cast<s16>(bRect.h + 5)},
-                    gPlatformsArray,
-                    (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+                    gPlatformsArray);
             }
         }
     }
@@ -2443,8 +2441,7 @@ void Mudokon::Motion_51_Fall()
                 OnCollisionWith(
                     xy,
                     wh,
-                    gPlatformsArray,
-                    (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+                    gPlatformsArray);
                 break;
 
             case eLineTypes::eWallLeft_1:

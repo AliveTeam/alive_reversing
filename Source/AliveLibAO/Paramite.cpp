@@ -705,8 +705,7 @@ void Paramite::MoveOnLine()
                     OnCollisionWith(
                         {bRect.x, static_cast<s16>(bRect.y + 5)},
                         {bRect.w, static_cast<s16>(bRect.h + 5)},
-                        gPlatformsArray,
-                        (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+                        gPlatformsArray);
                 }
             }
         }
@@ -2947,8 +2946,7 @@ void Paramite::Motion_6_Hop()
                     OnCollisionWith(
                         {bRect.x, bRect.y},
                         {bRect.y, bRect.h},
-                        gPlatformsArray,
-                        (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+                        gPlatformsArray);
                     mXPos = hitX;
                     mYPos = hitY;
                     return;
@@ -3191,8 +3189,7 @@ void Paramite::Motion_12_Falling()
                 OnCollisionWith(
                     {bRect.x, bRect.y},
                     {bRect.w, bRect.h},
-                    gPlatformsArray,
-                    (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+                    gPlatformsArray);
 
                 mXPos = hitX;
                 mYPos = hitY;
@@ -3478,8 +3475,7 @@ void Paramite::Motion_18_RunningAttack()
                 OnCollisionWith(
                     {r.x, r.y},
                     {r.w, r.h},
-                    gPlatformsArray,
-                    (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+                    gPlatformsArray);
             }
             mYPos = hitY;
             BaseAliveGameObjectCollisionLine = pLine;
@@ -3542,8 +3538,7 @@ void Paramite::Motion_20_SurpriseWeb()
             OnCollisionWith(
                 {bRect.x, bRect.y},
                 {bRect.w, bRect.h},
-                gPlatformsArray,
-                (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+                gPlatformsArray);
         }
     }
     else

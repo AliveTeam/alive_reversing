@@ -302,7 +302,7 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid(s32 distance)
             xy.y += 5;
             wh.y += 5;
 
-            OnCollisionWith(xy, wh, gPlatformsArray, (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection);
+            OnCollisionWith(xy, wh, gPlatformsArray);
         }
     }
     else
@@ -358,7 +358,7 @@ BirdPortal* BaseAliveGameObject::VIntoBirdPortal(s16 numGridBlocks)
 }
 
 
-void BaseAliveGameObject::OnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList, TCollisionCallBack pFn)
+void BaseAliveGameObject::OnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList)
 {
     if (pObjList)
     {
@@ -381,7 +381,7 @@ void BaseAliveGameObject::OnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArr
                         // NOTE: AO ignored scale here
                         if (GetGameType() == GameType::eAo || (GetGameType() == GameType::eAe && GetScale() == pObj->GetScale()))
                         {
-                            if (!(this->*(pFn))(pObj))
+                            if (!VOnPlatformIntersection(pObj))
                             {
                                 break;
                             }
@@ -676,7 +676,7 @@ BaseGameObject* BaseAliveGameObject::FindObjectOfType(ReliveTypes typeToFind, FP
     return nullptr;
 }
 
-s16 BaseAliveGameObject::OnTrapDoorIntersection(PlatformBase* pPlatform)
+s16 BaseAliveGameObject::VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform)
 {
     const PSX_RECT bRect = pPlatform->VGetBoundingRect();
 
@@ -685,7 +685,7 @@ s16 BaseAliveGameObject::OnTrapDoorIntersection(PlatformBase* pPlatform)
         return 1;
     }
 
-    pPlatform->VAdd(this);
+    static_cast<PlatformBase*>(pPlatform)->VAdd(this);
 
     BaseAliveGameObject_PlatformId = pPlatform->mBaseGameObjectId;
     return 1;

@@ -24,6 +24,11 @@ public:
     s16 OnCollision_BounceOff(BaseGameObject* pHit);
     s16 InTheAir();
     
+    virtual s16 VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform) override
+    {
+        return OnCollision_BounceOff(pPlatform);
+    }
+
 public:
     enum class States : s16
     {

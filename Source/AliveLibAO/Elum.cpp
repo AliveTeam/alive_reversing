@@ -420,8 +420,7 @@ void Elum::MoveOnLine(s16 xLookAhead)
             OnCollisionWith(
                 {bRect.x, static_cast<s16>(bRect.y + 5)},
                 {bRect.w, static_cast<s16>(bRect.h + 5)},
-                gPlatformsArray,
-                (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+                gPlatformsArray);
         }
     }
     else
@@ -2340,8 +2339,7 @@ void Elum::Motion_21_Land_414A20()
                 OnCollisionWith(
                     xy,
                     wh,
-                    gPlatformsArray,
-                    (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+                    gPlatformsArray);
                 break;
             }
 
@@ -2629,8 +2627,7 @@ void Elum::Motion_32_HopLand_415140()
         OnCollisionWith(
             {bRect.x, static_cast<s16>(bRect.y + 5)},
             {bRect.w, static_cast<s16>(bRect.h + 5)},
-            gPlatformsArray,
-            (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+            gPlatformsArray);
 
         MapFollowMe(TRUE);
 
@@ -2697,8 +2694,7 @@ void Elum::Motion_35_RunJumpLand_415580()
         OnCollisionWith(
             {bRect.x, static_cast<s16>(bRect.y + 5)},
             {bRect.w, static_cast<s16>(bRect.h + 5)},
-            gPlatformsArray,
-            (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+            gPlatformsArray);
 
         if (sControlledCharacter == this)
         {
@@ -3014,8 +3010,7 @@ void Elum::Motion_42_RunToWalk_413B60()
         OnCollisionWith(
             xy,
             wh,
-            gPlatformsArray,
-            (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+            gPlatformsArray);
 
         FP offX = {};
         if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
@@ -3075,8 +3070,7 @@ void Elum::Motion_43_MidRunToWalk_413E20()
         OnCollisionWith(
             xy,
             wh,
-            gPlatformsArray,
-            (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+            gPlatformsArray);
 
         FP offX = {};
         if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
@@ -3379,8 +3373,7 @@ void Elum::VUpdate()
             OnCollisionWith(
                 {bRect.x, static_cast<s16>(bRect.y + 5)},
                 {bRect.w, static_cast<s16>(bRect.h + 5)},
-                gPlatformsArray,
-                (TCollisionCallBack) &BaseAliveGameObject::OnTrapDoorIntersection_401C10);
+                gPlatformsArray);
 
             if (mLiftPoint)
             {
