@@ -333,7 +333,7 @@ void BeeSwarm::VUpdate()
 
                 if (pObjIter != mChaseTarget)
                 {
-                    if (pObjIter->field_EC) // can be chased
+                    if (pObjIter->field_EC_bBeesCanChase) // can be chased
                     {
                         const PSX_RECT objRect = pObjIter->VGetBoundingRect();
                         if (FP_FromInteger(objRect.x) <= mRectW && FP_FromInteger(objRect.w) >= mRectX && FP_FromInteger(objRect.h) >= mRectY && FP_FromInteger(objRect.y) <= mRectH)

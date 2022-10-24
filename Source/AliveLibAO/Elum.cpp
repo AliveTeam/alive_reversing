@@ -3592,7 +3592,7 @@ Elum::Elum(const Guid& tlvInfo)
     mDontFollowAbe = 0;
     field_124_bShould_IdleToWalk1 = 1;
     field_10E_pressed = 0;
-    field_EC = 2;
+    field_EC_bBeesCanChase = 2;
     mBaseAliveGameObjectLastAnimFrame = 0;
     field_130_unused = 0;
 

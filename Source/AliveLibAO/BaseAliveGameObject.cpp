@@ -32,7 +32,7 @@ BaseAliveGameObject::BaseAliveGameObject()
     mLiftPoint = nullptr;
     field_106_shot = 0;
     field_108_bMotionChanged = 0;
-    field_EC = 0;
+    field_EC_bBeesCanChase = 0;
     mCurrentMotion = 0;
     mNextMotion = 0;
     mPreviousMotion = 0;

@@ -88,11 +88,11 @@ public:
     FP BaseAliveGameObjectLastLineYPos = {};
     relive::Path_TLV* BaseAliveGameObjectPathTLV = nullptr;
     PathLine* BaseAliveGameObjectCollisionLine = nullptr;
-    s16 BaseAliveGameObjectCollisionLineType = 0;
     s16 mCurrentMotion = 0;
     s16 mNextMotion = 0;
     FP mHealth = {};
-    Guid BaseAliveGameObject_PlatformId;
+    s16 BaseAliveGameObjectCollisionLineType = 0; // AE only, quick save data
+    Guid BaseAliveGameObject_PlatformId; // AE only
     BitField16<AliveObjectFlags> mBaseAliveGameObjectFlags = {};
 };
 

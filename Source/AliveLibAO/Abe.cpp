@@ -903,7 +903,7 @@ Abe::Abe()
     mLiftPoint = nullptr;
     field_130_say = -1;
     field_134_auto_say_timer = 0;
-    field_EC = 1;
+    field_EC_bBeesCanChase = 1;
     field_12A_unused = 161;
 
     // Set Abe to be the current player controlled object

@@ -102,17 +102,15 @@ public:
     s16 mPreviousMotion = 0;
     s32 mBaseAliveGameObjectLastAnimFrame = 0;
     FP BaseAliveGameObjectLastLineYPos = {};
-    s16 field_EC = 0; // can the bees attack - multiple values so prob more unknown meanings as well
-    s16 field_EE_type = 0; // unused??
     relive::Path_TLV* BaseAliveGameObjectPathTLV = nullptr;
     PathLine* BaseAliveGameObjectCollisionLine = nullptr;
-    PlatformBase* mLiftPoint = nullptr;
     s16 mCurrentMotion = 0;
     s16 mNextMotion = 0;
     FP mHealth = {};
-    //s16 field_104_pending_resource_count = 0;
-    s16 field_106_shot = 0;
-    s16 field_108_bMotionChanged = 0;
+    s16 field_EC_bBeesCanChase = 0; // AO only: can the bees attack - can be above the value 1 but bee swarm only checks for non zero
+    PlatformBase* mLiftPoint = nullptr; // AO only
+    s16 field_106_shot = 0; // AE as flag
+    s16 field_108_bMotionChanged = 0; // AE as flag
     BitField16<Flags_10A> mBaseAliveGameObjectFlags = {};
 };
 

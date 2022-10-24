@@ -282,7 +282,7 @@ Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
     field_114_timer = 0;
     mBrainSubState = 0;
     mNextMotion = 0;
-    field_EC = 3;
+    field_EC_bBeesCanChase = 3;
     mExplodeTimer = 0;
     field_154_death_by_being_shot_timer = 0;
     mLiftPoint = nullptr;
