@@ -255,7 +255,7 @@ void AbilityRing::VRender(PrimHeader** ppOt)
             mRingXPos,
             mRingYPos,
             0)
-        && !mRingFoundTarget)
+        && !mRefreshTargetObjId)
     {
         s16 y3 = mRingScreenYPos;
         s16 y4 = mRingScreenYPos;
@@ -335,9 +335,9 @@ void AbilityRing::VRender(PrimHeader** ppOt)
 
 void AbilityRing::VUpdate()
 {
-    if (mRingFoundTarget)
+    if (mRefreshTargetObjId)
     {
-        mRingFoundTarget = FALSE;
+        mRefreshTargetObjId = FALSE;
         mRingTargetObjId = RefreshId(mRingTargetObjId);
     }
 
@@ -494,7 +494,7 @@ s32 AbilityRing::CreateFromSaveState(const u8* pBuffer)
         pRing->mRingRight = pState->mRingRight;
         pRing->mRingCount = pState->mRingCount;
         pRing->mRingTargetObjId = pState->mRingTlvInfo;
-        pRing->mRingFoundTarget = TRUE;
+        pRing->mRefreshTargetObjId = TRUE;
     }
     return sizeof(AbilityRing_State);
 }

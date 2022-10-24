@@ -96,7 +96,7 @@ private:
     RingTypes mRingType = RingTypes::eExplosive_Pulse_0;
     Guid mRingTargetObjId;
     s32 mRingCount = 0;
-    s16 mRingFoundTarget = 0;
+    s16 mRefreshTargetObjId = 0;
 };
 
 ALIVE_ASSERT_SIZEOF(AbilityRing, 0x294);

@@ -73,7 +73,7 @@ TimedMine::TimedMine(relive::Path_TimedMine* pPath, const Guid& tlvId)
 
     mTlvInfo = tlvId;
     mExplosionTimer = sGnFrame;
-    SetBaseAnimPaletteTint(sTimedMineTint_550EB8, gMap.mCurrentLevel, PalId::Bomb);
+    SetBaseAnimPaletteTint(sTimedMineTint_550EB8, gMap.mCurrentLevel, PalId::Default); // TODO: Bomb pal removed, check correct
  
     const FP gridSnap = ScaleToGridSize(GetSpriteScale());
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);

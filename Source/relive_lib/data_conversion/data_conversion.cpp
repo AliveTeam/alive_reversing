@@ -1259,6 +1259,21 @@ extern PalRecConversionInfo kPalConversionInfo[17];
 
 static void ConvertPal(const FileSystem::Path& dataDir, const char* pFileName, const u16* pData, u32 len);
 
+static void LogNonConvertedPals(bool isAo)
+{
+    for (auto& rec : kPalConversionInfo)
+    {
+        if (!rec.mConverted)
+        {
+            const auto& palDetails = isAo ? AO::PalRec(rec.mPalId) : PalRec(rec.mPalId);
+            if (palDetails.mBanName)
+            {
+                LOG_INFO("MISSING PAL: " << magic_enum::enum_name(rec.mPalId));
+            }
+        }
+    }
+}
+
 static void ConvertPals(const FileSystem::Path& dataDir, std::vector<u8>& fileBuffer, ReliveAPI::LvlReader& lvlReader, bool isAo)
 {
     for (auto& rec : kPalConversionInfo)
@@ -1642,6 +1657,7 @@ void DataConversion::ConvertDataAO()
         ConvertFilesInLvl<AO::LevelIds, AO::Path_TLV>(dataDir, fs, lvlReader, fileBuffer, lvlIdxAsLvl, reliveLvl, true);
     }
     LogNonConvertedAnims(true);
+    LogNonConvertedPals(true);
 }
 
 void DataConversion::ConvertDataAE()

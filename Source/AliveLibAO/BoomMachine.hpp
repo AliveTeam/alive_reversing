@@ -34,7 +34,7 @@ public:
 public:
     Guid field_E4_tlvInfo;
     s16 field_E8_bIsButtonOn = 0;
-    GrenadeMachineNozzle* field_EC_pNozzle = nullptr;
+    Guid field_F8_nozzle_id = {};
 };
 
 } // namespace AO

@@ -51,7 +51,7 @@ void OrbWhirlWindParticle::Spin(FP xpos, FP ypos, FP scale, BaseGameObject* pObj
 {
     mPositionTimer = sGnFrame + Math_RandomRange(0, 16);
     mState = State::eSpin;
-    mTargetObj = pObj;
+    mRingTargetObjId = pObj;
     mYPosIncrement = (mCurrentScale * (mMoveY - mYPosMid)) / FP_FromInteger(16);
     mYPos = ypos;
     mXPos = xpos;
@@ -85,7 +85,7 @@ void OrbWhirlWindParticle::Update()
             }
             else
             {
-                if (mTargetObj && mTargetObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+                if (mRingTargetObjId && mRingTargetObjId->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
                 {
                     ToStop();
                 }
@@ -104,7 +104,7 @@ void OrbWhirlWindParticle::Update()
             break;
 
         case State::eFlyToTarget:
-            if (mTargetObj && mTargetObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+            if (mRingTargetObjId && mRingTargetObjId->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
             {
                 ToStop();
             }
@@ -112,9 +112,9 @@ void OrbWhirlWindParticle::Update()
             {
                 FP xpos = {};
                 FP ypos = {};
-                if (mTargetObj)
+                if (mRingTargetObjId)
                 {
-                    const PSX_RECT bRect = static_cast<BaseAliveGameObject*>(mTargetObj)->VGetBoundingRect();
+                    const PSX_RECT bRect = static_cast<BaseAliveGameObject*>(mRingTargetObjId)->VGetBoundingRect();
 
                     xpos = FP_FromInteger((bRect.x + bRect.w) / 2);
                     ypos = FP_FromInteger((bRect.y + bRect.h) / 2);

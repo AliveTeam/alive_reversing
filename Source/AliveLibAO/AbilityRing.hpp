@@ -85,7 +85,7 @@ public:
     EReliveLevelIds mRingLevel = EReliveLevelIds::eNone;
     s16 mRingPath = 0;
     RingTypes mRingType = RingTypes::eExplosive_Pulse_0;
-    BaseAliveGameObject* mTargetObj = nullptr; // stored as object id in AE
+    Guid mRingTargetObjId = {};
 };
 
 

@@ -164,12 +164,12 @@ BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId)
     {
         SetSpriteScale(FP_FromDouble(0.5));
     }
-    else if (pTlv->mScale == relive::reliveScale::eFull)
+    else
     {
         SetSpriteScale(FP_FromInteger(1));
     }
 
-    mXPos = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2)) + FP_FromInteger(pTlv->mTopLeftX);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX) + (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
     auto pNozzle = relive_new GrenadeMachineNozzle(

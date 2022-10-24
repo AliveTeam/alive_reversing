@@ -12,6 +12,8 @@
 #include "PossessionFlicker.hpp"
 #include "Math.hpp"
 #include "../AliveLibAE/stdlib.hpp"
+#include "../relive_lib/ObjectIds.hpp"
+
 #undef min
 #undef max
 
@@ -40,7 +42,7 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ring_type)
     : BaseGameObject(TRUE, 0)
 {
     SetType(ReliveTypes::eAbilityRing);
-    mTargetObj = nullptr;
+    mRingTargetObjId = Guid{};
     gObjListDrawables->Push_Back(this);
     mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
 
@@ -171,11 +173,6 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ring_type)
 
 AbilityRing::~AbilityRing()
 {
-    if (mTargetObj)
-    {
-        mTargetObj->mBaseGameObjectRefCount--;
-    }
-
     relive_delete[] mRingPolyBuffer;
     gObjListDrawables->Remove_Item(this);
 }
@@ -187,7 +184,7 @@ void AbilityRing::VRender(PrimHeader** ppOt)
             mRingPath,
             mRingXPos,
             mRingYPos,
-            0)) //&& !mRingFoundTarget) Missing part of the check from AE
+            0)) //&& !mRefreshTargetObjId) Missing part of the check from AE
     {
         s16 y3 = mRingScreenYPos;
         s16 y4 = mRingScreenYPos;
@@ -249,19 +246,19 @@ void AbilityRing::VRender(PrimHeader** ppOt)
 
 void AbilityRing::VUpdate()
 {
-    if (mTargetObj)
+    auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mRingTargetObjId));
+    if (pTarget)
     {
-        if (mTargetObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+        if (pTarget->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
         {
-            mTargetObj->mBaseGameObjectRefCount--;
-            mTargetObj = nullptr;
+            mRingTargetObjId = Guid{};
         }
         else
         {
             mRingScreenX = FP_GetExponent(pScreenManager->mCamPos->x - FP_FromInteger(pScreenManager->mCamXOff));
             mRingScreenY = FP_GetExponent(pScreenManager->mCamPos->y - FP_FromInteger(pScreenManager->mCamYOff));
 
-            const PSX_RECT bRect = mTargetObj->VGetBoundingRect();
+            const PSX_RECT bRect = pTarget->VGetBoundingRect();
 
             mRingScreenXPos = (bRect.w + bRect.x) / 2 - mRingScreenX;
             mRingScreenYPos = (bRect.h + bRect.y) / 2 - mRingScreenY;
@@ -396,8 +393,7 @@ void AbilityRing::CollideWithObjects()
 
 void AbilityRing::SetTarget(BaseAliveGameObject* pTarget)
 {
-    mTargetObj = pTarget;
-    mTargetObj->mBaseGameObjectRefCount++;
+    mRingTargetObjId = pTarget->mBaseGameObjectId;
 }
 
 } // namespace AO

@@ -58,7 +58,7 @@ private:
     FP mRadiusY = {};
     s32 mPositionTimer = 0;
     FP mMoveY = {};
-    BaseGameObject* mTargetObj = nullptr;
+    BaseGameObject* mRingTargetObjId = nullptr;
     FP mXPos = {};
     FP mYPos = {};
     FP mTargetObjScale = {}; // AE only

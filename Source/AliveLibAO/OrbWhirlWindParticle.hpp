@@ -62,7 +62,7 @@ public:
     FP mRadiusY = {};
     s32 mPositionTimer = 0;
     FP mMoveY = {};
-    BaseAliveGameObject* mTargetObj = nullptr;
+    BaseAliveGameObject* mRingTargetObjId = nullptr;
     FP mXpos_Unused = {}; // used in AE, check if gobbed?
     FP mYPos_Unused = {}; // dito
     FP mXPosOffset = {};
