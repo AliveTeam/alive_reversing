@@ -346,6 +346,7 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
     virtual void VOnTlvCollision(relive::Path_TLV* pTlv) override;
+    BirdPortal* VIntoBirdPortal(s16 gridBlocks) override;
     virtual void VOnTrapDoorOpen() override;
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
 

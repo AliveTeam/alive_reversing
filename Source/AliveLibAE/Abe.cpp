@@ -2432,6 +2432,10 @@ void Abe::Motion_0_Idle_44EEB0()
                 mBirdPortalSubState = PortalSubStates::eJumpingInsidePortal_0;
                 mBirdPortalId = pObj->mBaseGameObjectId;
             }
+            else
+            {
+                mBirdPortalId = Guid{};
+            }
         }
         return;
     }

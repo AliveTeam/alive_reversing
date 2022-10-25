@@ -27,7 +27,7 @@ public:
 
     virtual void VSetXSpawn(s16 camWorldX, s32 screenXPos);
     virtual void VSetYSpawn(s32 camWorldY, s16 bLeft);
-    BirdPortal* IntoBirdPortal_402350(s16 distance);
+    virtual BirdPortal* VIntoBirdPortal(s16 distance);
 
     void SetActiveCameraDelayedFromDir();
     s16 MapFollowMe(s16 snapToGrid);
@@ -39,7 +39,7 @@ protected:
     bool Check_IsOnEndOfLine(s16 direction, s16 distance);
     s16 WallHit(FP offY, FP offX);
     bool InAirCollision(PathLine** ppLine, FP* hitX, FP* hitY, FP vely);
-    static BaseGameObject* FindObjectOfType(ReliveTypes typeToFind, FP xpos, FP ypos);
+    BaseGameObject* FindObjectOfType(ReliveTypes typeToFind, FP xpos, FP ypos);
 
     void UsePathTransScale_4020D0();
     static void OnResourceLoaded_4019A0(BaseAliveGameObject* ppRes);

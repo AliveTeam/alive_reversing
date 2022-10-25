@@ -4260,7 +4260,7 @@ s16 Mudokon::Brain_12_Escape()
                 }
                 else
                 {
-                    if (IntoBirdPortal_402350(3))
+                    if (VIntoBirdPortal(3))
                     {
                         field_1BA_brain_sub_state = 3;
                         SetNextMotion(eMudMotions::Motion_44_RunJumpMid);

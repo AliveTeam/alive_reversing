@@ -796,6 +796,17 @@ s32 Mudokon_SFX(MudSounds idx, s32 volume, s32 pitch, BaseAliveGameObject* pHero
     }
 }
 
+BirdPortal* Abe::VIntoBirdPortal(s16 gridBlocks)
+{
+    auto pPortal = BaseAliveGameObject::VIntoBirdPortal(gridBlocks);
+    if (pPortal && pPortal->mPortalType == relive::Path_BirdPortal::PortalType::eAbe)
+    {
+        return pPortal;
+    }
+    return nullptr;
+}
+
+
 void Abe::VOnTrapDoorOpen()
 {
     if (mLiftPoint)
@@ -3401,16 +3412,11 @@ void Abe::Motion_0_Idle()
         else if (!Input().IsAnyPressed(sInputKey_LeftGameSpeakEnabler | sInputKey_RightGameSpeakEnabler))
         {
             mCurrentMotion = eAbeMotions::Motion_29_HopBegin;
-            auto pObj = IntoBirdPortal_402350(2);
-            if (pObj)
+            field_1A0_portal = VIntoBirdPortal(2);
+            if (field_1A0_portal)
             {
-                if (pObj->mPortalType != relive::Path_BirdPortal::PortalType::eAbe)
-                {
-                    pObj = nullptr;
-                }
                 field_19E_portal_sub_state = PortalSubStates::eJumpingInsidePortal_0;
             }
-            field_1A0_portal = pObj;
         }
         return;
     }
@@ -4138,15 +4144,7 @@ void Abe::Motion_4_WalkToIdle()
                 mNextMotion = eAbeMotions::Motion_0_Idle;
                 mCurrentMotion = eAbeMotions::Motion_29_HopBegin;
 
-                field_1A0_portal = IntoBirdPortal_402350(2);
-                if (field_1A0_portal)
-                {
-                    if (field_1A0_portal->mPortalType != relive::Path_BirdPortal::PortalType::eAbe)
-                    {
-                        field_1A0_portal = nullptr;
-                    }
-                }
-
+                field_1A0_portal = VIntoBirdPortal(2);
                 if (field_1A0_portal)
                 {
                     field_19E_portal_sub_state = PortalSubStates::eJumpingInsidePortal_0;
@@ -4180,15 +4178,7 @@ void Abe::Motion_5_MidWalkToIdle()
             {
                 mNextMotion = 0;
                 mCurrentMotion = eAbeMotions::Motion_29_HopBegin;
-                field_1A0_portal = IntoBirdPortal_402350(2);
-                if (field_1A0_portal)
-                {
-                    if (field_1A0_portal->mPortalType != relive::Path_BirdPortal::PortalType::eAbe)
-                    {
-                        field_1A0_portal = nullptr;
-                    }
-                }
-
+                field_1A0_portal = VIntoBirdPortal(2);
                 if (field_1A0_portal)
                 {
                     field_19E_portal_sub_state = PortalSubStates::eJumpingInsidePortal_0;
@@ -4446,16 +4436,7 @@ void Abe::Motion_18_HoistLand()
             else
             {
                 mCurrentMotion = eAbeMotions::Motion_29_HopBegin;
-                field_1A0_portal = IntoBirdPortal_402350(2);
-
-                if (field_1A0_portal)
-                {
-                    if (field_1A0_portal->mPortalType != relive::Path_BirdPortal::PortalType::eAbe)
-                    {
-                        field_1A0_portal = nullptr;
-                    }
-                }
-
+                field_1A0_portal = VIntoBirdPortal(2);
                 if (field_1A0_portal)
                 {
                     field_19E_portal_sub_state = PortalSubStates::eJumpingInsidePortal_0;
@@ -4938,15 +4919,7 @@ void Abe::Motion_29_HopBegin()
 
         if (!field_1A0_portal)
         {
-            field_1A0_portal = IntoBirdPortal_402350(2);
-            if (field_1A0_portal)
-            {
-                if (field_1A0_portal->mPortalType != relive::Path_BirdPortal::PortalType::eAbe)
-                {
-                    field_1A0_portal = nullptr;
-                }
-            }
-
+            field_1A0_portal = VIntoBirdPortal(2);
             if (field_1A0_portal)
             {
                 field_19E_portal_sub_state = PortalSubStates::eJumpingInsidePortal_0;
@@ -5388,15 +5361,7 @@ void Abe::Motion_34_RunJumpLand()
                 return;
             }
 
-            field_1A0_portal = IntoBirdPortal_402350(3);
-            if (field_1A0_portal)
-            {
-                if (field_1A0_portal->mPortalType != relive::Path_BirdPortal::PortalType::eAbe)
-                {
-                    field_1A0_portal = nullptr;
-                }
-            }
-
+            field_1A0_portal = VIntoBirdPortal(3);
             if (field_1A0_portal)
             {
                 field_19E_portal_sub_state = PortalSubStates::eJumpingInsidePortal_0;
@@ -5411,15 +5376,7 @@ void Abe::Motion_34_RunJumpLand()
         {
             if (sInputKey_Hop & field_10C_prev_held)
             {
-                field_1A0_portal = IntoBirdPortal_402350(3);
-                if (field_1A0_portal)
-                {
-                    if (field_1A0_portal->mPortalType != relive::Path_BirdPortal::PortalType::eAbe)
-                    {
-                        field_1A0_portal = nullptr;
-                    }
-                }
-
+                field_1A0_portal = VIntoBirdPortal(3);
                 if (field_1A0_portal)
                 {
                     field_19E_portal_sub_state = PortalSubStates::eJumpingInsidePortal_0;
@@ -5474,15 +5431,7 @@ void Abe::Motion_34_RunJumpLand()
                 return;
             }
 
-            field_1A0_portal = IntoBirdPortal_402350(3);
-            if (field_1A0_portal)
-            {
-                if (field_1A0_portal->mPortalType != relive::Path_BirdPortal::PortalType::eAbe)
-                {
-                    field_1A0_portal = nullptr;
-                }
-            }
-
+            field_1A0_portal = VIntoBirdPortal(3);
             if (field_1A0_portal)
             {
                 field_19E_portal_sub_state = PortalSubStates::eJumpingInsidePortal_0;
@@ -5498,17 +5447,10 @@ bool Abe::CheckForPortalAndRunJump()
 {
     if (field_10C_prev_held & sInputKey_Hop)
     {
-        field_1A0_portal = IntoBirdPortal_402350(3);
+        field_1A0_portal = VIntoBirdPortal(3);
         if (field_1A0_portal)
         {
-            if (field_1A0_portal->mPortalType != relive::Path_BirdPortal::PortalType::eAbe)
-            {
-                field_1A0_portal = nullptr;
-            }
-            else
-            {
-                field_19E_portal_sub_state = PortalSubStates::eJumpingInsidePortal_0;
-            }
+            field_19E_portal_sub_state = PortalSubStates::eJumpingInsidePortal_0;
         }
 
         mCurrentMotion = eAbeMotions::Motion_32_RunJumpBegin;

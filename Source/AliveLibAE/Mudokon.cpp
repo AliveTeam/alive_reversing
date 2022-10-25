@@ -4841,24 +4841,21 @@ s16 Mudokon::Brain_6_Escape()
                         }
                     }
 
-                    if (mCurrentMotion != eMudMotions::Motion_21_RunLoop)
+                    if (mCurrentMotion == eMudMotions::Motion_21_RunLoop)
                     {
-                        return mBrainSubState;
+                        if (!FacingBirdPortal(pBirdPortal))
+                        {
+                            mNextMotion = eMudMotions::Motion_25_RunSlideTurn;
+                        }
+                        else
+                        {
+                            if (VIntoBirdPortal(3)) // Finds portal to jump into
+                            {
+                                mBrainSubState = Brain_6_Escape::eBrain6_Jumping_3;
+                                mNextMotion = eMudMotions::Motion_36_RunJumpMid;
+                            }
+                        }
                     }
-
-                    if (!FacingBirdPortal(pBirdPortal))
-                    {
-                        mNextMotion = eMudMotions::Motion_25_RunSlideTurn;
-                        return mBrainSubState;
-                    }
-
-                    if (!VIntoBirdPortal(3)) // Finds portal to jump into
-                    {
-                        return mBrainSubState;
-                    }
-
-                    mBrainSubState = Brain_6_Escape::eBrain6_Jumping_3;
-                    mNextMotion = eMudMotions::Motion_36_RunJumpMid;
                     return mBrainSubState;
 
                 case Brain_6_Escape::eBrain6_Replacing_4:

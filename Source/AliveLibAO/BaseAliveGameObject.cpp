@@ -241,7 +241,7 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid(s32 distance)
     }
 }
 
-BirdPortal* BaseAliveGameObject::IntoBirdPortal_402350(s16 distance)
+BirdPortal* BaseAliveGameObject::VIntoBirdPortal(s16 distance)
 {
     for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
     {
