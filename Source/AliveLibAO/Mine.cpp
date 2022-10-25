@@ -230,7 +230,7 @@ s16 Mine::IsColliding()
             break;
         }
 
-        if (pObj->mBaseAliveGameObjectFlags.Get(Flags_10A::eCanSetOffExplosives))
+        if (pObj->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eCanSetOffExplosives))
         {
             if (pObj->GetAnimation().mFlags.Get(AnimFlags::eRender))
             {

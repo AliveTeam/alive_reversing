@@ -200,7 +200,7 @@ s16 MovingBomb::HitObject()
 
         if (pObjIter != this)
         {
-            if (pObjIter->mBaseAliveGameObjectFlags.Get(Flags_10A::eCanSetOffExplosives))
+            if (pObjIter->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eCanSetOffExplosives))
             {
                 if (pObjIter->mHealth > FP_FromInteger(0))
                 {

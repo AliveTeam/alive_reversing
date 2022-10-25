@@ -15,16 +15,6 @@ namespace AO {
 class PlatformBase;
 class BirdPortal;
 
-
-enum Flags_10A
-{
-    eCanBePossessed = 0x1,
-    ePossessed = 0x2,
-    eZappedByShrykull = 0x4,
-    eCanSetOffExplosives = 0x8,
-    eElectrocuted = 0x10,
-};
-
 class BaseAliveGameObject : public IBaseAliveGameObject
 {
 public:
@@ -60,8 +50,6 @@ public:
 public:
     s16 field_EC_bBeesCanChase = 0; // AO only: can the bees attack - can be above the value 1 but bee swarm only checks for non zero
     PlatformBase* mLiftPoint = nullptr; // AO only
-
-    BitField16<Flags_10A> mBaseAliveGameObjectFlags = {};
 };
 
 extern DynamicArrayT<BaseAliveGameObject>* gBaseAliveGameObjects;

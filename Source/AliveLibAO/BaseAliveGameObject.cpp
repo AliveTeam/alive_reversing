@@ -19,11 +19,11 @@ DynamicArrayT<BaseAliveGameObject>* gBaseAliveGameObjects = nullptr;
 BaseAliveGameObject::BaseAliveGameObject()
     : IBaseAliveGameObject(0)
 {
-    mBaseAliveGameObjectFlags.Clear(Flags_10A::eCanBePossessed);
-    mBaseAliveGameObjectFlags.Clear(Flags_10A::ePossessed);
-    mBaseAliveGameObjectFlags.Clear(Flags_10A::eZappedByShrykull);
-    mBaseAliveGameObjectFlags.Clear(Flags_10A::eCanSetOffExplosives);
-    mBaseAliveGameObjectFlags.Clear(Flags_10A::eElectrocuted);
+    mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eCanBePossessed);
+    mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::ePossessed);
+    mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eZappedByShrykull);
+    mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eCanSetOffExplosives);
+    mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eElectrocuted);
 
     BaseAliveGameObjectPathTLV = nullptr;
     BaseAliveGameObjectCollisionLine = nullptr;

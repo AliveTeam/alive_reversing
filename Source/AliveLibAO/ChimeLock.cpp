@@ -118,8 +118,8 @@ ChimeLock::ChimeLock(relive::Path_ChimeLock* pTlv, const Guid& tlvId)
 
     field_138_flags &= ~2u;
 
-    mBaseAliveGameObjectFlags.Clear(Flags_10A::ePossessed);
-    mBaseAliveGameObjectFlags.Set(Flags_10A::eCanBePossessed);
+    mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::ePossessed);
+    mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanBePossessed);
 
     field_132_solve_switch_id = pTlv->mSolveSwitchId;
 
@@ -179,7 +179,7 @@ void ChimeLock::VScreenChanged()
 
 void ChimeLock::VUnPosses()
 {
-    mBaseAliveGameObjectFlags.Clear(Flags_10A::ePossessed);
+    mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::ePossessed);
     field_110_state = ChimeLockStates::eIdle_0;
     sActiveHero->SetActiveControlledCharacter_421480();
     SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 70, 400);
@@ -612,7 +612,7 @@ void ChimeLock::SetTargetBellIfSpace(s16 targetNum)
 void ChimeLock::VPossessed()
 {
     field_138_flags &= ~3u;
-    mBaseAliveGameObjectFlags.Set(Flags_10A::ePossessed);
+    mBaseAliveGameObjectFlags.Set(AliveObjectFlags::ePossessed);
     field_110_state = ChimeLockStates::ePossessed_2;
     field_128_idx = 0;
     field_12C_timer = sGnFrame + 45;

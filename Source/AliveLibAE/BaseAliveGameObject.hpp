@@ -17,19 +17,6 @@ class BirdPortal;
 
 enum class CameraPos : s16;
 
-enum AliveObjectFlags
-{
-    eCanBePossessed = 0x4,
-    ePossessed = 0x8,
-    eZappedByShrykull = 0x10,
-    eCanSetOffExplosives = 0x20,
-    eElectrocuted = 0x40,
-    eInvisible = 0x80,
-    eRestoredFromQuickSave = 0x100,
-    eTeleporting = 0x200,
-    eElectrocuting = 0x400,
-};
-
 class BaseAliveGameObject : public IBaseAliveGameObject
 {
 
@@ -59,7 +46,6 @@ protected:
 public:
     s16 BaseAliveGameObjectCollisionLineType = 0; // AE only, quick save data
     Guid BaseAliveGameObject_PlatformId; // AE only
-    BitField16<AliveObjectFlags> mBaseAliveGameObjectFlags = {};
 };
 
 extern DynamicArrayT<BaseAliveGameObject>* gBaseAliveGameObjects;

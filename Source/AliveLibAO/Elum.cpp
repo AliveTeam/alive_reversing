@@ -3567,7 +3567,7 @@ Elum::Elum(const Guid& tlvInfo)
         GetAnimation().SetRenderLayer(Layer::eLayer_ZapLinesMudsElum_Half_9);
     }
 
-    mBaseAliveGameObjectFlags.Set(Flags_10A::eCanSetOffExplosives);
+    mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanSetOffExplosives);
 
     field_170_flags.Clear(Elum::Flags_170::eStungByBees_Bit2);
     field_170_flags.Clear(Elum::Flags_170::eFoundHoney_Bit4);

@@ -6,6 +6,19 @@
 
 class PathLine;
 
+enum AliveObjectFlags
+{
+    eCanBePossessed = 0x4,
+    ePossessed = 0x8,
+    eZappedByShrykull = 0x10,
+    eCanSetOffExplosives = 0x20,
+    eElectrocuted = 0x40,
+    eInvisible = 0x80,
+    eRestoredFromQuickSave = 0x100,
+    eTeleporting = 0x200,
+    eElectrocuting = 0x400,
+};
+
 // Temp glue interface to make BaseAliveGameObject common piece by piece
 class IBaseAliveGameObject : public BaseAnimatedWithPhysicsGameObject
 {
@@ -55,6 +68,7 @@ public:
     s16 mNextMotion = 0;
     FP mHealth = {};
 
-    bool mbGotShot = false;       // AE as flag
-    bool mbMotionChanged = false; // AE as flag
+    bool mbGotShot = false;
+    bool mbMotionChanged = false;
+    BitField16<AliveObjectFlags> mBaseAliveGameObjectFlags = {};
 };

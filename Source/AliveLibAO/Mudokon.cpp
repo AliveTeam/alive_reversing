@@ -153,7 +153,7 @@ Mudokon::Mudokon(relive::Path_TLV* pTlv, const Guid& tlvId)
 
     GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
 
-    mBaseAliveGameObjectFlags.Set(Flags_10A::eCanSetOffExplosives);
+    mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanSetOffExplosives);
     mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
 
     field_144_flags.Clear(Flags_144::e144_Bit6_bPersist);
@@ -363,7 +363,7 @@ Mudokon::~Mudokon()
     KillBirdPortal();
     KillLiftPoint_194();
 
-    if (!field_144_flags.Get(Flags_144::e144_Bit2) || mHealth <= FP_FromInteger(0) || mBaseAliveGameObjectFlags.Get(Flags_10A::eElectrocuted))
+    if (!field_144_flags.Get(Flags_144::e144_Bit2) || mHealth <= FP_FromInteger(0) || mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted))
     {
         Path::TLV_Reset(field_10C, -1, 0, 1);
     }
@@ -472,7 +472,7 @@ void Mudokon::VUpdate()
         field_1BC = 0;
     }
 
-    if (mBaseAliveGameObjectFlags.Get(Flags_10A::eElectrocuted))
+    if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted))
     {
         EventBroadcast(kEventMudokonDead, sActiveHero);
     }

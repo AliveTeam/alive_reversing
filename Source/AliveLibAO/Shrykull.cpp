@@ -154,7 +154,7 @@ void Shrykull::VUpdate()
                     break;
                 }
 
-                if (CanKill(pObj) && !pObj->mBaseAliveGameObjectFlags.Get(Flags_10A::eZappedByShrykull))
+                if (CanKill(pObj) && !pObj->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eZappedByShrykull))
                 {
                     pObj->mBaseGameObjectRefCount++;
                     field_11C_obj_being_zapped = pObj;
@@ -212,7 +212,7 @@ void Shrykull::VUpdate()
                         FP_FromInteger((ourRect.y + ourRect.h) / 2),
                         RingTypes::eShrykull_Pulse_Large_5);
 
-                    field_11C_obj_being_zapped->mBaseAliveGameObjectFlags.Set(Flags_10A::eZappedByShrykull);
+                    field_11C_obj_being_zapped->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eZappedByShrykull);
 
                     SFX_Play_Pitch(relive::SoundEffects::Respawn, 100, 2000);
                     SfxPlayMono(relive::SoundEffects::Zap1, 0);
