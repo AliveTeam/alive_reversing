@@ -456,7 +456,7 @@ void Mudokon::VUpdate()
 
     if (old_motion != GetCurrentMotion() || mbMotionChanged)
     {
-        mbMotionChanged = FALSE;
+        mbMotionChanged = false;
         VUpdateResBlock();
 
         if (old_motion == eMudMotions::Motion_10_Unused)

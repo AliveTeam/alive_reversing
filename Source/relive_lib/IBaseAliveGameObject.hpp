@@ -30,6 +30,7 @@ public:
     virtual s16 VTakeDamage(BaseGameObject* pFrom);
     virtual void VOnTlvCollision(relive::Path_TLV* pTlv);
     virtual void VOnTrapDoorOpen();
+    virtual void VSetMotion(s16 state);
 
     void OnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList);
 

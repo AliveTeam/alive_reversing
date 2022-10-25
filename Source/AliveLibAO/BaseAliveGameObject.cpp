@@ -30,7 +30,7 @@ BaseAliveGameObject::BaseAliveGameObject()
     mHealth = FP_FromInteger(1);
     mLiftPoint = nullptr;
     mbGotShot = 0;
-    mbMotionChanged = 0;
+    mbMotionChanged = false;
     field_EC_bBeesCanChase = 0;
     mCurrentMotion = 0;
     mNextMotion = 0;
@@ -55,12 +55,6 @@ BaseAliveGameObject::~BaseAliveGameObject()
     }
 
 
-}
-
-void BaseAliveGameObject::VSetMotion(s16 state)
-{
-    mbMotionChanged = TRUE;
-    mCurrentMotion = state;
 }
 
 void BaseAliveGameObject::VSetXSpawn(s16 camWorldX, s32 screenXPos)

@@ -657,7 +657,7 @@ void Slig::VUpdate()
 
         if (old_motion != mCurrentMotion || mbMotionChanged)
         {
-            mbMotionChanged = FALSE;
+            mbMotionChanged = false;
             VUpdateAnimData();
 
             if (VIs8_465630(old_motion))
@@ -779,7 +779,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
                 mNextMotion = eSligMotions::Motion_38_Possess;
                 field_13A_shot_motion = eSligMotions::Motion_38_Possess;
                 Vshot();
-                mbMotionChanged = TRUE;
+                mbMotionChanged = true;
                 if (pBullet->mXDistance >= FP_FromInteger(0))
                 {
                     mVelX = FP_FromDouble(0.001);
@@ -857,7 +857,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
                 {
                     mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
                 }
-                mbMotionChanged = TRUE;
+                mbMotionChanged = true;
                 field_128_timer = sGnFrame + 10;
                 mCurrentMotion = eSligMotions::Motion_35_Knockback;
                 mNextMotion = eSligMotions::Motion_35_Knockback;

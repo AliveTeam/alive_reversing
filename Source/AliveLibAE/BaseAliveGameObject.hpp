@@ -24,7 +24,6 @@ public:
     explicit BaseAliveGameObject(s16 resourceArraySize);
     ~BaseAliveGameObject();
 
-    virtual void VSetMotion(s16 state);
     virtual void VOnPathTransition(s16 cameraWorldXPos, s16 cameraWorldYPos, CameraPos direction);
     virtual void VCheckCollisionLineStillValid(s32 distance);
 

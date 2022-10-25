@@ -1102,7 +1102,7 @@ void Abe::VUpdate()
                     mCurrentMotion = motion_idx;
                     mNextMotion = 0;
                     field_112_prev_motion = 0;
-                    mbMotionChanged = 1;
+                    mbMotionChanged = true;
                     mbGotShot = 0;
 #if ORIGINAL_GAME_FIXES || ORIGINAL_GAME_FIX_DEATH_DELAY_AO
                     field_2A8_flags.Clear(Flags_2A8::e2A8_Bit2_return_to_previous_motion); // OG Change - Fixes "Death Delay Glitch"
@@ -1119,7 +1119,7 @@ void Abe::VUpdate()
 
                 if (motion_idx != mCurrentMotion || mbMotionChanged)
                 {
-                    mbMotionChanged = FALSE;
+                    mbMotionChanged = false;
 
                     if (mCurrentMotion != eAbeMotions::Motion_15_Null && !field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel))
                     {
@@ -1199,7 +1199,7 @@ void Abe::VUpdate()
                         {
                             if (mCurrentMotion == eAbeMotions::Motion_0_Idle || mCurrentMotion == eAbeMotions::Motion_15_Null)
                             {
-                                mbMotionChanged = TRUE;
+                                mbMotionChanged = true;
                                 if (field_130_say == 5 || field_130_say == 16)
                                 {
                                     mCurrentMotion = eAbeMotions::Motion_10_Speak;
@@ -1377,7 +1377,7 @@ void Abe::ExitShrykull_42F440(s16 bResetRingTimer)
 
     mCurrentMotion = eAbeMotions::Motion_163_ShrykullEnd;
 
-    mbMotionChanged = 1;
+    mbMotionChanged = true;
     field_114_gnFrame = 1;
 
     if (bResetRingTimer)
@@ -1689,7 +1689,7 @@ s16 Abe::DoGameSpeak_42F5C0(u16 input)
             Mudokon_SFX(MudSounds::eFollowMe_4, 0, 0, this);
             if (mCurrentMotion == eAbeMotions::Motion_14_Speak)
             {
-                mbMotionChanged = 1;
+                mbMotionChanged = true;
             }
             return eAbeMotions::Motion_14_Speak;
         }
@@ -1699,7 +1699,7 @@ s16 Abe::DoGameSpeak_42F5C0(u16 input)
             Mudokon_SFX(MudSounds::eWait_6, 0, 0, this);
             if (mCurrentMotion == eAbeMotions::Motion_14_Speak)
             {
-                mbMotionChanged = 1;
+                mbMotionChanged = true;
             }
             return eAbeMotions::Motion_13_Speak;
         }
@@ -1709,7 +1709,7 @@ s16 Abe::DoGameSpeak_42F5C0(u16 input)
             Mudokon_SFX(MudSounds::eHello_3, 0, 0, this);
             if (mCurrentMotion == eAbeMotions::Motion_9_Speak)
             {
-                mbMotionChanged = 1;
+                mbMotionChanged = true;
             }
             return eAbeMotions::Motion_9_Speak;
         }
@@ -1719,7 +1719,7 @@ s16 Abe::DoGameSpeak_42F5C0(u16 input)
             Mudokon_SFX(MudSounds::eAngry_5, 0, 0, this);
             if (mCurrentMotion == eAbeMotions::Motion_10_Speak)
             {
-                mbMotionChanged = 1;
+                mbMotionChanged = true;
             }
             return eAbeMotions::Motion_10_Speak;
         }
@@ -1733,7 +1733,7 @@ s16 Abe::DoGameSpeak_42F5C0(u16 input)
             Mudokon_SFX(MudSounds::eWhistleHigh_1, 0, 0, this);
             if (mCurrentMotion == eAbeMotions::Motion_9_Speak)
             {
-                mbMotionChanged = 1;
+                mbMotionChanged = true;
             }
             return eAbeMotions::Motion_9_Speak;
         }
@@ -1743,7 +1743,7 @@ s16 Abe::DoGameSpeak_42F5C0(u16 input)
             Mudokon_SFX(MudSounds::eWhistleLow_2, 0, 0, this);
             if (mCurrentMotion == eAbeMotions::Motion_8_Speak)
             {
-                mbMotionChanged = 1;
+                mbMotionChanged = true;
             }
             return eAbeMotions::Motion_8_Speak;
         }
@@ -1753,7 +1753,7 @@ s16 Abe::DoGameSpeak_42F5C0(u16 input)
             Mudokon_SFX(MudSounds::eLaugh1_8, 0, 0, this);
             if (mCurrentMotion == eAbeMotions::Motion_12_Speak)
             {
-                mbMotionChanged = 1;
+                mbMotionChanged = true;
             }
             return eAbeMotions::Motion_12_Speak;
         }
@@ -1783,7 +1783,7 @@ s16 Abe::DoGameSpeak_42F5C0(u16 input)
             field_134_auto_say_timer = sGnFrame + 15;
             if (mCurrentMotion == eAbeMotions::Motion_10_Speak)
             {
-                mbMotionChanged = 1;
+                mbMotionChanged = true;
             }
             return eAbeMotions::Motion_10_Speak;
         }
@@ -2280,7 +2280,7 @@ void Abe::ElumKnockForward_42E780(s32 /*not_used*/)
     ToKnockback_422D90(1, 1);
     mCurrentMotion = eAbeMotions::Motion_128_KnockForward;
     mNextMotion = eAbeMotions::Motion_0_Idle;
-    mbMotionChanged = 1;
+    mbMotionChanged = true;
     GetAnimation().Set_Animation_Data(GetAnimRes(sAbeMotionAnimIds[mCurrentMotion]));
 
     sControlledCharacter = sActiveHero;
@@ -2400,7 +2400,7 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
                     {
                         mCurrentMotion = eAbeMotions::Motion_128_KnockForward;
                     }
-                    mbMotionChanged = 1;
+                    mbMotionChanged = true;
                     mbGotShot = 0;
 
                     if (pBullet->mXDistance >= FP_FromInteger(0))
@@ -2416,7 +2416,7 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
                 case ShootKind::eHanging_1:
                 {
                     mCurrentMotion = eAbeMotions::Motion_92_ForceDownFromHoist;
-                    mbMotionChanged = 1;
+                    mbMotionChanged = true;
                     mbGotShot = 0;
                     field_114_gnFrame = 0;
                     break;
@@ -2457,7 +2457,7 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
                 if (shootKind == ShootKind::eHanging_1)
                 {
                     mCurrentMotion = eAbeMotions::Motion_92_ForceDownFromHoist;
-                    mbMotionChanged = 1;
+                    mbMotionChanged = true;
                     mbGotShot = 0;
                     field_114_gnFrame = 0;
                 }
@@ -2476,7 +2476,7 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
                 {
                     ElumKnockForward_42E780(1);
                     mCurrentMotion = eAbeMotions::Motion_148_Shot;
-                    mbMotionChanged = 1;
+                    mbMotionChanged = true;
                     mbGotShot = 0;
                 }
             }
@@ -2934,7 +2934,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                     else
                     {
                         mCurrentMotion = eAbeMotions::Motion_92_ForceDownFromHoist;
-                        mbMotionChanged = 1;
+                        mbMotionChanged = true;
                         mbGotShot = 0;
                         field_114_gnFrame = 0;
                         return 1;
@@ -2955,7 +2955,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                     mCurrentMotion = eAbeMotions::Motion_92_ForceDownFromHoist;
                     mbGotShot = 0;
                     field_114_gnFrame = 0;
-                    mbMotionChanged = 1;
+                    mbMotionChanged = true;
                     return 1;
                 }
 
@@ -2963,7 +2963,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                 {
                     mHealth = FP_FromInteger(0);
                     mCurrentMotion = eAbeMotions::Motion_164_PoisonGasDeath;
-                    mbMotionChanged = 1;
+                    mbMotionChanged = true;
                     field_114_gnFrame = 1;
                 }
                 else
@@ -2971,7 +2971,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                     if (mCurrentMotion != eAbeMotions::Motion_70_Knockback && mCurrentMotion != eAbeMotions::Motion_71_KnockbackGetUp)
                     {
                         ToKnockback_422D90(1, 1);
-                        mbMotionChanged = 1;
+                        mbMotionChanged = true;
                     }
                 }
             }
@@ -3030,7 +3030,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eRockSpawner:
             if (mHealth > FP_FromInteger(0))
             {
-                mbMotionChanged = 1;
+                mbMotionChanged = true;
                 mHealth = FP_FromInteger(0);
 
                 if (mCurrentMotion == eAbeMotions::Motion_64_LedgeAscend
@@ -3040,7 +3040,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                     || mCurrentMotion == eAbeMotions::Motion_67_ToOffScreenHoist)
                 {
                     mCurrentMotion = eAbeMotions::Motion_92_ForceDownFromHoist;
-                    mbMotionChanged = 1;
+                    mbMotionChanged = true;
                     mbGotShot = 0;
                     field_114_gnFrame = 0;
                     return 1;
@@ -3053,7 +3053,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eMeatSaw:
             if (mHealth > FP_FromInteger(0))
             {
-                mbMotionChanged = 1;
+                mbMotionChanged = true;
                 mHealth = FP_FromInteger(0);
                 ToKnockback_422D90(1, 1);
                 mRGB.SetRGB(30, 30, 30);
@@ -3114,7 +3114,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                     || mCurrentMotion == eAbeMotions::Motion_67_ToOffScreenHoist)
                 {
                     mCurrentMotion = eAbeMotions::Motion_92_ForceDownFromHoist;
-                    mbMotionChanged = 1;
+                    mbMotionChanged = true;
                     mbGotShot = 0;
                     field_114_gnFrame = 0;
                     return 1;
@@ -3130,7 +3130,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                 }
 
                 ToKnockback_422D90(1, 1);
-                mbMotionChanged = 1;
+                mbMotionChanged = true;
 
                 if (pAliveObj->mXPos < mXPos)
                 {
@@ -3170,7 +3170,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eRollingBall:
             if (mHealth > FP_FromInteger(0))
             {
-                mbMotionChanged = 1;
+                mbMotionChanged = true;
                 mHealth = FP_FromInteger(0);
                 if (mCurrentMotion == eAbeMotions::Motion_64_LedgeAscend
                     || mCurrentMotion == eAbeMotions::Motion_66_LedgeHang
@@ -3179,7 +3179,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                     || mCurrentMotion == eAbeMotions::Motion_67_ToOffScreenHoist)
                 {
                     mCurrentMotion = eAbeMotions::Motion_92_ForceDownFromHoist;
-                    mbMotionChanged = 1;
+                    mbMotionChanged = true;
                     mbGotShot = 0;
                     field_114_gnFrame = 0;
                     return 1;
@@ -3264,7 +3264,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                         || mCurrentMotion == eAbeMotions::Motion_67_ToOffScreenHoist)
                     {
                         mCurrentMotion = eAbeMotions::Motion_92_ForceDownFromHoist;
-                        mbMotionChanged = 1;
+                        mbMotionChanged = true;
                         mbGotShot = 0;
                         field_114_gnFrame = 0;
                         return 1;
@@ -3280,7 +3280,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                 if (mCurrentMotion == eAbeMotions::Motion_103_ElumIdle)
                 {
                     mCurrentMotion = eAbeMotions::Motion_126_ElumBeesStruggling;
-                    mbMotionChanged = 1;
+                    mbMotionChanged = true;
                 }
             }
             break;

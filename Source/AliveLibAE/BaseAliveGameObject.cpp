@@ -104,12 +104,6 @@ s16 BaseAliveGameObject::IsInInvisibleZone(BaseAliveGameObject* pObj)
 
 // =======
 
-void BaseAliveGameObject::VSetMotion(s16 state)
-{
-    mbMotionChanged = true;
-    mCurrentMotion = state;
-}
-
 s32 MaxGridBlocks_449880(FP scale)
 {
     if (scale == FP_FromDouble(0.5))
