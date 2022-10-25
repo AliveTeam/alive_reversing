@@ -6,12 +6,17 @@
 #include "../Font.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
 
+static bool gGlDebug = true;
+
 #define GL_DEBUG 1
 
 #if GL_DEBUG > 0
-    #define GL_VERIFY(x) \
-        (x);             \
-        CheckGLError();
+    #define GL_VERIFY(x)    \
+        (x);                \
+        if (gGlDebug)       \
+        {                   \
+            CheckGLError(); \
+        }
 #else
     #define GL_VERIFY(x) (x);
 #endif
@@ -1457,6 +1462,10 @@ void OpenGLRenderer::DebugWindow()
                 ImGui::MenuItem("F4", nullptr, &gRenderEnable_F4);
                 ImGui::MenuItem("F3", nullptr, &gRenderEnable_F3);
                 ImGui::MenuItem("F2", nullptr, &gRenderEnable_F2);
+
+                #if GL_DEBUG > 0
+                ImGui::MenuItem("gl_debug", nullptr, &gGlDebug);
+                #endif
 
                 ImGui::EndMenu();
             }
