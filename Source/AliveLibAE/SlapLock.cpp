@@ -120,7 +120,7 @@ s32 SlapLock::CreateFromSaveState(const u8* pBuffer)
 
         pSlapLock->mState = pState->mState;
         pSlapLock->mTimer1 = pState->mTimer1;
-        pSlapLock->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eShot);
+        pSlapLock->mbGotShot = true;
         pSlapLock->mShinyParticleTimer = pState->mShinyParticleTimer;
     }
 

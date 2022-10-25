@@ -552,7 +552,7 @@ Mudokon::Mudokon(relive::Path_Mudokon* pTlv, const Guid& tlvId)
     if (field_180_emo_tbl == Mud_Emotion::eSick_7)
     {
         mBrainState = Mud_Brain_State::Brain_9_Sick;
-        mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eMotionChanged);
+        mbMotionChanged = true;
         mCurrentMotion = eMudMotions::Motion_15_CrouchIdle;
     }
     else
@@ -1088,9 +1088,9 @@ void Mudokon::VUpdate()
         VOnTlvCollision(BaseAliveGameObjectPathTLV);
     }
 
-    if (oldMotion != mCurrentMotion || mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eMotionChanged))
+    if (oldMotion != mCurrentMotion || mbMotionChanged)
     {
-        mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eMotionChanged);
+        mbMotionChanged = false;
         VUpdateResBlock();
     }
     else if (field_192_return_to_previous_motion)
@@ -1150,7 +1150,7 @@ void Mudokon::VOnTrapDoorOpen()
     auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (pPlatform)
     {
-        if (!mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eShot))
+        if (!mbGotShot)
         {
             VSetMotion(eMudMotions::Motion_48_WalkOffEdge);
         }
@@ -1324,7 +1324,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
     {
         case ReliveTypes::eBullet:
         {
-            mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eShot);
+            mbGotShot = true;
             if (mHealth <= FP_FromInteger(0))
             {
                 return 1;
@@ -1359,7 +1359,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                 if (Bullet::InZBulletCover(mXPos, tlvYPos, v11) || !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, tlvYPos, 0))
                 {
                     // ZCover saved us, or somehow we've not in the current camera
-                    mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eShot);
+                    mbGotShot = false;
                     mHealth = FP_FromInteger(1);
                     return 0;
                 }
@@ -4273,7 +4273,7 @@ s16 Mudokon::Brain_ListeningToAbe_State_12()
             if (mCurrentMotion == eMudMotions::Motion_38_Punch || mNextMotion == eMudMotions::Motion_38_Punch)
             {
                 ToStand();
-                mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eMotionChanged);
+                mbMotionChanged = true;
                 mNextMotion = -1;
             }
             s16 result = GetBrainSubStateResponse(MudAction::eStopIt_4);
@@ -4413,7 +4413,7 @@ s16 Mudokon::Brain_ListeningToAbe_State_14()
         if (mCurrentMotion == eMudMotions::Motion_38_Punch || mNextMotion == eMudMotions::Motion_38_Punch)
         {
             ToStand();
-            mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eMotionChanged);
+            mbMotionChanged = true;
             mNextMotion = -1;
         }
 
@@ -4560,7 +4560,7 @@ s16 Mudokon::Brain_ListeningToAbe_State_17()
     if (mCurrentMotion == eMudMotions::Motion_38_Punch || mNextMotion == eMudMotions::Motion_38_Punch)
     {
         ToStand();
-        mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eMotionChanged);
+        mbMotionChanged = true;
         mNextMotion = -1;
     }
 
@@ -4617,7 +4617,7 @@ s16 Mudokon::Brain_ListeningToAbe_State_18()
         if (mCurrentMotion == eMudMotions::Motion_38_Punch || mNextMotion == eMudMotions::Motion_38_Punch)
         {
             ToStand();
-            mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eMotionChanged);
+            mbMotionChanged = true;
             mNextMotion = -1;
         }
 

@@ -486,8 +486,8 @@ void Slog::Init()
     field_14C_pSlig = 0;
     field_10C_pTarget = 0;
 
-    mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit4_SetOffExplosives);
-    mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit6);
+    mBaseAliveGameObjectFlags.Set(Flags_10A::eCanSetOffExplosives);
+    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
 
     field_178_bShot = 0;
     field_16C_pUnknown = nullptr;

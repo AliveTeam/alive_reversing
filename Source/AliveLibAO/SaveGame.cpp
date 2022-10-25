@@ -93,7 +93,7 @@ void SaveGame::LoadFromMemory(SaveData* pData, s32 bKillObjects)
     sActiveHero->SetSpriteScale(pData->field_230_ah_sprite_scale);
     sActiveHero->field_118_timer = pData->field_24C_field_118;
     sActiveHero->field_19C_throwable_count = static_cast<s8>(pData->field_250_throwable_count); // TODO: Type check when other save func done
-    sActiveHero->field_106_shot = 0;
+    sActiveHero->mbGotShot = 0;
 
     sActiveHero->field_2A8_flags.Clear(Flags_2A8::e2A8_Bit6_bShrivel);
     sActiveHero->field_2A8_flags.Set(Flags_2A8::e2A8_Bit12_bParamoniaDone, pData->field_252_paramonia_done & 1);

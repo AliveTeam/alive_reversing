@@ -2564,7 +2564,7 @@ s16 Slig::Brain_Possessed_2_4BBCF0()
 
     if (static_cast<s32>(sGnFrame) < field_120_timer)
     {
-        if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eShot))
+        if (mbGotShot)
         {
             BlowToGibs_4B8020();
         }
@@ -4747,7 +4747,7 @@ void Slig::VUpdate()
         const auto oldMotion = mCurrentMotion;
         mBrainSubState = (this->*mBrainState)();
 
-        if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eShot))
+        if (mbGotShot)
         {
             vShot_4B2EA0();
         }
@@ -4773,9 +4773,9 @@ void Slig::VUpdate()
             VOnTlvCollision(BaseAliveGameObjectPathTLV);
         }
 
-        if (oldMotion != mCurrentMotion || mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eMotionChanged))
+        if (oldMotion != mCurrentMotion || mbMotionChanged)
         {
-            mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eMotionChanged);
+            mbMotionChanged = false;
             vUpdateAnim_4B1320();
         }
         else if (field_124_return_to_previous_motion)
@@ -4849,7 +4849,7 @@ void Slig::vShot_4B2EA0()
         mCurrentMotion = field_136_shot_motion;
     }
 
-    mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eShot);
+    mbGotShot = false;
     mNextMotion = -1;
     field_136_shot_motion = -1;
     SetBrain(&Slig::Brain_Death_0_4BBFB0);
@@ -6533,7 +6533,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
 
                         if (IsInZCover(pTlvIter, &myRect))
                         {
-                            mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eShot);
+                            mbGotShot = false;
                             mHealth = FP_FromInteger(1);
                             return 0;
                         }
@@ -6541,7 +6541,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
 
                     if (!gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, rectY, 0))
                     {
-                        mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eShot);
+                        mbGotShot = false;
                         mHealth = FP_FromInteger(1);
                         return 0;
                     }
@@ -6554,7 +6554,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
                     break;
             }
 
-            mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eShot);
+            mbGotShot = true;
             SetBrain(&Slig::Brain_Death_0_4BBFB0);
 
             field_14C_death_by_being_shot_timer = sGnFrame + 5;
@@ -6571,7 +6571,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
                     field_136_shot_motion = eSligMotions::M_Possess_37_4B72C0;
                     field_150_explode_timer = sGnFrame + 20;
                     vShot_4B2EA0();
-                    mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eMotionChanged);
+                    mbMotionChanged = true;
                     if (static_cast<Bullet*>(pFrom)->mXDistance < FP_FromInteger(0))
                     {
                         mVelX = FP_FromDouble(-0.001);
@@ -6635,7 +6635,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
                 RespondToEnemyOrPatrol_4B3140();
             }
 
-            mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eMotionChanged);
+            mbMotionChanged = true;
 
             if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
@@ -6660,7 +6660,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
                 return 1;
             }
 
-            mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eShot);
+            mbGotShot = true;
             mHealth = FP_FromInteger(0);
 
             SetBrain(&Slig::Brain_Death_0_4BBFB0);
@@ -6680,7 +6680,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
                     mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
                 }
 
-                mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eMotionChanged);
+                mbMotionChanged = true;
                 field_12C_timer = sGnFrame + 10;
                 mCurrentMotion = eSligMotions::M_Knockback_34_4B68A0;
                 mNextMotion = eSligMotions::M_Knockback_34_4B68A0;
@@ -6719,7 +6719,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
         return 1;
     }
 
-    mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eShot);
+    mbGotShot = true;
     mHealth = FP_FromInteger(0);
     mNextMotion = eSligMotions::M_Smash_44_4B6B90;
     field_136_shot_motion = eSligMotions::M_Smash_44_4B6B90;

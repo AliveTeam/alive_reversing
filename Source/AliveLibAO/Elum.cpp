@@ -3567,7 +3567,7 @@ Elum::Elum(const Guid& tlvInfo)
         GetAnimation().SetRenderLayer(Layer::eLayer_ZapLinesMudsElum_Half_9);
     }
 
-    mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit4_SetOffExplosives);
+    mBaseAliveGameObjectFlags.Set(Flags_10A::eCanSetOffExplosives);
 
     field_170_flags.Clear(Elum::Flags_170::eStungByBees_Bit2);
     field_170_flags.Clear(Elum::Flags_170::eFoundHoney_Bit4);
@@ -3603,7 +3603,7 @@ Elum::Elum(const Guid& tlvInfo)
     field_128_brain_idx = 0;
     field_12A_brain_sub_state = 0;
 
-    mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit6);
+    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
 
 
     field_170_flags.Clear(Elum::Flags_170::eStrugglingWithBees_Bit1);

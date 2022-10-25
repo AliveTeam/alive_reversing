@@ -146,9 +146,9 @@ void ElectricWall::VUpdate()
                 else
                 {
                     // Touching the wall, rip
-                    if (!pObjIter->mBaseAliveGameObjectFlags.Get(Flags_10A::e10A_Bit5_Electrocuted))
+                    if (!pObjIter->mBaseAliveGameObjectFlags.Get(Flags_10A::eElectrocuted))
                     {
-                        pObjIter->mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit5_Electrocuted);
+                        pObjIter->mBaseAliveGameObjectFlags.Set(Flags_10A::eElectrocuted);
                         relive_new Electrocute(pObjIter, 1);
 
                         pObjIter->VTakeDamage(this);

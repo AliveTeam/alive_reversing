@@ -38,8 +38,8 @@ BaseAliveGameObject::BaseAliveGameObject(s16 resourceArraySize)
     BaseAliveGameObjectCollisionLine = nullptr;
     mHealth = FP_FromInteger(1);
     BaseAliveGameObject_PlatformId = Guid{};
-    mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eShot);
-    mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eMotionChanged);
+    mbGotShot = false;
+    mbMotionChanged = false;
     mCurrentMotion = 0;
     mNextMotion = 0;
     mPreviousMotion = 0;
@@ -106,7 +106,7 @@ s16 BaseAliveGameObject::IsInInvisibleZone(BaseAliveGameObject* pObj)
 
 void BaseAliveGameObject::VSetMotion(s16 state)
 {
-    mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eMotionChanged);
+    mbMotionChanged = true;
     mCurrentMotion = state;
 }
 

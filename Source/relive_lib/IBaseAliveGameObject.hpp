@@ -54,4 +54,7 @@ public:
     s16 mCurrentMotion = 0;
     s16 mNextMotion = 0;
     FP mHealth = {};
+
+    bool mbGotShot = false;       // AE as flag
+    bool mbMotionChanged = false; // AE as flag
 };

@@ -410,7 +410,7 @@ s16 UXB::IsColliding()
             break;
         }
 
-        if (pObj->mBaseAliveGameObjectFlags.Get(Flags_10A::e10A_Bit4_SetOffExplosives))
+        if (pObj->mBaseAliveGameObjectFlags.Get(Flags_10A::eCanSetOffExplosives))
         {
             if (pObj->GetAnimation().mFlags.Get(AnimFlags::eRender))
             {

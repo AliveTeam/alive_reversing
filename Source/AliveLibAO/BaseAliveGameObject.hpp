@@ -18,12 +18,11 @@ class BirdPortal;
 
 enum Flags_10A
 {
-    e10A_Bit1_Can_Be_Possessed = 0x1,
-    e10A_Bit2_bPossesed = 0x2,
-    e10A_Bit3 = 0x4,
-    e10A_Bit4_SetOffExplosives = 0x8,
-    e10A_Bit5_Electrocuted = 0x10,
-    e10A_Bit6 = 0x20,
+    eCanBePossessed = 0x1,
+    ePossessed = 0x2,
+    eZappedByShrykull = 0x4,
+    eCanSetOffExplosives = 0x8,
+    eElectrocuted = 0x10,
 };
 
 class BaseAliveGameObject : public IBaseAliveGameObject
@@ -61,8 +60,7 @@ public:
 public:
     s16 field_EC_bBeesCanChase = 0; // AO only: can the bees attack - can be above the value 1 but bee swarm only checks for non zero
     PlatformBase* mLiftPoint = nullptr; // AO only
-    s16 field_106_shot = 0; // AE as flag
-    s16 field_108_bMotionChanged = 0; // AE as flag
+
     BitField16<Flags_10A> mBaseAliveGameObjectFlags = {};
 };
 

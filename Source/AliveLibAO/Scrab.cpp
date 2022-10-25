@@ -73,7 +73,7 @@ Scrab::Scrab(relive::Path_Scrab* pTlv, const Guid& tlvId)
 
     Animation_Init(GetAnimRes(AnimId::Scrab_Idle));
 
-    mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit4_SetOffExplosives);
+    mBaseAliveGameObjectFlags.Set(Flags_10A::eCanSetOffExplosives);
 
     field_118_timer = 0;
 
@@ -142,7 +142,7 @@ Scrab::Scrab(relive::Path_Scrab* pTlv, const Guid& tlvId)
         field_188_flags |= 8u;
     }
 
-    mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit6);
+    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
 
     mRGB.SetRGB(127, 127, 127);
 

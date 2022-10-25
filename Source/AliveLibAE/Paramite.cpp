@@ -5125,10 +5125,10 @@ void Paramite::HandleBrainsAndMotions()
         VOnTlvCollision(BaseAliveGameObjectPathTLV);
     }
 
-    if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eShot))
+    if (mbGotShot)
     {
         ToKnockBack();
-        mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eShot);
+        mbGotShot = false;
         SetCurrentMotion(mNextMotion);
         SetNextMotion(-1);
     }

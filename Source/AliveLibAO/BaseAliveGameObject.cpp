@@ -19,19 +19,18 @@ DynamicArrayT<BaseAliveGameObject>* gBaseAliveGameObjects = nullptr;
 BaseAliveGameObject::BaseAliveGameObject()
     : IBaseAliveGameObject(0)
 {
-    mBaseAliveGameObjectFlags.Clear(Flags_10A::e10A_Bit1_Can_Be_Possessed);
-    mBaseAliveGameObjectFlags.Clear(Flags_10A::e10A_Bit2_bPossesed);
-    mBaseAliveGameObjectFlags.Clear(Flags_10A::e10A_Bit3);
-    mBaseAliveGameObjectFlags.Clear(Flags_10A::e10A_Bit4_SetOffExplosives);
-    mBaseAliveGameObjectFlags.Clear(Flags_10A::e10A_Bit5_Electrocuted);
-    mBaseAliveGameObjectFlags.Clear(Flags_10A::e10A_Bit6);
+    mBaseAliveGameObjectFlags.Clear(Flags_10A::eCanBePossessed);
+    mBaseAliveGameObjectFlags.Clear(Flags_10A::ePossessed);
+    mBaseAliveGameObjectFlags.Clear(Flags_10A::eZappedByShrykull);
+    mBaseAliveGameObjectFlags.Clear(Flags_10A::eCanSetOffExplosives);
+    mBaseAliveGameObjectFlags.Clear(Flags_10A::eElectrocuted);
 
     BaseAliveGameObjectPathTLV = nullptr;
     BaseAliveGameObjectCollisionLine = nullptr;
     mHealth = FP_FromInteger(1);
     mLiftPoint = nullptr;
-    field_106_shot = 0;
-    field_108_bMotionChanged = 0;
+    mbGotShot = 0;
+    mbMotionChanged = 0;
     field_EC_bBeesCanChase = 0;
     mCurrentMotion = 0;
     mNextMotion = 0;
@@ -60,7 +59,7 @@ BaseAliveGameObject::~BaseAliveGameObject()
 
 void BaseAliveGameObject::VSetMotion(s16 state)
 {
-    field_108_bMotionChanged = TRUE;
+    mbMotionChanged = TRUE;
     mCurrentMotion = state;
 }
 

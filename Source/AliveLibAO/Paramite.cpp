@@ -101,7 +101,7 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
 
     field_12A_res_idx = 0;
 
-    mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit4_SetOffExplosives);
+    mBaseAliveGameObjectFlags.Set(Flags_10A::eCanSetOffExplosives);
     field_114_timer = 0;
     mBrainSubState = 0;
     SetNextMotion(eParamiteMotions::Motion_0_Idle);
@@ -175,7 +175,7 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
 
     VStackOnObjectsOfType(ReliveTypes::eParamite);
 
-    mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit6);
+    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
 
     CreateShadow();
 }
@@ -454,12 +454,12 @@ void Paramite::VUpdate()
             VOnTlvCollision(BaseAliveGameObjectPathTLV);
         }
 
-        if (field_106_shot)
+        if (mbGotShot)
         {
             ToKnockBack();
             SetNextMotion(-1);
             SetCurrentMotion(mNextMotion);
-            field_106_shot = 0;
+            mbGotShot = 0;
         }
 
         if (oldMotion == mCurrentMotion)

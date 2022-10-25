@@ -273,9 +273,9 @@ Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
     LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::Slig_Idle));
 
-    mBaseAliveGameObjectFlags.Clear(Flags_10A::e10A_Bit2_bPossesed);
-    mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit1_Can_Be_Possessed);
-    mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit4_SetOffExplosives);
+    mBaseAliveGameObjectFlags.Clear(Flags_10A::ePossessed);
+    mBaseAliveGameObjectFlags.Set(Flags_10A::eCanBePossessed);
+    mBaseAliveGameObjectFlags.Set(Flags_10A::eCanSetOffExplosives);
 
     SetType(ReliveTypes::eSlig);
 
@@ -350,7 +350,7 @@ Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
 
     VStackOnObjectsOfType(ReliveTypes::eSlig);
 
-    mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit6);
+    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
 
     CreateShadow();
 }
@@ -623,7 +623,7 @@ void Slig::VUpdate()
             //LOG_INFO("Brain changed from " << GetOriginalFn(oldBrain, sSligBrainTable).fnName << " to " << GetOriginalFn(mBrainState, sSligBrainTable).fnName);
         }
 
-        if (field_106_shot)
+        if (mbGotShot)
         {
             Vshot();
         }
@@ -655,9 +655,9 @@ void Slig::VUpdate()
             VOnTlvCollision(BaseAliveGameObjectPathTLV);
         }
 
-        if (old_motion != mCurrentMotion || field_108_bMotionChanged)
+        if (old_motion != mCurrentMotion || mbMotionChanged)
         {
-            field_108_bMotionChanged = FALSE;
+            mbMotionChanged = FALSE;
             VUpdateAnimData();
 
             if (VIs8_465630(old_motion))
@@ -715,7 +715,7 @@ enum Brain_Possessed
 
 void Slig::VPossessed()
 {
-    mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit2_bPossesed);
+    mBaseAliveGameObjectFlags.Set(Flags_10A::ePossessed);
     mPreventDepossession |= 4u;
     if (mNextMotion != eSligMotions::Motion_36_KnockbackToStand && mNextMotion != eSligMotions::Motion_35_Knockback)
     {
@@ -769,7 +769,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
                 }
             }
 
-            field_106_shot = TRUE;
+            mbGotShot = TRUE;
             SetBrain(&Slig::Brain_Death_46C3A0);
             field_154_death_by_being_shot_timer = sGnFrame + 5;
 
@@ -779,7 +779,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
                 mNextMotion = eSligMotions::Motion_38_Possess;
                 field_13A_shot_motion = eSligMotions::Motion_38_Possess;
                 Vshot();
-                field_108_bMotionChanged = TRUE;
+                mbMotionChanged = TRUE;
                 if (pBullet->mXDistance >= FP_FromInteger(0))
                 {
                     mVelX = FP_FromDouble(0.001);
@@ -845,7 +845,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
             }
             mHealth = FP_FromInteger(0);
             SetBrain(&Slig::Brain_Death_46C3A0);
-            field_106_shot = 1;
+            mbGotShot = 1;
             Environment_SFX_42A220(EnvironmentSfx::eKnockback_13, 0, 0x7FFF, this);
             if (VIsFacingMe(static_cast<BaseAnimatedWithPhysicsGameObject*>(pFrom)))
             {
@@ -857,7 +857,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
                 {
                     mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
                 }
-                field_108_bMotionChanged = TRUE;
+                mbMotionChanged = TRUE;
                 field_128_timer = sGnFrame + 10;
                 mCurrentMotion = eSligMotions::Motion_35_Knockback;
                 mNextMotion = eSligMotions::Motion_35_Knockback;
@@ -878,7 +878,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
                 if (mHealth <= FP_FromInteger(0))
                 {
                     mHealth = FP_FromInteger(0);
-                    field_106_shot = 1;
+                    mbGotShot = 1;
                     mNextMotion = eSligMotions::Motion_35_Knockback;
                     field_13A_shot_motion = eSligMotions::Motion_35_Knockback;
                 }
@@ -911,7 +911,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
         mHealth = FP_FromInteger(0);
         mNextMotion = eSligMotions::Motion_45_Smash;
         field_13A_shot_motion = eSligMotions::Motion_45_Smash;
-        field_106_shot = 1;
+        mbGotShot = 1;
     }
     return 1;
 }
@@ -1003,7 +1003,7 @@ void Slig::Vshot()
 
     mNextMotion = -1;
     field_13A_shot_motion = -1;
-    field_106_shot = FALSE;
+    mbGotShot = FALSE;
     field_114_timer = sGnFrame + 60;
     SetBrain(&Slig::Brain_Death_46C3A0);
 }
@@ -4385,7 +4385,7 @@ s16 Slig::Brain_Possessed()
             return mBrainSubState;
     }
 
-    if (field_106_shot)
+    if (mbGotShot)
     {
         BlowToGibs();
     }

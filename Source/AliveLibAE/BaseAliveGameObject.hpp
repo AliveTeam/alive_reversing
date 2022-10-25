@@ -19,8 +19,6 @@ enum class CameraPos : s16;
 
 enum AliveObjectFlags
 {
-    eShot = 0x1,
-    eMotionChanged = 0x2,
     eCanBePossessed = 0x4,
     ePossessed = 0x8,
     eZappedByShrykull = 0x10,

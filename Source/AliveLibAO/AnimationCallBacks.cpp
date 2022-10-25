@@ -23,7 +23,7 @@ void Animation_OnFrame_Slig(::BaseGameObject* pObj, u32&, const IndexedPoint& pD
     }
 
     BulletType bulletType = BulletType::ePossessedSlig_0;
-    if (pSlig->mBaseAliveGameObjectFlags.Get(Flags_10A::e10A_Bit2_bPossesed))
+    if (pSlig->mBaseAliveGameObjectFlags.Get(Flags_10A::ePossessed))
     {
         pSlig->mPreventDepossession |= 1u;
         bulletType = BulletType::ePossessedSlig_0;

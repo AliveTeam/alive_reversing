@@ -183,7 +183,7 @@ void SlingMudokon::VUpdate()
         VOnTlvCollision(BaseAliveGameObjectPathTLV);
     }
 
-    field_106_shot = 0;
+    mbGotShot = 0;
 
     if (old_motion == mCurrentMotion)
     {

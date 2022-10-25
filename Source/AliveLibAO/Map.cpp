@@ -481,46 +481,52 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
     bool bAddedALight = false;
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        auto pObjIter = gBaseAliveGameObjects->ItemAt(i);
-        if (!pObjIter)
+        auto pObj = gBaseAliveGameObjects->ItemAt(i);
+        if (!pObj)
         {
             break;
         }
 
-        if (pObjIter->mBaseGameObjectFlags.Get(::BaseGameObject::eDrawable_Bit4)
-            && pObjIter->mBaseAliveGameObjectFlags.Get(Flags_10A::e10A_Bit6)
-            && pObjIter->GetAnimation().mFlags.Get(AnimFlags::eRender)
-            && !pObjIter->mBaseGameObjectFlags.Get(::BaseGameObject::eDead)
-            && pObjIter != sControlledCharacter)
+        if (pObj->mBaseGameObjectFlags.Get(::BaseGameObject::eDrawable_Bit4))
         {
-            bool bAdd = false;
-            if (pObjIter->mCurrentLevel == mCurrentLevel
-                && pObjIter->mCurrentPath == mCurrentPath)
+            auto pBaseObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
+            if (pBaseObj->mVisualFlags.Get(BaseAnimatedWithPhysicsGameObject::VisualFlags::eDoPurpleLightEffect))
             {
-                PSX_RECT rect = {};
-                rect.x = FP_GetExponent(pObjIter->mXPos);
-                rect.w = FP_GetExponent(pObjIter->mXPos);
-                rect.y = FP_GetExponent(pObjIter->mYPos);
-                rect.h = FP_GetExponent(pObjIter->mYPos);
-                bAdd = Rect_Location_Relative_To_Active_Camera(&rect, 0) == CameraPos::eCamCurrent_0;
-            }
-
-            if (bAdd)
-            {
-                pObjectsWithLightsArray->Push_Back(pObjIter);
-
-                const PSX_RECT objRect = pObjIter->VGetBoundingRect();
-
-                const FP k60Scaled = pObjIter->GetSpriteScale() * FP_FromInteger(60);
-                auto pPurpleLight = New_DestroyOrCreateObject_Particle(
-                    FP_FromInteger((objRect.x + objRect.w) / 2),
-                    FP_FromInteger((objRect.y + objRect.h) / 2) + k60Scaled,
-                    pObjIter->GetSpriteScale());
-
-                if (pPurpleLight)
+                if (pBaseObj->GetAnimation().mFlags.Get(AnimFlags::eRender))
                 {
-                    pPurpleLightArray->Push_Back(pPurpleLight);
-                    bAddedALight = true;
+                    if (!pBaseObj->mBaseGameObjectFlags.Get(::BaseGameObject::eDead) && pObj != sControlledCharacter)
+                    {
+                        bool bAdd = false;
+                        if (pBaseObj->mCurrentLevel == mCurrentLevel
+                            && pBaseObj->mCurrentPath == mCurrentPath)
+                        {
+                            PSX_RECT rect = {};
+                            rect.x = FP_GetExponent(pBaseObj->mXPos);
+                            rect.w = FP_GetExponent(pBaseObj->mXPos);
+                            rect.y = FP_GetExponent(pBaseObj->mYPos);
+                            rect.h = FP_GetExponent(pBaseObj->mYPos);
+                            bAdd = Rect_Location_Relative_To_Active_Camera(&rect, 0) == CameraPos::eCamCurrent_0;
+                        }
+
+                        if (bAdd)
+                        {
+                            pObjectsWithLightsArray->Push_Back(pBaseObj);
+
+                            const PSX_RECT objRect = pBaseObj->VGetBoundingRect();
+
+                            const FP k60Scaled = pBaseObj->GetSpriteScale() * FP_FromInteger(60);
+                            auto pPurpleLight = New_DestroyOrCreateObject_Particle(
+                                FP_FromInteger((objRect.x + objRect.w) / 2),
+                                FP_FromInteger((objRect.y + objRect.h) / 2) + k60Scaled,
+                                pBaseObj->GetSpriteScale());
+
+                            if (pPurpleLight)
+                            {
+                                pPurpleLightArray->Push_Back(pPurpleLight);
+                                bAddedALight = true;
+                            }
+                        }
+                    }
                 }
             }
         }

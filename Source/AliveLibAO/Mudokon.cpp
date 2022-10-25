@@ -153,8 +153,8 @@ Mudokon::Mudokon(relive::Path_TLV* pTlv, const Guid& tlvId)
 
     GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
 
-    mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit4_SetOffExplosives);
-    mBaseAliveGameObjectFlags.Set(Flags_10A::e10A_Bit6);
+    mBaseAliveGameObjectFlags.Set(Flags_10A::eCanSetOffExplosives);
+    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
 
     field_144_flags.Clear(Flags_144::e144_Bit6_bPersist);
     field_144_flags.Clear(Flags_144::e144_Bit7);
@@ -363,7 +363,7 @@ Mudokon::~Mudokon()
     KillBirdPortal();
     KillLiftPoint_194();
 
-    if (!field_144_flags.Get(Flags_144::e144_Bit2) || mHealth <= FP_FromInteger(0) || mBaseAliveGameObjectFlags.Get(Flags_10A::e10A_Bit5_Electrocuted))
+    if (!field_144_flags.Get(Flags_144::e144_Bit2) || mHealth <= FP_FromInteger(0) || mBaseAliveGameObjectFlags.Get(Flags_10A::eElectrocuted))
     {
         Path::TLV_Reset(field_10C, -1, 0, 1);
     }
@@ -454,9 +454,9 @@ void Mudokon::VUpdate()
         VOnTlvCollision(BaseAliveGameObjectPathTLV);
     }
 
-    if (old_motion != GetCurrentMotion() || field_108_bMotionChanged)
+    if (old_motion != GetCurrentMotion() || mbMotionChanged)
     {
-        field_108_bMotionChanged = FALSE;
+        mbMotionChanged = FALSE;
         VUpdateResBlock();
 
         if (old_motion == eMudMotions::Motion_10_Unused)
@@ -472,7 +472,7 @@ void Mudokon::VUpdate()
         field_1BC = 0;
     }
 
-    if (mBaseAliveGameObjectFlags.Get(Flags_10A::e10A_Bit5_Electrocuted))
+    if (mBaseAliveGameObjectFlags.Get(Flags_10A::eElectrocuted))
     {
         EventBroadcast(kEventMudokonDead, sActiveHero);
     }
@@ -641,7 +641,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
             return 0;
 
         case ReliveTypes::eBullet:
-            field_106_shot = TRUE;
+            mbGotShot = TRUE;
             if (mHealth > FP_FromInteger(0))
             {
                 auto pBullet = static_cast<Bullet*>(pFrom);
@@ -1176,7 +1176,7 @@ void Mudokon::VOnTrapDoorOpen()
 {
     if (mLiftPoint)
     {
-        if (field_106_shot)
+        if (mbGotShot)
         {
             field_144_flags.Set(Flags_144::e144_Bit8);
         }
