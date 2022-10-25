@@ -102,25 +102,6 @@ s16 BaseAliveGameObject::IsInInvisibleZone(BaseAliveGameObject* pObj)
     return FALSE;
 }
 
-// =======
-
-s32 MaxGridBlocks_449880(FP scale)
-{
-    if (scale == FP_FromDouble(0.5))
-    {
-        return 30; // (29+1) * 13 (grid block size) for 377/390
-    }
-    else if (scale == FP_FromInteger(1))
-    {
-        return 16; // (15+1) * 25 (grid block size) for 375/400
-    }
-    else
-    {
-        LOG_ERROR("Scale should be 0.5 or 1 but got " << FP_GetDouble(scale));
-        ALIVE_FATAL("Invalid scale");
-    }
-}
-
 void BaseAliveGameObject::VOnPathTransition(s16 cameraWorldXPos, s16 cameraWorldYPos, CameraPos direction)
 {
     const FP oldY = mYPos;

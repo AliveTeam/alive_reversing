@@ -641,7 +641,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
             return 0;
 
         case ReliveTypes::eBullet:
-            mbGotShot = TRUE;
+            mbGotShot = true;
             if (mHealth > FP_FromInteger(0))
             {
                 auto pBullet = static_cast<Bullet*>(pFrom);

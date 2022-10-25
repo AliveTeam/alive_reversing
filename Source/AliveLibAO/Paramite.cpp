@@ -459,7 +459,7 @@ void Paramite::VUpdate()
             ToKnockBack();
             SetNextMotion(-1);
             SetCurrentMotion(mNextMotion);
-            mbGotShot = 0;
+            mbGotShot = false;
         }
 
         if (oldMotion == mCurrentMotion)

@@ -769,7 +769,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
                 }
             }
 
-            mbGotShot = TRUE;
+            mbGotShot = true;
             SetBrain(&Slig::Brain_Death_46C3A0);
             field_154_death_by_being_shot_timer = sGnFrame + 5;
 
@@ -845,7 +845,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
             }
             mHealth = FP_FromInteger(0);
             SetBrain(&Slig::Brain_Death_46C3A0);
-            mbGotShot = 1;
+            mbGotShot = true;
             Environment_SFX_42A220(EnvironmentSfx::eKnockback_13, 0, 0x7FFF, this);
             if (VIsFacingMe(static_cast<BaseAnimatedWithPhysicsGameObject*>(pFrom)))
             {
@@ -878,7 +878,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
                 if (mHealth <= FP_FromInteger(0))
                 {
                     mHealth = FP_FromInteger(0);
-                    mbGotShot = 1;
+                    mbGotShot = true;
                     mNextMotion = eSligMotions::Motion_35_Knockback;
                     field_13A_shot_motion = eSligMotions::Motion_35_Knockback;
                 }
@@ -911,7 +911,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
         mHealth = FP_FromInteger(0);
         mNextMotion = eSligMotions::Motion_45_Smash;
         field_13A_shot_motion = eSligMotions::Motion_45_Smash;
-        mbGotShot = 1;
+        mbGotShot = true;
     }
     return 1;
 }
@@ -1003,7 +1003,7 @@ void Slig::Vshot()
 
     mNextMotion = -1;
     field_13A_shot_motion = -1;
-    mbGotShot = FALSE;
+    mbGotShot = false;
     field_114_timer = sGnFrame + 60;
     SetBrain(&Slig::Brain_Death_46C3A0);
 }

@@ -144,3 +144,5 @@ private:
 extern Map gMap;
 extern s16 sMap_bDoPurpleLightEffect_5C311C;
 extern const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect_55D55C[10];
+
+s32 MaxGridBlocks_449880(FP scale);

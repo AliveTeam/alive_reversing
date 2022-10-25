@@ -24,12 +24,16 @@ BaseAliveGameObject::BaseAliveGameObject()
     mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eZappedByShrykull);
     mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eCanSetOffExplosives);
     mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eElectrocuted);
+    mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eInvisible);
+    mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eRestoredFromQuickSave);
+    mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eTeleporting);
+    mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eElectrocuting);
 
     BaseAliveGameObjectPathTLV = nullptr;
     BaseAliveGameObjectCollisionLine = nullptr;
     mHealth = FP_FromInteger(1);
     mLiftPoint = nullptr;
-    mbGotShot = 0;
+    mbGotShot = false;
     mbMotionChanged = false;
     field_EC_bBeesCanChase = 0;
     mCurrentMotion = 0;
@@ -40,7 +44,7 @@ BaseAliveGameObject::BaseAliveGameObject()
 
     gBaseAliveGameObjects->Push_Back(this);
 
-    mBaseGameObjectFlags.Set(Options::eIsBaseAliveGameObject_Bit6);
+    mBaseGameObjectFlags.Set(BaseGameObject::eIsBaseAliveGameObject_Bit6);
 }
 
 BaseAliveGameObject::~BaseAliveGameObject()

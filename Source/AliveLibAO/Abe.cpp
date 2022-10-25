@@ -1103,7 +1103,7 @@ void Abe::VUpdate()
                     mNextMotion = 0;
                     field_112_prev_motion = 0;
                     mbMotionChanged = true;
-                    mbGotShot = 0;
+                    mbGotShot = false;
 #if ORIGINAL_GAME_FIXES || ORIGINAL_GAME_FIX_DEATH_DELAY_AO
                     field_2A8_flags.Clear(Flags_2A8::e2A8_Bit2_return_to_previous_motion); // OG Change - Fixes "Death Delay Glitch"
 #endif
@@ -2358,7 +2358,7 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
     }
 
     mHealth = FP_FromInteger(0);
-    mbGotShot = 1;
+    mbGotShot = true;
 
     switch (pBullet->mBulletType)
     {
@@ -2401,7 +2401,7 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
                         mCurrentMotion = eAbeMotions::Motion_128_KnockForward;
                     }
                     mbMotionChanged = true;
-                    mbGotShot = 0;
+                    mbGotShot = false;
 
                     if (pBullet->mXDistance >= FP_FromInteger(0))
                     {
@@ -2417,7 +2417,7 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
                 {
                     mCurrentMotion = eAbeMotions::Motion_92_ForceDownFromHoist;
                     mbMotionChanged = true;
-                    mbGotShot = 0;
+                    mbGotShot = false;
                     field_114_gnFrame = 0;
                     break;
                 }
@@ -2442,13 +2442,13 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
         {
             if (GetSpriteScale() == FP_FromDouble(0.5))
             {
-                mbGotShot = 0;
+                mbGotShot = false;
                 mHealth = FP_FromInteger(1);
                 return;
             }
             if (Bullet::InZBulletCover(FP_FromInteger(rect.x), FP_FromInteger(rect.y), rect))
             {
-                mbGotShot = 0;
+                mbGotShot = false;
                 mHealth = FP_FromInteger(1);
                 return;
             }
@@ -2458,7 +2458,7 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
                 {
                     mCurrentMotion = eAbeMotions::Motion_92_ForceDownFromHoist;
                     mbMotionChanged = true;
-                    mbGotShot = 0;
+                    mbGotShot = false;
                     field_114_gnFrame = 0;
                 }
                 else if (shootKind == ShootKind::eRolling_2)
@@ -2477,12 +2477,12 @@ void Abe::BulletDamage_4220B0(Bullet* pBullet)
                     ElumKnockForward_42E780(1);
                     mCurrentMotion = eAbeMotions::Motion_148_Shot;
                     mbMotionChanged = true;
-                    mbGotShot = 0;
+                    mbGotShot = false;
                 }
             }
             else
             {
-                mbGotShot = 0;
+                mbGotShot = false;
                 mHealth = FP_FromInteger(1);
                 return;
             }
@@ -2920,7 +2920,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                     Mudokon_SFX(MudSounds::eKnockbackOuch_10, 0, 0, this);
                     Environment_SFX_42A220(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, this);
                     mHealth = FP_FromInteger(0);
-                    mbGotShot = 1;
+                    mbGotShot = true;
                     field_112_prev_motion = eAbeMotions::Motion_128_KnockForward;
                     mNextMotion = eAbeMotions::Motion_128_KnockForward;
                     if (mCurrentMotion != eAbeMotions::Motion_64_LedgeAscend
@@ -2935,7 +2935,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                     {
                         mCurrentMotion = eAbeMotions::Motion_92_ForceDownFromHoist;
                         mbMotionChanged = true;
-                        mbGotShot = 0;
+                        mbGotShot = false;
                         field_114_gnFrame = 0;
                         return 1;
                     }
@@ -2953,7 +2953,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                     || mCurrentMotion == eAbeMotions::Motion_67_ToOffScreenHoist)
                 {
                     mCurrentMotion = eAbeMotions::Motion_92_ForceDownFromHoist;
-                    mbGotShot = 0;
+                    mbGotShot = false;
                     field_114_gnFrame = 0;
                     mbMotionChanged = true;
                     return 1;
@@ -2987,7 +2987,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
             {
                 if (mHealth > FP_FromInteger(0))
                 {
-                    mbGotShot = 1;
+                    mbGotShot = true;
                     field_112_prev_motion = eAbeMotions::Motion_70_Knockback;
                     mNextMotion = eAbeMotions::Motion_70_Knockback;
                 }
@@ -3041,7 +3041,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                 {
                     mCurrentMotion = eAbeMotions::Motion_92_ForceDownFromHoist;
                     mbMotionChanged = true;
-                    mbGotShot = 0;
+                    mbGotShot = false;
                     field_114_gnFrame = 0;
                     return 1;
                 }
@@ -3115,7 +3115,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                 {
                     mCurrentMotion = eAbeMotions::Motion_92_ForceDownFromHoist;
                     mbMotionChanged = true;
-                    mbGotShot = 0;
+                    mbGotShot = false;
                     field_114_gnFrame = 0;
                     return 1;
                 }
@@ -3125,7 +3125,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                 {
                     mNextMotion = eAbeMotions::Motion_148_Shot;
                     field_112_prev_motion = eAbeMotions::Motion_148_Shot;
-                    mbGotShot = 1;
+                    mbGotShot = true;
                     return 1;
                 }
 
@@ -3180,7 +3180,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                 {
                     mCurrentMotion = eAbeMotions::Motion_92_ForceDownFromHoist;
                     mbMotionChanged = true;
-                    mbGotShot = 0;
+                    mbGotShot = false;
                     field_114_gnFrame = 0;
                     return 1;
                 }
@@ -3223,7 +3223,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eZBall:
             if (mHealth > FP_FromInteger(0))
             {
-                mbGotShot = 1;
+                mbGotShot = true;
                 mHealth = FP_FromInteger(0);
                 if (static_cast<ZBall*>(pFrom)->mFrameAbove12 == 1)
                 {
@@ -3254,7 +3254,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                     Mudokon_SFX(MudSounds::eKnockbackOuch_10, 0, 1000, this);
                     Environment_SFX_42A220(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, this);
                     mHealth = FP_FromInteger(0);
-                    mbGotShot = 1;
+                    mbGotShot = true;
                     field_112_prev_motion = eAbeMotions::Motion_128_KnockForward;
                     mNextMotion = eAbeMotions::Motion_128_KnockForward;
                     if (mCurrentMotion == eAbeMotions::Motion_64_LedgeAscend
@@ -3265,7 +3265,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                     {
                         mCurrentMotion = eAbeMotions::Motion_92_ForceDownFromHoist;
                         mbMotionChanged = true;
-                        mbGotShot = 0;
+                        mbGotShot = false;
                         field_114_gnFrame = 0;
                         return 1;
                     }
@@ -3273,7 +3273,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                     if (mRidingElum)
                     {
                         ElumKnockForward_42E780(1);
-                        mbGotShot = 0;
+                        mbGotShot = false;
                     }
                 }
 
@@ -6582,7 +6582,7 @@ void Abe::Motion_61_Respawn()
                 mCurrentMotion = eAbeMotions::Motion_3_Fall;
 
                 relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
-                mbGotShot = 0;
+                mbGotShot = false;
                 field_2A8_flags.Clear(Flags_2A8::e2A8_Bit6_bShrivel);
                 field_114_gnFrame = sGnFrame;
             }

@@ -30,11 +30,29 @@
 #include "../relive_lib/data_conversion/data_conversion.hpp" // TODO: don't include this in the engine
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs_serialization.hpp"
+#include "../AliveLibCommon/FatalError.hpp"
 
 s16 sMap_bDoPurpleLightEffect_5C311C = 0;
 Camera* sCameraBeingLoaded_5C3118 = nullptr;
 u32 sSoundChannelsMask_5C3120 = 0;
 
+
+s32 MaxGridBlocks_449880(FP scale)
+{
+    if (scale == FP_FromDouble(0.5))
+    {
+        return 30; // (29+1) * 13 (grid block size) for 377/390
+    }
+    else if (scale == FP_FromInteger(1))
+    {
+        return 16; // (15+1) * 25 (grid block size) for 375/400
+    }
+    else
+    {
+        LOG_ERROR("Scale should be 0.5 or 1 but got " << FP_GetDouble(scale));
+        ALIVE_FATAL("Invalid scale");
+    }
+}
 
 // Map Path_ChangeTLV::field_18_wipe to CameraSwapEffects
 const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect_55D55C[10] = {
