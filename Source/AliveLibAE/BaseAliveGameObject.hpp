@@ -4,6 +4,7 @@
 #include "../relive_lib/DynamicArray.hpp"
 #include "../relive_lib/Animation.hpp"
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../relive_lib/IBaseAliveGameObject.hpp"
 
 namespace relive {
 class Path_TLV;
@@ -31,66 +32,33 @@ enum AliveObjectFlags
     eElectrocuting = 0x400,
 };
 
-class BaseAliveGameObject : public ::BaseAnimatedWithPhysicsGameObject
+class BaseAliveGameObject : public IBaseAliveGameObject
 {
 
 public:
     explicit BaseAliveGameObject(s16 resourceArraySize);
     ~BaseAliveGameObject();
 
-    virtual void VRender(PrimHeader** ppOt) override;
-
-    virtual void VUnPosses();
-    virtual void VPossessed();
     virtual void VSetMotion(s16 state);
     virtual void VOnPathTransition(s16 cameraWorldXPos, s16 cameraWorldYPos, CameraPos direction);
-    virtual s16 VTakeDamage(BaseGameObject* pFrom);
-    virtual void VOnTlvCollision(relive::Path_TLV* pTlv);
     virtual void VCheckCollisionLineStillValid(s32 distance);
-    virtual BirdPortal* VIntoBirdPortal(s16 gridBlocks);
-    virtual void VOnTrapDoorOpen();
 
     static s16 IsInInvisibleZone(BaseAliveGameObject* pObj);
+    virtual BirdPortal* VIntoBirdPortal(s16 gridBlocks);
     void SetActiveCameraDelayedFromDir();
     s16 MapFollowMe(s16 snapToGrid);
 
-    void OnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList);
-    virtual s16 VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform);
+    virtual s16 VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform) override;
 
 protected:
-    template<class T>
-    inline void SetCurrentMotion(T motion)
-    {
-        mCurrentMotion = static_cast<s16>(motion);
-    }
-    template<class T>
-    inline void SetNextMotion(T motion)
-    {
-        mNextMotion = static_cast<s16>(motion);
-    }
-    template<class T>
-    inline void SetPreviousMotion(T motion)
-    {
-        mPreviousMotion = static_cast<s16>(motion);
-    }
 
-    s16 SetBaseAnimPaletteTint(const TintEntry* pTintArray, EReliveLevelIds level_id, PalId resourceID);
     bool Check_IsOnEndOfLine(s16 direction, s16 distance);
-    BaseAliveGameObject* GetStackedSlapTarget(const Guid& idToFind, ReliveTypes typeToFind, FP xpos, FP ypos);
     bool WallHit(FP offY, FP offX);
     bool InAirCollision(PathLine** ppPathLine, FP* hitX, FP* hitY, FP velY);
     BaseGameObject* FindObjectOfType(ReliveTypes typeToFind, FP xpos, FP ypos);
 
+    BaseAliveGameObject* GetStackedSlapTarget(const Guid& idToFind, ReliveTypes typeToFind, FP xpos, FP ypos);
 public:
-    FP_RECT mCollectionRect = {};
-    s16 mPreviousMotion = 0;
-    s32 mBaseAliveGameObjectLastAnimFrame = 0;
-    FP BaseAliveGameObjectLastLineYPos = {};
-    relive::Path_TLV* BaseAliveGameObjectPathTLV = nullptr;
-    PathLine* BaseAliveGameObjectCollisionLine = nullptr;
-    s16 mCurrentMotion = 0;
-    s16 mNextMotion = 0;
-    FP mHealth = {};
     s16 BaseAliveGameObjectCollisionLineType = 0; // AE only, quick save data
     Guid BaseAliveGameObject_PlatformId; // AE only
     BitField16<AliveObjectFlags> mBaseAliveGameObjectFlags = {};

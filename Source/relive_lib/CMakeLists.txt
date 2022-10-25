@@ -18,6 +18,8 @@ SET(relive_lib_src
     ../Tools/relive_api/CamConverter.hpp
     ../Tools/relive_api/ApiFG1Reader.cpp
     ../Tools/relive_api/ApiFG1Reader.hpp
+    IBaseAliveGameObject.hpp
+    IBaseAliveGameObject.cpp
     BinaryPath.hpp
     BinaryPath.cpp
     ShadowZone.hpp

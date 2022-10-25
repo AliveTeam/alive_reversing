@@ -22,7 +22,7 @@
 DynamicArrayT<BaseAliveGameObject>* gBaseAliveGameObjects = nullptr;
 
 BaseAliveGameObject::BaseAliveGameObject(s16 resourceArraySize)
-    : BaseAnimatedWithPhysicsGameObject(resourceArraySize)
+    : IBaseAliveGameObject(resourceArraySize)
 {
     mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eCanBePossessed);
     mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::ePossessed);
@@ -63,29 +63,8 @@ BaseAliveGameObject::~BaseAliveGameObject()
     }
 }
 
-void BaseAliveGameObject::VRender(PrimHeader** ppOt)
-{
-    BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
-}
-
-void BaseAliveGameObject::VUnPosses()
-{
-    // Empty
-}
-
-void BaseAliveGameObject::VPossessed()
-{
-    // Empty
-}
-
 s16 BaseAliveGameObject::IsInInvisibleZone(BaseAliveGameObject* pObj)
 {
-    /* OG unused feature to always appear as if you are in an invisible zone
-    if (word_5C1BE4)
-    {
-        return TRUE;
-    }*/
-
     if (EventGet(kEventAbeOhm))
     {
         return FALSE;
@@ -247,17 +226,6 @@ void BaseAliveGameObject::VOnPathTransition(s16 cameraWorldXPos, s16 cameraWorld
     }
 }
 
-s16 BaseAliveGameObject::VTakeDamage(BaseGameObject* /*pFrom*/)
-{
-    // Defaults to no damage.
-    return 0;
-}
-
-void BaseAliveGameObject::VOnTlvCollision(relive::Path_TLV* /*pTlv*/)
-{
-    // Empty
-}
-
 void BaseAliveGameObject::VCheckCollisionLineStillValid(s32 distance)
 {
     PlatformBase* pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
@@ -355,59 +323,6 @@ BirdPortal* BaseAliveGameObject::VIntoBirdPortal(s16 numGridBlocks)
         }
     }
     return nullptr;
-}
-
-
-void BaseAliveGameObject::OnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList)
-{
-    if (pObjList)
-    {
-        for (s32 i = 0; i < pObjList->Size(); i++)
-        {
-            BaseGameObject* pObjIter = pObjList->ItemAt(i);
-            if (!pObjIter)
-            {
-                break;
-            }
-
-            if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5))
-            {
-                if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
-                {
-                    BaseAnimatedWithPhysicsGameObject* pObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObjIter);
-                    const PSX_RECT bRect = pObj->VGetBoundingRect();
-                    if (xy.x <= bRect.w && wh.x >= bRect.x && wh.y >= bRect.y && xy.y <= bRect.h)
-                    {
-                        // NOTE: AO ignored scale here
-                        if (GetGameType() == GameType::eAo || (GetGameType() == GameType::eAe && GetScale() == pObj->GetScale()))
-                        {
-                            if (!VOnPlatformIntersection(pObj))
-                            {
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-void BaseAliveGameObject::VOnTrapDoorOpen()
-{
-    // Empty
-}
-
-s16 BaseAliveGameObject::SetBaseAnimPaletteTint(const TintEntry* pTintArray, EReliveLevelIds level_id, PalId palId)
-{
-    SetTint(pTintArray, level_id); // Actually bugged for inputs that never happen as it should return 0
-
-    if (palId != PalId::Default)
-    {
-        PalResource res = ResourceManagerWrapper::LoadPal(palId);
-        GetAnimation().LoadPal(res);
-    }
-    return 1;
 }
 
 bool BaseAliveGameObject::Check_IsOnEndOfLine(s16 direction, s16 distance)

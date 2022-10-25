@@ -496,6 +496,7 @@ void BirdPortal::VUpdate()
                 }
 
                 const s16 scale32 = FP_GetExponent(mSpriteScale * FP_FromInteger(32));
+
                 if (static_cast<s32>(sGnFrame) >= mTimer)
                 {
                     mTimer = sGnFrame + Math_RandomRange(4, 12);
@@ -509,8 +510,7 @@ void BirdPortal::VUpdate()
                     {
                         SfxPlayMono(relive::SoundEffects::Dove, 70);
                         pDoveMem->SetSpriteScale(mSpriteScale);
-                        pDoveMem->AsJoin(sActiveHero->mXPos,
-                            FP_FromInteger(Math_RandomRange(-36, 4)) + sActiveHero->mYPos);
+                        pDoveMem->AsJoin(sActiveHero->mXPos, FP_FromInteger(Math_RandomRange(-36, 4)) + sActiveHero->mYPos);
                     }
 
                     mReceivedDovesCount++;
@@ -529,10 +529,10 @@ void BirdPortal::VUpdate()
         case PortalStates::GetShrykull_9:
             if (static_cast<s32>(sGnFrame) >= mTimer)
             {
-                mState = PortalStates::CollapseTerminators_10;
                 sActiveHero->field_168_ring_pulse_timer = sGnFrame + 32000;
                 sActiveHero->field_16C_bHaveShrykull = TRUE;
-                if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_150_Chant)
+                mState = PortalStates::CollapseTerminators_10;
+				if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_150_Chant)
                 {
                     sActiveHero->ChangeChantState_430510(0);
                 }
@@ -617,6 +617,7 @@ void BirdPortal::VUpdate()
         case PortalStates::PortalExit_SetPosition_17:
         {
             pScreenManager->EnableRendering();
+
             CreateTerminators();
 
             mState = PortalStates::PortalExit_CreateTerminators_18;
@@ -886,9 +887,10 @@ void BirdPortal::VExitPortal()
         }
 
         sActiveHero->SetSpriteScale(mSpriteScale);
-        mState = PortalStates::PortalExit_SetPosition_17;
         sActiveHero->mCurrentLevel = gMap.mCurrentLevel;
         sActiveHero->mCurrentPath = gMap.mCurrentPath;
+
+        mState = PortalStates::PortalExit_SetPosition_17;
     }
     else
     {

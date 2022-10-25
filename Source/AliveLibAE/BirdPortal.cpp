@@ -88,6 +88,44 @@ BirdPortal::BirdPortal(relive::Path_BirdPortal* pTlv, const Guid& tlvId)
     mYPos = mHitY - (FP_FromInteger(55) * mSpriteScale);
 }
 
+void BirdPortal::CreateDovesAndShrykullNumber()
+{
+    for (u8 i = 0; i < ALIVE_COUNTOF(mDoveIds); i++)
+    {
+        auto pDove = relive_new Dove(AnimId::Dove_Flying, mXPos, mYPos, mSpriteScale);
+        mDoveIds[i] = pDove->mBaseGameObjectId;
+
+        mDovesExist = 1;
+
+        if (mPortalType == relive::Path_BirdPortal::PortalType::eAbe)
+        {
+            pDove->AsAlmostACircle(mXPos, (mSpriteScale * FP_FromInteger(30)) + mYPos, 42 * i);
+        }
+        else
+        {
+            pDove->AsACircle(mXPos, (mSpriteScale * FP_FromInteger(30)) + mYPos, 42 * i);
+        }
+        pDove->SetSpriteScale(mSpriteScale);
+    }
+
+    if (mPortalType == relive::Path_BirdPortal::PortalType::eShrykull)
+    {
+        const Layer indicatorLayer = mSpriteScale != FP_FromDouble(0.5) ? Layer::eLayer_27 : Layer::eLayer_8;
+        auto pIndicator = relive_new ThrowableTotalIndicator(
+            mXPos,
+            mYPos + FP_FromInteger(10),
+            indicatorLayer,
+            mSpriteScale,
+            mMudCountForShrykull,
+            0);
+        if (pIndicator)
+        {
+            mThrowableIndicatorId = pIndicator->mBaseGameObjectId;
+        }
+    }
+}
+
+
 void BirdPortal::VUpdate()
 {
     const CameraPos direction = gMap.GetDirection(
@@ -173,8 +211,8 @@ void BirdPortal::VUpdate()
             if (static_cast<s32>(sGnFrame) > mTimer)
             {
                 CreateTerminators();
-                mState = PortalStates::KillDoves_3;
                 mTimer = sGnFrame + 5;
+                mState = PortalStates::KillDoves_3;
             }
             break;
 
@@ -297,6 +335,7 @@ void BirdPortal::VUpdate()
                 if (static_cast<s32>(sGnFrame) >= mTimer)
                 {
                     mTimer = sGnFrame + Math_RandomRange(4, 12);
+
                     auto pDove_1 = relive_new Dove(
                         AnimId::Dove_Flying,
                         FP_FromInteger(xOffExp) + mXPos,
@@ -494,7 +533,83 @@ void BirdPortal::VUpdate()
     }
 }
 
+s16 BirdPortal::IsScaredAway()
+{
+    for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
+    {
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+        if (!pObj)
+        {
+            return FALSE;
+        }
 
+        switch (pObj->Type())
+        {
+            case ReliveTypes::eAbe:
+            case ReliveTypes::eRingOrLiftMud:
+            case ReliveTypes::eParamite:
+            case ReliveTypes::eScrab:
+            case ReliveTypes::eSlig:
+                if (pObj->mCurrentPath != mCurrentPath)
+                {
+                    continue;
+                }
+
+                if (FP_Abs(pObj->mXPos - mXPos) >= FP_NoFractional((mSpriteScale * FP_FromInteger(75))))
+                {
+                    continue;
+                }
+
+                if (FP_Abs(pObj->mYPos - mHitY) >= FP_FromInteger(30) || pObj->GetSpriteScale() != mSpriteScale)
+                {
+                    continue;
+                }
+                return TRUE;
+
+            default:
+                continue;
+        }
+    }
+    return FALSE;
+}
+
+void BirdPortal::VGiveShrykull(s16 bPlaySound)
+{
+    if (sActiveHero)
+    {
+        if (mPortalType == relive::Path_BirdPortal::PortalType::eShrykull && mMudCountForShrykull <= 0)
+        {
+            SND_SEQ_Play(SeqId::SecretMusic_32, 1, 127, 127);
+            mState = PortalStates::ShrykullGetDoves_7;
+            mTimer = sGnFrame + 12;
+            mReceivedDovesCount = 0;
+
+            mOrbWhirlWind = relive_new OrbWhirlWind(
+                sActiveHero->mXPos,
+                sActiveHero->mYPos - (sActiveHero->GetSpriteScale() * FP_FromInteger(38)),
+                sActiveHero->GetSpriteScale(),
+                0);
+
+            if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_112_Chant)
+            {
+                sActiveHero->ChangeChantState_45BB90(1);
+            }
+        }
+        else
+        {
+            mState = PortalStates::CollapseTerminators_10;
+            if ((mPortalType == relive::Path_BirdPortal::PortalType::eWorker || mPortalType == relive::Path_BirdPortal::PortalType::eShrykull) && sActiveHero->mCurrentMotion == eAbeMotions::Motion_112_Chant)
+            {
+                sActiveHero->ChangeChantState_45BB90(0);
+            }
+        }
+
+        if (bPlaySound)
+        {
+            SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 70, -1600, mSpriteScale);
+        }
+    }
+}
 void BirdPortal::VScreenChanged()
 {
     if (mState <= PortalStates::IdlePortal_1 || mState >= PortalStates::KillPortalClipper_21 || ((gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath) &&
@@ -726,44 +841,6 @@ bool BirdPortal::VActivePortal()
     return mState == PortalStates::ActivePortal_6;
 }
 
-void BirdPortal::VGiveShrykull(s16 bPlaySound)
-{
-    if (sActiveHero)
-    {
-        if (mPortalType == relive::Path_BirdPortal::PortalType::eShrykull && mMudCountForShrykull <= 0)
-        {
-            SND_SEQ_Play(SeqId::SecretMusic_32, 1, 127, 127);
-            mState = PortalStates::ShrykullGetDoves_7;
-            mTimer = sGnFrame + 12;
-            mReceivedDovesCount = 0;
-
-            mOrbWhirlWind = relive_new OrbWhirlWind(
-                sActiveHero->mXPos,
-                sActiveHero->mYPos - (sActiveHero->GetSpriteScale() * FP_FromInteger(38)),
-                sActiveHero->GetSpriteScale(),
-                0);
-
-            if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_112_Chant)
-            {
-                sActiveHero->ChangeChantState_45BB90(1);
-            }
-        }
-        else
-        {
-            mState = PortalStates::CollapseTerminators_10;
-            if ((mPortalType == relive::Path_BirdPortal::PortalType::eWorker || mPortalType == relive::Path_BirdPortal::PortalType::eShrykull) && sActiveHero->mCurrentMotion == eAbeMotions::Motion_112_Chant)
-            {
-                sActiveHero->ChangeChantState_45BB90(0);
-            }
-        }
-
-        if (bPlaySound)
-        {
-            SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 70, -1600, mSpriteScale);
-        }
-    }
-}
-
 bool BirdPortal::VAbeInsidePortal()
 {
     return mState == PortalStates::AbeInsidePortal_16;
@@ -913,83 +990,6 @@ BirdPortal::~BirdPortal()
     {
         // Always come back
         Path::TLV_Reset(mTlvInfo, -1, 0, 0);
-    }
-}
-
-s16 BirdPortal::IsScaredAway()
-{
-    for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
-    {
-        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
-        if (!pObj)
-        {
-            return FALSE;
-        }
-
-        switch (pObj->Type())
-        {
-            case ReliveTypes::eAbe:
-            case ReliveTypes::eRingOrLiftMud:
-            case ReliveTypes::eParamite:
-            case ReliveTypes::eScrab:
-            case ReliveTypes::eSlig:
-                if (pObj->mCurrentPath != mCurrentPath)
-                {
-                    continue;
-                }
-
-                if (FP_Abs(pObj->mXPos - mXPos) >= FP_NoFractional((mSpriteScale * FP_FromInteger(75))))
-                {
-                    continue;
-                }
-
-                if (FP_Abs(pObj->mYPos - mHitY) >= FP_FromInteger(30) || pObj->GetSpriteScale() != mSpriteScale)
-                {
-                    continue;
-                }
-                return TRUE;
-
-            default:
-                continue;
-        }
-    }
-    return FALSE;
-}
-
-void BirdPortal::CreateDovesAndShrykullNumber()
-{
-    for (u8 i = 0; i < ALIVE_COUNTOF(mDoveIds); i++)
-    {
-        auto pDove = relive_new Dove(AnimId::Dove_Flying, mXPos, mYPos, mSpriteScale);
-        mDoveIds[i] = pDove->mBaseGameObjectId;
-
-        mDovesExist = 1;
-
-        if (mPortalType == relive::Path_BirdPortal::PortalType::eAbe)
-        {
-            pDove->AsAlmostACircle(mXPos, (mSpriteScale * FP_FromInteger(30)) + mYPos, 42 * i);
-        }
-        else
-        {
-            pDove->AsACircle(mXPos, (mSpriteScale * FP_FromInteger(30)) + mYPos, 42 * i);
-        }
-        pDove->SetSpriteScale(mSpriteScale);
-    }
-
-    if (mPortalType == relive::Path_BirdPortal::PortalType::eShrykull)
-    {
-        const Layer indicatorLayer = mSpriteScale != FP_FromDouble(0.5) ? Layer::eLayer_27 : Layer::eLayer_8;
-        auto pIndicator = relive_new ThrowableTotalIndicator(
-            mXPos,
-            mYPos + FP_FromInteger(10),
-            indicatorLayer,
-            mSpriteScale,
-            mMudCountForShrykull,
-            0);
-        if (pIndicator)
-        {
-            mThrowableIndicatorId = pIndicator->mBaseGameObjectId;
-        }
     }
 }
 

@@ -17,7 +17,7 @@ namespace AO {
 DynamicArrayT<BaseAliveGameObject>* gBaseAliveGameObjects = nullptr;
 
 BaseAliveGameObject::BaseAliveGameObject()
-    : BaseAnimatedWithPhysicsGameObject(0)
+    : IBaseAliveGameObject(0)
 {
     mBaseAliveGameObjectFlags.Clear(Flags_10A::e10A_Bit1_Can_Be_Possessed);
     mBaseAliveGameObjectFlags.Clear(Flags_10A::e10A_Bit2_bPossesed);
@@ -38,13 +38,11 @@ BaseAliveGameObject::BaseAliveGameObject()
     mPreviousMotion = 0;
     mBaseAliveGameObjectLastAnimFrame = 0;
     BaseAliveGameObjectLastLineYPos = FP_FromInteger(0);
-    //field_104_pending_resource_count = 0;
-    
+
     gBaseAliveGameObjects->Push_Back(this);
 
     mBaseGameObjectFlags.Set(Options::eIsBaseAliveGameObject_Bit6);
 }
-
 
 BaseAliveGameObject::~BaseAliveGameObject()
 {
@@ -57,21 +55,7 @@ BaseAliveGameObject::~BaseAliveGameObject()
         mLiftPoint = nullptr;
     }
 
-    /*
-    if (field_104_pending_resource_count)
-    {
-        ResourceManager::WaitForPendingResources_41EA60(this);
-    }*/
-}
 
-void BaseAliveGameObject::VUnPosses()
-{
-    // Empty
-}
-
-void BaseAliveGameObject::VPossessed()
-{
-    // Empty
 }
 
 void BaseAliveGameObject::VSetMotion(s16 state)
@@ -194,17 +178,6 @@ void BaseAliveGameObject::VSetYSpawn(s32 camWorldY, s16 bLeft)
     }
 }
 
-s16 BaseAliveGameObject::VTakeDamage(BaseGameObject* /*pFrom*/)
-{
-    // Defaults to no damage.
-    return 0;
-}
-
-void BaseAliveGameObject::VOnTlvCollision(relive::Path_TLV* /*pTlv*/)
-{
-    // Empty
-}
-
 void BaseAliveGameObject::VCheckCollisionLineStillValid(s32 distance)
 {
     if (BaseAliveGameObjectCollisionLine)
@@ -325,59 +298,6 @@ BirdPortal* BaseAliveGameObject::IntoBirdPortal_402350(s16 distance)
         }
     }
     return nullptr;
-}
-
-
-void BaseAliveGameObject::OnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList)
-{
-    if (pObjList)
-    {
-        for (s32 i = 0; i < pObjList->Size(); i++)
-        {
-            BaseGameObject* pObjIter = pObjList->ItemAt(i);
-            if (!pObjIter)
-            {
-                break;
-            }
-
-            if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5))
-            {
-                if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
-                {
-                    BaseAnimatedWithPhysicsGameObject* pObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObjIter);
-                    const PSX_RECT bRect = pObj->VGetBoundingRect();
-                    if (xy.x <= bRect.w && wh.x >= bRect.x && wh.y >= bRect.y && xy.y <= bRect.h)
-                    {
-                        // NOTE: AO ignored scale here
-                        if (GetGameType() == GameType::eAo || (GetGameType() == GameType::eAe && GetScale() == pObj->GetScale()))
-                        {
-                            if (!VOnPlatformIntersection(pObj))
-                            {
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-void BaseAliveGameObject::VOnTrapDoorOpen()
-{
-    // Empty
-}
-
-s16 BaseAliveGameObject::SetBaseAnimPaletteTint(const TintEntry* pTintArray, EReliveLevelIds level_id, PalId palId)
-{
-    SetTint(pTintArray, level_id); // Actually bugged for inputs that never happen as it should return 0
-
-    if (palId != PalId::Default)
-    {
-        PalResource res = ResourceManagerWrapper::LoadPal(palId);
-        GetAnimation().LoadPal(res);
-    }
-    return 1;
 }
 
 bool BaseAliveGameObject::Check_IsOnEndOfLine(s16 direction, s16 distance)
