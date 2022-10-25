@@ -92,7 +92,7 @@ void FlyingSligSpawner::VUpdate()
         }
         else if (SwitchStates_Get(field_28_spawner_switch_id))
         {
-            auto pFlyingSligTlv = static_cast<relive::Path_FlyingSlig*>(sPathInfo->TLV_Get_At_4DB4B0(
+            auto pFlyingSligTlv = static_cast<relive::Path_FlyingSlig*>(sPathInfo->TLV_Get_At(
                 field_2C_tlv_header->mTopLeftX,
                 field_2C_tlv_header->mTopLeftY,
                 field_2C_tlv_header->mTopLeftX + 25,

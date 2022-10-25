@@ -112,7 +112,7 @@ void ScrabSpawner::VUpdate()
         {
             if (SwitchStates_Get(field_24_spawner_switch_id))
             {
-                auto pTlv = static_cast<relive::Path_ScrabSpawner*>(sPathInfo->TLV_Get_At_4DB4B0(
+                auto pTlv = static_cast<relive::Path_ScrabSpawner*>(sPathInfo->TLV_Get_At(
                     field_28_tlv_data.mTopLeftX,
                     field_28_tlv_data.mTopLeftY,
                     field_28_tlv_data.mTopLeftX,

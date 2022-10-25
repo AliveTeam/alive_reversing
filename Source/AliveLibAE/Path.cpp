@@ -117,7 +117,7 @@ relive::Path_TLV* Path::TLV_First_Of_Type_In_Camera(ReliveTypes objectType, s16 
     return pTlv;
 }
 
-relive::Path_TLV* Path::TLV_Get_At_4DB4B0(s16 xpos, s16 ypos, s16 width, s16 height, ReliveTypes objectType)
+relive::Path_TLV* Path::TLV_Get_At(s16 xpos, s16 ypos, s16 width, s16 height, ReliveTypes objectType)
 {
     // TODO: Can be refactored to use min/max
     s16 right = 0;

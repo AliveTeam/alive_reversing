@@ -126,7 +126,7 @@ void Teleporter::VUpdate()
 
             field_2C_switch_state = SwitchStates_Get(field_34_mTlvData.mSwitchId);
 
-            if (!sPathInfo->TLV_Get_At_4DB4B0(
+            if (!sPathInfo->TLV_Get_At(
                     FP_GetExponent(sControlledCharacter->mXPos),
                     FP_GetExponent(sControlledCharacter->mYPos),
                     FP_GetExponent(sControlledCharacter->mXPos),
@@ -214,7 +214,7 @@ void Teleporter::VUpdate()
 
             gMap.mTeleporterTransition = 1;
 
-            const CameraSwapEffects effect = kPathChangeEffectToInternalScreenChangeEffect_55D55C[field_34_mTlvData.mWipeEffect];
+            const CameraSwapEffects effect = kPathChangeEffectToInternalScreenChangeEffect[field_34_mTlvData.mWipeEffect];
             s16 bForceChange = 0;
             if (effect == CameraSwapEffects::ePlay1FMV_5 || effect == CameraSwapEffects::eUnknown_11)
             {

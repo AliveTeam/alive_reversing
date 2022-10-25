@@ -833,7 +833,7 @@ void Fleech::Motion_11_RaiseHead()
         mVelY = FP_FromInteger(-1);
 
         const s16 yOff = GetSpriteScale() >= FP_FromInteger(1) ? 0 : -10;
-        auto pHoist = static_cast<relive::Path_Hoist*>(sPathInfo->TLV_Get_At_4DB4B0(
+        auto pHoist = static_cast<relive::Path_Hoist*>(sPathInfo->TLV_Get_At(
             field_160_hoistX,
             FP_GetExponent(mYPos - FP_FromInteger((yOff + 20))),
             field_160_hoistX,
@@ -843,7 +843,7 @@ void Fleech::Motion_11_RaiseHead()
         if (pHoist->mHoistType == relive::Path_Hoist::Type::eOffScreen)
         {
             const FP doubleYOff = FP_FromInteger(yOff + 20) * FP_FromInteger(2);
-            pHoist = static_cast<relive::Path_Hoist*>(sPathInfo->TLV_Get_At_4DB4B0(
+            pHoist = static_cast<relive::Path_Hoist*>(sPathInfo->TLV_Get_At(
                 field_160_hoistX,
                 FP_GetExponent(FP_FromInteger(pHoist->mTopLeftY) - doubleYOff),
                 field_160_hoistX,
@@ -2050,7 +2050,7 @@ s16 Fleech::HandleEnemyStopperOrSlamDoor(s32 velX)
         stopperXPos = mXPos;
     }
 
-    auto pStopper = static_cast<relive::Path_EnemyStopper*>(sPathInfo->TLV_Get_At_4DB4B0(
+    auto pStopper = static_cast<relive::Path_EnemyStopper*>(sPathInfo->TLV_Get_At(
         FP_GetExponent(stopperXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(stopperXPos),
@@ -2073,7 +2073,7 @@ s16 Fleech::HandleEnemyStopperOrSlamDoor(s32 velX)
         slamDoorXPos = nextXPos;
     }
 
-    auto pSlamDoor = static_cast<relive::Path_SlamDoor*>(sPathInfo->TLV_Get_At_4DB4B0(
+    auto pSlamDoor = static_cast<relive::Path_SlamDoor*>(sPathInfo->TLV_Get_At(
         FP_GetExponent(slamDoorXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(slamDoorXPos),
@@ -2500,7 +2500,7 @@ relive::Path_Hoist* Fleech::TryGetHoist(s32 xDistance, s16 bIgnoreDirection)
         xCheck = (ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(xDistance)) + xSnapped;
     }
 
-    auto pHoist = static_cast<relive::Path_Hoist*>(sPathInfo->TLV_Get_At_4DB4B0(
+    auto pHoist = static_cast<relive::Path_Hoist*>(sPathInfo->TLV_Get_At(
         FP_GetExponent(std::min(xCheck, mXPos)),
         FP_GetExponent(y2),
         FP_GetExponent(std::max(xCheck, mXPos)),
@@ -3594,7 +3594,7 @@ s16 Fleech::Brain_ChasingAbe_State_1(BaseAliveGameObject* pObj)
                 slamDoorW = xOffset;
             }
 
-            relive::Path_TLV* pSlamDoor = sPathInfo->TLV_Get_At_4DB4B0(
+            relive::Path_TLV* pSlamDoor = sPathInfo->TLV_Get_At(
                 FP_GetExponent(slamDoorX),
                 FP_GetExponent(mYPos),
                 FP_GetExponent(slamDoorW),

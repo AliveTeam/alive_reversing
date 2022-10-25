@@ -5639,7 +5639,7 @@ s16 Paramite::CanIAcceptAGameSpeakCommand()
 
 s16 Paramite::HandleEnemyStopper(s16 numGridBlocks)
 {
-    auto pEnemyStopper = static_cast<relive::Path_EnemyStopper*>(sPathInfo->TLV_Get_At_4DB4B0(
+    auto pEnemyStopper = static_cast<relive::Path_EnemyStopper*>(sPathInfo->TLV_Get_At(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos + (ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(numGridBlocks))),

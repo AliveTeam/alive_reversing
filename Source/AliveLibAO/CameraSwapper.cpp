@@ -67,10 +67,10 @@ CameraSwapper::~CameraSwapper()
         field_24_pSubObject->mBaseGameObjectFlags.Set(Options::eDead);
     }
 
-    if (sMap_bDoPurpleLightEffect_507C9C)
+    if (sMap_bDoPurpleLightEffect)
     {
         gMap.RemoveObjectsWithPurpleLight(0);
-        sMap_bDoPurpleLightEffect_507C9C = FALSE;
+        sMap_bDoPurpleLightEffect = FALSE;
     }
 
     BackgroundMusic::Play();

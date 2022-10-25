@@ -1505,7 +1505,7 @@ s16 Scrab::Brain_ChasingEnemy_State_2_Running(BaseAliveGameObject* pObj)
     if (xPosition < 6
         && Check_IsOnEndOfLine(mVelX < FP_FromInteger(0), 1)
         && ((pObj->mYPos - mYPos < FP_FromInteger(5))
-            || sPathInfo->TLV_Get_At_4DB4B0(
+            || sPathInfo->TLV_Get_At(
                 FP_GetExponent(mXPos + xOffset),
                 FP_GetExponent(mYPos + FP_FromInteger(10)),
                 FP_GetExponent(mXPos + xOffset),
@@ -4221,7 +4221,7 @@ s16 Scrab::Handle_SlamDoor_or_EnemyStopper(FP velX, s16 bCheckLeftRightBounds)
         return 1;
     }
 
-    BaseAliveGameObjectPathTLV = sPathInfo->TLV_Get_At_4DB4B0(
+    BaseAliveGameObjectPathTLV = sPathInfo->TLV_Get_At(
         FP_GetExponent(mXPos),
         FP_GetExponent(FP_Abs(mYPos)),
         FP_GetExponent(mXPos + gridSize),
@@ -4234,7 +4234,7 @@ s16 Scrab::Handle_SlamDoor_or_EnemyStopper(FP velX, s16 bCheckLeftRightBounds)
         return 1;
     }
 
-    BaseAliveGameObjectPathTLV = sPathInfo->TLV_Get_At_4DB4B0(
+    BaseAliveGameObjectPathTLV = sPathInfo->TLV_Get_At(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos + gridSize),
@@ -4249,7 +4249,7 @@ s16 Scrab::Handle_SlamDoor_or_EnemyStopper(FP velX, s16 bCheckLeftRightBounds)
 
     if (bCheckLeftRightBounds)
     {
-        if (sPathInfo->TLV_Get_At_4DB4B0(
+        if (sPathInfo->TLV_Get_At(
                 FP_GetExponent(mXPos),
                 FP_GetExponent(FP_Abs(mYPos)),
                 FP_GetExponent(mXPos + gridSize),

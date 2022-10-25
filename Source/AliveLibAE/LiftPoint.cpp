@@ -910,7 +910,7 @@ LiftPoint::~LiftPoint()
 
     Path::TLV_Reset(mPlatformBaseTlvInfo, -1, 0, 0);
 
-    relive::Path_TLV* pTlv = sPathInfo->TLV_Get_At_4DB4B0(
+    relive::Path_TLV* pTlv = sPathInfo->TLV_Get_At(
         FP_GetExponent(mXPos),
         FP_GetExponent(GetSpriteScale() * FP_FromInteger(30)),
         FP_GetExponent(mXPos),

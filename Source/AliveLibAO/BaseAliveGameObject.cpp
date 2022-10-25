@@ -379,7 +379,7 @@ void BaseAliveGameObject::VOnPathTransition(s16 camWorldX, s32 camWorldY, Camera
             xpos = camWorldX + 524;
             ypos = camWorldY + 70;
             height = camWorldY + 410;
-            mXPos = FP_FromInteger(camWorldX + XGrid_Index_To_XPos(GetSpriteScale(), MaxGridBlocks_41FA10(GetSpriteScale()) - 1));
+            mXPos = FP_FromInteger(camWorldX + XGrid_Index_To_XPos(GetSpriteScale(), MaxGridBlocks(GetSpriteScale()) - 1));
             mYPos = FP_FromInteger(camWorldY + (FP_GetExponent(oldy) % 480));
             break;
 
@@ -536,7 +536,7 @@ s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
                     UsePathTransScale_4020D0();
 
                     // Put at the right side of the camera to the left
-                    const s32 cam1GridBeforeRight = XGrid_Index_To_XPos(GetSpriteScale(), (MaxGridBlocks_41FA10(GetSpriteScale()) - 1));
+                    const s32 cam1GridBeforeRight = XGrid_Index_To_XPos(GetSpriteScale(), (MaxGridBlocks(GetSpriteScale()) - 1));
                     const s32 camRightEdge = x_i - camXIndex - 1024;
                     mXPos = FP_FromInteger(camRightEdge) + FP_FromInteger(cam1GridBeforeRight) + ScaleToGridSize(GetSpriteScale());
 
@@ -592,7 +592,7 @@ s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
             {
                 UsePathTransScale_4020D0();
 
-                const s32 camRightGrid = XGrid_Index_To_XPos(GetSpriteScale(), MaxGridBlocks_41FA10(GetSpriteScale()));
+                const s32 camRightGrid = XGrid_Index_To_XPos(GetSpriteScale(), MaxGridBlocks(GetSpriteScale()));
                 const s32 camRightEdge = x_i - camXIndex - 1024;
                 mXPos = FP_FromInteger(camRightEdge) + FP_FromInteger(camRightGrid) + ScaleToGridSize(GetSpriteScale());
 

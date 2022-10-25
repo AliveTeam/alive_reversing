@@ -854,7 +854,7 @@ void Mudokon::DoPathTrans()
 
     if (sActiveHero->GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        mXPos = FP_FromInteger((camCoords.x + XGrid_Index_To_XPos(GetSpriteScale(), MaxGridBlocks_41FA10(GetSpriteScale())))) + ScaleToGridSize(GetSpriteScale());
+        mXPos = FP_FromInteger((camCoords.x + XGrid_Index_To_XPos(GetSpriteScale(), MaxGridBlocks(GetSpriteScale())))) + ScaleToGridSize(GetSpriteScale());
     }
     else
     {

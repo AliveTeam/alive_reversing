@@ -9084,7 +9084,7 @@ void Abe::Motion_156_DoorEnter()
                 ReliveTypes::eDoor));
             BaseAliveGameObjectPathTLV = pDoorTlv;
             gMap.field_1E_door = 1;
-            const auto changeEffect = kPathChangeEffectToInternalScreenChangeEffect_4CDC78[pDoorTlv->mWipeEffect];
+            const auto changeEffect = kPathChangeEffectToInternalScreenChangeEffect[pDoorTlv->mWipeEffect];
             s16 flag = 0;
             if (changeEffect == CameraSwapEffects::ePlay1FMV_5 || changeEffect == CameraSwapEffects::eUnknown_11)
             {

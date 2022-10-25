@@ -389,7 +389,7 @@ void Meat::VUpdate()
 
                 OnCollisionWith(xy, wh, gBaseGameObjects);
 
-                if (mYPos > FP_FromInteger(gMap.field_D4_pPathData->field_A_bBottom))
+                if (mYPos > FP_FromInteger(gMap.mPathData->field_A_bBottom))
                 {
                     mBaseGameObjectFlags.Set(Options::eDead);
                 }

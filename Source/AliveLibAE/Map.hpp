@@ -79,7 +79,6 @@ public:
     Camera* field_2C_camera_array[5] = {};
     Camera* field_40_stru_5[5] = {};
 
-    s16 field_CC_unused = 0;
     s16 mFreeAllAnimAndPalts = 0;
 
     s16 mCamIdxOnX = 0;
@@ -142,7 +141,7 @@ private:
 };
 
 extern Map gMap;
-extern s16 sMap_bDoPurpleLightEffect_5C311C;
-extern const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect_55D55C[10];
+extern s16 sMap_bDoPurpleLightEffect;
+extern const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect[10];
 
-s32 MaxGridBlocks_449880(FP scale);
+s32 MaxGridBlocks(FP scale);

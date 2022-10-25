@@ -1849,7 +1849,7 @@ void Slig::M_Knockback_34_4B68A0()
             mCurrentMotion = eSligMotions::M_Knockback_34_4B68A0;
             field_12C_timer = sGnFrame + 10;
             if (mYPos - BaseAliveGameObjectLastLineYPos > FP_FromInteger(180)
-                && !sPathInfo->TLV_Get_At_4DB4B0(
+                && !sPathInfo->TLV_Get_At(
                     FP_GetExponent(mXPos),
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos),
@@ -2056,7 +2056,7 @@ void Slig::M_OutToFall_38_4B4570()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (mCurrentMotion == eSligMotions::M_LandingSoft_40_4B4530 && fallDepth > FP_FromInteger(180) && !sPathInfo->TLV_Get_At_4DB4B0(FP_GetExponent(mXPos), FP_GetExponent(mYPos), FP_GetExponent(mXPos), FP_GetExponent(mYPos), ReliveTypes::eSoftLanding))
+    if (mCurrentMotion == eSligMotions::M_LandingSoft_40_4B4530 && fallDepth > FP_FromInteger(180) && !sPathInfo->TLV_Get_At(FP_GetExponent(mXPos), FP_GetExponent(mYPos), FP_GetExponent(mXPos), FP_GetExponent(mYPos), ReliveTypes::eSoftLanding))
     {
         mCurrentMotion = eSligMotions::M_LandingFatal_41_4B4680;
         field_12C_timer = sGnFrame + 30;
@@ -4874,7 +4874,7 @@ void Slig::WakeUp_4B93B0()
     SetBrain(&Slig::Brain_WakingUp_31_4B9390);
 
     MusicController::static_PlayMusic(MusicController::MusicTypes::eTension_4, this, 0, 0);
-    relive::Path_TLV* pTlv = sPathInfo->TLV_Get_At_4DB4B0(
+    relive::Path_TLV* pTlv = sPathInfo->TLV_Get_At(
         mSligTlv.mTopLeftX,
         mSligTlv.mTopLeftY,
         mSligTlv.mTopLeftX,
@@ -6048,7 +6048,7 @@ s16 Slig::HandleEnemyStopper_4BBA00(s32 gridBlocks)
     }
 
     const FP width = ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(directedGirdBlocks) + mXPos;
-    auto pTlv = static_cast<relive::Path_EnemyStopper*>(sPathInfo->TLV_Get_At_4DB4B0(
+    auto pTlv = static_cast<relive::Path_EnemyStopper*>(sPathInfo->TLV_Get_At(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(width),
@@ -6361,7 +6361,7 @@ s16 Slig::IsAbeEnteringDoor_4BB990(BaseAliveGameObject* pThis)
 s16 Slig::FindSwitch_4B9A50()
 {
     const s16 yPos = FP_GetExponent(mYPos - FP_FromInteger(5));
-    if (sPathInfo->TLV_Get_At_4DB4B0(FP_GetExponent(mXPos), yPos, FP_GetExponent(mXPos), yPos, ReliveTypes::eLever))
+    if (sPathInfo->TLV_Get_At(FP_GetExponent(mXPos), yPos, FP_GetExponent(mXPos), yPos, ReliveTypes::eLever))
     {
         return 0;
     }
@@ -6372,7 +6372,7 @@ s16 Slig::FindSwitch_4B9A50()
         xOff = -xOff;
     }
 
-    return sPathInfo->TLV_Get_At_4DB4B0(
+    return sPathInfo->TLV_Get_At(
                FP_GetExponent(FP_Abs(mXPos) + xOff),
                yPos,
                FP_GetExponent(FP_Abs(mXPos) + xOff),

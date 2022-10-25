@@ -63,7 +63,7 @@ enum class CameraSwapEffects : s16
     eUnknown_11 = 11        // Unknown, has special handing in the map object
 };
 
-extern const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect_4CDC78[10];
+extern const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect[10];
 
 class Map final : public IMap
 {
@@ -160,26 +160,25 @@ public:
         eSliceCam_1 = 1,
         eInstantChange_2 = 2
     };
-    CamChangeStates field_6_state = CamChangeStates::eInactive_0;
+    CamChangeStates mCamState = CamChangeStates::eInactive_0;
     s16 field_8_force_load = 0;
 
-    CameraSwapEffects field_10_screenChangeEffect = CameraSwapEffects::eInstantChange_0;
-    s16 field_12_fmv_base_id = 0;
-    MapDirections field_14_direction = MapDirections::eMapLeft_0;
+    CameraSwapEffects mCameraSwapEffect = CameraSwapEffects::eInstantChange_0;
+    s16 mFmvBaseId = 0;
+    MapDirections mMapDirection = MapDirections::eMapLeft_0;
     s16 field_16 = 0;
-    BaseAliveGameObject* field_18_pAliveObj = nullptr;
+    BaseAliveGameObject* mAliveObj = nullptr;
     CameraSwapEffects field_1C_cameraSwapEffect = CameraSwapEffects::eInstantChange_0;
     s16 field_1E_door = 0;
-    s16 field_20_camX_idx = 0;
-    s16 field_22_camY_idx = 0;
+    s16 mCamIdxOnX = 0;
+    s16 mCamIdxOnY = 0;
     u16 field_24_max_cams_x = 0;
     u16 field_26_max_cams_y = 0;
     s16 field_2A = 0;
     FP_Point field_2C_camera_offset = {};
     Camera* field_34_camera_array[5] = {};
     Camera* field_48_stru_5[5] = {};
-    const PathData* field_D4_pPathData = nullptr;
-    s16 field_D8 = 0;
+    const PathData* mPathData = nullptr;
     s16 field_DA_bMapChanged = 0;
     s16 field_DC_free_all_anim_and_palts = 0;
     s16 field_DE = 0;
@@ -190,10 +189,8 @@ public:
 
 
 extern Map gMap;
-extern s16 sMap_bDoPurpleLightEffect_507C9C;
+extern s16 sMap_bDoPurpleLightEffect;
 
-extern Camera* sCameraBeingLoaded_507C98;
-
-s32 MaxGridBlocks_41FA10(FP scale);
+s32 MaxGridBlocks(FP scale);
 
 } // namespace AO

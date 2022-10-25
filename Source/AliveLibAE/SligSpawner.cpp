@@ -98,7 +98,7 @@ void SligSpawner::VUpdate()
     {
         if (SwitchStates_Get(mSligSpawnerSwitchId))
         {
-            relive::Path_TLV* pSpawnerTlv = sPathInfo->TLV_Get_At_4DB4B0(mPathTlv.mTopLeftX, mPathTlv.mTopLeftY, mPathTlv.mTopLeftX, mPathTlv.mTopLeftY, ReliveTypes::eSligSpawner);
+            relive::Path_TLV* pSpawnerTlv = sPathInfo->TLV_Get_At(mPathTlv.mTopLeftX, mPathTlv.mTopLeftY, mPathTlv.mTopLeftX, mPathTlv.mTopLeftY, ReliveTypes::eSligSpawner);
             if (pSpawnerTlv)
             {
                 auto pSligMem = relive_new Slig(static_cast<relive::Path_Slig*>(pSpawnerTlv), mTlvInfo);

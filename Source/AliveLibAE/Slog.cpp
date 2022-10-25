@@ -3457,7 +3457,7 @@ s16 Slog::HandleEnemyStopper()
     }
 
     const auto stopperPath = static_cast<relive::Path_EnemyStopper*>(
-        sPathInfo->TLV_Get_At_4DB4B0(
+        sPathInfo->TLV_Get_At(
             FP_GetExponent(xToUse), FP_GetExponent(mYPos),
             FP_GetExponent(width), FP_GetExponent(mYPos), ReliveTypes::eEnemyStopper));
 

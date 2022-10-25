@@ -72,7 +72,7 @@ s16 BaseAliveGameObject::IsInInvisibleZone(BaseAliveGameObject* pObj)
 
     const PSX_RECT bRect = pObj->VGetBoundingRect();
 
-    relive::Path_TLV* pTlv = sPathInfo->TLV_Get_At_4DB4B0(
+    relive::Path_TLV* pTlv = sPathInfo->TLV_Get_At(
         bRect.x,
         bRect.y,
         bRect.w,
@@ -127,7 +127,7 @@ void BaseAliveGameObject::VOnPathTransition(s16 cameraWorldXPos, s16 cameraWorld
             break;
 
         case CameraPos::eCamLeft_3:
-            mXPos = FP_FromInteger(cameraWorldXPos + (XGrid_Index_To_XPos_4498F0(GetSpriteScale(), MaxGridBlocks_449880(GetSpriteScale()) - 1)));
+            mXPos = FP_FromInteger(cameraWorldXPos + (XGrid_Index_To_XPos_4498F0(GetSpriteScale(), MaxGridBlocks(GetSpriteScale()) - 1)));
             mYPos = FP_FromInteger(cameraWorldYPos + FP_GetExponent(mYPos) % 260);
             break;
 

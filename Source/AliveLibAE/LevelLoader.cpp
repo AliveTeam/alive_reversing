@@ -67,7 +67,7 @@ void LevelLoader::VUpdate()
                         0);
                 }
                 field_22_state = States::eDone_2;
-                sMap_bDoPurpleLightEffect_5C311C = 0;
+                sMap_bDoPurpleLightEffect = 0;
             }
         }
     }

@@ -494,7 +494,7 @@ s16 CrawlingSlig::HandleEnemyStopper(FP /*velX*/)
     }
 
     const FP gridSize = ScaleToGridSize(GetSpriteScale());
-    auto pSlamDoor = static_cast<relive::Path_SlamDoor*>(sPathInfo->TLV_Get_At_4DB4B0(
+    auto pSlamDoor = static_cast<relive::Path_SlamDoor*>(sPathInfo->TLV_Get_At(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos + gridSizeDirected),
@@ -507,7 +507,7 @@ s16 CrawlingSlig::HandleEnemyStopper(FP /*velX*/)
         return 1;
     }
 
-    auto pStopper = static_cast<relive::Path_EnemyStopper*>(sPathInfo->TLV_Get_At_4DB4B0(
+    auto pStopper = static_cast<relive::Path_EnemyStopper*>(sPathInfo->TLV_Get_At(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos + gridSizeDirected),

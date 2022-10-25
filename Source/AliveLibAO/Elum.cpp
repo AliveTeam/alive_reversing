@@ -612,7 +612,7 @@ void Elum::HandleElumPathTrans_411460()
 
     if (sActiveHero->GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        mXPos = ScaleToGridSize(GetSpriteScale()) + FP_FromInteger(camCoords.x + XGrid_Index_To_XPos(GetSpriteScale(), MaxGridBlocks_41FA10(GetSpriteScale())));
+        mXPos = ScaleToGridSize(GetSpriteScale()) + FP_FromInteger(camCoords.x + XGrid_Index_To_XPos(GetSpriteScale(), MaxGridBlocks(GetSpriteScale())));
     }
     else
     {
