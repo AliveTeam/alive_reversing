@@ -110,11 +110,11 @@ static const char_type* sLCDMessageTable_4C7420[90] = {
     "",
     ""};
 
-static const StringTable* sPerLvlMessages[static_cast<u32>(LevelIds::eDesertEscape_15) + 1][99] = {};
+static const StringTable* sPerLvlMessagesLCD[static_cast<u32>(LevelIds::eDesertEscape_15) + 1][99] = {};
 
 void SetLcdMessagesForLvl(const StringTable& msgs, LevelIds lvl, u32 pathId)
 {
-    sPerLvlMessages[static_cast<u32>(lvl)][pathId] = &msgs;
+    sPerLvlMessagesLCD[static_cast<u32>(lvl)][pathId] = &msgs;
 }
 
 class LCDMessages final
@@ -122,7 +122,7 @@ class LCDMessages final
 public:
     const char_type* GetMessage(EReliveLevelIds lvlId, u32 pathId, u32 msgId) const
     {
-        const StringTable* pTable = sPerLvlMessages[static_cast<u32>(MapWrapper::ToAO(lvlId))][pathId];
+        const StringTable* pTable = sPerLvlMessagesLCD[static_cast<u32>(MapWrapper::ToAO(lvlId))][pathId];
         if (pTable && pTable->mStringCount > 0)
         {
             if (msgId < pTable->mStringCount)
