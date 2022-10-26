@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "data_conversion.hpp"
 #include "file_system.hpp"
-#include "camera_converter.hpp"
 #include "../../AliveLibAO/PathData.hpp"
 #include "../../AliveLibAO/Path.hpp"
 #include "../../AliveLibAO/ResourceManager.hpp"

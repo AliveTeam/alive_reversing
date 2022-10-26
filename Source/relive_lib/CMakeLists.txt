@@ -68,8 +68,6 @@ SET(relive_lib_src
     Shadow.cpp
     data_conversion/guid.cpp
     data_conversion/guid.hpp
-    data_conversion/camera_converter.hpp
-    data_conversion/camera_converter.cpp
     data_conversion/data_conversion.hpp
     data_conversion/data_conversion.cpp
     data_conversion/file_system.hpp
