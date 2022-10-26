@@ -54,46 +54,13 @@ public:
         eMapBottom_3 = 3,
     };
 
-    enum class CamChangeStates : s16
-    {
-        eInactive_0 = 0,
-        eSliceCam_1 = 1,
-        eInstantChange_2 = 2
-    };
-    CamChangeStates mCamState = CamChangeStates::eInactive_0;
-    s16 mForceLoad = 0;
-
-    CameraSwapEffects mCameraSwapEffect = CameraSwapEffects::eInstantChange_0;
-    u16 mFmvBaseId = 0;
-
-    MapDirections mMapDirection = MapDirections::eMapLeft_0;
-
-    BaseAliveGameObject* mAliveObj = nullptr;
-
-    CameraSwapEffects mConvertedCameraSwapEffect_NeverRead = CameraSwapEffects::eInstantChange_0;
-    s16 mDoorTransition = 0;
-    s16 mTeleporterTransition = 0;
-
-    FP_Point field_24_camera_offset = {};
-
-    Camera* field_2C_camera_array[5] = {};
-    Camera* field_40_stru_5[5] = {};
-
-    s16 mFreeAllAnimAndPalts = 0;
-
-    s16 mCamIdxOnX = 0;
-    s16 mCamIdxOnY = 0;
-
-    const PathData* mPathData = nullptr;
-    u8* mRestoreQuickSaveData = nullptr;
-
-
     void ScreenChange();
 
     void FreePathResourceBlocks();
     BinaryPath* GetPathResourceBlockPtr(u32 pathId);
     void ClearPathResourceBlocks();
 
+    void GoTo_Camera();
     void RemoveObjectsWithPurpleLight(s16 a2);
     void Handle_PathTransition();
     void Init(EReliveLevelIds level, s16 path, s16 camera, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange);
@@ -101,7 +68,6 @@ public:
     void Reset();
     Map();
     ~Map();
-    void GoTo_Camera();
 
     void Get_map_size(PSX_Point* pPoint);
     void GetCurrentCamCoords(PSX_Point* pPoint);
@@ -136,6 +102,37 @@ private:
 
     void CreateScreenTransistionForTLV(relive::Path_TLV* pTlv);
     void ScreenChange_Common();
+
+public:
+    enum class CamChangeStates : s16
+    {
+        eInactive_0 = 0,
+        eSliceCam_1 = 1,
+        eInstantChange_2 = 2
+    };
+    CamChangeStates mCamState = CamChangeStates::eInactive_0;
+    s16 mForceLoad = 0;
+
+    CameraSwapEffects mCameraSwapEffect = CameraSwapEffects::eInstantChange_0;
+    u16 mFmvBaseId = 0;
+    MapDirections mMapDirection = MapDirections::eMapLeft_0;
+    BaseAliveGameObject* mAliveObj = nullptr;
+    CameraSwapEffects mConvertedCameraSwapEffect_NeverRead = CameraSwapEffects::eInstantChange_0;
+    s16 mDoorTransition = 0;
+    s16 mTeleporterTransition = 0;
+
+    FP_Point field_24_camera_offset = {};
+
+    Camera* field_2C_camera_array[5] = {};
+    Camera* field_40_stru_5[5] = {};
+
+    s16 mFreeAllAnimAndPalts = 0;
+
+    s16 mCamIdxOnX = 0;
+    s16 mCamIdxOnY = 0;
+
+    const PathData* mPathData = nullptr;
+    u8* mRestoreQuickSaveData = nullptr;
 
     std::vector<std::unique_ptr<BinaryPath>> mLoadedPaths;
 };

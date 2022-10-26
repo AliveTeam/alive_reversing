@@ -161,12 +161,11 @@ public:
         eInstantChange_2 = 2
     };
     CamChangeStates mCamState = CamChangeStates::eInactive_0;
-    s16 field_8_force_load = 0;
+    s16 mForceLoad = 0;
 
     CameraSwapEffects mCameraSwapEffect = CameraSwapEffects::eInstantChange_0;
     s16 mFmvBaseId = 0;
     MapDirections mMapDirection = MapDirections::eMapLeft_0;
-    s16 field_16 = 0;
     BaseAliveGameObject* mAliveObj = nullptr;
     CameraSwapEffects field_1C_cameraSwapEffect = CameraSwapEffects::eInstantChange_0;
     s16 field_1E_door = 0;
