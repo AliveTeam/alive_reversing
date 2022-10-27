@@ -185,7 +185,7 @@ std::vector<u8> PNGFile::Encode(const u32* pixelData, u32 width, u32 height)
     spng_ihdr header = {};
     header.width = width;
     header.height = height;
-    header.color_type = SPNG_FMT_RGB8;
+    header.color_type = SPNG_COLOR_TYPE_TRUECOLOR_ALPHA;
     header.bit_depth = 8;
     api.SetHeader(header);
 

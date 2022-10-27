@@ -25,7 +25,7 @@ void RGB565ToPngBuffer(const u16* camBuffer, std::vector<u8>& outPngData)
     {
         for (u32 x = 0; x < 640; x++)
         {
-            tmpBuffer->dst[y][x] = RGBConversion::RGB565ToRGB888(*camBuffer);
+            tmpBuffer->dst[y][x] = RGBConversion::RGB565ToRGB888(*camBuffer) | (0xFF << 24);
             camBuffer++;
         }
     }
