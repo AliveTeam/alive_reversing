@@ -13,14 +13,6 @@ struct AnimationHeader;
 struct FrameHeader;
 struct FrameInfoHeader;
 
-// TODO: Should be its own  file
-class TgaFile final
-{
-public:
-    void Load(const char_type* pFileName, AnimationPal& pal256, std::vector<u8>& pixelData, u32& width, u32& height);
-    void Save(const char_type* pFileName, const AnimationPal& pal256, const std::vector<u8>& pixelData, u32 width, u32 height);
-};
-
 class AnimationConverter final
 {
 public:

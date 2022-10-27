@@ -48,7 +48,12 @@ const std::string& FileSystem::Path::GetPath() const
 bool FileSystem::Save(const FileSystem::Path& path, const std::vector<u8>& data)
 {
     CreateDirectory(path.Parent());
-    FILE* pFile = ::fopen(path.GetPath().c_str(), "wb");
+    return Save(path.GetPath().c_str(), data);
+}
+
+bool FileSystem::Save(const char_type* path, const std::vector<u8>& data)
+{
+    FILE* pFile = ::fopen(path, "wb");
     if (pFile)
     {
         ::fwrite(data.data(), 1, data.size(), pFile);

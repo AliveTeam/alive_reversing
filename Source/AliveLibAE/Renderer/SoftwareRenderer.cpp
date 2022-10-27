@@ -5,7 +5,7 @@
 #include "../relive_lib/VRam.hpp"
 
 #include "../relive_lib/Animation.hpp"
-
+#include "../relive_lib/data_conversion/rgb_conversion.hpp"
 #include "../Font.hpp"
 
 #include "../AliveLibCommon/FatalError.hpp"
@@ -15,27 +15,6 @@ void set_pixel(SDL_Surface* surface, int x, int y, u32 pixel)
 {
     Uint8* target_pixel = (Uint8*) surface->pixels + y * surface->pitch + x * sizeof(u32);
     *(u32*) target_pixel = pixel;
-}
-
-static u32 RGBA555ToRGBA888(u16 pixel)
-{
-    const u8 r5 = ((pixel >> 10) & 0x1F);
-    const u8 g5 = ((pixel >> 5) & 0x1F);
-    const u8 b5 = (pixel & 0x1F);
-    bool bSemi = (pixel >> 15) & 0x1;
-
-    const u32 r8 = ((r5 * 527) + 23) >> 6;
-    const u32 g8 = ((g5 * 527) + 23) >> 6;
-    const u32 b8 = ((b5 * 527) + 23) >> 6;
-    u32 a8 = bSemi ? 127 : 255;
-
-    if (!bSemi && r5 == 0 && g5 == 0 && b5 == 0)
-    {
-        a8 = 0;
-    }
-
-    const u32 rgb888 = (a8 << 24) | (b8 << 16) | (g8 << 8) | r8;
-    return rgb888;
 }
 
 void SoftwareRenderer::Destroy()
@@ -184,7 +163,7 @@ static SDL_Texture* MakeGasTexture(SDL_Renderer* pRender, const u16* pPixels, u3
     {
         for (u32 x = 0; x < w; x++)
         {
-            set_pixel(surface, x, y, RGBA555ToRGBA888(pPixels[i++]));
+            set_pixel(surface, x, y, RGBConversion::RGBA555ToRGBA888(pPixels[i++]));
         }
     }
     SDL_UnlockSurface(surface);
@@ -404,7 +383,7 @@ static SDL_Texture* MakeTexture(SDL_Renderer* pRender, const u16* pPal, const u8
     for (u32 i = 0; i < 255; i++)
     {
         const u16 oldPixel = pPal[i];
-        pal[i] = RGBA555ToRGBA888(oldPixel);
+        pal[i] = RGBConversion::RGBA555ToRGBA888(oldPixel);
     }
 
     SDL_Surface* surface = SDL_CreateRGBSurfaceWithFormat(0,

@@ -8,24 +8,10 @@
 #include "Base64.hpp"
 #include "JsonModelTypes.hpp"
 #include "ApiFG1Reader.hpp"
-#include <lodepng/lodepng.h>
+#include "../../relive_lib/data_conversion/rgb_conversion.hpp"
+#include "../../relive_lib/data_conversion/PNGFile.hpp"
 
 namespace ReliveAPI {
-
-
-static u32 RGB565ToRGB888(u16 pixel)
-{
-    const u8 r5 = ((pixel >> 11) & 0x1F);
-    const u8 g6 = ((pixel >> 5) & 0x3F);
-    const u8 b5 = (pixel & 0x1F);
-
-    const u32 r8 = ((r5 * 527) + 23) >> 6;
-    const u32 g8 = ((g6 * 259) + 33) >> 6;
-    const u32 b8 = ((b5 * 527) + 23) >> 6;
-
-    const u32 rgb888 = (b8 << 16) | (g8 << 8) | r8;
-    return rgb888;
-}
 
 struct TmpBuffer final
 {
@@ -39,27 +25,13 @@ void RGB565ToPngBuffer(const u16* camBuffer, std::vector<u8>& outPngData)
     {
         for (u32 x = 0; x < 640; x++)
         {
-            tmpBuffer->dst[y][x] = RGB565ToRGB888(*camBuffer);
+            tmpBuffer->dst[y][x] = RGBConversion::RGB565ToRGB888(*camBuffer);
             camBuffer++;
         }
     }
 
-    // we're going to encode with a state rather than a convenient function, because enforcing a color type requires setting options
-    lodepng::State state;
-    // input color type
-    state.info_raw.colortype = LCT_RGBA;
-    state.info_raw.bitdepth = 8;
-
-    // output color type
-    state.info_png.color.colortype = LCT_RGB;
-    state.info_png.color.bitdepth = 8;
-    state.encoder.auto_convert = 0; // without this, it would ignore the output color type specified above and choose an optimal one instead
-
-    const auto error = lodepng::encode(outPngData, reinterpret_cast<const u8*>(&tmpBuffer->dst[0][0]), 640, 240, state);
-    if (error)
-    {
-        std::cout << "encoder error " << error << ": " << lodepng_error_text(error) << std::endl;
-    }
+    PNGFile png;
+    outPngData = png.Encode(&tmpBuffer->dst[0][0], 640, 240);
 }
 
 std::string RGB565ToBase64PngString(const u16* pRgb565Buffer)
@@ -177,7 +149,8 @@ std::pair<std::unique_ptr<ApiFG1Reader>, u32> CamConverter::Convert(const Chunke
         auto pixels = isAO ? StitchAOCamera(*bitsRes) : StitchAECamera(*bitsRes);
         std::vector<u8> outPngData;
         RGB565ToPngBuffer(pixels.data(), outPngData);
-        lodepng::save_file(outPngData, baseName + ".png");
+        FileSystem fs;
+        fs.Save((baseName + ".png").c_str(), outPngData);
 
         auto reader = MergeFG1Blocks(camFile, isAO ? BaseFG1Reader::FG1Format::AO : BaseFG1Reader::FG1Format::AE);
         if (reader)

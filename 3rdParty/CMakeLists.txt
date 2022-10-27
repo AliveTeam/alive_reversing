@@ -18,11 +18,6 @@ target_include_directories(EasyLogging++ SYSTEM PUBLIC
 set_property(TARGET EasyLogging++ PROPERTY FOLDER "3rdParty")
 export(TARGETS EasyLogging++ FILE EasyLogging++.cmake)
 
-# DxOld lib
-add_library(DxOld INTERFACE)
-target_include_directories(DxOld SYSTEM INTERFACE DxOld/)
-export(TARGETS DxOld FILE DxOld.cmake)
-
 # googletest lib
 add_library(googletest
     googletest/googletest/src/gtest-all.cc
@@ -84,3 +79,38 @@ target_include_directories(glm SYSTEM INTERFACE
     ${CMAKE_CURRENT_SOURCE_DIR}/glm>
     )
 export(TARGETS glm FILE glm.cmake)
+
+# miniz lib
+add_library(miniz
+    miniz/miniz.c
+    miniz/miniz.h
+    )
+
+target_include_directories(miniz SYSTEM PUBLIC
+    $<BUILD_INTERFACE:
+    ${CMAKE_CURRENT_SOURCE_DIR}/miniz;
+    $<INSTALL_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/miniz>
+    )
+
+export(TARGETS miniz FILE miniz.cmake)
+set_property(TARGET miniz PROPERTY FOLDER "3rdParty")
+
+# spng lib
+add_library(spng
+    libspng/spng/spng.c
+    libspng/spng/spng.h
+    )
+
+target_compile_definitions(spng PRIVATE SPNG_USE_MINIZ)
+target_compile_definitions(spng PRIVATE SPNG_STATIC)
+target_compile_definitions(spng PUBLIC SPNG_STATIC)
+
+target_include_directories(spng SYSTEM PUBLIC
+    $<BUILD_INTERFACE:
+    ${CMAKE_CURRENT_SOURCE_DIR}/libspng;
+    ${CMAKE_CURRENT_SOURCE_DIR}/miniz;
+    $<INSTALL_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/libspng>
+    )
+
+export(TARGETS spng FILE spng.cmake)
+set_property(TARGET spng PROPERTY FOLDER "3rdParty")

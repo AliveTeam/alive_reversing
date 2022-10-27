@@ -23,6 +23,7 @@
 #include "relive_tlvs_conversion.hpp"
 #include "Collisions.hpp"
 #include "AnimConversionInfo.hpp"
+#include "PNGFile.hpp"
 
 #define MAGIC_ENUM_RANGE_MIN 0
 #define MAGIC_ENUM_RANGE_MAX 1000
@@ -1467,13 +1468,13 @@ static void ConvertFont(const FileSystem::Path& dataDir, const std::string& file
      FileSystem::Path path = dataDir;
      if (isPauseMenuFont)
      {
-         path.Append("pause_menu_font.tga");
+         path.Append("pause_menu_font.png");
      }
      else
      {
-         path.Append("lcd_font.tga");
+         path.Append("lcd_font.png");
      }
-     TgaFile tga;
+     PNGFile png;
      AnimationPal pal = {};
 
      for (s32 i = 0; i < 16; i++)
@@ -1492,7 +1493,7 @@ static void ConvertFont(const FileSystem::Path& dataDir, const std::string& file
          newData[dst++] = ((fontFile->field_28_pixel_buffer[src++] & 0xF0) >> 4);
      }
 
-     tga.Save(path.GetPath().c_str(), pal, newData, fontFile->mWidth, fontFile->mHeight);
+     png.Save(path.GetPath().c_str(), pal, newData, fontFile->mWidth, fontFile->mHeight);
 
      // TODO: Dump out the atlas for each char
 }
@@ -1520,7 +1521,7 @@ static void ConvertFilesInLvl(const FileSystem::Path& dataDir, FileSystem& fs, R
                     ConvertFont(dataDir, fileName, lvlReader, fileBuffer, true);
                 }
 
-                //ConvertCamera(dataDir, fileName, fs, fileBuffer, lvlReader, lvlIdxAsLvl);
+                ConvertCamera(dataDir, fileName, fs, fileBuffer, lvlReader, lvlIdxAsLvl);
             }
             else if (endsWith(fileName, ".JOY"))
             {

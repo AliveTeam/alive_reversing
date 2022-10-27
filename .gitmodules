@@ -1,6 +1,3 @@
-[submodule "3rdParty/Detours"]
-	path = 3rdParty/Detours
-	url = https://github.com/paulsapps/Detours.git
 [submodule "3rdParty/googletest"]
 	path = 3rdParty/googletest
 	url = https://github.com/google/googletest.git
@@ -16,12 +13,9 @@
 [submodule "3rdParty/imgui"]
 	path = 3rdParty/imgui
 	url = https://github.com/ocornut/imgui.git
-[submodule "3rdParty/lodepng"]
-	path = 3rdParty/lodepng
-	url = https://github.com/lvandeve/lodepng.git
-[submodule "3rdParty/fluidsynth-lite"]
-	path = 3rdParty/fluidsynth-lite
-	url = https://github.com/AliveTeam/fluidsynth-lite.git
 [submodule "3rdParty/json"]
 	path = 3rdParty/json
 	url = https://github.com/nlohmann/json.git
+[submodule "3rdParty/libspng"]
+	path = 3rdParty/libspng
+	url = https://github.com/randy408/libspng.git

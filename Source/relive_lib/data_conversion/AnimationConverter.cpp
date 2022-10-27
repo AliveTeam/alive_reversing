@@ -6,6 +6,7 @@
 #include "../PsxDisplay.hpp" // PsxToPCX
 #include "ResourceManagerWrapper.hpp"
 #include "Animation.hpp"
+#include "PNGFile.hpp"
 
 inline void to_json(nlohmann::json& j, const Point32& p)
 {
@@ -55,129 +56,6 @@ inline void to_json(nlohmann::json& j, const AnimAttributes& p)
         {"max_height", p.mMaxHeight},
     };
 }
-
-
-// TODO: Should be its own  file 
-void TgaFile::Load(const char_type* pFileName, AnimationPal& pal256, std::vector<u8>& pixelData, u32& width, u32& height)
-{
-    AutoFILE f;
-    f.Open(pFileName, "rb", false);
-
-    u8 mIdLength = 0;
-    u8 mColourMapType = 0; // Pal based TGA
-    u8 mImageType = 0;     // Pal based TGA
-
-    f.Read(mIdLength);
-    f.Read(mColourMapType);
-    if (mColourMapType != 1)
-    {
-        // TODO: error
-    }
-
-    f.Read(mImageType);
-    if (mImageType != 1)
-    {
-        // TODO: error
-    }
-
-    // Colour Map
-    u16 mFirstEntry = 0;
-    u16 mNumEntries = 0;
-    u8 mBitsPerEntry = 0;
-    f.Read(mFirstEntry);
-
-
-    f.Read(mNumEntries);
-    if (mNumEntries != 256)
-    {
-
-    }
-
-    f.Read(mBitsPerEntry);
-    if (mBitsPerEntry != 16)
-    {
-
-    }
-
-
-    u16 mXOrigin = 0;
-    u16 mYOrigin = 0;
-    u16 mWidth = 0;
-    u16 mHeight = 0;
-    u8 mBitsPerPixel = 0;
-    u8 mDescriptor = 0;
-    f.Read(mXOrigin);
-    f.Read(mYOrigin);
-    f.Read(mWidth);
-    f.Read(mHeight);
-    f.Read(mBitsPerPixel);
-    if (mBitsPerPixel != 8)
-    {
-
-    }
-
-    f.Read(mDescriptor);
-    if (mDescriptor != 0x20)
-    {
-
-    }
-
-    height = mHeight;
-    width = mWidth;
-
-    // TODO: Array read
-    std::vector<u8> pal;
-    pal.resize(256 * 2);
-    f.Read(pal);
-    memcpy(pal256.mPal, pal.data(), 256 * 2);
-
-
-    pixelData.resize(mWidth*mHeight * (mBitsPerPixel / 8));
-    f.Read(pixelData);
-}
-
-void TgaFile::Save(const char_type* pFileName, const AnimationPal& pal256, const std::vector<u8>& pixelData, u32 width, u32 height)
-{
-    // The TGA header uses a var length id string which means we can't just use
-    // a struct to represent it since the alignment is not fixed until after this field.
-    AutoFILE f;
-    f.Open(pFileName, "wb", false);
-
-    u8 mIdLength = 0;
-    u8 mColourMapType = 1; // Pal based TGA
-    u8 mImageType = 1;     // Pal based TGA
-
-    f.Write(mIdLength);
-    f.Write(mColourMapType);
-    f.Write(mImageType);
-
-    // Colour Map
-    u16 mFirstEntry = 0;
-    u16 mNumEntries = 256;
-    u8 mBitsPerEntry = 16;
-    f.Write(mFirstEntry);
-    f.Write(mNumEntries);
-    f.Write(mBitsPerEntry);
-
-    u16 mXOrigin = 0;
-    u16 mYOrigin = 0;
-    u16 mWidth = static_cast<u16>(width);
-    u16 mHeight = static_cast<u16>(height);
-    u8 mBitsPerPixel = 8;
-    u8 mDescriptor = 0x20; // 0x30
-    f.Write(mXOrigin);
-    f.Write(mYOrigin);
-    f.Write(mWidth);
-    f.Write(mHeight);
-    f.Write(mBitsPerPixel);
-    f.Write(mDescriptor);
-
-    f.Write(reinterpret_cast<const u8*>(&pal256.mPal[0]), sizeof(u16) * 256);
-
-    // Write pixel data
-    f.Write(pixelData);
-}
-
 
 AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const AnimRecord& rec, const std::vector<u8>& fileData, bool isAoData)
     : mFileData(fileData)
@@ -318,8 +196,8 @@ AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const
         decompressionBuffer.resize(decompressionBufferSize);
     }
 
-    TgaFile tgaFile;
-    tgaFile.Save((outputFile.GetPath() + ".tga").c_str(), pal, spriteSheetBuffer, sheetWidth, bestMaxSize.mMaxH);
+    PNGFile pngFile;
+    pngFile.Save((outputFile.GetPath() + ".png").c_str(), pal, spriteSheetBuffer, sheetWidth, bestMaxSize.mMaxH);
 
     // Write json file
     AnimAttributes attributes = {};

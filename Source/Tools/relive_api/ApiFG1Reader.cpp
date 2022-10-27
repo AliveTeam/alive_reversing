@@ -2,7 +2,7 @@
 #include "JsonModelTypes.hpp"
 #include "Base64.hpp"
 #include "CamConverter.hpp"
-#include <lodepng/lodepng.h>
+#include "../../relive_lib/data_conversion/file_system.hpp"
 
 namespace ReliveAPI {
 
@@ -125,29 +125,30 @@ void ApiFG1Reader::LayersToPng(CameraImageAndLayers& outData)
 
 void ApiFG1Reader::DebugSave(const std::string& prefix, const CameraImageAndLayers& outData)
 {
+    FileSystem fs;
     if (!outData.mCameraImage.empty())
     {
-        lodepng::save_file(FromBase64(outData.mCameraImage), prefix + "_cam.png");
+        fs.Save((prefix + "_cam.png").c_str(), FromBase64(outData.mCameraImage));
     }
 
     if (!outData.mBackgroundLayer.empty())
     {
-        lodepng::save_file(FromBase64(outData.mBackgroundLayer), prefix + "_bg.png");
+        fs.Save((prefix + "_bg.png").c_str(), FromBase64(outData.mBackgroundLayer));
     }
 
     if (!outData.mForegroundLayer.empty())
     {
-        lodepng::save_file(FromBase64(outData.mForegroundLayer), prefix + "_fg.png");
+        fs.Save((prefix + "_fg.png").c_str(), FromBase64(outData.mForegroundLayer));
     }
 
     if (!outData.mBackgroundWellLayer.empty())
     {
-        lodepng::save_file(FromBase64(outData.mBackgroundWellLayer), prefix + "_bg_well.png");
+        fs.Save((prefix + "_bg_well.png").c_str(), FromBase64(outData.mBackgroundWellLayer));
     }
 
     if (!outData.mForegroundWellLayer.empty())
     {
-        lodepng::save_file(FromBase64(outData.mForegroundWellLayer), prefix + "_fg_well.png");
+        fs.Save((prefix + "_fg_well.png").c_str(), FromBase64(outData.mForegroundWellLayer));
     }
 }
 
@@ -159,7 +160,8 @@ void ApiFG1Reader::SaveAsPng(const std::string& baseName)
         {
             std::vector<u8> outPngData;
             RGB565ToPngBuffer(&mFg1Buffers->mFg1[i][0][0], outPngData);
-            lodepng::save_file(outPngData, baseName + NameForLayer(i) + ".png");
+            FileSystem fs;
+            fs.Save((baseName + NameForLayer(i) + ".png").c_str(), outPngData);
         }
     }
 }
@@ -167,8 +169,8 @@ void ApiFG1Reader::SaveAsPng(const std::string& baseName)
 static void FileToBase64(std::string& outData, const std::string& pngFileName)
 {
     std::vector<u8> rawPngData;
-    auto err = lodepng::load_file(rawPngData, pngFileName);
-    if (!err)
+    FileSystem fs;
+    if (fs.LoadToVec(pngFileName.c_str(), rawPngData))
     {
         outData = ToBase64(rawPngData);
     }

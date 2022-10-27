@@ -4,6 +4,7 @@
 #include <array>
 #include <assert.h>
 #include "FatalError.hpp"
+#include "../relive_lib/data_conversion/rgb_conversion.hpp"
 
 Movie_IO sMovie_IO_BBB314 = {};
 
@@ -1183,19 +1184,6 @@ void Masher::SetElement(s32 x, s32 y, s32 width, s32 height, u16* ptr, u16 value
     }
 }
 
-uint16_t Masher::rgb888torgb565(Macroblock_RGB_Struct& rgb888Pixel)
-{
-    uint8_t red = rgb888Pixel.Red;
-    uint8_t green = rgb888Pixel.Green;
-    uint8_t blue = rgb888Pixel.Blue;
-
-    uint16_t b = (blue >> 3) & 0x1f;
-    uint16_t g = ((green >> 2) & 0x3f) << 5;
-    uint16_t r = ((red >> 3) & 0x1f) << 11;
-
-    return static_cast<uint16_t>(r | g | b);
-}
-
 void Masher::ConvertYuvToRgbAndBlit(u16* pixelBuffer, s32 xoff, s32 yoff, s32 width, s32 height, bool doubleWidth, bool doubleHeight)
 {
     // convert the Y1 Y2 Y3 Y4 and Cb and Cr blocks into a 16x16 array of (Y, Cb, Cr) pixels
@@ -1245,11 +1233,11 @@ void Masher::ConvertYuvToRgbAndBlit(u16* pixelBuffer, s32 xoff, s32 yoff, s32 wi
             Macroblock_RGB[x][y].Blue = Clamp(b);
 
             // Due to macro block padding this can be out of bounds
-            s32 xpos = x + xoff;
-            s32 ypos = y + yoff;
+            const s32 xpos = x + xoff;
+            const s32 ypos = y + yoff;
             if (xpos < width && ypos < height)
             {
-                u16 pixel16Value = rgb888torgb565(Macroblock_RGB[x][y]);
+                const u16 pixel16Value = RGBConversion::RGB888ToRGB565(Macroblock_RGB[x][y].Red, Macroblock_RGB[x][y].Green, Macroblock_RGB[x][y].Blue);
                 // Actually is no alpha in FMVs
                 // pixelValue = (pixelValue << 8) + Macroblock_RGB[x][y].A
                 SetElement(xpos, ypos, width, height, pixelBuffer, pixel16Value, doubleWidth, doubleHeight);

@@ -118,8 +118,6 @@ private:
 
     static void SetElement(s32 x, s32 y, s32 width, s32 height, u16* ptr, u16 value, bool doubleWidth, bool doubleHeight);
 
-    static uint16_t rgb888torgb565(Macroblock_RGB_Struct& rgb888Pixel);
-
     static void ConvertYuvToRgbAndBlit(u16* pixelBuffer, s32 xoff, s32 yoff, s32 width, s32 height, bool doubleWidth, bool doubleHeight);
 
 

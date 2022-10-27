@@ -7,24 +7,11 @@ endif()
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# lodepng lib, defined here as its the only project that uses it and so that
-# users of relive_api don't need to build the whole of relive.
-add_library(lodepng_reliveapi
-    ../../../3rdParty/lodepng/lodepng.cpp
-    ../../../3rdParty/lodepng/lodepng.h
-    )
-
-target_include_directories(lodepng_reliveapi SYSTEM PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../../../3rdParty>
-    $<INSTALL_INTERFACE:lodepng>)
-set_property(TARGET lodepng_reliveapi PROPERTY FOLDER "ReliveAPI")
-
-export(TARGETS lodepng_reliveapi FILE lodepng_reliveapi.cmake)
-
 # jsonxx lib, ditto defining here for relive_api upstream editor projects
 add_library(jsonxx_reliveapi ../../../3rdParty/jsonxx/jsonxx.cc)
 target_include_directories(jsonxx_reliveapi SYSTEM PUBLIC
     $<BUILD_INTERFACE:
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../../3rdParty
     ${CMAKE_CURRENT_SOURCE_DIR}/../../../3rdParty/json/single_include
     ${CMAKE_CURRENT_SOURCE_DIR}/../../../3rdParty/jsonxx>)
 export(TARGETS jsonxx_reliveapi FILE jsonxx_reliveapi.cmake)
@@ -152,12 +139,11 @@ set(relive_api_src
 )
 add_library(relive_api ${relive_api_src})
 target_link_libraries(relive_api 
-    jsonxx_reliveapi
-    lodepng_reliveapi
     easylogging_reliveapi
     AliveLibCommon_reliveapi
     AliveLibAO_reliveapi
-    AliveLibAE_reliveapi)
+    AliveLibAE_reliveapi
+    jsonxx_reliveapi)
 set_property(TARGET relive_api PROPERTY FOLDER "ReliveAPI")
 export(TARGETS relive_api FILE relive_api.cmake)
 

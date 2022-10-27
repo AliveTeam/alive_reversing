@@ -1,16 +1,5 @@
 project(relive_lib VERSION 0.1 LANGUAGES CXX)
 
-add_library(lodepng_relivelib
-    ../../3rdParty/lodepng/lodepng.cpp
-    ../../3rdParty/lodepng/lodepng.h
-    )
-target_include_directories(lodepng_relivelib SYSTEM PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../../3rdParty>
-    $<INSTALL_INTERFACE:lodepng>)
-set_property(TARGET lodepng_relivelib PROPERTY FOLDER "3rdParty")
-
-export(TARGETS lodepng_relivelib FILE lodepng_relivelib.cmake)
-
 SET(relive_lib_src
     # temp hack to use these bits of the api for the data conversion
     ../Tools/relive_api/Base64.cpp
@@ -81,6 +70,8 @@ SET(relive_lib_src
     data_conversion/PathTlvsAO.hpp
     data_conversion/AnimConversionInfo.hpp
     data_conversion/AnimConversionInfo.cpp
+    data_conversion/PNGFile.hpp
+    data_conversion/PNGFile.cpp
     Layer.hpp
     stdafx.h
     ObjectTypes.hpp
@@ -96,6 +87,7 @@ endif()
 target_include_directories(relive_lib PUBLIC
     $<BUILD_INTERFACE:
     ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../3rdParty
     ${CMAKE_CURRENT_SOURCE_DIR}/../../3rdParty/json/single_include>
     $<INSTALL_INTERFACE:include>
     PRIVATE src ${CMAKE_BINARY_DIR})
@@ -118,9 +110,10 @@ target_compile_features(relive_lib
     PRIVATE cxx_variadic_templates)
 
 target_link_libraries(relive_lib
-    lodepng_relivelib
     EasyLogging++
     project_warnings
+    spng
+    miniz
     )
 
 export(TARGETS relive_lib FILE relive_lib.cmake)

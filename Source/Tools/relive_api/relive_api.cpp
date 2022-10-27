@@ -19,12 +19,13 @@
 #include "ApiContext.hpp"
 #include "../../AliveLibCommon/FG1Reader.hpp"
 #include "../../AliveLibCommon/PathDataExtensionsTypes.hpp"
+#include "../../relive_lib/data_conversion/rgb_conversion.hpp"
+#include "../../relive_lib/data_conversion/PNGFile.hpp"
 #include <iostream>
 #include <gmock/gmock.h>
 #include <type_traits>
 #include <typeindex>
 #include <sstream>
-#include <lodepng/lodepng.h>
 
 bool RunningAsInjectedDll()
 {
@@ -332,31 +333,15 @@ static void WriteCollisionLine(ByteStream& s, const ::PathLineAE& line)
     s.Write(line.field_12_line_length);
 }
 
-static u16 RGB888ToRGB565(const u8* rgb888Pixel)
-{
-    const u8 red = rgb888Pixel[0];
-    const u8 green = rgb888Pixel[1];
-    const u8 blue = rgb888Pixel[2];
-
-    const u16 b = (blue >> 3) & 0x1f;
-    const u16 g = ((green >> 2) & 0x3f) << 5;
-    const u16 r = ((red >> 3) & 0x1f) << 11;
-
-    return (r | g | b);
-}
-
 static std::vector<u8> Base64Png2RawPixels(const std::string& base64EncodedPng)
 {
     unsigned width = 0;
     unsigned height = 0;
     std::vector<u8> rawPixels;
     std::vector<u8> pngData = FromBase64(base64EncodedPng);
-    const auto error = lodepng::decode(rawPixels, width, height, pngData, LCT_RGBA, 8);
-    if (error)
-    {
-        // todo: throw
-    }
 
+    PNGFile png;
+    png.Decode(pngData, rawPixels, width, height);
     if (width != 640 || height != 240)
     {
         // todo: throw
@@ -400,7 +385,7 @@ static u32 MakeFG1Layer(std::stringstream& byteStream, const std::vector<u8>& ra
                 for (u32 y = 0; y < 16; y++)
                 {
                     const u32* pPixel32 = &reinterpret_cast<const u32*>(rawPixels.data())[To1dIndex(640, x + (blockX * 32), y + (blockY * 16))];
-                    if (RGB888ToRGB565(reinterpret_cast<const u8*>(pPixel32)) != 0)
+                    if (RGBConversion::RGB888ToRGB565(reinterpret_cast<const u8*>(pPixel32)) != 0)
                     {
                         whitePixelCount++;
                         bitMaskData[y] |= (1 << x);
@@ -1126,7 +1111,7 @@ void ImportCameraAndFG1(std::vector<u8>& fileDataBuffer, LvlWriter& inputLvl, co
         for (u32 y = 0; y < 240; y++)
         {
             const u32* pPixel32 = &reinterpret_cast<const u32*>(rawPixels.data())[To1dIndex(640, x, y)];
-            bitsData->SetPixel(x, y, RGB888ToRGB565(reinterpret_cast<const u8*>(pPixel32)));
+            bitsData->SetPixel(x, y, RGBConversion::RGB888ToRGB565(reinterpret_cast<const u8*>(pPixel32)));
         }
     }
 

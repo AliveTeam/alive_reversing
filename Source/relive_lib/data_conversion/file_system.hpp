@@ -20,6 +20,7 @@ public:
     };
 
     bool Save(const Path& path, const std::vector<u8>& data);
+    bool Save(const char_type* path, const std::vector<u8>& data);
 
     std::string LoadToString(const Path& path);
 

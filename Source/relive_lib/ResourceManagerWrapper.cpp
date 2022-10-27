@@ -9,6 +9,7 @@
 
 #include "data_conversion/data_conversion.hpp"
 #include "data_conversion/AnimConversionInfo.hpp"
+#include "data_conversion/PNGFile.hpp"
 
 #include "BinaryPath.hpp"
 #include "../AliveLibCommon/BaseGameAutoPlayer.hpp"
@@ -18,8 +19,6 @@
 #define MAGIC_ENUM_RANGE_MIN 0
 #define MAGIC_ENUM_RANGE_MAX 1000
 #include <magic_enum/include/magic_enum.hpp>
-
-#include <lodepng/lodepng.h>
 
 u32 UniqueResId::mGlobalId = 1;
 std::vector<PendingResource> ResourceManagerWrapper::mFilesPendingLoading;
@@ -140,9 +139,9 @@ AnimResource ResourceManagerWrapper::LoadAnimation(AnimId anim)
 
     // TODO: Use FS
     auto pTgaData = std::make_shared<TgaData>();
-    TgaFile tgaFile;
+    PNGFile pngFile;
     pTgaData->mPal = std::make_shared<AnimationPal>();
-    tgaFile.Load((filePath.GetPath() + ".tga").c_str(), *pTgaData->mPal, pTgaData->mPixels, pTgaData->mWidth, pTgaData->mHeight);
+    pngFile.Load((filePath.GetPath() + ".png").c_str(), *pTgaData->mPal, pTgaData->mPixels, pTgaData->mWidth, pTgaData->mHeight);
 
     auto pAnimationAttributesAndFrames = std::make_shared<AnimationAttributesAndFrames>(jsonStr);
 
@@ -208,15 +207,15 @@ static RgbaData LoadPng(const std::string& filePath)
     std::vector<u8> vec;
     unsigned int w = 0;
     unsigned int h = 0;
-    if (!lodepng::decode(vec, w, h, filePath))
-    { 
-        RgbaData data;
-        data.mWidth = w;
-        data.mHeight = h;
-        data.mPixels = std::make_shared<std::vector<u8>>(std::move(vec));
-        return data;
-    }
-    return {};
+    PNGFile png;
+
+    png.Load(filePath.c_str(), vec, w, h);
+
+    RgbaData data;
+    data.mWidth = w;
+    data.mHeight = h;
+    data.mPixels = std::make_shared<std::vector<u8>>(std::move(vec));
+    return data;
 }
 
 CamResource ResourceManagerWrapper::LoadCam(EReliveLevelIds lvlId, u32 pathNumber, u32 camNumber)
@@ -293,9 +292,9 @@ FontResource ResourceManagerWrapper::LoadFont(FontType fontId)
 
     // TODO: Use FS
     auto pTgaData = std::make_shared<TgaData>();
-    TgaFile tgaFile;
+    PNGFile pngFile;
     pTgaData->mPal = std::make_shared<AnimationPal>();
-    tgaFile.Load((filePath.GetPath() + ".tga").c_str(), *pTgaData->mPal, pTgaData->mPixels, pTgaData->mWidth, pTgaData->mHeight);
+    pngFile.Load((filePath.GetPath() + ".png").c_str(), *pTgaData->mPal, pTgaData->mPixels, pTgaData->mWidth, pTgaData->mHeight);
 
     FontResource newRes(fontId, pTgaData);
 
