@@ -202,7 +202,7 @@ std::vector<u8> PNGFile::Encode(const u32* pixelData, u32 width, u32 height)
 }
 
 
-void PNGFile::Decode(const std::vector<u8>& pngData, std::vector<u8> rawPixels, u32& width, u32& height)
+void PNGFile::Decode(const std::vector<u8>& pngData, std::vector<u8>& rawPixels, u32& width, u32& height)
 {
     PngApi api(PngContext::CtxType::Decode);
 
