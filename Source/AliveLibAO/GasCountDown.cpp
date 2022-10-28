@@ -14,8 +14,8 @@
 
 namespace AO {
 
-s32 sGasTimer_507700 = 0;
-s16 gGasOn_4FF888 = 0;
+s32 sGasTimer = 0;
+s16 gGasOn = 0;
 
 GasCountDown::GasCountDown(relive::Path_GasCountDown* pTlv, const Guid& tlvId)
     : BaseGameObject(TRUE, 0)
@@ -29,7 +29,7 @@ GasCountDown::GasCountDown(relive::Path_GasCountDown* pTlv, const Guid& tlvId)
     mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
     gObjListDrawables->Push_Back(this);
 
-    gGasOn_4FF888 = 0;
+    gGasOn = 0;
 
     field_62_time_left = 120;
 
@@ -51,7 +51,7 @@ void GasCountDown::VScreenChanged()
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath)
     {
-        sGasTimer_507700 = 0;
+        sGasTimer = 0;
     }
 }
 
@@ -64,18 +64,18 @@ void GasCountDown::VUpdate()
 
     if (EventGet(kEventDeathResetEnd))
     {
-        sGasTimer_507700 = 0;
-        gGasOn_4FF888 = 0;
+        sGasTimer = 0;
+        gGasOn = 0;
     }
 
     // Enable
-    if (!sGasTimer_507700 && SwitchStates_Get(field_60_start_switch_id) && !SwitchStates_Get(70))
+    if (!sGasTimer && SwitchStates_Get(field_60_start_switch_id) && !SwitchStates_Get(70))
     {
-        sGasTimer_507700 = sGnFrame;
+        sGasTimer = sGnFrame;
         relive_new Alarm(3600, 0, 0, Layer::eLayer_Above_FG1_39);
     }
 
-    if (!sGasTimer_507700)
+    if (!sGasTimer)
     {
         // Off/idle
         field_62_time_left = 120;
@@ -85,17 +85,17 @@ void GasCountDown::VUpdate()
         // Running
         if (SwitchStates_Get(70))
         {
-            sGasTimer_507700 = 0;
+            sGasTimer = 0;
             return;
         }
 
         if (EventGet(kEventResetting))
         {
-            sGasTimer_507700++;
+            sGasTimer++;
         }
 
         const s32 oldTimer = field_62_time_left;
-        const s32 newTimer = 120 - (static_cast<s32>(sGnFrame) - sGasTimer_507700) / 30;
+        const s32 newTimer = 120 - (static_cast<s32>(sGnFrame) - sGasTimer) / 30;
         field_62_time_left = static_cast<s16>(newTimer);
         if (oldTimer != field_62_time_left && field_62_time_left > 0)
         {
@@ -130,9 +130,9 @@ void GasCountDown::DealDamage()
         field_62_time_left = 0;
     }
 
-    if (!gGasOn_4FF888 && field_62_time_left <= 0)
+    if (!gGasOn && field_62_time_left <= 0)
     {
-        gGasOn_4FF888 = TRUE;
+        gGasOn = TRUE;
         relive_new DeathGas(Layer::eLayer_Above_FG1_39, 2);
     }
 }

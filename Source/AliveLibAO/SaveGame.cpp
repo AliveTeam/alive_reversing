@@ -12,9 +12,9 @@
 
 namespace AO {
 
-extern s32 sGasTimer_507700;
-extern s16 sRescuedMudokons_5076C0;
-extern s16 sKilledMudokons_5076BC;
+extern s32 sGasTimer;
+extern s16 sRescuedMudokons;
+extern s16 sKilledMudokons;
 Save_PSX_Header sSaveHeader2_4CF2B0 = {};
 Save_PSX_Header sSaveHeader1_4BC250 = {};
 u16 bUseAltSaveHeader_5076B4 = 0;
@@ -82,8 +82,8 @@ void SaveGame::LoadFromMemory(SaveData* pData, s32 bKillObjects)
     sActiveHero->field_168_ring_pulse_timer = pData->field_254_ring_pulse_timer;
     sActiveHero->field_16C_bHaveShrykull = pData->field_258_bHaveShrykull;
 
-    sRescuedMudokons_5076C0 = pData->field_2A0_rescued_mudokons;
-    sKilledMudokons_5076BC = pData->field_2A2_killed_mudokons;
+    sRescuedMudokons = pData->field_2A0_rescued_mudokons;
+    sKilledMudokons = pData->field_2A2_killed_mudokons;
 
     gRestartRuptureFarmsSavedMuds_5076C8 = pData->field_2A4_restartRuptureFarmsSavedMudokons;
     gRestartRuptureFarmsKilledMuds_5076C4 = pData->field_2A6_restartRuptureFarmsKilledMudokons;
@@ -127,11 +127,11 @@ void SaveGame::LoadFromMemory(SaveData* pData, s32 bKillObjects)
 
     if (pData->field_2A8_gasTimer)
     {
-        sGasTimer_507700 = sGnFrame - pData->field_2A8_gasTimer;
+        sGasTimer = sGnFrame - pData->field_2A8_gasTimer;
     }
     else
     {
-        sGasTimer_507700 = 0;
+        sGasTimer = 0;
     }
 
     sActiveHero->field_2AC_pSaveData = pData;
@@ -357,12 +357,12 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
     pSaveData->field_214_saved_path = sActiveHero->mContinuePath;
     pSaveData->field_254_ring_pulse_timer = sActiveHero->field_168_ring_pulse_timer;
     pSaveData->field_218_saved_sprite_scale = sActiveHero->mContinueSpriteScale;
-    pSaveData->field_2A0_rescued_mudokons = sRescuedMudokons_5076C0;
+    pSaveData->field_2A0_rescued_mudokons = sRescuedMudokons;
     pSaveData->field_220_bSavedHaveShrykull = sActiveHero->field_154_bSavedHaveShrykull;
     pSaveData->field_2A4_restartRuptureFarmsSavedMudokons = gRestartRuptureFarmsSavedMuds_5076C8;
     pSaveData->field_258_bHaveShrykull = sActiveHero->field_16C_bHaveShrykull;
     pSaveData->field_236_current_path = gMap.mCurrentPath;
-    pSaveData->field_2A2_killed_mudokons = sKilledMudokons_5076BC;
+    pSaveData->field_2A2_killed_mudokons = sKilledMudokons;
     pSaveData->field_238_current_camera = gMap.mCurrentCamera;
     pSaveData->field_2A6_restartRuptureFarmsKilledMudokons = gRestartRuptureFarmsKilledMuds_5076C4;
     pSaveData->field_240_last_anim_frame = static_cast<u16>(sActiveHero->GetAnimation().GetCurrentFrame());
@@ -423,9 +423,9 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
         pSaveData->field_28A_elum_Falling = gElum->field_170_flags.Get(Elum::Flags_170::eFalling_Bit3);
         pSaveData->field_28B_elum_FoundHoney = gElum->field_170_flags.Get(Elum::Flags_170::eFoundHoney_Bit4);
     }
-    if (sGasTimer_507700)
+    if (sGasTimer)
     {
-        pSaveData->field_2A8_gasTimer = (sGnFrame - sGasTimer_507700 <= 1) ? 1 : sGnFrame - sGasTimer_507700;
+        pSaveData->field_2A8_gasTimer = (sGnFrame - sGasTimer <= 1) ? 1 : sGnFrame - sGasTimer;
     }
     else
     {

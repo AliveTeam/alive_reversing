@@ -33,11 +33,9 @@
 #include "PathDataExtensions.hpp"
 #include "GameAutoPlayer.hpp"
 #include "../AliveLibAE/VGA.hpp"
+#include "GasCountDown.hpp"
 
 namespace AO {
-
-DynamicArrayT<BaseGameObject>* gPlatformsArray = nullptr;
-
 
 s16 gbKillUnsavedMudsDone_5076CC = 0;
 
@@ -96,8 +94,12 @@ static void Main_ParseCommandLineArguments(const char_type* pCommandLine)
 
 void Init_GameStates()
 {
-    sKilledMudokons_5076BC = gRestartRuptureFarmsKilledMuds_5076C4;
-    sRescuedMudokons_5076C0 = gRestartRuptureFarmsSavedMuds_5076C8;
+    sKilledMudokons = gRestartRuptureFarmsKilledMuds_5076C4;
+    sRescuedMudokons = gRestartRuptureFarmsSavedMuds_5076C8;
+
+    gGasOn = 0;
+    sGasTimer = 0;
+
     gSwitchStates = {};
     gOldKilledMuds_5076D0 = 0;
     gOldSavedMuds_5076D4 = 0;

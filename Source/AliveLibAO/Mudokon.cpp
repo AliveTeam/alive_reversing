@@ -355,7 +355,7 @@ Mudokon::~Mudokon()
 {
     if (mHealth <= FP_FromInteger(0))
     {
-        sKilledMudokons_5076BC++;
+        sKilledMudokons++;
     }
 
     RemoveAlerted();
@@ -2237,7 +2237,7 @@ void Mudokon::Motion_44_RunJumpMid()
 
         relive_new MusicTrigger(relive::Path_MusicTrigger::MusicTriggerMusicType::eChime, relive::Path_MusicTrigger::TriggeredBy::eTimer, 0, 300);
 
-        sRescuedMudokons_5076C0++;
+        sRescuedMudokons++;
 
         if (field_1AC_pBirdPortal)
         {

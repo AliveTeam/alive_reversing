@@ -78,10 +78,10 @@ void GameEnderController::VUpdate()
                         }
                     }
 
-                    if (sRescuedMudokons_5076C0 >= Path_GoodEndingMuds(gMap.mCurrentLevel, gMap.mCurrentPath))
+                    if (sRescuedMudokons >= Path_GoodEndingMuds(gMap.mCurrentLevel, gMap.mCurrentPath))
                     {
                         // Stop the death timer
-                        sGasTimer_507700 = 0;
+                        sGasTimer = 0;
 
                         gInfiniteGrenades = 0;
                         gRestartRuptureFarmsKilledMuds_5076C4 = 0;
@@ -93,7 +93,7 @@ void GameEnderController::VUpdate()
                             gPauseMenu = nullptr;
                         }
 
-                        if (sRescuedMudokons_5076C0 >= Path_GetTotalMuds(gMap.mCurrentLevel, gMap.mCurrentPath))
+                        if (sRescuedMudokons >= Path_GetTotalMuds(gMap.mCurrentLevel, gMap.mCurrentPath))
                         {
                             // Perfect ending
                             sActiveHero->mBaseGameObjectFlags.Set(Options::eDead);
@@ -109,7 +109,7 @@ void GameEnderController::VUpdate()
                     }
                     else
                     {
-                        if (sKilledMudokons_5076BC >= Path_BadEndingMuds(gMap.mCurrentLevel, gMap.mCurrentPath))
+                        if (sKilledMudokons >= Path_BadEndingMuds(gMap.mCurrentLevel, gMap.mCurrentPath))
                         {
                             // Very bad ending
                             gInfiniteGrenades = TRUE;
@@ -123,8 +123,8 @@ void GameEnderController::VUpdate()
                                 }
                             }
 
-                            sKilledMudokons_5076BC = gRestartRuptureFarmsKilledMuds_5076C4;
-                            sRescuedMudokons_5076C0 = gRestartRuptureFarmsSavedMuds_5076C8;
+                            sKilledMudokons = gRestartRuptureFarmsKilledMuds_5076C4;
+                            sRescuedMudokons = gRestartRuptureFarmsSavedMuds_5076C8;
                             sActiveHero->mBaseGameObjectFlags.Set(Options::eDead);
 
                             gMap.SetActiveCam(EReliveLevelIds::eBoardRoom, 6, 9, CameraSwapEffects::eUnknown_11, 304, 0);
@@ -140,8 +140,8 @@ void GameEnderController::VUpdate()
 
                             gMap.SetActiveCam(EReliveLevelIds::eBoardRoom, 6, 10, CameraSwapEffects::eUnknown_11, 304, 0);
                             field_14_state = GameEnderController_States::eBadEnding_3;
-                            sRescuedMudokons_5076C0 = gRestartRuptureFarmsSavedMuds_5076C8;
-                            sKilledMudokons_5076BC = gRestartRuptureFarmsKilledMuds_5076C4;
+                            sRescuedMudokons = gRestartRuptureFarmsSavedMuds_5076C8;
+                            sKilledMudokons = gRestartRuptureFarmsKilledMuds_5076C4;
                         }
                     }
                 }

@@ -1125,8 +1125,8 @@ void PauseMenu::VUpdate()
                     }
                 }
 
-                sprintf(sPauseMenu_Of300Mudokons_55E718, "%d OF %d MUDOKONS", sRescuedMudokons_5C1BC2, Path_GetTotalMuds(gMap.mCurrentLevel, gMap.mCurrentPath));
-                sprintf(sHasBeenTerminated_55E738, "%d HA%s BEEN TERMINATED", sKilledMudokons_5C1BC0, (sKilledMudokons_5C1BC0 != 1) ? "VE" : "S");
+                sprintf(sPauseMenu_Of300Mudokons_55E718, "%d OF %d MUDOKONS", sRescuedMudokons, Path_GetTotalMuds(gMap.mCurrentLevel, gMap.mCurrentPath));
+                sprintf(sHasBeenTerminated_55E738, "%d HA%s BEEN TERMINATED", sKilledMudokons, (sKilledMudokons != 1) ? "VE" : "S");
 
                 if (sActiveHero->field_128.mMood == Mud_Emotion::eNormal_0)
                 {

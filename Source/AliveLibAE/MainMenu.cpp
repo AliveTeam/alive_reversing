@@ -578,8 +578,8 @@ MainMenuController::MainMenuController(relive::Path_TLV* /*pTlv*/, const Guid& t
 
     sEnableCheatFMV_5C1BEC = 0;
     sEnableCheatLevelSelect_5C1BEE = 0;
-    sKilledMudokons_5C1BC0 = 0;
-    sRescuedMudokons_5C1BC2 = 0;
+    sKilledMudokons = 0;
+    sRescuedMudokons = 0;
     gAttract = 0;
     sSavedKilledMudsPerZulag_5C1B50.mData[ALIVE_COUNTOF(sSavedKilledMudsPerZulag_5C1B50.mData) - 1] = 0;
     sFeeco_Restart_KilledMudCount_5C1BC6 = 0;

@@ -705,8 +705,8 @@ Menu::Menu(relive::Path_TLV* /*pTlv*/, const Guid& tlvId)
     gVoiceCheat = 0;
     gEnableCheatFMV = 0;
     gEnableCheatLevelSelect = 0;
-    sKilledMudokons_5076BC = 0;
-    sRescuedMudokons_5076C0 = 0;
+    sKilledMudokons = 0;
+    sRescuedMudokons = 0;
     gRestartRuptureFarmsKilledMuds_5076C4 = 0;
     gRestartRuptureFarmsSavedMuds_5076C8 = 0;
 

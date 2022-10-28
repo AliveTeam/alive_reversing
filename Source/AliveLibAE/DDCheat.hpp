@@ -97,8 +97,8 @@ private:
 
 extern bool sDDCheat_FlyingEnabled_5C2C08;
 
-extern s16 sRescuedMudokons_5C1BC2;
-extern s16 sKilledMudokons_5C1BC0;
+extern s16 sRescuedMudokons;
+extern s16 sKilledMudokons;
 
 extern s32 sTweakX_5C1BD0;
 extern s32 sTweakY_5C1BD4;

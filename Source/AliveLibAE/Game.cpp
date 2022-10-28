@@ -190,11 +190,11 @@ static void Main_ParseCommandLineArguments(const char_type* pCommandLine)
 
 void Init_GameStates()
 {
-    sKilledMudokons_5C1BC0 = sFeeco_Restart_KilledMudCount_5C1BC6;
-    sRescuedMudokons_5C1BC2 = sFeecoRestart_SavedMudCount_5C1BC8;
+    sKilledMudokons = sFeeco_Restart_KilledMudCount_5C1BC6;
+    sRescuedMudokons = sFeecoRestart_SavedMudCount_5C1BC8;
 
-    gGasOn_5C1C00 = 0;
-    sGasTimer_5C1BE8 = 0;
+    gGasOn = 0;
+    sGasTimer = 0;
 
     gbDrawMeterCountDown_5C1BF8 = FALSE;
     gTotalMeterBars_5C1BFA = 0;

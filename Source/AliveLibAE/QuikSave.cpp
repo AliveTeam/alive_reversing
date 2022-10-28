@@ -512,12 +512,12 @@ void Quicksave_ReadWorldInfo(const Quicksave_WorldInfo* pInfo)
 
     sActiveHero->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eRestoredFromQuickSave);
     sZulagNumber_5C1A20 = pInfo->field_2C_current_zulag_number;
-    sKilledMudokons_5C1BC0 = pInfo->field_14_killed_muds;
-    sRescuedMudokons_5C1BC2 = pInfo->field_12_saved_muds;
+    sKilledMudokons = pInfo->field_14_killed_muds;
+    sRescuedMudokons = pInfo->field_12_saved_muds;
     sMudokonsInArea_5C1BC4 = pInfo->field_16_muds_in_area; // TODO: Check types
     gTotalMeterBars_5C1BFA = pInfo->field_2D_total_meter_bars;
     gbDrawMeterCountDown_5C1BF8 = pInfo->field_30_bDrawMeterCountDown;
-    sGasTimer_5C1BE8 = pInfo->field_38_gas_timer;
+    sGasTimer = pInfo->field_38_gas_timer;
     gAbeBulletProof_5C1BDA = pInfo->field_3C_bBulletProof;
     sVisitedBonewerks_5C1C02 = pInfo->field_32_visited_bonewerks;
     sVisitedBarracks_5C1C04 = pInfo->field_34_visited_barracks;
@@ -543,8 +543,8 @@ void Quicksave_SaveWorldInfo(Quicksave_WorldInfo* pInfo)
     pInfo->field_17_last_saved_killed_muds_per_path = sSavedKilledMudsPerZulag_5C1B50.mData[ALIVE_COUNTOF(sSavedKilledMudsPerZulag_5C1B50.mData) - 1];
 
     pInfo->field_2C_current_zulag_number = sZulagNumber_5C1A20;
-    pInfo->field_12_saved_muds = sRescuedMudokons_5C1BC2;
-    pInfo->field_14_killed_muds = sKilledMudokons_5C1BC0;
+    pInfo->field_12_saved_muds = sRescuedMudokons;
+    pInfo->field_14_killed_muds = sKilledMudokons;
     pInfo->field_16_muds_in_area = static_cast<s8>(sMudokonsInArea_5C1BC4); // TODO: Check types
     pInfo->field_2D_total_meter_bars = gTotalMeterBars_5C1BFA;
     pInfo->field_30_bDrawMeterCountDown = gbDrawMeterCountDown_5C1BF8;
@@ -552,7 +552,7 @@ void Quicksave_SaveWorldInfo(Quicksave_WorldInfo* pInfo)
     pInfo->field_32_visited_bonewerks = sVisitedBonewerks_5C1C02;
     pInfo->field_34_visited_barracks = sVisitedBarracks_5C1C04;
     pInfo->field_36_visited_feeco_ender = sVisitedFeecoEnder_5C1C06;
-    pInfo->field_38_gas_timer = sGasTimer_5C1BE8;
+    pInfo->field_38_gas_timer = sGasTimer;
     pInfo->field_C_controlled_x = FP_GetExponent(sControlledCharacter->mXPos);
     pInfo->field_E_controlled_y = rect.h;
     pInfo->field_10_controlled_scale = sControlledCharacter->GetSpriteScale() == FP_FromDouble(1.0);

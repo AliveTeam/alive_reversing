@@ -62,7 +62,7 @@ void GameEnderController::VScreenChanged()
 {
     if (field_24_state != GameEnderController_States::eInit_0)
     {
-        if (sRescuedMudokons_5C1BC2 < 150)
+        if (sRescuedMudokons < 150)
         {
             SwitchStates_Set(100u, 0);
         }
@@ -118,7 +118,7 @@ void GameEnderController::VUpdate()
                     sActiveHero->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 
                     // Good ending
-                    if (sRescuedMudokons_5C1BC2 >= Path_GoodEndingMuds(gMap.mCurrentLevel, gMap.mCurrentPath))
+                    if (sRescuedMudokons >= Path_GoodEndingMuds(gMap.mCurrentLevel, gMap.mCurrentPath))
                     {
                         gAbeBulletProof_5C1BDA = 0;
                         sFeeco_Restart_KilledMudCount_5C1BC6 = 0;
@@ -130,7 +130,7 @@ void GameEnderController::VUpdate()
                             gPauseMenu = nullptr;
                         }
 
-                        if (sRescuedMudokons_5C1BC2 >= Path_GetTotalMuds(gMap.mCurrentLevel, gMap.mCurrentPath))
+                        if (sRescuedMudokons >= Path_GetTotalMuds(gMap.mCurrentLevel, gMap.mCurrentPath))
                         {
                             // Perfect ending
                             gMap.SetActiveCam(EReliveLevelIds::eBrewery_Ender, 1, 17, CameraSwapEffects::eUnknown_11, 17, 0);
@@ -145,7 +145,7 @@ void GameEnderController::VUpdate()
                     }
                     else
                     {
-                        if (sKilledMudokons_5C1BC0 >= Path_BadEndingMuds(gMap.mCurrentLevel, gMap.mCurrentPath))
+                        if (sKilledMudokons >= Path_BadEndingMuds(gMap.mCurrentLevel, gMap.mCurrentPath))
                         {
                             // Very bad ending
                             gAbeBulletProof_5C1BDA = TRUE;
@@ -158,8 +158,8 @@ void GameEnderController::VUpdate()
                             gAbeBulletProof_5C1BDA = FALSE;
                             gMap.SetActiveCam(EReliveLevelIds::eBrewery_Ender, 1, 16, CameraSwapEffects::eUnknown_11, 18, 0);
                             field_24_state = GameEnderController_States::eBadEnding_3;
-                            sRescuedMudokons_5C1BC2 = sFeecoRestart_SavedMudCount_5C1BC8;
-                            sKilledMudokons_5C1BC0 = sFeeco_Restart_KilledMudCount_5C1BC6;
+                            sRescuedMudokons = sFeecoRestart_SavedMudCount_5C1BC8;
+                            sKilledMudokons = sFeeco_Restart_KilledMudCount_5C1BC6;
                         }
                         sVisitedBonewerks_5C1C02 = FALSE;
                         sVisitedBarracks_5C1C04 = FALSE;

@@ -52,7 +52,7 @@ void LCDStatusBoard::VUpdate()
 void LCDStatusBoard::VRender(PrimHeader** ppOt)
 {
     char_type text[12] = {};
-    sprintf(text, "%02d", Path_GetTotalMuds(gMap.mCurrentLevel, gMap.mCurrentPath) - sRescuedMudokons_5076C0 - sKilledMudokons_5076BC);
+    sprintf(text, "%02d", Path_GetTotalMuds(gMap.mCurrentLevel, gMap.mCurrentPath) - sRescuedMudokons - sKilledMudokons);
 
     const s16 w1 = static_cast<s16>(field_90_font3.MeasureTextWidth(text));
     const s16 colourRange = sDisableFontFlicker ? 0 : 50;
@@ -74,7 +74,7 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
         w1 + field_CC_xpos,
         colourRange);
 
-    sprintf(text, "%02d", sKilledMudokons_5076BC);
+    sprintf(text, "%02d", sKilledMudokons);
     const s16 w2 = static_cast<s16>(field_20_font1.MeasureTextWidth(text));
     field_20_font1.DrawString(
         ppOt,
@@ -93,7 +93,7 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
         w2 + field_CC_xpos,
         colourRange);
 
-    sprintf(text, "%02d", sRescuedMudokons_5076C0);
+    sprintf(text, "%02d", sRescuedMudokons);
     s16 w3 = static_cast<s16>(field_58_font2.MeasureTextWidth(text));
     field_58_font2.DrawString(
         ppOt,

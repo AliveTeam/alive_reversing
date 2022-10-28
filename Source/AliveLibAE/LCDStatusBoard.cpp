@@ -111,7 +111,7 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
         maxWidth = std::max(font4Width, maxWidth);
 
         // Saved Mudokons
-        sprintf(text, "%3d", sRescuedMudokons_5C1BC2);
+        sprintf(text, "%3d", sRescuedMudokons);
         const s32 font2Width = field_58_font2.MeasureTextWidth(text);
         field_58_font2.DrawString(
             ppOt,
@@ -132,7 +132,7 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
         maxWidth = std::max(font2Width, maxWidth);
 
         // Killed mudokons
-        sprintf(text, "%3d", sKilledMudokons_5C1BC0);
+        sprintf(text, "%3d", sKilledMudokons);
         const s32 font1Width = field_20_font1.MeasureTextWidth(text);
         field_20_font1.DrawString(
             ppOt,

@@ -9,6 +9,8 @@ class AnimationBase;
 
 extern u32 sGnFrame; // NOTE: Points to AE copy till moved to common lib
 
+extern DynamicArrayT<BaseGameObject>* gPlatformsArray;
+
 namespace AO {
 
 
@@ -25,7 +27,6 @@ extern s16 gOldSavedMuds_5076D4;
 extern s16 gbKillUnsavedMudsDone_5076CC;
 
 
-extern DynamicArrayT<::BaseGameObject>* gPlatformsArray;
 
 void Init_GameStates();
 

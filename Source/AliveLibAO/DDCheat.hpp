@@ -76,8 +76,8 @@ public:
 extern s32 gTweakX;
 extern s32 gTweakY;
 
-extern s16 sRescuedMudokons_5076C0;
-extern s16 sKilledMudokons_5076BC;
+extern s16 sRescuedMudokons;
+extern s16 sKilledMudokons;
 extern s16 showDebugCreatureInfo_5076E0;
 extern s16 sDDCheat_FlyingEnabled_50771C;
 

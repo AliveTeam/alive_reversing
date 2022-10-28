@@ -60,7 +60,7 @@ GasEmitter::GasEmitter(relive::Path_GasEmitter* pTlv, const Guid& tlvId)
 
 void GasEmitter::VUpdate()
 {
-    if (gGasOn_4FF888 && !(sGnFrame + field_14_emit_power % 4))
+    if (gGasOn && !(sGnFrame + field_14_emit_power % 4))
     {
         New_Smoke_Particles(field_18_xpos, field_1C_ypos, field_20_fp_not_used, 3, RGB16{ 32, 128, 32 });
 

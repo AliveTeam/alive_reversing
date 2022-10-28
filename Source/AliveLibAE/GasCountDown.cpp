@@ -10,8 +10,8 @@
 #include "DeathGas.hpp"
 #include "Path.hpp"
 
-s32 sGasTimer_5C1BE8 = 0;
-s16 gGasOn_5C1C00 = 0;
+s32 sGasTimer = 0;
+s16 gGasOn = 0;
 
 GasCountDown::GasCountDown(relive::Path_GasCountDown* pTlv, const Guid& tlvInfo)
     : BaseGameObject(TRUE, 0)
@@ -28,15 +28,15 @@ GasCountDown::GasCountDown(relive::Path_GasCountDown* pTlv, const Guid& tlvInfo)
     field_6C_xpos = FP_GetExponent(FP_FromInteger(pTlv->mTopLeftX) - pScreenManager->CamXPos());
     field_6E_ypos = FP_GetExponent(FP_FromInteger(pTlv->mTopLeftY) - pScreenManager->CamYPos());
 
-    gGasOn_5C1C00 = 0;
+    gGasOn = 0;
 
     field_70_start_timer_switch_id = pTlv->mStartTimerSwitchId;
     field_76_gas_countdown_timer = pTlv->mGasCountdownTimer;
     field_72_stop_timer_switch_id = pTlv->mStopTimerSwitchId;
 
-    if (sGasTimer_5C1BE8)
+    if (sGasTimer)
     {
-        field_74_time_left = static_cast<s16>((field_76_gas_countdown_timer - (sGnFrame - sGasTimer_5C1BE8)) / 30);
+        field_74_time_left = static_cast<s16>((field_76_gas_countdown_timer - (sGnFrame - sGasTimer)) / 30);
         if (field_74_time_left < 0)
         {
             field_74_time_left = 0;
@@ -61,7 +61,7 @@ void GasCountDown::VScreenChanged()
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath)
     {
-        sGasTimer_5C1BE8 = 0;
+        sGasTimer = 0;
     }
 }
 
@@ -112,9 +112,9 @@ void GasCountDown::DealDamage()
         field_74_time_left = 0;
     }
 
-    if (!gGasOn_5C1C00 && field_74_time_left <= 0)
+    if (!gGasOn && field_74_time_left <= 0)
     {
-        gGasOn_5C1C00 = TRUE;
+        gGasOn = TRUE;
         if (!gDeathGasCount_5BD24C)
         {
             relive_new DeathGas(Layer::eLayer_Above_FG1_39, 2);
@@ -131,19 +131,19 @@ void GasCountDown::VUpdate()
 
     if (EventGet(kEventDeathResetEnd))
     {
-        sGasTimer_5C1BE8 = 0;
-        gGasOn_5C1C00 = FALSE;
+        sGasTimer = 0;
+        gGasOn = FALSE;
     }
 
     // Enable
-    if (!sGasTimer_5C1BE8 && SwitchStates_Get(field_70_start_timer_switch_id) && !SwitchStates_Get(field_72_stop_timer_switch_id))
+    if (!sGasTimer && SwitchStates_Get(field_70_start_timer_switch_id) && !SwitchStates_Get(field_72_stop_timer_switch_id))
     {
-        sGasTimer_5C1BE8 = sGnFrame;
+        sGasTimer = sGnFrame;
         relive_new Alarm(field_76_gas_countdown_timer, 0, 0, Layer::eLayer_Above_FG1_39);
     }
 
 
-    if (!sGasTimer_5C1BE8)
+    if (!sGasTimer)
     {
         // Off/idle
         field_74_time_left = field_76_gas_countdown_timer / 30;
@@ -153,17 +153,17 @@ void GasCountDown::VUpdate()
         // Running
         if (SwitchStates_Get(field_72_stop_timer_switch_id))
         {
-            sGasTimer_5C1BE8 = 0;
+            sGasTimer = 0;
             return;
         }
 
         if (EventGet(kEventResetting))
         {
-            sGasTimer_5C1BE8++;
+            sGasTimer++;
         }
 
         const s32 old_timer = field_74_time_left;
-        const s32 new_timer = (field_76_gas_countdown_timer - static_cast<s32>(sGnFrame - sGasTimer_5C1BE8)) / 30;
+        const s32 new_timer = (field_76_gas_countdown_timer - static_cast<s32>(sGnFrame - sGasTimer)) / 30;
         field_74_time_left = static_cast<s16>(new_timer);
         if (old_timer != field_74_time_left && field_74_time_left > 0)
         {

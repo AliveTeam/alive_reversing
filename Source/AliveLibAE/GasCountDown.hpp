@@ -30,5 +30,5 @@ private:
     u16 field_76_gas_countdown_timer = 0;
 };
 
-extern s32 sGasTimer_5C1BE8;
-extern s16 gGasOn_5C1C00;
+extern s32 sGasTimer;
+extern s16 gGasOn;

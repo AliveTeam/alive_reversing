@@ -12,8 +12,8 @@
 s16 sDoorsOpen_5C1BE6 = 0;
 s32 sTweakX_5C1BD0 = 0;
 s32 sTweakY_5C1BD4 = 0;
-s16 sRescuedMudokons_5C1BC2 = 0;
-s16 sKilledMudokons_5C1BC0 = 0;
+s16 sRescuedMudokons = 0;
+s16 sKilledMudokons = 0;
 
 s16 sVisitedBonewerks_5C1C02 = 0;
 s16 sVisitedBarracks_5C1C04 = 0;
@@ -179,7 +179,7 @@ DDCheat::DDCheat()
     AddPropertyEntry("Doors Open ", DDCheatValueType::eShort_4, &sDoorsOpen_5C1BE6);
     AddPropertyEntry("Tweak X ", DDCheatValueType::eInt_6, &sTweakX_5C1BD0);
     AddPropertyEntry("Tweak Y ", DDCheatValueType::eInt_6, &sTweakY_5C1BD4);
-    AddPropertyEntry("RescuedMudokons ", DDCheatValueType::eShort_4, &sRescuedMudokons_5C1BC2);
+    AddPropertyEntry("RescuedMudokons ", DDCheatValueType::eShort_4, &sRescuedMudokons);
     AddPropertyEntry("Visited Bonewerks ", DDCheatValueType::eShort_1, &sVisitedBonewerks_5C1C02);
     AddPropertyEntry("Visited Barracks ", DDCheatValueType::eShort_1, &sVisitedBarracks_5C1C04);
     AddPropertyEntry("Visited Feeco Ender ", DDCheatValueType::eShort_1, &sVisitedFeecoEnder_5C1C06);

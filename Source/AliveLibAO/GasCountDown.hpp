@@ -34,7 +34,7 @@ public:
     s16 field_62_time_left = 0;
 };
 
-extern s16 gGasOn_4FF888;
-extern s32 sGasTimer_507700;
+extern s16 gGasOn;
+extern s32 sGasTimer;
 
 } // namespace AO

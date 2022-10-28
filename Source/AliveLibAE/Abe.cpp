@@ -1041,7 +1041,7 @@ void Abe::VUpdate()
         field_174_unused = 1;
     }
 
-    const s32 totalAliveSavedMuds = sRescuedMudokons_5C1BC2 - sKilledMudokons_5C1BC0;
+    const s32 totalAliveSavedMuds = sRescuedMudokons - sKilledMudokons;
     if (totalAliveSavedMuds > 0)
     {
         // "Happy" voice
