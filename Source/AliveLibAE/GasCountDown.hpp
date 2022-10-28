@@ -19,16 +19,16 @@ private:
 
 private:
     PalResource mPal;
-    FontContext field_20_FontContext = {};
-    AliveFont field_30_font = {};
-    Guid field_68_tlvInfo;
-    s16 field_6C_xpos = 0;
-    s16 field_6E_ypos = 0;
-    s16 field_70_start_timer_switch_id = 0;
+    FontContext mFontContext = {};
+    AliveFont mFont = {};
+    Guid mTlvId;
+    s16 mGasXPos = 0;
+    s16 mGasYPos = 0;
+    s16 mStartTimerSwitchId = 0;
     s16 field_72_stop_timer_switch_id = 0;
-    s16 field_74_time_left = 0;
+    s16 mGasTimeLeft = 0;
     u16 field_76_gas_countdown_timer = 0;
 };
 
-extern s32 sGasTimer;
 extern s16 gGasOn;
+extern s32 sGasTimer;

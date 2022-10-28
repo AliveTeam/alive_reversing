@@ -21,29 +21,29 @@ GasCountDown::GasCountDown(relive::Path_GasCountDown* pTlv, const Guid& tlvId)
     : BaseGameObject(TRUE, 0)
 {
     SetType(ReliveTypes::eGasCountDown);
-    field_58_tlvInfo = tlvId;
+    mTlvId = tlvId;
 
     mPal = ResourceManagerWrapper::LoadPal(PalId::LedFont_Red);
-    field_10_FontContext.LoadFontType(FontType::LcdFont);
-    field_20_font.Load(5, mPal, &field_10_FontContext);
-    mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
+    mFontContext.LoadFontType(FontType::LcdFont);
+    mFont.Load(5, mPal, &mFontContext);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
     gObjListDrawables->Push_Back(this);
+
+    mGasXPos = FP_GetExponent((FP_FromInteger(pScreenManager->mCamXOff + pTlv->mTopLeftX) - pScreenManager->mCamPos->x));
+    mGasYPos = FP_GetExponent((FP_FromInteger(pScreenManager->mCamYOff + pTlv->mTopLeftY)) - pScreenManager->mCamPos->y);
 
     gGasOn = 0;
 
     field_62_time_left = 120;
 
-    field_5C_xpos = FP_GetExponent((FP_FromInteger(pScreenManager->mCamXOff + pTlv->mTopLeftX) - pScreenManager->mCamPos->x));
-
-    field_5E_ypos = FP_GetExponent((FP_FromInteger(pScreenManager->mCamYOff + pTlv->mTopLeftY)) - pScreenManager->mCamPos->y);
-
+   
     field_60_start_switch_id = pTlv->mStartTimerSwitchId;
 }
 
 GasCountDown::~GasCountDown()
 {
     gObjListDrawables->Remove_Item(this);
-    Path::TLV_Reset(field_58_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mTlvId, -1, 0, 0);
 }
 
 void GasCountDown::VScreenChanged()
@@ -65,7 +65,7 @@ void GasCountDown::VUpdate()
     if (EventGet(kEventDeathResetEnd))
     {
         sGasTimer = 0;
-        gGasOn = 0;
+        gGasOn = FALSE;
     }
 
     // Enable
@@ -141,13 +141,13 @@ void GasCountDown::VRender(PrimHeader** ppOt)
 {
     char_type text[128] = {};
     sprintf(text, "%02d:%02d", field_62_time_left / 60, field_62_time_left % 60);
-    const auto textWidth = field_20_font.MeasureTextWidth(text);
+    const auto textWidth = mFont.MeasureTextWidth(text);
 
-    field_20_font.DrawString(
+    mFont.DrawString(
         ppOt,
         text,
-        field_5C_xpos,
-        field_5E_ypos,
+        mGasXPos,
+        mGasYPos,
         TPageAbr::eBlend_1,
         1,
         0,
@@ -157,7 +157,7 @@ void GasCountDown::VRender(PrimHeader** ppOt)
         127,
         0,
         FP_FromInteger(1),
-        textWidth + field_5C_xpos,
+        textWidth + mGasXPos,
         sDisableFontFlicker ? 0 : 50);
 }
 

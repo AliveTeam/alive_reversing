@@ -26,13 +26,13 @@ LCDStatusBoard::LCDStatusBoard(relive::Path_LCDStatusBoard* pTlv, const Guid& tl
     : BaseGameObject(TRUE, 0)
 {
     field_C8_tlv = tlvId;
-    field_10_fontContext.LoadFontType(FontType::LcdFont);
+    mFontContext.LoadFontType(FontType::LcdFont);
 
     mPal = ResourceManagerWrapper::LoadPal(PalId::LedFont_Red);
 
-    field_20_font1.Load(3, mPal, &field_10_fontContext);
-    field_58_font2.Load(3, mPal, &field_10_fontContext);
-    field_90_font3.Load(3, mPal, &field_10_fontContext);
+    mFont1.Load(3, mPal, &mFontContext);
+    field_58_font2.Load(3, mPal, &mFontContext);
+    field_90_font3.Load(3, mPal, &mFontContext);
 
     mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
     gObjListDrawables->Push_Back(this);
@@ -75,8 +75,8 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
         colourRange);
 
     sprintf(text, "%02d", sKilledMudokons);
-    const s16 w2 = static_cast<s16>(field_20_font1.MeasureTextWidth(text));
-    field_20_font1.DrawString(
+    const s16 w2 = static_cast<s16>(mFont1.MeasureTextWidth(text));
+    mFont1.DrawString(
         ppOt,
         text,
         field_CC_xpos - w2 + 22,

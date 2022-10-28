@@ -18,8 +18,8 @@ public:
 
 private:
     PalResource mPal;
-    FontContext field_20_FontContext = {};
-    AliveFont field_30_font = {};
+    FontContext mFontContext = {};
+    AliveFont mFont = {};
     Guid mTlvInfo;
     s16 mTextX = 0;
     s16 mTextY = 0;

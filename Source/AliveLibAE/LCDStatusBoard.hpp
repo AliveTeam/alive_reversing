@@ -17,7 +17,7 @@ public:
 public:
     FontContext mFontContext;
     PalResource mPal;
-    AliveFont field_20_font1 = {};
+    AliveFont mFont1 = {};
     AliveFont field_58_font2 = {};
     AliveFont field_90_font3 = {};
     AliveFont field_C8_font4 = {};

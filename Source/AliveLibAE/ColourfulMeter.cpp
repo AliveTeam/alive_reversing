@@ -20,8 +20,8 @@ ColourfulMeter::ColourfulMeter(relive::Path_ColourfulMeter* pTlv, const Guid& tl
     mTlvY = pTlv->mTopLeftY;
 
     mPal = ResourceManagerWrapper::LoadPal(PalId::LedFont_ColourfulMeter);
-    field_20_FontContext.LoadFontType(FontType::LcdFont);
-    field_30_font.Load(5, mPal, &field_20_FontContext);
+    mFontContext.LoadFontType(FontType::LcdFont);
+    mFont.Load(5, mPal, &mFontContext);
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
     gObjListDrawables->Push_Back(this);
 
@@ -217,7 +217,7 @@ void ColourfulMeter::VRender(PrimHeader** ppOt)
     {
         char_type text[12] = {};
         sprintf(text, "%01d:%02d", sTimerValue_5C1BFC / 1800u, sTimerValue_5C1BFC / 30u % 60);
-        const s32 textWidth = field_30_font.MeasureTextWidth(text);
+        const s32 textWidth = mFont.MeasureTextWidth(text);
 
         s16 colourRand = 50;
         if (sDisableFontFlicker)
@@ -225,7 +225,7 @@ void ColourfulMeter::VRender(PrimHeader** ppOt)
             colourRand = 0;
         }
 
-        field_30_font.DrawString(
+        mFont.DrawString(
             ppOt,
             text,
             mTextX + 1,

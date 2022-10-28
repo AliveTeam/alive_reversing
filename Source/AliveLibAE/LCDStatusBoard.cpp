@@ -21,7 +21,7 @@ LCDStatusBoard::LCDStatusBoard(relive::Path_LCDStatusBoard* params, const Guid& 
 
     mPal = ResourceManagerWrapper::LoadPal(PalId::LedFont_Red);
 
-    field_20_font1.Load(3, mPal, &mFontContext);
+    mFont1.Load(3, mPal, &mFontContext);
     field_58_font2.Load(3, mPal, &mFontContext);
     field_90_font3.Load(3, mPal, &mFontContext);
     field_C8_font4.Load(3, mPal, &mFontContext);
@@ -133,8 +133,8 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
 
         // Killed mudokons
         sprintf(text, "%3d", sKilledMudokons);
-        const s32 font1Width = field_20_font1.MeasureTextWidth(text);
-        field_20_font1.DrawString(
+        const s32 font1Width = mFont1.MeasureTextWidth(text);
+        mFont1.DrawString(
             ppOt,
             text,
             field_104_position_x - font1Width + 33,

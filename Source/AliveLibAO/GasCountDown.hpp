@@ -12,24 +12,26 @@ namespace relive
 
 namespace AO {
 
-class GasCountDown final : public ::BaseGameObject
+class GasCountDown final : public BaseGameObject
 {
 public:
     GasCountDown(relive::Path_GasCountDown* pTlv, const Guid& tlvId);
     ~GasCountDown();
-
+    
     virtual void VScreenChanged() override;
-    virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
+    virtual void VUpdate() override;
 
+private:
     void DealDamage();
 
+private:
     PalResource mPal;
-    FontContext field_10_FontContext;
-    AliveFont field_20_font;
-    Guid field_58_tlvInfo;
-    s16 field_5C_xpos = 0;
-    s16 field_5E_ypos = 0;
+    FontContext mFontContext = {};
+    AliveFont mFont = {};
+    Guid mTlvId;
+    s16 mGasXPos = 0;
+    s16 mGasYPos = 0;
     u16 field_60_start_switch_id = 0;
     s16 field_62_time_left = 0;
 };

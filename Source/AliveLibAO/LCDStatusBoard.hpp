@@ -23,8 +23,8 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
     PalResource mPal;
-    FontContext field_10_fontContext;
-    AliveFont field_20_font1;
+    FontContext mFontContext;
+    AliveFont mFont1;
     AliveFont field_58_font2;
     AliveFont field_90_font3;
     Guid field_C8_tlv;
