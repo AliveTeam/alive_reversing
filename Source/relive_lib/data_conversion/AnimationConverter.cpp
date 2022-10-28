@@ -280,7 +280,8 @@ void AnimationConverter::DecompressAnimFrame(std::vector<u8>& decompressionBuffe
     {
         case CompressionType::eType_0_NoCompression:
         {
-            std::size_t lenToCopy = pFrameHeader->field_4_width * pFrameHeader->field_5_height;
+            // AE_Ropes doesn't have all of the frame data without +3
+            std::size_t lenToCopy = (pFrameHeader->field_4_width + 3) * pFrameHeader->field_5_height;
             if (pFrameHeader->field_6_colour_depth == 4)
             {
                 lenToCopy = lenToCopy / 2;
