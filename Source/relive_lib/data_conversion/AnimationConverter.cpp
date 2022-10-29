@@ -72,7 +72,7 @@ AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const
 
 
     // Get the size required to decompres a single frame
-    const u32 decompressionBufferSize = CalcDecompressionBufferSize(rec, pFirstFrame);
+    const u32 decompressionBufferSize = CalcDecompressionBufferSize(rec, pFirstFrame) * 2; // Hack: double size
 
     std::vector<u8> decompressionBuffer(decompressionBufferSize);
 
@@ -91,7 +91,7 @@ AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const
         const FrameHeader* pFrameHeader = GetFrame(pAnimationHeader, i);
 
 
-        DecompressAnimFrame(decompressionBuffer, pFrameHeader);
+        DecompressAnimFrame(decompressionBuffer, pFrameHeader, fileData);
 
         // Add frame to the sprite sheet
         const u32 imageWidth = CalcImageWidth(pFrameHeader);
@@ -104,8 +104,18 @@ AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const
                 case 4: // 4bit indcies converted to 8bit in decompress frame
                 case 8:
                 {
-                    const u8 value = decompressionBuffer[(y * imageWidth) + x];
-                    spriteSheetBuffer[(y * sheetWidth) + (x + (bestMaxSize.mMaxW * i))] = value;
+                    const u32 srcIdx = (y * imageWidth) + x;
+                    if (srcIdx > decompressionBuffer.size())
+                    {
+                        ALIVE_FATAL("decompression buffer out of bounds");
+                    }
+                    const u8 value = decompressionBuffer[srcIdx];
+                    const u32 dstIdx = (y * sheetWidth) + (x + (bestMaxSize.mMaxW * i));
+                    if (dstIdx > spriteSheetBuffer.size())
+                    {
+                        ALIVE_FATAL("Sprite sheet buffer out of bounds");
+                    }
+                    spriteSheetBuffer[dstIdx] = value;
                     break;
                 }
 
@@ -274,7 +284,7 @@ void AnimationConverter::ConvertPalToTGAFormat(const std::vector<u8>& fileData, 
     }
 }
 
-void AnimationConverter::DecompressAnimFrame(std::vector<u8>& decompressionBuffer, const FrameHeader* pFrameHeader)
+void AnimationConverter::DecompressAnimFrame(std::vector<u8>& decompressionBuffer, const FrameHeader* pFrameHeader, const std::vector<u8>& fileData)
 {
     switch (pFrameHeader->field_7_compression_type)
     {
@@ -285,6 +295,16 @@ void AnimationConverter::DecompressAnimFrame(std::vector<u8>& decompressionBuffe
             if (pFrameHeader->field_6_colour_depth == 4)
             {
                 lenToCopy = lenToCopy / 2;
+            }
+
+            if (reinterpret_cast<const u8*>(&pFrameHeader->field_8_width2) + lenToCopy > fileData.data() + fileData.size())
+            {
+                ALIVE_FATAL("Decompression type 0 read out of bounds");
+            }
+
+            if (lenToCopy > decompressionBuffer.size())
+            {
+                ALIVE_FATAL("Decompression type 0 write out of bounds");
             }
 
             memcpy(decompressionBuffer.data(), reinterpret_cast<const u8*>(&pFrameHeader->field_8_width2), lenToCopy);

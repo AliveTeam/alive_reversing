@@ -57,6 +57,7 @@ if(MSVC)
     add_compile_options(/permissive)
     add_compile_options(/vmg)
     add_compile_options(/wd4121)
+    #add_compile_options(/fsanitize=address)
 endif()
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)

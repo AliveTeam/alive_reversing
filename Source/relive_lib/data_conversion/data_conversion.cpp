@@ -1280,7 +1280,7 @@ static void ConvertPals(const FileSystem::Path& dataDir, std::vector<u8>& fileBu
     {
         if (!rec.mConverted)
         {
-            const auto& palDetails = isAo ? AO::PalRec(rec.mPalId) : PalRec(rec.mPalId);
+            const auto palDetails = isAo ? AO::PalRec(rec.mPalId) : PalRec(rec.mPalId);
             if (palDetails.mBanName)
             {
                 // Not every file is in every LVL - we might get it from a later LVL
@@ -1315,7 +1315,7 @@ static void ConvertAnimations(const FileSystem::Path& dataDir, FileSystem& fs, s
     // Convert animations that exist in this LVL
     for (auto& rec : kAnimRecConversionInfo)
     {
-        const auto& animDetails = isAo ? AO::AnimRec(rec.mAnimId) : AnimRec(rec.mAnimId);
+        const auto animDetails = isAo ? AO::AnimRec(rec.mAnimId) : AnimRec(rec.mAnimId);
 
         // Skip animations that are only present in AO or AE
         if ((isAo && rec.mAoLvl == EReliveLevelIds::eNone) || (!isAo && rec.mAeLvl == EReliveLevelIds::eNone))
@@ -1368,7 +1368,7 @@ static void LogNonConvertedAnims(bool isAo)
     // Log skippeed/missing anims
     for (auto& rec : kAnimRecConversionInfo)
     {
-        const auto& animDetails = isAo ? AO::AnimRec(rec.mAnimId) : AnimRec(rec.mAnimId);
+        const auto animDetails = isAo ? AO::AnimRec(rec.mAnimId) : AnimRec(rec.mAnimId);
         if (animDetails.mFrameTableOffset != 0)
         {
             if (!rec.mConverted)
