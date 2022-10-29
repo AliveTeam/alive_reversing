@@ -17,7 +17,7 @@
 #include "nlohmann/json.hpp"
 
 #define MAGIC_ENUM_RANGE_MIN 0
-#define MAGIC_ENUM_RANGE_MAX 1000
+#define MAGIC_ENUM_RANGE_MAX 1100
 #include <magic_enum/include/magic_enum.hpp>
 
 u32 UniqueResId::mGlobalId = 1;

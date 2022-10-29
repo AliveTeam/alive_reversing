@@ -949,6 +949,130 @@ enum class AnimId
     LiftTopWheel_Desert2,
     Scoopz,
 
+    // Background animations
+    BG_Brewery_Barrel1,
+    BG_Brewery_Barrel2,
+    BG_Mine_Fan,
+    BG_Feeco_Small_Fan,
+    BG_Heat_Extractor_Fan,
+
+    BG_RuptureFarms_Barrel1,
+    BG_RuptureFarms_Barrel2,
+    BG_RuptureFarms_Barrel3,
+    BG_RuptureFarms_Barrel4,
+    BG_RuptureFarms_Barrel5,
+    BG_RuptureFarms_Barrel6,
+    BG_RuptureFarms_Barrel7,
+    BG_RuptureFarms_Barrel8,
+    BG_RuptureFarms_Barrel9,
+    BG_RuptureFarms_Barrel10,
+    BG_RuptureFarms_Barrel11,
+
+    BG_Campfire1,
+    BG_Campfire2,
+    BG_Campfire3,
+    BG_Campfire4,
+    BG_Campfire5,
+    BG_Campfire6,
+    BG_Campfire7,
+    BG_Campfire8,
+    BG_Campfire9,
+
+    BG_Well1,
+    BG_Well2,
+    BG_Well3,
+    BG_Well4,
+    BG_Well5,
+    BG_Well6,
+    BG_Well7,
+    BG_Well8,
+    BG_Well9,
+    BG_Well10,
+    BG_Well11,
+    BG_Well12,
+    BG_Well13,
+    BG_Well14,
+    BG_Well15,
+    BG_Well16,
+    BG_Well17,
+    BG_Well18,
+    BG_Well19,
+    BG_Well20,
+    BG_Well21,
+    BG_Well22,
+    BG_Well23,
+    BG_Well24,
+    BG_Well25,
+    BG_Well26,
+    BG_Well27,
+    BG_Well28,
+    BG_Well29,
+    BG_Well30,
+    BG_Well31,
+    BG_Well32,
+    BG_Well33,
+    BG_Well34,
+    BG_Well35,
+    BG_Well36,
+    BG_Well37,
+    BG_Well38,
+    BG_Well39,
+    BG_Well40,
+    BG_Well41,
+    BG_Well42,
+    BG_Well43,
+    BG_Well44,
+    BG_Well45,
+    BG_Well46,
+    BG_Well47,
+    BG_Well48,
+    BG_Well49,
+    BG_Well50,
+    BG_Well51,
+    BG_Well52,
+    BG_Well53,
+    BG_Well54,
+    BG_Well55,
+    BG_Well56,
+    BG_Well57,
+    BG_Well58,
+    BG_Well59,
+    BG_Well60,
+    BG_Well61,
+    BG_Well62,
+    BG_Well63,
+    BG_Well64,
+    BG_Well65,
+    BG_Well66,
+    BG_Well67,
+    BG_Well68,
+    BG_Well69,
+    BG_Well70,
+    BG_Well71,
+    BG_Well72,
+    BG_Well73,
+    BG_Well74,
+    BG_Well75,
+    BG_Well76,
+    BG_Well77,
+    BG_Well78,
+    BG_Well79,
+    BG_Well80,
+    BG_Well81,
+    BG_Well82,
+    BG_Well83,
+    BG_Well84,
+
+    BG_Windmill1,
+    BG_Windmill2,
+    BG_Windmill3,
+
+    BG_RedEyes1,
+    BG_RedEyes2,
+
+    BG_PinkFlame1,
+    BG_PinkFlame2,
+
     Anim_Tester, // For animation testing with the TestAnimation.cpp, ignore this.
 };
 
@@ -980,29 +1104,6 @@ enum class PalId
     LedFont_Red, // AE hard coded data
 };
 
-struct BgAnimDetails final
-{
-    const char_type* mBanName;
-    u32 mFrameTableOffset;
-    s16 mMaxW;
-    s16 mMaxH;
-};
-
-struct CombinedBgAnimRecord final
-{
-    u32 mBgAnimId;
-    BgAnimDetails mAEData;
-    BgAnimDetails mAOData;
-};
-
-struct BgAnimRecord final
-{
-    u32 mBgAnimId;
-    const char_type* mBanName;
-    u32 mFrameTableOffset;
-    s16 mMaxW;
-    s16 mMaxH;
-};
 
 struct PalDetails final
 {
@@ -1050,11 +1151,12 @@ struct CombinedAnimRecord final
     AnimId mId;
     AnimDetails mAEData;
     AnimDetails mAOData;
+    bool mIsBgAnim;
 };
 
 [[nodiscard]] const PalRecord PalRec(PalId toFind);
 [[nodiscard]] const AnimRecord AnimRec(AnimId toFind);
-[[nodiscard]] const BgAnimRecord BgAnimRec(s32 toFind);
+[[nodiscard]] const AnimRecord BgAnimRec(s32 toFindResId);
 void FrameTableOffsetExists(u32 frameTableOffset, bool isAe, int maxW, int maxH);
 void FrameTableOffsetExists(u32 frameTableOffset, bool isAe);
 
@@ -1062,140 +1164,8 @@ namespace AO
 {
     [[nodiscard]] const PalRecord PalRec(PalId toFind);
     [[nodiscard]] const AnimRecord AnimRec(AnimId toFind);
-    [[nodiscard]] const BgAnimRecord BgAnimRec(s32 toFind);
+    [[nodiscard]] const AnimRecord BgAnimRec(s32 toFindResId);
 }
-
-// AE background animation id's
-enum AEBgAnimID
-{
-    BG_Brewery_Barrel1 = 1206,
-    BG_Brewery_Barrel2 = 1207,
-    BG_Mine_Fan = 1201,
-    BG_Feeco_Small_Fan = 1202,
-    BG_Heat_Extractor_Fan = 1204,
-};
-
-// AO background animation id's
-enum AOBgAnimID
-{
-    BG_None = 0,
-    BG_RuptureFarms_Barrel1 = 6016,
-    BG_RuptureFarms_Barrel2 = 6017,
-    BG_RuptureFarms_Barrel3 = 6018,
-    BG_RuptureFarms_Barrel4 = 6019,
-    BG_RuptureFarms_Barrel5 = 6020,
-    BG_RuptureFarms_Barrel6 = 6021,
-    BG_RuptureFarms_Barrel7 = 6022,
-    BG_RuptureFarms_Barrel8 = 6023,
-    BG_RuptureFarms_Barrel9 = 6024,
-    BG_RuptureFarms_Barrel10 = 6025,
-    BG_RuptureFarms_Barrel11 = 6026,
-
-    BG_Campfire1 = 7000,
-    BG_Campfire2 = 7001,
-    BG_Campfire3 = 7003,
-    BG_Campfire4 = 7004,
-    BG_Campfire5 = 7006,
-    BG_Campfire6 = 7010,
-    BG_Campfire7 = 7007,
-    BG_Campfire8 = 7008,
-    BG_Campfire9 = 7002,
-
-    BG_Well1 = 5002,
-    BG_Well2 = 5006,
-    BG_Well3 = 5007,
-    BG_Well4 = 5003,
-    BG_Well5 = 5005,
-    BG_Well6 = 5004,
-    BG_Well7 = 5001,
-    BG_Well8 = 5000,
-    BG_Well9 = 3052,
-    BG_Well10 = 3039,
-    BG_Well11 = 3040,
-    BG_Well12 = 3016,
-    BG_Well13 = 3017,
-    BG_Well14 = 3018,
-    BG_Well15 = 3051,
-    BG_Well16 = 3050,
-    BG_Well17 = 3041,
-    BG_Well18 = 3027,
-    BG_Well19 = 3047,
-    BG_Well20 = 3048,
-    BG_Well21 = 3049,
-    BG_Well22 = 3031,
-    BG_Well23 = 3032,
-    BG_Well24 = 3038,
-    BG_Well25 = 3037,
-    BG_Well26 = 4022,
-    BG_Well27 = 4023,
-    BG_Well28 = 4012,
-    BG_Well29 = 4013,
-    BG_Well30 = 4027,
-    BG_Well31 = 4009,
-    BG_Well32 = 4011,
-    BG_Well33 = 4024,
-    BG_Well34 = 4025,
-    BG_Well35 = 4026,
-    BG_Well36 = 4010,
-    BG_Well37 = 4028,
-    BG_Well38 = 4015,
-    BG_Well39 = 4014,
-    BG_Well40 = 4017,
-    BG_Well41 = 4018,
-    BG_Well42 = 4019,
-    BG_Well43 = 4016,
-    BG_Well44 = 4021,
-    BG_Well45 = 4006,
-    BG_Well46 = 4007,
-    BG_Well47 = 4008,
-    BG_Well48 = 4030,
-    BG_Well49 = 4029,
-    BG_Well50 = 4031,
-    BG_Well51 = 4032,
-    BG_Well52 = 4033,
-    BG_Well53 = 4034,
-    BG_Well54 = 1200,
-    BG_Well55 = 1050,
-    BG_Well56 = 1018,
-    BG_Well57 = 1017,
-    BG_Well58 = 1038,
-    BG_Well59 = 1039,
-    BG_Well60 = 2013,
-    BG_Well61 = 2014,
-    BG_Well62 = 2036,
-    BG_Well63 = 2030,
-    BG_Well64 = 2031,
-    BG_Well65 = 2029,
-    BG_Well66 = 2022,
-    BG_Well67 = 2041,
-    BG_Well68 = 2042,
-    BG_Well69 = 2040,
-    BG_Well70 = 2043,
-    BG_Well71 = 2044,
-    BG_Well72 = 2045,
-    BG_Well73 = 2046,
-    BG_Well74 = 2049,
-    BG_Well75 = 2047,
-    BG_Well76 = 2048,
-    BG_Well77 = 2051,
-    BG_Well78 = 2052,
-    BG_Well79 = 2050,
-    BG_Well80 = 2053,
-    BG_Well81 = 2054,
-    BG_Well82 = 3034,
-    BG_Well83 = 3036,
-    BG_Well84 = 3033,
-
-    BG_Windmill1 = 1023,
-    BG_Windmill2 = 1024,
-    BG_Windmill3 = 1031,
-
-    BG_RedEyes1 = 2020,
-    BG_RedEyes2 = 2021,
-
-    BG_PinkFlame1 = 6014,
-    BG_PinkFlame2 = 6015,
-};
 
 // TODO: remove unused res id's from AO when both AO and AE res id's were in this enum
 enum AEResourceID

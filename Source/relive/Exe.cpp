@@ -249,7 +249,7 @@ static void AEMain(LPSTR lpCmdLine)
 static void ConvertData()
 {
     //DataConversion dataConversion;
-    //dataConversion.ConvertDataAE();
+    //dataConversion.ConvertDataAO();
 }
 
 s32 WINAPI WinMain(HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR lpCmdLine, s32 /*nShowCmd*/)
