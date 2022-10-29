@@ -32,8 +32,8 @@ private:
     Guid mTlvId;
     s16 mGasXPos = 0;
     s16 mGasYPos = 0;
-    u16 field_60_start_switch_id = 0;
-    s16 field_62_time_left = 0;
+    u16 mStartTimerSwitchId = 0;
+    s16 mGasTimeLeft = 0;
 };
 
 extern s16 gGasOn;

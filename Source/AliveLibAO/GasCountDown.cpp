@@ -17,11 +17,11 @@ namespace AO {
 s32 sGasTimer = 0;
 s16 gGasOn = 0;
 
-GasCountDown::GasCountDown(relive::Path_GasCountDown* pTlv, const Guid& tlvId)
+GasCountDown::GasCountDown(relive::Path_GasCountDown* pTlv, const Guid& tlvInfo)
     : BaseGameObject(TRUE, 0)
 {
     SetType(ReliveTypes::eGasCountDown);
-    mTlvId = tlvId;
+    mTlvId = tlvInfo;
 
     mPal = ResourceManagerWrapper::LoadPal(PalId::LedFont_Red);
     mFontContext.LoadFontType(FontType::LcdFont);
@@ -34,10 +34,10 @@ GasCountDown::GasCountDown(relive::Path_GasCountDown* pTlv, const Guid& tlvId)
 
     gGasOn = 0;
 
-    field_62_time_left = 120;
+    mGasTimeLeft = 120;
 
    
-    field_60_start_switch_id = pTlv->mStartTimerSwitchId;
+    mStartTimerSwitchId = pTlv->mStartTimerSwitchId;
 }
 
 GasCountDown::~GasCountDown()
@@ -69,7 +69,7 @@ void GasCountDown::VUpdate()
     }
 
     // Enable
-    if (!sGasTimer && SwitchStates_Get(field_60_start_switch_id) && !SwitchStates_Get(70))
+    if (!sGasTimer && SwitchStates_Get(mStartTimerSwitchId) && !SwitchStates_Get(70))
     {
         sGasTimer = sGnFrame;
         relive_new Alarm(3600, 0, 0, Layer::eLayer_Above_FG1_39);
@@ -78,7 +78,7 @@ void GasCountDown::VUpdate()
     if (!sGasTimer)
     {
         // Off/idle
-        field_62_time_left = 120;
+        mGasTimeLeft = 120;
     }
     else
     {
@@ -94,10 +94,10 @@ void GasCountDown::VUpdate()
             sGasTimer++;
         }
 
-        const s32 oldTimer = field_62_time_left;
+        const s32 oldTimer = mGasTimeLeft;
         const s32 newTimer = 120 - (static_cast<s32>(sGnFrame) - sGasTimer) / 30;
-        field_62_time_left = static_cast<s16>(newTimer);
-        if (oldTimer != field_62_time_left && field_62_time_left > 0)
+        mGasTimeLeft = static_cast<s16>(newTimer);
+        if (oldTimer != mGasTimeLeft && mGasTimeLeft > 0)
         {
             SFX_Play_Pitch(relive::SoundEffects::RedTick, 55, -1000);
         }
@@ -108,9 +108,9 @@ void GasCountDown::VUpdate()
 
 void GasCountDown::DealDamage()
 {
-    if (field_62_time_left < 0)
+    if (mGasTimeLeft < 0)
     {
-        if (-field_62_time_left > 2)
+        if (-mGasTimeLeft > 2)
         {
             sActiveHero->VTakeDamage(this);
             for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
@@ -127,10 +127,10 @@ void GasCountDown::DealDamage()
                 }
             }
         }
-        field_62_time_left = 0;
+        mGasTimeLeft = 0;
     }
 
-    if (!gGasOn && field_62_time_left <= 0)
+    if (!gGasOn && mGasTimeLeft <= 0)
     {
         gGasOn = TRUE;
         relive_new DeathGas(Layer::eLayer_Above_FG1_39, 2);
@@ -139,8 +139,8 @@ void GasCountDown::DealDamage()
 
 void GasCountDown::VRender(PrimHeader** ppOt)
 {
-    char_type text[128] = {};
-    sprintf(text, "%02d:%02d", field_62_time_left / 60, field_62_time_left % 60);
+    char_type text[128] = {}; // Bigger buffer to handle large numbers or negative numbers causing a buffer overflow/crash.
+    sprintf(text, "%02d:%02d", mGasTimeLeft / 60, mGasTimeLeft % 60);
     const auto textWidth = mFont.MeasureTextWidth(text);
 
     mFont.DrawString(
