@@ -82,29 +82,29 @@ void BaseThrowable::BaseAddToPlatform(BaseThrowable::FnTypeMatcher cb)
             &hitY,
             GetScale() == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls)) // todo: mouze check me 0x10F changed to 0x0F
     {
-        if (pLine->mLineType == eLineTypes ::eDynamicCollision_32 ||
+        if (pLine->mLineType == eLineTypes::eDynamicCollision_32 ||
             pLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
         {
             if (gPlatformsArray)
             {
                 for (s32 idx = 0; idx < gPlatformsArray->Size(); idx++)
                 {
-                    BaseGameObject* pObj = gPlatformsArray->ItemAt(idx);
-                    if (!pObj)
+                    BaseGameObject* pObjIter = gPlatformsArray->ItemAt(idx);
+                    if (!pObjIter)
                     {
                         break;
                     }
 
-                    if (cb(pObj->Type()))
+                    if (cb(pObjIter->Type()))
                     {
-                        auto pPlatform = static_cast<PlatformBase*>(pObj);
+                        auto pPlatformBase = static_cast<PlatformBase*>(pObjIter);
 
-                        const PSX_RECT bRect = pPlatform->VGetBoundingRect();
+                        const PSX_RECT bRect = pPlatformBase->VGetBoundingRect();
 
                         if (FP_GetExponent(mXPos) > bRect.x && FP_GetExponent(mXPos) < bRect.w && FP_GetExponent(mYPos) < bRect.h)
                         {
-                            pPlatform->VAdd(this);
-                            BaseAliveGameObject_PlatformId = pPlatform->mBaseGameObjectId;
+                            pPlatformBase->VAdd(this);
+                            BaseAliveGameObject_PlatformId = pPlatformBase->mBaseGameObjectId;
                             return;
                         }
                     }
@@ -117,7 +117,7 @@ void BaseThrowable::BaseAddToPlatform(BaseThrowable::FnTypeMatcher cb)
 void BaseThrowable::VToDead()
 {
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-    mBaseThrowableDead = 1;
+    mBaseThrowableDead = TRUE;
 }
 
 void BaseThrowable::VOnPickUpOrSlapped()

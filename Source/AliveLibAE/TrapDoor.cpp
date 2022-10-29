@@ -117,7 +117,7 @@ TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, const Guid& tlvId)
     else
     {
         GetAnimation().SetRenderLayer(Layer::eLayer_Shadow_Half_7);
-        field_124_pCollisionLine->mLineType = eLineTypes::eBackgroundDynamicCollision_36;
+        mPlatformBaseCollisionLine->mLineType = eLineTypes::eBackgroundDynamicCollision_36;
     }
 
     SetTint(sTrapDoorTints_5639AC, gMap.mCurrentLevel);
@@ -127,7 +127,7 @@ TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, const Guid& tlvId)
 
     GetAnimation().Set_Animation_Data(GetAnimRes(animId));
 
-    if (pTlv->mDirection == relive::reliveXDirection::eRight) // TODO: check if this is the correct direction
+    if (pTlv->mDirection == relive::reliveXDirection::eRight)
     {
         GetAnimation().mFlags.Set(AnimFlags::eFlipX);
     }
@@ -210,7 +210,7 @@ void TrapDoor::Open()
                 pAliveObj->VOnTrapDoorOpen();
 
                 // Clear their collision line if they are on this trap door that has opened.
-                if (field_124_pCollisionLine == pAliveObj->BaseAliveGameObjectCollisionLine)
+                if (mPlatformBaseCollisionLine == pAliveObj->BaseAliveGameObjectCollisionLine)
                 {
                     pAliveObj->BaseAliveGameObjectCollisionLine = nullptr;
                 }
@@ -218,8 +218,8 @@ void TrapDoor::Open()
         }
     }
 
-    Rect_Clear(&field_124_pCollisionLine->mRect);
-    field_124_pCollisionLine = nullptr;
+    Rect_Clear(&mPlatformBaseCollisionLine->mRect);
+    mPlatformBaseCollisionLine = nullptr;
     gPlatformsArray->Remove_Item(this);
 }
 
@@ -323,7 +323,7 @@ s32 TrapDoor::VGetSaveState(u8* pSaveBuffer)
 
 void TrapDoor::Add_To_Collisions_Array()
 {
-    field_124_pCollisionLine = sCollisions->Add_Dynamic_Collision_Line(
+    mPlatformBaseCollisionLine = sCollisions->Add_Dynamic_Collision_Line(
         mBoundingRect.x,
         mBoundingRect.y,
         mBoundingRect.w,
@@ -332,7 +332,7 @@ void TrapDoor::Add_To_Collisions_Array()
 
     if (GetSpriteScale() != FP_FromInteger(1))
     {
-        field_124_pCollisionLine->mLineType = eLineTypes::eBackgroundDynamicCollision_36;
+        mPlatformBaseCollisionLine->mLineType = eLineTypes::eBackgroundDynamicCollision_36;
     }
 
     gPlatformsArray->Push_Back(this);

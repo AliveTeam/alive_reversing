@@ -29,6 +29,7 @@
 #include "CheatController.hpp"
 #include "Grid.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
+#include "../relive_lib/ObjectIds.hpp"
 
 namespace AO {
 
@@ -874,9 +875,12 @@ void Mudokon::DoPathTrans()
     {
         if (BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eDynamicCollision_32)
         {
-            mLiftPoint->VRemove(this);
-            mLiftPoint->mBaseGameObjectRefCount--;
-            mLiftPoint = nullptr;
+            auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
+            if (pPlatform)
+            {
+                pPlatform->VRemove(this);
+                BaseAliveGameObject_PlatformId = Guid{};
+            }
         }
 
         PathLine* pLine = nullptr;
@@ -918,9 +922,10 @@ void Mudokon::ToStand()
 
 void Mudokon::CheckFloorGone()
 {
-    if (mLiftPoint)
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
+    if (pPlatform)
     {
-        if (mLiftPoint->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+        if (pPlatform->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
         {
             VOnTrapDoorOpen();
             field_144_flags.Set(Flags_144::e144_Bit8);
@@ -1013,14 +1018,14 @@ void Mudokon::MoveOnLine()
 
     if (BaseAliveGameObjectCollisionLine)
     {
-        if (mLiftPoint)
+        auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
+        if (pPlatform)
         {
-            if (BaseAliveGameObjectCollisionLine->mLineType != eLineTypes::eDynamicCollision_32 &&
-                BaseAliveGameObjectCollisionLine->mLineType != eLineTypes::eBackgroundDynamicCollision_36)
+            if (BaseAliveGameObjectCollisionLine->mLineType != eLineTypes::eDynamicCollision_32 && BaseAliveGameObjectCollisionLine->mLineType != eLineTypes::eBackgroundDynamicCollision_36)
             {
-                mLiftPoint->VRemove(this);
-                mLiftPoint->mBaseGameObjectRefCount--;
-                mLiftPoint = nullptr;
+                pPlatform->VRemove(this);
+                BaseAliveGameObject_PlatformId = Guid{};
+
             }
         }
         else
@@ -1174,7 +1179,8 @@ s16 Mudokon::IAmNearestToAbe()
 
 void Mudokon::VOnTrapDoorOpen()
 {
-    if (mLiftPoint)
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
+    if (pPlatform)
     {
         if (mbGotShot)
         {
@@ -1186,9 +1192,8 @@ void Mudokon::VOnTrapDoorOpen()
             VSetMotion(motion);
         }
 
-        mLiftPoint->VRemove(this);
-        mLiftPoint->mBaseGameObjectRefCount--;
-        mLiftPoint = nullptr;
+        pPlatform->VRemove(this);
+        BaseAliveGameObject_PlatformId = Guid{};
     }
 }
 
@@ -1477,7 +1482,7 @@ void Mudokon::Motion_10_Unused()
     if (gNumCamSwappers <= 0)
     {
         SetCurrentMotion(mPreviousMotion);
-        if (mLiftPoint)
+        if (BaseAliveGameObject_PlatformId != Guid{})
         {
             mXPos = FP_FromInteger((BaseAliveGameObjectCollisionLine->mRect.x + BaseAliveGameObjectCollisionLine->mRect.w) / 2);
             mYPos = FP_FromInteger(BaseAliveGameObjectCollisionLine->mRect.y);

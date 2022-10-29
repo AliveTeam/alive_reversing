@@ -12,6 +12,7 @@
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "Grid.hpp"
+#include "../relive_lib/ObjectIds.hpp"
 
 namespace AO {
 
@@ -20,27 +21,27 @@ s16 gInfiniteGrenades = 0;
 Grenade::Grenade(FP xpos, FP ypos, s16 numGrenades)
     : BaseThrowable()
 {
-    mIsDead = 0;
+    mBaseThrowableDead = 0;
     SetType(ReliveTypes::eGrenade);
 
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Grenade));
     Animation_Init(GetAnimRes(AnimId::Grenade));
 
-    mBaseGameObjectFlags.Clear(Options::eInteractive_Bit8);
+    mBaseGameObjectFlags.Clear(BaseGameObject::eInteractive_Bit8);
     GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
 
     GetAnimation().mFlags.Clear(AnimFlags::eRender);
     GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
 
     mXPos = xpos;
-    field_120_xpos = xpos;
-
     mYPos = ypos;
+
+    field_120_xpos = xpos;
     field_124_ypos = ypos;
 
     mVelX = FP_FromInteger(0);
     mVelY = FP_FromInteger(0);
-    mThrowableCount = numGrenades;
+    mBaseThrowableCount = numGrenades;
 
     if (numGrenades > 0)
     {
@@ -56,37 +57,6 @@ Grenade::Grenade(FP xpos, FP ypos, s16 numGrenades)
     field_11C = 0;
 }
 
-Grenade::~Grenade()
-{
-    if (field_11C)
-    {
-        field_11C->mBaseGameObjectRefCount--;
-    }
-
-    if (!gInfiniteGrenades && !mIsDead)
-    {
-        if (mLiftPoint)
-        {
-            mLiftPoint->VRemove(this);
-            mLiftPoint->mBaseGameObjectRefCount--;
-            mLiftPoint = nullptr;
-        }
-
-        if (gThrowableArray)
-        {
-            s16 count = 0;
-            if (mThrowableCount >= 1u)
-            {
-                count = mThrowableCount;
-            }
-            else
-            {
-                count = 1;
-            }
-            gThrowableArray->Remove(count);
-        }
-    }
-}
 
 void Grenade::AddToPlatform()
 {
@@ -105,7 +75,7 @@ void Grenade::VThrow(FP velX, FP velY)
     mVelX = velX;
     mVelY = velY;
 
-    if (mThrowableCount == 0)
+    if (mBaseThrowableCount == 0)
     {
         field_110_state = States::eFalling_4;
     }
@@ -136,7 +106,7 @@ void Grenade::VUpdate()
                 mCollectionRect.w = mXPos + (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
                 mCollectionRect.h = mYPos;
 
-                mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
+	            mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8);
                 field_110_state = States::eWaitToBeCollected_1;
             }
             break;
@@ -158,38 +128,35 @@ void Grenade::VUpdate()
                     mVelX -= FP_FromDouble(0.01);
                 }
 
-                const auto oldLine = field_114_pCollisionLine;
-                field_114_pCollisionLine = field_114_pCollisionLine->MoveOnLine(&mXPos, &mYPos, mVelX);
-                if (mLiftPoint)
+                const auto oldLine = BaseAliveGameObjectCollisionLine;
+                BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&mXPos, &mYPos, mVelX);
+                if (BaseAliveGameObject_PlatformId != Guid{} && BaseAliveGameObjectCollisionLine != oldLine)
                 {
-                    if (field_114_pCollisionLine != oldLine)
-                    {
-                        mLiftPoint->VRemove(this);
-                        mLiftPoint->mBaseGameObjectRefCount--;
-                        mLiftPoint = nullptr;
-                    }
+                    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
+                    pPlatform->VRemove(this);
+                    BaseAliveGameObject_PlatformId = Guid{};
                 }
 
-                if (!field_114_pCollisionLine)
+                if (!BaseAliveGameObjectCollisionLine)
                 {
                     field_110_state = States::eFallingToBeCollected_0;
                 }
             }
             else if (abs(SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos)) - FP_GetExponent(mXPos)) > 1)
             {
-                const auto oldLine = field_114_pCollisionLine;
-                field_114_pCollisionLine = field_114_pCollisionLine->MoveOnLine(&mXPos, &mYPos, mVelX);
-                if (mLiftPoint)
+                const auto oldLine = BaseAliveGameObjectCollisionLine;
+                BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&mXPos, &mYPos, mVelX);
+                if (BaseAliveGameObject_PlatformId != Guid{} && BaseAliveGameObjectCollisionLine != oldLine)
                 {
-                    if (field_114_pCollisionLine != oldLine)
+                    if (BaseAliveGameObjectCollisionLine != oldLine)
                     {
-                        mLiftPoint->VRemove(this);
-                        mLiftPoint->mBaseGameObjectRefCount--;
-                        mLiftPoint = nullptr;
+                       auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
+                       pPlatform->VRemove(this);
+                       BaseAliveGameObject_PlatformId = Guid{};
                     }
                 }
 
-                if (!field_114_pCollisionLine)
+                if (!BaseAliveGameObjectCollisionLine)
                 {
                     field_110_state = States::eFalling_4;
                 }
@@ -238,19 +205,19 @@ void Grenade::VUpdate()
         {
             mVelX = FP_FromRaw(mVelX.fpValue / 2);
 
-            const auto oldLine = field_114_pCollisionLine;
-            field_114_pCollisionLine = field_114_pCollisionLine->MoveOnLine(&mXPos, &mYPos, mVelX);
-            if (mLiftPoint)
+            const auto oldLine = BaseAliveGameObjectCollisionLine;
+            BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&mXPos, &mYPos, mVelX);
+            auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
+            if (pPlatform)
             {
-                if (field_114_pCollisionLine != oldLine)
+                if (BaseAliveGameObjectCollisionLine != oldLine)
                 {
-                    mLiftPoint->VRemove(this);
-                    mLiftPoint->mBaseGameObjectRefCount--;
-                    mLiftPoint = nullptr;
+                    pPlatform->VRemove(this);
+                    BaseAliveGameObject_PlatformId = Guid{};
                 }
             }
 
-            if (!field_114_pCollisionLine)
+            if (!BaseAliveGameObjectCollisionLine)
             {
                 field_110_state = States::eFalling_4;
             }
@@ -277,24 +244,6 @@ void Grenade::VUpdate()
     }
 }
 
-void Grenade::VOnTrapDoorOpen()
-{
-    if (mLiftPoint)
-    {
-        mLiftPoint->VRemove(this);
-        mLiftPoint->mBaseGameObjectRefCount--;
-        mLiftPoint = nullptr;
-
-        if (field_110_state == States::eWaitToBeCollected_1 || field_110_state == States::eDoesNothing_2)
-        {
-            field_110_state = States::eFallingToBeCollected_0;
-        }
-        else if (field_110_state != States::eWaitForExplodeEnd_6)
-        {
-            field_110_state = States::eFalling_4;
-        }
-    }
-}
 
 s16 Grenade::InTheAir()
 {
@@ -312,25 +261,21 @@ s16 Grenade::InTheAir()
 
     FP hitX = {};
     FP hitY = {};
-    const auto bHit = sCollisions->Raycast(
+    if (sCollisions->Raycast(
         field_120_xpos,
         field_124_ypos,
         mXPos,
         mYPos,
-        &field_114_pCollisionLine,
+        &BaseAliveGameObjectCollisionLine,
         &hitX,
         &hitY,
-        GetSpriteScale() != FP_FromDouble(0.5) ? kFgFloor : kBgFloor);
-
-    result = bHit ? 1 : 0;
-
-    if (bHit == 1)
+        GetSpriteScale() != FP_FromDouble(0.5) ? kFgFloor : kBgFloor) == 1)
     {
         if (mVelY > FP_FromInteger(0))
         {
             if (mVelY < FP_FromInteger(1))
             {
-                if (!mLiftPoint)
+                if (BaseAliveGameObject_PlatformId == Guid{})
                 {
                     AddToPlatform();
                 }
@@ -348,8 +293,10 @@ s16 Grenade::InTheAir()
                 {
                     vol = 40;
                 }
+
                 SfxPlayMono(relive::SoundEffects::GrenadeBounce, vol);
                 field_118++;
+
                 EventBroadcast(kEventNoise, this);
                 EventBroadcast(kEventSuspiciousNoise, this);
                 EventBroadcast(kEventSpeaking, this);
@@ -357,19 +304,17 @@ s16 Grenade::InTheAir()
         }
     }
 
-    const auto v20 = sCollisions->Raycast(
+    if (sCollisions->Raycast(
         field_120_xpos,
         field_124_ypos,
         mXPos,
         mYPos,
-        &field_114_pCollisionLine,
+        &BaseAliveGameObjectCollisionLine,
         &hitX,
         &hitY,
-        GetSpriteScale() != FP_FromDouble(0.5) ? kFgWalls : kBgWalls);
-
-    if (v20 == 1)
+        GetSpriteScale() != FP_FromDouble(0.5) ? kFgWalls : kBgWalls) == 1)
     {
-        switch (field_114_pCollisionLine->mLineType)
+        switch (BaseAliveGameObjectCollisionLine->mLineType)
         {
             case 1:
             case 5:
@@ -414,6 +359,7 @@ s16 Grenade::InTheAir()
                 return 1;
         }
     }
+
     return 1;
 }
 
@@ -483,6 +429,48 @@ s16 Grenade::VCanThrow()
 s16 Grenade::VIsFalling()
 {
     return FALSE;
+}
+
+void Grenade::VOnTrapDoorOpen()
+{
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
+    if (pPlatform)
+    {
+        pPlatform->VRemove(this);
+        BaseAliveGameObject_PlatformId = Guid{};
+
+        if (field_110_state == States::eWaitToBeCollected_1 || field_110_state == States::eDoesNothing_2)
+        {
+            field_110_state = States::eFallingToBeCollected_0;
+        }
+        else if (field_110_state != States::eWaitForExplodeEnd_6)
+        {
+            field_110_state = States::eFalling_4;
+        }
+    }
+}
+
+Grenade::~Grenade()
+{
+    if (field_11C)
+    {
+        field_11C->mBaseGameObjectRefCount--;
+    }
+
+    if (!gInfiniteGrenades && !mBaseThrowableDead)
+    {
+        auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
+        if (pPlatform)
+        {
+            pPlatform->VRemove(this);
+            BaseAliveGameObject_PlatformId = Guid{};
+        }
+
+        if (gThrowableArray)
+        {
+            gThrowableArray->Remove(mBaseThrowableCount >= 1 ? mBaseThrowableCount : 1);
+        }
+    }
 }
 
 } // namespace AO

@@ -114,7 +114,6 @@ SlingMudokon::SlingMudokon(relive::Path_SlingMudokon* pTlv, const Guid& tlvId)
     field_156_always_4 = 99;
 
     field_110_tlvInfo = tlvId;
-    mLiftPoint = nullptr;
     field_13A_brain_sub_state = 0;
     field_15A_bCodeMatches = 0;
 

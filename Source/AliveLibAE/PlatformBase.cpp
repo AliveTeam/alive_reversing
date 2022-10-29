@@ -12,16 +12,21 @@ PlatformBase::PlatformBase()
 
 }
 
-
-
 void PlatformBase::VAdd(BaseAliveGameObject* pObj)
 {
-    vAddCount(pObj);
+    mPlatformBaseCount++;
+    LOG_INFO("Add " << (u64) pObj << " count " << mPlatformBaseCount << " gnFrame " << sGnFrame);
+
+    if (mPlatformBaseCollisionLine)
+    {
+        SyncCollisionLinePosition();
+    }
 }
 
 void PlatformBase::VRemove(BaseAliveGameObject* pObj)
 {
-    vRemoveCount(pObj);
+    mPlatformBaseCount--;
+    LOG_INFO("Remove " << (u64) pObj << " count " << mPlatformBaseCount << " gnFrame " << sGnFrame);
 }
 
 void PlatformBase::AddDynamicCollision(AnimId animId, relive::Path_TLV* pTlv, const Guid& tlvId)
@@ -35,6 +40,7 @@ void PlatformBase::AddDynamicCollision(AnimId animId, relive::Path_TLV* pTlv, co
     mVelY = FP_FromInteger(0);
 
     mPlatformBaseCount = 0;
+
     Animation_Init(GetAnimRes(animId));
 
     if (GetSpriteScale() == FP_FromInteger(1))
@@ -48,12 +54,12 @@ void PlatformBase::AddDynamicCollision(AnimId animId, relive::Path_TLV* pTlv, co
         SetScale(Scale::Bg);
     }
 
-   const PerFrameInfo* pFrameHeader = GetAnimation().Get_FrameHeader(0);
-   // TODO: Check field_8_data.points[1].y
+    const PerFrameInfo* pFrameHeader = GetAnimation().Get_FrameHeader(0);
+    // TODO: Check field_8_data.points[1].y
     mYPos += FP_NoFractional(FP_FromInteger(-pFrameHeader->mBoundMin.y) * GetSpriteScale());
     mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
 
-    field_124_pCollisionLine = sCollisions->Add_Dynamic_Collision_Line(
+    mPlatformBaseCollisionLine = sCollisions->Add_Dynamic_Collision_Line(
         pTlv->mTopLeftX,
         pTlv->mTopLeftY,
         pTlv->mBottomRightX,
@@ -75,33 +81,19 @@ PlatformBase::~PlatformBase()
 {
     gPlatformsArray->Remove_Item(this);
 
-    if (field_124_pCollisionLine)
+    if (mPlatformBaseCollisionLine)
     {
         if (gMap.mCurrentLevel == mCurrentLevel && gMap.mCurrentPath == mCurrentPath)
         {
-            Rect_Clear(&field_124_pCollisionLine->mRect);
+            Rect_Clear(&mPlatformBaseCollisionLine->mRect);
         }
     }
 }
 
 void PlatformBase::SyncCollisionLinePosition()
 {
-    field_124_pCollisionLine->mRect.x = FP_GetExponent(FP_FromInteger(mPlatformBaseXOffset) + mXPos);
-    field_124_pCollisionLine->mRect.w = FP_GetExponent(FP_FromInteger(mPlatformBaseWidthOffset) + mXPos);
-    field_124_pCollisionLine->mRect.y = FP_GetExponent(mYPos + FP_FromInteger(mPlatformBaseYOffset));
-    field_124_pCollisionLine->mRect.h = FP_GetExponent(mYPos + FP_FromInteger(mPlatformBaseHeightOffset));
-}
-
-void PlatformBase::vRemoveCount(BaseAliveGameObject* /*pObj*/)
-{
-    --mPlatformBaseCount;
-}
-
-void PlatformBase::vAddCount(BaseAliveGameObject* /*pObj*/)
-{
-    ++mPlatformBaseCount;
-    if (field_124_pCollisionLine)
-    {
-        SyncCollisionLinePosition();
-    }
+    mPlatformBaseCollisionLine->mRect.x = FP_GetExponent(mXPos + FP_FromInteger(mPlatformBaseXOffset));
+    mPlatformBaseCollisionLine->mRect.w = FP_GetExponent(mXPos + FP_FromInteger(mPlatformBaseWidthOffset));
+    mPlatformBaseCollisionLine->mRect.y = FP_GetExponent(mYPos + FP_FromInteger(mPlatformBaseYOffset));
+    mPlatformBaseCollisionLine->mRect.h = FP_GetExponent(mYPos + FP_FromInteger(mPlatformBaseHeightOffset));
 }

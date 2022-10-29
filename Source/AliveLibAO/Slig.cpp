@@ -36,6 +36,7 @@
 #include "Grid.hpp"
 #include "../AliveLibAE/Sound/Midi.hpp"
 #include "BaseGameAutoPlayer.hpp"
+#include "../relive_lib/ObjectIds.hpp"
 
 // TODO: fix
 #undef max
@@ -285,7 +286,6 @@ Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
     field_EC_bBeesCanChase = 3;
     mExplodeTimer = 0;
     field_154_death_by_being_shot_timer = 0;
-    mLiftPoint = nullptr;
     mCurrentMotion = eSligMotions::Motion_7_Falling;
     mReturnToPreviousMotion = 0;
     field_12C_falling_velx_scale_factor = FP_FromInteger(0);
@@ -687,11 +687,11 @@ void Slig::VRender(PrimHeader** ppOt)
 
 void Slig::VOnTrapDoorOpen()
 {
-    if (mLiftPoint)
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
+    if (pPlatform)
     {
-        mLiftPoint->VRemove(this);
-        mLiftPoint->mBaseGameObjectRefCount--;
-        mLiftPoint = nullptr;
+        pPlatform->VRemove(this);
+        BaseAliveGameObject_PlatformId = Guid{};
         BaseAliveGameObjectLastLineYPos = mYPos;
         VSetMotion(eSligMotions::Motion_39_OutToFall);
     }
@@ -1671,9 +1671,10 @@ s16 Slig::IsInZCover(BaseAnimatedWithPhysicsGameObject* pObj)
 
 void Slig::CheckPlatformVanished()
 {
-    if (mLiftPoint)
+    BaseGameObject* pLiftPoint = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
+    if (pLiftPoint)
     {
-        if (mLiftPoint->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+        if (pLiftPoint->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
         {
             // Platform is somehow gone, fall.
             const auto oldMotion = mCurrentMotion;
@@ -1687,7 +1688,11 @@ void Slig::CheckPlatformVanished()
 
 s16 Slig::MoveLift(FP ySpeed)
 {
-    auto pLiftPoint = static_cast<LiftPoint*>(mLiftPoint);
+    auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
+    if (!pLiftPoint)
+    {
+        return eSligMotions::Motion_51_LiftGripping;
+    }
 
     pLiftPoint->Move(FP_FromInteger(0), ySpeed, 0);
     CheckPlatformVanished();
@@ -1856,6 +1861,7 @@ bool Slig::VIs8_465630(s16 motion)
 
 void Slig::MoveOnLine()
 {
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     const FP oldX = mXPos;
     if (BaseAliveGameObjectCollisionLine)
     {
@@ -1865,7 +1871,7 @@ void Slig::MoveOnLine()
             mVelX);
         if (BaseAliveGameObjectCollisionLine)
         {
-            if (mLiftPoint)
+            if (pPlatform)
             {
                 if (BaseAliveGameObjectCollisionLine->mLineType != eLineTypes::eDynamicCollision_32 && BaseAliveGameObjectCollisionLine->mLineType != eLineTypes::eBackgroundDynamicCollision_36)
                 {
@@ -2097,9 +2103,10 @@ s16 Slig::HandlePlayerControlled()
 
     if (pressed & sInputKey_Down)
     {
-        if (mLiftPoint)
+        auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
+        if (pLiftPoint)
         {
-            if (mLiftPoint && mLiftPoint->Type() == ReliveTypes::eLiftPoint)
+            if (pLiftPoint && pLiftPoint->Type() == ReliveTypes::eLiftPoint)
             {
                 if (FP_Abs(mXPos - FP_FromInteger((BaseAliveGameObjectCollisionLine->mRect.x + BaseAliveGameObjectCollisionLine->mRect.w) / 2)) < kScaleGrid / FP_FromInteger(2))
                 {
@@ -2122,9 +2129,10 @@ s16 Slig::HandlePlayerControlled()
     }
     if (pressed & sInputKey_Up)
     {
-        if (mLiftPoint)
+        auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
+        if (pLiftPoint)
         {
-            if (mLiftPoint->field_10C == 1)
+            if (pLiftPoint->field_10C == 1)
             {
                 if (FP_Abs(mXPos - FP_FromInteger((BaseAliveGameObjectCollisionLine->mRect.x + BaseAliveGameObjectCollisionLine->mRect.w) / 2)) < kScaleGrid / FP_FromInteger(2))
                 {
@@ -2917,22 +2925,24 @@ void Slig::Motion_8_Unknown()
 {
     if (gNumCamSwappers <= 0)
     {
-        if (sControlledCharacter != this || mHealth <= FP_FromInteger(0))
+        auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
+        if (sControlledCharacter == this && mHealth > FP_FromInteger(0))
         {
             mCurrentMotion = mPreviousMotion;
-            if (mLiftPoint)
+            if (pLiftPoint)
             {
-                mXPos = FP_FromInteger((BaseAliveGameObjectCollisionLine->mRect.x + BaseAliveGameObjectCollisionLine->mRect.w) / 2);
-                mYPos = FP_FromInteger(BaseAliveGameObjectCollisionLine->mRect.y);
+                pLiftPoint->field_12C_bMoving |= 1u;
             }
         }
         else
         {
             mCurrentMotion = mPreviousMotion;
-            if (mLiftPoint)
+            if (pLiftPoint)
             {
-                static_cast<LiftPoint*>(mLiftPoint)->field_12C_bMoving |= 1u;
+                mXPos = FP_FromInteger((BaseAliveGameObjectCollisionLine->mRect.x + BaseAliveGameObjectCollisionLine->mRect.w) / 2);
+                mYPos = FP_FromInteger(BaseAliveGameObjectCollisionLine->mRect.y);
             }
+            
         }
 
         mCurrentLevel = gMap.mCurrentLevel;
@@ -3770,40 +3780,42 @@ void Slig::Motion_48_LiftDown()
 
 void Slig::Motion_49_LiftGrip()
 {
-    auto pLiftPoint = static_cast<LiftPoint*>(mLiftPoint);
-
-    pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
-    mVelY = FP_FromInteger(0);
-
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
+    if (pLiftPoint)
     {
-        if (Input().IsAnyPressed(sInputKey_Up))
-        {
-            if (pLiftPoint->OnTopFloor())
-            {
-                mCurrentMotion = eSligMotions::Motion_51_LiftGripping;
-            }
-            else
-            {
-                mCurrentMotion = eSligMotions::Motion_47_LiftUp;
-            }
-            return;
-        }
+        pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
+        mVelY = FP_FromInteger(0);
 
-        if (Input().IsAnyPressed(sInputKey_Down))
+        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
         {
-            if (pLiftPoint->OnBottomFloor())
+            if (Input().IsAnyPressed(sInputKey_Up))
             {
-                mCurrentMotion = eSligMotions::Motion_51_LiftGripping;
+                if (pLiftPoint->OnTopFloor())
+                {
+                    mCurrentMotion = eSligMotions::Motion_51_LiftGripping;
+                }
+                else
+                {
+                    mCurrentMotion = eSligMotions::Motion_47_LiftUp;
+                }
+                return;
             }
-            else
-            {
-                mCurrentMotion = eSligMotions::Motion_48_LiftDown;
-            }
-            return;
-        }
 
-        mCurrentMotion = eSligMotions::Motion_51_LiftGripping;
+            if (Input().IsAnyPressed(sInputKey_Down))
+            {
+                if (pLiftPoint->OnBottomFloor())
+                {
+                    mCurrentMotion = eSligMotions::Motion_51_LiftGripping;
+                }
+                else
+                {
+                    mCurrentMotion = eSligMotions::Motion_48_LiftDown;
+                }
+                return;
+            }
+
+            mCurrentMotion = eSligMotions::Motion_51_LiftGripping;
+        }
     }
 }
 
@@ -3819,32 +3831,34 @@ void Slig::Motion_50_LiftUngrip()
 
 void Slig::Motion_51_LiftGripping()
 {
-    CheckPlatformVanished();
-
-    auto pLift = static_cast<LiftPoint*>(mLiftPoint);
-
-    pLift->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
-    mVelY = FP_FromInteger(0);
-
-    if (Input().IsAnyPressed(sInputKey_Up))
+    auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
+    if (pLiftPoint)
     {
-        if (!pLift->OnTopFloor())
+        CheckPlatformVanished();
+
+        pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
+        mVelY = FP_FromInteger(0);
+
+        if (Input().IsAnyPressed(sInputKey_Up))
         {
-            mCurrentMotion = eSligMotions::Motion_47_LiftUp;
-        }
-    }
-    else
-    {
-        if (Input().IsAnyPressed(sInputKey_Down))
-        {
-            if (!pLift->OnBottomFloor())
+            if (!pLiftPoint->OnTopFloor())
             {
-                mCurrentMotion = eSligMotions::Motion_48_LiftDown;
+                mCurrentMotion = eSligMotions::Motion_47_LiftUp;
             }
         }
-        else if (pLift->OnAnyFloor())
+        else
         {
-            mCurrentMotion = eSligMotions::Motion_50_LiftUngrip;
+            if (Input().IsAnyPressed(sInputKey_Down))
+            {
+                if (!pLiftPoint->OnBottomFloor())
+                {
+                    mCurrentMotion = eSligMotions::Motion_48_LiftDown;
+                }
+            }
+            else if (pLiftPoint->OnAnyFloor())
+            {
+                mCurrentMotion = eSligMotions::Motion_50_LiftUngrip;
+            }
         }
     }
 }

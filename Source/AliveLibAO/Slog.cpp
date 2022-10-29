@@ -24,6 +24,7 @@
 #include "GameSpeak.hpp"
 #include "Grid.hpp"
 #include "AnimationCallBacks.hpp"
+#include "../relive_lib/ObjectIds.hpp"
 
 namespace AO {
 
@@ -408,6 +409,7 @@ void Slog::SetAnimFrame()
 
 void Slog::MoveOnLine()
 {
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     const FP xpos = mXPos;
     if (BaseAliveGameObjectCollisionLine)
     {
@@ -417,14 +419,13 @@ void Slog::MoveOnLine()
             mVelX);
         if (BaseAliveGameObjectCollisionLine)
         {
-            if (mLiftPoint)
+            if (pPlatform)
             {
                 if (BaseAliveGameObjectCollisionLine->mLineType != eLineTypes::eDynamicCollision_32 &&
                     BaseAliveGameObjectCollisionLine->mLineType != eLineTypes::eBackgroundDynamicCollision_36)
                 {
-                    mLiftPoint->VRemove(this);
-                    mLiftPoint->mBaseGameObjectRefCount--;
-                    mLiftPoint = nullptr;
+                    pPlatform->VRemove(this);
+                    BaseAliveGameObject_PlatformId = Guid{};
                 }
             }
             else
@@ -478,7 +479,7 @@ void Slog::Init()
     field_EC_bBeesCanChase = 3;
     field_13C_res_idx = 0;
     SetType(ReliveTypes::eSlog);
-    mLiftPoint = nullptr;
+    BaseAliveGameObject_PlatformId = Guid{};
     field_118_always_zero = 0;
     field_134 = 2;
     field_17A = 1;
@@ -850,11 +851,11 @@ s16 Slog::HandleEnemyStopper()
 
 void Slog::VOnTrapDoorOpen()
 {
-    if (mLiftPoint)
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
+    if (pPlatform)
     {
-        mLiftPoint->VRemove(this);
-        mLiftPoint->mBaseGameObjectRefCount--;
-        mLiftPoint = nullptr;
+        pPlatform->VRemove(this);
+        BaseAliveGameObject_PlatformId = Guid{};
     }
 }
 
@@ -1166,7 +1167,7 @@ void Slog::Motion_5_Unknown_474070()
     if (gNumCamSwappers <= 0)
     {
         mCurrentMotion = mPreviousMotion;
-        if (mLiftPoint)
+        if (BaseAliveGameObject_PlatformId != Guid{})
         {
             mXPos = FP_FromInteger((BaseAliveGameObjectCollisionLine->mRect.x + BaseAliveGameObjectCollisionLine->mRect.w) / 2);
             mYPos = FP_FromInteger(BaseAliveGameObjectCollisionLine->mRect.y);

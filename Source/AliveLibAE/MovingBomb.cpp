@@ -17,12 +17,12 @@
 #include "SwitchStates.hpp"
 #include "Path.hpp"
 
-const TintEntry kMovingBombTints_55C734[4] = {
+static const TintEntry kMovingBombTints_55C734[4] = {
     {EReliveLevelIds::eBarracks, 97u, 97u, 97u},
     {EReliveLevelIds::eBrewery_Ender, 127u, 127u, 127u},
     {EReliveLevelIds::eNone, 127u, 127u, 127u}};
 
-MovingBomb* gMovingBomb_5C300C = nullptr;
+static MovingBomb* sMovingBomb = nullptr;
 
 MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(0)
@@ -44,7 +44,7 @@ MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
         SetScale(Scale::Bg);
         GetAnimation().SetRenderLayer(Layer::eLayer_RollingBallBombMineCar_Half_16);
     }
-    else if (pTlv->mScale == relive::reliveScale::eFull)
+    else
     {
         SetSpriteScale(FP_FromInteger(1));
         SetScale(Scale::Fg);
@@ -53,6 +53,7 @@ MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
 
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
+
     field_124_speed = FP_FromRaw(pTlv->mSpeed << 8);
     mVelX = FP_FromRaw(pTlv->mStartSpeed << 8);
     field_128_start_moving_switch_id = pTlv->mStartMovingSwitchId;
@@ -108,14 +109,14 @@ MovingBomb::~MovingBomb()
         Path::TLV_Reset(field_11C_tlvInfo, -1, 0, 0);
     }
 
-    if (gMovingBomb_5C300C == this)
+    if (sMovingBomb == this)
     {
         if (field_130_sound_channels)
         {
             SND_Stop_Channels_Mask(field_130_sound_channels);
             field_130_sound_channels = 0;
         }
-        gMovingBomb_5C300C = 0;
+        sMovingBomb = 0;
     }
 }
 
@@ -216,20 +217,20 @@ s16 MovingBomb::HitObject()
     const PSX_RECT bRect = VGetBoundingRect();
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        auto pObj = gBaseAliveGameObjects->ItemAt(i);
-        if (!pObj)
+        BaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(i);
+        if (!pObjIter)
         {
             break;
         }
 
-        if (pObj != this)
+        if (pObjIter != this)
         {
-            if (pObj->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eCanSetOffExplosives))
+            if (pObjIter->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eCanSetOffExplosives))
             {
-                if (pObj->mHealth > FP_FromInteger(0))
+                if (pObjIter->mHealth > FP_FromInteger(0))
                 {
-                    const PSX_RECT objRect = pObj->VGetBoundingRect();
-                    if (bRect.x <= objRect.w && bRect.w >= objRect.x && bRect.h >= objRect.y && bRect.y <= objRect.h && pObj->GetSpriteScale() == GetSpriteScale() && pObj->mCurrentPath == mCurrentPath)
+                    const PSX_RECT objRect = pObjIter->VGetBoundingRect();
+                    if (bRect.x <= objRect.w && bRect.w >= objRect.x && bRect.h >= objRect.y && bRect.y <= objRect.h && pObjIter->GetSpriteScale() == GetSpriteScale() && pObjIter->mCurrentPath == mCurrentPath)
                     {
                         return 1;
                     }
@@ -258,11 +259,11 @@ void MovingBomb::VUpdate()
         }
     }
 
-    if (gMovingBomb_5C300C == nullptr || gMovingBomb_5C300C == this)
+    if (sMovingBomb == nullptr || sMovingBomb == this)
     {
         if (GetAnimation().GetCurrentFrame() != 0 && GetAnimation().GetCurrentFrame() != 7)
         {
-            gMovingBomb_5C300C = this;
+            sMovingBomb = this;
         }
         else
         {
@@ -284,19 +285,19 @@ void MovingBomb::VUpdate()
                     {
                         field_130_sound_channels = SfxPlayMono(relive::SoundEffects::SecurityOrb, 80, GetSpriteScale());
                     }
-                    gMovingBomb_5C300C = this;
+                    sMovingBomb = this;
                 }
                 else
                 {
                     if (field_118_state == States::eWaitABit_4)
                     {
                         field_130_sound_channels = 0;
-                        gMovingBomb_5C300C = this;
+                        sMovingBomb = this;
                     }
                     else
                     {
                         field_130_sound_channels = SfxPlayMono(relive::SoundEffects::SecurityOrb, 12, GetSpriteScale());
-                        gMovingBomb_5C300C = this;
+                        sMovingBomb = this;
                     }
                 }
             }

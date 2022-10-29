@@ -602,7 +602,7 @@ Abe::Abe()
     mKnockdownMotion = -1;
     GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_32);
     mHasEvilFart = 0;
-    mThrowableCount = 0;
+    mBaseThrowableCount = 0;
 
     field_1AE_flags.Clear(Flags_1AE::e1AE_Bit1_is_mudomo_vault_ender);
     field_1AE_flags.Clear(Flags_1AE::e1AE_Bit2_do_quicksave);
@@ -798,7 +798,7 @@ s32 Abe::CreateFromSaveState(const u8* pData)
     sActiveHero->field_128.mMood = pSaveState->mMood;
     sActiveHero->field_128.mSay = pSaveState->mSay;
     sActiveHero->mAutoSayTimer = pSaveState->mAutoSayTimer;
-    sActiveHero->mThrowableCount = pSaveState->mThrowableCount;
+    sActiveHero->mBaseThrowableCount = pSaveState->mBaseThrowableCount;
     sActiveHero->mRingPulseTimer = pSaveState->mRingPulseTimer;
     sActiveHero->mHaveShrykull = pSaveState->mHaveShrykull;
 
@@ -1404,7 +1404,7 @@ void Abe::ToKnockback_44E700(s16 bKnockbackSound, s16 bDelayedAnger)
             mThrowableId = Guid{};
             if (!gInfiniteThrowables)
             {
-                mThrowableCount++;
+                mBaseThrowableCount++;
             }
         }
     }
@@ -1447,15 +1447,15 @@ void Abe::VScreenChanged()
 
         if (gMap.mCurrentLevel != EReliveLevelIds::eNone)
         {
-            if (mThrowableCount > 0)
+            if (mBaseThrowableCount > 0)
             {
                 if (gpThrowableArray)
                 {
-                    gpThrowableArray->Remove(mThrowableCount);
+                    gpThrowableArray->Remove(mBaseThrowableCount);
                 }
             }
 
-            mThrowableCount = 0;
+            mBaseThrowableCount = 0;
 
             if (mRingPulseTimer > 0 && mHaveShrykull)
             {
@@ -1598,7 +1598,7 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
     pSaveState->mSay = field_128.mSay;
     pSaveState->mAutoSayTimer = mAutoSayTimer;
     pSaveState->mRingPulseTimer = mRingPulseTimer;
-    pSaveState->mThrowableCount = mThrowableCount;
+    pSaveState->mBaseThrowableCount = mBaseThrowableCount;
     pSaveState->mHaveShrykull = static_cast<s8>(mHaveShrykull);
     pSaveState->bHaveInvisiblity = static_cast<s8>(mHaveInvisibility);
 
@@ -1895,7 +1895,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
             }
 
             // The zap makes Abe drop his stuff everywhere
-            for (s32 i = 0; i < mThrowableCount; i++)
+            for (s32 i = 0; i < mBaseThrowableCount; i++)
             {
                 BaseThrowable* pThrowable = Make_Throwable_49AF30(
                     mXPos,
@@ -1911,7 +1911,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                 pThrowable->SetScale(GetScale());
                 pThrowable->VTimeToExplodeRandom(); // Start count down ?
             }
-            mThrowableCount = 0;
+            mBaseThrowableCount = 0;
             break;
 
         case ReliveTypes::eRockSpawner:
@@ -2744,7 +2744,7 @@ void Abe::Motion_0_Idle_44EEB0()
     {
         if ((sInputKey_ThrowItem & held) && mCurrentMotion == eAbeMotions::Motion_0_Idle_44EEB0)
         {
-            if (mThrowableCount > 0 || gInfiniteThrowables)
+            if (mBaseThrowableCount > 0 || gInfiniteThrowables)
             {
                 mThrowableId = Make_Throwable_49AF30(
                                              mXPos,
@@ -2760,7 +2760,7 @@ void Abe::Motion_0_Idle_44EEB0()
                         mYPos + (GetSpriteScale() * FP_FromInteger(-50)),
                         GetAnimation().GetRenderLayer(),
                         GetAnimation().GetSpriteScale(),
-                        mThrowableCount,
+                        mBaseThrowableCount,
                         TRUE);
                 }
 
@@ -2768,7 +2768,7 @@ void Abe::Motion_0_Idle_44EEB0()
 
                 if (!gInfiniteThrowables)
                 {
-                    mThrowableCount--;
+                    mBaseThrowableCount--;
                 }
             }
             else
@@ -3300,7 +3300,7 @@ void Abe::Motion_13_HoistBegin_452B20()
 void Abe::Motion_14_HoistIdle_452440()
 {
     //sObjectIds_5C1B70.Find_449CF0(mPullRingRopeId); // NOTE: Return never used
-    BaseGameObject* pfield_110_id = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
+    BaseGameObject* pPlatform = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
     if (Is_Celling_Above_44E8D0())
     {
         ToKnockback_44E700(1, 1);
@@ -3435,7 +3435,7 @@ void Abe::Motion_14_HoistIdle_452440()
                 BaseAliveGameObjectCollisionLine = pLine;
                 mYPos = FP_NoFractional(hitY + FP_FromDouble(0.5));
                 mVelY = FP_FromInteger(0);
-                if (pfield_110_id)
+                if (pPlatform)
                 {
                     if (BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eDynamicCollision_32 || 
                         BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
@@ -3572,7 +3572,7 @@ void Abe::Motion_17_CrouchIdle_456BC0()
     // Crouching throw stuff
     if (sInputKey_ThrowItem & held
         && mCurrentMotion == eAbeMotions::Motion_17_CrouchIdle_456BC0
-        && (mThrowableCount > 0 || gInfiniteThrowables))
+        && (mBaseThrowableCount > 0 || gInfiniteThrowables))
     {
         mThrowableId = Make_Throwable_49AF30(mXPos, mYPos - FP_FromInteger(40), 0)->mBaseGameObjectId;
         if (!bThrowableIndicatorExists_5C112C)
@@ -3584,7 +3584,7 @@ void Abe::Motion_17_CrouchIdle_456BC0()
                 yOff,
                 GetAnimation().GetRenderLayer(),
                 GetAnimation().GetSpriteScale(),
-                mThrowableCount,
+                mBaseThrowableCount,
                 1);
         }
 
@@ -3592,7 +3592,7 @@ void Abe::Motion_17_CrouchIdle_456BC0()
 
         if (!gInfiniteThrowables)
         {
-            mThrowableCount--;
+            mBaseThrowableCount--;
         }
     }
     else
@@ -6644,7 +6644,7 @@ void Abe::Motion_104_RockThrowStandingHold()
         mCurrentMotion = eAbeMotions::Motion_106_RockThrowStandingEnd;
         if (!gInfiniteThrowables)
         {
-            mThrowableCount++;
+            mBaseThrowableCount++;
         }
     }
 }
@@ -6693,7 +6693,7 @@ void Abe::Motion_107_RockThrowCrouchingHold()
         mCurrentMotion = eAbeMotions::Motion_17_CrouchIdle_456BC0;
         if (!gInfiniteThrowables)
         {
-            mThrowableCount++;
+            mBaseThrowableCount++;
         }
     }
 }
@@ -7161,10 +7161,10 @@ void Abe::Motion_114_DoorEnter()
 
             if (pDoorTlv->mClearThrowables == relive::reliveChoice::eYes)
             {
-                if (mThrowableCount > 0 && gpThrowableArray)
+                if (mBaseThrowableCount > 0 && gpThrowableArray)
                 {
-                    gpThrowableArray->Remove(mThrowableCount);
-                    mThrowableCount = 0;
+                    gpThrowableArray->Remove(mBaseThrowableCount);
+                    mBaseThrowableCount = 0;
                 }
             }
 
@@ -7772,7 +7772,7 @@ void Abe::PickUpThrowabe_Or_PressBomb_454090(FP fpX, s32 fpY, s32 bStandToCrouch
             case ReliveTypes::eMeat:
             case ReliveTypes::eRock:
                 mCurrentMotion = eAbeMotions::Motion_111_PickupItem;
-                mThrowableCount += static_cast<s8>(static_cast<BaseThrowable*>(pSlappableOrCollectable)->VGetCount()); // TODO: Check types are correct.
+                mBaseThrowableCount += static_cast<s8>(static_cast<BaseThrowable*>(pSlappableOrCollectable)->VGetCount()); // TODO: Check types are correct.
                 if (!bThrowableIndicatorExists_5C112C)
                 {
                     const FP yoff = (GetSpriteScale() * FP_FromInteger(-30)) + mYPos;
@@ -7782,7 +7782,7 @@ void Abe::PickUpThrowabe_Or_PressBomb_454090(FP fpX, s32 fpY, s32 bStandToCrouch
                         yoff,
                         GetAnimation().GetRenderLayer(),
                         GetAnimation().GetSpriteScale(),
-                        mThrowableCount,
+                        mBaseThrowableCount,
                         1);
                 }
                 trySlapOrCollect = true;

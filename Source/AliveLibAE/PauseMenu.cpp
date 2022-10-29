@@ -454,7 +454,7 @@ void PauseMenu::RestartPath()
         1);
 
     gMap.mForceLoad = TRUE;
-    if (sActiveHero->mThrowableCount)
+    if (sActiveHero->mBaseThrowableCount)
     {
         LoadRockTypes_49AB30(
             MapWrapper::FromAE(sActiveQuicksaveData.field_244_restart_path_world_info.field_4_level),
@@ -465,7 +465,7 @@ void PauseMenu::RestartPath()
             gpThrowableArray = relive_new ThrowableArray();
         }
 
-        gpThrowableArray->Add(sActiveHero->mThrowableCount);
+        gpThrowableArray->Add(sActiveHero->mBaseThrowableCount);
     }
 
     word12C_flags &= ~1;

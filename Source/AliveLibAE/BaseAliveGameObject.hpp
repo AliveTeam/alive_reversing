@@ -44,7 +44,6 @@ protected:
     BaseAliveGameObject* GetStackedSlapTarget(const Guid& idToFind, ReliveTypes typeToFind, FP xpos, FP ypos);
 public:
     s16 BaseAliveGameObjectCollisionLineType = 0; // AE only, quick save data
-    Guid BaseAliveGameObject_PlatformId; // AE only
 };
 
 extern DynamicArrayT<BaseAliveGameObject>* gBaseAliveGameObjects;

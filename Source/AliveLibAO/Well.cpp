@@ -84,10 +84,14 @@ void Well::VUpdate()
 
 void Well::WellExpress_Init(relive::Path_WellExpress* pTlv, FP /*xpos*/, FP ypos)
 {
-    const AnimRecord& anim = AO::BgAnimRec(pTlv->mAnimId);
+    if (pTlv->mAnimId != 0)
+    {
+        const AnimRecord& anim = AO::BgAnimRec(pTlv->mAnimId);
 
-    Animation_Init(ResourceManagerWrapper::LoadAnimation(anim.mId));
-    GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
+        Animation_Init(ResourceManagerWrapper::LoadAnimation(anim.mId));
+
+        GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
+    }
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 

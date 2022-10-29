@@ -15,10 +15,205 @@
 #include "Map.hpp"
 #include "Path.hpp"
 
+
+const TintEntry kMeatTints_55C254[] = {
+    {EReliveLevelIds::eMines, 127u, 127u, 127u},
+    {EReliveLevelIds::eNecrum, 137u, 137u, 137u},
+    {EReliveLevelIds::eMudomoVault, 127u, 127u, 127u},
+    {EReliveLevelIds::eMudancheeVault, 127u, 127u, 127u},
+    {EReliveLevelIds::eFeeCoDepot, 127u, 127u, 127u},
+    {EReliveLevelIds::eBarracks, 127u, 127u, 127u},
+    {EReliveLevelIds::eMudancheeVault_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eBonewerkz, 127u, 127u, 127u},
+    {EReliveLevelIds::eBrewery, 127u, 127u, 127u},
+    {EReliveLevelIds::eBrewery_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eMudomoVault_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eFeeCoDepot_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eBarracks_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eNone, 127u, 127u, 127u},
+};
+
+void MeatSack::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::MeatSack_Hit));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::MeatSack_Idle));
+}
+
+MeatSack::MeatSack(relive::Path_MeatSack* pTlv, const Guid& tlvId)
+    : BaseAliveGameObject(0)
+{
+    SetType(ReliveTypes::eMeatSack);
+
+    LoadAnimations();
+
+    Animation_Init(GetAnimRes(AnimId::MeatSack_Idle));
+    SetTint(&kMeatTints_55C254[0], gMap.mCurrentLevel);
+
+    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+    field_118_tlvInfo = tlvId;
+
+    field_11C_bDoMeatSackIdleAnim = 0;
+
+    mXPos = FP_FromInteger(pTlv->mTopLeftX);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
+
+    field_124_velX = FP_FromRaw(pTlv->mVelX << 8);
+
+    // Throw the meat up into the air as it falls from the sack
+    field_128_velY = -FP_FromRaw(pTlv->mVelY << 8);
+
+    if (pTlv->mMeatFallDirection == relive::reliveXDirection::eLeft)
+    {
+        field_124_velX = -field_124_velX;
+    }
+
+    if (pTlv->mScale == relive::reliveScale::eHalf)
+    {
+        SetSpriteScale(FP_FromDouble(0.5));
+        GetAnimation().SetRenderLayer(Layer::eLayer_8);
+        SetScale(Scale::Bg);
+    }
+    else
+    {
+        SetSpriteScale(FP_FromInteger(1));
+        GetAnimation().SetRenderLayer(Layer::eLayer_27);
+        SetScale(Scale::Fg);
+    }
+
+    field_11E_amount_of_meat = pTlv->mMeatAmount;
+
+    CreateShadow();
+}
+
+s32 Meat::CreateFromSaveState(const u8* pBuffer)
+{
+    const auto pState = reinterpret_cast<const Meat_SaveState*>(pBuffer);
+
+    auto pMeat = relive_new Meat(pState->field_8_xpos, pState->field_C_ypos, pState->field_2A_count);
+
+    pMeat->mBaseGameObjectTlvInfo = pState->field_4_obj_id;
+
+    pMeat->mXPos = pState->field_8_xpos;
+    pMeat->mYPos = pState->field_C_ypos;
+
+    pMeat->mCollectionRect.x = pMeat->mXPos - (ScaleToGridSize(pMeat->GetSpriteScale()) / FP_FromInteger(2));
+    pMeat->mCollectionRect.y = pMeat->mYPos - ScaleToGridSize(pMeat->GetSpriteScale());
+    pMeat->mCollectionRect.w = (ScaleToGridSize(pMeat->GetSpriteScale()) / FP_FromInteger(2)) + pMeat->mXPos;
+    pMeat->mCollectionRect.h = pMeat->mYPos;
+
+    pMeat->mVelX = pState->field_10_velx;
+    pMeat->mVelY = pState->field_14_vely;
+
+    pMeat->mCurrentPath = pState->field_1C_path_number;
+    pMeat->mCurrentLevel = MapWrapper::FromAESaveData(pState->field_1E_lvl_number);
+
+    pMeat->SetSpriteScale(pState->field_18_sprite_scale);
+
+    pMeat->GetAnimation().mFlags.Set(AnimFlags::eLoop, pState->field_20_flags.Get(Meat_SaveState::eBit3_bLoop));
+    pMeat->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->field_20_flags.Get(Meat_SaveState::eBit1_bRender));
+
+    pMeat->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_20_flags.Get(Meat_SaveState::eBit2_bDrawable));
+    pMeat->mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8, pState->field_20_flags.Get(Meat_SaveState::eBit4_bInteractive));
+
+    pMeat->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eRestoredFromQuickSave);
+
+    pMeat->field_128_timer = sGnFrame;
+    pMeat->BaseAliveGameObjectCollisionLineType = pState->field_28_line_type;
+
+    pMeat->mBaseThrowableCount = pState->field_2A_count;
+    pMeat->field_11C_state = pState->field_2C_state;
+
+    pMeat->field_120_xpos = pState->field_30_xpos;
+    pMeat->field_124_ypos = pState->field_34_ypos;
+
+    pMeat->field_12C_deadtimer = pState->field_38_savedfield12C;
+    return sizeof(Meat_SaveState);
+}
+
+MeatSack::~MeatSack()
+{
+    Path::TLV_Reset(field_118_tlvInfo, -1, 0, 0);
+}
+
+void MeatSack::VUpdate()
+{
+    if (EventGet(kEventDeathReset))
+    {
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    }
+
+    if (GetAnimation().GetCurrentFrame() == 2)
+    {
+        if (field_120_bPlayWobbleSound)
+        {
+            if (Math_NextRandom() < 40u || field_122_always_0)
+            {
+                field_120_bPlayWobbleSound = 0;
+                field_122_always_0 = 0;
+                SFX_Play_Pitch(relive::SoundEffects::SackWobble, 24, Math_RandomRange(-2400, -2200));
+            }
+        }
+    }
+    else
+    {
+        field_120_bPlayWobbleSound = 1;
+    }
+
+    if (field_11C_bDoMeatSackIdleAnim)
+    {
+        if (field_11C_bDoMeatSackIdleAnim == 1 && GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+        {
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MeatSack_Idle));
+            field_11C_bDoMeatSackIdleAnim = 0;
+        }
+    }
+    else
+    {
+        const PSX_RECT abeRect = sActiveHero->VGetBoundingRect();
+        const PSX_RECT ourRect = VGetBoundingRect();
+
+        if (RectsOverlap(ourRect, abeRect) && GetSpriteScale() == sActiveHero->GetSpriteScale())
+        {
+            if (gpThrowableArray)
+            {
+                if (gpThrowableArray->field_20_count)
+                {
+                    GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MeatSack_Hit));
+                    field_11C_bDoMeatSackIdleAnim = 1;
+                    return;
+                }
+            }
+            else
+            {
+                gpThrowableArray = relive_new ThrowableArray();
+            }
+
+            gpThrowableArray->Add(field_11E_amount_of_meat);
+
+            auto pMeat = relive_new Meat(mXPos, mYPos - FP_FromInteger(30), field_11E_amount_of_meat);
+             pMeat->VThrow(field_124_velX, field_128_velY);
+            pMeat->SetSpriteScale(GetSpriteScale());
+
+            SfxPlayMono(relive::SoundEffects::SackHit, 0);
+            Environment_SFX_457A40(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
+
+            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MeatSack_Hit));
+            field_11C_bDoMeatSackIdleAnim = 1;
+        }
+    }
+}
+
+void MeatSack::VScreenChanged()
+{
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+}
+
 Meat::Meat(FP xpos, FP ypos, s16 count)
     : BaseThrowable(0)
 {
     mBaseThrowableDead = 0;
+
     SetType(ReliveTypes::eMeat);
 
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Meat));
@@ -65,20 +260,6 @@ void Meat::AddToPlatform()
     // TODO: OG bug - why doesn't meat check for trap doors ??
     BaseAddToPlatform([](ReliveTypes type)
                       { return type == ReliveTypes::eLiftPoint; });
-}
-
-void Meat::VOnTrapDoorOpen()
-{
-    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
-    if (pPlatform)
-    {
-        pPlatform->VRemove(this);
-        BaseAliveGameObject_PlatformId = Guid{};
-        if (field_11C_state == MeatStates::eBecomeAPickUp_3 || field_11C_state == MeatStates::eWaitForPickUp_4)
-        {
-            field_11C_state = MeatStates::eIdle_1;
-        }
-    }
 }
 
 bool Meat::VIsFalling()
@@ -272,6 +453,7 @@ void Meat::VUpdate()
             {
                 InTheAir();
                 const PSX_RECT bRect = VGetBoundingRect();
+
                 const PSX_Point xy = {bRect.x, static_cast<s16>(bRect.y + 5)};
                 const PSX_Point wh = {bRect.w, static_cast<s16>(bRect.h + 5)};
                 OnCollisionWith(
@@ -363,203 +545,6 @@ void Meat::VUpdate()
     }
 }
 
-// =================================================================================
-
-
-
-const TintEntry kMeatTints_55C254[] = {
-    {EReliveLevelIds::eMines, 127u, 127u, 127u},
-    {EReliveLevelIds::eNecrum, 137u, 137u, 137u},
-    {EReliveLevelIds::eMudomoVault, 127u, 127u, 127u},
-    {EReliveLevelIds::eMudancheeVault, 127u, 127u, 127u},
-    {EReliveLevelIds::eFeeCoDepot, 127u, 127u, 127u},
-    {EReliveLevelIds::eBarracks, 127u, 127u, 127u},
-    {EReliveLevelIds::eMudancheeVault_Ender, 127u, 127u, 127u},
-    {EReliveLevelIds::eBonewerkz, 127u, 127u, 127u},
-    {EReliveLevelIds::eBrewery, 127u, 127u, 127u},
-    {EReliveLevelIds::eBrewery_Ender, 127u, 127u, 127u},
-    {EReliveLevelIds::eMudomoVault_Ender, 127u, 127u, 127u},
-    {EReliveLevelIds::eFeeCoDepot_Ender, 127u, 127u, 127u},
-    {EReliveLevelIds::eBarracks_Ender, 127u, 127u, 127u},
-    {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
-    {EReliveLevelIds::eNone, 127u, 127u, 127u},
-};
-
-void MeatSack::LoadAnimations()
-{
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::MeatSack_Hit));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::MeatSack_Idle));
-}
-
-MeatSack::MeatSack(relive::Path_MeatSack* pTlv, const Guid& tlvId)
-    : BaseAliveGameObject(0)
-{
-    SetType(ReliveTypes::eMeatSack);
-
-    LoadAnimations();
-
-    Animation_Init(GetAnimRes(AnimId::MeatSack_Idle));
-    SetTint(&kMeatTints_55C254[0], gMap.mCurrentLevel);
-
-    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
-    field_118_tlvInfo = tlvId;
-
-    field_11C_bDoMeatSackIdleAnim = 0;
-
-    mXPos = FP_FromInteger(pTlv->mTopLeftX);
-    mYPos = FP_FromInteger(pTlv->mTopLeftY);
-
-    field_124_velX = FP_FromRaw(pTlv->mVelX << 8);
-
-    // Throw the meat up into the air as it falls from the sack
-    field_128_velY = -FP_FromRaw(pTlv->mVelY << 8);
-
-    if (pTlv->mMeatFallDirection == relive::reliveXDirection::eLeft)
-    {
-        field_124_velX = -field_124_velX;
-    }
-
-    if (pTlv->mScale == relive::reliveScale::eHalf)
-    {
-        SetSpriteScale(FP_FromDouble(0.5));
-        GetAnimation().SetRenderLayer(Layer::eLayer_8);
-        SetScale(Scale::Bg);
-    }
-    else if (pTlv->mScale == relive::reliveScale::eFull)
-    {
-        SetSpriteScale(FP_FromInteger(1));
-        GetAnimation().SetRenderLayer(Layer::eLayer_27);
-        SetScale(Scale::Fg);
-    }
-
-    field_11E_amount_of_meat = pTlv->mMeatAmount;
-
-    CreateShadow();
-}
-
-s32 Meat::CreateFromSaveState(const u8* pBuffer)
-{
-    const auto pState = reinterpret_cast<const Meat_SaveState*>(pBuffer);
-
-    auto pMeat = relive_new Meat(pState->field_8_xpos, pState->field_C_ypos, pState->field_2A_count);
-
-    pMeat->mBaseGameObjectTlvInfo = pState->field_4_obj_id;
-
-    pMeat->mXPos = pState->field_8_xpos;
-    pMeat->mYPos = pState->field_C_ypos;
-
-    pMeat->mCollectionRect.x = pMeat->mXPos - (ScaleToGridSize(pMeat->GetSpriteScale()) / FP_FromInteger(2));
-    pMeat->mCollectionRect.y = pMeat->mYPos - ScaleToGridSize(pMeat->GetSpriteScale());
-    pMeat->mCollectionRect.w = (ScaleToGridSize(pMeat->GetSpriteScale()) / FP_FromInteger(2)) + pMeat->mXPos;
-    pMeat->mCollectionRect.h = pMeat->mYPos;
-
-    pMeat->mVelX = pState->field_10_velx;
-    pMeat->mVelY = pState->field_14_vely;
-
-    pMeat->mCurrentPath = pState->field_1C_path_number;
-    pMeat->mCurrentLevel = MapWrapper::FromAESaveData(pState->field_1E_lvl_number);
-
-    pMeat->SetSpriteScale(pState->field_18_sprite_scale);
-
-    pMeat->GetAnimation().mFlags.Set(AnimFlags::eLoop, pState->field_20_flags.Get(Meat_SaveState::eBit3_bLoop));
-    pMeat->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->field_20_flags.Get(Meat_SaveState::eBit1_bRender));
-
-    pMeat->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_20_flags.Get(Meat_SaveState::eBit2_bDrawable));
-    pMeat->mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8, pState->field_20_flags.Get(Meat_SaveState::eBit4_bInteractive));
-
-    pMeat->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eRestoredFromQuickSave);
-
-    pMeat->field_128_timer = sGnFrame;
-    pMeat->BaseAliveGameObjectCollisionLineType = pState->field_28_line_type;
-
-    pMeat->mBaseThrowableCount = pState->field_2A_count;
-    pMeat->field_11C_state = pState->field_2C_state;
-
-    pMeat->field_120_xpos = pState->field_30_xpos;
-    pMeat->field_124_ypos = pState->field_34_ypos;
-
-    pMeat->field_12C_deadtimer = pState->field_38_savedfield12C;
-    return sizeof(Meat_SaveState);
-}
-
-MeatSack::~MeatSack()
-{
-    Path::TLV_Reset(field_118_tlvInfo, -1, 0, 0);
-}
-
-void MeatSack::VScreenChanged()
-{
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-}
-
-void MeatSack::VUpdate()
-{
-    if (EventGet(kEventDeathReset))
-    {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-    }
-
-    if (GetAnimation().GetCurrentFrame() == 2)
-    {
-        if (field_120_bPlayWobbleSound)
-        {
-            if (Math_NextRandom() < 40u || field_122_always_0)
-            {
-                field_120_bPlayWobbleSound = 0;
-                field_122_always_0 = 0;
-                SFX_Play_Pitch(relive::SoundEffects::SackWobble, 24, Math_RandomRange(-2400, -2200));
-            }
-        }
-    }
-    else
-    {
-        field_120_bPlayWobbleSound = 1;
-    }
-
-    if (field_11C_bDoMeatSackIdleAnim)
-    {
-        if (field_11C_bDoMeatSackIdleAnim == 1 && GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
-        {
-            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MeatSack_Idle));
-            field_11C_bDoMeatSackIdleAnim = 0;
-        }
-    }
-    else
-    {
-        const PSX_RECT abeRect = sActiveHero->VGetBoundingRect();
-        const PSX_RECT ourRect = VGetBoundingRect();
-
-        if (RectsOverlap(ourRect, abeRect) && GetSpriteScale() == sActiveHero->GetSpriteScale())
-        {
-            if (gpThrowableArray)
-            {
-                if (gpThrowableArray->field_20_count)
-                {
-                    GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MeatSack_Hit));
-                    field_11C_bDoMeatSackIdleAnim = 1;
-                    return;
-                }
-            }
-            else
-            {
-                gpThrowableArray = relive_new ThrowableArray();
-            }
-
-            gpThrowableArray->Add(field_11E_amount_of_meat);
-
-            auto pMeat = relive_new Meat(mXPos, mYPos - FP_FromInteger(30), field_11E_amount_of_meat);
-             pMeat->VThrow(field_124_velX, field_128_velY);
-            pMeat->SetSpriteScale(GetSpriteScale());
-
-            SfxPlayMono(relive::SoundEffects::SackHit, 0);
-            Environment_SFX_457A40(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
-
-            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MeatSack_Hit));
-            field_11C_bDoMeatSackIdleAnim = 1;
-        }
-    }
-}
-
 s32 Meat::VGetSaveState(u8* pSaveBuffer)
 {
     auto pState = reinterpret_cast<Meat_SaveState*>(pSaveBuffer);
@@ -608,4 +593,18 @@ s32 Meat::VGetSaveState(u8* pSaveBuffer)
 bool Meat::VCanEatMe()
 {
     return field_11C_state != MeatStates::eCreated_0;
+}
+
+void Meat::VOnTrapDoorOpen()
+{
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
+    if (pPlatform)
+    {
+        pPlatform->VRemove(this);
+        BaseAliveGameObject_PlatformId = Guid{};
+        if (field_11C_state == MeatStates::eBecomeAPickUp_3 || field_11C_state == MeatStates::eWaitForPickUp_4)
+        {
+            field_11C_state = MeatStates::eIdle_1;
+        }
+    }
 }

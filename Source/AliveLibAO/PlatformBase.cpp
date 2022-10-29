@@ -8,6 +8,19 @@
 
 namespace AO {
 
+
+void PlatformBase::VAdd(BaseAliveGameObject* pObj)
+{
+    mPlatformBaseCount++;
+    LOG_INFO("Add " << (u64) pObj << " count " << mPlatformBaseCount << " gnFrame " << sGnFrame);
+    field_110 = 1;
+
+    if (mPlatformBaseCollisionLine)
+    {
+        SyncCollisionLinePosition();
+    }
+}
+
 void PlatformBase::VRemove(BaseAliveGameObject* pObj)
 {
     mPlatformBaseCount--;
@@ -55,8 +68,7 @@ void PlatformBase::AddDynamicCollision(AnimId animId, relive::Path_TLV* pTlv, Ma
         pTlv->mTopLeftY,
         pTlv->mBottomRightX,
         pTlv->mTopLeftY,
-        eLineTypes::eDynamicCollision_32
-    );
+        eLineTypes::eDynamicCollision_32);
 
     mPlatformBaseXOffset = FP_GetExponent(FP_FromInteger(pTlv->mTopLeftX) - mXPos);
     mPlatformBaseWidthOffset = FP_GetExponent(FP_FromInteger(pTlv->mBottomRightX) - mXPos);
@@ -90,37 +102,5 @@ void PlatformBase::SyncCollisionLinePosition()
     mPlatformBaseCollisionLine->mRect.h = FP_GetExponent(mYPos + FP_FromInteger(mPlatformBaseHeightOffset));
 }
 
-void PlatformBase::KeepThingsOnPlatform(FP xpos)
-{
-    for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
-    {
-        BaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(i);
-        if (!pObjIter)
-        {
-            break;
-        }
-
-        if (pObjIter->mLiftPoint == this)
-        {
-            pObjIter->mXPos += xpos;
-            pObjIter->mYPos = FP_FromInteger(mPlatformBaseCollisionLine->mRect.y);
-        }
-    }
-}
-
-void PlatformBase::VAdd(BaseAliveGameObject* pObj)
-{
-    mPlatformBaseCount++;
-    LOG_INFO("Add " << (u64) pObj << " count " << mPlatformBaseCount << " gnFrame " << sGnFrame);
-    field_110 = 1;
-
-    if (mPlatformBaseCollisionLine)
-    {
-        mPlatformBaseCollisionLine->mRect.x = FP_GetExponent(mXPos + FP_FromInteger(mPlatformBaseXOffset));
-        mPlatformBaseCollisionLine->mRect.w = FP_GetExponent(mXPos + FP_FromInteger(mPlatformBaseWidthOffset));
-        mPlatformBaseCollisionLine->mRect.y = FP_GetExponent(mYPos + FP_FromInteger(mPlatformBaseYOffset));
-        mPlatformBaseCollisionLine->mRect.h = FP_GetExponent(mYPos + FP_FromInteger(mPlatformBaseHeightOffset));
-    }
-}
 
 } // namespace AO

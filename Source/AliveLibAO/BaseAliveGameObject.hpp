@@ -48,7 +48,7 @@ public:
 
 public:
     s16 field_EC_bBeesCanChase = 0; // AO only: can the bees attack - can be above the value 1 but bee swarm only checks for non zero
-    PlatformBase* mLiftPoint = nullptr; // AO only
+    //PlatformBase* mLiftPoint = nullptr; // AO only
 };
 
 extern DynamicArrayT<BaseAliveGameObject>* gBaseAliveGameObjects;

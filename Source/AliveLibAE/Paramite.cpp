@@ -156,7 +156,7 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
         GetAnimation().SetRenderLayer(Layer::eLayer_8);
         SetScale(Scale::Bg);
     }
-    else if (pTlv->mScale == relive::reliveScale::eFull)
+    else
     {
         SetSpriteScale(FP_FromInteger(1));
         GetAnimation().SetRenderLayer(Layer::eLayer_27);
@@ -5560,16 +5560,6 @@ void Paramite::VRender(PrimHeader** ppOt)
     }
 }
 
-void Paramite::VOnTrapDoorOpen()
-{
-    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
-    if (pPlatform)
-    {
-        pPlatform->VRemove(this);
-        BaseAliveGameObject_PlatformId = Guid{};
-        SetCurrentMotion(eParamiteMotions::Motion_11_Falling);
-    }
-}
 
 void Paramite::ToHop()
 {
@@ -6256,4 +6246,16 @@ GameSpeakEvents Paramite::LastSpeak()
     }
 
     return GameSpeakEvents::eNone_m1;
+}
+
+
+void Paramite::VOnTrapDoorOpen()
+{
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
+    if (pPlatform)
+    {
+        pPlatform->VRemove(this);
+        BaseAliveGameObject_PlatformId = Guid{};
+        SetCurrentMotion(eParamiteMotions::Motion_11_Falling);
+    }
 }

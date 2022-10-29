@@ -16,6 +16,7 @@
 #include "Abe.hpp"
 #include "Math.hpp"
 #include "Grid.hpp"
+#include "../relive_lib/ObjectIds.hpp"
 
 namespace AO {
 
@@ -74,8 +75,6 @@ MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
 
     SetTint(kMovingBombTints, gMap.mCurrentLevel);
 
-    mLiftPoint = nullptr;
-
     FP hitX = {};
     FP hitY = {};
     if (sCollisions->Raycast(
@@ -97,11 +96,11 @@ MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
 
 MovingBomb::~MovingBomb()
 {
-    if (mLiftPoint)
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
+    if (pPlatform)
     {
-        mLiftPoint->VRemove(this);
-        mLiftPoint->mBaseGameObjectRefCount--;
-        mLiftPoint = nullptr;
+        pPlatform->VRemove(this);
+        BaseAliveGameObject_PlatformId = Guid{};
     }
 
     if (field_10C_state == States::eBlowingUp_6 || field_10C_state == States::eKillMovingBomb_7)

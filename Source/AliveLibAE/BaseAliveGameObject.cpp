@@ -235,8 +235,7 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid(s32 distance)
         BaseAliveGameObjectCollisionLine = pLine;
         mYPos = hitY;
 
-        if (pLine->mLineType == eLineTypes::eDynamicCollision_32 ||
-            pLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
+        if (pLine->mLineType == eLineTypes::eDynamicCollision_32 || pLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
         {
             const PSX_RECT bRect = VGetBoundingRect();
 

@@ -16,6 +16,7 @@
 #include "../relive_lib/Particle.hpp"
 #include "Grid.hpp"
 #include "PathData.hpp"
+#include "../relive_lib/ObjectIds.hpp"
 
 namespace AO {
 
@@ -34,8 +35,8 @@ MeatSack::MeatSack(relive::Path_MeatSack* pTlv, const Guid& tlvId)
 
     Animation_Init(GetAnimRes(AnimId::MeatSack_Idle));
 
-    field_10C_tlvInfo = tlvId;
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+    field_10C_tlvInfo = tlvId;
 
     field_110_bDoMeatSackIdleAnim = 0;
 
@@ -145,6 +146,7 @@ void MeatSack::VUpdate()
 
             SfxPlayMono(relive::SoundEffects::SackHit, 0);
             Environment_SFX_42A220(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, nullptr);
+
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MeatSack_Hit));
             field_110_bDoMeatSackIdleAnim = 1;
             return;
@@ -160,7 +162,7 @@ void MeatSack::VScreenChanged()
 Meat::Meat(FP xpos, FP ypos, s16 count)
     : BaseThrowable()
 {
-    mIsDead = 0;
+    mBaseThrowableDead = 0;
 
     SetType(ReliveTypes::eMeat);
 
@@ -176,35 +178,37 @@ Meat::Meat(FP xpos, FP ypos, s16 count)
     mVelX = FP_FromInteger(0);
     mVelY = FP_FromInteger(0);
     field_11C_timer = 0;
-    mBaseGameObjectFlags.Clear(Options::eInteractive_Bit8);
+    mBaseGameObjectFlags.Clear(BaseGameObject::eInteractive_Bit8);
 
     GetAnimation().mFlags.Clear(AnimFlags::eRender);
     GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
 
     field_120_deadtimer = sGnFrame + 600;
     field_124_pLine = 0;
-    mThrowableCount = count;
+    mBaseThrowableCount = count;
     field_110_state = 0;
 
     CreateShadow();
 }
 
-Meat::~Meat()
-{
-    if (!mIsDead)
-    {
-        if (gThrowableArray)
-        {
-            gThrowableArray->Remove(mThrowableCount >= 1u ? mThrowableCount : 1);
-        }
-    }
-}
+
 
 void Meat::VScreenChanged()
 {
     if (gMap.mCurrentPath != gMap.mNextPath || gMap.mCurrentLevel != gMap.mNextLevel)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    }
+}
+
+Meat::~Meat()
+{
+    if (!mBaseThrowableDead)
+    {
+        if (gThrowableArray)
+        {
+            gThrowableArray->Remove(mBaseThrowableCount >= 1 ? mBaseThrowableCount : 1);
+        }
     }
 }
 
@@ -215,7 +219,7 @@ void Meat::VThrow(FP velX, FP velY)
     mVelX = velX;
     mVelY = velY;
 
-    if (mThrowableCount == 0)
+    if (mBaseThrowableCount == 0)
     {
         field_110_state = 2;
     }
@@ -391,7 +395,7 @@ void Meat::VUpdate()
 
                 if (mYPos > FP_FromInteger(gMap.mPathData->field_A_bBottom))
                 {
-                    mBaseGameObjectFlags.Set(Options::eDead);
+                    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 }
                 break;
             }
@@ -511,28 +515,29 @@ void Meat::AddToPlatform()
     BaseAddToPlatform();
 }
 
+
+s16 Meat::VGetCount()
+{
+    if (field_110_state == 4 && mBaseThrowableCount == 0)
+    {
+        return 1;
+    }
+
+    return mBaseThrowableCount;
+}
+
 void Meat::VOnTrapDoorOpen()
 {
-    if (mLiftPoint)
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
+    if (pPlatform)
     {
-        mLiftPoint->VRemove(this);
-        mLiftPoint->mBaseGameObjectRefCount--;
-        mLiftPoint = nullptr;
+        pPlatform->VRemove(this);
+        BaseAliveGameObject_PlatformId = Guid{};
         if (field_110_state == 3 || field_110_state == 4)
         {
             field_110_state = 1;
         }
     }
-}
-
-s16 Meat::VGetCount()
-{
-    if (field_110_state == 4 && mThrowableCount == 0)
-    {
-        return 1;
-    }
-
-    return mThrowableCount;
 }
 
 } // namespace AO

@@ -11,6 +11,7 @@
 #include "Grid.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
 #include "../relive_lib/GameType.hpp"
+#include "../relive_lib/ObjectIds.hpp"
 
 namespace AO {
 
@@ -32,7 +33,7 @@ BaseAliveGameObject::BaseAliveGameObject()
     BaseAliveGameObjectPathTLV = nullptr;
     BaseAliveGameObjectCollisionLine = nullptr;
     mHealth = FP_FromInteger(1);
-    mLiftPoint = nullptr;
+    BaseAliveGameObject_PlatformId = Guid{};
     mbGotShot = false;
     mbMotionChanged = false;
     field_EC_bBeesCanChase = 0;
@@ -49,20 +50,20 @@ BaseAliveGameObject::BaseAliveGameObject()
 
 BaseAliveGameObject::~BaseAliveGameObject()
 {
+    BaseAliveGameObject* pLiftPoint = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     gBaseAliveGameObjects->Remove_Item(this);
 
-    if (mLiftPoint)
+    if (pLiftPoint)
     {
-        mLiftPoint->VRemove(this);
-        mLiftPoint->mBaseGameObjectRefCount--;
-        mLiftPoint = nullptr;
+        pLiftPoint->VOnTrapDoorOpen();
+        BaseAliveGameObject_PlatformId = Guid{};
     }
-
-
 }
 
 void BaseAliveGameObject::VSetXSpawn(s16 camWorldX, s32 screenXPos)
 {
+    BaseAliveGameObject* pLiftPoint = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
+
     const FP old_x = mXPos;
     const FP old_y = mYPos;
 
@@ -70,9 +71,9 @@ void BaseAliveGameObject::VSetXSpawn(s16 camWorldX, s32 screenXPos)
 
     BaseAliveGameObjectPathTLV = gMap.TLV_Get_At(0, mXPos, old_y, mXPos, old_y);
 
-    if (mLiftPoint)
+    if (pLiftPoint)
     {
-        mLiftPoint->mXPos += (mXPos - old_x);
+        pLiftPoint->mXPos += (mXPos - old_x);
 
         BaseAliveGameObjectCollisionLine->mRect.x += FP_GetExponent(mXPos - old_x);
         BaseAliveGameObjectCollisionLine->mRect.w += FP_GetExponent(mXPos - old_x);
@@ -142,6 +143,8 @@ void BaseAliveGameObject::VSetXSpawn(s16 camWorldX, s32 screenXPos)
 
 void BaseAliveGameObject::VSetYSpawn(s32 camWorldY, s16 bLeft)
 {
+    BaseAliveGameObject* pLiftPoint = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
+
     const FP oldx = mXPos;
     const FP oldy = mYPos;
 
@@ -163,10 +166,10 @@ void BaseAliveGameObject::VSetYSpawn(s32 camWorldY, s16 bLeft)
         mXPos,
         mYPos);
 
-    if (mLiftPoint)
+    if (pLiftPoint)
     {
-        mLiftPoint->mXPos += mXPos - oldx;
-        mLiftPoint->mYPos += mYPos - oldy;
+        pLiftPoint->mXPos += mXPos - oldx;
+        pLiftPoint->mYPos += mYPos - oldy;
 
         BaseAliveGameObjectCollisionLine->mRect.x += FP_GetExponent(mXPos - oldx);
         BaseAliveGameObjectCollisionLine->mRect.w += FP_GetExponent(mXPos - oldx);
@@ -177,63 +180,64 @@ void BaseAliveGameObject::VSetYSpawn(s32 camWorldY, s16 bLeft)
 
 void BaseAliveGameObject::VCheckCollisionLineStillValid(s32 distance)
 {
-    if (BaseAliveGameObjectCollisionLine)
+    PlatformBase* pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
+    if (!BaseAliveGameObjectCollisionLine)
     {
-        PathLine* pLine = nullptr;
-        FP hitX = {};
-        FP hitY = {};
+        return;
+    }
 
-        const CollisionMask mask = GetSpriteScale() != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor;
-        if (sCollisions->Raycast(
-                mXPos,
-                mYPos - FP_FromInteger(distance),
-                mXPos,
-                mYPos + FP_FromInteger(distance),
-                &pLine,
-                &hitX,
-                &hitY,
-                mask))
+    if (pPlatform)
+    {
+        BaseAliveGameObject_PlatformId = Guid{};
+        pPlatform->VRemove(this);
+    }
+
+    PathLine* pLine = nullptr;
+    FP hitX = {};
+    FP hitY = {};
+
+    const CollisionMask mask = GetSpriteScale() != FP_FromDouble(0.5) ? kFgWallsOrFloor : kBgWallsOrFloor;
+    if (sCollisions->Raycast(
+            mXPos,
+            mYPos - FP_FromInteger(distance),
+            mXPos,
+            mYPos + FP_FromInteger(distance),
+            &pLine,
+            &hitX,
+            &hitY,
+            mask))
+    {
+        BaseAliveGameObjectCollisionLine = pLine;
+        mYPos = hitY;
+        if (pLine->mLineType == eLineTypes ::eDynamicCollision_32 || pLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
         {
-            BaseAliveGameObjectCollisionLine = pLine;
-            mYPos = hitY;
-            if (mLiftPoint)
-            {
-                if (pLine->mLineType == eLineTypes ::eDynamicCollision_32 || pLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
-                {
-                    // OG bug fix: didn't remove ourself from the lift!
-                    mLiftPoint->VRemove(this);
-                    mLiftPoint->mBaseGameObjectRefCount--;
-                    mLiftPoint = nullptr;
+            PSX_RECT bRect = VGetBoundingRect();
+            bRect.y += 5;
+            bRect.h += 5;
 
-                    PSX_RECT bRect = VGetBoundingRect();
-                    bRect.y += 5;
-                    bRect.h += 5;
-
-                    OnCollisionWith(
-                        {bRect.x, bRect.y},
-                        {bRect.w, bRect.h},
-                        gPlatformsArray);
-                }
-            }
+            OnCollisionWith(
+                {bRect.x, bRect.y},
+                {bRect.w, bRect.h},
+                gPlatformsArray);
         }
-        else
+    }
+    else
+    {
+        BaseAliveGameObjectPathTLV = gMap.TLV_First_Of_Type_In_Camera(ReliveTypes::eStartController, 0);
+        if (BaseAliveGameObjectPathTLV)
         {
-            BaseAliveGameObjectPathTLV = gMap.TLV_First_Of_Type_In_Camera(ReliveTypes::eStartController, 0);
-            if (BaseAliveGameObjectPathTLV)
+            if (sCollisions->Raycast(
+                    mXPos,
+                    FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeftY),
+                    mXPos,
+                    FP_FromInteger(BaseAliveGameObjectPathTLV->mBottomRightY),
+                    &pLine,
+                    &hitX,
+                    &hitY,
+                    mask))
             {
-                if (sCollisions->Raycast(
-                        mXPos,
-                        FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeftY),
-                        mXPos,
-                        FP_FromInteger(BaseAliveGameObjectPathTLV->mBottomRightY),
-                        &pLine,
-                        &hitX,
-                        &hitY,
-                        mask))
-                {
-                    BaseAliveGameObjectCollisionLine = pLine;
-                    mYPos = hitY;
-                }
+                BaseAliveGameObjectCollisionLine = pLine;
+                mYPos = hitY;
             }
         }
     }
@@ -425,14 +429,16 @@ void BaseAliveGameObject::VOnPathTransition(s16 camWorldX, s32 camWorldY, Camera
 
     mXPos = FP_FromInteger(camLoc.x + SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos - FP_FromInteger(camLoc.x))));
 
-    if (mLiftPoint)
+    // TODO: Think a path changes deletes the platforms...
+    PlatformBase* pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
+    if (pPlatform)
     {
         // Move lift point into the new path
         const FP rect_left = mXPos - oldx;
         const FP rect_right = mYPos - oldy;
 
-        mLiftPoint->mXPos += rect_left;
-        mLiftPoint->mYPos += rect_right;
+        pPlatform->mXPos += rect_left;
+        pPlatform->mYPos += rect_right;
 
         BaseAliveGameObjectCollisionLine->mRect.x += FP_GetExponent(rect_left);
         BaseAliveGameObjectCollisionLine->mRect.w += FP_GetExponent(rect_left);
@@ -780,11 +786,11 @@ s16 BaseAliveGameObject::VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObje
     // OG bug fix, when we call VCheckCollisionLineStillValid it can place us on a new lift
     // but then we call OnCollisionWith which can sometimes add us to the same lift again
     // result in the lift being leaked and then memory corruption/crash later.
-    if (mLiftPoint != pPlatform)
+    BaseAliveGameObject* pCurrentPlatform = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
+    if (pCurrentPlatform != pPlatform)
     {
-        mLiftPoint = static_cast<PlatformBase*>(pPlatform);
-        mLiftPoint->VAdd(this);
-        mLiftPoint->mBaseGameObjectRefCount++;
+        static_cast<PlatformBase*>(pPlatform)->VAdd(this);
+        BaseAliveGameObject_PlatformId = pPlatform->mBaseGameObjectId;
     }
     else
     {

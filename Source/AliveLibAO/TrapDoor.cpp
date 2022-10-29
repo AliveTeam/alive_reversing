@@ -7,6 +7,7 @@
 #include "SwitchStates.hpp"
 #include "Game.hpp"
 #include "../relive_lib/Collisions.hpp"
+#include "../relive_lib/ObjectIds.hpp"
 
 namespace AO {
 
@@ -52,6 +53,7 @@ void TrapDoor::LoadAnimations()
 TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, Map* pMap, const Guid& tlvId)
 {
     SetType(ReliveTypes::eTrapDoor);
+    mBaseGameObjectTlvInfo = tlvId;
     mSwitchId = pTlv->mSwitchId;
     mStartState = pTlv->mStartState;
 
@@ -89,10 +91,11 @@ TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, Map* pMap, const Guid& tlvId)
         pMap,
         tlvId);
 
-    mTrapDoorY = FP_FromInteger(pTlv->mTopLeftY);
     mTrapDoorX = FP_FromInteger(pTlv->mTopLeftX);
+    mTrapDoorY = FP_FromInteger(pTlv->mTopLeftY);
 
     GetAnimation().Set_Animation_Data(GetAnimRes(animId));
+
     if (pTlv->mDirection == relive::reliveXDirection::eRight)
     {
         GetAnimation().mFlags.Set(AnimFlags::eFlipX);
@@ -139,7 +142,6 @@ void TrapDoor::VScreenChanged()
     if (gMap.LevelChanged() || gMap.PathChanged())
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-
         if (mSelfClosing == relive::reliveChoice::eYes)
         {
             SwitchStates_Set(mSwitchId, mStartState == 0);
@@ -167,16 +169,16 @@ void TrapDoor::Open()
             break;
         }
 
-        // Find alive objects..
+        // Find alive objects.
         if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
-            // That are on this trap door
+            // That are on this trap door.
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
-            if (pAliveObj->mLiftPoint == this)
+            if (sObjectIds.Find_Impl(pAliveObj->BaseAliveGameObject_PlatformId) == this)
             {
                 pAliveObj->VOnTrapDoorOpen();
 
-                // Clear their collision line if they are on this trap door that has opened
+                // Clear their collision line if they are on this trap door that has opened.
                 if (mPlatformBaseCollisionLine == pAliveObj->BaseAliveGameObjectCollisionLine)
                 {
                     pAliveObj->BaseAliveGameObjectCollisionLine = nullptr;

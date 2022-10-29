@@ -498,8 +498,8 @@ void Scrab::VOnTrapDoorOpen()
     if (pPlatform)
     {
         pPlatform->VRemove(this);
-        field_1AA_flags.Set(Flags_1AA::eBit4_force_update_animation);
         BaseAliveGameObject_PlatformId = Guid{};
+        field_1AA_flags.Set(Flags_1AA::eBit4_force_update_animation);
         mCurrentMotion = eScrabMotions::Motion_15_RunToFall;
     }
 }

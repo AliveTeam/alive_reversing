@@ -341,7 +341,7 @@ struct Abe_SaveState final
     MudSounds mSay;
     u32 mAutoSayTimer;
     u32 mRingPulseTimer;
-    s8 mThrowableCount;
+    s8 mBaseThrowableCount;
     s8 bShrivel;
     s8 mHaveShrykull;
     s8 bHaveInvisiblity;
@@ -463,7 +463,7 @@ public:
     Abe_1BC_20_sub_object field_128 = {};
     s32 field_124_timer = 0;
     Guid mBirdPortalId;
-    s8 mThrowableCount = 0;
+    s8 mBaseThrowableCount = 0;
     Guid mThrowableId;
     s16 field_1A0_door_id = 0;
     s8 mThrowDirection = 0;

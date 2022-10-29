@@ -20,6 +20,7 @@
 #include "Math.hpp"
 #include "Grid.hpp"
 #include "../AliveLibAE/Sound/Midi.hpp"
+#include "../relive_lib/ObjectIds.hpp"
 
 namespace AO {
 
@@ -262,11 +263,11 @@ void Elum::ToKnockback()
 
 void Elum::VOnTrapDoorOpen()
 {
-    if (mLiftPoint)
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
+    if (pPlatform)
     {
-        mLiftPoint->VRemove(this);
-        mLiftPoint->mBaseGameObjectRefCount--;
-        mLiftPoint = nullptr;
+        pPlatform->VRemove(this);
+        BaseAliveGameObject_PlatformId = Guid{};
     }
 }
 
@@ -378,9 +379,10 @@ void Elum::SlowOnX_414210(FP amount)
 
 void Elum::CheckLiftPointGoneAndSetCamera()
 {
-    if (mLiftPoint)
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
+    if (pPlatform)
     {
-        if (mLiftPoint->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+        if (pPlatform->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
         {
             VOnTrapDoorOpen();
             field_170_flags.Set(Elum::Flags_170::eFalling_Bit3);
@@ -397,6 +399,7 @@ void Elum::MoveOnLine(s16 xLookAhead)
 {
     CheckLiftPointGoneAndSetCamera();
 
+    BaseGameObject* pPlatform = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
     const FP oldX = mXPos;
     FP xpos_off_fp = mXPos + FP_FromInteger(xLookAhead);
     BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(
@@ -407,7 +410,7 @@ void Elum::MoveOnLine(s16 xLookAhead)
     if (BaseAliveGameObjectCollisionLine)
     {
         mXPos += mVelX;
-        if (mLiftPoint)
+        if (pPlatform)
         {
             if (BaseAliveGameObjectCollisionLine->mLineType != eLineTypes::eDynamicCollision_32)
             {
@@ -530,12 +533,12 @@ s16 Elum::ToNextMotion_4120F0()
 
 s16 Elum::ToNextMotionAbeControlled_411E40()
 {
-    LiftPoint* pLiftPoint = static_cast<LiftPoint*>(mLiftPoint);
-    if (pLiftPoint)
+    auto pPlatform = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
+    if (pPlatform)
     {
-        if (pLiftPoint->field_10C == 1)
+        if (pPlatform->field_10C == 1)
         {
-            if (!pLiftPoint->OnAnyFloor())
+            if (!pPlatform->OnAnyFloor())
             {
                 return 0;
             }
@@ -630,7 +633,7 @@ void Elum::HandleElumPathTrans_411460()
 
     if (BaseAliveGameObjectCollisionLine && BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eDynamicCollision_32)
     {
-        mLiftPoint = nullptr;
+        BaseAliveGameObject_PlatformId = Guid{};
     }
 
     PathLine* pLine = nullptr;
@@ -800,7 +803,7 @@ s16 Elum::NearHoney_411DA0()
 {
     if (field_170_flags.Get(Elum::Flags_170::eFoundHoney_Bit4))
     {
-        auto pLiftPoint = static_cast<LiftPoint*>(mLiftPoint);
+        auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
         if (pLiftPoint && pLiftPoint->field_10C == 1 && !pLiftPoint->OnAnyFloor())
         {
             // We're on a lift that isn't on a floor
@@ -915,11 +918,12 @@ s16 Elum::Brain_0_WithoutAbe_416190()
                 return 4;
             }
 
-            if (mLiftPoint)
+            auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
+            if (pPlatform)
             {
-                if (mLiftPoint->field_10C == 1)
+                if (pPlatform->field_10C == 1)
                 {
-                    auto pLift = static_cast<LiftPoint*>(mLiftPoint);
+                    auto pLift = static_cast<LiftPoint*>(pPlatform);
                     if (!pLift->OnAnyFloor()) // TODO: Check logic
                     {
                         if (mXPos == sActiveHero->mXPos)
@@ -3375,7 +3379,7 @@ void Elum::VUpdate()
                 {bRect.w, static_cast<s16>(bRect.h + 5)},
                 gPlatformsArray);
 
-            if (mLiftPoint)
+            if (BaseAliveGameObject_PlatformId != Guid{})
             {
                 field_170_flags.Clear(Elum::Flags_170::eFalling_Bit3);
             }
@@ -3504,7 +3508,7 @@ void Elum::VScreenChanged()
                 }
             }
 
-            if (mLiftPoint)
+            if (BaseAliveGameObject_PlatformId != Guid{})
             {
                 VOnTrapDoorOpen();
                 field_170_flags.Set(Elum::Flags_170::eFalling_Bit3);
@@ -3574,7 +3578,6 @@ Elum::Elum(const Guid& tlvInfo)
     field_170_flags.Clear(Elum::Flags_170::eChangedPathNotMounted_Bit5);
     field_170_flags.Clear(Elum::Flags_170::eChangedPathMounted_Bit7);
 
-    mLiftPoint = nullptr;
     gElum = this;
 
     mCurrentMotion = eElumMotions::Motion_21_Land_414A20;

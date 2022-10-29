@@ -14,35 +14,6 @@
 #include "../relive_lib/Collisions.hpp"
 #include "Path.hpp"
 
-Grenade::Grenade(FP xpos, FP ypos, s32 numGrenades, bool bBlowUpOnCollision, s32 unused, BaseGameObject* pOwner)
-    : BaseThrowable(0)
-{
-    mBaseThrowableDead = 0;
-
-    Init(xpos, ypos);
-
-    mBaseThrowableCount = static_cast<s16>(numGrenades);
-    field_132_bBlowUpOnCollision = bBlowUpOnCollision;
-
-    if (bBlowUpOnCollision)
-    {
-        field_120_state = GrenadeStates::eDoesNothing_8;
-        mBaseThrowableDead = 1;
-    }
-    else if (numGrenades)
-    {
-        field_120_state = GrenadeStates::eFallingToBeCollected_0;
-    }
-    else
-    {
-        field_120_state = GrenadeStates::eCountingDown_3;
-        field_122_explode_timer = 90;
-    }
-
-    field_138_pOwner = pOwner;
-    field_130_unused = static_cast<s16>(unused);
-}
-
 s32 Grenade::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const Grenade_SaveState*>(pBuffer);
@@ -134,13 +105,33 @@ s32 Grenade::VGetSaveState(u8* pSaveBuffer)
     return sizeof(Grenade_SaveState);
 }
 
-void Grenade::VScreenChanged()
+Grenade::Grenade(FP xpos, FP ypos, s32 numGrenades, bool bBlowUpOnCollision, s32 unused, BaseGameObject* pOwner)
+    : BaseThrowable(0)
 {
-    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath)
+    mBaseThrowableDead = 0;
+
+    Init(xpos, ypos);
+
+    mBaseThrowableCount = static_cast<s16>(numGrenades);
+    field_132_bBlowUpOnCollision = bBlowUpOnCollision;
+
+    if (bBlowUpOnCollision)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        field_120_state = GrenadeStates::eDoesNothing_8;
+        mBaseThrowableDead = 1;
     }
-    field_11C_explosion_id = Guid{};
+    else if (numGrenades)
+    {
+        field_120_state = GrenadeStates::eFallingToBeCollected_0;
+    }
+    else
+    {
+        field_120_state = GrenadeStates::eCountingDown_3;
+        field_122_explode_timer = 90;
+    }
+
+    field_138_pOwner = pOwner;
+    field_130_unused = static_cast<s16>(unused);
 }
 
 void Grenade::Init(FP xpos, FP ypos)
@@ -149,6 +140,7 @@ void Grenade::Init(FP xpos, FP ypos)
 
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Grenade));
     Animation_Init(GetAnimRes(AnimId::Grenade));
+
     mBaseGameObjectFlags.Clear(BaseGameObject::eInteractive_Bit8);
 
     GetAnimation().mFlags.Clear(AnimFlags::eRender);
@@ -159,8 +151,10 @@ void Grenade::Init(FP xpos, FP ypos)
     field_11C_explosion_id = Guid{};
     mXPos = xpos;
     mYPos = ypos;
+
     field_128_xpos = xpos;
     field_12C_ypos = ypos;
+
     mVelX = FP_FromInteger(0);
     mVelY = FP_FromInteger(0);
     mBaseThrowableCount = 0;
@@ -168,22 +162,16 @@ void Grenade::Init(FP xpos, FP ypos)
     field_134_bExplodeNow = FALSE;
 }
 
-void Grenade::VOnTrapDoorOpen()
+
+void Grenade::AddToPlatform()
 {
-    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
-    if (pPlatform)
-    {
-        pPlatform->VRemove(this);
-        BaseAliveGameObject_PlatformId = Guid{};
-        if (field_120_state == GrenadeStates::eWaitToBeCollected_1 || field_120_state == GrenadeStates::eDoesNothing_2)
-        {
-            field_120_state = GrenadeStates::eFallingToBeCollected_0;
-        }
-        else if (field_120_state != GrenadeStates::eWaitForExplodeEnd_6)
-        {
-            field_120_state = GrenadeStates::eFalling_4;
-        }
-    }
+    BaseAddToPlatform([](ReliveTypes type)
+                      { return type == ReliveTypes::eLiftPoint || type == ReliveTypes::eTrapDoor; });
+}
+
+void Grenade::VTimeToExplodeRandom()
+{
+    field_122_explode_timer -= Math_NextRandom() % 16;
 }
 
 void Grenade::VThrow(FP velX, FP velY)
@@ -206,67 +194,13 @@ void Grenade::VThrow(FP velX, FP velY)
     }
 }
 
-bool Grenade::VCanThrow()
+void Grenade::VScreenChanged()
 {
-    return FALSE;
-}
-
-bool Grenade::VIsFalling()
-{
-    return FALSE;
-}
-
-void Grenade::VTimeToExplodeRandom()
-{
-    field_122_explode_timer -= Math_NextRandom() % 16;
-}
-
-void Grenade::BlowUp(s16 bSmallExplosion)
-{
-    auto pExplosion = relive_new AirExplosion(
-        mXPos,
-        mYPos - (GetSpriteScale() * FP_FromInteger(5)),
-        GetSpriteScale(),
-        bSmallExplosion);
-    if (pExplosion)
+    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath)
     {
-        field_11C_explosion_id = pExplosion->mBaseGameObjectId;
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
-
-    GetAnimation().mFlags.Clear(AnimFlags::eRender);
-
-    field_120_state = GrenadeStates::eWaitForExplodeEnd_6;
-
-    relive_new Gibs(GibType::Metal_5, mXPos, mYPos, FP_FromInteger(0), FP_FromInteger(5), GetSpriteScale(), bSmallExplosion);
-}
-
-Grenade::~Grenade()
-{
-    if (!gInfiniteThrowables && !mBaseThrowableDead)
-    {
-        if (gpThrowableArray)
-        {
-            gpThrowableArray->Remove(mBaseThrowableCount >= 1 ? mBaseThrowableCount : 1);
-        }
-    }
-}
-
-s16 Grenade::TimeToBlowUp()
-{
-    field_122_explode_timer--;
-    const s16 timer = field_122_explode_timer;
-    if (!(timer % 16))
-    {
-        SfxPlayMono(relive::SoundEffects::GreenTick, 0);
-    }
-
-    if (timer)
-    {
-        return 0;
-    }
-
-    BlowUp(0);
-    return 1;
+    field_11C_explosion_id = Guid{};
 }
 
 void Grenade::VUpdate()
@@ -311,7 +245,7 @@ void Grenade::VUpdate()
                 mCollectionRect.w = mXPos + (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
                 mCollectionRect.h = mYPos;
 
-                mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8);
+	            mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8);
                 field_120_state = GrenadeStates::eWaitToBeCollected_1;
             }
             break;
@@ -452,9 +386,11 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
     field_12C_ypos = mYPos;
 
     mVelY += FP_FromInteger(1);
-    mXPos += mVelX;
-    mYPos = mVelY + mYPos;
 
+    mXPos += mVelX;
+    mYPos += mVelY;
+
+    // Kill the nade if it hits a death drop
     BaseAliveGameObjectPathTLV = sPathInfo->TlvGetAt(
         nullptr,
         mXPos,
@@ -488,8 +424,7 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            GetScale() == Scale::Fg ? kFgFloor : kBgFloor)
-        == 1)
+            GetScale() == Scale::Fg ? kFgFloor : kBgFloor) == 1)
     {
         if (mVelY <= FP_FromInteger(0))
         {
@@ -537,7 +472,7 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
                 }
 
                 SfxPlayMono(relive::SoundEffects::GrenadeBounce, vol);
-                ++field_124;
+                field_124++;
 
                 EventBroadcast(kEventNoise, this);
                 EventBroadcast(kEventSuspiciousNoise, this);
@@ -554,13 +489,12 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            GetScale() == Scale::Fg ? kFgWalls : kBgWalls)
-        == 1)
+            GetScale() == Scale::Fg ? kFgWalls : kBgWalls) == 1)
     {
         switch (BaseAliveGameObjectCollisionLine->mLineType)
         {
-            case 1u:
-            case 5u:
+            case 1:
+            case 5:
                 if (mVelX < FP_FromInteger(0))
                 {
                     mYPos = hitY;
@@ -578,8 +512,8 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
                 }
                 break;
 
-            case 2u:
-            case 6u:
+            case 2:
+            case 6:
                 if (mVelX > FP_FromInteger(0))
                 {
                     mXPos = hitX;
@@ -590,6 +524,7 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
                     {
                         vol = 40;
                     }
+
                     SfxPlayMono(relive::SoundEffects::GrenadeBounce, vol);
                     EventBroadcast(kEventNoise, this);
                     EventBroadcast(kEventSuspiciousNoise, this);
@@ -603,12 +538,6 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
     }
 
     return 1;
-}
-
-void Grenade::AddToPlatform()
-{
-    BaseAddToPlatform([](ReliveTypes type)
-                      { return type == ReliveTypes::eLiftPoint || type == ReliveTypes::eTrapDoor; });
 }
 
 s16 Grenade::OnCollision_BounceOff(BaseGameObject* pHit)
@@ -641,6 +570,82 @@ s16 Grenade::OnCollision_BounceOff(BaseGameObject* pHit)
 
     SfxPlayMono(relive::SoundEffects::RockBounceOnMine, 0);
     return 0;
+}
+
+s16 Grenade::TimeToBlowUp()
+{
+    field_122_explode_timer--;
+    const s16 timer = field_122_explode_timer;
+    if (!(timer % 16))
+    {
+        SfxPlayMono(relive::SoundEffects::GreenTick, 0);
+    }
+
+    if (timer)
+    {
+        return 0;
+    }
+
+    BlowUp(0);
+    return 1;
+}
+
+void Grenade::BlowUp(s16 bSmallExplosion)
+{
+    auto pExplosion = relive_new AirExplosion(
+        mXPos,
+        mYPos - (GetSpriteScale() * FP_FromInteger(5)),
+        GetSpriteScale(),
+        bSmallExplosion);
+    if (pExplosion)
+    {
+        field_11C_explosion_id = pExplosion->mBaseGameObjectId;
+    }
+
+    GetAnimation().mFlags.Clear(AnimFlags::eRender);
+
+    field_120_state = GrenadeStates::eWaitForExplodeEnd_6;
+
+    relive_new Gibs(GibType::Metal_5, mXPos, mYPos, FP_FromInteger(0), FP_FromInteger(5), GetSpriteScale(), bSmallExplosion);
+}
+
+bool Grenade::VCanThrow()
+{
+    return FALSE;
+}
+
+bool Grenade::VIsFalling()
+{
+    return FALSE;
+}
+
+void Grenade::VOnTrapDoorOpen()
+{
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
+    if (pPlatform)
+    {
+        pPlatform->VRemove(this);
+        BaseAliveGameObject_PlatformId = Guid{};
+        if (field_120_state == GrenadeStates::eWaitToBeCollected_1 || field_120_state == GrenadeStates::eDoesNothing_2)
+        {
+            field_120_state = GrenadeStates::eFallingToBeCollected_0;
+        }
+        else if (field_120_state != GrenadeStates::eWaitForExplodeEnd_6)
+        {
+            field_120_state = GrenadeStates::eFalling_4;
+        }
+    }
+}
+
+Grenade::~Grenade()
+{
+    if (!gInfiniteThrowables && !mBaseThrowableDead)
+    {
+        if (gpThrowableArray)
+        {
+            gpThrowableArray->Remove(mBaseThrowableCount >= 1 ? mBaseThrowableCount : 1);
+        }
+    }
 }
 
 s16 Grenade::OnCollision_InstantExplode(BaseGameObject* pHit)

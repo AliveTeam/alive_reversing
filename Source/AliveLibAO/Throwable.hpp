@@ -14,8 +14,8 @@ BaseThrowable* Make_Throwable(FP xpos, FP ypos, s16 count);
 class BaseThrowable : public BaseAliveGameObject
 {
 public:
-    s16 mThrowableCount = 0;
-    s16 mIsDead = 0;
+    s16 mBaseThrowableCount = 0;
+    s16 mBaseThrowableDead = 0;
 
     virtual void VThrow(FP velX, FP velY) = 0;
     virtual s16 VCanThrow() = 0;

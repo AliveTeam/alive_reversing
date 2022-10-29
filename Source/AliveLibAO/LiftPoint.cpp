@@ -9,6 +9,7 @@
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/ShadowZone.hpp"
 #include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/ObjectIds.hpp"
 
 namespace AO {
 
@@ -78,6 +79,7 @@ void LiftPoint::LoadAnimations()
 LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, Map* pPath, const Guid& tlvId)
     : PlatformBase()
 {
+    mBaseGameObjectTlvInfo = tlvId;
     SetType(ReliveTypes::eLiftPoint);
 
     LoadAnimations();
@@ -113,7 +115,7 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, Map* pPath, const Guid& tlvId
     }
 
     const FP oldX = mXPos;
-    MapFollowMe(1);
+    MapFollowMe(TRUE);
     const FP newX = mXPos;
 
     GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
@@ -479,7 +481,8 @@ void LiftPoint::VUpdate()
         {
             SyncCollisionLinePosition();
         }
-        KeepThingsOnPlatform(mVelX);
+
+        MoveObjectsOnLift(mVelX);
     }
 
     const FP FP_25xScale = FP_FromInteger(25) * GetSpriteScale();
@@ -516,11 +519,13 @@ void LiftPoint::VUpdate()
 
     if (mVelY == FP_FromInteger(0))
     {
+        // Wheels are stopped if not moving
         field_13C_lift_wheel.mFlags.Clear(AnimFlags::eAnimate);
         field_1D4_pulley_anim.mFlags.Clear(AnimFlags::eAnimate);
     }
     else if (mVelY > FP_FromInteger(0))
     {
+        // Pulley/lift wheels spin opposite ways for up/down
         field_13C_lift_wheel.mFlags.Clear(AnimFlags::eLoopBackwards);
         field_1D4_pulley_anim.mFlags.Set(AnimFlags::eLoopBackwards);
     }
@@ -632,6 +637,29 @@ void LiftPoint::VRender(PrimHeader** ppOt)
     }
 }
 
+void LiftPoint::MoveObjectsOnLift(FP xVelocity)
+{
+    for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
+    {
+        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        BaseGameObject* pObjectsLiftPoint = sObjectIds.Find_Impl(pObj->BaseAliveGameObject_PlatformId);
+        if (pObjectsLiftPoint == this)
+        {
+            // Do platforms ever move horizontally? This is always 0 it seems
+            pObj->mXPos += xVelocity;
+
+			// Keep ypos on the platform
+            pObj->mYPos = FP_FromInteger(mPlatformBaseCollisionLine->mRect.y);
+        }
+    }
+}
+
+
 void LiftPoint::VScreenChanged()
 {
     if (!field_27A_flags.Get(Flags::eBit5_bHasPulley))
@@ -647,51 +675,6 @@ void LiftPoint::VScreenChanged()
     if (gMap.mCurrentPath != gMap.mNextPath)
     {
         mBaseGameObjectFlags.Set(Options::eDead);
-    }
-}
-
-LiftPoint::~LiftPoint()
-{
-    if (mBaseGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
-    {
-        return;
-    }
-
-    if (field_134_pRope2)
-    {
-        field_134_pRope2->mBaseGameObjectRefCount--;
-        field_134_pRope2->mBaseGameObjectFlags.Set(Options::eDead);
-    }
-
-    if (field_138_pRope1)
-    {
-        field_138_pRope1->mBaseGameObjectRefCount--;
-        field_138_pRope1->mBaseGameObjectFlags.Set(Options::eDead);
-    }
-
-    field_134_pRope2 = nullptr;
-    field_138_pRope1 = nullptr;
-
-    Path::TLV_Reset(mPlatformBaseTlvInfo, -1, 0, 0);
-
-    auto pLiftPointTlv = gMap.TLV_Get_At(
-        FP_GetExponent(mXPos),
-        FP_GetExponent(FP_FromInteger(mPlatformBaseCollisionLine->mRect.y)),
-        FP_GetExponent(mXPos),
-        FP_GetExponent((GetSpriteScale() * FP_FromInteger(30)) + FP_FromInteger(mPlatformBaseCollisionLine->mRect.y)),
-        ReliveTypes::eLiftPoint);
-
-    if (pLiftPointTlv)
-    {
-        pLiftPointTlv->mTlvFlags.Clear(relive::eBit1_Created);
-        pLiftPointTlv->mTlvFlags.Clear(relive::eBit2_Destroyed);
-    }
-
-    field_13C_lift_wheel.VCleanUp();
-
-    if (field_27A_flags.Get(Flags::eBit5_bHasPulley))
-    {
-        field_1D4_pulley_anim.VCleanUp();
     }
 }
 
@@ -743,6 +726,52 @@ void LiftPoint::CreatePulleyIfExists(s16 camX, s16 camY)
 
         field_134_pRope2->field_EE_top = FP_GetExponent(FP_FromInteger(field_26E_pulley_ypos) + (FP_FromInteger(-19) * field_1D4_pulley_anim.GetSpriteScale()));
         field_138_pRope1->field_EE_top = FP_GetExponent(FP_FromInteger(field_26E_pulley_ypos) + (FP_FromInteger(-19) * field_1D4_pulley_anim.GetSpriteScale()));
+    }
+}
+
+
+LiftPoint::~LiftPoint()
+{
+    if (mBaseGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
+    {
+        return;
+    }
+
+    if (field_134_pRope2)
+    {
+        field_134_pRope2->mBaseGameObjectRefCount--;
+        field_134_pRope2->mBaseGameObjectFlags.Set(Options::eDead);
+    }
+
+    if (field_138_pRope1)
+    {
+        field_138_pRope1->mBaseGameObjectRefCount--;
+        field_138_pRope1->mBaseGameObjectFlags.Set(Options::eDead);
+    }
+
+    field_134_pRope2 = nullptr;
+    field_138_pRope1 = nullptr;
+
+    Path::TLV_Reset(mPlatformBaseTlvInfo, -1, 0, 0);
+
+    auto pLiftPointTlv = gMap.TLV_Get_At(
+        FP_GetExponent(mXPos),
+        FP_GetExponent(FP_FromInteger(mPlatformBaseCollisionLine->mRect.y)),
+        FP_GetExponent(mXPos),
+        FP_GetExponent((GetSpriteScale() * FP_FromInteger(30)) + FP_FromInteger(mPlatformBaseCollisionLine->mRect.y)),
+        ReliveTypes::eLiftPoint);
+
+    if (pLiftPointTlv)
+    {
+        pLiftPointTlv->mTlvFlags.Clear(relive::eBit1_Created);
+        pLiftPointTlv->mTlvFlags.Clear(relive::eBit2_Destroyed);
+    }
+
+    field_13C_lift_wheel.VCleanUp();
+
+    if (field_27A_flags.Get(Flags::eBit5_bHasPulley))
+    {
+        field_1D4_pulley_anim.VCleanUp();
     }
 }
 

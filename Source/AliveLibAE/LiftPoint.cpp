@@ -83,7 +83,7 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, const Guid& tlvId)
     field_27C_pTlv = sPathInfo->TLVInfo_From_TLVPtr(pTlv);
 
    // u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kLiftResID);
-    if (pTlv->mScale != relive::reliveScale::eFull)
+    if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         SetSpriteScale(FP_FromDouble(0.5));
         SetScale(Scale::Bg);
@@ -107,7 +107,7 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, const Guid& tlvId)
     else
     {
         GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_Half_6);
-        field_124_pCollisionLine->mLineType = eLineTypes::eBackgroundDynamicCollision_36;
+        mPlatformBaseCollisionLine->mLineType = eLineTypes::eBackgroundDynamicCollision_36;
     }
 
     SetTint(sLiftTints_55BF50, gMap.mCurrentLevel);
@@ -126,7 +126,7 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, const Guid& tlvId)
             GetAnimRes(rLiftWheelData.field_C_lift_bottom_wheel_anim_id),
             this))
     {
-        if (pTlv->mScale != relive::reliveScale::eFull)
+        if (pTlv->mScale == relive::reliveScale::eHalf)
         {
             field_13C_lift_wheel.SetRenderLayer(Layer::eLayer_BeforeShadow_Half_6);
             field_13C_lift_wheel.SetSpriteScale(GetSpriteScale());
@@ -182,8 +182,8 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, const Guid& tlvId)
             field_134_rope2_id = pRope2->mBaseGameObjectId;
         }
 
-        pRope2->field_106_bottom = FP_GetExponent((k25 * GetSpriteScale()) + FP_FromInteger(field_124_pCollisionLine->mRect.y));
-        pRope1->field_106_bottom = FP_GetExponent((k25 * GetSpriteScale()) + FP_FromInteger(field_124_pCollisionLine->mRect.y));
+        pRope2->field_106_bottom = FP_GetExponent((k25 * GetSpriteScale()) + FP_FromInteger(mPlatformBaseCollisionLine->mRect.y));
+        pRope1->field_106_bottom = FP_GetExponent((k25 * GetSpriteScale()) + FP_FromInteger(mPlatformBaseCollisionLine->mRect.y));
 
         const FP v28 = mYPos * FP_FromDouble(1.5);
         const FP v29 = FP_FromRaw(FP_GetExponent(v28 * GetSpriteScale()) % FP_FromInteger(pRope2->field_F6_rope_length).fpValue);
@@ -243,8 +243,8 @@ s32 LiftPoint::CreateFromSaveState(const u8* pData)
         Rope* pRope2 = static_cast<Rope*>(sObjectIds.Find(pLiftPoint->field_134_rope2_id, ReliveTypes::eRope));
         Rope* pRope1 = static_cast<Rope*>(sObjectIds.Find(pLiftPoint->field_138_rope1_id, ReliveTypes::eRope));
 
-        pRope2->field_106_bottom = FP_GetExponent(FP_FromInteger(pLiftPoint->field_124_pCollisionLine->mRect.y) + (FP_FromInteger(25) * pLiftPoint->GetSpriteScale()));
-        pRope1->field_106_bottom = FP_GetExponent(FP_FromInteger(pLiftPoint->field_124_pCollisionLine->mRect.y) + (FP_FromInteger(25) * pLiftPoint->GetSpriteScale()));
+        pRope2->field_106_bottom = FP_GetExponent(FP_FromInteger(pLiftPoint->mPlatformBaseCollisionLine->mRect.y) + (FP_FromInteger(25) * pLiftPoint->GetSpriteScale()));
+        pRope1->field_106_bottom = FP_GetExponent(FP_FromInteger(pLiftPoint->mPlatformBaseCollisionLine->mRect.y) + (FP_FromInteger(25) * pLiftPoint->GetSpriteScale()));
 
         if (pLiftPoint->field_280_flags.Get(LiftPoint::eBit4_bHasPulley))
         {
@@ -337,101 +337,6 @@ void LiftPoint::vMove_4626A0(FP xSpeed, FP ySpeed, s32 /*not_used*/)
     }
 }
 
-void LiftPoint::VRender(PrimHeader** ppOt)
-{
-    // Renders the pulley, lift platform and lift platform wheel
-
-    // In the current level/map?
-    if (mCurrentLevel == gMap.mCurrentLevel && mCurrentPath == gMap.mCurrentPath)
-    {
-        // Within the current camera X bounds?
-        PSX_Point camPos = {};
-        gMap.GetCurrentCamCoords(&camPos);
-
-        if (mXPos >= FP_FromInteger(camPos.x) && mXPos <= FP_FromInteger(camPos.x + 640))
-        {
-            s16 r = mRGB.r;
-            s16 g = mRGB.g;
-            s16 b = mRGB.b;
-
-            const PSX_RECT bRect = VGetBoundingRect();
-            ShadowZone::ShadowZones_Calculate_Colour(
-                FP_GetExponent(mXPos),
-                (bRect.h + bRect.y) / 2,
-                GetScale(),
-                &r,
-                &g,
-                &b);
-
-            field_13C_lift_wheel.SetRGB(r, g, b);
-
-            if (gMap.mCurrentLevel != EReliveLevelIds::eNecrum && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
-            {
-                field_13C_lift_wheel.VRender(
-                    FP_GetExponent(mXPos - pScreenManager->CamXPos() + (FP_FromInteger(3) * GetSpriteScale())),
-                    FP_GetExponent(mYPos - pScreenManager->CamYPos() + (FP_FromInteger(-5) * GetSpriteScale())),
-                    ppOt,
-                    0,
-                    0);
-
-                PSX_RECT frameRect = {};
-                field_13C_lift_wheel.Get_Frame_Rect(&frameRect);
-            }
-
-            if (field_280_flags.Get(LiftFlags::eBit4_bHasPulley))
-            {
-                if (gMap.Is_Point_In_Current_Camera(
-                        mCurrentLevel,
-                        mCurrentPath,
-                        FP_FromInteger(field_26C_pulley_xpos),
-                        FP_FromInteger(field_26E_pulley_ypos),
-                        0))
-                {
-                    r = mRGB.r;
-                    g = mRGB.g;
-                    b = mRGB.b;
-
-                    ShadowZone::ShadowZones_Calculate_Colour(
-                        field_26C_pulley_xpos,
-                        field_26E_pulley_ypos,
-                        GetScale(),
-                        &r,
-                        &g,
-                        &b);
-
-                    field_1D4_pulley_anim.SetRGB(r, g, b);
-
-                    field_1D4_pulley_anim.VRender(
-                        FP_GetExponent(FP_FromInteger(field_26C_pulley_xpos) - pScreenManager->CamXPos()),
-                        FP_GetExponent(FP_FromInteger(field_26E_pulley_ypos) - pScreenManager->CamYPos()),
-                        ppOt,
-                        0,
-                        0);
-
-                    PSX_RECT frameRect = {};
-                    field_1D4_pulley_anim.Get_Frame_Rect(&frameRect);
-                }
-            }
-
-            // The base animation is the actual lift/platform itself
-            BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
-
-            if (gMap.mCurrentLevel == EReliveLevelIds::eNecrum && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
-            {
-                field_13C_lift_wheel.VRender(
-                    FP_GetExponent(mXPos - pScreenManager->CamXPos() + (FP_FromInteger(3) * GetSpriteScale())),
-                    FP_GetExponent(mYPos - pScreenManager->CamYPos() + (FP_FromInteger(-5) * GetSpriteScale())),
-                    ppOt,
-                    0,
-                    0);
-
-                PSX_RECT frameRect = {};
-                field_13C_lift_wheel.Get_Frame_Rect(&frameRect);
-            }
-        }
-    }
-}
-
 void LiftPoint::VUpdate()
 {
     if (field_12C_bMoving & 1)
@@ -478,7 +383,7 @@ void LiftPoint::VUpdate()
         else
         {
             field_130_lift_point_stop_type = relive::Path_LiftPoint::LiftPointStopType::eStartPointOnly;
-            const FP lineY = FP_FromInteger(field_124_pCollisionLine->mRect.y);
+            const FP lineY = FP_FromInteger(mPlatformBaseCollisionLine->mRect.y);
             relive::Path_TLV* pTlvIter = sPathInfo->TlvGetAt(
                 nullptr,
                 mXPos,
@@ -650,7 +555,7 @@ void LiftPoint::VUpdate()
         mXPos += mVelX;
         mYPos += mVelY;
 
-        if (field_124_pCollisionLine)
+        if (mPlatformBaseCollisionLine)
         {
             SyncCollisionLinePosition();
         }
@@ -659,10 +564,10 @@ void LiftPoint::VUpdate()
     }
 
     Rope* pRope2 = static_cast<Rope*>(sObjectIds.Find(field_134_rope2_id, ReliveTypes::eRope));
-    pRope2->field_106_bottom = FP_GetExponent((FP_FromInteger(field_124_pCollisionLine->mRect.y) + (FP_FromInteger(25) * GetSpriteScale())));
+    pRope2->field_106_bottom = FP_GetExponent((FP_FromInteger(mPlatformBaseCollisionLine->mRect.y) + (FP_FromInteger(25) * GetSpriteScale())));
 
     Rope* pRope1 = static_cast<Rope*>(sObjectIds.Find(field_138_rope1_id, ReliveTypes::eRope));
-    pRope1->field_106_bottom = FP_GetExponent((FP_FromInteger(field_124_pCollisionLine->mRect.y) + (FP_FromInteger(25) * GetSpriteScale())));
+    pRope1->field_106_bottom = FP_GetExponent((FP_FromInteger(mPlatformBaseCollisionLine->mRect.y) + (FP_FromInteger(25) * GetSpriteScale())));
 
     if (field_280_flags.Get(LiftPoint::eBit4_bHasPulley))
     {
@@ -715,6 +620,101 @@ void LiftPoint::VUpdate()
     }
 }
 
+void LiftPoint::VRender(PrimHeader** ppOt)
+{
+    // Renders the pulley, lift platform and lift platform wheel
+
+    // In the current level/map?
+    if (mCurrentLevel == gMap.mCurrentLevel && mCurrentPath == gMap.mCurrentPath)
+    {
+        // Within the current camera X bounds?
+        PSX_Point camPos = {};
+        gMap.GetCurrentCamCoords(&camPos);
+
+        if (mXPos >= FP_FromInteger(camPos.x) && mXPos <= FP_FromInteger(camPos.x + 640))
+        {
+            s16 r = mRGB.r;
+            s16 g = mRGB.g;
+            s16 b = mRGB.b;
+
+            const PSX_RECT bRect = VGetBoundingRect();
+            ShadowZone::ShadowZones_Calculate_Colour(
+                FP_GetExponent(mXPos),
+                (bRect.h + bRect.y) / 2,
+                GetScale(),
+                &r,
+                &g,
+                &b);
+
+            field_13C_lift_wheel.SetRGB(r, g, b);
+
+            if (gMap.mCurrentLevel != EReliveLevelIds::eNecrum && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
+            {
+                field_13C_lift_wheel.VRender(
+                    FP_GetExponent(mXPos - pScreenManager->CamXPos() + (FP_FromInteger(3) * GetSpriteScale())),
+                    FP_GetExponent(mYPos - pScreenManager->CamYPos() + (FP_FromInteger(-5) * GetSpriteScale())),
+                    ppOt,
+                    0,
+                    0);
+
+                PSX_RECT frameRect = {};
+                field_13C_lift_wheel.Get_Frame_Rect(&frameRect);
+            }
+
+            if (field_280_flags.Get(LiftFlags::eBit4_bHasPulley))
+            {
+                if (gMap.Is_Point_In_Current_Camera(
+                        mCurrentLevel,
+                        mCurrentPath,
+                        FP_FromInteger(field_26C_pulley_xpos),
+                        FP_FromInteger(field_26E_pulley_ypos),
+                        0))
+                {
+                    r = mRGB.r;
+                    g = mRGB.g;
+                    b = mRGB.b;
+
+                    ShadowZone::ShadowZones_Calculate_Colour(
+                        field_26C_pulley_xpos,
+                        field_26E_pulley_ypos,
+                        GetScale(),
+                        &r,
+                        &g,
+                        &b);
+
+                    field_1D4_pulley_anim.SetRGB(r, g, b);
+
+                    field_1D4_pulley_anim.VRender(
+                        FP_GetExponent(FP_FromInteger(field_26C_pulley_xpos) - pScreenManager->CamXPos()),
+                        FP_GetExponent(FP_FromInteger(field_26E_pulley_ypos) - pScreenManager->CamYPos()),
+                        ppOt,
+                        0,
+                        0);
+
+                    PSX_RECT frameRect = {};
+                    field_1D4_pulley_anim.Get_Frame_Rect(&frameRect);
+                }
+            }
+
+            // The base animation is the actual lift/platform itself
+            BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
+
+            if (gMap.mCurrentLevel == EReliveLevelIds::eNecrum && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
+            {
+                field_13C_lift_wheel.VRender(
+                    FP_GetExponent(mXPos - pScreenManager->CamXPos() + (FP_FromInteger(3) * GetSpriteScale())),
+                    FP_GetExponent(mYPos - pScreenManager->CamYPos() + (FP_FromInteger(-5) * GetSpriteScale())),
+                    ppOt,
+                    0,
+                    0);
+
+                PSX_RECT frameRect = {};
+                field_13C_lift_wheel.Get_Frame_Rect(&frameRect);
+            }
+        }
+    }
+}
+
 void LiftPoint::MoveObjectsOnLift(FP xVelocity)
 {
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
@@ -743,7 +743,7 @@ void LiftPoint::MoveObjectsOnLift(FP xVelocity)
             pObj->mXPos += xVelocity;
 
             // Keep ypos on the platform
-            pObj->mYPos = FP_FromInteger(field_124_pCollisionLine->mRect.y);
+            pObj->mYPos = FP_FromInteger(mPlatformBaseCollisionLine->mRect.y);
 
             if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eInteractive_Bit8))
             {
@@ -755,6 +755,15 @@ void LiftPoint::MoveObjectsOnLift(FP xVelocity)
         }
     }
 }
+
+void LiftPoint::VScreenChanged()
+{
+    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath)
+    {
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    }
+}
+
 
 void LiftPoint::sub_461000(relive::Path_TLV* pTlv)
 {
@@ -822,10 +831,10 @@ void LiftPoint::CreatePulleyIfExists()
         {
             if (pTlvIter->mTlvType == ReliveTypes::ePulley)
             {
-                const FP left = FP_FromInteger(field_124_pCollisionLine->mRect.x) + (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
+                const FP left = FP_FromInteger(mPlatformBaseCollisionLine->mRect.x) + (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
                 if (left <= FP_FromInteger(pTlvIter->mTopLeftX))
                 {
-                    const FP right = FP_FromInteger(field_124_pCollisionLine->mRect.w) - (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
+                    const FP right = FP_FromInteger(mPlatformBaseCollisionLine->mRect.w) - (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
                     if (FP_FromInteger(pTlvIter->mTopLeftX) <= right)
                     {
                         pFound = pTlvIter;
@@ -884,14 +893,6 @@ void LiftPoint::CreatePulleyIfExists()
     pRope2->field_102_top = FP_GetExponent(FP_FromInteger(field_26E_pulley_ypos) + (FP_FromInteger(-19) * GetSpriteScale()));
 }
 
-void LiftPoint::VScreenChanged()
-{
-    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath)
-    {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-    }
-}
-
 LiftPoint::~LiftPoint()
 {
     BaseGameObject* pRope2 = sObjectIds.Find(field_134_rope2_id, ReliveTypes::eRope);
@@ -914,7 +915,7 @@ LiftPoint::~LiftPoint()
         FP_GetExponent(mXPos),
         FP_GetExponent(GetSpriteScale() * FP_FromInteger(30)),
         FP_GetExponent(mXPos),
-        FP_GetExponent(FP_FromInteger(field_124_pCollisionLine->mRect.y) + (GetSpriteScale() * FP_FromInteger(30))),
+        FP_GetExponent(FP_FromInteger(mPlatformBaseCollisionLine->mRect.y) + (GetSpriteScale() * FP_FromInteger(30))),
         ReliveTypes::eLiftPoint);
 
     if (pTlv)

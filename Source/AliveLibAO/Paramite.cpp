@@ -23,6 +23,7 @@
 #include "SwitchStates.hpp"
 #include "Grid.hpp"
 #include "BeeSwarm.hpp"
+#include "../relive_lib/ObjectIds.hpp"
 
 namespace AO {
 
@@ -97,6 +98,7 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
 
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::ParamiteWeb));
 
+    mBaseGameObjectTlvInfo = tlvId;
     Animation_Init(GetAnimRes(AnimId::Paramite_Idle));
 
     field_12A_res_idx = 0;
@@ -106,7 +108,7 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
     mBrainSubState = 0;
     SetNextMotion(eParamiteMotions::Motion_0_Idle);
     field_EC_bBeesCanChase = 3;
-    mLiftPoint = nullptr;
+
     SetCurrentMotion(eParamiteMotions::Motion_0_Idle);
     field_140_use_prev_motion = 0;
 
@@ -157,7 +159,7 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
-            GetSpriteScale() != FP_FromInteger(0) ? kFgFloor : kBgFloor)
+            GetScale() == Scale::Fg ? kFgFloor : kBgFloor)
         == 1)
     {
         SetCurrentMotion(eParamiteMotions::Motion_0_Idle);
@@ -320,17 +322,6 @@ void Paramite::VScreenChanged()
 s16 Paramite::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     return FP_Abs(pOther->mYPos - mYPos) < (GetSpriteScale() * FP_FromInteger(40));
-}
-
-void Paramite::VOnTrapDoorOpen()
-{
-    if (mLiftPoint)
-    {
-        mLiftPoint->VRemove(this);
-        mLiftPoint->mBaseGameObjectRefCount--;
-        mLiftPoint = nullptr;
-        SetCurrentMotion(eParamiteMotions::Motion_12_Falling);
-    }
 }
 
 void Paramite::VUpdate()
@@ -678,49 +669,50 @@ Meat* Paramite::FindMeat()
 
 void Paramite::MoveOnLine()
 {
+    if (!BaseAliveGameObjectCollisionLine)
+    {
+        SetCurrentMotion(eParamiteMotions::Motion_12_Falling);
+        BaseAliveGameObjectLastLineYPos = mYPos;
+        return;
+    }
+    
+    BaseGameObject* pPlatform = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
     const FP old_x = mXPos;
+
+    BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(
+        &mXPos,
+        &mYPos,
+        mVelX);
     if (BaseAliveGameObjectCollisionLine)
     {
-        BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(
-            &mXPos,
-            &mYPos,
-            mVelX);
-        if (BaseAliveGameObjectCollisionLine)
+        if (pPlatform)
         {
-            if (mLiftPoint)
+            if (BaseAliveGameObjectCollisionLine->mLineType != eLineTypes::eDynamicCollision_32 && BaseAliveGameObjectCollisionLine->mLineType != eLineTypes::eBackgroundDynamicCollision_36)
             {
-                if (BaseAliveGameObjectCollisionLine->mLineType != eLineTypes::eDynamicCollision_32 && BaseAliveGameObjectCollisionLine->mLineType != eLineTypes::eBackgroundDynamicCollision_36)
-                {
-                    const auto oldMotion = mCurrentMotion;
-                    VOnTrapDoorOpen();
-                    SetCurrentMotion(oldMotion);
-                }
-            }
-            else
-            {
-                if (BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eDynamicCollision_32 || BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
-                {
-                    const PSX_RECT bRect = VGetBoundingRect();
-
-                    OnCollisionWith(
-                        {bRect.x, static_cast<s16>(bRect.y + 5)},
-                        {bRect.w, static_cast<s16>(bRect.h + 5)},
-                        gPlatformsArray);
-                }
+                const auto oldMotion = mCurrentMotion;
+                VOnTrapDoorOpen();
+                SetCurrentMotion(oldMotion);
             }
         }
         else
         {
-            VOnTrapDoorOpen();
-            BaseAliveGameObjectLastLineYPos = mYPos;
-            SetCurrentMotion(eParamiteMotions::Motion_12_Falling);
-            mXPos = mVelX + old_x;
+            if (BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eDynamicCollision_32 || BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
+            {
+                const PSX_RECT bRect = VGetBoundingRect();
+
+                OnCollisionWith(
+                    {bRect.x, static_cast<s16>(bRect.y + 5)},
+                    {bRect.w, static_cast<s16>(bRect.h + 5)},
+                    gPlatformsArray);
+            }
         }
     }
     else
     {
-        SetCurrentMotion(eParamiteMotions::Motion_12_Falling);
+        VOnTrapDoorOpen();
         BaseAliveGameObjectLastLineYPos = mYPos;
+        SetCurrentMotion(eParamiteMotions::Motion_12_Falling);
+        mXPos = mVelX + old_x;
     }
 }
 
@@ -2838,23 +2830,11 @@ void Paramite::Motion_4_Unknown()
 {
     if (gNumCamSwappers <= 0)
     {
-        if (sControlledCharacter == this)
+        SetCurrentMotion(mPreviousMotion);
+        if (BaseAliveGameObject_PlatformId != Guid{})
         {
-            SetCurrentMotion(mPreviousMotion);
-            if (mLiftPoint)
-            {
-                // TODO: Correct type ??
-                static_cast<LiftPoint*>(mLiftPoint)->field_12C_bMoving |= 1u;
-            }
-        }
-        else
-        {
-            SetCurrentMotion(mPreviousMotion);
-            if (mLiftPoint)
-            {
-                mXPos = FP_FromInteger((BaseAliveGameObjectCollisionLine->mRect.x + BaseAliveGameObjectCollisionLine->mRect.w) / 2);
-                mYPos = FP_FromInteger(BaseAliveGameObjectCollisionLine->mRect.y);
-            }
+            mXPos = FP_FromInteger((BaseAliveGameObjectCollisionLine->mRect.x + BaseAliveGameObjectCollisionLine->mRect.w) / 2);
+            mYPos = FP_FromInteger(BaseAliveGameObjectCollisionLine->mRect.y);
         }
     }
 }
@@ -3623,5 +3603,17 @@ void Paramite::Motion_25_Death()
         Sound(ParamiteSpeak::DoIt_2);
     }
 }
+
+void Paramite::VOnTrapDoorOpen()
+{
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
+    if (pPlatform)
+    {
+        pPlatform->VRemove(this);
+        BaseAliveGameObject_PlatformId = Guid{};
+        SetCurrentMotion(eParamiteMotions::Motion_12_Falling);
+    }
+}
+
 
 } // namespace AO

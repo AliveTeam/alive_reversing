@@ -26,65 +26,22 @@ BaseThrowable* Make_Throwable(FP xpos, FP ypos, s16 count)
     switch (gThrowableFromOverlayId[gMap.mOverlayId])
     {
         case AOTypes::eGrenade_40:
-        {
-            auto pGrenade = relive_new Grenade(xpos, ypos, count);
-            if (pGrenade)
-            {
-                return pGrenade;
-            }
-            break;
-        }
-
+            return relive_new Grenade(xpos, ypos, count);
         case AOTypes::eMeat_54:
-        {
-            auto pMeat = relive_new Meat(xpos, ypos, count);
-            if (pMeat)
-            {
-                return pMeat;
-            }
-            break;
-        }
-
+            return relive_new Meat(xpos, ypos, count);
         case AOTypes::eRock_70:
-        {
-            auto pRock = relive_new Rock(xpos, ypos, count);
-            if (pRock)
-            {
-                return pRock;
-            }
-            break;
-        }
-
+            return relive_new Rock(xpos, ypos, count);
         default:
-            break;
+            return nullptr;
     }
-    return nullptr;
 }
 
-
-void BaseThrowable::VToDead()
-{
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-    mIsDead = TRUE;
-}
-
-s16 BaseThrowable::VGetCount()
-{
-    return mThrowableCount;
-}
-
-void BaseThrowable::VOnPickUpOrSlapped()
-{
-    VToDead();
-}
 
 void BaseThrowable::BaseAddToPlatform()
 {
-    const FP scale = GetSpriteScale() - FP_FromDouble(0.5);
-
-    PathLine* pLine = nullptr;
     FP hitX = {};
     FP hitY = {};
+    PathLine* pLine = nullptr;
     if (sCollisions->Raycast(
             mXPos,
             mYPos - FP_FromInteger(20),
@@ -93,14 +50,14 @@ void BaseThrowable::BaseAddToPlatform()
             &pLine,
             &hitX,
             &hitY,
-            scale != FP_FromInteger(0) ? kFgWallsOrFloor : kBgWallsOrFloor))
+            GetScale() == Scale::Fg ? kFgWallsOrFloor : kBgWallsOrFloor))
     {
         if (pLine->mLineType == eLineTypes::eDynamicCollision_32 ||
             pLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
         {
-            for (s32 i = 0; i < gPlatformsArray->Size(); i++)
+            for (s32 idx = 0; idx < gPlatformsArray->Size(); idx++)
             {
-                BaseGameObject* pObjIter = gPlatformsArray->ItemAt(i);
+                BaseGameObject* pObjIter = gPlatformsArray->ItemAt(idx);
                 if (!pObjIter)
                 {
                     break;
@@ -110,30 +67,35 @@ void BaseThrowable::BaseAddToPlatform()
                 {
                     auto pPlatformBase = static_cast<PlatformBase*>(pObjIter);
 
-                    const PSX_RECT objRect = pPlatformBase->VGetBoundingRect();
+                    const PSX_RECT bRect = pPlatformBase->VGetBoundingRect();
 
-                    if (FP_GetExponent(mXPos) > objRect.x && FP_GetExponent(mXPos) < objRect.w && FP_GetExponent(mYPos) < objRect.h)
+                    if (FP_GetExponent(mXPos) > bRect.x && FP_GetExponent(mXPos) < bRect.w && FP_GetExponent(mYPos) < bRect.h)
                     {
-                        if (mLiftPoint)
-                        {
-                            if (mLiftPoint == pPlatformBase)
-                            {
-                                return;
-                            }
-                            mLiftPoint->VRemove(this);
-                            mLiftPoint->mBaseGameObjectRefCount--;
-                            mLiftPoint = nullptr;
-                        }
+                         pPlatformBase->VAdd(this);
+                         BaseAliveGameObject_PlatformId = pPlatformBase->mBaseGameObjectId;
+                         return;
 
-                        mLiftPoint = pPlatformBase;
-                        mLiftPoint->VAdd(this);
-                        mLiftPoint->mBaseGameObjectRefCount++;
-                        return;
                     }
                 }
             }
         }
     }
+}
+
+void BaseThrowable::VToDead()
+{
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    mBaseThrowableDead = TRUE;
+}
+
+void BaseThrowable::VOnPickUpOrSlapped()
+{
+    VToDead();
+}
+
+s16 BaseThrowable::VGetCount()
+{
+    return mBaseThrowableCount;
 }
 
 } // namespace AO

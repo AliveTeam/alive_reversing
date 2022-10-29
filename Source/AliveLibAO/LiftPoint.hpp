@@ -59,6 +59,7 @@ public:
     virtual void VScreenChanged() override;
 
     void CreatePulleyIfExists(s16 camX, s16 camY);
+    void MoveObjectsOnLift(FP xVelocity);
 
     s16 field_12C_bMoving = 0;
     s16 field_12E = 0;

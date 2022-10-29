@@ -43,7 +43,6 @@ public:
     };
     States field_110_state = States::eFallingToBeCollected_0;
     s16 field_112_explode_timer = 0;
-    PathLine* field_114_pCollisionLine = nullptr;
     s16 field_118 = 0;
     BaseGameObject* field_11C = nullptr;
     FP field_120_xpos = {};

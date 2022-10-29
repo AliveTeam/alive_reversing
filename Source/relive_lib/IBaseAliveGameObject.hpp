@@ -72,4 +72,5 @@ public:
     bool mbGotShot = false;
     bool mbMotionChanged = false;
     BitField16<AliveObjectFlags> mBaseAliveGameObjectFlags = {};
+    Guid BaseAliveGameObject_PlatformId; // AE only
 };
