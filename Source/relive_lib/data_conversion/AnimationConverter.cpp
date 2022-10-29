@@ -72,7 +72,7 @@ AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const
 
 
     // Get the size required to decompres a single frame
-    const u32 decompressionBufferSize = CalcDecompressionBufferSize(rec, pFirstFrame) * 2; // Hack: double size
+    const u32 decompressionBufferSize = CalcDecompressionBufferSize(rec, pFirstFrame);
 
     std::vector<u8> decompressionBuffer(decompressionBufferSize);
 

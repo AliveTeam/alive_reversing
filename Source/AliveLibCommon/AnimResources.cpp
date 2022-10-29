@@ -1777,7 +1777,7 @@ constexpr CombinedAnimRecord kAnimRecords[1027] = {
     { AnimId::BG_Brewery_Barrel2, {"BRP11C02.CAM", 42112, 130, 55, 1207}, kNullAnimDetails, true },
     { AnimId::BG_Mine_Fan, {"MINEFAN.BAN", 15632, 113, 55, 1201}, kNullAnimDetails, true },
     { AnimId::BG_Feeco_Small_Fan, {"FDP01C01.CAM", 4208, 57, 28, 1202}, kNullAnimDetails, true },
-    { AnimId::BG_Heat_Extractor_Fan, {"MIP04C18.CAM", 7104, 89, 24, 1204}, kNullAnimDetails, true },
+    { AnimId::BG_Heat_Extractor_Fan, {"MIP04C18.CAM", 7104, 89, 26, 1204}, kNullAnimDetails, true },
 
     { AnimId::BG_RuptureFarms_Barrel1, kNullAnimDetails, {"R1P15C07.CAM", 24764, 155, 56, 6016}, true },
     { AnimId::BG_RuptureFarms_Barrel2, kNullAnimDetails, {"R1P15C08.CAM", 28752, 155, 68, 6017}, true },
