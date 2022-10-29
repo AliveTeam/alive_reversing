@@ -25,9 +25,7 @@ BackgroundAnimation::BackgroundAnimation(relive::Path_BackgroundAnimation* pTlv,
     SetType(ReliveTypes::eBackgroundAnimation);
     mTlvInfo = tlvId;
 
-    // TODO: Convert to animid/combine them
     /*
-    const BgAnimRecord& anim = AO::BgAnimRec(pTlv->mAnimId);
     field_E4_res = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, anim.mBgAnimId, 1, 0);
     if (!field_E4_res)
     {
@@ -38,9 +36,9 @@ BackgroundAnimation::BackgroundAnimation(relive::Path_BackgroundAnimation* pTlv,
 
     auto pHeader = reinterpret_cast<AnimationFileHeader*>(*field_E4_res);
     */
-    AnimResource res = ResourceManagerWrapper::LoadAnimation(AnimId::Abe_Head_Gib);
 
-    
+    const AnimRecord& anim = AO::BgAnimRec(pTlv->mAnimId);
+    AnimResource res = ResourceManagerWrapper::LoadAnimation(anim.mId);
 
     // TODO: Refactor to use min/max
     auto xMax = pTlv->mTopLeftX + static_cast<s32>(res.mJsonPtr->mAttributes.mMaxWidth);

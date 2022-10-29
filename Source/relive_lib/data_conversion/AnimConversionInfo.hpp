@@ -74,6 +74,7 @@ enum class EAnimGroup
     BellHammer,
     DoorLock,
     RollingBall,
+    BackgroundAnimation,
 };
 
 const char_type* AnimBaseName(AnimId id);

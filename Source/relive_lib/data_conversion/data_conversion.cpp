@@ -26,10 +26,10 @@
 #include "PNGFile.hpp"
 
 #define MAGIC_ENUM_RANGE_MIN 0
-#define MAGIC_ENUM_RANGE_MAX 1000
+#define MAGIC_ENUM_RANGE_MAX 1100
 #include <magic_enum/include/magic_enum.hpp>
 
-extern AnimRecConversionInfo kAnimRecConversionInfo[910];
+extern AnimRecConversionInfo kAnimRecConversionInfo[1023];
 
 constexpr u32 kDataVersion = 1;
 
@@ -1521,7 +1521,7 @@ static void ConvertFilesInLvl(const FileSystem::Path& dataDir, FileSystem& fs, R
                     ConvertFont(dataDir, fileName, lvlReader, fileBuffer, true);
                 }
 
-                ConvertCamera(dataDir, fileName, fs, fileBuffer, lvlReader, lvlIdxAsLvl);
+                //ConvertCamera(dataDir, fileName, fs, fileBuffer, lvlReader, lvlIdxAsLvl);
             }
             else if (endsWith(fileName, ".JOY"))
             {
