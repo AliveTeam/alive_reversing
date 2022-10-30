@@ -15,7 +15,7 @@
 #include "Sfx.hpp"
 #include "Sound/Midi.hpp"
 #include "GameSpeak.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "LiftPoint.hpp"
 #include "Slurg.hpp"
 #include "Grid.hpp"

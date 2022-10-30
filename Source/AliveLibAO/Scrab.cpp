@@ -16,7 +16,7 @@
 #include "Game.hpp"
 #include "Gibs.hpp"
 #include "Midi.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "Grid.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 

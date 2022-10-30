@@ -1,7 +1,7 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
 #include "MeatSaw.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/Shadow.hpp"
 #include "Abe.hpp"

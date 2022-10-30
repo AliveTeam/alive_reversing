@@ -3,15 +3,10 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
-namespace AO {
-
-struct SwitchStates final
-{
-    s8 mData[256];
-};
-
+void SwitchStates_ClearRange(u16 start, u16 end);
 void SwitchStates_Set(u16 idx, s8 value);
-s16 SwitchStates_Get(u16 idx);
+s32 SwitchStates_Get(u16 idx);
+void SwitchStates_Add(u16 idx, s8 value);
 
 enum class SwitchOp : s16
 {
@@ -24,9 +19,9 @@ enum class SwitchOp : s16
 
 void SwitchStates_Do_Operation(s16 idx, relive::reliveSwitchOp operation);
 
-void SwitchStates_Add(u16 idx, s8 value);
-void SwitchStates_ClearAll();
+struct SwitchStates final
+{
+    s8 mData[256];
+};
 
 extern SwitchStates gSwitchStates;
-
-} // namespace AO

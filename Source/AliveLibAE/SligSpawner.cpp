@@ -6,7 +6,7 @@
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/ObjectIds.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "Map.hpp"
 
 SligSpawner::SligSpawner(relive::Path_Slig* pTlv, const Guid& tlvId)

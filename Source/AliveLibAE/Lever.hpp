@@ -2,7 +2,7 @@
 
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "../AliveLibCommon/Function.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 
 enum class LeverState : s16
 {

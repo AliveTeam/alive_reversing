@@ -6,7 +6,7 @@
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "../relive_lib/Events.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "Abe.hpp"
 #include "Alarm.hpp"
 #include "Sfx.hpp"

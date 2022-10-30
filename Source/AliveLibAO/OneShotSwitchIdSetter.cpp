@@ -1,6 +1,6 @@
 #include "stdafx_ao.h"
 #include "OneShotSwitchIdSetter.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 
 namespace AO {

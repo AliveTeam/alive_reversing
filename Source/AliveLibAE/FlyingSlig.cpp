@@ -8,7 +8,7 @@
 #include "Game.hpp"
 #include "Math.hpp"
 #include "../relive_lib/ObjectIds.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "Sfx.hpp"
 #include "Abe.hpp"
 #include "Map.hpp"

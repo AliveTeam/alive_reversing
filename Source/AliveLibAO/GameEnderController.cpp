@@ -7,7 +7,7 @@
 #include "Abe.hpp"
 #include "Input.hpp"
 #include "ThrowableArray.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "Input.hpp"
 #include "DDCheat.hpp"
 #include "PauseMenu.hpp"

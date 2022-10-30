@@ -1308,7 +1308,7 @@ void Abe::VUpdate()
             sActiveQuicksaveData.field_204_world_info.mSaveFileId = mSaveFileId;
             Quicksave_SaveWorldInfo(&sActiveQuicksaveData.field_244_restart_path_world_info);
             VGetSaveState(reinterpret_cast<u8*>(&sActiveQuicksaveData.field_284_restart_path_abe_state));
-            sActiveQuicksaveData.field_35C_restart_path_switch_states = sSwitchStates_5C1A28;
+            sActiveQuicksaveData.field_35C_restart_path_switch_states = gSwitchStates;
             DoQuicksave();
         }
     }

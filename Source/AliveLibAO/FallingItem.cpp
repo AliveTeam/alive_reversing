@@ -11,7 +11,7 @@
 #include "ScreenShake.hpp"
 #include "ParticleBurst.hpp"
 #include "Midi.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 
 namespace AO {
 

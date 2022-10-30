@@ -14,7 +14,7 @@
 #include "Blood.hpp"
 #include "Gibs.hpp"
 #include "Bullet.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "PlatformBase.hpp"
 #include "CameraSwapper.hpp"
 #include "SnoozeParticle.hpp"

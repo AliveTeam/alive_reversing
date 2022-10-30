@@ -8,7 +8,7 @@
 #include "../relive_lib/Events.hpp"
 #include "GameSpeak.hpp"
 #include "Sound/Midi.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
 

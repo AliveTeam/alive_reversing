@@ -3,7 +3,7 @@
 #include "LiftMover.hpp"
 #include "LiftPoint.hpp"
 #include "../relive_lib/Events.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "Factory.hpp"
 

@@ -18,7 +18,7 @@
 #include "../AliveLibAO/Abe.hpp"
 #include "../AliveLibAO/Font.hpp"
 #include "../AliveLibAO/Game.hpp"
-#include "../AliveLibAO/SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 
 #include "../AliveLibAE/GameAutoPlayer.hpp"
 #include "../AliveLibAO/GameAutoPlayer.hpp"
@@ -111,7 +111,7 @@ extern "C"
         &AO::sActiveHero,
         offsetof(AO::Abe, mYPos) + sizeof(s16), // +2 for exp only
         &sDisableFontFlicker,
-        &AO::gSwitchStates.mData[70]};
+        &gSwitchStates.mData[70]};
 
     const void* GetAoInfo()
     {

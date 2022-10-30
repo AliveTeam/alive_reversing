@@ -4,7 +4,7 @@
 #include "../AliveLibAE/stdlib.hpp"
 #include "Elum.hpp"
 #include "Abe.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "Sfx.hpp"
 #include "Midi.hpp"
 #include "Grid.hpp"

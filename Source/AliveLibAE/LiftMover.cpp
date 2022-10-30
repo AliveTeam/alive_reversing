@@ -4,7 +4,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "LiftPoint.hpp"
 #include "../relive_lib/Events.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "stdlib.hpp"
 #include "Path.hpp"

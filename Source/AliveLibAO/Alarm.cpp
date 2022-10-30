@@ -4,7 +4,7 @@
 #include "Map.hpp"
 #include "../relive_lib/DynamicArray.hpp"
 #include "Function.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "CameraSwapper.hpp"
 #include "../relive_lib/Events.hpp"

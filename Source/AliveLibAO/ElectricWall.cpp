@@ -1,7 +1,7 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
 #include "ElectricWall.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "Math.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "Electrocute.hpp"

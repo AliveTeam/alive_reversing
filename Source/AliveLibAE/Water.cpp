@@ -6,7 +6,7 @@
 #include "Sound/Sound.hpp"
 #include "Sound/Midi.hpp"
 #include "../relive_lib/Events.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/Particle.hpp"
 #include "../relive_lib/PsxDisplay.hpp"

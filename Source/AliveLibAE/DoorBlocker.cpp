@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "DoorBlocker.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
 #include "stdlib.hpp"

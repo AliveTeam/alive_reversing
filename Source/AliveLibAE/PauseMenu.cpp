@@ -440,7 +440,7 @@ void PauseMenu::RestartPath()
 
     Quicksave_SaveSwitchResetterStates();
 
-    sSwitchStates_5C1A28 = sActiveQuicksaveData.field_35C_restart_path_switch_states;
+    gSwitchStates = sActiveQuicksaveData.field_35C_restart_path_switch_states;
 
     Abe::CreateFromSaveState(sActiveQuicksaveData.field_284_restart_path_abe_state);
     Quicksave_ReadWorldInfo(&sActiveQuicksaveData.field_244_restart_path_world_info);

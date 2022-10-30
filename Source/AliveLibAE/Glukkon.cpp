@@ -8,7 +8,7 @@
 #include "Game.hpp"
 #include "../relive_lib/Shadow.hpp"
 #include "MusicController.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "Spark.hpp"
 #include "Slig.hpp" //used for renderWithGlowingEyes() only - TODO refactor
 #include "ParticleBurst.hpp"

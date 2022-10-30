@@ -3,7 +3,7 @@
 #include "Function.hpp"
 #include "Alarm.hpp"
 #include "Map.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Abe.hpp"
 #include "Sfx.hpp"

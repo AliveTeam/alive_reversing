@@ -11,7 +11,7 @@
 #include "Gibs.hpp"
 #include "AirExplosion.hpp"
 #include "Sfx.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Abe.hpp"
 #include "Math.hpp"

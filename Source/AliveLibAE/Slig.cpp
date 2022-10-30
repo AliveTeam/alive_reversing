@@ -25,7 +25,7 @@
 #include "../relive_lib/ScreenManager.hpp"
 #include "LiftPoint.hpp"
 #include "Lever.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "Bullet.hpp"
 #include "Dove.hpp"
 #include "BulletShell.hpp"

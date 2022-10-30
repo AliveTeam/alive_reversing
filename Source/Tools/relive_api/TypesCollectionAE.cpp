@@ -4,7 +4,7 @@
 #include "TlvObjectBase.hpp"
 
 #include "../../AliveLibAE/PathData.hpp"
-#include "../../AliveLibAE/SwitchStates.hpp"
+#include "../../relive_lib/SwitchStates.hpp"
 #include "../../AliveLibAE/Path.hpp"
 #include "../../AliveLibAE/Map.hpp"
 

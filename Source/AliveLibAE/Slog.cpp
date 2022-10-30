@@ -19,7 +19,7 @@
 #include "Gibs.hpp"
 #include "Bullet.hpp"
 #include "GameSpeak.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "Mudokon.hpp"
 #include "Grid.hpp"

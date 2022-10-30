@@ -5,7 +5,7 @@
 #include "SnoozeParticle.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Game.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 
 namespace AO {
 

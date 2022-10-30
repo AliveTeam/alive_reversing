@@ -2,7 +2,7 @@
 #include "Function.hpp"
 #include "DoorFlame.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "Midi.hpp"
 #include "Math.hpp"
 #include "Map.hpp"

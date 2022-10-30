@@ -2,7 +2,7 @@
 #include "Teleporter.hpp"
 #include "Function.hpp"
 #include "../relive_lib/ScreenManager.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "stdlib.hpp"
 #include "Map.hpp"
 #include "../relive_lib/ObjectIds.hpp"

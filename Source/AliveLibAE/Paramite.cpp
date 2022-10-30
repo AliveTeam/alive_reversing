@@ -17,7 +17,7 @@
 #include "Gibs.hpp"
 #include "Blood.hpp"
 #include "PlatformBase.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "PullRingRope.hpp"
 #include "Sfx.hpp"
 #include "Slurg.hpp"

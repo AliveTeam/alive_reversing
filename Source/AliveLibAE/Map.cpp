@@ -5,7 +5,7 @@
 #include "../relive_lib/ScreenManager.hpp"
 #include "ResourceManager.hpp"
 #include "Sound/Midi.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "Game.hpp"
 #include "Abe.hpp"
 #include "MusicController.hpp"
@@ -689,7 +689,7 @@ void Map::GoTo_Camera()
 
         if (!mForceLoad)
         {
-            SwitchStates_SetRange(2, 255);
+            SwitchStates_ClearRange(2, 255);
         }
 
         if (mFreeAllAnimAndPalts)

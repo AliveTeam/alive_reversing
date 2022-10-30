@@ -219,7 +219,7 @@ void Quicksave_LoadFromMemory_4C95A0(Quicksave* quicksaveData)
     EventsReset();
     bSkipGameObjectUpdates = 1;
     Quicksave_ReadWorldInfo(&quicksaveData->field_204_world_info);
-    sSwitchStates_5C1A28 = quicksaveData->field_45C_switch_states;
+    gSwitchStates = quicksaveData->field_45C_switch_states;
     gMap.mRestoreQuickSaveData = reinterpret_cast<u8*>(quicksaveData->field_55C_objects_state_data);
     gMap.SetActiveCam(
         MapWrapper::FromAE(quicksaveData->field_204_world_info.field_4_level),
@@ -462,7 +462,7 @@ void Quicksave_SaveToMemory_4C91A0(Quicksave* pSave)
                 gMap.mCurrentCamera);
         MEMCARD_Write_SJISC_String_4A2770(reinterpret_cast<u8*>(src), &pSave->field_0_header.field_0_frame_1_name[32], 8);
         Quicksave_SaveWorldInfo(&pSave->field_204_world_info);
-        pSave->field_45C_switch_states = sSwitchStates_5C1A28;
+        pSave->field_45C_switch_states = gSwitchStates;
 
         u8* pDataIter = pSave->field_55C_objects_state_data;
         for (s32 idx = 0; idx < gBaseGameObjects->Size(); idx++)

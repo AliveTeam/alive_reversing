@@ -6,7 +6,7 @@
 #include "Blood.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/Events.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "stdlib.hpp"
 #include "Map.hpp"
 #include "Path.hpp"

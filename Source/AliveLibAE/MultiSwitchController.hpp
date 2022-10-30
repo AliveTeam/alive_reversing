@@ -2,7 +2,7 @@
 
 #include "../relive_lib/BaseGameObject.hpp"
 #include "../AliveLibCommon/Function.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 
 class MultiSwitchController final : public BaseGameObject
 {

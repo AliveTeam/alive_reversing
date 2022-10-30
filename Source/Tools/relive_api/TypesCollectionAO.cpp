@@ -3,7 +3,7 @@
 #include "TlvsAO.hpp"
 #include "TlvObjectBase.hpp"
 
-#include "../../AliveLibAO/SwitchStates.hpp"
+#include "../../relive_lib/SwitchStates.hpp"
 #include "../../AliveLibAO/PathData.hpp"
 #include "../../AliveLibAE/Path.hpp"
 
@@ -176,13 +176,13 @@ void TypesCollectionAO::AddAOTypes()
     });
 
 
-    AddEnum<AO::SwitchOp>("Enum_SwitchOp",
+    AddEnum<SwitchOp>("Enum_SwitchOp",
     {
-        {AO::SwitchOp::eSetTrue_0, "SetTrue"},
-        {AO::SwitchOp::eSetFalse_1, "SetFalse"},
-        {AO::SwitchOp::eToggle_2, "Toggle"},
-        {AO::SwitchOp::eIncrement_3, "Increment"},
-        {AO::SwitchOp::eDecrement_4, "Decrement"},
+        {SwitchOp::eSetTrue_0, "SetTrue"},
+        {SwitchOp::eSetFalse_1, "SetFalse"},
+        {SwitchOp::eToggle_2, "Toggle"},
+        {SwitchOp::eIncrement_3, "Increment"},
+        {SwitchOp::eDecrement_4, "Decrement"},
     });
 
     AddEnum<AO::LevelIds>("Enum_LevelIds",

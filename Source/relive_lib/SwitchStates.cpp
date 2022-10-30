@@ -1,25 +1,24 @@
 #include "stdafx.h"
 #include "SwitchStates.hpp"
-#include "Function.hpp"
 
-SwitchStates sSwitchStates_5C1A28 = {};
+SwitchStates gSwitchStates = {};
 
-void SwitchStates_SetRange(u16 start, u16 end)
+void SwitchStates_ClearRange(u16 start, u16 end)
 {
     if (start <= end)
     {
-        memset(&sSwitchStates_5C1A28.mData[start], 0, end - start + 1);
+        memset(&gSwitchStates.mData[start], 0, end - start + 1);
     }
 }
 
 void SwitchStates_Set(u16 idx, s8 value)
 {
-    sSwitchStates_5C1A28.mData[idx] = value;
+    gSwitchStates.mData[idx] = value;
 }
 
 s32 SwitchStates_Get(u16 idx)
 {
-    if (idx >= ALIVE_COUNTOF(sSwitchStates_5C1A28.mData))
+    if (idx >= ALIVE_COUNTOF(gSwitchStates.mData))
     {
         LOG_WARNING("switch id value is %d and exceeds 255. if you see this in a custom level consider lowering the switch id value.", idx);
         return 0;
@@ -35,12 +34,12 @@ s32 SwitchStates_Get(u16 idx)
         return 1;
     }
 
-    return sSwitchStates_5C1A28.mData[idx];
+    return gSwitchStates.mData[idx];
 }
 
 void SwitchStates_Add(u16 idx, s8 value)
 {
-    sSwitchStates_5C1A28.mData[idx] += value;
+    gSwitchStates.mData[idx] += value;
 }
 
 void SwitchStates_Do_Operation(s16 idx, relive::reliveSwitchOp operation)

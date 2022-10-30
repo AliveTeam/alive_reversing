@@ -4,7 +4,7 @@
 #include "../relive_lib/Collisions.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/Events.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "Sound/Midi.hpp"
 #include "GameEnderController.hpp"
 #include "Map.hpp"

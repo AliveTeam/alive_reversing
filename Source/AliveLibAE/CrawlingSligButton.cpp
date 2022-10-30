@@ -2,7 +2,7 @@
 #include "CrawlingSligButton.hpp"
 #include "Sfx.hpp"
 #include "stdlib.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Path.hpp"
 

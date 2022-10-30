@@ -10,7 +10,7 @@
 #include "Abe.hpp"
 #include "../relive_lib/Animation.hpp"
 #include "Sfx.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "CheatController.hpp"
 #include "magic_enum/include/magic_enum.hpp"
 

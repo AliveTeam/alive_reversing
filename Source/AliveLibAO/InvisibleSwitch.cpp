@@ -3,7 +3,7 @@
 #include "InvisibleSwitch.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "Abe.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "Alarm.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Game.hpp"

@@ -2,7 +2,7 @@
 #include "Function.hpp"
 #include "Door.hpp"
 #include "Abe.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "ResourceManager.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "../AliveLibAE/stdlib.hpp"

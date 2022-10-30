@@ -2,7 +2,7 @@
 #include "Game.hpp"
 #include "Function.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "DDCheat.hpp"
 #include "../AliveLibAE/Psx.hpp"
 #include "../AliveLibAE/Sys.hpp"
@@ -131,7 +131,7 @@ void Init_Sound_DynamicArrays_And_Others()
 
     // TODO: The switch state clearing is done in Init_GameStates in AE
     // check this is not an AO bug
-    SwitchStates_ClearAll();
+    SwitchStates_ClearRange(0, 255);
 }
 
 void Game_Init_LoadingIcon()

@@ -11,7 +11,7 @@
 #include "Abe.hpp"
 #include "../relive_lib/Events.hpp"
 #include "DDCheat.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "SnoozeParticle.hpp"
 #include "Input.hpp"
 #include "../relive_lib/ObjectIds.hpp"

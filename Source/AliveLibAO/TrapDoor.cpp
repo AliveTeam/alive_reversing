@@ -4,7 +4,7 @@
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "Game.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "../relive_lib/ObjectIds.hpp"

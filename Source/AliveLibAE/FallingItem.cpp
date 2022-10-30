@@ -7,7 +7,7 @@
 #include "Function.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "Sound/Midi.hpp"
 #include "ParticleBurst.hpp"
 #include "../relive_lib/Particle.hpp"

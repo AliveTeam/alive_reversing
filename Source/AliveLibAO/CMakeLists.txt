@@ -267,8 +267,6 @@ SET(AliveLibSrcAO
    Abe.cpp
    RollingBallStopper.hpp
    RollingBallStopper.cpp
-   SwitchStates.hpp
-   SwitchStates.cpp
    ThrowableArray.hpp
    ThrowableArray.cpp
    Elum.hpp

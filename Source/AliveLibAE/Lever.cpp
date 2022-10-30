@@ -5,7 +5,7 @@
 #include "stdlib.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "Grid.hpp"
 #include "Map.hpp"
 #include "Path.hpp"

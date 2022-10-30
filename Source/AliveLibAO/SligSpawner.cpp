@@ -2,7 +2,7 @@
 #include "Function.hpp"
 #include "SligSpawner.hpp"
 #include "Slig.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 

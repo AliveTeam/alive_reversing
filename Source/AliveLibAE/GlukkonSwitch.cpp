@@ -8,7 +8,7 @@
 #include "Sound/Midi.hpp"
 #include "Glukkon.hpp"
 #include "Sfx.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "GameSpeak.hpp"
 #include "Map.hpp"
 #include "Path.hpp"

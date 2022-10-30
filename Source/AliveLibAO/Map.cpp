@@ -20,7 +20,7 @@
 #include "../relive_lib/Particle.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "../relive_lib/Events.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "Sfx.hpp"
 #include "Elum.hpp"
 #include "../AliveLibAE/Sys.hpp"

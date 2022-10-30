@@ -3,7 +3,7 @@
 #include "DDCheat.hpp"
 #include "Function.hpp"
 #include "stdlib.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 
 static void SetData(const relive::Path_SlurgSpawner& tlv, Slurg_Spawner_Path_Data& data)
 {

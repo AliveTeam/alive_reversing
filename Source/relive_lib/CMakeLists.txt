@@ -13,6 +13,8 @@ SET(relive_lib_src
     BinaryPath.cpp
     ShadowZone.hpp
     ShadowZone.cpp
+    SwitchStates.hpp
+    SwitchStates.cpp
     FG1.hpp
     FG1.cpp
     Camera.cpp

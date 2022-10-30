@@ -2,7 +2,7 @@
 #include "MotionDetector.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/ObjectIds.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "BaseAliveGameObject.hpp"

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Fleech.hpp"
 #include "Function.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "Game.hpp"
 #include "Abe.hpp"
 #include "MusicController.hpp"

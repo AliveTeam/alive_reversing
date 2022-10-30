@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Function.hpp"
 #include "FootSwitch.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "stdlib.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Sfx.hpp"

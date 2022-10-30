@@ -5,7 +5,7 @@
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "ScopedSeq.hpp"
 #include "Path.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 
 namespace AO {
 

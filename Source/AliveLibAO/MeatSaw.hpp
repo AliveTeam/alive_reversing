@@ -34,8 +34,8 @@ public:
     s16 field_EA_speed1 = 0;
     s16 field_EC_off_speed = 0;
     u16 field_EE_switch_id = 0;
-    s16 field_F0_switch_value = 0;
-    s16 field_F2_switch_value = 0;
+    s32 field_F0_switch_value = 0;
+    s32 field_F2_switch_value = 0;
     s16 field_F4 = 0;
     s16 field_F6_switch_min_time_off = 0;
     s16 field_F8_switch_max_time_off = 0;

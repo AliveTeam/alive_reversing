@@ -13,7 +13,7 @@
 #include "DDCheat.hpp"
 #include "WorkWheel.hpp"
 #include "BirdPortal.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "Math.hpp"
 #include "Sfx.hpp"
 #include "Spark.hpp"

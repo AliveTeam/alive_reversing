@@ -4,7 +4,7 @@
 #include "stdlib.hpp"
 #include "../relive_lib/Shadow.hpp"
 #include "Sfx.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "Sound/Midi.hpp"
 #include "Abe.hpp"
 #include "../relive_lib/Events.hpp"

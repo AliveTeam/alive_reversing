@@ -14,7 +14,7 @@
 #include "Gibs.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "../relive_lib/Events.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "Path.hpp"
 
 static const TintEntry kMovingBombTints_55C734[4] = {

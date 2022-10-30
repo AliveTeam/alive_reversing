@@ -1,7 +1,7 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
 #include "DoorLight.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "Math.hpp"
 #include "Game.hpp"
 #include "../AliveLibAE/stdlib.hpp"

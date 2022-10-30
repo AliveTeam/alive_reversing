@@ -201,7 +201,7 @@ void Init_GameStates()
 
     gAbeBulletProof_5C1BDA = 0;
 
-    SwitchStates_SetRange(2u, 255u);
+    SwitchStates_ClearRange(2u, 255u);
 }
 
 void Init_Sound_DynamicArrays_And_Others()

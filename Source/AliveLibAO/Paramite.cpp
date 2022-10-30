@@ -20,7 +20,7 @@
 #include "CameraSwapper.hpp"
 #include "PlatformBase.hpp"
 #include "LiftPoint.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "Grid.hpp"
 #include "BeeSwarm.hpp"
 #include "../relive_lib/ObjectIds.hpp"

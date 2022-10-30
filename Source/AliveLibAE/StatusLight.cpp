@@ -2,7 +2,7 @@
 #include "StatusLight.hpp"
 #include "Function.hpp"
 #include "../relive_lib/Collisions.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "DDCheat.hpp"
 #include "stdlib.hpp"
 #include "Grid.hpp"

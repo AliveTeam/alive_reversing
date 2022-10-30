@@ -2,7 +2,7 @@
 #include "GameEnderController.hpp"
 #include "stdlib.hpp"
 #include "DDCheat.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "../relive_lib/Events.hpp"
 #include "BirdPortal.hpp"
 #include "Map.hpp"

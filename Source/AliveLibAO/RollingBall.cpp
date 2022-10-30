@@ -5,7 +5,7 @@
 #include "../relive_lib/Collisions.hpp"
 #include "RollingBallShaker.hpp"
 #include "../relive_lib/Shadow.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "ParticleBurst.hpp"
 #include "Flash.hpp"
 #include "ScreenShake.hpp"

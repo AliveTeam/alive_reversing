@@ -3,7 +3,7 @@
 #include "Math.hpp"
 #include "Sound/Midi.hpp"
 #include "stdlib.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "../relive_lib/Particle.hpp"
 #include "Game.hpp"
 #include "Sfx.hpp"

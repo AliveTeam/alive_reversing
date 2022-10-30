@@ -2,7 +2,7 @@
 #include "Function.hpp"
 #include "Lever.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
 

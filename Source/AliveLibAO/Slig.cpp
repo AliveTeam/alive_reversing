@@ -29,7 +29,7 @@
 #include "SnoozeParticle.hpp"
 #include "GameSpeak.hpp"
 #include "ScreenShake.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include <algorithm>
 #include "Psx_common.hpp"
 #include "AnimationCallBacks.hpp"

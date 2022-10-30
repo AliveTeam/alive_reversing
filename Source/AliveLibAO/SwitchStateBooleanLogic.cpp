@@ -1,7 +1,7 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
 #include "SwitchStateBooleanLogic.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/Events.hpp"
 
@@ -36,8 +36,8 @@ SwitchStateBooleanLogic::SwitchStateBooleanLogic(Path_SwitchStateBooleanLogic* p
 
 void SwitchStateBooleanLogic::VUpdate()
 {
-    const s16 id1_value = SwitchStates_Get(field_10_input_1);
-    const s16 id2_value = SwitchStates_Get(field_12_input_2);
+    const s32 id1_value = SwitchStates_Get(field_10_input_1);
+    const s32 id2_value = SwitchStates_Get(field_12_input_2);
 
     s8 id_value = 0;
     switch (field_16_operator)

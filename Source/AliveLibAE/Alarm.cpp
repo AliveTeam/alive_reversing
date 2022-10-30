@@ -2,7 +2,7 @@
 #include "Alarm.hpp"
 #include "Function.hpp"
 #include "Game.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"

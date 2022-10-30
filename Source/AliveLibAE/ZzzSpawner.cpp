@@ -5,7 +5,7 @@
 #include "../relive_lib/Events.hpp"
 #include "SnoozeParticle.hpp"
 #include "Game.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "Path.hpp"
 
 ZzzSpawner::ZzzSpawner(relive::Path_ZzzSpawner* pTlv, const Guid& tlvId)

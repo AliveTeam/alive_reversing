@@ -18,7 +18,7 @@
 #include "Bullet.hpp"
 #include "Sfx.hpp"
 #include "MusicTrigger.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "../relive_lib/Particle.hpp"
 #include "CameraSwapper.hpp"
 #include "Lever.hpp"

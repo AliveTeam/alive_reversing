@@ -2,7 +2,7 @@
 #include "SlapLock.hpp"
 #include "SlapLockWhirlWind.hpp"
 #include "Function.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "stdlib.hpp"
 #include "Abe.hpp"
 #include "../relive_lib/Events.hpp"

@@ -81,8 +81,6 @@ SET(AliveLibAESrc
     Resources.cpp
     Font.hpp
     Font.cpp
-    SwitchStates.hpp
-    SwitchStates.cpp
     StringFormatters.hpp
     StringFormatters.cpp
     Abe.hpp

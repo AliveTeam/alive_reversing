@@ -22,7 +22,7 @@ public:
     s16 field_E8_width = 0;
     s16 field_EA_height = 0;
     s16 field_EC_bHasID = 0;
-    s16 field_EE_switch_value = 0;
+    s32 field_EE_switch_value = 0;
     s16 field_F0_switch_id = 0;
 };
 

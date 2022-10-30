@@ -4,7 +4,7 @@
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Game.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "Path.hpp"
 
 namespace AO {

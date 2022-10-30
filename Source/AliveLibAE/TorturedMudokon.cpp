@@ -4,7 +4,7 @@
 #include "../relive_lib/ScreenManager.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/Events.hpp"
-#include "SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 #include "Flash.hpp"
 #include "Sfx.hpp"
 #include "Function.hpp"
