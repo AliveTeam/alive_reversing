@@ -14,7 +14,7 @@
 #include "QuikSave.hpp"
 #include "Text.hpp"
 #include "Sfx.hpp"
-#include "FG1.hpp"
+#include "../relive_lib/FG1.hpp"
 #include "CameraSwapper.hpp"
 #include "MainMenu.hpp"
 #include "../relive_lib/Events.hpp"

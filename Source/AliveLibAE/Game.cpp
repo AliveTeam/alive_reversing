@@ -28,7 +28,7 @@
 #include "MusicController.hpp"
 #include <gmock/gmock.h>
 #include "CheatController.hpp"
-#include "FG1.hpp"
+#include "../relive_lib/FG1.hpp"
 #include "PsxRender.hpp"
 #include "Slurg.hpp"
 #include "PathDataExtensions.hpp"

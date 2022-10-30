@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "Camera.hpp"
-#include "../AliveLibAE/FG1.hpp" // TODO: Merge into 1 object
+#include "FG1.hpp"
 
 Camera::Camera()
     : field_0(3)
