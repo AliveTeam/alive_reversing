@@ -4,7 +4,6 @@
 #include "stdlib.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
-#include "../relive_lib/VRam.hpp"
 #include "Game.hpp"
 #include "Sound/Midi.hpp"
 #include "Abe.hpp"

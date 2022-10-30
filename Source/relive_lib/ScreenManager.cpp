@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "ScreenManager.hpp"
 #include "../AliveLibCommon/Function.hpp"
-#include "VRam.hpp"
 #include "../AliveLibAE/Renderer/IRenderer.hpp"
 #include "../AliveLibCommon/CamDecompressor.hpp"
 #include "../relive_lib/GameType.hpp"

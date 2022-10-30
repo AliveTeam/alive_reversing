@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "PsxDisplay.hpp"
 #include <type_traits>
-#include "VRam.hpp"
 #include "../AliveLibAE/PsxRender.hpp"
 #include "GameType.hpp"
 #include "ScreenManager.hpp"
@@ -119,8 +118,6 @@ s32 DebugFont_Init() // Font
 {
     if (!sbDebugFontLoaded)
     {
-        Vram_alloc(960, 256, 991, 287);
-        Vram_alloc(960, 384, 975, 385);
         sbDebugFontLoaded = 1;
     }
     DebugFont_Reset_4F8B40();
@@ -191,9 +188,6 @@ void PsxDisplay::Init()
     mMaxBuffers = 1;
     mBufferSize = 43;
 
-    Vram_init();
-    Vram_alloc(0, 0, 639, 271);
-    Pal_Area_Init(0, 240, 640, 32);
     PSX_ClearOTag(mDrawEnvs[0].mOrderingTable, mBufferSize);
     PSX_ClearOTag(mDrawEnvs[1].mOrderingTable, mBufferSize);
     PSX_SetDefDrawEnv_4F5AA0(&mDrawEnvs[0].mDrawEnv, 0, 0, mWidth, mHeight);

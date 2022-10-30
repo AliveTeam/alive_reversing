@@ -2,7 +2,6 @@
 #include "Animation.hpp"
 #include "../AliveLibAE/Compression.hpp"
 #include "../relive_lib/Compression.hpp"
-#include "VRam.hpp"
 #include "PsxDisplay.hpp"
 #include "../AliveLibAE/Renderer/IRenderer.hpp"
 #include "../relive_lib/GameType.hpp"

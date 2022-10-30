@@ -1,6 +1,5 @@
 #include "OpenGLRenderer.hpp"
 #include "../Compression.hpp"
-#include "../relive_lib/VRam.hpp"
 #include "../relive_lib/Primitives.hpp"
 #include "../relive_lib/Animation.hpp"
 #include "../Font.hpp"

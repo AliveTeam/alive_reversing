@@ -3,7 +3,6 @@
 #include "Electrocute.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "../relive_lib/VRam.hpp"
 #include "Map.hpp"
 
 #define kPalDepth 64
@@ -185,6 +184,12 @@ void Electrocute::Stop()
 
         mBaseGameObjectFlags.Set(Options::eDead);
     }
+}
+
+// TODO all these need changing to RGB32
+u32 Pal_Make_Colour(u8 r, u8 g, u8 b, s16 bOpaque)
+{
+    return (bOpaque != 0 ? 0x8000 : 0) + ((u32) r >> 3) + 4 * ((g & 0xF8) + 32 * (b & 0xF8));
 }
 
 void Electrocute::VUpdate()

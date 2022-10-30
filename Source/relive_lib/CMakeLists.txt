@@ -15,8 +15,6 @@ SET(relive_lib_src
     ShadowZone.cpp
     FG1.hpp
     FG1.cpp
-    VRam.hpp
-    VRam.cpp
     Camera.cpp
     Camera.hpp
     Sfx.hpp

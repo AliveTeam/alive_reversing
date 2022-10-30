@@ -3,7 +3,6 @@
 #include "BaseAliveGameObject.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "stdlib.hpp"
-#include "../relive_lib/VRam.hpp"
 #include "Function.hpp"
 #include "Map.hpp"
 
@@ -179,6 +178,12 @@ void Electrocute::VScreenChanged()
     {
         VStop();
     }
+}
+
+// TODO all these need changing to RGB32
+u32 Pal_Make_Colour(u8 r, u8 g, u8 b, s16 bOpaque)
+{
+    return (bOpaque != 0 ? 0x8000 : 0) + ((u32) r >> 3) + 4 * ((g & 0xF8) + 32 * (b & 0xF8));
 }
 
 void Electrocute::VUpdate()

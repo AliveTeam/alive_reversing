@@ -2,7 +2,6 @@
 #include "SoftwareRenderer.hpp"
 #include "../PsxRender.hpp"
 #include "../Psx.hpp"
-#include "../relive_lib/VRam.hpp"
 
 #include "../relive_lib/Animation.hpp"
 #include "../relive_lib/data_conversion/rgb_conversion.hpp"
