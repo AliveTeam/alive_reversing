@@ -359,7 +359,7 @@ public:
     void ExitShrykull_42F440(s16 bResetRingTimer);
     s16 RunTryEnterWell_425880();
     void ChangeChantState_430510(s16 bKeepChanting);
-    static BaseAliveGameObject* FindObjectToPossess_421410();
+    static IBaseAliveGameObject* FindObjectToPossess_421410();
     void ToDieFinal_42C400();
     void ToKnockback_422D90(s16 bUnknownSound, s16 bDelayedAnger);
     void ToIdle_422D50();
@@ -588,7 +588,7 @@ public:
     relive::Path_MovieStone* mMovieStone = nullptr;
     relive::Path_BellsongStone* mBellsongStone = nullptr;
     OrbWhirlWind* field_188_pOrbWhirlWind = nullptr;
-    BaseAliveGameObject* field_18C_pObjToPossess = nullptr;
+    IBaseAliveGameObject* field_18C_pObjToPossess = nullptr;
     EReliveLevelIds field_190_level = EReliveLevelIds::eNone;
     s16 field_192_path = 0;
     s16 field_194_camera = 0;
@@ -605,7 +605,6 @@ public:
 };
 
 extern Abe* sActiveHero;
-extern BaseAliveGameObject* sControlledCharacter;
 extern s16 gAbeInvulnerableCheat;
 extern s16 gAbeInvisibleCheat;
 
@@ -616,3 +615,5 @@ s32 Mudokon_SFX(MudSounds idx, s32 volume, s32 pitch, BaseAliveGameObject* pHero
 s32 XGrid_Index_To_XPos(FP scale, s32 xGridIndex);
 
 } // namespace AO
+
+extern IBaseAliveGameObject* sControlledCharacter;

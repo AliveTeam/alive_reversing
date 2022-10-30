@@ -175,22 +175,22 @@ public:
     s16 Brain_Patrol_State_1();
     s16 Brain_Patrol_State_2();
     s16 Brain_Patrol_State_3();
-    s16 Brain_Patrol_State_4(BaseAliveGameObject* pTarget);
+    s16 Brain_Patrol_State_4(IBaseAliveGameObject* pTarget);
     s16 Brain_Patrol_State_5();
     s16 Brain_Patrol_State_6();
     s16 Brain_Patrol_State_7();
-    s16 Brain_Patrol_State_8(BaseAliveGameObject* pTarget);
+    s16 Brain_Patrol_State_8(IBaseAliveGameObject* pTarget);
     s16 Brain_Patrol_State_9();
     s16 Brain_Patrol_State_10();
 
     s16 Brain_1_ChasingAbe();
-	s16 Brain_ChasingAbe_State_0(BaseAliveGameObject* pObj);
+    s16 Brain_ChasingAbe_State_0(IBaseAliveGameObject* pObj);
 
-	s16 Brain_ChasingAbe_State_1(BaseAliveGameObject* pObj);
-	s16 Brain_ChasingAbe_State1_Helper(BaseAliveGameObject* pObj);
+	s16 Brain_ChasingAbe_State_1(IBaseAliveGameObject* pObj);
+	s16 Brain_ChasingAbe_State1_Helper(IBaseAliveGameObject* pObj);
 
-	s16 Brain_ChasingAbe_State_2(BaseAliveGameObject* pObj);
-    s16 Brain_ChasingAbe_State_9(BaseAliveGameObject* pObj);
+	s16 Brain_ChasingAbe_State_2(IBaseAliveGameObject* pObj);
+    s16 Brain_ChasingAbe_State_9(IBaseAliveGameObject* pObj);
 
     s16 Brain_2_Scared();
     s16 Brain_3_Death();
@@ -215,14 +215,14 @@ private:
     void sub_42B8C0();
     void SetTongueState1();
     void IncreaseAnger();
-    s16 AngerFleech(BaseAliveGameObject* pObj);
+    s16 AngerFleech(IBaseAliveGameObject* pObj);
     s32 TongueActive();
     void PullTargetIn();
     void sub_42BA10();
     void SetTongueState5();
-    BaseAliveGameObject* FindMudOrAbe();
+    IBaseAliveGameObject* FindMudOrAbe();
     void MoveAlongFloor(); // MoveOnLine?
-    s16 IsNear(BaseAliveGameObject* pObj);
+    s16 IsNear(IBaseAliveGameObject* pObj);
     bool Collision(s16 alwaysOne);
     relive::Path_Hoist* TryGetHoist(s32 xDistance, s16 bIgnoreDirection);
 

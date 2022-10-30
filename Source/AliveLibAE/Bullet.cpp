@@ -12,7 +12,7 @@
 #include "../relive_lib/ScreenManager.hpp"
 #include "Grid.hpp"
 
-Bullet::Bullet(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, FP scale, s32 numberOfBullets)
+Bullet::Bullet(IBaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, FP scale, s32 numberOfBullets)
     : BaseGameObject(TRUE, 0)
 {
     SetType(ReliveTypes::eBullet);
@@ -65,7 +65,7 @@ void Bullet::VUpdate()
                 shootRect.y = FP_GetExponent(mYPos - FP_FromInteger(10));
             }
 
-            BaseAliveGameObject* pShotObj = ShootObject(&shootRect);
+            IBaseAliveGameObject* pShotObj = ShootObject(&shootRect);
 
             const s16 vol = mSpriteScale != FP_FromDouble(0.5) ? 90 : 60;
 
@@ -229,7 +229,7 @@ void Bullet::VUpdate()
             rect.w = static_cast<s16>(xSnapped - 25 + 50);
             rect.y = FP_GetExponent(pScreenManager->CamYPos());
             rect.h = static_cast<s16>(rect.y + 240);
-            BaseAliveGameObject* pShootObj = ShootObject(&rect);
+            IBaseAliveGameObject* pShootObj = ShootObject(&rect);
             if (pShootObj)
             {
                 if (pShootObj->VTakeDamage(this))
@@ -282,7 +282,7 @@ void Bullet::VUpdate()
             rect.w = rect.x + 2;
             rect.h = rect.h;
 
-            BaseAliveGameObject* pShootObj = ShootObject(&rect);
+            IBaseAliveGameObject* pShootObj = ShootObject(&rect);
             if (pShootObj && pShootObj->VTakeDamage(this) && pShootObj->Type() != ReliveTypes::eGreeter && pShootObj->Type() != ReliveTypes::eMineCar)
             {
                 PlayBulletSounds(90);
@@ -346,17 +346,17 @@ bool Bullet::InZBulletCover(FP xpos, FP ypos, const PSX_RECT& objRect)
     return false;
 }
 
-BaseAliveGameObject* Bullet::ShootObject(PSX_RECT* pRect)
+IBaseAliveGameObject* Bullet::ShootObject(PSX_RECT* pRect)
 {
     if (!gBaseAliveGameObjects)
     {
         return nullptr;
     }
 
-    BaseAliveGameObject* pObjectToShoot = nullptr;
+    IBaseAliveGameObject* pObjectToShoot = nullptr;
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+        IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;

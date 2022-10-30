@@ -4,6 +4,23 @@
 #include "../AliveLibAO/PathData.hpp"
 #include "../AliveLibAE/PathData.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
+#include "IBaseAliveGameObject.hpp"
+
+s16 sMap_bDoPurpleLightEffect = 0;
+
+
+// Map Path_ChangeTLV::field_18_wipe to CameraSwapEffects
+const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect[10] = {
+    CameraSwapEffects::ePlay1FMV_5,
+    CameraSwapEffects::eRightToLeft_2,
+    CameraSwapEffects::eLeftToRight_1,
+    CameraSwapEffects::eBottomToTop_4,
+    CameraSwapEffects::eTopToBottom_3,
+    CameraSwapEffects::eBoxOut_8,
+    CameraSwapEffects::eVerticalSplit_6,
+    CameraSwapEffects::eHorizontalSplit_7,
+    CameraSwapEffects::eUnknown_11,
+    CameraSwapEffects::eInstantChange_0};
 
 EReliveLevelIds MapWrapper::FromAO(AO::LevelIds levelId)
 {
@@ -181,4 +198,87 @@ LevelIds MapWrapper::ToAE(EReliveLevelIds levelId)
             ALIVE_FATAL("Can't map to an AE lvl");
         }
     }
+}
+
+s16 IMap::SetActiveCameraDelayed(MapDirections direction, IBaseAliveGameObject* pObj, s16 swapEffect)
+{
+    relive::Path_PathTransition* pPathChangeTLV = nullptr;
+    CameraSwapEffects convertedSwapEffect = CameraSwapEffects::eInstantChange_0;
+    if (pObj)
+    {
+        pPathChangeTLV = static_cast<relive::Path_PathTransition*>(VTLV_Get_At(
+            FP_GetExponent(pObj->mXPos),
+            FP_GetExponent(pObj->mYPos),
+            FP_GetExponent(pObj->mXPos),
+            FP_GetExponent(pObj->mYPos),
+            ReliveTypes::ePathTransition));
+    }
+
+    if (pObj && pPathChangeTLV)
+    {
+        mNextLevel = pPathChangeTLV->mNextLevel;
+        mNextPath = pPathChangeTLV->mNextPath;
+        mNextCamera = pPathChangeTLV->mNextCamera;
+        if (swapEffect < 0)
+        {
+            // Map the TLV/editor value of screen change to the internal screen change
+            convertedSwapEffect = kPathChangeEffectToInternalScreenChangeEffect[pPathChangeTLV->mWipeEffect];
+        }
+        else
+        {
+            // If not negative then its an actual swap effect
+            convertedSwapEffect = static_cast<CameraSwapEffects>(swapEffect);
+        }
+    }
+    else
+    {
+        switch (direction)
+        {
+            case MapDirections::eMapLeft_0:
+                if (!GetCamera(CameraPos::eCamLeft_3))
+                {
+                    return 0;
+                }
+                break;
+            case MapDirections::eMapRight_1:
+                if (!GetCamera(CameraPos::eCamRight_4))
+                {
+                    return 0;
+                }
+                break;
+            case MapDirections::eMapBottom_3:
+                if (!GetCamera(CameraPos::eCamBottom_2))
+                {
+                    return 0;
+                }
+                break;
+            case MapDirections::eMapTop_2:
+                if (!GetCamera(CameraPos::eCamTop_1))
+                {
+                    return 0;
+                }
+                break;
+        }
+
+        mNextPath = mCurrentPath;
+        mNextLevel = mCurrentLevel;
+        convertedSwapEffect = static_cast<CameraSwapEffects>(swapEffect); // TODO: Correct ??
+    }
+
+    mMapDirection = direction;
+    mAliveObj = pObj;
+    mCamState = CamChangeStates::eSliceCam_1;
+    sMap_bDoPurpleLightEffect = 0;
+
+    if (convertedSwapEffect == CameraSwapEffects::ePlay1FMV_5 || convertedSwapEffect == CameraSwapEffects::eUnknown_11)
+    {
+        sMap_bDoPurpleLightEffect = 1;
+    }
+
+    return 1;
+}
+
+Camera* IMap::GetCamera(CameraPos pos)
+{
+    return field_2C_camera_array[static_cast<s32>(pos)];
 }

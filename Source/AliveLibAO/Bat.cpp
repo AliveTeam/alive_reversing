@@ -215,7 +215,7 @@ void Bat::VUpdate()
             {
                 for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
                 {
-                    BaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(i);
+                    IBaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(i);
                     if (!pObjIter)
                     {
                         break;

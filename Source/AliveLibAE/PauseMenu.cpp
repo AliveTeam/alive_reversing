@@ -1007,7 +1007,7 @@ u16 sub_4A2B70()
 void PauseMenu::VUpdate()
 {
     Abe* pHero = sActiveHero;
-    BaseAliveGameObject* pControlledChar = nullptr;
+    IBaseAliveGameObject* pControlledChar = nullptr;
 
     if (!pHero)
     {

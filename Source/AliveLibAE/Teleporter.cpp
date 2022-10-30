@@ -285,7 +285,8 @@ void Teleporter::VUpdate()
             // XPos = TLV xpos + TLV middle point
             sControlledCharacter->mXPos = FP_FromInteger(pTeleporterTlv->mTopLeftX) + FP_FromInteger((pTeleporterTlv->Width()) / 2);
 
-            sControlledCharacter->MapFollowMe(TRUE);
+            // HACK: Fix me when base class is merged
+            static_cast<BaseAliveGameObject*>(sControlledCharacter)->MapFollowMe(TRUE);
 
             PathLine* pPathLine = nullptr;
             FP hitX = {};

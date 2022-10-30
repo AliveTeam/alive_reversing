@@ -4,15 +4,16 @@
 #include "../relive_lib/BaseGameObject.hpp"
 #include "../AliveLibAE/Psx.hpp"
 
+class IBaseAliveGameObject;
+
 namespace AO {
 
-class BaseAliveGameObject;
 class PalleteOverwriter;
 
 class Electrocute final : public ::BaseGameObject
 {
 public:
-    Electrocute(BaseAliveGameObject* pTargetObj, s32 bExtraOverwriter);
+    Electrocute(IBaseAliveGameObject* pTargetObj, s32 bExtraOverwriter);
     ~Electrocute();
 
     virtual void VScreenChanged() override;
@@ -20,7 +21,7 @@ public:
 
     void Stop();
 
-    BaseAliveGameObject* field_10_obj_target = nullptr;
+    IBaseAliveGameObject* field_10_obj_target = nullptr;
     s16 field_14_overwriter_count = 0;
     PalleteOverwriter* field_18_pPalOverwriters[3] = {};
     s16 field_24_extraOverwriter = 0;

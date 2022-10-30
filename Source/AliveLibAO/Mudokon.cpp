@@ -1147,7 +1147,7 @@ s16 Mudokon::IAmNearestToAbe()
 {
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        BaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(i);
+        IBaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(i);
         if (!pObjIter)
         {
             break;
@@ -3154,7 +3154,7 @@ s16 Mudokon::Brain_5_LiftUse()
         field_194_pLiftPoint = nullptr;
         for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
         {
-            BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+            IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
             if (!pObj)
             {
                 break;

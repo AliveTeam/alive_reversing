@@ -418,7 +418,7 @@ void Greeter::VOnThrowableHit(BaseGameObject* /*pFrom*/)
     BounceBackFromShot();
 }
 
-void Greeter::ZapTarget(FP xpos, FP ypos, BaseAliveGameObject* pTarget)
+void Greeter::ZapTarget(FP xpos, FP ypos, IBaseAliveGameObject* pTarget)
 {
     relive_new ScreenShake(0, 0);
 
@@ -506,7 +506,7 @@ void Greeter::RandomishSpeak(GreeterSpeak effect)
     }
 }
 
-bool Greeter::ZapIsNotBlocked(BaseAliveGameObject* pUs, BaseAliveGameObject* pThem)
+bool Greeter::ZapIsNotBlocked(IBaseAliveGameObject* pUs, IBaseAliveGameObject* pThem)
 {
     const PSX_RECT usRect = VGetBoundingRect();
     const PSX_RECT bRectThem = pThem->VGetBoundingRect();
@@ -526,11 +526,11 @@ bool Greeter::ZapIsNotBlocked(BaseAliveGameObject* pUs, BaseAliveGameObject* pTh
         == 1;
 }
 
-BaseAliveGameObject* Greeter::GetMudToZap()
+IBaseAliveGameObject* Greeter::GetMudToZap()
 {
     for (s32 idx = 0; idx < gBaseAliveGameObjects->Size(); idx++)
     {
-        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(idx);
+        IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(idx);
         if (!pObj)
         {
             break;
@@ -673,7 +673,7 @@ void Greeter::VUpdate()
 
             if (midX - mXPos >= (GetSpriteScale() * FP_FromInteger(60)) || mXPos - midX >= (GetSpriteScale() * FP_FromInteger(60)) || midY - (mYPos - FP_FromInteger(4)) >= (GetSpriteScale() * FP_FromInteger(60)) || mYPos - FP_FromInteger(4) - midY >= (GetSpriteScale() * FP_FromInteger(60)) || sActiveHero->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted) || sActiveHero->CantBeDamaged_44BAB0() || ZapIsNotBlocked(this, sActiveHero))
             {
-                BaseAliveGameObject* pGonnaZapYa = GetMudToZap();
+                IBaseAliveGameObject* pGonnaZapYa = GetMudToZap();
                 if (pGonnaZapYa)
                 {
                     const PSX_RECT bZapRect = pGonnaZapYa->VGetBoundingRect();

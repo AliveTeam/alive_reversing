@@ -372,7 +372,7 @@ Slig::~Slig()
                 0);
     }
 
-    auto pTlv = gMap.TLV_Get_At(
+    auto pTlv = gMap.VTLV_Get_At(
         field_174_tlv->mTopLeftX,
         field_174_tlv->mTopLeftY,
         field_174_tlv->mTopLeftX,
@@ -1309,7 +1309,7 @@ s16 Slig::HandleEnemyStopper(s32 gridBlocks)
     }
 
     const auto dirScaled = ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(directedGirdBlocks) + mXPos;
-    auto pStopper = static_cast<relive::Path_EnemyStopper*>(gMap.TLV_Get_At(
+    auto pStopper = static_cast<relive::Path_EnemyStopper*>(gMap.VTLV_Get_At(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(dirScaled),
@@ -1573,12 +1573,12 @@ s16 Slig::GetNextMotionIncGameSpeak(u16 input)
     return -1;
 }
 
-bool Slig::InAnyWellRenderLayer(BaseAliveGameObject* pThis)
+bool Slig::InAnyWellRenderLayer(IBaseAliveGameObject* pThis)
 {
     return pThis->GetAnimation().GetRenderLayer() == Layer::eLayer_BeforeWell_Half_3 || pThis->GetAnimation().GetRenderLayer() == Layer::eLayer_BeforeWell_22;
 }
 
-s16 Slig::IsAbeEnteringDoor(BaseAliveGameObject* pThis)
+s16 Slig::IsAbeEnteringDoor(IBaseAliveGameObject* pThis)
 {
     if (((pThis->Type() == ReliveTypes::eAbe) && (pThis->mCurrentMotion == eAbeMotions::Motion_156_DoorEnter && pThis->GetAnimation().GetCurrentFrame() > 7)) || (pThis->mCurrentMotion == eAbeMotions::Motion_157_DoorExit && pThis->GetAnimation().GetCurrentFrame() < 4))
     {
@@ -1587,7 +1587,7 @@ s16 Slig::IsAbeEnteringDoor(BaseAliveGameObject* pThis)
     return 0;
 }
 
-s16 Slig::IsWallBetween(Slig* pLeft, BaseAliveGameObject* pRight)
+s16 Slig::IsWallBetween(Slig* pLeft, IBaseAliveGameObject* pRight)
 {
     PathLine* pLine = nullptr;
     FP hitX = {};
@@ -1604,7 +1604,7 @@ s16 Slig::IsWallBetween(Slig* pLeft, BaseAliveGameObject* pRight)
         == 1;
 }
 
-void Slig::Slig_GameSpeak_SFX(SligSpeak effectId, s32 defaultVol, s32 pitch_min, BaseAliveGameObject* pObj)
+void Slig::Slig_GameSpeak_SFX(SligSpeak effectId, s32 defaultVol, s32 pitch_min, IBaseAliveGameObject* pObj)
 {
     s32 volume = defaultVol;
     if (defaultVol == 0)
@@ -1637,7 +1637,7 @@ s16 Slig::IsInInvisibleZone(BaseAnimatedWithPhysicsGameObject* pObj)
 
     const PSX_RECT rect = pObj->VGetBoundingRect();
 
-    relive::Path_TLV* pTlv = gMap.TLV_Get_At(rect.x, rect.y, rect.w, rect.h, ReliveTypes::eInvisibleZone);
+    relive::Path_TLV* pTlv = gMap.VTLV_Get_At(rect.x, rect.y, rect.w, rect.h, ReliveTypes::eInvisibleZone);
     if (pTlv)
     {
         if (rect.x >= pTlv->mTopLeftX && rect.x <= pTlv->mBottomRightX && rect.y >= pTlv->mTopLeftY)
@@ -2022,7 +2022,7 @@ s16 Slig::HandlePlayerControlled()
     {
         if (!Input_IsChanting())
         {
-            relive::Path_Lever* pTlv = static_cast<relive::Path_Lever*>(gMap.TLV_Get_At(
+            relive::Path_Lever* pTlv = static_cast<relive::Path_Lever*>(gMap.VTLV_Get_At(
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),
@@ -4208,7 +4208,7 @@ void Slig::WakeUp()
     mNextMotion = eSligMotions::Motion_34_SleepingToStand;
     SetBrain(&Slig::Brain_WakingUp);
     MusicController::static_PlayMusic(MusicController::MusicTypes::eChase_4, this, 0, 0);
-    auto pTlv = static_cast<relive::Path_Slig*>(gMap.TLV_Get_At(
+    auto pTlv = static_cast<relive::Path_Slig*>(gMap.VTLV_Get_At(
         field_174_tlv->mTopLeftX,
         field_174_tlv->mTopLeftY,
         field_174_tlv->mTopLeftX,
@@ -4860,7 +4860,7 @@ s16 Slig::Brain_Idle()
             }
             if (gEventSystem->field_10_last_event == GameSpeakEvents::eUnknown_29)
             {
-                auto pTlv = static_cast<relive::Path_Lever*>(gMap.TLV_Get_At(
+                auto pTlv = static_cast<relive::Path_Lever*>(gMap.VTLV_Get_At(
                     FP_GetExponent(mXPos),
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos),

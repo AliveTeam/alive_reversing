@@ -5264,7 +5264,7 @@ s16 Paramite::Find_Paramite()
 {
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+        IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;
@@ -5587,7 +5587,7 @@ s16 Paramite::CanIAcceptAGameSpeakCommand()
 
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+        IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;
@@ -5816,10 +5816,10 @@ s16 Paramite::FindTarget()
 {
     if (sControlledCharacter == this)
     {
-        BaseAliveGameObject* pBestTarget = nullptr;
+        IBaseAliveGameObject* pBestTarget = nullptr;
         for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
         {
-            BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+            IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
             if (!pObj)
             {
                 break;

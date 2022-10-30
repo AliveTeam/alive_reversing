@@ -54,7 +54,7 @@
 #include "AnimationCallBacks.hpp"
 #include "DDCheat.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
-#include "Camera.hpp"
+#include "../relive_lib/Camera.hpp"
 #include "Path.hpp"
 
 const relive::SfxDefinition sAbeSFXList_555250[41] = {
@@ -556,7 +556,7 @@ s32 XGrid_Index_To_XPos_4498F0(FP scale, s32 xGridIndex)
     return (374 / 2);
 }
 
-BaseAliveGameObject* sControlledCharacter = nullptr;
+IBaseAliveGameObject* sControlledCharacter = nullptr;
 
 static constexpr s32 kResourceArraySize = 28;
 
@@ -2200,17 +2200,17 @@ void Abe::VOnTlvCollision(relive::Path_TLV* pTlv)
     }
 }
 
-BaseAliveGameObject* Abe::FindObjectToPossess_44B7B0()
+IBaseAliveGameObject* Abe::FindObjectToPossess_44B7B0()
 {
-    BaseAliveGameObject* pTargetObj = nullptr;
-    BaseAliveGameObject* pInRangeFart = nullptr;
-    BaseAliveGameObject* pInRangeGlukkon = nullptr;
+    IBaseAliveGameObject* pTargetObj = nullptr;
+    IBaseAliveGameObject* pInRangeFart = nullptr;
+    IBaseAliveGameObject* pInRangeGlukkon = nullptr;
 
     s16 maxDistance = 32767;
     FP lastScale = {};
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+        IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;
@@ -2668,7 +2668,7 @@ void Abe::Motion_0_Idle_44EEB0()
                     bool bCanUseWheel = true;
                     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
                     {
-                        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+                        IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
                         if (!pObj)
                         {
                             break;
@@ -3384,7 +3384,7 @@ void Abe::Motion_14_HoistIdle_452440()
         {
             if (pHoist->mHoistType == relive::Path_Hoist::Type::eOffScreen)
             {
-                if (gMap.SetActiveCameraDelayed(Map::MapDirections::eMapTop_2, this, -1))
+                if (gMap.SetActiveCameraDelayed(MapDirections::eMapTop_2, this, -1))
                 {
                     PSX_Prevent_Rendering_4945B0();
                     mCurrentMotion = eAbeMotions::Motion_68_ToOffScreenHoist_454B80;
@@ -6818,7 +6818,7 @@ void Abe::Motion_112_Chant()
             EventBroadcast(kEventSpeaking, this);
             EventBroadcast(kEventAbeOhm, this);
 
-            BaseAliveGameObject* pObj = FindObjectToPossess_44B7B0(); // Find a victim.
+            IBaseAliveGameObject* pObj = FindObjectToPossess_44B7B0(); // Find a victim.
 
             if (mRingPulseTimer)
             {
@@ -6870,7 +6870,7 @@ void Abe::Motion_112_Chant()
                         bool bAliveMudIsInSameScreen = false;
                         for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
                         {
-                            BaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(i);
+                            IBaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(i);
                             if (!pObjIter)
                             {
                                 break;
@@ -7913,7 +7913,7 @@ s16 Abe::TryEnterMineCar_4569E0()
     {
         for (s32 idx = 0; idx < gBaseAliveGameObjects->Size(); idx++)
         {
-            BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(idx);
+            IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(idx);
             if (!pObj)
             {
                 break;
@@ -8563,7 +8563,7 @@ void Abe::FallOnBombs_44EC10()
     const PSX_RECT bOurRect = VGetBoundingRect();
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+        IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;

@@ -19,22 +19,6 @@ namespace relive
     class Path_TLV;
 }
 
-enum class CameraSwapEffects : s16
-{
-    eInstantChange_0 = 0,
-    eLeftToRight_1 = 1,     // Left to right
-    eRightToLeft_2 = 2,     // Right to left
-    eTopToBottom_3 = 3,     // Top to bottom
-    eBottomToTop_4 = 4,     // Bottom to top
-    ePlay1FMV_5 = 5,        // Play single fmv
-    eVerticalSplit_6 = 6,   // Screen splits from the middle and moves out up/down
-    eHorizontalSplit_7 = 7, // Screen splits from the middle and moves out left/right
-    eBoxOut_8 = 8,          // A rect "grows" out from the centre of the screen
-    ePlay2FMVs_9 = 9,       // Play 2 fmvs
-    ePlay3FMVs_10 = 10,     // Play 3 fmvs - apparently just taking an array of fmvs is too simple ?
-    eUnknown_11 = 11        // Unknown, has special handing in the map object
-};
-
 struct CameraName final
 {
     char_type name[8];
@@ -46,14 +30,6 @@ enum class LoadMode : s16;
 class Map final : public IMap
 {
 public:
-    enum class MapDirections : s16
-    {
-        eMapLeft_0 = 0,
-        eMapRight_1 = 1,
-        eMapTop_2 = 2,
-        eMapBottom_3 = 3,
-    };
-
     void ScreenChange();
 
     void FreePathResourceBlocks();
@@ -83,8 +59,6 @@ public:
     static void LoadResource(const char_type* pFileName, s32 type, s32 resourceId, LoadMode loadMode, s16 bDontLoad = 0);
     static void LoadResourcesFromList(const char_type* pFileName, ResourceManager::ResourcesToLoadList* pList, LoadMode loadMode, s16 bDontLoad = 0);
 
-    s16 SetActiveCameraDelayed(MapDirections direction, BaseAliveGameObject* pObj, s16 kMinus1);
-
     s16 Is_Point_In_Current_Camera(EReliveLevelIds level, s32 path, FP xpos, FP ypos, s16 width);
     CameraPos GetDirection(EReliveLevelIds level, s32 path, FP xpos, FP ypos);
 
@@ -97,35 +71,23 @@ public:
 
     void TLV_Reset(const Guid& tlvId, s16 hiFlags, s8 bSetCreated, s8 bSetDestroyed) override;
 
+    relive::Path_TLV* VTLV_Get_At(s16 xpos, s16 ypos, s16 width, s16 height, ReliveTypes typeToFind) override;
+
 private:
-    Camera* GetCamera(CameraPos pos);
 
     void CreateScreenTransistionForTLV(relive::Path_TLV* pTlv);
     void ScreenChange_Common();
 
 public:
-    enum class CamChangeStates : s16
-    {
-        eInactive_0 = 0,
-        eSliceCam_1 = 1,
-        eInstantChange_2 = 2
-    };
-    CamChangeStates mCamState = CamChangeStates::eInactive_0;
+
     s16 mForceLoad = 0;
 
     CameraSwapEffects mCameraSwapEffect = CameraSwapEffects::eInstantChange_0;
     u16 mFmvBaseId = 0;
-    MapDirections mMapDirection = MapDirections::eMapLeft_0;
-    BaseAliveGameObject* mAliveObj = nullptr;
-    CameraSwapEffects mConvertedCameraSwapEffect_NeverRead = CameraSwapEffects::eInstantChange_0;
     s16 mDoorTransition = 0;
     s16 mTeleporterTransition = 0;
 
     FP_Point field_24_camera_offset = {};
-
-    Camera* field_2C_camera_array[5] = {};
-    Camera* field_40_stru_5[5] = {};
-
     s16 mFreeAllAnimAndPalts = 0;
 
     s16 mCamIdxOnX = 0;

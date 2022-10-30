@@ -9,7 +9,7 @@
 #include "Game.hpp"
 #include "Map.hpp"
 #include "../AliveLibAE/Sys.hpp"
-#include "Camera.hpp"
+#include "../relive_lib/Camera.hpp"
 #include "GameAutoPlayer.hpp"
 
 namespace AO {

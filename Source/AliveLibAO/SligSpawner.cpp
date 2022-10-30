@@ -35,7 +35,7 @@ void SligSpawner::VUpdate()
 
     if (SwitchStates_Get(mSligSpawnerSwitchId))
     {
-        auto pTlv = static_cast<relive::Path_Slig*>(gMap.TLV_Get_At(
+        auto pTlv = static_cast<relive::Path_Slig*>(gMap.VTLV_Get_At(
             mPathTlv.mTopLeftX,
             mPathTlv.mTopLeftY,
             mPathTlv.mTopLeftX,

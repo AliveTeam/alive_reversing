@@ -52,7 +52,7 @@ public:
     void ToJump();
     void Sfx(s32 idx);
     s16 IsPlayerNear();
-    BaseAliveGameObject* FindAbeMudOrSlig();
+    IBaseAliveGameObject* FindAbeMudOrSlig();
     void Init();
     s16 ToNextMotion();
     void ToIdle();
@@ -107,7 +107,7 @@ public:
     // Inlined
     void DelayedResponse(s16 responseIdx);
 
-    BaseAliveGameObject* field_10C_pTarget = nullptr;
+    IBaseAliveGameObject* field_10C_pTarget = nullptr;
     s16 field_110 = 0;
     s16 field_112 = 0;
     s16 field_114_brain_idx = 0;
@@ -129,7 +129,7 @@ public:
     s32 field_140 = 0;
     s32 field_144 = 0;
     s32 field_148 = -1;
-    BaseAliveGameObject* field_14C_pSlig = nullptr;
+    IBaseAliveGameObject* field_14C_pSlig = nullptr;
     s16 field_150_waiting_counter = 0;
     s16 field_152_response_index = 0;
     s16 field_154_response_part = 0;
@@ -142,7 +142,7 @@ public:
     s32 field_164_timer = 0;
     s16 mAngerSwitchId = 0;
     s16 field_16A = 0;
-    BaseAliveGameObject* field_16C_pUnknown = nullptr;
+    IBaseAliveGameObject* field_16C_pUnknown = nullptr;
     s16 field_170 = 0;
     s16 field_172 = 0;
     s16 field_174 = 0;

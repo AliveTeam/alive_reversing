@@ -89,10 +89,10 @@ private:
     void ChangeDirection();
     void BounceBackFromShot();
     void HandleRollingAlong();
-    void ZapTarget(FP xpos, FP ypos, BaseAliveGameObject* pTarget);
+    void ZapTarget(FP xpos, FP ypos, IBaseAliveGameObject* pTarget);
     void RandomishSpeak(GreeterSpeak effect);
-    bool ZapIsNotBlocked(BaseAliveGameObject* pUs, BaseAliveGameObject* pThem);
-    BaseAliveGameObject* GetMudToZap();
+    bool ZapIsNotBlocked(IBaseAliveGameObject* pUs, IBaseAliveGameObject* pThem);
+    IBaseAliveGameObject* GetMudToZap();
 
 private:
     Guid field_118_tlvInfo;

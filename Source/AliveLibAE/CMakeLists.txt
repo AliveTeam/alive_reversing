@@ -67,8 +67,6 @@ SET(AliveLibAESrc
     PauseMenu.hpp
     Map.cpp
     Map.hpp
-    Camera.cpp
-    Camera.hpp
     AnimationCallBacks.cpp
     AnimationCallBacks.hpp
     BackgroundAnimation.cpp
@@ -109,8 +107,6 @@ SET(AliveLibAESrc
     CheatController.cpp
     Compression.hpp
     Compression.cpp
-    FG1.hpp
-    FG1.cpp
     Movie.hpp
     Movie.cpp
     CameraSwapper.cpp

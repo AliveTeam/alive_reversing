@@ -479,7 +479,7 @@ private:
 
     void DoRunJump();
 
-    BaseAliveGameObject* FindObjectToPossess_44B7B0();
+    IBaseAliveGameObject* FindObjectToPossess_44B7B0();
     void Load_Basic_Resources_44D460();
     void Free_Resources_44D420();
     bool IsStanding_449D30();
@@ -831,7 +831,7 @@ private:
 bool IsActiveHero(BaseGameObject* pObj);
 
 extern Abe* sActiveHero;
-extern BaseAliveGameObject* sControlledCharacter;
+extern IBaseAliveGameObject* sControlledCharacter;
 
 extern s16 gAbeBulletProof_5C1BDA;
 

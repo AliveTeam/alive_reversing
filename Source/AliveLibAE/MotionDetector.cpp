@@ -228,7 +228,7 @@ void MotionDetector::VRender(PrimHeader** ppOt)
     }
 }
 
-s16 MotionDetector::IsInLaser(BaseAliveGameObject* pWho, BaseGameObject* pOwner)
+s16 MotionDetector::IsInLaser(IBaseAliveGameObject* pWho, IBaseAliveGameObject* pOwner)
 {
     if (pWho->Type() == ReliveTypes::eAbe)
     {
@@ -302,7 +302,7 @@ void MotionDetector::VUpdate()
 
         for (s32 idx = 0; idx < gBaseAliveGameObjects->Size(); idx++)
         {
-            BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(idx);
+            IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(idx);
             if (!pObj)
             {
                 break;

@@ -119,7 +119,7 @@ s32 Electrocute::VSub_4E6630()
     return vSub_4E6630();
 }
 
-Electrocute::Electrocute(BaseAliveGameObject* pTargetObj, bool bExtraOverwriter, bool bKillTarget)
+Electrocute::Electrocute(IBaseAliveGameObject* pTargetObj, bool bExtraOverwriter, bool bKillTarget)
     : BaseGameObject(TRUE, 0)
 {
     SetType(ReliveTypes::eElectrocute);

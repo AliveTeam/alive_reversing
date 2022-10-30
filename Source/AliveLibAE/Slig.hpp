@@ -205,7 +205,7 @@ public:
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
     static s32 CreateFromSaveState(const u8* pBuffer);
-    static s16 IsAbeEnteringDoor_4BB990(BaseAliveGameObject* pThis);
+    static s16 IsAbeEnteringDoor_4BB990(IBaseAliveGameObject* pThis);
 
     bool vUnderGlukkonCommand_4B1760();
     void SetBrain(TSligBrainFn fn);
@@ -345,7 +345,7 @@ private:
     void ToAbeDead_4B3580();
     void ToUnderGlukkonCommand_4B9660();
     void ToKilledAbe_4B3600();
-    bool IsWallBetween_4BB8B0(BaseAliveGameObject* pLeft, BaseAliveGameObject* pRight);
+    bool IsWallBetween_4BB8B0(IBaseAliveGameObject* pLeft, IBaseAliveGameObject* pRight);
     GameSpeakEvents LastGlukkonSpeak_4B3090();
     s16 ListenToGlukkonCommands_4B95D0();
     void PlatformCollide_4B4E00();
@@ -366,14 +366,14 @@ private:
     static s16 SligStableDelay_4B99B0();
     void PlayerControlRunningSlideStopOrTurnFrame12_4B8790();
     void PlayerControlRunningSlideStopOrTurnFrame4_4B85D0();
-    BaseAliveGameObject* FindBeatTarget_4BD070(ReliveTypes typeToBeat, s32 gridBlocks);
+    IBaseAliveGameObject* FindBeatTarget_4BD070(ReliveTypes typeToBeat, s32 gridBlocks);
     void TurnOrWalk_4BD6A0(s32 a2);
     void ToPanicRunning_4BCA30();
     void RespondToEnemyOrPatrol_4B3140();
     s16 FindSwitch_4B9A50();
-    s16 NearOrFacingActiveChar_4B9930(BaseAliveGameObject* pObj);
-    static s16 InZCover_4BB7C0(BaseAliveGameObject* pObj);
-    static bool RenderLayerIs_4BBBC0(BaseAliveGameObject* pThis);
+    s16 NearOrFacingActiveChar_4B9930(IBaseAliveGameObject* pObj);
+    static s16 InZCover_4BB7C0(IBaseAliveGameObject* pObj);
+    static bool RenderLayerIs_4BBBC0(IBaseAliveGameObject* pThis);
     void NextCommand_4B9A00(s16 speakTableIndex, s16 responseState);
     s16 HeardGlukkonToListenTo_4B9690(GameSpeakEvents glukkonSpeak);
     s16 vIsFacingMe_4B23D0(BaseAnimatedWithPhysicsGameObject* pWho);

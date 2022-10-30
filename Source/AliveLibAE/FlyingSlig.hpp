@@ -225,10 +225,10 @@ private:
     s16 CollisionLeftRight(FP velX);
     void PullLever();
     s16 TryPullLever();
-    s16 CanChase(BaseAliveGameObject* pObj);
+    s16 CanChase(IBaseAliveGameObject* pObj);
     void Say(SligSpeak speak, s16 pitch);
-    static s16 IsAbeEnteringDoor(BaseAliveGameObject* pThis);
-    static bool IsWallBetween(BaseAliveGameObject* pThis, BaseAliveGameObject* pObj);
+    static s16 IsAbeEnteringDoor(IBaseAliveGameObject* pThis);
+    static bool IsWallBetween(IBaseAliveGameObject* pThis, IBaseAliveGameObject* pObj);
     void ThrowGrenade();
     void BlowUp();
     s16 IsPossessed();

@@ -22,7 +22,7 @@
 #include "Midi.hpp"
 #include "Sound.hpp"
 #include "../relive_lib/Particle.hpp"
-#include "Camera.hpp"
+#include "../relive_lib/Camera.hpp"
 #include "../AliveLibAE/Io.hpp"
 
 namespace AO {
@@ -936,7 +936,7 @@ void Menu::FMV_Select_Update()
                     }
 
                     gPsxDisplay.PutCurrentDispEnv();
-                    pScreenManager->DecompressCameraToVRam(gMap.field_34_camera_array[0]->field_C_ppBits);
+                    pScreenManager->DecompressCameraToVRam(gMap.field_2C_camera_array[0]->field_C_pCamRes);
                     pScreenManager->EnableRendering();
                     SND_Restart();
                 }
@@ -3427,7 +3427,7 @@ void Menu::ToggleMotions_Update()
         {
             if (Input_JoyStickEnabled())
             {
-                gMap.SetActiveCameraDelayed(Map::MapDirections::eMapBottom_3, 0, -1);
+                gMap.SetActiveCameraDelayed(MapDirections::eMapBottom_3, 0, -1);
             }
             else
             {
@@ -3469,7 +3469,7 @@ void Menu::Toggle_Motions_Screens_Update()
         {
             if (Input_JoyStickEnabled())
             {
-                gMap.SetActiveCameraDelayed(Map::MapDirections::eMapTop_2, 0, -1);
+                gMap.SetActiveCameraDelayed(MapDirections::eMapTop_2, 0, -1);
             }
             else
             {

@@ -127,7 +127,7 @@ Slog::Slog(FP xpos, FP ypos, FP scale, s16 bListenToSligs, s16 chaseDelay)
     field_120_brain_state_idx = 2;
     field_122_brain_state_result = 0;
 
-    BaseAliveGameObject* pTarget = FindTarget(0, 0);
+    IBaseAliveGameObject* pTarget = FindTarget(0, 0);
     if (!pTarget)
     {
         pTarget = sControlledCharacter;
@@ -1408,7 +1408,7 @@ s16 Slog::Brain_ListeningToSlig_State_3_Walking(const FP xpos1GridAHead)
     return 2;
 }
 
-s16 Slog::Brain_ListeningToSlig_State_2_Listening(const FP xpos1GridAHead, BaseAliveGameObject* pObj)
+s16 Slog::Brain_ListeningToSlig_State_2_Listening(const FP xpos1GridAHead, IBaseAliveGameObject* pObj)
 {
     if (GetCurrentMotion() != eSlogMotions::Motion_0_Idle)
     {
@@ -1809,7 +1809,7 @@ s16 Slog::Brain_1_Idle()
 
 s16 Slog::Brain_2_ChasingAbe()
 {
-    auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_118_target_id));
+    auto pTarget = static_cast<IBaseAliveGameObject*>(sObjectIds.Find_Impl(field_118_target_id));
     if (field_160_flags.Get(Flags_160::eBit2_ListenToSligs))
     {
         if (field_134_last_event_index != gEventSystem->field_28_last_event_index)
@@ -1909,7 +1909,7 @@ s16 Slog::Brain_2_ChasingAbe()
     }
 }
 
-s16 Slog::Brain_ChasingAbe_State_19_AboutToCollide(BaseAliveGameObject* pTarget)
+s16 Slog::Brain_ChasingAbe_State_19_AboutToCollide(IBaseAliveGameObject* pTarget)
 {
     FP gridSize = {};
 
@@ -1947,7 +1947,7 @@ s16 Slog::Brain_ChasingAbe_State_19_AboutToCollide(BaseAliveGameObject* pTarget)
     return Brain_ChasingAbe_State_20_Collided(pTarget);
 }
 
-s16 Slog::Brain_ChasingAbe_State_18_WaitingToJump(BaseAliveGameObject* pTarget)
+s16 Slog::Brain_ChasingAbe_State_18_WaitingToJump(IBaseAliveGameObject* pTarget)
 {
     if (GetCurrentMotion() != eSlogMotions::Motion_0_Idle)
     {
@@ -1964,7 +1964,7 @@ s16 Slog::Brain_ChasingAbe_State_18_WaitingToJump(BaseAliveGameObject* pTarget)
     return 2;
 }
 
-s16 Slog::Brain_ChasingAbe_State_17_WaitingToChase(BaseAliveGameObject* pTarget)
+s16 Slog::Brain_ChasingAbe_State_17_WaitingToChase(IBaseAliveGameObject* pTarget)
 {
     if (GetCurrentMotion() == eSlogMotions::Motion_0_Idle)
     {
@@ -2001,7 +2001,7 @@ s16 Slog::Brain_ChasingAbe_State_16_JumpingUpwards()
     return 15;
 }
 
-s16 Slog::Brain_ChasingAbe_State_15_ChasingAfterTarget(BaseAliveGameObject* pTarget)
+s16 Slog::Brain_ChasingAbe_State_15_ChasingAfterTarget(IBaseAliveGameObject* pTarget)
 {
     if (mVelX > FP_FromInteger(0) && HandleEnemyStopper())
     {
@@ -2310,7 +2310,7 @@ s16 Slog::Brain_ChasingAbe_State_11_ChasingAfterBone()
     return 2;
 }
 
-s16 Slog::Brain_ChasingAbe_State_20_Collided(BaseAliveGameObject* pTarget)
+s16 Slog::Brain_ChasingAbe_State_20_Collided(IBaseAliveGameObject* pTarget)
 {
     auto pBone = FindBone();
     if (pBone)
@@ -2420,7 +2420,7 @@ s16 Slog::Brain_ChasingAbe_State_8_ToIdle()
     return 0;
 }
 
-s16 Slog::Brain_ChasingAbe_State_7_EatingTarget(BaseAliveGameObject* pTarget)
+s16 Slog::Brain_ChasingAbe_State_7_EatingTarget(IBaseAliveGameObject* pTarget)
 {
     if (static_cast<s32>(sGnFrame) <= field_124_timer && pTarget->GetAnimation().mFlags.Get(AnimFlags::eRender))
     {
@@ -2437,7 +2437,7 @@ s16 Slog::Brain_ChasingAbe_State_7_EatingTarget(BaseAliveGameObject* pTarget)
     return 8;
 }
 
-s16 Slog::Brain_ChasingAbe_State_4_LungingAtTarget(BaseAliveGameObject* pTarget)
+s16 Slog::Brain_ChasingAbe_State_4_LungingAtTarget(IBaseAliveGameObject* pTarget)
 {
     if (GetCurrentMotion() == eSlogMotions::Motion_2_Run)
     {
@@ -2482,7 +2482,7 @@ s16 Slog::Brain_ChasingAbe_State_4_LungingAtTarget(BaseAliveGameObject* pTarget)
     return 9;
 }
 
-s16 Slog::Brain_ChasingAbe_State_3_GrowlOrScratch(BaseAliveGameObject* pTarget)
+s16 Slog::Brain_ChasingAbe_State_3_GrowlOrScratch(IBaseAliveGameObject* pTarget)
 {
     if (GetCurrentMotion() != eSlogMotions::Motion_0_Idle)
     {
@@ -2517,7 +2517,7 @@ s16 Slog::Brain_ChasingAbe_State_3_GrowlOrScratch(BaseAliveGameObject* pTarget)
     return field_122_brain_state_result;
 }
 
-s16 Slog::Brain_ChasingAbe_State_2_Thinking(BaseAliveGameObject* pTarget)
+s16 Slog::Brain_ChasingAbe_State_2_Thinking(IBaseAliveGameObject* pTarget)
 {
     if (mVelX > FP_FromInteger(0) && HandleEnemyStopper())
     {
@@ -3144,7 +3144,7 @@ Bone* Slog::FindBone()
     return nullptr;
 }
 
-BaseAliveGameObject* Slog::FindTarget(s16 bKillSligs, s16 bLookingUp)
+IBaseAliveGameObject* Slog::FindTarget(s16 bKillSligs, s16 bLookingUp)
 {
     PSX_RECT bRect = VGetBoundingRect();
 
@@ -3166,17 +3166,17 @@ BaseAliveGameObject* Slog::FindTarget(s16 bKillSligs, s16 bLookingUp)
     }
 
     FP distanceToLastFoundObj = FP_FromInteger(gPsxDisplay.mWidth);
-    auto pSligBeingListendTo = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_138_listening_to_slig_id));
+    auto pSligBeingListendTo = static_cast<IBaseAliveGameObject*>(sObjectIds.Find_Impl(field_138_listening_to_slig_id));
 
-    BaseAliveGameObject* pBestObj = nullptr;
-    BaseAliveGameObject* pLastFoundObj = nullptr;
+    IBaseAliveGameObject* pBestObj = nullptr;
+    IBaseAliveGameObject* pLastFoundObj = nullptr;
 
     s32 array_idx = 0;
     Guid local_array[10] = {};
 
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+        IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;
@@ -3413,7 +3413,7 @@ s16 Slog::PlayerOrNakedSligNear()
 
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+        IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;

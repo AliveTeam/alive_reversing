@@ -197,7 +197,7 @@ private:
     void GetOnPlatforms();
     static void PlaySound(s32 sndIdx, Glukkon* pGlukkon);
     void ToDead();
-    static bool IsLineOfSightBetween(Glukkon* pGlukkon, BaseAliveGameObject* pOther);
+    static bool IsLineOfSightBetween(Glukkon* pGlukkon, IBaseAliveGameObject* pOther);
     void ToStand();
     void SlowDown(FP speed);
     void SetBrain(TGlukkonBrainFn fn);

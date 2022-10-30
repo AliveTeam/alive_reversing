@@ -9,7 +9,7 @@ namespace AO {
 
 s32 gOrbWhirlWind_instace_count_9F30A0 = 0;
 
-void OrbWhirlWind::ToSpin(FP xpos, FP ypos, BaseAliveGameObject* pObj)
+void OrbWhirlWind::ToSpin(FP xpos, FP ypos, IBaseAliveGameObject* pObj)
 {
     for (s32 i = 0; i < field_16_particleIdx; i++)
     {

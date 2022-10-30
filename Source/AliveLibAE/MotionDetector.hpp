@@ -4,7 +4,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/Layer.hpp"
 
-class BaseAliveGameObject;
+class IBaseAliveGameObject;
 
 namespace relive
 {
@@ -30,7 +30,7 @@ public:
     virtual void VScreenChanged() override;
 
 private:
-    s16 IsInLaser(BaseAliveGameObject* pWho, BaseGameObject* pOwner);
+    s16 IsInLaser(IBaseAliveGameObject* pWho, IBaseAliveGameObject* pOwner);
 
 private:
     Guid field_F4_tlvInfo;

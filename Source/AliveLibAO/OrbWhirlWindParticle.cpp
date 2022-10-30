@@ -216,7 +216,7 @@ OrbWhirlWindParticle::~OrbWhirlWindParticle()
     mAnim.VCleanUp();
 }
 
-void OrbWhirlWindParticle::Spin(FP xpos, FP ypos, BaseAliveGameObject* pObj)
+void OrbWhirlWindParticle::Spin(FP xpos, FP ypos, IBaseAliveGameObject* pObj)
 {
     mPositionTimer = sGnFrame + Math_RandomRange(0, 16);
     mState = State::eSpin;

@@ -6,6 +6,7 @@
 #include "Path.hpp"
 
 class PathLine;
+class IBaseAliveGameObject;
 
 namespace AO {
 
@@ -42,7 +43,7 @@ public:
     FP mBatVelX = {};
     FP mEnemyXPos = {};
     FP mEnemyYPos = {};
-    BaseAliveGameObject* mAttackTarget = nullptr;
+    IBaseAliveGameObject* mAttackTarget = nullptr;
 };
 
 } // namespace AO

@@ -19,8 +19,6 @@
 #include "../AliveLibCommon/FatalError.hpp"
 #include "../relive_lib/GameType.hpp"
 
-DynamicArrayT<BaseAliveGameObject>* gBaseAliveGameObjects = nullptr;
-
 BaseAliveGameObject::BaseAliveGameObject(s16 resourceArraySize)
     : IBaseAliveGameObject(resourceArraySize)
 {
@@ -53,17 +51,10 @@ BaseAliveGameObject::BaseAliveGameObject(s16 resourceArraySize)
 
 BaseAliveGameObject::~BaseAliveGameObject()
 {
-    BaseAliveGameObject* pLiftPoint = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
-    gBaseAliveGameObjects->Remove_Item(this);
 
-    if (pLiftPoint)
-    {
-        pLiftPoint->VOnTrapDoorOpen();
-        BaseAliveGameObject_PlatformId = Guid{};
-    }
 }
 
-s16 BaseAliveGameObject::IsInInvisibleZone(BaseAliveGameObject* pObj)
+s16 BaseAliveGameObject::IsInInvisibleZone(IBaseAliveGameObject* pObj)
 {
     if (EventGet(kEventAbeOhm))
     {
@@ -102,7 +93,7 @@ s16 BaseAliveGameObject::IsInInvisibleZone(BaseAliveGameObject* pObj)
     return FALSE;
 }
 
-void BaseAliveGameObject::VOnPathTransition(s16 cameraWorldXPos, s16 cameraWorldYPos, CameraPos direction)
+void BaseAliveGameObject::VOnPathTransition(s32 cameraWorldXPos, s32 cameraWorldYPos, CameraPos direction)
 {
     const FP oldY = mYPos;
     switch (direction)
@@ -159,9 +150,14 @@ void BaseAliveGameObject::VOnPathTransition(s16 cameraWorldXPos, s16 cameraWorld
         if (BaseAliveGameObjectCollisionLine)
         {
             if (sCollisions->Raycast(
-                    mXPos, mYPos - FP_FromInteger(40),
-                    mXPos, mYPos + FP_FromInteger(40),
-                    &pLine, &hitX, &hitY, GetScale() == Scale::Fg ? kFgFloor : kBgFloor))
+                    mXPos, 
+					mYPos - FP_FromInteger(40),
+                    mXPos, 
+					mYPos + FP_FromInteger(40),
+                    &pLine, 
+					&hitX, 
+					&hitY, 
+					GetScale() == Scale::Fg ? kFgFloor : kBgFloor))
             {
                 mYPos = hitY;
                 BaseAliveGameObjectCollisionLine = pLine;
@@ -257,39 +253,51 @@ BirdPortal* BaseAliveGameObject::VIntoBirdPortal(s16 numGridBlocks)
 {
     for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
     {
-        auto pObj = gBaseGameObjects->ItemAt(i);
-        if (!pObj)
+        BaseGameObject* pObjIter = gBaseGameObjects->ItemAt(i);
+        if (!pObjIter)
         {
             break;
         }
 
-        if (pObj->Type() == ReliveTypes::eBirdPortal)
+        if (pObjIter->Type() == ReliveTypes::eBirdPortal)
         {
-            auto pBirdPortal = static_cast<BirdPortal*>(pObj);
-            if (pBirdPortal->mXPos >= mXPos)
+            auto pPortal = static_cast<BirdPortal*>(pObjIter);
+            if (pPortal->mXPos >= mXPos)
             {
-                if (pBirdPortal->mEnterSide == relive::Path_BirdPortal::PortalSide::eLeft)
+                if (pPortal->mEnterSide == relive::Path_BirdPortal::PortalSide::eLeft)
                 {
-                    if (pBirdPortal->mXPos - mXPos <= (ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(numGridBlocks)) && !(GetAnimation().mFlags.Get(AnimFlags::eFlipX)))
+                    if (pPortal->mXPos - mXPos <= (ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(numGridBlocks)))
                     {
-                        if (FP_Abs(mYPos - pBirdPortal->mHitY) < GetSpriteScale() * FP_FromInteger(10) && pBirdPortal->VPortalClipper(1))
+                        if (!GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                         {
-                            GetAnimation().SetRenderLayer(GetSpriteScale() != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30);
-                            return pBirdPortal;
+                            if (FP_Abs(mYPos - pPortal->mHitY) < GetSpriteScale() * FP_FromInteger(10))
+                            {
+                                if (pPortal->VPortalClipper(1))
+                                {
+                                    GetAnimation().SetRenderLayer(GetSpriteScale() != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30);
+                                    return pPortal;
+                                }
+                            }
                         }
                     }
                 }
             }
-            else if (pBirdPortal->mEnterSide == relive::Path_BirdPortal::PortalSide::eRight)
+            else
             {
-                if (mXPos - pBirdPortal->mXPos <= ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(numGridBlocks))
+                if (pPortal->mEnterSide == relive::Path_BirdPortal::PortalSide::eRight)
                 {
-                    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+                    if (mXPos - pPortal->mXPos <= (ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(numGridBlocks)))
                     {
-                        if (FP_Abs(mYPos - pBirdPortal->mHitY) < GetSpriteScale() * FP_FromInteger(10) && pBirdPortal->VPortalClipper(1))
+                        if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                         {
-                            GetAnimation().SetRenderLayer(GetSpriteScale() != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30);
-                            return pBirdPortal;
+                            if (FP_Abs(mYPos - pPortal->mHitY) < (GetSpriteScale() * FP_FromInteger(10)))
+                            {
+                                if (pPortal->VPortalClipper(1))
+                                {
+                                    GetAnimation().SetRenderLayer(GetSpriteScale() != FP_FromInteger(1) ? Layer::eLayer_InBirdPortal_Half_11 : Layer::eLayer_InBirdPortal_30);
+                                    return pPortal;
+                                }
+                            }
                         }
                     }
                 }
@@ -369,50 +377,6 @@ BaseAliveGameObject* BaseAliveGameObject::GetStackedSlapTarget(const Guid& idToF
     return nullptr;
 }
 
-void BaseAliveGameObject::SetActiveCameraDelayedFromDir()
-{
-    if (sControlledCharacter == this)
-    {
-        switch (Is_In_Current_Camera())
-        {
-            case CameraPos::eCamTop_1:
-                if (mVelY < FP_FromInteger(0))
-                {
-                    gMap.SetActiveCameraDelayed(Map::MapDirections::eMapTop_2, this, -1);
-                }
-                break;
-
-            case CameraPos::eCamBottom_2:
-                if (mVelY > FP_FromInteger(0))
-                {
-                    gMap.SetActiveCameraDelayed(Map::MapDirections::eMapBottom_3, this, -1);
-                }
-                break;
-
-            case CameraPos::eCamLeft_3:
-                if (mVelX < FP_FromInteger(0))
-                {
-                    gMap.SetActiveCameraDelayed(Map::MapDirections::eMapLeft_0, this, -1);
-                }
-                break;
-
-            case CameraPos::eCamRight_4:
-                if (mVelX > FP_FromInteger(0))
-                {
-                    gMap.SetActiveCameraDelayed(Map::MapDirections::eMapRight_1, this, -1);
-                }
-                break;
-
-            case CameraPos::eCamCurrent_0:
-            case CameraPos::eCamNone_5:
-                return;
-
-            default:
-                return;
-        }
-    }
-}
-
 s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
 {
     const s32 xposSnapped = SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos));
@@ -427,7 +391,7 @@ s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
     // Gone off the left edge of the current screen
     if (xposSnapped < currentCamXY.x && (GetAnimation().mFlags.Get(AnimFlags::eFlipX) || mVelX < FP_FromInteger(0)))
     {
-        if (sControlledCharacter == this && gMap.SetActiveCameraDelayed(Map::MapDirections::eMapLeft_0, this, -1))
+        if (sControlledCharacter == this && gMap.SetActiveCameraDelayed(MapDirections::eMapLeft_0, this, -1))
         {
             mCurrentLevel = gMap.mCurrentLevel;
             mCurrentPath = gMap.mCurrentPath;
@@ -437,7 +401,7 @@ s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
     // Gone off the right edge of the current screen
     else if (xposSnapped > currentCamXY.x + 368 && (!(GetAnimation().mFlags.Get(AnimFlags::eFlipX)) || mVelX > FP_FromInteger(0)))
     {
-        if (sControlledCharacter == this && gMap.SetActiveCameraDelayed(Map::MapDirections::eMapRight_1, this, -1))
+        if (sControlledCharacter == this && gMap.SetActiveCameraDelayed(MapDirections::eMapRight_1, this, -1))
         {
             mCurrentLevel = gMap.mCurrentLevel;
             mCurrentPath = gMap.mCurrentPath;

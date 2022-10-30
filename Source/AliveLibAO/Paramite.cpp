@@ -878,7 +878,7 @@ s16 Paramite::Brain_0_Patrol()
 
             // TODO: Inlined HandleEnemyStopper but the directional logic isn't quite the same
             // so can't use it.
-            BaseAliveGameObjectPathTLV = gMap.TLV_Get_At(
+            BaseAliveGameObjectPathTLV = gMap.VTLV_Get_At(
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),
@@ -1858,7 +1858,7 @@ s16 Paramite::Brain_4_ChasingAbe()
 
             // TODO: Inlined HandleEnemyStopper but the directional logic isn't quite the same
             // so can't use it.
-            BaseAliveGameObjectPathTLV = gMap.TLV_Get_At(
+            BaseAliveGameObjectPathTLV = gMap.VTLV_Get_At(
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),
@@ -2483,7 +2483,7 @@ s16 Paramite::HandleEnemyStopper(s16 numGridBlocks, relive::Path_EnemyStopper::S
 {
     const FP kGridSize = ScaleToGridSize(GetSpriteScale());
     const FP numGridBlocksScaled = (kGridSize * FP_FromInteger(numGridBlocks));
-    BaseAliveGameObjectPathTLV = gMap.TLV_Get_At(
+    BaseAliveGameObjectPathTLV = gMap.VTLV_Get_At(
         FP_GetExponent(mXPos + numGridBlocksScaled),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos + numGridBlocksScaled),

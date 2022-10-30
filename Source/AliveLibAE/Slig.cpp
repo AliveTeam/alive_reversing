@@ -2369,7 +2369,7 @@ void Slig::M_Beat_51_4B6C00()
 
         for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
         {
-            BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+            IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
             if (!pObj)
             {
                 break;
@@ -3156,7 +3156,7 @@ s16 Slig::Brain_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, Lif
 
                                 for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
                                 {
-                                    BaseAliveGameObject* pFoundSlig = gBaseAliveGameObjects->ItemAt(i);
+                                    IBaseAliveGameObject* pFoundSlig = gBaseAliveGameObjects->ItemAt(i);
                                     if (!pFoundSlig)
                                     {
                                         break;
@@ -3807,7 +3807,7 @@ s16 Slig::Brain_StoppingNextToMudokon_20_4BF1E0()
         return 128;
     }
 
-    BaseAliveGameObject* pBeatTarget = FindBeatTarget_4BD070(ReliveTypes::eRingOrLiftMud, 1);
+    IBaseAliveGameObject* pBeatTarget = FindBeatTarget_4BD070(ReliveTypes::eRingOrLiftMud, 1);
     if (!pBeatTarget || pBeatTarget->mHealth <= FP_FromInteger(0))
     {
         WaitOrWalk_4BE870();
@@ -5540,7 +5540,7 @@ void Slig::ToKilledAbe_4B3600()
     field_120_timer = sGnFrame + 15;
 }
 
-bool Slig::IsWallBetween_4BB8B0(BaseAliveGameObject* pLeft, BaseAliveGameObject* pRight)
+bool Slig::IsWallBetween_4BB8B0(IBaseAliveGameObject* pLeft, IBaseAliveGameObject* pRight)
 {
     const PSX_RECT thisBRect =  VGetBoundingRect();
     const PSX_RECT rightBRect = pRight->VGetBoundingRect();
@@ -6229,7 +6229,7 @@ void Slig::PlayerControlRunningSlideStopOrTurnFrame4_4B85D0()
     }
 }
 
-BaseAliveGameObject* Slig::FindBeatTarget_4BD070(ReliveTypes /*typeToFind*/, s32 gridBlocks)
+IBaseAliveGameObject* Slig::FindBeatTarget_4BD070(ReliveTypes /*typeToFind*/, s32 gridBlocks)
 {
     const FP kGridSize = ScaleToGridSize(GetSpriteScale());
     const FP k2Scaled = FP_FromInteger(2) * kGridSize;
@@ -6246,7 +6246,7 @@ BaseAliveGameObject* Slig::FindBeatTarget_4BD070(ReliveTypes /*typeToFind*/, s32
 
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+        IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;
@@ -6349,7 +6349,7 @@ void Slig::RespondToEnemyOrPatrol_4B3140()
     }
 }
 
-s16 Slig::IsAbeEnteringDoor_4BB990(BaseAliveGameObject* pThis)
+s16 Slig::IsAbeEnteringDoor_4BB990(IBaseAliveGameObject* pThis)
 {
     if (((pThis->Type() == ReliveTypes::eAbe) && (pThis->mCurrentMotion == eAbeMotions::Motion_114_DoorEnter && pThis->GetAnimation().GetCurrentFrame() > 7)) || (pThis->mCurrentMotion == eAbeMotions::Motion_115_DoorExit && pThis->GetAnimation().GetCurrentFrame() < 4))
     {
@@ -6381,7 +6381,7 @@ s16 Slig::FindSwitch_4B9A50()
         != 0;
 }
 
-s16 Slig::NearOrFacingActiveChar_4B9930(BaseAliveGameObject* pObj)
+s16 Slig::NearOrFacingActiveChar_4B9930(IBaseAliveGameObject* pObj)
 {
     if (pObj->VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromDouble(0.5), sControlledCharacter) || sControlledCharacter->VIsFacingMe(pObj))
     {
@@ -6409,13 +6409,13 @@ static s16 IsInZCover(relive::Path_TLV* pTlv, const PSX_RECT* pRect)
     return FALSE;
 }
 
-s16 Slig::InZCover_4BB7C0(BaseAliveGameObject* pObj)
+s16 Slig::InZCover_4BB7C0(IBaseAliveGameObject* pObj)
 {
     const PSX_RECT bRect = pObj->VGetBoundingRect();
     return Bullet::InZBulletCover(pObj->mXPos, FP_FromInteger(bRect.y), bRect);
 }
 
-bool Slig::RenderLayerIs_4BBBC0(BaseAliveGameObject* pThis)
+bool Slig::RenderLayerIs_4BBBC0(IBaseAliveGameObject* pThis)
 {
     return pThis->GetAnimation().GetRenderLayer() == Layer::eLayer_BeforeWell_Half_3 || pThis->GetAnimation().GetRenderLayer() == Layer::eLayer_BeforeWell_22;
 }
@@ -6443,7 +6443,7 @@ s16 Slig::HeardGlukkonToListenTo_4B9690(GameSpeakEvents glukkonSpeak)
 
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+        IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;

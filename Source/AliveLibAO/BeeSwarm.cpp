@@ -246,7 +246,7 @@ void BeeSwarm::VUpdate()
                         // and play pain sounds if so and in the damage rect.
                         for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
                         {
-                            BaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(i);
+                            IBaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(i);
                             if (!pObjIter)
                             {
                                 break;
@@ -274,7 +274,7 @@ void BeeSwarm::VUpdate()
 
                     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
                     {
-                        BaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(i);
+                        IBaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(i);
                         if (!pObjIter)
                         {
                             break;
@@ -325,7 +325,7 @@ void BeeSwarm::VUpdate()
         {
             for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
             {
-                BaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(i);
+                IBaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(i);
                 if (!pObjIter)
                 {
                     break;

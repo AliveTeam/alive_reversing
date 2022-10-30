@@ -4,10 +4,11 @@
 #include "../relive_lib/BaseGameObject.hpp"
 #include "../AliveLibAE/FixedPoint.hpp"
 
+class IBaseAliveGameObject;
+
 namespace AO {
 
 class OrbWhirlWindParticle;
-class BaseAliveGameObject;
 
 class OrbWhirlWind final : public ::BaseGameObject
 {
@@ -25,7 +26,7 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
-    void ToSpin(FP xpos, FP ypos, BaseAliveGameObject* pObj);
+    void ToSpin(FP xpos, FP ypos, IBaseAliveGameObject* pObj);
     void ToStop();
 
     s32 field_10_particle_spawn_counter = 0;

@@ -7,6 +7,7 @@
 #include "../relive_lib/AnimationUnknown.hpp"
 
 class PathLine;
+class IBaseAliveGameObject;
 
 namespace AO {
 
@@ -68,7 +69,7 @@ public:
     FP mRectW = {};
     FP mRectH = {};
 
-    BaseAliveGameObject* mChaseTarget = nullptr;
+    IBaseAliveGameObject* mChaseTarget = nullptr;
     s32 mAliveTimer = 0;
     s32 field_DA0_do_damage_or_pain_sound_timer = 0;
     s32 field_DA4_update_chase_timer = 0;

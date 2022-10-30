@@ -24,12 +24,11 @@ public:
     explicit BaseAliveGameObject(s16 resourceArraySize);
     ~BaseAliveGameObject();
 
-    virtual void VOnPathTransition(s16 cameraWorldXPos, s16 cameraWorldYPos, CameraPos direction);
+    virtual void VOnPathTransition(s32 cameraWorldXPos, s32 cameraWorldYPos, CameraPos direction) override;
     virtual void VCheckCollisionLineStillValid(s32 distance);
 
-    static s16 IsInInvisibleZone(BaseAliveGameObject* pObj);
+    static s16 IsInInvisibleZone(IBaseAliveGameObject* pObj);
     virtual BirdPortal* VIntoBirdPortal(s16 gridBlocks);
-    void SetActiveCameraDelayedFromDir();
     s16 MapFollowMe(s16 snapToGrid);
 
     virtual s16 VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform) override;
@@ -45,5 +44,3 @@ protected:
 public:
     s16 BaseAliveGameObjectCollisionLineType = 0; // AE only, quick save data
 };
-
-extern DynamicArrayT<BaseAliveGameObject>* gBaseAliveGameObjects;

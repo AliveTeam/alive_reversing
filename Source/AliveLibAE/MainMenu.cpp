@@ -23,7 +23,7 @@
 #include "Glukkon.hpp"
 #include "Sys.hpp"
 #include "BaseGameAutoPlayer.hpp"
-#include "Camera.hpp"
+#include "../relive_lib/Camera.hpp"
 #include "Path.hpp"
 
 MainMenuController* MainMenuController::gMainMenuController = nullptr;

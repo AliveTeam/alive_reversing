@@ -1,16 +1,8 @@
-#include "stdafx_ao.h"
+#include "stdafx.h"
 #include "FG1.hpp"
-#include "Function.hpp"
-#include "../relive_lib/Primitives.hpp"
-#include "ResourceManager.hpp"
-#include "Map.hpp"
-#include "../relive_lib/VRam.hpp"
-#include "../AliveLibAE/stdlib.hpp"
-#include "../AliveLibAE/Renderer/IRenderer.hpp"
-#include "FG1Reader.hpp"
-#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
+#include "Primitives.hpp"
 
-namespace AO {
+extern DynamicArrayT<BaseGameObject>* gObjListDrawables;
 
 FG1::~FG1()
 {
@@ -28,18 +20,7 @@ FG1::FG1(Fg1Resource& pFg1Res, CamResource& camRes)
 
     SetType(ReliveTypes::eFG1);
 
-    //field_10_cam_pos_x = FP_GetExponent(pScreenManager->mCamPos->x);
-    //field_12_cam_pos_y = FP_GetExponent(pScreenManager->mCamPos->y);
-
-    field_16_current_path = gMap.mCurrentPath;
-    field_14_current_level = gMap.mCurrentLevel;
-
     gObjListDrawables->Push_Back(this);
-}
-
-void FG1::VUpdate()
-{
-    // Empty
 }
 
 void FG1::VScreenChanged()
@@ -92,5 +73,3 @@ void FG1::VRender(PrimHeader** ppOt)
         }
     }
 }
-
-} // namespace AO

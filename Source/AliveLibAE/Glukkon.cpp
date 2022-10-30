@@ -31,7 +31,7 @@
 #include "Bullet.hpp"
 #include "Sound/Midi.hpp"
 #include "Grid.hpp"
-#include "Camera.hpp"
+#include "../relive_lib/Camera.hpp"
 
 const TGlukkonMotionFn sGlukkonMotionTable[25] = {
     &Glukkon::M_Idle_0_442D10,
@@ -2826,7 +2826,7 @@ void Glukkon::PlaySound_GameSpeak(GlukkonSpeak sndIdx, s16 volume, s16 pitch, Gl
     SFX_SfxDefinition_Play_Mono(gameSpeak_554858[sndIdxShort], calcedVolume, pitch, pitch);
 }
 
-bool Glukkon::IsLineOfSightBetween(Glukkon* pGlukkon, BaseAliveGameObject* pOther)
+bool Glukkon::IsLineOfSightBetween(Glukkon* pGlukkon, IBaseAliveGameObject* pOther)
 {
     FP hitX = {};
     FP hitY = {};

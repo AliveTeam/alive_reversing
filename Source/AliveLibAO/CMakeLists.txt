@@ -247,16 +247,12 @@ SET(AliveLibSrcAO
    AnimationCallBacks.hpp
    ResourceManager.hpp
    ResourceManager.cpp
-   Camera.hpp
-   Camera.cpp
    Factory.hpp
    Factory.cpp
    GasCountDown.hpp
    GasCountDown.cpp
    AmbientSound.hpp
    AmbientSound.cpp
-   FG1.hpp
-   FG1.cpp
    Movie.hpp
    Movie.cpp
    BackgroundMusic.hpp

@@ -26,7 +26,7 @@ public:
     static s32 CreateFromSaveState(const u8*);
 
 private:
-    void ClearInsideSlamDoor(BaseAliveGameObject* pObj, s16 xPosition, s16 width);
+    void ClearInsideSlamDoor(IBaseAliveGameObject* pObj, s16 xPosition, s16 width);
 
 private:
     enum SlamDoorFlags

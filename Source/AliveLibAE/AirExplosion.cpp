@@ -190,7 +190,7 @@ void AirExplosion::DealBlastDamage(PSX_RECT* pRect)
 
     for (s32 idx = 0; idx < gBaseAliveGameObjects->Size(); idx++)
     {
-        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(idx);
+        IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(idx);
         if (!pObj)
         {
             break;

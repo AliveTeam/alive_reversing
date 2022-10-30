@@ -3946,7 +3946,7 @@ void Scrab::KillTarget(BaseAliveGameObject* pTarget)
             if (!BrainIs(&Scrab::Brain_5_Possessed) || mCurrentMotion == eScrabMotions::Motion_38_LegKick || mCurrentMotion == eScrabMotions::Motion_21_Stamp || mCurrentMotion == eScrabMotions::Motion_32_AttackSpin)
             {
                 const PSX_RECT bOurRect = VGetBoundingRect();
-                BaseAliveGameObject* pObj = pTarget;
+                IBaseAliveGameObject* pObj = pTarget;
 
                 s32 list_idx = 0;
                 if (pTarget)

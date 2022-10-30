@@ -181,7 +181,7 @@ public:
 
     s16 Brain_ListeningToSlig_State_0_Init();
     s16 Brain_ListeningToSlig_State_1_Idle(const FP xpos1GridAHead);
-    s16 Brain_ListeningToSlig_State_2_Listening(const FP xpos1GridAHead, BaseAliveGameObject* pObj);
+    s16 Brain_ListeningToSlig_State_2_Listening(const FP xpos1GridAHead, IBaseAliveGameObject* pObj);
     s16 Brain_ListeningToSlig_State_3_Walking(const FP xpos1GridAHead);
     s16 Brain_ListeningToSlig_State_4_Running(const FP xpos1GridAHead);
     s16 Brain_ListeningToSlig_State_5_Waiting();
@@ -192,12 +192,12 @@ public:
     s16 Brain_2_ChasingAbe();
     s16 Brain_ChasingAbe_State_0_Init();
     s16 Brain_ChasingAbe_State_1_Waiting();
-    s16 Brain_ChasingAbe_State_2_Thinking(BaseAliveGameObject* pTarget);
-    s16 Brain_ChasingAbe_State_3_GrowlOrScratch(BaseAliveGameObject* pTarget);
-    s16 Brain_ChasingAbe_State_4_LungingAtTarget(BaseAliveGameObject* pTarget);
+    s16 Brain_ChasingAbe_State_2_Thinking(IBaseAliveGameObject* pTarget);
+    s16 Brain_ChasingAbe_State_3_GrowlOrScratch(IBaseAliveGameObject* pTarget);
+    s16 Brain_ChasingAbe_State_4_LungingAtTarget(IBaseAliveGameObject* pTarget);
 
 
-    s16 Brain_ChasingAbe_State_7_EatingTarget(BaseAliveGameObject* pTarget);
+    s16 Brain_ChasingAbe_State_7_EatingTarget(IBaseAliveGameObject* pTarget);
     s16 Brain_ChasingAbe_State_8_ToIdle();
     s16 Brain_ChasingAbe_State_9_Falling();
     s16 Brain_ChasingAbe_State_10_HungryForBone();
@@ -205,12 +205,12 @@ public:
     s16 Brain_ChasingAbe_State_12_WalkingToBone();
     s16 Brain_ChasingAbe_State_13_EatingBone();
     s16 Brain_ChasingAbe_State_14_CheckingIfBoneNearby();
-    s16 Brain_ChasingAbe_State_15_ChasingAfterTarget(BaseAliveGameObject* pTarget);
+    s16 Brain_ChasingAbe_State_15_ChasingAfterTarget(IBaseAliveGameObject* pTarget);
     s16 Brain_ChasingAbe_State_16_JumpingUpwards();
-    s16 Brain_ChasingAbe_State_17_WaitingToChase(BaseAliveGameObject* pTarget);
-    s16 Brain_ChasingAbe_State_18_WaitingToJump(BaseAliveGameObject* pTarget);
-    s16 Brain_ChasingAbe_State_19_AboutToCollide(BaseAliveGameObject* pTarget);
-    s16 Brain_ChasingAbe_State_20_Collided(BaseAliveGameObject* pTarget);
+    s16 Brain_ChasingAbe_State_17_WaitingToChase(IBaseAliveGameObject* pTarget);
+    s16 Brain_ChasingAbe_State_18_WaitingToJump(IBaseAliveGameObject* pTarget);
+    s16 Brain_ChasingAbe_State_19_AboutToCollide(IBaseAliveGameObject* pTarget);
+    s16 Brain_ChasingAbe_State_20_Collided(IBaseAliveGameObject* pTarget);
 
     s16 Brain_3_Death();
 
@@ -236,7 +236,7 @@ private:
     bool CollisionCheck(FP hitY, FP hitX);
     void MoveOnLine();
     Bone* FindBone();
-    BaseAliveGameObject* FindTarget(s16 bKillSligs, s16 bLookingUp);
+    IBaseAliveGameObject* FindTarget(s16 bKillSligs, s16 bLookingUp);
     s16 PlayerOrNakedSligNear();
     void DelayedResponse(s16 responseIdx);
     s16 HandleEnemyStopper();

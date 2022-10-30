@@ -15,8 +15,6 @@
 
 namespace AO {
 
-DynamicArrayT<BaseAliveGameObject>* gBaseAliveGameObjects = nullptr;
-
 BaseAliveGameObject::BaseAliveGameObject()
     : IBaseAliveGameObject(0)
 {
@@ -50,14 +48,7 @@ BaseAliveGameObject::BaseAliveGameObject()
 
 BaseAliveGameObject::~BaseAliveGameObject()
 {
-    BaseAliveGameObject* pLiftPoint = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
-    gBaseAliveGameObjects->Remove_Item(this);
 
-    if (pLiftPoint)
-    {
-        pLiftPoint->VOnTrapDoorOpen();
-        BaseAliveGameObject_PlatformId = Guid{};
-    }
 }
 
 void BaseAliveGameObject::VSetXSpawn(s16 camWorldX, s32 screenXPos)
@@ -243,7 +234,7 @@ void BaseAliveGameObject::VCheckCollisionLineStillValid(s32 distance)
     }
 }
 
-BirdPortal* BaseAliveGameObject::VIntoBirdPortal(s16 distance)
+BirdPortal* BaseAliveGameObject::VIntoBirdPortal(s16 numGridBlocks)
 {
     for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
     {
@@ -260,7 +251,7 @@ BirdPortal* BaseAliveGameObject::VIntoBirdPortal(s16 distance)
             {
                 if (pPortal->mEnterSide == relive::Path_BirdPortal::PortalSide::eLeft)
                 {
-                    if (pPortal->mXPos - mXPos <= (ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(distance)))
+                    if (pPortal->mXPos - mXPos <= (ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(numGridBlocks)))
                     {
                         if (!GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                         {
@@ -280,7 +271,7 @@ BirdPortal* BaseAliveGameObject::VIntoBirdPortal(s16 distance)
             {
                 if (pPortal->mEnterSide == relive::Path_BirdPortal::PortalSide::eRight)
                 {
-                    if (mXPos - pPortal->mXPos <= (ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(distance)))
+                    if (mXPos - pPortal->mXPos <= (ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(numGridBlocks)))
                     {
                         if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                         {
@@ -340,7 +331,7 @@ bool BaseAliveGameObject::Check_IsOnEndOfLine(s16 direction, s16 distance)
         == 0;
 }
 
-void BaseAliveGameObject::VOnPathTransition(s16 camWorldX, s32 camWorldY, CameraPos direction)
+void BaseAliveGameObject::VOnPathTransition(s32 camWorldX, s32 camWorldY, CameraPos direction)
 {
     const FP oldx = mXPos;
     const FP oldy = mYPos;
@@ -401,7 +392,7 @@ void BaseAliveGameObject::VOnPathTransition(s16 camWorldX, s32 camWorldY, Camera
     }
 
     // Find the start controller at the position we will be at in the new map
-    BaseAliveGameObjectPathTLV = gMap.TLV_Get_At(static_cast<s16>(xpos), static_cast<s16>(ypos), static_cast<s16>(width), static_cast<s16>(height), ReliveTypes::eStartController);
+    BaseAliveGameObjectPathTLV = gMap.VTLV_Get_At(static_cast<s16>(xpos), static_cast<s16>(ypos), static_cast<s16>(width), static_cast<s16>(height), ReliveTypes::eStartController);
 
     if (!BaseAliveGameObjectPathTLV)
     {
@@ -527,7 +518,7 @@ s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
         // In the left camera void and moving left?
         if (snappedXLocalCoords < 256 && mVelX < FP_FromInteger(0))
         {
-            if (sControlledCharacter == this && gMap.SetActiveCameraDelayed(Map::MapDirections::eMapLeft_0, this, -1))
+            if (sControlledCharacter == this && gMap.SetActiveCameraDelayed(MapDirections::eMapLeft_0, this, -1))
             {
                 mCurrentPath = gMap.mCurrentPath;
                 mCurrentLevel = gMap.mCurrentLevel;
@@ -554,7 +545,7 @@ s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
         else if (snappedXLocalCoords > 624 && mVelX > FP_FromInteger(0))
         {
             // Go to the right camera in under player control
-            if (sControlledCharacter == this && gMap.SetActiveCameraDelayed(Map::MapDirections::eMapRight_1, this, -1))
+            if (sControlledCharacter == this && gMap.SetActiveCameraDelayed(MapDirections::eMapRight_1, this, -1))
             {
                 mCurrentPath = gMap.mCurrentPath;
                 mCurrentLevel = gMap.mCurrentLevel;
@@ -624,52 +615,6 @@ s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
     }
 }
 
-void BaseAliveGameObject::SetActiveCameraDelayedFromDir()
-{
-    if (sControlledCharacter == this)
-    {
-        switch (Is_In_Current_Camera())
-        {
-            case CameraPos::eCamTop_1:
-                if (mVelY < FP_FromInteger(0))
-                {
-                    gMap.SetActiveCameraDelayed(Map::MapDirections::eMapTop_2, this, -1);
-                }
-                break;
-
-            case CameraPos::eCamBottom_2:
-                if (mVelY > FP_FromInteger(0))
-                {
-                    gMap.SetActiveCameraDelayed(Map::MapDirections::eMapBottom_3, this, -1);
-                }
-                break;
-
-            case CameraPos::eCamLeft_3:
-                if (mVelX < FP_FromInteger(0))
-                {
-                    gMap.SetActiveCameraDelayed(Map::MapDirections::eMapLeft_0, this, -1);
-                }
-                break;
-
-            case CameraPos::eCamRight_4:
-                if (mVelX > FP_FromInteger(0))
-                {
-                    gMap.SetActiveCameraDelayed(Map::MapDirections::eMapRight_1, this, -1);
-                }
-                break;
-
-            case CameraPos::eCamCurrent_0:
-            case CameraPos::eCamNone_5:
-                return;
-
-            default:
-                return;
-        }
-    }
-}
-
-
-
 s16 BaseAliveGameObject::WallHit(FP offY, FP offX)
 {
     PathLine* pLine = nullptr;
@@ -718,7 +663,7 @@ void BaseAliveGameObject::OnResourceLoaded_4019A0(BaseAliveGameObject* /*ppRes*/
 
 void BaseAliveGameObject::UsePathTransScale_4020D0()
 {
-    auto pPathTrans = static_cast<relive::Path_PathTransition*>(gMap.TLV_Get_At(
+    auto pPathTrans = static_cast<relive::Path_PathTransition*>(gMap.VTLV_Get_At(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos),

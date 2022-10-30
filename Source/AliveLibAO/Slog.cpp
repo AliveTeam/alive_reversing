@@ -725,9 +725,9 @@ s16 Slog::IsPlayerNear()
     return 1;
 }
 
-BaseAliveGameObject* Slog::FindAbeMudOrSlig()
+IBaseAliveGameObject* Slog::FindAbeMudOrSlig()
 {
-    BaseAliveGameObject* pResult = nullptr;
+    IBaseAliveGameObject* pResult = nullptr;
     FP minDist = FP_FromInteger(gPsxDisplay.mWidth);
 
     PSX_RECT bRect = VGetBoundingRect();
@@ -743,7 +743,7 @@ BaseAliveGameObject* Slog::FindAbeMudOrSlig()
 
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+        IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;
@@ -824,7 +824,7 @@ s16 Slog::HandleEnemyStopper()
         xpos = mXPos - (ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(2));
     }
 
-    auto pStopper = static_cast<relive::Path_EnemyStopper*>(gMap.TLV_Get_At(
+    auto pStopper = static_cast<relive::Path_EnemyStopper*>(gMap.VTLV_Get_At(
         FP_GetExponent(xpos),
         FP_GetExponent(mYPos),
         FP_GetExponent(xpos),

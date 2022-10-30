@@ -3,20 +3,20 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
 
-namespace AO {
+class IBaseAliveGameObject;
 
-class BaseAliveGameObject;
+namespace AO {
 
 class PossessionFlicker final : public ::BaseGameObject
 {
 public:
-    PossessionFlicker(BaseAliveGameObject* pToApplyFlicker, s32 duration, s32 r, s32 g, s32 b);
+    PossessionFlicker(IBaseAliveGameObject* pToApplyFlicker, s32 duration, s32 r, s32 g, s32 b);
     ~PossessionFlicker();
 
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 
-    BaseAliveGameObject* field_10_pObj = nullptr;
+    IBaseAliveGameObject* field_10_pObj = nullptr;
     s32 field_14_time_to_flicker = 0;
 
     s16 field_18_r = 0;

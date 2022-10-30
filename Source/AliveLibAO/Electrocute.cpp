@@ -94,7 +94,7 @@ public:
     s16 field_BE_bDone = 0;
 };
 
-Electrocute::Electrocute(BaseAliveGameObject* pTargetObj, s32 bExtraOverwriter)
+Electrocute::Electrocute(IBaseAliveGameObject* pTargetObj, s32 bExtraOverwriter)
     : BaseGameObject(TRUE, 0)
 {
     SetType(ReliveTypes::eElectrocute);

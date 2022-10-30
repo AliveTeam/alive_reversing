@@ -425,7 +425,7 @@ s32 SlamDoor::VGetSaveState(u8* pSaveBuffer)
     return sizeof(Quicksave_Obj_SlamDoor);
 }
 
-void SlamDoor::ClearInsideSlamDoor(BaseAliveGameObject* pObj, s16 xPosition, s16 width)
+void SlamDoor::ClearInsideSlamDoor(IBaseAliveGameObject* pObj, s16 xPosition, s16 width)
 {
     if (FP_GetExponent(pObj->mXPos) - xPosition >= width - FP_GetExponent(pObj->mXPos))
     {

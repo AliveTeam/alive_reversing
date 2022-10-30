@@ -512,7 +512,7 @@ void AbilityRing::CollideWithObjects(s16 bDealDamage)
 
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+        IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
         if (!pObj)
         {
             break;
@@ -562,7 +562,7 @@ void AbilityRing::VScreenChanged()
     {
         for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
         {
-            BaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+            IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
             if (!pObj)
             {
                 break;

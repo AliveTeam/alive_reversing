@@ -34,7 +34,7 @@ public:
     s32 field_110_timer = 0;
     s32 field_114_timer = 0;
     ZapLine* field_118_zap_line = nullptr;
-    BaseAliveGameObject* field_11C_obj_being_zapped = nullptr;
+    IBaseAliveGameObject* field_11C_obj_being_zapped = nullptr;
     s16 field_120_bElectrocute = 0;
     s16 field_122_bResetRingTimer = 0;
 };

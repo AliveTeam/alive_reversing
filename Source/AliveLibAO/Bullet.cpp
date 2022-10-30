@@ -13,7 +13,7 @@
 
 namespace AO {
 
-Bullet::Bullet(BaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, FP scale, s32 numberOfBullets)
+Bullet::Bullet(IBaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, FP scale, s32 numberOfBullets)
     : BaseGameObject(TRUE, 0)
 {
     SetType(ReliveTypes::eBullet);
@@ -64,7 +64,7 @@ void Bullet::VUpdate()
             shootRect.y = FP_GetExponent(mYPos - FP_FromInteger(15));
             shootRect.h = FP_GetExponent(mYPos + FP_FromInteger(5));
 
-            BaseAliveGameObject* pShotObj = ShootObject(&shootRect);
+            IBaseAliveGameObject* pShotObj = ShootObject(&shootRect);
             if (sCollisions->Raycast(
                     mXPos,
                     mYPos,
@@ -159,7 +159,7 @@ void Bullet::VUpdate()
                         - 10);
             shootRect.h = shootRect.y + 10;
 
-            BaseAliveGameObject* pShotObj = ShootObject(&shootRect);
+            IBaseAliveGameObject* pShotObj = ShootObject(&shootRect);
             if (pShotObj && pShotObj->VTakeDamage(this))
             {
                 PlayBulletSounds(90);
@@ -225,17 +225,17 @@ bool Bullet::InZBulletCover(FP xpos, FP ypos, const PSX_RECT& objRect)
     return false;
 }
 
-BaseAliveGameObject* Bullet::ShootObject(PSX_RECT* pRect)
+IBaseAliveGameObject* Bullet::ShootObject(PSX_RECT* pRect)
 {
     if (!gBaseAliveGameObjects)
     {
         return nullptr;
     }
 
-    BaseAliveGameObject* pObjectToShoot = nullptr;
+    IBaseAliveGameObject* pObjectToShoot = nullptr;
     for (s32 idx = 0; idx < gBaseAliveGameObjects->Size(); idx++)
     {
-        BaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(idx);
+        IBaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(idx);
         if (!pObjIter)
         {
             break;

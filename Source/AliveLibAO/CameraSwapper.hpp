@@ -4,9 +4,10 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "Map.hpp"
 
+enum class CameraSwapEffects : s16;
+
 namespace AO {
 
-enum class CameraSwapEffects : s16;
 
 class ScreenClipper;
 

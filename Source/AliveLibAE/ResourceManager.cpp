@@ -8,7 +8,7 @@
 #include "../relive_lib/PsxDisplay.hpp"
 #include "Sys.hpp"
 #include "GameAutoPlayer.hpp"
-#include "Camera.hpp"
+#include "../relive_lib/Camera.hpp"
 
 ResourceManager* pResourceManager_5C1BB0 = nullptr;
 

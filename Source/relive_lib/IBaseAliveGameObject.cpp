@@ -1,5 +1,24 @@
 #include "IBaseAliveGameObject.hpp"
 #include "GameType.hpp"
+#include "ObjectIds.hpp"
+
+DynamicArrayT<IBaseAliveGameObject>* gBaseAliveGameObjects = nullptr;
+
+// TODO: Remove after abe.cpp merge
+extern IBaseAliveGameObject* sControlledCharacter;
+
+
+IBaseAliveGameObject::~IBaseAliveGameObject()
+{
+    IBaseAliveGameObject* pLiftPoint = static_cast<IBaseAliveGameObject*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
+    gBaseAliveGameObjects->Remove_Item(this);
+
+    if (pLiftPoint)
+    {
+        pLiftPoint->VOnTrapDoorOpen();
+        BaseAliveGameObject_PlatformId = Guid{};
+    }
+}
 
 void IBaseAliveGameObject::VUnPosses()
 {
@@ -78,4 +97,49 @@ s16 IBaseAliveGameObject::SetBaseAnimPaletteTint(const TintEntry* pTintArray, ER
         GetAnimation().LoadPal(res);
     }
     return 1;
+}
+
+
+void IBaseAliveGameObject::SetActiveCameraDelayedFromDir()
+{
+    if (sControlledCharacter == this)
+    {
+        switch (Is_In_Current_Camera())
+        {
+            case CameraPos::eCamTop_1:
+                if (mVelY < FP_FromInteger(0))
+                {
+                    GetMap().SetActiveCameraDelayed(MapDirections::eMapTop_2, this, -1);
+                }
+                break;
+
+            case CameraPos::eCamBottom_2:
+                if (mVelY > FP_FromInteger(0))
+                {
+                    GetMap().SetActiveCameraDelayed(MapDirections::eMapBottom_3, this, -1);
+                }
+                break;
+
+            case CameraPos::eCamLeft_3:
+                if (mVelX < FP_FromInteger(0))
+                {
+                    GetMap().SetActiveCameraDelayed(MapDirections::eMapLeft_0, this, -1);
+                }
+                break;
+
+            case CameraPos::eCamRight_4:
+                if (mVelX > FP_FromInteger(0))
+                {
+                    GetMap().SetActiveCameraDelayed(MapDirections::eMapRight_1, this, -1);
+                }
+                break;
+
+            case CameraPos::eCamCurrent_0:
+            case CameraPos::eCamNone_5:
+                return;
+
+            default:
+                return;
+        }
+    }
 }

@@ -4,13 +4,13 @@
 #include "Psx.hpp"
 #include "../AliveLibCommon/Function.hpp"
 
-class BaseAliveGameObject;
+class IBaseAliveGameObject;
 class PalleteOverwriter;
 
 class Electrocute final : public BaseGameObject
 {
 public:
-    Electrocute(BaseAliveGameObject* pTargetObj, bool bExtraOverwriter, bool bKillTarget);
+    Electrocute(IBaseAliveGameObject* pTargetObj, bool bExtraOverwriter, bool bKillTarget);
     ~Electrocute();
 
     virtual void VUpdate() override;

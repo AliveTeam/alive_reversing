@@ -6,10 +6,11 @@
 #include "../AliveLibCommon/AnimResources.hpp"
 #include "Factory.hpp"
 
+class Camera;
+
 namespace AO {
 
 class BaseAliveGameObject;
-class Camera;
 class LoadingFile;
 
 void Game_ShowLoadingIcon_445EB0();

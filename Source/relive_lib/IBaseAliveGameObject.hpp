@@ -25,6 +25,9 @@ class IBaseAliveGameObject : public BaseAnimatedWithPhysicsGameObject
 public:
     using BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject;
     
+    ~IBaseAliveGameObject();
+
+
     virtual void VUnPosses();
     virtual void VPossessed();
     virtual s16 VTakeDamage(BaseGameObject* pFrom);
@@ -34,8 +37,23 @@ public:
 
     void OnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicArrayT<BaseGameObject>* pObjList);
 
+    // AO only currently
+    virtual void VSetXSpawn(s16 /*camWorldX*/, s32 /*screenXPos*/)
+    {
+
+    }
+
+    // AO only currently
+    virtual void VSetYSpawn(s32 /*camWorldY*/, s16 /*bLeft*/)
+    {
+
+    }
+
     // TODO: Impl here after merge
+    virtual void VOnPathTransition(s32 camWorldX, s32 camWorldY, CameraPos direction) = 0;
     virtual s16 VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform) = 0;
+
+    void SetActiveCameraDelayedFromDir();
 
 protected:
     template <class T>
@@ -72,5 +90,8 @@ public:
     bool mbGotShot = false;
     bool mbMotionChanged = false;
     BitField16<AliveObjectFlags> mBaseAliveGameObjectFlags = {};
-    Guid BaseAliveGameObject_PlatformId; // AE only
+    Guid BaseAliveGameObject_PlatformId;
+    s16 field_EC_bBeesCanChase = 0;      // AO only: can the bees attack - can be above the value 1 but bee swarm only checks for non zero
 };
+
+extern DynamicArrayT<IBaseAliveGameObject>* gBaseAliveGameObjects;

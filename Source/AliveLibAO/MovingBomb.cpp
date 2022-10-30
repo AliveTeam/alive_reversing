@@ -191,7 +191,7 @@ s16 MovingBomb::HitObject()
     const PSX_RECT ourRect = VGetBoundingRect();
     for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
     {
-        BaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(i);
+        IBaseAliveGameObject* pObjIter = gBaseAliveGameObjects->ItemAt(i);
         if (!pObjIter)
         {
             break;
@@ -357,7 +357,7 @@ void MovingBomb::VUpdate()
 
             FollowLine();
 
-            BaseAliveGameObjectPathTLV = gMap.TLV_Get_At(
+            BaseAliveGameObjectPathTLV = gMap.VTLV_Get_At(
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),
@@ -399,7 +399,7 @@ void MovingBomb::VUpdate()
 
             FollowLine();
 
-            BaseAliveGameObjectPathTLV = gMap.TLV_Get_At(
+            BaseAliveGameObjectPathTLV = gMap.VTLV_Get_At(
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),

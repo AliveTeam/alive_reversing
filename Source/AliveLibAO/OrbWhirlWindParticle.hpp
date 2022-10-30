@@ -4,9 +4,9 @@
 #include "../relive_lib/Animation.hpp"
 #include "../AliveLibAE/FixedPoint.hpp"
 
-namespace AO {
+class IBaseAliveGameObject;
 
-class BaseAliveGameObject;
+namespace AO {
 
 class OrbWhirlWindParticle final
 {
@@ -26,7 +26,7 @@ public:
     void ToStop();
 
     void CalculateRenderProperties(s16 bStarted);
-    void Spin(FP xpos, FP ypos, BaseAliveGameObject* pObj);
+    void Spin(FP xpos, FP ypos, IBaseAliveGameObject* pObj);
 
     enum Flags
     {
@@ -62,7 +62,7 @@ public:
     FP mRadiusY = {};
     s32 mPositionTimer = 0;
     FP mMoveY = {};
-    BaseAliveGameObject* mRingTargetObjId = nullptr;
+    IBaseAliveGameObject* mRingTargetObjId = nullptr;
     FP mXpos_Unused = {}; // used in AE, check if gobbed?
     FP mYPos_Unused = {}; // dito
     FP mXPosOffset = {};

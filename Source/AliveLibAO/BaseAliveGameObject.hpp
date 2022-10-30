@@ -21,14 +21,13 @@ public:
     BaseAliveGameObject();
     ~BaseAliveGameObject();
 
-    virtual void VOnPathTransition(s16 camWorldX, s32 camWorldY, CameraPos direction);
+    virtual void VOnPathTransition(s32 camWorldX, s32 camWorldY, CameraPos direction) override;
     virtual void VCheckCollisionLineStillValid(s32 distance);
 
-    virtual void VSetXSpawn(s16 camWorldX, s32 screenXPos);
-    virtual void VSetYSpawn(s32 camWorldY, s16 bLeft);
+    virtual void VSetXSpawn(s16 camWorldX, s32 screenXPos) override;
+    virtual void VSetYSpawn(s32 camWorldY, s16 bLeft) override;
     virtual BirdPortal* VIntoBirdPortal(s16 distance);
 
-    void SetActiveCameraDelayedFromDir();
     s16 MapFollowMe(s16 snapToGrid);
 
     virtual s16 VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform) override;
@@ -42,15 +41,6 @@ protected:
 
     void UsePathTransScale_4020D0();
     static void OnResourceLoaded_4019A0(BaseAliveGameObject* ppRes);
-
-public:
-  
-
-public:
-    s16 field_EC_bBeesCanChase = 0; // AO only: can the bees attack - can be above the value 1 but bee swarm only checks for non zero
-    //PlatformBase* mLiftPoint = nullptr; // AO only
 };
-
-extern DynamicArrayT<BaseAliveGameObject>* gBaseAliveGameObjects;
 
 } // namespace AO
