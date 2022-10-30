@@ -25,9 +25,10 @@ public:
     ~Blood();
 
     virtual void VUpdate() override;
-    virtual void VScreenChanged() override;
     virtual void VRender(PrimHeader** ppOt) override;
+    virtual void VScreenChanged() override;
 
+private:
     BloodParticle* mBloodParticle = nullptr;
     Prim_SetTPage mTPages[2] = {};
     s16 mBloodXPos = 0;

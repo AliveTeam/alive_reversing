@@ -71,7 +71,6 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
             {
                 BloodParticle* pParticle = &mBloodParticle[i];
                 Prim_Sprt* pSprt = &pParticle->field_10_prims[j];
-
                 Sprt_Init(pSprt);
                 Poly_Set_SemiTrans(&pSprt->mBase.header, 1);
 
@@ -86,11 +85,14 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
                     SetRGB0(pSprt, rgb.r, rgb.g, rgb.b);
                 }
 
+                pSprt->mAnim = &GetAnimation();
+
                 SetUV0(pSprt, u0, v0);
                 pSprt->field_14_w = static_cast<s16>(frameW - 1);
                 pSprt->field_16_h = static_cast<s16>(frameH - 1);
             }
         }
+
         // Has its own random seed based on the frame counter.. no idea why
         mRandSeed = static_cast<u8>(sGnFrame);
 
@@ -114,6 +116,11 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
     }
 }
 
+Blood::~Blood()
+{
+     relive_delete[] mBloodParticle;
+}
+
 void Blood::VUpdate()
 {
     if (mUpdateCalls > 0)
@@ -125,8 +132,8 @@ void Blood::VUpdate()
 
         if (mCurrentBloodCount <= 0)
         {
-            mCurrentBloodCount = 0;
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            mCurrentBloodCount = 0;
             return;
         }
 
@@ -145,20 +152,8 @@ void Blood::VUpdate()
     mUpdateCalls++;
 }
 
-
-Blood::~Blood()
-{
-     relive_delete[] mBloodParticle;
-}
-
-void Blood::VScreenChanged()
-{
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-}
-
 void Blood::VRender(PrimHeader** ppOt)
 {
-    //const auto bufferIdx = gPsxDisplay.mBufferIndex;
     if (gMap.Is_Point_In_Current_Camera(
             mCurrentLevel,
             mCurrentPath,
@@ -222,6 +217,11 @@ void Blood::VRender(PrimHeader** ppOt)
         OrderingTable_Add(OtLayer(ppOt, mOtLayer), &pTPage->mBase);
         */
     }
+}
+
+void Blood::VScreenChanged()
+{
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
 
 } // namespace AO

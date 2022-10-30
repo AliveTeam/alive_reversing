@@ -14,16 +14,15 @@ struct BloodParticle final
 };
 ALIVE_ASSERT_SIZEOF(BloodParticle, 0x40);
 
-class Blood final : public ::BaseAnimatedWithPhysicsGameObject
+class Blood final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    
+    Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count);
+    ~Blood();
+
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
-
-    Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count);
-    ~Blood();
 
 private:
     BloodParticle* mBloodParticle = nullptr;

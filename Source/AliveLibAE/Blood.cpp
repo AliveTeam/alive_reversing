@@ -70,8 +70,8 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
                 }
                 else
                 {
-                    const auto rgb = GetAnimation().GetRgb();
                     Poly_Set_Blending(&pSprt->mBase.header, 0);
+                    const auto rgb = GetAnimation().GetRgb();
                     SetRGB0(pSprt, rgb.r, rgb.g, rgb.b);
                 }
 
@@ -85,6 +85,7 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
 
         // Has its own random seed based on the frame counter.. no idea why
         mRandSeed = static_cast<u8>(sGnFrame);
+
         for (s32 i = 0; i < mCurrentBloodCount; i++)
         {
             mBloodParticle[i].x = FP_FromInteger(mBloodXPos);
@@ -107,7 +108,7 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
 
 Blood::~Blood()
 {
-    relive_delete[] mBloodParticle;
+     relive_delete[] mBloodParticle;
 }
 
 void Blood::VUpdate()
@@ -158,7 +159,7 @@ void Blood::VRender(PrimHeader** ppOt)
             BloodParticle* pParticle = &mBloodParticle[i];
             Prim_Sprt* pSprt = &pParticle->field_10_prims[gPsxDisplay.mBufferIndex];
 
-            const u8 u0 = 0; //mAnim.mVramRect.x & 63;
+            const u8 u0 = 0; // mAnim.mVramRect.x & 63;
 
             SetUV0(pSprt, u0, 0 /*static_cast<u8>(mAnim.mVramRect.y)*/);
 
@@ -199,8 +200,6 @@ void Blood::VRender(PrimHeader** ppOt)
         Init_SetTPage(pTPage, 0, 0, static_cast<s16>(tpage));
         OrderingTable_Add(OtLayer(ppOt, mOtLayer), &pTPage->mBase);
         */
-
-
     }
 }
 
