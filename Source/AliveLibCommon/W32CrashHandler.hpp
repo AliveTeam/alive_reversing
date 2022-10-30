@@ -36,7 +36,7 @@ inline void create_minidump(PEXCEPTION_POINTERS apExceptionInfo)
         MINIDUMP_EXCEPTION_INFORMATION exceptionInfo = {};
         exceptionInfo.ThreadId = ::GetCurrentThreadId();
         exceptionInfo.ExceptionPointers = apExceptionInfo;
-        exceptionInfo.ClientPointers = FALSE;
+        exceptionInfo.ClientPointers = false;
 
         const s32 flags = MiniDumpWithFullMemory | MiniDumpWithFullMemoryInfo | MiniDumpWithHandleData | MiniDumpWithUnloadedModules | MiniDumpWithThreadInfo;
 

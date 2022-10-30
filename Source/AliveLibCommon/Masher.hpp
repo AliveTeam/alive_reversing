@@ -97,7 +97,7 @@ public:
     static void DDV_Set_Channels_And_BitsPerSample_4ECFD0(s32 numChannels, s32 bitsPerSample);
 
     // Same as 0x52B028 in MGSI.exe
-    static void DDV_DecompressAudioFrame_4ECFF0(s32* pMasherFrame, BYTE* pDecodedFrame, s32 frameSize);
+    static void DDV_DecompressAudioFrame_4ECFF0(s32* pMasherFrame, u8* pDecodedFrame, s32 frameSize);
 
     // Same as 0x52899C in MGSI.exe
     static void* GetDecompressedAudioFrame_4EAC60(Masher* pMasher);

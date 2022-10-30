@@ -423,12 +423,12 @@ s16 Grenade::BlowUpAfterCountdown()
 
 s16 Grenade::VCanThrow()
 {
-    return FALSE;
+    return false;
 }
 
 s16 Grenade::VIsFalling()
 {
-    return FALSE;
+    return false;
 }
 
 void Grenade::VOnTrapDoorOpen()

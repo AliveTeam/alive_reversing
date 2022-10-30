@@ -131,7 +131,7 @@ public:
             }
             else
             {
-                LOG_WARNING("LCD message out of bounds, using first message for id: " << msgId);
+                LOG_WARNING("LCD message out of bounds, using first message for id: %d", msgId);
                 return pTable->mStrings[0].string_ptr;
             }
         }
@@ -142,7 +142,7 @@ public:
         }
         else
         {
-            LOG_WARNING("LCD message out of bounds using original message table id: " << msgId);
+            LOG_WARNING("LCD message out of bounds using original message table id: %d", msgId);
             return sLCDMessageTable_4C7420[0];
         }
     }
@@ -150,7 +150,7 @@ public:
 static LCDMessages gLCDMessages;
 
 LCDScreen::LCDScreen(relive::Path_LCDScreen* pTlv, const Guid& tlvId)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     field_2BC_tlv = pTlv;
 

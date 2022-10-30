@@ -9,7 +9,7 @@
 #include "Game.hpp"
 
 MusicTrigger::MusicTrigger(relive::Path_MusicTrigger* pTlv, const Guid& tlvId)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     Init(pTlv->mMusicType, pTlv->mTriggeredBy, pTlv->mMusicDelay);
     field_2C_tl.x = pTlv->mTopLeftX;
@@ -20,7 +20,7 @@ MusicTrigger::MusicTrigger(relive::Path_MusicTrigger* pTlv, const Guid& tlvId)
 }
 
 MusicTrigger::MusicTrigger(relive::Path_MusicTrigger::MusicTriggerMusicType musicType, relive::Path_MusicTrigger::TriggeredBy triggeredBy, s32 /*not_used*/, s32 musicDelay)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     Init(musicType, triggeredBy, static_cast<s16>(musicDelay));
     field_2C_tl = {};

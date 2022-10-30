@@ -76,8 +76,7 @@ public:
         s32 ret = spng_get_ihdr(mCtx.ctx, &ihdr);
         if (ret)
         {
-            LOG_ERROR("spng_get_ihdr() error: " << spng_strerror(ret));
-            ALIVE_FATAL("get png header failed");
+            ALIVE_FATAL("spng_get_ihdr() error: %s", spng_strerror(ret));
         }
         return ihdr;
     }
@@ -101,8 +100,7 @@ public:
         {
             if (ret == SPNG_ECHUNKAVAIL)
             {
-                LOG_ERROR("PNG has no pal (not an indexed png");
-                ALIVE_FATAL("PNG is not indexed");
+                ALIVE_FATAL("PNG has no pal (not an indexed png");
             }
             ALIVE_FATAL("Failed to load png pal");
         }

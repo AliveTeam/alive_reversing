@@ -342,10 +342,10 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
     const s32 numDrivers = SDL_GetNumRenderDrivers();
     if (numDrivers < 0)
     {
-        LOG_ERROR("Failed to get driver count " << SDL_GetError());
+        LOG_ERROR("Failed to get driver count %s", SDL_GetError());
     }
 
-    LOG_INFO("Got " << numDrivers << " drivers");
+    LOG_INFO("Got %d drivers", numDrivers);
 
     s32 index = -1;
     for (s32 i = 0; i < numDrivers; i++)
@@ -353,11 +353,11 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
         SDL_RendererInfo info = {};
         if (SDL_GetRenderDriverInfo(i, &info) < 0)
         {
-            LOG_WARNING("Failed to get render " << i << " info " << SDL_GetError());
+            LOG_WARNING("Failed to get render %d info %s", i, SDL_GetError());
         }
         else
         {
-            LOG_INFO(i << " name " << info.name);
+            LOG_INFO("%d name %s", i, info.name);
             if (strstr(info.name, "opengl"))
             {
                 index = i;
@@ -389,7 +389,7 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
 
     if (mContext == NULL)
     {
-        LOG_ERROR("OpenGL 3.2 context could not be created! SDL Error: " << SDL_GetError());
+        LOG_ERROR("OpenGL 3.2 context could not be created! SDL Error: %s", SDL_GetError());
 
         // Our ACTUAL minimum OpenGL requirement is 3.1, though we will check
         // supported extensions on the GPU in a moment
@@ -403,12 +403,12 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
         mContext = SDL_GL_CreateContext(window);
         if (mContext == NULL)
         {
-            LOG_ERROR("OpenGL 3.1 context could not be created! SDL Error: " << SDL_GetError());
+            LOG_ERROR("OpenGL 3.1 context could not be created! SDL Error: %s", SDL_GetError());
             return false;
         }
     }
 
-    LOG_INFO("GL_VERSION = " << glGetString(GL_VERSION));
+    LOG_INFO("GL_VERSION = %s", glGetString(GL_VERSION));
 
     // Initialize GLEW
     glewExperimental = GL_TRUE;
@@ -416,14 +416,14 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
 
     if (glewError != GLEW_OK)
     {
-        LOG_ERROR("Error initializing GLEW! " << glewGetErrorString(glewError));
+        LOG_ERROR("Error initializing GLEW! %s", glewGetErrorString(glewError));
     }
 
     // Use Vsync
     // FIXME: VSYNC disabled for now - remove before merge to master!
     if (SDL_GL_SetSwapInterval(0) < 0)
     {
-        LOG_ERROR("Warning: Unable to set VSync! SDL Error: " << SDL_GetError());
+        LOG_ERROR("Warning: Unable to set VSync! SDL Error: %s", SDL_GetError());
     }
 
     // Check supported extensions by the GPU

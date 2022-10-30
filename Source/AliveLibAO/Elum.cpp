@@ -257,7 +257,7 @@ void Elum::ToKnockback()
     {
         MoveOnLine(0);
     }
-    MapFollowMe(TRUE);
+    MapFollowMe(true);
     Environment_SFX_42A220(EnvironmentSfx::eKnockback_13, 95, -200, this);
 }
 
@@ -1872,7 +1872,7 @@ void Elum::Motion_4_Turn_4140F0()
 
     if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
-        MapFollowMe(TRUE);
+        MapFollowMe(true);
         GetAnimation().mFlags.Toggle(AnimFlags::eFlipX);
 
         if (mNextMotion == eElumMotions::Motion_29_BeesStruggling_412A90)
@@ -2076,7 +2076,7 @@ void Elum::Motion_12_RunTurn_414520()
             mXPos -= mVelX;
         }
         mVelX = FP_FromInteger(0);
-        MapFollowMe(TRUE);
+        MapFollowMe(true);
         Environment_SFX_42A220(EnvironmentSfx::eKnockback_13, 95, -200, this);
         return;
     }
@@ -2086,7 +2086,7 @@ void Elum::Motion_12_RunTurn_414520()
     if (mCurrentMotion == eElumMotions::Motion_12_RunTurn_414520
         && GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
-        MapFollowMe(TRUE);
+        MapFollowMe(true);
 
         const FP gridSize = (GetAnimation().mFlags.Get(AnimFlags::eFlipX)) ? ScaleToGridSize(GetSpriteScale()) : -ScaleToGridSize(GetSpriteScale());
         if (Input().IsAnyPressed(sInputKey_Run))
@@ -2330,7 +2330,7 @@ void Elum::Motion_21_Land_414A20()
 
                 mXPos = hitX;
                 mYPos = hitY;
-                MapFollowMe(TRUE);
+                MapFollowMe(true);
 
                 PSX_Point xy = {};
                 xy.x = FP_GetExponent(mXPos - FP_FromInteger(10));
@@ -2583,7 +2583,7 @@ void Elum::RunJumpMidAndHopMid(MidType midType)
                             mXPos = hitX;
                             mYPos = hitY;
                             mCurrentMotion = eElumMotions::Motion_35_RunJumpLand_415580;
-                            MapFollowMe(TRUE);
+                            MapFollowMe(true);
                             break;
 
                         case MidType::eHopMid:
@@ -2633,7 +2633,7 @@ void Elum::Motion_32_HopLand_415140()
             {bRect.w, static_cast<s16>(bRect.h + 5)},
             gPlatformsArray);
 
-        MapFollowMe(TRUE);
+        MapFollowMe(true);
 
         if (!ToNextMotion_4120F0())
         {
@@ -2779,7 +2779,7 @@ void Elum::Motion_36_RunLoop_413720()
         if (!field_10C_bFootStep2)
         {
             field_10C_bFootStep2 = 1;
-            MapFollowMe(TRUE);
+            MapFollowMe(true);
         }
 
         if (sControlledCharacter == this)
@@ -2849,14 +2849,14 @@ void Elum::RunSlideStopKnockback()
     if (BaseAliveGameObjectCollisionLine)
     {
         mVelX = -mVelX;
-        MoveOnLine(FALSE);
+        MoveOnLine(false);
     }
     else
     {
         mXPos -= mVelX;
     }
     mVelX = FP_FromInteger(0);
-    MapFollowMe(TRUE);
+    MapFollowMe(true);
     Environment_SFX_42A220(EnvironmentSfx::eKnockback_13, 95, -200, this);
 }
 
@@ -2892,7 +2892,7 @@ void Elum::Motion_37_RunSlideStop_4142E0()
 
     if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
-        MapFollowMe(TRUE);
+        MapFollowMe(true);
         if (!ToNextMotion_4120F0())
         {
             field_118_jump_velx = FP_FromInteger(0);
@@ -2901,7 +2901,7 @@ void Elum::Motion_37_RunSlideStop_4142E0()
             mCurrentMotion = eAbeMotions::Motion_1_WalkLoop;
             field_110_timer = sGnFrame;
             field_10E_pressed = 0;
-            MapFollowMe(TRUE);
+            MapFollowMe(true);
         }
     }
 }
@@ -3178,7 +3178,7 @@ void Elum::ToIdle()
     mVelY = FP_FromInteger(0);
     mCurrentMotion = eElumMotions::Motion_1_Idle_412990;
     field_10E_pressed = 0;
-    MapFollowMe(TRUE);
+    MapFollowMe(true);
 }
 
 void Elum::Motion_47_Unknown_415A30()
@@ -3389,7 +3389,7 @@ void Elum::VUpdate()
 
         if ((oldMotion != mCurrentMotion && oldMotion == 2) || oldMotion == 11 || oldMotion == 47)
         {
-            LOG_INFO("old motion: " << oldMotion << " | new motion: " << mCurrentMotion);
+            //LOG_INFO("old motion: " << oldMotion << " | new motion: " << mCurrentMotion);
         }
 
         if (old_x != mXPos || old_y != mYPos)

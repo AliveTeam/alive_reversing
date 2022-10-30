@@ -18,7 +18,7 @@ void SlogSpawner::VScreenChanged()
 }
 
 SlogSpawner::SlogSpawner(relive::Path_SlogSpawner* pTlv, const Guid& tlvId)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     mTlvInfo = tlvId;
     mSpawnTimer = 0;

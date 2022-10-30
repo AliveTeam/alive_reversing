@@ -14,7 +14,7 @@ s32 sGasTimer = 0;
 s16 gGasOn = 0;
 
 GasCountDown::GasCountDown(relive::Path_GasCountDown* pTlv, const Guid& tlvInfo)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     SetType(ReliveTypes::eGasCountDown);
     mTlvId = tlvInfo;
@@ -75,7 +75,7 @@ void GasCountDown::VUpdate()
     if (EventGet(kEventDeathResetEnd))
     {
         sGasTimer = 0;
-        gGasOn = FALSE;
+        gGasOn = false;
     }
 
     // Enable
@@ -142,7 +142,7 @@ void GasCountDown::DealDamage()
 
     if (!gGasOn && mGasTimeLeft <= 0)
     {
-        gGasOn = TRUE;
+        gGasOn = true;
         if (!gDeathGasCount_5BD24C)
         {
             relive_new DeathGas(Layer::eLayer_Above_FG1_39, 2);

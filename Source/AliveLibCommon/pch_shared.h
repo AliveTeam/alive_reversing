@@ -9,6 +9,9 @@
     #define NOMINMAX
     #endif
 
+#include <windows.h>
+#undef CreateDirectory
+
 #else
     using PVOID = void*;
     using LPVOID = void*;

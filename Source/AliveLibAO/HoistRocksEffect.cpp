@@ -96,7 +96,7 @@ HoistRocksEffect::~HoistRocksEffect()
 }
 
 HoistRocksEffect::HoistRocksEffect(relive::Path_Hoist* pTlv, const Guid& tlvInfo)
-    : BaseGameObject(TRUE, 0), field_18_tlvInfo(tlvInfo)
+    : BaseGameObject(true, 0), field_18_tlvInfo(tlvInfo)
 {
     field_10_xpos = FP_FromInteger(pTlv->mTopLeftX + 12);
     field_14_ypos = FP_FromInteger(pTlv->mTopLeftY);

@@ -15,7 +15,7 @@ GasEmitter* sMainGasEmitter_5BD4C8 = nullptr;
 u32 sGasEmiterAudioMask_5BD4CC = 0;
 
 GasEmitter::GasEmitter(relive::Path_GasEmitter* pTlv, const Guid& tlvId)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     SetType(ReliveTypes::eNone);
 

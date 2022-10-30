@@ -295,12 +295,12 @@ bool Collisions::Raycast(FP X1_16_16, FP Y1_16_16, FP X2_16_16, FP Y2_16_16, Pat
         *hitY = FP_FromRaw(yh << 8);
 
         *ppLine = pNearestMatch;
-        return TRUE;
+        return true;
     }
 
     *ppLine = nullptr;
 
-    return FALSE;
+    return false;
 }
 
 PathLine* Collisions::Get_Line_At_Idx(s16 idx)

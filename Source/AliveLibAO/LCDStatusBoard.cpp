@@ -23,7 +23,7 @@ LCDStatusBoard::~LCDStatusBoard()
 }
 
 LCDStatusBoard::LCDStatusBoard(relive::Path_LCDStatusBoard* pTlv, const Guid& tlvId)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     field_C8_tlv = tlvId;
     mFontContext.LoadFontType(FontType::LcdFont);

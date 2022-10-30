@@ -164,8 +164,7 @@ static s32 RestoreObjectState(AETypes type, const u8* pData)
             return WorkWheel::CreateFromSaveState(pData);
 
         default:
-            LOG_ERROR("No create save state for type " << static_cast<s32>(type));
-            ALIVE_FATAL("No create save state for type");
+            ALIVE_FATAL("No create save state for type %d", static_cast<s32>(type));
     }
 }
 
@@ -202,7 +201,7 @@ void QuikSave_RestoreBlyData(const u8* pSaveData)
         }
     }
 
-    pResourceManager_5C1BB0->LoadingLoop_465590(FALSE);
+    pResourceManager_5C1BB0->LoadingLoop_465590(false);
 }
 
 

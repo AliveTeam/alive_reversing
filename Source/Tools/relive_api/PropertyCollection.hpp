@@ -45,7 +45,7 @@ public:
 
         if (!properties.has<std::string>(propName))
         {
-            LOG_ERROR("Missing json property " << propName);
+            LOG_ERROR("Missing json property %s", propName.c_str());
             context.MissingEnumType(propType, propName);
         }
 

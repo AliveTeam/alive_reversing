@@ -90,8 +90,8 @@ Water::Water(relive::Path_Water* pTlv, const Guid& tlvId)
             Poly_FT4* pPoly = &field_F8_pWaterRes[i].field_20_polys[0];
 
             PolyFT4_Init(pPoly);
-            Poly_Set_SemiTrans(&pPoly->mBase.header, TRUE);
-            Poly_Set_Blending(&pPoly->mBase.header, TRUE);
+            Poly_Set_SemiTrans(&pPoly->mBase.header, true);
+            Poly_Set_Blending(&pPoly->mBase.header, true);
 
             SetTPage(pPoly, static_cast<s16>(tPage));
 

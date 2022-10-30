@@ -537,7 +537,7 @@ void Slog::Motion_1_Walk()
                 if (!field_160_flags.Get(Flags_160::eBit8_Asleep))
                 {
                     field_160_flags.Set(Flags_160::eBit8_Asleep);
-                    MapFollowMe(FALSE);
+                    MapFollowMe(false);
                 }
 
                 if (GetNextMotion() == eSlogMotions::Motion_2_Run)
@@ -608,7 +608,7 @@ void Slog::Motion_2_Run()
                 if (!field_160_flags.Get(Flags_160::eBit8_Asleep))
                 {
                     field_160_flags.Set(Flags_160::eBit8_Asleep);
-                    MapFollowMe(FALSE);
+                    MapFollowMe(false);
                 }
 
                 if (GetNextMotion() == eSlogMotions::Motion_0_Idle)
@@ -709,7 +709,7 @@ void Slog::Motion_4_Fall()
                 BaseAliveGameObjectCollisionLine = pLine;
                 mYPos = hitY;
                 mXPos = hitX;
-                MapFollowMe(FALSE);
+                MapFollowMe(false);
                 if (BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eDynamicCollision_32 || BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
                 {
                     const PSX_RECT bRect = VGetBoundingRect();
@@ -730,7 +730,7 @@ void Slog::Motion_4_Fall()
             case eLineTypes::eBackgroundWallRight_6:
                 mYPos = hitY;
                 mXPos = hitX - mVelX;
-                MapFollowMe(FALSE);
+                MapFollowMe(false);
                 mVelX = FP_FromInteger(0);
                 break;
 
@@ -842,7 +842,7 @@ void Slog::Motion_7_SlideTurn()
         {
             if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
-                MapFollowMe(FALSE);
+                MapFollowMe(false);
 
                 if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                 {
@@ -2812,7 +2812,7 @@ void Slog::Init()
         }
     }
 
-    MapFollowMe(FALSE);
+    MapFollowMe(false);
     CreateShadow();
 
     sSlogCount++;
@@ -2917,7 +2917,7 @@ Slog::~Slog()
 
 void Slog::ToIdle()
 {
-    MapFollowMe(FALSE);
+    MapFollowMe(false);
     field_128_falling_velx_scale_factor = FP_FromInteger(0);
     mVelX = FP_FromInteger(0);
     mVelY = FP_FromInteger(0);
@@ -3468,13 +3468,13 @@ s16 Slog::Facing(FP xpos)
 {
     if (mXPos < xpos && !GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        return TRUE;
+        return true;
     }
 
     if (xpos < mXPos && GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        return TRUE;
+        return true;
     }
 
-    return FALSE;
+    return false;
 }

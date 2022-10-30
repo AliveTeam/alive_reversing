@@ -11,14 +11,14 @@
 namespace AO {
 
 MusicTrigger::MusicTrigger(relive::Path_MusicTrigger::MusicTriggerMusicType type, relive::Path_MusicTrigger::TriggeredBy triggeredBy, s32 switchId, s32 delay)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     Init(type, triggeredBy, static_cast<s16>(switchId), static_cast<s16>(delay));
     field_10_tlvInfo = {};
 }
 
 MusicTrigger::MusicTrigger(relive::Path_MusicTrigger* pTlv, const Guid& tlvId)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     Init(pTlv->mMusicType, pTlv->mTriggeredBy, pTlv->mSwitchId, pTlv->mMusicDelay);
     field_10_tlvInfo = tlvId;

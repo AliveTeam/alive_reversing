@@ -67,8 +67,7 @@ static void DrawOTag_HandlePrimRendering(IRenderer& renderer, PrimAny& any)
             break;
 
         default:
-            LOG_ERROR("Unknown prim type " << static_cast<s32>(any.mPrimHeader->rgb_code.code_or_pad));
-            ALIVE_FATAL("Unknown prim type");
+            ALIVE_FATAL("Unknown prim type %d", static_cast<s32>(any.mPrimHeader->rgb_code.code_or_pad));
             break;
     }
 }

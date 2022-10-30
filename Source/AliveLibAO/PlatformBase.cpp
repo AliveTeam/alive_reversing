@@ -9,10 +9,9 @@
 namespace AO {
 
 
-void PlatformBase::VAdd(BaseAliveGameObject* pObj)
+void PlatformBase::VAdd(BaseAliveGameObject* /*pObj*/)
 {
     mPlatformBaseCount++;
-    LOG_INFO("Add " << (u64) pObj << " count " << mPlatformBaseCount << " gnFrame " << sGnFrame);
     field_110 = 1;
 
     if (mPlatformBaseCollisionLine)
@@ -21,10 +20,9 @@ void PlatformBase::VAdd(BaseAliveGameObject* pObj)
     }
 }
 
-void PlatformBase::VRemove(BaseAliveGameObject* pObj)
+void PlatformBase::VRemove(BaseAliveGameObject* /*pObj*/)
 {
     mPlatformBaseCount--;
-    LOG_INFO("Remove " << (u64) pObj << " count " << mPlatformBaseCount << " gnFrame " << sGnFrame);
 }
 
 void PlatformBase::AddDynamicCollision(AnimId animId, relive::Path_TLV* pTlv, Map* pMap, const Guid& tlvId)

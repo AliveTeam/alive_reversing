@@ -35,7 +35,7 @@ protected:
 
             if (!inserted)
             {
-                LOG_ERROR("Enum with value '" << enumValue << "' already present ('" << it->second << "'), could not insert '" << name << "'\n");
+                LOG_ERROR("Enum value already present");
 
                 // We never expect to have two enumerators with the same value.
                 std::abort();
@@ -47,7 +47,7 @@ protected:
 
             if (!inserted)
             {
-                LOG_INFO("Enum with name '" << name << "' already present ('" << it->second << "'), could not insert '" << enumValue << "'\n");
+                LOG_INFO("Enum with name '%s' already exists", name.c_str());
 
                 // We never expect to have two enumerators with the same name.
                 std::abort();

@@ -11,7 +11,7 @@
 namespace AO {
 
 BeeSwarmHole::BeeSwarmHole(relive::Path_BeeSwarmHole* pTlv, const Guid& tlvId)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     field_10_tlvInfo = tlvId;
     SetType(ReliveTypes::eSligSpawner);

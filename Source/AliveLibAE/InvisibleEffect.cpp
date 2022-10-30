@@ -8,7 +8,7 @@
 #include "stdlib.hpp"
 
 InvisibleEffect::InvisibleEffect(BaseAliveGameObject* pTarget)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
      SetType(ReliveTypes::eInvisibleEffect);
 

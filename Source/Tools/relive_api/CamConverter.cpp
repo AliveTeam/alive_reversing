@@ -190,7 +190,7 @@ u32 CamConverter::CamBitsIdFromName(const std::string& pCamName)
     if (pCamName.length() < 7)
     {
         // todo: throw
-        LOG_WARNING("Bad camera name, can't get resource id " << pCamName);
+        LOG_WARNING("Bad camera name, can't get resource id %s", pCamName.c_str());
         return 0;
     }
     // Given R1P20C15 returns 2015

@@ -32,7 +32,7 @@ void BirdPortal::LoadAnimations()
 }
 
 BirdPortal::BirdPortal(relive::Path_BirdPortal* pTlv, const Guid& tlvId)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     mDovesExist = 0;
     SetType(ReliveTypes::eBirdPortal);
@@ -363,7 +363,7 @@ void BirdPortal::VUpdate()
             if (static_cast<s32>(sGnFrame) >= mTimer)
             {
                 sActiveHero->mRingPulseTimer = sGnFrame + 32000;
-                sActiveHero->mHaveShrykull = TRUE;
+                sActiveHero->mHaveShrykull = true;
                 sActiveHero->mHaveInvisibility = 0;
                 mState = PortalStates::CollapseTerminators_10;
                 if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_112_Chant)
@@ -540,7 +540,7 @@ s16 BirdPortal::IsScaredAway()
         IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
         if (!pObj)
         {
-            return FALSE;
+            return false;
         }
 
         switch (pObj->Type())
@@ -564,13 +564,13 @@ s16 BirdPortal::IsScaredAway()
                 {
                     continue;
                 }
-                return TRUE;
+                return true;
 
             default:
                 continue;
         }
     }
-    return FALSE;
+    return false;
 }
 
 void BirdPortal::VGiveShrykull(s16 bPlaySound)

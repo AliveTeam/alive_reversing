@@ -63,7 +63,7 @@ void BellSong::VUpdate()
 }
 
 BellSong::BellSong(relive::Path_BellsongStone::BellsongTypes type, u32 code)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     mType = type;
     mCode = code;

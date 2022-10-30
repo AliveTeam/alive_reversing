@@ -205,7 +205,7 @@ void SND_Shutdown()
 
 void SND_Load_VABS(std::shared_ptr<PathSoundInfo>& info, s32 reverb)
 {
-    GetMidiVars()->sSnd_ReloadAbeResources() = FALSE;
+    GetMidiVars()->sSnd_ReloadAbeResources() = false;
     auto oldPtr = GetMidiVars()->sLastLoadedSoundBlockInfo().lock();
     if (oldPtr.get() != info.get())
     {
@@ -673,7 +673,7 @@ void SND_Load_Seqs_Impl(OpenSeqHandle* pSeqTable, PathSoundInfo& info)
                 GetMidiVars()->sSeqDataTable()[i].field_A_id_seqOpenId = -1;
                 GetMidiVars()->sSeqDataTable()[i].field_4_generated_res_id = ResourceManager::SEQ_HashName_49BE30(GetMidiVars()->sSeqDataTable()[i].field_0_mBsqName);
             }
-            GetMidiVars()->sNeedToHashSeqNames() = FALSE;
+            GetMidiVars()->sNeedToHashSeqNames() = false;
         }
 
         //GetMidiVars()->Reclaim_Memory(0);
@@ -713,7 +713,7 @@ void SND_StopAll()
     }
     else
     {
-        MusicController::static_EnableMusic(FALSE);
+        MusicController::static_EnableMusic(false);
         BackgroundMusic::Stop();
         SND_Reset_Ambiance();
         SND_Stop_All_Seqs();
@@ -749,7 +749,7 @@ void SND_Restart_4CB0E0()
     }
     else
     {
-        MusicController::static_EnableMusic(TRUE);
+        MusicController::static_EnableMusic(true);
         BackgroundMusic::Play();
         Start_Sounds_For_Objects_In_Near_Cameras();
     }

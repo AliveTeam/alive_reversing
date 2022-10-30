@@ -6,7 +6,7 @@
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 
 OrbWhirlWind::OrbWhirlWind(FP xpos, FP ypos, FP scale, bool bIsMudokonSpirit)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     SetType(ReliveTypes::eNone);
 

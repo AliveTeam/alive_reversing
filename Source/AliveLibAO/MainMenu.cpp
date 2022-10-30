@@ -430,7 +430,7 @@ void MainMenuTransition::VUpdate()
 }
 
 MainMenuTransition::MainMenuTransition(Layer layer, s32 fadeDirection, s32 bKillWhenDone, s32 speed, TPageAbr abr)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     SetType(ReliveTypes::eDeathFadeOut);
 
@@ -1477,7 +1477,7 @@ void Menu::GoToSelectedMenuPage()
                 break;
 
             default:
-                LOG_ERROR("Unknown menu item " << mSelectedButtonIndex.raw);
+                LOG_ERROR("Unknown menu item %d", mSelectedButtonIndex.raw);
                 break;
         }
     }
@@ -1558,7 +1558,7 @@ void Menu::ToNextMenuPage()
                 }
 
                 default:
-                    LOG_ERROR("Unknown menu item " << mSelectedButtonIndex.raw);
+                    LOG_ERROR("Unknown menu item %d", mSelectedButtonIndex.raw);
                     break;
             }
         }
@@ -1947,7 +1947,7 @@ void Menu::NewGameStart()
         else
         {
             // Start the game in the biggest meat processing plant
-            gInfiniteGrenades = FALSE;
+            gInfiniteGrenades = false;
             gMap.SetActiveCam(EReliveLevelIds::eRuptureFarms, 15, 1, CameraSwapEffects::ePlay1FMV_5, 102, 0);
 
             // What if someone made a level editor and wanted to change where abe spawns on the first map? Well... hard luck pal
@@ -2073,7 +2073,7 @@ void Menu::Option_GoTo_Selected_Update()
                     break;
 
                 default:
-                    LOG_ERROR("Unknown menu idx " << mSelectedButtonIndex.raw);
+                    LOG_ERROR("Unknown menu idx %d", mSelectedButtonIndex.raw);
                     break;
             }
 
@@ -2120,7 +2120,7 @@ void Menu::Options_To_Selected_After_Cam_Change_Update()
             }
 
             default:
-                LOG_ERROR("Unknown menu idx " << mSelectedButtonIndex.raw);
+                LOG_ERROR("Unknown menu idx %d", mSelectedButtonIndex.raw);
                 break;
         }
 

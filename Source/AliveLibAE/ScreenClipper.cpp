@@ -7,7 +7,7 @@
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 
 ScreenClipper::ScreenClipper(PSX_Point xy, PSX_Point wh, Layer layer)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     SetType(ReliveTypes::eScreenClipper);
 

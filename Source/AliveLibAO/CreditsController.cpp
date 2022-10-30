@@ -12,7 +12,7 @@ s16 gCreditsControllerExists = false;
 constexpr s32 kShowCreditScreenForTicks = 60;
 
 CreditsController::CreditsController(relive::Path_CreditsController* /*pTlv*/, const Guid& /*tlvId*/)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     mCurrentCamera = gMap.mCurrentCamera;
     mNextCameraTimer = sGnFrame + kShowCreditScreenForTicks;

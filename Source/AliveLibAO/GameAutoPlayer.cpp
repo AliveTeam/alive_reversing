@@ -101,7 +101,7 @@ bool Player::ValidateObjectStates()
     bool validateFailed = false;
     if (CountWithOutLoadingFiles() != static_cast<s32>(objCount))
     {
-        LOG_ERROR("Got " << CountWithOutLoadingFiles() << " objects but expected " << objCount);
+        LOG_ERROR("Got %d objects but expected %d", CountWithOutLoadingFiles(), objCount);
         validateFailed = true;
         // TODO: This can be smarter and try to validate the list until the obj types no longer match
         for (s32 i = 0; i < std::min(static_cast<s32>(objCount), gBaseGameObjects->Size()); i++)
@@ -120,7 +120,7 @@ bool Player::ValidateObjectStates()
 
             if (pObj->Type() != reliveObjType)
             {
-                LOG_ERROR("Got " << static_cast<s16>(BaseGameObject::ToAO(pObj->Type())) << " type but expected " << objType);
+                LOG_ERROR("Got %d type but expected %d", static_cast<s16>(BaseGameObject::ToAO(pObj->Type())), objType);
             }
             ValidateBaseAliveGameObject(nullptr);
         }
@@ -137,7 +137,7 @@ bool Player::ValidateObjectStates()
                     continue;
                 }
                 const s32 aoType = static_cast<s32>(BaseGameObject::ToAO(pExtraObj->Type()));
-                LOG_INFO("Extra obj type is : " << aoType);
+                LOG_INFO("Extra obj type is : %d", aoType);
             }
         }
     }
@@ -161,7 +161,7 @@ bool Player::ValidateObjectStates()
 
             if (pObj->Type() != reliveObjType)
             {
-                LOG_ERROR("Got " << static_cast<s16>(BaseGameObject::ToAO(pObj->Type())) << " type but expected " << objType);
+                LOG_ERROR("Got %d type but expected %d", static_cast<s16>(BaseGameObject::ToAO(pObj->Type())), objType);
                 validateFailed |= true;
             }
             if (!ValidateBaseAliveGameObject(pObj))

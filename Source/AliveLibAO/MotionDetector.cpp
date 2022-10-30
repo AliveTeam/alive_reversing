@@ -161,7 +161,7 @@ void MotionDetector::VUpdate()
 
             const PSX_RECT laserRect = field_108_pLaser->VGetBoundingRect();
 
-            field_160_bObjectInLaser = FALSE;
+            field_160_bObjectInLaser = false;
 
             for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
             {
@@ -200,7 +200,7 @@ void MotionDetector::VUpdate()
 
                         if (alarm)
                         {
-                            field_160_bObjectInLaser = TRUE;
+                            field_160_bObjectInLaser = true;
 
                             if (alarmInstanceCount_5076A8 == 0)
                             {
@@ -300,7 +300,7 @@ void MotionDetector::VRender(PrimHeader** ppOt)
         SetRGB0(pPrim, 64, 0, 0);
 
         // Add triangle
-        Poly_Set_SemiTrans(&pPrim->mBase.header, TRUE);
+        Poly_Set_SemiTrans(&pPrim->mBase.header, true);
         OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pPrim->mBase.header);
 
         // Add tpage

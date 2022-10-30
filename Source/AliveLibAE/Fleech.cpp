@@ -625,7 +625,7 @@ void Fleech::Motion_4_Crawl()
                 if (field_130_bDidMapFollowMe == 0)
                 {
                     field_130_bDidMapFollowMe = 1;
-                    MapFollowMe(TRUE);
+                    MapFollowMe(true);
                 }
 
                 if (mNextMotion == eFleechMotions::Motion_3_Idle)
@@ -679,7 +679,7 @@ void Fleech::Motion_7_StopCrawling()
     }
     else if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
-        MapFollowMe(TRUE);
+        MapFollowMe(true);
         if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
         {
             mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(7));
@@ -774,7 +774,7 @@ void Fleech::Motion_9_Fall()
                 BaseAliveGameObjectCollisionLine = pLine;
                 mXPos = hitX;
                 mYPos = hitY;
-                MapFollowMe(TRUE);
+                MapFollowMe(true);
                 if (BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eDynamicCollision_32 || BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
                 {
                     const PSX_RECT bRect = VGetBoundingRect();
@@ -799,7 +799,7 @@ void Fleech::Motion_9_Fall()
             case 6u:
                 mXPos = hitX - mVelX;
                 mYPos = hitY;
-                MapFollowMe(TRUE);
+                MapFollowMe(true);
                 mVelX = FP_FromInteger(0);
                 break;
 
@@ -994,7 +994,7 @@ void Fleech::Motion_13_SettleOnGround()
                 GetScale() == Scale::Fg ? kFgFloor : kBgFloor))
         {
             BaseAliveGameObjectCollisionLine = pLine;
-            MapFollowMe(TRUE);
+            MapFollowMe(true);
         }
     }
 
@@ -1603,7 +1603,7 @@ void Fleech::Init()
         mYPos = hitY;
     }
 
-    MapFollowMe(TRUE);
+    MapFollowMe(true);
 
     VStackOnObjectsOfType(ReliveTypes::eFleech);
 
@@ -1634,14 +1634,14 @@ void Fleech::InitTonguePolys()
             SetRGB1(&mTonguePolys1[i][j], 150, 100, 100);
             SetRGB2(&mTonguePolys1[i][j], 150, 100, 100);
             SetRGB3(&mTonguePolys1[i][j], 150, 100, 100);
-            Poly_Set_SemiTrans(&mTonguePolys1[i][j].mBase.header, FALSE);
+            Poly_Set_SemiTrans(&mTonguePolys1[i][j].mBase.header, false);
 
             PolyG4_Init(&mTonguePolys2[i][j]);
             SetRGB0(&mTonguePolys2[i][j], 150, 100, 100);
             SetRGB1(&mTonguePolys2[i][j], 150, 100, 100);
             SetRGB2(&mTonguePolys2[i][j], 150, 100, 100);
             SetRGB3(&mTonguePolys2[i][j], 150, 100, 100);
-            Poly_Set_SemiTrans(&mTonguePolys2[i][j].mBase.header, TRUE);
+            Poly_Set_SemiTrans(&mTonguePolys2[i][j].mBase.header, true);
         }
     }
 }
@@ -1897,7 +1897,7 @@ void Fleech::TongueUpdate()
 
 void Fleech::ToIdle()
 {
-    MapFollowMe(TRUE);
+    MapFollowMe(true);
     field_138_velx_factor = FP_FromInteger(0);
     mVelX = FP_FromInteger(0);
     mVelY = FP_FromInteger(0);
@@ -2271,17 +2271,17 @@ s16 Fleech::AngerFleech(IBaseAliveGameObject* pObj)
 {
     if (!pObj || (IsActiveHero(pObj) && sActiveHero->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible)))
     {
-        return FALSE;
+        return false;
     }
 
     if (FP_Abs(pObj->mXPos - mXPos) >= ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(10) ||
         FP_Abs(pObj->mYPos - mYPos) >= ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(1) ||
         pObj->GetSpriteScale() != GetSpriteScale())
     {
-        return FALSE;
+        return false;
     }
 
-    return TRUE;
+    return true;
 }
 
 s32 Fleech::TongueActive()
@@ -2434,9 +2434,9 @@ s16 Fleech::IsNear(IBaseAliveGameObject* pObj)
         FP_GetExponent(FP_Abs(mXPos - pObj->mXPos)) <= 750 &&
         FP_GetExponent(FP_Abs(mYPos - pObj->mYPos)) <= 260)
     {
-        return TRUE;
+        return true;
     }
-    return FALSE;
+    return false;
 }
 
 void Fleech::VOnThrowableHit(BaseGameObject* /*pFrom*/)
@@ -3206,7 +3206,7 @@ s16 Fleech::Brain_1_ChasingAbe()
                 return Brain_1_ChasingAbe::eChasingAbe_1;
             }
 
-            relive::Path_Hoist* pHoist = TryGetHoist(0, FALSE);
+            relive::Path_Hoist* pHoist = TryGetHoist(0, false);
             if (pHoist)
             {
                 mNextMotion = eFleechMotions::Motion_3_Idle;
@@ -3493,7 +3493,7 @@ s16 Fleech::Brain_ChasingAbe_State_2(IBaseAliveGameObject* pObj)
         if (field_15E_lost_target_timer < field_15C_lost_target_timeout)
         {
             field_15E_lost_target_timer++;
-            relive::Path_Hoist* pHoist = TryGetHoist(1, FALSE);
+            relive::Path_Hoist* pHoist = TryGetHoist(1, false);
             if (pHoist)
             {
                 mNextMotion = eFleechMotions::Motion_3_Idle;
@@ -3685,7 +3685,7 @@ s16 Fleech::Brain_ChasingAbe_State_1(IBaseAliveGameObject* pObj)
     }
 
     // Find hoist in front us?
-    relive::Path_Hoist* pHoist = TryGetHoist(1, FALSE);
+    relive::Path_Hoist* pHoist = TryGetHoist(1, false);
     if (pHoist)
     {
         mNextMotion = eFleechMotions::Motion_3_Idle;
@@ -3695,7 +3695,7 @@ s16 Fleech::Brain_ChasingAbe_State_1(IBaseAliveGameObject* pObj)
     }
 
     // Find host in front or behind us?
-    pHoist = TryGetHoist(0, TRUE);
+    pHoist = TryGetHoist(0, true);
     if (pHoist)
     {
         if (mCurrentMotion == eFleechMotions::Motion_3_Idle)
@@ -3722,7 +3722,7 @@ s16 Fleech::Brain_ChasingAbe_State_1(IBaseAliveGameObject* pObj)
     s32 k12BlocksCheck = 1;
     do
     {
-        pHoist = TryGetHoist(k12BlocksCheck, TRUE);
+        pHoist = TryGetHoist(k12BlocksCheck, true);
         if (pHoist)
         {
             mNextMotion = eFleechMotions::Motion_4_Crawl;

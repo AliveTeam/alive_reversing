@@ -14,7 +14,7 @@ ExplosionSet* pExplosionSet_5BBF68 = nullptr;
 bool gExplosionSetEnabled = false;
 
 ExplosionSet::ExplosionSet()
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     SetType(ReliveTypes::eExplosionSet);
 

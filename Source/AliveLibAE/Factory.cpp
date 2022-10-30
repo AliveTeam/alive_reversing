@@ -161,7 +161,7 @@ static void Factory_Door(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, LoadM
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
-        //Map::LoadResource("ABEDOOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbedoorResID, loadmode, FALSE);
+        //Map::LoadResource("ABEDOOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbedoorResID, loadmode, false);
         switch (gMap.mCurrentLevel)
         {
             case EReliveLevelIds::eNecrum:
@@ -169,38 +169,38 @@ static void Factory_Door(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, LoadM
             case EReliveLevelIds::eMudancheeVault:
             case EReliveLevelIds::eMudancheeVault_Ender:
             case EReliveLevelIds::eMudomoVault_Ender:
-                //Map::LoadResource("SVZDOOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kF2p3dorResID, loadmode, FALSE);
+                //Map::LoadResource("SVZDOOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kF2p3dorResID, loadmode, false);
                 break;
 
             case EReliveLevelIds::eFeeCoDepot:
             case EReliveLevelIds::eFeeCoDepot_Ender:
-                //Map::LoadResource("FDDOOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kF2p3dorResID, loadmode, FALSE);
+                //Map::LoadResource("FDDOOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kF2p3dorResID, loadmode, false);
                 break;
 
             case EReliveLevelIds::eBarracks:
             case EReliveLevelIds::eBarracks_Ender:
                 if (gMap.mOverlayId == 108)
                 {
-                    //Map::LoadResource("SHDOOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kF2p3dorResID, loadmode, FALSE);
+                    //Map::LoadResource("SHDOOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kF2p3dorResID, loadmode, false);
                 }
                 else
                 {
-                    //Map::LoadResource("BADOOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kF2p3dorResID, loadmode, FALSE);
+                    //Map::LoadResource("BADOOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kF2p3dorResID, loadmode, false);
                 }
                 break;
 
             case EReliveLevelIds::eBonewerkz:
             case EReliveLevelIds::eBonewerkz_Ender:
-                //Map::LoadResource("BWDOOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kF2p3dorResID, loadmode, FALSE);
+                //Map::LoadResource("BWDOOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kF2p3dorResID, loadmode, false);
                 break;
 
             case EReliveLevelIds::eBrewery:
             case EReliveLevelIds::eBrewery_Ender:
-                //Map::LoadResource("BRDOOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kF2p3dorResID, loadmode, FALSE);
+                //Map::LoadResource("BRDOOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kF2p3dorResID, loadmode, false);
                 break;
 
             default:
-                //Map::LoadResource("DOOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kF2p3dorResID, loadmode, FALSE);
+                //Map::LoadResource("DOOR.BAN", ResourceManager::Resource_Animation, AEResourceID::kF2p3dorResID, loadmode, false);
                 break;
         }
     }
@@ -693,7 +693,7 @@ static void Factory_MovieHandStone(relive::Path_TLV*, Path*, const Guid& tlvId, 
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
-        //Map::LoadResource("ABESTONE.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbestoneResID, loadmode, FALSE);
+        //Map::LoadResource("ABESTONE.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbestoneResID, loadmode, false);
     }
     else
     {
@@ -1067,8 +1067,8 @@ static void Factory_HandStone(relive::Path_TLV*, Path*, const Guid& tlvId, LoadM
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
-        //Map::LoadResource("ABESTONE.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbestoneResID, loadmode, FALSE);
-        //Map::LoadResource("SPOTLITE.BAN", ResourceManager::Resource_Animation, AEResourceID::kSpotliteResID, loadmode, FALSE);
+        //Map::LoadResource("ABESTONE.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbestoneResID, loadmode, false);
+        //Map::LoadResource("SPOTLITE.BAN", ResourceManager::Resource_Animation, AEResourceID::kSpotliteResID, loadmode, false);
     }
     else
     {
@@ -1213,8 +1213,8 @@ static void Factory_WorkWheel(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, 
 {
     if (loadmode == LoadMode::LoadResourceFromList_1 || loadmode == LoadMode::LoadResource_2)
     {
-        //Map::LoadResource("ABEWORK.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeworkResID, loadmode, FALSE);
-        //Map::LoadResource("WORKWHEL.BAN", ResourceManager::Resource_Animation, AEResourceID::kWorkwhelResID, loadmode, FALSE);
+        //Map::LoadResource("ABEWORK.BAN", ResourceManager::Resource_Animation, AEResourceID::kAbeworkResID, loadmode, false);
+        //Map::LoadResource("WORKWHEL.BAN", ResourceManager::Resource_Animation, AEResourceID::kWorkwhelResID, loadmode, false);
     }
     else
     {

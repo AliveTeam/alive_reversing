@@ -105,7 +105,7 @@ EReliveLevelIds MapWrapper::FromAESaveData(LevelIds levelId)
 {
     if (levelId < LevelIds::eNone || levelId > LevelIds::eCredits_16)
     {
-        LOG_WARNING("converting invalid AE level id " << static_cast<s32>(levelId) << " to 0");
+        LOG_WARNING("converting invalid AE level id %d to 0", static_cast<s32>(levelId));
         levelId = LevelIds::eMenu_0;
     }
     return MapWrapper::FromAE(levelId);

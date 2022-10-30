@@ -8,7 +8,7 @@
 #include "Sfx.hpp"
 
 ScrabSpawner::ScrabSpawner(relive::Path_ScrabSpawner* pTlv, const Guid& tlvId)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     field_20_tlvInfo = tlvId;
     SetType(ReliveTypes::eScrabSpawner);
@@ -75,7 +75,7 @@ void ScrabSpawner::VUpdate()
 {
     if (field_40_bFindSpawnedScrab)
     {
-        field_40_bFindSpawnedScrab = FALSE;
+        field_40_bFindSpawnedScrab = false;
         if (field_3C_spawned_scrab_id != Guid{})
         {
             for (s32 i = 0; i < gBaseGameObjects->Size(); i++)

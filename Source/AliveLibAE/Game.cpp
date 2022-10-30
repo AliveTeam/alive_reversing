@@ -67,7 +67,7 @@ Abe* sActiveHero = nullptr;
 
 void DestroyObjects_4A1F20()
 {
-    pResourceManager_5C1BB0->LoadingLoop_465590(FALSE);
+    pResourceManager_5C1BB0->LoadingLoop_465590(false);
     for (s32 iterations = 0; iterations < 2; iterations++)
     {
         for (s32 idx = 0;idx < gBaseGameObjects->Size(); idx++)
@@ -196,7 +196,7 @@ void Init_GameStates()
     gGasOn = 0;
     sGasTimer = 0;
 
-    gbDrawMeterCountDown_5C1BF8 = FALSE;
+    gbDrawMeterCountDown_5C1BF8 = false;
     gTotalMeterBars_5C1BFA = 0;
 
     gAbeBulletProof_5C1BDA = 0;

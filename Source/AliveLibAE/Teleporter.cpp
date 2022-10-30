@@ -30,7 +30,7 @@ void SetData(Relive_Path_Teleporter_Data& tlvData, const relive::Path_Teleporter
 }
 
 Teleporter::Teleporter(relive::Path_Teleporter* pTlv, const Guid& tlvId)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     field_4C_pTlv = pTlv; // TODO: Don't think this is used, and it can become a dangling ptr?
     SetData(field_34_mTlvData, *pTlv);
@@ -66,7 +66,7 @@ void Teleporter::VScreenChanged()
 
 Electrocute* Teleporter::Create_ElectrocuteEffect()
 {
-    return relive_new Electrocute(sControlledCharacter, TRUE, FALSE);
+    return relive_new Electrocute(sControlledCharacter, true, false);
 }
 
 const PSX_Point kSparkOffs_563988[8] = {
@@ -286,7 +286,7 @@ void Teleporter::VUpdate()
             sControlledCharacter->mXPos = FP_FromInteger(pTeleporterTlv->mTopLeftX) + FP_FromInteger((pTeleporterTlv->Width()) / 2);
 
             // HACK: Fix me when base class is merged
-            static_cast<BaseAliveGameObject*>(sControlledCharacter)->MapFollowMe(TRUE);
+            static_cast<BaseAliveGameObject*>(sControlledCharacter)->MapFollowMe(true);
 
             PathLine* pPathLine = nullptr;
             FP hitX = {};

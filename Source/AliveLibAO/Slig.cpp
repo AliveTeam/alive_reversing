@@ -344,7 +344,7 @@ Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
         mYPos = hitY;
     }
 
-    MapFollowMe(TRUE);
+    MapFollowMe(true);
 
     Init();
 
@@ -1626,13 +1626,13 @@ s16 Slig::IsInInvisibleZone(BaseAnimatedWithPhysicsGameObject* pObj)
     /* TODO: Not used in AE but might be possible to activate in AO
     if (gAbeInvisibleCheat)
     {
-        return TRUE;
+        return true;
     }
     */
 
     if (EventGet(kEventAbeOhm))
     {
-        return FALSE;
+        return false;
     }
 
     const PSX_RECT rect = pObj->VGetBoundingRect();
@@ -1644,12 +1644,12 @@ s16 Slig::IsInInvisibleZone(BaseAnimatedWithPhysicsGameObject* pObj)
         {
             if (rect.y <= pTlv->mBottomRightY && rect.w >= pTlv->mTopLeftX && rect.w <= pTlv->mBottomRightX && rect.h >= pTlv->mTopLeftY && rect.h <= pTlv->mBottomRightY)
             {
-                return TRUE;
+                return true;
             }
         }
     }
 
-    return FALSE;
+    return false;
 }
 
 void Slig::ToStand()
@@ -1660,7 +1660,7 @@ void Slig::ToStand()
     mCurrentMotion = eSligMotions::Motion_0_StandIdle;
     field_126_input = 0;
     field_128_timer = Math_RandomRange(0, 60) + sGnFrame + 120;
-    MapFollowMe(TRUE);
+    MapFollowMe(true);
 }
 
 s16 Slig::IsInZCover(BaseAnimatedWithPhysicsGameObject* pObj)
@@ -2622,7 +2622,7 @@ void Slig::Motion_4_Running()
                 if (field_120_checked_if_off_screen == 0)
                 {
                     field_120_checked_if_off_screen = 1;
-                    MapFollowMe(TRUE);
+                    MapFollowMe(true);
                 }
 
                 if (sControlledCharacter == this && mHealth > FP_FromInteger(0))
@@ -2901,7 +2901,7 @@ void Slig::Motion_7_Falling()
                 mXPos = hitX;
                 mCurrentMotion = eSligMotions::Motion_41_LandingSoft;
                 mYPos = hitY;
-                MapFollowMe(TRUE);
+                MapFollowMe(true);
                 break;
             }
 
@@ -3176,7 +3176,7 @@ void Slig::Motion_20_Recoil()
     {
         if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
         {
-            MapFollowMe(TRUE);
+            MapFollowMe(true);
 
             if (sControlledCharacter != this || mHealth <= FP_FromInteger(0))
             {
@@ -4877,7 +4877,7 @@ s16 Slig::Brain_Idle()
                             mYPos - FP_FromInteger(5)));
                         if (pSwitch)
                         {
-                            pSwitch->VPull(mXPos < pSwitch->mXPos ? TRUE : FALSE);
+                            pSwitch->VPull(mXPos < pSwitch->mXPos ? true : false);
                         }
                         mNextMotion = eSligMotions::State_46_PullLever_46A590;
                         return 104;

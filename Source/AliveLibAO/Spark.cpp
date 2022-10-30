@@ -19,7 +19,7 @@
 namespace AO {
 
 Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 min, s32 max)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
 
@@ -180,7 +180,7 @@ void Spark::VRender(PrimHeader** ppOt)
                 static_cast<u8>(mGreen),
                 static_cast<u8>(mBlue));
 
-        Poly_Set_SemiTrans(&pPrim->mBase.header, TRUE);
+        Poly_Set_SemiTrans(&pPrim->mBase.header, true);
         OrderingTable_Add(OtLayer(ppOt, mLayer), &pPrim->mBase.header);
 
         rect.x = std::min(rect.x, std::min(static_cast<s16>(x0), static_cast<s16>(x1)));

@@ -11,7 +11,7 @@ u8 gTotalMeterBars_5C1BFA = 0;
 u16 gbDrawMeterCountDown_5C1BF8 = 0;
 
 ColourfulMeter::ColourfulMeter(relive::Path_ColourfulMeter* pTlv, const Guid& tlvId)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     SetType(ReliveTypes::eColourfulMeter);
     mTlvInfo = tlvId;
@@ -209,7 +209,7 @@ void ColourfulMeter::VRender(PrimHeader** ppOt)
             SetRGB3(pPolyG4, static_cast<u8>(12 * (poly_idx + 1)), 127, 0);
         }
 
-        Poly_Set_SemiTrans(&pPolyG4->mBase.header, FALSE);
+        Poly_Set_SemiTrans(&pPolyG4->mBase.header, false);
         OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_Well_23), &pPolyG4->mBase.header);
     }
 

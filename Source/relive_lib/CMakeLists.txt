@@ -112,7 +112,6 @@ target_compile_features(relive_lib
     PRIVATE cxx_variadic_templates)
 
 target_link_libraries(relive_lib
-    EasyLogging++
     project_warnings
     spng
     miniz

@@ -10,7 +10,7 @@
 #include "Path.hpp"
 
 LiftMover::LiftMover(relive::Path_LiftMover* pTlv, const Guid& tlvId)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     field_24_tlvInfo = tlvId;
     field_28_lift_id = Guid{};
@@ -29,7 +29,7 @@ LiftMover::LiftMover(relive::Path_LiftMover* pTlv, const Guid& tlvId)
     }
 
     field_30_state = LiftMoverStates::eInactive_0;
-    field_32_bMoveInProgress = FALSE;
+    field_32_bMoveInProgress = false;
 }
 
 s32 LiftMover::CreateFromSaveState(const u8* pData)
@@ -42,7 +42,7 @@ s32 LiftMover::CreateFromSaveState(const u8* pData)
     {
         if (pState->field_8_state != LiftMoverStates::eInactive_0)
         {
-            pLiftMover->field_32_bMoveInProgress = TRUE;
+            pLiftMover->field_32_bMoveInProgress = true;
         }
         pLiftMover->field_30_state = pState->field_8_state;
     }
@@ -60,7 +60,7 @@ void LiftMover::VUpdate()
         {
             return;
         }
-        field_32_bMoveInProgress = FALSE;
+        field_32_bMoveInProgress = false;
     }
 
     if (pLift && pLift->mBaseGameObjectFlags.Get(BaseGameObject::eDead))

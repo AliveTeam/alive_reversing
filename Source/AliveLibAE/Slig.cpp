@@ -455,7 +455,7 @@ Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
         mYPos = hitY;
     }
 
-    MapFollowMe(TRUE);
+    MapFollowMe(true);
 
     Init();
 
@@ -941,7 +941,7 @@ void Slig::M_Walking_2_4B5BC0()
             if (!field_126_checked_if_off_screen)
             {
                 field_126_checked_if_off_screen = 1;
-                MapFollowMe(TRUE);
+                MapFollowMe(true);
             }
 
             if (sControlledCharacter == this && mHealth > FP_FromInteger(0))
@@ -1059,7 +1059,7 @@ void Slig::M_Running_4_4B6000()
                 if (field_126_checked_if_off_screen == 0)
                 {
                     field_126_checked_if_off_screen = 1;
-                    MapFollowMe(TRUE);
+                    MapFollowMe(true);
                 }
 
                 if (sControlledCharacter == this && mHealth > FP_FromInteger(0))
@@ -1335,7 +1335,7 @@ void Slig::M_Falling_7_4B42D0()
                 BaseAliveGameObjectCollisionLine = ppPathLine;
                 mYPos = hitY;
                 mXPos = hitX;
-                MapFollowMe(TRUE);
+                MapFollowMe(true);
                 ToStand_4B4A20();
                 PlatformCollide_4B4E00();
                 mCurrentMotion = eSligMotions::M_LandingSoft_40_4B4530;
@@ -1378,7 +1378,7 @@ void Slig::M_SlidingToStand_8_4B6520()
             else if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 Environment_SFX_457A40(EnvironmentSfx::eSlideStop_0, 0, 0x7FFF, this);
-                MapFollowMe(TRUE);
+                MapFollowMe(true);
                 MainMovement_4B4720();
             }
         }
@@ -1401,7 +1401,7 @@ void Slig::M_SlidingTurn_9_4B6680()
         {
             if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
-                MapFollowMe(TRUE);
+                MapFollowMe(true);
 
                 if (sControlledCharacter == this && mHealth > FP_FromInteger(0))
                 {
@@ -1502,7 +1502,7 @@ void Slig::M_SteppingToStand_14_4B8480()
         {
             if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
-                MapFollowMe(TRUE);
+                MapFollowMe(true);
                 ToStand_4B4A20();
             }
         }
@@ -1566,7 +1566,7 @@ void Slig::M_WalkToStand_18_4B5FC0()
 
     if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
-        MapFollowMe(TRUE);
+        MapFollowMe(true);
         if (!Slig::MainMovement_4B4720())
         {
             ToStand_4B4A20();
@@ -1582,7 +1582,7 @@ void Slig::M_Recoil_19_4B8270()
     {
         if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
         {
-            MapFollowMe(TRUE);
+            MapFollowMe(true);
             if (sControlledCharacter == this && mHealth > FP_FromInteger(0))
             {
                 if (Input().isPressed(sInputKey_ThrowItem))
@@ -4995,7 +4995,7 @@ void Slig::ToStand_4B4A20()
     mCurrentMotion = eSligMotions::M_StandIdle_0_4B4EC0;
     mInput = 0;
     field_12C_timer = Math_RandomRange(0, 60) + sGnFrame + 120;
-    MapFollowMe(TRUE);
+    MapFollowMe(true);
 }
 
 void Slig::BlowToGibs_4B8020()
@@ -5669,7 +5669,7 @@ void Slig::FallKnockBackOrSmash_4B4A90()
         mVelX = -mVelX;
     }
 
-    MapFollowMe(TRUE);
+    MapFollowMe(true);
 
     if (mVelY < FP_FromInteger(0))
     {
@@ -6403,10 +6403,10 @@ static s16 IsInZCover(relive::Path_TLV* pTlv, const PSX_RECT* pRect)
 
             pRect->h >= pTlv->mTopLeftY && pRect->h <= pTlv->mBottomRightY)
         {
-            return TRUE;
+            return true;
         }
     }
-    return FALSE;
+    return false;
 }
 
 s16 Slig::InZCover_4BB7C0(IBaseAliveGameObject* pObj)
@@ -6786,5 +6786,5 @@ s16 Slig::FindLiftPoint_4B9B40()
         return FP_Abs(mXPos - liftMidXPos) < k2Scaled;
     }
 
-    return FALSE;
+    return false;
 }

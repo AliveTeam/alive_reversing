@@ -210,7 +210,7 @@ void SecurityDoor::VUpdate()
                     Slig::Slig_GameSpeak_SFX(SligSpeak::eHereBoy_1, 127, -100, 0);
                     break;
                 default:
-                    LOG_WARNING("eSayingPassword_6 code was " << magic_enum::enum_name(code) << ". This is unhandled.");
+                    LOG_WARNING("eSayingPassword_6 code was %s. This is unhandled.", magic_enum::enum_name(code));
                     break;
             }
 
@@ -323,7 +323,7 @@ void SecurityDoor::VUpdate()
             break;
 
         default:
-            LOG_WARNING("SecurityDoor field_E8_state was " << field_E8_state << ". This is unhandled.");
+            LOG_WARNING("SecurityDoor field_E8_state was %d. This is unhandled.", field_E8_state);
             return;
     }
 }

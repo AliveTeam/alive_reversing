@@ -9,7 +9,7 @@
 #include "Path.hpp"
 
 TimerTrigger::TimerTrigger(relive::Path_TimerTrigger* pTlv, const Guid& tlvId)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     mTlvInfo = tlvId;
     SetType(ReliveTypes::eTimerTrigger);

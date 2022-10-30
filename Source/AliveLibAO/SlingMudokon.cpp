@@ -161,7 +161,7 @@ void SlingMudokon::VUpdate()
 
     if (oldBrain != field_138_brain_state)
     {
-        LOG_INFO("Brain is " << field_138_brain_state);
+        LOG_INFO("Brain is %d", field_138_brain_state);
         oldBrain = field_138_brain_state;
     }
 

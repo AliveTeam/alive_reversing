@@ -20,8 +20,6 @@
 #include <string>
 #include <vector>
 
-INITIALIZE_EASYLOGGINGPP
-
 namespace {
 
 [[nodiscard]] std::vector<u8>& getStaticFileBuffer()

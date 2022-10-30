@@ -48,7 +48,7 @@ public:
         if (!TypeName<T>().empty())
         {
             // Type already exists
-            LOG_ERROR(enumName << " exists more than once ");
+            LOG_ERROR("%s exists more than once", enumName.c_str());
             throw ReliveAPI::DuplicateEnumNameException(enumName);
         }
 

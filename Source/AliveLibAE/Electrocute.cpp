@@ -13,7 +13,7 @@ class PalleteOverwriter final : public BaseGameObject
 {
 public:
     PalleteOverwriter(AnimationPal& pal, s16 colour)
-        : BaseGameObject(FALSE, 0)
+        : BaseGameObject(false, 0)
     {
         SetType(ReliveTypes::ePalOverwriter);
 
@@ -29,7 +29,7 @@ public:
                 palDepth++;
             }
         }
-        LOG_INFO("pal depth " << palDepth);
+        LOG_INFO("pal depth %d", palDepth);
 
         mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
 
@@ -41,7 +41,7 @@ public:
         field_CA_pal_w = 8;
         field_C8_pal_x_index = 1;
         field_CC_bFirstUpdate = 1;
-        field_CE_bDone = FALSE;
+        field_CE_bDone = false;
     }
 
     ~PalleteOverwriter()
@@ -59,14 +59,14 @@ public:
         if (field_CC_bFirstUpdate || field_CE_bDone)
         {
             // First time round or when done do nothing
-            field_CC_bFirstUpdate = FALSE;
+            field_CC_bFirstUpdate = false;
         }
         else
         {
             if (field_C8_pal_x_index == kPalDepth - 1)
             {
                 // Got to the end
-                field_CE_bDone = TRUE;
+                field_CE_bDone = true;
             }
             else
             {
@@ -119,7 +119,7 @@ s32 Electrocute::VSub_4E6630()
 }
 
 Electrocute::Electrocute(IBaseAliveGameObject* pTargetObj, bool bExtraOverwriter, bool bKillTarget)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     SetType(ReliveTypes::eElectrocute);
 

@@ -40,7 +40,7 @@ PauseMenu::PauseMenu()
     field_E4_font.Load(175, mPal, &mFontContext);
     field_130 = 0;
     field_11C = 0;
-    sDisableFontFlicker = FALSE;
+    sDisableFontFlicker = false;
 }
 
 PauseMenu::~PauseMenu()

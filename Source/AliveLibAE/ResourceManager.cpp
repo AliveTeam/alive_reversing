@@ -71,7 +71,7 @@ void Game_ShowLoadingIcon_482D80()
 }
 
 ResourceManager::ResourceManager()
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
     , field_20_files_pending_loading(3)
     , field_48_dArray(3)
 {

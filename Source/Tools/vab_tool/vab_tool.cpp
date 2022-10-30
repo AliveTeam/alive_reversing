@@ -1,3 +1,6 @@
+#ifdef _WIN32
+#include <windows.h>
+#endif
 #include "relive_config.h"
 #include "logger.hpp"
 #include "../../AliveLibCommon/Function.hpp"
@@ -12,8 +15,6 @@
 #include "../../AliveLibAE/GameAutoPlayer.hpp"
 
 #include <string>
-
-INITIALIZE_EASYLOGGINGPP
 
 // TODO: This tool is broken till its updated to use the converted lvl data
 
@@ -221,7 +222,7 @@ void main_loop()
 
     if (mContext == NULL)
     {
-        LOG_ERROR("OpenGL context could not be created! SDL Error: " << SDL_GetError());
+        LOG_ERROR("OpenGL context could not be created! SDL Error: %s", SDL_GetError());
         return;
     }
     else
@@ -231,13 +232,13 @@ void main_loop()
         GLenum glewError = glewInit();
         if (glewError != GLEW_OK)
         {
-            LOG_ERROR("Error initializing GLEW! " << glewGetErrorString(glewError));
+            LOG_ERROR("Error initializing GLEW! %s", glewGetErrorString(glewError));
         }
 
         // Use Vsync
         if (SDL_GL_SetSwapInterval(1) < 0)
         {
-            LOG_ERROR("Warning: Unable to set VSync! SDL Error: " << SDL_GetError());
+            LOG_ERROR("Warning: Unable to set VSync! SDL Error: %s", SDL_GetError());
         }
     }
 
@@ -260,7 +261,7 @@ void main_loop()
 
     if (SDL_OpenAudio(&mAudioDeviceSpec, NULL) < 0)
     {
-        LOG_ERROR("Couldn't open SDL audio: " << SDL_GetError());
+        LOG_ERROR("Couldn't open SDL audio: %s", SDL_GetError());
         return;
     }
     SDL_PauseAudio(0);

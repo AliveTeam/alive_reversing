@@ -113,7 +113,7 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, const Guid& tlvId)
     SetTint(sLiftTints_55BF50, gMap.mCurrentLevel);
 
     const FP oldX = mXPos;
-    MapFollowMe(TRUE);
+    MapFollowMe(true);
     const s16 xSnapDelta = FP_GetExponent(mXPos - oldX);
     mPlatformBaseXOffset -= xSnapDelta;
     mPlatformBaseWidthOffset -= xSnapDelta;

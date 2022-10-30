@@ -354,8 +354,8 @@ void PauseMenu::VRender(PrimHeader** ot)
     Prim_SetTPage* pTPage = &field_1F0_primitives[gPsxDisplay.mBufferIndex];
     Poly_F4* pPolys = &field_210_polygons[gPsxDisplay.mBufferIndex];
     PolyF4_Init(pPolys);
-    Poly_Set_SemiTrans(&pPolys->mBase.header, TRUE);
-    Poly_Set_Blending(&pPolys->mBase.header, FALSE);
+    Poly_Set_SemiTrans(&pPolys->mBase.header, true);
+    Poly_Set_Blending(&pPolys->mBase.header, false);
     SetRGB0(pPolys,
             field_144_active_menu.field_E_background_r,
             field_144_active_menu.field_F_background_g,
@@ -453,7 +453,7 @@ void PauseMenu::RestartPath()
         1,
         1);
 
-    gMap.mForceLoad = TRUE;
+    gMap.mForceLoad = true;
     if (sActiveHero->mBaseThrowableCount)
     {
         LoadRockTypes_49AB30(

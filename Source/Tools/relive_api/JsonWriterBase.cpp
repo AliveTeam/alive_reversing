@@ -73,7 +73,7 @@ void JsonWriterBase::ProcessCamera(std::vector<u8>& fileDataBuffer, LvlReader& l
         }
         else
         {
-            LOG_WARNING("Camera " << tmpCamera.mName << " not found in the LVL");
+            LOG_WARNING("Camera %s not found in the LVL", tmpCamera.mName.c_str());
         }
     }
 

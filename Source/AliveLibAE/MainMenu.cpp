@@ -144,7 +144,7 @@ MainMenuPage sMainMenuPages_561960[24] =
           {{// Page 0: Controller selection menu
             MainMenuCams::eControllerSelectionCam,
             0, 0, 0, -1, 0,
-            FALSE,
+            false,
             &MainMenuController::ControllerMenu_Update_4D16D0,
             &MainMenuController::ControllerMenu_Render_Text_4D26C0,
             nullptr,
@@ -153,7 +153,7 @@ MainMenuPage sMainMenuPages_561960[24] =
            {// Page 1: Input remapping menu
             MainMenuCams::eRemapInputsCam,
             0, 0, 0, -1, 0,
-            FALSE,
+            false,
             &MainMenuController::RemapInput_Update_4D1820,
             &MainMenuController::RemapInput_Render_4D2A10,
             nullptr,
@@ -162,7 +162,7 @@ MainMenuPage sMainMenuPages_561960[24] =
            {// Page 2: Dummy blank screen for quitting
             MainMenuCams::eDummyBlankCam,
             0, 0, 0, -1, 0,
-            FALSE,
+            false,
             nullptr,
             nullptr,
             nullptr,
@@ -171,7 +171,7 @@ MainMenuPage sMainMenuPages_561960[24] =
            {// Page 3: Main menu screen where abe says hello
             MainMenuCams::eMainMenuCam,
             0, 0, 0, -1, NO_SELECTABLE_BUTTONS,
-            TRUE,
+            true,
             &MainMenuController::Page_Front_Update_4D0720,
             &MainMenuController::Page_Front_Render_4D24B0,
             sBtnArray_FrontEnd_560FA0,
@@ -180,7 +180,7 @@ MainMenuPage sMainMenuPages_561960[24] =
            {// Page 4: Gamespeak character selection screen
             MainMenuCams::eGamespeakCharacterSelectionCam,
             0, 900, 1, 0, 4,
-            FALSE,
+            false,
             &MainMenuController::Gamespeak_Update_4D1FC0,
             &MainMenuController::Gamespeak_Render_4D24F0,
             sBtnArray_Gamespeak_561310,
@@ -189,7 +189,7 @@ MainMenuPage sMainMenuPages_561960[24] =
            {// Page 5: Options
             MainMenuCams::eOptionsCam,
             0, 900, 1, 0, 3,
-            TRUE,
+            true,
             &MainMenuController::Options_Update_4D1AB0,
             &MainMenuController::Options_Render_4D2540,
             sBtnArray_Options_561368,
@@ -198,7 +198,7 @@ MainMenuPage sMainMenuPages_561960[24] =
            {// Page 6: Abe's motions
             MainMenuCams::eAbesMotionKeysCam,
             0, 1600, 3, 0, 0,
-            FALSE,
+            false,
             &MainMenuController::AbeMotions_Update_4D1F50,
             &MainMenuController::AbeMotions_Render_4D25E0,
             nullptr,
@@ -207,7 +207,7 @@ MainMenuPage sMainMenuPages_561960[24] =
            {// Page 7: Load game menu
             MainMenuCams::eLoadGameMenuCam,
             0, 1000, 1, 0, 2,
-            FALSE,
+            false,
             &MainMenuController::tLoadGame_Input_4D3EF0,
             &MainMenuController::tLoadGame_Render_4D44D0,
             sBtnArray_LoadGame_561450,
@@ -216,7 +216,7 @@ MainMenuPage sMainMenuPages_561960[24] =
            {// Page 8: Solo or Co-op newgame selection (PSX only, unused on PC)
             MainMenuCams::eRemapInputsCam,
             0, 900, 1, 0, 0,
-            TRUE,
+            true,
             &MainMenuController::PSX_Gamemode_Selection_Update_4D48C0,
             nullptr,
             sBtnArray_PSX_1Player_Or_2Player_NewGame_5613C8,
@@ -225,7 +225,7 @@ MainMenuPage sMainMenuPages_561960[24] =
            {// Page 9: Cooperative mode (2-player) description screen (PSX only, unused on PC)
             MainMenuCams::eDummyBlankCam,
             0, 1800, 5, 0, 1,
-            FALSE,
+            false,
             &MainMenuController::PSX_Cooperative_Mode_Update_4D49B0,
             nullptr,
             sBtnArray_Cooperative_Mode_Prompt_5613F8,
@@ -234,7 +234,7 @@ MainMenuPage sMainMenuPages_561960[24] =
            {// Page 10: FMV selection cheat menu
             MainMenuCams::eCheatMenu_SelectFMVCam,
             0, 0, 1, 0, 0,
-            FALSE,
+            false,
             &MainMenuController::Page_FMV_Level_Update_4D4AB0,
             &MainMenuController::Demo_And_FMV_List_Render_4D4F30,
             sBtnArray_Cheat_Level_Or_FMVSelection_560FE8,
@@ -243,7 +243,7 @@ MainMenuPage sMainMenuPages_561960[24] =
            {// Page 11: Level selection cheat menu
             MainMenuCams::eCheatMenu_SelectLevelCam,
             0, 0, 1, 0, 0,
-            FALSE,
+            false,
             &MainMenuController::Page_FMV_Level_Update_4D4AB0,
             &MainMenuController::Demo_And_FMV_List_Render_4D4F30,
             sBtnArray_Cheat_Level_Or_FMVSelection_560FE8,
@@ -252,7 +252,7 @@ MainMenuPage sMainMenuPages_561960[24] =
            {// Page 12: Demo selection menu
             MainMenuCams::eDemoSelectionCam,
             0, 0, 1, 0, 1,
-            FALSE,
+            false,
             &MainMenuController::DemoSelect_Update_4D0E10,
             &MainMenuController::Demo_And_FMV_List_Render_4D4F30,
             nullptr,
@@ -261,7 +261,7 @@ MainMenuPage sMainMenuPages_561960[24] =
            {// Page 13: "Game is loading" splash screen
             MainMenuCams::eGameIsLoading_ShaddapCam,
             0, 0, 0, -1, NO_SELECTABLE_BUTTONS,
-            FALSE,
+            false,
             &MainMenuController::LoadNewGame_Update_4D0920,
             nullptr,
             nullptr,
@@ -270,7 +270,7 @@ MainMenuPage sMainMenuPages_561960[24] =
            {// Page 14: "Demo is loading" splash screen
             MainMenuCams::eDemoIsLoading_ShaddapCam,
             0, 0, 0, -1, NO_SELECTABLE_BUTTONS,
-            FALSE,
+            false,
             &MainMenuController::LoadDemo_Update_4D1040,
             nullptr,
             nullptr,
@@ -278,17 +278,17 @@ MainMenuPage sMainMenuPages_561960[24] =
             nullptr},
            {// Page 15: Unknown, possibly startup-related?
             MainMenuCams::eUnknown20Cam,
-            0, 150, 25, 1, NO_SELECTABLE_BUTTONS, FALSE, nullptr, nullptr, nullptr, nullptr, nullptr},
+            0, 150, 25, 1, NO_SELECTABLE_BUTTONS, false, nullptr, nullptr, nullptr, nullptr, nullptr},
            {// Page 16: Copyright boot screen
             MainMenuCams::eGameBootCopyrightSplashCam,
-            0, 150, 1, 7, 0, FALSE, nullptr, nullptr, nullptr, nullptr, nullptr},
+            0, 150, 1, 7, 0, false, nullptr, nullptr, nullptr, nullptr, nullptr},
            {// Page 17: Unknown, possibly startup-related?
             MainMenuCams::eControllerSelectionCam,
-            0, 150, 25, 1, NO_SELECTABLE_BUTTONS, FALSE, nullptr, nullptr, nullptr, nullptr, nullptr},
+            0, 150, 25, 1, NO_SELECTABLE_BUTTONS, false, nullptr, nullptr, nullptr, nullptr, nullptr},
            {// Page 18: Abe Gamespeak screen
             MainMenuCams::eAbeGamespeakCam,
             0, 1600, 2, 0, 0,
-            TRUE,
+            true,
             &MainMenuController::AbeSpeak_Update_4D2D20,
             &MainMenuController::AbeSpeak_Render_4D2060,
             nullptr,
@@ -297,7 +297,7 @@ MainMenuPage sMainMenuPages_561960[24] =
            {// Page 19: Slig Gamespeak screen
             MainMenuCams::eSligGamespeakCam,
             0, 1600, 2, 0, 1,
-            TRUE,
+            true,
             &MainMenuController::SligSpeak_Update_4D3280,
             &MainMenuController::SligSpeak_Render_4D2370,
             nullptr,
@@ -306,7 +306,7 @@ MainMenuPage sMainMenuPages_561960[24] =
            {// Page 20: Glukkon Gamespeak screen
             MainMenuCams::eGlukkonGamespeakCam,
             0, 1600, 2, 0, 2,
-            TRUE,
+            true,
             &MainMenuController::GlukkonSpeak_Update_4D3670,
             &MainMenuController::GlukkonSpeak_Render_4D23C0,
             nullptr,
@@ -315,7 +315,7 @@ MainMenuPage sMainMenuPages_561960[24] =
            {// Page 21: Scrab Gamespeak screen
             MainMenuCams::eScrabGamespeakCam,
             0, 1600, 2, 0, 3,
-            TRUE,
+            true,
             &MainMenuController::ScrabSpeak_Update_4D3A60,
             &MainMenuController::ScrabSpeak_Render_4D2410,
             nullptr,
@@ -324,7 +324,7 @@ MainMenuPage sMainMenuPages_561960[24] =
            {// Page 22: Paramite Gamespeak screen
             MainMenuCams::eParamiteGamespeakCam,
             0, 1600, 2, 0, 4,
-            TRUE,
+            true,
             &MainMenuController::ParamiteSpeak_Update_4D3D60,
             &MainMenuController::ParamiteSpeak_Render_4D2460,
             nullptr,
@@ -333,7 +333,7 @@ MainMenuPage sMainMenuPages_561960[24] =
            {// Page 23: Backstory Or Just Start a New Game screen
             MainMenuCams::eBackstory_Or_NewGameCam,
             0, 900, 1, 0, 0,
-            FALSE,
+            false,
             &MainMenuController::BackStory_Or_NewGame_Update_4D1C60,
             &MainMenuController::BackStory_Or_NewGame_Render_4D2630,
             sBtnArray_Game_BackStory_Or_NewGame_561420,
@@ -1679,7 +1679,7 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
             // Wait for load to complete
             if (!field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak])
             {
-                pResourceManager_5C1BB0->LoadingLoop_465590(FALSE);
+                pResourceManager_5C1BB0->LoadingLoop_465590(false);
             }
             mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
 
@@ -1738,7 +1738,7 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
     /*
     if (!field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak])
     {
-        pResourceManager_5C1BB0->LoadingLoop_465590(FALSE);
+        pResourceManager_5C1BB0->LoadingLoop_465590(false);
     }
 
     mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
@@ -1875,7 +1875,7 @@ void MainMenuController::BackStory_Or_NewGame_Load_4D1BA0()
 
 void MainMenuController::BackStory_Or_NewGame_Unload_4D1BE0()
 {
-    pResourceManager_5C1BB0->LoadingLoop_465590(FALSE);
+    pResourceManager_5C1BB0->LoadingLoop_465590(false);
 }
 
 void MainMenuController::remove_ISO9660_Suffix_4D1660(char_type* out, const char_type* in)
@@ -1915,7 +1915,7 @@ s8 MainMenuController::checkIfDemoFileExists_4D1430(char_type* input)
 
 // true if demo was started manually from the demos menu,
 // false if demo was started automatically due to idling
-s16 gIsDemoStartedManually_5C1B9C = FALSE;
+s16 gIsDemoStartedManually_5C1B9C = false;
 
 u8 sCurrentDemoIdForIdlingDemoPlayback_5C1BA2 = 0;
 MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
@@ -2039,7 +2039,7 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
 MainMenuNextCam MainMenuController::DemoSelect_Update_4D0E10(u32 input)
 {
     gAttract = 0;
-    gIsDemoStartedManually_5C1B9C = FALSE;
+    gIsDemoStartedManually_5C1B9C = false;
 
     s32 input_or_field_204 = input;
     if (field_204_prev_pressed && field_204_prev_pressed == Input().mPads[sCurrentControllerIndex].mPressed)
@@ -2111,7 +2111,7 @@ MainMenuNextCam MainMenuController::DemoSelect_Update_4D0E10(u32 input)
     if (input_or_field_204 & InputCommands::Enum::eUnPause_OrConfirm)
     {
         // selected a demo for playing
-        gIsDemoStartedManually_5C1B9C = TRUE;
+        gIsDemoStartedManually_5C1B9C = true;
         sDemoIdChosenFromDemoMenu_5C1B9E = field_230_target_entry_index;
         return MainMenuNextCam(MainMenuCams::eDemoIsLoading_ShaddapCam, NO_SELECTABLE_BUTTONS); //Enter Pressed
     }
@@ -2650,7 +2650,7 @@ void MainMenuController::tLoadGame_Unload_4D4360()
 
 void MainMenuController::Game_Force_Quit_Load_4D1A90()
 {
-    sBreakGameLoop = TRUE;
+    sBreakGameLoop = true;
 }
 
 MainMenuNextCam MainMenuController::HandleGameSpeakInput(u32 input_held, std::function<MainMenuNextCam(InputCommands::Enum cmd)> fnOnGameSpeak)
@@ -2941,7 +2941,7 @@ void MainMenuController::Unload_Resource(AnimId /*res*/)
     // Resource might be pending, wait for it to load if so
     if (!res)
     {
-        pResourceManager_5C1BB0->LoadingLoop_465590(FALSE);
+        pResourceManager_5C1BB0->LoadingLoop_465590(false);
     }
 
     // Now we can free it

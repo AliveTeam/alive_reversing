@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../../AliveLibAO/Map.hpp"
+#include <functional>
 
 inline s32 To1dIndex(s32 width, s32 x, s32 y)
 {

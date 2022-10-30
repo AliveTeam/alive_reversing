@@ -7,6 +7,8 @@
 #endif
 
 #if _WIN32
+#include <windows.h>
+#undef CreateDirectory
 constexpr inline char kDirSeparator = '\\';
 #else
 constexpr inline char kDirSeparator = '/';
@@ -47,7 +49,7 @@ const std::string& FileSystem::Path::GetPath() const
 
 bool FileSystem::Save(const FileSystem::Path& path, const std::vector<u8>& data)
 {
-    CreateDirectory(path.Parent());
+    this->CreateDirectory(path.Parent());
     return Save(path.GetPath().c_str(), data);
 }
 

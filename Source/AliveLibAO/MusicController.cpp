@@ -362,7 +362,7 @@ s32 MusicController::GetMusicTime()
 }
 
 MusicController::MusicController()
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     mBaseGameObjectFlags.Set(Options::eSurviveDeathReset_Bit9);
     SetType(ReliveTypes::eNone);
@@ -416,7 +416,7 @@ void MusicController::VUpdate()
 
     if (field_16_bScreenChanged)
     {
-        field_16_bScreenChanged = FALSE;
+        field_16_bScreenChanged = false;
 
         if (gMap.mCurrentLevel != field_18_level)
         {

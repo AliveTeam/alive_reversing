@@ -62,7 +62,7 @@ Dove::Dove(AnimId animId, const Guid& tlvId, FP scale)
     mVelY = FP_FromInteger(-4 - (Math_NextRandom() % 4));
     mDoveState = State::eOnGround_0;
     GetAnimation().SetFrame(Math_NextRandom() % 8);
-    mKeepInGlobalArray = FALSE;
+    mKeepInGlobalArray = false;
     mTlvInfo = tlvId;
 
     if (bTheOneControllingTheMusic)
@@ -107,7 +107,7 @@ Dove::Dove(AnimId animId, FP xpos, FP ypos, FP scale)
 
     mVelY = FP_FromInteger(-4 - (Math_NextRandom() % 4));
     mDoveState = State::eFlyAway_1;
-    mKeepInGlobalArray = TRUE;
+    mKeepInGlobalArray = true;
     mFlyAwayCounter = 0;
 
     mXPos = xpos;
@@ -349,6 +349,6 @@ void Dove::All_FlyAway(bool spookedInstantly)
     if (bTheOneControllingTheMusic)
     {
         SND_SEQ_Stop(SeqId::NecrumAmbient2_17);
-        bTheOneControllingTheMusic = FALSE;
+        bTheOneControllingTheMusic = false;
     }
 }

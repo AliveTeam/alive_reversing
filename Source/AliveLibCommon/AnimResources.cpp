@@ -1,7 +1,6 @@
 #include "AnimResources.hpp"
 #include "logger.hpp"
-
-[[noreturn]] void ALIVE_FATAL(const char_type* msg);
+#include "FatalError.hpp"
 
 // TODO: add stockyards uxb pal
 //if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
@@ -1935,7 +1934,9 @@ void FrameTableOffsetExists(u32 frameTableOffset, bool isAe, int maxW, int maxH)
             }
         }
     }
-    LOG_INFO("couldn't find AnimId for framtableoffset: " << frameTableOffset << " maxW " << maxW << " maxH " << maxH);
+    LOG_INFO("couldn't find AnimId for framtableoffset: %d"
+             " maxW %d maxH %d",
+             frameTableOffset, maxW, maxH);
 }
 
 void FrameTableOffsetExists(u32 frameTableOffset, bool isAe)
@@ -1957,7 +1958,7 @@ void FrameTableOffsetExists(u32 frameTableOffset, bool isAe)
             }
         }
     }
-    LOG_INFO("couldn't find AnimId for framtableoffset: " << frameTableOffset);
+    LOG_INFO("couldn't find AnimId for framtableoffset: %d", frameTableOffset);
 }
 
 static const PalRecord PalRec(bool isAe, PalId toFind)

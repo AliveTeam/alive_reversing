@@ -238,7 +238,7 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
 
     BaseAliveGameObjectLastLineYPos = mYPos;
     field_140_tlvInfo = tlvId;
-    MapFollowMe(TRUE);
+    MapFollowMe(true);
 
     VStackOnObjectsOfType(ReliveTypes::eParamite);
 
@@ -1948,7 +1948,7 @@ s16 Paramite::Brain_3_SurpriseWeb()
             if (gNumCamSwappers <= 0)
             {
                 SetCurrentMotion(eParamiteMotions::Motion_0_Idle);
-                MapFollowMe(TRUE);
+                MapFollowMe(true);
             }
             return ParamiteEnums::Brain_3_SurpriseWeb::eBrain3_Appearing_1;
 
@@ -1982,7 +1982,7 @@ s16 Paramite::Brain_3_SurpriseWeb()
             if (GetCurrentMotion() == eParamiteMotions::Motion_0_Idle)
             {
                 auto pWeb = static_cast<ParamiteWeb*>(sObjectIds.Find_Impl(mWebGuid));
-                pWeb->field_104_bEnabled = TRUE;
+                pWeb->field_104_bEnabled = true;
                 mWebGuid = Guid{};
                 SetBrain(&Paramite::Brain_0_Patrol);
                 return ParamiteEnums::Brain_0_Patrol::eBrain0_Inactive_0;
@@ -2013,7 +2013,7 @@ s16 Paramite::Brain_3_SurpriseWeb()
             else
             {
                 auto pWeb = static_cast<ParamiteWeb*>(sObjectIds.Find_Impl(mWebGuid));
-                pWeb->field_104_bEnabled = TRUE;
+                pWeb->field_104_bEnabled = true;
                 mWebGuid = Guid{};
                 SetBrain(&Paramite::Brain_0_Patrol);
                 return ParamiteEnums::Brain_0_Patrol::eBrain0_Inactive_0;
@@ -3207,7 +3207,7 @@ void Paramite::Motion_2_Walking()
                     if (!field_178_flags.Get(Flags_178::eBit3_hissed_or_left_screen))
                     {
                         UpdateSlurgWatchPoints();
-                        MapFollowMe(TRUE);
+                        MapFollowMe(true);
                         field_178_flags.Set(Flags_178::eBit3_hissed_or_left_screen);
                     }
                     return;
@@ -3222,7 +3222,7 @@ void Paramite::Motion_2_Walking()
                     if (!field_178_flags.Get(Flags_178::eBit3_hissed_or_left_screen))
                     {
                         UpdateSlurgWatchPoints();
-                        MapFollowMe(TRUE);
+                        MapFollowMe(true);
                         field_178_flags.Set(Flags_178::eBit3_hissed_or_left_screen);
                     }
                     return;
@@ -3245,7 +3245,7 @@ void Paramite::Motion_2_Walking()
                 if (!field_178_flags.Get(Flags_178::eBit3_hissed_or_left_screen))
                 {
                     UpdateSlurgWatchPoints();
-                    MapFollowMe(TRUE);
+                    MapFollowMe(true);
                     field_178_flags.Set(Flags_178::eBit3_hissed_or_left_screen);
                 }
                 return;
@@ -3356,7 +3356,7 @@ void Paramite::Motion_3_Running()
                 if (!field_178_flags.Get(Flags_178::eBit3_hissed_or_left_screen))
                 {
                     UpdateSlurgWatchPoints();
-                    MapFollowMe(TRUE);
+                    MapFollowMe(true);
                     field_178_flags.Set(Flags_178::eBit3_hissed_or_left_screen);
                 }
             }
@@ -3369,7 +3369,7 @@ void Paramite::Motion_3_Running()
             if (!field_178_flags.Get(Flags_178::eBit3_hissed_or_left_screen))
             {
                 UpdateSlurgWatchPoints();
-                MapFollowMe(TRUE);
+                MapFollowMe(true);
                 field_178_flags.Set(Flags_178::eBit3_hissed_or_left_screen);
             }
             return;
@@ -3393,7 +3393,7 @@ void Paramite::Motion_3_Running()
         if (!field_178_flags.Get(Flags_178::eBit3_hissed_or_left_screen))
         {
             UpdateSlurgWatchPoints();
-            MapFollowMe(TRUE);
+            MapFollowMe(true);
             field_178_flags.Set(Flags_178::eBit3_hissed_or_left_screen);
             return;
         }
@@ -3500,7 +3500,7 @@ void Paramite::Motion_5_Hop()
                     case eLineTypes::eWallLeft_1:
                     case eLineTypes::eWallRight_2:
                         mXPos = hitX - mVelX;
-                        MapFollowMe(TRUE);
+                        MapFollowMe(true);
                         mVelX = FP_FromInteger(0);
                         mYPos = hitY;
                         return;
@@ -3789,7 +3789,7 @@ void Paramite::Motion_11_Falling()
                     mXPos = FP_FromInteger(SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos)));
                     mYPos = hitY;
                     mVelX = FP_FromInteger(0);
-                    MapFollowMe(TRUE);
+                    MapFollowMe(true);
                     break;
                 default:
                     return;
@@ -5525,12 +5525,12 @@ s16 Paramite::AnotherParamiteNear()
             {
                 if (pOther->BrainIs(&Paramite::Brain_0_Patrol) || pOther->BrainIs(&Paramite::Brain_2_ChasingAbe))
                 {
-                    return TRUE;
+                    return true;
                 }
             }
         }
     }
-    return FALSE;
+    return false;
 }
 
 PathLine* Paramite::WebCollision(FP yOff, FP xOff)
@@ -5960,7 +5960,7 @@ void Paramite::ToIdle()
     mVelX = FP_FromInteger(0);
     mVelY = FP_FromInteger(0);
     SetCurrentMotion(eParamiteMotions::Motion_0_Idle);
-    MapFollowMe(TRUE);
+    MapFollowMe(true);
     field_154_input = 0;
 }
 
@@ -5969,7 +5969,7 @@ void Paramite::ToKnockBack()
     mXPos -= mVelX;
     field_154_input = 0;
 
-    MapFollowMe(TRUE);
+    MapFollowMe(true);
 
     if (mVelY < FP_FromInteger(0))
     {

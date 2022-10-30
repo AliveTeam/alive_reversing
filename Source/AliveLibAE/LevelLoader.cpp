@@ -9,7 +9,7 @@
 #include "stdlib.hpp"
 
 LevelLoader::LevelLoader(relive::Path_LevelLoader* pTlv, const Guid& tlvId)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     mBaseGameObjectTlvInfo = tlvId;
     field_20_switch_id = pTlv->mSwitchId;

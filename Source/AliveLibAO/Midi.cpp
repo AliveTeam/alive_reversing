@@ -225,7 +225,7 @@ public:
     }
 
 private:
-    bool mSoundDatIsNull = FALSE; // Pretend we have sounds dat opened so AE funcs work
+    bool mSoundDatIsNull = false; // Pretend we have sounds dat opened so AE funcs work
     u32 mMidi_WaitUntil = 0;
 };
 
@@ -911,7 +911,7 @@ s16 SND_VAB_Load_476CB0(PathSoundInfo& pSoundBlockInfo)
 
 void SND_Load_VABS_477040(std::shared_ptr<PathSoundInfo>& pSoundBlockInfo, s32 reverb)
 {
-    GetMidiVars()->sSnd_ReloadAbeResources() = FALSE;
+    GetMidiVars()->sSnd_ReloadAbeResources() = false;
     auto oldPtr = GetMidiVars()->sLastLoadedSoundBlockInfo().lock(); 
     if (oldPtr.get() != pSoundBlockInfo.get())
     {

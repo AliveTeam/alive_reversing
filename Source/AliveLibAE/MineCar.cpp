@@ -58,7 +58,7 @@ MineCar::MineCar(relive::Path_MineCar* pTlv, const Guid& tlvId, s32 /*a4*/, s32 
         SetScale(Scale::Bg);
     }
 
-    MapFollowMe(TRUE);
+    MapFollowMe(true);
 
     FP hitX = {};
     FP hitY = {};
@@ -341,7 +341,7 @@ bool MineCar::CheckFloorCollision(FP hitX, FP hitY)
         )
     )
     {
-        return FALSE;
+        return false;
     }
 
     if (mYPos > hitY)
@@ -349,7 +349,7 @@ bool MineCar::CheckFloorCollision(FP hitX, FP hitY)
         mYPos = hitY;
     }
 
-    return TRUE;
+    return true;
 }
 
 void MineCar::VRender(PrimHeader** ppOt)
@@ -451,7 +451,7 @@ s16 MineCar::IsBlocked(MineCarDirs a2, s32 /*a3*/)
             {
                 if (!CheckRoofCollision(mineCarWidthAdjusted - FP_FromInteger(4), -(mineCarHeight + FP_FromInteger(1))))
                 {
-                    return FALSE;
+                    return false;
                 }
             }
         }
@@ -467,14 +467,14 @@ s16 MineCar::IsBlocked(MineCarDirs a2, s32 /*a3*/)
                     !CheckFloorCollision(FP_FromInteger(10), FP_FromInteger(1))
                 )
                 {
-                    return FALSE;
+                    return false;
                 }
             }
         }
         break;
     }
 
-    return TRUE;
+    return true;
 }
 
 s16 MineCar::FollowDirection()
@@ -504,7 +504,7 @@ s16 MineCar::FollowDirection()
             field_1D6_continue_move_input = (u16) sInputKey_Down;
         }
 
-        return TRUE;
+        return true;
     }
 
     // If we're moving vertically and hit and floor or roof...
@@ -531,7 +531,7 @@ s16 MineCar::FollowDirection()
             field_1D6_continue_move_input = (u16) sInputKey_Right;
         }
 
-        return TRUE;
+        return true;
     }
 
     switch (field_1BC_turn_direction)
@@ -551,7 +551,7 @@ s16 MineCar::FollowDirection()
             )
             {
                 field_1D6_continue_move_input = (u16) sInputKey_Up;
-                return TRUE;
+                return true;
             }
         }
         
@@ -572,7 +572,7 @@ s16 MineCar::FollowDirection()
             )
             {
                 field_1D6_continue_move_input = (u16) sInputKey_Left;
-                return TRUE;
+                return true;
             }
         }
         
@@ -593,7 +593,7 @@ s16 MineCar::FollowDirection()
             )
             {
                 field_1D6_continue_move_input = (u16) sInputKey_Right;
-                return TRUE;
+                return true;
             }
         }
         
@@ -615,14 +615,14 @@ s16 MineCar::FollowDirection()
             )
             {
                 field_1D6_continue_move_input = (u16) sInputKey_Down;
-                return TRUE;
+                return true;
             }
         }
         
         break;
     }
 
-    return FALSE;
+    return false;
 }
 
 void MineCar::RunThingsOver()
@@ -1010,7 +1010,7 @@ void MineCar::State_1_ParkedWithAbe()
                 hitX2,
                 AnimId::Mine_Car_Shake_A,
                 MineCarDirs::eUp_3,
-                FALSE,
+                false,
                 rayCastX,
                 rayCastY1,
                 rayCastX,
@@ -1030,7 +1030,7 @@ void MineCar::State_1_ParkedWithAbe()
                 hitX2,
                 AnimId::Mine_Car_Shake_A,
                 MineCarDirs::eDown_0,
-                TRUE,
+                true,
                 rayCastX,
                 rayCastY1,
                 rayCastX,
@@ -1094,7 +1094,7 @@ void MineCar::State_1_ParkedWithAbe()
                 hitX2,
                 AnimId::Mine_Car_Shake_B,
                 MineCarDirs::eUp_3,
-                TRUE,
+                true,
                 rayCastX,
                 rayCastY1,
                 rayCastX,
@@ -1114,7 +1114,7 @@ void MineCar::State_1_ParkedWithAbe()
                 hitX2,
                 AnimId::Mine_Car_Shake_B,
                 MineCarDirs::eDown_0,
-                FALSE,
+                false,
                 rayCastX,
                 rayCastY1,
                 rayCastX,
@@ -1228,7 +1228,7 @@ void MineCar::HandleUpDown()
                 hitY2,
                 AnimId::Mine_Car_Closed,
                 MineCarDirs::eLeft_2,
-                FALSE,
+                false,
                 rayCastX1,
                 rayCastY,
                 rayCastX2,
@@ -1248,7 +1248,7 @@ void MineCar::HandleUpDown()
                 hitY2,
                 AnimId::Mine_Car_Closed,
                 MineCarDirs::eRight_1,
-                TRUE,
+                true,
                 rayCastX1,
                 rayCastY,
                 rayCastX2,
@@ -1308,7 +1308,7 @@ void MineCar::HandleUpDown()
                 hitY2,
                 AnimId::Mine_Car_Closed,
                 MineCarDirs::eLeft_2,
-                TRUE,
+                true,
                 rayCastX1,
                 rayCastY,
                 rayCastX2,
@@ -1328,7 +1328,7 @@ void MineCar::HandleUpDown()
                 hitY2,
                 AnimId::Mine_Car_Closed,
                 MineCarDirs::eRight_1,
-                FALSE,
+                false,
                 rayCastX1,
                 rayCastY,
                 rayCastX2,
@@ -1604,7 +1604,7 @@ void MineCar::State_3_Falling()
             SFX_Play_Pitch(relive::SoundEffects::MinecarStop, 127, 0, GetSpriteScale());
             SFX_Play_Pitch(relive::SoundEffects::FallingItemHit, 127, 0, GetSpriteScale());
 
-            relive_new ScreenShake(FALSE, FALSE);
+            relive_new ScreenShake(false, false);
         }
 
         field_1C2_falling_counter = 0;

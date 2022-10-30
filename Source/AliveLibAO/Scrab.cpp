@@ -690,14 +690,14 @@ s16 Scrab::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pObj)
     const FP k10Scaled = (FP_FromInteger(10) * GetSpriteScale());
     if (FP_FromInteger(ourRect.y) <= (FP_FromInteger(otherRect.h) - k10Scaled) && ourRect.y >= otherRect.y)
     {
-        return TRUE;
+        return true;
     }
 
     if (ourRect.h <= otherRect.h)
     {
         if (FP_FromInteger(ourRect.h) >= (k10Scaled + FP_FromInteger(otherRect.y)))
         {
-            return TRUE;
+            return true;
         }
     }
 
@@ -705,22 +705,22 @@ s16 Scrab::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pObj)
     {
         if (ourRect.h <= otherRect.h)
         {
-            return TRUE;
+            return true;
         }
 
         if (ourRect.y > otherRect.y)
         {
-            return FALSE;
+            return false;
         }
     }
 
     if (ourRect.h < otherRect.h)
     {
-        return FALSE;
+        return false;
     }
     else
     {
-        return TRUE;
+        return true;
     }
 }
 
@@ -2201,7 +2201,7 @@ s16 Scrab::Brain_Fighting()
                 return mBrainSubState;
             }
 
-            MapFollowMe(TRUE);
+            MapFollowMe(true);
 
             if (mScrabTarget->GetAnimation().mFlags.Get(AnimFlags::eRender))
             {
@@ -2482,7 +2482,7 @@ s16 Scrab::Brain_ChasingEnemy()
                 {
                     mCurrentMotion = eScrabMotions::Motion_4_Turn;
                     mNextMotion = -1;
-                    MapFollowMe(TRUE);
+                    MapFollowMe(true);
                 }
                 return 2;
             }
@@ -2684,7 +2684,7 @@ s16 Scrab::Brain_ChasingEnemy()
                 {
                     mCurrentMotion = eScrabMotions::Motion_4_Turn;
                     mNextMotion = -1;
-                    MapFollowMe(TRUE);
+                    MapFollowMe(true);
                 }
                 return 2;
             }
@@ -3673,7 +3673,7 @@ void Scrab::SetFightTarget(Scrab* pTarget)
         if (mScrabTarget)
         {
             mScrabTarget->mBaseGameObjectRefCount--;
-            LOG_INFO(this << " clear fight target " << mScrabTarget << " ref " << (u32) mScrabTarget->mBaseGameObjectRefCount);
+            //LOG_INFO(this << " clear fight target " << mScrabTarget << " ref " << (u32) mScrabTarget->mBaseGameObjectRefCount);
             mScrabTarget = nullptr;
         }
     }
@@ -3681,7 +3681,7 @@ void Scrab::SetFightTarget(Scrab* pTarget)
     {
         mScrabTarget = pTarget;
         mScrabTarget->mBaseGameObjectRefCount++;
-        LOG_INFO(this << " set fight target " << mScrabTarget << " ref " << (u32) mScrabTarget->mBaseGameObjectRefCount);
+        //LOG_INFO(this << " set fight target " << mScrabTarget << " ref " << (u32) mScrabTarget->mBaseGameObjectRefCount);
     }
 }
 
@@ -3692,7 +3692,7 @@ void Scrab::SetTarget(BaseAliveGameObject* pTarget)
         if (mAbeOrMudTarget)
         {
             mAbeOrMudTarget->mBaseGameObjectRefCount--;
-            LOG_INFO(this << " clear target " << mAbeOrMudTarget << " ref " << (u32) mAbeOrMudTarget->mBaseGameObjectRefCount);
+            //LOG_INFO(this << " clear target " << mAbeOrMudTarget << " ref " << (u32) mAbeOrMudTarget->mBaseGameObjectRefCount);
             mAbeOrMudTarget = nullptr;
         }
     }
@@ -3700,7 +3700,7 @@ void Scrab::SetTarget(BaseAliveGameObject* pTarget)
     {
         mAbeOrMudTarget = pTarget;
         mAbeOrMudTarget->mBaseGameObjectRefCount++;
-        LOG_INFO(this << " set target " << mAbeOrMudTarget << " ref " << (u32) mAbeOrMudTarget->mBaseGameObjectRefCount);
+        //LOG_INFO(this << " set target " << mAbeOrMudTarget << " ref " << (u32) mAbeOrMudTarget->mBaseGameObjectRefCount);
 
     }
 }

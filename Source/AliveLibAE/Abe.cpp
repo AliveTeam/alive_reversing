@@ -754,7 +754,7 @@ s32 Abe::CreateFromSaveState(const u8* pData)
     {
         u32 id = sAbeResourceIDTable_554D60[sActiveHero->field_128.field_10_resource_index];
         // ResourceManager::LoadResourceFile_49C170(sAbe_ResNames_545830[sActiveHero->field_128.field_10_resource_index], 0);
-        sActiveHero->field_10_resources_array.SetAt(sActiveHero->field_128.field_10_resource_index, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, id, TRUE, FALSE));
+        sActiveHero->field_10_resources_array.SetAt(sActiveHero->field_128.field_10_resource_index, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, id, true, false));
         animFromState = sActiveHero->field_10_resources_array.ItemAt(sActiveHero->field_128.field_10_resource_index);
     }*/
 
@@ -1343,7 +1343,7 @@ void Abe::VOnTrapDoorOpen()
 
         if (pWheel)
         {
-            pWheel->VStopTurning(FALSE);
+            pWheel->VStopTurning(false);
         }
     }
 }
@@ -1374,7 +1374,7 @@ void Abe::ToKnockback_44E700(s16 bKnockbackSound, s16 bDelayedAnger)
             mXPos -= mVelX;
         }
 
-        MapFollowMe(TRUE);
+        MapFollowMe(true);
 
         mVelX = FP_FromInteger(0);
 
@@ -2116,7 +2116,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
         default:
             if (pFrom->Type() != ReliveTypes::eBullet)
             {
-                LOG_ERROR("Expected default case to be bullets only but got: " << static_cast<s32>(pFrom->Type()));
+                LOG_ERROR("Expected default case to be bullets only but got: %d", static_cast<s32>(pFrom->Type()));
             }
             BulletDamage_44C980(static_cast<Bullet*>(pFrom));
             if (!mbGotShot)
@@ -2521,7 +2521,7 @@ void Abe::Motion_0_Idle_44EEB0()
         if (mHasEvilFart)
         {
             // An evil fart
-            mHasEvilFart = FALSE;
+            mHasEvilFart = false;
             Create_Fart_421D20();
         }
         else
@@ -2761,7 +2761,7 @@ void Abe::Motion_0_Idle_44EEB0()
                         GetAnimation().GetRenderLayer(),
                         GetAnimation().GetSpriteScale(),
                         mBaseThrowableCount,
-                        TRUE);
+                        true);
                 }
 
                 mCurrentMotion = eAbeMotions::Motion_104_RockThrowStandingHold;
@@ -2820,7 +2820,7 @@ void Abe::Motion_1_WalkLoop_44FBA0()
 
         Environment_SFX_457A40(EnvironmentSfx::eWalkingFootstep_1, 0, 32767, this);
 
-        MapFollowMe(TRUE);
+        MapFollowMe(true);
 
         if (sInputKey_Run & pressed)
         {
@@ -3028,7 +3028,7 @@ void Abe::Motion_3_Fall_459B60()
                 mXPos = hitX;
                 mYPos = FP_NoFractional(hitY + FP_FromDouble(0.5));
                 BaseAliveGameObjectCollisionLine = pPathLine;
-                MapFollowMe(TRUE);
+                MapFollowMe(true);
                 field_124_timer = sGnFrame + 30;
 
                 // See if there is a soft landing at our feet (given we known we just hit the floor)
@@ -3134,7 +3134,7 @@ void Abe::Motion_3_Fall_459B60()
 
         mXPos = FP_FromInteger((BaseAliveGameObjectPathTLV->mTopLeftX + BaseAliveGameObjectPathTLV->mBottomRightX) / 2);
 
-        MapFollowMe(TRUE);
+        MapFollowMe(true);
 
         if (!sCollisions->Raycast(
                 mXPos,
@@ -3179,7 +3179,7 @@ void Abe::Motion_4_WalkToIdle_44FFC0()
     {
         if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
         {
-            MapFollowMe(TRUE);
+            MapFollowMe(true);
 
             if (mNextMotion == eAbeMotions::Motion_28_HopMid_451C50)
             {
@@ -3791,7 +3791,7 @@ void Abe::Motion_23_RollLoop_453A90()
             }
             else if (GetAnimation().GetCurrentFrame() == 0 || GetAnimation().GetCurrentFrame() == 4 || GetAnimation().GetCurrentFrame() == 8)
             {
-                MapFollowMe(TRUE);
+                MapFollowMe(true);
 
                 if ((mVelX > FP_FromInteger(0) && !Input().isPressed(sInputKey_Right)) || (mVelX < FP_FromInteger(0) && !Input().isPressed(sInputKey_Left)))
                 {
@@ -3826,7 +3826,7 @@ void Abe::Motion_24_453D00()
         {
             if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
-                MapFollowMe(TRUE);
+                MapFollowMe(true);
                 mCurrentMotion = eAbeMotions::Motion_17_CrouchIdle_456BC0;
                 mVelX = FP_FromInteger(0);
             }
@@ -3851,7 +3851,7 @@ void Abe::Motion_25_RunSlideStop_451330()
         {
             if (GetAnimation().GetCurrentFrame() != 15)
             {
-                MapFollowMe(FALSE);
+                MapFollowMe(false);
             }
 
             const u32 pressed = Input().mPads[sCurrentControllerIndex].mPressed;
@@ -3860,7 +3860,7 @@ void Abe::Motion_25_RunSlideStop_451330()
                 if (GetAnimation().GetCurrentFrame() == 15)
                 {
                     Environment_SFX_457A40(EnvironmentSfx::eSlideStop_0, 0, 32767, this);
-                    MapFollowMe(TRUE);
+                    MapFollowMe(true);
 
                     if (!ToLeftRightMovement_44E340())
                     {
@@ -3894,9 +3894,9 @@ void Abe::Motion_26_RunTurn_451500()
             && !RunTryEnterWell_451060()
             && !RunTryEnterDoor_451220())
         {
-            if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame) || (MapFollowMe(FALSE) && GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame)))
+            if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame) || (MapFollowMe(false) && GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame)))
             {
-                MapFollowMe(TRUE);
+                MapFollowMe(true);
 
                 if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                 {
@@ -4030,7 +4030,7 @@ void Abe::Motion_28_HopMid_451C50()
                     {FP_GetExponent(mXPos), FP_GetExponent(mYPos + FP_FromInteger(5))},
                     gPlatformsArray);
 
-                MapFollowMe(TRUE);
+                MapFollowMe(true);
                 mCurrentMotion = eAbeMotions::Motion_29_HopLand_4523D0;
                 mNextMotion = eAbeMotions::Motion_0_Idle_44EEB0;
                 return;
@@ -4058,7 +4058,7 @@ void Abe::Motion_28_HopMid_451C50()
         {
             mXPos = FP_FromInteger((pEdgeTlv->mTopLeftX + pEdgeTlv->mBottomRightX) / 2);
 
-            MapFollowMe(TRUE);
+            MapFollowMe(true);
 
             if (sCollisions->Raycast(
                     mXPos,
@@ -4264,7 +4264,7 @@ void Abe::Motion_31_RunJumpMid_452C10()
             {
                 mXPos = FP_FromInteger((BaseAliveGameObjectPathTLV->mTopLeftX + BaseAliveGameObjectPathTLV->mBottomRightX) / 2);
 
-                MapFollowMe(TRUE);
+                MapFollowMe(true);
                 mYPos = FP_NoFractional(hitY + FP_FromDouble(0.5));
                 GetShadow()->mFlags.Set(Shadow::Flags::eShadowAtBottom);
                 BaseAliveGameObjectCollisionLine = pLine;
@@ -4331,7 +4331,7 @@ void Abe::Motion_32_RunJumpLand_453460()
     {
         Environment_SFX_457A40(EnvironmentSfx::eHitGroundSoft_6, 0, 32767, this);
 
-        MapFollowMe(TRUE);
+        MapFollowMe(true);
 
         const u32 pressed = Input().mPads[sCurrentControllerIndex].mPressed;
         if (sInputKey_Left & pressed)
@@ -4495,7 +4495,7 @@ void Abe::Motion_33_RunLoop_4508E0()
 
     if (GetAnimation().GetCurrentFrame() == 0 || GetAnimation().GetCurrentFrame() == 8)
     {
-        MapFollowMe(TRUE);
+        MapFollowMe(true);
         if (mPrevHeld & sInputKey_Hop)
         {
             DoRunJump();
@@ -4505,7 +4505,7 @@ void Abe::Motion_33_RunLoop_4508E0()
     {
         Environment_SFX_457A40(EnvironmentSfx::eRunningFootstep_2, 0, 32767, this);
 
-        MapFollowMe(TRUE);
+        MapFollowMe(true);
 
         // Turning around?
         if ((mVelX > FP_FromInteger(0) && Input().isPressed(sInputKey_Left)) || (mVelX < FP_FromInteger(0) && Input().isPressed(sInputKey_Right)))
@@ -4658,7 +4658,7 @@ void Abe::Motion_40_SneakLoop_450550()
     if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX))
     {
         ToIdle_44E6B0();
-        MapFollowMe(TRUE);
+        MapFollowMe(true);
     }
     else
     {
@@ -4699,7 +4699,7 @@ void Abe::Motion_40_SneakLoop_450550()
             else if (GetAnimation().GetCurrentFrame() == 6 || GetAnimation().GetCurrentFrame() == 16)
             {
                 Environment_SFX_457A40(EnvironmentSfx::eSneakFootstep_3, 0, 32767, this);
-                MapFollowMe(TRUE);
+                MapFollowMe(true);
                 if ((sInputKey_Left | sInputKey_Right) & pressed)
                 {
                     // Sneak to walk
@@ -4742,7 +4742,7 @@ void Abe::Motion_41_WalkToSneak_450250()
     if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX) || WallHit(GetSpriteScale() * FP_FromInteger(20), mVelX))
     {
         ToIdle_44E6B0();
-        MapFollowMe(TRUE);
+        MapFollowMe(true);
     }
     else
     {
@@ -4771,7 +4771,7 @@ void Abe::Motion_42_SneakToWalk_4503D0()
     if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX) || WallHit(GetSpriteScale() * FP_FromInteger(20), mVelX))
     {
         ToIdle_44E6B0();
-        MapFollowMe(TRUE);
+        MapFollowMe(true);
     }
     else
     {
@@ -4817,7 +4817,7 @@ void Abe::Motion_45_SneakBegin_4507A0()
     if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX) || WallHit(GetSpriteScale() * FP_FromInteger(20), mVelX))
     {
         ToIdle_44E6B0();
-        MapFollowMe(TRUE);
+        MapFollowMe(true);
     }
     else
     {
@@ -4836,7 +4836,7 @@ void Abe::Motion_46_SneakToIdle_450870()
 
     if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
-        MapFollowMe(TRUE);
+        MapFollowMe(true);
         ToIdle_44E6B0();
     }
 }
@@ -4872,7 +4872,7 @@ void Abe::Motion_48_WalkToRun_4500A0()
     if (WallHit(GetSpriteScale() * FP_FromInteger(50), mVelX) || WallHit(GetSpriteScale() * FP_FromInteger(20), mVelX))
     {
         ToIdle_44E6B0();
-        MapFollowMe(TRUE);
+        MapFollowMe(true);
     }
     else
     {
@@ -5364,7 +5364,7 @@ void Abe::Motion_65_LedgeAscend_4548E0()
     {
         // Now the ascend is done go back to stand idle
         GetShadow()->mFlags.Clear(Shadow::Flags::eShadowAtBottom);
-        MapFollowMe(TRUE);
+        MapFollowMe(true);
         ToIdle_44E6B0();
     }
 }
@@ -5842,7 +5842,7 @@ void Abe::Motion_79_InsideWellLocal_45CA60()
                 pExpress->mExitY);
         }
 
-        MapFollowMe(TRUE);
+        MapFollowMe(true);
 
         mYPos += mVelY;
 
@@ -6374,7 +6374,7 @@ void Abe::Motion_89_BrewMachineBegin()
     }
     else if (GetAnimation().GetCurrentFrame() == 8)
     {
-        if (GetEvilFart_4585F0(FALSE))
+        if (GetEvilFart_4585F0(false))
         {
             SfxPlayMono(relive::SoundEffects::BrewMachineUseStart, 0);
         }
@@ -6385,7 +6385,7 @@ void Abe::Motion_89_BrewMachineBegin()
     }
     else if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
-        if (GetEvilFart_4585F0(TRUE))
+        if (GetEvilFart_4585F0(true))
         {
             SfxPlayMono(relive::SoundEffects::BrewMachineUseMid, 0);
             field_120_state.raw = 1;
@@ -7275,7 +7275,7 @@ void Abe::Motion_114_DoorEnter()
             mXPos = FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeftX) + FP_FromInteger((BaseAliveGameObjectPathTLV->mBottomRightX - BaseAliveGameObjectPathTLV->mTopLeftX) / 2);
 
 
-            MapFollowMe(TRUE);
+            MapFollowMe(true);
 
             PathLine* pathLine = nullptr;
             FP hitX = {};
@@ -7723,7 +7723,7 @@ void Abe::ToIdle_44E6B0()
     mCurrentMotion = eAbeMotions::Motion_0_Idle_44EEB0;
     mPrevHeld = 0;
     mReleasedButtons = 0;
-    MapFollowMe(TRUE);
+    MapFollowMe(true);
 }
 
 void Abe::PickUpThrowabe_Or_PressBomb_454090(FP fpX, s32 fpY, s32 bStandToCrouch)
@@ -7934,7 +7934,7 @@ s16 Abe::TryEnterMineCar_4569E0()
                             field_120_state.raw = 0;
                             mCurrentMotion = eAbeMotions::Motion_116_MineCarEnter;
                             mXPos = FP_FromInteger((mineCarRect.x + mineCarRect.w) / 2);
-                            MapFollowMe(TRUE);
+                            MapFollowMe(true);
                             return 1;
                         }
                     }
@@ -7965,7 +7965,7 @@ s32 Abe::NearDoorIsOpen_44EE10()
         }
     }
     // We didn't find a door - so for some reason that makes no sense return that it is open...
-    return TRUE;
+    return true;
 }
 
 s16 Abe::HandleDoAction_455BD0()
@@ -8150,14 +8150,14 @@ s16 Abe::CrouchingGameSpeak_453E10()
         gEventSystem->PushEvent(GameSpeakEvents::eFollowMe_10);
         Mudokon_SFX(MudSounds::eFollowMe_4, 0, 0, this);
         mCurrentMotion = eAbeMotions::Motion_20_CrouchSpeak_454550;
-        return TRUE;
+        return true;
     }
     else if (sInputKey_GameSpeak3 & mPrevHeld)
     {
         gEventSystem->PushEvent(GameSpeakEvents::eWait_12);
         Mudokon_SFX(MudSounds::eWait_6, 0, 0, this);
         mCurrentMotion = eAbeMotions::jMotion_21_ToCrouchSpeak_4545E0;
-        return TRUE;
+        return true;
     }
     else if (mPrevHeld & sInputKey_GameSpeak1)
     {
@@ -8180,46 +8180,46 @@ s16 Abe::CrouchingGameSpeak_453E10()
             }
             mCurrentMotion = eAbeMotions::Motion_20_CrouchSpeak_454550;
         }
-        return TRUE;
+        return true;
     }
     else if (mPrevHeld & sInputKey_GameSpeak4)
     {
         gEventSystem->PushEvent(GameSpeakEvents::eWork_21);
         Mudokon_SFX(MudSounds::eWork_25, 0, 0, this);
         mCurrentMotion = eAbeMotions::jMotion_21_ToCrouchSpeak_4545E0;
-        return TRUE;
+        return true;
     }
     else if (mPrevHeld & sInputKey_GameSpeak6)
     {
         Mudokon_SFX(MudSounds::eAllOYa_17, 0, 0, this);
         gEventSystem->PushEvent(GameSpeakEvents::eAllYa_23);
         mCurrentMotion = eAbeMotions::jMotion_21_ToCrouchSpeak_4545E0;
-        return TRUE;
+        return true;
     }
     else if (mPrevHeld & sInputKey_GameSpeak5)
     {
         Mudokon_SFX(MudSounds::eAnger_5, 0, 0, this);
         gEventSystem->PushEvent(GameSpeakEvents::eAnger_11);
         mCurrentMotion = eAbeMotions::Motion_20_CrouchSpeak_454550;
-        return TRUE;
+        return true;
     }
     else if (mPrevHeld & sInputKey_GameSpeak8)
     {
         Mudokon_SFX(MudSounds::eStopIt_26, 0, 0, this);
         gEventSystem->PushEvent(GameSpeakEvents::eStopIt_22);
         mCurrentMotion = eAbeMotions::jMotion_21_ToCrouchSpeak_4545E0;
-        return TRUE;
+        return true;
     }
     else if (mPrevHeld & sInputKey_GameSpeak7)
     {
         Mudokon_SFX(MudSounds::eSadUgh_28, 0, 0, this);
         gEventSystem->PushEvent(GameSpeakEvents::eSorry_24);
         mCurrentMotion = eAbeMotions::Motion_20_CrouchSpeak_454550;
-        return TRUE;
+        return true;
     }
     else
     {
-        return FALSE;
+        return false;
     }
 }
 
@@ -8307,7 +8307,7 @@ s16 Abe::RunTryEnterDoor_451220()
     field_120_state.raw = 0;
     mCurrentMotion = eAbeMotions::Motion_114_DoorEnter;
     mXPos = FP_FromInteger((pDoorTlv->mTopLeftX + pDoorTlv->mBottomRightX) / 2);
-    MapFollowMe(TRUE);
+    MapFollowMe(true);
     return 1;
 }
 
@@ -8544,17 +8544,17 @@ s16 Abe::CantBeDamaged_44BAB0()
         case eAbeMotions::Motion_115_DoorExit:
         case eAbeMotions::Motion_119_ToShrykull:
         case eAbeMotions::Motion_120_EndShrykull:
-            return TRUE;
+            return true;
     }
 
     // TODO: Unknown what this is checking, condition should probably be inverted.
     if ((!(field_1AC_flags.Get(Flags_1AC::e1AC_Bit5_shrivel)) && GetAnimation().mFlags.Get(AnimFlags::eRender)) || mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted))
     {
-        return FALSE;
+        return false;
     }
     else
     {
-        return TRUE;
+        return true;
     }
 }
 
@@ -8857,7 +8857,7 @@ void Abe::IntoPortalStates_451990()
                     mVelY = FP_FromInteger(0);
                     mVelX = FP_FromInteger(0);
                     pBirdPortal->VKillPortalClipper();
-                    pBirdPortal->VGiveShrykull(TRUE);
+                    pBirdPortal->VGiveShrykull(true);
                     mBirdPortalSubState = PortalSubStates::eSetNewActiveCamera_1;
                 }
 
@@ -8876,7 +8876,7 @@ void Abe::IntoPortalStates_451990()
                     u16 movieId = 0;
 
                     pBirdPortal->VGetMapChange(&level, &path, &camera, &screenChangeEffect, &movieId);
-                    gMap.SetActiveCam(level, path, camera, screenChangeEffect, movieId, FALSE);
+                    gMap.SetActiveCam(level, path, camera, screenChangeEffect, movieId, false);
                     mBirdPortalSubState = PortalSubStates::eSetNewAbePosition_4;
                 }
                 break;
@@ -9087,7 +9087,7 @@ s16 Abe::GetEvilFart_4585F0(s16 bDontLoad)
 
             const PSX_RECT bRect = pBrewMachine->VGetBoundingRect();
 
-            if (RectsOverlap(abeRect, bRect) && pBrewMachine->GetSpriteScale() == GetSpriteScale() && pBrewMachine->mTotalBrewCount > 0 && mHasEvilFart == FALSE)
+            if (RectsOverlap(abeRect, bRect) && pBrewMachine->GetSpriteScale() == GetSpriteScale() && pBrewMachine->mTotalBrewCount > 0 && mHasEvilFart == false)
             {
                 break;
             }
@@ -9107,7 +9107,7 @@ s16 Abe::GetEvilFart_4585F0(s16 bDontLoad)
     }
 
     pBrewMachine->mTotalBrewCount--;
-    mHasEvilFart = TRUE;
+    mHasEvilFart = true;
 
     return 1;
 }

@@ -7,7 +7,7 @@
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
 
-s32 bCreated_5BC030 = FALSE;
+s32 bCreated_5BC030 = false;
 s32 sTimerValue_5C1BFC = 0;
 
 void MinesAlarm::Create(s32 timer)
@@ -26,7 +26,7 @@ s32 MinesAlarm::CreateFromSaveState(const u8* pBuffer)
 }
 
 MinesAlarm::MinesAlarm(s32 timer)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     SetType(ReliveTypes::eMinesAlarm);
     sTimerValue_5C1BFC = timer;
@@ -44,7 +44,7 @@ s32 MinesAlarm::VGetSaveState(u8* pSaveBuffer)
 MinesAlarm::~MinesAlarm()
 {
     sTimerValue_5C1BFC = 0;
-    bCreated_5BC030 = FALSE;
+    bCreated_5BC030 = false;
 }
 
 void MinesAlarm::VScreenChanged()

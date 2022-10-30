@@ -188,7 +188,7 @@ void FallingItem::VUpdate()
             if (static_cast<s32>(sGnFrame) >= field_11C_delay_timer)
             {
                 field_110_state = State::eFalling_3;
-                field_122_do_sound_in_state_falling = TRUE;
+                field_122_do_sound_in_state_falling = true;
                 field_130_sound_channels = SFX_Play_Pitch(relive::SoundEffects::AirStream, 50, -2600);
             }
             break;

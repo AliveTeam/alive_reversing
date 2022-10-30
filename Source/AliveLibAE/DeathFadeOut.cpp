@@ -61,7 +61,7 @@ void DeathFadeOut::Init(Layer layer, s32 direction, bool destroyOnDone, s32 spee
         field_7A_speed = static_cast<s16>(speed);
     }
 
-    sIsFadingOut_5BC204 = TRUE;
+    sIsFadingOut_5BC204 = true;
 }
 
 void DeathFadeOut::VUpdate()
@@ -103,7 +103,7 @@ void DeathFadeOut::VRender(PrimHeader** ppOt)
         }
         else
         {
-            sIsFadingOut_5BC204 = FALSE;
+            sIsFadingOut_5BC204 = false;
         }
     }
 }

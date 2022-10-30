@@ -16,7 +16,7 @@ void ScreenManager::DecompressCameraToVRam(CamResource& camRes)
 }
 
 ScreenManager::ScreenManager(CamResource& camRes, FP_Point* pCameraOffset)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     mCamPos = pCameraOffset;
 

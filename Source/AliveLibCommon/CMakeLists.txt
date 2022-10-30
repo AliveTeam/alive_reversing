@@ -78,7 +78,6 @@ else()
 endif()
 
 target_link_libraries(AliveLibCommon
-    EasyLogging++
     googletest
     Cinder
     libglew_static

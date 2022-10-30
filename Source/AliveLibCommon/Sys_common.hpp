@@ -2,19 +2,9 @@
 
 #include "relive_config.h"
 
-#if _WIN32
-#include <windows.h>
-using TWindowProcFilter = LRESULT(__cdecl*)(HWND, UINT, WPARAM, LPARAM);
-#endif
-
 #if USE_SDL2
 struct SDL_Window;
 using TWindowHandleType = SDL_Window*;
-    #if _WIN32
-HWND Sys_Win32FromSDLWindow(TWindowHandleType windowHandle);
-    #endif
-#else
-using TWindowHandleType = HWND;
 #endif
 
 enum class MessageBoxType

@@ -231,11 +231,11 @@ void BeeSwarm::VUpdate()
                         < 60
                     && mChaseTarget == sActiveHero)
                 {
-                    gBeesNearAbe = TRUE;
+                    gBeesNearAbe = true;
                 }
                 else
                 {
-                    gBeesNearAbe = FALSE;
+                    gBeesNearAbe = false;
                 }
 
                 if (static_cast<s32>(sGnFrame) <= field_DA0_do_damage_or_pain_sound_timer)
@@ -521,7 +521,7 @@ void BeeSwarm::ToFlyAwayAndDie()
     mChaseTargetY -= FP_FromInteger(240);
     mSwarmState = BeeSwarmStates::eFlyAwayAndDie_3;
 
-    gBeesNearAbe = FALSE;
+    gBeesNearAbe = false;
 
     if (mChaseTarget)
     {

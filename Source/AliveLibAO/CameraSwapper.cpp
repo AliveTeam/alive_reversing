@@ -21,7 +21,7 @@ namespace AO {
 s16 gNumCamSwappers = 0;
 
 CameraSwapper::CameraSwapper(CamResource& ppBits, bool bPutDispEnv1, const char_type* pFmv1, bool bPutDispEnv2, const char_type* pFmv2, bool bPutDispEnv3, const char_type* pFmv3)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     mFmvs[0] = pFmv1;
     mPutDispEnv[0] = bPutDispEnv1;
@@ -51,7 +51,7 @@ CameraSwapper::CameraSwapper(CamResource& ppBits, bool bPutDispEnv1, const char_
 }
 
 CameraSwapper::CameraSwapper(CamResource& ppBits, CameraSwapEffects changeEffect, s32 xpos, s32 ypos)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     field_40_ypos_converted = static_cast<s16>(ypos);
     field_3E_xpos_converted = static_cast<s16>(PsxToPCX(xpos));
@@ -70,7 +70,7 @@ CameraSwapper::~CameraSwapper()
     if (sMap_bDoPurpleLightEffect)
     {
         gMap.RemoveObjectsWithPurpleLight(0);
-        sMap_bDoPurpleLightEffect = FALSE;
+        sMap_bDoPurpleLightEffect = false;
     }
 
     BackgroundMusic::Play();

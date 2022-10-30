@@ -522,7 +522,7 @@ void Slog::Init()
         mYPos = hitY;
     }
 
-    MapFollowMe(FALSE);
+    MapFollowMe(false);
 
     CreateShadow();
 
@@ -586,7 +586,7 @@ void Slog::ToIdle()
     GetAnimation().mFlags.Clear(AnimFlags::eFlipY);
     GetAnimation().mFlags.Clear(AnimFlags::eSwapXY);
 
-    MapFollowMe(FALSE);
+    MapFollowMe(false);
     field_12C = FP_FromInteger(0);
     ;
     field_130 = 0;
@@ -984,7 +984,7 @@ void Slog::Motion_1_Walk_4743F0()
                 if (!field_126_movedOffScreen)
                 {
                     field_126_movedOffScreen = 1;
-                    MapFollowMe(FALSE);
+                    MapFollowMe(false);
                 }
 
                 if (mNextMotion == eSlogMotions::Motion_2_Run_4749A0)
@@ -1058,7 +1058,7 @@ void Slog::Motion_2_Run_4749A0()
                 if (!field_126_movedOffScreen)
                 {
                     field_126_movedOffScreen = 1;
-                    MapFollowMe(FALSE);
+                    MapFollowMe(false);
                 }
 
                 if (mNextMotion == eSlogMotions::Motion_0_Idle_4742E0)
@@ -1130,7 +1130,7 @@ void Slog::Motion_4_Fall_4750C0()
                 BaseAliveGameObjectCollisionLine = pLine;
                 mYPos = hitY;
                 mXPos = hitX;
-                MapFollowMe(FALSE);
+                MapFollowMe(false);
 
                 if (BaseAliveGameObjectCollisionLine->mLineType == eLineTypes ::eDynamicCollision_32 ||
                     BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eBackgroundDynamicCollision_36)
@@ -1152,7 +1152,7 @@ void Slog::Motion_4_Fall_4750C0()
             case eLineTypes::eBackgroundWallRight_6:
                 mXPos = hitX - mVelX;
                 mYPos = hitY;
-                MapFollowMe(FALSE);
+                MapFollowMe(false);
                 mVelX = FP_FromInteger(0);
                 break;
 
@@ -1273,7 +1273,7 @@ void Slog::Motion_8_StopRunning_474EC0()
         {
             if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
-                MapFollowMe(FALSE);
+                MapFollowMe(false);
 
                 if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                 {
@@ -2755,15 +2755,15 @@ s16 Slog::Facing(FP xpos)
 {
     if (mXPos < xpos && !GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        return TRUE;
+        return true;
     }
 
     if (xpos < mXPos && GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        return TRUE;
+        return true;
     }
 
-    return FALSE;
+    return false;
 }
 
 void Slog::DelayedResponse(s16 responseIdx)

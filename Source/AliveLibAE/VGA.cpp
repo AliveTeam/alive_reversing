@@ -38,8 +38,7 @@ void VGA_CreateRenderer()
 
     if (!IRenderer::GetRenderer()->Create(Sys_GetHWnd()))
     {
-        LOG_ERROR("Render create failed " << SDL_GetError());
-        ALIVE_FATAL("Render create failed");
+        ALIVE_FATAL("Render create failed %s", SDL_GetError());
     }
 
     IRenderer::GetRenderer()->Clear(0, 0, 0);

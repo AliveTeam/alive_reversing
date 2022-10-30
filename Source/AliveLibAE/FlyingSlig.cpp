@@ -3194,7 +3194,7 @@ s16 FlyingSlig::TryPullLever()
                 {
                     if (mXPos < pAliveObj->mXPos)
                     {
-                        return FALSE;
+                        return false;
                     }
                     field_1C8_lever_pull_range_xpos = (FP_FromInteger(45) * GetSpriteScale()) + pAliveObj->mXPos;
                 }
@@ -3202,7 +3202,7 @@ s16 FlyingSlig::TryPullLever()
                 {
                     if (mXPos > pAliveObj->mXPos)
                     {
-                        return FALSE;
+                        return false;
                     }
                     field_1C8_lever_pull_range_xpos = pAliveObj->mXPos - (FP_FromInteger(47) * GetSpriteScale());
                 }
@@ -3210,11 +3210,11 @@ s16 FlyingSlig::TryPullLever()
                 field_1CC_lever_pull_range_ypos = pAliveObj->mYPos - (FP_FromInteger(23) * GetSpriteScale());
                 field_158_obj_id = pAliveObj->mBaseGameObjectId;
                 PullLever();
-                return TRUE;
+                return true;
             }
         }
     }
-    return FALSE;
+    return false;
 }
 
 void FlyingSlig::sub_437AC0(FP arg1, FP_Point* pPoint)

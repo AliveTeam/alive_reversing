@@ -84,9 +84,9 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
     field_124_fall_interval = pTlv->mFallInterval;
     field_120_max_falling_items = pTlv->mMaxFallingItems;
     field_122_remaining_falling_items = pTlv->mMaxFallingItems;
-    field_134_bHitDrillOrMineCar = FALSE;
+    field_134_bHitDrillOrMineCar = false;
     field_12C_reset_switch_id_after_use = pTlv->mResetSwitchIdAfterUse;
-    field_12E_do_sound_in_state_falling = TRUE;
+    field_12E_do_sound_in_state_falling = true;
 
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
@@ -154,8 +154,8 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
     const FP yFixed = FP_FromInteger(ypos);
 
     field_12C_reset_switch_id_after_use = static_cast<relive::reliveChoice>(bResetIdAfterUse);
-    field_134_bHitDrillOrMineCar = FALSE;
-    field_12E_do_sound_in_state_falling = TRUE;
+    field_134_bHitDrillOrMineCar = false;
+    field_12E_do_sound_in_state_falling = true;
     mXPos = xFixed;
     mYPos = yFixed;
     field_138_xpos = xFixed;
@@ -259,7 +259,7 @@ void FallingItem::VUpdate()
             if (static_cast<s32>(sGnFrame) >= field_128_fall_interval_timer)
             {
                 field_11C_state = State::eFalling_3;
-                field_12E_do_sound_in_state_falling = TRUE;
+                field_12E_do_sound_in_state_falling = true;
                 if (GetScale() == Scale::Fg)
                 {
                     field_140_sound_channels = SFX_Play_Pitch(relive::SoundEffects::AirStream, 50, -2600);
@@ -277,7 +277,7 @@ void FallingItem::VUpdate()
             {
                 if (mYPos >= sActiveHero->mYPos - FP_FromInteger(240 / 2))
                 {
-                    field_12E_do_sound_in_state_falling = FALSE;
+                    field_12E_do_sound_in_state_falling = false;
                     if (GetScale() == Scale::Fg)
                     {
                         SFX_Play_Pitch(relive::SoundEffects::AirStream, 127, -1300);
@@ -321,7 +321,7 @@ void FallingItem::VUpdate()
                 return;
             }
 
-            field_134_bHitDrillOrMineCar = FALSE;
+            field_134_bHitDrillOrMineCar = false;
             field_11C_state = State::eSmashed_4;
 
             relive_new ScreenShake(0, GetSpriteScale() == FP_FromDouble(0.5));
@@ -440,12 +440,12 @@ void FallingItem::DamageHitItems()
                         if (pAliveObj->Type() == ReliveTypes::eDrill)
                         {
                             // Drill is not a type that implements VTakeDamage
-                            field_134_bHitDrillOrMineCar = TRUE;
+                            field_134_bHitDrillOrMineCar = true;
                         }
                         else if (pAliveObj->Type() == ReliveTypes::eMineCar)
                         {
                             // ?? Could still call VTakeDamage here but OG doesn't ??
-                            field_134_bHitDrillOrMineCar = TRUE;
+                            field_134_bHitDrillOrMineCar = true;
                         }
                         else
                         {

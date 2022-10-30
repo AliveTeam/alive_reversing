@@ -11,6 +11,11 @@
     #include <dirent.h>
 #endif
 
+// TODO: Remove this
+#ifdef _WIN32
+#include <windows.h>
+#endif
+
 std::atomic<IO_Handle*> sIOHandle_BBC4BC = {};
 std::atomic<void*> sIO_ReadBuffer_BBC4C4 = {};
 std::atomic<s32> sIO_Thread_Operation_BBC4C0 = {};
@@ -18,7 +23,7 @@ std::atomic<size_t> sIO_BytesToRead_BBC4C8 = {};
 u32 sIoThreadId_BBC558 = 0;
 
 // I/O
-HANDLE sIoThreadHandle_BBC55C = nullptr;
+void* sIoThreadHandle_BBC55C = nullptr;
 
 
 // SDL/C IO Wrappers
@@ -87,8 +92,7 @@ IO_Handle* IO_Open_4F2320(const char_type* fileName, s32 modeFlag)
         {
             // Somehow it can also be passed as string?? I don't think this case ever happens
             //mode = reinterpret_cast<const s8*>(modeFlag);
-            LOG_ERROR("Unknown mode flag " << modeFlag);
-            ALIVE_FATAL("Unknown mode flag");
+            ALIVE_FATAL("Unknown mode flag %d", modeFlag);
         }
     }
 
@@ -334,7 +338,7 @@ bool IO_Read_ASync_4EAED0(void* hFile, void* pBuffer, u32 readSize)
     IO_Movie_Handle* pHandle = reinterpret_cast<IO_Movie_Handle*>(hFile);
     if (!IO_Wait_ASync_4EACF0(pHandle))
     {
-        return FALSE;
+        return false;
     }
 
     pHandle->field_4_readBuffer = pBuffer;
@@ -346,7 +350,7 @@ bool IO_Read_ASync_4EAED0(void* hFile, void* pBuffer, u32 readSize)
         Sleep(200u);
     }
 
-    return TRUE;
+    return true;
 }
 
 s32 IO_Sync_ASync_4EAF80(void* hFile, u32 offset, u32 origin)
@@ -451,7 +455,7 @@ void IO_Init_494230()
     GetMovieIO().mIO_Read = IO_request_fread_4942C0;
     GetMovieIO().mIO_Wait = IO_fwait_4942F0;
 
-    IO_Init_SyncOrASync_4EAC80(TRUE);
+    IO_Init_SyncOrASync_4EAC80(true);
 }
 
 void IO_Stop_ASync_IO_Thread_4F26B0()

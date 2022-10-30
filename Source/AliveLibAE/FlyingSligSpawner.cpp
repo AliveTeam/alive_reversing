@@ -12,7 +12,7 @@
 #include "Path.hpp"
 
 FlyingSligSpawner::FlyingSligSpawner(relive::Path_FlyingSligSpawner* pTlv, const Guid& tlvInfo)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     SetType(ReliveTypes::eFlyingSligSpawner);
 
@@ -87,7 +87,7 @@ void FlyingSligSpawner::VUpdate()
             {
                 SwitchStates_Do_Operation(field_28_spawner_switch_id, relive::reliveSwitchOp::eSetFalse);
                 field_24_spawned_slig_id = Guid{};
-                field_3C_bSpawned = FALSE;
+                field_3C_bSpawned = false;
             }
         }
         else if (SwitchStates_Get(field_28_spawner_switch_id))
@@ -113,7 +113,7 @@ void FlyingSligSpawner::VUpdate()
             }
 
             field_24_spawned_slig_id = pNewSlig->mBaseGameObjectId;
-            field_3C_bSpawned = TRUE;
+            field_3C_bSpawned = true;
             SfxPlayMono(relive::SoundEffects::FlyingSligSpawn, 0);
         }
     }

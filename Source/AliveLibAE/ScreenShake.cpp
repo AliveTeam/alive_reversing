@@ -7,7 +7,7 @@
 #include "PsxRender.hpp"
 
  ScreenShake::ScreenShake(bool enableShakeEvent, bool softerShakes)
-     : BaseGameObject(TRUE, 0)
+     : BaseGameObject(true, 0)
  {
     SetType(ReliveTypes::eScreenShake);
 

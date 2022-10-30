@@ -10,7 +10,7 @@
 namespace AO {
 
 EffectBase::EffectBase(Layer layer, TPageAbr abr)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     SetType(ReliveTypes::eEffectBase);
     gObjListDrawables->Push_Back(this);

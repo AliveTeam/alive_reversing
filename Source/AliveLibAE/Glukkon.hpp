@@ -186,7 +186,7 @@ public:
 private:
     void Init();
     void Update_Slurg_WatchPoints();
-    void SetAnim(s16 currentMotion, s16 bClearNextMotion = FALSE);
+    void SetAnim(s16 currentMotion, s16 bClearNextMotion = false);
     void Speak(GlukkonSpeak speak);
     void HandleInput();
     s16 ShouldPanic(s16 panicEvenIfNotFacingMe);

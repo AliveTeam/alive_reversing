@@ -31,7 +31,7 @@ PossessionFlicker::~PossessionFlicker()
 }
 
 PossessionFlicker::PossessionFlicker(IBaseAliveGameObject* pToApplyFlicker, s32 duration, s32 r, s32 g, s32 b)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     field_10_pObj = pToApplyFlicker;
     field_10_pObj->mBaseGameObjectRefCount++;

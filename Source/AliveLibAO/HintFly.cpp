@@ -75,7 +75,7 @@ public:
             }
             else
             {
-                LOG_WARNING("HintFly message out of bounds, using original game message for id: " << msgId);
+                LOG_WARNING("HintFly message out of bounds, using original game message for id: %d", msgId);
             }
         }
 
@@ -85,7 +85,7 @@ public:
         }
         else
         {
-            LOG_WARNING("HintFly message out of bounds using original message table id: " << msgId);
+            LOG_WARNING("HintFly message out of bounds using original message table id: %d", msgId);
             return gHintFlyMessages_4C6A10[0];
         }
     }
@@ -1465,7 +1465,7 @@ HintFly::~HintFly()
 void HintFly::FormWordAndAdvanceToNextWord()
 {
     const char_type* msgPtr = &gHintFlyMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, field_11C_message_id)[field_11E_msg_idx];
-    LOG_INFO("Word is " << msgPtr);
+    LOG_INFO("Word is %s", msgPtr);
 
     // Find how long the word is
     s16 letterCount = 0;

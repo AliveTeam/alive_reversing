@@ -10,7 +10,7 @@
 DemoPlayback* sDemoObj_dword_5D1E20 = nullptr;
 
 DemoPlayback::DemoPlayback()
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     if (sDemoObj_dword_5D1E20)
     {

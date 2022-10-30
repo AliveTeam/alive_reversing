@@ -525,7 +525,7 @@ s32 SND_Buffer_Set_Frequency_4EFC00(s32 idx, f32 freq)
     const s32 idxMasked = idx & 511;
     if (idxMasked > 32)
     {
-        LOG_ERROR("Idx out of bounds " << idxMasked << " unmasked " << idx);
+        LOG_ERROR("Idx out of bounds %d unmasked %d", idxMasked, idx);
         return -1;
     }
 

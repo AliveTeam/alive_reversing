@@ -8,7 +8,7 @@
 #include "Path.hpp"
 
 WheelSyncer::WheelSyncer(relive::Path_WheelSyncer* pTlv, const Guid& tlvId)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     mTlvInfo = tlvId;
     mInputSwitchId1 = pTlv->mInputSwitchId1;

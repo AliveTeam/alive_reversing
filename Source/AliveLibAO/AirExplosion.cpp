@@ -35,7 +35,7 @@ AirExplosion::AirExplosion(FP xpos, FP ypos, FP exposion_size)
     mYPos = ypos;
     mXPos = xpos;
 
-    relive_new ScreenShake(TRUE);
+    relive_new ScreenShake(true);
 
     PSX_RECT rect = {};
     rect.x = FP_GetExponent(FP_FromInteger(-10) * exposion_size);

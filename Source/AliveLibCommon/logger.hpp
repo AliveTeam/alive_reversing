@@ -2,7 +2,7 @@
 
 #include <exception>
 #include <iostream>
-#include "easylogging++.h"
+#include <stdarg.h>
 #include "Types.hpp"
 
 #if _MSC_VER
@@ -16,20 +16,53 @@
 
 #define LOGGING 1
 
+enum class LogLevels
+{
+    Trace,
+    Info,
+    Warning,
+    Error,
+};
+
+inline void log_impl(LogLevels logLevel, const char* funcName, const char* format, ...)
+{
+    va_list args;
+    va_start(args, format);
+    switch (logLevel)
+    {
+        case LogLevels::Trace:
+            printf("[T] ");
+            break;
+        case LogLevels::Info:
+            printf("[I] ");
+            break;
+        case LogLevels::Warning:
+            printf("[W] ");
+            break;
+        case LogLevels::Error:
+            printf("[!] ");
+            break;
+    }
+    printf("[%s] ", funcName);
+    vprintf(format, args);
+    printf("\n");
+    va_end(args);
+}
+
 #ifdef LOGGING
     #define TRACE_ENTRYEXIT Logging::AutoLog __funcTrace(FNAME)
-    #define LOG_TRACE(msg) LOG(INFO) << FNAME << " [T] " << msg
-    #define LOG_INFO(msg) LOG(INFO) << FNAME << " [I] " << msg
-    #define LOG_WARNING(msg) LOG(WARNING) << FNAME << " [W] " << msg
-    #define LOG_ERROR(msg) LOG(ERROR) << FNAME << " [E] " << msg
-    #define LOG_(msg) LOG(INFO) << msg;
+    #define LOG_TRACE(fmt, ...) log_impl(LogLevels::Trace, FNAME, fmt, __VA_ARGS__)
+    #define LOG_INFO(fmt, ...) log_impl(LogLevels::Info, FNAME, fmt, __VA_ARGS__)
+    #define LOG_WARNING(fmt, ...) log_impl(LogLevels::Warning, FNAME, fmt, __VA_ARGS__)
+    #define LOG_ERROR(fmt, ...) log_impl(LogLevels::Error, FNAME, fmt, __VA_ARGS__)
+    #define LOG(fmt, ...) log_impl(LogLevels::Trace, FNAME, fmt, __VA_ARGS__)
 #else
     #define TRACE_ENTRYEXIT
-    #define LOG_TRACE(msg)
-    #define LOG_INFO(msg)
-    #define LOG_WARNING(msg)
-    #define LOG_ERROR(msg)
-    #define LOG_(msg)
+    #define LOG_TRACE(fmt, ...)
+    #define LOG_INFO(fmt, ...)
+    #define LOG_WARNING(fmt, ...)
+    #define LOG_ERROR(fmt, ...)
+    #define LOG(fmt, ...)
 #endif
 
 [[noreturn]] inline void HOOK_FATAL(const char_type* errMsg)
@@ -84,18 +117,18 @@ public:
     AutoLog(const char_type* funcName)
         : mFuncName(funcName)
     {
-        LOG_("[ENTER] " << mFuncName);
+        log_impl(LogLevels::Trace, mFuncName, "[ENTER]");
     }
 
     ~AutoLog()
     {
         if (std::uncaught_exceptions())
         {
-            LOG_("[EXIT_EXCEPTION] " << mFuncName);
+            log_impl(LogLevels::Trace, mFuncName, "[EXIT_EXCEPTION]");
         }
         else
         {
-            LOG_("[EXIT]  " << mFuncName);
+            log_impl(LogLevels::Trace, mFuncName, "[EXIT]");
         }
     }
 

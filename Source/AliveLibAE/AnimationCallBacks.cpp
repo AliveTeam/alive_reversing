@@ -117,8 +117,7 @@ void Animation_OnFrame_FlyingSlig(BaseGameObject* pObjPtr, u32&, const IndexedPo
 
     if (pObj->Type() != ReliveTypes::eFlyingSlig)
     {
-        LOG_ERROR("object type in Animation_OnFrame_FlyingSlig isn't flying slig");
-        ALIVE_FATAL("got wrong type id");
+        ALIVE_FATAL("object type in Animation_OnFrame_FlyingSlig isn't flying slig %d", static_cast<u32>(pObj->Type()));
     }
 
     if (pObj->mHealth <= FP_FromInteger(0))

@@ -24,7 +24,7 @@ void GameEnderController::CreateGameEnderController()
 }
 
 GameEnderController::GameEnderController()
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     SetType(ReliveTypes::eGameEnderController);
     field_14_state = GameEnderController_States::eInit_0;
@@ -112,7 +112,7 @@ void GameEnderController::VUpdate()
                         if (sKilledMudokons >= Path_BadEndingMuds(gMap.mCurrentLevel, gMap.mCurrentPath))
                         {
                             // Very bad ending
-                            gInfiniteGrenades = TRUE;
+                            gInfiniteGrenades = true;
 
                             if (!gThrowableArray)
                             {
@@ -136,7 +136,7 @@ void GameEnderController::VUpdate()
                             // Bad ending
                             sActiveHero->mBaseGameObjectFlags.Set(Options::eDead);
 
-                            gInfiniteGrenades = FALSE;
+                            gInfiniteGrenades = false;
 
                             gMap.SetActiveCam(EReliveLevelIds::eBoardRoom, 6, 10, CameraSwapEffects::eUnknown_11, 304, 0);
                             field_14_state = GameEnderController_States::eBadEnding_3;

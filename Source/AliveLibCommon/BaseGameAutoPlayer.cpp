@@ -32,10 +32,10 @@ static bool ExtractNamePairArgument(char* pOutArgument, const char* pCmdLine, co
 
 void BaseRecorder::Init(const char* pFileName, bool autoFlushFile)
 {
-    LOG_INFO("Recording to " << pFileName << " auto flush=" << (autoFlushFile ? "yes" : "no"));
+    LOG_INFO("Recording to %s auto flush= %s", pFileName, (autoFlushFile ? "yes" : "no"));
     if (!mFile.Open(pFileName, "wb", autoFlushFile))
     {
-        ALIVE_FATAL("Can't open recording file for writing");
+        ALIVE_FATAL("Can't open recording file %s for writing", pFileName);
     }
 
     // Write header
@@ -83,10 +83,10 @@ void BaseRecorder::SaveBuffer(const std::vector<u8>& buffer)
 
 void BasePlayer::Init(const char* pFileName)
 {
-    LOG_INFO("Playing from " << pFileName);
+    LOG_INFO("Playing from %s", pFileName);
     if (!mFile.Open(pFileName, "rb", false))
     {
-        ALIVE_FATAL("Can't open play back file for reading");
+        ALIVE_FATAL("Can't open play back file %s for reading", pFileName);
     }
 
     // Read + validate header
@@ -94,7 +94,7 @@ void BasePlayer::Init(const char* pFileName)
     mFile.Read(readVersion);
     if (readVersion != kVersion)
     {
-        ALIVE_FATAL("File version too old, new or corrupted data");
+        ALIVE_FATAL("File version %d too old, new or corrupted data (should be %d)", readVersion, kVersion);
     }
 }
 
@@ -165,8 +165,7 @@ void BasePlayer::ValidateNextTypeIs(RecordTypes type)
     const u32 actualType = mFile.ReadU32();
     if (actualType != type)
     {
-        LOG_ERROR("Expected " << static_cast<u32>(type) << " but got " << actualType);
-        ALIVE_FATAL("Wrong record type");
+        ALIVE_FATAL("Wrong record type. Expected %d but got %d", static_cast<u32>(type), actualType);
     }
 }
 
@@ -286,8 +285,7 @@ s32 BaseGameAutoPlayer::Rng(s32 rng)
             const s32 readRng = mPlayer.ReadRng();
             if (readRng != rng)
             {
-                LOG_ERROR("Rng de-sync! Expected " << rng << " but got " << readRng);
-                ALIVE_FATAL("Rng de-sync");
+                ALIVE_FATAL("Rng de-sync! Expected %d but got %d", rng, readRng);
             }
             return readRng;
         }
@@ -343,8 +341,7 @@ void BaseGameAutoPlayer::SyncPoint(u32 syncPointId)
             const u32 readSyncPoint = mPlayer.ReadSyncPoint();
             if (readSyncPoint != syncPointId)
             {
-                LOG_ERROR("Sync point de-sync! Expected " << syncPointId << " but got " << readSyncPoint);
-                ALIVE_FATAL("Sync point de-sync");
+                ALIVE_FATAL("Sync point de-sync! Expected %d but got %d", syncPointId, readSyncPoint);
             }
         }
     }

@@ -10,7 +10,7 @@
 namespace AO {
 
 LiftMover::LiftMover(relive::Path_LiftMover* pTlv, const Guid& tlvId)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     field_14_tlvInfo = tlvId;
     field_18_pLiftPoint = nullptr;

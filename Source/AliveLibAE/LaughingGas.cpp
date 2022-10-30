@@ -11,7 +11,7 @@
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 
 s32 gGasInstanceCount_5BC214 = 0;
-s16 gLaughingGasOn_5C1BA4 = FALSE;
+s16 gLaughingGasOn_5C1BA4 = false;
 
 const u32 sRedShift_C215C4 = 11;
 const u32 sGreenShift_C1D180 = 6;
@@ -27,7 +27,7 @@ static s32 gas_rand()
 }
 
 LaughingGas::LaughingGas(Layer layer, s32 /*notUsed*/, relive::Path_LaughingGas* pTlv, const Guid& tlvId)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     gGasInstanceCount_5BC214++;
 
@@ -86,7 +86,7 @@ LaughingGas::~LaughingGas()
 {
     Path::TLV_Reset(field_24_tlvInfo, -1, 0, 0);
     gObjListDrawables->Remove_Item(this);
-    gLaughingGasOn_5C1BA4 = FALSE;
+    gLaughingGasOn_5C1BA4 = false;
     gGasInstanceCount_5BC214--;
     relive_delete[] field_19C_pMem;
 }

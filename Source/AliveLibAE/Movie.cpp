@@ -445,7 +445,7 @@ void Movie::Init()
 }
 
 Movie::Movie(const char_type* pName)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
     , mName(pName)
 {
     Init();

@@ -333,8 +333,7 @@ static s32 decode_bitstream(u16* pFrameData, u16* pOutput)
                                     const s32 table_index_1 = ExtractBits(workBits, 17); // 0x1FFFF / 131072, 131072/4=32768 entries?
                                     if (table_index_1 > ALIVE_COUNTOF(gTbl1))
                                     {
-                                        LOG_ERROR("Table index " << table_index_1);
-                                        ALIVE_FATAL("Table 1 index out of bounds");
+                                        ALIVE_FATAL("Table 1 index out of bounds idx %d", table_index_1);
                                     }
 
                                     SkipBits(workBits, 8, usedBitCount);

@@ -422,8 +422,7 @@ static Mud_Emotion TLV_Emo_To_Internal_Emo(relive::Path_Mudokon::Mud_TLV_Emotion
             return Mud_Emotion::eSick_7;
 
         default:
-            LOG_ERROR("Don't know about emo type " << static_cast<s32>(emo));
-            ALIVE_FATAL("Unknown emo");
+            ALIVE_FATAL("Don't know about emo type %d", static_cast<s32>(emo));
     }
 }
 
@@ -605,7 +604,7 @@ Mudokon::Mudokon(relive::Path_Mudokon* pTlv, const Guid& tlvId)
 
     if (mBrainState == Mud_Brain_State::Brain_2_CrouchScrub || mBrainState == Mud_Brain_State::Brain_1_Chisel)
     {
-        MapFollowMe(TRUE);
+        MapFollowMe(true);
     }
 
     field_16A_flags.Set(Flags_16A::eBit1_not_rescued);
@@ -706,7 +705,7 @@ s32 Mudokon::CreateFromSaveState(const u8* pBuffer)
     if (sAlertedMudCount_5C3010 != oldCount)
     {
         sAlertedMudCount_5C3010 = oldCount;
-        LOG_INFO("Override alert count to " << oldCount);
+        LOG_INFO("Override alert count to %d", oldCount);
     }
 
     if (pMud)
@@ -821,7 +820,7 @@ s32 Mudokon::CreateFromSaveState(const u8* pBuffer)
         if (pMud->field_16A_flags.Get(Flags_16A::eBit3_alerted))
         {
             sAlertedMudCount_5C3010++;
-            LOG_INFO("Alerted added from save state " << sAlertedMudCount_5C3010);
+            LOG_INFO("Alerted added from save state %d", sAlertedMudCount_5C3010);
         }
 
         pMud->field_178_brain_sub_state2 = pState->field_70_brain_sub_state2;
@@ -1190,17 +1189,17 @@ s16 Mudokon::FacingBirdPortal(BirdPortal* pTarget)
 {
     if (pTarget->mXPos == mXPos)
     {
-        return TRUE;
+        return true;
     }
     else if (pTarget->mXPos > mXPos && !GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        return TRUE;
+        return true;
     }
     else if (pTarget->mXPos < mXPos && GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        return TRUE;
+        return true;
     }
-    return FALSE;
+    return false;
 }
 
 Mudokon::~Mudokon()
@@ -1219,7 +1218,7 @@ Mudokon::~Mudokon()
     auto pWheel = static_cast<WorkWheel*>(sObjectIds.Find_Impl(field_158_wheel_id));
     if (pWheel)
     {
-        pWheel->VStopTurning(TRUE);
+        pWheel->VStopTurning(true);
         field_158_wheel_id = Guid{};
     }
 
@@ -1234,7 +1233,7 @@ Mudokon::~Mudokon()
             if (pBirdPortal)
             {
                 pBirdPortal->VKillPortalClipper();
-                pBirdPortal->VGiveShrykull(TRUE);
+                pBirdPortal->VGiveShrykull(true);
             }
         }
         field_11C_bird_portal_id = Guid{};
@@ -1260,7 +1259,7 @@ Mudokon::~Mudokon()
             sActiveHero->mRingPulseTimer = sGnFrame + 200000;
         }
 
-        sActiveHero->mHaveShrykull = FALSE;
+        sActiveHero->mHaveShrykull = false;
 
         if (field_168_ring_type == RingTypes::eHealing_Emit_Effect_11)
         {
@@ -1297,7 +1296,7 @@ void Mudokon::VScreenChanged()
                 if (pBirdPortal)
                 {
                     pBirdPortal->VKillPortalClipper();
-                    pBirdPortal->VGiveShrykull(TRUE);
+                    pBirdPortal->VGiveShrykull(true);
                 }
             }
             field_11C_bird_portal_id = Guid{};
@@ -1870,7 +1869,7 @@ s16 Mudokon::Brain_0_GiveRings()
                     sActiveHero->mRingPulseTimer = sGnFrame + 200000;
                 }
 
-                sActiveHero->mHaveShrykull = FALSE;
+                sActiveHero->mHaveShrykull = false;
 
                 if (field_168_ring_type == RingTypes::eHealing_Emit_Effect_11)
                 {
@@ -4787,7 +4786,7 @@ s16 Mudokon::Brain_6_Escape()
                 if (sGoingToBirdPortalMudCount_5C3012 == 0)
                 {
                     pBirdPortal->VKillPortalClipper();
-                    pBirdPortal->VGiveShrykull(TRUE);
+                    pBirdPortal->VGiveShrykull(true);
                 }
                 field_11C_bird_portal_id = Guid{};
             }
@@ -5502,7 +5501,7 @@ void Mudokon::Motion_1_WalkLoop()
             else if (GetAnimation().GetCurrentFrame() == 5 || GetAnimation().GetCurrentFrame() == 14)
             {
                 Environment_SFX_457A40(EnvironmentSfx::eWalkingFootstep_1, 0, 32767, this);
-                MapFollowMe(TRUE);
+                MapFollowMe(true);
                 if (mNextMotion == eMudMotions::Motion_21_RunLoop)
                 {
                     mNextMotion = -1;
@@ -5604,7 +5603,7 @@ void Mudokon::Motion_8_WalkToIdle()
 
         if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
         {
-            MapFollowMe(TRUE);
+            MapFollowMe(true);
             ToStand();
         }
     }
@@ -5840,7 +5839,7 @@ void Mudokon::Motion_21_RunLoop()
     {
         if (GetAnimation().GetCurrentFrame() == 0 || GetAnimation().GetCurrentFrame() == 8)
         {
-            MapFollowMe(TRUE);
+            MapFollowMe(true);
 
             if (mNextMotion == eMudMotions::Motion_36_RunJumpMid)
             {
@@ -5851,7 +5850,7 @@ void Mudokon::Motion_21_RunLoop()
         else if (GetAnimation().GetCurrentFrame() == 4 || GetAnimation().GetCurrentFrame() == 12)
         {
             Environment_SFX_457A40(EnvironmentSfx::eRunningFootstep_2, 0, 32767, this);
-            MapFollowMe(TRUE);
+            MapFollowMe(true);
 
             switch (mNextMotion)
             {
@@ -5944,7 +5943,7 @@ void Mudokon::Motion_24_RunSlideStop()
             if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 Environment_SFX_457A40(EnvironmentSfx::eWalkingFootstep_1, 0, 32767, this);
-                MapFollowMe(TRUE);
+                MapFollowMe(true);
                 Mudokon::ToStand();
             }
         }
@@ -5967,7 +5966,7 @@ void Mudokon::Motion_25_RunSlideTurn()
         {
             if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
-                MapFollowMe(TRUE);
+                MapFollowMe(true);
                 if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                 {
                     mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
@@ -6025,7 +6024,7 @@ void Mudokon::Motion_27_SneakLoop()
             else if (GetAnimation().GetCurrentFrame() == 6 || GetAnimation().GetCurrentFrame() == 16)
             {
                 Environment_SFX_457A40(EnvironmentSfx::eSneakFootstep_3, 0, 32767, this);
-                MapFollowMe(TRUE);
+                MapFollowMe(true);
 
                 if (mNextMotion == eMudMotions::Motion_1_WalkLoop)
                 {
@@ -6138,7 +6137,7 @@ void Mudokon::Motion_33_SneakToIdle()
 
     if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
-        MapFollowMe(TRUE);
+        MapFollowMe(true);
         ToStand();
     }
 }
@@ -6319,7 +6318,7 @@ void Mudokon::Motion_40_HoistLand()
             case 36u:
                 mXPos = hitX;
                 mYPos = FP_NoFractional(hitY + FP_FromDouble(0.5));
-                MapFollowMe(TRUE);
+                MapFollowMe(true);
                 BaseAliveGameObjectCollisionLine = pLine;
                 mCurrentMotion = eMudMotions::Motion_41_LandSoft1;
                 bRect = VGetBoundingRect();
@@ -6502,7 +6501,7 @@ void Mudokon::Motion_49_Fall()
                 mYPos = hitY;
                 BaseAliveGameObjectCollisionLine = pLine;
 
-                MapFollowMe(TRUE);
+                MapFollowMe(true);
 
                 if ((sPathInfo->TLV_Get_At(
                          FP_GetExponent(mXPos),
@@ -6677,7 +6676,7 @@ void Mudokon::Motion_58_TurnWheelLoop()
         auto pWheel = static_cast<WorkWheel*>(sObjectIds.Find_Impl(field_158_wheel_id));
         if (pWheel)
         {
-            pWheel->VStopTurning(TRUE);
+            pWheel->VStopTurning(true);
             field_158_wheel_id = Guid{};
         }
         mCurrentMotion = eMudMotions::Motion_59_TurnWheelEnd;
@@ -6900,7 +6899,7 @@ s16 Mudokon::IAmNearestToAbe()
                 if (sActiveHero->VIsFacingMe(pObj) && !sActiveHero->VIsFacingMe(this))
                 {
                     // Abe is facing the other guy and not us :(
-                    return FALSE;
+                    return false;
                 }
 
                 const s32 otherMudDistanceToPlayer = Math_Distance(
@@ -6913,13 +6912,13 @@ s16 Mudokon::IAmNearestToAbe()
                 {
                     if (sActiveHero->VIsFacingMe(pObj) == sActiveHero->VIsFacingMe(this))
                     {
-                        return FALSE;
+                        return false;
                     }
                 }
             }
         }
     }
-    return TRUE;
+    return true;
 }
 
 void Mudokon::CheckFloorGone()
@@ -7034,7 +7033,7 @@ void Mudokon::ToKnockback()
     auto pWheel = static_cast<WorkWheel*>(sObjectIds.Find_Impl(field_158_wheel_id));
     if (pWheel)
     {
-        pWheel->VStopTurning(TRUE);
+        pWheel->VStopTurning(true);
         field_158_wheel_id = Guid{};
     }
 
@@ -7052,7 +7051,7 @@ void Mudokon::ToKnockback()
         }
     }
 
-    MapFollowMe(TRUE);
+    MapFollowMe(true);
 
     mVelX = FP_FromInteger(0);
 
@@ -7124,7 +7123,7 @@ void Mudokon::AddAlerted()
     {
         field_16A_flags.Set(Flags_16A::eBit3_alerted);
         sAlertedMudCount_5C3010++;
-        LOG_INFO("Alert added " << sAlertedMudCount_5C3010);
+        LOG_INFO("Alert added %d", sAlertedMudCount_5C3010);
     }
 }
 
@@ -7134,7 +7133,7 @@ void Mudokon::RemoveAlerted()
     {
         sAlertedMudCount_5C3010--;
         field_16A_flags.Clear(Flags_16A::eBit3_alerted);
-        LOG_INFO("Alert removed " << sAlertedMudCount_5C3010);
+        LOG_INFO("Alert removed %d", sAlertedMudCount_5C3010);
     }
 }
 

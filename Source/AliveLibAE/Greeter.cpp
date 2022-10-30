@@ -467,7 +467,7 @@ void Greeter::ZapTarget(FP xpos, FP ypos, IBaseAliveGameObject* pTarget)
 
     pTarget->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eElectrocuted);
 
-    relive_new Electrocute(pTarget, TRUE, TRUE);
+    relive_new Electrocute(pTarget, true, true);
 
     pTarget->VTakeDamage(this);
 

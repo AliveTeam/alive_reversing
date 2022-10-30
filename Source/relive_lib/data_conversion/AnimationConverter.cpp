@@ -355,8 +355,7 @@ void AnimationConverter::DecompressAnimFrame(std::vector<u8>& decompressionBuffe
             break;
 
         default:
-            LOG_ERROR("Unknown compression type " << static_cast<s32>(pFrameHeader->field_7_compression_type));
-            ALIVE_FATAL("Unknown compression type");
+            ALIVE_FATAL("Unknown compression type %d", static_cast<s32>(pFrameHeader->field_7_compression_type));
             break;
     }
     

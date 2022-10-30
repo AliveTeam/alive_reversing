@@ -1,5 +1,6 @@
 #include "GLShader.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
+#include <fstream>
 
 GLShader::GLShader()
 {
@@ -12,7 +13,7 @@ static std::string shaderReadFile(const char_type* filePath)
 
     if (!fileStream.is_open())
     {
-        LOG_ERROR("Could not read file " << filePath << ". File does not exist.");
+        LOG_ERROR("Could not read file %s. File does not exist.", filePath);
         return std::string();
     }
 
@@ -174,7 +175,7 @@ void printShaderLog(GLuint shader)
     }
     else
     {
-        LOG_ERROR("Shader " << shader << " is not a shader");
+        LOG_ERROR("Shader %d is not a shader", shader);
     }
 }
 
@@ -188,7 +189,7 @@ GLuint GLShader::CompileShader(const char_type* source, GLenum shaderType)
     glGetShaderiv(shaderID, GL_COMPILE_STATUS, &fShaderCompiled);
     if (fShaderCompiled != GL_TRUE)
     {
-        LOG_ERROR("Unable to compile fragment shader " << shaderID);
+        LOG_ERROR("Unable to compile fragment shader %d", shaderID);
         printShaderLog(shaderID);
         return false;
     }

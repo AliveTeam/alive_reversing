@@ -286,7 +286,7 @@ void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
 }
 
 ThrowableTotalIndicator::ThrowableTotalIndicator(FP xpos, FP ypos, Layer layer, FP /*scale*/, s32 count, bool bFade)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
     SetType(ReliveTypes::eThrowableTotalIndicator);

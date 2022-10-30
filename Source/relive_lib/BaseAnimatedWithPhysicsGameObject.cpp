@@ -237,17 +237,17 @@ s16 BaseAnimatedWithPhysicsGameObject::VIsObj_GettingNear_On_X(BaseAnimatedWithP
     if (pOther->mXPos < mXPos && pOther->mVelX > mVelX)
     {
         // Its before our xpos but its velocity is moving towards our xpos!
-        return TRUE;
+        return true;
     }
 
     if (pOther->mXPos > mXPos && pOther->mVelX < mVelX)
     {
         // Its after our xpos but its velocity is moving towards our xpos!
-        return TRUE;
+        return true;
     }
 
     // Not heading our way
-    return FALSE;
+    return false;
 }
 
 // Muds use this to face "away" from Abe when stood on the same grid block. Also used to follow Abe in the correct direction etc.
@@ -258,20 +258,20 @@ s16 BaseAnimatedWithPhysicsGameObject::VIsFacingMe(BaseAnimatedWithPhysicsGameOb
     {
         // They are in the same spot as us, so they can only be facing us if they are NOT facing the same way.
         // This seems strange but its what causes muds to keep changing direction if you turn while you are stood in the same grid as them.
-        return TRUE;
+        return true;
     }
     else if (pOther->mXPos > mXPos && !GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         // They are to the right of us and facing left
-        return TRUE;
+        return true;
     }
     else if (pOther->mXPos < mXPos && GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
         // They are to the left of using and facing right
-        return TRUE;
+        return true;
     }
 
-    return FALSE;
+    return false;
 }
 
 // This is how Scrabs, Fleeches (and probably other stuff) know you are on the same "floor"
@@ -287,15 +287,15 @@ s16 BaseAnimatedWithPhysicsGameObject::VOnSameYLevel(BaseAnimatedWithPhysicsGame
 
     if (theirMidY <= ourRect.h && theirMidY >= ourRect.y)
     {
-        return TRUE;
+        return true;
     }
 
     if (ourMidY <= theirRect.h && ourMidY >= theirRect.y)
     {
-        return TRUE;
+        return true;
     }
 
-    return FALSE;
+    return false;
 }
 
 void BaseAnimatedWithPhysicsGameObject::VStackOnObjectsOfType(ReliveTypes typeToFind)

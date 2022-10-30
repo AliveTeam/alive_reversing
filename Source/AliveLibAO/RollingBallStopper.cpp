@@ -65,7 +65,7 @@ RollingBallStopper::RollingBallStopper(relive::Path_RollingBallStopper* pTlv, co
     }
 
     const auto oldXPos = mXPos;
-    MapFollowMe(TRUE);
+    MapFollowMe(true);
     mXPos = oldXPos;
 
     FP lineXPos = {};

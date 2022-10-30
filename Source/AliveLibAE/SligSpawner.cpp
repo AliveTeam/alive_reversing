@@ -10,7 +10,7 @@
 #include "Map.hpp"
 
 SligSpawner::SligSpawner(relive::Path_Slig* pTlv, const Guid& tlvId)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     SetType(ReliveTypes::eSligSpawner);
 
@@ -57,7 +57,7 @@ void SligSpawner::VUpdate()
 {
     if (mFindSpawnedSlig)
     {
-        mFindSpawnedSlig = FALSE;
+        mFindSpawnedSlig = false;
 
         if (mSpawnedSligId != Guid{})
         {
@@ -150,7 +150,7 @@ s32 SligSpawner::CreateFromSaveState(const u8* pBuffer)
     {
         pSpawner->mState = pState->mState;
         pSpawner->mSpawnedSligId = pState->mSpawnedSligId;
-        pSpawner->mFindSpawnedSlig = TRUE;
+        pSpawner->mFindSpawnedSlig = true;
     }
 
     return sizeof(Slig_Spawner_State);

@@ -53,10 +53,11 @@ typedef const DSBUFFERDESC* LPCDSBUFFERDESC;
         #define SUCCEEDED(hr) (((HRESULT)(hr)) >= 0)
     #endif
 
+    #ifndef S_OK
     #ifndef _HRESULT_DEFINED
 typedef s32 HRESULT;
-
         #define S_OK ((HRESULT) 0L)
+    #endif
     #endif
 
 #endif

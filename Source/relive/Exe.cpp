@@ -30,8 +30,6 @@
 
 #include "../relive_lib/data_conversion/file_system.hpp"
 
-INITIALIZE_EASYLOGGINGPP
-
 namespace AutoSplitterData {
 struct GuidStr
 {
@@ -137,11 +135,11 @@ static void ShowCwd()
     char_type buffer[2048] = {};
     if (::GetCurrentDirectoryA(sizeof(buffer), buffer))
     {
-        LOG_INFO("Win32 cwd is: " << buffer);
+        LOG_INFO("Win32 cwd is: %s", buffer);
     }
     else
     {
-        LOG_INFO("Failed to get Win32 cwd: " << ::GetLastError());
+        LOG_INFO("Failed to get Win32 cwd: %d", ::GetLastError());
     }
 #endif
 }
@@ -153,8 +151,8 @@ static void PrintSDL2Versions()
 
     SDL_VERSION(&compiled);
     SDL_GetVersion(&linked);
-    LOG_INFO("Compiled with SDL2 ver " << static_cast<int>(compiled.major) << "." << static_cast<int>(compiled.minor) << "." << static_cast<int>(compiled.patch));
-    LOG_INFO("Runtime SDL2 ver " << static_cast<int>(linked.major) << "." << static_cast<int>(linked.minor) << "." << static_cast<int>(linked.patch));
+    LOG_INFO("Compiled with SDL2 ver %d.%d.%d", static_cast<int>(compiled.major), static_cast<int>(compiled.minor), static_cast<int>(compiled.patch));
+    LOG_INFO("Runtime SDL2 ver %d.%d.%d", static_cast<int>(linked.major), static_cast<int>(linked.minor), static_cast<int>(linked.patch));
 }
 
 static void SDL2_Init()
@@ -263,7 +261,7 @@ s32 WINAPI WinMain(HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR l
     RedirectIoStream(true);
 
 #endif
-    LOG_INFO("Relive: " << BuildAndBitnesString());
+    LOG_INFO("Relive: %s", BuildAndBitnesString().c_str());
 
     // Default to AE but allow switching to AO with a command line, if AO is anywhere in the command line then assume we want to run AO
     GameType gameToRun = strstr(lpCmdLine, "AO") ? GameType::eAo : GameType::eAe;

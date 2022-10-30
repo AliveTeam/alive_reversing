@@ -13,7 +13,7 @@ ThrowableArray* gThrowableArray = nullptr;
 
 void LoadRockTypes(EReliveLevelIds levelNumber, u16 path)
 {
-    bool bDoLoadingLoop = FALSE;
+    bool bDoLoadingLoop = false;
     const u8 throwableTypeIdx = Path_Get_Bly_Record_434650(levelNumber, path)->field_C_overlay_id & 0xFF;
 
     switch (gThrowableFromOverlayId[throwableTypeIdx])
@@ -34,7 +34,7 @@ void LoadRockTypes(EReliveLevelIds levelNumber, u16 path)
 
     if (bDoLoadingLoop)
     {
-        ResourceManager::LoadingLoop_41EAD0(FALSE);
+        ResourceManager::LoadingLoop_41EAD0(false);
     }
 }
 
@@ -85,7 +85,7 @@ ThrowableArray::~ThrowableArray()
 }
 
 ThrowableArray::ThrowableArray()
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     mBaseGameObjectFlags.Clear(Options::eUpdatable_Bit2);
     field_10_count = 0;

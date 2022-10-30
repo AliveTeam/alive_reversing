@@ -5,19 +5,6 @@ add_library(Cinder INTERFACE)
 target_include_directories(Cinder SYSTEM INTERFACE Cinder/)
 export(TARGETS Cinder FILE Cinder.cmake)
 
-# EasyLogging++ lib
-add_library(EasyLogging++
-    EasyLogging++/EasyLogging/src/easylogging++.cc
-    EasyLogging++/EasyLogging/src/easylogging++.h
-    )
-
-target_include_directories(EasyLogging++ SYSTEM PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/EasyLogging++/EasyLogging/src>
-    $<INSTALL_INTERFACE:EasyLogging++/EasyLogging/src>)
-
-set_property(TARGET EasyLogging++ PROPERTY FOLDER "3rdParty")
-export(TARGETS EasyLogging++ FILE EasyLogging++.cmake)
-
 # googletest lib
 add_library(googletest
     googletest/googletest/src/gtest-all.cc

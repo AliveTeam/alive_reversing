@@ -12,7 +12,7 @@
 u32 sWellRndSeed_563AA0 = 4;
 
 Well::Well(relive::Path_WellBase* pTlv, FP xpos, FP ypos, const Guid& tlvId)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     mTlvInfo = tlvId;
     SetType(ReliveTypes::eWell);

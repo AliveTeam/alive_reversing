@@ -112,7 +112,7 @@ const s16* kNumbersArray[11] = {
     kInfinity_551AEC};
 
 ThrowableTotalIndicator::ThrowableTotalIndicator(FP xpos, FP ypos, Layer layer, FP /*scale*/, s32 count, bool bFade)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
     SetType(ReliveTypes::eThrowableTotalIndicator);
@@ -281,7 +281,7 @@ void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
         SetRGB0(pLine, mRGB.r & 0xFF, mRGB.g & 0xFF, mRGB.b & 0xFF);
         SetRGB1(pLine, mRGB.r & 0xFF, mRGB.g & 0xFF, mRGB.b & 0xFF);
 
-        Poly_Set_SemiTrans(&pLine->mBase.header, TRUE);
+        Poly_Set_SemiTrans(&pLine->mBase.header, true);
         OrderingTable_Add(OtLayer(ppOt, mOtLayer), &pLine->mBase.header);
     }
 

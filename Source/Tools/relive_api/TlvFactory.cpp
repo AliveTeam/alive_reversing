@@ -20,7 +20,7 @@ template <typename TlvEnumType, typename PathTlvType>
 
     if (it == std::end(mTlvFactory))
     {
-        LOG_WARNING("Type " << magic_enum::enum_name(tlvType) << " unknown");
+        LOG_WARNING("Type %s unknown", magic_enum::enum_name(tlvType));
         return nullptr;
     }
 
@@ -34,7 +34,7 @@ template <typename TlvEnumType, typename PathTlvType>
 
     if (it == std::end(mReverseTlvFactory))
     {
-        LOG_WARNING("Type " << tlvTypeName << " unknown");
+        LOG_WARNING("Type %s unknown", tlvTypeName.c_str());
         return nullptr;
     }
 

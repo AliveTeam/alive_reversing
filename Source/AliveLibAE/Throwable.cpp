@@ -117,7 +117,7 @@ void BaseThrowable::BaseAddToPlatform(BaseThrowable::FnTypeMatcher cb)
 void BaseThrowable::VToDead()
 {
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-    mBaseThrowableDead = TRUE;
+    mBaseThrowableDead = true;
 }
 
 void BaseThrowable::VOnPickUpOrSlapped()

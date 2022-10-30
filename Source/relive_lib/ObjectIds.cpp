@@ -46,8 +46,7 @@ BaseGameObject* ObjectIds::Find(TObjectId_KeyType idToFind, ReliveTypes type)
     BaseGameObject* pItem = Find_Impl(idToFind);
     if (pItem && pItem->Type() != type)
     {
-        LOG_ERROR("Expected type " << static_cast<s32>(type) << " for object with id " << idToFind.ToString() << " but got " << static_cast<s32>(pItem->Type()));
-        ALIVE_FATAL("Wrong type!");
+        ALIVE_FATAL("Expected type %d for object with id %s but got %d", static_cast<s32>(type), idToFind.ToString().c_str(), static_cast<s32>(pItem->Type()));
     }
     return pItem;
 }

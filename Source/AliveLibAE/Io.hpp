@@ -20,8 +20,8 @@ struct IO_Handle final
     IO_FileHandleType field_8_hFile = nullptr;
     s32 field_C_last_api_result = 0;
     std::atomic<bool> field_10_bDone = {}; // Note: OG bug - appears to be no thread sync on this
-    HANDLE field_14_hThread = 0;
-    HANDLE field_18_hEvent = 0;
+    void* field_14_hThread = 0;
+    void* field_18_hEvent = 0;
 };
 ALIVE_ASSERT_SIZEOF(IO_Handle, 0x1C);
 
@@ -32,8 +32,8 @@ struct IO_Movie_Handle final
     u32 field_8_readSize;
     std::atomic<bool> field_C_bQuit;
     u32 field_10_read_ret;
-    HANDLE field_14_hThread;
-    HANDLE field_18_hEvent;
+    void* field_14_hThread;
+    void* field_18_hEvent;
     u32 field_1C_ThreadId;
 };
 ALIVE_ASSERT_SIZEOF(IO_Movie_Handle, 0x20);
@@ -43,7 +43,7 @@ IO_Handle* IO_Open_4F2320(const char_type* fileName, s32 modeFlag);
 void IO_WaitForComplete_4F2510(IO_Handle* hFile);
 s32 IO_Seek_4F2490(IO_Handle* hFile, s32 offset, s32 origin);
 void IO_fclose_4F24E0(IO_Handle* hFile);
-u32 WINAPI FS_IOThread_4F25A0(LPVOID lpThreadParameter);
+//u32 WINAPI FS_IOThread_4F25A0(LPVOID lpThreadParameter);
 s32 IO_Issue_ASync_Read_4F2430(IO_Handle* hFile, s32 always3, void* readBuffer, size_t bytesToRead, s32 /*notUsed1*/, s32 /*notUsed2*/, s32 /*notUsed3*/);
 s32 IO_Read_4F23A0(IO_Handle* hFile, void* pBuffer, size_t bytesCount);
 void IO_Init_494230();

@@ -16,7 +16,7 @@ InvisibleSwitch::~InvisibleSwitch()
 }
 
 InvisibleSwitch::InvisibleSwitch(relive::Path_InvisibleSwitch* pTlv, const Guid& tlvId)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     field_14_tlvInfo = tlvId;
     field_28_state = States::eWaitForTrigger_0;

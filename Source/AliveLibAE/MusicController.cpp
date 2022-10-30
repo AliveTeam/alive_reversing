@@ -339,7 +339,7 @@ s32 MusicController::Create()
     if (gMusicController)
     {
         MusicController::SetBaseTimeStamp();
-        gMusicController->EnableMusic(FALSE);
+        gMusicController->EnableMusic(false);
     }
     return 1;
 }
@@ -402,7 +402,7 @@ MusicController::MusicTypes MusicController::static_GetMusicType(u16* seq1, u16*
 }
 
 MusicController::MusicController()
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     field_40_flags_and_idx = -1;

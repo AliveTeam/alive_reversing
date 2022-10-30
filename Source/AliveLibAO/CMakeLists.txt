@@ -326,7 +326,6 @@ endif()
 target_link_libraries(AliveLibAO
     AliveLibAE
     AliveLibCommon
-    EasyLogging++
     googletest
     Cinder
     libglew_static

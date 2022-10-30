@@ -25,7 +25,7 @@ void HoistRocksEffect::LoadAnimations()
 }
 
 HoistRocksEffect::HoistRocksEffect(relive::Path_Hoist* pTlv, const Guid& tlvId)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     field_24_tlvInfo = tlvId;
 

@@ -159,7 +159,7 @@ void Grenade::Init(FP xpos, FP ypos)
     mVelY = FP_FromInteger(0);
     mBaseThrowableCount = 0;
     field_124 = 0;
-    field_134_bExplodeNow = FALSE;
+    field_134_bExplodeNow = false;
 }
 
 
@@ -238,7 +238,7 @@ void Grenade::VUpdate()
     switch (field_120_state)
     {
         case GrenadeStates::eFallingToBeCollected_0:
-            if (!InTheAir(FALSE))
+            if (!InTheAir(false))
             {
                 mCollectionRect.x = mXPos - (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
                 mCollectionRect.y = mYPos - ScaleToGridSize(GetSpriteScale());
@@ -312,7 +312,7 @@ void Grenade::VUpdate()
             break;
 
         case GrenadeStates::eFalling_4:
-            if (InTheAir(FALSE))
+            if (InTheAir(false))
             {
                 if (!TimeToBlowUp())
                 {
@@ -360,7 +360,7 @@ void Grenade::VUpdate()
 
         case GrenadeStates::eFallingBlowUpOnGround_9:
         {
-            InTheAir(TRUE);
+            InTheAir(true);
 
             const PSX_RECT bRect = VGetBoundingRect();
 
@@ -371,7 +371,7 @@ void Grenade::VUpdate()
 
             if (field_134_bExplodeNow)
             {
-                BlowUp(TRUE);
+                BlowUp(true);
             }
         }
         break;
@@ -459,7 +459,7 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
 
             if (blowUpOnFloorTouch)
             {
-                field_134_bExplodeNow = TRUE;
+                field_134_bExplodeNow = true;
                 return 1;
             }
 
@@ -611,12 +611,12 @@ void Grenade::BlowUp(s16 bSmallExplosion)
 
 bool Grenade::VCanThrow()
 {
-    return FALSE;
+    return false;
 }
 
 bool Grenade::VIsFalling()
 {
-    return FALSE;
+    return false;
 }
 
 void Grenade::VOnTrapDoorOpen()

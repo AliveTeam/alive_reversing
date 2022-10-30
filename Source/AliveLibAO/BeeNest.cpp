@@ -9,7 +9,7 @@
 namespace AO {
 
 BeeNest::BeeNest(relive::Path_BeeNest* pTlv, const Guid& tlvId)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     SetType(ReliveTypes::eBeeNest);
 

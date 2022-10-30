@@ -115,7 +115,7 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, Map* pPath, const Guid& tlvId
     }
 
     const FP oldX = mXPos;
-    MapFollowMe(TRUE);
+    MapFollowMe(true);
     const FP newX = mXPos;
 
     GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);

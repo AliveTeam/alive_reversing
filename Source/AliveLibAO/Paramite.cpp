@@ -486,7 +486,7 @@ void Paramite::ToIdle()
 
     SetCurrentMotion(eParamiteMotions::Motion_0_Idle);
 
-    MapFollowMe(TRUE);
+    MapFollowMe(true);
 }
 
 s16 Paramite::ToNextMotion()
@@ -1374,7 +1374,7 @@ s16 Paramite::Brain_1_SurpriseWeb()
 
             SetCurrentMotion(eParamiteMotions::Motion_0_Idle);
 
-            MapFollowMe(TRUE);
+            MapFollowMe(true);
             auto pWeb = relive_new ParamiteWeb(
                 mXPos,
                 FP_GetExponent(mYPos) - 20,
@@ -1445,7 +1445,7 @@ s16 Paramite::Brain_1_SurpriseWeb()
             mParamiteWeb->mYPos = FP_FromInteger(mParamiteWeb->field_EA_ttl_remainder);
             if (GetCurrentMotion() == eParamiteMotions::Motion_0_Idle)
             {
-                mParamiteWeb->field_F0_bEnabled = TRUE;
+                mParamiteWeb->field_F0_bEnabled = true;
                 mParamiteWeb->mBaseGameObjectRefCount--;
                 mParamiteWeb = nullptr;
                 SetBrain(&Paramite::Brain_0_Patrol);
@@ -1476,7 +1476,7 @@ s16 Paramite::Brain_1_SurpriseWeb()
             }
             else
             {
-                mParamiteWeb->field_F0_bEnabled = TRUE;
+                mParamiteWeb->field_F0_bEnabled = true;
                 mParamiteWeb->mBaseGameObjectRefCount--;
                 mParamiteWeb = nullptr;
                 SetBrain(&Paramite::Brain_0_Patrol);
@@ -3173,7 +3173,7 @@ void Paramite::Motion_12_Falling()
 
                 mXPos = hitX;
                 mYPos = hitY;
-                MapFollowMe(TRUE);
+                MapFollowMe(true);
                 break;
             }
 
@@ -3385,7 +3385,7 @@ void Paramite::Motion_17_GameSpeakEnd()
             mVelX = FP_FromInteger(0);
             mVelY = FP_FromInteger(0);
             SetCurrentMotion(eParamiteMotions::Motion_0_Idle);
-            MapFollowMe(TRUE);
+            MapFollowMe(true);
         }
     }
 }
@@ -3401,7 +3401,7 @@ void Paramite::Motion_18_RunningAttack()
     }
 
     mXPos += mVelX;
-    MapFollowMe(FALSE);
+    MapFollowMe(false);
 
     const PSX_RECT abeRect = sActiveHero->VGetBoundingRect();
     const PSX_RECT rect = VGetBoundingRect();

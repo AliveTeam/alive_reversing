@@ -24,10 +24,10 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
     const s32 numDrivers = SDL_GetNumRenderDrivers();
     if (numDrivers < 0)
     {
-        LOG_ERROR("Failed to get driver count " << SDL_GetError());
+        LOG_ERROR("Failed to get driver count %s", SDL_GetError());
     }
 
-    LOG_INFO("Got " << numDrivers << " drivers");
+    LOG_INFO("Got %d drivers", numDrivers);
 
     s32 index = -1;
     for (s32 i = 0; i < numDrivers; i++)
@@ -35,11 +35,11 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
         SDL_RendererInfo info = {};
         if (SDL_GetRenderDriverInfo(i, &info) < 0)
         {
-            LOG_WARNING("Failed to get render " << i << " info " << SDL_GetError());
+            LOG_WARNING("Failed to get render %d info %s", i, SDL_GetError());
         }
         else
         {
-            LOG_INFO(i << " name " << info.name);
+            LOG_INFO("%d name %s", i, info.name);
             if (strstr(info.name, "direct3d"))
             {
                 index = i;
@@ -57,7 +57,7 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
     mRenderer = SDL_CreateRenderer(window, index, SDL_RENDERER_ACCELERATED);
     if (!mRenderer)
     {
-        LOG_ERROR("Failed to create renderer " << SDL_GetError());
+        LOG_ERROR("Failed to create renderer %s", SDL_GetError());
         return false;
     }
 
@@ -66,7 +66,7 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
     {
         Destroy();
 
-        LOG_ERROR("Couldnt get DirectX9 device " << SDL_GetError());
+        LOG_ERROR("Couldnt get DirectX9 device %s", SDL_GetError());
         return false;
     }
 

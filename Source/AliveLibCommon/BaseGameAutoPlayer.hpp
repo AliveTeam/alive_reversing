@@ -100,7 +100,7 @@ protected:
         file.Read(tmpValue);
         if (tmpValue != expectedValue)
         {
-            LOG_ERROR("Field " << name << " de-synced");
+            LOG_ERROR("Field %s de-synced", name);
             return true;
         }
         return false;

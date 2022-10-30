@@ -58,7 +58,7 @@ s16 BaseAliveGameObject::IsInInvisibleZone(IBaseAliveGameObject* pObj)
 {
     if (EventGet(kEventAbeOhm))
     {
-        return FALSE;
+        return false;
     }
 
     const PSX_RECT bRect = pObj->VGetBoundingRect();
@@ -78,7 +78,7 @@ s16 BaseAliveGameObject::IsInInvisibleZone(IBaseAliveGameObject* pObj)
             {
                 if (bRect.y <= pTlv->mBottomRightY && bRect.w >= pTlv->mTopLeftX && bRect.w <= pTlv->mBottomRightX && bRect.h >= pTlv->mTopLeftY && bRect.h <= pTlv->mBottomRightY)
                 {
-                    return TRUE;
+                    return true;
                 }
             }
         }
@@ -90,7 +90,7 @@ s16 BaseAliveGameObject::IsInInvisibleZone(IBaseAliveGameObject* pObj)
                                                      FP_FromInteger(bRect.w),
                                                      FP_FromInteger(bRect.h));
     }
-    return FALSE;
+    return false;
 }
 
 void BaseAliveGameObject::VOnPathTransition(s32 cameraWorldXPos, s32 cameraWorldYPos, CameraPos direction)
@@ -346,7 +346,7 @@ BaseAliveGameObject* BaseAliveGameObject::GetStackedSlapTarget(const Guid& idToF
     const s16 xposD = FP_GetExponent(xpos);
     const s16 yposD = FP_GetExponent(ypos);
 
-    bool bFound = FALSE;
+    bool bFound = false;
     for (s32 idx = 0; idx < gBaseGameObjects->Size(); idx++)
     {
         BaseGameObject* pObj = gBaseGameObjects->ItemAt(idx);
@@ -360,7 +360,7 @@ BaseAliveGameObject* BaseAliveGameObject::GetStackedSlapTarget(const Guid& idToF
             if (pObj->mBaseGameObjectId == idToFind)
             {
                 // So that we pick the one AFTER this
-                bFound = TRUE;
+                bFound = true;
             }
             else if (bFound)
             {
@@ -479,7 +479,7 @@ bool BaseAliveGameObject::InAirCollision(PathLine** ppLine, FP* hitX, FP* hitY, 
             return bCollision;
         }
 
-        bCollision = FALSE;
+        bCollision = false;
         *ppLine = nullptr;
     }
 

@@ -47,8 +47,7 @@ s32 MaxGridBlocks(FP scale)
     }
     else
     {
-        LOG_ERROR("Scale should be 0.5 or 1 but got " << FP_GetDouble(scale));
-        ALIVE_FATAL("Invalid scale");
+        ALIVE_FATAL("Scale should be 0.5 or 1 but got %f", FP_GetDouble(scale));
     }
 }
 
@@ -434,7 +433,7 @@ void Map::Handle_PathTransition()
                 break;
 
             default:
-                LOG_ERROR("Invalid scale " << static_cast<s16>(next_path_scale));
+                LOG_ERROR("Invalid scale %d", static_cast<s16>(next_path_scale));
                 break;
         }
 
@@ -574,10 +573,10 @@ Map::~Map()
 
 void Map::GoTo_Camera()
 {
-    s16 bShowLoadingIcon = FALSE;
+    s16 bShowLoadingIcon = false;
     if (mCurrentLevel != EReliveLevelIds::eMenu && mCurrentLevel != EReliveLevelIds::eCredits && mCurrentLevel != EReliveLevelIds::eNone)
     {
-        bShowLoadingIcon = TRUE;
+        bShowLoadingIcon = true;
     }
 
     if (mCameraSwapEffect == CameraSwapEffects::eUnknown_11)
@@ -695,7 +694,7 @@ void Map::GoTo_Camera()
 
         if (mFreeAllAnimAndPalts)
         {
-            mFreeAllAnimAndPalts = FALSE;
+            mFreeAllAnimAndPalts = false;
         }
     }
 
@@ -831,7 +830,7 @@ void Map::GoTo_Camera()
 
     if (prevLevelId != mCurrentLevel)
     {
-        pResourceManager_5C1BB0->LoadingLoop_465590(FALSE);
+        pResourceManager_5C1BB0->LoadingLoop_465590(false);
     }
 
     if (mCameraSwapEffect != CameraSwapEffects::ePlay1FMV_5 && mCameraSwapEffect != CameraSwapEffects::eUnknown_11)
@@ -979,7 +978,7 @@ s16 Map::Is_Point_In_Current_Camera(EReliveLevelIds level, s32 path, FP xpos, FP
     const FP calculated_width = (width != 0) ? FP_FromInteger(6) : FP_FromInteger(0);
     if (level != mCurrentLevel || path != mCurrentPath) // TODO: Remove when 100%
     {
-        return FALSE;
+        return false;
     }
 
     PSX_RECT rect = {};

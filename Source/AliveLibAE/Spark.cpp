@@ -12,7 +12,7 @@
 #include "Map.hpp"
 
 Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, SparkType type)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
 
@@ -177,7 +177,7 @@ void Spark::VRender(PrimHeader** ppOt)
                     static_cast<u8>(mGreen),
                     static_cast<u8>(mBlue));
 
-            Poly_Set_SemiTrans(&pPrim->mBase.header, TRUE);
+            Poly_Set_SemiTrans(&pPrim->mBase.header, true);
             OrderingTable_Add(OtLayer(ppOt, mLayer), &pPrim->mBase.header);
 
             // TODO: Can be refactored much further - looks like min/max stuff

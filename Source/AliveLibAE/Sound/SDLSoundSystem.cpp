@@ -3,6 +3,7 @@
 #include "SDLSoundBuffer.hpp"
 #include "Reverb.hpp"
 #include "../Sys.hpp"
+#include <functional>
 
 extern bool gLatencyHack;
 
@@ -12,13 +13,13 @@ void SDLSoundSystem::Init(u32 /*sampleRate*/, s32 /*bitsPerSample*/, s32 /*isSte
 
     if (SDL_InitSubSystem(SDL_INIT_AUDIO) != 0)
     {
-        LOG_ERROR("SDL_Init(SDL_INIT_AUDIO) failed " << SDL_GetError());
+        LOG_ERROR("SDL_Init(SDL_INIT_AUDIO) failed %s", SDL_GetError());
         return;
     }
 
     for (s32 i = 0; i < SDL_GetNumAudioDrivers(); i++)
     {
-        LOG_INFO("SDL Audio Driver " << i << " " << SDL_GetAudioDriver(i));
+        LOG_INFO("SDL Audio Driver %d %s", i, SDL_GetAudioDriver(i));
     }
 
     mAudioDeviceSpec.callback = SDLSoundSystem::AudioCallBackStatic;
@@ -30,12 +31,14 @@ void SDLSoundSystem::Init(u32 /*sampleRate*/, s32 /*bitsPerSample*/, s32 /*isSte
 
     if (SDL_OpenAudio(&mAudioDeviceSpec, NULL) < 0)
     {
-        LOG_ERROR("Couldn't open SDL audio: " << SDL_GetError());
+        LOG_ERROR("Couldn't open SDL audio: %s", SDL_GetError());
         return;
     }
 
     LOG_INFO("-----------------------------");
     LOG_INFO("Audio Device opened, got specs:");
+    /*
+    // TODO: Log fix
     LOG_INFO(
         "Channels: " << static_cast<s32>(mAudioDeviceSpec.channels) << " "
                      << "nFormat: " << mAudioDeviceSpec.format << " "
@@ -44,7 +47,8 @@ void SDLSoundSystem::Init(u32 /*sampleRate*/, s32 /*bitsPerSample*/, s32 /*isSte
                      << "nSamples: " << mAudioDeviceSpec.samples << " "
                      << "nSize: " << mAudioDeviceSpec.size << " "
                      << "nSilence: " << static_cast<s32>(mAudioDeviceSpec.silence));
-    LOG_INFO("Driver: " << SDL_GetCurrentAudioDriver());
+    */
+    LOG_INFO("Driver: %s", SDL_GetCurrentAudioDriver());
     LOG_INFO("-----------------------------");
 
     Reverb_Init(mAudioDeviceSpec.freq);

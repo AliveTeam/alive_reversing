@@ -13,7 +13,7 @@ s16 sMudokonsInArea_5C1BC4 = 0;
 s8 sZulagNumber_5C1A20 = 0;
 
 LCDStatusBoard::LCDStatusBoard(relive::Path_LCDStatusBoard* params, const Guid& tlvId)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     field_100_objectId = tlvId;
 
@@ -35,8 +35,7 @@ LCDStatusBoard::LCDStatusBoard(relive::Path_LCDStatusBoard* params, const Guid& 
     sZulagNumber_5C1A20 = static_cast<s8>(params->mZulagNumber);
     if (sZulagNumber_5C1A20 > ALIVE_COUNTOF(sSavedKilledMudsPerZulag_5C1B50.mData))
     {
-        LOG_ERROR("sZulagNumber_5C1A20 is " << sZulagNumber_5C1A20 << " max is 20");
-        ALIVE_FATAL("sZulagNumber_5C1A20 out of bounds, don't set your zulag numbe to > 20");
+        ALIVE_FATAL("sZulagNumber_5C1A20 out of bounds %d max is 20. Don't set your zulag number to > 20", sZulagNumber_5C1A20);
     }
 }
 

@@ -60,7 +60,7 @@ GameSpeakEvents Code_LookUp(u32 code, u16 idx, u16 code_len)
 GameSpeak* gEventSystem = nullptr;
 
 GameSpeak::GameSpeak()
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9); // Dont destroy on loading save
     field_2C_event_buffer[0] = -1;

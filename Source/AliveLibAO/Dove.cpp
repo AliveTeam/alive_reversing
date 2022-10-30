@@ -64,7 +64,7 @@ Dove::Dove(AnimId animId, const Guid& tlvId, FP scale)
 
     mVelY = FP_FromInteger(-4 - (Math_NextRandom() & 3));
     GetAnimation().SetFrame(Math_NextRandom() & 7);
-    mKeepInGlobalArray = FALSE;
+    mKeepInGlobalArray = false;
     mTlvInfo = tlvId;
 
     if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
@@ -114,7 +114,7 @@ Dove::Dove(AnimId animId, FP xpos, FP ypos, FP scale)
 
     mVelY = FP_FromInteger(-4 - ((Math_NextRandom()) & 3));
     mDoveState = Dove::State::eFlyAway_1;
-    mKeepInGlobalArray = TRUE;
+    mKeepInGlobalArray = true;
     mFlyAwayCounter = 0;
 
     mXPos = xpos;
@@ -214,7 +214,7 @@ void Dove::All_FlyAway()
     if (bTheOneControllingTheMusic)
     {
         SND_Seq_Stop_477A60(SeqId::Unknown_24);
-        bTheOneControllingTheMusic = FALSE;
+        bTheOneControllingTheMusic = false;
     }
 }
 

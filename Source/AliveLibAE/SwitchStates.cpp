@@ -21,7 +21,7 @@ s32 SwitchStates_Get(u16 idx)
 {
     if (idx >= ALIVE_COUNTOF(sSwitchStates_5C1A28.mData))
     {
-        LOG_WARNING("switch id value is " << idx << " and exceeds 255. if you see this in a custom level consider lowering the switch id value.");
+        LOG_WARNING("switch id value is %d and exceeds 255. if you see this in a custom level consider lowering the switch id value.", idx);
         return 0;
     }
 

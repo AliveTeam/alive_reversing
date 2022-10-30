@@ -198,10 +198,10 @@ public:
 };
 
 Movie::Movie(const char_type* pFmvName)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
     , mFmvName(pFmvName)
 {
-    LOG_INFO("Create movie " << mFmvName);
+    LOG_INFO("Create movie %s", mFmvName);
     mBaseGameObjectFlags.Set(Options::eSurviveDeathReset_Bit9);
     mBaseGameObjectFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
 
@@ -214,7 +214,7 @@ Movie::Movie(const char_type* pFmvName)
 
 Movie::~Movie()
 {
-    LOG_INFO("Destroy movie " << mFmvName);
+    LOG_INFO("Destroy movie %s", mFmvName);
     sMovie_ref_count_9F309C--;
 }
 
@@ -263,8 +263,7 @@ public:
             wholeImage = SDL_CreateRGBSurface(0, width, height, 32, rmask, gmask, bmask, amask);
             if (!wholeImage)
             {
-                LOG_ERROR("CreateRGBSurface failed: " << SDL_GetError());
-                ALIVE_FATAL("CreateRGBSurface failed");
+                ALIVE_FATAL("CreateRGBSurface failed: %s", SDL_GetError());
             }
             return true;
         }

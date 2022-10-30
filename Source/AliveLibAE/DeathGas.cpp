@@ -32,7 +32,7 @@ Data_Byte sbyte_2_5BD218 = {};
 s32 gDeathGasCount_5BD24C = 0;
 
 DeathGas::DeathGas(Layer layer, s32 amount)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     gDeathGasCount_5BD24C++;
 
@@ -54,7 +54,7 @@ DeathGas::DeathGas(Layer layer, s32 amount)
                 {
                     Poly_G4* pPoly = &gasPolys_5BC6E8.polys[i][k][l][j];
                     PolyG4_Init(pPoly);
-                    Poly_Set_SemiTrans(&pPoly->mBase.header, TRUE);
+                    Poly_Set_SemiTrans(&pPoly->mBase.header, true);
                 }
             }
         }

@@ -19,8 +19,8 @@ void FreeResourceArray_49AEC0(DynamicArrayT<u8*>* pArray)
 
 void LoadRockTypes_49AB30(EReliveLevelIds levelNumber, u16 pathNumber)
 {
-    bool bDoLoadingLoop = FALSE;
-    const u8 throwableTypeIdx = LOBYTE(Path_Get_Bly_Record(levelNumber, pathNumber)->field_C_overlay_id);
+    bool bDoLoadingLoop = false;
+    const u8 throwableTypeIdx = Path_Get_Bly_Record(levelNumber, pathNumber)->field_C_overlay_id & 0xFF;
 
     switch (throwable_types_55FAFC[throwableTypeIdx])
     {
@@ -47,12 +47,12 @@ void LoadRockTypes_49AB30(EReliveLevelIds levelNumber, u16 pathNumber)
 
     if (bDoLoadingLoop)
     {
-        pResourceManager_5C1BB0->LoadingLoop_465590(FALSE);
+        pResourceManager_5C1BB0->LoadingLoop_465590(false);
     }
 }
 
 ThrowableArray::ThrowableArray()
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
     , field_24_throwables(0)
 {
     mBaseGameObjectFlags.Clear(BaseGameObject::eUpdatable_Bit2);

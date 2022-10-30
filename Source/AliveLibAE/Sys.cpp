@@ -17,7 +17,7 @@
 #include "VGA.hpp"
 
 
-bool sAppIsActivated_BBBA00 = FALSE;
+bool sAppIsActivated_BBBA00 = false;
 TWindowHandleType sHwnd_BBB9F4 = nullptr;
 TWindowHandleType hWnd_BBFB04 = nullptr;
 
@@ -50,29 +50,9 @@ bool Sys_IsAnyKeyDown()
     return sIsAKeyDown;
 }
 
-#if USE_SDL2
-    #if _WIN32
-HWND Sys_Win32FromSDLWindow(TWindowHandleType windowHandle)
-{
-    SDL_SysWMinfo wmInfo;
-    SDL_VERSION(&wmInfo.version);
-    SDL_GetWindowWMInfo(windowHandle, &wmInfo);
-    return wmInfo.info.win.window;
-}
-    #endif
-#endif
-
 void Sys_SetWindowText(TWindowHandleType windowHandle, const char_type* title)
 {
     SDL_SetWindowTitle(windowHandle, title);
-}
-
-POINT Sys_GetScreenMousePos()
-{
-    s32 x = 0;
-    s32 y = 0;
-    SDL_GetMouseState(&x, &y);
-    return {x, y};
 }
 
 bool Sys_IsMouseButtonDown(MouseButtons button)
@@ -582,7 +562,7 @@ static void KeyDownEvent(SDL_Scancode scanCode)
         else if (sLastPressedKey >= VK_NUMPAD0 && sLastPressedKey <= VK_NUMPAD9)
         {
             sLastPressedKey -= VK_NUMPAD0;
-            LOG_INFO(sLastPressedKey);
+            LOG_INFO("%d", sLastPressedKey);
             if (SDL_GetModState() & (KMOD_SHIFT) && sLastPressedKey == 1)
             {
                 sLastPressedKey = '!';
@@ -598,7 +578,7 @@ static void KeyDownEvent(SDL_Scancode scanCode)
             sLastPressedKey = '-';
         }
 
-        sIsAKeyDown = TRUE;
+        sIsAKeyDown = true;
     }
     else
     {
@@ -610,12 +590,12 @@ static void KeyDownEvent(SDL_Scancode scanCode)
 
         if (vk == VK_F5)
         {
-            LOG_INFO("Save next frame for " << VK_F5);
+            LOG_INFO("Save next frame for %d", VK_F5);
             sQuicksave_SaveNextFrame_5CA4D8 = 1;
         }
         else if (vk == VK_F6)
         {
-            LOG_INFO("Load next frame for " << VK_F6);
+            LOG_INFO("Load next frame for %d", VK_F6);
             sQuicksave_LoadNextFrame_5CA4D9 = 1;
         }
         else if (vk == VK_F10)
@@ -646,7 +626,7 @@ static void KeyUpEvent(SDL_Scancode scanCode)
     const s32 vk = sdl_key_to_win32_vkey(scanCode);
     // LOG_INFO("Key up " << vk);
     Input_SetKeyState_4EDD80(vk, 0);
-    sIsAKeyDown = FALSE;
+    sIsAKeyDown = false;
     sLastPressedKey = 0;
 }
 
@@ -755,8 +735,7 @@ s8 Sys_PumpMessages_4EE4F4()
                     break;
 
                 default:
-                    LOG_ERROR("Unknown event type " << recordedEvent.mType);
-                    ALIVE_FATAL("Unknow event type");
+                    ALIVE_FATAL("Unknown event type %d", recordedEvent.mType);
             }
         }
     }
@@ -829,11 +808,11 @@ s8 Sys_PumpMessages_4EE4F4()
             {
                 if (event.window.type == SDL_WINDOWEVENT_FOCUS_GAINED)
                 {
-                    sAppIsActivated_BBBA00 = TRUE;
+                    sAppIsActivated_BBBA00 = true;
                 }
                 else if (event.window.type == SDL_WINDOWEVENT_FOCUS_LOST)
                 {
-                    sAppIsActivated_BBBA00 = FALSE;
+                    sAppIsActivated_BBBA00 = false;
                 }
                 else if (event.window.type == SDL_WINDOWEVENT_EXPOSED)
                 {
@@ -887,7 +866,7 @@ void Sys_SetWindowPos_4EE1B1(s32 width, s32 height)
     SDL_SetWindowPosition(Sys_GetWindowHandle(), 0, 0);
 }
 
-static s32 Sys_WindowClass_Register_SDL(LPCSTR lpWindowName, s32 x, s32 y, s32 nWidth, s32 nHeight)
+static s32 Sys_WindowClass_Register_SDL(const char_type* lpWindowName, s32 x, s32 y, s32 nWidth, s32 nHeight)
 {
     s32 sdlWindowAttributes = SDL_WINDOW_OPENGL;
 
@@ -901,7 +880,7 @@ static s32 Sys_WindowClass_Register_SDL(LPCSTR lpWindowName, s32 x, s32 y, s32 n
     SDL_RaiseWindow(sHwnd_BBB9F4);
 
     // SDL will not send a window focused message on start up, so default to activated
-    sAppIsActivated_BBBA00 = TRUE;
+    sAppIsActivated_BBBA00 = true;
 
     return 0;
 }

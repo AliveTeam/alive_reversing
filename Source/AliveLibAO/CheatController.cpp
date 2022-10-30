@@ -98,7 +98,7 @@ CheatEntry stru_4C50F8[4] = {
     {1, ALIVE_COUNTOF(sCheatKeyArray_LevelSelect), sCheatKeyArray_LevelSelect, 0, &CheatController_Cheat_LevelSelect}};
 
 CheatController::CheatController()
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     SetType(ReliveTypes::eNone);

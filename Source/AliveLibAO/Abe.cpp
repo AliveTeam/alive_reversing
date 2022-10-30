@@ -1232,14 +1232,14 @@ void Abe::VUpdate()
                     static bool bLogged = false;
                     if (!bLogged)
                     {
-                        LOG_INFO("Have e2A8_eBit15_bGiveShrykullFromBigFace " << static_cast<s32>(gMap.mCurrentLevel));
+                        LOG_INFO("Have e2A8_eBit15_bGiveShrykullFromBigFace %d", static_cast<s32>(gMap.mCurrentLevel));
                         bLogged = true;
                     }
 
                     if (!field_2A8_flags.Get(Flags_2A8::e2A8_eBit14_bGotShrykullFromBigFace) && gMap.mCurrentLevel == EReliveLevelIds::eLines)
                     {
-                        LOG_INFO("Set mHaveShrykull TRUE");
-                        field_16C_bHaveShrykull = TRUE;
+                        LOG_INFO("Set mHaveShrykull true");
+                        field_16C_bHaveShrykull = true;
                         field_168_ring_pulse_timer = sGnFrame + 32000;
                         field_2A8_flags.Set(Flags_2A8::e2A8_eBit14_bGotShrykullFromBigFace);
                     }
@@ -2536,7 +2536,7 @@ bool Abe::NearDoorIsOpen()
     }
 
     // We didn't find a door - so for some reason that makes no sense return that it is open...
-    return TRUE;
+    return true;
 }
 
 s16 Abe::RunTryEnterDoor_4259C0()
@@ -2576,7 +2576,7 @@ s16 Abe::RunTryEnterDoor_4259C0()
     field_110_state.raw = 0;
     mCurrentMotion = eAbeMotions::Motion_156_DoorEnter;
     mXPos = FP_FromInteger((pDoorTlv->mBottomRightX + pDoorTlv->mTopLeftX) / 2);
-    MapFollowMe(TRUE);
+    MapFollowMe(true);
     return 1;
 }
 
@@ -3642,7 +3642,7 @@ void Abe::Motion_0_Idle()
                                                                                     GetAnimation().GetRenderLayer(),
                                                                                     GetAnimation().GetSpriteScale(),
                                                                                     field_19C_throwable_count,
-                                                                                    TRUE);
+                                                                                    true);
                 }
                 mCurrentMotion = eAbeMotions::Motion_142_RockThrowStandingHold;
 
@@ -4110,7 +4110,7 @@ void Abe::Motion_3_Fall()
 
         mXPos = FP_FromInteger((BaseAliveGameObjectPathTLV->mTopLeftX + BaseAliveGameObjectPathTLV->mBottomRightX) / 2);
 
-        MapFollowMe(TRUE);
+        MapFollowMe(true);
 
         if (sCollisions->Raycast(
                 mXPos,
@@ -4750,7 +4750,7 @@ void Abe::Motion_25_RollLoop()
             }
             else if (GetAnimation().GetCurrentFrame() == 0 || GetAnimation().GetCurrentFrame() == 4 || GetAnimation().GetCurrentFrame() == 8)
             {
-                MapFollowMe(TRUE);
+                MapFollowMe(true);
 
                 if ((mVelX > FP_FromInteger(0) && !Input().IsAnyPressed(sInputKey_Right)) || (mVelX < FP_FromInteger(0) && !Input().IsAnyPressed(sInputKey_Left)))
                 {
@@ -4850,7 +4850,7 @@ void Abe::Motion_28_RunTurn()
         {
             if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
-                MapFollowMe(TRUE);
+                MapFollowMe(true);
 
                 const FP gridSize = ScaleToGridSize(GetSpriteScale());
                 if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
@@ -4949,7 +4949,7 @@ void Abe::IntoPortalStates_4262A0()
                 mVelY = FP_FromInteger(0);
                 mVelX = FP_FromInteger(0);
                 field_1A0_portal->VKillPortalClipper();
-                field_1A0_portal->VGiveShrykull(TRUE);
+                field_1A0_portal->VGiveShrykull(true);
                 field_19E_portal_sub_state = PortalSubStates::eSetNewActiveCamera_1;
             }
             mVelY += GetSpriteScale() * FP_FromDouble(1.8);
@@ -4967,7 +4967,7 @@ void Abe::IntoPortalStates_4262A0()
                 CameraSwapEffects screenChangeEffect = {};
                 u16 movieId = 0;
                 field_1A0_portal->VGetMapChange(&level, &path, &camera, &screenChangeEffect, &movieId);
-                gMap.SetActiveCam(level, path, camera, screenChangeEffect, movieId, FALSE);
+                gMap.SetActiveCam(level, path, camera, screenChangeEffect, movieId, false);
                 field_19E_portal_sub_state = PortalSubStates::eSetNewAbePosition_4;
             }
             break;
@@ -5281,7 +5281,7 @@ void Abe::Motion_33_RunJumpMid()
             {
                 mXPos = FP_FromInteger(
                     (BaseAliveGameObjectPathTLV->mBottomRightX + BaseAliveGameObjectPathTLV->mTopLeftX) / 2);
-                MapFollowMe(TRUE);
+                MapFollowMe(true);
                 mYPos = hitY;
                 mCurrentMotion = eAbeMotions::Motion_68_LedgeHangWobble;
                 GetShadow()->mFlags.Set(Shadow::Flags::eShadowAtBottom);
@@ -5495,7 +5495,7 @@ void Abe::Motion_35_RunLoop()
         if (!field_2A8_flags.Get(e2A8_Bit3_WalkToRun))
         {
             field_2A8_flags.Set(e2A8_Bit3_WalkToRun);
-            MapFollowMe(TRUE);
+            MapFollowMe(true);
         }
 
         CheckForPortalAndRunJump();
@@ -5508,7 +5508,7 @@ void Abe::Motion_35_RunLoop()
         if (!field_2A8_flags.Get(e2A8_Bit3_WalkToRun))
         {
             field_2A8_flags.Set(e2A8_Bit3_WalkToRun);
-            MapFollowMe(TRUE);
+            MapFollowMe(true);
         }
 
         // Check turning in middle of run (pressing reverse direction of movement)
@@ -6491,7 +6491,7 @@ void Abe::Motion_61_Respawn()
             BaseAliveGameObjectLastLineYPos = mYPos;
 
             GetAnimation().mFlags.Set(AnimFlags::eFlipX, field_2A8_flags.Get(Flags_2A8::eAbeSpawnDir));
-            MapFollowMe(TRUE);
+            MapFollowMe(true);
             SetTint(sAbeTints_4C6438, gMap.mCurrentLevel);
             if (gElum)
             {
@@ -6641,7 +6641,7 @@ void Abe::Motion_62_LoadedSaveSpawn()
         sActiveHero->field_114_gnFrame = pSaveData->field_248_gnFrame;
         sActiveHero->mBaseAliveGameObjectLastAnimFrame = pSaveData->field_240_last_anim_frame;
         sActiveHero->GetAnimation().mFlags.Set(AnimFlags::eFlipX, pSaveData->field_23C_ah_flipX & 1);
-        sActiveHero->MapFollowMe(TRUE);
+        sActiveHero->MapFollowMe(true);
         sActiveHero->GetAnimation().mFlags.Set(AnimFlags::eRender);
         if (sActiveHero->field_19C_throwable_count)
         {
@@ -6741,7 +6741,7 @@ void Abe::Motion_62_LoadedSaveSpawn()
                     gElum->mCurrentMotion = eElumMotions::Motion_25_LickingHoney_415B50;
                     gElum->mPreviousMotion = eElumMotions::Motion_25_LickingHoney_415B50;
                 }
-                gElum->MapFollowMe(TRUE);
+                gElum->MapFollowMe(true);
                 gElum->mBaseGameObjectFlags.Set(Options::eUpdatable_Bit2);
                 gElum->GetAnimation().mFlags.Set(AnimFlags::eRender);
             }
@@ -7175,8 +7175,7 @@ void Abe::Motion_77_WellBegin()
             }
             default:
             {
-                LOG_ERROR("Unrecognized state called: " << mCurrentMotion);
-                ALIVE_FATAL("Unrecognized state in Abe::Motion_77_WellBegin_430F10 called!");
+                ALIVE_FATAL("Unrecognized state in Abe::Motion_77_WellBegin_430F10 called! %d", mCurrentMotion);
                 break;
             }
         }
@@ -7770,7 +7769,7 @@ void Abe::Motion_88_HandstoneBegin()
                         break;
 
                     default:
-                        LOG_ERROR("CameraIdx out of bounds " << field_16E_cameraIdx);
+                        LOG_ERROR("CameraIdx out of bounds %d", field_16E_cameraIdx);
                 }
                 if (field_16E_cameraIdx > 2 || (camera.level == LevelIds::eForestChase_14 || camera.level == LevelIds::eDesertEscape_15))
                 {
@@ -9164,7 +9163,7 @@ void Abe::Motion_156_DoorEnter()
             GetAnimation().mFlags.Set(AnimFlags::eFlipX, pPathDoor->mExitDirection == relive::reliveXDirection::eRight);
             mXPos = FP_FromInteger((BaseAliveGameObjectPathTLV->Width()) / 2)
                           + FP_FromInteger(BaseAliveGameObjectPathTLV->mTopLeftX);
-            MapFollowMe(TRUE);
+            MapFollowMe(true);
 
             FP hitX = {};
             FP hitY = {};

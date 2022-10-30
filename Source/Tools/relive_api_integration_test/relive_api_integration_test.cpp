@@ -20,8 +20,6 @@
 #include <string>
 #include <vector>
 
-INITIALIZE_EASYLOGGINGPP
-
 namespace {
 
 using namespace std::literals::string_view_literals;
@@ -166,7 +164,7 @@ static void TestCamAndFG1ExportImport(const std::string& strLvlName, bool allowF
         throw ReliveAPI::IOReadException(strLvlName);
     }
 
-    LOG_INFO("+ import LVL " << strLvlName);
+    LOG_INFO("+ import LVL %s", strLvlName.c_str());
     ForEachCamera(reader, [&](const std::string& camName, ReliveAPI::ChunkedLvlFile& camFile)
                   {
                       // Write out camera image and FG1 layers
@@ -196,7 +194,7 @@ static void TestCamAndFG1ExportImport(const std::string& strLvlName, bool allowF
     {
         throw ReliveAPI::IOReadException(strLvlName);
     }
-    LOG_INFO("and compare LVL " << newLvlName);
+    LOG_INFO("and compare LVL %s", newLvlName.c_str());
     ForEachCamera(reader2, [&](const std::string& camName, ReliveAPI::ChunkedLvlFile& camFile)
                   {
                       // Write out all cam and FG1s again (but this is our re-imported copy)
@@ -328,11 +326,11 @@ TEST(alive_api, ReSaveAllPathsAO)
         for (s32 path : ret.paths)
         {
             const std::string jsonName = concat("OutputAO_", lvl, '_', path, ".json");
-            LOG_INFO("Save " << jsonName);
+            //LOG_INFO("Save " << jsonName);
             ReliveAPI::Detail::ExportPathBinaryToJson(getStaticFileBuffer(), fileIo, jsonName, AOPath(lvl), path, context);
 
             const std::string lvlName = concat("OutputAO_", lvl, '_', path, ".lvl");
-            LOG_INFO("Resave " << lvlName);
+            //LOG_INFO("Resave " << lvlName);
             ReliveAPI::Detail::ImportPathJsonToBinary(getStaticFileBuffer(), fileIo, jsonName, AOPath(lvl), lvlName, {}, true, context);
 
             ASSERT_TRUE(PathChunksAreEqual(fileIo, AOPath(lvl), lvlName));
@@ -352,11 +350,11 @@ TEST(alive_api, ReSaveAllPathsAE)
         for (s32 path : ret.paths)
         {
             const std::string jsonName = concat("OutputAE_", lvl, '_', path, ".json");
-            LOG_INFO("Save " << jsonName);
+            //LOG_INFO("Save " << jsonName);
             ReliveAPI::Detail::ExportPathBinaryToJson(getStaticFileBuffer(), fileIo, jsonName, AEPath(lvl), path, context);
 
             const std::string lvlName = concat("OutputAE_", lvl, '_', path, ".lvl");
-            LOG_INFO("Resave " << lvlName);
+            //LOG_INFO("Resave " << lvlName);
             ReliveAPI::Detail::ImportPathJsonToBinary(getStaticFileBuffer(), fileIo, jsonName, AEPath(lvl), lvlName, {}, true, context);
 
             ASSERT_TRUE(PathChunksAreEqual(fileIo, AEPath(lvl), lvlName));

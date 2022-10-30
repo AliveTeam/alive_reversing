@@ -220,7 +220,7 @@ s32 MaxGridBlocks(FP scale)
     }
     else
     {
-        LOG_WARNING("Scale should be 0.5 or 1 but got " << FP_GetDouble(scale) << ". This usually occurs when you die with DDCheat on.");
+        LOG_WARNING("Scale should be 0.5 or 1 but got %f. This usually occurs when you die with DDCheat on.", FP_GetDouble(scale));
         return 0;
     }
 }
@@ -588,7 +588,7 @@ void Map::Handle_PathTransition()
 
         // TODO: Probably OG bug, when changing camera/path the TLV pointer can become invalid
         // resulting in a corrupted next_path_scale value ?
-        // Pointer points to the Path res which is invalid after ResourceManager::GetLoadedResource(ResourceManager::Resource_Path, i, TRUE, FALSE);
+        // Pointer points to the Path res which is invalid after ResourceManager::GetLoadedResource(ResourceManager::Resource_Path, i, true, false);
         // is called. Happens even if calling real func below.
         const auto next_path_scale = pTlv->mNextPathScale;
 
@@ -617,7 +617,7 @@ void Map::Handle_PathTransition()
                 break;
 
             default:
-                LOG_ERROR("Invalid scale " << static_cast<s16>(next_path_scale));
+                LOG_ERROR("Invalid scale %d", static_cast<s16>(next_path_scale));
                 break;
         }
 
@@ -771,12 +771,12 @@ CameraPos Map::GetDirection(EReliveLevelIds level, s32 path, FP xpos, FP ypos)
 
 void Map::GoTo_Camera()
 {
-    s16 bShowLoadingIcon = FALSE;
+    s16 bShowLoadingIcon = false;
 
     // NOTE: None check changed to match AE
     if (mCurrentLevel != EReliveLevelIds::eMenu && mCurrentLevel != EReliveLevelIds::eCredits && mCurrentLevel != EReliveLevelIds::eNone)
     {
-        bShowLoadingIcon = TRUE;
+        bShowLoadingIcon = true;
     }
 
     if (mCameraSwapEffect == CameraSwapEffects::eUnknown_11)
@@ -878,7 +878,7 @@ void Map::GoTo_Camera()
 
         if (field_DC_free_all_anim_and_palts)
         {
-            field_DC_free_all_anim_and_palts = FALSE;
+            field_DC_free_all_anim_and_palts = false;
         }
     }
 
@@ -945,8 +945,7 @@ void Map::GoTo_Camera()
 
             if (gPlatformsArray->Size() > 0)
             {
-                LOG_ERROR(gPlatformsArray->Size() << " Platforms have been leaked!");
-                ALIVE_FATAL("Platforms leaked!");
+                ALIVE_FATAL("%d Platforms have been leaked!", gPlatformsArray->Size());
             }
 
             relive_delete sCollisions;
@@ -1257,7 +1256,7 @@ s16 Map::Is_Point_In_Current_Camera(EReliveLevelIds level, s32 path, FP xpos, FP
 {
     if (level != mCurrentLevel || path != mCurrentPath) // TODO: Remove when 100%
     {
-        return FALSE;
+        return false;
     }
 
     PSX_RECT rect = {};

@@ -133,8 +133,7 @@ AnimResource ResourceManagerWrapper::LoadAnimation(AnimId anim)
     const std::string jsonStr = fs.LoadToString((filePath.GetPath() + ".json").c_str());
     if (jsonStr.empty())
     {
-        LOG_ERROR("Missing anim json for anim: " << enum_name);
-        ALIVE_FATAL("Missing anim json");
+        ALIVE_FATAL("Missing anim json for anim: %s", enum_name);
     }
 
     // TODO: Use FS
@@ -331,7 +330,7 @@ std::vector<std::unique_ptr<BinaryPath>> ResourceManagerWrapper::LoadPaths(EReli
 
         // TODO: set the res ptrs to the parsed json data
         nlohmann::json pathJson = nlohmann::json::parse(pathJsonStr);
-        LOG_INFO("Cam count " << pathJson["cameras"].size());
+        LOG_INFO("Cam count %d", pathJson["cameras"].size());
 
         auto pathBuffer = std::make_unique<BinaryPath>(pathJson["id"]);
         pathBuffer->CreateFromJson(pathJson);

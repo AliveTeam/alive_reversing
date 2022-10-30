@@ -10,7 +10,7 @@ FG1::~FG1()
 }
 
 FG1::FG1(Fg1Resource& pFg1Res, CamResource& camRes)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
     , mFG1Res(pFg1Res)
     , mCamRes(camRes)
 {

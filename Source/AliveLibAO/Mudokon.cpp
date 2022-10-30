@@ -272,7 +272,7 @@ Mudokon::Mudokon(relive::Path_TLV* pTlv, const Guid& tlvId)
         }
         break;
         default:
-            LOG_WARNING("Mudokon ctor pTlv->mTlvType32.mType was " << static_cast<s32>(pTlv->mTlvType) << ". This is unhandled.");
+            LOG_WARNING("Mudokon ctor pTlv->mTlvType32.mType was %d. This is unhandled.", static_cast<s32>(pTlv->mTlvType));
             break;
     }
 
@@ -337,7 +337,7 @@ Mudokon::Mudokon(relive::Path_TLV* pTlv, const Guid& tlvId)
     field_1BA_brain_sub_state = 0;
     field_1A0 = 0;
     field_10C = tlvId;
-    field_1C4_bDoPathTrans = FALSE;
+    field_1C4_bDoPathTrans = false;
 
     if (field_188 == 6)
     {
@@ -393,7 +393,7 @@ Mudokon::~Mudokon()
         {
             sActiveHero->field_168_ring_pulse_timer = sGnFrame + 200000;
         }
-        sActiveHero->field_16C_bHaveShrykull = FALSE;
+        sActiveHero->field_16C_bHaveShrykull = false;
     }
 
     if (GetCurrentMotion() == eMudMotions::Motion_52_Chant || GetCurrentMotion() == eMudMotions::Motion_59_CrouchChant)
@@ -422,7 +422,7 @@ void Mudokon::VUpdate()
     if (field_1C4_bDoPathTrans)
     {
         DoPathTrans();
-        field_1C4_bDoPathTrans = FALSE;
+        field_1C4_bDoPathTrans = false;
     }
 
     const auto old_motion = GetCurrentMotion();
@@ -581,7 +581,7 @@ void Mudokon::VScreenChanged()
             if (pTlv->mTlvType == ReliveTypes::eMudokonPathTrans)
             {
                 // Gonna go to the next path
-                field_1C4_bDoPathTrans = TRUE;
+                field_1C4_bDoPathTrans = true;
                 return;
             }
             pTlv = gMap.TLV_Get_At(pTlv, mXPos, mYPos, mXPos, mYPos);
@@ -1081,17 +1081,17 @@ s16 Mudokon::FacingBirdPortal(BirdPortal* pTarget)
 {
     if (pTarget->mXPos == mXPos)
     {
-        return TRUE;
+        return true;
     }
     else if (pTarget->mXPos > mXPos && !GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        return TRUE;
+        return true;
     }
     else if (pTarget->mXPos < mXPos && GetAnimation().mFlags.Get(AnimFlags::eFlipX))
     {
-        return TRUE;
+        return true;
     }
-    return FALSE;
+    return false;
 }
 
 GameSpeakEvents Mudokon::LastGameSpeak()
@@ -1169,12 +1169,12 @@ s16 Mudokon::IAmNearestToAbe()
                         FP_GetExponent(pObjIter->mYPos)))
                 {
                     // Our distance is to abe is larger than the mud we just found so we can't be nearest
-                    return FALSE;
+                    return false;
                 }
             }
         }
     }
-    return TRUE;
+    return true;
 }
 
 void Mudokon::VOnTrapDoorOpen()

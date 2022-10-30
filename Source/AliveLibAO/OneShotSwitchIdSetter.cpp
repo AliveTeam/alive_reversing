@@ -11,7 +11,7 @@ OneShotSwitchIdSetter::~OneShotSwitchIdSetter()
 }
 
 OneShotSwitchIdSetter::OneShotSwitchIdSetter(Path_OneShotSwitchIdSetter* pTlv, const Guid& tlvId)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     field_10_tlvInfo = tlvId;
 

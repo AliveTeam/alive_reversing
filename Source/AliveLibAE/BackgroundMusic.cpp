@@ -10,7 +10,7 @@ s16 sBackgroundMusic_seq_id_560F78 = -1;
 
 
 BackgroundMusic::BackgroundMusic(s32 musicId)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     field_20_music_id = static_cast<s16>(musicId);
     sBackgroundMusic_seq_id_560F78 = -1;

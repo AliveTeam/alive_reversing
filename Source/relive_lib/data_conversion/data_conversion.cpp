@@ -680,7 +680,7 @@ static void ConvertTLV(nlohmann::json& j, const AO::Path_TLV& tlv, const Guid& t
             convert_tlv<relive::Path_SecurityDoor_Converter, AO::Path_SecurityDoor>(j, tlv, tlvId);
             break;
         case AO::TlvTypes::DemoPlaybackStone_96:
-            LOG_WARNING("tlv of type " << static_cast<s16>(tlv.mTlvType32.mType) << " is unused");
+            LOG_WARNING("tlv of type %d is unused", static_cast<s16>(tlv.mTlvType32.mType));
             return;
         case AO::TlvTypes::BoomMachine_97:
             convert_tlv<relive::Path_BoomMachine_Converter, AO::Path_BoomMachine>(j, tlv, tlvId);
@@ -924,7 +924,7 @@ template <typename TlvType, typename LevelIdType>
 static void ConvertPath(FileSystem& fs, const FileSystem::Path& path, const ReliveAPI::LvlFileChunk& pathBndChunk, EReliveLevelIds reliveLvl, LevelIdType lvlIdx, ReliveAPI::LvlReader& lvlReader, std::vector<u8>& fileBuffer, bool isAo)
 {
     auto level = (isAo ? ToString(MapWrapper::ToAO(reliveLvl)) : ToString(MapWrapper::ToAE(reliveLvl)));
-    LOG_INFO("Converting: " << level << "; path " << pathBndChunk.Id());
+    LOG_INFO("Converting: %s; path %d", level, pathBndChunk.Id());
 
     s32 width = 0;
     s32 height = 0;
@@ -1268,7 +1268,7 @@ static void LogNonConvertedPals(bool isAo)
             const auto& palDetails = isAo ? AO::PalRec(rec.mPalId) : PalRec(rec.mPalId);
             if (palDetails.mBanName)
             {
-                LOG_INFO("MISSING PAL: " << magic_enum::enum_name(rec.mPalId));
+                LOG_INFO("MISSING PAL: %s", magic_enum::enum_name(rec.mPalId));
             }
         }
     }
@@ -1293,7 +1293,7 @@ static void ConvertPals(const FileSystem::Path& dataDir, std::vector<u8>& fileBu
                         const auto& res = palFile.ChunkAt(i);
                         if (res.Header().mResourceType == ResourceManagerWrapper::Resource_Palt && static_cast<s32>(res.Header().field_C_id) == palDetails.mResourceId)
                         {
-                            LOG_INFO("Converting PAL: " << magic_enum::enum_name(rec.mPalId));
+                            LOG_INFO("Converting PAL: %s", magic_enum::enum_name(rec.mPalId));
 
                             const auto& palData = res.Data();
                             u32 palLen = *reinterpret_cast<const u32*>(palData.data());
@@ -1336,7 +1336,7 @@ static void ConvertAnimations(const FileSystem::Path& dataDir, FileSystem& fs, s
                     auto res = animFile.ChunkById(animDetails.mResourceId);
                     if (res)
                     {
-                        LOG_INFO("Converting: " << magic_enum::enum_name(rec.mAnimId));
+                        LOG_INFO("Converting: %s", magic_enum::enum_name(rec.mAnimId));
 
                         FileSystem::Path filePath = dataDir;
                         filePath.Append("animations");
@@ -1373,7 +1373,7 @@ static void LogNonConvertedAnims(bool isAo)
         {
             if (!rec.mConverted)
             {
-                LOG_INFO("Didn't convert " << magic_enum::enum_name(rec.mAnimId));
+                LOG_INFO("Didn't convert %s", magic_enum::enum_name(rec.mAnimId));
             }
         }
     }

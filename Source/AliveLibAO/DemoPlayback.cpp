@@ -15,7 +15,7 @@ extern u8 sRandomSeed; //Math.cpp
 namespace AO {
 
 DemoPlayback::DemoPlayback(u8** ppPlaybackData, s32 bFromHandStone)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     mBaseGameObjectFlags.Clear(Options::eDrawable_Bit4);
     mBaseGameObjectFlags.Set(Options::eSurviveDeathReset_Bit9);

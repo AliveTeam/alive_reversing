@@ -530,9 +530,9 @@ s16 Scrab::OnFloor()
         {
             PlatformCollide();
         }
-        return TRUE;
+        return true;
     }
-    return FALSE;
+    return false;
 }
 
 const FP velx_input_entries_546D84[8] = {
@@ -1224,7 +1224,7 @@ s16 Scrab::Brain_1_ChasingEnemy()
                 {
                     mCurrentMotion = eScrabMotions::Motion_3_Turn;
                     mNextMotion = -1;
-                    MapFollowMe(TRUE);
+                    MapFollowMe(true);
                 }
                 return Brain_1_ChasingEnemy::eBrain1_Turning_3;
             }
@@ -1575,7 +1575,7 @@ s16 Scrab::Brain_ChasingEnemy_State_2_Running(BaseAliveGameObject* pObj)
         {
             mCurrentMotion = eScrabMotions::Motion_3_Turn;
             mNextMotion = -1;
-            MapFollowMe(TRUE);
+            MapFollowMe(true);
         }
         return Brain_1_ChasingEnemy::eBrain1_Turning_3;
     }
@@ -1776,7 +1776,7 @@ s16 Scrab::Brain_2_Fighting()
                 mHealth = FP_FromInteger(0);
             }
 
-            MapFollowMe(TRUE);
+            MapFollowMe(true);
             mCurrentMotion = eScrabMotions::Motion_31_ScrabBattleAnim;
             field_12C_timer = sGnFrame + 40;
             return Brain_2_Fighting::eBrain2_Battling_10;
@@ -2121,12 +2121,12 @@ void Scrab::Motion_1_Walk()
             {
                 if (mNextMotion != eScrabMotions::Motion_2_Run)
                 {
-                    MapFollowMe(TRUE);
+                    MapFollowMe(true);
                     return;
                 }
                 mCurrentMotion = eScrabMotions::Motion_16_WalkToRun;
                 mNextMotion = -1;
-                MapFollowMe(TRUE);
+                MapFollowMe(true);
                 return;
             }
 
@@ -2135,7 +2135,7 @@ void Scrab::Motion_1_Walk()
                 mCurrentMotion = eScrabMotions::Motion_32_AttackSpin;
                 field_12C_timer = sGnFrame + mPossessedMaxWhirlAttackDuration;
                 mNextMotion = -1;
-                MapFollowMe(TRUE);
+                MapFollowMe(true);
                 return;
             }
 
@@ -2143,7 +2143,7 @@ void Scrab::Motion_1_Walk()
             {
                 mCurrentMotion = eScrabMotions::Motion_16_WalkToRun;
                 mNextMotion = -1;
-                MapFollowMe(TRUE);
+                MapFollowMe(true);
                 return;
             }
 
@@ -2151,11 +2151,11 @@ void Scrab::Motion_1_Walk()
             {
                 mCurrentMotion = eScrabMotions::Motion_5_HopBegin;
                 mNextMotion = -1;
-                MapFollowMe(TRUE);
+                MapFollowMe(true);
                 return;
             }
 
-            MapFollowMe(TRUE);
+            MapFollowMe(true);
             return;
 
         default:
@@ -2227,7 +2227,7 @@ void Scrab::Motion_2_Run()
                     {
                         mCurrentMotion = eScrabMotions::Motion_17_RunToWalk;
                         mNextMotion = -1;
-                        MapFollowMe(TRUE);
+                        MapFollowMe(true);
                         return;
                     }
 
@@ -2236,7 +2236,7 @@ void Scrab::Motion_2_Run()
                         if (mNextMotion == eScrabMotions::Motion_32_AttackSpin)
                         {
                             mCurrentMotion = eScrabMotions::Motion_32_AttackSpin;
-                            MapFollowMe(TRUE);
+                            MapFollowMe(true);
                             return;
                         }
 
@@ -2245,11 +2245,11 @@ void Scrab::Motion_2_Run()
                             ToStand();
                             mCurrentMotion = eScrabMotions::Motion_31_ScrabBattleAnim;
                             mNextMotion = -1;
-                            MapFollowMe(TRUE);
+                            MapFollowMe(true);
                             return;
                         }
 
-                        MapFollowMe(TRUE);
+                        MapFollowMe(true);
                         return;
                     }
                 }
@@ -2262,14 +2262,14 @@ void Scrab::Motion_2_Run()
                             if (!Input().isPressed(sInputKey_Run))
                             {
                                 mCurrentMotion = eScrabMotions::Motion_17_RunToWalk;
-                                MapFollowMe(TRUE);
+                                MapFollowMe(true);
                                 return;
                             }
 
                             if (Input().isPressed(sInputKey_Hop))
                             {
                                 ToJump();
-                                MapFollowMe(TRUE);
+                                MapFollowMe(true);
                                 return;
                             }
 
@@ -2278,17 +2278,17 @@ void Scrab::Motion_2_Run()
                                 field_12C_timer = MakeTimer(mPossessedMaxWhirlAttackDuration);
                                 mCurrentMotion = eScrabMotions::Motion_32_AttackSpin;
                                 mNextMotion = -1;
-                                MapFollowMe(TRUE);
+                                MapFollowMe(true);
                                 return;
                             }
 
-                            MapFollowMe(TRUE);
+                            MapFollowMe(true);
                             return;
                         }
                     }
                 }
                 mCurrentMotion = eScrabMotions::Motion_4_RunToStand;
-                MapFollowMe(TRUE);
+                MapFollowMe(true);
                 return;
 
             default:
@@ -2346,7 +2346,7 @@ void Scrab::Motion_4_RunToStand()
 
             if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
-                MapFollowMe(TRUE);
+                MapFollowMe(true);
                 TryMoveOrStand();
             }
         }
@@ -2589,7 +2589,7 @@ void Scrab::Motion_8_JumpToFall()
                 PlatformCollide();
                 mYPos = hitY;
                 mXPos = hitX;
-                MapFollowMe(TRUE);
+                MapFollowMe(true);
                 break;
             case eLineTypes::eWallLeft_1:
             case eLineTypes::eWallRight_2:
@@ -3289,14 +3289,14 @@ s16 Scrab::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
     const FP k10Scaled = (FP_FromInteger(10) * GetSpriteScale());
     if (FP_FromInteger(ourRect.y) <= (FP_FromInteger(otherRect.h) - k10Scaled) && ourRect.y >= otherRect.y)
     {
-        return TRUE;
+        return true;
     }
 
     if (ourRect.h <= otherRect.h)
     {
         if (FP_FromInteger(ourRect.h) >= (k10Scaled + FP_FromInteger(otherRect.y)))
         {
-            return TRUE;
+            return true;
         }
     }
 
@@ -3304,22 +3304,22 @@ s16 Scrab::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
     {
         if (ourRect.h <= otherRect.h)
         {
-            return TRUE;
+            return true;
         }
 
         if (ourRect.y > otherRect.y)
         {
-            return FALSE;
+            return false;
         }
     }
 
     if (ourRect.h < otherRect.h)
     {
-        return FALSE;
+        return false;
     }
     else
     {
-        return TRUE;
+        return true;
     }
 }
 
@@ -3334,7 +3334,7 @@ void Scrab::ToStand()
     mVelX = FP_FromInteger(0);
     mVelY = FP_FromInteger(0);
     mCurrentMotion = eScrabMotions::Motion_0_Stand;
-    MapFollowMe(TRUE);
+    MapFollowMe(true);
 }
 
 void Scrab::MoveOnLine()
@@ -3536,7 +3536,7 @@ void Scrab::TryMoveOrStand()
 
 s16 Scrab::ToNextMotion()
 {
-    MapFollowMe(TRUE);
+    MapFollowMe(true);
 
     if (sControlledCharacter == this && mHealth > FP_FromInteger(0) && mBrainSubState != 0)
     {
@@ -3847,7 +3847,7 @@ void Scrab::KnockBack()
     }
     mVelX = (v4 / FP_FromInteger(2));
 
-    MapFollowMe(TRUE);
+    MapFollowMe(true);
 
     if (mVelY < FP_FromInteger(0))
     {
@@ -4039,7 +4039,7 @@ s16 Scrab::FindAbeOrMud()
         if (!WallHit(GetSpriteScale() * FP_FromInteger(45), sActiveHero->mXPos - mXPos))
         {
             mTargetGuid = sActiveHero->mBaseGameObjectId;
-            return TRUE;
+            return true;
         }
     }
 
@@ -4059,12 +4059,12 @@ s16 Scrab::FindAbeOrMud()
                 if (!WallHit(GetSpriteScale() * FP_FromInteger(45), pAliveObj->mXPos - mXPos))
                 {
                     mTargetGuid = pAliveObj->mBaseGameObjectId;
-                    return TRUE;
+                    return true;
                 }
             }
         }
     }
-    return FALSE;
+    return false;
 }
 
 s16 Scrab::CanSeeAbe(BaseAliveGameObject* pObj)

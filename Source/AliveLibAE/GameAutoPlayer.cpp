@@ -60,9 +60,9 @@ bool Player::ValidateObjectStates()
             {
                 break;
             }
-            LOG_INFO("object at " << i << " with type " << (s32)pObj->Type());
+            LOG_INFO("object at %d with type %d", i, (s32)pObj->Type());
         }
-        LOG_ERROR("Got " << gBaseGameObjects->Size() << " objects but expected " << objCount << " on gnframe " << sGnFrame);
+        LOG_ERROR("Got %d objects but expected %d on gnframe %d", gBaseGameObjects->Size(), objCount, sGnFrame);
     }
 
     for (u32 i = 0; i < std::min(objCount, static_cast<u32>(gBaseGameObjects->Size())); i++)
@@ -77,7 +77,7 @@ bool Player::ValidateObjectStates()
         BaseGameObject* pObj = gBaseGameObjects->ItemAt(i);
         if (pObj->Type() != reliveObjType)
         {
-            LOG_ERROR("Got " << static_cast<s16>(BaseGameObject::ToAE(pObj->Type())) << " type but expected " << objType);
+            LOG_ERROR("Got %d type but expected %d", static_cast<s16>(BaseGameObject::ToAE(pObj->Type())), objType);
             return false;
         }
 
@@ -111,7 +111,7 @@ bool Player::ValidateObjectStates()
             mFile.Read(objType);
 
             ReliveTypes reliveObjType = BaseGameObject::FromAE(static_cast<AETypes>(objType));
-            LOG_INFO("First extra object type is " << static_cast<u32>(reliveObjType));
+            LOG_INFO("First extra object type is %d", static_cast<u32>(reliveObjType));
         }
         return false;
     }

@@ -17,7 +17,7 @@
 #include "../AliveLibCommon/FatalError.hpp"
 
 CameraSwapper::CameraSwapper(CamResource& ppCamRes, bool bPutDispEnv1, const char_type* pFmv1, bool bPutDispEnv2, const char_type* pFmv2, bool bPutDispEnv3, const char_type* pFmv3)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     mFmvs[0] = pFmv1;
     mPutDispEnv[0] = bPutDispEnv1;
@@ -47,7 +47,7 @@ CameraSwapper::CameraSwapper(CamResource& ppCamRes, bool bPutDispEnv1, const cha
 }
 
 CameraSwapper::CameraSwapper(CamResource& ppCamRes, CameraSwapEffects changeEffect, s32 xpos, s32 ypos)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     field_4E_xpos_converted = static_cast<s16>(PsxToPCX(xpos));
     field_50_ypos_converted = static_cast<s16>(ypos);

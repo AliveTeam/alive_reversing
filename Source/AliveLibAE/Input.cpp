@@ -12,6 +12,7 @@
 #include "TouchController.hpp"
 #include "GameAutoPlayer.hpp"
 #include "../relive_lib/data_conversion/string_util.hpp"
+#include <sstream>
 
 #if USE_SDL2
 static SDL_GameController* pSDLController = nullptr;
@@ -562,12 +563,12 @@ s8 Input_GetKeyState_4EDD20(s32 key)
 
 void Input_EnableInput_4EDDD0()
 {
-    sInputEnabled_BBB9D0 = TRUE;
+    sInputEnabled_BBB9D0 = true;
 }
 
 void Input_DisableInputForPauseMenuAndDebug_4EDDC0()
 {
-    sInputEnabled_BBB9D0 = FALSE;
+    sInputEnabled_BBB9D0 = false;
 }
 
 struct KeyName final
@@ -1006,7 +1007,7 @@ void NewParseSettingsIni()
 
             std::string category = o.substr(1, o.size() - 2);
 
-            LOG_INFO("Ini category: " << category.c_str());
+            LOG_INFO("Ini category: %s", category.c_str());
             if (category == iniCategories[1])
             {
                 currentCategory = IniCategory::eKeyboard;
@@ -1039,7 +1040,7 @@ void NewParseSettingsIni()
             }
             else
             {
-                LOG_ERROR("Wrong INI category name! " << category);
+                LOG_ERROR("Wrong INI category name! %s", category.c_str());
                 currentCategory = IniCategory::eNone;
             }
         }
@@ -1049,7 +1050,7 @@ void NewParseSettingsIni()
 
             if (param.size() == 2)
             {
-                LOG_INFO("Value: " << param[0].c_str() << " = " << param[1].c_str());
+                LOG_INFO("Value: %s = %s", param[0].c_str(), param[1].c_str());
 
                 if (currentCategory == IniCategory::eControl)
                 {
@@ -1617,7 +1618,7 @@ void Input_InitJoyStick_460080()
 
     sGamepadCapFlags_5C2EF8 |= eDisableAutoRun;
  
-    LOG_INFO("SDL_NumJoysticks: " << SDL_NumJoysticks());
+    LOG_INFO("SDL_NumJoysticks: %d", SDL_NumJoysticks());
     for (s32 i = 0; i < SDL_NumJoysticks(); i++)
     {
         if (SDL_IsGameController(i))
@@ -1625,7 +1626,7 @@ void Input_InitJoyStick_460080()
             pSDLController = SDL_GameControllerOpen(i); // TODO: SDL_GameControllerClose is never called on this
             if (pSDLController)
             {
-                LOG_INFO("Controller name is " << SDL_GameControllerName(pSDLController));
+                LOG_INFO("Controller name is %s", SDL_GameControllerName(pSDLController));
 
                 sJoystickAvailable = true;
 
@@ -1636,12 +1637,12 @@ void Input_InitJoyStick_460080()
             }
             else
             {
-                LOG_ERROR("Could not open SDL GamePad " << i << " " << SDL_GetError());
+                LOG_ERROR("Could not open SDL GamePad %d %s", i, SDL_GetError());
             }
         }
         else
         {
-            LOG_INFO("Item " << i << " is not a game controller");
+            LOG_INFO("Item %d is not a game controller", i);
         }
     }
 

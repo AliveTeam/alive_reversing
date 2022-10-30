@@ -43,7 +43,7 @@ GasEmitter::~GasEmitter()
 }
 
 GasEmitter::GasEmitter(relive::Path_GasEmitter* pTlv, const Guid& tlvId)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     SetType(ReliveTypes::eNone);
 

@@ -96,7 +96,7 @@ RollingBall::RollingBall(relive::Path_RollingBall* pTlv, const Guid& tlvId)
         mYPos = castY;
     }
 
-    MapFollowMe(TRUE);
+    MapFollowMe(true);
     field_10C_tlvInfo = tlvId;
     mState = States::eInactive;
     mRollingBallShaker = nullptr;

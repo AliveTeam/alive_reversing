@@ -10,7 +10,7 @@
 #include "Path.hpp"
 
 InvisibleSwitch::InvisibleSwitch(relive::Path_InvisibleSwitch* pTlv, const Guid& tlvId)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     field_24_tlvInfo = tlvId;
     field_20_switch_id = pTlv->mSwitchId;

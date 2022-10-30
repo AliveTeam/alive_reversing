@@ -35,11 +35,11 @@ bool RunningAsInjectedDll()
 static ReliveAPI::TAliveFatalCb fnAliveFatalCb = nullptr;
 
 // ditto for AliveLibCommon
-[[noreturn]] void ALIVE_FATAL(const char_type* errMsg)
+[[noreturn]] void ALIVE_FATAL(const char_type* fmt, ...)
 {
     if (fnAliveFatalCb)
     {
-        fnAliveFatalCb(errMsg);
+        fnAliveFatalCb(fmt);
     }
     // fnAliveFatalCb should throw or exit - compiler doesn't know this and we can't
     // mark a function pointer as noreturn. So abort in the impossible case that the function

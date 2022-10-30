@@ -9,7 +9,7 @@
 #include "Path.hpp"
 
 MultiSwitchController::MultiSwitchController(relive::Path_MultiSwitchController* pTlv, const Guid& tlvId)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     field_40_flags.Clear(Flags_40::eBit1_is_on);
     mBaseGameObjectTlvInfo = tlvId;

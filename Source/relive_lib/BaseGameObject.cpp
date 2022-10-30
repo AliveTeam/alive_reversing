@@ -972,8 +972,7 @@ AnimResource& BaseGameObject::GetAnimRes(AnimId animId)
             return mLoadedAnims[i];
         }
     }
-    LOG_ERROR("Anim res " << static_cast<s32>(animId) << " not found");
-    ALIVE_FATAL("Anim res not found");
+    ALIVE_FATAL("Anim res %d not found", static_cast<s32>(animId));
 }
 
 PalResource& BaseGameObject::GetPalRes(PalId palId)
@@ -985,6 +984,5 @@ PalResource& BaseGameObject::GetPalRes(PalId palId)
             return mLoadedPals[i];
         }
     }
-    LOG_ERROR("Pal res " << static_cast<s32>(palId) << " not found");
-    ALIVE_FATAL("Pal res not found");
+    ALIVE_FATAL("Pal res %d not found", static_cast<s32>(palId));
 }

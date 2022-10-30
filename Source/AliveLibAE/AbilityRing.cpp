@@ -38,7 +38,7 @@ static s32 MinDistance(s32 screenX, s32 screenY, s32 width1, s32 height1, s32 wi
 }
 
 AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ringType, FP scale)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     SetType(ReliveTypes::eAbilityRing);
     mRingTargetObjId = Guid{};
@@ -337,7 +337,7 @@ void AbilityRing::VUpdate()
 {
     if (mRefreshTargetObjId)
     {
-        mRefreshTargetObjId = FALSE;
+        mRefreshTargetObjId = false;
         mRingTargetObjId = RefreshId(mRingTargetObjId);
     }
 
@@ -396,11 +396,11 @@ void AbilityRing::VUpdate()
         case RingTypes::eHealing_Emit_12:
             if (mRingType == RingTypes::eHealing_Emit_12)
             {
-                CollideWithObjects(FALSE);
+                CollideWithObjects(false);
             }
             else
             {
-                CollideWithObjects(TRUE);
+                CollideWithObjects(true);
             }
             [[fallthrough]];
 
@@ -494,7 +494,7 @@ s32 AbilityRing::CreateFromSaveState(const u8* pBuffer)
         pRing->mRingRight = pState->mRingRight;
         pRing->mRingCount = pState->mRingCount;
         pRing->mRingTargetObjId = pState->mRingTlvInfo;
-        pRing->mRefreshTargetObjId = TRUE;
+        pRing->mRefreshTargetObjId = true;
     }
     return sizeof(AbilityRing_State);
 }

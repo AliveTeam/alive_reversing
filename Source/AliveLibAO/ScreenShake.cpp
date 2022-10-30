@@ -9,7 +9,7 @@
 namespace AO {
 
 ScreenShake::ScreenShake(bool enableShakeEvent)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     SetType(ReliveTypes::ScreenShake);
 

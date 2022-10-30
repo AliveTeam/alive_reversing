@@ -217,7 +217,7 @@ void MotionDetector::VRender(PrimHeader** ppOt)
         SetRGB0(pPrim, 80, 0, 0);
 
         // Add triangle
-        Poly_Set_SemiTrans(&pPrim->mBase.header, TRUE);
+        Poly_Set_SemiTrans(&pPrim->mBase.header, true);
         OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pPrim->mBase.header);
 
         // Add tpage

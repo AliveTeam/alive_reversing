@@ -29,7 +29,7 @@ ALIVE_ASSERT_SIZEOF(ScreenWave_Data, 0x3700);
 #undef max
 
 ScreenWave::ScreenWave(FP xpos, FP ypos, Layer layer, FP width, FP speed, s32 radius)
-    : BaseGameObject(TRUE, 0)
+    : BaseGameObject(true, 0)
 {
     SetType(ReliveTypes::eScreenWave);
     gObjListDrawables->Push_Back(this);

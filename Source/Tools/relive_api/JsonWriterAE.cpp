@@ -91,7 +91,7 @@ inline Path_TLV* Next_TLV_Impl(Path_TLV* pTlv)
         {
             if (pPathTLV->mLength != obj->TlvLen())
             {
-                LOG_ERROR(magic_enum::enum_name(pPathTLV->mTlvType32.mType) << " size should be " << pPathTLV->mLength << " but got " << obj->TlvLen());
+                LOG_ERROR("%s size should be %d but got %d", magic_enum::enum_name(pPathTLV->mTlvType32.mType), pPathTLV->mLength, obj->TlvLen());
                 throw ReliveAPI::WrongTLVLengthException();
             }
 
@@ -99,7 +99,7 @@ inline Path_TLV* Next_TLV_Impl(Path_TLV* pTlv)
         }
         else
         {
-            LOG_WARNING("Ignoring type: " << pPathTLV->mTlvType32.mType);
+            LOG_WARNING("Ignoring type: %d", pPathTLV->mTlvType32.mType);
         }
 
         pPathTLV = Next_TLV_Impl(pPathTLV); // TODO: Will skip the last entry ??

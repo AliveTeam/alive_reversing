@@ -17,17 +17,6 @@ target_include_directories(jsonxx_reliveapi SYSTEM PUBLIC
 export(TARGETS jsonxx_reliveapi FILE jsonxx_reliveapi.cmake)
 set_property(TARGET jsonxx_reliveapi PROPERTY FOLDER "ReliveAPI")
 
-add_library(easylogging_reliveapi
-    ../../../3rdParty/EasyLogging++/EasyLogging/src/easylogging++.cc
-    )
-target_include_directories(easylogging_reliveapi PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>/../../../3rdParty/EasyLogging++/EasyLogging/src
-    $<INSTALL_INTERFACE:include>
-    PRIVATE ${CMAKE_BINARY_DIR})
-export(TARGETS easylogging_reliveapi FILE easylogging_reliveapi.cmake)
-set_property(TARGET easylogging_reliveapi PROPERTY FOLDER "ReliveAPI")
-
 # relive_lib entry HACK! fix later after engine merge is finished
 add_library(AliveLibAO_reliveapi
     ../../AliveLibAO/Grid.cpp
@@ -139,7 +128,6 @@ set(relive_api_src
 )
 add_library(relive_api ${relive_api_src})
 target_link_libraries(relive_api 
-    easylogging_reliveapi
     AliveLibCommon_reliveapi
     AliveLibAO_reliveapi
     AliveLibAE_reliveapi
