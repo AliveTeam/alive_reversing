@@ -3,9 +3,6 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "EffectBase.hpp"
 #include "../relive_lib/Layer.hpp"
-#include "../relive_lib/Primitives.hpp"
-
-namespace AO {
 
 class Flash final : public EffectBase
 {
@@ -16,5 +13,3 @@ public:
 private:
     s32 mFlashTime = 0;
 };
-
-} // namespace AO

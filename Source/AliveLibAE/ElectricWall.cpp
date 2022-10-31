@@ -6,7 +6,7 @@
 #include "Sfx.hpp"
 #include "Game.hpp"
 #include "BaseAliveGameObject.hpp"
-#include "Flash.hpp"
+#include "../relive_lib/Flash.hpp"
 #include "Abe.hpp"
 #include "Electrocute.hpp"
 #include "Function.hpp"

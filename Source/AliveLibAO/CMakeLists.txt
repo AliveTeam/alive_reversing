@@ -175,8 +175,6 @@ SET(AliveLibSrcAO
    BeeSwarm.cpp
    DeathFadeOut.hpp
    DeathFadeOut.cpp
-   Flash.hpp
-   Flash.cpp
    Gibs.hpp
    Gibs.cpp
    ScreenShake.hpp
@@ -237,8 +235,6 @@ SET(AliveLibSrcAO
    Slig.cpp
    SligSpawner.hpp
    SligSpawner.cpp
-   EffectBase.hpp
-   EffectBase.cpp
    Alarm.hpp
    Alarm.cpp
    PathData.hpp

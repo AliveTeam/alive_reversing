@@ -8,7 +8,7 @@
 #include "Sfx.hpp"
 #include "Game.hpp"
 #include "ParticleBurst.hpp"
-#include "Flash.hpp"
+#include "../relive_lib/Flash.hpp"
 #include "PossessionFlicker.hpp"
 #include "AbilityRing.hpp"
 #include "Electrocute.hpp"

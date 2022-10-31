@@ -11,7 +11,7 @@
 #include "Dove.hpp"
 #include "ThrowableArray.hpp"
 #include "Elum.hpp"
-#include "Flash.hpp"
+#include "../relive_lib/Flash.hpp"
 #include "LiftPoint.hpp"
 #include "ResourceManager.hpp"
 #include "../relive_lib/Shadow.hpp"

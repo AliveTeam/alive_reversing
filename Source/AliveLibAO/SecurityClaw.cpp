@@ -12,7 +12,7 @@
 #include "ZapSpark.hpp"
 #include "Abe.hpp"
 #include "Game.hpp"
-#include "Flash.hpp"
+#include "../relive_lib/Flash.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Alarm.hpp"
 #include "ScreenShake.hpp"

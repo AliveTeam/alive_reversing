@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
-#include "EffectBase.hpp"
+#include "../relive_lib/EffectBase.hpp"
 #include "../relive_lib/Layer.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 

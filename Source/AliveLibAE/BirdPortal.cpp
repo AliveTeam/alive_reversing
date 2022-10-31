@@ -13,7 +13,7 @@
 #include "Game.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
-#include "Flash.hpp"
+#include "../relive_lib/Flash.hpp"
 #include "../relive_lib/Particle.hpp"
 #include "Abe.hpp"
 #include "../relive_lib/ScreenManager.hpp"

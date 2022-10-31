@@ -149,16 +149,12 @@ SET(AliveLibAESrc
     HoistRocksEffect.cpp
     CircularFade.hpp
     CircularFade.cpp
-    EffectBase.hpp
-    EffectBase.cpp
     Alarm.hpp
     Alarm.cpp
     DeathFadeOut.hpp
     DeathFadeOut.cpp
     PossessionFlicker.hpp
     PossessionFlicker.cpp
-    Flash.hpp
-    Flash.cpp
     Door.hpp
     Door.cpp
     DeathBirdParticle.hpp

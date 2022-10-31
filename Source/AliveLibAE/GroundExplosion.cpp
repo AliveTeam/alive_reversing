@@ -9,7 +9,7 @@
 #include "Abe.hpp"
 #include "ScreenShake.hpp"
 #include "ParticleBurst.hpp"
-#include "Flash.hpp"
+#include "../relive_lib/Flash.hpp"
 #include "../relive_lib/Particle.hpp"
 #include "ResourceManager.hpp"
 #include "Map.hpp"

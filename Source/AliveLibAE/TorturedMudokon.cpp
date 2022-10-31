@@ -5,7 +5,7 @@
 #include "stdlib.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/SwitchStates.hpp"
-#include "Flash.hpp"
+#include "../relive_lib/Flash.hpp"
 #include "Sfx.hpp"
 #include "Function.hpp"
 #include "Abe.hpp"

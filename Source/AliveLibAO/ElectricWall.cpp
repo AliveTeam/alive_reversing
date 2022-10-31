@@ -5,7 +5,7 @@
 #include "Math.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "Electrocute.hpp"
-#include "Flash.hpp"
+#include "../relive_lib/Flash.hpp"
 #include "Sfx.hpp"
 #include "Game.hpp"
 #include "../relive_lib/Events.hpp"

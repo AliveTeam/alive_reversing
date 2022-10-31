@@ -6,7 +6,7 @@
 #include "Abe.hpp"
 #include "ScreenClipper.hpp"
 #include "ThrowableTotalIndicator.hpp"
-#include "Flash.hpp"
+#include "../relive_lib/Flash.hpp"
 #include "Midi.hpp"
 #include "Dove.hpp"
 #include "OrbWhirlWind.hpp"

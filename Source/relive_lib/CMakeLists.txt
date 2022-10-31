@@ -9,6 +9,10 @@ SET(relive_lib_src
     ../Tools/relive_api/ApiFG1Reader.hpp
     IBaseAliveGameObject.hpp
     IBaseAliveGameObject.cpp
+    EffectBase.hpp
+    EffectBase.cpp
+    Flash.hpp
+    Flash.cpp
     BinaryPath.hpp
     BinaryPath.cpp
     ShadowZone.hpp

@@ -10,7 +10,7 @@
 #include "Game.hpp"
 #include "CheatController.hpp"
 #include "../relive_lib/Particle.hpp"
-#include "Flash.hpp"
+#include "../relive_lib/Flash.hpp"
 #include "Dove.hpp"
 #include "Math.hpp"
 #include "Grid.hpp"

@@ -9,7 +9,7 @@
 #include "Sfx.hpp"
 #include "PossessionFlicker.hpp"
 #include "ParticleBurst.hpp"
-#include "Flash.hpp"
+#include "../relive_lib/Flash.hpp"
 #include "Electrocute.hpp"
 #include "AbilityRing.hpp"
 #include "Math.hpp"

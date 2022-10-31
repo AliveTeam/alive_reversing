@@ -1,13 +1,8 @@
-#include "stdafx_ao.h"
+#include "stdafx.h"
 #include "EffectBase.hpp"
-#include "Function.hpp"
-#include "../relive_lib/DynamicArray.hpp"
-#include "Map.hpp"
-#include "../AliveLibAE/stdlib.hpp"
-#include "../relive_lib/PsxDisplay.hpp"
-#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
-
-namespace AO {
+#include "MapWrapper.hpp"
+#include "PsxDisplay.hpp"
+#include "BaseAnimatedWithPhysicsGameObject.hpp"
 
 EffectBase::EffectBase(Layer layer, TPageAbr abr)
     : BaseGameObject(true, 0)
@@ -15,12 +10,10 @@ EffectBase::EffectBase(Layer layer, TPageAbr abr)
     SetType(ReliveTypes::eEffectBase);
     gObjListDrawables->Push_Back(this);
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
-    mEffectBasePathId = gMap.mCurrentPath;
-    mEffectBaseLevelId = gMap.mCurrentLevel;
-    for (s32 i = 0; i < 2; i++)
-    {
-        Init_SetTPage(&mEffectBaseTPage[i], 0, 0, PSX_getTPage(abr));
-    }
+    mEffectBasePathId = GetMap().mCurrentPath;
+    mEffectBaseLevelId = GetMap().mCurrentLevel;
+    Init_SetTPage(&mEffectBaseTPage[0], 0, 0, PSX_getTPage(abr));
+    Init_SetTPage(&mEffectBaseTPage[1], 0, 0, PSX_getTPage(abr));
     mEffectBaseLayer = layer;
     mSemiTrans = 1;
 }
@@ -49,4 +42,3 @@ void EffectBase::VRender(PrimHeader** ppOt)
         OrderingTable_Add(OtLayer(ppOt, mEffectBaseLayer), &mEffectBaseTPage[gPsxDisplay.mBufferIndex].mBase);
     }
 }
-} // namespace AO

@@ -1,9 +1,6 @@
-#include "stdafx_ao.h"
+#include "stdafx.h"
 #include "Flash.hpp"
-#include "Game.hpp"
-#include "../AliveLibAE/stdlib.hpp"
-
-namespace AO {
+#include "../AliveLibAE/Game.hpp"
 
 Flash::Flash(Layer layer, s32 r, s32 g, s32 b, TPageAbr abr, s32 time)
     : EffectBase(layer, abr)
@@ -22,5 +19,3 @@ void Flash::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
-
-} // namespace AO
