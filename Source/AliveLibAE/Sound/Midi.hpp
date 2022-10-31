@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../AliveLibCommon/Function.hpp"
-
+#include <memory>
 
 struct SoundBlockInfo;
 struct OpenSeqHandle;

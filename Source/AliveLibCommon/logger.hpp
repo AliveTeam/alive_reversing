@@ -51,11 +51,11 @@ inline void log_impl(LogLevels logLevel, const char* funcName, const char* forma
 
 #ifdef LOGGING
     #define TRACE_ENTRYEXIT Logging::AutoLog __funcTrace(FNAME)
-    #define LOG_TRACE(fmt, ...) log_impl(LogLevels::Trace, FNAME, fmt, __VA_ARGS__)
-    #define LOG_INFO(fmt, ...) log_impl(LogLevels::Info, FNAME, fmt, __VA_ARGS__)
-    #define LOG_WARNING(fmt, ...) log_impl(LogLevels::Warning, FNAME, fmt, __VA_ARGS__)
-    #define LOG_ERROR(fmt, ...) log_impl(LogLevels::Error, FNAME, fmt, __VA_ARGS__)
-    #define LOG(fmt, ...) log_impl(LogLevels::Trace, FNAME, fmt, __VA_ARGS__)
+    #define LOG_TRACE(fmt, ...) log_impl(LogLevels::Trace, FNAME, fmt, ##__VA_ARGS__)
+    #define LOG_INFO(fmt, ...) log_impl(LogLevels::Info, FNAME, fmt, ##__VA_ARGS__)
+    #define LOG_WARNING(fmt, ...) log_impl(LogLevels::Warning, FNAME, fmt, ##__VA_ARGS__)
+    #define LOG_ERROR(fmt, ...) log_impl(LogLevels::Error, FNAME, fmt, ##__VA_ARGS__)
+    #define LOG(fmt, ...) log_impl(LogLevels::Trace, FNAME, fmt, ##__VA_ARGS__)
 #else
     #define TRACE_ENTRYEXIT
     #define LOG_TRACE(fmt, ...)

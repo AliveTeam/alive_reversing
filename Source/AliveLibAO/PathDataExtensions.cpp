@@ -40,7 +40,7 @@ static void SetAndLog(const char_type* propertyName, T& dst, T newVal)
 {
     if (dst != newVal)
     {
-        LOG_INFO("Update " << propertyName << " from " << static_cast<s32>(dst) << " to " << static_cast<s32>(newVal));
+        LOG_INFO("Update %s from %d to %d", propertyName, static_cast<s32>(dst), static_cast<s32>(newVal));
         dst = newVal;
     }
 }

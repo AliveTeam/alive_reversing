@@ -2,6 +2,7 @@
 
 #include "../../AliveLibCommon/FG1Reader.hpp"
 #include <string>
+#include <memory>
 
 namespace ReliveAPI {
 class CameraImageAndLayers;
