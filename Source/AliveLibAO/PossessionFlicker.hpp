@@ -7,15 +7,16 @@ class IBaseAliveGameObject;
 
 namespace AO {
 
-class PossessionFlicker final : public ::BaseGameObject
+class PossessionFlicker final : public BaseGameObject
 {
 public:
+    virtual void VUpdate() override;
+    virtual void VScreenChanged() override;
+
     PossessionFlicker(IBaseAliveGameObject* pToApplyFlicker, s32 duration, s32 r, s32 g, s32 b);
     ~PossessionFlicker();
 
-    virtual void VScreenChanged() override;
-    virtual void VUpdate() override;
-
+private:
     IBaseAliveGameObject* field_10_pObj = nullptr;
     s32 field_14_time_to_flicker = 0;
 

@@ -5,31 +5,6 @@
 #include "BaseAliveGameObject.hpp"
 
 namespace AO {
-
-void PossessionFlicker::VScreenChanged()
-{
-    if (field_10_pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
-    {
-        field_10_pObj->mBaseGameObjectRefCount--;
-        field_10_pObj = nullptr;
-        mBaseGameObjectFlags.Set(Options::eDead);
-    }
-}
-
-PossessionFlicker::~PossessionFlicker()
-{
-    if (field_10_pObj)
-    {
-        field_10_pObj->GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
-
-        field_10_pObj->mRGB.r = field_1E_old_r;
-        field_10_pObj->mRGB.g = field_20_old_g;
-        field_10_pObj->mRGB.b = field_22_old_b;
-
-        field_10_pObj->mBaseGameObjectRefCount--;
-    }
-}
-
 PossessionFlicker::PossessionFlicker(IBaseAliveGameObject* pToApplyFlicker, s32 duration, s32 r, s32 g, s32 b)
     : BaseGameObject(true, 0)
 {
@@ -46,9 +21,32 @@ PossessionFlicker::PossessionFlicker(IBaseAliveGameObject* pToApplyFlicker, s32 
 
     pToApplyFlicker->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
 
-    field_14_time_to_flicker = sGnFrame + duration;
+    field_14_time_to_flicker = duration + sGnFrame;
 }
 
+PossessionFlicker::~PossessionFlicker()
+{
+    if (field_10_pObj)
+    {
+        field_10_pObj->GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
+
+        field_10_pObj->mRGB.r = field_1E_old_r;
+        field_10_pObj->mRGB.g = field_20_old_g;
+        field_10_pObj->mRGB.b = field_22_old_b;
+
+        field_10_pObj->mBaseGameObjectRefCount--;
+    }
+}
+
+void PossessionFlicker::VScreenChanged()
+{
+    if (field_10_pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+    {
+        field_10_pObj->mBaseGameObjectRefCount--;
+        field_10_pObj = nullptr;
+        mBaseGameObjectFlags.Set(Options::eDead);
+    }
+}
 
 void PossessionFlicker::VUpdate()
 {

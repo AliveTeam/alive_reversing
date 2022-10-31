@@ -23,7 +23,7 @@ PossessionFlicker::PossessionFlicker(IBaseAliveGameObject* pToApplyFlicker, s32 
 
         if (pObj != this && pObj->Type() == ReliveTypes::ePossessionFlicker && static_cast<PossessionFlicker*>(pObj)->ObjectId() == field_30_obj_id)
         {
-            // It is to don't store the id, first update will destroy this object
+            // It is so don't store the id as the first update will destroy this object
             field_30_obj_id = Guid{};
             return;
         }
@@ -37,9 +37,9 @@ PossessionFlicker::PossessionFlicker(IBaseAliveGameObject* pToApplyFlicker, s32 
     field_2C_old_g = pToApplyFlicker->mRGB.g;
     field_2E_old_b = pToApplyFlicker->mRGB.b;
 
-    field_20_time_to_flicker = duration + sGnFrame;
-
     pToApplyFlicker->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+
+    field_20_time_to_flicker = duration + sGnFrame;
 }
 
 PossessionFlicker::~PossessionFlicker()
