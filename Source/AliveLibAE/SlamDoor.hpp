@@ -8,6 +8,13 @@ namespace relive
     struct Path_SlamDoor;
 }
 
+struct Quicksave_Obj_SlamDoor final
+{
+    AETypes mType;
+    Guid mTlvInfo;
+};
+//ALIVE_ASSERT_SIZEOF_ALWAYS(Quicksave_Obj_SlamDoor, 8);
+
 class SlamDoor final : public BaseAliveGameObject
 {
 public:

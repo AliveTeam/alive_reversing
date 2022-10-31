@@ -53,13 +53,6 @@ TintEntry sSlamDoorTints[18] = {
     {EReliveLevelIds::eBonewerkz_Ender, 102u, 87u, 118u},
     {EReliveLevelIds::eNone, 102u, 87u, 118u}};
 
-struct Quicksave_Obj_SlamDoor final
-{
-    AETypes mType;
-    Guid mTlvInfo;
-};
-//ALIVE_ASSERT_SIZEOF_ALWAYS(Quicksave_Obj_SlamDoor, 8);
-
 void SlamDoor::LoadAnimations()
 {
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Slam_Door_Industrial_Closing));
