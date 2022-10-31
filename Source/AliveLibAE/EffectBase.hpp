@@ -11,9 +11,7 @@ enum class TPageAbr : s8;
 class EffectBase : public BaseGameObject
 {
 public:
-    
     virtual void VRender(PrimHeader** ppOt) override;
-
     EffectBase(Layer layer, TPageAbr abr);
     ~EffectBase();
 

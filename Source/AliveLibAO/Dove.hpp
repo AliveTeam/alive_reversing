@@ -14,19 +14,20 @@ public:
     Dove(AnimId animId, const Guid& tlvId, FP scale);
     Dove(AnimId animId, FP xpos, FP ypos, FP scale);
     ~Dove();
-    
+
     void LoadAnimations();
-
-    virtual void VRender(PrimHeader** ppOt) override;
     virtual void VUpdate() override;
+    virtual void VRender(PrimHeader** ppOt) override;
 
-    static void All_FlyAway();
 
     void AsAlmostACircle(FP xpos, FP ypos, u8 angle);
     void AsACircle(FP xpos, FP ypos, u8 angle);
     void AsJoin(FP xpos, FP ypos);
     void FlyAway(bool spookedInstantly);
 
+    static void All_FlyAway();
+
+private:
     s16 mFlyAwayCounter = 0;
     Guid mTlvInfo;
     s16 mKeepInGlobalArray = 0;

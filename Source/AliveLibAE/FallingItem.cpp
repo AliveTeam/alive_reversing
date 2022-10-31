@@ -56,9 +56,10 @@ void FallingItem::LoadAnimations()
 FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(0)
 {
+    mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
+
     SetType(ReliveTypes::eRockSpawner);
 
-    mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
     field_118_tlvInfo = tlvId;
 
     const s32 lvlIdx = static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel));
@@ -184,7 +185,9 @@ FallingItem::~FallingItem()
 
 void FallingItem::VScreenChanged()
 {
-    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath || field_11C_state != State::eFalling_3)
+    if (gMap.mCurrentLevel != gMap.mNextLevel 
+	|| gMap.mCurrentPath != gMap.mNextPath 
+        || field_11C_state != State::eFalling_3)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

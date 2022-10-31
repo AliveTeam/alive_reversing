@@ -3,11 +3,11 @@
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "../AliveLibCommon/Function.hpp"
 
-class Leaf final : public ::BaseAnimatedWithPhysicsGameObject
+class Leaf final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     Leaf(FP xpos, FP ypos, FP xVel, FP yVel, FP scale);
-    
+
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 

@@ -4,7 +4,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
-class ElectricWall final : public ::BaseAnimatedWithPhysicsGameObject
+class ElectricWall final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     ElectricWall(relive::Path_ElectricWall* pTlv, const Guid& tlvId);

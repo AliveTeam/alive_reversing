@@ -50,7 +50,7 @@ Dove::Dove(AnimId animId, const Guid& tlvId, FP scale)
         GetAnimation().SetRenderLayer(Layer::eLayer_8);
     }
 
-    mVelX = FP_FromInteger((Math_NextRandom() / 12 - 11));
+    mVelX = FP_FromInteger(Math_NextRandom() / 12 - 11);
     if (mVelX >= FP_FromInteger(0))
     {
         GetAnimation().mFlags.Clear(AnimFlags::eFlipX);
@@ -198,25 +198,6 @@ void Dove::FlyAway(bool spookedInstantly)
 
 s32 bExtraSeqStarted_4FF944 = 0;
 
-void Dove::All_FlyAway()
-{
-    for (s32 i = 0; i < gDovesArray.Size(); i++)
-    {
-        Dove* pDove = gDovesArray.ItemAt(i);
-        if (!pDove)
-        {
-            break;
-        }
-        pDove->FlyAway(0);
-    }
-
-    bExtraSeqStarted_4FF944 = 0;
-    if (bTheOneControllingTheMusic)
-    {
-        SND_Seq_Stop_477A60(SeqId::Unknown_24);
-        bTheOneControllingTheMusic = false;
-    }
-}
 
 void Dove::VRender(PrimHeader** ppOt)
 {
@@ -322,8 +303,8 @@ void Dove::VUpdate()
 
             const FP k4Directed = GetAnimation().mFlags.Get(AnimFlags::eFlipX) ? FP_FromInteger(4) : FP_FromInteger(-4);
             mVelX = (k4Directed + mJoinX - mXPos) / FP_FromInteger(8);
-            mXPos += mVelX;
             mVelY = (mJoinY - mYPos) / FP_FromInteger(8);
+            mXPos += mVelX;
             mYPos += mVelY;
         }
             return;
@@ -370,6 +351,27 @@ void Dove::VUpdate()
     if (doveScreenXPos > pScreenManager->mCamXOff)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    }
+}
+
+void Dove::All_FlyAway()
+{
+    for (s32 i = 0; i < gDovesArray.Size(); i++)
+    {
+        Dove* pDove = gDovesArray.ItemAt(i);
+        if (!pDove)
+        {
+            break;
+        }
+
+        pDove->FlyAway(0);
+    }
+
+    bExtraSeqStarted_4FF944 = 0;
+    if (bTheOneControllingTheMusic)
+    {
+        SND_Seq_Stop_477A60(SeqId::Unknown_24);
+        bTheOneControllingTheMusic = false;
     }
 }
 

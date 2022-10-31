@@ -119,7 +119,7 @@ void ElectricWall::VUpdate()
 
         const PSX_RECT bRect = VGetBoundingRect();
 
-        PSX_RECT bRectBigger;
+        PSX_RECT bRectBigger = {};
         bRectBigger.x = FP_GetExponent(mXPos - FP_FromInteger(4));
         bRectBigger.y = static_cast<s16>(bRect.y + 5);
         bRectBigger.w = FP_GetExponent(mXPos + FP_FromInteger(4));

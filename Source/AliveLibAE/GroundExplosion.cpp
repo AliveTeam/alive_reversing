@@ -42,6 +42,7 @@ GroundExplosion::GroundExplosion(FP x, FP y, FP scale)
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
     SetSpriteScale(scale * FP_FromDouble(2.75));
+
     mXPos = x;
     mYPos = y;
 
@@ -148,7 +149,7 @@ void GroundExplosion::VUpdate()
     }
 
     if (GetAnimation().GetCurrentFrame() == 3)
-{
+    {
         Particle* pParticle = relive_new Particle(
             mXPos,
             mYPos,

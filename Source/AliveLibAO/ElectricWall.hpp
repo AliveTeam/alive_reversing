@@ -13,9 +13,10 @@ public:
     ElectricWall(relive::Path_ElectricWall* pTlv, const Guid& tlvId);
     ~ElectricWall();
 
-    virtual void VScreenChanged() override;
     virtual void VUpdate() override;
+    virtual void VScreenChanged() override;
 
+private:
     Guid mTlvInfo;
     s16 mSwitchId = 0;
     relive::Path_ElectricWall::ElectricWallStartState mStartState = relive::Path_ElectricWall::ElectricWallStartState::eOff;

@@ -11,6 +11,48 @@ namespace AO {
 
 u8 sLeafRandIdx_4D148C = 8;
 
+
+Leaf::Leaf(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
+    : BaseAnimatedWithPhysicsGameObject(0)
+{
+    mRGB.SetRGB(100, 100, 100);
+
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Well_Leaf));
+    Animation_Init(GetAnimRes(AnimId::Well_Leaf));
+
+    SetSpriteScale(scale);
+
+    if (GetSpriteScale() == FP_FromInteger(1))
+    {
+        GetAnimation().SetRenderLayer(Layer::eLayer_27);
+        SetScale(Scale::Fg);
+    }
+    else
+    {
+        GetAnimation().SetRenderLayer(Layer::eLayer_8);
+        SetScale(Scale::Bg);
+    }
+
+    mXPos = xpos;
+    mYPos = ypos;
+
+    mVelX = xVel * GetSpriteScale();
+    mVelY = yVel * GetSpriteScale();
+
+    sLeafRandIdx_4D148C++;
+
+    field_E4_bHitSomething &= ~1u;
+
+    s16 randLeftVol = Math_RandomRange(19, 24);
+    if (GetSpriteScale() == FP_FromDouble(0.4)) // ??
+    {
+        randLeftVol -= 7;
+    }
+
+    const s16 randRightVol = Math_RandomRange(-900, -700);
+    SFX_Play_Pitch(relive::SoundEffects::Leaf, (3 * randLeftVol) / 4, randRightVol);
+}
+
 void Leaf::VUpdate()
 {
     mVelY += FP_FromDouble(0.5);
@@ -83,45 +125,4 @@ void Leaf::VScreenChanged()
 {
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 }
-
-Leaf::Leaf(FP xpos, FP ypos, FP xVel, FP yVel, FP scale)
-    : BaseAnimatedWithPhysicsGameObject(0)
-{
-    mRGB.SetRGB(100, 100, 100);
-
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Well_Leaf));
-    Animation_Init(GetAnimRes(AnimId::Well_Leaf));
-
-    SetSpriteScale(scale);
-    if (GetSpriteScale() == FP_FromInteger(1))
-    {
-        GetAnimation().SetRenderLayer(Layer::eLayer_27);
-        SetScale(Scale::Fg);
-    }
-    else
-    {
-        GetAnimation().SetRenderLayer(Layer::eLayer_8);
-        SetScale(Scale::Bg);
-    }
-
-    mXPos = xpos;
-    mYPos = ypos;
-
-    mVelX = xVel * GetSpriteScale();
-    mVelY = yVel * GetSpriteScale();
-
-    sLeafRandIdx_4D148C++;
-
-    field_E4_bHitSomething &= ~1u;
-
-    s16 randLeftVol = Math_RandomRange(19, 24);
-    if (GetSpriteScale() == FP_FromDouble(0.4)) // ??
-    {
-        randLeftVol -= 7;
-    }
-
-    const s16 randRightVol = Math_RandomRange(-900, -700);
-    SFX_Play_Pitch(relive::SoundEffects::Leaf, (3 * randLeftVol) / 4, randRightVol);
-}
-
 } // namespace AO

@@ -10,38 +10,26 @@
 
 namespace AO {
 
-InvisibleSwitch::~InvisibleSwitch()
-{
-    Path::TLV_Reset(field_14_tlvInfo, -1, 0, 0);
-}
 
 InvisibleSwitch::InvisibleSwitch(relive::Path_InvisibleSwitch* pTlv, const Guid& tlvId)
     : BaseGameObject(true, 0)
 {
     field_14_tlvInfo = tlvId;
-    field_28_state = States::eWaitForTrigger_0;
     field_10_switch_id = pTlv->mSwitchId;
     field_12_action = pTlv->mAction;
+    field_28_state = States::eWaitForTrigger_0;
     field_1C_delay = pTlv->mActivationDelay;
-    field_2C_scale = pTlv->mScale;
     field_20_top_left.x = pTlv->mTopLeftX;
     field_20_top_left.y = pTlv->mTopLeftY;
     field_24_bottom_right.x = pTlv->mBottomRightX;
     field_24_bottom_right.y = pTlv->mBottomRightY;
     mSetOffAlarm = pTlv->mSetOffAlarm;
+    field_2C_scale = pTlv->mScale;
 }
 
-void InvisibleSwitch::VScreenChanged()
+InvisibleSwitch::~InvisibleSwitch()
 {
-    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath)
-    {
-        mBaseGameObjectFlags.Set(Options::eDead);
-    }
-
-    if (field_28_state != States::eWaitForDelayTimer_1)
-    {
-        mBaseGameObjectFlags.Set(Options::eDead);
-    }
+    Path::TLV_Reset(field_14_tlvInfo, -1, 0, 0);
 }
 
 void InvisibleSwitch::VUpdate()
@@ -96,5 +84,19 @@ void InvisibleSwitch::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
+
+void InvisibleSwitch::VScreenChanged()
+{
+    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath)
+    {
+        mBaseGameObjectFlags.Set(Options::eDead);
+    }
+
+    if (field_28_state != States::eWaitForDelayTimer_1)
+    {
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    }
+}
+
 
 } // namespace AO

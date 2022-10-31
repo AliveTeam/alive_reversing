@@ -10,15 +10,16 @@ namespace AO {
 
 enum class SwitchOp : s16;
 
-class InvisibleSwitch final : public ::BaseGameObject
+class InvisibleSwitch final : public BaseGameObject
 {
 public:
     InvisibleSwitch(relive::Path_InvisibleSwitch* pTlv, const Guid& tlvId);
     ~InvisibleSwitch();
 
-    virtual void VScreenChanged() override;
     virtual void VUpdate() override;
+    virtual void VScreenChanged() override;
 
+private:
     s16 field_10_switch_id = 0;
     relive::reliveSwitchOp field_12_action = relive::reliveSwitchOp::eSetTrue;
     Guid field_14_tlvInfo;

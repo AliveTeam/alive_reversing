@@ -23,8 +23,8 @@ public:
     HoistRocksEffect(relive::Path_Hoist* pTlv, const Guid& tlvInfo);
     ~HoistRocksEffect();
 
-    virtual void VScreenChanged() override;
     virtual void VUpdate() override;
+    virtual void VScreenChanged() override;
 
     FP field_10_xpos = {};
     FP field_14_ypos = {};

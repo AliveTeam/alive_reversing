@@ -32,7 +32,6 @@ private:
     void DamageHitItems();
 
 private:
-    Guid field_118_tlvInfo;
     enum class State : s16
     {
         eWaitForIdEnable_0 = 0,
@@ -41,6 +40,9 @@ private:
         eFalling_3 = 3,
         eSmashed_4 = 4
     };
+
+public:
+    Guid field_118_tlvInfo;
     State field_11C_state = State::eWaitForIdEnable_0;
     s16 field_11E_switch_id = 0;
     s16 field_120_max_falling_items = 0;

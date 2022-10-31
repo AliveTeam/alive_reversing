@@ -12,13 +12,12 @@ enum class TPageAbr : s8;
 
 namespace AO {
 
-class EffectBase : public ::BaseGameObject
+class EffectBase : public BaseGameObject
 {
 public:
+    virtual void VRender(PrimHeader** ppOt) override;
     EffectBase(Layer layer, TPageAbr abr);
     ~EffectBase();
-
-    virtual void VRender(PrimHeader** ppOt) override;
 
 protected:
     s16 mEffectBasePathId = 0;

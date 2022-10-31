@@ -32,7 +32,9 @@ ElectricWall::ElectricWall(relive::Path_ElectricWall* pTlv, const Guid& tlvId)
     }
 
     mRGB.SetRGB(80, 80, 80);
+
     mTlvInfo = tlvId;
+
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
@@ -81,7 +83,7 @@ void ElectricWall::VUpdate()
 
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(Options::eDead);
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
     if (SwitchStates_Get(mSwitchId) == mStartState)

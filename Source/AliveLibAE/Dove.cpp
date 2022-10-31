@@ -15,8 +15,8 @@
 static bool bTheOneControllingTheMusic = false;
 static DynamicArrayT<Dove> gDovesArray{3};
 static s32 sAbePortalTimer = 0;
-static s16 sAbePortalDirection = 0;
 static s16 sAbePortalWidth = 0;
+static s16 sAbePortalDirection = 0;
 
 void Dove::LoadAnimations()
 {

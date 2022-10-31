@@ -10,6 +10,10 @@
 #include "../relive_lib/PsxDisplay.hpp"
 
 namespace AO {
+struct Data_FP final
+{
+    FP data[2][5][5];
+};
 
 struct GasPolys final
 {
@@ -21,9 +25,12 @@ struct Data_Byte final
     u8 data[2][5][5];
 };
 
-Prim_SetTPage gGasTPages_5008E8[2] = {};
+Data_FP xData_500908 = {};
+Data_FP yData_5007E8 = {};
 
+Prim_SetTPage gGasTPages_5008E8[2] = {};
 GasPolys prims_dword_4FFDE8 = {};
+Data_Byte sbyte_3_4FFD78 = {};
 
 Data_Byte sbyte_1_4FFDB0 = {};
 Data_Byte sbyte_2_5008B0 = {};
@@ -36,7 +43,7 @@ DeathGas::DeathGas(Layer layer, s32 amount)
 
     SetType(ReliveTypes::eDeathFadeOut); // wot moment
     gObjListDrawables->Push_Back(this);
-    mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
     field_16_flag = 0;
 
     for (s32 i = 0; i < 2; i++)
@@ -103,20 +110,13 @@ void DeathGas::VUpdate()
     if (!field_16_flag)
     {
         field_10_total += field_14_amount;
+
         if (field_10_total > 255)
         {
             field_10_total = 255;
         }
     }
 }
-
-struct Data_FP final
-{
-    FP data[2][5][5];
-};
-Data_FP xData_500908 = {};
-Data_FP yData_5007E8 = {};
-Data_Byte sbyte_3_4FFD78 = {};
 
 void DeathGas::VRender(PrimHeader** ppOt)
 {
@@ -245,43 +245,6 @@ void DeathGas::VRender(PrimHeader** ppOt)
                 SetXY3(pPoly, static_cast<s16>(x3), static_cast<s16>(y3 - yVal));
 
                 OrderingTable_Add(OtLayer(ppOt, field_18_layer), &pPoly->mBase.header);
-
-                /*
-                v32 = gPsxDisplay.mHeight;
-                v33 = gPsxDisplay.mWidth + 32;
-                *((_BYTE*)pPrim + 34) = 0;
-                v34 = v33 / 4;
-                v35 = v33 / 4 * v22 - 16;
-                v36 = (v32 + 56) / 4;
-                v37 = (s32)a2a + v36 * v21 - 28;
-                v38 = k5Counter_inner_b + 1;
-                v39 = v34 * (k5Counter_inner_b + 1) - 16;
-                v40 = (s32)a2a + v36 * v56 - 28;
-                v41 = (255 - total) * (v32 + 28) / 255;
-                *((_WORD*)pPrim + 6) = v35 + xData_500908[0][0][v26] / 0x10000;
-                *((_WORD*)pPrim + 7) = v37 + yData_5007E8[0][0][v26] / 0x10000 - v41;
-                *((_WORD*)pPrim + 10) = v39 + xData_500908[0][0][v26 + 1] / 0x10000;
-                *((_WORD*)pPrim + 11) = v37 + 8 + yData_5007E8[0][0][v26 + 1] / 0x10000 - v41;
-                *((_WORD*)pPrim + 14) = v35
-                    + ((((xData_500908[0][1][v26] >> 31) & 0xFFFFu) + xData_500908[0][1][v26]) >> 16);
-                *((_WORD*)pPrim + 15) = v40 + yData_5007E8[0][1][v26] / 0x10000 - v41;
-                *((_WORD*)pPrim + 18) = v39 + xData_500908[0][1][v26 + 1] / 0x10000;
-                *((_WORD*)pPrim + 19) = v40 + 8 + yData_5007E8[0][1][v26 + 1] / 0x10000 - v41;
-                OrderingTable_Add(ppOt_layer, pPrim);
-                v22 = v38;
-                ++v26;
-                v14 = __OFSUB__((_WORD)a2a + 8, 32);
-                v13 = (s16)((_WORD)a2a - 24) < 0;
-                k5Counter_inner_b = v38;
-                a2a += 2;
-                v49 += 2;
-                ++k2Countera;
-                if (!(v13 ^ v14))
-                    break;
-                v21 = k5Counter_outter_b;
-                v24 = k2Countera;
-                v25 = v49;
-                */
             }
         }
     }

@@ -113,34 +113,13 @@ FallingItem::~FallingItem()
     Path::TLV_Reset(field_10C_tlvInfo, -1, 0, 0);
 }
 
-void FallingItem::DamageHitItems()
+void FallingItem::VScreenChanged()
 {
-    for (s32 idx = 0; idx < gBaseGameObjects->Size(); idx++)
+    if (gMap.mCurrentLevel != gMap.mNextLevel
+        || gMap.mCurrentPath != gMap.mNextPath
+        || field_110_state != State::eFalling_3)
     {
-        BaseGameObject* pObj = gBaseGameObjects->ItemAt(idx);
-        if (!pObj)
-        {
-            break;
-        }
-
-        if (pObj != this)
-        {
-            if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
-            {
-                BaseAnimatedWithPhysicsGameObject* pAliveObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
-
-                const PSX_RECT fallingItemRect = VGetBoundingRect();
-                const PSX_RECT objRect = pAliveObj->VGetBoundingRect();
-
-                if (fallingItemRect.x <= objRect.w && fallingItemRect.w >= objRect.x && fallingItemRect.y <= objRect.h && fallingItemRect.h >= objRect.y)
-                {
-                    if (pAliveObj->GetSpriteScale() == GetSpriteScale())
-                    {
-                        static_cast<BaseAliveGameObject*>(pAliveObj)->VTakeDamage(this);
-                    }
-                }
-            }
-        }
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -151,6 +130,7 @@ void FallingItem::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
+    // The primary item controls the main sound effects, otherwise there would be a crazy amount of smashing sounds
     if (pPrimaryFallingItem_4FFA54 == this)
     {
         if (!((sGnFrame - field_134_created_gnFrame) % 87))
@@ -179,7 +159,9 @@ void FallingItem::VUpdate()
             field_110_state = State::eWaitForFallDelay_2;
             mVelX = FP_FromInteger(0);
             mVelY = FP_FromInteger(0);
+
             GetAnimation().Set_Animation_Data(GetAnimRes(sFallingItemData_4BAB20[static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))].field_4_waiting_animId));
+
             field_11C_delay_timer = sGnFrame + mFallInterval;
             break;
         }
@@ -329,19 +311,42 @@ void FallingItem::VUpdate()
     }
 }
 
+void FallingItem::DamageHitItems()
+{
+    for (s32 idx = 0; idx < gBaseGameObjects->Size(); idx++)
+    {
+        BaseGameObject* pObj = gBaseGameObjects->ItemAt(idx);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj != this)
+        {
+            if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+            {
+                BaseAnimatedWithPhysicsGameObject* pAliveObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
+
+                const PSX_RECT fallingItemRect = VGetBoundingRect();
+                const PSX_RECT objRect = pAliveObj->VGetBoundingRect();
+
+                if (fallingItemRect.x <= objRect.w && fallingItemRect.w >= objRect.x && fallingItemRect.y <= objRect.h && fallingItemRect.h >= objRect.y)
+                {
+                    if (pAliveObj->GetSpriteScale() == GetSpriteScale())
+                    {
+                        static_cast<BaseAliveGameObject*>(pAliveObj)->VTakeDamage(this);
+                    }
+                }
+            }
+        }
+    }
+}
+
+
 void FallingItem::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
     // Empty
 }
 
-void FallingItem::VScreenChanged()
-{
-    if (gMap.mCurrentLevel != gMap.mNextLevel
-        || gMap.mCurrentPath != gMap.mNextPath
-        || field_110_state != State::eFalling_3)
-    {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-    }
-}
 
 } // namespace AO

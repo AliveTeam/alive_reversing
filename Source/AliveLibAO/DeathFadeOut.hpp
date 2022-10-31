@@ -17,10 +17,15 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
 
+private:
     s16 field_68_current_fade_rgb = 0;
     s16 field_6A_speed = 0;
     s16 field_6C_direction = 0;
+
+public:
     s16 field_6E_bDone = 0;
+
+private:
     s16 field_70_destroy_on_done = 0;
     s16 field_72 = 0;
 };

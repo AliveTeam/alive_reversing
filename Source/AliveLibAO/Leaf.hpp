@@ -10,9 +10,10 @@ class Leaf final : public BaseAnimatedWithPhysicsGameObject
 public:
     Leaf(FP xpos, FP ypos, FP xVel, FP yVel, FP scale);
 
-    virtual void VScreenChanged() override;
     virtual void VUpdate() override;
+    virtual void VScreenChanged() override;
 
+private:
     s16 field_E4_bHitSomething = 0;
 };
 

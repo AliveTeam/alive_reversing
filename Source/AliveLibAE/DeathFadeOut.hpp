@@ -7,14 +7,13 @@
 class DeathFadeOut final : public EffectBase
 {
 public:
-    
-    virtual void VUpdate() override;
-    virtual void VScreenChanged() override;
-    virtual void VRender(PrimHeader** ppOt) override;
-
     DeathFadeOut(Layer layer, s32 direction, bool destroyOnDone, s32 speed, TPageAbr abr);
     ~DeathFadeOut();
     void Init(Layer layer, s32 direction, bool destroyOnDone, s32 speed);
+    virtual void VScreenChanged() override;
+    virtual void VUpdate() override;
+    virtual void VRender(PrimHeader** ppOt) override;
+
 
 private:
     s16 field_78_current_fade_rgb = 0;

@@ -19,7 +19,7 @@ EffectBase::EffectBase(Layer layer, TPageAbr abr)
     mEffectBaseLevelId = gMap.mCurrentLevel;
     for (s32 i = 0; i < 2; i++)
     {
-        Init_SetTPage(&mEffectBaseTPage[i], 0, 0, static_cast<s16>(PSX_getTPage(abr)));
+        Init_SetTPage(&mEffectBaseTPage[i], 0, 0, PSX_getTPage(abr));
     }
     mEffectBaseLayer = layer;
     mSemiTrans = 1;
@@ -34,13 +34,11 @@ void EffectBase::VRender(PrimHeader** ppOt)
 {
     Prim_Tile* pTile = &mEffectBaseTile[gPsxDisplay.mBufferIndex];
     Init_Tile(pTile);
-
     SetRGB0(pTile,
             static_cast<u8>(mEffectBaseRed),
             static_cast<u8>(mEffectBaseGreen),
             static_cast<u8>(mEffectBaseBlue));
     SetXY0(pTile, 0, 0);
-
     pTile->field_14_w = 640;
     pTile->field_16_h = gPsxDisplay.mHeight;
 

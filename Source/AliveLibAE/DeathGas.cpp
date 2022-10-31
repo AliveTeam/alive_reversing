@@ -23,10 +23,11 @@ struct Data_Byte final
 };
 
 Data_FP xData_5BC600 = {};
+Data_FP yData_5BD11C = {};
+
 Prim_SetTPage gGasTPages_5BC6C8[2] = {};
 GasPolys gasPolys_5BC6E8 = {};
 Data_Byte sbyte_3_5BD0E8 = {};
-Data_FP yData_5BD11C = {};
 Data_Byte sbyte_1_5BD1E4 = {};
 Data_Byte sbyte_2_5BD218 = {};
 s32 gDeathGasCount_5BD24C = 0;

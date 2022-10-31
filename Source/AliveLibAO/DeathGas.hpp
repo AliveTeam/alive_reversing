@@ -6,16 +6,17 @@
 
 namespace AO {
 
-class DeathGas final : public ::BaseGameObject
+class DeathGas final : public BaseGameObject
 {
 public:
     DeathGas(Layer layer, s32 amount);
     ~DeathGas();
 
-    virtual void VUpdate() override;
     virtual void VScreenChanged() override;
+    virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
+private:
     s16 field_10_total = 0;
     s16 field_12_unused = 0;
     s16 field_14_amount = 0;

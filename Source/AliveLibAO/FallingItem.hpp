@@ -24,9 +24,8 @@ public:
     ~FallingItem();
 
     void LoadAnimations();
-
-    virtual void VScreenChanged() override;
     virtual void VUpdate() override;
+    virtual void VScreenChanged() override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
 
     void DamageHitItems();

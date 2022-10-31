@@ -12,6 +12,57 @@
 
 namespace AO {
 
+
+GroundExplosion::GroundExplosion(FP xpos, FP ypos, FP scale)
+    : BaseAnimatedWithPhysicsGameObject(0)
+{
+    SetType(ReliveTypes::eGroundExplosion);
+
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::GroundExplosion));
+    Animation_Init(GetAnimRes(AnimId::GroundExplosion));
+
+    GetAnimation().mFlags.Clear(AnimFlags::eIsLastFrame);
+
+    GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+
+    GetAnimation().SetRGB(128, 128, 128);
+
+    mObjectScale = scale;
+
+    if (scale == FP_FromInteger(1))
+    {
+        GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_36);
+    }
+    else
+    {
+        GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
+    }
+
+    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+    SetSpriteScale(scale * FP_FromDouble(2.75));
+
+    mXPos = xpos;
+    mYPos = ypos;
+
+    relive_new ScreenShake(1);
+
+    relive_new ParticleBurst(
+        mXPos,
+        mYPos,
+        35,
+        mObjectScale,
+        BurstType::eFallingRocks_0);
+
+    PSX_RECT damageRect = {
+        FP_GetExponent(FP_FromInteger(-10) * mObjectScale),
+        FP_GetExponent(FP_FromInteger(-10) * mObjectScale),
+        FP_GetExponent(FP_FromInteger(10) * mObjectScale),
+        FP_GetExponent(FP_FromInteger(10) * mObjectScale)};
+    DealDamageRect(&damageRect);
+
+    SND_SEQ_PlaySeq_4775A0(SeqId::eExplosion1_21, 1, 1);
+}
+
 void GroundExplosion::VUpdate()
 {
     PSX_RECT rect = {};
@@ -182,56 +233,6 @@ void GroundExplosion::DealDamageRect(const PSX_RECT* pRect)
             }
         }
     }
-}
-
-GroundExplosion::GroundExplosion(FP xpos, FP ypos, FP scale)
-    : BaseAnimatedWithPhysicsGameObject(0)
-{
-    SetType(ReliveTypes::eGroundExplosion);
-
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::GroundExplosion));
-    Animation_Init(GetAnimRes(AnimId::GroundExplosion));
-
-    GetAnimation().mFlags.Clear(AnimFlags::eIsLastFrame);
-
-    GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
-
-    GetAnimation().SetRGB(128, 128, 128);
-
-    mObjectScale = scale;
-
-    if (scale == FP_FromInteger(1))
-    {
-        GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_36);
-    }
-    else
-    {
-        GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
-    }
-
-    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
-    SetSpriteScale(scale * FP_FromDouble(2.75));
-
-    mXPos = xpos;
-    mYPos = ypos;
-
-    relive_new ScreenShake(1);
-
-    relive_new ParticleBurst(
-        mXPos,
-        mYPos,
-        35,
-        mObjectScale,
-        BurstType::eFallingRocks_0);
-
-    PSX_RECT damageRect = {
-        FP_GetExponent(FP_FromInteger(-10) * mObjectScale),
-        FP_GetExponent(FP_FromInteger(-10) * mObjectScale),
-        FP_GetExponent(FP_FromInteger(10) * mObjectScale),
-        FP_GetExponent(FP_FromInteger(10) * mObjectScale)};
-    DealDamageRect(&damageRect);
-
-    SND_SEQ_PlaySeq_4775A0(SeqId::eExplosion1_21, 1, 1);
 }
 
 } // namespace AO

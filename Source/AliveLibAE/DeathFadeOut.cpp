@@ -5,10 +5,6 @@
 
 s32 sIsFadingOut_5BC204 = 0;
 
-void DeathFadeOut::VScreenChanged()
-{
-    // Empty
-}
 
 DeathFadeOut::DeathFadeOut(Layer layer, s32 direction, bool destroyOnDone, s32 speed, TPageAbr abr)
     : EffectBase(layer, abr)
@@ -34,6 +30,11 @@ DeathFadeOut::DeathFadeOut(Layer layer, s32 direction, bool destroyOnDone, s32 s
 DeathFadeOut::~DeathFadeOut()
 {
 
+}
+
+void DeathFadeOut::VScreenChanged()
+{
+    // Empty
 }
 
 void DeathFadeOut::Init(Layer layer, s32 direction, bool destroyOnDone, s32 speed)
