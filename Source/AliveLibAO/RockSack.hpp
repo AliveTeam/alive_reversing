@@ -14,9 +14,10 @@ public:
 
     void LoadAnimations();
 
-    virtual void VUpdate() override;
     virtual void VScreenChanged() override;
+    virtual void VUpdate() override;
 
+private:
     Guid field_10C_tlvInfo;
     s16 field_110_has_been_hit = 0;
     s16 field_112_rock_amount = 0;

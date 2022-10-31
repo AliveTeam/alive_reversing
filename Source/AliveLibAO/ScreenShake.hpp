@@ -6,7 +6,7 @@
 
 namespace AO {
 
-class ScreenShake final : public ::BaseGameObject
+class ScreenShake final : public BaseGameObject
 {
 public:
     ScreenShake(bool enableShakeEvent);
@@ -15,6 +15,7 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
+private:
     Prim_ScreenOffset mScreenOffset[2] = {};
     s16 mShakeNumber = 0;
     bool mEnableShakeEvent = false;

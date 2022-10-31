@@ -24,14 +24,6 @@ RockSack::RockSack(relive::Path_RockSack* pTlv, const Guid& tlvId)
     SetType(ReliveTypes::eRockSack);
 
     LoadAnimations();
-
-    //const AnimRecord& rec = AnimRec(AnimId::RockSack_Idle);
-    //u8** ppRes = Add_Resource(ResourceManager::Resource_Animation, rec.mResourceId);
-
-    // Set RockSack idle animation speed.
-    //auto pAnimationHeader = reinterpret_cast<AnimationHeader*>(*ppRes + rec.mFrameTableOffset);
-    //pAnimationHeader->field_0_fps = 0;
-
     Animation_Init(GetAnimRes(AnimId::RockSack_Idle));
 
     GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
@@ -55,7 +47,7 @@ RockSack::RockSack(relive::Path_RockSack* pTlv, const Guid& tlvId)
         SetSpriteScale(FP_FromDouble(0.5));
         SetScale(Scale::Bg);
     }
-    else if (pTlv->mScale == relive::reliveScale::eFull)
+    else
     {
         SetSpriteScale(FP_FromInteger(1));
         SetScale(Scale::Fg);
@@ -122,7 +114,11 @@ void RockSack::VUpdate()
         const PSX_RECT bPlayerRect = sActiveHero->VGetBoundingRect();
         const PSX_RECT bRect = VGetBoundingRect();
 
-        if (bRect.x <= bPlayerRect.w && bRect.w >= bPlayerRect.x && bRect.h >= bPlayerRect.y && bRect.y <= bPlayerRect.h && GetSpriteScale() == sActiveHero->GetSpriteScale())
+        if (bRect.x <= bPlayerRect.w 
+			&& bRect.w >= bPlayerRect.x 
+			&& bRect.h >= bPlayerRect.y 
+			&& bRect.y <= bPlayerRect.h 
+			&& GetSpriteScale() == sActiveHero->GetSpriteScale())
         {
             if (gpThrowableArray)
             {
@@ -164,6 +160,7 @@ void RockSack::VUpdate()
             {
                 GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::RockSack_SoftHit));
             }
+
             field_11C_has_been_hit = 1;
         }
     }

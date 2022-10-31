@@ -9,7 +9,7 @@ class ScreenShake final : public BaseGameObject
 public:
     ScreenShake(bool enableShakeEvent, bool softerShakes);
     ~ScreenShake();
-    
+
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 

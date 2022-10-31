@@ -54,6 +54,8 @@ PullRingRope::PullRingRope(relive::Path_PullRingRope* pTlv, const Guid& tlvId)
     }
 
     GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
+    mXPos = FP_FromInteger(pTlv->mTopLeftX + 12);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY + 24);
 
     mSwitchId = pTlv->mSwitchId;
     mAction = pTlv->mAction;
@@ -61,8 +63,7 @@ PullRingRope::PullRingRope(relive::Path_PullRingRope* pTlv, const Guid& tlvId)
     mState = States::eIdle_0;
     field_E4_stay_in_state_ticks = 0;
 
-    mYPos += FP_FromInteger(pTlv->mRopeLength + pTlv->mTopLeftY + 24);
-    mXPos = FP_FromInteger(pTlv->mTopLeftX + 12);
+    mYPos += FP_FromInteger(pTlv->mRopeLength);
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
@@ -95,19 +96,6 @@ PullRingRope::PullRingRope(relive::Path_PullRingRope* pTlv, const Guid& tlvId)
     }
 }
 
-bool PullRingRope::vIsNotBeingPulled()
-{
-    return mState != States::eBeingPulled_1;
-}
-
-void PullRingRope::VScreenChanged()
-{
-    if (!field_F4_pPuller)
-    {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-    }
-}
-
 PullRingRope::~PullRingRope()
 {
     Path::TLV_Reset(mTlvInfo, -1, 0, 0);
@@ -122,39 +110,6 @@ PullRingRope::~PullRingRope()
         field_F8_pRope->mBaseGameObjectFlags.Set(Options::eDead);
         field_F8_pRope->mBaseGameObjectRefCount--;
     }
-}
-
-s16 PullRingRope::Pull(BaseAliveGameObject* pFrom)
-{
-    if (!pFrom)
-    {
-        return 0;
-    }
-
-    if (mState != States::eIdle_0)
-    {
-        return 0;
-    }
-
-    field_F4_pPuller = pFrom;
-    field_F4_pPuller->mBaseGameObjectRefCount++;
-
-    mState = States::eBeingPulled_1;
-    mVelY = FP_FromInteger(2);
-    field_E4_stay_in_state_ticks = 6;
-
-    SwitchStates_Do_Operation(mSwitchId, mAction);
-
-    if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
-    {
-        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Pullring_Farms_UseBegin));
-    }
-    else
-    {
-        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Pullring_Desert_UseBegin));
-    }
-    SfxPlayMono(relive::SoundEffects::RingRopePull, 0);
-    return 1;
 }
 
 void PullRingRope::VUpdate()
@@ -296,6 +251,48 @@ void PullRingRope::VUpdate()
     }
 
     field_F8_pRope->mYPos = FP_NoFractional(FP_FromInteger(mYOffset - 16) + mYPos);
+}
+
+void PullRingRope::VScreenChanged()
+{
+    // If the person pulling the rope is gone then so are we
+    if (!field_F4_pPuller)
+    {
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    }
+}
+
+s16 PullRingRope::Pull(BaseAliveGameObject* pFrom)
+{
+    if (!pFrom || mState != States::eIdle_0)
+    {
+        return 0;
+    }
+
+    field_F4_pPuller = pFrom;
+    field_F4_pPuller->mBaseGameObjectRefCount++;
+
+    mState = States::eBeingPulled_1;
+    mVelY = FP_FromInteger(2);
+    field_E4_stay_in_state_ticks = 6;
+
+    SwitchStates_Do_Operation(mSwitchId, mAction);
+
+    if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eBoardRoom || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
+    {
+        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Pullring_Farms_UseBegin));
+    }
+    else
+    {
+        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Pullring_Desert_UseBegin));
+    }
+    SfxPlayMono(relive::SoundEffects::RingRopePull, 0);
+    return 1;
+}
+
+bool PullRingRope::vIsNotBeingPulled()
+{
+    return mState != States::eBeingPulled_1;
 }
 
 } // namespace AO

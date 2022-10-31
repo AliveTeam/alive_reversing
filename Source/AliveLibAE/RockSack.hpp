@@ -12,7 +12,7 @@ class RockSack final : public BaseAliveGameObject
 public:
     RockSack(relive::Path_RockSack* pTlv, const Guid& tlvId);
     ~RockSack();
-    
+
     void LoadAnimations();
 
     virtual void VScreenChanged() override;

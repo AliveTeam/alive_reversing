@@ -4,17 +4,17 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 
-class PullRingRope final : public ::BaseAnimatedWithPhysicsGameObject
+class PullRingRope final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     PullRingRope(relive::Path_PullRingRope* pTlv, const Guid& tlvId);
     ~PullRingRope();
-    
+
     void LoadAnimations();
 
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
-    virtual s16 VPull(BaseGameObject* a2);
+    virtual s16 VPull(BaseGameObject* pFrom);
     virtual bool VIsNotBeingPulled();
     virtual void VMarkAsPulled();
 
@@ -27,7 +27,7 @@ private:
         eIdle_0 = 0,
         eBeingPulled_1 = 1,
         eTriggerEvent_2 = 2,
-        eReturnToIdle_3 = 3,
+        eReturnToIdle_3 = 3
     };
     States field_100_state = States::eIdle_0;
     s16 field_102_switch_id = 0;

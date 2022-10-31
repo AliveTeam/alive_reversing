@@ -13,7 +13,7 @@ ScreenShake::ScreenShake(bool enableShakeEvent)
 {
     SetType(ReliveTypes::ScreenShake);
 
-    mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
+    mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
 
     mShakeNumber = 16;
     mEnableShakeEvent = enableShakeEvent;
@@ -24,6 +24,11 @@ ScreenShake::ScreenShake(bool enableShakeEvent)
     {
         EventBroadcast(kEventScreenShake, this);
     }
+}
+
+ScreenShake::~ScreenShake()
+{
+    gObjListDrawables->Remove_Item(this);
 }
 
 void ScreenShake::VUpdate()
@@ -131,11 +136,6 @@ void ScreenShake::VRender(PrimHeader** ppOt)
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
     }
-}
-
-ScreenShake::~ScreenShake()
-{
-    gObjListDrawables->Remove_Item(this);
 }
 
 } // namespace AO
