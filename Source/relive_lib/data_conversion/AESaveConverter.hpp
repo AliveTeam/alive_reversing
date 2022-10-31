@@ -4,8 +4,184 @@
 #include "../ObjectTypes.hpp"
 #include "../../AliveLibCommon/FixedPoint_common.hpp"
 #include "../../AliveLibCommon/BitField.hpp"
-#include "../../AliveLibAE/GameSpeak.hpp" // only for GameSpeakEvents enum
-#include "../../AliveLibAE/Mudokon.hpp" // Mud_Brain_State, eMudMotions, Mud_Emotion enum
+
+// TODO: Could put this in an AEData namespace and use this convention to mean
+// any enum/struct in here related to OG data and can't ever be changed.
+
+struct PSX_RECT final
+{
+    s16 x, y, w, h;
+};
+ALIVE_ASSERT_SIZEOF(PSX_RECT, 8);
+
+struct TlvOffsetLevelIdPathId final
+{
+    u16 tlvOffset;
+    u8 levelId;
+    u8 pathId;
+};
+
+struct TlvOffsetCombinedLevelIdPathId final
+{
+    u16 tlvOffset;
+    u16 levelIdPathId;
+};
+
+union TlvItemInfoUnion
+{
+    u32 all;
+    TlvOffsetCombinedLevelIdPathId combined;
+    TlvOffsetLevelIdPathId parts;
+};
+ALIVE_ASSERT_SIZEOF(TlvItemInfoUnion, 4);
+
+enum eMudMotions : u16
+{
+    Motion_0_Idle,
+    Motion_1_WalkLoop,
+    Motion_2_StandingTurn,
+
+    // NOTE: 3-6 are all the same entry, added to avoid compile issue mentioned above.
+    M_Speak_3_472FA0,
+    M_Speak_4_472FA0,
+    M_Speak_5_472FA0,
+    M_Speak_6_472FA0,
+
+    Motion_7_WalkBegin,
+    Motion_8_WalkToIdle,
+    Motion_9_MidWalkToIdle,
+    Motion_10_LeverUse,
+    Motion_11_Chisel,
+    Motion_12_StartChisel,
+    Motion_13_StopChisel,
+    Motion_14_CrouchScrub,
+    Motion_15_CrouchIdle,
+    Motion_16_CrouchTurn,
+    Motion_17_StandToCrouch,
+    Motion_18_CrouchToStand,
+    Motion_19_WalkToRun,
+    Motion_20_MidWalkToRun,
+    Motion_21_RunLoop,
+    Motion_22_RunToWalk,
+    Motion_23_MidRunToWalk,
+    Motion_24_RunSlideStop,
+    Motion_25_RunSlideTurn,
+    Motion_26_RunTurnToRun,
+    Motion_27_SneakLoop,
+    Motion_28_MidWalkToSneak,
+    Motion_29_SneakToWalk,
+    Motion_30_WalkToSneak,
+    Motion_31_MidSneakToWalk,
+    Motion_32_SneakBegin,
+    Motion_33_SneakToIdle,
+    Motion_34_MidSneakToIdle,
+    Motion_35_RunJumpBegin,
+    Motion_36_RunJumpMid,
+    Motion_37_StandToRun,
+    Motion_38_Punch,
+    Motion_39_HoistBegin,
+    Motion_40_HoistLand,
+    Motion_41_LandSoft1,
+    Motion_42_LandSoft2,
+    Motion_43_DunnoBegin,
+    Motion_44_DunnoEnd,
+    Motion_45_KnockForward,
+    Motion_46_Knockback,
+    Motion_47_KnockbackGetUp,
+    Motion_48_WalkOffEdge,
+    Motion_49_Fall,
+    Motion_50_Chant,
+    Motion_51_ChantEnd,
+    Motion_52_ToDuck,
+    Motion_53_Duck,
+    Motion_54_DuckToCrouch,
+    Motion_55_DuckKnockback,
+    Motion_56_SlapOwnHead,
+    Motion_57_TurnWheelBegin,
+    Motion_58_TurnWheelLoop,
+    Motion_59_TurnWheelEnd
+};
+
+enum class GameSpeakEvents : s16
+{
+    eSameAsLast_m2 = -2,
+    eNone_m1 = -1,
+    eUnknown_0 = 0,
+    eUnknown_1 = 1,
+    eUnknown_2 = 2,
+    eFart_3 = 3,
+    eUnknown_4 = 4,
+    Slig_BS_5 = 5,
+    Slig_LookOut_6 = 6,
+    Slig_BS2_7 = 7,
+    Slig_Laugh_8 = 8,
+    eHello_9 = 9,
+    eFollowMe_10 = 10,
+    eAnger_11 = 11,
+    eWait_12 = 12,
+    eUnknown_13 = 13,
+    eUnknown_14 = 14,
+    eUnknown_15 = 15,
+    eUnknown_16 = 16,
+    eUnknown_17 = 17,
+    eUnknown_18 = 18,
+    eUnknown_19 = 19,
+    eUnknown_20 = 20,
+    eWork_21 = 21,
+    eStopIt_22 = 22,
+    eAllYa_23 = 23,
+    eSorry_24 = 24,
+    eUnknown_25 = 25,
+    eUnknown_26 = 26,
+    Slig_Hi_27 = 27,
+    Slig_HereBoy_28 = 28,
+    Slig_GetEm_29 = 29,
+    eUnknown_30 = 30,
+    Slig_Freeze_31 = 31,
+    eDynamicCollision_32 = 32,
+    eUnknown_33 = 33,
+    eUnknown_34 = 34,
+    eUnknown_35 = 35, // Glukkon_None_35?
+    Glukkon_Hey_36 = 36,
+    Glukkon_DoIt_37 = 37,
+    Glukkon_StayHere_38 = 38,
+    Glukkon_Commere_39 = 39,
+    Glukkon_AllOYa_40 = 40,
+    Glukkon_Heh_41 = 41,
+    Glukkon_Help_42 = 42,
+    Glukkon_Laugh_43 = 43,
+    Glukkon_KillEm_44 = 44,
+    Glukkon_Unknown_45 = 45,
+    Glukkon_Unknown_46 = 46,
+    Glukkon_What_47 = 47,
+
+    Paramite_Howdy_48 = 48,
+    Paramite_Stay_49 = 49,
+    Paramite_CMon_or_Attack_50 = 50,
+    Paramite_DoIt_51 = 51,
+    Paramite_AllYa_52 = 52,
+
+    Scrab_Howl_53 = 53,
+    Scrab_Shriek_54 = 54,
+};
+
+enum class Mud_Emotion : s16
+{
+    eNormal_0 = 0,
+    eAngry_1 = 1,
+    eAggressive_2 = 2,
+    eSad_3 = 3,
+    eSuicidal_4 = 4,
+    eHappy_5 = 5, // TODO: Not used ??
+    eWired_6 = 6,
+    eSick_7 = 7
+};
+
+enum class Scale : s16
+{
+    Bg = 0,
+    Fg = 1,
+};
 
 // Shared enum for sligs
 enum class SligSpeak : s8
@@ -934,6 +1110,19 @@ struct Mudokon_State final
     Mud_Emotion field_76_emo_tlb;
     GameSpeakEvents field_78;
     eMudMotions field_7A_motion;
+    enum Mud_Brain_State : s16
+    {
+        Brain_0_GiveRings,
+        Brain_1_Chisel,
+        Brain_2_CrouchScrub,
+        Brain_3_TurnWheel,
+        Brain_4_ListeningToAbe,
+        Brain_5_ShrivelDeath,
+        Brain_6_Escape,
+        Brain_7_FallAndSmackDeath,
+        Brain_8_AngryWorker,
+        Brain_9_Sick
+    };
     Mud_Brain_State field_7C_brain_state;
     s16 field_7E_brain_sub_state;
     s32 field_80_timer;
@@ -1122,6 +1311,33 @@ struct ThrowableArray_SaveState final
     s16 field_2_item_count;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(ThrowableArray_SaveState, 0x4);
+
+
+enum class RingTypes : s16
+{
+    // Red rings
+    eExplosive_Pulse_0 = 0,
+    eExplosive_Emit_1 = 1,        // Actually blows stuff up
+    eExplosive_Emit_Effect_2 = 2, // Graphical effect only
+    eExplosive_Give_3 = 3,
+
+    // Blue rings
+    eShrykull_Pulse_Small_4 = 4,
+    eShrykull_Pulse_Large_5 = 5,
+    eShrykull_Pulse_Orange_6 = 6, // Never used?
+
+    // Green rings
+    eInvisible_Pulse_Small_7 = 7,
+    eInvisible_Pulse_Large_8 = 8,
+    eInvisible_Pulse_Emit_9 = 9,
+    eInvisible_Pulse_Give_10 = 10,
+
+    // Yellow rings
+    eHealing_Emit_Effect_11 = 11, // Graphical effect only
+    eHealing_Emit_12 = 12,        // Actually heal muds
+    eHealing_Give_13 = 13,
+    eHealing_Pulse_14 = 14,
+};
 
 struct AbilityRing_State final
 {
