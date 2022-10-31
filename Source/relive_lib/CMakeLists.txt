@@ -80,6 +80,8 @@ SET(relive_lib_src
     data_conversion/AnimConversionInfo.cpp
     data_conversion/PNGFile.hpp
     data_conversion/PNGFile.cpp
+    data_conversion/AESaveConverter.hpp
+    data_conversion/AESaveConverter.cpp
     Layer.hpp
     stdafx.h
     ObjectTypes.hpp
