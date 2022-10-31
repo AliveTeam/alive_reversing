@@ -14,10 +14,8 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
     SetSpriteScale(scale);
 
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BloodDrop));
-
     Animation_Init(GetAnimRes(AnimId::BloodDrop));
 
-    //mAnim.mFlags.Set(AnimFlags::eBit25_bDecompressDone);
     GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
     GetAnimation().SetRGB(127, 127, 127);
 

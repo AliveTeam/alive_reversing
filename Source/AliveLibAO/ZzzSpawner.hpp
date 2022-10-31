@@ -8,15 +8,16 @@
 
 namespace AO {
 
-class ZzzSpawner final : public ::BaseGameObject
+class ZzzSpawner final : public BaseGameObject
 {
 public:
     ZzzSpawner(relive::Path_ZzzSpawner* pTlv, const Guid& tlvId);
     ~ZzzSpawner();
 
-    virtual void VScreenChanged() override;
     virtual void VUpdate() override;
+    virtual void VScreenChanged() override;
 
+private:
     FP mXPos = {};
     FP mYPos = {};
     FP mSpriteScale = {};

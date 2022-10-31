@@ -23,18 +23,18 @@ public:
     BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId);
     ~BoomMachine();
 
-    void LoadAnimations();
-
-    virtual void VScreenChanged() override;
     virtual void VUpdate() override;
+    virtual void VScreenChanged() override;
     virtual bool VIsButtonOn();
     virtual void VHandleButton();
 
+private:
+    void LoadAnimations();
 
 public:
     Guid field_E4_tlvInfo;
-    s16 field_E8_bIsButtonOn = 0;
     Guid field_F8_nozzle_id = {};
+    s16 field_E8_bIsButtonOn = 0;
 };
 
 } // namespace AO

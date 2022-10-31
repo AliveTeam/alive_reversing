@@ -30,7 +30,7 @@ class ZapLine final : public ::BaseAnimatedWithPhysicsGameObject
 public:
     ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 aliveTime, ZapLineType type, Layer layer);
     ~ZapLine();
-    
+
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
@@ -57,6 +57,7 @@ private:
     };
 
     ZapLineState field_F4_state = ZapLineState::eInit_0;
+
     Prim_SetTPage field_FC_tPage_p8[2] = {};
     s16 field_11C_x_position_source = 0;
     s16 field_11E_y_position_source = 0;

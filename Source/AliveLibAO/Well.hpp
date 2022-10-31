@@ -14,13 +14,15 @@ public:
     Well(relive::Path_WellBase* pTlv, FP xpos, FP ypos, const Guid& tlvId);
     ~Well();
 
-    void WellLocal_Init(relive::Path_WellLocal* pTlv, FP xpos, FP ypos);
-    void WellExpress_Init(relive::Path_WellExpress* pTlv, FP xpos, FP ypos);
-
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
 
+private:
+    void WellExpress_Init(relive::Path_WellExpress* pTlv, FP xpos, FP ypos);
+    void WellLocal_Init(relive::Path_WellLocal* pTlv, FP xpos, FP ypos);
+
+private:
     Guid mTlvInfo;
     s16 mSwitchId = 0;
     FP mLeafScale = {};

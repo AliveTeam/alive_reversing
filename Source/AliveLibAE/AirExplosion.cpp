@@ -183,9 +183,9 @@ void AirExplosion::DealBlastDamage(PSX_RECT* pRect)
     expandedRect.h = std::max(pRect->y, pRect->h);
 
     expandedRect.x += FP_GetExponent(mXPos);
-    expandedRect.w += FP_GetExponent(mXPos);
-
     expandedRect.y += FP_GetExponent(mYPos);
+
+    expandedRect.w += FP_GetExponent(mXPos);
     expandedRect.h += FP_GetExponent(mYPos);
 
     for (s32 idx = 0; idx < gBaseAliveGameObjects->Size(); idx++)
@@ -199,7 +199,6 @@ void AirExplosion::DealBlastDamage(PSX_RECT* pRect)
         if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
             const PSX_RECT boundRect = pObj->VGetBoundingRect();
-
             if (PSX_Rects_overlap_no_adjustment(&boundRect, &expandedRect) && GetScale() == pObj->GetScale())
             {
                 pObj->VTakeDamage(this);

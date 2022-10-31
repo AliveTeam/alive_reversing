@@ -25,7 +25,7 @@ ZapSpark::ZapSpark(FP xpos, FP ypos, FP scale)
 
     GetAnimation().SetRGB(80, 80, 80);
 
-    SetSpriteScale(scale * (((FP_FromInteger(Math_NextRandom() % 6)) / FP_FromInteger(10)) + FP_FromDouble(0.7)));
+    SetSpriteScale(scale * ((FP_FromInteger(Math_NextRandom() % 6) / FP_FromInteger(10)) + FP_FromDouble(0.7)));
     mSparkTimer = Math_RandomRange(0, 16);
 
     mXPos = xpos;
@@ -56,8 +56,8 @@ void ZapSpark::VUpdate()
     mVelX += FP_FromInteger(Math_NextRandom() - 127) / FP_FromInteger(64);
     mVelY += FP_FromInteger(Math_NextRandom() - 127) / FP_FromInteger(64);
 
-    mYPos += mVelY;
     mXPos += mVelX;
+    mYPos += mVelY;
 
     if (!gMap.Is_Point_In_Current_Camera(
         mCurrentLevel,

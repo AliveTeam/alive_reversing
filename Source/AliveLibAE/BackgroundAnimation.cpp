@@ -13,18 +13,6 @@ BackgroundAnimation::BackgroundAnimation(relive::Path_BackgroundAnimation* pTlv,
     SetType(ReliveTypes::eBackgroundAnimation);
     field_F8_tlvInfo = tlvId;
 
-    /*
-    const BgAnimRecord& anim = BgAnimRec(pTlv->mAnimId);
-
-    field_F4_res = reinterpret_cast<AnimationFileHeader**>(Add_Resource(ResourceManager::Resource_Animation, anim.mBgAnimId));
-    if (!field_F4_res)
-    {
-        mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-        return;
-    }
-    */
-
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
 

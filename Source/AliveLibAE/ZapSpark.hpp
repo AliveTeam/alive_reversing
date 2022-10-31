@@ -3,7 +3,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 
-class ZapSpark final : public ::BaseAnimatedWithPhysicsGameObject
+class ZapSpark final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     ZapSpark(FP xpos, FP ypos, FP scale);

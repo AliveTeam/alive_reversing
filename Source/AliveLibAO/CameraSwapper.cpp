@@ -181,8 +181,8 @@ void CameraSwapper::Init(CamResource& ppCamRes, CameraSwapEffects changeEffect)
 
         case CameraSwapEffects::eVerticalSplit_6:
             field_46_slice_width = 24; // ??
-            field_2E_total_slices = (gPsxDisplay.mWidth / 2) / field_46_slice_width;
             field_2C_slices_per_tick = 1;
+            field_2E_total_slices = (gPsxDisplay.mWidth / 2) / field_46_slice_width;
             field_2A_current_slice = 0;
 
             xy.x = gPsxDisplay.mWidth / 2;

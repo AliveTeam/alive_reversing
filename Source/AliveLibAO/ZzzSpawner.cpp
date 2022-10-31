@@ -9,10 +9,6 @@
 
 namespace AO {
 
-ZzzSpawner::~ZzzSpawner()
-{
-    Path::TLV_Reset(mTlvInfo, -1, 0, 0);
-}
 
 ZzzSpawner::ZzzSpawner(relive::Path_ZzzSpawner* pTlv, const Guid& tlvId)
     : BaseGameObject(true, 0)
@@ -33,6 +29,11 @@ ZzzSpawner::ZzzSpawner(relive::Path_ZzzSpawner* pTlv, const Guid& tlvId)
     mSwitchId = pTlv->mSwitchId;
     mZzzInterval = pTlv->mZzzInterval;
     mTimer = 0;
+}
+
+ZzzSpawner::~ZzzSpawner()
+{
+    Path::TLV_Reset(mTlvInfo, -1, 0, 0);
 }
 
 void ZzzSpawner::VScreenChanged()

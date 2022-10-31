@@ -14,7 +14,7 @@ class ZzzSpawner final : public BaseGameObject
 public:
     ZzzSpawner(relive::Path_ZzzSpawner* pTlv, const Guid& tlvId);
     ~ZzzSpawner();
-    
+
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 

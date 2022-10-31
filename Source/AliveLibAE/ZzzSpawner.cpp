@@ -19,7 +19,7 @@ ZzzSpawner::ZzzSpawner(relive::Path_ZzzSpawner* pTlv, const Guid& tlvId)
     {
         mSpriteScale = FP_FromDouble(0.5);
     }
-    else if (pTlv->mScale == relive::reliveScale::eFull)
+    else
     {
         mSpriteScale = FP_FromInteger(1);
     }

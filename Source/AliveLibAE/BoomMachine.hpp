@@ -16,7 +16,7 @@ enum class BoomMachineStates : s16
     eDropGrenade_3
 };
 
-class BoomMachine final : public ::BaseAnimatedWithPhysicsGameObject
+class BoomMachine final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId);
@@ -30,6 +30,7 @@ public:
 private:
     void LoadAnimations();
 
+public:
     Guid field_F4_tlvInfo;
     Guid field_F8_nozzle_id;
     s32 field_FC_bIsButtonOn = 0;

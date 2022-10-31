@@ -25,17 +25,7 @@ BackgroundAnimation::BackgroundAnimation(relive::Path_BackgroundAnimation* pTlv,
     SetType(ReliveTypes::eBackgroundAnimation);
     mTlvInfo = tlvId;
 
-    /*
-    field_E4_res = ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, anim.mBgAnimId, 1, 0);
-    if (!field_E4_res)
-    {
-        mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-        return;
-    }
 
-    auto pHeader = reinterpret_cast<AnimationFileHeader*>(*field_E4_res);
-    */
 
     const AnimRecord& anim = AO::BgAnimRec(pTlv->mAnimId);
     AnimResource res = ResourceManagerWrapper::LoadAnimation(anim.mId);

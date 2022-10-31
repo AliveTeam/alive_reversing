@@ -13,8 +13,10 @@ public:
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
+private:
     void DealBlastDamage(PSX_RECT* pRect);
 
+private:
     FP mExplosionSize = {};
 };
 

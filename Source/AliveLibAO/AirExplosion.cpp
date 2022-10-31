@@ -185,16 +185,16 @@ void AirExplosion::DealBlastDamage(PSX_RECT* pRect)
 
     for (s32 idx = 0; idx < gBaseAliveGameObjects->Size(); idx++)
     {
-        auto pObj = gBaseAliveGameObjects->ItemAt(idx);
+        IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(idx);
         if (!pObj)
         {
             break;
         }
 
-        if (pObj->mBaseGameObjectFlags.Get(Options::eIsBaseAliveGameObject_Bit6))
+        if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
         {
-            const PSX_RECT rect = pObj->VGetBoundingRect();
-            if (PSX_Rects_overlap_no_adjustment(&rect, &expandedRect) && mExplosionSize == pObj->GetSpriteScale())
+            const PSX_RECT boundRect = pObj->VGetBoundingRect();
+            if (PSX_Rects_overlap_no_adjustment(&boundRect, &expandedRect) && mExplosionSize == pObj->GetSpriteScale())
             {
                 pObj->VTakeDamage(this);
             }

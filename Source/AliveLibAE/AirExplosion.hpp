@@ -3,7 +3,7 @@
 #include "BaseAliveGameObject.hpp"
 #include "../AliveLibCommon/Function.hpp"
 
-class AirExplosion final : public ::BaseAnimatedWithPhysicsGameObject
+class AirExplosion final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     AirExplosion(FP xpos, FP ypos, FP scale, bool bSmall);

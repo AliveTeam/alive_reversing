@@ -50,6 +50,7 @@ ZapLine::ZapLine(FP x1, FP y1, FP x2, FP y2, s32 aliveTime, ZapLineType type, La
     GetAnimation().SetRenderLayer(layer);
     field_122_number_of_sprites = field_11E_number_of_segments * field_120_number_of_pieces_per_segment;
 
+
     field_124_pSprts = relive_new ZapLineSprites[field_122_number_of_sprites];
     field_128_sprite_positions = relive_new PSX_Point[field_122_number_of_sprites];
     field_12C_zap_points = relive_new ZapPoint[field_120_number_of_pieces_per_segment];

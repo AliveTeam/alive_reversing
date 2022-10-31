@@ -22,12 +22,12 @@ ZapSpark::ZapSpark(FP xpos, FP ypos, FP scale)
 
     Animation_Init(GetAnimRes(AnimId::ChantOrb_Particle_Small));
 
-    GetAnimation().SetRGB(80, 80, 80);
-
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 
     GetAnimation().SetRenderLayer(Layer::eLayer_FG1_37);
     GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+
+    GetAnimation().SetRGB(80, 80, 80);
 
     SetSpriteScale(scale * ((FP_FromInteger(Math_NextRandom() % 6) / FP_FromInteger(10)) + FP_FromDouble(0.2)));
     mSparkTimer = Math_RandomRange(0, 16);
@@ -64,12 +64,14 @@ void ZapSpark::VUpdate()
     mYPos += mVelY;
 
     if (!gMap.Is_Point_In_Current_Camera(
-            mCurrentLevel,
-            mCurrentPath,
-            mXPos,
-            mYPos,
-            0))
+        mCurrentLevel,
+        mCurrentPath,
+        mXPos,
+        mYPos,
+        0))
+    {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    }
 }
 
 void ZapSpark::VScreenChanged()

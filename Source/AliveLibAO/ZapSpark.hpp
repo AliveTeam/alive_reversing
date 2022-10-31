@@ -15,6 +15,7 @@ public:
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
+private:
     s16 mSparkTimer = 0;
 };
 

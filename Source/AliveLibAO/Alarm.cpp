@@ -20,6 +20,7 @@ Alarm::Alarm(s32 duration_timer, s32 switchId, s32 timer, Layer layer)
     mAlarmPauseTimer = timer + sGnFrame;
     mAlarmSwitchId = static_cast<s16>(switchId);
     SetType(ReliveTypes::eAlarm);
+
     mAlarmRed = 0;
     mAlarmState = States::eAfterConstructed_0;
     mAlarmDurationTimer = mAlarmPauseTimer + duration_timer;
@@ -27,6 +28,7 @@ Alarm::Alarm(s32 duration_timer, s32 switchId, s32 timer, Layer layer)
     alarmInstanceCount_5076A8++;
     if (alarmInstanceCount_5076A8 > 1)
     {
+        // More than one instance, kill self
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
@@ -50,7 +52,7 @@ Alarm::~Alarm()
 
 void Alarm::VRender(PrimHeader** ppOt)
 {
-    if (!gNumCamSwappers)
+    if (gNumCamSwappers == 0)
     {
         EffectBase::VRender(ppOt);
     }

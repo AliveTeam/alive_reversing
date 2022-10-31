@@ -32,21 +32,22 @@ public:
     ZapLine(FP x1, FP y1, FP x2, FP y2, s32 aliveTime, ZapLineType type, Layer layer);
     ~ZapLine();
 
+    virtual void VUpdate() override;
+    virtual void VRender(PrimHeader** ppOt) override;
+    virtual void VScreenChanged() override;
+
+public:
     void CalculateSourceAndDestinationPositions(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest);
 
-    virtual void VScreenChanged() override;
-    virtual void VRender(PrimHeader** ppOt) override;
-    virtual void VUpdate() override;
-
-    // Note inlined
+private:
+    void CalculateThickSpriteSegmentPositions();
+    void CalculateThinSpriteSegmentPositions();
+    void CalculateZapPoints_479380();
+    void CalculateSpritePositionsInner(s32 idx1, s32 idx2, s32 idx3, s16 idx4);
+    void UpdateSpriteVertexPositions();
     void CalculateSpritePositionsOuter();
 
-    void CalculateZapPoints_479380();
-    void CalculateThinSpriteSegmentPositions();
-    void CalculateThickSpriteSegmentPositions();
-    void UpdateSpriteVertexPositions();
-    void CalculateSpritePositionsInner(s32 idx1, s32 idx2, s32 idx3, s16 idx4);
-
+private:
     enum class ZapLineState : s16
     {
         eInit_0 = 0,

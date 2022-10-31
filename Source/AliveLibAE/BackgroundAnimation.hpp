@@ -6,15 +6,15 @@
 #include "Factory.hpp"
 #include "../relive_lib/Layer.hpp"
 
-class BackgroundAnimation final : public ::BaseAnimatedWithPhysicsGameObject
+class BackgroundAnimation final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    
-    virtual void VUpdate() override;
-    virtual void VScreenChanged() override;
-
-    BackgroundAnimation(relive::Path_BackgroundAnimation* pPathParams, const Guid& tlvId);
+    BackgroundAnimation(relive::Path_BackgroundAnimation* pTlv, const Guid& tlvId);
     ~BackgroundAnimation();
+
+    virtual void VScreenChanged() override;
+    virtual void VUpdate() override;
+
 
 private:
     //AnimationFileHeader** field_F4_res = nullptr;
