@@ -2,7 +2,7 @@
 
 #include "../relive_lib/BaseGameObject.hpp"
 #include "../AliveLibCommon/Function.hpp"
-#include "FixedPoint_common.hpp"
+#include "../AliveLibCommon/FixedPoint_common.hpp"
 
 namespace relive
 {

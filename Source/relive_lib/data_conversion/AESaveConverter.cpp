@@ -1,5 +1,4 @@
 #include "AESaveConverter.hpp"
-#include "../../AliveLibCommon/FatalError.hpp"
 
 // TODO: Add new relive only types for anything that was copy pasted into here
 // and is still used after the engine merging
@@ -77,23 +76,28 @@ private:
     switch (type)
     {
         case ::AETypes::eSligSpawner_2:
-            //return SligSpawner::CreateFromSaveState(pData);
+            AddObjectState(AEData::SligSpawnerSaveState::From(*reinterpret_cast<const AEData::SligSpawnerSaveState*>(pData)));
+            return sizeof(AEData::SligSpawnerSaveState);
             break;
 
         case ::AETypes::eLiftMover_9:
-            //return LiftMover::CreateFromSaveState(pData);
+            AddObjectState(AEData::LiftMoverSaveState::From(*reinterpret_cast<const AEData::LiftMoverSaveState*>(pData)));
+            return sizeof(AEData::LiftMoverSaveState);
             break;
 
         case ::AETypes::eBone_11:
-            //return Bone::CreateFromSaveState(pData);
+            AddObjectState(AEData::BoneSaveState::From(*reinterpret_cast<const AEData::BoneSaveState*>(pData)));
+            return sizeof(AEData::BoneSaveState);
             break;
 
         case ::AETypes::eMinesAlarm_25:
-            //return MinesAlarm::CreateFromSaveState(pData);
+            AddObjectState(AEData::MinesAlarmSaveState::From(*reinterpret_cast<const AEData::MinesAlarmSaveState*>(pData)));
+            return sizeof(AEData::MinesAlarmSaveState);
             break;
 
         case ::AETypes::eCrawlingSlig_26:
-            //return CrawlingSlig::CreateFromSaveState(pData);
+            AddObjectState(AEData::CrawlingSligSaveState::From(*reinterpret_cast<const AEData::CrawlingSligSaveState*>(pData)));
+            return sizeof(AEData::CrawlingSligSaveState);
             break;
 
         case ::AETypes::eDrill_30:

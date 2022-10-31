@@ -4,8 +4,15 @@
 #include "../ObjectTypes.hpp"
 #include "../../AliveLibCommon/FixedPoint_common.hpp"
 #include "../../AliveLibCommon/BitField.hpp"
+#include "../../AliveLibAE/PathData.hpp"
+#include "../../AliveLibCommon/FatalError.hpp"
 
 #include "../../AliveLibAE/SlamDoor.hpp"
+#include "../../AliveLibAE/SligSpawner.hpp"
+#include "../../AliveLibAE/LiftMover.hpp"
+#include "../../AliveLibAE/Bone.hpp"
+#include "../../AliveLibAE/MinesAlarm.hpp"
+#include "../../AliveLibAE/CrawlingSlig.hpp"
 
 // Any enum/struct in the AEData namespace is related to OG data and can't ever be changed
 // otherwise interpreting the OG data will break.
@@ -207,6 +214,44 @@ enum class SligSpeak : s8
     eOuch2_14 = 14,
 };
 
+static ::SligSpeak From(const SligSpeak speak)
+{
+    switch (speak)
+    {
+        case SligSpeak::eHi_0:
+            return ::SligSpeak::eHi_0;
+        case SligSpeak::eHereBoy_1:
+            return ::SligSpeak::eHereBoy_1;
+        case SligSpeak::eGetHim_2:
+            return ::SligSpeak::eGetHim_2;
+        case SligSpeak::eLaugh_3:
+            return ::SligSpeak::eLaugh_3;
+        case SligSpeak::eStay_4:
+            return ::SligSpeak::eStay_4;
+        case SligSpeak::eBullshit_5:
+            return ::SligSpeak::eBullshit_5;
+        case SligSpeak::eLookOut_6:
+            return ::SligSpeak::eLookOut_6;
+        case SligSpeak::eBullshit2_7:
+            return ::SligSpeak::eBullshit2_7;
+        case SligSpeak::eFreeze_8:
+            return ::SligSpeak::eFreeze_8;
+        case SligSpeak::eWhat_9:
+            return ::SligSpeak::eWhat_9;
+        case SligSpeak::eHelp_10:
+            return ::SligSpeak::eHelp_10;
+        case SligSpeak::eBlurgh_11:
+            return ::SligSpeak::eBlurgh_11;
+        case SligSpeak::eGotYa_12:
+            return ::SligSpeak::eGotYa_12;
+        case SligSpeak::eOuch1_13:
+            return ::SligSpeak::eOuch1_13;
+        case SligSpeak::eOuch2_14:
+            return ::SligSpeak::eOuch2_14;
+    }
+    ALIVE_FATAL("Bad slig speak value");
+}
+
 enum class MudSounds : s16
 {
     eNone = -1,
@@ -241,8 +286,6 @@ enum class MudSounds : s16
     eSadUgh_28 = 28,
 };
 
-enum class LevelIds : s16;
-
 struct SligSpawnerSaveState final
 {
     AETypes mType;
@@ -256,6 +299,28 @@ struct SligSpawnerSaveState final
     SpawnerStates mState;
     s16 padding2;
     s32 mSpawnedSligId;
+
+    static ::SligSpawnerSaveState From(const SligSpawnerSaveState& data)
+    {
+        ::SligSpawnerSaveState d;
+        d.mType = data.mType;
+        d.mTlvInfo = Guid::NewGuidFromTlvInfo(data.mTlvInfo);
+        d.mState = From(data.mState);
+        d.mSpawnedSligId = Guid::NewGuidFromTlvInfo(data.mSpawnedSligId);
+        return d;
+    }
+
+    static ::SpawnerStates From(const SpawnerStates state)
+    {
+        switch (state)
+        {
+            case SpawnerStates::eInactive_0:
+                return ::SpawnerStates::eInactive_0;
+            case SpawnerStates::eSligSpawned_1:
+                return ::SpawnerStates::eSligSpawned_1;
+        }
+        ALIVE_FATAL("Bad slig spawner state value");
+    }
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(SligSpawnerSaveState, 0x10);
 
@@ -274,6 +339,35 @@ struct LiftMoverSaveState final
         eMovingDone_5 = 5,
     };
     LiftMoverStates field_8_state;
+
+    static ::LiftMoverSaveState From(const LiftMoverSaveState& data)
+    {
+        ::LiftMoverSaveState d;
+        d.field_0_type_id = data.field_0_type_id;
+        d.field_4_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_4_tlvInfo);
+        d.field_8_state = From(data.field_8_state);
+        return d;
+    }
+
+    static ::LiftMoverStates From(const LiftMoverStates state)
+    {
+        switch (state)
+        {
+            case LiftMoverStates::eInactive_0:
+                return ::LiftMoverStates::eInactive_0;
+            case LiftMoverStates::eStartMovingDown_1:
+                return ::LiftMoverStates::eStartMovingDown_1;
+            case LiftMoverStates::eMovingDown_2:
+                return ::LiftMoverStates::eMovingDown_2;
+            case LiftMoverStates::eStartMovingUp_3:
+                return ::LiftMoverStates::eStartMovingUp_3;
+            case LiftMoverStates::eMovingUp_4:
+                return ::LiftMoverStates::eMovingUp_4;
+            case LiftMoverStates::eMovingDone_5:
+                return ::LiftMoverStates::eMovingDone_5;
+        }
+        ALIVE_FATAL("Bad lift mover state value");
+    }
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(LiftMoverSaveState, 0xC);
 
@@ -318,6 +412,50 @@ struct BoneSaveState final
     FP mInitialXPos;
     FP mInitialYPos;
     s32 mTimeToLiveTimer;
+
+    static ::BoneSaveState From(const BoneSaveState& data)
+    {
+        ::BoneSaveState d;
+        d.mAEType = data.mAEType;
+        d.field_4_obj_id = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
+        d.mXPos = data.mXPos;
+        d.mYPos = data.mYPos;
+        d.mVelX = data.mVelX;
+        d.mVelY = data.mVelY;
+        d.mSpriteScale = data.mSpriteScale;
+        d.mCurrentPath = data.mCurrentPath;
+        d.mCurrentLevel = data.mCurrentLevel;
+        d.field_20_flags.Raw().all = data.field_20_flags.Raw().all; // TODO: convert flags to bools
+        d.field_24_base_id = Guid::NewGuidFromTlvInfo(data.field_24_base_id);
+        d.mCollisionLineType = data.mCollisionLineType;
+        d.mBaseThrowableCount = data.mBaseThrowableCount;
+        d.mState = From(data.mState);
+        d.mVolumeModifier = data.mVolumeModifier;
+        d.mInitialXPos = data.mInitialXPos;
+        d.mInitialYPos = data.mInitialYPos;
+        d.mTimeToLiveTimer = data.mTimeToLiveTimer;
+        return d;
+    }
+
+    static ::BoneStates From(const BoneStates state)
+    {
+        switch (state)
+        {
+            case BoneStates::eSpawned_0:
+                return ::BoneStates::eSpawned_0;
+            case BoneStates::eAirborne_1:
+                return ::BoneStates::eAirborne_1;
+            case BoneStates::eCollided_2:
+                return ::BoneStates::eCollided_2;
+            case BoneStates::eOnGround_3:
+                return ::BoneStates::eOnGround_3;
+            case BoneStates::eEdible_4:
+                return ::BoneStates::eEdible_4;
+            case BoneStates::eFalling_5:
+                return ::BoneStates::eFalling_5;
+        }
+        ALIVE_FATAL("Bad bone states value");
+    }
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(BoneSaveState, 0x3C);
 
@@ -326,6 +464,14 @@ struct MinesAlarmSaveState final
     AETypes field_0_type;
     s16 field_2_pad;
     s32 field_4_timer;
+
+    static ::MinesAlarmSaveState From(const MinesAlarmSaveState& data)
+    {
+        ::MinesAlarmSaveState d;
+        d.field_0_type = data.field_0_type;
+        d.field_4_timer = data.field_4_timer;
+        return d;
+    }
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(MinesAlarmSaveState, 0x8);
 
@@ -382,6 +528,50 @@ struct CrawlingSligSaveState final
     s8 field_79_padding;
     s16 field_7A_unused_counter;
     s32 field_7C_say_help_timer;
+
+    static ::CrawlingSligSaveState From(const CrawlingSligSaveState& data)
+    {
+        ::CrawlingSligSaveState d;
+        d.field_0_type = data.field_0_type;
+        d.field_4_obj_id = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
+        d.field_8_xpos = data.field_8_xpos;
+        d.field_C_ypos = data.field_C_ypos;
+        d.field_10_velx = data.field_10_velx;
+        d.field_14_vely = data.field_14_vely;
+        d.field_18_path_number = data.field_18_path_number;
+        d.field_1A_lvl_number = data.field_1A_lvl_number;
+        d.field_1C_sprite_scale = data.field_1C_sprite_scale;
+        d.mRingRed = data.mRingRed;
+        d.mRingGreen = data.mRingGreen;
+        d.mRingBlue = data.mRingBlue;
+        d.field_26_bFlipX = data.field_26_bFlipX;
+        d.field_28_current_motion = data.field_28_current_motion;
+        d.field_2A_anim_cur_frame = data.field_2A_anim_cur_frame;
+        d.field_2C_anim_frame_change_counter = data.field_2C_anim_frame_change_counter;
+        d.field_2E_bRender = data.field_2E_bRender;
+        d.field_2F_bDrawable = data.field_2F_bDrawable;
+        d.field_30_health = data.field_30_health;
+        d.field_34_cur_motion = data.field_34_cur_motion;
+        d.field_36_next_motion = data.field_36_next_motion;
+        d.field_38_last_line_ypos = data.field_38_last_line_ypos;
+        d.field_3A_line_type = data.field_3A_line_type;
+        d.field_40_bIsControlled = data.field_40_bIsControlled;
+        d.field_44_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_44_tlvInfo);
+        d.field_48_brain_idx = data.field_48_brain_idx;
+        d.field_50_brain_sub_state = data.field_50_brain_sub_state;
+        d.field_54_timer = data.field_54_timer;
+        d.field_58_velx_scale_factor = data.field_58_velx_scale_factor;
+        d.field_5E_bChanting = data.field_5E_bChanting;
+        d.mAbeLevel = data.mAbeLevel;
+        d.mAbePath = data.mAbePath;
+        d.mAbeCamera = data.mAbeCamera;
+        d.field_6C_slig_button_id = Guid::NewGuidFromTlvInfo(data.field_6C_slig_button_id);
+        d.field_70_obj_id = Guid::NewGuidFromTlvInfo(data.field_70_obj_id);
+        d.field_74_obj_id = Guid::NewGuidFromTlvInfo(data.field_74_obj_id);
+        d.field_78_speak = AEData::From(data.field_78_speak);
+        d.field_7C_say_help_timer = data.field_7C_say_help_timer;
+        return d;
+    }
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(CrawlingSligSaveState, 0x80);
 
