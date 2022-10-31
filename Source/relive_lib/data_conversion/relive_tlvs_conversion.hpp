@@ -3,8 +3,8 @@
 #include "relive_tlvs_serialization.hpp"
 #include "PathTlvsAO.hpp"
 #include "PathTlvsAE.hpp"
-#include "../AliveLibAE/SwitchStates.hpp"
-#include "../AliveLibAO/SwitchStates.hpp"
+#include "../relive_lib/SwitchStates.hpp"
+#include "../AliveLibCommon/FatalError.hpp"
 #include "../AliveLibAO/Path.hpp"
 #include "../AliveLibAE/Path.hpp"
 
@@ -106,38 +106,20 @@ inline void BaseConvert(relive::Path_TLV& r, const AO::Path_TLV& base, const Gui
         ALIVE_FATAL("Bad x direction");
     }
 
-    static reliveSwitchOp From(const AO::SwitchOp op)
+    static reliveSwitchOp From(const SwitchOp op)
     {
         switch (op)
         {
-            case AO::SwitchOp::eSetTrue_0:
+            case SwitchOp::eSetTrue_0:
                 return reliveSwitchOp::eSetTrue;
-            case AO::SwitchOp::eSetFalse_1:
+            case SwitchOp::eSetFalse_1:
                 return reliveSwitchOp::eSetFalse;
-            case AO::SwitchOp::eToggle_2:
+            case SwitchOp::eToggle_2:
                 return reliveSwitchOp::eToggle;
-            case AO::SwitchOp::eIncrement_3:
+            case SwitchOp::eIncrement_3:
                 return reliveSwitchOp::eIncrement;
-            case AO::SwitchOp::eDecrement_4:
+            case SwitchOp::eDecrement_4:
                 return reliveSwitchOp::eDecrement;
-        }
-        ALIVE_FATAL("Bad switch operator");
-    }
-
-    static reliveSwitchOp From(const ::SwitchOp op)
-    {
-        switch (op)
-        {
-        case ::SwitchOp::eSetTrue_0:
-            return reliveSwitchOp::eSetTrue;
-        case ::SwitchOp::eSetFalse_1:
-            return reliveSwitchOp::eSetFalse;
-        case ::SwitchOp::eToggle_2:
-            return reliveSwitchOp::eToggle;
-        case ::SwitchOp::eIncrement_3:
-            return reliveSwitchOp::eIncrement;
-        case ::SwitchOp::eDecrement_4:
-            return reliveSwitchOp::eDecrement;
         }
         ALIVE_FATAL("Bad switch operator");
     }

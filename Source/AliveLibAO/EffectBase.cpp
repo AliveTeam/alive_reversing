@@ -42,9 +42,11 @@ void EffectBase::VRender(PrimHeader** ppOt)
     pTile->field_14_w = 640;
     pTile->field_16_h = gPsxDisplay.mHeight;
 
-    Poly_Set_SemiTrans(&pTile->mBase.header, mSemiTrans);
-    OrderingTable_Add(OtLayer(ppOt, mEffectBaseLayer), &pTile->mBase.header);
-    OrderingTable_Add(OtLayer(ppOt, mEffectBaseLayer), &mEffectBaseTPage[gPsxDisplay.mBufferIndex].mBase);
+    if (mEffectBaseRed || mEffectBaseGreen || mEffectBaseBlue || !mSemiTrans)
+    {
+        Poly_Set_SemiTrans(&pTile->mBase.header, mSemiTrans);
+        OrderingTable_Add(OtLayer(ppOt, mEffectBaseLayer), &pTile->mBase.header);
+        OrderingTable_Add(OtLayer(ppOt, mEffectBaseLayer), &mEffectBaseTPage[gPsxDisplay.mBufferIndex].mBase);
+    }
 }
-
 } // namespace AO

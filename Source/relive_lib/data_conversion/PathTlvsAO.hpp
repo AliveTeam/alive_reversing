@@ -2,14 +2,10 @@
 
 #include "../../AliveLibAO/Path.hpp"
 #include "../../AliveLibAE/Path.hpp"
-namespace AO {
 
 enum class SwitchOp : s16;
-//enum class Scale_short : s16;
-//enum class Scale_int : s32;
-//enum class Choice_short : s16;
-//enum class XDirection_short: s16;
 
+namespace AO {
 
 struct Path_ShadowZone final : public Path_TLV
 {
