@@ -3,12 +3,12 @@
 #include "../relive_lib/BaseGameObject.hpp"
 #include "FixedPoint.hpp"
 
-struct SlapLockWhirlWind_State final
+struct SlapLockWhirlWindSaveState final
 {
     AETypes mType;
     s16 mSwitchId;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(SlapLockWhirlWind_State, 0x4);
+ALIVE_ASSERT_SIZEOF_ALWAYS(SlapLockWhirlWindSaveState, 0x4);
 
 class SlapLockWhirlWind final : public BaseGameObject
 {

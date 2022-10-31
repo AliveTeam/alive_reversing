@@ -48,7 +48,7 @@ enum class eFlyingSligMotions : s32
 
 enum class SligSpeak : s8;
 
-struct FlyingSlig_State final
+struct FlyingSligSaveState final
 {
     AETypes field_0_type;
     s16 field_2;
@@ -125,7 +125,7 @@ struct FlyingSlig_State final
     s32 field_A4_bobbing_values_index;
     FP field_A8_bobbing_value;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(FlyingSlig_State, 0xAC);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(FlyingSligSaveState, 0xAC);
 
 class FlyingSlig final : public BaseAliveGameObject
 {

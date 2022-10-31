@@ -261,7 +261,7 @@ void Scrab::VOnTlvCollision(relive::Path_TLV* pTlv)
 
 s32 Scrab::CreateFromSaveState(const u8* pBuffer)
 {
-    auto pState = reinterpret_cast<const Scrab_State*>(pBuffer);
+    auto pState = reinterpret_cast<const ScrabSaveState*>(pBuffer);
 
     auto pTlv = static_cast<relive::Path_Scrab*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_44_tlvInfo));
 
@@ -338,15 +338,15 @@ s32 Scrab::CreateFromSaveState(const u8* pBuffer)
         pScrab->field_19C_max_ypos = pState->field_94_max_ypos;
         pScrab->field_1A2_speak_counter = pState->field_98_speak_counter;
 
-        pScrab->field_1AA_flags.Set(Flags_1AA::eBit1_attacking, pState->field_9E_flags.Get(Scrab_State::eBit1_attacking));
-        pScrab->field_1AA_flags.Set(Flags_1AA::eBit2_unused, pState->field_9E_flags.Get(Scrab_State::eBit2_unused));
-        pScrab->field_1AA_flags.Set(Flags_1AA::eBit3_unused, pState->field_9E_flags.Get(Scrab_State::eBit3_unused));
-        pScrab->field_1AA_flags.Set(Flags_1AA::eBit4_force_update_animation, pState->field_9E_flags.Get(Scrab_State::eBit4_force_update_animation));
-        pScrab->field_1AA_flags.Set(Flags_1AA::eBit5_roar_randomly, pState->field_9E_flags.Get(Scrab_State::eBit5_roar_randomly));
-        pScrab->field_1AA_flags.Set(Flags_1AA::eBit6_persistant, pState->field_9E_flags.Get(Scrab_State::eBit6_persistant));
+        pScrab->field_1AA_flags.Set(Flags_1AA::eBit1_attacking, pState->field_9E_flags.Get(ScrabSaveState::eBit1_attacking));
+        pScrab->field_1AA_flags.Set(Flags_1AA::eBit2_unused, pState->field_9E_flags.Get(ScrabSaveState::eBit2_unused));
+        pScrab->field_1AA_flags.Set(Flags_1AA::eBit3_unused, pState->field_9E_flags.Get(ScrabSaveState::eBit3_unused));
+        pScrab->field_1AA_flags.Set(Flags_1AA::eBit4_force_update_animation, pState->field_9E_flags.Get(ScrabSaveState::eBit4_force_update_animation));
+        pScrab->field_1AA_flags.Set(Flags_1AA::eBit5_roar_randomly, pState->field_9E_flags.Get(ScrabSaveState::eBit5_roar_randomly));
+        pScrab->field_1AA_flags.Set(Flags_1AA::eBit6_persistant, pState->field_9E_flags.Get(ScrabSaveState::eBit6_persistant));
     }
 
-    return sizeof(Scrab_State);
+    return sizeof(ScrabSaveState);
 }
 
 s32 Scrab::VGetSaveState(u8* pSaveBuffer)
@@ -356,7 +356,7 @@ s32 Scrab::VGetSaveState(u8* pSaveBuffer)
         return 0;
     }
 
-    auto pState = reinterpret_cast<Scrab_State*>(pSaveBuffer);
+    auto pState = reinterpret_cast<ScrabSaveState*>(pSaveBuffer);
 
     pState->field_0_type = AETypes::eScrab_112;
     pState->field_4_obj_id = mBaseGameObjectTlvInfo;
@@ -448,14 +448,14 @@ s32 Scrab::VGetSaveState(u8* pSaveBuffer)
     pState->field_94_max_ypos = field_19C_max_ypos;
     pState->field_98_speak_counter = field_1A2_speak_counter;
 
-    pState->field_9E_flags.Set(Scrab_State::eBit1_attacking, field_1AA_flags.Get(Flags_1AA::eBit1_attacking));
-    pState->field_9E_flags.Set(Scrab_State::eBit2_unused, field_1AA_flags.Get(Flags_1AA::eBit2_unused));
-    pState->field_9E_flags.Set(Scrab_State::eBit3_unused, field_1AA_flags.Get(Flags_1AA::eBit3_unused));
-    pState->field_9E_flags.Set(Scrab_State::eBit4_force_update_animation, field_1AA_flags.Get(Flags_1AA::eBit4_force_update_animation));
-    pState->field_9E_flags.Set(Scrab_State::eBit5_roar_randomly, field_1AA_flags.Get(Flags_1AA::eBit5_roar_randomly));
-    pState->field_9E_flags.Set(Scrab_State::eBit6_persistant, field_1AA_flags.Get(Flags_1AA::eBit6_persistant));
+    pState->field_9E_flags.Set(ScrabSaveState::eBit1_attacking, field_1AA_flags.Get(Flags_1AA::eBit1_attacking));
+    pState->field_9E_flags.Set(ScrabSaveState::eBit2_unused, field_1AA_flags.Get(Flags_1AA::eBit2_unused));
+    pState->field_9E_flags.Set(ScrabSaveState::eBit3_unused, field_1AA_flags.Get(Flags_1AA::eBit3_unused));
+    pState->field_9E_flags.Set(ScrabSaveState::eBit4_force_update_animation, field_1AA_flags.Get(Flags_1AA::eBit4_force_update_animation));
+    pState->field_9E_flags.Set(ScrabSaveState::eBit5_roar_randomly, field_1AA_flags.Get(Flags_1AA::eBit5_roar_randomly));
+    pState->field_9E_flags.Set(ScrabSaveState::eBit6_persistant, field_1AA_flags.Get(Flags_1AA::eBit6_persistant));
 
-    return sizeof(Scrab_State);
+    return sizeof(ScrabSaveState);
 }
 
 Scrab::~Scrab()

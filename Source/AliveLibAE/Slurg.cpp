@@ -118,7 +118,7 @@ Slurg::Slurg(relive::Path_Slurg* pTlv, const Guid& tlvId)
 
 s32 Slurg::CreateFromSaveState(const u8* pData)
 {
-    auto pState = reinterpret_cast<const Slurg_State*>(pData);
+    auto pState = reinterpret_cast<const SlurgSaveState*>(pData);
     auto pTlv = static_cast<relive::Path_Slurg*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvInfo));
 
     auto pSlurg = relive_new Slurg(pTlv, pState->mTlvInfo);
@@ -144,7 +144,7 @@ s32 Slurg::CreateFromSaveState(const u8* pData)
 
     pSlurg->mSlurgFlags.Set(SlurgFlags::eGoingRight, pState->mSlurgFlags.Get(SlurgFlags::eGoingRight));
     pSlurg->mSlurgFlags.Set(SlurgFlags::eMoving, pState->mSlurgFlags.Get(SlurgFlags::eMoving));
-    return sizeof(Slurg_State);
+    return sizeof(SlurgSaveState);
 }
 
 Slurg::~Slurg()
@@ -321,7 +321,7 @@ s32 Slurg::VGetSaveState(u8* pSaveBuffer)
         return 0;
     }
 
-    auto pState = reinterpret_cast<Slurg_State*>(pSaveBuffer);
+    auto pState = reinterpret_cast<SlurgSaveState*>(pSaveBuffer);
 
     pState->mType = AETypes::eSlurg_129;
     pState->mXPos = mXPos;
@@ -339,7 +339,7 @@ s32 Slurg::VGetSaveState(u8* pSaveBuffer)
     pState->mSlurgState = mSlurgState;
     pState->mSlurgFlags.Set(SlurgFlags::eGoingRight, mSlurgFlags.Get(SlurgFlags::eGoingRight));
     pState->mSlurgFlags.Set(SlurgFlags::eMoving, mSlurgFlags.Get(SlurgFlags::eMoving));
-    return sizeof(Slurg_State);
+    return sizeof(SlurgSaveState);
 }
 
 void Slurg::GoLeft()

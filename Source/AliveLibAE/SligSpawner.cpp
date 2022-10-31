@@ -122,7 +122,7 @@ void SligSpawner::VUpdate()
 
 s32 SligSpawner::VGetSaveState(u8* pSaveBuffer)
 {
-    auto pState = reinterpret_cast<Slig_Spawner_State*>(pSaveBuffer);
+    auto pState = reinterpret_cast<SligSpawnerSaveState*>(pSaveBuffer);
 
     pState->mType = AETypes::eSligSpawner_2;
     pState->mTlvInfo = mTlvInfo;
@@ -130,7 +130,7 @@ s32 SligSpawner::VGetSaveState(u8* pSaveBuffer)
     pState->mSpawnedSligId = Guid{};
     if (mSpawnedSligId == Guid{})
     {
-        return sizeof(Slig_Spawner_State);
+        return sizeof(SligSpawnerSaveState);
     }
 
     BaseGameObject* pSpawnedSlig = sObjectIds.Find_Impl(mSpawnedSligId);
@@ -138,12 +138,12 @@ s32 SligSpawner::VGetSaveState(u8* pSaveBuffer)
     {
         pState->mSpawnedSligId = pSpawnedSlig->mBaseGameObjectTlvInfo;
     }
-    return sizeof(Slig_Spawner_State);
+    return sizeof(SligSpawnerSaveState);
 }
 
 s32 SligSpawner::CreateFromSaveState(const u8* pBuffer)
 {
-    auto pState = reinterpret_cast<const Slig_Spawner_State*>(pBuffer);
+    auto pState = reinterpret_cast<const SligSpawnerSaveState*>(pBuffer);
     auto pTlv = static_cast<relive::Path_Slig*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvInfo));
     auto pSpawner = relive_new SligSpawner(pTlv, pState->mTlvInfo);
     if (pSpawner)
@@ -153,5 +153,5 @@ s32 SligSpawner::CreateFromSaveState(const u8* pBuffer)
         pSpawner->mFindSpawnedSlig = true;
     }
 
-    return sizeof(Slig_Spawner_State);
+    return sizeof(SligSpawnerSaveState);
 }

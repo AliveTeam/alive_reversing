@@ -250,12 +250,12 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
 
 s32 Paramite::CreateFromSaveState(const u8* pBuffer)
 {
-    auto pState = reinterpret_cast<const Paramite_State*>(pBuffer);
+    auto pState = reinterpret_cast<const ParamiteSaveState*>(pBuffer);
     auto pTlv = static_cast<relive::Path_Paramite*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_3C_tlvInfo));
 
     auto pParamite = relive_new Paramite(pTlv, pState->field_3C_tlvInfo);
 
-    if (pState->field_76_flags.Get(Paramite_State::eBit1_unused))
+    if (pState->field_76_flags.Get(ParamiteSaveState::eBit1_unused))
     {
         sControlledCharacter = pParamite;
     }
@@ -321,14 +321,14 @@ s32 Paramite::CreateFromSaveState(const u8* pBuffer)
     pParamite->field_154_input = InputObject::PsxButtonsToKeyboardInput_45EE40(pState->field_72_input);
     pParamite->field_158_next_brain_ret = pState->field_74_next_brain_ret;
 
-    pParamite->field_178_flags.Set(Flags_178::eBit2_running, pState->field_76_flags.Get(Paramite_State::eBit2_running));
-    pParamite->field_178_flags.Set(Flags_178::eBit3_hissed_or_left_screen, pState->field_76_flags.Get(Paramite_State::eBit3_hissed_or_left_screen));
-    pParamite->field_178_flags.Set(Flags_178::eBit5_prevent_depossession, pState->field_76_flags.Get(Paramite_State::eBit4_prevent_depossession));
-    pParamite->field_178_flags.Set(Flags_178::eBit6_spawned, pState->field_76_flags.Get(Paramite_State::eBit5_spawned));
-    pParamite->field_178_flags.Set(Flags_178::eBit7_alerted, pState->field_76_flags.Get(Paramite_State::eBit6_alerted));
-    pParamite->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanBePossessed, pState->field_76_flags.Get(Paramite_State::eBit7_can_be_possessed));
+    pParamite->field_178_flags.Set(Flags_178::eBit2_running, pState->field_76_flags.Get(ParamiteSaveState::eBit2_running));
+    pParamite->field_178_flags.Set(Flags_178::eBit3_hissed_or_left_screen, pState->field_76_flags.Get(ParamiteSaveState::eBit3_hissed_or_left_screen));
+    pParamite->field_178_flags.Set(Flags_178::eBit5_prevent_depossession, pState->field_76_flags.Get(ParamiteSaveState::eBit4_prevent_depossession));
+    pParamite->field_178_flags.Set(Flags_178::eBit6_spawned, pState->field_76_flags.Get(ParamiteSaveState::eBit5_spawned));
+    pParamite->field_178_flags.Set(Flags_178::eBit7_alerted, pState->field_76_flags.Get(ParamiteSaveState::eBit6_alerted));
+    pParamite->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanBePossessed, pState->field_76_flags.Get(ParamiteSaveState::eBit7_can_be_possessed));
 
-    return sizeof(Paramite_State);
+    return sizeof(ParamiteSaveState);
 }
 
 static Guid ResolveId(Guid objId)
@@ -351,7 +351,7 @@ s32 Paramite::VGetSaveState(u8* pSaveBuffer)
         return 0;
     }
 
-    auto pState = reinterpret_cast<Paramite_State*>(pSaveBuffer);
+    auto pState = reinterpret_cast<ParamiteSaveState*>(pSaveBuffer);
 
     pState->field_0_type = AETypes::eParamite_96;
     pState->field_4_xpos = mXPos;
@@ -390,7 +390,7 @@ s32 Paramite::VGetSaveState(u8* pSaveBuffer)
     }
 
     pState->field_76_flags.Clear();
-    pState->field_76_flags.Set(Paramite_State::eBit1_unused, this == sControlledCharacter);
+    pState->field_76_flags.Set(ParamiteSaveState::eBit1_unused, this == sControlledCharacter);
 
     pState->field_3C_tlvInfo = field_140_tlvInfo;
     pState->field_40_meat_id = ResolveId(mMeatGuid);
@@ -427,14 +427,14 @@ s32 Paramite::VGetSaveState(u8* pSaveBuffer)
     pState->field_72_input = InputObject::KeyboardInputToPsxButtons_45EF70(field_154_input);
     pState->field_74_next_brain_ret = field_158_next_brain_ret;
 
-    pState->field_76_flags.Set(Paramite_State::eBit2_running, field_178_flags.Get(Flags_178::eBit2_running));
-    pState->field_76_flags.Set(Paramite_State::eBit3_hissed_or_left_screen, field_178_flags.Get(Flags_178::eBit3_hissed_or_left_screen));
-    pState->field_76_flags.Set(Paramite_State::eBit4_prevent_depossession, field_178_flags.Get(Flags_178::eBit5_prevent_depossession));
-    pState->field_76_flags.Set(Paramite_State::eBit5_spawned, field_178_flags.Get(Flags_178::eBit6_spawned));
-    pState->field_76_flags.Set(Paramite_State::eBit6_alerted, field_178_flags.Get(Flags_178::eBit7_alerted));
-    pState->field_76_flags.Set(Paramite_State::eBit7_can_be_possessed, mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eCanBePossessed));
+    pState->field_76_flags.Set(ParamiteSaveState::eBit2_running, field_178_flags.Get(Flags_178::eBit2_running));
+    pState->field_76_flags.Set(ParamiteSaveState::eBit3_hissed_or_left_screen, field_178_flags.Get(Flags_178::eBit3_hissed_or_left_screen));
+    pState->field_76_flags.Set(ParamiteSaveState::eBit4_prevent_depossession, field_178_flags.Get(Flags_178::eBit5_prevent_depossession));
+    pState->field_76_flags.Set(ParamiteSaveState::eBit5_spawned, field_178_flags.Get(Flags_178::eBit6_spawned));
+    pState->field_76_flags.Set(ParamiteSaveState::eBit6_alerted, field_178_flags.Get(Flags_178::eBit7_alerted));
+    pState->field_76_flags.Set(ParamiteSaveState::eBit7_can_be_possessed, mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eCanBePossessed));
 
-    return sizeof(Paramite_State);
+    return sizeof(ParamiteSaveState);
 }
 
 const eParamiteMotions sParamitePatrolMotionTable[6] = {

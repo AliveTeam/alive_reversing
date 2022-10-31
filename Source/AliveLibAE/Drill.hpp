@@ -12,7 +12,7 @@ enum class DrillStates : s16
     State_2_GoingUp = 2,
 };
 
-struct Drill_State final
+struct DrillSaveState final
 {
     s16 field_0;
     s16 field_2_padding;
@@ -22,7 +22,7 @@ struct Drill_State final
     DrillStates field_10_state;
     s16 field_12_xyoff;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(Drill_State, 0x14);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(DrillSaveState, 0x14);
 
 class Drill final : public ::BaseAnimatedWithPhysicsGameObject
 {

@@ -87,7 +87,7 @@ WorkWheel::~WorkWheel()
 
 s32 WorkWheel::CreateFromSaveState(const u8* pState)
 {
-    const WorkWheel_SaveState* pData = reinterpret_cast<const WorkWheel_SaveState*>(pState);
+    const WorkWheelSaveState* pData = reinterpret_cast<const WorkWheelSaveState*>(pState);
 
     relive::Path_WorkWheel* pTlv = static_cast<relive::Path_WorkWheel*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pData->field_4_tlvInfo));
 
@@ -101,18 +101,18 @@ s32 WorkWheel::CreateFromSaveState(const u8* pState)
 
         pWheel->mTurningTime = pData->field_8_snd_counter;
     }
-    return sizeof(WorkWheel_SaveState);
+    return sizeof(WorkWheelSaveState);
 }
 
 s32 WorkWheel::VGetSaveState(u8* pSaveBuffer)
 {
-    auto pState = reinterpret_cast<WorkWheel_SaveState*>(pSaveBuffer);
+    auto pState = reinterpret_cast<WorkWheelSaveState*>(pSaveBuffer);
 
     pState->field_0_id = AETypes::eWheel_148;
     pState->field_4_tlvInfo = mTlvInfo;
     pState->field_8_snd_counter = mTurningTime;
     pState->field_C_state = mState;
-    return sizeof(WorkWheel_SaveState);
+    return sizeof(WorkWheelSaveState);
 }
 
 void WorkWheel::VUpdate()

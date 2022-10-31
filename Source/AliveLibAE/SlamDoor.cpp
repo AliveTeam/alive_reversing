@@ -410,12 +410,12 @@ void SlamDoor::VUpdate()
 
 s32 SlamDoor::VGetSaveState(u8* pSaveBuffer)
 {
-    Quicksave_Obj_SlamDoor* pSaveState = reinterpret_cast<Quicksave_Obj_SlamDoor*>(pSaveBuffer);
+    SlamDoorSaveState* pSaveState = reinterpret_cast<SlamDoorSaveState*>(pSaveBuffer);
 
     pSaveState->mType = AETypes::eSlamDoor_122;
     pSaveState->mTlvInfo = mTlvInfo;
 
-    return sizeof(Quicksave_Obj_SlamDoor);
+    return sizeof(SlamDoorSaveState);
 }
 
 void SlamDoor::ClearInsideSlamDoor(IBaseAliveGameObject* pObj, s16 xPosition, s16 width)
@@ -443,9 +443,9 @@ void SlamDoor::ClearInsideSlamDoor(IBaseAliveGameObject* pObj, s16 xPosition, s1
 
 s32 SlamDoor::CreateFromSaveState(const u8* pData)
 {
-    const Quicksave_Obj_SlamDoor* pSaveState = reinterpret_cast<const Quicksave_Obj_SlamDoor*>(pData);
+    const SlamDoorSaveState* pSaveState = reinterpret_cast<const SlamDoorSaveState*>(pData);
 
     relive_new SlamDoor(static_cast<relive::Path_SlamDoor*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->mTlvInfo)), pSaveState->mTlvInfo);
 
-    return sizeof(Quicksave_Obj_SlamDoor);
+    return sizeof(SlamDoorSaveState);
 }

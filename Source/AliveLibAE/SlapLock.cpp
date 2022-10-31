@@ -105,7 +105,7 @@ SlapLock::~SlapLock()
 
 s32 SlapLock::CreateFromSaveState(const u8* pBuffer)
 {
-    auto pState = reinterpret_cast<const SlapLock_State*>(pBuffer);
+    auto pState = reinterpret_cast<const SlapLockSaveState*>(pBuffer);
 
     auto pTlv = static_cast<relive::Path_SlapLock*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvInfo));
 
@@ -124,7 +124,7 @@ s32 SlapLock::CreateFromSaveState(const u8* pBuffer)
         pSlapLock->mShinyParticleTimer = pState->mShinyParticleTimer;
     }
 
-    return sizeof(SlapLock_State);
+    return sizeof(SlapLockSaveState);
 }
 
 void SlapLock::VScreenChanged()
@@ -150,7 +150,7 @@ void SlapLock::GiveInvisibility()
 
 s32 SlapLock::VGetSaveState(u8* pSaveBuffer)
 {
-    auto pState = reinterpret_cast<SlapLock_State*>(pSaveBuffer);
+    auto pState = reinterpret_cast<SlapLockSaveState*>(pSaveBuffer);
 
     pState->mType = AETypes::eLockedSoul_61;
     pState->mAnimRender = GetAnimation().mFlags.Get(AnimFlags::eRender) & 1;
@@ -163,7 +163,7 @@ s32 SlapLock::VGetSaveState(u8* pSaveBuffer)
 
     if (mAbilityRingId == Guid{})
     {
-        return sizeof(SlapLock_State);
+        return sizeof(SlapLockSaveState);
     }
 
     BaseGameObject* pObj = sObjectIds.Find_Impl(mAbilityRingId);
@@ -171,7 +171,7 @@ s32 SlapLock::VGetSaveState(u8* pSaveBuffer)
     {
         pState->mAbilityRingId = pObj->mBaseGameObjectTlvInfo;
     }
-    return sizeof(SlapLock_State);
+    return sizeof(SlapLockSaveState);
 }
 
 void SlapLock::VUpdate()

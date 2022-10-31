@@ -20,9 +20,9 @@ void MinesAlarm::Create(s32 timer)
 
 s32 MinesAlarm::CreateFromSaveState(const u8* pBuffer)
 {
-    auto pState = reinterpret_cast<const MinesAlarm_State*>(pBuffer);
+    auto pState = reinterpret_cast<const MinesAlarmSaveState*>(pBuffer);
     relive_new MinesAlarm(pState->field_4_timer);
-    return sizeof(MinesAlarm_State);
+    return sizeof(MinesAlarmSaveState);
 }
 
 MinesAlarm::MinesAlarm(s32 timer)
@@ -34,11 +34,11 @@ MinesAlarm::MinesAlarm(s32 timer)
 
 s32 MinesAlarm::VGetSaveState(u8* pSaveBuffer)
 {
-    auto pState = reinterpret_cast<MinesAlarm_State*>(pSaveBuffer);
+    auto pState = reinterpret_cast<MinesAlarmSaveState*>(pSaveBuffer);
 
     pState->field_0_type = AETypes::eMinesAlarm_25;
     pState->field_4_timer = sTimerValue_5C1BFC;
-    return sizeof(MinesAlarm_State);
+    return sizeof(MinesAlarmSaveState);
 }
 
 MinesAlarm::~MinesAlarm()

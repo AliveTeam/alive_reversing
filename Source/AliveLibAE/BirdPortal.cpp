@@ -668,7 +668,7 @@ void BirdPortal::VStopAudio()
 
 s32 BirdPortal::VGetSaveState(u8* pBuffer)
 {
-    auto pState = reinterpret_cast<BirdPortal_State*>(pBuffer);
+    auto pState = reinterpret_cast<BirdPortalSaveState*>(pBuffer);
     auto pTlv = static_cast<relive::Path_BirdPortal*>(sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo));
 
     s16 numMudsForShrykull = 0;
@@ -682,7 +682,7 @@ s32 BirdPortal::VGetSaveState(u8* pBuffer)
     pState->mState = static_cast<u8>(mState);
     pState->mMudCountForShrykull = static_cast<u8>(numMudsForShrykull - mMudCountForShrykull);
 
-    return sizeof(BirdPortal_State);
+    return sizeof(BirdPortalSaveState);
 }
 
 void BirdPortal::VRender(PrimHeader** /*ppOt*/)
@@ -692,11 +692,11 @@ void BirdPortal::VRender(PrimHeader** /*ppOt*/)
 
 s32 BirdPortal::CreateFromSaveState(const u8* pBuffer)
 {
-    auto pSaveState = reinterpret_cast<const BirdPortal_State*>(pBuffer);
+    auto pSaveState = reinterpret_cast<const BirdPortalSaveState*>(pBuffer);
     auto pTlv = static_cast<relive::Path_BirdPortal*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->mTlvInfo));
     if (!pTlv)
     {
-        return sizeof(BirdPortal_State);
+        return sizeof(BirdPortalSaveState);
     }
 
     auto pPortal = relive_new BirdPortal(pTlv, pSaveState->mTlvInfo);
@@ -746,7 +746,7 @@ s32 BirdPortal::CreateFromSaveState(const u8* pBuffer)
         }
     }
 
-    return sizeof(BirdPortal_State);
+    return sizeof(BirdPortalSaveState);
 }
 
 s16 BirdPortal::VPortalClipper(s16 bIgnoreClipping)

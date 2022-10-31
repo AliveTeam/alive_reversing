@@ -243,7 +243,7 @@ enum class MudSounds : s16
 
 enum class LevelIds : s16;
 
-struct Slig_Spawner_State final
+struct SligSpawnerSaveState final
 {
     AETypes mType;
     s16 padding1;
@@ -257,9 +257,9 @@ struct Slig_Spawner_State final
     s16 padding2;
     s32 mSpawnedSligId;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Slig_Spawner_State, 0x10);
+ALIVE_ASSERT_SIZEOF_ALWAYS(SligSpawnerSaveState, 0x10);
 
-struct LiftMover_State final
+struct LiftMoverSaveState final
 {
     AETypes field_0_type_id; // never read?
     s16 field_2_padding;
@@ -275,9 +275,9 @@ struct LiftMover_State final
     };
     LiftMoverStates field_8_state;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(LiftMover_State, 0xC);
+ALIVE_ASSERT_SIZEOF_ALWAYS(LiftMoverSaveState, 0xC);
 
-struct Bone_SaveState final
+struct BoneSaveState final
 {
     AETypes mAEType;
     s16 field_2_padding;
@@ -319,17 +319,17 @@ struct Bone_SaveState final
     FP mInitialYPos;
     s32 mTimeToLiveTimer;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Bone_SaveState, 0x3C);
+ALIVE_ASSERT_SIZEOF_ALWAYS(BoneSaveState, 0x3C);
 
-struct MinesAlarm_State final
+struct MinesAlarmSaveState final
 {
     AETypes field_0_type;
     s16 field_2_pad;
     s32 field_4_timer;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(MinesAlarm_State, 0x8);
+ALIVE_ASSERT_SIZEOF_ALWAYS(MinesAlarmSaveState, 0x8);
 
-struct CrawlingSlig_State final
+struct CrawlingSligSaveState final
 {
     AETypes field_0_type;
     s16 field_2_padding;
@@ -383,9 +383,9 @@ struct CrawlingSlig_State final
     s16 field_7A_unused_counter;
     s32 field_7C_say_help_timer;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(CrawlingSlig_State, 0x80);
+ALIVE_ASSERT_SIZEOF_ALWAYS(CrawlingSligSaveState, 0x80);
 
-struct Drill_State final
+struct DrillSaveState final
 {
     s16 field_0;
     s16 field_2_padding;
@@ -401,9 +401,9 @@ struct Drill_State final
     DrillStates field_10_state;
     s16 field_12_xyoff;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Drill_State, 0x14);
+ALIVE_ASSERT_SIZEOF_ALWAYS(DrillSaveState, 0x14);
 
-struct EvilFart_State final
+struct EvilFartSaveState final
 {
     AETypes field_0_type;
     s16 mRed;
@@ -443,9 +443,9 @@ struct EvilFart_State final
     s32 mUnpossessionTimer;
     s32 mBackToAbeTimer;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(EvilFart_State, 60);
+ALIVE_ASSERT_SIZEOF_ALWAYS(EvilFartSaveState, 60);
 
-struct Fleech_State final
+struct FleechSaveState final
 {
     AETypes field_0_type;
     s16 field_2;
@@ -537,9 +537,9 @@ struct Fleech_State final
     BitField16<FleechStateFlags> mFleechStateFlags;
     s16 field_B2;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Fleech_State, 0xB4);
+ALIVE_ASSERT_SIZEOF_ALWAYS(FleechSaveState, 0xB4);
 
-struct FlyingSlig_State final
+struct FlyingSligSaveState final
 {
     AETypes field_0_type;
     s16 field_2;
@@ -616,9 +616,9 @@ struct FlyingSlig_State final
     s32 field_A4_bobbing_values_index;
     FP field_A8_bobbing_value;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(FlyingSlig_State, 0xAC);
+ALIVE_ASSERT_SIZEOF_ALWAYS(FlyingSligSaveState, 0xAC);
 
-struct FlyingSligSpawner_State final
+struct FlyingSligSpawnerSaveState final
 {
     AETypes field_0_type;
     s16 field_2_pad;
@@ -626,15 +626,15 @@ struct FlyingSligSpawner_State final
     s32 field_8_bSpawned;
     s32 field_C_spawned_slig_obj_id;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(FlyingSligSpawner_State, 0x10);
+ALIVE_ASSERT_SIZEOF_ALWAYS(FlyingSligSpawnerSaveState, 0x10);
 
-struct GameEnderController_State final
+struct GameEnderControllerSaveState final
 {
     AETypes field_0_type;
     s16 field_2_padding;
     s32 field_4_obj_id;
     s32 field_8_timer;
-    enum class GameEnderController_States : s16
+    enum class GameEnderControllerSaveStates : s16
     {
         eInit_0 = 0,
         eDetermineEnding_1 = 1,
@@ -647,19 +647,19 @@ struct GameEnderController_State final
         ePadding_8 = 8,
         ePadding_9 = 9,
     };
-    GameEnderController_States field_C_state;
+    GameEnderControllerSaveStates field_C_state;
     s16 field_E_padding;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(GameEnderController_State, 0x10);
+ALIVE_ASSERT_SIZEOF_ALWAYS(GameEnderControllerSaveState, 0x10);
 
-struct SlapLockWhirlWind_State final
+struct SlapLockWhirlWindSaveState final
 {
     AETypes mType;
     s16 mSwitchId;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(SlapLockWhirlWind_State, 0x4);
+ALIVE_ASSERT_SIZEOF_ALWAYS(SlapLockWhirlWindSaveState, 0x4);
 
-struct SlapLock_State final
+struct SlapLockSaveState final
 {
     AETypes mType;
     s16 mAnimRender;
@@ -682,9 +682,9 @@ struct SlapLock_State final
     s32 mAbilityRingId;
     s32 mShinyParticleTimer;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(SlapLock_State, 0x18);
+ALIVE_ASSERT_SIZEOF_ALWAYS(SlapLockSaveState, 0x18);
 
-struct Greeter_State final
+struct GreeterSaveState final
 {
     AETypes field_0_type;
     s16 field_2_r;
@@ -729,9 +729,9 @@ struct Greeter_State final
     s16 field_4A_padding;
     FP field_4C_motion_laser_xpos;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Greeter_State, 0x50);
+ALIVE_ASSERT_SIZEOF_ALWAYS(GreeterSaveState, 0x50);
 
-struct Grenade_SaveState final
+struct GrenadeSaveState final
 {
     AETypes field_0_type;
     s16 field_2_pad;
@@ -779,9 +779,9 @@ struct Grenade_SaveState final
     FP field_34_xpos;
     FP field_38_ypos;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Grenade_SaveState, 0x3C);
+ALIVE_ASSERT_SIZEOF_ALWAYS(GrenadeSaveState, 0x3C);
 
-struct Glukkon_SaveState final
+struct GlukkonSaveState final
 {
     AETypes field_0_id;
     s16 field_2_padding;
@@ -857,9 +857,9 @@ struct Glukkon_SaveState final
     s16 field_8C_can_be_possessed;
     AETypes field_8E_type_id;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Glukkon_SaveState, 144);
+ALIVE_ASSERT_SIZEOF_ALWAYS(GlukkonSaveState, 144);
 
-struct Abe_SaveState final
+struct AbeSaveState final
 {
     AETypes mAEType;
     s16 field_2_padding;
@@ -974,9 +974,9 @@ struct Abe_SaveState final
     };
     BitField16<Flags_D6> field_D6_flags;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Abe_SaveState, 216);
+ALIVE_ASSERT_SIZEOF_ALWAYS(AbeSaveState, 216);
 
-struct LiftPoint_State final
+struct LiftPointSaveState final
 {
     AETypes field_0_type;
     s16 field_2_pad;
@@ -1006,9 +1006,9 @@ struct LiftPoint_State final
     };
     BitField16<Flags> field_1A;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(LiftPoint_State, 0x1C);
+ALIVE_ASSERT_SIZEOF_ALWAYS(LiftPointSaveState, 0x1C);
 
-struct Mudokon_State final
+struct MudokonSaveState final
 {
     AETypes field_0_type;
     s16 field_2_pad;
@@ -1131,9 +1131,9 @@ struct Mudokon_State final
     s32 field_80_timer;
     s32 field_84_response_entry_idx;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Mudokon_State, 0x88);
+ALIVE_ASSERT_SIZEOF_ALWAYS(MudokonSaveState, 0x88);
 
-struct Meat_SaveState final
+struct MeatSaveState final
 {
     AETypes field_0_type;
     s16 field_2_pad;
@@ -1172,9 +1172,9 @@ struct Meat_SaveState final
     FP field_34_ypos;
     s32 field_38_savedfield12C; // TODO: Figure out what field_12C is. -- Nemin (5/7/2020)
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Meat_SaveState, 60);
+ALIVE_ASSERT_SIZEOF_ALWAYS(MeatSaveState, 60);
 
-struct MineCar_SaveState final
+struct MineCarSaveState final
 {
     AETypes field_0_type;
     s16 field_2_pad;
@@ -1235,9 +1235,9 @@ struct MineCar_SaveState final
     s16 field_64_throw_item_key1;
     s16 field_66_continue_move_input;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(MineCar_SaveState, 0x68);
+ALIVE_ASSERT_SIZEOF_ALWAYS(MineCarSaveState, 0x68);
 
-struct Paramite_State final
+struct ParamiteSaveState final
 {
     AETypes field_0_type;
     s16 field_2_pad;
@@ -1297,23 +1297,23 @@ struct Paramite_State final
 
     BitField16<Flags_76> field_76_flags;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Paramite_State, 0x78);
+ALIVE_ASSERT_SIZEOF_ALWAYS(ParamiteSaveState, 0x78);
 
-struct BirdPortal_State final
+struct BirdPortalSaveState final
 {
     AETypes mAEType;
     u8 mState;
     u8 mMudCountForShrykull;
     s32 mTlvInfo;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(BirdPortal_State, 8);
+ALIVE_ASSERT_SIZEOF_ALWAYS(BirdPortalSaveState, 8);
 
-struct ThrowableArray_SaveState final
+struct ThrowableArraySaveState final
 {
     s16 field_0_unused;
     s16 field_2_item_count;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(ThrowableArray_SaveState, 0x4);
+ALIVE_ASSERT_SIZEOF_ALWAYS(ThrowableArraySaveState, 0x4);
 
 
 enum class RingTypes : s16
@@ -1342,7 +1342,7 @@ enum class RingTypes : s16
     eHealing_Pulse_14 = 14,
 };
 
-struct AbilityRing_State final
+struct AbilityRingSaveState final
 {
     AETypes mRingObjectType;
     FP mRingXPos;
@@ -1356,7 +1356,7 @@ struct AbilityRing_State final
     s16 mRingGreen;
     s16 mRingBlue;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(AbilityRing_State, 0x28);
+ALIVE_ASSERT_SIZEOF_ALWAYS(AbilityRingSaveState, 0x28);
 
 struct RockSaveState final
 {
@@ -1398,7 +1398,7 @@ struct RockSaveState final
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(RockSaveState, 0x38);
 
-struct Scrab_State final
+struct ScrabSaveState final
 {
     AETypes field_0_type;
     s16 field_2_padding;
@@ -1472,9 +1472,9 @@ struct Scrab_State final
     };
     BitField16<Flags_9E> field_9E_flags;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Scrab_State, 0xA0);
+ALIVE_ASSERT_SIZEOF_ALWAYS(ScrabSaveState, 0xA0);
 
-struct ScrabSpawner_State final
+struct ScrabSpawnerSaveState final
 {
     AETypes field_0_type;
     s16 field_2_pad;
@@ -1487,24 +1487,24 @@ struct ScrabSpawner_State final
     ScrabSpawnerStates field_8_state;
     s32 field_C_spawned_scrab_id;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(ScrabSpawner_State, 0x10);
+ALIVE_ASSERT_SIZEOF_ALWAYS(ScrabSpawnerSaveState, 0x10);
 
-struct Quicksave_Obj_SlamDoor final
+struct SlamDoorSaveState final
 {
     AETypes mType;
     TlvItemInfoUnion mTlvInfo;
 
-    static ::Quicksave_Obj_SlamDoor From(const Quicksave_Obj_SlamDoor& data)
+    static ::SlamDoorSaveState From(const SlamDoorSaveState& data)
     {
-        ::Quicksave_Obj_SlamDoor d;
+        ::SlamDoorSaveState d;
         d.mTlvInfo = Guid::NewGuidFromTlvInfo(data.mTlvInfo.all);
         return d;
     }
 
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Quicksave_Obj_SlamDoor, 8);
+ALIVE_ASSERT_SIZEOF_ALWAYS(SlamDoorSaveState, 8);
 
-struct Slig_State final
+struct SligSaveState final
 {
     AETypes field_0_type;
     s16 field_2_padding;
@@ -1580,9 +1580,9 @@ struct Slig_State final
     };
     BitField16<Flags_A2> field_A2_flags;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Slig_State, 0xA4);
+ALIVE_ASSERT_SIZEOF_ALWAYS(SligSaveState, 0xA4);
 
-struct Slog_State final
+struct SlogSaveState final
 {
     AETypes field_0_type;
     s16 field_2_padding;
@@ -1645,9 +1645,9 @@ struct Slog_State final
     BitField16<Flags_74> field_74_flags;
     s16 field_76_padding;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Slog_State, 0x78);
+ALIVE_ASSERT_SIZEOF_ALWAYS(SlogSaveState, 0x78);
 
-struct Slurg_State final
+struct SlurgSaveState final
 {
     AETypes mType;
     s16 padding1;
@@ -1678,9 +1678,9 @@ struct Slurg_State final
     };
     BitField16<SlurgFlags> mSlurgFlags;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(Slurg_State, 0x2C);
+ALIVE_ASSERT_SIZEOF_ALWAYS(SlurgSaveState, 0x2C);
 
-struct TimerTrigger_State final
+struct TimerTriggerSaveState final
 {
     AETypes field_0_type;
     s32 field_4_tlvInfo;
@@ -1695,9 +1695,9 @@ struct TimerTrigger_State final
     TimerTriggerStates field_C_state;
     s16 field_E_starting_switch_state;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(TimerTrigger_State, 0x10);
+ALIVE_ASSERT_SIZEOF_ALWAYS(TimerTriggerSaveState, 0x10);
 
-struct TrapDoor_State final
+struct TrapDoorSaveState final
 {
     AETypes field_0_type;
     enum class TrapDoorState : s16
@@ -1711,9 +1711,9 @@ struct TrapDoor_State final
     s32 field_4_open_time;
     s32 field_8_tlvInfo;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(TrapDoor_State, 0xC);
+ALIVE_ASSERT_SIZEOF_ALWAYS(TrapDoorSaveState, 0xC);
 
-struct SaveState_UXB final
+struct UXBSaveState final
 {
     AETypes mType;
     s16 field_2_padding;
@@ -1733,9 +1733,9 @@ struct SaveState_UXB final
     u16 mRedBlinkCount;
     u16 mIsRed;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(SaveState_UXB, 24);
+ALIVE_ASSERT_SIZEOF_ALWAYS(UXBSaveState, 24);
 
-struct WorkWheel_SaveState final
+struct WorkWheelSaveState final
 {
     AETypes field_0_id;
     s16 padding_1;
@@ -1750,5 +1750,5 @@ struct WorkWheel_SaveState final
     WheelStates field_C_state;
     s16 padding_3;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(WorkWheel_SaveState, 0x10);
+ALIVE_ASSERT_SIZEOF_ALWAYS(WorkWheelSaveState, 0x10);
 }

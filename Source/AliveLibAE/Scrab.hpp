@@ -69,7 +69,7 @@ enum class ScrabSounds : u8
 enum class LevelIds : s16;
 enum class GameSpeakEvents : s16;
 
-struct Scrab_State final
+struct ScrabSaveState final
 {
     AETypes field_0_type;
     s16 field_2_padding;
@@ -143,7 +143,7 @@ struct Scrab_State final
     };
     BitField16<Flags_9E> field_9E_flags;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(Scrab_State, 0xA0);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(ScrabSaveState, 0xA0);
 
 class Scrab;
 using TScrabBrainFn = s16 (Scrab::*)();

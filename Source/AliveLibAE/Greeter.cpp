@@ -109,7 +109,7 @@ Greeter::Greeter(relive::Path_Greeter* pTlv, const Guid& tlvId)
 
 s32 Greeter::CreateFromSaveState(const u8* pBuffer)
 {
-    auto pState = reinterpret_cast<const Greeter_State*>(pBuffer);
+    auto pState = reinterpret_cast<const GreeterSaveState*>(pBuffer);
     auto pTlv = static_cast<relive::Path_Greeter*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_28_tlvInfo));
 
     auto pGreeter = relive_new Greeter(pTlv, pState->field_28_tlvInfo);
@@ -156,7 +156,7 @@ s32 Greeter::CreateFromSaveState(const u8* pBuffer)
         pLaser->mXPos = pState->field_4C_motion_laser_xpos;
     }
 
-    return sizeof(Greeter_State);
+    return sizeof(GreeterSaveState);
 }
 
 s32 Greeter::VGetSaveState(u8* pSaveBuffer)
@@ -166,7 +166,7 @@ s32 Greeter::VGetSaveState(u8* pSaveBuffer)
         return 0;
     }
 
-    auto pState = reinterpret_cast<Greeter_State*>(pSaveBuffer);
+    auto pState = reinterpret_cast<GreeterSaveState*>(pSaveBuffer);
 
     pState->field_0_type = AETypes::eGreeter_64;
 
@@ -205,7 +205,7 @@ s32 Greeter::VGetSaveState(u8* pSaveBuffer)
     auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find_Impl(pMotionDetector->field_F8_laser_id));
     pState->field_4C_motion_laser_xpos = pLaser->mXPos;
 
-    return sizeof(Greeter_State);
+    return sizeof(GreeterSaveState);
 }
 
 void Greeter::VScreenChanged()

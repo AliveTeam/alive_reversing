@@ -17,7 +17,7 @@ enum class BoneStates : s16
     eFalling_5 = 5
 };
 
-struct Bone_SaveState final
+struct BoneSaveState final
 {
     AETypes mAEType;
     s16 field_2_padding;
@@ -50,7 +50,7 @@ struct Bone_SaveState final
     FP mInitialYPos;
     s32 mTimeToLiveTimer;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(Bone_SaveState, 0x3C);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(BoneSaveState, 0x3C);
 
 class Bone final : public BaseThrowable
 {

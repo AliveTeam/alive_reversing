@@ -112,7 +112,7 @@ const AnimId sMineCarAnimIdTable[7] = {
 
 s32 MineCar::CreateFromSaveState(const u8* pBuffer)
 {
-    auto pState = reinterpret_cast<const MineCar_SaveState*>(pBuffer);
+    auto pState = reinterpret_cast<const MineCarSaveState*>(pBuffer);
     auto pTlv = static_cast<relive::Path_MineCar*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_4C_tlvInfo));
 
     auto pMineCar = relive_new MineCar(pTlv, pState->field_4C_tlvInfo, 0, 0, 0);
@@ -255,7 +255,7 @@ s32 MineCar::CreateFromSaveState(const u8* pBuffer)
         }
     }
 
-    return sizeof(MineCar_SaveState);
+    return sizeof(MineCarSaveState);
 }
 
 void MineCar::LoadAnimation(Animation* pAnim)
@@ -668,7 +668,7 @@ s16 MineCar::VTakeDamage(BaseGameObject* /*pFrom*/)
 
 s32 MineCar::VGetSaveState(u8* pSaveBuffer)
 {
-    auto pState = reinterpret_cast<MineCar_SaveState*>(pSaveBuffer);
+    auto pState = reinterpret_cast<MineCarSaveState*>(pSaveBuffer);
 
     pState->field_0_type = AETypes::eMineCar_89;
 
@@ -789,7 +789,7 @@ s32 MineCar::VGetSaveState(u8* pSaveBuffer)
     pState->field_64_throw_item_key1 = field_1D4_previous_input;
     pState->field_66_continue_move_input = field_1D6_continue_move_input;
 
-    return sizeof(MineCar_SaveState);
+    return sizeof(MineCarSaveState);
 }
 
 void MineCar::VUpdate()

@@ -33,7 +33,7 @@ enum class FleechSound : u8
 
 
 
-struct Fleech_State final
+struct FleechSaveState final
 {
     AETypes field_0_type;
     s16 field_2;
@@ -125,7 +125,7 @@ struct Fleech_State final
     BitField16<FleechStateFlags> mFleechStateFlags;
     s16 field_B2;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(Fleech_State, 0xB4);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(FleechSaveState, 0xB4);
 
 class Fleech;
 using TFleechBrainFn = s16 (Fleech::*)();

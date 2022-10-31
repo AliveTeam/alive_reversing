@@ -92,11 +92,11 @@ EvilFart::EvilFart()
 
 s32 EvilFart::CreateFromSaveState(const u8* pBuffer)
 {
-    auto pState = reinterpret_cast<const EvilFart_State*>(pBuffer);
+    auto pState = reinterpret_cast<const EvilFartSaveState*>(pBuffer);
 
     auto pFart = relive_new EvilFart();
 
-    if (pState->field_2C.Get(EvilFart_State::eBit1_bControlled))
+    if (pState->field_2C.Get(EvilFartSaveState::eBit1_bControlled))
     {
         sControlledCharacter = pFart;
     }
@@ -127,17 +127,17 @@ s32 EvilFart::CreateFromSaveState(const u8* pBuffer)
     pFart->mAbeLevel = MapWrapper::FromAESaveData(pState->mAbeLevel);
     pFart->mAbePath = pState->mAbePath;
     pFart->mAbeCamera = pState->mAbeCamera;
-    pFart->mFartExploded = pState->field_2C.Get(EvilFart_State::eBit2_FartExploded);
+    pFart->mFartExploded = pState->field_2C.Get(EvilFartSaveState::eBit2_FartExploded);
     pFart->mPossessedAliveTimer = pState->mPossessedAliveTimer;
     pFart->mState = pState->mState;
     pFart->mUnpossessionTimer = pState->mUnpossessionTimer;
     pFart->mBackToAbeTimer = pState->mBackToAbeTimer;
-    return sizeof(EvilFart_State);
+    return sizeof(EvilFartSaveState);
 }
 
 s32 EvilFart::VGetSaveState(u8* pSaveBuffer)
 {
-    auto pState = reinterpret_cast<EvilFart_State*>(pSaveBuffer);
+    auto pState = reinterpret_cast<EvilFartSaveState*>(pSaveBuffer);
 
     pState->field_0_type = AETypes::eEvilFart_45;
 
@@ -154,7 +154,7 @@ s32 EvilFart::VGetSaveState(u8* pSaveBuffer)
     pState->mGreen = mRGB.g;
     pState->mBlue = mRGB.b;
 
-    pState->field_2C.Set(EvilFart_State::eBit1_bControlled, sControlledCharacter == this);
+    pState->field_2C.Set(EvilFartSaveState::eBit1_bControlled, sControlledCharacter == this);
     pState->mCurrentFrame = static_cast<s16>(GetAnimation().GetCurrentFrame());
     pState->mFrameChangeCounter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
 
@@ -164,12 +164,12 @@ s32 EvilFart::VGetSaveState(u8* pSaveBuffer)
     pState->mAbeLevel = MapWrapper::ToAE(mAbeLevel);
     pState->mAbePath = mAbePath;
     pState->mAbeCamera = mAbeCamera;
-    pState->field_2C.Set(EvilFart_State::eBit2_FartExploded, mFartExploded & 1);
+    pState->field_2C.Set(EvilFartSaveState::eBit2_FartExploded, mFartExploded & 1);
     pState->mPossessedAliveTimer = mPossessedAliveTimer;
     pState->mState = mState;
     pState->mUnpossessionTimer = mUnpossessionTimer;
     pState->mBackToAbeTimer = mBackToAbeTimer;
-    return sizeof(EvilFart_State);
+    return sizeof(EvilFartSaveState);
 }
 
 void EvilFart::InputControlFart()

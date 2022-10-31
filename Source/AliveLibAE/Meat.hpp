@@ -17,7 +17,7 @@ enum class MeatStates : s16
     eFall_5 = 5,
 };
 
-struct Meat_SaveState final
+struct MeatSaveState final
 {
     AETypes field_0_type;
     s16 field_2_pad;
@@ -47,7 +47,7 @@ struct Meat_SaveState final
     FP field_34_ypos;
     s32 field_38_savedfield12C; // TODO: Figure out what field_12C is. -- Nemin (5/7/2020)
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(Meat_SaveState, 60);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(MeatSaveState, 60);
 
 class Meat final : public BaseThrowable
 {

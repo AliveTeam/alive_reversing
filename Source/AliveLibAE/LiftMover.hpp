@@ -21,14 +21,14 @@ enum class LiftMoverStates : s16
     eMovingDone_5 = 5,
 };
 
-struct LiftMover_State final
+struct LiftMoverSaveState final
 {
     AETypes field_0_type_id; // never read?
     s16 field_2_padding;
     Guid field_4_tlvInfo;
     LiftMoverStates field_8_state;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(LiftMover_State, 0xC);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(LiftMoverSaveState, 0xC);
 
 class LiftMover final : public BaseGameObject
 {

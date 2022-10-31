@@ -588,7 +588,7 @@ s32 Slig::VGetSaveState(u8* pSaveBuffer)
         return 0;
     }
 
-    auto pState = reinterpret_cast<Slig_State*>(pSaveBuffer);
+    auto pState = reinterpret_cast<SligSaveState*>(pSaveBuffer);
 
     pState->field_0_type = AETypes::eSlig_125;
 
@@ -700,17 +700,17 @@ s32 Slig::VGetSaveState(u8* pSaveBuffer)
     pState->field_9E_next_command_arg1 = field_212_next_command_arg1;
     pState->field_A0_cmd_idx = field_214_cmd_idx;
 
-    pState->field_A2_flags.Set(Slig_State::eBit2_FollowGlukkon, field_216_flags.Get(Flags_216::eBit1_FollowGlukkon));
-    pState->field_A2_flags.Set(Slig_State::eBit3_StoppedForLeverOrLift, field_216_flags.Get(Flags_216::eBit2_StoppedForLeverOrLift));
-    pState->field_A2_flags.Set(Slig_State::eBit4_GlukkonCalledAllOYa, field_216_flags.Get(Flags_216::eBit3_GlukkonCalledAllOYa));
-    pState->field_A2_flags.Set(Slig_State::eBit5_HeardGlukkon, field_216_flags.Get(Flags_216::eBit4_HeardGlukkon));
+    pState->field_A2_flags.Set(SligSaveState::eBit2_FollowGlukkon, field_216_flags.Get(Flags_216::eBit1_FollowGlukkon));
+    pState->field_A2_flags.Set(SligSaveState::eBit3_StoppedForLeverOrLift, field_216_flags.Get(Flags_216::eBit2_StoppedForLeverOrLift));
+    pState->field_A2_flags.Set(SligSaveState::eBit4_GlukkonCalledAllOYa, field_216_flags.Get(Flags_216::eBit3_GlukkonCalledAllOYa));
+    pState->field_A2_flags.Set(SligSaveState::eBit5_HeardGlukkon, field_216_flags.Get(Flags_216::eBit4_HeardGlukkon));
 
-    return sizeof(Slig_State);
+    return sizeof(SligSaveState);
 }
 
 s32 Slig::CreateFromSaveState(const u8* pBuffer)
 {
-    auto pState = reinterpret_cast<const Slig_State*>(pBuffer);
+    auto pState = reinterpret_cast<const SligSaveState*>(pBuffer);
     auto pTlv = static_cast<relive::Path_Slig*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_5C_tlvInfo));
 
     auto pSlig = relive_new Slig(pTlv, pState->field_5C_tlvInfo);
@@ -812,15 +812,15 @@ s32 Slig::CreateFromSaveState(const u8* pBuffer)
 
         pSlig->field_214_cmd_idx = pState->field_A0_cmd_idx;
 
-        pSlig->field_216_flags.Set(Flags_216::eBit1_FollowGlukkon, pState->field_A2_flags.Get(Slig_State::eBit2_FollowGlukkon));
-        pSlig->field_216_flags.Set(Flags_216::eBit2_StoppedForLeverOrLift, pState->field_A2_flags.Get(Slig_State::eBit3_StoppedForLeverOrLift));
-        pSlig->field_216_flags.Set(Flags_216::eBit3_GlukkonCalledAllOYa, pState->field_A2_flags.Get(Slig_State::eBit4_GlukkonCalledAllOYa));
-        pSlig->field_216_flags.Set(Flags_216::eBit4_HeardGlukkon, pState->field_A2_flags.Get(Slig_State::eBit5_HeardGlukkon));
+        pSlig->field_216_flags.Set(Flags_216::eBit1_FollowGlukkon, pState->field_A2_flags.Get(SligSaveState::eBit2_FollowGlukkon));
+        pSlig->field_216_flags.Set(Flags_216::eBit2_StoppedForLeverOrLift, pState->field_A2_flags.Get(SligSaveState::eBit3_StoppedForLeverOrLift));
+        pSlig->field_216_flags.Set(Flags_216::eBit3_GlukkonCalledAllOYa, pState->field_A2_flags.Get(SligSaveState::eBit4_GlukkonCalledAllOYa));
+        pSlig->field_216_flags.Set(Flags_216::eBit4_HeardGlukkon, pState->field_A2_flags.Get(SligSaveState::eBit5_HeardGlukkon));
 
         sSligsUnderControlCount_BAF7E8 = 0;
     }
 
-    return sizeof(Slig_State);
+    return sizeof(SligSaveState);
 }
 
 void Slig::M_StandIdle_0_4B4EC0()

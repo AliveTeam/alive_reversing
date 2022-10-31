@@ -23,7 +23,7 @@ enum class MineCarDirs : s16
     eUp_3 = 3,
 };
 
-struct MineCar_SaveState final
+struct MineCarSaveState final
 {
     AETypes field_0_type;
     s16 field_2_pad;
@@ -70,7 +70,7 @@ struct MineCar_SaveState final
     s16 field_64_throw_item_key1;
     s16 field_66_continue_move_input;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(MineCar_SaveState, 0x68);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(MineCarSaveState, 0x68);
 
 class MineCar final : public BaseAliveGameObject
 {

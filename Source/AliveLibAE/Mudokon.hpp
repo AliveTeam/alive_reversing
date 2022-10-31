@@ -137,7 +137,7 @@ enum class MudAction : s16;
 
 class BirdPortal;
 
-struct Mudokon_State final
+struct MudokonSaveState final
 {
     AETypes field_0_type;
     s16 field_2_pad;
@@ -226,7 +226,7 @@ struct Mudokon_State final
     s32 field_80_timer;
     s32 field_84_response_entry_idx;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(Mudokon_State, 0x88);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(MudokonSaveState, 0x88);
 
 class Mudokon final : public BaseAliveGameObject
 {

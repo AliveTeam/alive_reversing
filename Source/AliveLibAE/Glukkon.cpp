@@ -112,7 +112,7 @@ const TintEntry kGlukkonTints_5546B4[18] = {
 
 s32 Glukkon::CreateFromSaveState(const u8* pData)
 {
-    const Glukkon_SaveState* pSaveState = reinterpret_cast<const Glukkon_SaveState*>(pData);
+    const GlukkonSaveState* pSaveState = reinterpret_cast<const GlukkonSaveState*>(pData);
     auto pTlv = static_cast<relive::Path_Glukkon*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->field_44_tlvInfo));
 
     auto pGlukkon = relive_new Glukkon(pTlv, pSaveState->field_44_tlvInfo);
@@ -194,7 +194,7 @@ s32 Glukkon::CreateFromSaveState(const u8* pData)
         pGlukkon->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanBePossessed, pSaveState->field_8C_can_be_possessed);
     }
 
-    return sizeof(Glukkon_SaveState);
+    return sizeof(GlukkonSaveState);
 }
 
 void Glukkon::SetBrain(TGlukkonBrainFn fn)
@@ -282,7 +282,7 @@ void Glukkon::VRender(PrimHeader** ot)
 
 s32 Glukkon::VGetSaveState(u8* pSaveBuffer)
 {
-    Glukkon_SaveState* pSaveState = reinterpret_cast<Glukkon_SaveState*>(pSaveBuffer);
+    GlukkonSaveState* pSaveState = reinterpret_cast<GlukkonSaveState*>(pSaveBuffer);
 
     if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted))
     {
@@ -354,7 +354,7 @@ s32 Glukkon::VGetSaveState(u8* pSaveBuffer)
     pSaveState->field_8C_can_be_possessed = mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eCanBePossessed);
     pSaveState->field_8E_type_id = ToAE(Type());
 
-    return sizeof(Glukkon_SaveState);
+    return sizeof(GlukkonSaveState);
 }
 
 void Glukkon::M_Idle_0_442D10()

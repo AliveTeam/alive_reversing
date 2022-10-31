@@ -4,7 +4,7 @@
 #include "PlatformBase.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
-struct LiftPoint_State final
+struct LiftPointSaveState final
 {
     AETypes field_0_type;
     s16 field_2_pad;
@@ -26,7 +26,7 @@ struct LiftPoint_State final
     };
     BitField16<Flags> field_1A;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(LiftPoint_State, 0x1C);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(LiftPointSaveState, 0x1C);
 
 class LiftPoint final : public PlatformBase
 {

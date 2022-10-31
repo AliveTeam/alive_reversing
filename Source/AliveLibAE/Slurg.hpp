@@ -33,7 +33,7 @@ enum SlurgFlags
     eMoving = 0x2,
 };
 
-struct Slurg_State final
+struct SlurgSaveState final
 {
     AETypes mType;
     s16 padding1;
@@ -53,7 +53,7 @@ struct Slurg_State final
     SlurgStates mSlurgState;
     BitField16<SlurgFlags> mSlurgFlags;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(Slurg_State, 0x2C);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(SlurgSaveState, 0x2C);
 
 class Slurg final : public BaseAliveGameObject
 {

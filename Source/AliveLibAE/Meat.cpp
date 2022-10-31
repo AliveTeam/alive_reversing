@@ -88,7 +88,7 @@ MeatSack::MeatSack(relive::Path_MeatSack* pTlv, const Guid& tlvId)
 
 s32 Meat::CreateFromSaveState(const u8* pBuffer)
 {
-    const auto pState = reinterpret_cast<const Meat_SaveState*>(pBuffer);
+    const auto pState = reinterpret_cast<const MeatSaveState*>(pBuffer);
 
     auto pMeat = relive_new Meat(pState->field_8_xpos, pState->field_C_ypos, pState->field_2A_count);
 
@@ -110,11 +110,11 @@ s32 Meat::CreateFromSaveState(const u8* pBuffer)
 
     pMeat->SetSpriteScale(pState->field_18_sprite_scale);
 
-    pMeat->GetAnimation().mFlags.Set(AnimFlags::eLoop, pState->field_20_flags.Get(Meat_SaveState::eBit3_bLoop));
-    pMeat->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->field_20_flags.Get(Meat_SaveState::eBit1_bRender));
+    pMeat->GetAnimation().mFlags.Set(AnimFlags::eLoop, pState->field_20_flags.Get(MeatSaveState::eBit3_bLoop));
+    pMeat->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->field_20_flags.Get(MeatSaveState::eBit1_bRender));
 
-    pMeat->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_20_flags.Get(Meat_SaveState::eBit2_bDrawable));
-    pMeat->mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8, pState->field_20_flags.Get(Meat_SaveState::eBit4_bInteractive));
+    pMeat->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_20_flags.Get(MeatSaveState::eBit2_bDrawable));
+    pMeat->mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8, pState->field_20_flags.Get(MeatSaveState::eBit4_bInteractive));
 
     pMeat->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eRestoredFromQuickSave);
 
@@ -128,7 +128,7 @@ s32 Meat::CreateFromSaveState(const u8* pBuffer)
     pMeat->field_124_ypos = pState->field_34_ypos;
 
     pMeat->field_12C_deadtimer = pState->field_38_savedfield12C;
-    return sizeof(Meat_SaveState);
+    return sizeof(MeatSaveState);
 }
 
 MeatSack::~MeatSack()
@@ -547,7 +547,7 @@ void Meat::VUpdate()
 
 s32 Meat::VGetSaveState(u8* pSaveBuffer)
 {
-    auto pState = reinterpret_cast<Meat_SaveState*>(pSaveBuffer);
+    auto pState = reinterpret_cast<MeatSaveState*>(pSaveBuffer);
 
     pState->field_0_type = AETypes::eMeat_84;
     pState->field_4_obj_id = mBaseGameObjectTlvInfo;
@@ -563,11 +563,11 @@ s32 Meat::VGetSaveState(u8* pSaveBuffer)
 
     pState->field_18_sprite_scale = GetSpriteScale();
 
-    pState->field_20_flags.Set(Meat_SaveState::eBit3_bLoop, GetAnimation().mFlags.Get(AnimFlags::eLoop));
-    pState->field_20_flags.Set(Meat_SaveState::eBit1_bRender, GetAnimation().mFlags.Get(AnimFlags::eRender));
+    pState->field_20_flags.Set(MeatSaveState::eBit3_bLoop, GetAnimation().mFlags.Get(AnimFlags::eLoop));
+    pState->field_20_flags.Set(MeatSaveState::eBit1_bRender, GetAnimation().mFlags.Get(AnimFlags::eRender));
 
-    pState->field_20_flags.Set(Meat_SaveState::eBit2_bDrawable, mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4));
-    pState->field_20_flags.Set(Meat_SaveState::eBit4_bInteractive, mBaseGameObjectFlags.Get(BaseGameObject::eInteractive_Bit8));
+    pState->field_20_flags.Set(MeatSaveState::eBit2_bDrawable, mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4));
+    pState->field_20_flags.Set(MeatSaveState::eBit4_bInteractive, mBaseGameObjectFlags.Get(BaseGameObject::eInteractive_Bit8));
 
     if (field_130_pLine)
     {
@@ -587,7 +587,7 @@ s32 Meat::VGetSaveState(u8* pSaveBuffer)
 
     pState->field_38_savedfield12C = field_12C_deadtimer;
 
-    return sizeof(Meat_SaveState);
+    return sizeof(MeatSaveState);
 }
 
 bool Meat::VCanEatMe()

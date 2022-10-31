@@ -33,7 +33,7 @@ enum class RingTypes : s16
     eHealing_Pulse_14 = 14,
 };
 
-struct AbilityRing_State final
+struct AbilityRingSaveState final
 {
     AETypes mRingObjectType;
     FP mRingXPos;
@@ -47,7 +47,7 @@ struct AbilityRing_State final
     s16 mRingGreen;
     s16 mRingBlue;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(AbilityRing_State, 0x28);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(AbilityRingSaveState, 0x28);
 
 struct AbilityRing_PolyBuffer;
 enum class LevelIds : s16;

@@ -67,7 +67,7 @@ void Bone::VTimeToExplodeRandom()
 
 s32 Bone::CreateFromSaveState(const u8* pData)
 {
-    auto pState = reinterpret_cast<const Bone_SaveState*>(pData);
+    auto pState = reinterpret_cast<const BoneSaveState*>(pData);
 
     auto pBone = relive_new Bone(pState->mXPos, pState->mYPos, pState->mBaseThrowableCount);
 
@@ -90,11 +90,11 @@ s32 Bone::CreateFromSaveState(const u8* pData)
 
     pBone->SetScale(pState->mSpriteScale > FP_FromDouble(0.75) ? Scale::Fg : Scale::Bg);
 
-    pBone->GetAnimation().mFlags.Set(AnimFlags::eLoop, pState->field_20_flags.Get(Bone_SaveState::eBit3_bLoop));
-    pBone->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->field_20_flags.Get(Bone_SaveState::eBit1_bRender));
+    pBone->GetAnimation().mFlags.Set(AnimFlags::eLoop, pState->field_20_flags.Get(BoneSaveState::eBit3_bLoop));
+    pBone->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->field_20_flags.Get(BoneSaveState::eBit1_bRender));
 
-    pBone->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_20_flags.Get(Bone_SaveState::eBit2_bDrawable));
-    pBone->mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8, pState->field_20_flags.Get(Bone_SaveState::eBit4_bInteractive));
+    pBone->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_20_flags.Get(BoneSaveState::eBit2_bDrawable));
+    pBone->mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8, pState->field_20_flags.Get(BoneSaveState::eBit4_bInteractive));
 
     pBone->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eRestoredFromQuickSave);
 
@@ -111,12 +111,12 @@ s32 Bone::CreateFromSaveState(const u8* pData)
     pBone->mTimeToLiveTimer = pState->mTimeToLiveTimer;
 
     pBone->mHitObject = 0;
-    if (pState->field_20_flags.Get(Bone_SaveState::eBit5_bHitObject))
+    if (pState->field_20_flags.Get(BoneSaveState::eBit5_bHitObject))
     {
         pBone->mHitObject |= 1;
     }
 
-    return sizeof(Bone_SaveState);
+    return sizeof(BoneSaveState);
 }
 
 Bone::~Bone()
@@ -239,7 +239,7 @@ bool Bone::VCanBeEaten()
 
 s32 Bone::VGetSaveState(u8* pSaveBuffer)
 {
-    auto pState = reinterpret_cast<Bone_SaveState*>(pSaveBuffer);
+    auto pState = reinterpret_cast<BoneSaveState*>(pSaveBuffer);
 
     pState->mAEType = AETypes::eBone_11;
     pState->field_4_obj_id = mBaseGameObjectTlvInfo;
@@ -255,13 +255,13 @@ s32 Bone::VGetSaveState(u8* pSaveBuffer)
 
     pState->mSpriteScale = GetSpriteScale();
 
-    pState->field_20_flags.Set(Bone_SaveState::eBit3_bLoop, GetAnimation().mFlags.Get(AnimFlags::eLoop));
-    pState->field_20_flags.Set(Bone_SaveState::eBit1_bRender, GetAnimation().mFlags.Get(AnimFlags::eRender));
+    pState->field_20_flags.Set(BoneSaveState::eBit3_bLoop, GetAnimation().mFlags.Get(AnimFlags::eLoop));
+    pState->field_20_flags.Set(BoneSaveState::eBit1_bRender, GetAnimation().mFlags.Get(AnimFlags::eRender));
 
-    pState->field_20_flags.Set(Bone_SaveState::eBit2_bDrawable, mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4));
-    pState->field_20_flags.Set(Bone_SaveState::eBit4_bInteractive, mBaseGameObjectFlags.Get(BaseGameObject::eInteractive_Bit8));
+    pState->field_20_flags.Set(BoneSaveState::eBit2_bDrawable, mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4));
+    pState->field_20_flags.Set(BoneSaveState::eBit4_bInteractive, mBaseGameObjectFlags.Get(BaseGameObject::eInteractive_Bit8));
 
-    pState->field_20_flags.Set(Bone_SaveState::eBit5_bHitObject, mHitObject & 1);
+    pState->field_20_flags.Set(BoneSaveState::eBit5_bHitObject, mHitObject & 1);
 
     if (BaseAliveGameObjectCollisionLine)
     {
@@ -282,7 +282,7 @@ s32 Bone::VGetSaveState(u8* pSaveBuffer)
     pState->mInitialYPos = mInitialYPos;
     pState->mTimeToLiveTimer = mTimeToLiveTimer;
 
-    return sizeof(Bone_SaveState);
+    return sizeof(BoneSaveState);
 }
 
 void Bone::InTheAir()

@@ -191,8 +191,8 @@ private:
 
         case ::AETypes::eSlamDoor_122:
         {
-            AddObjectState(AEData::Quicksave_Obj_SlamDoor::From(*reinterpret_cast<const AEData::Quicksave_Obj_SlamDoor*>(pData)));
-            return sizeof(AEData::Quicksave_Obj_SlamDoor);
+            AddObjectState(AEData::SlamDoorSaveState::From(*reinterpret_cast<const AEData::SlamDoorSaveState*>(pData)));
+            return sizeof(AEData::SlamDoorSaveState);
         }
 
         case ::AETypes::eSlig_125:

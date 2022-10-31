@@ -12,7 +12,7 @@ enum class FartStates : s16
     eDechanting_2 = 2
 };
 
-struct EvilFart_State final
+struct EvilFartSaveState final
 {
     AETypes field_0_type;
     s16 mRed;
@@ -46,7 +46,7 @@ struct EvilFart_State final
     s32 mUnpossessionTimer;
     s32 mBackToAbeTimer;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(EvilFart_State, 60);
+ALIVE_ASSERT_SIZEOF_ALWAYS(EvilFartSaveState, 60);
 
 class EvilFart final : public BaseAliveGameObject
 {

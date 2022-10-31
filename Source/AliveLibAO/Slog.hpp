@@ -6,7 +6,7 @@
 
 namespace AO {
 
-#define SLOG_STATES_ENUM(ENTRY)             \
+#define SlogSaveStateS_ENUM(ENTRY)             \
     ENTRY(Motion_0_Idle_4742E0)              \
     ENTRY(Motion_1_Walk_4743F0)              \
     ENTRY(Motion_2_Run_4749A0)               \
@@ -36,7 +36,7 @@ namespace AO {
 #define MAKE_ENUM(VAR) VAR,
 enum eSlogMotions : s32
 {
-    SLOG_STATES_ENUM(MAKE_ENUM)
+    SlogSaveStateS_ENUM(MAKE_ENUM)
 };
 
 class Slog final : public BaseAliveGameObject

@@ -225,7 +225,7 @@ void CrawlingSlig::VRender(PrimHeader** ot)
 
 s32 CrawlingSlig::CreateFromSaveState(const u8* pBuffer)
 {
-    auto pState = reinterpret_cast<const CrawlingSlig_State*>(pBuffer);
+    auto pState = reinterpret_cast<const CrawlingSligSaveState*>(pBuffer);
 
     auto pTlv = static_cast<relive::Path_CrawlingSlig*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_44_tlvInfo));
 
@@ -297,7 +297,7 @@ s32 CrawlingSlig::CreateFromSaveState(const u8* pBuffer)
         pCrawlingSlig->mSayHelpTimer = pState->field_7C_say_help_timer;
     }
 
-    return sizeof(CrawlingSlig_State);
+    return sizeof(CrawlingSligSaveState);
 }
 
 s32 CrawlingSlig::VGetSaveState(u8* pSaveBuffer)
@@ -307,7 +307,7 @@ s32 CrawlingSlig::VGetSaveState(u8* pSaveBuffer)
         return 0;
     }
 
-    auto pState = reinterpret_cast<CrawlingSlig_State*>(pSaveBuffer);
+    auto pState = reinterpret_cast<CrawlingSligSaveState*>(pSaveBuffer);
 
     pState->field_0_type = AETypes::eCrawlingSlig_26;
     pState->field_4_obj_id = mBaseGameObjectTlvInfo;
@@ -371,7 +371,7 @@ s32 CrawlingSlig::VGetSaveState(u8* pSaveBuffer)
     pState->field_74_obj_id = field_1D8_obj_id;
     pState->field_78_speak = mSpeak;
     pState->field_7C_say_help_timer = mSayHelpTimer;
-    return sizeof(CrawlingSlig_State);
+    return sizeof(CrawlingSligSaveState);
 }
 
 void CrawlingSlig::VPossessed()

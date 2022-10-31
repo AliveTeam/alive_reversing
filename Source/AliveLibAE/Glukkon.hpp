@@ -64,7 +64,7 @@ class Glukkon;
 using TGlukkonBrainFn = s16 (Glukkon::*)();
 using TGlukkonMotionFn = void (Glukkon::*)();
 
-struct Glukkon_SaveState final
+struct GlukkonSaveState final
 {
     AETypes field_0_id;
     s16 field_2_padding;
@@ -121,7 +121,7 @@ struct Glukkon_SaveState final
     s16 field_8C_can_be_possessed;
     AETypes field_8E_type_id;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(Glukkon_SaveState, 144);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(GlukkonSaveState, 144);
 
 class Glukkon final : public BaseAliveGameObject
 {

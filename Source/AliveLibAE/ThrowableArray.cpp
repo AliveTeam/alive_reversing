@@ -99,10 +99,10 @@ void ThrowableArray::VUpdate()
 
 s32 ThrowableArray::VGetSaveState(u8* pSaveBuffer)
 {
-    ThrowableArray_SaveState* pState = reinterpret_cast<ThrowableArray_SaveState*>(pSaveBuffer);
+    ThrowableArraySaveState* pState = reinterpret_cast<ThrowableArraySaveState*>(pSaveBuffer);
     pState->field_0_unused = 102; // never gets read back, no idea what it means :)
     pState->field_2_item_count = field_20_count;
-    return sizeof(ThrowableArray_SaveState);
+    return sizeof(ThrowableArraySaveState);
 }
 
 void ThrowableArray::VScreenChanged()
@@ -178,8 +178,8 @@ s32 ThrowableArray::CreateFromSaveState(const u8* pState)
 {
     LoadRockTypes_49AB30(gMap.mCurrentLevel, gMap.mCurrentPath);
     auto pArray = relive_new ThrowableArray();
-    pArray->Add(reinterpret_cast<const ThrowableArray_SaveState*>(pState)->field_2_item_count);
-    return sizeof(ThrowableArray_SaveState);
+    pArray->Add(reinterpret_cast<const ThrowableArraySaveState*>(pState)->field_2_item_count);
+    return sizeof(ThrowableArraySaveState);
 }
 
 void ThrowableArray::VRender(PrimHeader** /*ppOt*/)

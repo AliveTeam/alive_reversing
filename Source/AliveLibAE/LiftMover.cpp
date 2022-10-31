@@ -34,7 +34,7 @@ LiftMover::LiftMover(relive::Path_LiftMover* pTlv, const Guid& tlvId)
 
 s32 LiftMover::CreateFromSaveState(const u8* pData)
 {
-    auto pState = reinterpret_cast<const LiftMover_State*>(pData);
+    auto pState = reinterpret_cast<const LiftMoverSaveState*>(pData);
 
     relive::Path_LiftMover* pTlv = static_cast<relive::Path_LiftMover*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_4_tlvInfo));
     auto pLiftMover = relive_new LiftMover(pTlv, pState->field_4_tlvInfo);
@@ -47,7 +47,7 @@ s32 LiftMover::CreateFromSaveState(const u8* pData)
         pLiftMover->field_30_state = pState->field_8_state;
     }
 
-    return sizeof(LiftMover_State);
+    return sizeof(LiftMoverSaveState);
 }
 
 void LiftMover::VUpdate()
@@ -204,12 +204,12 @@ LiftMover::~LiftMover()
 
 s32 LiftMover::VGetSaveState(u8* pSaveBuffer)
 {
-    auto pState = reinterpret_cast<LiftMover_State*>(pSaveBuffer);
+    auto pState = reinterpret_cast<LiftMoverSaveState*>(pSaveBuffer);
 
     pState->field_0_type_id = AETypes::eLiftMover_9;
     pState->field_4_tlvInfo = field_24_tlvInfo;
     pState->field_8_state = field_30_state;
-    return sizeof(LiftMover_State);
+    return sizeof(LiftMoverSaveState);
 }
 
 LiftPoint* LiftMover::GetLiftPoint()
