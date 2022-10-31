@@ -66,7 +66,13 @@ class AESaveConverter final
 public:
 
 private:
-    static s32 ConvertObjectSaveStateData(AETypes type, const u8* /*pData*/)
+    template<typename T>
+    void AddObjectState(const T&)
+    {
+
+    }
+
+    s32 ConvertObjectSaveStateData(AETypes type, const u8* pData)
     {
     switch (type)
     {
@@ -184,8 +190,10 @@ private:
             break;
 
         case ::AETypes::eSlamDoor_122:
-            //return SlamDoor::CreateFromSaveState(pData);
-            break;
+        {
+            AddObjectState(AEData::Quicksave_Obj_SlamDoor::From(*reinterpret_cast<const AEData::Quicksave_Obj_SlamDoor*>(pData)));
+            return sizeof(AEData::Quicksave_Obj_SlamDoor);
+        }
 
         case ::AETypes::eSlig_125:
             //return Slig::CreateFromSaveState(pData);

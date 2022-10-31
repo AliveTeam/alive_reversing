@@ -5,9 +5,12 @@
 #include "../../AliveLibCommon/FixedPoint_common.hpp"
 #include "../../AliveLibCommon/BitField.hpp"
 
-// TODO: Could put this in an AEData namespace and use this convention to mean
-// any enum/struct in here related to OG data and can't ever be changed.
+#include "../../AliveLibAE/SlamDoor.hpp"
 
+// Any enum/struct in the AEData namespace is related to OG data and can't ever be changed
+// otherwise interpreting the OG data will break.
+namespace AEData 
+{ 
 struct PSX_RECT final
 {
     s16 x, y, w, h;
@@ -1490,6 +1493,14 @@ struct Quicksave_Obj_SlamDoor final
 {
     AETypes mType;
     TlvItemInfoUnion mTlvInfo;
+
+    static ::Quicksave_Obj_SlamDoor From(const Quicksave_Obj_SlamDoor& data)
+    {
+        ::Quicksave_Obj_SlamDoor d;
+        d.mTlvInfo = Guid::NewGuidFromTlvInfo(data.mTlvInfo.all);
+        return d;
+    }
+
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Quicksave_Obj_SlamDoor, 8);
 
@@ -1740,3 +1751,4 @@ struct WorkWheel_SaveState final
     s16 padding_3;
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(WorkWheel_SaveState, 0x10);
+}
