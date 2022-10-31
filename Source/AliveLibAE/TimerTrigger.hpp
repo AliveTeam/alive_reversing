@@ -31,11 +31,11 @@ class TimerTrigger final : public BaseGameObject
 public:
     TimerTrigger(relive::Path_TimerTrigger* pTlv, const Guid& tlvId);
     ~TimerTrigger();
-    
+
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
-    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
     static s32 CreateFromSaveState(const u8* pData);
 
 private:

@@ -16,7 +16,7 @@ enum class ThrowableTotalIndicatorState : s16
     eVanishing = 2
 };
 
-class ThrowableTotalIndicator final : public ::BaseGameObject
+class ThrowableTotalIndicator final : public BaseGameObject
 {
 public:
     ThrowableTotalIndicator(FP xpos, FP ypos, Layer layer, FP scale, s32 count, bool bFade);
@@ -26,6 +26,7 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
+private:
     FP mStartXPos = {};
     FP mStartYPos = {};
     FP mXPos = {};

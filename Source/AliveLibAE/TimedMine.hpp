@@ -14,7 +14,7 @@ enum TimedMineFlags
 class TimedMine final : public BaseAliveGameObject
 {
 public:
-    TimedMine(relive::Path_TimedMine* pPath, const Guid& tlvId);
+    TimedMine(relive::Path_TimedMine* pTlv, const Guid& tlvId);
     ~TimedMine();
 
     void LoadAnimations();

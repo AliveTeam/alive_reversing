@@ -99,7 +99,6 @@ s16 SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
         return 0;
     }
 
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     mHealth = FP_FromInteger(0);
 
     if (pFrom->Type() == ReliveTypes::eMineCar || pFrom->Type() == ReliveTypes::eAbilityRing || pFrom->Type() == ReliveTypes::eShrykull)
@@ -119,6 +118,8 @@ s16 SecurityOrb::VTakeDamage(BaseGameObject* pFrom)
             GetSpriteScale(),
             0);
     }
+
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 
     return 1;
 }
@@ -217,6 +218,7 @@ void SecurityOrb::VUpdate()
             {
                 relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 0, 0, TPageAbr::eBlend_3, 1);
             }
+
             if (static_cast<s32>(sGnFrame) == mTimer - 4)
             {
                 relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 0, 0, TPageAbr::eBlend_1, 1);

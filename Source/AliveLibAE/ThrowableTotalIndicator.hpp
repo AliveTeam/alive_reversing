@@ -35,6 +35,7 @@ private:
     Layer mOtLayer = Layer::eLayer_0;
     RGB16 mRGB;
     s16 mNumToShow = 0;
+
     Line_G2 mLines[2][6] = {};
     Prim_SetTPage mTPage[2] = {};
     ThrowableTotalIndicatorState mState = ThrowableTotalIndicatorState::eCreated;

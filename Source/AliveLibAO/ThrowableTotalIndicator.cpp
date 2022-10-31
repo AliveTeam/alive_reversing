@@ -10,89 +10,10 @@
 #include "Math.hpp"
 #include "../relive_lib/Primitives.hpp"
 
+
 namespace AO {
 
 u16 bThrowableIndicatorExists_504C70 = 0;
-
-ThrowableTotalIndicator::~ThrowableTotalIndicator()
-{
-    if (mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
-    {
-        gObjListDrawables->Remove_Item(this);
-    }
-
-    if (mFade)
-    {
-        bThrowableIndicatorExists_504C70--;
-    }
-}
-
-void ThrowableTotalIndicator::VScreenChanged()
-{
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-}
-
-void ThrowableTotalIndicator::VUpdate()
-{
-    if (EventGet(kEventDeathReset))
-    {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-    }
-
-    if (gNumCamSwappers != 0)
-    {
-        return;
-    }
-
-    switch (mState)
-    {
-        case ThrowableTotalIndicatorState::eCreated:
-        {
-            mXPos = mStartXPos - (FP_FromInteger(12) * Math_Sine(static_cast<u8>(2 * sGnFrame)));
-            mYPos = (FP_FromInteger(12) * Math_Cosine(static_cast<u8>(2 * sGnFrame))) + mStartYPos;
-
-            const s16 rgb = FP_GetExponent(FP_FromInteger(48) * Math_Sine(static_cast<u8>(3 * sGnFrame))) + 80;
-
-            mRGB.SetRGB(rgb, rgb, rgb);
-        }
-        break;
-
-        case ThrowableTotalIndicatorState::eFading:
-            if (mYPos >= (mStartYPos - FP_FromInteger(20)))
-            {
-                if (mRGB.r < 70 && mRGB.g < 90 && mRGB.b < 20)
-                {
-                    mRGB.r += 14;
-                    mRGB.g += 18;
-                    mRGB.b += 4;
-                }
-
-                mXPos += mSpeedX;
-                mYPos += mSpeedY;
-            }
-            else
-            {
-                mState = ThrowableTotalIndicatorState::eVanishing;
-            }
-            break;
-
-        case ThrowableTotalIndicatorState::eVanishing:
-            if (mRGB.r < 7 && mRGB.g < 7 && mRGB.b < 7)
-            {
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-                return;
-            }
-
-            mRGB.r -= 7;
-            mRGB.g -= 9;
-            mRGB.b -= 2;
-
-            mXPos += mSpeedX;
-            mYPos += mSpeedY;
-            break;
-    }
-}
-
 const s16 kNum_0[17] = {
     4,
     -3, -4, 3, -4,
@@ -231,60 +152,6 @@ const s16* kNumbersArray[12] = {
     kInfinity,
     kCheckpoint};
 
-void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
-{
-    if (*kNumbersArray[mNumToShow] <= 0)
-    {
-        return;
-    }
-
-    const FP_Point* camPos = pScreenManager->mCamPos;
-    const FP camX = FP_FromInteger(FP_GetExponent(camPos->x - FP_FromInteger(pScreenManager->mCamXOff)));
-    const FP camY = FP_FromInteger(FP_GetExponent(camPos->y - FP_FromInteger(pScreenManager->mCamYOff)));
-
-    s16 xpos = 0;
-    s16 ypos = 0;
-
-    for (s16 counter = 0; counter < kNumbersArray[mNumToShow][0]; counter++)
-    {
-        xpos = FP_GetExponent(mXPos - camX);
-        ypos = FP_GetExponent(mYPos - camY);
-
-        const FP x0 = FP_FromInteger(kNumbersArray[mNumToShow][(4 * counter) + 1]) * mSpriteScale;
-        const FP y0 = FP_FromInteger(kNumbersArray[mNumToShow][(4 * counter) + 2]) * mSpriteScale;
-        const FP x1 = FP_FromInteger(kNumbersArray[mNumToShow][(4 * counter) + 3]) * mSpriteScale;
-        const FP y1 = FP_FromInteger(kNumbersArray[mNumToShow][(4 * counter) + 4]) * mSpriteScale;
-
-        s16 primBaseX = 0;
-        s16 primVertX = 0;
-        if (mNumToShow == 11)
-        {
-            primBaseX = PsxToPCX(xpos);
-            primVertX = PsxToPCX(xpos);
-        }
-        else
-        {
-            primBaseX = PsxToPCX(xpos, 11);
-            primVertX = PsxToPCX(xpos, 11);
-        }
-
-        Line_F2* pLine = &mLines[gPsxDisplay.mBufferIndex][counter];
-        Line_F2_Init(pLine);
-
-        SetXY0(pLine, primBaseX + FP_GetExponent(x0), ypos + FP_GetExponent(y0));
-        SetXY1(pLine, primVertX + FP_GetExponent(x1), ypos + FP_GetExponent(y1));
-        SetRGB0(pLine,
-                static_cast<u8>(mRGB.r),
-                static_cast<u8>(mRGB.g),
-                static_cast<u8>(mRGB.b));
-        Poly_Set_SemiTrans(&pLine->mBase.header, 1);
-        OrderingTable_Add(OtLayer(ppOt, mOtLayer), &pLine->mBase.header);
-    }
-
-    Init_SetTPage(&mTPage[gPsxDisplay.mBufferIndex], 1, 0, PSX_getTPage(TPageAbr::eBlend_1));
-    OrderingTable_Add(OtLayer(ppOt, mOtLayer), &mTPage->mBase);
-}
-
 ThrowableTotalIndicator::ThrowableTotalIndicator(FP xpos, FP ypos, Layer layer, FP /*scale*/, s32 count, bool bFade)
     : BaseGameObject(true, 0)
 {
@@ -340,5 +207,139 @@ ThrowableTotalIndicator::ThrowableTotalIndicator(FP xpos, FP ypos, Layer layer, 
         bThrowableIndicatorExists_504C70++;
     }
 }
+
+ThrowableTotalIndicator::~ThrowableTotalIndicator()
+{
+    if (mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
+    {
+        gObjListDrawables->Remove_Item(this);
+    }
+
+    if (mFade)
+    {
+        bThrowableIndicatorExists_504C70--;
+    }
+}
+
+void ThrowableTotalIndicator::VScreenChanged()
+{
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+}
+
+void ThrowableTotalIndicator::VUpdate()
+{
+    if (EventGet(kEventDeathReset))
+    {
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    }
+
+    if (gNumCamSwappers != 0)
+    {
+        return;
+    }
+
+    switch (mState)
+    {
+        case ThrowableTotalIndicatorState::eCreated:
+        {
+            mXPos = mStartXPos - (FP_FromInteger(12) * Math_Sine(static_cast<u8>(2 * sGnFrame)));
+            mYPos = (FP_FromInteger(12) * Math_Cosine(static_cast<u8>(2 * sGnFrame))) + mStartYPos;
+
+            const s16 rgb = FP_GetExponent(FP_FromInteger(48) * Math_Sine(static_cast<u8>(3 * sGnFrame))) + 80;
+
+            mRGB.SetRGB(rgb, rgb, rgb);
+        }
+        break;
+
+        case ThrowableTotalIndicatorState::eFading:
+            if (mYPos >= (mStartYPos - FP_FromInteger(20)))
+            {
+                if (mRGB.r < 70 && mRGB.g < 90 && mRGB.b < 20)
+                {
+                    mRGB.r += 14;
+                    mRGB.g += 18;
+                    mRGB.b += 4;
+                }
+
+                mXPos += mSpeedX;
+                mYPos += mSpeedY;
+            }
+            else
+            {
+                mState = ThrowableTotalIndicatorState::eVanishing;
+            }
+            break;
+
+        case ThrowableTotalIndicatorState::eVanishing:
+            if (mRGB.r < 7 && mRGB.g < 7 && mRGB.b < 7)
+            {
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                return;
+            }
+
+            mRGB.r -= 7;
+            mRGB.g -= 9;
+            mRGB.b -= 2;
+
+            mXPos += mSpeedX;
+            mYPos += mSpeedY;
+            break;
+    }
+}
+
+void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
+{
+    if (*kNumbersArray[mNumToShow] <= 0)
+    {
+        return;
+    }
+
+    const FP_Point* camPos = pScreenManager->mCamPos;
+    const FP camX = FP_FromInteger(FP_GetExponent(camPos->x - FP_FromInteger(pScreenManager->mCamXOff)));
+    const FP camY = FP_FromInteger(FP_GetExponent(camPos->y - FP_FromInteger(pScreenManager->mCamYOff)));
+
+    s16 xpos = 0;
+    s16 ypos = 0;
+
+    for (s16 counter = 0; counter < kNumbersArray[mNumToShow][0]; counter++)
+    {
+        xpos = FP_GetExponent(mXPos - camX);
+        ypos = FP_GetExponent(mYPos - camY);
+
+        const FP x0 = FP_FromInteger(kNumbersArray[mNumToShow][(4 * counter) + 1]) * mSpriteScale;
+        const FP y0 = FP_FromInteger(kNumbersArray[mNumToShow][(4 * counter) + 2]) * mSpriteScale;
+        const FP x1 = FP_FromInteger(kNumbersArray[mNumToShow][(4 * counter) + 3]) * mSpriteScale;
+        const FP y1 = FP_FromInteger(kNumbersArray[mNumToShow][(4 * counter) + 4]) * mSpriteScale;
+
+        s16 primBaseX = 0;
+        s16 primVertX = 0;
+        if (mNumToShow == 11)
+        {
+            primBaseX = PsxToPCX(xpos);
+            primVertX = PsxToPCX(xpos);
+        }
+        else
+        {
+            primBaseX = PsxToPCX(xpos, 11);
+            primVertX = PsxToPCX(xpos, 11);
+        }
+
+        Line_F2* pLine = &mLines[gPsxDisplay.mBufferIndex][counter];
+        Line_F2_Init(pLine);
+
+        SetXY0(pLine, primBaseX + FP_GetExponent(x0), ypos + FP_GetExponent(y0));
+        SetXY1(pLine, primVertX + FP_GetExponent(x1), ypos + FP_GetExponent(y1));
+        SetRGB0(pLine,
+                static_cast<u8>(mRGB.r),
+                static_cast<u8>(mRGB.g),
+                static_cast<u8>(mRGB.b));
+        Poly_Set_SemiTrans(&pLine->mBase.header, 1);
+        OrderingTable_Add(OtLayer(ppOt, mOtLayer), &pLine->mBase.header);
+    }
+
+    Init_SetTPage(&mTPage[gPsxDisplay.mBufferIndex], 1, 0, PSX_getTPage(TPageAbr::eBlend_1));
+    OrderingTable_Add(OtLayer(ppOt, mOtLayer), &mTPage->mBase);
+}
+
 
 } // namespace AO

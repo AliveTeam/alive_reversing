@@ -8,21 +8,23 @@ namespace AO {
 
 void LoadRockTypes(EReliveLevelIds levelNumber, u16 path);
 
-class ThrowableArray final : public ::BaseGameObject
+class ThrowableArray final : public BaseGameObject
 {
 public:
     ThrowableArray();
     ~ThrowableArray();
 
-    void Remove(s16 count);
-
-    void Add(s16 count);
-    
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
 
+    void Remove(s16 count);
+
+    void Add(s16 count);
+    
+public:
     s16 field_10_count = 0;
+private:
     s16 field_12_flags = 0;
 };
 

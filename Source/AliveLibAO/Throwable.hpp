@@ -11,12 +11,13 @@ class BaseThrowable;
 
 BaseThrowable* Make_Throwable(FP xpos, FP ypos, s16 count);
 
+// NOTE: This base type must exist but seems to have been decimated by the compiler, so this contains pure virtuals for
+// non common virtuals, and virtuals for common virtuals.
 class BaseThrowable : public BaseAliveGameObject
 {
 public:
-    s16 mBaseThrowableCount = 0;
-    s16 mBaseThrowableDead = 0;
 
+    // New virtuals for throwables
     virtual void VThrow(FP velX, FP velY) = 0;
     virtual s16 VCanThrow() = 0;
     virtual s16 VIsFalling() = 0;
@@ -27,6 +28,9 @@ public:
     virtual void VOnPickUpOrSlapped() override;
 
     void BaseAddToPlatform();
+protected:
+    s16 mBaseThrowableCount = 0;
+    s16 mBaseThrowableDead = 0;
 };
 
 } // namespace AO

@@ -9,19 +9,6 @@
 
 namespace AO {
 
-void TimerTrigger::VScreenChanged()
-{
-    if (mState == State::eWaitForEnabled_0 || mState == State::eCheckForStartAgain_2 || gMap.LevelChanged() || gMap.PathChanged())
-    {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-    }
-}
-
-TimerTrigger::~TimerTrigger()
-{
-    Path::TLV_Reset(mTlvInfo, -1, 0, 0);
-}
-
 TimerTrigger::TimerTrigger(relive::Path_TimerTrigger* pTlv, const Guid& tlvId)
     : BaseGameObject(true, 0)
 {
@@ -103,6 +90,19 @@ void TimerTrigger::VUpdate()
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
+}
+
+void TimerTrigger::VScreenChanged()
+{
+    if (mState == State::eWaitForEnabled_0 || mState == State::eCheckForStartAgain_2 || gMap.LevelChanged() || gMap.PathChanged())
+    {
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    }
+}
+
+TimerTrigger::~TimerTrigger()
+{
+    Path::TLV_Reset(mTlvInfo, -1, 0, 0);
 }
 
 } // namespace AO

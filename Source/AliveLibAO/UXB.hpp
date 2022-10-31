@@ -23,26 +23,27 @@ public:
 
     void LoadAnimations();
 
-    void InitBlinkAnim();
-
-    virtual void VScreenChanged() override;
-    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
-    virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
-    virtual void VOnPickUpOrSlapped() override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
+    virtual void VScreenChanged() override;
+    virtual void VOnPickUpOrSlapped() override;
+    virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
+    virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
 
+private:
+    void InitBlinkAnim();
     s16 IsColliding();
 
+private:
     UXBState mCurrentState = UXBState::eDelay;
     UXBState mStartingState = UXBState::eDelay;
     Guid mTlvInfo;
-    s32 mNextStateTimer = 0;
+    u32 mNextStateTimer = 0;
     Animation mFlashAnim;
-    s16 mPatternLength = 0;
-    s16 mPatternIndex = 0;
-    s16 mPattern = 0;
-    s16 mRedBlinkCount = 0;
+    u16 mPatternLength = 0;
+    u16 mPatternIndex = 0;
+    u16 mPattern = 0;
+    u16 mRedBlinkCount = 0;
     u16 mIsRed = 0;
 };
 

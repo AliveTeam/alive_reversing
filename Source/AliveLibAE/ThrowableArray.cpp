@@ -149,31 +149,18 @@ void ThrowableArray::Add(s16 count)
             switch (throwable_types_55FAFC[gMap.mOverlayId])
             {
                 case AETypes::eBone_11:
-                    //Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kBoneResID);
                     break;
 
                 case AETypes::eMetal_24:
-                    //Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID);
-                    //Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kGrenadeResID);
-                    //Add_Resource(ResourceManager::Resource_Palt, AEResourceID::kGrenadeResID);
                     break;
 
                 case AETypes::eGrenade_65:
-                    //Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kExplo2ResID);
-                    //Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAbeblowResID);
-                    //Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kSlogBlowResID);
-                    //Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kMetalGibResID);
-                    //Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kGrenadeResID);
-                    //Add_Resource(ResourceManager::Resource_Palt, AEResourceID::kGrenadeResID);
                     break;
 
                 case AETypes::eMeat_84:
-                    //Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kMeatResID);
                     break;
 
                 case AETypes::eRock_105:
-                    //Add_Resource(ResourceManager::Resource_Animation, AEResourceID::kAberockResID);
-                    //Add_Resource(ResourceManager::Resource_Palt, AEResourceID::kAberockResID);
                     break;
 
                 default:
@@ -197,6 +184,6 @@ s32 ThrowableArray::CreateFromSaveState(const u8* pState)
 
 void ThrowableArray::VRender(PrimHeader** /*ppOt*/)
 {
-    // Empty 0x4DBF80
+    // Nothing to do here
 }
 

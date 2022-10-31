@@ -43,7 +43,7 @@ enum UXB_Flags_1C8
 class UXB final : public BaseAliveGameObject
 {
 public:
-    UXB(relive::Path_UXB* params, const Guid& tlvId);
+    UXB(relive::Path_UXB* pTlv, const Guid& tlvId);
     ~UXB();
 
     void LoadAnimations();
@@ -51,12 +51,12 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
-    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
     virtual void VOnPickUpOrSlapped() override;
     virtual void VOnThrowableHit(BaseGameObject* pFrom) override;
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
 
     static s32 CreateFromSaveState(const u8*);
+    virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
 private:
     void InitBlinkAnim(Animation* pAnimation);
@@ -68,7 +68,7 @@ private:
     UXBState mStartingState = UXBState::eDelay;
     Guid mTlvInfo;
     u32 mNextStateTimer = 0;
-    Animation mFlashAnim = {};
+    Animation mFlashAnim;
     u16 mPatternLength = 0;
     u16 mPatternIndex = 0;
     u16 mPattern = 0;

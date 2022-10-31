@@ -56,23 +56,6 @@ void UXB::LoadAnimations()
     }
 }
 
-void UXB::InitBlinkAnim(Animation* pAnimation)
-{
-    if (pAnimation->Init(GetAnimRes(AnimId::Bomb_RedGreenTick), this))
-    {
-        pAnimation->SetRenderLayer(GetAnimation().GetRenderLayer());
-        pAnimation->mFlags.Set(AnimFlags::eSemiTrans);
-        pAnimation->mFlags.Set(AnimFlags::eBlending);
-        pAnimation->SetSpriteScale(GetSpriteScale());
-        pAnimation->SetRGB(128, 128, 128);
-        pAnimation->SetRenderMode(TPageAbr::eBlend_1);
-    }
-    else
-    {
-        mBaseGameObjectFlags.Set(Options::eListAddFailed_Bit1);
-    }
-}
-
 void UXB::PlaySFX(relive::SoundEffects sfxIdx)
 {
     if (gMap.Is_Point_In_Current_Camera(
@@ -86,39 +69,7 @@ void UXB::PlaySFX(relive::SoundEffects sfxIdx)
     }
 }
 
-s32 UXB::IsColliding()
-{
-    const PSX_RECT uxbBound = VGetBoundingRect();
-
-    for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
-    {
-        IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
-
-        if (!pObj)
-        {
-            break;
-        }
-
-        if (pObj->mBaseAliveGameObjectFlags.Get(eCanSetOffExplosives) && pObj->GetAnimation().mFlags.Get(AnimFlags::eRender))
-        {
-            const PSX_RECT objBound = pObj->VGetBoundingRect();
-
-            const s32 objX = FP_GetExponent(pObj->mXPos);
-            const s32 objY = FP_GetExponent(pObj->mYPos);
-
-            if (objX > uxbBound.x && objX < uxbBound.w && objY < uxbBound.h + 5 && uxbBound.x <= objBound.w && uxbBound.w >= objBound.x && uxbBound.h >= objBound.y && uxbBound.y <= objBound.h && pObj->GetSpriteScale() == GetSpriteScale())
-            {
-                return 1;
-            }
-        }
-    }
-
-    return 0;
-}
-
-
-
-UXB::UXB(relive::Path_UXB* tlv_params, const Guid& tlvId)
+UXB::UXB(relive::Path_UXB* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(0)
 {
     SetType(ReliveTypes::eUXB);
@@ -132,29 +83,29 @@ UXB::UXB(relive::Path_UXB* tlv_params, const Guid& tlvId)
 
     SetTint(sTintMap_UXB_563A3C, gMap.mCurrentLevel);
 
-    mBaseGameObjectFlags.Set(BaseGameObject::Options::eInteractive_Bit8);
+    mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
     mCurrentState = UXBState::eDelay;
 
-    mPatternLength = tlv_params->mPatternLength;
-    if (tlv_params->mPatternLength < 1 || tlv_params->mPatternLength > 4)
+    mPatternLength = pTlv->mPatternLength;
+    if (pTlv->mPatternLength < 1 || pTlv->mPatternLength > 4)
     {
         mPatternLength = 1;
     }
 
-
-    mPattern = tlv_params->mPattern;
-    if (!tlv_params->mPattern) // If no pattern set, go to a default one.
+    mPattern = pTlv->mPattern;
+    if (!pTlv->mPattern) // If no pattern set, go to a default one.
     {
         mPattern = 11111;
     }
 
     mPatternIndex = 0;
+
     // Single out a single digit, and use that digit as the new amount of red blinks before a green one.
     mRedBlinkCount = (mPattern / static_cast<s32>(pow(10, mPatternLength - 1))) % 10;
 
-    if (tlv_params->mScale != relive::reliveScale::eFull)
+    if (pTlv->mScale != relive::reliveScale::eFull)
     {
-        if (tlv_params->mScale == relive::reliveScale::eHalf)
+        if (pTlv->mScale == relive::reliveScale::eHalf)
         {
             SetSpriteScale(FP_FromDouble(0.5));
             GetAnimation().SetRenderLayer(Layer::eLayer_RollingBallBombMineCar_Half_16);
@@ -163,23 +114,26 @@ UXB::UXB(relive::Path_UXB* tlv_params, const Guid& tlvId)
     }
     else
     {
-        SetSpriteScale(FP_FromDouble(1.0));
+        SetSpriteScale(FP_FromInteger(1));
         GetAnimation().SetRenderLayer(Layer::eLayer_RollingBallBombMineCar_35);
         SetScale(Scale::Fg);
     }
 
     InitBlinkAnim(&mFlashAnim);
-    if (tlv_params->mTlvSpecificMeaning) // Stores the activated/deactivated state for UXB.
+
+    if (pTlv->mTlvSpecificMeaning) // Stores the activated/deactivated state for UXB
     {
-        if (tlv_params->mStartState == relive::Path_UXB::StartState::eOn)
+        if (pTlv->mStartState == relive::Path_UXB::StartState::eOn)
         {
             mFlashAnim.LoadPal(GetPalRes(PalId::GreenFlash));
 
             mIsRed = 0;
+
             mFlashAnim.Set_Animation_Data(GetAnimRes(AnimId::Bomb_RedGreenTick));
             PlaySFX(relive::SoundEffects::GreenTick);
 
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::UXB_Disabled));
+
             mCurrentState = UXBState::eDeactivated;
             mStartingState = UXBState::eDelay;
         }
@@ -190,16 +144,18 @@ UXB::UXB(relive::Path_UXB* tlv_params, const Guid& tlvId)
     }
     else
     {
-        if (tlv_params->mStartState == relive::Path_UXB::StartState::eOn)
+        if (pTlv->mStartState == relive::Path_UXB::StartState::eOn)
         {
             mStartingState = UXBState::eDelay;
         }
         else
         {
             mIsRed = 0;
+
             mFlashAnim.Set_Animation_Data(GetAnimRes(AnimId::Bomb_RedGreenTick));
 
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::UXB_Disabled));
+
             mStartingState = UXBState::eDeactivated;
             mCurrentState = UXBState::eDeactivated;
         }
@@ -208,15 +164,15 @@ UXB::UXB(relive::Path_UXB* tlv_params, const Guid& tlvId)
     FP hitX = {};
     FP hitY = {};
 
-    mXPos = FP_FromInteger((tlv_params->mTopLeftX + tlv_params->mBottomRightX) / 2);
-    mYPos = FP_FromInteger(tlv_params->mTopLeftY);
+    mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
+    mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
     // Raycasts on ctor to place perfectly on the floor.
     if (sCollisions->Raycast(
             mXPos,
-            FP_FromInteger(tlv_params->mTopLeftY),
+            FP_FromInteger(pTlv->mTopLeftY),
             mXPos,
-            FP_FromInteger(tlv_params->mTopLeftY + 24),
+            FP_FromInteger(pTlv->mTopLeftY + 24),
             &BaseAliveGameObjectCollisionLine,
             &hitX,
             &hitY,
@@ -233,12 +189,28 @@ UXB::UXB(relive::Path_UXB* tlv_params, const Guid& tlvId)
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
     mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
 
-    mCollectionRect.x = mXPos - (gridSnap / FP_FromDouble(2.0));
+    mCollectionRect.x = mXPos - (gridSnap / FP_FromInteger(2));
     mCollectionRect.y = mYPos - gridSnap;
-    mCollectionRect.w = (gridSnap / FP_FromDouble(2.0)) + mXPos;
+    mCollectionRect.w = mXPos + (gridSnap / FP_FromInteger(2));
     mCollectionRect.h = mYPos;
 }
 
+void UXB::InitBlinkAnim(Animation* pAnimation)
+{
+    if (pAnimation->Init(GetAnimRes(AnimId::Bomb_RedGreenTick), this))
+    {
+        pAnimation->SetRenderLayer(GetAnimation().GetRenderLayer());
+        pAnimation->mFlags.Set(AnimFlags::eSemiTrans);
+        pAnimation->mFlags.Set(AnimFlags::eBlending);
+        pAnimation->SetSpriteScale(GetSpriteScale());
+        pAnimation->SetRGB(128, 128, 128);
+        pAnimation->SetRenderMode(TPageAbr::eBlend_1);
+    }
+    else
+    {
+        mBaseGameObjectFlags.Set(Options::eListAddFailed_Bit1);
+    }
+}
 
 void UXB::VOnPickUpOrSlapped()
 {
@@ -272,12 +244,47 @@ void UXB::VOnPickUpOrSlapped()
     }
 }
 
-void UXB::VOnThrowableHit(BaseGameObject* /*pFrom*/)
+UXB::~UXB()
 {
-    relive_new GroundExplosion(mXPos, mYPos, GetSpriteScale());
-    mCurrentState = UXBState::eExploding;
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-    mNextStateTimer = sGnFrame;
+    if (mCurrentState != UXBState::eExploding || sGnFrame < mNextStateTimer)
+    {
+        Path::TLV_Reset(mTlvInfo, -1, 0, 0);
+    }
+    else
+    {
+        Path::TLV_Reset(mTlvInfo, -1, 0, 1);
+    }
+
+    mFlashAnim.VCleanUp();
+
+    mBaseGameObjectFlags.Clear(Options::eInteractive_Bit8);
+}
+
+void UXB::VScreenChanged()
+{
+    BaseGameObject::VScreenChanged();
+
+    if (sControlledCharacter == nullptr || FP_Abs(sControlledCharacter->mYPos - mYPos) > FP_FromInteger(520) || FP_Abs(sControlledCharacter->mXPos - mXPos) > FP_FromInteger(750))
+    {
+        if (mStartingState != UXBState::eDeactivated || mCurrentState == UXBState::eDeactivated)
+        {
+            if (mStartingState != UXBState::eDelay || mCurrentState != UXBState::eDeactivated)
+            {
+                Path::TLV_Reset(mTlvInfo, 0, 1, 0);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            }
+            else
+            {
+                Path::TLV_Reset(mTlvInfo, 1, 1, 0);
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            }
+        }
+        else
+        {
+            Path::TLV_Reset(mTlvInfo, 1, 1, 0);
+            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        }
+    }
 }
 
 s16 UXB::VTakeDamage(BaseGameObject* pFrom)
@@ -310,26 +317,19 @@ s16 UXB::VTakeDamage(BaseGameObject* pFrom)
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 
     relive_new GroundExplosion(mXPos, mYPos, GetSpriteScale());
+
     mCurrentState = UXBState::eExploding;
     mNextStateTimer = sGnFrame;
 
     return 1;
 }
 
-UXB::~UXB()
+void UXB::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
-    if (mCurrentState != UXBState::eExploding || sGnFrame < mNextStateTimer)
-    {
-        Path::TLV_Reset(mTlvInfo, -1, 0, 0);
-    }
-    else
-    {
-        Path::TLV_Reset(mTlvInfo, -1, 0, 1);
-    }
-
-    mFlashAnim.VCleanUp();
-
-    mBaseGameObjectFlags.Clear(Options::eInteractive_Bit8);
+    relive_new GroundExplosion(mXPos, mYPos, GetSpriteScale());
+    mCurrentState = UXBState::eExploding;
+    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    mNextStateTimer = sGnFrame;
 }
 
 void UXB::VUpdate()
@@ -375,9 +375,6 @@ void UXB::VUpdate()
                 }
                 else
                 {
-                    // TODO: Restore original pal
-                    //const PerFrameInfo* pFrameInfo = mFlashAnim.Get_FrameHeader(-1);
-                    //mFlashAnim.LoadPal(mFlashAnim.field_20_ppBlock, pFrameHeader->field_0_clut_offset);
                     mFlashAnim.ReloadPal();
 
                     mIsRed = 1;
@@ -404,7 +401,7 @@ void UXB::VUpdate()
                 }
 
                 mCurrentState = UXBState::eDelay;
-                mNextStateTimer = sGnFrame + 10; // UXB change color delay.
+                mNextStateTimer = sGnFrame + 10; // UXB change color delay
             }
             break;
 
@@ -441,6 +438,35 @@ void UXB::VUpdate()
     }
 }
 
+s32 UXB::IsColliding()
+{
+    const PSX_RECT uxbBound = VGetBoundingRect();
+
+    for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
+    {
+        IBaseAliveGameObject* pObj = gBaseAliveGameObjects->ItemAt(i);
+        if (!pObj)
+        {
+            break;
+        }
+
+        if (pObj->mBaseAliveGameObjectFlags.Get(eCanSetOffExplosives) && pObj->GetAnimation().mFlags.Get(AnimFlags::eRender))
+        {
+            const PSX_RECT objBound = pObj->VGetBoundingRect();
+
+            const s32 objX = FP_GetExponent(pObj->mXPos);
+            const s32 objY = FP_GetExponent(pObj->mYPos);
+
+            if (objX > uxbBound.x && objX < uxbBound.w && objY < uxbBound.h + 5 && uxbBound.x <= objBound.w && uxbBound.w >= objBound.x && uxbBound.h >= objBound.y && uxbBound.y <= objBound.h && pObj->GetSpriteScale() == GetSpriteScale())
+            {
+                return 1;
+            }
+        }
+    }
+
+    return 0;
+}
+
 void UXB::VRender(PrimHeader** ppOt)
 {
     if (GetAnimation().mFlags.Get(AnimFlags::eRender))
@@ -460,33 +486,6 @@ void UXB::VRender(PrimHeader** ppOt)
                 0);
 
             BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
-        }
-    }
-}
-
-void UXB::VScreenChanged()
-{
-    BaseGameObject::VScreenChanged();
-
-    if (sControlledCharacter == nullptr || FP_Abs(sControlledCharacter->mYPos - mYPos) > FP_FromInteger(520) || FP_Abs(sControlledCharacter->mXPos - mXPos) > FP_FromInteger(750))
-    {
-        if (mStartingState != UXBState::eDeactivated || mCurrentState == UXBState::eDeactivated)
-        {
-            if (mStartingState != UXBState::eDelay || mCurrentState != UXBState::eDeactivated)
-            {
-                Path::TLV_Reset(mTlvInfo, 0, 1, 0);
-                mBaseGameObjectFlags.Set(Options::eDead);
-            }
-            else
-            {
-                Path::TLV_Reset(mTlvInfo, 1, 1, 0);
-                mBaseGameObjectFlags.Set(Options::eDead);
-            }
-        }
-        else
-        {
-            Path::TLV_Reset(mTlvInfo, 1, 1, 0);
-            mBaseGameObjectFlags.Set(Options::eDead);
         }
     }
 }

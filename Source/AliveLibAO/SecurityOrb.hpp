@@ -12,10 +12,10 @@ class SecurityOrb final : public BaseAliveGameObject
 public:
     SecurityOrb(relive::Path_SecurityOrb* pTlv, const Guid& tlvId);
     ~SecurityOrb();
-    
+
+    virtual void VUpdate() override;
     virtual void VScreenChanged() override;
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
-    virtual void VUpdate() override;
 
 private:
     Guid mTlvInfo;

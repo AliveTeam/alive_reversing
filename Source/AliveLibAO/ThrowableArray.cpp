@@ -38,40 +38,13 @@ void LoadRockTypes(EReliveLevelIds levelNumber, u16 path)
     }
 }
 
-void ThrowableArray::VRender(PrimHeader** /*ppOt*/)
+ThrowableArray::ThrowableArray()
+    : BaseGameObject(true, 0)
 {
-    //Nothing to do here
-}
-
-void ThrowableArray::VUpdate()
-{
-    if (field_12_flags & 1)
-    {
-        LoadRockTypes(gMap.mCurrentLevel, gMap.mCurrentPath);
-        Add(0);
-        field_12_flags &= ~1u;
-        mBaseGameObjectFlags.Clear(Options::eUpdatable_Bit2);
-    }
-}
-
-void ThrowableArray::VScreenChanged()
-{
-    if (gMap.mNextLevel != EReliveLevelIds::eMenu && gMap.mNextLevel != EReliveLevelIds::eCredits)
-    {
-        if (gThrowableFromOverlayId[gMap.mOverlayId] != gThrowableFromOverlayId[gMap.GetOverlayId()])
-        {
-            if (!(field_12_flags & 1))
-            {
-                mBaseGameObjectFlags.Set(Options::eUpdatable_Bit2);
-                field_12_flags |= 1;
-                Remove(0);
-            }
-        }
-    }
-    else
-    {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-    }
+    mBaseGameObjectFlags.Clear(Options::eUpdatable_Bit2);
+    field_10_count = 0;
+    gThrowableArray = this;
+    field_12_flags &= ~7u;
 }
 
 ThrowableArray::~ThrowableArray()
@@ -82,15 +55,6 @@ ThrowableArray::~ThrowableArray()
         Remove(field_10_count);
     }
 
-}
-
-ThrowableArray::ThrowableArray()
-    : BaseGameObject(true, 0)
-{
-    mBaseGameObjectFlags.Clear(Options::eUpdatable_Bit2);
-    field_10_count = 0;
-    gThrowableArray = this;
-    field_12_flags &= ~7u;
 }
 
 void ThrowableArray::Remove(s16 count)
@@ -132,6 +96,37 @@ void ThrowableArray::Remove(s16 count)
     }
 }
 
+void ThrowableArray::VUpdate()
+{
+    if (field_12_flags & 1)
+    {
+        LoadRockTypes(gMap.mCurrentLevel, gMap.mCurrentPath);
+        Add(0);
+        field_12_flags &= ~1u;
+        mBaseGameObjectFlags.Clear(Options::eUpdatable_Bit2);
+    }
+}
+
+void ThrowableArray::VScreenChanged()
+{
+    if (gMap.mNextLevel != EReliveLevelIds::eMenu && gMap.mNextLevel != EReliveLevelIds::eCredits)
+    {
+        if (gThrowableFromOverlayId[gMap.mOverlayId] != gThrowableFromOverlayId[gMap.GetOverlayId()])
+        {
+            if (!(field_12_flags & 1))
+            {
+                mBaseGameObjectFlags.Set(Options::eUpdatable_Bit2);
+                field_12_flags |= 1;
+                Remove(0);
+            }
+        }
+    }
+    else
+    {
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    }
+}
+
 void ThrowableArray::Add(s16 count)
 {
     if (field_10_count == 0)
@@ -168,4 +163,8 @@ void ThrowableArray::Add(s16 count)
     field_10_count += count;
 }
 
+void ThrowableArray::VRender(PrimHeader** /*ppOt*/)
+{
+    // Nothing to do here
+}
 } // namespace AO

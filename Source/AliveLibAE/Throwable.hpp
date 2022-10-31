@@ -15,7 +15,6 @@ class BaseThrowable : public BaseAliveGameObject
 public:
     explicit BaseThrowable(s16 resourceArraySize);
 
-    virtual void VOnPickUpOrSlapped() override;
 
     // New virtuals for throwables
     virtual void VThrow(FP velX, FP velY) = 0;
@@ -25,6 +24,7 @@ public:
 
     virtual s16 VGetCount();
     virtual void VToDead();
+    virtual void VOnPickUpOrSlapped() override;
 
     using FnTypeMatcher = AddPointer_t<bool(ReliveTypes type)>;
     void BaseAddToPlatform(FnTypeMatcher cb);

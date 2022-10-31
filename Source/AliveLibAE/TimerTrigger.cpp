@@ -13,34 +13,27 @@ TimerTrigger::TimerTrigger(relive::Path_TimerTrigger* pTlv, const Guid& tlvId)
 {
     mTlvInfo = tlvId;
     SetType(ReliveTypes::eTimerTrigger);
-    mInputSwitchId = pTlv->mInputSwitchId;
     mActivationDelay = pTlv->mActivationDelay;
+
     mOutputSwitchIds[0] = pTlv->mOutputSwitchId1;
     mOutputSwitchIds[1] = pTlv->mOutputSwitchId2;
     mOutputSwitchIds[2] = pTlv->mOutputSwitchId3;
     mOutputSwitchIds[3] = pTlv->mOutputSwitchId4;
-    mStartingSwitchState = static_cast<s16>(SwitchStates_Get(mInputSwitchId));
+
+    mInputSwitchId = pTlv->mInputSwitchId;
     mState = TimerTriggerStates::eWaitForEnabled_0;
+    mStartingSwitchState = static_cast<s16>(SwitchStates_Get(mInputSwitchId));
 }
 
-s32 TimerTrigger::CreateFromSaveState(const u8* pData)
+void TimerTrigger::ToggleAllIds()
 {
-    auto pState = reinterpret_cast<const TimerTrigger_State*>(pData);
-
-    relive::Path_TimerTrigger* pTlv = static_cast<relive::Path_TimerTrigger*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_4_tlvInfo));
-    auto pTimerTrigger = relive_new TimerTrigger(pTlv, pState->field_4_tlvInfo);
-    if (pTimerTrigger)
+    for (auto& id : mOutputSwitchIds)
     {
-        pTimerTrigger->mState = pState->field_C_state;
-        pTimerTrigger->mActivationDelayTimer = sGnFrame + pState->field_8_delay_timer_base;
-        pTimerTrigger->mStartingSwitchState = pState->field_E_starting_switch_state;
+        if (id != 0)
+        {
+            SwitchStates_Do_Operation(id, relive::reliveSwitchOp::eToggle);
+        }
     }
-    return sizeof(TimerTrigger_State);
-}
-
-TimerTrigger::~TimerTrigger()
-{
-    Path::TLV_Reset(mTlvInfo, -1, 0, 0);
 }
 
 void TimerTrigger::VUpdate()
@@ -48,6 +41,7 @@ void TimerTrigger::VUpdate()
     switch (mState)
     {
         case TimerTriggerStates::eWaitForEnabled_0:
+            // If the value changes from what we first saw...
             if (SwitchStates_Get(mInputSwitchId) != mStartingSwitchState)
             {
                 mState = TimerTriggerStates::eWaitForFirstTrigger_1;
@@ -72,7 +66,7 @@ void TimerTrigger::VUpdate()
             break;
 
         case TimerTriggerStates::eWaitForSecondTrigger_3:
-            if (mActivationDelayTimer <= (s32) sGnFrame)
+            if (mActivationDelayTimer <= static_cast<s32>(sGnFrame))
             {
                 ToggleAllIds();
                 mState = TimerTriggerStates::eWaitForEnabled_0;
@@ -86,23 +80,32 @@ void TimerTrigger::VUpdate()
     }
 }
 
-void TimerTrigger::ToggleAllIds()
-{
-    for (auto& id : mOutputSwitchIds)
-    {
-        if (id != 0)
-        {
-            SwitchStates_Do_Operation(id, relive::reliveSwitchOp::eToggle);
-        }
-    }
-}
-
 void TimerTrigger::VScreenChanged()
 {
     if (mState == TimerTriggerStates::eWaitForEnabled_0 || mState == TimerTriggerStates::eCheckForStartAgain_2 || gMap.LevelChanged() || gMap.PathChanged())
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
+}
+
+TimerTrigger::~TimerTrigger()
+{
+    Path::TLV_Reset(mTlvInfo, -1, 0, 0);
+}
+
+s32 TimerTrigger::CreateFromSaveState(const u8* pData)
+{
+    auto pState = reinterpret_cast<const TimerTrigger_State*>(pData);
+
+    relive::Path_TimerTrigger* pTlv = static_cast<relive::Path_TimerTrigger*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_4_tlvInfo));
+    auto pTimerTrigger = relive_new TimerTrigger(pTlv, pState->field_4_tlvInfo);
+    if (pTimerTrigger)
+    {
+        pTimerTrigger->mState = pState->field_C_state;
+        pTimerTrigger->mActivationDelayTimer = sGnFrame + pState->field_8_delay_timer_base;
+        pTimerTrigger->mStartingSwitchState = pState->field_E_starting_switch_state;
+    }
+    return sizeof(TimerTrigger_State);
 }
 
 s32 TimerTrigger::VGetSaveState(u8* pSaveBuffer)

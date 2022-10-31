@@ -11,17 +11,19 @@ namespace relive
 
 namespace AO {
 
-class TimerTrigger final : public ::BaseGameObject
+class TimerTrigger final : public BaseGameObject
 {
 public:
     TimerTrigger(relive::Path_TimerTrigger* pTlv, const Guid& tlvId);
     ~TimerTrigger();
 
-    virtual void VScreenChanged() override;
     virtual void VUpdate() override;
+    virtual void VScreenChanged() override;
 
+private:
     void ToggleAllIds();
 
+private:
     u16 mInputSwitchId = 0;
 
     enum class State : s16
