@@ -51,21 +51,6 @@ public:
         // Empty
     }
 
-    virtual void VRender(PrimHeader** ppOt) override
-    {
-        if (Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
-        {
-            GetAnimation().SetRGB(mRGB.r, mRGB.g, mRGB.b);
-
-            GetAnimation().VRender(
-                FP_GetExponent(field_E4_xPos),
-                FP_GetExponent(field_E8_yPos),
-                ppOt,
-                FP_GetExponent(field_EC_xOff - field_E4_xPos) + 1,
-                FP_GetExponent(field_F0_yOff - field_E8_yPos) + 1);
-        }
-    }
-
     void Calc_Rect()
     {
         PSX_Point xy = {};
@@ -91,15 +76,29 @@ public:
         // Why isn't this converted ??
         //const s16 offXScaled_converted = FP_GetExponent(((FP_FromInteger(offXScaled) * FP_FromInteger(23)) + FP_FromInteger(20)) / FP_FromInteger(40));
 
-
         field_E4_xPos = screenX + FP_FromInteger(offXScaled) + FP_FromInteger(Math_NextRandom() % 3);
         field_E8_yPos = screenY + FP_FromInteger(offYScaled) + FP_FromInteger((Math_NextRandom() % 3));
         field_EC_xOff = screenX + FP_FromInteger(offXScaled) + frameWScaled_converted + FP_FromInteger(Math_NextRandom() % 3);
         field_F0_yOff = screenY + FP_FromInteger(offYScaled) + frameHScaled + FP_FromInteger(Math_NextRandom() % 3);
     }
 
-    s32 field_D4[4];
+    virtual void VRender(PrimHeader** ppOt) override
+    {
+        if (Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
+        {
+            GetAnimation().SetRGB(mRGB.r, mRGB.g, mRGB.b);
 
+            GetAnimation().VRender(
+                FP_GetExponent(field_E4_xPos),
+                FP_GetExponent(field_E8_yPos),
+                ppOt,
+                FP_GetExponent(field_EC_xOff - field_E4_xPos) + 1,
+                FP_GetExponent(field_F0_yOff - field_E8_yPos) + 1);
+        }
+    }
+
+    s32 field_D4[4];
+private:
     FP field_E4_xPos;
     FP field_E8_yPos;
     FP field_EC_xOff;
@@ -118,6 +117,7 @@ struct FlameSpark final
 };
 ALIVE_ASSERT_SIZEOF(FlameSpark, 0x84);
 
+// These flame sparks are extremely subtle and are easily missed!
 class FlameSparks final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
@@ -148,7 +148,8 @@ public:
             anim.field_14.mFlags.Set(AnimFlags::eRender);
             anim.field_14.mFlags.Set(AnimFlags::eBlending);
 
-            const s16 rndLayer = static_cast<s16>(GetAnimation().GetRenderLayer()) + Math_RandomRange(-1, 1);
+            // TODO: clean this up
+            const s32 rndLayer = static_cast<s32>(GetAnimation().GetRenderLayer()) + Math_RandomRange(-1, 1);
             anim.field_14.SetRenderLayer(static_cast<Layer>(rndLayer));
             anim.field_14.field_6C_scale = GetSpriteScale();
 
@@ -165,8 +166,10 @@ public:
         field_E4_bRender = 0;
     }
 
+private:
     virtual void VUpdate() override
     {
+
         PSX_RECT rect = {};
         gMap.Get_Camera_World_Rect(CameraPos::eCamCurrent_0, &rect);
         mXPos = FP_FromInteger(rect.w + 16);
@@ -232,9 +235,6 @@ public:
                     0,
                     0);
 
-                PSX_RECT frameRect = {};
-                GetAnimation().Get_Frame_Rect(&frameRect);
-
                 for (auto& anim : field_E8_sparks)
                 {
                     if (anim.field_12_bVisible)
@@ -247,8 +247,6 @@ public:
                                     FP_GetExponent(PsxToPCX(anim.x - screen_left)),
                                     FP_GetExponent(anim.y - screen_top),
                                     ppOt, 0, 0);
-
-                                anim.field_14.GetRenderedSize(&frameRect);
                             }
                         }
                     }
@@ -257,41 +255,12 @@ public:
         }
     }
 
+public:
     s16 field_E4_bRender;
     FlameSpark field_E8_sparks[6];
     FP field_400_xpos;
     FP field_404_ypos;
 };
-
-void DoorFlame::VStopAudio()
-{
-    if (pFlameControllingTheSound_507734 == this)
-    {
-        pFlameControllingTheSound_507734 = nullptr;
-        SND_Stop_Channels_Mask(mSoundsMask);
-    }
-}
-
-DoorFlame::~DoorFlame()
-{
-    if (mFireBackgroundGlow)
-    {
-        mFireBackgroundGlow->mBaseGameObjectRefCount--;
-        mFireBackgroundGlow->mBaseGameObjectFlags.Set(Options::eDead);
-        mFireBackgroundGlow = nullptr;
-    }
-
-    if (mFlameSparks)
-    {
-        mFlameSparks->mBaseGameObjectRefCount--;
-        mFlameSparks->mBaseGameObjectFlags.Set(Options::eDead);
-        mFlameSparks = nullptr;
-    }
-
-    VStopAudio();
-
-    Path::TLV_Reset(mTlvInfo, -1, 0, 0);
-}
 
 DoorFlame::DoorFlame(relive::Path_DoorFlame* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
@@ -361,12 +330,42 @@ DoorFlame::DoorFlame(relive::Path_DoorFlame* pTlv, const Guid& tlvId)
     }
 }
 
+DoorFlame::~DoorFlame()
+{
+    if (mFireBackgroundGlow)
+    {
+        mFireBackgroundGlow->mBaseGameObjectRefCount--;
+        mFireBackgroundGlow->mBaseGameObjectFlags.Set(Options::eDead);
+        mFireBackgroundGlow = nullptr;
+    }
+
+    if (mFlameSparks)
+    {
+        mFlameSparks->mBaseGameObjectRefCount--;
+        mFlameSparks->mBaseGameObjectFlags.Set(Options::eDead);
+        mFlameSparks = nullptr;
+    }
+
+    VStopAudio();
+
+    Path::TLV_Reset(mTlvInfo, -1, 0, 0);
+}
+
+void DoorFlame::VStopAudio()
+{
+    if (pFlameControllingTheSound_507734 == this)
+    {
+        pFlameControllingTheSound_507734 = nullptr;
+        SND_Stop_Channels_Mask(mSoundsMask);
+    }
+}
 void DoorFlame::VUpdate()
 {
     switch (mState)
     {
         case States::eDisabled_0:
             GetAnimation().mFlags.Clear(AnimFlags::eRender);
+
             if (mFlameSparks)
             {
                 mFlameSparks->field_E4_bRender = 0;

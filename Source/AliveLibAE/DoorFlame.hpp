@@ -8,7 +8,7 @@ namespace relive
     struct Path_DoorFlame;
 }
 
-class DoorFlame final : public ::BaseAnimatedWithPhysicsGameObject
+class DoorFlame final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     DoorFlame(relive::Path_DoorFlame* pTlv, const Guid& tlvId);

@@ -65,6 +65,7 @@ ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
             pSegment->mFlags.Clear(AnimFlags::eBlending);
         }
     }
+
     field_104_bEnabled = 0;
 }
 

@@ -6,6 +6,13 @@
 #include "stdlib.hpp"
 #include "Sfx.hpp"
 
+
+void DeathBirdParticle::LoadAnimations()
+{
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::DeathFlare_2));
+    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::DeathFlare_1));
+}
+
 DeathBirdParticle::DeathBirdParticle(FP xpos, FP ypos, s32 start, bool bPlaySound, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
@@ -44,12 +51,6 @@ DeathBirdParticle::DeathBirdParticle(FP xpos, FP ypos, s32 start, bool bPlaySoun
     }
 }
 
-void DeathBirdParticle::LoadAnimations()
-{
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::DeathFlare_2));
-    mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::DeathFlare_1));
-}
-
 void DeathBirdParticle::VUpdate()
 {
     switch (field_F5_state)
@@ -83,8 +84,8 @@ void DeathBirdParticle::VUpdate()
                     pDove->mXPos -= FP_FromInteger(8);
                 }
 
-                pDove->SetSpriteScale(GetSpriteScale());
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                pDove->SetSpriteScale(GetSpriteScale());
 
                 if (field_FC_bPlaySound)
                 {

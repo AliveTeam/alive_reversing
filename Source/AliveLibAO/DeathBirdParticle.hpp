@@ -14,6 +14,7 @@ public:
 
     virtual void VUpdate() override;
 
+private:
     s8 field_E4_random = 0;
     enum class States : s8
     {

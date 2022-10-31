@@ -14,20 +14,17 @@ public:
     OrbWhirlWindParticle(FP xpos, FP ypos, FP scale);
     ~OrbWhirlWindParticle();
 
+    s32 IsActive();
+    void Spin(FP xpos, FP ypos, IBaseAliveGameObject* pObj);
+    void ToStop();
     void Update();
     void Render(PrimHeader** ppOt);
 
+private:
+    void CalculateRenderProperties(s16 bStarted);
     void SetActive(u8 active);
 
-    // NOTE: inlined
-    s32 IsActive();
-
-    // NOTE: inlined
-    void ToStop();
-
-    void CalculateRenderProperties(s16 bStarted);
-    void Spin(FP xpos, FP ypos, IBaseAliveGameObject* pObj);
-
+private:
     enum Flags
     {
         eIsActive = 0x1

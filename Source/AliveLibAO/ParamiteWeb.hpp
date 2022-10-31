@@ -12,11 +12,12 @@ class ParamiteWeb final : public BaseAnimatedWithPhysicsGameObject
 public:
     ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale);
     ~ParamiteWeb();
-    
-    virtual void VScreenChanged() override;
+
     virtual void VUpdate() override;
+    virtual void VScreenChanged() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
+public:
     s32 field_D4[4] = {};
     s16 field_E4_number_of_segments = 0;
     s16 field_E6_segment_length = 0;

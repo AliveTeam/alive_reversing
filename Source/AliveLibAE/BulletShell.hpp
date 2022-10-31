@@ -5,7 +5,7 @@
 
 class PathLine;
 
-class BulletShell final : public ::BaseAnimatedWithPhysicsGameObject
+class BulletShell final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     BulletShell(FP xpos, FP ypos, s16 direction, FP scale);

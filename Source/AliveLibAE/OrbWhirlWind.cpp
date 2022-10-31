@@ -22,6 +22,7 @@ OrbWhirlWind::OrbWhirlWind(FP xpos, FP ypos, FP scale, bool bIsMudokonSpirit)
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
 
     field_28_particleIdx = 0;
+
     memset(field_2C_particles, 0, sizeof(field_2C_particles));
 }
 
@@ -75,7 +76,8 @@ void OrbWhirlWind::VUpdate()
     {
         if (!(field_20_particle_spawn_counter % 4))
         {
-            auto pParticle = relive_new OrbWhirlWindParticle(field_6C_xpos,
+            auto pParticle = relive_new OrbWhirlWindParticle(
+			    field_6C_xpos,
                 field_70_ypos,
                 field_74_scale,
                 field_26_is_mudokon_spirit);
@@ -125,6 +127,7 @@ void OrbWhirlWind::VUpdate()
 OrbWhirlWind::~OrbWhirlWind()
 {
     gObjListDrawables->Remove_Item(this);
+
     for (auto& obj : field_2C_particles)
     {
         delete obj;

@@ -15,6 +15,44 @@ void DeathBirdParticle::LoadAnimations()
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::DeathFlare_1));
 }
 
+DeathBirdParticle::DeathBirdParticle(FP xpos, FP ypos, s32 start, s32 bPlaySound, FP scale)
+    : BaseAnimatedWithPhysicsGameObject(0)
+{
+    SetType(ReliveTypes::eDeathBird);
+
+    LoadAnimations();
+
+    Animation_Init(GetAnimRes(AnimId::DeathFlare_1));
+
+    if (mBaseGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
+    {
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    }
+    else
+    {
+        mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+        GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
+        SetSpriteScale(scale);
+        GetAnimation().SetSpriteScale(scale);
+
+        if (scale <= FP_FromDouble(0.5))
+        {
+            GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
+        }
+        else
+        {
+            GetAnimation().SetRenderLayer(Layer::eLayer_Above_FG1_39);
+        }
+
+        mXPos = xpos;
+        mYPos = ypos;
+        field_E4_random = Math_NextRandom();
+        field_E8_start = start;
+        field_E5_state = States::eAnimateDeathFlares_0;
+        field_EC_bPlaySound = static_cast<s16>(bPlaySound);
+    }
+}
+
 void DeathBirdParticle::VUpdate()
 {
     switch (field_E5_state)
@@ -64,43 +102,6 @@ void DeathBirdParticle::VUpdate()
     mXPos += FP_FromInteger(2) * Math_Sine(field_E4_random);
     mYPos -= FP_FromInteger(2);
     field_E4_random += 5;
-}
-
-DeathBirdParticle::DeathBirdParticle(FP xpos, FP ypos, s32 start, s32 bPlaySound, FP scale)
-    : BaseAnimatedWithPhysicsGameObject(0)
-{
-    SetType(ReliveTypes::eDeathBird);
-
-    LoadAnimations();
-
-    Animation_Init(GetAnimRes(AnimId::DeathFlare_1));
-
-    if (mBaseGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
-    {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-    }
-    else
-    {
-        mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
-        GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
-        SetSpriteScale(scale);
-        GetAnimation().SetSpriteScale(scale);
-        if (scale <= FP_FromDouble(0.5))
-        {
-            GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
-        }
-        else
-        {
-            GetAnimation().SetRenderLayer(Layer::eLayer_Above_FG1_39);
-        }
-
-        mXPos = xpos;
-        mYPos = ypos;
-        field_E4_random = Math_NextRandom();
-        field_E8_start = start;
-        field_E5_state = States::eAnimateDeathFlares_0;
-        field_EC_bPlaySound = static_cast<s16>(bPlaySound);
-    }
 }
 
 } // namespace AO

@@ -33,6 +33,7 @@ CircularFade::CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroy
     GetAnimation().mFlags.Clear(AnimFlags::eBlending);
     SetSpriteScale(FP_FromInteger(scale.fpValue * 2));
     GetAnimation().SetSpriteScale(FP_FromInteger(scale.fpValue * 2));
+
     mXPos = xpos;
     mYPos = ypos;
     GetAnimation().SetRenderMode(TPageAbr::eBlend_2);
@@ -56,6 +57,7 @@ void CircularFade::VRender(PrimHeader** ppOt)
     const u8 fade_rgb = static_cast<u8>((field_1B8_fade_colour * 60) / 100);
 
     mRGB.SetRGB(fade_rgb, fade_rgb, fade_rgb);
+
     GetAnimation().SetRGB(fade_rgb, fade_rgb, fade_rgb);
 
     GetAnimation().VRender(
@@ -101,7 +103,6 @@ void CircularFade::VRender(PrimHeader** ppOt)
     pTile1->field_16_h = frameRect.y;
     Poly_Set_SemiTrans(&pTile1->mBase.header, 1);
     OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pTile1->mBase.header);
-
 
     Prim_Tile* pTile2 = &field_120_tile2[gPsxDisplay.mBufferIndex];
     Init_Tile(pTile2);
@@ -183,7 +184,6 @@ s32 CircularFade::VFadeIn(s16 direction, s8 destroyOnDone) // TODO: Likely no re
     field_F4_flags.Clear(Flags::eBit2_Done);
     field_F4_flags.Clear(Flags::eBit4_NeverSet);
 
-
     field_F4_flags.Set(Flags::eBit3_DestroyOnDone, destroyOnDone);
 
     if (field_F4_flags.Get(Flags::eBit1_FadeIn))
@@ -199,7 +199,7 @@ s32 CircularFade::VFadeIn(s16 direction, s8 destroyOnDone) // TODO: Likely no re
 
 void CircularFade::VScreenChanged()
 {
-    // null sub
+    // Empty
 }
 
 s32 CircularFade::VDone()
@@ -215,13 +215,6 @@ CircularFade* Make_Circular_Fade_4CE8C0(FP xpos, FP ypos, FP scale, s16 directio
         return nullptr;
     }
 
-    if (surviveDeathReset)
-    {
-        pCircularFade->mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
-    }
-    else
-    {
-        pCircularFade->mBaseGameObjectFlags.Clear(BaseGameObject::eSurviveDeathReset_Bit9);
-    }
+    pCircularFade->mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9, surviveDeathReset);
     return pCircularFade;
 }

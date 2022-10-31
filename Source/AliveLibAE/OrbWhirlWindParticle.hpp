@@ -15,7 +15,6 @@ public:
     s32 IsActive();
     void Spin(FP xpos, FP ypos, FP scale, BaseGameObject* pObj);
     void ToStop();
-
     void Update();
     void Render(PrimHeader** ppOt);
 
@@ -29,7 +28,7 @@ private:
         eIsActive = 0x1
     };
     BitField16<Flags> mFlags = {};
-    Animation mAnim = {};
+    Animation mAnim;
     FP mXPosRenderOffset = {};
     FP mYPosRenderOffset = {};
     FP mRenderAsScale = {};

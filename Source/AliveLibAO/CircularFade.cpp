@@ -59,6 +59,7 @@ void CircularFade::VRender(PrimHeader** ppOt)
         ppOt,
         0,
         0);
+
     PSX_RECT frameRect = {};
     GetAnimation().Get_Frame_Rect(&frameRect);
 
@@ -86,7 +87,6 @@ void CircularFade::VRender(PrimHeader** ppOt)
     }
 
     const u8 fadeColour = static_cast<u8>(field_1A8_fade_colour);
-
 
     Prim_Tile* pTile = &field_E8[gPsxDisplay.mBufferIndex];
     Init_Tile(pTile);
@@ -165,7 +165,7 @@ void CircularFade::VUpdate()
     }
 }
 
-s8 CircularFade::VFadeIn(u8 direction, s8 destroyOnDone)
+s8 CircularFade::VFadeIn(u8 direction, s8 destroyOnDone) // TODO: Likely no return
 {
     field_E4_flags.Set(Flags::eBit1_FadeIn, direction);
 
@@ -173,7 +173,6 @@ s8 CircularFade::VFadeIn(u8 direction, s8 destroyOnDone)
     field_E4_flags.Clear(Flags::eBit4_NeverSet);
 
     field_E4_flags.Set(Flags::eBit3_DestroyOnDone, destroyOnDone);
-
 
     if (field_E4_flags.Get(Flags::eBit1_FadeIn))
     {

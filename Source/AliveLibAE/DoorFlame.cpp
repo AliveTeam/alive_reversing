@@ -14,7 +14,7 @@
 
 DoorFlame* pFlameControllingTheSound_5C2C6C = nullptr;
 
-class FireBackgroundGlow final : public ::BaseAnimatedWithPhysicsGameObject
+class FireBackgroundGlow final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     FireBackgroundGlow(FP xpos, FP ypos, FP scale)
@@ -93,9 +93,6 @@ public:
                 ppOt,
                 FP_GetExponent(xOff) + 1,
                 FP_GetExponent(yOff) + 1);
-
-            PSX_RECT frameRect = {};
-            GetAnimation().Get_Frame_Rect(&frameRect);
         }
     }
 
@@ -105,7 +102,6 @@ private:
     FP field_FC_xOff;
     FP field_100_yOff;
 };
-ALIVE_ASSERT_SIZEOF(FireBackgroundGlow, 0x104);
 
 struct FlameSpark final
 {
@@ -120,7 +116,7 @@ struct FlameSpark final
 ALIVE_ASSERT_SIZEOF(FlameSpark, 0x84);
 
 // These flame sparks are extremely subtle and are easily missed!
-class FlameSparks final : public ::BaseAnimatedWithPhysicsGameObject
+class FlameSparks final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
     FlameSparks(FP xpos, FP ypos)
@@ -246,15 +242,11 @@ private:
                     0,
                     0);
 
-                PSX_RECT frameRect = {};
-                GetAnimation().Get_Frame_Rect(&frameRect);
-
                 for (auto& anim : field_F8_sparks)
                 {
-                    // Visible?
                     if (anim.field_12_bVisible)
                     {
-                        // And in screen bounds?
+                        // In screen bounds?
                         if (anim.x >= pScreenManager->CamXPos() && anim.x <= pScreenManager->CamXPos() + FP_FromInteger(368))
                         {
                             if (anim.y >= pScreenManager->CamYPos() && anim.y <= pScreenManager->CamYPos() + FP_FromInteger(240))
@@ -262,9 +254,7 @@ private:
                                 anim.field_14.VRender(
                                     FP_GetExponent(anim.x - pScreenManager->CamXPos()),
                                     FP_GetExponent(anim.y - pScreenManager->CamYPos()),
-                                    ppOt,
-                                    0,
-                                    0);
+                                    ppOt, 0, 0);
                             }
                         }
                     }
@@ -279,7 +269,6 @@ private:
     FP field_410_xpos;
     FP field_414_ypos;
 };
-ALIVE_ASSERT_SIZEOF(FlameSparks, 0x418);
 
 DoorFlame::DoorFlame(relive::Path_DoorFlame* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)

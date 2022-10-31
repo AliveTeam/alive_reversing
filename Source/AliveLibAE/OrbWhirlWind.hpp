@@ -17,11 +17,11 @@ public:
     OrbWhirlWind(FP xpos, FP ypos, FP scale, bool bIsMudokonSpirit);
     ~OrbWhirlWind();
 
-    void ToSpin(FP xpos, FP ypos, FP scale, BaseGameObject* pObj);
-    void ToStop();
-
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
+
+    void ToSpin(FP xpos, FP ypos, FP scale, BaseGameObject* pObj);
+    void ToStop();
 
 private:
     s32 field_20_particle_spawn_counter = 0;

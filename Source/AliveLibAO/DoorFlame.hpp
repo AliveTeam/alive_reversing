@@ -16,9 +16,10 @@ public:
     DoorFlame(relive::Path_DoorFlame* pTlv, const Guid& tlvId);
     ~DoorFlame();
 
-    virtual void VStopAudio() override;
     virtual void VUpdate() override;
+    virtual void VStopAudio() override;
 
+private:
     Guid mTlvInfo;
     s16 mSwitchId = 0;
     u32 mFrameCount = 0;

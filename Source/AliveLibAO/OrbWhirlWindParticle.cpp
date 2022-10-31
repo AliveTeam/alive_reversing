@@ -10,37 +10,32 @@
 
 namespace AO {
 
-void OrbWhirlWindParticle::CalculateRenderProperties(s16 bStarted)
+
+OrbWhirlWindParticle::OrbWhirlWindParticle(FP xpos, FP ypos, FP scale)
 {
-    mRenderAngle += mCounter;
+    mAnim.Init(ResourceManagerWrapper::LoadAnimation(AnimId::ChantOrb_Particle), nullptr);
 
-    if (bStarted && mCounter <= mMaxCounter && !(sGnFrame % 3))
-    {
-        mCounter++;
-    }
-    else if (!bStarted && mCounter >= 1 && !(sGnFrame % 3))
-    {
-        mCounter--;
-        mRadiusX += FP_FromInteger(4);
-    }
+    mAnim.mFlags.Set(AnimFlags::eSemiTrans);
 
-    mXPosRenderOffset = ((mCurrentScale * mRadiusX) * Math_Sine(static_cast<u8>(mRenderAngle))) + mXPosMid;
-    mYPosRenderOffset = ((mCurrentScale * mRadiusY) * Math_Cosine(static_cast<u8>(mRenderAngle))) + mYPosMid;
-    mRenderAsScale = (mCurrentScale * mRandomScale);
-    if (mCurrentScale > FP_FromDouble(0.599))
-    {
-        mAnim.SetRenderLayer(Layer::eLayer_AbeMenu_32);
-    }
-    else
-    {
-        mAnim.SetRenderLayer(Layer::eLayer_AbeMenu_Half_13);
-    }
-}
+    mAnim.SetRenderLayer(Layer::eLayer_AbeMenu_32);
+    mAnim.SetRenderMode(TPageAbr::eBlend_1);
 
-void OrbWhirlWindParticle::ToStop()
-{
-    mState = State::eStop;
-    mPositionTimer = sGnFrame + Math_RandomRange(0, 32);
+    mAnim.SetRGB(80, 80, 80);
+
+    mAnim.SetFrame(Math_RandomRange(0, static_cast<s16>(mAnim.Get_Frame_Count() - 1)));
+    mFlags.Clear(Flags::eIsActive);
+    mState = State::eStart;
+    mRenderAngle = Math_RandomRange(0, 255);
+    mCounter = 1;
+    mMaxCounter = Math_RandomRange(9, 15);
+    mXPosMid = xpos;
+    mYPosMid = ypos + FP_FromInteger(Math_RandomRange(-12, 12));
+    mMoveY = ypos - FP_FromInteger(16);
+    mRadiusX = FP_FromInteger(Math_RandomRange(37, 43));
+    mRadiusY = FP_FromDouble(0.25) * mRadiusX;
+    mCurrentScale = scale;
+    mRandomScale = FP_FromInteger(Math_RandomRange(7, 10)) / FP_FromInteger(10);
+    mRenderAsScale = mCurrentScale * mRandomScale;
 }
 
 s32 OrbWhirlWindParticle::IsActive()
@@ -48,39 +43,21 @@ s32 OrbWhirlWindParticle::IsActive()
     return mFlags.Get(Flags::eIsActive);
 }
 
-void OrbWhirlWindParticle::Render(PrimHeader** ppOt)
+void OrbWhirlWindParticle::Spin(FP xpos, FP ypos, IBaseAliveGameObject* pObj)
 {
-    mAnim.SetSpriteScale(mRenderAsScale);
+    mPositionTimer = sGnFrame + Math_RandomRange(0, 16);
+    mState = State::eSpin;
+    mRingTargetObjId = pObj;
 
-    const s16 xpos = FP_GetExponent(FP_FromInteger(pScreenManager->mCamXOff)
-                                    + mXPosRenderOffset
-                                    - pScreenManager->mCamPos->x);
-
-    const s16 ypos = FP_GetExponent(FP_FromInteger(pScreenManager->mCamYOff + 5)
-                                    + mYPosRenderOffset
-                                    - pScreenManager->mCamPos->y);
-
-    mAnim.VRender(
-        xpos,
-        ypos,
-        ppOt,
-        0,
-        0);
-
-    PSX_RECT rect = {};
-    mAnim.Get_Frame_Rect(&rect);
+    mYPosIncrement = (mCurrentScale * (mMoveY - mYPosMid)) / FP_FromInteger(16);
+    mXpos_Unused = xpos;
+    mYPos_Unused = ypos;
 }
 
-void OrbWhirlWindParticle::SetActive(u8 active)
+void OrbWhirlWindParticle::ToStop()
 {
-    if (active)
-    {
-        mFlags.Set(Flags::eIsActive);
-    }
-    else
-    {
-        mFlags.Clear(Flags::eIsActive);
-    }
+    mState = State::eStop;
+    mPositionTimer = sGnFrame + Math_RandomRange(0, 32);
 }
 
 void OrbWhirlWindParticle::Update()
@@ -165,6 +142,7 @@ void OrbWhirlWindParticle::Update()
             {
                 SetActive(IsActive() ? 0 : 1);
             }
+
             mYPosMid = (mScaleOffsetSpinAtTarget * Math_Cosine(FP_GetExponent(FP_FromInteger(128) * FP_FromInteger(32 - (mPositionTimer + sGnFrame)) / FP_FromInteger(32)) & 0xFF)) + mYPosOffset2;
             mRadiusX -= mRadiusOffsetX;
             CalculateRenderProperties(1);
@@ -183,31 +161,24 @@ void OrbWhirlWindParticle::Update()
     }
 }
 
-OrbWhirlWindParticle::OrbWhirlWindParticle(FP xpos, FP ypos, FP scale)
+void OrbWhirlWindParticle::Render(PrimHeader** ppOt)
 {
-    mAnim.Init(ResourceManagerWrapper::LoadAnimation(AnimId::ChantOrb_Particle), nullptr);
+    mAnim.SetSpriteScale(mRenderAsScale);
 
-    mAnim.mFlags.Set(AnimFlags::eSemiTrans);
+    const s16 xpos = FP_GetExponent(FP_FromInteger(pScreenManager->mCamXOff)
+                                    + mXPosRenderOffset
+                                    - pScreenManager->mCamPos->x);
 
-    mAnim.SetRenderLayer(Layer::eLayer_AbeMenu_32);
-    mAnim.SetRenderMode(TPageAbr::eBlend_1);
+    const s16 ypos = FP_GetExponent(FP_FromInteger(pScreenManager->mCamYOff + 5)
+                                    + mYPosRenderOffset
+                                    - pScreenManager->mCamPos->y);
 
-    mAnim.SetRGB(80, 80, 80);
-
-    mAnim.SetFrame(Math_RandomRange(0, static_cast<s16>(mAnim.Get_Frame_Count() - 1)));
-    mFlags.Clear(Flags::eIsActive);
-    mState = State::eStart;
-    mRenderAngle = Math_RandomRange(0, 255);
-    mCounter = 1;
-    mMaxCounter = Math_RandomRange(9, 15);
-    mXPosMid = xpos;
-    mYPosMid = ypos + FP_FromInteger(Math_RandomRange(-12, 12));
-    mMoveY = ypos - FP_FromInteger(16);
-    mRadiusX = FP_FromInteger(Math_RandomRange(37, 43));
-    mRadiusY = FP_FromDouble(0.25) * mRadiusX;
-    mCurrentScale = scale;
-    mRandomScale = FP_FromInteger(Math_RandomRange(7, 10)) / FP_FromInteger(10);
-    mRenderAsScale = mCurrentScale * mRandomScale;
+    mAnim.VRender(
+        xpos,
+        ypos,
+        ppOt,
+        0,
+        0);
 }
 
 
@@ -216,15 +187,44 @@ OrbWhirlWindParticle::~OrbWhirlWindParticle()
     mAnim.VCleanUp();
 }
 
-void OrbWhirlWindParticle::Spin(FP xpos, FP ypos, IBaseAliveGameObject* pObj)
+void OrbWhirlWindParticle::CalculateRenderProperties(s16 bStarted)
 {
-    mPositionTimer = sGnFrame + Math_RandomRange(0, 16);
-    mState = State::eSpin;
-    mRingTargetObjId = pObj;
+    mRenderAngle += mCounter;
 
-    mYPosIncrement = (mCurrentScale * (mMoveY - mYPosMid)) / FP_FromInteger(16);
-    mXpos_Unused = xpos;
-    mYPos_Unused = ypos;
+    if (bStarted && mCounter <= mMaxCounter && !(sGnFrame % 3))
+    {
+        mCounter++;
+    }
+    else if (!bStarted && mCounter >= 1 && !(sGnFrame % 3))
+    {
+        mCounter--;
+        mRadiusX += FP_FromInteger(4);
+    }
+
+    mXPosRenderOffset = ((mCurrentScale * mRadiusX) * Math_Sine(static_cast<u8>(mRenderAngle))) + mXPosMid;
+    mYPosRenderOffset = ((mCurrentScale * mRadiusY) * Math_Cosine(static_cast<u8>(mRenderAngle))) + mYPosMid;
+    mRenderAsScale = mCurrentScale * mRandomScale;
+
+    if (mCurrentScale > FP_FromDouble(0.599))
+    {
+        mAnim.SetRenderLayer(Layer::eLayer_AbeMenu_32);
+    }
+    else
+    {
+        mAnim.SetRenderLayer(Layer::eLayer_AbeMenu_Half_13);
+    }
+}
+
+void OrbWhirlWindParticle::SetActive(u8 active)
+{
+    if (active)
+    {
+        mFlags.Set(Flags::eIsActive);
+    }
+    else
+    {
+        mFlags.Clear(Flags::eIsActive);
+    }
 }
 
 } // namespace AO

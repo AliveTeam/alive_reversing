@@ -39,7 +39,7 @@ OrbWhirlWindParticle::OrbWhirlWindParticle(FP xpos, FP ypos, FP scale, s16 bIsMu
     mRadiusY = FP_FromDouble(0.25) * mRadiusX;
     mCurrentScale = scale;
     mRandomScale = FP_FromInteger(Math_RandomRange(7, 10)) / FP_FromInteger(10);
-    mRenderAsScale = (mCurrentScale * mRandomScale);
+    mRenderAsScale = mCurrentScale * mRandomScale;
 }
 
 s32 OrbWhirlWindParticle::IsActive()
@@ -52,6 +52,7 @@ void OrbWhirlWindParticle::Spin(FP xpos, FP ypos, FP scale, BaseGameObject* pObj
     mPositionTimer = sGnFrame + Math_RandomRange(0, 16);
     mState = State::eSpin;
     mRingTargetObjId = pObj;
+
     mYPosIncrement = (mCurrentScale * (mMoveY - mYPosMid)) / FP_FromInteger(16);
     mYPos = ypos;
     mXPos = xpos;
@@ -128,11 +129,11 @@ void OrbWhirlWindParticle::Update()
                 if (static_cast<s32>(sGnFrame) < mPositionTimer)
                 {
                     mCurrentScale += mScaleOffsetFlyToTarget;
-                    const FP v16 = FP_FromInteger(16 - (mPositionTimer - sGnFrame)) / FP_FromInteger(16);
-                    mXPosOffset2 = ((xpos - mXPosOffset) * v16) + mXPosOffset;
-                    mYPosOffset2 = ((ypos - mYPosOffset) * v16) + mYPosOffset;
-                    mXPosMid = (FP_FromInteger(32) * mCurrentScale) * Math_Sine_496DF0(FP_FromInteger(128) * v16) + mXPosOffset2;
-                    mYPosMid = (FP_FromInteger(32) * mCurrentScale) * Math_Cosine_496D60(FP_FromInteger(128) * v16) + mYPosOffset2;
+                    const FP v25 = FP_FromInteger(16 - (mPositionTimer - sGnFrame)) / FP_FromInteger(16);
+                    mXPosOffset2 = ((xpos - mXPosOffset) * v25) + mXPosOffset;
+                    mYPosOffset2 = ((ypos - mYPosOffset) * v25) + mYPosOffset;
+                    mXPosMid = (FP_FromInteger(32) * mCurrentScale) * Math_Sine_496DF0(FP_FromInteger(128) * v25) + mXPosOffset2;
+                    mYPosMid = (FP_FromInteger(32) * mCurrentScale) * Math_Cosine_496D60(FP_FromInteger(128) * v25) + mYPosOffset2;
                 }
                 else
                 {
@@ -158,7 +159,7 @@ void OrbWhirlWindParticle::Update()
             }
 
             mYPosMid = (mScaleOffsetSpinAtTarget * Math_Cosine_496D60((FP_FromInteger(128) * FP_FromInteger(32 - (mPositionTimer - sGnFrame)) / FP_FromInteger(32)))) + mYPosOffset2;
-            mRadiusX = mRadiusX - mRadiusOffsetX;
+            mRadiusX -= mRadiusOffsetX;
             CalculateRenderProperties(1);
             break;
 
@@ -226,7 +227,7 @@ void OrbWhirlWindParticle::CalculateRenderProperties(s16 bStarted)
     else if (mCounter >= 1 && !(static_cast<s32>(sGnFrame) % 3))
     {
         mCounter--;
-        mRadiusX = mRadiusX + FP_FromInteger(4);
+        mRadiusX += FP_FromInteger(4);
     }
 
     mXPosRenderOffset = ((mCurrentScale * mRadiusX) * Math_Sine_496DD0(static_cast<u8>(mRenderAngle))) + mXPosMid;

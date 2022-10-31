@@ -10,7 +10,7 @@ namespace AO {
 
 class OrbWhirlWindParticle;
 
-class OrbWhirlWind final : public ::BaseGameObject
+class OrbWhirlWind final : public BaseGameObject
 {
 public:
     enum class ParticlesState : s16
@@ -29,6 +29,7 @@ public:
     void ToSpin(FP xpos, FP ypos, IBaseAliveGameObject* pObj);
     void ToStop();
 
+private:
     s32 field_10_particle_spawn_counter = 0;
     ParticlesState field_14_particles_state = ParticlesState::eCreating;
     s16 field_16_particleIdx = 0;

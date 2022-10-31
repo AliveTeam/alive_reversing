@@ -19,6 +19,7 @@ public:
     virtual s8 VFadeIn(u8 direction, s8 destroyOnDone);
     virtual s32 VDone();
 
+private:
     s32 field_D4[4] = {};
     enum Flags
     {

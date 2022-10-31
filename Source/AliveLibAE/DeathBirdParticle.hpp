@@ -3,13 +3,14 @@
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "../AliveLibCommon/Function.hpp"
 
-class DeathBirdParticle final : public ::BaseAnimatedWithPhysicsGameObject
+class DeathBirdParticle final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    virtual void VUpdate() override;
+    DeathBirdParticle(FP xpos, FP ypos, s32 start, bool playSound, FP scale);
+
     void LoadAnimations();
 
-    DeathBirdParticle(FP xpos, FP ypos, s32 start, bool playSound, FP scale);
+    virtual void VUpdate() override;
 
 private:
     s8 field_F4_random = 0;

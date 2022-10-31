@@ -89,17 +89,13 @@ void BulletShell::VUpdate()
             {
                 volume = 19;
             }
+
             SfxPlayMono(relive::SoundEffects::BulletShell, volume);
             mFloorBounceCount++;
         }
     }
 
-    if (!gMap.Is_Point_In_Current_Camera(
-            mCurrentLevel,
-            mCurrentPath,
-            mXPos,
-            mYPos,
-            0))
+    if (!gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

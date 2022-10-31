@@ -9,9 +9,9 @@ public:
     CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone);
     ~CircularFade();
 
+    virtual void VScreenChanged() override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
-    virtual void VScreenChanged() override;
 
     // New virtuals
     virtual s32 VFadeIn(s16 direction, s8 destroyOnDone); // TODO: Likely no return

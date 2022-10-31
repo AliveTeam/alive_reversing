@@ -11,19 +11,6 @@
 
 namespace AO {
 
-void ParamiteWeb::VScreenChanged()
-{
-    if (gMap.LevelChanged() || gMap.PathChanged())
-    {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-    }
-}
-
-ParamiteWeb::~ParamiteWeb()
-{
-    relive_delete[] field_EC_pRes;
-}
-
 ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
@@ -43,9 +30,6 @@ ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::ParamiteWeb));
     Animation_Init(GetAnimRes(AnimId::ParamiteWeb));
 
-    GetAnimation().SetSpriteScale(scale);
-    SetSpriteScale(scale);
-
     if (scale == FP_FromInteger(1))
     {
         GetAnimation().SetRenderLayer(Layer::eLayer_RopeWebDrillMeatSaw_24);
@@ -56,6 +40,9 @@ ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
         GetAnimation().SetRenderLayer(Layer::eLayer_RopeWebDrillMeatSaw_Half_5);
         SetScale(Scale::Bg);
     }
+
+    GetAnimation().SetSpriteScale(scale);
+    SetSpriteScale(scale);
 
     GetAnimation().SetRGB(128, 128, 128);
 
@@ -84,6 +71,10 @@ ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
     field_F0_bEnabled = 0;
 }
 
+ParamiteWeb::~ParamiteWeb()
+{
+    relive_delete[] field_EC_pRes;
+}
 void ParamiteWeb::VUpdate()
 {
     if (field_F0_bEnabled == 1)
@@ -93,6 +84,14 @@ void ParamiteWeb::VUpdate()
         {
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
+    }
+}
+
+void ParamiteWeb::VScreenChanged()
+{
+    if (gMap.LevelChanged() || gMap.PathChanged())
+    {
+        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 }
 
@@ -148,8 +147,6 @@ void ParamiteWeb::VRender(PrimHeader** ppOt)
                     ShadowZone::ShadowZones_Calculate_Colour(FP_GetExponent(mXPos), ypos_int - (idx * field_E6_segment_length), GetScale(), &r, &g, &b);
                     field_EC_pRes[idx].SetRGB(r, g, b);
                     field_EC_pRes[idx].VRender(x_start, y_start + mYOffset, ppOt, 0, 0);
-                    PSX_RECT rect = {};
-                    field_EC_pRes[idx].GetRenderedSize(&rect);
                     ClipPoly_Vertically_4584B0(&field_EC_pRes[idx].field_10_polys[gPsxDisplay.mBufferIndex], mYOffset + minY, mYOffset + maxY);
                     y_start -= field_E6_segment_length;
                     if (y_start < minY)
