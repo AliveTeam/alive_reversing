@@ -1265,7 +1265,7 @@ static void LogNonConvertedPals(bool isAo)
     {
         if (!rec.mConverted)
         {
-            const auto& palDetails = isAo ? AO::PalRec(rec.mPalId) : PalRec(rec.mPalId);
+            const auto palDetails = isAo ? AO::PalRec(rec.mPalId) : PalRec(rec.mPalId);
             if (palDetails.mBanName)
             {
                 LOG_INFO("MISSING PAL: %s", magic_enum::enum_name(rec.mPalId));
