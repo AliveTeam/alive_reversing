@@ -127,7 +127,7 @@ s32 Meat::CreateFromSaveState(const u8* pBuffer)
     pMeat->field_120_xpos = pState->field_30_xpos;
     pMeat->field_124_ypos = pState->field_34_ypos;
 
-    pMeat->field_12C_deadtimer = pState->field_38_savedfield12C;
+    pMeat->field_12C_deadtimer = pState->field_38_deadtimer;
     return sizeof(MeatSaveState);
 }
 
@@ -585,7 +585,7 @@ s32 Meat::VGetSaveState(u8* pSaveBuffer)
     pState->field_30_xpos = field_120_xpos;
     pState->field_34_ypos = field_124_ypos;
 
-    pState->field_38_savedfield12C = field_12C_deadtimer;
+    pState->field_38_deadtimer = field_12C_deadtimer;
 
     return sizeof(MeatSaveState);
 }

@@ -45,7 +45,7 @@ struct MeatSaveState final
     s16 field_2E_pad;
     FP field_30_xpos;
     FP field_34_ypos;
-    s32 field_38_savedfield12C; // TODO: Figure out what field_12C is. -- Nemin (5/7/2020)
+    s32 field_38_deadtimer;
 };
 //ALIVE_ASSERT_SIZEOF_ALWAYS(MeatSaveState, 60);
 

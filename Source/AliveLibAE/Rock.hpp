@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Throwable.hpp"
-#include "BitField.hpp"
+#include "../AliveLibCommon/BitField.hpp"
 
 enum class LevelIds : s16;
 

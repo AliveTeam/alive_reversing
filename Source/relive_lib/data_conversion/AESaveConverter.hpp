@@ -29,6 +29,15 @@
 #include "../../AliveLibAE/WorkWheel.hpp"
 #include "../../AliveLibAE/Slurg.hpp"
 #include "../../AliveLibAE/LiftPoint.hpp"
+#include "../../AliveLibAE/Slog.hpp"
+#include "../../AliveLibAE/Rock.hpp"
+#include "../../AliveLibAE/AbilityRing.hpp"
+#include "../../AliveLibAE/Paramite.hpp"
+#include "../../AliveLibAE/MineCar.hpp"
+#include "../../AliveLibAE/Meat.hpp"
+#include "../../AliveLibAE/Grenade.hpp"
+#include "../../AliveLibAE/Greeter.hpp"
+#include "../../AliveLibAE/Glukkon.hpp"
 
 // Any enum/struct in the AEData namespace is related to OG data and can't ever be changed
 // otherwise interpreting the OG data will break.
@@ -39,6 +48,16 @@ struct PSX_RECT final
     s16 x, y, w, h;
 };
 ALIVE_ASSERT_SIZEOF(PSX_RECT, 8);
+
+static ::PSX_RECT From(const PSX_RECT& data)
+{
+    ::PSX_RECT d;
+    d.x = data.x;
+    d.y = data.y;
+    d.w = data.w;
+    d.h = data.h;
+    return d;
+}
 
 struct TlvOffsetLevelIdPathId final
 {
@@ -191,6 +210,128 @@ enum class GameSpeakEvents : s16
     Scrab_Shriek_54 = 54,
 };
 
+static ::GameSpeakEvents From(const GameSpeakEvents event)
+{
+    switch (event)
+    {
+        case GameSpeakEvents::eSameAsLast_m2:
+            return ::GameSpeakEvents::eSameAsLast_m2;
+        case GameSpeakEvents::eNone_m1:
+            return ::GameSpeakEvents::eNone_m1;
+        case GameSpeakEvents::eUnknown_0:
+            return ::GameSpeakEvents::eUnknown_0;
+        case GameSpeakEvents::eUnknown_1:
+            return ::GameSpeakEvents::eUnknown_1;
+        case GameSpeakEvents::eUnknown_2:
+            return ::GameSpeakEvents::eUnknown_2;
+        case GameSpeakEvents::eFart_3:
+            return ::GameSpeakEvents::eFart_3;
+        case GameSpeakEvents::eUnknown_4:
+            return ::GameSpeakEvents::eUnknown_4;
+        case GameSpeakEvents::Slig_BS_5:
+            return ::GameSpeakEvents::Slig_BS_5;
+        case GameSpeakEvents::Slig_LookOut_6:
+            return ::GameSpeakEvents::Slig_LookOut_6;
+        case GameSpeakEvents::Slig_BS2_7:
+            return ::GameSpeakEvents::Slig_BS2_7;
+        case GameSpeakEvents::Slig_Laugh_8:
+            return ::GameSpeakEvents::Slig_Laugh_8;
+        case GameSpeakEvents::eHello_9:
+            return ::GameSpeakEvents::eHello_9;
+        case GameSpeakEvents::eFollowMe_10:
+            return ::GameSpeakEvents::eFollowMe_10;
+        case GameSpeakEvents::eAnger_11:
+            return ::GameSpeakEvents::eAnger_11;
+        case GameSpeakEvents::eWait_12:
+            return ::GameSpeakEvents::eWait_12;
+        case GameSpeakEvents::eUnknown_13:
+            return ::GameSpeakEvents::eUnknown_13;
+        case GameSpeakEvents::eUnknown_14:
+            return ::GameSpeakEvents::eUnknown_14;
+        case GameSpeakEvents::eUnknown_15:
+            return ::GameSpeakEvents::eUnknown_15;
+        case GameSpeakEvents::eUnknown_16:
+            return ::GameSpeakEvents::eUnknown_16;
+        case GameSpeakEvents::eUnknown_17:
+            return ::GameSpeakEvents::eUnknown_17;
+        case GameSpeakEvents::eUnknown_18:
+            return ::GameSpeakEvents::eUnknown_18;
+        case GameSpeakEvents::eUnknown_19:
+            return ::GameSpeakEvents::eUnknown_19;
+        case GameSpeakEvents::eUnknown_20:
+            return ::GameSpeakEvents::eUnknown_20;
+        case GameSpeakEvents::eWork_21:
+            return ::GameSpeakEvents::eWork_21;
+        case GameSpeakEvents::eStopIt_22:
+            return ::GameSpeakEvents::eStopIt_22;
+        case GameSpeakEvents::eAllYa_23:
+            return ::GameSpeakEvents::eAllYa_23;
+        case GameSpeakEvents::eSorry_24:
+            return ::GameSpeakEvents::eSorry_24;
+        case GameSpeakEvents::eUnknown_25:
+            return ::GameSpeakEvents::eUnknown_25;
+        case GameSpeakEvents::eUnknown_26:
+            return ::GameSpeakEvents::eUnknown_26;
+        case GameSpeakEvents::Slig_Hi_27:
+            return ::GameSpeakEvents::Slig_Hi_27;
+        case GameSpeakEvents::Slig_HereBoy_28:
+            return ::GameSpeakEvents::Slig_HereBoy_28;
+        case GameSpeakEvents::Slig_GetEm_29:
+            return ::GameSpeakEvents::Slig_GetEm_29;
+        case GameSpeakEvents::eUnknown_30:
+            return ::GameSpeakEvents::eUnknown_30;
+        case GameSpeakEvents::Slig_Freeze_31:
+            return ::GameSpeakEvents::Slig_Freeze_31;
+        case GameSpeakEvents::eDynamicCollision_32:
+            return ::GameSpeakEvents::eDynamicCollision_32;
+        case GameSpeakEvents::eUnknown_33:
+            return ::GameSpeakEvents::eUnknown_33;
+        case GameSpeakEvents::eUnknown_34:
+            return ::GameSpeakEvents::eUnknown_34;
+        case GameSpeakEvents::eUnknown_35:
+            return ::GameSpeakEvents::eUnknown_35;
+        case GameSpeakEvents::Glukkon_Hey_36:
+            return ::GameSpeakEvents::Glukkon_Hey_36;
+        case GameSpeakEvents::Glukkon_DoIt_37:
+            return ::GameSpeakEvents::Glukkon_DoIt_37;
+        case GameSpeakEvents::Glukkon_StayHere_38:
+            return ::GameSpeakEvents::Glukkon_StayHere_38;
+        case GameSpeakEvents::Glukkon_Commere_39:
+            return ::GameSpeakEvents::Glukkon_Commere_39;
+        case GameSpeakEvents::Glukkon_AllOYa_40:
+            return ::GameSpeakEvents::Glukkon_AllOYa_40;
+        case GameSpeakEvents::Glukkon_Heh_41:
+            return ::GameSpeakEvents::Glukkon_Heh_41;
+        case GameSpeakEvents::Glukkon_Help_42:
+            return ::GameSpeakEvents::Glukkon_Help_42;
+        case GameSpeakEvents::Glukkon_Laugh_43:
+            return ::GameSpeakEvents::Glukkon_Laugh_43;
+        case GameSpeakEvents::Glukkon_KillEm_44:
+            return ::GameSpeakEvents::Glukkon_KillEm_44;
+        case GameSpeakEvents::Glukkon_Unknown_45:
+            return ::GameSpeakEvents::Glukkon_Unknown_45;
+        case GameSpeakEvents::Glukkon_Unknown_46:
+            return ::GameSpeakEvents::Glukkon_Unknown_46;
+        case GameSpeakEvents::Glukkon_What_47:
+            return ::GameSpeakEvents::Glukkon_What_47;
+        case GameSpeakEvents::Paramite_Howdy_48:
+            return ::GameSpeakEvents::Paramite_Howdy_48;
+        case GameSpeakEvents::Paramite_Stay_49:
+            return ::GameSpeakEvents::Paramite_Stay_49;
+        case GameSpeakEvents::Paramite_CMon_or_Attack_50:
+            return ::GameSpeakEvents::Paramite_CMon_or_Attack_50;
+        case GameSpeakEvents::Paramite_DoIt_51:
+            return ::GameSpeakEvents::Paramite_DoIt_51;
+        case GameSpeakEvents::Paramite_AllYa_52:
+            return ::GameSpeakEvents::Paramite_AllYa_52;
+        case GameSpeakEvents::Scrab_Howl_53:
+            return ::GameSpeakEvents::Scrab_Howl_53;
+        case GameSpeakEvents::Scrab_Shriek_54:
+            return ::GameSpeakEvents::Scrab_Shriek_54;
+    }
+    ALIVE_FATAL("Bad gamespeak event value");
+}
+
 enum class Mud_Emotion : s16
 {
     eNormal_0 = 0,
@@ -208,6 +349,18 @@ enum class Scale : s16
     Bg = 0,
     Fg = 1,
 };
+
+static ::Scale From(const Scale scale)
+{
+    switch (scale)
+    {
+        case Scale::Bg:
+            return ::Scale::Bg;
+        case Scale::Fg:
+            return ::Scale::Fg;
+    }
+    ALIVE_FATAL("Bad scale value");
+}
 
 // Shared enum for sligs
 enum class SligSpeak : s8
@@ -1090,6 +1243,62 @@ struct GreeterSaveState final
     s16 field_48_targetOnRight;
     s16 field_4A_padding;
     FP field_4C_motion_laser_xpos;
+
+    static ::GreeterSaveState From(const GreeterSaveState& data)
+    {
+        ::GreeterSaveState d;
+        d.field_0_type = data.field_0_type;
+        d.field_2_r = data.field_2_r;
+        d.field_4_g = data.field_4_g;
+        d.field_6_b = data.field_6_b;
+        d.field_8_path_number = data.field_8_path_number;
+        d.field_A_lvl_number = data.field_A_lvl_number;
+        d.field_C_xpos = data.field_C_xpos;
+        d.field_10_ypos = data.field_10_ypos;
+        d.field_14_velx = data.field_14_velx;
+        d.field_18_vely = data.field_18_vely;
+        d.field_1C_sprite_scale = data.field_1C_sprite_scale;
+        d.field_20_current_frame = data.field_20_current_frame;
+        d.field_22_frame_change_counter = data.field_22_frame_change_counter;
+        d.field_24_bAnimRender = data.field_24_bAnimRender;
+        d.field_25_bDrawable = data.field_25_bDrawable;
+        d.field_28_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_28_tlvInfo);
+        d.field_30_last_turn_time = data.field_30_last_turn_time;
+        d.field_34_timer = data.field_34_timer;
+        d.field_38_timesShot = data.field_38_timesShot;
+        d.field_3A_bDontSetDestroyed = data.field_3A_bDontSetDestroyed;
+        d.field_3C_bChasing = data.field_3C_bChasing;
+        d.field_40_speed = data.field_40_speed;
+        d.field_44_brain_state = From(data.field_44_brain_state);
+        d.field_46_targetOnLeft = data.field_46_targetOnLeft;
+        d.field_48_targetOnRight = data.field_48_targetOnRight;
+        d.field_4C_motion_laser_xpos = data.field_4C_motion_laser_xpos;
+        return d;
+    }
+
+    static ::GreeterBrainStates From(const GreeterBrainStates state)
+    {
+        switch (state)
+        {
+            case GreeterBrainStates::eBrain_0_Patrol:
+                return ::GreeterBrainStates::eBrain_0_Patrol;
+            case GreeterBrainStates::eBrain_1_PatrolTurn:
+                return ::GreeterBrainStates::eBrain_1_PatrolTurn;
+            case GreeterBrainStates::eBrain_2_Speak:
+                return ::GreeterBrainStates::eBrain_2_Speak;
+            case GreeterBrainStates::eBrain_3_ChaseSpeak:
+                return ::GreeterBrainStates::eBrain_3_ChaseSpeak;
+            case GreeterBrainStates::eBrain_4_Chase:
+                return ::GreeterBrainStates::eBrain_4_Chase;
+            case GreeterBrainStates::eBrain_5_Knockback:
+                return ::GreeterBrainStates::eBrain_5_Knockback;
+            case GreeterBrainStates::eBrain_6_ToChase:
+                return ::GreeterBrainStates::eBrain_6_ToChase;
+            case GreeterBrainStates::eBrain_7_Fall:
+                return ::GreeterBrainStates::eBrain_7_Fall;
+        }
+        ALIVE_FATAL("Bad greeter brain state value");
+    }
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(GreeterSaveState, 0x50);
 
@@ -1140,6 +1349,58 @@ struct GrenadeSaveState final
     s16 field_32_padding;
     FP field_34_xpos;
     FP field_38_ypos;
+
+    static ::GrenadeSaveState From(const GrenadeSaveState& data)
+    {
+        ::GrenadeSaveState d;
+        d.field_0_type = data.field_0_type;
+        d.field_4_obj_id = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
+        d.field_8_xpos = data.field_8_xpos;
+        d.field_C_ypos = data.field_C_ypos;
+        d.field_10_velx = data.field_10_velx;
+        d.field_14_vely = data.field_14_vely;
+        d.field_18_sprite_scale = data.field_18_sprite_scale;
+        d.field_1C_path_number = data.field_1C_path_number;
+        d.field_1E_lvl_number = data.field_1E_lvl_number;
+        d.field_20_flags.Raw().all = data.field_20_flags.Raw().all; // TODO: convert flags to bools
+        d.field_24_base_id = Guid::NewGuidFromTlvInfo(data.field_24_base_id);
+        d.field_28_line_type = data.field_28_line_type;
+        d.field_2A_savedcount = data.field_2A_savedcount;
+        d.field_2C_state = From(data.field_2C_state);
+        d.field_2E = data.field_2E;
+        d.field_30_explode_timer = data.field_30_explode_timer;
+        d.field_34_xpos = data.field_34_xpos;
+        d.field_38_ypos = data.field_38_ypos;
+        return d;
+    }
+
+    static ::GrenadeStates From(const GrenadeStates state)
+    {
+        switch (state)
+        {
+            case GrenadeStates::eFallingToBeCollected_0:
+                return ::GrenadeStates::eFallingToBeCollected_0;
+            case GrenadeStates::eWaitToBeCollected_1:
+                return ::GrenadeStates::eWaitToBeCollected_1;
+            case GrenadeStates::eDoesNothing_2:
+                return ::GrenadeStates::eDoesNothing_2;
+            case GrenadeStates::eCountingDown_3:
+                return ::GrenadeStates::eCountingDown_3;
+            case GrenadeStates::eFalling_4:
+                return ::GrenadeStates::eFalling_4;
+            case GrenadeStates::eHitGround_5:
+                return ::GrenadeStates::eHitGround_5;
+            case GrenadeStates::eWaitForExplodeEnd_6:
+                return ::GrenadeStates::eWaitForExplodeEnd_6;
+            case GrenadeStates::eExploded_7:
+                return ::GrenadeStates::eExploded_7;
+            case GrenadeStates::eDoesNothing_8:
+                return ::GrenadeStates::eDoesNothing_8;
+            case GrenadeStates::eFallingBlowUpOnGround_9:
+                return ::GrenadeStates::eFallingBlowUpOnGround_9;
+        }
+        ALIVE_FATAL("Bad grenade state value");
+    }
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(GrenadeSaveState, 0x3C);
 
@@ -1218,6 +1479,97 @@ struct GlukkonSaveState final
     s32 field_88_obj_id;
     s16 field_8C_can_be_possessed;
     AETypes field_8E_type_id;
+
+    static ::GlukkonSaveState From(const GlukkonSaveState& data)
+    {
+        ::GlukkonSaveState d;
+        d.field_0_id = data.field_0_id;
+        d.field_4_object_id = Guid::NewGuidFromTlvInfo(data.field_4_object_id);
+        d.field_8_xpos = data.field_8_xpos;
+        d.field_C_ypos = data.field_C_ypos;
+        d.field_10_xvel = data.field_10_xvel;
+        d.field_14_yvel = data.field_14_yvel;
+        d.field_18_path = data.field_18_path;
+        d.field_1A_level = data.field_1A_level;
+        d.field_1C_sprite_scale = data.field_1C_sprite_scale;
+        d.mRingRed = data.mRingRed;
+        d.mRingGreen = data.mRingGreen;
+        d.mRingBlue = data.mRingBlue;
+        d.field_26_flipX = data.field_26_flipX;
+        d.field_28_current_motion = data.field_28_current_motion;
+        d.field_2A_current_frame = data.field_2A_current_frame;
+        d.field_2C_frame_change_counter = data.field_2C_frame_change_counter;
+        d.field_2E_render = data.field_2E_render;
+        d.field_2F_drawable = data.field_2F_drawable;
+        d.field_30_health = data.field_30_health;
+        d.field_34_current_motion = data.field_34_current_motion;
+        d.field_36_next_motion = data.field_36_next_motion;
+        d.field_38_last_line_ypos = data.field_38_last_line_ypos;
+        d.field_3A_line_type = data.field_3A_line_type;
+        d.field_40_bIsActiveChar = data.field_40_bIsActiveChar;
+        d.field_44_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_44_tlvInfo);
+        d.field_48_brain_state_idx = data.field_48_brain_state_idx;
+        d.field_50_brain_sub_state = data.field_50_brain_sub_state;
+        d.field_54_timer = data.field_54_timer;
+        d.field_58_falling_velx_scale_factor = data.field_58_falling_velx_scale_factor;
+        d.field_5E_prevent_depossession = data.field_5E_prevent_depossession;
+        d.field_60_level = data.field_60_level;
+        d.field_62_path = data.field_62_path;
+        d.field_64_camera = data.field_64_camera;
+        d.field_66_speak = From(data.field_66_speak);
+        d.field_68_gamespeak_pitch = data.field_68_gamespeak_pitch;
+        d.field_6C_previous_ypos = data.field_6C_previous_ypos;
+        d.field_70_randomish_speak_timer = data.field_70_randomish_speak_timer;
+        d.field_74_turn_or_help_timer = data.field_74_turn_or_help_timer;
+        d.field_78_panic_timer = data.field_78_panic_timer;
+        d.field_7C = data.field_7C;
+        d.field_80_knockback_delay_after_getting_shot_timer = data.field_80_knockback_delay_after_getting_shot_timer;
+        d.field_84_getting_shot_timer = data.field_84_getting_shot_timer;
+        d.field_88_obj_id = Guid::NewGuidFromTlvInfo(data.field_88_obj_id);
+        d.field_8C_can_be_possessed = data.field_8C_can_be_possessed;
+        d.field_8E_type_id = data.field_8E_type_id;
+        return d;
+    }
+
+    static ::GlukkonSpeak From(const GlukkonSpeak speak)
+    {
+        switch (speak)
+        {
+            case GlukkonSpeak::None:
+                return ::GlukkonSpeak::None;
+            case GlukkonSpeak::Hey_0:
+                return ::GlukkonSpeak::Hey_0;
+            case GlukkonSpeak::DoIt_1:
+                return ::GlukkonSpeak::DoIt_1;
+            case GlukkonSpeak::StayHere_2:
+                return ::GlukkonSpeak::StayHere_2;
+            case GlukkonSpeak::Commere_3:
+                return ::GlukkonSpeak::Commere_3;
+            case GlukkonSpeak::AllOYa_4:
+                return ::GlukkonSpeak::AllOYa_4;
+            case GlukkonSpeak::Heh_5:
+                return ::GlukkonSpeak::Heh_5;
+            case GlukkonSpeak::Help_6:
+                return ::GlukkonSpeak::Help_6;
+            case GlukkonSpeak::Laugh_7:
+                return ::GlukkonSpeak::Laugh_7;
+            case GlukkonSpeak::KillEm_8:
+                return ::GlukkonSpeak::KillEm_8;
+            case GlukkonSpeak::Unused_9:
+                return ::GlukkonSpeak::Unused_9;
+            case GlukkonSpeak::Unused_10:
+                return ::GlukkonSpeak::Unused_10;
+            case GlukkonSpeak::What_11:
+                return ::GlukkonSpeak::What_11;
+            case GlukkonSpeak::Unused_12:
+                return ::GlukkonSpeak::Unused_12;
+            case GlukkonSpeak::Unused_13:
+                return ::GlukkonSpeak::Unused_13;
+            case GlukkonSpeak::Unused_14:
+                return ::GlukkonSpeak::Unused_14;
+        }
+        ALIVE_FATAL("Bad glukkon speak value");
+    }
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(GlukkonSaveState, 144);
 
@@ -1564,7 +1916,50 @@ struct MeatSaveState final
     s16 field_2E_pad;
     FP field_30_xpos;
     FP field_34_ypos;
-    s32 field_38_savedfield12C; // TODO: Figure out what field_12C is. -- Nemin (5/7/2020)
+    s32 field_38_deadtimer;
+
+    static ::MeatSaveState From(const MeatSaveState& data)
+    {
+        ::MeatSaveState d;
+        d.field_0_type = data.field_0_type;
+        d.field_4_obj_id = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
+        d.field_8_xpos = data.field_8_xpos;
+        d.field_C_ypos = data.field_C_ypos;
+        d.field_10_velx = data.field_10_velx;
+        d.field_14_vely = data.field_14_vely;
+        d.field_18_sprite_scale = data.field_18_sprite_scale;
+        d.field_1C_path_number = data.field_1C_path_number;
+        d.field_1E_lvl_number = data.field_1E_lvl_number;
+        d.field_20_flags.Raw().all = data.field_20_flags.Raw().all; // TODO: convert flags to bools
+        d.field_24_base_id = Guid::NewGuidFromTlvInfo(data.field_24_base_id);
+        d.field_28_line_type = data.field_28_line_type;
+        d.field_2A_count = data.field_2A_count;
+        d.field_2C_state = From(data.field_2C_state);
+        d.field_30_xpos = data.field_30_xpos;
+        d.field_34_ypos = data.field_34_ypos;
+        d.field_38_deadtimer = data.field_38_deadtimer;
+        return d;
+    }
+
+    static ::MeatStates From(const MeatStates state)
+    {
+        switch (state)
+        {
+            case MeatStates::eCreated_0:
+                return ::MeatStates::eCreated_0;
+            case MeatStates::eIdle_1:
+                return ::MeatStates::eIdle_1;
+            case MeatStates::eBeingThrown_2:
+                return ::MeatStates::eBeingThrown_2;
+            case MeatStates::eBecomeAPickUp_3:
+                return ::MeatStates::eBecomeAPickUp_3;
+            case MeatStates::eWaitForPickUp_4:
+                return ::MeatStates::eWaitForPickUp_4;
+            case MeatStates::eFall_5:
+                return ::MeatStates::eFall_5;
+        }
+        ALIVE_FATAL("Bad meat state value");
+    }
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(MeatSaveState, 60);
 
@@ -1628,6 +2023,78 @@ struct MineCarSaveState final
     s16 field_62_spanwed_camera;
     s16 field_64_throw_item_key1;
     s16 field_66_continue_move_input;
+
+    static ::MineCarSaveState From(const MineCarSaveState& data)
+    {
+        ::MineCarSaveState d;
+        d.field_0_type = data.field_0_type;
+        d.field_4_xpos = data.field_4_xpos;
+        d.field_8_ypos = data.field_8_ypos;
+        d.field_C_velx = data.field_C_velx;
+        d.field_10_vely = data.field_10_vely;
+        d.field_14_sprite_scale = data.field_14_sprite_scale;
+        d.field_18_path_number = data.field_18_path_number;
+        d.field_1A_lvl_number = data.field_1A_lvl_number;
+        d.field_1C_r = data.field_1C_r;
+        d.field_1E_g = data.field_1E_g;
+        d.field_20_b = data.field_20_b;
+        d.field_22_xFlip = data.field_22_xFlip;
+        d.field_24_frame_table = data.field_24_frame_table;
+        d.field_28_current_motion = data.field_28_current_motion;
+        d.field_2A_current_anim_frame = data.field_2A_current_anim_frame;
+        d.field_2C_frame_change_counter = data.field_2C_frame_change_counter;
+        d.field_2E_render = data.field_2E_render;
+        d.field_2F_drawable = data.field_2F_drawable;
+        d.field_38_frame_table_offset2 = data.field_38_frame_table_offset2;
+        d.field_3C_health = data.field_3C_health;
+        d.field_40_current_motion = data.field_40_current_motion;
+        d.field_42_next_motion = data.field_42_next_motion;
+        d.field_44_last_line_ypos = data.field_44_last_line_ypos;
+        d.field_46_collision_line_type = data.field_46_collision_line_type;
+        d.field_4C_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_4C_tlvInfo);
+        d.field_50_state = From(data.field_50_state);
+        d.field_52_turn_direction = From(data.field_52_turn_direction);
+        d.field_58_falling_counter = data.field_58_falling_counter;
+        d.field_5A_bAbeInCar = data.field_5A_bAbeInCar;
+        d.field_5C_frame_mod_16 = data.field_5C_frame_mod_16;
+        d.field_60_spawned_path = data.field_60_spawned_path;
+        d.field_62_spanwed_camera = data.field_62_spanwed_camera;
+        d.field_64_throw_item_key1 = data.field_64_throw_item_key1;
+        d.field_66_continue_move_input = data.field_66_continue_move_input;
+        return d;
+    }
+
+    static ::MineCarStates From(const MineCarStates state)
+    {
+        switch (state)
+        {
+            case MineCarStates::eParkedWithoutAbe_0:
+                return ::MineCarStates::eParkedWithoutAbe_0;
+            case MineCarStates::eParkedWithAbe_1:
+                return ::MineCarStates::eParkedWithAbe_1;
+            case MineCarStates::eMoving_2:
+                return ::MineCarStates::eMoving_2;
+            case MineCarStates::eFalling_3:
+                return ::MineCarStates::eFalling_3;
+        }
+        ALIVE_FATAL("Bad mine car state value");
+    }
+
+    static ::MineCarDirs From(const MineCarDirs dir)
+    {
+        switch (dir)
+        {
+            case MineCarDirs::eDown_0:
+                return ::MineCarDirs::eDown_0;
+            case MineCarDirs::eRight_1:
+                return ::MineCarDirs::eRight_1;
+            case MineCarDirs::eLeft_2:
+                return ::MineCarDirs::eLeft_2;
+            case MineCarDirs::eUp_3:
+                return ::MineCarDirs::eUp_3;
+        }
+        ALIVE_FATAL("Bad mine car dir value");
+    }
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(MineCarSaveState, 0x68);
 
@@ -1690,6 +2157,51 @@ struct ParamiteSaveState final
     };
 
     BitField16<Flags_76> field_76_flags;
+
+    static ::ParamiteSaveState From(const ParamiteSaveState& data)
+    {
+        ::ParamiteSaveState d;
+        d.field_0_type = data.field_0_type;
+        d.field_4_xpos = data.field_4_xpos;
+        d.field_8_ypos = data.field_8_ypos;
+        d.field_C_velx = data.field_C_velx;
+        d.field_10_vely = data.field_10_vely;
+        d.field_14_path_number = data.field_14_path_number;
+        d.field_16_lvl_number = data.field_16_lvl_number;
+        d.field_18_sprite_scale = data.field_18_sprite_scale;
+        d.field_1C_r = data.field_1C_r;
+        d.field_1E_g = data.field_1E_g;
+        d.field_20_b = data.field_20_b;
+        d.field_22_flip_x = data.field_22_flip_x;
+        d.field_24_current_motion = data.field_24_current_motion;
+        d.field_26_anim_current_frame = data.field_26_anim_current_frame;
+        d.field_28_frame_change_counter = data.field_28_frame_change_counter;
+        d.field_2A_render = data.field_2A_render;
+        d.field_2B_drawable = data.field_2B_drawable;
+        d.field_2C_health = data.field_2C_health;
+        d.field_30_current_motion = data.field_30_current_motion;
+        d.field_32_next_motion = data.field_32_next_motion;
+        d.field_34_last_line_ypos = data.field_34_last_line_ypos;
+        d.field_36_line_type = data.field_36_line_type;
+        d.field_3C_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_3C_tlvInfo);
+        d.field_40_meat_id = Guid::NewGuidFromTlvInfo(data.field_40_meat_id);
+        d.field_44_web_id = Guid::NewGuidFromTlvInfo(data.field_44_web_id);
+        d.field_48_obj_id = Guid::NewGuidFromTlvInfo(data.field_48_obj_id);
+        d.field_4C_pull_ring_rope_id = Guid::NewGuidFromTlvInfo(data.field_4C_pull_ring_rope_id);
+        d.field_50_brain_idx = data.field_50_brain_idx;
+        d.field_58_brain_ret = data.field_58_brain_ret;
+        d.field_5C_timer = data.field_5C_timer;
+        d.field_60_depossession_timer = data.field_60_depossession_timer;
+        d.field_64_velx_offset = data.field_64_velx_offset;
+        d.field_68_timer = data.field_68_timer;
+        d.field_6C_return_level = data.field_6C_return_level;
+        d.field_6E_return_path = data.field_6E_return_path;
+        d.field_70_return_camera = data.field_70_return_camera;
+        d.field_72_input = data.field_72_input;
+        d.field_74_next_brain_ret = data.field_74_next_brain_ret;
+        d.field_76_flags.Raw().all = data.field_76_flags.Raw().all; // TODO: convert flags to bools
+        return d;
+    }
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(ParamiteSaveState, 0x78);
 
@@ -1767,6 +2279,61 @@ struct AbilityRingSaveState final
     s16 mRingRed;
     s16 mRingGreen;
     s16 mRingBlue;
+
+    static ::AbilityRingSaveState From(const AbilityRingSaveState& data)
+    {
+        ::AbilityRingSaveState d;
+        d.mRingObjectType = data.mRingObjectType;
+        d.mRingXPos = data.mRingXPos;
+        d.mRingYPos = data.mRingYPos;
+        d.mRingType = From(data.mRingType);
+        d.mRingScale = data.mRingScale;
+        d.mRingTlvInfo = Guid::NewGuidFromTlvInfo(data.mRingTlvInfo);
+        d.mRingRight = data.mRingRight;
+        d.mRingCount = data.mRingCount;
+        d.mRingRed = data.mRingRed;
+        d.mRingGreen = data.mRingGreen;
+        d.mRingBlue = data.mRingBlue;
+        return d;
+    }
+
+    static ::RingTypes From(const RingTypes type)
+    {
+        switch (type)
+        {
+            case RingTypes::eExplosive_Pulse_0:
+                return ::RingTypes::eExplosive_Pulse_0;
+            case RingTypes::eExplosive_Emit_1:
+                return ::RingTypes::eExplosive_Emit_1;
+            case RingTypes::eExplosive_Emit_Effect_2:
+                return ::RingTypes::eExplosive_Emit_Effect_2;
+            case RingTypes::eExplosive_Give_3:
+                return ::RingTypes::eExplosive_Give_3;
+            case RingTypes::eShrykull_Pulse_Small_4:
+                return ::RingTypes::eShrykull_Pulse_Small_4;
+            case RingTypes::eShrykull_Pulse_Large_5:
+                return ::RingTypes::eShrykull_Pulse_Large_5;
+            case RingTypes::eShrykull_Pulse_Orange_6:
+                return ::RingTypes::eShrykull_Pulse_Orange_6;
+            case RingTypes::eInvisible_Pulse_Small_7:
+                return ::RingTypes::eInvisible_Pulse_Small_7;
+            case RingTypes::eInvisible_Pulse_Large_8:
+                return ::RingTypes::eInvisible_Pulse_Large_8;
+            case RingTypes::eInvisible_Pulse_Emit_9:
+                return ::RingTypes::eInvisible_Pulse_Emit_9;
+            case RingTypes::eInvisible_Pulse_Give_10:
+                return ::RingTypes::eInvisible_Pulse_Give_10;
+            case RingTypes::eHealing_Emit_Effect_11:
+                return ::RingTypes::eHealing_Emit_Effect_11;
+            case RingTypes::eHealing_Emit_12:
+                return ::RingTypes::eHealing_Emit_12;
+            case RingTypes::eHealing_Give_13:
+                return ::RingTypes::eHealing_Give_13;
+            case RingTypes::eHealing_Pulse_14:
+                return ::RingTypes::eHealing_Pulse_14;
+        }
+        ALIVE_FATAL("Bad ability ring type value");
+    }
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(AbilityRingSaveState, 0x28);
 
@@ -1807,6 +2374,49 @@ struct RockSaveState final
     s16 field_2E_volume;
     FP field_30_xpos;
     FP field_34_ypos;
+
+    static ::RockSaveState From(const RockSaveState& data)
+    {
+        ::RockSaveState d;
+        d.field_0_type = data.field_0_type;
+        d.field_4_obj_id = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
+        d.field_8_xpos = data.field_8_xpos;
+        d.field_C_ypos = data.field_C_ypos;
+        d.field_10_velx = data.field_10_velx;
+        d.field_14_vely = data.field_14_vely;
+        d.field_18_sprite_scale = data.field_18_sprite_scale;
+        d.field_1C_path_number = data.field_1C_path_number;
+        d.field_1E_lvl_number = data.field_1E_lvl_number;
+        d.field_20_flags.Raw().all = data.field_20_flags.Raw().all; // TODO: convert flags to bools
+        d.field_24_id = Guid::NewGuidFromTlvInfo(data.field_24_id);
+        d.field_28_line_type = data.field_28_line_type;
+        d.field_2A_count = data.field_2A_count;
+        d.field_2C_state = From(data.field_2C_state);
+        d.field_2E_volume = data.field_2E_volume;
+        d.field_30_xpos = data.field_30_xpos;
+        d.field_34_ypos = data.field_34_ypos;
+        return d;
+    }
+
+    static ::RockStates From(const RockStates scale)
+    {
+        switch (scale)
+        {
+            case RockStates::eNone_0:
+                return ::RockStates::eNone_0;
+            case RockStates::eFallingOutOfRockSack_1:
+                return ::RockStates::eFallingOutOfRockSack_1;
+            case RockStates::eRolling_2:
+                return ::RockStates::eRolling_2;
+            case RockStates::eOnGround_3:
+                return ::RockStates::eOnGround_3;
+            case RockStates::eBouncing_4:
+                return ::RockStates::eBouncing_4;
+            case RockStates::eFallingOutOfWorld_5:
+                return ::RockStates::eFallingOutOfWorld_5;
+        }
+        ALIVE_FATAL("Bad rock state value");
+    }
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(RockSaveState, 0x38);
 
@@ -1883,6 +2493,60 @@ struct ScrabSaveState final
         eBit6_persistant = 0x20,
     };
     BitField16<Flags_9E> field_9E_flags;
+
+    static ::ScrabSaveState From(const ScrabSaveState& data)
+    {
+        ::ScrabSaveState d;
+        d.field_0_type = data.field_0_type;
+        d.field_4_obj_id = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
+        d.field_8_xpos = data.field_8_xpos;
+        d.field_C_ypos = data.field_C_ypos;
+        d.field_10_velx = data.field_10_velx;
+        d.field_14_vely = data.field_14_vely;
+        d.field_18_path_number = data.field_18_path_number;
+        d.field_1A_lvl_number = data.field_1A_lvl_number;
+        d.field_1C_sprite_scale = data.field_1C_sprite_scale;
+        d.mRingRed = data.mRingRed;
+        d.mRingGreen = data.mRingGreen;
+        d.mRingBlue = data.mRingBlue;
+        d.field_26_bAnimFlipX = data.field_26_bAnimFlipX;
+        d.field_28_current_motion = data.field_28_current_motion;
+        d.field_2A_current_frame = data.field_2A_current_frame;
+        d.field_2C_frame_change_counter = data.field_2C_frame_change_counter;
+        d.field_2E_bAnimRender = data.field_2E_bAnimRender;
+        d.field_2F_bDrawable = data.field_2F_bDrawable;
+        d.field_30_health = data.field_30_health;
+        d.field_34_current_motion = data.field_34_current_motion;
+        d.field_36_next_motion = data.field_36_next_motion;
+        d.field_38_last_line_ypos = data.field_38_last_line_ypos;
+        d.field_3A_line_type = data.field_3A_line_type;
+        d.field_40_bIsControlled = data.field_40_bIsControlled;
+        d.field_44_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_44_tlvInfo);
+        d.field_48_brain_idx = data.field_48_brain_idx;
+        d.field_50_sub_state = data.field_50_sub_state;
+        d.field_54_obj_id = Guid::NewGuidFromTlvInfo(data.field_54_obj_id);
+        d.field_58_target_obj_id = Guid::NewGuidFromTlvInfo(data.field_58_target_obj_id);
+        d.field_5C_timer = data.field_5C_timer;
+        d.field_60_depossession_timer = data.field_60_depossession_timer;
+        d.field_64_falling_velx_scale_factor = data.field_64_falling_velx_scale_factor;
+        d.field_68_motion_resource_block_index = data.field_68_motion_resource_block_index;
+        d.field_6C_spotting_abe_timer = data.field_6C_spotting_abe_timer;
+        d.field_70_attack_delay_timer = data.field_70_attack_delay_timer;
+        d.field_74_movement_timer = data.field_74_movement_timer;
+        d.field_78_sfx_bitmask = data.field_78_sfx_bitmask;
+        d.field_7C_prevent_depossession = data.field_7C_prevent_depossession;
+        d.field_7E_return_level = data.field_7E_return_level;
+        d.field_80_return_path = data.field_80_return_path;
+        d.field_82_return_camera = data.field_82_return_camera;
+        d.field_84_input = data.field_84_input;
+        d.field_8C_shred_power_active = data.field_8C_shred_power_active;
+        d.field_8E_speak = AEData::From(data.field_8E_speak);
+        d.field_90_max_xpos = data.field_90_max_xpos;
+        d.field_94_max_ypos = data.field_94_max_ypos;
+        d.field_98_speak_counter = data.field_98_speak_counter;
+        d.field_9E_flags.Raw().all = data.field_9E_flags.Raw().all; // TODO: convert flags to bools
+        return d;
+    }
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(ScrabSaveState, 0xA0);
 
@@ -2013,6 +2677,63 @@ struct SligSaveState final
         eBit5_HeardGlukkon = 0x10,
     };
     BitField16<Flags_A2> field_A2_flags;
+
+    static ::SligSaveState From(const SligSaveState& data)
+    {
+        ::SligSaveState d;
+        d.field_0_type = data.field_0_type;
+        d.field_4_xpos = data.field_4_xpos;
+        d.field_8_ypos = data.field_8_ypos;
+        d.field_C_velx = data.field_C_velx;
+        d.field_10_vely = data.field_10_vely;
+        d.field_14_path_number = data.field_14_path_number;
+        d.field_16_lvl_number = data.field_16_lvl_number;
+        d.field_18_sprite_scale = data.field_18_sprite_scale;
+        d.field_1C_scale = AEData::From(data.field_1C_scale);
+        d.field_1E_r = data.field_1E_r;
+        d.field_20_g = data.field_20_g;
+        d.field_22_b = data.field_22_b;
+        d.field_24_bFlipX = data.field_24_bFlipX;
+        d.field_26_current_motion = data.field_26_current_motion;
+        d.field_28_current_frame = data.field_28_current_frame;
+        d.field_2A_frame_change_counter = data.field_2A_frame_change_counter;
+        d.field_2C_bRender = data.field_2C_bRender;
+        d.field_2D_bDrawable = data.field_2D_bDrawable;
+        d.field_30_health = data.field_30_health;
+        d.field_34_current_motion = data.field_34_current_motion;
+        d.field_36_next_motion = data.field_36_next_motion;
+        d.field_38_last_line_ypos = data.field_38_last_line_ypos;
+        d.field_3A_collision_line_type = data.field_3A_collision_line_type;
+        d.field_40_bActiveChar = data.field_40_bActiveChar;
+        d.field_42_brain_sub_state = data.field_42_brain_sub_state;
+        d.field_44_pitch_min = data.field_44_pitch_min;
+        d.field_48_timer = data.field_48_timer;
+        d.field_4C_return_to_previous_motion = data.field_4C_return_to_previous_motion;
+        d.field_4E_checked_if_off_screen = data.field_4E_checked_if_off_screen;
+        d.field_50_input = data.field_50_input;
+        d.field_54_timer = data.field_54_timer;
+        d.field_58_falling_velx_scale_factor = data.field_58_falling_velx_scale_factor;
+        d.field_5C_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_5C_tlvInfo);
+        d.field_60_res_idx = data.field_60_res_idx;
+        d.field_62_shot_motion = data.field_62_shot_motion;
+        d.field_64_zone_rect = AEData::From(data.field_64_zone_rect);
+        d.field_72_return_level = data.field_72_return_level;
+        d.field_74_return_path = data.field_74_return_path;
+        d.field_76_return_camera = data.field_76_return_camera;
+        d.field_78_death_by_being_shot_timer = data.field_78_death_by_being_shot_timer;
+        d.field_7C_explode_timer = data.field_7C_explode_timer;
+        d.field_80_brain_state_idx = data.field_80_brain_state_idx;
+        d.field_8C_num_times_to_shoot = data.field_8C_num_times_to_shoot;
+        d.field_90_force_alive_state = data.field_90_force_alive_state;
+        d.field_92_spotted_possessed_slig = data.field_92_spotted_possessed_slig;
+        d.field_94_glukkon_id = Guid::NewGuidFromTlvInfo(data.field_94_glukkon_id);
+        d.field_98_state_after_speak = data.field_98_state_after_speak;
+        d.field_9A_attention_timeout = data.field_9A_attention_timeout;
+        d.field_9E_next_command_arg1 = data.field_9E_next_command_arg1;
+        d.field_A0_cmd_idx = data.field_A0_cmd_idx;
+        d.field_A2_flags.Raw().all = data.field_A2_flags.Raw().all; // TODO: convert flags to bools
+        return d;
+    }
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(SligSaveState, 0xA4);
 
@@ -2078,6 +2799,55 @@ struct SlogSaveState final
     };
     BitField16<Flags_74> field_74_flags;
     s16 field_76_padding;
+
+    static ::SlogSaveState From(const SlogSaveState& data)
+    {
+        ::SlogSaveState d;
+        d.field_0_type = data.field_0_type;
+        d.field_4_objectId = Guid::NewGuidFromTlvInfo(data.field_4_objectId);
+        d.field_8_xpos = data.field_8_xpos;
+        d.field_C_ypos = data.field_C_ypos;
+        d.field_10_velx = data.field_10_velx;
+        d.field_14_vely = data.field_14_vely;
+        d.field_18_path_number = data.field_18_path_number;
+        d.field_1A_lvl_number = data.field_1A_lvl_number;
+        d.field_1C_sprite_scale = data.field_1C_sprite_scale;
+        d.mRingRed = data.mRingRed;
+        d.mRingGreen = data.mRingGreen;
+        d.mRingBlue = data.mRingBlue;
+        d.field_26_bAnimFlipX = data.field_26_bAnimFlipX;
+        d.field_28_current_motion = data.field_28_current_motion;
+        d.field_2A_anim_cur_frame = data.field_2A_anim_cur_frame;
+        d.field_2C_frame_change_counter = data.field_2C_frame_change_counter;
+        d.field_2E_bRender = data.field_2E_bRender;
+        d.field_2F_bDrawable = data.field_2F_bDrawable;
+        d.field_30_health = data.field_30_health;
+        d.field_34_current_motion = data.field_34_current_motion;
+        d.field_36_next_motion = data.field_36_next_motion;
+        d.field_38_last_line_ypos = data.field_38_last_line_ypos;
+        d.field_3A_line_type = data.field_3A_line_type;
+        d.field_3C_id = Guid::NewGuidFromTlvInfo(data.field_3C_id);
+        d.field_40_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_40_tlvInfo);
+        d.field_44_obj_id = Guid::NewGuidFromTlvInfo(data.field_44_obj_id);
+        d.field_48_state_idx = data.field_48_state_idx;
+        d.field_4A_brain_state_result = data.field_4A_brain_state_result;
+        d.field_4C_timer = data.field_4C_timer;
+        d.field_50_falling_velx_scale_factor = data.field_50_falling_velx_scale_factor;
+        d.field_54_obj_id = Guid::NewGuidFromTlvInfo(data.field_54_obj_id);
+        d.field_58_has_woofed = data.field_58_has_woofed;
+        d.field_5A_waiting_counter = data.field_5A_waiting_counter;
+        d.field_5C_response_index = data.field_5C_response_index;
+        d.field_5E_response_part = data.field_5E_response_part;
+        d.field_60_anger_level = data.field_60_anger_level;
+        d.field_62_jump_counter = data.field_62_jump_counter;
+        d.field_64_scratch_timer = data.field_64_scratch_timer;
+        d.field_68_growl_timer = data.field_68_growl_timer;
+        d.field_6C_bone_id = Guid::NewGuidFromTlvInfo(data.field_6C_bone_id);
+        d.field_70_jump_delay = data.field_70_jump_delay;
+        d.field_72_slog_random_index = data.field_72_slog_random_index;
+        d.field_74_flags.Raw().all = data.field_74_flags.Raw().all; // TODO: convert flags too bools
+        return d;
+    }
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(SlogSaveState, 0x78);
 

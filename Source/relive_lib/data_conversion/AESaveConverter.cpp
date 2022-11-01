@@ -139,15 +139,18 @@ private:
             break;
 
         case ::AETypes::eGreeter_64:
-            //return Greeter::CreateFromSaveState(pData);
+            AddObjectState(AEData::GreeterSaveState::From(*reinterpret_cast<const AEData::GreeterSaveState*>(pData)));
+            return sizeof(AEData::GreeterSaveState);
             break;
 
         case ::AETypes::eGrenade_65:
-            //return Grenade::CreateFromSaveState(pData);
+            AddObjectState(AEData::GrenadeSaveState::From(*reinterpret_cast<const AEData::GrenadeSaveState*>(pData)));
+            return sizeof(AEData::GrenadeSaveState);
             break;
 
         case ::AETypes::eGlukkon_67:
-            //return Glukkon::CreateFromSaveState(pData);
+            AddObjectState(AEData::GlukkonSaveState::From(*reinterpret_cast<const AEData::GlukkonSaveState*>(pData)));
+            return sizeof(AEData::GlukkonSaveState);
             break;
 
         case ::AETypes::eAbe_69:
@@ -165,15 +168,18 @@ private:
             break;
 
         case ::AETypes::eMeat_84:
-            //return Meat::CreateFromSaveState(pData);
+            AddObjectState(AEData::MeatSaveState::From(*reinterpret_cast<const AEData::MeatSaveState*>(pData)));
+            return sizeof(AEData::MeatSaveState);
             break;
 
         case ::AETypes::eMineCar_89:
-            //return MineCar::CreateFromSaveState(pData);
+            AddObjectState(AEData::MineCarSaveState::From(*reinterpret_cast<const AEData::MineCarSaveState*>(pData)));
+            return sizeof(AEData::MineCarSaveState);
             break;
 
         case ::AETypes::eParamite_96:
-            //return Paramite::CreateFromSaveState(pData);
+            AddObjectState(AEData::ParamiteSaveState::From(*reinterpret_cast<const AEData::ParamiteSaveState*>(pData)));
+            return sizeof(AEData::ParamiteSaveState);
             break;
 
         case ::AETypes::eBirdPortal_99:
@@ -187,15 +193,18 @@ private:
             break;
 
         case ::AETypes::eAbilityRing_104:
-            //return AbilityRing::CreateFromSaveState(pData);
+            AddObjectState(AEData::AbilityRingSaveState::From(*reinterpret_cast<const AEData::AbilityRingSaveState*>(pData)));
+            return sizeof(AEData::AbilityRingSaveState);
             break;
 
         case ::AETypes::eRock_105:
-            //return Rock::CreateFromSaveState(pData);
+            AddObjectState(AEData::RockSaveState::From(*reinterpret_cast<const AEData::RockSaveState*>(pData)));
+            return sizeof(AEData::RockSaveState);
             break;
 
         case ::AETypes::eScrab_112:
-            //return Scrab::CreateFromSaveState(pData);
+            AddObjectState(AEData::ScrabSaveState::From(*reinterpret_cast<const AEData::ScrabSaveState*>(pData)));
+            return sizeof(AEData::ScrabSaveState);
             break;
 
         case ::AETypes::eScrabSpawner_113:
@@ -210,11 +219,13 @@ private:
         }
 
         case ::AETypes::eSlig_125:
-            //return Slig::CreateFromSaveState(pData);
+            AddObjectState(AEData::SligSaveState::From(*reinterpret_cast<const AEData::SligSaveState*>(pData)));
+            return sizeof(AEData::SligSaveState);
             break;
 
         case ::AETypes::eSlog_126:
-            //return Slog::CreateFromSaveState(pData);
+            AddObjectState(AEData::SlogSaveState::From(*reinterpret_cast<const AEData::SlogSaveState*>(pData)));
+            return sizeof(AEData::SlogSaveState);
             break;
 
         case ::AETypes::eSlurg_129:
