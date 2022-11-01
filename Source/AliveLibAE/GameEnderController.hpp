@@ -5,7 +5,7 @@
 
 void CreateGameEnderController_43B7A0();
 
-enum class GameEnderControllerSaveStates : s16
+enum class GameEnderControllerStates : s16
 {
     eInit_0 = 0,
     eDetermineEnding_1 = 1,
@@ -25,7 +25,7 @@ struct GameEnderControllerSaveState final
     s16 field_2_padding;
     Guid field_4_obj_id;
     s32 field_8_timer;
-    GameEnderControllerSaveStates field_C_state;
+    GameEnderControllerStates field_C_state;
     s16 field_E_padding;
 };
 //ALIVE_ASSERT_SIZEOF_ALWAYS(GameEnderControllerSaveState, 0x10);
@@ -42,7 +42,7 @@ public:
 
 private:
     s32 field_20_timer = 0;
-    GameEnderControllerSaveStates field_24_state = GameEnderControllerSaveStates::eInit_0;
+    GameEnderControllerStates field_24_state = GameEnderControllerStates::eInit_0;
 };
 
 extern s16 sFeeco_Restart_KilledMudCount_5C1BC6;

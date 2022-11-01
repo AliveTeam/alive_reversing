@@ -108,7 +108,7 @@ s32 WorkWheel::VGetSaveState(u8* pSaveBuffer)
 {
     auto pState = reinterpret_cast<WorkWheelSaveState*>(pSaveBuffer);
 
-    pState->field_0_id = AETypes::eWheel_148;
+    pState->mType = AETypes::eWheel_148;
     pState->field_4_tlvInfo = mTlvInfo;
     pState->field_8_snd_counter = mTurningTime;
     pState->field_C_state = mState;

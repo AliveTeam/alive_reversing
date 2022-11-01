@@ -101,11 +101,13 @@ private:
             break;
 
         case ::AETypes::eDrill_30:
-            //return Drill::CreateFromSaveState(pData);
+            AddObjectState(AEData::DrillSaveState::From(*reinterpret_cast<const AEData::DrillSaveState*>(pData)));
+            return sizeof(AEData::DrillSaveState);
             break;
 
         case ::AETypes::eEvilFart_45:
-            //return EvilFart::CreateFromSaveState(pData);
+            AddObjectState(AEData::EvilFartSaveState::From(*reinterpret_cast<const AEData::EvilFartSaveState*>(pData)));
+            return sizeof(AEData::EvilFartSaveState);
             break;
 
         case ::AETypes::eFleech_50:
@@ -117,19 +119,23 @@ private:
             break;
 
         case ::AETypes::eFlyingSligSpawner_55:
-            //return FlyingSligSpawner::CreateFromSaveState(pData);
+            AddObjectState(AEData::FlyingSligSpawnerSaveState::From(*reinterpret_cast<const AEData::FlyingSligSpawnerSaveState*>(pData)));
+            return sizeof(AEData::FlyingSligSpawnerSaveState);
             break;
 
         case ::AETypes::eGameEnderController_57:
-            //return GameEnderController::CreateFromSaveState(pData);
+            AddObjectState(AEData::GameEnderControllerSaveState::From(*reinterpret_cast<const AEData::GameEnderControllerSaveState*>(pData)));
+            return sizeof(AEData::GameEnderControllerSaveState);
             break;
 
         case ::AETypes::eSlapLock_OrbWhirlWind_60:
-            //return SlapLockWhirlWind::CreateFromSaveState(pData);
+            AddObjectState(AEData::SlapLockWhirlWindSaveState::From(*reinterpret_cast<const AEData::SlapLockWhirlWindSaveState*>(pData)));
+            return sizeof(AEData::SlapLockWhirlWindSaveState);
             break;
 
-        case ::AETypes::eLockedSoul_61:
-            //return SlapLock::CreateFromSaveState(pData);
+        case ::AETypes::eSlapLock_61:
+            AddObjectState(AEData::SlapLockSaveState::From(*reinterpret_cast<const AEData::SlapLockSaveState*>(pData)));
+            return sizeof(AEData::SlapLockSaveState);
             break;
 
         case ::AETypes::eGreeter_64:
@@ -149,7 +155,8 @@ private:
             break;
 
         case ::AETypes::eLiftPoint_78:
-            //return LiftPoint::CreateFromSaveState(pData);
+            AddObjectState(AEData::LiftPointSaveState::From(*reinterpret_cast<const AEData::LiftPointSaveState*>(pData)));
+            return sizeof(AEData::LiftPointSaveState);
             break;
 
         case ::AETypes::eMudokon_110:
@@ -170,11 +177,13 @@ private:
             break;
 
         case ::AETypes::eBirdPortal_99:
-            //return BirdPortal::CreateFromSaveState(pData);
+            AddObjectState(AEData::BirdPortalSaveState::From(*reinterpret_cast<const AEData::BirdPortalSaveState*>(pData)));
+            return sizeof(AEData::BirdPortalSaveState);
             break;
 
         case ::AETypes::eThrowableArray_102:
-            //return ThrowableArray::CreateFromSaveState(pData);
+            AddObjectState(AEData::ThrowableArraySaveState::From(*reinterpret_cast<const AEData::ThrowableArraySaveState*>(pData)));
+            return sizeof(AEData::ThrowableArraySaveState);
             break;
 
         case ::AETypes::eAbilityRing_104:
@@ -190,7 +199,8 @@ private:
             break;
 
         case ::AETypes::eScrabSpawner_113:
-            //return ScrabSpawner::CreateFromSaveState(pData);
+            AddObjectState(AEData::ScrabSpawnerSaveState::From(*reinterpret_cast<const AEData::ScrabSpawnerSaveState*>(pData)));
+            return sizeof(AEData::ScrabSpawnerSaveState);
             break;
 
         case ::AETypes::eSlamDoor_122:
@@ -208,23 +218,28 @@ private:
             break;
 
         case ::AETypes::eSlurg_129:
-            //return Slurg::CreateFromSaveState(pData);
+            AddObjectState(AEData::SlurgSaveState::From(*reinterpret_cast<const AEData::SlurgSaveState*>(pData)));
+            return sizeof(AEData::SlurgSaveState);
             break;
 
         case ::AETypes::eTimerTrigger_136:
-            //return TimerTrigger::CreateFromSaveState(pData);
+            AddObjectState(AEData::TimerTriggerSaveState::From(*reinterpret_cast<const AEData::TimerTriggerSaveState*>(pData)));
+            return sizeof(AEData::TimerTriggerSaveState);
             break;
 
         case ::AETypes::eTrapDoor_142:
-            //return TrapDoor::CreateFromSaveState(pData);
+            AddObjectState(AEData::TrapDoorSaveState::From(*reinterpret_cast<const AEData::TrapDoorSaveState*>(pData)));
+            return sizeof(AEData::TrapDoorSaveState);
             break;
 
         case ::AETypes::eUXB_143:
-            //return UXB::CreateFromSaveState(pData);
+            AddObjectState(AEData::UXBSaveState::From(*reinterpret_cast<const AEData::UXBSaveState*>(pData)));
+            return sizeof(AEData::UXBSaveState);
             break;
 
         case ::AETypes::eWheel_148:
-            //return WorkWheel::CreateFromSaveState(pData);
+            AddObjectState(AEData::WorkWheelSaveState::From(*reinterpret_cast<const AEData::WorkWheelSaveState*>(pData)));
+            return sizeof(AEData::WorkWheelSaveState);
             break;
 
         default:

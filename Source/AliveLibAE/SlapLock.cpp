@@ -24,7 +24,7 @@ void SlapLock::LoadAnimations()
 SlapLock::SlapLock(relive::Path_SlapLock* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(0)
 {
-    SetType(ReliveTypes::eLockedSoul);
+    SetType(ReliveTypes::eSlapLock);
     mSlapLockTlv = pTlv;
     mTlvInfo = tlvId;
     mBaseGameObjectTlvInfo = tlvId;
@@ -152,7 +152,7 @@ s32 SlapLock::VGetSaveState(u8* pSaveBuffer)
 {
     auto pState = reinterpret_cast<SlapLockSaveState*>(pSaveBuffer);
 
-    pState->mType = AETypes::eLockedSoul_61;
+    pState->mType = AETypes::eSlapLock_61;
     pState->mAnimRender = GetAnimation().mFlags.Get(AnimFlags::eRender) & 1;
     pState->mTlvInfo = mTlvInfo;
     pState->mTlvState = sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo)->mTlvSpecificMeaning;

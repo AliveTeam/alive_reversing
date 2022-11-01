@@ -530,7 +530,7 @@ void Drill::VStopAudio()
 s32 Drill::VGetSaveState(u8* pSaveBuffer)
 {
     DrillSaveState* pState = reinterpret_cast<DrillSaveState*>(pSaveBuffer);
-    pState->field_0 = 30;
+    pState->mType = AETypes::eDrill_30;
     pState->field_8_tlvInfo = mTlvInfo;
     pState->field_C_off_timer = mOffTimer;
     pState->field_10_state = mDrillState;

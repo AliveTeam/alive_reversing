@@ -7,12 +7,28 @@
 #include "../../AliveLibAE/PathData.hpp"
 #include "../../AliveLibCommon/FatalError.hpp"
 
+#include "relive_tlvs.hpp"
+
 #include "../../AliveLibAE/SlamDoor.hpp"
 #include "../../AliveLibAE/SligSpawner.hpp"
 #include "../../AliveLibAE/LiftMover.hpp"
 #include "../../AliveLibAE/Bone.hpp"
 #include "../../AliveLibAE/MinesAlarm.hpp"
 #include "../../AliveLibAE/CrawlingSlig.hpp"
+#include "../../AliveLibAE/Drill.hpp"
+#include "../../AliveLibAE/EvilFart.hpp"
+#include "../../AliveLibAE/GameEnderController.hpp"
+#include "../../AliveLibAE/SlapLockWhirlWind.hpp"
+#include "../../AliveLibAE/SlapLock.hpp"
+#include "../../AliveLibAE/BirdPortal.hpp"
+#include "../../AliveLibAE/ThrowableArray.hpp"
+#include "../../AliveLibAE/ScrabSpawner.hpp"
+#include "../../AliveLibAE/TimerTrigger.hpp"
+#include "../../AliveLibAE/TrapDoor.hpp"
+#include "../../AliveLibAE/UXB.hpp"
+#include "../../AliveLibAE/WorkWheel.hpp"
+#include "../../AliveLibAE/Slurg.hpp"
+#include "../../AliveLibAE/LiftPoint.hpp"
 
 // Any enum/struct in the AEData namespace is related to OG data and can't ever be changed
 // otherwise interpreting the OG data will break.
@@ -577,9 +593,9 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(CrawlingSligSaveState, 0x80);
 
 struct DrillSaveState final
 {
-    s16 field_0;
+    AETypes mType;
     s16 field_2_padding;
-    s32 field_4;
+    s32 field_4_padding;
     s32 field_8_tlvInfo;
     s32 field_C_off_timer;
     enum class DrillStates : s16
@@ -590,6 +606,31 @@ struct DrillSaveState final
     };
     DrillStates field_10_state;
     s16 field_12_xyoff;
+
+    static ::DrillSaveState From(const DrillSaveState& data)
+    {
+        ::DrillSaveState d;
+        d.mType = data.mType;
+        d.field_8_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_8_tlvInfo);
+        d.field_C_off_timer = data.field_C_off_timer;
+        d.field_10_state = From(data.field_10_state);
+        d.field_12_xyoff = data.field_12_xyoff;
+        return d;
+    }
+
+    static ::DrillStates From(const DrillStates state)
+    {
+        switch (state)
+        {
+        case DrillStates::State_0_Restart_Cycle:
+            return ::DrillStates::State_0_Restart_Cycle;
+        case DrillStates::State_1_Going_Down:
+            return ::DrillStates::State_1_Going_Down;
+        case DrillStates::State_2_GoingUp:
+            return ::DrillStates::State_2_GoingUp;
+        }
+        ALIVE_FATAL("Bad drill states value");
+    }
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(DrillSaveState, 0x14);
 
@@ -632,6 +673,49 @@ struct EvilFartSaveState final
     s16 field_32_padding;
     s32 mUnpossessionTimer;
     s32 mBackToAbeTimer;
+
+    static ::EvilFartSaveState From(const EvilFartSaveState& data)
+    {
+        ::EvilFartSaveState d;
+        d.field_0_type = data.field_0_type;
+        d.mRed = data.mRed;
+        d.mGreen = data.mGreen;
+        d.mBlue = data.mBlue;
+        d.mCurrentPath = data.mCurrentPath;
+        d.mCurrentLevel = data.mCurrentLevel;
+        d.mXPos = data.mXPos;
+        d.mYPos = data.mYPos;
+        d.mVelX = data.mVelX;
+        d.mVelY = data.mVelY;
+        d.mSpriteScale = data.mSpriteScale;
+        d.mCurrentFrame = data.mCurrentFrame;
+        d.mFrameChangeCounter = data.mFrameChangeCounter;
+        d.mAnimRender = data.mAnimRender;
+        d.mDrawable = data.mDrawable;
+        d.mAbeLevel = data.mAbeLevel;
+        d.mAbePath = data.mAbePath;
+        d.mAbeCamera = data.mAbeCamera;
+        d.field_2C.Raw().all = data.field_2C.Raw().all; //  TODO: convert flags to bools
+        d.mPossessedAliveTimer = data.mPossessedAliveTimer;
+        d.mState = From(data.mState);
+        d.mUnpossessionTimer = data.mUnpossessionTimer;
+        d.mBackToAbeTimer = data.mBackToAbeTimer;
+        return d;
+    }
+
+    static ::FartStates From(const FartStates state)
+    {
+        switch (state)
+        {
+            case FartStates::eIdle_0:
+                return ::FartStates::eIdle_0;
+            case FartStates::eFlying_1:
+                return ::FartStates::eFlying_1;
+            case FartStates::eDechanting_2:
+                return ::FartStates::eDechanting_2;
+        }
+        ALIVE_FATAL("Bad fart states value");
+    }
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(EvilFartSaveState, 60);
 
@@ -815,6 +899,16 @@ struct FlyingSligSpawnerSaveState final
     s32 field_4_tlvInfo;
     s32 field_8_bSpawned;
     s32 field_C_spawned_slig_obj_id;
+
+    static ::FlyingSligSpawnerSaveState From(const FlyingSligSpawnerSaveState& data)
+    {
+        ::FlyingSligSpawnerSaveState d;
+        d.field_0_type = data.field_0_type;
+        d.field_4_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_4_tlvInfo);
+        d.field_8_bSpawned = data.field_8_bSpawned;
+        d.field_C_spawned_slig_obj_id = Guid::NewGuidFromTlvInfo(data.field_C_spawned_slig_obj_id);
+        return d;
+    }
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(FlyingSligSpawnerSaveState, 0x10);
 
@@ -824,7 +918,7 @@ struct GameEnderControllerSaveState final
     s16 field_2_padding;
     s32 field_4_obj_id;
     s32 field_8_timer;
-    enum class GameEnderControllerSaveStates : s16
+    enum class GameEnderControllerStates : s16
     {
         eInit_0 = 0,
         eDetermineEnding_1 = 1,
@@ -837,8 +931,40 @@ struct GameEnderControllerSaveState final
         ePadding_8 = 8,
         ePadding_9 = 9,
     };
-    GameEnderControllerSaveStates field_C_state;
+    GameEnderControllerStates field_C_state;
     s16 field_E_padding;
+
+    static ::GameEnderControllerSaveState From(const GameEnderControllerSaveState& data)
+    {
+        ::GameEnderControllerSaveState d;
+        d.field_0_type = data.field_0_type;
+        d.field_4_obj_id = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
+        d.field_8_timer = data.field_8_timer;
+        d.field_C_state = From(data.field_C_state);
+        return d;
+    }
+
+    static ::GameEnderControllerStates From(const GameEnderControllerStates state)
+    {
+        switch (state)
+        {
+            case GameEnderControllerStates::eInit_0:
+                return ::GameEnderControllerStates::eInit_0;
+            case GameEnderControllerStates::eDetermineEnding_1:
+                return ::GameEnderControllerStates::eDetermineEnding_1;
+            case GameEnderControllerStates::eFinish_2:
+                return ::GameEnderControllerStates::eFinish_2;
+            case GameEnderControllerStates::eBadEnding_3:
+                return ::GameEnderControllerStates::eBadEnding_3;
+            case GameEnderControllerStates::eGoodEnding_4:
+                return ::GameEnderControllerStates::eGoodEnding_4;
+            case GameEnderControllerStates::eAngelicEnding_5:
+                return ::GameEnderControllerStates::eAngelicEnding_5;
+            case GameEnderControllerStates::eAngelicEndingCredits_6:
+                return ::GameEnderControllerStates::eAngelicEndingCredits_6;
+        }
+        ALIVE_FATAL("Bad game ender controller state value");
+    }
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(GameEnderControllerSaveState, 0x10);
 
@@ -846,6 +972,14 @@ struct SlapLockWhirlWindSaveState final
 {
     AETypes mType;
     s16 mSwitchId;
+
+    static ::SlapLockWhirlWindSaveState From(const SlapLockWhirlWindSaveState& data)
+    {
+        ::SlapLockWhirlWindSaveState d;
+        d.mType = data.mType;
+        d.mSwitchId = data.mSwitchId;
+        return d;
+    }
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(SlapLockWhirlWindSaveState, 0x4);
 
@@ -871,6 +1005,44 @@ struct SlapLockSaveState final
     s32 mTimer1;
     s32 mAbilityRingId;
     s32 mShinyParticleTimer;
+
+    static ::SlapLockSaveState From(const SlapLockSaveState& data)
+    {
+        ::SlapLockSaveState d;
+        d.mType = data.mType;
+        d.mAnimRender = data.mAnimRender;
+        d.mTlvInfo = Guid::NewGuidFromTlvInfo(data.mTlvInfo);
+        d.mTlvState = data.mTlvState;
+        d.mState = From(data.mState);
+        d.mTimer1 = data.mTimer1;
+        d.mAbilityRingId = Guid::NewGuidFromTlvInfo(data.mAbilityRingId);
+        d.mShinyParticleTimer = data.mShinyParticleTimer;
+        return d;
+    }
+
+    static ::SlapLockStates From(const SlapLockStates state)
+    {
+        switch (state)
+        {
+            case SlapLockStates::eShaking_0:
+                return ::SlapLockStates::eShaking_0;
+            case SlapLockStates::eIdle_1:
+                return ::SlapLockStates::eIdle_1;
+            case SlapLockStates::eSlapped_2:
+                return ::SlapLockStates::eSlapped_2;
+            case SlapLockStates::eBroken_3:
+                return ::SlapLockStates::eBroken_3;
+            case SlapLockStates::eEmitInvisibilityPowerupRing_4:
+                return ::SlapLockStates::eEmitInvisibilityPowerupRing_4;
+            case SlapLockStates::eFlickerHero_5:
+                return ::SlapLockStates::eFlickerHero_5;
+            case SlapLockStates::eGiveInvisibilityFromFlicker_6:
+                return ::SlapLockStates::eGiveInvisibilityFromFlicker_6;
+            case SlapLockStates::eGiveInvisibility_7:
+                return ::SlapLockStates::eGiveInvisibility_7;
+        }
+        ALIVE_FATAL("Bad slap lock state value");
+    }
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(SlapLockSaveState, 0x18);
 
@@ -1195,6 +1367,38 @@ struct LiftPointSaveState final
         eBit7_KeepOnMiddleFloor = 0x40,
     };
     BitField16<Flags> field_1A;
+
+    static ::LiftPointSaveState From(const LiftPointSaveState& data)
+    {
+        ::LiftPointSaveState d;
+        d.field_0_type = data.field_0_type;
+        d.field_4_xpos = data.field_4_xpos;
+        d.field_8_ypos = data.field_8_ypos;
+        d.field_C_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_C_tlvInfo);
+        d.field_10_pTlv = Guid::NewGuidFromTlvInfo(data.field_10_pTlv);
+        d.field_14_floorYLevel = data.field_14_floorYLevel;
+        d.field_18_lift_point_stop_type = From(data.field_18_lift_point_stop_type);
+        d.field_1A.Raw().all = data.field_1A.Raw().all; // TODO: convert flags to bools
+        return d;
+    }
+
+    static relive::Path_LiftPoint::LiftPointStopType From(const LiftPointStopType state)
+    {
+        switch (state)
+        {
+            case LiftPointStopType::eTopFloor_0:
+                return relive::Path_LiftPoint::LiftPointStopType::eTopFloor;
+            case LiftPointStopType::eBottomFloor_1:
+                return relive::Path_LiftPoint::LiftPointStopType::eBottomFloor;
+            case LiftPointStopType::eMiddleFloor_2:
+                return relive::Path_LiftPoint::LiftPointStopType::eMiddleFloor;
+            case LiftPointStopType::eMiddleLockFloor_3:
+                return relive::Path_LiftPoint::LiftPointStopType::eMiddleLockFloor;
+            case LiftPointStopType::eStartPointOnly_4:
+                return relive::Path_LiftPoint::LiftPointStopType::eStartPointOnly;
+        }
+        ALIVE_FATAL("Bad lift point stop type value");
+    }
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(LiftPointSaveState, 0x1C);
 
@@ -1495,6 +1699,17 @@ struct BirdPortalSaveState final
     u8 mState;
     u8 mMudCountForShrykull;
     s32 mTlvInfo;
+
+    static ::BirdPortalSaveState From(const BirdPortalSaveState& data)
+    {
+        ::BirdPortalSaveState d;
+        d.mAEType = data.mAEType;
+        d.mState = data.mState;
+        d.mMudCountForShrykull = data.mMudCountForShrykull;
+        d.mTlvInfo = Guid::NewGuidFromTlvInfo(data.mTlvInfo);
+        return d;
+    }
+
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(BirdPortalSaveState, 8);
 
@@ -1502,6 +1717,13 @@ struct ThrowableArraySaveState final
 {
     s16 field_0_unused;
     s16 field_2_item_count;
+
+    static ::ThrowableArraySaveState From(const ThrowableArraySaveState& data)
+    {
+        ::ThrowableArraySaveState d;
+        d.field_2_item_count = data.field_2_item_count;
+        return d;
+    }
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(ThrowableArraySaveState, 0x4);
 
@@ -1676,6 +1898,28 @@ struct ScrabSpawnerSaveState final
     };
     ScrabSpawnerStates field_8_state;
     s32 field_C_spawned_scrab_id;
+
+    static ::ScrabSpawnerSaveState From(const ScrabSpawnerSaveState& data)
+    {
+        ::ScrabSpawnerSaveState d;
+        d.field_0_type = data.field_0_type;
+        d.field_4_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_4_tlvInfo);
+        d.field_8_state = From(data.field_8_state);
+        d.field_C_spawned_scrab_id = Guid::NewGuidFromTlvInfo(data.field_C_spawned_scrab_id);
+        return d;
+    }
+
+    static ::ScrabSpawnerStates From(const ScrabSpawnerStates state)
+    {
+        switch (state)
+        {
+            case ScrabSpawnerStates::eInactive_0:
+                return ::ScrabSpawnerStates::eInactive_0;
+            case ScrabSpawnerStates::eScrabSpawned_1:
+                return ::ScrabSpawnerStates::eScrabSpawned_1;
+        }
+        ALIVE_FATAL("Bad scrab spawner state value");
+    }
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(ScrabSpawnerSaveState, 0x10);
 
@@ -1867,6 +2111,40 @@ struct SlurgSaveState final
         eMoving = 0x2,
     };
     BitField16<SlurgFlags> mSlurgFlags;
+
+    static ::SlurgSaveState From(const SlurgSaveState& data)
+    {
+        ::SlurgSaveState d;
+        d.mType = data.mType;
+        d.mXPos = data.mXPos;
+        d.mYPos = data.mYPos;
+        d.mVelX = data.mVelX;
+        d.mSlurgSpriteScale = data.mSlurgSpriteScale;
+        d.mFlipX = data.mFlipX;
+        d.mCurrentMotion = data.mCurrentMotion;
+        d.mAnimCurrentFrame = data.mAnimCurrentFrame;
+        d.mFrameChangeCounter = data.mFrameChangeCounter;
+        d.mDrawable = data.mDrawable;
+        d.mRender = data.mRender;
+        d.mTlvInfo = Guid::NewGuidFromTlvInfo(data.mTlvInfo);
+        d.mSlurgState = From(data.mSlurgState);
+        d.mSlurgFlags.Raw().all = data.mSlurgFlags.Raw().all; // TODO: convert flags to bools
+        return d;
+    }
+
+    static ::SlurgStates From(const SlurgStates state)
+    {
+        switch (state)
+        {
+            case SlurgStates::eMoving_0:
+                return ::SlurgStates::eMoving_0;
+            case SlurgStates::ePausing_1:
+                return ::SlurgStates::ePausing_1;
+            case SlurgStates::eBurst_2:
+                return ::SlurgStates::eBurst_2;
+        }
+        ALIVE_FATAL("Bad slurg state value");
+    }
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(SlurgSaveState, 0x2C);
 
@@ -1884,6 +2162,33 @@ struct TimerTriggerSaveState final
     };
     TimerTriggerStates field_C_state;
     s16 field_E_starting_switch_state;
+
+    static ::TimerTriggerSaveState From(const TimerTriggerSaveState& data)
+    {
+        ::TimerTriggerSaveState d;
+        d.field_0_type = data.field_0_type;
+        d.field_4_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_4_tlvInfo);
+        d.field_8_delay_timer_base = data.field_8_delay_timer_base;
+        d.field_C_state = From(data.field_C_state);
+        d.field_E_starting_switch_state = data.field_E_starting_switch_state;
+        return d;
+    }
+
+    static ::TimerTriggerStates From(const TimerTriggerStates state)
+    {
+        switch (state)
+        {
+            case TimerTriggerStates::eWaitForEnabled_0:
+                return ::TimerTriggerStates::eWaitForEnabled_0;
+            case TimerTriggerStates::eWaitForFirstTrigger_1:
+                return ::TimerTriggerStates::eWaitForFirstTrigger_1;
+            case TimerTriggerStates::eCheckForStartAgain_2:
+                return ::TimerTriggerStates::eCheckForStartAgain_2;
+            case TimerTriggerStates::eWaitForSecondTrigger_3:
+                return ::TimerTriggerStates::eWaitForSecondTrigger_3;
+        }
+        ALIVE_FATAL("Bad timer trigger state value");
+    }
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(TimerTriggerSaveState, 0x10);
 
@@ -1900,6 +2205,32 @@ struct TrapDoorSaveState final
     TrapDoorState field_2_state;
     s32 field_4_open_time;
     s32 field_8_tlvInfo;
+
+    static ::TrapDoorSaveState From(const TrapDoorSaveState& data)
+    {
+        ::TrapDoorSaveState d;
+        d.field_0_type = data.field_0_type;
+        d.field_2_state = From(data.field_2_state);
+        d.field_4_open_time = data.field_4_open_time;
+        d.field_8_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_8_tlvInfo);
+        return d;
+    }
+
+    static ::TrapDoorState From(const TrapDoorState state)
+    {
+        switch (state)
+        {
+            case TrapDoorState::eClosed_0:
+                return ::TrapDoorState::eClosed_0;
+            case TrapDoorState::eOpening_1:
+                return ::TrapDoorState::eOpening_1;
+            case TrapDoorState::eOpen_2:
+                return ::TrapDoorState::eOpen_2;
+            case TrapDoorState::eClosing_3:
+                return ::TrapDoorState::eClosing_3;
+        }
+        ALIVE_FATAL("Bad trap door state value");
+    }
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(TrapDoorSaveState, 0xC);
 
@@ -1922,12 +2253,43 @@ struct UXBSaveState final
     u16 mPatternIndex;
     u16 mRedBlinkCount;
     u16 mIsRed;
+
+    static ::UXBSaveState From(const UXBSaveState& data)
+    {
+        ::UXBSaveState d;
+        d.mType = data.mType;
+        d.mTlvInfo = Guid::NewGuidFromTlvInfo(data.mTlvInfo.all);
+        d.mNextStateTimer = data.mNextStateTimer;
+        d.mCurrentState = From(data.mCurrentState);
+        d.mStartingState = From(data.mStartingState);
+        //d.mDisabledResources = data.mDisabledResources;
+        d.mPatternIndex = data.mPatternIndex;
+        d.mRedBlinkCount = data.mRedBlinkCount;
+        d.mIsRed = data.mIsRed;
+        return d;
+    }
+
+    static ::UXBState From(const UXBState state)
+    {
+        switch (state)
+        {
+            case UXBState::eDelay:
+                return ::UXBState::eDelay;
+            case UXBState::eActive:
+                return ::UXBState::eActive;
+            case UXBState::eExploding:
+                return ::UXBState::eExploding;
+            case UXBState::eDeactivated:
+                return ::UXBState::eDeactivated;
+        }
+        ALIVE_FATAL("Bad UXB state value");
+    }
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(UXBSaveState, 24);
 
 struct WorkWheelSaveState final
 {
-    AETypes field_0_id;
+    AETypes mType;
     s16 padding_1;
     s32 field_4_tlvInfo;
     s16 field_8_snd_counter;
@@ -1939,6 +2301,28 @@ struct WorkWheelSaveState final
     };
     WheelStates field_C_state;
     s16 padding_3;
+
+    static ::WorkWheelSaveState From(const WorkWheelSaveState& data)
+    {
+        ::WorkWheelSaveState d;
+        d.mType = data.mType;
+        d.field_4_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_4_tlvInfo);
+        d.field_8_snd_counter = data.field_8_snd_counter;
+        d.field_C_state = From(data.field_C_state);
+        return d;
+    }
+
+    static ::WheelStates From(const WheelStates state)
+    {
+        switch (state)
+        {
+            case WheelStates::eIdle_0:
+                return ::WheelStates::eIdle_0;
+            case WheelStates::eTurning_1:
+                return ::WheelStates::eTurning_1;
+        }
+        ALIVE_FATAL("Bad wheel state value");
+    }
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(WorkWheelSaveState, 0x10);
 }

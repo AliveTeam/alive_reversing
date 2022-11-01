@@ -14,9 +14,9 @@ enum class DrillStates : s16
 
 struct DrillSaveState final
 {
-    s16 field_0;
+    AETypes mType;
     s16 field_2_padding;
-    s32 field_4;
+    s32 field_4_padding;
     Guid field_8_tlvInfo;
     s32 field_C_off_timer;
     DrillStates field_10_state;

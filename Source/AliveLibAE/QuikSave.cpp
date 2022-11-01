@@ -90,7 +90,7 @@ static s32 RestoreObjectState(AETypes type, const u8* pData)
         case ::AETypes::eSlapLock_OrbWhirlWind_60:
             return SlapLockWhirlWind::CreateFromSaveState(pData);
 
-        case ::AETypes::eLockedSoul_61:
+        case ::AETypes::eSlapLock_61:
             return SlapLock::CreateFromSaveState(pData);
 
         case ::AETypes::eGreeter_64:

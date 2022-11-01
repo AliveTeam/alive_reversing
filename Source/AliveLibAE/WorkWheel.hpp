@@ -12,7 +12,7 @@ enum class WheelStates : s16
 
 struct WorkWheelSaveState final
 {
-    AETypes field_0_id;
+    AETypes mType;
     s16 padding_1;
     Guid field_4_tlvInfo;
     s16 field_8_snd_counter;

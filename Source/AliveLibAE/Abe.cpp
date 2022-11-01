@@ -5278,7 +5278,7 @@ void Abe::Motion_62_Punch_454750()
 
         if (!pSlapTarget)
         {
-            pSlapTarget = FindObjectOfType(ReliveTypes::eLockedSoul, gridSize, mYPos - (FP_FromInteger(30) * GetSpriteScale()));
+            pSlapTarget = FindObjectOfType(ReliveTypes::eSlapLock, gridSize, mYPos - (FP_FromInteger(30) * GetSpriteScale()));
         }
 
         if (!pSlapTarget)
@@ -8464,7 +8464,7 @@ s16 Abe::DoGameSpeak_45AB70(s32 input)
         else
         {
             // NOTE: Extra check for locks, it must also be being rendered in order to for us to try to hit it.
-            BaseAnimatedWithPhysicsGameObject* pLockedSoul = static_cast<BaseAliveGameObject*>(FindObjectOfType(ReliveTypes::eLockedSoul, mXPos + gridSize, mYPos - (FP_FromInteger(30) * GetSpriteScale())));
+            BaseAnimatedWithPhysicsGameObject* pLockedSoul = static_cast<BaseAliveGameObject*>(FindObjectOfType(ReliveTypes::eSlapLock, mXPos + gridSize, mYPos - (FP_FromInteger(30) * GetSpriteScale())));
             if (pLockedSoul && pLockedSoul->GetAnimation().mFlags.Get(AnimFlags::eRender))
             {
                 nextMotion = eAbeMotions::Motion_62_Punch_454750;

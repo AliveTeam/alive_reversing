@@ -55,12 +55,12 @@ GameEnderController::GameEnderController()
     : BaseGameObject(true, 0)
 {
     SetType(ReliveTypes::eGameEnderController);
-    field_24_state = GameEnderControllerSaveStates::eInit_0;
+    field_24_state = GameEnderControllerStates::eInit_0;
 }
 
 void GameEnderController::VScreenChanged()
 {
-    if (field_24_state != GameEnderControllerSaveStates::eInit_0)
+    if (field_24_state != GameEnderControllerStates::eInit_0)
     {
         if (sRescuedMudokons < 150)
         {
@@ -94,14 +94,14 @@ void GameEnderController::VUpdate()
 
     switch (field_24_state)
     {
-        case GameEnderControllerSaveStates::eInit_0:
+        case GameEnderControllerStates::eInit_0:
             if (SwitchStates_Get(100u))
             {
-                field_24_state = GameEnderControllerSaveStates::eDetermineEnding_1;
+                field_24_state = GameEnderControllerStates::eDetermineEnding_1;
             }
             break;
 
-        case GameEnderControllerSaveStates::eDetermineEnding_1:
+        case GameEnderControllerStates::eDetermineEnding_1:
         {
             auto pBirdPortal = static_cast<BirdPortal*>(sObjectIds.Find_Impl(sActiveHero->mBirdPortalId));
             if (pBirdPortal)
@@ -134,13 +134,13 @@ void GameEnderController::VUpdate()
                         {
                             // Perfect ending
                             gMap.SetActiveCam(EReliveLevelIds::eBrewery_Ender, 1, 17, CameraSwapEffects::eUnknown_11, 17, 0);
-                            field_24_state = GameEnderControllerSaveStates::eAngelicEnding_5;
+                            field_24_state = GameEnderControllerStates::eAngelicEnding_5;
                         }
                         else
                         {
                             // Good enough ending
                             gMap.SetActiveCam(EReliveLevelIds::eBrewery_Ender, 1, 18, CameraSwapEffects::eUnknown_11, 17, 0);
-                            field_24_state = GameEnderControllerSaveStates::eGoodEnding_4;
+                            field_24_state = GameEnderControllerStates::eGoodEnding_4;
                         }
                     }
                     else
@@ -150,14 +150,14 @@ void GameEnderController::VUpdate()
                             // Very bad ending
                             gAbeBulletProof_5C1BDA = true;
                             gMap.SetActiveCam(EReliveLevelIds::eBrewery_Ender, 1, 15, CameraSwapEffects::eUnknown_11, 18, 0);
-                            field_24_state = GameEnderControllerSaveStates::eBadEnding_3;
+                            field_24_state = GameEnderControllerStates::eBadEnding_3;
                         }
                         else
                         {
                             // Bad ending
                             gAbeBulletProof_5C1BDA = false;
                             gMap.SetActiveCam(EReliveLevelIds::eBrewery_Ender, 1, 16, CameraSwapEffects::eUnknown_11, 18, 0);
-                            field_24_state = GameEnderControllerSaveStates::eBadEnding_3;
+                            field_24_state = GameEnderControllerStates::eBadEnding_3;
                             sRescuedMudokons = sFeecoRestart_SavedMudCount_5C1BC8;
                             sKilledMudokons = sFeeco_Restart_KilledMudCount_5C1BC6;
                         }
@@ -170,36 +170,36 @@ void GameEnderController::VUpdate()
         }
         break;
 
-        case GameEnderControllerSaveStates::eBadEnding_3:
+        case GameEnderControllerStates::eBadEnding_3:
             if (Input().isHeld(InputCommands::Enum::eUnPause_OrConfirm) || Input().isHeld(InputCommands::Enum::eBack))
             {
                 gMap.SetActiveCam(EReliveLevelIds::eFeeCoDepot, 1, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
-                field_24_state = GameEnderControllerSaveStates::eFinish_2;
+                field_24_state = GameEnderControllerStates::eFinish_2;
             }
             break;
 
-        case GameEnderControllerSaveStates::eGoodEnding_4:
+        case GameEnderControllerStates::eGoodEnding_4:
             if (Input().isHeld(InputCommands::Enum::eUnPause_OrConfirm) || Input().isHeld(InputCommands::Enum::eBack))
             {
                 gMap.SetActiveCam(EReliveLevelIds::eCredits, 1, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
-                field_24_state = GameEnderControllerSaveStates::eFinish_2;
+                field_24_state = GameEnderControllerStates::eFinish_2;
             }
             break;
 
-        case GameEnderControllerSaveStates::eAngelicEnding_5:
+        case GameEnderControllerStates::eAngelicEnding_5:
             if (Input().isHeld(InputCommands::Enum::eUnPause_OrConfirm) || Input().isHeld(InputCommands::Enum::eBack))
             {
                 gMap.SetActiveCam(EReliveLevelIds::eBrewery_Ender, 1, 20, CameraSwapEffects::eInstantChange_0, 0, 0);
-                field_24_state = GameEnderControllerSaveStates::eAngelicEndingCredits_6;
+                field_24_state = GameEnderControllerStates::eAngelicEndingCredits_6;
             }
             break;
 
-        case GameEnderControllerSaveStates::eAngelicEndingCredits_6:
+        case GameEnderControllerStates::eAngelicEndingCredits_6:
             if (Input().isHeld(InputCommands::Enum::eUnPause_OrConfirm) || Input().isHeld(InputCommands::Enum::eBack))
             {
                 gMap.SetActiveCam(EReliveLevelIds::eCredits, 2, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
                 gMap.mFreeAllAnimAndPalts = true;
-                field_24_state = GameEnderControllerSaveStates::eFinish_2;
+                field_24_state = GameEnderControllerStates::eFinish_2;
             }
             break;
 

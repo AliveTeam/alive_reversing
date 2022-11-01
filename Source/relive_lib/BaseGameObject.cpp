@@ -561,8 +561,8 @@ ReliveTypes BaseGameObject::FromAE(AETypes aeType)
             return ReliveTypes::eColourfulMeter;
         case AETypes::eSlapLock_OrbWhirlWind_60:
             return ReliveTypes::eSlapLock_OrbWhirlWind;
-        case AETypes::eLockedSoul_61:
-            return ReliveTypes::eLockedSoul;
+        case AETypes::eSlapLock_61:
+            return ReliveTypes::eSlapLock;
         case AETypes::eDeathBird_62:
             return ReliveTypes::eDeathBird;
         case AETypes::eGreeter_64:
@@ -784,8 +784,8 @@ AETypes BaseGameObject::ToAE(ReliveTypes reliveType)
             return AETypes::eColourfulMeter_59;
         case ReliveTypes::eSlapLock_OrbWhirlWind:
             return AETypes::eSlapLock_OrbWhirlWind_60;
-        case ReliveTypes::eLockedSoul:
-            return AETypes::eLockedSoul_61;
+        case ReliveTypes::eSlapLock:
+            return AETypes::eSlapLock_61;
         case ReliveTypes::eDeathBird:
             return AETypes::eDeathBird_62;
         case ReliveTypes::eGreeter:
