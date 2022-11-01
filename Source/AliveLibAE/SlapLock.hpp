@@ -20,7 +20,7 @@ enum class SlapLockStates : s16
     eGiveInvisibility_7 = 7,
 };
 
-struct SlapLock_State final
+struct SlapLockSaveState final
 {
     AETypes mType;
     s16 mAnimRender;
@@ -32,7 +32,7 @@ struct SlapLock_State final
     Guid mAbilityRingId;
     s32 mShinyParticleTimer;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(SlapLock_State, 0x18);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(SlapLockSaveState, 0x18);
 
 class SlapLock final : public BaseAliveGameObject
 {

@@ -292,7 +292,7 @@ void TrapDoor::VUpdate()
 
 s32 TrapDoor::CreateFromSaveState(const u8* pData)
 {
-    auto pState = reinterpret_cast<const TrapDoor_State*>(pData);
+    auto pState = reinterpret_cast<const TrapDoorSaveState*>(pData);
     auto pTlv = static_cast<relive::Path_TrapDoor*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_8_tlvInfo));
 
     auto pTrapDoor = relive_new TrapDoor(pTlv, pState->field_8_tlvInfo);
@@ -307,18 +307,18 @@ s32 TrapDoor::CreateFromSaveState(const u8* pData)
         }
     }
 
-    return sizeof(TrapDoor_State);
+    return sizeof(TrapDoorSaveState);
 }
 
 s32 TrapDoor::VGetSaveState(u8* pSaveBuffer)
 {
-    auto pState = reinterpret_cast<TrapDoor_State*>(pSaveBuffer);
+    auto pState = reinterpret_cast<TrapDoorSaveState*>(pSaveBuffer);
 
     pState->field_0_type = AETypes::eTrapDoor_142;
     pState->field_4_open_time = mStayOpenTimeTimer;
     pState->field_2_state = mState;
     pState->field_8_tlvInfo = mPlatformBaseTlvInfo;
-    return sizeof(TrapDoor_State);
+    return sizeof(TrapDoorSaveState);
 }
 
 void TrapDoor::Add_To_Collisions_Array()

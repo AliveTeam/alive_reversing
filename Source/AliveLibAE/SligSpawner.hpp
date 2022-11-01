@@ -11,7 +11,7 @@ enum class SpawnerStates : s16
     eSligSpawned_1 = 1,
 };
 
-struct Slig_Spawner_State final
+struct SligSpawnerSaveState final
 {
     AETypes mType;
     s16 padding1;
@@ -20,7 +20,7 @@ struct Slig_Spawner_State final
     s16 padding2;
     Guid mSpawnedSligId;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(Slig_Spawner_State, 0x10);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(SligSpawnerSaveState, 0x10);
 
 class SligSpawner final : public BaseGameObject
 {

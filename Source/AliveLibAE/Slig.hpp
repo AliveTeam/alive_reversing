@@ -100,7 +100,7 @@ class Slig;
 using TSligBrainFn = s16 (Slig::*)();
 using TSligMotionFn = void (Slig::*)();
 
-struct Slig_State final
+struct SligSaveState final
 {
     AETypes field_0_type;
     s16 field_2_padding;
@@ -176,7 +176,7 @@ struct Slig_State final
     };
     BitField16<Flags_A2> field_A2_flags;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(Slig_State, 0xA4);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(SligSaveState, 0xA4);
 
 enum class GameSpeakEvents : s16;
 

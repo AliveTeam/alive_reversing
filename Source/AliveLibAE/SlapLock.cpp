@@ -24,7 +24,7 @@ void SlapLock::LoadAnimations()
 SlapLock::SlapLock(relive::Path_SlapLock* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(0)
 {
-    SetType(ReliveTypes::eLockedSoul);
+    SetType(ReliveTypes::eSlapLock);
     mSlapLockTlv = pTlv;
     mTlvInfo = tlvId;
     mBaseGameObjectTlvInfo = tlvId;
@@ -105,7 +105,7 @@ SlapLock::~SlapLock()
 
 s32 SlapLock::CreateFromSaveState(const u8* pBuffer)
 {
-    auto pState = reinterpret_cast<const SlapLock_State*>(pBuffer);
+    auto pState = reinterpret_cast<const SlapLockSaveState*>(pBuffer);
 
     auto pTlv = static_cast<relive::Path_SlapLock*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvInfo));
 
@@ -124,7 +124,7 @@ s32 SlapLock::CreateFromSaveState(const u8* pBuffer)
         pSlapLock->mShinyParticleTimer = pState->mShinyParticleTimer;
     }
 
-    return sizeof(SlapLock_State);
+    return sizeof(SlapLockSaveState);
 }
 
 void SlapLock::VScreenChanged()
@@ -150,9 +150,9 @@ void SlapLock::GiveInvisibility()
 
 s32 SlapLock::VGetSaveState(u8* pSaveBuffer)
 {
-    auto pState = reinterpret_cast<SlapLock_State*>(pSaveBuffer);
+    auto pState = reinterpret_cast<SlapLockSaveState*>(pSaveBuffer);
 
-    pState->mType = AETypes::eLockedSoul_61;
+    pState->mType = AETypes::eSlapLock_61;
     pState->mAnimRender = GetAnimation().mFlags.Get(AnimFlags::eRender) & 1;
     pState->mTlvInfo = mTlvInfo;
     pState->mTlvState = sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo)->mTlvSpecificMeaning;
@@ -163,7 +163,7 @@ s32 SlapLock::VGetSaveState(u8* pSaveBuffer)
 
     if (mAbilityRingId == Guid{})
     {
-        return sizeof(SlapLock_State);
+        return sizeof(SlapLockSaveState);
     }
 
     BaseGameObject* pObj = sObjectIds.Find_Impl(mAbilityRingId);
@@ -171,7 +171,7 @@ s32 SlapLock::VGetSaveState(u8* pSaveBuffer)
     {
         pState->mAbilityRingId = pObj->mBaseGameObjectTlvInfo;
     }
-    return sizeof(SlapLock_State);
+    return sizeof(SlapLockSaveState);
 }
 
 void SlapLock::VUpdate()

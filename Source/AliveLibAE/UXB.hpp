@@ -19,7 +19,7 @@ enum class UXBState : u16
     eDeactivated = 3
 };
 
-struct SaveState_UXB final
+struct UXBSaveState final
 {
     AETypes mType;
     s16 field_2_padding;
@@ -32,7 +32,7 @@ struct SaveState_UXB final
     u16 mRedBlinkCount;
     u16 mIsRed;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(SaveState_UXB, 24);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(UXBSaveState, 24);
 
 enum UXB_Flags_1C8
 {

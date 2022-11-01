@@ -7,14 +7,14 @@
 enum class LevelIds : s16;
 enum class CameraSwapEffects : s16;
 
-struct BirdPortal_State final
+struct BirdPortalSaveState final
 {
     AETypes mAEType;
     u8 mState;
     u8 mMudCountForShrykull;
     Guid mTlvInfo;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(BirdPortal_State, 8);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(BirdPortalSaveState, 8);
 
 class BirdPortalTerminator final : public ::BaseAnimatedWithPhysicsGameObject
 {

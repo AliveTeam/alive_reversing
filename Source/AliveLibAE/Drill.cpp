@@ -251,7 +251,7 @@ Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
 
 s32 Drill::CreateFromSaveState(const u8* pData)
 {
-    const Drill_State* pState = reinterpret_cast<const Drill_State*>(pData);
+    const DrillSaveState* pState = reinterpret_cast<const DrillSaveState*>(pData);
     auto pTlv = static_cast<relive::Path_Drill*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_8_tlvInfo));
     auto pDrill = relive_new Drill(pTlv, pState->field_8_tlvInfo);
 
@@ -276,7 +276,7 @@ s32 Drill::CreateFromSaveState(const u8* pData)
     pDrill->mOffTimer = pState->field_C_off_timer;
     pDrill->mDrillState = pState->field_10_state;
     pDrill->field_124_xyoff = FP_FromInteger(pState->field_12_xyoff);
-    return sizeof(Drill_State);
+    return sizeof(DrillSaveState);
 }
 
 void Drill::VUpdate()
@@ -529,13 +529,13 @@ void Drill::VStopAudio()
 
 s32 Drill::VGetSaveState(u8* pSaveBuffer)
 {
-    Drill_State* pState = reinterpret_cast<Drill_State*>(pSaveBuffer);
-    pState->field_0 = 30;
+    DrillSaveState* pState = reinterpret_cast<DrillSaveState*>(pSaveBuffer);
+    pState->mType = AETypes::eDrill_30;
     pState->field_8_tlvInfo = mTlvInfo;
     pState->field_C_off_timer = mOffTimer;
     pState->field_10_state = mDrillState;
     pState->field_12_xyoff = FP_GetExponent(field_124_xyoff);
-    return sizeof(Drill_State);
+    return sizeof(DrillSaveState);
 }
 
 void Drill::EmitSparks()

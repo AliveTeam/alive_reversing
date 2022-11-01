@@ -10,9 +10,9 @@ enum class WheelStates : s16
     eTurning_1 = 1,
 };
 
-struct WorkWheel_SaveState final
+struct WorkWheelSaveState final
 {
-    AETypes field_0_id;
+    AETypes mType;
     s16 padding_1;
     Guid field_4_tlvInfo;
     s16 field_8_snd_counter;
@@ -20,7 +20,7 @@ struct WorkWheel_SaveState final
     WheelStates field_C_state;
     s16 padding_3;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(WorkWheel_SaveState, 0x10);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(WorkWheelSaveState, 0x10);
 
 class WorkWheel final : public ::BaseAnimatedWithPhysicsGameObject
 {

@@ -229,7 +229,7 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, const Guid& tlvId)
 
 s32 LiftPoint::CreateFromSaveState(const u8* pData)
 {
-    const LiftPoint_State* pState = reinterpret_cast<const LiftPoint_State*>(pData);
+    const LiftPointSaveState* pState = reinterpret_cast<const LiftPointSaveState*>(pData);
 
     relive::Path_LiftPoint* pTlv = static_cast<relive::Path_LiftPoint*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_C_tlvInfo));
 
@@ -257,7 +257,7 @@ s32 LiftPoint::CreateFromSaveState(const u8* pData)
         pLiftPoint->field_270_floorYLevel = pState->field_14_floorYLevel;
         pLiftPoint->field_130_lift_point_stop_type = pState->field_18_lift_point_stop_type;
 
-        if (pState->field_1A.Get(LiftPoint_State::eBit1_bMoving))
+        if (pState->field_1A.Get(LiftPointSaveState::eBit1_bMoving))
         {
             pLiftPoint->field_12C_bMoving |= 1;
         }
@@ -266,28 +266,28 @@ s32 LiftPoint::CreateFromSaveState(const u8* pData)
             pLiftPoint->field_12C_bMoving &= ~1;
         }
 
-        pLiftPoint->field_280_flags.Set(LiftFlags::eBit1_bTopFloor, pState->field_1A.Get(LiftPoint_State::eBit2_bTopFloor));
-        pLiftPoint->field_280_flags.Set(LiftFlags::eBit2_bMiddleFloor, pState->field_1A.Get(LiftPoint_State::eBit3_bMiddleFloor));
-        pLiftPoint->field_280_flags.Set(LiftFlags::eBit3_bBottomFloor, pState->field_1A.Get(LiftPoint_State::eBit4_bBottomFloor));
-        pLiftPoint->field_280_flags.Set(LiftFlags::eBit5_bMoveToFloorLevel, pState->field_1A.Get(LiftPoint_State::eBit5_bMoveToFloorLevel));
-        pLiftPoint->field_280_flags.Set(LiftFlags::eBit6, pState->field_1A.Get(LiftPoint_State::eBit6));
-        pLiftPoint->field_280_flags.Set(LiftFlags::eBit7_KeepOnMiddleFloor, pState->field_1A.Get(LiftPoint_State::eBit7_KeepOnMiddleFloor));
+        pLiftPoint->field_280_flags.Set(LiftFlags::eBit1_bTopFloor, pState->field_1A.Get(LiftPointSaveState::eBit2_bTopFloor));
+        pLiftPoint->field_280_flags.Set(LiftFlags::eBit2_bMiddleFloor, pState->field_1A.Get(LiftPointSaveState::eBit3_bMiddleFloor));
+        pLiftPoint->field_280_flags.Set(LiftFlags::eBit3_bBottomFloor, pState->field_1A.Get(LiftPointSaveState::eBit4_bBottomFloor));
+        pLiftPoint->field_280_flags.Set(LiftFlags::eBit5_bMoveToFloorLevel, pState->field_1A.Get(LiftPointSaveState::eBit5_bMoveToFloorLevel));
+        pLiftPoint->field_280_flags.Set(LiftFlags::eBit6, pState->field_1A.Get(LiftPointSaveState::eBit6));
+        pLiftPoint->field_280_flags.Set(LiftFlags::eBit7_KeepOnMiddleFloor, pState->field_1A.Get(LiftPointSaveState::eBit7_KeepOnMiddleFloor));
     }
 
     if (pState->field_10_pTlv == pState->field_C_tlvInfo)
     {
-        return sizeof(LiftPoint_State);
+        return sizeof(LiftPointSaveState);
     }
 
     pTlv->mTlvSpecificMeaning = 1;
     if (pState->field_10_pTlv == Guid{})
     {
-        return sizeof(LiftPoint_State);
+        return sizeof(LiftPointSaveState);
     }
 
     relive::Path_TLV* pTlv2 = sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_10_pTlv);
     pTlv2->mTlvSpecificMeaning = 3;
-    return sizeof(LiftPoint_State);
+    return sizeof(LiftPointSaveState);
 }
 
 void LiftPoint::vKeepOnMiddleFloor()
@@ -793,7 +793,7 @@ void LiftPoint::vStayOnFloor(s16 floor, relive::Path_LiftPoint* pTlv)
 
 s32 LiftPoint::VGetSaveState(u8* pSaveBuffer)
 {
-    auto pState = reinterpret_cast<LiftPoint_State*>(pSaveBuffer);
+    auto pState = reinterpret_cast<LiftPointSaveState*>(pSaveBuffer);
 
     pState->field_0_type = AETypes::eLiftPoint_78;
     pState->field_4_xpos = mXPos;
@@ -804,15 +804,15 @@ s32 LiftPoint::VGetSaveState(u8* pSaveBuffer)
     pState->field_18_lift_point_stop_type = field_130_lift_point_stop_type;
 
 
-    pState->field_1A.Set(LiftPoint_State::eBit1_bMoving, field_12C_bMoving & 1);
-    pState->field_1A.Set(LiftPoint_State::eBit2_bTopFloor, field_280_flags.Get(LiftFlags::eBit1_bTopFloor));
-    pState->field_1A.Set(LiftPoint_State::eBit3_bMiddleFloor, field_280_flags.Get(LiftFlags::eBit2_bMiddleFloor));
-    pState->field_1A.Set(LiftPoint_State::eBit4_bBottomFloor, field_280_flags.Get(LiftFlags::eBit3_bBottomFloor));
-    pState->field_1A.Set(LiftPoint_State::eBit5_bMoveToFloorLevel, field_280_flags.Get(LiftFlags::eBit5_bMoveToFloorLevel));
-    pState->field_1A.Set(LiftPoint_State::eBit6, field_280_flags.Get(LiftFlags::eBit6));
-    pState->field_1A.Set(LiftPoint_State::eBit7_KeepOnMiddleFloor, field_280_flags.Get(LiftFlags::eBit7_KeepOnMiddleFloor));
+    pState->field_1A.Set(LiftPointSaveState::eBit1_bMoving, field_12C_bMoving & 1);
+    pState->field_1A.Set(LiftPointSaveState::eBit2_bTopFloor, field_280_flags.Get(LiftFlags::eBit1_bTopFloor));
+    pState->field_1A.Set(LiftPointSaveState::eBit3_bMiddleFloor, field_280_flags.Get(LiftFlags::eBit2_bMiddleFloor));
+    pState->field_1A.Set(LiftPointSaveState::eBit4_bBottomFloor, field_280_flags.Get(LiftFlags::eBit3_bBottomFloor));
+    pState->field_1A.Set(LiftPointSaveState::eBit5_bMoveToFloorLevel, field_280_flags.Get(LiftFlags::eBit5_bMoveToFloorLevel));
+    pState->field_1A.Set(LiftPointSaveState::eBit6, field_280_flags.Get(LiftFlags::eBit6));
+    pState->field_1A.Set(LiftPointSaveState::eBit7_KeepOnMiddleFloor, field_280_flags.Get(LiftFlags::eBit7_KeepOnMiddleFloor));
 
-    return sizeof(LiftPoint_State);
+    return sizeof(LiftPointSaveState);
 }
 
 void LiftPoint::CreatePulleyIfExists()

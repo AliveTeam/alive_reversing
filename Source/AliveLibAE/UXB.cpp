@@ -492,7 +492,7 @@ void UXB::VRender(PrimHeader** ppOt)
 
 s32 UXB::VGetSaveState(u8* __pSaveBuffer)
 {
-    SaveState_UXB* pSaveState = reinterpret_cast<SaveState_UXB*>(__pSaveBuffer);
+    UXBSaveState* pSaveState = reinterpret_cast<UXBSaveState*>(__pSaveBuffer);
 
     pSaveState->mType = AETypes::eUXB_143;
     pSaveState->mTlvInfo = mTlvInfo;
@@ -503,12 +503,12 @@ s32 UXB::VGetSaveState(u8* __pSaveBuffer)
     pSaveState->mRedBlinkCount = mRedBlinkCount;
     pSaveState->mIsRed = mIsRed;
 
-    return sizeof(SaveState_UXB);
+    return sizeof(UXBSaveState);
 }
 
 s32 UXB::CreateFromSaveState(const u8* __pSaveState)
 {
-    const SaveState_UXB* pSaveState = reinterpret_cast<const SaveState_UXB*>(__pSaveState);
+    const UXBSaveState* pSaveState = reinterpret_cast<const UXBSaveState*>(__pSaveState);
 
     relive::Path_UXB* uxbPath = reinterpret_cast<relive::Path_UXB*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->mTlvInfo));
 
@@ -534,6 +534,6 @@ s32 UXB::CreateFromSaveState(const u8* __pSaveState)
         pUXB->mIsRed = 1;
     }
 
-    return sizeof(SaveState_UXB);
+    return sizeof(UXBSaveState);
 }
 

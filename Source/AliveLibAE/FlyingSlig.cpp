@@ -256,7 +256,7 @@ FlyingSlig::FlyingSlig(relive::Path_FlyingSlig* pTlv, const Guid& tlvId)
 
 s32 FlyingSlig::CreateFromSaveState(const u8* pBuffer)
 {
-    auto pSaveState = reinterpret_cast<const FlyingSlig_State*>(pBuffer);
+    auto pSaveState = reinterpret_cast<const FlyingSligSaveState*>(pBuffer);
 
     auto pTlv = static_cast<relive::Path_FlyingSlig*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->field_3C_tlvInfo));
 
@@ -311,7 +311,7 @@ s32 FlyingSlig::CreateFromSaveState(const u8* pBuffer)
             pFlyingSlig->BaseAliveGameObjectCollisionLineType = pSaveState->field_36_line_idx;
         }
 
-        if (pSaveState->field_3A.Get(FlyingSlig_State::eBit1_bPossessed))
+        if (pSaveState->field_3A.Get(FlyingSligSaveState::eBit1_bPossessed))
         {
             sControlledCharacter = pFlyingSlig;
             pFlyingSlig->field_2A8_max_x_speed = (FP_FromDouble(5.5) * pFlyingSlig->GetSpriteScale());
@@ -324,15 +324,15 @@ s32 FlyingSlig::CreateFromSaveState(const u8* pBuffer)
         pFlyingSlig->field_17C_launch_switch_id = pSaveState->field_38_launch_switch_id;
 
 
-        pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit5_Throw, pSaveState->field_3A.Get(FlyingSlig_State::eBit2_Throw));
-        pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit6_bAlertedAndNotFacingAbe, pSaveState->field_3A.Get(FlyingSlig_State::eBit3_bAlertedAndNotFacingAbe));
-        pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit7_DoAction, pSaveState->field_3A.Get(FlyingSlig_State::eBit4_DoAction));
-        pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit9_Chanting, pSaveState->field_3A.Get(FlyingSlig_State::eBit5_Chanting));
-        pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit10_Speaking_flag2, pSaveState->field_3A.Get(FlyingSlig_State::eBit6_Speaking_flag2));
-        pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit1_Speaking_flag1, pSaveState->field_3A.Get(FlyingSlig_State::eBit7_Speaking_flag1));
-        pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit2_bLastLine, pSaveState->field_3A.Get(FlyingSlig_State::eBit8_bLastLine));
-        pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit3, pSaveState->field_3A.Get(FlyingSlig_State::eBit9));
-        pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit4_FlyingSligUnknown, pSaveState->field_3A.Get(FlyingSlig_State::eBit10));
+        pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit5_Throw, pSaveState->field_3A.Get(FlyingSligSaveState::eBit2_Throw));
+        pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit6_bAlertedAndNotFacingAbe, pSaveState->field_3A.Get(FlyingSligSaveState::eBit3_bAlertedAndNotFacingAbe));
+        pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit7_DoAction, pSaveState->field_3A.Get(FlyingSligSaveState::eBit4_DoAction));
+        pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit9_Chanting, pSaveState->field_3A.Get(FlyingSligSaveState::eBit5_Chanting));
+        pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit10_Speaking_flag2, pSaveState->field_3A.Get(FlyingSligSaveState::eBit6_Speaking_flag2));
+        pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit1_Speaking_flag1, pSaveState->field_3A.Get(FlyingSligSaveState::eBit7_Speaking_flag1));
+        pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit2_bLastLine, pSaveState->field_3A.Get(FlyingSligSaveState::eBit8_bLastLine));
+        pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit3, pSaveState->field_3A.Get(FlyingSligSaveState::eBit9));
+        pFlyingSlig->field_17E_flags.Set(Flags_17E::eBit4_FlyingSligUnknown, pSaveState->field_3A.Get(FlyingSligSaveState::eBit10));
 
 
         pFlyingSlig->field_14C_timer = pSaveState->field_40_timer;
@@ -363,7 +363,7 @@ s32 FlyingSlig::CreateFromSaveState(const u8* pBuffer)
         pFlyingSlig->field_28C_bobbing_values_table_index = pSaveState->field_A0_bobbing_values_table_index;
     }
 
-    return sizeof(FlyingSlig_State);
+    return sizeof(FlyingSligSaveState);
 }
 
 s32 FlyingSlig::VGetSaveState(u8* pSaveBuffer)
@@ -373,7 +373,7 @@ s32 FlyingSlig::VGetSaveState(u8* pSaveBuffer)
         return 0;
     }
 
-    auto pState = reinterpret_cast<FlyingSlig_State*>(pSaveBuffer);
+    auto pState = reinterpret_cast<FlyingSligSaveState*>(pSaveBuffer);
 
     pState->field_0_type = AETypes::eFlyingSlig_54;
 
@@ -412,16 +412,16 @@ s32 FlyingSlig::VGetSaveState(u8* pSaveBuffer)
 
     pState->field_38_launch_switch_id = field_17C_launch_switch_id;
 
-    pState->field_3A.Set(FlyingSlig_State::eBit1_bPossessed, this == sControlledCharacter);
-    pState->field_3A.Set(FlyingSlig_State::eBit2_Throw, field_17E_flags.Get(Flags_17E::eBit5_Throw));
-    pState->field_3A.Set(FlyingSlig_State::eBit3_bAlertedAndNotFacingAbe, field_17E_flags.Get(Flags_17E::eBit6_bAlertedAndNotFacingAbe));
-    pState->field_3A.Set(FlyingSlig_State::eBit4_DoAction, field_17E_flags.Get(Flags_17E::eBit7_DoAction));
-    pState->field_3A.Set(FlyingSlig_State::eBit5_Chanting, field_17E_flags.Get(Flags_17E::eBit9_Chanting));
-    pState->field_3A.Set(FlyingSlig_State::eBit6_Speaking_flag2, field_17E_flags.Get(Flags_17E::eBit10_Speaking_flag2));
-    pState->field_3A.Set(FlyingSlig_State::eBit7_Speaking_flag1, field_17E_flags.Get(Flags_17E::eBit1_Speaking_flag1));
-    pState->field_3A.Set(FlyingSlig_State::eBit8_bLastLine, field_17E_flags.Get(Flags_17E::eBit2_bLastLine));
-    pState->field_3A.Set(FlyingSlig_State::eBit9, field_17E_flags.Get(Flags_17E::eBit3));
-    pState->field_3A.Set(FlyingSlig_State::eBit10, field_17E_flags.Get(Flags_17E::eBit4_FlyingSligUnknown));
+    pState->field_3A.Set(FlyingSligSaveState::eBit1_bPossessed, this == sControlledCharacter);
+    pState->field_3A.Set(FlyingSligSaveState::eBit2_Throw, field_17E_flags.Get(Flags_17E::eBit5_Throw));
+    pState->field_3A.Set(FlyingSligSaveState::eBit3_bAlertedAndNotFacingAbe, field_17E_flags.Get(Flags_17E::eBit6_bAlertedAndNotFacingAbe));
+    pState->field_3A.Set(FlyingSligSaveState::eBit4_DoAction, field_17E_flags.Get(Flags_17E::eBit7_DoAction));
+    pState->field_3A.Set(FlyingSligSaveState::eBit5_Chanting, field_17E_flags.Get(Flags_17E::eBit9_Chanting));
+    pState->field_3A.Set(FlyingSligSaveState::eBit6_Speaking_flag2, field_17E_flags.Get(Flags_17E::eBit10_Speaking_flag2));
+    pState->field_3A.Set(FlyingSligSaveState::eBit7_Speaking_flag1, field_17E_flags.Get(Flags_17E::eBit1_Speaking_flag1));
+    pState->field_3A.Set(FlyingSligSaveState::eBit8_bLastLine, field_17E_flags.Get(Flags_17E::eBit2_bLastLine));
+    pState->field_3A.Set(FlyingSligSaveState::eBit9, field_17E_flags.Get(Flags_17E::eBit3));
+    pState->field_3A.Set(FlyingSligSaveState::eBit10, field_17E_flags.Get(Flags_17E::eBit4_FlyingSligUnknown));
 
     pState->field_3C_tlvInfo = field_148_tlvInfo;
     pState->field_40_timer = field_14C_timer;
@@ -474,7 +474,7 @@ s32 FlyingSlig::VGetSaveState(u8* pSaveBuffer)
     pState->field_A8_bobbing_value = field_284_bobbing_value;
     pState->field_A0_bobbing_values_table_index = field_28C_bobbing_values_table_index;
 
-    return sizeof(FlyingSlig_State);
+    return sizeof(FlyingSligSaveState);
 }
 
 FlyingSlig::~FlyingSlig()

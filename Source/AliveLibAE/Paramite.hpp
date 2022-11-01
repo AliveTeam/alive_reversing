@@ -87,7 +87,7 @@ enum class ParamiteSpeak : s8
     None_11 = 11,
 };
 
-struct Paramite_State final
+struct ParamiteSaveState final
 {
     AETypes field_0_type;
     s16 field_2_pad;
@@ -147,7 +147,7 @@ struct Paramite_State final
 
     BitField16<Flags_76> field_76_flags;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(Paramite_State, 0x78);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(ParamiteSaveState, 0x78);
 
 class Paramite final : public BaseAliveGameObject
 {

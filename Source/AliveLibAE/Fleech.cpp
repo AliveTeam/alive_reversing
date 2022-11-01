@@ -214,7 +214,7 @@ void Fleech::LoadAnimations()
 
 s32 Fleech::CreateFromSaveState(const u8* pBuffer)
 {
-    auto pState = reinterpret_cast<const Fleech_State*>(pBuffer);
+    auto pState = reinterpret_cast<const FleechSaveState*>(pBuffer);
 
     auto pTlv = static_cast<relive::Path_Fleech*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvInfo));
 
@@ -317,16 +317,16 @@ s32 Fleech::CreateFromSaveState(const u8* pBuffer)
             current_target_object_id_551840 = pFleech->mBaseGameObjectId;
         }
 
-        pFleech->mFleechFlags.Set(FleechFlags::eHoistDone, pState->mFleechStateFlags.Get(Fleech_State::eHoistDone));
-        pFleech->mFleechFlags.Set(FleechFlags::eChasingOrScaredCrawlingLeft, pState->mFleechStateFlags.Get(Fleech_State::eChasingOrScaredCrawlingLeft));
-        pFleech->mFleechFlags.Set(FleechFlags::eShrivelDeath, pState->mFleechStateFlags.Get(Fleech_State::eShrivelDeath));
-        pFleech->mFleechFlags.Set(FleechFlags::eScaredSound, pState->mFleechStateFlags.Get(Fleech_State::eScaredSound));
-        pFleech->mFleechFlags.Set(FleechFlags::eAsleep, pState->mFleechStateFlags.Get(Fleech_State::eAsleep));
-        pFleech->mFleechFlags.Set(FleechFlags::eGoesToSleep, pState->mFleechStateFlags.Get(Fleech_State::eGoesToSleep));
-        pFleech->mFleechFlags.Set(FleechFlags::ePersistant, pState->mFleechStateFlags.Get(Fleech_State::ePersistant));
+        pFleech->mFleechFlags.Set(FleechFlags::eHoistDone, pState->mFleechStateFlags.Get(FleechSaveState::eHoistDone));
+        pFleech->mFleechFlags.Set(FleechFlags::eChasingOrScaredCrawlingLeft, pState->mFleechStateFlags.Get(FleechSaveState::eChasingOrScaredCrawlingLeft));
+        pFleech->mFleechFlags.Set(FleechFlags::eShrivelDeath, pState->mFleechStateFlags.Get(FleechSaveState::eShrivelDeath));
+        pFleech->mFleechFlags.Set(FleechFlags::eScaredSound, pState->mFleechStateFlags.Get(FleechSaveState::eScaredSound));
+        pFleech->mFleechFlags.Set(FleechFlags::eAsleep, pState->mFleechStateFlags.Get(FleechSaveState::eAsleep));
+        pFleech->mFleechFlags.Set(FleechFlags::eGoesToSleep, pState->mFleechStateFlags.Get(FleechSaveState::eGoesToSleep));
+        pFleech->mFleechFlags.Set(FleechFlags::ePersistant, pState->mFleechStateFlags.Get(FleechSaveState::ePersistant));
     }
 
-    return sizeof(Fleech_State);
+    return sizeof(FleechSaveState);
 }
 
 s32 Fleech::VGetSaveState(u8* pSaveBuffer)
@@ -336,7 +336,7 @@ s32 Fleech::VGetSaveState(u8* pSaveBuffer)
         return 0;
     }
 
-    auto pState = reinterpret_cast<Fleech_State*>(pSaveBuffer);
+    auto pState = reinterpret_cast<FleechSaveState*>(pSaveBuffer);
 
     pState->field_0_type = AETypes::eFleech_50;
     pState->field_4_obj_id = mBaseGameObjectTlvInfo;
@@ -465,15 +465,15 @@ s32 Fleech::VGetSaveState(u8* pSaveBuffer)
         pState->field_AC_obj_id = Guid{};
     }
 
-    pState->mFleechStateFlags.Set(Fleech_State::eHoistDone, mFleechFlags.Get(FleechFlags::eHoistDone));
-    pState->mFleechStateFlags.Set(Fleech_State::eChasingOrScaredCrawlingLeft, mFleechFlags.Get(FleechFlags::eChasingOrScaredCrawlingLeft));
-    pState->mFleechStateFlags.Set(Fleech_State::eShrivelDeath, mFleechFlags.Get(FleechFlags::eShrivelDeath));
-    pState->mFleechStateFlags.Set(Fleech_State::eScaredSound, mFleechFlags.Get(FleechFlags::eScaredSound));
-    pState->mFleechStateFlags.Set(Fleech_State::eAsleep, mFleechFlags.Get(FleechFlags::eAsleep));
-    pState->mFleechStateFlags.Set(Fleech_State::eGoesToSleep, mFleechFlags.Get(FleechFlags::eGoesToSleep));
-    pState->mFleechStateFlags.Set(Fleech_State::ePersistant, mFleechFlags.Get(FleechFlags::ePersistant));
+    pState->mFleechStateFlags.Set(FleechSaveState::eHoistDone, mFleechFlags.Get(FleechFlags::eHoistDone));
+    pState->mFleechStateFlags.Set(FleechSaveState::eChasingOrScaredCrawlingLeft, mFleechFlags.Get(FleechFlags::eChasingOrScaredCrawlingLeft));
+    pState->mFleechStateFlags.Set(FleechSaveState::eShrivelDeath, mFleechFlags.Get(FleechFlags::eShrivelDeath));
+    pState->mFleechStateFlags.Set(FleechSaveState::eScaredSound, mFleechFlags.Get(FleechFlags::eScaredSound));
+    pState->mFleechStateFlags.Set(FleechSaveState::eAsleep, mFleechFlags.Get(FleechFlags::eAsleep));
+    pState->mFleechStateFlags.Set(FleechSaveState::eGoesToSleep, mFleechFlags.Get(FleechFlags::eGoesToSleep));
+    pState->mFleechStateFlags.Set(FleechSaveState::ePersistant, mFleechFlags.Get(FleechFlags::ePersistant));
 
-    return sizeof(Fleech_State);
+    return sizeof(FleechSaveState);
 }
 
 void Fleech::Motion_0_Sleeping()

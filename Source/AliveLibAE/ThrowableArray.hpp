@@ -9,16 +9,16 @@ enum class LevelIds : s16;
 void FreeResourceArray_49AEC0(DynamicArrayT<u8*>* pArray);
 void LoadRockTypes_49AB30(EReliveLevelIds levelNumber, u16 pathNumber);
 
+struct ThrowableArraySaveState final
+{
+    s16 field_0_unused;
+    s16 field_2_item_count;
+};
+ALIVE_ASSERT_SIZEOF_ALWAYS(ThrowableArraySaveState, 0x4);
+
 class ThrowableArray final : public BaseGameObject
 {
 public:
-    struct ThrowableArray_SaveState final
-    {
-        s16 field_0_unused;
-        s16 field_2_item_count;
-    };
-    ALIVE_ASSERT_SIZEOF_ALWAYS(ThrowableArray_SaveState, 0x4);
-
     ThrowableArray();
     ~ThrowableArray();
 

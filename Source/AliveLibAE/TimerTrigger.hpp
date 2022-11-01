@@ -16,7 +16,7 @@ enum class TimerTriggerStates : s16
     eWaitForSecondTrigger_3 = 3,
 };
 
-struct TimerTrigger_State final
+struct TimerTriggerSaveState final
 {
     AETypes field_0_type;
     Guid field_4_tlvInfo;
@@ -24,7 +24,7 @@ struct TimerTrigger_State final
     TimerTriggerStates field_C_state;
     s16 field_E_starting_switch_state;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(TimerTrigger_State, 0x10);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(TimerTriggerSaveState, 0x10);
 
 class TimerTrigger final : public BaseGameObject
 {

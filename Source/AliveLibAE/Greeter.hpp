@@ -20,7 +20,7 @@ enum class GreeterBrainStates : s16
     eBrain_7_Fall
 };
 
-struct Greeter_State final
+struct GreeterSaveState final
 {
     AETypes field_0_type;
     s16 field_2_r;
@@ -54,7 +54,7 @@ struct Greeter_State final
     s16 field_4A_padding;
     FP field_4C_motion_laser_xpos;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(Greeter_State, 0x50);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(GreeterSaveState, 0x50);
 
 class PathLine;
 

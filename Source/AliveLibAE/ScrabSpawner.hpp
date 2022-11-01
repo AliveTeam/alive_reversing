@@ -10,7 +10,7 @@ enum class ScrabSpawnerStates : s32
     eScrabSpawned_1 = 1
 };
 
-struct ScrabSpawner_State final
+struct ScrabSpawnerSaveState final
 {
     AETypes field_0_type;
     s16 field_2_pad;
@@ -18,7 +18,7 @@ struct ScrabSpawner_State final
     ScrabSpawnerStates field_8_state;
     Guid field_C_spawned_scrab_id;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(ScrabSpawner_State, 0x10);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(ScrabSpawnerSaveState, 0x10);
 
 class ScrabSpawner final : public BaseGameObject
 {

@@ -221,7 +221,7 @@ s32 Slog::VGetSaveState(u8* pSaveBuffer)
         return 0;
     }
 
-    auto pState = reinterpret_cast<Slog_State*>(pSaveBuffer);
+    auto pState = reinterpret_cast<SlogSaveState*>(pSaveBuffer);
     pState->field_0_type = AETypes::eSlog_126;
 
     pState->field_4_objectId = mBaseGameObjectTlvInfo;
@@ -262,7 +262,7 @@ s32 Slog::VGetSaveState(u8* pSaveBuffer)
     }
 
     pState->field_3C_id = BaseAliveGameObject_PlatformId;
-    pState->field_74_flags.Set(Slog_State::eBit2_Possessed, sControlledCharacter == this); // Lol can't be possessed anyway so ??
+    pState->field_74_flags.Set(SlogSaveState::eBit2_Possessed, sControlledCharacter == this); // Lol can't be possessed anyway so ??
     pState->field_40_tlvInfo = field_12C_tlvInfo;
     pState->field_44_obj_id = Guid{};
 
@@ -313,23 +313,23 @@ s32 Slog::VGetSaveState(u8* pSaveBuffer)
     pState->field_70_jump_delay = field_158_chase_delay;
     pState->field_72_slog_random_index = sSlogRandomIdx_BAF7F0;
 
-    pState->field_74_flags.Set(Slog_State::eBit1_BitingTarget, field_11C_biting_target & 1);
-    pState->field_74_flags.Set(Slog_State::eBit2_Possessed, sControlledCharacter == this); // Can never happen so is always 0
-    pState->field_74_flags.Set(Slog_State::eBit3_Asleep, field_160_flags.Get(Flags_160::eBit8_Asleep));
-    pState->field_74_flags.Set(Slog_State::eBit4_MovedOffScreen, field_160_flags.Get(Flags_160::eBit9_MovedOffScreen));
-    pState->field_74_flags.Set(Slog_State::eBit5_StopRunning, field_160_flags.Get(Flags_160::eBit1_StopRunning));
-    pState->field_74_flags.Set(Slog_State::eBit6_Shot, field_160_flags.Get(Flags_160::eBit3_Shot));
-    pState->field_74_flags.Set(Slog_State::eBit7_Hungry, field_160_flags.Get(Flags_160::eBit4_Hungry));
-    pState->field_74_flags.Set(Slog_State::eBit8_CommandedToAttack, field_160_flags.Get(Flags_160::eBit5_CommandedToAttack));
-    pState->field_74_flags.Set(Slog_State::eBit9_HitByAbilityRing, field_160_flags.Get(Flags_160::eBit6_HitByAbilityRing));
-    pState->field_74_flags.Set(Slog_State::eBit10_ListenToSligs, field_160_flags.Get(Flags_160::eBit2_ListenToSligs));
+    pState->field_74_flags.Set(SlogSaveState::eBit1_BitingTarget, field_11C_biting_target & 1);
+    pState->field_74_flags.Set(SlogSaveState::eBit2_Possessed, sControlledCharacter == this); // Can never happen so is always 0
+    pState->field_74_flags.Set(SlogSaveState::eBit3_Asleep, field_160_flags.Get(Flags_160::eBit8_Asleep));
+    pState->field_74_flags.Set(SlogSaveState::eBit4_MovedOffScreen, field_160_flags.Get(Flags_160::eBit9_MovedOffScreen));
+    pState->field_74_flags.Set(SlogSaveState::eBit5_StopRunning, field_160_flags.Get(Flags_160::eBit1_StopRunning));
+    pState->field_74_flags.Set(SlogSaveState::eBit6_Shot, field_160_flags.Get(Flags_160::eBit3_Shot));
+    pState->field_74_flags.Set(SlogSaveState::eBit7_Hungry, field_160_flags.Get(Flags_160::eBit4_Hungry));
+    pState->field_74_flags.Set(SlogSaveState::eBit8_CommandedToAttack, field_160_flags.Get(Flags_160::eBit5_CommandedToAttack));
+    pState->field_74_flags.Set(SlogSaveState::eBit9_HitByAbilityRing, field_160_flags.Get(Flags_160::eBit6_HitByAbilityRing));
+    pState->field_74_flags.Set(SlogSaveState::eBit10_ListenToSligs, field_160_flags.Get(Flags_160::eBit2_ListenToSligs));
 
-    return sizeof(Slog_State);
+    return sizeof(SlogSaveState);
 }
 
 s32 Slog::CreateFromSaveState(const u8* pBuffer)
 {
-    auto pState = reinterpret_cast<const Slog_State*>(pBuffer);
+    auto pState = reinterpret_cast<const SlogSaveState*>(pBuffer);
     auto pTlv = static_cast<relive::Path_Slog*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_40_tlvInfo));
 
     Slog* pSlog = nullptr;
@@ -337,7 +337,7 @@ s32 Slog::CreateFromSaveState(const u8* pBuffer)
     {
         pSlog = relive_new Slog(pState->field_8_xpos,
                                   pState->field_C_ypos,
-                                  pState->field_1C_sprite_scale, pState->field_74_flags.Get(Slog_State::eBit10_ListenToSligs), pState->field_70_jump_delay);
+                                  pState->field_1C_sprite_scale, pState->field_74_flags.Get(SlogSaveState::eBit10_ListenToSligs), pState->field_70_jump_delay);
 
         if (pSlog)
         {
@@ -407,16 +407,16 @@ s32 Slog::CreateFromSaveState(const u8* pBuffer)
         sSlogRandomIdx_BAF7F0 = pState->field_72_slog_random_index;
 
 
-        pSlog->field_11C_biting_target = pState->field_74_flags.Get(Slog_State::eBit1_BitingTarget);
+        pSlog->field_11C_biting_target = pState->field_74_flags.Get(SlogSaveState::eBit1_BitingTarget);
         // bit2 never read
-        pSlog->field_160_flags.Set(Flags_160::eBit8_Asleep, pState->field_74_flags.Get(Slog_State::eBit3_Asleep));
-        pSlog->field_160_flags.Set(Flags_160::eBit9_MovedOffScreen, pState->field_74_flags.Get(Slog_State::eBit4_MovedOffScreen));
-        pSlog->field_160_flags.Set(Flags_160::eBit1_StopRunning, pState->field_74_flags.Get(Slog_State::eBit5_StopRunning));
-        pSlog->field_160_flags.Set(Flags_160::eBit3_Shot, pState->field_74_flags.Get(Slog_State::eBit6_Shot));
-        pSlog->field_160_flags.Set(Flags_160::eBit4_Hungry, pState->field_74_flags.Get(Slog_State::eBit7_Hungry));
-        pSlog->field_160_flags.Set(Flags_160::eBit5_CommandedToAttack, pState->field_74_flags.Get(Slog_State::eBit8_CommandedToAttack));
-        pSlog->field_160_flags.Set(Flags_160::eBit6_HitByAbilityRing, pState->field_74_flags.Get(Slog_State::eBit9_HitByAbilityRing));
-        pSlog->field_160_flags.Set(Flags_160::eBit2_ListenToSligs, pState->field_74_flags.Get(Slog_State::eBit10_ListenToSligs));
+        pSlog->field_160_flags.Set(Flags_160::eBit8_Asleep, pState->field_74_flags.Get(SlogSaveState::eBit3_Asleep));
+        pSlog->field_160_flags.Set(Flags_160::eBit9_MovedOffScreen, pState->field_74_flags.Get(SlogSaveState::eBit4_MovedOffScreen));
+        pSlog->field_160_flags.Set(Flags_160::eBit1_StopRunning, pState->field_74_flags.Get(SlogSaveState::eBit5_StopRunning));
+        pSlog->field_160_flags.Set(Flags_160::eBit3_Shot, pState->field_74_flags.Get(SlogSaveState::eBit6_Shot));
+        pSlog->field_160_flags.Set(Flags_160::eBit4_Hungry, pState->field_74_flags.Get(SlogSaveState::eBit7_Hungry));
+        pSlog->field_160_flags.Set(Flags_160::eBit5_CommandedToAttack, pState->field_74_flags.Get(SlogSaveState::eBit8_CommandedToAttack));
+        pSlog->field_160_flags.Set(Flags_160::eBit6_HitByAbilityRing, pState->field_74_flags.Get(SlogSaveState::eBit9_HitByAbilityRing));
+        pSlog->field_160_flags.Set(Flags_160::eBit2_ListenToSligs, pState->field_74_flags.Get(SlogSaveState::eBit10_ListenToSligs));
 
         if (pSlog->field_160_flags.Get(Flags_160::eBit3_Shot))
         {
@@ -424,7 +424,7 @@ s32 Slog::CreateFromSaveState(const u8* pBuffer)
         }
     }
 
-    return sizeof(Slog_State);
+    return sizeof(SlogSaveState);
 }
 
 void Slog::Motion_0_Idle()
@@ -1297,25 +1297,25 @@ s16 Slog::Brain_0_ListeningToSlig()
     switch (field_122_brain_state_result)
     {
         case 0:
-            return Brain_ListeningToSlig_State_0_Init();
+            return Brain_ListeningToSligSaveState_0_Init();
         case 1:
-            return Brain_ListeningToSlig_State_1_Idle(xpos1GridAHead);
+            return Brain_ListeningToSligSaveState_1_Idle(xpos1GridAHead);
         case 2:
-            return Brain_ListeningToSlig_State_2_Listening(xpos1GridAHead, pObj);
+            return Brain_ListeningToSligSaveState_2_Listening(xpos1GridAHead, pObj);
         case 3:
-            return Brain_ListeningToSlig_State_3_Walking(xpos1GridAHead);
+            return Brain_ListeningToSligSaveState_3_Walking(xpos1GridAHead);
         case 4:
-            return Brain_ListeningToSlig_State_4_Running(xpos1GridAHead);
+            return Brain_ListeningToSligSaveState_4_Running(xpos1GridAHead);
         case 5:
-            return Brain_ListeningToSlig_State_5_Waiting();
+            return Brain_ListeningToSligSaveState_5_Waiting();
         case 6:
-            return Brain_ListeningToSlig_State_6_Responding();
+            return Brain_ListeningToSligSaveState_6_Responding();
         default:
             return field_122_brain_state_result;
     }
 }
 
-s16 Slog::Brain_ListeningToSlig_State_6_Responding()
+s16 Slog::Brain_ListeningToSligSaveState_6_Responding()
 {
     if (static_cast<s32>(sGnFrame) <= field_124_timer)
     {
@@ -1336,7 +1336,7 @@ s16 Slog::Brain_ListeningToSlig_State_6_Responding()
     }
 }
 
-s16 Slog::Brain_ListeningToSlig_State_5_Waiting()
+s16 Slog::Brain_ListeningToSligSaveState_5_Waiting()
 {
     if (static_cast<s32>(sGnFrame) <= field_124_timer)
     {
@@ -1347,7 +1347,7 @@ s16 Slog::Brain_ListeningToSlig_State_5_Waiting()
     return 2;
 }
 
-s16 Slog::Brain_ListeningToSlig_State_4_Running(const FP xpos1GridAHead)
+s16 Slog::Brain_ListeningToSligSaveState_4_Running(const FP xpos1GridAHead)
 {
     if (GetCurrentMotion() == eSlogMotions::Motion_0_Idle)
     {
@@ -1375,7 +1375,7 @@ s16 Slog::Brain_ListeningToSlig_State_4_Running(const FP xpos1GridAHead)
     }
 }
 
-s16 Slog::Brain_ListeningToSlig_State_3_Walking(const FP xpos1GridAHead)
+s16 Slog::Brain_ListeningToSligSaveState_3_Walking(const FP xpos1GridAHead)
 {
     if (GetCurrentMotion() == eSlogMotions::Motion_0_Idle)
     {
@@ -1408,7 +1408,7 @@ s16 Slog::Brain_ListeningToSlig_State_3_Walking(const FP xpos1GridAHead)
     return 2;
 }
 
-s16 Slog::Brain_ListeningToSlig_State_2_Listening(const FP xpos1GridAHead, IBaseAliveGameObject* pObj)
+s16 Slog::Brain_ListeningToSligSaveState_2_Listening(const FP xpos1GridAHead, IBaseAliveGameObject* pObj)
 {
     if (GetCurrentMotion() != eSlogMotions::Motion_0_Idle)
     {
@@ -1559,7 +1559,7 @@ s16 Slog::Brain_ListeningToSlig_State_2_Listening(const FP xpos1GridAHead, IBase
     return field_122_brain_state_result;
 }
 
-s16 Slog::Brain_ListeningToSlig_State_1_Idle(const FP xpos1GridAHead)
+s16 Slog::Brain_ListeningToSligSaveState_1_Idle(const FP xpos1GridAHead)
 {
     if (GetCurrentMotion() != eSlogMotions::Motion_0_Idle)
     {
@@ -1580,7 +1580,7 @@ s16 Slog::Brain_ListeningToSlig_State_1_Idle(const FP xpos1GridAHead)
     return 2;
 }
 
-s16 Slog::Brain_ListeningToSlig_State_0_Init()
+s16 Slog::Brain_ListeningToSligSaveState_0_Init()
 {
     SetNextMotion(eSlogMotions::Motion_0_Idle);
     field_13C_waiting_counter = 0;

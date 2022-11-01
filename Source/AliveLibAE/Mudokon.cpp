@@ -695,7 +695,7 @@ void Mudokon::LoadAnimations()
 
 s32 Mudokon::CreateFromSaveState(const u8* pBuffer)
 {
-    auto pState = reinterpret_cast<const Mudokon_State*>(pBuffer);
+    auto pState = reinterpret_cast<const MudokonSaveState*>(pBuffer);
 
     auto pTlv = static_cast<relive::Path_Mudokon*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_40_tlvInfo));
 
@@ -769,7 +769,7 @@ s32 Mudokon::CreateFromSaveState(const u8* pBuffer)
         pMud->field_160_delayed_speak = pState->field_68;
         pMud->field_162_maxXOffset = pState->field_6A_maxXOffset;
 
-        if (pState->field_6C.Get(Mudokon_State::Flags_6A::eBit2_unused))
+        if (pState->field_6C.Get(MudokonSaveState::Flags_6A::eBit2_unused))
         {
             pMud->field_12C_unused = 0;
         }
@@ -778,28 +778,28 @@ s32 Mudokon::CreateFromSaveState(const u8* pBuffer)
             pMud->field_12C_unused = -1;
         }
 
-        pMud->field_16A_flags.Set(Flags_16A::eBit1_not_rescued, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit4_not_rescued));
-        pMud->field_16A_flags.Set(Flags_16A::eBit2_persist_and_reset_offscreen, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit5_save_state));
-        pMud->field_16A_flags.Set(Flags_16A::eBit3_alerted, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit6_alerted));
-        pMud->field_16A_flags.Set(Flags_16A::eBit4_blind, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit7_blind));
-        pMud->field_16A_flags.Set(Flags_16A::eBit5_following, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit8_following));
-        pMud->field_16A_flags.Set(Flags_16A::eBit6_standing_for_sad_or_angry, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit9_standing_for_sad_or_angry));
-        pMud->field_16A_flags.Set(Flags_16A::eBit7_stopped_at_wheel, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit10_stopped_at_wheel));
-        pMud->field_16A_flags.Set(Flags_16A::eBit8_do_angry, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit11_do_angry));
-        pMud->field_16A_flags.Set(Flags_16A::eBit9_seen_while_sick, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit12_seen_while_sick));
-        pMud->field_16A_flags.Set(Flags_16A::eBit10_work_after_turning_wheel, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit13_stop_trigger));
+        pMud->field_16A_flags.Set(Flags_16A::eBit1_not_rescued, pState->field_6C.Get(MudokonSaveState::Flags_6A::eBit4_not_rescued));
+        pMud->field_16A_flags.Set(Flags_16A::eBit2_persist_and_reset_offscreen, pState->field_6C.Get(MudokonSaveState::Flags_6A::eBit5_save_state));
+        pMud->field_16A_flags.Set(Flags_16A::eBit3_alerted, pState->field_6C.Get(MudokonSaveState::Flags_6A::eBit6_alerted));
+        pMud->field_16A_flags.Set(Flags_16A::eBit4_blind, pState->field_6C.Get(MudokonSaveState::Flags_6A::eBit7_blind));
+        pMud->field_16A_flags.Set(Flags_16A::eBit5_following, pState->field_6C.Get(MudokonSaveState::Flags_6A::eBit8_following));
+        pMud->field_16A_flags.Set(Flags_16A::eBit6_standing_for_sad_or_angry, pState->field_6C.Get(MudokonSaveState::Flags_6A::eBit9_standing_for_sad_or_angry));
+        pMud->field_16A_flags.Set(Flags_16A::eBit7_stopped_at_wheel, pState->field_6C.Get(MudokonSaveState::Flags_6A::eBit10_stopped_at_wheel));
+        pMud->field_16A_flags.Set(Flags_16A::eBit8_do_angry, pState->field_6C.Get(MudokonSaveState::Flags_6A::eBit11_do_angry));
+        pMud->field_16A_flags.Set(Flags_16A::eBit9_seen_while_sick, pState->field_6C.Get(MudokonSaveState::Flags_6A::eBit12_seen_while_sick));
+        pMud->field_16A_flags.Set(Flags_16A::eBit10_work_after_turning_wheel, pState->field_6C.Get(MudokonSaveState::Flags_6A::eBit13_stop_trigger));
 
-        pMud->field_18C_unused = pState->field_6C.Get(Mudokon_State::Flags_6A::eBit14_unused);
-        pMud->field_192_return_to_previous_motion = pState->field_6C.Get(Mudokon_State::Flags_6A::eBit15_return_to_previous_motion);
+        pMud->field_18C_unused = pState->field_6C.Get(MudokonSaveState::Flags_6A::eBit14_unused);
+        pMud->field_192_return_to_previous_motion = pState->field_6C.Get(MudokonSaveState::Flags_6A::eBit15_return_to_previous_motion);
 
-        pMud->field_16A_flags.Set(Flags_16A::eBit11_get_depressed, pState->field_6C.Get(Mudokon_State::Flags_6A::eBit16_get_depressed));
+        pMud->field_16A_flags.Set(Flags_16A::eBit11_get_depressed, pState->field_6C.Get(MudokonSaveState::Flags_6A::eBit16_get_depressed));
 
-        pMud->field_16A_flags.Set(Flags_16A::eBit12_alert_enemies, pState->field_6E.Get(Mudokon_State::Flags_6E::e6E_Bit1_alert_enemies));
-        pMud->field_16A_flags.Set(Flags_16A::eBit13, pState->field_6E.Get(Mudokon_State::Flags_6E::e6E_Bit2));
-        pMud->field_16A_flags.Set(Flags_16A::eBit14_make_sad_noise, pState->field_6E.Get(Mudokon_State::Flags_6E::e6E_Bit3_make_sad_noise));
-        pMud->field_16A_flags.Set(Flags_16A::eBit15_ring_and_angry_mud_timeout, pState->field_6E.Get(Mudokon_State::Flags_6E::e6E_Bit4_ring_timeout));
+        pMud->field_16A_flags.Set(Flags_16A::eBit12_alert_enemies, pState->field_6E.Get(MudokonSaveState::Flags_6E::e6E_Bit1_alert_enemies));
+        pMud->field_16A_flags.Set(Flags_16A::eBit13, pState->field_6E.Get(MudokonSaveState::Flags_6E::e6E_Bit2));
+        pMud->field_16A_flags.Set(Flags_16A::eBit14_make_sad_noise, pState->field_6E.Get(MudokonSaveState::Flags_6E::e6E_Bit3_make_sad_noise));
+        pMud->field_16A_flags.Set(Flags_16A::eBit15_ring_and_angry_mud_timeout, pState->field_6E.Get(MudokonSaveState::Flags_6E::e6E_Bit4_ring_timeout));
 
-        if (pState->field_6E.Get(Mudokon_State::Flags_6E::e6E_Bit5))
+        if (pState->field_6E.Get(MudokonSaveState::Flags_6E::e6E_Bit5))
         {
             pMud->field_16C_flags.Set(Flags_16C::eBit1_Unknown);
         }
@@ -808,7 +808,7 @@ s32 Mudokon::CreateFromSaveState(const u8* pBuffer)
             pMud->field_16C_flags.Clear(Flags_16C::eBit1_Unknown);
         }
 
-        if (pState->field_6E.Get(Mudokon_State::Flags_6E::e6E_Bit6))
+        if (pState->field_6E.Get(MudokonSaveState::Flags_6E::e6E_Bit6))
         {
             pMud->field_16C_flags.Set(Flags_16C::eBit2_Unknown);
         }
@@ -833,7 +833,7 @@ s32 Mudokon::CreateFromSaveState(const u8* pBuffer)
         pMud->mBrainSubState = pState->field_7E_brain_sub_state;
         pMud->field_194_timer = pState->field_80_timer;
 
-        if (pState->field_6E.Get(Mudokon_State::Flags_6E::e6E_Bit6))
+        if (pState->field_6E.Get(MudokonSaveState::Flags_6E::e6E_Bit6))
         {
             sIsMudStandingUp_5C3018 = 1;
         }
@@ -841,7 +841,7 @@ s32 Mudokon::CreateFromSaveState(const u8* pBuffer)
         pMud->field_188_pTblEntry = GetResponseEntry(pState->field_84_response_entry_idx);
     }
 
-    return sizeof(Mudokon_State);
+    return sizeof(MudokonSaveState);
 }
 
 s32 Mudokon::VGetSaveState(u8* pSaveBuffer)
@@ -851,7 +851,7 @@ s32 Mudokon::VGetSaveState(u8* pSaveBuffer)
         return 0;
     }
 
-    auto pState = reinterpret_cast<Mudokon_State*>(pSaveBuffer);
+    auto pState = reinterpret_cast<MudokonSaveState*>(pSaveBuffer);
 
     pState->field_0_type = AETypes::eRingOrLiftMud_81;
 
@@ -924,28 +924,28 @@ s32 Mudokon::VGetSaveState(u8* pSaveBuffer)
     pState->field_6A_maxXOffset = field_162_maxXOffset;
 
     // bit1 never used ??
-    pState->field_6C.Set(Mudokon_State::Flags_6A::eBit2_unused, field_12C_unused != -1);
+    pState->field_6C.Set(MudokonSaveState::Flags_6A::eBit2_unused, field_12C_unused != -1);
     // bit3 never used ??
-    pState->field_6C.Set(Mudokon_State::Flags_6A::eBit4_not_rescued, field_16A_flags.Get(Flags_16A::eBit1_not_rescued));
-    pState->field_6C.Set(Mudokon_State::Flags_6A::eBit5_save_state, field_16A_flags.Get(Flags_16A::eBit2_persist_and_reset_offscreen));
-    pState->field_6C.Set(Mudokon_State::Flags_6A::eBit6_alerted, field_16A_flags.Get(Flags_16A::eBit3_alerted));
-    pState->field_6C.Set(Mudokon_State::Flags_6A::eBit7_blind, field_16A_flags.Get(Flags_16A::eBit4_blind));
-    pState->field_6C.Set(Mudokon_State::Flags_6A::eBit8_following, field_16A_flags.Get(Flags_16A::eBit5_following));
-    pState->field_6C.Set(Mudokon_State::Flags_6A::eBit9_standing_for_sad_or_angry, field_16A_flags.Get(Flags_16A::eBit6_standing_for_sad_or_angry));
-    pState->field_6C.Set(Mudokon_State::Flags_6A::eBit10_stopped_at_wheel, field_16A_flags.Get(Flags_16A::eBit7_stopped_at_wheel));
-    pState->field_6C.Set(Mudokon_State::Flags_6A::eBit11_do_angry, field_16A_flags.Get(Flags_16A::eBit8_do_angry));
-    pState->field_6C.Set(Mudokon_State::Flags_6A::eBit12_seen_while_sick, field_16A_flags.Get(Flags_16A::eBit9_seen_while_sick));
-    pState->field_6C.Set(Mudokon_State::Flags_6A::eBit13_stop_trigger, field_16A_flags.Get(Flags_16A::eBit10_work_after_turning_wheel));
-    pState->field_6C.Set(Mudokon_State::Flags_6A::eBit14_unused, field_18C_unused & 1);
-    pState->field_6C.Set(Mudokon_State::Flags_6A::eBit15_return_to_previous_motion, field_192_return_to_previous_motion & 1);
-    pState->field_6C.Set(Mudokon_State::Flags_6A::eBit16_get_depressed, field_16A_flags.Get(Flags_16A::eBit11_get_depressed));
+    pState->field_6C.Set(MudokonSaveState::Flags_6A::eBit4_not_rescued, field_16A_flags.Get(Flags_16A::eBit1_not_rescued));
+    pState->field_6C.Set(MudokonSaveState::Flags_6A::eBit5_save_state, field_16A_flags.Get(Flags_16A::eBit2_persist_and_reset_offscreen));
+    pState->field_6C.Set(MudokonSaveState::Flags_6A::eBit6_alerted, field_16A_flags.Get(Flags_16A::eBit3_alerted));
+    pState->field_6C.Set(MudokonSaveState::Flags_6A::eBit7_blind, field_16A_flags.Get(Flags_16A::eBit4_blind));
+    pState->field_6C.Set(MudokonSaveState::Flags_6A::eBit8_following, field_16A_flags.Get(Flags_16A::eBit5_following));
+    pState->field_6C.Set(MudokonSaveState::Flags_6A::eBit9_standing_for_sad_or_angry, field_16A_flags.Get(Flags_16A::eBit6_standing_for_sad_or_angry));
+    pState->field_6C.Set(MudokonSaveState::Flags_6A::eBit10_stopped_at_wheel, field_16A_flags.Get(Flags_16A::eBit7_stopped_at_wheel));
+    pState->field_6C.Set(MudokonSaveState::Flags_6A::eBit11_do_angry, field_16A_flags.Get(Flags_16A::eBit8_do_angry));
+    pState->field_6C.Set(MudokonSaveState::Flags_6A::eBit12_seen_while_sick, field_16A_flags.Get(Flags_16A::eBit9_seen_while_sick));
+    pState->field_6C.Set(MudokonSaveState::Flags_6A::eBit13_stop_trigger, field_16A_flags.Get(Flags_16A::eBit10_work_after_turning_wheel));
+    pState->field_6C.Set(MudokonSaveState::Flags_6A::eBit14_unused, field_18C_unused & 1);
+    pState->field_6C.Set(MudokonSaveState::Flags_6A::eBit15_return_to_previous_motion, field_192_return_to_previous_motion & 1);
+    pState->field_6C.Set(MudokonSaveState::Flags_6A::eBit16_get_depressed, field_16A_flags.Get(Flags_16A::eBit11_get_depressed));
 
-    pState->field_6E.Set(Mudokon_State::Flags_6E::e6E_Bit1_alert_enemies, field_16A_flags.Get(Flags_16A::eBit12_alert_enemies));
-    pState->field_6E.Set(Mudokon_State::Flags_6E::e6E_Bit2, field_16A_flags.Get(Flags_16A::eBit13));
-    pState->field_6E.Set(Mudokon_State::Flags_6E::e6E_Bit3_make_sad_noise, field_16A_flags.Get(Flags_16A::eBit14_make_sad_noise));
-    pState->field_6E.Set(Mudokon_State::Flags_6E::e6E_Bit4_ring_timeout, field_16A_flags.Get(Flags_16A::eBit15_ring_and_angry_mud_timeout));
-    pState->field_6E.Set(Mudokon_State::Flags_6E::e6E_Bit5, field_16C_flags.Get(Flags_16C::eBit1_Unknown));
-    pState->field_6E.Set(Mudokon_State::Flags_6E::e6E_Bit6, field_16C_flags.Get(Flags_16C::eBit2_Unknown));
+    pState->field_6E.Set(MudokonSaveState::Flags_6E::e6E_Bit1_alert_enemies, field_16A_flags.Get(Flags_16A::eBit12_alert_enemies));
+    pState->field_6E.Set(MudokonSaveState::Flags_6E::e6E_Bit2, field_16A_flags.Get(Flags_16A::eBit13));
+    pState->field_6E.Set(MudokonSaveState::Flags_6E::e6E_Bit3_make_sad_noise, field_16A_flags.Get(Flags_16A::eBit14_make_sad_noise));
+    pState->field_6E.Set(MudokonSaveState::Flags_6E::e6E_Bit4_ring_timeout, field_16A_flags.Get(Flags_16A::eBit15_ring_and_angry_mud_timeout));
+    pState->field_6E.Set(MudokonSaveState::Flags_6E::e6E_Bit5, field_16C_flags.Get(Flags_16C::eBit1_Unknown));
+    pState->field_6E.Set(MudokonSaveState::Flags_6E::e6E_Bit6, field_16C_flags.Get(Flags_16C::eBit2_Unknown));
 
     pState->field_70_brain_sub_state2 = field_178_brain_sub_state2;
     pState->field_72_stand_idle_timer = field_17C_stand_idle_timer;
@@ -959,7 +959,7 @@ s32 Mudokon::VGetSaveState(u8* pSaveBuffer)
 
     pState->field_84_response_entry_idx = GetResponseEntryIdx();
 
-    return sizeof(Mudokon_State);
+    return sizeof(MudokonSaveState);
 }
 
 void Mudokon::VUpdate()

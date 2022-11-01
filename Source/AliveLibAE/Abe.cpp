@@ -719,7 +719,7 @@ Abe::~Abe()
 
 s32 Abe::CreateFromSaveState(const u8* pData)
 {
-    const Abe_SaveState* pSaveState = reinterpret_cast<const Abe_SaveState*>(pData);
+    const AbeSaveState* pSaveState = reinterpret_cast<const AbeSaveState*>(pData);
 
     Abe* pAbe = sActiveHero;
     if (!sActiveHero)
@@ -865,31 +865,31 @@ s32 Abe::CreateFromSaveState(const u8* pData)
 
     sActiveHero->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eElectrocuted, pSaveState->mIsElectrocuted & 1);
     sActiveHero->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eInvisible, pSaveState->mIsInvisible & 1);
-    sActiveHero->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eTeleporting, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_eBit13_teleporting));
+    sActiveHero->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eTeleporting, pSaveState->field_D4_flags.Get(AbeSaveState::eD4_eBit13_teleporting));
 
-    sActiveHero->field_1AC_flags.Set(Flags_1AC::e1AC_Bit1_lift_point_dead_while_using_lift, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit1_lift_point_dead_while_using_lift));
-    sActiveHero->field_1AC_flags.Set(Flags_1AC::e1AC_Bit2_return_to_previous_motion, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit2_return_to_previous_motion));
-    sActiveHero->field_1AC_flags.Set(Flags_1AC::e1AC_Bit3_WalkToRun, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit3_WalkToRun));
-    sActiveHero->field_1AC_flags.Set(Flags_1AC::e1AC_Bit4_unused, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit4_unused));
+    sActiveHero->field_1AC_flags.Set(Flags_1AC::e1AC_Bit1_lift_point_dead_while_using_lift, pSaveState->field_D4_flags.Get(AbeSaveState::eD4_Bit1_lift_point_dead_while_using_lift));
+    sActiveHero->field_1AC_flags.Set(Flags_1AC::e1AC_Bit2_return_to_previous_motion, pSaveState->field_D4_flags.Get(AbeSaveState::eD4_Bit2_return_to_previous_motion));
+    sActiveHero->field_1AC_flags.Set(Flags_1AC::e1AC_Bit3_WalkToRun, pSaveState->field_D4_flags.Get(AbeSaveState::eD4_Bit3_WalkToRun));
+    sActiveHero->field_1AC_flags.Set(Flags_1AC::e1AC_Bit4_unused, pSaveState->field_D4_flags.Get(AbeSaveState::eD4_Bit4_unused));
     sActiveHero->field_1AC_flags.Set(Flags_1AC::e1AC_Bit5_shrivel, pSaveState->bShrivel);
-    sActiveHero->field_1AC_flags.Set(Flags_1AC::e1AC_Bit6_prevent_chanting, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit5_prevent_chanting));
-    sActiveHero->field_1AC_flags.Set(Flags_1AC::e1AC_Bit7_land_softly, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit6_land_softly));
-    sActiveHero->field_1AC_flags.Set(Flags_1AC::e1AC_Bit8_unused, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit7_unused));
-    sActiveHero->field_1AC_flags.Set(Flags_1AC::e1AC_Bit9_laugh_at_chant_end, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit8_laugh_at_chant_end));
+    sActiveHero->field_1AC_flags.Set(Flags_1AC::e1AC_Bit6_prevent_chanting, pSaveState->field_D4_flags.Get(AbeSaveState::eD4_Bit5_prevent_chanting));
+    sActiveHero->field_1AC_flags.Set(Flags_1AC::e1AC_Bit7_land_softly, pSaveState->field_D4_flags.Get(AbeSaveState::eD4_Bit6_land_softly));
+    sActiveHero->field_1AC_flags.Set(Flags_1AC::e1AC_Bit8_unused, pSaveState->field_D4_flags.Get(AbeSaveState::eD4_Bit7_unused));
+    sActiveHero->field_1AC_flags.Set(Flags_1AC::e1AC_Bit9_laugh_at_chant_end, pSaveState->field_D4_flags.Get(AbeSaveState::eD4_Bit8_laugh_at_chant_end));
 
-    sActiveHero->field_1AC_flags.Set(Flags_1AC::e1AC_Bit12_unused, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit9_unused));
-    sActiveHero->field_1AC_flags.Set(Flags_1AC::e1AC_eBit13_play_ledge_grab_sounds, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit10_play_ledge_grab_sounds));
-    sActiveHero->field_1AC_flags.Set(Flags_1AC::e1AC_eBit14_unused, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit11_unused));
-    sActiveHero->field_1AC_flags.Set(Flags_1AC::e1AC_eBit15_have_healing, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_Bit12_have_healing));
-    sActiveHero->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eTeleporting, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_eBit13_teleporting));
-    sActiveHero->field_1AC_flags.Set(Flags_1AC::e1AC_eBit16_is_mudanchee_vault_ender, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_eBit14_is_mudanchee_vault_ender));
+    sActiveHero->field_1AC_flags.Set(Flags_1AC::e1AC_Bit12_unused, pSaveState->field_D4_flags.Get(AbeSaveState::eD4_Bit9_unused));
+    sActiveHero->field_1AC_flags.Set(Flags_1AC::e1AC_eBit13_play_ledge_grab_sounds, pSaveState->field_D4_flags.Get(AbeSaveState::eD4_Bit10_play_ledge_grab_sounds));
+    sActiveHero->field_1AC_flags.Set(Flags_1AC::e1AC_eBit14_unused, pSaveState->field_D4_flags.Get(AbeSaveState::eD4_Bit11_unused));
+    sActiveHero->field_1AC_flags.Set(Flags_1AC::e1AC_eBit15_have_healing, pSaveState->field_D4_flags.Get(AbeSaveState::eD4_Bit12_have_healing));
+    sActiveHero->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eTeleporting, pSaveState->field_D4_flags.Get(AbeSaveState::eD4_eBit13_teleporting));
+    sActiveHero->field_1AC_flags.Set(Flags_1AC::e1AC_eBit16_is_mudanchee_vault_ender, pSaveState->field_D4_flags.Get(AbeSaveState::eD4_eBit14_is_mudanchee_vault_ender));
 
-    sActiveHero->field_1AE_flags.Set(Flags_1AE::e1AE_Bit1_is_mudomo_vault_ender, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_eBit15_is_mudomo_vault_ender));
-    sActiveHero->GetShadow()->mFlags.Set(Shadow::Flags::eEnabled, pSaveState->field_D4_flags.Get(Abe_SaveState::eD4_eBit16_shadow_enabled));
+    sActiveHero->field_1AE_flags.Set(Flags_1AE::e1AE_Bit1_is_mudomo_vault_ender, pSaveState->field_D4_flags.Get(AbeSaveState::eD4_eBit15_is_mudomo_vault_ender));
+    sActiveHero->GetShadow()->mFlags.Set(Shadow::Flags::eEnabled, pSaveState->field_D4_flags.Get(AbeSaveState::eD4_eBit16_shadow_enabled));
 
-    sActiveHero->GetShadow()->mFlags.Set(Shadow::Flags::eShadowAtBottom, pSaveState->field_D6_flags.Get(Abe_SaveState::eD6_Bit1_shadow_at_bottom));
+    sActiveHero->GetShadow()->mFlags.Set(Shadow::Flags::eShadowAtBottom, pSaveState->field_D6_flags.Get(AbeSaveState::eD6_Bit1_shadow_at_bottom));
 
-    return sizeof(Abe_SaveState);
+    return sizeof(AbeSaveState);
 }
 
 const FP sAbe_xVel_table_545770[8] = {
@@ -1506,7 +1506,7 @@ void Abe::VScreenChanged()
 
 s32 Abe::VGetSaveState(u8* pSaveBuffer)
 {
-    Abe_SaveState* pSaveState = reinterpret_cast<Abe_SaveState*>(pSaveBuffer);
+    AbeSaveState* pSaveState = reinterpret_cast<AbeSaveState*>(pSaveBuffer);
 
     pSaveState->mAEType = AETypes::eAbe_69;
     pSaveState->mXPos = mXPos;
@@ -1730,31 +1730,31 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
 
     pSaveState->mIsElectrocuted = mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted);
     pSaveState->mIsInvisible = mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible);
-    pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_eBit13_teleporting, sActiveHero->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eTeleporting));
+    pSaveState->field_D4_flags.Set(AbeSaveState::eD4_eBit13_teleporting, sActiveHero->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eTeleporting));
 
-    pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_Bit1_lift_point_dead_while_using_lift, field_1AC_flags.Get(Flags_1AC::e1AC_Bit1_lift_point_dead_while_using_lift));
-    pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_Bit2_return_to_previous_motion, field_1AC_flags.Get(Flags_1AC::e1AC_Bit2_return_to_previous_motion));
-    pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_Bit3_WalkToRun, field_1AC_flags.Get(Flags_1AC::e1AC_Bit3_WalkToRun));
-    pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_Bit4_unused, field_1AC_flags.Get(Flags_1AC::e1AC_Bit4_unused));
+    pSaveState->field_D4_flags.Set(AbeSaveState::eD4_Bit1_lift_point_dead_while_using_lift, field_1AC_flags.Get(Flags_1AC::e1AC_Bit1_lift_point_dead_while_using_lift));
+    pSaveState->field_D4_flags.Set(AbeSaveState::eD4_Bit2_return_to_previous_motion, field_1AC_flags.Get(Flags_1AC::e1AC_Bit2_return_to_previous_motion));
+    pSaveState->field_D4_flags.Set(AbeSaveState::eD4_Bit3_WalkToRun, field_1AC_flags.Get(Flags_1AC::e1AC_Bit3_WalkToRun));
+    pSaveState->field_D4_flags.Set(AbeSaveState::eD4_Bit4_unused, field_1AC_flags.Get(Flags_1AC::e1AC_Bit4_unused));
     pSaveState->bShrivel = field_1AC_flags.Get(Flags_1AC::e1AC_Bit5_shrivel);
-    pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_Bit5_prevent_chanting, field_1AC_flags.Get(Flags_1AC::e1AC_Bit6_prevent_chanting));
-    pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_Bit6_land_softly, field_1AC_flags.Get(Flags_1AC::e1AC_Bit7_land_softly));
-    pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_Bit7_unused, field_1AC_flags.Get(Flags_1AC::e1AC_Bit8_unused));
-    pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_Bit8_laugh_at_chant_end, field_1AC_flags.Get(Flags_1AC::e1AC_Bit9_laugh_at_chant_end));
+    pSaveState->field_D4_flags.Set(AbeSaveState::eD4_Bit5_prevent_chanting, field_1AC_flags.Get(Flags_1AC::e1AC_Bit6_prevent_chanting));
+    pSaveState->field_D4_flags.Set(AbeSaveState::eD4_Bit6_land_softly, field_1AC_flags.Get(Flags_1AC::e1AC_Bit7_land_softly));
+    pSaveState->field_D4_flags.Set(AbeSaveState::eD4_Bit7_unused, field_1AC_flags.Get(Flags_1AC::e1AC_Bit8_unused));
+    pSaveState->field_D4_flags.Set(AbeSaveState::eD4_Bit8_laugh_at_chant_end, field_1AC_flags.Get(Flags_1AC::e1AC_Bit9_laugh_at_chant_end));
 
-    pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_Bit9_unused, field_1AC_flags.Get(Flags_1AC::e1AC_Bit12_unused));
-    pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_Bit10_play_ledge_grab_sounds, field_1AC_flags.Get(Flags_1AC::e1AC_eBit13_play_ledge_grab_sounds));
-    pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_Bit11_unused, field_1AC_flags.Get(Flags_1AC::e1AC_eBit14_unused));
-    pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_Bit12_have_healing, field_1AC_flags.Get(Flags_1AC::e1AC_eBit15_have_healing));
-    pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_eBit13_teleporting, mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eTeleporting));
-    pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_eBit14_is_mudanchee_vault_ender, field_1AC_flags.Get(Flags_1AC::e1AC_eBit16_is_mudanchee_vault_ender));
+    pSaveState->field_D4_flags.Set(AbeSaveState::eD4_Bit9_unused, field_1AC_flags.Get(Flags_1AC::e1AC_Bit12_unused));
+    pSaveState->field_D4_flags.Set(AbeSaveState::eD4_Bit10_play_ledge_grab_sounds, field_1AC_flags.Get(Flags_1AC::e1AC_eBit13_play_ledge_grab_sounds));
+    pSaveState->field_D4_flags.Set(AbeSaveState::eD4_Bit11_unused, field_1AC_flags.Get(Flags_1AC::e1AC_eBit14_unused));
+    pSaveState->field_D4_flags.Set(AbeSaveState::eD4_Bit12_have_healing, field_1AC_flags.Get(Flags_1AC::e1AC_eBit15_have_healing));
+    pSaveState->field_D4_flags.Set(AbeSaveState::eD4_eBit13_teleporting, mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eTeleporting));
+    pSaveState->field_D4_flags.Set(AbeSaveState::eD4_eBit14_is_mudanchee_vault_ender, field_1AC_flags.Get(Flags_1AC::e1AC_eBit16_is_mudanchee_vault_ender));
 
-    pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_eBit15_is_mudomo_vault_ender, field_1AE_flags.Get(Flags_1AE::e1AE_Bit1_is_mudomo_vault_ender));
-    pSaveState->field_D4_flags.Set(Abe_SaveState::eD4_eBit16_shadow_enabled, GetShadow()->mFlags.Get(Shadow::Flags::eEnabled));
+    pSaveState->field_D4_flags.Set(AbeSaveState::eD4_eBit15_is_mudomo_vault_ender, field_1AE_flags.Get(Flags_1AE::e1AE_Bit1_is_mudomo_vault_ender));
+    pSaveState->field_D4_flags.Set(AbeSaveState::eD4_eBit16_shadow_enabled, GetShadow()->mFlags.Get(Shadow::Flags::eEnabled));
 
-    pSaveState->field_D6_flags.Set(Abe_SaveState::eD6_Bit1_shadow_at_bottom, GetShadow()->mFlags.Get(Shadow::Flags::eShadowAtBottom));
+    pSaveState->field_D6_flags.Set(AbeSaveState::eD6_Bit1_shadow_at_bottom, GetShadow()->mFlags.Get(Shadow::Flags::eShadowAtBottom));
 
-    return sizeof(Abe_SaveState);
+    return sizeof(AbeSaveState);
 }
 
 s16 Abe::VTakeDamage(BaseGameObject* pFrom)
@@ -5278,7 +5278,7 @@ void Abe::Motion_62_Punch_454750()
 
         if (!pSlapTarget)
         {
-            pSlapTarget = FindObjectOfType(ReliveTypes::eLockedSoul, gridSize, mYPos - (FP_FromInteger(30) * GetSpriteScale()));
+            pSlapTarget = FindObjectOfType(ReliveTypes::eSlapLock, gridSize, mYPos - (FP_FromInteger(30) * GetSpriteScale()));
         }
 
         if (!pSlapTarget)
@@ -8464,7 +8464,7 @@ s16 Abe::DoGameSpeak_45AB70(s32 input)
         else
         {
             // NOTE: Extra check for locks, it must also be being rendered in order to for us to try to hit it.
-            BaseAnimatedWithPhysicsGameObject* pLockedSoul = static_cast<BaseAliveGameObject*>(FindObjectOfType(ReliveTypes::eLockedSoul, mXPos + gridSize, mYPos - (FP_FromInteger(30) * GetSpriteScale())));
+            BaseAnimatedWithPhysicsGameObject* pLockedSoul = static_cast<BaseAliveGameObject*>(FindObjectOfType(ReliveTypes::eSlapLock, mXPos + gridSize, mYPos - (FP_FromInteger(30) * GetSpriteScale())));
             if (pLockedSoul && pLockedSoul->GetAnimation().mFlags.Get(AnimFlags::eRender))
             {
                 nextMotion = eAbeMotions::Motion_62_Punch_454750;

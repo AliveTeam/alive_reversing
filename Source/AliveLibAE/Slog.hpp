@@ -63,7 +63,7 @@ enum class eSlogMotions
     Motion_23_Growl
 };
 
-struct Slog_State final
+struct SlogSaveState final
 {
     AETypes field_0_type;
     s16 field_2_padding;
@@ -126,7 +126,7 @@ struct Slog_State final
     BitField16<Flags_74> field_74_flags;
     s16 field_76_padding;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(Slog_State, 0x78);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(SlogSaveState, 0x78);
 
 class Slog;
 using TSlogBrainFn = s16 (Slog::*)();
@@ -179,13 +179,13 @@ public:
 public:
     s16 Brain_0_ListeningToSlig();
 
-    s16 Brain_ListeningToSlig_State_0_Init();
-    s16 Brain_ListeningToSlig_State_1_Idle(const FP xpos1GridAHead);
-    s16 Brain_ListeningToSlig_State_2_Listening(const FP xpos1GridAHead, IBaseAliveGameObject* pObj);
-    s16 Brain_ListeningToSlig_State_3_Walking(const FP xpos1GridAHead);
-    s16 Brain_ListeningToSlig_State_4_Running(const FP xpos1GridAHead);
-    s16 Brain_ListeningToSlig_State_5_Waiting();
-    s16 Brain_ListeningToSlig_State_6_Responding();
+    s16 Brain_ListeningToSligSaveState_0_Init();
+    s16 Brain_ListeningToSligSaveState_1_Idle(const FP xpos1GridAHead);
+    s16 Brain_ListeningToSligSaveState_2_Listening(const FP xpos1GridAHead, IBaseAliveGameObject* pObj);
+    s16 Brain_ListeningToSligSaveState_3_Walking(const FP xpos1GridAHead);
+    s16 Brain_ListeningToSligSaveState_4_Running(const FP xpos1GridAHead);
+    s16 Brain_ListeningToSligSaveState_5_Waiting();
+    s16 Brain_ListeningToSligSaveState_6_Responding();
 
     s16 Brain_1_Idle();
 

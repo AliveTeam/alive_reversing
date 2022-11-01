@@ -297,7 +297,7 @@ ALIVE_ASSERT_SIZEOF(Abe_1BC_20_sub_object, 0x1C);
 
 void Mudokon_SFX(MudSounds idx, s16 volume, s32 pitch, BaseAliveGameObject* pHero);
 
-struct Abe_SaveState final
+struct AbeSaveState final
 {
     AETypes mAEType;
     s16 field_2_padding;
@@ -412,7 +412,7 @@ struct Abe_SaveState final
     };
     BitField16<Flags_D6> field_D6_flags;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(Abe_SaveState, 216);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(AbeSaveState, 216);
 
 class Bullet;
 

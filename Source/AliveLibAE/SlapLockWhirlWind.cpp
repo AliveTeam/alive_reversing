@@ -12,9 +12,9 @@
 
 s32 SlapLockWhirlWind::CreateFromSaveState(const u8* pBuffer)
 {
-    auto pSaveState = reinterpret_cast<const SlapLockWhirlWind_State*>(pBuffer);
+    auto pSaveState = reinterpret_cast<const SlapLockWhirlWindSaveState*>(pBuffer);
     SwitchStates_Do_Operation(pSaveState->mSwitchId, relive::reliveSwitchOp::eSetTrue);
-    return sizeof(SlapLockWhirlWind_State);
+    return sizeof(SlapLockWhirlWindSaveState);
 }
 
 SlapLockWhirlWind::SlapLockWhirlWind(s16 doorNumber, s16 switchId, FP xpos, FP ypos, FP scale)
@@ -76,10 +76,10 @@ SlapLockWhirlWind::SlapLockWhirlWind(s16 doorNumber, s16 switchId, FP xpos, FP y
 
 s32 SlapLockWhirlWind::VGetSaveState(u8* pSaveBuffer)
 {
-    SlapLockWhirlWind_State* pSaveState = reinterpret_cast<SlapLockWhirlWind_State*>(pSaveBuffer);
+    SlapLockWhirlWindSaveState* pSaveState = reinterpret_cast<SlapLockWhirlWindSaveState*>(pSaveBuffer);
     pSaveState->mType = AETypes::eSlapLock_OrbWhirlWind_60;
     pSaveState->mSwitchId = mSwitchId;
-    return sizeof(SlapLockWhirlWind_State);
+    return sizeof(SlapLockWhirlWindSaveState);
 }
 
 void SlapLockWhirlWind::VUpdate()

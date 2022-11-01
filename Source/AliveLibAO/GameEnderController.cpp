@@ -27,7 +27,7 @@ GameEnderController::GameEnderController()
     : BaseGameObject(true, 0)
 {
     SetType(ReliveTypes::eGameEnderController);
-    field_14_state = GameEnderController_States::eInit_0;
+    field_14_state = GameEnderControllerSaveStates::eInit_0;
 }
 
 void GameEnderController::VScreenChanged()
@@ -47,15 +47,15 @@ void GameEnderController::VUpdate()
 
     switch (field_14_state)
     {
-        case GameEnderController_States::eInit_0:
+        case GameEnderControllerSaveStates::eInit_0:
             if (gSwitchStates.mData[70])
             {
-                field_14_state = GameEnderController_States::eDetermineEnding_1;
+                field_14_state = GameEnderControllerSaveStates::eDetermineEnding_1;
                 field_10_timer = sGnFrame + 50;
             }
             break;
 
-        case GameEnderController_States::eDetermineEnding_1:
+        case GameEnderControllerSaveStates::eDetermineEnding_1:
             if (field_10_timer <= static_cast<s32>(sGnFrame))
             {
                 // Wait for murdering everyone to finish
@@ -98,13 +98,13 @@ void GameEnderController::VUpdate()
                             // Perfect ending
                             sActiveHero->mBaseGameObjectFlags.Set(Options::eDead);
                             gMap.SetActiveCam(EReliveLevelIds::eBoardRoom, 6, 11, CameraSwapEffects::eUnknown_11, 316, 0);
-                            field_14_state = GameEnderController_States::ePerfectEnding_4;
+                            field_14_state = GameEnderControllerSaveStates::ePerfectEnding_4;
                         }
                         else
                         {
                             // Meh good enough ending
                             gMap.SetActiveCam(EReliveLevelIds::eCredits, 1, 1, CameraSwapEffects::eUnknown_11, 316, 0);
-                            field_14_state = GameEnderController_States::eFinish_2;
+                            field_14_state = GameEnderControllerSaveStates::eFinish_2;
                         }
                     }
                     else
@@ -129,7 +129,7 @@ void GameEnderController::VUpdate()
 
                             gMap.SetActiveCam(EReliveLevelIds::eBoardRoom, 6, 9, CameraSwapEffects::eUnknown_11, 304, 0);
 
-                            field_14_state = GameEnderController_States::eBadEnding_3;
+                            field_14_state = GameEnderControllerSaveStates::eBadEnding_3;
                         }
                         else
                         {
@@ -139,7 +139,7 @@ void GameEnderController::VUpdate()
                             gInfiniteGrenades = false;
 
                             gMap.SetActiveCam(EReliveLevelIds::eBoardRoom, 6, 10, CameraSwapEffects::eUnknown_11, 304, 0);
-                            field_14_state = GameEnderController_States::eBadEnding_3;
+                            field_14_state = GameEnderControllerSaveStates::eBadEnding_3;
                             sRescuedMudokons = gRestartRuptureFarmsSavedMuds_5076C8;
                             sKilledMudokons = gRestartRuptureFarmsKilledMuds_5076C4;
                         }
@@ -148,20 +148,20 @@ void GameEnderController::VUpdate()
             }
             break;
 
-        case GameEnderController_States::eBadEnding_3:
+        case GameEnderControllerSaveStates::eBadEnding_3:
             if (Input().IsAnyHeld(sInputKey_FartRoll))
             {
                 gMap.SetActiveCam(EReliveLevelIds::eRuptureFarmsReturn, 19, 3, CameraSwapEffects::eInstantChange_0, 0, 0);
-                field_14_state = GameEnderController_States::eFinish_2;
+                field_14_state = GameEnderControllerSaveStates::eFinish_2;
             }
             break;
 
-        case GameEnderController_States::ePerfectEnding_4:
+        case GameEnderControllerSaveStates::ePerfectEnding_4:
             if (Input().IsAnyHeld(sInputKey_FartRoll))
             {
                 gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eFmvSelect_30, CameraSwapEffects::eInstantChange_0, 0, 0);
                 gMap.field_DC_free_all_anim_and_palts = 1;
-                field_14_state = GameEnderController_States::eFinish_2;
+                field_14_state = GameEnderControllerSaveStates::eFinish_2;
             }
             break;
 

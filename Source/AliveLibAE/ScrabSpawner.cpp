@@ -33,7 +33,7 @@ ScrabSpawner::ScrabSpawner(relive::Path_ScrabSpawner* pTlv, const Guid& tlvId)
 
 s32 ScrabSpawner::CreateFromSaveState(const u8* pBuffer)
 {
-    const auto pState = reinterpret_cast<const ScrabSpawner_State*>(pBuffer);
+    const auto pState = reinterpret_cast<const ScrabSpawnerSaveState*>(pBuffer);
     auto pTlv = static_cast<relive::Path_ScrabSpawner*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_4_tlvInfo));
     auto pScrabSpawner = relive_new ScrabSpawner(pTlv, pState->field_4_tlvInfo);
     if (pScrabSpawner)
@@ -43,7 +43,7 @@ s32 ScrabSpawner::CreateFromSaveState(const u8* pBuffer)
         pScrabSpawner->field_40_bFindSpawnedScrab = 1;
     }
 
-    return sizeof(ScrabSpawner_State);
+    return sizeof(ScrabSpawnerSaveState);
 }
 
 ScrabSpawner::~ScrabSpawner()
@@ -53,7 +53,7 @@ ScrabSpawner::~ScrabSpawner()
 
 s32 ScrabSpawner::VGetSaveState(u8* pSaveBuffer)
 {
-    auto pSaveState = reinterpret_cast<ScrabSpawner_State*>(pSaveBuffer);
+    auto pSaveState = reinterpret_cast<ScrabSpawnerSaveState*>(pSaveBuffer);
 
     pSaveState->field_0_type = AETypes::eScrabSpawner_113;
     pSaveState->field_4_tlvInfo = field_20_tlvInfo;
@@ -68,7 +68,7 @@ s32 ScrabSpawner::VGetSaveState(u8* pSaveBuffer)
             pSaveState->field_C_spawned_scrab_id = pSpawnedScrab->mBaseGameObjectTlvInfo;
         }
     }
-    return sizeof(ScrabSpawner_State);
+    return sizeof(ScrabSpawnerSaveState);
 }
 
 void ScrabSpawner::VUpdate()

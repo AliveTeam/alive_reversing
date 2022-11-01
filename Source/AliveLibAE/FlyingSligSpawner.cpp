@@ -33,7 +33,7 @@ FlyingSligSpawner::FlyingSligSpawner(relive::Path_FlyingSligSpawner* pTlv, const
 
 s32 FlyingSligSpawner::CreateFromSaveState(const u8* pBuffer)
 {
-    const auto pState = reinterpret_cast<const FlyingSligSpawner_State*>(pBuffer);
+    const auto pState = reinterpret_cast<const FlyingSligSpawnerSaveState*>(pBuffer);
 
     auto pTlv = static_cast<relive::Path_FlyingSligSpawner*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_4_tlvInfo));
 
@@ -45,7 +45,7 @@ s32 FlyingSligSpawner::CreateFromSaveState(const u8* pBuffer)
         pFlyingSligSpawner->field_24_spawned_slig_id = pState->field_C_spawned_slig_obj_id;
     }
 
-    return sizeof(FlyingSligSpawner_State);
+    return sizeof(FlyingSligSpawnerSaveState);
 }
 
 FlyingSligSpawner::~FlyingSligSpawner()
@@ -121,7 +121,7 @@ void FlyingSligSpawner::VUpdate()
 
 s32 FlyingSligSpawner::VGetSaveState(u8* pSaveBuffer)
 {
-    auto pSaveState = reinterpret_cast<FlyingSligSpawner_State*>(pSaveBuffer);
+    auto pSaveState = reinterpret_cast<FlyingSligSpawnerSaveState*>(pSaveBuffer);
 
     pSaveState->field_0_type = AETypes::eFlyingSligSpawner_55;
     pSaveState->field_4_tlvInfo = field_20_tlvInfo;
@@ -129,7 +129,7 @@ s32 FlyingSligSpawner::VGetSaveState(u8* pSaveBuffer)
     pSaveState->field_C_spawned_slig_obj_id = Guid{};
     if (field_24_spawned_slig_id == Guid{})
     {
-        return sizeof(FlyingSligSpawner_State);
+        return sizeof(FlyingSligSpawnerSaveState);
     }
 
     BaseGameObject* pSpawnedSlig = sObjectIds.Find_Impl(field_24_spawned_slig_id);
@@ -137,5 +137,5 @@ s32 FlyingSligSpawner::VGetSaveState(u8* pSaveBuffer)
     {
         pSaveState->field_C_spawned_slig_obj_id = pSpawnedSlig->mBaseGameObjectTlvInfo;
     }
-    return sizeof(FlyingSligSpawner_State);
+    return sizeof(FlyingSligSpawnerSaveState);
 }

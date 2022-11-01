@@ -445,7 +445,7 @@ void AbilityRing::VUpdate()
 
 s32 AbilityRing::VGetSaveState(u8* pSaveBuffer)
 {
-    auto pSaveState = reinterpret_cast<AbilityRing_State*>(pSaveBuffer);
+    auto pSaveState = reinterpret_cast<AbilityRingSaveState*>(pSaveBuffer);
 
     pSaveState->mRingObjectType = AETypes::eAbilityRing_104;
     pSaveState->mRingXPos = mRingXPos;
@@ -471,7 +471,7 @@ s32 AbilityRing::VGetSaveState(u8* pSaveBuffer)
     pSaveState->mRingTlvInfo = Guid{};
     if (mRingTargetObjId == Guid{})
     {
-        return sizeof(AbilityRing_State);
+        return sizeof(AbilityRingSaveState);
     }
 
     BaseGameObject* pTargetObj = sObjectIds.Find_Impl(mRingTargetObjId);
@@ -479,12 +479,12 @@ s32 AbilityRing::VGetSaveState(u8* pSaveBuffer)
     {
         pSaveState->mRingTlvInfo = pTargetObj->mBaseGameObjectTlvInfo;
     }
-    return sizeof(AbilityRing_State);
+    return sizeof(AbilityRingSaveState);
 }
 
 s32 AbilityRing::CreateFromSaveState(const u8* pBuffer)
 {
-    auto pState = reinterpret_cast<const AbilityRing_State*>(pBuffer);
+    auto pState = reinterpret_cast<const AbilityRingSaveState*>(pBuffer);
     auto pRing = relive_new AbilityRing(pState->mRingXPos, pState->mRingYPos, pState->mRingType, pState->mRingScale);
     if (pRing)
     {
@@ -496,7 +496,7 @@ s32 AbilityRing::CreateFromSaveState(const u8* pBuffer)
         pRing->mRingTargetObjId = pState->mRingTlvInfo;
         pRing->mRefreshTargetObjId = true;
     }
-    return sizeof(AbilityRing_State);
+    return sizeof(AbilityRingSaveState);
 }
 
 

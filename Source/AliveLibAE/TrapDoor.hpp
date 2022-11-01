@@ -12,14 +12,14 @@ enum class TrapDoorState : s16
     eClosing_3 = 3,
 };
 
-struct TrapDoor_State final
+struct TrapDoorSaveState final
 {
     AETypes field_0_type;
     TrapDoorState field_2_state;
     s32 field_4_open_time;
     Guid field_8_tlvInfo;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(TrapDoor_State, 0xC);
+//ALIVE_ASSERT_SIZEOF_ALWAYS(TrapDoorSaveState, 0xC);
 
 namespace relive
 {
