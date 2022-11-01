@@ -111,11 +111,13 @@ private:
             break;
 
         case ::AETypes::eFleech_50:
-            //return Fleech::CreateFromSaveState(pData);
+            AddObjectState(AEData::FleechSaveState::From(*reinterpret_cast<const AEData::FleechSaveState*>(pData)));
+            return sizeof(AEData::FleechSaveState);
             break;
 
         case ::AETypes::eFlyingSlig_54:
-            //return FlyingSlig::CreateFromSaveState(pData);
+            AddObjectState(AEData::FlyingSligSaveState::From(*reinterpret_cast<const AEData::FlyingSligSaveState*>(pData)));
+            return sizeof(AEData::FlyingSligSaveState);
             break;
 
         case ::AETypes::eFlyingSligSpawner_55:
@@ -154,7 +156,8 @@ private:
             break;
 
         case ::AETypes::eAbe_69:
-            //return Abe::CreateFromSaveState(pData);
+            AddObjectState(AEData::AbeSaveState::From(*reinterpret_cast<const AEData::AbeSaveState*>(pData)));
+            return sizeof(AEData::AbeSaveState);
             break;
 
         case ::AETypes::eLiftPoint_78:
@@ -164,7 +167,8 @@ private:
 
         case ::AETypes::eMudokon_110:
         case ::AETypes::eRingOrLiftMud_81:
-            //return Mudokon::CreateFromSaveState(pData);
+            AddObjectState(AEData::MudokonSaveState::From(*reinterpret_cast<const AEData::MudokonSaveState*>(pData)));
+            return sizeof(AEData::MudokonSaveState);
             break;
 
         case ::AETypes::eMeat_84:

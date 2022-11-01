@@ -38,6 +38,10 @@
 #include "../../AliveLibAE/Grenade.hpp"
 #include "../../AliveLibAE/Greeter.hpp"
 #include "../../AliveLibAE/Glukkon.hpp"
+#include "../../AliveLibAE/Fleech.hpp"
+#include "../../AliveLibAE/FlyingSlig.hpp"
+#include "../../AliveLibAE/Abe.hpp"
+#include "../../AliveLibAE/Mudokon.hpp"
 
 // Any enum/struct in the AEData namespace is related to OG data and can't ever be changed
 // otherwise interpreting the OG data will break.
@@ -344,6 +348,30 @@ enum class Mud_Emotion : s16
     eSick_7 = 7
 };
 
+static ::Mud_Emotion From(const Mud_Emotion emo)
+{
+    switch (emo)
+    {
+        case Mud_Emotion::eNormal_0:
+            return ::Mud_Emotion::eNormal_0;
+        case Mud_Emotion::eAngry_1:
+            return ::Mud_Emotion::eAngry_1;
+        case Mud_Emotion::eAggressive_2:
+            return ::Mud_Emotion::eAggressive_2;
+        case Mud_Emotion::eSad_3:
+            return ::Mud_Emotion::eSad_3;
+        case Mud_Emotion::eSuicidal_4:
+            return ::Mud_Emotion::eSuicidal_4;
+        case Mud_Emotion::eHappy_5:
+            return ::Mud_Emotion::eHappy_5;
+        case Mud_Emotion::eWired_6:
+            return ::Mud_Emotion::eWired_6;
+        case Mud_Emotion::eSick_7:
+            return ::Mud_Emotion::eSick_7;
+    }
+    ALIVE_FATAL("Bad mudokon emotion value");
+}
+
 enum class Scale : s16
 {
     Bg = 0,
@@ -454,6 +482,72 @@ enum class MudSounds : s16
     eSorry_27 = 27,
     eSadUgh_28 = 28,
 };
+
+static ::MudSounds From(const MudSounds snd)
+{
+    switch (snd)
+    {
+        case MudSounds::eNone:
+            return ::MudSounds::eNone;
+        case MudSounds::eEmpty_1:
+            return ::MudSounds::eEmpty_1;
+        case MudSounds::eEmpty_2:
+            return ::MudSounds::eEmpty_2;
+        case MudSounds::eHelloNeutral_3:
+            return ::MudSounds::eHelloNeutral_3;
+        case MudSounds::eFollowMe_4:
+            return ::MudSounds::eFollowMe_4;
+        case MudSounds::eAnger_5:
+            return ::MudSounds::eAnger_5;
+        case MudSounds::eWait_6:
+            return ::MudSounds::eWait_6;
+        case MudSounds::eFart_7:
+            return ::MudSounds::eFart_7;
+        case MudSounds::eGiggle_8:
+            return ::MudSounds::eGiggle_8;
+        case MudSounds::eHurt2_9:
+            return ::MudSounds::eHurt2_9;
+        case MudSounds::eLaugh_10:
+            return ::MudSounds::eLaugh_10;
+        case MudSounds::eGoodbye_11:
+            return ::MudSounds::eGoodbye_11;
+        case MudSounds::eOkay_12:
+            return ::MudSounds::eOkay_12;
+        case MudSounds::eNuhUh_13:
+            return ::MudSounds::eNuhUh_13;
+        case MudSounds::eOops_14:
+            return ::MudSounds::eOops_14;
+        case MudSounds::eDeathDropScream_15:
+            return ::MudSounds::eDeathDropScream_15;
+        case MudSounds::eHurt1_16:
+            return ::MudSounds::eHurt1_16;
+        case MudSounds::eAllOYa_17:
+            return ::MudSounds::eAllOYa_17;
+        case MudSounds::eHiAngry_18:
+            return ::MudSounds::eHiAngry_18;
+        case MudSounds::eHiHappy_19:
+            return ::MudSounds::eHiHappy_19;
+        case MudSounds::eHiSad_20:
+            return ::MudSounds::eHiSad_20;
+        case MudSounds::eNoAngry_21:
+            return ::MudSounds::eNoAngry_21;
+        case MudSounds::eNoSad_22:
+            return ::MudSounds::eNoSad_22;
+        case MudSounds::eFartPuh_23:
+            return ::MudSounds::eFartPuh_23;
+        case MudSounds::eSick_24:
+            return ::MudSounds::eSick_24;
+        case MudSounds::eWork_25:
+            return ::MudSounds::eWork_25;
+        case MudSounds::eStopIt_26:
+            return ::MudSounds::eStopIt_26;
+        case MudSounds::eSorry_27:
+            return ::MudSounds::eSorry_27;
+        case MudSounds::eSadUgh_28:
+            return ::MudSounds::eSadUgh_28;
+    }
+    ALIVE_FATAL("Bad mudokon sound value");
+}
 
 struct SligSpawnerSaveState final
 {
@@ -963,6 +1057,84 @@ struct FleechSaveState final
 
     BitField16<FleechStateFlags> mFleechStateFlags;
     s16 field_B2;
+
+    static ::FleechSaveState From(const FleechSaveState& data)
+    {
+        ::FleechSaveState d;
+        d.field_0_type = data.field_0_type;
+        d.field_2 = data.field_2;
+        d.field_4_obj_id = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
+        d.mXPos = data.mXPos;
+        d.mYPos = data.mYPos;
+        d.mVelX = data.mVelX;
+        d.mVelY = data.mVelY;
+        d.mPathNumber = data.mPathNumber;
+        d.mLvlNumber = data.mLvlNumber;
+        d.mSpriteScale = data.mSpriteScale;
+        d.mRingRed = data.mRingRed;
+        d.mRingGreen = data.mRingGreen;
+        d.mRingBlue = data.mRingBlue;
+        d.field_26_bFlipX = data.field_26_bFlipX;
+        d.field_28_current_motion = data.field_28_current_motion;
+        d.field_2A_anim_current_frame = data.field_2A_anim_current_frame;
+        d.field_2E_bRender = data.field_2E_bRender;
+        d.field_2F_bDrawable = data.field_2F_bDrawable;
+        d.mHealth = data.mHealth;
+        d.mCurrentMotion = data.mCurrentMotion;
+        d.mNextMotion = data.mNextMotion;
+        d.mLastLineYPos = data.mLastLineYPos;
+        d.mCollisionLineType = data.mCollisionLineType;
+        d.mPlatformId = Guid::NewGuidFromTlvInfo(data.mPlatformId);
+        d.mTlvInfo = Guid::NewGuidFromTlvInfo(data.mTlvInfo);
+        d.field_44_obj_id = Guid::NewGuidFromTlvInfo(data.field_44_obj_id);
+        d.mTongueState = data.mTongueState;
+        d.mTongueSubState = data.mTongueSubState;
+        d.mEnemyXPos = data.mEnemyXPos;
+        d.mEnemyYPos = data.mEnemyYPos;
+        d.mTongueOriginX = data.mTongueOriginX;
+        d.mTongueOriginY = data.mTongueOriginY;
+        d.mTongueDestinationX = data.mTongueDestinationX;
+        d.mTongueDestinationY = data.mTongueDestinationY;
+        d.field_5A = data.field_5A;
+        d.field_5C_tongue_active_flag = data.field_5C_tongue_active_flag;
+        d.field_5D_render_flag = data.field_5D_render_flag;
+        d.field_5E_brain_state = data.field_5E_brain_state;
+        d.field_60_state = data.field_60_state;
+        d.field_62 = data.field_62;
+        d.field_64_shrivel_timer = data.field_64_shrivel_timer;
+        d.field_68_fleech_random_idx = data.field_68_fleech_random_idx;
+        d.field_69 = data.field_69;
+        d.field_6A_bDidMapFollowMe = data.field_6A_bDidMapFollowMe;
+        d.field_70_velx_factor = data.field_70_velx_factor;
+        d.field_76_current_anger = data.field_76_current_anger;
+        d.field_78_max_anger = data.field_78_max_anger;
+        d.field_7A_attack_anger = data.field_7A_attack_anger;
+        d.field_7C_wakeup_id = data.field_7C_wakeup_id;
+        d.field_7E_wake_up_switch_anger_value = data.field_7E_wake_up_switch_anger_value;
+        d.field_80_wake_up_switch_value = data.field_80_wake_up_switch_value;
+        d.field_82_can_wake_up_id = data.field_82_can_wake_up_id;
+        d.field_84_EventXPos = data.field_84_EventXPos;
+        d.field_86_ScrabParamiteEventXPos = data.field_86_ScrabParamiteEventXPos;
+        d.field_88_patrol_range = data.field_88_patrol_range;
+        d.field_8A_old_xpos = data.field_8A_old_xpos;
+        d.field_8C = data.field_8C;
+        d.field_8E_rnd_crawl = data.field_8E_rnd_crawl;
+        d.field_90_chase_delay = data.field_90_chase_delay;
+        d.field_92_chase_timer = data.field_92_chase_timer;
+        d.field_94_lost_target_timeout = data.field_94_lost_target_timeout;
+        d.field_96_lost_target_timer = data.field_96_lost_target_timer;
+        d.field_98_hoistX = data.field_98_hoistX;
+        d.field_9A_hoistY = data.field_9A_hoistY;
+        d.field_9E_angle = data.field_9E_angle;
+        d.field_9F = data.field_9F;
+        d.field_A0_hoistY_distance = data.field_A0_hoistY_distance;
+        d.field_A4_hoistX_distance = data.field_A4_hoistX_distance;
+        d.field_A8 = Guid::NewGuidFromTlvInfo(data.field_A8);
+        d.field_AC_obj_id = Guid::NewGuidFromTlvInfo(data.field_AC_obj_id);
+        d.mFleechStateFlags.Raw().all = data.mFleechStateFlags.Raw().all; // TODO: convert flags to bools
+        d.field_B2 = data.field_B2;
+        return d;
+    }
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(FleechSaveState, 0xB4);
 
@@ -1042,6 +1214,62 @@ struct FlyingSligSaveState final
     s16 field_A2_padding;
     s32 field_A4_bobbing_values_index;
     FP field_A8_bobbing_value;
+
+    static ::FlyingSligSaveState From(const FlyingSligSaveState& data)
+    {
+        ::FlyingSligSaveState d;
+        d.field_0_type = data.field_0_type;
+        d.field_2 = data.field_2;
+        d.field_4_xpos = data.field_4_xpos;
+        d.field_8_ypos = data.field_8_ypos;
+        d.field_C_velx = data.field_C_velx;
+        d.field_10_vely = data.field_10_vely;
+        d.field_14_path_number = data.field_14_path_number;
+        d.field_16_lvl_number = data.field_16_lvl_number;
+        d.field_18_sprite_scale = data.field_18_sprite_scale;
+        d.field_1C_oldr = data.field_1C_oldr;
+        d.field_1E_oldg = data.field_1E_oldg;
+        d.field_20_oldb = data.field_20_oldb;
+        d.field_22_bAnimFlipX = data.field_22_bAnimFlipX;
+        d.field_24_current_state = data.field_24_current_state;
+        d.field_26_current_frame = data.field_26_current_frame;
+        d.field_28_frame_change_counter = data.field_28_frame_change_counter;
+        d.field_2A_bAnimRender = data.field_2A_bAnimRender;
+        d.field_2B_bDrawable = data.field_2B_bDrawable;
+        d.field_2C_current_health = data.field_2C_current_health;
+        d.field_30_current_state = data.field_30_current_state;
+        d.field_32_delayed_state = data.field_32_delayed_state;
+        d.field_34_lastLineYPos = data.field_34_lastLineYPos;
+        d.field_36_line_idx = data.field_36_line_idx;
+        d.field_38_launch_switch_id = data.field_38_launch_switch_id;
+        d.field_3A.Raw().all = data.field_3A.Raw().all; // TODO: convert flags to bools
+        d.field_3C_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_3C_tlvInfo);
+        d.field_40_timer = data.field_40_timer;
+        d.field_44_grenade_delay = data.field_44_grenade_delay;
+        d.field_48_collision_reaction_timer = data.field_48_collision_reaction_timer;
+        d.field_4C_xSpeed = data.field_4C_xSpeed;
+        d.field_50_ySpeed = data.field_50_ySpeed;
+        d.field_54_next_speak = AEData::From(data.field_54_next_speak);
+        d.field_56_voice_pitch_min = data.field_56_voice_pitch_min;
+        d.field_58_obj_id = Guid::NewGuidFromTlvInfo(data.field_58_obj_id);
+        d.field_5C = data.field_5C;
+        d.field_60 = data.field_60;
+        d.field_64 = data.field_64;
+        d.field_68_line_length = data.field_68_line_length;
+        d.field_6C = data.field_6C;
+        d.field_70_lever_pull_range_xpos = data.field_70_lever_pull_range_xpos;
+        d.field_74_lever_pull_range_ypos = data.field_74_lever_pull_range_ypos;
+        d.field_88_nextXPos = data.field_88_nextXPos;
+        d.field_8C_nextYPos = data.field_8C_nextYPos;
+        d.field_90_fns1_idx = data.field_90_fns1_idx;
+        d.field_9A_abe_level = data.field_9A_abe_level;
+        d.field_9C_abe_path = data.field_9C_abe_path;
+        d.field_9E_abe_camera = data.field_9E_abe_camera;
+        d.field_A0_bobbing_values_table_index = data.field_A0_bobbing_values_table_index;
+        d.field_A4_bobbing_values_index = data.field_A4_bobbing_values_index;
+        d.field_A8_bobbing_value = data.field_A8_bobbing_value;
+        return d;
+    }
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(FlyingSligSaveState, 0xAC);
 
@@ -1640,7 +1868,7 @@ struct AbeSaveState final
     s8 mHandStoneCamIdx;
     s8 field_A5_padding;
     s16 field_A6_padding;
-    ReliveTypes mHandStoneType;
+    TlvTypes32 mHandStoneType;
     u16 mFmvId;
     u16 mHandStoneCam1;
     u16 mHandStoneCam2;
@@ -1687,6 +1915,99 @@ struct AbeSaveState final
         eD6_Bit1_shadow_at_bottom = 0x1
     };
     BitField16<Flags_D6> field_D6_flags;
+
+    static ::AbeSaveState From(const AbeSaveState& data)
+    {
+        ::AbeSaveState d;
+        d.mAEType = data.mAEType;
+        d.mXPos = data.mXPos;
+        d.mYPos = data.mYPos;
+        d.mVelX = data.mVelX;
+        d.mVelY = data.mVelY;
+        d.mCurrentPath = data.mCurrentPath;
+        d.mCurrentLevel = data.mCurrentLevel;
+        d.mSpriteScale = data.mSpriteScale;
+        d.mScale = AEData::From(data.mScale);
+        d.mRed = data.mRed;
+        d.mGreen = data.mGreen;
+        d.mBlue = data.mBlue;
+        d.bAnimFlipX = data.bAnimFlipX;
+        d.mCurrentMotion = data.mCurrentMotion;
+        d.mCurrentFrame = data.mCurrentFrame;
+        d.mFrameChangeCounter = data.mFrameChangeCounter;
+        d.mRenderLayer = data.mRenderLayer;
+        d.mAnimRender = data.mAnimRender;
+        d.mIsDrawable = data.mIsDrawable;
+        d.mHealth = data.mHealth;
+        d.mCurrentMotion2 = data.mCurrentMotion2;
+        d.mNextMotion = data.mNextMotion;
+        d.mLastLineYPos = data.mLastLineYPos;
+        d.mCollisionLineType = data.mCollisionLineType;
+        d.mPlatformId = Guid::NewGuidFromTlvInfo(data.mPlatformId);
+        d.mIsElectrocuted = data.mIsElectrocuted;
+        d.mIsInvisible = data.mIsInvisible;
+        d.mIsAbeControlled = data.mIsAbeControlled;
+        d.field_48_x_vel_slow_by = data.field_48_x_vel_slow_by;
+        d.field_50_state = data.field_50_state;
+        d.field_54_timer = data.field_54_timer;
+        d.field_58_abe_timer = data.field_58_abe_timer;
+        d.mRegenHealthTimer = data.mRegenHealthTimer;
+        d.mMood = AEData::From(data.mMood);
+        d.mSay = AEData::From(data.mSay);
+        d.mAutoSayTimer = data.mAutoSayTimer;
+        d.mRingPulseTimer = data.mRingPulseTimer;
+        d.mBaseThrowableCount = data.mBaseThrowableCount;
+        d.bShrivel = data.bShrivel;
+        d.mHaveShrykull = data.mHaveShrykull;
+        d.bHaveInvisiblity = data.bHaveInvisiblity;
+        d.mPrevHeld = data.mPrevHeld;
+        d.mReleasedButtons = data.mReleasedButtons;
+        d.mKnockdownMotion = data.mKnockdownMotion;
+        d.mRollingMotionTimer = data.mRollingMotionTimer;
+        d.mDeathFadeOutId = Guid::NewGuidFromTlvInfo(data.mDeathFadeOutId);
+        d.mCircularFadeId = Guid::NewGuidFromTlvInfo(data.mCircularFadeId);
+        d.mOrbWhirlWindId = Guid::NewGuidFromTlvInfo(data.mOrbWhirlWindId);
+        d.mPossessedObjectId = Guid::NewGuidFromTlvInfo(data.mPossessedObjectId);
+        d.mThrowableId = Guid::NewGuidFromTlvInfo(data.mThrowableId);
+        d.mPullRingRopeId = Guid::NewGuidFromTlvInfo(data.mPullRingRopeId);
+        d.mSlappableOrPickupId = Guid::NewGuidFromTlvInfo(data.mSlappableOrPickupId);
+        d.mWorkWheelId = Guid::NewGuidFromTlvInfo(data.mWorkWheelId);
+        d.mInvisibilityTimer = data.mInvisibilityTimer;
+        d.mInvisibilityDuration = data.mInvisibilityDuration;
+        d.mHandStoneCamIdx = data.mHandStoneCamIdx;
+        d.mHandStoneType = From(data.mHandStoneType.mType);
+        d.mFmvId = data.mFmvId;
+        d.mHandStoneCam1 = data.mHandStoneCam1;
+        d.mHandStoneCam2 = data.mHandStoneCam2;
+        d.mHandStoneCam3 = data.mHandStoneCam3;
+        d.mHasEvilFart = data.mHasEvilFart;
+        d.mDstWellLevel = data.mDstWellLevel;
+        d.mDstWellPath = data.mDstWellPath;
+        d.mDstWellCamera = data.mDstWellCamera;
+        d.door_id = data.door_id;
+        d.mThrowDirection = data.mThrowDirection;
+        d.mBirdPortalSubState = data.mBirdPortalSubState;
+        d.mBirdPortalId = Guid::NewGuidFromTlvInfo(data.mBirdPortalId);
+        d.field_D4_flags.Raw().all = data.field_D4_flags.Raw().all; // TODO: convert flags to bools
+        d.field_D6_flags.Raw().all = data.field_D6_flags.Raw().all; // dito
+        return d;
+    }
+
+    // Abe is the only one who uses the TlvTypes enum to store HandStone types
+    // so there should be no need to convert more values.
+    static ::ReliveTypes From(const TlvTypes type)
+    {
+        switch (type)
+        {
+            case TlvTypes::None_m1:
+                return ::ReliveTypes::eNone;
+            case TlvTypes::HandStone_61:
+                return ::ReliveTypes::eHandStone;
+            case TlvTypes::MovieHandStone_27:
+                return ::ReliveTypes::eMovieHandStone;
+        }
+        ALIVE_FATAL("Bad tlv type value");
+    }
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(AbeSaveState, 216);
 
@@ -1876,6 +2197,258 @@ struct MudokonSaveState final
     s16 field_7E_brain_sub_state;
     s32 field_80_timer;
     s32 field_84_response_entry_idx;
+
+    static ::MudokonSaveState From(const MudokonSaveState& data)
+    {
+        ::MudokonSaveState d;
+        d.field_0_type = data.field_0_type;
+        d.field_4_xpos = data.field_4_xpos;
+        d.field_8_ypos = data.field_8_ypos;
+        d.field_C_velx = data.field_C_velx;
+        d.field_10_vely = data.field_10_vely;
+        d.field_14_path_number = data.field_14_path_number;
+        d.field_16_lvl_number = data.field_16_lvl_number;
+        d.field_18_sprite_scale = data.field_18_sprite_scale;
+        d.field_1C_r = data.field_1C_r;
+        d.field_1E_g = data.field_1E_g;
+        d.field_20_b = data.field_20_b;
+        d.field_22_bFlipX = data.field_22_bFlipX;
+        d.field_24_current_motion = data.field_24_current_motion;
+        d.field_26_anim_current_frame = data.field_26_anim_current_frame;
+        d.field_28_anim_frame_change_counter = data.field_28_anim_frame_change_counter;
+        d.field_2A_bAnimRender = data.field_2A_bAnimRender;
+        d.field_2B_bDrawable = data.field_2B_bDrawable;
+        d.field_2C_health = data.field_2C_health;
+        d.field_30_current_motion = data.field_30_current_motion;
+        d.field_32_next_motion = data.field_32_next_motion;
+        d.field_34_lastLineYPos = data.field_34_lastLineYPos;
+        d.field_36_line_type = data.field_36_line_type;
+        d.field_3C_can_be_possessed = data.field_3C_can_be_possessed;
+        d.field_3D_bIsPlayer = data.field_3D_bIsPlayer;
+        d.field_40_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_40_tlvInfo);
+        d.field_44_velx_slow_by = data.field_44_velx_slow_by;
+        d.field_4C_portal_id = Guid::NewGuidFromTlvInfo(data.field_4C_portal_id);
+        d.field_50_angry_trigger = data.field_50_angry_trigger;
+        d.field_54_savedfield124 = data.field_54_savedfield124;
+        d.field_58_angry_timer = data.field_58_angry_timer;
+        d.field_5E_voice_pitch = data.field_5E_voice_pitch;
+        d.field_60_wheel_id = Guid::NewGuidFromTlvInfo(data.field_60_wheel_id);
+        d.field_68 = AEData::From(data.field_68);
+        d.field_6A_maxXOffset = data.field_6A_maxXOffset;
+        d.field_6C.Raw().all = data.field_6C.Raw().all; // TODO: convert flags to bools
+        d.field_6E.Raw().all = data.field_6E.Raw().all; // dito
+        d.field_70_brain_sub_state2 = data.field_70_brain_sub_state2;
+        d.field_72_stand_idle_timer = data.field_72_stand_idle_timer;
+        d.field_74_delayed_speak = From(data.field_74_delayed_speak);
+        d.field_76_emo_tlb = AEData::From(data.field_76_emo_tlb);
+        d.field_78 = AEData::From(data.field_78);
+        d.field_7A_motion = From(data.field_7A_motion);
+        d.field_7C_brain_state = From(data.field_7C_brain_state);
+        d.field_7E_brain_sub_state = data.field_7E_brain_sub_state;
+        d.field_80_timer = data.field_80_timer;
+        d.field_84_response_entry_idx = data.field_84_response_entry_idx;
+        return d;
+    }
+
+    static ::MudAction From(const MudAction action)
+    {
+        switch (action)
+        {
+            case MudAction::eHelloOrAllYa_0:
+                return ::MudAction::eHelloOrAllYa_0;
+            case MudAction::eFollowMe_1:
+                return ::MudAction::eFollowMe_1;
+            case MudAction::eWait_2:
+                return ::MudAction::eWait_2;
+            case MudAction::eUnused_3:
+                return ::MudAction::eUnused_3;
+            case MudAction::eStopIt_4:
+                return ::MudAction::eStopIt_4;
+            case MudAction::eUnused_5:
+                return ::MudAction::eUnused_5;
+            case MudAction::eFart_6:
+                return ::MudAction::eFart_6;
+            case MudAction::eSlapOrWater_7:
+                return ::MudAction::eSlapOrWater_7;
+            case MudAction::eSorry_8:
+                return ::MudAction::eSorry_8;
+            case MudAction::eMudAbuse_9:
+                return ::MudAction::eMudAbuse_9;
+            case MudAction::eComfort_10:
+                return ::MudAction::eComfort_10;
+            case MudAction::eSmackIntoWall_11:
+                return ::MudAction::eSmackIntoWall_11;
+            case MudAction::eLaugh_12:
+                return ::MudAction::eLaugh_12;
+            case MudAction::eDuck_13:
+                return ::MudAction::eDuck_13;
+            case MudAction::eMudDied_14:
+                return ::MudAction::eMudDied_14;
+            case MudAction::eUnknown_15:
+                return ::MudAction::eUnknown_15;
+            case MudAction::eUnknown_16:
+                return ::MudAction::eUnknown_16;
+            case MudAction::eNone_17:
+                return ::MudAction::eNone_17;
+        }
+        ALIVE_FATAL("Bad mudokon action value");
+    }
+
+    static ::Mud_Brain_State From(const Mud_Brain_State state)
+    {
+        switch (state)
+        {
+            case Mud_Brain_State::Brain_0_GiveRings:
+                return ::Mud_Brain_State::Brain_0_GiveRings;
+            case Mud_Brain_State::Brain_1_Chisel:
+                return ::Mud_Brain_State::Brain_1_Chisel;
+            case Mud_Brain_State::Brain_2_CrouchScrub:
+                return ::Mud_Brain_State::Brain_2_CrouchScrub;
+            case Mud_Brain_State::Brain_3_TurnWheel:
+                return ::Mud_Brain_State::Brain_3_TurnWheel;
+            case Mud_Brain_State::Brain_4_ListeningToAbe:
+                return ::Mud_Brain_State::Brain_4_ListeningToAbe;
+            case Mud_Brain_State::Brain_5_ShrivelDeath:
+                return ::Mud_Brain_State::Brain_5_ShrivelDeath;
+            case Mud_Brain_State::Brain_6_Escape:
+                return ::Mud_Brain_State::Brain_6_Escape;
+            case Mud_Brain_State::Brain_7_FallAndSmackDeath:
+                return ::Mud_Brain_State::Brain_7_FallAndSmackDeath;
+            case Mud_Brain_State::Brain_8_AngryWorker:
+                return ::Mud_Brain_State::Brain_8_AngryWorker;
+            case Mud_Brain_State::Brain_9_Sick:
+                return ::Mud_Brain_State::Brain_9_Sick;
+        }
+        ALIVE_FATAL("Bad mudokon brain state value");
+    }
+
+    static ::eMudMotions From(const eMudMotions motion)
+    {
+        switch (motion)
+        {
+            case eMudMotions::Motion_0_Idle:
+                return ::eMudMotions::Motion_0_Idle;
+            case eMudMotions::Motion_1_WalkLoop:
+                return ::eMudMotions::Motion_1_WalkLoop;
+            case eMudMotions::Motion_2_StandingTurn:
+                return ::eMudMotions::Motion_2_StandingTurn;
+            case eMudMotions::M_Speak_3_472FA0:
+                return ::eMudMotions::M_Speak_3_472FA0;
+            case eMudMotions::M_Speak_4_472FA0:
+                return ::eMudMotions::M_Speak_4_472FA0;
+            case eMudMotions::M_Speak_5_472FA0:
+                return ::eMudMotions::M_Speak_5_472FA0;
+            case eMudMotions::M_Speak_6_472FA0:
+                return ::eMudMotions::M_Speak_6_472FA0;
+            case eMudMotions::Motion_7_WalkBegin:
+                return ::eMudMotions::Motion_7_WalkBegin;
+            case eMudMotions::Motion_8_WalkToIdle:
+                return ::eMudMotions::Motion_8_WalkToIdle;
+            case eMudMotions::Motion_9_MidWalkToIdle:
+                return ::eMudMotions::Motion_9_MidWalkToIdle;
+            case eMudMotions::Motion_10_LeverUse:
+                return ::eMudMotions::Motion_10_LeverUse;
+            case eMudMotions::Motion_11_Chisel:
+                return ::eMudMotions::Motion_11_Chisel;
+            case eMudMotions::Motion_12_StartChisel:
+                return ::eMudMotions::Motion_12_StartChisel;
+            case eMudMotions::Motion_13_StopChisel:
+                return ::eMudMotions::Motion_13_StopChisel;
+            case eMudMotions::Motion_14_CrouchScrub:
+                return ::eMudMotions::Motion_14_CrouchScrub;
+            case eMudMotions::Motion_15_CrouchIdle:
+                return ::eMudMotions::Motion_15_CrouchIdle;
+            case eMudMotions::Motion_16_CrouchTurn:
+                return ::eMudMotions::Motion_16_CrouchTurn;
+            case eMudMotions::Motion_17_StandToCrouch:
+                return ::eMudMotions::Motion_17_StandToCrouch;
+            case eMudMotions::Motion_18_CrouchToStand:
+                return ::eMudMotions::Motion_18_CrouchToStand;
+            case eMudMotions::Motion_19_WalkToRun:
+                return ::eMudMotions::Motion_19_WalkToRun;
+            case eMudMotions::Motion_20_MidWalkToRun:
+                return ::eMudMotions::Motion_20_MidWalkToRun;
+            case eMudMotions::Motion_21_RunLoop:
+                return ::eMudMotions::Motion_21_RunLoop;
+            case eMudMotions::Motion_22_RunToWalk:
+                return ::eMudMotions::Motion_22_RunToWalk;
+            case eMudMotions::Motion_23_MidRunToWalk:
+                return ::eMudMotions::Motion_23_MidRunToWalk;
+            case eMudMotions::Motion_24_RunSlideStop:
+                return ::eMudMotions::Motion_24_RunSlideStop;
+            case eMudMotions::Motion_25_RunSlideTurn:
+                return ::eMudMotions::Motion_25_RunSlideTurn;
+            case eMudMotions::Motion_26_RunTurnToRun:
+                return ::eMudMotions::Motion_26_RunTurnToRun;
+            case eMudMotions::Motion_27_SneakLoop:
+                return ::eMudMotions::Motion_27_SneakLoop;
+            case eMudMotions::Motion_28_MidWalkToSneak:
+                return ::eMudMotions::Motion_28_MidWalkToSneak;
+            case eMudMotions::Motion_29_SneakToWalk:
+                return ::eMudMotions::Motion_29_SneakToWalk;
+            case eMudMotions::Motion_30_WalkToSneak:
+                return ::eMudMotions::Motion_30_WalkToSneak;
+            case eMudMotions::Motion_31_MidSneakToWalk:
+                return ::eMudMotions::Motion_31_MidSneakToWalk;
+            case eMudMotions::Motion_32_SneakBegin:
+                return ::eMudMotions::Motion_32_SneakBegin;
+            case eMudMotions::Motion_33_SneakToIdle:
+                return ::eMudMotions::Motion_33_SneakToIdle;
+            case eMudMotions::Motion_34_MidSneakToIdle:
+                return ::eMudMotions::Motion_34_MidSneakToIdle;
+            case eMudMotions::Motion_35_RunJumpBegin:
+                return ::eMudMotions::Motion_35_RunJumpBegin;
+            case eMudMotions::Motion_36_RunJumpMid:
+                return ::eMudMotions::Motion_36_RunJumpMid;
+            case eMudMotions::Motion_37_StandToRun:
+                return ::eMudMotions::Motion_37_StandToRun;
+            case eMudMotions::Motion_38_Punch:
+                return ::eMudMotions::Motion_38_Punch;
+            case eMudMotions::Motion_39_HoistBegin:
+                return ::eMudMotions::Motion_39_HoistBegin;
+            case eMudMotions::Motion_40_HoistLand:
+                return ::eMudMotions::Motion_40_HoistLand;
+            case eMudMotions::Motion_41_LandSoft1:
+                return ::eMudMotions::Motion_41_LandSoft1;
+            case eMudMotions::Motion_42_LandSoft2:
+                return ::eMudMotions::Motion_42_LandSoft2;
+            case eMudMotions::Motion_43_DunnoBegin:
+                return ::eMudMotions::Motion_43_DunnoBegin;
+            case eMudMotions::Motion_44_DunnoEnd:
+                return ::eMudMotions::Motion_44_DunnoEnd;
+            case eMudMotions::Motion_45_KnockForward:
+                return ::eMudMotions::Motion_45_KnockForward;
+            case eMudMotions::Motion_46_Knockback:
+                return ::eMudMotions::Motion_46_Knockback;
+            case eMudMotions::Motion_47_KnockbackGetUp:
+                return ::eMudMotions::Motion_47_KnockbackGetUp;
+            case eMudMotions::Motion_48_WalkOffEdge:
+                return ::eMudMotions::Motion_48_WalkOffEdge;
+            case eMudMotions::Motion_49_Fall:
+                return ::eMudMotions::Motion_49_Fall;
+            case eMudMotions::Motion_50_Chant:
+                return ::eMudMotions::Motion_50_Chant;
+            case eMudMotions::Motion_51_ChantEnd:
+                return ::eMudMotions::Motion_51_ChantEnd;
+            case eMudMotions::Motion_52_ToDuck:
+                return ::eMudMotions::Motion_52_ToDuck;
+            case eMudMotions::Motion_53_Duck:
+                return ::eMudMotions::Motion_53_Duck;
+            case eMudMotions::Motion_54_DuckToCrouch:
+                return ::eMudMotions::Motion_54_DuckToCrouch;
+            case eMudMotions::Motion_55_DuckKnockback:
+                return ::eMudMotions::Motion_55_DuckKnockback;
+            case eMudMotions::Motion_56_SlapOwnHead:
+                return ::eMudMotions::Motion_56_SlapOwnHead;
+            case eMudMotions::Motion_57_TurnWheelBegin:
+                return ::eMudMotions::Motion_57_TurnWheelBegin;
+            case eMudMotions::Motion_58_TurnWheelLoop:
+                return ::eMudMotions::Motion_58_TurnWheelLoop;
+            case eMudMotions::Motion_59_TurnWheelEnd:
+                return ::eMudMotions::Motion_59_TurnWheelEnd;
+        }
+        ALIVE_FATAL("Bad mudokon motion value");
+    }
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(MudokonSaveState, 0x88);
 
