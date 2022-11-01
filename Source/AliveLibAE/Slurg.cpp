@@ -104,11 +104,12 @@ Slurg::Slurg(relive::Path_Slurg* pTlv, const Guid& tlvId)
 
     mSlurgSwitchId = pTlv->mSlurgSwitchId;
 
-    mSlurgFlags.Clear();
+    mGoingRight = false;
+    mMoving = false;
 
     if (pTlv->mFacing == relive::reliveXDirection::eRight)
     {
-        mSlurgFlags.Set(SlurgFlags::eGoingRight);
+        mGoingRight =  true;
     }
 
     VStackOnObjectsOfType(ReliveTypes::eSlurg);
@@ -142,8 +143,8 @@ s32 Slurg::CreateFromSaveState(const u8* pData)
 
     pSlurg->mSlurgState = pState->mSlurgState;
 
-    pSlurg->mSlurgFlags.Set(SlurgFlags::eGoingRight, pState->mSlurgFlags.Get(SlurgFlags::eGoingRight));
-    pSlurg->mSlurgFlags.Set(SlurgFlags::eMoving, pState->mSlurgFlags.Get(SlurgFlags::eMoving));
+    pSlurg->mGoingRight = pState->mGoingRight;
+    pSlurg->mMoving = pState->mMoving;
     return sizeof(SlurgSaveState);
 }
 
@@ -213,14 +214,14 @@ void Slurg::VUpdate()
         case SlurgStates::eMoving_0:
             mVelX = FP_FromInteger(1);
             mMovingTimer--;
-            if (mSlurgFlags.Get(SlurgFlags::eGoingRight))
+            if (mGoingRight)
             {
                 mVelX = -FP_FromInteger(1);
             }
 
-            mSlurgFlags.Toggle(SlurgFlags::eMoving);
+            mMoving = !mMoving;
 
-            if (mSlurgFlags.Get(SlurgFlags::eMoving))
+            if (mMoving)
             {
                 mXPos += mVelX;
             }
@@ -283,14 +284,14 @@ void Slurg::VOnTlvCollision(relive::Path_TLV* pTlv)
     {
         if (pTlv->mTlvType == ReliveTypes::eScrabLeftBound)
         {
-            if (mSlurgFlags.Get(SlurgFlags::eGoingRight))
+            if (mGoingRight)
             {
                 GoLeft();
             }
         }
         else if (pTlv->mTlvType == ReliveTypes::eScrabRightBound)
         {
-            if (!mSlurgFlags.Get(SlurgFlags::eGoingRight))
+            if (!mGoingRight)
             {
                 GoRight();
             }
@@ -298,7 +299,7 @@ void Slurg::VOnTlvCollision(relive::Path_TLV* pTlv)
         pTlv = sPathInfo->TlvGetAt(pTlv, mXPos, mYPos, mXPos, mYPos);
     }
 
-    if (mSlurgFlags.Get(SlurgFlags::eGoingRight))
+    if (mGoingRight)
     {
         if (WallHit(mSlurgSpriteScale * FP_FromInteger(8), -(mSlurgSpriteScale * FP_FromInteger(6))) || Check_IsOnEndOfLine(1, 1))
         {
@@ -337,16 +338,15 @@ s32 Slurg::VGetSaveState(u8* pSaveBuffer)
    // pState->mFrameTableOffset = mAnim.mFrameTableOffset;
     pState->mTlvInfo = mTlvInfo;
     pState->mSlurgState = mSlurgState;
-    pState->mSlurgFlags.Set(SlurgFlags::eGoingRight, mSlurgFlags.Get(SlurgFlags::eGoingRight));
-    pState->mSlurgFlags.Set(SlurgFlags::eMoving, mSlurgFlags.Get(SlurgFlags::eMoving));
+    pState->mGoingRight = mGoingRight;
+    pState->mMoving = mMoving;
     return sizeof(SlurgSaveState);
 }
 
 void Slurg::GoLeft()
 {
     GetAnimation().mFlags.Clear(AnimFlags::eFlipX);
-    mSlurgFlags.Clear(SlurgFlags::eGoingRight);
-
+    mGoingRight = false;
     mSlurgState = SlurgStates::ePausing_1;
     GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Slurg_Turn_Around));
 }
@@ -354,8 +354,7 @@ void Slurg::GoLeft()
 void Slurg::GoRight()
 {
     GetAnimation().mFlags.Set(AnimFlags::eFlipX);
-    mSlurgFlags.Set(SlurgFlags::eGoingRight);
-
+    mGoingRight = true;
     mSlurgState = SlurgStates::ePausing_1;
     GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Slurg_Turn_Around));
 }

@@ -688,7 +688,11 @@ struct BoneSaveState final
         d.mSpriteScale = data.mSpriteScale;
         d.mCurrentPath = data.mCurrentPath;
         d.mCurrentLevel = MapWrapper::FromAESaveData(data.mCurrentLevel);
-        d.field_20_flags.Raw().all = data.field_20_flags.Raw().all; // TODO: convert flags to bools
+        d.mRender = data.field_20_flags.Get(BoneStateFlags::eBit1_bRender);
+        d.mDrawable = data.field_20_flags.Get(BoneStateFlags::eBit2_bDrawable);
+        d.mLoop = data.field_20_flags.Get(BoneStateFlags::eBit3_bLoop);
+        d.mInteractive = data.field_20_flags.Get(BoneStateFlags::eBit4_bInteractive);
+        d.mHitObject = data.field_20_flags.Get(BoneStateFlags::eBit5_bHitObject);
         d.field_24_base_id = Guid::NewGuidFromTlvInfo(data.field_24_base_id);
         d.mCollisionLineType = data.mCollisionLineType;
         d.mBaseThrowableCount = data.mBaseThrowableCount;
@@ -942,7 +946,8 @@ struct EvilFartSaveState final
         d.mAbeLevel = MapWrapper::FromAESaveData(data.mAbeLevel);
         d.mAbePath = data.mAbePath;
         d.mAbeCamera = data.mAbeCamera;
-        d.field_2C.Raw().all = data.field_2C.Raw().all; //  TODO: convert flags to bools
+        d.mControlled = data.field_2C.Get(Flags_2C::eBit1_bControlled);
+        d.mFartExploded = data.field_2C.Get(Flags_2C::eBit2_FartExploded);
         d.mPossessedAliveTimer = data.mPossessedAliveTimer;
         d.mState = From(data.mState);
         d.mUnpossessionTimer = data.mUnpossessionTimer;
@@ -1131,7 +1136,13 @@ struct FleechSaveState final
         d.field_A4_hoistX_distance = data.field_A4_hoistX_distance;
         d.field_A8 = Guid::NewGuidFromTlvInfo(data.field_A8);
         d.field_AC_obj_id = Guid::NewGuidFromTlvInfo(data.field_AC_obj_id);
-        d.mFleechStateFlags.Raw().all = data.mFleechStateFlags.Raw().all; // TODO: convert flags to bools
+        d.mHoistDone = data.mFleechStateFlags.Get(FleechStateFlags::eHoistDone);
+        d.mChasingOrScaredCrawlingLeft = data.mFleechStateFlags.Get(FleechStateFlags::eChasingOrScaredCrawlingLeft);
+        d.mShrivelDeath = data.mFleechStateFlags.Get(FleechStateFlags::eShrivelDeath);
+        d.mScaredSound = data.mFleechStateFlags.Get(FleechStateFlags::eScaredSound);
+        d.mAsleep = data.mFleechStateFlags.Get(FleechStateFlags::eAsleep);
+        d.mGoesToSleep = data.mFleechStateFlags.Get(FleechStateFlags::eGoesToSleep);
+        d.mPersistant = data.mFleechStateFlags.Get(FleechStateFlags::ePersistant);
         d.field_B2 = data.field_B2;
         return d;
     }
@@ -1590,7 +1601,12 @@ struct GrenadeSaveState final
         d.field_18_sprite_scale = data.field_18_sprite_scale;
         d.field_1C_path_number = data.field_1C_path_number;
         d.field_1E_lvl_number = MapWrapper::FromAESaveData(data.field_1E_lvl_number);
-        d.field_20_flags.Raw().all = data.field_20_flags.Raw().all; // TODO: convert flags to bools
+        d.mRender = data.field_20_flags.Get(Flags_20::eBit1_bRender);
+        d.mDrawable = data.field_20_flags.Get(Flags_20::eBit2_bDrawable);
+        d.mLoop = data.field_20_flags.Get(Flags_20::eBit3_bLoop);
+        d.mInteractive = data.field_20_flags.Get(Flags_20::eBit4_bInteractive);
+        d.mExplodeNow = data.field_20_flags.Get(Flags_20::eBit6_bExplodeNow);
+        d.mBlowUpOnCollision = data.field_20_flags.Get(Flags_20::eBit7_bBlowUpOnCollision);
         d.field_24_base_id = Guid::NewGuidFromTlvInfo(data.field_24_base_id);
         d.field_28_line_type = data.field_28_line_type;
         d.field_2A_savedcount = data.field_2A_savedcount;
@@ -2503,7 +2519,10 @@ struct MeatSaveState final
         d.field_18_sprite_scale = data.field_18_sprite_scale;
         d.field_1C_path_number = data.field_1C_path_number;
         d.field_1E_lvl_number = MapWrapper::FromAESaveData(data.field_1E_lvl_number);
-        d.field_20_flags.Raw().all = data.field_20_flags.Raw().all; // TODO: convert flags to bools
+        d.mRender = data.field_20_flags.Get(MeatStateFlags::eBit1_bRender);
+        d.mDrawable = data.field_20_flags.Get(MeatStateFlags::eBit2_bDrawable);
+        d.mLoop = data.field_20_flags.Get(MeatStateFlags::eBit3_bLoop);
+        d.mInteractive = data.field_20_flags.Get(MeatStateFlags::eBit4_bInteractive);
         d.field_24_base_id = Guid::NewGuidFromTlvInfo(data.field_24_base_id);
         d.field_28_line_type = data.field_28_line_type;
         d.field_2A_count = data.field_2A_count;
@@ -2960,7 +2979,10 @@ struct RockSaveState final
         d.field_18_sprite_scale = data.field_18_sprite_scale;
         d.field_1C_path_number = data.field_1C_path_number;
         d.field_1E_lvl_number = MapWrapper::FromAESaveData(data.field_1E_lvl_number);
-        d.field_20_flags.Raw().all = data.field_20_flags.Raw().all; // TODO: convert flags to bools
+        d.mRender = data.field_20_flags.Get(RockStateFlags::eBit1_bRender);
+        d.mDrawable = data.field_20_flags.Get(RockStateFlags::eBit2_bDrawable);
+        d.mLoop = data.field_20_flags.Get(RockStateFlags::eBit3_bLoop);
+        d.mInteractive = data.field_20_flags.Get(RockStateFlags::eBit4_bInteractive);
         d.field_24_id = Guid::NewGuidFromTlvInfo(data.field_24_id);
         d.field_28_line_type = data.field_28_line_type;
         d.field_2A_count = data.field_2A_count;
@@ -3471,7 +3493,8 @@ struct SlurgSaveState final
         d.mRender = data.mRender;
         d.mTlvInfo = Guid::NewGuidFromTlvInfo(data.mTlvInfo);
         d.mSlurgState = From(data.mSlurgState);
-        d.mSlurgFlags.Raw().all = data.mSlurgFlags.Raw().all; // TODO: convert flags to bools
+        d.mGoingRight = data.mSlurgFlags.Get(SlurgFlags::eGoingRight);
+        d.mMoving = data.mSlurgFlags.Get(SlurgFlags::eMoving);
         return d;
     }
 

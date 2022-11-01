@@ -29,14 +29,10 @@ struct MeatSaveState final
     FP field_18_sprite_scale;
     s16 field_1C_path_number;
     EReliveLevelIds field_1E_lvl_number;
-    enum MeatStateFlags
-    {
-        eBit1_bRender = 0x1,
-        eBit2_bDrawable = 0x2,
-        eBit3_bLoop = 0x4,
-        eBit4_bInteractive = 0x8
-    };
-    BitField16<MeatStateFlags> field_20_flags;
+    bool mRender;
+    bool mDrawable;
+    bool mLoop;
+    bool mInteractive;
     s16 field_22_pad;
     Guid field_24_base_id;
     s16 field_28_line_type;
@@ -104,7 +100,6 @@ private:
     s16 field_11C_bDoMeatSackIdleAnim = 0;
     s16 field_11E_amount_of_meat = 0;
     s16 field_120_bPlayWobbleSound = 0;
-    s16 field_122_always_0 = 0;
     FP field_124_velX = {};
     FP field_128_velY = {};
 };

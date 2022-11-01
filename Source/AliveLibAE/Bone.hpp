@@ -29,17 +29,11 @@ struct BoneSaveState final
     FP mSpriteScale;
     s16 mCurrentPath;
     EReliveLevelIds mCurrentLevel;
-
-    enum BoneStateFlags
-    {
-        eBit1_bRender = 0x1,
-        eBit2_bDrawable = 0x2,
-        eBit3_bLoop = 0x4,
-        eBit4_bInteractive = 0x8,
-        eBit5_bHitObject = 0x10,
-    };
-
-    BitField16<BoneStateFlags> field_20_flags;
+    bool mRender;
+    bool mDrawable;
+    bool mLoop;
+    bool mInteractive;
+    bool mHitObject;
     s16 field_22_padding;
     Guid field_24_base_id;
     s16 mCollisionLineType;
@@ -86,7 +80,7 @@ private:
     FP mInitialYPos = {};
     s32 mShineTimer = 0;
     s32 mTimeToLiveTimer = 0;
-    s16 mHitObject = 0; // TODO: flag
+    bool mHitObject = false;
 };
 
 class BoneBag final : public BaseAliveGameObject

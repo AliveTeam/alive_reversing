@@ -2157,7 +2157,7 @@ void FlyingSlig::ThrowGrenade()
         grenadeXVel = -grenadeXVel;
     }
 
-    auto pGrenade = relive_new Grenade(grenadeXPos + mXPos, grenadeYPos + mYPos, 0, 1, 0, this);
+    auto pGrenade = relive_new Grenade(grenadeXPos + mXPos, grenadeYPos + mYPos, 0, 1, this);
     if (pGrenade)
     {
         pGrenade->SetSpriteScale(GetSpriteScale());

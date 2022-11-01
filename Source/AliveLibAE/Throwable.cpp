@@ -49,9 +49,9 @@ BaseThrowable* Make_Throwable_49AF30(FP xpos, FP ypos, s16 count)
         case AETypes::eBone_11:
             return relive_new Bone(xpos, ypos, count);
         case AETypes::eMetal_24:
-            return relive_new Grenade(xpos, ypos, count, false, 1, nullptr);
+            return relive_new Grenade(xpos, ypos, count, false, nullptr);
         case AETypes::eGrenade_65:
-            return relive_new Grenade(xpos, ypos, count, false, 0, nullptr);
+            return relive_new Grenade(xpos, ypos, count, false, nullptr);
         case AETypes::eMeat_84:
             return relive_new Meat(xpos, ypos, count);
         case AETypes::eRock_105:

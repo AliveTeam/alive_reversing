@@ -427,11 +427,11 @@ s32 Rock::VGetSaveState(u8* pSaveBuffer)
 
     pState->field_18_sprite_scale = GetSpriteScale();
 
-    pState->field_20_flags.Set(RockSaveState::eBit1_bRender, GetAnimation().mFlags.Get(AnimFlags::eRender));
-    pState->field_20_flags.Set(RockSaveState::eBit2_bDrawable, mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4));
+    pState->mRender = GetAnimation().mFlags.Get(AnimFlags::eRender);
+    pState->mDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
 
-    pState->field_20_flags.Set(RockSaveState::eBit3_bLoop, GetAnimation().mFlags.Get(AnimFlags::eLoop));
-    pState->field_20_flags.Set(RockSaveState::eBit4_bInteractive, mBaseGameObjectFlags.Get(BaseGameObject::eInteractive_Bit8));
+    pState->mLoop = GetAnimation().mFlags.Get(AnimFlags::eLoop);
+    pState->mInteractive = mBaseGameObjectFlags.Get(BaseGameObject::eInteractive_Bit8);
 
     if (BaseAliveGameObjectCollisionLine)
     {
@@ -475,11 +475,11 @@ s32 Rock::CreateFromSaveState(const u8* pData)
     pRock->SetSpriteScale(pState->field_18_sprite_scale);
     pRock->SetScale(pState->field_18_sprite_scale > FP_FromDouble(0.75) ? Scale::Fg : Scale::Bg);
 
-    pRock->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->field_20_flags.Get(RockSaveState::eBit1_bRender));
-    pRock->GetAnimation().mFlags.Set(AnimFlags::eLoop, pState->field_20_flags.Get(RockSaveState::eBit3_bLoop));
+    pRock->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->mRender);
+    pRock->GetAnimation().mFlags.Set(AnimFlags::eLoop, pState->mLoop);
 
-    pRock->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_20_flags.Get(RockSaveState::eBit2_bDrawable));
-    pRock->mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8, pState->field_20_flags.Get(RockSaveState::eBit4_bInteractive));
+    pRock->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->mDrawable);
+    pRock->mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8, pState->mInteractive);
 
     pRock->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eRestoredFromQuickSave);
 

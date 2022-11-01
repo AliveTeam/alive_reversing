@@ -162,9 +162,20 @@ Fleech::Fleech(relive::Path_Fleech* pTlv, const Guid& tlvId)
 
     GetAnimation().mFlags.Set(AnimFlags::eFlipX, pTlv->mFacing == relive::reliveXDirection::eLeft);
 
-    mFleechFlags.Set(FleechFlags::eAsleep, pTlv->mAsleep == relive::reliveChoice::eYes);
-    mFleechFlags.Set(FleechFlags::eGoesToSleep, pTlv->mGoesToSleep == relive::reliveChoice::eYes);
-    mFleechFlags.Set(FleechFlags::ePersistant, pTlv->mPersistant == relive::reliveChoice::eYes);
+    if (pTlv->mAsleep == relive::reliveChoice::eYes)
+    {
+        mAsleep = true;
+    }
+
+    if (pTlv->mGoesToSleep == relive::reliveChoice::eYes)
+    {
+        mGoesToSleep = true;
+    }
+
+    if (pTlv->mPersistant == relive::reliveChoice::eYes)
+    {
+        mPersistant = true;
+    }
 
     field_140_max_anger = 2;
     field_158_chase_delay = 10;
@@ -190,7 +201,7 @@ Fleech::Fleech(relive::Path_Fleech* pTlv, const Guid& tlvId)
         mCurrentMotion = eFleechMotions::Motion_17_SleepingWithTongue;
         SetAnim();
     }
-    else if (mFleechFlags.Get(FleechFlags::eAsleep))
+    else if (mAsleep)
     {
         mCurrentMotion = eFleechMotions::Motion_0_Sleeping;
         SetAnim();
@@ -317,13 +328,13 @@ s32 Fleech::CreateFromSaveState(const u8* pBuffer)
             current_target_object_id_551840 = pFleech->mBaseGameObjectId;
         }
 
-        pFleech->mFleechFlags.Set(FleechFlags::eHoistDone, pState->mFleechStateFlags.Get(FleechSaveState::eHoistDone));
-        pFleech->mFleechFlags.Set(FleechFlags::eChasingOrScaredCrawlingLeft, pState->mFleechStateFlags.Get(FleechSaveState::eChasingOrScaredCrawlingLeft));
-        pFleech->mFleechFlags.Set(FleechFlags::eShrivelDeath, pState->mFleechStateFlags.Get(FleechSaveState::eShrivelDeath));
-        pFleech->mFleechFlags.Set(FleechFlags::eScaredSound, pState->mFleechStateFlags.Get(FleechSaveState::eScaredSound));
-        pFleech->mFleechFlags.Set(FleechFlags::eAsleep, pState->mFleechStateFlags.Get(FleechSaveState::eAsleep));
-        pFleech->mFleechFlags.Set(FleechFlags::eGoesToSleep, pState->mFleechStateFlags.Get(FleechSaveState::eGoesToSleep));
-        pFleech->mFleechFlags.Set(FleechFlags::ePersistant, pState->mFleechStateFlags.Get(FleechSaveState::ePersistant));
+        pFleech->mHoistDone = pState->mHoistDone;
+        pFleech->mChasingOrScaredCrawlingLeft = pState->mChasingOrScaredCrawlingLeft;
+        pFleech->mShrivelDeath = pState->mShrivelDeath;
+        pFleech->mScaredSound = pState->mScaredSound;
+        pFleech->mAsleep = pState->mAsleep;
+        pFleech->mGoesToSleep = pState->mGoesToSleep;
+        pFleech->mPersistant = pState->mPersistant;
     }
 
     return sizeof(FleechSaveState);
@@ -465,13 +476,13 @@ s32 Fleech::VGetSaveState(u8* pSaveBuffer)
         pState->field_AC_obj_id = Guid{};
     }
 
-    pState->mFleechStateFlags.Set(FleechSaveState::eHoistDone, mFleechFlags.Get(FleechFlags::eHoistDone));
-    pState->mFleechStateFlags.Set(FleechSaveState::eChasingOrScaredCrawlingLeft, mFleechFlags.Get(FleechFlags::eChasingOrScaredCrawlingLeft));
-    pState->mFleechStateFlags.Set(FleechSaveState::eShrivelDeath, mFleechFlags.Get(FleechFlags::eShrivelDeath));
-    pState->mFleechStateFlags.Set(FleechSaveState::eScaredSound, mFleechFlags.Get(FleechFlags::eScaredSound));
-    pState->mFleechStateFlags.Set(FleechSaveState::eAsleep, mFleechFlags.Get(FleechFlags::eAsleep));
-    pState->mFleechStateFlags.Set(FleechSaveState::eGoesToSleep, mFleechFlags.Get(FleechFlags::eGoesToSleep));
-    pState->mFleechStateFlags.Set(FleechSaveState::ePersistant, mFleechFlags.Get(FleechFlags::ePersistant));
+    pState->mHoistDone = mHoistDone;
+    pState->mChasingOrScaredCrawlingLeft = mChasingOrScaredCrawlingLeft;
+    pState->mShrivelDeath = mShrivelDeath;
+    pState->mScaredSound = mScaredSound;
+    pState->mAsleep = mAsleep;
+    pState->mGoesToSleep = mGoesToSleep;
+    pState->mPersistant = mPersistant;
 
     return sizeof(FleechSaveState);
 }
@@ -826,7 +837,7 @@ void Fleech::Motion_11_RaiseHead()
 {
     if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
-        mFleechFlags.Clear(FleechFlags::eHoistDone);
+        mHoistDone = false;
         mCurrentMotion = eFleechMotions::Motion_12_Climb;
 
         mVelX = FP_FromInteger(0);
@@ -878,7 +889,7 @@ void Fleech::Motion_12_Climb()
 {
     if (!TongueActive())
     {
-        if (mFleechFlags.Get(FleechFlags::eHoistDone))
+        if (mHoistDone)
         {
             mCurrentMotion = eFleechMotions::Motion_13_SettleOnGround;
             return;
@@ -968,7 +979,7 @@ void Fleech::Motion_12_Climb()
             mXPos = FP_FromInteger(field_160_hoistX);
             mYPos = FP_FromInteger(field_162_hoistY);
             mVelY = FP_FromInteger(0);
-            mFleechFlags.Set(FleechFlags::eHoistDone);
+            mHoistDone = true;
         }
         return;
     }
@@ -1050,7 +1061,7 @@ void Fleech::Motion_16_DeathByFalling()
 
         mHealth = FP_FromInteger(0);
         mBrainState = eFleechBrains::eBrain_3_Death;
-        mFleechFlags.Set(FleechFlags::eShrivelDeath);
+        mShrivelDeath = true;
         mNextMotion = -1;
         field_12C_shrivel_timer = sGnFrame + 127;
         sFleechCount_5BC20E--;
@@ -1160,7 +1171,7 @@ Fleech::~Fleech()
     }
     field_11C_obj_id = Guid{};
 
-    if (!mFleechFlags.Get(FleechFlags::eShrivelDeath))
+    if (!mShrivelDeath)
     {
         sFleechCount_5BC20E--;
     }
@@ -1198,7 +1209,7 @@ void Fleech::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if ((FP_Abs(mXPos - sControlledCharacter->mXPos) <= FP_FromInteger(750) && FP_Abs(mYPos - sControlledCharacter->mYPos) <= FP_FromInteger(520)) || mFleechFlags.Get(FleechFlags::ePersistant))
+    if ((FP_Abs(mXPos - sControlledCharacter->mXPos) <= FP_FromInteger(750) && FP_Abs(mYPos - sControlledCharacter->mYPos) <= FP_FromInteger(520)) || mPersistant)
     {
         const auto oldMotion = mCurrentMotion;
 
@@ -1560,8 +1571,8 @@ void Fleech::Init()
     mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
     mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanSetOffExplosives);
 
-    mFleechFlags.Clear(FleechFlags::eShrivelDeath);
-    mFleechFlags.Clear(FleechFlags::eScaredSound);
+    mShrivelDeath = false;
+    mScaredSound = false;
 
     mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
 
@@ -2169,9 +2180,9 @@ s16 Fleech::VTakeDamage(BaseGameObject* pFrom)
                 relive_new Blood(mXPos, mYPos - FP_FromInteger(8), FP_FromInteger(5), -FP_FromInteger(5), GetSpriteScale(), 50);
             }
 
-            if (!mFleechFlags.Get(FleechFlags::eScaredSound))
+            if (!mScaredSound)
             {
-                mFleechFlags.Set(FleechFlags::eScaredSound);
+                mScaredSound = true;
                 Sound(FleechSound::Scared_7);
             }
 
@@ -2182,7 +2193,7 @@ s16 Fleech::VTakeDamage(BaseGameObject* pFrom)
             mNextMotion = -1;
             SetAnim();
             GetAnimation().mFlags.Set(AnimFlags::eAnimate);
-            mFleechFlags.Set(FleechFlags::eShrivelDeath);
+            mShrivelDeath = true;
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             sFleechCount_5BC20E--;
         }
@@ -2667,7 +2678,7 @@ s16 Fleech::Brain_Patrol_State_0()
         return Brain_0_Patrol::eSleeping_1;
     }
 
-    if (mCurrentMotion != eFleechMotions::Motion_17_SleepingWithTongue && !mFleechFlags.Get(FleechFlags::eGoesToSleep))
+    if (mCurrentMotion != eFleechMotions::Motion_17_SleepingWithTongue && !mGoesToSleep)
     {
         return Brain_0_Patrol::eAlerted_4;
     }
@@ -2992,7 +3003,7 @@ s16 Fleech::Brain_Patrol_State_4(IBaseAliveGameObject* pTarget)
         }
     }
 
-    if (!mFleechFlags.Get(FleechFlags::eGoesToSleep) || (field_13E_current_anger >= field_140_max_anger && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0)))
+    if (!mGoesToSleep || (field_13E_current_anger >= field_140_max_anger && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0)))
     {
         if ((Fleech_NextRandom() % 64) || mCurrentMotion != eFleechMotions::Motion_3_Idle)
         {
@@ -3200,7 +3211,7 @@ s16 Fleech::Brain_1_ChasingAbe()
                 }
             }
 
-            mFleechFlags.Clear(FleechFlags::eChasingOrScaredCrawlingLeft);
+            mChasingOrScaredCrawlingLeft = false;
             if (!WallHit(FP_FromInteger(GetSpriteScale() >= FP_FromInteger(1) ? 10 : 5), ScaleToGridSize(GetSpriteScale())))
             {
                 return Brain_1_ChasingAbe::eChasingAbe_1;
@@ -3242,7 +3253,7 @@ s16 Fleech::Brain_1_ChasingAbe()
                 return Brain_1_ChasingAbe::eUnknown_2;
             }
 
-            if (mFleechFlags.Get(FleechFlags::eChasingOrScaredCrawlingLeft))
+            if (mChasingOrScaredCrawlingLeft)
             {
                 if (pObj->mXPos <= mXPos - FP_FromInteger(2))
                 {
@@ -3562,7 +3573,10 @@ s16 Fleech::Brain_ChasingAbe_State_1(IBaseAliveGameObject* pObj)
         if (WallHit(FP_FromInteger(GetSpriteScale() >= FP_FromInteger(1) ? 10 : 5), ScaleToGridSize(GetSpriteScale()) * k1Directed))
         {
             mNextMotion = eFleechMotions::Motion_8_StopMidCrawlCycle;
-            mFleechFlags.Set(FleechFlags::eChasingOrScaredCrawlingLeft, mVelX < FP_FromInteger(0));
+            if (mVelX < FP_FromInteger(0))
+            {
+                mChasingOrScaredCrawlingLeft = true;
+            }
             return Brain_1_ChasingAbe::eBlockedByWall_4;
         }
 
@@ -3570,7 +3584,10 @@ s16 Fleech::Brain_ChasingAbe_State_1(IBaseAliveGameObject* pObj)
         if (HandleEnemyStopperOrSlamDoor(1))
         {
             mNextMotion = eFleechMotions::Motion_8_StopMidCrawlCycle;
-            mFleechFlags.Set(FleechFlags::eChasingOrScaredCrawlingLeft, mVelX < FP_FromInteger(0));
+            if (mVelX < FP_FromInteger(0))
+            {
+                mChasingOrScaredCrawlingLeft = true;
+            }
 
             FP xOffset = mXPos;
             if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
@@ -3795,7 +3812,10 @@ s16 Fleech::Brain_ChasingAbe_State1_Helper(IBaseAliveGameObject* pObj)
                     FP_FromInteger(GetSpriteScale() >= FP_FromInteger(1) ? 10 : 5),
                     ScaleToGridSize(GetSpriteScale()) * v48))
             {
-                mFleechFlags.Set(FleechFlags::eChasingOrScaredCrawlingLeft, GetAnimation().mFlags.Get(AnimFlags::eFlipX));
+                if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+                {
+                    mChasingOrScaredCrawlingLeft = true;
+                }
                 return Brain_1_ChasingAbe::eBlockedByWall_4;
             }
             mNextMotion = eFleechMotions::Motion_4_Crawl;
@@ -3944,14 +3964,20 @@ s16 Fleech::Brain_2_Scared()
                 if (WallHit(FP_FromInteger(GetSpriteScale() >= FP_FromInteger(0) ? 10 : 5), ScaleToGridSize(GetSpriteScale()) * v9))
                 {
                     mNextMotion = eFleechMotions::Motion_8_StopMidCrawlCycle;
-                    mFleechFlags.Set(FleechFlags::eChasingOrScaredCrawlingLeft, mVelX < FP_FromInteger(0));
+                    if (mVelX < FP_FromInteger(0))
+                    {
+                        mChasingOrScaredCrawlingLeft = true;
+                    }
                     return Brain_2_Scared::eLookForHoist_3;
                 }
 
                 if (mVelX != FP_FromInteger(0) && (Collision(1) || HandleEnemyStopperOrSlamDoor(1)))
                 {
                     mNextMotion = eFleechMotions::Motion_8_StopMidCrawlCycle;
-                    mFleechFlags.Set(FleechFlags::eChasingOrScaredCrawlingLeft, mVelX < FP_FromInteger(0));
+                    if (mVelX < FP_FromInteger(0))
+                    {
+                        mChasingOrScaredCrawlingLeft = true;
+                    }
                     return Brain_2_Scared::eCornered_4;
                 }
             }
@@ -3986,7 +4012,10 @@ s16 Fleech::Brain_2_Scared()
                             FP_FromInteger(GetSpriteScale() >= FP_FromInteger(1) ? 10 : 5),
                             ScaleToGridSize(GetSpriteScale()) * k1Directed))
                     {
-                        mFleechFlags.Set(FleechFlags::eChasingOrScaredCrawlingLeft, GetAnimation().mFlags.Get(AnimFlags::eFlipX));
+                        if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+                        {
+                            mChasingOrScaredCrawlingLeft = true;
+                        }
                         return Brain_2_Scared::eCornered_4;
                     }
                     mNextMotion = eFleechMotions::Motion_4_Crawl;
@@ -4010,7 +4039,7 @@ s16 Fleech::Brain_2_Scared()
 
         case Brain_2_Scared::eLookForHoist_3:
         {
-            const FP v22 = FP_FromInteger((mFleechFlags.Get(FleechFlags::eChasingOrScaredCrawlingLeft)) != 0 ? -1 : 1);
+            const FP v22 = FP_FromInteger(mChasingOrScaredCrawlingLeft != 0 ? -1 : 1);
             if (!WallHit(FP_FromInteger(GetSpriteScale() >= FP_FromInteger(1) ? 10 : 5), ScaleToGridSize(GetSpriteScale()) * v22))
             {
                 return Brain_2_Scared::eReactToDanger_1;
@@ -4043,7 +4072,7 @@ s16 Fleech::Brain_2_Scared()
                 return mBrainSubState;
             }
 
-            if (mFleechFlags.Get(FleechFlags::eChasingOrScaredCrawlingLeft))
+            if (mChasingOrScaredCrawlingLeft)
             {
                 if (pDangerObj->mXPos < mXPos)
                 {

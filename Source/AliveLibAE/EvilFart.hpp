@@ -32,14 +32,8 @@ struct EvilFartSaveState final
     EReliveLevelIds mAbeLevel;
     s16 mAbePath;
     s16 mAbeCamera;
-
-    enum Flags_2C
-    {
-        eBit1_bControlled = 0x1,
-        eBit2_FartExploded = 0x2,
-    };
-    BitField16<Flags_2C> field_2C;
-
+    bool mControlled;
+    bool mFartExploded;
     s16 mPossessedAliveTimer;
     FartStates mState;
     s16 field_32_padding;
@@ -66,7 +60,7 @@ private:
     void BlowUp();
 
 private:
-    s16 mFartExploded = 0;
+    bool mFartExploded = false;
     bool mPossessed = false;
     s16 mPossessedAliveTimer = 0;
     s16 mAbePath = 0;
