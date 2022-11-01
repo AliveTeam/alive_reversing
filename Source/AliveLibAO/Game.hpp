@@ -21,9 +21,6 @@ extern s8 gDDCheatOn;
 extern s16 gRestartRuptureFarmsKilledMuds_5076C4;
 extern s16 gRestartRuptureFarmsSavedMuds_5076C8;
 
-extern s16 gOldKilledMuds_5076D0;
-extern s16 gOldSavedMuds_5076D4;
-
 extern s16 gbKillUnsavedMudsDone_5076CC;
 
 

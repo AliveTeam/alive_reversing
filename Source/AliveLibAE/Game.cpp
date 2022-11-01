@@ -150,7 +150,7 @@ static void Main_ParseCommandLineArguments(const char_type* pCommandLine)
 {
     IO_Init_494230();
 
-    std::string windowTitle = WindowTitleAE();
+    std::string windowTitle = WindowTitleAE(); //  WindowTitleAO();
 
     if (GetGameAutoPlayer().IsRecording())
     {
@@ -177,11 +177,15 @@ static void Main_ParseCommandLineArguments(const char_type* pCommandLine)
             sCommandLine_NoFrameSkip = true;
         }
 
-        if (strstr(pCommandLine, "-ddcheat"))
+        if (strstr(pCommandLine, "-ddcheat") || _strcmpi(pCommandLine, "-it_is_me_your_father") == 0)
         {
             gDDCheatOn = true;
         }
     }
+
+#if FORCE_DDCHEAT
+        gDDCheatOn = true;
+#endif
 
     VGA_CreateRenderer();
 

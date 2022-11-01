@@ -43,9 +43,6 @@ s16 gbKillUnsavedMudsDone_5076CC = 0;
 s16 gRestartRuptureFarmsKilledMuds_5076C4 = 0;
 s16 gRestartRuptureFarmsSavedMuds_5076C8 = 0;
 
-s16 gOldKilledMuds_5076D0 = 0;
-s16 gOldSavedMuds_5076D4 = 0;
-
 s16 sBreakGameLoop = 0;
 s16 gAttract = 0;
 
@@ -101,8 +98,6 @@ void Init_GameStates()
     sGasTimer = 0;
 
     gSwitchStates = {};
-    gOldKilledMuds_5076D0 = 0;
-    gOldSavedMuds_5076D4 = 0;
     gbKillUnsavedMudsDone_5076CC = 0;
 }
 
@@ -335,7 +330,7 @@ void Game_Run()
 
     gBaseGameObjects = relive_new DynamicArrayT<BaseGameObject>(90);
 
-    BaseAnimatedWithPhysicsGameObject::MakeArray();
+    BaseAnimatedWithPhysicsGameObject::MakeArray(); // Makes drawables
 
     AnimationBase::CreateAnimationArray();
 
@@ -366,6 +361,7 @@ void Game_Run()
     BaseAnimatedWithPhysicsGameObject::FreeArray();
     relive_delete gBaseGameObjects;
     relive_delete gPlatformsArray;
+    relive_delete gBaseAliveGameObjects;
 
     MusicController::Shutdown();
 

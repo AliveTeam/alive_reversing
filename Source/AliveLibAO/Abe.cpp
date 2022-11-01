@@ -2713,8 +2713,6 @@ void Abe::VOnTlvCollision(relive::Path_TLV* pTlv)
                     gRestartRuptureFarmsKilledMuds_5076C4 = sKilledMudokons;
                     gRestartRuptureFarmsSavedMuds_5076C8 = sRescuedMudokons;
                 }
-                gOldKilledMuds_5076D0 = sKilledMudokons;
-                gOldSavedMuds_5076D4 = sRescuedMudokons;
 
                 SaveGame::SaveToMemory(&gSaveBuffer);
 
