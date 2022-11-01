@@ -118,7 +118,7 @@ s32 Glukkon::CreateFromSaveState(const u8* pData)
     auto pGlukkon = relive_new Glukkon(pTlv, pSaveState->field_44_tlvInfo);
     if (pGlukkon)
     {
-        pGlukkon->SetType(FromAE(pSaveState->field_8E_type_id));
+        pGlukkon->SetType(pSaveState->field_8E_type_id);
         pGlukkon->mBaseGameObjectTlvInfo = pSaveState->field_4_object_id;
         if (pSaveState->field_40_bIsActiveChar)
         {
@@ -136,7 +136,7 @@ s32 Glukkon::CreateFromSaveState(const u8* pData)
 
         pGlukkon->field_1D8_falling_velx_scale_factor = pSaveState->field_58_falling_velx_scale_factor;
         pGlukkon->mCurrentPath = pSaveState->field_18_path;
-        pGlukkon->mCurrentLevel = MapWrapper::FromAESaveData(pSaveState->field_1A_level);
+        pGlukkon->mCurrentLevel = pSaveState->field_1A_level;
         pGlukkon->SetSpriteScale(pSaveState->field_1C_sprite_scale);
 
         pGlukkon->mRGB.SetRGB(pSaveState->mRingRed, pSaveState->mRingGreen, pSaveState->mRingBlue);
@@ -178,7 +178,7 @@ s32 Glukkon::CreateFromSaveState(const u8* pData)
         pGlukkon->SetBrain(sGlukkon_brain_table_5544A0[pSaveState->field_48_brain_state_idx]);
         pGlukkon->mBrainSubState = pSaveState->field_50_brain_sub_state;
         pGlukkon->mPreventDepossession = pSaveState->field_5E_prevent_depossession;
-        pGlukkon->mAbeLevel = MapWrapper::FromAESaveData(pSaveState->field_60_level);
+        pGlukkon->mAbeLevel = pSaveState->field_60_level;
         pGlukkon->mAbePath = pSaveState->field_62_path;
         pGlukkon->mAbeCamera = pSaveState->field_64_camera;
         pGlukkon->field_1EA_speak = pSaveState->field_66_speak;
@@ -288,14 +288,14 @@ s32 Glukkon::VGetSaveState(u8* pSaveBuffer)
     {
         return 0;
     }
-    pSaveState->field_0_id = AETypes::eGlukkon_67;
+    pSaveState->field_0_id = ReliveTypes::eGlukkon;
     pSaveState->field_4_object_id = mBaseGameObjectTlvInfo;
     pSaveState->field_8_xpos = mXPos;
     pSaveState->field_C_ypos = mYPos;
     pSaveState->field_10_xvel = mVelX;
     pSaveState->field_14_yvel = mVelY;
     pSaveState->field_18_path = mCurrentPath;
-    pSaveState->field_1A_level = MapWrapper::ToAE(mCurrentLevel);
+    pSaveState->field_1A_level = mCurrentLevel;
     pSaveState->field_1C_sprite_scale = GetSpriteScale();
     pSaveState->mRingRed = mRGB.r;
     pSaveState->mRingGreen = mRGB.g;
@@ -338,7 +338,7 @@ s32 Glukkon::VGetSaveState(u8* pSaveBuffer)
     pSaveState->field_54_timer = field_1D4_timer;
     pSaveState->field_58_falling_velx_scale_factor = field_1D8_falling_velx_scale_factor;
     pSaveState->field_5E_prevent_depossession = mPreventDepossession;
-    pSaveState->field_60_level = MapWrapper::ToAE(mAbeLevel);
+    pSaveState->field_60_level = mAbeLevel;
     pSaveState->field_62_path = mAbePath;
     pSaveState->field_64_camera = mAbeCamera;
     pSaveState->field_66_speak = field_1EA_speak;
@@ -352,7 +352,7 @@ s32 Glukkon::VGetSaveState(u8* pSaveBuffer)
     pSaveState->field_84_getting_shot_timer = field_204_getting_shot_timer;
     pSaveState->field_88_obj_id = field_208_obj_id;
     pSaveState->field_8C_can_be_possessed = mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eCanBePossessed);
-    pSaveState->field_8E_type_id = ToAE(Type());
+    pSaveState->field_8E_type_id = Type();
 
     return sizeof(GlukkonSaveState);
 }

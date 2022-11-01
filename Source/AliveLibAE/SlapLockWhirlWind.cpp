@@ -77,7 +77,7 @@ SlapLockWhirlWind::SlapLockWhirlWind(s16 doorNumber, s16 switchId, FP xpos, FP y
 s32 SlapLockWhirlWind::VGetSaveState(u8* pSaveBuffer)
 {
     SlapLockWhirlWindSaveState* pSaveState = reinterpret_cast<SlapLockWhirlWindSaveState*>(pSaveBuffer);
-    pSaveState->mType = AETypes::eSlapLock_OrbWhirlWind_60;
+    pSaveState->mType = ReliveTypes::eSlapLock_OrbWhirlWind;
     pSaveState->mSwitchId = mSwitchId;
     return sizeof(SlapLockWhirlWindSaveState);
 }

@@ -85,7 +85,7 @@ s32 Bone::CreateFromSaveState(const u8* pData)
     pBone->mVelY = pState->mVelY;
 
     pBone->mCurrentPath = pState->mCurrentPath;
-    pBone->mCurrentLevel = MapWrapper::FromAESaveData(pState->mCurrentLevel);
+    pBone->mCurrentLevel = pState->mCurrentLevel;
     pBone->SetSpriteScale(pState->mSpriteScale);
 
     pBone->SetScale(pState->mSpriteScale > FP_FromDouble(0.75) ? Scale::Fg : Scale::Bg);
@@ -241,7 +241,7 @@ s32 Bone::VGetSaveState(u8* pSaveBuffer)
 {
     auto pState = reinterpret_cast<BoneSaveState*>(pSaveBuffer);
 
-    pState->mAEType = AETypes::eBone_11;
+    pState->mAEType = ReliveTypes::eBone;
     pState->field_4_obj_id = mBaseGameObjectTlvInfo;
 
     pState->mXPos = mXPos;
@@ -251,7 +251,7 @@ s32 Bone::VGetSaveState(u8* pSaveBuffer)
     pState->mVelY = mVelY;
 
     pState->mCurrentPath = mCurrentPath;
-    pState->mCurrentLevel = MapWrapper::ToAE(mCurrentLevel);
+    pState->mCurrentLevel = mCurrentLevel;
 
     pState->mSpriteScale = GetSpriteScale();
 

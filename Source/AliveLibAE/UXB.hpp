@@ -21,7 +21,7 @@ enum class UXBState : u16
 
 struct UXBSaveState final
 {
-    AETypes mType;
+    ReliveTypes mType;
     s16 field_2_padding;
     Guid mTlvInfo;
     u32 mNextStateTimer;
@@ -32,7 +32,6 @@ struct UXBSaveState final
     u16 mRedBlinkCount;
     u16 mIsRed;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(UXBSaveState, 24);
 
 enum UXB_Flags_1C8
 {

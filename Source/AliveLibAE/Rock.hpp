@@ -17,7 +17,7 @@ enum class RockStates : s16
 
 struct RockSaveState final
 {
-    AETypes field_0_type;
+    ReliveTypes field_0_type;
     s16 field_2_padding;
     Guid field_4_obj_id;
     FP field_8_xpos;
@@ -26,7 +26,7 @@ struct RockSaveState final
     FP field_14_vely;
     FP field_18_sprite_scale;
     s16 field_1C_path_number;
-    LevelIds field_1E_lvl_number;
+    EReliveLevelIds field_1E_lvl_number;
     enum RockStateFlags
     {
         eBit1_bRender = 0x1,
@@ -44,7 +44,6 @@ struct RockSaveState final
     FP field_30_xpos;
     FP field_34_ypos;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(RockSaveState, 0x38);
 
 class Rock final : public BaseThrowable
 {

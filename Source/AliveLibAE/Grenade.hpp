@@ -18,7 +18,7 @@ enum class GrenadeStates : s16
 
 struct GrenadeSaveState final
 {
-    AETypes field_0_type;
+    ReliveTypes field_0_type;
     s16 field_2_pad;
     Guid field_4_obj_id;
     FP field_8_xpos;
@@ -27,7 +27,7 @@ struct GrenadeSaveState final
     FP field_14_vely;
     FP field_18_sprite_scale;
     s16 field_1C_path_number;
-    LevelIds field_1E_lvl_number;
+    EReliveLevelIds field_1E_lvl_number;
 
     enum Flags_20
     {
@@ -51,7 +51,6 @@ struct GrenadeSaveState final
     FP field_34_xpos;
     FP field_38_ypos;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(GrenadeSaveState, 0x3C);
 
 class Grenade final : public BaseThrowable
 {

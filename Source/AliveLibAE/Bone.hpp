@@ -19,7 +19,7 @@ enum class BoneStates : s16
 
 struct BoneSaveState final
 {
-    AETypes mAEType;
+    ReliveTypes mAEType;
     s16 field_2_padding;
     Guid field_4_obj_id;
     FP mXPos;
@@ -28,7 +28,7 @@ struct BoneSaveState final
     FP mVelY;
     FP mSpriteScale;
     s16 mCurrentPath;
-    LevelIds mCurrentLevel;
+    EReliveLevelIds mCurrentLevel;
 
     enum BoneStateFlags
     {
@@ -50,7 +50,6 @@ struct BoneSaveState final
     FP mInitialYPos;
     s32 mTimeToLiveTimer;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(BoneSaveState, 0x3C);
 
 class Bone final : public BaseThrowable
 {

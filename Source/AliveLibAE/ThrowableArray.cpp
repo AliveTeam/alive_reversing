@@ -100,7 +100,7 @@ void ThrowableArray::VUpdate()
 s32 ThrowableArray::VGetSaveState(u8* pSaveBuffer)
 {
     ThrowableArraySaveState* pState = reinterpret_cast<ThrowableArraySaveState*>(pSaveBuffer);
-    pState->field_0_unused = 102; // never gets read back, no idea what it means :)
+    pState->mType = ReliveTypes::eThrowableArray;
     pState->field_2_item_count = field_20_count;
     return sizeof(ThrowableArraySaveState);
 }

@@ -5,10 +5,9 @@
 
 struct SlapLockWhirlWindSaveState final
 {
-    AETypes mType;
+    ReliveTypes mType;
     s16 mSwitchId;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(SlapLockWhirlWindSaveState, 0x4);
 
 class SlapLockWhirlWind final : public BaseGameObject
 {

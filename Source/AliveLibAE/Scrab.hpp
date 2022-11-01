@@ -71,7 +71,7 @@ enum class GameSpeakEvents : s16;
 
 struct ScrabSaveState final
 {
-    AETypes field_0_type;
+    ReliveTypes field_0_type;
     s16 field_2_padding;
     Guid field_4_obj_id;
     FP field_8_xpos;
@@ -79,7 +79,7 @@ struct ScrabSaveState final
     FP field_10_velx;
     FP field_14_vely;
     s16 field_18_path_number;
-    LevelIds field_1A_lvl_number;
+    EReliveLevelIds field_1A_lvl_number;
     FP field_1C_sprite_scale;
     s16 mRingRed;
     s16 mRingGreen;
@@ -118,7 +118,7 @@ struct ScrabSaveState final
     s32 field_74_movement_timer;
     s32 field_78_sfx_bitmask;
     s16 field_7C_prevent_depossession;
-    LevelIds field_7E_return_level;
+    EReliveLevelIds field_7E_return_level;
     s16 field_80_return_path;
     s16 field_82_return_camera;
     s16 field_84_input;
@@ -143,7 +143,6 @@ struct ScrabSaveState final
     };
     BitField16<Flags_9E> field_9E_flags;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(ScrabSaveState, 0xA0);
 
 class Scrab;
 using TScrabBrainFn = s16 (Scrab::*)();

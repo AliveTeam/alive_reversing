@@ -25,7 +25,7 @@ enum class MineCarDirs : s16
 
 struct MineCarSaveState final
 {
-    AETypes field_0_type;
+    ReliveTypes field_0_type;
     s16 field_2_pad;
     FP field_4_xpos;
     FP field_8_ypos;
@@ -33,7 +33,7 @@ struct MineCarSaveState final
     FP field_10_vely;
     FP field_14_sprite_scale;
     s16 field_18_path_number;
-    LevelIds field_1A_lvl_number;
+    EReliveLevelIds field_1A_lvl_number;
     s16 field_1C_r;
     s16 field_1E_g;
     s16 field_20_b;
@@ -70,7 +70,6 @@ struct MineCarSaveState final
     s16 field_64_throw_item_key1;
     s16 field_66_continue_move_input;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(MineCarSaveState, 0x68);
 
 class MineCar final : public BaseAliveGameObject
 {

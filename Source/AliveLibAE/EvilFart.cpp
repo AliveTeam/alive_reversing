@@ -108,7 +108,7 @@ s32 EvilFart::CreateFromSaveState(const u8* pBuffer)
     pFart->mVelY = pState->mVelY;
 
     pFart->mCurrentPath = pState->mCurrentPath;
-    pFart->mCurrentLevel = MapWrapper::FromAESaveData(pState->mCurrentLevel);
+    pFart->mCurrentLevel = pState->mCurrentLevel;
     pFart->SetSpriteScale(pState->mSpriteScale);
 
     pFart->mRGB.SetRGB(pState->mRed, pState->mGreen, pState->mBlue);
@@ -124,7 +124,7 @@ s32 EvilFart::CreateFromSaveState(const u8* pBuffer)
         pFart->GetAnimation().mFlags.Set(AnimFlags::eIsLastFrame);
     }
 
-    pFart->mAbeLevel = MapWrapper::FromAESaveData(pState->mAbeLevel);
+    pFart->mAbeLevel = pState->mAbeLevel;
     pFart->mAbePath = pState->mAbePath;
     pFart->mAbeCamera = pState->mAbeCamera;
     pFart->mFartExploded = pState->field_2C.Get(EvilFartSaveState::eBit2_FartExploded);
@@ -139,7 +139,7 @@ s32 EvilFart::VGetSaveState(u8* pSaveBuffer)
 {
     auto pState = reinterpret_cast<EvilFartSaveState*>(pSaveBuffer);
 
-    pState->field_0_type = AETypes::eEvilFart_45;
+    pState->field_0_type = ReliveTypes::eEvilFart;
 
     pState->mXPos = mXPos;
     pState->mYPos = mYPos;
@@ -147,7 +147,7 @@ s32 EvilFart::VGetSaveState(u8* pSaveBuffer)
     pState->mVelY = mVelY;
 
     pState->mCurrentPath = mCurrentPath;
-    pState->mCurrentLevel = MapWrapper::ToAE(mCurrentLevel);
+    pState->mCurrentLevel = mCurrentLevel;
     pState->mSpriteScale = GetSpriteScale();
 
     pState->mRed = mRGB.r;
@@ -161,7 +161,7 @@ s32 EvilFart::VGetSaveState(u8* pSaveBuffer)
     pState->mDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
     pState->mAnimRender = GetAnimation().mFlags.Get(AnimFlags::eRender);
 
-    pState->mAbeLevel = MapWrapper::ToAE(mAbeLevel);
+    pState->mAbeLevel = mAbeLevel;
     pState->mAbePath = mAbePath;
     pState->mAbeCamera = mAbeCamera;
     pState->field_2C.Set(EvilFartSaveState::eBit2_FartExploded, mFartExploded & 1);

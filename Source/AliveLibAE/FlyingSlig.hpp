@@ -50,14 +50,14 @@ enum class SligSpeak : s8;
 
 struct FlyingSligSaveState final
 {
-    AETypes field_0_type;
+    ReliveTypes field_0_type;
     s16 field_2;
     FP field_4_xpos;
     FP field_8_ypos;
     FP field_C_velx;
     FP field_10_vely;
     s16 field_14_path_number;
-    LevelIds field_16_lvl_number;
+    EReliveLevelIds field_16_lvl_number;
     FP field_18_sprite_scale;
     s16 field_1C_oldr;
     s16 field_1E_oldg;
@@ -117,7 +117,7 @@ struct FlyingSligSaveState final
     s16 field_94_padding;
     s16 field_96_padding;
     s16 field_98_unused;
-    LevelIds field_9A_abe_level;
+    EReliveLevelIds field_9A_abe_level;
     s16 field_9C_abe_path;
     s16 field_9E_abe_camera;
     s16 field_A0_bobbing_values_table_index;
@@ -125,7 +125,6 @@ struct FlyingSligSaveState final
     s32 field_A4_bobbing_values_index;
     FP field_A8_bobbing_value;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(FlyingSligSaveState, 0xAC);
 
 class FlyingSlig final : public BaseAliveGameObject
 {

@@ -65,7 +65,7 @@ enum class eSlogMotions
 
 struct SlogSaveState final
 {
-    AETypes field_0_type;
+    ReliveTypes field_0_type;
     s16 field_2_padding;
     Guid field_4_objectId;
     FP field_8_xpos;
@@ -73,7 +73,7 @@ struct SlogSaveState final
     FP field_10_velx;
     FP field_14_vely;
     s16 field_18_path_number;
-    LevelIds field_1A_lvl_number;
+    EReliveLevelIds field_1A_lvl_number;
     FP field_1C_sprite_scale;
     s16 mRingRed;
     s16 mRingGreen;
@@ -126,7 +126,6 @@ struct SlogSaveState final
     BitField16<Flags_74> field_74_flags;
     s16 field_76_padding;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(SlogSaveState, 0x78);
 
 class Slog;
 using TSlogBrainFn = s16 (Slog::*)();

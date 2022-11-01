@@ -6,7 +6,7 @@
 
 struct LiftPointSaveState final
 {
-    AETypes field_0_type;
+    ReliveTypes field_0_type;
     s16 field_2_pad;
     FP field_4_xpos;
     FP field_8_ypos;
@@ -26,7 +26,6 @@ struct LiftPointSaveState final
     };
     BitField16<Flags> field_1A;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(LiftPointSaveState, 0x1C);
 
 class LiftPoint final : public PlatformBase
 {

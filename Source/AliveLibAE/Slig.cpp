@@ -590,7 +590,7 @@ s32 Slig::VGetSaveState(u8* pSaveBuffer)
 
     auto pState = reinterpret_cast<SligSaveState*>(pSaveBuffer);
 
-    pState->field_0_type = AETypes::eSlig_125;
+    pState->field_0_type = ReliveTypes::eSlig;
 
     pState->field_4_xpos = mXPos;
     pState->field_8_ypos = mYPos;
@@ -601,7 +601,7 @@ s32 Slig::VGetSaveState(u8* pSaveBuffer)
     pState->field_58_falling_velx_scale_factor = field_130_falling_velx_scale_factor;
 
     pState->field_14_path_number = mCurrentPath;
-    pState->field_16_lvl_number = MapWrapper::ToAE(mCurrentLevel);
+    pState->field_16_lvl_number = mCurrentLevel;
     pState->field_18_sprite_scale = GetSpriteScale();
 
     pState->field_1C_scale = GetScale();
@@ -663,7 +663,7 @@ s32 Slig::VGetSaveState(u8* pSaveBuffer)
     //pState->field_60_res_idx = field_134_res_idx;
     pState->field_62_shot_motion = field_136_shot_motion;
     pState->field_64_zone_rect = field_138_zone_rect;
-    pState->field_72_return_level = MapWrapper::ToAE(mAbeLevel);
+    pState->field_72_return_level = mAbeLevel;
     pState->field_74_return_path = mAbePath;
     pState->field_76_return_camera = mAbeCamera;
     pState->field_78_death_by_being_shot_timer = field_14C_death_by_being_shot_timer;
@@ -729,7 +729,7 @@ s32 Slig::CreateFromSaveState(const u8* pBuffer)
         pSlig->mVelX = pState->field_C_velx;
         pSlig->mVelY = pState->field_10_vely;
         pSlig->mCurrentPath = pState->field_14_path_number;
-        pSlig->mCurrentLevel = MapWrapper::FromAESaveData(pState->field_16_lvl_number);
+        pSlig->mCurrentLevel = pState->field_16_lvl_number;
         pSlig->SetSpriteScale(pState->field_18_sprite_scale);
 
         if (pSlig->GetSpriteScale() == FP_FromInteger(1))
@@ -790,7 +790,7 @@ s32 Slig::CreateFromSaveState(const u8* pBuffer)
 
         pSlig->field_138_zone_rect = pState->field_64_zone_rect;
 
-        pSlig->mAbeLevel = MapWrapper::FromAESaveData(pState->field_72_return_level);
+        pSlig->mAbeLevel = pState->field_72_return_level;
         pSlig->mAbePath = pState->field_74_return_path;
         pSlig->mAbeCamera = pState->field_76_return_camera;
 

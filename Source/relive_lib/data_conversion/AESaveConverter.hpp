@@ -566,7 +566,7 @@ struct SligSpawnerSaveState final
     static ::SligSpawnerSaveState From(const SligSpawnerSaveState& data)
     {
         ::SligSpawnerSaveState d;
-        d.mType = data.mType;
+        d.mType = BaseGameObject::FromAE(data.mType);
         d.mTlvInfo = Guid::NewGuidFromTlvInfo(data.mTlvInfo);
         d.mState = From(data.mState);
         d.mSpawnedSligId = Guid::NewGuidFromTlvInfo(data.mSpawnedSligId);
@@ -606,7 +606,7 @@ struct LiftMoverSaveState final
     static ::LiftMoverSaveState From(const LiftMoverSaveState& data)
     {
         ::LiftMoverSaveState d;
-        d.field_0_type_id = data.field_0_type_id;
+        d.field_0_type_id = BaseGameObject::FromAE(data.field_0_type_id);
         d.field_4_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_4_tlvInfo);
         d.field_8_state = From(data.field_8_state);
         return d;
@@ -679,7 +679,7 @@ struct BoneSaveState final
     static ::BoneSaveState From(const BoneSaveState& data)
     {
         ::BoneSaveState d;
-        d.mAEType = data.mAEType;
+        d.mAEType = BaseGameObject::FromAE(data.mAEType);
         d.field_4_obj_id = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
         d.mXPos = data.mXPos;
         d.mYPos = data.mYPos;
@@ -687,7 +687,7 @@ struct BoneSaveState final
         d.mVelY = data.mVelY;
         d.mSpriteScale = data.mSpriteScale;
         d.mCurrentPath = data.mCurrentPath;
-        d.mCurrentLevel = data.mCurrentLevel;
+        d.mCurrentLevel = MapWrapper::FromAE(data.mCurrentLevel);
         d.field_20_flags.Raw().all = data.field_20_flags.Raw().all; // TODO: convert flags to bools
         d.field_24_base_id = Guid::NewGuidFromTlvInfo(data.field_24_base_id);
         d.mCollisionLineType = data.mCollisionLineType;
@@ -731,7 +731,7 @@ struct MinesAlarmSaveState final
     static ::MinesAlarmSaveState From(const MinesAlarmSaveState& data)
     {
         ::MinesAlarmSaveState d;
-        d.field_0_type = data.field_0_type;
+        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
         d.field_4_timer = data.field_4_timer;
         return d;
     }
@@ -795,14 +795,14 @@ struct CrawlingSligSaveState final
     static ::CrawlingSligSaveState From(const CrawlingSligSaveState& data)
     {
         ::CrawlingSligSaveState d;
-        d.field_0_type = data.field_0_type;
+        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
         d.field_4_obj_id = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
         d.field_8_xpos = data.field_8_xpos;
         d.field_C_ypos = data.field_C_ypos;
         d.field_10_velx = data.field_10_velx;
         d.field_14_vely = data.field_14_vely;
         d.field_18_path_number = data.field_18_path_number;
-        d.field_1A_lvl_number = data.field_1A_lvl_number;
+        d.field_1A_lvl_number = MapWrapper::FromAE(data.field_1A_lvl_number);
         d.field_1C_sprite_scale = data.field_1C_sprite_scale;
         d.mRingRed = data.mRingRed;
         d.mRingGreen = data.mRingGreen;
@@ -825,7 +825,7 @@ struct CrawlingSligSaveState final
         d.field_54_timer = data.field_54_timer;
         d.field_58_velx_scale_factor = data.field_58_velx_scale_factor;
         d.field_5E_bChanting = data.field_5E_bChanting;
-        d.mAbeLevel = data.mAbeLevel;
+        d.mAbeLevel = MapWrapper::FromAE(data.mAbeLevel);
         d.mAbePath = data.mAbePath;
         d.mAbeCamera = data.mAbeCamera;
         d.field_6C_slig_button_id = Guid::NewGuidFromTlvInfo(data.field_6C_slig_button_id);
@@ -857,7 +857,7 @@ struct DrillSaveState final
     static ::DrillSaveState From(const DrillSaveState& data)
     {
         ::DrillSaveState d;
-        d.mType = data.mType;
+        d.mType = BaseGameObject::FromAE(data.mType);
         d.field_8_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_8_tlvInfo);
         d.field_C_off_timer = data.field_C_off_timer;
         d.field_10_state = From(data.field_10_state);
@@ -924,12 +924,12 @@ struct EvilFartSaveState final
     static ::EvilFartSaveState From(const EvilFartSaveState& data)
     {
         ::EvilFartSaveState d;
-        d.field_0_type = data.field_0_type;
+        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
         d.mRed = data.mRed;
         d.mGreen = data.mGreen;
         d.mBlue = data.mBlue;
         d.mCurrentPath = data.mCurrentPath;
-        d.mCurrentLevel = data.mCurrentLevel;
+        d.mCurrentLevel = MapWrapper::FromAE(data.mCurrentLevel);
         d.mXPos = data.mXPos;
         d.mYPos = data.mYPos;
         d.mVelX = data.mVelX;
@@ -939,7 +939,7 @@ struct EvilFartSaveState final
         d.mFrameChangeCounter = data.mFrameChangeCounter;
         d.mAnimRender = data.mAnimRender;
         d.mDrawable = data.mDrawable;
-        d.mAbeLevel = data.mAbeLevel;
+        d.mAbeLevel = MapWrapper::FromAE(data.mAbeLevel);
         d.mAbePath = data.mAbePath;
         d.mAbeCamera = data.mAbeCamera;
         d.field_2C.Raw().all = data.field_2C.Raw().all; //  TODO: convert flags to bools
@@ -1061,7 +1061,7 @@ struct FleechSaveState final
     static ::FleechSaveState From(const FleechSaveState& data)
     {
         ::FleechSaveState d;
-        d.field_0_type = data.field_0_type;
+        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
         d.field_2 = data.field_2;
         d.field_4_obj_id = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
         d.mXPos = data.mXPos;
@@ -1069,7 +1069,7 @@ struct FleechSaveState final
         d.mVelX = data.mVelX;
         d.mVelY = data.mVelY;
         d.mPathNumber = data.mPathNumber;
-        d.mLvlNumber = data.mLvlNumber;
+        d.mLvlNumber = MapWrapper::FromAE(data.mLvlNumber);
         d.mSpriteScale = data.mSpriteScale;
         d.mRingRed = data.mRingRed;
         d.mRingGreen = data.mRingGreen;
@@ -1218,14 +1218,14 @@ struct FlyingSligSaveState final
     static ::FlyingSligSaveState From(const FlyingSligSaveState& data)
     {
         ::FlyingSligSaveState d;
-        d.field_0_type = data.field_0_type;
+        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
         d.field_2 = data.field_2;
         d.field_4_xpos = data.field_4_xpos;
         d.field_8_ypos = data.field_8_ypos;
         d.field_C_velx = data.field_C_velx;
         d.field_10_vely = data.field_10_vely;
         d.field_14_path_number = data.field_14_path_number;
-        d.field_16_lvl_number = data.field_16_lvl_number;
+        d.field_16_lvl_number = MapWrapper::FromAE(data.field_16_lvl_number);
         d.field_18_sprite_scale = data.field_18_sprite_scale;
         d.field_1C_oldr = data.field_1C_oldr;
         d.field_1E_oldg = data.field_1E_oldg;
@@ -1262,7 +1262,7 @@ struct FlyingSligSaveState final
         d.field_88_nextXPos = data.field_88_nextXPos;
         d.field_8C_nextYPos = data.field_8C_nextYPos;
         d.field_90_fns1_idx = data.field_90_fns1_idx;
-        d.field_9A_abe_level = data.field_9A_abe_level;
+        d.field_9A_abe_level = MapWrapper::FromAE(data.field_9A_abe_level);
         d.field_9C_abe_path = data.field_9C_abe_path;
         d.field_9E_abe_camera = data.field_9E_abe_camera;
         d.field_A0_bobbing_values_table_index = data.field_A0_bobbing_values_table_index;
@@ -1284,7 +1284,7 @@ struct FlyingSligSpawnerSaveState final
     static ::FlyingSligSpawnerSaveState From(const FlyingSligSpawnerSaveState& data)
     {
         ::FlyingSligSpawnerSaveState d;
-        d.field_0_type = data.field_0_type;
+        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
         d.field_4_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_4_tlvInfo);
         d.field_8_bSpawned = data.field_8_bSpawned;
         d.field_C_spawned_slig_obj_id = Guid::NewGuidFromTlvInfo(data.field_C_spawned_slig_obj_id);
@@ -1318,7 +1318,7 @@ struct GameEnderControllerSaveState final
     static ::GameEnderControllerSaveState From(const GameEnderControllerSaveState& data)
     {
         ::GameEnderControllerSaveState d;
-        d.field_0_type = data.field_0_type;
+        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
         d.field_4_obj_id = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
         d.field_8_timer = data.field_8_timer;
         d.field_C_state = From(data.field_C_state);
@@ -1357,7 +1357,7 @@ struct SlapLockWhirlWindSaveState final
     static ::SlapLockWhirlWindSaveState From(const SlapLockWhirlWindSaveState& data)
     {
         ::SlapLockWhirlWindSaveState d;
-        d.mType = data.mType;
+        d.mType = BaseGameObject::FromAE(data.mType);
         d.mSwitchId = data.mSwitchId;
         return d;
     }
@@ -1390,7 +1390,7 @@ struct SlapLockSaveState final
     static ::SlapLockSaveState From(const SlapLockSaveState& data)
     {
         ::SlapLockSaveState d;
-        d.mType = data.mType;
+        d.mType = BaseGameObject::FromAE(data.mType);
         d.mAnimRender = data.mAnimRender;
         d.mTlvInfo = Guid::NewGuidFromTlvInfo(data.mTlvInfo);
         d.mTlvState = data.mTlvState;
@@ -1475,12 +1475,12 @@ struct GreeterSaveState final
     static ::GreeterSaveState From(const GreeterSaveState& data)
     {
         ::GreeterSaveState d;
-        d.field_0_type = data.field_0_type;
+        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
         d.field_2_r = data.field_2_r;
         d.field_4_g = data.field_4_g;
         d.field_6_b = data.field_6_b;
         d.field_8_path_number = data.field_8_path_number;
-        d.field_A_lvl_number = data.field_A_lvl_number;
+        d.field_A_lvl_number = MapWrapper::FromAE(data.field_A_lvl_number);
         d.field_C_xpos = data.field_C_xpos;
         d.field_10_ypos = data.field_10_ypos;
         d.field_14_velx = data.field_14_velx;
@@ -1581,7 +1581,7 @@ struct GrenadeSaveState final
     static ::GrenadeSaveState From(const GrenadeSaveState& data)
     {
         ::GrenadeSaveState d;
-        d.field_0_type = data.field_0_type;
+        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
         d.field_4_obj_id = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
         d.field_8_xpos = data.field_8_xpos;
         d.field_C_ypos = data.field_C_ypos;
@@ -1589,7 +1589,7 @@ struct GrenadeSaveState final
         d.field_14_vely = data.field_14_vely;
         d.field_18_sprite_scale = data.field_18_sprite_scale;
         d.field_1C_path_number = data.field_1C_path_number;
-        d.field_1E_lvl_number = data.field_1E_lvl_number;
+        d.field_1E_lvl_number = MapWrapper::FromAE(data.field_1E_lvl_number);
         d.field_20_flags.Raw().all = data.field_20_flags.Raw().all; // TODO: convert flags to bools
         d.field_24_base_id = Guid::NewGuidFromTlvInfo(data.field_24_base_id);
         d.field_28_line_type = data.field_28_line_type;
@@ -1711,14 +1711,14 @@ struct GlukkonSaveState final
     static ::GlukkonSaveState From(const GlukkonSaveState& data)
     {
         ::GlukkonSaveState d;
-        d.field_0_id = data.field_0_id;
+        d.field_0_id = BaseGameObject::FromAE(data.field_0_id);
         d.field_4_object_id = Guid::NewGuidFromTlvInfo(data.field_4_object_id);
         d.field_8_xpos = data.field_8_xpos;
         d.field_C_ypos = data.field_C_ypos;
         d.field_10_xvel = data.field_10_xvel;
         d.field_14_yvel = data.field_14_yvel;
         d.field_18_path = data.field_18_path;
-        d.field_1A_level = data.field_1A_level;
+        d.field_1A_level = MapWrapper::FromAE(data.field_1A_level);
         d.field_1C_sprite_scale = data.field_1C_sprite_scale;
         d.mRingRed = data.mRingRed;
         d.mRingGreen = data.mRingGreen;
@@ -1741,7 +1741,7 @@ struct GlukkonSaveState final
         d.field_54_timer = data.field_54_timer;
         d.field_58_falling_velx_scale_factor = data.field_58_falling_velx_scale_factor;
         d.field_5E_prevent_depossession = data.field_5E_prevent_depossession;
-        d.field_60_level = data.field_60_level;
+        d.field_60_level = MapWrapper::FromAE(data.field_60_level);
         d.field_62_path = data.field_62_path;
         d.field_64_camera = data.field_64_camera;
         d.field_66_speak = From(data.field_66_speak);
@@ -1755,7 +1755,7 @@ struct GlukkonSaveState final
         d.field_84_getting_shot_timer = data.field_84_getting_shot_timer;
         d.field_88_obj_id = Guid::NewGuidFromTlvInfo(data.field_88_obj_id);
         d.field_8C_can_be_possessed = data.field_8C_can_be_possessed;
-        d.field_8E_type_id = data.field_8E_type_id;
+        d.field_8E_type_id = BaseGameObject::FromAE(data.field_8E_type_id);
         return d;
     }
 
@@ -1919,13 +1919,13 @@ struct AbeSaveState final
     static ::AbeSaveState From(const AbeSaveState& data)
     {
         ::AbeSaveState d;
-        d.mAEType = data.mAEType;
+        d.mAEType = BaseGameObject::FromAE(data.mAEType);
         d.mXPos = data.mXPos;
         d.mYPos = data.mYPos;
         d.mVelX = data.mVelX;
         d.mVelY = data.mVelY;
         d.mCurrentPath = data.mCurrentPath;
-        d.mCurrentLevel = data.mCurrentLevel;
+        d.mCurrentLevel = MapWrapper::FromAE(data.mCurrentLevel);
         d.mSpriteScale = data.mSpriteScale;
         d.mScale = AEData::From(data.mScale);
         d.mRed = data.mRed;
@@ -1981,7 +1981,7 @@ struct AbeSaveState final
         d.mHandStoneCam2 = data.mHandStoneCam2;
         d.mHandStoneCam3 = data.mHandStoneCam3;
         d.mHasEvilFart = data.mHasEvilFart;
-        d.mDstWellLevel = data.mDstWellLevel;
+        d.mDstWellLevel = MapWrapper::FromAE(data.mDstWellLevel);
         d.mDstWellPath = data.mDstWellPath;
         d.mDstWellCamera = data.mDstWellCamera;
         d.door_id = data.door_id;
@@ -2044,7 +2044,7 @@ struct LiftPointSaveState final
     static ::LiftPointSaveState From(const LiftPointSaveState& data)
     {
         ::LiftPointSaveState d;
-        d.field_0_type = data.field_0_type;
+        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
         d.field_4_xpos = data.field_4_xpos;
         d.field_8_ypos = data.field_8_ypos;
         d.field_C_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_C_tlvInfo);
@@ -2201,13 +2201,13 @@ struct MudokonSaveState final
     static ::MudokonSaveState From(const MudokonSaveState& data)
     {
         ::MudokonSaveState d;
-        d.field_0_type = data.field_0_type;
+        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
         d.field_4_xpos = data.field_4_xpos;
         d.field_8_ypos = data.field_8_ypos;
         d.field_C_velx = data.field_C_velx;
         d.field_10_vely = data.field_10_vely;
         d.field_14_path_number = data.field_14_path_number;
-        d.field_16_lvl_number = data.field_16_lvl_number;
+        d.field_16_lvl_number = MapWrapper::FromAE(data.field_16_lvl_number);
         d.field_18_sprite_scale = data.field_18_sprite_scale;
         d.field_1C_r = data.field_1C_r;
         d.field_1E_g = data.field_1E_g;
@@ -2494,7 +2494,7 @@ struct MeatSaveState final
     static ::MeatSaveState From(const MeatSaveState& data)
     {
         ::MeatSaveState d;
-        d.field_0_type = data.field_0_type;
+        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
         d.field_4_obj_id = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
         d.field_8_xpos = data.field_8_xpos;
         d.field_C_ypos = data.field_C_ypos;
@@ -2502,7 +2502,7 @@ struct MeatSaveState final
         d.field_14_vely = data.field_14_vely;
         d.field_18_sprite_scale = data.field_18_sprite_scale;
         d.field_1C_path_number = data.field_1C_path_number;
-        d.field_1E_lvl_number = data.field_1E_lvl_number;
+        d.field_1E_lvl_number = MapWrapper::FromAE(data.field_1E_lvl_number);
         d.field_20_flags.Raw().all = data.field_20_flags.Raw().all; // TODO: convert flags to bools
         d.field_24_base_id = Guid::NewGuidFromTlvInfo(data.field_24_base_id);
         d.field_28_line_type = data.field_28_line_type;
@@ -2600,14 +2600,14 @@ struct MineCarSaveState final
     static ::MineCarSaveState From(const MineCarSaveState& data)
     {
         ::MineCarSaveState d;
-        d.field_0_type = data.field_0_type;
+        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
         d.field_4_xpos = data.field_4_xpos;
         d.field_8_ypos = data.field_8_ypos;
         d.field_C_velx = data.field_C_velx;
         d.field_10_vely = data.field_10_vely;
         d.field_14_sprite_scale = data.field_14_sprite_scale;
         d.field_18_path_number = data.field_18_path_number;
-        d.field_1A_lvl_number = data.field_1A_lvl_number;
+        d.field_1A_lvl_number = MapWrapper::FromAE(data.field_1A_lvl_number);
         d.field_1C_r = data.field_1C_r;
         d.field_1E_g = data.field_1E_g;
         d.field_20_b = data.field_20_b;
@@ -2734,13 +2734,13 @@ struct ParamiteSaveState final
     static ::ParamiteSaveState From(const ParamiteSaveState& data)
     {
         ::ParamiteSaveState d;
-        d.field_0_type = data.field_0_type;
+        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
         d.field_4_xpos = data.field_4_xpos;
         d.field_8_ypos = data.field_8_ypos;
         d.field_C_velx = data.field_C_velx;
         d.field_10_vely = data.field_10_vely;
         d.field_14_path_number = data.field_14_path_number;
-        d.field_16_lvl_number = data.field_16_lvl_number;
+        d.field_16_lvl_number = MapWrapper::FromAE(data.field_16_lvl_number);
         d.field_18_sprite_scale = data.field_18_sprite_scale;
         d.field_1C_r = data.field_1C_r;
         d.field_1E_g = data.field_1E_g;
@@ -2767,7 +2767,7 @@ struct ParamiteSaveState final
         d.field_60_depossession_timer = data.field_60_depossession_timer;
         d.field_64_velx_offset = data.field_64_velx_offset;
         d.field_68_timer = data.field_68_timer;
-        d.field_6C_return_level = data.field_6C_return_level;
+        d.field_6C_return_level = MapWrapper::FromAE(data.field_6C_return_level);
         d.field_6E_return_path = data.field_6E_return_path;
         d.field_70_return_camera = data.field_70_return_camera;
         d.field_72_input = data.field_72_input;
@@ -2788,7 +2788,7 @@ struct BirdPortalSaveState final
     static ::BirdPortalSaveState From(const BirdPortalSaveState& data)
     {
         ::BirdPortalSaveState d;
-        d.mAEType = data.mAEType;
+        d.mAEType = BaseGameObject::FromAE(data.mAEType);
         d.mState = data.mState;
         d.mMudCountForShrykull = data.mMudCountForShrykull;
         d.mTlvInfo = Guid::NewGuidFromTlvInfo(data.mTlvInfo);
@@ -2856,7 +2856,7 @@ struct AbilityRingSaveState final
     static ::AbilityRingSaveState From(const AbilityRingSaveState& data)
     {
         ::AbilityRingSaveState d;
-        d.mRingObjectType = data.mRingObjectType;
+        d.mRingObjectType = BaseGameObject::FromAE(data.mRingObjectType);
         d.mRingXPos = data.mRingXPos;
         d.mRingYPos = data.mRingYPos;
         d.mRingType = From(data.mRingType);
@@ -2951,7 +2951,7 @@ struct RockSaveState final
     static ::RockSaveState From(const RockSaveState& data)
     {
         ::RockSaveState d;
-        d.field_0_type = data.field_0_type;
+        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
         d.field_4_obj_id = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
         d.field_8_xpos = data.field_8_xpos;
         d.field_C_ypos = data.field_C_ypos;
@@ -2959,7 +2959,7 @@ struct RockSaveState final
         d.field_14_vely = data.field_14_vely;
         d.field_18_sprite_scale = data.field_18_sprite_scale;
         d.field_1C_path_number = data.field_1C_path_number;
-        d.field_1E_lvl_number = data.field_1E_lvl_number;
+        d.field_1E_lvl_number = MapWrapper::FromAE(data.field_1E_lvl_number);
         d.field_20_flags.Raw().all = data.field_20_flags.Raw().all; // TODO: convert flags to bools
         d.field_24_id = Guid::NewGuidFromTlvInfo(data.field_24_id);
         d.field_28_line_type = data.field_28_line_type;
@@ -3070,14 +3070,14 @@ struct ScrabSaveState final
     static ::ScrabSaveState From(const ScrabSaveState& data)
     {
         ::ScrabSaveState d;
-        d.field_0_type = data.field_0_type;
+        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
         d.field_4_obj_id = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
         d.field_8_xpos = data.field_8_xpos;
         d.field_C_ypos = data.field_C_ypos;
         d.field_10_velx = data.field_10_velx;
         d.field_14_vely = data.field_14_vely;
         d.field_18_path_number = data.field_18_path_number;
-        d.field_1A_lvl_number = data.field_1A_lvl_number;
+        d.field_1A_lvl_number = MapWrapper::FromAE(data.field_1A_lvl_number);
         d.field_1C_sprite_scale = data.field_1C_sprite_scale;
         d.mRingRed = data.mRingRed;
         d.mRingGreen = data.mRingGreen;
@@ -3108,7 +3108,7 @@ struct ScrabSaveState final
         d.field_74_movement_timer = data.field_74_movement_timer;
         d.field_78_sfx_bitmask = data.field_78_sfx_bitmask;
         d.field_7C_prevent_depossession = data.field_7C_prevent_depossession;
-        d.field_7E_return_level = data.field_7E_return_level;
+        d.field_7E_return_level = MapWrapper::FromAE(data.field_7E_return_level);
         d.field_80_return_path = data.field_80_return_path;
         d.field_82_return_camera = data.field_82_return_camera;
         d.field_84_input = data.field_84_input;
@@ -3139,7 +3139,7 @@ struct ScrabSpawnerSaveState final
     static ::ScrabSpawnerSaveState From(const ScrabSpawnerSaveState& data)
     {
         ::ScrabSpawnerSaveState d;
-        d.field_0_type = data.field_0_type;
+        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
         d.field_4_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_4_tlvInfo);
         d.field_8_state = From(data.field_8_state);
         d.field_C_spawned_scrab_id = Guid::NewGuidFromTlvInfo(data.field_C_spawned_scrab_id);
@@ -3254,13 +3254,13 @@ struct SligSaveState final
     static ::SligSaveState From(const SligSaveState& data)
     {
         ::SligSaveState d;
-        d.field_0_type = data.field_0_type;
+        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
         d.field_4_xpos = data.field_4_xpos;
         d.field_8_ypos = data.field_8_ypos;
         d.field_C_velx = data.field_C_velx;
         d.field_10_vely = data.field_10_vely;
         d.field_14_path_number = data.field_14_path_number;
-        d.field_16_lvl_number = data.field_16_lvl_number;
+        d.field_16_lvl_number = MapWrapper::FromAE(data.field_16_lvl_number);
         d.field_18_sprite_scale = data.field_18_sprite_scale;
         d.field_1C_scale = AEData::From(data.field_1C_scale);
         d.field_1E_r = data.field_1E_r;
@@ -3290,7 +3290,7 @@ struct SligSaveState final
         d.field_60_res_idx = data.field_60_res_idx;
         d.field_62_shot_motion = data.field_62_shot_motion;
         d.field_64_zone_rect = AEData::From(data.field_64_zone_rect);
-        d.field_72_return_level = data.field_72_return_level;
+        d.field_72_return_level = MapWrapper::FromAE(data.field_72_return_level);
         d.field_74_return_path = data.field_74_return_path;
         d.field_76_return_camera = data.field_76_return_camera;
         d.field_78_death_by_being_shot_timer = data.field_78_death_by_being_shot_timer;
@@ -3376,14 +3376,14 @@ struct SlogSaveState final
     static ::SlogSaveState From(const SlogSaveState& data)
     {
         ::SlogSaveState d;
-        d.field_0_type = data.field_0_type;
+        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
         d.field_4_objectId = Guid::NewGuidFromTlvInfo(data.field_4_objectId);
         d.field_8_xpos = data.field_8_xpos;
         d.field_C_ypos = data.field_C_ypos;
         d.field_10_velx = data.field_10_velx;
         d.field_14_vely = data.field_14_vely;
         d.field_18_path_number = data.field_18_path_number;
-        d.field_1A_lvl_number = data.field_1A_lvl_number;
+        d.field_1A_lvl_number = MapWrapper::FromAE(data.field_1A_lvl_number);
         d.field_1C_sprite_scale = data.field_1C_sprite_scale;
         d.mRingRed = data.mRingRed;
         d.mRingGreen = data.mRingGreen;
@@ -3458,7 +3458,7 @@ struct SlurgSaveState final
     static ::SlurgSaveState From(const SlurgSaveState& data)
     {
         ::SlurgSaveState d;
-        d.mType = data.mType;
+        d.mType = BaseGameObject::FromAE(data.mType);
         d.mXPos = data.mXPos;
         d.mYPos = data.mYPos;
         d.mVelX = data.mVelX;
@@ -3509,7 +3509,7 @@ struct TimerTriggerSaveState final
     static ::TimerTriggerSaveState From(const TimerTriggerSaveState& data)
     {
         ::TimerTriggerSaveState d;
-        d.field_0_type = data.field_0_type;
+        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
         d.field_4_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_4_tlvInfo);
         d.field_8_delay_timer_base = data.field_8_delay_timer_base;
         d.field_C_state = From(data.field_C_state);
@@ -3552,7 +3552,7 @@ struct TrapDoorSaveState final
     static ::TrapDoorSaveState From(const TrapDoorSaveState& data)
     {
         ::TrapDoorSaveState d;
-        d.field_0_type = data.field_0_type;
+        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
         d.field_2_state = From(data.field_2_state);
         d.field_4_open_time = data.field_4_open_time;
         d.field_8_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_8_tlvInfo);
@@ -3600,12 +3600,11 @@ struct UXBSaveState final
     static ::UXBSaveState From(const UXBSaveState& data)
     {
         ::UXBSaveState d;
-        d.mType = data.mType;
+        d.mType = BaseGameObject::FromAE(data.mType);
         d.mTlvInfo = Guid::NewGuidFromTlvInfo(data.mTlvInfo.all);
         d.mNextStateTimer = data.mNextStateTimer;
         d.mCurrentState = From(data.mCurrentState);
         d.mStartingState = From(data.mStartingState);
-        //d.mDisabledResources = data.mDisabledResources;
         d.mPatternIndex = data.mPatternIndex;
         d.mRedBlinkCount = data.mRedBlinkCount;
         d.mIsRed = data.mIsRed;
@@ -3648,7 +3647,7 @@ struct WorkWheelSaveState final
     static ::WorkWheelSaveState From(const WorkWheelSaveState& data)
     {
         ::WorkWheelSaveState d;
-        d.mType = data.mType;
+        d.mType = BaseGameObject::FromAE(data.mType);
         d.field_4_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_4_tlvInfo);
         d.field_8_snd_counter = data.field_8_snd_counter;
         d.field_C_state = From(data.field_C_state);

@@ -15,7 +15,7 @@ enum class SligSpeak : s8;
 
 struct CrawlingSligSaveState final
 {
-    AETypes field_0_type;
+    ReliveTypes field_0_type;
     s16 field_2_padding;
     Guid field_4_obj_id;
     FP field_8_xpos;
@@ -23,7 +23,7 @@ struct CrawlingSligSaveState final
     FP field_10_velx;
     FP field_14_vely;
     s16 field_18_path_number;
-    LevelIds field_1A_lvl_number;
+    EReliveLevelIds field_1A_lvl_number;
     FP field_1C_sprite_scale;
     s16 mRingRed;
     s16 mRingGreen;
@@ -54,7 +54,7 @@ struct CrawlingSligSaveState final
     FP field_58_velx_scale_factor;
     s16 field_5C_padding;
     s16 field_5E_bChanting;
-    LevelIds mAbeLevel;
+    EReliveLevelIds mAbeLevel;
     s16 mAbePath;
     s16 mAbeCamera;
     s16 field_66_unused;
@@ -67,7 +67,6 @@ struct CrawlingSligSaveState final
     s16 field_7A_unused_counter;
     s32 field_7C_say_help_timer;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(CrawlingSligSaveState, 0x80);
 
 enum class CrawlingSligMotion : s16
 {

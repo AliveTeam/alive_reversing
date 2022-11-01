@@ -273,7 +273,7 @@ s32 FlyingSlig::CreateFromSaveState(const u8* pBuffer)
         pFlyingSlig->mVelY = pSaveState->field_10_vely;
 
         pFlyingSlig->mCurrentPath = pSaveState->field_14_path_number;
-        pFlyingSlig->mCurrentLevel = MapWrapper::FromAESaveData(pSaveState->field_16_lvl_number);
+        pFlyingSlig->mCurrentLevel = pSaveState->field_16_lvl_number;
         pFlyingSlig->SetSpriteScale(pSaveState->field_18_sprite_scale);
 
         pFlyingSlig->field_27C_r = pSaveState->field_1C_oldr;
@@ -354,7 +354,7 @@ s32 FlyingSlig::CreateFromSaveState(const u8* pBuffer)
         pFlyingSlig->field_298_nextYPos = pSaveState->field_8C_nextYPos;
         pFlyingSlig->SetBrain(sFlyingSligBrainTable[pSaveState->field_90_fns1_idx]);
 
-        pFlyingSlig->mAbeLevel = MapWrapper::FromAESaveData(pSaveState->field_9A_abe_level);
+        pFlyingSlig->mAbeLevel = pSaveState->field_9A_abe_level;
         pFlyingSlig->mAbePath = pSaveState->field_9C_abe_path;
         pFlyingSlig->mAbeCamera = pSaveState->field_9E_abe_camera;
 
@@ -375,7 +375,7 @@ s32 FlyingSlig::VGetSaveState(u8* pSaveBuffer)
 
     auto pState = reinterpret_cast<FlyingSligSaveState*>(pSaveBuffer);
 
-    pState->field_0_type = AETypes::eFlyingSlig_54;
+    pState->field_0_type = ReliveTypes::eFlyingSlig;
 
     pState->field_4_xpos = mXPos;
     pState->field_8_ypos = mYPos;
@@ -383,7 +383,7 @@ s32 FlyingSlig::VGetSaveState(u8* pSaveBuffer)
     pState->field_10_vely = mVelY;
 
     pState->field_14_path_number = mCurrentPath;
-    pState->field_16_lvl_number = MapWrapper::ToAE(mCurrentLevel);
+    pState->field_16_lvl_number = mCurrentLevel;
     pState->field_18_sprite_scale = GetSpriteScale();
 
     pState->field_1C_oldr = mRGB.r;
@@ -466,7 +466,7 @@ s32 FlyingSlig::VGetSaveState(u8* pSaveBuffer)
         idx++;
     }
 
-    pState->field_9A_abe_level = MapWrapper::ToAE(mAbeLevel);
+    pState->field_9A_abe_level = mAbeLevel;
     pState->field_9C_abe_path = mAbePath;
     pState->field_9E_abe_camera = mAbeCamera;
 

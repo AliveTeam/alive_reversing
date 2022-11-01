@@ -35,7 +35,7 @@ enum class FleechSound : u8
 
 struct FleechSaveState final
 {
-    AETypes field_0_type;
+    ReliveTypes field_0_type;
     s16 field_2;
     Guid field_4_obj_id;
     FP mXPos;
@@ -43,7 +43,7 @@ struct FleechSaveState final
     FP mVelX;
     FP mVelY;
     s16 mPathNumber;
-    LevelIds mLvlNumber;
+    EReliveLevelIds mLvlNumber;
     FP mSpriteScale;
     s16 mRingRed;
     s16 mRingGreen;
@@ -62,7 +62,7 @@ struct FleechSaveState final
     Guid mPlatformId;
     Guid mTlvInfo;
     Guid field_44_obj_id;
-    s16 field_48_unused; //TODO: Saves and sets another unused field, field_120 -- Nemin (7/5/2020)
+    s16 field_48_unused;
     s16 mTongueState;
     s16 mTongueSubState;
     s16 mEnemyXPos;
@@ -125,7 +125,6 @@ struct FleechSaveState final
     BitField16<FleechStateFlags> mFleechStateFlags;
     s16 field_B2;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(FleechSaveState, 0xB4);
 
 class Fleech;
 using TFleechBrainFn = s16 (Fleech::*)();

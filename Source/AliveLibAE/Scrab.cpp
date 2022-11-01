@@ -285,7 +285,7 @@ s32 Scrab::CreateFromSaveState(const u8* pBuffer)
 
         pScrab->field_134_falling_velx_scale_factor = pState->field_64_falling_velx_scale_factor;
         pScrab->mCurrentPath = pState->field_18_path_number;
-        pScrab->mCurrentLevel = MapWrapper::FromAESaveData(pState->field_1A_lvl_number);
+        pScrab->mCurrentLevel = pState->field_1A_lvl_number;
         pScrab->SetSpriteScale(pState->field_1C_sprite_scale);
         pScrab->mRGB.SetRGB(pState->mRingRed, pState->mRingGreen, pState->mRingBlue);
         pScrab->mCurrentMotion = pState->field_28_current_motion;
@@ -328,7 +328,7 @@ s32 Scrab::CreateFromSaveState(const u8* pBuffer)
         pScrab->field_160_sfx_bitmask = pState->field_78_sfx_bitmask;
         pScrab->mPreventDepossession = pState->field_7C_prevent_depossession;
 
-        pScrab->mAbeLevel = MapWrapper::FromAESaveData(pState->field_7E_return_level);
+        pScrab->mAbeLevel = pState->field_7E_return_level;
         pScrab->mAbePath = pState->field_80_return_path;
         pScrab->mAbeCamera = pState->field_82_return_camera;
         pScrab->field_16C_input = InputObject::PsxButtonsToKeyboardInput_45EE40(pState->field_84_input);
@@ -358,7 +358,7 @@ s32 Scrab::VGetSaveState(u8* pSaveBuffer)
 
     auto pState = reinterpret_cast<ScrabSaveState*>(pSaveBuffer);
 
-    pState->field_0_type = AETypes::eScrab_112;
+    pState->field_0_type = ReliveTypes::eScrab;
     pState->field_4_obj_id = mBaseGameObjectTlvInfo;
 
     pState->field_8_xpos = mXPos;
@@ -369,7 +369,7 @@ s32 Scrab::VGetSaveState(u8* pSaveBuffer)
     pState->field_64_falling_velx_scale_factor = field_134_falling_velx_scale_factor;
 
     pState->field_18_path_number = mCurrentPath;
-    pState->field_1A_lvl_number = MapWrapper::ToAE(mCurrentLevel);
+    pState->field_1A_lvl_number = mCurrentLevel;
     pState->field_1C_sprite_scale = GetSpriteScale();
 
     pState->mRingRed = mRGB.r;
@@ -438,7 +438,7 @@ s32 Scrab::VGetSaveState(u8* pSaveBuffer)
     pState->field_74_movement_timer = field_154_movement_timer;
     pState->field_78_sfx_bitmask = field_160_sfx_bitmask;
     pState->field_7C_prevent_depossession = mPreventDepossession;
-    pState->field_7E_return_level = MapWrapper::ToAE(mAbeLevel);
+    pState->field_7E_return_level = mAbeLevel;
     pState->field_80_return_path = mAbePath;
     pState->field_82_return_camera = mAbeCamera;
     pState->field_84_input = InputObject::KeyboardInputToPsxButtons_45EF70(field_16C_input);

@@ -323,7 +323,7 @@ s32 Slurg::VGetSaveState(u8* pSaveBuffer)
 
     auto pState = reinterpret_cast<SlurgSaveState*>(pSaveBuffer);
 
-    pState->mType = AETypes::eSlurg_129;
+    pState->mType = ReliveTypes::eSlurg;
     pState->mXPos = mXPos;
     pState->mYPos = mYPos;
     pState->mVelX = mVelX;

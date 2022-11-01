@@ -447,7 +447,7 @@ s32 AbilityRing::VGetSaveState(u8* pSaveBuffer)
 {
     auto pSaveState = reinterpret_cast<AbilityRingSaveState*>(pSaveBuffer);
 
-    pSaveState->mRingObjectType = AETypes::eAbilityRing_104;
+    pSaveState->mRingObjectType = ReliveTypes::eAbilityRing;
     pSaveState->mRingXPos = mRingXPos;
     pSaveState->mRingYPos = mRingYPos;
     pSaveState->mRingType = mRingType;

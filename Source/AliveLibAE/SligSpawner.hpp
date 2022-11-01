@@ -13,14 +13,13 @@ enum class SpawnerStates : s16
 
 struct SligSpawnerSaveState final
 {
-    AETypes mType;
+    ReliveTypes mType;
     s16 padding1;
     Guid mTlvInfo;
     SpawnerStates mState;
     s16 padding2;
     Guid mSpawnedSligId;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(SligSpawnerSaveState, 0x10);
 
 class SligSpawner final : public BaseGameObject
 {

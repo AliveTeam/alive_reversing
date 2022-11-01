@@ -206,7 +206,7 @@ s32 LiftMover::VGetSaveState(u8* pSaveBuffer)
 {
     auto pState = reinterpret_cast<LiftMoverSaveState*>(pSaveBuffer);
 
-    pState->field_0_type_id = AETypes::eLiftMover_9;
+    pState->field_0_type_id = ReliveTypes::eLiftMover;
     pState->field_4_tlvInfo = field_24_tlvInfo;
     pState->field_8_state = field_30_state;
     return sizeof(LiftMoverSaveState);

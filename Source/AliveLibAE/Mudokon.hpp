@@ -139,14 +139,14 @@ class BirdPortal;
 
 struct MudokonSaveState final
 {
-    AETypes field_0_type;
+    ReliveTypes field_0_type;
     s16 field_2_pad;
     FP field_4_xpos;
     FP field_8_ypos;
     FP field_C_velx;
     FP field_10_vely;
     s16 field_14_path_number;
-    LevelIds field_16_lvl_number;
+    EReliveLevelIds field_16_lvl_number;
     FP field_18_sprite_scale;
     s16 field_1C_r;
     s16 field_1E_g;
@@ -226,7 +226,6 @@ struct MudokonSaveState final
     s32 field_80_timer;
     s32 field_84_response_entry_idx;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(MudokonSaveState, 0x88);
 
 class Mudokon final : public BaseAliveGameObject
 {

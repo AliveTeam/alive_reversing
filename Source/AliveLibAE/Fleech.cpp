@@ -234,7 +234,7 @@ s32 Fleech::CreateFromSaveState(const u8* pBuffer)
         pFleech->mVelY = pState->mVelY;
 
         pFleech->mCurrentPath = pState->mPathNumber;
-        pFleech->mCurrentLevel = MapWrapper::FromAESaveData(pState->mLvlNumber);
+        pFleech->mCurrentLevel = pState->mLvlNumber;
         pFleech->SetSpriteScale(pState->mSpriteScale);
 
         pFleech->mRGB.SetRGB(pState->mRingRed, pState->mRingGreen, pState->mRingBlue);
@@ -338,7 +338,7 @@ s32 Fleech::VGetSaveState(u8* pSaveBuffer)
 
     auto pState = reinterpret_cast<FleechSaveState*>(pSaveBuffer);
 
-    pState->field_0_type = AETypes::eFleech_50;
+    pState->field_0_type = ReliveTypes::eFleech;
     pState->field_4_obj_id = mBaseGameObjectTlvInfo;
     pState->mXPos = mXPos;
     pState->mYPos = mYPos;
@@ -346,7 +346,7 @@ s32 Fleech::VGetSaveState(u8* pSaveBuffer)
     pState->mVelY = mVelY;
     pState->field_70_velx_factor = field_138_velx_factor;
     pState->mPathNumber = mCurrentPath;
-    pState->mLvlNumber = MapWrapper::ToAE(mCurrentLevel);
+    pState->mLvlNumber = mCurrentLevel;
     pState->mSpriteScale = GetSpriteScale();
     pState->mRingRed = mRGB.r;
     pState->mRingGreen = mRGB.g;

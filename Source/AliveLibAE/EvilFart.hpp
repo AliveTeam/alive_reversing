@@ -14,12 +14,12 @@ enum class FartStates : s16
 
 struct EvilFartSaveState final
 {
-    AETypes field_0_type;
+    ReliveTypes field_0_type;
     s16 mRed;
     s16 mGreen;
     s16 mBlue;
     s16 mCurrentPath;
-    LevelIds mCurrentLevel;
+    EReliveLevelIds mCurrentLevel;
     FP mXPos;
     FP mYPos;
     FP mVelX;
@@ -29,7 +29,7 @@ struct EvilFartSaveState final
     s16 mFrameChangeCounter;
     s8 mAnimRender;
     s8 mDrawable;
-    LevelIds mAbeLevel;
+    EReliveLevelIds mAbeLevel;
     s16 mAbePath;
     s16 mAbeCamera;
 
@@ -46,7 +46,6 @@ struct EvilFartSaveState final
     s32 mUnpossessionTimer;
     s32 mBackToAbeTimer;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(EvilFartSaveState, 60);
 
 class EvilFart final : public BaseAliveGameObject
 {

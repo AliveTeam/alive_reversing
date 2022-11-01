@@ -106,7 +106,7 @@ s32 Meat::CreateFromSaveState(const u8* pBuffer)
     pMeat->mVelY = pState->field_14_vely;
 
     pMeat->mCurrentPath = pState->field_1C_path_number;
-    pMeat->mCurrentLevel = MapWrapper::FromAESaveData(pState->field_1E_lvl_number);
+    pMeat->mCurrentLevel = pState->field_1E_lvl_number;
 
     pMeat->SetSpriteScale(pState->field_18_sprite_scale);
 
@@ -549,7 +549,7 @@ s32 Meat::VGetSaveState(u8* pSaveBuffer)
 {
     auto pState = reinterpret_cast<MeatSaveState*>(pSaveBuffer);
 
-    pState->field_0_type = AETypes::eMeat_84;
+    pState->field_0_type = ReliveTypes::eMeat;
     pState->field_4_obj_id = mBaseGameObjectTlvInfo;
 
     pState->field_8_xpos = mXPos;
@@ -559,7 +559,7 @@ s32 Meat::VGetSaveState(u8* pSaveBuffer)
     pState->field_14_vely = mVelY;
 
     pState->field_1C_path_number = mCurrentPath;
-    pState->field_1E_lvl_number = MapWrapper::ToAE(mCurrentLevel);
+    pState->field_1E_lvl_number = mCurrentLevel;
 
     pState->field_18_sprite_scale = GetSpriteScale();
 

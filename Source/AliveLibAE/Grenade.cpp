@@ -32,7 +32,7 @@ s32 Grenade::CreateFromSaveState(const u8* pBuffer)
     pGrenade->mVelX = pState->field_10_velx;
     pGrenade->mVelY = pState->field_14_vely;
     pGrenade->mCurrentPath = pState->field_1C_path_number;
-    pGrenade->mCurrentLevel = MapWrapper::FromAESaveData(pState->field_1E_lvl_number);
+    pGrenade->mCurrentLevel = pState->field_1E_lvl_number;
     pGrenade->SetSpriteScale(pState->field_18_sprite_scale);
 
     pGrenade->GetAnimation().mFlags.Set(AnimFlags::eLoop, pState->field_20_flags.Get(GrenadeSaveState::eBit3_bLoop));
@@ -62,7 +62,7 @@ s32 Grenade::VGetSaveState(u8* pSaveBuffer)
 {
     auto pState = reinterpret_cast<GrenadeSaveState*>(pSaveBuffer);
 
-    pState->field_0_type = AETypes::eGrenade_65;
+    pState->field_0_type = ReliveTypes::eGrenade;
 
     pState->field_4_obj_id = mBaseGameObjectTlvInfo;
 
@@ -72,7 +72,7 @@ s32 Grenade::VGetSaveState(u8* pSaveBuffer)
     pState->field_14_vely = mVelY;
 
     pState->field_1C_path_number = mCurrentPath;
-    pState->field_1E_lvl_number = MapWrapper::ToAE(mCurrentLevel);
+    pState->field_1E_lvl_number = mCurrentLevel;
     pState->field_18_sprite_scale = GetSpriteScale();
 
     pState->field_20_flags.Set(GrenadeSaveState::eBit3_bLoop, GetAnimation().mFlags.Get(AnimFlags::eLoop));

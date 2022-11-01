@@ -271,7 +271,7 @@ s32 Paramite::CreateFromSaveState(const u8* pBuffer)
 
     pParamite->field_13C_velx_offset = pState->field_64_velx_offset;
     pParamite->mCurrentPath = pState->field_14_path_number;
-    pParamite->mCurrentLevel = MapWrapper::FromAESaveData(pState->field_16_lvl_number);
+    pParamite->mCurrentLevel = pState->field_16_lvl_number;
     pParamite->SetSpriteScale(pState->field_18_sprite_scale);
 
     pParamite->mRGB.SetRGB(pState->field_1C_r, pState->field_1E_g, pState->field_20_b);
@@ -314,7 +314,7 @@ s32 Paramite::CreateFromSaveState(const u8* pBuffer)
     pParamite->field_140_tlvInfo = pState->field_3C_tlvInfo;
     pParamite->field_148_timer = pState->field_68_timer;
 
-    pParamite->mAbeLevel = MapWrapper::FromAESaveData(pState->field_6C_return_level);
+    pParamite->mAbeLevel = pState->field_6C_return_level;
     pParamite->mAbePath = pState->field_6E_return_path;
     pParamite->mAbeCamera = pState->field_70_return_camera;
 
@@ -353,7 +353,7 @@ s32 Paramite::VGetSaveState(u8* pSaveBuffer)
 
     auto pState = reinterpret_cast<ParamiteSaveState*>(pSaveBuffer);
 
-    pState->field_0_type = AETypes::eParamite_96;
+    pState->field_0_type = ReliveTypes::eParamite;
     pState->field_4_xpos = mXPos;
     pState->field_8_ypos = mYPos;
     pState->field_C_velx = mVelX;
@@ -362,7 +362,7 @@ s32 Paramite::VGetSaveState(u8* pSaveBuffer)
     pState->field_64_velx_offset = field_13C_velx_offset;
 
     pState->field_14_path_number = mCurrentPath;
-    pState->field_16_lvl_number = MapWrapper::ToAE(mCurrentLevel);
+    pState->field_16_lvl_number = mCurrentLevel;
     pState->field_18_sprite_scale = GetSpriteScale();
 
     pState->field_1C_r = mRGB.r;
@@ -420,7 +420,7 @@ s32 Paramite::VGetSaveState(u8* pSaveBuffer)
     pState->field_3C_tlvInfo = field_140_tlvInfo;
     pState->field_68_timer = field_148_timer;
 
-    pState->field_6C_return_level = MapWrapper::ToAE(mAbeLevel);
+    pState->field_6C_return_level = mAbeLevel;
     pState->field_6E_return_path = mAbePath;
     pState->field_70_return_camera = mAbeCamera;
 

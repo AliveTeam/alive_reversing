@@ -14,7 +14,7 @@ enum class DrillStates : s16
 
 struct DrillSaveState final
 {
-    AETypes mType;
+    ReliveTypes mType;
     s16 field_2_padding;
     s32 field_4_padding;
     Guid field_8_tlvInfo;
@@ -22,7 +22,6 @@ struct DrillSaveState final
     DrillStates field_10_state;
     s16 field_12_xyoff;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(DrillSaveState, 0x14);
 
 class Drill final : public ::BaseAnimatedWithPhysicsGameObject
 {
