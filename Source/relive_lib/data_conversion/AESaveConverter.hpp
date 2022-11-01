@@ -687,7 +687,7 @@ struct BoneSaveState final
         d.mVelY = data.mVelY;
         d.mSpriteScale = data.mSpriteScale;
         d.mCurrentPath = data.mCurrentPath;
-        d.mCurrentLevel = MapWrapper::FromAE(data.mCurrentLevel);
+        d.mCurrentLevel = MapWrapper::FromAESaveData(data.mCurrentLevel);
         d.field_20_flags.Raw().all = data.field_20_flags.Raw().all; // TODO: convert flags to bools
         d.field_24_base_id = Guid::NewGuidFromTlvInfo(data.field_24_base_id);
         d.mCollisionLineType = data.mCollisionLineType;
@@ -802,7 +802,7 @@ struct CrawlingSligSaveState final
         d.field_10_velx = data.field_10_velx;
         d.field_14_vely = data.field_14_vely;
         d.field_18_path_number = data.field_18_path_number;
-        d.field_1A_lvl_number = MapWrapper::FromAE(data.field_1A_lvl_number);
+        d.field_1A_lvl_number = MapWrapper::FromAESaveData(data.field_1A_lvl_number);
         d.field_1C_sprite_scale = data.field_1C_sprite_scale;
         d.mRingRed = data.mRingRed;
         d.mRingGreen = data.mRingGreen;
@@ -825,7 +825,7 @@ struct CrawlingSligSaveState final
         d.field_54_timer = data.field_54_timer;
         d.field_58_velx_scale_factor = data.field_58_velx_scale_factor;
         d.field_5E_bChanting = data.field_5E_bChanting;
-        d.mAbeLevel = MapWrapper::FromAE(data.mAbeLevel);
+        d.mAbeLevel = MapWrapper::FromAESaveData(data.mAbeLevel);
         d.mAbePath = data.mAbePath;
         d.mAbeCamera = data.mAbeCamera;
         d.field_6C_slig_button_id = Guid::NewGuidFromTlvInfo(data.field_6C_slig_button_id);
@@ -929,7 +929,7 @@ struct EvilFartSaveState final
         d.mGreen = data.mGreen;
         d.mBlue = data.mBlue;
         d.mCurrentPath = data.mCurrentPath;
-        d.mCurrentLevel = MapWrapper::FromAE(data.mCurrentLevel);
+        d.mCurrentLevel = MapWrapper::FromAESaveData(data.mCurrentLevel);
         d.mXPos = data.mXPos;
         d.mYPos = data.mYPos;
         d.mVelX = data.mVelX;
@@ -939,7 +939,7 @@ struct EvilFartSaveState final
         d.mFrameChangeCounter = data.mFrameChangeCounter;
         d.mAnimRender = data.mAnimRender;
         d.mDrawable = data.mDrawable;
-        d.mAbeLevel = MapWrapper::FromAE(data.mAbeLevel);
+        d.mAbeLevel = MapWrapper::FromAESaveData(data.mAbeLevel);
         d.mAbePath = data.mAbePath;
         d.mAbeCamera = data.mAbeCamera;
         d.field_2C.Raw().all = data.field_2C.Raw().all; //  TODO: convert flags to bools
@@ -1069,7 +1069,7 @@ struct FleechSaveState final
         d.mVelX = data.mVelX;
         d.mVelY = data.mVelY;
         d.mPathNumber = data.mPathNumber;
-        d.mLvlNumber = MapWrapper::FromAE(data.mLvlNumber);
+        d.mLvlNumber = MapWrapper::FromAESaveData(data.mLvlNumber);
         d.mSpriteScale = data.mSpriteScale;
         d.mRingRed = data.mRingRed;
         d.mRingGreen = data.mRingGreen;
@@ -1225,7 +1225,7 @@ struct FlyingSligSaveState final
         d.field_C_velx = data.field_C_velx;
         d.field_10_vely = data.field_10_vely;
         d.field_14_path_number = data.field_14_path_number;
-        d.field_16_lvl_number = MapWrapper::FromAE(data.field_16_lvl_number);
+        d.field_16_lvl_number = MapWrapper::FromAESaveData(data.field_16_lvl_number);
         d.field_18_sprite_scale = data.field_18_sprite_scale;
         d.field_1C_oldr = data.field_1C_oldr;
         d.field_1E_oldg = data.field_1E_oldg;
@@ -1262,7 +1262,7 @@ struct FlyingSligSaveState final
         d.field_88_nextXPos = data.field_88_nextXPos;
         d.field_8C_nextYPos = data.field_8C_nextYPos;
         d.field_90_fns1_idx = data.field_90_fns1_idx;
-        d.field_9A_abe_level = MapWrapper::FromAE(data.field_9A_abe_level);
+        d.field_9A_abe_level = MapWrapper::FromAESaveData(data.field_9A_abe_level);
         d.field_9C_abe_path = data.field_9C_abe_path;
         d.field_9E_abe_camera = data.field_9E_abe_camera;
         d.field_A0_bobbing_values_table_index = data.field_A0_bobbing_values_table_index;
@@ -1480,7 +1480,7 @@ struct GreeterSaveState final
         d.field_4_g = data.field_4_g;
         d.field_6_b = data.field_6_b;
         d.field_8_path_number = data.field_8_path_number;
-        d.field_A_lvl_number = MapWrapper::FromAE(data.field_A_lvl_number);
+        d.field_A_lvl_number = MapWrapper::FromAESaveData(data.field_A_lvl_number);
         d.field_C_xpos = data.field_C_xpos;
         d.field_10_ypos = data.field_10_ypos;
         d.field_14_velx = data.field_14_velx;
@@ -1589,7 +1589,7 @@ struct GrenadeSaveState final
         d.field_14_vely = data.field_14_vely;
         d.field_18_sprite_scale = data.field_18_sprite_scale;
         d.field_1C_path_number = data.field_1C_path_number;
-        d.field_1E_lvl_number = MapWrapper::FromAE(data.field_1E_lvl_number);
+        d.field_1E_lvl_number = MapWrapper::FromAESaveData(data.field_1E_lvl_number);
         d.field_20_flags.Raw().all = data.field_20_flags.Raw().all; // TODO: convert flags to bools
         d.field_24_base_id = Guid::NewGuidFromTlvInfo(data.field_24_base_id);
         d.field_28_line_type = data.field_28_line_type;
@@ -1718,7 +1718,7 @@ struct GlukkonSaveState final
         d.field_10_xvel = data.field_10_xvel;
         d.field_14_yvel = data.field_14_yvel;
         d.field_18_path = data.field_18_path;
-        d.field_1A_level = MapWrapper::FromAE(data.field_1A_level);
+        d.field_1A_level = MapWrapper::FromAESaveData(data.field_1A_level);
         d.field_1C_sprite_scale = data.field_1C_sprite_scale;
         d.mRingRed = data.mRingRed;
         d.mRingGreen = data.mRingGreen;
@@ -1741,7 +1741,7 @@ struct GlukkonSaveState final
         d.field_54_timer = data.field_54_timer;
         d.field_58_falling_velx_scale_factor = data.field_58_falling_velx_scale_factor;
         d.field_5E_prevent_depossession = data.field_5E_prevent_depossession;
-        d.field_60_level = MapWrapper::FromAE(data.field_60_level);
+        d.field_60_level = MapWrapper::FromAESaveData(data.field_60_level);
         d.field_62_path = data.field_62_path;
         d.field_64_camera = data.field_64_camera;
         d.field_66_speak = From(data.field_66_speak);
@@ -1925,7 +1925,7 @@ struct AbeSaveState final
         d.mVelX = data.mVelX;
         d.mVelY = data.mVelY;
         d.mCurrentPath = data.mCurrentPath;
-        d.mCurrentLevel = MapWrapper::FromAE(data.mCurrentLevel);
+        d.mCurrentLevel = MapWrapper::FromAESaveData(data.mCurrentLevel);
         d.mSpriteScale = data.mSpriteScale;
         d.mScale = AEData::From(data.mScale);
         d.mRed = data.mRed;
@@ -1981,7 +1981,7 @@ struct AbeSaveState final
         d.mHandStoneCam2 = data.mHandStoneCam2;
         d.mHandStoneCam3 = data.mHandStoneCam3;
         d.mHasEvilFart = data.mHasEvilFart;
-        d.mDstWellLevel = MapWrapper::FromAE(data.mDstWellLevel);
+        d.mDstWellLevel = MapWrapper::FromAESaveData(data.mDstWellLevel);
         d.mDstWellPath = data.mDstWellPath;
         d.mDstWellCamera = data.mDstWellCamera;
         d.door_id = data.door_id;
@@ -2207,7 +2207,7 @@ struct MudokonSaveState final
         d.field_C_velx = data.field_C_velx;
         d.field_10_vely = data.field_10_vely;
         d.field_14_path_number = data.field_14_path_number;
-        d.field_16_lvl_number = MapWrapper::FromAE(data.field_16_lvl_number);
+        d.field_16_lvl_number = MapWrapper::FromAESaveData(data.field_16_lvl_number);
         d.field_18_sprite_scale = data.field_18_sprite_scale;
         d.field_1C_r = data.field_1C_r;
         d.field_1E_g = data.field_1E_g;
@@ -2502,7 +2502,7 @@ struct MeatSaveState final
         d.field_14_vely = data.field_14_vely;
         d.field_18_sprite_scale = data.field_18_sprite_scale;
         d.field_1C_path_number = data.field_1C_path_number;
-        d.field_1E_lvl_number = MapWrapper::FromAE(data.field_1E_lvl_number);
+        d.field_1E_lvl_number = MapWrapper::FromAESaveData(data.field_1E_lvl_number);
         d.field_20_flags.Raw().all = data.field_20_flags.Raw().all; // TODO: convert flags to bools
         d.field_24_base_id = Guid::NewGuidFromTlvInfo(data.field_24_base_id);
         d.field_28_line_type = data.field_28_line_type;
@@ -2607,7 +2607,7 @@ struct MineCarSaveState final
         d.field_10_vely = data.field_10_vely;
         d.field_14_sprite_scale = data.field_14_sprite_scale;
         d.field_18_path_number = data.field_18_path_number;
-        d.field_1A_lvl_number = MapWrapper::FromAE(data.field_1A_lvl_number);
+        d.field_1A_lvl_number = MapWrapper::FromAESaveData(data.field_1A_lvl_number);
         d.field_1C_r = data.field_1C_r;
         d.field_1E_g = data.field_1E_g;
         d.field_20_b = data.field_20_b;
@@ -2740,7 +2740,7 @@ struct ParamiteSaveState final
         d.field_C_velx = data.field_C_velx;
         d.field_10_vely = data.field_10_vely;
         d.field_14_path_number = data.field_14_path_number;
-        d.field_16_lvl_number = MapWrapper::FromAE(data.field_16_lvl_number);
+        d.field_16_lvl_number = MapWrapper::FromAESaveData(data.field_16_lvl_number);
         d.field_18_sprite_scale = data.field_18_sprite_scale;
         d.field_1C_r = data.field_1C_r;
         d.field_1E_g = data.field_1E_g;
@@ -2767,7 +2767,7 @@ struct ParamiteSaveState final
         d.field_60_depossession_timer = data.field_60_depossession_timer;
         d.field_64_velx_offset = data.field_64_velx_offset;
         d.field_68_timer = data.field_68_timer;
-        d.field_6C_return_level = MapWrapper::FromAE(data.field_6C_return_level);
+        d.field_6C_return_level = MapWrapper::FromAESaveData(data.field_6C_return_level);
         d.field_6E_return_path = data.field_6E_return_path;
         d.field_70_return_camera = data.field_70_return_camera;
         d.field_72_input = data.field_72_input;
@@ -2959,7 +2959,7 @@ struct RockSaveState final
         d.field_14_vely = data.field_14_vely;
         d.field_18_sprite_scale = data.field_18_sprite_scale;
         d.field_1C_path_number = data.field_1C_path_number;
-        d.field_1E_lvl_number = MapWrapper::FromAE(data.field_1E_lvl_number);
+        d.field_1E_lvl_number = MapWrapper::FromAESaveData(data.field_1E_lvl_number);
         d.field_20_flags.Raw().all = data.field_20_flags.Raw().all; // TODO: convert flags to bools
         d.field_24_id = Guid::NewGuidFromTlvInfo(data.field_24_id);
         d.field_28_line_type = data.field_28_line_type;
@@ -3077,7 +3077,7 @@ struct ScrabSaveState final
         d.field_10_velx = data.field_10_velx;
         d.field_14_vely = data.field_14_vely;
         d.field_18_path_number = data.field_18_path_number;
-        d.field_1A_lvl_number = MapWrapper::FromAE(data.field_1A_lvl_number);
+        d.field_1A_lvl_number = MapWrapper::FromAESaveData(data.field_1A_lvl_number);
         d.field_1C_sprite_scale = data.field_1C_sprite_scale;
         d.mRingRed = data.mRingRed;
         d.mRingGreen = data.mRingGreen;
@@ -3108,7 +3108,7 @@ struct ScrabSaveState final
         d.field_74_movement_timer = data.field_74_movement_timer;
         d.field_78_sfx_bitmask = data.field_78_sfx_bitmask;
         d.field_7C_prevent_depossession = data.field_7C_prevent_depossession;
-        d.field_7E_return_level = MapWrapper::FromAE(data.field_7E_return_level);
+        d.field_7E_return_level = MapWrapper::FromAESaveData(data.field_7E_return_level);
         d.field_80_return_path = data.field_80_return_path;
         d.field_82_return_camera = data.field_82_return_camera;
         d.field_84_input = data.field_84_input;
@@ -3260,7 +3260,7 @@ struct SligSaveState final
         d.field_C_velx = data.field_C_velx;
         d.field_10_vely = data.field_10_vely;
         d.field_14_path_number = data.field_14_path_number;
-        d.field_16_lvl_number = MapWrapper::FromAE(data.field_16_lvl_number);
+        d.field_16_lvl_number = MapWrapper::FromAESaveData(data.field_16_lvl_number);
         d.field_18_sprite_scale = data.field_18_sprite_scale;
         d.field_1C_scale = AEData::From(data.field_1C_scale);
         d.field_1E_r = data.field_1E_r;
@@ -3290,7 +3290,7 @@ struct SligSaveState final
         d.field_60_res_idx = data.field_60_res_idx;
         d.field_62_shot_motion = data.field_62_shot_motion;
         d.field_64_zone_rect = AEData::From(data.field_64_zone_rect);
-        d.field_72_return_level = MapWrapper::FromAE(data.field_72_return_level);
+        d.field_72_return_level = MapWrapper::FromAESaveData(data.field_72_return_level);
         d.field_74_return_path = data.field_74_return_path;
         d.field_76_return_camera = data.field_76_return_camera;
         d.field_78_death_by_being_shot_timer = data.field_78_death_by_being_shot_timer;
@@ -3383,7 +3383,7 @@ struct SlogSaveState final
         d.field_10_velx = data.field_10_velx;
         d.field_14_vely = data.field_14_vely;
         d.field_18_path_number = data.field_18_path_number;
-        d.field_1A_lvl_number = MapWrapper::FromAE(data.field_1A_lvl_number);
+        d.field_1A_lvl_number = MapWrapper::FromAESaveData(data.field_1A_lvl_number);
         d.field_1C_sprite_scale = data.field_1C_sprite_scale;
         d.mRingRed = data.mRingRed;
         d.mRingGreen = data.mRingGreen;
