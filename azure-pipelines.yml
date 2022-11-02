@@ -1,6 +1,6 @@
 
 trigger:
-- master
+- abi_break_refcount
 
 jobs:
 - job: Linux
