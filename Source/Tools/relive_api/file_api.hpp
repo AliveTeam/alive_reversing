@@ -1,6 +1,8 @@
 #pragma once
 
 #include "RoundUp.hpp"
+#include <algorithm>
+#include <filesystem>
 #include <type_traits>
 #include <memory>
 
@@ -97,6 +99,67 @@ public:
                 mFileHandle = ::fopen(fileName.c_str(), "wb");
                 break;
         }
+
+#if !WIN32
+        if (mFileHandle == NULL)
+        {
+            // On non-Windows systems, we should make an attempt to locate the file
+            // in a case-insensitive way
+            std::filesystem::path asPath(fileName);
+            std::filesystem::path searchPath;
+            std::string lowerFileName;
+
+            lowerFileName.resize(fileName.size());
+
+            std::transform(fileName.begin(), fileName.end(), lowerFileName.begin(), ::tolower);
+
+            if (asPath.has_parent_path())
+            {
+                searchPath = asPath.parent_path();
+            }
+            else
+            {
+                searchPath = std::filesystem::path(".");
+            }
+
+            for (const auto &entry : std::filesystem::directory_iterator(searchPath))
+            {
+                if (!entry.is_regular_file())
+                {
+                    continue;
+                }
+
+                std::string entryName = entry.path().filename().string();
+                std::string lowerEntryName;
+
+                lowerEntryName.resize(entryName.size());
+
+                std::transform(entryName.begin(), entryName.end(), lowerEntryName.begin(), ::tolower);
+
+                if (lowerFileName == lowerEntryName)
+                {
+                    switch (mode)
+                    {
+                        case IFileIO::Mode::Write:
+                            mFileHandle = ::fopen(lowerFileName.c_str(), "w");
+                            break;
+
+                        case IFileIO::Mode::Read:
+                            mFileHandle = ::fopen(lowerFileName.c_str(), "r");
+                            break;
+
+                        case IFileIO::Mode::ReadBinary:
+                            mFileHandle = ::fopen(lowerFileName.c_str(), "rb");
+                            break;
+
+                        case IFileIO::Mode::WriteBinary:
+                            mFileHandle = ::fopen(lowerFileName.c_str(), "wb");
+                            break;
+                    }
+                }
+            }
+        }
+#endif
     }
 
     ~File() override
