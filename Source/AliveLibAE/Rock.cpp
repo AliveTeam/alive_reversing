@@ -413,7 +413,7 @@ s32 Rock::VGetSaveState(u8* pSaveBuffer)
 {
     auto pState = reinterpret_cast<RockSaveState*>(pSaveBuffer);
 
-    pState->field_0_type = AETypes::eRock_105;
+    pState->field_0_type = ReliveTypes::eRock;
     pState->field_4_obj_id = mBaseGameObjectTlvInfo;
 
     pState->field_8_xpos = mXPos;
@@ -423,15 +423,15 @@ s32 Rock::VGetSaveState(u8* pSaveBuffer)
     pState->field_14_vely = mVelY;
 
     pState->field_1C_path_number = mCurrentPath;
-    pState->field_1E_lvl_number = MapWrapper::ToAE(mCurrentLevel);
+    pState->field_1E_lvl_number = mCurrentLevel;
 
     pState->field_18_sprite_scale = GetSpriteScale();
 
-    pState->field_20_flags.Set(RockSaveState::eBit1_bRender, GetAnimation().mFlags.Get(AnimFlags::eRender));
-    pState->field_20_flags.Set(RockSaveState::eBit2_bDrawable, mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4));
+    pState->mRender = GetAnimation().mFlags.Get(AnimFlags::eRender);
+    pState->mDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
 
-    pState->field_20_flags.Set(RockSaveState::eBit3_bLoop, GetAnimation().mFlags.Get(AnimFlags::eLoop));
-    pState->field_20_flags.Set(RockSaveState::eBit4_bInteractive, mBaseGameObjectFlags.Get(BaseGameObject::eInteractive_Bit8));
+    pState->mLoop = GetAnimation().mFlags.Get(AnimFlags::eLoop);
+    pState->mInteractive = mBaseGameObjectFlags.Get(BaseGameObject::eInteractive_Bit8);
 
     if (BaseAliveGameObjectCollisionLine)
     {
@@ -470,16 +470,16 @@ s32 Rock::CreateFromSaveState(const u8* pData)
     pRock->mVelY = pState->field_14_vely;
 
     pRock->mCurrentPath = pState->field_1C_path_number;
-    pRock->mCurrentLevel = MapWrapper::FromAESaveData(pState->field_1E_lvl_number);
+    pRock->mCurrentLevel = pState->field_1E_lvl_number;
 
     pRock->SetSpriteScale(pState->field_18_sprite_scale);
     pRock->SetScale(pState->field_18_sprite_scale > FP_FromDouble(0.75) ? Scale::Fg : Scale::Bg);
 
-    pRock->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->field_20_flags.Get(RockSaveState::eBit1_bRender));
-    pRock->GetAnimation().mFlags.Set(AnimFlags::eLoop, pState->field_20_flags.Get(RockSaveState::eBit3_bLoop));
+    pRock->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->mRender);
+    pRock->GetAnimation().mFlags.Set(AnimFlags::eLoop, pState->mLoop);
 
-    pRock->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_20_flags.Get(RockSaveState::eBit2_bDrawable));
-    pRock->mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8, pState->field_20_flags.Get(RockSaveState::eBit4_bInteractive));
+    pRock->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->mDrawable);
+    pRock->mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8, pState->mInteractive);
 
     pRock->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eRestoredFromQuickSave);
 

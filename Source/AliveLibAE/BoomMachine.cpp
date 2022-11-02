@@ -121,7 +121,6 @@ private:
                         (-FP_FromInteger(6) * GetSpriteScale()) + mYPos,
                         field_FC_numGrenades,
                         0,
-                        0,
                         nullptr);
  
                     pGrenade->VThrow((GetAnimation().mFlags.Get(AnimFlags::eFlipX)) != 0 ? -FP_FromDouble(0.75) : FP_FromDouble(0.75), FP_FromInteger(3));

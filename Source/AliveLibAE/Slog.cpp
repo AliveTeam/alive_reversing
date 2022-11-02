@@ -222,7 +222,7 @@ s32 Slog::VGetSaveState(u8* pSaveBuffer)
     }
 
     auto pState = reinterpret_cast<SlogSaveState*>(pSaveBuffer);
-    pState->field_0_type = AETypes::eSlog_126;
+    pState->field_0_type = ReliveTypes::eSlog;
 
     pState->field_4_objectId = mBaseGameObjectTlvInfo;
 
@@ -234,7 +234,7 @@ s32 Slog::VGetSaveState(u8* pSaveBuffer)
     pState->field_50_falling_velx_scale_factor = field_128_falling_velx_scale_factor;
 
     pState->field_18_path_number = mCurrentPath;
-    pState->field_1A_lvl_number = MapWrapper::ToAE(mCurrentLevel);
+    pState->field_1A_lvl_number = mCurrentLevel;
     pState->field_1C_sprite_scale = GetSpriteScale();
 
     pState->mRingRed = mRGB.r;
@@ -360,7 +360,7 @@ s32 Slog::CreateFromSaveState(const u8* pBuffer)
         pSlog->mVelY = pState->field_14_vely;
         pSlog->field_128_falling_velx_scale_factor = pState->field_50_falling_velx_scale_factor;
         pSlog->mCurrentPath = pState->field_18_path_number;
-        pSlog->mCurrentLevel = MapWrapper::FromAESaveData(pState->field_1A_lvl_number);
+        pSlog->mCurrentLevel = pState->field_1A_lvl_number;
         pSlog->SetSpriteScale(pState->field_1C_sprite_scale);
         pSlog->mRGB.SetRGB(pState->mRingRed, pState->mRingGreen, pState->mRingBlue);
 

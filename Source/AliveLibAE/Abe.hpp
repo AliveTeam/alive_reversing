@@ -299,14 +299,14 @@ void Mudokon_SFX(MudSounds idx, s16 volume, s32 pitch, BaseAliveGameObject* pHer
 
 struct AbeSaveState final
 {
-    AETypes mAEType;
+    ReliveTypes mAEType;
     s16 field_2_padding;
     FP mXPos;
     FP mYPos;
     FP mVelX;
     FP mVelY;
     u16 mCurrentPath;
-    LevelIds mCurrentLevel;
+    EReliveLevelIds mCurrentLevel;
     FP mSpriteScale;
     Scale mScale;
     u16 mRed;
@@ -376,7 +376,7 @@ struct AbeSaveState final
     u16 field_BC_unused;
     u16 field_BE_unused;
     u16 mHasEvilFart;
-    LevelIds mDstWellLevel;
+    EReliveLevelIds mDstWellLevel;
     u16 mDstWellPath;
     u16 mDstWellCamera;
     u16 door_id;
@@ -412,7 +412,6 @@ struct AbeSaveState final
     };
     BitField16<Flags_D6> field_D6_flags;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(AbeSaveState, 216);
 
 class Bullet;
 

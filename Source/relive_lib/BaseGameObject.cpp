@@ -687,8 +687,8 @@ ReliveTypes BaseGameObject::FromAE(AETypes aeType)
             return ReliveTypes::eWebLine;
         case AETypes::eWell_147:
             return ReliveTypes::eWell;
-        case AETypes::eWheel_148:
-            return ReliveTypes::eWheel;
+        case AETypes::eWorkWheel_148:
+            return ReliveTypes::eWorkWheel;
         case AETypes::eCameraSwapper_149:
             return ReliveTypes::eCameraSwapper;
         case AETypes::eElectrocute_150:
@@ -910,8 +910,8 @@ AETypes BaseGameObject::ToAE(ReliveTypes reliveType)
             return AETypes::eWebLine_146;
         case ReliveTypes::eWell:
             return AETypes::eWell_147;
-        case ReliveTypes::eWheel:
-            return AETypes::eWheel_148;
+        case ReliveTypes::eWorkWheel:
+            return AETypes::eWorkWheel_148;
         case ReliveTypes::eCameraSwapper:
             return AETypes::eCameraSwapper_149;
         case ReliveTypes::eElectrocute:

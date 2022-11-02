@@ -124,7 +124,7 @@ s32 SligSpawner::VGetSaveState(u8* pSaveBuffer)
 {
     auto pState = reinterpret_cast<SligSpawnerSaveState*>(pSaveBuffer);
 
-    pState->mType = AETypes::eSligSpawner_2;
+    pState->mType = ReliveTypes::eSligSpawner;
     pState->mTlvInfo = mTlvInfo;
     pState->mState = mState;
     pState->mSpawnedSligId = Guid{};

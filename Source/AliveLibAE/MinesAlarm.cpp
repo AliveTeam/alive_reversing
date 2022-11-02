@@ -36,7 +36,7 @@ s32 MinesAlarm::VGetSaveState(u8* pSaveBuffer)
 {
     auto pState = reinterpret_cast<MinesAlarmSaveState*>(pSaveBuffer);
 
-    pState->field_0_type = AETypes::eMinesAlarm_25;
+    pState->field_0_type = ReliveTypes::eMinesAlarm;
     pState->field_4_timer = sTimerValue_5C1BFC;
     return sizeof(MinesAlarmSaveState);
 }

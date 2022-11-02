@@ -48,7 +48,7 @@ Bone::Bone(FP xpos, FP ypos, s16 countId)
     mVelX = FP_FromInteger(0);
     mVelY = FP_FromInteger(0);
     mBaseGameObjectFlags.Clear(BaseGameObject::eInteractive_Bit8);
-    mHitObject &= ~1u;
+    mHitObject = false;
 
     GetAnimation().mFlags.Clear(AnimFlags::eRender);
 
@@ -85,16 +85,16 @@ s32 Bone::CreateFromSaveState(const u8* pData)
     pBone->mVelY = pState->mVelY;
 
     pBone->mCurrentPath = pState->mCurrentPath;
-    pBone->mCurrentLevel = MapWrapper::FromAESaveData(pState->mCurrentLevel);
+    pBone->mCurrentLevel = pState->mCurrentLevel;
     pBone->SetSpriteScale(pState->mSpriteScale);
 
     pBone->SetScale(pState->mSpriteScale > FP_FromDouble(0.75) ? Scale::Fg : Scale::Bg);
 
-    pBone->GetAnimation().mFlags.Set(AnimFlags::eLoop, pState->field_20_flags.Get(BoneSaveState::eBit3_bLoop));
-    pBone->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->field_20_flags.Get(BoneSaveState::eBit1_bRender));
+    pBone->GetAnimation().mFlags.Set(AnimFlags::eLoop, pState->mLoop);
+    pBone->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->mRender);
 
-    pBone->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_20_flags.Get(BoneSaveState::eBit2_bDrawable));
-    pBone->mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8, pState->field_20_flags.Get(BoneSaveState::eBit4_bInteractive));
+    pBone->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->mDrawable);
+    pBone->mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8, pState->mInteractive);
 
     pBone->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eRestoredFromQuickSave);
 
@@ -110,10 +110,10 @@ s32 Bone::CreateFromSaveState(const u8* pData)
 
     pBone->mTimeToLiveTimer = pState->mTimeToLiveTimer;
 
-    pBone->mHitObject = 0;
-    if (pState->field_20_flags.Get(BoneSaveState::eBit5_bHitObject))
+    pBone->mHitObject = false;
+    if (pState->mHitObject)
     {
-        pBone->mHitObject |= 1;
+        pBone->mHitObject = true;
     }
 
     return sizeof(BoneSaveState);
@@ -241,7 +241,7 @@ s32 Bone::VGetSaveState(u8* pSaveBuffer)
 {
     auto pState = reinterpret_cast<BoneSaveState*>(pSaveBuffer);
 
-    pState->mAEType = AETypes::eBone_11;
+    pState->mAEType = ReliveTypes::eBone;
     pState->field_4_obj_id = mBaseGameObjectTlvInfo;
 
     pState->mXPos = mXPos;
@@ -251,17 +251,17 @@ s32 Bone::VGetSaveState(u8* pSaveBuffer)
     pState->mVelY = mVelY;
 
     pState->mCurrentPath = mCurrentPath;
-    pState->mCurrentLevel = MapWrapper::ToAE(mCurrentLevel);
+    pState->mCurrentLevel = mCurrentLevel;
 
     pState->mSpriteScale = GetSpriteScale();
 
-    pState->field_20_flags.Set(BoneSaveState::eBit3_bLoop, GetAnimation().mFlags.Get(AnimFlags::eLoop));
-    pState->field_20_flags.Set(BoneSaveState::eBit1_bRender, GetAnimation().mFlags.Get(AnimFlags::eRender));
+    pState->mLoop = GetAnimation().mFlags.Get(AnimFlags::eLoop);
+    pState->mRender = GetAnimation().mFlags.Get(AnimFlags::eRender);
 
-    pState->field_20_flags.Set(BoneSaveState::eBit2_bDrawable, mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4));
-    pState->field_20_flags.Set(BoneSaveState::eBit4_bInteractive, mBaseGameObjectFlags.Get(BaseGameObject::eInteractive_Bit8));
+    pState->mDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
+    pState->mInteractive = mBaseGameObjectFlags.Get(BaseGameObject::eInteractive_Bit8);
 
-    pState->field_20_flags.Set(BoneSaveState::eBit5_bHitObject, mHitObject & 1);
+    pState->mHitObject = mHitObject;
 
     if (BaseAliveGameObjectCollisionLine)
     {

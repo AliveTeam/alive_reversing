@@ -89,14 +89,14 @@ enum class ParamiteSpeak : s8
 
 struct ParamiteSaveState final
 {
-    AETypes field_0_type;
+    ReliveTypes field_0_type;
     s16 field_2_pad;
     FP field_4_xpos;
     FP field_8_ypos;
     FP field_C_velx;
     FP field_10_vely;
     s16 field_14_path_number;
-    LevelIds field_16_lvl_number;
+    EReliveLevelIds field_16_lvl_number;
     FP field_18_sprite_scale;
     s16 field_1C_r;
     s16 field_1E_g;
@@ -128,7 +128,7 @@ struct ParamiteSaveState final
     s32 field_60_depossession_timer;
     FP field_64_velx_offset;
     s32 field_68_timer;
-    LevelIds field_6C_return_level;
+    EReliveLevelIds field_6C_return_level;
     s16 field_6E_return_path;
     s16 field_70_return_camera;
     s16 field_72_input;
@@ -147,7 +147,6 @@ struct ParamiteSaveState final
 
     BitField16<Flags_76> field_76_flags;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(ParamiteSaveState, 0x78);
 
 class Paramite final : public BaseAliveGameObject
 {

@@ -66,7 +66,7 @@ using TGlukkonMotionFn = void (Glukkon::*)();
 
 struct GlukkonSaveState final
 {
-    AETypes field_0_id;
+    ReliveTypes field_0_id;
     s16 field_2_padding;
     Guid field_4_object_id;
     FP field_8_xpos;
@@ -74,7 +74,7 @@ struct GlukkonSaveState final
     FP field_10_xvel;
     FP field_14_yvel;
     s16 field_18_path;
-    LevelIds field_1A_level;
+    EReliveLevelIds field_1A_level;
     FP field_1C_sprite_scale;
     u16 mRingRed;
     u16 mRingGreen;
@@ -103,7 +103,7 @@ struct GlukkonSaveState final
     FP field_58_falling_velx_scale_factor;
     s16 field_5C_padding;
     s16 field_5E_prevent_depossession;
-    LevelIds field_60_level;
+    EReliveLevelIds field_60_level;
     s16 field_62_path;
     s16 field_64_camera;
     GlukkonSpeak field_66_speak;
@@ -119,9 +119,8 @@ struct GlukkonSaveState final
     s32 field_84_getting_shot_timer;
     Guid field_88_obj_id;
     s16 field_8C_can_be_possessed;
-    AETypes field_8E_type_id;
+    ReliveTypes field_8E_type_id;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(GlukkonSaveState, 144);
 
 class Glukkon final : public BaseAliveGameObject
 {

@@ -11,13 +11,12 @@ namespace relive
 
 struct FlyingSligSpawnerSaveState final
 {
-    AETypes field_0_type;
+    ReliveTypes field_0_type;
     s16 field_2_pad;
     Guid field_4_tlvInfo;
     s32 field_8_bSpawned;
     Guid field_C_spawned_slig_obj_id;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(FlyingSligSpawnerSaveState, 0x10);
 
 class FlyingSligSpawner final : public BaseGameObject
 {

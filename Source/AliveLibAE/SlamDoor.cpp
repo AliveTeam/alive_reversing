@@ -412,7 +412,7 @@ s32 SlamDoor::VGetSaveState(u8* pSaveBuffer)
 {
     SlamDoorSaveState* pSaveState = reinterpret_cast<SlamDoorSaveState*>(pSaveBuffer);
 
-    pSaveState->mType = AETypes::eSlamDoor_122;
+    pSaveState->mType = ReliveTypes::eSlamDoor;
     pSaveState->mTlvInfo = mTlvInfo;
 
     return sizeof(SlamDoorSaveState);

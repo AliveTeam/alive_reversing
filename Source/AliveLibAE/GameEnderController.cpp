@@ -78,7 +78,7 @@ s32 GameEnderController::VGetSaveState(u8* pSaveBuffer)
 {
     auto pState = reinterpret_cast<GameEnderControllerSaveState*>(pSaveBuffer);
 
-    pState->field_0_type = AETypes::eGameEnderController_57;
+    pState->field_0_type = ReliveTypes::eGameEnderController;
     pState->field_4_obj_id = mBaseGameObjectTlvInfo;
     pState->field_8_timer = field_20_timer - sGnFrame;
     pState->field_C_state = field_24_state;

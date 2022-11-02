@@ -742,7 +742,7 @@ s32 Abe::CreateFromSaveState(const u8* pData)
     sActiveHero->field_128.field_8_x_vel_slow_by = pSaveState->field_48_x_vel_slow_by;
     sActiveHero->field_128.field_C_unused = pSaveState->field_4C_unused;
     sActiveHero->mCurrentPath = pSaveState->mCurrentPath;
-    sActiveHero->mCurrentLevel = MapWrapper::FromAESaveData(pSaveState->mCurrentLevel);
+    sActiveHero->mCurrentLevel = pSaveState->mCurrentLevel;
     sActiveHero->SetSpriteScale(pSaveState->mSpriteScale);
     sActiveHero->SetScale(pSaveState->mScale);
 
@@ -855,7 +855,7 @@ s32 Abe::CreateFromSaveState(const u8* pData)
     sActiveHero->field_196_unused = pSaveState->field_BE_unused;
 
     sActiveHero->mHasEvilFart = pSaveState->mHasEvilFart;
-    sActiveHero->mDstWellLevel = MapWrapper::FromAESaveData(pSaveState->mDstWellLevel);
+    sActiveHero->mDstWellLevel = pSaveState->mDstWellLevel;
     sActiveHero->mDstWellPath = pSaveState->mDstWellPath;
     sActiveHero->mDstWellCamera = pSaveState->mDstWellCamera;
     sActiveHero->field_1A0_door_id = pSaveState->door_id;
@@ -1328,7 +1328,7 @@ void Abe::VOnTrapDoorOpen()
 {
     // Handles falling when previously was on a platform, stop turning a wheel if we where turning one etc.
     PlatformBase* pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
-    WorkWheel* pWheel = static_cast<WorkWheel*>(sObjectIds.Find(mWorkWheelId, ReliveTypes::eWheel));
+    WorkWheel* pWheel = static_cast<WorkWheel*>(sObjectIds.Find(mWorkWheelId, ReliveTypes::eWorkWheel));
     if (pPlatform)
     {
         if (!(field_1AC_flags.Get(Flags_1AC::e1AC_Bit5_shrivel)))
@@ -1352,7 +1352,7 @@ void Abe::ToKnockback_44E700(s16 bKnockbackSound, s16 bDelayedAnger)
 {
     OrbWhirlWind* pfield_150 = static_cast<OrbWhirlWind*>(sObjectIds.Find_Impl(mOrbWhirlWindId));
     BaseThrowable* pfield_158 = static_cast<BaseThrowable*>(sObjectIds.Find_Impl(mThrowableId));
-    WorkWheel* pfield_164 = static_cast<WorkWheel*>(sObjectIds.Find(mWorkWheelId, ReliveTypes::eWheel));
+    WorkWheel* pfield_164 = static_cast<WorkWheel*>(sObjectIds.Find(mWorkWheelId, ReliveTypes::eWorkWheel));
     if (sControlledCharacter == this || mHealth <= FP_FromInteger(0))
     {
         // Chant music/orb kill ?
@@ -1508,7 +1508,7 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
 {
     AbeSaveState* pSaveState = reinterpret_cast<AbeSaveState*>(pSaveBuffer);
 
-    pSaveState->mAEType = AETypes::eAbe_69;
+    pSaveState->mAEType = ReliveTypes::eAbe;
     pSaveState->mXPos = mXPos;
     pSaveState->mYPos = mYPos;
     pSaveState->mVelX = mVelX;
@@ -1516,7 +1516,7 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
     pSaveState->field_48_x_vel_slow_by = field_128.field_8_x_vel_slow_by;
     pSaveState->field_4C_unused = field_128.field_C_unused;
     pSaveState->mCurrentPath = mCurrentPath;
-    pSaveState->mCurrentLevel = MapWrapper::ToAE(mCurrentLevel);
+    pSaveState->mCurrentLevel = mCurrentLevel;
     pSaveState->mSpriteScale = GetSpriteScale();
     pSaveState->mScale = GetScale();
     pSaveState->mRed = mRGB.r;
@@ -1721,7 +1721,7 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
     pSaveState->field_BC_unused = field_194_unused;
     pSaveState->field_BE_unused = field_196_unused;
     pSaveState->mHasEvilFart = mHasEvilFart;
-    pSaveState->mDstWellLevel = MapWrapper::ToAE(mDstWellLevel);
+    pSaveState->mDstWellLevel = mDstWellLevel;
     pSaveState->mDstWellPath = mDstWellPath;
     pSaveState->mDstWellCamera = mDstWellCamera;
     pSaveState->door_id = field_1A0_door_id;
@@ -2703,7 +2703,7 @@ void Abe::Motion_0_Idle_44EEB0()
                     if (bCanUseWheel)
                     {
                         mCurrentMotion = eAbeMotions::Motion_126_TurnWheelBegin;
-                        BaseGameObject* pObj_148 = FindObjectOfType(ReliveTypes::eWheel, mXPos, mYPos - (GetSpriteScale() * FP_FromInteger(50)));
+                        BaseGameObject* pObj_148 = FindObjectOfType(ReliveTypes::eWorkWheel, mXPos, mYPos - (GetSpriteScale() * FP_FromInteger(50)));
                         if (pObj_148)
                         {
                             mWorkWheelId = pObj_148->mBaseGameObjectId;

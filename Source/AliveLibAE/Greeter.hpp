@@ -22,12 +22,12 @@ enum class GreeterBrainStates : s16
 
 struct GreeterSaveState final
 {
-    AETypes field_0_type;
+    ReliveTypes field_0_type;
     s16 field_2_r;
     s16 field_4_g;
     s16 field_6_b;
     s16 field_8_path_number;
-    LevelIds field_A_lvl_number;
+    EReliveLevelIds field_A_lvl_number;
     FP field_C_xpos;
     FP field_10_ypos;
     FP field_14_velx;
@@ -54,7 +54,6 @@ struct GreeterSaveState final
     s16 field_4A_padding;
     FP field_4C_motion_laser_xpos;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(GreeterSaveState, 0x50);
 
 class PathLine;
 

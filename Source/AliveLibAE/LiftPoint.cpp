@@ -795,7 +795,7 @@ s32 LiftPoint::VGetSaveState(u8* pSaveBuffer)
 {
     auto pState = reinterpret_cast<LiftPointSaveState*>(pSaveBuffer);
 
-    pState->field_0_type = AETypes::eLiftPoint_78;
+    pState->field_0_type = ReliveTypes::eLiftPoint;
     pState->field_4_xpos = mXPos;
     pState->field_8_ypos = mYPos;
     pState->field_C_tlvInfo = mPlatformBaseTlvInfo;

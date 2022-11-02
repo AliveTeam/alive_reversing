@@ -27,15 +27,9 @@ enum class SlurgStates : s16
     eBurst_2 = 2
 };
 
-enum SlurgFlags
-{
-    eGoingRight = 0x1, // TODO: double check me
-    eMoving = 0x2,
-};
-
 struct SlurgSaveState final
 {
-    AETypes mType;
+    ReliveTypes mType;
     s16 padding1;
     FP mXPos;
     FP mYPos;
@@ -51,9 +45,9 @@ struct SlurgSaveState final
     s32 mFrameTableOffset;
     Guid mTlvInfo;
     SlurgStates mSlurgState;
-    BitField16<SlurgFlags> mSlurgFlags;
+    bool mGoingRight; // TODO: double check me
+    bool mMoving;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(SlurgSaveState, 0x2C);
 
 class Slurg final : public BaseAliveGameObject
 {
@@ -77,7 +71,8 @@ private:
     void GoRight();
     void Burst();
 
-    BitField16<SlurgFlags> mSlurgFlags = {};
+    bool mGoingRight = false; // TODO: double check me
+    bool mMoving = false;
     s16 mSlurgSwitchId = 0;
     SlurgStates mSlurgState = SlurgStates::eMoving_0;
     s16 mMovingTimer = 0;

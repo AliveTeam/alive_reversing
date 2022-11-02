@@ -19,7 +19,7 @@ enum class BoneStates : s16
 
 struct BoneSaveState final
 {
-    AETypes mAEType;
+    ReliveTypes mAEType;
     s16 field_2_padding;
     Guid field_4_obj_id;
     FP mXPos;
@@ -28,18 +28,12 @@ struct BoneSaveState final
     FP mVelY;
     FP mSpriteScale;
     s16 mCurrentPath;
-    LevelIds mCurrentLevel;
-
-    enum BoneStateFlags
-    {
-        eBit1_bRender = 0x1,
-        eBit2_bDrawable = 0x2,
-        eBit3_bLoop = 0x4,
-        eBit4_bInteractive = 0x8,
-        eBit5_bHitObject = 0x10,
-    };
-
-    BitField16<BoneStateFlags> field_20_flags;
+    EReliveLevelIds mCurrentLevel;
+    bool mRender;
+    bool mDrawable;
+    bool mLoop;
+    bool mInteractive;
+    bool mHitObject;
     s16 field_22_padding;
     Guid field_24_base_id;
     s16 mCollisionLineType;
@@ -50,7 +44,6 @@ struct BoneSaveState final
     FP mInitialYPos;
     s32 mTimeToLiveTimer;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(BoneSaveState, 0x3C);
 
 class Bone final : public BaseThrowable
 {
@@ -87,7 +80,7 @@ private:
     FP mInitialYPos = {};
     s32 mShineTimer = 0;
     s32 mTimeToLiveTimer = 0;
-    s16 mHitObject = 0; // TODO: flag
+    bool mHitObject = false;
 };
 
 class BoneBag final : public BaseAliveGameObject

@@ -112,7 +112,7 @@ s32 TimerTrigger::VGetSaveState(u8* pSaveBuffer)
 {
     auto pState = reinterpret_cast<TimerTriggerSaveState*>(pSaveBuffer);
 
-    pState->field_0_type = AETypes::eTimerTrigger_136;
+    pState->field_0_type = ReliveTypes::eTimerTrigger;
     pState->field_4_tlvInfo = mTlvInfo;
     pState->field_C_state = mState;
     pState->field_8_delay_timer_base = mActivationDelayTimer - sGnFrame;

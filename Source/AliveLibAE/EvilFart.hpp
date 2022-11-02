@@ -14,12 +14,12 @@ enum class FartStates : s16
 
 struct EvilFartSaveState final
 {
-    AETypes field_0_type;
+    ReliveTypes field_0_type;
     s16 mRed;
     s16 mGreen;
     s16 mBlue;
     s16 mCurrentPath;
-    LevelIds mCurrentLevel;
+    EReliveLevelIds mCurrentLevel;
     FP mXPos;
     FP mYPos;
     FP mVelX;
@@ -29,24 +29,17 @@ struct EvilFartSaveState final
     s16 mFrameChangeCounter;
     s8 mAnimRender;
     s8 mDrawable;
-    LevelIds mAbeLevel;
+    EReliveLevelIds mAbeLevel;
     s16 mAbePath;
     s16 mAbeCamera;
-
-    enum Flags_2C
-    {
-        eBit1_bControlled = 0x1,
-        eBit2_FartExploded = 0x2,
-    };
-    BitField16<Flags_2C> field_2C;
-
+    bool mControlled;
+    bool mFartExploded;
     s16 mPossessedAliveTimer;
     FartStates mState;
     s16 field_32_padding;
     s32 mUnpossessionTimer;
     s32 mBackToAbeTimer;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(EvilFartSaveState, 60);
 
 class EvilFart final : public BaseAliveGameObject
 {
@@ -67,7 +60,7 @@ private:
     void BlowUp();
 
 private:
-    s16 mFartExploded = 0;
+    bool mFartExploded = false;
     bool mPossessed = false;
     s16 mPossessedAliveTimer = 0;
     s16 mAbePath = 0;

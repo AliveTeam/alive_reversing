@@ -121,7 +121,7 @@ s32 Greeter::CreateFromSaveState(const u8* pBuffer)
         pGreeter->mVelY = pState->field_18_vely;
 
         pGreeter->mCurrentPath = pState->field_8_path_number;
-        pGreeter->mCurrentLevel = MapWrapper::FromAESaveData(pState->field_A_lvl_number);
+        pGreeter->mCurrentLevel = pState->field_A_lvl_number;
         pGreeter->SetSpriteScale(pState->field_1C_sprite_scale);
 
         pGreeter->mRGB.SetRGB(pState->field_2_r, pState->field_4_g, pState->field_6_b);
@@ -168,7 +168,7 @@ s32 Greeter::VGetSaveState(u8* pSaveBuffer)
 
     auto pState = reinterpret_cast<GreeterSaveState*>(pSaveBuffer);
 
-    pState->field_0_type = AETypes::eGreeter_64;
+    pState->field_0_type = ReliveTypes::eGreeter;
 
     pState->field_C_xpos = mXPos;
     pState->field_10_ypos = mYPos;
@@ -176,7 +176,7 @@ s32 Greeter::VGetSaveState(u8* pSaveBuffer)
     pState->field_18_vely = mVelY;
 
     pState->field_8_path_number = mCurrentPath;
-    pState->field_A_lvl_number = MapWrapper::ToAE(mCurrentLevel);
+    pState->field_A_lvl_number = mCurrentLevel;
     pState->field_1C_sprite_scale = GetSpriteScale();
 
     pState->field_2_r = mRGB.r;

@@ -22,7 +22,7 @@ enum class SlapLockStates : s16
 
 struct SlapLockSaveState final
 {
-    AETypes mType;
+    ReliveTypes mType;
     s16 mAnimRender;
     Guid mTlvInfo;
     s8 mTlvState;
@@ -32,7 +32,6 @@ struct SlapLockSaveState final
     Guid mAbilityRingId;
     s32 mShinyParticleTimer;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(SlapLockSaveState, 0x18);
 
 class SlapLock final : public BaseAliveGameObject
 {

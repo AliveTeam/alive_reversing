@@ -50,117 +50,117 @@ u16 bUseAltSaveHeader_5C1BBC = 0;
 
 u16 sQuickSave_saved_switchResetters_count_BB234C = 0;
 
-static s32 RestoreObjectState(AETypes type, const u8* pData)
+static s32 RestoreObjectState(ReliveTypes type, const u8* pData)
 {
     switch (type)
     {
-        case ::AETypes::eSligSpawner_2:
+        case ::ReliveTypes::eSligSpawner:
             return SligSpawner::CreateFromSaveState(pData);
 
-        case ::AETypes::eLiftMover_9:
+        case ::ReliveTypes::eLiftMover:
             return LiftMover::CreateFromSaveState(pData);
 
-        case ::AETypes::eBone_11:
+        case ::ReliveTypes::eBone:
             return Bone::CreateFromSaveState(pData);
 
-        case ::AETypes::eMinesAlarm_25:
+        case ::ReliveTypes::eMinesAlarm:
             return MinesAlarm::CreateFromSaveState(pData);
 
-        case ::AETypes::eCrawlingSlig_26:
+        case ::ReliveTypes::eCrawlingSlig:
             return CrawlingSlig::CreateFromSaveState(pData);
 
-        case ::AETypes::eDrill_30:
+        case ::ReliveTypes::eDrill:
             return Drill::CreateFromSaveState(pData);
 
-        case ::AETypes::eEvilFart_45:
+        case ::ReliveTypes::eEvilFart:
             return EvilFart::CreateFromSaveState(pData);
 
-        case ::AETypes::eFleech_50:
+        case ::ReliveTypes::eFleech:
             return Fleech::CreateFromSaveState(pData);
 
-        case ::AETypes::eFlyingSlig_54:
+        case ::ReliveTypes::eFlyingSlig:
             return FlyingSlig::CreateFromSaveState(pData);
 
-        case ::AETypes::eFlyingSligSpawner_55:
+        case ::ReliveTypes::eFlyingSligSpawner:
             return FlyingSligSpawner::CreateFromSaveState(pData);
 
-        case ::AETypes::eGameEnderController_57:
+        case ::ReliveTypes::eGameEnderController:
             return GameEnderController::CreateFromSaveState(pData);
 
-        case ::AETypes::eSlapLock_OrbWhirlWind_60:
+        case ::ReliveTypes::eSlapLock_OrbWhirlWind:
             return SlapLockWhirlWind::CreateFromSaveState(pData);
 
-        case ::AETypes::eSlapLock_61:
+        case ::ReliveTypes::eSlapLock:
             return SlapLock::CreateFromSaveState(pData);
 
-        case ::AETypes::eGreeter_64:
+        case ::ReliveTypes::eGreeter:
             return Greeter::CreateFromSaveState(pData);
 
-        case ::AETypes::eGrenade_65:
+        case ::ReliveTypes::eGrenade:
             return Grenade::CreateFromSaveState(pData);
 
-        case ::AETypes::eGlukkon_67:
+        case ::ReliveTypes::eGlukkon:
             return Glukkon::CreateFromSaveState(pData);
 
-        case ::AETypes::eAbe_69:
+        case ::ReliveTypes::eAbe:
             return Abe::CreateFromSaveState(pData);
 
-        case ::AETypes::eLiftPoint_78:
+        case ::ReliveTypes::eLiftPoint:
             return LiftPoint::CreateFromSaveState(pData);
 
-        case ::AETypes::eMudokon_110:
-        case ::AETypes::eRingOrLiftMud_81:
+        case ::ReliveTypes::eMudokon:
+        case ::ReliveTypes::eRingOrLiftMud:
             return Mudokon::CreateFromSaveState(pData);
 
-        case ::AETypes::eMeat_84:
+        case ::ReliveTypes::eMeat:
             return Meat::CreateFromSaveState(pData);
 
-        case ::AETypes::eMineCar_89:
+        case ::ReliveTypes::eMineCar:
             return MineCar::CreateFromSaveState(pData);
 
-        case ::AETypes::eParamite_96:
+        case ::ReliveTypes::eParamite:
             return Paramite::CreateFromSaveState(pData);
 
-        case ::AETypes::eBirdPortal_99:
+        case ::ReliveTypes::eBirdPortal:
             return BirdPortal::CreateFromSaveState(pData);
 
-        case ::AETypes::eThrowableArray_102:
+        case ::ReliveTypes::eThrowableArray:
             return ThrowableArray::CreateFromSaveState(pData);
 
-        case ::AETypes::eAbilityRing_104:
+        case ::ReliveTypes::eAbilityRing:
             return AbilityRing::CreateFromSaveState(pData);
 
-        case ::AETypes::eRock_105:
+        case ::ReliveTypes::eRock:
             return Rock::CreateFromSaveState(pData);
 
-        case ::AETypes::eScrab_112:
+        case ::ReliveTypes::eScrab:
             return Scrab::CreateFromSaveState(pData);
 
-        case ::AETypes::eScrabSpawner_113:
+        case ::ReliveTypes::eScrabSpawner:
             return ScrabSpawner::CreateFromSaveState(pData);
 
-        case ::AETypes::eSlamDoor_122:
+        case ::ReliveTypes::eSlamDoor:
             return SlamDoor::CreateFromSaveState(pData);
 
-        case ::AETypes::eSlig_125:
+        case ::ReliveTypes::eSlig:
             return Slig::CreateFromSaveState(pData);
 
-        case ::AETypes::eSlog_126:
+        case ::ReliveTypes::eSlog:
             return Slog::CreateFromSaveState(pData);
 
-        case ::AETypes::eSlurg_129:
+        case ::ReliveTypes::eSlurg:
             return Slurg::CreateFromSaveState(pData);
 
-        case ::AETypes::eTimerTrigger_136:
+        case ::ReliveTypes::eTimerTrigger:
             return TimerTrigger::CreateFromSaveState(pData);
 
-        case ::AETypes::eTrapDoor_142:
+        case ::ReliveTypes::eTrapDoor:
             return TrapDoor::CreateFromSaveState(pData);
 
-        case ::AETypes::eUXB_143:
+        case ::ReliveTypes::eUXB:
             return UXB::CreateFromSaveState(pData);
 
-        case ::AETypes::eWheel_148:
+        case ::ReliveTypes::eWorkWheel:
             return WorkWheel::CreateFromSaveState(pData);
 
         default:
@@ -175,7 +175,7 @@ void QuikSave_RestoreBlyData(const u8* pSaveData)
     while (*reinterpret_cast<const u32*>(pSaveData2) != 0)
     {
         // Maps to AETypes
-        pSaveData2 += RestoreObjectState(static_cast<AETypes>(*pSaveData2), reinterpret_cast<const u8*>(pSaveData2)) / sizeof(u16);
+        pSaveData2 += RestoreObjectState(static_cast<ReliveTypes>(*pSaveData2), reinterpret_cast<const u8*>(pSaveData2)) / sizeof(u16);
     }
 
     // Skip the 2 zero entries, the saved flag words come after the object save state data

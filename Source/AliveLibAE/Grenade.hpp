@@ -18,7 +18,7 @@ enum class GrenadeStates : s16
 
 struct GrenadeSaveState final
 {
-    AETypes field_0_type;
+    ReliveTypes field_0_type;
     s16 field_2_pad;
     Guid field_4_obj_id;
     FP field_8_xpos;
@@ -27,19 +27,13 @@ struct GrenadeSaveState final
     FP field_14_vely;
     FP field_18_sprite_scale;
     s16 field_1C_path_number;
-    LevelIds field_1E_lvl_number;
-
-    enum Flags_20
-    {
-        eBit1_bRender = 0x1,
-        eBit2_bDrawable = 0x2,
-        eBit3_bLoop = 0x4,
-        eBit4_bInteractive = 0x8,
-        eBit5_unused = 0x10,
-        eBit6_bExplodeNow = 0x20,
-        eBit7_bBlowUpOnCollision = 0x40,
-    };
-    BitField16<Flags_20> field_20_flags;
+    EReliveLevelIds field_1E_lvl_number;
+    bool mRender;
+    bool mDrawable;
+    bool mLoop;
+    bool mInteractive;
+    bool mExplodeNow;
+    bool mBlowUpOnCollision;
     s16 field_22_padding;
     Guid field_24_base_id;
     s16 field_28_line_type;
@@ -51,12 +45,11 @@ struct GrenadeSaveState final
     FP field_34_xpos;
     FP field_38_ypos;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(GrenadeSaveState, 0x3C);
 
 class Grenade final : public BaseThrowable
 {
 public:
-    Grenade(FP xpos, FP ypos, s32 numGrenades, bool bBlowUpOnCollision, s32 unused, BaseGameObject* pOwner);
+    Grenade(FP xpos, FP ypos, s32 numGrenades, bool bBlowUpOnCollision, BaseGameObject* pOwner);
     ~Grenade();
 
     virtual void VScreenChanged() override;

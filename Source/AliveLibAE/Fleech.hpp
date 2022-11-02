@@ -35,7 +35,7 @@ enum class FleechSound : u8
 
 struct FleechSaveState final
 {
-    AETypes field_0_type;
+    ReliveTypes field_0_type;
     s16 field_2;
     Guid field_4_obj_id;
     FP mXPos;
@@ -43,7 +43,7 @@ struct FleechSaveState final
     FP mVelX;
     FP mVelY;
     s16 mPathNumber;
-    LevelIds mLvlNumber;
+    EReliveLevelIds mLvlNumber;
     FP mSpriteScale;
     s16 mRingRed;
     s16 mRingGreen;
@@ -62,7 +62,7 @@ struct FleechSaveState final
     Guid mPlatformId;
     Guid mTlvInfo;
     Guid field_44_obj_id;
-    s16 field_48_unused; //TODO: Saves and sets another unused field, field_120 -- Nemin (7/5/2020)
+    s16 field_48_unused;
     s16 mTongueState;
     s16 mTongueSubState;
     s16 mEnemyXPos;
@@ -110,22 +110,15 @@ struct FleechSaveState final
     FP field_A4_hoistX_distance;
     Guid field_A8;
     Guid field_AC_obj_id;
-
-    enum FleechStateFlags
-    {
-        eHoistDone = 0x1,
-        eChasingOrScaredCrawlingLeft = 0x2,
-        eShrivelDeath = 0x4,
-        eScaredSound = 0x8,
-        eAsleep = 0x10,
-        eGoesToSleep = 0x20,
-        ePersistant = 0x40,
-    };
-
-    BitField16<FleechStateFlags> mFleechStateFlags;
+    bool mHoistDone;
+    bool mChasingOrScaredCrawlingLeft;
+    bool mShrivelDeath;
+    bool mScaredSound;
+    bool mAsleep;
+    bool mGoesToSleep;
+    bool mPersistant;
     s16 field_B2;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(FleechSaveState, 0xB4);
 
 class Fleech;
 using TFleechBrainFn = s16 (Fleech::*)();
@@ -265,17 +258,13 @@ private:
     FP field_168_hoistY_distance = {};
     FP field_16C_hoistX_distance = {};
     Guid field_170_danger_obj;
-    enum FleechFlags : s16
-    {
-        eHoistDone = 0x1,
-        eChasingOrScaredCrawlingLeft = 0x2,
-        eShrivelDeath = 0x4,
-        eScaredSound = 0x8,
-        eAsleep = 0x10,
-        eGoesToSleep = 0x20,
-        ePersistant = 0x40
-    };
-    BitField16<FleechFlags> mFleechFlags = {};
+    bool mHoistDone = false;
+    bool mChasingOrScaredCrawlingLeft = false;
+    bool mShrivelDeath = false;
+    bool mScaredSound = false;
+    bool mAsleep = false;
+    bool mGoesToSleep = false;
+    bool mPersistant = false;
     s16 mTongueState = 0;
     s16 mTongueSubState = 0;
     s16 mEnemyXPos = 0;

@@ -494,7 +494,7 @@ s32 UXB::VGetSaveState(u8* __pSaveBuffer)
 {
     UXBSaveState* pSaveState = reinterpret_cast<UXBSaveState*>(__pSaveBuffer);
 
-    pSaveState->mType = AETypes::eUXB_143;
+    pSaveState->mType = ReliveTypes::eUXB;
     pSaveState->mTlvInfo = mTlvInfo;
     pSaveState->mNextStateTimer = mNextStateTimer;
     pSaveState->mCurrentState = mCurrentState;

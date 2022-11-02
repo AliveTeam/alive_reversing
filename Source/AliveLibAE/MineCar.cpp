@@ -133,7 +133,7 @@ s32 MineCar::CreateFromSaveState(const u8* pBuffer)
         pMineCar->mVelY = pState->field_10_vely;
 
         pMineCar->mCurrentPath = pState->field_18_path_number;
-        pMineCar->mCurrentLevel = MapWrapper::FromAESaveData(pState->field_1A_lvl_number);
+        pMineCar->mCurrentLevel = pState->field_1A_lvl_number;
 
         pMineCar->SetSpriteScale(pState->field_14_sprite_scale);
 
@@ -670,7 +670,7 @@ s32 MineCar::VGetSaveState(u8* pSaveBuffer)
 {
     auto pState = reinterpret_cast<MineCarSaveState*>(pSaveBuffer);
 
-    pState->field_0_type = AETypes::eMineCar_89;
+    pState->field_0_type = ReliveTypes::eMineCar;
 
     pState->field_4_xpos = mXPos;
     pState->field_8_ypos = mYPos;
@@ -679,7 +679,7 @@ s32 MineCar::VGetSaveState(u8* pSaveBuffer)
     pState->field_10_vely = mVelY;
 
     pState->field_18_path_number = mCurrentPath;
-    pState->field_1A_lvl_number = MapWrapper::ToAE(mCurrentLevel);
+    pState->field_1A_lvl_number = mCurrentLevel;
 
     pState->field_14_sprite_scale = GetSpriteScale();
 

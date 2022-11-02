@@ -204,7 +204,7 @@ enum class ReliveTypes : s16
     eTorturedMud,
     eWebLine,
     eWell,
-    eWheel,
+    eThrowableArray
 };
 
 enum class AETypes : s16
@@ -314,7 +314,7 @@ enum class AETypes : s16
     eMovie_145 = 145,
     eWebLine_146 = 146,
     eWell_147 = 147,
-    eWheel_148 = 148,
+    eWorkWheel_148 = 148,
     eCameraSwapper_149 = 149,
     eElectrocute_150 = 150,
 };

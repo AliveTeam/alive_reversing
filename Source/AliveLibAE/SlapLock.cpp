@@ -152,7 +152,7 @@ s32 SlapLock::VGetSaveState(u8* pSaveBuffer)
 {
     auto pState = reinterpret_cast<SlapLockSaveState*>(pSaveBuffer);
 
-    pState->mType = AETypes::eSlapLock_61;
+    pState->mType = ReliveTypes::eSlapLock;
     pState->mAnimRender = GetAnimation().mFlags.Get(AnimFlags::eRender) & 1;
     pState->mTlvInfo = mTlvInfo;
     pState->mTlvState = sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo)->mTlvSpecificMeaning;

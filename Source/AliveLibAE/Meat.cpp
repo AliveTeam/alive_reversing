@@ -106,15 +106,15 @@ s32 Meat::CreateFromSaveState(const u8* pBuffer)
     pMeat->mVelY = pState->field_14_vely;
 
     pMeat->mCurrentPath = pState->field_1C_path_number;
-    pMeat->mCurrentLevel = MapWrapper::FromAESaveData(pState->field_1E_lvl_number);
+    pMeat->mCurrentLevel = pState->field_1E_lvl_number;
 
     pMeat->SetSpriteScale(pState->field_18_sprite_scale);
 
-    pMeat->GetAnimation().mFlags.Set(AnimFlags::eLoop, pState->field_20_flags.Get(MeatSaveState::eBit3_bLoop));
-    pMeat->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->field_20_flags.Get(MeatSaveState::eBit1_bRender));
+    pMeat->GetAnimation().mFlags.Set(AnimFlags::eLoop, pState->mLoop);
+    pMeat->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->mRender);
 
-    pMeat->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_20_flags.Get(MeatSaveState::eBit2_bDrawable));
-    pMeat->mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8, pState->field_20_flags.Get(MeatSaveState::eBit4_bInteractive));
+    pMeat->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->mDrawable);
+    pMeat->mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8, pState->mInteractive);
 
     pMeat->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eRestoredFromQuickSave);
 
@@ -147,10 +147,9 @@ void MeatSack::VUpdate()
     {
         if (field_120_bPlayWobbleSound)
         {
-            if (Math_NextRandom() < 40u || field_122_always_0)
+            if (Math_NextRandom() < 40u)
             {
                 field_120_bPlayWobbleSound = 0;
-                field_122_always_0 = 0;
                 SFX_Play_Pitch(relive::SoundEffects::SackWobble, 24, Math_RandomRange(-2400, -2200));
             }
         }
@@ -549,7 +548,7 @@ s32 Meat::VGetSaveState(u8* pSaveBuffer)
 {
     auto pState = reinterpret_cast<MeatSaveState*>(pSaveBuffer);
 
-    pState->field_0_type = AETypes::eMeat_84;
+    pState->field_0_type = ReliveTypes::eMeat;
     pState->field_4_obj_id = mBaseGameObjectTlvInfo;
 
     pState->field_8_xpos = mXPos;
@@ -559,15 +558,15 @@ s32 Meat::VGetSaveState(u8* pSaveBuffer)
     pState->field_14_vely = mVelY;
 
     pState->field_1C_path_number = mCurrentPath;
-    pState->field_1E_lvl_number = MapWrapper::ToAE(mCurrentLevel);
+    pState->field_1E_lvl_number = mCurrentLevel;
 
     pState->field_18_sprite_scale = GetSpriteScale();
 
-    pState->field_20_flags.Set(MeatSaveState::eBit3_bLoop, GetAnimation().mFlags.Get(AnimFlags::eLoop));
-    pState->field_20_flags.Set(MeatSaveState::eBit1_bRender, GetAnimation().mFlags.Get(AnimFlags::eRender));
+    pState->mLoop = GetAnimation().mFlags.Get(AnimFlags::eLoop);
+    pState->mRender = GetAnimation().mFlags.Get(AnimFlags::eRender);
 
-    pState->field_20_flags.Set(MeatSaveState::eBit2_bDrawable, mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4));
-    pState->field_20_flags.Set(MeatSaveState::eBit4_bInteractive, mBaseGameObjectFlags.Get(BaseGameObject::eInteractive_Bit8));
+    pState->mDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
+    pState->mInteractive = mBaseGameObjectFlags.Get(BaseGameObject::eInteractive_Bit8);
 
     if (field_130_pLine)
     {

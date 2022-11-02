@@ -727,7 +727,7 @@ s32 Mudokon::CreateFromSaveState(const u8* pBuffer)
         pMud->field_138_unused = pState->field_48_unused;
 
         pMud->mCurrentPath = pState->field_14_path_number;
-        pMud->mCurrentLevel = MapWrapper::FromAESaveData(pState->field_16_lvl_number);
+        pMud->mCurrentLevel = pState->field_16_lvl_number;
         pMud->SetSpriteScale(pState->field_18_sprite_scale);
 
         pMud->mRGB.SetRGB(pState->field_1C_r, pState->field_1E_g, pState->field_20_b);
@@ -853,7 +853,7 @@ s32 Mudokon::VGetSaveState(u8* pSaveBuffer)
 
     auto pState = reinterpret_cast<MudokonSaveState*>(pSaveBuffer);
 
-    pState->field_0_type = AETypes::eRingOrLiftMud_81;
+    pState->field_0_type = ReliveTypes::eRingOrLiftMud;
 
     pState->field_4_xpos = mXPos;
     pState->field_8_ypos = mYPos;
@@ -864,7 +864,7 @@ s32 Mudokon::VGetSaveState(u8* pSaveBuffer)
     pState->field_48_unused = field_138_unused;
 
     pState->field_14_path_number = mCurrentPath;
-    pState->field_16_lvl_number = MapWrapper::ToAE(mCurrentLevel);
+    pState->field_16_lvl_number = mCurrentLevel;
     pState->field_18_sprite_scale = GetSpriteScale();
 
     pState->field_1C_r = mRGB.r;
@@ -6659,7 +6659,7 @@ void Mudokon::Motion_57_TurnWheelBegin()
 
     if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
-        auto pWheel = static_cast<WorkWheel*>(FindObjectOfType(ReliveTypes::eWheel, mXPos, mYPos - (GetSpriteScale() * FP_FromInteger(50))));
+        auto pWheel = static_cast<WorkWheel*>(FindObjectOfType(ReliveTypes::eWorkWheel, mXPos, mYPos - (GetSpriteScale() * FP_FromInteger(50))));
         if (pWheel)
         {
             pWheel->VStartTurning();
@@ -6949,7 +6949,7 @@ s16 Mudokon::FindWheel(FP xpos, FP ypos)
     {
         if (!SwitchStates_Get(pWheelTlv->mSwitchId))
         {
-            return FindObjectOfType(ReliveTypes::eWheel, xpos, ypos - (GetSpriteScale() * FP_FromInteger(50))) != 0;
+            return FindObjectOfType(ReliveTypes::eWorkWheel, xpos, ypos - (GetSpriteScale() * FP_FromInteger(50))) != 0;
         }
     }
     return 0;

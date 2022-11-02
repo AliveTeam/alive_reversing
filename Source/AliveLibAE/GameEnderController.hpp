@@ -21,14 +21,13 @@ enum class GameEnderControllerStates : s16
 
 struct GameEnderControllerSaveState final
 {
-    AETypes field_0_type;
+    ReliveTypes field_0_type;
     s16 field_2_padding;
     Guid field_4_obj_id;
     s32 field_8_timer;
     GameEnderControllerStates field_C_state;
     s16 field_E_padding;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(GameEnderControllerSaveState, 0x10);
 
 class GameEnderController final : public BaseGameObject
 {

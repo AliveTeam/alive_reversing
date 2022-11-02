@@ -252,7 +252,7 @@ private:
             return sizeof(AEData::UXBSaveState);
             break;
 
-        case ::AETypes::eWheel_148:
+        case ::AETypes::eWorkWheel_148:
             AddObjectState(AEData::WorkWheelSaveState::From(*reinterpret_cast<const AEData::WorkWheelSaveState*>(pData)));
             return sizeof(AEData::WorkWheelSaveState);
             break;

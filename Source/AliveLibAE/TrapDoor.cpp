@@ -314,7 +314,7 @@ s32 TrapDoor::VGetSaveState(u8* pSaveBuffer)
 {
     auto pState = reinterpret_cast<TrapDoorSaveState*>(pSaveBuffer);
 
-    pState->field_0_type = AETypes::eTrapDoor_142;
+    pState->field_0_type = ReliveTypes::eTrapDoor;
     pState->field_4_open_time = mStayOpenTimeTimer;
     pState->field_2_state = mState;
     pState->field_8_tlvInfo = mPlatformBaseTlvInfo;

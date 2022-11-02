@@ -5,11 +5,10 @@
 
 struct MinesAlarmSaveState final
 {
-    AETypes field_0_type;
+    ReliveTypes field_0_type;
     s16 field_2_pad;
     s32 field_4_timer;
 };
-ALIVE_ASSERT_SIZEOF_ALWAYS(MinesAlarmSaveState, 0x8);
 
 class MinesAlarm final : public BaseGameObject
 {

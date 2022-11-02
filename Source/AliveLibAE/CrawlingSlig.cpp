@@ -250,7 +250,7 @@ s32 CrawlingSlig::CreateFromSaveState(const u8* pBuffer)
         pCrawlingSlig->field_1B0_velx_scale_factor = pState->field_58_velx_scale_factor;
 
         pCrawlingSlig->mCurrentPath = pState->field_18_path_number;
-        pCrawlingSlig->mCurrentLevel = MapWrapper::FromAESaveData(pState->field_1A_lvl_number);
+        pCrawlingSlig->mCurrentLevel = pState->field_1A_lvl_number;
         pCrawlingSlig->SetSpriteScale(pState->field_1C_sprite_scale);
 
         pCrawlingSlig->field_1A4_r = pState->mRingRed;
@@ -287,7 +287,7 @@ s32 CrawlingSlig::CreateFromSaveState(const u8* pBuffer)
         pCrawlingSlig->SetBrain(sCrawlingSligBrainTable[pState->field_48_brain_idx]);
         pCrawlingSlig->mBrainSubState = pState->field_50_brain_sub_state;
         pCrawlingSlig->mChanting = pState->field_5E_bChanting;
-        pCrawlingSlig->mAbeLevel = MapWrapper::FromAESaveData(pState->mAbeLevel);
+        pCrawlingSlig->mAbeLevel = pState->mAbeLevel;
         pCrawlingSlig->mAbePath = pState->mAbePath;
         pCrawlingSlig->mAbeCamera = pState->mAbeCamera;
         pCrawlingSlig->field_1D0_slig_button_id = pState->field_6C_slig_button_id;
@@ -309,7 +309,7 @@ s32 CrawlingSlig::VGetSaveState(u8* pSaveBuffer)
 
     auto pState = reinterpret_cast<CrawlingSligSaveState*>(pSaveBuffer);
 
-    pState->field_0_type = AETypes::eCrawlingSlig_26;
+    pState->field_0_type = ReliveTypes::eCrawlingSlig;
     pState->field_4_obj_id = mBaseGameObjectTlvInfo;
 
     pState->field_8_xpos = mXPos;
@@ -320,7 +320,7 @@ s32 CrawlingSlig::VGetSaveState(u8* pSaveBuffer)
     pState->field_58_velx_scale_factor = field_1B0_velx_scale_factor;
 
     pState->field_18_path_number = mCurrentPath;
-    pState->field_1A_lvl_number = MapWrapper::ToAE(mCurrentLevel);
+    pState->field_1A_lvl_number = mCurrentLevel;
     pState->field_1C_sprite_scale = GetSpriteScale();
 
     pState->mRingRed = mRGB.r;
@@ -363,7 +363,7 @@ s32 CrawlingSlig::VGetSaveState(u8* pSaveBuffer)
 
     pState->field_50_brain_sub_state = mBrainSubState;
     pState->field_5E_bChanting = mChanting;
-    pState->mAbeLevel = MapWrapper::ToAE(mAbeLevel);
+    pState->mAbeLevel = mAbeLevel;
     pState->mAbePath = mAbePath;
     pState->mAbeCamera = mAbeCamera;
     pState->field_6C_slig_button_id = field_1D0_slig_button_id;

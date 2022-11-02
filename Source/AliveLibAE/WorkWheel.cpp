@@ -19,7 +19,7 @@ void WorkWheel::LoadAnimations()
 WorkWheel::WorkWheel(relive::Path_WorkWheel* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    SetType(ReliveTypes::eWheel);
+    SetType(ReliveTypes::eWorkWheel);
 
     LoadAnimations();
 
@@ -108,7 +108,7 @@ s32 WorkWheel::VGetSaveState(u8* pSaveBuffer)
 {
     auto pState = reinterpret_cast<WorkWheelSaveState*>(pSaveBuffer);
 
-    pState->mType = AETypes::eWheel_148;
+    pState->mType = ReliveTypes::eWorkWheel;
     pState->field_4_tlvInfo = mTlvInfo;
     pState->field_8_snd_counter = mTurningTime;
     pState->field_C_state = mState;

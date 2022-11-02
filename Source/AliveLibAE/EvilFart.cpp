@@ -79,7 +79,7 @@ EvilFart::EvilFart()
     ResetFartColour();
 
     mState = FartStates::eIdle_0;
-    mFartExploded = 0;
+    mFartExploded = false;
 
     mVelX = FP_FromInteger(0);
     mVelY = FP_FromInteger(0);
@@ -96,7 +96,7 @@ s32 EvilFart::CreateFromSaveState(const u8* pBuffer)
 
     auto pFart = relive_new EvilFart();
 
-    if (pState->field_2C.Get(EvilFartSaveState::eBit1_bControlled))
+    if (pState->mControlled)
     {
         sControlledCharacter = pFart;
     }
@@ -108,7 +108,7 @@ s32 EvilFart::CreateFromSaveState(const u8* pBuffer)
     pFart->mVelY = pState->mVelY;
 
     pFart->mCurrentPath = pState->mCurrentPath;
-    pFart->mCurrentLevel = MapWrapper::FromAESaveData(pState->mCurrentLevel);
+    pFart->mCurrentLevel = pState->mCurrentLevel;
     pFart->SetSpriteScale(pState->mSpriteScale);
 
     pFart->mRGB.SetRGB(pState->mRed, pState->mGreen, pState->mBlue);
@@ -124,10 +124,10 @@ s32 EvilFart::CreateFromSaveState(const u8* pBuffer)
         pFart->GetAnimation().mFlags.Set(AnimFlags::eIsLastFrame);
     }
 
-    pFart->mAbeLevel = MapWrapper::FromAESaveData(pState->mAbeLevel);
+    pFart->mAbeLevel = pState->mAbeLevel;
     pFart->mAbePath = pState->mAbePath;
     pFart->mAbeCamera = pState->mAbeCamera;
-    pFart->mFartExploded = pState->field_2C.Get(EvilFartSaveState::eBit2_FartExploded);
+    pFart->mFartExploded = pState->mFartExploded;
     pFart->mPossessedAliveTimer = pState->mPossessedAliveTimer;
     pFart->mState = pState->mState;
     pFart->mUnpossessionTimer = pState->mUnpossessionTimer;
@@ -139,7 +139,7 @@ s32 EvilFart::VGetSaveState(u8* pSaveBuffer)
 {
     auto pState = reinterpret_cast<EvilFartSaveState*>(pSaveBuffer);
 
-    pState->field_0_type = AETypes::eEvilFart_45;
+    pState->field_0_type = ReliveTypes::eEvilFart;
 
     pState->mXPos = mXPos;
     pState->mYPos = mYPos;
@@ -147,24 +147,28 @@ s32 EvilFart::VGetSaveState(u8* pSaveBuffer)
     pState->mVelY = mVelY;
 
     pState->mCurrentPath = mCurrentPath;
-    pState->mCurrentLevel = MapWrapper::ToAE(mCurrentLevel);
+    pState->mCurrentLevel = mCurrentLevel;
     pState->mSpriteScale = GetSpriteScale();
 
     pState->mRed = mRGB.r;
     pState->mGreen = mRGB.g;
     pState->mBlue = mRGB.b;
 
-    pState->field_2C.Set(EvilFartSaveState::eBit1_bControlled, sControlledCharacter == this);
+    if (sControlledCharacter == this)
+    {
+        pState->mControlled = true;
+    }
+
     pState->mCurrentFrame = static_cast<s16>(GetAnimation().GetCurrentFrame());
     pState->mFrameChangeCounter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
 
     pState->mDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
     pState->mAnimRender = GetAnimation().mFlags.Get(AnimFlags::eRender);
 
-    pState->mAbeLevel = MapWrapper::ToAE(mAbeLevel);
+    pState->mAbeLevel = mAbeLevel;
     pState->mAbePath = mAbePath;
     pState->mAbeCamera = mAbeCamera;
-    pState->field_2C.Set(EvilFartSaveState::eBit2_FartExploded, mFartExploded & 1);
+    pState->mFartExploded = mFartExploded;
     pState->mPossessedAliveTimer = mPossessedAliveTimer;
     pState->mState = mState;
     pState->mUnpossessionTimer = mUnpossessionTimer;

@@ -35,7 +35,7 @@ enum class RingTypes : s16
 
 struct AbilityRingSaveState final
 {
-    AETypes mRingObjectType;
+    ReliveTypes mRingObjectType;
     FP mRingXPos;
     FP mRingYPos;
     RingTypes mRingType;
@@ -47,7 +47,6 @@ struct AbilityRingSaveState final
     s16 mRingGreen;
     s16 mRingBlue;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(AbilityRingSaveState, 0x28);
 
 struct AbilityRing_PolyBuffer;
 enum class LevelIds : s16;

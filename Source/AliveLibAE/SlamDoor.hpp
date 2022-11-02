@@ -10,10 +10,9 @@ namespace relive
 
 struct SlamDoorSaveState final
 {
-    AETypes mType;
+    ReliveTypes mType;
     Guid mTlvInfo;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(SlamDoorSaveState, 8);
 
 class SlamDoor final : public BaseAliveGameObject
 {

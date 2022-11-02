@@ -102,14 +102,14 @@ using TSligMotionFn = void (Slig::*)();
 
 struct SligSaveState final
 {
-    AETypes field_0_type;
+    ReliveTypes field_0_type;
     s16 field_2_padding;
     FP field_4_xpos;
     FP field_8_ypos;
     FP field_C_velx;
     FP field_10_vely;
     s16 field_14_path_number;
-    LevelIds field_16_lvl_number;
+    EReliveLevelIds field_16_lvl_number;
     FP field_18_sprite_scale;
     Scale field_1C_scale;
     s16 field_1E_r;
@@ -148,7 +148,7 @@ struct SligSaveState final
     s16 field_6C_unused;
     s16 field_6E_unused;
     s16 field_70_unused;
-    LevelIds field_72_return_level;
+    EReliveLevelIds field_72_return_level;
     s16 field_74_return_path;
     s16 field_76_return_camera;
     s32 field_78_death_by_being_shot_timer;
@@ -176,7 +176,6 @@ struct SligSaveState final
     };
     BitField16<Flags_A2> field_A2_flags;
 };
-//ALIVE_ASSERT_SIZEOF_ALWAYS(SligSaveState, 0xA4);
 
 enum class GameSpeakEvents : s16;
 
