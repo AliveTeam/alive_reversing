@@ -30,7 +30,7 @@ public:
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
 private:
-    Guid field_20_tlvInfo;
+    Guid mTlvId;
     Guid field_24_spawned_slig_id;
     s16 field_28_spawner_switch_id = 0;
     relive::Path_TLV* field_2C_tlv_header = {};

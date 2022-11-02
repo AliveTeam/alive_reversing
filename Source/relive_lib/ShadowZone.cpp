@@ -26,7 +26,7 @@ ShadowZone::ShadowZone(relive::Path_ShadowZone* pTlv, const Guid& tlvId)
     field_16_path = GetMap().mCurrentPath;
     field_14_level = GetMap().mCurrentLevel;
 
-    field_10_tlvInfo = tlvId;
+    mTlvId = tlvId;
 
     field_20_mid_x = pTlv->Width() / 2;
     field_22_mid_y = pTlv->Height() / 2;
@@ -116,7 +116,7 @@ void ShadowZone::ShadowZones_Calculate_Colour(s32 xpos, s32 ypos, Scale scale, s
 
 ShadowZone::~ShadowZone()
 {
-    GetMap().TLV_Reset(field_10_tlvInfo, -1, 0, 0);
+    GetMap().TLV_Reset(mTlvId, -1, 0, 0);
     sShadowZoneArray->Remove_Item(this);
 }
 

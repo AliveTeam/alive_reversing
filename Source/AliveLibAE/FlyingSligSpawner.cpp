@@ -21,7 +21,7 @@ FlyingSligSpawner::FlyingSligSpawner(relive::Path_FlyingSligSpawner* pTlv, const
         mBaseGameObjectTlvInfo = tlvInfo;
     }
 
-    field_20_tlvInfo = tlvInfo;
+    mTlvId = tlvInfo;
 
     field_2C_tlv_header = pTlv;
 
@@ -50,7 +50,7 @@ s32 FlyingSligSpawner::CreateFromSaveState(const u8* pBuffer)
 
 FlyingSligSpawner::~FlyingSligSpawner()
 {
-    Path::TLV_Reset(field_20_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mTlvId, -1, 0, 0);
 }
 
 void FlyingSligSpawner::VUpdate()
@@ -105,7 +105,7 @@ void FlyingSligSpawner::VUpdate()
                 return;
             }
 
-            auto pNewSlig = relive_new FlyingSlig(pFlyingSligTlv, field_20_tlvInfo);
+            auto pNewSlig = relive_new FlyingSlig(pFlyingSligTlv, mTlvId);
             if (!pNewSlig)
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -124,7 +124,7 @@ s32 FlyingSligSpawner::VGetSaveState(u8* pSaveBuffer)
     auto pSaveState = reinterpret_cast<FlyingSligSpawnerSaveState*>(pSaveBuffer);
 
     pSaveState->field_0_type = ReliveTypes::eFlyingSligSpawner;
-    pSaveState->field_4_tlvInfo = field_20_tlvInfo;
+    pSaveState->field_4_tlvInfo = mTlvId;
     pSaveState->field_8_bSpawned = field_3C_bSpawned;
     pSaveState->field_C_spawned_slig_obj_id = Guid{};
     if (field_24_spawned_slig_id == Guid{})

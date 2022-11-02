@@ -11,7 +11,7 @@ namespace relive
 
 namespace AO {
 
-class GasEmitter final : public ::BaseGameObject
+class GasEmitter final : public BaseGameObject
 {
 public:
     GasEmitter(relive::Path_GasEmitter* pTlv, const Guid& tlvId);
@@ -21,10 +21,11 @@ public:
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 
-    Guid field_10_tlvInfo;
-    s32 field_14_emit_power = 0;
-    FP field_18_xpos = {};
-    FP field_1C_ypos = {};
+private:
+    Guid mTlvId;
+    s32 mEmitPower = 0;
+    FP mEmitterXPos = {};
+    FP mEmitterYPos = {};
     FP field_20_fp_not_used = {};
 };
 

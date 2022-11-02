@@ -27,7 +27,7 @@ public:
     // Note: Completely inlined in AO
     s16 ApplysToScale(Scale scale);
 
-    Guid field_10_tlvInfo;
+    Guid mTlvId;
     EReliveLevelIds field_14_level = EReliveLevelIds::eNone;
     s16 field_16_path = 0;
     s32 field_18_centre_x = 0;

@@ -10,7 +10,7 @@
 ScrabSpawner::ScrabSpawner(relive::Path_ScrabSpawner* pTlv, const Guid& tlvId)
     : BaseGameObject(true, 0)
 {
-    field_20_tlvInfo = tlvId;
+    mTlvId = tlvId;
     SetType(ReliveTypes::eScrabSpawner);
 
     field_28_tlv_data.mTlvFlags = pTlv->mTlvFlags;
@@ -48,7 +48,7 @@ s32 ScrabSpawner::CreateFromSaveState(const u8* pBuffer)
 
 ScrabSpawner::~ScrabSpawner()
 {
-    Path::TLV_Reset(field_20_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mTlvId, -1, 0, 0);
 }
 
 s32 ScrabSpawner::VGetSaveState(u8* pSaveBuffer)
@@ -56,7 +56,7 @@ s32 ScrabSpawner::VGetSaveState(u8* pSaveBuffer)
     auto pSaveState = reinterpret_cast<ScrabSpawnerSaveState*>(pSaveBuffer);
 
     pSaveState->field_0_type = ReliveTypes::eScrabSpawner;
-    pSaveState->field_4_tlvInfo = field_20_tlvInfo;
+    pSaveState->field_4_tlvInfo = mTlvId;
     pSaveState->field_8_state = field_38_state;
     pSaveState->field_C_spawned_scrab_id = Guid{};
 
@@ -121,7 +121,7 @@ void ScrabSpawner::VUpdate()
 
                 if (pTlv)
                 {
-                    auto pNewScrab = relive_new Scrab(pTlv, field_20_tlvInfo, field_26_spawn_direction);
+                    auto pNewScrab = relive_new Scrab(pTlv, mTlvId, field_26_spawn_direction);
                     if (pNewScrab)
                     {
                         SfxPlayMono(relive::SoundEffects::ScrabSpawn, 0);

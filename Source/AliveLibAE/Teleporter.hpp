@@ -34,7 +34,7 @@ private:
     static Electrocute* Create_ElectrocuteEffect();
     void SpawnRingSparks(Relive_Path_Teleporter_Data* pTlvData);
 
-    Guid field_20_tlvInfo;
+    Guid mTlvId;
     s16 field_24_global_y1 = 0;
     s16 field_26_global_x1 = 0;
     s16 field_28_global_y2 = 0;

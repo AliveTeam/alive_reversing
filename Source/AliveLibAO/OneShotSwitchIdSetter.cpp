@@ -7,13 +7,13 @@ namespace AO {
 
 OneShotSwitchIdSetter::~OneShotSwitchIdSetter()
 {
-    Path::TLV_Reset(field_10_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mTlvId, -1, 0, 0);
 }
 
 OneShotSwitchIdSetter::OneShotSwitchIdSetter(Path_OneShotSwitchIdSetter* pTlv, const Guid& tlvId)
     : BaseGameObject(true, 0)
 {
-    field_10_tlvInfo = tlvId;
+    mTlvId = tlvId;
 
     if (!SwitchStates_Get(236))
     {

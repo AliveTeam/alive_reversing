@@ -21,7 +21,7 @@ public:
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 
-    Guid field_10_tlvInfo;
+    Guid mTlvId;
     /* enum Flags_14
     {
         eBit1_Unknown = 0x1,

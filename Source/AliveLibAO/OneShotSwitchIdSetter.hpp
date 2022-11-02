@@ -20,7 +20,7 @@ public:
 
     virtual void VScreenChanged() override;
 
-    Guid field_10_tlvInfo;
+    Guid mTlvId;
 };
 
 } // namespace AO

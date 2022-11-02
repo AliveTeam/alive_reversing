@@ -34,7 +34,7 @@ Teleporter::Teleporter(relive::Path_Teleporter* pTlv, const Guid& tlvId)
 {
     field_4C_pTlv = pTlv; // TODO: Don't think this is used, and it can become a dangling ptr?
     SetData(field_34_mTlvData, *pTlv);
-    field_20_tlvInfo = tlvId;
+    mTlvId = tlvId;
 
     field_24_global_y1 = FP_GetExponent((FP_FromInteger(pTlv->mTopLeftY) - pScreenManager->CamYPos()));
     field_28_global_y2 = FP_GetExponent((FP_FromInteger(pTlv->mBottomRightY) - pScreenManager->CamYPos()));
@@ -52,7 +52,7 @@ Teleporter::Teleporter(relive::Path_Teleporter* pTlv, const Guid& tlvId)
 
 Teleporter::~Teleporter()
 {
-    Path::TLV_Reset(field_20_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mTlvId, -1, 0, 0);
 }
 
 void Teleporter::VScreenChanged()

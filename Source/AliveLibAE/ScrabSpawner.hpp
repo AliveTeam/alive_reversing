@@ -31,7 +31,7 @@ public:
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
 private:
-    Guid field_20_tlvInfo;
+    Guid mTlvId;
     s16 field_24_spawner_switch_id = 0;
     relive::Path_ScrabSpawner::SpawnDirection field_26_spawn_direction = relive::Path_ScrabSpawner::SpawnDirection::eNone;
     relive::Path_TLV field_28_tlv_data = {};

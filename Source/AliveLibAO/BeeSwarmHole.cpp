@@ -13,7 +13,7 @@ namespace AO {
 BeeSwarmHole::BeeSwarmHole(relive::Path_BeeSwarmHole* pTlv, const Guid& tlvId)
     : BaseGameObject(true, 0)
 {
-    field_10_tlvInfo = tlvId;
+    mTlvId = tlvId;
     SetType(ReliveTypes::eSligSpawner);
 
     mStartIntervalTimer = 0;
@@ -37,7 +37,7 @@ void BeeSwarmHole::VUpdate()
     if (gMap.Rect_Location_Relative_To_Active_Camera(&field_14_rect, 0) != CameraPos::eCamCurrent_0)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-        Path::TLV_Reset(field_10_tlvInfo, -1, 0, 0);
+        Path::TLV_Reset(mTlvId, -1, 0, 0);
     }
 
     if (static_cast<s32>(sGnFrame) < mStartIntervalTimer)

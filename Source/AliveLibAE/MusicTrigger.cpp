@@ -16,7 +16,7 @@ MusicTrigger::MusicTrigger(relive::Path_MusicTrigger* pTlv, const Guid& tlvId)
     field_2C_tl.y = pTlv->mTopLeftY;
     field_30_br.x = pTlv->mBottomRightX;
     field_30_br.y = pTlv->mBottomRightY;
-    field_20_tlvInfo = tlvId;
+    mTlvId = tlvId;
 }
 
 MusicTrigger::MusicTrigger(relive::Path_MusicTrigger::MusicTriggerMusicType musicType, relive::Path_MusicTrigger::TriggeredBy triggeredBy, s32 /*not_used*/, s32 musicDelay)
@@ -25,7 +25,7 @@ MusicTrigger::MusicTrigger(relive::Path_MusicTrigger::MusicTriggerMusicType musi
     Init(musicType, triggeredBy, static_cast<s16>(musicDelay));
     field_2C_tl = {};
     field_30_br = {};
-    field_20_tlvInfo = Guid{};
+    mTlvId = Guid{};
 }
 
 void MusicTrigger::Init(relive::Path_MusicTrigger::MusicTriggerMusicType musicType, relive::Path_MusicTrigger::TriggeredBy triggeredBy, s16 musicDelay)

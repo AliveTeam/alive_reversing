@@ -14,14 +14,14 @@ MusicTrigger::MusicTrigger(relive::Path_MusicTrigger::MusicTriggerMusicType type
     : BaseGameObject(true, 0)
 {
     Init(type, triggeredBy, static_cast<s16>(switchId), static_cast<s16>(delay));
-    field_10_tlvInfo = {};
+    mTlvId = {};
 }
 
 MusicTrigger::MusicTrigger(relive::Path_MusicTrigger* pTlv, const Guid& tlvId)
     : BaseGameObject(true, 0)
 {
     Init(pTlv->mMusicType, pTlv->mTriggeredBy, pTlv->mSwitchId, pTlv->mMusicDelay);
-    field_10_tlvInfo = tlvId;
+    mTlvId = tlvId;
 }
 
 void MusicTrigger::Init(relive::Path_MusicTrigger::MusicTriggerMusicType type, relive::Path_MusicTrigger::TriggeredBy triggeredBy, u16 switchId, s16 delay)
@@ -128,9 +128,9 @@ void MusicTrigger::VUpdate()
     if (EventGet(kEventHeroDying))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-        if (field_10_tlvInfo.IsValid())
+        if (mTlvId.IsValid())
         {
-            Path::TLV_Reset(field_10_tlvInfo, -1, 0, 0);
+            Path::TLV_Reset(mTlvId, -1, 0, 0);
         }
     }
 

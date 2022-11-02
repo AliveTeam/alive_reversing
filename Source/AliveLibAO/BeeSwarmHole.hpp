@@ -15,7 +15,7 @@ public:
 
     virtual void VUpdate() override;
 
-    Guid field_10_tlvInfo;
+    Guid mTlvId;
     PSX_RECT field_14_rect = {};
     s32 mStartIntervalTimer = 0;
     u16 mStartInterval = 0;
