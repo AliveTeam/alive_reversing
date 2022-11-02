@@ -462,7 +462,7 @@ public:
         newHeader.field_10_sub.field_0_num_files = static_cast<s32>(fileRecs.size());
 
         s32 totalFileOffset = static_cast<s32>(RoundUp((newHeader.field_10_sub.field_0_num_files * sizeof(LvlFileRecord)) + (sizeof(LvlHeader) - sizeof(LvlFileRecord))));
-        newHeader.field_10_sub.field_4_header_size_in_sectors = newHeader.field_0_first_file_offset / 2048;
+        newHeader.field_10_sub.field_4_header_size_in_sectors = totalFileOffset / 2048;
         if (newHeader.field_10_sub.field_4_header_size_in_sectors < 5)
         {
             newHeader.field_10_sub.field_4_header_size_in_sectors = 5;
