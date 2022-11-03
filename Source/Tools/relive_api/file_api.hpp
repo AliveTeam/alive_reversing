@@ -2,9 +2,16 @@
 
 #include "RoundUp.hpp"
 #include <algorithm>
-#include <filesystem>
 #include <type_traits>
 #include <memory>
+
+#if !WIN32
+
+#include <dirent.h>
+#include <libgen.h>
+#include <sys/types.h>
+
+#endif
 
 namespace ReliveAPI {
 
@@ -81,55 +88,33 @@ class File : public IFile
 public:
     File(const std::string& fileName, IFileIO::Mode mode)
     {
-        switch (mode)
-        {
-            case IFileIO::Mode::Write:
-                mFileHandle = ::fopen(fileName.c_str(), "w");
-                break;
-
-            case IFileIO::Mode::Read:
-                mFileHandle = ::fopen(fileName.c_str(), "r");
-                break;
-
-            case IFileIO::Mode::ReadBinary:
-                mFileHandle = ::fopen(fileName.c_str(), "rb");
-                break;
-
-            case IFileIO::Mode::WriteBinary:
-                mFileHandle = ::fopen(fileName.c_str(), "wb");
-                break;
-        }
+        TryOpen(fileName, mode);
 
 #if !WIN32
         if (mFileHandle == NULL)
         {
             // On non-Windows systems, we should make an attempt to locate the file
             // in a case-insensitive way
-            std::filesystem::path asPath(fileName);
-            std::filesystem::path searchPath;
+            struct dirent* entry;
+            char* fileNameC = ::strdup(fileName.c_str());
             std::string lowerFileName;
+            DIR* searchDir;
+            const char* searchPath = ::dirname(fileNameC);
 
             lowerFileName.resize(fileName.size());
 
             std::transform(fileName.begin(), fileName.end(), lowerFileName.begin(), ::tolower);
 
-            if (asPath.has_parent_path())
+            searchDir = ::opendir(searchPath);
+
+            if (searchDir == NULL)
             {
-                searchPath = asPath.parent_path();
-            }
-            else
-            {
-                searchPath = std::filesystem::path(".");
+                return;
             }
 
-            for (const auto &entry : std::filesystem::directory_iterator(searchPath))
+            while ((entry = ::readdir(searchDir)) != NULL)
             {
-                if (!entry.is_regular_file())
-                {
-                    continue;
-                }
-
-                std::string entryName = entry.path().filename().string();
+                std::string entryName(entry->d_name);
                 std::string lowerEntryName;
 
                 lowerEntryName.resize(entryName.size());
@@ -138,26 +123,12 @@ public:
 
                 if (lowerFileName == lowerEntryName)
                 {
-                    switch (mode)
-                    {
-                        case IFileIO::Mode::Write:
-                            mFileHandle = ::fopen(lowerFileName.c_str(), "w");
-                            break;
-
-                        case IFileIO::Mode::Read:
-                            mFileHandle = ::fopen(lowerFileName.c_str(), "r");
-                            break;
-
-                        case IFileIO::Mode::ReadBinary:
-                            mFileHandle = ::fopen(lowerFileName.c_str(), "rb");
-                            break;
-
-                        case IFileIO::Mode::WriteBinary:
-                            mFileHandle = ::fopen(lowerFileName.c_str(), "wb");
-                            break;
-                    }
+                    TryOpen(lowerFileName, mode);
                 }
             }
+
+            ::free(fileNameC);
+            ::closedir(searchDir);
         }
 #endif
     }
@@ -233,6 +204,28 @@ public:
 
 private:
     FILE* mFileHandle = nullptr;
+
+    void TryOpen(const std::string& path, IFileIO::Mode mode)
+    {
+        switch (mode)
+        {
+            case IFileIO::Mode::Write:
+                mFileHandle = ::fopen(path.c_str(), "w");
+                break;
+
+            case IFileIO::Mode::Read:
+                mFileHandle = ::fopen(path.c_str(), "r");
+                break;
+
+            case IFileIO::Mode::ReadBinary:
+                mFileHandle = ::fopen(path.c_str(), "rb");
+                break;
+
+            case IFileIO::Mode::WriteBinary:
+                mFileHandle = ::fopen(path.c_str(), "wb");
+                break;
+        }
+    }
 };
 
 class FileIO final : public IFileIO
