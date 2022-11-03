@@ -1082,6 +1082,7 @@ struct FleechSaveState final
         d.field_26_bFlipX = data.field_26_bFlipX;
         d.field_28_current_motion = data.field_28_current_motion;
         d.field_2A_anim_current_frame = data.field_2A_anim_current_frame;
+        d.field_2C_frame_change_counter = data.field_2C_frame_change_counter;
         d.field_2E_bRender = data.field_2E_bRender;
         d.field_2F_bDrawable = data.field_2F_bDrawable;
         d.mHealth = data.mHealth;
