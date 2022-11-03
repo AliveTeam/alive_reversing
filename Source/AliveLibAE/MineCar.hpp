@@ -66,7 +66,7 @@ struct MineCarSaveState final
     s16 field_5A_bAbeInCar;
     s32 field_5C_frame_mod_16;
     s16 field_60_spawned_path;
-    s16 field_62_spanwed_camera;
+    s16 field_62_spawned_camera;
     s16 field_64_throw_item_key1;
     s16 field_66_continue_move_input;
 };

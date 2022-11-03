@@ -187,7 +187,7 @@ enum class GameSpeakEvents : s16
     Slig_GetEm_29 = 29,
     eUnknown_30 = 30,
     Slig_Freeze_31 = 31,
-    eDynamicCollision_32 = 32,
+    eUnknown_32 = 32,
     eUnknown_33 = 33,
     eUnknown_34 = 34,
     eUnknown_35 = 35, // Glukkon_None_35?
@@ -286,8 +286,8 @@ static ::GameSpeakEvents From(const GameSpeakEvents event)
             return ::GameSpeakEvents::eUnknown_30;
         case GameSpeakEvents::Slig_Freeze_31:
             return ::GameSpeakEvents::Slig_Freeze_31;
-        case GameSpeakEvents::eDynamicCollision_32:
-            return ::GameSpeakEvents::eDynamicCollision_32;
+        case GameSpeakEvents::eUnknown_32:
+            return ::GameSpeakEvents::eUnknown_32;
         case GameSpeakEvents::eUnknown_33:
             return ::GameSpeakEvents::eUnknown_33;
         case GameSpeakEvents::eUnknown_34:
@@ -2128,7 +2128,7 @@ struct MudokonSaveState final
     s32 field_4C_portal_id;
     s16 field_50_angry_trigger;
     s16 field_52_padding;
-    s32 field_54_savedfield124; //TODO: Find out what field_124 is. It appears to be some sort of timer. -- Nemin (5/7/2020)
+    s32 field_54_laugh_and_crouch_timer;
     s32 field_58_angry_timer;
     s16 field_5C_unused;
     s16 field_5E_voice_pitch;
@@ -2195,7 +2195,7 @@ struct MudokonSaveState final
     };
     MudAction field_74_delayed_speak;
     Mud_Emotion field_76_emo_tlb;
-    GameSpeakEvents field_78;
+    GameSpeakEvents field_78_speak_event;
     eMudMotions field_7A_motion;
     enum Mud_Brain_State : s16
     {
@@ -2246,7 +2246,7 @@ struct MudokonSaveState final
         d.field_44_velx_slow_by = data.field_44_velx_slow_by;
         d.field_4C_portal_id = Guid::NewGuidFromTlvInfo(data.field_4C_portal_id);
         d.field_50_angry_trigger = data.field_50_angry_trigger;
-        d.field_54_savedfield124 = data.field_54_savedfield124;
+        d.field_54_laugh_and_crouch_timer = data.field_54_laugh_and_crouch_timer;
         d.field_58_angry_timer = data.field_58_angry_timer;
         d.field_5E_voice_pitch = data.field_5E_voice_pitch;
         d.field_60_wheel_id = Guid::NewGuidFromTlvInfo(data.field_60_wheel_id);
@@ -2258,7 +2258,7 @@ struct MudokonSaveState final
         d.field_72_stand_idle_timer = data.field_72_stand_idle_timer;
         d.field_74_delayed_speak = From(data.field_74_delayed_speak);
         d.field_76_emo_tlb = AEData::From(data.field_76_emo_tlb);
-        d.field_78 = AEData::From(data.field_78);
+        d.field_78_speak_event = AEData::From(data.field_78_speak_event);
         d.field_7A_motion = From(data.field_7A_motion);
         d.field_7C_brain_state = From(data.field_7C_brain_state);
         d.field_7E_brain_sub_state = data.field_7E_brain_sub_state;
@@ -2613,7 +2613,7 @@ struct MineCarSaveState final
     s16 field_5A_bAbeInCar;
     s32 field_5C_frame_mod_16;
     s16 field_60_spawned_path;
-    s16 field_62_spanwed_camera;
+    s16 field_62_spawned_camera;
     s16 field_64_throw_item_key1;
     s16 field_66_continue_move_input;
 
@@ -2651,7 +2651,7 @@ struct MineCarSaveState final
         d.field_5A_bAbeInCar = data.field_5A_bAbeInCar;
         d.field_5C_frame_mod_16 = data.field_5C_frame_mod_16;
         d.field_60_spawned_path = data.field_60_spawned_path;
-        d.field_62_spanwed_camera = data.field_62_spanwed_camera;
+        d.field_62_spawned_camera = data.field_62_spawned_camera;
         d.field_64_throw_item_key1 = data.field_64_throw_item_key1;
         d.field_66_continue_move_input = data.field_66_continue_move_input;
         return d;

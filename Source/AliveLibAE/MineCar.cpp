@@ -244,7 +244,7 @@ s32 MineCar::CreateFromSaveState(const u8* pBuffer)
         pMineCar->field_1C8_frame_mod_16 = pState->field_5C_frame_mod_16;
 
         pMineCar->field_1CC_spawned_path = pState->field_60_spawned_path;
-        pMineCar->field_1CE_spawned_camera = pState->field_62_spanwed_camera;
+        pMineCar->field_1CE_spawned_camera = pState->field_62_spawned_camera;
 
         pMineCar->field_1D4_previous_input = pState->field_64_throw_item_key1;
         pMineCar->field_1D6_continue_move_input = pState->field_66_continue_move_input;
@@ -784,7 +784,7 @@ s32 MineCar::VGetSaveState(u8* pSaveBuffer)
     pState->field_5C_frame_mod_16 = field_1C8_frame_mod_16;
 
     pState->field_60_spawned_path = field_1CC_spawned_path;
-    pState->field_62_spanwed_camera = field_1CE_spawned_camera;
+    pState->field_62_spawned_camera = field_1CE_spawned_camera;
 
     pState->field_64_throw_item_key1 = field_1D4_previous_input;
     pState->field_66_continue_move_input = field_1D6_continue_move_input;

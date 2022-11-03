@@ -173,7 +173,7 @@ struct MudokonSaveState final
     Guid field_4C_portal_id;
     s16 field_50_angry_trigger;
     s16 field_52_padding;
-    s32 field_54_savedfield124; //TODO: Find out what field_124 is. It appears to be some sort of timer. -- Nemin (5/7/2020)
+    s32 field_54_laugh_and_crouch_timer;
     s32 field_58_angry_timer;
     s16 field_5C_unused;
     s16 field_5E_voice_pitch;
@@ -219,7 +219,7 @@ struct MudokonSaveState final
     s16 field_72_stand_idle_timer;
     MudAction field_74_delayed_speak;
     Mud_Emotion field_76_emo_tlb;
-    GameSpeakEvents field_78;
+    GameSpeakEvents field_78_speak_event;
     eMudMotions field_7A_motion;
     Mud_Brain_State field_7C_brain_state;
     s16 field_7E_brain_sub_state;
@@ -390,7 +390,7 @@ private:
     Guid field_118_tlvInfo;
     Guid field_11C_bird_portal_id;
     s16 field_120_angry_switch_id = 0;
-    s32 field_124 = 0;
+    s32 field_124_laugh_and_crouch_timer = 0;
     s32 field_128_angry_timer = 0;
     s32 field_12C_unused = 0;
     s16 field_130_unused = 0;
@@ -449,7 +449,7 @@ private:
     s16 field_17C_stand_idle_timer = 0;
     MudAction field_17E_delayed_speak = MudAction::eHelloOrAllYa_0;
     Mud_Emotion field_180_emo_tbl = Mud_Emotion::eNormal_0;
-    GameSpeakEvents field_182 = GameSpeakEvents::eUnknown_0;
+    GameSpeakEvents field_182_speak_event = GameSpeakEvents::eUnknown_0;
     eMudMotions field_184_next_motion2 = eMudMotions::Motion_0_Idle;
     const struct MudEmotionTableEntry* field_188_pTblEntry = nullptr;
     s16 field_18C_unused = 0;
