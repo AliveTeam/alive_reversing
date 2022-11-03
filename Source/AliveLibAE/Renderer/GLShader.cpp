@@ -281,9 +281,9 @@ uniform sampler2D texTextureData;
 
 int get565FromNormalized(in vec3 rgbInput)
 {
-    int rValue = int(rgbInput.r * 32f);
-    int gValue = int(rgbInput.g * 64f);
-    int bValue = int(rgbInput.b * 32f);
+    int rValue = int(rgbInput.r * 31f);
+    int gValue = int(rgbInput.g * 63f);
+    int bValue = int(rgbInput.b * 31f);
 
     rValue = rValue << 11;
     gValue = gValue << 5;
@@ -293,9 +293,9 @@ int get565FromNormalized(in vec3 rgbInput)
 
 vec3 getNormalizedFrom565(in int rgbInput)
 {
-    float rValue = float((rgbInput >> 11) & 0x1F) / 32f;
-    float gValue = float((rgbInput >> 5) & 0x3F) / 64f;
-    float bValue = float(rgbInput & 0x1F) / 32f;
+    float rValue = float((rgbInput >> 11) & 0x1F) / 31f;
+    float gValue = float((rgbInput >> 5) & 0x3F) / 63f;
+    float bValue = float(rgbInput & 0x1F) / 31f;
 
     return vec3(rValue, gValue, bValue);
 }
@@ -305,74 +305,26 @@ vec2 getScaledUV(in vec2 coord)
     return coord / fsTexSize;
 }
 
-int pack565Pair(in int first, int second)
-{
-    return (first << 16) | second;
-}
-
-void unpack565Pair(in int pair, out int first, out int second)
-{
-    first = pair >> 16;
-    second = pair & 0xFFFF;
-}
-
-int get565Pair(in vec2 first, in vec2 second)
-{
-    vec4 texelFirst = texture(texTextureData, getScaledUV(first));
-    vec4 texelSecond = texture(texTextureData, getScaledUV(second));
-
-    return pack565Pair(
-        get565FromNormalized(texelFirst.rgb),
-        get565FromNormalized(texelSecond.rgb)
-    );
-}
-
 void main()
 {
     bool scanline = int(mod(gl_FragCoord.y, 2.0f)) > 0;
 
     if (scanline)
     {
-        bool scanlineX = int(mod(gl_FragCoord.x, 2.0f)) > 0;
+        vec4 aboveTexel = texture(texTextureData, getScaledUV(vec2(fsUV.x, fsUV.y + 1.0)));
+        vec4 belowTexel = texture(texTextureData, getScaledUV(fsUV));
 
-        int firstPair = 0;
-        int secondPair = 0;
-
-        if (!scanlineX) // First pixel in pair
-        {
-            firstPair = get565Pair(fsUV, vec2(fsUV.x + 1.0, fsUV.y));
-            secondPair = get565Pair(vec2(fsUV.x, fsUV.y + 1.0), vec2(fsUV.x + 1.0, fsUV.y + 1.0));
-        }
-        else // Second pixel in pair
-        {
-            firstPair = get565Pair(vec2(fsUV.x - 1.0, fsUV.y), fsUV);
-            secondPair = get565Pair(vec2(fsUV.x - 1.0, fsUV.y + 1.0), vec2(fsUV.x, fsUV.y + 1.0));
-        }
+        int aboveTexel565 = get565FromNormalized(aboveTexel.rgb);
+        int belowTexel565 = get565FromNormalized(belowTexel.rgb);
 
         // Do the bit rotation stuff
         int pixelResult =
-            ((secondPair & 0xF7DEF7DF) + (firstPair & 0xF7DEF7DF) >> 1) |
-            ((secondPair & 0xF7DEF7DF) + (firstPair & 0xF7DEF7DF) << 31);
+            (((aboveTexel565 & 0xF7DE) + (belowTexel565 & 0xF7DE)) >> 1) |
+            (aboveTexel565 & 0xF7DE + belowTexel565 & 0xF7DE) << 15;
 
-        // Unpack the two 16bpp values
-        int finalFirst = 0;
-        int finalSecond = 0;
+        pixelResult = pixelResult & 0xFFFF;
 
-        unpack565Pair(pixelResult, finalFirst, finalSecond);
-
-        // Retrieve the pixel we want
-        vec3 newRGB = vec3(0.0);
-
-        if (!scanlineX) // First pixel in pair
-        {
-            newRGB = getNormalizedFrom565(finalFirst);
-        }
-        else // Second pixel in pair
-        {
-            newRGB = getNormalizedFrom565(finalSecond);
-        }
-
-        outColor = vec4(newRGB.rgb, 1.0);
+        outColor = vec4(getNormalizedFrom565(pixelResult), 1.0);
     }
     else
     {
