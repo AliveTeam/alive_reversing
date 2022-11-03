@@ -82,6 +82,7 @@ SET(relive_lib_src
     data_conversion/PNGFile.cpp
     data_conversion/AESaveConverter.hpp
     data_conversion/AESaveConverter.cpp
+    data_conversion/AESaveSerialization.hpp
     Layer.hpp
     stdafx.h
     ObjectTypes.hpp

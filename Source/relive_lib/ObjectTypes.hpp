@@ -105,7 +105,7 @@ enum class ReliveTypes : s16
     eBoomMachine,
     eBackgroundGlukkon,
     eAbe,
-    MainMenuFade,
+    MainMenuFade, // TODO: rename to eMainMenuFade
     eHoneySack,
     eHoney,
     eClawOrBirdPortalTerminator,
@@ -136,14 +136,14 @@ enum class ReliveTypes : s16
     eEffectBase,
     eDeathFadeOut,
     eFlash,
-    ScreenShake,
+    ScreenShake, // TODO: rename to eScreenShake
     eScreenWave,
     eUnknown, // todo: remove ?
     eShrykull,
-    eSnoozParticle,
+    eSnoozParticle, // TODO: remove this typo version of eSnoozeParticle
     eSlig,
     eSlog,
-    SlingMud,
+    SlingMud, // TODO: rename to eSlingMud
     eSligSpawner,
     eZBall,
     eParticle,
@@ -194,7 +194,7 @@ enum class ReliveTypes : s16
     eMusicTrigger,
     ePullRingRope,
     eScrabSpawner,
-    eMainMenuTransistion,
+    eMainMenuTransistion, // TODO: fix typo
     eScreenShake,
     eSlamDoor,
     eSnoozeParticle,
