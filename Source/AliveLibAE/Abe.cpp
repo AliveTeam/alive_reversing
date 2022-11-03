@@ -9059,7 +9059,7 @@ s16 Abe::MoveLiftUpOrDown_45A7E0(FP yVelocity)
         }
     }
 
-    if (Input().mPads[sCurrentControllerIndex].mPressed && pLiftPoint->vOnAnyFloor() && !(pLiftPoint->field_12C_bMoving & 1))
+    if (Input().mPads[sCurrentControllerIndex].mPressed && pLiftPoint->vOnAnyFloor() && !(pLiftPoint->mMoving & 1))
     {
         return eAbeMotions::Motion_122_LiftGrabEnd;
     }

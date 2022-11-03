@@ -14,17 +14,12 @@ struct LiftPointSaveState final
     Guid field_10_pTlv;
     FP field_14_floorYLevel;
     relive::Path_LiftPoint::LiftPointStopType field_18_lift_point_stop_type;
-    enum Flags
-    {
-        eBit1_bMoving = 0x1,
-        eBit2_bTopFloor = 0x2,
-        eBit3_bMiddleFloor = 0x4,
-        eBit4_bBottomFloor = 0x8,
-        eBit5_bMoveToFloorLevel = 0x10,
-        eBit6 = 0x20,
-        eBit7_KeepOnMiddleFloor = 0x40,
-    };
-    BitField16<Flags> field_1A;
+    bool mMoving;
+    bool mTopFloor;
+    bool mMiddleFloor;
+    bool mBottomFloor;
+    bool mMoveToFloorLevel;
+    bool mKeepOnMiddleFloor;
 };
 
 class LiftPoint final : public PlatformBase
@@ -55,12 +50,13 @@ public:
 private:
     void MoveObjectsOnLift(FP xVelocity);
     static void sub_461000(relive::Path_TLV* pTlv);
-    void vStayOnFloor(s16 floor, relive::Path_LiftPoint* pTlv);
+    void vStayOnFloor(bool floor, relive::Path_LiftPoint* pTlv);
 
     void CreatePulleyIfExists();
 
 public:
-    s16 field_12C_bMoving = 0;
+    u8 field_278_lift_point_id = 0;
+    bool mMoving = false;
 
 private:
     relive::Path_LiftPoint::LiftPointStopType field_130_lift_point_stop_type = relive::Path_LiftPoint::LiftPointStopType::eTopFloor;
@@ -71,22 +67,12 @@ private:
     s16 field_26C_pulley_xpos = 0;
     s16 field_26E_pulley_ypos = 0;
     FP field_270_floorYLevel = {};
-
-public:
-    u8 field_278_lift_point_id = 0;
-
-private:
     Guid field_27C_pTlv;
-    enum LiftFlags
-    {
-        eBit1_bTopFloor = 0x1,
-        eBit2_bMiddleFloor = 0x2,
-        eBit3_bBottomFloor = 0x4,
-        eBit4_bHasPulley = 0x8,
-        eBit5_bMoveToFloorLevel = 0x10,
-        eBit6 = 0x20, // This never seems to be used for anything
-        eBit7_KeepOnMiddleFloor = 0x40,
-        eBit8_bIgnoreLiftMover = 0x80,
-    };
-    BitField16<LiftFlags> field_280_flags = {};
+    bool mTopFloor = false;
+    bool mMiddleFloor = false;
+    bool mBottomFloor = false;
+    bool mHasPulley = false;
+    bool mMoveToFloorLevel = false;
+    bool mKeepOnMiddleFloor = false;
+    bool mIgnoreLiftMover = false;
 };

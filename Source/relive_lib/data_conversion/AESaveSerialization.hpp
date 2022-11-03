@@ -1383,7 +1383,12 @@ inline void to_json(nlohmann::json& j, const LiftPointSaveState& p)
         {"tlv", p.field_10_pTlv},
         {"floor_y_level", p.field_14_floorYLevel},
         {"lift_point_stop_type", p.field_18_lift_point_stop_type},
-        {"field_1a", p.field_1A.Raw().all},
+        {"moving", p.mMoving},
+        {"top_floor", p.mTopFloor},
+        {"middle_floor", p.mMiddleFloor},
+        {"bottom_floor", p.mBottomFloor},
+        {"move_to_floor_level", p.mMoveToFloorLevel},
+        {"keep_on_middle_floor", p.mKeepOnMiddleFloor},
     };
 }
 
@@ -1396,7 +1401,12 @@ inline void from_json(const nlohmann::json& j, LiftPointSaveState& p)
     j.at("tlv").get_to(p.field_10_pTlv);
     j.at("floor_y_level").get_to(p.field_14_floorYLevel);
     j.at("lift_point_stop_type").get_to(p.field_18_lift_point_stop_type);
-    j.at("field_1a").get_to(p.field_1A.Raw().all);
+    j.at("moving").get_to(p.mMoving);
+    j.at("top_floor").get_to(p.mTopFloor);
+    j.at("middle_floor").get_to(p.mMiddleFloor);
+    j.at("bottom_floor").get_to(p.mBottomFloor);
+    j.at("move_to_floor_level").get_to(p.mMoveToFloorLevel);
+    j.at("keep_on_middle_floor").get_to(p.mKeepOnMiddleFloor);
 }
 
 NLOHMANN_JSON_SERIALIZE_ENUM(MudAction, {

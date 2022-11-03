@@ -2053,7 +2053,7 @@ struct LiftPointSaveState final
         eBit3_bMiddleFloor = 0x4,
         eBit4_bBottomFloor = 0x8,
         eBit5_bMoveToFloorLevel = 0x10,
-        eBit6 = 0x20,
+        eBit6_unused = 0x20,
         eBit7_KeepOnMiddleFloor = 0x40,
     };
     BitField16<Flags> field_1A;
@@ -2068,7 +2068,12 @@ struct LiftPointSaveState final
         d.field_10_pTlv = Guid::NewGuidFromTlvInfo(data.field_10_pTlv);
         d.field_14_floorYLevel = data.field_14_floorYLevel;
         d.field_18_lift_point_stop_type = From(data.field_18_lift_point_stop_type);
-        d.field_1A.Raw().all = data.field_1A.Raw().all; // TODO: convert flags to bools
+        d.mMoving = data.field_1A.Get(Flags::eBit1_bMoving);
+        d.mTopFloor = data.field_1A.Get(Flags::eBit2_bTopFloor);
+        d.mMiddleFloor = data.field_1A.Get(Flags::eBit3_bMiddleFloor);
+        d.mBottomFloor = data.field_1A.Get(Flags::eBit4_bBottomFloor);
+        d.mMoveToFloorLevel = data.field_1A.Get(Flags::eBit5_bMoveToFloorLevel);
+        d.mKeepOnMiddleFloor = data.field_1A.Get(Flags::eBit7_KeepOnMiddleFloor);
         return d;
     }
 
@@ -2740,7 +2745,7 @@ struct ParamiteSaveState final
 
     enum Flags_76 : s16
     {
-        eBit1_unused = 0x1,
+        eBit1_controlled = 0x1,
         eBit2_running = 0x2,
         eBit3_hissed_or_left_screen = 0x4,
         eBit4_prevent_depossession = 0x8,
@@ -2792,7 +2797,13 @@ struct ParamiteSaveState final
         d.field_70_return_camera = data.field_70_return_camera;
         d.field_72_input = data.field_72_input;
         d.field_74_next_brain_ret = data.field_74_next_brain_ret;
-        d.field_76_flags.Raw().all = data.field_76_flags.Raw().all; // TODO: convert flags to bools
+        d.mControlled = data.field_76_flags.Get(Flags_76::eBit1_controlled);
+        d.mRunning = data.field_76_flags.Get(Flags_76::eBit2_running);
+        d.mHissedOrLeftScreen = data.field_76_flags.Get(Flags_76::eBit3_hissed_or_left_screen);
+        d.mPreventDepossession = data.field_76_flags.Get(Flags_76::eBit4_prevent_depossession);
+        d.mSpawned = data.field_76_flags.Get(Flags_76::eBit5_spawned);
+        d.mAlerted = data.field_76_flags.Get(Flags_76::eBit6_alerted);
+        d.mCanBePossessed = data.field_76_flags.Get(Flags_76::eBit7_can_be_possessed);
         return d;
     }
 };

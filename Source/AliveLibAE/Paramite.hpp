@@ -133,19 +133,13 @@ struct ParamiteSaveState final
     s16 field_70_return_camera;
     s16 field_72_input;
     s16 field_74_next_brain_ret;
-
-    enum Flags_76 : s16
-    {
-        eBit1_unused = 0x1,
-        eBit2_running = 0x2,
-        eBit3_hissed_or_left_screen = 0x4,
-        eBit4_prevent_depossession = 0x8,
-        eBit5_spawned = 0x10,
-        eBit6_alerted = 0x20,
-        eBit7_can_be_possessed = 0x40,
-    };
-
-    BitField16<Flags_76> field_76_flags;
+    bool mControlled;
+    bool mRunning;
+    bool mHissedOrLeftScreen;
+    bool mPreventDepossession;
+    bool mSpawned;
+    bool mAlerted;
+    bool mCanBePossessed;
 };
 
 class Paramite final : public BaseAliveGameObject
@@ -335,23 +329,14 @@ private:
     s16 mParamiteGamespeakNextMotion = 0;
     s16 field_15C_paramite_xOffset = 0;
     s32 field_160_last_event_index = 0;
-    enum Flags_178 : s16
-    {
-        eBit1_hiss_before_attack = 0x1,
-        eBit2_running = 0x2,
-        eBit3_hissed_or_left_screen = 0x4,
-        eBit4_out_of_sight = 0x8,
-        eBit5_prevent_depossession = 0x10,
-        eBit6_spawned = 0x20,
-        eBit7_alerted = 0x40,
-        eBit8_bAttack_fleeches = 0x80,
-        eBit9_padding = 0x100,
-        eBit10_padding = 0x200,
-        eBit11_padding = 0x400,
-        eBit12_padding = 0x800,
-        eBit13_padding = 0x1000,
-        eBit14_padding = 0x2000,
-        eBit15_padding = 0x4000,
-    };
-    BitField16<Flags_178> field_178_flags = {};
+    bool mHissBeforeAttack = false;
+    bool mControlled = false;
+    bool mRunning = false;
+    bool mHissedOrLeftScreen = false;
+    bool mPreventDepossession = false;
+    bool mSpawned = false;
+    bool mAlerted = false;
+    bool mCanBePossessed = false;
+    bool mAttackFleeches = false;
+    bool mOutOfSight = false;
 };

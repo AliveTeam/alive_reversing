@@ -209,13 +209,13 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
     mGroupChaseDelay = pTlv->mGroupChaseDelay;
     mSurpriseWebSwitchId = pTlv->mSurpriseWebSwitchId;
 
-    field_178_flags.Set(Flags_178::eBit1_hiss_before_attack, pTlv->mHissBeforeAttack == relive::reliveChoice::eYes);
-    field_178_flags.Clear(Flags_178::eBit2_running);
-    field_178_flags.Set(Flags_178::eBit4_out_of_sight, pTlv->mDeleteWhenOutOfSight == relive::reliveChoice::eYes);
-    field_178_flags.Clear(Flags_178::eBit5_prevent_depossession);
-    field_178_flags.Set(Flags_178::eBit8_bAttack_fleeches, pTlv->mAttackFleeches == relive::reliveChoice::eYes);
-    field_178_flags.Clear(Flags_178::eBit6_spawned);
-    field_178_flags.Clear(Flags_178::eBit7_alerted);
+    mHissBeforeAttack = pTlv->mHissBeforeAttack == relive::reliveChoice::eYes ? true : false;
+    mRunning = false;
+    mOutOfSight = pTlv->mDeleteWhenOutOfSight == relive::reliveChoice::eYes ? true : false;
+    mPreventDepossession = false;
+    mAttackFleeches = pTlv->mAttackFleeches == relive::reliveChoice::eYes ? true : false;
+    mSpawned = false;
+    mAlerted = false;
 
     FP hitX = {};
     FP hitY = {};
@@ -255,7 +255,7 @@ s32 Paramite::CreateFromSaveState(const u8* pBuffer)
 
     auto pParamite = relive_new Paramite(pTlv, pState->field_3C_tlvInfo);
 
-    if (pState->field_76_flags.Get(ParamiteSaveState::eBit1_unused))
+    if (pState->mControlled)
     {
         sControlledCharacter = pParamite;
     }
@@ -321,12 +321,12 @@ s32 Paramite::CreateFromSaveState(const u8* pBuffer)
     pParamite->field_154_input = InputObject::PsxButtonsToKeyboardInput_45EE40(pState->field_72_input);
     pParamite->field_158_next_brain_ret = pState->field_74_next_brain_ret;
 
-    pParamite->field_178_flags.Set(Flags_178::eBit2_running, pState->field_76_flags.Get(ParamiteSaveState::eBit2_running));
-    pParamite->field_178_flags.Set(Flags_178::eBit3_hissed_or_left_screen, pState->field_76_flags.Get(ParamiteSaveState::eBit3_hissed_or_left_screen));
-    pParamite->field_178_flags.Set(Flags_178::eBit5_prevent_depossession, pState->field_76_flags.Get(ParamiteSaveState::eBit4_prevent_depossession));
-    pParamite->field_178_flags.Set(Flags_178::eBit6_spawned, pState->field_76_flags.Get(ParamiteSaveState::eBit5_spawned));
-    pParamite->field_178_flags.Set(Flags_178::eBit7_alerted, pState->field_76_flags.Get(ParamiteSaveState::eBit6_alerted));
-    pParamite->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanBePossessed, pState->field_76_flags.Get(ParamiteSaveState::eBit7_can_be_possessed));
+    pParamite->mRunning = pState->mRunning;
+    pParamite->mHissedOrLeftScreen = pState->mHissedOrLeftScreen;
+    pParamite->mPreventDepossession = pState->mPreventDepossession;
+    pParamite->mSpawned = pState->mSpawned;
+    pParamite->mAlerted = pState->mAlerted;
+    pParamite->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanBePossessed, pState->mCanBePossessed);
 
     return sizeof(ParamiteSaveState);
 }
@@ -389,8 +389,18 @@ s32 Paramite::VGetSaveState(u8* pSaveBuffer)
         pState->field_36_line_type = -1;
     }
 
-    pState->field_76_flags.Clear();
-    pState->field_76_flags.Set(ParamiteSaveState::eBit1_unused, this == sControlledCharacter);
+    pState->mControlled = false;
+    pState->mRunning = false;
+    pState->mHissedOrLeftScreen = false;
+    pState->mPreventDepossession = false;
+    pState->mSpawned = false;
+    pState->mAlerted = false;
+    pState->mCanBePossessed = false;
+
+    if (this == sControlledCharacter)
+    {
+        pState->mControlled = true;
+    }
 
     pState->field_3C_tlvInfo = field_140_tlvInfo;
     pState->field_40_meat_id = ResolveId(mMeatGuid);
@@ -427,12 +437,12 @@ s32 Paramite::VGetSaveState(u8* pSaveBuffer)
     pState->field_72_input = InputObject::KeyboardInputToPsxButtons_45EF70(field_154_input);
     pState->field_74_next_brain_ret = field_158_next_brain_ret;
 
-    pState->field_76_flags.Set(ParamiteSaveState::eBit2_running, field_178_flags.Get(Flags_178::eBit2_running));
-    pState->field_76_flags.Set(ParamiteSaveState::eBit3_hissed_or_left_screen, field_178_flags.Get(Flags_178::eBit3_hissed_or_left_screen));
-    pState->field_76_flags.Set(ParamiteSaveState::eBit4_prevent_depossession, field_178_flags.Get(Flags_178::eBit5_prevent_depossession));
-    pState->field_76_flags.Set(ParamiteSaveState::eBit5_spawned, field_178_flags.Get(Flags_178::eBit6_spawned));
-    pState->field_76_flags.Set(ParamiteSaveState::eBit6_alerted, field_178_flags.Get(Flags_178::eBit7_alerted));
-    pState->field_76_flags.Set(ParamiteSaveState::eBit7_can_be_possessed, mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eCanBePossessed));
+    pState->mRunning = mRunning;
+    pState->mHissedOrLeftScreen = mHissedOrLeftScreen;
+    pState->mPreventDepossession = mPreventDepossession;
+    pState->mSpawned = mSpawned;
+    pState->mAlerted = mAlerted;
+    pState->mCanBePossessed = mCanBePossessed;
 
     return sizeof(ParamiteSaveState);
 }
@@ -727,7 +737,7 @@ s16 Paramite::Brain_Patrol_State_12_Idle(BaseAliveGameObject* pObj)
         {
             if (CanIAcceptAGameSpeakCommand())
             {
-                field_178_flags.Set(Flags_178::eBit7_alerted);
+                mAlerted = true;
                 SetBrain(&Paramite::Brain_8_ControlledByGameSpeak);
                 return ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_Inactive_0;
             }
@@ -766,7 +776,7 @@ s16 Paramite::Brain_Patrol_State_12_Idle(BaseAliveGameObject* pObj)
 
     if (field_138_depossession_timer > static_cast<s32>(sGnFrame))
     {
-        if (!field_178_flags.Get(Flags_178::eBit6_spawned) || gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
+        if (!mSpawned || gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
         {
             return mBrainSubState;
         }
@@ -1452,7 +1462,7 @@ s16 Paramite::Brain_ChasingAbe_State_6_QuickAttack()
         return mBrainSubState;
     }
 
-    if (field_178_flags.Get(Flags_178::eBit1_hiss_before_attack))
+    if (mHissBeforeAttack)
     {
         SetNextMotion(eParamiteMotions::Motion_22_Hiss1);
     }
@@ -1475,7 +1485,7 @@ s16 Paramite::Brain_ChasingAbe_State_4_CloseAttack()
         return mBrainSubState;
     }
 
-    if (field_178_flags.Get(Flags_178::eBit1_hiss_before_attack))
+    if (mHissBeforeAttack)
     {
         field_130_timer = sGnFrame + Math_RandomRange(0, 6);
         return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_ToWarning_2;
@@ -1731,7 +1741,7 @@ s16 Paramite::Brain_ChasingAbe_State_5_ToChasing(BaseAliveGameObject* pObj)
         }
     }
 
-    if (field_130_timer > static_cast<s32>(sGnFrame) && field_178_flags.Get(Flags_178::eBit1_hiss_before_attack))
+    if (field_130_timer > static_cast<s32>(sGnFrame) && mHissBeforeAttack)
     {
         return mBrainSubState;
     }
@@ -1877,7 +1887,7 @@ s16 Paramite::Brain_ChasingAbe_State_0_Inactive(BaseAliveGameObject* pObj)
     {
         if (VIsFacingMe(pObj))
         {
-            if (field_178_flags.Get(Flags_178::eBit1_hiss_before_attack))
+            if (mHissBeforeAttack)
             {
                 field_130_timer = sGnFrame + Math_RandomRange(0, 6);
                 return ParamiteEnums::Brain_2_ChasingAbe::eBrain2_ToWarning_2;
@@ -2500,7 +2510,7 @@ s16 Paramite::Brain_8_ControlledByGameSpeak()
     {
         case ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_Inactive_0:
         {
-            field_178_flags.Clear(Flags_178::eBit7_alerted);
+            mAlerted = false;
             s16 result = VIsFacingMe(sControlledCharacter);
             if (result)
             {
@@ -2910,7 +2920,7 @@ s16 Paramite::Brain_9_ParamiteSpawn()
         case ParamiteEnums::Brain_9_ParamiteSpawn::eBrain9_PreSpawn_1:
             if (SwitchStates_Get(mSurpriseWebSwitchId))
             {
-                field_178_flags.Set(Flags_178::eBit6_spawned);
+                mSpawned = true;
                 SfxPlayMono(relive::SoundEffects::ParamiteSpawn, 0);
                 mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanBePossessed);
                 GetAnimation().mFlags.Set(AnimFlags::eRender);
@@ -3031,7 +3041,7 @@ void Paramite::Motion_0_Idle()
         return;
     }
 
-    if (Input_IsChanting_45F260() && !field_178_flags.Get(Flags_178::eBit5_prevent_depossession))
+    if (Input_IsChanting_45F260() && !mPreventDepossession)
     {
         SetCurrentMotion(eParamiteMotions::Motion_29_GetDepossessedBegin);
         field_138_depossession_timer = sGnFrame + 30;
@@ -3197,33 +3207,33 @@ void Paramite::Motion_2_Walking()
                 {
                     if (Input().isPressed(sInputKey_Run))
                     {
-                        field_178_flags.Set(Flags_178::eBit2_running);
+                        mRunning = true;
                         SetPreviousMotion(eParamiteMotions::Motion_3_Running);
                         mBaseAliveGameObjectLastAnimFrame = 11;
                     }
 
                     field_154_input = 0;
 
-                    if (!field_178_flags.Get(Flags_178::eBit3_hissed_or_left_screen))
+                    if (!mHissedOrLeftScreen)
                     {
                         UpdateSlurgWatchPoints();
                         MapFollowMe(true);
-                        field_178_flags.Set(Flags_178::eBit3_hissed_or_left_screen);
+                        mHissedOrLeftScreen = true;
                     }
                     return;
                 }
 
                 if (GetNextMotion() == eParamiteMotions::Motion_3_Running)
                 {
-                    field_178_flags.Set(Flags_178::eBit2_running);
+                    mRunning = true;
                     SetPreviousMotion(eParamiteMotions::Motion_3_Running);
                     mBaseAliveGameObjectLastAnimFrame = 11;
                     SetNextMotion(-1);
-                    if (!field_178_flags.Get(Flags_178::eBit3_hissed_or_left_screen))
+                    if (!mHissedOrLeftScreen)
                     {
                         UpdateSlurgWatchPoints();
                         MapFollowMe(true);
-                        field_178_flags.Set(Flags_178::eBit3_hissed_or_left_screen);
+                        mHissedOrLeftScreen = true;
                     }
                     return;
                 }
@@ -3242,16 +3252,16 @@ void Paramite::Motion_2_Walking()
                     }
                 }
 
-                if (!field_178_flags.Get(Flags_178::eBit3_hissed_or_left_screen))
+                if (!mHissedOrLeftScreen)
                 {
                     UpdateSlurgWatchPoints();
                     MapFollowMe(true);
-                    field_178_flags.Set(Flags_178::eBit3_hissed_or_left_screen);
+                    mHissedOrLeftScreen = true;
                 }
                 return;
 
             default:
-                field_178_flags.Clear(Flags_178::eBit3_hissed_or_left_screen);
+                mHissedOrLeftScreen = false;
                 return;
         }
     }
@@ -3353,11 +3363,11 @@ void Paramite::Motion_3_Running()
                     SetNextMotion(-1);
                 }
 
-                if (!field_178_flags.Get(Flags_178::eBit3_hissed_or_left_screen))
+                if (!mHissedOrLeftScreen)
                 {
                     UpdateSlurgWatchPoints();
                     MapFollowMe(true);
-                    field_178_flags.Set(Flags_178::eBit3_hissed_or_left_screen);
+                    mHissedOrLeftScreen = true;
                 }
             }
             else
@@ -3366,18 +3376,18 @@ void Paramite::Motion_3_Running()
                 field_154_input = 0;
             }
 
-            if (!field_178_flags.Get(Flags_178::eBit3_hissed_or_left_screen))
+            if (!mHissedOrLeftScreen)
             {
                 UpdateSlurgWatchPoints();
                 MapFollowMe(true);
-                field_178_flags.Set(Flags_178::eBit3_hissed_or_left_screen);
+                mHissedOrLeftScreen = true;
             }
             return;
         }
 
         if (GetAnimation().GetCurrentFrame() != 6 && GetAnimation().GetCurrentFrame() != 13)
         {
-            field_178_flags.Clear(Flags_178::eBit3_hissed_or_left_screen);
+            mHissedOrLeftScreen = false;
             return;
         }
 
@@ -3390,11 +3400,11 @@ void Paramite::Motion_3_Running()
             }
         }
 
-        if (!field_178_flags.Get(Flags_178::eBit3_hissed_or_left_screen))
+        if (!mHissedOrLeftScreen)
         {
             UpdateSlurgWatchPoints();
             MapFollowMe(true);
-            field_178_flags.Set(Flags_178::eBit3_hissed_or_left_screen);
+            mHissedOrLeftScreen = true;
             return;
         }
     }
@@ -3560,7 +3570,7 @@ void Paramite::Motion_6_Unused()
 
     if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
-        field_178_flags.Set(Flags_178::eBit2_running);
+        mRunning = true;
         SetPreviousMotion(eParamiteMotions::Motion_3_Running);
         mBaseAliveGameObjectLastAnimFrame = 2;
     }
@@ -3662,7 +3672,7 @@ void Paramite::Motion_9_RunBegin()
 
     if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
-        field_178_flags.Set(Flags_178::eBit2_running);
+        mRunning = true;
         SetPreviousMotion(eParamiteMotions::Motion_3_Running);
         mBaseAliveGameObjectLastAnimFrame = 2;
     }
@@ -4186,13 +4196,13 @@ void Paramite::Motion_22_Hiss1()
         }
     }
 
-    if (GetAnimation().GetCurrentFrame() != 2 || field_178_flags.Get(Flags_178::eBit3_hissed_or_left_screen))
+    if (GetAnimation().GetCurrentFrame() != 2 || mHissedOrLeftScreen)
     {
-        field_178_flags.Clear(Flags_178::eBit3_hissed_or_left_screen);
+        mHissedOrLeftScreen = false;
     }
     else
     {
-        field_178_flags.Set(Flags_178::eBit3_hissed_or_left_screen);
+        mHissedOrLeftScreen = true;
         EventBroadcast(kEventLoudNoise, this);
         Sound(ParamiteSpeak::Stay_1, 0);
 
@@ -4224,13 +4234,13 @@ void Paramite::Motion_22_Hiss1()
 
 void Paramite::Motion_23_Hiss2()
 {
-    if (GetAnimation().GetCurrentFrame() != 2 || field_178_flags.Get(Flags_178::eBit3_hissed_or_left_screen))
+    if (GetAnimation().GetCurrentFrame() != 2 || mHissedOrLeftScreen)
     {
-        field_178_flags.Clear(Flags_178::eBit3_hissed_or_left_screen);
+        mHissedOrLeftScreen = false;
     }
     else
     {
-        field_178_flags.Set(Flags_178::eBit3_hissed_or_left_screen);
+        mHissedOrLeftScreen = true;
         Sound(ParamiteSpeak::CMon_or_Attack_0, 0);
         if (sControlledCharacter == this)
         {
@@ -4267,13 +4277,13 @@ void Paramite::Motion_25_AllOYaGameSpeakBegin()
 
 void Paramite::Motion_26_Hiss3()
 {
-    if (GetAnimation().GetCurrentFrame() != 2 || field_178_flags.Get(Flags_178::eBit3_hissed_or_left_screen))
+    if (GetAnimation().GetCurrentFrame() != 2 || mHissedOrLeftScreen)
     {
-        field_178_flags.Clear(Flags_178::eBit3_hissed_or_left_screen);
+        mHissedOrLeftScreen = false;
     }
     else
     {
-        field_178_flags.Set(Flags_178::eBit3_hissed_or_left_screen);
+        mHissedOrLeftScreen = true;
         EventBroadcast(kEventLoudNoise, this);
         Sound(ParamiteSpeak::DoIt_2, 0);
         if (sControlledCharacter == this)
@@ -4380,7 +4390,7 @@ void Paramite::Motion_29_GetDepossessedBegin()
             gMap.SetActiveCam(mAbeLevel, mAbePath, mAbeCamera, CameraSwapEffects::eInstantChange_0, 0, 0);
             if (mAbeCamera != gMap.mCurrentCamera)
             {
-                if (field_178_flags.Get(Flags_178::eBit6_spawned))
+                if (mSpawned)
                 {
                     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 }
@@ -4918,7 +4928,7 @@ void Paramite::Motion_43_Attack()
                 mTargetGuid = Guid{};
             }
         }
-        else if (field_178_flags.Get(Flags_178::eBit8_bAttack_fleeches))
+        else if (mAttackFleeches)
         {
             if (!pObj)
             {
@@ -4983,7 +4993,7 @@ Paramite::~Paramite()
     mMeatGuid = Guid{};
     VOnTrapDoorOpen();
 
-    if (mHealth > FP_FromInteger(0) || field_178_flags.Get(Flags_178::eBit6_spawned))
+    if (mHealth > FP_FromInteger(0) || mSpawned)
     {
         Path::TLV_Reset(field_140_tlvInfo, -1, 0, 0);
     }
@@ -5135,12 +5145,12 @@ void Paramite::HandleBrainsAndMotions()
 
     if (oldMotion == mCurrentMotion)
     {
-        if (field_178_flags.Get(Flags_178::eBit2_running))
+        if (mRunning)
         {
             SetCurrentMotion(mPreviousMotion);
             vUpdateAnim();
             GetAnimation().SetFrame(mBaseAliveGameObjectLastAnimFrame);
-            field_178_flags.Clear(Flags_178::eBit2_running);
+            mRunning = false;
         }
     }
     else
@@ -5215,7 +5225,7 @@ void Paramite::VUpdate()
 
     if (xDelta > FP_FromInteger(750) || yDelta > FP_FromInteger(390))
     {
-        if (field_178_flags.Get(Flags_178::eBit4_out_of_sight) && field_178_flags.Get(Flags_178::eBit6_spawned))
+        if (mOutOfSight && mSpawned)
         {
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }
@@ -5236,7 +5246,7 @@ void Paramite::VUpdate()
     {
         if (mHealth > FP_FromInteger(0))
         {
-            if (!BrainIs(&Paramite::Brain_9_ParamiteSpawn) || field_178_flags.Get(Flags_178::eBit6_spawned))
+            if (!BrainIs(&Paramite::Brain_9_ParamiteSpawn) || mSpawned)
             {
                 GetAnimation().mFlags.Set(AnimFlags::eRender);
             }
@@ -5245,9 +5255,8 @@ void Paramite::VUpdate()
 
         if (!Input_IsChanting_45F260())
         {
-            field_178_flags.Clear(Flags_178::eBit5_prevent_depossession);
+            mPreventDepossession = false;
         }
-
 
         if (sDDCheat_FlyingEnabled_5C2C08 && sControlledCharacter == this)
         {
@@ -5347,7 +5356,7 @@ void Paramite::VUnPosses()
 void Paramite::VPossessed()
 {
     mBaseAliveGameObjectFlags.Set(AliveObjectFlags::ePossessed);
-    field_178_flags.Set(Flags_178::eBit5_prevent_depossession);
+    mPreventDepossession = true;
     SetBrain(&Paramite::Brain_6_Possessed);
     SetNextMotion(eParamiteMotions::Motion_0_Idle);
     mBrainSubState = 0;
@@ -5598,7 +5607,7 @@ s16 Paramite::CanIAcceptAGameSpeakCommand()
         {
             auto pParamite = static_cast<Paramite*>(pObj);
 
-            if (pParamite->field_178_flags.Get(Flags_178::eBit7_alerted))
+            if (pParamite->mAlerted)
             {
                 return 0;
             }
