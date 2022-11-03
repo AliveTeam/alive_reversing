@@ -281,9 +281,9 @@ uniform sampler2D texTextureData;
 
 int get565FromNormalized(in vec3 rgbInput)
 {
-    int rValue = int(rgbInput.r * 31f);
-    int gValue = int(rgbInput.g * 63f);
-    int bValue = int(rgbInput.b * 31f);
+    int rValue = int(ceil(rgbInput.r * 31f));
+    int gValue = int(ceil(rgbInput.g * 63f));
+    int bValue = int(ceil(rgbInput.b * 31f));
 
     rValue = rValue << 11;
     gValue = gValue << 5;
@@ -320,7 +320,7 @@ void main()
         // Do the bit rotation stuff
         int pixelResult =
             (((aboveTexel565 & 0xF7DE) + (belowTexel565 & 0xF7DE)) >> 1) |
-            (aboveTexel565 & 0xF7DE + belowTexel565 & 0xF7DE) << 15;
+            (aboveTexel565 & 0xF7DE, belowTexel565 & 0xF7DE) << 15;
 
         pixelResult = pixelResult & 0xFFFF;
 
