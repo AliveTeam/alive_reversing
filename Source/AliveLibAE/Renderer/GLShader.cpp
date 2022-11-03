@@ -279,11 +279,17 @@ uniform vec2 fsTexSize;
 uniform sampler2D texTextureData;
 
 
+//
+// NOTE:
+//     Even though logically you would think to get RGB565
+//     we would scale by 31, 63, 31 - it looks more accurate
+//     to the original with 30, 62, 30...
+//
 int get565FromNormalized(in vec3 rgbInput)
 {
-    int rValue = int(ceil(rgbInput.r * 31f));
-    int gValue = int(ceil(rgbInput.g * 63f));
-    int bValue = int(ceil(rgbInput.b * 31f));
+    int rValue = int(ceil(rgbInput.r * 30f));
+    int gValue = int(ceil(rgbInput.g * 62f));
+    int bValue = int(ceil(rgbInput.b * 30f));
 
     rValue = rValue << 11;
     gValue = gValue << 5;
@@ -293,9 +299,9 @@ int get565FromNormalized(in vec3 rgbInput)
 
 vec3 getNormalizedFrom565(in int rgbInput)
 {
-    float rValue = float((rgbInput >> 11) & 0x1F) / 31f;
-    float gValue = float((rgbInput >> 5) & 0x3F) / 63f;
-    float bValue = float(rgbInput & 0x1F) / 31f;
+    float rValue = float((rgbInput >> 11) & 0x1F) / 30f;
+    float gValue = float((rgbInput >> 5) & 0x3F) / 62f;
+    float bValue = float(rgbInput & 0x1F) / 30f;
 
     return vec3(rValue, gValue, bValue);
 }
@@ -328,7 +334,13 @@ void main()
     }
     else
     {
-        outColor = texture(texTextureData, getScaledUV(fsUV));
+        vec4 texel = texture(texTextureData, getScaledUV(fsUV));
+
+        outColor =
+           vec4(
+               getNormalizedFrom565(get565FromNormalized(texel.rgb)),
+               1.0
+           );
     }
 }
 )";
