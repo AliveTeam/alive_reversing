@@ -40,5 +40,6 @@ private:
 
 extern const char_type* gShader_PassthruVSH;
 extern const char_type* gShader_PassthruFSH;
+extern const char_type* gShader_PassthruFilterFSH;
 extern const char_type* gShader_PsxVSH;
 extern const char_type* gShader_PsxFSH;
