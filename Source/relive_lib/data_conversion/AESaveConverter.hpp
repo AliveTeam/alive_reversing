@@ -332,8 +332,11 @@ static ::GameSpeakEvents From(const GameSpeakEvents event)
             return ::GameSpeakEvents::Scrab_Howl_53;
         case GameSpeakEvents::Scrab_Shriek_54:
             return ::GameSpeakEvents::Scrab_Shriek_54;
+        default:
+            // For bad OG save data
+            LOG_WARNING("Bad gamespeak event value %d", static_cast<u32>(event));
+            return ::GameSpeakEvents::eNone_m1;
     }
-    ALIVE_FATAL("Bad gamespeak event value");
 }
 
 enum class Mud_Emotion : s16
@@ -415,6 +418,8 @@ static ::SligSpeak From(const SligSpeak speak)
 {
     switch (speak)
     {
+        case SligSpeak::eNone:
+            return ::SligSpeak::eNone;
         case SligSpeak::eHi_0:
             return ::SligSpeak::eHi_0;
         case SligSpeak::eHereBoy_1:
@@ -445,8 +450,10 @@ static ::SligSpeak From(const SligSpeak speak)
             return ::SligSpeak::eOuch1_13;
         case SligSpeak::eOuch2_14:
             return ::SligSpeak::eOuch2_14;
+        default:
+            LOG_WARNING("Bad slig speak value %d", static_cast<u32>(speak));
+            return ::SligSpeak::eNone;
     }
-    ALIVE_FATAL("Bad slig speak value");
 }
 
 enum class MudSounds : s16
@@ -2022,8 +2029,11 @@ struct AbeSaveState final
                 return ::ReliveTypes::eHandStone;
             case TlvTypes::MovieHandStone_27:
                 return ::ReliveTypes::eMovieHandStone;
+            default:
+                // To handle OG saves with random data
+                LOG_WARNING("Bad handstone tlv type value %d", static_cast<u32>(type));
+                return ::ReliveTypes::eNone;
         }
-        ALIVE_FATAL("Bad tlv type value");
     }
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(AbeSaveState, 216);
@@ -2468,8 +2478,12 @@ struct MudokonSaveState final
                 return ::eMudMotions::Motion_58_TurnWheelLoop;
             case eMudMotions::Motion_59_TurnWheelEnd:
                 return ::eMudMotions::Motion_59_TurnWheelEnd;
+            default:
+                // For bad OG save data
+                LOG_WARNING("Bad mudokon motion value %d", static_cast<u32>(motion));
+                return ::eMudMotions::Motion_0_Idle;
         }
-        ALIVE_FATAL("Bad mudokon motion value");
+        
     }
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(MudokonSaveState, 0x88);
@@ -3702,4 +3716,18 @@ struct WorkWheelSaveState final
     }
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(WorkWheelSaveState, 0x10);
-}
+} // namespace AEData
+
+class AESaveConverter final
+{
+public:
+    bool Convert(const std::vector<u8>& savData, const char_type* pFileName);
+
+private:
+    template <typename T>
+    void AddObjectState(const T&)
+    {
+    }
+
+    s32 ConvertObjectSaveStateData(AETypes type, const u8* pData);
+};

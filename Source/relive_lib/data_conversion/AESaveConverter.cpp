@@ -60,19 +60,48 @@ struct Quicksave final
 };
 ALIVE_ASSERT_SIZEOF(Quicksave, 0x2000);
 
-class AESaveConverter final
+
+bool AESaveConverter::Convert(const std::vector<u8>& savData, const char_type* /*pFileName*/)
 {
-public:
+    auto pSaveData = reinterpret_cast<const Quicksave*>(savData.data());
 
-private:
-    template<typename T>
-    void AddObjectState(const T&)
+    const u16* pSaveData2 = reinterpret_cast<const u16*>(pSaveData->field_55C_objects_state_data);
+    while (*reinterpret_cast<const u32*>(pSaveData2) != 0)
     {
-
+        // Maps to AETypes
+        pSaveData2 += ConvertObjectSaveStateData(static_cast<AETypes>(*pSaveData2), reinterpret_cast<const u8*>(pSaveData2)) / sizeof(u16);
     }
 
-    s32 ConvertObjectSaveStateData(AETypes type, const u8* pData)
+    pSaveData->field_204_world_info.field_4_level;
+
+    /*
+    // TODO: Need the map data to match up the per object data
+    // Skip the 2 zero entries, the saved flag words come after the object save state data
+    const u8* pSrcFlags = reinterpret_cast<const u8*>(pSaveData2 + 2);
+    for (auto& binaryPath : gMap.GetLoadedPaths())
     {
+        for (auto& cam : binaryPath->GetCameras())
+        {
+            auto pTlv = reinterpret_cast<relive::Path_TLV*>(cam->mBuffer.data());
+            while (pTlv)
+            {
+                if (pTlv->mAttribute == relive::QuiksaveAttribute::eClearTlvFlags_1 || pTlv->mAttribute == relive::QuiksaveAttribute::eKeepTlvFlags_2) // Type 0 ignored - actually it should never be written here anyway
+                {
+                    pTlv->mTlvFlags.Raw().all = *pSrcFlags;
+                    pSrcFlags++;
+
+                    pTlv->mTlvSpecificMeaning = *pSrcFlags;
+                    pSrcFlags++;
+                }
+                pTlv = Path::Next_TLV(pTlv);
+            }
+        }
+    }*/
+    return true;
+}
+
+s32 AESaveConverter::ConvertObjectSaveStateData(AETypes type, const u8* pData)
+{
     switch (type)
     {
         case ::AETypes::eSligSpawner_2:
@@ -261,4 +290,3 @@ private:
             ALIVE_FATAL("No create save state for type %d", static_cast<s32>(type));
     }
 }
-};

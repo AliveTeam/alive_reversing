@@ -24,6 +24,7 @@
 #include "Collisions.hpp"
 #include "AnimConversionInfo.hpp"
 #include "PNGFile.hpp"
+#include "AESaveConverter.hpp"
 
 #define MAGIC_ENUM_RANGE_MIN 0
 #define MAGIC_ENUM_RANGE_MAX 1100
@@ -1530,8 +1531,15 @@ static void ConvertFilesInLvl(const FileSystem::Path& dataDir, FileSystem& fs, R
             }
             else if (endsWith(fileName, ".SAV"))
             {
-                // TODO: Actually convert at some later point
-                SaveFileFromLvlDirect(fileName.c_str(), dataDir, lvlReader, lvlIdxAsLvl, fileBuffer);
+                if (ReadLvlFileInto(lvlReader, fileName.c_str(), fileBuffer))
+                {
+                    // Remove the resource header
+                    fileBuffer.erase(fileBuffer.begin(), fileBuffer.begin() + 16);
+
+                    // TODO: Actually convert at some later point
+                    AESaveConverter saveConverter;
+                    saveConverter.Convert(fileBuffer, (fileName + ".json").c_str());
+                }
             }
             else if (endsWith(fileName, "PATH.BND"))
             {
