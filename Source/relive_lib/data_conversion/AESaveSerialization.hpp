@@ -3,6 +3,24 @@
 #include "AESaveConverter.hpp"
 #include "relive_tlvs_serialization.hpp" // needed for some common enum and struct serialization (should probably move those to a different file)
 
+inline void to_json(nlohmann::json& j, const PSX_RECT& p)
+{
+    j = nlohmann::json{
+        {"x", p.x},
+        {"y", p.y},
+        {"w", p.w},
+        {"h", p.h},
+    };
+}
+
+inline void from_json(const nlohmann::json& j, PSX_RECT& p)
+{
+    j.at("x").get_to(p.x);
+    j.at("y").get_to(p.y);
+    j.at("w").get_to(p.w);
+    j.at("h").get_to(p.h);
+}
+
 inline void to_json(nlohmann::json& j, const FP& p)
 {
     j = nlohmann::json{
@@ -1817,4 +1835,717 @@ inline void from_json(const nlohmann::json& j, MineCarSaveState& p)
     j.at("spawned_camera").get_to(p.field_62_spawned_camera);
     j.at("throw_item_key1").get_to(p.field_64_throw_item_key1);
     j.at("continue_move_input").get_to(p.field_66_continue_move_input);
+}
+
+inline void to_json(nlohmann::json& j, const ParamiteSaveState& p)
+{
+    j = nlohmann::json{
+        {"type", p.field_0_type},
+        {"xpos", p.field_4_xpos},
+        {"ypos", p.field_8_ypos},
+        {"velx", p.field_C_velx},
+        {"vely", p.field_10_vely},
+        {"path_number", p.field_14_path_number},
+        {"lvl_number", p.field_16_lvl_number},
+        {"r", p.field_1C_r},
+        {"g", p.field_1E_g},
+        {"b", p.field_20_b},
+        {"x_flip", p.field_22_flip_x},
+        {"field_24_current_motion", p.field_24_current_motion},
+        {"anim_current_frame", p.field_26_anim_current_frame},
+        {"frame_change_counter", p.field_28_frame_change_counter},
+        {"render", p.field_2A_render},
+        {"drawable", p.field_2B_drawable},
+        {"health", p.field_2C_health},
+        {"field_30_current_motion", p.field_30_current_motion},
+        {"next_motion", p.field_32_next_motion},
+        {"last_line_ypos", p.field_34_last_line_ypos},
+        {"line_type", p.field_36_line_type},
+        {"tlv_info", p.field_3C_tlvInfo},
+        {"meat_id", p.field_40_meat_id},
+        {"web_id", p.field_44_web_id},
+        {"obj_id", p.field_48_obj_id},
+        {"pull_ring_rope_id", p.field_4C_pull_ring_rope_id},
+        {"brain_idx", p.field_50_brain_idx},
+        {"brain_ret", p.field_58_brain_ret},
+        {"field_5c_timer", p.field_5C_timer},
+        {"depossession_timer", p.field_60_depossession_timer},
+        {"velx_offset", p.field_64_velx_offset},
+        {"field_68_timer", p.field_68_timer},
+        {"return_level", p.field_6C_return_level},
+        {"return_path", p.field_6E_return_path},
+        {"return_camera", p.field_70_return_camera},
+        {"input", p.field_72_input},
+        {"next_brain_ret", p.field_74_next_brain_ret},
+        {"controlled", p.mControlled},
+        {"running", p.mRunning},
+        {"hissed_or_left_screen", p.mHissedOrLeftScreen},
+        {"prevent_depossession", p.mPreventDepossession},
+        {"spawned", p.mSpawned},
+        {"alerted", p.mAlerted},
+        {"can_be_possessed", p.mCanBePossessed},
+    };
+}
+
+inline void from_json(const nlohmann::json& j, ParamiteSaveState& p)
+{
+    j.at("type").get_to(p.field_0_type);
+    j.at("xpos").get_to(p.field_4_xpos);
+    j.at("ypos").get_to(p.field_8_ypos);
+    j.at("velx").get_to(p.field_C_velx);
+    j.at("vely").get_to(p.field_10_vely);
+    j.at("path_number").get_to(p.field_14_path_number);
+    j.at("lvl_number").get_to(p.field_16_lvl_number);
+    j.at("r").get_to(p.field_1C_r);
+    j.at("g").get_to(p.field_1E_g);
+    j.at("b").get_to(p.field_20_b);
+    j.at("x_flip").get_to(p.field_22_flip_x);
+    j.at("field_24_current_motion").get_to(p.field_24_current_motion);
+    j.at("anim_current_frame").get_to(p.field_26_anim_current_frame);
+    j.at("frame_change_counter").get_to(p.field_28_frame_change_counter);
+    j.at("render").get_to(p.field_2A_render);
+    j.at("drawable").get_to(p.field_2B_drawable);
+    j.at("health").get_to(p.field_2C_health);
+    j.at("field_30_current_motion").get_to(p.field_30_current_motion);
+    j.at("next_motion").get_to(p.field_30_current_motion);
+    j.at("last_line_ypos").get_to(p.field_34_last_line_ypos);
+    j.at("line_type").get_to(p.field_36_line_type);
+    j.at("tlv_info").get_to(p.field_3C_tlvInfo);
+    j.at("meat_id").get_to(p.field_40_meat_id);
+    j.at("web_id").get_to(p.field_44_web_id);
+    j.at("obj_id").get_to(p.field_48_obj_id);
+    j.at("pull_ring_rope_id").get_to(p.field_4C_pull_ring_rope_id);
+    j.at("brain_idx").get_to(p.field_50_brain_idx);
+    j.at("brain_ret").get_to(p.field_58_brain_ret);
+    j.at("field_5c_timer").get_to(p.field_5C_timer);
+    j.at("depossession_timer").get_to(p.field_60_depossession_timer);
+    j.at("velx_offset").get_to(p.field_64_velx_offset);
+    j.at("field_68_timer").get_to(p.field_68_timer);
+    j.at("return_level").get_to(p.field_6C_return_level);
+    j.at("return_path").get_to(p.field_6E_return_path);
+    j.at("return_camera").get_to(p.field_70_return_camera);
+    j.at("input").get_to(p.field_72_input);
+    j.at("next_brain_ret").get_to(p.field_74_next_brain_ret);
+    j.at("controlled").get_to(p.mControlled);
+    j.at("running").get_to(p.mRunning);
+    j.at("hissed_or_left_screen").get_to(p.mHissedOrLeftScreen);
+    j.at("prevent_depossession").get_to(p.mPreventDepossession);
+    j.at("spawned").get_to(p.mSpawned);
+    j.at("alerted").get_to(p.mAlerted);
+    j.at("can_be_possessed").get_to(p.mCanBePossessed);
+}
+
+NLOHMANN_JSON_SERIALIZE_ENUM(RingTypes, {
+    {RingTypes::eExplosive_Pulse_0, "explosive_pulse"},
+    {RingTypes::eExplosive_Emit_1, "explosive_emit"},
+    {RingTypes::eExplosive_Emit_Effect_2, "explosive_emit_effect"},
+    {RingTypes::eExplosive_Give_3, "explosive_give"},
+    {RingTypes::eShrykull_Pulse_Small_4, "shrykull_pulse_small"},
+    {RingTypes::eShrykull_Pulse_Large_5, "shrykull_pulse_large"},
+    {RingTypes::eShrykull_Pulse_Orange_6, "shrykull_pulse_orange"},
+    {RingTypes::eInvisible_Pulse_Small_7, "invisible_pulse_small"},
+    {RingTypes::eInvisible_Pulse_Large_8, "invisible_pulse_large"},
+    {RingTypes::eInvisible_Pulse_Emit_9, "invisible_pulse_emit"},
+    {RingTypes::eInvisible_Pulse_Give_10, "invisible_pulse_give"},
+    {RingTypes::eHealing_Emit_Effect_11, "healing_emit_effect"},
+    {RingTypes::eHealing_Emit_12, "healing_emit"},
+    {RingTypes::eHealing_Give_13, "healing_give"},
+    {RingTypes::eHealing_Pulse_14, "healing_pulse"},
+})
+
+inline void to_json(nlohmann::json & j, const AbilityRingSaveState& p)
+{
+    j = nlohmann::json{
+        {"ring_object_type", p.mRingObjectType},
+        {"ring_xpos", p.mRingXPos},
+        {"ring_ypos", p.mRingYPos},
+        {"ring_type", p.mRingType},
+        {"ring_scale", p.mRingScale},
+        {"ring_tlv_info", p.mRingTlvInfo},
+        {"ring_right", p.mRingRight},
+        {"ring_count", p.mRingCount},
+        {"ring_red", p.mRingRed},
+        {"ring_green", p.mRingGreen},
+        {"ring_red", p.mRingBlue},
+    };
+}
+
+inline void from_json(const nlohmann::json& j, AbilityRingSaveState& p)
+{
+    j.at("ring_object_type").get_to(p.mRingObjectType);
+    j.at("ring_xpos").get_to(p.mRingXPos);
+    j.at("ring_ypos").get_to(p.mRingYPos);
+    j.at("ring_type").get_to(p.mRingType);
+    j.at("ring_scale").get_to(p.mRingScale);
+    j.at("ring_tlv_info").get_to(p.mRingTlvInfo);
+    j.at("ring_right").get_to(p.mRingRight);
+    j.at("ring_count").get_to(p.mRingCount);
+    j.at("ring_red").get_to(p.mRingRed);
+    j.at("ring_green").get_to(p.mRingGreen);
+    j.at("ring_red").get_to(p.mRingBlue);
+}
+
+
+NLOHMANN_JSON_SERIALIZE_ENUM(RockStates, {
+    {RockStates::eNone_0, "none"},
+    {RockStates::eFallingOutOfRockSack_1, "falling_out_of_rock_sack"},
+    {RockStates::eRolling_2, "rolling"},
+    {RockStates::eOnGround_3, "on_ground"},
+    {RockStates::eBouncing_4, "bouncing"},
+    {RockStates::eFallingOutOfWorld_5, "falling_out_of_world"},
+    })
+
+
+inline void to_json(nlohmann::json& j, const RockSaveState& p)
+{
+    j = nlohmann::json{
+        {"type", p.field_0_type},
+        {"obj_id", p.field_4_obj_id},
+        {"field_8_xpos", p.field_8_xpos},
+        {"field_c_ypos", p.field_C_ypos},
+        {"velx", p.field_10_velx},
+        {"vely", p.field_14_vely},
+        {"sprite_scale", p.field_18_sprite_scale},
+        {"path_number", p.field_1C_path_number},
+        {"lvl_number", p.field_1E_lvl_number},
+        {"render", p.mRender},
+        {"drawable", p.mDrawable},
+        {"loop", p.mLoop},
+        {"interactive", p.mInteractive},
+        {"id", p.field_24_id},
+        {"line_type", p.field_28_line_type},
+        {"count", p.field_2A_count},
+        {"state", p.field_2C_state},
+        {"volume", p.field_2E_volume},
+        {"field_30_xpos", p.field_30_xpos},
+        {"field_34_ypos", p.field_34_ypos},
+    };
+}
+
+inline void from_json(const nlohmann::json& j, RockSaveState& p)
+{
+    j.at("type").get_to(p.field_0_type);
+    j.at("obj_id").get_to(p.field_4_obj_id);
+    j.at("field_8_xpos").get_to(p.field_8_xpos);
+    j.at("field_c_ypos").get_to(p.field_C_ypos);
+    j.at("velx").get_to(p.field_10_velx);
+    j.at("vely").get_to(p.field_14_vely);
+    j.at("sprite_scale").get_to(p.field_18_sprite_scale);
+    j.at("path_number").get_to(p.field_1C_path_number);
+    j.at("lvl_number").get_to(p.field_1E_lvl_number);
+    j.at("render").get_to(p.mRender);
+    j.at("drawable").get_to(p.mDrawable);
+    j.at("loop").get_to(p.mLoop);
+    j.at("interactive").get_to(p.mInteractive);
+    j.at("id").get_to(p.field_24_id);
+    j.at("line_type").get_to(p.field_28_line_type);
+    j.at("count").get_to(p.field_2A_count);
+    j.at("state").get_to(p.field_2C_state);
+    j.at("volume").get_to(p.field_2E_volume);
+    j.at("field_30_xpos").get_to(p.field_30_xpos);
+    j.at("field_34_ypos").get_to(p.field_34_ypos);
+}
+
+inline void to_json(nlohmann::json& j, const ScrabSaveState& p)
+{
+    j = nlohmann::json{
+        {"type", p.field_0_type},
+        {"obj_id", p.field_4_obj_id},
+        {"xpos", p.field_8_xpos},
+        {"ypos", p.field_C_ypos},
+        {"velx", p.field_10_velx},
+        {"vely", p.field_14_vely},
+        {"path_number", p.field_18_path_number},
+        {"lvl_number", p.field_1A_lvl_number},
+        {"sprite_scale", p.field_1C_sprite_scale},
+        {"ring_red", p.mRingRed},
+        {"ring_green", p.mRingGreen},
+        {"ring_blue", p.mRingBlue},
+        {"anim_flipX", p.field_26_bAnimFlipX},
+        {"field_28_current_motion", p.field_28_current_motion},
+        {"current_frame", p.field_2A_current_frame},
+        {"frame_change_counter", p.field_2C_frame_change_counter},
+        {"anim_render", p.field_2E_bAnimRender},
+        {"drawable", p.field_2F_bDrawable},
+        {"health", p.field_30_health},
+        {"field_34_current_motion", p.field_34_current_motion},
+        {"next_motion", p.field_36_next_motion},
+        {"last_line_ypos", p.field_38_last_line_ypos},
+        {"line_type", p.field_3A_line_type},
+        {"is_controlled", p.field_40_bIsControlled},
+        {"tlv_info", p.field_44_tlvInfo},
+        {"brain_idx", p.field_48_brain_idx},
+        {"sub_state", p.field_50_sub_state},
+        {"obj_id", p.field_54_obj_id},
+        {"target_obj_id", p.field_58_target_obj_id},
+        {"timer", p.field_5C_timer},
+        {"depossession_timer", p.field_60_depossession_timer},
+        {"falling_velx_scale_factor", p.field_64_falling_velx_scale_factor},
+        {"motion_resource_block_index", p.field_68_motion_resource_block_index},
+        {"spotting_abe_timer", p.field_6C_spotting_abe_timer},
+        {"attack_delay_timer", p.field_70_attack_delay_timer},
+        {"movement_timer", p.field_74_movement_timer},
+        {"sfx_bitmask", p.field_78_sfx_bitmask},
+        {"prevent_depossession", p.field_7C_prevent_depossession},
+        {"return_level", p.field_7E_return_level},
+        {"return_path", p.field_80_return_path},
+        {"return_camera", p.field_82_return_camera},
+        {"input", p.field_84_input},
+        {"shred_power_active", p.field_8C_shred_power_active},
+        {"speak", p.field_8E_speak},
+        {"max_xpos", p.field_90_max_xpos},
+        {"max_ypos", p.field_94_max_ypos},
+        {"speak_counter", p.field_98_speak_counter},
+        {"flags", p.field_9E_flags.Raw().all},
+    };
+}
+
+inline void from_json(const nlohmann::json& j, ScrabSaveState& p)
+{
+    j.at("type").get_to(p.field_0_type);
+    j.at("obj_id").get_to(p.field_4_obj_id);
+    j.at("xpos").get_to(p.field_8_xpos);
+    j.at("ypos").get_to(p.field_C_ypos);
+    j.at("velx").get_to(p.field_10_velx);
+    j.at("vely").get_to(p.field_14_vely);
+    j.at("path_number").get_to(p.field_18_path_number);
+    j.at("lvl_number").get_to(p.field_1A_lvl_number);
+    j.at("sprite_scale").get_to(p.field_1C_sprite_scale);
+    j.at("ring_red").get_to(p.mRingRed);
+    j.at("ring_green").get_to(p.mRingGreen);
+    j.at("ring_blue").get_to(p.mRingBlue);
+    j.at("anim_flipX").get_to(p.field_26_bAnimFlipX);
+    j.at("field_28_current_motion").get_to(p.field_28_current_motion);
+    j.at("current_frame").get_to(p.field_2A_current_frame);
+    j.at("frame_change_counter").get_to(p.field_2C_frame_change_counter);
+    j.at("anim_render").get_to(p.field_2E_bAnimRender);
+    j.at("drawable").get_to(p.field_2F_bDrawable);
+    j.at("health").get_to(p.field_30_health);
+    j.at("field_34_current_motion").get_to(p.field_34_current_motion);
+    j.at("next_motion").get_to(p.field_36_next_motion);
+    j.at("last_line_ypos").get_to(p.field_38_last_line_ypos);
+    j.at("line_type").get_to(p.field_3A_line_type);
+    j.at("is_controlled").get_to(p.field_40_bIsControlled);
+    j.at("tlv_info").get_to(p.field_44_tlvInfo);
+    j.at("brain_idx").get_to(p.field_48_brain_idx);
+    j.at("sub_state").get_to(p.field_50_sub_state);
+    j.at("obj_id").get_to(p.field_54_obj_id);
+    j.at("target_obj_id").get_to(p.field_58_target_obj_id);
+    j.at("timer").get_to(p.field_5C_timer);
+    j.at("depossession_timer").get_to(p.field_60_depossession_timer);
+    j.at("falling_velx_scale_factor").get_to(p.field_64_falling_velx_scale_factor);
+    j.at("motion_resource_block_index").get_to(p.field_68_motion_resource_block_index);
+    j.at("spotting_abe_timer").get_to(p.field_6C_spotting_abe_timer);
+    j.at("attack_delay_timer").get_to(p.field_70_attack_delay_timer);
+    j.at("movement_timer").get_to(p.field_74_movement_timer);
+    j.at("sfx_bitmask").get_to(p.field_78_sfx_bitmask);
+    j.at("prevent_depossession").get_to(p.field_7C_prevent_depossession);
+    j.at("return_level").get_to(p.field_7E_return_level);
+    j.at("return_path").get_to(p.field_80_return_path);
+    j.at("return_camera").get_to(p.field_82_return_camera);
+    j.at("input").get_to(p.field_84_input);
+    j.at("shred_power_active").get_to(p.field_8C_shred_power_active);
+    j.at("speak").get_to(p.field_8E_speak);
+    j.at("max_xpos").get_to(p.field_90_max_xpos);
+    j.at("max_ypos").get_to(p.field_94_max_ypos);
+    j.at("speak_counter").get_to(p.field_98_speak_counter);
+    j.at("flags").get_to(p.field_9E_flags.Raw().all);
+}
+
+NLOHMANN_JSON_SERIALIZE_ENUM(ScrabSpawnerStates, {
+    {ScrabSpawnerStates::eInactive_0, "inactive"},
+    {ScrabSpawnerStates::eScrabSpawned_1, "scrab_spawned"},
+})
+
+inline void to_json(nlohmann::json& j, const ScrabSpawnerSaveState& p)
+{
+    j = nlohmann::json{
+        {"type", p.field_0_type},
+        {"tlv_info", p.field_4_tlvInfo},
+        {"state", p.field_8_state},
+        {"spawned_scrab_id", p.field_C_spawned_scrab_id},
+    };
+}
+
+inline void from_json(const nlohmann::json& j, ScrabSpawnerSaveState& p)
+{
+    j.at("type").get_to(p.field_0_type);
+    j.at("tlv_info").get_to(p.field_4_tlvInfo);
+    j.at("state").get_to(p.field_8_state);
+    j.at("spawned_scrab_id").get_to(p.field_C_spawned_scrab_id);
+}
+
+inline void to_json(nlohmann::json& j, const SlamDoorSaveState& p)
+{
+    j = nlohmann::json{
+    {"tlv_info", p.mTlvInfo},
+    };
+}
+
+inline void from_json(const nlohmann::json& j, SlamDoorSaveState& p)
+{
+    j.at("tlv_info").get_to(p.mTlvInfo);
+}
+
+inline void to_json(nlohmann::json& j, const SligSaveState& p)
+{
+    j = nlohmann::json{
+        {"type", p.field_0_type},
+        {"xpos", p.field_4_xpos},
+        {"ypos", p.field_8_ypos},
+        {"velx", p.field_C_velx},
+        {"vely", p.field_10_vely},
+        {"path_number", p.field_14_path_number},
+        {"lvl_number", p.field_16_lvl_number},
+        {"sprite_scale", p.field_18_sprite_scale},
+        {"scale", p.field_1C_scale},
+        {"r", p.field_1E_r},
+        {"g", p.field_20_g},
+        {"b", p.field_22_b},
+        {"flipx", p.field_24_bFlipX},
+        {"field_26_current_motion", p.field_26_current_motion},
+        {"current_frame ", p.field_28_current_frame },
+        {"frame_change_counter", p.field_2A_frame_change_counter},
+        {"render", p.field_2C_bRender},
+        {"drawable", p.field_2D_bDrawable},
+        {"health", p.field_30_health},
+        {"field_34_current_motion", p.field_34_current_motion},
+        {"next_motion", p.field_36_next_motion},
+        {"last_line_ypos", p.field_38_last_line_ypos},
+        {"collision_line_type", p.field_3A_collision_line_type},
+        {"active_char", p.field_40_bActiveChar},
+        {"brain_sub_state", p.field_42_brain_sub_state},
+        {"pitch_min", p.field_44_pitch_min},
+        {"field_48_timer", p.field_48_timer},
+        {"return_to_previous_motion", p.field_4C_return_to_previous_motion},
+        {"checked_if_off_screen", p.field_4E_checked_if_off_screen},
+        {"input", p.field_50_input},
+        {"field_54_timer", p.field_54_timer},
+        {"falling_velx_scale_factor", p.field_58_falling_velx_scale_factor},
+        {"tlv_info", p.field_5C_tlvInfo},
+        {"res_idx", p.field_60_res_idx},
+        {"shot_motion", p.field_62_shot_motion},
+        {"zone_rect", p.field_64_zone_rect},
+        {"return_level", p.field_72_return_level},
+        {"return_path", p.field_74_return_path},
+        {"return_camera", p.field_76_return_camera},
+        {"death_by_being_shot_timer", p.field_78_death_by_being_shot_timer},
+        {"explode_timer", p.field_7C_explode_timer},
+        {"brain_state_idx", p.field_80_brain_state_idx},
+        {"num_times_to_shoot", p.field_8C_num_times_to_shoot},
+        {"force_alive_state", p.field_90_force_alive_state},
+        {"spotted_possessed_slig", p.field_92_spotted_possessed_slig},
+        {"glukkon_id", p.field_94_glukkon_id},
+        {"state_after_speak", p.field_98_state_after_speak},
+        {"attention_timeout", p.field_9A_attention_timeout},
+        {"next_command_arg1", p.field_9E_next_command_arg1},
+        {"cmd_idx", p.field_A0_cmd_idx},
+        {"flags", p.field_A2_flags.Raw().all},
+    };
+}
+
+inline void from_json(const nlohmann::json& j, SligSaveState& p)
+{
+    j.at("type").get_to(p.field_0_type);
+    j.at("xpos").get_to(p.field_4_xpos);
+    j.at("ypos").get_to(p.field_8_ypos);
+    j.at("velx").get_to(p.field_C_velx);
+    j.at("vely").get_to(p.field_10_vely);
+    j.at("path_number").get_to(p.field_14_path_number);
+    j.at("lvl_number").get_to(p.field_16_lvl_number);
+    j.at("sprite_scale").get_to(p.field_18_sprite_scale);
+    j.at("scale").get_to(p.field_1C_scale);
+    j.at("r").get_to(p.field_1E_r);
+    j.at("g").get_to(p.field_20_g);
+    j.at("b").get_to(p.field_22_b);
+    j.at("flipx").get_to(p.field_24_bFlipX);
+    j.at("field_26_current_motion").get_to(p.field_26_current_motion);
+    j.at("current_frame ").get_to(p.field_28_current_frame);
+    j.at("frame_change_counter").get_to(p.field_2A_frame_change_counter);
+    j.at("render").get_to(p.field_2C_bRender);
+    j.at("drawable").get_to(p.field_2D_bDrawable);
+    j.at("health").get_to(p.field_30_health);
+    j.at("field_34_current_motion").get_to(p.field_34_current_motion);
+    j.at("next_motion").get_to(p.field_36_next_motion);
+    j.at("last_line_ypos").get_to(p.field_38_last_line_ypos);
+    j.at("collision_line_type").get_to(p.field_3A_collision_line_type);
+    j.at("active_char").get_to(p.field_40_bActiveChar);
+    j.at("brain_sub_state").get_to(p.field_42_brain_sub_state);
+    j.at("pitch_min").get_to(p.field_44_pitch_min);
+    j.at("field_48_timer").get_to(p.field_48_timer);
+    j.at("return_to_previous_motion").get_to(p.field_4C_return_to_previous_motion);
+    j.at("checked_if_off_screen").get_to(p.field_4E_checked_if_off_screen);
+    j.at("input").get_to(p.field_50_input);
+    j.at("field_54_timer").get_to(p.field_54_timer);
+    j.at("falling_velx_scale_factor").get_to(p.field_58_falling_velx_scale_factor);
+    j.at("tlv_info").get_to(p.field_5C_tlvInfo);
+    j.at("res_idx").get_to(p.field_60_res_idx);
+    j.at("shot_motion").get_to(p.field_62_shot_motion);
+    j.at("zone_rect").get_to(p.field_64_zone_rect);
+    j.at("return_level").get_to(p.field_72_return_level);
+    j.at("return_path").get_to(p.field_74_return_path);
+    j.at("return_camera").get_to(p.field_76_return_camera);
+    j.at("death_by_being_shot_timer").get_to(p.field_78_death_by_being_shot_timer);
+    j.at("explode_timer").get_to(p.field_7C_explode_timer);
+    j.at("brain_state_idx").get_to(p.field_80_brain_state_idx);
+    j.at("num_times_to_shoot").get_to(p.field_8C_num_times_to_shoot);
+    j.at("force_alive_state").get_to(p.field_90_force_alive_state);
+    j.at("spotted_possessed_slig").get_to(p.field_92_spotted_possessed_slig);
+    j.at("glukkon_id").get_to(p.field_94_glukkon_id);
+    j.at("state_after_speak").get_to(p.field_98_state_after_speak);
+    j.at("attention_timeout").get_to(p.field_9A_attention_timeout);
+    j.at("next_command_arg1").get_to(p.field_9E_next_command_arg1);
+    j.at("cmd_idx").get_to(p.field_A0_cmd_idx);
+    j.at("flags").get_to(p.field_A2_flags.Raw().all);
+}
+
+inline void to_json(nlohmann::json& j, const SlogSaveState& p)
+{
+    j = nlohmann::json{
+        {"type", p.field_0_type},
+        {"object_id", p.field_4_objectId},
+        {"xpos", p.field_8_xpos},
+        {"ypos", p.field_C_ypos},
+        {"velx", p.field_10_velx},
+        {"vely", p.field_14_vely},
+        {"path_number", p.field_18_path_number},
+        {"lvl_number", p.field_1A_lvl_number},
+        {"sprite_scale", p.field_1C_sprite_scale},
+        {"ring_red", p.mRingRed},
+        {"ring_green", p.mRingGreen},
+        {"ring_blue", p.mRingBlue},
+        {"anim_flipX", p.field_26_bAnimFlipX},
+        {"field_28_current_motion", p.field_28_current_motion},
+        {"anim_cur_frame", p.field_2A_anim_cur_frame},
+        {"frame_change_counter", p.field_2C_frame_change_counter},
+        {"ender", p.field_2E_bRender},
+        {"rawable", p.field_2F_bDrawable},
+        {"health", p.field_30_health},
+        {"field_34_current_motion", p.field_34_current_motion},
+        {"next_motion", p.field_36_next_motion},
+        {"last_line_ypos", p.field_38_last_line_ypos},
+        {"line_type", p.field_3A_line_type},
+        {"id", p.field_3C_id},
+        {"tlv_info", p.field_40_tlvInfo},
+        {"obj_id", p.field_44_obj_id},
+        {"state_idx", p.field_48_state_idx},
+        {"brain_state_result", p.field_4A_brain_state_result},
+        {"field_4C_timer", p.field_4C_timer},
+        {"falling_velx_scale_factor", p.field_50_falling_velx_scale_factor},
+        {"obj_id", p.field_54_obj_id},
+        {"has_woofed", p.field_58_has_woofed},
+        {"waiting_counter", p.field_5A_waiting_counter},
+        {"response_index", p.field_5C_response_index},
+        {"response_part", p.field_5E_response_part},
+        {"anger_level", p.field_60_anger_level},
+        {"jump_counter", p.field_62_jump_counter},
+        {"scratch_timer", p.field_64_scratch_timer},
+        {"growl_timer", p.field_68_growl_timer},
+        {"bone_id", p.field_6C_bone_id},
+        {"jump_delay", p.field_70_jump_delay},
+        {"slog_random_index", p.field_72_slog_random_index},
+        {"flags", p.field_74_flags.Raw().all},
+    };
+}
+
+inline void from_json(const nlohmann::json& j, SlogSaveState& p)
+{
+
+    j.at("type").get_to(p.field_0_type);
+    j.at("object_id").get_to(p.field_4_objectId);
+    j.at("xpos").get_to(p.field_8_xpos);
+    j.at("ypos").get_to(p.field_C_ypos);
+    j.at("velx").get_to(p.field_10_velx);
+    j.at("vely").get_to(p.field_14_vely);
+    j.at("path_number").get_to(p.field_18_path_number);
+    j.at("lvl_number").get_to(p.field_1A_lvl_number);
+    j.at("sprite_scale").get_to(p.field_1C_sprite_scale);
+    j.at("ring_red").get_to(p.mRingRed);
+    j.at("ring_green").get_to(p.mRingGreen);
+    j.at("ring_blue").get_to(p.mRingBlue);
+    j.at("anim_flipX").get_to(p.field_26_bAnimFlipX);
+    j.at("field_28_current_motion").get_to(p.field_28_current_motion);
+    j.at("anim_cur_frame").get_to(p.field_2A_anim_cur_frame);
+    j.at("frame_change_counter").get_to(p.field_2C_frame_change_counter);
+    j.at("ender").get_to(p.field_2E_bRender);
+    j.at("rawable").get_to(p.field_2F_bDrawable);
+    j.at("health").get_to(p.field_30_health);
+    j.at("field_34_current_motion").get_to(p.field_34_current_motion);
+    j.at("next_motion").get_to(p.field_36_next_motion);
+    j.at("last_line_ypos").get_to(p.field_38_last_line_ypos);
+    j.at("line_type").get_to(p.field_3A_line_type);
+    j.at("id").get_to(p.field_3C_id);
+    j.at("tlv_info").get_to(p.field_40_tlvInfo);
+    j.at("obj_id").get_to(p.field_44_obj_id);
+    j.at("state_idx").get_to(p.field_48_state_idx);
+    j.at("brain_state_result").get_to(p.field_4A_brain_state_result);
+    j.at("timer").get_to(p.field_4C_timer);
+    j.at("falling_velx_scale_factor").get_to(p.field_50_falling_velx_scale_factor);
+    j.at("obj_id").get_to(p.field_54_obj_id);
+    j.at("has_woofed").get_to(p.field_58_has_woofed);
+    j.at("waiting_counter").get_to(p.field_5A_waiting_counter);
+    j.at("response_index").get_to(p.field_5C_response_index);
+    j.at("response_part").get_to(p.field_5E_response_part);
+    j.at("anger_level").get_to(p.field_60_anger_level);
+    j.at("jump_counter").get_to(p.field_62_jump_counter);
+    j.at("scratch_timer").get_to(p.field_64_scratch_timer);
+    j.at("growl_timer").get_to(p.field_68_growl_timer);
+    j.at("bone_id").get_to(p.field_6C_bone_id);
+    j.at("jump_delay").get_to(p.field_70_jump_delay);
+    j.at("slog_random_index").get_to(p.field_72_slog_random_index);
+    j.at("flags").get_to(p.field_74_flags.Raw().all);
+}
+
+NLOHMANN_JSON_SERIALIZE_ENUM(SlurgStates, {
+    {SlurgStates::eMoving_0, "moving"},
+    {SlurgStates::ePausing_1, "pausing"},
+    {SlurgStates::eBurst_2, "burst"},
+})
+
+inline void to_json(nlohmann::json& j, const SlurgSaveState& p)
+{
+    j = nlohmann::json{
+        {"type", p.mType},
+        {"xpos", p.mXPos},
+        {"ypos", p.mYPos},
+        {"velx", p.mVelX},
+        {"slurg_sprite_scale", p.mSlurgSpriteScale},
+        {"flipx", p.mFlipX},
+        {"current_motion", p.mCurrentMotion},
+        {"anim_current_frame", p.mAnimCurrentFrame},
+        {"frame_change_counter", p.mFrameChangeCounter},
+        {"drawable", p.mDrawable},
+        {"render", p.mRender},
+        {"tlv_info", p.mTlvInfo},
+        {"slurg_state", p.mSlurgState},
+        {"going_right", p.mGoingRight},
+        {"moving", p.mMoving},
+    };
+}
+
+inline void from_json(const nlohmann::json& j, SlurgSaveState& p)
+{
+    j.at("type").get_to(p.mType);
+    j.at("xpos").get_to(p.mXPos);
+    j.at("ypos").get_to(p.mYPos);
+    j.at("velx").get_to(p.mVelX);
+    j.at("slurg_sprite_scale").get_to(p.mSlurgSpriteScale);
+    j.at("flipx").get_to(p.mFlipX);
+    j.at("current_motion").get_to(p.mCurrentMotion);
+    j.at("anim_current_frame").get_to(p.mAnimCurrentFrame);
+    j.at("frame_change_counter").get_to(p.mFrameChangeCounter);
+    j.at("drawable").get_to(p.mDrawable);
+    j.at("render").get_to(p.mRender);
+    j.at("tlv_info").get_to(p.mTlvInfo);
+    j.at("slurg_state").get_to(p.mSlurgState);
+    j.at("going_right").get_to(p.mGoingRight);
+    j.at("moving").get_to(p.mMoving);
+}
+
+NLOHMANN_JSON_SERIALIZE_ENUM(TimerTriggerStates, {
+    {TimerTriggerStates::eWaitForEnabled_0, "wait_for_enabled"},
+    {TimerTriggerStates::eWaitForFirstTrigger_1, "wait_for_first_trigger"},
+    {TimerTriggerStates::eCheckForStartAgain_2, "check_for_start_again"},
+    {TimerTriggerStates::eWaitForSecondTrigger_3, "wait_for_second_trigger"},
+})
+
+inline void to_json(nlohmann::json& j, const TimerTriggerSaveState& p)
+{
+    j = nlohmann::json{
+        {"type", p.field_0_type},
+        {"tlv_info", p.field_4_tlvInfo},
+        {"delay_timer_base", p.field_8_delay_timer_base},
+        {"state", p.field_C_state},
+        {"starting_switch_state", p.field_E_starting_switch_state},
+    };
+}
+
+inline void from_json(const nlohmann::json& j, TimerTriggerSaveState& p)
+{
+    j.at("type").get_to(p.field_0_type);
+    j.at("tlv_info").get_to(p.field_4_tlvInfo);
+    j.at("delay_timer_base").get_to(p.field_8_delay_timer_base);
+    j.at("state").get_to(p.field_C_state);
+    j.at("starting_switch_state").get_to(p.field_E_starting_switch_state);
+}
+
+NLOHMANN_JSON_SERIALIZE_ENUM(TrapDoorState, {
+    {TrapDoorState::eClosed_0, "closed"},
+    {TrapDoorState::eOpening_1, "opening"},
+    {TrapDoorState::eOpen_2, "open"},
+    {TrapDoorState::eClosing_3, "closing"},
+})
+
+inline void to_json(nlohmann::json& j, const TrapDoorSaveState& p)
+{
+    j = nlohmann::json{
+        {"type", p.field_0_type},
+        {"state", p.field_2_state},
+        {"open_time", p.field_4_open_time},
+        {"tlv_info", p.field_8_tlvInfo},
+    };
+}
+
+inline void from_json(const nlohmann::json& j, TrapDoorSaveState& p)
+{
+    j.at("type").get_to(p.field_0_type);
+    j.at("state").get_to(p.field_2_state);
+    j.at("open_time").get_to(p.field_4_open_time);
+    j.at("tlv_info").get_to(p.field_8_tlvInfo);
+}
+
+NLOHMANN_JSON_SERIALIZE_ENUM(UXBState, {
+    {UXBState::eDelay, "delay"},
+    {UXBState::eActive, "active"},
+    {UXBState::eExploding, "exploding"},
+    {UXBState::eDeactivated, "deactivated"},
+})
+
+inline void to_json(nlohmann::json& j, const UXBSaveState& p)
+{
+    j = nlohmann::json{
+        {"type", p.mType},
+        {"tlv_info", p.mTlvInfo},
+        {"next_state_timer", p.mNextStateTimer},
+        {"current_state", p.mCurrentState},
+        {"starting_state", p.mStartingState},
+        {"pattern_index", p.mPatternIndex},
+        {"red_blink_count", p.mRedBlinkCount},
+        {"is_red", p.mIsRed},
+    };
+}
+
+inline void from_json(const nlohmann::json& j, UXBSaveState& p)
+{
+    j.at("type").get_to(p.mType);
+    j.at("tlv_info").get_to(p.mTlvInfo);
+    j.at("next_state_timer").get_to(p.mNextStateTimer);
+    j.at("current_state").get_to(p.mCurrentState);
+    j.at("starting_state").get_to(p.mStartingState);
+    j.at("pattern_index").get_to(p.mPatternIndex);
+    j.at("red_blink_count").get_to(p.mRedBlinkCount);
+    j.at("is_red").get_to(p.mIsRed);
+}
+
+NLOHMANN_JSON_SERIALIZE_ENUM(WheelStates, {
+    {WheelStates::eIdle_0, "idle"},
+    {WheelStates::eTurning_1, "turning"},
+})
+
+inline void to_json(nlohmann::json& j, const WorkWheelSaveState& p)
+{
+    j = nlohmann::json{
+        {"type", p.mType},
+        {"tlv_info", p.field_4_tlvInfo},
+        {"snd_counter", p.field_8_snd_counter},
+        {"state", p.field_C_state},
+    };
+}
+
+inline void from_json(const nlohmann::json& j, WorkWheelSaveState& p)
+{
+    j.at("type").get_to(p.mType);
+    j.at("tlv_info").get_to(p.field_4_tlvInfo);
+    j.at("snd_counter").get_to(p.field_8_snd_counter);
+    j.at("state").get_to(p.field_C_state);
 }
