@@ -24,6 +24,9 @@
 #define GL_FRAMEBUFFER_PSX_WIDTH 640
 #define GL_FRAMEBUFFER_PSX_HEIGHT 240
 
+#define GL_FRAMEBUFFER_FILTER_WIDTH 640
+#define GL_FRAMEBUFFER_FILTER_HEIGHT 480
+
 #define GL_AVAILABLE_PALETTES 256
 #define GL_PALETTE_DEPTH 256
 
@@ -130,12 +133,16 @@ private:
     // ROZZA STUFF
 
     GLShader mPassthruShader = {};
+    GLShader mPassthruFilterShader = {};
     GLShader mPsxShader = {};
 
     GLuint mPsxFramebufferId = 0;
     GLuint mPsxFramebufferTexId = 0;
 
-    GLint mFramebufferFilter = GL_NEAREST;
+    GLuint mFilterFramebufferId = 0;
+    GLuint mFilterFramebufferTexId = 0;
+
+    bool mFramebufferFilter = true;
     bool mKeepAspectRatio = true;
     s32 mOffsetX = 0;
     s32 mOffsetY = 0;
@@ -162,6 +169,7 @@ private:
     GLint mTextureUnits[GL_USE_NUM_TEXTURE_UNITS];
 
     GLuint CreateCachedTexture(u32 uniqueId, u32 lifetime);
+    void CreateFramebuffer(GLuint* outFramebufferId, GLuint* outTextureId, s32 width, s32 height);
     void DecreaseResourceLifetimes();
     void DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height);
     GLuint GetCachedTextureId(u32 uniqueId, s32 bump = 0);
@@ -171,6 +179,7 @@ private:
     void PushLines(VertexData* vertices, int count);
     void PushVertexData(VertexData* pVertData, int count, GLuint textureId = 0);
     void SetupBlendMode(u16 blendMode);
+    void UpdateFilterFramebuffer();
     
     u32 PreparePalette(AnimationPal& pCache);
     u32 HashPalette(const AnimationPal* pPal);

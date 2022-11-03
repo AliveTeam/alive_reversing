@@ -377,9 +377,9 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
     // We should attempt to load OpenGL 3.2 first, because this is the minimum
     // required version for RenderDoc captures so we can actually debug stuff
     const char_type* glslVer150 = "#version 150";
-    const char_type* glsVer140 = "#version 140";
+    const char_type* glslVer140 = "#version 140";
 
-    bool glsVer150Supported = true;
+    bool glslVer150Supported = true;
 
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
@@ -394,7 +394,7 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
 
         // Our ACTUAL minimum OpenGL requirement is 3.1, though we will check
         // supported extensions on the GPU in a moment
-        glsVer150Supported = false;
+        glslVer150Supported = false;
 
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
@@ -437,40 +437,24 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
 
     // Setup IMGUI for texture debugging
     ImGui_ImplSDL2_InitForOpenGL(mWindow, mContext);
-    ImGui_ImplOpenGL3_Init(glsVer150Supported ? glslVer150 : glsVer140);
+    ImGui_ImplOpenGL3_Init(glslVer150Supported ? glslVer150 : glslVer140);
 
     // Create and bind the VAO, and never touch it again! Wahey.
     GL_VERIFY(glGenVertexArrays(1, &mVAO));
     GL_VERIFY(glBindVertexArray(mVAO));
 
-    //mTextureShader.LoadFromFile("shaders/texture.vsh", "shaders/texture.fsh");
-    mPsxShader.LoadSource(gShader_PsxVSH, gShader_PsxFSH);
-
-    // ROZZA Init passthru shader
+    // Load shaders
     mPassthruShader.LoadSource(gShader_PassthruVSH, gShader_PassthruFSH);
+    mPassthruFilterShader.LoadSource(gShader_PassthruVSH, gShader_PassthruFilterFSH);
+    mPsxShader.LoadSource(gShader_PsxVSH, gShader_PsxFSH);
 
     // ROZZA Blending
     GL_VERIFY(glEnable(GL_BLEND));
     GL_VERIFY(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 
-    // ROZZA Init framebuffer for render to texture
-    GL_VERIFY(glGenFramebuffers(1, &mPsxFramebufferId));
-    GL_VERIFY(glGenTextures(1, &mPsxFramebufferTexId));
-
-    // Texture init
-    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mPsxFramebufferTexId));
-
-    GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 640, 240, 0, GL_RGB, GL_UNSIGNED_BYTE, 0));
-
-    GL_VERIFY(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST));
-    GL_VERIFY(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST));
-
-    // Framebuffer init
-    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId));
-    GL_VERIFY(glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, mPsxFramebufferId, 0));
-
-    GLenum fbTargets[1] = {GL_COLOR_ATTACHMENT0};
-    GL_VERIFY(glDrawBuffers(1, fbTargets));
+    // Init framebuffers
+    CreateFramebuffer(&mPsxFramebufferId, &mPsxFramebufferTexId, GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT);
+    CreateFramebuffer(&mFilterFramebufferId, &mFilterFramebufferTexId, GL_FRAMEBUFFER_FILTER_WIDTH, GL_FRAMEBUFFER_FILTER_HEIGHT);
 
     // Init batch vectors
     mCurFG1TextureIds.reserve(4);
@@ -486,6 +470,30 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
     }
 
     return true;
+}
+
+void OpenGLRenderer::CreateFramebuffer(GLuint* outFramebufferId, GLuint* outTextureId, s32 width, s32 height)
+{
+    static const GLenum fbTargets[1] = {GL_COLOR_ATTACHMENT0};
+
+    // Create objects
+    GL_VERIFY(glGenFramebuffers(1, outFramebufferId));
+    GL_VERIFY(glGenTextures(1, outTextureId));
+
+    // Init texture
+    GL_VERIFY(glActiveTexture(GL_TEXTURE0));
+    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, *outTextureId));
+
+    GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, 0));
+
+    GL_VERIFY(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST));
+    GL_VERIFY(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST));
+
+    // Init framebuffer
+    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, *outFramebufferId));
+    GL_VERIFY(glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, *outTextureId, 0));
+
+    GL_VERIFY(glDrawBuffers(1, fbTargets));
 }
 
 void OpenGLRenderer::Destroy()
@@ -886,11 +894,6 @@ void OpenGLRenderer::EndFrame()
         return;
     }
 
-    // Adjust the viewport for the window rather than the PSX resolution
-    s32 wW, wH;
-    SDL_GL_GetDrawableSize(mWindow, &wW, &wH);
-    GL_VERIFY(glViewport(0, 0, wW, wH));
-
     // Draw the final composed framebuffer to the screen
     SDL_Rect drawRect = GetTargetDrawRect();
 
@@ -901,10 +904,9 @@ void OpenGLRenderer::EndFrame()
         drawRect.w,
         drawRect.h);
 
-    // Switch back to the main frame buffer
-    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, 0));
-
     // Do ImGui
+
+
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame(mWindow);
     ImGui::NewFrame();
@@ -923,6 +925,9 @@ void OpenGLRenderer::EndFrame()
     SDL_GL_SwapWindow(mWindow);
 
     mFrameStarted = false;
+
+    // Set the framebuffer target back to the PSX framebuffer
+    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId));
 }
 
 void OpenGLRenderer::OutputSize(s32* w, s32* h)
@@ -983,13 +988,7 @@ void OpenGLRenderer::StartFrame(s32 xOff, s32 yOff)
 
 void OpenGLRenderer::ToggleFilterScreen()
 {
-    mFramebufferFilter = mFramebufferFilter == GL_NEAREST ? GL_LINEAR : GL_NEAREST;
-
-    GL_VERIFY(glActiveTexture(GL_TEXTURE0));
-    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mPsxFramebufferTexId));
-
-    GL_VERIFY(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, mFramebufferFilter));
-    GL_VERIFY(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, mFramebufferFilter));
+    mFramebufferFilter = !mFramebufferFilter;
 }
 
 void OpenGLRenderer::ToggleKeepAspectRatio()
@@ -1025,9 +1024,29 @@ void OpenGLRenderer::DecreaseResourceLifetimes()
 
 void OpenGLRenderer::DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height)
 {
-    // Ensure blend mdoe is back to normal alpha compositing
+    // Ensure blend mode is back to normal alpha compositing
     GL_VERIFY(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
     GL_VERIFY(glBlendEquation(GL_FUNC_ADD));
+
+    // Set up the texture we're going to draw...
+    GLuint texId = 0;
+    f32 texWidth = 0;
+    f32 texHeight = 0;
+
+    if (mFramebufferFilter)
+    {
+        UpdateFilterFramebuffer();
+
+        texId = mFilterFramebufferTexId;
+        texWidth = GL_FRAMEBUFFER_FILTER_WIDTH;
+        texHeight = GL_FRAMEBUFFER_FILTER_HEIGHT;
+    }
+    else
+    {
+        texId = mPsxFramebufferTexId;
+        texWidth = GL_FRAMEBUFFER_PSX_WIDTH;
+        texHeight = GL_FRAMEBUFFER_PSX_HEIGHT;
+    }
 
     // Set up VBOs
     GLuint drawVboId = 0;
@@ -1042,13 +1061,13 @@ void OpenGLRenderer::DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height
         (f32) x, (f32) (y + height),
         (f32) (x + width), (f32) (y + height)};
     GLfloat uvVertices[] = {
-        0.0f, (f32) GL_FRAMEBUFFER_PSX_HEIGHT,
+        0.0f, texHeight,
         0.0f, 0.0f,
-        (f32) GL_FRAMEBUFFER_PSX_WIDTH, (f32) GL_FRAMEBUFFER_PSX_HEIGHT,
+        texWidth, texHeight,
 
-        (f32) GL_FRAMEBUFFER_PSX_WIDTH, (f32) GL_FRAMEBUFFER_PSX_HEIGHT,
+        texWidth, texHeight,
         0.0f, 0.0f,
-        (f32) GL_FRAMEBUFFER_PSX_WIDTH, 0.0f};
+        texWidth, 0.0f};
 
     GL_VERIFY(glGenBuffers(1, &drawVboId));
     GL_VERIFY(glBindBuffer(GL_ARRAY_BUFFER, drawVboId));
@@ -1075,14 +1094,16 @@ void OpenGLRenderer::DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height
 
     mPassthruShader.Use();
 
-    mPassthruShader.Uniform1i("TextureSampler", 0);
+    mPassthruShader.Uniform1i("texTextureData", 0);
     mPassthruShader.UniformVec2("vsViewportSize", (f32) viewportW, (f32) viewportH);
-    mPassthruShader.UniformVec2("vsTexSize", GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT);
+    mPassthruShader.UniformVec2("fsTexSize", texWidth, texHeight);
+
+    GL_VERIFY(glViewport(0, 0, viewportW, viewportH));
 
     GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, 0));
 
     GL_VERIFY(glActiveTexture(GL_TEXTURE0));
-    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mPsxFramebufferTexId));
+    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, texId));
 
     GL_VERIFY(glEnableVertexAttribArray(0));
     GL_VERIFY(glBindBuffer(GL_ARRAY_BUFFER, drawVboId));
@@ -1101,9 +1122,81 @@ void OpenGLRenderer::DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height
     GL_VERIFY(glDisableVertexAttribArray(1));
 
     mPassthruShader.UnUse();
+}
 
-    // Set the framebuffer target back to the PSX framebuffer
-    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId));
+void OpenGLRenderer::UpdateFilterFramebuffer()
+{
+    // Set up VBOs
+    static GLuint drawVboId = 0;
+    static GLuint uvVboId = 0;
+
+    if (drawVboId == 0)
+    {
+        GLfloat drawVertices[] = {
+            0.0f, 0.0f,
+            0.0f, GL_FRAMEBUFFER_FILTER_HEIGHT,
+            GL_FRAMEBUFFER_FILTER_WIDTH, 0.0,
+
+            GL_FRAMEBUFFER_FILTER_WIDTH, 0.0f,
+            0.0f, GL_FRAMEBUFFER_FILTER_HEIGHT,
+            GL_FRAMEBUFFER_FILTER_WIDTH, GL_FRAMEBUFFER_FILTER_HEIGHT};
+
+        GLfloat uvVertices[] = {
+            0.0f, GL_FRAMEBUFFER_PSX_HEIGHT,
+            0.0f, 0.0f,
+            GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT,
+
+            GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT,
+            0.0f, 0.0f,
+            GL_FRAMEBUFFER_PSX_WIDTH, 0.0f};
+
+        GL_VERIFY(glGenBuffers(1, &drawVboId));
+        GL_VERIFY(glBindBuffer(GL_ARRAY_BUFFER, drawVboId));
+        GL_VERIFY(
+            glBufferData(
+                GL_ARRAY_BUFFER,
+                sizeof(drawVertices),
+                drawVertices,
+                GL_STATIC_DRAW));
+
+        GL_VERIFY(glGenBuffers(1, &uvVboId));
+        GL_VERIFY(glBindBuffer(GL_ARRAY_BUFFER, uvVboId));
+        GL_VERIFY(
+            glBufferData(
+                GL_ARRAY_BUFFER,
+                sizeof(uvVertices),
+                uvVertices,
+                GL_STATIC_DRAW));
+    }
+
+    // Bind framebuffers and draw
+    mPassthruFilterShader.Use();
+
+    mPassthruFilterShader.Uniform1i("texTextureData", 0);
+    mPassthruFilterShader.UniformVec2("vsViewportSize", GL_FRAMEBUFFER_FILTER_WIDTH, GL_FRAMEBUFFER_FILTER_HEIGHT);
+    mPassthruFilterShader.UniformVec2("fsTexSize", GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT);
+
+    GL_VERIFY(glViewport(0, 0, GL_FRAMEBUFFER_FILTER_WIDTH, GL_FRAMEBUFFER_FILTER_HEIGHT));
+
+    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mFilterFramebufferId));
+
+    GL_VERIFY(glActiveTexture(GL_TEXTURE0));
+    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mPsxFramebufferTexId));
+
+    GL_VERIFY(glEnableVertexAttribArray(0));
+    GL_VERIFY(glBindBuffer(GL_ARRAY_BUFFER, drawVboId));
+    GL_VERIFY(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, 0));
+
+    GL_VERIFY(glEnableVertexAttribArray(1));
+    GL_VERIFY(glBindBuffer(GL_ARRAY_BUFFER, uvVboId));
+    GL_VERIFY(glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0));
+
+    GL_VERIFY(glDrawArrays(GL_TRIANGLES, 0, 6));
+
+    GL_VERIFY(glDisableVertexAttribArray(0));
+    GL_VERIFY(glDisableVertexAttribArray(1));
+
+    mPassthruFilterShader.UnUse();
 }
 
 SDL_Rect OpenGLRenderer::GetTargetDrawRect()

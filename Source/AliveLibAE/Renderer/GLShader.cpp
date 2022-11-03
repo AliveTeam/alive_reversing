@@ -236,7 +236,6 @@ layout (location = 1) in vec2 vsUV;
 out vec2 fsUV;
 
 uniform vec2 vsViewportSize;
-uniform vec2 vsTexSize;
 
 
 void main()
@@ -247,7 +246,7 @@ void main()
     gl_Position.w = 1.0;
 
     // Pass-thru
-    fsUV = vsUV / vsTexSize;
+    fsUV = vsUV;
 }
 )";
 
@@ -258,12 +257,92 @@ in vec2 fsUV;
 
 out vec4 outColor;
 
-uniform sampler2D TextureSampler;
+uniform vec2 fsTexSize;
+uniform sampler2D texTextureData;
 
 
 void main()
 {
-    outColor = texture(TextureSampler, fsUV);
+    vec2 scaledUV = fsUV / fsTexSize;
+
+    outColor = texture(texTextureData, scaledUV);
+}
+)";
+
+const char_type* gShader_PassthruFilterFSH = R"(
+#version 140
+
+in vec2 fsUV;
+
+out vec4 outColor;
+
+uniform vec2 fsTexSize;
+uniform sampler2D texTextureData;
+
+
+//
+// NOTE:
+//     Even though logically you would think to get RGB565
+//     we would scale by 31, 63, 31 - it looks more accurate
+//     to the original with 30, 62, 30...
+//
+int get565FromNormalized(in vec3 rgbInput)
+{
+    int rValue = int(ceil(rgbInput.r * 30f));
+    int gValue = int(ceil(rgbInput.g * 62f));
+    int bValue = int(ceil(rgbInput.b * 30f));
+
+    rValue = rValue << 11;
+    gValue = gValue << 5;
+
+    return rValue | gValue | bValue;
+}
+
+vec3 getNormalizedFrom565(in int rgbInput)
+{
+    float rValue = float((rgbInput >> 11) & 0x1F) / 30f;
+    float gValue = float((rgbInput >> 5) & 0x3F) / 62f;
+    float bValue = float(rgbInput & 0x1F) / 30f;
+
+    return vec3(rValue, gValue, bValue);
+}
+
+vec2 getScaledUV(in vec2 coord)
+{
+    return coord / fsTexSize;
+}
+
+void main()
+{
+    bool scanline = int(mod(gl_FragCoord.y, 2.0f)) > 0;
+
+    if (scanline)
+    {
+        vec4 aboveTexel = texture(texTextureData, getScaledUV(vec2(fsUV.x, fsUV.y + 1.0)));
+        vec4 belowTexel = texture(texTextureData, getScaledUV(fsUV));
+
+        int aboveTexel565 = get565FromNormalized(aboveTexel.rgb);
+        int belowTexel565 = get565FromNormalized(belowTexel.rgb);
+
+        // Do the bit rotation stuff
+        int pixelResult =
+            (((aboveTexel565 & 0xF7DE) + (belowTexel565 & 0xF7DE)) >> 1) |
+            (aboveTexel565 & 0xF7DE, belowTexel565 & 0xF7DE) << 15;
+
+        pixelResult = pixelResult & 0xFFFF;
+
+        outColor = vec4(getNormalizedFrom565(pixelResult), 1.0);
+    }
+    else
+    {
+        vec4 texel = texture(texTextureData, getScaledUV(fsUV));
+
+        outColor =
+           vec4(
+               getNormalizedFrom565(get565FromNormalized(texel.rgb)),
+               1.0
+           );
+    }
 }
 )";
 

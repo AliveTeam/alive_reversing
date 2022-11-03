@@ -1,8 +1,17 @@
 #pragma once
 
 #include "RoundUp.hpp"
+#include <algorithm>
 #include <type_traits>
 #include <memory>
+
+#if !WIN32
+
+#include <dirent.h>
+#include <libgen.h>
+#include <sys/types.h>
+
+#endif
 
 namespace ReliveAPI {
 
@@ -79,24 +88,49 @@ class File : public IFile
 public:
     File(const std::string& fileName, IFileIO::Mode mode)
     {
-        switch (mode)
+        TryOpen(fileName, mode);
+
+#if !WIN32
+        if (mFileHandle == NULL)
         {
-            case IFileIO::Mode::Write:
-                mFileHandle = ::fopen(fileName.c_str(), "w");
-                break;
+            // On non-Windows systems, we should make an attempt to locate the file
+            // in a case-insensitive way
+            struct dirent* entry;
+            char* fileNameC = ::strdup(fileName.c_str());
+            std::string lowerFileName;
+            DIR* searchDir;
+            const char* searchPath = ::dirname(fileNameC);
 
-            case IFileIO::Mode::Read:
-                mFileHandle = ::fopen(fileName.c_str(), "r");
-                break;
+            lowerFileName.resize(fileName.size());
 
-            case IFileIO::Mode::ReadBinary:
-                mFileHandle = ::fopen(fileName.c_str(), "rb");
-                break;
+            std::transform(fileName.begin(), fileName.end(), lowerFileName.begin(), ::tolower);
 
-            case IFileIO::Mode::WriteBinary:
-                mFileHandle = ::fopen(fileName.c_str(), "wb");
-                break;
+            searchDir = ::opendir(searchPath);
+
+            if (searchDir == NULL)
+            {
+                return;
+            }
+
+            while ((entry = ::readdir(searchDir)) != NULL)
+            {
+                std::string entryName(entry->d_name);
+                std::string lowerEntryName;
+
+                lowerEntryName.resize(entryName.size());
+
+                std::transform(entryName.begin(), entryName.end(), lowerEntryName.begin(), ::tolower);
+
+                if (lowerFileName == lowerEntryName)
+                {
+                    TryOpen(lowerFileName, mode);
+                }
+            }
+
+            ::free(fileNameC);
+            ::closedir(searchDir);
         }
+#endif
     }
 
     ~File() override
@@ -170,6 +204,28 @@ public:
 
 private:
     FILE* mFileHandle = nullptr;
+
+    void TryOpen(const std::string& path, IFileIO::Mode mode)
+    {
+        switch (mode)
+        {
+            case IFileIO::Mode::Write:
+                mFileHandle = ::fopen(path.c_str(), "w");
+                break;
+
+            case IFileIO::Mode::Read:
+                mFileHandle = ::fopen(path.c_str(), "r");
+                break;
+
+            case IFileIO::Mode::ReadBinary:
+                mFileHandle = ::fopen(path.c_str(), "rb");
+                break;
+
+            case IFileIO::Mode::WriteBinary:
+                mFileHandle = ::fopen(path.c_str(), "wb");
+                break;
+        }
+    }
 };
 
 class FileIO final : public IFileIO
