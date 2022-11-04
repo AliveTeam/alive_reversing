@@ -17,10 +17,10 @@ struct DrillSaveState final
     ReliveTypes mType;
     s16 field_2_padding;
     s32 field_4_padding;
-    Guid field_8_tlvInfo;
-    s32 field_C_off_timer;
-    DrillStates field_10_state;
-    s16 field_12_xyoff;
+    Guid mDrillTlvId;
+    s32 mOffTimer;
+    DrillStates mState;
+    s16 mXYOff;
 };
 
 class Drill final : public ::BaseAnimatedWithPhysicsGameObject
@@ -43,7 +43,7 @@ private:
     s16 DamageTouchingObjects();
 
 private:
-    DrillStates mDrillState = DrillStates::State_0_Restart_Cycle;
+    DrillStates mState = DrillStates::State_0_Restart_Cycle;
     s16 mDrillDistance = 0;
     s16 mDrillSwitchId = 0;
     relive::Path_Drill::DrillDirection mDrillDirection = relive::Path_Drill::DrillDirection::eDown;
@@ -59,7 +59,7 @@ private:
     FP mInitialSpeed = {};
     FP mCurrentSpeed = {};
     FP mOffSpeed = {};
-    FP field_124_xyoff = {};
+    FP mXYOff = {};
     enum Flags
     {
         eBit1_StartOff = 0x1,

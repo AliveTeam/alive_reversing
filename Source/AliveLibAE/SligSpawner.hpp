@@ -15,7 +15,7 @@ struct SligSpawnerSaveState final
 {
     ReliveTypes mType;
     s16 padding1;
-    Guid mTlvInfo;
+    Guid mTlvId;
     SpawnerStates mState;
     s16 padding2;
     Guid mSpawnedSligId;

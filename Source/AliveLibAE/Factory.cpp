@@ -1469,12 +1469,12 @@ static void Factory_ExplosionSet(relive::Path_TLV* pTlv, Path*, const Guid& tlvI
     }
     else
     {
-        if (!pExplosionSet_5BBF68)
+        if (!gExplosionSet)
         {
             // pExplosionSet_5BBF68 is assigned in the ctor (OWI programming)
             relive_new ExplosionSet();
         }
-        pExplosionSet_5BBF68->Init(static_cast<relive::Path_ExplosionSet*>(pTlv));
+        gExplosionSet->Init(static_cast<relive::Path_ExplosionSet*>(pTlv));
         Path::TLV_Reset(tlvId, -1, 0, 0);
     }
 }

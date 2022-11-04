@@ -139,7 +139,7 @@ s32 EvilFart::VGetSaveState(u8* pSaveBuffer)
 {
     auto pState = reinterpret_cast<EvilFartSaveState*>(pSaveBuffer);
 
-    pState->field_0_type = ReliveTypes::eEvilFart;
+    pState->mType = ReliveTypes::eEvilFart;
 
     pState->mXPos = mXPos;
     pState->mYPos = mYPos;

@@ -89,17 +89,17 @@ s32 WorkWheel::CreateFromSaveState(const u8* pState)
 {
     const WorkWheelSaveState* pData = reinterpret_cast<const WorkWheelSaveState*>(pState);
 
-    relive::Path_WorkWheel* pTlv = static_cast<relive::Path_WorkWheel*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pData->field_4_tlvInfo));
+    relive::Path_WorkWheel* pTlv = static_cast<relive::Path_WorkWheel*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pData->mTlvId));
 
-    auto pWheel = relive_new WorkWheel(pTlv, pData->field_4_tlvInfo);
+    auto pWheel = relive_new WorkWheel(pTlv, pData->mTlvId);
     if (pWheel)
     {
-        if (pData->field_C_state == WheelStates::eTurning_1)
+        if (pData->mState == WheelStates::eTurning_1)
         {
             pWheel->VStartTurning();
         }
 
-        pWheel->mTurningTime = pData->field_8_snd_counter;
+        pWheel->mTurningTime = pData->mTurningTime;
     }
     return sizeof(WorkWheelSaveState);
 }
@@ -109,9 +109,9 @@ s32 WorkWheel::VGetSaveState(u8* pSaveBuffer)
     auto pState = reinterpret_cast<WorkWheelSaveState*>(pSaveBuffer);
 
     pState->mType = ReliveTypes::eWorkWheel;
-    pState->field_4_tlvInfo = mTlvInfo;
-    pState->field_8_snd_counter = mTurningTime;
-    pState->field_C_state = mState;
+    pState->mTlvId = mTlvInfo;
+    pState->mTurningTime = mTurningTime;
+    pState->mState = mState;
     return sizeof(WorkWheelSaveState);
 }
 

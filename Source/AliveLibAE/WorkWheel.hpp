@@ -14,10 +14,10 @@ struct WorkWheelSaveState final
 {
     ReliveTypes mType;
     s16 padding_1;
-    Guid field_4_tlvInfo;
-    s16 field_8_snd_counter;
+    Guid mTlvId;
+    s16 mTurningTime;
     s16 padding_2;
-    WheelStates field_C_state;
+    WheelStates mState;
     s16 padding_3;
 };
 

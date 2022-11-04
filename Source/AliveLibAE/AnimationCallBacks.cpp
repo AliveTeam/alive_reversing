@@ -157,7 +157,7 @@ void Animation_OnFrame_FlyingSlig(BaseGameObject* pObjPtr, u32&, const IndexedPo
 void Animation_OnFrame_Slog_4C3030(BaseGameObject* pObjPtr, u32&, const IndexedPoint& point)
 {
     auto pSlog = static_cast<Slog*>(pObjPtr);
-    auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(pSlog->field_118_target_id));
+    auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(pSlog->mTargetId));
     if (!pTarget)
     {
         return;

@@ -10,7 +10,7 @@
 #include "FallingItem.hpp"
 #include "Grid.hpp"
 
-ExplosionSet* pExplosionSet_5BBF68 = nullptr;
+ExplosionSet* gExplosionSet = nullptr;
 bool gExplosionSetEnabled = false;
 
 ExplosionSet::ExplosionSet()
@@ -18,13 +18,13 @@ ExplosionSet::ExplosionSet()
 {
     SetType(ReliveTypes::eExplosionSet);
 
-    if (pExplosionSet_5BBF68)
+    if (gExplosionSet)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
     else
     {
-        pExplosionSet_5BBF68 = this;
+        gExplosionSet = this;
         mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
         field_50_scale = FP_FromInteger(1);
         field_40 = 0;
@@ -75,7 +75,7 @@ void ExplosionSet::Init(relive::Path_ExplosionSet* pTlv)
 ExplosionSet::~ExplosionSet()
 {
     gObjListDrawables->Remove_Item(this);
-    pExplosionSet_5BBF68 = nullptr;
+    gExplosionSet = nullptr;
 }
 
 void ExplosionSet::VScreenChanged()

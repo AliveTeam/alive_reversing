@@ -23,10 +23,10 @@ enum class LiftMoverStates : s16
 
 struct LiftMoverSaveState final
 {
-    ReliveTypes field_0_type_id; // never read?
+    ReliveTypes mType; // never read?
     s16 field_2_padding;
-    Guid field_4_tlvInfo;
-    LiftMoverStates field_8_state;
+    Guid mTlvId;
+    LiftMoverStates mState;
 };
 
 class LiftMover final : public BaseGameObject
@@ -44,11 +44,11 @@ private:
     LiftPoint* GetLiftPoint();
 
 private:
-    s16 field_20_lift_mover_switch_id = 0;
-    s16 field_22_target_lift_point_id = 0;
-    Guid field_24_tlvInfo;
-    Guid field_28_lift_id;
-    FP field_2C_speed = {};
-    LiftMoverStates field_30_state = LiftMoverStates::eInactive_0;
+    s16 mLiftMoverSwitchId = 0;
+    s16 mTargetLiftPointId = 0;
+    Guid mTlvId;
+    Guid mTargetLiftId;
+    FP mLiftSpeed = {};
+    LiftMoverStates mState = LiftMoverStates::eInactive_0;
     s16 field_32_bMoveInProgress = 0;
 };

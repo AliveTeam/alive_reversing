@@ -216,7 +216,7 @@ void ColourfulMeter::VRender(PrimHeader** ppOt)
     if (gbDrawMeterCountDown_5C1BF8)
     {
         char_type text[12] = {};
-        sprintf(text, "%01d:%02d", sTimerValue_5C1BFC / 1800u, sTimerValue_5C1BFC / 30u % 60);
+        sprintf(text, "%01d:%02d", gExplosionTimer / 1800u, gExplosionTimer / 30u % 60);
         const s32 textWidth = mFont.MeasureTextWidth(text);
 
         s16 colourRand = 50;

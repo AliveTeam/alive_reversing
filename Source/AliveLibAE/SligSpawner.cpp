@@ -125,7 +125,7 @@ s32 SligSpawner::VGetSaveState(u8* pSaveBuffer)
     auto pState = reinterpret_cast<SligSpawnerSaveState*>(pSaveBuffer);
 
     pState->mType = ReliveTypes::eSligSpawner;
-    pState->mTlvInfo = mTlvInfo;
+    pState->mTlvId = mTlvInfo;
     pState->mState = mState;
     pState->mSpawnedSligId = Guid{};
     if (mSpawnedSligId == Guid{})
@@ -144,8 +144,8 @@ s32 SligSpawner::VGetSaveState(u8* pSaveBuffer)
 s32 SligSpawner::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const SligSpawnerSaveState*>(pBuffer);
-    auto pTlv = static_cast<relive::Path_Slig*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvInfo));
-    auto pSpawner = relive_new SligSpawner(pTlv, pState->mTlvInfo);
+    auto pTlv = static_cast<relive::Path_Slig*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvId));
+    auto pSpawner = relive_new SligSpawner(pTlv, pState->mTlvId);
     if (pSpawner)
     {
         pSpawner->mState = pState->mState;

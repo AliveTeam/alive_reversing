@@ -97,13 +97,13 @@ s32 TimerTrigger::CreateFromSaveState(const u8* pData)
 {
     auto pState = reinterpret_cast<const TimerTriggerSaveState*>(pData);
 
-    relive::Path_TimerTrigger* pTlv = static_cast<relive::Path_TimerTrigger*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_4_tlvInfo));
-    auto pTimerTrigger = relive_new TimerTrigger(pTlv, pState->field_4_tlvInfo);
+    relive::Path_TimerTrigger* pTlv = static_cast<relive::Path_TimerTrigger*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvId));
+    auto pTimerTrigger = relive_new TimerTrigger(pTlv, pState->mTlvId);
     if (pTimerTrigger)
     {
-        pTimerTrigger->mState = pState->field_C_state;
-        pTimerTrigger->mActivationDelayTimer = sGnFrame + pState->field_8_delay_timer_base;
-        pTimerTrigger->mStartingSwitchState = pState->field_E_starting_switch_state;
+        pTimerTrigger->mState = pState->mState;
+        pTimerTrigger->mActivationDelayTimer = sGnFrame + pState->mActivationDelayTimer;
+        pTimerTrigger->mStartingSwitchState = pState->mStartingSwitchState;
     }
     return sizeof(TimerTriggerSaveState);
 }
@@ -112,10 +112,10 @@ s32 TimerTrigger::VGetSaveState(u8* pSaveBuffer)
 {
     auto pState = reinterpret_cast<TimerTriggerSaveState*>(pSaveBuffer);
 
-    pState->field_0_type = ReliveTypes::eTimerTrigger;
-    pState->field_4_tlvInfo = mTlvInfo;
-    pState->field_C_state = mState;
-    pState->field_8_delay_timer_base = mActivationDelayTimer - sGnFrame;
-    pState->field_E_starting_switch_state = mStartingSwitchState;
+    pState->mType = ReliveTypes::eTimerTrigger;
+    pState->mTlvId = mTlvInfo;
+    pState->mState = mState;
+    pState->mActivationDelayTimer = mActivationDelayTimer - sGnFrame;
+    pState->mStartingSwitchState = mStartingSwitchState;
     return sizeof(TimerTriggerSaveState);
 }

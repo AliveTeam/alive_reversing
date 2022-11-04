@@ -7,12 +7,12 @@
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
 
-s32 bCreated_5BC030 = false;
-s32 sTimerValue_5C1BFC = 0;
+static bool sAlarmExists = false;
+s32 gExplosionTimer = 0;
 
 void MinesAlarm::Create(s32 timer)
 {
-    if (!bCreated_5BC030)
+    if (!sAlarmExists)
     {
         relive_new MinesAlarm(timer);
     }
@@ -21,7 +21,7 @@ void MinesAlarm::Create(s32 timer)
 s32 MinesAlarm::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const MinesAlarmSaveState*>(pBuffer);
-    relive_new MinesAlarm(pState->field_4_timer);
+    relive_new MinesAlarm(pState->mExplosionTimer);
     return sizeof(MinesAlarmSaveState);
 }
 
@@ -29,22 +29,22 @@ MinesAlarm::MinesAlarm(s32 timer)
     : BaseGameObject(true, 0)
 {
     SetType(ReliveTypes::eMinesAlarm);
-    sTimerValue_5C1BFC = timer;
+    gExplosionTimer = timer;
 }
 
 s32 MinesAlarm::VGetSaveState(u8* pSaveBuffer)
 {
     auto pState = reinterpret_cast<MinesAlarmSaveState*>(pSaveBuffer);
 
-    pState->field_0_type = ReliveTypes::eMinesAlarm;
-    pState->field_4_timer = sTimerValue_5C1BFC;
+    pState->mType = ReliveTypes::eMinesAlarm;
+    pState->mExplosionTimer = gExplosionTimer;
     return sizeof(MinesAlarmSaveState);
 }
 
 MinesAlarm::~MinesAlarm()
 {
-    sTimerValue_5C1BFC = 0;
-    bCreated_5BC030 = false;
+    gExplosionTimer = 0;
+    sAlarmExists = false;
 }
 
 void MinesAlarm::VScreenChanged()
@@ -62,20 +62,20 @@ void MinesAlarm::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (sTimerValue_5C1BFC > 0)
+    if (gExplosionTimer > 0)
     {
-        if (!(--sTimerValue_5C1BFC % 30u))
+        if (!(--gExplosionTimer % 30u))
         {
             SFX_Play_Pitch(relive::SoundEffects::RedTick, 55, -1000);
         }
     }
     else
     {
-        if (!pExplosionSet_5BBF68)
+        if (!gExplosionSet)
         {
             relive_new ExplosionSet();
         }
-        pExplosionSet_5BBF68->Start();
+        gExplosionSet->Start();
         mBaseGameObjectFlags.Clear(BaseGameObject::eUpdatable_Bit2);
     }
 }

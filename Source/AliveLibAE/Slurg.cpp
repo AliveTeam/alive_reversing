@@ -120,9 +120,9 @@ Slurg::Slurg(relive::Path_Slurg* pTlv, const Guid& tlvId)
 s32 Slurg::CreateFromSaveState(const u8* pData)
 {
     auto pState = reinterpret_cast<const SlurgSaveState*>(pData);
-    auto pTlv = static_cast<relive::Path_Slurg*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvInfo));
+    auto pTlv = static_cast<relive::Path_Slurg*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvId));
 
-    auto pSlurg = relive_new Slurg(pTlv, pState->mTlvInfo);
+    auto pSlurg = relive_new Slurg(pTlv, pState->mTlvId);
 
     pSlurg->mXPos = pState->mXPos;
     pSlurg->mYPos = pState->mYPos;
@@ -336,7 +336,7 @@ s32 Slurg::VGetSaveState(u8* pSaveBuffer)
     pState->mDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
     pState->mRender = GetAnimation().mFlags.Get(AnimFlags::eRender);
    // pState->mFrameTableOffset = mAnim.mFrameTableOffset;
-    pState->mTlvInfo = mTlvInfo;
+    pState->mTlvId = mTlvInfo;
     pState->mSlurgState = mSlurgState;
     pState->mGoingRight = mGoingRight;
     pState->mMoving = mMoving;

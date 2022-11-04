@@ -270,7 +270,7 @@ inline void to_json(nlohmann::json& j, const SligSpawnerSaveState& p)
 {
     j = nlohmann::json{
         {"type", p.mType},
-        {"tlv_info", p.mTlvInfo},
+        {"tlv_id", p.mTlvId},
         {"state", p.mState},
         {"spawned_slig_id", p.mSpawnedSligId},
     };
@@ -279,7 +279,7 @@ inline void to_json(nlohmann::json& j, const SligSpawnerSaveState& p)
 inline void from_json(const nlohmann::json& j, SligSpawnerSaveState& p)
 {
     j.at("type").get_to(p.mType);
-    j.at("tlv_info").get_to(p.mTlvInfo);
+    j.at("tlv_id").get_to(p.mTlvId);
     j.at("state").get_to(p.mState);
     j.at("spawned_slig_id").get_to(p.mSpawnedSligId);
 }
@@ -296,17 +296,17 @@ NLOHMANN_JSON_SERIALIZE_ENUM(LiftMoverStates, {
 inline void to_json(nlohmann::json& j, const LiftMoverSaveState& p)
 {
     j = nlohmann::json{
-        {"type", p.field_0_type_id},
-        {"tlv_info", p.field_4_tlvInfo},
-        {"state", p.field_8_state},
+        {"type", p.mType},
+        {"tlv_id", p.mTlvId},
+        {"state", p.mState},
     };
 }
 
 inline void from_json(const nlohmann::json& j, LiftMoverSaveState& p)
 {
-    j.at("type").get_to(p.field_0_type_id);
-    j.at("tlv_info").get_to(p.field_4_tlvInfo);
-    j.at("state").get_to(p.field_8_state);
+    j.at("type").get_to(p.mType);
+    j.at("tlv_id").get_to(p.mTlvId);
+    j.at("state").get_to(p.mState);
 }
 
 NLOHMANN_JSON_SERIALIZE_ENUM(BoneStates, {
@@ -321,8 +321,8 @@ NLOHMANN_JSON_SERIALIZE_ENUM(BoneStates, {
 inline void to_json(nlohmann::json& j, const BoneSaveState& p)
 {
     j = nlohmann::json{
-        {"type", p.mAEType},
-        {"obj_id", p.field_4_obj_id},
+        {"type", p.mType},
+        {"base_tlv_id", p.mBaseTlvId},
         {"xpos", p.mXPos},
         {"ypos", p.mYPos},
         {"velx", p.mVelX},
@@ -335,7 +335,7 @@ inline void to_json(nlohmann::json& j, const BoneSaveState& p)
         {"loop", p.mLoop},
         {"interactive", p.mInteractive},
         {"hit_object", p.mHitObject},
-        {"base_id", p.field_24_base_id},
+        {"platform_id", p.mPlatformId},
         {"collision_line_type", p.mCollisionLineType},
         {"base_throwable_count", p.mBaseThrowableCount},
         {"state", p.mState},
@@ -348,8 +348,8 @@ inline void to_json(nlohmann::json& j, const BoneSaveState& p)
 
 inline void from_json(const nlohmann::json& j, BoneSaveState& p)
 {
-    j.at("type").get_to(p.mAEType);
-    j.at("obj_id").get_to(p.field_4_obj_id);
+    j.at("type").get_to(p.mType);
+    j.at("base_tlv_id").get_to(p.mBaseTlvId);
     j.at("xpos").get_to(p.mXPos);
     j.at("ypos").get_to(p.mYPos);
     j.at("velx").get_to(p.mVelX);
@@ -362,7 +362,7 @@ inline void from_json(const nlohmann::json& j, BoneSaveState& p)
     j.at("loop").get_to(p.mLoop);
     j.at("interactive").get_to(p.mInteractive);
     j.at("hit_object").get_to(p.mHitObject);
-    j.at("base_id").get_to(p.field_24_base_id);
+    j.at("platform_id").get_to(p.mPlatformId);
     j.at("collision_line_type").get_to(p.mCollisionLineType);
     j.at("base_throwable_count").get_to(p.mBaseThrowableCount);
     j.at("state").get_to(p.mState);
@@ -375,101 +375,101 @@ inline void from_json(const nlohmann::json& j, BoneSaveState& p)
 inline void to_json(nlohmann::json& j, const MinesAlarmSaveState& p)
 {
     j = nlohmann::json{
-        {"type", p.field_0_type},
-        {"timer", p.field_4_timer},
+        {"type", p.mType},
+        {"explosion_timer", p.mExplosionTimer},
     };
 }
 
 inline void from_json(const nlohmann::json& j, MinesAlarmSaveState& p)
 {
-    j.at("type").get_to(p.field_0_type);
-    j.at("timer").get_to(p.field_4_timer);
+    j.at("type").get_to(p.mType);
+    j.at("explosion_timer").get_to(p.mExplosionTimer);
 }
 
 inline void to_json(nlohmann::json& j, const CrawlingSligSaveState& p)
 {
     j = nlohmann::json{
-        {"type", p.field_0_type},
-        {"obj_id", p.field_4_obj_id},
-        {"xpos", p.field_8_xpos},
-        {"ypos", p.field_C_ypos},
-        {"velx", p.field_10_velx},
-        {"vely", p.field_14_vely},
-        {"path_number", p.field_18_path_number},
-        {"lvl_number", p.field_1A_lvl_number},
-        {"sprite_scale", p.field_1C_sprite_scale},
-        {"ring_red", p.mRingRed},
-        {"ring_green", p.mRingGreen},
-        {"ring_blue", p.mRingBlue},
-        {"flip_x", p.field_26_bFlipX},
-        {"current_motion", p.field_28_current_motion},
-        {"anim_cur_frame", p.field_2A_anim_cur_frame},
-        {"anim_frame_change_counter", p.field_2C_anim_frame_change_counter},
-        {"render", p.field_2E_bRender},
-        {"drawable", p.field_2F_bDrawable},
-        {"health", p.field_30_health},
-        {"cur_motion", p.field_34_cur_motion},
-        {"next_motion", p.field_36_next_motion},
-        {"last_line_ypos", p.field_38_last_line_ypos},
-        {"line_type", p.field_3A_line_type},
-        {"is_controlled", p.field_40_bIsControlled},
-        {"tlv_info", p.field_44_tlvInfo},
-        {"brain_idx", p.field_48_brain_idx},
-        {"brain_sub_state", p.field_50_brain_sub_state},
-        {"timer", p.field_54_timer},
-        {"velx_scale_factor", p.field_58_velx_scale_factor},
-        {"chanting", p.field_5E_bChanting},
+        {"type", p.mType},
+        {"base_tlv_id", p.mBaseTlvId},
+        {"xpos", p.mXPos},
+        {"ypos", p.mYPos},
+        {"velx", p.mVelX},
+        {"vely", p.mVelY},
+        {"current_path", p.mCurrentPath},
+        {"current_level", p.mCurrentLevel},
+        {"sprite_scale", p.mSpriteScale},
+        {"r", p.mR},
+        {"g", p.mG},
+        {"b", p.mB},
+        {"flip_x", p.mFlipX},
+        {"current_motion", p.mCurrentMotion},
+        {"current_frame", p.mCurrentFrame},
+        {"frame_change_counter", p.mFrameChangeCounter},
+        {"render", p.mRender},
+        {"drawable", p.mDrawable},
+        {"health", p.mHealth},
+        {"current_motion2", p.mCurrentMotion2},
+        {"next_motion", p.mNextMotion},
+        {"last_line_ypos", p.mLastLineYPos},
+        {"collision_line_type", p.mCollisionLineType},
+        {"controlled", p.mControlled},
+        {"crawling_slig_tlv_id", p.mCrawlingSligTlvId},
+        {"brain_state", p.mBrainState},
+        {"brain_sub_state", p.mBrainSubState},
+        {"multi_use_timer", p.mMultiUseTimer},
+        {"velx_scale_factor", p.mVelxScaleFactor},
+        {"chanting", p.mChanting},
         {"abe_level", p.mAbeLevel},
         {"abe_path", p.mAbePath},
         {"abe_camera", p.mAbeCamera},
-        {"slig_button_id", p.field_6C_slig_button_id},
+        {"slig_button_tlv_id", p.mSligButtonTlvId},
         {"70_obj_id", p.field_70_obj_id},
-        {"74_obj_id", p.field_74_obj_id},
-        {"speak", p.field_78_speak},
-        {"say_help_timer", p.field_7C_say_help_timer},
+        {"transformed_slig_id", p.mTransformedSligId},
+        {"speak", p.mSpeak},
+        {"say_help_timer", p.mSayHelpTimer},
     };
 }
 
 inline void from_json(const nlohmann::json& j, CrawlingSligSaveState& p)
 {
-    j.at("type").get_to(p.field_0_type);
-    j.at("obj_id").get_to(p.field_4_obj_id);
-    j.at("xpos").get_to(p.field_8_xpos);
-    j.at("ypos").get_to(p.field_C_ypos);
-    j.at("velx").get_to(p.field_10_velx);
-    j.at("vely").get_to(p.field_14_vely);
-    j.at("path_number").get_to(p.field_18_path_number);
-    j.at("lvl_number").get_to(p.field_1A_lvl_number);
-    j.at("sprite_scale").get_to(p.field_1C_sprite_scale);
-    j.at("ring_red").get_to(p.mRingRed);
-    j.at("ring_green").get_to(p.mRingGreen);
-    j.at("ring_blue").get_to(p.mRingBlue);
-    j.at("flip_x").get_to(p.field_26_bFlipX);
-    j.at("current_motion").get_to(p.field_28_current_motion);
-    j.at("anim_cur_frame").get_to(p.field_2A_anim_cur_frame);
-    j.at("anim_frame_change_counter").get_to(p.field_2C_anim_frame_change_counter);
-    j.at("render").get_to(p.field_2E_bRender);
-    j.at("drawable").get_to(p.field_2F_bDrawable);
-    j.at("health").get_to(p.field_30_health);
-    j.at("cur_motion").get_to(p.field_34_cur_motion);
-    j.at("next_motion").get_to(p.field_36_next_motion);
-    j.at("last_line_ypos").get_to(p.field_38_last_line_ypos);
-    j.at("line_type").get_to(p.field_3A_line_type);
-    j.at("is_controlled").get_to(p.field_40_bIsControlled);
-    j.at("tlv_info").get_to(p.field_44_tlvInfo);
-    j.at("brain_idx").get_to(p.field_48_brain_idx);
-    j.at("brain_sub_state").get_to(p.field_50_brain_sub_state);
-    j.at("timer").get_to(p.field_54_timer);
-    j.at("velx_scale_factor").get_to(p.field_58_velx_scale_factor);
-    j.at("chanting").get_to(p.field_5E_bChanting);
+    j.at("type").get_to(p.mType);
+    j.at("base_tlv_id").get_to(p.mBaseTlvId);
+    j.at("xpos").get_to(p.mXPos);
+    j.at("ypos").get_to(p.mYPos);
+    j.at("velx").get_to(p.mVelX);
+    j.at("vely").get_to(p.mVelY);
+    j.at("current_path").get_to(p.mCurrentPath);
+    j.at("current_level").get_to(p.mCurrentLevel);
+    j.at("sprite_scale").get_to(p.mSpriteScale);
+    j.at("r").get_to(p.mR);
+    j.at("g").get_to(p.mG);
+    j.at("b").get_to(p.mB);
+    j.at("flip_x").get_to(p.mFlipX);
+    j.at("current_motion").get_to(p.mCurrentMotion);
+    j.at("current_frame").get_to(p.mCurrentFrame);
+    j.at("frame_change_counter").get_to(p.mFrameChangeCounter);
+    j.at("render").get_to(p.mRender);
+    j.at("drawable").get_to(p.mDrawable);
+    j.at("health").get_to(p.mHealth);
+    j.at("current_motion2").get_to(p.mCurrentMotion2);
+    j.at("next_motion").get_to(p.mNextMotion);
+    j.at("last_line_ypos").get_to(p.mLastLineYPos);
+    j.at("collision_line_type").get_to(p.mCollisionLineType);
+    j.at("controlled").get_to(p.mControlled);
+    j.at("crawling_slig_tlv_id").get_to(p.mCrawlingSligTlvId);
+    j.at("brain_state").get_to(p.mBrainState);
+    j.at("brain_sub_state").get_to(p.mBrainSubState);
+    j.at("multi_use_timer").get_to(p.mMultiUseTimer);
+    j.at("velx_scale_factor").get_to(p.mVelxScaleFactor);
+    j.at("chanting").get_to(p.mChanting);
     j.at("abe_level").get_to(p.mAbeLevel);
     j.at("abe_path").get_to(p.mAbePath);
     j.at("abe_camera").get_to(p.mAbeCamera);
-    j.at("slig_button_id").get_to(p.field_6C_slig_button_id);
+    j.at("slig_button_tlv_id").get_to(p.mSligButtonTlvId);
     j.at("70_obj_id").get_to(p.field_70_obj_id);
-    j.at("74_obj_id").get_to(p.field_74_obj_id);
-    j.at("speak").get_to(p.field_78_speak);
-    j.at("say_help_timer").get_to(p.field_7C_say_help_timer);
+    j.at("transformerd_slig_id").get_to(p.mTransformedSligId);
+    j.at("speak").get_to(p.mSpeak);
+    j.at("say_help_timer").get_to(p.mSayHelpTimer);
 }
 
 NLOHMANN_JSON_SERIALIZE_ENUM(DrillStates, {
@@ -482,19 +482,19 @@ inline void to_json(nlohmann::json & j, const DrillSaveState& p)
 {
     j = nlohmann::json{
         {"type", p.mType},
-        {"tlv_info", p.field_8_tlvInfo},
-        {"off_timer", p.field_C_off_timer},
-        {"state", p.field_10_state},
-        {"xyoff", p.field_12_xyoff},
+        {"drill_tlv_id", p.mDrillTlvId},
+        {"off_timer", p.mOffTimer},
+        {"state", p.mState},
+        {"xyoff", p.mXYOff},
     };
 }
 
 inline void from_json(const nlohmann::json& j, DrillSaveState& p)
 {
-    j.at("tlv_info").get_to(p.field_8_tlvInfo);
-    j.at("off_timer").get_to(p.field_C_off_timer);
-    j.at("state").get_to(p.field_10_state);
-    j.at("xyoff").get_to(p.field_12_xyoff);
+    j.at("drill_tlv_id").get_to(p.mDrillTlvId);
+    j.at("off_timer").get_to(p.mOffTimer);
+    j.at("state").get_to(p.mState);
+    j.at("xyoff").get_to(p.mXYOff);
 }
 
 NLOHMANN_JSON_SERIALIZE_ENUM(FartStates, {
@@ -506,7 +506,7 @@ NLOHMANN_JSON_SERIALIZE_ENUM(FartStates, {
 inline void to_json(nlohmann::json& j, EvilFartSaveState& p)
 {
     j = nlohmann::json{
-        {"type", p.field_0_type},
+        {"type", p.mType},
         {"red", p.mRed},
         {"green", p.mGreen},
         {"blue", p.mBlue},
@@ -536,7 +536,7 @@ inline void to_json(nlohmann::json& j, EvilFartSaveState& p)
 
 inline void from_json(const nlohmann::json& j, EvilFartSaveState& p)
 {
-    j.at("type").get_to(p.field_0_type);
+    j.at("type").get_to(p.mType);
     j.at("red").get_to(p.mRed);
     j.at("green").get_to(p.mGreen);
     j.at("blue").get_to(p.mBlue);
@@ -2334,97 +2334,96 @@ inline void from_json(const nlohmann::json& j, SligSaveState& p)
 inline void to_json(nlohmann::json& j, const SlogSaveState& p)
 {
     j = nlohmann::json{
-        {"type", p.field_0_type},
-        {"object_id", p.field_4_objectId},
-        {"xpos", p.field_8_xpos},
-        {"ypos", p.field_C_ypos},
-        {"velx", p.field_10_velx},
-        {"vely", p.field_14_vely},
-        {"path_number", p.field_18_path_number},
-        {"lvl_number", p.field_1A_lvl_number},
-        {"sprite_scale", p.field_1C_sprite_scale},
-        {"ring_red", p.mRingRed},
-        {"ring_green", p.mRingGreen},
-        {"ring_blue", p.mRingBlue},
-        {"anim_flipX", p.field_26_bAnimFlipX},
-        {"field_28_current_motion", p.field_28_current_motion},
-        {"anim_cur_frame", p.field_2A_anim_cur_frame},
-        {"frame_change_counter", p.field_2C_frame_change_counter},
-        {"ender", p.field_2E_bRender},
-        {"rawable", p.field_2F_bDrawable},
-        {"health", p.field_30_health},
-        {"field_34_current_motion", p.field_34_current_motion},
-        {"next_motion", p.field_36_next_motion},
-        {"last_line_ypos", p.field_38_last_line_ypos},
-        {"line_type", p.field_3A_line_type},
-        {"id", p.field_3C_id},
-        {"tlv_info", p.field_40_tlvInfo},
-        {"obj_id", p.field_44_obj_id},
-        {"state_idx", p.field_48_state_idx},
-        {"brain_state_result", p.field_4A_brain_state_result},
-        {"field_4C_timer", p.field_4C_timer},
-        {"falling_velx_scale_factor", p.field_50_falling_velx_scale_factor},
-        {"obj_id", p.field_54_obj_id},
-        {"has_woofed", p.field_58_has_woofed},
-        {"waiting_counter", p.field_5A_waiting_counter},
-        {"response_index", p.field_5C_response_index},
-        {"response_part", p.field_5E_response_part},
-        {"anger_level", p.field_60_anger_level},
-        {"jump_counter", p.field_62_jump_counter},
-        {"scratch_timer", p.field_64_scratch_timer},
-        {"growl_timer", p.field_68_growl_timer},
-        {"bone_id", p.field_6C_bone_id},
-        {"jump_delay", p.field_70_jump_delay},
-        {"slog_random_index", p.field_72_slog_random_index},
+        {"type", p.mType},
+        {"base_tlv_id", p.mBaseTlvId},
+        {"xpos", p.mXPos},
+        {"ypos", p.mYPos},
+        {"velx", p.mVelX},
+        {"vely", p.mVelY},
+        {"current_path", p.mCurrentPath},
+        {"current_level", p.mCurrentLevel},
+        {"sprite_scale", p.mSpriteScale},
+        {"r", p.mR},
+        {"g", p.mG},
+        {"b", p.mB},
+        {"flipx", p.mFlipX},
+        {"current_motion", p.mCurrentMotion},
+        {"current_frame", p.mCurrentFrame},
+        {"frame_change_counter", p.mFrameChangeCounter},
+        {"render", p.mRender},
+        {"drawable", p.mDrawable},
+        {"health", p.mHealth},
+        {"current_motion2", p.mCurrentMotion2},
+        {"next_motion", p.mNextMotion},
+        {"last_line_ypos", p.mLastLineYPos},
+        {"collision_line_type", p.mCollisionLineType},
+        {"platform_id", p.mPlatformId},
+        {"slog_tlv_id", p.mSlogTlvId},
+        {"target_id", p.mTargetId},
+        {"brain_state", p.mBrainState},
+        {"brain_sub_state", p.mBrainSubState},
+        {"multi_use_timer", p.mMultiUseTimer},
+        {"falling_velx_scale_factor", p.mFallingVelxScaleFactor},
+        {"listen_to_slig_id", p.mListeningToSligId},
+        {"has_woofed", p.mHasWoofed},
+        {"waiting_counter", p.mWaitingCounter},
+        {"response_idx", p.mResponseIdx},
+        {"response_part", p.mResponsePart},
+        {"anger_level", p.mAngerLevel},
+        {"jump_counter", p.mJumpCounter},
+        {"scratch_timer", p.mScratchTimer},
+        {"growl_timer", p.mGrowlTimer},
+        {"bone_id", p.mBoneId},
+        {"chase_delay", p.mChaseDelay},
+        {"slog_random_idx", p.mSlogRandomIdx},
         {"flags", p.field_74_flags.Raw().all},
     };
 }
 
 inline void from_json(const nlohmann::json& j, SlogSaveState& p)
 {
-
-    j.at("type").get_to(p.field_0_type);
-    j.at("object_id").get_to(p.field_4_objectId);
-    j.at("xpos").get_to(p.field_8_xpos);
-    j.at("ypos").get_to(p.field_C_ypos);
-    j.at("velx").get_to(p.field_10_velx);
-    j.at("vely").get_to(p.field_14_vely);
-    j.at("path_number").get_to(p.field_18_path_number);
-    j.at("lvl_number").get_to(p.field_1A_lvl_number);
-    j.at("sprite_scale").get_to(p.field_1C_sprite_scale);
-    j.at("ring_red").get_to(p.mRingRed);
-    j.at("ring_green").get_to(p.mRingGreen);
-    j.at("ring_blue").get_to(p.mRingBlue);
-    j.at("anim_flipX").get_to(p.field_26_bAnimFlipX);
-    j.at("field_28_current_motion").get_to(p.field_28_current_motion);
-    j.at("anim_cur_frame").get_to(p.field_2A_anim_cur_frame);
-    j.at("frame_change_counter").get_to(p.field_2C_frame_change_counter);
-    j.at("ender").get_to(p.field_2E_bRender);
-    j.at("rawable").get_to(p.field_2F_bDrawable);
-    j.at("health").get_to(p.field_30_health);
-    j.at("field_34_current_motion").get_to(p.field_34_current_motion);
-    j.at("next_motion").get_to(p.field_36_next_motion);
-    j.at("last_line_ypos").get_to(p.field_38_last_line_ypos);
-    j.at("line_type").get_to(p.field_3A_line_type);
-    j.at("id").get_to(p.field_3C_id);
-    j.at("tlv_info").get_to(p.field_40_tlvInfo);
-    j.at("obj_id").get_to(p.field_44_obj_id);
-    j.at("state_idx").get_to(p.field_48_state_idx);
-    j.at("brain_state_result").get_to(p.field_4A_brain_state_result);
-    j.at("timer").get_to(p.field_4C_timer);
-    j.at("falling_velx_scale_factor").get_to(p.field_50_falling_velx_scale_factor);
-    j.at("obj_id").get_to(p.field_54_obj_id);
-    j.at("has_woofed").get_to(p.field_58_has_woofed);
-    j.at("waiting_counter").get_to(p.field_5A_waiting_counter);
-    j.at("response_index").get_to(p.field_5C_response_index);
-    j.at("response_part").get_to(p.field_5E_response_part);
-    j.at("anger_level").get_to(p.field_60_anger_level);
-    j.at("jump_counter").get_to(p.field_62_jump_counter);
-    j.at("scratch_timer").get_to(p.field_64_scratch_timer);
-    j.at("growl_timer").get_to(p.field_68_growl_timer);
-    j.at("bone_id").get_to(p.field_6C_bone_id);
-    j.at("jump_delay").get_to(p.field_70_jump_delay);
-    j.at("slog_random_index").get_to(p.field_72_slog_random_index);
+    j.at("type").get_to(p.mType);
+    j.at("base_tlv_id").get_to(p.mBaseTlvId);
+    j.at("xpos").get_to(p.mXPos);
+    j.at("ypos").get_to(p.mYPos);
+    j.at("velx").get_to(p.mVelX);
+    j.at("vely").get_to(p.mVelY);
+    j.at("current_path").get_to(p.mCurrentPath);
+    j.at("current_level").get_to(p.mCurrentLevel);
+    j.at("sprite_scale").get_to(p.mSpriteScale);
+    j.at("r").get_to(p.mR);
+    j.at("g").get_to(p.mG);
+    j.at("b").get_to(p.mB);
+    j.at("flipx").get_to(p.mFlipX);
+    j.at("current_motion").get_to(p.mCurrentMotion);
+    j.at("current_frame").get_to(p.mCurrentFrame);
+    j.at("frame_change_counter").get_to(p.mFrameChangeCounter);
+    j.at("render").get_to(p.mRender);
+    j.at("drawable").get_to(p.mDrawable);
+    j.at("health").get_to(p.mHealth);
+    j.at("current_motion2").get_to(p.mCurrentMotion2);
+    j.at("next_motion").get_to(p.mNextMotion);
+    j.at("last_line_ypos").get_to(p.mLastLineYPos);
+    j.at("collision_line_type").get_to(p.mCollisionLineType);
+    j.at("platform_id").get_to(p.mPlatformId);
+    j.at("slog_tlv_id").get_to(p.mSlogTlvId);
+    j.at("target_id").get_to(p.mTargetId);
+    j.at("brain_state").get_to(p.mBrainState);
+    j.at("brain_sub_state").get_to(p.mBrainSubState);
+    j.at("multi_use_timer").get_to(p.mMultiUseTimer);
+    j.at("falling_velx_scale_factor").get_to(p.mFallingVelxScaleFactor);
+    j.at("listen_to_slig_id").get_to(p.mListeningToSligId);
+    j.at("has_woofed").get_to(p.mHasWoofed);
+    j.at("waiting_counter").get_to(p.mWaitingCounter);
+    j.at("response_idx").get_to(p.mResponseIdx);
+    j.at("response_part").get_to(p.mResponsePart);
+    j.at("anger_level").get_to(p.mAngerLevel);
+    j.at("jump_counter").get_to(p.mJumpCounter);
+    j.at("scratch_timer").get_to(p.mScratchTimer);
+    j.at("growl_timer").get_to(p.mGrowlTimer);
+    j.at("bone_id").get_to(p.mBoneId);
+    j.at("chase_delay").get_to(p.mChaseDelay);
+    j.at("slog_random_idx").get_to(p.mSlogRandomIdx);
     j.at("flags").get_to(p.field_74_flags.Raw().all);
 }
 
@@ -2448,7 +2447,7 @@ inline void to_json(nlohmann::json& j, const SlurgSaveState& p)
         {"frame_change_counter", p.mFrameChangeCounter},
         {"drawable", p.mDrawable},
         {"render", p.mRender},
-        {"tlv_info", p.mTlvInfo},
+        {"tlv_id", p.mTlvId},
         {"slurg_state", p.mSlurgState},
         {"going_right", p.mGoingRight},
         {"moving", p.mMoving},
@@ -2468,7 +2467,7 @@ inline void from_json(const nlohmann::json& j, SlurgSaveState& p)
     j.at("frame_change_counter").get_to(p.mFrameChangeCounter);
     j.at("drawable").get_to(p.mDrawable);
     j.at("render").get_to(p.mRender);
-    j.at("tlv_info").get_to(p.mTlvInfo);
+    j.at("tlv_id").get_to(p.mTlvId);
     j.at("slurg_state").get_to(p.mSlurgState);
     j.at("going_right").get_to(p.mGoingRight);
     j.at("moving").get_to(p.mMoving);
@@ -2484,21 +2483,21 @@ NLOHMANN_JSON_SERIALIZE_ENUM(TimerTriggerStates, {
 inline void to_json(nlohmann::json& j, const TimerTriggerSaveState& p)
 {
     j = nlohmann::json{
-        {"type", p.field_0_type},
-        {"tlv_info", p.field_4_tlvInfo},
-        {"delay_timer_base", p.field_8_delay_timer_base},
-        {"state", p.field_C_state},
-        {"starting_switch_state", p.field_E_starting_switch_state},
+        {"type", p.mType},
+        {"tlv_id", p.mTlvId},
+        {"activation_delay_timer", p.mActivationDelayTimer},
+        {"state", p.mState},
+        {"starting_switch_state", p.mStartingSwitchState},
     };
 }
 
 inline void from_json(const nlohmann::json& j, TimerTriggerSaveState& p)
 {
-    j.at("type").get_to(p.field_0_type);
-    j.at("tlv_info").get_to(p.field_4_tlvInfo);
-    j.at("delay_timer_base").get_to(p.field_8_delay_timer_base);
-    j.at("state").get_to(p.field_C_state);
-    j.at("starting_switch_state").get_to(p.field_E_starting_switch_state);
+    j.at("type").get_to(p.mType);
+    j.at("tlv_id").get_to(p.mTlvId);
+    j.at("activation_delay_timer").get_to(p.mActivationDelayTimer);
+    j.at("state").get_to(p.mState);
+    j.at("starting_switch_state").get_to(p.mStartingSwitchState);
 }
 
 NLOHMANN_JSON_SERIALIZE_ENUM(TrapDoorState, {
@@ -2511,19 +2510,19 @@ NLOHMANN_JSON_SERIALIZE_ENUM(TrapDoorState, {
 inline void to_json(nlohmann::json& j, const TrapDoorSaveState& p)
 {
     j = nlohmann::json{
-        {"type", p.field_0_type},
-        {"state", p.field_2_state},
-        {"open_time", p.field_4_open_time},
-        {"tlv_info", p.field_8_tlvInfo},
+        {"type", p.mType},
+        {"state", p.mState},
+        {"open_time", p.mOpenTime},
+        {"tlv_id", p.mTlvId},
     };
 }
 
 inline void from_json(const nlohmann::json& j, TrapDoorSaveState& p)
 {
-    j.at("type").get_to(p.field_0_type);
-    j.at("state").get_to(p.field_2_state);
-    j.at("open_time").get_to(p.field_4_open_time);
-    j.at("tlv_info").get_to(p.field_8_tlvInfo);
+    j.at("type").get_to(p.mType);
+    j.at("state").get_to(p.mState);
+    j.at("open_time").get_to(p.mOpenTime);
+    j.at("tlv_id").get_to(p.mTlvId);
 }
 
 NLOHMANN_JSON_SERIALIZE_ENUM(UXBState, {
@@ -2568,16 +2567,16 @@ inline void to_json(nlohmann::json& j, const WorkWheelSaveState& p)
 {
     j = nlohmann::json{
         {"type", p.mType},
-        {"tlv_info", p.field_4_tlvInfo},
-        {"snd_counter", p.field_8_snd_counter},
-        {"state", p.field_C_state},
+        {"tlv_id", p.mTlvId},
+        {"turning_time", p.mTurningTime},
+        {"state", p.mState},
     };
 }
 
 inline void from_json(const nlohmann::json& j, WorkWheelSaveState& p)
 {
     j.at("type").get_to(p.mType);
-    j.at("tlv_info").get_to(p.field_4_tlvInfo);
-    j.at("snd_counter").get_to(p.field_8_snd_counter);
-    j.at("state").get_to(p.field_C_state);
+    j.at("tlv_id").get_to(p.mTlvId);
+    j.at("turning_time").get_to(p.mTurningTime);
+    j.at("state").get_to(p.mState);
 }
