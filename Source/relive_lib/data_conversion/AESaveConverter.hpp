@@ -2152,14 +2152,13 @@ struct MudokonSaveState final
     MudSounds field_68;
     s16 field_6A_maxXOffset;
 
-
     enum Flags_6A
     {
         eBit1_padding = 0x1,
         eBit2_unused = 0x2,
         eBit3_padding = 0x4,
         eBit4_not_rescued = 0x8,
-        eBit5_save_state = 0x10,
+        eBit5_persist_and_reset_offscreen = 0x10,
         eBit6_alerted = 0x20,
         eBit7_blind = 0x40,
         eBit8_following = 0x80,
@@ -2167,7 +2166,7 @@ struct MudokonSaveState final
         eBit10_stopped_at_wheel = 0x200,
         eBit11_do_angry = 0x400,
         eBit12_seen_while_sick = 0x800,
-        eBit13_stop_trigger = 0x1000,
+        eBit13_work_after_turning_wheel = 0x1000,
         eBit14_unused = 0x2000,
         eBit15_return_to_previous_motion = 0x4000,
         eBit16_get_depressed = 0x8000
@@ -2177,11 +2176,11 @@ struct MudokonSaveState final
     enum Flags_6E
     {
         e6E_Bit1_alert_enemies = 0x1,
-        e6E_Bit2 = 0x2,
+        e6E_Bit2_noise_unknown = 0x2,
         e6E_Bit3_make_sad_noise = 0x4,
-        e6E_Bit4_ring_timeout = 0x8,
-        e6E_Bit5 = 0x10,
-        e6E_Bit6 = 0x20
+        e6E_Bit4_ring_and_angry_mud_timeout = 0x8,
+        e6E_Bit5_abe_has_ring = 0x10,
+        e6E_Bit6_is_mud_standing_up_2 = 0x20
     };
     BitField16<Flags_6E> field_6E;
 
@@ -2267,8 +2266,24 @@ struct MudokonSaveState final
         d.field_60_wheel_id = Guid::NewGuidFromTlvInfo(data.field_60_wheel_id);
         d.field_68 = AEData::From(data.field_68);
         d.field_6A_maxXOffset = data.field_6A_maxXOffset;
-        d.field_6C.Raw().all = data.field_6C.Raw().all; // TODO: convert flags to bools
-        d.field_6E.Raw().all = data.field_6E.Raw().all; // dito
+        d.mNotRescued = data.field_6C.Get(Flags_6A::eBit4_not_rescued);
+        d.mPersistAndResetOffscreen = data.field_6C.Get(Flags_6A::eBit5_persist_and_reset_offscreen);
+        d.mAlerted = data.field_6C.Get(Flags_6A::eBit6_alerted);
+        d.mBlind = data.field_6C.Get(Flags_6A::eBit7_blind);
+        d.mFollowingAbe = data.field_6C.Get(Flags_6A::eBit8_following);
+        d.mStandingForSadOrAngry = data.field_6C.Get(Flags_6A::eBit9_standing_for_sad_or_angry);
+        d.mStoppedAtWheel = data.field_6C.Get(Flags_6A::eBit10_stopped_at_wheel);
+        d.mDoAngry = data.field_6C.Get(Flags_6A::eBit11_do_angry);
+        d.mSeenWhileSick = data.field_6C.Get(Flags_6A::eBit12_seen_while_sick);
+        d.mWorkAfterTurningWheel = data.field_6C.Get(Flags_6A::eBit13_work_after_turning_wheel);
+        d.mReturnToPreviousMotion = data.field_6C.Get(Flags_6A::eBit15_return_to_previous_motion);
+        d.mGetDepressed = data.field_6C.Get(Flags_6A::eBit16_get_depressed);
+        d.mAlertEnemies = data.field_6E.Get(Flags_6E::e6E_Bit1_alert_enemies);
+        d.mNoiseUnknown = data.field_6E.Get(Flags_6E::e6E_Bit2_noise_unknown);
+        d.mMakeSadNoise = data.field_6E.Get(Flags_6E::e6E_Bit3_make_sad_noise);
+        d.mRingAndAngryMudTimeout = data.field_6E.Get(Flags_6E::e6E_Bit4_ring_and_angry_mud_timeout);
+        d.mAbeHasRing = data.field_6E.Get(Flags_6E::e6E_Bit5_abe_has_ring);
+        d.mIsMudStandingUp2 = data.field_6E.Get(Flags_6E::e6E_Bit6_is_mud_standing_up_2);
         d.field_70_brain_sub_state2 = data.field_70_brain_sub_state2;
         d.field_72_stand_idle_timer = data.field_72_stand_idle_timer;
         d.field_74_delayed_speak = From(data.field_74_delayed_speak);

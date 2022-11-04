@@ -1621,8 +1621,24 @@ inline void to_json(nlohmann::json& j, const MudokonSaveState& p)
         {"wheel_id", p.field_60_wheel_id},
         {"field_68", p.field_68},
         {"max_x_offset", p.field_6A_maxXOffset},
-        {"field_6C", p.field_6C.Raw().all},
-        {"field_6E", p.field_6E.Raw().all},
+        {"not_rescued", p.mNotRescued},
+        {"persist_and_reset_offscreen", p.mPersistAndResetOffscreen},
+        {"alerted", p.mAlerted},
+        {"blind", p.mBlind},
+        {"following_abe", p.mFollowingAbe},
+        {"standing_for_sad_or_angry", p.mStandingForSadOrAngry},
+        {"stopped_at_wheel", p.mStoppedAtWheel},
+        {"do_angry", p.mDoAngry},
+        {"seen_while_sick", p.mSeenWhileSick},
+        {"work_after_turning_wheel", p.mWorkAfterTurningWheel},
+        {"return_to_previous_motion", p.mReturnToPreviousMotion},
+        {"get_depressed", p.mGetDepressed},
+        {"alert_enemies", p.mAlertEnemies},
+        {"noise_unknown", p.mNoiseUnknown},
+        {"make_sad_noise", p.mMakeSadNoise},
+        {"ring_and_angry_mud_timeout", p.mRingAndAngryMudTimeout},
+        {"abe_has_ring", p.mAbeHasRing},
+        {"is_mud_standing_up2", p.mIsMudStandingUp2},
         {"brain_sub_state2", p.field_70_brain_sub_state2},
         {"stand_idle_timer", p.field_72_stand_idle_timer},
         {"delayed_speak", p.field_74_delayed_speak},
@@ -1672,8 +1688,24 @@ inline void from_json(const nlohmann::json& j, MudokonSaveState& p)
     j.at("wheel_id").get_to(p.field_60_wheel_id);
     j.at("field_68").get_to(p.field_68);
     j.at("max_x_offset").get_to(p.field_6A_maxXOffset);
-    j.at("field_6C").get_to(p.field_6C.Raw().all);
-    j.at("field_6E").get_to(p.field_6E.Raw().all);
+    j.at("not_rescued").get_to(p.mNotRescued);
+    j.at("persist_and_reset_offscreen").get_to(p.mPersistAndResetOffscreen);
+    j.at("alerted").get_to(p.mAlerted);
+    j.at("blind").get_to(p.mBlind);
+    j.at("following_abe").get_to(p.mFollowingAbe);
+    j.at("standing_for_sad_or_angry").get_to(p.mStandingForSadOrAngry);
+    j.at("stopped_at_wheel").get_to(p.mStoppedAtWheel);
+    j.at("do_angry").get_to(p.mDoAngry);
+    j.at("seen_while_sick").get_to(p.mSeenWhileSick);
+    j.at("work_after_turning_wheel").get_to(p.mWorkAfterTurningWheel);
+    j.at("return_to_previous_motion").get_to(p.mReturnToPreviousMotion);
+    j.at("get_depressed").get_to(p.mGetDepressed);
+    j.at("alert_enemies").get_to(p.mAlertEnemies);
+    j.at("noise_unknown").get_to(p.mNoiseUnknown);
+    j.at("make_sad_noise").get_to(p.mMakeSadNoise);
+    j.at("ring_and_angry_mud_timeout").get_to(p.mRingAndAngryMudTimeout);
+    j.at("abe_has_ring").get_to(p.mAbeHasRing);
+    j.at("is_mud_standing_up2").get_to(p.mIsMudStandingUp2);
     j.at("brain_sub_state2").get_to(p.field_70_brain_sub_state2);
     j.at("stand_idle_timer").get_to(p.field_72_stand_idle_timer);
     j.at("delayed_speak").get_to(p.field_74_delayed_speak);
