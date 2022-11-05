@@ -66,19 +66,21 @@ bool AESaveConverter::Convert(const std::vector<u8>& savData, const char_type* /
     auto pSaveData = reinterpret_cast<const Quicksave*>(savData.data());
 
     const u16* pSaveData2 = reinterpret_cast<const u16*>(pSaveData->field_55C_objects_state_data);
+
+    // TODO: Add the required world info to the json
+
     while (*reinterpret_cast<const u32*>(pSaveData2) != 0)
     {
         // Maps to AETypes
         pSaveData2 += ConvertObjectSaveStateData(static_cast<AETypes>(*pSaveData2), reinterpret_cast<const u8*>(pSaveData2)) / sizeof(u16);
+
+        // TODO: Add the read state as json
     }
 
-    pSaveData->field_204_world_info.field_4_level;
-
-    /*
-    // TODO: Need the map data to match up the per object data
+    auto paths = ResourceManagerWrapper::LoadPaths(MapWrapper::FromAE(pSaveData->field_204_world_info.field_4_level));
     // Skip the 2 zero entries, the saved flag words come after the object save state data
     const u8* pSrcFlags = reinterpret_cast<const u8*>(pSaveData2 + 2);
-    for (auto& binaryPath : gMap.GetLoadedPaths())
+    for (auto& binaryPath : paths)
     {
         for (auto& cam : binaryPath->GetCameras())
         {
@@ -87,16 +89,27 @@ bool AESaveConverter::Convert(const std::vector<u8>& savData, const char_type* /
             {
                 if (pTlv->mAttribute == relive::QuiksaveAttribute::eClearTlvFlags_1 || pTlv->mAttribute == relive::QuiksaveAttribute::eKeepTlvFlags_2) // Type 0 ignored - actually it should never be written here anyway
                 {
+                    // TODO: Obtain the guid
+                    //Guid::NewGuidFromTlvInfo(pTlv->);
+
+                    const bool terminatorFlagOn = pTlv->mTlvFlags.Get(relive::TlvFlags::eBit3_End_TLV_List);
                     pTlv->mTlvFlags.Raw().all = *pSrcFlags;
                     pSrcFlags++;
+                    if (terminatorFlagOn && !pTlv->mTlvFlags.Get(relive::TlvFlags::eBit3_End_TLV_List))
+                    {
+                        LOG_WARNING("Save data removed list terminator flag, putting it back");
+                        pTlv->mTlvFlags.Set(relive::TlvFlags::eBit3_End_TLV_List);
+                    }
 
                     pTlv->mTlvSpecificMeaning = *pSrcFlags;
                     pSrcFlags++;
+
+                    // TODO: Add an entry to the json with the object guid and the flags/specific meaning data
                 }
                 pTlv = Path::Next_TLV(pTlv);
             }
         }
-    }*/
+    }
     return true;
 }
 

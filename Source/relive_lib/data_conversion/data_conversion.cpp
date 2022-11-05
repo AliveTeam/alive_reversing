@@ -1500,7 +1500,7 @@ static void ConvertFont(const FileSystem::Path& dataDir, const std::string& file
 }
 
 template<typename LevelIdType, typename TlvType>
-static void ConvertFilesInLvl(const FileSystem::Path& dataDir, FileSystem& fs, ReliveAPI::LvlReader& lvlReader, std::vector<u8>& fileBuffer, LevelIdType lvlIdxAsLvl, EReliveLevelIds reliveLvl, bool isAo)
+static void ConvertFilesInLvl(const FileSystem::Path& dataDir, FileSystem& fs, ReliveAPI::LvlReader& lvlReader, std::vector<u8>& fileBuffer, LevelIdType lvlIdxAsLvl, EReliveLevelIds reliveLvl, bool isAo, bool onlySaves)
 {
     // Iterate and convert specific file types in the LVL
     for (s32 i = 0; i < lvlReader.FileCount(); i++)
@@ -1508,47 +1508,55 @@ static void ConvertFilesInLvl(const FileSystem::Path& dataDir, FileSystem& fs, R
         auto fileName = lvlReader.FileNameAt(i);
         if (!fileName.empty())
         {
-            if (endsWith(fileName, ".FNT"))
+            if (onlySaves)
             {
-                if (fileName == "LCDFONT.FNT")
+                if (endsWith(fileName, ".SAV"))
                 {
-                    ConvertFont(dataDir, fileName, lvlReader, fileBuffer, false);
+                    if (ReadLvlFileInto(lvlReader, fileName.c_str(), fileBuffer))
+                    {
+                        if (!isAo)
+                        {
+                            // Remove the resource header
+                            fileBuffer.erase(fileBuffer.begin(), fileBuffer.begin() + 16);
+
+                            // TODO: Actually convert at some later point
+                            AESaveConverter saveConverter;
+                            saveConverter.Convert(fileBuffer, (fileName + ".json").c_str());
+                        }
+                    }
                 }
             }
-            else if (endsWith(fileName, ".CAM"))
+            else
             {
-                if (fileName == "S1P01C01.CAM" || fileName == "STP01C06.CAM")
+                if (endsWith(fileName, ".FNT"))
                 {
-                    ConvertFont(dataDir, fileName, lvlReader, fileBuffer, true);
+                    if (fileName == "LCDFONT.FNT")
+                    {
+                        ConvertFont(dataDir, fileName, lvlReader, fileBuffer, false);
+                    }
                 }
-
-                //ConvertCamera(dataDir, fileName, fs, fileBuffer, lvlReader, lvlIdxAsLvl);
-            }
-            else if (endsWith(fileName, ".JOY"))
-            {
-                // TODO: Actually convert at some later point
-                SaveFileFromLvlDirect(fileName.c_str(), dataDir, lvlReader, lvlIdxAsLvl, fileBuffer);
-            }
-            else if (endsWith(fileName, ".SAV"))
-            {
-                if (ReadLvlFileInto(lvlReader, fileName.c_str(), fileBuffer))
+                else if (endsWith(fileName, ".CAM"))
                 {
-                    // Remove the resource header
-                    fileBuffer.erase(fileBuffer.begin(), fileBuffer.begin() + 16);
+                    if (fileName == "S1P01C01.CAM" || fileName == "STP01C06.CAM")
+                    {
+                        ConvertFont(dataDir, fileName, lvlReader, fileBuffer, true);
+                    }
 
+                    // ConvertCamera(dataDir, fileName, fs, fileBuffer, lvlReader, lvlIdxAsLvl);
+                }
+                else if (endsWith(fileName, ".JOY"))
+                {
                     // TODO: Actually convert at some later point
-                    AESaveConverter saveConverter;
-                    saveConverter.Convert(fileBuffer, (fileName + ".json").c_str());
+                    SaveFileFromLvlDirect(fileName.c_str(), dataDir, lvlReader, lvlIdxAsLvl, fileBuffer);
                 }
-            }
-            else if (endsWith(fileName, "PATH.BND"))
-            {
-                ConvertPathBND<LevelIdType, TlvType>(dataDir, fileName, fs, fileBuffer, lvlReader, lvlIdxAsLvl, reliveLvl, isAo);
+                else if (endsWith(fileName, "PATH.BND"))
+                {
+                    ConvertPathBND<LevelIdType, TlvType>(dataDir, fileName, fs, fileBuffer, lvlReader, lvlIdxAsLvl, reliveLvl, isAo);
+                }
             }
         }
     }
 }
-
 
 
 static void SavePal(const AnimationPal& pal, const FileSystem::Path& fileName)
@@ -1623,6 +1631,60 @@ static void ConvertHardcodedPals(const FileSystem::Path& dataDir)
     ConvertPal(dataDir, ToString(PalId::LedFont_Red), reinterpret_cast<const u16*>(pal_LCDStatusBoard), ALIVE_COUNTOF(pal_LCDStatusBoard) / sizeof(u16));
 }
 
+template<typename FnOnLvl>
+static void IterateAELvls(FnOnLvl fnOnLvl)
+{
+    for (s32 lvlIdx = 0; lvlIdx < Path_Get_Paths_Count(); lvlIdx++)
+    {
+        // Skip entries that have no data
+        const ::LevelIds lvlIdxAsLvl = static_cast<::LevelIds>(lvlIdx);
+        if (lvlIdxAsLvl == ::LevelIds::eTestLevel_15)
+        {
+            continue;
+        }
+
+        // Open the LVL file
+        const EReliveLevelIds reliveLvl = MapWrapper::FromAE(lvlIdxAsLvl);
+        ReliveAPI::FileIO fileIo;
+
+        auto lvName = std::string(::Path_Get_Lvl_Name(reliveLvl)) + ".LVL";
+        ReliveAPI::LvlReader lvlReader(fileIo, lvName.c_str());
+
+        if (!lvlReader.IsOpen())
+        {
+            // Fatal, missing LVL file
+            ALIVE_FATAL("Couldn't open lvl file");
+        }
+        fnOnLvl(lvlReader, reliveLvl, lvlIdxAsLvl);
+    }
+}
+
+template<typename FnOnLvl>
+static void IterateAOLvls(FnOnLvl fnOnLvl)
+{
+    for (s32 lvlIdx = 0; lvlIdx < AO::Path_Get_Paths_Count(); lvlIdx++)
+    {
+        // Skip entries that have no data
+        const AO::LevelIds lvlIdxAsLvl = static_cast<AO::LevelIds>(lvlIdx);
+        if (lvlIdxAsLvl == AO::LevelIds::eRemoved_7 || lvlIdxAsLvl == AO::LevelIds::eRemoved_11)
+        {
+            continue;
+        }
+
+        const EReliveLevelIds reliveLvl = MapWrapper::FromAO(lvlIdxAsLvl);
+        ReliveAPI::FileIO fileIo;
+        ReliveAPI::LvlReader lvlReader(fileIo, (std::string(AO::Path_Get_Lvl_Name(reliveLvl)) + ".LVL").c_str());
+
+        if (!lvlReader.IsOpen())
+        {
+            // Fatal, missing LVL file
+            ALIVE_FATAL("Couldn't open lvl file");
+        }
+
+        fnOnLvl(lvlReader, reliveLvl, lvlIdxAsLvl);
+    }
+}
+
 void DataConversion::ConvertDataAO()
 {
     // TODO: Check existing data version, if any
@@ -1638,32 +1700,20 @@ void DataConversion::ConvertDataAO()
     ConvertHardcodedPals(dataDir);
 
     std::vector<u8> fileBuffer;
-    for (s32 lvlIdx = 0; lvlIdx < AO::Path_Get_Paths_Count(); lvlIdx++)
+    IterateAOLvls([&](ReliveAPI::LvlReader& lvlReader, EReliveLevelIds reliveLvl, AO::LevelIds lvlIdxAsLvl)
     {
-        // Skip entries that have no data
-        const AO::LevelIds lvlIdxAsLvl = static_cast<AO::LevelIds>(lvlIdx);
-        if (lvlIdxAsLvl == AO::LevelIds::eRemoved_7 || lvlIdxAsLvl == AO::LevelIds::eRemoved_11)
-        {
-            continue;
-        }
-
-        // Open the LVL file
-        const EReliveLevelIds reliveLvl = MapWrapper::FromAO(lvlIdxAsLvl);
-        ReliveAPI::FileIO fileIo;
-        ReliveAPI::LvlReader lvlReader(fileIo, (std::string(AO::Path_Get_Lvl_Name(reliveLvl)) + ".LVL").c_str());
-
-        if (!lvlReader.IsOpen())
-        {
-            // Fatal, missing LVL file
-            ALIVE_FATAL("Couldn't open lvl file");
-        }
-
         ConvertAnimations(dataDir, fs, fileBuffer, lvlReader, reliveLvl, true);
 
         ConvertPals(dataDir, fileBuffer, lvlReader, true);
 
-        ConvertFilesInLvl<AO::LevelIds, AO::Path_TLV>(dataDir, fs, lvlReader, fileBuffer, lvlIdxAsLvl, reliveLvl, true);
-    }
+        ConvertFilesInLvl<AO::LevelIds, AO::Path_TLV>(dataDir, fs, lvlReader, fileBuffer, lvlIdxAsLvl, reliveLvl, true, false);
+    });
+
+    IterateAOLvls([&](ReliveAPI::LvlReader& lvlReader, EReliveLevelIds reliveLvl, AO::LevelIds lvlIdxAsLvl)
+    {
+        ConvertFilesInLvl<AO::LevelIds, AO::Path_TLV>(dataDir, fs, lvlReader, fileBuffer, lvlIdxAsLvl, reliveLvl, true, true);
+    });
+
     LogNonConvertedAnims(true);
     LogNonConvertedPals(true);
 }
@@ -1680,37 +1730,19 @@ void DataConversion::ConvertDataAE()
     ConvertHardcodedPals(dataDir);
 
     std::vector<u8> fileBuffer;
-    for (s32 lvlIdx = 0; lvlIdx < Path_Get_Paths_Count(); lvlIdx++)
+    IterateAELvls([&](ReliveAPI::LvlReader& lvlReader, EReliveLevelIds reliveLvl, LevelIds lvlIdxAsLvl) 
     {
-        // Skip entries that have no data
-        const ::LevelIds lvlIdxAsLvl = static_cast<::LevelIds>(lvlIdx);
-        if (lvlIdxAsLvl == ::LevelIds::eTestLevel_15)
-        {
-            continue;
-        }
-
-        // Open the LVL file
-        const EReliveLevelIds reliveLvl = MapWrapper::FromAE(lvlIdxAsLvl);
-        ReliveAPI::FileIO fileIo;
-
-        auto lvName = std::string(::Path_Get_Lvl_Name(reliveLvl)) + ".LVL";
-        std::transform(lvName.begin(), lvName.end(), lvName.begin(),
-            [](unsigned char c){ return static_cast<char>(std::tolower(c)); }
-        );
-
-        ReliveAPI::LvlReader lvlReader(fileIo, lvName.c_str());
-
-        if (!lvlReader.IsOpen())
-        {
-            // Fatal, missing LVL file
-            ALIVE_FATAL("Couldn't open lvl file");
-        }
-
         ConvertAnimations(dataDir, fs, fileBuffer, lvlReader, reliveLvl, false);
 
         ConvertPals(dataDir, fileBuffer, lvlReader, false);
 
-        ConvertFilesInLvl<::LevelIds, ::Path_TLV>(dataDir, fs, lvlReader, fileBuffer, lvlIdxAsLvl, reliveLvl, false);
-    }
+        ConvertFilesInLvl<::LevelIds, ::Path_TLV>(dataDir, fs, lvlReader, fileBuffer, lvlIdxAsLvl, reliveLvl, false, false);
+    });
+
+    IterateAELvls([&](ReliveAPI::LvlReader& lvlReader, EReliveLevelIds reliveLvl, LevelIds lvlIdxAsLvl) 
+    { 
+        ConvertFilesInLvl<::LevelIds, ::Path_TLV>(dataDir, fs, lvlReader, fileBuffer, lvlIdxAsLvl, reliveLvl, false, true);
+    });
+
     LogNonConvertedAnims(false);
 }
