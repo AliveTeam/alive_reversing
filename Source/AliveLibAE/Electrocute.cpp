@@ -24,7 +24,7 @@ public:
         u32 palDepth = 1; // account for the first array index which is 0
         for (u32 i = 0; i < ALIVE_COUNTOF(mPal.mPal); i++)
         {
-            if (mPal.mPal[i] != 0)
+            if (*(reinterpret_cast<u32*>(&mPal.mPal[i])) != 0)
             {
                 palDepth++;
             }

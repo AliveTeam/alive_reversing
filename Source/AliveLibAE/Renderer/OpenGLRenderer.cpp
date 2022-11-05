@@ -1,5 +1,6 @@
 #include "OpenGLRenderer.hpp"
 #include "../Compression.hpp"
+#include "../relive_lib/data_conversion/rgb_conversion.hpp"
 #include "../relive_lib/Primitives.hpp"
 #include "../relive_lib/Animation.hpp"
 #include "../Font.hpp"
@@ -84,27 +85,11 @@ static GLuint Renderer_CreateTexture(GLenum interpolation = GL_NEAREST)
     return textureId;
 }
 
-static void Renderer_DecodePalette(const u8* srcPalData, RGBAPixel* dst, s32 palDepth)
-{
-    const u16* palShortPtr = reinterpret_cast<const u16*>(srcPalData);
-
-    for (s32 i = 0; i < palDepth; i++)
-    {
-        const u16 oldPixel = palShortPtr[i];
-
-        dst[i].B = static_cast<u8>((((oldPixel >> 0) & 0x1F)) << 3);
-        dst[i].G = static_cast<u8>((((oldPixel >> 5) & 0x1F)) << 3);
-        dst[i].R = static_cast<u8>((((oldPixel >> 10) & 0x1F)) << 3);
-        dst[i].A = static_cast<u8>((((((oldPixel) >> 15) & 0x1)) ? 255 : 0));
-    }
-}
-
-
 u32 OpenGLRenderer::PreparePalette(AnimationPal& pCache)
 {
     if (mPaletteTextureId == 0)
     {
-        RGBAPixel black[256] = {};
+        RGBA32 black[256] = {};
 
         mPaletteTextureId = Renderer_CreateTexture();
 
@@ -126,10 +111,6 @@ u32 OpenGLRenderer::PreparePalette(AnimationPal& pCache)
         searchResult->second.mInUse = true;
         return searchResult->second.mIndex; // Palette index
     }
-
-    // Decode the new palette
-    RGBAPixel dst[256];
-    Renderer_DecodePalette(reinterpret_cast<const u8*>(pCache.mPal), dst, 256);
 
     // Get an index for the new palette
     u32 nextIndex = static_cast<u32>(mPaletteCache.size());
@@ -168,7 +149,7 @@ u32 OpenGLRenderer::PreparePalette(AnimationPal& pCache)
     // Write palette data
     GL_VERIFY(glActiveTexture(GL_TEXTURE1));
     GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mPaletteTextureId));
-    GL_VERIFY(glTexSubImage2D(GL_TEXTURE_2D, 0, 0, nextIndex, GL_PALETTE_DEPTH, 1, GL_RGBA, GL_UNSIGNED_BYTE, dst));
+    GL_VERIFY(glTexSubImage2D(GL_TEXTURE_2D, 0, 0, nextIndex, GL_PALETTE_DEPTH, 1, GL_RGBA, GL_UNSIGNED_BYTE, pCache.mPal));
 
     mStats.mPalUploadCount++;
 

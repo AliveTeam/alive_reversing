@@ -1480,7 +1480,12 @@ static void ConvertFont(const FileSystem::Path& dataDir, const std::string& file
 
      for (s32 i = 0; i < 16; i++)
      {
-         pal.mPal[i] = AnimationConverter::ToTGAPixelFormat(fontFile->field_8_palette[i]);
+         RGBA32 pixel = RGBConversion::RGBA555ToRGBA888Components(fontFile->field_8_palette[i]);
+
+         pal.mPal[i].r = pixel.r;
+         pal.mPal[i].g = pixel.g;
+         pal.mPal[i].b = pixel.b;
+         pal.mPal[i].a = pixel.a;
      }
 
      std::vector<u8> newData((fontFile->mWidth / 2) * fontFile->mHeight * 2);
@@ -1574,7 +1579,12 @@ static void ConvertPal(const FileSystem::Path& dataDir, const char* pFileName, c
     AnimationPal pal;
     for (u32 i = 0; i < len; i++)
     {
-        pal.mPal[i] = AnimationConverter::ToTGAPixelFormat(pData[i]);
+        RGBA32 pixel = RGBConversion::RGBA555ToRGBA888Components(pData[i]);
+
+        pal.mPal[i].r = pixel.r;
+        pal.mPal[i].g = pixel.g;
+        pal.mPal[i].b = pixel.b;
+        pal.mPal[i].a = pixel.a;
     }
     SavePal(pal, palFilePath);
 }

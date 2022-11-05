@@ -263,10 +263,10 @@ AnimationConverter::MaxWH AnimationConverter::CalcMaxWH(const AnimationHeader* p
 
 u16 AnimationConverter::ToTGAPixelFormat(u16 pixel)
 {
-    const u8 r = pixel & 31;
-    const u8 g = (pixel >> 5) & 31;
-    const u8 b = (pixel >> 10) & 31;
-    const u8 semiTrans = (pixel >> 15) & 1;
+    const u8 r = pixel & 0x1F;
+    const u8 g = (pixel >> 5) & 0x1F;
+    const u8 b = (pixel >> 10) & 0x1F;
+    const u8 semiTrans = (pixel >> 15) & 0x1;
 
     //  color value: x[RRRRR][GG GGG][BBBBB] 1,5,5,5
     const u16 convertedPixel = (b) | (g << 5) | (r << 10) | (semiTrans << 15);
@@ -280,7 +280,12 @@ void AnimationConverter::ConvertPalToTGAFormat(const std::vector<u8>& fileData, 
 
     for (u32 i = 0; i < clutSize; i++)
     {
-        pal.mPal[i] = ToTGAPixelFormat(pClutData[i]);
+        RGBA32 pixel = RGBConversion::RGBA555ToRGBA888Components(pClutData[i]);
+
+        pal.mPal[i].r = pixel.r;
+        pal.mPal[i].g = pixel.g;
+        pal.mPal[i].b = pixel.b;
+        pal.mPal[i].a = pixel.a;
     }
 }
 

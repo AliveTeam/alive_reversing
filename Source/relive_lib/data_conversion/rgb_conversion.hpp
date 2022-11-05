@@ -1,13 +1,13 @@
 #pragma once
 
+struct RGBA32 final
+{
+    u8 r, g, b, a;
+};
+
 class RGBConversion final
 {
 public:
-    struct RGBA32 final
-    {
-        u8 r, g, b, a;
-    };
-
     static u16 RGB888ToRGB565(u8 r8, u8 g8, u8 b8)
     {
         const u8 red = r8;
@@ -50,9 +50,9 @@ public:
 
     static RGBA32 RGBA555ToRGBA888Components(u16 pixel)
     {
-        const u8 r5 = ((pixel >> 10) & 0x1F);
+        const u8 r5 = (pixel & 0x1F);
         const u8 g5 = ((pixel >> 5) & 0x1F);
-        const u8 b5 = (pixel & 0x1F);
+        const u8 b5 = ((pixel >> 10) & 0x1F);
         bool bSemi = (pixel >> 15) & 0x1;
 
         const u32 r8 = ((r5 * 527) + 23) >> 6;

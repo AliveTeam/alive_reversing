@@ -471,7 +471,7 @@ Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
     CreateShadow();
 }
 
-void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, s16* pPalAlloc, s16 palSize, s16& r, s16& g, s16& b,
+void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, PalResource& pal, s16 palSize, s16& r, s16& g, s16& b,
                            const s16* eyeColourIndices, s16 eyeColourIndicesSize)
 {
     if (actor->GetAnimation().mFlags.Get(AnimFlags::eRender))
@@ -479,67 +479,51 @@ void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, s16* pPa
         if (gMap.mCurrentPath == actor->mCurrentPath && gMap.mCurrentLevel == actor->mCurrentLevel && actor->Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
         {
             actor->GetAnimation().SetSpriteScale(actor->GetSpriteScale());
-
             const PSX_RECT boundingRect = actor->VGetBoundingRect();
-            s16 rMod = actor->mRGB.r;
-            s16 gMod = actor->mRGB.g;
-            s16 bMod = actor->mRGB.b;
+            s16 rShade = actor->mRGB.r;
+            s16 gShade = actor->mRGB.g;
+            s16 bShade = actor->mRGB.b;
             ShadowZone::ShadowZones_Calculate_Colour(
                 FP_GetExponent(actor->mXPos),
                 (boundingRect.h + boundingRect.y) / 2,
                 actor->GetScale(),
-                &rMod,
-                &gMod,
-                &bMod);
+                &rShade,
+                &gShade,
+                &bShade);
             if (!actor->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted))
             {
-                if (rMod != r || gMod != g || bMod != b)
+                if (rShade != r || rShade != g || rShade != b)
                 {
-                    r = rMod;
-                    g = gMod;
-                    b = bMod;
+                    r = rShade;
+                    g = rShade;
+                    b = rShade;
 
                     for (s32 i = 0; i < palSize; i++)
                     {
-                        s32 auxPalValue = actor->GetAnimation().mAnimRes.mTgaPtr->mPal->mPal[i] & 0x1F;
-                        u16 resultR = static_cast<s16>(auxPalValue * r) >> 7;
-                        if (resultR > 31)
-                        {
-                            resultR = 31;
-                        }
+                        u32 auxPalValue = actor->GetAnimation().mAnimRes.mTgaPtr->mPal->mPal[i].r;
+                        u8 resultR = static_cast<u8>((auxPalValue * r) >> 7);
 
-                        auxPalValue = (actor->GetAnimation().mAnimRes.mTgaPtr->mPal->mPal[i] >> 5) & 0x1F;
-                        u16 resultG = static_cast<s16>(auxPalValue * g) >> 7;
-                        if (resultG > 31)
-                        {
-                            resultG = 31;
-                        }
+                        auxPalValue = actor->GetAnimation().mAnimRes.mTgaPtr->mPal->mPal[i].g;
+                        u8 resultG = static_cast<u8>((auxPalValue * g) >> 7);
 
-                        auxPalValue = (actor->GetAnimation().mAnimRes.mTgaPtr->mPal->mPal[i] >> 10) & 0x1F;
-                        u16 resultB = static_cast<s16>(auxPalValue * b) >> 7;
-                        if (resultB > 31)
-                        {
-                            resultB = 31;
-                        }
+                        auxPalValue = actor->GetAnimation().mAnimRes.mTgaPtr->mPal->mPal[i].b;
+                        u8 resultB = static_cast<u8>((auxPalValue * b) >> 7);
 
-                        s32 resultMixed = (actor->GetAnimation().mAnimRes.mTgaPtr->mPal->mPal[i] & 0x8000) | ((resultR & 31) + 32 * (resultG & 31) + 32 * 32 * (resultB & 31));
-                        if (resultMixed <= 0 && actor->GetAnimation().mAnimRes.mTgaPtr->mPal->mPal[i])
-                        {
-                            resultMixed = 1;
-                        }
-                        pPalAlloc[i] = static_cast<u16>(resultMixed);
+                        pal.mPal->mPal[i].a = actor->GetAnimation().mAnimRes.mTgaPtr->mPal->mPal[i].a;
+                        pal.mPal->mPal[i].r = resultR;
+                        pal.mPal->mPal[i].g = resultG;
+                        pal.mPal->mPal[i].b = resultB;
                     }
                     for (s32 i = 0; i < eyeColourIndicesSize; i++)
                     {
-                        pPalAlloc[eyeColourIndices[i]] = actor->GetAnimation().mAnimRes.mTgaPtr->mPal->mPal[eyeColourIndices[i]];
+                        pal.mPal->mPal[eyeColourIndices[i]] = actor->GetAnimation().mAnimRes.mTgaPtr->mPal->mPal[eyeColourIndices[i]];
                     }
-                    /*
-                    Pal_Set(
-                        actor->mAnim.mPalVramXY,
-                        actor->mAnim.mPalDepth,
-                        reinterpret_cast<const u8*>(pPalAlloc),
-                        palRect);
-                        */
+
+                    actor->GetAnimation().LoadPal(pal);
+                }
+                else
+                {
+                    actor->GetAnimation().ReloadPal();
                 }
                 actor->GetAnimation().SetRGB(127, 127, 127);
             }
@@ -567,8 +551,7 @@ void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, s16* pPa
 void Slig::VRender(PrimHeader** ot)
 {
     const s16 eyeIndices[] = {61, 62};
-    renderWithGlowingEyes(ot, this, &field_178_pPalAlloc[0], ALIVE_COUNTOF(field_178_pPalAlloc),
-                          field_200_red, field_202_green, field_204_blue, &eyeIndices[0], ALIVE_COUNTOF(eyeIndices));
+    renderWithGlowingEyes(ot, this, field_178_mPal, 64, field_200_red, field_202_green, field_204_blue, &eyeIndices[0], ALIVE_COUNTOF(eyeIndices));
 }
 
 s16 Slig::VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pOther)

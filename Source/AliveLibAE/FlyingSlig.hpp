@@ -289,7 +289,7 @@ private:
     FP field_1CC_lever_pull_range_ypos = {};
     PathLine* field_1EC_pNextLine = nullptr;
     PathLine* field_1F0_pPrevLine = nullptr;
-    s16 field_1F4_pPalAlloc[64] = {};
+    PalResource field_1F4_mPal;
     s16 field_27C_r = 0;
     s16 field_27E_g = 0;
     s16 field_280_b = 0;

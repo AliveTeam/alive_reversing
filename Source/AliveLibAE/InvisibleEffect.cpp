@@ -88,7 +88,7 @@ void InvisibleEffect::VUpdate()
                 for (s32 idx2 = 8; idx2 < 256; idx2++)
                 {
                     // Set transparent bit
-                    mPal2.mPal->mPal[idx2] |= 0x8000u;
+                    mPal2.mPal->mPal[idx2].a = 255;
                 }
 
                 pTarget->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eInvisible);
@@ -118,30 +118,30 @@ void InvisibleEffect::VUpdate()
                 for (s32 idx = 8; idx < 256; idx++)
                 {
                     // Red
-                    if (mPal2.mPal->mPal[idx] & 0x1F)
+                    if (mPal2.mPal->mPal[idx].r)
                     {
                         v3 = true;
-                        mPal2.mPal->mPal[idx] = mPal2.mPal->mPal[idx] - 1;
+                        mPal2.mPal->mPal[idx].r -= 1;
                     }
 
                     // Green
-                    if (mPal2.mPal->mPal[idx] & 0x3E0)
+                    if (mPal2.mPal->mPal[idx].g)
                     {
                         v3 = true;
-                        mPal2.mPal->mPal[idx] = mPal2.mPal->mPal[idx] - 32;
+                        mPal2.mPal->mPal[idx].g -= 1;
                     }
 
                     // Blue
-                    if (mPal2.mPal->mPal[idx] & 0x7C00)
+                    if (mPal2.mPal->mPal[idx].b)
                     {
                         v3 = true;
-                        mPal2.mPal->mPal[idx] = mPal2.mPal->mPal[idx] - 1024;
+                        mPal2.mPal->mPal[idx].b -= 1;
                     }
 
                     // Semi trans
-                    if (mPal2.mPal->mPal[idx] == 0x8000u)
+                    if (mPal2.mPal->mPal[idx].a == 255 && mPal2.mPal->mPal[idx].r == 0 && mPal2.mPal->mPal[idx].g == 0 && mPal2.mPal->mPal[idx].b == 0)
                     {
-                        mPal2.mPal->mPal[idx] = 0;
+                        mPal2.mPal->mPal[idx].a = 0;
                     }
                 }
 
@@ -165,7 +165,7 @@ void InvisibleEffect::VUpdate()
                 for (s32 i = 8; i < 256; i++)
                 {
                     // Clear transparent bit
-                    mPal2.mPal->mPal[i] &= 0x8000u;
+                    mPal2.mPal->mPal[i].a = 0;
                 }
                 // TODO
                 pTarget->GetAnimation().LoadPal(mPal2);
@@ -188,22 +188,26 @@ void InvisibleEffect::VUpdate()
                 bool v3 = false;
                 for (s32 idx4 = 1; idx4 < 256; idx4++)
                 {
-                    if ((mPal2.mPal->mPal[idx4] ^ (mPal1.mPal->mPal[idx4])) & 0x1F)
+                    u32* pal1u32 = reinterpret_cast<u32*>(&mPal1.mPal->mPal[idx4]);
+                    u32* pal2u32 = reinterpret_cast<u32*>(&mPal2.mPal->mPal[idx4]);
+                    u32 palXor = (*pal1u32) ^ (*pal1u32);
+
+                    if (palXor & 0xFF)
                     {
                         v3 = true;
-                        mPal2.mPal->mPal[idx4] = mPal2.mPal->mPal[idx4] + 1;
+                        mPal2.mPal->mPal[idx4].r += 1;
                     }
 
-                    if ((mPal2.mPal->mPal[idx4] ^ mPal1.mPal->mPal[idx4]) & 0x3E0)
+                    if (palXor & 0xFF00)
                     {
                         v3 = true;
-                        mPal2.mPal->mPal[idx4] = mPal2.mPal->mPal[idx4] + 32;
+                        mPal2.mPal->mPal[idx4].g += 1;
                     }
 
-                    if ((mPal2.mPal->mPal[idx4] ^ mPal1.mPal->mPal[idx4]) & 0x7C00)
+                    if (palXor & 0xFF0000)
                     {
                         v3 = true;
-                        mPal2.mPal->mPal[idx4] = mPal2.mPal->mPal[idx4] + 1024;
+                        mPal2.mPal->mPal[idx4].b += 1;
                     }
                 }
 

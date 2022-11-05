@@ -167,7 +167,7 @@ PalResource ResourceManagerWrapper::LoadPal(PalId pal)
 
     FileSystem fs;
     auto palData = fs.LoadToVec(filePath.GetPath().c_str());
-    if (palData.size() != 512)
+    if (palData.size() != 1024) // 256 RGBA entries
     {
         ALIVE_FATAL("Bad pal data size");
     }

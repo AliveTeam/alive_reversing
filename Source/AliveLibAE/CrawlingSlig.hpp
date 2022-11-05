@@ -165,7 +165,7 @@ private:
 
 private:
     Guid mGuid;
-    s16 field_11C_pPalAlloc[64] = {};
+    PalResource field_11C_mPal;
     s16 field_1A4_r = 0;
     s16 field_1A6_g = 0;
     s16 field_1A8_b = 0;

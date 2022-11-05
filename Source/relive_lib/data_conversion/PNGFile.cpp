@@ -253,11 +253,36 @@ void PNGFile::Load(const char_type* pFileName, AnimationPal& pal256, std::vector
     for (u32 i = 0; i < plte.n_entries; i++)
     {
         u8 alpha = 0;
+        spng_plte_entry* color = &plte.entries[i];
+        bool isBlack = color->red == 0 && color->green == 0 && color->blue == 0;
+
         if (i < trns.n_type3_entries)
         {
             alpha = trns.type3_alpha[i];
         }
-        pal256.mPal[i] = RGBConversion::RGB888ToRGB555(plte.entries[i].red, plte.entries[i].green, plte.entries[i].blue, alpha);
+
+        if (alpha == 0)
+        {
+            pal256.mPal[i] = {0, 0, 0, 0};
+        }
+        else if (alpha == 255)
+        {
+            pal256.mPal[i] = {
+                color->red,
+                color->green,
+                color->blue,
+                isBlack ? 255 : 0
+            };
+        }
+        else
+        {
+            pal256.mPal[i] = {
+                color->red,
+                color->green,
+                color->blue,
+                255
+            };
+        }
     }
 
     if (ihdr.color_type != SPNG_COLOR_TYPE_INDEXED)
@@ -300,11 +325,24 @@ void PNGFile::Save(const char_type* pFileName, const AnimationPal& pal256, const
     plte.n_entries = 255;
     for (u32 i = 0; i < 255; i++)
     {
-        const RGBConversion::RGBA32 rgb = RGBConversion::RGBA555ToRGBA888Components(pal256.mPal[i]);
-        plte.entries[i].red = rgb.r;
-        plte.entries[i].green = rgb.g;
-        plte.entries[i].blue = rgb.b;
-        trns.type3_alpha[i] = rgb.a;
+        const RGBA32* color = &pal256.mPal[i];
+
+        if (color->a == 255) // STP 1
+        {
+            plte.entries[i].red = color->r;
+            plte.entries[i].green = color->g;
+            plte.entries[i].blue = color->b;
+            trns.type3_alpha[i] = 127;
+        }
+        else
+        {
+            bool isBlack = color->r == 0 && color->g == 0 && color->b == 0;
+
+            plte.entries[i].red = color->r;
+            plte.entries[i].green = color->g;
+            plte.entries[i].blue = color->b;
+            trns.type3_alpha[i] = isBlack ? 0 : 255;
+        }
     }
 
     api.SetPal(plte);

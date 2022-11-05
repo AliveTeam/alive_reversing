@@ -10,6 +10,7 @@
 #include "imgui_impl_opengl3.h"
 
 #include "GLShader.hpp"
+#include "../relive_lib/data_conversion/rgb_conversion.hpp"
 #include "../relive_lib/Animation.hpp"
 #include "../relive_lib/ResourceManagerWrapper.hpp"
 
@@ -52,11 +53,6 @@ struct VertexData final
     u32 paletteIndex, textureUnitIndex;
 };
 
-struct RGBAPixel final
-{
-    u8 R, G, B, A;
-};
-
 struct TextureCache final
 {
     GLuint mTextureID;
@@ -67,7 +63,7 @@ struct PaletteCache final
     u32 mPalTextureID;
     PSX_Point mPalPoint;
     s16 mPalDepth;
-    RGBAPixel mPalData[256];
+    RGBA32 mPalData[256];
 };
 
 struct TextureAndUniqueResId final

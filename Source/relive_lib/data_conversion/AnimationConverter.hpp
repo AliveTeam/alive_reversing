@@ -1,12 +1,13 @@
 #pragma once
 
 #include "file_system.hpp"
+#include "rgb_conversion.hpp"
 #include "../../AliveLibCommon/AnimResources.hpp"
 #include <vector>
 
 struct AnimationPal final
 {
-    u16 mPal[256] = {};
+    RGBA32 mPal[256] = {};
 };
 
 struct AnimationHeader;

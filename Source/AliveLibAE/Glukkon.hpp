@@ -203,7 +203,7 @@ private:
     bool BrainIs(TGlukkonBrainFn fn);
 
 private:
-    s16 field_118_pPalAlloc[64] = {};
+    PalResource field_118_mPal;
     s16 field_1A0_red = 0;
     s16 field_1A2_green = 0;
     s16 field_1A4_blue = 0;
