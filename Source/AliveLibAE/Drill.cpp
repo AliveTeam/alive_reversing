@@ -108,11 +108,11 @@ Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
     {
         if (field_128_flags.Get(Flags::eBit6_StartPosIsBottom))
         {
-            mDrillState = DrillStates::State_2_GoingUp;
+            mState = DrillStates::State_2_GoingUp;
         }
         else
         {
-            mDrillState = DrillStates::State_1_Going_Down;
+            mState = DrillStates::State_1_Going_Down;
         }
 
         const CameraPos direction = gMap.GetDirection(
@@ -142,13 +142,13 @@ Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
             mDrillDistance = pTlv->mBottomRightY - pTlv->mTopLeftY;
             if (field_128_flags.Get(Flags::eBit6_StartPosIsBottom))
             {
-                field_124_xyoff = FP_FromInteger(0);
+                mXYOff = FP_FromInteger(0);
             }
             else
             {
-                field_124_xyoff = FP_FromInteger(mDrillDistance);
+                mXYOff = FP_FromInteger(mDrillDistance);
             }
-            mYPos = mAdjustedYPos - field_124_xyoff;
+            mYPos = mAdjustedYPos - mXYOff;
             break;
 
         case relive::Path_Drill::DrillDirection::eRight:
@@ -168,13 +168,13 @@ Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
             mDrillDistance = pTlv->mBottomRightX - pTlv->mTopLeftX;
             if (field_128_flags.Get(Flags::eBit6_StartPosIsBottom))
             {
-                field_124_xyoff = FP_FromInteger(0);
+                mXYOff = FP_FromInteger(0);
             }
             else
             {
-                field_124_xyoff = FP_FromInteger(mDrillDistance);
+                mXYOff = FP_FromInteger(mDrillDistance);
             }
-            mXPos = field_124_xyoff + mAdjustedXPos;
+            mXPos = mXYOff + mAdjustedXPos;
             break;
 
         case relive::Path_Drill::DrillDirection::eLeft:
@@ -196,13 +196,13 @@ Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
             mDrillDistance = pTlv->mBottomRightX - pTlv->mTopLeftX;
             if (field_128_flags.Get(Flags::eBit6_StartPosIsBottom))
             {
-                field_124_xyoff = FP_FromInteger(0);
+                mXYOff = FP_FromInteger(0);
             }
             else
             {
-                field_124_xyoff = FP_FromInteger(mDrillDistance);
+                mXYOff = FP_FromInteger(mDrillDistance);
             }
-            mXPos = mAdjustedXPos - field_124_xyoff;
+            mXPos = mAdjustedXPos - mXYOff;
             break;
     }
 
@@ -242,7 +242,7 @@ Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
     field_100_min_off_time_speed_change = tlvData.mOffMinPauseTime;
     field_102_max_off_time_speed_change = tlvData.mOffMaxPauseTime;
     mOffTimer = 0;
-    mDrillState = DrillStates::State_0_Restart_Cycle;
+    mState = DrillStates::State_0_Restart_Cycle;
     mTlvInfo = tlvId;
     mAudioChannelsMask = 0;
 
@@ -252,10 +252,10 @@ Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
 s32 Drill::CreateFromSaveState(const u8* pData)
 {
     const DrillSaveState* pState = reinterpret_cast<const DrillSaveState*>(pData);
-    auto pTlv = static_cast<relive::Path_Drill*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_8_tlvInfo));
-    auto pDrill = relive_new Drill(pTlv, pState->field_8_tlvInfo);
+    auto pTlv = static_cast<relive::Path_Drill*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->mDrillTlvId));
+    auto pDrill = relive_new Drill(pTlv, pState->mDrillTlvId);
 
-    if (pState->field_10_state != DrillStates::State_0_Restart_Cycle)
+    if (pState->mState != DrillStates::State_0_Restart_Cycle)
     {
         switch (pDrill->mDrillDirection)
         {
@@ -273,9 +273,9 @@ s32 Drill::CreateFromSaveState(const u8* pData)
         }
     }
 
-    pDrill->mOffTimer = pState->field_C_off_timer;
-    pDrill->mDrillState = pState->field_10_state;
-    pDrill->field_124_xyoff = FP_FromInteger(pState->field_12_xyoff);
+    pDrill->mOffTimer = pState->mOffTimer;
+    pDrill->mState = pState->mState;
+    pDrill->mXYOff = FP_FromInteger(pState->mXYOff);
     return sizeof(DrillSaveState);
 }
 
@@ -288,14 +288,14 @@ void Drill::VUpdate()
 
     const CameraPos soundDirection = gMap.GetDirection(mCurrentLevel, mCurrentPath, mXPos, mYPos);
 
-    switch (mDrillState)
+    switch (mState)
     {
         case DrillStates::State_0_Restart_Cycle:
             if (Expired(mOffTimer) || field_128_flags.Get(eBit4_Toggle))
             {
                 if ((!field_128_flags.Get(Flags::eBit3_UseId)) || (!!SwitchStates_Get(mDrillSwitchId) == (field_128_flags.Get(eBit1_StartOff))))
                 {
-                    mDrillState = DrillStates::State_1_Going_Down;
+                    mState = DrillStates::State_1_Going_Down;
 
                     switch (mDrillDirection)
                     {
@@ -321,7 +321,7 @@ void Drill::VUpdate()
 
             if (field_128_flags.Get(Flags::eBit3_UseId) && !field_128_flags.Get(Flags::eBit4_Toggle) && FP_GetExponent(mOffSpeed) > 0 && Expired(mOffTimer))
             {
-                mDrillState = DrillStates::State_1_Going_Down;
+                mState = DrillStates::State_1_Going_Down;
 
                 switch (mDrillDirection)
                 {
@@ -359,10 +359,10 @@ void Drill::VUpdate()
 
             DamageTouchingObjects();
 
-            field_124_xyoff -= mCurrentSpeed;
-            if (field_124_xyoff <= FP_FromInteger(0))
+            mXYOff -= mCurrentSpeed;
+            if (mXYOff <= FP_FromInteger(0))
             {
-                mDrillState = DrillStates::State_2_GoingUp;
+                mState = DrillStates::State_2_GoingUp;
                 SFX_Play_Camera(relive::SoundEffects::DrillCollision, 50, soundDirection, FP_FromInteger(1));
             }
             EmitSparks();
@@ -376,8 +376,8 @@ void Drill::VUpdate()
 
             DamageTouchingObjects();
 
-            field_124_xyoff = mCurrentSpeed + field_124_xyoff;
-            if (field_124_xyoff >= FP_FromInteger(mDrillDistance))
+            mXYOff = mCurrentSpeed + mXYOff;
+            if (mXYOff >= FP_FromInteger(mDrillDistance))
             {
                 if (mAudioChannelsMask)
                 {
@@ -385,7 +385,7 @@ void Drill::VUpdate()
                     mAudioChannelsMask = 0;
                 }
 
-                mDrillState = DrillStates::State_0_Restart_Cycle;
+                mState = DrillStates::State_0_Restart_Cycle;
                 SFX_Play_Camera(relive::SoundEffects::DrillCollision, 50, soundDirection);
 
                 s16 max_off = 0;
@@ -443,15 +443,15 @@ Drill::~Drill()
 
 void Drill::VScreenChanged()
 {
-    if (mDrillState != DrillStates::State_0_Restart_Cycle)
+    if (mState != DrillStates::State_0_Restart_Cycle)
     {
         if (field_128_flags.Get(Flags::eBit6_StartPosIsBottom))
         {
-            field_124_xyoff = FP_FromInteger(0);
+            mXYOff = FP_FromInteger(0);
         }
         else
         {
-            field_124_xyoff = FP_FromInteger(mDrillDistance);
+            mXYOff = FP_FromInteger(mDrillDistance);
         }
     }
 
@@ -502,17 +502,17 @@ void Drill::VRender(PrimHeader** ppOt)
     {
         if (mDrillDirection == relive::Path_Drill::DrillDirection::eDown)
         {
-            mYPos = mAdjustedYPos - field_124_xyoff;
+            mYPos = mAdjustedYPos - mXYOff;
             BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
         }
         else if (mDrillDirection == relive::Path_Drill::DrillDirection::eRight)
         {
-            mXPos = mAdjustedXPos + field_124_xyoff;
+            mXPos = mAdjustedXPos + mXYOff;
             BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
         }
         else if (mDrillDirection == relive::Path_Drill::DrillDirection::eLeft)
         {
-            mXPos = mAdjustedXPos - field_124_xyoff;
+            mXPos = mAdjustedXPos - mXYOff;
             BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
         }
     }
@@ -531,10 +531,10 @@ s32 Drill::VGetSaveState(u8* pSaveBuffer)
 {
     DrillSaveState* pState = reinterpret_cast<DrillSaveState*>(pSaveBuffer);
     pState->mType = ReliveTypes::eDrill;
-    pState->field_8_tlvInfo = mTlvInfo;
-    pState->field_C_off_timer = mOffTimer;
-    pState->field_10_state = mDrillState;
-    pState->field_12_xyoff = FP_GetExponent(field_124_xyoff);
+    pState->mDrillTlvId = mTlvInfo;
+    pState->mOffTimer = mOffTimer;
+    pState->mState = mState;
+    pState->mXYOff = FP_GetExponent(mXYOff);
     return sizeof(DrillSaveState);
 }
 
@@ -543,11 +543,11 @@ void Drill::EmitSparks()
     if (gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
     {
         s32 speed = 0;
-        if (mDrillState == DrillStates::State_1_Going_Down)
+        if (mState == DrillStates::State_1_Going_Down)
         {
             speed = -FP_GetExponent(mCurrentSpeed - FP_FromInteger(2));
         }
-        else if (mDrillState == DrillStates::State_2_GoingUp)
+        else if (mState == DrillStates::State_2_GoingUp)
         {
             speed = FP_GetExponent(mCurrentSpeed);
         }

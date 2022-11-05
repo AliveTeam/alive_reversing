@@ -13,62 +13,62 @@ LiftMover::LiftMover(relive::Path_LiftMover* pTlv, const Guid& tlvId)
     : BaseGameObject(true, 0)
 {
     field_14_tlvInfo = tlvId;
-    field_18_pLiftPoint = nullptr;
+    mTargetLift = nullptr;
     SetType(ReliveTypes::eLiftMover);
 
     field_10_lift_mover_switch_id = pTlv->mLiftMoverSwitchId;
-    field_12_target_lift_point_id = pTlv->mTargetLiftPointId;
+    mTargetLiftPointId = pTlv->mTargetLiftPointId;
 
     if (pTlv->mMoveDirection == relive::Path_LiftMover::YDirection::eUp)
     {
-        field_1C_speed = FP_FromInteger(-4);
+        mLiftSpeed = FP_FromInteger(-4);
     }
     else
     {
-        field_1C_speed = FP_FromInteger(4);
+        mLiftSpeed = FP_FromInteger(4);
     }
 
-    field_20_state = 0;
+    mState = 0;
 }
 
 LiftMover::~LiftMover()
 {
-    if (field_18_pLiftPoint)
+    if (mTargetLift)
     {
-        field_18_pLiftPoint->mBaseGameObjectRefCount--;
-        field_18_pLiftPoint = nullptr;
+        mTargetLift->mBaseGameObjectRefCount--;
+        mTargetLift = nullptr;
     }
     Path::TLV_Reset(field_14_tlvInfo, -1, 0, 0);
 }
 
 void LiftMover::VUpdate()
 {
-    if (field_18_pLiftPoint && field_18_pLiftPoint->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+    if (mTargetLift && mTargetLift->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
     {
-        field_18_pLiftPoint->mBaseGameObjectRefCount--;
-        field_18_pLiftPoint = nullptr;
+        mTargetLift->mBaseGameObjectRefCount--;
+        mTargetLift = nullptr;
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         return;
     }
 
     // NOTE: Isn't null checked, could easily crash later :)
-    auto pLiftPoint = static_cast<LiftPoint*>(field_18_pLiftPoint);
+    auto pLiftPoint = static_cast<LiftPoint*>(mTargetLift);
 
-    switch (field_20_state)
+    switch (mState)
     {
         case 0:
             if (SwitchStates_Get(field_10_lift_mover_switch_id))
             {
                 if (pLiftPoint)
                 {
-                    field_20_state = 1;
+                    mState = 1;
                 }
                 else
                 {
                     // Find the lift point
-                    field_18_pLiftPoint = FindLiftPointWithId(field_12_target_lift_point_id);
+                    mTargetLift = FindLiftPointWithId(mTargetLiftPointId);
 
-                    if (!field_18_pLiftPoint)
+                    if (!mTargetLift)
                     {
                         // Load lift point objects (I guess in case for some reason it got unloaded ??)
                         // AE doesn't do this.
@@ -81,13 +81,13 @@ void LiftMover::VUpdate()
                         }
 
                         // And have another look now that we might have just loaded it in
-                        field_18_pLiftPoint = FindLiftPointWithId(field_12_target_lift_point_id);
+                        mTargetLift = FindLiftPointWithId(mTargetLiftPointId);
                     }
 
-                    if (field_18_pLiftPoint)
+                    if (mTargetLift)
                     {
-                        field_18_pLiftPoint->mBaseGameObjectRefCount++;
-                        field_20_state = 1;
+                        mTargetLift->mBaseGameObjectRefCount++;
+                        mState = 1;
                     }
                 }
             }
@@ -97,15 +97,15 @@ void LiftMover::VUpdate()
             if (!pLiftPoint->OnAnyFloor())
             {
                 pLiftPoint->field_27A_flags.Set(LiftPoint::Flags::eBit8_KeepOnMiddleFloor);
-                field_20_state = 2;
+                mState = 2;
             }
             else
             {
-                pLiftPoint->Move(FP_FromInteger(0), field_1C_speed, 0);
+                pLiftPoint->Move(FP_FromInteger(0), mLiftSpeed, 0);
 
-                if ((field_1C_speed > FP_FromInteger(0) && pLiftPoint->OnBottomFloor()) || (field_1C_speed < FP_FromInteger(0) && pLiftPoint->OnTopFloor()))
+                if ((mLiftSpeed > FP_FromInteger(0) && pLiftPoint->OnBottomFloor()) || (mLiftSpeed < FP_FromInteger(0) && pLiftPoint->OnTopFloor()))
                 {
-                    field_20_state = 2;
+                    mState = 2;
                 }
             }
             break;
@@ -113,29 +113,29 @@ void LiftMover::VUpdate()
         case 2:
             if (!pLiftPoint->OnAFloorLiftMoverCanUse())
             {
-                pLiftPoint->Move(FP_FromInteger(0), field_1C_speed, 0);
+                pLiftPoint->Move(FP_FromInteger(0), mLiftSpeed, 0);
             }
             else
             {
                 pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
-                field_20_state = 5;
+                mState = 5;
             }
             break;
 
         case 3:
             if (pLiftPoint->OnAFloorLiftMoverCanUse())
             {
-                pLiftPoint->Move(FP_FromInteger(0), field_1C_speed, 0);
+                pLiftPoint->Move(FP_FromInteger(0), mLiftSpeed, 0);
 
-                if ((field_1C_speed > FP_FromInteger(0) && pLiftPoint->OnBottomFloor()) || (field_1C_speed < FP_FromInteger(0) && pLiftPoint->OnTopFloor()))
+                if ((mLiftSpeed > FP_FromInteger(0) && pLiftPoint->OnBottomFloor()) || (mLiftSpeed < FP_FromInteger(0) && pLiftPoint->OnTopFloor()))
                 {
-                    field_20_state = 2;
+                    mState = 2;
                 }
             }
             else
             {
                 pLiftPoint->field_27A_flags.Set(LiftPoint::Flags::eBit8_KeepOnMiddleFloor);
-                field_20_state = 4;
+                mState = 4;
             }
             break;
 
@@ -143,20 +143,20 @@ void LiftMover::VUpdate()
             if (pLiftPoint->OnAFloorLiftMoverCanUse())
             {
                 pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
-                field_20_state = 0;
-                field_1C_speed = -field_1C_speed;
+                mState = 0;
+                mLiftSpeed = -mLiftSpeed;
             }
             else
             {
-                pLiftPoint->Move(FP_FromInteger(0), field_1C_speed, 0);
+                pLiftPoint->Move(FP_FromInteger(0), mLiftSpeed, 0);
             }
             break;
 
         case 5:
             if (!SwitchStates_Get(field_10_lift_mover_switch_id))
             {
-                field_20_state = 3;
-                field_1C_speed = -field_1C_speed;
+                mState = 3;
+                mLiftSpeed = -mLiftSpeed;
             }
             break;
 

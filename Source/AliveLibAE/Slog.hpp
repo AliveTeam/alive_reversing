@@ -65,50 +65,48 @@ enum class eSlogMotions
 
 struct SlogSaveState final
 {
-    ReliveTypes field_0_type;
-    s16 field_2_padding;
-    Guid field_4_objectId;
-    FP field_8_xpos;
-    FP field_C_ypos;
-    FP field_10_velx;
-    FP field_14_vely;
-    s16 field_18_path_number;
-    EReliveLevelIds field_1A_lvl_number;
-    FP field_1C_sprite_scale;
-    s16 mRingRed;
-    s16 mRingGreen;
-    s16 mRingBlue;
-    s16 field_26_bAnimFlipX;
-    s16 field_28_current_motion;
-    s16 field_2A_anim_cur_frame;
-    s16 field_2C_frame_change_counter;
-    s8 field_2E_bRender;
-    s8 field_2F_bDrawable;
-    FP field_30_health;
-    s16 field_34_current_motion;
-    s16 field_36_next_motion;
-    s16 field_38_last_line_ypos;
-    s16 field_3A_line_type;
-    Guid field_3C_id;
-    Guid field_40_tlvInfo;
-    Guid field_44_obj_id;
-    s16 field_48_state_idx;
-    s16 field_4A_brain_state_result;
-    s32 field_4C_timer;
-    FP field_50_falling_velx_scale_factor;
-    Guid field_54_obj_id;
-    s16 field_58_has_woofed;
-    s16 field_5A_waiting_counter;
-    s16 field_5C_response_index;
-    s16 field_5E_response_part;
-    s16 field_60_anger_level;
-    s16 field_62_jump_counter;
-    s32 field_64_scratch_timer;
-    s32 field_68_growl_timer;
-    Guid field_6C_bone_id;
-    s16 field_70_jump_delay;
-    u8 field_72_slog_random_index;
-    u8 field_73_padding;
+    ReliveTypes mType;
+    Guid mBaseTlvId;
+    FP mXPos;
+    FP mYPos;
+    FP mVelX;
+    FP mVelY;
+    s16 mCurrentPath;
+    EReliveLevelIds mCurrentLevel;
+    FP mSpriteScale;
+    s16 mR;
+    s16 mG;
+    s16 mB;
+    s16 mFlipX;
+    s16 mCurrentMotion;
+    s16 mCurrentFrame;
+    s16 mFrameChangeCounter;
+    s8 mRender;
+    s8 mDrawable;
+    FP mHealth;
+    s16 mCurrentMotion2;
+    s16 mNextMotion;
+    s16 mLastLineYPos;
+    s16 mCollisionLineType;
+    Guid mPlatformId;
+    Guid mSlogTlvId;
+    Guid mTargetId;
+    s16 mBrainState;
+    s16 mBrainSubState;
+    s32 mMultiUseTimer;
+    FP mFallingVelxScaleFactor;
+    Guid mListeningToSligId;
+    s16 mHasWoofed;
+    s16 mWaitingCounter;
+    s16 mResponseIdx;
+    s16 mResponsePart;
+    s16 mAngerLevel;
+    s16 mJumpCounter;
+    s32 mScratchTimer;
+    s32 mGrowlTimer;
+    Guid mBoneId;
+    s16 mChaseDelay;
+    u8 mSlogRandomIdx;
 
     enum Flags_74
     {
@@ -124,7 +122,6 @@ struct SlogSaveState final
         eBit10_ListenToSligs = 0x200,
     };
     BitField16<Flags_74> field_74_flags;
-    s16 field_76_padding;
 };
 
 class Slog;
@@ -134,7 +131,7 @@ using TSlogMotionFn = void (Slog::*)();
 class Slog final : public BaseAliveGameObject
 {
 public:
-    Slog(FP xpos, FP ypos, FP scale, s16 bListenToSligs, s16 jumpDelay);
+    Slog(FP xpos, FP ypos, FP scale, s16 bListenToSligs, s16 chaseDelay);
     Slog(relive::Path_Slog* pTlv, const Guid& tlvId);
     ~Slog();
 
@@ -242,33 +239,33 @@ private:
     s16 Facing(FP xpos);
 
 public:
-    Guid field_118_target_id;
+    Guid mTargetId;
     s16 field_11C_biting_target = 0;
 
 private:
-    u16 field_120_brain_state_idx = 0;
-    s16 field_122_brain_state_result = 0;
-    s32 field_124_timer = 0;
-    FP field_128_falling_velx_scale_factor = {};
-    Guid field_12C_tlvInfo;
+    u16 mBrainState = 0;
+    s16 mBrainSubState = 0;
+    s32 mMultiUseTimer = 0; // this timer is used for multiple things like chase delay, bone eating time etc.
+    FP mFallingVelxScaleFactor = {};
+    Guid mTlvId;
     s16 field_130_motion_resource_block_index = 0;
-    s16 field_132_has_woofed = 0;
+    s16 mHasWoofed = 0;
     s32 field_134_last_event_index = 0;
-    Guid field_138_listening_to_slig_id;
-    s16 field_13C_waiting_counter = 0;
-    s16 field_13E_response_index = 0;
-    s16 field_140_response_part = 0;
-    s16 field_142_anger_level = 0;
-    s16 field_144_wake_up_anger = 0;
+    Guid mListeningToSligId;
+    s16 mWaitingCounter = 0;
+    s16 mResponseIdx = 0;
+    s16 mResponsePart = 0;
+    s16 mAngerLevel = 0;
+    s16 mWakeUpAnger = 0;
     s16 field_146_total_anger = 0;
     s16 field_148_chase_anger = 0;
-    s32 field_14C_scratch_timer = 0;
-    s32 field_150_growl_timer = 0;
-    s16 field_154_anger_switch_id = 0;
-    s16 field_156_bone_eating_time = 0;
-    s16 field_158_chase_delay = 0;
-    s16 field_15A_jump_counter = 0;
-    Guid field_15C_bone_id;
+    s32 mScratchTimer = 0;
+    s32 mGrowlTimer = 0;
+    s16 mAngerSwitchId = 0;
+    s16 mBoneEatingTime = 0;
+    s16 mChaseDelay = 0;
+    s16 mJumpCounter = 0;
+    Guid mBoneId;
     enum Flags_160 : s16
     {
         eBit1_StopRunning = 0x1,

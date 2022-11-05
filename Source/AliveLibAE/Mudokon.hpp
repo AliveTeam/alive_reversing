@@ -169,52 +169,33 @@ struct MudokonSaveState final
     s16 field_3E_padding;
     Guid field_40_tlvInfo;
     FP field_44_velx_slow_by;
-    s32 field_48_unused;
     Guid field_4C_portal_id;
     s16 field_50_angry_trigger;
     s16 field_52_padding;
     s32 field_54_laugh_and_crouch_timer;
     s32 field_58_angry_timer;
-    s16 field_5C_unused;
     s16 field_5E_voice_pitch;
     Guid field_60_wheel_id;
-    s32 field_64_unused;
     MudSounds field_68;
     s16 field_6A_maxXOffset;
-
-
-    enum Flags_6A
-    {
-        eBit1_padding = 0x1,
-        eBit2_unused = 0x2,
-        eBit3_padding = 0x4,
-        eBit4_not_rescued = 0x8,
-        eBit5_save_state = 0x10,
-        eBit6_alerted = 0x20,
-        eBit7_blind = 0x40,
-        eBit8_following = 0x80,
-        eBit9_standing_for_sad_or_angry = 0x100,
-        eBit10_stopped_at_wheel = 0x200,
-        eBit11_do_angry = 0x400,
-        eBit12_seen_while_sick = 0x800,
-        eBit13_stop_trigger = 0x1000,
-        eBit14_unused = 0x2000,
-        eBit15_return_to_previous_motion = 0x4000,
-        eBit16_get_depressed = 0x8000
-    };
-    BitField16<Flags_6A> field_6C;
-
-    enum Flags_6E
-    {
-        e6E_Bit1_alert_enemies = 0x1,
-        e6E_Bit2 = 0x2,
-        e6E_Bit3_make_sad_noise = 0x4,
-        e6E_Bit4_ring_timeout = 0x8,
-        e6E_Bit5 = 0x10,
-        e6E_Bit6 = 0x20
-    };
-    BitField16<Flags_6E> field_6E;
-
+    bool mNotRescued;
+    bool mPersistAndResetOffscreen;
+    bool mAlerted;
+    bool mBlind;
+    bool mFollowingAbe;
+    bool mStandingForSadOrAngry;
+    bool mStoppedAtWheel;
+    bool mDoAngry;
+    bool mSeenWhileSick;
+    bool mWorkAfterTurningWheel;
+    bool mReturnToPreviousMotion;
+    bool mGetDepressed;
+    bool mAlertEnemies;
+    bool mNoiseUnknown;
+    bool mMakeSadNoise;
+    bool mAbeHasRing;
+    bool mRingAndAngryMudTimeout;
+    bool mIsMudStandingUp2;
     s16 field_70_brain_sub_state2;
     s16 field_72_stand_idle_timer;
     MudAction field_74_delayed_speak;
@@ -392,58 +373,33 @@ private:
     s16 field_120_angry_switch_id = 0;
     s32 field_124_laugh_and_crouch_timer = 0;
     s32 field_128_angry_timer = 0;
-    s32 field_12C_unused = 0;
-    s16 field_130_unused = 0;
     FP field_134_xVelSlowBy = {};
-    s32 field_138_unused = 0;
     s16 field_13C_voice_pitch = 0;
     s32 field_140_last_event_index = 0;
-    s16 field_154_unused = 0;
-    s16 field_156_unused = 0;
     Guid field_158_wheel_id;
-    s32 field_15C_unused = 0;
     MudSounds field_160_delayed_speak = MudSounds::eEmpty_0;
     s16 field_162_maxXOffset = 0;
     s32 field_164_ring_pulse_interval = 0;
     RingTypes field_168_ring_type = RingTypes::eExplosive_Pulse_0;
-
-    enum Flags_16A
-    {
-        eBit1_not_rescued = 0x1,
-        eBit2_persist_and_reset_offscreen = 0x2,
-        eBit3_alerted = 0x4,
-        eBit4_blind = 0x8,
-        eBit5_following = 0x10,
-        eBit6_standing_for_sad_or_angry = 0x20,
-        eBit7_stopped_at_wheel = 0x40,
-        eBit8_do_angry = 0x80,
-        eBit9_seen_while_sick = 0x100,
-        eBit10_work_after_turning_wheel = 0x200,
-        eBit11_get_depressed = 0x400,
-        eBit12_alert_enemies = 0x800,
-        eBit13 = 0x1000, // TODO: It's only unset until it's checked, then set. Relates to MudAction::eUnknown_15 and MudAction::eUnknown_16. It's only set when a Glukkon makes a loud noise on the same screen as the Mudokon.
-        eBit14_make_sad_noise = 0x2000,
-        eBit15_ring_and_angry_mud_timeout = 0x4000,
-        eBit16_give_ring_without_password = 0x8000,
-        eBit17_padding = 0x10000,
-        eBit18_padding = 0x20000,
-        eBit19_padding = 0x40000,
-        eBit20_padding = 0x80000,
-        eBit21_padding = 0x100000,
-        eBit22_padding = 0x200000,
-        eBit23_padding = 0x400000,
-        eBit24_padding = 0x800000,
-        eBit25_padding = 0x1000000,
-    };
-    BitField16<Flags_16A> field_16A_flags = {};
-
-    enum Flags_16C
-    {
-        eBit1_Unknown = 0x1,
-        eBit2_Unknown = 0x2,
-        eBit3_Unknown = 0x4,
-    };
-    BitField16<Flags_16C> field_16C_flags = {};
+    bool mNotRescued = false;
+    bool mPersistAndResetOffscreen = false;
+    bool mAlerted = false;
+    bool mBlind = false;
+    bool mFollowingAbe = false;
+    bool mStandingForSadOrAngry = false;
+    bool mStoppedAtWheel = false;
+    bool mDoAngry = false;
+    bool mSeenWhileSick = false;
+    bool mWorkAfterTurningWheel = false;
+    bool mGetDepressed = false;
+    bool mAlertEnemies = false;
+    bool mNoiseUnknown = false;
+    bool mMakeSadNoise = false;
+    bool mGiveRingWithoutPassword = false;
+    bool mRingAndAngryMudTimeout = false;
+    bool mAbeHasRing = false;
+    bool mIsMudStandingUp2 = false;
+    bool mEscaping = false;
     s16 field_178_brain_sub_state2 = 0;
     s16 field_17A_rescue_switch_id = 0;
     s16 field_17C_stand_idle_timer = 0;
@@ -452,15 +408,14 @@ private:
     GameSpeakEvents field_182_speak_event = GameSpeakEvents::eUnknown_0;
     eMudMotions field_184_next_motion2 = eMudMotions::Motion_0_Idle;
     const struct MudEmotionTableEntry* field_188_pTblEntry = nullptr;
-    s16 field_18C_unused = 0;
 
 public:
     Mud_Brain_State mBrainState = Mud_Brain_State::Brain_0_GiveRings;
 
 private:
     s16 mBrainSubState = 0;
-    s16 field_192_return_to_previous_motion = 0;
+    bool mReturnToPreviousMotion = false;
     s32 field_194_timer = 0;
     s32 field_198_turning_wheel_timer = 0;
-    bool mChisleMud = false;
+    bool mChiselMud = false;
 };

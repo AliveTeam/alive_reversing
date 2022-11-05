@@ -574,7 +574,7 @@ struct SligSpawnerSaveState final
     {
         ::SligSpawnerSaveState d;
         d.mType = BaseGameObject::FromAE(data.mType);
-        d.mTlvInfo = Guid::NewGuidFromTlvInfo(data.mTlvInfo);
+        d.mTlvId = Guid::NewGuidFromTlvInfo(data.mTlvInfo);
         d.mState = From(data.mState);
         d.mSpawnedSligId = Guid::NewGuidFromTlvInfo(data.mSpawnedSligId);
         return d;
@@ -596,9 +596,9 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(SligSpawnerSaveState, 0x10);
 
 struct LiftMoverSaveState final
 {
-    AETypes field_0_type_id; // never read?
+    AETypes mType;
     s16 field_2_padding;
-    s32 field_4_tlvInfo;
+    s32 mTlvInfo;
     enum class LiftMoverStates : s16
     {
         eInactive_0 = 0,
@@ -608,14 +608,14 @@ struct LiftMoverSaveState final
         eMovingUp_4 = 4,
         eMovingDone_5 = 5,
     };
-    LiftMoverStates field_8_state;
+    LiftMoverStates mState;
 
     static ::LiftMoverSaveState From(const LiftMoverSaveState& data)
     {
         ::LiftMoverSaveState d;
-        d.field_0_type_id = BaseGameObject::FromAE(data.field_0_type_id);
-        d.field_4_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_4_tlvInfo);
-        d.field_8_state = From(data.field_8_state);
+        d.mType = BaseGameObject::FromAE(data.mType);
+        d.mTlvId = Guid::NewGuidFromTlvInfo(data.mTlvInfo);
+        d.mState = From(data.mState);
         return d;
     }
 
@@ -643,9 +643,9 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(LiftMoverSaveState, 0xC);
 
 struct BoneSaveState final
 {
-    AETypes mAEType;
+    AETypes mType;
     s16 field_2_padding;
-    s32 field_4_obj_id;
+    s32 mBaseTlvId;
     FP mXPos;
     FP mYPos;
     FP mVelX;
@@ -665,7 +665,7 @@ struct BoneSaveState final
 
     BitField16<BoneStateFlags> field_20_flags;
     s16 field_22_padding;
-    s32 field_24_base_id;
+    s32 mPlatformTlvInfo;
     s16 mCollisionLineType;
     s16 mBaseThrowableCount;
     enum class BoneStates : s16
@@ -686,8 +686,8 @@ struct BoneSaveState final
     static ::BoneSaveState From(const BoneSaveState& data)
     {
         ::BoneSaveState d;
-        d.mAEType = BaseGameObject::FromAE(data.mAEType);
-        d.field_4_obj_id = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
+        d.mType = BaseGameObject::FromAE(data.mType);
+        d.mBaseTlvId = Guid::NewGuidFromTlvInfo(data.mBaseTlvId);
         d.mXPos = data.mXPos;
         d.mYPos = data.mYPos;
         d.mVelX = data.mVelX;
@@ -700,7 +700,7 @@ struct BoneSaveState final
         d.mLoop = data.field_20_flags.Get(BoneStateFlags::eBit3_bLoop);
         d.mInteractive = data.field_20_flags.Get(BoneStateFlags::eBit4_bInteractive);
         d.mHitObject = data.field_20_flags.Get(BoneStateFlags::eBit5_bHitObject);
-        d.field_24_base_id = Guid::NewGuidFromTlvInfo(data.field_24_base_id);
+        d.mPlatformId = Guid::NewGuidFromTlvInfo(data.mPlatformTlvInfo);
         d.mCollisionLineType = data.mCollisionLineType;
         d.mBaseThrowableCount = data.mBaseThrowableCount;
         d.mState = From(data.mState);
@@ -735,15 +735,15 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(BoneSaveState, 0x3C);
 
 struct MinesAlarmSaveState final
 {
-    AETypes field_0_type;
+    AETypes mType;
     s16 field_2_pad;
-    s32 field_4_timer;
+    s32 mExplosionTimer;
 
     static ::MinesAlarmSaveState From(const MinesAlarmSaveState& data)
     {
         ::MinesAlarmSaveState d;
-        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
-        d.field_4_timer = data.field_4_timer;
+        d.mType = BaseGameObject::FromAE(data.mType);
+        d.mExplosionTimer = data.mExplosionTimer;
         return d;
     }
 };
@@ -751,99 +751,99 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(MinesAlarmSaveState, 0x8);
 
 struct CrawlingSligSaveState final
 {
-    AETypes field_0_type;
+    AETypes mType;
     s16 field_2_padding;
-    s32 field_4_obj_id;
-    FP field_8_xpos;
-    FP field_C_ypos;
-    FP field_10_velx;
-    FP field_14_vely;
-    s16 field_18_path_number;
-    LevelIds field_1A_lvl_number;
-    FP field_1C_sprite_scale;
-    s16 mRingRed;
-    s16 mRingGreen;
-    s16 mRingBlue;
-    s16 field_26_bFlipX;
-    s16 field_28_current_motion;
-    s16 field_2A_anim_cur_frame;
-    s16 field_2C_anim_frame_change_counter;
-    s8 field_2E_bRender;
-    s8 field_2F_bDrawable;
-    FP field_30_health;
-    s16 field_34_cur_motion;
-    s16 field_36_next_motion;
-    s16 field_38_last_line_ypos;
-    s16 field_3A_line_type;
+    s32 mBaseTlvId;
+    FP mXPos;
+    FP mYPos;
+    FP mVelX;
+    FP mVelY;
+    s16 mCurrentPath;
+    LevelIds mCurrentLevel;
+    FP mSpriteScale;
+    s16 mR;
+    s16 mG;
+    s16 mB;
+    s16 mFlipX;
+    s16 mCurrentMotion;
+    s16 mCurrentFrame;
+    s16 mFrameChangeCounter;
+    s8 mRender;
+    s8 mDrawable;
+    FP mHealth;
+    s16 mCurrentMotion2;
+    s16 mNextMotion;
+    s16 mLastLineYPos;
+    s16 mCollisionLineType;
     s16 field_3C_padding;
     s16 field_3E_padding;
-    s8 field_40_bIsControlled;
+    s8 mControlled;
     s8 field_41_padding;
     s16 field_42_padding;
-    s32 field_44_tlvInfo;
-    s32 field_48_brain_idx;
+    s32 mCrawlingSligTlvInfo;
+    s32 mBrainState;
     s16 field_4C_padding;
     s16 field_4E_padding;
-    s16 field_50_brain_sub_state;
+    s16 mBrainSubState;
     s16 field_52_padding;
-    s32 field_54_timer;
-    FP field_58_velx_scale_factor;
+    s32 mMultiUseTimer;
+    FP mVelxScaleFactor;
     s16 field_5C_padding;
-    s16 field_5E_bChanting;
+    s16 mChanting;
     LevelIds mAbeLevel;
     s16 mAbePath;
     s16 mAbeCamera;
     s16 field_66_unused;
     s32 field_68_unused;
-    s32 field_6C_slig_button_id;
+    s32 mSligButtonTlvInfo;
     s32 field_70_obj_id;
-    s32 field_74_obj_id;
+    s32 mTransformedSligTlvInfo;
     SligSpeak field_78_speak;
     s8 field_79_padding;
     s16 field_7A_unused_counter;
-    s32 field_7C_say_help_timer;
+    s32 mSayHelpTimer;
 
     static ::CrawlingSligSaveState From(const CrawlingSligSaveState& data)
     {
         ::CrawlingSligSaveState d;
-        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
-        d.field_4_obj_id = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
-        d.field_8_xpos = data.field_8_xpos;
-        d.field_C_ypos = data.field_C_ypos;
-        d.field_10_velx = data.field_10_velx;
-        d.field_14_vely = data.field_14_vely;
-        d.field_18_path_number = data.field_18_path_number;
-        d.field_1A_lvl_number = MapWrapper::FromAESaveData(data.field_1A_lvl_number);
-        d.field_1C_sprite_scale = data.field_1C_sprite_scale;
-        d.mRingRed = data.mRingRed;
-        d.mRingGreen = data.mRingGreen;
-        d.mRingBlue = data.mRingBlue;
-        d.field_26_bFlipX = data.field_26_bFlipX;
-        d.field_28_current_motion = data.field_28_current_motion;
-        d.field_2A_anim_cur_frame = data.field_2A_anim_cur_frame;
-        d.field_2C_anim_frame_change_counter = data.field_2C_anim_frame_change_counter;
-        d.field_2E_bRender = data.field_2E_bRender;
-        d.field_2F_bDrawable = data.field_2F_bDrawable;
-        d.field_30_health = data.field_30_health;
-        d.field_34_cur_motion = data.field_34_cur_motion;
-        d.field_36_next_motion = data.field_36_next_motion;
-        d.field_38_last_line_ypos = data.field_38_last_line_ypos;
-        d.field_3A_line_type = data.field_3A_line_type;
-        d.field_40_bIsControlled = data.field_40_bIsControlled;
-        d.field_44_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_44_tlvInfo);
-        d.field_48_brain_idx = data.field_48_brain_idx;
-        d.field_50_brain_sub_state = data.field_50_brain_sub_state;
-        d.field_54_timer = data.field_54_timer;
-        d.field_58_velx_scale_factor = data.field_58_velx_scale_factor;
-        d.field_5E_bChanting = data.field_5E_bChanting;
+        d.mType = BaseGameObject::FromAE(data.mType);
+        d.mBaseTlvId = Guid::NewGuidFromTlvInfo(data.mBaseTlvId);
+        d.mXPos = data.mXPos;
+        d.mYPos = data.mYPos;
+        d.mVelX = data.mVelX;
+        d.mVelY = data.mVelY;
+        d.mCurrentPath = data.mCurrentPath;
+        d.mCurrentLevel = MapWrapper::FromAESaveData(data.mCurrentLevel);
+        d.mSpriteScale = data.mSpriteScale;
+        d.mR = data.mR;
+        d.mG = data.mG;
+        d.mB = data.mB;
+        d.mFlipX = data.mFlipX;
+        d.mCurrentMotion = data.mCurrentMotion;
+        d.mCurrentFrame = data.mCurrentFrame;
+        d.mFrameChangeCounter = data.mFrameChangeCounter;
+        d.mRender = data.mRender;
+        d.mDrawable = data.mDrawable;
+        d.mHealth = data.mHealth;
+        d.mCurrentMotion2 = data.mCurrentMotion2;
+        d.mNextMotion = data.mNextMotion;
+        d.mLastLineYPos = data.mLastLineYPos;
+        d.mCollisionLineType = data.mCollisionLineType;
+        d.mControlled = data.mControlled;
+        d.mCrawlingSligTlvId = Guid::NewGuidFromTlvInfo(data.mCrawlingSligTlvInfo);
+        d.mBrainState = data.mBrainState;
+        d.mBrainSubState = data.mBrainSubState;
+        d.mMultiUseTimer = data.mMultiUseTimer;
+        d.mVelxScaleFactor = data.mVelxScaleFactor;
+        d.mChanting = data.mChanting;
         d.mAbeLevel = MapWrapper::FromAESaveData(data.mAbeLevel);
         d.mAbePath = data.mAbePath;
         d.mAbeCamera = data.mAbeCamera;
-        d.field_6C_slig_button_id = Guid::NewGuidFromTlvInfo(data.field_6C_slig_button_id);
-        d.field_70_obj_id = Guid::NewGuidFromTlvInfo(data.field_70_obj_id);
-        d.field_74_obj_id = Guid::NewGuidFromTlvInfo(data.field_74_obj_id);
-        d.field_78_speak = AEData::From(data.field_78_speak);
-        d.field_7C_say_help_timer = data.field_7C_say_help_timer;
+        d.mSligButtonTlvId = Guid::NewGuidFromTlvInfo(data.mSligButtonTlvInfo);
+        d.field_70_obj_id = Guid::NewGuidFromTlvInfo(data.field_70_obj_id); // TODO: seems unused
+        d.mTransformedSligId = Guid::NewGuidFromTlvInfo(data.mTransformedSligTlvInfo);
+        d.mSpeak = AEData::From(data.field_78_speak);
+        d.mSayHelpTimer = data.mSayHelpTimer;
         return d;
     }
 };
@@ -854,25 +854,25 @@ struct DrillSaveState final
     AETypes mType;
     s16 field_2_padding;
     s32 field_4_padding;
-    s32 field_8_tlvInfo;
-    s32 field_C_off_timer;
+    s32 mDrillTlvInfo;
+    s32 mOffTimer;
     enum class DrillStates : s16
     {
         State_0_Restart_Cycle = 0,
         State_1_Going_Down = 1,
         State_2_GoingUp = 2,
     };
-    DrillStates field_10_state;
-    s16 field_12_xyoff;
+    DrillStates mState;
+    s16 mXYOff;
 
     static ::DrillSaveState From(const DrillSaveState& data)
     {
         ::DrillSaveState d;
         d.mType = BaseGameObject::FromAE(data.mType);
-        d.field_8_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_8_tlvInfo);
-        d.field_C_off_timer = data.field_C_off_timer;
-        d.field_10_state = From(data.field_10_state);
-        d.field_12_xyoff = data.field_12_xyoff;
+        d.mDrillTlvId = Guid::NewGuidFromTlvInfo(data.mDrillTlvInfo);
+        d.mOffTimer = data.mOffTimer;
+        d.mState = From(data.mState);
+        d.mXYOff = data.mXYOff;
         return d;
     }
 
@@ -880,12 +880,12 @@ struct DrillSaveState final
     {
         switch (state)
         {
-        case DrillStates::State_0_Restart_Cycle:
-            return ::DrillStates::State_0_Restart_Cycle;
-        case DrillStates::State_1_Going_Down:
-            return ::DrillStates::State_1_Going_Down;
-        case DrillStates::State_2_GoingUp:
-            return ::DrillStates::State_2_GoingUp;
+            case DrillStates::State_0_Restart_Cycle:
+                return ::DrillStates::State_0_Restart_Cycle;
+            case DrillStates::State_1_Going_Down:
+                return ::DrillStates::State_1_Going_Down;
+            case DrillStates::State_2_GoingUp:
+                return ::DrillStates::State_2_GoingUp;
         }
         ALIVE_FATAL("Bad drill states value");
     }
@@ -894,7 +894,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(DrillSaveState, 0x14);
 
 struct EvilFartSaveState final
 {
-    AETypes field_0_type;
+    AETypes mType;
     s16 mRed;
     s16 mGreen;
     s16 mBlue;
@@ -935,7 +935,7 @@ struct EvilFartSaveState final
     static ::EvilFartSaveState From(const EvilFartSaveState& data)
     {
         ::EvilFartSaveState d;
-        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
+        d.mType = BaseGameObject::FromAE(data.mType);
         d.mRed = data.mRed;
         d.mGreen = data.mGreen;
         d.mBlue = data.mBlue;
@@ -2152,14 +2152,13 @@ struct MudokonSaveState final
     MudSounds field_68;
     s16 field_6A_maxXOffset;
 
-
     enum Flags_6A
     {
         eBit1_padding = 0x1,
         eBit2_unused = 0x2,
         eBit3_padding = 0x4,
         eBit4_not_rescued = 0x8,
-        eBit5_save_state = 0x10,
+        eBit5_persist_and_reset_offscreen = 0x10,
         eBit6_alerted = 0x20,
         eBit7_blind = 0x40,
         eBit8_following = 0x80,
@@ -2167,7 +2166,7 @@ struct MudokonSaveState final
         eBit10_stopped_at_wheel = 0x200,
         eBit11_do_angry = 0x400,
         eBit12_seen_while_sick = 0x800,
-        eBit13_stop_trigger = 0x1000,
+        eBit13_work_after_turning_wheel = 0x1000,
         eBit14_unused = 0x2000,
         eBit15_return_to_previous_motion = 0x4000,
         eBit16_get_depressed = 0x8000
@@ -2177,11 +2176,11 @@ struct MudokonSaveState final
     enum Flags_6E
     {
         e6E_Bit1_alert_enemies = 0x1,
-        e6E_Bit2 = 0x2,
+        e6E_Bit2_noise_unknown = 0x2,
         e6E_Bit3_make_sad_noise = 0x4,
-        e6E_Bit4_ring_timeout = 0x8,
-        e6E_Bit5 = 0x10,
-        e6E_Bit6 = 0x20
+        e6E_Bit4_ring_and_angry_mud_timeout = 0x8,
+        e6E_Bit5_abe_has_ring = 0x10,
+        e6E_Bit6_is_mud_standing_up_2 = 0x20
     };
     BitField16<Flags_6E> field_6E;
 
@@ -2267,8 +2266,24 @@ struct MudokonSaveState final
         d.field_60_wheel_id = Guid::NewGuidFromTlvInfo(data.field_60_wheel_id);
         d.field_68 = AEData::From(data.field_68);
         d.field_6A_maxXOffset = data.field_6A_maxXOffset;
-        d.field_6C.Raw().all = data.field_6C.Raw().all; // TODO: convert flags to bools
-        d.field_6E.Raw().all = data.field_6E.Raw().all; // dito
+        d.mNotRescued = data.field_6C.Get(Flags_6A::eBit4_not_rescued);
+        d.mPersistAndResetOffscreen = data.field_6C.Get(Flags_6A::eBit5_persist_and_reset_offscreen);
+        d.mAlerted = data.field_6C.Get(Flags_6A::eBit6_alerted);
+        d.mBlind = data.field_6C.Get(Flags_6A::eBit7_blind);
+        d.mFollowingAbe = data.field_6C.Get(Flags_6A::eBit8_following);
+        d.mStandingForSadOrAngry = data.field_6C.Get(Flags_6A::eBit9_standing_for_sad_or_angry);
+        d.mStoppedAtWheel = data.field_6C.Get(Flags_6A::eBit10_stopped_at_wheel);
+        d.mDoAngry = data.field_6C.Get(Flags_6A::eBit11_do_angry);
+        d.mSeenWhileSick = data.field_6C.Get(Flags_6A::eBit12_seen_while_sick);
+        d.mWorkAfterTurningWheel = data.field_6C.Get(Flags_6A::eBit13_work_after_turning_wheel);
+        d.mReturnToPreviousMotion = data.field_6C.Get(Flags_6A::eBit15_return_to_previous_motion);
+        d.mGetDepressed = data.field_6C.Get(Flags_6A::eBit16_get_depressed);
+        d.mAlertEnemies = data.field_6E.Get(Flags_6E::e6E_Bit1_alert_enemies);
+        d.mNoiseUnknown = data.field_6E.Get(Flags_6E::e6E_Bit2_noise_unknown);
+        d.mMakeSadNoise = data.field_6E.Get(Flags_6E::e6E_Bit3_make_sad_noise);
+        d.mRingAndAngryMudTimeout = data.field_6E.Get(Flags_6E::e6E_Bit4_ring_and_angry_mud_timeout);
+        d.mAbeHasRing = data.field_6E.Get(Flags_6E::e6E_Bit5_abe_has_ring);
+        d.mIsMudStandingUp2 = data.field_6E.Get(Flags_6E::e6E_Bit6_is_mud_standing_up_2);
         d.field_70_brain_sub_state2 = data.field_70_brain_sub_state2;
         d.field_72_stand_idle_timer = data.field_72_stand_idle_timer;
         d.field_74_delayed_speak = From(data.field_74_delayed_speak);
@@ -3360,49 +3375,49 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(SligSaveState, 0xA4);
 
 struct SlogSaveState final
 {
-    AETypes field_0_type;
+    AETypes mType;
     s16 field_2_padding;
-    s32 field_4_objectId;
-    FP field_8_xpos;
-    FP field_C_ypos;
-    FP field_10_velx;
-    FP field_14_vely;
-    s16 field_18_path_number;
-    LevelIds field_1A_lvl_number;
-    FP field_1C_sprite_scale;
-    s16 mRingRed;
-    s16 mRingGreen;
-    s16 mRingBlue;
-    s16 field_26_bAnimFlipX;
-    s16 field_28_current_motion;
-    s16 field_2A_anim_cur_frame;
-    s16 field_2C_frame_change_counter;
-    s8 field_2E_bRender;
-    s8 field_2F_bDrawable;
-    FP field_30_health;
-    s16 field_34_current_motion;
-    s16 field_36_next_motion;
-    s16 field_38_last_line_ypos;
-    s16 field_3A_line_type;
-    s32 field_3C_id;
-    s32 field_40_tlvInfo;
-    s32 field_44_obj_id;
-    s16 field_48_state_idx;
-    s16 field_4A_brain_state_result;
-    s32 field_4C_timer;
-    FP field_50_falling_velx_scale_factor;
-    s32 field_54_obj_id;
-    s16 field_58_has_woofed;
-    s16 field_5A_waiting_counter;
-    s16 field_5C_response_index;
-    s16 field_5E_response_part;
-    s16 field_60_anger_level;
-    s16 field_62_jump_counter;
-    s32 field_64_scratch_timer;
-    s32 field_68_growl_timer;
-    s32 field_6C_bone_id;
-    s16 field_70_jump_delay;
-    u8 field_72_slog_random_index;
+    s32 mBaseTlvInfo;
+    FP mXPos;
+    FP mYPos;
+    FP mVelX;
+    FP mVelY;
+    s16 mCurrentPath;
+    LevelIds mCurrentLevel;
+    FP mSpriteScale;
+    s16 mR;
+    s16 mG;
+    s16 mB;
+    s16 mFlipX;
+    s16 mCurrentMotion;
+    s16 mCurrentFrame;
+    s16 mFrameChangeCounter;
+    s8 mRender;
+    s8 mDrawable;
+    FP mHealth;
+    s16 mCurrentMotion2;
+    s16 mNextMotion;
+    s16 mLastLineYPos;
+    s16 mCollisionLineType;
+    s32 mPlatformTlvInfo;
+    s32 mSlogTlvInfo;
+    s32 mTargetId;
+    s16 mBrainState;
+    s16 mBrainSubState;
+    s32 mMultiUseTimer;
+    FP mFallingVelxScaleFactor;
+    s32 mListeningToSligId;
+    s16 mHasWoofed;
+    s16 mWaitingCounter;
+    s16 mResponseIdx;
+    s16 mResponsePart;
+    s16 mAngerLevel;
+    s16 mJumpCounter;
+    s32 mScratchTimer;
+    s32 mGrowlTimer;
+    s32 mBoneId;
+    s16 mChaseDelay;
+    u8 mSlogRandomIdx;
     u8 field_73_padding;
 
     enum Flags_74
@@ -3424,48 +3439,48 @@ struct SlogSaveState final
     static ::SlogSaveState From(const SlogSaveState& data)
     {
         ::SlogSaveState d;
-        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
-        d.field_4_objectId = Guid::NewGuidFromTlvInfo(data.field_4_objectId);
-        d.field_8_xpos = data.field_8_xpos;
-        d.field_C_ypos = data.field_C_ypos;
-        d.field_10_velx = data.field_10_velx;
-        d.field_14_vely = data.field_14_vely;
-        d.field_18_path_number = data.field_18_path_number;
-        d.field_1A_lvl_number = MapWrapper::FromAESaveData(data.field_1A_lvl_number);
-        d.field_1C_sprite_scale = data.field_1C_sprite_scale;
-        d.mRingRed = data.mRingRed;
-        d.mRingGreen = data.mRingGreen;
-        d.mRingBlue = data.mRingBlue;
-        d.field_26_bAnimFlipX = data.field_26_bAnimFlipX;
-        d.field_28_current_motion = data.field_28_current_motion;
-        d.field_2A_anim_cur_frame = data.field_2A_anim_cur_frame;
-        d.field_2C_frame_change_counter = data.field_2C_frame_change_counter;
-        d.field_2E_bRender = data.field_2E_bRender;
-        d.field_2F_bDrawable = data.field_2F_bDrawable;
-        d.field_30_health = data.field_30_health;
-        d.field_34_current_motion = data.field_34_current_motion;
-        d.field_36_next_motion = data.field_36_next_motion;
-        d.field_38_last_line_ypos = data.field_38_last_line_ypos;
-        d.field_3A_line_type = data.field_3A_line_type;
-        d.field_3C_id = Guid::NewGuidFromTlvInfo(data.field_3C_id);
-        d.field_40_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_40_tlvInfo);
-        d.field_44_obj_id = Guid::NewGuidFromTlvInfo(data.field_44_obj_id);
-        d.field_48_state_idx = data.field_48_state_idx;
-        d.field_4A_brain_state_result = data.field_4A_brain_state_result;
-        d.field_4C_timer = data.field_4C_timer;
-        d.field_50_falling_velx_scale_factor = data.field_50_falling_velx_scale_factor;
-        d.field_54_obj_id = Guid::NewGuidFromTlvInfo(data.field_54_obj_id);
-        d.field_58_has_woofed = data.field_58_has_woofed;
-        d.field_5A_waiting_counter = data.field_5A_waiting_counter;
-        d.field_5C_response_index = data.field_5C_response_index;
-        d.field_5E_response_part = data.field_5E_response_part;
-        d.field_60_anger_level = data.field_60_anger_level;
-        d.field_62_jump_counter = data.field_62_jump_counter;
-        d.field_64_scratch_timer = data.field_64_scratch_timer;
-        d.field_68_growl_timer = data.field_68_growl_timer;
-        d.field_6C_bone_id = Guid::NewGuidFromTlvInfo(data.field_6C_bone_id);
-        d.field_70_jump_delay = data.field_70_jump_delay;
-        d.field_72_slog_random_index = data.field_72_slog_random_index;
+        d.mType = BaseGameObject::FromAE(data.mType);
+        d.mBaseTlvId = Guid::NewGuidFromTlvInfo(data.mBaseTlvInfo);
+        d.mXPos = data.mXPos;
+        d.mYPos = data.mYPos;
+        d.mVelX = data.mVelX;
+        d.mVelY = data.mVelY;
+        d.mCurrentPath = data.mCurrentPath;
+        d.mCurrentLevel = MapWrapper::FromAESaveData(data.mCurrentLevel);
+        d.mSpriteScale = data.mSpriteScale;
+        d.mR = data.mR;
+        d.mG = data.mG;
+        d.mB = data.mB;
+        d.mFlipX = data.mFlipX;
+        d.mCurrentMotion = data.mCurrentMotion;
+        d.mCurrentFrame = data.mCurrentFrame;
+        d.mFrameChangeCounter = data.mFrameChangeCounter;
+        d.mRender = data.mRender;
+        d.mDrawable = data.mDrawable;
+        d.mHealth = data.mHealth;
+        d.mCurrentMotion2 = data.mCurrentMotion2;
+        d.mNextMotion = data.mNextMotion;
+        d.mLastLineYPos = data.mLastLineYPos;
+        d.mCollisionLineType = data.mCollisionLineType;
+        d.mPlatformId = Guid::NewGuidFromTlvInfo(data.mPlatformTlvInfo);
+        d.mSlogTlvId = Guid::NewGuidFromTlvInfo(data.mSlogTlvInfo);
+        d.mTargetId = Guid::NewGuidFromTlvInfo(data.mTargetId);
+        d.mBrainState = data.mBrainState;
+        d.mBrainSubState = data.mBrainSubState;
+        d.mMultiUseTimer = data.mMultiUseTimer;
+        d.mFallingVelxScaleFactor = data.mFallingVelxScaleFactor;
+        d.mListeningToSligId = Guid::NewGuidFromTlvInfo(data.mListeningToSligId);
+        d.mHasWoofed = data.mHasWoofed;
+        d.mWaitingCounter = data.mWaitingCounter;
+        d.mResponseIdx = data.mResponseIdx;
+        d.mResponsePart = data.mResponsePart;
+        d.mAngerLevel = data.mAngerLevel;
+        d.mJumpCounter = data.mJumpCounter;
+        d.mScratchTimer = data.mScratchTimer;
+        d.mGrowlTimer = data.mGrowlTimer;
+        d.mBoneId = Guid::NewGuidFromTlvInfo(data.mBoneId);
+        d.mChaseDelay = data.mChaseDelay;
+        d.mSlogRandomIdx = data.mSlogRandomIdx;
         d.field_74_flags.Raw().all = data.field_74_flags.Raw().all; // TODO: convert flags too bools
         return d;
     }
@@ -3517,7 +3532,7 @@ struct SlurgSaveState final
         d.mFrameChangeCounter = data.mFrameChangeCounter;
         d.mDrawable = data.mDrawable;
         d.mRender = data.mRender;
-        d.mTlvInfo = Guid::NewGuidFromTlvInfo(data.mTlvInfo);
+        d.mTlvId = Guid::NewGuidFromTlvInfo(data.mTlvInfo);
         d.mSlurgState = From(data.mSlurgState);
         d.mGoingRight = data.mSlurgFlags.Get(SlurgFlags::eGoingRight);
         d.mMoving = data.mSlurgFlags.Get(SlurgFlags::eMoving);
@@ -3542,9 +3557,9 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(SlurgSaveState, 0x2C);
 
 struct TimerTriggerSaveState final
 {
-    AETypes field_0_type;
-    s32 field_4_tlvInfo;
-    s32 field_8_delay_timer_base;
+    AETypes mType;
+    s32 mTlvInfo;
+    s32 mActivationDelayTimer;
     enum class TimerTriggerStates : s16
     {
         eWaitForEnabled_0 = 0,
@@ -3552,17 +3567,17 @@ struct TimerTriggerSaveState final
         eCheckForStartAgain_2 = 2,
         eWaitForSecondTrigger_3 = 3,
     };
-    TimerTriggerStates field_C_state;
-    s16 field_E_starting_switch_state;
+    TimerTriggerStates mState;
+    s16 mStartingSwitchState;
 
     static ::TimerTriggerSaveState From(const TimerTriggerSaveState& data)
     {
         ::TimerTriggerSaveState d;
-        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
-        d.field_4_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_4_tlvInfo);
-        d.field_8_delay_timer_base = data.field_8_delay_timer_base;
-        d.field_C_state = From(data.field_C_state);
-        d.field_E_starting_switch_state = data.field_E_starting_switch_state;
+        d.mType = BaseGameObject::FromAE(data.mType);
+        d.mTlvId = Guid::NewGuidFromTlvInfo(data.mTlvInfo);
+        d.mActivationDelayTimer = data.mActivationDelayTimer;
+        d.mState = From(data.mState);
+        d.mStartingSwitchState = data.mStartingSwitchState;
         return d;
     }
 
@@ -3586,7 +3601,7 @@ ALIVE_ASSERT_SIZEOF_ALWAYS(TimerTriggerSaveState, 0x10);
 
 struct TrapDoorSaveState final
 {
-    AETypes field_0_type;
+    AETypes mType;
     enum class TrapDoorState : s16
     {
         eClosed_0 = 0,
@@ -3595,16 +3610,16 @@ struct TrapDoorSaveState final
         eClosing_3 = 3,
     };
     TrapDoorState field_2_state;
-    s32 field_4_open_time;
-    s32 field_8_tlvInfo;
+    s32 mOpenTime;
+    s32 mTlvInfo;
 
     static ::TrapDoorSaveState From(const TrapDoorSaveState& data)
     {
         ::TrapDoorSaveState d;
-        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
-        d.field_2_state = From(data.field_2_state);
-        d.field_4_open_time = data.field_4_open_time;
-        d.field_8_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_8_tlvInfo);
+        d.mType = BaseGameObject::FromAE(data.mType);
+        d.mState = From(data.field_2_state);
+        d.mOpenTime = data.mOpenTime;
+        d.mTlvId = Guid::NewGuidFromTlvInfo(data.mTlvInfo);
         return d;
     }
 
@@ -3682,24 +3697,24 @@ struct WorkWheelSaveState final
 {
     AETypes mType;
     s16 padding_1;
-    s32 field_4_tlvInfo;
-    s16 field_8_snd_counter;
+    s32 mTlvInfo;
+    s16 mTurningTime;
     s16 padding_2;
     enum class WheelStates : s16
     {
         eIdle_0 = 0,
         eTurning_1 = 1,
     };
-    WheelStates field_C_state;
+    WheelStates mState;
     s16 padding_3;
 
     static ::WorkWheelSaveState From(const WorkWheelSaveState& data)
     {
         ::WorkWheelSaveState d;
         d.mType = BaseGameObject::FromAE(data.mType);
-        d.field_4_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_4_tlvInfo);
-        d.field_8_snd_counter = data.field_8_snd_counter;
-        d.field_C_state = From(data.field_C_state);
+        d.mTlvId = Guid::NewGuidFromTlvInfo(data.mTlvInfo);
+        d.mTurningTime = data.mTurningTime;
+        d.mState = From(data.mState);
         return d;
     }
 

@@ -14,7 +14,7 @@ enum class FartStates : s16
 
 struct EvilFartSaveState final
 {
-    ReliveTypes field_0_type;
+    ReliveTypes mType;
     s16 mRed;
     s16 mGreen;
     s16 mBlue;

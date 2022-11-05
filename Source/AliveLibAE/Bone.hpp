@@ -19,9 +19,9 @@ enum class BoneStates : s16
 
 struct BoneSaveState final
 {
-    ReliveTypes mAEType;
+    ReliveTypes mType;
     s16 field_2_padding;
-    Guid field_4_obj_id;
+    Guid mBaseTlvId;
     FP mXPos;
     FP mYPos;
     FP mVelX;
@@ -35,7 +35,7 @@ struct BoneSaveState final
     bool mInteractive;
     bool mHitObject;
     s16 field_22_padding;
-    Guid field_24_base_id;
+    Guid mPlatformId;
     s16 mCollisionLineType;
     s16 mBaseThrowableCount;
     BoneStates mState;

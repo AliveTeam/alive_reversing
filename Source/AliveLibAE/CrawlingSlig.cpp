@@ -227,14 +227,14 @@ s32 CrawlingSlig::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const CrawlingSligSaveState*>(pBuffer);
 
-    auto pTlv = static_cast<relive::Path_CrawlingSlig*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_44_tlvInfo));
+    auto pTlv = static_cast<relive::Path_CrawlingSlig*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->mCrawlingSligTlvId));
 
-    auto pCrawlingSlig = relive_new CrawlingSlig(pTlv, pState->field_44_tlvInfo);
+    auto pCrawlingSlig = relive_new CrawlingSlig(pTlv, pState->mCrawlingSligTlvId);
     if (pCrawlingSlig)
     {
-        pCrawlingSlig->mBaseGameObjectTlvInfo = pState->field_4_obj_id;
+        pCrawlingSlig->mBaseGameObjectTlvInfo = pState->mBaseTlvId;
 
-        if (pState->field_40_bIsControlled)
+        if (pState->mControlled)
         {
             sControlledCharacter = pCrawlingSlig;
         }
@@ -242,59 +242,59 @@ s32 CrawlingSlig::CreateFromSaveState(const u8* pBuffer)
         pCrawlingSlig->BaseAliveGameObjectPathTLV = nullptr;
         pCrawlingSlig->BaseAliveGameObjectCollisionLine = nullptr;
 
-        pCrawlingSlig->mXPos = pState->field_8_xpos;
-        pCrawlingSlig->mYPos = pState->field_C_ypos;
-        pCrawlingSlig->mVelX = pState->field_10_velx;
-        pCrawlingSlig->mVelY = pState->field_14_vely;
+        pCrawlingSlig->mXPos = pState->mXPos;
+        pCrawlingSlig->mYPos = pState->mYPos;
+        pCrawlingSlig->mVelX = pState->mVelX;
+        pCrawlingSlig->mVelY = pState->mVelY;
 
-        pCrawlingSlig->field_1B0_velx_scale_factor = pState->field_58_velx_scale_factor;
+        pCrawlingSlig->mVelxScaleFactor = pState->mVelxScaleFactor;
 
-        pCrawlingSlig->mCurrentPath = pState->field_18_path_number;
-        pCrawlingSlig->mCurrentLevel = pState->field_1A_lvl_number;
-        pCrawlingSlig->SetSpriteScale(pState->field_1C_sprite_scale);
+        pCrawlingSlig->mCurrentPath = pState->mCurrentPath;
+        pCrawlingSlig->mCurrentLevel = pState->mCurrentLevel;
+        pCrawlingSlig->SetSpriteScale(pState->mSpriteScale);
 
-        pCrawlingSlig->field_1A4_r = pState->mRingRed;
-        pCrawlingSlig->field_1A6_g = pState->mRingGreen;
-        pCrawlingSlig->field_1A8_b = pState->mRingBlue;
+        pCrawlingSlig->field_1A4_r = pState->mR;
+        pCrawlingSlig->field_1A6_g = pState->mG;
+        pCrawlingSlig->field_1A8_b = pState->mB;
 
-        pCrawlingSlig->mRGB.SetRGB(pState->mRingRed, pState->mRingGreen, pState->mRingBlue);
+        pCrawlingSlig->mRGB.SetRGB(pState->mR, pState->mG, pState->mB);
 
-        pCrawlingSlig->mCurrentMotion = pState->field_28_current_motion;
+        pCrawlingSlig->mCurrentMotion = pState->mCurrentMotion;
 
-        pCrawlingSlig->GetAnimation().Set_Animation_Data(pCrawlingSlig->GetAnimRes(sCrawlingSligAnimIdTable[pState->field_28_current_motion]));
-        pCrawlingSlig->GetAnimation().SetCurrentFrame(pState->field_2A_anim_cur_frame);
+        pCrawlingSlig->GetAnimation().Set_Animation_Data(pCrawlingSlig->GetAnimRes(sCrawlingSligAnimIdTable[pState->mCurrentMotion]));
+        pCrawlingSlig->GetAnimation().SetCurrentFrame(pState->mCurrentFrame);
 
-        pCrawlingSlig->GetAnimation().SetFrameChangeCounter(pState->field_2C_anim_frame_change_counter);
+        pCrawlingSlig->GetAnimation().SetFrameChangeCounter(pState->mFrameChangeCounter);
 
-        pCrawlingSlig->GetAnimation().mFlags.Set(AnimFlags::eFlipX, pState->field_26_bFlipX & 1);
-        pCrawlingSlig->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->field_2E_bRender & 1);
+        pCrawlingSlig->GetAnimation().mFlags.Set(AnimFlags::eFlipX, pState->mFlipX & 1);
+        pCrawlingSlig->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->mRender & 1);
 
-        pCrawlingSlig->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_2F_bDrawable & 1);
+        pCrawlingSlig->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->mDrawable & 1);
 
         if (IsLastFrame(&pCrawlingSlig->GetAnimation()))
         {
             pCrawlingSlig->GetAnimation().mFlags.Set(AnimFlags::eIsLastFrame);
         }
 
-        pCrawlingSlig->mHealth = pState->field_30_health;
-        pCrawlingSlig->mCurrentMotion = pState->field_34_cur_motion;
-        pCrawlingSlig->mNextMotion = pState->field_36_next_motion;
-        pCrawlingSlig->BaseAliveGameObjectLastLineYPos = FP_FromInteger(pState->field_38_last_line_ypos);
+        pCrawlingSlig->mHealth = pState->mHealth;
+        pCrawlingSlig->mCurrentMotion = pState->mCurrentMotion2;
+        pCrawlingSlig->mNextMotion = pState->mNextMotion;
+        pCrawlingSlig->BaseAliveGameObjectLastLineYPos = FP_FromInteger(pState->mLastLineYPos);
         pCrawlingSlig->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eRestoredFromQuickSave);
-        pCrawlingSlig->field_1AC_timer = pState->field_54_timer;
-        pCrawlingSlig->BaseAliveGameObjectCollisionLineType = pState->field_3A_line_type;
-        pCrawlingSlig->mGuid = pState->field_44_tlvInfo;
-        pCrawlingSlig->SetBrain(sCrawlingSligBrainTable[pState->field_48_brain_idx]);
-        pCrawlingSlig->mBrainSubState = pState->field_50_brain_sub_state;
-        pCrawlingSlig->mChanting = pState->field_5E_bChanting;
+        pCrawlingSlig->mMultiUseTimer = pState->mMultiUseTimer;
+        pCrawlingSlig->BaseAliveGameObjectCollisionLineType = pState->mCollisionLineType;
+        pCrawlingSlig->mGuid = pState->mCrawlingSligTlvId;
+        pCrawlingSlig->SetBrain(sCrawlingSligBrainTable[pState->mBrainState]);
+        pCrawlingSlig->mBrainSubState = pState->mBrainSubState;
+        pCrawlingSlig->mChanting = pState->mChanting;
         pCrawlingSlig->mAbeLevel = pState->mAbeLevel;
         pCrawlingSlig->mAbePath = pState->mAbePath;
         pCrawlingSlig->mAbeCamera = pState->mAbeCamera;
-        pCrawlingSlig->field_1D0_slig_button_id = pState->field_6C_slig_button_id;
+        pCrawlingSlig->mSligButtonId = pState->mSligButtonTlvId;
         pCrawlingSlig->field_1D4_obj_id = pState->field_70_obj_id;
-        pCrawlingSlig->field_1D8_obj_id = pState->field_74_obj_id;
-        pCrawlingSlig->mSpeak = pState->field_78_speak;
-        pCrawlingSlig->mSayHelpTimer = pState->field_7C_say_help_timer;
+        pCrawlingSlig->mTransformedSligId = pState->mTransformedSligId;
+        pCrawlingSlig->mSpeak = pState->mSpeak;
+        pCrawlingSlig->mSayHelpTimer = pState->mSayHelpTimer;
     }
 
     return sizeof(CrawlingSligSaveState);
@@ -309,68 +309,68 @@ s32 CrawlingSlig::VGetSaveState(u8* pSaveBuffer)
 
     auto pState = reinterpret_cast<CrawlingSligSaveState*>(pSaveBuffer);
 
-    pState->field_0_type = ReliveTypes::eCrawlingSlig;
-    pState->field_4_obj_id = mBaseGameObjectTlvInfo;
+    pState->mType = ReliveTypes::eCrawlingSlig;
+    pState->mBaseTlvId = mBaseGameObjectTlvInfo;
 
-    pState->field_8_xpos = mXPos;
-    pState->field_C_ypos = mYPos;
-    pState->field_10_velx = mVelX;
-    pState->field_14_vely = mVelY;
+    pState->mXPos = mXPos;
+    pState->mYPos = mYPos;
+    pState->mVelX = mVelX;
+    pState->mVelY = mVelY;
 
-    pState->field_58_velx_scale_factor = field_1B0_velx_scale_factor;
+    pState->mVelxScaleFactor = mVelxScaleFactor;
 
-    pState->field_18_path_number = mCurrentPath;
-    pState->field_1A_lvl_number = mCurrentLevel;
-    pState->field_1C_sprite_scale = GetSpriteScale();
+    pState->mCurrentPath = mCurrentPath;
+    pState->mCurrentLevel = mCurrentLevel;
+    pState->mSpriteScale = GetSpriteScale();
 
-    pState->mRingRed = mRGB.r;
-    pState->mRingGreen = mRGB.g;
-    pState->mRingBlue = mRGB.b;
-    pState->field_26_bFlipX = GetAnimation().mFlags.Get(AnimFlags::eFlipX);
-    pState->field_28_current_motion = mCurrentMotion;
-    pState->field_2A_anim_cur_frame = static_cast<s16>(GetAnimation().GetCurrentFrame());
-    pState->field_2C_anim_frame_change_counter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
-    pState->field_2F_bDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
-    pState->field_2E_bRender = GetAnimation().mFlags.Get(AnimFlags::eRender);
-    pState->field_30_health = mHealth;
-    pState->field_34_cur_motion = mCurrentMotion;
-    pState->field_36_next_motion = mNextMotion;
-    pState->field_3A_line_type = -1;
+    pState->mR = mRGB.r;
+    pState->mG = mRGB.g;
+    pState->mB = mRGB.b;
+    pState->mFlipX = GetAnimation().mFlags.Get(AnimFlags::eFlipX);
+    pState->mCurrentMotion = mCurrentMotion;
+    pState->mCurrentFrame = static_cast<s16>(GetAnimation().GetCurrentFrame());
+    pState->mFrameChangeCounter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
+    pState->mDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
+    pState->mRender = GetAnimation().mFlags.Get(AnimFlags::eRender);
+    pState->mHealth = mHealth;
+    pState->mCurrentMotion2 = mCurrentMotion;
+    pState->mNextMotion = mNextMotion;
+    pState->mCollisionLineType = -1;
 
     // TODO: Check correct
-    pState->field_38_last_line_ypos = FP_GetExponent(BaseAliveGameObjectLastLineYPos);
+    pState->mLastLineYPos = FP_GetExponent(BaseAliveGameObjectLastLineYPos);
 
     if (BaseAliveGameObjectCollisionLine)
     {
-        pState->field_3A_line_type = BaseAliveGameObjectCollisionLine->mLineType;
+        pState->mCollisionLineType = BaseAliveGameObjectCollisionLine->mLineType;
     }
 
-    pState->field_40_bIsControlled = (this == sControlledCharacter);
-    pState->field_54_timer = field_1AC_timer;
-    pState->field_44_tlvInfo = mGuid;
-    pState->field_48_brain_idx = 0;
+    pState->mControlled = (this == sControlledCharacter);
+    pState->mMultiUseTimer = mMultiUseTimer;
+    pState->mCrawlingSligTlvId = mGuid;
+    pState->mBrainState = 0;
 
     s32 idx = 0;
     for (const auto& fn : sCrawlingSligBrainTable)
     {
         if (BrainIs(fn))
         {
-            pState->field_48_brain_idx = idx;
+            pState->mBrainState = idx;
             break;
         }
         idx++;
     }
 
-    pState->field_50_brain_sub_state = mBrainSubState;
-    pState->field_5E_bChanting = mChanting;
+    pState->mBrainSubState = mBrainSubState;
+    pState->mChanting = mChanting;
     pState->mAbeLevel = mAbeLevel;
     pState->mAbePath = mAbePath;
     pState->mAbeCamera = mAbeCamera;
-    pState->field_6C_slig_button_id = field_1D0_slig_button_id;
+    pState->mSligButtonTlvId = mSligButtonId;
     pState->field_70_obj_id = field_1D4_obj_id;
-    pState->field_74_obj_id = field_1D8_obj_id;
-    pState->field_78_speak = mSpeak;
-    pState->field_7C_say_help_timer = mSayHelpTimer;
+    pState->mTransformedSligId = mTransformedSligId;
+    pState->mSpeak = mSpeak;
+    pState->mSayHelpTimer = mSayHelpTimer;
     return sizeof(CrawlingSligSaveState);
 }
 
@@ -381,7 +381,7 @@ void CrawlingSlig::VPossessed()
     Set_AnimAndMotion(CrawlingSligMotion::Motion_12_Shaking, true);
     SetBrain(&CrawlingSlig::Brain_3_Possessed);
     mBrainSubState = 0;
-    field_1AC_timer = sGnFrame + 35;
+    mMultiUseTimer = sGnFrame + 35;
     mAbeLevel = gMap.mCurrentLevel;
     mAbePath = gMap.mCurrentPath;
     mAbeCamera = gMap.mCurrentCamera;
@@ -444,8 +444,8 @@ void CrawlingSlig::VUpdate()
             }
             BaseAliveGameObjectCollisionLineType = 0;
             field_1D4_obj_id = RefreshId(field_1D4_obj_id);
-            field_1D8_obj_id = RefreshId(field_1D8_obj_id);
-            field_1D0_slig_button_id = RefreshId(field_1D0_slig_button_id);
+            mTransformedSligId = RefreshId(mTransformedSligId);
+            mSligButtonId = RefreshId(mSligButtonId);
         }
 
         if (!Input_IsChanting_45F260())
@@ -563,7 +563,7 @@ void CrawlingSlig::VOnTlvCollision(relive::Path_TLV* pTlv)
                 mVelX = FP_FromInteger(0);
                 EventBroadcast(kEventMudokonComfort, this);
                 Slig_GameSpeak_SFX_4C04F0(SligSpeak::eHelp_10, 0, 0, this);
-                field_1AC_timer = sGnFrame + 60;
+                mMultiUseTimer = sGnFrame + 60;
             }
         }
 
@@ -605,7 +605,7 @@ s16 CrawlingSlig::VTakeDamage(BaseGameObject* pFrom)
             case ReliveTypes::eSlig:
             {
                 // Take a BEATING
-                field_1AC_timer = sGnFrame + 20;
+                mMultiUseTimer = sGnFrame + 20;
                 mHealth -= FP_FromDouble(0.13);
 
                 if (mHealth <= FP_FromInteger(0))
@@ -643,7 +643,7 @@ s16 CrawlingSlig::VTakeDamage(BaseGameObject* pFrom)
                     mVelX = FP_FromInteger(0);
                     mHealth = FP_FromInteger(0);
                     MapFollowMe(true);
-                    field_1AC_timer = sGnFrame + 15;
+                    mMultiUseTimer = sGnFrame + 15;
                     Set_AnimAndMotion(CrawlingSligMotion::Motion_13_Empty, true);
                     EventBroadcast(kEventMudokonComfort, this);
                 }
@@ -654,7 +654,7 @@ s16 CrawlingSlig::VTakeDamage(BaseGameObject* pFrom)
                 {
                     GetAnimation().mFlags.Clear(AnimFlags::eRender);
                     mHealth = FP_FromInteger(0);
-                    field_1AC_timer = sGnFrame + 1;
+                    mMultiUseTimer = sGnFrame + 1;
                     SetBrain(&CrawlingSlig::Brain_4_GetKilled);
                     mBrainSubState = Brain_4_GetKilled::eBrain4_SetDead_3;
                     EventBroadcast(kEventMudokonComfort, this);
@@ -712,7 +712,7 @@ bool CrawlingSlig::PanicOn()
 
 void CrawlingSlig::ToIdle()
 {
-    field_1B0_velx_scale_factor = FP_FromInteger(0);
+    mVelxScaleFactor = FP_FromInteger(0);
     mVelX = FP_FromInteger(0);
     mVelY = FP_FromInteger(0);
     Set_AnimAndMotion(CrawlingSligMotion::Motion_0_Idle, false);
@@ -742,7 +742,7 @@ s16 CrawlingSlig::Brain_0_Sleeping()
     {
         if (PanicOn())
         {
-            field_1AC_timer = sGnFrame + Math_RandomRange(15, 45);
+            mMultiUseTimer = sGnFrame + Math_RandomRange(15, 45);
             return Brain_0_Sleeping::eBrain0_WakingUp_1;
         }
         else
@@ -753,7 +753,7 @@ s16 CrawlingSlig::Brain_0_Sleeping()
 
     if (mBrainSubState == Brain_0_Sleeping::eBrain0_WakingUp_1)
     {
-        if (static_cast<s32>(sGnFrame) <= field_1AC_timer)
+        if (static_cast<s32>(sGnFrame) <= mMultiUseTimer)
         {
             return mBrainSubState;
         }
@@ -840,7 +840,7 @@ s16 CrawlingSlig::Brain_2_PanicGetALocker()
         case Brain_2_PanicGetALocker::eBrain2_SearchLocker_2:
             if (HandleEnemyStopper(mVelX))
             {
-                field_1AC_timer = (Math_NextRandom() & 15) + sGnFrame + 30;
+                mMultiUseTimer = (Math_NextRandom() & 15) + sGnFrame + 30;
                 SetNextMotion(CrawlingSligMotion::Motion_11_TurnAround);
                 return Brain_2_PanicGetALocker::eBrain2_TurnAround_7;
             }
@@ -894,7 +894,7 @@ s16 CrawlingSlig::Brain_2_PanicGetALocker()
                 SetNextMotion(CrawlingSligMotion::Motion_3_Crawling);
                 return Brain_2_PanicGetALocker::eBrain2_SearchLocker_2;
             }
-            field_1AC_timer = (Math_NextRandom() & 15) + sGnFrame + 30;
+            mMultiUseTimer = (Math_NextRandom() & 15) + sGnFrame + 30;
             SetNextMotion(CrawlingSligMotion::Motion_11_TurnAround);
             return Brain_2_PanicGetALocker::eBrain2_TurnAround_7;
         }
@@ -909,12 +909,12 @@ s16 CrawlingSlig::Brain_2_PanicGetALocker()
             {
                 if (Math_NextRandom() & 1)
                 {
-                    field_1AC_timer = (Math_NextRandom() & 15) + sGnFrame + 30;
+                    mMultiUseTimer = (Math_NextRandom() & 15) + sGnFrame + 30;
                     return Brain_2_PanicGetALocker::eBrain2_Crawling_8;
                 }
                 else
                 {
-                    field_1AC_timer = (Math_NextRandom() & 15) + sGnFrame + 30;
+                    mMultiUseTimer = (Math_NextRandom() & 15) + sGnFrame + 30;
                     SetNextMotion(CrawlingSligMotion::Motion_11_TurnAround);
                     return Brain_2_PanicGetALocker::eBrain2_TurnAround_7;
                 }
@@ -925,7 +925,7 @@ s16 CrawlingSlig::Brain_2_PanicGetALocker()
                 mTlvHeader->mTlvSpecificMeaning |= 1;
 
                 SetNextMotion(CrawlingSligMotion::Motion_1_UsingButton);
-                field_1AC_timer = sGnFrame + 20;
+                mMultiUseTimer = sGnFrame + 20;
                 return Brain_2_PanicGetALocker::eBrain2_UsingButton_6;
             }
             break;
@@ -953,7 +953,7 @@ s16 CrawlingSlig::Brain_2_PanicGetALocker()
                 return Brain_2_PanicGetALocker::eBrain2_TurnAroundForLocker_3;
             }
 
-            if (static_cast<s32>(sGnFrame) > field_1AC_timer)
+            if (static_cast<s32>(sGnFrame) > mMultiUseTimer)
             {
                 SetNextMotion(CrawlingSligMotion::Motion_11_TurnAround);
                 return Brain_2_PanicGetALocker::eBrain2_TurnAroundForLocker_3;
@@ -1009,7 +1009,7 @@ s16 CrawlingSlig::Brain_2_PanicGetALocker()
                     return mBrainSubState;
                 }
             }
-            else if (static_cast<s32>(sGnFrame) > field_1AC_timer)
+            else if (static_cast<s32>(sGnFrame) > mMultiUseTimer)
             {
                 Set_AnimAndMotion(CrawlingSligMotion::Motion_14_ShakingToIdle, true);
             }
@@ -1035,7 +1035,7 @@ s16 CrawlingSlig::Brain_3_Possessed()
     switch (mBrainSubState)
     {
         case Brain_2_Possessed::eBrain3_StartPossession_0:
-            if (static_cast<s32>(sGnFrame) <= field_1AC_timer)
+            if (static_cast<s32>(sGnFrame) <= mMultiUseTimer)
             {
                 return mBrainSubState;
             }
@@ -1047,7 +1047,7 @@ s16 CrawlingSlig::Brain_3_Possessed()
             {
                 return mBrainSubState;
             }
-            field_1AC_timer = sGnFrame + 30;
+            mMultiUseTimer = sGnFrame + 30;
             SfxPlayMono(relive::SoundEffects::PossessEffect, 0);
             Set_AnimAndMotion(CrawlingSligMotion::Motion_12_Shaking, true);
             return Brain_2_Possessed::eBrain3_Unpossessing_2;
@@ -1064,7 +1064,7 @@ s16 CrawlingSlig::Brain_3_Possessed()
                         Layer::eLayer_0);
                 }
 
-                if (static_cast<s32>(sGnFrame) <= field_1AC_timer && sActiveHero->mHealth > FP_FromInteger(0))
+                if (static_cast<s32>(sGnFrame) <= mMultiUseTimer && sActiveHero->mHealth > FP_FromInteger(0))
                 {
                     return mBrainSubState;
                 }
@@ -1086,7 +1086,7 @@ s16 CrawlingSlig::Brain_3_Possessed()
         case Brain_2_Possessed::eBrain3_BeatBySlig_3:
             if (GetCurrentMotion() != CrawlingSligMotion::Motion_14_ShakingToIdle)
             {
-                if (static_cast<s32>(sGnFrame) > field_1AC_timer)
+                if (static_cast<s32>(sGnFrame) > mMultiUseTimer)
                 {
                     Set_AnimAndMotion(CrawlingSligMotion::Motion_14_ShakingToIdle, true);
                 }
@@ -1130,7 +1130,7 @@ s16 CrawlingSlig::Brain_4_GetKilled()
             return Brain_4_GetKilled::eBrain4_Vaporize_1;
 
         case Brain_4_GetKilled::eBrain4_Vaporize_1:
-            if (field_1AC_timer < static_cast<s32>((sGnFrame + 80)))
+            if (mMultiUseTimer < static_cast<s32>((sGnFrame + 80)))
             {
                 SetSpriteScale(GetSpriteScale() - FP_FromDouble(0.008));
                 mRGB.r -= 2;
@@ -1138,12 +1138,12 @@ s16 CrawlingSlig::Brain_4_GetKilled()
                 mRGB.b -= 2;
             }
 
-            if (static_cast<s32>(sGnFrame) < field_1AC_timer - 24)
+            if (static_cast<s32>(sGnFrame) < mMultiUseTimer - 24)
             {
                 DeathSmokeEffect(true);
             }
 
-            if (field_1AC_timer < static_cast<s32>(sGnFrame))
+            if (mMultiUseTimer < static_cast<s32>(sGnFrame))
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
@@ -1185,39 +1185,39 @@ s16 CrawlingSlig::Brain_4_GetKilled()
             mVelY = FP_FromInteger(0);
             mVelX = FP_FromInteger(0);
             mHealth = FP_FromInteger(0);
-            field_1AC_timer = sGnFrame + 40;
+            mMultiUseTimer = sGnFrame + 40;
             return Brain_4_GetKilled::eBrain4_SetDead_3;
         }
 
         case Brain_4_GetKilled::eBrain4_SetDead_3:
-            if (static_cast<s32>(sGnFrame) > field_1AC_timer)
+            if (static_cast<s32>(sGnFrame) > mMultiUseTimer)
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
             return mBrainSubState;
 
         case Brain_4_GetKilled::eBrain4_DeathBySlog_4:
-            if (static_cast<s32>(sGnFrame) <= field_1AC_timer)
+            if (static_cast<s32>(sGnFrame) <= mMultiUseTimer)
             {
                 return mBrainSubState;
             }
-            field_1AC_timer = sGnFrame + 90;
+            mMultiUseTimer = sGnFrame + 90;
             return Brain_4_GetKilled::eBrain4_Vaporize_1;
 
         case Brain_4_GetKilled::eBrain4_DeathDrop_5:
-            if (static_cast<s32>(sGnFrame) < field_1AC_timer)
+            if (static_cast<s32>(sGnFrame) < mMultiUseTimer)
             {
-                if (!(static_cast<s32>(field_1AC_timer - sGnFrame) % 15))
+                if (!(static_cast<s32>(mMultiUseTimer - sGnFrame) % 15))
                 {
                     Slig_GameSpeak_SFX_4C04F0(
                         SligSpeak::eHelp_10,
                         // TODO: revisit the logic below
-                        static_cast<s16>(2 * (field_1AC_timer & (0xFFFF - sGnFrame))),
+                        static_cast<s16>(2 * (mMultiUseTimer & (0xFFFF - sGnFrame))),
                         0,
                         this);
                 }
 
-                if (static_cast<s32>(sGnFrame) == field_1AC_timer - 6)
+                if (static_cast<s32>(sGnFrame) == mMultiUseTimer - 6)
                 {
                     SND_SEQ_Play(SeqId::HitBottomOfDeathPit_9, 1, 65, 65);
                 }
@@ -1227,7 +1227,7 @@ s16 CrawlingSlig::Brain_4_GetKilled()
             {
                 Environment_SFX_457A40(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 0x7FFF, this);
                 relive_new ScreenShake(0, 0);
-                field_1AC_timer = sGnFrame + 30;
+                mMultiUseTimer = sGnFrame + 30;
                 return Brain_4_GetKilled::eBrain4_SetDead_3;
             }
             break;
@@ -1239,7 +1239,7 @@ s16 CrawlingSlig::Brain_4_GetKilled()
 
 s16 CrawlingSlig::Brain_5_Transformed()
 {
-    BaseGameObject* pObj = sObjectIds.Find_Impl(field_1D8_obj_id);
+    BaseGameObject* pObj = sObjectIds.Find_Impl(mTransformedSligId);
     if (gMap.GetDirection(
             mCurrentLevel,
             mCurrentPath,
@@ -1266,11 +1266,11 @@ void CrawlingSlig::Motion_0_Idle()
 void CrawlingSlig::Motion_1_UsingButton()
 {
     // Check for using a slig button which is a button than can trigger an id
-    auto pSligButton = static_cast<CrawlingSligButton*>(sObjectIds.Find_Impl(field_1D0_slig_button_id));
+    auto pSligButton = static_cast<CrawlingSligButton*>(sObjectIds.Find_Impl(mSligButtonId));
     if (pSligButton && GetAnimation().GetCurrentFrame() == 8)
     {
         pSligButton->UseButton();
-        field_1D0_slig_button_id = Guid{};
+        mSligButtonId = Guid{};
     }
     // If not using a button check if we are on a locker to get pants or wings
     else if (mTlvHeader)
@@ -1280,14 +1280,14 @@ void CrawlingSlig::Motion_1_UsingButton()
             SfxPlayMono(relive::SoundEffects::CrawlingSligTransformStart, 0);
         }
 
-        if (static_cast<s32>(sGnFrame) == field_1AC_timer - 1)
+        if (static_cast<s32>(sGnFrame) == mMultiUseTimer - 1)
         {
             New_DestroyOrCreateObject_Particle(
                 mXPos,
                 (GetSpriteScale() * FP_FromInteger(45)) + mYPos,
                 GetSpriteScale());
         }
-        else if (static_cast<s32>(sGnFrame) > field_1AC_timer)
+        else if (static_cast<s32>(sGnFrame) > mMultiUseTimer)
         {
             if (mTlvHeader->mTlvType == ReliveTypes::eSligGetPants)
             {
@@ -1298,7 +1298,7 @@ void CrawlingSlig::Motion_1_UsingButton()
                 auto pWalkingSlig = relive_new Slig(static_cast<relive::Path_Slig*>(mTlvHeader), sPathInfo->TLVInfo_From_TLVPtr(mTlvHeader));
                 if (pWalkingSlig)
                 {
-                    field_1D8_obj_id = pWalkingSlig->mBaseGameObjectId;
+                    mTransformedSligId = pWalkingSlig->mBaseGameObjectId;
 
                     pWalkingSlig->SetSpriteScale(GetSpriteScale());
 
@@ -1327,7 +1327,7 @@ void CrawlingSlig::Motion_1_UsingButton()
                 auto pFlyingSlig = relive_new FlyingSlig(static_cast<relive::Path_FlyingSlig*>(mTlvHeader), sPathInfo->TLVInfo_From_TLVPtr(mTlvHeader));
                 if (pFlyingSlig)
                 {
-                    field_1D8_obj_id = pFlyingSlig->mBaseGameObjectId;
+                    mTransformedSligId = pFlyingSlig->mBaseGameObjectId;
                     pFlyingSlig->mXPos = mXPos;
                     pFlyingSlig->mYPos = mYPos - FP_FromInteger(15);
                     pFlyingSlig->field_294_nextXPos = mXPos;
@@ -1445,7 +1445,7 @@ void CrawlingSlig::Motion_5_Falling()
 {
     if (mVelX > FP_FromInteger(0))
     {
-        mVelX = mVelX - (GetSpriteScale() * field_1B0_velx_scale_factor);
+        mVelX = mVelX - (GetSpriteScale() * mVelxScaleFactor);
         if (mVelX < FP_FromInteger(0))
         {
             mVelX = FP_FromInteger(0);
@@ -1453,7 +1453,7 @@ void CrawlingSlig::Motion_5_Falling()
     }
     else if (mVelX < FP_FromInteger(0))
     {
-        mVelX = (GetSpriteScale() * field_1B0_velx_scale_factor) + mVelX;
+        mVelX = (GetSpriteScale() * mVelxScaleFactor) + mVelX;
         if (mVelX > FP_FromInteger(0))
         {
             mVelX = FP_FromInteger(0);
@@ -1730,7 +1730,7 @@ void CrawlingSlig::HandleCommon()
                     mTlvHeader->mTlvSpecificMeaning &= 0xFF;
                     mTlvHeader->mTlvSpecificMeaning |= 1;
                     SetNextMotion(CrawlingSligMotion::Motion_1_UsingButton);
-                    field_1AC_timer = sGnFrame + 20;
+                    mMultiUseTimer = sGnFrame + 20;
                 }
             }
             else
@@ -1739,7 +1739,7 @@ void CrawlingSlig::HandleCommon()
                 if (pSligButton)
                 {
                     SetNextMotion(CrawlingSligMotion::Motion_1_UsingButton);
-                    field_1D0_slig_button_id = pSligButton->mBaseGameObjectId;
+                    mSligButtonId = pSligButton->mBaseGameObjectId;
                 }
                 else
                 {
@@ -1866,7 +1866,7 @@ s16 CrawlingSlig::CanCrawl()
 
     if (sControlledCharacter == this && WallHit(GetSpriteScale() * FP_FromInteger(30), gridScale))
     {
-        field_1B0_velx_scale_factor = FP_FromInteger(0);
+        mVelxScaleFactor = FP_FromInteger(0);
         mVelY = FP_FromInteger(0);
         Set_AnimAndMotion(CrawlingSligMotion::Motion_10_PushingWall, true);
         const s32 snappedX = SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos));
@@ -1910,7 +1910,7 @@ void CrawlingSlig::MoveOnLine()
             {
                 Set_AnimAndMotion(CrawlingSligMotion::Motion_4_StartFalling, true);
             }
-            field_1B0_velx_scale_factor = FP_FromInteger(1);
+            mVelxScaleFactor = FP_FromInteger(1);
             mXPos = mXPos + mVelX;
         }
     }

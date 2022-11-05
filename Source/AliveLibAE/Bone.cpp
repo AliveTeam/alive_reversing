@@ -71,7 +71,7 @@ s32 Bone::CreateFromSaveState(const u8* pData)
 
     auto pBone = relive_new Bone(pState->mXPos, pState->mYPos, pState->mBaseThrowableCount);
 
-    pBone->mBaseGameObjectTlvInfo = pState->field_4_obj_id;
+    pBone->mBaseGameObjectTlvInfo = pState->mBaseTlvId;
 
     pBone->mXPos = pState->mXPos;
     pBone->mYPos = pState->mYPos;
@@ -241,8 +241,8 @@ s32 Bone::VGetSaveState(u8* pSaveBuffer)
 {
     auto pState = reinterpret_cast<BoneSaveState*>(pSaveBuffer);
 
-    pState->mAEType = ReliveTypes::eBone;
-    pState->field_4_obj_id = mBaseGameObjectTlvInfo;
+    pState->mType = ReliveTypes::eBone;
+    pState->mBaseTlvId = mBaseGameObjectTlvInfo;
 
     pState->mXPos = mXPos;
     pState->mYPos = mYPos;
@@ -272,7 +272,7 @@ s32 Bone::VGetSaveState(u8* pSaveBuffer)
         pState->mCollisionLineType = -1;
     }
 
-    pState->field_24_base_id = BaseAliveGameObject_PlatformId;
+    pState->mPlatformId = BaseAliveGameObject_PlatformId;
     pState->mBaseThrowableCount = mBaseThrowableCount;
     pState->mState = mState;
 

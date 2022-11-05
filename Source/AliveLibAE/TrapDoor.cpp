@@ -293,15 +293,15 @@ void TrapDoor::VUpdate()
 s32 TrapDoor::CreateFromSaveState(const u8* pData)
 {
     auto pState = reinterpret_cast<const TrapDoorSaveState*>(pData);
-    auto pTlv = static_cast<relive::Path_TrapDoor*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_8_tlvInfo));
+    auto pTlv = static_cast<relive::Path_TrapDoor*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvId));
 
-    auto pTrapDoor = relive_new TrapDoor(pTlv, pState->field_8_tlvInfo);
+    auto pTrapDoor = relive_new TrapDoor(pTlv, pState->mTlvId);
     if (pTrapDoor)
     {
-        pTrapDoor->mStayOpenTimeTimer = pState->field_4_open_time;
-        pTrapDoor->mState = pState->field_2_state;
+        pTrapDoor->mStayOpenTimeTimer = pState->mOpenTime;
+        pTrapDoor->mState = pState->mState;
 
-        if (pState->field_2_state == TrapDoorState::eClosing_3 || pState->field_2_state == TrapDoorState::eOpening_1)
+        if (pState->mState == TrapDoorState::eClosing_3 || pState->mState == TrapDoorState::eOpening_1)
         {
             pTrapDoor->Open();
         }
@@ -314,10 +314,10 @@ s32 TrapDoor::VGetSaveState(u8* pSaveBuffer)
 {
     auto pState = reinterpret_cast<TrapDoorSaveState*>(pSaveBuffer);
 
-    pState->field_0_type = ReliveTypes::eTrapDoor;
-    pState->field_4_open_time = mStayOpenTimeTimer;
-    pState->field_2_state = mState;
-    pState->field_8_tlvInfo = mPlatformBaseTlvInfo;
+    pState->mType = ReliveTypes::eTrapDoor;
+    pState->mOpenTime = mStayOpenTimeTimer;
+    pState->mState = mState;
+    pState->mTlvId = mPlatformBaseTlvInfo;
     return sizeof(TrapDoorSaveState);
 }
 

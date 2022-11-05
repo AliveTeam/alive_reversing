@@ -12,23 +12,23 @@
 LiftMover::LiftMover(relive::Path_LiftMover* pTlv, const Guid& tlvId)
     : BaseGameObject(true, 0)
 {
-    field_24_tlvInfo = tlvId;
-    field_28_lift_id = Guid{};
+    mTlvId = tlvId;
+    mTargetLiftId = Guid{};
     SetType(ReliveTypes::eLiftMover);
 
-    field_20_lift_mover_switch_id = pTlv->mLiftMoverSwitchId;
-    field_22_target_lift_point_id = pTlv->mTargetLiftPointId;
+    mLiftMoverSwitchId = pTlv->mLiftMoverSwitchId;
+    mTargetLiftPointId = pTlv->mTargetLiftPointId;
 
     if (pTlv->mMoveDirection == relive::Path_LiftMover::YDirection::eUp)
     {
-        field_2C_speed = FP_FromInteger(-4);
+        mLiftSpeed = FP_FromInteger(-4);
     }
     else
     {
-        field_2C_speed = FP_FromInteger(4);
+        mLiftSpeed = FP_FromInteger(4);
     }
 
-    field_30_state = LiftMoverStates::eInactive_0;
+    mState = LiftMoverStates::eInactive_0;
     field_32_bMoveInProgress = false;
 }
 
@@ -36,15 +36,15 @@ s32 LiftMover::CreateFromSaveState(const u8* pData)
 {
     auto pState = reinterpret_cast<const LiftMoverSaveState*>(pData);
 
-    relive::Path_LiftMover* pTlv = static_cast<relive::Path_LiftMover*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_4_tlvInfo));
-    auto pLiftMover = relive_new LiftMover(pTlv, pState->field_4_tlvInfo);
+    relive::Path_LiftMover* pTlv = static_cast<relive::Path_LiftMover*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvId));
+    auto pLiftMover = relive_new LiftMover(pTlv, pState->mTlvId);
     if (pLiftMover)
     {
-        if (pState->field_8_state != LiftMoverStates::eInactive_0)
+        if (pState->mState != LiftMoverStates::eInactive_0)
         {
             pLiftMover->field_32_bMoveInProgress = true;
         }
-        pLiftMover->field_30_state = pState->field_8_state;
+        pLiftMover->mState = pState->mState;
     }
 
     return sizeof(LiftMoverSaveState);
@@ -52,7 +52,7 @@ s32 LiftMover::CreateFromSaveState(const u8* pData)
 
 void LiftMover::VUpdate()
 {
-    LiftPoint* pLift = static_cast<LiftPoint*>(sObjectIds.Find(field_28_lift_id, ReliveTypes::eLiftPoint));
+    LiftPoint* pLift = static_cast<LiftPoint*>(sObjectIds.Find(mTargetLiftId, ReliveTypes::eLiftPoint));
     if (field_32_bMoveInProgress)
     {
         pLift = GetLiftPoint();
@@ -67,14 +67,14 @@ void LiftMover::VUpdate()
     {
         // Set extra dead for good measure
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-        field_28_lift_id = Guid{};
+        mTargetLiftId = Guid{};
     }
     else
     {
-        switch (field_30_state)
+        switch (mState)
         {
             case LiftMoverStates::eInactive_0:
-                if (SwitchStates_Get(field_20_lift_mover_switch_id))
+                if (SwitchStates_Get(mLiftMoverSwitchId))
                 {
                     if (!pLift)
                     {
@@ -83,8 +83,8 @@ void LiftMover::VUpdate()
 
                     if (pLift)
                     {
-                        field_28_lift_id = pLift->mBaseGameObjectId;
-                        field_30_state = LiftMoverStates::eStartMovingDown_1;
+                        mTargetLiftId = pLift->mBaseGameObjectId;
+                        mState = LiftMoverStates::eStartMovingDown_1;
                     }
                 }
                 break;
@@ -97,15 +97,15 @@ void LiftMover::VUpdate()
 
                 if (!pLift->vOnAnyFloor())
                 {
-                    field_30_state = LiftMoverStates::eMovingDown_2;
+                    mState = LiftMoverStates::eMovingDown_2;
                     pLift->vKeepOnMiddleFloor();
                 }
                 else
                 {
-                    pLift->vMove_4626A0(FP_FromInteger(0), field_2C_speed, 0);
-                    if ((field_2C_speed > FP_FromInteger(0) && pLift->vOnBottomFloor()) || (field_2C_speed < FP_FromInteger(0) && pLift->vOnTopFloor()))
+                    pLift->vMove_4626A0(FP_FromInteger(0), mLiftSpeed, 0);
+                    if ((mLiftSpeed > FP_FromInteger(0) && pLift->vOnBottomFloor()) || (mLiftSpeed < FP_FromInteger(0) && pLift->vOnTopFloor()))
                     {
-                        field_30_state = LiftMoverStates::eMovingDown_2;
+                        mState = LiftMoverStates::eMovingDown_2;
                     }
                 }
                 break;
@@ -118,12 +118,12 @@ void LiftMover::VUpdate()
 
                 if (!pLift->vOnAFloorLiftMoverCanUse())
                 {
-                    pLift->vMove_4626A0(FP_FromInteger(0), field_2C_speed, 0);
+                    pLift->vMove_4626A0(FP_FromInteger(0), mLiftSpeed, 0);
                 }
                 else
                 {
                     pLift->vMove_4626A0(FP_FromInteger(0), FP_FromInteger(0), 0);
-                    field_30_state = LiftMoverStates::eMovingDone_5;
+                    mState = LiftMoverStates::eMovingDone_5;
                 }
                 break;
 
@@ -135,26 +135,26 @@ void LiftMover::VUpdate()
 
                 if (pLift->vOnAFloorLiftMoverCanUse())
                 {
-                    pLift->vMove_4626A0(FP_FromInteger(0), field_2C_speed, 0);
-                    if (field_2C_speed < FP_FromInteger(0))
+                    pLift->vMove_4626A0(FP_FromInteger(0), mLiftSpeed, 0);
+                    if (mLiftSpeed < FP_FromInteger(0))
                     {
                         if (pLift->vOnTopFloor())
                         {
-                            field_30_state = LiftMoverStates::eMovingDown_2;
+                            mState = LiftMoverStates::eMovingDown_2;
                         }
                     }
 
-                    if (field_2C_speed > FP_FromInteger(0))
+                    if (mLiftSpeed > FP_FromInteger(0))
                     {
                         if (pLift->vOnBottomFloor())
                         {
-                            field_30_state = LiftMoverStates::eMovingDown_2;
+                            mState = LiftMoverStates::eMovingDown_2;
                         }
                     }
                 }
                 else
                 {
-                    field_30_state = LiftMoverStates::eMovingUp_4;
+                    mState = LiftMoverStates::eMovingUp_4;
                     pLift->vKeepOnMiddleFloor();
                 }
                 break;
@@ -169,20 +169,20 @@ void LiftMover::VUpdate()
                 {
                     pLift->vMove_4626A0(FP_FromInteger(0), FP_FromInteger(0), 0);
 
-                    field_30_state = LiftMoverStates::eInactive_0;
-                    field_2C_speed = -field_2C_speed;
+                    mState = LiftMoverStates::eInactive_0;
+                    mLiftSpeed = -mLiftSpeed;
                 }
                 else
                 {
-                    pLift->vMove_4626A0(FP_FromInteger(0), field_2C_speed, 0);
+                    pLift->vMove_4626A0(FP_FromInteger(0), mLiftSpeed, 0);
                 }
                 break;
 
             case LiftMoverStates::eMovingDone_5:
-                if (!SwitchStates_Get(field_20_lift_mover_switch_id))
+                if (!SwitchStates_Get(mLiftMoverSwitchId))
                 {
-                    field_30_state = LiftMoverStates::eStartMovingUp_3;
-                    field_2C_speed = -field_2C_speed;
+                    mState = LiftMoverStates::eStartMovingUp_3;
+                    mLiftSpeed = -mLiftSpeed;
                 }
                 break;
 
@@ -199,16 +199,16 @@ void LiftMover::VUpdate()
 
 LiftMover::~LiftMover()
 {
-    Path::TLV_Reset(field_24_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mTlvId, -1, 0, 0);
 }
 
 s32 LiftMover::VGetSaveState(u8* pSaveBuffer)
 {
     auto pState = reinterpret_cast<LiftMoverSaveState*>(pSaveBuffer);
 
-    pState->field_0_type_id = ReliveTypes::eLiftMover;
-    pState->field_4_tlvInfo = field_24_tlvInfo;
-    pState->field_8_state = field_30_state;
+    pState->mType = ReliveTypes::eLiftMover;
+    pState->mTlvId = mTlvId;
+    pState->mState = mState;
     return sizeof(LiftMoverSaveState);
 }
 
@@ -225,9 +225,9 @@ LiftPoint* LiftMover::GetLiftPoint()
         if (pObj->Type() == ReliveTypes::eLiftPoint)
         {
             LiftPoint* pLift = static_cast<LiftPoint*>(pObj);
-            if (field_22_target_lift_point_id == pLift->field_278_lift_point_id)
+            if (mTargetLiftPointId == pLift->field_278_lift_point_id)
             {
-                field_28_lift_id = pObj->mBaseGameObjectId;
+                mTargetLiftId = pObj->mBaseGameObjectId;
                 return pLift;
             }
         }

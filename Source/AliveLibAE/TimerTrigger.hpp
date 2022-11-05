@@ -18,11 +18,11 @@ enum class TimerTriggerStates : s16
 
 struct TimerTriggerSaveState final
 {
-    ReliveTypes field_0_type;
-    Guid field_4_tlvInfo;
-    s32 field_8_delay_timer_base;
-    TimerTriggerStates field_C_state;
-    s16 field_E_starting_switch_state;
+    ReliveTypes mType;
+    Guid mTlvId;
+    s32 mActivationDelayTimer;
+    TimerTriggerStates mState;
+    s16 mStartingSwitchState;
 };
 
 class TimerTrigger final : public BaseGameObject

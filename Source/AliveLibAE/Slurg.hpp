@@ -43,7 +43,7 @@ struct SlurgSaveState final
     s8 mRender;
     s16 padding2;
     s32 mFrameTableOffset;
-    Guid mTlvInfo;
+    Guid mTlvId;
     SlurgStates mSlurgState;
     bool mGoingRight; // TODO: double check me
     bool mMoving;

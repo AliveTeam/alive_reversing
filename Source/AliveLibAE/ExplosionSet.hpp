@@ -45,5 +45,5 @@ private:
     BitField16<Flags_5C> field_5C_flags = {};
 };
 
-extern ExplosionSet* pExplosionSet_5BBF68;
+extern ExplosionSet* gExplosionSet;
 extern bool gExplosionSetEnabled;

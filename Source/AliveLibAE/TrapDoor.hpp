@@ -14,10 +14,10 @@ enum class TrapDoorState : s16
 
 struct TrapDoorSaveState final
 {
-    ReliveTypes field_0_type;
-    TrapDoorState field_2_state;
-    s32 field_4_open_time;
-    Guid field_8_tlvInfo;
+    ReliveTypes mType;
+    TrapDoorState mState;
+    s32 mOpenTime;
+    Guid mTlvId;
 };
 
 namespace relive

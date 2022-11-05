@@ -15,57 +15,57 @@ enum class SligSpeak : s8;
 
 struct CrawlingSligSaveState final
 {
-    ReliveTypes field_0_type;
+    ReliveTypes mType;
     s16 field_2_padding;
-    Guid field_4_obj_id;
-    FP field_8_xpos;
-    FP field_C_ypos;
-    FP field_10_velx;
-    FP field_14_vely;
-    s16 field_18_path_number;
-    EReliveLevelIds field_1A_lvl_number;
-    FP field_1C_sprite_scale;
-    s16 mRingRed;
-    s16 mRingGreen;
-    s16 mRingBlue;
-    s16 field_26_bFlipX;
-    s16 field_28_current_motion;
-    s16 field_2A_anim_cur_frame;
-    s16 field_2C_anim_frame_change_counter;
-    s8 field_2E_bRender;
-    s8 field_2F_bDrawable;
-    FP field_30_health;
-    s16 field_34_cur_motion;
-    s16 field_36_next_motion;
-    s16 field_38_last_line_ypos;
-    s16 field_3A_line_type;
+    Guid mBaseTlvId;
+    FP mXPos;
+    FP mYPos;
+    FP mVelX;
+    FP mVelY;
+    s16 mCurrentPath;
+    EReliveLevelIds mCurrentLevel;
+    FP mSpriteScale;
+    s16 mR;
+    s16 mG;
+    s16 mB;
+    s16 mFlipX;
+    s16 mCurrentMotion;
+    s16 mCurrentFrame;
+    s16 mFrameChangeCounter;
+    s8 mRender;
+    s8 mDrawable;
+    FP mHealth;
+    s16 mCurrentMotion2;
+    s16 mNextMotion;
+    s16 mLastLineYPos;
+    s16 mCollisionLineType;
     s16 field_3C_padding;
     s16 field_3E_padding;
-    s8 field_40_bIsControlled;
+    s8 mControlled;
     s8 field_41_padding;
     s16 field_42_padding;
-    Guid field_44_tlvInfo;
-    s32 field_48_brain_idx;
+    Guid mCrawlingSligTlvId;
+    s32 mBrainState;
     s16 field_4C_padding;
     s16 field_4E_padding;
-    s16 field_50_brain_sub_state;
+    s16 mBrainSubState;
     s16 field_52_padding;
-    s32 field_54_timer;
-    FP field_58_velx_scale_factor;
+    s32 mMultiUseTimer;
+    FP mVelxScaleFactor;
     s16 field_5C_padding;
-    s16 field_5E_bChanting;
+    s16 mChanting;
     EReliveLevelIds mAbeLevel;
     s16 mAbePath;
     s16 mAbeCamera;
     s16 field_66_unused;
     s32 field_68_unused;
-    Guid field_6C_slig_button_id;
+    Guid mSligButtonTlvId;
     Guid field_70_obj_id;
-    Guid field_74_obj_id;
-    SligSpeak field_78_speak;
+    Guid mTransformedSligId;
+    SligSpeak mSpeak;
     s8 field_79_padding;
     s16 field_7A_unused_counter;
-    s32 field_7C_say_help_timer;
+    s32 mSayHelpTimer;
 };
 
 enum class CrawlingSligMotion : s16
@@ -170,8 +170,8 @@ private:
     s16 field_1A6_g = 0;
     s16 field_1A8_b = 0;
 
-    s32 field_1AC_timer = 0;
-    FP field_1B0_velx_scale_factor = {}; // TODO: Not sure if this is an accurate name, but can't think of anything better.
+    s32 mMultiUseTimer = 0;
+    FP mVelxScaleFactor = {}; // TODO: Not sure if this is an accurate name, but can't think of anything better.
 
     bool mChanting = false;
 
@@ -181,9 +181,9 @@ private:
 
     SligSpeak mSpeak = SligSpeak::eNone;
     s32 mSayHelpTimer = 0;
-    Guid field_1D0_slig_button_id = Guid{};
+    Guid mSligButtonId = Guid{};
     Guid field_1D4_obj_id = Guid{};
-    Guid field_1D8_obj_id = Guid{};
+    Guid mTransformedSligId = Guid{};
     relive::Path_CrawlingSlig::CrawlDirection mCrawlDirection = relive::Path_CrawlingSlig::CrawlDirection::eLeft;
     relive::Path_TLV* mTlvHeader = nullptr;
     relive::Path_CrawlingSlig mTlv = {};

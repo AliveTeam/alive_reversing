@@ -5,9 +5,9 @@
 
 struct MinesAlarmSaveState final
 {
-    ReliveTypes field_0_type;
+    ReliveTypes mType;
     s16 field_2_pad;
-    s32 field_4_timer;
+    s32 mExplosionTimer;
 };
 
 class MinesAlarm final : public BaseGameObject
@@ -23,4 +23,4 @@ public:
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 };
 
-extern s32 sTimerValue_5C1BFC;
+extern s32 gExplosionTimer;
