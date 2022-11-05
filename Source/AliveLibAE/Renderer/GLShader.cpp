@@ -288,9 +288,9 @@ uniform sampler2D texTextureData;
 //
 int get565FromNormalized(in vec3 rgbInput)
 {
-    int rValue = int(ceil(rgbInput.r * 30f));
-    int gValue = int(ceil(rgbInput.g * 62f));
-    int bValue = int(ceil(rgbInput.b * 30f));
+    int rValue = int(ceil(rgbInput.r * 30.0f));
+    int gValue = int(ceil(rgbInput.g * 62.0f));
+    int bValue = int(ceil(rgbInput.b * 30.0f));
 
     rValue = rValue << 11;
     gValue = gValue << 5;
@@ -300,9 +300,9 @@ int get565FromNormalized(in vec3 rgbInput)
 
 vec3 getNormalizedFrom565(in int rgbInput)
 {
-    float rValue = float((rgbInput >> 11) & 0x1F) / 30f;
-    float gValue = float((rgbInput >> 5) & 0x3F) / 62f;
-    float bValue = float(rgbInput & 0x1F) / 30f;
+    float rValue = float((rgbInput >> 11) & 0x1F) / 30.0f;
+    float gValue = float((rgbInput >> 5) & 0x3F) / 62.0f;
+    float bValue = float(rgbInput & 0x1F) / 30.0f;
 
     return vec3(rValue, gValue, bValue);
 }
