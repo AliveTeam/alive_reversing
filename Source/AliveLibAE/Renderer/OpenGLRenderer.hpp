@@ -172,7 +172,7 @@ private:
     SDL_Rect GetTargetDrawRect();
     u16 GetTPageBlendMode(u16 tPage);
     void InvalidateBatch();
-    void PushLines(VertexData* vertices, int count);
+    void PushLines(const VertexData* vertices, int count);
     void PushVertexData(VertexData* pVertData, int count, GLuint textureId = 0);
     void SetupBlendMode(u16 blendMode);
     void UpdateFilterFramebuffer();

@@ -3,6 +3,11 @@
 struct RGBA32 final
 {
     u8 r, g, b, a;
+
+    u32 ToU32() const
+    {
+        return (r << 24) + (g << 16) + (b << 8) + (a);
+    }
 };
 
 class RGBConversion final

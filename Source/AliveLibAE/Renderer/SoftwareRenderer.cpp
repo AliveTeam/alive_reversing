@@ -376,15 +376,8 @@ void SoftwareRenderer::Draw(Poly_F4& poly)
     SDL_RenderGeometry(mRenderer, nullptr, vert, 4, indexList, 6);
 }
 
-static SDL_Texture* MakeTexture(SDL_Renderer* pRender, const u16* pPal, const u8* pPixels, u32 w, u32 h)
+static SDL_Texture* MakeTexture(SDL_Renderer* pRender, const AnimationPal& pPal, const u8* pPixels, u32 w, u32 h)
 {
-    u32 pal[255];
-    for (u32 i = 0; i < 255; i++)
-    {
-        const u16 oldPixel = pPal[i];
-        pal[i] = RGBConversion::RGBA555ToRGBA888(oldPixel);
-    }
-
     SDL_Surface* surface = SDL_CreateRGBSurfaceWithFormat(0,
                                                           w,
                                                           h, 32, SDL_PIXELFORMAT_ABGR8888);
@@ -397,7 +390,7 @@ static SDL_Texture* MakeTexture(SDL_Renderer* pRender, const u16* pPal, const u8
     {
         for (u32 x = 0; x < w; x++)
         {
-            set_pixel(surface, x, y, pal[pPixels[i++]]);
+            set_pixel(surface, x, y, pPal.mPal[pPixels[i++]].ToU32());
         }
     }
     SDL_UnlockSurface(surface);
@@ -447,7 +440,7 @@ void SoftwareRenderer::Draw(Poly_FT4& poly)
     if (poly.mAnim)
     {
         std::shared_ptr<TgaData> pTga = poly.mAnim->mAnimRes.mTgaPtr;
-        pTexture = MakeTexture(mRenderer, pTga->mPal->mPal, pTga->mPixels.data(), pTga->mWidth, pTga->mHeight);
+        pTexture = MakeTexture(mRenderer, *pTga->mPal, pTga->mPixels.data(), pTga->mWidth, pTga->mHeight);
 
         if (poly.mBase.header.rgb_code.code_or_pad & 2)
         {
@@ -565,7 +558,7 @@ void SoftwareRenderer::Draw(Poly_FT4& poly)
     else if (poly.mFont)
     {
         std::shared_ptr<TgaData> pTga = poly.mFont->field_C_resource_id.mTgaPtr;
-        pTexture = MakeTexture(mRenderer, pTga->mPal->mPal, pTga->mPixels.data(), pTga->mWidth, pTga->mHeight);
+        pTexture = MakeTexture(mRenderer, *pTga->mPal, pTga->mPixels.data(), pTga->mWidth, pTga->mHeight);
 
         u0 = U0(&poly);
         v0 = V0(&poly);

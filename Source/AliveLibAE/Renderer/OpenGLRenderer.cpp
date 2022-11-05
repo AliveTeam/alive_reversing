@@ -50,7 +50,7 @@ static void CheckGLError()
     if (lastGLError != GL_NO_ERROR)
     {
         std::string buf;
-        auto msg = (char_type*) glewGetString(lastGLError);
+        auto msg = reinterpret_cast<const char_type*>(glewGetString(lastGLError));
 
         buf.append("OpenGL error raised: ");
 
@@ -71,8 +71,8 @@ static void CheckGLError()
 
 static GLuint Renderer_CreateTexture(GLenum interpolation = GL_NEAREST)
 {
-    GLuint textureId;
-    
+    GLuint textureId = 0;
+
     GL_VERIFY(glGenTextures(1, &textureId));
     GL_VERIFY(glBindTexture(GL_TEXTURE_2D, textureId));
 
@@ -89,21 +89,21 @@ u32 OpenGLRenderer::PreparePalette(AnimationPal& pCache)
 {
     if (mPaletteTextureId == 0)
     {
-        RGBA32 black[256] = {};
+        const static RGBA32 black[256] = {};
 
         mPaletteTextureId = Renderer_CreateTexture();
 
         GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mPaletteTextureId));
         GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, GL_PALETTE_DEPTH, GL_AVAILABLE_PALETTES, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0));
 
-        for (int i = 0; i < GL_AVAILABLE_PALETTES; i++)
+        for (s32 i = 0; i < GL_AVAILABLE_PALETTES; i++)
         {
             GL_VERIFY(glTexSubImage2D(GL_TEXTURE_2D, 0, 0, i, GL_PALETTE_DEPTH, 1, GL_RGBA, GL_UNSIGNED_BYTE, black));
         }
     }
 
     // Check we don't already have this palette
-    u32 paletteHash = HashPalette(&pCache);
+    const u32 paletteHash = HashPalette(&pCache);
     auto searchResult = mPaletteCache.find(paletteHash);
 
     if (searchResult != std::end(mPaletteCache))
@@ -159,12 +159,14 @@ u32 OpenGLRenderer::PreparePalette(AnimationPal& pCache)
 u32 OpenGLRenderer::HashPalette(const AnimationPal* pPal)
 {
     // This is the 'djb2' algorithm
-    const u8* data = reinterpret_cast<const u8*>(pPal->mPal);
     u32 hash = 5381;
 
     for (int i = 0; i < GL_PALETTE_DEPTH; i++)
     {
-        hash = ((hash << 5) + hash) + data[i];
+        hash = ((hash << 5) + hash) + pPal->mPal[i].r;
+        hash = ((hash << 5) + hash) + pPal->mPal[i].g;
+        hash = ((hash << 5) + hash) + pPal->mPal[i].b;
+        hash = ((hash << 5) + hash) + pPal->mPal[i].a;
     }
 
     return hash;
@@ -173,7 +175,7 @@ u32 OpenGLRenderer::HashPalette(const AnimationPal* pPal)
 GLuint OpenGLRenderer::CreateCachedTexture(u32 uniqueId, u32 lifetime)
 {
     CachedTexture newTex;
-    GLuint texId = Renderer_CreateTexture();
+    const GLuint texId = Renderer_CreateTexture();
 
     newTex.mTextureId = texId;
     newTex.mLifetime = lifetime;
@@ -208,10 +210,10 @@ GLuint OpenGLRenderer::GetCachedTextureId(u32 uniqueId, s32 bump)
 
 u32 OpenGLRenderer::PrepareTextureFromAnim(Animation& anim)
 {
-    AnimResource& r = anim.mAnimRes;
+    const AnimResource& r = anim.mAnimRes;
 
     u32 textureId = GetCachedTextureId(r.mUniqueId.Id(), GL_SPRITE_TEXTURE_LIFETIME);
-    
+
     if (textureId == 0)
     {
         textureId = CreateCachedTexture(r.mUniqueId.Id(), GL_SPRITE_TEXTURE_LIFETIME);
@@ -339,8 +341,8 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
         }
         else
         {
-            LOG_INFO("%d name %s", i, info.name);
-            if (strstr(info.name, "opengl"))
+            LOG_INFO("%d name %s", i, info.name ? info.name : "(null)");
+            if (info.name && strstr(info.name, "opengl"))
             {
                 index = i;
                 break;
@@ -535,9 +537,9 @@ void OpenGLRenderer::Draw(Prim_Sprt& sprt)
     u32 u1 = U0(&sprt) + texW;
     u32 v1 = V0(&sprt) + texH;
 
-    bool isSemiTrans = GetPolyIsSemiTrans(&sprt);
-    bool isShaded = GetPolyIsShaded(&sprt);
-    u16 blendMode = GetTPageBlendMode(mGlobalTPage);
+    const bool isSemiTrans = GetPolyIsSemiTrans(&sprt);
+    const bool isShaded = GetPolyIsShaded(&sprt);
+    const u16 blendMode = GetTPageBlendMode(mGlobalTPage);
 
     VertexData verts[4] = {
         {sprt.mBase.vert.x, sprt.mBase.vert.y, r, g, b, u0, v0, texW, texH, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded, blendMode, palIndex, 0},
@@ -1332,7 +1334,7 @@ void OpenGLRenderer::InvalidateBatch()
     mStats.mInvalidationsCount++;
 }
 
-void OpenGLRenderer::PushLines(VertexData* vertices, int count)
+void OpenGLRenderer::PushLines(const VertexData* vertices, int count)
 {
     static const f32 halfThickness = 0.5f;
 
@@ -1438,7 +1440,7 @@ void OpenGLRenderer::PushVertexData(VertexData* pVertData, int count, GLuint tex
 
         case GL_PSX_DRAW_MODE_FG1:
         {
-            targetTexUnit = (u32) mCurFG1TextureIds.size();
+            targetTexUnit = static_cast<u32>(mCurFG1TextureIds.size());
 
             if (targetTexUnit == 4)
             {

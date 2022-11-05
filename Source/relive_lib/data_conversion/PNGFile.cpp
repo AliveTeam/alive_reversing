@@ -271,7 +271,7 @@ void PNGFile::Load(const char_type* pFileName, AnimationPal& pal256, std::vector
                 color->red,
                 color->green,
                 color->blue,
-                isBlack ? 255 : 0
+                static_cast<u8>(isBlack ? 255 : 0)
             };
         }
         else

@@ -189,7 +189,7 @@ void InvisibleEffect::VUpdate()
                 for (s32 idx4 = 1; idx4 < 256; idx4++)
                 {
                     u32* pal1u32 = reinterpret_cast<u32*>(&mPal1.mPal->mPal[idx4]);
-                    u32* pal2u32 = reinterpret_cast<u32*>(&mPal2.mPal->mPal[idx4]);
+                    //u32* pal2u32 = reinterpret_cast<u32*>(&mPal2.mPal->mPal[idx4]);
                     u32 palXor = (*pal1u32) ^ (*pal1u32);
 
                     if (palXor & 0xFF)
