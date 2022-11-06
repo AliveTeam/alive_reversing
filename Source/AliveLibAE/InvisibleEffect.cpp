@@ -120,22 +120,43 @@ void InvisibleEffect::VUpdate()
                     // Red
                     if (mPal2.mPal->mPal[idx].r)
                     {
+                        u8 oldR = mPal2.mPal->mPal[idx].r;
+
                         v3 = true;
-                        mPal2.mPal->mPal[idx].r -= 1;
+                        mPal2.mPal->mPal[idx].r -= 8;
+
+                        if (oldR < mPal2.mPal->mPal[idx].r)
+                        {
+                            mPal2.mPal->mPal[idx].r = 0;
+                        }
                     }
 
                     // Green
                     if (mPal2.mPal->mPal[idx].g)
                     {
+                        u8 oldG = mPal2.mPal->mPal[idx].g;
+
                         v3 = true;
-                        mPal2.mPal->mPal[idx].g -= 1;
+                        mPal2.mPal->mPal[idx].g -= 8;
+
+                        if (oldG < mPal2.mPal->mPal[idx].g)
+                        {
+                            mPal2.mPal->mPal[idx].g = 0;
+                        }
                     }
 
                     // Blue
                     if (mPal2.mPal->mPal[idx].b)
                     {
+                        u8 oldB = mPal2.mPal->mPal[idx].b;
+
                         v3 = true;
-                        mPal2.mPal->mPal[idx].b -= 1;
+                        mPal2.mPal->mPal[idx].b -= 8;
+
+                        if (oldB < mPal2.mPal->mPal[idx].b)
+                        {
+                            mPal2.mPal->mPal[idx].b = 0;
+                        }
                     }
 
                     // Semi trans
@@ -189,25 +210,40 @@ void InvisibleEffect::VUpdate()
                 for (s32 idx4 = 1; idx4 < 256; idx4++)
                 {
                     u32* pal1u32 = reinterpret_cast<u32*>(&mPal1.mPal->mPal[idx4]);
-                    //u32* pal2u32 = reinterpret_cast<u32*>(&mPal2.mPal->mPal[idx4]);
-                    u32 palXor = (*pal1u32) ^ (*pal1u32);
+                    u32* pal2u32 = reinterpret_cast<u32*>(&mPal2.mPal->mPal[idx4]);
+                    u32 palXor = (*pal2u32) ^ (*pal1u32);
 
                     if (palXor & 0xFF)
                     {
                         v3 = true;
-                        mPal2.mPal->mPal[idx4].r += 1;
+                        mPal2.mPal->mPal[idx4].r += 8;
+
+                        if (mPal2.mPal->mPal[idx4].r > mPal1.mPal->mPal[idx4].r)
+                        {
+                            mPal2.mPal->mPal[idx4].r = mPal1.mPal->mPal[idx4].r;
+                        }
                     }
 
                     if (palXor & 0xFF00)
                     {
                         v3 = true;
-                        mPal2.mPal->mPal[idx4].g += 1;
+                        mPal2.mPal->mPal[idx4].g += 8;
+
+                        if (mPal2.mPal->mPal[idx4].g > mPal1.mPal->mPal[idx4].g)
+                        {
+                            mPal2.mPal->mPal[idx4].g = mPal1.mPal->mPal[idx4].g;
+                        }
                     }
 
                     if (palXor & 0xFF0000)
                     {
                         v3 = true;
-                        mPal2.mPal->mPal[idx4].b += 1;
+                        mPal2.mPal->mPal[idx4].b += 8;
+
+                        if (mPal2.mPal->mPal[idx4].b > mPal1.mPal->mPal[idx4].b)
+                        {
+                            mPal2.mPal->mPal[idx4].b = mPal1.mPal->mPal[idx4].b;
+                        }
                     }
                 }
 
