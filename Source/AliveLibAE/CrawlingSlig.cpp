@@ -150,6 +150,8 @@ CrawlingSlig::CrawlingSlig(relive::Path_CrawlingSlig* pTlv, const Guid& guid)
 
     mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanBePossessed);
 
+    field_11C_mPal = std::make_shared<AnimationPal>();
+
     CreateShadow();
 
     mGuid = guid;

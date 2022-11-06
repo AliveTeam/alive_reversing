@@ -150,6 +150,8 @@ FlyingSlig::FlyingSlig(relive::Path_FlyingSlig* pTlv, const Guid& tlvId)
 
     field_15E_useless = 0;
 
+    field_1F4_mPal = std::make_shared<AnimationPal>();
+
     GetAnimation().SetFnPtrArray(kFlyingSlig_Anim_Frames_Fns_55EFC4);
 
     mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanBePossessed);

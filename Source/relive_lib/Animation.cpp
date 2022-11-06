@@ -414,6 +414,12 @@ u32 Animation::Get_Frame_Count()
     return static_cast<u32>(mAnimRes.mJsonPtr->mFrames.size());
 }
 
+void Animation::LoadPal(std::shared_ptr<AnimationPal>& pal)
+{
+    // Override the pal with another one
+    mAnimRes.mCurPal = pal;
+}
+
 void Animation::LoadPal(const PalResource& pal)
 {
     // Override the pal with another one

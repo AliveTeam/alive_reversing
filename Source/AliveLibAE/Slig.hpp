@@ -408,7 +408,7 @@ private:
     s32 field_160_last_event_index = 0;
     s16 field_174_unused = 0;
     s16 field_176_unused = 0;
-    PalResource field_178_mPal;
+    std::shared_ptr<AnimationPal> field_178_mPal;
     s16 field_200_red = 0;
     s16 field_202_green = 0;
     s16 field_204_blue = 0;
@@ -438,5 +438,5 @@ private:
 void Animation_OnFrame_Slig_4C0600(BaseGameObject* pObj, u32&, const IndexedPoint& point);
 void Slig_SoundEffect_4BFFE0(SligSfx effect, BaseAliveGameObject* pObj);
 
-void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, PalResource& pal, s16 palSize, s16& r, s16& g, s16& b,
+void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, std::shared_ptr<AnimationPal>& pal, s16 palSize, s16& r, s16& g, s16& b,
                            const s16* eyeColourIndices, s16 eyeColourIndicesSize);

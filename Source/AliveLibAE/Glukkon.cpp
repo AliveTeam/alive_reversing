@@ -232,6 +232,8 @@ Glukkon::Glukkon(relive::Path_Glukkon* pTlv, const Guid& tlvId)
 
     field_214_tlv_info = tlvId;
 
+    field_118_mPal = std::make_shared<AnimationPal>();
+
     switch (field_1A8_tlvData.mGlukkonType)
     {
         case relive::Path_Glukkon::GlukkonTypes::eNormal:

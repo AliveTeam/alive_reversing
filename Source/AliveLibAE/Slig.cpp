@@ -374,6 +374,8 @@ Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
     LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::Slig_Idle));
 
+    field_178_mPal = std::make_shared<AnimationPal>();
+
     SetType(ReliveTypes::eSlig);
 
     mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::ePossessed);
@@ -471,7 +473,7 @@ Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
     CreateShadow();
 }
 
-void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, PalResource& pal, s16 palSize, s16& r, s16& g, s16& b,
+void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, std::shared_ptr<AnimationPal>& pal, s16 palSize, s16& r, s16& g, s16& b,
                            const s16* eyeColourIndices, s16 eyeColourIndicesSize)
 {
     if (actor->GetAnimation().mFlags.Get(AnimFlags::eRender))
@@ -509,14 +511,14 @@ void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, PalResou
                         auxPalValue = actor->GetAnimation().mAnimRes.mTgaPtr->mPal->mPal[i].b;
                         u8 resultB = static_cast<u8>((auxPalValue * b) >> 7);
 
-                        pal.mPal->mPal[i].a = actor->GetAnimation().mAnimRes.mTgaPtr->mPal->mPal[i].a;
-                        pal.mPal->mPal[i].r = resultR;
-                        pal.mPal->mPal[i].g = resultG;
-                        pal.mPal->mPal[i].b = resultB;
+                        pal->mPal[i].a = actor->GetAnimation().mAnimRes.mTgaPtr->mPal->mPal[i].a;
+                        pal->mPal[i].r = resultR;
+                        pal->mPal[i].g = resultG;
+                        pal->mPal[i].b = resultB;
                     }
                     for (s32 i = 0; i < eyeColourIndicesSize; i++)
                     {
-                        pal.mPal->mPal[eyeColourIndices[i]] = actor->GetAnimation().mAnimRes.mTgaPtr->mPal->mPal[eyeColourIndices[i]];
+                        pal->mPal[eyeColourIndices[i]] = actor->GetAnimation().mAnimRes.mTgaPtr->mPal->mPal[eyeColourIndices[i]];
                     }
 
                     actor->GetAnimation().LoadPal(pal);
@@ -551,6 +553,7 @@ void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, PalResou
 void Slig::VRender(PrimHeader** ot)
 {
     const s16 eyeIndices[] = {61, 62};
+
     renderWithGlowingEyes(ot, this, field_178_mPal, 64, field_200_red, field_202_green, field_204_blue, &eyeIndices[0], ALIVE_COUNTOF(eyeIndices));
 }
 
