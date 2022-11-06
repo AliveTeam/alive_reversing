@@ -523,10 +523,7 @@ void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, std::sha
 
                     actor->GetAnimation().LoadPal(pal);
                 }
-                else
-                {
-                    actor->GetAnimation().ReloadPal();
-                }
+
                 actor->GetAnimation().SetRGB(127, 127, 127);
             }
 
