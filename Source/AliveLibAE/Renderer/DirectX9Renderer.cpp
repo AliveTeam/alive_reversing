@@ -50,8 +50,8 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
         }
         else
         {
-            LOG_INFO("%d name %s", i, info.name);
-            if (strstr(info.name, "direct3d"))
+            LOG_INFO("%d name %s", i, info.name ? info.name : "(null)");
+            if (info.name && strstr(info.name, "direct3d"))
             {
                 index = i;
                 break;
@@ -90,31 +90,30 @@ void DirectX9Renderer::Clear(u8 /*r*/, u8 /*g*/, u8 /*b*/)
 {
     //mDevice->Clear(0, nullptr, D3DCLEAR_ZBUFFER | D3DCLEAR_TARGET | D3DCLEAR_STENCIL, D3DCOLOR_XRGB(r, g, b), 1.0f, 0);
 
-    mDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(128, 0, 0), 1.0f, 0);
 }
 
 void DirectX9Renderer::StartFrame(s32 /*xOff*/, s32 /*yOff*/)
 {
+    mDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(128, 0, 0), 1.0f, 0);
+    if (!mFrameStarted)
+    {
+        mFrameStarted = true;
+        mDevice->BeginScene();
+    }
 }
 
 void DirectX9Renderer::EndFrame()
 {
-    //mDevice->BeginScene();
+    if (mFrameStarted)
+    {
 
-    // select which vertex format we are using
-    mDevice->SetFVF(CUSTOMFVF);
+        mDevice->EndScene();
 
-    // select the vertex buffer to display
-    mDevice->SetStreamSource(0, v_buffer, 0, sizeof(CUSTOMVERTEX));
+        mDevice->Present(NULL, NULL, NULL, NULL);
+        // SDL_RenderPresent(mRenderer);
 
-    // copy the vertex buffer to the back buffer
-    mDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 1);
-
-    //mDevice->EndScene();
-
-    // mDevice->Present(NULL, NULL, NULL, NULL);
-    SDL_RenderPresent(mRenderer);
-
+        mFrameStarted = false;
+    }
 }
 
 void DirectX9Renderer::OutputSize(s32* w, s32* h)
@@ -180,6 +179,14 @@ void DirectX9Renderer::Draw(Poly_F4& /*poly*/)
 
 void DirectX9Renderer::Draw(Poly_FT4& /*poly*/)
 {
+    // select which vertex format we are using
+    mDevice->SetFVF(CUSTOMFVF);
+
+    // select the vertex buffer to display
+    mDevice->SetStreamSource(0, v_buffer, 0, sizeof(CUSTOMVERTEX));
+
+    // copy the vertex buffer to the back buffer
+    mDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 1);
 }
 
 void DirectX9Renderer::Draw(Poly_G4& /*poly*/)

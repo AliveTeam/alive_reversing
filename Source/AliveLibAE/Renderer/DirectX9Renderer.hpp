@@ -36,6 +36,8 @@ public:
 private:
     void MakeVertexBuffer();
 
+    bool mFrameStarted = false;
+
     SDL_Renderer* mRenderer = nullptr;
     IDirect3DDevice9* mDevice = nullptr;
 
