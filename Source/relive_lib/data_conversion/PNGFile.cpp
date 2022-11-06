@@ -321,28 +321,26 @@ void PNGFile::Save(const char_type* pFileName, const AnimationPal& pal256, const
 
     spng_plte plte = {};
     spng_trns trns = {};
-    trns.n_type3_entries = 255;
-    plte.n_entries = 255;
-    for (u32 i = 0; i < 255; i++)
+    trns.n_type3_entries = 256;
+    plte.n_entries = 256;
+    for (u32 i = 0; i < 256; i++)
     {
         const RGBA32* color = &pal256.mPal[i];
 
         if (color->a == 255) // STP 1
         {
-            plte.entries[i].red = color->r;
-            plte.entries[i].green = color->g;
-            plte.entries[i].blue = color->b;
             trns.type3_alpha[i] = 127;
         }
         else
         {
             bool isBlack = color->r == 0 && color->g == 0 && color->b == 0;
 
-            plte.entries[i].red = color->r;
-            plte.entries[i].green = color->g;
-            plte.entries[i].blue = color->b;
             trns.type3_alpha[i] = isBlack ? 0 : 255;
         }
+
+        plte.entries[i].red = color->r;
+        plte.entries[i].green = color->g;
+        plte.entries[i].blue = color->b;
     }
 
     api.SetPal(plte);
