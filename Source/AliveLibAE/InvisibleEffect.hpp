@@ -49,6 +49,8 @@ private:
     PalResource mPal1;
     PalResource mPal2;
 
+    u8 mTransitionFrameCount = 0;
+
     Guid field_44_objId;
     TPageAbr field_48_old_render_mode = TPageAbr::eBlend_0;
     BitField16<Flags_4A> field_4A_flags = {};

@@ -7,6 +7,8 @@
 #include "BaseAliveGameObject.hpp"
 #include "stdlib.hpp"
 
+#define TRANSITION_FRAMECOUNT 24
+
 InvisibleEffect::InvisibleEffect(BaseAliveGameObject* pTarget)
     : BaseGameObject(true, 0)
 {
@@ -47,6 +49,7 @@ void InvisibleEffect::InstantInvisibility()
 
 void InvisibleEffect::BecomeVisible()
 {
+    mTransitionFrameCount = 0;
     field_20_state_or_op = InvisibleState::eBecomeVisible_4;
 }
 
@@ -59,6 +62,7 @@ void InvisibleEffect::ClearInvisibility()
 void InvisibleEffect::BecomeInvisible()
 {
     SetUpdateDelay(1);
+    mTransitionFrameCount = 0;
     field_20_state_or_op = InvisibleState::eSetInvisibile_1;
 }
 
@@ -114,69 +118,67 @@ void InvisibleEffect::VUpdate()
                     return;
                 }*/
 
-                bool v3 = false;
-                for (s32 idx = 8; idx < 256; idx++)
+                if (mTransitionFrameCount < TRANSITION_FRAMECOUNT)
                 {
-                    // Red
-                    if (mPal2.mPal->mPal[idx].r)
+                    for (s32 idx = 8; idx < 256; idx++)
                     {
-                        u8 oldR = mPal2.mPal->mPal[idx].r;
-
-                        v3 = true;
-                        mPal2.mPal->mPal[idx].r -= 8;
-
-                        if (oldR < mPal2.mPal->mPal[idx].r)
+                        // Red
+                        if (mPal2.mPal->mPal[idx].r)
                         {
-                            mPal2.mPal->mPal[idx].r = 0;
+                            u8 oldR = mPal2.mPal->mPal[idx].r;
+
+                            mPal2.mPal->mPal[idx].r -= 8;
+
+                            if (oldR < mPal2.mPal->mPal[idx].r)
+                            {
+                                mPal2.mPal->mPal[idx].r = 0;
+                            }
+                        }
+
+                        // Green
+                        if (mPal2.mPal->mPal[idx].g)
+                        {
+                            u8 oldG = mPal2.mPal->mPal[idx].g;
+
+                            mPal2.mPal->mPal[idx].g -= 8;
+
+                            if (oldG < mPal2.mPal->mPal[idx].g)
+                            {
+                                mPal2.mPal->mPal[idx].g = 0;
+                            }
+                        }
+
+                        // Blue
+                        if (mPal2.mPal->mPal[idx].b)
+                        {
+                            u8 oldB = mPal2.mPal->mPal[idx].b;
+
+                            mPal2.mPal->mPal[idx].b -= 8;
+
+                            if (oldB < mPal2.mPal->mPal[idx].b)
+                            {
+                                mPal2.mPal->mPal[idx].b = 0;
+                            }
+                        }
+
+                        // Semi trans
+                        if (mPal2.mPal->mPal[idx].a == 255 && mPal2.mPal->mPal[idx].r == 0 && mPal2.mPal->mPal[idx].g == 0 && mPal2.mPal->mPal[idx].b == 0)
+                        {
+                            mPal2.mPal->mPal[idx].a = 0;
                         }
                     }
 
-                    // Green
-                    if (mPal2.mPal->mPal[idx].g)
-                    {
-                        u8 oldG = mPal2.mPal->mPal[idx].g;
-
-                        v3 = true;
-                        mPal2.mPal->mPal[idx].g -= 8;
-
-                        if (oldG < mPal2.mPal->mPal[idx].g)
-                        {
-                            mPal2.mPal->mPal[idx].g = 0;
-                        }
-                    }
-
-                    // Blue
-                    if (mPal2.mPal->mPal[idx].b)
-                    {
-                        u8 oldB = mPal2.mPal->mPal[idx].b;
-
-                        v3 = true;
-                        mPal2.mPal->mPal[idx].b -= 8;
-
-                        if (oldB < mPal2.mPal->mPal[idx].b)
-                        {
-                            mPal2.mPal->mPal[idx].b = 0;
-                        }
-                    }
-
-                    // Semi trans
-                    if (mPal2.mPal->mPal[idx].a == 255 && mPal2.mPal->mPal[idx].r == 0 && mPal2.mPal->mPal[idx].g == 0 && mPal2.mPal->mPal[idx].b == 0)
-                    {
-                        mPal2.mPal->mPal[idx].a = 0;
-                    }
-                }
-
-                if (!v3)
-                {
-                    field_20_state_or_op = InvisibleState::eSetRenderMode1_0;
-                }
-                else
-                {
                     // TODO: Allow setting anim
                     pTarget->GetAnimation().LoadPal(mPal2);
                     SetUpdateDelay(1);
-                }
 
+                    mTransitionFrameCount++;
+                }
+                else
+                {
+                    mTransitionFrameCount = 0;
+                    field_20_state_or_op = InvisibleState::eSetRenderMode1_0;
+                }
 
                 break;
             }
@@ -206,49 +208,41 @@ void InvisibleEffect::VUpdate()
                     return;
                 }*/
 
-                bool v3 = false;
-                for (s32 idx4 = 1; idx4 < 256; idx4++)
+                if (mTransitionFrameCount < TRANSITION_FRAMECOUNT)
                 {
-                    u32* pal1u32 = reinterpret_cast<u32*>(&mPal1.mPal->mPal[idx4]);
-                    u32* pal2u32 = reinterpret_cast<u32*>(&mPal2.mPal->mPal[idx4]);
-                    u32 palXor = (*pal2u32) ^ (*pal1u32);
-
-                    if (palXor & 0xFF)
+                    for (s32 idx4 = 1; idx4 < 256; idx4++)
                     {
-                        v3 = true;
-                        mPal2.mPal->mPal[idx4].r += 8;
-
-                        if (mPal2.mPal->mPal[idx4].r > mPal1.mPal->mPal[idx4].r)
+                        if (mPal1.mPal->mPal[idx4].r ^ mPal2.mPal->mPal[idx4].r)
                         {
-                            mPal2.mPal->mPal[idx4].r = mPal1.mPal->mPal[idx4].r;
+                            mPal2.mPal->mPal[idx4].r += 8;
+
+                            if (mPal2.mPal->mPal[idx4].r > mPal1.mPal->mPal[idx4].r)
+                            {
+                                mPal2.mPal->mPal[idx4].r = mPal1.mPal->mPal[idx4].r;
+                            }
+                        }
+
+                        if (mPal1.mPal->mPal[idx4].g ^ mPal2.mPal->mPal[idx4].g)
+                        {
+                            mPal2.mPal->mPal[idx4].g += 8;
+
+                            if (mPal2.mPal->mPal[idx4].g > mPal1.mPal->mPal[idx4].g)
+                            {
+                                mPal2.mPal->mPal[idx4].g = mPal1.mPal->mPal[idx4].g;
+                            }
+                        }
+
+                        if (mPal1.mPal->mPal[idx4].b ^ mPal2.mPal->mPal[idx4].b)
+                        {
+                            mPal2.mPal->mPal[idx4].b += 8;
+
+                            if (mPal2.mPal->mPal[idx4].b > mPal1.mPal->mPal[idx4].b)
+                            {
+                                mPal2.mPal->mPal[idx4].b = mPal1.mPal->mPal[idx4].b;
+                            }
                         }
                     }
 
-                    if (palXor & 0xFF00)
-                    {
-                        v3 = true;
-                        mPal2.mPal->mPal[idx4].g += 8;
-
-                        if (mPal2.mPal->mPal[idx4].g > mPal1.mPal->mPal[idx4].g)
-                        {
-                            mPal2.mPal->mPal[idx4].g = mPal1.mPal->mPal[idx4].g;
-                        }
-                    }
-
-                    if (palXor & 0xFF0000)
-                    {
-                        v3 = true;
-                        mPal2.mPal->mPal[idx4].b += 8;
-
-                        if (mPal2.mPal->mPal[idx4].b > mPal1.mPal->mPal[idx4].b)
-                        {
-                            mPal2.mPal->mPal[idx4].b = mPal1.mPal->mPal[idx4].b;
-                        }
-                    }
-                }
-
-                if (v3)
-                {
                     // TODO
                     pTarget->GetAnimation().LoadPal(mPal2);
 
@@ -256,11 +250,15 @@ void InvisibleEffect::VUpdate()
 
                     pTarget->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
                     SetUpdateDelay(5);
+
+                    mTransitionFrameCount++;
                 }
                 else
                 {
+                    mTransitionFrameCount = 0;
                     field_20_state_or_op = InvisibleState::eClearInvisibility_5;
                 }
+
                 break;
             }
             case InvisibleState::eClearInvisibility_5:
