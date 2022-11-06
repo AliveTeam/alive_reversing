@@ -515,6 +515,17 @@ void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, std::sha
                         pal->mPal[i].r = resultR;
                         pal->mPal[i].g = resultG;
                         pal->mPal[i].b = resultB;
+
+                        // If the result is black, and the original colour was not
+                        // transparent (RGB 0 STP 0), then we actually set the slig's
+                        // colour to be not-quite-black the pixels aren't transparent
+                        if (
+                            *(reinterpret_cast<u32*>(&pal->mPal[i])) == 0 &&
+                            *(reinterpret_cast<u32*>(&actor->GetAnimation().mAnimRes.mTgaPtr->mPal->mPal[i]))
+                        )
+                        {
+                            pal->mPal[i].r = 1;
+                        }
                     }
                     for (s32 i = 0; i < eyeColourIndicesSize; i++)
                     {
