@@ -3,6 +3,9 @@
 #ifdef _WIN32
 
     #include "IRenderer.hpp"
+    #undef DIRECT3D_VERSION
+    #define DIRECT3D_VERSION 0x0900
+    #include <d3d9.h>
 
 class DirectX9Renderer final : public IRenderer
 {
@@ -31,8 +34,12 @@ public:
     void Draw(Poly_G4& poly) override;
 
 private:
+    void MakeVertexBuffer();
+
     SDL_Renderer* mRenderer = nullptr;
     IDirect3DDevice9* mDevice = nullptr;
+
+    LPDIRECT3DVERTEXBUFFER9 v_buffer = NULL;
 };
 
 #endif

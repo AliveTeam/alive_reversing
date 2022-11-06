@@ -7,7 +7,12 @@
     #define DIRECT3D_VERSION 0x0900
     #include <d3d9.h>
 
-
+struct CUSTOMVERTEX
+{
+    FLOAT X, Y, Z, RHW;
+    DWORD COLOR;
+};
+#define CUSTOMFVF (D3DFVF_XYZRHW | D3DFVF_DIFFUSE)
 
 void DirectX9Renderer::Destroy()
 {
@@ -15,6 +20,12 @@ void DirectX9Renderer::Destroy()
     {
         SDL_DestroyRenderer(mRenderer);
         mRenderer = nullptr;
+    }
+
+    if (v_buffer)
+    {
+        v_buffer->Release();
+        v_buffer = nullptr;
     }
 }
 
@@ -70,12 +81,16 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
         return false;
     }
 
+    MakeVertexBuffer();
+
     return true;
 }
 
-void DirectX9Renderer::Clear(u8 r, u8 g, u8 b)
+void DirectX9Renderer::Clear(u8 /*r*/, u8 /*g*/, u8 /*b*/)
 {
-    mDevice->Clear(0, nullptr, D3DCLEAR_ZBUFFER | D3DCLEAR_TARGET | D3DCLEAR_STENCIL, D3DCOLOR_XRGB(r, g, b), 1.0f, 0);
+    //mDevice->Clear(0, nullptr, D3DCLEAR_ZBUFFER | D3DCLEAR_TARGET | D3DCLEAR_STENCIL, D3DCOLOR_XRGB(r, g, b), 1.0f, 0);
+
+    mDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(128, 0, 0), 1.0f, 0);
 }
 
 void DirectX9Renderer::StartFrame(s32 /*xOff*/, s32 /*yOff*/)
@@ -84,7 +99,22 @@ void DirectX9Renderer::StartFrame(s32 /*xOff*/, s32 /*yOff*/)
 
 void DirectX9Renderer::EndFrame()
 {
+    //mDevice->BeginScene();
+
+    // select which vertex format we are using
+    mDevice->SetFVF(CUSTOMFVF);
+
+    // select the vertex buffer to display
+    mDevice->SetStreamSource(0, v_buffer, 0, sizeof(CUSTOMVERTEX));
+
+    // copy the vertex buffer to the back buffer
+    mDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 1);
+
+    //mDevice->EndScene();
+
+    // mDevice->Present(NULL, NULL, NULL, NULL);
     SDL_RenderPresent(mRenderer);
+
 }
 
 void DirectX9Renderer::OutputSize(s32* w, s32* h)
@@ -154,6 +184,50 @@ void DirectX9Renderer::Draw(Poly_FT4& /*poly*/)
 
 void DirectX9Renderer::Draw(Poly_G4& /*poly*/)
 {
+
+}
+
+void DirectX9Renderer::MakeVertexBuffer()
+{
+    // create the vertices using the CUSTOMVERTEX struct
+    CUSTOMVERTEX vertices[] = {
+        {
+            400.0f,
+            62.5f,
+            0.5f,
+            1.0f,
+            D3DCOLOR_XRGB(0, 0, 255),
+        },
+        {
+            650.0f,
+            500.0f,
+            0.5f,
+            1.0f,
+            D3DCOLOR_XRGB(0, 255, 0),
+        },
+        {
+            150.0f,
+            500.0f,
+            0.5f,
+            1.0f,
+            D3DCOLOR_XRGB(255, 0, 0),
+        },
+    };
+
+    // create a vertex buffer interface called v_buffer
+    mDevice->CreateVertexBuffer(3 * sizeof(CUSTOMVERTEX),
+                               0,
+                               CUSTOMFVF,
+                               D3DPOOL_MANAGED,
+                               &v_buffer,
+                               NULL);
+
+    VOID* pVoid; // a void pointer
+
+    // lock v_buffer and load the vertices into it
+    v_buffer->Lock(0, 0, (void**) &pVoid, 0);
+    memcpy(pVoid, vertices, sizeof(vertices));
+    v_buffer->Unlock();
 }
 
 #endif
