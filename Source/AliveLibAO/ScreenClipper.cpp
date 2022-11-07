@@ -9,6 +9,8 @@
 #undef min
 #undef max
 
+#include <algorithm>
+
 namespace AO {
 
 ScreenClipper::~ScreenClipper()

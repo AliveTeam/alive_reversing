@@ -24,3 +24,17 @@ install(TARGETS relive DESTINATION "${BINPATH}")
 if (MSVC)
     target_compile_options(relive PRIVATE /W4 /wd4996 /WX /MP)
 endif()
+
+if (MSVC AND CMAKE_GENERATOR MATCHES "Visual Studio")
+    if (WIN32 AND CMAKE_SIZEOF_VOID_P EQUAL 4)
+        add_custom_command(TARGET relive POST_BUILD
+            COMMAND echo copy "${SDL2_INCLUDE_DIR}/../lib/x86/SDL2.dll" "$(OutDir)SDL2.dll"
+            COMMAND ${CMAKE_COMMAND} -E copy "${SDL2_INCLUDE_DIR}/../lib/x86/SDL2.dll" "$(OutDir)SDL2.dll")
+        INSTALL(FILES "${SDL2_INCLUDE_DIR}/../lib/x86/SDL2.dll" DESTINATION ".")
+    else()
+        add_custom_command(TARGET relive POST_BUILD
+            COMMAND echo ${CMAKE_COMMAND} -E copy "${SDL2_INCLUDE_DIR}/../lib/x64/SDL2.dll" "$(OutDir)SDL2.dll"
+            COMMAND ${CMAKE_COMMAND} -E copy "${SDL2_INCLUDE_DIR}/../lib/x64/SDL2.dll" "$(OutDir)SDL2.dll")
+        INSTALL(FILES "${SDL2_INCLUDE_DIR}/../lib/x64/SDL2.dll" DESTINATION ".")
+    endif()
+endif()

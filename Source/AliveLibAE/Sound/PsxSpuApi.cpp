@@ -9,6 +9,7 @@
 #include "../PathData.hpp" // SoundBlockInfo, SeqPathDataRecord
 #include <assert.h>
 #include "../AliveLibCommon/FatalError.hpp"
+#include <algorithm>
 
 // TODO: Refactor + remove these
 #define BYTEn(x, n) (*((u8*) &(x) + n))

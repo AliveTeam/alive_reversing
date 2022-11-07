@@ -11,6 +11,11 @@
 #include "Math.hpp"
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 
+#undef min
+#undef max
+
+#include <algorithm>
+
 namespace AO {
 
 static constexpr s32 kMaxUVCount = 32;
@@ -24,9 +29,6 @@ struct ScreenWave_Data final
     Poly_FT4 field_B00_poly[2][kMaxUVCount][kMaxPolygons];
 };
 ALIVE_ASSERT_SIZEOF(ScreenWave_Data, 0x3700);
-
-#undef min
-#undef max
 
 ScreenWave::ScreenWave(FP xpos, FP ypos, Layer layer, FP width, FP speed, s32 radius)
     : BaseGameObject(true, 0)

@@ -16,6 +16,8 @@
 #undef min
 #undef max
 
+#include <algorithm>
+
 namespace AO {
 
 AirExplosion::AirExplosion(FP xpos, FP ypos, FP exposion_size)

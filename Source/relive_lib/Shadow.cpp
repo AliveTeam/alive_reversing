@@ -5,6 +5,7 @@
 #include "GameType.hpp"
 #include "Collisions.hpp"
 #include "../AliveLibCommon/AnimResources.hpp"
+#include <algorithm>
 
 Shadow::Shadow()
 {

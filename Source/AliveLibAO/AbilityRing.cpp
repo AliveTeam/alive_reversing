@@ -17,6 +17,8 @@
 #undef min
 #undef max
 
+#include <algorithm>
+
 namespace AO {
 
 AbilityRing* AbilityRing::Factory(FP xpos, FP ypos, RingTypes ring_type)

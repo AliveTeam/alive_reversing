@@ -12,6 +12,7 @@
 #include "stdlib.hpp"
 #include "ExplosionSet.hpp"
 #include "Path.hpp"
+#include <algorithm>
 
 AirExplosion::AirExplosion(FP xpos, FP ypos, FP scale, bool bSmall)
     : BaseAnimatedWithPhysicsGameObject(0)

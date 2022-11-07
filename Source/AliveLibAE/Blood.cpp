@@ -7,6 +7,7 @@
 #include "Game.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "Map.hpp"
+#include <algorithm>
 
 Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
     : BaseAnimatedWithPhysicsGameObject(0)
