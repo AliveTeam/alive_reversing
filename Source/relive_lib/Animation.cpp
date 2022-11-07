@@ -7,6 +7,7 @@
 #include "../relive_lib/GameType.hpp"
 #include "../relive_lib/ResourceManagerWrapper.hpp"
 #include "../AliveLibCommon/AnimResources.hpp"
+#include <algorithm>
 
 const AnimRecord PerGameAnimRec(AnimId id)
 {

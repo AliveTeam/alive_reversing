@@ -13,6 +13,7 @@
 #include "GameAutoPlayer.hpp"
 #include "../relive_lib/data_conversion/string_util.hpp"
 #include <sstream>
+#include <algorithm>
 
 #if USE_SDL2
 static SDL_GameController* pSDLController = nullptr;

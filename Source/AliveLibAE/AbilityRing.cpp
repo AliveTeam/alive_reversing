@@ -11,6 +11,7 @@
 #include "../relive_lib/ObjectIds.hpp"
 #include "PossessionFlicker.hpp"
 #include "stdlib.hpp"
+#include <algorithm>
 
 AbilityRing* AbilityRing::Factory(FP xpos, FP ypos, RingTypes type, FP scale)
 {

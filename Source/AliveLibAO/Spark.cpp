@@ -16,6 +16,8 @@
 #undef min
 #undef max
 
+#include <algorithm>
+
 namespace AO {
 
 Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 min, s32 max)

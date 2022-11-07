@@ -2,6 +2,7 @@
 #include "Collisions.hpp"
 #include "../relive_lib/Math.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
+#include <algorithm>
 
 Collisions* sCollisions = nullptr;
 

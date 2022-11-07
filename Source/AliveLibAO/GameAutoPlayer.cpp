@@ -2,6 +2,7 @@
 #include "../relive_lib/BaseGameObject.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Input.hpp"
+#include <algorithm>
 
 namespace AO {
 static s32 CountWithOutLoadingFiles()

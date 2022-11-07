@@ -5,6 +5,7 @@
 #include "Game.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
+#include <algorithm>
 
 ScreenClipper::ScreenClipper(PSX_Point xy, PSX_Point wh, Layer layer)
     : BaseGameObject(true, 0)

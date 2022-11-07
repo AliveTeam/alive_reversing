@@ -24,6 +24,7 @@
 #include "AnimationCallBacks.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
+#include <algorithm>
 
 u8 sFleechRandomIdx_5BC20C = 0;
 s16 sFleechCount_5BC20E = 0;
