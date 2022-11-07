@@ -250,6 +250,30 @@ void main()
 }
 )";
 
+const char_type* gShader_PassthruIntVSH = R"(
+#version 140
+#extension GL_ARB_explicit_attrib_location : enable
+
+layout (location = 0) in ivec2 vsPos;
+layout (location = 1) in uvec2 vsUV;
+
+out vec2 fsUV;
+
+uniform vec2 vsViewportSize;
+
+
+void main()
+{
+    gl_Position.x = ((vsPos.x / vsViewportSize.x) * 2) - 1;
+    gl_Position.y = (1 - ((vsPos.y / vsViewportSize.y) * 2));
+    gl_Position.z = 0.0;
+    gl_Position.w = 1.0;
+
+    // Pass-thru
+    fsUV = vsUV;
+}
+)";
+
 const char_type* gShader_PassthruFSH = R"(
 #version 140
 
@@ -257,13 +281,23 @@ in vec2 fsUV;
 
 out vec4 outColor;
 
+uniform bool fsFlipUV;
 uniform vec2 fsTexSize;
 uniform sampler2D texTextureData;
 
 
 void main()
 {
-    vec2 scaledUV = fsUV / fsTexSize;
+    vec2 scaledUV = vec2(0.0f);
+
+    if (fsFlipUV)
+    {
+        scaledUV = vec2(fsUV.x, 1.0 - fsUV.y) / fsTexSize;
+    }
+    else
+    {
+        scaledUV = fsUV / fsTexSize;
+    }
 
     outColor = texture(texTextureData, scaledUV);
 }

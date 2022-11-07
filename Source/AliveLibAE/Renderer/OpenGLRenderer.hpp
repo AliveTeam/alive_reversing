@@ -42,6 +42,8 @@
 // It's quite high because the game draws like 260 quads for the splines
 #define GL_RESERVE_QUADS 300
 
+#define GL_RESERVE_SCREENWAVE_QUADS 2 * 32 * 4
+
 enum class AnimId;
 
 struct VertexData final
@@ -129,11 +131,15 @@ private:
     // ROZZA STUFF
 
     GLShader mPassthruShader = {};
+    GLShader mPassthruIntShader = {};
     GLShader mPassthruFilterShader = {};
     GLShader mPsxShader = {};
 
     GLuint mPsxFramebufferId = 0;
     GLuint mPsxFramebufferTexId = 0;
+
+    GLuint mPsxFramebufferSecondId = 0;
+    GLuint mPsxFramebufferSecondTexId = 0;
 
     GLuint mFilterFramebufferId = 0;
     GLuint mFilterFramebufferTexId = 0;
@@ -146,6 +152,9 @@ private:
     u32 mBatchBlendMode = BATCH_VALUE_UNSET;
     std::vector<VertexData> mBatchData;
     std::vector<u32> mBatchIndicies;
+
+    std::vector<VertexData> mScreenWaveData;
+    std::vector<u32> mScreenWaveIndicies;
 
     GLuint mPaletteTextureId = 0;
     struct PalCacheEntry final
@@ -173,7 +182,9 @@ private:
     u16 GetTPageBlendMode(u16 tPage);
     void InvalidateBatch();
     void PushLines(const VertexData* vertices, int count);
+    void PushScreenWaveData(const VertexData* vertices);
     void PushVertexData(VertexData* pVertData, int count, GLuint textureId = 0);
+    void RenderScreenWave();
     void SetupBlendMode(u16 blendMode);
     void UpdateFilterFramebuffer();
     
