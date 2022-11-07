@@ -1007,6 +1007,11 @@ void OpenGLRenderer::ToggleKeepAspectRatio()
 
 void OpenGLRenderer::DecreaseResourceLifetimes()
 {
+    // FIXME: This is a stupid location for this clear but it'll do for
+    //        now
+    mScreenWaveData.clear();
+    mScreenWaveIndicies.clear();
+
     // Check texture lifetimes
     auto it = mTextureCache.begin();
     while (it != mTextureCache.end())
@@ -1249,6 +1254,11 @@ u16 OpenGLRenderer::GetTPageBlendMode(u16 tpage)
 
 void OpenGLRenderer::RenderScreenWave()
 {
+    if (!mFrameStarted)
+    {
+        return;
+    }
+
     // Ensure blend mode is back to normal alpha compositing
     GL_VERIFY(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
     GL_VERIFY(glBlendEquation(GL_FUNC_ADD));
@@ -1291,8 +1301,6 @@ void OpenGLRenderer::RenderScreenWave()
     GL_VERIFY(glDisableVertexAttribArray(0));
     GL_VERIFY(glDisableVertexAttribArray(1));
 
-    mScreenWaveData.clear();
-    mScreenWaveIndicies.clear();
     mPassthruIntShader.UnUse();
     GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId));
     GL_VERIFY(glBindTexture(GL_TEXTURE_2D, 0));
