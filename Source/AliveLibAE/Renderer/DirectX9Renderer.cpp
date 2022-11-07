@@ -1,11 +1,13 @@
 #include "../stdafx.h"
 #include "DirectX9Renderer.hpp"
+#include "../../AliveLibCommon/FatalError.hpp"
 
 #ifdef _WIN32
 
     #undef DIRECT3D_VERSION
     #define DIRECT3D_VERSION 0x0900
     #include <d3d9.h>
+    //#include <D3DX9Shader.h>
 
 struct CUSTOMVERTEX
 {
@@ -13,6 +15,21 @@ struct CUSTOMVERTEX
     DWORD COLOR;
 };
 #define CUSTOMFVF (D3DFVF_XYZRHW | D3DFVF_DIFFUSE)
+
+#define DX_DEBUG 1
+
+#if DX_DEBUG > 0
+    #define DX_VERIFY(x)    \
+        {                   \
+        HRESULT hr = x;     \
+        if (FAILED(hr))     \
+        {                   \
+            ALIVE_FATAL(#x " failed HRESULT 0x%08X", hr); \
+        }\
+        }
+#else
+    #define DX_VERIFY(x) (x);
+#endif
 
 void DirectX9Renderer::Destroy()
 {
@@ -82,6 +99,31 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
     }
 
     MakeVertexBuffer();
+    /*
+    const char* prog = "yo";
+    HRESULT ret, ret_fp, ret_vp;
+    ID3DXBuffer* listing_f = NULL;
+    ID3DXBuffer* listing_v = NULL;
+    ID3DXBuffer* code_f = NULL;
+    ID3DXBuffer* code_v = NULL;
+    ret_fp = D3DXAssembleShader(prog, strlen(prog), NULL, NULL,
+                               "main_fragment", "ps_3_0", 0, &code_f, &listing_f, &hlsl->prg[idx].f_ctable);
+                               */
+    //mDevice->CreateVertexShader();
+    //mDevice->CreatePixelShader();
+
+    D3DCAPS9 hal_caps = {};
+    DX_VERIFY(mDevice->GetDeviceCaps(&hal_caps));
+    if (hal_caps.PixelShaderVersion < D3DPS_VERSION(3, 0))
+    {
+        ALIVE_FATAL("Require pixel shader 3.0 or later but got %d.%d", D3DSHADER_VERSION_MAJOR(hal_caps.PixelShaderVersion), D3DSHADER_VERSION_MINOR(hal_caps.PixelShaderVersion));
+    }
+
+    DX_VERIFY(mDevice->CreateRenderTarget(640, 240, D3DFMT_A8R8G8B8, D3DMULTISAMPLE_NONE, 0, FALSE, &mRenderTarget, nullptr));
+
+    //mDevice->CreatePixelShader()
+    //mDevice->SetPixelShader();
+
 
     return true;
 }
@@ -94,11 +136,16 @@ void DirectX9Renderer::Clear(u8 /*r*/, u8 /*g*/, u8 /*b*/)
 
 void DirectX9Renderer::StartFrame(s32 /*xOff*/, s32 /*yOff*/)
 {
-    mDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(128, 0, 0), 1.0f, 0);
+    DX_VERIFY(mDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(128, 0, 0), 1.0f, 0));
     if (!mFrameStarted)
     {
         mFrameStarted = true;
+
+        // TODO: the 1st call fails :)
         mDevice->BeginScene();
+
+       // mDevice->SetRenderTarget(0, mRenderTarget);
+
     }
 }
 
@@ -107,9 +154,12 @@ void DirectX9Renderer::EndFrame()
     if (mFrameStarted)
     {
 
-        mDevice->EndScene();
+        DX_VERIFY(mDevice->EndScene());
 
-        mDevice->Present(NULL, NULL, NULL, NULL);
+        //mDevice->SetRenderTarget(0, nullptr);
+
+
+        DX_VERIFY(mDevice->Present(NULL, NULL, NULL, NULL));
         // SDL_RenderPresent(mRenderer);
 
         mFrameStarted = false;
@@ -180,13 +230,13 @@ void DirectX9Renderer::Draw(Poly_F4& /*poly*/)
 void DirectX9Renderer::Draw(Poly_FT4& /*poly*/)
 {
     // select which vertex format we are using
-    mDevice->SetFVF(CUSTOMFVF);
+    DX_VERIFY(mDevice->SetFVF(CUSTOMFVF));
 
     // select the vertex buffer to display
-    mDevice->SetStreamSource(0, v_buffer, 0, sizeof(CUSTOMVERTEX));
+    DX_VERIFY(mDevice->SetStreamSource(0, v_buffer, 0, sizeof(CUSTOMVERTEX)));
 
     // copy the vertex buffer to the back buffer
-    mDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 1);
+    DX_VERIFY(mDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 1));
 }
 
 void DirectX9Renderer::Draw(Poly_G4& /*poly*/)
@@ -222,19 +272,19 @@ void DirectX9Renderer::MakeVertexBuffer()
     };
 
     // create a vertex buffer interface called v_buffer
-    mDevice->CreateVertexBuffer(3 * sizeof(CUSTOMVERTEX),
+    DX_VERIFY(mDevice->CreateVertexBuffer(3 * sizeof(CUSTOMVERTEX),
                                0,
                                CUSTOMFVF,
                                D3DPOOL_MANAGED,
                                &v_buffer,
-                               NULL);
+                               NULL));
 
     VOID* pVoid; // a void pointer
 
     // lock v_buffer and load the vertices into it
-    v_buffer->Lock(0, 0, (void**) &pVoid, 0);
+    DX_VERIFY(v_buffer->Lock(0, 0, (void**) &pVoid, 0));
     memcpy(pVoid, vertices, sizeof(vertices));
-    v_buffer->Unlock();
+    DX_VERIFY(v_buffer->Unlock());
 }
 
 #endif

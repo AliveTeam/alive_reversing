@@ -40,6 +40,7 @@ private:
 
     SDL_Renderer* mRenderer = nullptr;
     IDirect3DDevice9* mDevice = nullptr;
+    IDirect3DSurface9* mRenderTarget = nullptr;
 
     LPDIRECT3DVERTEXBUFFER9 v_buffer = NULL;
 };
