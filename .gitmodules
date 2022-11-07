@@ -19,3 +19,6 @@
 [submodule "3rdParty/libspng"]
 	path = 3rdParty/libspng
 	url = https://github.com/randy408/libspng.git
+[submodule "3rdParty/DX9_SDK_Aug09"]
+	path = 3rdParty/DX9_SDK_Aug09
+	url = https://github.com/AliveTeam/DX9_SDK_Aug09.git

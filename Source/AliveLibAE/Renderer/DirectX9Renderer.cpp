@@ -6,8 +6,8 @@
 
     #undef DIRECT3D_VERSION
     #define DIRECT3D_VERSION 0x0900
-    #include <d3d9.h>
-    //#include <D3DX9Shader.h>
+    #include <d3dx9.h>
+    #include <d3dx9shader.h>
 
 struct CUSTOMVERTEX
 {
@@ -99,16 +99,14 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
     }
 
     MakeVertexBuffer();
+    
     /*
     const char* prog = "yo";
-    HRESULT ret, ret_fp, ret_vp;
-    ID3DXBuffer* listing_f = NULL;
-    ID3DXBuffer* listing_v = NULL;
-    ID3DXBuffer* code_f = NULL;
-    ID3DXBuffer* code_v = NULL;
-    ret_fp = D3DXAssembleShader(prog, strlen(prog), NULL, NULL,
-                               "main_fragment", "ps_3_0", 0, &code_f, &listing_f, &hlsl->prg[idx].f_ctable);
-                               */
+    LPD3DXBUFFER shader;
+    LPD3DXBUFFER err;
+    DX_VERIFY(D3DXAssembleShader(prog, strlen(prog), NULL, NULL, 0, &shader, &err));
+    */
+
     //mDevice->CreateVertexShader();
     //mDevice->CreatePixelShader();
 

@@ -337,7 +337,8 @@ add_library(AliveLibAE ${AliveLibAESrc})
 
 target_include_directories(AliveLibAE PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR},
-    ${CMAKE_CURRENT_SOURCE_DIR}/../../3rdParty/json/single_include>
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../3rdParty/json/single_include
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../3rdParty/DX9_SDK_Aug09/Include>
     $<INSTALL_INTERFACE:include>
     PRIVATE src ${CMAKE_BINARY_DIR})
 
@@ -350,6 +351,7 @@ if (MSVC)
     set_target_properties(AliveLibAE PROPERTIES LINK_FLAGS_RELEASE "/SUBSYSTEM:WINDOWS /functionpadmin:16")
     set_target_properties(AliveLibAE PROPERTIES LINK_FLAGS_DEBUG "/SUBSYSTEM:WINDOWS /functionpadmin:16")
 endif()
+
 
 target_compile_features(AliveLibAE
     PRIVATE cxx_strong_enums
@@ -384,5 +386,14 @@ target_link_libraries(AliveLibAE
     ${SDL2_LIBRARIES}
     project_warnings
     )
+
+
+if (WIN32)
+    if (CMAKE_SIZEOF_VOID_P EQUAL 4)
+        target_link_libraries(AliveLibAE ${CMAKE_CURRENT_SOURCE_DIR}/../../3rdParty/DX9_SDK_Aug09/Lib/x86/D3dx9.lib)
+    else()
+        target_link_libraries(AliveLibAE ${CMAKE_CURRENT_SOURCE_DIR}/../../3rdParty/DX9_SDK_Aug09/Lib/x64/D3dx9.lib)
+    endif()
+endif()
 
 export(TARGETS AliveLibAE FILE AliveLibAE.cmake)
