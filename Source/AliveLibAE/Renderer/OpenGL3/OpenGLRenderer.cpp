@@ -1,9 +1,9 @@
 #include "OpenGLRenderer.hpp"
-#include "../Compression.hpp"
+#include "../../Compression.hpp"
 #include "../relive_lib/data_conversion/rgb_conversion.hpp"
 #include "../relive_lib/Primitives.hpp"
 #include "../relive_lib/Animation.hpp"
-#include "../Font.hpp"
+#include "../../Font.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
 #include <algorithm>
 

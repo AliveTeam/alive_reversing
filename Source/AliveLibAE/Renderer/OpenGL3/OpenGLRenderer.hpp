@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IRenderer.hpp"
+#include "../IRenderer.hpp"
 
 #include <GL/glew.h>
 #include <SDL_opengl.h>

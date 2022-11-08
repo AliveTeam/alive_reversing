@@ -2,7 +2,7 @@
 #include "IRenderer.hpp"
 #include "SoftwareRenderer.hpp"
 #include "DirectX9Renderer.hpp"
-#include "OpenGLRenderer.hpp"
+#include "OpenGL3/OpenGLRenderer.hpp"
 
 #include "../AliveLibCommon/FatalError.hpp"
 
