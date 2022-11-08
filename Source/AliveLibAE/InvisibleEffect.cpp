@@ -2,6 +2,7 @@
 #include "InvisibleEffect.hpp"
 #include "Function.hpp"
 #include "PossessionFlicker.hpp"
+#include "../relive_lib/Clamp.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "BaseAliveGameObject.hpp"
@@ -125,40 +126,19 @@ void InvisibleEffect::VUpdate()
                         // Red
                         if (mPal2.mPal->mPal[idx].r)
                         {
-                            u8 oldR = mPal2.mPal->mPal[idx].r;
-
-                            mPal2.mPal->mPal[idx].r -= 8;
-
-                            if (oldR < mPal2.mPal->mPal[idx].r)
-                            {
-                                mPal2.mPal->mPal[idx].r = 0;
-                            }
+                            mPal2.mPal->mPal[idx].r = ClampedAdd(mPal2.mPal->mPal[idx].r, -8);
                         }
 
                         // Green
                         if (mPal2.mPal->mPal[idx].g)
                         {
-                            u8 oldG = mPal2.mPal->mPal[idx].g;
-
-                            mPal2.mPal->mPal[idx].g -= 8;
-
-                            if (oldG < mPal2.mPal->mPal[idx].g)
-                            {
-                                mPal2.mPal->mPal[idx].g = 0;
-                            }
+                            mPal2.mPal->mPal[idx].g = ClampedAdd(mPal2.mPal->mPal[idx].g, -8);
                         }
 
                         // Blue
                         if (mPal2.mPal->mPal[idx].b)
                         {
-                            u8 oldB = mPal2.mPal->mPal[idx].b;
-
-                            mPal2.mPal->mPal[idx].b -= 8;
-
-                            if (oldB < mPal2.mPal->mPal[idx].b)
-                            {
-                                mPal2.mPal->mPal[idx].b = 0;
-                            }
+                            mPal2.mPal->mPal[idx].b = ClampedAdd(mPal2.mPal->mPal[idx].b, -8);
                         }
 
                         // Semi trans
@@ -214,32 +194,17 @@ void InvisibleEffect::VUpdate()
                     {
                         if (mPal1.mPal->mPal[idx4].r ^ mPal2.mPal->mPal[idx4].r)
                         {
-                            mPal2.mPal->mPal[idx4].r += 8;
-
-                            if (mPal2.mPal->mPal[idx4].r > mPal1.mPal->mPal[idx4].r)
-                            {
-                                mPal2.mPal->mPal[idx4].r = mPal1.mPal->mPal[idx4].r;
-                            }
+                            mPal2.mPal->mPal[idx4].r = ClampedAdd<u8>(mPal2.mPal->mPal[idx4].r, 8,  0, mPal1.mPal->mPal[idx4].r);
                         }
 
                         if (mPal1.mPal->mPal[idx4].g ^ mPal2.mPal->mPal[idx4].g)
                         {
-                            mPal2.mPal->mPal[idx4].g += 8;
-
-                            if (mPal2.mPal->mPal[idx4].g > mPal1.mPal->mPal[idx4].g)
-                            {
-                                mPal2.mPal->mPal[idx4].g = mPal1.mPal->mPal[idx4].g;
-                            }
+                            mPal2.mPal->mPal[idx4].g = ClampedAdd<u8>(mPal2.mPal->mPal[idx4].g, 8, 0, mPal1.mPal->mPal[idx4].g);
                         }
 
                         if (mPal1.mPal->mPal[idx4].b ^ mPal2.mPal->mPal[idx4].b)
                         {
-                            mPal2.mPal->mPal[idx4].b += 8;
-
-                            if (mPal2.mPal->mPal[idx4].b > mPal1.mPal->mPal[idx4].b)
-                            {
-                                mPal2.mPal->mPal[idx4].b = mPal1.mPal->mPal[idx4].b;
-                            }
+                            mPal2.mPal->mPal[idx4].b = ClampedAdd<u8>(mPal2.mPal->mPal[idx4].b, 8, 0, mPal1.mPal->mPal[idx4].b);
                         }
                     }
 

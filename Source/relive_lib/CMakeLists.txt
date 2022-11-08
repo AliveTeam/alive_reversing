@@ -86,6 +86,7 @@ SET(relive_lib_src
     Layer.hpp
     stdafx.h
     ObjectTypes.hpp
+    Clamp.hpp
 )
 
 add_library(relive_lib ${relive_lib_src})
