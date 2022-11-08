@@ -1072,8 +1072,6 @@ enum class AnimId
 
     BG_PinkFlame1,
     BG_PinkFlame2,
-
-    Anim_Tester, // For animation testing with the TestAnimation.cpp, ignore this.
 };
 
 enum class PalId

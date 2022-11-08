@@ -920,9 +920,6 @@ Abe::Abe()
     sControlledCharacter = this;
 
     CreateShadow();
-
-    // Animation test code
-    //auto testAnim = relive_new TestAnimation(); testAnim->ctor();
 }
 
 Abe::~Abe()

@@ -26,12 +26,6 @@
 #include "PNGFile.hpp"
 #include "AESaveConverter.hpp"
 
-#define MAGIC_ENUM_RANGE_MIN 0
-#define MAGIC_ENUM_RANGE_MAX 1100
-#include <magic_enum/include/magic_enum.hpp>
-
-extern AnimRecConversionInfo kAnimRecConversionInfo[1023];
-
 constexpr u32 kDataVersion = 1;
 
 static bool ReadLvlFileInto(ReliveAPI::LvlReader& archive, const char_type* fileName, std::vector<u8>& fileBuffer)
@@ -1269,7 +1263,7 @@ static void LogNonConvertedPals(bool isAo)
             const auto palDetails = isAo ? AO::PalRec(rec.mPalId) : PalRec(rec.mPalId);
             if (palDetails.mBanName)
             {
-                LOG_INFO("MISSING PAL: %s", magic_enum::enum_name(rec.mPalId).data());
+                LOG_INFO("MISSING PAL: %s", ToString(rec.mPalId));
             }
         }
     }
@@ -1294,7 +1288,7 @@ static void ConvertPals(const FileSystem::Path& dataDir, std::vector<u8>& fileBu
                         const auto& res = palFile.ChunkAt(i);
                         if (res.Header().mResourceType == ResourceManagerWrapper::Resource_Palt && static_cast<s32>(res.Header().field_C_id) == palDetails.mResourceId)
                         {
-                            LOG_INFO("Converting PAL: %s", magic_enum::enum_name(rec.mPalId).data());
+                            LOG_INFO("Converting PAL: %s", ToString(rec.mPalId));
 
                             const auto& palData = res.Data();
                             u32 palLen = *reinterpret_cast<const u32*>(palData.data());
@@ -1337,21 +1331,22 @@ static void ConvertAnimations(const FileSystem::Path& dataDir, FileSystem& fs, s
                     auto res = animFile.ChunkById(animDetails.mResourceId);
                     if (res)
                     {
-                        LOG_INFO("Converting: %s", magic_enum::enum_name(rec.mAnimId).data());
+                        const char_type* animName = AnimRecName(rec.mAnimId);
+                        const char_type* groupName = AnimRecGroupName(rec.mAnimId);
+
+                        LOG_INFO("Converting: %s", animName);
 
                         FileSystem::Path filePath = dataDir;
                         filePath.Append("animations");
 
+                        // e.g "abe"
+                        filePath.Append(groupName);
+
                         // Ensure the containing directory exists
                         fs.CreateDirectory(filePath);
 
-                        // TODO: FIX ME
-                        // e.g "abe"
-                        // filePath.Append(ToString(rec.mGroup));
-
                         // e.g "arm_gib"
-                        const char_type* enum_name = magic_enum::enum_name(rec.mAnimId).data();
-                        filePath.Append(enum_name);
+                        filePath.Append(animName);
 
                         AnimationConverter animationConverter(filePath, animDetails, res->Data(), isAo);
 
@@ -1374,7 +1369,7 @@ static void LogNonConvertedAnims(bool isAo)
         {
             if (!rec.mConverted)
             {
-                LOG_INFO("Didn't convert %s", magic_enum::enum_name(rec.mAnimId).data());
+                LOG_INFO("Didn't convert %s", AnimRecName(rec.mAnimId));
             }
         }
     }

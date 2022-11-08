@@ -12,7 +12,6 @@
 #include "Sfx.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "CheatController.hpp"
-#include "magic_enum/include/magic_enum.hpp"
 
 namespace AO {
 
@@ -210,7 +209,7 @@ void SecurityDoor::VUpdate()
                     Slig::Slig_GameSpeak_SFX(SligSpeak::eHereBoy_1, 127, -100, 0);
                     break;
                 default:
-                    LOG_WARNING("eSayingPassword_6 code was %s. This is unhandled.", magic_enum::enum_name(code));
+                    LOG_WARNING("eSayingPassword_6 code was %d. This is unhandled.", static_cast<s32>(code));
                     break;
             }
 

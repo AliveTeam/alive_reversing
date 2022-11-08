@@ -1649,6 +1649,8 @@ void OpenGLRenderer::DebugWindow()
                 ImGui::MenuItem("gl_debug", nullptr, &gGlDebug);
                 #endif
 
+                ImGui::MenuItem("filter", nullptr, &mFramebufferFilter);
+
                 ImGui::EndMenu();
             }
             ImGui::EndMenu();

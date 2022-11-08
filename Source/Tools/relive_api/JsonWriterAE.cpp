@@ -4,7 +4,6 @@
 #include "TypesCollectionAE.hpp"
 #include "JsonReaderBase.hpp"
 #include "TlvObjectBase.hpp"
-#include <magic_enum/include/magic_enum.hpp>
 
 namespace ReliveAPI {
 void JsonWriterAE::DebugDumpTlvs(IFileIO& fileIo, const std::string& prefix, const PathInfo& info, std::vector<u8>& pathResource)
@@ -91,7 +90,7 @@ inline Path_TLV* Next_TLV_Impl(Path_TLV* pTlv)
         {
             if (pPathTLV->mLength != obj->TlvLen())
             {
-                LOG_ERROR("%s size should be %d but got %d", magic_enum::enum_name(pPathTLV->mTlvType32.mType), pPathTLV->mLength, obj->TlvLen());
+                LOG_ERROR("path tlv size of type %d should be %d but got %d", static_cast<s32>(pPathTLV->mTlvType32.mType), pPathTLV->mLength, obj->TlvLen());
                 throw ReliveAPI::WrongTLVLengthException();
             }
 

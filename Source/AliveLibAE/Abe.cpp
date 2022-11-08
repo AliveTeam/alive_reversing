@@ -642,10 +642,6 @@ Abe::Abe()
     sControlledCharacter = this;
 
     CreateShadow();
-
-    // Animation test code
-    //relive_new TestAnimation();
-
 }
 
 Abe::~Abe()

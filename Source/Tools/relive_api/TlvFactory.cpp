@@ -10,7 +10,6 @@
 #include "../../relive_lib/data_conversion/PathTlvsAE.hpp"
 
 #include <jsonxx/jsonxx.h>
-#include <magic_enum/include/magic_enum.hpp>
 
 namespace ReliveAPI {
 template <typename TlvEnumType, typename PathTlvType>
@@ -20,7 +19,7 @@ template <typename TlvEnumType, typename PathTlvType>
 
     if (it == std::end(mTlvFactory))
     {
-        LOG_WARNING("Type %s unknown", magic_enum::enum_name(tlvType));
+        LOG_WARNING("Type %d unknown", static_cast<s32>(tlvType));
         return nullptr;
     }
 
