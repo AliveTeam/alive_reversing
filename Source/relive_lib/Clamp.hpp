@@ -15,7 +15,7 @@ template<class T> T ClampedAdd(T val, s64 operand)
         return val;
     }
 
-    T newVal = val + operand;
+    T newVal = val + static_cast<T>(operand);
 
     if (operand < 0 && newVal > val)
     {
@@ -29,7 +29,7 @@ template<class T> T ClampedAdd(T val, s64 operand)
     return newVal;
 }
 
-template<class T> T ClampedAdd(T val, T operand, T lowerBound, T upperBound)
+template<class T> T ClampedAdd(T val, s64 operand, T lowerBound, T upperBound)
 {
     return Clamp(ClampedAdd(val, operand), lowerBound, upperBound);
 }
