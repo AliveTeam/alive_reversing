@@ -1,26 +1,13 @@
-#include "OpenGLRenderer.hpp"
-#include "../../Compression.hpp"
+#include <algorithm>
+
 #include "../relive_lib/data_conversion/rgb_conversion.hpp"
 #include "../relive_lib/Primitives.hpp"
 #include "../relive_lib/Animation.hpp"
+#include "../../Compression.hpp"
 #include "../../Font.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
-#include <algorithm>
-
-static bool gGlDebug = true;
-
-#define GL_DEBUG 1
-
-#if GL_DEBUG > 0
-    #define GL_VERIFY(x)    \
-        (x);                \
-        if (gGlDebug)       \
-        {                   \
-            CheckGLError(); \
-        }
-#else
-    #define GL_VERIFY(x) (x);
-#endif
+#include "GLDebug.hpp"
+#include "OpenGLRenderer.hpp"
 
 #define GL_TO_IMGUI_TEX(v) *reinterpret_cast<ImTextureID*>(&v)
 
@@ -40,34 +27,6 @@ static bool gRenderEnable_F2 = true;
 
 static const f32 pi = 3.14f;
 static const f32 halfPi = 1.57f;
-
-
-#if GL_DEBUG > 0
-static void CheckGLError()
-{
-    GLenum lastGLError = glGetError();
-
-    if (lastGLError != GL_NO_ERROR)
-    {
-        std::string buf;
-        auto msg = reinterpret_cast<const char_type*>(glewGetString(lastGLError));
-
-        buf.append("OpenGL error raised: ");
-
-        if (msg != nullptr)
-        {
-            buf.append(msg);
-        }
-        else
-        {
-            buf.append(std::to_string(lastGLError));
-        }
-        
-        ALIVE_FATAL(buf.c_str());
-    }
-}
-#endif
-
 
 static GLuint Renderer_CreateTexture(GLenum interpolation = GL_NEAREST)
 {
