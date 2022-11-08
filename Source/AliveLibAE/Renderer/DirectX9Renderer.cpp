@@ -1,6 +1,7 @@
 #include "../stdafx.h"
 #include "DirectX9Renderer.hpp"
 #include "../../AliveLibCommon/FatalError.hpp"
+#include "../../relive_lib/ResourceManagerWrapper.hpp"
 
 #ifdef _WIN32
 
@@ -13,8 +14,10 @@ struct CUSTOMVERTEX
 {
     FLOAT X, Y, Z, RHW;
     DWORD COLOR;
+    float u;
+    float v;
 };
-#define CUSTOMFVF (D3DFVF_XYZRHW | D3DFVF_DIFFUSE)
+#define CUSTOMFVF (D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1)
 
 #define DX_DEBUG 1
 
@@ -44,6 +47,28 @@ void DirectX9Renderer::Destroy()
         v_buffer->Release();
         v_buffer = nullptr;
     }
+}
+
+// TODO: Temp test code
+IDirect3DTexture9* DirectX9Renderer::MakeTexture(const char* fileName)
+{
+    IDirect3DTexture9* d3dTexture;
+    D3DXIMAGE_INFO SrcInfo; // Optional
+
+    // Use a magenta colourkey
+    D3DCOLOR colorkey = 0xFFFF00FF;
+
+    // Load image from file
+    HRESULT hr = D3DXCreateTextureFromFileEx(mDevice, fileName, 140, 140, 0, 0,
+                                             D3DFMT_UNKNOWN, D3DPOOL_DEFAULT, D3DX_FILTER_NONE, D3DX_DEFAULT,
+                                             colorkey, &SrcInfo, NULL, &d3dTexture);
+    if (FAILED(hr))
+    {
+        return NULL;
+    }
+
+    // Return the newly made texture
+    return d3dTexture;
 }
 
 bool DirectX9Renderer::Create(TWindowHandleType window)
@@ -100,6 +125,12 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
 
     MakeVertexBuffer();
     
+    mDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+    mDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+    mDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+    mDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+    mDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
+
     /*
     const char* prog = "yo";
     LPD3DXBUFFER shader;
@@ -122,6 +153,24 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
     //mDevice->CreatePixelShader()
     //mDevice->SetPixelShader();
 
+    //mTexture = MakeTexture("C:\\Data\\Poggings.bmp");
+    DX_VERIFY(mDevice->CreateTexture(640, 240, 0, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &mTexture, nullptr));
+
+    D3DLOCKED_RECT locked = {};
+    DX_VERIFY(mTexture->LockRect(0, &locked, nullptr, D3DLOCK_DISCARD));
+
+    for (u32 y = 0; y < 240; y++)
+    {
+        u32* p = (u32*) locked.pBits;
+        p = p + ((locked.Pitch / 4) * y);
+        for (u32 x = 0; x < 640; x++)
+        {
+            *p = D3DCOLOR_ARGB(255, x, y, x+y);
+            p++;
+        }
+    }
+
+    DX_VERIFY(mTexture->UnlockRect(0));
 
     return true;
 }
@@ -225,16 +274,40 @@ void DirectX9Renderer::Draw(Poly_F4& /*poly*/)
 {
 }
 
-void DirectX9Renderer::Draw(Poly_FT4& /*poly*/)
+void DirectX9Renderer::Draw(Poly_FT4& poly)
 {
+    if (poly.mCam)
+    {
+        D3DLOCKED_RECT locked = {};
+        DX_VERIFY(mTexture->LockRect(0, &locked, nullptr, D3DLOCK_DISCARD));
+
+        RGBA32* pSrc = (RGBA32*) poly.mCam->mData.mPixels->data();
+
+        for (u32 y = 0; y < 240; y++)
+        {
+            u32* p = (u32*) locked.pBits;
+            p = p + ((locked.Pitch / 4) * y);
+            for (u32 x = 0; x < 640; x++)
+            {
+                *p = (pSrc->a << 24) + (pSrc->r << 16) + (pSrc->g << 8) + (pSrc->b);
+                p++;
+                pSrc++;
+            }
+        }
+    }
+
+    DX_VERIFY(mTexture->UnlockRect(0));
+
     // select which vertex format we are using
     DX_VERIFY(mDevice->SetFVF(CUSTOMFVF));
 
     // select the vertex buffer to display
     DX_VERIFY(mDevice->SetStreamSource(0, v_buffer, 0, sizeof(CUSTOMVERTEX)));
 
+    DX_VERIFY(mDevice->SetTexture(0, mTexture));
+
     // copy the vertex buffer to the back buffer
-    DX_VERIFY(mDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 1));
+    DX_VERIFY(mDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2));
 }
 
 void DirectX9Renderer::Draw(Poly_G4& /*poly*/)
@@ -247,30 +320,64 @@ void DirectX9Renderer::MakeVertexBuffer()
     // create the vertices using the CUSTOMVERTEX struct
     CUSTOMVERTEX vertices[] = {
         {
-            400.0f,
-            62.5f,
+            0.0f,
+            0.0f,
             0.5f,
             1.0f,
-            D3DCOLOR_XRGB(0, 0, 255),
+            D3DCOLOR_XRGB(128, 128, 128), // TL
+            0.0f,
+            0.0f,
         },
         {
-            650.0f,
-            500.0f,
+            640.0f,
+            0.0f,
             0.5f,
             1.0f,
-            D3DCOLOR_XRGB(0, 255, 0),
+            D3DCOLOR_XRGB(128, 128, 128),
+            1.0f,
+            0.0f,
         },
         {
-            150.0f,
-            500.0f,
+            0.0f,
+            240.0f,
             0.5f,
             1.0f,
-            D3DCOLOR_XRGB(255, 0, 0),
+            D3DCOLOR_XRGB(128, 128, 128),
+            0.0f,
+            1.0f,
+        },
+
+        {
+            640.0f,
+            0.0f,
+            0.5f,
+            1.0f,
+            D3DCOLOR_XRGB(128, 128, 128), // TL
+            1.0f,
+            0.0f,
+        },
+        {
+            640.0f,
+            240.0f,
+            0.5f,
+            1.0f,
+            D3DCOLOR_XRGB(128, 128, 128),
+            1.0f,
+            1.0f,
+        },
+        {
+            0.0f,
+            240.0f,
+            0.5f,
+            1.0f,
+            D3DCOLOR_XRGB(128, 128, 128),
+            0.0f,
+            1.0f,
         },
     };
 
     // create a vertex buffer interface called v_buffer
-    DX_VERIFY(mDevice->CreateVertexBuffer(3 * sizeof(CUSTOMVERTEX),
+    DX_VERIFY(mDevice->CreateVertexBuffer(ALIVE_COUNTOF(vertices) * sizeof(CUSTOMVERTEX),
                                0,
                                CUSTOMFVF,
                                D3DPOOL_MANAGED,

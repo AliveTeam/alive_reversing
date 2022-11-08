@@ -35,12 +35,14 @@ public:
 
 private:
     void MakeVertexBuffer();
+    IDirect3DTexture9* MakeTexture(const char* fileName);
 
     bool mFrameStarted = false;
 
     SDL_Renderer* mRenderer = nullptr;
     IDirect3DDevice9* mDevice = nullptr;
     IDirect3DSurface9* mRenderTarget = nullptr;
+    IDirect3DTexture9* mTexture = nullptr;
 
     LPDIRECT3DVERTEXBUFFER9 v_buffer = NULL;
 };
