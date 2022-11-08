@@ -46,21 +46,6 @@ static GLuint Renderer_CreateTexture(GLenum interpolation = GL_NEAREST)
 
 u32 OpenGLRenderer::PreparePalette(AnimationPal& pCache)
 {
-    if (mPaletteTextureId == 0)
-    {
-        const static RGBA32 black[256] = {};
-
-        mPaletteTextureId = Renderer_CreateTexture();
-
-        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mPaletteTextureId));
-        GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, GL_PALETTE_DEPTH, GL_AVAILABLE_PALETTES, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0));
-
-        for (s32 i = 0; i < GL_AVAILABLE_PALETTES; i++)
-        {
-            GL_VERIFY(glTexSubImage2D(GL_TEXTURE_2D, 0, 0, i, GL_PALETTE_DEPTH, 1, GL_RGBA, GL_UNSIGNED_BYTE, black));
-        }
-    }
-
     // Check we don't already have this palette
     const u32 paletteHash = HashPalette(&pCache);
     auto searchResult = mPaletteCache.find(paletteHash);
@@ -106,9 +91,7 @@ u32 OpenGLRenderer::PreparePalette(AnimationPal& pCache)
     mPaletteCache[paletteHash] = PalCacheEntry{nextIndex, true};
 
     // Write palette data
-    GL_VERIFY(glActiveTexture(GL_TEXTURE1));
-    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mPaletteTextureId));
-    GL_VERIFY(glTexSubImage2D(GL_TEXTURE_2D, 0, 0, nextIndex, GL_PALETTE_DEPTH, 1, GL_RGBA, GL_UNSIGNED_BYTE, pCache.mPal));
+    mPaletteTexture->LoadSubImage(0, nextIndex, GL_PALETTE_DEPTH, 1, pCache.mPal);
 
     mStats.mPalUploadCount++;
 
@@ -384,6 +367,16 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
     // Create and bind the VAO, and never touch it again! Wahey.
     GL_VERIFY(glGenVertexArrays(1, &mVAO));
     GL_VERIFY(glBindVertexArray(mVAO));
+
+    // FIXME: Temp - init palette here for now
+    const static RGBA32 black[256] = {};
+
+    mPaletteTexture = std::make_unique<GLTexture2D>(GL_PALETTE_DEPTH, GL_AVAILABLE_PALETTES, GL_RGBA, true);
+
+    for (s32 i = 0; i < GL_AVAILABLE_PALETTES; i++)
+    {
+        mPaletteTexture->LoadSubImage(0, i, GL_PALETTE_DEPTH, 1, black);
+    }
 
     // Load shaders
     mPassthruShader.LoadSource(gShader_PassthruVSH, gShader_PassthruFSH);
@@ -1301,9 +1294,7 @@ void OpenGLRenderer::InvalidateBatch()
     mPsxShader.UniformVec2("vsViewportSize", GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT);
 
     // Bind palette texture
-    GL_VERIFY(glActiveTexture(GL_TEXTURE0));
-    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mPaletteTextureId));
-
+    mPaletteTexture->BindTo(GL_TEXTURE0);
     mPsxShader.Uniform1i("texPalette", 0);
 
     // Bind gas

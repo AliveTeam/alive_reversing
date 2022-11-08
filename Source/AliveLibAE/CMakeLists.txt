@@ -9,10 +9,12 @@ SET(AliveLibAESrc
     Renderer/DirectX9Renderer.cpp
     Renderer/OpenGL3/GLDebug.hpp
     Renderer/OpenGL3/GLDebug.cpp
-    Renderer/OpenGL3/OpenGLRenderer.hpp
-    Renderer/OpenGL3/OpenGLRenderer.cpp
     Renderer/OpenGL3/GLShader.hpp
     Renderer/OpenGL3/GLShader.cpp
+    Renderer/OpenGL3/GLTexture2D.hpp
+    Renderer/OpenGL3/GLTexture2D.cpp
+    Renderer/OpenGL3/OpenGLRenderer.hpp
+    Renderer/OpenGL3/OpenGLRenderer.cpp
     Grid.hpp
     Grid.cpp
     GameAutoPlayer.hpp

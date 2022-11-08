@@ -3,6 +3,7 @@
 #include "../IRenderer.hpp"
 
 #include <GL/glew.h>
+#include <memory>
 #include <SDL_opengl.h>
 
 #include "imgui.h"
@@ -10,6 +11,7 @@
 #include "imgui_impl_opengl3.h"
 
 #include "GLShader.hpp"
+#include "GLTexture2D.hpp"
 #include "../relive_lib/data_conversion/rgb_conversion.hpp"
 #include "../relive_lib/Animation.hpp"
 #include "../relive_lib/ResourceManagerWrapper.hpp"
@@ -156,7 +158,7 @@ private:
     std::vector<VertexData> mScreenWaveData;
     std::vector<u32> mScreenWaveIndicies;
 
-    GLuint mPaletteTextureId = 0;
+    std::unique_ptr<GLTexture2D> mPaletteTexture;
     struct PalCacheEntry final
     {
         u32 mIndex = 0;
