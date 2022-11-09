@@ -36,6 +36,8 @@ public:
 private:
     void MakeVertexBuffer();
     IDirect3DTexture9* MakeTexture(const char* fileName);
+    void SetQuad(f32 x, f32 y, f32 w, f32 h);
+    void SetQuad(Poly_FT4& poly);
 
     bool mFrameStarted = false;
 
