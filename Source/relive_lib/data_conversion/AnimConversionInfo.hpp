@@ -77,8 +77,8 @@ enum class EAnimGroup
     BackgroundAnimation,
 };
 
-const char_type* AnimBaseName(AnimId id);
 const char_type* AnimRecName(AnimId anim);
+const char_type* AnimRecGroupName(AnimId anim);
 const char* ToString(EAnimGroup animGroup);
 
 struct PalRecConversionInfo final
@@ -96,14 +96,6 @@ struct AnimRecConversionInfo final
     bool mConverted;
 };
 
-struct BgAnimRecConversionInfo final
-{
-    u32 mBgAnimId;
-    EReliveLevelIds mAeLvl; // LVL this anim exists in for AE
-    EReliveLevelIds mAoLvl; // LVL this anim exists in for AO
-    bool mConverted;
-};
-
 struct AnimRecNames final
 {
     AnimId mAnimId;
@@ -111,3 +103,6 @@ struct AnimRecNames final
 };
 
 const char* ToString(PalId pal);
+
+extern AnimRecNames kAnimRecNames[1026];
+extern AnimRecConversionInfo kAnimRecConversionInfo[1023];

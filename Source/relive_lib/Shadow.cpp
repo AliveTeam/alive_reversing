@@ -12,8 +12,8 @@ Shadow::Shadow()
     AnimResource res = ResourceManagerWrapper::LoadAnimation(AnimId::ObjectShadow);
     mAnim.Init(res, nullptr);
 
-    mFlags.Clear(Flags::eShadowAtBottom);
-    mFlags.Set(Flags::eEnabled);
+    mShadowAtBottom = false;
+    mEnabled = true;
 
     mAnim.SetRenderMode(TPageAbr::eBlend_2);
 
@@ -35,14 +35,14 @@ Shadow::~Shadow()
 
 void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP spriteScale, Scale scale)
 {
-    if (mFlags.Get(Flags::eEnabled))
+    if (mEnabled)
     {
         // TODO: Is this the same as PsxToPCX ??
         const s16 objX = (23 * frameRect->x) / 40;
         const s16 objW = (23 * frameRect->w) / 40;
 
         FP objY = {};
-        if (mFlags.Get(Flags::eShadowAtBottom))
+        if (mShadowAtBottom)
         {
             // Get the bottom of the object
             objY = FP_FromInteger(frameRect->h) + pScreenManager->CamYPos();
@@ -158,7 +158,7 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
 
 void Shadow::Render(PrimHeader** ppOt)
 {
-    if (mFlags.Get(Flags::eEnabled))
+    if (mEnabled)
     {
         mAnim.SetSpriteScale(FP_FromInteger(1));
         if (mSpriteScale == FP_FromDouble(0.5))

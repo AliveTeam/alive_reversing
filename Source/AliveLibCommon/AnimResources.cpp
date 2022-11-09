@@ -1895,14 +1895,6 @@ constexpr CombinedAnimRecord kAnimRecords[1027] = {
 
     { AnimId::BG_PinkFlame1, kNullAnimDetails, {"R2P12C01.CAM", 22264, 96, 71, 6014}, true },
     { AnimId::BG_PinkFlame2, kNullAnimDetails, {"R2P12C03.CAM", 10164, 61, 46, 6015}, true },
-    // search for "Animation test code" in Abe.cpp and uncomment the code below to activate the anim tester
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    {AnimId::Anim_Tester,
-     {"SCOOPZ.BAN", 31616, 59, 200, kScoopzResID, PalId::Default},
-     {"RLIFT.BND", 24240, 124, 37, AO::kLiftWheelsAOResID, PalId::Default}
-    },
-    ////////////////////////////////////////////////////////////////////////////////////////////////////
 };
 
 void FrameTableOffsetExists(u32 frameTableOffset, bool isAe, int maxW, int maxH)

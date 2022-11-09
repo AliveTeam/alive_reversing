@@ -23,12 +23,7 @@ private:
     FP mSpriteScale = {};
 
 public:
-    enum Flags
-    {
-        eShadowAtBottom = 0x1,
-        eEnabled = 0x2,
-    };
-    BitField32<Flags> mFlags = {};
+    bool mShadowAtBottom = false;
+    bool mEnabled = false;
     Animation mAnim = {};
-    u8** mAnimRes = nullptr;
 };

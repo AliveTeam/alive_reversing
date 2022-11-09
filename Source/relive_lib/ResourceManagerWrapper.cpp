@@ -16,10 +16,6 @@
 
 #include "nlohmann/json.hpp"
 
-#define MAGIC_ENUM_RANGE_MIN 0
-#define MAGIC_ENUM_RANGE_MAX 1100
-#include <magic_enum/include/magic_enum.hpp>
-
 u32 UniqueResId::mGlobalId = 1;
 std::vector<PendingResource> ResourceManagerWrapper::mFilesPendingLoading;
 
@@ -126,14 +122,17 @@ AnimResource ResourceManagerWrapper::LoadAnimation(AnimId anim)
 
     filePath.Append("animations");
 
-    const char_type* enum_name = magic_enum::enum_name(anim).data();
-    filePath.Append(enum_name);
+    const char_type* groupName = AnimRecGroupName(anim);
+    filePath.Append(groupName);
+
+    const char_type* animName = AnimRecName(anim);
+    filePath.Append(animName);
 
     FileSystem fs;
     const std::string jsonStr = fs.LoadToString((filePath.GetPath() + ".json").c_str());
     if (jsonStr.empty())
     {
-        ALIVE_FATAL("Missing anim json for anim: %s", enum_name);
+        ALIVE_FATAL("Missing anim json for anim: %s", animName);
     }
 
     // TODO: Use FS
