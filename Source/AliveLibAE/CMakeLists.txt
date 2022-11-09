@@ -9,6 +9,8 @@ SET(AliveLibAESrc
     Renderer/DirectX9Renderer.cpp
     Renderer/OpenGL3/GLDebug.hpp
     Renderer/OpenGL3/GLDebug.cpp
+    Renderer/OpenGL3/GLFramebuffer.hpp
+    Renderer/OpenGL3/GLFramebuffer.cpp
     Renderer/OpenGL3/GLShader.hpp
     Renderer/OpenGL3/GLShader.cpp
     Renderer/OpenGL3/GLTexture2D.hpp

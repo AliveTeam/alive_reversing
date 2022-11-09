@@ -7,6 +7,8 @@
 #include "../../Font.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
 #include "GLDebug.hpp"
+#include "GLFramebuffer.hpp"
+#include "GLTexture2D.hpp"
 #include "OpenGLRenderer.hpp"
 
 #define GL_TO_IMGUI_TEX(v) *reinterpret_cast<ImTextureID*>(&v)
@@ -241,7 +243,7 @@ void OpenGLRenderer::Clear(u8 r, u8 g, u8 b)
     GL_VERIFY(glGetBooleanv(GL_SCISSOR_TEST, &scissoring));
 
     // We clear the screen framebuffer here
-    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, 0));
+    GLFramebuffer::BindScreenAsTarget(mWindow);
 
     if (scissoring)
     {
@@ -252,7 +254,7 @@ void OpenGLRenderer::Clear(u8 r, u8 g, u8 b)
     GL_VERIFY(glClear(GL_COLOR_BUFFER_BIT));
 
     // Set back to the PSX framebuffer
-    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId));
+    mPsxFramebuffer->BindAsTarget();
 
     if (scissoring)
     {
@@ -389,9 +391,9 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
     GL_VERIFY(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 
     // Init framebuffers
-    CreateFramebuffer(&mPsxFramebufferId, &mPsxFramebufferTexId, GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT);
-    CreateFramebuffer(&mPsxFramebufferSecondId, &mPsxFramebufferSecondTexId,GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT);
-    CreateFramebuffer(&mFilterFramebufferId, &mFilterFramebufferTexId, GL_FRAMEBUFFER_FILTER_WIDTH, GL_FRAMEBUFFER_FILTER_HEIGHT);
+    mPsxFramebuffer = std::make_unique<GLFramebuffer>(GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT);
+    mPsxFramebufferSecond = std::make_unique<GLFramebuffer>(GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT);
+    mFilterFramebuffer = std::make_unique<GLFramebuffer>(GL_FRAMEBUFFER_FILTER_WIDTH, GL_FRAMEBUFFER_FILTER_HEIGHT);
 
     // Init batch vectors
     mCurFG1TextureIds.reserve(4);
@@ -411,30 +413,6 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
     return true;
 }
 
-void OpenGLRenderer::CreateFramebuffer(GLuint* outFramebufferId, GLuint* outTextureId, s32 width, s32 height)
-{
-    static const GLenum fbTargets[1] = {GL_COLOR_ATTACHMENT0};
-
-    // Create objects
-    GL_VERIFY(glGenFramebuffers(1, outFramebufferId));
-    GL_VERIFY(glGenTextures(1, outTextureId));
-
-    // Init texture
-    GL_VERIFY(glActiveTexture(GL_TEXTURE0));
-    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, *outTextureId));
-
-    GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, 0));
-
-    GL_VERIFY(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST));
-    GL_VERIFY(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST));
-
-    // Init framebuffer
-    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, *outFramebufferId));
-    GL_VERIFY(glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, *outTextureId, 0));
-
-    GL_VERIFY(glDrawBuffers(1, fbTargets));
-}
-
 void OpenGLRenderer::Destroy()
 {
     ImGui_ImplSDL2_Shutdown();
@@ -452,9 +430,7 @@ void OpenGLRenderer::Destroy()
 
     GL_VERIFY(glDeleteTextures(1, &mCurGasTextureId));
 
-    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, 0));
-    GL_VERIFY(glDeleteFramebuffers(1, &mPsxFramebufferId));
-    GL_VERIFY(glDeleteTextures(1, &mPsxFramebufferTexId));
+    GLFramebuffer::BindScreenAsTarget(mWindow);
 
     if (mContext)
     {
@@ -876,7 +852,7 @@ void OpenGLRenderer::EndFrame()
     mFrameStarted = false;
 
     // Set the framebuffer target back to the PSX framebuffer
-    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId));
+    mPsxFramebuffer->BindAsTarget();
 }
 
 void OpenGLRenderer::OutputSize(s32* w, s32* h)
@@ -931,8 +907,7 @@ void OpenGLRenderer::StartFrame(s32 xOff, s32 yOff)
     mOffsetY = yOff;
 
     // Always render to PSX framebuffer
-    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId));
-    GL_VERIFY(glViewport(0, 0, GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT));
+    mPsxFramebuffer->BindAsTarget();
 
     // FIXME: Hack to push screenwave verts first... tidy later
     VertexData verts[4] = {
@@ -993,7 +968,6 @@ void OpenGLRenderer::DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height
     GL_VERIFY(glBlendEquation(GL_FUNC_ADD));
 
     // Set up the texture we're going to draw...
-    GLuint texId = 0;
     f32 texWidth = 0;
     f32 texHeight = 0;
 
@@ -1001,15 +975,16 @@ void OpenGLRenderer::DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height
     {
         UpdateFilterFramebuffer();
 
-        texId = mFilterFramebufferTexId;
-        texWidth = GL_FRAMEBUFFER_FILTER_WIDTH;
-        texHeight = GL_FRAMEBUFFER_FILTER_HEIGHT;
+        mFilterFramebuffer->BindAsSourceTextureTo(GL_TEXTURE0);
+
+        texWidth = (f32) mFilterFramebuffer->GetWidth();
+        texHeight = (f32) mFilterFramebuffer->GetHeight();
     }
     else
     {
-        texId = mPsxFramebufferSecondTexId;
-        texWidth = GL_FRAMEBUFFER_PSX_WIDTH;
-        texHeight = GL_FRAMEBUFFER_PSX_HEIGHT;
+        mPsxFramebufferSecond->BindAsSourceTextureTo(GL_TEXTURE0);
+        texWidth = (f32) mPsxFramebufferSecond->GetWidth();
+        texHeight = (f32) mPsxFramebufferSecond->GetHeight();
     }
 
     // Set up VBOs
@@ -1054,7 +1029,7 @@ void OpenGLRenderer::DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height
     // Bind framebuffers and draw
     s32 viewportW, viewportH;
 
-    SDL_GL_GetDrawableSize(mWindow, &viewportW, &viewportH);
+    GLFramebuffer::BindScreenAsTarget(mWindow, &viewportW, &viewportH);
 
     mPassthruShader.Use();
 
@@ -1062,13 +1037,6 @@ void OpenGLRenderer::DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height
     mPassthruShader.UniformVec2("vsViewportSize", (f32) viewportW, (f32) viewportH);
     mPassthruShader.Uniform1i("fsFlipUV", false);
     mPassthruShader.UniformVec2("fsTexSize", texWidth, texHeight);
-
-    GL_VERIFY(glViewport(0, 0, viewportW, viewportH));
-
-    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, 0));
-
-    GL_VERIFY(glActiveTexture(GL_TEXTURE0));
-    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, texId));
 
     GL_VERIFY(glEnableVertexAttribArray(0));
     GL_VERIFY(glBindBuffer(GL_ARRAY_BUFFER, drawVboId));
@@ -1141,12 +1109,8 @@ void OpenGLRenderer::UpdateFilterFramebuffer()
     mPassthruFilterShader.UniformVec2("vsViewportSize", GL_FRAMEBUFFER_FILTER_WIDTH, GL_FRAMEBUFFER_FILTER_HEIGHT);
     mPassthruFilterShader.UniformVec2("fsTexSize", GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT);
 
-    GL_VERIFY(glViewport(0, 0, GL_FRAMEBUFFER_FILTER_WIDTH, GL_FRAMEBUFFER_FILTER_HEIGHT));
-
-    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mFilterFramebufferId));
-
-    GL_VERIFY(glActiveTexture(GL_TEXTURE0));
-    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mPsxFramebufferSecondTexId));
+    mFilterFramebuffer->BindAsTarget();
+    mPsxFramebufferSecond->BindAsSourceTextureTo(GL_TEXTURE0);
 
     GL_VERIFY(glEnableVertexAttribArray(0));
     GL_VERIFY(glBindBuffer(GL_ARRAY_BUFFER, drawVboId));
@@ -1234,10 +1198,8 @@ void OpenGLRenderer::RenderScreenWave()
     mPassthruIntShader.Uniform1i("fsFlipUV", true);
     mPassthruIntShader.UniformVec2("fsTexSize", (f32) GL_FRAMEBUFFER_PSX_WIDTH, (f32) GL_FRAMEBUFFER_PSX_HEIGHT);
 
-    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferSecondId));
-
-    GL_VERIFY(glActiveTexture(GL_TEXTURE0));
-    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mPsxFramebufferTexId));
+    mPsxFramebufferSecond->BindAsTarget();
+    mPsxFramebuffer->BindAsSourceTextureTo(GL_TEXTURE0);
 
     GL_VERIFY(glEnableVertexAttribArray(0));
     GL_VERIFY(glVertexAttribIPointer(0, 2, GL_INT, sizeof(VertexData), 0));
@@ -1254,8 +1216,7 @@ void OpenGLRenderer::RenderScreenWave()
     GL_VERIFY(glDisableVertexAttribArray(1));
 
     mPassthruIntShader.UnUse();
-    GL_VERIFY(glBindFramebuffer(GL_FRAMEBUFFER, mPsxFramebufferId));
-    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, 0));
+    mPsxFramebuffer->BindAsTarget();
 }
 
 void OpenGLRenderer::InvalidateBatch()

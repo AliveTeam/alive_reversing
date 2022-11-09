@@ -11,6 +11,8 @@ public:
     ~GLTexture2D();
 
     void BindTo(GLenum texUnit);
+    u32 GetHeight();
+    u32 GetWidth();
     void LoadImage(const void* data);
     void LoadSubImage(GLint x, GLint y, GLsizei width, GLsizei height, const void* pixels);
 

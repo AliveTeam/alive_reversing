@@ -10,6 +10,7 @@
 #include "imgui_impl_sdl.h"
 #include "imgui_impl_opengl3.h"
 
+#include "GLFramebuffer.hpp"
 #include "GLShader.hpp"
 #include "GLTexture2D.hpp"
 #include "../relive_lib/data_conversion/rgb_conversion.hpp"
@@ -137,14 +138,18 @@ private:
     GLShader mPassthruFilterShader = {};
     GLShader mPsxShader = {};
 
-    GLuint mPsxFramebufferId = 0;
-    GLuint mPsxFramebufferTexId = 0;
+    std::unique_ptr<GLFramebuffer> mPsxFramebuffer;
+    std::unique_ptr<GLFramebuffer> mPsxFramebufferSecond;
+    std::unique_ptr<GLFramebuffer> mFilterFramebuffer;
 
-    GLuint mPsxFramebufferSecondId = 0;
-    GLuint mPsxFramebufferSecondTexId = 0;
+    //GLuint mPsxFramebufferId = 0;
+    //GLuint mPsxFramebufferTexId = 0;
 
-    GLuint mFilterFramebufferId = 0;
-    GLuint mFilterFramebufferTexId = 0;
+    //GLuint mPsxFramebufferSecondId = 0;
+    //GLuint mPsxFramebufferSecondTexId = 0;
+
+    //GLuint mFilterFramebufferId = 0;
+    //GLuint mFilterFramebufferTexId = 0;
 
     bool mFramebufferFilter = true;
     bool mKeepAspectRatio = true;

@@ -39,6 +39,16 @@ void GLTexture2D::BindTo(GLenum texUnit)
     GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mGLId));
 }
 
+u32 GLTexture2D::GetHeight()
+{
+    return mHeight;
+}
+
+u32 GLTexture2D::GetWidth()
+{
+    return mWidth;
+}
+
 void GLTexture2D::LoadImage(const void *data)
 {
     BindTo(GL_TEXTURE0);
