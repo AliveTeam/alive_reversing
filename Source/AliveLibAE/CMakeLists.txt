@@ -13,6 +13,8 @@ SET(AliveLibAESrc
     Renderer/OpenGL3/GLFramebuffer.cpp
     Renderer/OpenGL3/GLShader.hpp
     Renderer/OpenGL3/GLShader.cpp
+    Renderer/OpenGL3/GLShaderProgram.hpp
+    Renderer/OpenGL3/GLShaderProgram.cpp
     Renderer/OpenGL3/GLTexture2D.hpp
     Renderer/OpenGL3/GLTexture2D.cpp
     Renderer/OpenGL3/OpenGLRenderer.hpp

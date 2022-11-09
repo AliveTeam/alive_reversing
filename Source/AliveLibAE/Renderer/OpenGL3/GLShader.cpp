@@ -1,218 +1,52 @@
-#include "GLShader.hpp"
+#include <GL/glew.h>
+
 #include "../AliveLibCommon/FatalError.hpp"
-#include <fstream>
+#include "../AliveLibCommon/Types.hpp"
+#include "GLDebug.hpp"
+#include "GLShader.hpp"
 
-GLShader::GLShader()
+GLShader::GLShader(const char_type* source, GLenum kind)
 {
-}
+    mGLId = GL_VERIFY(glCreateShader(kind));
+    mKind = kind;
 
-static std::string shaderReadFile(const char_type* filePath)
-{
-    std::string content;
-    std::ifstream fileStream(filePath, std::ios::in);
+    GL_VERIFY(glShaderSource(mGLId, 1, &source, nullptr));
+    GL_VERIFY(glCompileShader(mGLId));
 
-    if (!fileStream.is_open())
+    // Check successful compile
+    GLint infoLogLength;
+    char_type infoLog[GL_INFOLOG_MAX_LENGTH];
+
+    GL_VERIFY(glGetShaderInfoLog(mGLId, GL_INFOLOG_MAX_LENGTH - 1, &infoLogLength, infoLog));
+
+    if (infoLogLength)
     {
-        LOG_ERROR("Could not read file %s. File does not exist.", filePath);
-        return std::string();
-    }
-
-    std::string line = "";
-    while (!fileStream.eof())
-    {
-        std::getline(fileStream, line);
-        content.append(line + "\n");
-    }
-
-    fileStream.close();
-
-    return content;
-}
-
-void printProgramLog(GLuint program)
-{
-    //Make sure name is shader
-    if (glIsProgram(program))
-    {
-        //Program log length
-        s32 infoLogLength = 0;
-        s32 maxLength = infoLogLength;
-
-        //Get info string length
-        glGetProgramiv(program, GL_INFO_LOG_LENGTH, &maxLength);
-
-        //Allocate string
-        std::vector<char_type> infoLog(maxLength + 1);
-
-        //Get info log
-        glGetProgramInfoLog(program, maxLength, &infoLogLength, infoLog.data());
-        if (infoLogLength > 0)
-        {
-            ALIVE_FATAL(infoLog.data());
-        }
-    }
-    else
-    {
-        LOG_ERROR("GL Program passed is NOT a program.");
+        ALIVE_FATAL(infoLog);
     }
 }
 
-bool GLShader::LoadSource(const char_type* vertex_Source, const char_type* fragment_Source)
+GLShader::~GLShader()
 {
-    // Check if our handles are already created
-    // so we can delete them
-
-    if (mProgramID != 0)
+    if (mGLId)
     {
-        glDeleteProgram(mProgramID);
-    }
-
-    if (mVertexID != 0)
-    {
-        glDeleteShader(mVertexID);
-    }
-
-    if (mFragmentID != 0)
-    {
-        glDeleteShader(mFragmentID);
-    }
-
-    mProgramID = glCreateProgram();
-
-    mVertexID = CompileShader(vertex_Source, GL_VERTEX_SHADER);
-    mFragmentID = CompileShader(fragment_Source, GL_FRAGMENT_SHADER);
-
-    // Attach our compiled shaders to our main program
-    glAttachShader(mProgramID, mVertexID);
-    glAttachShader(mProgramID, mFragmentID);
-    glLinkProgram(mProgramID);
-
-    //Check for errors
-    GLint programSuccess = GL_TRUE;
-    glGetProgramiv(mProgramID, GL_LINK_STATUS, &programSuccess);
-
-    if (programSuccess != GL_TRUE)
-    {
-        LOG_ERROR("Failed to compile OpenGL Shader program");
-        printProgramLog(mProgramID);
-        return false;
-    }
-
-    return true;
-}
-
-bool GLShader::LoadFromFile(const char_type* vertex_Path, const char_type* fragment_Path)
-{
-    return LoadSource(shaderReadFile(vertex_Path).c_str(), shaderReadFile(fragment_Path).c_str());
-}
-
-GLuint GLShader::GetProgramID()
-{
-    return mProgramID;
-}
-
-GLuint GLShader::GetAttributeLocation(const char_type* attr)
-{
-    return glGetAttribLocation(mProgramID, attr);
-}
-
-void GLShader::UniformVec2(const char_type* name, f32 x, f32 y)
-{
-    glUniform2f(glGetUniformLocation(mProgramID, name), x, y);
-}
-
-void GLShader::UniformVec3(const char_type* name, f32 x, f32 y, f32 z)
-{
-    glUniform3f(glGetUniformLocation(mProgramID, name), x, y, z);
-}
-
-void GLShader::UniformVec4(const char_type* name, f32 x, f32 y, f32 z, f32 w)
-{
-    glUniform4f(glGetUniformLocation(mProgramID, name), x, y, z, w);
-}
-
-void GLShader::Uniform1i(const char_type* name, GLint v)
-{
-    glUniform1i(glGetUniformLocation(mProgramID, name), v);
-}
-
-void GLShader::Uniform1iv(const char_type* name, GLsizei count, const GLint* value)
-{
-    glUniform1iv(glGetUniformLocation(mProgramID, name), count, value);
-}
-
-void GLShader::Use()
-{
-    glUseProgram(mProgramID);
-}
-
-void GLShader::UnUse()
-{
-    glUseProgram(0);
-}
-
-void printShaderLog(GLuint shader)
-{
-    //Make sure name is shader
-    if (glIsShader(shader))
-    {
-        //Shader log length
-        s32 infoLogLength = 0;
-        s32 maxLength = infoLogLength;
-
-        //Get info string length
-        glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &maxLength);
-
-        //Allocate string
-        std::vector<char_type> infoLog(maxLength + 1);
-
-        //Get info log
-        glGetShaderInfoLog(shader, maxLength, &infoLogLength, infoLog.data());
-        if (infoLogLength > 0)
-        {
-            ALIVE_FATAL(infoLog.data());
-        }
-    }
-    else
-    {
-        LOG_ERROR("Shader %d is not a shader", shader);
+        GL_VERIFY(glDeleteShader(mGLId));
     }
 }
 
-GLuint GLShader::CompileShader(const char_type* source, GLenum shaderType)
+
+void GLShader::AttachTo(GLuint programId)
 {
-    GLuint shaderID = glCreateShader(shaderType);
-    glShaderSource(shaderID, 1, &source, nullptr);
-    glCompileShader(shaderID);
-
-    GLint fShaderCompiled = GL_FALSE;
-    glGetShaderiv(shaderID, GL_COMPILE_STATUS, &fShaderCompiled);
-    if (fShaderCompiled != GL_TRUE)
-    {
-        LOG_ERROR("Unable to compile fragment shader %d", shaderID);
-        printShaderLog(shaderID);
-        return false;
-    }
-
-    return shaderID;
+    GL_VERIFY(glAttachShader(programId, mGLId));
 }
 
-void GLShader::Free()
+void GLShader::DetachFrom(GLuint programId)
 {
-    if (mVertexID != 0)
-    {
-        glDeleteShader(mVertexID);
-    }
+    GL_VERIFY(glDetachShader(programId, mGLId));
+}
 
-    if (mFragmentID != 0)
-    {
-        glDeleteShader(mFragmentID);
-    }
-
-    if (mProgramID != 0)
-    {
-        glDeleteProgram(mProgramID);
-    }
+GLenum GLShader::GetKind()
+{
+    return mKind;
 }
 
 

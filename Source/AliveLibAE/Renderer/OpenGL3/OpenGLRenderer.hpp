@@ -10,12 +10,13 @@
 #include "imgui_impl_sdl.h"
 #include "imgui_impl_opengl3.h"
 
-#include "GLFramebuffer.hpp"
-#include "GLShader.hpp"
-#include "GLTexture2D.hpp"
 #include "../relive_lib/data_conversion/rgb_conversion.hpp"
 #include "../relive_lib/Animation.hpp"
 #include "../relive_lib/ResourceManagerWrapper.hpp"
+#include "GLFramebuffer.hpp"
+#include "GLShader.hpp"
+#include "GLShaderProgram.hpp"
+#include "GLTexture2D.hpp"
 
 #define BATCH_VALUE_UNSET 999
 
@@ -133,10 +134,15 @@ private:
 
     // ROZZA STUFF
 
-    GLShader mPassthruShader = {};
-    GLShader mPassthruIntShader = {};
-    GLShader mPassthruFilterShader = {};
-    GLShader mPsxShader = {};
+    std::unique_ptr<GLShaderProgram> mPassthruShader;
+    std::unique_ptr<GLShaderProgram> mPassthruIntShader;
+    std::unique_ptr<GLShaderProgram> mPassthruFilterShader;
+    std::unique_ptr<GLShaderProgram> mPsxShader;
+
+    //GLShader mPassthruShader = {};
+    //GLShader mPassthruIntShader = {};
+    //GLShader mPassthruFilterShader = {};
+    //GLShader mPsxShader = {};
 
     std::unique_ptr<GLFramebuffer> mPsxFramebuffer;
     std::unique_ptr<GLFramebuffer> mPsxFramebufferSecond;

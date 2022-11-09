@@ -5,7 +5,7 @@
 
 #include "../AliveLibCommon/Types.hpp"
 
-class GLFramebuffer
+class GLFramebuffer final
 {
 public:
     GLFramebuffer(u32 width, u32 height);
