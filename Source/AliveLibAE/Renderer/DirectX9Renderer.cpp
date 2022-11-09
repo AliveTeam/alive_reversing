@@ -2,6 +2,7 @@
 #include "DirectX9Renderer.hpp"
 #include "../../AliveLibCommon/FatalError.hpp"
 #include "../../relive_lib/ResourceManagerWrapper.hpp"
+#include "../../relive_lib/Animation.hpp"
 
 #ifdef _WIN32
 
@@ -278,6 +279,8 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
 {
     if (poly.mCam)
     {
+        SetQuad(0.0f, 0.0f, 640.0f, 240.0f);
+
         D3DLOCKED_RECT locked = {};
         DX_VERIFY(mTexture->LockRect(0, &locked, nullptr, D3DLOCK_DISCARD));
 
@@ -294,20 +297,33 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
                 pSrc++;
             }
         }
+        DX_VERIFY(mTexture->UnlockRect(0));
+
+    }
+    else if (poly.mAnim)
+    {
+        AnimResource& r = poly.mAnim->mAnimRes;
+        if (r.mTgaPtr)
+        {
+            SetQuad(poly);
+//            SetQuad(X0(&poly), Y0(&poly), static_cast<f32>(r.mTgaPtr->mWidth), static_cast<f32>(r.mTgaPtr->mHeight));
+        }
     }
 
-    DX_VERIFY(mTexture->UnlockRect(0));
+    if (poly.mAnim)
+    {
+      
+        // select which vertex format we are using
+        DX_VERIFY(mDevice->SetFVF(CUSTOMFVF));
 
-    // select which vertex format we are using
-    DX_VERIFY(mDevice->SetFVF(CUSTOMFVF));
+        // select the vertex buffer to display
+        DX_VERIFY(mDevice->SetStreamSource(0, v_buffer, 0, sizeof(CUSTOMVERTEX)));
 
-    // select the vertex buffer to display
-    DX_VERIFY(mDevice->SetStreamSource(0, v_buffer, 0, sizeof(CUSTOMVERTEX)));
+        DX_VERIFY(mDevice->SetTexture(0, mTexture));
 
-    DX_VERIFY(mDevice->SetTexture(0, mTexture));
-
-    // copy the vertex buffer to the back buffer
-    DX_VERIFY(mDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2));
+        // copy the vertex buffer to the back buffer
+        DX_VERIFY(mDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2));
+    }
 }
 
 void DirectX9Renderer::Draw(Poly_G4& /*poly*/)
@@ -315,13 +331,13 @@ void DirectX9Renderer::Draw(Poly_G4& /*poly*/)
 
 }
 
-void DirectX9Renderer::MakeVertexBuffer()
+void DirectX9Renderer::SetQuad(f32 x, f32 y, f32 w, f32 h)
 {
     // create the vertices using the CUSTOMVERTEX struct
     CUSTOMVERTEX vertices[] = {
         {
-            0.0f,
-            0.0f,
+            x,
+            y,
             0.5f,
             1.0f,
             D3DCOLOR_XRGB(128, 128, 128), // TL
@@ -329,8 +345,8 @@ void DirectX9Renderer::MakeVertexBuffer()
             0.0f,
         },
         {
-            640.0f,
-            0.0f,
+            w,
+            y,
             0.5f,
             1.0f,
             D3DCOLOR_XRGB(128, 128, 128),
@@ -338,8 +354,8 @@ void DirectX9Renderer::MakeVertexBuffer()
             0.0f,
         },
         {
-            0.0f,
-            240.0f,
+            x,
+            h,
             0.5f,
             1.0f,
             D3DCOLOR_XRGB(128, 128, 128),
@@ -348,8 +364,8 @@ void DirectX9Renderer::MakeVertexBuffer()
         },
 
         {
-            640.0f,
-            0.0f,
+            w,
+            y,
             0.5f,
             1.0f,
             D3DCOLOR_XRGB(128, 128, 128), // TL
@@ -357,8 +373,8 @@ void DirectX9Renderer::MakeVertexBuffer()
             0.0f,
         },
         {
-            640.0f,
-            240.0f,
+            w,
+            h,
             0.5f,
             1.0f,
             D3DCOLOR_XRGB(128, 128, 128),
@@ -366,8 +382,8 @@ void DirectX9Renderer::MakeVertexBuffer()
             1.0f,
         },
         {
-            0.0f,
-            240.0f,
+            x,
+            h,
             0.5f,
             1.0f,
             D3DCOLOR_XRGB(128, 128, 128),
@@ -376,20 +392,94 @@ void DirectX9Renderer::MakeVertexBuffer()
         },
     };
 
+    VOID* pVoid = nullptr;
+
+    // lock v_buffer and load the vertices into it
+    DX_VERIFY(v_buffer->Lock(0, 0, &pVoid, 0));
+    memcpy(pVoid, vertices, sizeof(vertices));
+    DX_VERIFY(v_buffer->Unlock());
+}
+
+void DirectX9Renderer::SetQuad(Poly_FT4& poly)
+{
+    // create the vertices using the CUSTOMVERTEX struct
+    CUSTOMVERTEX vertices[] = {
+        {
+            (f32)X0(&poly),
+            (f32) Y0(&poly),
+            0.5f,
+            1.0f,
+            D3DCOLOR_XRGB(128, 128, 128), // TL
+            0.0f,
+            0.0f,
+        },
+        {
+            (f32) X1(&poly),
+            (f32) Y1(&poly),
+            0.5f,
+            1.0f,
+            D3DCOLOR_XRGB(128, 128, 128),
+            1.0f,
+            0.0f,
+        },
+        {
+            (f32) X2(&poly),
+            (f32) Y3(&poly),
+            0.5f,
+            1.0f,
+            D3DCOLOR_XRGB(128, 128, 128),
+            0.0f,
+            1.0f,
+        },
+
+        {
+            (f32) X1(&poly),
+            (f32) Y1(&poly),
+            0.5f,
+            1.0f,
+            D3DCOLOR_XRGB(128, 128, 128), // TL
+            1.0f,
+            0.0f,
+        },
+        {
+            (f32) X3(&poly),
+            (f32) Y3(&poly),
+            0.5f,
+            1.0f,
+            D3DCOLOR_XRGB(128, 128, 128),
+            1.0f,
+            1.0f,
+        },
+        {
+            (f32) X2(&poly),
+            (f32) Y2(&poly),
+            0.5f,
+            1.0f,
+            D3DCOLOR_XRGB(128, 128, 128),
+            0.0f,
+            1.0f,
+        },
+    };
+
+    VOID* pVoid = nullptr;
+
+    // lock v_buffer and load the vertices into it
+    DX_VERIFY(v_buffer->Lock(0, 0, &pVoid, 0));
+    memcpy(pVoid, vertices, sizeof(vertices));
+    DX_VERIFY(v_buffer->Unlock());
+}
+
+void DirectX9Renderer::MakeVertexBuffer()
+{
     // create a vertex buffer interface called v_buffer
-    DX_VERIFY(mDevice->CreateVertexBuffer(ALIVE_COUNTOF(vertices) * sizeof(CUSTOMVERTEX),
+    DX_VERIFY(mDevice->CreateVertexBuffer(6 * sizeof(CUSTOMVERTEX),
                                0,
                                CUSTOMFVF,
                                D3DPOOL_MANAGED,
                                &v_buffer,
                                NULL));
 
-    VOID* pVoid; // a void pointer
-
-    // lock v_buffer and load the vertices into it
-    DX_VERIFY(v_buffer->Lock(0, 0, (void**) &pVoid, 0));
-    memcpy(pVoid, vertices, sizeof(vertices));
-    DX_VERIFY(v_buffer->Unlock());
+    SetQuad(0.0f, 0.0f, 640.0f, 240.0f);
 }
 
 #endif
