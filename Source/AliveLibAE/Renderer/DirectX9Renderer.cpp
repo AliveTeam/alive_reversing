@@ -149,7 +149,10 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
         ALIVE_FATAL("Require pixel shader 3.0 or later but got %d.%d", D3DSHADER_VERSION_MAJOR(hal_caps.PixelShaderVersion), D3DSHADER_VERSION_MINOR(hal_caps.PixelShaderVersion));
     }
 
-    DX_VERIFY(mDevice->CreateRenderTarget(640, 240, D3DFMT_A8R8G8B8, D3DMULTISAMPLE_NONE, 0, FALSE, &mRenderTarget, nullptr));
+    DX_VERIFY(mDevice->CreateRenderTarget(640, 240, D3DFMT_A8R8G8B8, D3DMULTISAMPLE_NONE, 0, FALSE, &mTextureRenderTarget, nullptr));
+
+    DX_VERIFY(mDevice->GetRenderTarget(0, &mScreenRenderTarget));
+    DX_VERIFY(mDevice->SetRenderTarget(0, mTextureRenderTarget));
 
     //mDevice->CreatePixelShader()
     //mDevice->SetPixelShader();
@@ -184,7 +187,6 @@ void DirectX9Renderer::Clear(u8 /*r*/, u8 /*g*/, u8 /*b*/)
 
 void DirectX9Renderer::StartFrame(s32 /*xOff*/, s32 /*yOff*/)
 {
-    DX_VERIFY(mDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(128, 0, 0), 1.0f, 0));
     if (!mFrameStarted)
     {
         mFrameStarted = true;
@@ -192,8 +194,10 @@ void DirectX9Renderer::StartFrame(s32 /*xOff*/, s32 /*yOff*/)
         // TODO: the 1st call fails :)
         mDevice->BeginScene();
 
-       // mDevice->SetRenderTarget(0, mRenderTarget);
+        // Draw everything to the texture
+        mDevice->SetRenderTarget(0, mTextureRenderTarget);
 
+        DX_VERIFY(mDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(128, 0, 0), 1.0f, 0));
     }
 }
 
@@ -201,11 +205,13 @@ void DirectX9Renderer::EndFrame()
 {
     if (mFrameStarted)
     {
-
         DX_VERIFY(mDevice->EndScene());
 
-        //mDevice->SetRenderTarget(0, nullptr);
+        // Render to the screen instead of the texture
+        DX_VERIFY(mDevice->SetRenderTarget(0, mScreenRenderTarget));
 
+        // Copy the rendered to texture to the entire screen
+        mDevice->StretchRect(mTextureRenderTarget, NULL, mScreenRenderTarget, NULL, D3DTEXF_NONE);
 
         DX_VERIFY(mDevice->Present(NULL, NULL, NULL, NULL));
         // SDL_RenderPresent(mRenderer);
