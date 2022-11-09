@@ -549,8 +549,6 @@ void OpenGLRenderer::Draw(Prim_Tile& tile)
 
 void OpenGLRenderer::Draw(Line_F2& line)
 {
-    static const f32 lineThickness = 1;
-
     if (!gRenderEnable_F2)
     {
         return;
