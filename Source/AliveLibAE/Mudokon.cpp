@@ -1220,7 +1220,7 @@ Mudokon::~Mudokon()
 
         if (field_168_ring_type == RingTypes::eHealing_Emit_Effect_11)
         {
-            sActiveHero->field_1AC_flags.Set(Abe::e1AC_eBit15_have_healing);
+            sActiveHero->mHaveHealing = true;
         }
     }
 
@@ -1830,7 +1830,7 @@ s16 Mudokon::Brain_0_GiveRings()
 
                 if (field_168_ring_type == RingTypes::eHealing_Emit_Effect_11)
                 {
-                    sActiveHero->field_1AC_flags.Set(Abe::e1AC_eBit15_have_healing);
+                    sActiveHero->mHaveHealing = true;
                 }
 
                 mNextMotion = eMudMotions::Motion_0_Idle;

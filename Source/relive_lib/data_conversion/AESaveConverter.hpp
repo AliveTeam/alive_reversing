@@ -1915,9 +1915,9 @@ struct AbeSaveState final
     u32 mBirdPortalId;
     enum Flags_D4
     {
-        eD4_Bit1_lift_point_dead_while_using_lift = 0x1,
+        eD4_Bit1_lift_point_dead_while_using_lift = 0x1, // unused
         eD4_Bit2_return_to_previous_motion = 0x2,
-        eD4_Bit3_WalkToRun = 0x4,
+        eD4_Bit3_WalkToRun = 0x4, // unused
         eD4_Bit4_unused = 0x8,
         eD4_Bit5_prevent_chanting = 0x10,
         eD4_Bit6_land_softly = 0x20,
@@ -1928,8 +1928,8 @@ struct AbeSaveState final
         eD4_Bit11_unused = 0x400,
         eD4_Bit12_have_healing = 0x800,
         eD4_eBit13_teleporting = 0x1000,
-        eD4_eBit14_is_mudanchee_vault_ender = 0x2000,
-        eD4_eBit15_is_mudomo_vault_ender = 0x4000,
+        eD4_eBit14_mudanchee_done = 0x2000,
+        eD4_eBit15_mudomo_done = 0x4000,
         eD4_eBit16_shadow_enabled = 0x8000,
     };
     BitField16<Flags_D4> field_D4_flags;
@@ -1981,7 +1981,7 @@ struct AbeSaveState final
         d.mAutoSayTimer = data.mAutoSayTimer;
         d.mRingPulseTimer = data.mRingPulseTimer;
         d.mBaseThrowableCount = data.mBaseThrowableCount;
-        d.bShrivel = data.bShrivel;
+        d.mShrivel = data.bShrivel;
         d.mHaveShrykull = data.mHaveShrykull;
         d.bHaveInvisiblity = data.bHaveInvisiblity;
         d.mPrevHeld = data.mPrevHeld;
@@ -2012,8 +2012,23 @@ struct AbeSaveState final
         d.mThrowDirection = data.mThrowDirection;
         d.mBirdPortalSubState = data.mBirdPortalSubState;
         d.mBirdPortalId = Guid::NewGuidFromTlvInfo(data.mBirdPortalId);
-        d.field_D4_flags.Raw().all = data.field_D4_flags.Raw().all; // TODO: convert flags to bools
-        d.field_D6_flags.Raw().all = data.field_D6_flags.Raw().all; // dito
+
+        if (data.field_D4_flags.Get(Flags_D4::eD4_Bit9_unused))
+        {
+            ALIVE_FATAL("never expected Flags_D4::eD4_Bit9_unused to be set");
+        }
+
+        d.mReturnToPreviousMotion = data.field_D4_flags.Get(Flags_D4::eD4_Bit2_return_to_previous_motion);
+        d.mPreventChanting = data.field_D4_flags.Get(Flags_D4::eD4_Bit5_prevent_chanting);
+        d.mLandSoftly = data.field_D4_flags.Get(Flags_D4::eD4_Bit6_land_softly);
+        d.mLaughAtChantEnd = data.field_D4_flags.Get(Flags_D4::eD4_Bit8_laugh_at_chant_end);
+        d.mPlayLedgeGrabSounds = data.field_D4_flags.Get(Flags_D4::eD4_Bit10_play_ledge_grab_sounds);
+        d.mHaveHealing = data.field_D4_flags.Get(Flags_D4::eD4_Bit12_have_healing);
+        d.mTeleporting = data.field_D4_flags.Get(Flags_D4::eD4_eBit13_teleporting);
+        d.mMudancheeDone = data.field_D4_flags.Get(Flags_D4::eD4_eBit14_mudanchee_done);
+        d.mMudomoDone = data.field_D4_flags.Get(Flags_D4::eD4_eBit15_mudomo_done);
+        d.mShadowEnabled = data.field_D4_flags.Get(Flags_D4::eD4_eBit16_shadow_enabled);
+        d.mShadowAtBottom = data.field_D6_flags.Get(Flags_D6::eD6_Bit1_shadow_at_bottom);
         return d;
     }
 

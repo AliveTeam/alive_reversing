@@ -329,10 +329,7 @@ struct AbeSaveState final
     u16 mIsElectrocuted;
     u16 mIsInvisible;
     s8 mIsAbeControlled;
-    s8 field_45_padding;
-    s16 field_46_padding;
     FP field_48_x_vel_slow_by;
-    u32 field_4C_unused;
     u32 field_50_state;
     u32 field_54_timer;
     u32 field_58_abe_timer;
@@ -342,7 +339,7 @@ struct AbeSaveState final
     u32 mAutoSayTimer;
     u32 mRingPulseTimer;
     s8 mBaseThrowableCount;
-    s8 bShrivel;
+    bool mShrivel;
     s8 mHaveShrykull;
     s8 bHaveInvisiblity;
     u16 mPrevHeld;
@@ -359,58 +356,32 @@ struct AbeSaveState final
     Guid mSlappableOrPickupId;
     Guid mWorkWheelId;
     u32 mInvisibilityTimer;
-    u16 field_A0_unused;
     u16 mInvisibilityDuration;
     s8 mHandStoneCamIdx;
-    s8 field_A5_padding;
-    s16 field_A6_padding;
     ReliveTypes mHandStoneType;
     u16 mFmvId;
     u16 mHandStoneCam1;
     u16 mHandStoneCam2;
     u16 mHandStoneCam3;
-    u16 field_B4_unused;
-    u16 field_B6_unused;
-    u16 field_B8_unused;
-    u16 field_BA_unused;
-    u16 field_BC_unused;
-    u16 field_BE_unused;
     u16 mHasEvilFart;
     EReliveLevelIds mDstWellLevel;
     u16 mDstWellPath;
     u16 mDstWellCamera;
     u16 door_id;
     s8 mThrowDirection;
-    s8 field_CB_padding;
     u16 mBirdPortalSubState;
-    s16 field_CE_padding;
     Guid mBirdPortalId;
-    enum Flags_D4
-    {
-        eD4_Bit1_lift_point_dead_while_using_lift = 0x1,
-        eD4_Bit2_return_to_previous_motion = 0x2,
-        eD4_Bit3_WalkToRun = 0x4,
-        eD4_Bit4_unused = 0x8,
-        eD4_Bit5_prevent_chanting = 0x10,
-        eD4_Bit6_land_softly = 0x20,
-        eD4_Bit7_unused = 0x40,
-        eD4_Bit8_laugh_at_chant_end = 0x80,
-        eD4_Bit9_unused = 0x100,
-        eD4_Bit10_play_ledge_grab_sounds = 0x200,
-        eD4_Bit11_unused = 0x400,
-        eD4_Bit12_have_healing = 0x800,
-        eD4_eBit13_teleporting = 0x1000,
-        eD4_eBit14_is_mudanchee_vault_ender = 0x2000,
-        eD4_eBit15_is_mudomo_vault_ender = 0x4000,
-        eD4_eBit16_shadow_enabled = 0x8000,
-    };
-    BitField16<Flags_D4> field_D4_flags;
-
-    enum Flags_D6
-    {
-        eD6_Bit1_shadow_at_bottom = 0x1
-    };
-    BitField16<Flags_D6> field_D6_flags;
+    bool mReturnToPreviousMotion;
+    bool mPreventChanting;
+    bool mLandSoftly;
+    bool mLaughAtChantEnd;
+    bool mPlayLedgeGrabSounds;
+    bool mHaveHealing;
+    bool mTeleporting;
+    bool mMudancheeDone;
+    bool mMudomoDone;
+    bool mShadowEnabled;
+    bool mShadowAtBottom;
 };
 
 class Bullet;
@@ -439,26 +410,14 @@ public:
 
     static s32 CreateFromSaveState(const u8* pData);
 
-    enum Flags_1AC
-    {
-        e1AC_Bit1_lift_point_dead_while_using_lift = 0x1,
-        e1AC_Bit2_return_to_previous_motion = 0x2,
-        e1AC_Bit3_WalkToRun = 0x4,
-        e1AC_Bit4_unused = 0x8,
-        e1AC_Bit5_shrivel = 0x10,
-        e1AC_Bit6_prevent_chanting = 0x20,
-        e1AC_Bit7_land_softly = 0x40,
-        e1AC_Bit8_unused = 0x80,
-        e1AC_Bit9_laugh_at_chant_end = 0x100,
-        e1AC_Bit10_padding = 0x200,
-        e1AC_Bit11_padding = 0x400,
-        e1AC_Bit12_unused = 0x800,
-        e1AC_eBit13_play_ledge_grab_sounds = 0x1000,
-        e1AC_eBit14_unused = 0x2000,
-        e1AC_eBit15_have_healing = 0x4000,
-        e1AC_eBit16_is_mudanchee_vault_ender = 0x8000,
-    };
-    BitField16<Flags_1AC> field_1AC_flags = {};
+    bool mShrivel = false;
+    bool mReturnToPreviousMotion = false;
+    bool mPreventChanting = false;
+    bool mLandSoftly = false;
+    bool mLaughAtChantEnd = false;
+    bool mPlayLedgeGrabSounds = false;
+    bool mHaveHealing = false;
+    bool mMudancheeDone = false;
     Abe_1BC_20_sub_object field_128 = {};
     s32 field_124_timer = 0;
     Guid mBirdPortalId;
@@ -664,32 +623,18 @@ private:
     Guid mSlappableOrPickupId;
     Guid mWorkWheelId;
     s32 mInvisibilityTimer = 0;
-    s16 field_174_unused = 0;
     Guid mInvisibleEffectId;
     s8 mHandStoneCamIdx = 0;
     ReliveTypes mHandStoneType = {};
     s16 mFmvId = 0;
     s16 mHandStoneCams[3] = {};
-    s16 field_18C_unused = 0;
-    s16 field_18E_unused = 0;
-    s16 field_190_unused = 0;
-    s16 field_192_unused = 0;
-    s16 field_194_unused = 0;
-    s16 field_196_unused = 0;
     s16 mHasEvilFart = 0;
     EReliveLevelIds mDstWellLevel = EReliveLevelIds::eNone;
     s16 mDstWellPath = 0;
     s16 mDstWellCamera = 0;
     PortalSubStates mBirdPortalSubState = PortalSubStates::eJumpingInsidePortal_0;
-    s16 field_1A6_padding = 0;
-
-    enum Flags_1AE
-    {
-        e1AE_Bit1_is_mudomo_vault_ender = 0x1,
-        e1AE_Bit2_do_quicksave = 0x2,
-    };
-    BitField16<Flags_1AE> field_1AE_flags = {};
-
+    bool mDoQuicksave = false;
+    bool mMudomoDone = false;
     s16 mSaveFileId = 0;
 
     using TAbeMotionFunction = decltype(&Abe::Motion_0_Idle_44EEB0);

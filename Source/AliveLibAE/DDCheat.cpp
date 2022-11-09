@@ -239,7 +239,7 @@ void DDCheat::VUpdate()
                 sActiveHero->mXPos = FP_FromInteger(pos.x + 184);
                 sActiveHero->mYPos = FP_FromInteger(pos.y + 60);
                 sActiveHero->mCurrentMotion = 3;
-                sActiveHero->field_1AC_flags.Set(Abe::e1AC_Bit7_land_softly);
+                sActiveHero->mLandSoftly = true;
                 sActiveHero->mCurrentLevel = MapWrapper::FromAE(static_cast<LevelIds>(sTeleport_Level_550F5C));
                 sActiveHero->mCurrentPath = sTeleport_Path_550F5E;
                 sDDCheat_FlyingEnabled_5C2C08 = false;
@@ -272,7 +272,7 @@ void DDCheat::VUpdate()
             {
                 if (IsActiveHero(sControlledCharacter))
                 {
-                    sActiveHero->field_1AC_flags.Set(Abe::e1AC_Bit7_land_softly);
+                    sActiveHero->mLandSoftly = true;
                 }
                 sControlledCharacter->BaseAliveGameObjectCollisionLine = nullptr;
                 sControlledCharacter->BaseAliveGameObjectLastLineYPos = sControlledCharacter->mYPos;
@@ -326,7 +326,7 @@ void DDCheat::VUpdate()
 
                 if (IsActiveHero(sControlledCharacter))
                 {
-                    sActiveHero->field_1AC_flags.Set(Abe::e1AC_Bit7_land_softly);
+                    sActiveHero->mLandSoftly = true;
                 }
 
                 sControlledCharacter->BaseAliveGameObjectCollisionLine = nullptr;

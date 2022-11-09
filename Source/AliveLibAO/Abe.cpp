@@ -3002,7 +3002,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
                     GetSpriteScale());
 
                 GetAnimation().mFlags.Clear(AnimFlags::eRender);
-                GetShadow()->mFlags.Clear(Shadow::eEnabled);
+                GetShadow()->mEnabled = false;
             }
             break;
 
@@ -4122,7 +4122,7 @@ void Abe::Motion_3_Fall()
             mYPos = hitY;
             BaseAliveGameObjectCollisionLine = pPathLine;
             mCurrentMotion = eAbeMotions::Motion_68_LedgeHangWobble;
-            GetShadow()->mFlags.Set(Shadow::Flags::eShadowAtBottom);
+            GetShadow()->mShadowAtBottom = true;
         }
     }
 }
@@ -4357,7 +4357,7 @@ void Abe::Motion_17_HoistIdle()
                         return;
                     }
                     mYPos -= GetSpriteScale() * FP_FromInteger(80);
-                    GetShadow()->mFlags.Set(Shadow::Flags::eShadowAtBottom);
+                    GetShadow()->mShadowAtBottom = true;
                 }
 
                 mCurrentMotion = eAbeMotions::Motion_66_LedgeHang;
@@ -4392,7 +4392,7 @@ void Abe::Motion_17_HoistIdle()
                                 gPlatformsArray);
                         }
                     }
-                    GetShadow()->mFlags.Set(Shadow::Flags::eShadowAtBottom);
+                    GetShadow()->mShadowAtBottom = true;
                 }
                 else
                 {
@@ -5279,7 +5279,7 @@ void Abe::Motion_33_RunJumpMid()
                 MapFollowMe(true);
                 mYPos = hitY;
                 mCurrentMotion = eAbeMotions::Motion_68_LedgeHangWobble;
-                GetShadow()->mFlags.Set(Shadow::Flags::eShadowAtBottom);
+                GetShadow()->mShadowAtBottom = true;
                 BaseAliveGameObjectCollisionLine = pLine;
                 mVelX = FP_FromInteger(0);
                 mVelY = FP_FromInteger(0);
@@ -6395,7 +6395,7 @@ void Abe::Motion_60_Dead()
                     field_168_ring_pulse_timer = 0;
                 }
                 field_130_say = -1;
-                GetShadow()->mFlags.Clear(Shadow::Flags::eEnabled);
+                GetShadow()->mEnabled = false;
             }
             return;
         }
@@ -6579,8 +6579,8 @@ void Abe::Motion_61_Respawn()
         {
             if (static_cast<s32>(sGnFrame) > field_118_timer)
             {
-                GetShadow()->mFlags.Set(Shadow::Flags::eEnabled);
-                GetShadow()->mFlags.Clear(Shadow::Flags::eShadowAtBottom);
+                GetShadow()->mEnabled = true;
+                GetShadow()->mShadowAtBottom = false;
                 MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
                 field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
                 GetAnimation().mFlags.Set(AnimFlags::eRender);
@@ -6782,7 +6782,7 @@ void Abe::Motion_64_LedgeAscend()
     if (GetAnimation().GetCurrentFrame() == 4)
     {
         Environment_SFX_42A220(EnvironmentSfx::eRunJumpOrLedgeHoist_11, 0, 0x7FFF, this);
-        GetShadow()->mFlags.Clear(Shadow::eShadowAtBottom);
+        GetShadow()->mShadowAtBottom = false;
     }
     else if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
@@ -6798,7 +6798,7 @@ void Abe::Motion_65_LedgeDescend()
     if (GetAnimation().GetCurrentFrame() == 2)
     {
         Environment_SFX_42A220(EnvironmentSfx::eRunJumpOrLedgeHoist_11, 0, 0x7FFF, this);
-        GetShadow()->mFlags.Toggle(Shadow::eShadowAtBottom);
+        GetShadow()->mShadowAtBottom = !GetShadow()->mShadowAtBottom;
     }
     else if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
@@ -6810,7 +6810,7 @@ void Abe::Motion_66_LedgeHang()
 {
     FollowLift_42EE90();
 
-    GetShadow()->mFlags.Set(Shadow::eShadowAtBottom);
+    GetShadow()->mShadowAtBottom = true;
 
     if (Input().IsAnyPressed(sInputKey_Up))
     {
@@ -6824,7 +6824,7 @@ void Abe::Motion_66_LedgeHang()
         mCurrentMotion = eAbeMotions::Motion_91_FallingFromGrab;
         mYPos += (GetSpriteScale() * FP_FromInteger(80)) + FP_FromInteger(3);
         BaseAliveGameObjectLastLineYPos = mYPos;
-        GetShadow()->mFlags.Clear(Shadow::eShadowAtBottom);
+        GetShadow()->mShadowAtBottom = false;
     }
 }
 
@@ -6834,7 +6834,7 @@ void Abe::Motion_67_ToOffScreenHoist()
 
     mYPos -= (GetSpriteScale() * FP_FromInteger(80));
 
-    GetShadow()->mFlags.Toggle(Shadow::eShadowAtBottom);
+    GetShadow()->mShadowAtBottom = !GetShadow()->mShadowAtBottom;
 
     PathLine* pLine = nullptr;
     FP hitX = {};
@@ -6919,7 +6919,7 @@ void Abe::Motion_68_LedgeHangWobble()
 
             mCurrentMotion = eAbeMotions::Motion_91_FallingFromGrab;
             mYPos += (GetSpriteScale() * FP_FromInteger(80)) + FP_FromInteger(3);
-            GetShadow()->mFlags.Clear(Shadow::eShadowAtBottom);
+            GetShadow()->mShadowAtBottom = false;
             BaseAliveGameObjectLastLineYPos = mYPos;
         }
         else if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
@@ -7072,7 +7072,7 @@ void Abe::Motion_73_RollingKnockback()
 
 void Abe::Motion_74_JumpIntoWell()
 {
-    GetShadow()->mFlags.Clear(Shadow::Flags::eEnabled);
+    GetShadow()->mEnabled = false;
 
     if (GetSpriteScale() == FP_FromDouble(0.5))
     {
@@ -7101,7 +7101,7 @@ void Abe::Motion_77_WellBegin()
     EventBroadcast(kEventNoise, this);
     if (GetAnimation().GetCurrentFrame() > 10)
     {
-        GetShadow()->mFlags.Clear(Shadow::Flags::eEnabled);
+        GetShadow()->mEnabled = false;
 
         BaseAliveGameObjectPathTLV = gMap.VTLV_Get_At(
             FP_GetExponent(mXPos),
@@ -7296,7 +7296,7 @@ void Abe::Motion_79_WellShotOut()
             GetAnimation().SetRenderLayer(Layer::eLayer_AbeMenu_32);
         }
 
-        GetShadow()->mFlags.Set(Shadow::eEnabled);
+        GetShadow()->mEnabled = true;
     }
 
     if (mCurrentMotion == eAbeMotions::Motion_86_FallLandDie)
@@ -7850,7 +7850,7 @@ void Abe::Motion_92_ForceDownFromHoist()
     if (field_114_gnFrame == 0)
     {
         mYPos += (GetSpriteScale() * FP_FromInteger(80));
-        GetShadow()->mFlags.Clear(Shadow::eShadowAtBottom);
+        GetShadow()->mShadowAtBottom = false;
         VOnTrapDoorOpen();
         BaseAliveGameObjectCollisionLine = nullptr;
         BaseAliveGameObjectLastLineYPos = mYPos;
@@ -8420,7 +8420,7 @@ void Abe::Motion_136_ElumMountEnd()
         mCurrentMotion = eAbeMotions::Motion_103_ElumIdle;
         sControlledCharacter = gElum;
         MusicController::static_PlayMusic(MusicController::MusicTypes::eAbeOnElum_1, nullptr, 0, 0);
-        sActiveHero->GetShadow()->mFlags.Clear(Shadow::Flags::eEnabled);
+        sActiveHero->GetShadow()->mEnabled = false;
         Environment_SFX_42A220(EnvironmentSfx::eAbeMountedElumNoise_19, 0, 0x7FFF, this);
     }
 }
@@ -8506,7 +8506,7 @@ void Abe::Motion_138_ElumUnmountEnd()
         }
         sControlledCharacter = sActiveHero;
         MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
-        sActiveHero->GetShadow()->mFlags.Clear(Shadow::Flags::eEnabled);
+        sActiveHero->GetShadow()->mEnabled = false;
         ToIdle_422D50();
     }
 }

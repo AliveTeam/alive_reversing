@@ -1287,7 +1287,7 @@ inline void to_json(nlohmann::json& j, const AbeSaveState& p)
         {"auto_say_timer", p.mAutoSayTimer},
         {"ring_pulse_timer", p.mRingPulseTimer},
         {"base_throwable_count", p.mBaseThrowableCount},
-        {"shrivel", p.bShrivel},
+        {"shrivel", p.mShrivel},
         {"have_shrykull", p.mHaveShrykull},
         {"have_invisibility", p.bHaveInvisiblity},
         {"prev_held", p.mPrevHeld},
@@ -1360,7 +1360,7 @@ inline void from_json(const nlohmann::json& j, AbeSaveState& p)
     j.at("auto_say_timer").get_to(p.mAutoSayTimer);
     j.at("ring_pulse_timer").get_to(p.mRingPulseTimer);
     j.at("base_throwable_count").get_to(p.mBaseThrowableCount);
-    j.at("shrivel").get_to(p.bShrivel);
+    j.at("shrivel").get_to(p.mShrivel);
     j.at("have_shrykull").get_to(p.mHaveShrykull);
     j.at("have_invisibility").get_to(p.bHaveInvisiblity);
     j.at("prev_held").get_to(p.mPrevHeld);
