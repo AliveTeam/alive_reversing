@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../IRenderer.hpp"
+#include "../TextureCache.hpp"
 
 #include <GL/glew.h>
 #include <memory>
@@ -59,24 +60,12 @@ struct VertexData final
     u32 paletteIndex, textureUnitIndex;
 };
 
-struct TextureCache final
+class OpenGLTextureCache final : public TextureCache<GLuint>
 {
-    GLuint mTextureID;
+public:
+    void DeleteTexture(GLuint texture) override;
 };
 
-struct PaletteCache final
-{
-    u32 mPalTextureID;
-    PSX_Point mPalPoint;
-    s16 mPalDepth;
-    RGBA32 mPalData[256];
-};
-
-struct TextureAndUniqueResId final
-{
-    GLuint mTextureId = 0;
-    u32 mUniqueResId = 0;
-};
 
 class OpenGLRenderer final : public IRenderer
 {
@@ -190,7 +179,6 @@ private:
     void CreateFramebuffer(GLuint* outFramebufferId, GLuint* outTextureId, s32 width, s32 height);
     void DecreaseResourceLifetimes();
     void DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height);
-    GLuint GetCachedTextureId(u32 uniqueId, s32 bump = 0);
     SDL_Rect GetTargetDrawRect();
     u16 GetTPageBlendMode(u16 tPage);
     void InvalidateBatch();
@@ -210,12 +198,7 @@ private:
 
     GLuint mVAO = 0;
 
-    struct CachedTexture final
-    {
-        GLuint mTextureId = 0;
-        s32 mLifetime = 0;
-    };
-    std::map<u32, CachedTexture> mTextureCache;
+    OpenGLTextureCache mTextureCache;
 
     void DebugWindow();
 };

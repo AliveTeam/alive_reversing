@@ -32,6 +32,11 @@ static bool gRenderEnable_F2 = true;
 static const f32 pi = 3.14f;
 static const f32 halfPi = 1.57f;
 
+void OpenGLTextureCache::DeleteTexture(GLuint texture)
+{
+    GL_VERIFY(glDeleteTextures(1, &texture));
+}
+
 static GLuint Renderer_CreateTexture(GLenum interpolation = GL_NEAREST)
 {
     GLuint textureId = 0;
@@ -120,45 +125,16 @@ u32 OpenGLRenderer::HashPalette(const AnimationPal* pPal)
 
 GLuint OpenGLRenderer::CreateCachedTexture(u32 uniqueId, u32 lifetime)
 {
-    CachedTexture newTex;
     const GLuint texId = Renderer_CreateTexture();
-
-    newTex.mTextureId = texId;
-    newTex.mLifetime = lifetime;
-
-    mTextureCache[uniqueId] = newTex;
-
-    return texId;
+    return mTextureCache.Add(uniqueId, lifetime, texId);
 }
 
-GLuint OpenGLRenderer::GetCachedTextureId(u32 uniqueId, s32 bump)
-{
-    auto it = mTextureCache.find(uniqueId);
-
-    if (it == mTextureCache.end())
-    {
-        return 0;
-    }
-
-    if (bump > 0)
-    {
-        // Bump!
-        CachedTexture bumpTex;
-
-        bumpTex.mTextureId = it->second.mTextureId;
-        bumpTex.mLifetime = bump;
-
-        mTextureCache[uniqueId] = bumpTex;
-    }
-
-    return it->second.mTextureId;
-}
 
 u32 OpenGLRenderer::PrepareTextureFromAnim(Animation& anim)
 {
     const AnimResource& r = anim.mAnimRes;
 
-    u32 textureId = GetCachedTextureId(r.mUniqueId.Id(), GL_SPRITE_TEXTURE_LIFETIME);
+    u32 textureId = mTextureCache.GetCachedTextureId(r.mUniqueId.Id(), GL_SPRITE_TEXTURE_LIFETIME);
 
     if (textureId == 0)
     {
@@ -180,7 +156,7 @@ u32 OpenGLRenderer::PrepareTextureFromPoly(Poly_FT4& poly)
 
     if (poly.mFg1)
     {
-        textureId = GetCachedTextureId(poly.mFg1->mUniqueId.Id(), GL_CAM_TEXTURE_LIFETIME);
+        textureId = mTextureCache.GetCachedTextureId(poly.mFg1->mUniqueId.Id(), GL_CAM_TEXTURE_LIFETIME);
 
         if (textureId == 0)
         {
@@ -195,7 +171,7 @@ u32 OpenGLRenderer::PrepareTextureFromPoly(Poly_FT4& poly)
     }
     else if (poly.mCam)
     {
-        textureId = GetCachedTextureId(poly.mCam->mUniqueId.Id(), GL_CAM_TEXTURE_LIFETIME);
+        textureId = mTextureCache.GetCachedTextureId(poly.mCam->mUniqueId.Id(), GL_CAM_TEXTURE_LIFETIME);
 
         if (textureId == 0)
         {
@@ -214,7 +190,7 @@ u32 OpenGLRenderer::PrepareTextureFromPoly(Poly_FT4& poly)
     }
     else if (poly.mFont)
     {
-        textureId = GetCachedTextureId(poly.mFont->field_C_resource_id.mUniqueId.Id(), GL_SPRITE_TEXTURE_LIFETIME);
+        textureId = mTextureCache.GetCachedTextureId(poly.mFont->field_C_resource_id.mUniqueId.Id(), GL_SPRITE_TEXTURE_LIFETIME);
 
         if (textureId == 0)
         {
@@ -426,11 +402,7 @@ void OpenGLRenderer::Destroy()
 {
     ImGui_ImplSDL2_Shutdown();
 
-    for (auto& it : mTextureCache)
-    {
-        GL_VERIFY(glDeleteTextures(1, &it.second.mTextureId));
-    }
-    mTextureCache.clear();
+    mTextureCache.Clear();
 
     GL_VERIFY(glUseProgram(0));
 
@@ -943,20 +915,7 @@ void OpenGLRenderer::DecreaseResourceLifetimes()
     mScreenWaveData.clear();
     mScreenWaveIndicies.clear();
 
-    // Check texture lifetimes
-    auto it = mTextureCache.begin();
-    while (it != mTextureCache.end())
-    {
-        if (it->second.mLifetime-- <= 0)
-        {
-            GL_VERIFY(glDeleteTextures(1, &it->second.mTextureId));
-            it = mTextureCache.erase(it);
-        }
-        else
-        {
-            it++;
-        }
-    }
+    mTextureCache.DecreaseResourceLifetimes();
 
     for (auto iter = mPaletteCache.begin(); iter != mPaletteCache.end(); iter++)
     {
