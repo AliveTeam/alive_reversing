@@ -3,13 +3,23 @@
 #ifdef _WIN32
 
     #include "IRenderer.hpp"
+    #include "TextureCache.hpp"
+    #include "PaletteCache.hpp"
+
     #undef DIRECT3D_VERSION
     #define DIRECT3D_VERSION 0x0900
     #include <d3d9.h>
 
+class DirectX9TextureCache final : public TextureCache<IDirect3DTexture9*>
+{
+public:
+    void DeleteTexture(IDirect3DTexture9* texture) override;
+};
+
 class DirectX9Renderer final : public IRenderer
 {
 public:
+    DirectX9Renderer();
     void Destroy() override;
     bool Create(TWindowHandleType window) override;
     void Clear(u8 r, u8 g, u8 b) override;
@@ -34,10 +44,14 @@ public:
     void Draw(Poly_G4& poly) override;
 
 private:
+    void DecreaseResourceLifetimes();
+
     void MakeVertexBuffer();
-    IDirect3DTexture9* MakeTexture(const char* fileName);
     void SetQuad(f32 x, f32 y, f32 w, f32 h);
     void SetQuad(Poly_FT4& poly);
+
+
+    IDirect3DTexture9* PrepareTextureFromAnim(Animation& anim);
 
     bool mFrameStarted = false;
 
@@ -50,6 +64,10 @@ private:
     IDirect3DPixelShader9* mPixelShader = nullptr;
 
     LPDIRECT3DVERTEXBUFFER9 v_buffer = NULL;
+
+    IDirect3DTexture9* mPaletteTexture = nullptr;
+    PaletteCache mPaletteCache;
+    DirectX9TextureCache mTextureCache;
 };
 
 #endif

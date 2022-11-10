@@ -20,6 +20,8 @@ struct CUSTOMVERTEX
 };
 #define CUSTOMFVF (D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1)
 
+#define DX_SPRITE_TEXTURE_LIFETIME 300
+
 #define DX_DEBUG 1
 
 #if DX_DEBUG > 0
@@ -34,6 +36,17 @@ struct CUSTOMVERTEX
 #else
     #define DX_VERIFY(x) (x);
 #endif
+
+void DirectX9TextureCache::DeleteTexture(IDirect3DTexture9* texture)
+{
+    texture->Release();
+}
+
+DirectX9Renderer::DirectX9Renderer()
+    : mPaletteCache(512)
+{
+
+}
 
 void DirectX9Renderer::Destroy()
 {
@@ -50,27 +63,6 @@ void DirectX9Renderer::Destroy()
     }
 }
 
-// TODO: Temp test code
-IDirect3DTexture9* DirectX9Renderer::MakeTexture(const char* fileName)
-{
-    IDirect3DTexture9* d3dTexture;
-    D3DXIMAGE_INFO SrcInfo; // Optional
-
-    // Use a magenta colourkey
-    D3DCOLOR colorkey = 0xFFFF00FF;
-
-    // Load image from file
-    HRESULT hr = D3DXCreateTextureFromFileEx(mDevice, fileName, 140, 140, 0, 0,
-                                             D3DFMT_UNKNOWN, D3DPOOL_DEFAULT, D3DX_FILTER_NONE, D3DX_DEFAULT,
-                                             colorkey, &SrcInfo, NULL, &d3dTexture);
-    if (FAILED(hr))
-    {
-        return NULL;
-    }
-
-    // Return the newly made texture
-    return d3dTexture;
-}
 
 bool DirectX9Renderer::Create(TWindowHandleType window)
 {
@@ -160,10 +152,6 @@ const char* prog = R"(
     DX_VERIFY(mDevice->GetRenderTarget(0, &mScreenRenderTarget));
     DX_VERIFY(mDevice->SetRenderTarget(0, mTextureRenderTarget));
 
-    //mDevice->CreatePixelShader()
-    //mDevice->SetPixelShader();
-
-    //mTexture = MakeTexture("C:\\Data\\Poggings.bmp");
     DX_VERIFY(mDevice->CreateTexture(640, 240, 0, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &mTexture, nullptr));
 
     D3DLOCKED_RECT locked = {};
@@ -188,7 +176,6 @@ const char* prog = R"(
 void DirectX9Renderer::Clear(u8 /*r*/, u8 /*g*/, u8 /*b*/)
 {
     //mDevice->Clear(0, nullptr, D3DCLEAR_ZBUFFER | D3DCLEAR_TARGET | D3DCLEAR_STENCIL, D3DCOLOR_XRGB(r, g, b), 1.0f, 0);
-
 }
 
 void DirectX9Renderer::StartFrame(s32 /*xOff*/, s32 /*yOff*/)
@@ -226,6 +213,10 @@ void DirectX9Renderer::EndFrame()
 
         mFrameStarted = false;
     }
+
+    // Always decrease resource lifetimes regardless of drawing to prevent
+    // memory leaks
+    DecreaseResourceLifetimes();
 }
 
 void DirectX9Renderer::OutputSize(s32* w, s32* h)
@@ -291,6 +282,8 @@ void DirectX9Renderer::Draw(Poly_F4& /*poly*/)
 
 void DirectX9Renderer::Draw(Poly_FT4& poly)
 {
+    IDirect3DTexture9* pTextureToUse = mTexture;
+
     if (poly.mCam && !poly.mFg1)
     {
         SetQuad(0.0f, 0.0f, 640.0f, 240.0f);
@@ -316,12 +309,8 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
     }
     else if (poly.mAnim)
     {
-        AnimResource& r = poly.mAnim->mAnimRes;
-        if (r.mTgaPtr)
-        {
-            SetQuad(poly);
-//            SetQuad(X0(&poly), Y0(&poly), static_cast<f32>(r.mTgaPtr->mWidth), static_cast<f32>(r.mTgaPtr->mHeight));
-        }
+        pTextureToUse = PrepareTextureFromAnim(*poly.mAnim);
+        SetQuad(poly);
     }
 
     if ((poly.mCam && !poly.mFg1) || poly.mAnim)
@@ -333,7 +322,7 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
         // select the vertex buffer to display
         DX_VERIFY(mDevice->SetStreamSource(0, v_buffer, 0, sizeof(CUSTOMVERTEX)));
 
-        DX_VERIFY(mDevice->SetTexture(0, mTexture));
+        DX_VERIFY(mDevice->SetTexture(0, pTextureToUse));
 
         // copy the vertex buffer to the back buffer
         DX_VERIFY(mDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2));
@@ -483,6 +472,13 @@ void DirectX9Renderer::SetQuad(Poly_FT4& poly)
     DX_VERIFY(v_buffer->Unlock());
 }
 
+void DirectX9Renderer::DecreaseResourceLifetimes()
+{
+    mTextureCache.DecreaseResourceLifetimes();
+
+    mPaletteCache.ResetUseFlags();
+}
+
 void DirectX9Renderer::MakeVertexBuffer()
 {
     // create a vertex buffer interface called v_buffer
@@ -494,6 +490,44 @@ void DirectX9Renderer::MakeVertexBuffer()
                                NULL));
 
     SetQuad(0.0f, 0.0f, 640.0f, 240.0f);
+}
+
+
+IDirect3DTexture9* DirectX9Renderer::PrepareTextureFromAnim(Animation& anim)
+{
+    const AnimResource& r = anim.mAnimRes;
+
+    IDirect3DTexture9* textureId = mTextureCache.GetCachedTextureId(r.mUniqueId.Id(), DX_SPRITE_TEXTURE_LIFETIME);
+
+    if (!textureId)
+    {
+        IDirect3DTexture9* newTexture = nullptr;
+        DX_VERIFY(mDevice->CreateTexture(r.mTgaPtr->mWidth, r.mTgaPtr->mHeight, 0, 0, D3DFMT_A8, D3DPOOL_MANAGED, &newTexture, nullptr));
+
+        mTextureCache.Add(r.mUniqueId.Id(), DX_SPRITE_TEXTURE_LIFETIME, newTexture);
+
+        D3DLOCKED_RECT locked = {};
+        DX_VERIFY(newTexture->LockRect(0, &locked, nullptr, D3DLOCK_DISCARD));
+
+        u32 off = 0;
+        for (u32 y = 0; y < r.mTgaPtr->mHeight; y++)
+        {
+            u8* p = (u8*) locked.pBits;
+            p = p + ((locked.Pitch) * y);
+            for (u32 x = 0; x < r.mTgaPtr->mWidth; x++)
+            {
+                *p = r.mTgaPtr->mPixels[off];
+                p++;
+                off++;
+            }
+        }
+
+        DX_VERIFY(newTexture->UnlockRect(0));
+
+        //mStats.mAnimUploadCount++;
+    }
+
+    return textureId;
 }
 
 #endif
