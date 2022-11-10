@@ -71,5 +71,7 @@ void GLShaderProgram::Use()
 
 GLuint GLShaderProgram::GetUniformLocation(const char_type* uniform)
 {
-    return GL_VERIFY(glGetUniformLocation(mGLId, uniform));
+    GLuint ret = GL_VERIFY(glGetUniformLocation(mGLId, uniform));
+
+    return ret;
 }
