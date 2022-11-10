@@ -1315,8 +1315,17 @@ inline void to_json(nlohmann::json& j, const AbeSaveState& p)
         {"throw_direction", p.mThrowDirection},
         {"bird_portal_sub_state", p.mBirdPortalSubState},
         {"bird_portal_id", p.mBirdPortalId},
-        {"field_d4_flags", p.field_D4_flags.Raw().all},
-        {"field_d6_flags", p.field_D6_flags.Raw().all},
+        {"return_to_previous_motion", p.mReturnToPreviousMotion},
+        {"prevent_chanting", p.mPreventChanting},
+        {"land_softly", p.mLandSoftly},
+        {"laugh_at_chant_end", p.mLaughAtChantEnd},
+        {"play_ledge_grab_sounds", p.mPlayLedgeGrabSounds},
+        {"have_healing", p.mHaveHealing},
+        {"teleporting", p.mTeleporting},
+        {"mudanchee_done", p.mMudancheeDone},
+        {"mudomo_done", p.mMudomoDone},
+        {"shadow_enabled", p.mShadowEnabled},
+        {"shadow_at_bottom", p.mShadowAtBottom},
     };
 }
 
@@ -1388,8 +1397,17 @@ inline void from_json(const nlohmann::json& j, AbeSaveState& p)
     j.at("throw_direction").get_to(p.mThrowDirection);
     j.at("bird_portal_sub_state").get_to(p.mBirdPortalSubState);
     j.at("bird_portal_id").get_to(p.mBirdPortalId);
-    j.at("field_d4_flags").get_to(p.field_D4_flags.Raw().all);
-    j.at("field_d6_flags").get_to(p.field_D6_flags.Raw().all);
+    j.at("return_to_previous_motion").get_to(p.mReturnToPreviousMotion);
+    j.at("prevent_chanting").get_to(p.mPreventChanting);
+    j.at("land_softly").get_to(p.mLandSoftly);
+    j.at("laugh_at_chant_end").get_to(p.mLaughAtChantEnd);
+    j.at("play_ledge_grab_sounds").get_to(p.mPlayLedgeGrabSounds);
+    j.at("have_healing").get_to(p.mHaveHealing);
+    j.at("teleporting").get_to(p.mTeleporting);
+    j.at("mudanchee:done").get_to(p.mMudancheeDone);
+    j.at("mudomo_done").get_to(p.mMudomoDone);
+    j.at("shadow_enabled").get_to(p.mShadowEnabled);
+    j.at("shadow_at_bottom").get_to(p.mShadowAtBottom);
 }
 inline void to_json(nlohmann::json& j, const LiftPointSaveState& p)
 {
@@ -2128,7 +2146,10 @@ inline void to_json(nlohmann::json& j, const ScrabSaveState& p)
         {"max_xpos", p.field_90_max_xpos},
         {"max_ypos", p.field_94_max_ypos},
         {"speak_counter", p.field_98_speak_counter},
-        {"flags", p.field_9E_flags.Raw().all},
+        {"attacking", p.mAttacking},
+        {"force_update_animation", p.mForceUpdateAnimation},
+        {"roar_randomly", p.mRoarRandomly},
+        {"persistant", p.mPersistant},
     };
 }
 
@@ -2181,7 +2202,10 @@ inline void from_json(const nlohmann::json& j, ScrabSaveState& p)
     j.at("max_xpos").get_to(p.field_90_max_xpos);
     j.at("max_ypos").get_to(p.field_94_max_ypos);
     j.at("speak_counter").get_to(p.field_98_speak_counter);
-    j.at("flags").get_to(p.field_9E_flags.Raw().all);
+    j.at("attacking").get_to(p.mAttacking);
+    j.at("force_update_animation").get_to(p.mForceUpdateAnimation);
+    j.at("roar_randomly").get_to(p.mRoarRandomly);
+    j.at("persistant").get_to(p.mPersistant);
 }
 
 NLOHMANN_JSON_SERIALIZE_ENUM(ScrabSpawnerStates, {
@@ -2272,7 +2296,10 @@ inline void to_json(nlohmann::json& j, const SligSaveState& p)
         {"attention_timeout", p.field_9A_attention_timeout},
         {"next_command_arg1", p.field_9E_next_command_arg1},
         {"cmd_idx", p.field_A0_cmd_idx},
-        {"flags", p.field_A2_flags.Raw().all},
+        {"follow_glukkon", p.mFollowGlukkon},
+        {"stopped_for_lever_or_lift", p.mStoppedForLeverOrLift},
+        {"glukkon_called_alloya", p.mGlukkonCalledAllOYa},
+        {"heard_glukkon", p.mHeardGlukkon},
     };
 }
 
@@ -2328,7 +2355,10 @@ inline void from_json(const nlohmann::json& j, SligSaveState& p)
     j.at("attention_timeout").get_to(p.field_9A_attention_timeout);
     j.at("next_command_arg1").get_to(p.field_9E_next_command_arg1);
     j.at("cmd_idx").get_to(p.field_A0_cmd_idx);
-    j.at("flags").get_to(p.field_A2_flags.Raw().all);
+    j.at("follow_glukkon").get_to(p.mFollowGlukkon);
+    j.at("stopped_for_lever_or_lift").get_to(p.mStoppedForLeverOrLift);
+    j.at("glukkon_called_alloya").get_to(p.mGlukkonCalledAllOYa);
+    j.at("heard_glukkon").get_to(p.mHeardGlukkon);
 }
 
 inline void to_json(nlohmann::json& j, const SlogSaveState& p)
@@ -2376,7 +2406,15 @@ inline void to_json(nlohmann::json& j, const SlogSaveState& p)
         {"bone_id", p.mBoneId},
         {"chase_delay", p.mChaseDelay},
         {"slog_random_idx", p.mSlogRandomIdx},
-        {"flags", p.field_74_flags.Raw().all},
+        {"biting_target", p.mBitingTarget},
+        {"eBit3_Asleep", p.eBit3_Asleep},
+        {"moved_off_screen", p.mMovedOffScreen},
+        {"stop_running", p.mStopRunning},
+        {"shot", p.mShot},
+        {"hungry", p.mHungry},
+        {"commanded_to_attack", p.mCommandedToAttack},
+        {"hit_by_ability_ring", p.mHitByAbilityRing},
+        {"listen_to_sligs", p.mListenToSligs},
     };
 }
 
@@ -2424,7 +2462,15 @@ inline void from_json(const nlohmann::json& j, SlogSaveState& p)
     j.at("bone_id").get_to(p.mBoneId);
     j.at("chase_delay").get_to(p.mChaseDelay);
     j.at("slog_random_idx").get_to(p.mSlogRandomIdx);
-    j.at("flags").get_to(p.field_74_flags.Raw().all);
+    j.at("biting_target").get_to(p.mBitingTarget);
+    j.at("eBit3_Asleep").get_to(p.eBit3_Asleep);
+    j.at("moved_off_screen").get_to(p.mMovedOffScreen);
+    j.at("stop_running").get_to(p.mStopRunning);
+    j.at("shot").get_to(p.mShot);
+    j.at("hungry").get_to(p.mHungry);
+    j.at("commanded_to_attack").get_to(p.mCommandedToAttack);
+    j.at("hit_by_ability_ring").get_to(p.mHitByAbilityRing);
+    j.at("listen_to_sligs").get_to(p.mListenToSligs);
 }
 
 NLOHMANN_JSON_SERIALIZE_ENUM(SlurgStates, {

@@ -72,7 +72,6 @@ enum class GameSpeakEvents : s16;
 struct ScrabSaveState final
 {
     ReliveTypes field_0_type;
-    s16 field_2_padding;
     Guid field_4_obj_id;
     FP field_8_xpos;
     FP field_C_ypos;
@@ -95,24 +94,16 @@ struct ScrabSaveState final
     s16 field_36_next_motion;
     s16 field_38_last_line_ypos;
     s16 field_3A_line_type;
-    s16 field_3C_padding;
-    s16 field_3E_padding;
     s8 field_40_bIsControlled;
-    s8 field_41_padding;
-    s16 field_42_padding;
     Guid field_44_tlvInfo;
     s32 field_48_brain_idx;
-    s16 field_4C_padding;
-    s16 field_4E_padding;
     s16 field_50_sub_state;
-    s16 field_52_padding;
     Guid field_54_obj_id;
     Guid field_58_target_obj_id;
     s32 field_5C_timer;
     s32 field_60_depossession_timer;
     FP field_64_falling_velx_scale_factor;
     s16 field_68_motion_resource_block_index;
-    s16 field_6A_padding;
     s32 field_6C_spotting_abe_timer;
     s32 field_70_attack_delay_timer;
     s32 field_74_movement_timer;
@@ -122,26 +113,15 @@ struct ScrabSaveState final
     s16 field_80_return_path;
     s16 field_82_return_camera;
     s16 field_84_input;
-    s16 field_86_padding;
-    s32 field_88_unused;
     s16 field_8C_shred_power_active;
     GameSpeakEvents field_8E_speak;
     FP field_90_max_xpos;
     FP field_94_max_ypos;
     s16 field_98_speak_counter;
-    s16 field_9A_unused;
-    s16 field_9C_unused;
-
-    enum Flags_9E
-    {
-        eBit1_attacking = 0x1,
-        eBit2_unused = 0x2,
-        eBit3_unused = 0x4,
-        eBit4_force_update_animation = 0x8,
-        eBit5_roar_randomly = 0x10,
-        eBit6_persistant = 0x20,
-    };
-    BitField16<Flags_9E> field_9E_flags;
+    bool mAttacking;
+    bool mForceUpdateAnimation;
+    bool mRoarRandomly;
+    bool mPersistant;
 };
 
 class Scrab;
@@ -289,24 +269,8 @@ private:
     s16 field_1A0_speak_max = 0;
     s16 field_1A2_speak_counter = 0;
     Choice_short mKillEnemy = Choice_short::eNo_0;
-
-    enum Flags_1AA : s16
-    {
-        eBit1_attacking = 0x1,
-        eBit2_unused = 0x2,
-        eBit3_unused = 0x4,
-        eBit4_force_update_animation = 0x8,
-        eBit5_roar_randomly = 0x10,
-        eBit6_persistant = 0x20,
-        eBit7_padding = 0x40,
-        eBit8_padding = 0x80,
-        eBit9_padding = 0x100,
-        eBit10_padding = 0x200,
-        eBit11_padding = 0x400,
-        eBit12_padding = 0x800,
-        eBit13_padding = 0x1000,
-        eBit14_padding = 0x2000,
-        eBit15_padding = 0x4000,
-    };
-    BitField16<Flags_1AA> field_1AA_flags = {};
+    bool mAttacking = false;
+    bool mForceUpdateAnimation = false;
+    bool mRoarRandomly = false;
+    bool mPersistant = false;
 };

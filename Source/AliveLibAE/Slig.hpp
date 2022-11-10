@@ -166,15 +166,10 @@ struct SligSaveState final
     s16 field_9C_unused;
     s16 field_9E_next_command_arg1;
     s16 field_A0_cmd_idx;
-    enum Flags_A2
-    {
-        eBit1_Padding = 0x1,
-        eBit2_FollowGlukkon = 0x2,
-        eBit3_StoppedForLeverOrLift = 0x4,
-        eBit4_GlukkonCalledAllOYa = 0x8,
-        eBit5_HeardGlukkon = 0x10,
-    };
-    BitField16<Flags_A2> field_A2_flags;
+    bool mFollowGlukkon;
+    bool mStoppedForLeverOrLift;
+    bool mGlukkonCalledAllOYa;
+    bool mHeardGlukkon;
 };
 
 enum class GameSpeakEvents : s16;
@@ -417,17 +412,10 @@ private:
     s16 field_20E_attention_timeout = 0;
     s16 field_212_next_command_arg1 = 0;
     s16 field_214_cmd_idx = 0;
-
-    enum Flags_216
-    {
-        eBit1_FollowGlukkon = 0x1,
-        eBit2_StoppedForLeverOrLift = 0x2,
-        eBit3_GlukkonCalledAllOYa = 0x4,
-        eBit4_HeardGlukkon = 0x8,
-        eBit5_Padding = 0x10,
-    };
-    BitField16<Flags_216> field_216_flags = {};
-
+    bool mFollowGlukkon = false;
+    bool mStoppedForLeverOrLift = false;
+    bool mGlukkonCalledAllOYa = false;
+    bool mHeardGlukkon = false;
     relive::Path_Slig mSligTlv = {};
     PSX_Point field_268_points[10] = {};
     s16 field_290_points_count = 0;

@@ -122,7 +122,7 @@ Slog::Slog(FP xpos, FP ypos, FP scale, s16 bListenToSligs, s16 chaseDelay)
 
     Init();
 
-    field_160_flags.Clear(Flags_160::eBit5_CommandedToAttack);
+    mCommandedToAttack = false;
     mTlvId = Guid{};
     mBrainState = 2;
     mBrainSubState = 0;
@@ -134,11 +134,11 @@ Slog::Slog(FP xpos, FP ypos, FP scale, s16 bListenToSligs, s16 chaseDelay)
     }
     mTargetId = pTarget->mBaseGameObjectId;
 
-    field_160_flags.Clear(Flags_160::eBit2_ListenToSligs);
-    field_160_flags.Clear(Flags_160::eBit7_Asleep);
-    field_160_flags.Clear(Flags_160::eBit9_MovedOffScreen);
+    mListenToSligs = false;
+    eBit7_Asleep = false;
+    mMovedOffScreen = false;
 
-    field_160_flags.Set(Flags_160::eBit2_ListenToSligs, bListenToSligs & 1);
+    mListenToSligs = bListenToSligs;
 
     mWakeUpAnger = 0;
     mChaseDelay = chaseDelay;
@@ -179,10 +179,10 @@ Slog::Slog(relive::Path_Slog* pTlv, const Guid& tlvId)
 
     Init();
 
-    field_160_flags.Clear(Flags_160::eBit9_MovedOffScreen);
-    field_160_flags.Set(Flags_160::eBit2_ListenToSligs);
-    field_160_flags.Set(Flags_160::eBit7_Asleep, pTlv->mAsleep == relive::reliveChoice::eYes);
-    field_160_flags.Clear(Flags_160::eBit5_CommandedToAttack);
+    mMovedOffScreen = false;
+    mListenToSligs = true;
+    eBit7_Asleep = pTlv->mAsleep == relive::reliveChoice::eYes;
+    mCommandedToAttack = false;
 
     mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
 
@@ -199,7 +199,7 @@ Slog::Slog(relive::Path_Slog* pTlv, const Guid& tlvId)
     mAngerSwitchId = pTlv->mAngerSwitchId;
     mBoneEatingTime = pTlv->mBoneEatingTime;
 
-    if (field_160_flags.Get(Flags_160::eBit7_Asleep))
+    if (eBit7_Asleep)
     {
         SetCurrentMotion(eSlogMotions::Motion_15_Sleeping);
         SetAnimFrame();
@@ -262,7 +262,6 @@ s32 Slog::VGetSaveState(u8* pSaveBuffer)
     }
 
     pState->mPlatformId = BaseAliveGameObject_PlatformId;
-    pState->field_74_flags.Set(SlogSaveState::eBit2_Possessed, sControlledCharacter == this); // Lol can't be possessed anyway so ??
     pState->mSlogTlvId = mTlvId;
     pState->mTargetId = Guid{};
 
@@ -313,16 +312,15 @@ s32 Slog::VGetSaveState(u8* pSaveBuffer)
     pState->mChaseDelay = mChaseDelay;
     pState->mSlogRandomIdx = sSlogRandomIdx;
 
-    pState->field_74_flags.Set(SlogSaveState::eBit1_BitingTarget, field_11C_biting_target & 1);
-    pState->field_74_flags.Set(SlogSaveState::eBit2_Possessed, sControlledCharacter == this); // Can never happen so is always 0
-    pState->field_74_flags.Set(SlogSaveState::eBit3_Asleep, field_160_flags.Get(Flags_160::eBit8_Asleep));
-    pState->field_74_flags.Set(SlogSaveState::eBit4_MovedOffScreen, field_160_flags.Get(Flags_160::eBit9_MovedOffScreen));
-    pState->field_74_flags.Set(SlogSaveState::eBit5_StopRunning, field_160_flags.Get(Flags_160::eBit1_StopRunning));
-    pState->field_74_flags.Set(SlogSaveState::eBit6_Shot, field_160_flags.Get(Flags_160::eBit3_Shot));
-    pState->field_74_flags.Set(SlogSaveState::eBit7_Hungry, field_160_flags.Get(Flags_160::eBit4_Hungry));
-    pState->field_74_flags.Set(SlogSaveState::eBit8_CommandedToAttack, field_160_flags.Get(Flags_160::eBit5_CommandedToAttack));
-    pState->field_74_flags.Set(SlogSaveState::eBit9_HitByAbilityRing, field_160_flags.Get(Flags_160::eBit6_HitByAbilityRing));
-    pState->field_74_flags.Set(SlogSaveState::eBit10_ListenToSligs, field_160_flags.Get(Flags_160::eBit2_ListenToSligs));
+    pState->mBitingTarget = mBitingTarget;
+    pState->eBit3_Asleep = eBit8_Asleep;
+    pState->mMovedOffScreen = mMovedOffScreen;
+    pState->mStopRunning = mStopRunning;
+    pState->mShot = mShot;
+    pState->mHungry = mHungry;
+    pState->mCommandedToAttack = mCommandedToAttack;
+    pState->mHitByAbilityRing = mHitByAbilityRing;
+    pState->mListenToSligs = mListenToSligs;
 
     return sizeof(SlogSaveState);
 }
@@ -337,7 +335,7 @@ s32 Slog::CreateFromSaveState(const u8* pBuffer)
     {
         pSlog = relive_new Slog(pState->mXPos,
                                   pState->mYPos,
-                                  pState->mSpriteScale, pState->field_74_flags.Get(SlogSaveState::eBit10_ListenToSligs), pState->mChaseDelay);
+                                  pState->mSpriteScale, pState->mListenToSligs, pState->mChaseDelay);
 
         if (pSlog)
         {
@@ -406,17 +404,17 @@ s32 Slog::CreateFromSaveState(const u8* pBuffer)
         sSlogRandomIdx = pState->mSlogRandomIdx;
 
 
-        pSlog->field_11C_biting_target = pState->field_74_flags.Get(SlogSaveState::eBit1_BitingTarget);
-        pSlog->field_160_flags.Set(Flags_160::eBit8_Asleep, pState->field_74_flags.Get(SlogSaveState::eBit3_Asleep));
-        pSlog->field_160_flags.Set(Flags_160::eBit9_MovedOffScreen, pState->field_74_flags.Get(SlogSaveState::eBit4_MovedOffScreen));
-        pSlog->field_160_flags.Set(Flags_160::eBit1_StopRunning, pState->field_74_flags.Get(SlogSaveState::eBit5_StopRunning));
-        pSlog->field_160_flags.Set(Flags_160::eBit3_Shot, pState->field_74_flags.Get(SlogSaveState::eBit6_Shot));
-        pSlog->field_160_flags.Set(Flags_160::eBit4_Hungry, pState->field_74_flags.Get(SlogSaveState::eBit7_Hungry));
-        pSlog->field_160_flags.Set(Flags_160::eBit5_CommandedToAttack, pState->field_74_flags.Get(SlogSaveState::eBit8_CommandedToAttack));
-        pSlog->field_160_flags.Set(Flags_160::eBit6_HitByAbilityRing, pState->field_74_flags.Get(SlogSaveState::eBit9_HitByAbilityRing));
-        pSlog->field_160_flags.Set(Flags_160::eBit2_ListenToSligs, pState->field_74_flags.Get(SlogSaveState::eBit10_ListenToSligs));
+        pSlog->mBitingTarget = pState->mBitingTarget;
+        pSlog->eBit8_Asleep = pState->eBit3_Asleep;
+        pSlog->mMovedOffScreen = pState->mMovedOffScreen;
+        pSlog->mStopRunning = pState->mStopRunning;
+        pSlog->mShot = pState->mShot;
+        pSlog->mHungry = pState->mHungry;
+        pSlog->mCommandedToAttack = pState->mCommandedToAttack;
+        pSlog->mHitByAbilityRing = pState->mHitByAbilityRing;
+        pSlog->mListenToSligs = pState->mListenToSligs;
 
-        if (pSlog->field_160_flags.Get(Flags_160::eBit3_Shot))
+        if (pSlog->mShot)
         {
             sSlogCount--;
         }
@@ -532,9 +530,9 @@ void Slog::Motion_1_Walk()
             {
                 Sfx(SlogSound::SlowStep_18);
 
-                if (!field_160_flags.Get(Flags_160::eBit8_Asleep))
+                if (!eBit8_Asleep)
                 {
-                    field_160_flags.Set(Flags_160::eBit8_Asleep);
+                    eBit8_Asleep = true;
                     MapFollowMe(false);
                 }
 
@@ -546,7 +544,7 @@ void Slog::Motion_1_Walk()
             }
             else
             {
-                field_160_flags.Clear(Flags_160::eBit8_Asleep);
+                eBit8_Asleep = false;
             }
         }
     }
@@ -603,9 +601,9 @@ void Slog::Motion_2_Run()
             {
                 Sfx(SlogSound::FastStep_17);
 
-                if (!field_160_flags.Get(Flags_160::eBit8_Asleep))
+                if (!eBit8_Asleep)
                 {
-                    field_160_flags.Set(Flags_160::eBit8_Asleep);
+                    eBit8_Asleep = true;
                     MapFollowMe(false);
                 }
 
@@ -627,7 +625,7 @@ void Slog::Motion_2_Run()
             }
             else
             {
-                field_160_flags.Clear(Flags_160::eBit8_Asleep);
+                eBit8_Asleep = false;
             }
         }
     }
@@ -1125,7 +1123,7 @@ void Slog::Motion_19_JumpUpwards()
 
     if (GetAnimation().GetCurrentFrame() == 5)
     {
-        if (field_160_flags.Get(Flags_160::eBit4_Hungry) && mTargetId == sActiveHero->mBaseGameObjectId && sActiveHero->GetScale() == GetScale() && (sActiveHero->mCurrentMotion == eAbeMotions::Motion_104_RockThrowStandingHold || sActiveHero->mCurrentMotion == eAbeMotions::Motion_107_RockThrowCrouchingHold))
+        if (mHungry && mTargetId == sActiveHero->mBaseGameObjectId && sActiveHero->GetScale() == GetScale() && (sActiveHero->mCurrentMotion == eAbeMotions::Motion_104_RockThrowStandingHold || sActiveHero->mCurrentMotion == eAbeMotions::Motion_107_RockThrowCrouchingHold))
         {
             Sfx(SlogSound::HungryYip_13);
         }
@@ -1456,7 +1454,7 @@ s16 Slog::Brain_ListeningToSligSaveState_2_Listening(const FP xpos1GridAHead, IB
             if (pTarget)
             {
                 mListeningToSligId = Guid{};
-                field_160_flags.Set(Flags_160::eBit5_CommandedToAttack);
+                mCommandedToAttack = true;
                 mTargetId = pTarget->mBaseGameObjectId;
                 mBrainState = 2;
                 return 0;
@@ -1612,7 +1610,7 @@ s16 Slog::Brain_1_Idle()
 
     if (SwitchStates_Get(mAngerSwitchId))
     {
-        field_160_flags.Clear(Flags_160::eBit5_CommandedToAttack);
+        mCommandedToAttack = false;
         mBrainState = 2;
         return 0;
     }
@@ -1626,7 +1624,7 @@ s16 Slog::Brain_1_Idle()
                 return mBrainSubState;
             }
 
-            if (field_160_flags.Get(Flags_160::eBit7_Asleep))
+            if (eBit7_Asleep)
             {
                 mAngerLevel = 0;
                 return 1;
@@ -1706,7 +1704,7 @@ s16 Slog::Brain_1_Idle()
             {
                 if (mAngerLevel)
                 {
-                    if (field_160_flags.Get(Flags_160::eBit7_Asleep))
+                    if (eBit7_Asleep)
                     {
                         mAngerLevel--;
                     }
@@ -1786,7 +1784,7 @@ s16 Slog::Brain_1_Idle()
                 }
                 else
                 {
-                    field_160_flags.Clear(Flags_160::eBit5_CommandedToAttack);
+                    mCommandedToAttack = false;
                     mBrainState = 2;
                     return 0;
                 }
@@ -1808,7 +1806,7 @@ s16 Slog::Brain_1_Idle()
 s16 Slog::Brain_2_ChasingAbe()
 {
     auto pTarget = static_cast<IBaseAliveGameObject*>(sObjectIds.Find_Impl(mTargetId));
-    if (field_160_flags.Get(Flags_160::eBit2_ListenToSligs))
+    if (mListenToSligs)
     {
         if (field_134_last_event_index != gEventSystem->field_28_last_event_index)
         {
@@ -1837,9 +1835,9 @@ s16 Slog::Brain_2_ChasingAbe()
         updateTarget = true;
     }
 
-    if (updateTarget || !field_160_flags.Get(Flags_160::eBit5_CommandedToAttack) || pTarget->GetSpriteScale() == FP_FromDouble(0.5))
+    if (updateTarget || !mCommandedToAttack || pTarget->GetSpriteScale() == FP_FromDouble(0.5))
     {
-        if (!field_11C_biting_target)
+        if (!mBitingTarget)
         {
             pTarget = FindTarget(0, 0);
             if (!pTarget)
@@ -2004,7 +2002,7 @@ s16 Slog::Brain_ChasingAbe_State_15_ChasingAfterTarget(IBaseAliveGameObject* pTa
     if (mVelX > FP_FromInteger(0) && HandleEnemyStopper())
     {
         SetNextMotion(eSlogMotions::Motion_6_StopRunning);
-        field_160_flags.Set(Flags_160::eBit1_StopRunning, mVelX < FP_FromInteger(0));
+        mStopRunning = mVelX < FP_FromInteger(0) ? true : false;
         mScratchTimer = Math_NextRandom() % 32 + sGnFrame + 120;
         mGrowlTimer = Math_NextRandom() % 32 + sGnFrame + 60;
         return 20;
@@ -2322,7 +2320,7 @@ s16 Slog::Brain_ChasingAbe_State_20_Collided(IBaseAliveGameObject* pTarget)
         return mBrainSubState;
     }
 
-    if (field_160_flags.Get(Flags_160::eBit1_StopRunning))
+    if (mStopRunning)
     {
         if (pTarget->mXPos > mXPos)
         {
@@ -2391,7 +2389,7 @@ s16 Slog::Brain_ChasingAbe_State_10_HungryForBone()
         return mBrainSubState;
     }
 
-    field_160_flags.Clear(Flags_160::eBit4_Hungry);
+    mHungry = false;
     SetNextMotion(eSlogMotions::Motion_2_Run);
     return 2;
 }
@@ -2414,7 +2412,7 @@ s16 Slog::Brain_ChasingAbe_State_8_ToIdle()
     }
     mAngerLevel = 0;
     mBrainState = 1;
-    field_11C_biting_target = 0;
+    mBitingTarget = 0;
     return 0;
 }
 
@@ -2520,7 +2518,7 @@ s16 Slog::Brain_ChasingAbe_State_2_Thinking(IBaseAliveGameObject* pTarget)
     if (mVelX > FP_FromInteger(0) && HandleEnemyStopper())
     {
         SetNextMotion(eSlogMotions::Motion_6_StopRunning);
-        field_160_flags.Set(Flags_160::eBit1_StopRunning, mVelX < FP_FromInteger(0));
+        mStopRunning = mVelX < FP_FromInteger(0) ? true : false;
         mScratchTimer = Math_NextRandom() % 32 + sGnFrame + 120;
         mGrowlTimer = Math_NextRandom() % 32 + sGnFrame + 60;
         return 20;
@@ -2529,7 +2527,7 @@ s16 Slog::Brain_ChasingAbe_State_2_Thinking(IBaseAliveGameObject* pTarget)
     if (CollisionCheck(GetSpriteScale() * FP_FromInteger(20), mVelX * FP_FromInteger(4)))
     {
         SetNextMotion(eSlogMotions::Motion_6_StopRunning);
-        field_160_flags.Set(Flags_160::eBit1_StopRunning, mVelX < FP_FromInteger(0));
+        mStopRunning = mVelX < FP_FromInteger(0) ? true : false;
         mScratchTimer = Math_NextRandom() % 32 + sGnFrame + 120;
         mGrowlTimer = Math_NextRandom() % 32 + sGnFrame + 60;
         return 19;
@@ -2546,7 +2544,7 @@ s16 Slog::Brain_ChasingAbe_State_2_Thinking(IBaseAliveGameObject* pTarget)
         {
             if (VIsFacingMe(pTarget))
             {
-                if (!CollisionCheck(GetSpriteScale() * FP_FromInteger(20), pTarget->mXPos - mXPos) && !field_160_flags.Get(Flags_160::eBit9_MovedOffScreen))
+                if (!CollisionCheck(GetSpriteScale() * FP_FromInteger(20), pTarget->mXPos - mXPos) && !mMovedOffScreen)
                 {
                     if (pTarget->mHealth <= FP_FromInteger(0))
                     {
@@ -2610,7 +2608,7 @@ s16 Slog::Brain_ChasingAbe_State_2_Thinking(IBaseAliveGameObject* pTarget)
                 return 7;
             }
 
-            field_160_flags.Set(Flags_160::eBit1_StopRunning, GetAnimation().mFlags.Get(AnimFlags::eFlipX));
+            mStopRunning = GetAnimation().mFlags.Get(AnimFlags::eFlipX);
 
             mScratchTimer = Math_NextRandom() % 32 + sGnFrame + 120;
             mGrowlTimer = Math_NextRandom() % 32 + sGnFrame + 60;
@@ -2619,7 +2617,7 @@ s16 Slog::Brain_ChasingAbe_State_2_Thinking(IBaseAliveGameObject* pTarget)
         SetCurrentMotion(eSlogMotions::Motion_3_TurnAround);
     }
 
-    if (field_160_flags.Get(Flags_160::eBit4_Hungry) && IsActiveHero(pTarget) && pTarget->GetScale() == GetScale() && (sActiveHero->mCurrentMotion == eAbeMotions::Motion_104_RockThrowStandingHold || sActiveHero->mCurrentMotion == eAbeMotions::Motion_107_RockThrowCrouchingHold))
+    if (mHungry && IsActiveHero(pTarget) && pTarget->GetScale() == GetScale() && (sActiveHero->mCurrentMotion == eAbeMotions::Motion_104_RockThrowStandingHold || sActiveHero->mCurrentMotion == eAbeMotions::Motion_107_RockThrowCrouchingHold))
     {
         SetNextMotion(eSlogMotions::Motion_6_StopRunning);
         mMultiUseTimer = sGnFrame + 90;
@@ -2662,7 +2660,7 @@ s16 Slog::Brain_ChasingAbe_State_1_Waiting()
 
 s16 Slog::Brain_ChasingAbe_State_0_Init()
 {
-    field_11C_biting_target = 0;
+    mBitingTarget = 0;
     mJumpCounter = 0;
     mBoneId = Guid{};
     mMultiUseTimer = Math_RandomRange(1, 3) + sGnFrame + mChaseDelay;
@@ -2764,9 +2762,9 @@ void Slog::Init()
 
     mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanSetOffExplosives);
 
-    field_160_flags.Clear(Flags_160::eBit3_Shot);
-    field_160_flags.Clear(Flags_160::eBit6_HitByAbilityRing);
-    field_160_flags.Set(Flags_160::eBit4_Hungry);
+    mShot = false;
+    mHitByAbilityRing = false;
+    mHungry = true;
 
     mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
     GetAnimation().SetFnPtrArray(kSlog_Anim_Frame_Fns_55EFBC);
@@ -2906,7 +2904,7 @@ Slog::~Slog()
 
     MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
 
-    if (!field_160_flags.Get(Flags_160::eBit3_Shot))
+    if (!mShot)
     {
         sSlogCount--;
     }
@@ -3333,7 +3331,7 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
             mMultiUseTimer = sGnFrame + 90;
             SetAnimFrame();
             GetAnimation().mFlags.Set(AnimFlags::eAnimate);
-            field_160_flags.Set(Flags_160::eBit3_Shot);
+            mShot = true;
             sSlogCount--;
             break;
         }
@@ -3359,7 +3357,6 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
 
         case ReliveTypes::eElectricWall:
             Sfx(SlogSound::DeathWhine_9);
-            field_160_flags.Set(Flags_160::eBit13_Unused);
             break;
 
         case ReliveTypes::eRockSpawner:
@@ -3374,9 +3371,9 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
             break;
 
         case ReliveTypes::eAbilityRing:
-            if (!field_160_flags.Get(Flags_160::eBit6_HitByAbilityRing))
+            if (!mHitByAbilityRing)
             {
-                field_160_flags.Set(Flags_160::eBit6_HitByAbilityRing);
+                mHitByAbilityRing = true;
                 Sfx(SlogSound::DeathWhine_9);
             }
             break;

@@ -3195,7 +3195,10 @@ struct ScrabSaveState final
         d.field_90_max_xpos = data.field_90_max_xpos;
         d.field_94_max_ypos = data.field_94_max_ypos;
         d.field_98_speak_counter = data.field_98_speak_counter;
-        d.field_9E_flags.Raw().all = data.field_9E_flags.Raw().all; // TODO: convert flags to bools
+        d.mAttacking = data.field_9E_flags.Get(Flags_9E::eBit1_attacking);
+        d.mForceUpdateAnimation = data.field_9E_flags.Get(Flags_9E::eBit4_force_update_animation);
+        d.mRoarRandomly = data.field_9E_flags.Get(Flags_9E::eBit5_roar_randomly);
+        d.mPersistant = data.field_9E_flags.Get(Flags_9E::eBit6_persistant);
         return d;
     }
 };
@@ -3382,7 +3385,10 @@ struct SligSaveState final
         d.field_9A_attention_timeout = data.field_9A_attention_timeout;
         d.field_9E_next_command_arg1 = data.field_9E_next_command_arg1;
         d.field_A0_cmd_idx = data.field_A0_cmd_idx;
-        d.field_A2_flags.Raw().all = data.field_A2_flags.Raw().all; // TODO: convert flags to bools
+        d.mFollowGlukkon = data.field_A2_flags.Get(Flags_A2::eBit2_FollowGlukkon);
+        d.mStoppedForLeverOrLift = data.field_A2_flags.Get(Flags_A2::eBit3_StoppedForLeverOrLift);
+        d.mGlukkonCalledAllOYa = data.field_A2_flags.Get(Flags_A2::eBit4_GlukkonCalledAllOYa);
+        d.mHeardGlukkon = data.field_A2_flags.Get(Flags_A2::eBit5_HeardGlukkon);
         return d;
     }
 };
@@ -3438,7 +3444,7 @@ struct SlogSaveState final
     enum Flags_74
     {
         eBit1_BitingTarget = 0x1,
-        eBit2_Possessed = 0x2,
+        eBit2_Possessed = 0x2, // unused
         eBit3_Asleep = 0x4,
         eBit4_MovedOffScreen = 0x8,
         eBit5_StopRunning = 0x10,
@@ -3496,7 +3502,15 @@ struct SlogSaveState final
         d.mBoneId = Guid::NewGuidFromTlvInfo(data.mBoneId);
         d.mChaseDelay = data.mChaseDelay;
         d.mSlogRandomIdx = data.mSlogRandomIdx;
-        d.field_74_flags.Raw().all = data.field_74_flags.Raw().all; // TODO: convert flags too bools
+        d.mBitingTarget = data.field_74_flags.Get(Flags_74::eBit1_BitingTarget);
+        d.eBit3_Asleep = data.field_74_flags.Get(Flags_74::eBit3_Asleep);
+        d.mMovedOffScreen = data.field_74_flags.Get(Flags_74::eBit4_MovedOffScreen);
+        d.mStopRunning = data.field_74_flags.Get(Flags_74::eBit5_StopRunning);
+        d.mShot = data.field_74_flags.Get(Flags_74::eBit6_Shot);
+        d.mHungry = data.field_74_flags.Get(Flags_74::eBit7_Hungry);
+        d.mCommandedToAttack = data.field_74_flags.Get(Flags_74::eBit8_CommandedToAttack);
+        d.mHitByAbilityRing = data.field_74_flags.Get(Flags_74::eBit9_HitByAbilityRing);
+        d.mListenToSligs = data.field_74_flags.Get(Flags_74::eBit10_ListenToSligs);
         return d;
     }
 };
@@ -3528,7 +3542,7 @@ struct SlurgSaveState final
     SlurgStates mSlurgState;
     enum SlurgFlags
     {
-        eGoingRight = 0x1, // TODO: double check me
+        eGoingRight = 0x1,
         eMoving = 0x2,
     };
     BitField16<SlurgFlags> mSlurgFlags;

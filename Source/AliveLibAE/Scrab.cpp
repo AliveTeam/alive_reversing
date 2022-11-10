@@ -150,8 +150,8 @@ Scrab::Scrab(relive::Path_Scrab* pTlv, const Guid& tlvId, relive::Path_ScrabSpaw
     mCurrentMotion = eScrabMotions::Motion_0_Stand;
     field_11E_return_to_previous_motion = 0;
 
-    field_1AA_flags.Clear(Flags_1AA::eBit1_attacking);
-    field_1AA_flags.Clear(Flags_1AA::eBit4_force_update_animation);
+    mAttacking = false;
+    mForceUpdateAnimation = false;
 
     mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanBePossessed);
     mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanSetOffExplosives);
@@ -200,9 +200,8 @@ Scrab::Scrab(relive::Path_Scrab* pTlv, const Guid& tlvId, relive::Path_ScrabSpaw
 
     field_1A0_speak_max = 3;
 
-    field_1AA_flags.Set(Flags_1AA::eBit5_roar_randomly, pTlv->mRoarRandomly == relive::reliveChoice::eYes);
-    field_1AA_flags.Set(Flags_1AA::eBit6_persistant, pTlv->mPersistant == relive::reliveChoice::eYes);
-    field_1AA_flags.Clear(Flags_1AA::eBit3_unused);
+    mRoarRandomly = pTlv->mRoarRandomly == relive::reliveChoice::eYes ? true : false;
+    mPersistant = pTlv->mPersistant == relive::reliveChoice::eYes ? true : false;
 
     if (!OnFloor())
     {
@@ -338,12 +337,10 @@ s32 Scrab::CreateFromSaveState(const u8* pBuffer)
         pScrab->field_19C_max_ypos = pState->field_94_max_ypos;
         pScrab->field_1A2_speak_counter = pState->field_98_speak_counter;
 
-        pScrab->field_1AA_flags.Set(Flags_1AA::eBit1_attacking, pState->field_9E_flags.Get(ScrabSaveState::eBit1_attacking));
-        pScrab->field_1AA_flags.Set(Flags_1AA::eBit2_unused, pState->field_9E_flags.Get(ScrabSaveState::eBit2_unused));
-        pScrab->field_1AA_flags.Set(Flags_1AA::eBit3_unused, pState->field_9E_flags.Get(ScrabSaveState::eBit3_unused));
-        pScrab->field_1AA_flags.Set(Flags_1AA::eBit4_force_update_animation, pState->field_9E_flags.Get(ScrabSaveState::eBit4_force_update_animation));
-        pScrab->field_1AA_flags.Set(Flags_1AA::eBit5_roar_randomly, pState->field_9E_flags.Get(ScrabSaveState::eBit5_roar_randomly));
-        pScrab->field_1AA_flags.Set(Flags_1AA::eBit6_persistant, pState->field_9E_flags.Get(ScrabSaveState::eBit6_persistant));
+        pScrab->mAttacking = pState->mAttacking;
+        pScrab->mForceUpdateAnimation = pState->mForceUpdateAnimation;
+        pScrab->mRoarRandomly = pState->mRoarRandomly;
+        pScrab->mPersistant = pState->mPersistant;
     }
 
     return sizeof(ScrabSaveState);
@@ -448,12 +445,10 @@ s32 Scrab::VGetSaveState(u8* pSaveBuffer)
     pState->field_94_max_ypos = field_19C_max_ypos;
     pState->field_98_speak_counter = field_1A2_speak_counter;
 
-    pState->field_9E_flags.Set(ScrabSaveState::eBit1_attacking, field_1AA_flags.Get(Flags_1AA::eBit1_attacking));
-    pState->field_9E_flags.Set(ScrabSaveState::eBit2_unused, field_1AA_flags.Get(Flags_1AA::eBit2_unused));
-    pState->field_9E_flags.Set(ScrabSaveState::eBit3_unused, field_1AA_flags.Get(Flags_1AA::eBit3_unused));
-    pState->field_9E_flags.Set(ScrabSaveState::eBit4_force_update_animation, field_1AA_flags.Get(Flags_1AA::eBit4_force_update_animation));
-    pState->field_9E_flags.Set(ScrabSaveState::eBit5_roar_randomly, field_1AA_flags.Get(Flags_1AA::eBit5_roar_randomly));
-    pState->field_9E_flags.Set(ScrabSaveState::eBit6_persistant, field_1AA_flags.Get(Flags_1AA::eBit6_persistant));
+    pState->mAttacking = mAttacking;
+    pState->mForceUpdateAnimation = mForceUpdateAnimation;
+    pState->mRoarRandomly = mRoarRandomly;
+    pState->mPersistant = mPersistant;
 
     return sizeof(ScrabSaveState);
 }
@@ -499,7 +494,7 @@ void Scrab::VOnTrapDoorOpen()
     {
         pPlatform->VRemove(this);
         BaseAliveGameObject_PlatformId = Guid{};
-        field_1AA_flags.Set(Flags_1AA::eBit4_force_update_animation);
+        mForceUpdateAnimation = true;
         mCurrentMotion = eScrabMotions::Motion_15_RunToFall;
     }
 }
@@ -707,9 +702,9 @@ void Scrab::VUpdate()
                 VOnTlvCollision(BaseAliveGameObjectPathTLV);
             }
 
-            if (oldMotion != mCurrentMotion || field_1AA_flags.Get(Flags_1AA::eBit4_force_update_animation))
+            if (oldMotion != mCurrentMotion || mForceUpdateAnimation)
             {
-                field_1AA_flags.Clear(Flags_1AA::eBit4_force_update_animation);
+                mForceUpdateAnimation = false;
                 vUpdateAnim();
             }
             else if (field_11E_return_to_previous_motion)
@@ -774,7 +769,7 @@ void Scrab::VUpdate()
         }
     }
 
-    if (field_1AA_flags.Get(Flags_1AA::eBit6_persistant))
+    if (mPersistant)
     {
         GetAnimation().mFlags.Clear(AnimFlags::eAnimate);
         GetAnimation().mFlags.Clear(AnimFlags::eRender);
@@ -1637,7 +1632,7 @@ s16 Scrab::Brain_2_Fighting()
                 return Brain_2_Fighting::eBrain2_LookingForOpponent_0;
             }
 
-            field_1AA_flags.Clear(Flags_1AA::eBit1_attacking);
+            mAttacking = false;
             mNextMotion = -1;
             if (pTarget->mFightTargetId == Guid{} || pTarget->mFightTargetId == mBaseGameObjectId)
             {
@@ -1752,12 +1747,12 @@ s16 Scrab::Brain_2_Fighting()
             {
                 return mBrainSubState;
             }
-            field_1AA_flags.Set(Flags_1AA::eBit1_attacking);
+            mAttacking = true;
             mNextMotion = eScrabMotions::Motion_0_Stand;
             return Brain_2_Fighting::eBrain2_ToRun_8;
 
         case Brain_2_Fighting::eBrain2_ToRun_8:
-            if (!pTarget->field_1AA_flags.Get(Flags_1AA::eBit1_attacking))
+            if (!pTarget->mAttacking)
             {
                 return mBrainSubState;
             }
@@ -2938,7 +2933,7 @@ void Scrab::Motion_22_GetPossessed()
     {
         if (mNextMotion)
         {
-            field_1AA_flags.Set(Flags_1AA::eBit4_force_update_animation);
+            mForceUpdateAnimation = true;
             mCurrentMotion = eScrabMotions::Motion_22_GetPossessed;
         }
         else
