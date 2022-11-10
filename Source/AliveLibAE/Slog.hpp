@@ -107,21 +107,15 @@ struct SlogSaveState final
     Guid mBoneId;
     s16 mChaseDelay;
     u8 mSlogRandomIdx;
-
-    enum Flags_74
-    {
-        eBit1_BitingTarget = 0x1,
-        eBit2_Possessed = 0x2,
-        eBit3_Asleep = 0x4,
-        eBit4_MovedOffScreen = 0x8,
-        eBit5_StopRunning = 0x10,
-        eBit6_Shot = 0x20,
-        eBit7_Hungry = 0x40,
-        eBit8_CommandedToAttack = 0x80,
-        eBit9_HitByAbilityRing = 0x100,
-        eBit10_ListenToSligs = 0x200,
-    };
-    BitField16<Flags_74> field_74_flags;
+    bool mBitingTarget;
+    bool eBit3_Asleep;
+    bool mMovedOffScreen;
+    bool mStopRunning;
+    bool mShot;
+    bool mHungry;
+    bool mCommandedToAttack;
+    bool mHitByAbilityRing;
+    bool mListenToSligs;
 };
 
 class Slog;
@@ -240,7 +234,7 @@ private:
 
 public:
     Guid mTargetId;
-    s16 field_11C_biting_target = 0;
+    bool mBitingTarget = false;
 
 private:
     u16 mBrainState = 0;
@@ -266,25 +260,15 @@ private:
     s16 mChaseDelay = 0;
     s16 mJumpCounter = 0;
     Guid mBoneId;
-    enum Flags_160 : s16
-    {
-        eBit1_StopRunning = 0x1,
-        eBit2_ListenToSligs = 0x2,
-        eBit3_Shot = 0x4,
-        eBit4_Hungry = 0x8,
-        eBit5_CommandedToAttack = 0x10,
-        eBit6_HitByAbilityRing = 0x20,
-        eBit7_Asleep = 0x40,
-        eBit8_Asleep = 0x80,
-        eBit9_MovedOffScreen = 0x100,
-        eBit10_Padding = 0x200,
-        eBit11_Padding = 0x400,
-        eBit12_Padding = 0x800,
-        eBit13_Unused = 0x1000,
-        eBit14_Padding = 0x2000,
-        eBit15_Padding = 0x4000,
-    };
-    BitField16<Flags_160> field_160_flags = {};
+    bool eBit8_Asleep = false; // TODO: wrong name this is something else
+    bool mMovedOffScreen = false;
+    bool mStopRunning = false;
+    bool mShot = false;
+    bool mHungry = false;
+    bool mCommandedToAttack = false;
+    bool mHitByAbilityRing = false;
+    bool mListenToSligs = false;
+    bool eBit7_Asleep = false;
 };
 
 extern s16 sSlogCount;

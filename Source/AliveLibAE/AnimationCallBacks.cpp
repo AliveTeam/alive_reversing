@@ -171,7 +171,7 @@ void Animation_OnFrame_Slog_4C3030(BaseGameObject* pObjPtr, u32&, const IndexedP
     const PSX_RECT bTargetRect = pTarget->VGetBoundingRect();
     const PSX_RECT bSlogRect = pSlog->VGetBoundingRect();
 
-    if (bSlogRect.x > bTargetRect.w || bSlogRect.w < bTargetRect.x || bSlogRect.h < bTargetRect.y || bSlogRect.y > bTargetRect.h || pTarget->GetSpriteScale() != FP_FromInteger(1) || pSlog->field_11C_biting_target)
+    if (bSlogRect.x > bTargetRect.w || bSlogRect.w < bTargetRect.x || bSlogRect.h < bTargetRect.y || bSlogRect.y > bTargetRect.h || pTarget->GetSpriteScale() != FP_FromInteger(1) || pSlog->mBitingTarget)
     {
         return;
     }
@@ -201,7 +201,7 @@ void Animation_OnFrame_Slog_4C3030(BaseGameObject* pObjPtr, u32&, const IndexedP
         pSlog->GetSpriteScale(),
         50);
 
-    pSlog->field_11C_biting_target = 1;
+    pSlog->mBitingTarget = 1;
     SfxPlayMono(relive::SoundEffects::SlogBite, 0);
 
     return;

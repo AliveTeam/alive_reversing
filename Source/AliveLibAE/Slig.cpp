@@ -388,9 +388,9 @@ Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
 
     unused_BAF7E4 = 0;
 
-    field_216_flags.Clear(Flags_216::eBit1_FollowGlukkon);
-    field_216_flags.Clear(Flags_216::eBit3_GlukkonCalledAllOYa);
-    field_216_flags.Clear(Flags_216::eBit4_HeardGlukkon);
+    mFollowGlukkon = false;
+    mGlukkonCalledAllOYa = false;
+    mHeardGlukkon = false;
 
 
     field_120_timer = 0;
@@ -695,10 +695,10 @@ s32 Slig::VGetSaveState(u8* pSaveBuffer)
     pState->field_9E_next_command_arg1 = field_212_next_command_arg1;
     pState->field_A0_cmd_idx = field_214_cmd_idx;
 
-    pState->field_A2_flags.Set(SligSaveState::eBit2_FollowGlukkon, field_216_flags.Get(Flags_216::eBit1_FollowGlukkon));
-    pState->field_A2_flags.Set(SligSaveState::eBit3_StoppedForLeverOrLift, field_216_flags.Get(Flags_216::eBit2_StoppedForLeverOrLift));
-    pState->field_A2_flags.Set(SligSaveState::eBit4_GlukkonCalledAllOYa, field_216_flags.Get(Flags_216::eBit3_GlukkonCalledAllOYa));
-    pState->field_A2_flags.Set(SligSaveState::eBit5_HeardGlukkon, field_216_flags.Get(Flags_216::eBit4_HeardGlukkon));
+    pState->mFollowGlukkon = mFollowGlukkon;
+    pState->mStoppedForLeverOrLift = mStoppedForLeverOrLift;
+    pState->mGlukkonCalledAllOYa = mGlukkonCalledAllOYa;
+    pState->mHeardGlukkon = mHeardGlukkon;
 
     return sizeof(SligSaveState);
 }
@@ -807,10 +807,10 @@ s32 Slig::CreateFromSaveState(const u8* pBuffer)
 
         pSlig->field_214_cmd_idx = pState->field_A0_cmd_idx;
 
-        pSlig->field_216_flags.Set(Flags_216::eBit1_FollowGlukkon, pState->field_A2_flags.Get(SligSaveState::eBit2_FollowGlukkon));
-        pSlig->field_216_flags.Set(Flags_216::eBit2_StoppedForLeverOrLift, pState->field_A2_flags.Get(SligSaveState::eBit3_StoppedForLeverOrLift));
-        pSlig->field_216_flags.Set(Flags_216::eBit3_GlukkonCalledAllOYa, pState->field_A2_flags.Get(SligSaveState::eBit4_GlukkonCalledAllOYa));
-        pSlig->field_216_flags.Set(Flags_216::eBit4_HeardGlukkon, pState->field_A2_flags.Get(SligSaveState::eBit5_HeardGlukkon));
+        pSlig->mFollowGlukkon = pState->mFollowGlukkon;
+        pSlig->mStoppedForLeverOrLift = pState->mStoppedForLeverOrLift;
+        pSlig->mGlukkonCalledAllOYa = pState->mGlukkonCalledAllOYa;
+        pSlig->mHeardGlukkon = pState->mHeardGlukkon;
 
         sSligsUnderControlCount_BAF7E8 = 0;
     }
@@ -2673,13 +2673,13 @@ s16 Slig::Brain_ListeningToGlukkon_4_4B9D20()
     auto pGlukkonObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_208_glukkon_obj_id));
     auto pPlatformObj = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
 
-    field_216_flags.Clear(Flags_216::eBit4_HeardGlukkon);
+    mHeardGlukkon = false;
 
     if (!pGlukkonObj || !pGlukkonObj->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
     {
         PauseALittle_4BDD00();
         mNextMotion = eSligMotions::M_SpeakLaugh_24_4B5430;
-        field_216_flags.Clear(Flags_216::eBit1_FollowGlukkon);
+        mFollowGlukkon = false;
         --sSligsUnderControlCount_BAF7E8;
         return Brain_ListeningToGlukkon_States::GettingAttention_0;
     }
@@ -2959,16 +2959,16 @@ s16 Slig::Brain_ListenToGlukkon_Moving(BaseAliveGameObject* pGlukkonObj)
     if (mCurrentMotion != eSligMotions::M_Running_4_4B6000 && FindSwitch_4B9A50())
     {
         mNextMotion = eSligMotions::M_StandIdle_0_4B4EC0;
-        field_216_flags.Clear(Flags_216::eBit1_FollowGlukkon);
-        field_216_flags.Set(Flags_216::eBit2_StoppedForLeverOrLift);
+        mFollowGlukkon = false;
+        mStoppedForLeverOrLift = true;
         return Brain_ListeningToGlukkon_States::StoppingNextToLever_5;
     }
 
     if (mCurrentMotion != eSligMotions::M_Running_4_4B6000 && FindLiftPoint_4B9B40())
     {
         mNextMotion = eSligMotions::M_StandIdle_0_4B4EC0;
-        field_216_flags.Clear(Flags_216::eBit1_FollowGlukkon);
-        field_216_flags.Set(Flags_216::eBit2_StoppedForLeverOrLift);
+        mFollowGlukkon = false;
+        mStoppedForLeverOrLift = true;
         return Brain_ListeningToGlukkon_States::StoppingOnLift_7;
     }
 
@@ -2989,7 +2989,7 @@ s16 Slig::Brain_ListenToGlukkon_Moving(BaseAliveGameObject* pGlukkonObj)
         field_160_last_event_index = gEventSystem->field_28_last_event_index;
         if (gEventSystem->field_20_last_event == GameSpeakEvents::Glukkon_StayHere_38 && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
         {
-            field_216_flags.Clear(Flags_216::eBit1_FollowGlukkon);
+            mFollowGlukkon = false;
             NextCommand_4B9A00(Brain_ListeningToGlukkon_GlukkonCommands::Stay_2, Brain_ListeningToGlukkon_States::IdleListening_1);
             return Brain_ListeningToGlukkon_States::Speaking_4;
         }
@@ -3021,12 +3021,12 @@ s16 Slig::Brain_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, Lif
         return mBrainSubState;
     }
 
-    if (field_216_flags.Get(Flags_216::eBit1_FollowGlukkon))
+    if (mFollowGlukkon)
     {
         field_20E_attention_timeout++;
     }
 
-    field_216_flags.Clear(Flags_216::eBit2_StoppedForLeverOrLift);
+    mStoppedForLeverOrLift = false;
 
     FP directedGridSize = {};
     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
@@ -3041,9 +3041,9 @@ s16 Slig::Brain_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, Lif
     const FP gridSize = ScaleToGridSize(GetSpriteScale());
 
     const s32 bWallHit = WallHit(GetSpriteScale() * FP_FromInteger(45), directedGridSize);
-    if (field_20E_attention_timeout <= 450 && (gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 1) || field_216_flags.Get(Flags_216::eBit1_FollowGlukkon)))
+    if (field_20E_attention_timeout <= 450 && (gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 1) || mFollowGlukkon))
     {
-        if (field_216_flags.Get(Flags_216::eBit1_FollowGlukkon))
+        if (mFollowGlukkon)
         {
             if (!VIsObjNearby(gridSize, pGlukkonObj))
             {
@@ -3059,7 +3059,7 @@ s16 Slig::Brain_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, Lif
                     {
                         if (FindLiftPoint_4B9B40())
                         {
-                            field_216_flags.Clear(Flags_216::eBit1_FollowGlukkon);
+                            mFollowGlukkon = false;
                             return Brain_ListeningToGlukkon_States::StoppingOnLift_7;
                         }
                         else
@@ -3120,11 +3120,11 @@ s16 Slig::Brain_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, Lif
             }
             else
             {
-                if (!field_216_flags.Get(Flags_216::eBit3_GlukkonCalledAllOYa) || glukkonSpeak == GameSpeakEvents::Glukkon_Hey_36)
+                if (!mGlukkonCalledAllOYa || glukkonSpeak == GameSpeakEvents::Glukkon_Hey_36)
                 {
                     if (!HeardGlukkonToListenTo_4B9690(glukkonSpeak))
                     {
-                        field_216_flags.Set(Flags_216::eBit3_GlukkonCalledAllOYa, glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40);
+                        mGlukkonCalledAllOYa = glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40 ? true : false;
                         return mBrainSubState;
                     }
                 }
@@ -3164,7 +3164,7 @@ s16 Slig::Brain_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, Lif
                                 }
 
                                 mBrainSubState = Brain_ListeningToGlukkon_States::IdleListening_1;
-                                field_216_flags.Set(Flags_216::eBit3_GlukkonCalledAllOYa, glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40);
+                                mGlukkonCalledAllOYa = glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40 ? true : false;
                                 return mBrainSubState;
                             }
                         }
@@ -3172,7 +3172,7 @@ s16 Slig::Brain_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, Lif
                         if (FindObjectOfType(ReliveTypes::eLever, ScaleToGridSize(GetSpriteScale()) + mXPos, mYPos - FP_FromInteger(5)) || FindObjectOfType(ReliveTypes::eLever, mXPos - ScaleToGridSize(GetSpriteScale()), mYPos - FP_FromInteger(5)))
                         {
                             mBrainSubState = Brain_ListeningToGlukkon_States::PullingLever_6;
-                            field_216_flags.Set(Flags_216::eBit3_GlukkonCalledAllOYa, glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40);
+                            mGlukkonCalledAllOYa = glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40 ? true : false;
                             return mBrainSubState;
                         }
 
@@ -3185,7 +3185,7 @@ s16 Slig::Brain_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, Lif
                                 NextCommand_4B9A00(Brain_ListeningToGlukkon_GlukkonCommands::DoitGunReload_7, Brain_ListeningToGlukkon_States::LostAttention_9);
                                 mBrainSubState = Brain_ListeningToGlukkon_States::Speaking_4;
                                 --sSligsUnderControlCount_BAF7E8;
-                                field_216_flags.Set(Flags_216::eBit3_GlukkonCalledAllOYa, glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40);
+                                mGlukkonCalledAllOYa = glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40 ? true : false;
                                 return mBrainSubState;
                             }
                         }
@@ -3193,31 +3193,31 @@ s16 Slig::Brain_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, Lif
                         mNextMotion = eSligMotions::M_Beat_51_4B6C00;
 
                         mBrainSubState = Brain_ListeningToGlukkon_States::IdleListening_1;
-                        field_216_flags.Set(Flags_216::eBit3_GlukkonCalledAllOYa, glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40);
+                        mGlukkonCalledAllOYa = glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40 ? true : false;
                         return mBrainSubState;
 
                     case GameSpeakEvents::Glukkon_StayHere_38:
-                        field_216_flags.Clear(Flags_216::eBit1_FollowGlukkon);
+                        mFollowGlukkon = false;
                         NextCommand_4B9A00(Brain_ListeningToGlukkon_GlukkonCommands::Stay_2, Brain_ListeningToGlukkon_States::IdleListening_1);
                         break;
 
                     case GameSpeakEvents::Glukkon_Commere_39:
-                        field_216_flags.Set(Flags_216::eBit1_FollowGlukkon);
+                        mFollowGlukkon = true;
                         if (VIsObjNearby(gridSize, pGlukkonObj))
                         {
                             if (!VIsObjNearby(gridSize * FP_FromDouble(0.5), pGlukkonObj))
                             {
                                 mBrainSubState = Brain_ListeningToGlukkon_States::NextToLeverThroughComeHere_3;
-                                field_216_flags.Set(Flags_216::eBit3_GlukkonCalledAllOYa, glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40);
+                                mGlukkonCalledAllOYa = glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40 ? true : false;
                                 return mBrainSubState;
                             }
                         }
 
                         if (FindLiftPoint_4B9B40())
                         {
-                            field_216_flags.Clear(Flags_216::eBit1_FollowGlukkon);
+                            mFollowGlukkon = false;
                             mBrainSubState = Brain_ListeningToGlukkon_States::StoppingOnLift_7;
-                            field_216_flags.Set(Flags_216::eBit3_GlukkonCalledAllOYa, glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40);
+                            mGlukkonCalledAllOYa = glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40 ? true : false;
                             return mBrainSubState;
                         }
 
@@ -3238,22 +3238,22 @@ s16 Slig::Brain_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, Lif
                     case GameSpeakEvents::Glukkon_KillEm_44:
                         mBrainSubState = Brain_ListeningToGlukkon_States::Shooting_8;
                         field_120_timer = sGnFrame + 25;
-                        field_216_flags.Set(Flags_216::eBit3_GlukkonCalledAllOYa, glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40);
+                        mGlukkonCalledAllOYa = glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40 ? true : false;
                         return mBrainSubState;
 
                     default:
-                        field_216_flags.Set(Flags_216::eBit3_GlukkonCalledAllOYa, glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40);
+                        mGlukkonCalledAllOYa = glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40 ? true : false;
                         return mBrainSubState;
                 }
             }
         }
         mBrainSubState = Brain_ListeningToGlukkon_States::Speaking_4;
-        field_216_flags.Set(Flags_216::eBit3_GlukkonCalledAllOYa, glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40);
+        mGlukkonCalledAllOYa = glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40 ? true : false;
         return mBrainSubState;
     }
 
     PauseALittle_4BDD00();
-    field_216_flags.Clear(Flags_216::eBit1_FollowGlukkon);
+    mFollowGlukkon = false;
     --sSligsUnderControlCount_BAF7E8;
     return Brain_ListeningToGlukkon_States::GettingAttention_0;
 }
@@ -3262,8 +3262,8 @@ s16 Slig::Brain_ListenToGlukkon_GettingAttention(BaseAliveGameObject* pGlukkonOb
 {
     mNextMotion = eSligMotions::M_StandIdle_0_4B4EC0;
     field_20E_attention_timeout = 0;
-    field_216_flags.Clear(Flags_216::eBit1_FollowGlukkon);
-    field_216_flags.Clear(Flags_216::eBit2_StoppedForLeverOrLift);
+    mFollowGlukkon = false;
+    mStoppedForLeverOrLift = false;
     if (!VIsFacingMe(pGlukkonObj))
     {
         mNextMotion = eSligMotions::M_TurnAroundStanding_5_4B6390;
@@ -4479,7 +4479,7 @@ void Slig::Init()
                     {
                         field_208_glukkon_obj_id = pGlukkon->mBaseGameObjectId;
                         sSligsUnderControlCount_BAF7E8++;
-                        field_216_flags.Set(Flags_216::eBit1_FollowGlukkon);
+                        mFollowGlukkon = true;
                         SetBrain(&Slig::Brain_ListeningToGlukkon_4_4B9D20);
                         mBrainSubState = Brain_ListeningToGlukkon_States::IdleListening_1;
                         break;
@@ -5603,7 +5603,7 @@ s16 Slig::ListenToGlukkonCommands_4B95D0()
 
     if (glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40)
     {
-        field_216_flags.Set(Flags_216::eBit3_GlukkonCalledAllOYa);
+        mGlukkonCalledAllOYa = true;
     }
 
     return 1;
@@ -6451,7 +6451,7 @@ s16 Slig::HeardGlukkonToListenTo_4B9690(GameSpeakEvents glukkonSpeak)
             {
                 if (VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromDouble(0.5), pOtherSlig))
                 {
-                    if ((pOtherSlig->VIsFacingMe(sControlledCharacter) && !VIsFacingMe(sControlledCharacter)) || pOtherSlig->field_216_flags.Get(Flags_216::eBit4_HeardGlukkon))
+                    if ((pOtherSlig->VIsFacingMe(sControlledCharacter) && !VIsFacingMe(sControlledCharacter)) || pOtherSlig->mHeardGlukkon)
                     {
                         return 0;
                     }
@@ -6468,7 +6468,7 @@ s16 Slig::HeardGlukkonToListenTo_4B9690(GameSpeakEvents glukkonSpeak)
         }
     }
 
-    field_216_flags.Set(Flags_216::eBit4_HeardGlukkon);
+    mHeardGlukkon = true;
     return 1;
 }
 
