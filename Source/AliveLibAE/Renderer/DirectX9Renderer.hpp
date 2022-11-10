@@ -47,6 +47,8 @@ private:
     IDirect3DSurface9* mTextureRenderTarget = nullptr;
     IDirect3DTexture9* mTexture = nullptr;
 
+    IDirect3DPixelShader9* mPixelShader = nullptr;
+
     LPDIRECT3DVERTEXBUFFER9 v_buffer = NULL;
 };
 

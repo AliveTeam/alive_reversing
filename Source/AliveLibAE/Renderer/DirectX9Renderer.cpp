@@ -132,15 +132,54 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
     mDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
     mDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
 
-    /*
-    const char* prog = "yo";
+const char* prog = R"(
+    struct VS_INPUT
+    {
+        float4 Position : POSITION;
+        float3 Normal : NORMAL;
+    };
+
+    struct VS_OUTPUT
+    {
+        float4 Position : POSITION;
+        float3 Normal : TEXCOORD0;
+        float4 Color : COLOR0;
+    };
+
+    struct PS_OUTPUT
+    {
+        float4 Color : COLOR0;
+    };
+
+    VS_OUTPUT VS(in VS_INPUT In)
+    {
+        VS_OUTPUT Out = (VS_OUTPUT) 0;
+
+        Out.Position = In.Position;
+        Out.Normal = In.Normal;
+
+        return Out;
+    };
+
+    PS_OUTPUT PS(in VS_OUTPUT In)
+    {
+        PS_OUTPUT Out = (PS_OUTPUT) 0;
+
+        float4 diffuse = {1.0, 0.0, 0.0, 1.0};
+        Out.Color = In.Color;
+
+        return Out;
+    };)";
+
     LPD3DXBUFFER shader;
     LPD3DXBUFFER err;
-    DX_VERIFY(D3DXAssembleShader(prog, strlen(prog), NULL, NULL, 0, &shader, &err));
-    */
+    LPD3DXCONSTANTTABLE pConstantTable;
+    DWORD dwShaderFlags = D3DXSHADER_SKIPOPTIMIZATION | D3DXSHADER_DEBUG;
+    DX_VERIFY(D3DXCompileShader(prog, strlen(prog), NULL, NULL, "PS", "ps_3_0", dwShaderFlags, &shader, &err, &pConstantTable));
+    DX_VERIFY(mDevice->CreatePixelShader((DWORD*)shader->GetBufferPointer(), &mPixelShader));
 
+    // VS vs_3_0
     //mDevice->CreateVertexShader();
-    //mDevice->CreatePixelShader();
 
     D3DCAPS9 hal_caps = {};
     DX_VERIFY(mDevice->GetDeviceCaps(&hal_caps));
@@ -196,6 +235,8 @@ void DirectX9Renderer::StartFrame(s32 /*xOff*/, s32 /*yOff*/)
 
         // Draw everything to the texture
         mDevice->SetRenderTarget(0, mTextureRenderTarget);
+
+        mDevice->SetPixelShader(mPixelShader);
 
         DX_VERIFY(mDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(128, 0, 0), 1.0f, 0));
     }
