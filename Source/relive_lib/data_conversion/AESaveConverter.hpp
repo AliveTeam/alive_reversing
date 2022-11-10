@@ -1007,7 +1007,7 @@ struct FleechSaveState final
     s32 mPlatformId;
     s32 mTlvInfo;
     s32 field_44_obj_id;
-    s16 field_48_unused; //TODO: Saves and sets another unused field, field_120 -- Nemin (7/5/2020)
+    s16 field_48_unused;
     s16 mTongueState;
     s16 mTongueSubState;
     s16 mEnemyXPos;
@@ -1187,15 +1187,15 @@ struct FlyingSligSaveState final
     enum Flags_3A
     {
         eBit1_bPossessed = 0x1,
-        eBit2_Throw = 0x2,
+        eBit2_Throw_grenade = 0x2,
         eBit3_bAlertedAndNotFacingAbe = 0x4,
         eBit4_DoAction = 0x8,
         eBit5_Chanting = 0x10,
         eBit6_Speaking_flag2 = 0x20,
         eBit7_Speaking_flag1 = 0x40,
         eBit8_bLastLine = 0x80,
-        eBit9 = 0x100,
-        eBit10 = 0x200,
+        eBit9_unknown1 = 0x100,
+        eBit10_unknown2 = 0x200,
         eBit11_padding = 0x400,
     };
     BitField16<Flags_3A> field_3A;
@@ -1238,7 +1238,6 @@ struct FlyingSligSaveState final
     {
         ::FlyingSligSaveState d;
         d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
-        d.field_2 = data.field_2;
         d.field_4_xpos = data.field_4_xpos;
         d.field_8_ypos = data.field_8_ypos;
         d.field_C_velx = data.field_C_velx;
@@ -1261,7 +1260,16 @@ struct FlyingSligSaveState final
         d.field_34_lastLineYPos = data.field_34_lastLineYPos;
         d.field_36_line_idx = data.field_36_line_idx;
         d.field_38_launch_switch_id = data.field_38_launch_switch_id;
-        d.field_3A.Raw().all = data.field_3A.Raw().all; // TODO: convert flags to bools
+        d.mPossessed = data.field_3A.Get(Flags_3A::eBit1_bPossessed);
+        d.mThrowGrenade = data.field_3A.Get(Flags_3A::eBit2_Throw_grenade);
+        d.mAlertedAndNotFacingAbe = data.field_3A.Get(Flags_3A::eBit3_bAlertedAndNotFacingAbe);
+        d.mDoAction = data.field_3A.Get(Flags_3A::eBit4_DoAction);
+        d.mChanting = data.field_3A.Get(Flags_3A::eBit5_Chanting);
+        d.mSpeaking2 = data.field_3A.Get(Flags_3A::eBit6_Speaking_flag2);
+        d.mSpeaking1 = data.field_3A.Get(Flags_3A::eBit7_Speaking_flag1);
+        d.mLastLine = data.field_3A.Get(Flags_3A::eBit8_bLastLine);
+        d.mUnknown1 = data.field_3A.Get(Flags_3A::eBit9_unknown1);
+        d.mUnknown2 = data.field_3A.Get(Flags_3A::eBit10_unknown2);
         d.field_3C_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_3C_tlvInfo);
         d.field_40_timer = data.field_40_timer;
         d.field_44_grenade_delay = data.field_44_grenade_delay;
