@@ -63,13 +63,13 @@ public:
             // Acquire the index we're taking over
             nextIndex = iter->second.mIndex;
 
-            ret.mAllocated = true;
-
             // Bin the old one
             mPaletteCache.erase(unusedPaletteHash);
         }
 
         mPaletteCache[paletteHash] = PalCacheEntry{nextIndex, true};
+
+        ret.mAllocated = true;
         ret.mIndex = nextIndex;
 
         return ret;
