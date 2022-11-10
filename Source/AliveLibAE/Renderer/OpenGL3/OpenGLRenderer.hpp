@@ -2,6 +2,7 @@
 
 #include "../IRenderer.hpp"
 #include "../TextureCache.hpp"
+#include "../PaletteCache.hpp"
 
 #include <GL/glew.h>
 #include <memory>
@@ -70,6 +71,7 @@ public:
 class OpenGLRenderer final : public IRenderer
 {
 public:
+    OpenGLRenderer();
     void Clear(u8 r, u8 g, u8 b) override;
     bool Create(TWindowHandleType window) override;
     void Destroy() override;
@@ -158,14 +160,6 @@ private:
     std::vector<VertexData> mScreenWaveData;
     std::vector<u32> mScreenWaveIndicies;
 
-    std::unique_ptr<GLTexture2D> mPaletteTexture;
-    struct PalCacheEntry final
-    {
-        u32 mIndex = 0;
-        bool mInUse = false;
-    };
-    std::map<u32, PalCacheEntry> mPaletteCache;
-
     GLuint mCurGasTextureId = 0;
 
     GLuint mCurCamTextureId = 0;
@@ -190,13 +184,15 @@ private:
     void UpdateFilterFramebuffer();
     
     u32 PreparePalette(AnimationPal& pCache);
-    u32 HashPalette(const AnimationPal* pPal);
     u32 PrepareTextureFromAnim(Animation& anim);
     u32 PrepareTextureFromPoly(Poly_FT4& poly);
 
     // END ROZZA STUFF
 
     GLuint mVAO = 0;
+
+    std::unique_ptr<GLTexture2D> mPaletteTexture;
+    PaletteCache mPaletteCache;
 
     OpenGLTextureCache mTextureCache;
 

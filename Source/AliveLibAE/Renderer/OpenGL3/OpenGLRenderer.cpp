@@ -55,73 +55,19 @@ static GLuint Renderer_CreateTexture(GLenum interpolation = GL_NEAREST)
 
 u32 OpenGLRenderer::PreparePalette(AnimationPal& pCache)
 {
-    // Check we don't already have this palette
-    const u32 paletteHash = HashPalette(&pCache);
-    auto searchResult = mPaletteCache.find(paletteHash);
+    const PaletteCache::AddResult addRet = mPaletteCache.Add(pCache);
 
-    if (searchResult != std::end(mPaletteCache))
+    if (addRet.mAllocated)
     {
-        searchResult->second.mInUse = true;
-        return searchResult->second.mIndex; // Palette index
+        // Write palette data
+        mPaletteTexture->LoadSubImage(0, addRet.mIndex, GL_PALETTE_DEPTH, 1, pCache.mPal);
+
+        mStats.mPalUploadCount++;
     }
 
-    // Get an index for the new palette
-    u32 nextIndex = static_cast<u32>(mPaletteCache.size());
-
-    if (nextIndex >= GL_AVAILABLE_PALETTES)
-    {
-        // Look for a unused slot
-        u32 unusedPaletteHash = 0;
-
-        auto iter = mPaletteCache.begin();
-        while (iter != mPaletteCache.end())
-        {
-            if (!iter->second.mInUse)
-            {
-                // Found an unused one
-                unusedPaletteHash = iter->first;
-                break;
-            }
-            iter++;
-        }
-
-        if (iter == std::end(mPaletteCache))
-        {
-            ALIVE_FATAL("Ran out of palettes!");
-        }
-
-        // Acquire the index we're taking over
-        nextIndex = iter->second.mIndex;
-
-        // Bin the old one
-        mPaletteCache.erase(unusedPaletteHash);
-    }
-
-    mPaletteCache[paletteHash] = PalCacheEntry{nextIndex, true};
-
-    // Write palette data
-    mPaletteTexture->LoadSubImage(0, nextIndex, GL_PALETTE_DEPTH, 1, pCache.mPal);
-
-    mStats.mPalUploadCount++;
-
-    return nextIndex;
+    return addRet.mIndex;
 }
 
-u32 OpenGLRenderer::HashPalette(const AnimationPal* pPal)
-{
-    // This is the 'djb2' algorithm
-    u32 hash = 5381;
-
-    for (int i = 0; i < GL_PALETTE_DEPTH; i++)
-    {
-        hash = ((hash << 5) + hash) + pPal->mPal[i].r;
-        hash = ((hash << 5) + hash) + pPal->mPal[i].g;
-        hash = ((hash << 5) + hash) + pPal->mPal[i].b;
-        hash = ((hash << 5) + hash) + pPal->mPal[i].a;
-    }
-
-    return hash;
-}
 
 GLuint OpenGLRenderer::CreateCachedTexture(u32 uniqueId, u32 lifetime)
 {
@@ -207,6 +153,12 @@ u32 OpenGLRenderer::PrepareTextureFromPoly(Poly_FT4& poly)
     }
 
     return textureId;
+}
+
+OpenGLRenderer::OpenGLRenderer()
+    : mPaletteCache(GL_AVAILABLE_PALETTES)
+{
+
 }
 
 void OpenGLRenderer::Clear(u8 r, u8 g, u8 b)
@@ -917,11 +869,7 @@ void OpenGLRenderer::DecreaseResourceLifetimes()
 
     mTextureCache.DecreaseResourceLifetimes();
 
-    for (auto iter = mPaletteCache.begin(); iter != mPaletteCache.end(); iter++)
-    {
-        // Default all palettes to unused for next draw
-        iter->second.mInUse = false;
-    }
+    mPaletteCache.ResetUseFlags();
 }
 
 void OpenGLRenderer::DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height)

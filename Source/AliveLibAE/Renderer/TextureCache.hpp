@@ -76,6 +76,7 @@ public:
         }
     }
 
+private:
     struct CachedTexture final
     {
         TextureType mTextureId = {};
