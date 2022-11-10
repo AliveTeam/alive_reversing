@@ -133,53 +133,12 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
     mDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
 
 const char* prog = R"(
-    struct VS_INPUT
-    {
-        float4 Position : POSITION;
-        float3 Normal : NORMAL;
-    };
-
-    struct VS_OUTPUT
-    {
-        float4 Position : POSITION;
-        float3 Normal : TEXCOORD0;
-        float4 Color : COLOR0;
-    };
-
-    struct PS_OUTPUT
-    {
-        float4 Color : COLOR0;
-    };
-
-    VS_OUTPUT VS(in VS_INPUT In)
-    {
-        VS_OUTPUT Out = (VS_OUTPUT) 0;
-
-        Out.Position = In.Position;
-        Out.Normal = In.Normal;
-
-        return Out;
-    };
-
     sampler camTex : register(s0); // s0 = sampler register 0
 
     float4 PS( float4 Col : COLOR0, float2 tex : TEXCOORD0 ) : COLOR
     {
         return tex2D (camTex, tex) * Col;
     }
-    
-    /*
-    PS_OUTPUT PS(in VS_OUTPUT In)
-    {
-        PS_OUTPUT Out = (PS_OUTPUT) 0;
-
-        float4 diffuse = {1.0, 0.0, 0.0, 1.0};
-        Out.Color = In.Color;
-
-        return Out;
-    };
-    */
-
     )";
 
     LPD3DXBUFFER shader;
@@ -188,9 +147,6 @@ const char* prog = R"(
     DWORD dwShaderFlags = D3DXSHADER_SKIPOPTIMIZATION | D3DXSHADER_DEBUG;
     DX_VERIFY(D3DXCompileShader(prog, strlen(prog), NULL, NULL, "PS", "ps_3_0", dwShaderFlags, &shader, &err, &pConstantTable));
     DX_VERIFY(mDevice->CreatePixelShader((DWORD*)shader->GetBufferPointer(), &mPixelShader));
-
-    // VS vs_3_0
-    //mDevice->CreateVertexShader();
 
     D3DCAPS9 hal_caps = {};
     DX_VERIFY(mDevice->GetDeviceCaps(&hal_caps));
@@ -335,7 +291,7 @@ void DirectX9Renderer::Draw(Poly_F4& /*poly*/)
 
 void DirectX9Renderer::Draw(Poly_FT4& poly)
 {
-    if (poly.mCam)
+    if (poly.mCam && !poly.mFg1)
     {
         SetQuad(0.0f, 0.0f, 640.0f, 240.0f);
 
@@ -368,7 +324,7 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
         }
     }
 
-    if (poly.mAnim)
+    if ((poly.mCam && !poly.mFg1) || poly.mAnim)
     {
       
         // select which vertex format we are using
@@ -405,7 +361,7 @@ void DirectX9Renderer::SetQuad(f32 x, f32 y, f32 w, f32 h)
         {
             w,
             y,
-            0.5f,
+            0.4f,
             1.0f,
             D3DCOLOR_XRGB(128, 128, 128),
             1.0f,
