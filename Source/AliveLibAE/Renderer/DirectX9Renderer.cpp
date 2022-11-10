@@ -161,6 +161,14 @@ const char* prog = R"(
         return Out;
     };
 
+    sampler camTex : register(s0); // s0 = sampler register 0
+
+    float4 PS( float4 Col : COLOR0, float2 tex : TEXCOORD0 ) : COLOR
+    {
+        return tex2D (camTex, tex) * Col;
+    }
+    
+    /*
     PS_OUTPUT PS(in VS_OUTPUT In)
     {
         PS_OUTPUT Out = (PS_OUTPUT) 0;
@@ -169,7 +177,10 @@ const char* prog = R"(
         Out.Color = In.Color;
 
         return Out;
-    };)";
+    };
+    */
+
+    )";
 
     LPD3DXBUFFER shader;
     LPD3DXBUFFER err;
