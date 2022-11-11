@@ -129,6 +129,13 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
 
     MakeVertexBuffer();
     
+    for (u32 i = 0; i < 8; i++)
+    {
+        mDevice->SetSamplerState(i, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
+        mDevice->SetSamplerState(i, D3DSAMP_MINFILTER, D3DTEXF_POINT);
+        mDevice->SetSamplerState(i, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
+    }
+
     mDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
     mDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
     mDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
@@ -150,8 +157,12 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
     const int BLEND_MODE_ONE_DST_SUB_ONE_SRC   = 2;
     const int BLEND_MODE_ONE_DST_ADD_QRT_SRC   = 3;
 
-    float4 draw_default_ft4()
+    float4 draw_default_ft4(int textureUnit, int palIndex, float2 fsUV)
     {
+        //float texelSprite = tex2D(texSpriteSheets[textureUnit], fsUV).r;
+
+        //float4 texelPal = PixelToPalette(texelSprite);
+
         return float4(0.0, 1.0, 1.0, 0.5);
     }
 
@@ -167,11 +178,11 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
 
         if (drawType == 1)
         {
-            return draw_default_ft4();
+            return draw_default_ft4(textureUnit, palIndex, fsUV);
         }
 
         // assume cam for now
-        return tex2D(texCamera, fsUV) * fsShadeColor;
+        return tex2D(texCamera, fsUV) ;
     }
     )";
 
@@ -195,7 +206,9 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
     DX_VERIFY(mDevice->GetRenderTarget(0, &mScreenRenderTarget));
     DX_VERIFY(mDevice->SetRenderTarget(0, mTextureRenderTarget));
 
+
     DX_VERIFY(mDevice->CreateTexture(640, 240, 0, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &mTexture, nullptr));
+    //mTexture->SetAutoGenFilterType(D3DTEXF_NONE);
 
     D3DLOCKED_RECT locked = {};
     DX_VERIFY(mTexture->LockRect(0, &locked, nullptr, D3DLOCK_DISCARD));
