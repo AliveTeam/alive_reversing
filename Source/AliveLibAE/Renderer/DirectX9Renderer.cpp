@@ -223,11 +223,14 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
 
         if (textureUnit == 0)
         {
-            texelSprite = tex2D(texSpriteSheets[0], fsUV).a;
+            texelSprite = tex2D(texSpriteSheets[0], fsUV);
         }
+        
+        // TODO: textureUnit == 0 not hit
+        texelSprite = tex2D(texSpriteSheets[0], fsUV);
 
         float4 texelPal = PixelToPalette(texelSprite, palIndex);
-
+        
         float4 finalCol = handle_final_color(fsShadeColor, texelPal, true, isShaded, blendMode, isSemiTrans);
 
         return finalCol;
@@ -432,20 +435,22 @@ u32 DirectX9Renderer::PreparePalette(AnimationPal& pCache)
     if (addRet.mAllocated)
     {
         D3DLOCKED_RECT locked = {};
-        const RECT toLock = {0, static_cast<LONG>(addRet.mIndex), 256, static_cast<LONG>(addRet.mIndex) + 1};
-        DX_VERIFY(mPaletteTexture->LockRect(0, &locked, &toLock, D3DLOCK_DISCARD));
+        //const RECT toLock = {0, static_cast<LONG>(addRet.mIndex), 256, static_cast<LONG>(addRet.mIndex) + 1};
+        DX_VERIFY(mPaletteTexture->LockRect(0, &locked, nullptr, 0));
 
         RGBA32* pSrc = &pCache.mPal[0];
-
-        u32* p = (u32*) locked.pBits;
-        p = p + ((locked.Pitch / 4) * addRet.mIndex);
-        for (u32 x = 0; x < ALIVE_COUNTOF(pCache.mPal); x++)
+        for (u32 y = addRet.mIndex; y < addRet.mIndex + 1; y++)
         {
-            *p = (pSrc->a << 24) + (pSrc->r << 16) + (pSrc->g << 8) + (pSrc->b);
-            p++;
-            pSrc++;
+            u32* p = (u32*) locked.pBits;
+            p = p + ((locked.Pitch / 4) * addRet.mIndex);
+            for (u32 x = 0; x < ALIVE_COUNTOF(pCache.mPal); x++)
+            {
+                *p = (pSrc->a << 24) + (pSrc->r << 16) + (pSrc->g << 8) + (pSrc->b);
+                p++;
+                pSrc++;
+            }
         }
-    
+
         DX_VERIFY(mPaletteTexture->UnlockRect(0));
 
         // TODO: Write palette data
@@ -535,6 +540,7 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
 
         DX_VERIFY(mDevice->SetTexture(2, pTextureToUse));
         DX_VERIFY(mDevice->SetTexture(1, mPaletteTexture));
+        DX_VERIFY(mDevice->SetTexture(0, mTexture));
 
         // copy the vertex buffer to the back buffer
         DX_VERIFY(mDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2));
