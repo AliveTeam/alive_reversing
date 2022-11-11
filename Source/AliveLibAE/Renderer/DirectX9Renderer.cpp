@@ -150,39 +150,102 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
     DX_VERIFY(mDevice->SetVertexDeclaration(mVertexDecl));
 
     const char* prog = R"(
-    sampler texPalette;
+    sampler texPalette : register(s1);
     sampler texGas;
     sampler texCamera : register(s0); // s0 = sampler register 0;
     sampler texFG1Masks[4];
-    sampler texSpriteSheets[8];
+    sampler texSpriteSheets[8] : register(s2);
 
-    const int BLEND_MODE_HALF_DST_ADD_HALF_SRC = 0;
-    const int BLEND_MODE_ONE_DST_ADD_ONE_SRC   = 1;
-    const int BLEND_MODE_ONE_DST_SUB_ONE_SRC   = 2;
-    const int BLEND_MODE_ONE_DST_ADD_QRT_SRC   = 3;
+    static const int BLEND_MODE_HALF_DST_ADD_HALF_SRC = 0;
+    static const int BLEND_MODE_ONE_DST_ADD_ONE_SRC   = 1;
+    static const int BLEND_MODE_ONE_DST_SUB_ONE_SRC   = 2;
+    static const int BLEND_MODE_ONE_DST_ADD_QRT_SRC   = 3;
 
-    float4 draw_default_ft4(int textureUnit, int palIndex, float2 fsUV)
+    float4 PixelToPalette(float v, int palIndex)
     {
-        //float texelSprite = tex2D(texSpriteSheets[textureUnit], fsUV).r;
+        return tex2D(texPalette, float2(v, palIndex / 255.0));
+    }
 
-        //float4 texelPal = PixelToPalette(texelSprite);
+    float3 handle_shading(float4 fsShadeColor, float3 texelT, bool isShaded)
+    {
+        float3 texelP = texelT;
 
-        return float4(0.0, 1.0, 1.0, 0.5);
+        if (isShaded)
+        {
+            texelP.r = clamp((texelT.r * (fsShadeColor.r / 255.0)) / 0.5f, 0.0f, 1.0f);
+            texelP.g = clamp((texelT.g * (fsShadeColor.g / 255.0)) / 0.5f, 0.0f, 1.0f);
+            texelP.b = clamp((texelT.b * (fsShadeColor.b / 255.0)) / 0.5f, 0.0f, 1.0f);
+        }
+
+        return texelP;
+    }
+
+    float4 handle_final_color(float4 fsShadeColor, float4 src, bool doShading, bool isShaded, int blendMode, bool isSemiTrans)
+    {
+        float4 ret = src;
+
+        if (all(src == float4(0.0, 0.0, 0.0, 0.0)))
+        {
+            return float4(0.0, 0.0, 0.0, 1.0);
+        }
+
+        if (doShading)
+        {
+            ret.rgb = handle_shading(fsShadeColor, src.rgb, isShaded);
+        }
+
+        if (isSemiTrans && src.a == 1.0)
+        {
+            if (blendMode == BLEND_MODE_HALF_DST_ADD_HALF_SRC)
+            {
+                ret = float4(ret.rgb * 0.5, 0.5);
+            }
+            else if (blendMode == BLEND_MODE_ONE_DST_ADD_ONE_SRC || blendMode == BLEND_MODE_ONE_DST_SUB_ONE_SRC)
+            {
+                ret = float4(ret.rgb, 1.0);
+            }
+            else if (blendMode == BLEND_MODE_ONE_DST_ADD_QRT_SRC)
+            {
+                ret = float4(ret.rgb * 0.25, 1.0);
+            }
+        }
+        else
+        {
+            ret = float4(ret.rgb, 0.0);
+        }
+
+        return ret;
+    }
+
+    float4 draw_default_ft4(float4 fsShadeColor, int textureUnit, int palIndex, float2 fsUV, bool isShaded, int blendMode, bool isSemiTrans)
+    {
+        float texelSprite = 0.0;
+
+        if (textureUnit == 0)
+        {
+            texelSprite = tex2D(texSpriteSheets[0], fsUV).a;
+        }
+
+        float4 texelPal = PixelToPalette(texelSprite, palIndex);
+
+        float4 finalCol = handle_final_color(fsShadeColor, texelPal, true, isShaded, blendMode, isSemiTrans);
+
+        return finalCol;
     }
 
     float4 PS( float4 fsShadeColor : COLOR0, float2 fsUV : TEXCOORD0, int4 data1 : BLENDINDICES0, int4 data2: BLENDINDICES1 ) : COLOR
     {
         int drawType = data1[0];
-        int isSemiTrans = data1.y;
-        int isShaded = data1.z;
-        int blendMode = data1.w;
+        int isSemiTrans = data1[1];
+        int isShaded = data1[2];
+        int blendMode = data1[3];
 
-        int palIndex = data2.x;
-        int textureUnit = data2.y;
+        int palIndex = data2[0];
+        int textureUnit = data2[1];
 
         if (drawType == 1)
         {
-            return draw_default_ft4(textureUnit, palIndex, fsUV);
+            return draw_default_ft4(fsShadeColor, textureUnit, palIndex, fsUV, isShaded, blendMode, isSemiTrans);
         }
 
         // assume cam for now
@@ -194,7 +257,15 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
     LPD3DXBUFFER err;
     LPD3DXCONSTANTTABLE pConstantTable;
     DWORD dwShaderFlags = D3DXSHADER_SKIPOPTIMIZATION | D3DXSHADER_DEBUG;
-    DX_VERIFY(D3DXCompileShader(prog, strlen(prog), NULL, NULL, "PS", "ps_3_0", dwShaderFlags, &shader, &err, &pConstantTable));
+
+    const HRESULT shaderHr = D3DXCompileShader(prog, strlen(prog), NULL, NULL, "PS", "ps_3_0", dwShaderFlags, &shader, &err, &pConstantTable);
+    if (FAILED(shaderHr))
+    {
+        const DWORD errBufferSize = err->GetBufferSize();
+        std::string errStr(reinterpret_cast<const char*>(err->GetBufferPointer()), errBufferSize);
+        ALIVE_FATAL("D3DXCompileShader failed 0x%08X Compiler returned: %s", shaderHr, errStr.c_str());
+    }
+
     DX_VERIFY(mDevice->CreatePixelShader((DWORD*)shader->GetBufferPointer(), &mPixelShader));
 
 
@@ -212,6 +283,8 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
 
 
     DX_VERIFY(mDevice->CreateTexture(640, 240, 0, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &mTexture, nullptr));
+    DX_VERIFY(mDevice->CreateTexture(512, 256, 0, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &mPaletteTexture, nullptr));
+
     //mTexture->SetAutoGenFilterType(D3DTEXF_NONE);
 
     D3DLOCKED_RECT locked = {};
@@ -358,6 +431,23 @@ u32 DirectX9Renderer::PreparePalette(AnimationPal& pCache)
 
     if (addRet.mAllocated)
     {
+        D3DLOCKED_RECT locked = {};
+        const RECT toLock = {0, static_cast<LONG>(addRet.mIndex), 256, static_cast<LONG>(addRet.mIndex) + 1};
+        DX_VERIFY(mPaletteTexture->LockRect(0, &locked, &toLock, D3DLOCK_DISCARD));
+
+        RGBA32* pSrc = &pCache.mPal[0];
+
+        u32* p = (u32*) locked.pBits;
+        p = p + ((locked.Pitch / 4) * addRet.mIndex);
+        for (u32 x = 0; x < ALIVE_COUNTOF(pCache.mPal); x++)
+        {
+            *p = (pSrc->a << 24) + (pSrc->r << 16) + (pSrc->g << 8) + (pSrc->b);
+            p++;
+            pSrc++;
+        }
+    
+        DX_VERIFY(mPaletteTexture->UnlockRect(0));
+
         // TODO: Write palette data
         //mPaletteTexture->LoadSubImage(0, addRet.mIndex, GL_PALETTE_DEPTH, 1, pCache.mPal);
 
@@ -369,7 +459,11 @@ u32 DirectX9Renderer::PreparePalette(AnimationPal& pCache)
 
 void DirectX9Renderer::Draw(Poly_FT4& poly)
 {
-    IDirect3DTexture9* pTextureToUse = mTexture;
+    // select which vertex format we are using
+    DX_VERIFY(mDevice->SetVertexDeclaration(mVertexDecl));
+
+    // select the vertex buffer to display
+    DX_VERIFY(mDevice->SetStreamSource(0, v_buffer, 0, sizeof(CUSTOMVERTEX)));
 
     if (poly.mCam && !poly.mFg1)
     {
@@ -393,10 +487,15 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
         }
         DX_VERIFY(mTexture->UnlockRect(0));
 
+        DX_VERIFY(mDevice->SetTexture(0, mTexture));
+        DX_VERIFY(mDevice->SetTexture(1, mPaletteTexture));
+
+        // copy the vertex buffer to the back buffer
+        DX_VERIFY(mDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2));
     }
     else if (poly.mAnim)
     {
-        pTextureToUse = PrepareTextureFromAnim(*poly.mAnim);
+        IDirect3DTexture9* pTextureToUse = PrepareTextureFromAnim(*poly.mAnim);
        
         u8 r = poly.mBase.header.rgb_code.r;
         u8 g = poly.mBase.header.rgb_code.g;
@@ -434,24 +533,13 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
         u8 textureUnit = 1;
         SetQuad(1, isSemiTrans, isShaded, palIndex, blendMode, textureUnit, r, g, b, poly);
 
-        //DX_VERIFY(mDevice->SetPixelShaderConstantI());
-
-    }
-
-    if ((poly.mCam && !poly.mFg1) || poly.mAnim)
-    {
-      
-        // select which vertex format we are using
-        DX_VERIFY(mDevice->SetVertexDeclaration(mVertexDecl));
-
-        // select the vertex buffer to display
-        DX_VERIFY(mDevice->SetStreamSource(0, v_buffer, 0, sizeof(CUSTOMVERTEX)));
-
-        DX_VERIFY(mDevice->SetTexture(0, pTextureToUse));
+        DX_VERIFY(mDevice->SetTexture(2, pTextureToUse));
+        DX_VERIFY(mDevice->SetTexture(1, mPaletteTexture));
 
         // copy the vertex buffer to the back buffer
         DX_VERIFY(mDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2));
     }
+
 }
 
 void DirectX9Renderer::Draw(Poly_G4& /*poly*/)
@@ -643,7 +731,7 @@ IDirect3DTexture9* DirectX9Renderer::PrepareTextureFromAnim(Animation& anim)
     if (!textureId)
     {
         IDirect3DTexture9* newTexture = nullptr;
-        DX_VERIFY(mDevice->CreateTexture(r.mTgaPtr->mWidth, r.mTgaPtr->mHeight, 0, 0, D3DFMT_A8, D3DPOOL_MANAGED, &newTexture, nullptr));
+        DX_VERIFY(mDevice->CreateTexture(r.mTgaPtr->mWidth, r.mTgaPtr->mHeight, 0, 0, D3DFMT_L8, D3DPOOL_MANAGED, &newTexture, nullptr));
 
         mTextureCache.Add(r.mUniqueId.Id(), DX_SPRITE_TEXTURE_LIFETIME, newTexture);
 
