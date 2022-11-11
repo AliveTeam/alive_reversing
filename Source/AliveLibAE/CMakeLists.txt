@@ -7,6 +7,8 @@ SET(AliveLibAESrc
     Renderer/SoftwareRenderer.cpp
     Renderer/DirectX9Renderer.hpp
     Renderer/DirectX9Renderer.cpp
+    Renderer/PaletteCache.hpp
+    Renderer/TextureCache.hpp
     Renderer/OpenGL3/GLDebug.hpp
     Renderer/OpenGL3/GLDebug.cpp
     Renderer/OpenGL3/GLFramebuffer.hpp
