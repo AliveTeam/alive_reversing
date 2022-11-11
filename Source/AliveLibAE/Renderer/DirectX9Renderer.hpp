@@ -44,13 +44,15 @@ public:
     void Draw(Poly_G4& poly) override;
 
 private:
+    void SetupBlendMode(u16 blendMode);
+
     u32 PreparePalette(AnimationPal& pCache);
 
     void DecreaseResourceLifetimes();
 
     void MakeVertexBuffer();
     void SetQuad(f32 x, f32 y, f32 w, f32 h);
-    void SetQuad(u8 type, bool isSemiTrans, bool isShaded, u8 blendMode, u8 palIndex, u8 textureUnit, u8 r, u8 g, u8 b, Poly_FT4& poly);
+    void SetQuad(u8 type, bool isSemiTrans, bool isShaded, u8 blendMode, u8 palIndex, u8 textureUnit, u8 r, u8 g, u8 b, float u0, float v0, float u1, float v1, Poly_FT4& poly);
 
 
     IDirect3DTexture9* PrepareTextureFromAnim(Animation& anim);
