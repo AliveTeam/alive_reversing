@@ -166,7 +166,7 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
 
     float4 PixelToPalette(float v, int palIndex)
     {
-        return tex2D(texPalette, float2(v, palIndex / 255.0));
+        return tex2D(texPalette, float2(v, palIndex / 255.0f));
     }
 
     float3 handle_shading(float4 fsShadeColor, float3 texelT, bool isShaded)
@@ -175,9 +175,9 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
 
         if (isShaded)
         {
-            //texelP.r = clamp((texelT.r * (fsShadeColor.r / 255.0)) / 0.5f, 0.0f, 1.0f);
-            //texelP.g = clamp((texelT.g * (fsShadeColor.g / 255.0)) / 0.5f, 0.0f, 1.0f);
-            //texelP.b = clamp((texelT.b * (fsShadeColor.b / 255.0)) / 0.5f, 0.0f, 1.0f);
+            texelP.r = saturate((texelT.r * (fsShadeColor.r)) / 0.5f);
+            texelP.g = saturate((texelT.g * (fsShadeColor.g)) / 0.5f);
+            texelP.b = saturate((texelT.b * (fsShadeColor.b)) / 0.5f);
         }
 
         return texelP;
@@ -230,7 +230,7 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
         }
         
         // TODO: textureUnit == 0 not hit
-        texelSprite = tex2D(texSpriteSheets[0], fsUV);
+       // texelSprite = tex2D(texSpriteSheets[0], fsUV);
 
         float4 texelPal = PixelToPalette(texelSprite, palIndex);
         
@@ -289,7 +289,7 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
 
 
     DX_VERIFY(mDevice->CreateTexture(640, 240, 0, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &mTexture, nullptr));
-    DX_VERIFY(mDevice->CreateTexture(512, 256, 0, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &mPaletteTexture, nullptr));
+    DX_VERIFY(mDevice->CreateTexture(256, 256, 0, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &mPaletteTexture, nullptr));
 
     //mTexture->SetAutoGenFilterType(D3DTEXF_NONE);
 
