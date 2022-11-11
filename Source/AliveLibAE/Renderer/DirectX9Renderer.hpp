@@ -44,6 +44,8 @@ public:
     void Draw(Poly_G4& poly) override;
 
 private:
+    u32 PreparePalette(AnimationPal& pCache);
+
     void DecreaseResourceLifetimes();
 
     void MakeVertexBuffer();
@@ -57,6 +59,9 @@ private:
 
     SDL_Renderer* mRenderer = nullptr;
     IDirect3DDevice9* mDevice = nullptr;
+
+    IDirect3DVertexDeclaration9* mVertexDecl = nullptr;
+
     IDirect3DSurface9* mScreenRenderTarget = nullptr;
     IDirect3DSurface9* mTextureRenderTarget = nullptr;
     IDirect3DTexture9* mTexture = nullptr;

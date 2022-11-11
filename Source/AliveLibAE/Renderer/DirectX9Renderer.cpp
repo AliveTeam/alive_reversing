@@ -14,11 +14,10 @@
 struct CUSTOMVERTEX
 {
     FLOAT X, Y, Z, RHW;
-    DWORD COLOR;
+    DWORD COLOR; // diffuse
     float u;
     float v;
 };
-#define CUSTOMFVF (D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1)
 
 #define DX_SPRITE_TEXTURE_LIFETIME 300
 
@@ -41,6 +40,15 @@ void DirectX9TextureCache::DeleteTexture(IDirect3DTexture9* texture)
 {
     texture->Release();
 }
+
+D3DVERTEXELEMENT9 simple_decl[] = {
+    // D3DFVF_XYZRHW
+    {0, 0, D3DDECLTYPE_FLOAT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITIONT, 0},
+    // D3DFVF_DIFFUSE
+    {0, sizeof(float) * 4, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_COLOR, 0},
+    // D3DFVF_TEX1
+    {0, (sizeof(float) * 4) + sizeof(DWORD), D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0},
+    D3DDECL_END()};
 
 DirectX9Renderer::DirectX9Renderer()
     : mPaletteCache(512)
@@ -124,7 +132,10 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
     mDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
     mDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
 
-const char* prog = R"(
+    DX_VERIFY(mDevice->CreateVertexDeclaration(simple_decl, &mVertexDecl));
+    DX_VERIFY(mDevice->SetVertexDeclaration(mVertexDecl));
+
+    const char* prog = R"(
     sampler camTex : register(s0); // s0 = sampler register 0
 
     float4 PS( float4 Col : COLOR0, float2 tex : TEXCOORD0 ) : COLOR
@@ -139,6 +150,7 @@ const char* prog = R"(
     DWORD dwShaderFlags = D3DXSHADER_SKIPOPTIMIZATION | D3DXSHADER_DEBUG;
     DX_VERIFY(D3DXCompileShader(prog, strlen(prog), NULL, NULL, "PS", "ps_3_0", dwShaderFlags, &shader, &err, &pConstantTable));
     DX_VERIFY(mDevice->CreatePixelShader((DWORD*)shader->GetBufferPointer(), &mPixelShader));
+
 
     D3DCAPS9 hal_caps = {};
     DX_VERIFY(mDevice->GetDeviceCaps(&hal_caps));
@@ -169,6 +181,11 @@ const char* prog = R"(
     }
 
     DX_VERIFY(mTexture->UnlockRect(0));
+
+
+  //  mDevice->SetRenderState(D3DRS_SPECULARENABLE, 0);
+  //  mDevice->SetRenderState(D3DRS_LIGHTING, 0);
+
 
     return true;
 }
@@ -280,6 +297,27 @@ void DirectX9Renderer::Draw(Poly_F4& /*poly*/)
 {
 }
 
+// TODO: Copy pasted from GL renderer
+inline u16 GetTPageBlendMode(u16 tpage)
+{
+    return (tpage >> 4) & 3;
+}
+
+u32 DirectX9Renderer::PreparePalette(AnimationPal& pCache)
+{
+    const PaletteCache::AddResult addRet = mPaletteCache.Add(pCache);
+
+    if (addRet.mAllocated)
+    {
+        // TODO: Write palette data
+        //mPaletteTexture->LoadSubImage(0, addRet.mIndex, GL_PALETTE_DEPTH, 1, pCache.mPal);
+
+        //mStats.mPalUploadCount++;
+    }
+
+    return addRet.mIndex;
+}
+
 void DirectX9Renderer::Draw(Poly_FT4& poly)
 {
     IDirect3DTexture9* pTextureToUse = mTexture;
@@ -310,14 +348,51 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
     else if (poly.mAnim)
     {
         pTextureToUse = PrepareTextureFromAnim(*poly.mAnim);
+        /*
+        u32 r = poly.mBase.header.rgb_code.r;
+        u32 g = poly.mBase.header.rgb_code.g;
+        u32 b = poly.mBase.header.rgb_code.b;
+
+        bool isSemiTrans = GetPolyIsSemiTrans(&poly);
+        bool isShaded = GetPolyIsShaded(&poly);
+        u32 blendMode = GetTPageBlendMode(GetTPage(&poly));
+
+        //
+
+        const PerFrameInfo* pHeader = poly.mAnim->Get_FrameHeader(-1);
+        std::shared_ptr<TgaData> pTga = poly.mAnim->mAnimRes.mTgaPtr;
+
+        const u32 palIndex = PreparePalette(*poly.mAnim->mAnimRes.mCurPal);
+
+        u32 u0 = pHeader->mSpriteSheetX;
+        u32 v0 = pHeader->mSpriteSheetY;
+
+        u32 u1 = u0 + pHeader->mWidth;
+        u32 v1 = v0 + pHeader->mHeight;
+
+        if (poly.mFlipX)
+        {
+            std::swap(u0, u1);
+        }
+
+        if (poly.mFlipY)
+        {
+            std::swap(v1, v0);
+        }
+
+        //   {poly.mBase.vert.x, poly.mBase.vert.y, r, g, b, u0, v0, pTga->mWidth, pTga->mHeight, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded, blendMode, palIndex, 0},
+        */
         SetQuad(poly);
+
+        //DX_VERIFY(mDevice->SetPixelShaderConstantI());
+
     }
 
     if ((poly.mCam && !poly.mFg1) || poly.mAnim)
     {
       
         // select which vertex format we are using
-        DX_VERIFY(mDevice->SetFVF(CUSTOMFVF));
+        DX_VERIFY(mDevice->SetVertexDeclaration(mVertexDecl));
 
         // select the vertex buffer to display
         DX_VERIFY(mDevice->SetStreamSource(0, v_buffer, 0, sizeof(CUSTOMVERTEX)));
@@ -409,7 +484,7 @@ void DirectX9Renderer::SetQuad(Poly_FT4& poly)
     CUSTOMVERTEX vertices[] = {
         {
             (f32)X0(&poly),
-            (f32) Y0(&poly),
+            (f32)Y0(&poly),
             0.5f,
             1.0f,
             D3DCOLOR_XRGB(128, 128, 128), // TL
@@ -482,9 +557,11 @@ void DirectX9Renderer::DecreaseResourceLifetimes()
 void DirectX9Renderer::MakeVertexBuffer()
 {
     // create a vertex buffer interface called v_buffer
+    DX_VERIFY(mDevice->SetVertexDeclaration(mVertexDecl));
+
     DX_VERIFY(mDevice->CreateVertexBuffer(6 * sizeof(CUSTOMVERTEX),
                                0,
-                               CUSTOMFVF,
+                               0,
                                D3DPOOL_MANAGED,
                                &v_buffer,
                                NULL));
