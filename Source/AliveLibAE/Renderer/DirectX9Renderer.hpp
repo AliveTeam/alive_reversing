@@ -50,7 +50,7 @@ private:
 
     void MakeVertexBuffer();
     void SetQuad(f32 x, f32 y, f32 w, f32 h);
-    void SetQuad(Poly_FT4& poly);
+    void SetQuad(u8 type, bool isSemiTrans, bool isShaded, u8 blendMode, u8 palIndex, u8 textureUnit, u8 r, u8 g, u8 b, Poly_FT4& poly);
 
 
     IDirect3DTexture9* PrepareTextureFromAnim(Animation& anim);

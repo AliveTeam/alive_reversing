@@ -17,6 +17,7 @@ struct CUSTOMVERTEX
     DWORD COLOR; // diffuse
     float u;
     float v;
+    BYTE data[8];
 };
 
 #define DX_SPRITE_TEXTURE_LIFETIME 300
@@ -48,6 +49,8 @@ D3DVERTEXELEMENT9 simple_decl[] = {
     {0, sizeof(float) * 4, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_COLOR, 0},
     // D3DFVF_TEX1
     {0, (sizeof(float) * 4) + sizeof(DWORD), D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0},
+    {0, (sizeof(float) * 6) + sizeof(DWORD), D3DDECLTYPE_UBYTE4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_BLENDINDICES, 0},
+    {0, (sizeof(float) * 6) + sizeof(DWORD) + 4, D3DDECLTYPE_UBYTE4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_BLENDINDICES, 1},
     D3DDECL_END()};
 
 DirectX9Renderer::DirectX9Renderer()
@@ -136,11 +139,39 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
     DX_VERIFY(mDevice->SetVertexDeclaration(mVertexDecl));
 
     const char* prog = R"(
-    sampler camTex : register(s0); // s0 = sampler register 0
+    sampler texPalette;
+    sampler texGas;
+    sampler texCamera : register(s0); // s0 = sampler register 0;
+    sampler texFG1Masks[4];
+    sampler texSpriteSheets[8];
 
-    float4 PS( float4 Col : COLOR0, float2 tex : TEXCOORD0 ) : COLOR
+    const int BLEND_MODE_HALF_DST_ADD_HALF_SRC = 0;
+    const int BLEND_MODE_ONE_DST_ADD_ONE_SRC   = 1;
+    const int BLEND_MODE_ONE_DST_SUB_ONE_SRC   = 2;
+    const int BLEND_MODE_ONE_DST_ADD_QRT_SRC   = 3;
+
+    float4 draw_default_ft4()
     {
-        return tex2D (camTex, tex) * Col;
+        return float4(0.0, 1.0, 1.0, 0.5);
+    }
+
+    float4 PS( float4 fsShadeColor : COLOR0, float2 fsUV : TEXCOORD0, int4 data1 : BLENDINDICES0, int4 data2: BLENDINDICES1 ) : COLOR
+    {
+        int drawType = data1[0];
+        int isSemiTrans = data1.y;
+        int isShaded = data1.z;
+        int blendMode = data1.w;
+
+        int palIndex = data2.x;
+        int textureUnit = data2.y;
+
+        if (drawType == 1)
+        {
+            return draw_default_ft4();
+        }
+
+        // assume cam for now
+        return tex2D(texCamera, fsUV) * fsShadeColor;
     }
     )";
 
@@ -348,21 +379,21 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
     else if (poly.mAnim)
     {
         pTextureToUse = PrepareTextureFromAnim(*poly.mAnim);
-        /*
-        u32 r = poly.mBase.header.rgb_code.r;
-        u32 g = poly.mBase.header.rgb_code.g;
-        u32 b = poly.mBase.header.rgb_code.b;
+       
+        u8 r = poly.mBase.header.rgb_code.r;
+        u8 g = poly.mBase.header.rgb_code.g;
+        u8 b = poly.mBase.header.rgb_code.b;
 
         bool isSemiTrans = GetPolyIsSemiTrans(&poly);
         bool isShaded = GetPolyIsShaded(&poly);
-        u32 blendMode = GetTPageBlendMode(GetTPage(&poly));
+        u8 blendMode = static_cast<u8>(GetTPageBlendMode(GetTPage(&poly)));
 
         //
 
         const PerFrameInfo* pHeader = poly.mAnim->Get_FrameHeader(-1);
         std::shared_ptr<TgaData> pTga = poly.mAnim->mAnimRes.mTgaPtr;
 
-        const u32 palIndex = PreparePalette(*poly.mAnim->mAnimRes.mCurPal);
+        const u8 palIndex = static_cast<u8>(PreparePalette(*poly.mAnim->mAnimRes.mCurPal));
 
         u32 u0 = pHeader->mSpriteSheetX;
         u32 v0 = pHeader->mSpriteSheetY;
@@ -381,8 +412,9 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
         }
 
         //   {poly.mBase.vert.x, poly.mBase.vert.y, r, g, b, u0, v0, pTga->mWidth, pTga->mHeight, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded, blendMode, palIndex, 0},
-        */
-        SetQuad(poly);
+        
+        u8 textureUnit = 1;
+        SetQuad(1, isSemiTrans, isShaded, palIndex, blendMode, textureUnit, r, g, b, poly);
 
         //DX_VERIFY(mDevice->SetPixelShaderConstantI());
 
@@ -421,6 +453,7 @@ void DirectX9Renderer::SetQuad(f32 x, f32 y, f32 w, f32 h)
             D3DCOLOR_XRGB(128, 128, 128), // TL
             0.0f,
             0.0f,
+            {0, 0, 0, 0, 0, 0, 0, 0},
         },
         {
             w,
@@ -430,6 +463,7 @@ void DirectX9Renderer::SetQuad(f32 x, f32 y, f32 w, f32 h)
             D3DCOLOR_XRGB(128, 128, 128),
             1.0f,
             0.0f,
+            {0, 0, 0, 0, 0, 0, 0, 0},
         },
         {
             x,
@@ -439,6 +473,7 @@ void DirectX9Renderer::SetQuad(f32 x, f32 y, f32 w, f32 h)
             D3DCOLOR_XRGB(128, 128, 128),
             0.0f,
             1.0f,
+            {0, 0, 0, 0, 0, 0, 0, 0},
         },
 
         {
@@ -449,6 +484,7 @@ void DirectX9Renderer::SetQuad(f32 x, f32 y, f32 w, f32 h)
             D3DCOLOR_XRGB(128, 128, 128), // TL
             1.0f,
             0.0f,
+            {0, 0, 0, 0, 0, 0, 0, 0},
         },
         {
             w,
@@ -458,6 +494,7 @@ void DirectX9Renderer::SetQuad(f32 x, f32 y, f32 w, f32 h)
             D3DCOLOR_XRGB(128, 128, 128),
             1.0f,
             1.0f,
+            {0, 0, 0, 0, 0, 0, 0, 0},
         },
         {
             x,
@@ -467,6 +504,7 @@ void DirectX9Renderer::SetQuad(f32 x, f32 y, f32 w, f32 h)
             D3DCOLOR_XRGB(128, 128, 128),
             0.0f,
             1.0f,
+            {0, 0, 0, 0, 0, 0, 0, 0},
         },
     };
 
@@ -478,7 +516,7 @@ void DirectX9Renderer::SetQuad(f32 x, f32 y, f32 w, f32 h)
     DX_VERIFY(v_buffer->Unlock());
 }
 
-void DirectX9Renderer::SetQuad(Poly_FT4& poly)
+void DirectX9Renderer::SetQuad(u8 type, bool isSemiTrans, bool isShaded, u8 blendMode, u8 palIndex, u8 textureUnit, u8 r, u8 g, u8 b, Poly_FT4& poly)
 {
     // create the vertices using the CUSTOMVERTEX struct
     CUSTOMVERTEX vertices[] = {
@@ -487,27 +525,30 @@ void DirectX9Renderer::SetQuad(Poly_FT4& poly)
             (f32)Y0(&poly),
             0.5f,
             1.0f,
-            D3DCOLOR_XRGB(128, 128, 128), // TL
+            D3DCOLOR_XRGB(r, g, b),
             0.0f,
             0.0f,
+            {type, isSemiTrans, isShaded, blendMode, palIndex, textureUnit, 0, 0},
         },
         {
             (f32) X1(&poly),
             (f32) Y1(&poly),
             0.5f,
             1.0f,
-            D3DCOLOR_XRGB(128, 128, 128),
+            D3DCOLOR_XRGB(r, g, b),
             1.0f,
             0.0f,
+            {type, isSemiTrans, isShaded, blendMode, palIndex, textureUnit, 0, 0},
         },
         {
             (f32) X2(&poly),
             (f32) Y3(&poly),
             0.5f,
             1.0f,
-            D3DCOLOR_XRGB(128, 128, 128),
+            D3DCOLOR_XRGB(r, g, b),
             0.0f,
             1.0f,
+            {type, isSemiTrans, isShaded, blendMode, palIndex, textureUnit, 0, 0},
         },
 
         {
@@ -515,27 +556,30 @@ void DirectX9Renderer::SetQuad(Poly_FT4& poly)
             (f32) Y1(&poly),
             0.5f,
             1.0f,
-            D3DCOLOR_XRGB(128, 128, 128), // TL
+            D3DCOLOR_XRGB(r, g, b),
             1.0f,
             0.0f,
+            {type, isSemiTrans, isShaded, blendMode, palIndex, textureUnit, 0, 0},
         },
         {
             (f32) X3(&poly),
             (f32) Y3(&poly),
             0.5f,
             1.0f,
-            D3DCOLOR_XRGB(128, 128, 128),
+            D3DCOLOR_XRGB(r, g, b),
             1.0f,
             1.0f,
+            {type, isSemiTrans, isShaded, blendMode, palIndex, textureUnit, 0, 0},
         },
         {
             (f32) X2(&poly),
             (f32) Y2(&poly),
             0.5f,
             1.0f,
-            D3DCOLOR_XRGB(128, 128, 128),
+            D3DCOLOR_XRGB(r, g, b),
             0.0f,
             1.0f,
+            {type, isSemiTrans, isShaded, blendMode, palIndex, textureUnit, 0, 0},
         },
     };
 
