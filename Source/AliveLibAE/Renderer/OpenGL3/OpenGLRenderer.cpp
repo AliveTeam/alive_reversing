@@ -328,17 +328,17 @@ bool OpenGLRenderer::Create(TWindowHandleType window)
     GL_VERIFY(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 
     // Init framebuffers
-    mPsxFramebuffer = std::make_unique<GLFramebuffer>(GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT);
-    mPsxFramebufferSecond = std::make_unique<GLFramebuffer>(GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT);
-    mFilterFramebuffer = std::make_unique<GLFramebuffer>(GL_FRAMEBUFFER_FILTER_WIDTH, GL_FRAMEBUFFER_FILTER_HEIGHT);
+    mPsxFramebuffer = std::make_unique<GLFramebuffer>(kPsxFramebufferWidth, kPsxFramebufferHeight);
+    mPsxFramebufferSecond = std::make_unique<GLFramebuffer>(kPsxFramebufferWidth, kPsxFramebufferHeight);
+    mFilterFramebuffer = std::make_unique<GLFramebuffer>(kTargetFramebufferWidth, kTargetFramebufferHeight);
 
     // Init batch vectors
     mCurFG1TextureIds.reserve(4);
-    mBatchData.reserve(GL_RESERVE_QUADS * 4);
-    mBatchIndicies.reserve(GL_RESERVE_QUADS * 6);
+    mBatchData.reserve(kReserveFT4QuadCount * 4);
+    mBatchIndicies.reserve(kReserveFT4QuadCount * 6);
     mBatchTextureIds.reserve(GL_USE_NUM_TEXTURE_UNITS);
-    mScreenWaveData.reserve(GL_RESERVE_SCREENWAVE_QUADS * 4);
-    mScreenWaveIndicies.reserve(GL_RESERVE_SCREENWAVE_QUADS * 6);
+    mScreenWaveData.reserve(kReserveScreenWaveQuadCount * 4);
+    mScreenWaveIndicies.reserve(kReserveScreenWaveQuadCount * 6);
 
     // Init array we pass to texture uniform to specify the units we're using
     // which is the number of units starting at GL_TEXTURE7
@@ -623,20 +623,20 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     if (poly.mFg1)
     {
         VertexData verts[4] = {
-            {poly.mBase.vert.x, poly.mBase.vert.y, r, g, b, 0, 0, GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT, GL_PSX_DRAW_MODE_FG1, isSemiTrans, isShaded, blendMode, 0, 0},
-            {poly.mVerts[0].mVert.x, poly.mVerts[0].mVert.y, r, g, b, GL_FRAMEBUFFER_PSX_WIDTH, 0, GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT, GL_PSX_DRAW_MODE_FG1, isSemiTrans, isShaded, blendMode, 0, 0},
-            {poly.mVerts[1].mVert.x, poly.mVerts[1].mVert.y, r, g, b, 0, GL_FRAMEBUFFER_PSX_HEIGHT, GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT, GL_PSX_DRAW_MODE_FG1, isSemiTrans, isShaded, blendMode, 0, 0},
-            {poly.mVerts[2].mVert.x, poly.mVerts[2].mVert.y, r, g, b, GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT, GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT, GL_PSX_DRAW_MODE_FG1, isSemiTrans, isShaded, blendMode, 0, 0}};
+            {poly.mBase.vert.x, poly.mBase.vert.y, r, g, b, 0, 0, kPsxFramebufferWidth, kPsxFramebufferHeight, GL_PSX_DRAW_MODE_FG1, isSemiTrans, isShaded, blendMode, 0, 0},
+            {poly.mVerts[0].mVert.x, poly.mVerts[0].mVert.y, r, g, b, kPsxFramebufferWidth, 0, kPsxFramebufferWidth, kPsxFramebufferHeight, GL_PSX_DRAW_MODE_FG1, isSemiTrans, isShaded, blendMode, 0, 0},
+            {poly.mVerts[1].mVert.x, poly.mVerts[1].mVert.y, r, g, b, 0, kPsxFramebufferHeight, kPsxFramebufferWidth, kPsxFramebufferHeight, GL_PSX_DRAW_MODE_FG1, isSemiTrans, isShaded, blendMode, 0, 0},
+            {poly.mVerts[2].mVert.x, poly.mVerts[2].mVert.y, r, g, b, kPsxFramebufferWidth, kPsxFramebufferHeight, kPsxFramebufferWidth, kPsxFramebufferHeight, GL_PSX_DRAW_MODE_FG1, isSemiTrans, isShaded, blendMode, 0, 0}};
 
         PushVertexData(verts, 4, textureId);
     }
     else if (poly.mCam)
     {
         VertexData verts[4] = {
-            {poly.mBase.vert.x, poly.mBase.vert.y, r, g, b, 0, 0, GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT, GL_PSX_DRAW_MODE_CAM, isSemiTrans, isShaded, blendMode, 0, 0},
-            {poly.mVerts[0].mVert.x, poly.mVerts[0].mVert.y, r, g, b, GL_FRAMEBUFFER_PSX_WIDTH, 0, GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT, GL_PSX_DRAW_MODE_CAM, isSemiTrans, isShaded, blendMode, 0, 0},
-            {poly.mVerts[1].mVert.x, poly.mVerts[1].mVert.y, r, g, b, 0, GL_FRAMEBUFFER_PSX_HEIGHT, GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT, GL_PSX_DRAW_MODE_CAM, isSemiTrans, isShaded, blendMode, 0, 0},
-            {poly.mVerts[2].mVert.x, poly.mVerts[2].mVert.y, r, g, b, GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT, GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT, GL_PSX_DRAW_MODE_CAM, isSemiTrans, isShaded, blendMode, 0, 0}};
+            {poly.mBase.vert.x, poly.mBase.vert.y, r, g, b, 0, 0, kPsxFramebufferWidth, kPsxFramebufferHeight, GL_PSX_DRAW_MODE_CAM, isSemiTrans, isShaded, blendMode, 0, 0},
+            {poly.mVerts[0].mVert.x, poly.mVerts[0].mVert.y, r, g, b, kPsxFramebufferWidth, 0, kPsxFramebufferWidth, kPsxFramebufferHeight, GL_PSX_DRAW_MODE_CAM, isSemiTrans, isShaded, blendMode, 0, 0},
+            {poly.mVerts[1].mVert.x, poly.mVerts[1].mVert.y, r, g, b, 0, kPsxFramebufferHeight, kPsxFramebufferWidth, kPsxFramebufferHeight, GL_PSX_DRAW_MODE_CAM, isSemiTrans, isShaded, blendMode, 0, 0},
+            {poly.mVerts[2].mVert.x, poly.mVerts[2].mVert.y, r, g, b, kPsxFramebufferWidth, kPsxFramebufferHeight, kPsxFramebufferWidth, kPsxFramebufferHeight, GL_PSX_DRAW_MODE_CAM, isSemiTrans, isShaded, blendMode, 0, 0}};
 
         PushVertexData(verts, 4, textureId);
     }
@@ -698,10 +698,10 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
         // ScreenWave (Bell Song framebuffer effect)
 
         VertexData verts[4] = {
-            {X0(&poly), Y0(&poly), 0, 0, 0, U0(&poly), V0(&poly), GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT, 0, 1, 0, 1, 0, 0},
-            {X1(&poly), Y1(&poly), 0, 0, 0, U1(&poly), V1(&poly), GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT, 0, 1, 0, 1, 0, 0},
-            {X2(&poly), Y2(&poly), 0, 0, 0, U2(&poly), V2(&poly), GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT, 0, 1, 0, 1, 0, 0},
-            {X3(&poly), Y3(&poly), 0, 0, 0, U3(&poly), V3(&poly), GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT, 0, 1, 0, 1, 0, 0}
+            {X0(&poly), Y0(&poly), 0, 0, 0, U0(&poly), V0(&poly), kPsxFramebufferWidth, kPsxFramebufferHeight, 0, 1, 0, 1, 0, 0},
+            {X1(&poly), Y1(&poly), 0, 0, 0, U1(&poly), V1(&poly), kPsxFramebufferWidth, kPsxFramebufferHeight, 0, 1, 0, 1, 0, 0},
+            {X2(&poly), Y2(&poly), 0, 0, 0, U2(&poly), V2(&poly), kPsxFramebufferWidth, kPsxFramebufferHeight, 0, 1, 0, 1, 0, 0},
+            {X3(&poly), Y3(&poly), 0, 0, 0, U3(&poly), V3(&poly), kPsxFramebufferWidth, kPsxFramebufferHeight, 0, 1, 0, 1, 0, 0}
         };
 
         PushScreenWaveData(verts);
@@ -805,7 +805,7 @@ void OpenGLRenderer::SetClip(Prim_PrimClipper& clipper)
     }
 
     GL_VERIFY(glEnable(GL_SCISSOR_TEST));
-    GL_VERIFY(glScissor(rect.x, GL_FRAMEBUFFER_PSX_HEIGHT - rect.y - rect.h, rect.w, rect.h));
+    GL_VERIFY(glScissor(rect.x, kPsxFramebufferHeight - rect.y - rect.h, rect.w, rect.h));
 }
 
 void OpenGLRenderer::SetScreenOffset(Prim_ScreenOffset& offset)
@@ -839,10 +839,10 @@ void OpenGLRenderer::StartFrame(s32 xOff, s32 yOff)
 
     // FIXME: Hack to push screenwave verts first... tidy later
     VertexData verts[4] = {
-        {0, 0, 0, 0, 0, 0, 0, GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT, 0, 1, 0, 1, 0, 0},
-        {GL_FRAMEBUFFER_PSX_WIDTH, 0, 0, 0, 0, GL_FRAMEBUFFER_PSX_WIDTH, 0, GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT, 0, 1, 0, 1, 0, 0},
-        {0, GL_FRAMEBUFFER_PSX_HEIGHT, 0, 0, 0, 0, GL_FRAMEBUFFER_PSX_HEIGHT, GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT, 0, 1, 0, 1, 0, 0},
-        {GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT, 0, 0, 0, GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT, GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT, 0, 1, 0, 1, 0, 0}
+        {0, 0, 0, 0, 0, 0, 0, kPsxFramebufferWidth, kPsxFramebufferHeight, 0, 1, 0, 1, 0, 0},
+        {kPsxFramebufferWidth, 0, 0, 0, 0, kPsxFramebufferWidth, 0, kPsxFramebufferWidth, kPsxFramebufferHeight, 0, 1, 0, 1, 0, 0},
+        {0, kPsxFramebufferHeight, 0, 0, 0, 0, kPsxFramebufferHeight, kPsxFramebufferWidth, kPsxFramebufferHeight, 0, 1, 0, 1, 0, 0},
+        {kPsxFramebufferWidth, kPsxFramebufferHeight, 0, 0, 0, kPsxFramebufferWidth, kPsxFramebufferHeight, kPsxFramebufferWidth, kPsxFramebufferHeight, 0, 1, 0, 1, 0, 0}
     };
 
     PushScreenWaveData(verts);
@@ -976,21 +976,21 @@ void OpenGLRenderer::UpdateFilterFramebuffer()
     {
         GLfloat drawVertices[] = {
             0.0f, 0.0f,
-            0.0f, GL_FRAMEBUFFER_FILTER_HEIGHT,
-            GL_FRAMEBUFFER_FILTER_WIDTH, 0.0,
+            0.0f, kTargetFramebufferHeight,
+            kTargetFramebufferWidth, 0.0,
 
-            GL_FRAMEBUFFER_FILTER_WIDTH, 0.0f,
-            0.0f, GL_FRAMEBUFFER_FILTER_HEIGHT,
-            GL_FRAMEBUFFER_FILTER_WIDTH, GL_FRAMEBUFFER_FILTER_HEIGHT};
+            kTargetFramebufferWidth, 0.0f,
+            0.0f, kTargetFramebufferHeight,
+            kTargetFramebufferWidth, kTargetFramebufferHeight};
 
         GLfloat uvVertices[] = {
-            0.0f, GL_FRAMEBUFFER_PSX_HEIGHT,
+            0.0f, kPsxFramebufferHeight,
             0.0f, 0.0f,
-            GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT,
+            kPsxFramebufferWidth, kPsxFramebufferHeight,
 
-            GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT,
+            kPsxFramebufferWidth, kPsxFramebufferHeight,
             0.0f, 0.0f,
-            GL_FRAMEBUFFER_PSX_WIDTH, 0.0f};
+            kPsxFramebufferWidth, 0.0f};
 
         GL_VERIFY(glGenBuffers(1, &drawVboId));
         GL_VERIFY(glBindBuffer(GL_ARRAY_BUFFER, drawVboId));
@@ -1015,8 +1015,8 @@ void OpenGLRenderer::UpdateFilterFramebuffer()
     mPassthruFilterShader->Use();
 
     mPassthruFilterShader->Uniform1i("texTextureData", 0);
-    mPassthruFilterShader->UniformVec2("vsViewportSize", GL_FRAMEBUFFER_FILTER_WIDTH, GL_FRAMEBUFFER_FILTER_HEIGHT);
-    mPassthruFilterShader->UniformVec2("fsTexSize", GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT);
+    mPassthruFilterShader->UniformVec2("vsViewportSize", kTargetFramebufferWidth, kTargetFramebufferHeight);
+    mPassthruFilterShader->UniformVec2("fsTexSize", kPsxFramebufferWidth, kPsxFramebufferHeight);
 
     mFilterFramebuffer->BindAsTarget();
     mPsxFramebufferSecond->BindAsSourceTextureTo(GL_TEXTURE0);
@@ -1101,9 +1101,9 @@ void OpenGLRenderer::RenderScreenWave()
     mPassthruIntShader->Use();
 
     mPassthruIntShader->Uniform1i("texTextureData", 0);
-    mPassthruIntShader->UniformVec2("vsViewportSize", (f32) GL_FRAMEBUFFER_PSX_WIDTH, (f32) GL_FRAMEBUFFER_PSX_HEIGHT);
+    mPassthruIntShader->UniformVec2("vsViewportSize", kPsxFramebufferWidth, kPsxFramebufferHeight);
     mPassthruIntShader->Uniform1i("fsFlipUV", true);
-    mPassthruIntShader->UniformVec2("fsTexSize", (f32) GL_FRAMEBUFFER_PSX_WIDTH, (f32) GL_FRAMEBUFFER_PSX_HEIGHT);
+    mPassthruIntShader->UniformVec2("fsTexSize", kPsxFramebufferWidth, kPsxFramebufferHeight);
 
     mPsxFramebufferSecond->BindAsTarget();
     mPsxFramebuffer->BindAsSourceTextureTo(GL_TEXTURE0);
@@ -1158,7 +1158,7 @@ void OpenGLRenderer::InvalidateBatch()
     GL_VERIFY(glVertexAttribIPointer(4, 2, GL_UNSIGNED_INT, sizeof(VertexData), (void*) offsetof(VertexData, paletteIndex)));
 
     // Inform our internal resolution
-    mPsxShader->UniformVec2("vsViewportSize", GL_FRAMEBUFFER_PSX_WIDTH, GL_FRAMEBUFFER_PSX_HEIGHT);
+    mPsxShader->UniformVec2("vsViewportSize", kPsxFramebufferWidth, kPsxFramebufferHeight);
 
     // Bind palette texture
     mPaletteTexture->BindTo(GL_TEXTURE0);

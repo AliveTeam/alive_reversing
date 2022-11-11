@@ -28,11 +28,11 @@
 #define GL_PSX_DRAW_MODE_FG1 3
 #define GL_PSX_DRAW_MODE_GAS 4
 
-#define GL_FRAMEBUFFER_PSX_WIDTH 640
-#define GL_FRAMEBUFFER_PSX_HEIGHT 240
+//#define GL_FRAMEBUFFER_PSX_WIDTH 640
+//#define GL_FRAMEBUFFER_PSX_HEIGHT 240
 
-#define GL_FRAMEBUFFER_FILTER_WIDTH 640
-#define GL_FRAMEBUFFER_FILTER_HEIGHT 480
+//#define GL_FRAMEBUFFER_FILTER_WIDTH 640
+//#define GL_FRAMEBUFFER_FILTER_HEIGHT 480
 
 #define GL_AVAILABLE_PALETTES 256
 #define GL_PALETTE_DEPTH 256
@@ -46,9 +46,9 @@
 // lower the need to realloc per Paul's request)
 //
 // It's quite high because the game draws like 260 quads for the splines
-#define GL_RESERVE_QUADS 300
+//#define GL_RESERVE_QUADS 300
 
-#define GL_RESERVE_SCREENWAVE_QUADS 2 * 32 * 4
+//#define GL_RESERVE_SCREENWAVE_QUADS 2 * 32 * 4
 
 enum class AnimId;
 
