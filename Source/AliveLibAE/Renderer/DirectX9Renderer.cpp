@@ -17,7 +17,8 @@ struct CUSTOMVERTEX
     DWORD COLOR; // diffuse
     float u;
     float v;
-    BYTE data[8];
+    BYTE data1[4];
+    BYTE data2[4];
 };
 
 #define DX_SPRITE_TEXTURE_LIFETIME 300
@@ -54,7 +55,7 @@ D3DVERTEXELEMENT9 simple_decl[] = {
     D3DDECL_END()};
 
 DirectX9Renderer::DirectX9Renderer()
-    : mPaletteCache(512)
+    : mPaletteCache(256)
 {
 
 }
@@ -185,6 +186,9 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
 
     float4 handle_final_color(float4 fsShadeColor, float4 src, bool doShading, bool isShaded, int blendMode, bool isSemiTrans)
     {
+        // Overwrite with the pal alpha as our src alpha is actually the pal index to use
+        fsShadeColor.a = src.a;
+
         float4 ret = src;
 
         if (all(src == float4(0.0, 0.0, 0.0, 0.0)))
@@ -224,13 +228,10 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
     {
         float texelSprite = 0.0;
 
-        if (textureUnit == 0)
+        if (textureUnit == 1)
         {
             texelSprite = tex2D(texSpriteSheets[0], fsUV);
         }
-        
-        // TODO: textureUnit == 0 not hit
-       // texelSprite = tex2D(texSpriteSheets[0], fsUV);
 
         float4 texelPal = PixelToPalette(texelSprite, palIndex);
         
@@ -239,14 +240,14 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
         return finalCol;
     }
 
-    float4 PS( float4 fsShadeColor : COLOR0, float2 fsUV : TEXCOORD0, int4 data1 : BLENDINDICES0, int4 data2: BLENDINDICES1 ) : COLOR
+    float4 PS( float4 fsShadeColor : COLOR0, float2 fsUV : TEXCOORD0, int4 data1 : BLENDINDICES0, int4 data2: BLENDINDICES1) : COLOR
     {
         int drawType = data1[0];
-        int isSemiTrans = data1[1];
+        int palIndex = data1[1];
         int isShaded = data1[2];
         int blendMode = data1[3];
 
-        int palIndex = data2[0];
+        int isSemiTrans = fsShadeColor.a > 0.0f ? 0 : 1;
         int textureUnit = data2[1];
 
         if (drawType == 1)
@@ -548,7 +549,7 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
         const PerFrameInfo* pHeader = poly.mAnim->Get_FrameHeader(-1);
         std::shared_ptr<TgaData> pTga = poly.mAnim->mAnimRes.mTgaPtr;
 
-        const u8 palIndex = static_cast<u8>(PreparePalette(*poly.mAnim->mAnimRes.mCurPal));
+        u8 palIndex = static_cast<u8>(PreparePalette(*poly.mAnim->mAnimRes.mCurPal));
 
         float u0 = (static_cast<float>(pHeader->mSpriteSheetX) / pTga->mWidth);
         float v0 = (static_cast<float>(pHeader->mSpriteSheetY) / pTga->mHeight);
@@ -569,7 +570,7 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
         //   {poly.mBase.vert.x, poly.mBase.vert.y, r, g, b, u0, v0, pTga->mWidth, pTga->mHeight, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded, blendMode, palIndex, 0},
         
         u8 textureUnit = 1;
-        SetQuad(1, isSemiTrans, isShaded, palIndex, blendMode, textureUnit, r, g, b, u0, v0, u1, v1, poly);
+        SetQuad(1, isSemiTrans, isShaded, blendMode, palIndex, textureUnit, r, g, b, u0, v0, u1, v1, poly);
 
         DX_VERIFY(mDevice->SetTexture(2, pTextureToUse));
         DX_VERIFY(mDevice->SetTexture(1, mPaletteTexture));
@@ -599,7 +600,7 @@ void DirectX9Renderer::SetQuad(f32 x, f32 y, f32 w, f32 h)
             D3DCOLOR_XRGB(128, 128, 128), // TL
             0.0f,
             0.0f,
-            {0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0}, {0, 0, 0, 0},
         },
         {
             w - fudge,
@@ -609,7 +610,7 @@ void DirectX9Renderer::SetQuad(f32 x, f32 y, f32 w, f32 h)
             D3DCOLOR_XRGB(128, 128, 128),
             1.0f,
             0.0f,
-            {0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0}, { 0, 0, 0, 0},
         },
         {
             x - fudge,
@@ -619,7 +620,7 @@ void DirectX9Renderer::SetQuad(f32 x, f32 y, f32 w, f32 h)
             D3DCOLOR_XRGB(128, 128, 128),
             0.0f,
             1.0f,
-            {0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0}, { 0, 0, 0, 0},
         },
 
         {
@@ -630,7 +631,7 @@ void DirectX9Renderer::SetQuad(f32 x, f32 y, f32 w, f32 h)
             D3DCOLOR_XRGB(128, 128, 128), // TL
             1.0f,
             0.0f,
-            {0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0}, { 0, 0, 0, 0},
         },
         {
             w - fudge,
@@ -640,7 +641,7 @@ void DirectX9Renderer::SetQuad(f32 x, f32 y, f32 w, f32 h)
             D3DCOLOR_XRGB(128, 128, 128),
             1.0f,
             1.0f,
-            {0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0}, { 0, 0, 0, 0},
         },
         {
             x - fudge,
@@ -650,7 +651,7 @@ void DirectX9Renderer::SetQuad(f32 x, f32 y, f32 w, f32 h)
             D3DCOLOR_XRGB(128, 128, 128),
             0.0f,
             1.0f,
-            {0, 0, 0, 0, 0, 0, 0, 0},
+            {0, 0, 0, 0}, { 0, 0, 0, 0},
         },
     };
 
@@ -672,30 +673,30 @@ void DirectX9Renderer::SetQuad(u8 type, bool isSemiTrans, bool isShaded, u8 blen
             (f32) Y0(&poly) - fudge,
             0.5f,
             1.0f,
-            D3DCOLOR_XRGB(r, g, b),
+            D3DCOLOR_RGBA(r, g, b, isSemiTrans ? 255 : 0),
             u0, // 0
             v0, // 0
-            {type, isSemiTrans, isShaded, blendMode, palIndex, textureUnit, 0, 0},
+            {type, palIndex, isShaded, blendMode}, {palIndex, textureUnit, 0, 0},
         },
         {
             (f32) X1(&poly) - fudge,
             (f32) Y1(&poly) - fudge,
             0.5f,
             1.0f,
-            D3DCOLOR_XRGB(r, g, b),
+            D3DCOLOR_RGBA(r, g, b, isSemiTrans ? 255 : 0),
             u1, // 1
             v0, // 0
-            {type, isSemiTrans, isShaded, blendMode, palIndex, textureUnit, 0, 0},
+            {type, palIndex, isShaded, blendMode}, {palIndex, textureUnit, 0, 0},
         },
         {
             (f32) X2(&poly) - fudge,
             (f32) Y3(&poly) - fudge,
             0.5f,
             1.0f,
-            D3DCOLOR_XRGB(r, g, b),
+            D3DCOLOR_RGBA(r, g, b, isSemiTrans ? 255 : 0),
             u0, // 0
             v1, // 1
-            {type, isSemiTrans, isShaded, blendMode, palIndex, textureUnit, 0, 0},
+            {type, palIndex, isShaded, blendMode}, { palIndex, textureUnit, 0, 0},
         },
 
         {
@@ -703,30 +704,30 @@ void DirectX9Renderer::SetQuad(u8 type, bool isSemiTrans, bool isShaded, u8 blen
             (f32) Y1(&poly) - fudge,
             0.5f,
             1.0f,
-            D3DCOLOR_XRGB(r, g, b),
+            D3DCOLOR_RGBA(r, g, b, isSemiTrans ? 255 : 0),
             u1, // 1
             v0, // 0
-            {type, isSemiTrans, isShaded, blendMode, palIndex, textureUnit, 0, 0},
+            {type, palIndex, isShaded, blendMode}, { palIndex, textureUnit, 0, 0},
         },
         {
             (f32) X3(&poly) - fudge,
             (f32) Y3(&poly) - fudge,
             0.5f,
             1.0f,
-            D3DCOLOR_XRGB(r, g, b),
+            D3DCOLOR_RGBA(r, g, b, isSemiTrans ? 255 : 0),
             u1,   // 1
             v1,   // 1
-            {type, isSemiTrans, isShaded, blendMode, palIndex, textureUnit, 0, 0},
+            {type, palIndex, isShaded, blendMode}, { palIndex, textureUnit, 0, 0},
         },
         {
             (f32) X2(&poly) - fudge,
             (f32) Y2(&poly) - fudge,
             0.5f,
             1.0f,
-            D3DCOLOR_XRGB(r, g, b),
+            D3DCOLOR_RGBA(r, g, b, isSemiTrans ? 255 : 0),
             u0, // 0
             v1, // 1
-            {type, isSemiTrans, isShaded, blendMode, palIndex, textureUnit, 0, 0},
+            {type, palIndex, isShaded, blendMode}, { palIndex, textureUnit, 0, 0},
         },
     };
 
