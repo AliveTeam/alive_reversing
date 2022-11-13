@@ -870,13 +870,12 @@ IDirect3DTexture9* DirectX9Renderer::PrepareTextureFromAnim(Animation& anim)
 
     if (!textureId)
     {
-        IDirect3DTexture9* newTexture = nullptr;
-        DX_VERIFY(mDevice->CreateTexture(r.mTgaPtr->mWidth, r.mTgaPtr->mHeight, 0, 0, D3DFMT_L8, D3DPOOL_MANAGED, &newTexture, nullptr));
+        DX_VERIFY(mDevice->CreateTexture(r.mTgaPtr->mWidth, r.mTgaPtr->mHeight, 0, 0, D3DFMT_L8, D3DPOOL_MANAGED, &textureId, nullptr));
 
-        mTextureCache.Add(r.mUniqueId.Id(), DX_SPRITE_TEXTURE_LIFETIME, newTexture);
+        mTextureCache.Add(r.mUniqueId.Id(), DX_SPRITE_TEXTURE_LIFETIME, textureId);
 
         D3DLOCKED_RECT locked = {};
-        DX_VERIFY(newTexture->LockRect(0, &locked, nullptr, D3DLOCK_DISCARD));
+        DX_VERIFY(textureId->LockRect(0, &locked, nullptr, D3DLOCK_DISCARD));
 
         u32 off = 0;
         for (u32 y = 0; y < r.mTgaPtr->mHeight; y++)
@@ -891,7 +890,7 @@ IDirect3DTexture9* DirectX9Renderer::PrepareTextureFromAnim(Animation& anim)
             }
         }
 
-        DX_VERIFY(newTexture->UnlockRect(0));
+        DX_VERIFY(textureId->UnlockRect(0));
 
         //mStats.mAnimUploadCount++;
     }
