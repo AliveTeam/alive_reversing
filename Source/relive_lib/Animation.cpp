@@ -117,7 +117,7 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
     }
     else
     {
-        polyXPos += FP_GetExponent(xOffSet_scaled);
+        polyXPos += FP_GetExponent(FP_NoFractional(xOffSet_scaled));
     }
 
     s16 polyYPos = static_cast<s16>(ypos);
