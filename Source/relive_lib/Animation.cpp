@@ -108,37 +108,34 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
         yOffset_scaled = (yOffset_scaled * mSpriteScale) - FP_FromInteger(1);
     }
 
-    s16 polyXPos = 0;
-    s16 polyYPos = 0;
-
-    const bool kFlipY = mFlags.Get(AnimFlags::eFlipY);
+    s16 polyXPos = xpos_pc;
     const bool kFlipX = mFlags.Get(AnimFlags::eFlipX);
-
 
     if (kFlipX)
     {
-        polyXPos = xpos_pc - FP_GetExponent(xOffSet_scaled) - FP_GetExponent(scaled_width);
+        polyXPos -= FP_GetExponent(FP_NoFractional(xOffSet_scaled) + scaled_width);
     }
     else
     {
-        polyXPos = xpos_pc + FP_GetExponent(xOffSet_scaled);
+        polyXPos += FP_GetExponent(xOffSet_scaled);
     }
+
+    s16 polyYPos = static_cast<s16>(ypos);
+    const bool kFlipY = mFlags.Get(AnimFlags::eFlipY);
 
     if (kFlipY)
     {
-        // TODO: Might be wrong because this was doing something with the sign bit abs() ??
-        polyYPos = static_cast<s16>(ypos) - FP_GetExponent(yOffset_scaled) - FP_GetExponent(scaled_height);
+        polyYPos -= FP_GetExponent(FP_NoFractional(yOffset_scaled) + scaled_height);
     }
     else
     {
-        polyYPos = static_cast<s16>(ypos) + FP_GetExponent(yOffset_scaled);
+        polyYPos += FP_GetExponent(FP_NoFractional(yOffset_scaled));
     }
 
     SetUV0(pPoly, kFlipX ? u0 : u1, kFlipY ? v1 : v0);
     SetUV1(pPoly, kFlipX ? u1 : u0, kFlipY ? v1 : v0);
     SetUV2(pPoly, kFlipX ? u0 : u1, kFlipY ? v0 : v1);
     SetUV3(pPoly, kFlipX ? u1 : u0, kFlipY ? v0 : v1);
-
 
     SetXY0(pPoly, polyXPos, polyYPos);
     SetXY1(pPoly, polyXPos + FP_GetExponent(scaled_width), polyYPos);
