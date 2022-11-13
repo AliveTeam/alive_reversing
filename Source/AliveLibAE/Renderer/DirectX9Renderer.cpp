@@ -38,9 +38,9 @@ struct CUSTOMVERTEX
     #define DX_VERIFY(x) (x);
 #endif
 
-void DirectX9TextureCache::DeleteTexture(IDirect3DTexture9* texture)
+void DirectX9TextureCache::DeleteTexture(ATL::CComPtr<IDirect3DTexture9> /*texture*/)
 {
-    texture->Release();
+
 }
 
 D3DVERTEXELEMENT9 simple_decl[] = {
@@ -60,21 +60,25 @@ DirectX9Renderer::DirectX9Renderer()
 
 }
 
+DirectX9Renderer::~DirectX9Renderer()
+{
+    TRACE_ENTRYEXIT;
+
+    // TODO: Fix me, dtor can't call clear else pure call boom
+    mTextureCache.Clear();
+}
+
 void DirectX9Renderer::Destroy()
 {
+    // TODO: just let the dtor kill everything, this method is getting nuked by rozza
+    /*
     mTextureCache.Clear();
-
-    if (v_buffer)
-    {
-        v_buffer->Release();
-        v_buffer = nullptr;
-    }
 
     if (mRenderer)
     {
         SDL_DestroyRenderer(mRenderer);
         mRenderer = nullptr;
-    }
+    }*/
 }
 
 
@@ -114,14 +118,14 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
         return false;
     }
 
-    mRenderer = SDL_CreateRenderer(window, index, SDL_RENDERER_ACCELERATED);
-    if (!mRenderer)
+    mRenderer = std::make_unique<SDL_Renderer_RAII>(SDL_CreateRenderer(window, index, SDL_RENDERER_ACCELERATED));
+    if (!mRenderer->mRenderer)
     {
         LOG_ERROR("Failed to create renderer %s", SDL_GetError());
         return false;
     }
 
-    mDevice = SDL_RenderGetD3D9Device(mRenderer);
+    mDevice = SDL_RenderGetD3D9Device(mRenderer->mRenderer);
     if (!mDevice)
     {
         Destroy();
@@ -433,7 +437,7 @@ void DirectX9Renderer::EndFrame()
 
 void DirectX9Renderer::OutputSize(s32* w, s32* h)
 {
-    SDL_GetRendererOutputSize(mRenderer, w, h);
+    SDL_GetRendererOutputSize(mRenderer->mRenderer, w, h);
 }
 
 void DirectX9Renderer::SetTPage(u16 /*tPage*/)

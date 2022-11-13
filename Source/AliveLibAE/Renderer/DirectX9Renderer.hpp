@@ -9,17 +9,41 @@
     #undef DIRECT3D_VERSION
     #define DIRECT3D_VERSION 0x0900
     #include <d3d9.h>
+    #include <atlbase.h>
 
-class DirectX9TextureCache final : public TextureCache<IDirect3DTexture9*>
+class SDL_Renderer_RAII final
 {
 public:
-    void DeleteTexture(IDirect3DTexture9* texture) override;
+    SDL_Renderer_RAII(const SDL_Renderer_RAII&) = delete;
+
+    explicit SDL_Renderer_RAII(SDL_Renderer* renderer) 
+        : mRenderer(renderer)
+    {
+
+    }
+
+    ~SDL_Renderer_RAII()
+    {
+        if (mRenderer)
+        {
+            SDL_DestroyRenderer(mRenderer);
+        }
+    }
+
+    SDL_Renderer* mRenderer = nullptr;
+};
+
+class DirectX9TextureCache final : public TextureCache<ATL::CComPtr<IDirect3DTexture9>>
+{
+public:
+    void DeleteTexture(ATL::CComPtr<IDirect3DTexture9> texture) override;
 };
 
 class DirectX9Renderer final : public IRenderer
 {
 public:
     DirectX9Renderer();
+    ~DirectX9Renderer();
     void Destroy() override;
     bool Create(TWindowHandleType window) override;
     void Clear(u8 r, u8 g, u8 b) override;
@@ -59,20 +83,21 @@ private:
 
     bool mFrameStarted = false;
 
-    SDL_Renderer* mRenderer = nullptr;
-    IDirect3DDevice9* mDevice = nullptr;
+    // TODO: Remove heap alloc when using a normal ctor
+    std::unique_ptr<SDL_Renderer_RAII> mRenderer;
+    ATL::CComPtr<IDirect3DDevice9> mDevice;
 
-    IDirect3DVertexDeclaration9* mVertexDecl = nullptr;
+    ATL::CComPtr<IDirect3DVertexDeclaration9> mVertexDecl;
 
-    IDirect3DSurface9* mScreenRenderTarget = nullptr;
-    IDirect3DSurface9* mTextureRenderTarget = nullptr;
-    IDirect3DTexture9* mCamTexture = nullptr;
+    ATL::CComPtr<IDirect3DSurface9> mScreenRenderTarget;
+    ATL::CComPtr<IDirect3DSurface9> mTextureRenderTarget;
+    ATL::CComPtr<IDirect3DTexture9> mCamTexture;
 
-    IDirect3DPixelShader9* mPixelShader = nullptr;
+    ATL::CComPtr<IDirect3DPixelShader9> mPixelShader;
 
-    LPDIRECT3DVERTEXBUFFER9 v_buffer = NULL;
+    ATL::CComPtr<IDirect3DVertexBuffer9> v_buffer;
 
-    IDirect3DTexture9* mPaletteTexture = nullptr;
+    ATL::CComPtr<IDirect3DTexture9> mPaletteTexture;
     PaletteCache mPaletteCache;
     DirectX9TextureCache mTextureCache;
 };
