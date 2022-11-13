@@ -62,16 +62,18 @@ DirectX9Renderer::DirectX9Renderer()
 
 void DirectX9Renderer::Destroy()
 {
-    if (mRenderer)
-    {
-        SDL_DestroyRenderer(mRenderer);
-        mRenderer = nullptr;
-    }
+    mTextureCache.Clear();
 
     if (v_buffer)
     {
         v_buffer->Release();
         v_buffer = nullptr;
+    }
+
+    if (mRenderer)
+    {
+        SDL_DestroyRenderer(mRenderer);
+        mRenderer = nullptr;
     }
 }
 
@@ -400,8 +402,6 @@ void DirectX9Renderer::StartFrame(s32 /*xOff*/, s32 /*yOff*/)
         mDevice->SetRenderTarget(0, mTextureRenderTarget);
 
         mDevice->SetPixelShader(mPixelShader);
-
-        DX_VERIFY(mDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(128, 0, 0), 1.0f, 0));
     }
 }
 
@@ -413,6 +413,8 @@ void DirectX9Renderer::EndFrame()
 
         // Render to the screen instead of the texture
         DX_VERIFY(mDevice->SetRenderTarget(0, mScreenRenderTarget));
+
+        DX_VERIFY(mDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(128, 0, 0), 1.0f, 0));
 
         // Copy the rendered to texture to the entire screen
         RECT dstRect = {0, 0, 640, 240};
@@ -438,8 +440,22 @@ void DirectX9Renderer::SetTPage(u16 /*tPage*/)
 {
 }
 
-void DirectX9Renderer::SetClip(Prim_PrimClipper& /*clipper*/)
+void DirectX9Renderer::SetClip(Prim_PrimClipper& clipper)
 {
+    RECT rect = {};
+    rect.left = clipper.field_C_x;
+    rect.right = clipper.field_C_x + clipper.mBase.header.mRect.w;
+    rect.top = clipper.field_E_y;
+    rect.bottom = clipper.field_E_y + clipper.mBase.header.mRect.h;
+
+    if (rect.left == 0 && rect.right == 0 && rect.bottom == 1 && rect.top == 1)
+    {
+        DX_VERIFY(mDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE));
+        return;
+    }
+
+    DX_VERIFY(mDevice->SetScissorRect(&rect));
+    DX_VERIFY(mDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, TRUE));
 }
 
 void DirectX9Renderer::SetScreenOffset(Prim_ScreenOffset& /*offset*/)
