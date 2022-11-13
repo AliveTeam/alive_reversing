@@ -165,6 +165,12 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
     static const int BLEND_MODE_ONE_DST_SUB_ONE_SRC   = 2;
     static const int BLEND_MODE_ONE_DST_ADD_QRT_SRC   = 3;
 
+    static const int DRAW_FLAT        = 0;
+    static const int DRAW_DEFAULT_FT4 = 1;
+    static const int DRAW_CAM         = 2;
+    static const int DRAW_FG1         = 3;
+    static const int DRAW_GAS         = 4;
+
     float4 PixelToPalette(float v, int palIndex)
     {
         return tex2D(texPalette, float2(v, palIndex / 255.0f));
@@ -240,6 +246,42 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
         return finalCol;
     }
 
+    float4 draw_cam(float2 fsUV)
+    {
+        return tex2D(texCamera, fsUV);
+    }
+
+    float4 draw_fg1(int palIndex, float2 fsUV)
+    {
+        float4 mask = float4(0.0, 0.0, 0.0, 0.0);
+
+        if (palIndex == 0)
+        {
+            mask = tex2D(texFG1Masks[0], fsUV);
+        }
+        else if (palIndex == 1)
+        {
+            mask = tex2D(texFG1Masks[1], fsUV);
+        }
+        else if (palIndex == 2)
+        {
+            mask = tex2D(texFG1Masks[2], fsUV);
+        }
+        else if (palIndex == 3)
+        {
+            mask = tex2D(texFG1Masks[3], fsUV);
+        }
+
+        float4 outColor = float4(tex2D(texCamera, fsUV).rgb, 0.0);
+
+        if (all(mask.rgb == float3(0.0, 0.0, 0.0)))
+        {
+            outColor = float4(0.0, 0.0, 0.0, 1.0);
+        }
+
+        return outColor;
+    }
+
     float4 PS( float4 fsShadeColor : COLOR0, float2 fsUV : TEXCOORD0, int4 data1 : BLENDINDICES0, int4 data2: BLENDINDICES1) : COLOR
     {
         int drawType = data1[0];
@@ -251,13 +293,17 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
         int textureUnit = data2[1];
 
 
-        if (drawType == 1)
+        if (drawType == DRAW_DEFAULT_FT4)
         {
             return draw_default_ft4(fsShadeColor, textureUnit, palIndex, fsUV, isShaded, blendMode, isSemiTrans);
         }
+        else if (drawType == DRAW_FG1)
+        {
+            return draw_fg1(palIndex, fsUV);
+        }
 
         // assume cam for now
-        return tex2D(texCamera, fsUV);
+        return draw_cam(fsUV);
     }
     )";
 
@@ -290,14 +336,27 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
     DX_VERIFY(mDevice->SetRenderTarget(0, mTextureRenderTarget));
 
 
-    DX_VERIFY(mDevice->CreateTexture(640, 240, 0, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &mTexture, nullptr));
-    DX_VERIFY(mDevice->CreateTexture(256, 256, 0, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &mPaletteTexture, nullptr));
-
-    //mTexture->SetAutoGenFilterType(D3DTEXF_NONE);
-
+    DX_VERIFY(mDevice->CreateTexture(640, 240, 0, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &mCamTexture, nullptr));
+   
     D3DLOCKED_RECT locked = {};
-    DX_VERIFY(mTexture->LockRect(0, &locked, nullptr, D3DLOCK_DISCARD));
+    DX_VERIFY(mDevice->CreateTexture(256, 256, 0, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &mPaletteTexture, nullptr));
+    DX_VERIFY(mPaletteTexture->LockRect(0, &locked, nullptr, D3DLOCK_DISCARD));
+    for (u32 y = 0; y < 256; y++)
+    {
+        u32* p = (u32*) locked.pBits;
+        p = p + ((locked.Pitch / 4) * y);
+        for (u32 x = 0; x < 256; x++)
+        {
+            *p = D3DCOLOR_ARGB(255, x, y, x + y);
+            p++;
+        }
+    }
 
+    DX_VERIFY(mPaletteTexture->UnlockRect(0));
+
+    //mCamTexture->SetAutoGenFilterType(D3DTEXF_NONE);
+
+    DX_VERIFY(mCamTexture->LockRect(0, &locked, nullptr, D3DLOCK_DISCARD));
     for (u32 y = 0; y < 240; y++)
     {
         u32* p = (u32*) locked.pBits;
@@ -309,7 +368,7 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
         }
     }
 
-    DX_VERIFY(mTexture->UnlockRect(0));
+    DX_VERIFY(mCamTexture->UnlockRect(0));
 
 
   //  mDevice->SetRenderState(D3DRS_SPECULARENABLE, 0);
@@ -513,7 +572,7 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
         SetQuad(0.0f, 0.0f, 640.0f, 240.0f);
 
         D3DLOCKED_RECT locked = {};
-        DX_VERIFY(mTexture->LockRect(0, &locked, nullptr, D3DLOCK_DISCARD));
+        DX_VERIFY(mCamTexture->LockRect(0, &locked, nullptr, D3DLOCK_DISCARD));
 
         RGBA32* pSrc = (RGBA32*) poly.mCam->mData.mPixels->data();
 
@@ -528,13 +587,49 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
                 pSrc++;
             }
         }
-        DX_VERIFY(mTexture->UnlockRect(0));
+        DX_VERIFY(mCamTexture->UnlockRect(0));
 
-        DX_VERIFY(mDevice->SetTexture(0, mTexture));
+        DX_VERIFY(mDevice->SetTexture(0, mCamTexture));
         DX_VERIFY(mDevice->SetTexture(1, mPaletteTexture));
 
         // copy the vertex buffer to the back buffer
         DX_VERIFY(mDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2));
+    }
+    else if (poly.mCam && poly.mFg1)
+    {
+        // EL todo
+        /*
+        mDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+        mDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+        mDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+
+        SetQuad(0.0f, 0.0f, 640.0f, 240.0f);
+
+        D3DLOCKED_RECT locked = {};
+        DX_VERIFY(mCamTexture->LockRect(0, &locked, nullptr, D3DLOCK_DISCARD));
+
+        RGBA32* pSrc = (RGBA32*) poly.mFg1->mImage.mPixels->data();
+
+        for (u32 y = 0; y < 240; y++)
+        {
+            u32* p = (u32*) locked.pBits;
+            p = p + ((locked.Pitch / 4) * y);
+            for (u32 x = 0; x < 640; x++)
+            {
+                *p = (pSrc->a << 24) + (pSrc->r << 16) + (pSrc->g << 8) + (pSrc->b);
+                p++;
+                pSrc++;
+            }
+        }
+        DX_VERIFY(mCamTexture->UnlockRect(0));
+
+        DX_VERIFY(mDevice->SetTexture(0, mCamTexture));
+        DX_VERIFY(mDevice->SetTexture(1, mPaletteTexture));
+        DX_VERIFY(mDevice->SetTexture(2, mPaletteTexture));
+
+        // copy the vertex buffer to the back buffer
+        DX_VERIFY(mDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2));
+        */
     }
     else if (poly.mAnim)
     {
@@ -579,7 +674,7 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
 
         DX_VERIFY(mDevice->SetTexture(2, pTextureToUse));
         DX_VERIFY(mDevice->SetTexture(1, mPaletteTexture));
-        DX_VERIFY(mDevice->SetTexture(0, mTexture));
+        DX_VERIFY(mDevice->SetTexture(0, mCamTexture));
 
         // copy the vertex buffer to the back buffer
         DX_VERIFY(mDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2));
