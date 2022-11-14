@@ -100,11 +100,11 @@ private:
     PaletteCache mPaletteCache;
     DirectX9TextureCache mTextureCache;
 
-    const u32 mCamUnit = 4;
-    const u32 mPalUnit = 5;
-    const u32 mGasUnit = 6;
-    const u32 mFG1Units[4] = {0, 1, 2, 3};
-    const u32 mSpriteUnit = 7;
+    const u8 mCamUnit = 4;
+    const u8 mPalUnit = 5;
+    const u8 mGasUnit = 6;
+    const u8 mFG1Units[4] = {0, 1, 2, 3};
+    const u8 mSpriteUnit = 7;
     // sprites = 7+
 };
 
