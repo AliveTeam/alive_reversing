@@ -78,7 +78,6 @@ private:
     void SetQuad(f32 x, f32 y, f32 w, f32 h);
     void SetQuad(u8 type, bool isSemiTrans, bool isShaded, u8 blendMode, u8 palIndex, u8 textureUnit, u8 r, u8 g, u8 b, float u0, float v0, float u1, float v1, Poly_FT4& poly);
 
-
     IDirect3DTexture9* PrepareTextureFromAnim(Animation& anim);
 
     bool mFrameStarted = false;
@@ -95,11 +94,18 @@ private:
 
     ATL::CComPtr<IDirect3DPixelShader9> mPixelShader;
 
-    ATL::CComPtr<IDirect3DVertexBuffer9> v_buffer;
+    ATL::CComPtr<IDirect3DVertexBuffer9> mCameraVBO;
 
     ATL::CComPtr<IDirect3DTexture9> mPaletteTexture;
     PaletteCache mPaletteCache;
     DirectX9TextureCache mTextureCache;
+
+    const u32 mCamUnit = 4;
+    const u32 mPalUnit = 5;
+    const u32 mGasUnit = 6;
+    const u32 mFG1Units[4] = {0, 1, 2, 3};
+    const u32 mSpriteUnit = 7;
+    // sprites = 7+
 };
 
 #endif

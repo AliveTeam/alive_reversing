@@ -38,6 +38,52 @@ struct CUSTOMVERTEX
     #define DX_VERIFY(x) (x);
 #endif
 
+namespace DXTexture {
+static void LoadSubImage(IDirect3DTexture9& texture, u32 xStart, u32 yStart, u32 width, u32 height, const RGBA32* pixels)
+{
+    D3DLOCKED_RECT locked = {};
+    DX_VERIFY(texture.LockRect(0, &locked, nullptr, D3DLOCK_DISCARD));
+    if (locked.pBits)
+    {
+        const RGBA32* pSrc = pixels;
+        for (u32 y = yStart; y < yStart + height; y++)
+        {
+            u32* p = reinterpret_cast<u32*>(locked.pBits);
+            p = p + ((locked.Pitch / sizeof(u32)) * y);
+            for (u32 x = xStart; x < xStart + width; x++)
+            {
+                *p = (pSrc->a << 24) + (pSrc->r << 16) + (pSrc->g << 8) + (pSrc->b);
+                p++;
+                pSrc++;
+            }
+        }
+    }
+    DX_VERIFY(texture.UnlockRect(0));
+}
+
+static void LoadSubImage(IDirect3DTexture9& texture, u32 xStart, u32 yStart, u32 width, u32 height, const u8* pixels)
+{
+    D3DLOCKED_RECT locked = {};
+    DX_VERIFY(texture.LockRect(0, &locked, nullptr, D3DLOCK_DISCARD));
+    if (locked.pBits)
+    {
+        const u8* pSrc = pixels;
+        for (u32 y = yStart; y < yStart + height; y++)
+        {
+            u8* p = reinterpret_cast<u8*>(locked.pBits);
+            p = p + ((locked.Pitch / sizeof(u8)) * y);
+            for (u32 x = xStart; x < xStart + width; x++)
+            {
+                *p = *pSrc;
+                p++;
+                pSrc++;
+            }
+        }
+    }
+    DX_VERIFY(texture.UnlockRect(0));
+}
+}
+
 void DirectX9TextureCache::DeleteTexture(ATL::CComPtr<IDirect3DTexture9> /*texture*/)
 {
 
@@ -71,14 +117,6 @@ DirectX9Renderer::~DirectX9Renderer()
 void DirectX9Renderer::Destroy()
 {
     // TODO: just let the dtor kill everything, this method is getting nuked by rozza
-    /*
-    mTextureCache.Clear();
-
-    if (mRenderer)
-    {
-        SDL_DestroyRenderer(mRenderer);
-        mRenderer = nullptr;
-    }*/
 }
 
 
@@ -160,11 +198,11 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
     DX_VERIFY(mDevice->SetVertexDeclaration(mVertexDecl));
 
     const char* prog = R"(
-    sampler texPalette : register(s1);
-    sampler texGas;
-    sampler texCamera : register(s0); // s0 = sampler register 0;
-    sampler texFG1Masks[4];
-    sampler texSpriteSheets[8] : register(s2);
+    sampler texPalette : register(s5);
+    sampler texGas : register(s6);
+    sampler texCamera : register(s4); // sX = sampler register X;
+    sampler texFG1Masks[4] : register(s0);
+    sampler texSpriteSheets[8] : register(s7);
 
     static const int BLEND_MODE_HALF_DST_ADD_HALF_SRC = 0;
     static const int BLEND_MODE_ONE_DST_ADD_ONE_SRC   = 1;
@@ -254,7 +292,7 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
 
     float4 draw_cam(float2 fsUV)
     {
-        return tex2D(texCamera, fsUV);
+        return float4(tex2D(texCamera, fsUV).rgb, 0.0);
     }
 
     float4 draw_fg1(int palIndex, float2 fsUV)
@@ -525,9 +563,6 @@ void DirectX9Renderer::SetupBlendMode(u16 blendMode)
         mDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
         
         mDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_REVSUBTRACT);
-        
-       //GL_VERIFY(glBlendFunc(GL_SRC_ALPHA, GL_ONE));
-        //GL_VERIFY(glBlendEquation(GL_FUNC_REVERSE_SUBTRACT));
     }
     else
     {
@@ -535,9 +570,6 @@ void DirectX9Renderer::SetupBlendMode(u16 blendMode)
         mDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_SRCALPHA);
         
         mDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
-
-       // GL_VERIFY(glBlendFunc(GL_ONE, GL_SRC_ALPHA));
-       // GL_VERIFY(glBlendEquation(GL_FUNC_ADD));
     }
 }
 
@@ -547,28 +579,7 @@ u32 DirectX9Renderer::PreparePalette(AnimationPal& pCache)
 
     if (addRet.mAllocated)
     {
-        D3DLOCKED_RECT locked = {};
-        //const RECT toLock = {0, static_cast<LONG>(addRet.mIndex), 256, static_cast<LONG>(addRet.mIndex) + 1};
-        DX_VERIFY(mPaletteTexture->LockRect(0, &locked, nullptr, 0));
-
-        RGBA32* pSrc = &pCache.mPal[0];
-        for (u32 y = addRet.mIndex; y < addRet.mIndex + 1; y++)
-        {
-            u32* p = (u32*) locked.pBits;
-            p = p + ((locked.Pitch / 4) * addRet.mIndex);
-            for (u32 x = 0; x < ALIVE_COUNTOF(pCache.mPal); x++)
-            {
-                *p = (pSrc->a << 24) + (pSrc->r << 16) + (pSrc->g << 8) + (pSrc->b);
-                p++;
-                pSrc++;
-            }
-        }
-
-        DX_VERIFY(mPaletteTexture->UnlockRect(0));
-
-        // TODO: Write palette data
-        //mPaletteTexture->LoadSubImage(0, addRet.mIndex, GL_PALETTE_DEPTH, 1, pCache.mPal);
-
+        DXTexture::LoadSubImage(*mPaletteTexture, 0, addRet.mIndex, ALIVE_COUNTOF(pCache.mPal), 1, &pCache.mPal[0]);
         //mStats.mPalUploadCount++;
     }
 
@@ -581,73 +592,39 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
     DX_VERIFY(mDevice->SetVertexDeclaration(mVertexDecl));
 
     // select the vertex buffer to display
-    DX_VERIFY(mDevice->SetStreamSource(0, v_buffer, 0, sizeof(CUSTOMVERTEX)));
+    DX_VERIFY(mDevice->SetStreamSource(0, mCameraVBO, 0, sizeof(CUSTOMVERTEX)));
 
     if (poly.mCam && !poly.mFg1)
     {
-        mDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-        mDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-        mDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+        u8 blendMode = static_cast<u8>(GetTPageBlendMode(GetTPage(&poly)));
+        SetupBlendMode(blendMode);
 
         SetQuad(0.0f, 0.0f, 640.0f, 240.0f);
 
-        D3DLOCKED_RECT locked = {};
-        DX_VERIFY(mCamTexture->LockRect(0, &locked, nullptr, D3DLOCK_DISCARD));
+        auto pSrc = reinterpret_cast<const RGBA32*>(poly.mCam->mData.mPixels->data());
+        DXTexture::LoadSubImage(*mCamTexture, 0, 0, 640, 240, pSrc);
 
-        RGBA32* pSrc = (RGBA32*) poly.mCam->mData.mPixels->data();
-
-        for (u32 y = 0; y < 240; y++)
-        {
-            u32* p = (u32*) locked.pBits;
-            p = p + ((locked.Pitch / 4) * y);
-            for (u32 x = 0; x < 640; x++)
-            {
-                *p = (pSrc->a << 24) + (pSrc->r << 16) + (pSrc->g << 8) + (pSrc->b);
-                p++;
-                pSrc++;
-            }
-        }
-        DX_VERIFY(mCamTexture->UnlockRect(0));
-
-        DX_VERIFY(mDevice->SetTexture(0, mCamTexture));
-        DX_VERIFY(mDevice->SetTexture(1, mPaletteTexture));
-
-        // copy the vertex buffer to the back buffer
+        DX_VERIFY(mDevice->SetTexture(mCamUnit, mCamTexture));
+        DX_VERIFY(mDevice->SetTexture(mPalUnit, mPaletteTexture));
         DX_VERIFY(mDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2));
     }
     else if (poly.mCam && poly.mFg1)
     {
-        // EL todo
         /*
-        mDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-        mDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-        mDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+        IDirect3DTexture9* pTextureToUse = PrepareTextureFromAnim(*poly.mFg1);
+      
+        u8 blendMode = static_cast<u8>(GetTPageBlendMode(GetTPage(&poly)));
+        SetupBlendMode(blendMode);
 
-        SetQuad(0.0f, 0.0f, 640.0f, 240.0f);
+        u8 textureUnit = 1;
+        SetQuad(3, false, false, blendMode, 0, textureUnit, 128, 128, 128, 0.0f, 0.0f, 1.0f, 1.0f, poly);
 
-        D3DLOCKED_RECT locked = {};
-        DX_VERIFY(mCamTexture->LockRect(0, &locked, nullptr, D3DLOCK_DISCARD));
+        auto pSrc = reinterpret_cast<const RGBA32*>(poly.mFg1->mImage.mPixels->data());
+        DXTexture::LoadSubImage(*pTextureToUse, 0, 0, 640, 240, pSrc);
 
-        RGBA32* pSrc = (RGBA32*) poly.mFg1->mImage.mPixels->data();
-
-        for (u32 y = 0; y < 240; y++)
-        {
-            u32* p = (u32*) locked.pBits;
-            p = p + ((locked.Pitch / 4) * y);
-            for (u32 x = 0; x < 640; x++)
-            {
-                *p = (pSrc->a << 24) + (pSrc->r << 16) + (pSrc->g << 8) + (pSrc->b);
-                p++;
-                pSrc++;
-            }
-        }
-        DX_VERIFY(mCamTexture->UnlockRect(0));
-
-        DX_VERIFY(mDevice->SetTexture(0, mCamTexture));
-        DX_VERIFY(mDevice->SetTexture(1, mPaletteTexture));
-        DX_VERIFY(mDevice->SetTexture(2, mPaletteTexture));
-
-        // copy the vertex buffer to the back buffer
+        DX_VERIFY(mDevice->SetTexture(mCamUnit, mCamTexture));
+        DX_VERIFY(mDevice->SetTexture(mPalUnit, mPaletteTexture));
+        DX_VERIFY(mDevice->SetTexture(mFG1Units[0], pTextureToUse));
         DX_VERIFY(mDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2));
         */
     }
@@ -687,16 +664,12 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
             std::swap(v1, v0);
         }
 
-        //   {poly.mBase.vert.x, poly.mBase.vert.y, r, g, b, u0, v0, pTga->mWidth, pTga->mHeight, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded, blendMode, palIndex, 0},
-        
         u8 textureUnit = 1;
         SetQuad(1, isSemiTrans, isShaded, blendMode, palIndex, textureUnit, r, g, b, u0, v0, u1, v1, poly);
 
-        DX_VERIFY(mDevice->SetTexture(2, pTextureToUse));
-        DX_VERIFY(mDevice->SetTexture(1, mPaletteTexture));
-        DX_VERIFY(mDevice->SetTexture(0, mCamTexture));
-
-        // copy the vertex buffer to the back buffer
+        DX_VERIFY(mDevice->SetTexture(mSpriteUnit, pTextureToUse));
+        DX_VERIFY(mDevice->SetTexture(mPalUnit, mPaletteTexture));
+        DX_VERIFY(mDevice->SetTexture(mCamUnit, mCamTexture));
         DX_VERIFY(mDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2));
     }
 
@@ -777,10 +750,10 @@ void DirectX9Renderer::SetQuad(f32 x, f32 y, f32 w, f32 h)
 
     VOID* pVoid = nullptr;
 
-    // lock v_buffer and load the vertices into it
-    DX_VERIFY(v_buffer->Lock(0, 0, &pVoid, 0));
+    // lock mCameraVBO and load the vertices into it
+    DX_VERIFY(mCameraVBO->Lock(0, 0, &pVoid, 0));
     memcpy(pVoid, vertices, sizeof(vertices));
-    DX_VERIFY(v_buffer->Unlock());
+    DX_VERIFY(mCameraVBO->Unlock());
 }
 
 void DirectX9Renderer::SetQuad(u8 type, bool isSemiTrans, bool isShaded, u8 blendMode, u8 palIndex, u8 textureUnit, u8 r, u8 g, u8 b, float u0, float v0, float u1, float v1, Poly_FT4& poly)
@@ -853,10 +826,10 @@ void DirectX9Renderer::SetQuad(u8 type, bool isSemiTrans, bool isShaded, u8 blen
 
     VOID* pVoid = nullptr;
 
-    // lock v_buffer and load the vertices into it
-    DX_VERIFY(v_buffer->Lock(0, 0, &pVoid, 0));
+    // lock mCameraVBO and load the vertices into it
+    DX_VERIFY(mCameraVBO->Lock(0, 0, &pVoid, 0));
     memcpy(pVoid, vertices, sizeof(vertices));
-    DX_VERIFY(v_buffer->Unlock());
+    DX_VERIFY(mCameraVBO->Unlock());
 }
 
 void DirectX9Renderer::DecreaseResourceLifetimes()
@@ -868,14 +841,14 @@ void DirectX9Renderer::DecreaseResourceLifetimes()
 
 void DirectX9Renderer::MakeVertexBuffer()
 {
-    // create a vertex buffer interface called v_buffer
+    // create a vertex buffer interface called mCameraVBO
     DX_VERIFY(mDevice->SetVertexDeclaration(mVertexDecl));
 
     DX_VERIFY(mDevice->CreateVertexBuffer(6 * sizeof(CUSTOMVERTEX),
                                0,
                                0,
                                D3DPOOL_MANAGED,
-                               &v_buffer,
+                               &mCameraVBO,
                                NULL));
 
     SetQuad(0.0f, 0.0f, 640.0f, 240.0f);
@@ -894,24 +867,7 @@ IDirect3DTexture9* DirectX9Renderer::PrepareTextureFromAnim(Animation& anim)
 
         mTextureCache.Add(r.mUniqueId.Id(), DX_SPRITE_TEXTURE_LIFETIME, textureId);
 
-        D3DLOCKED_RECT locked = {};
-        DX_VERIFY(textureId->LockRect(0, &locked, nullptr, D3DLOCK_DISCARD));
-
-        u32 off = 0;
-        for (u32 y = 0; y < r.mTgaPtr->mHeight; y++)
-        {
-            u8* p = (u8*) locked.pBits;
-            p = p + ((locked.Pitch) * y);
-            for (u32 x = 0; x < r.mTgaPtr->mWidth; x++)
-            {
-                *p = r.mTgaPtr->mPixels[off];
-                p++;
-                off++;
-            }
-        }
-
-        DX_VERIFY(textureId->UnlockRect(0));
-
+        DXTexture::LoadSubImage(*textureId, 0, 0, r.mTgaPtr->mWidth, r.mTgaPtr->mHeight, r.mTgaPtr->mPixels.data());
         //mStats.mAnimUploadCount++;
     }
 
