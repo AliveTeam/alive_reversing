@@ -385,28 +385,18 @@ PSX_RECT BaseAnimatedWithPhysicsGameObject::VGetBoundingRect()
     return rect;
 }
 
-bool BaseAnimatedWithPhysicsGameObject::SetTint(const TintEntry* pTintArray, EReliveLevelIds level_id)
+void BaseAnimatedWithPhysicsGameObject::SetTint(const TintEntry* pTintArray, EReliveLevelIds level_id)
 {
     while (pTintArray->field_0_level != level_id)
     {
-        if ((pTintArray->field_0_level == level_id || pTintArray->field_0_level == EReliveLevelIds::eNone) && GetGameType() == GameType::eAe)
+        if (pTintArray->field_0_level == level_id || pTintArray->field_0_level == EReliveLevelIds::eNone)
         {
-            // AE behavior - always overwrite the RGB values with 
-            // the tint array RGB values
             break;
-        }
-
-        if (pTintArray->field_0_level == EReliveLevelIds::eNone && GetGameType() == GameType::eAo)
-        {
-            // AO behavior - don't use the tint array RGB values when the
-            // level doesn't match
-            return false;
         }
         pTintArray++;
     }
 
     mRGB.SetRGB(pTintArray->field_1_r, pTintArray->field_2_g, pTintArray->field_3_b);
-    return true;
 }
 
 // AO only

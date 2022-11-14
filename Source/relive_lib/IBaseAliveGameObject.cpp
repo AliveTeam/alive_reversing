@@ -89,9 +89,25 @@ void IBaseAliveGameObject::OnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicAr
 
 s16 IBaseAliveGameObject::SetBaseAnimPaletteTint(const TintEntry* pTintArray, EReliveLevelIds level_id, PalId palId)
 {
-    if (!SetTint(pTintArray, level_id))
+    // NOTE: in AO's SetBaseAnimPaletteTint() function we don't want to set the RGB values
+    // when we hit the end of the tint array
+    if (GetGameType() == GameType::eAe)
     {
-        return 0;
+        SetTint(pTintArray, level_id);
+    }
+    else
+    {
+        const TintEntry* pIter = pTintArray;
+        while (pIter->field_0_level != level_id)
+        {
+            if (pIter->field_0_level == EReliveLevelIds::eNone) // End of entries
+            {
+                return 0;
+            }
+            pIter++;
+        }
+
+        mRGB.SetRGB(pIter->field_1_r, pIter->field_2_g, pIter->field_3_b);
     }
 
     if (palId != PalId::Default)
