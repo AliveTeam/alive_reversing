@@ -615,7 +615,7 @@ private:
     s32 mReleasedButtons = 0;
     AllInternalStates field_120_state = {};
     s16 mKnockdownMotion = 0;
-    Guid mDeathFadeOutId;
+    Guid mFadeId;
     Guid mCircularFadeId;
     Guid mOrbWhirlWindId;
     Guid mPossessedObjectId;

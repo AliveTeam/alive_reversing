@@ -3,7 +3,7 @@
 #include "Function.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/SwitchStates.hpp"
-#include "DeathFadeOut.hpp"
+#include "Fade.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "Map.hpp"
 #include "stdlib.hpp"
@@ -33,7 +33,7 @@ void LevelLoader::VUpdate()
         {
             if (SwitchStates_Get(field_20_switch_id))
             {
-                auto pFade = relive_new DeathFadeOut(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeIn, true, 32, TPageAbr::eBlend_2);
+                auto pFade = relive_new Fade(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeIn, true, 32, TPageAbr::eBlend_2);
                 if (pFade)
                 {
                     field_22_state = States::eFadingOut_1;
@@ -43,7 +43,7 @@ void LevelLoader::VUpdate()
         }
         else if (field_22_state == States::eFadingOut_1)
         {
-            DeathFadeOut* pFade = static_cast<DeathFadeOut*>(sObjectIds.Find_Impl(field_30_fade_id));
+            Fade* pFade = static_cast<Fade*>(sObjectIds.Find_Impl(field_30_fade_id));
             if (!pFade || pFade->mDone)
             {
                 if (field_2A_movie_id)

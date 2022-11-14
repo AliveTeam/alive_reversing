@@ -1,15 +1,15 @@
-#include "stdafx_ao.h"
-#include "DeathFadeOut.hpp"
-#include "../AliveLibAE/stdlib.hpp"
-#include "../AliveLibCommon/FatalError.hpp"
+#include "stdafx.h"
+#include "Fade.hpp"
+#include "Function.hpp"
+#include "stdlib.hpp"
 
-namespace AO {
+s32 sIsFadingOut_5BC204 = 0;
 
 
-DeathFadeOut::DeathFadeOut(Layer layer, FadeOptions fade, bool destroyOnDone, s32 speed, TPageAbr abr)
+Fade::Fade(Layer layer, FadeOptions fade, bool destroyOnDone, s32 speed, TPageAbr abr)
     : EffectBase(layer, abr)
 {
-    SetType(ReliveTypes::eDeathFadeOut);
+    SetType(ReliveTypes::eMainMenuTransistion);
 
     if (fade == FadeOptions::eFadeIn)
     {
@@ -27,13 +27,17 @@ DeathFadeOut::DeathFadeOut(Layer layer, FadeOptions fade, bool destroyOnDone, s3
     mEffectBaseRed = mCurrentFadeRGB;
 }
 
+Fade::~Fade()
+{
 
-void DeathFadeOut::VScreenChanged()
+}
+
+void Fade::VScreenChanged()
 {
     // Empty
 }
 
-void DeathFadeOut::Init(Layer layer, FadeOptions fade, bool destroyOnDone, s32 speed)
+void Fade::Init(Layer layer, FadeOptions fade, bool destroyOnDone, s32 speed)
 {
     mEffectBaseLayer = layer;
     mFadeOption = fade;
@@ -48,9 +52,11 @@ void DeathFadeOut::Init(Layer layer, FadeOptions fade, bool destroyOnDone, s32 s
     {
         mSpeed = speed;
     }
+
+    sIsFadingOut_5BC204 = true;
 }
 
-void DeathFadeOut::VUpdate()
+void Fade::VUpdate()
 {
     if (!mDone)
     {
@@ -72,7 +78,7 @@ void DeathFadeOut::VUpdate()
     }
 }
 
-void DeathFadeOut::VRender(PrimHeader** ppOt)
+void Fade::VRender(PrimHeader** ppOt)
 {
     mEffectBaseBlue = mCurrentFadeRGB;
     mEffectBaseGreen = mCurrentFadeRGB;
@@ -84,11 +90,16 @@ void DeathFadeOut::VRender(PrimHeader** ppOt)
         (mCurrentFadeRGB == 0 && mFadeOption == FadeOptions::eFadeOut))
     {
         mDone = true;
-        if (mDestroyOnDone)
+        if (!sIsFadingOut_5BC204)
         {
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            if (mDestroyOnDone)
+            {
+                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            }
+        }
+        else
+        {
+            sIsFadingOut_5BC204 = false;
         }
     }
 }
-
-} // namespace AO

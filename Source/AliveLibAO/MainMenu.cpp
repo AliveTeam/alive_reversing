@@ -432,7 +432,7 @@ void MainMenuTransition::VUpdate()
 MainMenuTransition::MainMenuTransition(Layer layer, s32 fadeDirection, s32 bKillWhenDone, s32 speed, TPageAbr abr)
     : BaseGameObject(true, 0)
 {
-    SetType(ReliveTypes::eDeathFadeOut);
+    SetType(ReliveTypes::eFade);
 
     gObjListDrawables->Push_Back(this);
 

@@ -173,8 +173,8 @@ SET(AliveLibSrcAO
    BeeSwarmHole.cpp
    BeeSwarm.hpp
    BeeSwarm.cpp
-   DeathFadeOut.hpp
-   DeathFadeOut.cpp
+   Fade.hpp
+   Fade.cpp
    Gibs.hpp
    Gibs.cpp
    ScreenShake.hpp

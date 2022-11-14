@@ -4,19 +4,17 @@
 #include "../relive_lib/EffectBase.hpp"
 #include "../relive_lib/Layer.hpp"
 
-namespace AO {
-
 enum class FadeOptions
 {
     eFadeOut,
     eFadeIn
 };
 
-class DeathFadeOut final : public EffectBase
+class Fade final : public EffectBase
 {
 public:
-    DeathFadeOut(Layer layer, FadeOptions fade, bool destroyOnDone, s32 speed, TPageAbr abr);
-
+    Fade(Layer layer, FadeOptions fade, bool destroyOnDone, s32 speed, TPageAbr abr);
+    ~Fade();
     void Init(Layer layer, FadeOptions fade, bool destroyOnDone, s32 speed);
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
@@ -26,7 +24,6 @@ public:
 private:
     s32 mCurrentFadeRGB = 0;
     s32 mSpeed = 0;
-
     FadeOptions mFadeOption = FadeOptions::eFadeOut;
 
 public:
@@ -35,5 +32,3 @@ public:
 private:
     bool mDestroyOnDone = false;
 };
-
-} // namespace AO

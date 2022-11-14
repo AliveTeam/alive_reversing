@@ -41,7 +41,7 @@ DeathGas::DeathGas(Layer layer, s32 amount)
 {
     gDeathGasCount_5009D0++;
 
-    SetType(ReliveTypes::eDeathFadeOut); // wot moment
+    SetType(ReliveTypes::eFade); // wot moment
     gObjListDrawables->Push_Back(this);
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
     field_16_flag = 0;

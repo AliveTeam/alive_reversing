@@ -18,7 +18,7 @@
 #include "LiftPoint.hpp"
 #include "Map.hpp"
 #include "Slurg.hpp"
-#include "DeathFadeOut.hpp"
+#include "Fade.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "Movie.hpp"
 #include "DDCheat.hpp"
@@ -1523,7 +1523,7 @@ s16 Glukkon::Brain_2_Slapped_441720()
 
 s16 Glukkon::Brain_3_PlayerControlled_441A30()
 {
-    auto pDeathFadeOut = static_cast<DeathFadeOut*>(sObjectIds.Find_Impl(field_208_obj_id));
+    auto pFade = static_cast<Fade*>(sObjectIds.Find_Impl(field_208_obj_id));
     if (gMap.GetDirection(
             mCurrentLevel,
             mCurrentPath,
@@ -1574,10 +1574,10 @@ s16 Glukkon::Brain_3_PlayerControlled_441A30()
                 sVisitedBonewerks_5C1C02 = 1;
             }
 
-            auto pDeathFadeOutMem = relive_new DeathFadeOut(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeIn, 0, 8, TPageAbr::eBlend_2);
-            if (pDeathFadeOutMem)
+            auto pFadeMem = relive_new Fade(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeIn, 0, 8, TPageAbr::eBlend_2);
+            if (pFadeMem)
             {
-                field_208_obj_id = pDeathFadeOutMem->mBaseGameObjectId;
+                field_208_obj_id = pFadeMem->mBaseGameObjectId;
             }
         }
             return 3;
@@ -1611,7 +1611,7 @@ s16 Glukkon::Brain_3_PlayerControlled_441A30()
             return 1;
 
         case 3:
-            if (pDeathFadeOut && !pDeathFadeOut->mDone)
+            if (pFade && !pFade->mDone)
             {
                 return mBrainSubState;
             }
@@ -1650,9 +1650,9 @@ s16 Glukkon::Brain_3_PlayerControlled_441A30()
             }
             gPsxDisplay.PutCurrentDispEnv();
             pScreenManager->DecompressCameraToVRam(gMap.field_2C_camera_array[0]->field_C_pCamRes);
-            if (pDeathFadeOut)
+            if (pFade)
             {
-                pDeathFadeOut->Init(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeOut, 1, 8);
+                pFade->Init(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeOut, 1, 8);
             }
             return 6;
 

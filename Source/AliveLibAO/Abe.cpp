@@ -20,7 +20,7 @@
 #include "Midi.hpp"
 #include "Movie.hpp"
 #include "CircularFade.hpp"
-#include "DeathFadeOut.hpp"
+#include "Fade.hpp"
 #include "Throwable.hpp"
 #include "OrbWhirlWind.hpp"
 #include "../relive_lib/Particle.hpp"
@@ -870,8 +870,8 @@ Abe::Abe()
     field_19C_throwable_count = 0;
     field_198_pThrowable = nullptr;
     field_1A0_portal = 0;
-    field_158_pDeathFadeout = nullptr;
-    field_164_pCircularFade = nullptr;
+    mFade = nullptr;
+    mCircularFade = nullptr;
     field_188_pOrbWhirlWind = nullptr;
     field_18C_pObjToPossess = nullptr;
     mContinueTopLeft = {};
@@ -926,11 +926,11 @@ Abe::~Abe()
 
     SND_Seq_Stop_477A60(SeqId::eMudokonChant1_11);
 
-    if (field_158_pDeathFadeout)
+    if (mFade)
     {
-        field_158_pDeathFadeout->mBaseGameObjectRefCount--;
-        field_158_pDeathFadeout->mBaseGameObjectFlags.Set(Options::eDead);
-        field_158_pDeathFadeout = nullptr;
+        mFade->mBaseGameObjectRefCount--;
+        mFade->mBaseGameObjectFlags.Set(Options::eDead);
+        mFade = nullptr;
     }
 
     if (field_15C_pThrowable)
@@ -947,11 +947,11 @@ Abe::~Abe()
         field_160_pRope = nullptr;
     }
 
-    if (field_164_pCircularFade)
+    if (mCircularFade)
     {
-        field_164_pCircularFade->mBaseGameObjectRefCount--;
-        field_164_pCircularFade->mBaseGameObjectFlags.Set(Options::eDead);
-        field_164_pCircularFade = nullptr;
+        mCircularFade->mBaseGameObjectRefCount--;
+        mCircularFade->mBaseGameObjectFlags.Set(Options::eDead);
+        mCircularFade = nullptr;
     }
 
     if (field_188_pOrbWhirlWind)
@@ -6332,18 +6332,18 @@ void Abe::Motion_60_Dead()
         case 3:
         {
             EventBroadcast(kEventHeroDying, this);
-            if (field_158_pDeathFadeout)
+            if (mFade)
             {
-                field_158_pDeathFadeout->mBaseGameObjectFlags.Set(Options::eDead);
-                field_158_pDeathFadeout->mBaseGameObjectRefCount--;
+                mFade->mBaseGameObjectFlags.Set(Options::eDead);
+                mFade->mBaseGameObjectRefCount--;
             }
-            field_158_pDeathFadeout = relive_new DeathFadeOut(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeIn, 0, 8, TPageAbr::eBlend_2);
-            field_158_pDeathFadeout->mBaseGameObjectRefCount++;
+            mFade = relive_new Fade(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeIn, 0, 8, TPageAbr::eBlend_2);
+            mFade->mBaseGameObjectRefCount++;
 
-            if (field_164_pCircularFade)
+            if (mCircularFade)
             {
-                field_164_pCircularFade->mBaseGameObjectFlags.Set(Options::eDead);
-                field_164_pCircularFade = nullptr;
+                mCircularFade->mBaseGameObjectFlags.Set(Options::eDead);
+                mCircularFade = nullptr;
             }
             field_114_gnFrame++;
             return;
@@ -6351,7 +6351,7 @@ void Abe::Motion_60_Dead()
         case 4:
         {
             EventBroadcast(kEventHeroDying, this);
-            if (field_158_pDeathFadeout->mDone)
+            if (mFade->mDone)
             {
                 VOnTrapDoorOpen();
                 BaseAliveGameObjectCollisionLine = nullptr;
@@ -6518,9 +6518,9 @@ void Abe::Motion_61_Respawn()
             //}
             mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eElectrocuted);
 
-            field_158_pDeathFadeout->Init(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeOut, 1, 8);
-            field_158_pDeathFadeout->mBaseGameObjectRefCount--;
-            field_158_pDeathFadeout = nullptr;
+            mFade->Init(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeOut, 1, 8);
+            mFade->mBaseGameObjectRefCount--;
+            mFade = nullptr;
             mNextMotion = eAbeMotions::Motion_0_Idle;
             field_118_timer = sGnFrame + 60;
             field_114_gnFrame = 2;
@@ -7521,14 +7521,14 @@ void Abe::Motion_88_HandstoneBegin()
         {
             if (GetAnimation().mFlags.Get(AnimFlags::eForwardLoopCompleted))
             {
-                field_164_pCircularFade = Make_Circular_Fade(
+                mCircularFade = Make_Circular_Fade(
                     mXPos,
                     mYPos,
                     GetSpriteScale(),
                     1,
                     0);
 
-                field_164_pCircularFade->GetAnimation().mFlags.Set(
+                mCircularFade->GetAnimation().mFlags.Set(
                     AnimFlags::eFlipX,
                     GetAnimation().mFlags.Get(AnimFlags::eFlipX));
 
@@ -7604,7 +7604,7 @@ void Abe::Motion_88_HandstoneBegin()
         }
         case StoneStates::eGetHandstoneType_1:
         {
-            if (field_164_pCircularFade->VDone())
+            if (mCircularFade->VDone())
             {
                 switch (mHandStoneType)
                 {
@@ -7646,9 +7646,9 @@ void Abe::Motion_88_HandstoneBegin()
                         GetAnimation().mFlags.Clear(AnimFlags::eRender);
                         field_110_state.stone = StoneStates::eWaitForInput_6;
                         field_16E_cameraIdx = 1;
-                        field_164_pCircularFade->mBaseGameObjectFlags.Set(Options::eDead);
-                        field_164_pCircularFade = 0;
-                        field_158_pDeathFadeout = relive_new DeathFadeOut(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeOut, 0, 8, TPageAbr::eBlend_2);
+                        mCircularFade->mBaseGameObjectFlags.Set(Options::eDead);
+                        mCircularFade = 0;
+                        mFade = relive_new Fade(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeOut, 0, 8, TPageAbr::eBlend_2);
                         field_190_level = gMap.mCurrentLevel;
                         field_192_path = gMap.mCurrentPath;
                         field_194_camera = gMap.mCurrentCamera;
@@ -7672,7 +7672,7 @@ void Abe::Motion_88_HandstoneBegin()
                 gPsxDisplay.PutCurrentDispEnv();
                 pScreenManager->DecompressCameraToVRam(gMap.field_2C_camera_array[0]->field_C_pCamRes);
                 pScreenManager->EnableRendering();
-                field_164_pCircularFade->VFadeIn(0, 0);
+                mCircularFade->VFadeIn(0, 0);
                 field_110_state.stone = StoneStates::eHandstoneEnd_5;
             }
             break;
@@ -7683,14 +7683,14 @@ void Abe::Motion_88_HandstoneBegin()
             if (gCounter_507728 == 0)
             {
                 field_110_state.stone = StoneStates::eHandstoneEnd_5;
-                field_164_pCircularFade = Make_Circular_Fade(
+                mCircularFade = Make_Circular_Fade(
                     mXPos,
                     mYPos,
                     GetSpriteScale(),
                     0,
                     0);
 
-                field_164_pCircularFade->GetAnimation().mFlags.Set(
+                mCircularFade->GetAnimation().mFlags.Set(
                     AnimFlags::eFlipX,
                     GetAnimation().mFlags.Get(AnimFlags::eFlipX));
             }
@@ -7701,18 +7701,18 @@ void Abe::Motion_88_HandstoneBegin()
             if (sBellSong->mDone)
             {
                 sBellSong->mBaseGameObjectFlags.Set(Options::eDead);
-                field_164_pCircularFade->VFadeIn(0, 0);
+                mCircularFade->VFadeIn(0, 0);
                 field_110_state.stone = StoneStates::eHandstoneEnd_5;
             }
             break;
         }
         case StoneStates::eHandstoneEnd_5:
         {
-            if (field_164_pCircularFade->VDone())
+            if (mCircularFade->VDone())
             {
-                field_164_pCircularFade->mBaseGameObjectFlags.Set(Options::eDead);
+                mCircularFade->mBaseGameObjectFlags.Set(Options::eDead);
                 mCurrentMotion = eAbeMotions::Motion_89_HandstoneEnd;
-                field_164_pCircularFade = 0;
+                mCircularFade = 0;
                 if (sAbeSound_507730)
                 {
                     SND_Stop_Channels_Mask(sAbeSound_507730);
@@ -7723,11 +7723,11 @@ void Abe::Motion_88_HandstoneBegin()
         }
         case StoneStates::eWaitForInput_6:
         {
-            if (field_158_pDeathFadeout->mDone)
+            if (mFade->mDone)
             {
                 if (Input().IsAnyHeld(0xF0))
                 {
-                    field_158_pDeathFadeout->Init(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeIn, 0, 8);
+                    mFade->Init(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeIn, 0, 8);
                     field_110_state.stone = StoneStates::eSetActiveCamToAbeOrWaitForInput_7;
                     SfxPlayMono(relive::SoundEffects::IngameTransition, 90);
                 }
@@ -7736,7 +7736,7 @@ void Abe::Motion_88_HandstoneBegin()
         }
         case StoneStates::eSetActiveCamToAbeOrWaitForInput_7:
         {
-            if (field_158_pDeathFadeout->mDone)
+            if (mFade->mDone)
             {
                 Path_Stone_camera camera = {};
                 switch (field_16E_cameraIdx)
@@ -7768,17 +7768,17 @@ void Abe::Motion_88_HandstoneBegin()
                 }
                 else
                 {
-                    field_158_pDeathFadeout->mBaseGameObjectFlags.Set(Options::eDead);
+                    mFade->mBaseGameObjectFlags.Set(Options::eDead);
                     field_110_state.stone = StoneStates::eWaitForInput_6;
                     field_16E_cameraIdx++;
-                    field_158_pDeathFadeout = relive_new DeathFadeOut(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeOut, 0, 8, TPageAbr::eBlend_2);
+                    mFade = relive_new Fade(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeOut, 0, 8, TPageAbr::eBlend_2);
                     gMap.SetActiveCam(MapWrapper::FromAO(camera.level), camera.path, camera.camera, CameraSwapEffects::eInstantChange_0, 0, 0);
                 }
             }
             break;
         }
         case StoneStates::eSetActiveCamToAbe_12:
-            if (field_158_pDeathFadeout->mDone)
+            if (mFade->mDone)
             {
                 GetAnimation().mFlags.Set(AnimFlags::eRender);
                 field_110_state.stone = StoneStates::eCircularFadeExit_13;
@@ -7787,12 +7787,12 @@ void Abe::Motion_88_HandstoneBegin()
             break;
         case StoneStates::eCircularFadeExit_13:
         {
-            field_158_pDeathFadeout->mBaseGameObjectFlags.Set(Options::eDead);
-            field_158_pDeathFadeout = 0;
+            mFade->mBaseGameObjectFlags.Set(Options::eDead);
+            mFade = 0;
 
-            field_164_pCircularFade = Make_Circular_Fade(mXPos, mYPos, GetSpriteScale(), 0, 0);
+            mCircularFade = Make_Circular_Fade(mXPos, mYPos, GetSpriteScale(), 0, 0);
             field_110_state.stone = StoneStates::eHandstoneEnd_5;
-            field_164_pCircularFade->GetAnimation().mFlags.Set(
+            mCircularFade->GetAnimation().mFlags.Set(
                 AnimFlags::eFlipX,
                 GetAnimation().mFlags.Get(AnimFlags::eFlipX));
 
@@ -9028,7 +9028,7 @@ void Abe::Motion_156_DoorEnter()
         }
         case AbeDoorStates::eUnused_1:
         {
-            if (field_158_pDeathFadeout->mDone)
+            if (mFade->mDone)
             {
                 field_110_state.door = AbeDoorStates::eWaitABit_2;
                 field_118_timer = sGnFrame + 5;

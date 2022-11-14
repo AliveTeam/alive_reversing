@@ -26,7 +26,7 @@
 #include "Blood.hpp"
 #include "PullRingRope.hpp"
 #include "CircularFade.hpp"
-#include "DeathFadeOut.hpp"
+#include "Fade.hpp"
 #include "Movie.hpp"
 #include "PossessionFlicker.hpp"
 #include "Door.hpp"
@@ -642,7 +642,7 @@ Abe::Abe()
 
 Abe::~Abe()
 {
-    BaseGameObject* pFadeObject = sObjectIds.Find_Impl(mDeathFadeOutId);
+    BaseGameObject* pFadeObject = sObjectIds.Find_Impl(mFadeId);
     BaseGameObject* pCircularFade = sObjectIds.Find_Impl(mCircularFadeId);
     BaseGameObject* pOrbWhirlWind = sObjectIds.Find_Impl(mOrbWhirlWindId);
     BaseGameObject* pPossessedObject = sObjectIds.Find_Impl(mPossessedObjectId);
@@ -656,7 +656,7 @@ Abe::~Abe()
     if (pFadeObject)
     {
         pFadeObject->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-        mDeathFadeOutId = Guid{};
+        mFadeId = Guid{};
     }
 
     if (pItem)
@@ -817,7 +817,7 @@ s32 Abe::CreateFromSaveState(const u8* pData)
     sActiveHero->mKnockdownMotion = pSaveState->mKnockdownMotion;
     sActiveHero->field_128.mRollingMotionTimer = sGnFrame - pSaveState->mRollingMotionTimer;
 
-    sActiveHero->mDeathFadeOutId = pSaveState->mDeathFadeOutId;
+    sActiveHero->mFadeId = pSaveState->mDeathFadeOutId;
     sActiveHero->mCircularFadeId = pSaveState->mCircularFadeId;
     sActiveHero->mOrbWhirlWindId = pSaveState->mOrbWhirlWindId;
     sActiveHero->mPossessedObjectId = pSaveState->mPossessedObjectId;
@@ -978,7 +978,7 @@ void Abe::VUpdate()
         }
 
         BaseAliveGameObject_PlatformId = BaseGameObject::RefreshId(BaseAliveGameObject_PlatformId);
-        mDeathFadeOutId = BaseGameObject::RefreshId(mDeathFadeOutId);
+        mFadeId = BaseGameObject::RefreshId(mFadeId);
         mCircularFadeId = BaseGameObject::RefreshId(mCircularFadeId);
         mBirdPortalId = BaseGameObject::RefreshId(mBirdPortalId);
         mOrbWhirlWindId = BaseGameObject::RefreshId(mOrbWhirlWindId);
@@ -1576,11 +1576,11 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
 
     pSaveState->mKnockdownMotion = mKnockdownMotion;
     pSaveState->mRollingMotionTimer = sGnFrame - field_128.mRollingMotionTimer;
-    pSaveState->mDeathFadeOutId = mDeathFadeOutId;
+    pSaveState->mDeathFadeOutId = mFadeId;
 
-    if (mDeathFadeOutId != Guid{})
+    if (mFadeId != Guid{})
     {
-        auto pObj = sObjectIds.Find_Impl(mDeathFadeOutId);
+        auto pObj = sObjectIds.Find_Impl(mFadeId);
         if (pObj)
         {
             pSaveState->mDeathFadeOutId = pObj->mBaseGameObjectTlvInfo;
@@ -4977,7 +4977,7 @@ void Abe::Motion_56_DeathDropFall_4591F0()
 
 void Abe::Motion_57_Dead_4589A0()
 {
-    DeathFadeOut* pDeathFade_1 = static_cast<DeathFadeOut*>(sObjectIds.Find_Impl(mDeathFadeOutId));
+    Fade* pFade_1 = static_cast<Fade*>(sObjectIds.Find_Impl(mFadeId));
     CircularFade* pCircularFade = static_cast<CircularFade*>(sObjectIds.Find_Impl(mCircularFadeId));
 
     GetAnimation().mFlags.Clear(AnimFlags::eAnimate);
@@ -5090,15 +5090,15 @@ void Abe::Motion_57_Dead_4589A0()
         case 3:
         {
             EventBroadcast(kEventHeroDying, this);
-            if (pDeathFade_1)
+            if (pFade_1)
             {
-                pDeathFade_1->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-                mDeathFadeOutId = Guid{};
+                pFade_1->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                mFadeId = Guid{};
             }
-            auto pDeathFade = relive_new DeathFadeOut(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeIn, false, 8, TPageAbr::eBlend_2);
-            if (pDeathFade)
+            auto pFade = relive_new Fade(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeIn, false, 8, TPageAbr::eBlend_2);
+            if (pFade)
             {
-                mDeathFadeOutId = pDeathFade->mBaseGameObjectId;
+                mFadeId = pFade->mBaseGameObjectId;
             }
 
             if (pCircularFade)
@@ -5112,7 +5112,7 @@ void Abe::Motion_57_Dead_4589A0()
         case 4:
             EventBroadcast(kEventHeroDying, this);
 
-            if (!pDeathFade_1->mDone)
+            if (!pFade_1->mDone)
             {
                 return;
             }
@@ -6046,7 +6046,7 @@ s32 sHandstoneSoundChannels_5C2C68 = 0;
 void Abe::Motion_86_HandstoneBegin()
 {
     CircularFade* pCircularFade = static_cast<CircularFade*>(sObjectIds.Find_Impl(mCircularFadeId));
-    DeathFadeOut* pFade = static_cast<DeathFadeOut*>(sObjectIds.Find_Impl(mDeathFadeOutId));
+    Fade* pFade = static_cast<Fade*>(sObjectIds.Find_Impl(mFadeId));
 
     switch (field_120_state.stone)
     {
@@ -6153,10 +6153,10 @@ void Abe::Motion_86_HandstoneBegin()
                     field_120_state.stone = StoneStates::eWaitForInput_4;
                     pCircularFade->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                     mCircularFadeId = Guid{};
-                    DeathFadeOut* pFade33 = relive_new DeathFadeOut(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeOut, 0, 8, TPageAbr::eBlend_2);
+                    Fade* pFade33 = relive_new Fade(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeOut, 0, 8, TPageAbr::eBlend_2);
                     if (pFade33)
                     {
-                        mDeathFadeOutId = pFade33->mBaseGameObjectId;
+                        mFadeId = pFade33->mBaseGameObjectId;
                     }
 
                     mDstWellCamera = gMap.mCurrentCamera;
@@ -6213,10 +6213,10 @@ void Abe::Motion_86_HandstoneBegin()
                     field_120_state.stone = StoneStates::eWaitForInput_4;
 
                     pFade->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-                    pFade = relive_new DeathFadeOut(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeOut, 0, 8, TPageAbr::eBlend_2);
+                    pFade = relive_new Fade(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeOut, 0, 8, TPageAbr::eBlend_2);
                     if (pFade)
                     {
-                        mDeathFadeOutId = pFade->mBaseGameObjectId;
+                        mFadeId = pFade->mBaseGameObjectId;
                     }
 
                     gMap.SetActiveCam(
@@ -6252,7 +6252,7 @@ void Abe::Motion_86_HandstoneBegin()
         case StoneStates::eCircularFadeExit_7:
         {
             pFade->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-            mDeathFadeOutId = Guid{};
+            mFadeId = Guid{};
 
             CircularFade* pCircularFade2 = Make_Circular_Fade_4CE8C0(mXPos, mYPos, GetSpriteScale(), 0, 0, 0);
             if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))

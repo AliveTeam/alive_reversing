@@ -159,8 +159,8 @@ SET(AliveLibAESrc
     CircularFade.cpp
     Alarm.hpp
     Alarm.cpp
-    DeathFadeOut.hpp
-    DeathFadeOut.cpp
+    Fade.hpp
+    Fade.cpp
     PossessionFlicker.hpp
     PossessionFlicker.cpp
     Door.hpp

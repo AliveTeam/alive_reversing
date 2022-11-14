@@ -134,7 +134,7 @@ enum class ReliveTypes : s16
     eScrab,
     eScreenClipper,
     eEffectBase,
-    eDeathFadeOut,
+    eFade,
     eFlash,
     ScreenShake, // TODO: rename to eScreenShake
     eScreenWave,
