@@ -579,7 +579,6 @@ inline void to_json(nlohmann::json& j, const Path_Mine& p)
         {"tlv_type", "mine"},
         {"base", ToBase(p)},
         {"scale", p.mScale},
-        {"disabled_resources", p.mDisabledResources},
         {"persist_offscreen", p.mPersistOffscreen},
     };
 }
@@ -588,7 +587,6 @@ inline void from_json(const nlohmann::json& j, Path_Mine& p)
 {
     j.at("base").get_to(ToBase(p));
     j.at("scale").get_to(p.mScale);
-    j.at("disabled_resources").get_to(p.mDisabledResources);
     j.at("persist_offscreen").get_to(p.mPersistOffscreen);
 }
 

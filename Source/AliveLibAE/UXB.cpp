@@ -14,7 +14,8 @@
 
 #include <math.h>
 
-const TintEntry sTintMap_UXB_563A3C[19] = {
+const TintEntry sTintMap_UXB_563A3C[16] = {
+    {EReliveLevelIds::eMenu, 127u, 127u, 127u},
     {EReliveLevelIds::eMines, 127u, 127u, 127u},
     {EReliveLevelIds::eNecrum, 137u, 137u, 137u},
     {EReliveLevelIds::eMudomoVault, 127u, 127u, 127u},
@@ -29,7 +30,7 @@ const TintEntry sTintMap_UXB_563A3C[19] = {
     {EReliveLevelIds::eFeeCoDepot_Ender, 127u, 127u, 127u},
     {EReliveLevelIds::eBarracks_Ender, 127u, 127u, 127u},
     {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
-    {EReliveLevelIds::eNone, 127u, 127u, 127u}};
+    {EReliveLevelIds::eCredits, 127u, 127u, 127u}};
 
 void UXB::LoadAnimations()
 {

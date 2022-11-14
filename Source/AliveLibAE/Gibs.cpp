@@ -9,7 +9,8 @@
 #include "AnimResources.hpp"
 #include "Map.hpp"
 
-const TintEntry kGibTints_55C744[] = {
+const TintEntry kGibTints_55C744[16] = {
+    {EReliveLevelIds::eMenu, 87u, 103u, 67u},
     {EReliveLevelIds::eMines, 87u, 103u, 67u},
     {EReliveLevelIds::eNecrum, 87u, 103u, 67u},
     {EReliveLevelIds::eMudomoVault, 87u, 103u, 67u},
@@ -24,7 +25,7 @@ const TintEntry kGibTints_55C744[] = {
     {EReliveLevelIds::eFeeCoDepot_Ender, 87u, 103u, 67u},
     {EReliveLevelIds::eBarracks_Ender, 87u, 103u, 67u},
     {EReliveLevelIds::eBonewerkz_Ender, 87u, 103u, 67u},
-    {EReliveLevelIds::eNone, 87u, 103u, 67u}};
+    {EReliveLevelIds::eCredits, 87u, 103u, 67u}};
 
 s16 sGibRandom_550E80 = 13;
 

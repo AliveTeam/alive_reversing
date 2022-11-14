@@ -703,7 +703,6 @@ static void Factory_BeeNest(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& t
 static void Factory_Mine(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
 {
     auto pMineTlv = static_cast<relive::Path_Mine*>(pTlv);
-    const auto disabledResources = pMineTlv->mDisabledResources;
 
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -713,14 +712,6 @@ static void Factory_Mine(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvI
     }
     else
     {
-        if (!(disabledResources & 1))
-        {
-        }
-
-        if (!(disabledResources & 2))
-        {
-        }
-
         relive_new Mine(pMineTlv, tlvId);
     }
 }

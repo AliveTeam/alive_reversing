@@ -9,7 +9,8 @@
 #include "ResourceManager.hpp"
 #include "Map.hpp"
 
-const TintEntry kRopeTints_55FD68[18] = {
+const TintEntry kRopeTints_55FD68[16] = {
+    {EReliveLevelIds::eMenu, 127u, 127u, 127u},
     {EReliveLevelIds::eMines, 127u, 127u, 127u},
     {EReliveLevelIds::eNecrum, 127u, 127u, 127u},
     {EReliveLevelIds::eMudomoVault, 127u, 127u, 127u},
@@ -24,7 +25,7 @@ const TintEntry kRopeTints_55FD68[18] = {
     {EReliveLevelIds::eFeeCoDepot_Ender, 127u, 127u, 127u},
     {EReliveLevelIds::eBarracks_Ender, 127u, 127u, 127u},
     {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
-    {EReliveLevelIds::eNone, 127u, 127u, 127u}};
+    {EReliveLevelIds::eCredits, 127u, 127u, 127u}};
 
 void ClipPoly_Vertically_4A09E0(Poly_FT4* pPoly, s32 minY, s32 maxY)
 {

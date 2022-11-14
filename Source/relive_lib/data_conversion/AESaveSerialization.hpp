@@ -982,21 +982,21 @@ inline void to_json(nlohmann::json& j, const GreeterSaveState& p)
         {"velx", p.field_14_velx},
         {"vely", p.field_18_vely},
         {"sprite_scale", p.field_1C_sprite_scale},
-        {"current_frame", p.field_20_current_frame},
-        {"frame_change_counter", p.field_22_frame_change_counter},
-        {"anim_render", p.field_24_bAnimRender},
-        {"drawable", p.field_25_bDrawable},
-        {"tlv_info", p.field_28_tlvInfo},
+        {"current_frame", p.mCurrentFrame},
+        {"frame_change_counter", p.mFrameChangeCounter},
+        {"anim_render", p.mAnimRender},
+        {"drawable", p.mDrawable},
+        {"tlv_info", p.mTlvId},
         {"last_turn_time", p.field_30_last_turn_time},
         {"timer", p.field_34_timer},
-        {"times_shot", p.field_38_timesShot},
+        {"times_shot", p.mTimesShot},
         {"dont_set_destroyed", p.field_3A_bDontSetDestroyed},
-        {"chasing", p.field_3C_bChasing},
+        {"chasing", p.mChasing},
         {"speed", p.field_40_speed},
-        {"brain_state", p.field_44_brain_state},
+        {"brain_state", p.mBrainState},
         {"target_on_left", p.field_46_targetOnLeft},
         {"target_on_right", p.field_48_targetOnRight},
-        {"motion_laser_xpos", p.field_4C_motion_laser_xpos},
+        {"motion_laser_xpos", p.mMotionLaserXPos},
     };
 }
 
@@ -1013,21 +1013,21 @@ inline void from_json(const nlohmann::json& j, GreeterSaveState& p)
     j.at("velx").get_to(p.field_14_velx);
     j.at("vely").get_to(p.field_18_vely);
     j.at("sprite_scale").get_to(p.field_1C_sprite_scale);
-    j.at("current_frame").get_to(p.field_20_current_frame);
-    j.at("frame_change_counter").get_to(p.field_22_frame_change_counter);
-    j.at("anim_render").get_to(p.field_24_bAnimRender);
-    j.at("drawable").get_to(p.field_25_bDrawable);
-    j.at("tlv_info").get_to(p.field_28_tlvInfo);
+    j.at("current_frame").get_to(p.mCurrentFrame);
+    j.at("frame_change_counter").get_to(p.mFrameChangeCounter);
+    j.at("anim_render").get_to(p.mAnimRender);
+    j.at("drawable").get_to(p.mDrawable);
+    j.at("tlv_info").get_to(p.mTlvId);
     j.at("last_turn_time").get_to(p.field_30_last_turn_time);
     j.at("timer").get_to(p.field_34_timer);
-    j.at("times_shot").get_to(p.field_38_timesShot);
+    j.at("times_shot").get_to(p.mTimesShot);
     j.at("dont_set_destroyed").get_to(p.field_3A_bDontSetDestroyed);
-    j.at("chasing").get_to(p.field_3C_bChasing);
+    j.at("chasing").get_to(p.mChasing);
     j.at("speed").get_to(p.field_40_speed);
-    j.at("brain_state").get_to(p.field_44_brain_state);
+    j.at("brain_state").get_to(p.mBrainState);
     j.at("target_on_left").get_to(p.field_46_targetOnLeft);
     j.at("target_on_right").get_to(p.field_48_targetOnRight);
-    j.at("motion_laser_xpos").get_to(p.field_4C_motion_laser_xpos);
+    j.at("motion_laser_xpos").get_to(p.mMotionLaserXPos);
 }
 
 NLOHMANN_JSON_SERIALIZE_ENUM(GrenadeStates, {

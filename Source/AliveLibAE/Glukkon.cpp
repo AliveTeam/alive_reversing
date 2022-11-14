@@ -93,7 +93,8 @@ const AnimId sGlukkonsAnimIdTable[4][25] = {
      AnimId::Glukkon_Phleg_EndWalk, AnimId::Glukkon_Phleg_StandToJump, AnimId::Glukkon_Phleg_JumpToStand, AnimId::Glukkon_Phleg_WalkToJump, AnimId::Glukkon_Phleg_JumpToWalk,
      AnimId::Glukkon_Phleg_KnockBackStandBegin, AnimId::Glukkon_Phleg_GetShot, AnimId::Glukkon_Phleg_KnockBackStandEnd, AnimId::Glukkon_Phleg_Speak3, AnimId::Glukkon_Phleg_EndSingleStep}};
 
-const TintEntry kGlukkonTints_5546B4[18] = {
+const TintEntry kGlukkonTints_5546B4[16] = {
+    {EReliveLevelIds::eMenu, 137u, 137u, 137u},
     {EReliveLevelIds::eMines, 137u, 137u, 137u},
     {EReliveLevelIds::eNecrum, 137u, 137u, 137u},
     {EReliveLevelIds::eMudomoVault, 137u, 137u, 137u},
@@ -108,7 +109,7 @@ const TintEntry kGlukkonTints_5546B4[18] = {
     {EReliveLevelIds::eFeeCoDepot_Ender, 137u, 137u, 137u},
     {EReliveLevelIds::eBarracks_Ender, 137u, 137u, 137u},
     {EReliveLevelIds::eBonewerkz_Ender, 137u, 137u, 137u},
-    {EReliveLevelIds::eNone, 137u, 137u, 137u}};
+    {EReliveLevelIds::eCredits, 137u, 137u, 137u}};
 
 s32 Glukkon::CreateFromSaveState(const u8* pData)
 {

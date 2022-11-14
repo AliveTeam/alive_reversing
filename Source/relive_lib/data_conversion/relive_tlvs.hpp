@@ -363,7 +363,6 @@ struct Path_Mine final : public Path_TLV
         mAttribute = QuiksaveAttribute::eClearTlvFlags_1;
     }
     reliveScale mScale = reliveScale::eFull;
-    s16 mDisabledResources = 0;
     reliveChoice mPersistOffscreen = reliveChoice::eYes;
 };
 

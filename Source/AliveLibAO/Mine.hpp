@@ -24,11 +24,10 @@ public:
 
     s16 IsColliding();
 
-    u16 field_10C_detonating = 0;
-    s16 field_10E_disabled_resources = 0;
-    Guid field_110_tlv;
-    s32 field_114_gnframe = 0;
-    Animation field_118_animation;
+    bool mDetonating = false;
+    Guid mTlvId;
+    s32 mExplosionTimer = 0;
+    Animation mFlashAnim;
     s32 field_1B0_flags = 0;
 };
 

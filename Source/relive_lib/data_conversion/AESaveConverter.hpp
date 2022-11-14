@@ -1513,21 +1513,21 @@ struct GreeterSaveState final
         d.field_14_velx = data.field_14_velx;
         d.field_18_vely = data.field_18_vely;
         d.field_1C_sprite_scale = data.field_1C_sprite_scale;
-        d.field_20_current_frame = data.field_20_current_frame;
-        d.field_22_frame_change_counter = data.field_22_frame_change_counter;
-        d.field_24_bAnimRender = data.field_24_bAnimRender;
-        d.field_25_bDrawable = data.field_25_bDrawable;
-        d.field_28_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_28_tlvInfo);
+        d.mCurrentFrame = data.field_20_current_frame;
+        d.mFrameChangeCounter = data.field_22_frame_change_counter;
+        d.mAnimRender = data.field_24_bAnimRender;
+        d.mDrawable = data.field_25_bDrawable;
+        d.mTlvId = Guid::NewGuidFromTlvInfo(data.field_28_tlvInfo);
         d.field_30_last_turn_time = data.field_30_last_turn_time;
         d.field_34_timer = data.field_34_timer;
-        d.field_38_timesShot = data.field_38_timesShot;
+        d.mTimesShot = data.field_38_timesShot;
         d.field_3A_bDontSetDestroyed = data.field_3A_bDontSetDestroyed;
-        d.field_3C_bChasing = data.field_3C_bChasing;
+        d.mChasing = data.field_3C_bChasing;
         d.field_40_speed = data.field_40_speed;
-        d.field_44_brain_state = From(data.field_44_brain_state);
+        d.mBrainState = From(data.field_44_brain_state);
         d.field_46_targetOnLeft = data.field_46_targetOnLeft;
         d.field_48_targetOnRight = data.field_48_targetOnRight;
-        d.field_4C_motion_laser_xpos = data.field_4C_motion_laser_xpos;
+        d.mMotionLaserXPos = data.field_4C_motion_laser_xpos;
         return d;
     }
 

@@ -13,7 +13,8 @@
 #include "Map.hpp"
 #include "Path.hpp"
 
-const TintEntry sFootSwitchTints_5639F4[18] = {
+const TintEntry sFootSwitchTints_5639F4[16] = {
+    {EReliveLevelIds::eMenu, 127u, 127u, 127u},
     {EReliveLevelIds::eMines, 127u, 127u, 127u},
     {EReliveLevelIds::eNecrum, 127u, 127u, 127u},
     {EReliveLevelIds::eMudomoVault, 127u, 127u, 127u},
@@ -28,7 +29,7 @@ const TintEntry sFootSwitchTints_5639F4[18] = {
     {EReliveLevelIds::eFeeCoDepot_Ender, 127u, 127u, 127u},
     {EReliveLevelIds::eBarracks_Ender, 127u, 127u, 127u},
     {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
-    {EReliveLevelIds::eNone, 127u, 127u, 127u}};
+    {EReliveLevelIds::eCredits, 127u, 127u, 127u}};
 
 
 const AnimId sFootSwitchData_547D60[15][2] = {

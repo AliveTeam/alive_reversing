@@ -377,14 +377,14 @@ void MotionDetector::VUpdate()
             field_118_x2_fp = pOwner->mYPos - (GetSpriteScale() * FP_FromInteger(20));
             field_120_y2_fp = pOwner->mYPos;
 
-            if (pOwner->field_13C_brain_state == GreeterBrainStates::eBrain_0_Patrol || pOwner->field_13C_brain_state == GreeterBrainStates::eBrain_1_PatrolTurn)
+            if (pOwner->mBrainState == GreeterBrainStates::eBrain_0_Patrol || pOwner->mBrainState == GreeterBrainStates::eBrain_1_PatrolTurn)
             {
                 GetAnimation().mFlags.Set(AnimFlags::eRender);
                 pLaser->GetAnimation().mFlags.Set(AnimFlags::eRender);
                 pLaser->mYPos = pOwner->mYPos;
             }
 
-            if (pOwner->field_13C_brain_state == GreeterBrainStates::eBrain_4_Chase || pOwner->field_13C_brain_state == GreeterBrainStates::eBrain_6_ToChase)
+            if (pOwner->mBrainState == GreeterBrainStates::eBrain_4_Chase || pOwner->mBrainState == GreeterBrainStates::eBrain_6_ToChase)
             {
                 GetAnimation().mFlags.Clear(AnimFlags::eRender);
                 pLaser->GetAnimation().mFlags.Clear(AnimFlags::eRender);

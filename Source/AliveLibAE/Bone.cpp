@@ -556,7 +556,8 @@ s16 Bone::VGetCount()
     return mBaseThrowableCount;
 }
 
-const TintEntry kBoneTints_550EC0[18] = {
+const TintEntry kBoneTints_550EC0[16] = {
+    {EReliveLevelIds::eMenu, 127u, 127u, 127u},
     {EReliveLevelIds::eMines, 127u, 127u, 127u},
     {EReliveLevelIds::eNecrum, 137u, 137u, 137u},
     {EReliveLevelIds::eMudomoVault, 127u, 127u, 127u},
@@ -571,7 +572,7 @@ const TintEntry kBoneTints_550EC0[18] = {
     {EReliveLevelIds::eFeeCoDepot_Ender, 127u, 127u, 127u},
     {EReliveLevelIds::eBarracks_Ender, 127u, 127u, 127u},
     {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
-    {EReliveLevelIds::eNone, 127u, 127u, 127u}};
+    {EReliveLevelIds::eCredits, 127u, 127u, 127u}};
 
 
 BoneBag::BoneBag(relive::Path_BoneBag* pTlv, const Guid& tlvId)

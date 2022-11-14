@@ -75,10 +75,23 @@ const AnimId sParamiteMotionAnimIds[44] = {
     AnimId::Paramite_Squawk,
     AnimId::Paramite_Attack };
 
-const TintEntry kParamiteTints_55D73C[24] = {
+const TintEntry kParamiteTints_55D73C[16] = {
+    {EReliveLevelIds::eMenu, 105u, 105u, 105u},
+    {EReliveLevelIds::eMines, 105u, 105u, 105u},
+    {EReliveLevelIds::eNecrum, 105u, 105u, 105u},
     {EReliveLevelIds::eMudomoVault, 105u, 105u, 105u},
+    {EReliveLevelIds::eMudancheeVault, 105u, 105u, 105u},
+    {EReliveLevelIds::eFeeCoDepot, 105u, 105u, 105u},
+    {EReliveLevelIds::eBarracks, 105u, 105u, 105u},
+    {EReliveLevelIds::eMudancheeVault_Ender, 105u, 105u, 105u},
+    {EReliveLevelIds::eBonewerkz, 105u, 105u, 105u},
+    {EReliveLevelIds::eBrewery, 105u, 105u, 105u},
+    {EReliveLevelIds::eBrewery_Ender, 105u, 105u, 105u},
     {EReliveLevelIds::eMudomoVault_Ender, 105u, 105u, 105u},
-    {EReliveLevelIds::eNone, 105u, 105u, 105u}};
+    {EReliveLevelIds::eFeeCoDepot_Ender, 105u, 105u, 105u},
+    {EReliveLevelIds::eBarracks_Ender, 105u, 105u, 105u},
+    {EReliveLevelIds::eBonewerkz_Ender, 105u, 105u, 105u},
+    {EReliveLevelIds::eCredits, 105u, 105u, 105u}};
 
 
 const TParamiteMotionFn sParamiteMotionTable[44] = {

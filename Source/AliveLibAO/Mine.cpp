@@ -31,7 +31,7 @@ Mine::Mine(relive::Path_Mine* pTlv, const Guid& tlvId)
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
 
-    field_10C_detonating = 0;
+    mDetonating = false;
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
@@ -48,20 +48,19 @@ Mine::Mine(relive::Path_Mine* pTlv, const Guid& tlvId)
 
     mXPos = FP_FromInteger(pTlv->mTopLeftX + 12);
     mYPos = FP_FromInteger(pTlv->mTopLeftY + 24);
-    field_110_tlv = tlvId;
-    field_114_gnframe = sGnFrame;
+    mTlvId = tlvId;
+    mExplosionTimer = sGnFrame;
 
-    field_118_animation.Init(GetAnimRes(AnimId::Mine_Flash), this);
+    mFlashAnim.Init(GetAnimRes(AnimId::Mine_Flash), this);
 
-    field_118_animation.SetRenderLayer(GetAnimation().GetRenderLayer());
-    field_118_animation.mFlags.Set(AnimFlags::eBlending);
-    field_118_animation.mFlags.Set(AnimFlags::eSemiTrans);
-    field_118_animation.SetSpriteScale(GetSpriteScale());
+    mFlashAnim.SetRenderLayer(GetAnimation().GetRenderLayer());
+    mFlashAnim.mFlags.Set(AnimFlags::eBlending);
+    mFlashAnim.mFlags.Set(AnimFlags::eSemiTrans);
+    mFlashAnim.SetSpriteScale(GetSpriteScale());
 
-    field_118_animation.SetRGB(128, 128, 128);
+    mFlashAnim.SetRGB(128, 128, 128);
 
-    field_118_animation.SetRenderMode(TPageAbr::eBlend_0);
-    field_10E_disabled_resources = pTlv->mDisabledResources;
+    mFlashAnim.SetRenderMode(TPageAbr::eBlend_0);
 
     // TODO
     field_1B0_flags = 2 * (pTlv->mPersistOffscreen == relive::reliveChoice::eYes) | (field_1B0_flags & ~2);
@@ -84,16 +83,16 @@ Mine::Mine(relive::Path_Mine* pTlv, const Guid& tlvId)
 
 Mine::~Mine()
 {
-    if (field_10C_detonating == 1)
+    if (mDetonating == true)
     {
-        Path::TLV_Reset(field_110_tlv, -1, 0, 1);
+        Path::TLV_Reset(mTlvId, -1, 0, 1);
     }
     else
     {
-        Path::TLV_Reset(field_110_tlv, -1, 0, 0);
+        Path::TLV_Reset(mTlvId, -1, 0, 0);
     }
 
-    field_118_animation.VCleanUp();
+    mFlashAnim.VCleanUp();
 
     mBaseGameObjectFlags.Clear(Options::eInteractive_Bit8);
 
@@ -127,8 +126,8 @@ s16 Mine::VTakeDamage(BaseGameObject* pFrom)
         {
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             relive_new GroundExplosion(mXPos, mYPos, GetSpriteScale());
-            field_10C_detonating = 1;
-            field_114_gnframe = sGnFrame;
+            mDetonating = true;
+            mExplosionTimer = sGnFrame;
             return 1;
         }
 
@@ -140,15 +139,15 @@ s16 Mine::VTakeDamage(BaseGameObject* pFrom)
 void Mine::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
     relive_new GroundExplosion(mXPos, mYPos, GetSpriteScale());
-    field_10C_detonating = 1;
+    mDetonating = true;
 }
 
 void Mine::VOnPickUpOrSlapped()
 {
-    if (field_10C_detonating != 1)
+    if (mDetonating != true)
     {
-        field_10C_detonating = 1;
-        field_114_gnframe = sGnFrame + 5;
+        mDetonating = true;
+        mExplosionTimer = sGnFrame + 5;
     }
 }
 
@@ -161,7 +160,7 @@ void Mine::VRender(PrimHeader** ppOt)
             mYPos,
             0))
     {
-        field_118_animation.VRender(
+        mFlashAnim.VRender(
             FP_GetExponent(mXPos + (FP_FromInteger(pScreenManager->mCamXOff) - pScreenManager->mCamPos->x)),
             FP_GetExponent(mYPos + (FP_FromInteger(pScreenManager->mCamYOff + mYOffset)) - pScreenManager->mCamPos->y),
             ppOt,
@@ -180,9 +179,9 @@ void Mine::VUpdate()
         mYPos,
         0);
 
-    if (field_10C_detonating)
+    if (mDetonating)
     {
-        if (field_10C_detonating == 1 && static_cast<s32>(sGnFrame) >= field_114_gnframe)
+        if (mDetonating == true && static_cast<s32>(sGnFrame) >= mExplosionTimer)
         {
             relive_new GroundExplosion(mXPos, mYPos, GetSpriteScale());
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -204,12 +203,12 @@ void Mine::VUpdate()
 
         if (IsColliding())
         {
-            field_10C_detonating = 1;
-            field_114_gnframe = sGnFrame;
+            mDetonating = true;
+            mExplosionTimer = sGnFrame;
         }
     }
 
-    if (field_10C_detonating != 1
+    if (mDetonating != true
         && (EventGet(kEventDeathReset)
             || mCurrentLevel != gMap.mCurrentLevel
             || mCurrentPath != gMap.mCurrentPath))

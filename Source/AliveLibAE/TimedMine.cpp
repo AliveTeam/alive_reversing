@@ -13,7 +13,24 @@
 #include "Map.hpp"
 #include "Path.hpp"
 
-static TintEntry sTimedMineTint_550EB8[1] = {{EReliveLevelIds::eNone, 127u, 127u, 127u}};
+static TintEntry sTimedMineTint_550EB8[16] = {
+    {EReliveLevelIds::eMenu, 127u, 127u, 127u},
+    {EReliveLevelIds::eMines, 127u, 127u, 127u},
+    {EReliveLevelIds::eNecrum, 127u, 127u, 127u},
+    {EReliveLevelIds::eMudomoVault, 127u, 127u, 127u},
+    {EReliveLevelIds::eMudancheeVault, 127u, 127u, 127u},
+    {EReliveLevelIds::eFeeCoDepot, 127u, 127u, 127u},
+    {EReliveLevelIds::eBarracks, 127u, 127u, 127u},
+    {EReliveLevelIds::eMudancheeVault_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eBonewerkz, 127u, 127u, 127u},
+    {EReliveLevelIds::eBrewery, 127u, 127u, 127u},
+    {EReliveLevelIds::eBrewery_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eMudomoVault_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eFeeCoDepot_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eBarracks_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eCredits, 127u, 127u, 127u},
+};
 
 void TimedMine::LoadAnimations()
 {

@@ -17,10 +17,23 @@
 #include "../relive_lib/SwitchStates.hpp"
 #include "Path.hpp"
 
-static const TintEntry kMovingBombTints_55C734[4] = {
+static const TintEntry kMovingBombTints_55C734[16] = {
+    {EReliveLevelIds::eMenu, 127u, 127u, 127u},
+    {EReliveLevelIds::eMines, 127u, 127u, 127u},
+    {EReliveLevelIds::eNecrum, 127u, 127u, 127u},
+    {EReliveLevelIds::eMudomoVault, 127u, 127u, 127u},
+    {EReliveLevelIds::eMudancheeVault, 127u, 127u, 127u},
+    {EReliveLevelIds::eFeeCoDepot, 127u, 127u, 127u},
     {EReliveLevelIds::eBarracks, 97u, 97u, 97u},
+    {EReliveLevelIds::eMudancheeVault_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eBonewerkz, 127u, 127u, 127u},
+    {EReliveLevelIds::eBrewery, 127u, 127u, 127u},
     {EReliveLevelIds::eBrewery_Ender, 127u, 127u, 127u},
-    {EReliveLevelIds::eNone, 127u, 127u, 127u}};
+    {EReliveLevelIds::eMudomoVault_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eFeeCoDepot_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eBarracks_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
+    {EReliveLevelIds::eCredits, 127u, 127u, 127u}};
 
 static MovingBomb* sMovingBomb = nullptr;
 

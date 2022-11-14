@@ -232,7 +232,8 @@ const AnimId sAbeAnimIdTable[130] = {
     AnimId::Mudokon_TurnWheelEnd,
     AnimId::Mudokon_PoisonGasDeath};
 
-const TintEntry sAbeTintTable[15] = {
+const TintEntry sAbeTintTable[16] = {
+    {EReliveLevelIds::eMenu, 102u, 102u, 102u},
     {EReliveLevelIds::eMines, 102u, 102u, 102u},
     {EReliveLevelIds::eNecrum, 102u, 102u, 80u},
     {EReliveLevelIds::eMudomoVault, 120u, 90u, 120u},
@@ -247,7 +248,7 @@ const TintEntry sAbeTintTable[15] = {
     {EReliveLevelIds::eFeeCoDepot_Ender, 120u, 102u, 82u},
     {EReliveLevelIds::eBarracks_Ender, 102u, 102u, 102u},
     {EReliveLevelIds::eBonewerkz_Ender, 120u, 90u, 80u},
-    {EReliveLevelIds::eNone, 102u, 102u, 102u}};
+    {EReliveLevelIds::eCredits, 102u, 102u, 102u}};
 
 const relive::SfxDefinition sSFXList_555160[] = {
     {0u, 3u, 69u, 60u, -1, 1},

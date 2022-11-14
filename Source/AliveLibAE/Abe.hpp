@@ -145,7 +145,7 @@ enum eAbeMotions : s32
 
 class PullRingRope;
 
-extern const TintEntry sAbeTintTable[15];
+extern const TintEntry sAbeTintTable[16];
 
 extern const InputCommands::Enum sInputKey_Right;
 extern const InputCommands::Enum sInputKey_Left;

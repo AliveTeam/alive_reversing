@@ -32,10 +32,9 @@ private:
     bool IsColliding();
 
 public:
-    u16 field_118_detonating = 0;
-    u16 field_11A_disabled_resources = 0;
-    Guid field_11C_tlv;
-    u32 field_120_gnframe = 0;
-    Animation field_124_animation = {};
+    bool mDetonating = false;
+    Guid mTlvId;
+    u32 mExplosionTimer = 0;
+    Animation mFlashAnim;
     BitField32<Mine_Flags_1BC> field_1BC_flags = {};
 };

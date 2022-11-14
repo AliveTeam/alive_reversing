@@ -144,7 +144,8 @@ enum Brain_9_Sick
     eBrain9_Farting_4 = 4,
 };
 
-const TintEntry kMudTints_55C744[18] = {
+const TintEntry kMudTints_55C744[16] = {
+    {EReliveLevelIds::eMenu, 87u, 103u, 67u},
     {EReliveLevelIds::eMines, 87u, 103u, 67u},
     {EReliveLevelIds::eNecrum, 87u, 103u, 67u},
     {EReliveLevelIds::eMudomoVault, 87u, 103u, 67u},
@@ -159,7 +160,7 @@ const TintEntry kMudTints_55C744[18] = {
     {EReliveLevelIds::eFeeCoDepot_Ender, 87u, 103u, 67u},
     {EReliveLevelIds::eBarracks_Ender, 87u, 103u, 67u},
     {EReliveLevelIds::eBonewerkz_Ender, 87u, 103u, 67u},
-    {EReliveLevelIds::eNone, 87u, 103u, 67u}};
+    {EReliveLevelIds::eCredits, 87u, 103u, 67u}};
 
 using TMudBrainStateFunction = decltype(&Mudokon::Brain_0_GiveRings);
 
