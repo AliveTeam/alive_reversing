@@ -498,7 +498,7 @@ void DirectX9Renderer::SetClip(Prim_PrimClipper& clipper)
     }
 
     DX_VERIFY(mDevice->SetScissorRect(&rect));
-    DX_VERIFY(mDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, TRUE));
+    DX_VERIFY(mDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE));
 }
 
 void DirectX9Renderer::SetScreenOffset(Prim_ScreenOffset& /*offset*/)
@@ -705,10 +705,10 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
         const u8 palIndex = static_cast<u8>(PreparePalette(*pPal));
 
         float u0 = U0(&poly) / (f32)pTga->mWidth;
-        float v0 = V0(&poly) / (f32)pTga->mWidth;
+        float v0 = V0(&poly) / (f32) pTga->mHeight;
 
-        float u1 = U3(&poly) / (f32)pTga->mWidth;
-        float v1 = V3(&poly) / (f32)pTga->mWidth;
+        float u1 = U3(&poly) / (f32) pTga->mWidth;
+        float v1 = V3(&poly) / (f32) pTga->mHeight;
 
         u8 textureUnit = 1;
 
