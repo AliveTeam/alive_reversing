@@ -498,7 +498,7 @@ void DirectX9Renderer::SetClip(Prim_PrimClipper& clipper)
     }
 
     DX_VERIFY(mDevice->SetScissorRect(&rect));
-    DX_VERIFY(mDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, FALSE));
+    DX_VERIFY(mDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, TRUE));
 }
 
 void DirectX9Renderer::SetScreenOffset(Prim_ScreenOffset& /*offset*/)
