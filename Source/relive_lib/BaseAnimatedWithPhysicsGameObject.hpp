@@ -54,7 +54,7 @@ public:
     virtual void VOnPickUpOrSlapped();
     virtual void VOnThrowableHit(BaseGameObject* pFrom);
 
-    void SetTint(const TintEntry* pTintArray, EReliveLevelIds levelId);
+    bool SetTint(const TintEntry* pTintArray, EReliveLevelIds levelId);
 
     // Note inlined in AO everywhere
     CameraPos Is_In_Current_Camera();

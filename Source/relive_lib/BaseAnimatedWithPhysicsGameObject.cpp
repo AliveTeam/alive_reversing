@@ -1,12 +1,12 @@
 #include "stdafx.h"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "MapWrapper.hpp"
-#include "../relive_lib/Shadow.hpp"
-#include "../relive_lib/ScreenManager.hpp"
+#include "Shadow.hpp"
+#include "ScreenManager.hpp"
 #include "Sfx.hpp"
 #include "Particle.hpp"
 #include "../AliveLibAE/Grid.hpp"
-#include "../relive_lib/GameType.hpp"
+#include "GameType.hpp"
 #include "ShadowZone.hpp"
 
 DynamicArrayT<BaseGameObject>* gObjListDrawables;
@@ -385,18 +385,28 @@ PSX_RECT BaseAnimatedWithPhysicsGameObject::VGetBoundingRect()
     return rect;
 }
 
-void BaseAnimatedWithPhysicsGameObject::SetTint(const TintEntry* pTintArray, EReliveLevelIds level_id)
+bool BaseAnimatedWithPhysicsGameObject::SetTint(const TintEntry* pTintArray, EReliveLevelIds level_id)
 {
     while (pTintArray->field_0_level != level_id)
     {
-        if (pTintArray->field_0_level == level_id || pTintArray->field_0_level == EReliveLevelIds::eNone)
+        if ((pTintArray->field_0_level == level_id || pTintArray->field_0_level == EReliveLevelIds::eNone) && GetGameType() == GameType::eAe)
         {
+            // AE behavior - always overwrite the RGB values with 
+            // the tint array RGB values
             break;
+        }
+
+        if (pTintArray->field_0_level == EReliveLevelIds::eNone && GetGameType() == GameType::eAo)
+        {
+            // AO behavior - don't use the tint array RGB values when the
+            // level doesn't match
+            return false;
         }
         pTintArray++;
     }
 
     mRGB.SetRGB(pTintArray->field_1_r, pTintArray->field_2_g, pTintArray->field_3_b);
+    return true;
 }
 
 // AO only

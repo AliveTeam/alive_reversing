@@ -89,7 +89,10 @@ void IBaseAliveGameObject::OnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicAr
 
 s16 IBaseAliveGameObject::SetBaseAnimPaletteTint(const TintEntry* pTintArray, EReliveLevelIds level_id, PalId palId)
 {
-    SetTint(pTintArray, level_id); // Actually bugged for inputs that never happen as it should return 0
+    if (!SetTint(pTintArray, level_id))
+    {
+        return 0;
+    }
 
     if (palId != PalId::Default)
     {
