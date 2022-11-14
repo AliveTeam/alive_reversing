@@ -21,8 +21,8 @@ protected:
     Prim_Tile mEffectBaseTile[2] = {};
     Prim_SetTPage mEffectBaseTPage[2] = {};
     Layer mEffectBaseLayer = Layer::eLayer_0;
-    s16 mEffectBaseRed = 0;
-    s16 mEffectBaseGreen = 0;
-    s16 mEffectBaseBlue = 0;
+    s32 mEffectBaseRed = 0;
+    s32 mEffectBaseGreen = 0;
+    s32 mEffectBaseBlue = 0;
     s16 mSemiTrans = 0;
 };

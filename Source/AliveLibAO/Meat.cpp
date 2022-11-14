@@ -124,7 +124,7 @@ void MeatSack::VUpdate()
 
             if (gThrowableArray)
             {
-                if (gThrowableArray->field_10_count > 0)
+                if (gThrowableArray->mCount > 0)
                 {
                     GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MeatSack_Hit));
                     field_110_bDoMeatSackIdleAnim = 1;

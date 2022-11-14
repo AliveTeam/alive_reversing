@@ -15,7 +15,7 @@ void DeathBirdParticle::LoadAnimations()
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::DeathFlare_1));
 }
 
-DeathBirdParticle::DeathBirdParticle(FP xpos, FP ypos, s32 start, s32 bPlaySound, FP scale)
+DeathBirdParticle::DeathBirdParticle(FP xpos, FP ypos, s32 startTimer, bool playSound, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eDeathBird);
@@ -46,23 +46,23 @@ DeathBirdParticle::DeathBirdParticle(FP xpos, FP ypos, s32 start, s32 bPlaySound
 
         mXPos = xpos;
         mYPos = ypos;
-        field_E4_random = Math_NextRandom();
-        field_E8_start = start;
-        field_E5_state = States::eAnimateDeathFlares_0;
-        field_EC_bPlaySound = static_cast<s16>(bPlaySound);
+        mRandom = Math_NextRandom();
+        mStartTimer = startTimer;
+        mState = States::eAnimateDeathFlares_0;
+        mPlaySound = playSound;
     }
 }
 
 void DeathBirdParticle::VUpdate()
 {
-    switch (field_E5_state)
+    switch (mState)
     {
         case States::eAnimateDeathFlares_0:
-            if (static_cast<s32>(sGnFrame) > field_E8_start)
+            if (static_cast<s32>(sGnFrame) > mStartTimer)
             {
                 // Death "star"
                 GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::DeathFlare_2));
-                field_E5_state = States::eTransformStarsToDoves_1;
+                mState = States::eTransformStarsToDoves_1;
             }
             break;
 
@@ -90,7 +90,7 @@ void DeathBirdParticle::VUpdate()
                     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 
                     pDove->SetSpriteScale(GetSpriteScale());
-                    if (field_EC_bPlaySound)
+                    if (mPlaySound)
                     {
                         SfxPlayMono(relive::SoundEffects::AbeDove, 0);
                     }
@@ -99,9 +99,9 @@ void DeathBirdParticle::VUpdate()
             break;
     }
 
-    mXPos += FP_FromInteger(2) * Math_Sine(field_E4_random);
+    mXPos += FP_FromInteger(2) * Math_Sine(mRandom);
     mYPos -= FP_FromInteger(2);
-    field_E4_random += 5;
+    mRandom += 5;
 }
 
 } // namespace AO

@@ -42,7 +42,7 @@ ThrowableArray::ThrowableArray()
     : BaseGameObject(true, 0)
 {
     mBaseGameObjectFlags.Clear(Options::eUpdatable_Bit2);
-    field_10_count = 0;
+    mCount = 0;
     gThrowableArray = this;
     field_12_flags &= ~7u;
 }
@@ -50,18 +50,18 @@ ThrowableArray::ThrowableArray()
 ThrowableArray::~ThrowableArray()
 {
     gThrowableArray = nullptr;
-    if (field_10_count > 0)
+    if (mCount > 0)
     {
-        Remove(field_10_count);
+        Remove(mCount);
     }
 
 }
 
 void ThrowableArray::Remove(s16 count)
 {
-    field_10_count -= count;
+    mCount -= count;
 
-    if (field_10_count > 0)
+    if (mCount > 0)
     {
         if (!(field_12_flags & 1))
         {
@@ -129,7 +129,7 @@ void ThrowableArray::VScreenChanged()
 
 void ThrowableArray::Add(s16 count)
 {
-    if (field_10_count == 0)
+    if (mCount == 0)
     {
         if (!(field_12_flags & 4))
         {
@@ -137,7 +137,7 @@ void ThrowableArray::Add(s16 count)
         }
     }
 
-    if (field_10_count == 0 || (field_12_flags & 1))
+    if (mCount == 0 || (field_12_flags & 1))
     {
         if (!(field_12_flags & 2))
         {
@@ -160,7 +160,7 @@ void ThrowableArray::Add(s16 count)
         }
     }
 
-    field_10_count += count;
+    mCount += count;
 }
 
 void ThrowableArray::VRender(PrimHeader** /*ppOt*/)

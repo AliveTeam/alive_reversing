@@ -23,7 +23,7 @@ public:
     void Add(s16 count);
     
 public:
-    s16 field_10_count = 0;
+    s16 mCount = 0;
 private:
     s16 field_12_flags = 0;
 };

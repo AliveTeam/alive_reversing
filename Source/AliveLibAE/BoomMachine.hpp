@@ -31,7 +31,7 @@ private:
     void LoadAnimations();
 
 public:
-    Guid field_F4_tlvInfo;
-    Guid field_F8_nozzle_id;
-    s32 field_FC_bIsButtonOn = 0;
+    Guid mTlvId;
+    Guid mNozzleId;
+    bool mIsButtonOn = false;
 };

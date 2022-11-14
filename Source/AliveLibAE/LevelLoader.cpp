@@ -33,7 +33,7 @@ void LevelLoader::VUpdate()
         {
             if (SwitchStates_Get(field_20_switch_id))
             {
-                auto pFade = relive_new DeathFadeOut(Layer::eLayer_FadeFlash_40, 1, 1, 32, TPageAbr::eBlend_2);
+                auto pFade = relive_new DeathFadeOut(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeIn, true, 32, TPageAbr::eBlend_2);
                 if (pFade)
                 {
                     field_22_state = States::eFadingOut_1;
@@ -44,7 +44,7 @@ void LevelLoader::VUpdate()
         else if (field_22_state == States::eFadingOut_1)
         {
             DeathFadeOut* pFade = static_cast<DeathFadeOut*>(sObjectIds.Find_Impl(field_30_fade_id));
-            if (!pFade || pFade->field_7E_bDone)
+            if (!pFade || pFade->mDone)
             {
                 if (field_2A_movie_id)
                 {

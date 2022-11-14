@@ -56,7 +56,7 @@ ThrowableArray::ThrowableArray()
     , field_24_throwables(0)
 {
     mBaseGameObjectFlags.Clear(BaseGameObject::eUpdatable_Bit2);
-    field_20_count = 0;
+    mCount = 0;
     gpThrowableArray = this;
     field_22_flags.Clear(Flags_22::eBit1_Unknown);
     field_22_flags.Clear(Flags_22::eBit2_Unknown);
@@ -71,8 +71,8 @@ ThrowableArray::~ThrowableArray()
 
 void ThrowableArray::Remove(s16 count)
 {
-    field_20_count -= count;
-    if (field_20_count > 0)
+    mCount -= count;
+    if (mCount > 0)
     {
         if (field_22_flags.Get(Flags_22::eBit1_Unknown) && field_22_flags.Get(Flags_22::eBit2_Unknown))
         {
@@ -101,7 +101,7 @@ s32 ThrowableArray::VGetSaveState(u8* pSaveBuffer)
 {
     ThrowableArraySaveState* pState = reinterpret_cast<ThrowableArraySaveState*>(pSaveBuffer);
     pState->mType = ReliveTypes::eThrowableArray;
-    pState->field_2_item_count = field_20_count;
+    pState->field_2_item_count = mCount;
     return sizeof(ThrowableArraySaveState);
 }
 
@@ -132,7 +132,7 @@ void ThrowableArray::Add(s16 count)
         mBaseGameObjectFlags.Clear(BaseGameObject::eDead);
     }
 
-    if (field_20_count == 0)
+    if (mCount == 0)
     {
         if (!field_22_flags.Get(Flags_22::eBit3_Unknown))
         {
@@ -142,7 +142,7 @@ void ThrowableArray::Add(s16 count)
         }
     }
 
-    if (field_20_count == 0 || field_22_flags.Get(Flags_22::eBit1_Unknown))
+    if (mCount == 0 || field_22_flags.Get(Flags_22::eBit1_Unknown))
     {
         if (!field_22_flags.Get(Flags_22::eBit2_Unknown))
         {
@@ -171,7 +171,7 @@ void ThrowableArray::Add(s16 count)
         }
     }
 
-    field_20_count += count;
+    mCount += count;
 }
 
 s32 ThrowableArray::CreateFromSaveState(const u8* pState)

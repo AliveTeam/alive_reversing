@@ -29,38 +29,38 @@ public:
 
 	void DropGrenadeAnimation()
 	{
-        if (field_E4_state == BoomMachineStates::eInactive_0)
+        if (mState == BoomMachineStates::eInactive_0)
         {
-            field_E4_state = BoomMachineStates::eDropGrenadeAnimation_2;
-            field_E8_timer = sGnFrame + 10;
+            mState = BoomMachineStates::eDropGrenadeAnimation_2;
+            mTimer = sGnFrame + 10;
         }
 	}
 
 	void AlreadyUsed()
 	{
-	    if (field_E4_state == BoomMachineStates::eInactive_0)
+	    if (mState == BoomMachineStates::eInactive_0)
         {
-            field_E4_state = BoomMachineStates::eAlreadyUsed_1;
-            field_E8_timer = sGnFrame + 10;
+            mState = BoomMachineStates::eAlreadyUsed_1;
+            mTimer = sGnFrame + 10;
         }
 	}
 
     virtual void VUpdate() override
     {
-        switch (field_E4_state)
+        switch (mState)
         {
             case BoomMachineStates::eAlreadyUsed_1:
-                if (static_cast<s32>(sGnFrame) > field_E8_timer)
+                if (static_cast<s32>(sGnFrame) > mTimer)
                 {
                     SFX_Play_Pitch(relive::SoundEffects::ZPop, 60, -1800);
-                    field_E4_state = BoomMachineStates::eInactive_0;
+                    mState = BoomMachineStates::eInactive_0;
                 }
                 break;
 
             case BoomMachineStates::eDropGrenadeAnimation_2:
-                if (static_cast<s32>(sGnFrame) > field_E8_timer)
+                if (static_cast<s32>(sGnFrame) > mTimer)
                 {
-                    field_E4_state = BoomMachineStates::eDropGrenade_3;
+                    mState = BoomMachineStates::eDropGrenade_3;
                     GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Nozzle_DropGrenade));
                 }
                 break;
@@ -74,7 +74,7 @@ public:
                         gThrowableArray = relive_new ThrowableArray();
                     }
 
-                    gThrowableArray->Add(field_EC_num_grenades);
+                    gThrowableArray->Add(mGrenadeCount);
 
                     FP directedScale = {};
                     if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
@@ -88,14 +88,14 @@ public:
                     auto pGrenade = relive_new Grenade(
                         mXPos + (FP_FromInteger(6) * directedScale),
                         mYPos + (-FP_FromInteger(6) * directedScale),
-                        field_EC_num_grenades);
+                        mGrenadeCount);
                     if (pGrenade)
                     {
                         pGrenade->VThrow(GetAnimation().mFlags.Get(AnimFlags::eFlipX) ? FP_FromDouble(-0.75) : FP_FromDouble(0.75), FP_FromInteger(3));
                     }
 
                     GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Nozzle_Idle));
-                    field_E4_state = BoomMachineStates::eInactive_0;
+                    mState = BoomMachineStates::eInactive_0;
                 }
                 break;
             default:
@@ -108,9 +108,9 @@ public:
         // Empty
     }
 
-    BoomMachineStates field_E4_state = BoomMachineStates::eInactive_0;
-    s32 field_E8_timer = 0;
-    s16 field_EC_num_grenades = 0;
+    BoomMachineStates mState = BoomMachineStates::eInactive_0;
+    s32 mTimer = 0;
+    s16 mGrenadeCount = 0;
 };
 
 void BoomMachine::LoadAnimations()
@@ -129,7 +129,7 @@ BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId)
     Animation_Init(GetAnimRes(AnimId::BoomMachine_Button_On));
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
-    field_E4_tlvInfo = tlvId;
+    mTlvId = tlvId;
     GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
@@ -158,23 +158,23 @@ BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId)
         pNozzle->GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
         pNozzle->SetSpriteScale(GetSpriteScale());
         pNozzle->mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
-        pNozzle->field_E4_state = BoomMachineStates::eInactive_0;
+        pNozzle->mState = BoomMachineStates::eInactive_0;
         pNozzle->mXPos = mXPos + (directedScale * FP_FromInteger(30));
         pNozzle->mYPos = mYPos + (GetSpriteScale() * FP_FromInteger(-30));
-        pNozzle->field_EC_num_grenades = static_cast<s16>(pTlv->mGrenadeAmount);
+        pNozzle->mGrenadeCount = static_cast<s16>(pTlv->mGrenadeAmount);
         pNozzle->GetAnimation().mFlags.Set(AnimFlags::eFlipX, pTlv->mNozzleSide == relive::Path_BoomMachine::NozzleSide::eLeft);
 
-        field_F8_nozzle_id = pNozzle->mBaseGameObjectId;
+        mNozzleId = pNozzle->mBaseGameObjectId;
     }
 
-    if (gThrowableArray && gThrowableArray->field_10_count)
+    if (gThrowableArray && gThrowableArray->mCount)
     {
-        field_E8_bIsButtonOn = 1;
+        mIsButtonOn = true;
         GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Button_On));
     }
     else
     {
-        field_E8_bIsButtonOn = 0;
+        mIsButtonOn = false;
     }
 
     mYOffset = 0;
@@ -187,19 +187,19 @@ void BoomMachine::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (field_E8_bIsButtonOn == 0)
+    if (!mIsButtonOn)
     {
-        if (!gThrowableArray || gThrowableArray->field_10_count == 0)
+        if (!gThrowableArray || gThrowableArray->mCount == 0)
         {
-            field_E8_bIsButtonOn = 1;
+            mIsButtonOn = true;
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Button_On));
         }
     }
-    else if (field_E8_bIsButtonOn == 1)
+    else if (mIsButtonOn)
     {
-        if (gThrowableArray && gThrowableArray->field_10_count > 0)
+        if (gThrowableArray && gThrowableArray->mCount > 0)
         {
-            field_E8_bIsButtonOn = 0;
+            mIsButtonOn = false;
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Button_Off));
         }
 
@@ -217,12 +217,12 @@ void BoomMachine::VScreenChanged()
 
 bool BoomMachine::VIsButtonOn()
 {
-    return field_E8_bIsButtonOn == 1;
+    return mIsButtonOn == true;
 }
 
 void BoomMachine::VHandleButton()
 {
-    auto pNozzle = static_cast<GrenadeMachineNozzle*>(sObjectIds.Find_Impl(field_F8_nozzle_id));
+    auto pNozzle = static_cast<GrenadeMachineNozzle*>(sObjectIds.Find_Impl(mNozzleId));
     if (pNozzle)
     {
         if (VIsButtonOn())
@@ -238,11 +238,11 @@ void BoomMachine::VHandleButton()
 
 BoomMachine::~BoomMachine()
 {
-    BaseGameObject* pObj = sObjectIds.Find_Impl(field_F8_nozzle_id);
+    BaseGameObject* pObj = sObjectIds.Find_Impl(mNozzleId);
     if (pObj)
     {
         pObj->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
-    Path::TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mTlvId, -1, 0, 0);
 }
 } // namespace AO

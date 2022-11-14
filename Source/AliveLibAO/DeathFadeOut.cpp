@@ -1,29 +1,30 @@
 #include "stdafx_ao.h"
 #include "DeathFadeOut.hpp"
 #include "../AliveLibAE/stdlib.hpp"
+#include "../AliveLibCommon/FatalError.hpp"
 
 namespace AO {
 
 
-DeathFadeOut::DeathFadeOut(Layer layer, s32 direction, bool destroyOnDone, s32 speed, TPageAbr abr)
+DeathFadeOut::DeathFadeOut(Layer layer, FadeOptions fade, bool destroyOnDone, s32 speed, TPageAbr abr)
     : EffectBase(layer, abr)
 {
     SetType(ReliveTypes::eDeathFadeOut);
 
-    if (direction)
+    if (fade == FadeOptions::eFadeIn)
     {
-        field_68_current_fade_rgb = 0;
+        mCurrentFadeRGB = 0;
     }
-    else
+    else if (fade == FadeOptions::eFadeOut)
     {
-        field_68_current_fade_rgb = 255;
+        mCurrentFadeRGB = 255;
     }
 
-    Init(layer, static_cast<s16>(direction), destroyOnDone, speed);
+    Init(layer, fade, destroyOnDone, speed);
 
-    mEffectBaseBlue = field_68_current_fade_rgb;
-    mEffectBaseGreen = field_68_current_fade_rgb;
-    mEffectBaseRed = field_68_current_fade_rgb;
+    mEffectBaseBlue = mCurrentFadeRGB;
+    mEffectBaseGreen = mCurrentFadeRGB;
+    mEffectBaseRed = mCurrentFadeRGB;
 }
 
 
@@ -32,63 +33,58 @@ void DeathFadeOut::VScreenChanged()
     // Empty
 }
 
-void DeathFadeOut::Init(Layer layer, s16 direction, s16 destroyOnDone, s32 speed)
+void DeathFadeOut::Init(Layer layer, FadeOptions fade, bool destroyOnDone, s32 speed)
 {
     mEffectBaseLayer = layer;
-    field_6C_direction = direction;
-    field_6E_bDone = 0;
+    mFadeOption = fade;
+    mDone = false;
+    mDestroyOnDone = destroyOnDone;
 
-    if (speed > 0)
+    if (fade == FadeOptions::eFadeOut)
     {
-        field_72 = 0;
+        mSpeed = -speed;
     }
-    else
+    else if (fade == FadeOptions::eFadeIn)
     {
-        field_72 = 1;
-    }
-    field_70_destroy_on_done = destroyOnDone;
-
-    if (direction == 0)
-    {
-        field_6A_speed = static_cast<s16>(-speed);
-    }
-    else
-    {
-        field_6A_speed = static_cast<s16>(speed);
+        mSpeed = speed;
     }
 }
 
 void DeathFadeOut::VUpdate()
 {
-    if (!field_6E_bDone && !field_72)
+    if (!mDone)
     {
-        field_68_current_fade_rgb += field_6A_speed;
-        if (field_6C_direction)
+        mCurrentFadeRGB += mSpeed;
+        if (mFadeOption == FadeOptions::eFadeIn)
         {
-            if (field_68_current_fade_rgb > 255)
+            if (mCurrentFadeRGB > 255)
             {
-                field_68_current_fade_rgb = 255;
+                mCurrentFadeRGB = 255;
             }
         }
-        else if (field_68_current_fade_rgb < 0)
+        else if (mFadeOption == FadeOptions::eFadeOut)
         {
-            field_68_current_fade_rgb = 0;
+            if (mCurrentFadeRGB < 0)
+            {
+                mCurrentFadeRGB = 0;
+            }
         }
     }
 }
 
 void DeathFadeOut::VRender(PrimHeader** ppOt)
 {
-    mEffectBaseBlue = field_68_current_fade_rgb;
-    mEffectBaseGreen = field_68_current_fade_rgb;
-    mEffectBaseRed = field_68_current_fade_rgb;
+    mEffectBaseBlue = mCurrentFadeRGB;
+    mEffectBaseGreen = mCurrentFadeRGB;
+    mEffectBaseRed = mCurrentFadeRGB;
 
     EffectBase::VRender(ppOt);
 
-    if ((field_68_current_fade_rgb == 255 && field_6C_direction) || (field_68_current_fade_rgb == 0 && !field_6C_direction))
+    if ((mCurrentFadeRGB == 255 && mFadeOption == FadeOptions::eFadeIn) ||
+        (mCurrentFadeRGB == 0 && mFadeOption == FadeOptions::eFadeOut))
     {
-        field_6E_bDone = 1;
-        if (field_70_destroy_on_done)
+        mDone = true;
+        if (mDestroyOnDone)
         {
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
         }

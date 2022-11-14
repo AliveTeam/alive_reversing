@@ -1574,7 +1574,7 @@ s16 Glukkon::Brain_3_PlayerControlled_441A30()
                 sVisitedBonewerks_5C1C02 = 1;
             }
 
-            auto pDeathFadeOutMem = relive_new DeathFadeOut(Layer::eLayer_FadeFlash_40, 1, 0, 8, TPageAbr::eBlend_2);
+            auto pDeathFadeOutMem = relive_new DeathFadeOut(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeIn, 0, 8, TPageAbr::eBlend_2);
             if (pDeathFadeOutMem)
             {
                 field_208_obj_id = pDeathFadeOutMem->mBaseGameObjectId;
@@ -1611,7 +1611,7 @@ s16 Glukkon::Brain_3_PlayerControlled_441A30()
             return 1;
 
         case 3:
-            if (pDeathFadeOut && !pDeathFadeOut->field_7E_bDone)
+            if (pDeathFadeOut && !pDeathFadeOut->mDone)
             {
                 return mBrainSubState;
             }
@@ -1652,7 +1652,7 @@ s16 Glukkon::Brain_3_PlayerControlled_441A30()
             pScreenManager->DecompressCameraToVRam(gMap.field_2C_camera_array[0]->field_C_pCamRes);
             if (pDeathFadeOut)
             {
-                pDeathFadeOut->Init(Layer::eLayer_FadeFlash_40, 0, 1, 8);
+                pDeathFadeOut->Init(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeOut, 1, 8);
             }
             return 6;
 

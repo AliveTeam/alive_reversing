@@ -44,10 +44,7 @@
 
 namespace AO {
 
-s32 unused_9F11BC = 0;
-s32 unused_9F11C0 = 0;
-
-const TintEntry kSligTints_4CFB10[3] = {
+static const TintEntry sSligTints[3] = {
     {EReliveLevelIds::eStockYards, 127u, 127u, 127u},
     {EReliveLevelIds::eStockYardsReturn, 127u, 127u, 127u},
     {EReliveLevelIds::eNone, 102u, 127u, 118u}};
@@ -300,8 +297,6 @@ Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
     mPreventDepossession &= ~7u;
     field_126_input = 0;
     field_130_game_ender_pause_time = 100;
-    unused_9F11BC = 0;
-    unused_9F11C0 = 0;
     mShootCount = 0;
     field_20C_force_alive_state = 0;
     field_13A_shot_motion = -1;
@@ -323,7 +318,7 @@ Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
     }
 
     SetBaseAnimPaletteTint(
-        &kSligTints_4CFB10[0],
+        &sSligTints[0],
         gMap.mCurrentLevel,
         PalId::StockYardsSlig);
 
@@ -4992,12 +4987,6 @@ s16 Slig::Brain_Turning()
 
 s16 Slig::Brain_Walking()
 {
-    if (unused_9F11BC) // NOTE: This is never set to true, so this branch is never executed.
-    {
-        ToPanicRunning();
-        return 108;
-    }
-
     FP kScaleGrid = ScaleToGridSize(GetSpriteScale());
     FP kScaleGrid2 = kScaleGrid * FP_FromInteger(2);
     if (mVelX > FP_FromInteger(0))

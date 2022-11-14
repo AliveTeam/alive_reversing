@@ -681,7 +681,7 @@ void BoneBag::VUpdate()
     {
         if (gpThrowableArray)
         {
-            if (gpThrowableArray->field_20_count)
+            if (gpThrowableArray->mCount)
             {
                 if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_31_RunJumpMid_452C10)
                 {

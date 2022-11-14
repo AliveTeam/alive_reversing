@@ -8,22 +8,22 @@ namespace AO {
 class DeathBirdParticle final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    DeathBirdParticle(FP xpos, FP ypos, s32 start, s32 playSound, FP scale);
+    DeathBirdParticle(FP xpos, FP ypos, s32 startTimer, bool playSound, FP scale);
 
     void LoadAnimations();
 
     virtual void VUpdate() override;
 
 private:
-    s8 field_E4_random = 0;
+    s8 mRandom = 0;
     enum class States : s8
     {
         eAnimateDeathFlares_0 = 0,
         eTransformStarsToDoves_1 = 1
     };
-    States field_E5_state = States::eAnimateDeathFlares_0;
-    s32 field_E8_start = 0;
-    s16 field_EC_bPlaySound = 0;
+    States mState = States::eAnimateDeathFlares_0;
+    s32 mStartTimer = 0;
+    bool mPlaySound = false;
 };
 
 } // namespace AO

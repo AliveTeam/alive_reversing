@@ -33,7 +33,7 @@ void VGA_CreateRenderer()
         VGA_Shutdown();
     }
 
-    // IRenderer::CreateRenderer(IRenderer::Renderers::DirectX9);
+    //IRenderer::CreateRenderer(IRenderer::Renderers::DirectX9);
     IRenderer::CreateRenderer(IRenderer::Renderers::OpenGL);
 
     if (!IRenderer::GetRenderer()->Create(Sys_GetHWnd()))

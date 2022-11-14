@@ -560,8 +560,6 @@ public:
     s32 field_118_timer = 0;
     s32 field_11C_regen_health_timer = 0;
     FP field_120_x_vel_slow_by = {};
-    s32 field_124_unused = 0;
-    s16 field_12A_unused = 0;
     s32 field_12C_timer = 0;
     s16 field_130_say = 0;
     s32 field_134_auto_say_timer = 0;

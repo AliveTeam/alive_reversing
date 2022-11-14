@@ -129,7 +129,7 @@ void RockSack::VUpdate()
             && bRect.y <= bPlayerRect.h
             && GetSpriteScale() == sActiveHero->GetSpriteScale())
         {
-            if (!gThrowableArray || !gThrowableArray->field_10_count)
+            if (!gThrowableArray || !gThrowableArray->mCount)
             {
                 if (!gThrowableArray)
                 {

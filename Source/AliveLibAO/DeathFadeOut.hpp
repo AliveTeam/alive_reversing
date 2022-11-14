@@ -6,28 +6,34 @@
 
 namespace AO {
 
+enum class FadeOptions
+{
+    eFadeOut,
+    eFadeIn
+};
+
 class DeathFadeOut final : public EffectBase
 {
 public:
-    DeathFadeOut(Layer layer, s32 direction, bool destroyOnDone, s32 speed, TPageAbr abr);
+    DeathFadeOut(Layer layer, FadeOptions fade, bool destroyOnDone, s32 speed, TPageAbr abr);
 
-    void Init(Layer layer, s16 direction, s16 destroyOnDone, s32 speed);
+    void Init(Layer layer, FadeOptions fade, bool destroyOnDone, s32 speed);
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
 
 private:
-    s16 field_68_current_fade_rgb = 0;
-    s16 field_6A_speed = 0;
-    s16 field_6C_direction = 0;
+    s32 mCurrentFadeRGB = 0;
+    s32 mSpeed = 0;
+
+    FadeOptions mFadeOption = FadeOptions::eFadeOut;
 
 public:
-    s16 field_6E_bDone = 0;
+    bool mDone = false;
 
 private:
-    s16 field_70_destroy_on_done = 0;
-    s16 field_72 = 0;
+    bool mDestroyOnDone = false;
 };
 
 } // namespace AO

@@ -32,9 +32,9 @@ private:
     void LoadAnimations();
 
 public:
-    Guid field_E4_tlvInfo;
-    Guid field_F8_nozzle_id = {};
-    s16 field_E8_bIsButtonOn = 0;
+    Guid mTlvId;
+    Guid mNozzleId = {};
+    bool mIsButtonOn = false;
 };
 
 } // namespace AO

@@ -858,7 +858,6 @@ Abe::Abe()
     mXPos = FP_FromInteger(pPoint.x + XGrid_Index_To_XPos(GetSpriteScale(), 4));
     mYPos = FP_FromInteger(pPoint.y + 240);
     field_120_x_vel_slow_by = FP_FromInteger(0);
-    field_124_unused = 0;
     BaseAliveGameObjectLastLineYPos = mYPos;
     mVelX = FP_FromInteger(0);
     mVelY = FP_FromInteger(0);
@@ -914,7 +913,6 @@ Abe::Abe()
     field_130_say = -1;
     field_134_auto_say_timer = 0;
     field_EC_bBeesCanChase = 1;
-    field_12A_unused = 161;
 
     // Set Abe to be the current player controlled object
     sControlledCharacter = this;
@@ -6214,7 +6212,6 @@ void Abe::Motion_59_DeathDropFall()
     if (field_114_gnFrame == 0)
     {
         field_120_x_vel_slow_by = FP_FromInteger(0);
-        field_124_unused = 0;
         mVelX = FP_FromInteger(0);
         mVelY = FP_FromInteger(0);
         field_118_timer = sGnFrame + 90;
@@ -6255,7 +6252,6 @@ void Abe::Motion_60_Dead()
             EventBroadcast(kEventHeroDying, this);
             field_118_timer = sGnFrame + 30;
             field_120_x_vel_slow_by = FP_FromInteger(0);
-            field_124_unused = 0;
             mVelX = FP_FromInteger(0);
             mVelY = FP_FromInteger(0);
             field_10C_prev_held = 0;
@@ -6276,7 +6272,7 @@ void Abe::Motion_60_Dead()
                 xpos,
                 ypos,
                 (Math_NextRandom() % 8) + field_118_timer + aux,
-                1,
+                true,
                 GetSpriteScale());
 
             return;
@@ -6301,7 +6297,7 @@ void Abe::Motion_60_Dead()
                     xpos,
                     ypos,
                     (Math_NextRandom() % 8) + field_118_timer + aux,
-                    0,
+                    false,
                     GetSpriteScale());
             }
             SetSpriteScale(GetSpriteScale() - FP_FromDouble(0.008));
@@ -6341,7 +6337,7 @@ void Abe::Motion_60_Dead()
                 field_158_pDeathFadeout->mBaseGameObjectFlags.Set(Options::eDead);
                 field_158_pDeathFadeout->mBaseGameObjectRefCount--;
             }
-            field_158_pDeathFadeout = relive_new DeathFadeOut(Layer::eLayer_FadeFlash_40, 1, 0, 8, TPageAbr::eBlend_2);
+            field_158_pDeathFadeout = relive_new DeathFadeOut(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeIn, 0, 8, TPageAbr::eBlend_2);
             field_158_pDeathFadeout->mBaseGameObjectRefCount++;
 
             if (field_164_pCircularFade)
@@ -6355,7 +6351,7 @@ void Abe::Motion_60_Dead()
         case 4:
         {
             EventBroadcast(kEventHeroDying, this);
-            if (field_158_pDeathFadeout->field_6E_bDone)
+            if (field_158_pDeathFadeout->mDone)
             {
                 VOnTrapDoorOpen();
                 BaseAliveGameObjectCollisionLine = nullptr;
@@ -6522,7 +6518,7 @@ void Abe::Motion_61_Respawn()
             //}
             mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eElectrocuted);
 
-            field_158_pDeathFadeout->Init(Layer::eLayer_FadeFlash_40, 0, 1, 8);
+            field_158_pDeathFadeout->Init(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeOut, 1, 8);
             field_158_pDeathFadeout->mBaseGameObjectRefCount--;
             field_158_pDeathFadeout = nullptr;
             mNextMotion = eAbeMotions::Motion_0_Idle;
@@ -7652,7 +7648,7 @@ void Abe::Motion_88_HandstoneBegin()
                         field_16E_cameraIdx = 1;
                         field_164_pCircularFade->mBaseGameObjectFlags.Set(Options::eDead);
                         field_164_pCircularFade = 0;
-                        field_158_pDeathFadeout = relive_new DeathFadeOut(Layer::eLayer_FadeFlash_40, 0, 0, 8, TPageAbr::eBlend_2);
+                        field_158_pDeathFadeout = relive_new DeathFadeOut(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeOut, 0, 8, TPageAbr::eBlend_2);
                         field_190_level = gMap.mCurrentLevel;
                         field_192_path = gMap.mCurrentPath;
                         field_194_camera = gMap.mCurrentCamera;
@@ -7727,11 +7723,11 @@ void Abe::Motion_88_HandstoneBegin()
         }
         case StoneStates::eWaitForInput_6:
         {
-            if (field_158_pDeathFadeout->field_6E_bDone)
+            if (field_158_pDeathFadeout->mDone)
             {
                 if (Input().IsAnyHeld(0xF0))
                 {
-                    field_158_pDeathFadeout->Init(Layer::eLayer_FadeFlash_40, 1, 0, 8);
+                    field_158_pDeathFadeout->Init(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeIn, 0, 8);
                     field_110_state.stone = StoneStates::eSetActiveCamToAbeOrWaitForInput_7;
                     SfxPlayMono(relive::SoundEffects::IngameTransition, 90);
                 }
@@ -7740,7 +7736,7 @@ void Abe::Motion_88_HandstoneBegin()
         }
         case StoneStates::eSetActiveCamToAbeOrWaitForInput_7:
         {
-            if (field_158_pDeathFadeout->field_6E_bDone)
+            if (field_158_pDeathFadeout->mDone)
             {
                 Path_Stone_camera camera = {};
                 switch (field_16E_cameraIdx)
@@ -7775,14 +7771,14 @@ void Abe::Motion_88_HandstoneBegin()
                     field_158_pDeathFadeout->mBaseGameObjectFlags.Set(Options::eDead);
                     field_110_state.stone = StoneStates::eWaitForInput_6;
                     field_16E_cameraIdx++;
-                    field_158_pDeathFadeout = relive_new DeathFadeOut(Layer::eLayer_FadeFlash_40, 0, 0, 8, TPageAbr::eBlend_2);
+                    field_158_pDeathFadeout = relive_new DeathFadeOut(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeOut, 0, 8, TPageAbr::eBlend_2);
                     gMap.SetActiveCam(MapWrapper::FromAO(camera.level), camera.path, camera.camera, CameraSwapEffects::eInstantChange_0, 0, 0);
                 }
             }
             break;
         }
         case StoneStates::eSetActiveCamToAbe_12:
-            if (field_158_pDeathFadeout->field_6E_bDone)
+            if (field_158_pDeathFadeout->mDone)
             {
                 GetAnimation().mFlags.Set(AnimFlags::eRender);
                 field_110_state.stone = StoneStates::eCircularFadeExit_13;
@@ -9032,7 +9028,7 @@ void Abe::Motion_156_DoorEnter()
         }
         case AbeDoorStates::eUnused_1:
         {
-            if (field_158_pDeathFadeout->field_6E_bDone)
+            if (field_158_pDeathFadeout->mDone)
             {
                 field_110_state.door = AbeDoorStates::eWaitABit_2;
                 field_118_timer = sGnFrame + 5;

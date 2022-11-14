@@ -5095,7 +5095,7 @@ void Abe::Motion_57_Dead_4589A0()
                 pDeathFade_1->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 mDeathFadeOutId = Guid{};
             }
-            auto pDeathFade = relive_new DeathFadeOut(Layer::eLayer_FadeFlash_40, 1, false, 8, TPageAbr::eBlend_2);
+            auto pDeathFade = relive_new DeathFadeOut(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeIn, false, 8, TPageAbr::eBlend_2);
             if (pDeathFade)
             {
                 mDeathFadeOutId = pDeathFade->mBaseGameObjectId;
@@ -5112,7 +5112,7 @@ void Abe::Motion_57_Dead_4589A0()
         case 4:
             EventBroadcast(kEventHeroDying, this);
 
-            if (!pDeathFade_1->field_7E_bDone)
+            if (!pDeathFade_1->mDone)
             {
                 return;
             }
@@ -6153,7 +6153,7 @@ void Abe::Motion_86_HandstoneBegin()
                     field_120_state.stone = StoneStates::eWaitForInput_4;
                     pCircularFade->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                     mCircularFadeId = Guid{};
-                    DeathFadeOut* pFade33 = relive_new DeathFadeOut(Layer::eLayer_FadeFlash_40, 0, 0, 8, TPageAbr::eBlend_2);
+                    DeathFadeOut* pFade33 = relive_new DeathFadeOut(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeOut, 0, 8, TPageAbr::eBlend_2);
                     if (pFade33)
                     {
                         mDeathFadeOutId = pFade33->mBaseGameObjectId;
@@ -6194,11 +6194,11 @@ void Abe::Motion_86_HandstoneBegin()
             break;
 
         case StoneStates::eWaitForInput_4:
-            if (pFade->field_7E_bDone)
+            if (pFade->mDone)
             {
                 if (Input().mPads[sCurrentControllerIndex].mHeld & 0x300000)
                 {
-                    pFade->Init(Layer::eLayer_FadeFlash_40, 1, 0, 8);
+                    pFade->Init(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeIn, 0, 8);
                     field_120_state.stone = StoneStates::eCamChangeTransition_5;
                     SfxPlayMono(relive::SoundEffects::IngameTransition, 90);
                 }
@@ -6206,14 +6206,14 @@ void Abe::Motion_86_HandstoneBegin()
             break;
 
         case StoneStates::eCamChangeTransition_5:
-            if (pFade->field_7E_bDone)
+            if (pFade->mDone)
             {
                 if (mHandStoneCamIdx < 3 && mHandStoneCams[mHandStoneCamIdx] != 0)
                 {
                     field_120_state.stone = StoneStates::eWaitForInput_4;
 
                     pFade->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-                    pFade = relive_new DeathFadeOut(Layer::eLayer_FadeFlash_40, 0, 0, 8, TPageAbr::eBlend_2);
+                    pFade = relive_new DeathFadeOut(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeOut, 0, 8, TPageAbr::eBlend_2);
                     if (pFade)
                     {
                         mDeathFadeOutId = pFade->mBaseGameObjectId;
@@ -6235,7 +6235,7 @@ void Abe::Motion_86_HandstoneBegin()
             break;
 
         case StoneStates::eSetActiveCamToAbe_6:
-            if (pFade->field_7E_bDone)
+            if (pFade->mDone)
             {
                 GetAnimation().mFlags.Set(AnimFlags::eRender);
                 field_120_state.stone = StoneStates::eCircularFadeExit_7;
