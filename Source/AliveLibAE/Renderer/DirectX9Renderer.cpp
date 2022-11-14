@@ -619,17 +619,18 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
 
             DXTexture::LoadSubImage(*pTextureToUse, 0, 0, poly.mFg1->mImage.mWidth, poly.mFg1->mImage.mHeight, poly.mFg1->mImage.mPixels->data());
 
-            u8 blendMode = static_cast<u8>(GetTPageBlendMode(GetTPage(&poly)));
-            SetupBlendMode(blendMode);
-
-            u8 textureUnit = 1;
-            u8 palIdx = mFG1Units[0];
-            SetQuad(3, false, false, blendMode, palIdx, textureUnit, 128, 128, 128, 0.0f, 0.0f, 1.0f, 1.0f, poly);
-
             auto pSrc = reinterpret_cast<const RGBA32*>(poly.mFg1->mImage.mPixels->data());
             DXTexture::LoadSubImage(*pTextureToUse, 0, 0, 640, 240, pSrc);
             // mStats.mFg1UploadCount++;
         }
+
+        u8 blendMode = static_cast<u8>(GetTPageBlendMode(GetTPage(&poly)));
+        SetupBlendMode(blendMode);
+
+        u8 textureUnit = 1;
+        u8 palIdx = mFG1Units[0];
+        SetQuad(3, false, false, blendMode, palIdx, textureUnit, 128, 128, 128, 0.0f, 0.0f, 1.0f, 1.0f, poly);
+
 
         DX_VERIFY(mDevice->SetTexture(mCamUnit, mCamTexture));
         DX_VERIFY(mDevice->SetTexture(mPalUnit, mPaletteTexture));
