@@ -736,7 +736,6 @@ inline void to_json(nlohmann::json& j, const FlyingSligSaveState& p)
 {
     j = nlohmann::json{
         {"type", p.field_0_type},
-        {"field_2", p.field_2},
         {"xpos", p.field_4_xpos},
         {"ypos", p.field_8_ypos},
         {"velx", p.field_C_velx},
@@ -759,7 +758,16 @@ inline void to_json(nlohmann::json& j, const FlyingSligSaveState& p)
         {"last_line_y_pos", p.field_34_lastLineYPos},
         {"line_idx", p.field_36_line_idx},
         {"launch_switch_id", p.field_38_launch_switch_id},
-        {"field_3a", p.field_3A.Raw().all},
+        {"possessed", p.mPossessed},
+        {"throw_grenade", p.mThrowGrenade},
+        {"alerted_and_not_facing_abe", p.mAlertedAndNotFacingAbe},
+        {"do_action", p.mDoAction},
+        {"chanting", p.mChanting},
+        {"speaking2", p.mSpeaking2},
+        {"speaking1", p.mSpeaking1},
+        {"last_line", p.mLastLine},
+        {"unknown1", p.mUnknown1},
+        {"unknown2", p.mUnknown2},
         {"tlv_info", p.field_3C_tlvInfo},
         {"timer", p.field_40_timer},
         {"grenade_delay", p.field_44_grenade_delay},
@@ -791,7 +799,6 @@ inline void to_json(nlohmann::json& j, const FlyingSligSaveState& p)
 inline void from_json(const nlohmann::json& j, FlyingSligSaveState& p)
 {
     j.at("type").get_to(p.field_0_type);
-    j.at("field_2").get_to(p.field_2);
     j.at("xpos").get_to(p.field_4_xpos);
     j.at("ypos").get_to(p.field_8_ypos);
     j.at("velx").get_to(p.field_C_velx);
@@ -814,7 +821,16 @@ inline void from_json(const nlohmann::json& j, FlyingSligSaveState& p)
     j.at("last_line_y_pos").get_to(p.field_34_lastLineYPos);
     j.at("line_idx").get_to(p.field_36_line_idx);
     j.at("launch_switch_id").get_to(p.field_38_launch_switch_id);
-    j.at("field_3a").get_to(p.field_3A.Raw().all);
+    j.at("possessed").get_to(p.mPossessed);
+    j.at("throw_grenade").get_to(p.mThrowGrenade);
+    j.at("alerted_and_not_facing_abe").get_to(p.mAlertedAndNotFacingAbe);
+    j.at("do_action").get_to(p.mDoAction);
+    j.at("chanting").get_to(p.mChanting);
+    j.at("speaking2").get_to(p.mSpeaking2);
+    j.at("speaking1").get_to(p.mSpeaking1);
+    j.at("last_line").get_to(p.mLastLine);
+    j.at("unknown1").get_to(p.mUnknown1);
+    j.at("unknown2").get_to(p.mUnknown2);
     j.at("tlv_info").get_to(p.field_3C_tlvInfo);
     j.at("timer").get_to(p.field_40_timer);
     j.at("grenade_delay").get_to(p.field_44_grenade_delay);

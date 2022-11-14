@@ -51,7 +51,6 @@ enum class SligSpeak : s8;
 struct FlyingSligSaveState final
 {
     ReliveTypes field_0_type;
-    s16 field_2;
     FP field_4_xpos;
     FP field_8_ypos;
     FP field_C_velx;
@@ -74,22 +73,16 @@ struct FlyingSligSaveState final
     s16 field_34_lastLineYPos;
     s16 field_36_line_idx;
     u8 field_38_launch_switch_id;
-    u8 field_39_padding;
-    enum Flags_3A
-    {
-        eBit1_bPossessed = 0x1,
-        eBit2_Throw = 0x2,
-        eBit3_bAlertedAndNotFacingAbe = 0x4,
-        eBit4_DoAction = 0x8,
-        eBit5_Chanting = 0x10,
-        eBit6_Speaking_flag2 = 0x20,
-        eBit7_Speaking_flag1 = 0x40,
-        eBit8_bLastLine = 0x80,
-        eBit9 = 0x100,
-        eBit10 = 0x200,
-        eBit11_padding = 0x400,
-    };
-    BitField16<Flags_3A> field_3A;
+    bool mPossessed;
+    bool mThrowGrenade;
+    bool mAlertedAndNotFacingAbe;
+    bool mDoAction;
+    bool mChanting;
+    bool mLastLine;
+    bool mSpeaking1;
+    bool mSpeaking2;
+    bool mUnknown1;
+    bool mUnknown2;
     Guid field_3C_tlvInfo;
     s32 field_40_timer;
     s32 field_44_grenade_delay;
@@ -97,7 +90,6 @@ struct FlyingSligSaveState final
     FP field_4C_xSpeed;
     FP field_50_ySpeed;
     SligSpeak field_54_next_speak;
-    s8 field_55_padding;
     s16 field_56_voice_pitch_min;
     Guid field_58_obj_id;
     FP field_5C;
@@ -107,21 +99,13 @@ struct FlyingSligSaveState final
     FP field_6C;
     FP field_70_lever_pull_range_xpos;
     FP field_74_lever_pull_range_ypos;
-    s32 field_78_unused;
-    s32 field_7C_unused;
-    s32 field_80_unused;
-    s32 field_84_unused;
     FP field_88_nextXPos;
     FP field_8C_nextYPos;
     s32 field_90_fns1_idx;
-    s16 field_94_padding;
-    s16 field_96_padding;
-    s16 field_98_unused;
     EReliveLevelIds field_9A_abe_level;
     s16 field_9C_abe_path;
     s16 field_9E_abe_camera;
     s16 field_A0_bobbing_values_table_index;
-    s16 field_A2_padding;
     s32 field_A4_bobbing_values_index;
     FP field_A8_bobbing_value;
 };
@@ -251,28 +235,21 @@ private:
     s32 field_154_collision_reaction_timer = 0;
     Guid field_158_obj_id;
     s16 field_15C_voice_pitch_min = 0;
-    s16 field_15E_useless = 0;
     s16 field_160_voice_pitch_min = 0;
     u8 field_17C_launch_switch_id = 0;
     SligSpeak field_17D_next_speak = SligSpeak::eHi_0;
-
-    enum Flags_17E
-    {
-        eBit1_Speaking_flag1 = 0x1,
-        eBit2_bLastLine = 0x2,
-        eBit3 = 0x4,
-        eBit4_FlyingSligUnknown = 0x8,
-        eBit5_Throw = 0x10,
-        eBit6_bAlertedAndNotFacingAbe = 0x20,
-        eBit7_DoAction = 0x40,
-        eBit8_Unused = 0x80,
-        eBit9_Chanting = 0x100,
-        eBit10_Speaking_flag2 = 0x200,
-        eBit11_bNoPrevLine = 0x400,
-        eBit12_bNoNextLine = 0x800,
-        eBit13_Persistant = 0x1000,
-    };
-    BitField16<Flags_17E> field_17E_flags = {};
+    bool mThrowGrenade = false;
+    bool mAlertedAndNotFacingAbe = false;
+    bool mDoAction = false;
+    bool mChanting = false;
+    bool mLastLine = false;
+    bool mSpeaking1 = false;
+    bool mSpeaking2 = false;
+    bool mNoPrevLine = false;
+    bool mNoNextLine = false;
+    bool mPersistant = false;
+    bool mUnknown1 = false;
+    bool mUnknown2 = false;
     ReliveTypes field_180_bound2 = ReliveTypes::eNone;
     ReliveTypes field_182_bound1 = ReliveTypes::eNone;
     FP field_184_xSpeed = {};
@@ -294,7 +271,6 @@ private:
     s16 field_27E_g = 0;
     s16 field_280_b = 0;
     FP field_284_bobbing_value = {};
-    const FP* field_288_unused = nullptr;
     s16 field_28C_bobbing_values_table_index = 0;
     s32 field_290_bobbing_values_index = 0;
 
