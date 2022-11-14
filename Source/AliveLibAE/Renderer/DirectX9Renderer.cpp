@@ -3,6 +3,7 @@
 #include "../../AliveLibCommon/FatalError.hpp"
 #include "../../relive_lib/ResourceManagerWrapper.hpp"
 #include "../../relive_lib/Animation.hpp"
+#include "../Font.hpp"
 
 #ifdef _WIN32
 
@@ -594,6 +595,10 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
     // select the vertex buffer to display
     DX_VERIFY(mDevice->SetStreamSource(0, mCameraVBO, 0, sizeof(CUSTOMVERTEX)));
 
+    u8 r = poly.mBase.header.rgb_code.r;
+    u8 g = poly.mBase.header.rgb_code.g;
+    u8 b = poly.mBase.header.rgb_code.b;
+
     if (poly.mCam && !poly.mFg1)
     {
         u8 blendMode = static_cast<u8>(GetTPageBlendMode(GetTPage(&poly)));
@@ -641,9 +646,6 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
     {
         IDirect3DTexture9* pTextureToUse = PrepareTextureFromAnim(*poly.mAnim);
        
-        u8 r = poly.mBase.header.rgb_code.r;
-        u8 g = poly.mBase.header.rgb_code.g;
-        u8 b = poly.mBase.header.rgb_code.b;
 
         bool isSemiTrans = GetPolyIsSemiTrans(&poly);
         bool isShaded = GetPolyIsShaded(&poly);
@@ -681,7 +683,46 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
         DX_VERIFY(mDevice->SetTexture(mCamUnit, mCamTexture));
         DX_VERIFY(mDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2));
     }
+    else if (poly.mFont)
+    {
+        IDirect3DTexture9* pTextureToUse = mTextureCache.GetCachedTextureId(poly.mFont->field_C_resource_id.mUniqueId.Id(), DX_SPRITE_TEXTURE_LIFETIME);
+        std::shared_ptr<TgaData> pTga = poly.mFont->field_C_resource_id.mTgaPtr;
 
+        if (!pTextureToUse)
+        {
+            DX_VERIFY(mDevice->CreateTexture(pTga->mWidth, pTga->mHeight, 0, 0, D3DFMT_L8, D3DPOOL_MANAGED, &pTextureToUse, nullptr));
+
+            mTextureCache.Add(poly.mFont->field_C_resource_id.mUniqueId.Id(), DX_SPRITE_TEXTURE_LIFETIME, pTextureToUse);
+
+            DXTexture::LoadSubImage(*pTextureToUse, 0, 0, pTga->mWidth, pTga->mHeight, pTga->mPixels.data());
+
+            // mStats.mFontUploadCount++;
+        }
+
+        FontResource& fontRes = poly.mFont->field_C_resource_id;
+
+        auto pPal = fontRes.mCurPal;
+        const u8 palIndex = static_cast<u8>(PreparePalette(*pPal));
+
+        float u0 = U0(&poly) / (f32)pTga->mWidth;
+        float v0 = V0(&poly) / (f32)pTga->mWidth;
+
+        float u1 = U3(&poly) / (f32)pTga->mWidth;
+        float v1 = V3(&poly) / (f32)pTga->mWidth;
+
+        u8 textureUnit = 1;
+
+        bool isSemiTrans = GetPolyIsSemiTrans(&poly);
+        bool isShaded = GetPolyIsShaded(&poly);
+        u8 blendMode = static_cast<u8>(GetTPageBlendMode(GetTPage(&poly)));
+        SetupBlendMode(blendMode);
+        SetQuad(1, isSemiTrans, isShaded, blendMode, palIndex, textureUnit, r, g, b, u0, v0, u1, v1, poly);
+
+        DX_VERIFY(mDevice->SetTexture(mSpriteUnit, pTextureToUse));
+        DX_VERIFY(mDevice->SetTexture(mPalUnit, mPaletteTexture));
+        DX_VERIFY(mDevice->SetTexture(mCamUnit, mCamTexture));
+        DX_VERIFY(mDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2));
+    }
 }
 
 void DirectX9Renderer::Draw(Poly_G4& /*poly*/)
