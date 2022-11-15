@@ -36,6 +36,25 @@ public:
     };
 
 public:
+    // Recommendations for reserving memory to fit 'peak' amounts of quads
+    // during batching:
+    //   - For regular Poly_FT4s, the peak tends to be about 300 when the game
+    //     is rendering a Spline (chant orb zap made out of ~260 individual
+    //     sprites)
+    //   - For ScreenWave framebuffer effect there are 256 quads
+    //
+    static constexpr s32 kReserveFT4QuadCount = 300;
+    static constexpr s32 kReserveScreenWaveQuadCount = 256;
+
+    // Original game resolution - 640x240
+    static constexpr s32 kPsxFramebufferHeight = 240;
+    static constexpr s32 kPsxFramebufferWidth = 640;
+
+    // Original game target resolution - 640x480
+    static constexpr s32 kTargetFramebufferHeight = 480;
+    static constexpr s32 kTargetFramebufferWidth = 640;
+
+
     virtual ~IRenderer()
     { }
     virtual void Destroy() = 0;
