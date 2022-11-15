@@ -510,10 +510,10 @@ void Quicksave_ReadWorldInfo(const Quicksave_WorldInfo* pInfo)
     sSavedKilledMudsPerZulag_5C1B50.mData[ALIVE_COUNTOF(sSavedKilledMudsPerZulag_5C1B50.mData) - 1] = pInfo->field_17_last_saved_killed_muds_per_path;
 
     sActiveHero->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eRestoredFromQuickSave);
-    sZulagNumber_5C1A20 = pInfo->field_2C_current_zulag_number;
+    gZulagNumber = pInfo->field_2C_current_zulag_number;
     sKilledMudokons = pInfo->field_14_killed_muds;
     sRescuedMudokons = pInfo->field_12_saved_muds;
-    sMudokonsInArea_5C1BC4 = pInfo->field_16_muds_in_area; // TODO: Check types
+    gMudokonsInArea = pInfo->field_16_muds_in_area; // TODO: Check types
     gTotalMeterBars_5C1BFA = pInfo->field_2D_total_meter_bars;
     gbDrawMeterCountDown_5C1BF8 = pInfo->field_30_bDrawMeterCountDown;
     gGasTimer = pInfo->mGasTimer;
@@ -541,10 +541,10 @@ void Quicksave_SaveWorldInfo(Quicksave_WorldInfo* pInfo)
 
     pInfo->field_17_last_saved_killed_muds_per_path = sSavedKilledMudsPerZulag_5C1B50.mData[ALIVE_COUNTOF(sSavedKilledMudsPerZulag_5C1B50.mData) - 1];
 
-    pInfo->field_2C_current_zulag_number = sZulagNumber_5C1A20;
+    pInfo->field_2C_current_zulag_number = gZulagNumber;
     pInfo->field_12_saved_muds = sRescuedMudokons;
     pInfo->field_14_killed_muds = sKilledMudokons;
-    pInfo->field_16_muds_in_area = static_cast<s8>(sMudokonsInArea_5C1BC4); // TODO: Check types
+    pInfo->field_16_muds_in_area = static_cast<s8>(gMudokonsInArea); // TODO: Check types
     pInfo->field_2D_total_meter_bars = gTotalMeterBars_5C1BFA;
     pInfo->field_30_bDrawMeterCountDown = gbDrawMeterCountDown_5C1BF8;
     pInfo->mAbeInvincible = gAbeInvincible;

@@ -19,26 +19,26 @@ void LCDStatusBoard::VScreenChanged()
 LCDStatusBoard::~LCDStatusBoard()
 {
     gObjListDrawables->Remove_Item(this);
-    Path::TLV_Reset(field_C8_tlv, -1, 0, 0);
+    Path::TLV_Reset(mTlvId, -1, 0, 0);
 }
 
 LCDStatusBoard::LCDStatusBoard(relive::Path_LCDStatusBoard* pTlv, const Guid& tlvId)
     : BaseGameObject(true, 0)
 {
-    field_C8_tlv = tlvId;
+    mTlvId = tlvId;
     mFontContext.LoadFontType(FontType::LcdFont);
 
     mPal = ResourceManagerWrapper::LoadPal(PalId::LedFont_Red);
 
-    mFont1.Load(3, mPal, &mFontContext);
-    field_58_font2.Load(3, mPal, &mFontContext);
-    field_90_font3.Load(3, mPal, &mFontContext);
+    mKilledMudsFont.Load(3, mPal, &mFontContext);
+    mRescuedMudsFont.Load(3, mPal, &mFontContext);
+    mEmployeesFont.Load(3, mPal, &mFontContext);
 
     mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
     gObjListDrawables->Push_Back(this);
 
-    field_CC_xpos = (pScreenManager->mCamXOff + pTlv->mTopLeftX) - FP_GetExponent(pScreenManager->mCamPos->x);
-    field_CE_ypos = (pScreenManager->mCamYOff + pTlv->mTopLeftY) - FP_GetExponent(pScreenManager->mCamPos->y);
+    mXPos = (pScreenManager->mCamXOff + pTlv->mTopLeftX) - FP_GetExponent(pScreenManager->mCamPos->x);
+    mYPos = (pScreenManager->mCamYOff + pTlv->mTopLeftY) - FP_GetExponent(pScreenManager->mCamPos->y);
 }
 
 void LCDStatusBoard::VUpdate()
@@ -54,14 +54,13 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
     char_type text[12] = {};
     sprintf(text, "%02d", Path_GetTotalMuds(gMap.mCurrentLevel, gMap.mCurrentPath) - sRescuedMudokons - sKilledMudokons);
 
-    const s16 w1 = static_cast<s16>(field_90_font3.MeasureTextWidth(text));
+    const s16 w1 = static_cast<s16>(mEmployeesFont.MeasureTextWidth(text));
     const s16 colourRange = sDisableFontFlicker ? 0 : 50;
-
-    field_90_font3.DrawString(
+    mEmployeesFont.DrawString(
         ppOt,
         text,
-        field_CC_xpos - w1 + 22,
-        field_CE_ypos,
+        mXPos - w1 + 22,
+        mYPos,
         TPageAbr::eBlend_1,
         1,
         0,
@@ -71,16 +70,16 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
         127,
         0,
         FP_FromInteger(1),
-        w1 + field_CC_xpos,
+        w1 + mXPos,
         colourRange);
 
     sprintf(text, "%02d", sKilledMudokons);
-    const s16 w2 = static_cast<s16>(mFont1.MeasureTextWidth(text));
-    mFont1.DrawString(
+    const s16 w2 = static_cast<s16>(mKilledMudsFont.MeasureTextWidth(text));
+    mKilledMudsFont.DrawString(
         ppOt,
         text,
-        field_CC_xpos - w2 + 22,
-        field_CE_ypos + 16,
+        mXPos - w2 + 22,
+        mYPos + 16,
         TPageAbr::eBlend_1,
         1,
         0,
@@ -90,16 +89,16 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
         127,
         0,
         FP_FromInteger(1),
-        w2 + field_CC_xpos,
+        w2 + mXPos,
         colourRange);
 
     sprintf(text, "%02d", sRescuedMudokons);
-    s16 w3 = static_cast<s16>(field_58_font2.MeasureTextWidth(text));
-    field_58_font2.DrawString(
+    s16 w3 = static_cast<s16>(mRescuedMudsFont.MeasureTextWidth(text));
+    mRescuedMudsFont.DrawString(
         ppOt,
         text,
-        field_CC_xpos - w3 + 22,
-        field_CE_ypos + 32,
+        mXPos - w3 + 22,
+        mYPos + 32,
         TPageAbr::eBlend_1,
         1,
         0,
@@ -109,7 +108,7 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
         127,
         0,
         FP_FromInteger(1),
-        w3 + field_CC_xpos,
+        w3 + mXPos,
         colourRange);
 
     s32 biggestW = w1;

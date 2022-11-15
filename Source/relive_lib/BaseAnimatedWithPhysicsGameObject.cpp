@@ -390,13 +390,9 @@ void BaseAnimatedWithPhysicsGameObject::SetTint(const TintEntry* pTintArray, ERe
 {
     while (pTintArray->field_0_level != level_id)
     {
-        if (pTintArray->field_0_level == level_id)
+        if (pTintArray->field_0_level == level_id || pTintArray->field_0_level == EReliveLevelIds::eNone)
         {
             break;
-        }
-        else if (pTintArray->field_0_level == EReliveLevelIds::eNone)
-        {
-            ALIVE_FATAL("never expected the level to be none in BaseAnimatedWithPhysicsGameObject::SetTint");
         }
         pTintArray++;
     }

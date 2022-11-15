@@ -14,7 +14,7 @@ public:
     virtual void VUpdate() override;
 
 private:
-    PathLine* BaseAliveGameObjectCollisionLine = nullptr;
-    s16 field_FC_hitCount = 0;
-    FP field_100_speed = {};
+    PathLine* mLine = nullptr;
+    s16 mFloorBounceCount = 0;
+    FP mSpeed = {};
 };

@@ -6,14 +6,14 @@
 #include "Sfx.hpp"
 #include "Map.hpp"
 
-s16 sShellCount_BAF7E0 = 0;
+static s16 sShellCount = 0;
 
 BulletShell::BulletShell(FP xpos, FP ypos, s16 direction, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    sShellCount_BAF7E0++;
+    sShellCount++;
 
-    if (sShellCount_BAF7E0 >= 11)
+    if (sShellCount >= 11)
     {
         mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -38,7 +38,7 @@ BulletShell::BulletShell(FP xpos, FP ypos, s16 direction, FP scale)
         mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
         GetAnimation().mFlags.Set(AnimFlags::eFlipX, direction & 1);
 
-        field_FC_hitCount = 0;
+        mFloorBounceCount = 0;
 
         mXPos = xpos;
         mYPos = ypos;
@@ -52,13 +52,13 @@ BulletShell::BulletShell(FP xpos, FP ypos, s16 direction, FP scale)
             mVelX = FP_FromInteger(Math_RandomRange(3, 6));
         }
         mVelY = FP_FromInteger(Math_RandomRange(-4, -1));
-        field_100_speed = FP_FromInteger(1);
+        mSpeed = FP_FromInteger(1);
     }
 }
 
 BulletShell::~BulletShell()
 {
-    sShellCount_BAF7E0--;
+    sShellCount--;
 }
 
 void BulletShell::VUpdate()
@@ -71,7 +71,7 @@ void BulletShell::VUpdate()
     mXPos += mVelX;
     mYPos += mVelY;
 
-    mVelY += field_100_speed;
+    mVelY += mSpeed;
 
     FP hitX = {};
     FP hitY = {};
@@ -80,14 +80,14 @@ void BulletShell::VUpdate()
             mYPos - mVelY,
             mXPos,
             mYPos,
-            &BaseAliveGameObjectCollisionLine,
+            &mLine,
             &hitX,
             &hitY,
             GetScale() == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls)
         == 1)
     {
-        if (BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eFloor_0 ||
-            BaseAliveGameObjectCollisionLine->mLineType == eLineTypes::eBackgroundFloor_4)
+        if (mLine->mLineType == eLineTypes::eFloor_0 ||
+            mLine->mLineType == eLineTypes::eBackgroundFloor_4)
         {
             mYPos = hitY - FP_FromInteger(1);
             mVelY = -(mVelY * FP_FromDouble(0.3));
@@ -102,14 +102,14 @@ void BulletShell::VUpdate()
                 mVelX = FP_FromInteger(1);
             }
 
-            s16 volume = 19 * (3 - field_FC_hitCount);
+            s16 volume = 19 * (3 - mFloorBounceCount);
             if (volume <= 19)
             {
                 volume = 19;
             }
 
             SfxPlayMono(relive::SoundEffects::BulletShell, volume);
-            field_FC_hitCount++;
+            mFloorBounceCount++;
         }
     }
 
@@ -118,7 +118,7 @@ void BulletShell::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (field_FC_hitCount >= 3)
+    if (mFloorBounceCount >= 3)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }

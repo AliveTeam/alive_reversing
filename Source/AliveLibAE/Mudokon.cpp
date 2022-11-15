@@ -1167,9 +1167,9 @@ Mudokon::~Mudokon()
     {
         // TODO: Refactor all access to helpers
         sKilledMudokons++;
-        if (sZulagNumber_5C1A20 < ALIVE_COUNTOF(sSavedKilledMudsPerZulag_5C1B50.mData))
+        if (gZulagNumber < ALIVE_COUNTOF(sSavedKilledMudsPerZulag_5C1B50.mData))
         {
-            sSavedKilledMudsPerZulag_5C1B50.mData[sZulagNumber_5C1A20]++;
+            sSavedKilledMudsPerZulag_5C1B50.mData[gZulagNumber]++;
         }
     }
 
@@ -6161,9 +6161,9 @@ void Mudokon::Motion_36_RunJumpMid()
 
         sRescuedMudokons++;
 
-        if (sZulagNumber_5C1A20 < ALIVE_COUNTOF(sSavedKilledMudsPerZulag_5C1B50.mData))
+        if (gZulagNumber < ALIVE_COUNTOF(sSavedKilledMudsPerZulag_5C1B50.mData))
         {
-            sSavedKilledMudsPerZulag_5C1B50.mData[sZulagNumber_5C1A20]++;
+            sSavedKilledMudsPerZulag_5C1B50.mData[gZulagNumber]++;
         }
 
         if (pBirdPortal)

@@ -17,16 +17,16 @@ public:
 public:
     FontContext mFontContext;
     PalResource mPal;
-    AliveFont mFont1 = {};
-    AliveFont field_58_font2 = {};
-    AliveFont field_90_font3 = {};
-    AliveFont field_C8_font4 = {};
-    Guid field_100_objectId;
-    s16 field_104_position_x = 0;
-    s16 field_106_position_y = 0;
-    s16 field_108_is_hidden = 0;
-    s16 field_10A_muds_left_in_area = 0;
+    AliveFont mKilledMudsFont = {};
+    AliveFont mRescuedMudsFont = {};
+    AliveFont mMudsInLevelFont = {};
+    AliveFont mMudsInAreaFont = {};
+    Guid mTlvId;
+    s16 mXPos = 0;
+    s16 mYPos = 0;
+    s16 mHideBoard = 0;
+    s16 mMudsLeftInArea = 0;
 };
 
-extern s16 sMudokonsInArea_5C1BC4;
-extern s8 sZulagNumber_5C1A20;
+extern s16 gMudokonsInArea;
+extern s8 gZulagNumber;

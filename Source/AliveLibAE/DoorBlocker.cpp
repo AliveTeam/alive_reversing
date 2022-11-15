@@ -11,17 +11,17 @@ DoorBlocker::DoorBlocker(relive::Path_DoorBlocker* pTlv, const Guid& tlvId)
 {
     mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
 
-    field_11A_switch_id = pTlv->mSwitchId;
+    mSwitchId = pTlv->mSwitchId;
 
     LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::Door_Lock_Idle));
 
-    field_118_bDone &= ~1u;
+    mDone = false;
 
     SetType(ReliveTypes::eDoorLock);
     mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
-    field_11C_tlvInfo = tlvId;
+    mTlvId = tlvId;
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
@@ -36,7 +36,7 @@ DoorBlocker::DoorBlocker(relive::Path_DoorBlocker* pTlv, const Guid& tlvId)
         SetScale(Scale::Fg);
     }
 
-    if (SwitchStates_Get(field_11A_switch_id))
+    if (SwitchStates_Get(mSwitchId))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -46,7 +46,7 @@ DoorBlocker::DoorBlocker(relive::Path_DoorBlocker* pTlv, const Guid& tlvId)
 
 DoorBlocker::~DoorBlocker()
 {
-    Path::TLV_Reset(field_11C_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mTlvId, -1, 0, 0);
 }
 
 void DoorBlocker::LoadAnimations()
@@ -64,19 +64,19 @@ void DoorBlocker::VUpdate()
 
     if (!mBaseGameObjectFlags.Get(BaseGameObject::eDead))
     {
-        if (field_118_bDone & 1)
+        if (mDone)
         {
             if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
         }
-        else if (SwitchStates_Get(field_11A_switch_id))
+        else if (SwitchStates_Get(mSwitchId))
         {
             SFX_Play_Pitch(relive::SoundEffects::DoorEffect, 100, 900);
             SFX_Play_Pitch(relive::SoundEffects::DoorEffect, 100, -100);
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Door_Lock_Open));
-            field_118_bDone |= 1u;
+            mDone = true;
         }
     }
 }

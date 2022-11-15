@@ -18,7 +18,7 @@ public:
     virtual void VUpdate() override;
 
 private:
-    s16 field_118_bDone = 0;
-    s16 field_11A_switch_id = 0;
-    Guid field_11C_tlvInfo;
+    bool mDone = false;
+    s16 mSwitchId = 0;
+    Guid mTlvId;
 };
