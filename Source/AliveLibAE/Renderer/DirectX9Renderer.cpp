@@ -62,6 +62,26 @@ static void LoadSubImage(IDirect3DTexture9& texture, u32 xStart, u32 yStart, u32
     DX_VERIFY(texture.UnlockRect(0));
 }
 
+static void FillTexture(IDirect3DTexture9& texture, u32 width, u32 height, const RGBA32& pixel)
+{
+    D3DLOCKED_RECT locked = {};
+    DX_VERIFY(texture.LockRect(0, &locked, nullptr, D3DLOCK_DISCARD));
+    if (locked.pBits)
+    {
+        for (u32 y = 0; y < height; y++)
+        {
+            u32* p = reinterpret_cast<u32*>(locked.pBits);
+            p = p + ((locked.Pitch / sizeof(u32)) * y);
+            for (u32 x = 0; x < width; x++)
+            {
+                *p = (pixel.a << 24) + (pixel.r << 16) + (pixel.g << 8) + (pixel.b);
+                p++;
+            }
+        }
+    }
+    DX_VERIFY(texture.UnlockRect(0));
+}
+
 static void LoadSubImage(IDirect3DTexture9& texture, u32 xStart, u32 yStart, u32 width, u32 height, const u8* pixels)
 {
     D3DLOCKED_RECT locked = {};
@@ -275,6 +295,11 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
         return ret;
     }
 
+    float4 draw_flat(float4 fsShadeColor, bool isShaded, int blendMode, bool isSemiTrans)
+    {
+        return handle_final_color(float4(fsShadeColor.rgb, 1.0), float4(fsShadeColor.rgb, 1.0), false, isShaded, blendMode, isSemiTrans);
+    }
+
     float4 draw_default_ft4(float4 fsShadeColor, int textureUnit, int palIndex, float2 fsUV, bool isShaded, int blendMode, bool isSemiTrans)
     {
         float texelSprite = 0.0;
@@ -337,7 +362,6 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
         int isSemiTrans = data2[0];
         int textureUnit = data2[1];
 
-
         if (drawType == DRAW_DEFAULT_FT4)
         {
             return draw_default_ft4(fsShadeColor, textureUnit, palIndex, fsUV, isShaded, blendMode, isSemiTrans);
@@ -346,8 +370,17 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
         {
             return draw_fg1(palIndex, fsUV);
         }
+        else if (drawType == DRAW_FLAT)
+        {
+            return draw_flat(fsShadeColor, isShaded,blendMode, isSemiTrans);
+        }
+        else if (drawType == DRAW_GAS)
+        {
+            // TODO isn't it
+        }
 
         // assume cam for now
+        // if (drawType == DRAW_CAM)
         return draw_cam(fsUV);
     }
     )";
@@ -385,35 +418,12 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
    
     D3DLOCKED_RECT locked = {};
     DX_VERIFY(mDevice->CreateTexture(256, 256, 0, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &mPaletteTexture, nullptr));
-    DX_VERIFY(mPaletteTexture->LockRect(0, &locked, nullptr, D3DLOCK_DISCARD));
-    for (u32 y = 0; y < 256; y++)
-    {
-        u32* p = (u32*) locked.pBits;
-        p = p + ((locked.Pitch / 4) * y);
-        for (u32 x = 0; x < 256; x++)
-        {
-            *p = D3DCOLOR_ARGB(255, x, y, x + y);
-            p++;
-        }
-    }
-
-    DX_VERIFY(mPaletteTexture->UnlockRect(0));
+    const RGBA32 kColourMagenta = {255, 0, 255, 255};
+    DXTexture::FillTexture(*mPaletteTexture, 256, 256, kColourMagenta);
 
     //mCamTexture->SetAutoGenFilterType(D3DTEXF_NONE);
 
-    DX_VERIFY(mCamTexture->LockRect(0, &locked, nullptr, D3DLOCK_DISCARD));
-    for (u32 y = 0; y < 240; y++)
-    {
-        u32* p = (u32*) locked.pBits;
-        p = p + ((locked.Pitch / 4) * y);
-        for (u32 x = 0; x < 640; x++)
-        {
-            *p = D3DCOLOR_ARGB(255, x, y, x+y);
-            p++;
-        }
-    }
-
-    DX_VERIFY(mCamTexture->UnlockRect(0));
+    DXTexture::FillTexture(*mCamTexture, 640, 240, kColourMagenta);
 
 
   //  mDevice->SetRenderState(D3DRS_SPECULARENABLE, 0);
@@ -743,7 +753,7 @@ void DirectX9Renderer::SetQuad(f32 x, f32 y, f32 w, f32 h)
             D3DCOLOR_XRGB(128, 128, 128), // TL
             0.0f,
             0.0f,
-            {0, 0, 0, 0}, {0, 0, 0, 0},
+            {2, 0, 0, 0}, {0, 0, 0, 0},
         },
         {
             w - fudge,
@@ -753,7 +763,7 @@ void DirectX9Renderer::SetQuad(f32 x, f32 y, f32 w, f32 h)
             D3DCOLOR_XRGB(128, 128, 128),
             1.0f,
             0.0f,
-            {0, 0, 0, 0}, { 0, 0, 0, 0},
+            {2, 0, 0, 0}, { 0, 0, 0, 0},
         },
         {
             x - fudge,
@@ -763,7 +773,7 @@ void DirectX9Renderer::SetQuad(f32 x, f32 y, f32 w, f32 h)
             D3DCOLOR_XRGB(128, 128, 128),
             0.0f,
             1.0f,
-            {0, 0, 0, 0}, { 0, 0, 0, 0},
+            {2, 0, 0, 0}, { 0, 0, 0, 0},
         },
 
         {
@@ -774,7 +784,7 @@ void DirectX9Renderer::SetQuad(f32 x, f32 y, f32 w, f32 h)
             D3DCOLOR_XRGB(128, 128, 128), // TL
             1.0f,
             0.0f,
-            {0, 0, 0, 0}, { 0, 0, 0, 0},
+            {2, 0, 0, 0}, { 0, 0, 0, 0},
         },
         {
             w - fudge,
@@ -784,7 +794,7 @@ void DirectX9Renderer::SetQuad(f32 x, f32 y, f32 w, f32 h)
             D3DCOLOR_XRGB(128, 128, 128),
             1.0f,
             1.0f,
-            {0, 0, 0, 0}, { 0, 0, 0, 0},
+            {2, 0, 0, 0}, { 0, 0, 0, 0},
         },
         {
             x - fudge,
@@ -794,7 +804,7 @@ void DirectX9Renderer::SetQuad(f32 x, f32 y, f32 w, f32 h)
             D3DCOLOR_XRGB(128, 128, 128),
             0.0f,
             1.0f,
-            {0, 0, 0, 0}, { 0, 0, 0, 0},
+            {2, 0, 0, 0}, { 0, 0, 0, 0},
         },
     };
 

@@ -104,7 +104,7 @@ private:
     const u8 mPalUnit = 5;
     const u8 mGasUnit = 6;
     const u8 mFG1Units[4] = {0, 1, 2, 3};
-    const u8 mSpriteUnit = 7;
+    const u8 mSpriteUnit = 7; // TODO: Do we have a total of 8 or 16 units ?
     // sprites = 7+
 };
 
