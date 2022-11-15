@@ -49,6 +49,6 @@ public:
     FP field_124_ypos = {};
 };
 
-extern s16 gInfiniteGrenades;
+extern bool gInfiniteGrenades;
 
 } // namespace AO

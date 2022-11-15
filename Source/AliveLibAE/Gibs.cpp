@@ -67,8 +67,6 @@ void Gibs::LoadAnimations()
 Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool bMakeSmaller)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    field_F4_not_used = nullptr;
-
     LoadAnimations();
 
     AnimId headGib = AnimId::None;

@@ -18,8 +18,8 @@ extern s16 gAttract;
 extern s16 sBreakGameLoop;
 extern s8 gDDCheatOn;
 
-extern s16 gRestartRuptureFarmsKilledMuds_5076C4;
-extern s16 gRestartRuptureFarmsSavedMuds_5076C8;
+extern s16 gRestartRuptureFarmsKilledMuds;
+extern s16 gRestartRuptureFarmsSavedMuds;
 
 extern s16 gbKillUnsavedMudsDone_5076CC;
 

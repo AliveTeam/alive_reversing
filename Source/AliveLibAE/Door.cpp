@@ -109,7 +109,7 @@ Door::Door(relive::Path_Door* pTlvData, const Guid& tlvId)
         switch (field_FA_door_number)
         {
             case 30000:
-                if (sVisitedBonewerks_5C1C02)
+                if (gVisitedBonewerkz)
                 {
                     field_FE_start_state = relive::Path_Door::DoorStates::eClosed;
                 }
@@ -117,24 +117,24 @@ Door::Door(relive::Path_Door* pTlvData, const Guid& tlvId)
 
             case 30001:
             case 30004:
-                if (sVisitedBarracks_5C1C04)
+                if (gVisitedBarracks)
                 {
                     field_FE_start_state = relive::Path_Door::DoorStates::eClosed;
                 }
                 break;
 
             case 30002:
-                if (sVisitedBonewerks_5C1C02)
+                if (gVisitedBonewerkz)
                 {
                     SwitchStates_Set(255u, 1);
                 }
 
-                if (sVisitedBarracks_5C1C04)
+                if (gVisitedBarracks)
                 {
                     SwitchStates_Set(254u, 1);
                 }
 
-                if (sVisitedFeecoEnder_5C1C06)
+                if (gVisitedFeecoEnder)
                 {
                     SwitchStates_Set(255u, 0);
                     SwitchStates_Set(254u, 0);
@@ -142,26 +142,26 @@ Door::Door(relive::Path_Door* pTlvData, const Guid& tlvId)
                 break;
 
             case 30003:
-                if (sVisitedBonewerks_5C1C02)
+                if (gVisitedBonewerkz)
                 {
-                    if (sVisitedBarracks_5C1C04)
+                    if (gVisitedBarracks)
                     {
-                        if (sVisitedFeecoEnder_5C1C06)
+                        if (gVisitedFeecoEnder)
                         {
                             field_FE_start_state = relive::Path_Door::DoorStates::eOpen;
                         }
                     }
-                    if (sVisitedBonewerks_5C1C02)
+                    if (gVisitedBonewerkz)
                     {
                         SwitchStates_Set(250u, 1);
                     }
                 }
 
-                if (sVisitedBarracks_5C1C04)
+                if (gVisitedBarracks)
                 {
                     SwitchStates_Set(251u, 1);
                 }
-                if (sVisitedFeecoEnder_5C1C06)
+                if (gVisitedFeecoEnder)
                 {
                     SwitchStates_Set(253u, 1);
                 }

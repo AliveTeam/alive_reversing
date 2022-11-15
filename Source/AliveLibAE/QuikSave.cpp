@@ -516,19 +516,19 @@ void Quicksave_ReadWorldInfo(const Quicksave_WorldInfo* pInfo)
     sMudokonsInArea_5C1BC4 = pInfo->field_16_muds_in_area; // TODO: Check types
     gTotalMeterBars_5C1BFA = pInfo->field_2D_total_meter_bars;
     gbDrawMeterCountDown_5C1BF8 = pInfo->field_30_bDrawMeterCountDown;
-    sGasTimer = pInfo->field_38_gas_timer;
-    gAbeBulletProof_5C1BDA = pInfo->field_3C_bBulletProof;
-    sVisitedBonewerks_5C1C02 = pInfo->field_32_visited_bonewerks;
-    sVisitedBarracks_5C1C04 = pInfo->field_34_visited_barracks;
-    sVisitedFeecoEnder_5C1C06 = pInfo->field_36_visited_feeco_ender;
-    sGnFrame = pInfo->field_0_gnFrame;
+    gGasTimer = pInfo->mGasTimer;
+    gAbeInvincible = pInfo->mAbeInvincible;
+    gVisitedBonewerkz = pInfo->mVisitedBonewerkz;
+    gVisitedBarracks = pInfo->mVisitedBarracks;
+    gVisitedFeecoEnder = pInfo->mVisitedFeecoEnder;
+    sGnFrame = pInfo->mGnFrame;
 }
 
 void Quicksave_SaveWorldInfo(Quicksave_WorldInfo* pInfo)
 {
     const PSX_RECT rect = sControlledCharacter->VGetBoundingRect();
 
-    pInfo->field_0_gnFrame = sGnFrame;
+    pInfo->mGnFrame = sGnFrame;
     pInfo->field_4_level = MapWrapper::ToAE(gMap.mCurrentLevel);
     pInfo->field_6_path = gMap.mCurrentPath;
     pInfo->field_8_cam = gMap.mCurrentCamera;
@@ -547,11 +547,11 @@ void Quicksave_SaveWorldInfo(Quicksave_WorldInfo* pInfo)
     pInfo->field_16_muds_in_area = static_cast<s8>(sMudokonsInArea_5C1BC4); // TODO: Check types
     pInfo->field_2D_total_meter_bars = gTotalMeterBars_5C1BFA;
     pInfo->field_30_bDrawMeterCountDown = gbDrawMeterCountDown_5C1BF8;
-    pInfo->field_3C_bBulletProof = gAbeBulletProof_5C1BDA;
-    pInfo->field_32_visited_bonewerks = sVisitedBonewerks_5C1C02;
-    pInfo->field_34_visited_barracks = sVisitedBarracks_5C1C04;
-    pInfo->field_36_visited_feeco_ender = sVisitedFeecoEnder_5C1C06;
-    pInfo->field_38_gas_timer = sGasTimer;
+    pInfo->mAbeInvincible = gAbeInvincible;
+    pInfo->mVisitedBonewerkz = gVisitedBonewerkz;
+    pInfo->mVisitedBarracks = gVisitedBarracks;
+    pInfo->mVisitedFeecoEnder = gVisitedFeecoEnder;
+    pInfo->mGasTimer = gGasTimer;
     pInfo->field_C_controlled_x = FP_GetExponent(sControlledCharacter->mXPos);
     pInfo->field_E_controlled_y = rect.h;
     pInfo->field_10_controlled_scale = sControlledCharacter->GetSpriteScale() == FP_FromDouble(1.0);

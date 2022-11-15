@@ -1345,10 +1345,10 @@ struct GameEnderControllerSaveState final
     static ::GameEnderControllerSaveState From(const GameEnderControllerSaveState& data)
     {
         ::GameEnderControllerSaveState d;
-        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
-        d.field_4_obj_id = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
-        d.field_8_timer = data.field_8_timer;
-        d.field_C_state = From(data.field_C_state);
+        d.mType = BaseGameObject::FromAE(data.field_0_type);
+        d.mObjId = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
+        d.mTimer = data.field_8_timer;
+        d.mState = From(data.field_C_state);
         return d;
     }
 

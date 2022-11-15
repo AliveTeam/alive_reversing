@@ -30,13 +30,13 @@ public:
         eFinish_3 = 3,
         eKillTargets_4 = 4,
     };
-    State field_10C_state = State::eTransform_0;
-    s32 field_110_timer = 0;
-    s32 field_114_timer = 0;
-    ZapLine* field_118_zap_line = nullptr;
-    IBaseAliveGameObject* field_11C_obj_being_zapped = nullptr;
-    s16 field_120_bElectrocute = 0;
-    s16 field_122_bResetRingTimer = 0;
+    State mState = State::eTransform_0;
+    s32 mZapIntervalTimer = 0;
+    s32 mFlashTimer = 0;
+    ZapLine* mZapLine = nullptr;
+    IBaseAliveGameObject* mZapTarget = nullptr;
+    bool mCanElectrocute = false;
+    bool mResetRingTimer = false;
 };
 
 } // namespace AO

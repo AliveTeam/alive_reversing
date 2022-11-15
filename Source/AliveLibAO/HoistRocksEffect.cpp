@@ -38,7 +38,7 @@ HoistParticle::HoistParticle(FP xpos, FP ypos, FP scale, AnimId animId)
         GetAnimation().SetRenderLayer(Layer::eLayer_BeforeShadow_Half_6);
     }
 
-    field_E4_bHitGround = 0;
+    mHitGround = false;
 }
 
 void HoistParticle::VUpdate()
@@ -63,7 +63,7 @@ void HoistParticle::VUpdate()
     const FP oldY = mYPos;
     mYPos += mVelY;
 
-    if (field_E4_bHitGround == 0)
+    if (!mHitGround)
     {
         PathLine* pLine = nullptr;
         FP hitX = {};
@@ -80,7 +80,7 @@ void HoistParticle::VUpdate()
         {
             mYPos = hitY;
             mVelY = (mVelY * FP_FromDouble(-0.3));
-            field_E4_bHitGround = 1;
+            mHitGround = true;
         }
     }
 }
@@ -92,14 +92,14 @@ void HoistRocksEffect::VScreenChanged()
 
 HoistRocksEffect::~HoistRocksEffect()
 {
-    Path::TLV_Reset(field_18_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mTlvId, -1, 0, 0);
 }
 
 HoistRocksEffect::HoistRocksEffect(relive::Path_Hoist* pTlv, const Guid& tlvInfo)
-    : BaseGameObject(true, 0), field_18_tlvInfo(tlvInfo)
+    : BaseGameObject(true, 0), mTlvId(tlvInfo)
 {
-    field_10_xpos = FP_FromInteger(pTlv->mTopLeftX + 12);
-    field_14_ypos = FP_FromInteger(pTlv->mTopLeftY);
+    mTlvXPos = FP_FromInteger(pTlv->mTopLeftX + 12);
+    mTlvYPos = FP_FromInteger(pTlv->mTopLeftY);
 }
 
 void HoistRocksEffect::VUpdate()
@@ -115,8 +115,8 @@ void HoistRocksEffect::VUpdate()
                 hoistRock = AnimId::RuptureFarms_HoistRock2;
             }
             relive_new HoistParticle(
-                field_10_xpos + FP_FromInteger(Math_RandomRange(-8, 8)),
-                field_14_ypos + FP_FromInteger(Math_RandomRange(-4, 4)),
+                mTlvXPos + FP_FromInteger(Math_RandomRange(-8, 8)),
+                mTlvYPos + FP_FromInteger(Math_RandomRange(-4, 4)),
                 FP_FromInteger(1),
                 hoistRock);
 
@@ -130,8 +130,8 @@ void HoistRocksEffect::VUpdate()
                 hoistRock = AnimId::RuptureFarms_HoistRock3;
             }
             relive_new HoistParticle(
-                field_10_xpos + FP_FromInteger(Math_RandomRange(-8, 8)),
-                field_14_ypos + FP_FromInteger(Math_RandomRange(-4, 4)),
+                mTlvXPos + FP_FromInteger(Math_RandomRange(-8, 8)),
+                mTlvYPos + FP_FromInteger(Math_RandomRange(-4, 4)),
                 FP_FromInteger(1),
                 hoistRock);
 
@@ -146,8 +146,8 @@ void HoistRocksEffect::VUpdate()
             hoistRock = AnimId::RuptureFarms_HoistRock1;
         }
         relive_new HoistParticle(
-            field_10_xpos + FP_FromInteger(Math_RandomRange(-8, 8)),
-            field_14_ypos + FP_FromInteger(Math_RandomRange(-4, 4)),
+            mTlvXPos + FP_FromInteger(Math_RandomRange(-8, 8)),
+            mTlvYPos + FP_FromInteger(Math_RandomRange(-4, 4)),
             FP_FromInteger(1),
             hoistRock);
 

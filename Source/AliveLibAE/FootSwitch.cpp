@@ -100,14 +100,14 @@ FootSwitch::FootSwitch(relive::Path_FootSwitch* pTlv, const Guid& tlvId)
     mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
     mYPos = FP_FromInteger(pTlv->mBottomRightY);
     mCreateSparks = false;
-    field_F4_tlvInfo = tlvId;
+    mTlvId = tlvId;
     mFindStander = true;
 }
 
 FootSwitch::~FootSwitch()
 {
     mStoodOnMeId = Guid{};
-    Path::TLV_Reset(field_F4_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mTlvId, -1, 0, 0);
 }
 
 void FootSwitch::VUpdate()

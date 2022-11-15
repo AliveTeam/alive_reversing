@@ -10,7 +10,7 @@
 #include "DeathGas.hpp"
 #include "Path.hpp"
 
-s32 sGasTimer = 0;
+s32 gGasTimer = 0;
 s16 gGasOn = 0;
 
 GasCountDown::GasCountDown(relive::Path_GasCountDown* pTlv, const Guid& tlvInfo)
@@ -34,9 +34,9 @@ GasCountDown::GasCountDown(relive::Path_GasCountDown* pTlv, const Guid& tlvInfo)
     field_76_gas_countdown_timer = pTlv->mGasCountdownTimer;
     field_72_stop_timer_switch_id = pTlv->mStopTimerSwitchId;
 
-    if (sGasTimer)
+    if (gGasTimer)
     {
-        mGasTimeLeft = static_cast<s16>((field_76_gas_countdown_timer - (sGnFrame - sGasTimer)) / 30);
+        mGasTimeLeft = static_cast<s16>((field_76_gas_countdown_timer - (sGnFrame - gGasTimer)) / 30);
         if (mGasTimeLeft < 0)
         {
             mGasTimeLeft = 0;
@@ -61,7 +61,7 @@ void GasCountDown::VScreenChanged()
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath)
     {
-        sGasTimer = 0;
+        gGasTimer = 0;
     }
 }
 
@@ -74,18 +74,18 @@ void GasCountDown::VUpdate()
 
     if (EventGet(kEventDeathResetEnd))
     {
-        sGasTimer = 0;
+        gGasTimer = 0;
         gGasOn = false;
     }
 
     // Enable
-    if (!sGasTimer && SwitchStates_Get(mStartTimerSwitchId) && !SwitchStates_Get(field_72_stop_timer_switch_id))
+    if (!gGasTimer && SwitchStates_Get(mStartTimerSwitchId) && !SwitchStates_Get(field_72_stop_timer_switch_id))
     {
-        sGasTimer = sGnFrame;
+        gGasTimer = sGnFrame;
         relive_new Alarm(field_76_gas_countdown_timer, 0, 0, Layer::eLayer_Above_FG1_39);
     }
 
-    if (!sGasTimer)
+    if (!gGasTimer)
     {
         // Off/idle
         mGasTimeLeft = field_76_gas_countdown_timer / 30;
@@ -95,17 +95,17 @@ void GasCountDown::VUpdate()
         // Running
         if (SwitchStates_Get(field_72_stop_timer_switch_id))
         {
-            sGasTimer = 0;
+            gGasTimer = 0;
             return;
         }
 
         if (EventGet(kEventResetting))
         {
-            sGasTimer++;
+            gGasTimer++;
         }
 
         const s32 oldTimer = mGasTimeLeft;
-        const s32 newTimer = (field_76_gas_countdown_timer - static_cast<s32>(sGnFrame - sGasTimer)) / 30;
+        const s32 newTimer = (field_76_gas_countdown_timer - static_cast<s32>(sGnFrame - gGasTimer)) / 30;
         mGasTimeLeft = static_cast<s16>(newTimer);
         if (oldTimer != mGasTimeLeft && mGasTimeLeft > 0)
         {

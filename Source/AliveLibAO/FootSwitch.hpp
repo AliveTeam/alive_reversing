@@ -21,7 +21,7 @@ public:
 
     BaseAliveGameObject* WhoIsStoodOnMe();
 
-    Guid mTlvInfo;
+    Guid mTlvId;
     enum class States : s16
     {
         eWaitForStepOnMe_0 = 0,

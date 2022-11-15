@@ -85,8 +85,8 @@ void SaveGame::LoadFromMemory(SaveData* pData, s32 bKillObjects)
     sRescuedMudokons = pData->field_2A0_rescued_mudokons;
     sKilledMudokons = pData->field_2A2_killed_mudokons;
 
-    gRestartRuptureFarmsSavedMuds_5076C8 = pData->field_2A4_restartRuptureFarmsSavedMudokons;
-    gRestartRuptureFarmsKilledMuds_5076C4 = pData->field_2A6_restartRuptureFarmsKilledMudokons;
+    gRestartRuptureFarmsSavedMuds = pData->field_2A4_restartRuptureFarmsSavedMudokons;
+    gRestartRuptureFarmsKilledMuds = pData->field_2A6_restartRuptureFarmsKilledMudokons;
 
     sActiveHero->mHealth = FP_FromInteger(1);
     sActiveHero->field_11C_regen_health_timer = sGnFrame;
@@ -359,12 +359,12 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
     pSaveData->field_218_saved_sprite_scale = sActiveHero->mContinueSpriteScale;
     pSaveData->field_2A0_rescued_mudokons = sRescuedMudokons;
     pSaveData->field_220_bSavedHaveShrykull = sActiveHero->field_154_bSavedHaveShrykull;
-    pSaveData->field_2A4_restartRuptureFarmsSavedMudokons = gRestartRuptureFarmsSavedMuds_5076C8;
+    pSaveData->field_2A4_restartRuptureFarmsSavedMudokons = gRestartRuptureFarmsSavedMuds;
     pSaveData->field_258_bHaveShrykull = sActiveHero->field_16C_bHaveShrykull;
     pSaveData->field_236_current_path = gMap.mCurrentPath;
     pSaveData->field_2A2_killed_mudokons = sKilledMudokons;
     pSaveData->field_238_current_camera = gMap.mCurrentCamera;
-    pSaveData->field_2A6_restartRuptureFarmsKilledMudokons = gRestartRuptureFarmsKilledMuds_5076C4;
+    pSaveData->field_2A6_restartRuptureFarmsKilledMudokons = gRestartRuptureFarmsKilledMuds;
     pSaveData->field_240_last_anim_frame = static_cast<u16>(sActiveHero->GetAnimation().GetCurrentFrame());
     pSaveData->field_23E_current_motion = sActiveHero->mCurrentMotion;
     pSaveData->field_224_xpos = FP_GetExponent(sActiveHero->mXPos);

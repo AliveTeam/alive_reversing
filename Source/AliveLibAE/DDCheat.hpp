@@ -103,7 +103,7 @@ extern s16 sKilledMudokons;
 extern s32 sTweakX_5C1BD0;
 extern s32 sTweakY_5C1BD4;
 
-extern s16 sVisitedBonewerks_5C1C02;
-extern s16 sVisitedBarracks_5C1C04;
-extern s16 sVisitedFeecoEnder_5C1C06;
+extern s16 gVisitedBonewerkz;
+extern s16 gVisitedBarracks;
+extern s16 gVisitedFeecoEnder;
 extern bool sDDCheat_ShowAI_Info;

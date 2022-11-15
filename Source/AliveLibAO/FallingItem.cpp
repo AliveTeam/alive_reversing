@@ -53,7 +53,7 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
 
     LoadAnimations();
 
-    field_10C_tlvInfo = tlvId;
+    mTlvId = tlvId;
 
     const s32 lvlIdx = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
     Animation_Init(GetAnimRes(sFallingItemData_4BAB20[lvlIdx].field_0_falling_animId));
@@ -64,7 +64,7 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
         mRGB.SetRGB(77, 120, 190);
     }
 
-    field_112_switch_id = pTlv->mSwitchId;
+    mSwitchId = pTlv->mSwitchId;
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
         SetSpriteScale(FP_FromDouble(0.5));
@@ -82,23 +82,23 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
     mRemainingFallingItems = pTlv->mMaxFallingItems;
 
     mResetSwitchIdAfterUse = pTlv->mResetSwitchIdAfterUse;
-    field_122_do_sound_in_state_falling = 1;
+    mDoAirStreamSound = true;
 
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
-    field_128_xpos = FP_FromInteger((pTlv->mBottomRightX + pTlv->mTopLeftX) / 2);
-    field_12C_ypos = FP_FromInteger(pTlv->mBottomRightY);
+    mTlvXPos = FP_FromInteger((pTlv->mBottomRightX + pTlv->mTopLeftX) / 2);
+    mTlvYPos = FP_FromInteger(pTlv->mBottomRightY);
 
-    field_124_yPosStart = mYPos;
-    field_110_state = State::eWaitForIdEnable_0;
-    field_130_sound_channels = 0;
+    mStartYPos = mYPos;
+    mState = State::eWaitForIdEnable_0;
+    mAirStreamSndChannels = 0;
 
     // Not sure why this rupture farms primary item hack is required
     if (!pPrimaryFallingItem_4FFA54 && (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn))
     {
         pPrimaryFallingItem_4FFA54 = this;
-        field_134_created_gnFrame = sGnFrame;
+        mCreatedGnFrame = sGnFrame;
     }
 
     CreateShadow();
@@ -110,14 +110,14 @@ FallingItem::~FallingItem()
     {
         pPrimaryFallingItem_4FFA54 = nullptr;
     }
-    Path::TLV_Reset(field_10C_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mTlvId, -1, 0, 0);
 }
 
 void FallingItem::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mNextLevel
         || gMap.mCurrentPath != gMap.mNextPath
-        || field_110_state != State::eFalling_3)
+        || mState != State::eFalling_3)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -133,21 +133,21 @@ void FallingItem::VUpdate()
     // The primary item controls the main sound effects, otherwise there would be a crazy amount of smashing sounds
     if (pPrimaryFallingItem_4FFA54 == this)
     {
-        if (!((sGnFrame - field_134_created_gnFrame) % 87))
+        if (!((sGnFrame - mCreatedGnFrame) % 87))
         {
             SfxPlayMono(relive::SoundEffects::MeatsawOffscreen, 45);
         }
 
-        if (!((sGnFrame - field_134_created_gnFrame) % 25))
+        if (!((sGnFrame - mCreatedGnFrame) % 25))
         {
             SfxPlayMono(relive::SoundEffects::MeatsawIdle, 45);
         }
     }
 
-    switch (field_110_state)
+    switch (mState)
     {
         case State::eWaitForIdEnable_0:
-            if (!SwitchStates_Get(field_112_switch_id))
+            if (!SwitchStates_Get(mSwitchId))
             {
                 return;
             }
@@ -156,32 +156,32 @@ void FallingItem::VUpdate()
         case State::eGoWaitForDelay_1:
         {
             mBaseGameObjectFlags.Clear(Options::eCanExplode_Bit7);
-            field_110_state = State::eWaitForFallDelay_2;
+            mState = State::eWaitForFallDelay_2;
             mVelX = FP_FromInteger(0);
             mVelY = FP_FromInteger(0);
 
             GetAnimation().Set_Animation_Data(GetAnimRes(sFallingItemData_4BAB20[static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))].field_4_waiting_animId));
 
-            field_11C_delay_timer = sGnFrame + mFallInterval;
+            mFallIntervalTimer = sGnFrame + mFallInterval;
             break;
         }
 
         case State::eWaitForFallDelay_2:
-            if (static_cast<s32>(sGnFrame) >= field_11C_delay_timer)
+            if (static_cast<s32>(sGnFrame) >= mFallIntervalTimer)
             {
-                field_110_state = State::eFalling_3;
-                field_122_do_sound_in_state_falling = true;
-                field_130_sound_channels = SFX_Play_Pitch(relive::SoundEffects::AirStream, 50, -2600);
+                mState = State::eFalling_3;
+                mDoAirStreamSound = true;
+                mAirStreamSndChannels = SFX_Play_Pitch(relive::SoundEffects::AirStream, 50, -2600);
             }
             break;
 
         case State::eFalling_3:
         {
-            if (field_122_do_sound_in_state_falling)
+            if (mDoAirStreamSound)
             {
                 if (mYPos >= sActiveHero->mYPos - FP_FromInteger(120))
                 {
-                    field_122_do_sound_in_state_falling = 0;
+                    mDoAirStreamSound = false;
                     SFX_Play_Pitch(relive::SoundEffects::AirStream, 127, -1300);
                 }
             }
@@ -209,7 +209,7 @@ void FallingItem::VUpdate()
                 == 1)
             {
                 mYPos = hitY;
-                field_110_state = State::eSmashed_4;
+                mState = State::eSmashed_4;
 
                 relive_new ScreenShake(0);
 
@@ -248,10 +248,10 @@ void FallingItem::VUpdate()
 
         case State::eSmashed_4:
         {
-            if (field_130_sound_channels)
+            if (mAirStreamSndChannels)
             {
-                SND_Stop_Channels_Mask(field_130_sound_channels);
-                field_130_sound_channels = 0;
+                SND_Stop_Channels_Mask(mAirStreamSndChannels);
+                mAirStreamSndChannels = 0;
             }
 
             if (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn)
@@ -280,17 +280,17 @@ void FallingItem::VUpdate()
                 SFX_Play_Pitch(relive::SoundEffects::FallingItemHit, 110, -1536);
             }
 
-            if (field_112_switch_id)
+            if (mSwitchId)
             {
                 if (mResetSwitchIdAfterUse == relive::reliveChoice::eYes)
                 {
-                    SwitchStates_Do_Operation(field_112_switch_id, relive::reliveSwitchOp::eSetFalse);
+                    SwitchStates_Do_Operation(mSwitchId, relive::reliveSwitchOp::eSetFalse);
                 }
             }
 
             mRemainingFallingItems--;
 
-            if ((mMaxFallingItems && mRemainingFallingItems <= 0) || !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, field_128_xpos, field_12C_ypos, 0))
+            if ((mMaxFallingItems && mRemainingFallingItems <= 0) || !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mTlvXPos, mTlvYPos, 0))
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
@@ -300,8 +300,8 @@ void FallingItem::VUpdate()
                 mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
                 mVelY = FP_FromInteger(0);
                 mVelX = FP_FromInteger(0);
-                mYPos = field_124_yPosStart;
-                field_110_state = State::eWaitForIdEnable_0;
+                mYPos = mStartYPos;
+                mState = State::eWaitForIdEnable_0;
             }
             break;
         }

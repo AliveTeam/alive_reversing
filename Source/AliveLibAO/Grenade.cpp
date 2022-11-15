@@ -16,7 +16,7 @@
 
 namespace AO {
 
-s16 gInfiniteGrenades = 0;
+bool gInfiniteGrenades = false;
 
 Grenade::Grenade(FP xpos, FP ypos, s16 numGrenades)
     : BaseThrowable()

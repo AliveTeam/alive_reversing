@@ -1564,15 +1564,15 @@ s16 Glukkon::Brain_3_PlayerControlled_441A30()
 
             if (field_1A8_tlvData.mGlukkonType == relive::Path_Glukkon::GlukkonTypes::eStoryAslik)
             {
-                sVisitedFeecoEnder_5C1C06 = 1;
+                gVisitedFeecoEnder = 1;
             }
             else if (field_1A8_tlvData.mGlukkonType == relive::Path_Glukkon::GlukkonTypes::eStoryDripik)
             {
-                sVisitedBarracks_5C1C04 = 1;
+                gVisitedBarracks = 1;
             }
             else
             {
-                sVisitedBonewerks_5C1C02 = 1;
+                gVisitedBonewerkz = 1;
             }
 
             auto pFadeMem = relive_new Fade(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeIn, 0, 8, TPageAbr::eBlend_2);

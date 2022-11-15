@@ -54,7 +54,6 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
 private:
-    void* field_F4_not_used = nullptr; // Used to be gib data, only used in ctor and replaced with AnimRecords
     FP field_F8_z = {};
     FP field_FC_dz = {};
     s32 field_100_timer = 0;

@@ -19,8 +19,8 @@ public:
     }
 
 private:
-    static s16 CanElectrocute(BaseGameObject* pObj);
-    static s16 CanKill(BaseAnimatedWithPhysicsGameObject* pObj);
+    static bool CanElectrocute(BaseGameObject* pObj);
+    static bool CanKill(BaseAnimatedWithPhysicsGameObject* pObj);
 
 private:
     enum class State : s16
@@ -31,11 +31,11 @@ private:
         eFinish_3 = 3,
         eKillTargets_4 = 4,
     };
-    State field_118_state = State::eTransform_0;
-    s32 field_11C_timer = 0;
-    s32 field_120_timer = 0;
-    Guid field_124_zap_line_id;
-    Guid field_128_obj_being_zapped_id;
-    s16 field_12C_bElectrocute = 0;
-    s16 field_12E_bResetRingTimer = 0;
+    State mState = State::eTransform_0;
+    s32 mZapIntervalTimer = 0;
+    s32 mFlashTimer = 0;
+    Guid mZapLineId;
+    Guid mZapTargetId;
+    bool mCanElectrocute = false;
+    bool mResetRingTimer = false;
 };

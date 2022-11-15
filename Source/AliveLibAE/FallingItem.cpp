@@ -33,7 +33,7 @@ const AnimId sFallingItemData_544DC0[15][2] = {
     {AnimId::AE_FallingRock_Falling, AnimId::AE_FallingRock_Waiting},
     {AnimId::FallingCrate_Falling, AnimId::FallingCrate_Waiting}};
 
-FallingItem* pPrimaryFallingItem_5BC208 = nullptr;
+static FallingItem* sPrimaryFallingItem = nullptr;
 
 void FallingItem::LoadAnimations()
 {
@@ -60,14 +60,14 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
 
     SetType(ReliveTypes::eRockSpawner);
 
-    field_118_tlvInfo = tlvId;
+    mTlvId = tlvId;
 
     const s32 lvlIdx = static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel));
 
     LoadAnimations();
     Animation_Init(GetAnimRes(sFallingItemData_544DC0[lvlIdx][0]));
 
-    field_11E_switch_id = pTlv->mSwitchId;
+    mSwitchId = pTlv->mSwitchId;
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
@@ -82,12 +82,12 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
         GetAnimation().SetRenderLayer(Layer::eLayer_FallingItemDoorFlameRollingBallPortalClip_Half_31);
     }
 
-    field_124_fall_interval = pTlv->mFallInterval;
-    field_120_max_falling_items = pTlv->mMaxFallingItems;
-    field_122_remaining_falling_items = pTlv->mMaxFallingItems;
-    field_134_bHitDrillOrMineCar = false;
-    field_12C_reset_switch_id_after_use = pTlv->mResetSwitchIdAfterUse;
-    field_12E_do_sound_in_state_falling = true;
+    mFallInterval = pTlv->mFallInterval;
+    mMaxFallingItems = pTlv->mMaxFallingItems;
+    mRemainingFallingItems = pTlv->mMaxFallingItems;
+    mHitDrillOrMineCar = false;
+    mResetSwitchIdAfterUse = pTlv->mResetSwitchIdAfterUse;
+    mDoAirStreamSound = true;
 
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
@@ -97,16 +97,16 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
         mYPos = pScreenManager->CamYPos();
     }
 
-    field_138_xpos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
-    field_13C_ypos = FP_FromInteger(pTlv->mBottomRightY);
-    field_130_yPosStart = mYPos;
-    field_11C_state = State::eWaitForIdEnable_0;
-    field_140_sound_channels = 0;
+    mTlvXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
+    mTlvYPos = FP_FromInteger(pTlv->mBottomRightY);
+    mStartYPos = mYPos;
+    mState = State::eWaitForIdEnable_0;
+    mAirStreamSndChannels = 0;
 
-    if (!pPrimaryFallingItem_5BC208)
+    if (!sPrimaryFallingItem)
     {
-        pPrimaryFallingItem_5BC208 = this;
-        field_144_created_gnFrame = sGnFrame;
+        sPrimaryFallingItem = this;
+        mCreatedGnFrame = sGnFrame;
     }
 
     CreateShadow();
@@ -118,7 +118,7 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
     SetType(ReliveTypes::eRockSpawner);
 
     mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
-    field_118_tlvInfo = Guid{};
+    mTlvId = Guid{};
 
     const s32 lvlIdx = static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel));
     LoadAnimations();
@@ -128,11 +128,11 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
 
     if (id)
     {
-        field_11E_switch_id = static_cast<s16>(id);
+        mSwitchId = static_cast<s16>(id);
     }
     else
     {
-        field_11E_switch_id = 1;
+        mSwitchId = 1;
     }
 
     if (scale)
@@ -146,29 +146,29 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
         SetScale(Scale::Fg);
     }
 
-    field_124_fall_interval = static_cast<s16>(fallInterval);
+    mFallInterval = static_cast<s16>(fallInterval);
 
-    field_120_max_falling_items = static_cast<s16>(numItems);
-    field_122_remaining_falling_items = static_cast<s16>(numItems);
+    mMaxFallingItems = static_cast<s16>(numItems);
+    mRemainingFallingItems = static_cast<s16>(numItems);
 
     const FP xFixed = FP_FromInteger(xpos);
     const FP yFixed = FP_FromInteger(ypos);
 
-    field_12C_reset_switch_id_after_use = static_cast<relive::reliveChoice>(bResetIdAfterUse);
-    field_134_bHitDrillOrMineCar = false;
-    field_12E_do_sound_in_state_falling = true;
+    mResetSwitchIdAfterUse = static_cast<relive::reliveChoice>(bResetIdAfterUse);
+    mHitDrillOrMineCar = false;
+    mDoAirStreamSound = true;
     mXPos = xFixed;
     mYPos = yFixed;
-    field_138_xpos = xFixed;
-    field_13C_ypos = yFixed;
-    field_130_yPosStart = yFixed;
-    field_11C_state = State::eWaitForIdEnable_0;
-    field_140_sound_channels = 0;
+    mTlvXPos = xFixed;
+    mTlvYPos = yFixed;
+    mStartYPos = yFixed;
+    mState = State::eWaitForIdEnable_0;
+    mAirStreamSndChannels = 0;
 
-    if (!pPrimaryFallingItem_5BC208)
+    if (!sPrimaryFallingItem)
     {
-        pPrimaryFallingItem_5BC208 = this;
-        field_144_created_gnFrame = sGnFrame;
+        sPrimaryFallingItem = this;
+        mCreatedGnFrame = sGnFrame;
     }
 
     CreateShadow();
@@ -176,18 +176,18 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
 
 FallingItem::~FallingItem()
 {
-    if (pPrimaryFallingItem_5BC208 == this)
+    if (sPrimaryFallingItem == this)
     {
-        pPrimaryFallingItem_5BC208 = nullptr;
+        sPrimaryFallingItem = nullptr;
     }
-    Path::TLV_Reset(field_118_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mTlvId, -1, 0, 0);
 }
 
 void FallingItem::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mNextLevel 
 	|| gMap.mCurrentPath != gMap.mNextPath 
-        || field_11C_state != State::eFalling_3)
+        || mState != State::eFalling_3)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -201,9 +201,9 @@ void FallingItem::VUpdate()
     }
 
     // The primary item controls the main sound effects, otherwise there would be a crazy amount of smashing sounds
-    if (pPrimaryFallingItem_5BC208 == this)
+    if (sPrimaryFallingItem == this)
     {
-        if (!((sGnFrame - field_144_created_gnFrame) % 87))
+        if (!((sGnFrame - mCreatedGnFrame) % 87))
         {
             if (GetScale() == Scale::Fg)
             {
@@ -215,7 +215,7 @@ void FallingItem::VUpdate()
             }
         }
 
-        if (!((sGnFrame - field_144_created_gnFrame) % 25))
+        if (!((sGnFrame - mCreatedGnFrame) % 25))
         {
             if (GetScale() == Scale::Fg)
             {
@@ -228,19 +228,19 @@ void FallingItem::VUpdate()
         }
     }
 
-    switch (field_11C_state)
+    switch (mState)
     {
         case State::eWaitForIdEnable_0:
-            if (field_11E_switch_id && SwitchStates_Get(field_11E_switch_id))
+            if (mSwitchId && SwitchStates_Get(mSwitchId))
             {
                 mBaseGameObjectFlags.Clear(BaseGameObject::eCanExplode_Bit7);
-                field_11C_state = State::eWaitForFallDelay_2;
+                mState = State::eWaitForFallDelay_2;
                 mVelX = FP_FromInteger(0);
                 mVelY = FP_FromInteger(0);
 
                 GetAnimation().Set_Animation_Data(GetAnimRes(sFallingItemData_544DC0[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]));
 
-                field_128_fall_interval_timer = sGnFrame + field_124_fall_interval;
+                mFallIntervalTimer = sGnFrame + mFallInterval;
             }
             break;
 
@@ -248,39 +248,39 @@ void FallingItem::VUpdate()
         case State::eGoWaitForDelay_1:
         {
             mBaseGameObjectFlags.Clear(BaseGameObject::eCanExplode_Bit7);
-            field_11C_state = State::eWaitForFallDelay_2;
+            mState = State::eWaitForFallDelay_2;
             mVelX = FP_FromInteger(0);
             mVelY = FP_FromInteger(0);
 
             GetAnimation().Set_Animation_Data(GetAnimRes(sFallingItemData_544DC0[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]));
 
-            field_128_fall_interval_timer = sGnFrame + field_124_fall_interval;
+            mFallIntervalTimer = sGnFrame + mFallInterval;
             break;
         }
 
         case State::eWaitForFallDelay_2:
-            if (static_cast<s32>(sGnFrame) >= field_128_fall_interval_timer)
+            if (static_cast<s32>(sGnFrame) >= mFallIntervalTimer)
             {
-                field_11C_state = State::eFalling_3;
-                field_12E_do_sound_in_state_falling = true;
+                mState = State::eFalling_3;
+                mDoAirStreamSound = true;
                 if (GetScale() == Scale::Fg)
                 {
-                    field_140_sound_channels = SFX_Play_Pitch(relive::SoundEffects::AirStream, 50, -2600);
+                    mAirStreamSndChannels = SFX_Play_Pitch(relive::SoundEffects::AirStream, 50, -2600);
                 }
                 else
                 {
-                    field_140_sound_channels = SFX_Play_Pitch(relive::SoundEffects::AirStream, 25, -2600);
+                    mAirStreamSndChannels = SFX_Play_Pitch(relive::SoundEffects::AirStream, 25, -2600);
                 }
             }
             break;
 
         case State::eFalling_3:
         {
-            if (field_12E_do_sound_in_state_falling)
+            if (mDoAirStreamSound)
             {
                 if (mYPos >= sActiveHero->mYPos - FP_FromInteger(240 / 2))
                 {
-                    field_12E_do_sound_in_state_falling = false;
+                    mDoAirStreamSound = false;
                     if (GetScale() == Scale::Fg)
                     {
                         SFX_Play_Pitch(relive::SoundEffects::AirStream, 127, -1300);
@@ -313,19 +313,19 @@ void FallingItem::VUpdate()
                     GetScale() == Scale::Fg ? kFgFloor : kBgFloor)
                 == 1)
             {
-                if (!field_134_bHitDrillOrMineCar)
+                if (!mHitDrillOrMineCar)
                 {
                     mYPos = hitY;
                 }
             }
-            else if (!field_134_bHitDrillOrMineCar)
+            else if (!mHitDrillOrMineCar)
             {
                 mYPos += mVelY;
                 return;
             }
 
-            field_134_bHitDrillOrMineCar = false;
-            field_11C_state = State::eSmashed_4;
+            mHitDrillOrMineCar = false;
+            mState = State::eSmashed_4;
 
             relive_new ScreenShake(0, GetSpriteScale() == FP_FromDouble(0.5));
 
@@ -360,10 +360,10 @@ void FallingItem::VUpdate()
         break;
 
         case State::eSmashed_4:
-            if (field_140_sound_channels)
+            if (mAirStreamSndChannels)
             {
-                SND_Stop_Channels_Mask(field_140_sound_channels);
-                field_140_sound_channels = 0;
+                SND_Stop_Channels_Mask(mAirStreamSndChannels);
+                mAirStreamSndChannels = 0;
             }
 
             EventBroadcast(kEventLoudNoise, this);
@@ -378,17 +378,17 @@ void FallingItem::VUpdate()
                 SFX_Play_Pitch(relive::SoundEffects::FallingItemHit, 55, -1536);
             }
 
-            if (field_11E_switch_id)
+            if (mSwitchId)
             {
-                if (field_12C_reset_switch_id_after_use == relive::reliveChoice::eYes)
+                if (mResetSwitchIdAfterUse == relive::reliveChoice::eYes)
                 {
-                    SwitchStates_Do_Operation(field_11E_switch_id, relive::reliveSwitchOp::eSetFalse);
+                    SwitchStates_Do_Operation(mSwitchId, relive::reliveSwitchOp::eSetFalse);
                 }
             }
 
-            --field_122_remaining_falling_items;
+            --mRemainingFallingItems;
 
-            if ((field_120_max_falling_items > 0 && field_122_remaining_falling_items <= 0) || !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, field_138_xpos, field_13C_ypos, 0))
+            if ((mMaxFallingItems > 0 && mRemainingFallingItems <= 0) || !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mTlvXPos, mTlvYPos, 0))
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
@@ -398,8 +398,8 @@ void FallingItem::VUpdate()
                 mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
                 mVelY = FP_FromInteger(0);
                 mVelX = FP_FromInteger(0);
-                mYPos = field_130_yPosStart;
-                field_11C_state = State::eWaitForIdEnable_0;
+                mYPos = mStartYPos;
+                mState = State::eWaitForIdEnable_0;
             }
             break;
 
@@ -443,12 +443,12 @@ void FallingItem::DamageHitItems()
                         if (pAliveObj->Type() == ReliveTypes::eDrill)
                         {
                             // Drill is not a type that implements VTakeDamage
-                            field_134_bHitDrillOrMineCar = true;
+                            mHitDrillOrMineCar = true;
                         }
                         else if (pAliveObj->Type() == ReliveTypes::eMineCar)
                         {
                             // ?? Could still call VTakeDamage here but OG doesn't ??
-                            field_134_bHitDrillOrMineCar = true;
+                            mHitDrillOrMineCar = true;
                         }
                         else
                         {

@@ -40,8 +40,8 @@ namespace AO {
 s16 gbKillUnsavedMudsDone_5076CC = 0;
 
 // TODO: Move to game ender controller for AO sync
-s16 gRestartRuptureFarmsKilledMuds_5076C4 = 0;
-s16 gRestartRuptureFarmsSavedMuds_5076C8 = 0;
+s16 gRestartRuptureFarmsKilledMuds = 0;
+s16 gRestartRuptureFarmsSavedMuds = 0;
 
 s16 sBreakGameLoop = 0;
 s16 gAttract = 0;
@@ -91,8 +91,8 @@ static void Main_ParseCommandLineArguments(const char_type* pCommandLine)
 
 void Init_GameStates()
 {
-    sKilledMudokons = gRestartRuptureFarmsKilledMuds_5076C4;
-    sRescuedMudokons = gRestartRuptureFarmsSavedMuds_5076C8;
+    sKilledMudokons = gRestartRuptureFarmsKilledMuds;
+    sRescuedMudokons = gRestartRuptureFarmsSavedMuds;
 
     gGasOn = 0;
     sGasTimer = 0;

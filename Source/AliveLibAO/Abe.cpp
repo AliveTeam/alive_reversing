@@ -1529,7 +1529,7 @@ void Abe::ToKnockback_422D90(s16 bKnockbackSound, s16 bDelayedAnger)
         {
             field_198_pThrowable->VToDead();
             field_198_pThrowable = nullptr;
-            if (gInfiniteGrenades == 0)
+            if (!gInfiniteGrenades)
             {
                 field_19C_throwable_count++;
             }
@@ -2703,10 +2703,10 @@ void Abe::VOnTlvCollision(relive::Path_TLV* pTlv)
                 mContinuePath = gMap.mCurrentPath;
                 mContinueCamera = gMap.mCurrentCamera;
 
-                if (gRestartRuptureFarmsSavedMuds_5076C8 == 0 && gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn && gMap.mCurrentPath == 19 && gMap.mCurrentCamera == 3)
+                if (gRestartRuptureFarmsSavedMuds == 0 && gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn && gMap.mCurrentPath == 19 && gMap.mCurrentCamera == 3)
                 {
-                    gRestartRuptureFarmsKilledMuds_5076C4 = sKilledMudokons;
-                    gRestartRuptureFarmsSavedMuds_5076C8 = sRescuedMudokons;
+                    gRestartRuptureFarmsKilledMuds = sKilledMudokons;
+                    gRestartRuptureFarmsSavedMuds = sRescuedMudokons;
                 }
 
                 SaveGame::SaveToMemory(&gSaveBuffer);
@@ -3639,7 +3639,7 @@ void Abe::Motion_0_Idle()
                 }
                 mCurrentMotion = eAbeMotions::Motion_142_RockThrowStandingHold;
 
-                if (gInfiniteGrenades == 0)
+                if (!gInfiniteGrenades)
                 {
                     field_19C_throwable_count--;
                 }
@@ -6652,11 +6652,11 @@ void Abe::Motion_62_LoadedSaveSpawn()
                 gThrowableArray = relive_new ThrowableArray();
             }
             gThrowableArray->Add(1);
-            gInfiniteGrenades = 1;
+            gInfiniteGrenades = true;
         }
         else
         {
-            gInfiniteGrenades = 0;
+            gInfiniteGrenades = false;
         }
         if (pSaveData->field_25A_bElumExists)
         {

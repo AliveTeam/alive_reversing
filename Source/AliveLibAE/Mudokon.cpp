@@ -6447,12 +6447,12 @@ void Mudokon::Motion_49_Fall()
     FP hitY = {};
     if (InAirCollision(&pLine, &hitX, &hitY, FP_FromDouble(1.8)))
     {
-        switch (pLine->mLineType) // TODO: Strongly type line types
+        switch (pLine->mLineType)
         {
-            case 0u:
-            case 4u:
-            case 32u:
-            case 36u:
+            case eLineTypes::eFloor_0:
+            case eLineTypes::eBackgroundFloor_4:
+            case eLineTypes::eDynamicCollision_32:
+            case eLineTypes::eBackgroundDynamicCollision_36:
                 mXPos = hitX;
                 mYPos = hitY;
                 BaseAliveGameObjectCollisionLine = pLine;
@@ -6466,7 +6466,7 @@ void Mudokon::Motion_49_Fall()
                          FP_GetExponent(mYPos),
                          ReliveTypes::eSoftLanding)
                      && mHealth > FP_FromInteger(0))
-                    || (mYPos - BaseAliveGameObjectLastLineYPos < (GetSpriteScale() * FP_FromInteger(180)) && (mHealth > FP_FromInteger(0) || gAbeBulletProof_5C1BDA)))
+                    || (mYPos - BaseAliveGameObjectLastLineYPos < (GetSpriteScale() * FP_FromInteger(180)) && (mHealth > FP_FromInteger(0) || gAbeInvincible)))
                 {
                     mCurrentMotion = eMudMotions::Motion_42_LandSoft2;
                 }
@@ -6488,10 +6488,10 @@ void Mudokon::Motion_49_Fall()
                     gPlatformsArray);
                 break;
 
-            case 1u:
-            case 2u:
-            case 5u:
-            case 6u:
+            case eLineTypes::eWallLeft_1:
+            case eLineTypes::eWallRight_2:
+            case eLineTypes::eBackgroundWallLeft_5:
+            case eLineTypes::eBackgroundWallRight_6:
                 mXPos = hitX;
                 mYPos = hitY;
                 ToKnockback();

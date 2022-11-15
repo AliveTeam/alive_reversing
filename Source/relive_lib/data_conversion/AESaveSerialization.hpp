@@ -879,10 +879,10 @@ inline void from_json(const nlohmann::json& j, FlyingSligSpawnerSaveState& p)
 inline void to_json(nlohmann::json& j, const GameEnderControllerSaveState& p)
 {
     j = nlohmann::json{
-        {"type", p.field_0_type},
-        {"obj_id", p.field_4_obj_id},
-        {"timer", p.field_8_timer},
-        {"state", p.field_C_state},
+        {"type", p.mType},
+        {"obj_id", p.mObjId},
+        {"timer", p.mTimer},
+        {"state", p.mState},
     };
 }
 
@@ -901,10 +901,10 @@ NLOHMANN_JSON_SERIALIZE_ENUM(GameEnderControllerStates, {
 
 inline void from_json(const nlohmann::json& j, GameEnderControllerSaveState& p)
 {
-    j.at("type").get_to(p.field_0_type);
-    j.at("obj_id").get_to(p.field_4_obj_id);
-    j.at("timer").get_to(p.field_8_timer);
-    j.at("state").get_to(p.field_C_state);
+    j.at("type").get_to(p.mType);
+    j.at("obj_id").get_to(p.mObjId);
+    j.at("timer").get_to(p.mTimer);
+    j.at("state").get_to(p.mState);
 }
 inline void to_json(nlohmann::json& j, const SlapLockWhirlWindSaveState& p)
 {

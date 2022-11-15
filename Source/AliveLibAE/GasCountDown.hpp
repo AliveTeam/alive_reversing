@@ -31,4 +31,4 @@ private:
 };
 
 extern s16 gGasOn;
-extern s32 sGasTimer;
+extern s32 gGasTimer;

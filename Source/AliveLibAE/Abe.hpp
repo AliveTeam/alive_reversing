@@ -406,7 +406,7 @@ public:
     void ToKnockback_44E700(s16 bKnockbackSound, s16 bDelayedAnger);
     void SetAsDead_459430();
     void FleechDeath_459350();
-    void ExitShrykull_45A9D0(s16 bResetRingTimer);
+    void ExitShrykull_45A9D0(bool bResetRingTimer);
 
     static s32 CreateFromSaveState(const u8* pData);
 
@@ -777,7 +777,7 @@ bool IsActiveHero(BaseGameObject* pObj);
 extern Abe* sActiveHero;
 extern IBaseAliveGameObject* sControlledCharacter;
 
-extern s16 gAbeBulletProof_5C1BDA;
+extern bool gAbeInvincible;
 
 extern const char_type* const sAbeMotionNames[130];
 
