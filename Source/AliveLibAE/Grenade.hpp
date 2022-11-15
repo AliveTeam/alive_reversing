@@ -87,15 +87,14 @@ private:
 
 
 private:
-    Guid field_11C_explosion_id;
-    GrenadeStates field_120_state = GrenadeStates::eFallingToBeCollected_0;
-    s16 field_122_explode_timer = 0;
+    Guid mExplosionId;
+    GrenadeStates mState = GrenadeStates::eFallingToBeCollected_0;
+    s16 mExplodeCountdown = 0;
     s16 field_124 = 0;
-    FP field_128_xpos = {};
-    FP field_12C_ypos = {};
-    s16 field_130_unused = 0;
-    s16 field_132_bBlowUpOnCollision = 0;
-    s16 field_134_bExplodeNow = 0;
-    BaseGameObject* field_138_pOwner = nullptr;
+    FP mPreviousXPos = {};
+    FP mPreviousYPos = {};
+    bool mBlowUpOnCollision = false;
+    bool mExplodeNow = false;
+    BaseGameObject* mGrenadeOwner = nullptr;
     bool mDoBounceOff = false;
 };

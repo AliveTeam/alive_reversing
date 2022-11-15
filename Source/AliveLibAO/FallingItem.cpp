@@ -15,7 +15,7 @@
 
 namespace AO {
 
-FallingItem* pPrimaryFallingItem_4FFA54 = nullptr;
+static FallingItem* sPrimaryFallingItem = nullptr;
 
 const FallingItem_Data sFallingItemData_4BAB20[16] = {
     {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting, 76, 38}, // menu
@@ -95,9 +95,9 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
     mAirStreamSndChannels = 0;
 
     // Not sure why this rupture farms primary item hack is required
-    if (!pPrimaryFallingItem_4FFA54 && (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn))
+    if (!sPrimaryFallingItem && (gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarms || gMap.mCurrentLevel == EReliveLevelIds::eRuptureFarmsReturn))
     {
-        pPrimaryFallingItem_4FFA54 = this;
+        sPrimaryFallingItem = this;
         mCreatedGnFrame = sGnFrame;
     }
 
@@ -106,9 +106,9 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
 
 FallingItem::~FallingItem()
 {
-    if (pPrimaryFallingItem_4FFA54 == this)
+    if (sPrimaryFallingItem == this)
     {
-        pPrimaryFallingItem_4FFA54 = nullptr;
+        sPrimaryFallingItem = nullptr;
     }
     Path::TLV_Reset(mTlvId, -1, 0, 0);
 }
@@ -131,7 +131,7 @@ void FallingItem::VUpdate()
     }
 
     // The primary item controls the main sound effects, otherwise there would be a crazy amount of smashing sounds
-    if (pPrimaryFallingItem_4FFA54 == this)
+    if (sPrimaryFallingItem == this)
     {
         if (!((sGnFrame - mCreatedGnFrame) % 87))
         {

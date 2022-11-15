@@ -10,7 +10,7 @@
 
 namespace AO {
 
-const Gib_Data kGibData_4C30B0[6] = {
+static const Gib_Data sGibData[6] = {
     {AnimId::Abe_Head_Gib, AnimId::Abe_Arm_Gib, AnimId::Abe_Body_Gib},
     {AnimId::Slig_Head_Gib, AnimId::Slig_Arm_Gib, AnimId::Slig_Body_Gib},
     {AnimId::Slog_Head_Gib, AnimId::Slog_Body_Gib, AnimId::Slog_Body_Gib},
@@ -18,14 +18,14 @@ const Gib_Data kGibData_4C30B0[6] = {
     {AnimId::Abe_Head_Gib, AnimId::Abe_Arm_Gib, AnimId::Abe_Body_Gib},
     {AnimId::Metal_Gib, AnimId::Metal_Gib, AnimId::Metal_Gib}};
 
-const TintEntry sAbeGibTints_4C6438[5] = {
+static const TintEntry sAbeGibTints[5] = {
     {EReliveLevelIds::eStockYards, 25u, 25u, 25u},
     {EReliveLevelIds::eStockYardsReturn, 25u, 25u, 25u},
     {EReliveLevelIds::eDesert, 125u, 125u, 95u},
     {EReliveLevelIds::eDesertTemple, 120u, 120u, 90u},
     {EReliveLevelIds::eNone, 102u, 102u, 102u}};
 
-const TintEntry sMudGibTints_4CD320[3] = {
+static const TintEntry sMudGibTints[3] = {
     {EReliveLevelIds::eStockYards, 25u, 25u, 25u},
     {EReliveLevelIds::eStockYardsReturn, 25u, 25u, 25u},
     {EReliveLevelIds::eNone, 87u, 103u, 67u},
@@ -38,11 +38,11 @@ static FP GibRand(FP scale)
 
 void Gibs::LoadAnimations()
 {
-    for (u32 i = 0; i < ALIVE_COUNTOF(kGibData_4C30B0); i++)
+    for (u32 i = 0; i < ALIVE_COUNTOF(sGibData); i++)
     {
-        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(kGibData_4C30B0[i].field_0_head));
-        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(kGibData_4C30B0[i].field_4_arm));
-        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(kGibData_4C30B0[i].field_8_body));
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sGibData[i].mHead));
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sGibData[i].mArm));
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sGibData[i].mBody));
     }
 }
 
@@ -51,16 +51,16 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
 {
     LoadAnimations();
 
-    field_E4_pGibData = &kGibData_4C30B0[gibType];
+    mGibData = &sGibData[gibType];
 
     // The base class renders the head gib
-    Animation_Init(GetAnimRes(field_E4_pGibData->field_0_head));
+    Animation_Init(GetAnimRes(mGibData->mHead));
 
     SetSpriteScale(scale);
     mXPos = xpos;
     mYPos = ypos + FP_FromInteger(2);
 
-    field_F0_timer = sGnFrame + 91;
+    mAliveTimer = sGnFrame + 91;
 
     if (scale == FP_FromInteger(1))
     {
@@ -107,24 +107,24 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
 
     if (gibType == GibType::Abe_0)
     {
-        SetTint(sAbeGibTints_4C6438, gMap.mCurrentLevel);
+        SetTint(sAbeGibTints, gMap.mCurrentLevel);
     }
     else if (gibType == GibType::Mud_4)
     {
-        SetTint(sMudGibTints_4CD320, gMap.mCurrentLevel);
+        SetTint(sMudGibTints, gMap.mCurrentLevel);
     }
 
-    field_5C4_parts_used_count = 7;
+    mPartsUsedCount = 7;
 
-    GibPart* pPart = &field_F4_parts[0];
-    for (s16 i = 0; i < field_5C4_parts_used_count; i++)
+    GibPart* pPart = &mGibParts[0];
+    for (s16 i = 0; i < mPartsUsedCount; i++)
     {
         if (i < 2)
         {
             // 2 arm parts
-            if (!pPart->field_18_animation.Init(GetAnimRes(field_E4_pGibData->field_4_arm), this))
+            if (!pPart->mAnimation.Init(GetAnimRes(mGibData->mArm), this))
             {
-                field_5C4_parts_used_count = i;
+                mPartsUsedCount = i;
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 return;
             }
@@ -132,21 +132,21 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
         else
         {
             // 2 body parts
-            if (!pPart->field_18_animation.Init(GetAnimRes(field_E4_pGibData->field_8_body), this))
+            if (!pPart->mAnimation.Init(GetAnimRes(mGibData->mBody), this))
             {
-                field_5C4_parts_used_count = i;
+                mPartsUsedCount = i;
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 return;
             }
         }
 
-        pPart->field_18_animation.SetRenderLayer(GetAnimation().GetRenderLayer());
-        pPart->field_18_animation.SetSpriteScale(scale);
+        pPart->mAnimation.SetRenderLayer(GetAnimation().GetRenderLayer());
+        pPart->mAnimation.SetSpriteScale(scale);
 
-        pPart->field_18_animation.mFlags.Clear(AnimFlags::eBlending);
-        pPart->field_18_animation.mFlags.Clear(AnimFlags::eSemiTrans);
+        pPart->mAnimation.mFlags.Clear(AnimFlags::eBlending);
+        pPart->mAnimation.mFlags.Clear(AnimFlags::eSemiTrans);
 
-        pPart->field_18_animation.SetRGB(mRGB.r, mRGB.g, mRGB.b);
+        pPart->mAnimation.SetRGB(mRGB.r, mRGB.g, mRGB.b);
 
         pPart->x = mXPos;
         pPart->y = mYPos;
@@ -167,7 +167,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
         if (gibPal != PalId::Default)
         {
             mLoadedPals.push_back(ResourceManagerWrapper::LoadPal(gibPal));
-            pPart->field_18_animation.LoadPal(GetPalRes(gibPal));
+            pPart->mAnimation.LoadPal(GetPalRes(gibPal));
         }
 
         pPart++;
@@ -188,22 +188,22 @@ void Gibs::VUpdate()
         field_EC_dz = -field_EC_dz;
     }
 
-    for (s32 i = 0; i < field_5C4_parts_used_count; i++)
+    for (s32 i = 0; i < mPartsUsedCount; i++)
     {
-        field_F4_parts[i].x += field_F4_parts[i].field_C_dx;
-        field_F4_parts[i].y += field_F4_parts[i].field_10_dy;
-        field_F4_parts[i].field_8_z += field_F4_parts[i].field_14_dz;
+        mGibParts[i].x += mGibParts[i].field_C_dx;
+        mGibParts[i].y += mGibParts[i].field_10_dy;
+        mGibParts[i].field_8_z += mGibParts[i].field_14_dz;
 
-        field_F4_parts[i].field_10_dy += FP_FromDouble(0.25);
+        mGibParts[i].field_10_dy += FP_FromDouble(0.25);
 
-        if ((field_F4_parts[i].field_8_z + FP_FromInteger(100)) < FP_FromInteger(15))
+        if ((mGibParts[i].field_8_z + FP_FromInteger(100)) < FP_FromInteger(15))
         {
-            field_F4_parts[i].field_8_z -= field_F4_parts[i].field_14_dz;
-            field_F4_parts[i].field_14_dz = -field_F4_parts[i].field_14_dz;
+            mGibParts[i].field_8_z -= mGibParts[i].field_14_dz;
+            mGibParts[i].field_14_dz = -mGibParts[i].field_14_dz;
         }
     }
 
-    if (static_cast<s32>(sGnFrame) > field_F0_timer)
+    if (static_cast<s32>(sGnFrame) > mAliveTimer)
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
@@ -211,9 +211,9 @@ void Gibs::VUpdate()
 
 Gibs::~Gibs()
 {
-    for (s16 i = 0; i < field_5C4_parts_used_count; i++)
+    for (s16 i = 0; i < mPartsUsedCount; i++)
     {
-        field_F4_parts[i].field_18_animation.VCleanUp();
+        mGibParts[i].mAnimation.VCleanUp();
     }
 }
 
@@ -237,24 +237,24 @@ void Gibs::VRender(PrimHeader** ppOt)
     const FP up = pCamPos->y - FP_FromInteger(pScreenManager->mCamYOff);
     const FP down = pCamPos->y + FP_FromInteger(pScreenManager->mCamYOff);
 
-    for (s32 i = 0; i < field_5C4_parts_used_count; i++)
+    for (s32 i = 0; i < mPartsUsedCount; i++)
     {
-        GibPart* pGib = &field_F4_parts[i];
+        GibPart* pGib = &mGibParts[i];
         if (pGib->x >= left && pGib->x <= right)
         {
             if (pGib->y >= up && pGib->y <= down)
             {
-                pGib->field_18_animation.SetSpriteScale(FP_FromInteger(100) / (pGib->field_8_z + FP_FromInteger(100)));
-                if (pGib->field_18_animation.GetSpriteScale() < FP_FromInteger(1))
+                pGib->mAnimation.SetSpriteScale(FP_FromInteger(100) / (pGib->field_8_z + FP_FromInteger(100)));
+                if (pGib->mAnimation.GetSpriteScale() < FP_FromInteger(1))
                 {
-                    pGib->field_18_animation.SetRenderLayer(Layer::eLayer_Foreground_Half_17);
+                    pGib->mAnimation.SetRenderLayer(Layer::eLayer_Foreground_Half_17);
                 }
                 else
                 {
-                    pGib->field_18_animation.SetRenderLayer(Layer::eLayer_FG1_37);
+                    pGib->mAnimation.SetRenderLayer(Layer::eLayer_FG1_37);
                 }
 
-                pGib->field_18_animation.VRender(
+                pGib->mAnimation.VRender(
                     FP_GetExponent(pGib->x - left),
                     FP_GetExponent(pGib->y - up),
                     ppOt,

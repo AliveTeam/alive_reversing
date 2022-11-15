@@ -21,7 +21,7 @@ extern s8 gDDCheatOn;
 extern s16 gRestartRuptureFarmsKilledMuds;
 extern s16 gRestartRuptureFarmsSavedMuds;
 
-extern s16 gbKillUnsavedMudsDone_5076CC;
+extern bool gbKillUnsavedMudsDone;
 
 
 

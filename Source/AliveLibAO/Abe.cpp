@@ -7353,7 +7353,7 @@ void Abe::Motion_88_HandstoneBegin()
         {
             if (GetAnimation().mFlags.Get(AnimFlags::eForwardLoopCompleted))
             {
-                mCircularFade = Make_Circular_Fade(
+                mCircularFade = relive_new CircularFade(
                     mXPos,
                     mYPos,
                     GetSpriteScale(),
@@ -7515,7 +7515,7 @@ void Abe::Motion_88_HandstoneBegin()
             if (gCounter_507728 == 0)
             {
                 field_110_state.stone = StoneStates::eHandstoneEnd_5;
-                mCircularFade = Make_Circular_Fade(
+                mCircularFade = relive_new CircularFade(
                     mXPos,
                     mYPos,
                     GetSpriteScale(),
@@ -7620,9 +7620,9 @@ void Abe::Motion_88_HandstoneBegin()
         case StoneStates::eCircularFadeExit_13:
         {
             mFade->mBaseGameObjectFlags.Set(Options::eDead);
-            mFade = 0;
+            mFade = nullptr;
 
-            mCircularFade = Make_Circular_Fade(mXPos, mYPos, GetSpriteScale(), 0, 0);
+            mCircularFade = relive_new CircularFade(mXPos, mYPos, GetSpriteScale(), 0, 0);
             field_110_state.stone = StoneStates::eHandstoneEnd_5;
             mCircularFade->GetAnimation().mFlags.Set(
                 AnimFlags::eFlipX,

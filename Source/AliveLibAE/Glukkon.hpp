@@ -6,35 +6,36 @@
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 #define GLUKKON_MOTIONS_ENUM(ENTRY)        \
-    ENTRY(M_Idle_0_442D10)                 \
-    ENTRY(M_Walk_1_442D30)                 \
-    ENTRY(M_Turn_2_442F10)                 \
-    ENTRY(M_KnockBack_3_442F40)            \
-    ENTRY(M_Jump_4_443030)                 \
-    ENTRY(M_JumpToFall_5_4434C0)           \
-    ENTRY(M_WalkToFall_6_4434E0)           \
-    ENTRY(M_Fall_7_443510)                 \
-    ENTRY(M_DeathFall_8_443760)            \
-    ENTRY(M_Land_9_443790)                 \
-    ENTRY(M_ChantShake_10_443B50)          \
-    ENTRY(M_Speak1_11_4437D0)              \
-    ENTRY(M_Speak2_12_4438F0)              \
-    ENTRY(M_LongLaugh_13_443930)           \
-    ENTRY(M_BeginWalk_14_443950)           \
-    ENTRY(M_EndWalk_15_443970)             \
-    ENTRY(M_StandToJump_16_4439B0)         \
-    ENTRY(M_JumpToStand_17_4439D0)         \
-    ENTRY(M_WalkToJump_18_443A00)          \
-    ENTRY(M_JumpToWalk_19_443A30)          \
-    ENTRY(M_KnockBackStandBegin_20_442FC0) \
-    ENTRY(M_GetShot_21_443A60)             \
-    ENTRY(M_KnockBackStandEnd_22_443010)   \
-    ENTRY(M_Speak3_23_443910)              \
-    ENTRY(M_EndSingleStep_24_443990)
+    ENTRY(Motion_0_Idle)                 \
+    ENTRY(Motion_1_Walk)                 \
+    ENTRY(Motion_2_Turn)                 \
+    ENTRY(Motion_3_KnockBack)            \
+    ENTRY(Motion_4_Jump)                 \
+    ENTRY(Motion_5_JumpToFall)           \
+    ENTRY(Motion_6_WalkToFall)           \
+    ENTRY(Motion_7_Fall)                 \
+    ENTRY(Motion_8_DeathFall)            \
+    ENTRY(Motion_9_Land)                 \
+    ENTRY(Motion_10_ChantShake)          \
+    ENTRY(Motion_11_Speak1)              \
+    ENTRY(Motion_12_Speak2)              \
+    ENTRY(Motion_13_LongLaugh)           \
+    ENTRY(Motion_14_BeginWalk)           \
+    ENTRY(Motion_15_EndWalk)             \
+    ENTRY(Motion_16_StandToJump)         \
+    ENTRY(Motion_17_JumpToStand)         \
+    ENTRY(Motion_18_WalkToJump)          \
+    ENTRY(Motion_19_JumpToWalk)          \
+    ENTRY(Motion_20_KnockBackStandBegin) \
+    ENTRY(Motion_21_GetShot)             \
+    ENTRY(Motion_22_KnockBackStandEnd)   \
+    ENTRY(Motion_23_Speak3)              \
+    ENTRY(Motion_24_EndSingleStep)
 
 #define MAKE_ENUM(VAR) VAR,
-enum eGlukkonMotions : s32
+enum class eGlukkonMotions : s32
 {
+    eNone_m1 = -1,
     GLUKKON_MOTIONS_ENUM(MAKE_ENUM)
 };
 
@@ -66,60 +67,51 @@ using TGlukkonMotionFn = void (Glukkon::*)();
 
 struct GlukkonSaveState final
 {
-    ReliveTypes field_0_id;
-    s16 field_2_padding;
+    ReliveTypes mType;
     Guid field_4_object_id;
-    FP field_8_xpos;
-    FP field_C_ypos;
-    FP field_10_xvel;
-    FP field_14_yvel;
-    s16 field_18_path;
-    EReliveLevelIds field_1A_level;
-    FP field_1C_sprite_scale;
-    u16 mRingRed;
-    u16 mRingGreen;
-    u16 mRingBlue;
-    u16 field_26_flipX;
-    u16 field_28_current_motion;
-    u16 field_2A_current_frame;
-    u16 field_2C_frame_change_counter;
-    u8 field_2E_render;
-    u8 field_2F_drawable;
-    FP field_30_health;
-    u16 field_34_current_motion;
-    u16 field_36_next_motion;
+    FP mXPos;
+    FP mYPos;
+    FP mVelX;
+    FP mVelY;
+    s16 mCurrentPath;
+    EReliveLevelIds mCurrentLevel;
+    FP mSpriteScale;
+    u16 mRed;
+    u16 mGreen;
+    u16 mBlue;
+    u16 mFlipX;
+    u16 mCurrentMotion;
+    u16 mCurrentFrame;
+    u16 mFrameChangeCounter;
+    u8 mRender;
+    u8 mDrawable;
+    FP mHealth;
+    u16 mCurrentMotion2;
+    u16 mNextMotion;
     s16 field_38_last_line_ypos;
-    s8 field_3A_line_type;
-    u8 field_3B_padding;
-    s32 field_3C_padding;
-    u16 field_40_bIsActiveChar;
-    s16 field_42_padding;
-    Guid field_44_tlvInfo;
+    s8 mLineType;
+    bool mIsActiveChar;
+    Guid mTlvId;
     s32 field_48_brain_state_idx;
-    s32 field_4C_padding;
-    s16 field_50_brain_sub_state;
-    s16 field_52_padding;
+    s16 mBrainSubState;
     s32 field_54_timer;
-    FP field_58_falling_velx_scale_factor;
-    s16 field_5C_padding;
-    s16 field_5E_prevent_depossession;
-    EReliveLevelIds field_60_level;
-    s16 field_62_path;
-    s16 field_64_camera;
-    GlukkonSpeak field_66_speak;
-    s16 field_68_gamespeak_pitch;
-    s16 field_6A_padding;
-    FP field_6C_previous_ypos;
-    s32 field_70_randomish_speak_timer;
-    s32 field_74_turn_or_help_timer;
-    s32 field_78_panic_timer;
+    FP mFallingVelXScaleFactor;
+    s16 mPreventDepossession;
+    EReliveLevelIds mAbeLevel;
+    s16 mAbePath;
+    s16 mAbeCamera;
+    GlukkonSpeak mSpeak;
+    s16 mGamespeakPitch;
+    FP mPreviousYPos;
+    s32 mRandomishSpeakTimer;
+    s32 mTurnOrHelpTimer;
+    s32 mPanicTimer;
     s16 field_7C;
-    s16 field_7E_padding;
-    s32 field_80_knockback_delay_after_getting_shot_timer;
-    s32 field_84_getting_shot_timer;
-    Guid field_88_obj_id;
-    s16 field_8C_can_be_possessed;
-    ReliveTypes field_8E_type_id;
+    s32 mKnockbackDelayAfterGettingShotTimer;
+    s32 mGettingShotTimer;
+    Guid mFadeId;
+    s16 mCanBePossessed;
+    ReliveTypes mCurrentType; // defaults to none until the glukkon gets spawned
 };
 
 class Glukkon final : public BaseAliveGameObject
@@ -142,50 +134,60 @@ public:
     virtual s16 VTakeDamage(BaseGameObject* pFrom) override;
 
 public:
-    void M_Idle_0_442D10();
-    void M_Walk_1_442D30();
-    void M_Turn_2_442F10();
-    void M_KnockBack_3_442F40();
-    void M_Jump_4_443030();
+    void Motion_0_Idle();
+    void Motion_1_Walk();
+    void Motion_2_Turn();
+    void Motion_3_KnockBack();
+    void Motion_4_Jump();
 
     void JumpHelper();
 
-    void M_JumpToFall_5_4434C0();
-    void M_WalkToFall_6_4434E0();
-    void M_Fall_7_443510();
-    void M_DeathFall_8_443760();
-    void M_Land_9_443790();
-    void M_ChantShake_10_443B50();
-    void M_Speak1_11_4437D0();
-    void M_Speak2_12_4438F0();
-    void M_LongLaugh_13_443930();
-    void M_BeginWalk_14_443950();
-    void M_EndWalk_15_443970();
-    void M_StandToJump_16_4439B0();
-    void M_JumpToStand_17_4439D0();
-    void M_WalkToJump_18_443A00();
-    void M_JumpToWalk_19_443A30();
-    void M_KnockBackStandBegin_20_442FC0();
-    void M_GetShot_21_443A60();
-    void M_KnockBackStandEnd_22_443010();
-    void M_Speak3_23_443910();
-    void M_EndSingleStep_24_443990();
+    void Motion_5_JumpToFall();
+    void Motion_6_WalkToFall();
+    void Motion_7_Fall();
+    void Motion_8_DeathFall();
+    void Motion_9_Land();
+    void Motion_10_ChantShake();
+    void Motion_11_Speak1();
+    void Motion_12_Speak2();
+    void Motion_13_LongLaugh();
+    void Motion_14_BeginWalk();
+    void Motion_15_EndWalk();
+    void Motion_16_StandToJump();
+    void Motion_17_JumpToStand();
+    void Motion_18_WalkToJump();
+    void Motion_19_JumpToWalk();
+    void Motion_20_KnockBackStandBegin();
+    void Motion_21_GetShot();
+    void Motion_22_KnockBackStandEnd();
+    void Motion_23_Speak3();
+    void Motion_24_EndSingleStep();
 
 public:
-    s16 Brain_0_Calm_WalkAround_440B40();
-    s16 Brain_1_Panic_4412F0();
-    s16 Brain_2_Slapped_441720();
-    s16 Brain_3_PlayerControlled_441A30();
-    s16 Brain_4_Death_442010();
-    s16 Brain_5_WaitToSpawn_442490();
+    s16 Brain_0_Calm_WalkAround();
+    s16 Brain_1_Panic();
+    s16 Brain_2_Slapped();
+    s16 Brain_3_PlayerControlled();
+    s16 Brain_4_Death();
+    s16 Brain_5_WaitToSpawn();
 
 public:
     static void PlaySound_GameSpeak(GlukkonSpeak sndIdx, s16 volume, s16 pitch, Glukkon* pGlukkon);
 
 private:
+    eGlukkonMotions GetNextMotion() const
+    {
+        return static_cast<eGlukkonMotions>(mNextMotion);
+    }
+
+    eGlukkonMotions GetCurrentMotion() const
+    {
+        return static_cast<eGlukkonMotions>(mCurrentMotion);
+    }
+
     void Init();
     void Update_Slurg_WatchPoints();
-    void SetAnim(s16 currentMotion, s16 bClearNextMotion = false);
+    void SetAnim(eGlukkonMotions currentMotion, s16 bClearNextMotion = false);
     void Speak(GlukkonSpeak speak);
     void HandleInput();
     s16 ShouldPanic(s16 panicEvenIfNotFacingMe);
@@ -203,30 +205,29 @@ private:
     bool BrainIs(TGlukkonBrainFn fn);
 
 private:
-    std::shared_ptr<AnimationPal> field_118_mPal;
-    s16 field_1A0_red = 0;
-    s16 field_1A2_green = 0;
-    s16 field_1A4_blue = 0;
-    relive::Path_Glukkon field_1A8_tlvData;
+    std::shared_ptr<AnimationPal> mPal;
+    s16 mRed = 0;
+    s16 mGreen = 0;
+    s16 mBlue = 0;
+    relive::Path_Glukkon mTlvData;
     s32 field_1D4_timer = 0;
-    FP field_1D8_falling_velx_scale_factor = {};
-    FP field_1DC_previous_ypos = {};
-    s16 field_1E0_gamespeak_pitch = 0;
+    FP mFallingVelXScaleFactor = {};
+    FP mPreviousYPos = {};
+    s16 mGamespeakPitch = 0;
     s16 mPreventDepossession = 0;
     EReliveLevelIds mAbeLevel = EReliveLevelIds::eNone;
     s16 mAbePath = 0;
     s16 mAbeCamera = 0;
-    GlukkonSpeak field_1EA_speak = GlukkonSpeak::Hey_0;
-    s32 field_1EC_unused = 0;
-    s32 field_1F0_randomish_speak_timer = 0;
-    s32 field_1F4_turn_or_help_timer = 0;
-    s32 field_1F8_panic_timer = 0;
+    GlukkonSpeak mSpeak = GlukkonSpeak::Hey_0;
+    s32 mRandomishSpeakTimer = 0;
+    s32 mTurnOrHelpTimer = 0;
+    s32 mPanicTimer = 0;
     s16 field_1FC = 0; // When set to true, broadcasts event kEventGlukkonUnknown.
-    s32 field_200_knockback_delay_after_getting_shot_timer = 0;
-    s32 field_204_getting_shot_timer = 0;
-    Guid field_208_obj_id;
+    s32 mKnockbackDelayAfterGettingShotTimer = 0;
+    s32 mGettingShotTimer = 0;
+    Guid mFadeId;
     TGlukkonBrainFn mBrainState = nullptr;
     s16 mBrainSubState = 0;
-    s16 field_212_currentWalkPitch = 0;
-    Guid field_214_tlv_info;
+    s16 mCurrentWalkPitch = 0;
+    Guid mTlvId;
 };

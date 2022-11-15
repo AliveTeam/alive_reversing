@@ -38,6 +38,4 @@ private:
     s16 field_1AA_speed = 0;
 };
 
-CircularFade* Make_Circular_Fade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone);
-
 } // namespace AO

@@ -195,9 +195,4 @@ s32 CircularFade::VDone()
     return field_E4_flags.Get(Flags::eBit2_Done);
 }
 
-CircularFade* Make_Circular_Fade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone)
-{
-    return relive_new CircularFade(xpos, ypos, scale, direction, destroyOnDone);
-}
-
 } // namespace AO

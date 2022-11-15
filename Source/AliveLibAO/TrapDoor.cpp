@@ -13,14 +13,14 @@ namespace AO {
 
 struct TrapDoor_Data final
 {
-    AnimId field_0_open;
-    AnimId field_4_closed;
-    AnimId field_8_opening;
-    AnimId field_C_closing;
+    AnimId mOpen;
+    AnimId mClosed;
+    AnimId mOpening;
+    AnimId mClosing;
 };
 
 
-const TrapDoor_Data sTrapDoorData_4BD4A0[16] = {
+static const TrapDoor_Data sTrapDoorData[16] = {
     {AnimId::Lines_TrapDoor_Open, AnimId::Lines_TrapDoor_Closed, AnimId::Lines_TrapDoor_Opening, AnimId::Lines_TrapDoor_Closing}, // menu
     {AnimId::R1_TrapDoor_Open, AnimId::R1_TrapDoor_Closed, AnimId::R1_TrapDoor_Opening, AnimId::R1_TrapDoor_Closing}, // rapture farms
     {AnimId::Lines_TrapDoor_Open, AnimId::Lines_TrapDoor_Closed, AnimId::Lines_TrapDoor_Opening, AnimId::Lines_TrapDoor_Closing}, // lines
@@ -41,12 +41,12 @@ const TrapDoor_Data sTrapDoorData_4BD4A0[16] = {
 
 void TrapDoor::LoadAnimations()
 {
-    for (u32 i = 0; i < ALIVE_COUNTOF(sTrapDoorData_4BD4A0); i++)
+    for (u32 i = 0; i < ALIVE_COUNTOF(sTrapDoorData); i++)
     {
-        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sTrapDoorData_4BD4A0[i].field_0_open));
-        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sTrapDoorData_4BD4A0[i].field_4_closed));
-        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sTrapDoorData_4BD4A0[i].field_8_opening));
-        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sTrapDoorData_4BD4A0[i].field_C_closing));
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sTrapDoorData[i].mOpen));
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sTrapDoorData[i].mClosed));
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sTrapDoorData[i].mOpening));
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sTrapDoorData[i].mClosing));
     }
 }
 
@@ -65,12 +65,12 @@ TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, Map* pMap, const Guid& tlvId)
     if (mStartState == SwitchStates_Get(pTlv->mSwitchId))
     {
         mState = TrapDoorState::eOpen_2;
-        animId = sTrapDoorData_4BD4A0[cur_lvl].field_0_open;
+        animId = sTrapDoorData[cur_lvl].mOpen;
     }
     else
     {
         mState = TrapDoorState::eClosed_0;
-        animId = sTrapDoorData_4BD4A0[cur_lvl].field_4_closed;
+        animId = sTrapDoorData[cur_lvl].mClosed;
     }
 
     mSelfClosing = pTlv->mSelfClosing;
@@ -86,7 +86,7 @@ TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, Map* pMap, const Guid& tlvId)
     }
 
     AddDynamicCollision(
-        sTrapDoorData_4BD4A0[cur_lvl].field_4_closed,
+        sTrapDoorData[cur_lvl].mClosed,
         pTlv,
         pMap,
         tlvId);
@@ -215,7 +215,7 @@ void TrapDoor::VUpdate()
 
                 const s32 cur_lvl = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
                 GetAnimation().Set_Animation_Data(
-                    GetAnimRes(sTrapDoorData_4BD4A0[cur_lvl].field_8_opening));
+                    GetAnimRes(sTrapDoorData[cur_lvl].mOpening));
 
                 SFX_Play_Camera(relive::SoundEffects::Trapdoor, 70, direction);
 
@@ -241,7 +241,7 @@ void TrapDoor::VUpdate()
             {
                 const s32 cur_lvl = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
                 GetAnimation().Set_Animation_Data(
-                    GetAnimRes(sTrapDoorData_4BD4A0[cur_lvl].field_C_closing));
+                    GetAnimRes(sTrapDoorData[cur_lvl].mClosing));
                 mState = TrapDoorState::eClosing_3;
 
                 SFX_Play_Camera(relive::SoundEffects::Trapdoor, 70, direction);

@@ -14,33 +14,27 @@ namespace AO {
 
 struct FlintLockFireData final
 {
-    s32 field_0_gourd_resourceId;
-    AnimId field_4_gourd_anim_id;
-    s32 field_8_gourd_maxW;
-    s32 field_C_gourd_maxH;
-    s32 field_10_hammers_resourceId;
-    AnimId field_14_hammers_disabled_anim_id;
-    AnimId field_18_hammers_activating_anim_id;
-    s32 field_1C_hammers_maxW;
-    s32 field_20_hammers_maxH;
-    s32 field_24_bFire;
+    AnimId mGourdAnimId;
+    AnimId mHammersDisabledAnimId;
+    AnimId mHammersActivatingAnimId;
+    bool mIsFire;
 };
 
-const FlintLockFireData sFlintLockFireData_4BAC70[] = {
-    {0, AnimId::None, 0, 0, 0, AnimId::None, AnimId::None, 0, 0, 0},
-    {0, AnimId::None, 0, 0, 0, AnimId::None, AnimId::None, 0, 0, 0},
-    {kGourdResID, AnimId::FlintLock_Gourd, 105, 84, kFlintLockResID, AnimId::FlintLock_Hammers_Disabled, AnimId::FlintLock_Hammers_Activating, 125, 59, 1},
-    {0, AnimId::None, 0, 0, 0, AnimId::None, AnimId::None, 0, 0, 0},
-    {kGourdResID, AnimId::FlintLock_Gourd, 105, 84, kFlintLockResID, AnimId::FlintLock_Hammers_Disabled, AnimId::FlintLock_Hammers_Activating, 125, 59, 1},
-    {0, AnimId::None, 0, 0, 0, AnimId::None, AnimId::None, 0, 0, 0},
-    {0, AnimId::None, 0, 0, 0, AnimId::None, AnimId::None, 0, 0, 0},
-    {0, AnimId::None, 0, 0, 0, AnimId::None, AnimId::None, 0, 0, 0},
-    {0, AnimId::None, 0, 0, 0, AnimId::None, AnimId::None, 0, 0, 0},
-    {kGourdResID, AnimId::FlintLock_Gourd, 105, 84, kFlintLockResID, AnimId::FlintLock_Hammers_Disabled, AnimId::FlintLock_Hammers_Activating, 125, 59, 1},
-    {0, AnimId::None, 0, 0, 0, AnimId::None, AnimId::None, 0, 0, 0},
-    {0, AnimId::None, 0, 0, 0, AnimId::None, AnimId::None, 0, 0, 0},
-    {0, AnimId::None, 0, 0, 0, AnimId::None, AnimId::None, 0, 0, 0},
-    {0, AnimId::None, 0, 0, 0, AnimId::None, AnimId::None, 0, 0, 0}};
+static const FlintLockFireData sFlintLockFireData[] = {
+    {AnimId::None, AnimId::None, AnimId::None, false},
+    {AnimId::None, AnimId::None, AnimId::None, false},
+    {AnimId::FlintLock_Gourd, AnimId::FlintLock_Hammers_Disabled, AnimId::FlintLock_Hammers_Activating, true},
+    {AnimId::None, AnimId::None, AnimId::None, false},
+    {AnimId::FlintLock_Gourd, AnimId::FlintLock_Hammers_Disabled, AnimId::FlintLock_Hammers_Activating, true},
+    {AnimId::None, AnimId::None, AnimId::None, false},
+    {AnimId::None, AnimId::None, AnimId::None, false},
+    {AnimId::None, AnimId::None, AnimId::None, false},
+    {AnimId::None, AnimId::None, AnimId::None, false},
+    {AnimId::FlintLock_Gourd, AnimId::FlintLock_Hammers_Disabled, AnimId::FlintLock_Hammers_Activating, true},
+    {AnimId::None, AnimId::None, AnimId::None, false},
+    {AnimId::None, AnimId::None, AnimId::None, false},
+    {AnimId::None, AnimId::None, AnimId::None, false},
+    {AnimId::None, AnimId::None, AnimId::None, false}};
 
 
 void FlintLockFire::LoadAnimations()
@@ -58,25 +52,25 @@ void FlintLockFire::VScreenChanged()
 
 void FlintLockFire::VStopAudio()
 {
-    if (field_EC_fire_sound)
+    if (mFireSound)
     {
-        SND_Stop_Channels_Mask(field_EC_fire_sound);
-        field_EC_fire_sound = 0;
+        SND_Stop_Channels_Mask(mFireSound);
+        mFireSound = 0;
     }
 }
 
 FlintLockFire::~FlintLockFire()
 {
-    Path::TLV_Reset(field_E8_tlvInfo, -1, 0, 0);
-    field_F0_anim.VCleanUp();
+    Path::TLV_Reset(mTlvId, -1, 0, 0);
+    mGourdAnim.VCleanUp();
 
-    if (sFlintLockFireData_4BAC70[static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))].field_24_bFire)
+    if (sFlintLockFireData[static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))].mIsFire)
     {
-        field_188_anim.VCleanUp();
-        field_220_anim.VCleanUp();
-        if (field_EC_fire_sound)
+        mFire1Anim.VCleanUp();
+        mFire2Anim.VCleanUp();
+        if (mFireSound)
         {
-            SND_Stop_Channels_Mask(field_EC_fire_sound);
+            SND_Stop_Channels_Mask(mFireSound);
         }
     }
 }
@@ -90,40 +84,40 @@ FlintLockFire::FlintLockFire(relive::Path_FlintLockFire* pTlv, const Guid& tlvId
 
     const s32 cur_lvl = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
 
-    Animation_Init(GetAnimRes(sFlintLockFireData_4BAC70[cur_lvl].field_14_hammers_disabled_anim_id));
+    Animation_Init(GetAnimRes(sFlintLockFireData[cur_lvl].mHammersDisabledAnimId));
     GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
 
-    field_F0_anim.Init(
-        GetAnimRes(sFlintLockFireData_4BAC70[cur_lvl].field_4_gourd_anim_id),
+    mGourdAnim.Init(
+        GetAnimRes(sFlintLockFireData[cur_lvl].mGourdAnimId),
         this);
 
-    field_F0_anim.SetRenderMode(TPageAbr::eBlend_0);
-    field_F0_anim.mFlags.Clear(AnimFlags::eAnimate);
-    field_F0_anim.mFlags.Set(AnimFlags::eSemiTrans);
+    mGourdAnim.SetRenderMode(TPageAbr::eBlend_0);
+    mGourdAnim.mFlags.Clear(AnimFlags::eAnimate);
+    mGourdAnim.mFlags.Set(AnimFlags::eSemiTrans);
 
-    if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
+    if (sFlintLockFireData[cur_lvl].mIsFire)
     {
-        field_188_anim.Init(GetAnimRes(AnimId::Fire), this);
-        field_188_anim.SetRenderMode(TPageAbr::eBlend_0);
-        field_188_anim.mFlags.Clear(AnimFlags::eAnimate);
-        field_188_anim.mFlags.Clear(AnimFlags::eRender);
-        field_188_anim.mFlags.Set(AnimFlags::eSemiTrans);
+        mFire1Anim.Init(GetAnimRes(AnimId::Fire), this);
+        mFire1Anim.SetRenderMode(TPageAbr::eBlend_0);
+        mFire1Anim.mFlags.Clear(AnimFlags::eAnimate);
+        mFire1Anim.mFlags.Clear(AnimFlags::eRender);
+        mFire1Anim.mFlags.Set(AnimFlags::eSemiTrans);
 
-        field_220_anim.Init(GetAnimRes(AnimId::Fire), this);
-        field_220_anim.SetRenderMode(TPageAbr::eBlend_0);
-        field_220_anim.mFlags.Clear(AnimFlags::eAnimate);
-        field_220_anim.mFlags.Clear(AnimFlags::eRender);
-        field_220_anim.mFlags.Set(AnimFlags::eSemiTrans);
-        field_220_anim.mFlags.Set(AnimFlags::eFlipX);
-        field_220_anim.SetFrame(3u);
+        mFire2Anim.Init(GetAnimRes(AnimId::Fire), this);
+        mFire2Anim.SetRenderMode(TPageAbr::eBlend_0);
+        mFire2Anim.mFlags.Clear(AnimFlags::eAnimate);
+        mFire2Anim.mFlags.Clear(AnimFlags::eRender);
+        mFire2Anim.mFlags.Set(AnimFlags::eSemiTrans);
+        mFire2Anim.mFlags.Set(AnimFlags::eFlipX);
+        mFire2Anim.SetFrame(3u);
     }
 
-    field_E4_state = States::eDisabled_0;
-    field_EC_fire_sound = 0;
+    mState = States::eDisabled_0;
+    mFireSound = 0;
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
-    field_E8_tlvInfo = tlvId;
-    field_E6_switch_id = pTlv->mSwitchId;
+    mTlvId = tlvId;
+    mSwitchId = pTlv->mSwitchId;
 
     Layer layer = Layer::eLayer_0;
     if (pTlv->mScale == relive::reliveScale::eHalf)
@@ -140,32 +134,32 @@ FlintLockFire::FlintLockFire(relive::Path_FlintLockFire* pTlv, const Guid& tlvId
     }
 
     GetAnimation().SetRenderLayer(layer);
-    field_F0_anim.SetRenderLayer(layer);
+    mGourdAnim.SetRenderLayer(layer);
 
-    if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
+    if (sFlintLockFireData[cur_lvl].mIsFire)
     {
-        field_188_anim.SetRenderLayer(layer);
-        field_220_anim.SetRenderLayer(layer);
+        mFire1Anim.SetRenderLayer(layer);
+        mFire2Anim.SetRenderLayer(layer);
     }
 
     if (SwitchStates_Get(pTlv->mSwitchId))
     {
-        field_E4_state = States::eActivated_2;
-        GetAnimation().Set_Animation_Data(GetAnimRes(sFlintLockFireData_4BAC70[cur_lvl].field_18_hammers_activating_anim_id));
+        mState = States::eActivated_2;
+        GetAnimation().Set_Animation_Data(GetAnimRes(sFlintLockFireData[cur_lvl].mHammersActivatingAnimId));
         GetAnimation().SetFrame(GetAnimation().Get_Frame_Count() - 1);
         GetAnimation().VDecode();
         GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
-        field_F0_anim.mFlags.Set(AnimFlags::eAnimate);
+        mGourdAnim.mFlags.Set(AnimFlags::eAnimate);
 
-        if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
+        if (sFlintLockFireData[cur_lvl].mIsFire)
         {
-            field_188_anim.mFlags.Set(AnimFlags::eAnimate);
-            field_188_anim.mFlags.Set(AnimFlags::eRender);
+            mFire1Anim.mFlags.Set(AnimFlags::eAnimate);
+            mFire1Anim.mFlags.Set(AnimFlags::eRender);
 
-            field_220_anim.mFlags.Set(AnimFlags::eAnimate);
-            field_220_anim.mFlags.Set(AnimFlags::eRender);
+            mFire2Anim.mFlags.Set(AnimFlags::eAnimate);
+            mFire2Anim.mFlags.Set(AnimFlags::eRender);
 
-            field_EC_fire_sound = SfxPlayMono(relive::SoundEffects::Fire, 0);
+            mFireSound = SfxPlayMono(relive::SoundEffects::Fire, 0);
         }
     }
 }
@@ -179,18 +173,18 @@ void FlintLockFire::VUpdate()
 
     const s32 cur_lvl = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
 
-    switch (field_E4_state)
+    switch (mState)
     {
         case States::eDisabled_0:
-            if (SwitchStates_Get(field_E6_switch_id))
+            if (SwitchStates_Get(mSwitchId))
             {
-                field_E4_state = States::eActivating_1;
-                GetAnimation().Set_Animation_Data(GetAnimRes(sFlintLockFireData_4BAC70[cur_lvl].field_18_hammers_activating_anim_id));
+                mState = States::eActivating_1;
+                GetAnimation().Set_Animation_Data(GetAnimRes(sFlintLockFireData[cur_lvl].mHammersActivatingAnimId));
             }
             break;
 
         case States::eActivating_1:
-            if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
+            if (sFlintLockFireData[cur_lvl].mIsFire)
             {
                 if (GetAnimation().GetCurrentFrame() == 6)
                 {
@@ -201,18 +195,18 @@ void FlintLockFire::VUpdate()
 
             if (GetAnimation().mFlags.Get(AnimFlags::eForwardLoopCompleted))
             {
-                field_E4_state = States::eActivated_2;
+                mState = States::eActivated_2;
 
-                field_F0_anim.mFlags.Set(AnimFlags::eAnimate);
-                if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
+                mGourdAnim.mFlags.Set(AnimFlags::eAnimate);
+                if (sFlintLockFireData[cur_lvl].mIsFire)
                 {
-                    field_188_anim.mFlags.Set(AnimFlags::eAnimate);
-                    field_188_anim.mFlags.Set(AnimFlags::eRender);
+                    mFire1Anim.mFlags.Set(AnimFlags::eAnimate);
+                    mFire1Anim.mFlags.Set(AnimFlags::eRender);
 
-                    field_220_anim.mFlags.Set(AnimFlags::eAnimate);
-                    field_220_anim.mFlags.Set(AnimFlags::eRender);
+                    mFire2Anim.mFlags.Set(AnimFlags::eAnimate);
+                    mFire2Anim.mFlags.Set(AnimFlags::eRender);
 
-                    field_EC_fire_sound = SfxPlayMono(relive::SoundEffects::Fire, 0);
+                    mFireSound = SfxPlayMono(relive::SoundEffects::Fire, 0);
                 }
 
                 relive_new MusicTrigger(relive::Path_MusicTrigger::MusicTriggerMusicType::eSecretAreaShort, relive::Path_MusicTrigger::TriggeredBy::eTouching, 0, 15);
@@ -220,11 +214,11 @@ void FlintLockFire::VUpdate()
             break;
 
         case States::eActivated_2:
-            if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
+            if (sFlintLockFireData[cur_lvl].mIsFire)
             {
-                if (!field_EC_fire_sound)
+                if (!mFireSound)
                 {
-                    field_EC_fire_sound = SfxPlayMono(relive::SoundEffects::Fire, 0);
+                    mFireSound = SfxPlayMono(relive::SoundEffects::Fire, 0);
                 }
             }
             break;
@@ -240,12 +234,12 @@ void FlintLockFire::VRender(PrimHeader** ppOt)
     {
         const s32 cur_lvl = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
         GetAnimation().SetSpriteScale(GetSpriteScale());
-        field_F0_anim.SetSpriteScale(GetSpriteScale());
+        mGourdAnim.SetSpriteScale(GetSpriteScale());
 
-        if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
+        if (sFlintLockFireData[cur_lvl].mIsFire)
         {
-            field_188_anim.SetSpriteScale((GetSpriteScale() * FP_FromDouble(1.33)));
-            field_220_anim.SetSpriteScale(GetSpriteScale());
+            mFire1Anim.SetSpriteScale((GetSpriteScale() * FP_FromDouble(1.33)));
+            mFire2Anim.SetSpriteScale(GetSpriteScale());
         }
 
         s16 r = mRGB.r;
@@ -267,21 +261,21 @@ void FlintLockFire::VRender(PrimHeader** ppOt)
 
 
         GetAnimation().SetRGB(r, g, b);
-        field_F0_anim.SetRGB(r, g, b);
+        mGourdAnim.SetRGB(r, g, b);
 
-        if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
+        if (sFlintLockFireData[cur_lvl].mIsFire)
         {
-            field_188_anim.SetRGB(r, g, b);
-            field_220_anim.SetRGB(r, g, b);
+            mFire1Anim.SetRGB(r, g, b);
+            mFire2Anim.SetRGB(r, g, b);
 
-            field_220_anim.VRender(
+            mFire2Anim.VRender(
                 FP_GetExponent(mXPos + (FP_FromInteger(pScreenManager->mCamXOff)) - pScreenManager->mCamPos->x),
                 FP_GetExponent(mYPos + (FP_FromInteger(pScreenManager->mCamYOff + mYOffset - 28)) - pScreenManager->mCamPos->y),
                 ppOt,
                 0,
                 0);
 
-            field_188_anim.VRender(
+            mFire1Anim.VRender(
                 FP_GetExponent(mXPos + (FP_FromInteger(pScreenManager->mCamXOff - 3)) - pScreenManager->mCamPos->x),
                 FP_GetExponent(mYPos + (FP_FromInteger(pScreenManager->mCamYOff + mYOffset - 28)) - pScreenManager->mCamPos->y),
                 ppOt,
@@ -296,7 +290,7 @@ void FlintLockFire::VRender(PrimHeader** ppOt)
             0,
             0);
 
-        field_F0_anim.VRender(
+        mGourdAnim.VRender(
             FP_GetExponent(mXPos
                            + FP_FromInteger(pScreenManager->mCamXOff)
                            - pScreenManager->mCamPos->x),
@@ -310,14 +304,14 @@ void FlintLockFire::VRender(PrimHeader** ppOt)
         PSX_RECT frameRect = {};
         GetAnimation().Get_Frame_Rect(&frameRect);
 
-        field_F0_anim.Get_Frame_Rect(&frameRect);
+        mGourdAnim.Get_Frame_Rect(&frameRect);
 
-        if (sFlintLockFireData_4BAC70[cur_lvl].field_24_bFire)
+        if (sFlintLockFireData[cur_lvl].mIsFire)
         {
-            field_188_anim.Get_Frame_Rect(&frameRect);
+            mFire1Anim.Get_Frame_Rect(&frameRect);
 
 
-            field_220_anim.Get_Frame_Rect(&frameRect);
+            mFire2Anim.Get_Frame_Rect(&frameRect);
 
         }
     }

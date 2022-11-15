@@ -37,7 +37,7 @@
 
 namespace AO {
 
-s16 gbKillUnsavedMudsDone_5076CC = 0;
+bool gbKillUnsavedMudsDone = false;
 
 // TODO: Move to game ender controller for AO sync
 s16 gRestartRuptureFarmsKilledMuds = 0;
@@ -98,7 +98,7 @@ void Init_GameStates()
     sGasTimer = 0;
 
     gSwitchStates = {};
-    gbKillUnsavedMudsDone_5076CC = 0;
+    gbKillUnsavedMudsDone = false;
 }
 
 

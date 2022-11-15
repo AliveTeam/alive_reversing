@@ -61,9 +61,9 @@ public:
     s16 Brain_1_Spawn();
     s16 Brain_2_AskForPassword();
 
-    Guid field_110_tlvInfo;
-    s32 field_118_code_converted = 0;
-    s16 field_11C_code_length = 0;
+    Guid mTlvId;
+    s32 mCodeConverted = 0;
+    s16 mCodeLength = 0;
 
     enum Flags_11E
     {
@@ -80,10 +80,8 @@ public:
     s16 field_136_buffer_idx = 0;
     u16 field_138_brain_state = 0;
     s16 field_13A_brain_sub_state = 0;
-    s16 field_13C_redundant = 0;
     s32 field_140_timer = 0;
     s32 field_144_timer2 = 0;
-    //u8** field_150_res = nullptr;
     s16 field_154_previous_brain_state = 0;
     s16 field_156_always_4 = 0;
     s16 field_158_code_pos = 0;

@@ -41,12 +41,12 @@ public:
         eWaitForExplodeEnd_6 = 6,
         eExploded_7 = 7
     };
-    States field_110_state = States::eFallingToBeCollected_0;
-    s16 field_112_explode_timer = 0;
+    States mState = States::eFallingToBeCollected_0;
+    s16 mExplodeCountdown = 0;
     s16 field_118 = 0;
-    BaseGameObject* field_11C = nullptr;
-    FP field_120_xpos = {};
-    FP field_124_ypos = {};
+    BaseGameObject* mExplosionObj = nullptr;
+    FP mPreviousXPos = {};
+    FP mPreviousYPos = {};
 };
 
 extern bool gInfiniteGrenades;

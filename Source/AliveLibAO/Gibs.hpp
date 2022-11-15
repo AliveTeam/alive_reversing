@@ -13,21 +13,16 @@ struct GibPart final
     FP field_C_dx;
     FP field_10_dy;
     FP field_14_dz;
-    Animation field_18_animation;
+    Animation mAnimation;
 };
 ALIVE_ASSERT_SIZEOF(GibPart, 0xB0);
 
 struct Gib_Data final
 {
-    AnimId field_0_head;
-    AnimId field_4_arm;
-    AnimId field_8_body;
-    //s32 field_C_max_w;
-    //s32 field_10_max_h;
-    //s32 field_14_resource_id;
+    AnimId mHead;
+    AnimId mArm;
+    AnimId mBody;
 };
-//ALIVE_ASSERT_SIZEOF(Gib_Data, 0x18);
-
 
 enum GibType : s32
 {
@@ -50,12 +45,12 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
-    const Gib_Data* field_E4_pGibData = nullptr;
+    const Gib_Data* mGibData = nullptr;
     FP field_E8_z = {};
     FP field_EC_dz = {};
-    s32 field_F0_timer = 0;
-    GibPart field_F4_parts[7] = {};
-    s16 field_5C4_parts_used_count = 0;
+    s32 mAliveTimer = 0;
+    GibPart mGibParts[7] = {};
+    s16 mPartsUsedCount = 0;
 };
 
 } // namespace AO
