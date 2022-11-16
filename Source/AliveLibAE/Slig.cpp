@@ -4734,7 +4734,7 @@ void Slig::VUpdate()
         MusicController::static_PlayMusic(MusicController::MusicTypes::ePossessed_9, this, 0, 0);
     }
 
-    if (sDDCheat_FlyingEnabled_5C2C08 && sControlledCharacter == this)
+    if (gDDCheat_FlyingEnabled && sControlledCharacter == this)
     {
         HandleDDCheat();
     }

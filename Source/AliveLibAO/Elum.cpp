@@ -3241,7 +3241,7 @@ void Elum::Motion_50_Knockback_415DC0()
 
 void Elum::VUpdate()
 {
-    if (sDDCheat_FlyingEnabled_50771C && sControlledCharacter == this)
+    if (gDDCheat_FlyingEnabled && sControlledCharacter == this)
     {
         VOnTrapDoorOpen();
 

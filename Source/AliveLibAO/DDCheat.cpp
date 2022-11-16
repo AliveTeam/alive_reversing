@@ -30,7 +30,7 @@ s16 sRescuedMudokons = 0;
 s16 sKilledMudokons = 0;
 
 s16 showDebugCreatureInfo_5076E0 = 0;
-s16 sDDCheat_FlyingEnabled_50771C = 0;
+bool gDDCheat_FlyingEnabled = false;
 
 using TDDCheatFn = decltype(&DDCheat::Teleport);
 
@@ -113,11 +113,11 @@ void DDCheat::VUpdate()
     {
         const InputObject::PadIndex otherController = Input().CurrentController() == InputObject::PadIndex::First ? InputObject::PadIndex::Second : InputObject::PadIndex::First;
         Abe* pAbe = sActiveHero;
-        s32 cheat_enabled = 0;
+        bool cheat_enabled = false;
 
         if (field_20_bTeleportCheatActive == 0)
         {
-            cheat_enabled = sDDCheat_FlyingEnabled_50771C;
+            cheat_enabled = gDDCheat_FlyingEnabled;
         }
         else
         {
@@ -127,14 +127,14 @@ void DDCheat::VUpdate()
                 PSX_Point point = {};
                 gMap.GetCurrentCamCoords(&point);
                 pAbe = sActiveHero;
-                cheat_enabled = 1;
+                cheat_enabled = true;
                 pAbe->mXPos = FP_FromInteger(point.x + 448);
                 pAbe->mYPos = FP_FromInteger(point.y + 180);
                 pAbe->mCurrentMotion = eAbeMotions::Motion_3_Fall;
                 pAbe->field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
                 pAbe->mCurrentLevel = MapWrapper::FromAO(static_cast<LevelIds>(level_4C315C));
                 pAbe->mCurrentPath = static_cast<s16>(path_4C3160);
-                sDDCheat_FlyingEnabled_50771C = 1;
+                gDDCheat_FlyingEnabled = true;
                 field_18_backInputPressed = 0;
             }
         }
@@ -145,8 +145,8 @@ void DDCheat::VUpdate()
             {
                 if (Input().IsAnyHeld(InputCommands::eCheatMode))
                 {
-                    sDDCheat_FlyingEnabled_50771C = cheat_enabled == 0;
-                    if (sDDCheat_FlyingEnabled_50771C)
+                    gDDCheat_FlyingEnabled = cheat_enabled == false;
+                    if (gDDCheat_FlyingEnabled)
                     {
                         pAbe->field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
                         showDebugCreatureInfo_5076E0 = 0;
@@ -204,7 +204,7 @@ void DDCheat::VUpdate()
                 }
                 counter++;
             }
-            cheat_enabled = sDDCheat_FlyingEnabled_50771C;
+            cheat_enabled = gDDCheat_FlyingEnabled;
         }
 
         if (cheat_enabled || showDebugCreatureInfo_5076E0 || doNothing_4FF860)
@@ -224,7 +224,7 @@ void DDCheat::VUpdate()
                     FP_GetExponent(sActiveHero->mYPos));
             }
 
-            cheat_enabled = sDDCheat_FlyingEnabled_50771C;
+            cheat_enabled = gDDCheat_FlyingEnabled;
         }
 
         if (cheat_enabled)
@@ -363,7 +363,7 @@ void DDCheat::Teleport()
             {
                 if (camera_4C3164 <= 21)
                 {
-                    sDDCheat_FlyingEnabled_50771C = 1;
+                    gDDCheat_FlyingEnabled = true;
                     gMap.SetActiveCam(
                         MapWrapper::FromAO(static_cast<LevelIds>(level_4C315C)),
                         path_4C3160,

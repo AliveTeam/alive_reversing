@@ -5271,7 +5271,7 @@ void Paramite::VUpdate()
             mPreventDepossession = false;
         }
 
-        if (sDDCheat_FlyingEnabled_5C2C08 && sControlledCharacter == this)
+        if (gDDCheat_FlyingEnabled && sControlledCharacter == this)
         {
             HandleDDCheat();
         }

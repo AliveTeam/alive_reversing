@@ -831,7 +831,7 @@ void Abe::VUpdate()
             field_2A8_flags.Clear(Flags_2A8::e2A8_Bit7);
         }
 
-        if (sDDCheat_FlyingEnabled_50771C && sControlledCharacter == this)
+        if (gDDCheat_FlyingEnabled && sControlledCharacter == this)
         {
             VOnTrapDoorOpen();
 
@@ -7821,7 +7821,7 @@ void Abe::Motion_103_ElumIdle()
 {
     if (!Input().IsAnyPressed(sInputKey_LeftGameSpeakEnabler | sInputKey_RightGameSpeakEnabler) || !Input().IsAnyHeld(0xF0))
     {
-        if (Input().Held() == sInputKey_Down && !sDDCheat_FlyingEnabled_50771C)
+        if (Input().Held() == sInputKey_Down && !gDDCheat_FlyingEnabled)
         {
             mCurrentMotion = eAbeMotions::Motion_137_ElumUnmountBegin;
         }

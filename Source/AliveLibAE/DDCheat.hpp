@@ -95,7 +95,7 @@ private:
 };
 
 
-extern bool sDDCheat_FlyingEnabled_5C2C08;
+extern bool gDDCheat_FlyingEnabled;
 
 extern s16 sRescuedMudokons;
 extern s16 sKilledMudokons;

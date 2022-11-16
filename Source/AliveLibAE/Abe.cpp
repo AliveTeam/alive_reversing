@@ -1029,7 +1029,7 @@ void Abe::VUpdate()
         field_128.mMood = Mud_Emotion::eNormal_0;
     }
 
-    if (sDDCheat_FlyingEnabled_5C2C08 && sControlledCharacter == this)
+    if (gDDCheat_FlyingEnabled && sControlledCharacter == this)
     {
         HandleDDCheat();
     }

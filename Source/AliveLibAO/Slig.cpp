@@ -551,7 +551,7 @@ void Slig::VUpdate()
         MusicController::static_PlayMusic(MusicController::MusicTypes::ePossessed_6, this, 1, 0);
     }
 
-    if (sDDCheat_FlyingEnabled_50771C && sControlledCharacter == this)
+    if (gDDCheat_FlyingEnabled && sControlledCharacter == this)
     {
         BaseAliveGameObjectCollisionLine = nullptr;
         if (Input().IsAnyPressed(0xF000))
