@@ -1992,8 +1992,8 @@ void Elum::Motion_7_IdleToWalk2()
 
     if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
-        mPreviousMotion = 3;
-        mBaseAliveGameObjectLastAnimFrame = static_cast<s32>(eElumMotions::Motion_9_ToYell);
+        SetPreviousMotion(eElumMotions::Motion_3_WalkLoop);
+        mBaseAliveGameObjectLastAnimFrame = 9;
         field_120_bUnknown = 1;
     }
 
@@ -2981,7 +2981,7 @@ void Elum::Motion_41_MidWalkToRun()
     if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         SetPreviousMotion(eElumMotions::Motion_36_RunLoop);
-        mBaseAliveGameObjectLastAnimFrame = static_cast<s32>(eElumMotions::Motion_4_Turn);
+        mBaseAliveGameObjectLastAnimFrame = 4;
         field_120_bUnknown = 1;
     }
 
