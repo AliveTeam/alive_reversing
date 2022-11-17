@@ -393,8 +393,8 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
         pSaveData->field_25C_bControllingElum = sControlledCharacter == gElum;
         pSaveData->field_25E_bElumRespawnOnDead = gElum->mRespawnOnDead;
         pSaveData->field_28C_elum_continue_rect = gElum->mContinueRect;
-        pSaveData->field_294_continue_zone_number = gElum->mContinueZoneNumber;
-        pSaveData->field_296_elum_zone_number = gElum->field_142_zone_number;
+        pSaveData->field_294_continue_zone_number = gElum->mPreviousContinueZoneNumber;
+        pSaveData->field_296_elum_zone_number = gElum->mAbeZoneNumber;
         pSaveData->field_298_elum_continue_path = gElum->mContinuePath;
         pSaveData->field_29A_continue_level = MapWrapper::ToAO(gElum->mContinueLevel);
         pSaveData->field_29C_elum_sprite_scale = gElum->mContinueSpriteScale;
@@ -412,11 +412,11 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
         }
         pSaveData->field_274_elum_current_motion = gElum->mCurrentMotion;
         pSaveData->field_272_elum_flipX = gElum->GetAnimation().mFlags.Get(AnimFlags::eFlipX);
-        pSaveData->field_278_brain_idx = gElum->field_128_brain_idx;
+        pSaveData->field_278_brain_idx = gElum->mBrainIdx;
         pSaveData->field_276_bDontFollowAbe = gElum->mDontFollowAbe;
         pSaveData->field_27C_honey_xpos = gElum->field_12C_honey_xpos;
-        pSaveData->field_27A_elum_brain_state = gElum->field_12A_brain_sub_state;
-        pSaveData->field_284_unused = gElum->field_130_unused;
+        pSaveData->field_27A_elum_brain_state = gElum->mBrainSubState;
+        pSaveData->field_284_unused = 0;
         pSaveData->field_280_honey_ypos = gElum->field_146_honey_ypos;
         pSaveData->field_288_elum_StrugglingWithBees = gElum->field_170_flags.Get(Elum::Flags_170::eStrugglingWithBees_Bit1);
         pSaveData->field_289_elum_StungByBees = gElum->field_170_flags.Get(Elum::Flags_170::eStungByBees_Bit2);

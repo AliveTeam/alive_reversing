@@ -1474,7 +1474,7 @@ void Abe::ElumFree_4228F0()
 {
     if (field_2AA_flags.Get(Flags_2AA::e2AA_Bit4_ElumMountEnd))
     {
-        if (gElum->mCurrentMotion != eElumMotions::Motion_1_Idle_412990)
+        if (gElum->GetCurrentMotion() != eElumMotions::Motion_1_Idle)
         {
             gElum->Vsub_416120();
         }
@@ -1482,7 +1482,7 @@ void Abe::ElumFree_4228F0()
 
     if (field_2AA_flags.Get(Flags_2AA::e2AA_Bit5_ElumUnmountBegin))
     {
-        if (gElum->mCurrentMotion != eElumMotions::Motion_1_Idle_412990)
+        if (gElum->GetCurrentMotion() != eElumMotions::Motion_1_Idle)
         {
             gElum->Vsub_416120();
         }
@@ -1621,31 +1621,31 @@ void Abe::SyncToElum(s16 elumMotion)
 {
     if (mCurrentMotion != eAbeMotions::Motion_137_ElumUnmountBegin && mCurrentMotion != eAbeMotions::Motion_138_ElumUnmountEnd)
     {
-        switch (elumMotion)
+        switch (static_cast<eElumMotions>(elumMotion))
         {
-            case eElumMotions::Motion_1_Idle_412990:
+            case eElumMotions::Motion_1_Idle:
                 mCurrentMotion = eAbeMotions::Motion_103_ElumIdle;
                 ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 BaseAliveGameObjectCollisionLine = gElum->BaseAliveGameObjectCollisionLine;
                 break;
 
-            case eElumMotions::Motion_3_WalkLoop_412C90:
+            case eElumMotions::Motion_3_WalkLoop:
                 mCurrentMotion = eAbeMotions::Motion_102_ElumWalkLoop;
                 ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 BaseAliveGameObjectCollisionLine = gElum->BaseAliveGameObjectCollisionLine;
                 break;
 
-            case eElumMotions::Motion_4_Turn_4140F0:
+            case eElumMotions::Motion_4_Turn:
                 mCurrentMotion = eAbeMotions::Motion_113_ElumTurn;
                 ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 break;
 
-            case eElumMotions::Motion_5_WalkToIdle_4132D0:
+            case eElumMotions::Motion_5_WalkToIdle:
                 mCurrentMotion = eAbeMotions::Motion_124_ElumWalkEnd;
                 ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 break;
 
-            case eElumMotions::Motion_6_MidWalkToIdle_4133F0:
+            case eElumMotions::Motion_6_MidWalkToIdle:
                 mCurrentMotion = eAbeMotions::Motion_125_ElumMidWalkEnd;
                 ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 break;
@@ -1660,111 +1660,111 @@ void Abe::SyncToElum(s16 elumMotion)
                 ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 break;
 
-            case eElumMotions::Motion_12_RunTurn_414520:
+            case eElumMotions::Motion_12_RunTurn:
                 mCurrentMotion = eAbeMotions::Motion_105_ElumRunTurn;
                 ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 break;
 
-            case eElumMotions::Motion_13_RunTurnToWalk_4147C0:
+            case eElumMotions::Motion_13_RunTurnToWalk:
                 mCurrentMotion = eAbeMotions::Motion_123_ElumRunTurnToWalk;
                 ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 break;
 
-            case eElumMotions::Motion_21_Land_414A20:
+            case eElumMotions::Motion_21_Land:
                 mCurrentMotion = eAbeMotions::Motion_153_ElumFall;
                 ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 BaseAliveGameObjectCollisionLine = nullptr;
                 break;
 
-            case eElumMotions::Motion_22_RunOffEdge_415810:
+            case eElumMotions::Motion_22_RunOffEdge:
                 mCurrentMotion = eAbeMotions::Motion_154_ElumLand;
                 ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 BaseAliveGameObjectCollisionLine = gElum->BaseAliveGameObjectCollisionLine;
                 break;
 
-            case eElumMotions::Motion_23_WalkOffEdge_415E90:
+            case eElumMotions::Motion_23_WalkOffEdge:
                 mCurrentMotion = eAbeMotions::Motion_152_ElumFallOffEdge;
                 ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 BaseAliveGameObjectCollisionLine = nullptr;
                 break;
 
-            case eElumMotions::Motion_24_JumpToFall_415ED0:
+            case eElumMotions::Motion_24_JumpToFall:
                 mCurrentMotion = eAbeMotions::Motion_155_ElumJumpToFall;
                 ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 BaseAliveGameObjectCollisionLine = nullptr;
                 break;
 
-            case eElumMotions::Motion_30_HopBegin_414E30:
+            case eElumMotions::Motion_30_HopBegin:
                 mCurrentMotion = eAbeMotions::Motion_107_ElumHopBegin;
                 ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 BaseAliveGameObjectCollisionLine = nullptr;
                 break;
 
-            case eElumMotions::Motion_31_HopMid_414C70:
+            case eElumMotions::Motion_31_HopMid:
                 mCurrentMotion = eAbeMotions::Motion_108_ElumHopMid;
                 ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 break;
 
-            case eElumMotions::Motion_32_HopLand_415140:
+            case eElumMotions::Motion_32_HopLand:
                 mCurrentMotion = eAbeMotions::Motion_109_ElumHopLand;
                 ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 BaseAliveGameObjectCollisionLine = gElum->BaseAliveGameObjectCollisionLine;
                 break;
 
-            case eElumMotions::Motion_33_RunJumpBegin_415400:
+            case eElumMotions::Motion_33_RunJumpBegin:
                 mCurrentMotion = eAbeMotions::Motion_110_ElumRunJumpBegin;
                 ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 BaseAliveGameObjectCollisionLine = nullptr;
                 break;
 
-            case eElumMotions::Motion_34_RunJumpMid_415240:
+            case eElumMotions::Motion_34_RunJumpMid:
                 mCurrentMotion = eAbeMotions::Motion_111_ElumRunJumpMid;
                 ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 break;
 
-            case eElumMotions::Motion_35_RunJumpLand_415580:
+            case eElumMotions::Motion_35_RunJumpLand:
                 mCurrentMotion = eAbeMotions::Motion_112_ElumRunJumpLand;
                 ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 BaseAliveGameObjectCollisionLine = gElum->BaseAliveGameObjectCollisionLine;
                 break;
 
-            case eElumMotions::Motion_36_RunLoop_413720:
+            case eElumMotions::Motion_36_RunLoop:
                 mCurrentMotion = eAbeMotions::Motion_114_ElumRunLoop;
                 ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 BaseAliveGameObjectCollisionLine = gElum->BaseAliveGameObjectCollisionLine;
                 break;
 
-            case eElumMotions::Motion_37_RunSlideStop_4142E0:
+            case eElumMotions::Motion_37_RunSlideStop:
                 mCurrentMotion = eAbeMotions::Motion_104_ElumRunSlideStop;
                 ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 break;
 
-            case eElumMotions::Motion_38_RunTurnToRun_414810:
+            case eElumMotions::Motion_38_RunTurnToRun:
                 mCurrentMotion = eAbeMotions::Motion_122_ElumRunTurnToRun;
                 ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 break;
 
-            case eElumMotions::Motion_39_IdleToRun_413B00:
+            case eElumMotions::Motion_39_IdleToRun:
                 mCurrentMotion = eAbeMotions::Motion_118_ElumRunBegin;
                 ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 break;
 
-            case eElumMotions::Motion_40_WalkToRun_4134B0:
+            case eElumMotions::Motion_40_WalkToRun:
                 mCurrentMotion = eAbeMotions::Motion_119_Null;
                 ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 break;
 
-            case eElumMotions::Motion_41_MidWalkToRun_413560:
+            case eElumMotions::Motion_41_MidWalkToRun:
                 mCurrentMotion = eAbeMotions::Motion_120_ElumRunToWalk;
                 ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 break;
 
-            case eElumMotions::Motion_43_MidRunToWalk_413E20:
+            case eElumMotions::Motion_43_MidRunToWalk:
                 mCurrentMotion = eAbeMotions::Motion_121_ElumMidRunToWalk;
                 ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 break;
 
-            case eElumMotions::Motion_50_Knockback_415DC0:
+            case eElumMotions::Motion_50_Knockback:
                 mCurrentMotion = eAbeMotions::Motion_158_ElumKnockback;
                 ToNewElumSyncMotion(gElum->GetAnimation().GetCurrentFrame());
                 break;
@@ -2125,8 +2125,8 @@ s16 Abe::TryMountElum_42E600()
                 return eAbeMotions::Motion_2_StandingTurn;
             }
 
-            if (gElum->mCurrentMotion != eElumMotions::Motion_1_Idle_412990
-                || gElum->field_128_brain_idx == 1
+            if (gElum->GetCurrentMotion() != eElumMotions::Motion_1_Idle
+                || gElum->mBrainIdx == 1
                 || gElum->field_170_flags.Get(Elum::Flags_170::eStrugglingWithBees_Bit1))
             {
                 return eAbeMotions::Motion_0_Idle;
@@ -3731,7 +3731,7 @@ void Abe::Motion_2_StandingTurn()
 
             if (gElum)
             {
-                if (gElum->mCurrentMotion == eElumMotions::Motion_1_Idle_412990 && !(gElum->field_170_flags.Get(Elum::Flags_170::eStrugglingWithBees_Bit1)))
+                if (gElum->GetCurrentMotion() == eElumMotions::Motion_1_Idle && !(gElum->field_170_flags.Get(Elum::Flags_170::eStrugglingWithBees_Bit1)))
                 {
                     mRidingElum = true;
                     mNextMotion = eAbeMotions::Motion_0_Idle;
@@ -6502,8 +6502,8 @@ void Abe::Motion_62_LoadedSaveSpawn()
                 gElum->mBaseGameObjectFlags.Clear(Options::eUpdatable_Bit2);
                 gElum->GetAnimation().mFlags.Clear(AnimFlags::eRender);
                 gElum->mContinueRect = pSaveData->field_28C_elum_continue_rect;
-                gElum->mContinueZoneNumber = pSaveData->field_294_continue_zone_number;
-                gElum->field_142_zone_number = pSaveData->field_296_elum_zone_number;
+                gElum->mPreviousContinueZoneNumber = pSaveData->field_294_continue_zone_number;
+                gElum->mAbeZoneNumber = pSaveData->field_296_elum_zone_number;
                 gElum->mContinuePath = pSaveData->field_298_elum_continue_path;
                 gElum->mContinueLevel = MapWrapper::FromAO(pSaveData->field_29A_continue_level);
                 gElum->mContinueSpriteScale = pSaveData->field_29C_elum_sprite_scale;
@@ -6516,11 +6516,10 @@ void Abe::Motion_62_LoadedSaveSpawn()
                 gElum->mBaseAliveGameObjectLastAnimFrame = 0;
                 gElum->field_120_bUnknown = 1;
                 gElum->mDontFollowAbe = pSaveData->field_276_bDontFollowAbe;
-                gElum->field_128_brain_idx = pSaveData->field_278_brain_idx;
-                gElum->field_12A_brain_sub_state = pSaveData->field_27A_elum_brain_state;
+                gElum->mBrainIdx = pSaveData->field_278_brain_idx;
+                gElum->mBrainSubState = pSaveData->field_27A_elum_brain_state;
                 gElum->field_12C_honey_xpos = static_cast<s16>(pSaveData->field_27C_honey_xpos);
                 gElum->field_146_honey_ypos = pSaveData->field_280_honey_ypos;
-                gElum->field_130_unused = pSaveData->field_284_unused;
 
                 gElum->field_170_flags.Set(Elum::Flags_170::eFoundHoney_Bit4, pSaveData->field_28B_elum_FoundHoney & 1);
                 gElum->field_170_flags.Set(Elum::Flags_170::eFalling_Bit3, pSaveData->field_28A_elum_Falling & 1);
@@ -6543,13 +6542,13 @@ void Abe::Motion_62_LoadedSaveSpawn()
                             CollisionMask(static_cast<eLineTypes>(pSaveData->field_270_elum_line_type))))
                         {
                             gElum->BaseAliveGameObjectCollisionLine = pLine;
-                            gElum->mCurrentMotion = eElumMotions::Motion_1_Idle_412990;
-                            gElum->mPreviousMotion = eElumMotions::Motion_1_Idle_412990;
+                            gElum->SetCurrentMotion(eElumMotions::Motion_1_Idle);
+                            gElum->SetPreviousMotion(eElumMotions::Motion_1_Idle);
                         }
                         else
                         {
-                            gElum->mCurrentMotion = eElumMotions::Motion_21_Land_414A20;
-                            gElum->mPreviousMotion = eElumMotions::Motion_21_Land_414A20;
+                            gElum->SetCurrentMotion(eElumMotions::Motion_21_Land);
+                            gElum->SetPreviousMotion(eElumMotions::Motion_21_Land);
                         }
                     }
                 }
@@ -6561,8 +6560,8 @@ void Abe::Motion_62_LoadedSaveSpawn()
 
                 if (gElum->field_170_flags.Get(Elum::Flags_170::eFoundHoney_Bit4))
                 {
-                    gElum->mCurrentMotion = eElumMotions::Motion_25_LickingHoney_415B50;
-                    gElum->mPreviousMotion = eElumMotions::Motion_25_LickingHoney_415B50;
+                    gElum->SetCurrentMotion(eElumMotions::Motion_25_LickingHoney);
+                    gElum->SetPreviousMotion(eElumMotions::Motion_25_LickingHoney);
                 }
                 gElum->MapFollowMe(true);
                 gElum->mBaseGameObjectFlags.Set(Options::eUpdatable_Bit2);

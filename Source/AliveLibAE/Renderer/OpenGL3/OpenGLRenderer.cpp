@@ -12,6 +12,7 @@
 #include "GLShaderProgram.hpp"
 #include "GLTexture2D.hpp"
 #include "OpenGLRenderer.hpp"
+#include "../AliveLibCommon/BaseGameAutoPlayer.hpp"
 
 extern bool gDDCheat_FlyingEnabled;
 namespace AO
@@ -770,7 +771,7 @@ void OpenGLRenderer::EndFrame()
     ImGui_ImplSDL2_NewFrame(mWindow);
     ImGui::NewFrame();
 
-    if (gDDCheat_FlyingEnabled || AO::gDDCheat_FlyingEnabled)
+    if (gDDCheat_FlyingEnabled || AO::gDDCheat_FlyingEnabled || GetGameAutoPlayer().IsPlaying())
     {
         DebugWindow();
     }

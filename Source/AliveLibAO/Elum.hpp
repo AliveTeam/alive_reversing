@@ -8,60 +8,60 @@
 namespace AO {
 
 #define ELUM_MOTIONS_ENUM(ENTRY)                \
-    ENTRY(Motion_0_Respawn_414C60)              \
-    ENTRY(Motion_1_Idle_412990)                 \
-    ENTRY(Motion_2_Unknown_412C30)              \
-    ENTRY(Motion_3_WalkLoop_412C90)             \
-    ENTRY(Motion_4_Turn_4140F0)                 \
-    ENTRY(Motion_5_WalkToIdle_4132D0)           \
-    ENTRY(Motion_6_MidWalkToIdle_4133F0)        \
+    ENTRY(Motion_0_Respawn)              \
+    ENTRY(Motion_1_Idle)                 \
+    ENTRY(Motion_2_Unknown)              \
+    ENTRY(Motion_3_WalkLoop)             \
+    ENTRY(Motion_4_Turn)                 \
+    ENTRY(Motion_5_WalkToIdle)           \
+    ENTRY(Motion_6_MidWalkToIdle)        \
     ENTRY(Motion_7_IdleToWalk1_413200)          \
     ENTRY(Motion_8_IdleToWalk2_413270)          \
-    ENTRY(Motion_9_ToYell_415890)               \
-    ENTRY(Motion_10_Yell_4158E0)                \
-    ENTRY(Motion_11_Unknown_4159A0)             \
-    ENTRY(Motion_12_RunTurn_414520)             \
-    ENTRY(Motion_13_RunTurnToWalk_4147C0)       \
-    ENTRY(Motion_14_Speak_414860)               \
-    ENTRY(Motion_15_Speak_4148F0)               \
-    ENTRY(Motion_16_Speak_414980)               \
+    ENTRY(Motion_9_ToYell)               \
+    ENTRY(Motion_10_Yell)                \
+    ENTRY(Motion_11_Unknown)             \
+    ENTRY(Motion_12_RunTurn)             \
+    ENTRY(Motion_13_RunTurnToWalk)       \
+    ENTRY(Motion_14_Speak)               \
+    ENTRY(Motion_15_Speak)               \
+    ENTRY(Motion_16_Speak)               \
     ENTRY(Motion_17_WalkToHop_413620)           \
     ENTRY(Motion_18_MidWalkToHop_4136A0)        \
-    ENTRY(Motion_19_Dead_415F90)                \
-    ENTRY(Motion_20_Fall_415F70)                \
-    ENTRY(Motion_21_Land_414A20)                \
-    ENTRY(Motion_22_RunOffEdge_415810)          \
-    ENTRY(Motion_23_WalkOffEdge_415E90)         \
-    ENTRY(Motion_24_JumpToFall_415ED0)          \
-    ENTRY(Motion_25_LickingHoney_415B50)        \
-    ENTRY(Motion_26_LickingToStruggling_415AC0) \
-    ENTRY(Motion_27_AbeMountingEnd_415CA0)      \
-    ENTRY(Motion_28_AbeUnmountingEnd_415D60)    \
-    ENTRY(Motion_29_BeesStruggling_412A90)      \
-    ENTRY(Motion_30_HopBegin_414E30)            \
-    ENTRY(Motion_31_HopMid_414C70)              \
-    ENTRY(Motion_32_HopLand_415140)             \
-    ENTRY(Motion_33_RunJumpBegin_415400)        \
-    ENTRY(Motion_34_RunJumpMid_415240)          \
-    ENTRY(Motion_35_RunJumpLand_415580)         \
-    ENTRY(Motion_36_RunLoop_413720)             \
-    ENTRY(Motion_37_RunSlideStop_4142E0)        \
-    ENTRY(Motion_38_RunTurnToRun_414810)        \
-    ENTRY(Motion_39_IdleToRun_413B00)           \
-    ENTRY(Motion_40_WalkToRun_4134B0)           \
-    ENTRY(Motion_41_MidWalkToRun_413560)        \
-    ENTRY(Motion_42_RunToWalk_413B60)           \
-    ENTRY(Motion_43_MidRunToWalk_413E20)        \
-    ENTRY(Motion_44_ScratchBegin_412730)        \
-    ENTRY(Motion_45_ScratchLoop_4127B0)         \
-    ENTRY(Motion_46_ScratchEnd_412800)          \
-    ENTRY(Motion_47_Unknown_415A30)             \
-    ENTRY(Motion_48_AbeMoutingBegin_415C40)     \
-    ENTRY(Motion_49_AbeUnmountingBegin_415D00)  \
-    ENTRY(Motion_50_Knockback_415DC0)
+    ENTRY(Motion_19_Dead)                \
+    ENTRY(Motion_20_Fall)                \
+    ENTRY(Motion_21_Land)                \
+    ENTRY(Motion_22_RunOffEdge)          \
+    ENTRY(Motion_23_WalkOffEdge)         \
+    ENTRY(Motion_24_JumpToFall)          \
+    ENTRY(Motion_25_LickingHoney)        \
+    ENTRY(Motion_26_LickingToStruggling) \
+    ENTRY(Motion_27_AbeMountingEnd)      \
+    ENTRY(Motion_28_AbeUnmountingEnd)    \
+    ENTRY(Motion_29_BeesStruggling)      \
+    ENTRY(Motion_30_HopBegin)            \
+    ENTRY(Motion_31_HopMid)              \
+    ENTRY(Motion_32_HopLand)             \
+    ENTRY(Motion_33_RunJumpBegin)        \
+    ENTRY(Motion_34_RunJumpMid)          \
+    ENTRY(Motion_35_RunJumpLand)         \
+    ENTRY(Motion_36_RunLoop)             \
+    ENTRY(Motion_37_RunSlideStop)        \
+    ENTRY(Motion_38_RunTurnToRun)        \
+    ENTRY(Motion_39_IdleToRun)           \
+    ENTRY(Motion_40_WalkToRun)           \
+    ENTRY(Motion_41_MidWalkToRun)        \
+    ENTRY(Motion_42_RunToWalk)           \
+    ENTRY(Motion_43_MidRunToWalk)        \
+    ENTRY(Motion_44_ScratchBegin)        \
+    ENTRY(Motion_45_ScratchLoop)         \
+    ENTRY(Motion_46_ScratchEnd)          \
+    ENTRY(Motion_47_Unknown)             \
+    ENTRY(Motion_48_AbeMoutingBegin)     \
+    ENTRY(Motion_49_AbeUnmountingBegin)  \
+    ENTRY(Motion_50_Knockback)
 
 #define MAKE_ENUM(VAR) VAR,
-enum eElumMotions : s32
+enum class eElumMotions : s32
 {
     ELUM_MOTIONS_ENUM(MAKE_ENUM)
 };
@@ -81,7 +81,18 @@ enum class ElumSounds : u8
 
 class Elum final : public BaseAliveGameObject
 {
+private:
+    eElumMotions GetNextMotion() const
+    {
+        return static_cast<eElumMotions>(mNextMotion);
+    }
+
 public:
+    eElumMotions GetCurrentMotion() const
+    {
+        return static_cast<eElumMotions>(mCurrentMotion);
+    }
+
     enum Flags_170
     {
         eStrugglingWithBees_Bit1 = 1,
@@ -135,61 +146,61 @@ public:
     void RunJumpMidAndHopMid(MidType midType);
 
     // Motions
-    void Motion_0_Respawn_414C60();
-    void Motion_1_Idle_412990();
-    void Motion_2_Unknown_412C30();
-    void Motion_3_WalkLoop_412C90();
-    void Motion_4_Turn_4140F0();
-    void Motion_5_WalkToIdle_4132D0();
-    void Motion_6_MidWalkToIdle_4133F0();
-    void Motion_7_IdleToWalk2_413200();
-    void Motion_8_IdleToWalk1_413270();
-    void Motion_9_ToYell_415890();
-    void Motion_10_Yell_4158E0();
-    void Motion_11_Unknown_4159A0();
-    void Motion_12_RunTurn_414520();
-    void Motion_13_RunTurnToWalk_4147C0();
-    void Motion_14_Speak_414860();
-    void Motion_15_Speak_4148F0();
-    void Motion_16_Speak_414980();
-    void Motion_17_Unknown_413620();
-    void Motion_18_Unknown_4136A0();
-    void Motion_19_Dead_415F90();
-    void Motion_20_Fall_415F70();
-    void Motion_21_Land_414A20();
-    void Motion_22_RunOffEdge_415810();
-    void Motion_23_WalkOffEdge_415E90();
-    void Motion_24_JumpToFall_415ED0();
-    void Motion_25_LickingHoney_415B50();
-    void Motion_26_LickingToStruggling_415AC0();
-    void Motion_27_AbeMountingEnd_415CA0();
-    void Motion_28_AbeUnmountingEnd_415D60();
-    void Motion_29_BeesStruggling_412A90();
-    void Motion_30_HopBegin_414E30();
-    void Motion_31_HopMid_414C70();
-    void Motion_32_HopLand_415140();
-    void Motion_33_RunJumpBegin_415400();
-    void Motion_34_RunJumpMid_415240();
-    void Motion_35_RunJumpLand_415580();
-    void Motion_36_RunLoop_413720();
+    void Motion_0_Respawn();
+    void Motion_1_Idle();
+    void Motion_2_Unknown();
+    void Motion_3_WalkLoop();
+    void Motion_4_Turn();
+    void Motion_5_WalkToIdle();
+    void Motion_6_MidWalkToIdle();
+    void Motion_7_IdleToWalk2();
+    void Motion_8_IdleToWalk1();
+    void Motion_9_ToYell();
+    void Motion_10_Yell();
+    void Motion_11_Unknown();
+    void Motion_12_RunTurn();
+    void Motion_13_RunTurnToWalk();
+    void Motion_14_Speak();
+    void Motion_15_Speak();
+    void Motion_16_Speak();
+    void Motion_17_Unknown();
+    void Motion_18_Unknown();
+    void Motion_19_Dead();
+    void Motion_20_Fall();
+    void Motion_21_Land();
+    void Motion_22_RunOffEdge();
+    void Motion_23_WalkOffEdge();
+    void Motion_24_JumpToFall();
+    void Motion_25_LickingHoney();
+    void Motion_26_LickingToStruggling();
+    void Motion_27_AbeMountingEnd();
+    void Motion_28_AbeUnmountingEnd();
+    void Motion_29_BeesStruggling();
+    void Motion_30_HopBegin();
+    void Motion_31_HopMid();
+    void Motion_32_HopLand();
+    void Motion_33_RunJumpBegin();
+    void Motion_34_RunJumpMid();
+    void Motion_35_RunJumpLand();
+    void Motion_36_RunLoop();
     void RunSlideStopKnockback();
-    void Motion_37_RunSlideStop_4142E0();
-    void Motion_38_RunTurnToRun_414810();
-    void Motion_39_IdleToRun_413B00();
-    void Motion_40_WalkToRun_4134B0();
-    void Motion_41_MidWalkToRun_413560();
-    void Motion_42_RunToWalk_413B60();
-    void Motion_43_MidRunToWalk_413E20();
-    void Motion_44_ScratchBegin_412730();
-    void Motion_45_ScratchLoop_4127B0();
-    void Motion_46_ScratchEnd_412800();
+    void Motion_37_RunSlideStop();
+    void Motion_38_RunTurnToRun();
+    void Motion_39_IdleToRun();
+    void Motion_40_WalkToRun();
+    void Motion_41_MidWalkToRun();
+    void Motion_42_RunToWalk();
+    void Motion_43_MidRunToWalk();
+    void Motion_44_ScratchBegin();
+    void Motion_45_ScratchLoop();
+    void Motion_46_ScratchEnd();
 
     void ToIdle();
 
-    void Motion_47_Unknown_415A30();
-    void Motion_48_AbeMoutingBegin_415C40();
-    void Motion_49_AbeUnmountingBegin_415D00();
-    void Motion_50_Knockback_415DC0();
+    void Motion_47_Unknown();
+    void Motion_48_AbeMoutingBegin();
+    void Motion_49_AbeUnmountingBegin();
+    void Motion_50_Knockback();
 
     s16 field_10C_bFootStep2 = 0;
     s16 field_10E_pressed = 0;
@@ -200,14 +211,13 @@ public:
     s16 mDontFollowAbe = 0;
     s16 field_124_bShould_IdleToWalk1 = 0;
     //s16 field_126_res_idx = 0;
-    s16 field_128_brain_idx = 0;
-    s16 field_12A_brain_sub_state = 0;
+    s16 mBrainIdx = 0;
+    s16 mBrainSubState = 0;
     s16 field_12C_honey_xpos = 0;
     s16 field_12E_honey_ypos = 0;
-    s32 field_130_unused = 0;
     PSX_RECT mContinueRect = {};
-    s16 mContinueZoneNumber = 0;
-    s16 field_142_zone_number = 0;
+    s16 mPreviousContinueZoneNumber = 0;
+    s16 mAbeZoneNumber = 0;
     s16 mRespawnOnDead = 0;
     s16 field_146_honey_ypos = 0;
     s16 mContinuePath = 0;
@@ -216,10 +226,8 @@ public:
     FP mContinueSpriteScale = {};
     s16 field_154_bAbeForcedDownFromElum = 0;
     s32 field_158_last_event_idx = 0;
-    s16 field_16C_never_read = 0;
-    s16 field_16E_never_read = 0;
     BitField16<Flags_170> field_170_flags = {};
-    Guid field_1F0_tlvInfo;
+    Guid mTlvId; // never read
 };
 
 extern Elum* gElum;
