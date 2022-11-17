@@ -10,40 +10,40 @@
 #include "../AliveLibCommon/FatalError.hpp"
 #include <algorithm>
 
-s16 sMudokonsInArea_5C1BC4 = 0;
-s8 sZulagNumber_5C1A20 = 0;
+s16 gMudokonsInArea = 0;
+s8 gZulagNumber = 0;
 
-LCDStatusBoard::LCDStatusBoard(relive::Path_LCDStatusBoard* params, const Guid& tlvId)
+LCDStatusBoard::LCDStatusBoard(relive::Path_LCDStatusBoard* pTlv, const Guid& tlvId)
     : BaseGameObject(true, 0)
 {
-    field_100_objectId = tlvId;
+    mTlvId = tlvId;
 
     mFontContext.LoadFontType(FontType::LcdFont);
 
     mPal = ResourceManagerWrapper::LoadPal(PalId::LedFont_Red);
 
-    mFont1.Load(3, mPal, &mFontContext);
-    field_58_font2.Load(3, mPal, &mFontContext);
-    field_90_font3.Load(3, mPal, &mFontContext);
-    field_C8_font4.Load(3, mPal, &mFontContext);
+    mKilledMudsFont.Load(3, mPal, &mFontContext);
+    mRescuedMudsFont.Load(3, mPal, &mFontContext);
+    mMudsInLevelFont.Load(3, mPal, &mFontContext);
+    mMudsInAreaFont.Load(3, mPal, &mFontContext);
 
     mBaseGameObjectFlags.Set(eDrawable_Bit4);
     gObjListDrawables->Push_Back(this);
-    field_104_position_x = FP_GetExponent(FP_FromInteger(static_cast<s32>(params->mTopLeftX)) - pScreenManager->CamXPos());
-    field_106_position_y = FP_GetExponent(FP_FromInteger(static_cast<s32>(params->mTopLeftY)) - pScreenManager->CamYPos());
-    sMudokonsInArea_5C1BC4 = params->mNumberOfMuds;
-    field_108_is_hidden = static_cast<s16>(params->mHideBoard);
-    sZulagNumber_5C1A20 = static_cast<s8>(params->mZulagNumber);
-    if (sZulagNumber_5C1A20 > ALIVE_COUNTOF(sSavedKilledMudsPerZulag_5C1B50.mData))
+    mXPos = FP_GetExponent(FP_FromInteger(static_cast<s32>(pTlv->mTopLeftX)) - pScreenManager->CamXPos());
+    mYPos = FP_GetExponent(FP_FromInteger(static_cast<s32>(pTlv->mTopLeftY)) - pScreenManager->CamYPos());
+    gMudokonsInArea = pTlv->mNumberOfMuds;
+    mHideBoard = static_cast<s16>(pTlv->mHideBoard);
+    gZulagNumber = static_cast<s8>(pTlv->mZulagNumber);
+    if (gZulagNumber > ALIVE_COUNTOF(sSavedKilledMudsPerZulag_5C1B50.mData))
     {
-        ALIVE_FATAL("sZulagNumber_5C1A20 out of bounds %d max is 20. Don't set your zulag number to > 20", sZulagNumber_5C1A20);
+        ALIVE_FATAL("sZulagNumber_5C1A20 out of bounds %d max is 20. Don't set your zulag number to > 20", gZulagNumber);
     }
 }
 
 LCDStatusBoard::~LCDStatusBoard()
 {
     gObjListDrawables->Remove_Item(this);
-    Path::TLV_Reset(field_100_objectId, -1, 0, 0);
+    Path::TLV_Reset(mTlvId, -1, 0, 0);
 }
 
 void LCDStatusBoard::VUpdate()
@@ -57,11 +57,11 @@ void LCDStatusBoard::VUpdate()
 // Todo: clean up
 void LCDStatusBoard::VRender(PrimHeader** ppOt)
 {
-    if (!field_108_is_hidden)
+    if (!mHideBoard)
     {
         char_type text[12] = {};
         sprintf(text, "%3d", Path_GetMudsInLevel(gMap.mCurrentLevel, gMap.mCurrentPath));
-        s32 maxWidth = field_90_font3.MeasureTextWidth(text);
+        s32 maxWidth = mMudsInLevelFont.MeasureTextWidth(text);
 
         s16 flickerAmount = 50; // ax
         if (sDisableFontFlicker)
@@ -70,11 +70,11 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
         }
 
         // Muds In This Level
-        field_90_font3.DrawString(
+        mMudsInLevelFont.DrawString(
             ppOt,
             text,
-            field_104_position_x - maxWidth + 33,
-            field_106_position_y,
+            mXPos - maxWidth + 33,
+            mYPos,
             TPageAbr::eBlend_1,
             1,
             0,
@@ -84,19 +84,19 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
             127,
             0,
             FP_FromDouble(1.0),
-            field_104_position_x + maxWidth,
+            mXPos + maxWidth,
             flickerAmount);
-        const s16 mudsLeftInArea = sMudokonsInArea_5C1BC4 - sSavedKilledMudsPerZulag_5C1B50.mData[sZulagNumber_5C1A20];
-        field_10A_muds_left_in_area = mudsLeftInArea;
+        const s16 mudsLeftInArea = gMudokonsInArea - sSavedKilledMudsPerZulag_5C1B50.mData[gZulagNumber];
+        mMudsLeftInArea = mudsLeftInArea;
 
         // Muds in this Area
         sprintf(text, "%3d", mudsLeftInArea);
-        const s32 font4Width = field_C8_font4.MeasureTextWidth(text);
-        field_C8_font4.DrawString(
+        const s32 font4Width = mMudsInAreaFont.MeasureTextWidth(text);
+        mMudsInAreaFont.DrawString(
             ppOt,
             text,
-            field_104_position_x - font4Width + 33,
-            field_106_position_y + 16,
+            mXPos - font4Width + 33,
+            mYPos + 16,
             TPageAbr::eBlend_1,
             1,
             0,
@@ -106,18 +106,18 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
             127,
             0,
             FP_FromDouble(1.0),
-            field_104_position_x + font4Width,
+            mXPos + font4Width,
             flickerAmount);
         maxWidth = std::max(font4Width, maxWidth);
 
-        // Saved Mudokons
+        // Rescued Mudokons
         sprintf(text, "%3d", sRescuedMudokons);
-        const s32 font2Width = field_58_font2.MeasureTextWidth(text);
-        field_58_font2.DrawString(
+        const s32 font2Width = mRescuedMudsFont.MeasureTextWidth(text);
+        mRescuedMudsFont.DrawString(
             ppOt,
             text,
-            field_104_position_x - font2Width + 33,
-            field_106_position_y + 32,
+            mXPos - font2Width + 33,
+            mYPos + 32,
             TPageAbr::eBlend_1,
             1,
             0,
@@ -127,18 +127,18 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
             127,
             0,
             FP_FromDouble(1.0),
-            field_104_position_x + font2Width,
+            mXPos + font2Width,
             flickerAmount);
         maxWidth = std::max(font2Width, maxWidth);
 
         // Killed mudokons
         sprintf(text, "%3d", sKilledMudokons);
-        const s32 font1Width = mFont1.MeasureTextWidth(text);
-        mFont1.DrawString(
+        const s32 font1Width = mKilledMudsFont.MeasureTextWidth(text);
+        mKilledMudsFont.DrawString(
             ppOt,
             text,
-            field_104_position_x - font1Width + 33,
-            field_106_position_y + 48,
+            mXPos - font1Width + 33,
+            mYPos + 48,
             TPageAbr::eBlend_1,
             1,
             0,
@@ -148,7 +148,7 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
             127,
             0,
             FP_FromDouble(1.0),
-            field_104_position_x + font1Width,
+            mXPos + font1Width,
             flickerAmount);
         maxWidth = std::max(font1Width, maxWidth);
     }

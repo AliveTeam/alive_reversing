@@ -11,21 +11,9 @@ struct GibPart final
     FP field_C_dx;
     FP field_10_dy;
     FP field_14_dz;
-    Animation field_18_animation;
+    Animation mAnimation;
 };
 ALIVE_ASSERT_SIZEOF(GibPart, 0xB0);
-
-struct Gib_Data final
-{
-    s32 field_0_head;
-    s32 field_4_arm;
-    s32 field_8_body;
-    s32 field_C_max_w;
-    s32 field_10_max_h;
-    s32 field_14_resource_id;
-};
-ALIVE_ASSERT_SIZEOF(Gib_Data, 0x18);
-
 
 enum class GibType : s32
 {
@@ -54,11 +42,10 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
 private:
-    void* field_F4_not_used = nullptr; // Used to be gib data, only used in ctor and replaced with AnimRecords
     FP field_F8_z = {};
     FP field_FC_dz = {};
-    s32 field_100_timer = 0;
-    GibPart field_104_parts[7] = {};
-    s16 field_5D4_parts_used_count = 0;
+    s32 mAliveTimer = 0;
+    GibPart mGibParts[7] = {};
+    s16 mPartsUsedCount = 0;
     bool field_5D6_bMakeSmaller = false;
 };

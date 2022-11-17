@@ -21,7 +21,7 @@ DemoPlayback::DemoPlayback(u8** ppPlaybackData, s32 bFromHandStone)
     mBaseGameObjectFlags.Set(Options::eSurviveDeathReset_Bit9);
     SetType(ReliveTypes::eDemoPlayback);
     field_1C_bFromHandStone = static_cast<s16>(bFromHandStone);
-    sDDCheat_FlyingEnabled_50771C = 0;
+    gDDCheat_FlyingEnabled = false;
     if (gAttract == 0)
     {
         field_18_ppRes = relive_new SaveData();

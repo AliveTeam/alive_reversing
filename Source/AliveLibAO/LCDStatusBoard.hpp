@@ -24,12 +24,12 @@ public:
 
     PalResource mPal;
     FontContext mFontContext;
-    AliveFont mFont1;
-    AliveFont field_58_font2;
-    AliveFont field_90_font3;
-    Guid field_C8_tlv;
-    s16 field_CC_xpos = 0;
-    s16 field_CE_ypos = 0;
+    AliveFont mKilledMudsFont;
+    AliveFont mRescuedMudsFont;
+    AliveFont mEmployeesFont;
+    Guid mTlvId;
+    s16 mXPos = 0;
+    s16 mYPos = 0;
 };
 
 } // namespace AO

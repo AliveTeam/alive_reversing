@@ -16,7 +16,7 @@
 
 namespace AO {
 
-s16 gInfiniteGrenades = 0;
+bool gInfiniteGrenades = false;
 
 Grenade::Grenade(FP xpos, FP ypos, s16 numGrenades)
     : BaseThrowable()
@@ -36,8 +36,8 @@ Grenade::Grenade(FP xpos, FP ypos, s16 numGrenades)
     mXPos = xpos;
     mYPos = ypos;
 
-    field_120_xpos = xpos;
-    field_124_ypos = ypos;
+    mPreviousXPos = xpos;
+    mPreviousYPos = ypos;
 
     mVelX = FP_FromInteger(0);
     mVelY = FP_FromInteger(0);
@@ -45,16 +45,16 @@ Grenade::Grenade(FP xpos, FP ypos, s16 numGrenades)
 
     if (numGrenades > 0)
     {
-        field_110_state = States::eFallingToBeCollected_0;
+        mState = States::eFallingToBeCollected_0;
     }
     else
     {
-        field_110_state = States::eCountingDown_3;
-        field_112_explode_timer = 90;
+        mState = States::eCountingDown_3;
+        mExplodeCountdown = 90;
     }
 
     field_118 = 0;
-    field_11C = 0;
+    mExplosionObj = 0;
 }
 
 
@@ -65,7 +65,7 @@ void Grenade::AddToPlatform()
 
 void Grenade::VTimeToExplodeRandom()
 {
-    field_112_explode_timer -= Math_NextRandom() % 16;
+    mExplodeCountdown -= Math_NextRandom() % 16;
 }
 
 void Grenade::VThrow(FP velX, FP velY)
@@ -77,7 +77,7 @@ void Grenade::VThrow(FP velX, FP velY)
 
     if (mBaseThrowableCount == 0)
     {
-        field_110_state = States::eFalling_4;
+        mState = States::eFalling_4;
     }
 }
 
@@ -96,7 +96,7 @@ void Grenade::VUpdate()
         mBaseGameObjectFlags.Set(Options::eDead);
     }
 
-    switch (field_110_state)
+    switch (mState)
     {
         case States::eFallingToBeCollected_0:
             if (!InTheAir())
@@ -107,7 +107,7 @@ void Grenade::VUpdate()
                 mCollectionRect.h = mYPos;
 
 	            mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8);
-                field_110_state = States::eWaitToBeCollected_1;
+                mState = States::eWaitToBeCollected_1;
             }
             break;
 
@@ -139,7 +139,7 @@ void Grenade::VUpdate()
 
                 if (!BaseAliveGameObjectCollisionLine)
                 {
-                    field_110_state = States::eFallingToBeCollected_0;
+                    mState = States::eFallingToBeCollected_0;
                 }
             }
             else if (abs(SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos)) - FP_GetExponent(mXPos)) > 1)
@@ -158,7 +158,7 @@ void Grenade::VUpdate()
 
                 if (!BaseAliveGameObjectCollisionLine)
                 {
-                    field_110_state = States::eFalling_4;
+                    mState = States::eFalling_4;
                 }
             }
             else
@@ -171,7 +171,7 @@ void Grenade::VUpdate()
                 mCollectionRect.h = mYPos;
 
                 mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
-                field_110_state = States::eDoesNothing_2;
+                mState = States::eDoesNothing_2;
             }
             break;
 
@@ -197,7 +197,7 @@ void Grenade::VUpdate()
             }
             else
             {
-                field_110_state = States::eHitGround_5;
+                mState = States::eHitGround_5;
             }
             break;
 
@@ -219,7 +219,7 @@ void Grenade::VUpdate()
 
             if (!BaseAliveGameObjectCollisionLine)
             {
-                field_110_state = States::eFalling_4;
+                mState = States::eFalling_4;
             }
 
             BlowUpAfterCountdown();
@@ -227,11 +227,11 @@ void Grenade::VUpdate()
         }
 
         case States::eWaitForExplodeEnd_6:
-            if (field_11C->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+            if (mExplosionObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
             {
-                field_110_state = States::eExploded_7;
-                field_11C->mBaseGameObjectRefCount--;
-                field_11C = nullptr;
+                mState = States::eExploded_7;
+                mExplosionObj->mBaseGameObjectRefCount--;
+                mExplosionObj = nullptr;
             }
             break;
 
@@ -247,8 +247,8 @@ void Grenade::VUpdate()
 
 s16 Grenade::InTheAir()
 {
-    field_120_xpos = mXPos;
-    field_124_ypos = mYPos;
+    mPreviousXPos = mXPos;
+    mPreviousYPos = mYPos;
 
     mVelY += FP_FromInteger(1);
 
@@ -262,8 +262,8 @@ s16 Grenade::InTheAir()
     FP hitX = {};
     FP hitY = {};
     if (sCollisions->Raycast(
-        field_120_xpos,
-        field_124_ypos,
+        mPreviousXPos,
+        mPreviousYPos,
         mXPos,
         mYPos,
         &BaseAliveGameObjectCollisionLine,
@@ -305,8 +305,8 @@ s16 Grenade::InTheAir()
     }
 
     if (sCollisions->Raycast(
-        field_120_xpos,
-        field_124_ypos,
+        mPreviousXPos,
+        mPreviousYPos,
         mXPos,
         mYPos,
         &BaseAliveGameObjectCollisionLine,
@@ -316,8 +316,8 @@ s16 Grenade::InTheAir()
     {
         switch (BaseAliveGameObjectCollisionLine->mLineType)
         {
-            case 1:
-            case 5:
+            case eLineTypes::eWallLeft_1:
+            case eLineTypes::eBackgroundWallLeft_5:
                 if (mVelX < FP_FromInteger(0))
                 {
                     mYPos = hitY;
@@ -335,8 +335,8 @@ s16 Grenade::InTheAir()
                 }
                 break;
 
-            case 2:
-            case 6:
+            case eLineTypes::eWallRight_2:
+            case eLineTypes::eBackgroundWallRight_6:
                 if (mVelX > FP_FromInteger(0))
                 {
                     mXPos = hitX;
@@ -376,12 +376,12 @@ s16 Grenade::OnCollision_BounceOff(BaseGameObject* pHit)
 
     if (mXPos < FP_FromInteger(bRect.x + 12) || mXPos > FP_FromInteger(bRect.w - 12))
     {
-        mXPos = field_120_xpos;
+        mXPos = mPreviousXPos;
         mVelX = (-mVelX / FP_FromInteger(2));
     }
     else
     {
-        mYPos = field_124_ypos;
+        mYPos = mPreviousYPos;
         mVelY = (-mVelY / FP_FromInteger(2));
     }
 
@@ -393,8 +393,8 @@ s16 Grenade::OnCollision_BounceOff(BaseGameObject* pHit)
 
 s16 Grenade::BlowUpAfterCountdown()
 {
-    field_112_explode_timer--;
-    const s16 timer = field_112_explode_timer;
+    mExplodeCountdown--;
+    const s16 timer = mExplodeCountdown;
     if (!(timer % 16))
     {
         SfxPlayMono(relive::SoundEffects::GreenTick, 0);
@@ -412,9 +412,9 @@ s16 Grenade::BlowUpAfterCountdown()
     if (pExplosion)
     {
         GetAnimation().mFlags.Clear(AnimFlags::eRender);
-        field_11C = pExplosion;
+        mExplosionObj = pExplosion;
         pExplosion->mBaseGameObjectRefCount++;
-        field_110_state = States::eWaitForExplodeEnd_6;
+        mState = States::eWaitForExplodeEnd_6;
     }
 
     relive_new Gibs(GibType::Metal_5, mXPos, mYPos, FP_FromInteger(0), FP_FromInteger(5), GetSpriteScale());
@@ -439,22 +439,22 @@ void Grenade::VOnTrapDoorOpen()
         pPlatform->VRemove(this);
         BaseAliveGameObject_PlatformId = Guid{};
 
-        if (field_110_state == States::eWaitToBeCollected_1 || field_110_state == States::eDoesNothing_2)
+        if (mState == States::eWaitToBeCollected_1 || mState == States::eDoesNothing_2)
         {
-            field_110_state = States::eFallingToBeCollected_0;
+            mState = States::eFallingToBeCollected_0;
         }
-        else if (field_110_state != States::eWaitForExplodeEnd_6)
+        else if (mState != States::eWaitForExplodeEnd_6)
         {
-            field_110_state = States::eFalling_4;
+            mState = States::eFalling_4;
         }
     }
 }
 
 Grenade::~Grenade()
 {
-    if (field_11C)
+    if (mExplosionObj)
     {
-        field_11C->mBaseGameObjectRefCount--;
+        mExplosionObj->mBaseGameObjectRefCount--;
     }
 
     if (!gInfiniteGrenades && !mBaseThrowableDead)

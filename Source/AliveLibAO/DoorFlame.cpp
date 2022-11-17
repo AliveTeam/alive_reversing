@@ -14,7 +14,7 @@
 
 namespace AO {
 
-DoorFlame* pFlameControllingTheSound_507734 = nullptr;
+static DoorFlame* sFlameControllingTheSound = nullptr;
 
 class FireBackgroundGlow final : public BaseAnimatedWithPhysicsGameObject
 {
@@ -97,7 +97,6 @@ public:
         }
     }
 
-    s32 field_D4[4];
 private:
     FP field_E4_xPos;
     FP field_E8_yPos;
@@ -136,12 +135,12 @@ public:
 
         mXPos = xpos;
         mYPos = ypos;
-        field_400_xpos = xpos;
-        field_404_ypos = ypos;
+        mStartXPos = xpos;
+        mStartYPos = ypos;
 
         SetSpriteScale(FP_FromDouble(0.3));
 
-        for (auto& anim : field_E8_sparks)
+        for (auto& anim : mSparks)
         {
             anim.field_14.field_68_anim_ptr = &GetAnimation();
 
@@ -163,7 +162,7 @@ public:
             anim.field_12_bVisible = 0;
         }
 
-        field_E4_bRender = 0;
+        mRender = 0;
     }
 
 private:
@@ -174,9 +173,9 @@ private:
         gMap.Get_Camera_World_Rect(CameraPos::eCamCurrent_0, &rect);
         mXPos = FP_FromInteger(rect.w + 16);
         mYPos = FP_FromInteger(rect.y - 16);
-        if (field_E4_bRender)
+        if (mRender)
         {
-            for (auto& anim : field_E8_sparks)
+            for (auto& anim : mSparks)
             {
                 anim.field_10_random64--;
                 if (anim.field_12_bVisible == 0)
@@ -186,8 +185,8 @@ private:
                         anim.field_12_bVisible = 1;
                         anim.field_10_random64 = Math_RandomRange(7, 9);
 
-                        anim.x = field_400_xpos;
-                        anim.y = field_404_ypos;
+                        anim.x = mStartXPos;
+                        anim.y = mStartYPos;
 
                         anim.field_8_off_x = FP_FromInteger(Math_NextRandom() - 127) / FP_FromInteger(96);
                         anim.field_C_off_y = FP_FromInteger(-Math_NextRandom()) / FP_FromInteger(96);
@@ -217,7 +216,7 @@ private:
     {
         if (gNumCamSwappers == 0)
         {
-            if (field_E4_bRender)
+            if (mRender)
             {
                 GetAnimation().SetRGB(240, 32, 32);
 
@@ -235,7 +234,7 @@ private:
                     0,
                     0);
 
-                for (auto& anim : field_E8_sparks)
+                for (auto& anim : mSparks)
                 {
                     if (anim.field_12_bVisible)
                     {
@@ -256,10 +255,10 @@ private:
     }
 
 public:
-    s16 field_E4_bRender;
-    FlameSpark field_E8_sparks[6];
-    FP field_400_xpos;
-    FP field_404_ypos;
+    bool mRender;
+    FlameSpark mSparks[6];
+    FP mStartXPos;
+    FP mStartYPos;
 };
 
 DoorFlame::DoorFlame(relive::Path_DoorFlame* pTlv, const Guid& tlvId)
@@ -353,9 +352,9 @@ DoorFlame::~DoorFlame()
 
 void DoorFlame::VStopAudio()
 {
-    if (pFlameControllingTheSound_507734 == this)
+    if (sFlameControllingTheSound == this)
     {
-        pFlameControllingTheSound_507734 = nullptr;
+        sFlameControllingTheSound = nullptr;
         SND_Stop_Channels_Mask(mSoundsMask);
     }
 }
@@ -368,7 +367,7 @@ void DoorFlame::VUpdate()
 
             if (mFlameSparks)
             {
-                mFlameSparks->field_E4_bRender = 0;
+                mFlameSparks->mRender = false;
             }
 
             if (SwitchStates_Get(mSwitchId))
@@ -385,9 +384,9 @@ void DoorFlame::VUpdate()
             break;
 
         case States::eEnabled_1:
-            if (!pFlameControllingTheSound_507734)
+            if (!sFlameControllingTheSound)
             {
-                pFlameControllingTheSound_507734 = this;
+                sFlameControllingTheSound = this;
                 mSoundsMask = SfxPlayMono(relive::SoundEffects::Fire, 40);
             }
 
@@ -403,7 +402,7 @@ void DoorFlame::VUpdate()
             GetAnimation().mFlags.Set(AnimFlags::eRender);
             if (mFlameSparks)
             {
-                mFlameSparks->field_E4_bRender = 1;
+                mFlameSparks->mRender = true;
             }
 
             if (!SwitchStates_Get(mSwitchId))

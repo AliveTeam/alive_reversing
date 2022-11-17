@@ -62,7 +62,8 @@ const AnimId sScrabMotionAnimIds[40] = {
     AnimId::Scrab_LegKick,
     AnimId::Scrab_DeathBegin };
 
-static const TintEntry sScrabTints_560260[15] = {
+static const TintEntry sScrabTints_560260[16] = {
+    {EReliveLevelIds::eMenu, 127u, 127u, 127u},
     {EReliveLevelIds::eMines, 127u, 127u, 127u},
     {EReliveLevelIds::eNecrum, 137u, 137u, 137u},
     {EReliveLevelIds::eMudomoVault, 127u, 127u, 127u},
@@ -77,7 +78,7 @@ static const TintEntry sScrabTints_560260[15] = {
     {EReliveLevelIds::eFeeCoDepot_Ender, 127u, 127u, 127u},
     {EReliveLevelIds::eBarracks_Ender, 127u, 127u, 127u},
     {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
-    {EReliveLevelIds::eNone, 127u, 127u, 127u}};
+    {EReliveLevelIds::eCredits, 127u, 127u, 127u}};
 
 // TODO: repetition with `MainMenu.cpp`
 static const relive::SfxDefinition scrab_sScrabSfx_560330[9] = {
@@ -656,7 +657,7 @@ void Scrab::VUpdate()
                 mPreventDepossession = 0;
             }
 
-            if (sDDCheat_FlyingEnabled_5C2C08 && sControlledCharacter == this)
+            if (gDDCheat_FlyingEnabled && sControlledCharacter == this)
             {
                 HandleDDCheat();
                 return;

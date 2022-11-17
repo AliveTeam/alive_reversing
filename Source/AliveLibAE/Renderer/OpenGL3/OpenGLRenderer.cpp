@@ -12,6 +12,13 @@
 #include "GLShaderProgram.hpp"
 #include "GLTexture2D.hpp"
 #include "OpenGLRenderer.hpp"
+#include "../AliveLibCommon/BaseGameAutoPlayer.hpp"
+
+extern bool gDDCheat_FlyingEnabled;
+namespace AO
+{
+    extern bool gDDCheat_FlyingEnabled;
+}
 
 #define GL_TO_IMGUI_TEX(v) *reinterpret_cast<ImTextureID*>(&v)
 
@@ -764,7 +771,10 @@ void OpenGLRenderer::EndFrame()
     ImGui_ImplSDL2_NewFrame(mWindow);
     ImGui::NewFrame();
 
-    DebugWindow();
+    if (gDDCheat_FlyingEnabled || AO::gDDCheat_FlyingEnabled || GetGameAutoPlayer().IsPlaying())
+    {
+        DebugWindow();
+    }
 
     ImGui::Render();
     ImGui::EndFrame();
@@ -1432,7 +1442,6 @@ void OpenGLRenderer::SetupBlendMode(u16 blendMode)
 }
 
 // END ROZZA FRAMEBUFFER STUFF
-
 
 void OpenGLRenderer::DebugWindow()
 {

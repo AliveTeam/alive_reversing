@@ -36,7 +36,8 @@ const AnimId sSlamDoorAnimIds[15][3] = {
     {AnimId::Slam_Door_Industrial_Closing, AnimId::Slam_Door_Industrial_Closed, AnimId::Slam_Door_Industrial_Opening},
 };
 
-TintEntry sSlamDoorTints[18] = {
+static const TintEntry sSlamDoorTints[16] = {
+    {EReliveLevelIds::eMenu, 102u, 87u, 118u},
     {EReliveLevelIds::eMines, 102u, 87u, 118u},
     {EReliveLevelIds::eNecrum, 102u, 87u, 118u},
     {EReliveLevelIds::eMudomoVault, 102u, 87u, 118u},
@@ -51,7 +52,7 @@ TintEntry sSlamDoorTints[18] = {
     {EReliveLevelIds::eFeeCoDepot_Ender, 102u, 87u, 118u},
     {EReliveLevelIds::eBarracks_Ender, 102u, 87u, 118u},
     {EReliveLevelIds::eBonewerkz_Ender, 102u, 87u, 118u},
-    {EReliveLevelIds::eNone, 102u, 87u, 118u}};
+    {EReliveLevelIds::eCredits, 102u, 87u, 118u}};
 
 void SlamDoor::LoadAnimations()
 {

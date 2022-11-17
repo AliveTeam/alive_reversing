@@ -33,26 +33,21 @@ struct GreeterSaveState final
     FP field_14_velx;
     FP field_18_vely;
     FP field_1C_sprite_scale;
-    s16 field_20_current_frame;
-    s16 field_22_frame_change_counter;
-    s8 field_24_bAnimRender;
-    s8 field_25_bDrawable;
-    s8 field_26_padding;
-    s8 field_27_padding;
-    Guid field_28_tlvInfo;
-    s32 field_2C_unused;
+    s16 mCurrentFrame;
+    s16 mFrameChangeCounter;
+    s8 mAnimRender;
+    s8 mDrawable;
+    Guid mTlvId;
     s32 field_30_last_turn_time;
     s32 field_34_timer;
-    s16 field_38_timesShot;
+    s16 mTimesShot;
     s16 field_3A_bDontSetDestroyed;
-    s16 field_3C_bChasing;
-    s16 field_3E_padding;
+    bool mChasing;
     FP field_40_speed;
-    GreeterBrainStates field_44_brain_state;
+    GreeterBrainStates mBrainState;
     s16 field_46_targetOnLeft;
     s16 field_48_targetOnRight;
-    s16 field_4A_padding;
-    FP field_4C_motion_laser_xpos;
+    FP mMotionLaserXPos;
 };
 
 class PathLine;
@@ -94,19 +89,18 @@ private:
     IBaseAliveGameObject* GetMudToZap();
 
 private:
-    Guid field_118_tlvInfo;
+    Guid mTlvId;
     Guid field_11C_motionDetectorId;
-    s32 field_120_unused = 0;
     s32 field_124_last_turn_time = 0;
     s32 field_128_timer = 0;
-    s16 field_12C_timesShot = 0;
+    s16 mTimesShot = 0;
     s16 field_12E_bDontSetDestroyed = 0;
-    s16 field_130_bChasing = 0;
+    bool mChasing = false;
     FP field_134_speed = {};
     relive::Path_TLV* field_138_pTlv = nullptr;
 
 public:
-    GreeterBrainStates field_13C_brain_state = GreeterBrainStates::eBrain_0_Patrol;
+    GreeterBrainStates mBrainState = GreeterBrainStates::eBrain_0_Patrol;
     s16 field_13E_targetOnLeft = 0;
     s16 field_140_targetOnRight = 0;
 };

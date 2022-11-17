@@ -13,7 +13,8 @@
 #include "Map.hpp"
 #include "Path.hpp"
 
-const TintEntry kDrillTints_551548[18] = {
+const TintEntry kDrillTints_551548[16] = {
+    {EReliveLevelIds::eMenu, 127u, 127u, 127u},
     {EReliveLevelIds::eMines, 127u, 127u, 127u},
     {EReliveLevelIds::eNecrum, 137u, 137u, 137u},
     {EReliveLevelIds::eMudomoVault, 127u, 127u, 127u},
@@ -28,7 +29,7 @@ const TintEntry kDrillTints_551548[18] = {
     {EReliveLevelIds::eFeeCoDepot_Ender, 127u, 127u, 127u},
     {EReliveLevelIds::eBarracks_Ender, 127u, 127u, 127u},
     {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
-    {EReliveLevelIds::eNone, 127u, 127u, 127u}};
+    {EReliveLevelIds::eCredits, 127u, 127u, 127u}};
 
 
 void Drill::LoadAnimations()

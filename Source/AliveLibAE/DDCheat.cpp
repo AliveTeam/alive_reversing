@@ -15,15 +15,15 @@ s32 sTweakY_5C1BD4 = 0;
 s16 sRescuedMudokons = 0;
 s16 sKilledMudokons = 0;
 
-s16 sVisitedBonewerks_5C1C02 = 0;
-s16 sVisitedBarracks_5C1C04 = 0;
-s16 sVisitedFeecoEnder_5C1C06 = 0;
+s16 gVisitedBonewerkz = 0;
+s16 gVisitedBarracks = 0;
+s16 gVisitedFeecoEnder = 0;
 
 u16 sTeleport_Level_550F5C = 0;
 u16 sTeleport_Path_550F5E = 0;
 u16 sTeleport_Cam_550F60 = 0;
 
-bool sDDCheat_FlyingEnabled_5C2C08 = false;
+bool gDDCheat_FlyingEnabled = false;
 bool sDDCheat_ShowAI_Info = false;
 bool sDDCheat_AlwaysShow_5BC000 = false;
 s32 sDDCheat_Unknown_5BC004 = 0;
@@ -123,7 +123,7 @@ void DDCheat::Menu_Teleport()
     }
     else if (field_38_input_pressed & InputCommands::Enum::eUnPause_OrConfirm)
     {
-        sDDCheat_FlyingEnabled_5C2C08 = true;
+        gDDCheat_FlyingEnabled = true;
 
         gMap.SetActiveCam(MapWrapper::FromAE(static_cast<LevelIds>(sTeleport_Level_550F5C)), sTeleport_Path_550F5E, sTeleport_Cam_550F60, CameraSwapEffects::eInstantChange_0, 0, 0);
         field_3C_flags.Set(DDCheat::Flags_3C::eOnTeleport_Bit3);
@@ -180,9 +180,9 @@ DDCheat::DDCheat()
     AddPropertyEntry("Tweak X ", DDCheatValueType::eInt_6, &sTweakX_5C1BD0);
     AddPropertyEntry("Tweak Y ", DDCheatValueType::eInt_6, &sTweakY_5C1BD4);
     AddPropertyEntry("RescuedMudokons ", DDCheatValueType::eShort_4, &sRescuedMudokons);
-    AddPropertyEntry("Visited Bonewerks ", DDCheatValueType::eShort_1, &sVisitedBonewerks_5C1C02);
-    AddPropertyEntry("Visited Barracks ", DDCheatValueType::eShort_1, &sVisitedBarracks_5C1C04);
-    AddPropertyEntry("Visited Feeco Ender ", DDCheatValueType::eShort_1, &sVisitedFeecoEnder_5C1C06);
+    AddPropertyEntry("Visited Bonewerks ", DDCheatValueType::eShort_1, &gVisitedBonewerkz);
+    AddPropertyEntry("Visited Barracks ", DDCheatValueType::eShort_1, &gVisitedBarracks);
+    AddPropertyEntry("Visited Feeco Ender ", DDCheatValueType::eShort_1, &gVisitedFeecoEnder);
 
 #if FORCE_DDCHEAT
     gDDCheatOn = true;
@@ -242,7 +242,7 @@ void DDCheat::VUpdate()
                 sActiveHero->mLandSoftly = true;
                 sActiveHero->mCurrentLevel = MapWrapper::FromAE(static_cast<LevelIds>(sTeleport_Level_550F5C));
                 sActiveHero->mCurrentPath = sTeleport_Path_550F5E;
-                sDDCheat_FlyingEnabled_5C2C08 = false;
+                gDDCheat_FlyingEnabled = false;
                 sControlledCharacter->BaseAliveGameObjectCollisionLine = nullptr;
                 sControlledCharacter->BaseAliveGameObjectLastLineYPos = sControlledCharacter->mYPos;
                 field_3C_flags.Clear(DDCheat::Flags_3C::e3C_Bit1);
@@ -267,8 +267,8 @@ void DDCheat::VUpdate()
                     return;
             }
 
-            sDDCheat_FlyingEnabled_5C2C08 = !sDDCheat_FlyingEnabled_5C2C08;
-            if (!sDDCheat_FlyingEnabled_5C2C08)
+            gDDCheat_FlyingEnabled = !gDDCheat_FlyingEnabled;
+            if (!gDDCheat_FlyingEnabled)
             {
                 if (IsActiveHero(sControlledCharacter))
                 {
@@ -292,7 +292,7 @@ void DDCheat::VUpdate()
         //    }
         //}
 
-        if (sDDCheat_FlyingEnabled_5C2C08 || sDDCheat_ShowAI_Info || sDDCheat_AlwaysShow_5BC000)
+        if (gDDCheat_FlyingEnabled || sDDCheat_ShowAI_Info || sDDCheat_AlwaysShow_5BC000)
         {
             DebugStr(
                 "\n%sP%dC%d gnframe=%5d",
@@ -306,7 +306,7 @@ void DDCheat::VUpdate()
                 FP_GetExponent(sActiveHero->mXPos),
                 FP_GetExponent(sActiveHero->mYPos));
 
-            if (sDDCheat_FlyingEnabled_5C2C08)
+            if (gDDCheat_FlyingEnabled)
             {
                 if (activePadPressed & InputCommands::Enum::eDoAction)
                 {

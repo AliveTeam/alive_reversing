@@ -1345,10 +1345,10 @@ struct GameEnderControllerSaveState final
     static ::GameEnderControllerSaveState From(const GameEnderControllerSaveState& data)
     {
         ::GameEnderControllerSaveState d;
-        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
-        d.field_4_obj_id = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
-        d.field_8_timer = data.field_8_timer;
-        d.field_C_state = From(data.field_C_state);
+        d.mType = BaseGameObject::FromAE(data.field_0_type);
+        d.mObjId = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
+        d.mTimer = data.field_8_timer;
+        d.mState = From(data.field_C_state);
         return d;
     }
 
@@ -1513,21 +1513,21 @@ struct GreeterSaveState final
         d.field_14_velx = data.field_14_velx;
         d.field_18_vely = data.field_18_vely;
         d.field_1C_sprite_scale = data.field_1C_sprite_scale;
-        d.field_20_current_frame = data.field_20_current_frame;
-        d.field_22_frame_change_counter = data.field_22_frame_change_counter;
-        d.field_24_bAnimRender = data.field_24_bAnimRender;
-        d.field_25_bDrawable = data.field_25_bDrawable;
-        d.field_28_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_28_tlvInfo);
+        d.mCurrentFrame = data.field_20_current_frame;
+        d.mFrameChangeCounter = data.field_22_frame_change_counter;
+        d.mAnimRender = data.field_24_bAnimRender;
+        d.mDrawable = data.field_25_bDrawable;
+        d.mTlvId = Guid::NewGuidFromTlvInfo(data.field_28_tlvInfo);
         d.field_30_last_turn_time = data.field_30_last_turn_time;
         d.field_34_timer = data.field_34_timer;
-        d.field_38_timesShot = data.field_38_timesShot;
+        d.mTimesShot = data.field_38_timesShot;
         d.field_3A_bDontSetDestroyed = data.field_3A_bDontSetDestroyed;
-        d.field_3C_bChasing = data.field_3C_bChasing;
+        d.mChasing = data.field_3C_bChasing;
         d.field_40_speed = data.field_40_speed;
-        d.field_44_brain_state = From(data.field_44_brain_state);
+        d.mBrainState = From(data.field_44_brain_state);
         d.field_46_targetOnLeft = data.field_46_targetOnLeft;
         d.field_48_targetOnRight = data.field_48_targetOnRight;
-        d.field_4C_motion_laser_xpos = data.field_4C_motion_laser_xpos;
+        d.mMotionLaserXPos = data.field_4C_motion_laser_xpos;
         return d;
     }
 
@@ -1743,51 +1743,51 @@ struct GlukkonSaveState final
     static ::GlukkonSaveState From(const GlukkonSaveState& data)
     {
         ::GlukkonSaveState d;
-        d.field_0_id = BaseGameObject::FromAE(data.field_0_id);
+        d.mType = BaseGameObject::FromAE(data.field_0_id);
         d.field_4_object_id = Guid::NewGuidFromTlvInfo(data.field_4_object_id);
-        d.field_8_xpos = data.field_8_xpos;
-        d.field_C_ypos = data.field_C_ypos;
-        d.field_10_xvel = data.field_10_xvel;
-        d.field_14_yvel = data.field_14_yvel;
-        d.field_18_path = data.field_18_path;
-        d.field_1A_level = MapWrapper::FromAESaveData(data.field_1A_level);
-        d.field_1C_sprite_scale = data.field_1C_sprite_scale;
-        d.mRingRed = data.mRingRed;
-        d.mRingGreen = data.mRingGreen;
-        d.mRingBlue = data.mRingBlue;
-        d.field_26_flipX = data.field_26_flipX;
-        d.field_28_current_motion = data.field_28_current_motion;
-        d.field_2A_current_frame = data.field_2A_current_frame;
-        d.field_2C_frame_change_counter = data.field_2C_frame_change_counter;
-        d.field_2E_render = data.field_2E_render;
-        d.field_2F_drawable = data.field_2F_drawable;
-        d.field_30_health = data.field_30_health;
-        d.field_34_current_motion = data.field_34_current_motion;
-        d.field_36_next_motion = data.field_36_next_motion;
+        d.mXPos = data.field_8_xpos;
+        d.mYPos = data.field_C_ypos;
+        d.mVelX = data.field_10_xvel;
+        d.mVelY = data.field_14_yvel;
+        d.mCurrentPath = data.field_18_path;
+        d.mCurrentLevel = MapWrapper::FromAESaveData(data.field_1A_level);
+        d.mSpriteScale = data.field_1C_sprite_scale;
+        d.mRed = data.mRingRed;
+        d.mGreen = data.mRingGreen;
+        d.mBlue = data.mRingBlue;
+        d.mFlipX = data.field_26_flipX;
+        d.mCurrentMotion = data.field_28_current_motion;
+        d.mCurrentFrame = data.field_2A_current_frame;
+        d.mFrameChangeCounter = data.field_2C_frame_change_counter;
+        d.mRender = data.field_2E_render;
+        d.mDrawable = data.field_2F_drawable;
+        d.mHealth = data.field_30_health;
+        d.mCurrentMotion2 = data.field_34_current_motion;
+        d.mNextMotion = data.field_36_next_motion;
         d.field_38_last_line_ypos = data.field_38_last_line_ypos;
-        d.field_3A_line_type = data.field_3A_line_type;
-        d.field_40_bIsActiveChar = data.field_40_bIsActiveChar;
-        d.field_44_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_44_tlvInfo);
+        d.mLineType = data.field_3A_line_type;
+        d.mIsActiveChar = data.field_40_bIsActiveChar;
+        d.mTlvId = Guid::NewGuidFromTlvInfo(data.field_44_tlvInfo);
         d.field_48_brain_state_idx = data.field_48_brain_state_idx;
-        d.field_50_brain_sub_state = data.field_50_brain_sub_state;
+        d.mBrainSubState = data.field_50_brain_sub_state;
         d.field_54_timer = data.field_54_timer;
-        d.field_58_falling_velx_scale_factor = data.field_58_falling_velx_scale_factor;
-        d.field_5E_prevent_depossession = data.field_5E_prevent_depossession;
-        d.field_60_level = MapWrapper::FromAESaveData(data.field_60_level);
-        d.field_62_path = data.field_62_path;
-        d.field_64_camera = data.field_64_camera;
-        d.field_66_speak = From(data.field_66_speak);
-        d.field_68_gamespeak_pitch = data.field_68_gamespeak_pitch;
-        d.field_6C_previous_ypos = data.field_6C_previous_ypos;
-        d.field_70_randomish_speak_timer = data.field_70_randomish_speak_timer;
-        d.field_74_turn_or_help_timer = data.field_74_turn_or_help_timer;
-        d.field_78_panic_timer = data.field_78_panic_timer;
+        d.mFallingVelXScaleFactor = data.field_58_falling_velx_scale_factor;
+        d.mPreventDepossession = data.field_5E_prevent_depossession;
+        d.mAbeLevel = MapWrapper::FromAESaveData(data.field_60_level);
+        d.mAbePath = data.field_62_path;
+        d.mAbeCamera = data.field_64_camera;
+        d.mSpeak = From(data.field_66_speak);
+        d.mGamespeakPitch = data.field_68_gamespeak_pitch;
+        d.mPreviousYPos = data.field_6C_previous_ypos;
+        d.mRandomishSpeakTimer = data.field_70_randomish_speak_timer;
+        d.mTurnOrHelpTimer = data.field_74_turn_or_help_timer;
+        d.mPanicTimer = data.field_78_panic_timer;
         d.field_7C = data.field_7C;
-        d.field_80_knockback_delay_after_getting_shot_timer = data.field_80_knockback_delay_after_getting_shot_timer;
-        d.field_84_getting_shot_timer = data.field_84_getting_shot_timer;
-        d.field_88_obj_id = Guid::NewGuidFromTlvInfo(data.field_88_obj_id);
-        d.field_8C_can_be_possessed = data.field_8C_can_be_possessed;
-        d.field_8E_type_id = BaseGameObject::FromAE(data.field_8E_type_id);
+        d.mKnockbackDelayAfterGettingShotTimer = data.field_80_knockback_delay_after_getting_shot_timer;
+        d.mGettingShotTimer = data.field_84_getting_shot_timer;
+        d.mFadeId = Guid::NewGuidFromTlvInfo(data.field_88_obj_id);
+        d.mCanBePossessed = data.field_8C_can_be_possessed;
+        d.mCurrentType = BaseGameObject::FromAE(data.field_8E_type_id);
         return d;
     }
 

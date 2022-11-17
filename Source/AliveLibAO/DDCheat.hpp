@@ -79,6 +79,6 @@ extern s32 gTweakY;
 extern s16 sRescuedMudokons;
 extern s16 sKilledMudokons;
 extern s16 showDebugCreatureInfo_5076E0;
-extern s16 sDDCheat_FlyingEnabled_50771C;
+extern bool gDDCheat_FlyingEnabled;
 
 } // namespace AO

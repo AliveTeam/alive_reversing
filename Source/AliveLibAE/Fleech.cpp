@@ -1539,7 +1539,8 @@ s16 Fleech::IsScrabOrParamiteNear(FP radius)
     return 0;
 }
 
-const TintEntry kFleechTints_551844[15] = {
+const TintEntry kFleechTints_551844[16] = {
+    {EReliveLevelIds::eMenu, 127u, 127u, 127u},
     {EReliveLevelIds::eMines, 127u, 127u, 127u},
     {EReliveLevelIds::eNecrum, 137u, 137u, 137u},
     {EReliveLevelIds::eMudomoVault, 127u, 127u, 127u},
@@ -1554,7 +1555,7 @@ const TintEntry kFleechTints_551844[15] = {
     {EReliveLevelIds::eFeeCoDepot_Ender, 127u, 127u, 127u},
     {EReliveLevelIds::eBarracks_Ender, 127u, 127u, 127u},
     {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
-    {EReliveLevelIds::eNone, 127u, 127u, 127u}};
+    {EReliveLevelIds::eCredits, 127u, 127u, 127u}};
 
 void Animation_OnFrame_Fleech_449A60(BaseGameObject* pObj, u32&, const IndexedPoint& point)
 {

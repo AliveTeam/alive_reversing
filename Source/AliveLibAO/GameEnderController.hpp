@@ -5,7 +5,7 @@
 
 namespace AO {
 
-enum class GameEnderControllerSaveStates : s16
+enum class GameEnderControllerStates : s16
 {
     eInit_0 = 0,
     eDetermineEnding_1 = 1,
@@ -24,8 +24,8 @@ public:
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 
-    s32 field_10_timer = 0;
-    GameEnderControllerSaveStates field_14_state = GameEnderControllerSaveStates::eInit_0;
+    s32 mTimer = 0;
+    GameEnderControllerStates mState = GameEnderControllerStates::eInit_0;
 };
 
 

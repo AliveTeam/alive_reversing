@@ -232,7 +232,8 @@ const AnimId sAbeAnimIdTable[130] = {
     AnimId::Mudokon_TurnWheelEnd,
     AnimId::Mudokon_PoisonGasDeath};
 
-const TintEntry sAbeTintTable[15] = {
+const TintEntry sAbeTintTable[16] = {
+    {EReliveLevelIds::eMenu, 102u, 102u, 102u},
     {EReliveLevelIds::eMines, 102u, 102u, 102u},
     {EReliveLevelIds::eNecrum, 102u, 102u, 80u},
     {EReliveLevelIds::eMudomoVault, 120u, 90u, 120u},
@@ -247,7 +248,7 @@ const TintEntry sAbeTintTable[15] = {
     {EReliveLevelIds::eFeeCoDepot_Ender, 120u, 102u, 82u},
     {EReliveLevelIds::eBarracks_Ender, 102u, 102u, 102u},
     {EReliveLevelIds::eBonewerkz_Ender, 120u, 90u, 80u},
-    {EReliveLevelIds::eNone, 102u, 102u, 102u}};
+    {EReliveLevelIds::eCredits, 102u, 102u, 102u}};
 
 const relive::SfxDefinition sSFXList_555160[] = {
     {0u, 3u, 69u, 60u, -1, 1},
@@ -888,7 +889,7 @@ const FP sAbe_yVel_table_545790[8] = {
     FP_FromInteger(4),
     FP_FromInteger(4)};
 
-s16 gAbeBulletProof_5C1BDA = 0;
+bool gAbeInvincible = false;
 
 
 void Abe::HandleDDCheat()
@@ -953,7 +954,7 @@ void Abe::HandleDDCheat()
 
 void Abe::VUpdate()
 {
-    if (gAbeBulletProof_5C1BDA)
+    if (gAbeInvincible)
     {
         mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eElectrocuted);
         mHealth = FP_FromDouble(1.0);
@@ -1001,7 +1002,7 @@ void Abe::VUpdate()
         }
     }
 
-    if (gAbeBulletProof_5C1BDA)
+    if (gAbeInvincible)
     {
         mHealth = FP_FromDouble(1.0);
     }
@@ -1028,7 +1029,7 @@ void Abe::VUpdate()
         field_128.mMood = Mud_Emotion::eNormal_0;
     }
 
-    if (sDDCheat_FlyingEnabled_5C2C08 && sControlledCharacter == this)
+    if (gDDCheat_FlyingEnabled && sControlledCharacter == this)
     {
         HandleDDCheat();
     }
@@ -1732,7 +1733,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
         return 0;
     }
 
-    if (gAbeBulletProof_5C1BDA)
+    if (gAbeInvincible)
     {
         return 0;
     }
@@ -3002,7 +3003,7 @@ void Abe::Motion_3_Fall_459B60()
                 if (mLandSoftly
                     || (pSoftLanding && mHealth > FP_FromInteger(0))                                   // If we are dead soft landing won't save us
                     || ((mYPos - BaseAliveGameObjectLastLineYPos) < (GetSpriteScale() * FP_FromInteger(180)) // Check we didn't fall far enough to be killed
-                        && (mHealth > FP_FromInteger(0) || gAbeBulletProof_5C1BDA)))                   //TODO possibly OG bug: those conditions should probably be grouped the following way: ((A || B || C ) && D)
+                        && (mHealth > FP_FromInteger(0) || gAbeInvincible)))                   //TODO possibly OG bug: those conditions should probably be grouped the following way: ((A || B || C ) && D)
                 {
                     mCurrentMotion = eAbeMotions::Motion_16_LandSoft_45A360;
                 }
@@ -5569,7 +5570,7 @@ void Abe::Motion_71_Knockback_455090()
     {
         if (!mbMotionChanged &&(BaseAliveGameObjectCollisionLine || !(GetAnimation().mFlags.Get(AnimFlags::eRender))))
         {
-            if (mHealth > FP_FromInteger(0) || gAbeBulletProof_5C1BDA || mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted))
+            if (mHealth > FP_FromInteger(0) || gAbeInvincible || mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted))
             {
                 mCurrentMotion = eAbeMotions::Motion_72_KnockbackGetUp_455340;
             }
@@ -5623,7 +5624,7 @@ void Abe::Motion_74_RollingKnockback_455290()
     {
         if (!mbMotionChanged)
         {
-            if (mHealth > FP_FromInteger(0) || gAbeBulletProof_5C1BDA)
+            if (mHealth > FP_FromInteger(0) || gAbeInvincible)
             {
                 mCurrentMotion = eAbeMotions::Motion_72_KnockbackGetUp_455340;
             }
@@ -6510,7 +6511,7 @@ void Abe::Motion_101_KnockForward()
     {
         if (!mbMotionChanged && (BaseAliveGameObjectCollisionLine || !GetAnimation().mFlags.Get(AnimFlags::eRender)))
         {
-            if (mHealth > FP_FromInteger(0) || gAbeBulletProof_5C1BDA)
+            if (mHealth > FP_FromInteger(0) || gAbeInvincible)
             {
                 mCurrentMotion = eAbeMotions::jMotion_103_KnockForwardGetUp;
             }
@@ -6658,7 +6659,7 @@ void Abe::Motion_109_ZShotRolling()
     EventBroadcast(kEventSuspiciousNoise, this);
     Motion_3_Fall_459B60();
 
-    if (mCurrentMotion != eAbeMotions::Motion_109_ZShotRolling && !gAbeBulletProof_5C1BDA)
+    if (mCurrentMotion != eAbeMotions::Motion_109_ZShotRolling && !gAbeInvincible)
     {
         if (BaseAliveGameObject_PlatformId != Guid{})
         {
@@ -6689,7 +6690,7 @@ void Abe::Motion_110_ZShot()
     EventBroadcast(kEventSuspiciousNoise, this);
     Motion_3_Fall_459B60();
 
-    if (mCurrentMotion != eAbeMotions::Motion_110_ZShot && !gAbeBulletProof_5C1BDA)
+    if (mCurrentMotion != eAbeMotions::Motion_110_ZShot && !gAbeInvincible)
     {
         if (BaseAliveGameObject_PlatformId != Guid{})
         {
@@ -9070,7 +9071,7 @@ void Abe::SetAsDead_459430()
     field_120_state.raw = 1;
 }
 
-void Abe::ExitShrykull_45A9D0(s16 bResetRingTimer)
+void Abe::ExitShrykull_45A9D0(bool bResetRingTimer)
 {
     GetAnimation().mFlags.Set(AnimFlags::eAnimate);
     GetAnimation().mFlags.Set(AnimFlags::eRender);

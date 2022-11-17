@@ -150,7 +150,8 @@ void Animation_OnFrame_Slig_4C0600(BaseGameObject* pObj, u32&, const IndexedPoin
     return;
 }
 
-TintEntry sSligTint_560570[15] = {
+TintEntry sSligTint_560570[16] = {
+    {EReliveLevelIds::eMenu, 102u, 127u, 118u},
     {EReliveLevelIds::eMines, 102u, 127u, 118u},
     {EReliveLevelIds::eNecrum, 102u, 127u, 118u},
     {EReliveLevelIds::eMudomoVault, 102u, 127u, 118u},
@@ -165,7 +166,7 @@ TintEntry sSligTint_560570[15] = {
     {EReliveLevelIds::eFeeCoDepot_Ender, 102u, 127u, 118u},
     {EReliveLevelIds::eBarracks_Ender, 102u, 127u, 118u},
     {EReliveLevelIds::eBonewerkz_Ender, 102u, 127u, 118u},
-    {EReliveLevelIds::eNone, 102u, 127u, 118u}};
+    {EReliveLevelIds::eCredits, 102u, 127u, 118u}};
 
 s32 unused_BAF7E4 = 0;
 s16 sSligsUnderControlCount_BAF7E8 = 0;
@@ -4733,7 +4734,7 @@ void Slig::VUpdate()
         MusicController::static_PlayMusic(MusicController::MusicTypes::ePossessed_9, this, 0, 0);
     }
 
-    if (sDDCheat_FlyingEnabled_5C2C08 && sControlledCharacter == this)
+    if (gDDCheat_FlyingEnabled && sControlledCharacter == this)
     {
         HandleDDCheat();
     }

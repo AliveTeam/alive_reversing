@@ -33,7 +33,8 @@ void Slurg::Clear_Slurg_Step_Watch_Points()
     }
 }
 
-TintEntry sSlurgTints_560BCC[18] = {
+TintEntry sSlurgTints_560BCC[16] = {
+    {EReliveLevelIds::eMenu, 102u, 127u, 118u},
     {EReliveLevelIds::eMines, 102u, 127u, 118u},
     {EReliveLevelIds::eNecrum, 102u, 127u, 118u},
     {EReliveLevelIds::eMudomoVault, 102u, 127u, 118u},
@@ -48,7 +49,7 @@ TintEntry sSlurgTints_560BCC[18] = {
     {EReliveLevelIds::eFeeCoDepot_Ender, 102u, 127u, 118u},
     {EReliveLevelIds::eBarracks_Ender, 102u, 127u, 118u},
     {EReliveLevelIds::eBonewerkz_Ender, 102u, 127u, 118u},
-    {EReliveLevelIds::eNone, 102u, 127u, 118u}};
+    {EReliveLevelIds::eCredits, 102u, 127u, 118u}};
 
 Slurg::Slurg(relive::Path_Slurg* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(0)

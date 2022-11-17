@@ -233,7 +233,7 @@ s16 MotionDetector::IsInLaser(IBaseAliveGameObject* pWho, IBaseAliveGameObject* 
     if (pWho->Type() == ReliveTypes::eAbe)
     {
         // Abe is safe in these states or if electrocuted or in ddcheat fly mode.
-        if (pWho->mCurrentMotion == eAbeMotions::Motion_0_Idle_44EEB0 || pWho->mCurrentMotion == eAbeMotions::Motion_17_CrouchIdle_456BC0 || pWho->mCurrentMotion == eAbeMotions::Motion_67_LedgeHang_454E20 || pWho->mCurrentMotion == eAbeMotions::Motion_60_Unused_4A3200 || pWho->mCurrentMotion == eAbeMotions::Motion_57_Dead_4589A0 || pWho->mCurrentMotion == eAbeMotions::Motion_117_InMineCar || pWho->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted) || sDDCheat_FlyingEnabled_5C2C08)
+        if (pWho->mCurrentMotion == eAbeMotions::Motion_0_Idle_44EEB0 || pWho->mCurrentMotion == eAbeMotions::Motion_17_CrouchIdle_456BC0 || pWho->mCurrentMotion == eAbeMotions::Motion_67_LedgeHang_454E20 || pWho->mCurrentMotion == eAbeMotions::Motion_60_Unused_4A3200 || pWho->mCurrentMotion == eAbeMotions::Motion_57_Dead_4589A0 || pWho->mCurrentMotion == eAbeMotions::Motion_117_InMineCar || pWho->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted) || gDDCheat_FlyingEnabled)
         {
             return 0;
         }
@@ -241,7 +241,7 @@ s16 MotionDetector::IsInLaser(IBaseAliveGameObject* pWho, IBaseAliveGameObject* 
     else if (pWho->Type() == ReliveTypes::eMudokon)
     {
         // For some reason when ddcheat is on muds are also invincible to lasers?
-        if (sDDCheat_FlyingEnabled_5C2C08)
+        if (gDDCheat_FlyingEnabled)
         {
             return 0;
         }
@@ -377,14 +377,14 @@ void MotionDetector::VUpdate()
             field_118_x2_fp = pOwner->mYPos - (GetSpriteScale() * FP_FromInteger(20));
             field_120_y2_fp = pOwner->mYPos;
 
-            if (pOwner->field_13C_brain_state == GreeterBrainStates::eBrain_0_Patrol || pOwner->field_13C_brain_state == GreeterBrainStates::eBrain_1_PatrolTurn)
+            if (pOwner->mBrainState == GreeterBrainStates::eBrain_0_Patrol || pOwner->mBrainState == GreeterBrainStates::eBrain_1_PatrolTurn)
             {
                 GetAnimation().mFlags.Set(AnimFlags::eRender);
                 pLaser->GetAnimation().mFlags.Set(AnimFlags::eRender);
                 pLaser->mYPos = pOwner->mYPos;
             }
 
-            if (pOwner->field_13C_brain_state == GreeterBrainStates::eBrain_4_Chase || pOwner->field_13C_brain_state == GreeterBrainStates::eBrain_6_ToChase)
+            if (pOwner->mBrainState == GreeterBrainStates::eBrain_4_Chase || pOwner->mBrainState == GreeterBrainStates::eBrain_6_ToChase)
             {
                 GetAnimation().mFlags.Clear(AnimFlags::eRender);
                 pLaser->GetAnimation().mFlags.Clear(AnimFlags::eRender);

@@ -21,7 +21,7 @@ enum class LevelIds : s16;
 
 struct Quicksave_WorldInfo final
 {
-    s32 field_0_gnFrame;
+    s32 mGnFrame;
     LevelIds field_4_level;
     s16 field_6_path;
     s16 field_8_cam;
@@ -38,11 +38,11 @@ struct Quicksave_WorldInfo final
     s8 field_2D_total_meter_bars;
     s16 field_2E_use_alt_save_header;
     s16 field_30_bDrawMeterCountDown;
-    s16 field_32_visited_bonewerks;
-    s16 field_34_visited_barracks;
-    s16 field_36_visited_feeco_ender;
-    s32 field_38_gas_timer;
-    s16 field_3C_bBulletProof;
+    s16 mVisitedBonewerkz;
+    s16 mVisitedBarracks;
+    s16 mVisitedFeecoEnder;
+    s32 mGasTimer;
+    s16 mAbeInvincible;
     s16 field_3E_padding;
 };
 ALIVE_ASSERT_SIZEOF(Quicksave_WorldInfo, 0x40);

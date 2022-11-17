@@ -756,7 +756,6 @@ public:
         Path_Mine r;
         BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
-        r.mDisabledResources = tlv.mDisabledResources;
         r.mPersistOffscreen = relive::From(tlv.mPersistOffscreen);
         return r;
     }
@@ -766,7 +765,6 @@ public:
         Path_Mine r;
         BaseConvert(r, tlv, tlvId);
         r.mScale = relive::From(tlv.mScale);
-        r.mDisabledResources = tlv.mDisabledResources;
         r.mPersistOffscreen = relive::From(tlv.mPersistOffscreen);
         return r;
     }

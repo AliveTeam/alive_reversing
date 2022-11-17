@@ -13,32 +13,32 @@ namespace AO {
 
 ZapLine::~ZapLine()
 {
-    relive_delete[] field_124_pSprts;
-    relive_delete[] field_128_sprite_positions;
-    relive_delete[] field_12C_zap_points;
-    relive_delete[] field_130_sprite_segment_positions;
+    relive_delete[] mSprites;
+    relive_delete[] mSpritePositions;
+    relive_delete[] mZapPoints;
+    relive_delete[] mSpriteSegmentPositions;
 }
 
 ZapLine::ZapLine(FP x1, FP y1, FP x2, FP y2, s32 aliveTime, ZapLineType type, Layer layer)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     SetType(ReliveTypes::eZapLine);
-    field_11A_type = type;
+    mZapLineType = type;
 
     AnimId animId = AnimId::None;
-    if (field_11A_type == ZapLineType::eThin_1)
+    if (mZapLineType == ZapLineType::eThin_1)
     {
         // Creates thin blue zap lines.
-        field_120_number_of_pieces_per_segment = 20;
-        field_11E_number_of_segments = 12;
+        mNumberOfPiecesPerSegment = 20;
+        mNumberOfSegments = 12;
         animId = AnimId::Zap_Line_Blue;
         field_11C_tPageAbr = TPageAbr::eBlend_3;
     }
-    else if (field_11A_type == ZapLineType::eThick_0)
+    else if (mZapLineType == ZapLineType::eThick_0)
     {
         // Creates thick red zap lines.
-        field_120_number_of_pieces_per_segment = 10;
-        field_11E_number_of_segments = 28;
+        mNumberOfPiecesPerSegment = 10;
+        mNumberOfSegments = 28;
         animId = AnimId::Zap_Line_Red;
         field_11C_tPageAbr = TPageAbr::eBlend_1;
     }
@@ -48,21 +48,21 @@ ZapLine::ZapLine(FP x1, FP y1, FP x2, FP y2, s32 aliveTime, ZapLineType type, La
 
     GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
     GetAnimation().SetRenderLayer(layer);
-    field_122_number_of_sprites = field_11E_number_of_segments * field_120_number_of_pieces_per_segment;
+    mNumberOfSprites = mNumberOfSegments * mNumberOfPiecesPerSegment;
 
 
-    field_124_pSprts = relive_new ZapLineSprites[field_122_number_of_sprites];
-    field_128_sprite_positions = relive_new PSX_Point[field_122_number_of_sprites];
-    field_12C_zap_points = relive_new ZapPoint[field_120_number_of_pieces_per_segment];
-    field_130_sprite_segment_positions = relive_new FP_Point[field_11E_number_of_segments];
+    mSprites = relive_new ZapLineSprites[mNumberOfSprites];
+    mSpritePositions = relive_new PSX_Point[mNumberOfSprites];
+    mZapPoints = relive_new ZapPoint[mNumberOfPiecesPerSegment];
+    mSpriteSegmentPositions = relive_new FP_Point[mNumberOfSegments];
 
-    field_118_max_alive_time = static_cast<s16>(aliveTime);
+    mMaxAliveTime = static_cast<s16>(aliveTime);
 
     mXPos = x1;
     mYPos = y1;
 
     mState = ZapLineState::eInit_0;
-    field_116_alive_timer = 0;
+    mAliveTimer = 0;
 
     const u8 u0 = 0;//mAnim.mVramRect.x & 0x3F;
 
@@ -73,11 +73,11 @@ ZapLine::ZapLine(FP x1, FP y1, FP x2, FP y2, s32 aliveTime, ZapLineType type, La
 
     for (s32 i = 0; i < 2; i++)
     {
-        for (s32 j = 0; j < field_11E_number_of_segments; j++)
+        for (s32 j = 0; j < mNumberOfSegments; j++)
         {
-            for (s32 k = 0; k < field_120_number_of_pieces_per_segment; k++)
+            for (s32 k = 0; k < mNumberOfPiecesPerSegment; k++)
             {
-                Prim_Sprt* pSprt = &field_124_pSprts[(j * field_120_number_of_pieces_per_segment) + k].field_0_sprts[i];
+                Prim_Sprt* pSprt = &mSprites[(j * mNumberOfPiecesPerSegment) + k].field_0_sprts[i];
                 Sprt_Init(pSprt);
 
                 Poly_Set_SemiTrans(&pSprt->mBase.header, 1);
@@ -97,22 +97,22 @@ ZapLine::ZapLine(FP x1, FP y1, FP x2, FP y2, s32 aliveTime, ZapLineType type, La
 
 void ZapLine::CalculateSourceAndDestinationPositions(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest)
 {
-    field_10C_x_position_source = FP_GetExponent(xPosSource - (pScreenManager->mCamPos->x - FP_FromInteger(pScreenManager->mCamXOff)));
-    field_10E_y_position_source = FP_GetExponent(yPosSource - (pScreenManager->mCamPos->y - FP_FromInteger(pScreenManager->mCamYOff)));
-    field_110_x_position_destination = FP_GetExponent(xPosDest - (pScreenManager->mCamPos->x - FP_FromInteger(pScreenManager->mCamXOff)));
-    field_112_y_position_destination = FP_GetExponent(yPosDest - (pScreenManager->mCamPos->y - FP_FromInteger(pScreenManager->mCamYOff)));
+    mXPosSrc = FP_GetExponent(xPosSource - (pScreenManager->mCamPos->x - FP_FromInteger(pScreenManager->mCamXOff)));
+    mYPosSrc = FP_GetExponent(yPosSource - (pScreenManager->mCamPos->y - FP_FromInteger(pScreenManager->mCamYOff)));
+    mXPosDst = FP_GetExponent(xPosDest - (pScreenManager->mCamPos->x - FP_FromInteger(pScreenManager->mCamXOff)));
+    mYPosDst = FP_GetExponent(yPosDest - (pScreenManager->mCamPos->y - FP_FromInteger(pScreenManager->mCamYOff)));
 
-    field_10C_x_position_source = PsxToPCX(field_10C_x_position_source, 11);
-    field_110_x_position_destination = PsxToPCX(field_110_x_position_destination, 11);
+    mXPosSrc = PsxToPCX(mXPosSrc, 11);
+    mXPosDst = PsxToPCX(mXPosDst, 11);
 
     s16 xOff = 0;
     s16 yOff = 0;
     GetAnimation().Get_Frame_Offset(&xOff, &yOff);
 
-    field_10C_x_position_source = FP_GetExponent(FP_FromInteger(xOff) + FP_FromInteger(field_10C_x_position_source));
-    field_10E_y_position_source = FP_GetExponent(FP_FromInteger(yOff) + FP_FromInteger(field_10E_y_position_source));
-    field_110_x_position_destination = FP_GetExponent(FP_FromInteger(xOff) + FP_FromInteger(field_110_x_position_destination));
-    field_112_y_position_destination = FP_GetExponent(FP_FromInteger(yOff) + FP_FromInteger(field_112_y_position_destination));
+    mXPosSrc = FP_GetExponent(FP_FromInteger(xOff) + FP_FromInteger(mXPosSrc));
+    mYPosSrc = FP_GetExponent(FP_FromInteger(yOff) + FP_FromInteger(mYPosSrc));
+    mXPosDst = FP_GetExponent(FP_FromInteger(xOff) + FP_FromInteger(mXPosDst));
+    mYPosDst = FP_GetExponent(FP_FromInteger(yOff) + FP_FromInteger(mYPosDst));
 }
 
 
@@ -128,9 +128,9 @@ void ZapLine::CalculateThickSpriteSegmentPositions()
 {
     // TODO: Convert bit operations to something more readable.
     s32 v1 = 0;
-    if (field_116_alive_timer >= 8)
+    if (mAliveTimer >= 8)
     {
-        const s32 v4 = field_118_max_alive_time - field_116_alive_timer;
+        const s32 v4 = mMaxAliveTime - mAliveTimer;
         if (v4 >= 8)
         {
             v1 = 4;
@@ -142,17 +142,17 @@ void ZapLine::CalculateThickSpriteSegmentPositions()
     }
     else
     {
-        v1 = (field_116_alive_timer / 4) + 3;
+        v1 = (mAliveTimer / 4) + 3;
     }
 
     s32 v5 = 1 << v1;
     s32 v6 = 1 << (v1 - 1);
 
-    field_130_sprite_segment_positions[0].x = FP_FromInteger(field_10C_x_position_source);
-    field_130_sprite_segment_positions[0].y = FP_FromInteger(field_10E_y_position_source);
+    mSpriteSegmentPositions[0].x = FP_FromInteger(mXPosSrc);
+    mSpriteSegmentPositions[0].y = FP_FromInteger(mYPosSrc);
 
-    field_130_sprite_segment_positions[field_11E_number_of_segments - 1].x = FP_FromInteger(field_110_x_position_destination);
-    field_130_sprite_segment_positions[field_11E_number_of_segments - 1].y = FP_FromInteger(field_112_y_position_destination);
+    mSpriteSegmentPositions[mNumberOfSegments - 1].x = FP_FromInteger(mXPosDst);
+    mSpriteSegmentPositions[mNumberOfSegments - 1].y = FP_FromInteger(mYPosDst);
 
     s32 angExtra = 0;
     if ((sGnFrame / 8) & 1)
@@ -164,92 +164,92 @@ void ZapLine::CalculateThickSpriteSegmentPositions()
         angExtra = 128;
     }
 
-    const FP xDiff = FP_FromInteger(field_110_x_position_destination - field_10C_x_position_source) / FP_FromInteger(field_11E_number_of_segments);
+    const FP xDiff = FP_FromInteger(mXPosDst - mXPosSrc) / FP_FromInteger(mNumberOfSegments);
     const FP xDiffDiv = (xDiff * FP_FromDouble(1.5));
 
-    const FP yDiff = FP_FromInteger(field_112_y_position_destination - field_10E_y_position_source) / FP_FromInteger(field_11E_number_of_segments);
+    const FP yDiff = FP_FromInteger(mYPosDst - mYPosSrc) / FP_FromInteger(mNumberOfSegments);
     const FP yDiffDiv = (-yDiff * FP_FromDouble(1.5));
 
 
     // First and last done above.
-    for (s32 i = 1; i < field_11E_number_of_segments - 1; i++)
+    for (s32 i = 1; i < mNumberOfSegments - 1; i++)
     {
         const u8 ang = static_cast<u8>(angExtra + 18 * i);
-        field_130_sprite_segment_positions[i].x = FP_FromInteger(Math_NextRandom() % v5) + (Math_Cosine(ang) * yDiffDiv) + FP_FromInteger(field_10C_x_position_source) + (FP_FromInteger(i) * xDiff) - FP_FromInteger(v6);
+        mSpriteSegmentPositions[i].x = FP_FromInteger(Math_NextRandom() % v5) + (Math_Cosine(ang) * yDiffDiv) + FP_FromInteger(mXPosSrc) + (FP_FromInteger(i) * xDiff) - FP_FromInteger(v6);
 
-        field_130_sprite_segment_positions[i].y = FP_FromInteger(Math_NextRandom() % v5) + (Math_Cosine(ang) * xDiffDiv) + FP_FromInteger(field_10E_y_position_source) + (FP_FromInteger(i) * yDiff) - FP_FromInteger(v6);
+        mSpriteSegmentPositions[i].y = FP_FromInteger(Math_NextRandom() % v5) + (Math_Cosine(ang) * xDiffDiv) + FP_FromInteger(mYPosSrc) + (FP_FromInteger(i) * yDiff) - FP_FromInteger(v6);
     }
 
-    field_134_rects[0].x = 0;
-    field_134_rects[0].y = 0;
-    field_134_rects[0].w = gPsxDisplay.mWidth;
-    field_134_rects[0].h = gPsxDisplay.mHeight;
+    mPsxDisplayRects[0].x = 0;
+    mPsxDisplayRects[0].y = 0;
+    mPsxDisplayRects[0].w = gPsxDisplay.mWidth;
+    mPsxDisplayRects[0].h = gPsxDisplay.mHeight;
 
-    field_134_rects[1].x = 0;
-    field_134_rects[1].y = 0;
-    field_134_rects[1].w = gPsxDisplay.mWidth;
-    field_134_rects[1].h = gPsxDisplay.mHeight;
+    mPsxDisplayRects[1].x = 0;
+    mPsxDisplayRects[1].y = 0;
+    mPsxDisplayRects[1].w = gPsxDisplay.mWidth;
+    mPsxDisplayRects[1].h = gPsxDisplay.mHeight;
 }
 
 void ZapLine::CalculateThinSpriteSegmentPositions()
 {
-    field_130_sprite_segment_positions[0].x = FP_FromInteger(field_10C_x_position_source);
-    field_130_sprite_segment_positions[0].y = FP_FromInteger(field_10E_y_position_source);
-    field_130_sprite_segment_positions[field_11E_number_of_segments - 1].x = FP_FromInteger(field_110_x_position_destination);
-    field_130_sprite_segment_positions[field_11E_number_of_segments - 1].y = FP_FromInteger(field_112_y_position_destination);
+    mSpriteSegmentPositions[0].x = FP_FromInteger(mXPosSrc);
+    mSpriteSegmentPositions[0].y = FP_FromInteger(mYPosSrc);
+    mSpriteSegmentPositions[mNumberOfSegments - 1].x = FP_FromInteger(mXPosDst);
+    mSpriteSegmentPositions[mNumberOfSegments - 1].y = FP_FromInteger(mYPosDst);
 
-    const FP x2Diff = FP_FromInteger(field_110_x_position_destination - field_10C_x_position_source) / FP_FromInteger(field_11E_number_of_segments);
-    const FP y2Diff = FP_FromInteger(field_112_y_position_destination - field_10E_y_position_source) / FP_FromInteger(field_11E_number_of_segments);
+    const FP x2Diff = FP_FromInteger(mXPosDst - mXPosSrc) / FP_FromInteger(mNumberOfSegments);
+    const FP y2Diff = FP_FromInteger(mYPosDst - mYPosSrc) / FP_FromInteger(mNumberOfSegments);
 
     const FP y2DiffDiv = -y2Diff * FP_FromDouble(0.1);
     const FP x2DiffDiv = x2Diff * FP_FromDouble(0.1);
 
-    for (s32 i = 1; i < field_11E_number_of_segments - 1; i++)
+    for (s32 i = 1; i < mNumberOfSegments - 1; i++)
     {
         const FP rnd = FP_FromInteger(Math_NextRandom() % 32 - 16);
-        field_130_sprite_segment_positions[i].x = (y2DiffDiv * rnd) + FP_FromInteger(field_10C_x_position_source) + (FP_FromInteger(i) * x2Diff);
-        field_130_sprite_segment_positions[i].y = (x2DiffDiv * rnd) + FP_FromInteger(field_10E_y_position_source) + (FP_FromInteger(i) * y2Diff);
+        mSpriteSegmentPositions[i].x = (y2DiffDiv * rnd) + FP_FromInteger(mXPosSrc) + (FP_FromInteger(i) * x2Diff);
+        mSpriteSegmentPositions[i].y = (x2DiffDiv * rnd) + FP_FromInteger(mYPosSrc) + (FP_FromInteger(i) * y2Diff);
     }
 }
 
 void ZapLine::CalculateZapPoints_479380()
 {
     FP acc = FP_FromInteger(0);
-    const FP delta = FP_FromInteger(1) / FP_FromInteger(field_120_number_of_pieces_per_segment);
-    for (s32 i = 0; i < field_120_number_of_pieces_per_segment; i++)
+    const FP delta = FP_FromInteger(1) / FP_FromInteger(mNumberOfPiecesPerSegment);
+    for (s32 i = 0; i < mNumberOfPiecesPerSegment; i++)
     {
         const FP accSqrd = (acc * acc);
-        field_12C_zap_points[i].field_0 = accSqrd - FP_FromRaw(2 * acc.fpValue) + FP_FromInteger(1);
-        field_12C_zap_points[i].field_4 = -FP_FromRaw(2 * accSqrd.fpValue) + FP_FromRaw(2 * acc.fpValue) + FP_FromInteger(1);
-        field_12C_zap_points[i].field_8 = accSqrd;
+        mZapPoints[i].field_0 = accSqrd - FP_FromRaw(2 * acc.fpValue) + FP_FromInteger(1);
+        mZapPoints[i].field_4 = -FP_FromRaw(2 * accSqrd.fpValue) + FP_FromRaw(2 * acc.fpValue) + FP_FromInteger(1);
+        mZapPoints[i].field_8 = accSqrd;
         acc += delta;
     }
 }
 
 void ZapLine::CalculateSpritePositionsInner(s32 idx1, s32 idx2, s32 idx3, s16 idx4)
 {
-    const FP x1 = field_130_sprite_segment_positions[idx1].x;
-    const FP y1 = field_130_sprite_segment_positions[idx1].y;
+    const FP x1 = mSpriteSegmentPositions[idx1].x;
+    const FP y1 = mSpriteSegmentPositions[idx1].y;
 
-    const FP x2 = field_130_sprite_segment_positions[idx2].x;
-    const FP y2 = field_130_sprite_segment_positions[idx2].y;
+    const FP x2 = mSpriteSegmentPositions[idx2].x;
+    const FP y2 = mSpriteSegmentPositions[idx2].y;
 
-    const FP x3 = field_130_sprite_segment_positions[idx3].x;
-    const FP y3 = field_130_sprite_segment_positions[idx3].y;
+    const FP x3 = mSpriteSegmentPositions[idx3].x;
+    const FP y3 = mSpriteSegmentPositions[idx3].y;
 
-    for (s32 i = 0; i < field_120_number_of_pieces_per_segment; i++)
+    for (s32 i = 0; i < mNumberOfPiecesPerSegment; i++)
     {
-        auto pItem = &field_128_sprite_positions[i + (idx4 * field_120_number_of_pieces_per_segment)];
+        auto pItem = &mSpritePositions[i + (idx4 * mNumberOfPiecesPerSegment)];
 
         pItem->x = FP_GetExponent(
             FP_FromRaw((
-                           (field_12C_zap_points[i].field_8 * x3) + (field_12C_zap_points[i].field_4 * x2) + (field_12C_zap_points[i].field_0 * x1))
+                           (mZapPoints[i].field_8 * x3) + (mZapPoints[i].field_4 * x2) + (mZapPoints[i].field_0 * x1))
                            .fpValue
                        >> 1));
 
         pItem->y = FP_GetExponent(
             FP_FromRaw((
-                           (field_12C_zap_points[i].field_8 * y3) + (field_12C_zap_points[i].field_4 * y2) + (field_12C_zap_points[i].field_0 * y1))
+                           (mZapPoints[i].field_8 * y3) + (mZapPoints[i].field_4 * y2) + (mZapPoints[i].field_0 * y1))
                            .fpValue
                        >> 1));
     }
@@ -257,12 +257,12 @@ void ZapLine::CalculateSpritePositionsInner(s32 idx1, s32 idx2, s32 idx3, s16 id
 
 void ZapLine::UpdateSpriteVertexPositions()
 {
-    for (s32 i = 0; i < field_11E_number_of_segments; i++)
+    for (s32 i = 0; i < mNumberOfSegments; i++)
     {
-        for (s32 j = 0; j < field_120_number_of_pieces_per_segment; j++)
+        for (s32 j = 0; j < mNumberOfPiecesPerSegment; j++)
         {
-            const auto pPoint = &field_128_sprite_positions[j + (i * field_120_number_of_pieces_per_segment)];
-            Prim_Sprt* pSprt = &field_124_pSprts->field_0_sprts[j + (i * field_120_number_of_pieces_per_segment)];
+            const auto pPoint = &mSpritePositions[j + (i * mNumberOfPiecesPerSegment)];
+            Prim_Sprt* pSprt = &mSprites->field_0_sprts[j + (i * mNumberOfPiecesPerSegment)];
             SetXY0(&pSprt[0], pPoint->x, pPoint->y);
             SetXY0(&pSprt[1], pPoint->x, pPoint->y);
         }
@@ -271,7 +271,7 @@ void ZapLine::UpdateSpriteVertexPositions()
 
 void ZapLine::CalculateSpritePositionsOuter()
 {
-    for (s16 i = 0; i < field_11E_number_of_segments; i++)
+    for (s16 i = 0; i < mNumberOfSegments; i++)
     {
         if (i == 0)
         {
@@ -280,11 +280,11 @@ void ZapLine::CalculateSpritePositionsOuter()
         }
         else
         {
-            const s16 lastIdx = field_11E_number_of_segments - 1;
+            const s16 lastIdx = mNumberOfSegments - 1;
             if (i == lastIdx)
             {
                 // Last item.
-                CalculateSpritePositionsInner(field_11E_number_of_segments - 2, lastIdx, lastIdx, field_11E_number_of_segments - 1);
+                CalculateSpritePositionsInner(mNumberOfSegments - 2, lastIdx, lastIdx, mNumberOfSegments - 1);
             }
             else
             {
@@ -297,7 +297,7 @@ void ZapLine::CalculateSpritePositionsOuter()
 
 void ZapLine::VUpdate()
 {
-    field_116_alive_timer++;
+    mAliveTimer++;
 
     // TODO: States 3 and 4 might not actually be needed, since states 1 and 2 do the same thing; though the class only seems to render in states 3 and 4.
     switch (mState)
@@ -305,11 +305,11 @@ void ZapLine::VUpdate()
         case ZapLineState::eInit_0:
             CalculateZapPoints_479380();
 
-            if (field_11A_type == ZapLineType::eThin_1)
+            if (mZapLineType == ZapLineType::eThin_1)
             {
                 CalculateThinSpriteSegmentPositions();
             }
-            else if (field_11A_type == ZapLineType::eThick_0)
+            else if (mZapLineType == ZapLineType::eThick_0)
             {
                 CalculateThickSpriteSegmentPositions();
             }
@@ -326,17 +326,17 @@ void ZapLine::VUpdate()
         case ZapLineState::eUpdateSpriteVertices_4:
             UpdateSpriteVertexPositions();
 
-            if (field_116_alive_timer >= field_118_max_alive_time && field_11A_type != ZapLineType::eThin_1)
+            if (mAliveTimer >= mMaxAliveTime && mZapLineType != ZapLineType::eThin_1)
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 return;
             }
 
-            if (field_11A_type == ZapLineType::eThin_1)
+            if (mZapLineType == ZapLineType::eThin_1)
             {
                 CalculateThinSpriteSegmentPositions();
             }
-            else if (field_11A_type == ZapLineType::eThick_0)
+            else if (mZapLineType == ZapLineType::eThick_0)
             {
                 CalculateThickSpriteSegmentPositions();
             }
@@ -362,11 +362,11 @@ void ZapLine::VRender(PrimHeader** ppOt)
     {
         const auto bufferIdx = gPsxDisplay.mBufferIndex;
 
-        for (s32 i = 0; i < field_11E_number_of_segments; i++)
+        for (s32 i = 0; i < mNumberOfSegments; i++)
         {
-            for (s32 j = 0; j < field_120_number_of_pieces_per_segment; j++)
+            for (s32 j = 0; j < mNumberOfPiecesPerSegment; j++)
             {
-                Prim_Sprt* pSprt = &field_124_pSprts->field_0_sprts[j + (i * field_120_number_of_pieces_per_segment)];
+                Prim_Sprt* pSprt = &mSprites->field_0_sprts[j + (i * mNumberOfPiecesPerSegment)];
                 OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pSprt[bufferIdx].mBase.header);
             }
         }
@@ -383,16 +383,16 @@ void ZapLine::VRender(PrimHeader** ppOt)
         OrderingTable_Add(OtLayer(ppOt, mAnim.mRenderLayer), &pTPage->mBase);
         */
 
-        PSX_RECT* pRect = &field_134_rects[bufferIdx];
+        PSX_RECT* pRect = &mPsxDisplayRects[bufferIdx];
         pRect->x = 32767;
         pRect->w = -32767;
         pRect->y = 32767;
         pRect->h = -32767;
 
-        for (s32 i = 0; i < field_11E_number_of_segments; i++)
+        for (s32 i = 0; i < mNumberOfSegments; i++)
         {
-            const PSX_Point* pPoint = &field_128_sprite_positions[i * field_120_number_of_pieces_per_segment];
-            for (s32 j = 0; j < field_120_number_of_pieces_per_segment; j++)
+            const PSX_Point* pPoint = &mSpritePositions[i * mNumberOfPiecesPerSegment];
+            for (s32 j = 0; j < mNumberOfPiecesPerSegment; j++)
             {
                 if (pPoint->x < pRect->x)
                 {

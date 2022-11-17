@@ -28,7 +28,8 @@
 #include "Sfx.hpp"
 #include "Grid.hpp"
 
-const static TintEntry kCrawlingSligTints[18] = {
+const static TintEntry kCrawlingSligTints[16] = {
+    {EReliveLevelIds::eMenu, 127u, 127u, 127u},
     {EReliveLevelIds::eMines, 127u, 127u, 127u},
     {EReliveLevelIds::eNecrum, 137u, 137u, 137u},
     {EReliveLevelIds::eMudomoVault, 127u, 127u, 127u},
@@ -43,7 +44,7 @@ const static TintEntry kCrawlingSligTints[18] = {
     {EReliveLevelIds::eFeeCoDepot_Ender, 127u, 127u, 127u},
     {EReliveLevelIds::eBarracks_Ender, 127u, 127u, 127u},
     {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
-    {EReliveLevelIds::eNone, 127u, 127u, 127u}};
+    {EReliveLevelIds::eCredits, 127u, 127u, 127u}};
 
 const static AnimId sCrawlingSligAnimIdTable[18] = {
     AnimId::CrawlingSlig_Idle,

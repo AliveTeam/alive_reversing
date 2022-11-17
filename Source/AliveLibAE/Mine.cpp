@@ -27,7 +27,7 @@ Mine::Mine(relive::Path_Mine* pPath, const Guid& tlv)
     LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::Mine));
 
-    field_118_detonating = 0;
+    mDetonating = false;
     mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
 
@@ -68,18 +68,16 @@ Mine::Mine(relive::Path_Mine* pPath, const Guid& tlv)
     {
         mYPos = hitY;
     }
-    field_11C_tlv = tlv;
-    field_120_gnframe = sGnFrame;
-    field_124_animation.Init(GetAnimRes(AnimId::Mine_Flash), this);
+    mTlvId = tlv;
+    mExplosionTimer = sGnFrame;
+    mFlashAnim.Init(GetAnimRes(AnimId::Mine_Flash), this);
 
-    field_124_animation.mFlags.Set(AnimFlags::eSemiTrans);
-    field_124_animation.mFlags.Set(AnimFlags::eBlending);
+    mFlashAnim.mFlags.Set(AnimFlags::eSemiTrans);
+    mFlashAnim.mFlags.Set(AnimFlags::eBlending);
 
-    field_124_animation.SetRenderLayer(GetAnimation().GetRenderLayer());
-    field_124_animation.SetSpriteScale(GetSpriteScale());
-    field_124_animation.SetRGB(128, 128, 128);
-
-    field_11A_disabled_resources = pPath->mDisabledResources;
+    mFlashAnim.SetRenderLayer(GetAnimation().GetRenderLayer());
+    mFlashAnim.SetSpriteScale(GetSpriteScale());
+    mFlashAnim.SetRGB(128, 128, 128);
 
     field_1BC_flags.Clear(Mine_Flags_1BC::eBit1_PersistOffscreen);
     if (pPath->mPersistOffscreen == relive::reliveChoice::eYes)
@@ -100,16 +98,16 @@ Mine::Mine(relive::Path_Mine* pPath, const Guid& tlv)
 
 Mine::~Mine()
 {
-    if (field_118_detonating == 1)
+    if (mDetonating)
     {
-        Path::TLV_Reset(field_11C_tlv, -1, 0, 1);
+        Path::TLV_Reset(mTlvId, -1, 0, 1);
     }
     else
     {
-        Path::TLV_Reset(field_11C_tlv, -1, 0, 0);
+        Path::TLV_Reset(mTlvId, -1, 0, 0);
     }
 
-    field_124_animation.VCleanUp();
+    mFlashAnim.VCleanUp();
     mBaseGameObjectFlags.Clear(BaseGameObject::eInteractive_Bit8);
 
     if (sMineSFXOwner_5C3008 == this)
@@ -127,9 +125,9 @@ void Mine::VUpdate()
         mYPos,
         0);
 
-    if (field_118_detonating)
+    if (mDetonating)
     {
-        if (field_118_detonating == 1 && sGnFrame >= field_120_gnframe)
+        if (mDetonating == true && sGnFrame >= mExplosionTimer)
         {
             relive_new GroundExplosion(mXPos, mYPos, GetSpriteScale());
             mBaseGameObjectFlags.Set(Options::eDead);
@@ -152,11 +150,11 @@ void Mine::VUpdate()
         }
         if (Mine::IsColliding())
         {
-            field_118_detonating = 1;
-            field_120_gnframe = sGnFrame;
+            mDetonating = true;
+            mExplosionTimer = sGnFrame;
         }
     }
-    if (field_118_detonating != 1)
+    if (mDetonating != true)
     {
         BaseGameObject* pEventObj = EventGet(kEventDeathReset);
         if (pEventObj || mCurrentLevel != gMap.mCurrentLevel || mCurrentPath != gMap.mCurrentPath)
@@ -177,7 +175,7 @@ void Mine::VRender(PrimHeader** ppOt)
                 mYPos,
                 0))
         {
-            this->field_124_animation.VRender(FP_GetExponent(mXPos - pScreenManager->CamXPos()),
+            this->mFlashAnim.VRender(FP_GetExponent(mXPos - pScreenManager->CamXPos()),
                                                      FP_GetExponent(FP_FromInteger(mYOffset) + mYPos - pScreenManager->CamYPos()),
                                                      ppOt,
                                                      0,
@@ -200,10 +198,10 @@ void Mine::VScreenChanged()
 
 void Mine::VOnPickUpOrSlapped()
 {
-    if (field_118_detonating != 1)
+    if (mDetonating != true)
     {
-        field_118_detonating = 1;
-        field_120_gnframe = sGnFrame + 5;
+        mDetonating = true;
+        mExplosionTimer = sGnFrame + 5;
     }
 }
 
@@ -211,7 +209,7 @@ void Mine::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
     relive_new GroundExplosion(mXPos, mYPos, GetSpriteScale());
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-    field_118_detonating = 1;
+    mDetonating = true;
 }
 
 s16 Mine::VTakeDamage(BaseGameObject* pFrom)
@@ -235,8 +233,8 @@ s16 Mine::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eShrykull:
             relive_new GroundExplosion(mXPos, mYPos, GetSpriteScale());
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-            field_118_detonating = 1;
-            field_120_gnframe = sGnFrame;
+            mDetonating = true;
+            mExplosionTimer = sGnFrame;
             return 1;
     }
 }

@@ -60,22 +60,22 @@ private:
     ZapLineState mState = ZapLineState::eInit_0;
 
     Prim_SetTPage field_EC_tPage_p8[2] = {};
-    s16 field_10C_x_position_source = 0;
-    s16 field_10E_y_position_source = 0;
-    s16 field_110_x_position_destination = 0;
-    s16 field_112_y_position_destination = 0;
-    s16 field_116_alive_timer = 0;
-    s16 field_118_max_alive_time = 0;
-    ZapLineType field_11A_type = ZapLineType::eThick_0;
+    s16 mXPosSrc = 0;
+    s16 mYPosSrc = 0;
+    s16 mXPosDst = 0;
+    s16 mYPosDst = 0;
+    s16 mAliveTimer = 0;
+    s16 mMaxAliveTime = 0;
+    ZapLineType mZapLineType = ZapLineType::eThick_0;
     TPageAbr field_11C_tPageAbr = TPageAbr::eBlend_0;
-    s16 field_11E_number_of_segments = 0;
-    s16 field_120_number_of_pieces_per_segment = 0;
-    s16 field_122_number_of_sprites = 0;
-    ZapLineSprites* field_124_pSprts = nullptr;
-    PSX_Point* field_128_sprite_positions = nullptr;
-    ZapPoint* field_12C_zap_points = nullptr;
-    FP_Point* field_130_sprite_segment_positions = nullptr;
-    PSX_RECT field_134_rects[2] = {};
+    s16 mNumberOfSegments = 0;
+    s16 mNumberOfPiecesPerSegment = 0;
+    s16 mNumberOfSprites = 0;
+    ZapLineSprites* mSprites = nullptr;
+    PSX_Point* mSpritePositions = nullptr;
+    ZapPoint* mZapPoints = nullptr;
+    FP_Point* mSpriteSegmentPositions = nullptr;
+    PSX_RECT mPsxDisplayRects[2] = {};
 };
 
 } // namespace AO

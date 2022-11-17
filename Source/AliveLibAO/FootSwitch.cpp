@@ -42,7 +42,7 @@ FootSwitch::FootSwitch(relive::Path_FootSwitch* pTlv, const Guid& tlvId)
 
     SwitchStates_Set(mSwitchId, 0);
 
-    mTlvInfo = tlvId;
+    mTlvId = tlvId;
 }
 
 FootSwitch::~FootSwitch()
@@ -52,7 +52,7 @@ FootSwitch::~FootSwitch()
         mStoodOnMe->mBaseGameObjectRefCount--;
         mStoodOnMe = nullptr;
     }
-    Path::TLV_Reset(mTlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mTlvId, -1, 0, 0);
 }
 
 void FootSwitch::VUpdate()

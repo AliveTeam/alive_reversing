@@ -31,8 +31,8 @@ CircularFade::CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroy
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 
     GetAnimation().mFlags.Clear(AnimFlags::eBlending);
-    SetSpriteScale(FP_FromInteger(scale.fpValue * 2));
-    GetAnimation().SetSpriteScale(FP_FromInteger(scale.fpValue * 2));
+    SetSpriteScale(scale * FP_FromInteger(2));
+    GetAnimation().SetSpriteScale(scale * FP_FromInteger(2));
 
     mXPos = xpos;
     mYPos = ypos;

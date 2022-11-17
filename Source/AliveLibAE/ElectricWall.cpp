@@ -168,7 +168,7 @@ void ElectricWall::VUpdate()
                         else
                         {
                             // Touching the wall, rip
-                            if (!(pObj->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted)) && (!IsActiveHero(pObj) || !gAbeBulletProof_5C1BDA))
+                            if (!(pObj->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted)) && (!IsActiveHero(pObj) || !gAbeInvincible))
                             {
                                 pObj->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eElectrocuted);
 

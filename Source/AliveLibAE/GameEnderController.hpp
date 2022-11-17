@@ -21,12 +21,10 @@ enum class GameEnderControllerStates : s16
 
 struct GameEnderControllerSaveState final
 {
-    ReliveTypes field_0_type;
-    s16 field_2_padding;
-    Guid field_4_obj_id;
-    s32 field_8_timer;
-    GameEnderControllerStates field_C_state;
-    s16 field_E_padding;
+    ReliveTypes mType;
+    Guid mObjId;
+    s32 mTimer;
+    GameEnderControllerStates mState;
 };
 
 class GameEnderController final : public BaseGameObject
@@ -40,9 +38,9 @@ public:
     virtual s32 VGetSaveState(u8* pSaveBuffer) override;
 
 private:
-    s32 field_20_timer = 0;
-    GameEnderControllerStates field_24_state = GameEnderControllerStates::eInit_0;
+    s32 mTimer = 0;
+    GameEnderControllerStates mState = GameEnderControllerStates::eInit_0;
 };
 
-extern s16 sFeeco_Restart_KilledMudCount_5C1BC6;
-extern s16 sFeecoRestart_SavedMudCount_5C1BC8;
+extern s16 gFeeco_Restart_KilledMudCount;
+extern s16 gFeecoRestart_SavedMudCount;

@@ -134,12 +134,12 @@ public:
 
         mXPos = xpos;
         mYPos = ypos;
-        field_410_xpos = xpos;
-        field_414_ypos = ypos;
+        mStartXPos = xpos;
+        mStartYPos = ypos;
 
         SetSpriteScale(FP_FromDouble(0.3));
 
-        for (auto& anim : field_F8_sparks)
+        for (auto& anim : mSparks)
         {
             anim.field_14.field_68_anim_ptr = &GetAnimation();
 
@@ -161,26 +161,16 @@ public:
             anim.field_12_bVisible = 0;
         }
 
-        field_F4_bRender = 0;
+        mRender = 0;
     }
 
-    virtual void VUpdate() override
+    void SetRenderEnabled(bool bEnable)
     {
-        vUpdate_45DFE0();
-    }
-
-    virtual void VRender(PrimHeader** ppOt) override
-    {
-        vRender_45E260(ppOt);
-    }
-
-    void SetRenderEnabled_45E240(s16 bEnable)
-    {
-        field_F4_bRender = bEnable;
+        mRender = bEnable;
     }
 
 private:
-    void vUpdate_45DFE0()
+    virtual void VUpdate() override
     {
         // HACK/WTF this seems to move the base animation off screen so it can never been seen??
         PSX_RECT rect = {};
@@ -188,9 +178,9 @@ private:
         mXPos = FP_FromInteger(rect.w + 16);
         mYPos = FP_FromInteger(rect.y - 16);
 
-        if (field_F4_bRender)
+        if (mRender)
         {
-            for (auto& anim : field_F8_sparks)
+            for (auto& anim : mSparks)
             {
                 anim.field_10_random64--;
                 if (anim.field_12_bVisible == 0)
@@ -200,8 +190,8 @@ private:
                         anim.field_12_bVisible = 1;
                         anim.field_10_random64 = Math_RandomRange(7, 9);
 
-                        anim.x = field_410_xpos;
-                        anim.y = field_414_ypos;
+                        anim.x = mStartXPos;
+                        anim.y = mStartYPos;
 
                         anim.field_8_off_x = (FP_FromInteger(Math_NextRandom() - 127) / FP_FromInteger(96));
                         anim.field_C_off_y = (FP_FromInteger(-Math_NextRandom()) / FP_FromInteger(96)); // TODO: Check this is right ??
@@ -227,11 +217,11 @@ private:
         }
     }
 
-    void vRender_45E260(PrimHeader** ppOt)
+    virtual void VRender(PrimHeader** ppOt) override
     {
         if (gNumCamSwappers == 0)
         {
-            if (field_F4_bRender)
+            if (mRender)
             {
                 GetAnimation().SetRGB(240, 32, 32);
 
@@ -242,7 +232,7 @@ private:
                     0,
                     0);
 
-                for (auto& anim : field_F8_sparks)
+                for (auto& anim : mSparks)
                 {
                     if (anim.field_12_bVisible)
                     {
@@ -264,10 +254,10 @@ private:
     }
 
 private:
-    s16 field_F4_bRender;
-    FlameSpark field_F8_sparks[6];
-    FP field_410_xpos;
-    FP field_414_ypos;
+    bool mRender;
+    FlameSpark mSparks[6];
+    FP mStartXPos;
+    FP mStartYPos;
 };
 
 DoorFlame::DoorFlame(relive::Path_DoorFlame* pTlv, const Guid& tlvId)
@@ -380,7 +370,7 @@ void DoorFlame::VUpdate()
 
             if (pFlameSparks)
             {
-                pFlameSparks->SetRenderEnabled_45E240(0);
+                pFlameSparks->SetRenderEnabled(false);
             }
 
             if (SwitchStates_Get(mSwitchId))
@@ -416,7 +406,7 @@ void DoorFlame::VUpdate()
 
             if (pFlameSparks)
             {
-                pFlameSparks->SetRenderEnabled_45E240(1);
+                pFlameSparks->SetRenderEnabled(true);
             }
 
             if (!SwitchStates_Get(mSwitchId))

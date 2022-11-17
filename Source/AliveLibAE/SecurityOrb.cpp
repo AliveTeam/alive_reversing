@@ -17,7 +17,8 @@
 #include "Map.hpp"
 #include "Path.hpp"
 
-const TintEntry sSecurityOrbTints_55C1EC[18] = {
+const TintEntry sSecurityOrbTints_55C1EC[16] = {
+    {EReliveLevelIds::eMenu, 127u, 127u, 127u},
     {EReliveLevelIds::eMines, 127u, 127u, 127u},
     {EReliveLevelIds::eNecrum, 137u, 137u, 137u},
     {EReliveLevelIds::eMudomoVault, 127u, 127u, 127u},
@@ -28,11 +29,11 @@ const TintEntry sSecurityOrbTints_55C1EC[18] = {
     {EReliveLevelIds::eBonewerkz, 127u, 127u, 127u},
     {EReliveLevelIds::eBrewery, 127u, 127u, 127u},
     {EReliveLevelIds::eBrewery_Ender, 127u, 127u, 127u},
-    {EReliveLevelIds::eMudomoVault, 127u, 127u, 127u}, // TODO: eMudomoVault_3 exists twice. eMudomoVault_Ender_11 should probably be here? OG bug?
+    {EReliveLevelIds::eMudomoVault_Ender, 127u, 127u, 127u},
     {EReliveLevelIds::eFeeCoDepot_Ender, 127u, 127u, 127u},
     {EReliveLevelIds::eBarracks_Ender, 127u, 127u, 127u},
     {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
-    {EReliveLevelIds::eNone, 127u, 127u, 127u}};
+    {EReliveLevelIds::eCredits, 127u, 127u, 127u}};
 
 
 SecurityOrb::SecurityOrb(relive::Path_SecurityOrb* pTlv, const Guid& tlvId)

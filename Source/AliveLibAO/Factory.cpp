@@ -703,7 +703,6 @@ static void Factory_BeeNest(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& t
 static void Factory_Mine(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
 {
     auto pMineTlv = static_cast<relive::Path_Mine*>(pTlv);
-    const auto disabledResources = pMineTlv->mDisabledResources;
 
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -713,14 +712,6 @@ static void Factory_Mine(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvI
     }
     else
     {
-        if (!(disabledResources & 1))
-        {
-        }
-
-        if (!(disabledResources & 2))
-        {
-        }
-
         relive_new Mine(pMineTlv, tlvId);
     }
 }
@@ -986,7 +977,7 @@ static void Factory_ChimeLock(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid&
     }
 }
 
-static void Factory_Elum_4873D0(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
+static void Factory_Elum(relive::Path_TLV* pTlv, Map* /*pMap*/, const Guid& tlvId, LoadMode loadMode)
 {
     if (loadMode == LoadMode::LoadResourceFromList_1 || loadMode == LoadMode::LoadResource_2)
     {
@@ -1407,10 +1398,10 @@ static void Factory_KillUnsavedMuds(relive::Path_TLV* /*pTlv*/, Map* pMap, const
     {
         // OG bug fix - added an extra check that checks if the map has changed
         // which prevents that the killed mudokon count becomes inaccurate or even negative.
-        if (!gbKillUnsavedMudsDone_5076CC &&
+        if (!gbKillUnsavedMudsDone &&
             pMap->field_DA_bMapChanged)
         {
-            gbKillUnsavedMudsDone_5076CC = 1;
+            gbKillUnsavedMudsDone = true;
             sKilledMudokons = 28 - sRescuedMudokons;
             Path::TLV_Reset(tlvId, -1, 0, 1);
         }
@@ -1449,7 +1440,7 @@ void ConstructTLVObject(relive::Path_TLV* pTlv, Map* pMap, const Guid& tlvInfo, 
             Factory_ElectricWall(pTlv, pMap, tlvInfo, loadMode);
             break;
         case ReliveTypes::eElum:
-            Factory_Elum_4873D0(pTlv, pMap, tlvInfo, loadMode);
+            Factory_Elum(pTlv, pMap, tlvInfo, loadMode);
             break;
         case ReliveTypes::eBellHammer:
             Factory_BellHammer(pTlv, pMap, tlvInfo, loadMode);

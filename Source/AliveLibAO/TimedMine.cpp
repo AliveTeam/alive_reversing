@@ -14,7 +14,7 @@
 
 namespace AO {
 
-const TintEntry kTimedMineTints_4C3140[3] = {
+static const TintEntry sTimedMineTints[3] = {
     {EReliveLevelIds::eStockYards, 60u, 60u, 60u},
     {EReliveLevelIds::eStockYardsReturn, 60u, 60u, 60u},
     {EReliveLevelIds::eNone, 127u, 127u, 127u},
@@ -63,7 +63,7 @@ TimedMine::TimedMine(relive::Path_TimedMine* pTlv, const Guid& tlvId)
     mExplosionTimer = sGnFrame;
     mTlvInfo = tlvId;
 
-    SetBaseAnimPaletteTint(kTimedMineTints_4C3140, gMap.mCurrentLevel, PalId::Default); // TODO: Bomb pal removed, check correct
+    SetBaseAnimPaletteTint(sTimedMineTints, gMap.mCurrentLevel, PalId::Default); // TODO: Bomb pal removed, check correct
     mCollectionRect.x = mXPos - (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
     mCollectionRect.y = mYPos - ScaleToGridSize(GetSpriteScale());
     mCollectionRect.w = mXPos + (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));

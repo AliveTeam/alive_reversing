@@ -4,15 +4,6 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
-struct FallingItem_Data final
-{
-    s32 field_0;
-    s32 field_4;
-    s16 field_8;
-    s16 field_A;
-};
-ALIVE_ASSERT_SIZEOF(FallingItem_Data, 0xC);
-
 class FallingItem final : public BaseAliveGameObject
 {
 public:
@@ -42,20 +33,20 @@ private:
     };
 
 public:
-    Guid field_118_tlvInfo;
-    State field_11C_state = State::eWaitForIdEnable_0;
-    s16 field_11E_switch_id = 0;
-    s16 field_120_max_falling_items = 0;
-    s16 field_122_remaining_falling_items = 0;
-    s16 field_124_fall_interval = 0;
-    s32 field_128_fall_interval_timer = 0;
-    relive::reliveChoice field_12C_reset_switch_id_after_use = relive::reliveChoice::eNo;
-    s16 field_12E_do_sound_in_state_falling = 0;
-    FP field_130_yPosStart = {};
-    s16 field_134_bHitDrillOrMineCar = 0;
-    FP field_138_xpos = {};
-    FP field_13C_ypos = {};
-    s32 field_140_sound_channels = 0;
-    s32 field_144_created_gnFrame = 0;
+    Guid mTlvId;
+    State mState = State::eWaitForIdEnable_0;
+    s16 mSwitchId = 0;
+    s16 mMaxFallingItems = 0;
+    s16 mRemainingFallingItems = 0;
+    s16 mFallInterval = 0;
+    s32 mFallIntervalTimer = 0;
+    relive::reliveChoice mResetSwitchIdAfterUse = relive::reliveChoice::eNo;
+    bool mDoAirStreamSound = false;
+    FP mStartYPos = {};
+    bool mHitDrillOrMineCar = false;
+    FP mTlvXPos = {};
+    FP mTlvYPos = {};
+    s32 mAirStreamSndChannels = 0;
+    s32 mCreatedGnFrame = 0;
 };
 ALIVE_ASSERT_SIZEOF(FallingItem, 0x148);

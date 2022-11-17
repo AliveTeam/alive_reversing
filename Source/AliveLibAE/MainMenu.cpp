@@ -582,8 +582,8 @@ MainMenuController::MainMenuController(relive::Path_TLV* /*pTlv*/, const Guid& t
     sRescuedMudokons = 0;
     gAttract = 0;
     sSavedKilledMudsPerZulag_5C1B50.mData[ALIVE_COUNTOF(sSavedKilledMudsPerZulag_5C1B50.mData) - 1] = 0;
-    sFeeco_Restart_KilledMudCount_5C1BC6 = 0;
-    sFeecoRestart_SavedMudCount_5C1BC8 = 0;
+    gFeeco_Restart_KilledMudCount = 0;
+    gFeecoRestart_SavedMudCount = 0;
 
     if (gMap.mCurrentCamera == MainMenuCams::eCheatMenu_SelectFMVCam)
     {

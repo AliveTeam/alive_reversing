@@ -707,8 +707,8 @@ Menu::Menu(relive::Path_TLV* /*pTlv*/, const Guid& tlvId)
     gEnableCheatLevelSelect = 0;
     sKilledMudokons = 0;
     sRescuedMudokons = 0;
-    gRestartRuptureFarmsKilledMuds_5076C4 = 0;
-    gRestartRuptureFarmsSavedMuds_5076C8 = 0;
+    gRestartRuptureFarmsKilledMuds = 0;
+    gRestartRuptureFarmsSavedMuds = 0;
 
     // 30 = fmv select
     if (gMap.mCurrentCamera == 30)

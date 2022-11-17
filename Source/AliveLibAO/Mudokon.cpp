@@ -1741,8 +1741,7 @@ void Mudokon::Motion_28_MidWalkToRun()
     if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
         SetPreviousMotion(eMudMotions::Motion_29_RunLoop);
-        const auto motion = static_cast<s32>(eMudMotions::Motion_8_WalkToIdle);
-        mBaseAliveGameObjectLastAnimFrame = motion;
+        mBaseAliveGameObjectLastAnimFrame = 8;
         field_1BC = 1;
     }
 

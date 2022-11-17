@@ -8,14 +8,12 @@
 
 struct HoistRockParticle final
 {
-    s16 field_0_state;
-    s16 field_2;
-    FP field_4_xpos;
-    FP field_8_ypos;
-    FP field_C_yVel;
-    Animation field_10_mAnim;
+    s16 mState;
+    FP mXPos;
+    FP mYPos;
+    FP mVelY;
+    Animation mAnim;
 };
-ALIVE_ASSERT_SIZEOF(HoistRockParticle, 0xA8);
 
 class HoistRocksEffect final : public BaseGameObject
 {
@@ -30,10 +28,10 @@ public:
     void LoadAnimations();
 
 private:
-    s16 field_20_xpos = 0;
-    s16 field_22_ypos = 0;
-    Guid field_24_tlvInfo;
-    s32 field_28_timer = 0;
-    FP field_2C_scale = {};
-    HoistRockParticle field_30_rocks[4] = {};
+    s16 mTlvXPos = 0;
+    s16 mTlvYPos = 0;
+    Guid mTlvId;
+    s32 mTimer = 0;
+    FP mSpriteScale = {};
+    HoistRockParticle mRocks[4] = {};
 };

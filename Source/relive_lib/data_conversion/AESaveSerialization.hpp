@@ -879,10 +879,10 @@ inline void from_json(const nlohmann::json& j, FlyingSligSpawnerSaveState& p)
 inline void to_json(nlohmann::json& j, const GameEnderControllerSaveState& p)
 {
     j = nlohmann::json{
-        {"type", p.field_0_type},
-        {"obj_id", p.field_4_obj_id},
-        {"timer", p.field_8_timer},
-        {"state", p.field_C_state},
+        {"type", p.mType},
+        {"obj_id", p.mObjId},
+        {"timer", p.mTimer},
+        {"state", p.mState},
     };
 }
 
@@ -901,10 +901,10 @@ NLOHMANN_JSON_SERIALIZE_ENUM(GameEnderControllerStates, {
 
 inline void from_json(const nlohmann::json& j, GameEnderControllerSaveState& p)
 {
-    j.at("type").get_to(p.field_0_type);
-    j.at("obj_id").get_to(p.field_4_obj_id);
-    j.at("timer").get_to(p.field_8_timer);
-    j.at("state").get_to(p.field_C_state);
+    j.at("type").get_to(p.mType);
+    j.at("obj_id").get_to(p.mObjId);
+    j.at("timer").get_to(p.mTimer);
+    j.at("state").get_to(p.mState);
 }
 inline void to_json(nlohmann::json& j, const SlapLockWhirlWindSaveState& p)
 {
@@ -982,21 +982,21 @@ inline void to_json(nlohmann::json& j, const GreeterSaveState& p)
         {"velx", p.field_14_velx},
         {"vely", p.field_18_vely},
         {"sprite_scale", p.field_1C_sprite_scale},
-        {"current_frame", p.field_20_current_frame},
-        {"frame_change_counter", p.field_22_frame_change_counter},
-        {"anim_render", p.field_24_bAnimRender},
-        {"drawable", p.field_25_bDrawable},
-        {"tlv_info", p.field_28_tlvInfo},
+        {"current_frame", p.mCurrentFrame},
+        {"frame_change_counter", p.mFrameChangeCounter},
+        {"anim_render", p.mAnimRender},
+        {"drawable", p.mDrawable},
+        {"tlv_info", p.mTlvId},
         {"last_turn_time", p.field_30_last_turn_time},
         {"timer", p.field_34_timer},
-        {"times_shot", p.field_38_timesShot},
+        {"times_shot", p.mTimesShot},
         {"dont_set_destroyed", p.field_3A_bDontSetDestroyed},
-        {"chasing", p.field_3C_bChasing},
+        {"chasing", p.mChasing},
         {"speed", p.field_40_speed},
-        {"brain_state", p.field_44_brain_state},
+        {"brain_state", p.mBrainState},
         {"target_on_left", p.field_46_targetOnLeft},
         {"target_on_right", p.field_48_targetOnRight},
-        {"motion_laser_xpos", p.field_4C_motion_laser_xpos},
+        {"motion_laser_xpos", p.mMotionLaserXPos},
     };
 }
 
@@ -1013,21 +1013,21 @@ inline void from_json(const nlohmann::json& j, GreeterSaveState& p)
     j.at("velx").get_to(p.field_14_velx);
     j.at("vely").get_to(p.field_18_vely);
     j.at("sprite_scale").get_to(p.field_1C_sprite_scale);
-    j.at("current_frame").get_to(p.field_20_current_frame);
-    j.at("frame_change_counter").get_to(p.field_22_frame_change_counter);
-    j.at("anim_render").get_to(p.field_24_bAnimRender);
-    j.at("drawable").get_to(p.field_25_bDrawable);
-    j.at("tlv_info").get_to(p.field_28_tlvInfo);
+    j.at("current_frame").get_to(p.mCurrentFrame);
+    j.at("frame_change_counter").get_to(p.mFrameChangeCounter);
+    j.at("anim_render").get_to(p.mAnimRender);
+    j.at("drawable").get_to(p.mDrawable);
+    j.at("tlv_info").get_to(p.mTlvId);
     j.at("last_turn_time").get_to(p.field_30_last_turn_time);
     j.at("timer").get_to(p.field_34_timer);
-    j.at("times_shot").get_to(p.field_38_timesShot);
+    j.at("times_shot").get_to(p.mTimesShot);
     j.at("dont_set_destroyed").get_to(p.field_3A_bDontSetDestroyed);
-    j.at("chasing").get_to(p.field_3C_bChasing);
+    j.at("chasing").get_to(p.mChasing);
     j.at("speed").get_to(p.field_40_speed);
-    j.at("brain_state").get_to(p.field_44_brain_state);
+    j.at("brain_state").get_to(p.mBrainState);
     j.at("target_on_left").get_to(p.field_46_targetOnLeft);
     j.at("target_on_right").get_to(p.field_48_targetOnRight);
-    j.at("motion_laser_xpos").get_to(p.field_4C_motion_laser_xpos);
+    j.at("motion_laser_xpos").get_to(p.mMotionLaserXPos);
 }
 
 NLOHMANN_JSON_SERIALIZE_ENUM(GrenadeStates, {
@@ -1121,101 +1121,101 @@ NLOHMANN_JSON_SERIALIZE_ENUM(GlukkonSpeak, {
 inline void to_json(nlohmann::json& j, const GlukkonSaveState& p)
 {
     j = nlohmann::json{
-        {"id", p.field_0_id},
+        {"id", p.mType},
         {"field_4_object_id", p.field_4_object_id},
-        {"xpos", p.field_8_xpos},
-        {"ypos", p.field_C_ypos},
-        {"velx", p.field_10_xvel},
-        {"vely", p.field_14_yvel},
-        {"field_18_path", p.field_18_path},
-        {"field_1a_level", p.field_1A_level},
-        {"sprite_scale", p.field_1C_sprite_scale},
-        {"ring_red", p.mRingRed},
-        {"ring_green", p.mRingGreen},
-        {"ring_blue", p.mRingBlue},
-        {"flip_x", p.field_26_flipX},
-        {"field_28_current_motion", p.field_28_current_motion},
-        {"current_frame", p.field_2A_current_frame},
-        {"frame_change_counter", p.field_2C_frame_change_counter},
-        {"render", p.field_2E_render},
-        {"drawable", p.field_2F_drawable},
-        {"health", p.field_30_health},
-        {"field_34_current_motion", p.field_34_current_motion},
-        {"next_motion", p.field_36_next_motion},
+        {"xpos", p.mXPos},
+        {"ypos", p.mYPos},
+        {"velx", p.mVelX},
+        {"vely", p.mVelY},
+        {"field_18_path", p.mCurrentPath},
+        {"field_1a_level", p.mCurrentLevel},
+        {"sprite_scale", p.mSpriteScale},
+        {"ring_red", p.mRed},
+        {"ring_green", p.mGreen},
+        {"ring_blue", p.mBlue},
+        {"flip_x", p.mFlipX},
+        {"field_28_current_motion", p.mCurrentMotion},
+        {"current_frame", p.mCurrentFrame},
+        {"frame_change_counter", p.mFrameChangeCounter},
+        {"render", p.mRender},
+        {"drawable", p.mDrawable},
+        {"health", p.mHealth},
+        {"field_34_current_motion", p.mCurrentMotion2},
+        {"next_motion", p.mNextMotion},
         {"last_line_ypos", p.field_38_last_line_ypos},
-        {"line_type", p.field_3A_line_type},
-        {"is_active_char", p.field_40_bIsActiveChar},
-        {"tlv_info", p.field_44_tlvInfo},
+        {"line_type", p.mLineType},
+        {"is_active_char", p.mIsActiveChar},
+        {"tlv_info", p.mTlvId},
         {"brain_state_idx", p.field_48_brain_state_idx},
-        {"brain_sub_state", p.field_50_brain_sub_state},
+        {"brain_sub_state", p.mBrainSubState},
         {"timer", p.field_54_timer},
-        {"vel_x_scale_factor", p.field_58_falling_velx_scale_factor},
-        {"prevent_depossession", p.field_5E_prevent_depossession},
-        {"field_60_level", p.field_60_level},
-        {"field_62_path", p.field_62_path},
-        {"camera", p.field_64_camera},
-        {"speak", p.field_66_speak},
-        {"gamespeak_pitch", p.field_68_gamespeak_pitch},
-        {"previous_ypos", p.field_6C_previous_ypos},
-        {"randomish_speak_timer", p.field_70_randomish_speak_timer},
-        {"turn_or_help_timer", p.field_74_turn_or_help_timer},
-        {"panic_timer", p.field_78_panic_timer},
+        {"vel_x_scale_factor", p.mFallingVelXScaleFactor},
+        {"prevent_depossession", p.mPreventDepossession},
+        {"field_60_level", p.mAbeLevel},
+        {"field_62_path", p.mAbePath},
+        {"camera", p.mAbeCamera},
+        {"speak", p.mSpeak},
+        {"gamespeak_pitch", p.mGamespeakPitch},
+        {"previous_ypos", p.mPreviousYPos},
+        {"randomish_speak_timer", p.mRandomishSpeakTimer},
+        {"turn_or_help_timer", p.mTurnOrHelpTimer},
+        {"panic_timer", p.mPanicTimer},
         {"field_7c", p.field_7C},
-        {"knockback_delay_after_getting_shot_timer", p.field_80_knockback_delay_after_getting_shot_timer},
-        {"getting_shot_timer", p.field_84_getting_shot_timer},
-        {"field_88_obj_id", p.field_88_obj_id},
-        {"can_be_possessed", p.field_8C_can_be_possessed},
-        {"type_id", p.field_8E_type_id},
+        {"knockback_delay_after_getting_shot_timer", p.mKnockbackDelayAfterGettingShotTimer},
+        {"getting_shot_timer", p.mGettingShotTimer},
+        {"field_88_obj_id", p.mFadeId},
+        {"can_be_possessed", p.mCanBePossessed},
+        {"type_id", p.mCurrentType},
     };
 }
 
 inline void from_json(const nlohmann::json& j, GlukkonSaveState& p)
 {
-    j.at("id").get_to(p.field_0_id);
+    j.at("id").get_to(p.mType);
     j.at("field_4_object_id").get_to(p.field_4_object_id);
-    j.at("xpos").get_to(p.field_8_xpos);
-    j.at("ypos").get_to(p.field_C_ypos);
-    j.at("velx").get_to(p.field_10_xvel);
-    j.at("vely").get_to(p.field_14_yvel);
-    j.at("field_18_path").get_to(p.field_18_path);
-    j.at("field_1a_level").get_to(p.field_1A_level);
-    j.at("sprite_scale").get_to(p.field_1C_sprite_scale);
-    j.at("ring_red").get_to(p.mRingRed);
-    j.at("ring_green").get_to(p.mRingGreen);
-    j.at("ring_blue").get_to(p.mRingBlue);
-    j.at("flip_x").get_to(p.field_26_flipX);
-    j.at("field_28_current_motion").get_to(p.field_28_current_motion);
-    j.at("current_frame").get_to(p.field_2A_current_frame);
-    j.at("frame_change_counter").get_to(p.field_2C_frame_change_counter);
-    j.at("render").get_to(p.field_2E_render);
-    j.at("drawable").get_to(p.field_2F_drawable);
-    j.at("health").get_to(p.field_30_health);
-    j.at("field_34_current_motion").get_to(p.field_34_current_motion);
-    j.at("next_motion").get_to(p.field_36_next_motion);
+    j.at("xpos").get_to(p.mXPos);
+    j.at("ypos").get_to(p.mYPos);
+    j.at("velx").get_to(p.mVelX);
+    j.at("vely").get_to(p.mVelY);
+    j.at("field_18_path").get_to(p.mCurrentPath);
+    j.at("field_1a_level").get_to(p.mCurrentLevel);
+    j.at("sprite_scale").get_to(p.mSpriteScale);
+    j.at("ring_red").get_to(p.mRed);
+    j.at("ring_green").get_to(p.mGreen);
+    j.at("ring_blue").get_to(p.mBlue);
+    j.at("flip_x").get_to(p.mFlipX);
+    j.at("field_28_current_motion").get_to(p.mCurrentMotion);
+    j.at("current_frame").get_to(p.mCurrentFrame);
+    j.at("frame_change_counter").get_to(p.mFrameChangeCounter);
+    j.at("render").get_to(p.mRender);
+    j.at("drawable").get_to(p.mDrawable);
+    j.at("health").get_to(p.mHealth);
+    j.at("field_34_current_motion").get_to(p.mCurrentMotion2);
+    j.at("next_motion").get_to(p.mNextMotion);
     j.at("last_line_ypos").get_to(p.field_38_last_line_ypos);
-    j.at("line_type").get_to(p.field_3A_line_type);
-    j.at("is_active_char").get_to(p.field_40_bIsActiveChar);
-    j.at("tlv_info").get_to(p.field_44_tlvInfo);
+    j.at("line_type").get_to(p.mLineType);
+    j.at("is_active_char").get_to(p.mIsActiveChar);
+    j.at("tlv_info").get_to(p.mTlvId);
     j.at("brain_state_idx").get_to(p.field_48_brain_state_idx);
-    j.at("brain_sub_state").get_to(p.field_50_brain_sub_state);
+    j.at("brain_sub_state").get_to(p.mBrainSubState);
     j.at("timer").get_to(p.field_54_timer);
-    j.at("vel_x_scale_factor").get_to(p.field_58_falling_velx_scale_factor);
-    j.at("prevent_depossession").get_to(p.field_5E_prevent_depossession);
-    j.at("field_60_level").get_to(p.field_60_level);
-    j.at("field_62_path").get_to(p.field_62_path);
-    j.at("camera").get_to(p.field_64_camera);
-    j.at("speak").get_to(p.field_66_speak);
-    j.at("gamespeak_pitch").get_to(p.field_68_gamespeak_pitch);
-    j.at("previous_ypos").get_to(p.field_6C_previous_ypos);
-    j.at("randomish_speak_timer").get_to(p.field_70_randomish_speak_timer);
-    j.at("turn_or_help_timer").get_to(p.field_74_turn_or_help_timer);
-    j.at("panic_timer").get_to(p.field_78_panic_timer);
+    j.at("vel_x_scale_factor").get_to(p.mFallingVelXScaleFactor);
+    j.at("prevent_depossession").get_to(p.mPreventDepossession);
+    j.at("field_60_level").get_to(p.mAbeLevel);
+    j.at("field_62_path").get_to(p.mAbePath);
+    j.at("camera").get_to(p.mAbeCamera);
+    j.at("speak").get_to(p.mSpeak);
+    j.at("gamespeak_pitch").get_to(p.mGamespeakPitch);
+    j.at("previous_ypos").get_to(p.mPreviousYPos);
+    j.at("randomish_speak_timer").get_to(p.mRandomishSpeakTimer);
+    j.at("turn_or_help_timer").get_to(p.mTurnOrHelpTimer);
+    j.at("panic_timer").get_to(p.mPanicTimer);
     j.at("field_7c").get_to(p.field_7C);
-    j.at("knockback_delay_after_getting_shot_timer").get_to(p.field_80_knockback_delay_after_getting_shot_timer);
-    j.at("getting_shot_timer").get_to(p.field_84_getting_shot_timer);
-    j.at("field_88_obj_id").get_to(p.field_88_obj_id);
-    j.at("can_be_possessed").get_to(p.field_8C_can_be_possessed);
-    j.at("type_id").get_to(p.field_8E_type_id);
+    j.at("knockback_delay_after_getting_shot_timer").get_to(p.mKnockbackDelayAfterGettingShotTimer);
+    j.at("getting_shot_timer").get_to(p.mGettingShotTimer);
+    j.at("field_88_obj_id").get_to(p.mFadeId);
+    j.at("can_be_possessed").get_to(p.mCanBePossessed);
+    j.at("type_id").get_to(p.mCurrentType);
 }
 
 NLOHMANN_JSON_SERIALIZE_ENUM(Mud_Emotion, {

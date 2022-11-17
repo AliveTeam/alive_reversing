@@ -41,20 +41,20 @@ private:
     };
 
 public:
-    Guid field_10C_tlvInfo;
-    State field_110_state = State::eWaitForIdEnable_0;
-    u16 field_112_switch_id = 0;
+    Guid mTlvId;
+    State mState = State::eWaitForIdEnable_0;
+    u16 mSwitchId = 0;
     s16 mMaxFallingItems = 0;
     s16 mRemainingFallingItems = 0;
     s16 mFallInterval = 0;
-    s32 field_11C_delay_timer = 0;
+    s32 mFallIntervalTimer = 0;
     relive::reliveChoice mResetSwitchIdAfterUse = relive::reliveChoice::eNo;
-    s16 field_122_do_sound_in_state_falling = 0;
-    FP field_124_yPosStart = {};
-    FP field_128_xpos = {};
-    FP field_12C_ypos = {};
-    s32 field_130_sound_channels = 0;
-    s32 field_134_created_gnFrame = 0;
+    bool mDoAirStreamSound = false;
+    FP mStartYPos = {};
+    FP mTlvXPos = {};
+    FP mTlvYPos = {};
+    s32 mAirStreamSndChannels = 0;
+    s32 mCreatedGnFrame = 0;
 };
 
 } // namespace AO

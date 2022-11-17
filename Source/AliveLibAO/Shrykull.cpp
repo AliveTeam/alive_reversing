@@ -19,15 +19,15 @@ namespace AO {
 
 Shrykull::~Shrykull()
 {
-    if (field_118_zap_line)
+    if (mZapLine)
     {
-        field_118_zap_line->mBaseGameObjectRefCount--;
-        field_118_zap_line->mBaseGameObjectFlags.Set(Options::eDead);
+        mZapLine->mBaseGameObjectRefCount--;
+        mZapLine->mBaseGameObjectFlags.Set(Options::eDead);
     }
 
-    if (field_11C_obj_being_zapped)
+    if (mZapTarget)
     {
-        field_11C_obj_being_zapped->mBaseGameObjectRefCount--;
+        mZapTarget->mBaseGameObjectRefCount--;
     }
 }
 
@@ -55,20 +55,20 @@ Shrykull::Shrykull()
     LoadAnimations();
 
     Animation_Init(GetAnimRes(AnimId::ShrykullStart));
-    field_118_zap_line = nullptr;
-    field_11C_obj_being_zapped = nullptr;
+    mZapLine = nullptr;
+    mZapTarget = nullptr;
 
     mXPos = sActiveHero->mXPos;
     mYPos = sActiveHero->mYPos;
     SetSpriteScale(sActiveHero->GetSpriteScale());
     SetScale(sActiveHero->GetScale());
-    field_10C_state = State::eTransform_0;
+    mState = State::eTransform_0;
 
     GetAnimation().mFlags.Set(AnimFlags::eFlipX, sActiveHero->GetAnimation().mFlags.Get(AnimFlags::eFlipX));
 
     CreateShadow();
 
-    field_122_bResetRingTimer = 0;
+    mResetRingTimer = false;
 }
 
 void Shrykull::VOnThrowableHit(BaseGameObject*)
@@ -116,7 +116,7 @@ bool Shrykull::CanElectrocute(BaseGameObject* pObj) const
 
 void Shrykull::VUpdate()
 {
-    switch (field_10C_state)
+    switch (mState)
     {
         case State::eTransform_0:
             if (GetAnimation().GetCurrentFrame() == 0)
@@ -129,7 +129,7 @@ void Shrykull::VUpdate()
             if (GetAnimation().mFlags.Get(AnimFlags::eForwardLoopCompleted))
             {
                 GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::ShrykullTransform));
-                field_10C_state = State::eZapTargets_1;
+                mState = State::eZapTargets_1;
             }
             break;
 
@@ -157,14 +157,14 @@ void Shrykull::VUpdate()
                 if (CanKill(pObj) && !pObj->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eZappedByShrykull))
                 {
                     pObj->mBaseGameObjectRefCount++;
-                    field_11C_obj_being_zapped = pObj;
+                    mZapTarget = pObj;
 
                     const PSX_RECT objRect = pObj->VGetBoundingRect();
                     const PSX_RECT ourRect = VGetBoundingRect();
                     
-                    if (field_118_zap_line)
+                    if (mZapLine)
                     {
-                        field_118_zap_line->CalculateSourceAndDestinationPositions(
+                        mZapLine->CalculateSourceAndDestinationPositions(
                             FP_FromInteger((ourRect.x + ourRect.w) / 2),
                             FP_FromInteger((ourRect.y + ourRect.h) / 2),
                             FP_FromInteger((objRect.x + objRect.w) / 2),
@@ -182,15 +182,15 @@ void Shrykull::VUpdate()
                         if (pZapLine)
                         {
                             pZapLine->mBaseGameObjectRefCount++;
-                            field_118_zap_line = pZapLine;
+                            mZapLine = pZapLine;
                         }
                     }
 
-                    field_120_bElectrocute = CanElectrocute(pObj);
-                    if (field_120_bElectrocute)
+                    mCanElectrocute = CanElectrocute(pObj);
+                    if (mCanElectrocute)
                     {
                         relive_new Electrocute(pObj, 0);
-                        field_114_timer = sGnFrame + 3;
+                        mFlashTimer = sGnFrame + 3;
 
                         if (pObj->Type() == ReliveTypes::eBackgroundGlukkon)
                         {
@@ -198,7 +198,7 @@ void Shrykull::VUpdate()
                         }
                     }
 
-                    relive_new PossessionFlicker(field_11C_obj_being_zapped, 8, 255, 255, 255);
+                    relive_new PossessionFlicker(mZapTarget, 8, 255, 255, 255);
 
                     relive_new AbilityRing(
                         FP_FromInteger((objRect.x + objRect.w) / 2),
@@ -212,32 +212,32 @@ void Shrykull::VUpdate()
                         FP_FromInteger((ourRect.y + ourRect.h) / 2),
                         RingTypes::eShrykull_Pulse_Large_5);
 
-                    field_11C_obj_being_zapped->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eZappedByShrykull);
+                    mZapTarget->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eZappedByShrykull);
 
                     SFX_Play_Pitch(relive::SoundEffects::Respawn, 100, 2000);
                     SfxPlayMono(relive::SoundEffects::Zap1, 0);
 
-                    field_10C_state = State::eKillTargets_4;
-                    field_110_timer = sGnFrame + 12;
-                    field_122_bResetRingTimer = 1;
+                    mState = State::eKillTargets_4;
+                    mZapIntervalTimer = sGnFrame + 12;
+                    mResetRingTimer = true;
                     return;
                 }
             }
 
-            if (field_118_zap_line)
+            if (mZapLine)
             {
-                field_118_zap_line->mBaseGameObjectRefCount--;
-                field_118_zap_line->mBaseGameObjectFlags.Set(Options::eDead);
-                field_118_zap_line = nullptr;
+                mZapLine->mBaseGameObjectRefCount--;
+                mZapLine->mBaseGameObjectFlags.Set(Options::eDead);
+                mZapLine = nullptr;
             }
-            field_10C_state = State::eDetransform_2;
+            mState = State::eDetransform_2;
             break;
 
         case State::eDetransform_2:
             if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
                 GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::ShrykullDetransform));
-                field_10C_state = State::eFinish_3;
+                mState = State::eFinish_3;
             }
             break;
 
@@ -250,7 +250,7 @@ void Shrykull::VUpdate()
 
             if (GetAnimation().mFlags.Get(AnimFlags::eForwardLoopCompleted))
             {
-                sActiveHero->ExitShrykull_42F440(field_122_bResetRingTimer);
+                sActiveHero->ExitShrykull_42F440(mResetRingTimer);
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
             break;
@@ -268,18 +268,18 @@ void Shrykull::VUpdate()
                 }
             }
 
-            if (field_11C_obj_being_zapped)
+            if (mZapTarget)
             {
-                if (field_11C_obj_being_zapped->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+                if (mZapTarget->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
                 {
-                    field_11C_obj_being_zapped->mBaseGameObjectRefCount--;
-                    field_11C_obj_being_zapped = nullptr;
+                    mZapTarget->mBaseGameObjectRefCount--;
+                    mZapTarget = nullptr;
                 }
                 else
                 {
-                    const PSX_RECT zapRect = field_11C_obj_being_zapped->VGetBoundingRect();
+                    const PSX_RECT zapRect = mZapTarget->VGetBoundingRect();
                     const PSX_RECT ourRect = VGetBoundingRect();
-                    if (static_cast<s32>(sGnFrame) == field_114_timer)
+                    if (static_cast<s32>(sGnFrame) == mFlashTimer)
                     {
                         relive_new ParticleBurst(
                             FP_FromInteger((zapRect.x + zapRect.w) / 2),
@@ -290,7 +290,7 @@ void Shrykull::VUpdate()
 
                        relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
                     }
-                    field_118_zap_line->CalculateSourceAndDestinationPositions(
+                    mZapLine->CalculateSourceAndDestinationPositions(
                         FP_FromInteger((ourRect.x + ourRect.w) / 2),
                         FP_FromInteger((ourRect.y + ourRect.h) / 2),
                         FP_FromInteger((zapRect.x + zapRect.w) / 2),
@@ -298,19 +298,19 @@ void Shrykull::VUpdate()
                 }
             }
 
-            if (static_cast<s32>(sGnFrame) > field_110_timer)
+            if (static_cast<s32>(sGnFrame) > mZapIntervalTimer)
             {
-                field_10C_state = State::eZapTargets_1;
+                mState = State::eZapTargets_1;
 
-                if (field_11C_obj_being_zapped)
+                if (mZapTarget)
                 {
-                    if (!field_120_bElectrocute)
+                    if (!mCanElectrocute)
                     {
-                        field_11C_obj_being_zapped->VTakeDamage(this);
+                        mZapTarget->VTakeDamage(this);
                     }
 
-                    field_11C_obj_being_zapped->mBaseGameObjectRefCount--;
-                    field_11C_obj_being_zapped = nullptr;
+                    mZapTarget->mBaseGameObjectRefCount--;
+                    mZapTarget = nullptr;
                 }
             }
             break;

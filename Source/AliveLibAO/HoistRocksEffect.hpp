@@ -14,7 +14,7 @@ public:
 
     virtual void VUpdate() override;
 
-    s16 field_E4_bHitGround;
+    bool mHitGround = false;
 };
 
 class HoistRocksEffect final : public ::BaseGameObject
@@ -26,9 +26,9 @@ public:
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
 
-    FP field_10_xpos = {};
-    FP field_14_ypos = {};
-    Guid field_18_tlvInfo;
+    FP mTlvXPos = {};
+    FP mTlvYPos = {};
+    Guid mTlvId;
 };
 
 } // namespace AO
