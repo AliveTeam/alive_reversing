@@ -193,6 +193,20 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
         return false;
     }
 
+    D3DCAPS9 dxCaps = {};
+    DX_VERIFY(mDevice->GetDeviceCaps(&dxCaps));
+    if (dxCaps.PixelShaderVersion < D3DPS_VERSION(3, 0))
+    {
+        ALIVE_FATAL("Require pixel shader 3.0 or later but got %d.%d", D3DSHADER_VERSION_MAJOR(dxCaps.PixelShaderVersion), D3DSHADER_VERSION_MINOR(dxCaps.PixelShaderVersion));
+    }
+
+    if (dxCaps.TextureCaps & (D3DPTEXTURECAPS_POW2 | D3DPTEXTURECAPS_NONPOW2CONDITIONAL | D3DPTEXTURECAPS_SQUAREONLY))
+    {
+        ALIVE_FATAL("GPU doesn't support non power of 2 texture sizes");
+    }
+
+    LOG_INFO("PS 2.0 max instructions %d PS 3.0 max instructions %d", dxCaps.PS20Caps.NumInstructionSlots, dxCaps.MaxPixelShader30InstructionSlots);
+
     MakeVertexBuffer();
     
     for (u32 i = 0; i < 8; i++)
@@ -306,7 +320,7 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
 
         if (textureUnit == 1)
         {
-            texelSprite = tex2D(texSpriteSheets[0], fsUV);
+            texelSprite = tex2D(texSpriteSheets[0], fsUV).r;
         }
 
         float4 texelPal = PixelToPalette(texelSprite, palIndex);
@@ -397,16 +411,14 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
         std::string errStr(reinterpret_cast<const char*>(err->GetBufferPointer()), errBufferSize);
         ALIVE_FATAL("D3DXCompileShader failed 0x%08X Compiler returned: %s", shaderHr, errStr.c_str());
     }
+    else if (err && err->GetBufferSize() > 0)
+    {
+        const DWORD errBufferSize = err->GetBufferSize();
+        std::string errStr(reinterpret_cast<const char*>(err->GetBufferPointer()), errBufferSize);
+        LOG_WARNING("D3DXCompileShader %s", errStr.c_str());
+    }
 
     DX_VERIFY(mDevice->CreatePixelShader((DWORD*)shader->GetBufferPointer(), &mPixelShader));
-
-
-    D3DCAPS9 hal_caps = {};
-    DX_VERIFY(mDevice->GetDeviceCaps(&hal_caps));
-    if (hal_caps.PixelShaderVersion < D3DPS_VERSION(3, 0))
-    {
-        ALIVE_FATAL("Require pixel shader 3.0 or later but got %d.%d", D3DSHADER_VERSION_MAJOR(hal_caps.PixelShaderVersion), D3DSHADER_VERSION_MINOR(hal_caps.PixelShaderVersion));
-    }
 
     DX_VERIFY(mDevice->CreateRenderTarget(640, 240, D3DFMT_A8R8G8B8, D3DMULTISAMPLE_NONE, 0, FALSE, &mTextureRenderTarget, nullptr));
 
