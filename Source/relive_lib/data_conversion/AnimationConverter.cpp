@@ -78,8 +78,8 @@ AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const
 
     u32 allocTextureSize = 128; // Good starting size
     bool foundFit = false;
-    s16 spritesFitX = 0;
-    s16 spritesFitY = 0;
+    s32 spritesFitX = 0;
+    s32 spritesFitY = 0;
 
     if (pAnimationHeader->field_2_num_frames == 0)
     {
