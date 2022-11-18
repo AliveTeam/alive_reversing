@@ -12,15 +12,7 @@
     #include <d3dx9.h>
     #include <d3dx9shader.h>
 
-struct CUSTOMVERTEX
-{
-    FLOAT X, Y, Z, RHW;
-    DWORD COLOR; // diffuse
-    float u;
-    float v;
-    BYTE data1[4];
-    BYTE data2[4];
-};
+
 
 #define DX_SPRITE_TEXTURE_LIFETIME 300
 
@@ -110,15 +102,42 @@ void DirectX9TextureCache::DeleteTexture(ATL::CComPtr<IDirect3DTexture9> /*textu
 
 }
 
-D3DVERTEXELEMENT9 simple_decl[] = {
+struct CUSTOMVERTEX final
+{
+    FLOAT X, Y, Z, RHW;
+    DWORD COLOR; // diffuse
+
+    // TEXTURECOORD0
+    float u;
+    float v;
+
+    // TEXTURECOORD1
+    float isSemiTrans;
+    float isShaded;
+
+    // TEXTURECOORD2
+    float palIndex;
+    float blendMode;
+
+    // TEXTURECOORD3
+    float drawType;
+    float textureUnit;
+};
+
+const D3DVERTEXELEMENT9 simple_decl[] =
+{
     // D3DFVF_XYZRHW
-    {0, 0, D3DDECLTYPE_FLOAT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITIONT, 0},
+    {0, FIELD_OFFSET(CUSTOMVERTEX, X), D3DDECLTYPE_FLOAT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITIONT, 0},
+    
     // D3DFVF_DIFFUSE
-    {0, sizeof(float) * 4, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_COLOR, 0},
+    {0, FIELD_OFFSET(CUSTOMVERTEX, COLOR), D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_COLOR, 0},
+    
     // D3DFVF_TEX1
-    {0, (sizeof(float) * 4) + sizeof(DWORD), D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0},
-    {0, (sizeof(float) * 6) + sizeof(DWORD), D3DDECLTYPE_UBYTE4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_BLENDINDICES, 0},
-    {0, (sizeof(float) * 6) + sizeof(DWORD) + 4, D3DDECLTYPE_UBYTE4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_BLENDINDICES, 1},
+    {0, FIELD_OFFSET(CUSTOMVERTEX, u), D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0},
+    {0, FIELD_OFFSET(CUSTOMVERTEX, isSemiTrans), D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 1},
+    {0, FIELD_OFFSET(CUSTOMVERTEX, palIndex), D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 2},
+    {0, FIELD_OFFSET(CUSTOMVERTEX, drawType), D3DDECLTYPE_FLOAT2, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 3},
+
     D3DDECL_END()};
 
 DirectX9Renderer::DirectX9Renderer()
@@ -366,15 +385,20 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
         return outColor;
     }
 
-    float4 PS( float4 fsShadeColor : COLOR0, float2 fsUV : TEXCOORD0, int4 data1 : BLENDINDICES0, int4 data2: BLENDINDICES1) : COLOR
+    float4 PS( 
+        float4 fsShadeColor : COLOR0,
+        float2 fsUV : TEXCOORD0,
+        float2 semiTransShaded : TEXCOORD1,
+        float2 palIndexBlendMode : TEXCOORD2,
+        float2 drawTypeTextureUnit : TEXCOORD3) : COLOR
     {
-        int drawType = data1[0];
-        int palIndex = data1[1];
-        int isShaded = data1[2];
-        int blendMode = data1[3];
+        int drawType = drawTypeTextureUnit[0];
+        int palIndex = palIndexBlendMode[0];
+        int isShaded = semiTransShaded[0];
 
-        int isSemiTrans = data2[0];
-        int textureUnit = data2[1];
+        int blendMode = palIndexBlendMode[1];
+        int isSemiTrans = semiTransShaded[1];
+        int textureUnit = drawTypeTextureUnit[1];
 
         if (drawType == DRAW_DEFAULT_FT4)
         {
@@ -752,8 +776,25 @@ void DirectX9Renderer::Draw(Poly_G4& /*poly*/)
 
 }
 
+static float FromBool(const bool v)
+{
+    return v ? 1.0f : 0.0f;
+}
+
+static float FromInt(const u32 v)
+{
+    return static_cast<float>(v);
+}
+
 void DirectX9Renderer::SetQuad(f32 x, f32 y, f32 w, f32 h)
 {
+    bool isSemiTrans = false;
+    bool isShaded = false;
+    u8 type = 2;
+    u8 blendMode = 0;
+    u8 palIndex = 0;
+    u8 textureUnit =0;
+
     float fudge = 0.5f;
     // create the vertices using the CUSTOMVERTEX struct
     CUSTOMVERTEX vertices[] = {
@@ -765,7 +806,12 @@ void DirectX9Renderer::SetQuad(f32 x, f32 y, f32 w, f32 h)
             D3DCOLOR_XRGB(128, 128, 128), // TL
             0.0f,
             0.0f,
-            {2, 0, 0, 0}, {0, 0, 0, 0},
+            FromBool(isSemiTrans),
+            FromBool(isShaded),
+            FromInt(palIndex),
+            FromInt(blendMode),
+            FromInt(type),
+            FromInt(textureUnit)
         },
         {
             w - fudge,
@@ -775,7 +821,12 @@ void DirectX9Renderer::SetQuad(f32 x, f32 y, f32 w, f32 h)
             D3DCOLOR_XRGB(128, 128, 128),
             1.0f,
             0.0f,
-            {2, 0, 0, 0}, { 0, 0, 0, 0},
+            FromBool(isSemiTrans),
+            FromBool(isShaded),
+            FromInt(palIndex),
+            FromInt(blendMode),
+            FromInt(type),
+            FromInt(textureUnit)
         },
         {
             x - fudge,
@@ -785,7 +836,12 @@ void DirectX9Renderer::SetQuad(f32 x, f32 y, f32 w, f32 h)
             D3DCOLOR_XRGB(128, 128, 128),
             0.0f,
             1.0f,
-            {2, 0, 0, 0}, { 0, 0, 0, 0},
+            FromBool(isSemiTrans),
+            FromBool(isShaded),
+            FromInt(palIndex),
+            FromInt(blendMode),
+            FromInt(type),
+            FromInt(textureUnit)
         },
 
         {
@@ -796,7 +852,12 @@ void DirectX9Renderer::SetQuad(f32 x, f32 y, f32 w, f32 h)
             D3DCOLOR_XRGB(128, 128, 128), // TL
             1.0f,
             0.0f,
-            {2, 0, 0, 0}, { 0, 0, 0, 0},
+            FromBool(isSemiTrans),
+            FromBool(isShaded),
+            FromInt(palIndex),
+            FromInt(blendMode),
+            FromInt(type),
+            FromInt(textureUnit)
         },
         {
             w - fudge,
@@ -806,7 +867,12 @@ void DirectX9Renderer::SetQuad(f32 x, f32 y, f32 w, f32 h)
             D3DCOLOR_XRGB(128, 128, 128),
             1.0f,
             1.0f,
-            {2, 0, 0, 0}, { 0, 0, 0, 0},
+            FromBool(isSemiTrans),
+            FromBool(isShaded),
+            FromInt(palIndex),
+            FromInt(blendMode),
+            FromInt(type),
+            FromInt(textureUnit)
         },
         {
             x - fudge,
@@ -816,7 +882,12 @@ void DirectX9Renderer::SetQuad(f32 x, f32 y, f32 w, f32 h)
             D3DCOLOR_XRGB(128, 128, 128),
             0.0f,
             1.0f,
-            {2, 0, 0, 0}, { 0, 0, 0, 0},
+            FromBool(isSemiTrans),
+            FromBool(isShaded),
+            FromInt(palIndex),
+            FromInt(blendMode),
+            FromInt(type),
+            FromInt(textureUnit)
         },
     };
 
@@ -841,7 +912,12 @@ void DirectX9Renderer::SetQuad(u8 type, bool isSemiTrans, bool isShaded, u8 blen
             D3DCOLOR_XRGB(r, g, b),
             u0, // 0
             v0, // 0
-            {type, palIndex, isShaded, blendMode}, {isSemiTrans, textureUnit, 0, 0},
+            FromBool(isSemiTrans),
+            FromBool(isShaded),
+            FromInt(palIndex),
+            FromInt(blendMode),
+            FromInt(type),
+            FromInt(textureUnit)
         },
         {
             (f32) X1(&poly) - fudge,
@@ -851,7 +927,12 @@ void DirectX9Renderer::SetQuad(u8 type, bool isSemiTrans, bool isShaded, u8 blen
             D3DCOLOR_XRGB(r, g, b),
             u1, // 1
             v0, // 0
-            {type, palIndex, isShaded, blendMode}, {isSemiTrans, textureUnit, 0, 0},
+            FromBool(isSemiTrans),
+            FromBool(isShaded),
+            FromInt(palIndex),
+            FromInt(blendMode),
+            FromInt(type),
+            FromInt(textureUnit)
         },
         {
             (f32) X2(&poly) - fudge,
@@ -861,7 +942,12 @@ void DirectX9Renderer::SetQuad(u8 type, bool isSemiTrans, bool isShaded, u8 blen
             D3DCOLOR_XRGB(r, g, b),
             u0, // 0
             v1, // 1
-            {type, palIndex, isShaded, blendMode}, { isSemiTrans, textureUnit, 0, 0},
+            FromBool(isSemiTrans),
+            FromBool(isShaded),
+            FromInt(palIndex),
+            FromInt(blendMode),
+            FromInt(type),
+            FromInt(textureUnit)
         },
 
         {
@@ -872,7 +958,12 @@ void DirectX9Renderer::SetQuad(u8 type, bool isSemiTrans, bool isShaded, u8 blen
             D3DCOLOR_XRGB(r, g, b),
             u1, // 1
             v0, // 0
-            {type, palIndex, isShaded, blendMode}, { isSemiTrans, textureUnit, 0, 0},
+            FromBool(isSemiTrans),
+            FromBool(isShaded),
+            FromInt(palIndex),
+            FromInt(blendMode),
+            FromInt(type),
+            FromInt(textureUnit)
         },
         {
             (f32) X3(&poly) - fudge,
@@ -882,7 +973,12 @@ void DirectX9Renderer::SetQuad(u8 type, bool isSemiTrans, bool isShaded, u8 blen
             D3DCOLOR_XRGB(r, g, b),
             u1,   // 1
             v1,   // 1
-            {type, palIndex, isShaded, blendMode}, { isSemiTrans, textureUnit, 0, 0},
+            FromBool(isSemiTrans),
+            FromBool(isShaded),
+            FromInt(palIndex),
+            FromInt(blendMode),
+            FromInt(type),
+            FromInt(textureUnit)
         },
         {
             (f32) X2(&poly) - fudge,
@@ -892,7 +988,12 @@ void DirectX9Renderer::SetQuad(u8 type, bool isSemiTrans, bool isShaded, u8 blen
             D3DCOLOR_XRGB(r, g, b),
             u0, // 0
             v1, // 1
-            {type, palIndex, isShaded, blendMode}, { isSemiTrans, textureUnit, 0, 0},
+            FromBool(isSemiTrans),
+            FromBool(isShaded),
+            FromInt(palIndex),
+            FromInt(blendMode),
+            FromInt(type),
+            FromInt(textureUnit)
         },
     };
 
