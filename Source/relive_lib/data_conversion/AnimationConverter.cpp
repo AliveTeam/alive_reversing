@@ -70,31 +70,63 @@ AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const
     AnimationPal pal;
     ConvertPalToTGAFormat(fileData, pFirstFrame->field_0_clut_offset, pal);
 
+    // Calculate the size of the nearest power-of-two that will fit all
+    // the sprites
+    constexpr u32 BIGGEST_TEXTURE_SIZE = 2048;
 
-    // Get the size required to decompres a single frame
+    const MaxWH biggestFrameSize = CalcMaxWH(pAnimationHeader);
+
+    u32 allocTextureSize = 128; // Good starting size
+    bool foundFit = false;
+    s16 spritesFitX = 0;
+    s16 spritesFitY = 0;
+
+    if (pAnimationHeader->field_2_num_frames == 0)
+    {
+        ALIVE_FATAL("Anim with no frames encountered");
+    }
+
+    while (!foundFit && allocTextureSize <= BIGGEST_TEXTURE_SIZE)
+    {
+        spritesFitX = allocTextureSize / biggestFrameSize.mMaxW;
+        spritesFitY = allocTextureSize / biggestFrameSize.mMaxH;
+
+        if (spritesFitX * spritesFitY >= pAnimationHeader->field_2_num_frames)
+        {
+            foundFit = true;
+        }
+        else
+        {
+            allocTextureSize *= 2;
+        }
+    }
+
+    if (!foundFit)
+    {
+        ALIVE_FATAL("Could not fit anim into biggest texture size %d", BIGGEST_TEXTURE_SIZE);
+    }
+
+    // Get the size required to decompress a single frame
     const u32 decompressionBufferSize = CalcDecompressionBufferSize(rec, pFirstFrame);
-
     std::vector<u8> decompressionBuffer(decompressionBufferSize);
 
-    // TODO: Handle 16 bit sprites
-    const MaxWH bestMaxSize = CalcMaxWH(pAnimationHeader);
-
-    const u32 sheetWidth = bestMaxSize.mMaxW * pAnimationHeader->field_2_num_frames;
-    std::vector<u8> spriteSheetBuffer(sheetWidth * bestMaxSize.mMaxH * (pFirstFrame->field_6_colour_depth == 16 ? 2 : 1));
-
     // Add each frame
+    std::vector<u8> spriteSheetBuffer(allocTextureSize * allocTextureSize);
     std::vector<PerFrameInfo> perFrameInfos(pAnimationHeader->field_2_num_frames);
+
     for (s32 i = 0; i < pAnimationHeader->field_2_num_frames; i++)
     {
         const FrameInfoHeader* pFrameInfoHeader = GetFrameInfoHeader(pAnimationHeader, i);
-
         const FrameHeader* pFrameHeader = GetFrame(pAnimationHeader, i);
-
 
         DecompressAnimFrame(decompressionBuffer, pFrameHeader, fileData);
 
         // Add frame to the sprite sheet
         const u32 imageWidth = CalcImageWidth(pFrameHeader);
+
+        const u32 baseX = ((i % spritesFitX) * biggestFrameSize.mMaxW);
+        const u32 baseY = ((i / spritesFitX) * biggestFrameSize.mMaxH);
+
         for (u32 x = 0; x < pFrameHeader->field_4_width; x++)
         {
             for (u32 y = 0; y < pFrameHeader->field_5_height; y++)
@@ -109,13 +141,21 @@ AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const
                     {
                         ALIVE_FATAL("decompression buffer out of bounds");
                     }
+
                     const u8 value = decompressionBuffer[srcIdx];
-                    const u32 dstIdx = (y * sheetWidth) + (x + (bestMaxSize.mMaxW * i));
+
+                    const u32 targetX = baseX + x;
+                    const u32 targetY = baseY + y;
+
+                    const u32 dstIdx = (targetY * allocTextureSize) + targetX;
+
                     if (dstIdx > spriteSheetBuffer.size())
                     {
                         ALIVE_FATAL("Sprite sheet buffer out of bounds");
                     }
+
                     spriteSheetBuffer[dstIdx] = value;
+
                     break;
                 }
 
@@ -138,10 +178,11 @@ AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const
         {
             perFrameInfos[i].mXOffset = pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.x;
         }
+
         perFrameInfos[i].mYOffset = pFrameInfoHeader->field_8_data.offsetAndRect.mOffset.y;
 
-        perFrameInfos[i].mSpriteSheetX = bestMaxSize.mMaxW * i;
-        perFrameInfos[i].mSpriteSheetY = 0;
+        perFrameInfos[i].mSpriteSheetX = baseX;
+        perFrameInfos[i].mSpriteSheetY = baseY;
 
         perFrameInfos[i].mBoundMin.x = pFrameInfoHeader->field_8_data.offsetAndRect.mMin.x;
         perFrameInfos[i].mBoundMin.y = pFrameInfoHeader->field_8_data.offsetAndRect.mMin.y;
@@ -207,7 +248,7 @@ AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const
     }
 
     PNGFile pngFile;
-    pngFile.Save((outputFile.GetPath() + ".png").c_str(), pal, spriteSheetBuffer, sheetWidth, bestMaxSize.mMaxH);
+    pngFile.Save((outputFile.GetPath() + ".png").c_str(), pal, spriteSheetBuffer, allocTextureSize, allocTextureSize);
 
     // Write json file
     AnimAttributes attributes = {};
@@ -227,8 +268,8 @@ AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const
     attributes.mLoop = (pAnimationHeader->field_6_flags & AnimationHeader::eLoopFlag) ? true : false;
     attributes.mLoopStartFrame = pAnimationHeader->field_4_loop_start_frame;
     // TODO: Remove if not really needed (check after loader is impl'd)
-    attributes.mMaxWidth = bestMaxSize.mMaxW;
-    attributes.mMaxHeight = bestMaxSize.mMaxH;
+    attributes.mMaxWidth = biggestFrameSize.mMaxW;
+    attributes.mMaxHeight = biggestFrameSize.mMaxH;
 
     nlohmann::json animJsonInfo;
     animJsonInfo["attributes"] = attributes;
