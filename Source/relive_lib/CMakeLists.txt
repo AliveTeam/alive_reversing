@@ -122,6 +122,7 @@ target_compile_features(relive_lib
     PRIVATE cxx_variadic_templates)
 
 target_link_libraries(relive_lib
+    shelf-pack-cpp
     project_warnings
     spng
     miniz

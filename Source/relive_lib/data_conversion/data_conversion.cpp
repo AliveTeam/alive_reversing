@@ -1494,7 +1494,26 @@ static void ConvertFont(const FileSystem::Path& dataDir, const std::string& file
          newData[dst++] = ((fontFile->field_28_pixel_buffer[src++] & 0xF0) >> 4);
      }
 
-     png.Save(path.GetPath().c_str(), pal, newData, fontFile->mWidth, fontFile->mHeight);
+     if (!isPauseMenuFont)
+     {
+         // Make it a square texture
+         std::vector<u8> newDataTmp(256 * 256);
+         for (s32 x = 0; x < fontFile->mWidth; x++)
+         {
+             for (s32 y = 0; y < fontFile->mHeight; y++)
+             {
+                 const u32 srcIdx = (y * fontFile->mWidth) + x;
+                 const u32 dstIdx = (y * 256) + x;
+                 newDataTmp[dstIdx] = newData[srcIdx];
+             }
+         }
+
+         png.Save(path.GetPath().c_str(), pal, newDataTmp, 256, 256);
+     }
+     else
+     {
+         png.Save(path.GetPath().c_str(), pal, newData, fontFile->mWidth, fontFile->mHeight);
+     }
 
      // TODO: Dump out the atlas for each char
 }
@@ -1542,7 +1561,7 @@ static void ConvertFilesInLvl(const FileSystem::Path& dataDir, FileSystem& fs, R
                         ConvertFont(dataDir, fileName, lvlReader, fileBuffer, true);
                     }
 
-                    // ConvertCamera(dataDir, fileName, fs, fileBuffer, lvlReader, lvlIdxAsLvl);
+                     //ConvertCamera(dataDir, fileName, fs, fileBuffer, lvlReader, lvlIdxAsLvl);
                 }
                 else if (endsWith(fileName, ".JOY"))
                 {

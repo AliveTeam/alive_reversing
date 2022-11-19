@@ -101,3 +101,7 @@ target_include_directories(spng SYSTEM PUBLIC
 
 export(TARGETS spng FILE spng.cmake)
 set_property(TARGET spng PROPERTY FOLDER "3rdParty")
+
+add_library(shelf-pack-cpp INTERFACE)
+target_include_directories(shelf-pack-cpp SYSTEM INTERFACE shelf-pack-cpp/include)
+export(TARGETS shelf-pack-cpp FILE shelf-pack-cpp.cmake)

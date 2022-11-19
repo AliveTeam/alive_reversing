@@ -7,6 +7,7 @@
 #include "ResourceManagerWrapper.hpp"
 #include "Animation.hpp"
 #include "PNGFile.hpp"
+#include <mapbox/shelf-pack.hpp>
 
 inline void to_json(nlohmann::json& j, const Point32& p)
 {
@@ -76,7 +77,7 @@ AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const
 
     const MaxWH biggestFrameSize = CalcMaxWH(pAnimationHeader);
 
-    u32 allocTextureSize = 128; // Good starting size
+    u32 allocTextureSize = 4; // Good starting size
     bool foundFit = false;
     s32 spritesFitX = 0;
     s32 spritesFitY = 0;
