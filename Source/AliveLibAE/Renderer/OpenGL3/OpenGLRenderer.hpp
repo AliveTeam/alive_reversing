@@ -15,6 +15,7 @@
 #include "../relive_lib/data_conversion/rgb_conversion.hpp"
 #include "../relive_lib/Animation.hpp"
 #include "../relive_lib/ResourceManagerWrapper.hpp"
+#include "GLContext.hpp"
 #include "GLFramebuffer.hpp"
 #include "GLShader.hpp"
 #include "GLShaderProgram.hpp"
@@ -28,12 +29,6 @@
 #define GL_PSX_DRAW_MODE_FG1 3
 #define GL_PSX_DRAW_MODE_GAS 4
 
-//#define GL_FRAMEBUFFER_PSX_WIDTH 640
-//#define GL_FRAMEBUFFER_PSX_HEIGHT 240
-
-//#define GL_FRAMEBUFFER_FILTER_WIDTH 640
-//#define GL_FRAMEBUFFER_FILTER_HEIGHT 480
-
 #define GL_AVAILABLE_PALETTES 256
 #define GL_PALETTE_DEPTH 256
 
@@ -41,14 +36,6 @@
 #define GL_SPRITE_TEXTURE_LIFETIME 300
 
 #define GL_USE_NUM_TEXTURE_UNITS 8
-
-// We reserve space for X amount of VertexData structs for the batching (to
-// lower the need to realloc per Paul's request)
-//
-// It's quite high because the game draws like 260 quads for the splines
-//#define GL_RESERVE_QUADS 300
-
-//#define GL_RESERVE_SCREENWAVE_QUADS 2 * 32 * 4
 
 enum class AnimId;
 
@@ -71,10 +58,10 @@ public:
 class OpenGLRenderer final : public IRenderer
 {
 public:
-    OpenGLRenderer();
+    OpenGLRenderer(TWindowHandleType window);
+    ~OpenGLRenderer() override;
+
     void Clear(u8 r, u8 g, u8 b) override;
-    bool Create(TWindowHandleType window) override;
-    void Destroy() override;
     void Draw(Prim_Sprt& sprt) override;
     void Draw(Prim_GasEffect& gasEffect) override;
     void Draw(Prim_Tile& tile) override;
@@ -120,33 +107,21 @@ private:
     bool mFrameStarted = false;
 
     SDL_Window* mWindow = nullptr;
-    SDL_GLContext mContext = nullptr;
+
+    GLContext mContext;
+
     u16 mGlobalTPage = 0;
 
     // ROZZA STUFF
 
-    std::unique_ptr<GLShaderProgram> mPassthruShader;
-    std::unique_ptr<GLShaderProgram> mPassthruIntShader;
-    std::unique_ptr<GLShaderProgram> mPassthruFilterShader;
-    std::unique_ptr<GLShaderProgram> mPsxShader;
+    GLShaderProgram mPassthruShader;
+    GLShaderProgram mPassthruIntShader;
+    GLShaderProgram mPassthruFilterShader;
+    GLShaderProgram mPsxShader;
 
-    //GLShader mPassthruShader = {};
-    //GLShader mPassthruIntShader = {};
-    //GLShader mPassthruFilterShader = {};
-    //GLShader mPsxShader = {};
-
-    std::unique_ptr<GLFramebuffer> mPsxFramebuffer;
-    std::unique_ptr<GLFramebuffer> mPsxFramebufferSecond;
-    std::unique_ptr<GLFramebuffer> mFilterFramebuffer;
-
-    //GLuint mPsxFramebufferId = 0;
-    //GLuint mPsxFramebufferTexId = 0;
-
-    //GLuint mPsxFramebufferSecondId = 0;
-    //GLuint mPsxFramebufferSecondTexId = 0;
-
-    //GLuint mFilterFramebufferId = 0;
-    //GLuint mFilterFramebufferTexId = 0;
+    GLFramebuffer mPsxFramebuffer;
+    GLFramebuffer mPsxFramebufferSecond;
+    GLFramebuffer mFilterFramebuffer;
 
     bool mFramebufferFilter = true;
     bool mKeepAspectRatio = true;

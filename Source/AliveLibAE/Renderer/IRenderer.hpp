@@ -25,7 +25,7 @@ public:
     };
 
     static IRenderer* GetRenderer();
-    static void CreateRenderer(Renderers type);
+    static void CreateRenderer(Renderers type, TWindowHandleType window);
     static void FreeRenderer();
 
     struct PalRecord final
@@ -57,8 +57,7 @@ public:
 
     virtual ~IRenderer()
     { }
-    virtual void Destroy() = 0;
-    virtual bool Create(TWindowHandleType window) = 0;
+
     virtual void Clear(u8 r, u8 g, u8 b) = 0;
     virtual void StartFrame(s32 xOff, s32 yOff) = 0;
     virtual void EndFrame() = 0;

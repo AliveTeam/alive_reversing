@@ -8,9 +8,10 @@
 class GLShaderProgram final
 {
 public:
-    GLShaderProgram(GLShader& vertexShader, GLShader& fragmentShader);
+    GLShaderProgram();
     ~GLShaderProgram();
 
+    void LinkShaders(GLShader& vertexShader, GLShader& fragmentShader);
     void Uniform1i(const char_type* uniform, GLint x);
     void Uniform1iv(const char_type* uniform, GLsizei count, const GLint* data);
     void UniformVec2(const char_type* uniform, GLfloat x, GLfloat y);

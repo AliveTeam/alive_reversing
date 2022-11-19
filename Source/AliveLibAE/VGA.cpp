@@ -14,7 +14,6 @@ static bool sbRendererCreated = false;
 
 void VGA_Shutdown()
 {
-    IRenderer::GetRenderer()->Destroy();
     IRenderer::FreeRenderer();
 
     sbRendererCreated = false;
@@ -34,13 +33,7 @@ void VGA_CreateRenderer()
     }
 
     //IRenderer::CreateRenderer(IRenderer::Renderers::DirectX9);
-    IRenderer::CreateRenderer(IRenderer::Renderers::OpenGL);
-
-    if (!IRenderer::GetRenderer()->Create(Sys_GetHWnd()))
-    {
-        ALIVE_FATAL("Render create failed %s", SDL_GetError());
-    }
-
+    IRenderer::CreateRenderer(IRenderer::Renderers::OpenGL, Sys_GetHWnd());
     IRenderer::GetRenderer()->Clear(0, 0, 0);
     sbRendererCreated = true;
 }

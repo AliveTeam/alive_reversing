@@ -5,6 +5,7 @@
 #include "OpenGL3/OpenGLRenderer.hpp"
 
 #include "../AliveLibCommon/FatalError.hpp"
+#include "../AliveLibCommon/Sys_common.hpp"
 
 static IRenderer* gRenderer = nullptr;
 
@@ -13,7 +14,7 @@ IRenderer* IRenderer::GetRenderer()
     return gRenderer;
 }
 
-void IRenderer::CreateRenderer(Renderers type)
+void IRenderer::CreateRenderer(Renderers type, TWindowHandleType window)
 {
     if (gRenderer)
     {
@@ -30,7 +31,7 @@ void IRenderer::CreateRenderer(Renderers type)
 #endif
 
         case Renderers::OpenGL:
-            gRenderer = new OpenGLRenderer();
+            gRenderer = new OpenGLRenderer(window);
             break;
 
 #ifdef _WIN32

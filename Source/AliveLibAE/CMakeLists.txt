@@ -9,6 +9,8 @@ SET(AliveLibAESrc
     Renderer/DirectX9Renderer.cpp
     Renderer/PaletteCache.hpp
     Renderer/TextureCache.hpp
+    Renderer/OpenGL3/GLContext.hpp
+    Renderer/OpenGL3/GLContext.cpp
     Renderer/OpenGL3/GLDebug.hpp
     Renderer/OpenGL3/GLDebug.cpp
     Renderer/OpenGL3/GLFramebuffer.hpp

@@ -5,10 +5,22 @@
 #include "GLDebug.hpp"
 #include "GLShaderProgram.hpp"
 
-GLShaderProgram::GLShaderProgram(GLShader& vertexShader, GLShader& fragmentShader)
+GLShaderProgram::GLShaderProgram()
 {
     mGLId = GL_VERIFY(glCreateProgram());
+}
 
+GLShaderProgram::~GLShaderProgram()
+{
+    if (mGLId)
+    {
+        GL_VERIFY(glDeleteProgram(mGLId));
+    }
+}
+
+
+void GLShaderProgram::LinkShaders(GLShader &vertexShader, GLShader &fragmentShader)
+{
     vertexShader.AttachTo(mGLId);
     fragmentShader.AttachTo(mGLId);
 
@@ -28,15 +40,6 @@ GLShaderProgram::GLShaderProgram(GLShader& vertexShader, GLShader& fragmentShade
     vertexShader.DetachFrom(mGLId);
     fragmentShader.DetachFrom(mGLId);
 }
-
-GLShaderProgram::~GLShaderProgram()
-{
-    if (mGLId)
-    {
-        GL_VERIFY(glDeleteProgram(mGLId));
-    }
-}
-
 
 void GLShaderProgram::Uniform1i(const char_type* uniform, GLint x)
 {

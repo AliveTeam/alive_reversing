@@ -162,10 +162,71 @@ u32 OpenGLRenderer::PrepareTextureFromPoly(Poly_FT4& poly)
     return textureId;
 }
 
-OpenGLRenderer::OpenGLRenderer()
-    : mPaletteCache(GL_AVAILABLE_PALETTES)
+OpenGLRenderer::OpenGLRenderer(TWindowHandleType window)
+    : mContext(window),
+    mPsxFramebuffer(kPsxFramebufferWidth, kPsxFramebufferHeight),
+    mPsxFramebufferSecond(kPsxFramebufferWidth, kPsxFramebufferHeight),
+    mFilterFramebuffer(kTargetFramebufferWidth, kTargetFramebufferHeight),
+    mPaletteCache(GL_AVAILABLE_PALETTES)
 {
+    mWindow = window;
 
+    // Create and bind the VAO, and never touch it again! Wahey.
+    GL_VERIFY(glGenVertexArrays(1, &mVAO));
+    GL_VERIFY(glBindVertexArray(mVAO));
+
+    // FIXME: Temp - init palette here for now
+    const static RGBA32 black[256] = {};
+
+    mPaletteTexture = std::make_unique<GLTexture2D>(GL_PALETTE_DEPTH, GL_AVAILABLE_PALETTES, GL_RGBA, true);
+
+    for (s32 i = 0; i < GL_AVAILABLE_PALETTES; i++)
+    {
+        mPaletteTexture->LoadSubImage(0, i, GL_PALETTE_DEPTH, 1, black);
+    }
+
+    // Load shaders
+    GLShader passthruVS(gShader_PassthruVSH, GL_VERTEX_SHADER);
+    GLShader passthruIntVS(gShader_PassthruIntVSH, GL_VERTEX_SHADER);
+    GLShader passthruFS(gShader_PassthruFSH, GL_FRAGMENT_SHADER);
+    GLShader passthruFilterFS(gShader_PassthruFilterFSH, GL_FRAGMENT_SHADER);
+    GLShader psxVS(gShader_PsxVSH, GL_VERTEX_SHADER);
+    GLShader psxFS(gShader_PsxFSH, GL_FRAGMENT_SHADER);
+
+    mPassthruShader.LinkShaders(passthruVS, passthruFS);
+    mPassthruIntShader.LinkShaders(passthruIntVS, passthruFS);
+    mPassthruFilterShader.LinkShaders(passthruVS, passthruFilterFS);
+    mPsxShader.LinkShaders(psxVS, psxFS);
+
+    // ROZZA Blending
+    GL_VERIFY(glEnable(GL_BLEND));
+    GL_VERIFY(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+
+    // Init batch vectors
+    mCurFG1TextureIds.reserve(4);
+    mBatchData.reserve(kReserveFT4QuadCount * 4);
+    mBatchIndicies.reserve(kReserveFT4QuadCount * 6);
+    mBatchTextureIds.reserve(GL_USE_NUM_TEXTURE_UNITS);
+    mScreenWaveData.reserve(kReserveScreenWaveQuadCount * 4);
+    mScreenWaveIndicies.reserve(kReserveScreenWaveQuadCount * 6);
+
+    // Init array we pass to texture uniform to specify the units we're using
+    // which is the number of units starting at GL_TEXTURE7
+    for (int i = 0; i < GL_USE_NUM_TEXTURE_UNITS; i++)
+    {
+        mTextureUnits[i] = i + 7;
+    }
+}
+
+OpenGLRenderer::~OpenGLRenderer()
+{
+    mTextureCache.Clear();
+
+    GL_VERIFY(glUseProgram(0));
+
+    GL_VERIFY(glDeleteTextures(1, &mCurGasTextureId));
+
+    GLFramebuffer::BindScreenAsTarget(mWindow);
 }
 
 void OpenGLRenderer::Clear(u8 r, u8 g, u8 b)
@@ -191,188 +252,11 @@ void OpenGLRenderer::Clear(u8 r, u8 g, u8 b)
     GL_VERIFY(glClear(GL_COLOR_BUFFER_BIT));
 
     // Set back to the PSX framebuffer
-    mPsxFramebuffer->BindAsTarget();
+    mPsxFramebuffer.BindAsTarget();
 
     if (scissoring)
     {
         GL_VERIFY(glEnable(GL_SCISSOR_TEST));
-    }
-}
-
-bool OpenGLRenderer::Create(TWindowHandleType window)
-{
-    mWindow = window;
-
-    // Find the opengl driver
-    const s32 numDrivers = SDL_GetNumRenderDrivers();
-    if (numDrivers < 0)
-    {
-        LOG_ERROR("Failed to get driver count %s", SDL_GetError());
-    }
-
-    LOG_INFO("Got %d drivers", numDrivers);
-
-    s32 index = -1;
-    for (s32 i = 0; i < numDrivers; i++)
-    {
-        SDL_RendererInfo info = {};
-        if (SDL_GetRenderDriverInfo(i, &info) < 0)
-        {
-            LOG_WARNING("Failed to get render %d info %s", i, SDL_GetError());
-        }
-        else
-        {
-            LOG_INFO("%d name %s", i, info.name ? info.name : "(null)");
-            if (info.name && strstr(info.name, "opengl"))
-            {
-                index = i;
-                break;
-            }
-        }
-    }
-
-    if (index == -1)
-    {
-        LOG_WARNING("OpenGL SDL2 driver not found");
-        return false;
-    }
-
-
-    // We should attempt to load OpenGL 3.2 first, because this is the minimum
-    // required version for RenderDoc captures so we can actually debug stuff
-    const char_type* glslVer150 = "#version 150";
-    const char_type* glslVer140 = "#version 140";
-
-    bool glslVer150Supported = true;
-
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-
-    // Create context
-    mContext = SDL_GL_CreateContext(window);
-
-    if (mContext == NULL)
-    {
-        LOG_ERROR("OpenGL 3.2 context could not be created! SDL Error: %s", SDL_GetError());
-
-        // Our ACTUAL minimum OpenGL requirement is 3.1, though we will check
-        // supported extensions on the GPU in a moment
-        glslVer150Supported = false;
-
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
-        SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
-
-        // Create context
-        mContext = SDL_GL_CreateContext(window);
-        if (mContext == NULL)
-        {
-            LOG_ERROR("OpenGL 3.1 context could not be created! SDL Error: %s", SDL_GetError());
-            return false;
-        }
-    }
-
-    LOG_INFO("GL_VERSION = %s", glGetString(GL_VERSION));
-
-    // Initialize GLEW
-    glewExperimental = GL_TRUE;
-    GLenum glewError = glewInit();
-
-    if (glewError != GLEW_OK)
-    {
-        LOG_ERROR("Error initializing GLEW! %s", glewGetErrorString(glewError));
-    }
-
-    // Use Vsync
-    // FIXME: VSYNC disabled for now - remove before merge to master!
-    if (SDL_GL_SetSwapInterval(0) < 0)
-    {
-        LOG_ERROR("Warning: Unable to set VSync! SDL Error: %s", SDL_GetError());
-    }
-
-    // Check supported extensions by the GPU
-    if (!glewIsSupported("GL_ARB_vertex_array_object GL_ARB_framebuffer_object GL_ARB_explicit_attrib_location"))
-    {
-        ALIVE_FATAL("Your graphics device is not supported, sorry!");
-    }
-
-    ImGui::CreateContext();
-
-    // Setup IMGUI for texture debugging
-    ImGui_ImplSDL2_InitForOpenGL(mWindow, mContext);
-    ImGui_ImplOpenGL3_Init(glslVer150Supported ? glslVer150 : glslVer140);
-
-    // Create and bind the VAO, and never touch it again! Wahey.
-    GL_VERIFY(glGenVertexArrays(1, &mVAO));
-    GL_VERIFY(glBindVertexArray(mVAO));
-
-    // FIXME: Temp - init palette here for now
-    const static RGBA32 black[256] = {};
-
-    mPaletteTexture = std::make_unique<GLTexture2D>(GL_PALETTE_DEPTH, GL_AVAILABLE_PALETTES, GL_RGBA, true);
-
-    for (s32 i = 0; i < GL_AVAILABLE_PALETTES; i++)
-    {
-        mPaletteTexture->LoadSubImage(0, i, GL_PALETTE_DEPTH, 1, black);
-    }
-
-    // Load shaders
-    GLShader passthruVS(gShader_PassthruVSH, GL_VERTEX_SHADER);
-    GLShader passthruIntVS(gShader_PassthruIntVSH, GL_VERTEX_SHADER);
-    GLShader passthruFS(gShader_PassthruFSH, GL_FRAGMENT_SHADER);
-    GLShader passthruFilterFS(gShader_PassthruFilterFSH, GL_FRAGMENT_SHADER);
-    GLShader psxVS(gShader_PsxVSH, GL_VERTEX_SHADER);
-    GLShader psxFS(gShader_PsxFSH, GL_FRAGMENT_SHADER);
-
-    mPassthruShader = std::make_unique<GLShaderProgram>(passthruVS, passthruFS);
-    mPassthruIntShader = std::make_unique<GLShaderProgram>(passthruIntVS, passthruFS);
-    mPassthruFilterShader = std::make_unique<GLShaderProgram>(passthruVS, passthruFilterFS);
-    mPsxShader = std::make_unique<GLShaderProgram>(psxVS, psxFS);
-
-    // ROZZA Blending
-    GL_VERIFY(glEnable(GL_BLEND));
-    GL_VERIFY(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
-
-    // Init framebuffers
-    mPsxFramebuffer = std::make_unique<GLFramebuffer>(kPsxFramebufferWidth, kPsxFramebufferHeight);
-    mPsxFramebufferSecond = std::make_unique<GLFramebuffer>(kPsxFramebufferWidth, kPsxFramebufferHeight);
-    mFilterFramebuffer = std::make_unique<GLFramebuffer>(kTargetFramebufferWidth, kTargetFramebufferHeight);
-
-    // Init batch vectors
-    mCurFG1TextureIds.reserve(4);
-    mBatchData.reserve(kReserveFT4QuadCount * 4);
-    mBatchIndicies.reserve(kReserveFT4QuadCount * 6);
-    mBatchTextureIds.reserve(GL_USE_NUM_TEXTURE_UNITS);
-    mScreenWaveData.reserve(kReserveScreenWaveQuadCount * 4);
-    mScreenWaveIndicies.reserve(kReserveScreenWaveQuadCount * 6);
-
-    // Init array we pass to texture uniform to specify the units we're using
-    // which is the number of units starting at GL_TEXTURE7
-    for (int i = 0; i < GL_USE_NUM_TEXTURE_UNITS; i++)
-    {
-        mTextureUnits[i] = i + 7;
-    }
-
-    return true;
-}
-
-void OpenGLRenderer::Destroy()
-{
-    ImGui_ImplSDL2_Shutdown();
-
-    mTextureCache.Clear();
-
-    GL_VERIFY(glUseProgram(0));
-
-    GL_VERIFY(glDeleteTextures(1, &mCurGasTextureId));
-
-    GLFramebuffer::BindScreenAsTarget(mWindow);
-
-    if (mContext)
-    {
-        SDL_GL_DeleteContext(mContext);
-        mContext = nullptr;
     }
 }
 
@@ -790,7 +674,7 @@ void OpenGLRenderer::EndFrame()
     mFrameStarted = false;
 
     // Set the framebuffer target back to the PSX framebuffer
-    mPsxFramebuffer->BindAsTarget();
+    mPsxFramebuffer.BindAsTarget();
 }
 
 void OpenGLRenderer::OutputSize(s32* w, s32* h)
@@ -845,7 +729,7 @@ void OpenGLRenderer::StartFrame(s32 xOff, s32 yOff)
     mOffsetY = yOff;
 
     // Always render to PSX framebuffer
-    mPsxFramebuffer->BindAsTarget();
+    mPsxFramebuffer.BindAsTarget();
 
     // FIXME: Hack to push screenwave verts first... tidy later
     VertexData verts[4] = {
@@ -896,16 +780,16 @@ void OpenGLRenderer::DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height
     {
         UpdateFilterFramebuffer();
 
-        mFilterFramebuffer->BindAsSourceTextureTo(GL_TEXTURE0);
+        mFilterFramebuffer.BindAsSourceTextureTo(GL_TEXTURE0);
 
-        texWidth = (f32) mFilterFramebuffer->GetWidth();
-        texHeight = (f32) mFilterFramebuffer->GetHeight();
+        texWidth = (f32) mFilterFramebuffer.GetWidth();
+        texHeight = (f32) mFilterFramebuffer.GetHeight();
     }
     else
     {
-        mPsxFramebufferSecond->BindAsSourceTextureTo(GL_TEXTURE0);
-        texWidth = (f32) mPsxFramebufferSecond->GetWidth();
-        texHeight = (f32) mPsxFramebufferSecond->GetHeight();
+        mPsxFramebufferSecond.BindAsSourceTextureTo(GL_TEXTURE0);
+        texWidth = (f32) mPsxFramebufferSecond.GetWidth();
+        texHeight = (f32) mPsxFramebufferSecond.GetHeight();
     }
 
     // Set up VBOs
@@ -952,12 +836,12 @@ void OpenGLRenderer::DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height
 
     GLFramebuffer::BindScreenAsTarget(mWindow, &viewportW, &viewportH);
 
-    mPassthruShader->Use();
+    mPassthruShader.Use();
 
-    mPassthruShader->Uniform1i("texTextureData", 0);
-    mPassthruShader->UniformVec2("vsViewportSize", (f32) viewportW, (f32) viewportH);
-    mPassthruShader->Uniform1i("fsFlipUV", false);
-    mPassthruShader->UniformVec2("fsTexSize", texWidth, texHeight);
+    mPassthruShader.Uniform1i("texTextureData", 0);
+    mPassthruShader.UniformVec2("vsViewportSize", (f32) viewportW, (f32) viewportH);
+    mPassthruShader.Uniform1i("fsFlipUV", false);
+    mPassthruShader.UniformVec2("fsTexSize", texWidth, texHeight);
 
     GL_VERIFY(glEnableVertexAttribArray(0));
     GL_VERIFY(glBindBuffer(GL_ARRAY_BUFFER, drawVboId));
@@ -1022,14 +906,14 @@ void OpenGLRenderer::UpdateFilterFramebuffer()
     }
 
     // Bind framebuffers and draw
-    mPassthruFilterShader->Use();
+    mPassthruFilterShader.Use();
 
-    mPassthruFilterShader->Uniform1i("texTextureData", 0);
-    mPassthruFilterShader->UniformVec2("vsViewportSize", kTargetFramebufferWidth, kTargetFramebufferHeight);
-    mPassthruFilterShader->UniformVec2("fsTexSize", kPsxFramebufferWidth, kPsxFramebufferHeight);
+    mPassthruFilterShader.Uniform1i("texTextureData", 0);
+    mPassthruFilterShader.UniformVec2("vsViewportSize", kTargetFramebufferWidth, kTargetFramebufferHeight);
+    mPassthruFilterShader.UniformVec2("fsTexSize", kPsxFramebufferWidth, kPsxFramebufferHeight);
 
-    mFilterFramebuffer->BindAsTarget();
-    mPsxFramebufferSecond->BindAsSourceTextureTo(GL_TEXTURE0);
+    mFilterFramebuffer.BindAsTarget();
+    mPsxFramebufferSecond.BindAsSourceTextureTo(GL_TEXTURE0);
 
     GL_VERIFY(glEnableVertexAttribArray(0));
     GL_VERIFY(glBindBuffer(GL_ARRAY_BUFFER, drawVboId));
@@ -1108,15 +992,15 @@ void OpenGLRenderer::RenderScreenWave()
     GL_VERIFY(glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(u32) * mScreenWaveIndicies.size(), &mScreenWaveIndicies.front(), GL_STREAM_DRAW));
 
     // Bind framebuffers and draw
-    mPassthruIntShader->Use();
+    mPassthruIntShader.Use();
 
-    mPassthruIntShader->Uniform1i("texTextureData", 0);
-    mPassthruIntShader->UniformVec2("vsViewportSize", kPsxFramebufferWidth, kPsxFramebufferHeight);
-    mPassthruIntShader->Uniform1i("fsFlipUV", true);
-    mPassthruIntShader->UniformVec2("fsTexSize", kPsxFramebufferWidth, kPsxFramebufferHeight);
+    mPassthruIntShader.Uniform1i("texTextureData", 0);
+    mPassthruIntShader.UniformVec2("vsViewportSize", kPsxFramebufferWidth, kPsxFramebufferHeight);
+    mPassthruIntShader.Uniform1i("fsFlipUV", true);
+    mPassthruIntShader.UniformVec2("fsTexSize", kPsxFramebufferWidth, kPsxFramebufferHeight);
 
-    mPsxFramebufferSecond->BindAsTarget();
-    mPsxFramebuffer->BindAsSourceTextureTo(GL_TEXTURE0);
+    mPsxFramebufferSecond.BindAsTarget();
+    mPsxFramebuffer.BindAsSourceTextureTo(GL_TEXTURE0);
 
     GL_VERIFY(glEnableVertexAttribArray(0));
     GL_VERIFY(glVertexAttribIPointer(0, 2, GL_INT, sizeof(VertexData), 0));
@@ -1132,7 +1016,7 @@ void OpenGLRenderer::RenderScreenWave()
     GL_VERIFY(glDisableVertexAttribArray(0));
     GL_VERIFY(glDisableVertexAttribArray(1));
 
-    mPsxFramebuffer->BindAsTarget();
+    mPsxFramebuffer.BindAsTarget();
 }
 
 void OpenGLRenderer::InvalidateBatch()
@@ -1142,7 +1026,7 @@ void OpenGLRenderer::InvalidateBatch()
         return;
     }
 
-    mPsxShader->Use();
+    mPsxShader.Use();
 
     GLuint eboId, vboId;
 
@@ -1168,11 +1052,11 @@ void OpenGLRenderer::InvalidateBatch()
     GL_VERIFY(glVertexAttribIPointer(4, 2, GL_UNSIGNED_INT, sizeof(VertexData), (void*) offsetof(VertexData, paletteIndex)));
 
     // Inform our internal resolution
-    mPsxShader->UniformVec2("vsViewportSize", kPsxFramebufferWidth, kPsxFramebufferHeight);
+    mPsxShader.UniformVec2("vsViewportSize", kPsxFramebufferWidth, kPsxFramebufferHeight);
 
     // Bind palette texture
     mPaletteTexture->BindTo(GL_TEXTURE0);
-    mPsxShader->Uniform1i("texPalette", 0);
+    mPsxShader.Uniform1i("texPalette", 0);
 
     // Bind gas
     if (mCurGasTextureId)
@@ -1180,7 +1064,7 @@ void OpenGLRenderer::InvalidateBatch()
         GL_VERIFY(glActiveTexture(GL_TEXTURE1));
         GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mCurGasTextureId));
 
-        mPsxShader->Uniform1i("texGas", 1);
+        mPsxShader.Uniform1i("texGas", 1);
     }
 
     // Bind camera (if needed)
@@ -1189,7 +1073,7 @@ void OpenGLRenderer::InvalidateBatch()
         GL_VERIFY(glActiveTexture(GL_TEXTURE2));
         GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mCurCamTextureId));
 
-        mPsxShader->Uniform1i("texCamera", 2);
+        mPsxShader.Uniform1i("texCamera", 2);
     }
 
     // Bind FG1 layers (if needed)
@@ -1201,7 +1085,7 @@ void OpenGLRenderer::InvalidateBatch()
         GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mCurFG1TextureIds[i]));
     }
 
-    mPsxShader->Uniform1iv("texFG1Masks", 4, mFG1Units);
+    mPsxShader.Uniform1iv("texFG1Masks", 4, mFG1Units);
 
     // Bind sprite sheets
     s32 numTextures = (s32) mBatchTextureIds.size();
@@ -1212,7 +1096,7 @@ void OpenGLRenderer::InvalidateBatch()
         GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mBatchTextureIds[i]));
     }
 
-    mPsxShader->Uniform1iv("texSpriteSheets", GL_USE_NUM_TEXTURE_UNITS, mTextureUnits);
+    mPsxShader.Uniform1iv("texSpriteSheets", GL_USE_NUM_TEXTURE_UNITS, mTextureUnits);
 
     // Assign blend mode
     if (mBatchBlendMode <= (u32) TPageAbr::eBlend_3)
