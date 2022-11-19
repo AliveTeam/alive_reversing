@@ -161,7 +161,7 @@ AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const
                 }
 
                 case 16:
-                    LOG_ERROR("16 bpp not implemented");
+                    ALIVE_FATAL("16 bpp anims not present in OG, data corrupted?");
                     break;
                 }
             }
