@@ -42,10 +42,8 @@ public:
 class DirectX9Renderer final : public IRenderer
 {
 public:
-    DirectX9Renderer();
+    explicit DirectX9Renderer(TWindowHandleType window);
     ~DirectX9Renderer();
-    void Destroy() override;
-    bool Create(TWindowHandleType window) override;
     void Clear(u8 r, u8 g, u8 b) override;
     void StartFrame(s32 xOff, s32 yOff) override;
     void EndFrame() override;

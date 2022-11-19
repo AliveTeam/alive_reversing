@@ -8,8 +8,9 @@
 class SoftwareRenderer : public IRenderer
 {
 public:
-    void Destroy() override;
-    bool Create(TWindowHandleType window) override;
+    SoftwareRenderer(TWindowHandleType window);
+    ~SoftwareRenderer() override;
+
     void Clear(u8 r, u8 g, u8 b) override;
     void StartFrame(s32 xOff, s32 yOff) override;
     void EndFrame() override;

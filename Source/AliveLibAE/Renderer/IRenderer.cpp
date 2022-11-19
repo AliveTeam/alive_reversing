@@ -26,7 +26,7 @@ void IRenderer::CreateRenderer(Renderers type, TWindowHandleType window)
 
 #if SDL_VERTEX_IS_SUPPORTED
         case Renderers::Software:
-            gRenderer = new SoftwareRenderer();
+            gRenderer = new SoftwareRenderer(window);
             break;
 #endif
 
@@ -37,7 +37,7 @@ void IRenderer::CreateRenderer(Renderers type, TWindowHandleType window)
 #ifdef _WIN32
         // Windows only
         case Renderers::DirectX9:
-            gRenderer = new DirectX9Renderer();
+            gRenderer = new DirectX9Renderer(window);
             break;
 #endif
 

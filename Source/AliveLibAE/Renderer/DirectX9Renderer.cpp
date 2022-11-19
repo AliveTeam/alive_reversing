@@ -140,27 +140,8 @@ const D3DVERTEXELEMENT9 simple_decl[] =
 
     D3DDECL_END()};
 
-DirectX9Renderer::DirectX9Renderer()
+DirectX9Renderer::DirectX9Renderer(TWindowHandleType window)
     : mPaletteCache(256)
-{
-
-}
-
-DirectX9Renderer::~DirectX9Renderer()
-{
-    TRACE_ENTRYEXIT;
-
-    // TODO: Fix me, dtor can't call clear else pure call boom
-    mTextureCache.Clear();
-}
-
-void DirectX9Renderer::Destroy()
-{
-    // TODO: just let the dtor kill everything, this method is getting nuked by rozza
-}
-
-
-bool DirectX9Renderer::Create(TWindowHandleType window)
 {
     // Find the directx9 driver
     const s32 numDrivers = SDL_GetNumRenderDrivers();
@@ -192,42 +173,39 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
 
     if (index == -1)
     {
-        LOG_WARNING("DirectX9 SDL2 driver not found");
-        return false;
+        ALIVE_FATAL("DirectX9 SDL2 driver not found");
     }
 
     mRenderer = std::make_unique<SDL_Renderer_RAII>(SDL_CreateRenderer(window, index, SDL_RENDERER_ACCELERATED));
     if (!mRenderer->mRenderer)
     {
-        LOG_ERROR("Failed to create renderer %s", SDL_GetError());
-        return false;
+        ALIVE_FATAL("Failed to create renderer %s", SDL_GetError());
     }
 
     mDevice = SDL_RenderGetD3D9Device(mRenderer->mRenderer);
     if (!mDevice)
     {
-        Destroy();
-
-        LOG_ERROR("Couldnt get DirectX9 device %s", SDL_GetError());
-        return false;
+        ALIVE_FATAL("Couldnt get DirectX9 device %s", SDL_GetError());
     }
 
     D3DCAPS9 dxCaps = {};
     DX_VERIFY(mDevice->GetDeviceCaps(&dxCaps));
-    if (dxCaps.PixelShaderVersion < D3DPS_VERSION(3, 0))
+    if (dxCaps.PixelShaderVersion < D3DPS_VERSION(2, 0))
     {
-        ALIVE_FATAL("Require pixel shader 3.0 or later but got %d.%d", D3DSHADER_VERSION_MAJOR(dxCaps.PixelShaderVersion), D3DSHADER_VERSION_MINOR(dxCaps.PixelShaderVersion));
+        ALIVE_FATAL("Require pixel shader 2.0 or later but got %d.%d", D3DSHADER_VERSION_MAJOR(dxCaps.PixelShaderVersion), D3DSHADER_VERSION_MINOR(dxCaps.PixelShaderVersion));
     }
 
+    /*
     if (dxCaps.TextureCaps & (D3DPTEXTURECAPS_POW2 | D3DPTEXTURECAPS_NONPOW2CONDITIONAL | D3DPTEXTURECAPS_SQUAREONLY))
     {
         ALIVE_FATAL("GPU doesn't support non power of 2 texture sizes");
-    }
+    }*/
 
     LOG_INFO("PS 2.0 max instructions %d PS 3.0 max instructions %d", dxCaps.PS20Caps.NumInstructionSlots, dxCaps.MaxPixelShader30InstructionSlots);
+    LOG_INFO("Max texture w %d max texture h %d", dxCaps.MaxTextureWidth, dxCaps.MaxTextureHeight);
 
     MakeVertexBuffer();
-    
+
     for (u32 i = 0; i < 8; i++)
     {
         mDevice->SetSamplerState(i, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
@@ -236,32 +214,31 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
         mDevice->SetSamplerState(i, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
         mDevice->SetSamplerState(i, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
         mDevice->SetSamplerState(i, D3DSAMP_ADDRESSW, D3DTADDRESS_CLAMP);
-
     }
-    
+
     mDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
     mDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
 
     mDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
     mDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
     mDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
-     
+
     mDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
 
     DX_VERIFY(mDevice->CreateVertexDeclaration(simple_decl, &mVertexDecl));
     DX_VERIFY(mDevice->SetVertexDeclaration(mVertexDecl));
 
     const char prog[] =
-#include "pixel_shader.hlsl"
-;
+    #include "pixel_shader.hlsl"
+        ;
 
     LPD3DXBUFFER shader;
     LPD3DXBUFFER err;
     LPD3DXCONSTANTTABLE pConstantTable;
     DWORD dwShaderFlags = 0;
-    //D3DXSHADER_SKIPOPTIMIZATION | D3DXSHADER_DEBUG;
+    // D3DXSHADER_SKIPOPTIMIZATION | D3DXSHADER_DEBUG;
 
-    const HRESULT shaderHr = D3DXCompileShader(prog, strlen(prog), NULL, NULL, "PS", "ps_3_0", dwShaderFlags, &shader, &err, &pConstantTable);
+    const HRESULT shaderHr = D3DXCompileShader(prog, strlen(prog), NULL, NULL, "PS", "ps_2_0", dwShaderFlags, &shader, &err, &pConstantTable);
     if (FAILED(shaderHr))
     {
         const DWORD errBufferSize = err->GetBufferSize();
@@ -275,7 +252,7 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
         LOG_WARNING("D3DXCompileShader %s", errStr.c_str());
     }
 
-    DX_VERIFY(mDevice->CreatePixelShader((DWORD*)shader->GetBufferPointer(), &mPixelShader));
+    DX_VERIFY(mDevice->CreatePixelShader((DWORD*) shader->GetBufferPointer(), &mPixelShader));
 
     DX_VERIFY(mDevice->CreateRenderTarget(640, 240, D3DFMT_A8R8G8B8, D3DMULTISAMPLE_NONE, 0, FALSE, &mTextureRenderTarget, nullptr));
 
@@ -283,23 +260,30 @@ bool DirectX9Renderer::Create(TWindowHandleType window)
     DX_VERIFY(mDevice->SetRenderTarget(0, mTextureRenderTarget));
 
 
-    DX_VERIFY(mDevice->CreateTexture(640, 240, 0, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &mCamTexture, nullptr));
-   
+    // DX_VERIFY(mDevice->CreateTexture(640, 240, 0, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &mCamTexture, nullptr));
+
     D3DLOCKED_RECT locked = {};
     DX_VERIFY(mDevice->CreateTexture(256, 256, 0, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &mPaletteTexture, nullptr));
     const RGBA32 kColourMagenta = {255, 0, 255, 255};
     DXTexture::FillTexture(*mPaletteTexture, 256, 256, kColourMagenta);
 
-    //mCamTexture->SetAutoGenFilterType(D3DTEXF_NONE);
+    // mCamTexture->SetAutoGenFilterType(D3DTEXF_NONE);
 
-    DXTexture::FillTexture(*mCamTexture, 640, 240, kColourMagenta);
-
-
-  //  mDevice->SetRenderState(D3DRS_SPECULARENABLE, 0);
-  //  mDevice->SetRenderState(D3DRS_LIGHTING, 0);
+    // DXTexture::FillTexture(*mCamTexture, 640, 240, kColourMagenta);
 
 
-    return true;
+    //  mDevice->SetRenderState(D3DRS_SPECULARENABLE, 0);
+    //  mDevice->SetRenderState(D3DRS_LIGHTING, 0);
+
+
+}
+
+DirectX9Renderer::~DirectX9Renderer()
+{
+    TRACE_ENTRYEXIT;
+
+    // TODO: Fix me, dtor can't call clear else pure call boom
+    mTextureCache.Clear();
 }
 
 void DirectX9Renderer::Clear(u8 /*r*/, u8 /*g*/, u8 /*b*/)
@@ -322,6 +306,7 @@ void DirectX9Renderer::StartFrame(s32 /*xOff*/, s32 /*yOff*/)
 
         // Draw everything to the texture
         mDevice->SetRenderTarget(0, mTextureRenderTarget);
+        DX_VERIFY(mDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0));
 
         mDevice->SetPixelShader(mPixelShader);
     }
@@ -336,7 +321,7 @@ void DirectX9Renderer::EndFrame()
         // Render to the screen instead of the texture
         DX_VERIFY(mDevice->SetRenderTarget(0, mScreenRenderTarget));
 
-        DX_VERIFY(mDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(128, 0, 0), 1.0f, 0));
+        DX_VERIFY(mDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0));
 
         // Copy the rendered to texture to the entire screen
         RECT dstRect = {0, 0, 640, 240};
@@ -480,6 +465,7 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
 
     if (poly.mCam && !poly.mFg1)
     {
+        /*
         u8 blendMode = static_cast<u8>(GetTPageBlendMode(GetTPage(&poly)));
         SetupBlendMode(blendMode);
 
@@ -491,9 +477,11 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
         DX_VERIFY(mDevice->SetTexture(mCamUnit, mCamTexture));
         DX_VERIFY(mDevice->SetTexture(mPalUnit, mPaletteTexture));
         DX_VERIFY(mDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2));
+        */
     }
     else if (poly.mCam && poly.mFg1)
     {
+        /*
         IDirect3DTexture9* pTextureToUse = mTextureCache.GetCachedTextureId(poly.mFg1->mUniqueId.Id(), DX_SPRITE_TEXTURE_LIFETIME);
         if (!pTextureToUse)
         {
@@ -520,6 +508,7 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
         DX_VERIFY(mDevice->SetTexture(mPalUnit, mPaletteTexture));
         DX_VERIFY(mDevice->SetTexture(mFG1Units[0], pTextureToUse));
         DX_VERIFY(mDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2));
+        */
     }
     else if (poly.mAnim)
     {
@@ -559,7 +548,7 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
 
         DX_VERIFY(mDevice->SetTexture(mSpriteUnit, pTextureToUse));
         DX_VERIFY(mDevice->SetTexture(mPalUnit, mPaletteTexture));
-        DX_VERIFY(mDevice->SetTexture(mCamUnit, mCamTexture));
+       // DX_VERIFY(mDevice->SetTexture(mCamUnit, mCamTexture));
         DX_VERIFY(mDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2));
     }
     else if (poly.mFont)

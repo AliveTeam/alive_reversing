@@ -744,7 +744,7 @@ s8 Sys_PumpMessages_4EE4F4()
     // inputs. Any attempt to quit while playing back is an instant quit to avoid desyncs.
     while (SDL_PollEvent(&event))
     {
- #if AUTO_SWITCH_CONTROLLER // OG Change - Automatically switches active controller (gamepad/keyboard)
+#if AUTO_SWITCH_CONTROLLER // OG Change - Automatically switches active controller (gamepad/keyboard)
         // Auto switch off during recording or playback as reading the ini
         // file at random times will desync.
         const bool allowAutoSwitch = !isRecording && !isPlaying;
@@ -772,7 +772,7 @@ s8 Sys_PumpMessages_4EE4F4()
                 }
             }
         }
-#endif  // AUTO_SWITCH_CONTROLLER
+#endif // AUTO_SWITCH_CONTROLLER
 
         if (event.type == SDL_KEYDOWN)
         {
@@ -781,68 +781,68 @@ s8 Sys_PumpMessages_4EE4F4()
                 KeyDownEvent(event.key.keysym.scancode);
             }
 
+            if (isRecording)
+            {
+                RecordedEvent recEvent;
+                recEvent.mType = event.type;
+                recEvent.mData = static_cast<u32>(event.key.keysym.scancode);
+                GetGameAutoPlayer().RecordEvent(recEvent);
+            }
+        }
+        else if (event.type == SDL_KEYUP)
+        {
+            if (!isPlaying)
+            {
+                KeyUpEvent(event.key.keysym.scancode);
+            }
+
+            if (isRecording)
+            {
+                RecordedEvent recEvent;
+                recEvent.mType = event.type;
+                recEvent.mData = static_cast<u32>(event.key.keysym.scancode);
+                GetGameAutoPlayer().RecordEvent(recEvent);
+            }
+        }
+        else if (event.type == SDL_WINDOWEVENT)
+        {
+            if (event.window.type == SDL_WINDOWEVENT_FOCUS_GAINED)
+            {
+                sAppIsActivated_BBBA00 = true;
+            }
+            else if (event.window.type == SDL_WINDOWEVENT_FOCUS_LOST)
+            {
+                sAppIsActivated_BBBA00 = false;
+            }
+            else if (event.window.type == SDL_WINDOWEVENT_EXPOSED)
+            {
+                // Add_Dirty_Area_4ED970(0, 0, 640, 240);
+            }
+            // SDL_WINDOWEVENT_SIZE_CHANGED
+        }
+        else if (event.type == SDL_QUIT)
+        {
+            if (!isPlaying)
+            {
+                // Required to write a dummy event first because the QuitEvent can write other events first
+                // which breaks the playback logic of Peeking and looping until the type isn't event.
                 if (isRecording)
                 {
                     RecordedEvent recEvent;
-                    recEvent.mType = event.type;
-                    recEvent.mData = static_cast<u32>(event.key.keysym.scancode);
+                    recEvent.mType = 0;
+                    recEvent.mData = 0;
                     GetGameAutoPlayer().RecordEvent(recEvent);
                 }
-            }
-            else if (event.type == SDL_KEYUP)
-            {
-                if (!isPlaying)
-                {
-                    KeyUpEvent(event.key.keysym.scancode);
-                }
 
-                if (isRecording)
-                {
-                    RecordedEvent recEvent;
-                    recEvent.mType = event.type;
-                    recEvent.mData = static_cast<u32>(event.key.keysym.scancode);
-                    GetGameAutoPlayer().RecordEvent(recEvent);
-                }
+                // Else alllow normal quit behaviour + record the result
+                QuitEvent(false, isRecording);
             }
-            else if (event.type == SDL_WINDOWEVENT)
+            else
             {
-                if (event.window.type == SDL_WINDOWEVENT_FOCUS_GAINED)
-                {
-                    sAppIsActivated_BBBA00 = true;
-                }
-                else if (event.window.type == SDL_WINDOWEVENT_FOCUS_LOST)
-                {
-                    sAppIsActivated_BBBA00 = false;
-                }
-                else if (event.window.type == SDL_WINDOWEVENT_EXPOSED)
-                {
-                    //Add_Dirty_Area_4ED970(0, 0, 640, 240);
-                }
-                // SDL_WINDOWEVENT_SIZE_CHANGED
+                // Force quit if attempting to close the game during playback
+                bNeedToQuit = true;
             }
-            else if (event.type == SDL_QUIT)
-            {
-                if (!isPlaying)
-                {
-                    // Required to write a dummy event first because the QuitEvent can write other events first
-                    // which breaks the playback logic of Peeking and looping until the type isn't event.
-                    if (isRecording)
-                    {
-                        RecordedEvent recEvent;
-                        recEvent.mType = 0;
-                        recEvent.mData = 0;
-                        GetGameAutoPlayer().RecordEvent(recEvent);
-                    }
-
-                    // Else alllow normal quit behaviour + record the result
-                    QuitEvent(false, isRecording);
-                }
-                else
-                {
-                    // Force quit if attempting to close the game during playback
-                    bNeedToQuit = true;
-                }
-            }
+        }
     }
 
     GetGameAutoPlayer().SyncPoint(SyncPoints::PumpEventsEnd);

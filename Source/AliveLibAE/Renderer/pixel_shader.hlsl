@@ -1,8 +1,8 @@
 R"(
 sampler texPalette : register(s5);
-sampler texGas : register(s6);
+//sampler texGas : register(s6);
 sampler texCamera : register(s4); // sX = sampler register X;
-sampler texFG1Masks[4] : register(s0);
+//sampler texFG1Masks[4] : register(s0);
 sampler texSpriteSheets[8] : register(s7);
 
 static const int BLEND_MODE_HALF_DST_ADD_HALF_SRC = 0;
@@ -84,7 +84,7 @@ float4 draw_default_ft4(float4 fsShadeColor, int textureUnit, int palIndex, floa
 {
     float texelSprite = 0.0;
 
-    if (textureUnit == 1)
+   // if (textureUnit == 1)
     {
         texelSprite = tex2D(texSpriteSheets[0], fsUV).r;
     }
@@ -96,41 +96,6 @@ float4 draw_default_ft4(float4 fsShadeColor, int textureUnit, int palIndex, floa
     return finalCol;
 }
 
-float4 draw_cam(float2 fsUV)
-{
-    return float4(tex2D(texCamera, fsUV).rgb, 0.0);
-}
-
-float4 draw_fg1(int palIndex, float2 fsUV)
-{
-    float4 mask = float4(0.0, 0.0, 0.0, 0.0);
-
-    if (palIndex == 0)
-    {
-        mask = tex2D(texFG1Masks[0], fsUV);
-    }
-    else if (palIndex == 1)
-    {
-        mask = tex2D(texFG1Masks[1], fsUV);
-    }
-    else if (palIndex == 2)
-    {
-        mask = tex2D(texFG1Masks[2], fsUV);
-    }
-    else if (palIndex == 3)
-    {
-        mask = tex2D(texFG1Masks[3], fsUV);
-    }
-
-    float4 outColor = float4(tex2D(texCamera, fsUV).rgb, 0.0);
-
-    if (all(mask.rgb == float3(0.0, 0.0, 0.0)))
-    {
-        outColor = float4(0.0, 0.0, 0.0, 1.0);
-    }
-
-    return outColor;
-}
 
 float4 PS(
     float4 fsShadeColor
@@ -153,25 +118,8 @@ float4 PS(
     int isSemiTrans = semiTransShaded[1];
     int textureUnit = drawTypeTextureUnit[1];
 
-    if (drawType == DRAW_DEFAULT_FT4)
-    {
-        return draw_default_ft4(fsShadeColor, textureUnit, palIndex, fsUV, isShaded, blendMode, isSemiTrans);
-    }
-    else if (drawType == DRAW_FG1)
-    {
-        return draw_fg1(palIndex, fsUV);
-    }
-    else if (drawType == DRAW_FLAT)
-    {
-        return draw_flat(fsShadeColor, isShaded, blendMode, isSemiTrans);
-    }
-    else if (drawType == DRAW_GAS)
-    {
-        // TODO isn't it
-    }
 
+     return draw_default_ft4(fsShadeColor, textureUnit, palIndex, fsUV, isShaded, blendMode, isSemiTrans);
     // assume cam for now
-    // if (drawType == DRAW_CAM)
-    return draw_cam(fsUV);
 }
 )"

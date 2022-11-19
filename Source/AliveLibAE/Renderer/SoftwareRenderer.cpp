@@ -17,21 +17,20 @@ void set_pixel(SDL_Surface* surface, int x, int y, u32 pixel)
     *(u32*) target_pixel = pixel;
 }
 
-void SoftwareRenderer::Destroy()
-{
-    SDL_DestroyTexture(mBackBufferTexture);
-}
-
-bool SoftwareRenderer::Create(TWindowHandleType window)
+SoftwareRenderer::SoftwareRenderer(TWindowHandleType window)
 {
     mWindow = window;
     mRenderer = SDL_CreateRenderer(window, -1, 0);
     if (mRenderer)
     {
         SDL_RenderSetLogicalSize(mRenderer, 640, 480);
-        //SDL_RenderSetScale(mRenderer, 1.0f, 2.0f);
+        // SDL_RenderSetScale(mRenderer, 1.0f, 2.0f);
     }
-    return mRenderer != nullptr;
+}
+
+SoftwareRenderer::~SoftwareRenderer()
+{
+    SDL_DestroyTexture(mBackBufferTexture);
 }
 
 void SoftwareRenderer::Clear(u8 r, u8 g, u8 b)
