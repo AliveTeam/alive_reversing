@@ -143,6 +143,7 @@ const D3DVERTEXELEMENT9 simple_decl[] =
 DirectX9Renderer::DirectX9Renderer(TWindowHandleType window)
     : mPaletteCache(256)
 {
+    /*
     // Find the directx9 driver
     const s32 numDrivers = SDL_GetNumRenderDrivers();
     if (numDrivers < 0)
@@ -175,11 +176,23 @@ DirectX9Renderer::DirectX9Renderer(TWindowHandleType window)
     {
         ALIVE_FATAL("DirectX9 SDL2 driver not found");
     }
+    */
 
-    mRenderer = std::make_unique<SDL_Renderer_RAII>(SDL_CreateRenderer(window, index, SDL_RENDERER_ACCELERATED));
+    mRenderer = std::make_unique<SDL_Renderer_RAII>(SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED));
     if (!mRenderer->mRenderer)
     {
         ALIVE_FATAL("Failed to create renderer %s", SDL_GetError());
+    }
+
+    SDL_RendererInfo info = {};
+    if (SDL_GetRendererInfo(mRenderer->mRenderer, &info) < 0)
+    {
+        ALIVE_FATAL("Failed to get renderer info %s",  SDL_GetError());
+    }
+
+    if (strcmp(info.name, "direct3d") != 0)
+    {
+        ALIVE_FATAL("SDL picked driver %s but we expected direct3d", info.name);
     }
 
     mDevice = SDL_RenderGetD3D9Device(mRenderer->mRenderer);
