@@ -143,40 +143,10 @@ const D3DVERTEXELEMENT9 simple_decl[] =
 DirectX9Renderer::DirectX9Renderer(TWindowHandleType window)
     : mPaletteCache(256)
 {
-    /*
-    // Find the directx9 driver
-    const s32 numDrivers = SDL_GetNumRenderDrivers();
-    if (numDrivers < 0)
-    {
-        LOG_ERROR("Failed to get driver count %s", SDL_GetError());
-    }
-
-    LOG_INFO("Got %d drivers", numDrivers);
-
-    s32 index = -1;
-    for (s32 i = 0; i < numDrivers; i++)
-    {
-        SDL_RendererInfo info = {};
-        if (SDL_GetRenderDriverInfo(i, &info) < 0)
-        {
-            LOG_WARNING("Failed to get render %d info %s", i, SDL_GetError());
-        }
-        else
-        {
-            LOG_INFO("%d name %s", i, info.name ? info.name : "(null)");
-            if (info.name && strstr(info.name, "direct3d"))
-            {
-                index = i;
-                break;
-            }
-        }
-    }
-
-    if (index == -1)
-    {
-        ALIVE_FATAL("DirectX9 SDL2 driver not found");
-    }
-    */
+    SDL_SetHint(SDL_HINT_RENDER_DRIVER, "direct3d");
+    // WARNING: SDL2 bug here, if batching is turned off then the 1st call to BeginScene will
+    // fail and resizing the window will then cause many other D3D device calls to fail.
+    SDL_SetHint(SDL_HINT_RENDER_BATCHING, "1");
 
     mRenderer = std::make_unique<SDL_Renderer_RAII>(SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED));
     if (!mRenderer->mRenderer)
