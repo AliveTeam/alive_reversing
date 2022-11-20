@@ -4,15 +4,13 @@
 #include "../../relive_lib/ResourceManagerWrapper.hpp"
 #include "../../relive_lib/Animation.hpp"
 #include "../Font.hpp"
+#include "pixel_shader.h"
 
 #ifdef _WIN32
 
     #undef DIRECT3D_VERSION
     #define DIRECT3D_VERSION 0x0900
     #include <d3dx9.h>
-    #include <d3dx9shader.h>
-
-
 
 #define DX_SPRITE_TEXTURE_LIFETIME 300
 
@@ -160,9 +158,9 @@ DirectX9Renderer::DirectX9Renderer(TWindowHandleType window)
         ALIVE_FATAL("Failed to get renderer info %s",  SDL_GetError());
     }
 
-    if (strcmp(info.name, "direct3d") != 0)
+    if (info.name && strcmp(info.name, "direct3d") != 0)
     {
-        ALIVE_FATAL("SDL picked driver %s but we expected direct3d", info.name);
+        ALIVE_FATAL("SDL picked driver %s but we expected direct3d", info.name ? info.name : "(null)");
     }
 
     mDevice = SDL_RenderGetD3D9Device(mRenderer->mRenderer);
@@ -177,12 +175,6 @@ DirectX9Renderer::DirectX9Renderer(TWindowHandleType window)
     {
         ALIVE_FATAL("Require pixel shader 2.0 or later but got %d.%d", D3DSHADER_VERSION_MAJOR(dxCaps.PixelShaderVersion), D3DSHADER_VERSION_MINOR(dxCaps.PixelShaderVersion));
     }
-
-    /*
-    if (dxCaps.TextureCaps & (D3DPTEXTURECAPS_POW2 | D3DPTEXTURECAPS_NONPOW2CONDITIONAL | D3DPTEXTURECAPS_SQUAREONLY))
-    {
-        ALIVE_FATAL("GPU doesn't support non power of 2 texture sizes");
-    }*/
 
     LOG_INFO("PS 2.0 max instructions %d PS 3.0 max instructions %d", dxCaps.PS20Caps.NumInstructionSlots, dxCaps.MaxPixelShader30InstructionSlots);
     LOG_INFO("Max texture w %d max texture h %d", dxCaps.MaxTextureWidth, dxCaps.MaxTextureHeight);
@@ -211,31 +203,7 @@ DirectX9Renderer::DirectX9Renderer(TWindowHandleType window)
     DX_VERIFY(mDevice->CreateVertexDeclaration(simple_decl, &mVertexDecl));
     DX_VERIFY(mDevice->SetVertexDeclaration(mVertexDecl));
 
-    const char prog[] =
-    #include "pixel_shader.hlsl"
-        ;
-
-    LPD3DXBUFFER shader;
-    LPD3DXBUFFER err;
-    LPD3DXCONSTANTTABLE pConstantTable;
-    DWORD dwShaderFlags = 0;
-    // D3DXSHADER_SKIPOPTIMIZATION | D3DXSHADER_DEBUG;
-
-    const HRESULT shaderHr = D3DXCompileShader(prog, strlen(prog), NULL, NULL, "PS", "ps_2_0", dwShaderFlags, &shader, &err, &pConstantTable);
-    if (FAILED(shaderHr))
-    {
-        const DWORD errBufferSize = err->GetBufferSize();
-        std::string errStr(reinterpret_cast<const char*>(err->GetBufferPointer()), errBufferSize);
-        ALIVE_FATAL("D3DXCompileShader failed 0x%08X Compiler returned: %s", shaderHr, errStr.c_str());
-    }
-    else if (err && err->GetBufferSize() > 0)
-    {
-        const DWORD errBufferSize = err->GetBufferSize();
-        std::string errStr(reinterpret_cast<const char*>(err->GetBufferPointer()), errBufferSize);
-        LOG_WARNING("D3DXCompileShader %s", errStr.c_str());
-    }
-
-    DX_VERIFY(mDevice->CreatePixelShader((DWORD*) shader->GetBufferPointer(), &mPixelShader));
+    DX_VERIFY(mDevice->CreatePixelShader((DWORD*) pixel_shader, &mPixelShader));
 
     DX_VERIFY(mDevice->CreateRenderTarget(640, 240, D3DFMT_A8R8G8B8, D3DMULTISAMPLE_NONE, 0, FALSE, &mTextureRenderTarget, nullptr));
 

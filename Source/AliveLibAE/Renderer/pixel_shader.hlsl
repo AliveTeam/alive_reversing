@@ -1,4 +1,3 @@
-R"(
 sampler texPalette : register(s5);
 //sampler texGas : register(s6);
 sampler texCamera : register(s4); // sX = sampler register X;
@@ -122,4 +121,3 @@ float4 PS(
      return draw_default_ft4(fsShadeColor, textureUnit, palIndex, fsUV, isShaded, blendMode, isSemiTrans);
     // assume cam for now
 }
-)"
