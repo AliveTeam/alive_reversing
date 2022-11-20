@@ -38,7 +38,7 @@ private:
     RGB16 mRGB;
     s16 mNumToShow = 0;
 
-    Line_F2 mLines[2][8] = {};
+    Line_G2 mLines[2][8] = {};
     Prim_SetTPage mTPage[2] = {};
     ThrowableTotalIndicatorState mState = ThrowableTotalIndicatorState::eCreated;
     s16 mFade = 0;

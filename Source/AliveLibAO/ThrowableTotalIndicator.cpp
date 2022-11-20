@@ -324,15 +324,16 @@ void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
             primVertX = PsxToPCX(xpos, 11);
         }
 
-        Line_F2* pLine = &mLines[gPsxDisplay.mBufferIndex][counter];
-        Line_F2_Init(pLine);
+        Line_G2* pLine = &mLines[gPsxDisplay.mBufferIndex][counter];
+        LineG2_Init(pLine);
 
         SetXY0(pLine, primBaseX + FP_GetExponent(x0), ypos + FP_GetExponent(y0));
         SetXY1(pLine, primVertX + FP_GetExponent(x1), ypos + FP_GetExponent(y1));
-        SetRGB0(pLine,
-                static_cast<u8>(mRGB.r),
-                static_cast<u8>(mRGB.g),
-                static_cast<u8>(mRGB.b));
+        SetRGB0(pLine, static_cast<u8>(mRGB.r), static_cast<u8>(mRGB.g), static_cast<u8>(mRGB.b));
+        SetRGB1(pLine, static_cast<u8>(mRGB.r), static_cast<u8>(mRGB.g), static_cast<u8>(mRGB.b));
+        SetRGB2(pLine, static_cast<u8>(mRGB.r), static_cast<u8>(mRGB.g), static_cast<u8>(mRGB.b));
+
+
         Poly_Set_SemiTrans(&pLine->mBase.header, 1);
         OrderingTable_Add(OtLayer(ppOt, mOtLayer), &pLine->mBase.header);
     }

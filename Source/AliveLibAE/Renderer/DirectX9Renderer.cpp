@@ -435,6 +435,7 @@ void DirectX9Renderer::ToggleKeepAspectRatio()
 
 void DirectX9Renderer::Draw(Prim_Sprt& /*sprt*/)
 {
+    
 }
 
 void DirectX9Renderer::Draw(Prim_GasEffect& /*gasEffect*/)
@@ -442,10 +443,6 @@ void DirectX9Renderer::Draw(Prim_GasEffect& /*gasEffect*/)
 }
 
 void DirectX9Renderer::Draw(Prim_Tile& /*tile*/)
-{
-}
-
-void DirectX9Renderer::Draw(Line_F2& /*line*/)
 {
 }
 
@@ -477,7 +474,6 @@ void DirectX9Renderer::Draw(Poly_F4& /*poly*/)
     SetQuad(vi, 0.0f, 0.0f, 1.0f, 1.0f);
     */
 }
-
 
 void DirectX9Renderer::SetupBlendMode(u16 blendMode)
 {

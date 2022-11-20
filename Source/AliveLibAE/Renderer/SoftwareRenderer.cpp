@@ -225,24 +225,6 @@ void SoftwareRenderer::Draw(Prim_Tile& tile)
     SDL_RenderFillRect(mRenderer, &rect);
 }
 
-// ThrowableTotalIndicator
-void SoftwareRenderer::Draw(Line_F2& line)
-{
-    /*
-    PSX_Render_Line_Prim_4F7D90(&line, static_cast<s16>(mFrame_xOff), static_cast<s16>(mFrame_yOff));
-    */
-    const u8 a = (line.mBase.header.rgb_code.code_or_pad & 2) ? 127 : 255;
-    if (a == 127)
-    {
-        SDL_SetRenderDrawBlendMode(mRenderer, SDL_BLENDMODE_BLEND);
-    }
-
-    SDL_SetRenderDrawColor(mRenderer, R0(&line), G0(&line), B0(&line), a);
-
-    // TODO: This probably looks nothing like it should do
-    SDL_RenderDrawLine(mRenderer, X0(&line), Y0(&line) * 2, X1(&line), Y1(&line) * 2);
-}
-
 // SnoozeParticle, Spark, ThrowableTotalIndicator
 void SoftwareRenderer::Draw(Line_G2& /*line*/)
 {

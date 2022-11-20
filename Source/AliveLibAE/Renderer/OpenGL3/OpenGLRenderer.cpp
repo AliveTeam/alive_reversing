@@ -362,28 +362,6 @@ void OpenGLRenderer::Draw(Prim_Tile& tile)
     PushVertexData(verts, 4);
 }
 
-void OpenGLRenderer::Draw(Line_F2& line)
-{
-    if (!gRenderEnable_F2)
-    {
-        return;
-    }
-
-    const u32 r = R0(&line);
-    const u32 g = G0(&line);
-    const u32 b = B0(&line);
-
-    bool isSemiTrans = GetPolyIsSemiTrans(&line);
-    bool isShaded = true;
-    u32 blendMode = GetTPageBlendMode(mGlobalTPage);
-
-    VertexData verts[2] = {
-        {X0(&line), Y0(&line), r, g, b, 0, 0, 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded, blendMode, 0, 0},
-        {X1(&line), Y1(&line), r, g, b, 0, 0, 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded, blendMode, 0, 0}};
-
-    PushLines(verts, 2);
-}
-
 void OpenGLRenderer::Draw(Line_G2& line)
 {
     if (!gRenderEnable_G2)

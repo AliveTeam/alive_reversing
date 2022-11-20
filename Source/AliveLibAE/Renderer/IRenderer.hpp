@@ -78,9 +78,6 @@ public:
     // CircularFade/EffectBase
     virtual void Draw(Prim_Tile& tile) = 0;
 
-    // ThrowableTotal
-    virtual void Draw(Line_F2& line) = 0;
-
     // AO: Spark/SnoozeParticle, AE: Spark/SnoozeParticle + ThrowableTotal
     virtual void Draw(Line_G2& line) = 0;
 

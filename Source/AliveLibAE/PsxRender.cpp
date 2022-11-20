@@ -34,10 +34,6 @@ static void DrawOTag_HandlePrimRendering(IRenderer& renderer, PrimAny& any)
             renderer.Draw(*any.mTile);
             break;
 
-        case PrimTypeCodes::eLineF2:
-            renderer.Draw(*any.mLineF2);
-            break;
-
         case PrimTypeCodes::eLineG2:
             renderer.Draw(*any.mLineG2);
             break;

@@ -155,12 +155,6 @@ struct Prim_SetTPage final
 };
 ALIVE_ASSERT_SIZEOF(Prim_SetTPage, 0x10);
 
-struct Line_F2 final
-{
-    Poly_Base mBase;
-    FVertWrapper mVerts[1];
-};
-ALIVE_ASSERT_SIZEOF(Line_F2, 0x14);
 
 struct Line_G2 final
 {
@@ -219,7 +213,6 @@ enum PrimTypeCodes
     ePolyG4 = 0x38,  // 0b1[1][1][0]00
 
     // Line prims
-    eLineF2 = 0x40,
     eLineG2 = 0x50,
     eLineG4 = 0x5C
 };
@@ -253,8 +246,6 @@ union PrimAny
     Poly_F4* mPolyF4;
     Poly_FT4* mPolyFT4;
     Poly_G4* mPolyG4;
-
-    Line_F2* mLineF2;
 
     Line_G2* mLineG2;
     Line_G4* mLineG4;
@@ -596,8 +587,6 @@ inline bool GetPolyIsShaded(T* prim)
 void SetCode(PrimHeader* pPrim, u8 code);
 void SetUnknown(PrimHeader* pPrim);
 void SetNumLongs(PrimHeader* pPrim, s8 numLongs);
-
-void Line_F2_Init(Line_F2* pLine);
 
 void LineG2_Init(Line_G2* pLine);
 void LineG4_Init(Line_G4* pLine);
