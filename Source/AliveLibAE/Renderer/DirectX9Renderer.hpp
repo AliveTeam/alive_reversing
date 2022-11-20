@@ -73,7 +73,6 @@ private:
     void DecreaseResourceLifetimes();
 
     void MakeVertexBuffer();
-    void SetQuad(f32 x, f32 y, f32 w, f32 h);
     void SetQuad(u8 type, bool isSemiTrans, bool isShaded, u8 blendMode, u8 palIndex, u8 textureUnit, u8 r, u8 g, u8 b, float u0, float v0, float u1, float v1, Poly_FT4& poly);
 
     IDirect3DTexture9* PrepareTextureFromAnim(Animation& anim);
@@ -88,7 +87,6 @@ private:
 
     ATL::CComPtr<IDirect3DSurface9> mScreenRenderTarget;
     ATL::CComPtr<IDirect3DSurface9> mTextureRenderTarget;
-    ATL::CComPtr<IDirect3DTexture9> mCamTexture;
 
     ATL::CComPtr<IDirect3DPixelShader9> mPixelShader;
     ATL::CComPtr<IDirect3DPixelShader9> mCamFG1Shader;
