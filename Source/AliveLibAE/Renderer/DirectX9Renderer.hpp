@@ -75,10 +75,10 @@ private:
     void DecreaseResourceLifetimes();
 
     void MakeVertexBuffer();
-    void SetQuad(u8 type, bool isSemiTrans, bool isShaded, u8 blendMode, u8 palIndex, u8 textureUnit, u8 r, u8 g, u8 b, float u0, float v0, float u1, float v1, Poly_FT4& poly);
     void SetQuad(const VertexInfo& vi, float u0, float v0, float u1, float v1);
 
-    IDirect3DTexture9* PrepareTextureFromAnim(Animation& anim);
+    IDirect3DTexture9* MakeCachedIndexedTexture(u32 uniqueId, const std::vector<u8>& pixels, u32 textureW, u32 textureH, u32 actualW, u32 actualH);
+    IDirect3DTexture9* MakeCachedTexture(u32 uniqueId, const std::vector<u8>& pixels, u32 textureW, u32 textureH, u32 actualW, u32 actualH);
 
     bool mFrameStarted = false;
     
