@@ -20,7 +20,7 @@ float4 draw_fg1(int fg1Idx, float2 fsUV)
     {
         mask = tex2D(texFG1Masks[3], fsUV);
     }
-    //mask = tex2D(texFG1Masks[0], fsUV);
+
     float4 outColor;
     if (all(mask.rgb == float3(0.0, 0.0, 0.0)))
     {
@@ -58,5 +58,5 @@ float4 PS(
     {
         return draw_cam(fsUV);
     }
-    return draw_fg1(drawTypeTextureUnit[1], fsUV);
+    return draw_fg1(palIndexBlendMode[0], fsUV);
 }

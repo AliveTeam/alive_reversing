@@ -438,7 +438,7 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
         IDirect3DTexture9* pTextureToUse = mTextureCache.GetCachedTextureId(poly.mFg1->mUniqueId.Id(), DX_SPRITE_TEXTURE_LIFETIME);
         if (!pTextureToUse)
         {
-            DX_VERIFY(mDevice->CreateTexture(poly.mFg1->mImage.mWidth, poly.mFg1->mImage.mHeight, 0, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &pTextureToUse, nullptr));
+            DX_VERIFY(mDevice->CreateTexture(1024, 1024, 0, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &pTextureToUse, nullptr));
 
             mTextureCache.Add(poly.mFg1->mUniqueId.Id(), DX_SPRITE_TEXTURE_LIFETIME, pTextureToUse);
 
@@ -454,7 +454,7 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
 
         u8 textureUnit = 1;
         u8 palIdx = mFG1Units[0];
-        SetQuad(3, false, false, blendMode, palIdx, textureUnit, 128, 128, 128, 0.0f, 0.0f, 1.0f, 1.0f, poly);
+        SetQuad(3, false, false, blendMode, palIdx, textureUnit, 128, 128, 128, 0.0f, 0.0f, 640.0f/1024.0f, 240.0f/1024.0f, poly);
 
 
         DX_VERIFY(mDevice->SetTexture(mCamUnit, mCamTexture));
