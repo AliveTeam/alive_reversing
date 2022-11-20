@@ -360,11 +360,11 @@ class VertexInfo final
 {
 public:
     template<typename PsxPrimType>
-    constexpr static VertexInfo Quad(u8 primType, u32 textureUnit, const PsxPrimType& prim)
+    constexpr static VertexInfo Quad(u8 primType, u32 palIdx, const PsxPrimType& prim)
     {
         VertexInfo vi = {};
         vi.mPrimType = primType;
-        vi.mTextureUnit = textureUnit;
+        vi.mPalIndex = palIdx;
 
         vi.mR = R0(&prim);
         vi.mG = G0(&prim);
@@ -393,7 +393,6 @@ public:
     u8 mG;
     u8 mB;
     u32 mPalIndex;
-    u32 mTextureUnit;
     bool mIsSemiTrans;
     bool mIsShaded;
     // TODO: Strongly type
@@ -466,11 +465,8 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
 
         IDirect3DTexture9* pTextureToUse = MakeCachedTexture(poly.mCam->mUniqueId.Id(), *poly.mCam->mData.mPixels, 1024, 1024, poly.mCam->mData.mWidth, poly.mCam->mData.mHeight);
 
-        u8 blendMode = static_cast<u8>(GetTPageBlendMode(GetTPage(&poly)));
-        SetupBlendMode(blendMode);
-
-        auto vi = VertexInfo::Quad(2, mCamUnit, poly);
-        vi.mPalIndex = mCamUnit;
+        auto vi = VertexInfo::Quad(2, 0, poly);
+        SetupBlendMode(vi.mBlendMode);
         SetQuad(vi, 0.0f, 0.0f, 640.0f / 1024.0f, 240.0f / 1024.0f);
 
         DX_VERIFY(mDevice->SetTexture(mCamUnit, pTextureToUse));
@@ -482,10 +478,7 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
 
         IDirect3DTexture9* pTextureToUse = MakeCachedTexture(poly.mFg1->mUniqueId.Id(), *poly.mFg1->mImage.mPixels, 1024, 1024, poly.mFg1->mImage.mWidth, poly.mFg1->mImage.mHeight);
 
-        u8 textureUnit = 1;
-        auto vi = VertexInfo::Quad(1, textureUnit, poly);
-        vi.mPalIndex = mFG1Units[0];
-
+        auto vi = VertexInfo::Quad(1, 0, poly);
         SetupBlendMode(vi.mBlendMode);
         SetQuad(vi, 0.0f, 0.0f, 640.0f/1024.0f, 240.0f/1024.0f);
 
@@ -517,10 +510,7 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
             std::swap(v1, v0);
         }
 
-        u8 textureUnit = 1;
-        auto vi = VertexInfo::Quad(1, textureUnit, poly);
-        vi.mPalIndex = PreparePalette(*poly.mAnim->mAnimRes.mCurPal);
-
+        auto vi = VertexInfo::Quad(1, PreparePalette(*poly.mAnim->mAnimRes.mCurPal), poly);
         SetupBlendMode(vi.mBlendMode);
         SetQuad(vi, u0, v0, u1, v1);
        
@@ -532,7 +522,6 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
         mDevice->SetPixelShader(mPixelShader);
 
         std::shared_ptr<TgaData> pTga = poly.mFont->field_C_resource_id.mTgaPtr;
-        IDirect3DTexture9* pTextureToUse = MakeCachedIndexedTexture(poly.mFont->field_C_resource_id.mUniqueId.Id(), pTga->mPixels, pTga->mWidth, pTga->mHeight, pTga->mWidth, pTga->mHeight);
 
         FontResource& fontRes = poly.mFont->field_C_resource_id;
 
@@ -544,12 +533,10 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
         float u1 = U3(&poly) / (f32) pTga->mWidth;
         float v1 = V3(&poly) / (f32) pTga->mHeight;
 
-        u8 textureUnit = 1;
-        auto vi = VertexInfo::Quad(1, textureUnit, poly);
-        vi.mPalIndex = static_cast<u8>(PreparePalette(*pPal));
+        IDirect3DTexture9* pTextureToUse = MakeCachedIndexedTexture(fontRes.mUniqueId.Id(), pTga->mPixels, pTga->mWidth, pTga->mHeight, pTga->mWidth, pTga->mHeight);
 
+        auto vi = VertexInfo::Quad(1, PreparePalette(*pPal), poly);
         SetupBlendMode(vi.mBlendMode);
-
         SetQuad(vi, u0, v0, u1, v1);
 
         DX_VERIFY(mDevice->SetTexture(mSpriteUnit, pTextureToUse));
@@ -589,7 +576,7 @@ void DirectX9Renderer::SetQuad(const VertexInfo& vi, float u0, float v0, float u
          FromInt(vi.mPalIndex),
          FromInt(vi.mBlendMode),
          FromInt(vi.mPrimType),
-         FromInt(vi.mTextureUnit)},
+         0.0f},
 
         {vi.mX1 - fudge,
          vi.mY1 - fudge,
@@ -603,7 +590,7 @@ void DirectX9Renderer::SetQuad(const VertexInfo& vi, float u0, float v0, float u
          FromInt(vi.mPalIndex),
          FromInt(vi.mBlendMode),
          FromInt(vi.mPrimType),
-         FromInt(vi.mTextureUnit)},
+         0.0f},
 
         {vi.mX2 - fudge,
          vi.mY3 - fudge,
@@ -617,7 +604,7 @@ void DirectX9Renderer::SetQuad(const VertexInfo& vi, float u0, float v0, float u
          FromInt(vi.mPalIndex),
          FromInt(vi.mBlendMode),
          FromInt(vi.mPrimType),
-         FromInt(vi.mTextureUnit)},
+         0.0f},
 
         {vi.mX1 - fudge,
          vi.mY1 - fudge,
@@ -631,7 +618,7 @@ void DirectX9Renderer::SetQuad(const VertexInfo& vi, float u0, float v0, float u
          FromInt(vi.mPalIndex),
          FromInt(vi.mBlendMode),
          FromInt(vi.mPrimType),
-         FromInt(vi.mTextureUnit)},
+         0.0f},
 
         {vi.mX3 - fudge,
          vi.mY3 - fudge,
@@ -645,7 +632,7 @@ void DirectX9Renderer::SetQuad(const VertexInfo& vi, float u0, float v0, float u
          FromInt(vi.mPalIndex),
          FromInt(vi.mBlendMode),
          FromInt(vi.mPrimType),
-         FromInt(vi.mTextureUnit)},
+         0.0f},
 
         {vi.mX2 - fudge,
          vi.mY2 - fudge,
@@ -659,7 +646,7 @@ void DirectX9Renderer::SetQuad(const VertexInfo& vi, float u0, float v0, float u
          FromInt(vi.mPalIndex),
          FromInt(vi.mBlendMode),
          FromInt(vi.mPrimType),
-         FromInt(vi.mTextureUnit)}
+         0.0f}
     };
 
     VOID* pVoid = nullptr;

@@ -1,19 +1,10 @@
 sampler texPalette : register(s5);
-//sampler texGas : register(s6);
-sampler texCamera : register(s4); // sX = sampler register X;
-//sampler texFG1Masks[4] : register(s0);
-sampler texSpriteSheets[8] : register(s7);
+sampler texSpriteSheet : register(s7);
 
 static const int BLEND_MODE_HALF_DST_ADD_HALF_SRC = 0;
 static const int BLEND_MODE_ONE_DST_ADD_ONE_SRC = 1;
 static const int BLEND_MODE_ONE_DST_SUB_ONE_SRC = 2;
 static const int BLEND_MODE_ONE_DST_ADD_QRT_SRC = 3;
-
-static const int DRAW_FLAT = 0;
-static const int DRAW_DEFAULT_FT4 = 1;
-static const int DRAW_CAM = 2;
-static const int DRAW_FG1 = 3;
-static const int DRAW_GAS = 4;
 
 float4 PixelToPalette(float v, int palIndex)
 {
@@ -79,19 +70,11 @@ float4 draw_flat(float4 fsShadeColor, bool isShaded, int blendMode, bool isSemiT
     return handle_final_color(float4(fsShadeColor.rgb, 1.0), float4(fsShadeColor.rgb, 1.0), false, isShaded, blendMode, isSemiTrans);
 }
 
-float4 draw_default_ft4(float4 fsShadeColor, int textureUnit, int palIndex, float2 fsUV, bool isShaded, int blendMode, bool isSemiTrans)
+float4 draw_default_ft4(float4 fsShadeColor, int palIndex, float2 fsUV, bool isShaded, int blendMode, bool isSemiTrans)
 {
-    float texelSprite = 0.0;
-
-   // if (textureUnit == 1)
-    {
-        texelSprite = tex2D(texSpriteSheets[0], fsUV).r;
-    }
-
+    float texelSprite = tex2D(texSpriteSheet, fsUV).r;
     float4 texelPal = PixelToPalette(texelSprite, palIndex);
-
     float4 finalCol = handle_final_color(fsShadeColor, texelPal, true, isShaded, blendMode, isSemiTrans);
-
     return finalCol;
 }
 
@@ -115,9 +98,8 @@ float4 PS(
 
     int blendMode = palIndexBlendMode[1];
     int isSemiTrans = semiTransShaded[1];
-    int textureUnit = drawTypeTextureUnit[1];
 
 
-     return draw_default_ft4(fsShadeColor, textureUnit, palIndex, fsUV, isShaded, blendMode, isSemiTrans);
+     return draw_default_ft4(fsShadeColor, palIndex, fsUV, isShaded, blendMode, isSemiTrans);
     // assume cam for now
 }
