@@ -98,7 +98,7 @@ static void LoadSubImage(IDirect3DTexture9& texture, u32 xStart, u32 yStart, u32
 
 void DirectX9TextureCache::DeleteTexture(ATL::CComPtr<IDirect3DTexture9> /*texture*/)
 {
-
+    // TODO: Bin this off when rozza becomes a lad who can do his stuff
 }
 
 struct CUSTOMVERTEX final
@@ -153,6 +153,7 @@ DirectX9Renderer::DirectX9Renderer(TWindowHandleType window)
         ALIVE_FATAL("Failed to create renderer %s", SDL_GetError());
     }
 
+    // Check we actually got the direct3d renderer from SDL
     SDL_RendererInfo info = {};
     if (SDL_GetRendererInfo(mRenderer->mRenderer, &info) < 0)
     {
@@ -170,6 +171,7 @@ DirectX9Renderer::DirectX9Renderer(TWindowHandleType window)
         ALIVE_FATAL("Couldnt get DirectX9 device %s", SDL_GetError());
     }
 
+    // Verify pixel shader version is what we need
     D3DCAPS9 dxCaps = {};
     DX_VERIFY(mDevice->GetDeviceCaps(&dxCaps));
     if (dxCaps.PixelShaderVersion < D3DPS_VERSION(2, 0))
@@ -182,52 +184,47 @@ DirectX9Renderer::DirectX9Renderer(TWindowHandleType window)
 
     MakeVertexBuffer();
 
-    for (u32 i = 0; i < 8; i++)
+    // Use linear filtering on all samplers and texture clamping
+    for (u32 i = 0; i < 16; i++)
     {
-        mDevice->SetSamplerState(i, D3DSAMP_MAGFILTER, D3DTEXF_POINT);
-        mDevice->SetSamplerState(i, D3DSAMP_MINFILTER, D3DTEXF_POINT);
-        mDevice->SetSamplerState(i, D3DSAMP_MIPFILTER, D3DTEXF_NONE);
-        mDevice->SetSamplerState(i, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP);
-        mDevice->SetSamplerState(i, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP);
-        mDevice->SetSamplerState(i, D3DSAMP_ADDRESSW, D3DTADDRESS_CLAMP);
+        DX_VERIFY(mDevice->SetSamplerState(i, D3DSAMP_MAGFILTER, D3DTEXF_POINT));
+        DX_VERIFY(mDevice->SetSamplerState(i, D3DSAMP_MINFILTER, D3DTEXF_POINT));
+        DX_VERIFY(mDevice->SetSamplerState(i, D3DSAMP_MIPFILTER, D3DTEXF_NONE));
+        DX_VERIFY(mDevice->SetSamplerState(i, D3DSAMP_ADDRESSU, D3DTADDRESS_CLAMP));
+        DX_VERIFY(mDevice->SetSamplerState(i, D3DSAMP_ADDRESSV, D3DTADDRESS_CLAMP));
+        DX_VERIFY(mDevice->SetSamplerState(i, D3DSAMP_ADDRESSW, D3DTADDRESS_CLAMP));
     }
 
-    mDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
-    mDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+    // Turn off lighting/alpha blend
+    DX_VERIFY(mDevice->SetRenderState(D3DRS_LIGHTING, FALSE));
+    DX_VERIFY(mDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE));
 
-    mDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-    mDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-    mDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+    // Default blend mode
+    DX_VERIFY(mDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA));
+    DX_VERIFY(mDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA));
+    DX_VERIFY(mDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD));
+    DX_VERIFY(mDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE));
 
-    mDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
-
+    // Vertex formats
     DX_VERIFY(mDevice->CreateVertexDeclaration(simple_decl, &mVertexDecl));
     DX_VERIFY(mDevice->SetVertexDeclaration(mVertexDecl));
 
+    // Pixel shaders
     DX_VERIFY(mDevice->CreatePixelShader((DWORD*) pixel_shader, &mPixelShader));
     DX_VERIFY(mDevice->CreatePixelShader((DWORD*) cam_fg1_shader, &mCamFG1Shader));
 
+    // Render targets
     DX_VERIFY(mDevice->CreateRenderTarget(640, 240, D3DFMT_A8R8G8B8, D3DMULTISAMPLE_NONE, 0, FALSE, &mTextureRenderTarget, nullptr));
-
     DX_VERIFY(mDevice->GetRenderTarget(0, &mScreenRenderTarget));
     DX_VERIFY(mDevice->SetRenderTarget(0, mTextureRenderTarget));
 
+    // Pal cache texture
     D3DLOCKED_RECT locked = {};
     DX_VERIFY(mDevice->CreateTexture(256, 256, 0, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &mPaletteTexture, nullptr));
     const RGBA32 kColourMagenta = {255, 0, 255, 255};
     DXTexture::FillTexture(*mPaletteTexture, 256, 256, kColourMagenta);
 
     DX_VERIFY(mDevice->SetTexture(mPalUnit, mPaletteTexture));
-
-    // mCamTexture->SetAutoGenFilterType(D3DTEXF_NONE);
-
-    // DXTexture::FillTexture(*mCamTexture, 640, 240, kColourMagenta);
-
-
-    //  mDevice->SetRenderState(D3DRS_SPECULARENABLE, 0);
-    //  mDevice->SetRenderState(D3DRS_LIGHTING, 0);
-
-
 }
 
 DirectX9Renderer::~DirectX9Renderer()
@@ -253,7 +250,6 @@ void DirectX9Renderer::StartFrame(s32 /*xOff*/, s32 /*yOff*/)
 
         // Draw everything to the texture
         mDevice->SetRenderTarget(0, mTextureRenderTarget);
-        //DX_VERIFY(mDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0));
     }
 }
 
@@ -273,7 +269,6 @@ void DirectX9Renderer::EndFrame()
         mDevice->StretchRect(mTextureRenderTarget, NULL, mScreenRenderTarget, nullptr, D3DTEXF_POINT);
 
         DX_VERIFY(mDevice->Present(NULL, NULL, NULL, NULL));
-        // SDL_RenderPresent(mRenderer);
 
         mFrameStarted = false;
     }
@@ -430,20 +425,17 @@ void DirectX9Renderer::Draw(Poly_F4& /*poly*/)
 
 void DirectX9Renderer::SetupBlendMode(u16 blendMode)
 {
-
     if ((TPageAbr) blendMode == TPageAbr::eBlend_2)
     {
-        mDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-        mDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
-        
-        mDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_REVSUBTRACT);
+        DX_VERIFY(mDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA));
+        DX_VERIFY(mDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE));
+        DX_VERIFY(mDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_REVSUBTRACT));
     }
     else
     {
-        mDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
-        mDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_SRCALPHA);
-        
-        mDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+        DX_VERIFY(mDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE));
+        DX_VERIFY(mDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_SRCALPHA));
+        DX_VERIFY(mDevice->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD));
     }
 }
 
@@ -497,9 +489,6 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
         SetupBlendMode(vi.mBlendMode);
         SetQuad(vi, 0.0f, 0.0f, 640.0f/1024.0f, 240.0f/1024.0f);
 
-        //IDirect3DTexture9* pCamTexture = mTextureCache.GetCachedTextureId(poly.mCam->mUniqueId.Id(), DX_SPRITE_TEXTURE_LIFETIME);
-        //DX_VERIFY(mDevice->SetTexture(mCamUnit, pCamTexture));
-        //DX_VERIFY(mDevice->SetTexture(mPalUnit, mPaletteTexture));
         DX_VERIFY(mDevice->SetTexture(mFG1Units[0], pTextureToUse));
         DX_VERIFY(mDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2));
     }
@@ -536,7 +525,6 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
         SetQuad(vi, u0, v0, u1, v1);
        
         DX_VERIFY(mDevice->SetTexture(mSpriteUnit, pTextureToUse));
-       // DX_VERIFY(mDevice->SetTexture(mCamUnit, mCamTexture));
         DX_VERIFY(mDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2));
     }
     else if (poly.mFont)
@@ -583,7 +571,6 @@ static float FromInt(const u32 v)
 {
     return static_cast<float>(v);
 }
-
 
 void DirectX9Renderer::SetQuad(const VertexInfo& vi, float u0, float v0, float u1, float v1)
 {
@@ -706,7 +693,6 @@ void DirectX9Renderer::MakeVertexBuffer()
 IDirect3DTexture9* DirectX9Renderer::MakeCachedIndexedTexture(u32 uniqueId, const std::vector<u8>& pixels, u32 textureW, u32 textureH, u32 actualW, u32 actualH)
 {
     IDirect3DTexture9* textureId = mTextureCache.GetCachedTextureId(uniqueId, DX_SPRITE_TEXTURE_LIFETIME);
-
     if (!textureId)
     {
         DX_VERIFY(mDevice->CreateTexture(textureW, textureH, 0, 0, D3DFMT_L8, D3DPOOL_MANAGED, &textureId, nullptr));
@@ -720,7 +706,6 @@ IDirect3DTexture9* DirectX9Renderer::MakeCachedIndexedTexture(u32 uniqueId, cons
 IDirect3DTexture9* DirectX9Renderer::MakeCachedTexture(u32 uniqueId, const std::vector<u8>& pixels, u32 textureW, u32 textureH, u32 actualW, u32 actualH)
 {
     IDirect3DTexture9* textureId = mTextureCache.GetCachedTextureId(uniqueId, DX_SPRITE_TEXTURE_LIFETIME);
-
     if (!textureId)
     {
         DX_VERIFY(mDevice->CreateTexture(textureW, textureH, 0, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &textureId, nullptr));
