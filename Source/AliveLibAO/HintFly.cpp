@@ -1417,6 +1417,7 @@ HintFly::HintFly(relive::Path_HintFly* pTlv, const Guid& tlvId)
 
                 SetUV0(pSprt, vram_x & 0xFF, 0 /* mAnim.mVramRect.y & 0xFF*/);
 
+                pSprt->mAnim = &GetAnimation();
                 pSprt->field_14_w = static_cast<s16>(pHeader->mWidth - 1);
                 pSprt->field_16_h = static_cast<s16>(pHeader->mHeight - 1);
             }

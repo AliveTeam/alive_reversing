@@ -266,11 +266,6 @@ void OpenGLRenderer::Draw(Prim_Sprt& sprt)
         return;
     }
 
-    if (sprt.mAnim == nullptr)
-    {
-        return;
-    }
-
     std::shared_ptr<TgaData> pTga = sprt.mAnim->mAnimRes.mTgaPtr;
 
     const u32 sprtTextureId = PrepareTextureFromAnim(*sprt.mAnim);
