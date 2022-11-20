@@ -58,6 +58,29 @@ inline void to_json(nlohmann::json& j, const AnimAttributes& p)
     };
 }
 
+static bool AttemptHalfSpaceBinPack(std::vector<mapbox::Bin>& myBins, std::vector<mapbox::Bin*>& packed, u32& allocTextureSize)
+{
+    mapbox::ShelfPack binPackerHalf(allocTextureSize / 2, allocTextureSize / 2);
+    auto packedHalf = binPackerHalf.pack(myBins);
+    if (packedHalf.size() == packed.size())
+    {
+        // As we didn't use inPlace=true in case this failed now that it has worked
+        // we need to copy all of the x,y's over.
+        for (u32 i = 0u; i < myBins.size(); i++)
+        {
+            myBins[i].x = packedHalf[i]->x;
+            myBins[i].y = packedHalf[i]->y;
+        }
+
+        LOG_INFO("Winner winner! Half size");
+        allocTextureSize = allocTextureSize / 2;
+
+        // It worked so we can try even smaller
+        return AttemptHalfSpaceBinPack(myBins, packedHalf, allocTextureSize);
+    }
+    return false;
+}
+
 AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const AnimRecord& rec, const std::vector<u8>& fileData, bool isAoData)
     : mFileData(fileData)
     , mIsAoData(isAoData)
@@ -112,9 +135,39 @@ AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const
     std::vector<u8> decompressionBuffer(decompressionBufferSize);
 
     // Add each frame
-    std::vector<u8> spriteSheetBuffer(allocTextureSize * allocTextureSize);
     std::vector<PerFrameInfo> perFrameInfos(pAnimationHeader->field_2_num_frames);
 
+    std::vector<mapbox::Bin> myBins;
+    myBins.reserve(pAnimationHeader->field_2_num_frames);
+    for (s32 i = 0; i < pAnimationHeader->field_2_num_frames; i++)
+    {
+        const FrameHeader* pFrameHeader = GetFrame(pAnimationHeader, i);
+        myBins.emplace_back(-1, pFrameHeader->field_4_width, pFrameHeader->field_5_height);
+    }
+
+    mapbox::ShelfPack::PackOptions options;
+    options.inPlace = true;
+    mapbox::ShelfPack binPacker(allocTextureSize, allocTextureSize);
+    auto packed = binPacker.pack(myBins, options);
+    if (packed.size() != myBins.size())
+    {
+        // If this fails default to grid packing (yes somehow bin packing is worse than a grid sometimes! NP-Complete hell)
+        LOG_WARNING("Its over for bin pack");
+        for (s32 i = 0; i < pAnimationHeader->field_2_num_frames; i++)
+        {
+            const u32 baseX = ((i % spritesFitX) * biggestFrameSize.mMaxW);
+            const u32 baseY = ((i / spritesFitX) * biggestFrameSize.mMaxH);
+            myBins[i].x = baseX;
+            myBins[i].y = baseY;
+        }
+    }
+    else
+    {
+        // In many cases the next size down would fit so we try that as well
+        AttemptHalfSpaceBinPack(myBins, packed, allocTextureSize);
+    }
+
+    std::vector<u8> spriteSheetBuffer(allocTextureSize * allocTextureSize);
     for (s32 i = 0; i < pAnimationHeader->field_2_num_frames; i++)
     {
         const FrameInfoHeader* pFrameInfoHeader = GetFrameInfoHeader(pAnimationHeader, i);
@@ -125,8 +178,8 @@ AnimationConverter::AnimationConverter(const FileSystem::Path& outputFile, const
         // Add frame to the sprite sheet
         const u32 imageWidth = CalcImageWidth(pFrameHeader);
 
-        const u32 baseX = ((i % spritesFitX) * biggestFrameSize.mMaxW);
-        const u32 baseY = ((i / spritesFitX) * biggestFrameSize.mMaxH);
+        const u32 baseX = myBins[i].x;
+        const u32 baseY = myBins[i].y;
 
         for (u32 x = 0; x < pFrameHeader->field_4_width; x++)
         {
