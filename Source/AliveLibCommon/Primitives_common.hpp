@@ -102,14 +102,6 @@ struct FVertWrapper final
     FVert mVert;
 };
 
-struct Poly_F3 final
-{
-    Poly_Base mBase;
-    FVertWrapper mVerts[2];
-};
-ALIVE_ASSERT_SIZEOF(Poly_F3, 0x18);
-
-
 struct Poly_F4 final
 {
     Poly_Base mBase;
@@ -216,9 +208,6 @@ enum PrimTypeCodes
     eTile = 0x60,
     eSprt = 0x64,
 
-    //                         F  3  T
-    ePolyF3 = 0x20,  // 0b1[0][0][0]00
-
     //                         G  3  T
     ePolyG3 = 0x30,  // 0b1[1][0][0]00
 
@@ -259,7 +248,6 @@ union PrimAny
 
     Prim_Tile* mTile;
 
-    Poly_F3* mPolyF3;
     Poly_G3* mPolyG3;
 
     Poly_F4* mPolyF4;
@@ -608,8 +596,6 @@ inline bool GetPolyIsShaded(T* prim)
 void SetCode(PrimHeader* pPrim, u8 code);
 void SetUnknown(PrimHeader* pPrim);
 void SetNumLongs(PrimHeader* pPrim, s8 numLongs);
-
-void PolyF3_Init(Poly_F3* pPoly);
 
 void Line_F2_Init(Line_F2* pLine);
 

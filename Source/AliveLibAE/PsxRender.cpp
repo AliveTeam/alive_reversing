@@ -46,10 +46,6 @@ static void DrawOTag_HandlePrimRendering(IRenderer& renderer, PrimAny& any)
             renderer.Draw(*any.mLineG4);
             break;
 
-        case PrimTypeCodes::ePolyF3:
-            renderer.Draw(*any.mPolyF3);
-            break;
-
         case PrimTypeCodes::ePolyG3:
             renderer.Draw(*any.mPolyG3);
             break;

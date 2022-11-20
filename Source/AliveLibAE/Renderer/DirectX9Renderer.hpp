@@ -61,7 +61,6 @@ public:
     void Draw(Line_F2& line) override;
     void Draw(Line_G2& line) override;
     void Draw(Line_G4& line) override;
-    void Draw(Poly_F3& poly) override;
     void Draw(Poly_G3& poly) override;
     void Draw(Poly_F4& poly) override;
     void Draw(Poly_FT4& poly) override;

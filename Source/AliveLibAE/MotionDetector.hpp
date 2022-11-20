@@ -60,7 +60,7 @@ private:
     FP field_118_x2_fp = {};
     FP field_11C_y1_fp = {};
     FP field_120_y2_fp = {};
-    Poly_F3 field_124_prims[2] = {};
+    Poly_G3 field_124_prims[2] = {};
     Prim_SetTPage field_154_tPage[2] = {};
     FP field_174_speed = {};
     s16 field_178_bObjectInLaser = 0;

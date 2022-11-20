@@ -30,15 +30,6 @@ void PolyFT4_Init(Poly_FT4* pPrim)
     pPrim->mFg1 = nullptr;
 }
 
-
-// Note: Inlined everywhere in real game
-void PolyF3_Init(Poly_F3* pPrim)
-{
-    SetNumLongs(&pPrim->mBase.header, 4);
-    SetUnknown(&pPrim->mBase.header);
-    SetCode(&pPrim->mBase.header, PrimTypeCodes::ePolyF3);
-}
-
 void Line_F2_Init(Line_F2* pPrim)
 {
     SetNumLongs(&pPrim->mBase.header, 3);

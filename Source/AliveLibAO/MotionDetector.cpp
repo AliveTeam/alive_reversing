@@ -290,14 +290,16 @@ void MotionDetector::VRender(PrimHeader** ppOt)
         const s16 y2 = y1 + bLaserRect.y - bLaserRect.h;
         const s16 x1 = static_cast<s16>(PsxToPCX(FP_GetExponent(field_108_pLaser->mXPos) - screen_left, 11));
 
-        Poly_F3* pPrim = &field_10C_prims[gPsxDisplay.mBufferIndex];
-        PolyF3_Init(pPrim);
+        Poly_G3* pPrim = &field_10C_prims[gPsxDisplay.mBufferIndex];
+        PolyG3_Init(pPrim);
 
         SetXY0(pPrim, x0, y0);
         SetXY1(pPrim, x1, y1);
         SetXY2(pPrim, x1, y2);
 
         SetRGB0(pPrim, 64, 0, 0);
+        SetRGB1(pPrim, 64, 0, 0);
+        SetRGB2(pPrim, 64, 0, 0);
 
         // Add triangle
         Poly_Set_SemiTrans(&pPrim->mBase.header, true);

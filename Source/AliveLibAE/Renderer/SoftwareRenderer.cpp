@@ -257,41 +257,6 @@ void SoftwareRenderer::Draw(Line_G4& /*line*/)
     // PSX_Render_Line_Prim_4F7D90(&line, static_cast<s16>(mFrame_xOff), static_cast<s16>(mFrame_yOff));
 }
 
-void SoftwareRenderer::Draw(Poly_F3& poly)
-{
-    SDL_Vertex vert[3];
-
-    const u8 r = R0(&poly);
-    const u8 g = G0(&poly);
-    const u8 b = B0(&poly);
-
-    // center
-    vert[0].position.x = X0(&poly);
-    vert[0].position.y = Y0(&poly) * 2.0f;
-    vert[0].color.r = r;
-    vert[0].color.g = g;
-    vert[0].color.b = b;
-    vert[0].color.a = 255;
-
-    // left
-    vert[1].position.x = X1(&poly);
-    vert[1].position.y = Y1(&poly) * 2.0f;
-    vert[1].color.r = r;
-    vert[1].color.g = g;
-    vert[1].color.b = b;
-    vert[1].color.a = 255;
-
-    // right
-    vert[2].position.x = X2(&poly);
-    vert[2].position.y = Y2(&poly) * 2.0f;
-    vert[2].color.r = r;
-    vert[2].color.g = g;
-    vert[2].color.b = b;
-    vert[2].color.a = 255;
-
-    SDL_RenderGeometry(mRenderer, nullptr, vert, 3, nullptr, 0);
-}
-
 void SoftwareRenderer::Draw(Poly_G3& poly)
 {
     SDL_Vertex vert[3];

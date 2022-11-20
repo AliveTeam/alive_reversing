@@ -87,9 +87,6 @@ public:
     // SnoozeParticle
     virtual void Draw(Line_G4& line) = 0;
 
-    // MotionDetector
-    virtual void Draw(Poly_F3& poly) = 0;
-
     // MainMenuTransistion
     virtual void Draw(Poly_G3& poly) = 0;
 

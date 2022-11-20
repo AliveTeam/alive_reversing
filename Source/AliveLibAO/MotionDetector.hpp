@@ -54,7 +54,7 @@ public:
     FP field_100_bottom_right_x = {};
     FP field_104_bottom_right_y = {};
     MotionDetectorLaser* field_108_pLaser = nullptr;
-    Poly_F3 field_10C_prims[2] = {};
+    Poly_G3 field_10C_prims[2] = {};
     Prim_SetTPage field_13C_tPage[2] = {};
     FP field_15C_speed = {};
     s16 field_160_bObjectInLaser = 0;

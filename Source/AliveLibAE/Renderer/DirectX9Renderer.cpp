@@ -124,13 +124,7 @@ public:
         vi.mBlendMode = blendMode;
         vi.mIsShaded = GetPolyIsShaded(&prim);
 
-        vi.mX0 = X0(&prim);
-        vi.mX1 = X1(&prim);
-        vi.mX2 = X2(&prim);
-
-        vi.mY0 = Y0(&prim);
-        vi.mY1 = Y1(&prim);
-        vi.mY2 = Y2(&prim);
+        vi.SetXY3(prim);
 
         return vi;
     }
@@ -148,15 +142,10 @@ public:
         vi.mBlendMode = GetTPageBlendMode(GetTPage(&prim));
         vi.mIsShaded = GetPolyIsShaded(&prim);
 
-        vi.mX0 = X0(&prim);
-        vi.mX1 = X1(&prim);
-        vi.mX2 = X2(&prim);
-        vi.mX3 = X3(&prim);
+        vi.SetXY3(prim);
 
-        vi.mY0 = Y0(&prim);
-        vi.mY1 = Y1(&prim);
-        vi.mY2 = Y2(&prim);
-        vi.mY3 = Y3(&prim);
+        vi.mX[3] = X3(&prim);
+        vi.mY[3] = Y3(&prim);
 
         return vi;
     }
@@ -172,17 +161,22 @@ public:
     // TODO: Strongly type
     u16 mBlendMode;
 
-    f32 mX0;
-    f32 mX1;
-    f32 mX2;
-    f32 mX3;
-
-    f32 mY0;
-    f32 mY1;
-    f32 mY2;
-    f32 mY3;
+    f32 mX[4];
+    f32 mY[4];
 
 private:
+    template <typename PsxPrimType>
+    void SetXY3(const PsxPrimType& prim)
+    {
+        mX[0] = X0(&prim);
+        mX[1] = X1(&prim);
+        mX[2] = X2(&prim);
+
+        mY[0] = Y0(&prim);
+        mY[1] = Y1(&prim);
+        mY[2] = Y2(&prim);
+    }
+
     template <typename PsxPrimType>
     void SetRGB(const PsxPrimType& prim)
     {
@@ -463,16 +457,13 @@ void DirectX9Renderer::Draw(Line_G4& /*line*/)
 {
 }
 
-void DirectX9Renderer::Draw(Poly_F3& /*poly*/)
-{
-}
 
 void DirectX9Renderer::Draw(Poly_G3& poly)
 {
     mDevice->SetPixelShader(mFlatShader);
 
     auto vi = VertexInfo::GTriangle(0, GetTPageBlendMode(mGlobalTPage), poly);
-    DrawTris(nullptr, mFG1Units[0], vi, 0.0f, 0.0f, 0.0f, 0.0f, 1);
+    DrawTris(nullptr, 0, vi, 0.0f, 0.0f, 0.0f, 0.0f, 1);
 }
 
 void DirectX9Renderer::Draw(Poly_F4& /*poly*/)
@@ -613,8 +604,8 @@ void DirectX9Renderer::SetQuad(const VertexInfo& vi, float u0, float v0, float u
     // create the vertices using the CUSTOMVERTEX struct
     CUSTOMVERTEX vertices[] = {
         // Tri 1
-        {vi.mX0 - fudge,
-         vi.mY0 - fudge,
+        {vi.mX[0] - fudge,
+         vi.mY[0] - fudge,
          0.5f,
          1.0f,
          D3DCOLOR_XRGB(vi.mR[0], vi.mG[0], vi.mB[0]),
@@ -627,8 +618,8 @@ void DirectX9Renderer::SetQuad(const VertexInfo& vi, float u0, float v0, float u
          FromInt(vi.mPrimType),
          0.0f},
 
-        {vi.mX1 - fudge,
-         vi.mY1 - fudge,
+        {vi.mX[1] - fudge,
+         vi.mY[1] - fudge,
          0.5f,
          1.0f,
          D3DCOLOR_XRGB(vi.mR[1], vi.mG[1], vi.mB[1]),
@@ -641,8 +632,8 @@ void DirectX9Renderer::SetQuad(const VertexInfo& vi, float u0, float v0, float u
          FromInt(vi.mPrimType),
          0.0f},
 
-        {vi.mX2 - fudge,
-         vi.mY2 - fudge,
+        {vi.mX[2] - fudge,
+         vi.mY[2] - fudge,
          0.5f,
          1.0f,
          D3DCOLOR_XRGB(vi.mR[2], vi.mG[2], vi.mB[2]),
@@ -656,8 +647,8 @@ void DirectX9Renderer::SetQuad(const VertexInfo& vi, float u0, float v0, float u
          0.0f},
 
          // Tri 2
-        {vi.mX1 - fudge,
-         vi.mY1 - fudge,
+        {vi.mX[1] - fudge,
+         vi.mY[1] - fudge,
          0.5f,
          1.0f,
          D3DCOLOR_XRGB(vi.mR[1], vi.mG[1], vi.mB[1]),
@@ -670,8 +661,8 @@ void DirectX9Renderer::SetQuad(const VertexInfo& vi, float u0, float v0, float u
          FromInt(vi.mPrimType),
          0.0f},
 
-        {vi.mX3 - fudge,
-         vi.mY3 - fudge,
+        {vi.mX[3] - fudge,
+         vi.mY[3] - fudge,
          0.5f,
          1.0f,
          D3DCOLOR_XRGB(vi.mR[3], vi.mG[3], vi.mB[3]),
@@ -684,8 +675,8 @@ void DirectX9Renderer::SetQuad(const VertexInfo& vi, float u0, float v0, float u
          FromInt(vi.mPrimType),
          0.0f},
 
-        {vi.mX2 - fudge,
-         vi.mY2 - fudge,
+        {vi.mX[2] - fudge,
+         vi.mY[2] - fudge,
          0.5f,
          1.0f,
          D3DCOLOR_XRGB(vi.mR[2], vi.mG[2], vi.mB[2]),
