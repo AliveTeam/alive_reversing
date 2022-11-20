@@ -217,6 +217,8 @@ DirectX9Renderer::DirectX9Renderer(TWindowHandleType window)
     const RGBA32 kColourMagenta = {255, 0, 255, 255};
     DXTexture::FillTexture(*mPaletteTexture, 256, 256, kColourMagenta);
 
+    DX_VERIFY(mDevice->SetTexture(mPalUnit, mPaletteTexture));
+
     // mCamTexture->SetAutoGenFilterType(D3DTEXF_NONE);
 
     // DXTexture::FillTexture(*mCamTexture, 640, 240, kColourMagenta);
@@ -480,8 +482,6 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
         SetQuad(vi, 0.0f, 0.0f, 640.0f / 1024.0f, 240.0f / 1024.0f);
 
         DX_VERIFY(mDevice->SetTexture(mCamUnit, pTextureToUse));
-       // DX_VERIFY(mDevice->SetTexture(mPalUnit, mPaletteTexture));
-       // DX_VERIFY(mDevice->SetTexture(mFG1Units[0], pTextureToUse));
         DX_VERIFY(mDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2));
     }
     else if (poly.mCam && poly.mFg1)
@@ -490,19 +490,16 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
 
         IDirect3DTexture9* pTextureToUse = MakeCachedTexture(poly.mFg1->mUniqueId.Id(), *poly.mFg1->mImage.mPixels, 1024, 1024, poly.mFg1->mImage.mWidth, poly.mFg1->mImage.mHeight);
 
-        u8 blendMode = static_cast<u8>(GetTPageBlendMode(GetTPage(&poly)));
-        SetupBlendMode(blendMode);
-
         u8 textureUnit = 1;
         auto vi = VertexInfo::Quad(1, textureUnit, poly);
         vi.mPalIndex = mFG1Units[0];
 
+        SetupBlendMode(vi.mBlendMode);
         SetQuad(vi, 0.0f, 0.0f, 640.0f/1024.0f, 240.0f/1024.0f);
 
-        IDirect3DTexture9* pCamTexture = mTextureCache.GetCachedTextureId(poly.mCam->mUniqueId.Id(), DX_SPRITE_TEXTURE_LIFETIME);
-      
-        DX_VERIFY(mDevice->SetTexture(mCamUnit, pCamTexture));
-        DX_VERIFY(mDevice->SetTexture(mPalUnit, mPaletteTexture));
+        //IDirect3DTexture9* pCamTexture = mTextureCache.GetCachedTextureId(poly.mCam->mUniqueId.Id(), DX_SPRITE_TEXTURE_LIFETIME);
+        //DX_VERIFY(mDevice->SetTexture(mCamUnit, pCamTexture));
+        //DX_VERIFY(mDevice->SetTexture(mPalUnit, mPaletteTexture));
         DX_VERIFY(mDevice->SetTexture(mFG1Units[0], pTextureToUse));
         DX_VERIFY(mDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2));
     }
@@ -539,7 +536,6 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
         SetQuad(vi, u0, v0, u1, v1);
        
         DX_VERIFY(mDevice->SetTexture(mSpriteUnit, pTextureToUse));
-        DX_VERIFY(mDevice->SetTexture(mPalUnit, mPaletteTexture));
        // DX_VERIFY(mDevice->SetTexture(mCamUnit, mCamTexture));
         DX_VERIFY(mDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2));
     }
@@ -569,7 +565,6 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
         SetQuad(vi, u0, v0, u1, v1);
 
         DX_VERIFY(mDevice->SetTexture(mSpriteUnit, pTextureToUse));
-        DX_VERIFY(mDevice->SetTexture(mPalUnit, mPaletteTexture));
         DX_VERIFY(mDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2));
     }
 }
