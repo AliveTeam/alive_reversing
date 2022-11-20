@@ -5,6 +5,7 @@
 #include "../../relive_lib/Animation.hpp"
 #include "../Font.hpp"
 #include "pixel_shader.h"
+#include "cam_fg1_shader.h"
 
 #ifdef _WIN32
 
@@ -204,14 +205,15 @@ DirectX9Renderer::DirectX9Renderer(TWindowHandleType window)
     DX_VERIFY(mDevice->SetVertexDeclaration(mVertexDecl));
 
     DX_VERIFY(mDevice->CreatePixelShader((DWORD*) pixel_shader, &mPixelShader));
+    DX_VERIFY(mDevice->CreatePixelShader((DWORD*) cam_fg1_shader, &mCamFG1Shader));
 
     DX_VERIFY(mDevice->CreateRenderTarget(640, 240, D3DFMT_A8R8G8B8, D3DMULTISAMPLE_NONE, 0, FALSE, &mTextureRenderTarget, nullptr));
 
     DX_VERIFY(mDevice->GetRenderTarget(0, &mScreenRenderTarget));
     DX_VERIFY(mDevice->SetRenderTarget(0, mTextureRenderTarget));
 
-
-    // DX_VERIFY(mDevice->CreateTexture(640, 240, 0, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &mCamTexture, nullptr));
+    // This needs to be square for the oldie gpus (actual used size is 640x240)
+    DX_VERIFY(mDevice->CreateTexture(1024, 1024, 0, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &mCamTexture, nullptr));
 
     D3DLOCKED_RECT locked = {};
     DX_VERIFY(mDevice->CreateTexture(256, 256, 0, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &mPaletteTexture, nullptr));
@@ -257,9 +259,7 @@ void DirectX9Renderer::StartFrame(s32 /*xOff*/, s32 /*yOff*/)
 
         // Draw everything to the texture
         mDevice->SetRenderTarget(0, mTextureRenderTarget);
-        DX_VERIFY(mDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0));
-
-        mDevice->SetPixelShader(mPixelShader);
+        //DX_VERIFY(mDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0));
     }
 }
 
@@ -416,7 +416,8 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
 
     if (poly.mCam && !poly.mFg1)
     {
-        /*
+        mDevice->SetPixelShader(mCamFG1Shader);
+
         u8 blendMode = static_cast<u8>(GetTPageBlendMode(GetTPage(&poly)));
         SetupBlendMode(blendMode);
 
@@ -428,11 +429,12 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
         DX_VERIFY(mDevice->SetTexture(mCamUnit, mCamTexture));
         DX_VERIFY(mDevice->SetTexture(mPalUnit, mPaletteTexture));
         DX_VERIFY(mDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2));
-        */
+        
     }
     else if (poly.mCam && poly.mFg1)
     {
-        /*
+        mDevice->SetPixelShader(mCamFG1Shader);
+
         IDirect3DTexture9* pTextureToUse = mTextureCache.GetCachedTextureId(poly.mFg1->mUniqueId.Id(), DX_SPRITE_TEXTURE_LIFETIME);
         if (!pTextureToUse)
         {
@@ -459,10 +461,11 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
         DX_VERIFY(mDevice->SetTexture(mPalUnit, mPaletteTexture));
         DX_VERIFY(mDevice->SetTexture(mFG1Units[0], pTextureToUse));
         DX_VERIFY(mDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2));
-        */
     }
     else if (poly.mAnim)
     {
+        mDevice->SetPixelShader(mPixelShader);
+
         IDirect3DTexture9* pTextureToUse = PrepareTextureFromAnim(*poly.mAnim);
        
 
@@ -504,6 +507,8 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
     }
     else if (poly.mFont)
     {
+        mDevice->SetPixelShader(mPixelShader);
+
         IDirect3DTexture9* pTextureToUse = mTextureCache.GetCachedTextureId(poly.mFont->field_C_resource_id.mUniqueId.Id(), DX_SPRITE_TEXTURE_LIFETIME);
         std::shared_ptr<TgaData> pTga = poly.mFont->field_C_resource_id.mTgaPtr;
 
@@ -566,7 +571,7 @@ void DirectX9Renderer::SetQuad(f32 x, f32 y, f32 w, f32 h)
     u8 type = 2;
     u8 blendMode = 0;
     u8 palIndex = 0;
-    u8 textureUnit =0;
+    u8 textureUnit = 0;
 
     float fudge = 0.5f;
     // create the vertices using the CUSTOMVERTEX struct
@@ -592,7 +597,7 @@ void DirectX9Renderer::SetQuad(f32 x, f32 y, f32 w, f32 h)
             0.4f,
             1.0f,
             D3DCOLOR_XRGB(128, 128, 128),
-            1.0f,
+            640.0f / 1024.0f,
             0.0f,
             FromBool(isSemiTrans),
             FromBool(isShaded),
@@ -608,7 +613,7 @@ void DirectX9Renderer::SetQuad(f32 x, f32 y, f32 w, f32 h)
             1.0f,
             D3DCOLOR_XRGB(128, 128, 128),
             0.0f,
-            1.0f,
+            240.0f / 1024.0f,
             FromBool(isSemiTrans),
             FromBool(isShaded),
             FromInt(palIndex),
@@ -623,7 +628,7 @@ void DirectX9Renderer::SetQuad(f32 x, f32 y, f32 w, f32 h)
             0.5f,
             1.0f,
             D3DCOLOR_XRGB(128, 128, 128), // TL
-            1.0f,
+            640.0f / 1024.0f,
             0.0f,
             FromBool(isSemiTrans),
             FromBool(isShaded),
@@ -638,8 +643,8 @@ void DirectX9Renderer::SetQuad(f32 x, f32 y, f32 w, f32 h)
             0.5f,
             1.0f,
             D3DCOLOR_XRGB(128, 128, 128),
-            1.0f,
-            1.0f,
+            640.0f / 1024.0f,
+            240.0f / 1024.0f,
             FromBool(isSemiTrans),
             FromBool(isShaded),
             FromInt(palIndex),
@@ -654,7 +659,7 @@ void DirectX9Renderer::SetQuad(f32 x, f32 y, f32 w, f32 h)
             1.0f,
             D3DCOLOR_XRGB(128, 128, 128),
             0.0f,
-            1.0f,
+            240.0f / 1024.0f,
             FromBool(isSemiTrans),
             FromBool(isShaded),
             FromInt(palIndex),

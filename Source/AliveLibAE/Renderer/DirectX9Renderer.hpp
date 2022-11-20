@@ -91,6 +91,7 @@ private:
     ATL::CComPtr<IDirect3DTexture9> mCamTexture;
 
     ATL::CComPtr<IDirect3DPixelShader9> mPixelShader;
+    ATL::CComPtr<IDirect3DPixelShader9> mCamFG1Shader;
 
     ATL::CComPtr<IDirect3DVertexBuffer9> mCameraVBO;
 
