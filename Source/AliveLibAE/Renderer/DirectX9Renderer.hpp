@@ -79,6 +79,7 @@ private:
 
     IDirect3DTexture9* MakeCachedIndexedTexture(u32 uniqueId, const std::vector<u8>& pixels, u32 textureW, u32 textureH, u32 actualW, u32 actualH);
     IDirect3DTexture9* MakeCachedTexture(u32 uniqueId, const std::vector<u8>& pixels, u32 textureW, u32 textureH, u32 actualW, u32 actualH);
+    void DrawTris(IDirect3DTexture9* pTexture, u32 textureUnit, const VertexInfo& vi, float u0, float v0, float u1, float v1, u32 numTris = 2);
 
     bool mFrameStarted = false;
     
@@ -96,6 +97,7 @@ private:
 
     ATL::CComPtr<IDirect3DPixelShader9> mPixelShader;
     ATL::CComPtr<IDirect3DPixelShader9> mCamFG1Shader;
+    ATL::CComPtr<IDirect3DPixelShader9> mFlatShader;
 
     ATL::CComPtr<IDirect3DVertexBuffer9> mCameraVBO;
 

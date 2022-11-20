@@ -6,6 +6,7 @@
 #include "../Font.hpp"
 #include "pixel_shader.h"
 #include "cam_fg1_shader.h"
+#include "flat_shader.h"
 
 #ifdef _WIN32
 
@@ -100,6 +101,119 @@ void DirectX9TextureCache::DeleteTexture(ATL::CComPtr<IDirect3DTexture9> /*textu
 {
     // TODO: Bin this off when rozza becomes a lad who can do his stuff
 }
+
+
+// TODO: Copy pasted from GL renderer
+inline u16 GetTPageBlendMode(u16 tpage)
+{
+    return (tpage >> 4) & 3;
+}
+
+class VertexInfo final
+{
+public:
+    template<typename PsxPrimType>
+    constexpr static VertexInfo GTriangle(u8 primType, u16 blendMode, const PsxPrimType& prim)
+    {
+        VertexInfo vi = {};
+        vi.mPrimType = primType;
+
+        vi.SetRGB3(prim);
+
+        vi.mIsSemiTrans = GetPolyIsSemiTrans(&prim);
+        vi.mBlendMode = blendMode;
+        vi.mIsShaded = GetPolyIsShaded(&prim);
+
+        vi.mX0 = X0(&prim);
+        vi.mX1 = X1(&prim);
+        vi.mX2 = X2(&prim);
+
+        vi.mY0 = Y0(&prim);
+        vi.mY1 = Y1(&prim);
+        vi.mY2 = Y2(&prim);
+
+        return vi;
+    }
+
+    template <typename PsxPrimType>
+    constexpr static VertexInfo Quad(u8 primType, u32 palIdx, const PsxPrimType& prim)
+    {
+        VertexInfo vi = {};
+        vi.mPrimType = primType;
+        vi.mPalIndex = palIdx;
+
+        vi.SetRGB(prim);
+
+        vi.mIsSemiTrans = GetPolyIsSemiTrans(&prim);
+        vi.mBlendMode = GetTPageBlendMode(GetTPage(&prim));
+        vi.mIsShaded = GetPolyIsShaded(&prim);
+
+        vi.mX0 = X0(&prim);
+        vi.mX1 = X1(&prim);
+        vi.mX2 = X2(&prim);
+        vi.mX3 = X3(&prim);
+
+        vi.mY0 = Y0(&prim);
+        vi.mY1 = Y1(&prim);
+        vi.mY2 = Y2(&prim);
+        vi.mY3 = Y3(&prim);
+
+        return vi;
+    }
+
+    // TODO: Strongly type
+    u8 mPrimType;
+    u8 mR[4];
+    u8 mG[4];
+    u8 mB[4];
+    u32 mPalIndex;
+    bool mIsSemiTrans;
+    bool mIsShaded;
+    // TODO: Strongly type
+    u16 mBlendMode;
+
+    f32 mX0;
+    f32 mX1;
+    f32 mX2;
+    f32 mX3;
+
+    f32 mY0;
+    f32 mY1;
+    f32 mY2;
+    f32 mY3;
+
+private:
+    template <typename PsxPrimType>
+    void SetRGB(const PsxPrimType& prim)
+    {
+        mR[0] = R0(&prim);
+        mG[0] = G0(&prim);
+        mB[0] = B0(&prim);
+
+        for (u32 i = 1; i < 4; i++)
+        {
+            mR[i] = mR[0];
+            mG[i] = mG[0];
+            mB[i] = mB[0];
+        }
+    }
+
+    template <typename PsxPrimType>
+    void SetRGB3(const PsxPrimType& prim)
+    {
+        mR[0] = R0(&prim);
+        mG[0] = G0(&prim);
+        mB[0] = B0(&prim);
+
+        mR[1] = R1(&prim);
+        mG[1] = G1(&prim);
+        mB[1] = B1(&prim);
+
+        mR[2] = R2(&prim);
+        mG[2] = G2(&prim);
+        mB[2] = B2(&prim);
+    }
+};
 
 struct CUSTOMVERTEX final
 {
@@ -212,6 +326,7 @@ DirectX9Renderer::DirectX9Renderer(TWindowHandleType window)
     // Pixel shaders
     DX_VERIFY(mDevice->CreatePixelShader((DWORD*) pixel_shader, &mPixelShader));
     DX_VERIFY(mDevice->CreatePixelShader((DWORD*) cam_fg1_shader, &mCamFG1Shader));
+    DX_VERIFY(mDevice->CreatePixelShader((DWORD*) flat_shader, &mFlatShader));
 
     // Render targets
     DX_VERIFY(mDevice->CreateRenderTarget(640, 240, D3DFMT_A8R8G8B8, D3DMULTISAMPLE_NONE, 0, FALSE, &mTextureRenderTarget, nullptr));
@@ -225,6 +340,12 @@ DirectX9Renderer::DirectX9Renderer(TWindowHandleType window)
     DXTexture::FillTexture(*mPaletteTexture, 256, 256, kColourMagenta);
 
     DX_VERIFY(mDevice->SetTexture(mPalUnit, mPaletteTexture));
+
+    // select which vertex format we are using
+    DX_VERIFY(mDevice->SetVertexDeclaration(mVertexDecl));
+
+    // select the vertex buffer to display
+    DX_VERIFY(mDevice->SetStreamSource(0, mCameraVBO, 0, sizeof(CUSTOMVERTEX)));
 }
 
 DirectX9Renderer::~DirectX9Renderer()
@@ -346,68 +467,13 @@ void DirectX9Renderer::Draw(Poly_F3& /*poly*/)
 {
 }
 
-void DirectX9Renderer::Draw(Poly_G3& /*poly*/)
+void DirectX9Renderer::Draw(Poly_G3& poly)
 {
+    mDevice->SetPixelShader(mFlatShader);
+
+    auto vi = VertexInfo::GTriangle(0, GetTPageBlendMode(mGlobalTPage), poly);
+    DrawTris(nullptr, mFG1Units[0], vi, 0.0f, 0.0f, 0.0f, 0.0f, 1);
 }
-
-// TODO: Copy pasted from GL renderer
-inline u16 GetTPageBlendMode(u16 tpage)
-{
-    return (tpage >> 4) & 3;
-}
-
-class VertexInfo final
-{
-public:
-    template<typename PsxPrimType>
-    constexpr static VertexInfo Quad(u8 primType, u32 palIdx, const PsxPrimType& prim)
-    {
-        VertexInfo vi = {};
-        vi.mPrimType = primType;
-        vi.mPalIndex = palIdx;
-
-        vi.mR = R0(&prim);
-        vi.mG = G0(&prim);
-        vi.mB = B0(&prim);
-
-        vi.mIsSemiTrans = GetPolyIsSemiTrans(&prim);
-        vi.mBlendMode = GetTPageBlendMode(GetTPage(&prim));
-        vi.mIsShaded = GetPolyIsShaded(&prim);
-
-        vi.mX0 = X0(&prim);
-        vi.mX1 = X1(&prim);
-        vi.mX2 = X2(&prim);
-        vi.mX3 = X3(&prim);
-
-        vi.mY0 = Y0(&prim);
-        vi.mY1 = Y1(&prim);
-        vi.mY2 = Y2(&prim);
-        vi.mY3 = Y3(&prim);
-
-        return vi;
-    }
-
-    // TODO: Strongly type
-    u8 mPrimType;
-    u8 mR;
-    u8 mG;
-    u8 mB;
-    u32 mPalIndex;
-    bool mIsSemiTrans;
-    bool mIsShaded;
-    // TODO: Strongly type
-    u16 mBlendMode;
-
-    f32 mX0;
-    f32 mX1;
-    f32 mX2;
-    f32 mX3;
-
-    f32 mY0;
-    f32 mY1;
-    f32 mY2;
-    f32 mY3;
-};
 
 void DirectX9Renderer::Draw(Poly_F4& /*poly*/)
 {
@@ -451,46 +517,39 @@ u32 DirectX9Renderer::PreparePalette(AnimationPal& pCache)
     return addRet.mIndex;
 }
 
+void DirectX9Renderer::DrawTris(IDirect3DTexture9* pTexture, u32 textureUnit, const VertexInfo& vi, float u0, float v0, float u1, float v1, u32 numTris)
+{
+    DX_VERIFY(mDevice->SetTexture(textureUnit, pTexture));
+
+    SetupBlendMode(vi.mBlendMode);
+    SetQuad(vi, u0, v0, u1, v1);
+
+    DX_VERIFY(mDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, numTris));
+}
+
 void DirectX9Renderer::Draw(Poly_FT4& poly)
 {
-    // select which vertex format we are using
-    DX_VERIFY(mDevice->SetVertexDeclaration(mVertexDecl));
-
-    // select the vertex buffer to display
-    DX_VERIFY(mDevice->SetStreamSource(0, mCameraVBO, 0, sizeof(CUSTOMVERTEX)));
-
     if (poly.mCam && !poly.mFg1)
     {
         mDevice->SetPixelShader(mCamFG1Shader);
 
         IDirect3DTexture9* pTextureToUse = MakeCachedTexture(poly.mCam->mUniqueId.Id(), *poly.mCam->mData.mPixels, 1024, 1024, poly.mCam->mData.mWidth, poly.mCam->mData.mHeight);
-
         auto vi = VertexInfo::Quad(2, 0, poly);
-        SetupBlendMode(vi.mBlendMode);
-        SetQuad(vi, 0.0f, 0.0f, 640.0f / 1024.0f, 240.0f / 1024.0f);
-
-        DX_VERIFY(mDevice->SetTexture(mCamUnit, pTextureToUse));
-        DX_VERIFY(mDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2));
+        DrawTris(pTextureToUse, mCamUnit, vi, 0.0f, 0.0f, 640.0f / 1024.0f, 240.0f / 1024.0f);
     }
     else if (poly.mCam && poly.mFg1)
     {
         mDevice->SetPixelShader(mCamFG1Shader);
 
         IDirect3DTexture9* pTextureToUse = MakeCachedTexture(poly.mFg1->mUniqueId.Id(), *poly.mFg1->mImage.mPixels, 1024, 1024, poly.mFg1->mImage.mWidth, poly.mFg1->mImage.mHeight);
-
         auto vi = VertexInfo::Quad(1, 0, poly);
-        SetupBlendMode(vi.mBlendMode);
-        SetQuad(vi, 0.0f, 0.0f, 640.0f/1024.0f, 240.0f/1024.0f);
-
-        DX_VERIFY(mDevice->SetTexture(mFG1Units[0], pTextureToUse));
-        DX_VERIFY(mDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2));
+        DrawTris(pTextureToUse, mFG1Units[0], vi, 0.0f, 0.0f, 640.0f / 1024.0f, 240.0f / 1024.0f);
     }
     else if (poly.mAnim)
     {
         mDevice->SetPixelShader(mPixelShader);
 
         std::shared_ptr<TgaData> pTga = poly.mAnim->mAnimRes.mTgaPtr;
-        IDirect3DTexture9* pTextureToUse = MakeCachedIndexedTexture(poly.mAnim->mAnimRes.mUniqueId.Id(), pTga->mPixels, pTga->mWidth, pTga->mHeight, pTga->mWidth, pTga->mHeight);
 
         const PerFrameInfo* pHeader = poly.mAnim->Get_FrameHeader(-1);
 
@@ -510,12 +569,9 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
             std::swap(v1, v0);
         }
 
+        IDirect3DTexture9* pTextureToUse = MakeCachedIndexedTexture(poly.mAnim->mAnimRes.mUniqueId.Id(), pTga->mPixels, pTga->mWidth, pTga->mHeight, pTga->mWidth, pTga->mHeight);
         auto vi = VertexInfo::Quad(1, PreparePalette(*poly.mAnim->mAnimRes.mCurPal), poly);
-        SetupBlendMode(vi.mBlendMode);
-        SetQuad(vi, u0, v0, u1, v1);
-       
-        DX_VERIFY(mDevice->SetTexture(mSpriteUnit, pTextureToUse));
-        DX_VERIFY(mDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2));
+        DrawTris(pTextureToUse, mSpriteUnit, vi, u0, v0, u1, v1);
     }
     else if (poly.mFont)
     {
@@ -523,24 +579,16 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
 
         std::shared_ptr<TgaData> pTga = poly.mFont->field_C_resource_id.mTgaPtr;
 
-        FontResource& fontRes = poly.mFont->field_C_resource_id;
-
-        auto pPal = fontRes.mCurPal;
-
         float u0 = U0(&poly) / (f32)pTga->mWidth;
         float v0 = V0(&poly) / (f32) pTga->mHeight;
 
         float u1 = U3(&poly) / (f32) pTga->mWidth;
         float v1 = V3(&poly) / (f32) pTga->mHeight;
 
+        FontResource& fontRes = poly.mFont->field_C_resource_id;
         IDirect3DTexture9* pTextureToUse = MakeCachedIndexedTexture(fontRes.mUniqueId.Id(), pTga->mPixels, pTga->mWidth, pTga->mHeight, pTga->mWidth, pTga->mHeight);
-
-        auto vi = VertexInfo::Quad(1, PreparePalette(*pPal), poly);
-        SetupBlendMode(vi.mBlendMode);
-        SetQuad(vi, u0, v0, u1, v1);
-
-        DX_VERIFY(mDevice->SetTexture(mSpriteUnit, pTextureToUse));
-        DX_VERIFY(mDevice->DrawPrimitive(D3DPT_TRIANGLELIST, 0, 2));
+        auto vi = VertexInfo::Quad(1, PreparePalette(*fontRes.mCurPal), poly);
+        DrawTris(pTextureToUse, mSpriteUnit, vi, u0, v0, u1, v1);
     }
 }
 
@@ -564,11 +612,12 @@ void DirectX9Renderer::SetQuad(const VertexInfo& vi, float u0, float v0, float u
     float fudge = 0.5f;
     // create the vertices using the CUSTOMVERTEX struct
     CUSTOMVERTEX vertices[] = {
+        // Tri 1
         {vi.mX0 - fudge,
          vi.mY0 - fudge,
          0.5f,
          1.0f,
-         D3DCOLOR_XRGB(vi.mR, vi.mG, vi.mB),
+         D3DCOLOR_XRGB(vi.mR[0], vi.mG[0], vi.mB[0]),
          u0, // 0
          v0, // 0
          FromBool(vi.mIsSemiTrans),
@@ -582,7 +631,7 @@ void DirectX9Renderer::SetQuad(const VertexInfo& vi, float u0, float v0, float u
          vi.mY1 - fudge,
          0.5f,
          1.0f,
-         D3DCOLOR_XRGB(vi.mR, vi.mG, vi.mB),
+         D3DCOLOR_XRGB(vi.mR[1], vi.mG[1], vi.mB[1]),
          u1, // 1
          v0, // 0
          FromBool(vi.mIsSemiTrans),
@@ -593,10 +642,10 @@ void DirectX9Renderer::SetQuad(const VertexInfo& vi, float u0, float v0, float u
          0.0f},
 
         {vi.mX2 - fudge,
-         vi.mY3 - fudge,
+         vi.mY2 - fudge,
          0.5f,
          1.0f,
-         D3DCOLOR_XRGB(vi.mR, vi.mG, vi.mB),
+         D3DCOLOR_XRGB(vi.mR[2], vi.mG[2], vi.mB[2]),
          u0, // 0
          v1, // 1
          FromBool(vi.mIsSemiTrans),
@@ -606,11 +655,12 @@ void DirectX9Renderer::SetQuad(const VertexInfo& vi, float u0, float v0, float u
          FromInt(vi.mPrimType),
          0.0f},
 
+         // Tri 2
         {vi.mX1 - fudge,
          vi.mY1 - fudge,
          0.5f,
          1.0f,
-         D3DCOLOR_XRGB(vi.mR, vi.mG, vi.mB),
+         D3DCOLOR_XRGB(vi.mR[1], vi.mG[1], vi.mB[1]),
          u1, // 1
          v0, // 0
          FromBool(vi.mIsSemiTrans),
@@ -624,7 +674,7 @@ void DirectX9Renderer::SetQuad(const VertexInfo& vi, float u0, float v0, float u
          vi.mY3 - fudge,
          0.5f,
          1.0f,
-         D3DCOLOR_XRGB(vi.mR, vi.mG, vi.mB),
+         D3DCOLOR_XRGB(vi.mR[3], vi.mG[3], vi.mB[3]),
          u1, // 1
          v1, // 1
          FromBool(vi.mIsSemiTrans),
@@ -638,7 +688,7 @@ void DirectX9Renderer::SetQuad(const VertexInfo& vi, float u0, float v0, float u
          vi.mY2 - fudge,
          0.5f,
          1.0f,
-         D3DCOLOR_XRGB(vi.mR, vi.mG, vi.mB),
+         D3DCOLOR_XRGB(vi.mR[2], vi.mG[2], vi.mB[2]),
          u0, // 0
          v1, // 1
          FromBool(vi.mIsSemiTrans),
