@@ -39,6 +39,8 @@ public:
     void DeleteTexture(ATL::CComPtr<IDirect3DTexture9> texture) override;
 };
 
+class VertexInfo;
+
 class DirectX9Renderer final : public IRenderer
 {
 public:
@@ -74,10 +76,14 @@ private:
 
     void MakeVertexBuffer();
     void SetQuad(u8 type, bool isSemiTrans, bool isShaded, u8 blendMode, u8 palIndex, u8 textureUnit, u8 r, u8 g, u8 b, float u0, float v0, float u1, float v1, Poly_FT4& poly);
+    void SetQuad(const VertexInfo& vi, float u0, float v0, float u1, float v1);
 
     IDirect3DTexture9* PrepareTextureFromAnim(Animation& anim);
 
     bool mFrameStarted = false;
+    
+    // TODO: Simply down the prim types so we don't need this
+    u16 mGlobalTPage = 0;
 
     // TODO: Remove heap alloc when using a normal ctor
     std::unique_ptr<SDL_Renderer_RAII> mRenderer;

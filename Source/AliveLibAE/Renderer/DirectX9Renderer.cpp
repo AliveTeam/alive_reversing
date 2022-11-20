@@ -291,8 +291,9 @@ void DirectX9Renderer::OutputSize(s32* w, s32* h)
     SDL_GetRendererOutputSize(mRenderer->mRenderer, w, h);
 }
 
-void DirectX9Renderer::SetTPage(u16 /*tPage*/)
+void DirectX9Renderer::SetTPage(u16 tPage)
 {
+    mGlobalTPage = tPage;
 }
 
 void DirectX9Renderer::SetClip(Prim_PrimClipper& clipper)
@@ -357,15 +358,78 @@ void DirectX9Renderer::Draw(Poly_G3& /*poly*/)
 {
 }
 
-void DirectX9Renderer::Draw(Poly_F4& /*poly*/)
-{
-}
-
 // TODO: Copy pasted from GL renderer
 inline u16 GetTPageBlendMode(u16 tpage)
 {
     return (tpage >> 4) & 3;
 }
+
+class VertexInfo final
+{
+public:
+    template<typename PsxPrimType>
+    constexpr static VertexInfo Quad(u8 primType, u32 textureUnit, const PsxPrimType& prim)
+    {
+        VertexInfo vi = {};
+        vi.mPrimType = primType;
+        vi.mTextureUnit = textureUnit;
+
+        vi.mR = R0(&prim);
+        vi.mG = G0(&prim);
+        vi.mB = B0(&prim);
+
+        vi.mIsSemiTrans = GetPolyIsSemiTrans(&prim);
+        vi.mBlendMode = GetTPageBlendMode(GetTPage(&prim));
+        vi.mIsShaded = GetPolyIsShaded(&prim);
+
+        vi.mX0 = X0(&prim);
+        vi.mX1 = X1(&prim);
+        vi.mX2 = X2(&prim);
+        vi.mX3 = X3(&prim);
+
+        vi.mY0 = Y0(&prim);
+        vi.mY1 = Y1(&prim);
+        vi.mY2 = Y2(&prim);
+        vi.mY3 = Y3(&prim);
+
+        return vi;
+    }
+
+    // TODO: Strongly type
+    u8 mPrimType;
+    u8 mR;
+    u8 mG;
+    u8 mB;
+    u32 mPalIndex;
+    u32 mTextureUnit;
+    bool mIsSemiTrans;
+    bool mIsShaded;
+    // TODO: Strongly type
+    u16 mBlendMode;
+
+    f32 mX0;
+    f32 mX1;
+    f32 mX2;
+    f32 mX3;
+
+    f32 mY0;
+    f32 mY1;
+    f32 mY2;
+    f32 mY3;
+};
+
+void DirectX9Renderer::Draw(Poly_F4& /*poly*/)
+{
+    //u32 blendMode = GetTPageBlendMode(mGlobalTPage);
+    /*
+    u32 tUnit = 0;
+    auto vi = VertexInfo::Quad(4, tUnit, poly);
+
+    //u32 palIdx = 0;
+    SetQuad(vi, 0.0f, 0.0f, 1.0f, 1.0f);
+    */
+}
+
 
 void DirectX9Renderer::SetupBlendMode(u16 blendMode)
 {
@@ -406,10 +470,6 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
 
     // select the vertex buffer to display
     DX_VERIFY(mDevice->SetStreamSource(0, mCameraVBO, 0, sizeof(CUSTOMVERTEX)));
-
-    u8 r = poly.mBase.header.rgb_code.r;
-    u8 g = poly.mBase.header.rgb_code.g;
-    u8 b = poly.mBase.header.rgb_code.b;
 
     if (poly.mCam && !poly.mFg1)
     {
@@ -479,19 +539,9 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
         mDevice->SetPixelShader(mPixelShader);
 
         IDirect3DTexture9* pTextureToUse = PrepareTextureFromAnim(*poly.mAnim);
-       
-
-        bool isSemiTrans = GetPolyIsSemiTrans(&poly);
-        bool isShaded = GetPolyIsShaded(&poly);
-        u8 blendMode = static_cast<u8>(GetTPageBlendMode(GetTPage(&poly)));
-        SetupBlendMode(blendMode);
-
-        //
 
         const PerFrameInfo* pHeader = poly.mAnim->Get_FrameHeader(-1);
         std::shared_ptr<TgaData> pTga = poly.mAnim->mAnimRes.mTgaPtr;
-
-        u8 palIndex = static_cast<u8>(PreparePalette(*poly.mAnim->mAnimRes.mCurPal));
 
         float u0 = (static_cast<float>(pHeader->mSpriteSheetX) / pTga->mWidth);
         float v0 = (static_cast<float>(pHeader->mSpriteSheetY) / pTga->mHeight);
@@ -510,8 +560,12 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
         }
 
         u8 textureUnit = 1;
-        SetQuad(1, isSemiTrans, isShaded, blendMode, palIndex, textureUnit, r, g, b, u0, v0, u1, v1, poly);
+        auto vi = VertexInfo::Quad(1, textureUnit, poly);
+        vi.mPalIndex = PreparePalette(*poly.mAnim->mAnimRes.mCurPal);
 
+        SetupBlendMode(vi.mBlendMode);
+        SetQuad(vi, u0, v0, u1, v1);
+       
         DX_VERIFY(mDevice->SetTexture(mSpriteUnit, pTextureToUse));
         DX_VERIFY(mDevice->SetTexture(mPalUnit, mPaletteTexture));
        // DX_VERIFY(mDevice->SetTexture(mCamUnit, mCamTexture));
@@ -538,7 +592,6 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
         FontResource& fontRes = poly.mFont->field_C_resource_id;
 
         auto pPal = fontRes.mCurPal;
-        const u8 palIndex = static_cast<u8>(PreparePalette(*pPal));
 
         float u0 = U0(&poly) / (f32)pTga->mWidth;
         float v0 = V0(&poly) / (f32) pTga->mHeight;
@@ -547,12 +600,12 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
         float v1 = V3(&poly) / (f32) pTga->mHeight;
 
         u8 textureUnit = 1;
+        auto vi = VertexInfo::Quad(1, textureUnit, poly);
+        vi.mPalIndex = static_cast<u8>(PreparePalette(*pPal));
 
-        bool isSemiTrans = GetPolyIsSemiTrans(&poly);
-        bool isShaded = GetPolyIsShaded(&poly);
-        u8 blendMode = static_cast<u8>(GetTPageBlendMode(GetTPage(&poly)));
-        SetupBlendMode(blendMode);
-        SetQuad(1, isSemiTrans, isShaded, blendMode, palIndex, textureUnit, r, g, b, u0, v0, u1, v1, poly);
+        SetupBlendMode(vi.mBlendMode);
+
+        SetQuad(vi, u0, v0, u1, v1);
 
         DX_VERIFY(mDevice->SetTexture(mSpriteUnit, pTextureToUse));
         DX_VERIFY(mDevice->SetTexture(mPalUnit, mPaletteTexture));
@@ -573,6 +626,105 @@ static float FromBool(const bool v)
 static float FromInt(const u32 v)
 {
     return static_cast<float>(v);
+}
+
+
+void DirectX9Renderer::SetQuad(const VertexInfo& vi, float u0, float v0, float u1, float v1)
+{
+    float fudge = 0.5f;
+    // create the vertices using the CUSTOMVERTEX struct
+    CUSTOMVERTEX vertices[] = {
+        {vi.mX0 - fudge,
+         vi.mY0 - fudge,
+         0.5f,
+         1.0f,
+         D3DCOLOR_XRGB(vi.mR, vi.mG, vi.mB),
+         u0, // 0
+         v0, // 0
+         FromBool(vi.mIsSemiTrans),
+         FromBool(vi.mIsShaded),
+         FromInt(vi.mPalIndex),
+         FromInt(vi.mBlendMode),
+         FromInt(vi.mPrimType),
+         FromInt(vi.mTextureUnit)},
+
+        {vi.mX1 - fudge,
+         vi.mY1 - fudge,
+         0.5f,
+         1.0f,
+         D3DCOLOR_XRGB(vi.mR, vi.mG, vi.mB),
+         u1, // 1
+         v0, // 0
+         FromBool(vi.mIsSemiTrans),
+         FromBool(vi.mIsShaded),
+         FromInt(vi.mPalIndex),
+         FromInt(vi.mBlendMode),
+         FromInt(vi.mPrimType),
+         FromInt(vi.mTextureUnit)},
+
+        {vi.mX2 - fudge,
+         vi.mY3 - fudge,
+         0.5f,
+         1.0f,
+         D3DCOLOR_XRGB(vi.mR, vi.mG, vi.mB),
+         u0, // 0
+         v1, // 1
+         FromBool(vi.mIsSemiTrans),
+         FromBool(vi.mIsShaded),
+         FromInt(vi.mPalIndex),
+         FromInt(vi.mBlendMode),
+         FromInt(vi.mPrimType),
+         FromInt(vi.mTextureUnit)},
+
+        {vi.mX1 - fudge,
+         vi.mY1 - fudge,
+         0.5f,
+         1.0f,
+         D3DCOLOR_XRGB(vi.mR, vi.mG, vi.mB),
+         u1, // 1
+         v0, // 0
+         FromBool(vi.mIsSemiTrans),
+         FromBool(vi.mIsShaded),
+         FromInt(vi.mPalIndex),
+         FromInt(vi.mBlendMode),
+         FromInt(vi.mPrimType),
+         FromInt(vi.mTextureUnit)},
+
+        {vi.mX3 - fudge,
+         vi.mY3 - fudge,
+         0.5f,
+         1.0f,
+         D3DCOLOR_XRGB(vi.mR, vi.mG, vi.mB),
+         u1, // 1
+         v1, // 1
+         FromBool(vi.mIsSemiTrans),
+         FromBool(vi.mIsShaded),
+         FromInt(vi.mPalIndex),
+         FromInt(vi.mBlendMode),
+         FromInt(vi.mPrimType),
+         FromInt(vi.mTextureUnit)},
+
+        {vi.mX2 - fudge,
+         vi.mY2 - fudge,
+         0.5f,
+         1.0f,
+         D3DCOLOR_XRGB(vi.mR, vi.mG, vi.mB),
+         u0, // 0
+         v1, // 1
+         FromBool(vi.mIsSemiTrans),
+         FromBool(vi.mIsShaded),
+         FromInt(vi.mPalIndex),
+         FromInt(vi.mBlendMode),
+         FromInt(vi.mPrimType),
+         FromInt(vi.mTextureUnit)}
+    };
+
+    VOID* pVoid = nullptr;
+
+    // lock mCameraVBO and load the vertices into it
+    DX_VERIFY(mCameraVBO->Lock(0, 0, &pVoid, 0));
+    memcpy(pVoid, vertices, sizeof(vertices));
+    DX_VERIFY(mCameraVBO->Unlock());
 }
 
 void DirectX9Renderer::SetQuad(u8 type, bool isSemiTrans, bool isShaded, u8 blendMode, u8 palIndex, u8 textureUnit, u8 r, u8 g, u8 b, float u0, float v0, float u1, float v1, Poly_FT4& poly)
@@ -612,7 +764,7 @@ void DirectX9Renderer::SetQuad(u8 type, bool isSemiTrans, bool isShaded, u8 blen
         },
         {
             (f32) X2(&poly) - fudge,
-            (f32) Y3(&poly) - fudge,
+            (f32) Y3(&poly) - fudge, // TODO: 2 ?
             0.5f,
             1.0f,
             D3DCOLOR_XRGB(r, g, b),
