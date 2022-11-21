@@ -26,6 +26,7 @@ public:
 
 private:
     BloodParticle* mBloodParticle = nullptr;
+    Prim_SetTPage mTPages[2] = {};
     s16 mBloodXPos = 0;
     s16 mBloodYPos = 0;
     s16 mCurrentBloodCount = 0;

@@ -161,6 +161,8 @@ void Blood::VRender(PrimHeader** ppOt)
             mYPos,
             0))
     {
+        const auto bufferIdx = gPsxDisplay.mBufferIndex;
+
         PSX_Point xy = {32767, 32767};
         PSX_Point wh = {-32767, -32767};
 
@@ -198,24 +200,11 @@ void Blood::VRender(PrimHeader** ppOt)
             wh.y = std::max(y0, wh.y);
         }
 
-        /*
-        // TODO: Just set the anim ptr
-        s16 tpageY = 256;
-        if (!mAnim.mFlags.Get(AnimFlags::eBit10_alternating_flag)
-            && mAnim.mVramRect.y < 256)
-        {
-            tpageY = 0;
-        }
+        const s32 calcTPage = PSX_getTPage(TPageAbr::eBlend_0);
 
-        const auto tpage = PSX_getTPage(
-            mTextureMode,
-            TPageAbr::eBlend_0,
-            mAnim.mVramRect.x & 0xFFC0,
-            tpageY);
         Prim_SetTPage* pTPage = &mTPages[bufferIdx];
-        Init_SetTPage(pTPage, 0, 0, tpage);
+        Init_SetTPage(pTPage, 0, 0, calcTPage);
         OrderingTable_Add(OtLayer(ppOt, mOtLayer), &pTPage->mBase);
-        */
     }
 }
 
