@@ -7,12 +7,15 @@
 #include "pixel_shader.h"
 #include "cam_fg1_shader.h"
 #include "flat_shader.h"
+#include <SDL_syswm.h>
 
 #ifdef _WIN32
 
     #undef DIRECT3D_VERSION
     #define DIRECT3D_VERSION 0x0900
     #include <d3dx9.h>
+
+#pragma comment(lib, "D3d9.lib")
 
 #define DX_SPRITE_TEXTURE_LIFETIME 300
 
@@ -271,30 +274,28 @@ const D3DVERTEXELEMENT9 simple_decl[] =
 DirectX9Renderer::DirectX9Renderer(TWindowHandleType window)
     : mPaletteCache(256)
 {
-    SDL_SetHint(SDL_HINT_RENDER_DRIVER, "direct3d");
-    // WARNING: SDL2 bug here, if batching is turned off then the 1st call to BeginScene will
-    // fail and resizing the window will then cause many other D3D device calls to fail.
-    SDL_SetHint(SDL_HINT_RENDER_BATCHING, "1");
+    mD3D9.Attach(Direct3DCreate9(D3D_SDK_VERSION));
 
-    mRenderer = std::make_unique<SDL_Renderer_RAII>(SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED));
-    if (!mRenderer->mRenderer)
-    {
-        ALIVE_FATAL("Failed to create renderer %s", SDL_GetError());
-    }
+    D3DPRESENT_PARAMETERS d3dpp = {};
 
-    // Check we actually got the direct3d renderer from SDL
-    SDL_RendererInfo info = {};
-    if (SDL_GetRendererInfo(mRenderer->mRenderer, &info) < 0)
-    {
-        ALIVE_FATAL("Failed to get renderer info %s",  SDL_GetError());
-    }
+    d3dpp.Windowed = TRUE;
+    d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
+    
+    SDL_SysWMinfo wmInfo;
+    SDL_VERSION(&wmInfo.version);
+    SDL_GetWindowWMInfo(window, &wmInfo);
+    HWND hwnd = wmInfo.info.win.window;
 
-    if (info.name && strcmp(info.name, "direct3d") != 0)
-    {
-        ALIVE_FATAL("SDL picked driver %s but we expected direct3d", info.name ? info.name : "(null)");
-    }
+    d3dpp.hDeviceWindow = hwnd;
 
-    mDevice = SDL_RenderGetD3D9Device(mRenderer->mRenderer);
+    // TODO: Might make sense to enum the adapters here at some point
+    mD3D9->CreateDevice(D3DADAPTER_DEFAULT,
+                      D3DDEVTYPE_HAL,
+                      hwnd,
+                      D3DCREATE_HARDWARE_VERTEXPROCESSING,
+                      &d3dpp,
+                      &mDevice.p);
+
     if (!mDevice)
     {
         ALIVE_FATAL("Couldnt get DirectX9 device %s", SDL_GetError());
@@ -416,7 +417,9 @@ void DirectX9Renderer::EndFrame()
 
 void DirectX9Renderer::OutputSize(s32* w, s32* h)
 {
-    SDL_GetRendererOutputSize(mRenderer->mRenderer, w, h);
+    // TODO: Is this correct? If so why isn't in the base
+    *w = 640;
+    *h = 240;
 }
 
 void DirectX9Renderer::SetTPage(u16 tPage)

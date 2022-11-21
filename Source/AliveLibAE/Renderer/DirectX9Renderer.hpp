@@ -11,28 +11,6 @@
     #include <d3d9.h>
     #include <atlbase.h>
 
-class SDL_Renderer_RAII final
-{
-public:
-    SDL_Renderer_RAII(const SDL_Renderer_RAII&) = delete;
-
-    explicit SDL_Renderer_RAII(SDL_Renderer* renderer) 
-        : mRenderer(renderer)
-    {
-
-    }
-
-    ~SDL_Renderer_RAII()
-    {
-        if (mRenderer)
-        {
-            SDL_DestroyRenderer(mRenderer);
-        }
-    }
-
-    SDL_Renderer* mRenderer = nullptr;
-};
-
 class DirectX9TextureCache final : public TextureCache<ATL::CComPtr<IDirect3DTexture9>>
 {
 public:
@@ -83,8 +61,7 @@ private:
     // TODO: Simply down the prim types so we don't need this
     u16 mGlobalTPage = 0;
 
-    // TODO: Remove heap alloc when using a normal ctor
-    std::unique_ptr<SDL_Renderer_RAII> mRenderer;
+    ATL::CComPtr<IDirect3D9> mD3D9;
     ATL::CComPtr<IDirect3DDevice9> mDevice;
 
     ATL::CComPtr<IDirect3DVertexDeclaration9> mVertexDecl;
