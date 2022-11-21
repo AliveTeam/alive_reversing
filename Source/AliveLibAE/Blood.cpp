@@ -150,6 +150,13 @@ void Blood::VRender(PrimHeader** ppOt)
             mYPos,
             0))
     {
+        const auto bufferIdx = gPsxDisplay.mBufferIndex;
+        const s32 calcTPage = PSX_getTPage(TPageAbr::eBlend_0);
+
+        Prim_SetTPage* pTPage = &mTPages[bufferIdx];
+        Init_SetTPage(pTPage, 0, 0, calcTPage);
+        OrderingTable_Add(OtLayer(ppOt, mOtLayer), &pTPage->mBase);
+
         PSX_Point xy = {32767, 32767};
         PSX_Point wh = {-32767, -32767};
 
@@ -186,19 +193,6 @@ void Blood::VRender(PrimHeader** ppOt)
             wh.x = std::max(x0, wh.x);
             wh.y = std::max(y0, wh.y);
         }
-
-        /*
-        // TODO: Just set the anim on the sprt
-        const s32 tpage = PSX_getTPage(
-            mTextureMode,
-            TPageAbr::eBlend_0,
-            mAnim.mVramRect.x,
-            mAnim.mVramRect.y);
-
-        Prim_SetTPage* pTPage = &mTPages[gPsxDisplay.mBufferIndex];
-        Init_SetTPage(pTPage, 0, 0, static_cast<s16>(tpage));
-        OrderingTable_Add(OtLayer(ppOt, mOtLayer), &pTPage->mBase);
-        */
     }
 }
 
