@@ -206,9 +206,9 @@ void PsxDisplay::Init()
     mDrawEnvs[0].mDisplayEnv.screen.h = 240;
 
     PSX_PutDrawEnv_4F5980(&mDrawEnvs[0].mDrawEnv);
-    //PSX_PutDispEnv_4F5890();
+    PSX_PutDispEnv_4F5890();
 
-    //PSX_VSync_4F6170(0);
+    PSX_VSync_4F6170(0);
 }
 
 void PsxDisplay::PutCurrentDispEnv()
