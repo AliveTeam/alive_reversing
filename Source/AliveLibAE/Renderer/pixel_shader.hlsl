@@ -6,7 +6,7 @@ static const int BLEND_MODE_ONE_DST_ADD_ONE_SRC = 1;
 static const int BLEND_MODE_ONE_DST_SUB_ONE_SRC = 2;
 static const int BLEND_MODE_ONE_DST_ADD_QRT_SRC = 3;
 
-float4 PixelToPalette(float v, int palIndex)
+float4 PixelToPalette(float v, float palIndex)
 {
     return tex2D(texPalette, float2(v, palIndex / 255.0f));
 }
@@ -70,7 +70,7 @@ float4 draw_flat(float4 fsShadeColor, bool isShaded, int blendMode, bool isSemiT
     return handle_final_color(float4(fsShadeColor.rgb, 1.0), float4(fsShadeColor.rgb, 1.0), false, isShaded, blendMode, isSemiTrans);
 }
 
-float4 draw_default_ft4(float4 fsShadeColor, int palIndex, float2 fsUV, bool isShaded, int blendMode, bool isSemiTrans)
+float4 draw_default_ft4(float4 fsShadeColor, float palIndex, float2 fsUV, bool isShaded, int blendMode, bool isSemiTrans)
 {
     float texelSprite = tex2D(texSpriteSheet, fsUV).r;
     float4 texelPal = PixelToPalette(texelSprite, palIndex);
@@ -80,26 +80,18 @@ float4 draw_default_ft4(float4 fsShadeColor, int palIndex, float2 fsUV, bool isS
 
 
 float4 PS(
-    float4 fsShadeColor
-    : COLOR0,
-      float2 fsUV
-    : TEXCOORD0,
-      float2 semiTransShaded
-    : TEXCOORD1,
-      float2 palIndexBlendMode
-    : TEXCOORD2,
-      float2 drawTypeTextureUnit
-    : TEXCOORD3)
+    float4 fsShadeColor : COLOR0,
+    float2 fsUV : TEXCOORD0,
+    float2 semiTransShaded  : TEXCOORD1,
+    float2 palIndexBlendMode : TEXCOORD2,
+    float2 drawTypeTextureUnit : TEXCOORD3)
     : COLOR
 {
-    int drawType = drawTypeTextureUnit[0];
-    int palIndex = palIndexBlendMode[0];
-    int isShaded = semiTransShaded[0];
+    bool isSemiTrans = semiTransShaded[0] != 0.0;
+    bool isShaded = semiTransShaded[1] != 0.0;
 
-    int blendMode = palIndexBlendMode[1];
-    int isSemiTrans = semiTransShaded[1];
+    int palIndex = (int) (palIndexBlendMode[0] + 0.5);
+    int blendMode = (int) (palIndexBlendMode[1] + 0.5);
 
-
-     return draw_default_ft4(fsShadeColor, palIndex, fsUV, isShaded, blendMode, isSemiTrans);
-    // assume cam for now
+    return draw_default_ft4(fsShadeColor, palIndex, fsUV, isShaded, blendMode, isSemiTrans);
 }
