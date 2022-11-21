@@ -130,7 +130,27 @@ public:
     }
 
     template <typename PsxPrimType>
-    constexpr static VertexInfo Quad(u8 primType, u32 palIdx, const PsxPrimType& prim)
+    constexpr static VertexInfo QQuad(u8 primType, u16 blendMode, const PsxPrimType& prim)
+    {
+        VertexInfo vi = {};
+        vi.mPrimType = primType;
+
+        vi.SetRGB(prim);
+
+        vi.mIsSemiTrans = GetPolyIsSemiTrans(&prim);
+        vi.mBlendMode = blendMode;
+        vi.mIsShaded = GetPolyIsShaded(&prim);
+
+        vi.SetXY3(prim);
+
+        vi.mX[3] = X3(&prim);
+        vi.mY[3] = Y3(&prim);
+
+        return vi;
+    }
+
+    template <typename PsxPrimType>
+    constexpr static VertexInfo FQuad(u8 primType, u32 palIdx, const PsxPrimType& prim)
     {
         VertexInfo vi = {};
         vi.mPrimType = primType;
@@ -149,6 +169,7 @@ public:
 
         return vi;
     }
+
 
     // TODO: Strongly type
     u8 mPrimType;
@@ -433,9 +454,22 @@ void DirectX9Renderer::ToggleKeepAspectRatio()
 {
 }
 
-void DirectX9Renderer::Draw(Prim_Sprt& /*sprt*/)
+// TODO: Bin off and use Poly_FT4's instead
+void DirectX9Renderer::Draw(Prim_Sprt& sprt)
 {
-    
+    Poly_FT4 p = {};
+    SetRGB0(&p, R0(&sprt), G0(&sprt), B0(&sprt));
+    SetXYWH(&p, X0(&sprt), Y0(&sprt), sprt.field_14_w, sprt.field_16_h);
+    p.mAnim = sprt.mAnim;
+
+    // HACK/TODO this is all wrong, remove it
+    const s32 tPage = PSX_getTPage(TPageAbr::eBlend_0);
+
+    ::SetTPage(&p, static_cast<s16>(tPage));
+    Poly_Set_SemiTrans(&p.mBase.header,1);
+    Poly_Set_Blending(&p.mBase.header, 0);
+    Draw(p);
+
 }
 
 void DirectX9Renderer::Draw(Prim_GasEffect& /*gasEffect*/)
@@ -459,16 +493,12 @@ void DirectX9Renderer::Draw(Poly_G3& poly)
     DrawTris(nullptr, 0, vi, 0.0f, 0.0f, 0.0f, 0.0f, 1);
 }
 
-void DirectX9Renderer::Draw(Poly_F4& /*poly*/)
+void DirectX9Renderer::Draw(Poly_F4& poly)
 {
-    //u32 blendMode = GetTPageBlendMode(mGlobalTPage);
-    /*
-    u32 tUnit = 0;
-    auto vi = VertexInfo::Quad(4, tUnit, poly);
+    mDevice->SetPixelShader(mFlatShader);
 
-    //u32 palIdx = 0;
-    SetQuad(vi, 0.0f, 0.0f, 1.0f, 1.0f);
-    */
+    auto vi = VertexInfo::QQuad(0, GetTPageBlendMode(mGlobalTPage), poly);
+    DrawTris(nullptr, 0, vi, 0.0f, 0.0f, 0.0f, 0.0f, 2);
 }
 
 void DirectX9Renderer::SetupBlendMode(u16 blendMode)
@@ -517,7 +547,7 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
         mDevice->SetPixelShader(mCamFG1Shader);
 
         IDirect3DTexture9* pTextureToUse = MakeCachedTexture(poly.mCam->mUniqueId.Id(), *poly.mCam->mData.mPixels, 1024, 1024, poly.mCam->mData.mWidth, poly.mCam->mData.mHeight);
-        auto vi = VertexInfo::Quad(2, 0, poly);
+        auto vi = VertexInfo::FQuad(2, 0, poly);
         DrawTris(pTextureToUse, mCamUnit, vi, 0.0f, 0.0f, 640.0f / 1024.0f, 240.0f / 1024.0f);
     }
     else if (poly.mCam && poly.mFg1)
@@ -525,7 +555,7 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
         mDevice->SetPixelShader(mCamFG1Shader);
 
         IDirect3DTexture9* pTextureToUse = MakeCachedTexture(poly.mFg1->mUniqueId.Id(), *poly.mFg1->mImage.mPixels, 1024, 1024, poly.mFg1->mImage.mWidth, poly.mFg1->mImage.mHeight);
-        auto vi = VertexInfo::Quad(1, 0, poly);
+        auto vi = VertexInfo::FQuad(1, 0, poly);
         DrawTris(pTextureToUse, mFG1Units[0], vi, 0.0f, 0.0f, 640.0f / 1024.0f, 240.0f / 1024.0f);
     }
     else if (poly.mAnim)
@@ -553,7 +583,7 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
         }
 
         IDirect3DTexture9* pTextureToUse = MakeCachedIndexedTexture(poly.mAnim->mAnimRes.mUniqueId.Id(), pTga->mPixels, pTga->mWidth, pTga->mHeight, pTga->mWidth, pTga->mHeight);
-        auto vi = VertexInfo::Quad(1, PreparePalette(*poly.mAnim->mAnimRes.mCurPal), poly);
+        auto vi = VertexInfo::FQuad(1, PreparePalette(*poly.mAnim->mAnimRes.mCurPal), poly);
         DrawTris(pTextureToUse, mSpriteUnit, vi, u0, v0, u1, v1);
     }
     else if (poly.mFont)
@@ -570,7 +600,7 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
 
         FontResource& fontRes = poly.mFont->field_C_resource_id;
         IDirect3DTexture9* pTextureToUse = MakeCachedIndexedTexture(fontRes.mUniqueId.Id(), pTga->mPixels, pTga->mWidth, pTga->mHeight, pTga->mWidth, pTga->mHeight);
-        auto vi = VertexInfo::Quad(1, PreparePalette(*fontRes.mCurPal), poly);
+        auto vi = VertexInfo::FQuad(1, PreparePalette(*fontRes.mCurPal), poly);
         DrawTris(pTextureToUse, mSpriteUnit, vi, u0, v0, u1, v1);
     }
 }
