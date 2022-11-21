@@ -273,14 +273,17 @@ void OpenGLRenderer::Draw(Prim_Sprt& sprt)
     u32 g = sprt.mBase.header.rgb_code.g;
     u32 b = sprt.mBase.header.rgb_code.b;
 
-    u32 texW = (u32) sprt.field_14_w;
-    u32 texH = (u32) sprt.field_16_h;
+    u32 sprtW = (u32) sprt.field_14_w;
+    u32 sprtH = (u32) sprt.field_16_h;
+
+    u32 texW = pTga->mWidth;
+    u32 texH = pTga->mHeight;
 
     u32 u0 = U0(&sprt);
     u32 v0 = V0(&sprt);
 
-    u32 u1 = U0(&sprt) + texW;
-    u32 v1 = V0(&sprt) + texH;
+    u32 u1 = U0(&sprt) + sprtW;
+    u32 v1 = V0(&sprt) + sprtH;
 
     const bool isSemiTrans = GetPolyIsSemiTrans(&sprt);
     const bool isShaded = GetPolyIsShaded(&sprt);
