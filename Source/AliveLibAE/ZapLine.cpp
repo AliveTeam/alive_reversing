@@ -355,6 +355,11 @@ void ZapLine::VRender(PrimHeader** ppOt)
         && mState > ZapLineState::eInitSpriteVertices_2)
     {
         const auto bufferIdx = gPsxDisplay.mBufferIndex;
+        const s32 calcTPage = PSX_getTPage(field_12C_tPageAbr);
+
+        Prim_SetTPage* pTPage = &field_FC_tPage_p8[bufferIdx];
+        Init_SetTPage(pTPage, 0, 0, calcTPage);
+        OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pTPage->mBase);
 
         for (s32 i = 0; i < mNumberOfSegments; i++)
         {
@@ -364,12 +369,6 @@ void ZapLine::VRender(PrimHeader** ppOt)
                 OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pSprt[bufferIdx].mBase.header);
             }
         }
-
-        const s32 calcTPage = PSX_getTPage(field_12C_tPageAbr);
-
-        Prim_SetTPage* pTPage = &field_FC_tPage_p8[bufferIdx];
-        Init_SetTPage(pTPage, 0, 0, calcTPage);
-        OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pTPage->mBase);
 
         PSX_RECT* pRect = &mPsxDisplayRects[bufferIdx];
         pRect->x = 32767;
