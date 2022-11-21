@@ -276,24 +276,22 @@ DirectX9Renderer::DirectX9Renderer(TWindowHandleType window)
 {
     mD3D9.Attach(Direct3DCreate9(D3D_SDK_VERSION));
 
-    D3DPRESENT_PARAMETERS d3dpp = {};
-
-    d3dpp.Windowed = TRUE;
-    d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
+    mPresentParams.Windowed = TRUE;
+    mPresentParams.SwapEffect = D3DSWAPEFFECT_DISCARD;
     
     SDL_SysWMinfo wmInfo;
     SDL_VERSION(&wmInfo.version);
     SDL_GetWindowWMInfo(window, &wmInfo);
     HWND hwnd = wmInfo.info.win.window;
 
-    d3dpp.hDeviceWindow = hwnd;
+    mPresentParams.hDeviceWindow = hwnd;
 
     // TODO: Might make sense to enum the adapters here at some point
     mD3D9->CreateDevice(D3DADAPTER_DEFAULT,
                       D3DDEVTYPE_HAL,
                       hwnd,
                       D3DCREATE_HARDWARE_VERTEXPROCESSING,
-                      &d3dpp,
+                        &mPresentParams,
                       &mDevice.p);
 
     if (!mDevice)
@@ -405,7 +403,19 @@ void DirectX9Renderer::EndFrame()
         RECT dstRect = {0, 0, 640, 240};
         mDevice->StretchRect(mTextureRenderTarget, NULL, mScreenRenderTarget, nullptr, D3DTEXF_POINT);
 
-        DX_VERIFY(mDevice->Present(NULL, NULL, NULL, NULL));
+        const HRESULT presentHR = mDevice->Present(NULL, NULL, NULL, NULL);
+        if (presentHR == D3DERR_DEVICELOST)
+        {
+            // TODO: Handle device lost properly
+            ALIVE_FATAL("TODO D3DERR_DEVICELOST");
+        }
+        else
+        {
+            if (FAILED(presentHR))
+            {
+                ALIVE_FATAL("mDevice->Present failed HRESULT 0x%08X", presentHR);
+            }
+        }
 
         mFrameStarted = false;
     }

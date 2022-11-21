@@ -61,6 +61,8 @@ private:
     // TODO: Simply down the prim types so we don't need this
     u16 mGlobalTPage = 0;
 
+    D3DPRESENT_PARAMETERS mPresentParams = {};
+
     ATL::CComPtr<IDirect3D9> mD3D9;
     ATL::CComPtr<IDirect3DDevice9> mDevice;
 
