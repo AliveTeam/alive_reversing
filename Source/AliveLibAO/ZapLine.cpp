@@ -371,17 +371,11 @@ void ZapLine::VRender(PrimHeader** ppOt)
             }
         }
 
-        /* TODO: Just set anim ptr
-        const s32 calcTPage = PSX_getTPage(
-            field_114_tPageMode,
-            field_11C_tPageAbr,
-            mAnim.mVramRect.x,
-            mAnim.mVramRect.y & ~63); // TODO: Required ?
+        const s32 calcTPage = PSX_getTPage(field_11C_tPageAbr);
 
         Prim_SetTPage* pTPage = &field_EC_tPage_p8[bufferIdx];
         Init_SetTPage(pTPage, 0, 0, calcTPage);
-        OrderingTable_Add(OtLayer(ppOt, mAnim.mRenderLayer), &pTPage->mBase);
-        */
+        OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pTPage->mBase);
 
         PSX_RECT* pRect = &mPsxDisplayRects[bufferIdx];
         pRect->x = 32767;
