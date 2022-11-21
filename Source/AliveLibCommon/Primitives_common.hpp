@@ -181,14 +181,6 @@ struct Prim_Sprt final
 };
 ALIVE_ASSERT_SIZEOF(Prim_Sprt, 0x18);
 
-
-struct Prim_Tile final
-{
-    Poly_Base mBase;
-    s16 field_14_w;
-    s16 field_16_h;
-};
-
 enum PrimTypeCodes
 {
     eSetTPage = 0x80,
@@ -199,7 +191,6 @@ enum PrimTypeCodes
     // TODO: Type 2
 
     // Sprite/tile prims
-    eTile = 0x60,
     eSprt = 0x64,
 
     //                         G  3  T
@@ -238,8 +229,6 @@ union PrimAny
     Prim_ScreenOffset* mScreenOffset;
 
     Prim_Sprt* mSprt;
-
-    Prim_Tile* mTile;
 
     Poly_G3* mPolyG3;
 
@@ -590,9 +579,6 @@ void SetNumLongs(PrimHeader* pPrim, s8 numLongs);
 
 void LineG2_Init(Line_G2* pLine);
 void LineG4_Init(Line_G4* pLine);
-
-void Init_Tile(Prim_Tile* pTile);
-
 
 void PolyFT4_Init(Poly_FT4* pPrim);
 

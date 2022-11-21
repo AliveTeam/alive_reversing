@@ -29,10 +29,10 @@ private:
         eBit4_NeverSet = 0x8
     };
     BitField16<Flags> field_E4_flags = {};
-    Prim_Tile field_E8[2] = {};
-    Prim_Tile field_110[2] = {};
-    Prim_Tile field_138[2] = {};
-    Prim_Tile field_160[2] = {};
+    Poly_G4 field_E8[2] = {};
+    Poly_G4 field_110[2] = {};
+    Poly_G4 field_138[2] = {};
+    Poly_G4 field_160[2] = {};
     Prim_SetTPage field_188_tPage[2] = {};
     s16 field_1A8_fade_colour = 0;
     s16 field_1AA_speed = 0;

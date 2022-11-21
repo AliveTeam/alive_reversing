@@ -57,7 +57,6 @@ public:
     void ToggleKeepAspectRatio() override;
     void Draw(Prim_Sprt& sprt) override;
     void Draw(Prim_GasEffect& gasEffect) override;
-    void Draw(Prim_Tile& tile) override;
     void Draw(Line_G2& line) override;
     void Draw(Line_G4& line) override;
     void Draw(Poly_G3& poly) override;

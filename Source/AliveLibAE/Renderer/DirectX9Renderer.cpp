@@ -442,10 +442,6 @@ void DirectX9Renderer::Draw(Prim_GasEffect& /*gasEffect*/)
 {
 }
 
-void DirectX9Renderer::Draw(Prim_Tile& /*tile*/)
-{
-}
-
 void DirectX9Renderer::Draw(Line_G2& /*line*/)
 {
 }

@@ -47,13 +47,6 @@ void LineG4_Init(Line_G4* pPrim)
     pPrim->field_28_pad = 0x55555555;
 }
 
-void Init_Tile(Prim_Tile* pPrim)
-{
-    SetNumLongs(&pPrim->mBase.header, 99);
-    SetUnknown(&pPrim->mBase.header);
-    SetCode(&pPrim->mBase.header, PrimTypeCodes::eTile);
-}
-
 s32 PSX_Prim_Code_Without_Blending_Or_SemiTransparency(s32 code)
 {
     // Last 2 bits are for blending and semi transparency enable

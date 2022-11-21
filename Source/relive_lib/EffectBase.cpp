@@ -25,15 +25,13 @@ EffectBase::~EffectBase()
 
 void EffectBase::VRender(PrimHeader** ppOt)
 {
-    Prim_Tile* pTile = &mEffectBaseTile[gPsxDisplay.mBufferIndex];
-    Init_Tile(pTile);
-    SetRGB0(pTile,
-            static_cast<u8>(mEffectBaseRed),
-            static_cast<u8>(mEffectBaseGreen),
-            static_cast<u8>(mEffectBaseBlue));
-    SetXY0(pTile, 0, 0);
-    pTile->field_14_w = 640;
-    pTile->field_16_h = gPsxDisplay.mHeight;
+    Poly_G4* pTile = &mEffectBaseTile[gPsxDisplay.mBufferIndex];
+    PolyG4_Init(pTile);
+    SetRGB0(pTile, static_cast<u8>(mEffectBaseRed), static_cast<u8>(mEffectBaseGreen), static_cast<u8>(mEffectBaseBlue));
+    SetRGB1(pTile, static_cast<u8>(mEffectBaseRed), static_cast<u8>(mEffectBaseGreen), static_cast<u8>(mEffectBaseBlue));
+    SetRGB2(pTile, static_cast<u8>(mEffectBaseRed), static_cast<u8>(mEffectBaseGreen), static_cast<u8>(mEffectBaseBlue));
+    SetRGB3(pTile, static_cast<u8>(mEffectBaseRed), static_cast<u8>(mEffectBaseGreen), static_cast<u8>(mEffectBaseBlue));  
+    SetXYWH(pTile, 0, 0, gPsxDisplay.mWidth, gPsxDisplay.mHeight);
 
     if (mEffectBaseRed || mEffectBaseGreen || mEffectBaseBlue || !mSemiTrans)
     {

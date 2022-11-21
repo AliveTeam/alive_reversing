@@ -201,30 +201,6 @@ void SoftwareRenderer::Draw(Prim_GasEffect& gasEffect)
     // PSX_RenderLaughingGasEffect_4F7B80(gasEffect.x, gasEffect.y, gasEffect.w, gasEffect.h, gasEffect.pData);
 }
 
-// CircularFade, EffectBase
-void SoftwareRenderer::Draw(Prim_Tile& tile)
-{
-    /*
-    PrimAny any;
-    any.mTile = &tile;
-    DrawOTag_Render_TILE(any, static_cast<s16>(mFrame_xOff) + any.mSprt->mBase.vert.x, static_cast<s16>(mFrame_yOff) + any.mSprt->mBase.vert.y, any.mTile->field_14_w, any.mTile->field_16_h);
-    */
-    const u8 a = (tile.mBase.header.rgb_code.code_or_pad & 2) ? 127 : 255;
-    if (a == 127)
-    {
-        SDL_SetRenderDrawBlendMode(mRenderer, SDL_BLENDMODE_BLEND);
-    }
-
-    SDL_SetRenderDrawColor(mRenderer, R0(&tile), G0(&tile), B0(&tile), a);
-
-    SDL_Rect rect;
-    rect.x = X0(&tile);
-    rect.y = Y0(&tile)*2;
-    rect.w = tile.field_14_w;
-    rect.h = tile.field_16_h * 2;
-    SDL_RenderFillRect(mRenderer, &rect);
-}
-
 // SnoozeParticle, Spark, ThrowableTotalIndicator
 void SoftwareRenderer::Draw(Line_G2& /*line*/)
 {

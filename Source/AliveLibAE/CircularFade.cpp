@@ -95,47 +95,46 @@ void CircularFade::VRender(PrimHeader** ppOt)
 
     const u8 fadeColour = static_cast<u8>(field_1B8_fade_colour);
 
-    Prim_Tile* pTile1 = &field_F8_tile1[gPsxDisplay.mBufferIndex];
-    Init_Tile(pTile1);
+    Poly_G4* pTile1 = &field_F8_tile1[gPsxDisplay.mBufferIndex];
+    PolyG4_Init(pTile1);
     SetRGB0(pTile1, fadeColour, fadeColour, fadeColour);
-    SetXY0(pTile1, 0, 0);
-    pTile1->field_14_w = gPsxDisplay.mWidth;
-    pTile1->field_16_h = frameRect.y;
+    SetRGB1(pTile1, fadeColour, fadeColour, fadeColour);
+    SetRGB2(pTile1, fadeColour, fadeColour, fadeColour);
+    SetRGB3(pTile1, fadeColour, fadeColour, fadeColour);
+    SetXYWH(pTile1, 0, 0, gPsxDisplay.mWidth, frameRect.y);
     Poly_Set_SemiTrans(&pTile1->mBase.header, 1);
     OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pTile1->mBase.header);
 
-    Prim_Tile* pTile2 = &field_120_tile2[gPsxDisplay.mBufferIndex];
-    Init_Tile(pTile2);
+    Poly_G4* pTile2 = &field_120_tile2[gPsxDisplay.mBufferIndex];
+    PolyG4_Init(pTile2);
     SetRGB0(pTile2, fadeColour, fadeColour, fadeColour);
-    SetXY0(pTile2, 0, frameRect.y);
+    SetRGB1(pTile2, fadeColour, fadeColour, fadeColour);
+    SetRGB2(pTile2, fadeColour, fadeColour, fadeColour);
+    SetRGB3(pTile2, fadeColour, fadeColour, fadeColour);
+    SetXYWH(pTile2, 0, frameRect.y, GetAnimation().mFlags.Get(AnimFlags::eFlipX) ? frameRect.x + 1 : frameRect.x, frameRect.h - frameRect.y);
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
-    {
-        pTile2->field_14_w = frameRect.x + 1;
-    }
-    else
-    {
-        pTile2->field_14_w = frameRect.x;
-    }
-    pTile2->field_16_h = frameRect.h - frameRect.y;
     Poly_Set_SemiTrans(&pTile2->mBase.header, 1);
     OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pTile2->mBase.header);
 
-    Prim_Tile* pTile3 = &field_148_tile3[gPsxDisplay.mBufferIndex];
-    Init_Tile(pTile3);
+    Poly_G4* pTile3 = &field_148_tile3[gPsxDisplay.mBufferIndex];
+    PolyG4_Init(pTile3);
     SetRGB0(pTile3, fadeColour, fadeColour, fadeColour);
-    SetXY0(pTile3, frameRect.w, frameRect.y);
-    pTile3->field_14_w = gPsxDisplay.mWidth - frameRect.w;
-    pTile3->field_16_h = frameRect.h - frameRect.y;
+    SetRGB1(pTile3, fadeColour, fadeColour, fadeColour);
+    SetRGB2(pTile3, fadeColour, fadeColour, fadeColour);
+    SetRGB3(pTile3, fadeColour, fadeColour, fadeColour);
+    SetXYWH(pTile3, frameRect.w, frameRect.y, gPsxDisplay.mWidth - frameRect.w, frameRect.h - frameRect.y);
+
     Poly_Set_SemiTrans(&pTile3->mBase.header, 1);
     OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pTile3->mBase.header);
 
-    Prim_Tile* pTile4 = &field_170_tile4[gPsxDisplay.mBufferIndex];
-    Init_Tile(pTile4);
+    Poly_G4* pTile4 = &field_170_tile4[gPsxDisplay.mBufferIndex];
+    PolyG4_Init(pTile4);
     SetRGB0(pTile4, fadeColour, fadeColour, fadeColour);
-    SetXY0(pTile4, 0, frameRect.h);
-    pTile4->field_14_w = gPsxDisplay.mWidth;
-    pTile4->field_16_h = gPsxDisplay.mHeight - frameRect.h;
+    SetRGB1(pTile4, fadeColour, fadeColour, fadeColour);
+    SetRGB2(pTile4, fadeColour, fadeColour, fadeColour);
+    SetRGB3(pTile4, fadeColour, fadeColour, fadeColour);
+    SetXYWH(pTile4, 0, frameRect.h, gPsxDisplay.mWidth, gPsxDisplay.mHeight - frameRect.h);
+
     Poly_Set_SemiTrans(&pTile4->mBase.header, 1);
     OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pTile4->mBase.header);
 

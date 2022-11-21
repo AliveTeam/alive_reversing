@@ -27,13 +27,11 @@ static bool gRenderEnable_Batching = true;
 
 static bool gRenderEnable_SPRT = true;
 static bool gRenderEnable_GAS = true;
-static bool gRenderEnable_TILE = true;
 static bool gRenderEnable_FT4 = true;
 static bool gRenderEnable_G4 = true;
 static bool gRenderEnable_G3 = true;
 static bool gRenderEnable_G2 = true;
 static bool gRenderEnable_F4 = true;
-static bool gRenderEnable_F2 = true;
 
 static const f32 pi = 3.14f;
 static const f32 halfPi = 1.57f;
@@ -336,30 +334,6 @@ void OpenGLRenderer::Draw(Prim_GasEffect& gasEffect)
         {gasEffect.w, gasEffect.h, r, g, b, (u32) gasWidth, (u32) gasHeight, (u32) gasWidth, (u32) gasHeight, GL_PSX_DRAW_MODE_GAS, isSemiTrans, isShaded, blendMode, 0, 0}};
     
     PushVertexData(verts, 4, mCurGasTextureId);
-}
-
-void OpenGLRenderer::Draw(Prim_Tile& tile)
-{
-    if (!gRenderEnable_TILE)
-    {
-        return;
-    }
-
-    const u32 r = tile.mBase.header.rgb_code.r;
-    const u32 g = tile.mBase.header.rgb_code.g;
-    const u32 b = tile.mBase.header.rgb_code.b;
-
-    bool isSemiTrans = GetPolyIsSemiTrans(&tile);
-    bool isShaded = true;
-    u32 blendMode = GetTPageBlendMode(mGlobalTPage);
-
-    VertexData verts[4] = {
-        {tile.mBase.vert.x, tile.mBase.vert.y, r, g, b, 0, 0, 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded, blendMode, 0, 0},
-        {tile.mBase.vert.x + tile.field_14_w, tile.mBase.vert.y, r, g, b, 0, 0, 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded, blendMode, 0, 0},
-        {tile.mBase.vert.x, tile.mBase.vert.y + tile.field_16_h, r, g, b, 0, 0, 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded, blendMode, 0, 0},
-        {tile.mBase.vert.x + tile.field_14_w, tile.mBase.vert.y + tile.field_16_h, r, g, b, 0, 0, 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded, blendMode, 0, 0}};
-
-    PushVertexData(verts, 4);
 }
 
 void OpenGLRenderer::Draw(Line_G2& line)
@@ -1292,14 +1266,12 @@ void OpenGLRenderer::DebugWindow()
             if (ImGui::BeginMenu("Render Elements"))
             {
                 ImGui::MenuItem("SPRT", nullptr, &gRenderEnable_SPRT);
-                ImGui::MenuItem("TILE", nullptr, &gRenderEnable_TILE);
                 ImGui::MenuItem("GAS", nullptr, &gRenderEnable_GAS);
                 ImGui::MenuItem("FT4", nullptr, &gRenderEnable_FT4);
                 ImGui::MenuItem("G4", nullptr, &gRenderEnable_G4);
                 ImGui::MenuItem("G3", nullptr, &gRenderEnable_G3);
                 ImGui::MenuItem("G2", nullptr, &gRenderEnable_G2);
                 ImGui::MenuItem("F4", nullptr, &gRenderEnable_F4);
-                ImGui::MenuItem("F2", nullptr, &gRenderEnable_F2);
 
                 #if GL_DEBUG > 0
                 ImGui::MenuItem("gl_debug", nullptr, &gGlDebug);
