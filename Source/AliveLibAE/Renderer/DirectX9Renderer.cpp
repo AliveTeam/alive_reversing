@@ -272,7 +272,8 @@ const D3DVERTEXELEMENT9 simple_decl[] =
     D3DDECL_END()};
 
 DirectX9Renderer::DirectX9Renderer(TWindowHandleType window)
-    : mPaletteCache(256)
+  : IRenderer(window),
+    mPaletteCache(256)
 {
     mD3D9.Attach(Direct3DCreate9(D3D_SDK_VERSION));
 
@@ -375,11 +376,15 @@ void DirectX9Renderer::Clear(u8 /*r*/, u8 /*g*/, u8 /*b*/)
     //mDevice->Clear(0, nullptr, D3DCLEAR_ZBUFFER | D3DCLEAR_TARGET | D3DCLEAR_STENCIL, D3DCOLOR_XRGB(r, g, b), 1.0f, 0);
 }
 
-void DirectX9Renderer::StartFrame(s32 /*xOff*/, s32 /*yOff*/)
+void DirectX9Renderer::StartFrame()
 {
     if (!mFrameStarted)
     {
         mFrameStarted = true;
+
+        // Set offsets for the screen (this is for the screen shake effect)
+        mOffsetX = 0;
+        mOffsetY = 0;
 
         DX_VERIFY(mDevice->BeginScene());
 
@@ -400,8 +405,11 @@ void DirectX9Renderer::EndFrame()
         DX_VERIFY(mDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0));
 
         // Copy the rendered to texture to the entire screen
-        RECT dstRect = {0, 0, 640, 240};
-        mDevice->StretchRect(mTextureRenderTarget, NULL, mScreenRenderTarget, nullptr, D3DTEXF_POINT);
+        //const SDL_Rect dstRectSDL = GetTargetDrawRect();
+        //const RECT dstRect = {dstRectSDL.x, dstRectSDL.y, dstRectSDL.w, dstRectSDL.h};
+        mDevice->StretchRect(mTextureRenderTarget, nullptr, mScreenRenderTarget, nullptr, D3DTEXF_POINT);
+
+        // 0x8876086C
 
         const HRESULT presentHR = mDevice->Present(NULL, NULL, NULL, NULL);
         if (presentHR == D3DERR_DEVICELOST)
@@ -423,13 +431,6 @@ void DirectX9Renderer::EndFrame()
     // Always decrease resource lifetimes regardless of drawing to prevent
     // memory leaks
     DecreaseResourceLifetimes();
-}
-
-void DirectX9Renderer::OutputSize(s32* w, s32* h)
-{
-    // TODO: Is this correct? If so why isn't in the base
-    *w = 640;
-    *h = 240;
 }
 
 void DirectX9Renderer::SetTPage(u16 tPage)
@@ -455,17 +456,7 @@ void DirectX9Renderer::SetClip(Prim_PrimClipper& clipper)
     DX_VERIFY(mDevice->SetRenderState(D3DRS_SCISSORTESTENABLE, TRUE));
 }
 
-void DirectX9Renderer::SetScreenOffset(Prim_ScreenOffset& /*offset*/)
-{
-    // TODO
-}
-
 void DirectX9Renderer::ToggleFilterScreen()
-{
-    // TODO
-}
-
-void DirectX9Renderer::ToggleKeepAspectRatio()
 {
     // TODO
 }

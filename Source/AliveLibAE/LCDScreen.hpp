@@ -21,7 +21,6 @@ public:
     Prim_PrimClipper field_20_prim_clippers[2][2] = {};
     FontContext mFontContext;
     AliveFont field_60_font = {};
-    PSX_RECT field_98_pal_rect = {};
     const char_type* field_A0_message = nullptr;
     const char_type* field_A4_message_cutoff_ptr = nullptr;
     char_type field_A8_message_buffer[512] = {};

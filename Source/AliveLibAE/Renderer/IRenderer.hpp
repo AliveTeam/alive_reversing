@@ -17,23 +17,9 @@ public:
         OpenGL,
     };
 
-    enum class BitDepth
-    {
-        e16Bit,
-        e8Bit,
-        e4Bit,
-    };
-
     static IRenderer* GetRenderer();
     static void CreateRenderer(Renderers type, TWindowHandleType window);
     static void FreeRenderer();
-
-    struct PalRecord final
-    {
-        s16 x = 0;
-        s16 y = 0;
-        s16 depth = 0;
-    };
 
 public:
     // Recommendations for reserving memory to fit 'peak' amounts of quads
@@ -54,22 +40,32 @@ public:
     static constexpr s32 kTargetFramebufferHeight = 480;
     static constexpr s32 kTargetFramebufferWidth = 640;
 
+    explicit IRenderer(SDL_Window* window)
+        : mWindow(window)
+    { 
+
+    }
 
     virtual ~IRenderer()
-    { }
+    {
+
+    }
+
+    void ToggleKeepAspectRatio()
+    {
+        mKeepAspectRatio = !mKeepAspectRatio;
+    }
 
     virtual void Clear(u8 r, u8 g, u8 b) = 0;
-    virtual void StartFrame(s32 xOff, s32 yOff) = 0;
+    virtual void StartFrame() = 0;
     virtual void EndFrame() = 0;
-    virtual void OutputSize(s32* w, s32* h) = 0;
 
     virtual void SetTPage(u16 tPage) = 0;
 
     virtual void SetClip(Prim_PrimClipper& clipper) = 0;
-    virtual void SetScreenOffset(Prim_ScreenOffset& offset) = 0;
+    void SetScreenOffset(Prim_ScreenOffset& offset);
 
     virtual void ToggleFilterScreen() = 0;
-    virtual void ToggleKeepAspectRatio() = 0;
 
     virtual void Draw(Prim_GasEffect& gasEffect) = 0;
 
@@ -87,4 +83,15 @@ public:
 
     // Fleech (tounge), DeathGas, ColourfulMeter
     virtual void Draw(Poly_G4& poly) = 0;
+
+protected:
+    SDL_Rect GetTargetDrawRect();
+
+protected:
+    SDL_Window* mWindow = nullptr;
+
+    s32 mOffsetX = 0;
+    s32 mOffsetY = 0;
+
+    bool mKeepAspectRatio = true;
 };

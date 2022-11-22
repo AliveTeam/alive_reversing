@@ -25,14 +25,11 @@ public:
     explicit DirectX9Renderer(TWindowHandleType window);
     ~DirectX9Renderer();
     void Clear(u8 r, u8 g, u8 b) override;
-    void StartFrame(s32 xOff, s32 yOff) override;
+    void StartFrame() override;
     void EndFrame() override;
-    void OutputSize(s32* w, s32* h) override;
     void SetTPage(u16 tPage) override;
     void SetClip(Prim_PrimClipper& clipper) override;
-    void SetScreenOffset(Prim_ScreenOffset& offset) override;
     void ToggleFilterScreen() override;
-    void ToggleKeepAspectRatio() override;
     void Draw(Prim_GasEffect& gasEffect) override;
     void Draw(Line_G2& line) override;
     void Draw(Line_G4& line) override;

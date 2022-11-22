@@ -18,6 +18,7 @@ void set_pixel(SDL_Surface* surface, int x, int y, u32 pixel)
 }
 
 SoftwareRenderer::SoftwareRenderer(TWindowHandleType window)
+    : IRenderer(window)
 {
     mWindow = window;
     mRenderer = SDL_CreateRenderer(window, -1, 0);
@@ -55,12 +56,12 @@ void SoftwareRenderer::Clear(u8 r, u8 g, u8 b)
 */
 }
 
-void SoftwareRenderer::StartFrame(s32 xOff, s32 yOff)
+void SoftwareRenderer::StartFrame()
 {
     if (!mFrameStarted)
     {
-        mFrame_xOff = xOff;
-        mFrame_yOff = yOff;
+        mOffsetX = 0;
+        mOffsetY = 0;
         mFrameStarted = true;
     }
     else
@@ -77,11 +78,6 @@ void SoftwareRenderer::EndFrame()
     // this breaks the "Abes Exoddus" intro text, not sure if it breaks anything else yet
     // but stops all of the flicker by emulating how the vram was "sticky"
     //SDL_RenderClear(mRenderer);
-}
-
-void SoftwareRenderer::OutputSize(s32* w, s32* h)
-{
-    SDL_GetRendererOutputSize(mRenderer, w, h);
 }
 
 void SoftwareRenderer::SetTPage(u16 /*tPage*/)
@@ -112,16 +108,6 @@ void SoftwareRenderer::SetClip(Prim_PrimClipper& clipper)
 void SoftwareRenderer::ToggleFilterScreen()
 {
     // TODO: Implement this
-}
-
-void SoftwareRenderer::ToggleKeepAspectRatio()
-{
-    // TODO: Implement this
-}
-
-// ExplosionSet, ScreenShake, RollingBallShaker
-void SoftwareRenderer::SetScreenOffset(Prim_ScreenOffset& /*offset*/)
-{
 }
 
 static SDL_Texture* MakeGasTexture(SDL_Renderer* pRender, const u16* pPixels, u32 w, u32 h)

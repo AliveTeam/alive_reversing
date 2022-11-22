@@ -165,16 +165,6 @@ LCDScreen::LCDScreen(relive::Path_LCDScreen* pTlv, const Guid& tlvId)
 
     field_60_font.Load(60, mPal1, &field_50_FontContext);
 
-    IRenderer::PalRecord rec;
-    rec.depth = 16;
-    
-    field_98_pal_rect.x = rec.x;
-    field_98_pal_rect.y = rec.y;
-    field_98_pal_rect.w = rec.depth;
-    field_98_pal_rect.h = 1;
-
-    //IRenderer::GetRenderer()->PalSetData(rec, sLCDScreen_Palette2_4C7588);
-
     if (Input_JoyStickEnabled() || field_2AC_message_1_id != 62)
     {
         String_FormatString(gLCDMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, field_2AC_message_1_id), field_AC_message_buffer);
@@ -276,11 +266,6 @@ void LCDScreen::VUpdate()
                 // Change pal
                 field_60_font.field_34_FontContext->field_C_resource_id.mCurPal = mPal1.mPal;
             }
-
-            // TODO
-            //auto palSwap = field_98_pal_rect;
-            //field_98_pal_rect = field_60_font.field_28_palette_rect;
-            //field_60_font.field_28_palette_rect = palSwap;
         }
         sFontDrawScreenSpace = 1;
         field_2B4_character_width = field_60_font.MeasureCharacterWidth(*field_A0_message);

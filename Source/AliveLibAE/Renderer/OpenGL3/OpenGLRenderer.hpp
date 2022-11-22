@@ -58,7 +58,7 @@ public:
 class OpenGLRenderer final : public IRenderer
 {
 public:
-    OpenGLRenderer(TWindowHandleType window);
+    explicit OpenGLRenderer(TWindowHandleType window);
     ~OpenGLRenderer() override;
 
     void Clear(u8 r, u8 g, u8 b) override;
@@ -69,13 +69,10 @@ public:
     void Draw(Poly_FT4& poly) override;
     void Draw(Poly_G4& poly) override;
     void EndFrame() override;
-    void OutputSize(s32* w, s32* h) override;
     void SetClip(Prim_PrimClipper& clipper) override;
-    void SetScreenOffset(Prim_ScreenOffset& offset) override;
     void SetTPage(u16 tPage) override;
-    void StartFrame(s32 xOff, s32 yOff) override;
+    void StartFrame() override;
     void ToggleFilterScreen() override;
-    void ToggleKeepAspectRatio() override;
 
 private:
     struct Stats final
@@ -101,8 +98,6 @@ private:
 
     bool mFrameStarted = false;
 
-    SDL_Window* mWindow = nullptr;
-
     GLContext mContext;
 
     u16 mGlobalTPage = 0;
@@ -119,10 +114,7 @@ private:
     GLFramebuffer mFilterFramebuffer;
 
     bool mFramebufferFilter = true;
-    bool mKeepAspectRatio = true;
-    s32 mOffsetX = 0;
-    s32 mOffsetY = 0;
-    
+
     u32 mBatchBlendMode = BATCH_VALUE_UNSET;
     std::vector<VertexData> mBatchData;
     std::vector<u32> mBatchIndicies;
@@ -143,7 +135,6 @@ private:
     void CreateFramebuffer(GLuint* outFramebufferId, GLuint* outTextureId, s32 width, s32 height);
     void DecreaseResourceLifetimes();
     void DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height);
-    SDL_Rect GetTargetDrawRect();
     u16 GetTPageBlendMode(u16 tPage);
     void InvalidateBatch();
     void PushLines(const VertexData* vertices, int count);

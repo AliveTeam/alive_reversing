@@ -177,17 +177,6 @@ LCDScreen::LCDScreen(relive::Path_LCDScreen* params, const Guid& tlvId)
 
     field_60_font.Load(60, mPal1, &mFontContext);
 
-    IRenderer::PalRecord rec;
-    rec.depth = 16;
-    
-    field_98_pal_rect.x = rec.x;
-    field_98_pal_rect.y = rec.y;
-    field_98_pal_rect.w = rec.depth;
-    field_98_pal_rect.h = 1;
-
-    // TODO FIX
-    //IRenderer::GetRenderer()->PalSetData(rec, sLCDScreen_Palette2);
-
     if (SwitchStates_Get(field_2B2_toggle_message_switch_id))
     {
         field_A0_message = gLCDMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, field_2B0_message_2_id);
@@ -261,14 +250,6 @@ void LCDScreen::VUpdate()
 
             String_FormatString(field_A0_message, field_A8_message_buffer, 512, 1);
             field_A0_message = field_A8_message_buffer;
-
-            // TODO: Fix
-            //auto palSwap = field_98_pal_rect;
-            //field_98_pal_rect = field_60_font.field_28_palette_rect;
-            //field_60_font.field_28_palette_rect = palSwap;
-
-
-
         }
 
         sFontDrawScreenSpace = 1;

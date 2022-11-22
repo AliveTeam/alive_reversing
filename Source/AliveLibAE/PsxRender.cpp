@@ -132,7 +132,7 @@ void PSX_ClearOTag(PrimHeader** otBuffer, s32 otBufferSize)
     otBuffer[i] = reinterpret_cast<PrimHeader*>(static_cast<size_t>(0xFFFFFFFF));
 }
 
-static bool DrawOTagImpl(PrimHeader** ppOt, s16 drawEnv_of0, s16 drawEnv_of1)
+static bool DrawOTagImpl(PrimHeader** ppOt)
 {
     sScreenXOffSet_BD30E4 = 0;
     sScreenYOffset_BD30A4 = 0;
@@ -145,7 +145,7 @@ static bool DrawOTagImpl(PrimHeader** ppOt, s16 drawEnv_of0, s16 drawEnv_of1)
 
     IRenderer& renderer = *IRenderer::GetRenderer();
 
-    renderer.StartFrame(drawEnv_of0, drawEnv_of1);
+    renderer.StartFrame();
 
     PrimHeader* pOtItem = ppOt[0];
     while (pOtItem)
@@ -209,7 +209,7 @@ void PSX_DrawOTag(PrimHeader** ppOt)
         return;
     }
 
-    if (DrawOTagImpl(ppOt, 0, 0))
+    if (DrawOTagImpl(ppOt))
     {
         return;
     }
