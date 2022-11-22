@@ -124,31 +124,6 @@ void SoftwareRenderer::SetScreenOffset(Prim_ScreenOffset& /*offset*/)
 {
 }
 
-// Blood, ZapLine, HintFly
-void SoftwareRenderer::Draw(Prim_Sprt& sprt)
-{
-    /*
-    PrimAny any;
-    any.mSprt = &sprt;
-    DrawOTag_Render_SPRT(any, static_cast<s16>(mFrame_xOff), static_cast<s16>(mFrame_yOff), any.mSprt->field_14_w, any.mSprt->field_16_h);
-    */
-
-    const u8 a = (sprt.mBase.header.rgb_code.code_or_pad & 2) ? 127 : 255;
-    if (a == 127)
-    {
-        SDL_SetRenderDrawBlendMode(mRenderer, SDL_BLENDMODE_BLEND);
-    }
-    SDL_SetRenderDrawColor(mRenderer, R0(&sprt), G0(&sprt), B0(&sprt), a);
-
-    SDL_Rect rect;
-    rect.x = X0(&sprt);
-    rect.y = Y0(&sprt) * 2;
-    rect.w = sprt.field_14_w;
-    rect.h = sprt.field_16_h * 2;
-    SDL_RenderFillRect(mRenderer, &rect);
-}
-
-
 static SDL_Texture* MakeGasTexture(SDL_Renderer* pRender, const u16* pPixels, u32 w, u32 h)
 {
     SDL_Surface* surface = SDL_CreateRGBSurfaceWithFormat(0,

@@ -164,27 +164,12 @@ struct Line_G4 final
 };
 ALIVE_ASSERT_SIZEOF(Line_G4, 0x2C);
 
-struct Prim_Sprt final
-{
-    Poly_Base mBase;
-    UV mUv;
-    s16 field_14_w;
-    s16 field_16_h;
-    class Animation* mAnim;
-};
-ALIVE_ASSERT_SIZEOF(Prim_Sprt, 0x18);
-
 enum PrimTypeCodes
 {
     eSetTPage = 0x80,
     ePrimClipper = 0x81,
     eScreenOffset = 0x82,
     eLaughingGas = 0x84,
-
-    // TODO: Type 2
-
-    // Sprite/tile prims
-    eSprt = 0x64,
 
     //                         G  3  T
     ePolyG3 = 0x30,  // 0b1[1][0][0]00
@@ -219,8 +204,6 @@ union PrimAny
     Prim_SetTPage* mSetTPage;
     Prim_PrimClipper* mPrimClipper;
     Prim_ScreenOffset* mScreenOffset;
-
-    Prim_Sprt* mSprt;
 
     Poly_G3* mPolyG3;
 

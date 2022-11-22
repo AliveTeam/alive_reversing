@@ -6,7 +6,7 @@
 
 struct ZapLineSprites final
 {
-    Prim_Sprt field_0_sprts[2];
+    Poly_FT4 field_0_sprts[2];
 };
 ALIVE_ASSERT_SIZEOF(ZapLineSprites, 0x30);
 
@@ -58,7 +58,6 @@ private:
 
     ZapLineState mState = ZapLineState::eInit_0;
 
-    Prim_SetTPage field_FC_tPage_p8[2] = {};
     s16 mXPosSrc = 0;
     s16 mYPosSrc = 0;
     s16 mXPosDst = 0;
@@ -66,7 +65,6 @@ private:
     s16 mAliveTimer = 0;
     s16 mMaxAliveTime = 0;
     ZapLineType mZapLineType = ZapLineType::eThick_0;
-    TPageAbr field_12C_tPageAbr = TPageAbr::eBlend_0;
     s16 mNumberOfSegments = 0;
     s16 mNumberOfPiecesPerSegment = 0;
     s16 mNumberOfSprites = 0;
@@ -74,5 +72,4 @@ private:
     PSX_Point* mSpritePositions = nullptr;
     ZapPoint* mZapPoints = nullptr;
     FP_Point* mSpriteSegmentPositions = nullptr;
-    PSX_RECT mPsxDisplayRects[2] = {};
 };

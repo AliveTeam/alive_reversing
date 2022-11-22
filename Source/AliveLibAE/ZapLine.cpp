@@ -22,6 +22,7 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
     SetType(ReliveTypes::eZapLine);
     mZapLineType = type;
 
+    TPageAbr blendMode = TPageAbr::eBlend_0;
     if (type == ZapLineType::eThin_1)
     {
         // Creates thin blue zap lines.
@@ -29,7 +30,7 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
         mNumberOfSegments = 12;
         mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Zap_Line_Blue));
         Animation_Init(GetAnimRes(AnimId::Zap_Line_Blue));
-        field_12C_tPageAbr = TPageAbr::eBlend_3;
+        blendMode = TPageAbr::eBlend_3;
     }
     else if (type == ZapLineType::eThick_0)
     {
@@ -38,10 +39,9 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
         mNumberOfSegments = 28;
         mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Zap_Line_Red));
         Animation_Init(GetAnimRes(AnimId::Zap_Line_Red));
-        field_12C_tPageAbr = TPageAbr::eBlend_1;
+        blendMode = TPageAbr::eBlend_1;
     }
 
-    //mAnim.mFlags.Set(AnimFlags::eBit25_bDecompressDone); // HIBYTE |= 1
     GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
     GetAnimation().SetRenderLayer(layer);
     mNumberOfSprites = mNumberOfSegments * mNumberOfPiecesPerSegment;
@@ -62,8 +62,8 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
 
     auto pFrameHeader = GetAnimation().Get_FrameHeader(-1);
 
-    const auto frameW = pFrameHeader->mWidth;
-    const auto frameH = pFrameHeader->mHeight;
+    const u32 frameW = pFrameHeader->mWidth;
+    const u32 frameH = pFrameHeader->mHeight;
 
     for (s32 i = 0; i < 2; i++)
     {
@@ -71,17 +71,19 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
         {
             for (s32 k = 0; k < mNumberOfPiecesPerSegment; k++)
             {
-                Prim_Sprt* pSprt = &mSprites[(j * mNumberOfPiecesPerSegment) + k].field_0_sprts[i];
-                Sprt_Init(pSprt);
+                Poly_FT4* pSprt = &mSprites[(j * mNumberOfPiecesPerSegment) + k].field_0_sprts[i];
+                PolyFT4_Init(pSprt);
 
                 Poly_Set_SemiTrans(&pSprt->mBase.header, 1);
-                Poly_Set_Blending(&pSprt->mBase.header, 1);
+                Poly_Set_Blending(&pSprt->mBase.header, 0);
+
+                SetTPage(pSprt, static_cast<s16>(PSX_getTPage(blendMode)));
 
                 pSprt->mAnim = &GetAnimation();
 
                 SetUV0(pSprt, 0, 0);
-                pSprt->field_14_w = static_cast<s16>(frameW - 1);
-                pSprt->field_16_h = static_cast<s16>(frameH - 1);
+
+                SetXYWH(pSprt, 0, 0, static_cast<s16>(frameW - 1), static_cast<s16>(frameH - 1));
             }
         }
     }
@@ -136,7 +138,7 @@ void ZapLine::CalculateThickSpriteSegmentPositions()
     }
     else
     {
-        v1 = mAliveTimer / 4 + 3;
+        v1 = (mAliveTimer / 4) + 3;
     }
 
     s32 v5 = 1 << v1;
@@ -174,15 +176,6 @@ void ZapLine::CalculateThickSpriteSegmentPositions()
         mSpriteSegmentPositions[i].y = FP_FromInteger(Math_NextRandom() % v5) + (Math_Cosine_496CD0(ang) * yDiffDiv) + FP_FromInteger(mYPosSrc) + (FP_FromInteger(i) * yDiff) - FP_FromInteger(v6);
     }
 
-    mPsxDisplayRects[0].x = 0;
-    mPsxDisplayRects[0].y = 0;
-    mPsxDisplayRects[0].w = gPsxDisplay.mWidth;
-    mPsxDisplayRects[0].h = gPsxDisplay.mHeight;
-
-    mPsxDisplayRects[1].x = 0;
-    mPsxDisplayRects[1].y = 0;
-    mPsxDisplayRects[1].w = gPsxDisplay.mWidth;
-    mPsxDisplayRects[1].h = gPsxDisplay.mHeight;
 }
 
 void ZapLine::CalculateThinSpriteSegmentPositions()
@@ -256,9 +249,15 @@ void ZapLine::UpdateSpriteVertexPositions()
         for (s32 j = 0; j < mNumberOfPiecesPerSegment; j++)
         {
             const auto pPoint = &mSpritePositions[j + (i * mNumberOfPiecesPerSegment)];
-            Prim_Sprt* pSprt = &mSprites->field_0_sprts[j + (i * mNumberOfPiecesPerSegment)];
-            SetXY0(&pSprt[0], pPoint->x, pPoint->y);
-            SetXY0(&pSprt[1], pPoint->x, pPoint->y);
+            Poly_FT4* pSprt = &mSprites->field_0_sprts[j + (i * mNumberOfPiecesPerSegment)];
+            
+            const s16 w1 = static_cast<s16>(abs(X0(&pSprt[0]) - X3(&pSprt[0])));
+            const s16 h1 = static_cast<s16>(abs(Y0(&pSprt[0]) - Y3(&pSprt[0])));
+            SetXYWH(&pSprt[0], pPoint->x, pPoint->y, w1, h1);
+
+            const s16 w2 = static_cast<s16>(abs(X0(&pSprt[1]) - X3(&pSprt[1])));
+            const s16 h2 = static_cast<s16>(abs(Y0(&pSprt[1]) - Y3(&pSprt[1])));
+            SetXYWH(&pSprt[1], pPoint->x, pPoint->y, w2, h2);
         }
     }
 }
@@ -355,57 +354,13 @@ void ZapLine::VRender(PrimHeader** ppOt)
         && mState > ZapLineState::eInitSpriteVertices_2)
     {
         const auto bufferIdx = gPsxDisplay.mBufferIndex;
-        const s32 calcTPage = PSX_getTPage(field_12C_tPageAbr);
-
-        Prim_SetTPage* pTPage = &field_FC_tPage_p8[bufferIdx];
-        Init_SetTPage(pTPage, 0, 0, calcTPage);
-        OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pTPage->mBase);
-
         for (s32 i = 0; i < mNumberOfSegments; i++)
         {
             for (s32 j = 0; j < mNumberOfPiecesPerSegment; j++)
             {
-                Prim_Sprt* pSprt = &mSprites->field_0_sprts[j + (i * mNumberOfPiecesPerSegment)];
+                Poly_FT4* pSprt = &mSprites->field_0_sprts[j + (i * mNumberOfPiecesPerSegment)];
                 OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pSprt[bufferIdx].mBase.header);
             }
         }
-
-        PSX_RECT* pRect = &mPsxDisplayRects[bufferIdx];
-        pRect->x = 32767;
-        pRect->w = -32767;
-        pRect->y = 32767;
-        pRect->h = -32767;
-
-        for (s32 i = 0; i < mNumberOfSegments; i++)
-        {
-            const PSX_Point* pPoint = &mSpritePositions[i * mNumberOfPiecesPerSegment];
-            for (s32 j = 0; j < mNumberOfPiecesPerSegment; j++)
-            {
-                if (pPoint->x < pRect->x)
-                {
-                    pRect->x = pPoint->x;
-                }
-
-                if (pPoint->x > pRect->w)
-                {
-                    pRect->w = pPoint->x;
-                }
-
-                if (pPoint->y < pRect->y)
-                {
-                    pRect->y = pPoint->y;
-                }
-
-                if (pPoint->y > pRect->h)
-                {
-                    pRect->h = pPoint->y;
-                }
-            }
-        }
-
-        pRect->x -= 25;
-        pRect->w += 25;
-        pRect->y -= 25;
-        pRect->h += 25;
     }
 }

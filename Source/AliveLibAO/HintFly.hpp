@@ -34,7 +34,6 @@ public:
 
     s32 field_D4[4] = {};
     HintFlyParticle* field_E8_pRes = nullptr;
-    Prim_SetTPage field_EC_tPages[2] = {};
     s32 field_10C_timer = 0;
 
     enum class State : s16

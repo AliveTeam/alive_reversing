@@ -71,8 +71,6 @@ public:
     virtual void ToggleFilterScreen() = 0;
     virtual void ToggleKeepAspectRatio() = 0;
 
-    // FG1/zaplines/blood/hintfly
-    virtual void Draw(Prim_Sprt& sprt) = 0;
     virtual void Draw(Prim_GasEffect& gasEffect) = 0;
 
     // AO: Spark/SnoozeParticle, AE: Spark/SnoozeParticle + ThrowableTotal

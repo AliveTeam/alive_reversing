@@ -26,10 +26,6 @@ static void DrawOTag_HandlePrimRendering(IRenderer& renderer, PrimAny& any)
 {
     switch (PSX_Prim_Code_Without_Blending_Or_SemiTransparency(any.mPrimHeader->rgb_code.code_or_pad))
     {
-        case PrimTypeCodes::eSprt:
-            renderer.Draw(*any.mSprt);
-            break;
-
         case PrimTypeCodes::eLineG2:
             renderer.Draw(*any.mLineG2);
             break;

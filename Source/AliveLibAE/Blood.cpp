@@ -43,14 +43,8 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
         mBloodXPos = FP_GetExponent(xpos - FP_FromInteger(12) - pScreenManager->CamXPos());
         mBloodYPos = FP_GetExponent(ypos - FP_FromInteger(12) - pScreenManager->CamYPos());
 
-      
-        u8 u0 = 0; //mAnim.mVramRect.x & 63;
-        u8 v0 = 0; //mAnim.mVramRect.y & 0xFF;
-
-        const PerFrameInfo* pFrameHeader = GetAnimation().Get_FrameHeader(-1);
-
-        const u32 frameW = pFrameHeader->mWidth;
-        const u32 frameH = pFrameHeader->mHeight;
+        const u8 u0 = 0;// mAnim.mVramRect.x & 0x3F;
+        const u8 v0 = 0;//mAnim.mVramRect.y & 0xFF;
 
         GetAnimation().mFlags.Set(AnimFlags::eBlending);
 
@@ -59,8 +53,8 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
             for (s32 j = 0; j < 2; j++)
             {
                 BloodParticle* pParticle = &mBloodParticle[i];
-                Prim_Sprt* pSprt = &pParticle->field_10_prims[j];
-                Sprt_Init(pSprt);
+                Poly_FT4* pSprt = &pParticle->field_10_prims[j];
+                PolyFT4_Init(pSprt);
                 Poly_Set_SemiTrans(&pSprt->mBase.header, 1);
 
                 if (GetAnimation().mFlags.Get(AnimFlags::eBlending))
@@ -77,8 +71,6 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
                 pSprt->mAnim = &GetAnimation();
 
                 SetUV0(pSprt, u0, v0);
-                pSprt->field_14_w = static_cast<s16>(frameW - 1);
-                pSprt->field_16_h = static_cast<s16>(frameH - 1);
             }
         }
 
@@ -150,34 +142,22 @@ void Blood::VRender(PrimHeader** ppOt)
             mYPos,
             0))
     {
-        const auto bufferIdx = gPsxDisplay.mBufferIndex;
-        const s32 calcTPage = PSX_getTPage(TPageAbr::eBlend_0);
-
-        Prim_SetTPage* pTPage = &mTPages[bufferIdx];
-        Init_SetTPage(pTPage, 0, 0, calcTPage);
-        OrderingTable_Add(OtLayer(ppOt, mOtLayer), &pTPage->mBase);
-
-        PSX_Point xy = {32767, 32767};
-        PSX_Point wh = {-32767, -32767};
-
         for (s32 i = 0; i < mCurrentBloodCount; i++)
         {
             BloodParticle* pParticle = &mBloodParticle[i];
-            Prim_Sprt* pSprt = &pParticle->field_10_prims[gPsxDisplay.mBufferIndex];
+            Poly_FT4* pSprt = &pParticle->field_10_prims[gPsxDisplay.mBufferIndex];
 
             const u8 u0 = 0; // mAnim.mVramRect.x & 63;
 
             SetUV0(pSprt, u0, 0 /*static_cast<u8>(mAnim.mVramRect.y)*/);
+            SetTPage(pSprt, static_cast<u16>(PSX_getTPage(TPageAbr::eBlend_0)));
 
             const PerFrameInfo* pFrameHeader = GetAnimation().Get_FrameHeader(-1);
-
-            pSprt->field_14_w = static_cast<s16>(pFrameHeader->mWidth - 1);
-            pSprt->field_16_h = static_cast<s16>(pFrameHeader->mHeight - 1);
 
             const s16 x0 = PsxToPCX(FP_GetExponent(pParticle->x));
             const s16 y0 = FP_GetExponent(pParticle->y);
 
-            SetXY0(pSprt, x0, y0);
+            SetXYWH(pSprt, x0, y0, static_cast<s16>(pFrameHeader->mWidth - 1), static_cast<s16>(pFrameHeader->mHeight - 1));
 
             if (!GetAnimation().mFlags.Get(AnimFlags::eBlending))
             {
@@ -186,12 +166,6 @@ void Blood::VRender(PrimHeader** ppOt)
             }
 
             OrderingTable_Add(OtLayer(ppOt, mOtLayer), &pSprt->mBase.header);
-
-            xy.x = std::min(x0, xy.x);
-            xy.y = std::min(y0, xy.y);
-
-            wh.x = std::max(x0, wh.x);
-            wh.y = std::max(y0, wh.y);
         }
     }
 }

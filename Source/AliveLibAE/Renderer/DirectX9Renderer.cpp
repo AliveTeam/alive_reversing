@@ -457,44 +457,32 @@ void DirectX9Renderer::SetClip(Prim_PrimClipper& clipper)
 
 void DirectX9Renderer::SetScreenOffset(Prim_ScreenOffset& /*offset*/)
 {
+    // TODO
 }
 
 void DirectX9Renderer::ToggleFilterScreen()
 {
+    // TODO
 }
 
 void DirectX9Renderer::ToggleKeepAspectRatio()
 {
-}
-
-// TODO: Bin off and use Poly_FT4's instead
-void DirectX9Renderer::Draw(Prim_Sprt& sprt)
-{
-    Poly_FT4 p = {};
-    SetRGB0(&p, R0(&sprt), G0(&sprt), B0(&sprt));
-    SetXYWH(&p, X0(&sprt), Y0(&sprt), sprt.field_14_w, sprt.field_16_h);
-    p.mAnim = sprt.mAnim;
-
-    // HACK/TODO this is all wrong, remove it
-    const s32 tPage = PSX_getTPage(TPageAbr::eBlend_0);
-
-    ::SetTPage(&p, static_cast<s16>(tPage));
-    Poly_Set_SemiTrans(&p.mBase.header,1);
-    Poly_Set_Blending(&p.mBase.header, 0);
-    Draw(p);
-
+    // TODO
 }
 
 void DirectX9Renderer::Draw(Prim_GasEffect& /*gasEffect*/)
 {
+    // TODO
 }
 
 void DirectX9Renderer::Draw(Line_G2& /*line*/)
 {
+    // TODO
 }
 
 void DirectX9Renderer::Draw(Line_G4& /*line*/)
 {
+    // TODO
 }
 
 

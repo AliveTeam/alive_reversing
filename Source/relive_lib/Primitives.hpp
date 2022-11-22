@@ -2,7 +2,6 @@
 
 #include "../relive_lib/Layer.hpp"
 
-struct Prim_Sprt;
 struct Poly_G3;
 struct Poly_G4;
 struct Prim_SetTPage;
@@ -12,8 +11,6 @@ struct PSX_RECT;
 struct PSX_Pos16;
 struct PrimHeader;
 struct Poly_FT4;
-
-void Sprt_Init(Prim_Sprt* pPrim);
 
 void PolyG3_Init(Poly_G3* pPoly);
 void PolyG4_Init(Poly_G4* pPoly);

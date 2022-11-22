@@ -10,7 +10,7 @@ struct BloodParticle final
     FP y;
     FP mOffX;
     FP mOffY;
-    Prim_Sprt field_10_prims[2];
+    Poly_FT4 field_10_prims[2];
 };
 ALIVE_ASSERT_SIZEOF(BloodParticle, 0x40);
 
@@ -26,7 +26,6 @@ public:
 
 private:
     BloodParticle* mBloodParticle = nullptr;
-    Prim_SetTPage mTPages[2] = {};
     s16 mBloodXPos = 0;
     s16 mBloodYPos = 0;
     s16 mCurrentBloodCount = 0;

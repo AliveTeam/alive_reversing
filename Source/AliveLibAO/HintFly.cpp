@@ -107,7 +107,7 @@ struct HintFlyParticle final
     s8 field_20_angle;
     s8 field_21_angle_speed;
     s8 field_22_timer;
-    Prim_Sprt field_24_sprt[2];
+    Poly_FT4 field_24_sprt[2];
 };
 ALIVE_ASSERT_SIZEOF(HintFlyParticle, 0x54);
 
@@ -1408,9 +1408,9 @@ HintFly::HintFly(relive::Path_HintFly* pTlv, const Guid& tlvId)
         {
             for (s32 j = 0; j < 2; j++)
             {
-                Prim_Sprt* pSprt = &field_E8_pRes[i].field_24_sprt[j];
+                Poly_FT4* pSprt = &field_E8_pRes[i].field_24_sprt[j];
 
-                Sprt_Init(pSprt);
+                PolyFT4_Init(pSprt);
 
                 Poly_Set_SemiTrans(&pSprt->mBase.header, 1);
                 Poly_Set_Blending(&pSprt->mBase.header, 1);
@@ -1418,8 +1418,7 @@ HintFly::HintFly(relive::Path_HintFly* pTlv, const Guid& tlvId)
                 SetUV0(pSprt, vram_x & 0xFF, 0 /* mAnim.mVramRect.y & 0xFF*/);
 
                 pSprt->mAnim = &GetAnimation();
-                pSprt->field_14_w = static_cast<s16>(pHeader->mWidth - 1);
-                pSprt->field_16_h = static_cast<s16>(pHeader->mHeight - 1);
+                SetXYWH(pSprt, 0, 0, static_cast<s16>(pHeader->mWidth - 1), static_cast<s16>(pHeader->mHeight - 1));
             }
         }
 
@@ -1780,61 +1779,22 @@ void HintFly::VUpdate()
 
 void HintFly::VRender(PrimHeader** ppOt)
 {
-   // Prim_SetTPage* pTPage = &field_EC_tPages[gPsxDisplay.mBufferIndex];
-
-    PSX_RECT rect = {};
-    rect.x = -32768;
-    rect.w = -32767;
-    rect.y = -32768;
-    rect.h = -32767;
-
     for (s32 i = 0; i < field_118_counter; i++)
     {
         HintFlyParticle* pParticle = &field_E8_pRes[i];
-        Prim_Sprt* pSprt = &pParticle->field_24_sprt[gPsxDisplay.mBufferIndex];
+        Poly_FT4* pSprt = &pParticle->field_24_sprt[gPsxDisplay.mBufferIndex];
 
         const s16 flyX = FP_GetExponent(PsxToPCX(pParticle->field_0_xpos, FP_FromInteger(11)));
         const s16 flyY = FP_GetExponent(pParticle->field_4_ypos);
 
-        SetXY0(pSprt, flyX, flyY);
+        const s16 flyW = static_cast<s16>(abs(X0(&pSprt[0]) - X3(&pSprt[0])));
+        const s16 flyH = static_cast<s16>(abs(Y0(&pSprt[0]) - Y3(&pSprt[0])));
+
+        SetXYWH(pSprt, flyX, flyY, flyW, flyH);
+        SetTPage(pSprt, static_cast<u16>(PSX_getTPage(TPageAbr::eBlend_1)));
 
         OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_Above_FG1_39), &pSprt->mBase.header);
-
-        if (flyX < rect.x)
-        {
-            rect.x = flyX;
-        }
-
-        if (flyX > rect.w)
-        {
-            rect.w = flyX;
-        }
-
-        if (flyY < rect.y)
-        {
-            rect.y = flyY;
-        }
-
-        if (flyY > rect.h)
-        {
-            rect.h = flyY;
-        }
     }
-
-    /*
-    // TODO: Just set anim ptr
-    s16 tPageY = 256;
-    if (!mAnim.mFlags.Get(AnimFlags::eBit10_alternating_flag) && mAnim.mVramRect.y < 256u)
-    {
-        tPageY = 0;
-    }
-
-    const s32 tpage = PSX_getTPage(field_110_bitMode, TPageAbr::eBlend_1, mAnim.mVramRect.x & 0xFFC0, tPageY);
-
-    Init_SetTPage(pTPage, 0, 0, tpage);
-    OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_Above_FG1_39), &pTPage->mBase);
-    */
-
 }
 
 } // namespace AO

@@ -25,7 +25,6 @@ namespace AO
 
 static bool gRenderEnable_Batching = true;
 
-static bool gRenderEnable_SPRT = true;
 static bool gRenderEnable_GAS = true;
 static bool gRenderEnable_FT4 = true;
 static bool gRenderEnable_G4 = true;
@@ -254,47 +253,6 @@ void OpenGLRenderer::Clear(u8 r, u8 g, u8 b)
     {
         GL_VERIFY(glEnable(GL_SCISSOR_TEST));
     }
-}
-
-void OpenGLRenderer::Draw(Prim_Sprt& sprt)
-{
-    if (!gRenderEnable_SPRT)
-    {
-        return;
-    }
-
-    std::shared_ptr<TgaData> pTga = sprt.mAnim->mAnimRes.mTgaPtr;
-
-    const u32 sprtTextureId = PrepareTextureFromAnim(*sprt.mAnim);
-    const u32 palIndex = PreparePalette(*sprt.mAnim->mAnimRes.mCurPal);
-
-    u32 r = sprt.mBase.header.rgb_code.r;
-    u32 g = sprt.mBase.header.rgb_code.g;
-    u32 b = sprt.mBase.header.rgb_code.b;
-
-    u32 sprtW = (u32) sprt.field_14_w;
-    u32 sprtH = (u32) sprt.field_16_h;
-
-    u32 texW = pTga->mWidth;
-    u32 texH = pTga->mHeight;
-
-    u32 u0 = U0(&sprt);
-    u32 v0 = V0(&sprt);
-
-    u32 u1 = U0(&sprt) + sprtW;
-    u32 v1 = V0(&sprt) + sprtH;
-
-    const bool isSemiTrans = GetPolyIsSemiTrans(&sprt);
-    const bool isShaded = GetPolyIsShaded(&sprt);
-    const u16 blendMode = GetTPageBlendMode(mGlobalTPage);
-
-    VertexData verts[4] = {
-        {sprt.mBase.vert.x, sprt.mBase.vert.y, r, g, b, u0, v0, texW, texH, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded, blendMode, palIndex, 0},
-        {sprt.mBase.vert.x + sprt.field_14_w, sprt.mBase.vert.y, r, g, b, u1, v0, texW, texH, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded, blendMode, palIndex, 0},
-        {sprt.mBase.vert.x, sprt.mBase.vert.y + sprt.field_16_h, r, g, b, u0, v1, texW, texH, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded, blendMode, palIndex, 0},
-        {sprt.mBase.vert.x + sprt.field_14_w, sprt.mBase.vert.y + sprt.field_16_h, r, g, b, u1, v1, texW, texH, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded, blendMode, palIndex, 0}};
-
-    PushVertexData(verts, 4, sprtTextureId);
 }
 
 void OpenGLRenderer::Draw(Prim_GasEffect& gasEffect)
@@ -1243,7 +1201,6 @@ void OpenGLRenderer::DebugWindow()
 
             if (ImGui::BeginMenu("Render Elements"))
             {
-                ImGui::MenuItem("SPRT", nullptr, &gRenderEnable_SPRT);
                 ImGui::MenuItem("GAS", nullptr, &gRenderEnable_GAS);
                 ImGui::MenuItem("FT4", nullptr, &gRenderEnable_FT4);
                 ImGui::MenuItem("G4", nullptr, &gRenderEnable_G4);

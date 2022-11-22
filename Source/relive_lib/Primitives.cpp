@@ -27,17 +27,6 @@ void InitType_ScreenOffset(Prim_ScreenOffset* pPrim, const PSX_Pos16* pOffset)
     pPrim->field_E_yoff = pOffset->y;
 }
 
-
-void Sprt_Init(Prim_Sprt* pPrim)
-{
-    SetNumLongs(&pPrim->mBase.header, 4);
-    SetUnknown(&pPrim->mBase.header);
-    SetCode(&pPrim->mBase.header, PrimTypeCodes::eSprt);
-    pPrim->mAnim = nullptr;
-}
-
-
-
 void PolyG3_Init(Poly_G3* pPrim)
 {
     SetNumLongs(&pPrim->mBase.header, 6);

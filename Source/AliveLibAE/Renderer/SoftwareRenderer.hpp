@@ -20,7 +20,6 @@ public:
     void SetScreenOffset(Prim_ScreenOffset& offset) override;
     void ToggleFilterScreen() override;
     void ToggleKeepAspectRatio() override;
-    void Draw(Prim_Sprt& sprt) override;
     void Draw(Prim_GasEffect& gasEffect) override;
     void Draw(Line_G2& line) override;
     void Draw(Line_G4& line) override;
