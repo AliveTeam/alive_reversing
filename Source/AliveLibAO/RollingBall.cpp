@@ -14,6 +14,7 @@
 #include "Abe.hpp"
 #include "Midi.hpp"
 #include "Grid.hpp"
+#include "../relive_lib/ObjectIds.hpp"
 
 namespace AO {
 
@@ -34,12 +35,7 @@ RollingBall::~RollingBall()
         Path::TLV_Reset(field_10C_tlvInfo, -1, 0, 0);
     }
 
-    if (mRollingBallShaker)
-    {
-        mRollingBallShaker->mStopShaking = true;
-        mRollingBallShaker->mBaseGameObjectRefCount--;
-        mRollingBallShaker = nullptr;
-    }
+    KillRollingBallShaker();
 }
 
 RollingBall::RollingBall(relive::Path_RollingBall* pTlv, const Guid& tlvId)
@@ -99,7 +95,7 @@ RollingBall::RollingBall(relive::Path_RollingBall* pTlv, const Guid& tlvId)
     MapFollowMe(true);
     field_10C_tlvInfo = tlvId;
     mState = States::eInactive;
-    mRollingBallShaker = nullptr;
+    mRollingBallShakerId = {};
 
     CreateShadow();
 
@@ -128,10 +124,10 @@ void RollingBall::VUpdate()
                 mVelY = FP_FromDouble(2.5);
                 mState = States::eStartRolling;
                 GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Stone_Ball_Rolling));
-                mRollingBallShaker = relive_new RollingBallShaker();
-                if (mRollingBallShaker)
+                auto pRollingBallShaker = relive_new RollingBallShaker();
+                if (pRollingBallShaker)
                 {
-                    mRollingBallShaker->mBaseGameObjectRefCount++;
+                    mRollingBallShakerId = pRollingBallShaker->mBaseGameObjectId;
                 }
             }
             else if (!gMap.Is_Point_In_Current_Camera(
@@ -199,18 +195,13 @@ void RollingBall::VUpdate()
 
             if (EventGet(kEventDeathReset))
             {
-                mRollingBallShaker->mBaseGameObjectRefCount--;
-                mRollingBallShaker->mStopShaking = true;
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-                mRollingBallShaker = nullptr;
+                KillRollingBallShaker();
             }
             else if (!BaseAliveGameObjectCollisionLine)
             {
                 mState = States::eFallingAndHittingWall;
 
-                mRollingBallShaker->mBaseGameObjectRefCount--;
-                mRollingBallShaker->mStopShaking = true;
-                mRollingBallShaker = nullptr;
+                KillRollingBallShaker();
 
                 mXPos += mVelX;
                 BaseAliveGameObjectLastLineYPos = mYPos;
@@ -394,5 +385,17 @@ void RollingBall::CrushThingsInTheWay()
         }
     }
 }
+
+void RollingBall::KillRollingBallShaker() 
+{
+    if (mRollingBallShakerId.IsValid())
+    {
+        auto pShaker = static_cast<RollingBallShaker*>(sObjectIds.Find_Impl(mRollingBallShakerId));
+        pShaker->mStopShaking = true;
+        pShaker->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        mRollingBallShakerId = {};
+    }
+}
+
 
 } // namespace AO

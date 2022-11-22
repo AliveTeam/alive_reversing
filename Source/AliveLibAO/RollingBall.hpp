@@ -35,9 +35,12 @@ public:
         eCrushedBees
     };
     States mState = States::eInactive;
-    RollingBallShaker* mRollingBallShaker = nullptr;
+    Guid mRollingBallShakerId;
     FP mMaxSpeed = {};
     FP mAcceleration = {};
+
+private:
+    void KillRollingBallShaker();
 };
 
 
