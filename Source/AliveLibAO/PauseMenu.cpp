@@ -633,8 +633,8 @@ void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry* entry, s16 selectedEn
             640,
             0);
     }
-    Poly_F4* pPrim = &field_158[gPsxDisplay.mBufferIndex];
-    PolyF4_Init(pPrim);
+    Poly_G4* pPrim = &field_158[gPsxDisplay.mBufferIndex];
+    PolyG4_Init(pPrim);
     Poly_Set_SemiTrans(&pPrim->mBase.header, 1);
     Poly_Set_Blending(&pPrim->mBase.header, 0);
     u8 color = 0x64;
@@ -643,6 +643,8 @@ void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry* entry, s16 selectedEn
         color = 160;
     }
     SetRGB0(pPrim, color, color, color);
+    SetRGB1(pPrim, color, color, color);
+    SetRGB2(pPrim, color, color, color);
     SetXY0(pPrim, 0, 0);
     SetXY1(pPrim, 640, 0);
     SetXY2(pPrim, 0, 240);

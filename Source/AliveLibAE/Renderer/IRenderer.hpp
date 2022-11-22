@@ -84,9 +84,6 @@ public:
     // MainMenuTransistion
     virtual void Draw(Poly_G3& poly) = 0;
 
-    // PauseMenu, ability ring
-    virtual void Draw(Poly_F4& poly) = 0;
-
     // FG1, Animation, Font, ScreenWave, Water
     virtual void Draw(Poly_FT4& poly) = 0;
 

@@ -52,13 +52,6 @@ void PolyG4_Init(Poly_G4* pPrim)
     SetCode(&pPrim->mBase.header, PrimTypeCodes::ePolyG4);
 }
 
-void PolyF4_Init(Poly_F4* pPrim)
-{
-    SetNumLongs(&pPrim->mBase.header, 5);
-    SetUnknown(&pPrim->mBase.header);
-    SetCode(&pPrim->mBase.header, PrimTypeCodes::ePolyF4);
-}
-
 void Poly_FT4_Get_Rect(PSX_RECT* pRect, const Poly_FT4* pPoly)
 {
     if (PSX_Prim_Code_Without_Blending_Or_SemiTransparency(pPoly->mBase.header.rgb_code.code_or_pad) == PrimTypeCodes::ePolyFT4)

@@ -140,7 +140,7 @@ public:
     PauseMenu::PauseMenuPage field_144_active_menu = {};
     Animation field_158_animation = {};
     Prim_SetTPage field_1F0_primitives[2] = {};
-    Poly_F4 field_210_polygons[2] = {};
+    Poly_G4 field_210_polygons[2] = {};
     Prim_SetTPage field_248_padding[2] = {};
 };
 

@@ -352,14 +352,13 @@ void PauseMenu::VRender(PrimHeader** ot)
 
     // Draw a full screen polygon that "dims" out the screen while paused
     Prim_SetTPage* pTPage = &field_1F0_primitives[gPsxDisplay.mBufferIndex];
-    Poly_F4* pPolys = &field_210_polygons[gPsxDisplay.mBufferIndex];
-    PolyF4_Init(pPolys);
+    Poly_G4* pPolys = &field_210_polygons[gPsxDisplay.mBufferIndex];
+    PolyG4_Init(pPolys);
     Poly_Set_SemiTrans(&pPolys->mBase.header, true);
     Poly_Set_Blending(&pPolys->mBase.header, false);
-    SetRGB0(pPolys,
-            field_144_active_menu.field_E_background_r,
-            field_144_active_menu.field_F_background_g,
-            field_144_active_menu.field_10_background_b);
+    SetRGB0(pPolys, field_144_active_menu.field_E_background_r, field_144_active_menu.field_F_background_g, field_144_active_menu.field_10_background_b);
+    SetRGB1(pPolys, field_144_active_menu.field_E_background_r, field_144_active_menu.field_F_background_g, field_144_active_menu.field_10_background_b);
+    SetRGB2(pPolys, field_144_active_menu.field_E_background_r, field_144_active_menu.field_F_background_g, field_144_active_menu.field_10_background_b);
     SetXY0(pPolys, 0, 0);
     SetXY1(pPolys, 640, 0);
     SetXY2(pPolys, 0, 240);

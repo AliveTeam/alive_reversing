@@ -102,13 +102,6 @@ struct FVertWrapper final
     FVert mVert;
 };
 
-struct Poly_F4 final
-{
-    Poly_Base mBase;
-    FVertWrapper mVerts[3];
-};
-ALIVE_ASSERT_SIZEOF(Poly_F4, 0x1C);
-
 struct Poly_FT4 final
 {
     Poly_Base mBase;
@@ -197,7 +190,6 @@ enum PrimTypeCodes
     ePolyG3 = 0x30,  // 0b1[1][0][0]00
 
     //                         F  4  T
-    ePolyF4 = 0x28,  // 0b1[0][1][0]00
     ePolyFT4 = 0x2C, // 0b1[0][1][1]00
 
     //                         G  4  T
@@ -232,7 +224,6 @@ union PrimAny
 
     Poly_G3* mPolyG3;
 
-    Poly_F4* mPolyF4;
     Poly_FT4* mPolyFT4;
     Poly_G4* mPolyG4;
 
@@ -581,8 +572,6 @@ void LineG2_Init(Line_G2* pLine);
 void LineG4_Init(Line_G4* pLine);
 
 void PolyFT4_Init(Poly_FT4* pPrim);
-
-void PolyF4_Init(Poly_F4* pPrim);
 
 s32 PSX_Prim_Code_Without_Blending_Or_SemiTransparency(s32 code);
 

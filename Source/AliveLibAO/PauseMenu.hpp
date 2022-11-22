@@ -48,7 +48,7 @@ public:
     s16 field_134 = 0;
     s16 field_136 = 0;
     Prim_SetTPage field_138_tPage[2] = {};
-    Poly_F4 field_158[2] = {};
+    Poly_G4 field_158[2] = {};
 };
 
 extern PauseMenu* gPauseMenu;

@@ -506,14 +506,6 @@ void DirectX9Renderer::Draw(Poly_G3& poly)
     DrawTris(nullptr, 0, vi, 0.0f, 0.0f, 0.0f, 0.0f, 1);
 }
 
-void DirectX9Renderer::Draw(Poly_F4& poly)
-{
-    mDevice->SetPixelShader(mFlatShader);
-
-    auto vi = VertexInfo::QQuad(0, GetTPageBlendMode(mGlobalTPage), poly);
-    DrawTris(nullptr, 0, vi, 0.0f, 0.0f, 0.0f, 0.0f, 2);
-}
-
 void DirectX9Renderer::SetupBlendMode(u16 blendMode)
 {
     if ((TPageAbr) blendMode == TPageAbr::eBlend_2)
@@ -618,9 +610,12 @@ void DirectX9Renderer::Draw(Poly_FT4& poly)
     }
 }
 
-void DirectX9Renderer::Draw(Poly_G4& /*poly*/)
+void DirectX9Renderer::Draw(Poly_G4& poly)
 {
+    mDevice->SetPixelShader(mFlatShader);
 
+    auto vi = VertexInfo::QQuad(0, GetTPageBlendMode(mGlobalTPage), poly);
+    DrawTris(nullptr, 0, vi, 0.0f, 0.0f, 0.0f, 0.0f, 2);
 }
 
 static float FromBool(const bool v)

@@ -246,59 +246,6 @@ void SoftwareRenderer::Draw(Poly_G3& poly)
     SDL_RenderGeometry(mRenderer, nullptr, vert, 3, nullptr, 0);
 }
 
-void SoftwareRenderer::Draw(Poly_F4& poly)
-{
-    SDL_Vertex vert[4];
-
-    // TODO: Why isn't this semi transparent when a= 127 for the pause menu ??
-    // need 1x1 white pixel texture
-    const u8 a = (poly.mBase.header.rgb_code.code_or_pad & 2) ? 127 : 255;
-    if (a == 127)
-    {
-        SDL_SetRenderDrawBlendMode(mRenderer, SDL_BLENDMODE_BLEND);
-    }
-    /*
-    u32 tPageAbr = ((u32) tPage >> 5) & 3;
-    switch (tPageAbr)
-    {
-
-    }*/
-
-    // center
-    vert[0].position.x = X0(&poly);
-    vert[0].position.y = Y0(&poly) * 2.0f;
-    vert[0].color.r = R0(&poly);
-    vert[0].color.g = G0(&poly);
-    vert[0].color.b = B0(&poly);
-    vert[0].color.a = a;
-
-    // left
-    vert[1].position.x = X1(&poly);
-    vert[1].position.y = Y1(&poly) * 2.0f;
-    vert[1].color.r = R0(&poly);
-    vert[1].color.g = G0(&poly);
-    vert[1].color.b = B0(&poly);
-    vert[1].color.a = a;
-
-    // right
-    vert[2].position.x = X2(&poly);
-    vert[2].position.y = Y2(&poly) * 2.0f;
-    vert[2].color.r = R0(&poly);
-    vert[2].color.g = G0(&poly);
-    vert[2].color.b = B0(&poly);
-    vert[2].color.a = a;
-
-    vert[3].position.x = X3(&poly);
-    vert[3].position.y = Y3(&poly) * 2.0f;
-    vert[3].color.r = R0(&poly);
-    vert[3].color.g = G0(&poly);
-    vert[3].color.b = B0(&poly);
-    vert[3].color.a = a;
-
-    s32 indexList[6] = {0, 1, 2, 2, 1, 3};
-    SDL_RenderGeometry(mRenderer, nullptr, vert, 4, indexList, 6);
-}
-
 static SDL_Texture* MakeTexture(SDL_Renderer* pRender, const AnimationPal& pPal, const u8* pPixels, u32 w, u32 h)
 {
     SDL_Surface* surface = SDL_CreateRGBSurfaceWithFormat(0,

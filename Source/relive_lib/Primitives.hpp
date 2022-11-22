@@ -5,7 +5,6 @@
 struct Prim_Sprt;
 struct Poly_G3;
 struct Poly_G4;
-struct Poly_F4;
 struct Prim_SetTPage;
 struct Prim_PrimClipper;
 struct Prim_ScreenOffset;
@@ -18,7 +17,6 @@ void Sprt_Init(Prim_Sprt* pPrim);
 
 void PolyG3_Init(Poly_G3* pPoly);
 void PolyG4_Init(Poly_G4* pPoly);
-void PolyF4_Init(Poly_F4* pPoly);
 
 
 void Init_SetTPage(Prim_SetTPage* pPrim, s32 /*notUsed1*/, s32 /*notUsed2*/, s32 tpage);

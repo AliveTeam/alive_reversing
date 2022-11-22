@@ -41,7 +41,7 @@ class BaseAliveGameObject;
 
 struct AbilityRing_PolyBuffer final
 {
-    Poly_F4 mPolys[2];
+    Poly_G4 mPolys[2];
 };
 ALIVE_ASSERT_SIZEOF(AbilityRing_PolyBuffer, 56);
 

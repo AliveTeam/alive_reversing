@@ -31,7 +31,6 @@ static bool gRenderEnable_FT4 = true;
 static bool gRenderEnable_G4 = true;
 static bool gRenderEnable_G3 = true;
 static bool gRenderEnable_G2 = true;
-static bool gRenderEnable_F4 = true;
 
 static const f32 pi = 3.14f;
 static const f32 halfPi = 1.57f;
@@ -394,30 +393,6 @@ void OpenGLRenderer::Draw(Poly_G3& poly)
         {X2(&poly), Y2(&poly), R2(&poly), G2(&poly), B2(&poly), 0, 0, 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded, blendMode, 0, 0}};
 
     PushVertexData(verts, 3);
-}
-
-void OpenGLRenderer::Draw(Poly_F4& poly)
-{
-    if (!gRenderEnable_F4)
-    {
-        return;
-    }
-
-    const u32 r = R0(&poly);
-    const u32 g = G0(&poly);
-    const u32 b = B0(&poly);
-
-    bool isSemiTrans = GetPolyIsSemiTrans(&poly);
-    bool isShaded = true;
-    u32 blendMode = GetTPageBlendMode(mGlobalTPage);
-
-    VertexData verts[4] = {
-        {X0(&poly), Y0(&poly), r, g, b, 0, 0, 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded, blendMode, 0, 0},
-        {X1(&poly), Y1(&poly), r, g, b, 0, 0, 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded, blendMode, 0, 0},
-        {X2(&poly), Y2(&poly), r, g, b, 0, 0, 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded, blendMode, 0, 0},
-        {X3(&poly), Y3(&poly), r, g, b, 0, 0, 0, 0, GL_PSX_DRAW_MODE_FLAT, isSemiTrans, isShaded, blendMode, 0, 0}};
-
-    PushVertexData(verts, 4);
 }
 
 void OpenGLRenderer::Draw(Poly_FT4& poly)
@@ -1274,7 +1249,6 @@ void OpenGLRenderer::DebugWindow()
                 ImGui::MenuItem("G4", nullptr, &gRenderEnable_G4);
                 ImGui::MenuItem("G3", nullptr, &gRenderEnable_G3);
                 ImGui::MenuItem("G2", nullptr, &gRenderEnable_G2);
-                ImGui::MenuItem("F4", nullptr, &gRenderEnable_F4);
 
                 #if GL_DEBUG > 0
                 ImGui::MenuItem("gl_debug", nullptr, &gGlDebug);
