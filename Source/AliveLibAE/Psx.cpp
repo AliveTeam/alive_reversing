@@ -18,7 +18,6 @@ static s32 sVSyncLastMillisecond_BD0F2C = 0;
 static s32 sLastFrameTimestampMilliseconds_BD0F24 = 0;
 static TPsxEmuCallBack sPsxEmu_put_disp_env_callback_C1D184 = nullptr;
 
-PSX_DRAWENV sPSX_EMU_DrawEnvState_C3D080 = {};
 u8 turn_off_rendering_BD0F20 = 0;
 
 void PSX_EMU_SetCallBack_4F9430(TPsxEmuCallBack fnPtr)
@@ -52,45 +51,8 @@ void PSX_PutDispEnv_4F58E0()
     }
 }
 
-void PSX_SetDefDrawEnv_4F5AA0(PSX_DRAWENV* pDrawEnv, s16 x, s16 y, s16 w, s16 h)
-{
-    PSX_DRAWENV drawEnv = {};
-    drawEnv.field_0_clip.x = x;
-    drawEnv.field_0_clip.y = y;
 
-    drawEnv.field_8_ofs[0] = x;
-    drawEnv.field_8_ofs[1] = y;
-
-    drawEnv.field_0_clip.w = w;
-    drawEnv.field_0_clip.h = h;
-
-    drawEnv.field_16_dtd = 1;
-    drawEnv.field_17_dfe = 1;
-
-    drawEnv.field_C_tw.x = 0;
-    drawEnv.field_C_tw.y = 0;
-
-    drawEnv.field_C_tw.w = 640;
-    drawEnv.field_C_tw.h = 0;
-
-    drawEnv.field_14_tpage = 0;
-
-    drawEnv.field_18_isbg = 0;
-    drawEnv.field_19_r0 = 0;
-    drawEnv.field_1A_g0 = 0;
-    drawEnv.field_1B_b0 = 0;
-
-    if (pDrawEnv)
-    {
-        memcpy(pDrawEnv, &drawEnv, sizeof(PSX_DRAWENV));
-    }
-    else
-    {
-        ALIVE_FATAL("SetDefDrawEnv(): env == NULL");
-    }
-}
-
-void PSX_SetDefDispEnv_4F55A0(PSX_DISPENV* pOutEnv, s16 x, s16 y, s16 w, s16 h)
+void PSX_SetDefDispEnv_4F55A0(PSX_DISPENV* pOutEnv)
 {
     if (!pOutEnv)
     {
@@ -99,10 +61,6 @@ void PSX_SetDefDispEnv_4F55A0(PSX_DISPENV* pOutEnv, s16 x, s16 y, s16 w, s16 h)
     }
 
     PSX_DISPENV defEnv = {};
-    defEnv.disp.x = x;
-    defEnv.disp.y = y;
-    defEnv.disp.h = h;
-    defEnv.disp.w = w;
     defEnv.screen.w = 256;
     defEnv.screen.h = 240;
     memcpy(pOutEnv, &defEnv, sizeof(PSX_DISPENV));
@@ -122,18 +80,6 @@ void PSX_PutDispEnv_4F5890()
     if (sPsxEmu_put_disp_env_callback_C1D184)
     {
         sPsxEmu_put_disp_env_callback_C1D184(1);
-    }
-}
-
-void PSX_PutDrawEnv_4F5980(const PSX_DRAWENV* pDrawEnv)
-{
-    if (pDrawEnv)
-    {
-        memcpy(&sPSX_EMU_DrawEnvState_C3D080, pDrawEnv, sizeof(sPSX_EMU_DrawEnvState_C3D080));
-    }
-    else
-    {
-        ALIVE_FATAL("PutDrawEnv(): env == NULL");
     }
 }
 

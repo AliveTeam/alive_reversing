@@ -190,11 +190,7 @@ void PsxDisplay::Init()
 
     PSX_ClearOTag(mDrawEnvs[0].mOrderingTable, mBufferSize);
     PSX_ClearOTag(mDrawEnvs[1].mOrderingTable, mBufferSize);
-    PSX_SetDefDrawEnv_4F5AA0(&mDrawEnvs[0].mDrawEnv, 0, 0, mWidth, mHeight);
-    PSX_SetDefDispEnv_4F55A0(&mDrawEnvs[0].mDisplayEnv, 0, 0, mWidth, mHeight);
-
-    mDrawEnvs[0].mDrawEnv.field_17_dfe = 1;
-    mDrawEnvs[1].mDrawEnv.field_17_dfe = 1;
+    PSX_SetDefDispEnv_4F55A0(&mDrawEnvs[0].mDisplayEnv);
 
     mDrawEnvs[1].mDisplayEnv.screen.x = 0;
     mDrawEnvs[0].mDisplayEnv.screen.x = 0;
@@ -205,7 +201,6 @@ void PsxDisplay::Init()
     mDrawEnvs[1].mDisplayEnv.screen.h = 240;
     mDrawEnvs[0].mDisplayEnv.screen.h = 240;
 
-    PSX_PutDrawEnv_4F5980(&mDrawEnvs[0].mDrawEnv);
     PSX_PutDispEnv_4F5890();
 
     PSX_VSync_4F6170(0);
@@ -224,7 +219,6 @@ void PsxDisplay::RenderOrderingTable()
     if (mMaxBuffers <= 1)
     {
         // Single buffered rendering
-        PSX_PutDrawEnv_4F5980(&mDrawEnvs[0].mDrawEnv);
         PSX_Calc_FrameSkip_4945D0();
         if (sCommandLine_NoFrameSkip)
         {

@@ -130,10 +130,7 @@ s32 Game_End_Frame_4950F0(u32 flags)
     const f64 fps = Calculate_FPS_495250(sFrameCount_5CA300);
     if (sCommandLine_ShowFps)
     {
-        DrawFps_4952F0(
-            sPSX_EMU_DrawEnvState_C3D080.field_0_clip.x + 4,
-            sPSX_EMU_DrawEnvState_C3D080.field_0_clip.y + 4,
-            static_cast<f32>(fps));
+        DrawFps_4952F0(10, 10, static_cast<f32>(fps));
     }
 
     Draw_Debug_Strings_4F2800();

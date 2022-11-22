@@ -209,7 +209,7 @@ void PSX_DrawOTag(PrimHeader** ppOt)
         return;
     }
 
-    if (DrawOTagImpl(ppOt, sPSX_EMU_DrawEnvState_C3D080.field_8_ofs[0], sPSX_EMU_DrawEnvState_C3D080.field_8_ofs[1]))
+    if (DrawOTagImpl(ppOt, 0, 0))
     {
         return;
     }

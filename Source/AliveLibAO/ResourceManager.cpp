@@ -29,10 +29,6 @@ void Game_ShowLoadingIcon_445EB0()
         pParticle->GetAnimation().SetRenderLayer(Layer::eLayer_0);
 
         PrimHeader* local_ot[42] = {};
-        PSX_DRAWENV drawEnv = {};
-
-        PSX_SetDefDrawEnv_4F5AA0(&drawEnv, 0, 0, 640, 240);
-        PSX_PutDrawEnv_4F5980(&drawEnv);
         PSX_ClearOTag(local_ot, 42);
 
         pParticle->GetAnimation().VRender(320, 220, local_ot, 0, 0);

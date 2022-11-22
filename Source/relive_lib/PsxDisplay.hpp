@@ -30,7 +30,6 @@ struct PrimHeader;
 class PSX_Display_Buffer final
 {
 public:
-    PSX_DRAWENV mDrawEnv;
     PSX_DISPENV mDisplayEnv;
     PrimHeader* mOrderingTable[256];
 };

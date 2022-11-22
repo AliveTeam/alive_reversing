@@ -57,32 +57,8 @@ struct PSX_Pos16 final
 };
 ALIVE_ASSERT_SIZEOF(PSX_Pos16, 0x4);
 
-struct PSX_DR_ENV final
-{
-    s32 field_0_tag;
-    s32 field_4_code[15];
-};
-// TODO: Size
-
-struct PSX_DRAWENV final
-{
-    PSX_RECT field_0_clip;
-    s16 field_8_ofs[2];
-    PSX_RECT field_C_tw;
-    u8 field_14_tpage;
-    s8 field_16_dtd;
-    s8 field_17_dfe;
-    s8 field_18_isbg;
-    s8 field_19_r0;
-    s8 field_1A_g0;
-    s8 field_1B_b0;
-    PSX_DR_ENV field_1C_dr_env;
-};
-// TODO: Size
-
 struct PSX_DISPENV final
 {
-    PSX_RECT disp;
     PSX_RECT screen;
     s8 isinter;
     s8 isrgb24;
