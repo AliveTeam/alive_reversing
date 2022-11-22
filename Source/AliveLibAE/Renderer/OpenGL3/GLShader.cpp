@@ -148,29 +148,23 @@ uniform vec2 fsTexSize;
 uniform sampler2D texTextureData;
 
 
-//
-// NOTE:
-//     Even though logically you would think to get RGB565
-//     we would scale by 31, 63, 31 - it looks more accurate
-//     to the original with 30, 62, 30...
-//
-int get565FromNormalized(in vec3 rgbInput)
+int get888FromNormalized(in vec3 rgbInput)
 {
-    int rValue = int(ceil(rgbInput.r * 30.0f));
-    int gValue = int(ceil(rgbInput.g * 62.0f));
-    int bValue = int(ceil(rgbInput.b * 30.0f));
+    int rValue = int(ceil(rgbInput.r * 255.0f));
+    int gValue = int(ceil(rgbInput.g * 255.0f));
+    int bValue = int(ceil(rgbInput.b * 255.0f));
 
-    rValue = rValue << 11;
-    gValue = gValue << 5;
+    rValue = rValue << 16;
+    gValue = gValue << 8;
 
     return rValue | gValue | bValue;
 }
 
-vec3 getNormalizedFrom565(in int rgbInput)
+vec3 getNormalizedFrom888(in int rgbInput)
 {
-    float rValue = float((rgbInput >> 11) & 0x1F) / 30.0f;
-    float gValue = float((rgbInput >> 5) & 0x3F) / 62.0f;
-    float bValue = float(rgbInput & 0x1F) / 30.0f;
+    float rValue = float((rgbInput >> 16) & 0xFF) / 255.0f;
+    float gValue = float((rgbInput >> 8) & 0xFF) / 255.0f;
+    float bValue = float(rgbInput & 0xFF) / 255.0f;
 
     return vec3(rValue, gValue, bValue);
 }
@@ -189,27 +183,21 @@ void main()
         vec4 aboveTexel = texture(texTextureData, getScaledUV(vec2(fsUV.x, fsUV.y + 1.0)));
         vec4 belowTexel = texture(texTextureData, getScaledUV(fsUV));
 
-        int aboveTexel565 = get565FromNormalized(aboveTexel.rgb);
-        int belowTexel565 = get565FromNormalized(belowTexel.rgb);
+        int aboveTexel888 = get888FromNormalized(aboveTexel.rgb);
+        int belowTexel888 = get888FromNormalized(belowTexel.rgb);
 
         // Do the bit rotation stuff
         int pixelResult =
-            (((aboveTexel565 & 0xF7DE) + (belowTexel565 & 0xF7DE)) >> 1) |
-            (aboveTexel565 & 0xF7DE, belowTexel565 & 0xF7DE) << 15;
+            (((aboveTexel888 & 0xF8F8F8) + (belowTexel888 & 0xF8F8F8)) >> 1) |
+            (aboveTexel888 & 0xF8F8F8, belowTexel888 & 0xF8F8F8) << 23;
 
-        pixelResult = pixelResult & 0xFFFF;
+        pixelResult = pixelResult & 0xFFFFFF;
 
-        outColor = vec4(getNormalizedFrom565(pixelResult), 1.0);
+        outColor = vec4(getNormalizedFrom888(pixelResult), 1.0);
     }
     else
     {
-        vec4 texel = texture(texTextureData, getScaledUV(fsUV));
-
-        outColor =
-           vec4(
-               getNormalizedFrom565(get565FromNormalized(texel.rgb)),
-               1.0
-           );
+        outColor = texture(texTextureData, getScaledUV(fsUV));
     }
 }
 )";
