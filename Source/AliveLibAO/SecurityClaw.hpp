@@ -50,7 +50,7 @@ public:
     s32 field_128_sound_channels = 0;
     s16 field_12C_pDetector = 0;
     s16 field_12E = 0;
-    Claw* mClaw = nullptr;
+    Guid mClawId;
     PSX_Point field_134_top_left = {};
     PSX_Point field_138_bottom_right = {};
     DynamicArrayT<MotionDetector>* field_13C_pArray;

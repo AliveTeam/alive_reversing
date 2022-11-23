@@ -14,6 +14,7 @@
 #include "Game.hpp"
 #include "../relive_lib/Flash.hpp"
 #include "../relive_lib/Events.hpp"
+#include "../relive_lib/ObjectIds.hpp"
 #include "Alarm.hpp"
 #include "ScreenShake.hpp"
 #include "PossessionFlicker.hpp"
@@ -98,15 +99,16 @@ SecurityClaw::SecurityClaw(relive::Path_SecurityClaw* pTlv, const Guid& tlvId)
 
     field_110_state = SecurityClawStates::eCamSwap_0;
 
-    mClaw = relive_new Claw();
-    if (mClaw)
+    auto pClaw = relive_new Claw();
+    if (pClaw)
     {
-        mClaw->SetSpriteScale(GetSpriteScale());
-        mClaw->GetAnimation().SetRenderLayer(GetSpriteScale() == FP_FromInteger(1) ? Layer::eLayer_ZapLinesElumMuds_28 : Layer::eLayer_ZapLinesMudsElum_Half_9);
+        pClaw->SetSpriteScale(GetSpriteScale());
+        pClaw->GetAnimation().SetRenderLayer(GetSpriteScale() == FP_FromInteger(1) ? Layer::eLayer_ZapLinesElumMuds_28 : Layer::eLayer_ZapLinesMudsElum_Half_9);
 
-        mClaw->mXPos = mClawX;
-        mClaw->mYPos = mClawY;
-        mClaw->SetTint(&kClawTints_4C5498[0], gMap.mCurrentLevel);
+        pClaw->mXPos = mClawX;
+        pClaw->mYPos = mClawY;
+        pClaw->SetTint(&kClawTints_4C5498[0], gMap.mCurrentLevel);
+        mClawId = pClaw->mBaseGameObjectId;
     }
 
     mBaseGameObjectFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
@@ -125,10 +127,11 @@ SecurityClaw::~SecurityClaw()
         Path::TLV_Reset(mTlvInfo, -1, 0, 1);
     }
 
-    if (mClaw)
+    BaseGameObject* pClaw = sObjectIds.Find_Impl(mClawId);
+    if (pClaw)
     {
-        mClaw->mBaseGameObjectFlags.Set(Options::eDead);
-        mClaw = nullptr;
+        pClaw->mBaseGameObjectFlags.Set(Options::eDead);
+        mClawId = {};
     }
 
     if (field_13C_pArray)
@@ -206,6 +209,8 @@ s16 SecurityClaw::VTakeDamage(BaseGameObject* pFrom)
 
 void SecurityClaw::VUpdate()
 {
+    auto pClaw = static_cast<Claw*>(sObjectIds.Find_Impl(mClawId));
+
     if (EventGet(kEventDeathReset))
     {
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -245,8 +250,8 @@ void SecurityClaw::VUpdate()
 
     mYPos = mClawY + ((Math_Cosine(field_124) * GetSpriteScale()) * FP_FromInteger(8));
 
-    mClaw->mXPos = mXPos;
-    mClaw->mYPos = mYPos;
+    pClaw->mXPos = mXPos;
+    pClaw->mYPos = mYPos;
 
     if (field_13C_pArray)
     {
@@ -298,7 +303,7 @@ void SecurityClaw::VUpdate()
             {
                 field_114_timer = sGnFrame + 20;
                 field_110_state = SecurityClawStates::eDoZapEffects_2;
-                mClaw->GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Security_Claw_Lower_Open));
+                pClaw->GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Security_Claw_Lower_Open));
                 SfxPlayMono(relive::SoundEffects::IndustrialNoise3, 60);
                 SFX_Play_Pitch(relive::SoundEffects::IndustrialNoise3, 90, -1000);
             }
@@ -391,7 +396,7 @@ void SecurityClaw::VUpdate()
             if (static_cast<s32>(sGnFrame) > field_114_timer)
             {
                 field_110_state = SecurityClawStates::eIdle_1;
-                mClaw->GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Security_Claw_Lower_Close));
+                pClaw->GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Security_Claw_Lower_Close));
                 SfxPlayMono(relive::SoundEffects::IndustrialTrigger, 0);
             }
             break;
