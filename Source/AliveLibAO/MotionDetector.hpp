@@ -53,7 +53,7 @@ public:
     FP field_FC_top_left_y = {};
     FP field_100_bottom_right_x = {};
     FP field_104_bottom_right_y = {};
-    MotionDetectorLaser* field_108_pLaser = nullptr;
+    Guid field_F8_laser_id;
     Poly_G3 field_10C_prims[2] = {};
     Prim_SetTPage field_13C_tPage[2] = {};
     FP field_15C_speed = {};

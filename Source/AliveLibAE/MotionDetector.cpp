@@ -187,49 +187,6 @@ void MotionDetector::VScreenChanged()
     }
 }
 
-void MotionDetector::VRender(PrimHeader** ppOt)
-{
-    BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
-
-    if (GetAnimation().mFlags.Get(AnimFlags::eRender))
-    {
-        auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find(field_F8_laser_id, ReliveTypes::eRedLaser));
-        const PSX_RECT bLaserRect = pLaser->VGetBoundingRect();
-
-        const FP camXFp = pScreenManager->CamXPos();
-        const FP camYFp = pScreenManager->CamYPos();
-
-        const s16 screenX = FP_GetExponent(mXPos) - FP_GetExponent(camXFp);
-
-        const s16 x0 = static_cast<s16>(PsxToPCX(screenX, 11));
-        const s16 y0 = FP_GetExponent(mYPos) - FP_GetExponent(camYFp);
-        const s16 y1 = FP_GetExponent(pLaser->mYPos - camYFp);
-        const s16 y2 = y1 + bLaserRect.y - bLaserRect.h;
-        const s16 x1 = PsxToPCX(FP_GetExponent(pLaser->mXPos - camXFp), 11);
-
-        Poly_G3* pPrim = &field_124_prims[gPsxDisplay.mBufferIndex];
-        PolyG3_Init(pPrim);
-
-        SetXY0(pPrim, x0, y0);
-        SetXY1(pPrim, x1, y1);
-        SetXY2(pPrim, x1, y2);
-
-        SetRGB0(pPrim, 80, 0, 0);
-        SetRGB1(pPrim, 80, 0, 0);
-        SetRGB2(pPrim, 80, 0, 0);
-
-        // Add triangle
-        Poly_Set_SemiTrans(&pPrim->mBase.header, true);
-        OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pPrim->mBase.header);
-
-        // Add tpage
-        const s32 tpage = PSX_getTPage(field_178_bObjectInLaser != 0 ? TPageAbr::eBlend_1 : TPageAbr::eBlend_3); // When detected transparency is off, gives the "solid red" triangle
-        Prim_SetTPage* pTPage = &field_154_tPage[gPsxDisplay.mBufferIndex];
-        Init_SetTPage(pTPage, 0, 0, tpage);
-        OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pTPage->mBase);
-    }
-}
-
 s16 MotionDetector::IsInLaser(IBaseAliveGameObject* pWho, IBaseAliveGameObject* pOwner)
 {
     if (pWho->Type() == ReliveTypes::eAbe)
@@ -445,5 +402,48 @@ void MotionDetector::VUpdate()
                 }
                 break;
         }
+    }
+}
+
+void MotionDetector::VRender(PrimHeader** ppOt)
+{
+    BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
+
+    if (GetAnimation().mFlags.Get(AnimFlags::eRender))
+    {
+        auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find(field_F8_laser_id, ReliveTypes::eRedLaser));
+        const PSX_RECT bLaserRect = pLaser->VGetBoundingRect();
+
+        const FP camXFp = pScreenManager->CamXPos();
+        const FP camYFp = pScreenManager->CamYPos();
+
+        const s16 screenX = FP_GetExponent(mXPos) - FP_GetExponent(camXFp);
+
+        const s16 x0 = static_cast<s16>(PsxToPCX(screenX, 11));
+        const s16 y0 = FP_GetExponent(mYPos) - FP_GetExponent(camYFp);
+        const s16 y1 = FP_GetExponent(pLaser->mYPos - camYFp);
+        const s16 y2 = y1 + bLaserRect.y - bLaserRect.h;
+        const s16 x1 = PsxToPCX(FP_GetExponent(pLaser->mXPos - camXFp), 11);
+
+        Poly_G3* pPrim = &field_124_prims[gPsxDisplay.mBufferIndex];
+        PolyG3_Init(pPrim);
+
+        SetXY0(pPrim, x0, y0);
+        SetXY1(pPrim, x1, y1);
+        SetXY2(pPrim, x1, y2);
+
+        SetRGB0(pPrim, 80, 0, 0);
+        SetRGB1(pPrim, 80, 0, 0);
+        SetRGB2(pPrim, 80, 0, 0);
+
+        // Add triangle
+        Poly_Set_SemiTrans(&pPrim->mBase.header, true);
+        OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pPrim->mBase.header);
+
+        // Add tpage
+        const s32 tpage = PSX_getTPage(field_178_bObjectInLaser != 0 ? TPageAbr::eBlend_1 : TPageAbr::eBlend_3); // When detected transparency is off, gives the "solid red" triangle
+        Prim_SetTPage* pTPage = &field_154_tPage[gPsxDisplay.mBufferIndex];
+        Init_SetTPage(pTPage, 0, 0, tpage);
+        OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pTPage->mBase);
     }
 }
