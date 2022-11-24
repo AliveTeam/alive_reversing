@@ -143,7 +143,7 @@ s32 Game_End_Frame_4950F0(u32 flags)
     return 0;
 }
 
-static void Main_ParseCommandLineArguments(const char_type* pCommandLine)
+void Main_ParseCommandLineArguments(const char_type* pCommandLine)
 {
     IO_Init_494230();
 
@@ -496,7 +496,7 @@ void Game_Main(const char_type* pCommandLine)
 {
     GetGameAutoPlayer().ParseCommandLine(pCommandLine);
 
-    Main_ParseCommandLineArguments(pCommandLine);
+    //Main_ParseCommandLineArguments(pCommandLine);
 
     // Only returns once the engine is shutting down
     Game_Run();

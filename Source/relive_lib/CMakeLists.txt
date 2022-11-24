@@ -83,6 +83,10 @@ SET(relive_lib_src
     data_conversion/AESaveConverter.hpp
     data_conversion/AESaveConverter.cpp
     data_conversion/AESaveSerialization.hpp
+    data_conversion/data_conversion_ui.hpp
+    data_conversion/data_conversion_ui.cpp
+    Engine.hpp
+    Engine.cpp
     Layer.hpp
     stdafx.h
     ObjectTypes.hpp

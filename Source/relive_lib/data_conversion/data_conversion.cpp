@@ -1709,10 +1709,61 @@ static void IterateAOLvls(FnOnLvl fnOnLvl)
     }
 }
 
+// Bump this if any data format breaks are made so that OG/mod data is re-converted/upgraded
+u32 DataConversion::kVersion = 1;
+
+const char_type kDataVersionFileName[] = "data_version.json";
+
+static void WriteDataVersion(const FileSystem::Path& path, u32 version)
+{
+    auto j = nlohmann::json{{"data_version", version}};
+    FileSystem fs;
+    auto fileName = path;
+    fileName.Append(kDataVersionFileName);
+    SaveJson(j, fs, fileName);
+}
+
+static u32 data_version_from_json(const nlohmann::json& j)
+{
+    u32 version = 0;
+    j.at("data_version").get_to(version);
+    return version;
+}
+
+static u32 data_version_from_path(const FileSystem::Path& dataDir)
+{
+    auto path = dataDir;
+    path.Append(kDataVersionFileName);
+
+    FileSystem fs;
+    if (fs.FileExists(path.GetPath().c_str()))
+    {
+        const std::string jsonStr = fs.LoadToString(path);
+        nlohmann::json j = nlohmann::json::parse(jsonStr);
+        return data_version_from_json(j);
+    }
+    return 0;
+}
+
+u32 DataConversion::DataVersionAO()
+{
+    FileSystem::Path dataDir;
+    dataDir.Append("relive_data");
+    dataDir.Append("ao");
+    return data_version_from_path(dataDir);
+}
+
+u32 DataConversion::DataVersionAE()
+{
+    FileSystem::Path dataDir;
+    dataDir.Append("relive_data");
+    dataDir.Append("ae");
+    return data_version_from_path(dataDir);
+}
+
+
 void DataConversion::ConvertDataAO()
 {
-    // TODO: Check existing data version, if any
-
     FileSystem fs;
 
     FileSystem::Path dataDir;
@@ -1738,6 +1789,8 @@ void DataConversion::ConvertDataAO()
         ConvertFilesInLvl<AO::LevelIds, AO::Path_TLV>(dataDir, fs, lvlReader, fileBuffer, lvlIdxAsLvl, reliveLvl, true, true);
     });
 
+    WriteDataVersion(dataDir, kDataVersion);
+
     LogNonConvertedAnims(true);
     LogNonConvertedPals(true);
 }
@@ -1750,6 +1803,8 @@ void DataConversion::ConvertDataAE()
     dataDir.Append("relive_data");
     dataDir.Append("ae");
     fs.CreateDirectory(dataDir);
+
+ 
 
     ConvertHardcodedPals(dataDir);
 
@@ -1767,6 +1822,8 @@ void DataConversion::ConvertDataAE()
     { 
         ConvertFilesInLvl<::LevelIds, ::Path_TLV>(dataDir, fs, lvlReader, fileBuffer, lvlIdxAsLvl, reliveLvl, false, true);
     });
+
+    WriteDataVersion(dataDir, kDataVersion);
 
     LogNonConvertedAnims(false);
 }

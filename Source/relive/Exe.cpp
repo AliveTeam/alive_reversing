@@ -17,14 +17,13 @@
 #include "../AliveLibAO/Map.hpp"
 #include "../AliveLibAO/Abe.hpp"
 #include "../AliveLibAO/Font.hpp"
-#include "../AliveLibAO/Game.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 
 #include "../AliveLibAE/GameAutoPlayer.hpp"
 #include "../AliveLibAO/GameAutoPlayer.hpp"
 
 #include "../relive_lib/GameType.hpp"
-#include "../relive_lib/data_conversion/data_conversion.hpp"
+#include "../relive_lib/Engine.hpp"
 
 #include "../AliveLibAE/Io.hpp"
 
@@ -230,25 +229,6 @@ BaseGameAutoPlayer& GetGameAutoPlayer()
     return *pAutoPlayer;
 }
 
-static void AOMain(LPSTR lpCmdLine)
-{
-    LOG_INFO("AO standalone starting...");
-    PopulateAutoSplitterVars(GameType::eAo);
-    AO::Game_Main(lpCmdLine);
-}
-
-static void AEMain(LPSTR lpCmdLine)
-{
-    LOG_INFO("AE standalone starting...");
-    PopulateAutoSplitterVars(GameType::eAe);
-    Game_Main(lpCmdLine);
-}
-
-static void ConvertData()
-{
-    //DataConversion dataConversion;
-    //dataConversion.ConvertDataAO();
-}
 
 s32 WINAPI WinMain(HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR lpCmdLine, s32 /*nShowCmd*/)
 {
@@ -268,8 +248,6 @@ s32 WINAPI WinMain(HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR l
     ShowCwd();
 
     SDL2_Init();
-
-    ConvertData();
 
     if (gameToRun == GameType::eAo)
     {
@@ -297,16 +275,13 @@ s32 WINAPI WinMain(HINSTANCE /*hInstance*/, HINSTANCE /*hPrevInstance*/, LPSTR l
 
     SetGameType(gameToRun);
 
-    if (gameToRun == GameType::eAo)
-    {
-        pAutoPlayer = &GetGameAutoPlayerAO();
-        AOMain(lpCmdLine);
-    }
-    else
-    {
-        pAutoPlayer = &GetGameAutoPlayerAE();
-        AEMain(lpCmdLine);
-    }
+    pAutoPlayer = gameToRun == GameType::eAo ? &GetGameAutoPlayerAO() : &GetGameAutoPlayerAE();
+
+    PopulateAutoSplitterVars(gameToRun);
+
+    Engine e(gameToRun, lpCmdLine);
+    e.Run();
+
     return 0;
 }
 
