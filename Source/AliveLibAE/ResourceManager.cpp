@@ -10,7 +10,7 @@
 #include "GameAutoPlayer.hpp"
 #include "../relive_lib/Camera.hpp"
 
-ResourceManager* pResourceManager_5C1BB0 = nullptr;
+ResourceManager* pResourceManager = nullptr;
 
 u32 sManagedMemoryUsedSize_AB4A04 = 0;
 u32 sPeakedManagedMemUsage_AB4A08 = 0;
@@ -92,7 +92,7 @@ ResourceManager::~ResourceManager()
 }
 
 
-void ResourceManager::LoadingLoop_465590(s16 )
+void ResourceManager::LoadingLoop(s16 )
 {
     GetGameAutoPlayer().DisableRecorder();
 

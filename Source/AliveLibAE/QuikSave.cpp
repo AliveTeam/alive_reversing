@@ -201,7 +201,7 @@ void QuikSave_RestoreBlyData(const u8* pSaveData)
         }
     }
 
-    pResourceManager_5C1BB0->LoadingLoop_465590(false);
+    pResourceManager->LoadingLoop(false);
 }
 
 

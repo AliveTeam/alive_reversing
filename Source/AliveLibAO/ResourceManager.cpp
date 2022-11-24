@@ -47,7 +47,7 @@ void Game_ShowLoadingIcon_445EB0()
     }
 }
 
-void ResourceManager::LoadingLoop_41EAD0(s16)
+void ResourceManager::LoadingLoop(s16)
 {
     GetGameAutoPlayer().DisableRecorder();
 

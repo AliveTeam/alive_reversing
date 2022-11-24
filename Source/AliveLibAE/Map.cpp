@@ -645,7 +645,7 @@ void Map::GoTo_Camera()
 
     if (mNextLevel != mCurrentLevel || mForceLoad)
     {
-        pResourceManager_5C1BB0->LoadingLoop_465590(bShowLoadingIcon);
+        pResourceManager->LoadingLoop(bShowLoadingIcon);
 
         // Free all cameras
         for (s32 i = 0; i < ALIVE_COUNTOF(field_2C_camera_array); i++)
@@ -668,7 +668,7 @@ void Map::GoTo_Camera()
 
         }
 
-        pResourceManager_5C1BB0->LoadingLoop_465590(bShowLoadingIcon);
+        pResourceManager->LoadingLoop(bShowLoadingIcon);
 
         if (mNextLevel == mCurrentLevel)
         {
@@ -773,11 +773,11 @@ void Map::GoTo_Camera()
     {
         if (field_40_stru_5[i])
         {
-            //pResourceManager_5C1BB0->Free_Resources_For_Camera_4656F0(field_40_stru_5[i]);
+            //pResourceManager->Free_Resources_For_Camera_4656F0(field_40_stru_5[i]);
         }
     }
 
-    pResourceManager_5C1BB0->LoadingLoop_465590(bShowLoadingIcon);
+    pResourceManager->LoadingLoop(bShowLoadingIcon);
 
     // Free each camera itself
     for (s32 i = 0; i < ALIVE_COUNTOF(field_40_stru_5); i++)
@@ -790,7 +790,7 @@ void Map::GoTo_Camera()
     }
 
     Map::Load_Path_Items(field_2C_camera_array[0], LoadMode::ConstructObject_0);
-    pResourceManager_5C1BB0->LoadingLoop_465590(bShowLoadingIcon);
+    pResourceManager->LoadingLoop(bShowLoadingIcon);
     Map::Load_Path_Items(field_2C_camera_array[3], LoadMode::ConstructObject_0);
     Map::Load_Path_Items(field_2C_camera_array[4], LoadMode::ConstructObject_0);
     Map::Load_Path_Items(field_2C_camera_array[1], LoadMode::ConstructObject_0);
@@ -830,7 +830,7 @@ void Map::GoTo_Camera()
 
     if (prevLevelId != mCurrentLevel)
     {
-        pResourceManager_5C1BB0->LoadingLoop_465590(false);
+        pResourceManager->LoadingLoop(false);
     }
 
     if (mCameraSwapEffect != CameraSwapEffects::ePlay1FMV_5 && mCameraSwapEffect != CameraSwapEffects::eUnknown_11)
@@ -1167,7 +1167,7 @@ void Map::LoadResource(const char_type* /*pFileName*/, s32 /*type*/, s32 /*resou
     {
         if (loadMode == LoadMode::LoadResource_2)
         {
-            pResourceManager_5C1BB0->LoadingLoop_465590(0);
+            pResourceManager->LoadingLoop(0);
         }
     }
 }
@@ -1178,7 +1178,7 @@ void Map::LoadResourcesFromList(const char_type* /*pFileName*/, ResourceManager:
     {
         if (loadMode == LoadMode::LoadResource_2)
         {
-            pResourceManager_5C1BB0->LoadingLoop_465590(0);
+            pResourceManager->LoadingLoop(0);
         }
     }
 }

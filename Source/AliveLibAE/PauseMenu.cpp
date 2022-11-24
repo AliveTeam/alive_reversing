@@ -1148,9 +1148,9 @@ void PauseMenu::VUpdate()
                 // Start pause menu update/render loop
                 while (word12C_flags & 1)
                 {
-                    if (pResourceManager_5C1BB0)
+                    if (pResourceManager)
                     {
-                        pResourceManager_5C1BB0->VUpdate();
+                        pResourceManager->VUpdate();
                     }
 
                     SYS_EventsPump();

@@ -34,7 +34,7 @@ void LoadRockTypes(EReliveLevelIds levelNumber, u16 path)
 
     if (bDoLoadingLoop)
     {
-        ResourceManager::LoadingLoop_41EAD0(false);
+        ResourceManager::LoadingLoop(false);
     }
 }
 

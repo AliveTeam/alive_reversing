@@ -67,7 +67,7 @@ Abe* sActiveHero = nullptr;
 
 void DestroyObjects_4A1F20()
 {
-    pResourceManager_5C1BB0->LoadingLoop_465590(false);
+    pResourceManager->LoadingLoop(false);
     for (s32 iterations = 0; iterations < 2; iterations++)
     {
         for (s32 idx = 0;idx < gBaseGameObjects->Size(); idx++)
@@ -436,14 +436,16 @@ void Game_Run()
 
     gPsxDisplay.Init();
     Input_Pads_Reset_4FA960(); // starts card/pads on psx ver
+    Input_EnableInput_4EDDD0();
 
     gBaseGameObjects = relive_new DynamicArrayT<BaseGameObject>(90);
 
-    gObjListDrawables = relive_new DynamicArrayT<BaseGameObject>(30);
+    BaseAnimatedWithPhysicsGameObject::MakeArray(); // Makes drawables
 
     AnimationBase::CreateAnimationArray();
 
-    pResourceManager_5C1BB0 = relive_new ResourceManager();
+    // AO doesn't have an instance, only statics
+    pResourceManager = relive_new ResourceManager();
 
     Init_Sound_DynamicArrays_And_Others();
 
@@ -492,8 +494,6 @@ void Game_Run()
 
 void Game_Main(const char_type* pCommandLine)
 {
-    Input_EnableInput_4EDDD0();
-
     GetGameAutoPlayer().ParseCommandLine(pCommandLine);
 
     Main_ParseCommandLineArguments(pCommandLine);

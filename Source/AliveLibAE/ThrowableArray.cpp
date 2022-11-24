@@ -47,7 +47,7 @@ void LoadRockTypes_49AB30(EReliveLevelIds levelNumber, u16 pathNumber)
 
     if (bDoLoadingLoop)
     {
-        pResourceManager_5C1BB0->LoadingLoop_465590(false);
+        pResourceManager->LoadingLoop(false);
     }
 }
 

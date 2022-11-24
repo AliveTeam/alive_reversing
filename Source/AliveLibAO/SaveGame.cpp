@@ -26,7 +26,7 @@ SaveData gSaveBuffer = {};
 
 void Kill_Objects_451720()
 {
-    ResourceManager::LoadingLoop_41EAD0(0);
+    ResourceManager::LoadingLoop(0);
 
     for (s32 i = 0; i < 2; i++)
     {
@@ -112,13 +112,13 @@ void SaveGame::LoadFromMemory(SaveData* pData, s32 bKillObjects)
             //if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kAbemorphAOResID, 0, 0))
             //{
             //    ResourceManager::LoadResourceFile_4551E0("SHRYPORT.BND", nullptr, nullptr, nullptr);
-            //    ResourceManager::LoadingLoop_41EAD0(0);
+            //    ResourceManager::LoadingLoop(0);
             //}
 
             //if (!ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, AOResourceID::kSplineAOResID, 0, 0))
             //{
             //    ResourceManager::LoadResourceFile_4551E0("SPLINE.BAN", nullptr, nullptr, nullptr);
-            //    ResourceManager::LoadingLoop_41EAD0(0);
+            //    ResourceManager::LoadingLoop(0);
             //}
 
             //Abe::Get_Shrykull_Resources_42F480();

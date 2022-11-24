@@ -108,7 +108,7 @@ public:
     ResourceManager();
     ~ResourceManager();
     void vLoadFile_StateMachine_464A70();
-    void LoadingLoop_465590(s16 bShowLoadingIcon);
+    void LoadingLoop(s16 bShowLoadingIcon);
 
     virtual void VUpdate() override;
     virtual void VScreenChanged() override;
@@ -157,7 +157,7 @@ private:
 };
 ALIVE_ASSERT_SIZEOF(ResourceManager, 0x54);
 
-extern ResourceManager* pResourceManager_5C1BB0;
+extern ResourceManager* pResourceManager;
 extern u32 sManagedMemoryUsedSize_AB4A04;
 extern u32 sPeakedManagedMemUsage_AB4A08;
 extern s16 bHideLoadingIcon_5C1BAA;

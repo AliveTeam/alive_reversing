@@ -601,7 +601,7 @@ MainMenuController::MainMenuController(relive::Path_TLV* /*pTlv*/, const Guid& t
 
     if (gMap.mCurrentCamera == MainMenuCams::eDemoSelectionCam)
     {
-        pResourceManager_5C1BB0->LoadingLoop_465590(false);
+        pResourceManager->LoadingLoop(false);
         field_1FC_button_index = 0;
         field_250_selected_entry_index = sDemoIdChosenFromDemoMenu_5C1B9E;
         field_254 = FP_FromInteger(0);
@@ -1679,7 +1679,7 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
             // Wait for load to complete
             if (!field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak])
             {
-                pResourceManager_5C1BB0->LoadingLoop_465590(false);
+                pResourceManager->LoadingLoop(false);
             }
             mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
 
@@ -1738,7 +1738,7 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
     /*
     if (!field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak])
     {
-        pResourceManager_5C1BB0->LoadingLoop_465590(false);
+        pResourceManager->LoadingLoop(false);
     }
 
     mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
@@ -1875,7 +1875,7 @@ void MainMenuController::BackStory_Or_NewGame_Load_4D1BA0()
 
 void MainMenuController::BackStory_Or_NewGame_Unload_4D1BE0()
 {
-    pResourceManager_5C1BB0->LoadingLoop_465590(false);
+    pResourceManager->LoadingLoop(false);
 }
 
 void MainMenuController::remove_ISO9660_Suffix_4D1660(char_type* out, const char_type* in)
@@ -1964,7 +1964,7 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
         /*
         if (field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak] == 0)
         {
-            pResourceManager_5C1BB0->LoadingLoop_465590(0);
+            pResourceManager->LoadingLoop(0);
         }
         mAnim.Set_Animation_Data(AnimId::MenuAbeSpeak_Idle, field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak2]);
         ResourceManager::FreeResource_49C330(field_F4_resources.field_0_resources[MenuResIds::eAbeSpeak]);
@@ -2941,7 +2941,7 @@ void MainMenuController::Unload_Resource(AnimId /*res*/)
     // Resource might be pending, wait for it to load if so
     if (!res)
     {
-        pResourceManager_5C1BB0->LoadingLoop_465590(false);
+        pResourceManager->LoadingLoop(false);
     }
 
     // Now we can free it

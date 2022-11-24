@@ -74,7 +74,7 @@ public:
     ALIVE_ASSERT_SIZEOF(ResourceManager_FileRecord, 0x20);
 
     static s32 SEQ_HashName_454EA0(const char_type* seqFileName);
-    static void LoadingLoop_41EAD0(s16 bShowLoadingIcon);
+    static void LoadingLoop(s16 bShowLoadingIcon);
 };
 
 extern s16 bHideLoadingIcon_5076A0;
