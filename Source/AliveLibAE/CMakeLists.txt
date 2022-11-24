@@ -23,6 +23,8 @@ SET(AliveLibAESrc
     Renderer/OpenGL3/GLTexture2D.cpp
     Renderer/OpenGL3/OpenGLRenderer.hpp
     Renderer/OpenGL3/OpenGLRenderer.cpp
+    Renderer/OpenGL3/Shaders/ShaderPassthru.cpp
+    Renderer/OpenGL3/Shaders/ShaderPsx.cpp
     Grid.hpp
     Grid.cpp
     GameAutoPlayer.hpp
