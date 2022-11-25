@@ -48,10 +48,8 @@ struct VertexData final
     u32 paletteIndex, textureUnitIndex;
 };
 
-class OpenGLTextureCache final : public TextureCache<GLuint>
+class OpenGLTextureCache final : public TextureCache<GLTexture2D>
 {
-public:
-    void DeleteTexture(GLuint texture) override;
 };
 
 
@@ -124,14 +122,13 @@ private:
 
     GLuint mCurGasTextureId = 0;
 
-    GLuint mCurCamTextureId = 0;
-    std::vector<GLuint> mCurFG1TextureIds;
+    GLTexture2D mCurCamTexture = {};
+    std::vector<GLTexture2D> mCurFG1Textures;
     GLint mFG1Units[4] = {3, 4, 5, 6};
 
-    std::vector<GLuint> mBatchTextureIds;
+    std::vector<GLTexture2D> mBatchTextures;
     GLint mTextureUnits[GL_USE_NUM_TEXTURE_UNITS];
 
-    GLuint CreateCachedTexture(u32 uniqueId, u32 lifetime);
     void CreateFramebuffer(GLuint* outFramebufferId, GLuint* outTextureId, s32 width, s32 height);
     void DecreaseResourceLifetimes();
     void DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height);
@@ -139,20 +136,20 @@ private:
     void InvalidateBatch();
     void PushLines(const VertexData* vertices, int count);
     void PushScreenWaveData(const VertexData* vertices);
-    void PushVertexData(VertexData* pVertData, int count, GLuint textureId = 0);
+    void PushVertexData(VertexData* pVertData, int count, GLTexture2D texture = {});
     void RenderScreenWave();
     void SetupBlendMode(u16 blendMode);
     void UpdateFilterFramebuffer();
     
     u32 PreparePalette(AnimationPal& pCache);
-    u32 PrepareTextureFromAnim(Animation& anim);
-    u32 PrepareTextureFromPoly(Poly_FT4& poly);
+    GLTexture2D PrepareTextureFromAnim(Animation& anim);
+    GLTexture2D PrepareTextureFromPoly(Poly_FT4& poly);
 
     // END ROZZA STUFF
 
     GLuint mVAO = 0;
 
-    std::unique_ptr<GLTexture2D> mPaletteTexture;
+    GLTexture2D mPaletteTexture;
     PaletteCache mPaletteCache;
 
     OpenGLTextureCache mTextureCache;

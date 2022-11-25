@@ -34,11 +34,6 @@ static bool gRenderEnable_G2 = true;
 static const f32 pi = 3.14f;
 static const f32 halfPi = 1.57f;
 
-void OpenGLTextureCache::DeleteTexture(GLuint texture)
-{
-    GL_VERIFY(glDeleteTextures(1, &texture));
-}
-
 static GLuint Renderer_CreateTexture(GLenum interpolation = GL_NEAREST)
 {
     GLuint textureId = 0;
@@ -62,7 +57,7 @@ u32 OpenGLRenderer::PreparePalette(AnimationPal& pCache)
     if (addRet.mAllocated)
     {
         // Write palette data
-        mPaletteTexture->LoadSubImage(0, addRet.mIndex, GL_PALETTE_DEPTH, 1, pCache.mPal);
+        mPaletteTexture.LoadSubImage(0, addRet.mIndex, GL_PALETTE_DEPTH, 1, pCache.mPal);
 
         mStats.mPalUploadCount++;
     }
@@ -70,64 +65,56 @@ u32 OpenGLRenderer::PreparePalette(AnimationPal& pCache)
     return addRet.mIndex;
 }
 
-
-GLuint OpenGLRenderer::CreateCachedTexture(u32 uniqueId, u32 lifetime)
-{
-    const GLuint texId = Renderer_CreateTexture();
-    return mTextureCache.Add(uniqueId, lifetime, texId);
-}
-
-
-u32 OpenGLRenderer::PrepareTextureFromAnim(Animation& anim)
+GLTexture2D OpenGLRenderer::PrepareTextureFromAnim(Animation& anim)
 {
     const AnimResource& r = anim.mAnimRes;
 
-    u32 textureId = mTextureCache.GetCachedTextureId(r.mUniqueId.Id(), GL_SPRITE_TEXTURE_LIFETIME);
+    GLTexture2D texture = mTextureCache.GetCachedTexture(r.mUniqueId.Id(), GL_SPRITE_TEXTURE_LIFETIME);
 
-    if (textureId == 0)
+    if (!texture.IsValid())
     {
-        textureId = CreateCachedTexture(r.mUniqueId.Id(), GL_SPRITE_TEXTURE_LIFETIME);
+        GLTexture2D animTex(r.mTgaPtr->mWidth, r.mTgaPtr->mHeight, GL_RED);
 
-        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, textureId));
-        GL_VERIFY(glPixelStorei(GL_UNPACK_ALIGNMENT, 1));
-        GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, r.mTgaPtr->mWidth, r.mTgaPtr->mHeight, 0, GL_RED, GL_UNSIGNED_BYTE, r.mTgaPtr->mPixels.data()));
+        animTex.LoadImage(r.mTgaPtr->mPixels.data());
+
+        texture = mTextureCache.Add(r.mUniqueId.Id(), GL_SPRITE_TEXTURE_LIFETIME, std::move(animTex));
 
         mStats.mAnimUploadCount++;
     }
 
-    return textureId;
+    return texture;
 }
 
-u32 OpenGLRenderer::PrepareTextureFromPoly(Poly_FT4& poly)
+GLTexture2D OpenGLRenderer::PrepareTextureFromPoly(Poly_FT4& poly)
 {
-    GLuint textureId = 0;
+    GLTexture2D texture;
 
     if (poly.mFg1)
     {
-        textureId = mTextureCache.GetCachedTextureId(poly.mFg1->mUniqueId.Id(), GL_CAM_TEXTURE_LIFETIME);
+        texture = mTextureCache.GetCachedTexture(poly.mFg1->mUniqueId.Id(), GL_CAM_TEXTURE_LIFETIME);
 
-        if (textureId == 0)
+        if (!texture.IsValid())
         {
-            textureId = CreateCachedTexture(poly.mFg1->mUniqueId.Id(), GL_CAM_TEXTURE_LIFETIME);
+            GLTexture2D fg1Tex(poly.mFg1->mImage.mWidth, poly.mFg1->mImage.mHeight, GL_RGBA);
 
-            GL_VERIFY(glBindTexture(GL_TEXTURE_2D, textureId));
-            GL_VERIFY(glPixelStorei(GL_UNPACK_ALIGNMENT, 4));
-            GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, poly.mFg1->mImage.mWidth, poly.mFg1->mImage.mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, poly.mFg1->mImage.mPixels->data()));
+            fg1Tex.LoadImage(poly.mFg1->mImage.mPixels->data());
+
+            texture = mTextureCache.Add(poly.mFg1->mUniqueId.Id(), GL_CAM_TEXTURE_LIFETIME, std::move(fg1Tex));
 
             mStats.mFg1UploadCount++;
         }
     }
     else if (poly.mCam)
     {
-        textureId = mTextureCache.GetCachedTextureId(poly.mCam->mUniqueId.Id(), GL_CAM_TEXTURE_LIFETIME);
+        texture = mTextureCache.GetCachedTexture(poly.mCam->mUniqueId.Id(), GL_CAM_TEXTURE_LIFETIME);
 
-        if (textureId == 0)
+        if (!texture.IsValid())
         {
-            textureId = CreateCachedTexture(poly.mCam->mUniqueId.Id(), GL_CAM_TEXTURE_LIFETIME);
+            GLTexture2D camTex(poly.mCam->mData.mWidth, poly.mCam->mData.mHeight, GL_RGBA);
 
-            GL_VERIFY(glBindTexture(GL_TEXTURE_2D, textureId));
-            GL_VERIFY(glPixelStorei(GL_UNPACK_ALIGNMENT, 4));
-            GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, poly.mCam->mData.mWidth, poly.mCam->mData.mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, poly.mCam->mData.mPixels->data()));
+            camTex.LoadImage(poly.mCam->mData.mPixels->data());
+
+            texture = mTextureCache.Add(poly.mCam->mUniqueId.Id(), GL_CAM_TEXTURE_LIFETIME, std::move(camTex));
 
             mStats.mCamUploadCount++;
         }
@@ -138,23 +125,23 @@ u32 OpenGLRenderer::PrepareTextureFromPoly(Poly_FT4& poly)
     }
     else if (poly.mFont)
     {
-        textureId = mTextureCache.GetCachedTextureId(poly.mFont->field_C_resource_id.mUniqueId.Id(), GL_SPRITE_TEXTURE_LIFETIME);
+        texture = mTextureCache.GetCachedTexture(poly.mFont->field_C_resource_id.mUniqueId.Id(), GL_SPRITE_TEXTURE_LIFETIME);
 
-        if (textureId == 0)
+        if (!texture.IsValid())
         {
             std::shared_ptr<TgaData> pTga = poly.mFont->field_C_resource_id.mTgaPtr;
 
-            textureId = CreateCachedTexture(poly.mFont->field_C_resource_id.mUniqueId.Id(), GL_SPRITE_TEXTURE_LIFETIME);
+            GLTexture2D fontTex(pTga->mWidth, pTga->mHeight, GL_RED);
 
-            GL_VERIFY(glBindTexture(GL_TEXTURE_2D, textureId));
-            GL_VERIFY(glPixelStorei(GL_UNPACK_ALIGNMENT, 1));
-            GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, pTga->mWidth, pTga->mHeight, 0, GL_RED, GL_UNSIGNED_BYTE, pTga->mPixels.data()));
+            fontTex.LoadImage(pTga->mPixels.data());
+
+            texture = mTextureCache.Add(poly.mFont->field_C_resource_id.mUniqueId.Id(), GL_SPRITE_TEXTURE_LIFETIME, std::move(fontTex));
 
             mStats.mFontUploadCount++;
         }
     }
 
-    return textureId;
+    return texture;
 }
 
 OpenGLRenderer::OpenGLRenderer(TWindowHandleType window)
@@ -174,11 +161,11 @@ OpenGLRenderer::OpenGLRenderer(TWindowHandleType window)
     // FIXME: Temp - init palette here for now
     const static RGBA32 black[256] = {};
 
-    mPaletteTexture = std::make_unique<GLTexture2D>(GL_PALETTE_DEPTH, GL_AVAILABLE_PALETTES, GL_RGBA, true);
+    mPaletteTexture = GLTexture2D(GL_PALETTE_DEPTH, GL_AVAILABLE_PALETTES, GL_RGBA);
 
     for (s32 i = 0; i < GL_AVAILABLE_PALETTES; i++)
     {
-        mPaletteTexture->LoadSubImage(0, i, GL_PALETTE_DEPTH, 1, black);
+        mPaletteTexture.LoadSubImage(0, i, GL_PALETTE_DEPTH, 1, black);
     }
 
     // Load shaders
@@ -199,10 +186,10 @@ OpenGLRenderer::OpenGLRenderer(TWindowHandleType window)
     GL_VERIFY(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 
     // Init batch vectors
-    mCurFG1TextureIds.reserve(4);
+    mCurFG1Textures.reserve(4);
     mBatchData.reserve(kReserveFT4QuadCount * 4);
     mBatchIndicies.reserve(kReserveFT4QuadCount * 6);
-    mBatchTextureIds.reserve(GL_USE_NUM_TEXTURE_UNITS);
+    mBatchTextures.reserve(GL_USE_NUM_TEXTURE_UNITS);
     mScreenWaveData.reserve(kReserveScreenWaveQuadCount * 4);
     mScreenWaveIndicies.reserve(kReserveScreenWaveQuadCount * 6);
 
@@ -263,6 +250,9 @@ void OpenGLRenderer::Draw(Prim_GasEffect& gasEffect)
         return;
     }
 
+    // TODO: We set up the gas texture ourselves here, this is rubbish and
+    //       should use GLTexture2D
+    //
     if (mCurGasTextureId == 0)
     {
         mCurGasTextureId = Renderer_CreateTexture();
@@ -294,7 +284,7 @@ void OpenGLRenderer::Draw(Prim_GasEffect& gasEffect)
         {gasEffect.x, gasEffect.h, r, g, b, 0, (u32) gasHeight, (u32) gasWidth, (u32) gasHeight, GL_PSX_DRAW_MODE_GAS, isSemiTrans, isShaded, blendMode, 0, 0},
         {gasEffect.w, gasEffect.h, r, g, b, (u32) gasWidth, (u32) gasHeight, (u32) gasWidth, (u32) gasHeight, GL_PSX_DRAW_MODE_GAS, isSemiTrans, isShaded, blendMode, 0, 0}};
     
-    PushVertexData(verts, 4, mCurGasTextureId);
+    PushVertexData(verts, 4);
 }
 
 void OpenGLRenderer::Draw(Line_G2& line)
@@ -361,7 +351,7 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
         return;
     }
 
-    const u32 textureId = PrepareTextureFromPoly(poly);
+    GLTexture2D texture = PrepareTextureFromPoly(poly);
 
     u32 r = poly.mBase.header.rgb_code.r;
     u32 g = poly.mBase.header.rgb_code.g;
@@ -379,7 +369,7 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
             {poly.mVerts[1].mVert.x, poly.mVerts[1].mVert.y, r, g, b, 0, kPsxFramebufferHeight, kPsxFramebufferWidth, kPsxFramebufferHeight, GL_PSX_DRAW_MODE_FG1, isSemiTrans, isShaded, blendMode, 0, 0},
             {poly.mVerts[2].mVert.x, poly.mVerts[2].mVert.y, r, g, b, kPsxFramebufferWidth, kPsxFramebufferHeight, kPsxFramebufferWidth, kPsxFramebufferHeight, GL_PSX_DRAW_MODE_FG1, isSemiTrans, isShaded, blendMode, 0, 0}};
 
-        PushVertexData(verts, 4, textureId);
+        PushVertexData(verts, 4, texture);
     }
     else if (poly.mCam)
     {
@@ -389,7 +379,7 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
             {poly.mVerts[1].mVert.x, poly.mVerts[1].mVert.y, r, g, b, 0, kPsxFramebufferHeight, kPsxFramebufferWidth, kPsxFramebufferHeight, GL_PSX_DRAW_MODE_CAM, isSemiTrans, isShaded, blendMode, 0, 0},
             {poly.mVerts[2].mVert.x, poly.mVerts[2].mVert.y, r, g, b, kPsxFramebufferWidth, kPsxFramebufferHeight, kPsxFramebufferWidth, kPsxFramebufferHeight, GL_PSX_DRAW_MODE_CAM, isSemiTrans, isShaded, blendMode, 0, 0}};
 
-        PushVertexData(verts, 4, textureId);
+        PushVertexData(verts, 4, texture);
     }
     else if (poly.mAnim)
     {
@@ -420,7 +410,7 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
             {poly.mVerts[1].mVert.x, poly.mVerts[1].mVert.y, r, g, b, u0, v1, pTga->mWidth, pTga->mHeight, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded, blendMode, palIndex, 0},
             {poly.mVerts[2].mVert.x, poly.mVerts[2].mVert.y, r, g, b, u1, v1, pTga->mWidth, pTga->mHeight, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded, blendMode, palIndex, 0}};
         
-        PushVertexData(verts, 4, textureId);
+        PushVertexData(verts, 4, texture);
     }
     else if (poly.mFont)
     {
@@ -442,7 +432,7 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
             {poly.mVerts[1].mVert.x, poly.mVerts[1].mVert.y, r, g, b, u0, v1, pTga->mWidth, pTga->mHeight, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded, blendMode, palIndex, 0},
             {poly.mVerts[2].mVert.x, poly.mVerts[2].mVert.y, r, g, b, u1, v1, pTga->mWidth, pTga->mHeight, GL_PSX_DRAW_MODE_DEFAULT_FT4, isSemiTrans, isShaded, blendMode, palIndex, 0}};
 
-        PushVertexData(verts, 4, textureId);
+        PushVertexData(verts, 4, texture);
     }
     else
     {
@@ -864,7 +854,7 @@ void OpenGLRenderer::InvalidateBatch()
     mPsxShader.UniformVec2("vsViewportSize", kPsxFramebufferWidth, kPsxFramebufferHeight);
 
     // Bind palette texture
-    mPaletteTexture->BindTo(GL_TEXTURE0);
+    mPaletteTexture.BindTo(GL_TEXTURE0);
     mPsxShader.Uniform1i("texPalette", 0);
 
     // Bind gas
@@ -877,32 +867,29 @@ void OpenGLRenderer::InvalidateBatch()
     }
 
     // Bind camera (if needed)
-    if (mCurCamTextureId)
+    if (mCurCamTexture.IsValid())
     {
-        GL_VERIFY(glActiveTexture(GL_TEXTURE2));
-        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mCurCamTextureId));
+        mCurCamTexture.BindTo(GL_TEXTURE2);
 
         mPsxShader.Uniform1i("texCamera", 2);
     }
 
     // Bind FG1 layers (if needed)
-    s32 numLayers = (s32) mCurFG1TextureIds.size();
+    s32 numLayers = (s32) mCurFG1Textures.size();
 
     for (int i = 0; i < numLayers; i++)
     {
-        GL_VERIFY(glActiveTexture(GL_TEXTURE3 + i));
-        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mCurFG1TextureIds[i]));
+        mCurFG1Textures[i].BindTo(GL_TEXTURE3 + i);
     }
 
     mPsxShader.Uniform1iv("texFG1Masks", 4, mFG1Units);
 
     // Bind sprite sheets
-    s32 numTextures = (s32) mBatchTextureIds.size();
+    s32 numTextures = (s32) mBatchTextures.size();
 
     for (int i = 0; i < numTextures; i++)
     {
-        GL_VERIFY(glActiveTexture(GL_TEXTURE7 + i));
-        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mBatchTextureIds[i]));
+        mBatchTextures[i].BindTo(GL_TEXTURE7 + i);
     }
 
     mPsxShader.Uniform1iv("texSpriteSheets", GL_USE_NUM_TEXTURE_UNITS, mTextureUnits);
@@ -927,12 +914,12 @@ void OpenGLRenderer::InvalidateBatch()
     GL_VERIFY(glDisableVertexAttribArray(4));
 
     // Do not clear gas here - it's released later
-    mCurFG1TextureIds.clear();
+    mCurFG1Textures.clear();
 
     mBatchBlendMode = BATCH_VALUE_UNSET;
     mBatchData.clear();
     mBatchIndicies.clear();
-    mBatchTextureIds.clear();
+    mBatchTextures.clear();
     mStats.mInvalidationsCount++;
 }
 
@@ -1006,7 +993,7 @@ void OpenGLRenderer::PushScreenWaveData(const VertexData *vertices)
     }
 }
 
-void OpenGLRenderer::PushVertexData(VertexData* pVertData, int count, GLuint textureId)
+void OpenGLRenderer::PushVertexData(VertexData* pVertData, int count, GLTexture2D texture)
 {
     if (!mFrameStarted)
     {
@@ -1036,21 +1023,21 @@ void OpenGLRenderer::PushVertexData(VertexData* pVertData, int count, GLuint tex
     {
         case GL_PSX_DRAW_MODE_DEFAULT_FT4:
         {
-            auto iter = std::find(mBatchTextureIds.begin(), mBatchTextureIds.end(), textureId);
+            auto iter = std::find(mBatchTextures.begin(), mBatchTextures.end(), texture);
 
-            if (iter == mBatchTextureIds.end())
+            if (iter == mBatchTextures.end())
             {
-                if (mBatchTextureIds.size() == GL_USE_NUM_TEXTURE_UNITS)
+                if (mBatchTextures.size() == GL_USE_NUM_TEXTURE_UNITS)
                 {
                     InvalidateBatch();
                 }
 
-                targetTexUnit = (u32) mBatchTextureIds.size();
-                mBatchTextureIds.push_back(textureId);
+                targetTexUnit = (u32) mBatchTextures.size();
+                mBatchTextures.push_back(texture);
             }
             else
             {
-                targetTexUnit = (u32) std::distance(mBatchTextureIds.begin(), iter);
+                targetTexUnit = (u32) std::distance(mBatchTextures.begin(), iter);
             }
 
             break;
@@ -1058,27 +1045,21 @@ void OpenGLRenderer::PushVertexData(VertexData* pVertData, int count, GLuint tex
 
         case GL_PSX_DRAW_MODE_CAM:
         {
-            mCurCamTextureId = textureId;
+            mCurCamTexture = texture;
             break;
         }
 
         case GL_PSX_DRAW_MODE_FG1:
         {
-            targetTexUnit = static_cast<u32>(mCurFG1TextureIds.size());
+            targetTexUnit = static_cast<u32>(mCurFG1Textures.size());
 
             if (targetTexUnit == 4)
             {
                 ALIVE_FATAL("Out of texture units for FG1 layers.");
             }
 
-            mCurFG1TextureIds.push_back(textureId);
+            mCurFG1Textures.push_back(texture);
 
-            break;
-        }
-
-        case GL_PSX_DRAW_MODE_GAS:
-        {
-            mCurGasTextureId = textureId;
             break;
         }
     }

@@ -12,50 +12,39 @@ public:
         Clear();
     }
 
-    virtual void DeleteTexture(TextureType texture) = 0;
-
     void Clear()
     {
-        for (auto& it : mTextureCache)
-        {
-            DeleteTexture(it.second.mTextureId);
-        }
         mTextureCache.clear();
     }
 
-    TextureType Add(u32 uniqueId, u32 lifetime, TextureType texId)
+    TextureType Add(u32 uniqueId, u32 lifetime, TextureType texture)
     {
         CachedTexture newTex;
 
-        newTex.mTextureId = texId;
+        newTex.mTexture = std::move(texture);
         newTex.mLifetime = lifetime;
 
-        mTextureCache[uniqueId] = newTex;
+        mTextureCache[uniqueId] = std::move(newTex);
 
-        return texId;
+        return mTextureCache[uniqueId].mTexture;
     }
 
-    TextureType GetCachedTextureId(u32 uniqueId, s32 bump)
+    TextureType GetCachedTexture(u32 uniqueId, s32 bump)
     {
         auto it = mTextureCache.find(uniqueId);
 
         if (it == mTextureCache.end())
         {
-            return 0;
+            return TextureType();
         }
 
         if (bump > 0)
         {
             // Bump!
-            CachedTexture bumpTex;
-
-            bumpTex.mTextureId = it->second.mTextureId;
-            bumpTex.mLifetime = bump;
-
-            mTextureCache[uniqueId] = bumpTex;
+            it->second.mLifetime = bump;
         }
 
-        return it->second.mTextureId;
+        return it->second.mTexture;
     }
 
     void DecreaseResourceLifetimes()
@@ -66,7 +55,6 @@ public:
         {
             if (it->second.mLifetime-- <= 0)
             {
-                DeleteTexture(it->second.mTextureId);
                 it = mTextureCache.erase(it);
             }
             else
@@ -79,8 +67,25 @@ public:
 private:
     struct CachedTexture final
     {
-        TextureType mTextureId = {};
+        TextureType mTexture = {};
         s32 mLifetime = 0;
+
+
+        CachedTexture()
+        {
+        }
+
+        CachedTexture(CachedTexture&& src)
+        : mTexture(std::move(src.mTexture)), mLifetime(src.mLifetime)
+        {
+        }
+
+
+        CachedTexture& operator=(CachedTexture&& src)
+        {
+            mTexture = std::move(src.mTexture);
+            mLifetime = src.mLifetime;
+        }
     };
     std::map<u32, CachedTexture> mTextureCache;
 };
