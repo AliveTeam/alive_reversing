@@ -92,7 +92,7 @@ template <class T>
 inline FixedPoint FP_FromInteger(T v)
 {
     FixedPoint f = {};
-    f.fpValue = v << 16;
+    f.fpValue = static_cast<s32>(static_cast<u32>(v) << 16);
     return f;
 }
 
