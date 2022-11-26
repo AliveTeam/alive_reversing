@@ -295,6 +295,9 @@ void AbilityRing::VUpdate()
                     for (s32 j = 0; j < 64; j++)
                     {
                         SetRGB0(&mRingPolyBuffer[j].mPolys[i], mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
+                        SetRGB1(&mRingPolyBuffer[j].mPolys[i], mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
+                        SetRGB2(&mRingPolyBuffer[j].mPolys[i], mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
+                        SetRGB3(&mRingPolyBuffer[j].mPolys[i], mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
                     }
                 }
             }
