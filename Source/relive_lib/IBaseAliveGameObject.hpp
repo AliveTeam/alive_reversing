@@ -75,6 +75,13 @@ protected:
         mNextMotion = static_cast<s16>(motion);
     }
 
+    template <class BaseAliveGameObjectClass, class FnArray>
+    inline auto InvokeMemberFunction(BaseAliveGameObjectClass caller, const FnArray& fnArray, u16 idx)
+    {
+        auto function = fnArray[idx];
+        return (caller->*function)();
+    }
+
     s16 SetBaseAnimPaletteTint(const TintEntry* pTintArray, EReliveLevelIds level_id, PalId resourceID);
 
 public:

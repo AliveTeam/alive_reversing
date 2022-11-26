@@ -355,7 +355,7 @@ void Slog::VUpdate()
 
     const s16 old_motion = mCurrentMotion;
     const auto oldBrain = sSlogBrainTable[field_114_brain_idx];
-    field_116_brain_sub_state = (this->*sSlogBrainTable[field_114_brain_idx])();
+    field_116_brain_sub_state = InvokeMemberFunction(this, sSlogBrainTable, field_114_brain_idx);
 
     if (oldBrain != sSlogBrainTable[field_114_brain_idx])
     {
@@ -369,7 +369,7 @@ void Slog::VUpdate()
 
     const FP old_x = mXPos;
     const FP old_y = mYPos;
-    (this->*sSlogMotionTable_4CFD30[mCurrentMotion])();
+    InvokeMemberFunction(this, sSlogMotionTable_4CFD30, mCurrentMotion);
 
     if (old_x != mXPos || old_y != mYPos)
     {

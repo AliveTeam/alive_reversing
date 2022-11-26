@@ -636,7 +636,7 @@ void Slig::VUpdate()
         const FP new_x = mXPos;
         const FP new_y = mYPos;
 
-        (this->*sSligMotionTable[mCurrentMotion])();
+        InvokeMemberFunction(this, sSligMotionTable, mCurrentMotion);
 
         if (new_x != mXPos || new_y != mYPos)
         {

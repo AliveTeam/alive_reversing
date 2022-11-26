@@ -431,7 +431,7 @@ void Paramite::VUpdate()
         const FP oldx = mXPos;
         const FP oldy = mYPos;
 
-        (this->*sParamiteMotionTable[mCurrentMotion])();
+        InvokeMemberFunction(this, sParamiteMotionTable, mCurrentMotion);
 
         if (oldx != mXPos || oldy != mYPos)
         {

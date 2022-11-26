@@ -199,7 +199,7 @@ void SlingMudokon::VCallBrain()
             mYPos,
             0))
     {
-        field_13A_brain_sub_state = (this->*gSlingMudBrainTable_4CFCE0[field_138_brain_state])();
+        field_13A_brain_sub_state = InvokeMemberFunction(this, gSlingMudBrainTable_4CFCE0, field_138_brain_state);
     }
     else
     {
@@ -209,7 +209,7 @@ void SlingMudokon::VCallBrain()
 
 void SlingMudokon::VCallMotion()
 {
-    (this->*gSlingMudMotionTable_4CFCB0[mCurrentMotion])();
+    InvokeMemberFunction(this, gSlingMudMotionTable_4CFCB0, mCurrentMotion);
 }
 
 void SlingMudokon::VUpdateAnimData()

@@ -250,7 +250,7 @@ void Scrab::VUpdate()
         const FP old_x = mXPos;
         const FP old_y = mYPos;
 
-        (this->*sScrabMotionTable[mCurrentMotion])();
+        InvokeMemberFunction(this, sScrabMotionTable, mCurrentMotion);
 
         if (old_x != mXPos || old_y != mYPos)
         {

@@ -3368,7 +3368,7 @@ void Elum::VUpdate()
 
         if (static_cast<eElumMotions>(oldMotion) != eElumMotions::Motion_19_Dead)
         {
-            mBrainSubState = (this->*sElum_brain_table_4C52E8[mBrainIdx])();
+            mBrainSubState = InvokeMemberFunction(this, sElum_brain_table_4C52E8, mBrainIdx);
         }
 
         if (field_170_flags.Get(Elum::Flags_170::eFalling_Bit3))
@@ -3388,7 +3388,7 @@ void Elum::VUpdate()
             }
         }
 
-        (this->*sElumMotionTable[mCurrentMotion])();
+        InvokeMemberFunction(this, sElumMotionTable, mCurrentMotion);
 
         if ((oldMotion != mCurrentMotion && oldMotion == 2) || oldMotion == 11 || oldMotion == 47)
         {

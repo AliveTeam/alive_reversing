@@ -428,7 +428,7 @@ void Mudokon::VUpdate()
     const auto old_motion = GetCurrentMotion();
     const auto old_brain = field_1B8_brain_state;
     const auto old_brain_sub_state = field_1BA_brain_sub_state;
-    field_1BA_brain_sub_state = (this->*gMudBrains_4CD430[field_1B8_brain_state])();
+    field_1BA_brain_sub_state = InvokeMemberFunction(this, gMudBrains_4CD430, field_1B8_brain_state);
 
     if (old_brain != field_1B8_brain_state)
     {
@@ -442,7 +442,7 @@ void Mudokon::VUpdate()
 
     const FP oldX = mXPos;
     const FP oldY = mYPos;
-    (this->*gMudMotions_4CD470[mCurrentMotion])();
+    InvokeMemberFunction(this, gMudMotions_4CD470, mCurrentMotion);
 
     if (oldX != mXPos || oldY != mYPos)
     {
