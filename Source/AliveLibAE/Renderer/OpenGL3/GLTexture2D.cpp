@@ -6,12 +6,6 @@
 #include "GLDebug.hpp"
 #include "GLTexture2D.hpp"
 
-#include "../AliveLibCommon/logger.hpp"
-#include <string>
-
-
-int totalAllocs = 0;
-
 
 GLTexture2D::GLTexture2D()
 {
@@ -24,13 +18,6 @@ GLTexture2D::GLTexture2D(u32 width, u32 height, GLenum format)
     mIsOriginal(true)
 {
     GL_VERIFY(glGenTextures(1, &mGLId));
-
-    std::string buf;
-
-    buf.append("Created tex! Allocs now ");
-    buf.append(std::to_string(++totalAllocs));
-
-    LOG_INFO(buf.c_str());
 
     BindTo(GL_TEXTURE0);
 
@@ -67,13 +54,6 @@ GLTexture2D::~GLTexture2D()
 {
     if (mGLId && mIsOriginal)
     {
-        std::string buf;
-
-        buf.append("Destroyed tex! Allocs now ");
-        buf.append(std::to_string(--totalAllocs));
-
-        LOG_INFO(buf.c_str());
-
         GL_VERIFY(glDeleteTextures(1, &mGLId));
 
         mGLId = 0;
