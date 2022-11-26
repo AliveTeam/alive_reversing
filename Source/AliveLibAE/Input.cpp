@@ -594,7 +594,7 @@ void Input_Init_Names_491870()
     strcpy(sKeyboardDisplayKeyNames_5C9E30.keys[2].field_0_name, kStopIt);
     strcpy(sKeyboardDisplayKeyNames_5C9E30.keys[3].field_0_name, kChant);
 
-    s32 bindingMask = 16;
+    u32 bindingMask = 16;
     for (s32 i = 4; i < 32; i++)
     {
         char_type* keyNamePtr = sKeyboardDisplayKeyNames_5C9E30.keys[i].field_0_name;
