@@ -14,7 +14,7 @@
 class DirectX9TextureCache final : public TextureCache<ATL::CComPtr<IDirect3DTexture9>>
 {
 public:
-    void DeleteTexture(ATL::CComPtr<IDirect3DTexture9> texture) override;
+
 };
 
 class VertexInfo;

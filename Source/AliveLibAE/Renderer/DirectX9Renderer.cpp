@@ -100,11 +100,6 @@ static void LoadSubImage(IDirect3DTexture9& texture, u32 xStart, u32 yStart, u32
 }
 }
 
-void DirectX9TextureCache::DeleteTexture(ATL::CComPtr<IDirect3DTexture9> /*texture*/)
-{
-    // TODO: Bin this off when rozza becomes a lad who can do his stuff
-}
-
 
 // TODO: Copy pasted from GL renderer
 inline u16 GetTPageBlendMode(u16 tpage)
@@ -729,7 +724,7 @@ void DirectX9Renderer::MakeVertexBuffer()
 
 IDirect3DTexture9* DirectX9Renderer::MakeCachedIndexedTexture(u32 uniqueId, const std::vector<u8>& pixels, u32 textureW, u32 textureH, u32 actualW, u32 actualH)
 {
-    IDirect3DTexture9* textureId = mTextureCache.GetCachedTextureId(uniqueId, DX_SPRITE_TEXTURE_LIFETIME);
+    IDirect3DTexture9* textureId = mTextureCache.GetCachedTexture(uniqueId, DX_SPRITE_TEXTURE_LIFETIME);
     if (!textureId)
     {
         DX_VERIFY(mDevice->CreateTexture(textureW, textureH, 0, 0, D3DFMT_L8, D3DPOOL_MANAGED, &textureId, nullptr));
@@ -742,7 +737,7 @@ IDirect3DTexture9* DirectX9Renderer::MakeCachedIndexedTexture(u32 uniqueId, cons
 
 IDirect3DTexture9* DirectX9Renderer::MakeCachedTexture(u32 uniqueId, const std::vector<u8>& pixels, u32 textureW, u32 textureH, u32 actualW, u32 actualH)
 {
-    IDirect3DTexture9* textureId = mTextureCache.GetCachedTextureId(uniqueId, DX_SPRITE_TEXTURE_LIFETIME);
+    IDirect3DTexture9* textureId = mTextureCache.GetCachedTexture(uniqueId, DX_SPRITE_TEXTURE_LIFETIME);
     if (!textureId)
     {
         DX_VERIFY(mDevice->CreateTexture(textureW, textureH, 0, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &textureId, nullptr));
