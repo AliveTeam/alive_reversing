@@ -33,7 +33,7 @@
 #include "Grid.hpp"
 #include "../relive_lib/Camera.hpp"
 
-const TGlukkonMotionFn sGlukkonMotionTable[25] = {
+constexpr TGlukkonMotionFn sGlukkonMotionTable[25] = {
     &Glukkon::Motion_0_Idle,
     &Glukkon::Motion_1_Walk,
     &Glukkon::Motion_2_Turn,
@@ -2060,7 +2060,9 @@ void Glukkon::VUpdate()
         const FP oldXPos = mXPos;
         const FP oldYPos = mYPos;
 
-        (this->*sGlukkonMotionTable[mCurrentMotion])();
+        auto oi = sGlukkonMotionTable[mCurrentMotion];
+
+        (this->*oi)();
 
         // TODO: This is extra debug logging to figure out the motion names
         if (oldMotion != mCurrentMotion)

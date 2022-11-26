@@ -85,6 +85,8 @@ private:
         {
             mTexture = std::move(src.mTexture);
             mLifetime = src.mLifetime;
+
+            return *this;
         }
     };
     std::map<u32, CachedTexture> mTextureCache;

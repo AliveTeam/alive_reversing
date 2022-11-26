@@ -897,7 +897,10 @@ void Abe::VUpdate()
             s16 motion_idx = mCurrentMotion;
             const FP oldX = mXPos;
             const FP oldY = mYPos;
-            (this->*sAbeMotionMachineTable_4C5F08[motion_idx])();
+
+            auto oi = sAbeMotionMachineTable_4C5F08[motion_idx];
+
+            (this->*oi)();
 
             if (BaseAliveGameObjectCollisionLine)
             {

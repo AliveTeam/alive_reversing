@@ -326,7 +326,7 @@ private:
     void HandleMainMenuUpdate();
 
 public:
-    enum Flags
+    enum Flags : u32
     {
         eBit1_padding = 0x1,
         eBit2_padding = 0x2,

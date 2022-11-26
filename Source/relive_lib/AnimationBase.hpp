@@ -7,7 +7,7 @@
 #include "../AliveLibCommon/BitField.hpp"
 #include "../AliveLibCommon/RGB16.hpp"
 
-enum AnimFlags
+enum AnimFlags : u32
 {
     eBit1 = 0x1, // unused
     eAnimate = 0x2,

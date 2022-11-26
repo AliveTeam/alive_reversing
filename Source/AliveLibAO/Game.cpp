@@ -1,7 +1,7 @@
 #include "stdafx_ao.h"
 #include "Game.hpp"
 #include "Function.hpp"
-#include "../Input.hpp"
+#include "../AliveLibAE/Input.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "DDCheat.hpp"
