@@ -29,7 +29,7 @@ struct ParticleBurst_Item final
 
 static inline FP Random_Speed(FP scale)
 {
-    return FP_FromRaw((Math_NextRandom() - 128) << 13) * scale;
+    return FP_FromRaw((static_cast<u32>(Math_NextRandom()) - 128) << 13) * scale;
 }
 
 ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, BurstType type)

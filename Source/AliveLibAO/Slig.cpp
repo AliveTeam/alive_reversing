@@ -4149,10 +4149,10 @@ s16 Slig::Brain_Unknown()
         {
             if (sActiveHero->mHealth > FP_FromInteger(0))
             {
-                BaseAliveGameObject* pEvent = static_cast<BaseAliveGameObject*>(EventGet(kEventSuspiciousNoise));
+                BaseAnimatedWithPhysicsGameObject* pEvent = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventSuspiciousNoise));
                 if (!pEvent)
                 {
-                    pEvent = static_cast<BaseAliveGameObject*>(EventGet(kEventSpeaking));
+                    pEvent = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventSpeaking));
                 }
 
                 if (pEvent && pEvent->GetSpriteScale() == GetSpriteScale() && pEvent != this && field_114_timer <= static_cast<s32>(sGnFrame) && !EventGet(kEventResetting))
@@ -4827,11 +4827,11 @@ s16 Slig::Brain_Idle()
         ToAbeDead();
         return 104;
     }
-    auto pEvent = static_cast<BaseAliveGameObject*>(EventGet(kEventSuspiciousNoise));
+    auto pEvent = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventSuspiciousNoise));
 
     if (!pEvent)
     {
-        pEvent = static_cast<BaseAliveGameObject*>(EventGet(kEventSpeaking));
+        pEvent = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventSpeaking));
     }
 
     if (!pEvent || pEvent->GetSpriteScale() != GetSpriteScale() || pEvent == this || !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) || EventGet(kEventResetting))
@@ -4840,7 +4840,7 @@ s16 Slig::Brain_Idle()
             && (sControlledCharacter == sActiveHero
                 || sControlledCharacter == gElum))
         {
-            if (VIsFacingMe(sControlledCharacter) && !IsInInvisibleZone(sControlledCharacter) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !IsInZCover(static_cast<Slig*>(sControlledCharacter)) && !IsInZCover(this) && !EventGet(kEventResetting))
+            if (VIsFacingMe(sControlledCharacter) && !IsInInvisibleZone(sControlledCharacter) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !IsInZCover(sControlledCharacter) && !IsInZCover(this) && !EventGet(kEventResetting))
             {
                 ToZShoot();
                 return 104;

@@ -33,7 +33,7 @@ static const TintEntry sMudGibTints[3] = {
 
 static FP GibRand(FP scale)
 {
-    return FP_FromRaw((Math_NextRandom() - 128) << 13) * scale;
+    return FP_FromRaw((static_cast<u32>(Math_NextRandom()) - 128) << 13) * scale;
 }
 
 void Gibs::LoadAnimations()

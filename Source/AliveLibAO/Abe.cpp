@@ -1187,7 +1187,7 @@ bool Abe::IsStanding_41FC10()
 
 void Abe::FollowLift_42EE90()
 {
-    LiftPoint* pLift = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
+    PlatformBase* pLift = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (pLift)
     {
         mVelY = pLift->mVelY;
@@ -1400,7 +1400,8 @@ void Abe::MoveForward_422FC0()
     // TODO: Check mask is correct
     auto pTrapdoor = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     const s32 mask = GetSpriteScale() != FP_FromDouble(0.5) ? 1 : 0x10;
-    if (BaseAliveGameObjectCollisionLine && (mask & (1 << BaseAliveGameObjectCollisionLine->mLineType)))
+    const u32 lineType = BaseAliveGameObjectCollisionLine ? BaseAliveGameObjectCollisionLine->mLineType : 0;
+    if (BaseAliveGameObjectCollisionLine && (mask & (1 << lineType)))
     {
         if (pTrapdoor)
         {
@@ -1799,7 +1800,7 @@ void Abe::PickUpThrowabe_Or_PressBomb_428260(FP fpX, s32 fpY, s16 bStandToCrouch
                 {
                     pSlapableOrCollectable = pAliveObj;
                     pSlapableOrCollectable->mBaseGameObjectRefCount++;
-                    field_15C_pThrowable = static_cast<BaseThrowable*>(pSlapableOrCollectable);
+                    field_15C_pThrowable = pSlapableOrCollectable;
                     break;
                 }
             }
@@ -1828,7 +1829,7 @@ void Abe::PickUpThrowabe_Or_PressBomb_428260(FP fpX, s32 fpY, s16 bStandToCrouch
             case ReliveTypes::eMeat:
             case ReliveTypes::eRock:
                 mCurrentMotion = eAbeMotions::Motion_149_PickupItem;
-                field_19C_throwable_count += static_cast<s8>(field_15C_pThrowable->VGetCount());
+                field_19C_throwable_count += static_cast<s8>(static_cast<BaseThrowable*>(field_15C_pThrowable)->VGetCount());
 
                 if (!bThrowableIndicatorExists_504C70)
                 {

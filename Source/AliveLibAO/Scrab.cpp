@@ -2429,10 +2429,11 @@ s16 Scrab::Brain_ChasingEnemy()
 
     const FP kGridSize = ScaleToGridSize(GetSpriteScale());
     
-    LiftPoint* pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
-    if (pLiftPoint && pLiftPoint->Type() != ReliveTypes::eLiftPoint)
+    PlatformBase* pPlatformBase = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
+    LiftPoint* pLiftPoint = nullptr;
+    if (pPlatformBase && pPlatformBase->Type() == ReliveTypes::eLiftPoint)
     {
-        pLiftPoint = nullptr; // OG bug fix: Before it could use the pointer as a LiftPoint even if it, in fact, wasn't one
+        pLiftPoint = static_cast<LiftPoint*>(pPlatformBase);
     }
   
     switch (mBrainSubState)

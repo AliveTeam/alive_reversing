@@ -575,7 +575,7 @@ public:
     s32 field_150_saved_ring_timer = 0; // todo: check
     s16 field_154_bSavedHaveShrykull = 0;
     Fade* mFade = nullptr;
-    BaseThrowable* field_15C_pThrowable = nullptr;
+    BaseAliveGameObject* field_15C_pThrowable = nullptr;
     PullRingRope* field_160_pRope = nullptr;
     CircularFade* mCircularFade = nullptr;
     s32 field_168_ring_pulse_timer = 0;
