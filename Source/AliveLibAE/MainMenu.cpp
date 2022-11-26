@@ -281,7 +281,7 @@ MainMenuPage sMainMenuPages_561960[24] =
             0, 150, 25, 1, NO_SELECTABLE_BUTTONS, false, nullptr, nullptr, nullptr, nullptr, nullptr},
            {// Page 16: Copyright boot screen
             MainMenuCams::eGameBootCopyrightSplashCam, // 
-                                           0, 1, 1, 7, 0, false, nullptr, nullptr, nullptr, nullptr, nullptr},
+                                           0, 150, 1, 7, 0, false, nullptr, nullptr, nullptr, nullptr, nullptr},
            {// Page 17: Unknown, possibly startup-related?
             MainMenuCams::eControllerSelectionCam,
             0, 150, 25, 1, NO_SELECTABLE_BUTTONS, false, nullptr, nullptr, nullptr, nullptr, nullptr},
