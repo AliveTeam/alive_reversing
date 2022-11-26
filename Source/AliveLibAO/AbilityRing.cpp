@@ -5,6 +5,7 @@
 #include "ResourceManager.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
+#include "../relive_lib/PsxDisplay.hpp"
 #include "Sfx.hpp"
 #include "Map.hpp"
 #include "Abe.hpp"
@@ -164,6 +165,7 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ring_type)
                 SetRGB0(pPoly, mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
                 SetRGB1(pPoly, mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
                 SetRGB2(pPoly, mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
+                SetRGB3(pPoly, mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
                 Poly_Set_SemiTrans(&pPoly->mBase.header, mRingSemiTrans);
             }
             Init_SetTPage(&mRingPrimSetTPage[y], 0, 0, PSX_getTPage(TPageAbr::eBlend_1));
