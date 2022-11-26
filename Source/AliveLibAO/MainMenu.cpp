@@ -2444,9 +2444,11 @@ void Menu::GameSpeak_Update()
             const FP screen_y = pScreenManager->mCamPos->y - FP_FromInteger(pScreenManager->mCamYOff);
             const FP screen_x = pScreenManager->mCamPos->x - FP_FromInteger(pScreenManager->mCamXOff);
 
+            const FP x = screen_x + (FP_FromInteger(Math_RandomRange(-40, 40) + 184));
+            const FP y = screen_y + (FP_FromInteger(162 - Math_RandomRange(30, 90)));
             auto pParticle = relive_new Particle(
-                screen_x + (FP_FromInteger(Math_RandomRange(-40, 40) + 184)),
-                screen_y + (FP_FromInteger(162 - Math_RandomRange(30, 90))),
+                x,
+                y,
                 GetAnimRes(AnimId::OptionChantOrb_Particle));
             if (pParticle)
             {

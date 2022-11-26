@@ -301,9 +301,10 @@ void SlapLock::VUpdate()
                     return;
                 }
 
+                const FP y = (GetSpriteScale() * (FP_FromInteger(Math_RandomRange(-3, 3)) - FP_FromInteger(33))) + mYPos;
+                const FP x = (GetSpriteScale() * (FP_FromInteger(Math_RandomRange(-2, 2)) + FP_FromInteger(1))) + mXPos;
                 New_TintShiny_Particle(
-                    (GetSpriteScale() * (FP_FromInteger(Math_RandomRange(-2, 2)) + FP_FromInteger(1))) + mXPos,
-                    (GetSpriteScale() * (FP_FromInteger(Math_RandomRange(-3, 3)) - FP_FromInteger(33))) + mYPos,
+                    x, y,
                     FP_FromDouble(0.3),
                     GetAnimation().GetRenderLayer());
 
@@ -342,9 +343,10 @@ void SlapLock::VUpdate()
                     return;
                 }
 
+                const FP x = (GetSpriteScale() * (FP_FromInteger(Math_RandomRange(-2, 2)) + FP_FromInteger(1))) + mXPos;
+                const FP y = (GetSpriteScale() * (FP_FromInteger(Math_RandomRange(-3, 3)) - FP_FromInteger(33))) + mYPos;
                 New_TintShiny_Particle(
-                    (GetSpriteScale() * (FP_FromInteger(Math_RandomRange(-2, 2)) + FP_FromInteger(1))) + mXPos,
-                    (GetSpriteScale() * (FP_FromInteger(Math_RandomRange(-3, 3)) - FP_FromInteger(33))) + mYPos,
+                    x, y,
                     FP_FromDouble(0.3),
                     GetAnimation().GetRenderLayer());
 

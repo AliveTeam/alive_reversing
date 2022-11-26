@@ -369,12 +369,14 @@ void ChimeLock::VUpdate()
                         break;
                 }
 
+                const s16 ySize = Math_RandomRange(6, 9);
+                const s16 xSize = Math_RandomRange(6, 9);
                 SetBallTarget(
                     mTargetX,
                     mTargetY,
                     36,
-                    Math_RandomRange(6, 9),
-                    Math_RandomRange(6, 9),
+                    xSize,
+                    ySize,
                     0);
 
                 if (DoNote(static_cast<s16>(Bell)))
@@ -431,15 +433,19 @@ void ChimeLock::VUpdate()
                         break;
 
                     case BellPositions::eUnused_4:
+                    {
+                        const s16 ySize = Math_RandomRange(6, 9);
+                        const s16 xSize = Math_RandomRange(6, 9);
                         SetBallTarget(
                             mTargetX,
                             mTargetY,
                             30,
-                            Math_RandomRange(6, 9),
-                            Math_RandomRange(6, 9),
+                            xSize,
+                            ySize,
                             1);
                         ALIVE_FATAL("never expected target bell num 4 in ChimeLockStates::ePossessed_2 to be called");
                         break;
+                    }
 
                     default:
                         break;
@@ -536,9 +542,12 @@ void ChimeLock::VUpdate()
             return;
 
         case ChimeLockStates::eUnPossessing_3:
+        {
             if (UpdateBall())
             {
-                SetBallTarget(mTargetX, mTargetY, 36, Math_RandomRange(6, 9), Math_RandomRange(6, 9), 0);
+                const s16 ySize = Math_RandomRange(6, 9);
+                const s16 xSize = Math_RandomRange(6, 9);
+                SetBallTarget(mTargetX, mTargetY, 36, xSize, ySize, 0);
             }
 
             if (!Input_IsChanting())
@@ -560,12 +569,14 @@ void ChimeLock::VUpdate()
                 return;
             }
 
+            const FP y = mTargetY - (GetSpriteScale() * FP_FromInteger(Math_RandomRange(-20, 20)));
+            const FP x = mTargetX + (GetSpriteScale() * FP_FromInteger(Math_RandomRange(-30, 30)));
             New_TintChant_Particle(
-                mTargetX + (GetSpriteScale() * FP_FromInteger(Math_RandomRange(-30, 30))),
-                mTargetY - (GetSpriteScale() * FP_FromInteger(Math_RandomRange(-20, 20))),
+                x, y,
                 GetSpriteScale(),
                 Layer::eLayer_0);
             return;
+        }
 
         case ChimeLockStates::eUnPossess_4:
             VUnPosses();

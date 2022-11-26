@@ -4386,9 +4386,10 @@ void Paramite::Motion_29_GetDepossessedBegin()
 
         if (!(static_cast<s32>(sGnFrame) % 4))
         {
+            const FP y = mYPos - (GetSpriteScale() * FP_FromInteger(Math_RandomRange(20, 50)));
+            const FP x = mXPos + (GetSpriteScale() * FP_FromInteger(Math_RandomRange(-20, 20)));
             New_TintChant_Particle(
-                (GetSpriteScale() * FP_FromInteger(Math_RandomRange(-20, 20))) + mXPos,
-                mYPos - (GetSpriteScale() * FP_FromInteger(Math_RandomRange(20, 50))),
+                x, y,
                 GetSpriteScale(),
                 Layer::eLayer_0);
         }

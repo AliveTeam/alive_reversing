@@ -685,12 +685,20 @@ void Elum::Elum_SFX_416E10(ElumSounds soundId, BaseAliveGameObject* pObj)
     switch (soundId)
     {
         case ElumSounds::eWalkingFootstep_0:
-            SFX_SfxDefinition_Play_Mono(sElumSfx_4C5398[Math_RandomRange(0, 2)], Math_RandomRange(54, 58), -700, -573);
+        {
+            const s16 sfxId = Math_RandomRange(0, 2);
+            const s16 pitch = Math_RandomRange(54, 58);
+            SFX_SfxDefinition_Play_Mono(sElumSfx_4C5398[sfxId], pitch, -700, -573);
             break;
+        }
 
         case ElumSounds::eRunningFootstep_1:
-            SFX_SfxDefinition_Play_Mono(sElumSfx_4C5398[Math_RandomRange(0, 2)], Math_RandomRange(66, 70), -573, -446);
+        {
+            const s16 sfxId = Math_RandomRange(0, 2);
+            const s16 pitch = Math_RandomRange(66, 70);
+            SFX_SfxDefinition_Play_Mono(sElumSfx_4C5398[sfxId], pitch, -573, -446);
             break;
+        }
 
         case ElumSounds::eHowl_2:
         {

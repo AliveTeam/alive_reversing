@@ -232,6 +232,7 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ringType, FP scale)
                 SetRGB0(pPoly, mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
                 SetRGB1(pPoly, mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
                 SetRGB2(pPoly, mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
+                SetRGB3(pPoly, mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
                 Poly_Set_SemiTrans(&pPoly->mBase.header, mRingSemiTrans);
             }
             Init_SetTPage(&mRingPrimSetTPage[y], 0, 0, PSX_getTPage(TPageAbr::eBlend_1));
@@ -386,6 +387,9 @@ void AbilityRing::VUpdate()
                     for (s32 j = 0; j < 64; j++)
                     {
                         SetRGB0(&mRingPolyBuffer[j].mPolys[i], mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
+                        SetRGB1(&mRingPolyBuffer[j].mPolys[i], mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
+                        SetRGB2(&mRingPolyBuffer[j].mPolys[i], mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
+                        SetRGB3(&mRingPolyBuffer[j].mPolys[i], mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
                     }
                 }
             }

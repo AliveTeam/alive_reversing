@@ -114,9 +114,11 @@ void HoistRocksEffect::VUpdate()
             {
                 hoistRock = AnimId::RuptureFarms_HoistRock2;
             }
+
+            const FP y = mTlvYPos + FP_FromInteger(Math_RandomRange(-4, 4));
+            const FP x = mTlvXPos + FP_FromInteger(Math_RandomRange(-8, 8));
             relive_new HoistParticle(
-                mTlvXPos + FP_FromInteger(Math_RandomRange(-8, 8)),
-                mTlvYPos + FP_FromInteger(Math_RandomRange(-4, 4)),
+                x, y,
                 FP_FromInteger(1),
                 hoistRock);
 
@@ -129,9 +131,11 @@ void HoistRocksEffect::VUpdate()
             {
                 hoistRock = AnimId::RuptureFarms_HoistRock3;
             }
+
+            const FP y = mTlvYPos + FP_FromInteger(Math_RandomRange(-4, 4));
+            const FP x = mTlvXPos + FP_FromInteger(Math_RandomRange(-8, 8));
             relive_new HoistParticle(
-                mTlvXPos + FP_FromInteger(Math_RandomRange(-8, 8)),
-                mTlvYPos + FP_FromInteger(Math_RandomRange(-4, 4)),
+                x, y,
                 FP_FromInteger(1),
                 hoistRock);
 
@@ -145,9 +149,11 @@ void HoistRocksEffect::VUpdate()
         {
             hoistRock = AnimId::RuptureFarms_HoistRock1;
         }
+
+        const FP y = mTlvYPos + FP_FromInteger(Math_RandomRange(-4, 4));
+        const FP x = mTlvXPos + FP_FromInteger(Math_RandomRange(-8, 8));
         relive_new HoistParticle(
-            mTlvXPos + FP_FromInteger(Math_RandomRange(-8, 8)),
-            mTlvYPos + FP_FromInteger(Math_RandomRange(-4, 4)),
+            x, y,
             FP_FromInteger(1),
             hoistRock);
 
