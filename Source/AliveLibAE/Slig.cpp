@@ -4904,7 +4904,7 @@ void Slig::ShouldStillBeAlive_4BBC00()
             else
             {
                 bool anyPointInCamera = false;
-                for (s32 i = 0; i <= field_290_points_count; i++)
+                for (s32 i = 0; i < field_290_points_count; i++)
                 {
                     if (gMap.Is_Point_In_Current_Camera(
                             mCurrentLevel,
