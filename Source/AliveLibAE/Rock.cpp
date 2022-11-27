@@ -263,7 +263,7 @@ void Rock::BounceHorizontally( FP hitX, FP hitY )
 }
 
 //TODO Identical to AO - merge
-s16 Rock::OnCollision(BaseAliveGameObject* pObj)
+s16 Rock::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
 {
     if (!pObj->mBaseGameObjectFlags.Get(BaseGameObject::eCanExplode_Bit7))
     {

@@ -318,7 +318,7 @@ s32 Glukkon::VGetSaveState(u8* pSaveBuffer)
     {
         pSaveState->mLineType = -1;
     }
-    pSaveState->mIsActiveChar = this == static_cast<Glukkon*>(sControlledCharacter);
+    pSaveState->mIsActiveChar = this == sControlledCharacter;
     pSaveState->mTlvId = mTlvId;
 
     pSaveState->field_48_brain_state_idx = 0;

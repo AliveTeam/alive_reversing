@@ -2672,7 +2672,7 @@ enum Brain_ListeningToGlukkon_GlukkonCommands
 s16 Slig::Brain_ListeningToGlukkon_4_4B9D20()
 {
     auto pGlukkonObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_208_glukkon_obj_id));
-    auto pPlatformObj = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
+    auto pPlatformObj = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
 
     mHeardGlukkon = false;
 
@@ -2735,7 +2735,7 @@ s16 Slig::Brain_ListeningToGlukkon_Shooting()
     return Brain_ListeningToGlukkon_States::Speaking_4;
 }
 
-s16 Slig::Brain_ListeningToGlukkon_StoppingOnLift(LiftPoint* pPlatformObj)
+s16 Slig::Brain_ListeningToGlukkon_StoppingOnLift(PlatformBase* pPlatformObj)
 {
     const FP gridSize = ScaleToGridSize(GetSpriteScale());
 
@@ -3014,7 +3014,7 @@ s16 Slig::Brain_ListenToGlukkon_Moving(BaseAliveGameObject* pGlukkonObj)
     return Brain_ListeningToGlukkon_States::Moving_2;
 }
 
-s16 Slig::Brain_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, LiftPoint* pPlatformObj)
+s16 Slig::Brain_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, PlatformBase* pPlatformObj)
 {
     if (mCurrentMotion != eSligMotions::M_StandIdle_0_4B4EC0)
     {
@@ -3146,7 +3146,7 @@ s16 Slig::Brain_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, Lif
                             const FP scaled_2 = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
                             const FP lineMidX = FP_FromInteger((BaseAliveGameObjectCollisionLine->mRect.x + BaseAliveGameObjectCollisionLine->mRect.w) / 2);
                             const FP v33 = mXPos - lineMidX >= FP_FromInteger(0) ? mXPos - lineMidX : lineMidX - mXPos;
-                            if (v33 < scaled_2 && (pPlatformObj->vOnTopFloor() || pPlatformObj->vOnBottomFloor()))
+                            if (v33 < scaled_2 && (static_cast<LiftPoint*>(pPlatformObj)->vOnTopFloor() || static_cast<LiftPoint*>(pPlatformObj)->vOnBottomFloor()))
                             {
                                 mNextMotion = eSligMotions::M_LiftGrip_46_4B3700;
 
@@ -3592,7 +3592,7 @@ s16 Slig::Brain_Idle_15_4BD800()
         return 104;
     }
 
-    auto pShooter = static_cast<BaseAliveGameObject*>(EventGet(kEventShooting));
+    auto pShooter = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventShooting));
     if (pShooter && pShooter->GetSpriteScale() == GetSpriteScale() && gMap.Is_Point_In_Current_Camera(pShooter->mCurrentLevel, pShooter->mCurrentPath, pShooter->mXPos, pShooter->mYPos, 0) && pShooter == sControlledCharacter && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting))
     {
         if (VIsFacingMe(pShooter))
@@ -3607,10 +3607,10 @@ s16 Slig::Brain_Idle_15_4BD800()
         }
     }
 
-    auto pNoiseOrSpeaking = static_cast<BaseAliveGameObject*>(EventGet(kEventSuspiciousNoise));
+    auto pNoiseOrSpeaking = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventSuspiciousNoise));
     if (!pNoiseOrSpeaking)
     {
-        pNoiseOrSpeaking = static_cast<BaseAliveGameObject*>(EventGet(kEventSpeaking));
+        pNoiseOrSpeaking = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventSpeaking));
     }
 
     if (pNoiseOrSpeaking && pNoiseOrSpeaking->GetSpriteScale() == GetSpriteScale() && gMap.Is_Point_In_Current_Camera(pNoiseOrSpeaking->mCurrentLevel, pNoiseOrSpeaking->mCurrentPath, pNoiseOrSpeaking->mXPos, pNoiseOrSpeaking->mYPos, 0) && pNoiseOrSpeaking != this && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting))
@@ -3887,7 +3887,7 @@ s16 Slig::Brain_Walking_21_4BE0C0()
     }
     else
     {
-        auto pShooter = static_cast<BaseAliveGameObject*>(EventGet(kEventShooting));
+        auto pShooter = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventShooting));
         if (pShooter && pShooter->GetSpriteScale() == GetSpriteScale() && gMap.Is_Point_In_Current_Camera(pShooter->mCurrentLevel, pShooter->mCurrentPath, pShooter->mXPos, pShooter->mYPos, 0) && pShooter == sControlledCharacter && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting))
         {
             if (VIsFacingMe(pShooter))
@@ -3913,10 +3913,10 @@ s16 Slig::Brain_Walking_21_4BE0C0()
         }
         else
         {
-            auto pNoiseOrSpeaker = static_cast<BaseAliveGameObject*>(EventGet(kEventSuspiciousNoise));
+            auto pNoiseOrSpeaker = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventSuspiciousNoise));
             if (!pNoiseOrSpeaker)
             {
-                pNoiseOrSpeaker = static_cast<BaseAliveGameObject*>(EventGet(kEventSpeaking));
+                pNoiseOrSpeaker = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventSpeaking));
             }
 
             if (pNoiseOrSpeaker && pNoiseOrSpeaker->GetSpriteScale() == GetSpriteScale() && gMap.Is_Point_In_Current_Camera(pNoiseOrSpeaker->mCurrentLevel, pNoiseOrSpeaker->mCurrentPath, pNoiseOrSpeaker->mXPos, pNoiseOrSpeaker->mYPos, 0) && pNoiseOrSpeaker != this && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting))
@@ -4041,7 +4041,7 @@ s16 Slig::Brain_GetAlerted_23_4BEC40()
     else
     {
         // If some fool is trying to shoot us then shoot back
-        auto pShootingSlig = static_cast<BaseAliveGameObject*>(EventGet(kEventShooting));
+        auto pShootingSlig = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventShooting));
         if (pShootingSlig && pShootingSlig->GetSpriteScale() == GetSpriteScale() && gMap.Is_Point_In_Current_Camera(pShootingSlig->mCurrentLevel, pShootingSlig->mCurrentPath, pShootingSlig->mXPos, pShootingSlig->mYPos, 0) && pShootingSlig == sControlledCharacter && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting))
         {
             if (VIsFacingMe(pShootingSlig))
@@ -4056,10 +4056,10 @@ s16 Slig::Brain_GetAlerted_23_4BEC40()
         else
         {
             // Is a mud being noisy?
-            auto pNoisyMud = static_cast<BaseAliveGameObject*>(EventGet(kEventSuspiciousNoise));
+            auto pNoisyMud = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventSuspiciousNoise));
             if (!pNoisyMud)
             {
-                pNoisyMud = static_cast<BaseAliveGameObject*>(EventGet(kEventSpeaking));
+                pNoisyMud = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventSpeaking));
             }
 
             // Then kill them
@@ -4070,10 +4070,10 @@ s16 Slig::Brain_GetAlerted_23_4BEC40()
             else
             {
                 // Is a slig being noisy?
-                auto pNoisySlig = static_cast<BaseAliveGameObject*>(EventGet(kEventSuspiciousNoise));
+                auto pNoisySlig = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventSuspiciousNoise));
                 if (!pNoisySlig)
                 {
-                    pNoisySlig = static_cast<BaseAliveGameObject*>(EventGet(kEventSpeaking));
+                    pNoisySlig = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventSpeaking));
                 }
 
                 // Then mSay what, stop walking to respond or try to kill them.
@@ -4312,10 +4312,10 @@ s16 Slig::Brain_Paused_33_4B8DD0()
     }
     else
     {
-        auto pNoiseOrSpeaking = static_cast<BaseAliveGameObject*>(EventGet(kEventSuspiciousNoise));
+        auto pNoiseOrSpeaking = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventSuspiciousNoise));
         if (!pNoiseOrSpeaking)
         {
-            pNoiseOrSpeaking = static_cast<BaseAliveGameObject*>(EventGet(kEventSpeaking));
+            pNoiseOrSpeaking = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventSpeaking));
         }
 
         if (pNoiseOrSpeaking && pNoiseOrSpeaking->GetSpriteScale() == GetSpriteScale() && pNoiseOrSpeaking != this && field_120_timer <= static_cast<s32>(sGnFrame) && !EventGet(kEventResetting))
@@ -4911,7 +4911,7 @@ void Slig::ShouldStillBeAlive_4BBC00()
                     FP_FromInteger(field_268_points[i].y),
                     0))
                 {
-                    if (i >= field_290_points_count)
+                    if (i >= field_290_points_count || i > ALIVE_COUNTOF(field_268_points))
                     {
                         // No within any out our patrol points, die
                         mBaseGameObjectFlags.Set(BaseGameObject::eDead);

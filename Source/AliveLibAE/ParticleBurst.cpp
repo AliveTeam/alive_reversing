@@ -167,7 +167,7 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, u32 numOfParticles, FP scale, Bur
 
 FP* ParticleBurst::Random_Speed(FP* random)
 {
-    const FP v2 = FP_FromRaw((Math_NextRandom() - 128) << (field_106_count & 0xFF));
+    const FP v2 = FP_FromRaw((static_cast<u32>(Math_NextRandom()) - 128) << (field_106_count & 0xFF));
     *random = v2 * GetSpriteScale();
     return random;
 }

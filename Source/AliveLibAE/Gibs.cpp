@@ -31,7 +31,7 @@ s16 sGibRandom_550E80 = 13;
 
 FP Random_40FAF0(FP scale)
 {
-    return FP_FromRaw((Math_NextRandom() - 128) << sGibRandom_550E80) * scale;
+    return FP_FromRaw((static_cast<u32>(Math_NextRandom()) - 128) << sGibRandom_550E80) * scale;
 }
 
 void Gibs::LoadAnimations()

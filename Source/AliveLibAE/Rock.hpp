@@ -59,12 +59,12 @@ public:
 
     virtual s16 VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform) override
     {
-        return OnCollision(static_cast<BaseAliveGameObject*>(pPlatform));
+        return OnCollision(pPlatform);
     }
 
 private:
     void InTheAir();
-    s16 OnCollision(BaseAliveGameObject* pObj);
+    s16 OnCollision(BaseAnimatedWithPhysicsGameObject* pObj);
 
     void BounceHorizontally( FP hitX, FP hitY );
 

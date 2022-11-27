@@ -716,8 +716,8 @@ s32 BirdPortal::CreateFromSaveState(const u8* pBuffer)
         {
             pPortal->mState = PortalStates::ActivePortal_6;
             pPortal->CreateTerminators();
-            auto pTerminator1 = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(pPortal->mTerminatorId1));
-            auto pTerminator2 = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(pPortal->mTerminatorId2));
+            auto pTerminator1 = static_cast<BaseAnimatedWithPhysicsGameObject*>(sObjectIds.Find_Impl(pPortal->mTerminatorId1));
+            auto pTerminator2 = static_cast<BaseAnimatedWithPhysicsGameObject*>(sObjectIds.Find_Impl(pPortal->mTerminatorId2));
             pTerminator1->mYPos -= (FP_FromInteger(45) * pPortal->mSpriteScale);
             pTerminator2->mYPos += (FP_FromInteger(45) * pPortal->mSpriteScale);
             break;

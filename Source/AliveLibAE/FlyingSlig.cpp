@@ -3182,7 +3182,7 @@ s16 FlyingSlig::TryPullLever()
 
         if (pObj->Type() == ReliveTypes::eLever)
         {
-            auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
+            auto pAliveObj = static_cast<Lever*>(pObj);
 
             const PSX_RECT bObjRect = pAliveObj->VGetBoundingRect();
             if (rect_w <= bObjRect.w && rect_x >= bObjRect.x && rect_y >= bObjRect.y && rect_h <= bObjRect.h)
