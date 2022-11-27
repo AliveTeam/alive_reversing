@@ -82,6 +82,8 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
                 pSprt->mAnim = &GetAnimation();
 
                 SetUV0(pSprt, 0, 0);
+                SetRGB0(pSprt, 127, 127, 127);
+
 
                 SetXYWH(pSprt, 0, 0, static_cast<s16>(frameW - 1), static_cast<s16>(frameH - 1));
             }

@@ -85,6 +85,7 @@ ZapLine::ZapLine(FP x1, FP y1, FP x2, FP y2, s32 aliveTime, ZapLineType type, La
                 pSprt->mAnim = &GetAnimation();
 
                 SetUV0(pSprt, 0, 0);
+                SetRGB0(pSprt, 127, 127, 127);
 
                 SetXYWH(pSprt, 0, 0, static_cast<s16>(frameW - 1), static_cast<s16>(frameH - 1));
             }
