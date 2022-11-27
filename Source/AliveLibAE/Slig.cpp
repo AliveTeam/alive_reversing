@@ -4904,7 +4904,7 @@ void Slig::ShouldStillBeAlive_4BBC00()
             else
             {
                 bool anyPointInCamera = false;
-                for (s32 i = 0; i < field_290_points_count; i++)
+                for (s32 i = 0; i <= field_290_points_count; i++)
                 {
                     if (gMap.Is_Point_In_Current_Camera(
                             mCurrentLevel,
@@ -4921,8 +4921,23 @@ void Slig::ShouldStillBeAlive_4BBC00()
 
                 if (!anyPointInCamera)
                 {
-                    // No patrol points in current camera
-                    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                    // TODO: Remove me when making a new recording
+                    if (gMap.Is_Point_In_Current_Camera(
+                            mCurrentLevel,
+                            mCurrentPath,
+                            FP_FromInteger(field_290_points_count),
+                            FP_FromInteger(mPreventDepossession),
+                            0))
+
+                    {
+                        anyPointInCamera = true;
+                    }
+
+                    if (!anyPointInCamera)
+                    {
+                        // No patrol points in current camera
+                        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                    }
                 }
             }
         }
