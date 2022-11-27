@@ -796,16 +796,31 @@ void SND_SEQ_SetVol_477970(SeqId idx, s16 volLeft, s16 volRight)
     SND_SEQ_SetVol(static_cast<u16>(idx), volLeft, volRight);
 }
 
-static VabBodyRecord* IterateVBRecords(VabBodyRecord* ret, s32 i_3)
+static u8* GetVBAtIndex(VabBodyRecord* pRec, s32 index)
 {
-    for (s32 i = 0; i < i_3; i++)
+    u8* pIter = reinterpret_cast<u8*>(pRec);
+    for (s32 i = 0; i < index; i++)
     {
-        ret = (VabBodyRecord*) ((s8*) ret
-                                + ret->field_0_length_or_duration
-                                + 8);
+        pIter = pIter + *reinterpret_cast<u32*>(pIter) + 8;
     }
-    return ret;
+    return pIter;
 }
+
+static s32 IterateVBRecords_GetLengthOrDuration(VabBodyRecord* pRec, s32 i_3)
+{
+    return *reinterpret_cast<s32*>(GetVBAtIndex(pRec, i_3));
+}
+
+static s32 IterateVBRecords_GetUnused(VabBodyRecord* pRec, s32 i_3)
+{
+    return *reinterpret_cast<s32*>(GetVBAtIndex(pRec, i_3) + sizeof(s32));
+}
+
+static u32* IterateVBRecords_Offset(VabBodyRecord* pRec, s32 i_3)
+{
+    return reinterpret_cast<u32*>(GetVBAtIndex(pRec, i_3) + sizeof(s32) + sizeof(s32));
+}
+
 
 // Loads vab body sample data to memory
 void SsVabTransBody_49D3E0(VabBodyRecord* pVabBody, s16 vabId)
@@ -832,18 +847,18 @@ void SsVabTransBody_49D3E0(VabBodyRecord* pVabBody, s16 vabId)
         s32 sampleLen = -1;
         if (pVabHeader && i >= 0)
         {
-            sampleLen = (8 * IterateVBRecords(pVabBody, i)->field_0_length_or_duration) / 16;
+            sampleLen = (8 * IterateVBRecords_GetLengthOrDuration(pVabBody, i)) / 16;
         }
 
         if (sampleLen > 0)
         {
-            VabBodyRecord* v10 = nullptr;
+            s32 v10 = 0;
             if (pVabHeader && i >= 0)
             {
-                v10 = IterateVBRecords(pVabBody, i);
+                v10 = IterateVBRecords_GetUnused(pVabBody, i);
             }
 
-            const u8 unused_field = v10->field_4_unused >= 0 ? 0 : 4;
+            const u8 unused_field = v10 >= 0 ? 0 : 4;
             for (s32 prog = 0; prog < 128; prog++)
             {
                 for (s32 tone = 0; tone < 16; tone++)
@@ -869,13 +884,13 @@ void SsVabTransBody_49D3E0(VabBodyRecord* pVabBody, s16 vabId)
                     u32* pSrcVB = nullptr;
                     if (pVabHeader && i >= 0)
                     {
-                        pSrcVB = &IterateVBRecords(pVabBody, i)->field_8_fileOffset;
+                        pSrcVB = IterateVBRecords_Offset(pVabBody, i);
                     }
 
                     s32 sampleLen2 = -1;
                     if (pVabHeader && i >= 0)
                     {
-                        sampleLen2 = (8 * IterateVBRecords(pVabBody, i)->field_0_length_or_duration) / 16;
+                        sampleLen2 = (8 * IterateVBRecords_GetLengthOrDuration(pVabBody, i)) / 16;
                     }
 
                     const s32 len = (16 * sampleLen2) / 8;
