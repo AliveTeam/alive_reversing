@@ -19,11 +19,11 @@ const u32 sBlueShift_C19140 = 0;
 
 // On linux not using this random algorithm produces much bigger numbers
 // which causes flickering in the gas rendering. Apparently this is the MSVC algorithm.
-static s32 random_seed = 0;
+static u32 random_seed = 0;
 static s32 gas_rand()
 {
     random_seed = (random_seed * 214013 + 2531011) & 0xFFFFFFFF;
-    return (random_seed >> 16) & 0x7FFF;
+    return static_cast<s32>((random_seed >> 16) & 0x7FFF);
 }
 
 LaughingGas::LaughingGas(Layer layer, s32 /*notUsed*/, relive::Path_LaughingGas* pTlv, const Guid& tlvId)

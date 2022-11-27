@@ -14,6 +14,7 @@
 #include "Sys.hpp"
 #include "PathDataExtensions.hpp"
 #include "GameAutoPlayer.hpp"
+#include "EvilFart.hpp"
 
 s8 sQuicksave_SaveNextFrame_5CA4D8 = 0;
 s8 sQuicksave_LoadNextFrame_5CA4D9 = 0;
@@ -1035,7 +1036,7 @@ void PauseMenu::VUpdate()
                 && heroState != eAbeMotions::jMotion_81_WellBegin_45C7F0
                 && heroState != eAbeMotions::Motion_82_InsideWellExpress_45CC80
                 && heroState != eAbeMotions::Motion_83_WellExpressShotOut_45CF70
-                && (sControlledCharacter->Type() != ReliveTypes::eEvilFart && LOWORD(static_cast<Abe*>(sControlledCharacter)->field_124_timer) != 2) // TODO: Cast seems wrong, missing intermediate base class??
+                && (sControlledCharacter->Type() == ReliveTypes::eEvilFart && static_cast<EvilFart*>(sControlledCharacter)->mState != FartStates::eDechanting_2)
                 && sActiveHero->mBirdPortalId == Guid{})
             {
                 if (sQuicksave_SaveNextFrame_5CA4D8)

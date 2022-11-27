@@ -4911,7 +4911,7 @@ void Slig::ShouldStillBeAlive_4BBC00()
                     FP_FromInteger(field_268_points[i].y),
                     0))
                 {
-                    if (i >= field_290_points_count || i > ALIVE_COUNTOF(field_268_points))
+                    if (i >= field_290_points_count || i >= ALIVE_COUNTOF(field_268_points))
                     {
                         // No within any out our patrol points, die
                         mBaseGameObjectFlags.Set(BaseGameObject::eDead);

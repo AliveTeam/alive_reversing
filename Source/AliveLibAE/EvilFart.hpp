@@ -66,7 +66,11 @@ private:
     s16 mAbePath = 0;
     EReliveLevelIds mAbeLevel = EReliveLevelIds::eNone;
     s16 mAbeCamera = 0;
+
+public:
     FartStates mState = FartStates::eIdle_0;
+
+private:
     s32 mUnpossessionTimer = 0;
     s32 mBackToAbeTimer = 0;
     s32 mSoundChannels = 0;
