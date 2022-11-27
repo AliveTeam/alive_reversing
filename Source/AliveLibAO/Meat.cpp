@@ -480,7 +480,7 @@ void Meat::VUpdate()
     }
 }
 
-s16 Meat::OnCollision(BaseAliveGameObject* pHit)
+s16 Meat::OnCollision(BaseAnimatedWithPhysicsGameObject* pHit)
 {
     if (!pHit->mBaseGameObjectFlags.Get(BaseGameObject::eCanExplode_Bit7))
     {

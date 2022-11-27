@@ -4225,7 +4225,7 @@ void Start_Slig_Sounds_Helper(Sound_Ambiance_Array array, CameraPos camPos, u8 a
 
 s16 Slig::Brain_Sleeping()
 {
-    const auto pEvent = static_cast<BaseAliveGameObject*>(EventGet(kEventNoise));
+    const auto pEvent = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventNoise));
     if (pEvent)
     {
         if (pEvent->GetSpriteScale() == GetSpriteScale())
@@ -5044,10 +5044,10 @@ s16 Slig::Brain_Walking()
         ToAbeDead();
         return 108;
     }
-    auto pEvent = static_cast<BaseAliveGameObject*>(EventGet(kEventSuspiciousNoise));
+    auto pEvent = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventSuspiciousNoise));
     if (!pEvent)
     {
-        pEvent = static_cast<BaseAliveGameObject*>(EventGet(kEventSpeaking));
+        pEvent = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventSpeaking));
     }
     if (pEvent && pEvent->GetSpriteScale() == GetSpriteScale() && pEvent != this && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !EventGet(kEventResetting))
     {
@@ -5208,10 +5208,10 @@ s16 Slig::Brain_GetAlerted()
     {
         if (!EventGet(kEventAbeOhm) || EventGet(kEventResetting))
         {
-            BaseAliveGameObject* pEvent = static_cast<BaseAliveGameObject*>(EventGet(kEventSuspiciousNoise));
+            BaseAnimatedWithPhysicsGameObject* pEvent = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventSuspiciousNoise));
             if (!pEvent)
             {
-                pEvent = static_cast<BaseAliveGameObject*>(EventGet(kEventSpeaking));
+                pEvent = static_cast<BaseAnimatedWithPhysicsGameObject*>(EventGet(kEventSpeaking));
             }
 
             if (pEvent && (pEvent == sControlledCharacter || pEvent->Type() == ReliveTypes::eMudokon)

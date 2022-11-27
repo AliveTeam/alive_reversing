@@ -137,7 +137,7 @@ void main()
         // Do the bit rotation stuff
         int pixelResult =
             (((aboveTexel888 & 0xF8F8F8) + (belowTexel888 & 0xF8F8F8)) >> 1) |
-            (aboveTexel888 & 0xF8F8F8, belowTexel888 & 0xF8F8F8) << 23;
+            (belowTexel888 & 0xF8F8F8) << 23;
 
         pixelResult = pixelResult & 0xFFFFFF;
 

@@ -500,7 +500,7 @@ s32 SND_Buffer_Get_Status_4F00F0(s32 idx, s32 a2)
         v6 = -2;
     }
 
-    return fromStatus + 2 * (sLastNotePlayTime_BBC33C + (v6 << 8) - pSoundBuffer->field_C); // << 8 = * 256 ?
+    return fromStatus + 2 * (sLastNotePlayTime_BBC33C + (v6 * 256) - pSoundBuffer->field_C); // << 8 = * 256 ?
 }
 
 s32 SND_Buffer_Set_Volume_4EFAD0(s32 idx, s32 vol)

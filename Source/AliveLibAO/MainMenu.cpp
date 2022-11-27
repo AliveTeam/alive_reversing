@@ -527,7 +527,7 @@ void MainMenuTransition::VRender(PrimHeader** ppOt)
         s32 idx = i + (8 * field_242_idx);
         s32 v8 = stru_55C038[idx].field_4 << 8;
         s32 v9 = stru_55C038[idx].field_2 << 16;
-        s32 v10 = (s16) stru_55C038[idx].field_0 << 16;
+        s32 v10 = static_cast<s32>(stru_55C038[idx].field_0 << 16);
         s32 v11 = Math_FixedPoint_Multiply(v9, val1);
         s32 v12 = Math_FixedPoint_Multiply(v10, val2) - v11;
         s32 v13 = Math_FixedPoint_Multiply(op1, v8);
@@ -548,7 +548,7 @@ void MainMenuTransition::VRender(PrimHeader** ppOt)
         }
 
         s32 idx2 = (8 * field_242_idx);
-        s32 v36 = (s16) stru_55C038[idx2 + v17].field_0 << 16;
+        s32 v36 = static_cast<s32>(stru_55C038[idx2 + v17].field_0 << 16);
         s32 v19 = 0;
         if (i < 7)
         {

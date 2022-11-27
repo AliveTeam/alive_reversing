@@ -47,11 +47,11 @@ public:
 
     void InTheAir();
     void AddToPlatform();
-    s16 OnCollision(BaseAliveGameObject* pObj);
+    s16 OnCollision(BaseAnimatedWithPhysicsGameObject* pObj);
 
     s16 VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform) override
     {
-        return OnCollision(static_cast<BaseAliveGameObject*>(pPlatform));
+        return OnCollision(pPlatform);
     }
 
     s16 field_110_state = 0;

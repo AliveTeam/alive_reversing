@@ -1503,7 +1503,7 @@ s16 MIDI_PitchBend_4FDEC0(s16 program, s16 pitch)
 
 s16 SsUtChangePitch_4FDF70(s16 voice, s32 /*vabId*/, s32 /*prog*/, s16 old_note, s16 old_fine, s16 new_note, s16 new_fine)
 {
-    const f32 freq = pow(1.059463094359f, (f32)(new_fine + ((new_note - (s32) old_note) << 7) - old_fine) * 0.0078125f);
+    const f32 freq = pow(1.059463094359f, (f32)(new_fine + ((new_note - (s32) old_note) * 128) - old_fine) * 0.0078125f);
     GetSoundAPI().SND_Buffer_Set_Frequency1(gSpuVars->sMidi_Channels().channels[voice].field_0_sound_buffer_field_4, freq);
     return 0;
 }

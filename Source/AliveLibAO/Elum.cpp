@@ -536,12 +536,12 @@ s16 Elum::ToNextMotion_4120F0()
 
 s16 Elum::ToNextMotionAbeControlled_411E40()
 {
-    auto pPlatform = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
-    if (pPlatform)
+    auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
+    if (pPlatform && pPlatform->Type() == ReliveTypes::eLiftPoint)
     {
         if (pPlatform->field_10C == 1)
         {
-            if (!pPlatform->OnAnyFloor())
+            if (!static_cast<LiftPoint*>(pPlatform)->OnAnyFloor())
             {
                 return 0;
             }

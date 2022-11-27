@@ -1400,7 +1400,7 @@ void Abe::MoveForward_422FC0()
     // TODO: Check mask is correct
     auto pTrapdoor = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     const s32 mask = GetSpriteScale() != FP_FromDouble(0.5) ? 1 : 0x10;
-    const u32 lineType = BaseAliveGameObjectCollisionLine ? BaseAliveGameObjectCollisionLine->mLineType : 0;
+    const u64 lineType = BaseAliveGameObjectCollisionLine ? BaseAliveGameObjectCollisionLine->mLineType : 0;
     if (BaseAliveGameObjectCollisionLine && (mask & (1 << lineType)))
     {
         if (pTrapdoor)
