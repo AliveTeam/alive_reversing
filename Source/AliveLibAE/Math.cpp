@@ -61,10 +61,14 @@ u32 Math_FixedPoint_Divide(s32 op1, s32 op2)
     op1a = op1;
     op1b = op1;
     if (op1 < 0)
-        op1b = -op1;
+    {
+        op1b = static_cast<u32>(-op1);
+    }
     op2a = op2;
     if (op2 < 0)
-        op2a = -op2;
+    {
+        op2a = static_cast<u32>(-op2);
+    }
     v5 = op1b % op2a;
     v6 = op1b / op2a << 16;
     if (op2a >= 0x1000000)
