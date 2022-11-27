@@ -3159,7 +3159,8 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
         case 3:
             if (sMainMenuPages_561960[field_214_page_index].field_20_fn_on_free)
             {
-                (this->*sMainMenuPages_561960[field_214_page_index].field_20_fn_on_free)();
+                auto fn = sMainMenuPages_561960[field_214_page_index].field_20_fn_on_free;
+                (this->*fn)();
             }
             field_21E_changeScreenState = 4;
             return 1;
