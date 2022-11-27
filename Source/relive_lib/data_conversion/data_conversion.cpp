@@ -1419,6 +1419,7 @@ static void ConvertPathBND(const FileSystem::Path& dataDir, const std::string& f
 template <typename LevelIdType>
 static void ConvertCamera(const FileSystem::Path& dataDir, const std::string& fileName, FileSystem& fs, std::vector<u8>& fileBuffer, ReliveAPI::LvlReader& lvlReader, LevelIdType lvlIdxAsLvl)
 {
+    LOG_INFO("%s", fileName.c_str());
     ReadLvlFileInto(lvlReader, fileName.c_str(), fileBuffer);
 
     ReliveAPI::ChunkedLvlFile camFile(fileBuffer);

@@ -105,7 +105,12 @@ static std::vector<u16> StitchAECamera(const LvlFileChunk& bitsRes)
     std::vector<u16> camBuffer(640 * 240);
     std::vector<u8> vlcBuffer(0x7E00);
     CamDecompressor decompressor;
-    const u16* pIter = reinterpret_cast<const u16*>(bitsRes.Data().data());
+    std::vector<u8> biggerData = bitsRes.Data();
+
+    // vlc_decode reads 1 word past the end on the last strip, do a slow copy of everything
+    // just to avoid the out of bounds read
+    biggerData.resize(biggerData.size() + 2);
+    const u16* pIter = reinterpret_cast<const u16*>(biggerData.data());
     for (s16 xpos = 0; xpos < 640; xpos += 16)
     {
         const u16 stripSize = *pIter;
