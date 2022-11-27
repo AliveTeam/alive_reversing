@@ -60,12 +60,12 @@ u32 Math_FixedPoint_Divide(s32 op1, s32 op2)
 
     op1a = op1;
     op1b = op1;
-    if (op1 < 0)
+    if (op1 < 0 && op1 != std::numeric_limits<s32>::min())
     {
         op1b = static_cast<u32>(-op1);
     }
     op2a = op2;
-    if (op2 < 0)
+    if (op2 < 0 && op2 != std::numeric_limits<s32>::min())
     {
         op2a = static_cast<u32>(-op2);
     }
