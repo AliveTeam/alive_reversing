@@ -1027,7 +1027,7 @@ void Mudokon::VUpdate()
 
     const s16 oldMotion = mCurrentMotion;
 
-    mBrainSubState = (this->*sMudokonBrainTable[mBrainState])();
+    mBrainSubState = InvokeMemberFunction(this, sMudokonBrainTable, mBrainState);
 
     const FP oldXPos = mXPos;
     const FP oldYPos = mYPos;
