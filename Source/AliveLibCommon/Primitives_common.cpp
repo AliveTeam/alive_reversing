@@ -28,6 +28,8 @@ void PolyFT4_Init(Poly_FT4* pPrim)
     pPrim->mCam = nullptr;
     pPrim->mFont = nullptr;
     pPrim->mFg1 = nullptr;
+    pPrim->mFlipX = false;
+    pPrim->mFlipY = false;
 }
 
 // Note: Inlined everywhere in real game
