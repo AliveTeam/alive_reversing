@@ -1396,7 +1396,7 @@ void MIDI_ADSR_Update_4FDCE0()
                 timeDiff2 = 0;
             }
 
-            s32 timeDiffSquared = timeDiff1 * timeDiff1;
+            u32 timeDiffSquared = timeDiff1 * timeDiff1;
             switch (pChannel->field_1C_adsr.field_3_state + 1) // ADSR state ?
             {
                 case 0:
