@@ -801,7 +801,9 @@ static u8* GetVBAtIndex(VabBodyRecord* pRec, s32 index)
     u8* pIter = reinterpret_cast<u8*>(pRec);
     for (s32 i = 0; i < index; i++)
     {
-        pIter = pIter + *reinterpret_cast<u32*>(pIter) + 8;
+        u32 v = 0;
+        memcpy(&v, pIter, sizeof(u32));
+        pIter += v + 8;
     }
     return pIter;
 }
