@@ -2060,9 +2060,7 @@ void Glukkon::VUpdate()
         const FP oldXPos = mXPos;
         const FP oldYPos = mYPos;
 
-        auto oi = sGlukkonMotionTable[mCurrentMotion];
-
-        (this->*oi)();
+        InvokeMemberFunction(this, sGlukkonMotionTable, mCurrentMotion);
 
         // TODO: This is extra debug logging to figure out the motion names
         if (oldMotion != mCurrentMotion)

@@ -75,16 +75,17 @@ protected:
         mNextMotion = static_cast<s16>(motion);
     }
 
+
+    s16 SetBaseAnimPaletteTint(const TintEntry* pTintArray, EReliveLevelIds level_id, PalId resourceID);
+
+public:
     template <class BaseAliveGameObjectClass, class FnArray>
-    inline auto InvokeMemberFunction(BaseAliveGameObjectClass caller, const FnArray& fnArray, u16 idx)
+    static auto InvokeMemberFunction(BaseAliveGameObjectClass caller, const FnArray& fnArray, u32 idx)
     {
         auto function = fnArray[idx];
         return (caller->*function)();
     }
 
-    s16 SetBaseAnimPaletteTint(const TintEntry* pTintArray, EReliveLevelIds level_id, PalId resourceID);
-
-public:
     FP_RECT mCollectionRect = {};
     s16 mPreviousMotion = 0;
     s32 mBaseAliveGameObjectLastAnimFrame = 0;

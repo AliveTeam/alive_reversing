@@ -460,7 +460,7 @@ void CrawlingSlig::VUpdate()
         const FP oldX = mXPos;
         const FP oldY = mYPos;
 
-        (this->*sCrawlingSligMotions[mCurrentMotion])();
+        InvokeMemberFunction(this, sCrawlingSligMotions,mCurrentMotion);
 
         if (oldX != mXPos || oldY != mYPos)
         {

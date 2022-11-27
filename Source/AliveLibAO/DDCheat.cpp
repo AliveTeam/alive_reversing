@@ -279,7 +279,7 @@ void DDCheat::VUpdate()
                     field_14_SelectedCheat = 0;
                 }
             }
-            (this->*CheatsFn_4C3150[field_14_SelectedCheat])();
+            IBaseAliveGameObject::InvokeMemberFunction(this, CheatsFn_4C3150, field_14_SelectedCheat);
         }
     }
 }

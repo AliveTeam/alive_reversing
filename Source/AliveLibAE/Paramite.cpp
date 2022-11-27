@@ -5136,7 +5136,7 @@ void Paramite::HandleBrainsAndMotions()
 
     const FP oldXPos = mXPos;
     const FP oldYPos = mYPos;
-    (this->*sParamiteMotionTable[mCurrentMotion])();
+    InvokeMemberFunction(this, sParamiteMotionTable, mCurrentMotion);
 
     if (oldXPos != mXPos || oldYPos != mYPos)
     {

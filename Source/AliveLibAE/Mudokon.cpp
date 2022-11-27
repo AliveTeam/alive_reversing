@@ -1032,7 +1032,7 @@ void Mudokon::VUpdate()
     const FP oldXPos = mXPos;
     const FP oldYPos = mYPos;
 
-    (this->*sMudokonMotionTable[mCurrentMotion])();
+    InvokeMemberFunction(this, sMudokonMotionTable, mCurrentMotion);
 
     if (oldXPos != mXPos || oldYPos != mYPos)
     {

@@ -1043,7 +1043,7 @@ void Abe::VUpdate()
         // Execute the current motion
         const FP oldXPos = mXPos;
         const FP oldYPos = mYPos;
-        (this->*(sAbeMotionMachineTable_554910)[motion_idx])();
+        InvokeMemberFunction(this, sAbeMotionMachineTable_554910, motion_idx);
 
         if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eRestoredFromQuickSave) || mShrivel)
         {

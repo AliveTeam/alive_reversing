@@ -569,7 +569,7 @@ void FlyingSlig::VUpdate()
 
         (this->*(mBrainState))();
 
-        (this->*(sFlyingSligMotionTable)[mCurrentMotion])();
+        InvokeMemberFunction(this, sFlyingSligMotionTable, mCurrentMotion);
 
         Movement();
     }

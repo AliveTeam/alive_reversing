@@ -1214,7 +1214,7 @@ void Fleech::VUpdate()
     {
         const auto oldMotion = mCurrentMotion;
 
-        mBrainSubState = (this->*sFleechBrainTable[mBrainState])();
+        mBrainSubState = InvokeMemberFunction(this, sFleechBrainTable, mBrainState);
 
         TongueUpdate();
 
@@ -1226,7 +1226,7 @@ void Fleech::VUpdate()
         const FP oldY = mYPos;
         const FP oldX = mXPos;
 
-        (this->*sFleechMotionTable[mCurrentMotion])();
+        InvokeMemberFunction(this, sFleechMotionTable, mCurrentMotion);
 
         if (oldX != mXPos || oldY != mYPos)
         {

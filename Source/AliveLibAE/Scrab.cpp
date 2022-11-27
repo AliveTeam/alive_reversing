@@ -690,7 +690,7 @@ void Scrab::VUpdate()
             field_19C_max_ypos = mYPos;
             field_198_max_xpos = mXPos;
 
-            (this->*sScrabMotionTable[mCurrentMotion])();
+            InvokeMemberFunction(this, sScrabMotionTable, mCurrentMotion);
 
             if (field_198_max_xpos != mXPos || field_19C_max_ypos != mYPos)
             {

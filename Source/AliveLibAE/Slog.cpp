@@ -2863,7 +2863,7 @@ void Slog::VUpdate()
         }
 
         const auto oldMotion = mCurrentMotion;
-        mBrainSubState = (this->*sSlogBrainTable[mBrainState])();
+        mBrainSubState = InvokeMemberFunction(this, sSlogBrainTable, mBrainState);
         if (sDDCheat_ShowAI_Info)
         {
             DDCheat::DebugStr("Slog:  Motion=%d  BrainState=%d\n", mCurrentMotion, mBrainSubState);
@@ -2872,7 +2872,7 @@ void Slog::VUpdate()
         const FP oldXPos = mXPos;
         const FP oldYPos = mYPos;
 
-        (this->*sSlogMotionTable[mCurrentMotion])();
+        InvokeMemberFunction(this, sSlogMotionTable, mCurrentMotion);
 
         if (oldXPos != mXPos || oldYPos != mYPos)
         {
