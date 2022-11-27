@@ -4903,21 +4903,26 @@ void Slig::ShouldStillBeAlive_4BBC00()
             }
             else
             {
-                s32 i = 0;
-                while (!gMap.Is_Point_In_Current_Camera(
-                    mCurrentLevel,
-                    mCurrentPath,
-                    FP_FromInteger(field_268_points[i].x),
-                    FP_FromInteger(field_268_points[i].y),
-                    0))
+                bool anyPointInCamera = false;
+                for (s32 i = 0; i < field_290_points_count; i++)
                 {
-                    if (i >= field_290_points_count || i >= ALIVE_COUNTOF(field_268_points))
+                    if (gMap.Is_Point_In_Current_Camera(
+                            mCurrentLevel,
+                            mCurrentPath,
+                            FP_FromInteger(field_268_points[i].x),
+                            FP_FromInteger(field_268_points[i].y),
+                            0))
+
                     {
-                        // No within any out our patrol points, die
-                        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                        anyPointInCamera = true;
                         break;
                     }
-                    i++;
+                }
+
+                if (!anyPointInCamera)
+                {
+                    // No patrol points in current camera
+                    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
                 }
             }
         }
