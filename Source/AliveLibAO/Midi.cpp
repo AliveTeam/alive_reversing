@@ -808,23 +808,23 @@ static u8* GetVBAtIndex(VabBodyRecord* pRec, s32 index)
     return pIter;
 }
 
-static s32 IterateVBRecords_GetLengthOrDuration(VabBodyRecord* pRec, s32 i_3)
+static s32 IterateVBRecords_GetLengthOrDuration(VabBodyRecord* pRec, s32 index)
 {
     s32 v = 0;
-    memcpy(&v, reinterpret_cast<u8*>(GetVBAtIndex(pRec, i_3)), sizeof(s32));
+    memcpy(&v, reinterpret_cast<u8*>(GetVBAtIndex(pRec, index)), sizeof(s32));
     return v;
 }
 
-static s32 IterateVBRecords_GetUnused(VabBodyRecord* pRec, s32 i_3)
+static s32 IterateVBRecords_GetUnused(VabBodyRecord* pRec, s32 index)
 {
     s32 v = 0;
-    memcpy(&v, reinterpret_cast<u8*>(GetVBAtIndex(pRec, i_3)) + sizeof(s32), sizeof(s32));
+    memcpy(&v, reinterpret_cast<u8*>(GetVBAtIndex(pRec, index)) + sizeof(s32), sizeof(s32));
     return v;
 }
 
-static u8* IterateVBRecords_Offset(VabBodyRecord* pRec, s32 i_3)
+static u8* IterateVBRecords_Offset(VabBodyRecord* pRec, s32 index)
 {
-    return reinterpret_cast<u8*>(GetVBAtIndex(pRec, i_3) + sizeof(s32) + sizeof(s32));
+    return reinterpret_cast<u8*>(GetVBAtIndex(pRec, index) + sizeof(s32) + sizeof(s32));
 }
 
 
