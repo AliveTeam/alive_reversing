@@ -1561,7 +1561,7 @@ static void ConvertFilesInLvl(const FileSystem::Path& dataDir, FileSystem& fs, R
                         ConvertFont(dataDir, fileName, lvlReader, fileBuffer, true);
                     }
 
-                     //ConvertCamera(dataDir, fileName, fs, fileBuffer, lvlReader, lvlIdxAsLvl);
+                     ConvertCamera(dataDir, fileName, fs, fileBuffer, lvlReader, lvlIdxAsLvl);
                 }
                 else if (endsWith(fileName, ".JOY"))
                 {
