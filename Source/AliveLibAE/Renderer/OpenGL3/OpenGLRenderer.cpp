@@ -31,22 +31,6 @@ static bool gRenderEnable_G4 = true;
 static bool gRenderEnable_G3 = true;
 static bool gRenderEnable_G2 = true;
 
-static GLuint Renderer_CreateTexture(GLenum interpolation = GL_NEAREST)
-{
-    GLuint textureId = 0;
-
-    GL_VERIFY(glGenTextures(1, &textureId));
-    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, textureId));
-
-    GL_VERIFY(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE));
-    GL_VERIFY(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE));
-
-    GL_VERIFY(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, interpolation));
-    GL_VERIFY(glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, interpolation));
-
-    return textureId;
-}
-
 u32 OpenGLRenderer::PreparePalette(AnimationPal& pCache)
 {
     const PaletteCache::AddResult addRet = mPaletteCache.Add(pCache);
@@ -202,8 +186,6 @@ OpenGLRenderer::~OpenGLRenderer()
 
     GL_VERIFY(glUseProgram(0));
 
-    GL_VERIFY(glDeleteTextures(1, &mCurGasTextureId));
-
     GLFramebuffer::BindScreenAsTarget(mWindow);
 }
 
@@ -245,12 +227,9 @@ void OpenGLRenderer::Draw(Prim_GasEffect& gasEffect)
         return;
     }
 
-    // TODO: We set up the gas texture ourselves here, this is rubbish and
-    //       should use GLTexture2D
-    //
-    if (mCurGasTextureId == 0)
+    if (!mCurGasTexture.IsValid())
     {
-        mCurGasTextureId = Renderer_CreateTexture();
+        mCurGasTexture = GLTexture2D(kPsxFramebufferWidth, kPsxFramebufferWidth, GL_RGB);
     }
 
     if (gasEffect.pData == nullptr)
@@ -274,9 +253,7 @@ void OpenGLRenderer::Draw(Prim_GasEffect& gasEffect)
     const bool isShaded = true;
     const u32 blendMode = (u32) TPageAbr::eBlend_0;
 
-    GL_VERIFY(glActiveTexture(GL_TEXTURE0));
-    GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mCurGasTextureId));
-    GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, static_cast<GLsizei>(gasWidth / 4), static_cast<GLsizei>(gasHeight / 2), 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, gasEffect.pData));
+    mCurGasTexture.LoadSubImage(0, 0, static_cast<GLsizei>(gasWidth / 4), static_cast<GLsizei>(gasHeight / 2), gasEffect.pData, GL_UNSIGNED_SHORT_5_6_5);
 
     PsxVertexData verts[4] = {
         { x, y, r, g, b, 0.0f, 0.0f, gasWidth, gasHeight, GL_PSX_DRAW_MODE_GAS, isSemiTrans, isShaded, blendMode, 0, 0},
@@ -869,10 +846,9 @@ void OpenGLRenderer::InvalidateBatch()
     mPsxShader.Uniform1i("texPalette", 0);
 
     // Bind gas
-    if (mCurGasTextureId)
+    if (mCurGasTexture.IsValid())
     {
-        GL_VERIFY(glActiveTexture(GL_TEXTURE1));
-        GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mCurGasTextureId));
+        mCurCamTexture.BindTo(GL_TEXTURE1);
 
         mPsxShader.Uniform1i("texGas", 1);
     }

@@ -22,8 +22,8 @@ public:
     u32 GetHeight();
     u32 GetWidth();
     bool IsValid();
-    void LoadImage(const void* data);
-    void LoadSubImage(GLint x, GLint y, GLsizei width, GLsizei height, const void* pixels);
+    void LoadImage(const void* pixels, GLenum type = GL_UNSIGNED_BYTE);
+    void LoadSubImage(GLint x, GLint y, GLsizei width, GLsizei height, const void* pixels, GLenum type = GL_UNSIGNED_BYTE);
 
 private:
     GLenum mFormat = 0;

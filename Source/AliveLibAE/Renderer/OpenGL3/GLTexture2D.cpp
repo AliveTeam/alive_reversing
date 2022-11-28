@@ -131,20 +131,20 @@ bool GLTexture2D::IsValid()
     return mGLId > 0;
 }
 
-void GLTexture2D::LoadImage(const void *data)
+void GLTexture2D::LoadImage(const void* pixels, GLenum type)
 {
     BindTo(GL_TEXTURE0);
 
     SetPixelUnpacking();
-    GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, mFormat, mWidth, mHeight, 0, mFormat, GL_UNSIGNED_BYTE, data));
+    GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, mFormat, mWidth, mHeight, 0, mFormat, type, pixels));
 }
 
-void GLTexture2D::LoadSubImage(GLint x, GLint y, GLsizei width, GLsizei height, const void *pixels)
+void GLTexture2D::LoadSubImage(GLint x, GLint y, GLsizei width, GLsizei height, const void* pixels, GLenum type)
 {
     BindTo(GL_TEXTURE0);
 
     SetPixelUnpacking();
-    GL_VERIFY(glTexSubImage2D(GL_TEXTURE_2D, 0, x, y, width, height, mFormat, GL_UNSIGNED_BYTE, pixels));
+    GL_VERIFY(glTexSubImage2D(GL_TEXTURE_2D, 0, x, y, width, height, mFormat, type, pixels));
 }
 
 
@@ -156,11 +156,8 @@ void GLTexture2D::SetPixelUnpacking()
             GL_VERIFY(glPixelStorei(GL_UNPACK_ALIGNMENT, 1));
             break;
 
-        case GL_RGBA:
+        default:
             GL_VERIFY(glPixelStorei(GL_UNPACK_ALIGNMENT, 4));
             break;
-
-        default:
-            ALIVE_FATAL("GLTexture2D: Texture format not implemented.");
     }
 }

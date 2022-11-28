@@ -125,7 +125,7 @@ private:
     std::vector<PassthruVertexData> mFbData;
     std::vector<u32> mFbIndicies;
 
-    GLuint mCurGasTextureId = 0;
+    GLTexture2D mCurGasTexture = {};
 
     GLTexture2D mCurCamTexture = {};
     std::vector<GLTexture2D> mCurFG1Textures;
