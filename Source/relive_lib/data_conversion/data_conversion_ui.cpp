@@ -77,7 +77,7 @@ void DataConversionUI::VUpdate()
 {
     if (!mThread)
     {
-      //  mThread = std::make_unique<std::thread>(std::bind(&DataConversionUI::ThreadFunc, this));
+        mThread = std::make_unique<std::thread>(std::bind(&DataConversionUI::ThreadFunc, this));
     }
 
     if (mDone)
@@ -115,14 +115,12 @@ void DataConversionUI::VUpdate()
 void DataConversionUI::VRender(PrimHeader** ppOt)
 {
 
-  //  OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_0), &mPoly.mBase.header);
-    mFont.DrawString(ppOt, "All right son?", 0, 0, TPageAbr::eBlend_0, 0, 0, Layer::eLayer_0, 127, 127, 127, 0, FP_FromInteger(1), 640, 0);
+    OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_0), &mPoly.mBase.header);
+    //mFont.DrawString(ppOt, "All right son?", 0, 0, TPageAbr::eBlend_0, 0, 0, Layer::eLayer_0, 127, 127, 127, 0, FP_FromInteger(1), 640, 0);
 }
 
 bool DataConversionUI::ConversionRequired()
 {
-    return true;
-    /*
     DataConversion dataConversion;
     if (mGameType == GameType::eAe)
     {
@@ -131,5 +129,5 @@ bool DataConversionUI::ConversionRequired()
     else
     {
         return dataConversion.DataVersionAO() != DataConversion::kVersion;
-    }*/
+    }
 }
