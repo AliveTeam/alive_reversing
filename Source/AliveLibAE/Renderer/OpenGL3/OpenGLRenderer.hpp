@@ -39,13 +39,19 @@
 
 enum class AnimId;
 
-struct VertexData final
+struct PsxVertexData final
 {
     s32 x, y;
     u32 r, g, b;
     u32 u, v, texWidth, texHeight;
     u32 drawType, isSemiTrans, isShaded, blendMode;
     u32 paletteIndex, textureUnitIndex;
+};
+
+struct PassthruVertexData final
+{
+    f32 x, y;
+    f32 u, v;
 };
 
 class OpenGLTextureCache final : public TextureCache<GLTexture2D>
@@ -103,22 +109,21 @@ private:
     // ROZZA STUFF
 
     GLShaderProgram mPassthruShader;
-    GLShaderProgram mPassthruIntShader;
     GLShaderProgram mPassthruFilterShader;
     GLShaderProgram mPsxShader;
 
     GLFramebuffer mPsxFramebuffer;
-    GLFramebuffer mPsxFramebufferSecond;
+    GLFramebuffer mPsxFbFramebuffer;
     GLFramebuffer mFilterFramebuffer;
 
     bool mFramebufferFilter = true;
 
     u32 mBatchBlendMode = BATCH_VALUE_UNSET;
-    std::vector<VertexData> mBatchData;
+    std::vector<PsxVertexData> mBatchData;
     std::vector<u32> mBatchIndicies;
 
-    std::vector<VertexData> mScreenWaveData;
-    std::vector<u32> mScreenWaveIndicies;
+    std::vector<PassthruVertexData> mFbData;
+    std::vector<u32> mFbIndicies;
 
     GLuint mCurGasTextureId = 0;
 
@@ -133,11 +138,12 @@ private:
     void DecreaseResourceLifetimes();
     void DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height);
     u16 GetTPageBlendMode(u16 tPage);
+    bool HasFramebufferPolysToDraw();
     void InvalidateBatch();
-    void PushLines(const VertexData* vertices, int count);
-    void PushScreenWaveData(const VertexData* vertices);
-    void PushVertexData(VertexData* pVertData, int count, GLTexture2D texture = {});
-    void RenderScreenWave();
+    void PushLines(const PsxVertexData* vertices, int count);
+    void PushFramebufferVertexData(const PassthruVertexData* vertices, int count);
+    void PushVertexData(PsxVertexData* pVertData, int count, GLTexture2D texture = {});
+    void RenderFramebufferPolys();
     void SetupBlendMode(u16 blendMode);
     void UpdateFilterFramebuffer();
     
