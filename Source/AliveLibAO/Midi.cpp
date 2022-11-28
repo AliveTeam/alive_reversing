@@ -786,11 +786,6 @@ s32 MIDI_ParseMidiMessage_49DD30(s32 idx)
     return 1;
 }
 
-void SND_Shutdown_476EC0()
-{
-    SND_Shutdown();
-}
-
 void SND_SEQ_SetVol_477970(SeqId idx, s16 volLeft, s16 volRight)
 {
     SND_SEQ_SetVol(static_cast<u16>(idx), volLeft, volRight);

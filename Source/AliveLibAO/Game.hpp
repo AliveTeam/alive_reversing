@@ -27,6 +27,6 @@ extern bool gbKillUnsavedMudsDone;
 
 void Init_GameStates();
 
-void Game_Main(const char_type* pCommandLine);
+void Game_Main();
 
 } // namespace AO

@@ -36,6 +36,8 @@
 #include "../AliveLibAE/VGA.hpp"
 #include "GasCountDown.hpp"
 
+void SND_Shutdown();
+
 namespace AO {
 
 bool gbKillUnsavedMudsDone = false;
@@ -48,11 +50,6 @@ s16 sBreakGameLoop = 0;
 s16 gAttract = 0;
 
 s8 gDDCheatOn = 0;
-
-s32 Game_End_Frame_4505D0(u32 bSkip)
-{
-    return Game_End_Frame_4950F0(bSkip);
-}
 
 void Main_ParseCommandLineArguments(const char_type* pCommandLine)
 {
@@ -86,8 +83,6 @@ void Main_ParseCommandLineArguments(const char_type* pCommandLine)
     }
 
     VGA_CreateRenderer();
-
-    PSX_EMU_SetCallBack_4F9430(Game_End_Frame_4505D0);
 }
 
 void Init_GameStates()
@@ -367,15 +362,13 @@ void Game_Run()
     MusicController::Shutdown();
 
     SND_Reset_Ambiance();
-    SND_Shutdown_476EC0();
+    SND_Shutdown();
     InputObject::Shutdown();
 }
 
 
-void Game_Main(const char_type* pCommandLine)
+void Game_Main()
 {
-    GetGameAutoPlayer().ParseCommandLine(pCommandLine);
-
     //Main_ParseCommandLineArguments(pCommandLine);
 
     // Only returns once the engine is shutting down
