@@ -1,8 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
 #include "../AliveLibCommon/BitField.hpp"
-#include "../relive_lib/DynamicArray.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
 #include "../relive_lib/Animation.hpp"
 #include "Font.hpp"

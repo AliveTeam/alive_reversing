@@ -6,7 +6,6 @@
 #include "../ResourceManager.hpp"
 #include "Sound.hpp"    // SoundEntry structure
 #include "../Sys.hpp"      // SYS_GetTicks
-#include "../PathData.hpp" // SoundBlockInfo, SeqPathDataRecord
 #include <assert.h>
 #include "../AliveLibCommon/FatalError.hpp"
 #include <algorithm>

@@ -1,8 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/Animation.hpp"
-#include "../AliveLibAE/FixedPoint.hpp"
 
 class IBaseAliveGameObject;
 

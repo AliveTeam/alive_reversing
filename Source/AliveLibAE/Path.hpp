@@ -2,6 +2,7 @@
 
 #include "../relive_lib/MapWrapper.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
+#include "../AliveLibCommon/Function.hpp"
 
 struct PathData;
 struct FixedPoint;

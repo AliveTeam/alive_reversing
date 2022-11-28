@@ -1,6 +1,5 @@
 #include "stdafx_ao.h"
 #include "BackgroundMusic.hpp"
-#include "Function.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "Map.hpp"
 #include "Midi.hpp"

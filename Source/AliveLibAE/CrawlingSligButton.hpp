@@ -1,8 +1,7 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
-#include "../relive_lib/SwitchStates.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 enum class SwitchOp : s16;
 

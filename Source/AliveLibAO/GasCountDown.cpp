@@ -11,6 +11,7 @@
 #include "Alarm.hpp"
 #include "Sfx.hpp"
 #include "DeathGas.hpp"
+#include "Path.hpp"
 
 namespace AO {
 

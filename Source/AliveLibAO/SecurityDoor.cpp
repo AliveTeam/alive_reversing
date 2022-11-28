@@ -1,5 +1,4 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
 #include "SecurityDoor.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "Game.hpp"
@@ -12,6 +11,7 @@
 #include "Sfx.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "CheatController.hpp"
+#include "Path.hpp"
 
 namespace AO {
 

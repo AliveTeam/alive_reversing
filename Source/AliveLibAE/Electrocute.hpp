@@ -1,8 +1,6 @@
 #pragma once
 
 #include "../relive_lib/BaseGameObject.hpp"
-#include "Psx.hpp"
-#include "../AliveLibCommon/Function.hpp"
 
 class IBaseAliveGameObject;
 class PalleteOverwriter;

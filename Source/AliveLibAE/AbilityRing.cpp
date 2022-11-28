@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "AbilityRing.hpp"
 #include "Function.hpp"
-#include "Game.hpp"
-#include "ResourceManager.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "Sfx.hpp"

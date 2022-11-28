@@ -1,6 +1,5 @@
 #include "stdafx_ao.h"
 #include "Input.hpp"
-#include "Function.hpp"
 #include "Game.hpp"
 #include "../AliveLibAE/Input.hpp"
 #include "BitField.hpp"

@@ -14,6 +14,7 @@
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
 #include "../relive_lib/ObjectIds.hpp"
+#include "Path.hpp"
 
 namespace AO {
 

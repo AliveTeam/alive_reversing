@@ -79,6 +79,8 @@
 #include "ColourfulMeter.hpp"
 #include "SecurityDoor.hpp"
 #include "LaughingGas.hpp"
+#include "ResourceManager.hpp"
+#include "Game.hpp"
 
 template <size_t arraySize>
 struct CompileTimeResourceList final

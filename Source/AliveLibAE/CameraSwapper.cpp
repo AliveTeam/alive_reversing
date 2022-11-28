@@ -12,8 +12,6 @@
 #include "Sfx.hpp"
 #include "Movie.hpp"
 #include "ScreenClipper.hpp"
-#include "Sys_common.hpp"
-#include "BaseGameAutoPlayer.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
 
 CameraSwapper::CameraSwapper(CamResource& ppCamRes, bool bPutDispEnv1, const char_type* pFmv1, bool bPutDispEnv2, const char_type* pFmv2, bool bPutDispEnv3, const char_type* pFmv3)

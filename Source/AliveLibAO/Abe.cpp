@@ -13,7 +13,6 @@
 #include "Elum.hpp"
 #include "../relive_lib/Flash.hpp"
 #include "LiftPoint.hpp"
-#include "ResourceManager.hpp"
 #include "../relive_lib/Shadow.hpp"
 #include "Game.hpp"
 #include "../AliveLibAE/stdlib.hpp"
@@ -57,6 +56,10 @@
 #include "../AliveLibAE/Sound/Midi.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
 #include "../relive_lib/ObjectIds.hpp"
+#include "../relive_lib/SwitchStates.hpp"
+#include "../AliveLibAE/Psx.hpp"
+#include "Path.hpp"
+#include "../relive_lib/data_conversion/PathTlvsAO.hpp"
 
 namespace AO {
 

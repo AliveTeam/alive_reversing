@@ -14,7 +14,6 @@
 #include "ThrowableArray.hpp"
 #include "MusicController.hpp"
 #include "GameSpeak.hpp"
-#include "TrapDoor.hpp"
 #include "MusicTrigger.hpp"
 #include "ScreenShake.hpp"
 #include "InvisibleEffect.hpp"
@@ -56,6 +55,9 @@
 #include "../AliveLibCommon/FatalError.hpp"
 #include "../relive_lib/Camera.hpp"
 #include "Path.hpp"
+#include "Game.hpp"
+#include "../relive_lib/PsxDisplay.hpp"
+#include "../relive_lib/ScreenManager.hpp"
 
 const relive::SfxDefinition sAbeSFXList_555250[41] = {
     {0u, 0u, 0u, 0u, 0, 0},

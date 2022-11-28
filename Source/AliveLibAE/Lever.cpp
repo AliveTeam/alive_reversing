@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "Lever.hpp"
-#include "Function.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/Events.hpp"

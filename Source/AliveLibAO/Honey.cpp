@@ -1,6 +1,7 @@
 #include "stdafx_ao.h"
 #include "Honey.hpp"
 #include "../AliveLibAE/stdlib.hpp"
+#include "Path.hpp"
 
 namespace AO {
 

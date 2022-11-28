@@ -2,7 +2,6 @@
 
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "../AliveLibCommon/BitField.hpp"
-#include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 enum class DrillStates : s16

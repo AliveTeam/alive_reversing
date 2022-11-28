@@ -12,6 +12,7 @@
 #include "Map.hpp"
 #include "Path.hpp"
 #include "../relive_lib/Collisions.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
 
 #include <math.h>
 

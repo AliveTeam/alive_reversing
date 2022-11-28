@@ -1,10 +1,12 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
-#include "Map.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "../relive_lib/DynamicArray.hpp"
-#include "Path.hpp"
+
+namespace relive
+{
+    struct Path_SecurityClaw;
+}
 
 namespace AO {
 

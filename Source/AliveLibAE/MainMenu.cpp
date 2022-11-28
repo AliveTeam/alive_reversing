@@ -10,7 +10,6 @@
 #include "Sfx.hpp"
 #include "Sound/Midi.hpp"
 #include "Abe.hpp"
-#include "Psx.hpp"
 #include "../relive_lib/Particle.hpp"
 #include "Movie.hpp"
 #include "MainMenuTransition.hpp"
@@ -25,6 +24,11 @@
 #include "BaseGameAutoPlayer.hpp"
 #include "../relive_lib/Camera.hpp"
 #include "Path.hpp"
+#include "../relive_lib/PsxDisplay.hpp"
+#include "../relive_lib/ScreenManager.hpp"
+#include "ResourceManager.hpp"
+#include "QuikSave.hpp"
+#include "DDCheat.hpp"
 
 MainMenuController* MainMenuController::gMainMenuController = nullptr;
 

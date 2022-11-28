@@ -19,6 +19,7 @@
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
 #include "AbilityRing.hpp"
+#include "Path.hpp"
 
 namespace AO {
 

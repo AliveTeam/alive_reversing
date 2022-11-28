@@ -1,7 +1,6 @@
 #pragma once
 
 #include "BaseAliveGameObject.hpp"
-#include "../AliveLibCommon/Function.hpp"
 
 class Shrykull final : public BaseAliveGameObject
 {

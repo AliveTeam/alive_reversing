@@ -10,6 +10,8 @@
 #include "../relive_lib/ShadowZone.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "../relive_lib/ObjectIds.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
+#include "Path.hpp"
 
 namespace AO {
 

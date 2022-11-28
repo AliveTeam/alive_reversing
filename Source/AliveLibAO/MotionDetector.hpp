@@ -1,10 +1,13 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
-#include "Map.hpp"
+
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
-#include "../relive_lib/Primitives.hpp"
-#include "Path.hpp"
+#include "../AliveLibCommon/Primitives_common.hpp"
+
+namespace relive
+{
+    struct Path_MotionDetector;
+}
 
 namespace AO {
 

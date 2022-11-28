@@ -1,7 +1,6 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
 #include "MainMenu.hpp"
-#include "ResourceManager.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "Map.hpp"
@@ -24,6 +23,9 @@
 #include "../relive_lib/Particle.hpp"
 #include "../relive_lib/Camera.hpp"
 #include "../AliveLibAE/Io.hpp"
+#include "Input.hpp"
+#include "Path.hpp"
+#include "../AliveLibAE/Psx.hpp"
 
 namespace AO {
 

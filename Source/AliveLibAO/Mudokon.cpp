@@ -30,6 +30,7 @@
 #include "Grid.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
 #include "../relive_lib/ObjectIds.hpp"
+#include "Path.hpp"
 
 namespace AO {
 

@@ -1,13 +1,12 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
 #include "LCDStatusBoard.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/ScreenManager.hpp"
-#include "Game.hpp" // mud info
 #include "DDCheat.hpp"
 #include "PathDataExtensions.hpp"
 #include "Path.hpp"
+#include "Map.hpp"
 
 namespace AO {
 

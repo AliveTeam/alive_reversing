@@ -1,11 +1,11 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
 #include "BulletShell.hpp"
 #include "Math.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "Map.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "Sfx.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
 
 namespace AO {
 

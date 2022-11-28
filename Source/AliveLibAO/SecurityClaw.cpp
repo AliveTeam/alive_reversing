@@ -18,6 +18,9 @@
 #include "Alarm.hpp"
 #include "ScreenShake.hpp"
 #include "PossessionFlicker.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
+#include "Path.hpp"
 
 namespace AO {
 

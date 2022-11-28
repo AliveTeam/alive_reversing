@@ -28,6 +28,8 @@
 #include "Grid.hpp"
 #include "Path.hpp"
 #include "PathData.hpp"
+#include "FixedPoint.hpp"
+#include "Input.hpp"
 
 const AnimId sParamiteMotionAnimIds[44] = {
     AnimId::Paramite_Idle,

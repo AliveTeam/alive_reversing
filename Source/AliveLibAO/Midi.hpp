@@ -1,7 +1,5 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
-
 namespace relive {
 struct SfxDefinition;
 }

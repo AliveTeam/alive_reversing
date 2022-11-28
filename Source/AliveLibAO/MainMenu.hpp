@@ -4,7 +4,6 @@
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "../relive_lib/Primitives.hpp"
 #include "Font.hpp"
-#include "Path.hpp"
 
 enum class EReliveLevelIds : s16;
 

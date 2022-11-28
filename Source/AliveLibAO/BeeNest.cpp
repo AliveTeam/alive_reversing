@@ -5,6 +5,7 @@
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "Abe.hpp"
+#include "Path.hpp"
 
 namespace AO {
 

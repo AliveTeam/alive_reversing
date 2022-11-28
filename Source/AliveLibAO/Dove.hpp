@@ -1,10 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
-#include "Map.hpp"
-#include "../AliveLibAE/FixedPoint.hpp"
-#include "Path.hpp"
 
 namespace AO {
 

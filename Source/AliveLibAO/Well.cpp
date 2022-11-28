@@ -8,6 +8,7 @@
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "DDCheat.hpp"
+#include "Path.hpp"
 
 namespace AO {
 

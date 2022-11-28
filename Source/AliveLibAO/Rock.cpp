@@ -1,8 +1,6 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
 #include "Rock.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "../relive_lib/Shadow.hpp"
 #include "Grenade.hpp"
 #include "ThrowableArray.hpp"
 #include "Math.hpp"
@@ -12,6 +10,8 @@
 #include "Game.hpp"
 #include "../relive_lib/Particle.hpp"
 #include "Grid.hpp"
+#include "Map.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
 
 namespace AO {
 

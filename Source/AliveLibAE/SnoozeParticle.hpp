@@ -1,11 +1,8 @@
 #pragma once
 
 #include "../relive_lib/BaseGameObject.hpp"
-#include "../relive_lib/Primitives.hpp"
-#include "FixedPoint.hpp"
-#include "../AliveLibCommon/Function.hpp"
+#include "../AliveLibCommon/Primitives_common.hpp"
 #include "../relive_lib/Layer.hpp"
-#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 
 class SnoozeParticle final : public BaseGameObject
 {

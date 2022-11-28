@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
-#include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 enum class LevelIds : s16;

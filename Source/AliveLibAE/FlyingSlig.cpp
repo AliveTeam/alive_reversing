@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "FlyingSlig.hpp"
-#include "Function.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "../relive_lib/Shadow.hpp"
@@ -31,6 +30,8 @@
 #include "../AliveLibCommon/FatalError.hpp"
 #include <algorithm>
 #include "Input.hpp"
+#include "FixedPoint.hpp"
+#include "Path.hpp"
 
 // Warning, index is saved, order matters here
 const static TFlyingSligBrainFn sFlyingSligMotionTable[26] =

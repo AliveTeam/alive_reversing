@@ -17,6 +17,9 @@
 #include "Math.hpp"
 #include "Grid.hpp"
 #include "../relive_lib/ObjectIds.hpp"
+#include "Path.hpp"
+#include "../AliveLibCommon/FixedPoint_common.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
 
 namespace AO {
 

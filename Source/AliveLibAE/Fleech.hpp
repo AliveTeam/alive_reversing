@@ -1,7 +1,5 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
-#include "../relive_lib/Primitives.hpp"
 #include "BaseAliveGameObject.hpp"
 
 namespace relive

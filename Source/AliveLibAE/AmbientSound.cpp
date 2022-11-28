@@ -1,11 +1,10 @@
 #include "stdafx.h"
 #include "Function.hpp"
 #include "ScopedSeq.hpp"
-#include "Map.hpp"
-#include "Slog.hpp"
-#include "Slig.hpp"
-#include "Fleech.hpp"
 #include "stdlib.hpp"
+#include "../relive_lib/MapWrapper.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
+#include "Path.hpp"
 
 struct Sound_Ambiance final
 {

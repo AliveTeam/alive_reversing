@@ -13,6 +13,7 @@
 #include "../relive_lib/Collisions.hpp"
 #include "Grid.hpp"
 #include "../relive_lib/ObjectIds.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
 
 namespace AO {
 

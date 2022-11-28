@@ -3,7 +3,6 @@
 #include "Function.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "Game.hpp"
-#include "Sound/Sound.hpp"
 #include "Sound/Midi.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/SwitchStates.hpp"
@@ -11,7 +10,6 @@
 #include "../relive_lib/Particle.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "stdlib.hpp"
-#include "ResourceManager.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
 

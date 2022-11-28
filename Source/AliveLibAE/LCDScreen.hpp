@@ -4,6 +4,7 @@
 #include "Font.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "PathData.hpp"
+#include "../AliveLibCommon/Primitives_common.hpp"
 
 struct StringTable;
 

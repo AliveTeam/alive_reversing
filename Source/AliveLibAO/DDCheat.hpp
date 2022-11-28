@@ -2,7 +2,9 @@
 
 #include "../relive_lib/BaseGameObject.hpp"
 #include "../AliveLibCommon/Function.hpp"
-#include "../AliveLibAE/FixedPoint.hpp"
+
+struct FixedPoint;
+using FP = FixedPoint;
 
 namespace AO {
 

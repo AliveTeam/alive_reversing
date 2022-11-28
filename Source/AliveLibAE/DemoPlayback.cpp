@@ -1,11 +1,9 @@
 #include "stdafx.h"
 #include "DemoPlayback.hpp"
 #include "Input.hpp"
-#include "ResourceManager.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Map.hpp"
 #include "stdlib.hpp"
-#include "Function.hpp"
 
 DemoPlayback* sDemoObj_dword_5D1E20 = nullptr;
 

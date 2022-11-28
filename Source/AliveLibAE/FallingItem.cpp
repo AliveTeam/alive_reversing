@@ -16,6 +16,7 @@
 #include "Map.hpp"
 #include "Path.hpp"
 #include "../relive_lib/Collisions.hpp"
+#include "FixedPoint.hpp"
 
 const AnimId sFallingItemData_544DC0[15][2] = {
     {AnimId::AE_FallingRock_Falling, AnimId::AE_FallingRock_Waiting},

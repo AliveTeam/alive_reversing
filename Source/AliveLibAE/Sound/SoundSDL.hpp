@@ -1,10 +1,8 @@
 #pragma once
 
 #include "Sound.hpp"
-#include "../AliveLibAE/Sound/Midi.hpp"
 
 #if USE_SDL2_SOUND
-    #include "../AliveLibCommon/Function.hpp"
     #include "../AliveLibAE/stdlib.hpp"
     #include "SDL.h"
     #include <atomic>

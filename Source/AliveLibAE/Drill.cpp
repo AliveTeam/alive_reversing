@@ -12,6 +12,8 @@
 #include "Blood.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
+#include "FixedPoint.hpp"
+#include "Math.hpp"
 
 const TintEntry kDrillTints_551548[16] = {
     {EReliveLevelIds::eMenu, 127u, 127u, 127u},

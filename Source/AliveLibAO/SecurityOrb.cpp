@@ -15,6 +15,7 @@
 #include "Game.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../AliveLibAE/FixedPoint.hpp"
+#include "Path.hpp"
 
 namespace AO {
 

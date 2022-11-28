@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include "AddPointer.hpp"
 #include "Game.hpp"
 #include "Sys.hpp"
 #include "VGA.hpp"
@@ -8,7 +7,6 @@
 #include "../relive_lib/DynamicArray.hpp"
 #include "Sound/Sound.hpp" // for shut down func
 #include "AmbientSound.hpp"
-#include "Function.hpp"
 #include "ResourceManager.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "Map.hpp"
@@ -16,7 +14,6 @@
 #include "stdlib.hpp"
 #include "PauseMenu.hpp"
 #include "GameSpeak.hpp"
-#include "PathData.hpp"
 #include "DDCheat.hpp"
 #include "Io.hpp"
 #include "Sound/Midi.hpp"
@@ -24,24 +21,21 @@
 #include <fstream>
 #include "../relive_lib/Events.hpp"
 #include "Abe.hpp"
-#include "PathData.hpp"
 #include "MusicController.hpp"
 #include <gmock/gmock.h>
 #include "CheatController.hpp"
-#include "../relive_lib/FG1.hpp"
-#include "PsxRender.hpp"
 #include "Slurg.hpp"
 #include "PathDataExtensions.hpp"
 #include "GameAutoPlayer.hpp"
 #include "Function.hpp"
 #include "../relive_lib/ShadowZone.hpp"
 #include "../relive_lib/ResourceManagerWrapper.hpp"
-#include "../relive_lib/Camera.hpp"
 #include "GameEnderController.hpp"
 #include "ColourfulMeter.hpp"
 #include "GasCountDown.hpp"
 #include <string>
-
+#include "../relive_lib/SwitchStates.hpp"
+#include "../relive_lib/Collisions.hpp"
 
 u32 sGnFrame = 0;
 

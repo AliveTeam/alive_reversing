@@ -1,12 +1,14 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
-#include "BellSong.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Map.hpp"
-#include "Input.hpp"
-#include "Path.hpp"
-#include "../relive_lib/data_conversion/PathTlvsAO.hpp"
+
+namespace relive
+{
+    struct Path_HandStone;
+    struct Path_MovieStone;
+    struct Path_BellsongStone;
+}
 
 namespace AO {
 

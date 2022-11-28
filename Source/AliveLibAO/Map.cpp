@@ -28,6 +28,8 @@
 #include "../AliveLibCommon/FatalError.hpp"
 #include "../relive_lib/BinaryPath.hpp"
 #include "../AliveLibAE/PathData.hpp"
+#include "Path.hpp"
+#include "Factory.hpp"
 
 class BaseGameObject;
 

@@ -6,7 +6,6 @@
 #include "../relive_lib/ShadowZone.hpp"
 #include "stdlib.hpp"
 #include "Map.hpp"
-#include "PathData.hpp"
 #include "Abe.hpp"
 #include "MusicController.hpp"
 #include "DDCheat.hpp"

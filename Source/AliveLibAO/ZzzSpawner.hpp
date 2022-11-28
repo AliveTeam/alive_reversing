@@ -1,10 +1,12 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
-#include "Map.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
-#include "../relive_lib/Layer.hpp"
-#include "Path.hpp"
+#include "FixedPoint_common.hpp"
+
+namespace relive
+{
+    struct Path_ZzzSpawner;
+}
 
 namespace AO {
 

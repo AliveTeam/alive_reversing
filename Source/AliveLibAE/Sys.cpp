@@ -6,15 +6,10 @@
 #include "../relive/resource.h"
 #include "Renderer/IRenderer.hpp"
 
-#include "PsxRender.hpp"
 #include "Sound/Sound.hpp"
 #include "Sound/Midi.hpp"
 #include "PauseMenu.hpp"
 #include "GameAutoPlayer.hpp"
-
-#include "SDL.h"
-#include "SDL_syswm.h"
-#include "VGA.hpp"
 
 
 bool sAppIsActivated_BBBA00 = false;

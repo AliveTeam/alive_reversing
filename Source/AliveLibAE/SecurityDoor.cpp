@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "SecurityDoor.hpp"
-#include "Function.hpp"
 #include "Game.hpp"
 #include "Abe.hpp"
 #include "stdlib.hpp"

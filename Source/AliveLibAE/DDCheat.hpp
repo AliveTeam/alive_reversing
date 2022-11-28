@@ -2,11 +2,9 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
-#include "Game.hpp"
-#include "Input.hpp"
-#include "../AliveLibCommon/Function.hpp"
-#include "BaseAliveGameObject.hpp"
-#include "FixedPoint.hpp"
+
+struct FixedPoint;
+using FP = FixedPoint;
 
 enum class DDCheatValueType : s32
 {

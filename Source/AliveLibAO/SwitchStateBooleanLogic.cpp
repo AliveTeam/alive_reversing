@@ -1,9 +1,9 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
 #include "SwitchStateBooleanLogic.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/Events.hpp"
+#include "Map.hpp"
 
 namespace AO {
 

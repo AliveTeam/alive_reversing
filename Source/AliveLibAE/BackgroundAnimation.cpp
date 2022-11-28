@@ -1,10 +1,8 @@
 #include "stdafx.h"
 #include "BackgroundAnimation.hpp"
-#include "Function.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/Events.hpp"
 #include "DDCheat.hpp"
-#include "ResourceManager.hpp"
 #include "Path.hpp"
 
 BackgroundAnimation::BackgroundAnimation(relive::Path_BackgroundAnimation* pTlv, const Guid& tlvId)

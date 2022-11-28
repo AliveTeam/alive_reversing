@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "Alarm.hpp"
-#include "Function.hpp"
 #include "Game.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "stdlib.hpp"

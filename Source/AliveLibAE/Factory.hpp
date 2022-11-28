@@ -1,8 +1,11 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
-#include "../relive_lib/data_conversion/relive_tlvs.hpp"
+namespace relive
+{
+    class Path_TLV;
+}
 
+class Guid;
 class Path;
 
 enum class LoadMode : s16

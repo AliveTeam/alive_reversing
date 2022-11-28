@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "MusicTrigger.hpp"
-#include "Function.hpp"
 #include "MusicController.hpp"
 #include "stdlib.hpp"
 #include "Map.hpp"

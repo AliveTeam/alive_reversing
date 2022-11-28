@@ -1,17 +1,9 @@
 #pragma once
 
 #include "stdlib.hpp"
-#include "../AliveLibCommon/Function.hpp"
-#include "../relive_lib/BaseGameObject.hpp"
-#include "../relive_lib/Animation.hpp"
-#include "Game.hpp"
-#include "Psx.hpp"
 #include "Math.hpp"
-#include "ResourceManager.hpp"
-#include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/Primitives.hpp"
-#include "../relive_lib/ScreenManager.hpp"
-#include "FixedPoint.hpp"
+#include "../relive_lib/ResourceManagerWrapper.hpp"
 
 struct File_Font final
 {

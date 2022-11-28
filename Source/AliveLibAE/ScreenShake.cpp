@@ -1,10 +1,8 @@
 #include "stdafx.h"
 #include "ScreenShake.hpp"
-#include "Function.hpp"
 #include "../relive_lib/Events.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
-#include "PsxRender.hpp"
 
  ScreenShake::ScreenShake(bool enableShakeEvent, bool softerShakes)
      : BaseGameObject(true, 0)

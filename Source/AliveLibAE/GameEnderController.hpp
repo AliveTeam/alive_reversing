@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../relive_lib/BaseGameObject.hpp"
-#include "../AliveLibCommon/Function.hpp"
 
 void CreateGameEnderController_43B7A0();
 

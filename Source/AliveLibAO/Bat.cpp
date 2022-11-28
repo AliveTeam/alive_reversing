@@ -1,5 +1,4 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
 #include "Bat.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "Math.hpp"
@@ -10,6 +9,9 @@
 #include "CameraSwapper.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "Midi.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
+#include "Path.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
 
 namespace AO {
 

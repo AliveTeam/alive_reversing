@@ -2,7 +2,6 @@
 #include "Function.hpp"
 #include "ZapLine.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "ResourceManager.hpp"
 #include "Map.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/ScreenManager.hpp"

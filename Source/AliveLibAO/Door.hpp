@@ -1,11 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
-#include "PathData.hpp"
-#include "Map.hpp"
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
-#include "Path.hpp"
-#include "Path.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 namespace AO {

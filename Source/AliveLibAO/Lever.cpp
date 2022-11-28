@@ -5,6 +5,8 @@
 #include "../relive_lib/SwitchStates.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
+#include "Map.hpp"
+#include "Path.hpp"
 
 namespace AO {
 

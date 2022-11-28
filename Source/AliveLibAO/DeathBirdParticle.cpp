@@ -6,6 +6,7 @@
 #include "Dove.hpp"
 #include "Math.hpp"
 #include "Sfx.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
 
 namespace AO {
 

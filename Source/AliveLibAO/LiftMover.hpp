@@ -1,9 +1,8 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
-#include "Map.hpp"
+
 #include "../relive_lib/BaseGameObject.hpp"
-#include "../AliveLibAE/FixedPoint.hpp"
+#include "../AliveLibCommon/FixedPoint_common.hpp"
 
 namespace relive
 {

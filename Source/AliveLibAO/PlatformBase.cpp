@@ -1,10 +1,10 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
 #include "PlatformBase.hpp"
 #include "Map.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "Game.hpp"
 #include "../AliveLibAE/stdlib.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
 
 namespace AO {
 

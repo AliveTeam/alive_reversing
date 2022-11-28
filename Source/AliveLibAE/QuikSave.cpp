@@ -46,6 +46,9 @@
 #include "Mudokon.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
 #include "../relive_lib/BinaryPath.hpp"
+#include "FlyingSligSpawner.hpp"
+#include "Scrab.hpp"
+#include "Game.hpp"
 
 u16 bUseAltSaveHeader_5C1BBC = 0;
 

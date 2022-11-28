@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "CreditsController.hpp"
-#include "Function.hpp"
 #include "stdlib.hpp"
 #include "Game.hpp"
 #include "Map.hpp"

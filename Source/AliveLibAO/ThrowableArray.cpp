@@ -1,5 +1,4 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
 #include "ThrowableArray.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "ResourceManager.hpp"

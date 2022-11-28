@@ -1,11 +1,11 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
 #include "FootSwitch.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Sfx.hpp"
 #include "Abe.hpp"
+#include "Path.hpp"
 
 namespace AO {
 

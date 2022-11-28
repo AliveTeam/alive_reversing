@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
 #include "EffectBase.hpp"
 #include "../relive_lib/Layer.hpp"
 

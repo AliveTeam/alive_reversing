@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "SligGetPantsAndWings.hpp"
-#include "Function.hpp"
 #include "../relive_lib/Events.hpp"
 #include "stdlib.hpp"
 #include "Game.hpp"

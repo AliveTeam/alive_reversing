@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../relive_lib/BaseGameObject.hpp"
-#include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "FixedPoint_common.hpp"
 

@@ -9,6 +9,8 @@
 #include "Abe.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/Collisions.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
+#include "Path.hpp"
 
 namespace AO {
 

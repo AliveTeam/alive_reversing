@@ -15,6 +15,7 @@
 #include "Map.hpp"
 #include "Path.hpp"
 #include "PathData.hpp"
+#include "FixedPoint.hpp"
 
 struct LiftPointData final
 {

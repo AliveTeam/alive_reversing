@@ -1,5 +1,4 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
 #include "DeathGas.hpp"
 #include "Map.hpp"
 #include "../AliveLibAE/stdlib.hpp"

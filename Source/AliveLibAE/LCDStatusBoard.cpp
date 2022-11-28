@@ -9,6 +9,7 @@
 #include "Path.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
 #include <algorithm>
+#include "../relive_lib/ScreenManager.hpp"
 
 s16 gMudokonsInArea = 0;
 s8 gZulagNumber = 0;

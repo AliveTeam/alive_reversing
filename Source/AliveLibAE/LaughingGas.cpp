@@ -5,7 +5,6 @@
 #include "../relive_lib/ScreenManager.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
-#include "PsxRender.hpp"
 #include "../relive_lib/Events.hpp"
 #include <math.h>
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"

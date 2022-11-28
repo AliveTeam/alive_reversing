@@ -1,5 +1,4 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
 #include "MusicTrigger.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "../AliveLibAE/stdlib.hpp"
@@ -7,6 +6,7 @@
 #include "MusicController.hpp"
 #include "Game.hpp"
 #include "Path.hpp"
+#include "Map.hpp"
 
 namespace AO {
 

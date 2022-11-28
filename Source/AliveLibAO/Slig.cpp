@@ -37,6 +37,9 @@
 #include "../AliveLibAE/Sound/Midi.hpp"
 #include "BaseGameAutoPlayer.hpp"
 #include "../relive_lib/ObjectIds.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
+#include "Path.hpp"
+#include "ScopedSeq.hpp"
 
 // TODO: fix
 #undef max

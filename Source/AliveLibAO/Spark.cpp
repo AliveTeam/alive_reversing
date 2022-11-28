@@ -4,7 +4,6 @@
 #include "Function.hpp"
 #include "Spark.hpp"
 #include "Game.hpp"
-#include "ResourceManager.hpp"
 #include "Math.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/Animation.hpp"

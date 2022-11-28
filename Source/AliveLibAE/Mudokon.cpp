@@ -34,6 +34,7 @@
 #include "AnimationCallBacks.hpp"
 #include "Map.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
+#include "FixedPoint.hpp"
 
 s16 sGoingToBirdPortalMudCount_5C3012 = 0;
 

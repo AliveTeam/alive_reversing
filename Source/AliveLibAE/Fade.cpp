@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "Fade.hpp"
-#include "Function.hpp"
 #include "stdlib.hpp"
 
 s32 sIsFadingOut_5BC204 = 0;

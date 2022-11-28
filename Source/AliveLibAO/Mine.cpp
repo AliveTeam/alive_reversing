@@ -9,6 +9,9 @@
 #include "Grid.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "../AliveLibAE/FixedPoint.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
+#include "Map.hpp"
+#include "Path.hpp"
 
 namespace AO {
 

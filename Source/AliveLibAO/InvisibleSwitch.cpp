@@ -7,6 +7,7 @@
 #include "Alarm.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Game.hpp"
+#include "Path.hpp"
 
 namespace AO {
 

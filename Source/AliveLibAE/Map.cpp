@@ -22,6 +22,8 @@
 #include <assert.h>
 #include "../relive_lib/Camera.hpp"
 #include "Path.hpp"
+#include "FixedPoint.hpp"
+#include "../relive_lib/PsxDisplay.hpp"
 
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../AliveLibCommon/FatalError.hpp"

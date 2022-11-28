@@ -1,7 +1,6 @@
 #pragma once
 
 #include "BaseAliveGameObject.hpp"
-#include "../AliveLibCommon/Function.hpp"
 #include "Input.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 

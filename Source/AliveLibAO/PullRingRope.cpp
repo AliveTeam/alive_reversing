@@ -6,6 +6,8 @@
 #include "BaseAliveGameObject.hpp"
 #include "Rope.hpp"
 #include "../relive_lib/Events.hpp"
+#include "Path.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 
 namespace AO {
 

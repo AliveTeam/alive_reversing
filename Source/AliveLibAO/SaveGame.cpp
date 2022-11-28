@@ -2,7 +2,6 @@
 #include "Abe.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "Elum.hpp"
-#include "Function.hpp"
 #include "Game.hpp"
 #include "Grenade.hpp"
 #include "Input.hpp"

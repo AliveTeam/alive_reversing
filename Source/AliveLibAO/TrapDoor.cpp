@@ -8,6 +8,8 @@
 #include "Game.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "../relive_lib/ObjectIds.hpp"
+#include "Map.hpp"
+#include "Path.hpp"
 
 namespace AO {
 

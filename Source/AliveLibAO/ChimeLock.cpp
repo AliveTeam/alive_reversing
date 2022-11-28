@@ -15,6 +15,8 @@
 #include "Input.hpp"
 #include "../relive_lib/Particle.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
+#include "Path.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
 
 namespace AO {
 

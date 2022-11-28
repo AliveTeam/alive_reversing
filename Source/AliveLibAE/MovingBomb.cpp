@@ -17,6 +17,7 @@
 #include "../relive_lib/SwitchStates.hpp"
 #include "Path.hpp"
 #include "../relive_lib/Collisions.hpp"
+#include "FixedPoint.hpp"
 
 static const TintEntry kMovingBombTints_55C734[16] = {
     {EReliveLevelIds::eMenu, 127u, 127u, 127u},

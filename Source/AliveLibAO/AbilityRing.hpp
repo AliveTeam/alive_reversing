@@ -2,9 +2,7 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
-#include "../AliveLibAE/Psx.hpp"
 #include "../AliveLibCommon/Primitives_common.hpp"
-#include "../AliveLibAE/FixedPoint.hpp"
 #include "../relive_lib/Layer.hpp"
 #include "../relive_lib/MapWrapper.hpp"
 

@@ -1,10 +1,10 @@
 #include "stdafx.h"
 #include "Leaf.hpp"
-#include "Function.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "stdlib.hpp"
 #include "Map.hpp"
+#include "FixedPoint.hpp"
 
 u8 sLeafRandIdx_563AA4 = 8;
 

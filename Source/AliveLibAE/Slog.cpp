@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "Slog.hpp"
-#include "Function.hpp"
 #include "stdlib.hpp"
 #include "MusicController.hpp"
 #include "../relive_lib/Collisions.hpp"
