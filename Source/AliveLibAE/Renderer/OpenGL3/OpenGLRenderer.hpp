@@ -41,9 +41,9 @@ enum class AnimId;
 
 struct PsxVertexData final
 {
-    s32 x, y;
-    u32 r, g, b;
-    u32 u, v, texWidth, texHeight;
+    f32 x, y;
+    f32 r, g, b;
+    f32 u, v, texWidth, texHeight;
     u32 drawType, isSemiTrans, isShaded, blendMode;
     u32 paletteIndex, textureUnitIndex;
 };

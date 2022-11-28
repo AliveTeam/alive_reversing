@@ -6,9 +6,9 @@ const char_type* gShader_PsxVSH = R"(
 #version 140
 #extension GL_ARB_explicit_attrib_location : enable
 
-layout (location = 0) in ivec2 vsPos;
-layout (location = 1) in uvec3 vsShadeColor;
-layout (location = 2) in uvec4 vsUV;
+layout (location = 0) in vec2 vsPos;
+layout (location = 1) in vec3 vsShadeColor;
+layout (location = 2) in vec4 vsUV;
 layout (location = 3) in uvec4 vsFlags;
 layout (location = 4) in uvec2 vsTexIndexing;
 
