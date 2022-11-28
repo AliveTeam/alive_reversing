@@ -5,6 +5,7 @@
 #include "Map.hpp"
 #include "PathData.hpp"
 #include "Throwable.hpp"
+#include "ResourceManager.hpp"
 
 ThrowableArray* gpThrowableArray = nullptr;
 

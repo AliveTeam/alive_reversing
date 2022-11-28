@@ -6,6 +6,7 @@
 #include "Collisions.hpp"
 #include "../AliveLibCommon/AnimResources.hpp"
 #include <algorithm>
+#include "BaseAnimatedWithPhysicsGameObject.hpp" // only for the Scale enum
 
 Shadow::Shadow()
 {

@@ -2,6 +2,7 @@
 
 #include "../../AliveLibCommon/Types.hpp"
 #include "../../AliveLibAE/Path.hpp"
+#include "../../AliveLibCommon/Psx_common.hpp"
 
 enum class SwitchOp : s16;
 enum class TPageAbr : s8;

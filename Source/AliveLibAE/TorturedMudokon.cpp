@@ -10,6 +10,7 @@
 #include "Function.hpp"
 #include "Abe.hpp"
 #include "Path.hpp"
+#include "Math.hpp"
 
 void TorturedMudokon::LoadAnimations()
 {

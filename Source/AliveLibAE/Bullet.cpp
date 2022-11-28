@@ -4,13 +4,13 @@
 #include "Function.hpp"
 #include "Map.hpp"
 #include "stdlib.hpp"
-#include "BaseAliveGameObject.hpp"
 #include "Slig.hpp"
 #include "Spark.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/Particle.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "Grid.hpp"
+#include "../relive_lib/Collisions.hpp"
 
 Bullet::Bullet(IBaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, FP scale, s32 numberOfBullets)
     : BaseGameObject(true, 0)

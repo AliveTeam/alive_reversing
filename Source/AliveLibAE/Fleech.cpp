@@ -25,6 +25,7 @@
 #include "Map.hpp"
 #include "Path.hpp"
 #include <algorithm>
+#include "../relive_lib/Collisions.hpp"
 
 u8 sFleechRandomIdx_5BC20C = 0;
 s16 sFleechCount_5BC20E = 0;

@@ -1,12 +1,11 @@
 #pragma once
 
-#include "../AliveLibCommon/BitField.hpp"
-#include "FixedPoint.hpp"
 #include "../relive_lib/MapWrapper.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
-#include "../relive_lib/BinaryPath.hpp"
 
 struct PathData;
+struct FixedPoint;
+using FP = FixedPoint;
 
 enum TlvFlags
 {

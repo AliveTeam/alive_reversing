@@ -1,5 +1,4 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
 #include "BackgroundAnimation.hpp"
 #include "../relive_lib/Animation.hpp"
 #include "Midi.hpp"
@@ -7,6 +6,7 @@
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
 #include "DDCheat.hpp"
+#include "Path.hpp"
 
 namespace AO {
 

@@ -5,7 +5,8 @@
 #include "Dove.hpp"
 #include "stdlib.hpp"
 #include "Sfx.hpp"
-
+#include "Math.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
 
 void DeathBirdParticle::LoadAnimations()
 {

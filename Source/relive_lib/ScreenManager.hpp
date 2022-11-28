@@ -1,8 +1,6 @@
 #pragma once
 
 #include "../relive_lib/BaseGameObject.hpp"
-#include "../AliveLibAE/Psx.hpp"
-#include "../AliveLibAE/FixedPoint.hpp"
 #include "../AliveLibCommon/Primitives_common.hpp"
 
 class ScreenManager final : public BaseGameObject

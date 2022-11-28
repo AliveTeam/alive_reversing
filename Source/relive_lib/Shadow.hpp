@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Animation.hpp"
-#include "../AliveLibCommon/BitField.hpp"
-#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
+
+enum class Scale : s16;
 
 class Shadow final
 {

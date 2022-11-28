@@ -1,10 +1,11 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
-#include "../relive_lib/Animation.hpp"
-#include "Factory.hpp"
-#include "../relive_lib/Layer.hpp"
+
+namespace relive
+{
+    struct Path_BackgroundAnimation;
+}
 
 class BackgroundAnimation final : public BaseAnimatedWithPhysicsGameObject
 {

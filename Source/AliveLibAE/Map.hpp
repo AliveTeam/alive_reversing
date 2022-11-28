@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../relive_lib/MapWrapper.hpp"
-#include "ResourceManager.hpp"
+#include "../AliveLibCommon/FixedPoint_common.hpp"
 
 class BaseGameObject;
 class BaseAliveGameObject;
@@ -57,7 +57,6 @@ public:
     static void Load_Path_Items(Camera* pCamera, LoadMode loadMode);
 
     static void LoadResource(const char_type* pFileName, s32 type, s32 resourceId, LoadMode loadMode, s16 bDontLoad = 0);
-    static void LoadResourcesFromList(const char_type* pFileName, ResourceManager::ResourcesToLoadList* pList, LoadMode loadMode, s16 bDontLoad = 0);
 
     s16 Is_Point_In_Current_Camera(EReliveLevelIds level, s32 path, FP xpos, FP ypos, s16 width);
     CameraPos GetDirection(EReliveLevelIds level, s32 path, FP xpos, FP ypos);

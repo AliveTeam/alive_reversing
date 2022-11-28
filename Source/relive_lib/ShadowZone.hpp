@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
 #include "BaseGameObject.hpp"
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
 #include "data_conversion/relive_tlvs.hpp"

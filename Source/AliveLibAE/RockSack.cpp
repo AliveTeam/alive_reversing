@@ -10,6 +10,7 @@
 #include "Abe.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "Path.hpp"
+#include "Math.hpp"
 
 void RockSack::LoadAnimations()
 {

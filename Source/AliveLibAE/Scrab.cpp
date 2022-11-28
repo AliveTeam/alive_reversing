@@ -19,6 +19,7 @@
 #include "LiftPoint.hpp"
 #include "Slurg.hpp"
 #include "Grid.hpp"
+#include "../relive_lib/Collisions.hpp"
 
 const AnimId sScrabMotionAnimIds[40] = {
     AnimId::Scrab_Idle,

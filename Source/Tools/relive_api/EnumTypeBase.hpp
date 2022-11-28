@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ITypeBase.hpp"
-#include "relive_api.hpp"
 #include "ApiContext.hpp"
 
 #include "../../AliveLibCommon/logger.hpp"

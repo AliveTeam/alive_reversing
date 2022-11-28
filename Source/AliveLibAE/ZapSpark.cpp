@@ -1,8 +1,9 @@
 #include "stdafx.h"
 #include "ZapSpark.hpp"
-#include "Function.hpp"
 #include "stdlib.hpp"
 #include "Map.hpp"
+#include "Math.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
 
 void ZapSpark::LoadAnimations()
 {

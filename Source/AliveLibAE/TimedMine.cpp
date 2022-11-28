@@ -12,6 +12,7 @@
 #include "Grid.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
+#include "../relive_lib/Collisions.hpp"
 
 static TintEntry sTimedMineTint_550EB8[16] = {
     {EReliveLevelIds::eMenu, 127u, 127u, 127u},

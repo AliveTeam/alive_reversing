@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "Gibs.hpp"
-#include "Function.hpp"
 #include "Game.hpp"
 #include "Abe.hpp"
 #include "Math.hpp"
@@ -8,6 +7,7 @@
 #include "../relive_lib/ScreenManager.hpp"
 #include "AnimResources.hpp"
 #include "Map.hpp"
+#include "FixedPoint.hpp"
 
 const TintEntry kGibTints_55C744[16] = {
     {EReliveLevelIds::eMenu, 87u, 103u, 67u},

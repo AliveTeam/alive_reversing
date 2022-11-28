@@ -1,9 +1,9 @@
 //#include "stdafx_ao.h"
-//#include "Function.hpp"
 #include "ShadowZone.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "../AliveLibCommon/FixedPoint_common.hpp"
 #include "../relive_lib/Events.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
 
 DynamicArrayT<ShadowZone>* sShadowZoneArray;
 

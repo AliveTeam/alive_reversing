@@ -1,6 +1,5 @@
 #pragma once
 
-#include "FixedPoint.hpp"
 #include "../relive_lib/Sfx.hpp"
 
 enum class CameraPos : s16;

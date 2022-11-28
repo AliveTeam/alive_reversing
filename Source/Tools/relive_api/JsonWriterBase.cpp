@@ -2,11 +2,11 @@
 #include "TypesCollectionBase.hpp"
 #include "relive_api.hpp"
 #include <jsonxx/jsonxx.h>
-#include "../../AliveLibAO/Map.hpp"
 #include "LvlReaderWriter.hpp"
 #include "CamConverter.hpp"
 #include "../../relive_lib/data_conversion/PathTlvsAE.hpp"
 #include "../../relive_lib/data_conversion/PathTlvsAO.hpp"
+#include "PathCamerasEnumerator.hpp"
 
 namespace ReliveAPI {
 

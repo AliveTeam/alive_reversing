@@ -12,6 +12,7 @@
 #include "../AliveLibAE/stdlib.hpp"
 #include "AmbientSound.hpp"
 #include "BaseAliveGameObject.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
 
 #undef min
 #undef max

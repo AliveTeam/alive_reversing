@@ -4,15 +4,12 @@
 #include "stdlib.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
-#include "Game.hpp"
 #include "Sound/Midi.hpp"
-#include "Abe.hpp"
 #include "ScreenShake.hpp"
 #include "ParticleBurst.hpp"
 #include "../relive_lib/Flash.hpp"
 #include "../relive_lib/Particle.hpp"
-#include "ResourceManager.hpp"
-#include "Map.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
 
 GroundExplosion::GroundExplosion(FP x, FP y, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)

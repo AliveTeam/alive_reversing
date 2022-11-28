@@ -5,15 +5,12 @@
 #include "ResourceManager.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "PathData.hpp"
-#include "../AliveLibAE/Psx.hpp"
 #include "Game.hpp"
 #include "Midi.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Abe.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "AmbientSound.hpp"
-#include "../relive_lib/FG1.hpp"
-#include "Movie.hpp"
 #include "BackgroundMusic.hpp"
 #include "MusicController.hpp"
 #include "CameraSwapper.hpp"
@@ -26,13 +23,11 @@
 #include "../AliveLibAE/Sys.hpp"
 #include "../relive_lib/Camera.hpp"
 
-#include "../relive_lib/data_conversion/file_system.hpp"
-#include "../relive_lib/data_conversion/data_conversion.hpp" // TODO: don't include this in the engine
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
-#include "../relive_lib/data_conversion/relive_tlvs_serialization.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
-
+#include "../relive_lib/BinaryPath.hpp"
+#include "../AliveLibAE/PathData.hpp"
 
 class BaseGameObject;
 

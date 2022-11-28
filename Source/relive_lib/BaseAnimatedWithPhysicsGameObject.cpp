@@ -8,7 +8,8 @@
 #include "../AliveLibAE/Grid.hpp"
 #include "GameType.hpp"
 #include "ShadowZone.hpp"
-#include "../AliveLibCommon/FatalError.hpp"
+#include "../AliveLibAE/Math.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
 
 DynamicArrayT<BaseGameObject>* gObjListDrawables;
 

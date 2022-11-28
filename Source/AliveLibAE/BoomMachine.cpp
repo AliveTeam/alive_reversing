@@ -10,6 +10,7 @@
 #include "Grenade.hpp"
 #include "Grid.hpp"
 #include "Path.hpp"
+#include "FixedPoint.hpp"
 
 const static AnimId sBoomMachineNozzleAnimIds[] =
 {

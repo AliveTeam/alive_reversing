@@ -9,6 +9,7 @@
 #include "Midi.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "../relive_lib/ShadowZone.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
 
 namespace AO {
 

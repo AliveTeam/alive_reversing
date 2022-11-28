@@ -11,6 +11,7 @@
 #include "Grid.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
+#include "../relive_lib/Collisions.hpp"
 
 #include <math.h>
 

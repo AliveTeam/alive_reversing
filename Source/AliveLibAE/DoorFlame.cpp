@@ -12,6 +12,7 @@
 #include "Map.hpp"
 #include "Path.hpp"
 #include "../relive_lib/AnimationUnknown.hpp"
+#include "FixedPoint.hpp"
 
 DoorFlame* pFlameControllingTheSound_5C2C6C = nullptr;
 

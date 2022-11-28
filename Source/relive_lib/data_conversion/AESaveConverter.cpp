@@ -1,4 +1,5 @@
 #include "AESaveConverter.hpp"
+#include "BinaryPath.hpp"
 
 // TODO: Add new relive only types for anything that was copy pasted into here
 // and is still used after the engine merging

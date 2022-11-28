@@ -1,10 +1,8 @@
 #include "stdafx.h"
 #include "Particle.hpp"
-//#include "Function.hpp"
 #include "ResourceManagerWrapper.hpp"
-//#include "stdlib.hpp"
-//#include "BaseAliveGameObject.hpp"
 #include "GameType.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
 
 // TODO: Make this the only ctor
 Particle::Particle(FP xpos, FP ypos, AnimResource& res, bool explosionSizeHack)

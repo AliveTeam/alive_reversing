@@ -2,10 +2,9 @@
 #include "PsxDisplay.hpp"
 #include <type_traits>
 #include "../AliveLibAE/PsxRender.hpp"
-#include "GameType.hpp"
-#include "ScreenManager.hpp"
 #include "../AliveLibCommon/Sys_common.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
+#include "../AliveLibAE/Psx.hpp"
 
 PsxDisplay gPsxDisplay = {};
 

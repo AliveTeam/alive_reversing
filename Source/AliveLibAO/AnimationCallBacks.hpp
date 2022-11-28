@@ -1,6 +1,9 @@
 #pragma once
 
-#include "../relive_lib/Animation.hpp"
+class BaseGameObject;
+struct IndexedPoint;
+
+using TFrameCallBackType = void(*)(BaseGameObject*, u32& pointIdx, const IndexedPoint&);
 
 namespace AO {
 extern TFrameCallBackType kAbe_Anim_Frame_Fns_4CEBEC[];

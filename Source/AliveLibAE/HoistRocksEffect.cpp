@@ -1,12 +1,12 @@
 #include "stdafx.h"
 #include "HoistRocksEffect.hpp"
-#include "Function.hpp"
 #include "Game.hpp"
 #include "stdlib.hpp"
 #include "Map.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "Path.hpp"
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../relive_lib/Collisions.hpp"
 
 const static AnimId HoistRocksAnimIdTable[4] = 
 {AnimId::HoistRock1,

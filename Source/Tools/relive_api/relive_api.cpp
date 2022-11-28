@@ -26,6 +26,9 @@
 #include <type_traits>
 #include <typeindex>
 #include <sstream>
+#include "../../AliveLibAO/PathData.hpp"
+#include "../../AliveLibAE/PathData.hpp"
+#include "PathCamerasEnumerator.hpp"
 
 bool RunningAsInjectedDll()
 {

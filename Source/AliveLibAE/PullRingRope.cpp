@@ -11,6 +11,7 @@
 #include "Grid.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
+#include "FixedPoint.hpp"
 
 const TintEntry sPullRingRopeTints_55FD1C[16] = {
     {EReliveLevelIds::eMenu, 127u, 127u, 127u},

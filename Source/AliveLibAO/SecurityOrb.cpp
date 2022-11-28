@@ -14,6 +14,7 @@
 #include "../relive_lib/Flash.hpp"
 #include "Game.hpp"
 #include "../relive_lib/Events.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
 
 namespace AO {
 

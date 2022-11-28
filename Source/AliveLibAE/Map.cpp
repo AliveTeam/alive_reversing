@@ -12,13 +12,10 @@
 #include "BackgroundMusic.hpp"
 #include "stdlib.hpp"
 #include "QuikSave.hpp"
-#include "Text.hpp"
 #include "Sfx.hpp"
-#include "../relive_lib/FG1.hpp"
 #include "CameraSwapper.hpp"
 #include "MainMenu.hpp"
 #include "../relive_lib/Events.hpp"
-#include "Movie.hpp"
 #include "../relive_lib/Particle.hpp"
 #include "Sound/PsxSpuApi.hpp"
 #include "Sys.hpp"
@@ -26,11 +23,9 @@
 #include "../relive_lib/Camera.hpp"
 #include "Path.hpp"
 
-#include "../relive_lib/data_conversion/file_system.hpp"
-#include "../relive_lib/data_conversion/data_conversion.hpp" // TODO: don't include this in the engine
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
-#include "../relive_lib/data_conversion/relive_tlvs_serialization.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
+#include "../relive_lib/BinaryPath.hpp"
 
 u32 sSoundChannelsMask = 0;
 
@@ -1162,17 +1157,6 @@ void Map::Load_Path_Items(Camera* pCamera, LoadMode loadMode)
 }
 
 void Map::LoadResource(const char_type* /*pFileName*/, s32 /*type*/, s32 /*resourceId*/, LoadMode loadMode, s16 bDontLoad)
-{
-    if (!bDontLoad)
-    {
-        if (loadMode == LoadMode::LoadResource_2)
-        {
-            pResourceManager->LoadingLoop(0);
-        }
-    }
-}
-
-void Map::LoadResourcesFromList(const char_type* /*pFileName*/, ResourceManager::ResourcesToLoadList* /*pList*/, LoadMode loadMode, s16 bDontLoad)
 {
     if (!bDontLoad)
     {

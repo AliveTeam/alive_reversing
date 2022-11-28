@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 void SwitchStates_ClearRange(u16 start, u16 end);

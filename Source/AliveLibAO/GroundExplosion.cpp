@@ -9,6 +9,7 @@
 #include "../relive_lib/Flash.hpp"
 #include "../relive_lib/Particle.hpp"
 #include "BaseAliveGameObject.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
 
 namespace AO {
 

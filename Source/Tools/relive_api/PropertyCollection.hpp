@@ -1,6 +1,5 @@
 #pragma once
 
-#include "relive_api.hpp"
 #include "TypesCollectionBase.hpp"
 #include "BaseProperty.hpp"
 #include "TypedProperty.hpp"

@@ -9,10 +9,10 @@
 #include "MusicTrigger.hpp"
 #include "Sound/Midi.hpp"
 #include "DDCheat.hpp"
-#include "BaseAliveGameObject.hpp"
 #include "Grid.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
+#include "../relive_lib/Collisions.hpp"
 
 struct Door_Info final
 {

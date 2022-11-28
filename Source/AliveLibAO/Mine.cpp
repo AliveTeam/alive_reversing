@@ -8,6 +8,7 @@
 #include "GroundExplosion.hpp"
 #include "Grid.hpp"
 #include "../relive_lib/ScreenManager.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
 
 namespace AO {
 

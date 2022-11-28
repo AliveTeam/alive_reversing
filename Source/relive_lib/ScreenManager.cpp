@@ -1,8 +1,5 @@
 #include "stdafx.h"
 #include "ScreenManager.hpp"
-#include "../AliveLibCommon/Function.hpp"
-#include "../AliveLibAE/Renderer/IRenderer.hpp"
-#include "../AliveLibCommon/CamDecompressor.hpp"
 #include "../relive_lib/GameType.hpp"
 #include "ResourceManagerWrapper.hpp"
 #include "Layer.hpp"

@@ -3,10 +3,8 @@
 #include "file_system.hpp"
 #include "../../AliveLibAO/PathData.hpp"
 #include "../../AliveLibAO/Path.hpp"
-#include "../../AliveLibAO/ResourceManager.hpp"
 #include "../../AliveLibAE/Font.hpp"
 #include "../../AliveLibCommon/AnimResources.hpp"
-#include "../../AliveLibCommon/BaseGameAutoPlayer.hpp"
 #include "../Animation.hpp"
 #include "../MapWrapper.hpp"
 #include <algorithm>
@@ -25,6 +23,7 @@
 #include "AnimConversionInfo.hpp"
 #include "PNGFile.hpp"
 #include "AESaveConverter.hpp"
+#include "../BinaryPath.hpp"
 
 constexpr u32 kDataVersion = 1;
 
