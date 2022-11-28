@@ -339,8 +339,6 @@ SET(AliveLibAESrc
     LaughingGas.hpp
     DeathGas.cpp
     DeathGas.hpp
-    TouchController.cpp
-    TouchController.hpp
     ScopedSeq.cpp
     ScopedSeq.hpp
     ZapSpark.hpp

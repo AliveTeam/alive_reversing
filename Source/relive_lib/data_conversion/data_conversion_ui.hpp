@@ -2,6 +2,7 @@
 
 #include "../BaseGameObject.hpp"
 #include "../../AliveLibCommon/Primitives_common.hpp"
+#include "../../AliveLibAE/Font.hpp"
 #include "GameType.hpp"
 #include <thread>
 #include <atomic>
@@ -27,4 +28,8 @@ private:
     Poly_G4 mPoly;
     std::unique_ptr<std::thread> mThread;
     std::atomic<bool> mDone{false};
+
+    FontContext mFontContext;
+    AliveFont mFont;
+    PalResource mFontPal;
 };

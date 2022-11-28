@@ -9,24 +9,13 @@
 #include "PsxRender.hpp"
 #include "Sys.hpp"
 #include "VGA.hpp"
-#include "TouchController.hpp"
 #include "GameAutoPlayer.hpp"
 #include "../relive_lib/data_conversion/string_util.hpp"
 #include <sstream>
 #include <algorithm>
+#include <SDL_gamecontroller.h>
 
-#if USE_SDL2
 static SDL_GameController* pSDLController = nullptr;
-#elif _WIN32
-    #include <joystickapi.h>
-#endif
-
-#if XINPUT_SUPPORT
-    #include <Xinput.h>
-    #include <algorithm>
-#endif
-
-#define INPUT_IMPL true
 
 // -- Variables -- //
 
@@ -213,7 +202,6 @@ void Input_StickControl_45FF60(f32 x, f32 y, u32* buttons)
     }
 }
 
-#if USE_SDL2
 void Input_GetJoyState_SDL(f32* pX1, f32* pY1, f32* pX2, f32* pY2, u32* pButtons)
 {
     f32 deadzone = 0.2f;
@@ -315,239 +303,10 @@ void Input_GetJoyState_SDL(f32* pX1, f32* pY1, f32* pX2, f32* pY2, u32* pButtons
         vibrationAmount = std::max(0.0f, vibrationAmount);
     }
 }
-#endif
 
-#if !USE_SDL2 && _WIN32
-void Input_GetJoyState_Impl(f32* pX1, f32* pY1, f32* pX2, f32* pY2, u32* pButtons)
-{
-    if (!sJoystickAvailable)
-    {
-        *pY2 = 0.0f;
-        *pX2 = 0.0f;
-        *pY1 = 0.0f;
-        *pX1 = 0.0f;
-        *pButtons = 0;
-        return;
-    }
-
-    if (!sJoyStateIsInit_5C2EE0)
-    {
-        sJoyStateIsInit_5C2EE0 = true;
-        sJoyLastTick_5C2EEC = GetTickCount() - 1000;
-    }
-
-    // Only update joystick every 30 ticks
-    auto const tickNow = GetTickCount();
-    if (tickNow - sJoyLastTick_5C2EEC >= 30)
-    {
-        sJoyLastTick_5C2EEC = tickNow;
-        sJoystickInfo_5C2EA8.dwSize = 52;
-        sJoystickInfo_5C2EA8.dwFlags = sJoystickCapFlags_5C2EDC;
-
-        if (joyGetPosEx(sJoystickID_5C2F00, &sJoystickInfo_5C2EA8))
-        {
-            sJoystickAvailable = false;
-            return;
-        }
-    }
-
-    u32 xRange = (sJoystickCaps_5C2D10.wXmin + sJoystickCaps_5C2D10.wXmax) / 2;
-    s32 xRangeDeadZone = (xRange - sJoystickCaps_5C2D10.wXmin) / 4;
-    if (sJoystickInfo_5C2EA8.dwXpos < xRange - xRangeDeadZone || sJoystickInfo_5C2EA8.dwXpos > xRange + xRangeDeadZone)
-    {
-        *pX1 = static_cast<f32>(static_cast<s32>(sJoystickInfo_5C2EA8.dwXpos) - xRange) / static_cast<f32>(xRange - sJoystickCaps_5C2D10.wXmin);
-    }
-    else
-    {
-        *pX1 = 0.0f;
-    }
-
-    u32 yRange = (sJoystickCaps_5C2D10.wYmax + sJoystickCaps_5C2D10.wYmin) / 2;
-    s32 yRangeDeadZone = (yRange - sJoystickCaps_5C2D10.wYmin) / 4;
-    if (sJoystickInfo_5C2EA8.dwYpos < yRange - yRangeDeadZone || sJoystickInfo_5C2EA8.dwYpos > yRange + yRangeDeadZone)
-    {
-        *pY1 = static_cast<f32>(static_cast<s32>(sJoystickInfo_5C2EA8.dwYpos) - yRange) / static_cast<f32>(yRange - sJoystickCaps_5C2D10.wYmin);
-    }
-    else
-    {
-        *pY1 = 0.0f;
-    }
-
-    u32 zRange = (sJoystickCaps_5C2D10.wZmin + sJoystickCaps_5C2D10.wZmax) / 2;
-    s32 zRangeDeadZone = (zRange - sJoystickCaps_5C2D10.wZmin) / 4;
-    if (sJoystickCapFlags_5C2EDC & JOY_RETURNZ
-        && (sJoystickInfo_5C2EA8.dwZpos < zRange - zRangeDeadZone || sJoystickInfo_5C2EA8.dwZpos > zRange + zRangeDeadZone))
-    {
-        *pX2 = static_cast<f32>(static_cast<s32>(sJoystickInfo_5C2EA8.dwZpos) - zRange) / static_cast<f32>(zRange - sJoystickCaps_5C2D10.wZmin);
-    }
-    else
-    {
-        *pX2 = 0.0f;
-    }
-
-    u32 wRange = (sJoystickCaps_5C2D10.wRmax + sJoystickCaps_5C2D10.wRmin) / 2;
-    s32 wRangeDeadZone = (wRange - sJoystickCaps_5C2D10.wRmin) / 4;
-    if (sJoystickCapFlags_5C2EDC & JOY_RETURNR
-        && (sJoystickInfo_5C2EA8.dwRpos < wRange - wRangeDeadZone || sJoystickInfo_5C2EA8.dwRpos > wRange + wRangeDeadZone))
-    {
-        *pY2 = static_cast<f32>(static_cast<s32>(sJoystickInfo_5C2EA8.dwRpos) - wRange) / static_cast<f32>(wRange - sJoystickCaps_5C2D10.wRmin);
-    }
-    else
-    {
-        *pY2 = 0.0f;
-    }
-
-    if (sJoystickCapFlags_5C2EDC & JOY_RETURNPOV)
-    {
-        if (sJoystickInfo_5C2EA8.dwPOV == JOY_POVBACKWARD) // TODO: Double check if forward and backward are swapped?
-        {
-            *pX2 = -1.0f;
-        }
-        else if (sJoystickInfo_5C2EA8.dwPOV == JOY_POVFORWARD)
-        {
-            *pX2 = 1.0f;
-        }
-        if (sJoystickInfo_5C2EA8.dwPOV == JOY_POVLEFT)
-        {
-            *pY2 = -1.0f;
-        }
-        else if (sJoystickInfo_5C2EA8.dwPOV == JOY_POVRIGHT)
-        {
-            *pY2 = 1.0f;
-        }
-    }
-
-    // Clamp all our stick values
-    *pX1 = std::min(1.0f, std::max(-1.0f, *pX1));
-    *pY1 = std::min(1.0f, std::max(-1.0f, *pY1));
-    *pX2 = std::min(1.0f, std::max(-1.0f, *pX2));
-    *pY2 = std::min(1.0f, std::max(-1.0f, *pY2));
-
-    *pButtons = sJoystickInfo_5C2EA8.dwButtons;
-    Input_StickControl_45FF60(*pX2, *pY2, pButtons);
-}
-#endif
-
-#if XINPUT_SUPPORT
-void Input_XINPUT(f32* pX1, f32* pY1, f32* pX2, f32* pY2, u32* pButtons)
-{
-    XINPUT_STATE state;
-    ZeroMemory(&state, sizeof(XINPUT_STATE));
-
-    f32 deadzone = 0.2f;
-
-    *pButtons = 0;
-    *pX1 = 0;
-    *pY1 = 0;
-    *pX2 = 0;
-    *pY2 = 0;
-
-    if (XInputGetState(sCurrentControllerIndex, &state) == ERROR_SUCCESS)
-    {
-        f32 f_LX = state.Gamepad.sThumbLX / 32767.0f;
-        f32 f_LY = state.Gamepad.sThumbLY / 32767.0f;
-
-        f32 f_RX = state.Gamepad.sThumbRX / 32767.0f;
-        f32 f_RY = state.Gamepad.sThumbRY / 32767.0f;
-
-        // Joysticks
-        if (abs(f_LX) > deadzone)
-            *pX1 = f_LX;
-        if (abs(f_LY) > deadzone)
-            *pY1 = -f_LY;
-
-        if (abs(f_RX) > deadzone)
-            *pX2 = f_RX;
-        if (abs(f_RY) > deadzone)
-            *pY2 = -f_RY;
-
-        // DPad Movement
-        if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT)
-            *pX1 = 1;
-        else if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_LEFT)
-            *pX1 = -1;
-        if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP)
-            *pY1 = -1;
-        else if (state.Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN)
-            *pY1 = 1;
-
-    #define M_XINPUT_BIND(BIT, PAD_BUTTON)           \
-        {                                            \
-            if (state.Gamepad.wButtons & PAD_BUTTON) \
-                *pButtons |= (1 << BIT);             \
-        }
-
-
-        M_XINPUT_BIND(0, XINPUT_GAMEPAD_X);
-        M_XINPUT_BIND(1, XINPUT_GAMEPAD_A);
-        M_XINPUT_BIND(2, XINPUT_GAMEPAD_B);
-        M_XINPUT_BIND(3, XINPUT_GAMEPAD_Y);
-        M_XINPUT_BIND(4, XINPUT_GAMEPAD_LEFT_SHOULDER);
-        M_XINPUT_BIND(5, XINPUT_GAMEPAD_RIGHT_SHOULDER);
-        M_XINPUT_BIND(8, XINPUT_GAMEPAD_BACK);
-        M_XINPUT_BIND(9, XINPUT_GAMEPAD_START);
-
-        if (state.Gamepad.bLeftTrigger > 32)
-            *pButtons |= (1 << 6);
-        if (state.Gamepad.bRightTrigger > 32)
-            *pButtons |= (1 << 7);
-
-        // 0 Square
-        // 1 Cross
-        // 2 Circle
-        // 3 Triangle
-        // 4 L1
-        // 5 R1
-        // 6 L2
-        // 7 R2
-        // 8 Back
-        // 9 Start
-
-        static f32 vibrationAmount = 0.0f;
-        s32 screenShake = std::max(abs(sScreenXOffSet_BD30E4), abs(sScreenYOffset_BD30A4));
-
-        if (screenShake > 0)
-        {
-            vibrationAmount = std::min(screenShake, 30) / 30.0f;
-        }
-        else if (EventGet(kEventScreenShake))
-        {
-            vibrationAmount = 1.0f;
-        }
-
-
-        XINPUT_VIBRATION vib;
-        USHORT vibLR = static_cast<USHORT>(vibrationAmount * 65535);
-
-        vib.wLeftMotorSpeed = vibLR;
-        vib.wRightMotorSpeed = vibLR;
-        XInputSetState(0, &vib);
-
-        vibrationAmount -= 0.2f;
-        vibrationAmount = std::max(0.0f, vibrationAmount);
-    }
-}
-#endif
-
-// TODO: Needs actual testing.
 void Input_GetJoyState_460280(f32* pX1, f32* pY1, f32* pX2, f32* pY2, u32* pButtons)
 {
-#if XINPUT_SUPPORT
-    Input_XINPUT(pX1, pY1, pX2, pY2, pButtons);
-#else
-    #if USE_SDL2
-        #if MOBILE
-    if (!gTouchController->GetGamePadData(pX1, pY1, pX2, pY2, pButtons))
-    {
-        Input_GetJoyState_SDL(pX1, pY1, pX2, pY2, pButtons);
-    }
-        #else
     Input_GetJoyState_SDL(pX1, pY1, pX2, pY2, pButtons);
-        #endif
-    #elif _WIN32
-    Input_GetJoyState_Impl(pX1, pY1, pX2, pY2, pButtons);
-    #endif
-#endif
 }
 
 u8 Input_GetInputEnabled_4EDDE0()

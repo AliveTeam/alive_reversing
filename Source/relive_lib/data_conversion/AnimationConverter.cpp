@@ -9,7 +9,7 @@
 #include "PNGFile.hpp"
 #include <mapbox/shelf-pack.hpp>
 
-inline void to_json(nlohmann::json& j, const Point32& p)
+inline void to_json(nlohmann::json&  j, const Point32& p)
 {
     j = nlohmann::json{
         {"x", p.x},
