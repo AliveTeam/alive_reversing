@@ -8,6 +8,11 @@ struct RGBA32 final
     {
         return (r << 24) + (g << 16) + (b << 8) + (a);
     }
+
+    bool IsTransparent()
+    {
+        return r == 0 && g == 0 && b == 0 && a == 0;
+    }
 };
 
 class RGBConversion final
