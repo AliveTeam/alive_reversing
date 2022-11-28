@@ -1,10 +1,12 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
 #include "Font.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
+#include "PathData.hpp"
 
 struct StringTable;
+
 void SetLcdMessagesForLvl(const StringTable& msgs, LevelIds lvl, u32 pathId);
 
 class LCDScreen final : public BaseGameObject

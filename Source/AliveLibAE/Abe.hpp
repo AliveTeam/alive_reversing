@@ -1,9 +1,6 @@
 #pragma once
 
 #include "BaseAliveGameObject.hpp"
-#include "../AliveLibCommon/Function.hpp"
-#include "../AliveLibCommon/BitField.hpp"
-#include "Input.hpp"
 
 #define ABE_MOTIONS_ENUM(ENTRY)                      \
     ENTRY(Motion_0_Idle_44EEB0)                      \
@@ -146,6 +143,11 @@ enum eAbeMotions : s32
 class PullRingRope;
 
 extern const TintEntry sAbeTintTable[16];
+
+namespace InputCommands
+{
+    enum Enum : u32;
+}
 
 extern const InputCommands::Enum sInputKey_Right;
 extern const InputCommands::Enum sInputKey_Left;

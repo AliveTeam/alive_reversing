@@ -1,10 +1,10 @@
 #include "stdafx.h"
 #include "PlatformBase.hpp"
-#include "Function.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "Game.hpp"
 #include "stdlib.hpp"
 #include "Map.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 PlatformBase::PlatformBase()
     : BaseAliveGameObject(0)

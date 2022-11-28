@@ -4,7 +4,6 @@
 #include "ThrowableArray.hpp"
 #include "Game.hpp"
 #include "stdlib.hpp"
-#include "../relive_lib/Shadow.hpp"
 #include "PlatformBase.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/ObjectIds.hpp"
@@ -14,7 +13,7 @@
 #include "Grid.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
-
+#include "PathData.hpp"
 
 const TintEntry kMeatTints_55C254[16] = {
     {EReliveLevelIds::eMenu, 127u, 127u, 127u},

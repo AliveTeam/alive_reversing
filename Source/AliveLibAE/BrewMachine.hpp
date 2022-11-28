@@ -2,7 +2,11 @@
 
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "Font.hpp"
-#include "../AliveLibCommon/Function.hpp"
+
+namespace relive
+{
+    struct Path_BrewMachine;
+}
 
 class BrewMachine final : public ::BaseAnimatedWithPhysicsGameObject
 {

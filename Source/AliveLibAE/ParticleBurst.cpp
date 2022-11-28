@@ -7,7 +7,7 @@
 #include "Sfx.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "stdlib.hpp"
-#include "ResourceManager.hpp"
+#include "../relive_lib/AnimationUnknown.hpp"
 
 struct ParticleBurst_Item final
 {

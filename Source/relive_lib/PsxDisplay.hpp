@@ -1,8 +1,8 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
 #include "../AliveLibCommon/pch_shared.h"
 #include "../AliveLibAE/Psx.hpp"
+#include "../AliveLibCommon/Psx_common.hpp"
 
 // 368*40/23 =640
 // This seems to convert from PSX coordinate space to PC coordinate space

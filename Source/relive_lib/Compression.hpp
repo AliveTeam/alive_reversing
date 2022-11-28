@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
+#include "../AliveLibCommon/Types.hpp"
 
 namespace AO {
 

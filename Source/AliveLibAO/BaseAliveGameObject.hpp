@@ -1,9 +1,5 @@
 #pragma once
 
-#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
-#include "../AliveLibCommon/Function.hpp"
-#include "../AliveLibCommon/BitField.hpp"
-#include "../AliveLibAE/Psx.hpp"
 #include "../relive_lib/IBaseAliveGameObject.hpp"
 
 class PathLine;

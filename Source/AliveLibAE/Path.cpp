@@ -1,11 +1,11 @@
 #include "stdafx.h"
-#include "Function.hpp"
 #include "PathData.hpp"
 #include "Map.hpp"
 #include "AmbientSound.hpp"
 #include "../relive_lib/BinaryPath.hpp"
 #include <assert.h>
 #include "Path.hpp"
+#include "Factory.hpp"
 
 Path* sPathInfo = nullptr;
 

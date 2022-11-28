@@ -1,10 +1,14 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "GameSpeak.hpp"
 #include "AbilityRing.hpp"
 #include "Abe.hpp" // MudSounds only
+
+namespace relive
+{
+    struct Path_Mudokon;
+}
 
 enum class Mud_Emotion : s16
 {

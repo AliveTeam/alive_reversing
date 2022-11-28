@@ -1,8 +1,7 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
-#include "Psx.hpp"
+#include "../AliveLibCommon/Psx_common.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 
 class InvisibleSwitch final : public BaseGameObject

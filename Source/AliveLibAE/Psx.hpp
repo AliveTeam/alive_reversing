@@ -1,10 +1,9 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
 #include "FixedPoint.hpp"
-#include "../AliveLibCommon/Psx_common.hpp"
-#include "../AliveLibCommon/AddPointer.hpp"
 
+struct PSX_DISPENV;
+struct PSX_RECT;
 
 void PSX_VSync_4F6170(s32 mode);
 void PSX_SetDefDispEnv_4F55A0(PSX_DISPENV* pOutEnv);

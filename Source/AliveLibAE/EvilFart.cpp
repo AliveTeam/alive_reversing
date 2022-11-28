@@ -12,6 +12,7 @@
 #include "Sfx.hpp"
 #include "Function.hpp"
 #include "Map.hpp"
+#include "Input.hpp"
 
 struct Colour final
 {

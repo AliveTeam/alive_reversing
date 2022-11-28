@@ -2,14 +2,10 @@
 
 #include "../relive_lib/BaseGameObject.hpp"
 #include "../AliveLibCommon/FixedPoint_common.hpp"
-#include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/Animation.hpp"
-#include "../relive_lib/AnimationUnknown.hpp"
-#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "BaseGameObject.hpp"
 #include "MapWrapper.hpp"
 #include "../relive_lib/Animation.hpp"
-#include "../AliveLibCommon/AnimResources.hpp"
 #include "../AliveLibCommon/RGB16.hpp"
 
 namespace relive {

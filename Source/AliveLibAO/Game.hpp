@@ -1,8 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/DynamicArray.hpp"
-
 
 class BaseGameObject;
 class AnimationBase;

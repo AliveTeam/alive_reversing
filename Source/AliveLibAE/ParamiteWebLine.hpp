@@ -1,8 +1,8 @@
 #pragma once
 
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
-#include "../AliveLibCommon/Function.hpp"
 
+class AnimationUnknown;
 namespace relive
 {
     struct Path_ParamiteWebLine;

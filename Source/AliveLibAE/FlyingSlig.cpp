@@ -30,6 +30,7 @@
 #include "AnimationCallBacks.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
 #include <algorithm>
+#include "Input.hpp"
 
 // Warning, index is saved, order matters here
 const static TFlyingSligBrainFn sFlyingSligMotionTable[26] =

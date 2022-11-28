@@ -5,10 +5,11 @@
 #include "../relive_lib/Collisions.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "Sfx.hpp"
-#include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/ShadowZone.hpp"
 #include "Rope.hpp"
 #include "Path.hpp"
+#include "../relive_lib/AnimationUnknown.hpp"
+#include "../relive_lib/PsxDisplay.hpp"
 
 void ParamiteWebLine::LoadAnimations()
 {

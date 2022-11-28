@@ -1,8 +1,6 @@
 #pragma once
 
 #include "BaseAnimatedWithPhysicsGameObject.hpp"
-#include "../AliveLibCommon/Psx_common.hpp"
-#include "DynamicArray.hpp"
 
 class PathLine;
 

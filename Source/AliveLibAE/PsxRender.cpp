@@ -2,13 +2,7 @@
 #include "PsxRender.hpp"
 #include "Function.hpp"
 #include "Psx.hpp"
-#include "Sound/Midi.hpp"
 #include "Sound/PsxSpuApi.hpp"
-#include "../relive_lib/Primitives.hpp"
-#include "Game.hpp"
-#include "Compression.hpp"
-#include <gmock/gmock.h>
-#include "VGA.hpp"
 #include "Renderer/IRenderer.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
 
@@ -18,9 +12,6 @@ struct OtUnknown final
     s32** field_4;
     s32** field_8_pOt_End;
 };
-
-static OtUnknown sOt_Stack_BD0D88[32] = {};
-static s32 sOtIdxRollOver_BD0C08 = 0;
 
 static void DrawOTag_HandlePrimRendering(IRenderer& renderer, PrimAny& any)
 {

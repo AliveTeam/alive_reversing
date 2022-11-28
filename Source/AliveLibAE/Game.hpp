@@ -1,10 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
-#include "../relive_lib/Animation.hpp"
-#include "../relive_lib/Primitives.hpp"
-#include "PathData.hpp"
 
 void Game_Main();
 void DestroyObjects_4A1F20();

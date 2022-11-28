@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
 #include "BaseAliveGameObject.hpp"
 
 class PlatformBase : public BaseAliveGameObject

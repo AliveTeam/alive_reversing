@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../AliveLibCommon/Function.hpp"
-#include "Factory.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "../relive_lib/MapWrapper.hpp"
 

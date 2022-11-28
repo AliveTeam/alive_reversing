@@ -2,7 +2,7 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "PathData.hpp"
-#include "../AliveLibAE/Psx.hpp"
+#include "../AliveLibCommon/Psx_common.hpp"
 
 namespace AO {
 

@@ -14,6 +14,7 @@
 #include "Grid.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
+#include "PathData.hpp"
 
 struct LiftPointData final
 {

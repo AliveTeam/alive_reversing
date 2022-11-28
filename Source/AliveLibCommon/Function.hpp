@@ -1,7 +1,6 @@
 #pragma once
 
 #include <type_traits>
-#include "logger.hpp"
 
 #ifdef _MSC_VER
     #define CC __cdecl

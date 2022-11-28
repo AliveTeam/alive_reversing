@@ -3,6 +3,7 @@
 #include "../AliveLibCommon/Function.hpp"
 #include "../AliveLibAE/FixedPoint.hpp"
 #include "../AliveLibCommon/Psx_common.hpp"
+#include <vector>
 
 enum eLineTypes : u8
 {

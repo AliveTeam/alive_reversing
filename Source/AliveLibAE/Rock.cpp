@@ -4,7 +4,6 @@
 #include "ThrowableArray.hpp"
 #include "Game.hpp"
 #include "stdlib.hpp"
-#include "../relive_lib/Shadow.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "../relive_lib/Events.hpp"
@@ -12,6 +11,7 @@
 #include "Grid.hpp"
 #include "Map.hpp"
 #include <assert.h>
+#include "../relive_lib/Collisions.hpp"
 
 Rock::Rock(FP xpos, FP ypos, s16 count)
     : BaseThrowable(0)

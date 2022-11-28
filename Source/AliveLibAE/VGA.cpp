@@ -1,13 +1,9 @@
 #include "stdafx.h"
 #include "VGA.hpp"
-#include "Function.hpp"
 #include "Sys.hpp"
-#include "PsxRender.hpp"
-#include "Psx.hpp"
 #include "Renderer/IRenderer.hpp"
 #include "Renderer/SoftwareRenderer.hpp"
 #include "Renderer/DirectX9Renderer.hpp"
-#include "../AliveLibCommon/FatalError.hpp"
 
 static bool sbRendererCreated = false;
 

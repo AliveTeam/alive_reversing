@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "Paramite.hpp"
 #include "Function.hpp"
-#include "../relive_lib/Shadow.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "Game.hpp"
@@ -28,6 +27,7 @@
 #include "ScreenShake.hpp"
 #include "Grid.hpp"
 #include "Path.hpp"
+#include "PathData.hpp"
 
 const AnimId sParamiteMotionAnimIds[44] = {
     AnimId::Paramite_Idle,

@@ -1,8 +1,12 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
 #include "Font.hpp"
+
+namespace relive
+{
+    struct Path_LCDStatusBoard;
+}
 
 class LCDStatusBoard final : public BaseGameObject
 {

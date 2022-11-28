@@ -1,13 +1,13 @@
 #include "stdafx.h"
 #include "Rope.hpp"
 #include "Function.hpp"
-#include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/Animation.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "../relive_lib/ShadowZone.hpp"
-#include "ResourceManager.hpp"
 #include "Map.hpp"
+#include "../relive_lib/AnimationUnknown.hpp"
+#include "../relive_lib/PsxDisplay.hpp"
 
 const TintEntry kRopeTints_55FD68[16] = {
     {EReliveLevelIds::eMenu, 127u, 127u, 127u},
