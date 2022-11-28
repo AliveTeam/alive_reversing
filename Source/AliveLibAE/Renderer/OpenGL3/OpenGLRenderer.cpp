@@ -261,25 +261,25 @@ void OpenGLRenderer::Draw(Prim_GasEffect& gasEffect)
         return;
     }
 
-    f32 x = static_cast<f32>(gasEffect.x);
-    f32 y = static_cast<f32>(gasEffect.y);
-    f32 w = static_cast<f32>(gasEffect.w);
-    f32 h = static_cast<f32>(gasEffect.h);
+    const f32 x = static_cast<f32>(gasEffect.x);
+    const f32 y = static_cast<f32>(gasEffect.y);
+    const f32 w = static_cast<f32>(gasEffect.w);
+    const f32 h = static_cast<f32>(gasEffect.h);
 
-    f32 r = 127;
-    f32 g = 127;
-    f32 b = 127;
+    const f32 r = 127;
+    const f32 g = 127;
+    const f32 b = 127;
 
-    f32 gasWidth = (gasEffect.w - gasEffect.x);
-    f32 gasHeight = (gasEffect.h - gasEffect.y);
+    const f32 gasWidth = static_cast<f32>(gasEffect.w - gasEffect.x);
+    const f32 gasHeight = static_cast<f32>(gasEffect.h - gasEffect.y);
 
-    bool isSemiTrans = true;
-    bool isShaded = true;
-    u32 blendMode = (u32) TPageAbr::eBlend_0;
+    const bool isSemiTrans = true;
+    const bool isShaded = true;
+    const u32 blendMode = (u32) TPageAbr::eBlend_0;
 
     GL_VERIFY(glActiveTexture(GL_TEXTURE0));
     GL_VERIFY(glBindTexture(GL_TEXTURE_2D, mCurGasTextureId));
-    GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, gasWidth / 4, gasHeight / 2, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, gasEffect.pData));
+    GL_VERIFY(glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, static_cast<GLsizei>(gasWidth / 4), static_cast<GLsizei>(gasHeight / 2), 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, gasEffect.pData));
 
     PsxVertexData verts[4] = {
         { x, y, r, g, b, 0.0f, 0.0f, gasWidth, gasHeight, GL_PSX_DRAW_MODE_GAS, isSemiTrans, isShaded, blendMode, 0, 0},
@@ -391,8 +391,8 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
 
         const u32 palIndex = PreparePalette(*poly.mAnim->mAnimRes.mCurPal);
 
-        f32 u0 = pHeader->mSpriteSheetX;
-        f32 v0 = pHeader->mSpriteSheetY;
+        f32 u0 = static_cast<f32>(pHeader->mSpriteSheetX);
+        f32 v0 = static_cast<f32>(pHeader->mSpriteSheetY);
 
         f32 u1 = u0 + pHeader->mWidth;
         f32 v1 = v0 + pHeader->mHeight;
