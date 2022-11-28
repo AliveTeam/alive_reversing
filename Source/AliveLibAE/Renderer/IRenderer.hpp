@@ -9,6 +9,20 @@ struct PrimHeader;
 
 class IRenderer
 {
+protected:
+    struct Point2D
+    {
+        f32 x;
+        f32 y;
+
+        Point2D(f32 x0, f32 y0) : x(x0), y(y0) {}
+    };
+
+    struct Quad2D
+    {
+        Point2D verts[4];
+    };
+
 public:
     enum class Renderers
     {
@@ -86,6 +100,7 @@ public:
 
 protected:
     SDL_Rect GetTargetDrawRect();
+    Quad2D LineToQuad(Point2D p1, Point2D p2);
 
 protected:
     SDL_Window* mWindow = nullptr;

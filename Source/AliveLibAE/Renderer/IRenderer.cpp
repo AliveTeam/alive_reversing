@@ -93,3 +93,44 @@ SDL_Rect IRenderer::GetTargetDrawRect()
 
     return rect;
 }
+
+IRenderer::Quad2D IRenderer::LineToQuad(Point2D p1, Point2D p2)
+{
+    constexpr f32 halfPi = 1.57f;
+    constexpr f32 halfThickness = 0.5f;
+
+    f32 x0 = (f32) p1.x;
+    f32 y0 = (f32) p1.y;
+
+    f32 x1 = (f32) p2.x;
+    f32 y1 = (f32) p2.y;
+
+    f32 dx = x1 - x0;
+    f32 dy = y1 - y0;
+
+    f32 normal = halfPi - std::atan(dy / dx);
+
+    f32 dxTarget = halfThickness * std::cos(normal);
+    f32 dyTarget = halfThickness * std::sin(normal);
+
+    f32 finalX0 = x0 + dxTarget;
+    f32 finalY0 = y0 - dyTarget;
+
+    f32 finalX1 = x0 - dxTarget;
+    f32 finalY1 = y0 + dyTarget;
+
+    f32 finalX2 = x1 + dxTarget;
+    f32 finalY2 = y1 - dyTarget;
+
+    f32 finalX3 = x1 - dxTarget;
+    f32 finalY3 = y1 + dyTarget;
+
+    return {
+        {
+            { finalX0, finalY0 },
+            { finalX1, finalY1 },
+            { finalX2, finalY2 },
+            { finalX3, finalY3 }
+        }
+    };
+}

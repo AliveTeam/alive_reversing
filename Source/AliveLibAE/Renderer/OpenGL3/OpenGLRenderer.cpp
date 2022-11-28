@@ -31,9 +31,6 @@ static bool gRenderEnable_G4 = true;
 static bool gRenderEnable_G3 = true;
 static bool gRenderEnable_G2 = true;
 
-static const f32 pi = 3.14f;
-static const f32 halfPi = 1.57f;
-
 static GLuint Renderer_CreateTexture(GLenum interpolation = GL_NEAREST)
 {
     GLuint textureId = 0;
@@ -939,8 +936,6 @@ void OpenGLRenderer::InvalidateBatch()
 
 void OpenGLRenderer::PushLines(const PsxVertexData* vertices, int count)
 {
-    static const f32 halfThickness = 0.5f;
-
     const int numLines = count - 1;
 
     for (int i = 0; i < numLines; i++)
@@ -948,37 +943,13 @@ void OpenGLRenderer::PushLines(const PsxVertexData* vertices, int count)
         PsxVertexData vertA = vertices[i];
         PsxVertexData vertB = vertices[i + 1];
 
-        f32 x0 = (f32) vertA.x;
-        f32 y0 = (f32) vertA.y;
-
-        f32 x1 = (f32) vertB.x;
-        f32 y1 = (f32) vertB.y;
-
-        f32 dx = x1 - x0;
-        f32 dy = y1 - y0;
-
-        f32 normal = halfPi - std::atan(dy / dx);
-
-        f32 dxTarget = halfThickness * std::cos(normal);
-        f32 dyTarget = halfThickness * std::sin(normal);
-
-        f32 finalX0 = x0 + dxTarget;
-        f32 finalY0 = y0 - dyTarget;
-
-        f32 finalX1 = x0 - dxTarget;
-        f32 finalY1 = y0 + dyTarget;
-
-        f32 finalX2 = x1 + dxTarget;
-        f32 finalY2 = y1 - dyTarget;
-
-        f32 finalX3 = x1 - dxTarget;
-        f32 finalY3 = y1 + dyTarget;
+        Quad2D quad = LineToQuad(Point2D(vertA.x, vertA.y), Point2D(vertB.x, vertB.y));
 
         PsxVertexData triangleVerts[4] = {
-            {finalX0, finalY0, vertA.r, vertA.g, vertA.b, 0, 0, 0, 0, vertA.drawType, vertA.isSemiTrans, vertA.isShaded, vertA.blendMode, 0, 0},
-            {finalX1, finalY1, vertA.r, vertA.g, vertA.b, 0, 0, 0, 0, vertA.drawType, vertA.isSemiTrans, vertA.isShaded, vertA.blendMode, 0, 0},
-            {finalX2, finalY2, vertB.r, vertB.g, vertB.b, 0, 0, 0, 0, vertB.drawType, vertB.isSemiTrans, vertB.isShaded, vertB.blendMode, 0, 0},
-            {finalX3, finalY3, vertB.r, vertB.g, vertB.b, 0, 0, 0, 0, vertB.drawType, vertB.isSemiTrans, vertB.isShaded, vertB.blendMode, 0, 0}};
+            {quad.verts[0].x, quad.verts[0].y, vertA.r, vertA.g, vertA.b, 0, 0, 0, 0, vertA.drawType, vertA.isSemiTrans, vertA.isShaded, vertA.blendMode, 0, 0},
+            {quad.verts[1].x, quad.verts[1].y, vertA.r, vertA.g, vertA.b, 0, 0, 0, 0, vertA.drawType, vertA.isSemiTrans, vertA.isShaded, vertA.blendMode, 0, 0},
+            {quad.verts[2].x, quad.verts[2].y, vertB.r, vertB.g, vertB.b, 0, 0, 0, 0, vertB.drawType, vertB.isSemiTrans, vertB.isShaded, vertB.blendMode, 0, 0},
+            {quad.verts[3].x, quad.verts[3].y, vertB.r, vertB.g, vertB.b, 0, 0, 0, 0, vertB.drawType, vertB.isSemiTrans, vertB.isShaded, vertB.blendMode, 0, 0}};
 
         PushVertexData(triangleVerts, 4);
     }
