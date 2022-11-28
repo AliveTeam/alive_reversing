@@ -43,7 +43,7 @@ struct PsxVertexData final
 {
     f32 x, y;
     f32 r, g, b;
-    f32 u, v, texWidth, texHeight;
+    f32 u, v;
     u32 drawType, isSemiTrans, isShaded, blendMode;
     u32 paletteIndex, textureUnitIndex;
 };

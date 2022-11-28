@@ -8,7 +8,7 @@ const char_type* gShader_PsxVSH = R"(
 
 layout (location = 0) in vec2 vsPos;
 layout (location = 1) in vec3 vsShadeColor;
-layout (location = 2) in vec4 vsUV;
+layout (location = 2) in vec2 vsUV;
 layout (location = 3) in uvec4 vsFlags;
 layout (location = 4) in uvec2 vsTexIndexing;
 
@@ -27,19 +27,10 @@ void main()
     gl_Position.z = 0.0;
     gl_Position.w = 1.0;
 
+    fsUV = vsUV;
     fsShadeColor = vsShadeColor;
     fsFlags = vsFlags;
     fsTexIndexing = vsTexIndexing;
-
-    // This is basically for if there is no texture in this batch
-    if (vsUV.z == 0u || vsUV.w == 0u)
-    {
-        fsUV = vec2(0.0);
-    }
-    else
-    {
-        fsUV = vec2(vsUV.xy) / vsUV.zw;
-    }
 }
 )";
 
@@ -58,6 +49,8 @@ uniform sampler2D texGas;
 uniform sampler2D texCamera;
 uniform sampler2D texFG1Masks[4];
 uniform sampler2D texSpriteSheets[8];
+
+uniform vec2 fsSpriteSheetSize[8];
 
 const int BLEND_MODE_HALF_DST_ADD_HALF_SRC = 0;
 const int BLEND_MODE_ONE_DST_ADD_ONE_SRC   = 1;
@@ -147,40 +140,49 @@ void draw_flat()
 
 void draw_default_ft4()
 {
+    vec2 scaledUV = vec2(0.0);
     float texelSprite = 0.0;
 
     switch (fsTexIndexing.y)
     {
         case 0u:
-            texelSprite = texture(texSpriteSheets[0], fsUV).r;
+            scaledUV = fsUV / fsSpriteSheetSize[0];
+            texelSprite = texture(texSpriteSheets[0], scaledUV).r;
             break;
 
         case 1u:
-            texelSprite = texture(texSpriteSheets[1], fsUV).r;
+            scaledUV = fsUV / fsSpriteSheetSize[1];
+            texelSprite = texture(texSpriteSheets[1], scaledUV).r;
             break;
 
         case 2u:
-            texelSprite = texture(texSpriteSheets[2], fsUV).r;
+            scaledUV = fsUV / fsSpriteSheetSize[2];
+            texelSprite = texture(texSpriteSheets[2], scaledUV).r;
             break;
 
         case 3u:
-            texelSprite = texture(texSpriteSheets[3], fsUV).r;
+            scaledUV = fsUV / fsSpriteSheetSize[3];
+            texelSprite = texture(texSpriteSheets[3], scaledUV).r;
             break;
 
         case 4u:
-            texelSprite = texture(texSpriteSheets[4], fsUV).r;
+            scaledUV = fsUV / fsSpriteSheetSize[4];
+            texelSprite = texture(texSpriteSheets[4], scaledUV).r;
             break;
 
         case 5u:
-            texelSprite = texture(texSpriteSheets[5], fsUV).r;
+            scaledUV = fsUV / fsSpriteSheetSize[5];
+            texelSprite = texture(texSpriteSheets[5], scaledUV).r;
             break;
 
         case 6u:
-            texelSprite = texture(texSpriteSheets[6], fsUV).r;
+            scaledUV = fsUV / fsSpriteSheetSize[6];
+            texelSprite = texture(texSpriteSheets[6], scaledUV).r;
             break;
 
         case 7u:
-            texelSprite = texture(texSpriteSheets[7], fsUV).r;
+            scaledUV = fsUV / fsSpriteSheetSize[7];
+            texelSprite = texture(texSpriteSheets[7], scaledUV).r;
             break;
     }
 
@@ -191,35 +193,38 @@ void draw_default_ft4()
 
 void draw_cam()
 {
-    outColor = texture(texCamera, fsUV);
+    vec2 scaledUV = fsUV / frameSize;
+
+    outColor = texture(texCamera, scaledUV);
 
     outColor = vec4(outColor.rgb, 0.0);
 }
 
 void draw_fg1()
 {
+    vec2 scaledUV = fsUV / frameSize;
     vec4 mask = vec4(0.0);
 
     switch (fsTexIndexing.y)
     {
         case 0u:
-            mask = texture(texFG1Masks[0], fsUV);
+            mask = texture(texFG1Masks[0], scaledUV);
             break;
 
         case 1u:
-            mask = texture(texFG1Masks[1], fsUV);
+            mask = texture(texFG1Masks[1], scaledUV);
             break;
 
         case 2u:
-            mask = texture(texFG1Masks[2], fsUV);
+            mask = texture(texFG1Masks[2], scaledUV);
             break;
 
         case 3u:
-            mask = texture(texFG1Masks[3], fsUV);
+            mask = texture(texFG1Masks[3], scaledUV);
             break;
     }
 
-    outColor = vec4(texture(texCamera, fsUV).rgb, 0.0);
+    outColor = vec4(texture(texCamera, scaledUV).rgb, 0.0);
 
     if (mask.rgb == vec3(0.0))
     {
@@ -229,7 +234,8 @@ void draw_fg1()
 
 void draw_gas()
 {
-    vec4 texelGas = texture(texGas, fsUV);
+    vec2 scaledUV = fsUV / frameSize;
+    vec4 texelGas = texture(texGas, scaledUV);
 
     if (dither())
     {

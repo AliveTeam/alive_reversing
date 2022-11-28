@@ -51,6 +51,11 @@ void GLShaderProgram::Uniform1iv(const char_type* uniform, GLsizei count, const 
     GL_VERIFY(glUniform1iv(GetUniformLocation(uniform), count, data));
 }
 
+void GLShaderProgram::Uniform2fv(const char_type* uniform, GLsizei count, const GLfloat* data)
+{
+    GL_VERIFY(glUniform2fv(GetUniformLocation(uniform), count, data));
+}
+
 void GLShaderProgram::UniformVec2(const char_type* uniform, GLfloat x, GLfloat y)
 {
     GL_VERIFY(glUniform2f(GetUniformLocation(uniform), x, y));
