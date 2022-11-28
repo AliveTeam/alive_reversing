@@ -4,7 +4,6 @@
 #include "Sys.hpp"
 #include "PsxRender.hpp"
 #include "Psx.hpp"
-#include "TouchController.hpp"
 #include "Renderer/IRenderer.hpp"
 #include "Renderer/SoftwareRenderer.hpp"
 #include "Renderer/DirectX9Renderer.hpp"
