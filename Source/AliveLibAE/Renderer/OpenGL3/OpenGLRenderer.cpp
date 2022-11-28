@@ -229,7 +229,7 @@ void OpenGLRenderer::Draw(Prim_GasEffect& gasEffect)
 
     if (!mCurGasTexture.IsValid())
     {
-        mCurGasTexture = GLTexture2D(kPsxFramebufferWidth, kPsxFramebufferWidth, GL_RGB);
+        mCurGasTexture = GLTexture2D(kPsxFramebufferWidth, kPsxFramebufferHeight, GL_RGB);
     }
 
     if (gasEffect.pData == nullptr)
@@ -246,20 +246,20 @@ void OpenGLRenderer::Draw(Prim_GasEffect& gasEffect)
     const f32 g = 127;
     const f32 b = 127;
 
-    const f32 gasWidth = static_cast<f32>(gasEffect.w - gasEffect.x);
-    const f32 gasHeight = static_cast<f32>(gasEffect.h - gasEffect.y);
+    const f32 gasWidth = static_cast<f32>(gasEffect.w - gasEffect.x) / 4;
+    const f32 gasHeight = static_cast<f32>(gasEffect.h - gasEffect.y) / 2;
 
     const bool isSemiTrans = true;
     const bool isShaded = true;
     const u32 blendMode = (u32) TPageAbr::eBlend_0;
 
-    mCurGasTexture.LoadSubImage(0, 0, static_cast<GLsizei>(gasWidth / 4), static_cast<GLsizei>(gasHeight / 2), gasEffect.pData, GL_UNSIGNED_SHORT_5_6_5);
+    mCurGasTexture.LoadSubImage(0, 0, static_cast<GLsizei>(gasWidth), static_cast<GLsizei>(gasHeight), gasEffect.pData, GL_UNSIGNED_SHORT_5_6_5);
 
     PsxVertexData verts[4] = {
-        { x, y, r, g, b, 0.0f, 0.0f, gasWidth, gasHeight, GL_PSX_DRAW_MODE_GAS, isSemiTrans, isShaded, blendMode, 0, 0},
-        { w, y, r, g, b, gasWidth, 0.0f, gasWidth, gasHeight, GL_PSX_DRAW_MODE_GAS, isSemiTrans, isShaded, blendMode, 0, 0},
-        { x, h, r, g, b, 0.0f, gasHeight, gasWidth, gasHeight, GL_PSX_DRAW_MODE_GAS, isSemiTrans, isShaded, blendMode, 0, 0},
-        { w, h, r, g, b, gasWidth, gasHeight, gasWidth, gasHeight, GL_PSX_DRAW_MODE_GAS, isSemiTrans, isShaded, blendMode, 0, 0}};
+        { x, y, r, g, b, 0.0f, 0.0f, kPsxFramebufferWidth, kPsxFramebufferHeight, GL_PSX_DRAW_MODE_GAS, isSemiTrans, isShaded, blendMode, 0, 0},
+        { w, y, r, g, b, gasWidth, 0.0f, kPsxFramebufferWidth, kPsxFramebufferHeight, GL_PSX_DRAW_MODE_GAS, isSemiTrans, isShaded, blendMode, 0, 0},
+        { x, h, r, g, b, 0.0f, gasHeight, kPsxFramebufferWidth, kPsxFramebufferHeight, GL_PSX_DRAW_MODE_GAS, isSemiTrans, isShaded, blendMode, 0, 0},
+        { w, h, r, g, b, gasWidth, gasHeight, kPsxFramebufferWidth, kPsxFramebufferHeight, GL_PSX_DRAW_MODE_GAS, isSemiTrans, isShaded, blendMode, 0, 0}};
     
     PushVertexData(verts, 4);
 }
@@ -848,7 +848,7 @@ void OpenGLRenderer::InvalidateBatch()
     // Bind gas
     if (mCurGasTexture.IsValid())
     {
-        mCurCamTexture.BindTo(GL_TEXTURE1);
+        mCurGasTexture.BindTo(GL_TEXTURE1);
 
         mPsxShader.Uniform1i("texGas", 1);
     }
