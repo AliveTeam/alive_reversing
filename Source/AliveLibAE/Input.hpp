@@ -24,6 +24,19 @@ bool Input_JoyStickEnabled();
 void Input_SetJoyStickEnabled(bool enabled);
 bool Input_JoyStickAvailable();
 
+struct PSX_Pad final
+{
+    u32 mPressed;
+    u8 mDir;
+    u8 field_5;
+    u16 field_6_padding; // Not confirmed
+    u32 mPreviousInput;
+    u32 mHeld;
+    u32 mReleased;
+    u32 field_14_padding; // Not confirmed
+};
+ALIVE_ASSERT_SIZEOF(PSX_Pad, 0x18);
+
 namespace InputCommands {
 
 enum Enum : u32
@@ -119,19 +132,6 @@ s32 Input_Remap_492680(InputCommands::Enum inputCmd);
 void Input_ResetBinding_4925A0(s32 input_command, s32 bIsGamePad);
 s32 Input_Read_Pad_4FA9C0(s32 padNum);
 
-// TODO: struct is called PSX_Pad in AO
-struct InputPadObject final
-{
-    u32 mPressed;
-    u8 mDir;
-    u8 field_5;
-    u16 field_6_padding; // Not confirmed
-    u32 mPreviousInput;
-    u32 mHeld;
-    u32 mReleased;
-    u32 field_14_padding; // Not confirmed
-};
-ALIVE_ASSERT_SIZEOF(InputPadObject, 0x18);
 
 enum PsxButtonBits : u32
 {
@@ -174,19 +174,19 @@ public:
     s32 Is_Demo_Playing_45F220();
     void UnsetDemoPlaying_45F240();
     void SetDemoResource_45F1E0(u32** pDemoRes);
-    void Update(BaseGameAutoPlayer& autoPlayer);
+    void Update(BaseGameAutoPlayer& gameAutoPlayer);
     static u32 PsxButtonsToKeyboardInput_45EE40(u32 cmd);
     static s8 KeyboardInputToPsxButtons_45EF70(s32 cmd);
     void ShutDown_45F020();
 
 public:
-    InputPadObject mPads[2] = {};
-    u32** field_30_pDemoRes = nullptr;
-    u32 field_34_demo_command_index = 0;
-    u16 field_38_bDemoPlaying = 0;
+    PSX_Pad mPads[2] = {};
+    u32** mpDemoRes = nullptr;
+    u32 mDemoCommandIndex = 0;
+    u16 mbDemoPlaying = 0;
     u16 field_3A_pad_idx = 0;
-    u32 field_3C_command = 0;
-    u32 field_40_command_duration = 0;
+    u32 mCommand = 0;
+    u32 mCommandDuration = 0;
     bool isPressed(u32 command);
     bool isHeld(u32 command);
     bool IsReleased(u32 keys);

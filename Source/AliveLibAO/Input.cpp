@@ -44,7 +44,7 @@ void InputObject::InitPad(u32 /*padCount*/)
         pad = {};
     }
 
-    field_20_demo_playing &= ~1u;
+    mbDemoPlaying &= ~1u;
 
     Input_Pads_Reset_4FA960();
     Input_EnableInput_4EDDD0();
@@ -299,32 +299,32 @@ void InputObject::Update(BaseGameAutoPlayer& gameAutoPlayer)
     mPads[0].mReleased = static_cast<u16>(AEInputCommandsToAOInputCommands(MakeAEInputBits(::Input().mPads[0].mReleased)).Raw().all);
 
     // Handle demo input (AO impl)
-    if (field_20_demo_playing & 1)
+    if (mbDemoPlaying & 1)
     {
         // Stop if any button on any pad is pressed
         if (mPads[sCurrentControllerIndex].mPressed)
         {
-            field_20_demo_playing &= ~1u;
+            mbDemoPlaying &= ~1u;
             return;
         }
 
-        if (static_cast<s32>(sGnFrame) >= field_28_command_duration)
+        if (static_cast<s32>(sGnFrame) >= mCommandDuration)
         {
-            const u32 command = (*field_18_demo_res)[field_1C_demo_command_index++];
-            field_24_command = command >> 16;
-            field_28_command_duration = sGnFrame + (command & 0xFFFF);
+            const u32 command = (*mpDemoRes)[mDemoCommandIndex++];
+            mCommand = command >> 16;
+            mCommandDuration = sGnFrame + (command & 0xFFFF);
 
             // End demo/quit command
             if (command & 0x8000)
             {
-                field_20_demo_playing &= ~1u;
+                mbDemoPlaying &= ~1u;
             }
         }
 
         // Will do nothing if we hit the end command..
-        if (field_20_demo_playing & 1)
+        if (mbDemoPlaying & 1)
         {
-            mPads[0].mPressed = static_cast<u16>(field_24_command);
+            mPads[0].mPressed = static_cast<u16>(mCommand);
         }
 
         for (s32 i = 0; i < 2; i++)
@@ -337,69 +337,6 @@ void InputObject::Update(BaseGameAutoPlayer& gameAutoPlayer)
 
         return;
     }
-
-    // Original AO impl
-    //for (s32 i = 0; i < 2; i++)
-    //{
-    //    mPads[i].mPreviousDir = mPads[i].mDir;
-    //    mPads[i].field_B = mPads[i].field_3;
-    //    mPads[i].mPreviousInput = mPads[i].mPressed;
-    //}
-
-    //if (sPad1Buffer_507778[0])
-    //{
-    //    mPads[0].mPressed = 0;
-    //}
-    //else
-    //{
-    //    mPads[0].mPressed = ~(sPad1Buffer_507778[3] + (sPad1Buffer_507778[2] << 8));
-    //}
-
-    //if (sPad2Buffer_507738[0])
-    //{
-    //    mPads[1].mPressed = 0;
-    //}
-    //else
-    //{
-    //    mPads[1].mPressed = ~(sPad2Buffer_507738[3] + (sPad2Buffer_507738[2] << 8));
-    //}
-
-    //if (field_20_demo_playing & 1)
-    //{
-    //    // Stop if any button on any pad is pressed
-    //    if (mPads[sCurrentControllerIndex].mPressed)
-    //    {
-    //        field_20_demo_playing &= ~1u;
-    //        return;
-    //    }
-
-    //    if (static_cast<s32>(sGnFrame) >= field_28_command_duration)
-    //    {
-    //        const u32 command = (*field_18_demo_res)[field_1C_demo_command_index++];
-    //        field_24_command = command >> 16;
-    //        field_28_command_duration = sGnFrame + command & 0xFFFF;
-
-    //        // End demo/quit command
-    //        if (command & 0x8000)
-    //        {
-    //            field_20_demo_playing &= ~1u;
-    //        }
-    //    }
-
-    //    // Will do nothing if we hit the end command..
-    //    if (field_20_demo_playing & 1)
-    //    {
-    //        mPads[0].mPressed = static_cast<u16>(field_24_command);
-    //    }
-    //}
-
-    //for (s32 i = 0; i < 2; i++)
-    //{
-    //    mPads[i].mReleased = ~mPads[i].mPressed & mPads[i].mPreviousInput;
-    //    mPads[i].mHeld = ~mPads[i].mPreviousInput & mPads[i].mPressed;
-    //    mPads[i].mDir = byte_4BB428[(mPads[i].mPressed >> 12) & 0xF];
-    //    mPads[i].field_3 = byte_4BB428[(mPads[i].mPressed >> 4) & 0xF];
-    //}
 }
 
 void InputObject::Shutdown()
@@ -409,15 +346,15 @@ void InputObject::Shutdown()
 
 void InputObject::SetDemoRes(u32** ppDemoRes)
 {
-    field_1C_demo_command_index = 2051;
-    field_18_demo_res = ppDemoRes;
-    field_20_demo_playing |= 1u;
-    field_28_command_duration = 0;
+    mDemoCommandIndex = 2051;
+    mpDemoRes = ppDemoRes;
+    mbDemoPlaying |= 1u;
+    mCommandDuration = 0;
 }
 
 s32 InputObject::IsDemoPlaying()
 {
-    return field_20_demo_playing & 1;
+    return mbDemoPlaying & 1;
 }
 
 static s32 PadIndexToInt(InputObject::PadIndex idx)

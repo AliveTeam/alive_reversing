@@ -141,7 +141,6 @@ class InputObject final
 public:
     void InitPad(u32 padCount);
 
-    // BC break of Update_433250
     void Update(BaseGameAutoPlayer& gameAutoPlayer);
 
     static void Shutdown();
@@ -151,12 +150,12 @@ public:
     s32 IsDemoPlaying();
 
     PSX_Pad mPads[2] = {};
-    u32** field_18_demo_res = nullptr;
-    s32 field_1C_demo_command_index = 0;
-    s16 field_20_demo_playing = 0;
+    u32** mpDemoRes = nullptr;
+    u32 mDemoCommandIndex = 0;
+    u16 mbDemoPlaying = 0;
     s16 field_22 = 0;
-    s32 field_24_command = 0;
-    s32 field_28_command_duration = 0;
+    u32 mCommand = 0;
+    s32 mCommandDuration = 0;
     s32 field_2C = 0;
 
     // These use the active pad

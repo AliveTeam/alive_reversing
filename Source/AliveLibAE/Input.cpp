@@ -1980,20 +1980,20 @@ void Input_Pads_Reset_4FA960()
 
 s32 InputObject::Is_Demo_Playing_45F220()
 {
-    return field_38_bDemoPlaying & 1;
+    return mbDemoPlaying & 1;
 }
 
 void InputObject::UnsetDemoPlaying_45F240()
 {
-    field_38_bDemoPlaying &= ~1;
+    mbDemoPlaying &= ~1;
 }
 
 void InputObject::SetDemoResource_45F1E0(u32** pDemoRes)
 {
-    field_34_demo_command_index = 2;
-    field_30_pDemoRes = pDemoRes;
-    field_38_bDemoPlaying |= 1u;
-    field_40_command_duration = 0;
+    mDemoCommandIndex = 2;
+    mpDemoRes = pDemoRes;
+    mbDemoPlaying |= 1u;
+    mCommandDuration = 0;
 }
 
 // BC break of Update_45F040
@@ -2034,11 +2034,11 @@ void InputObject::Update(BaseGameAutoPlayer& autoPlayer)
             return;
         }
 
-        if (sGnFrame >= field_40_command_duration)
+        if (sGnFrame >= mCommandDuration)
         {
-            const u32 command = (*field_30_pDemoRes)[field_34_demo_command_index++];
-            field_3C_command = command >> 16;
-            field_40_command_duration = sGnFrame + (command & 0xFFFF);
+            const u32 command = (*mpDemoRes)[mDemoCommandIndex++];
+            mCommand = command >> 16;
+            mCommandDuration = sGnFrame + (command & 0xFFFF);
 
             // End demo/quit command
             if (command & 0x8000)
@@ -2050,7 +2050,7 @@ void InputObject::Update(BaseGameAutoPlayer& autoPlayer)
         // Will do nothing if we hit the end command..
         if (Is_Demo_Playing_45F220())
         {
-            mPads[0].mPressed = PsxButtonsToKeyboardInput_45EE40(field_3C_command);
+            mPads[0].mPressed = PsxButtonsToKeyboardInput_45EE40(mCommand);
         }
     }
 
