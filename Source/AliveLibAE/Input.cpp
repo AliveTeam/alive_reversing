@@ -1594,22 +1594,7 @@ void Input_Init()
     sKeyNames_5C9394[VK_NUMPAD8] = "8";
     // Og game is missing vk_numpad 9 ? :s
 
-#if XINPUT_SUPPORT
-    strncpy(sGamePadStr_55E85C, "Xbox Controller", 32u);
-
-    // These are to be used with the custom XBOX fonts.
-    sJoyButtonNames_5C9908[0] = "\x81";
-    sJoyButtonNames_5C9908[1] = "\x80";
-    sJoyButtonNames_5C9908[2] = "\x82";
-    sJoyButtonNames_5C9908[3] = "\x83";
-    sJoyButtonNames_5C9908[4] = "\x84";
-    sJoyButtonNames_5C9908[5] = "\x85";
-    sJoyButtonNames_5C9908[6] = "\x86";
-    sJoyButtonNames_5C9908[7] = "\x87";
-    sJoyButtonNames_5C9908[8] = "";
-    sJoyButtonNames_5C9908[9] = "";
-
-#elif USE_SDL2 //TODO Mlg hax
+//TODO Mlg hax
     sJoyButtonNames_5C9908[0] = "X";
     sJoyButtonNames_5C9908[1] = "A";
     sJoyButtonNames_5C9908[2] = "B";
@@ -1620,18 +1605,7 @@ void Input_Init()
     sJoyButtonNames_5C9908[7] = "RT";
     sJoyButtonNames_5C9908[8] = "";
     sJoyButtonNames_5C9908[9] = "";
-#else
-    sJoyButtonNames_5C9908[0] = "B1";
-    sJoyButtonNames_5C9908[1] = "B2";
-    sJoyButtonNames_5C9908[2] = "B3";
-    sJoyButtonNames_5C9908[3] = "B4";
-    sJoyButtonNames_5C9908[4] = "B5";
-    sJoyButtonNames_5C9908[5] = "B6";
-    sJoyButtonNames_5C9908[6] = "B7";
-    sJoyButtonNames_5C9908[7] = "B8";
-    sJoyButtonNames_5C9908[8] = "B9";
-    sJoyButtonNames_5C9908[9] = "B0";
-#endif
+
 
     Input_InitJoyStick_460080();
     memset(sKeyboardBindings_5C9930, 0, sizeof(*sKeyboardBindings_5C9930) * 256);

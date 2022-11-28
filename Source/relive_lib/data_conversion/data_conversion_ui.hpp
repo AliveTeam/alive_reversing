@@ -3,6 +3,8 @@
 #include "../BaseGameObject.hpp"
 #include "../../AliveLibCommon/Primitives_common.hpp"
 #include "../../AliveLibAE/Font.hpp"
+#include "../../AliveLibAE/LCDScreen.hpp"
+#include "../../AliveLibAE/LCDStatusBoard.hpp"
 #include "GameType.hpp"
 #include <thread>
 #include <atomic>
@@ -22,8 +24,6 @@ public:
 private:
     void ThreadFunc();
 
-    bool mIncrementing = true;
-    s32 mVal = 0;
     GameType mGameType = GameType::eAe;
     Poly_G4 mPoly;
     std::unique_ptr<std::thread> mThread;
@@ -32,4 +32,15 @@ private:
     FontContext mFontContext;
     AliveFont mFont;
     PalResource mFontPal;
+
+    u32 mTimer = 0;
+    std::string mCurMessage;
+    std::string mDots;
+    /*
+    relive::Path_LCDScreen mLcdScreenParams = {};
+    std::unique_ptr<LCDScreen> mLcd;
+
+    relive::Path_LCDStatusBoard mLcdStatusBoardParams = {};
+    std::unique_ptr<LCDStatusBoard> mLcdStatusBoard;
+    */
 };
