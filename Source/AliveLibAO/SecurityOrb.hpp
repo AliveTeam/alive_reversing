@@ -4,7 +4,7 @@
 
 namespace relive
 {
-    struct Path_SecurityOrb;
+    class Path_SecurityOrb;
 }
 
 namespace AO {
