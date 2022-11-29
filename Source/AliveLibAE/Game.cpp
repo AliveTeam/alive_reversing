@@ -17,7 +17,6 @@
 #include "DDCheat.hpp"
 #include "Io.hpp"
 #include "Sound/Midi.hpp"
-#include <atomic>
 #include <fstream>
 #include "../relive_lib/Events.hpp"
 #include "Abe.hpp"
@@ -33,7 +32,6 @@
 #include "GameEnderController.hpp"
 #include "ColourfulMeter.hpp"
 #include "GasCountDown.hpp"
-#include <string>
 #include "../relive_lib/SwitchStates.hpp"
 #include "../relive_lib/Collisions.hpp"
 

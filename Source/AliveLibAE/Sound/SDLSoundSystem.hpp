@@ -3,6 +3,7 @@
 #include "Sound.hpp"
 #include "SoundSDL.hpp"
 #include <thread>
+#include "SDL.h"
 
 #define CI_DISABLE_ASSERTS
 #include <cinder/audio/dsp/RingBuffer.h>

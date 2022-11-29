@@ -1,23 +1,16 @@
 #include "stdafx.h"
-#include <iostream>
-#include <string>
 
 #if _WIN32
     #include <windows.h>
 #endif
 
 #include "W32CrashHandler.hpp"
-#include "SDL.h"
 #include "Sys_common.hpp"
 
 #include "../AliveLibAE/Map.hpp"
-#include "../AliveLibAE/Font.hpp"
 #include "../AliveLibAE/Abe.hpp"
 
-#include "../AliveLibAO/Map.hpp"
 #include "../AliveLibAO/Abe.hpp"
-#include "../AliveLibAO/Font.hpp"
-#include "../relive_lib/SwitchStates.hpp"
 
 #include "../AliveLibAE/GameAutoPlayer.hpp"
 #include "../AliveLibAO/GameAutoPlayer.hpp"

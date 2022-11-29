@@ -1,8 +1,8 @@
 #pragma once
 
-#include <SDL.h>
-
 #include "../AliveLibCommon/Sys_common.hpp"
+
+typedef void* SDL_GLContext;
 
 class GLContext final
 {

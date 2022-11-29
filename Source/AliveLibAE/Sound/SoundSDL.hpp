@@ -4,8 +4,6 @@
 
 #if USE_SDL2_SOUND
     #include "../AliveLibAE/stdlib.hpp"
-    #include "SDL.h"
-    #include <atomic>
 
     #define DSBSTATUS_PLAYING 0x00000001
     #define DSBSTATUS_BUFFERLOST 0x00000002

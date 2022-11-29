@@ -1,9 +1,9 @@
 #include <GL/glew.h>
-#include <SDL.h>
 
 #include "../AliveLibCommon/Types.hpp"
 #include "GLDebug.hpp"
 #include "GLFramebuffer.hpp"
+#include "SDL.h"
 
 GLFramebuffer::GLFramebuffer(u32 width, u32 height)
 {

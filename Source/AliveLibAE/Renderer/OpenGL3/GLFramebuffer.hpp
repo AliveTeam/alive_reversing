@@ -1,9 +1,10 @@
 #pragma once
 
 #include <GL/glew.h>
-#include <SDL.h>
 
 #include "../AliveLibCommon/Types.hpp"
+
+struct SDL_Window;
 
 class GLFramebuffer final
 {

@@ -1,10 +1,11 @@
 #pragma once
 
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
-#include "Map.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 namespace AO {
+
+class BaseAliveGameObject;
 
 class FootSwitch final : public BaseAnimatedWithPhysicsGameObject
 {

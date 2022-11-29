@@ -1,10 +1,14 @@
 #pragma once
 
-#include "../relive_lib/data_conversion/relive_tlvs.hpp"
+namespace relive
+{
+    class Path_TLV;
+}
+
+class Guid;
 
 namespace AO {
 
-struct Path_TLV;
 class Map;
 
 enum class LoadMode : s16

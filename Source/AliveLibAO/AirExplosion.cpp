@@ -13,6 +13,7 @@
 #include "AmbientSound.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "../AliveLibAE/FixedPoint.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 #undef min
 #undef max
