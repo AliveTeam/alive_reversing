@@ -17,8 +17,10 @@
 
 #include "../relive_lib/GameType.hpp"
 #include "../relive_lib/Engine.hpp"
+#include "../relive_lib/SwitchStates.hpp"
 
 #include "../AliveLibAE/Io.hpp"
+#include "../AliveLibAE/Font.hpp"
 
 #include "../relive_lib/data_conversion/file_system.hpp"
 
