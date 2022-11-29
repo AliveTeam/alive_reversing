@@ -112,7 +112,7 @@ void OpenGLRenderer::Clear(u8 r, u8 g, u8 b)
         GL_VERIFY(glDisable(GL_SCISSOR_TEST));
     }
 
-    GL_VERIFY(glClearColor((f32) r, (f32) g, (f32) b, 1.0f));
+    GL_VERIFY(glClearColor(static_cast<f32>(r), static_cast<f32>(g), static_cast<f32>(b), 1.0f));
     GL_VERIFY(glClear(GL_COLOR_BUFFER_BIT));
 
     // Set back to the PSX framebuffer
@@ -274,15 +274,15 @@ void OpenGLRenderer::Draw(Prim_GasEffect& gasEffect)
 
     const bool isSemiTrans = true;
     const bool isShaded = true;
-    const u32 blendMode = (u32) TPageAbr::eBlend_0;
+    const u32 blendMode = static_cast<u32>(TPageAbr::eBlend_0);
 
     mCurGasTexture.LoadSubImage(0, 0, static_cast<GLsizei>(gasWidth), static_cast<GLsizei>(gasHeight), gasEffect.pData, GL_UNSIGNED_SHORT_5_6_5);
 
     PsxVertexData verts[4] = {
-        { x, y, r, g, b, 0.0f, 0.0f, (u32) PsxDrawMode::Gas, isSemiTrans, isShaded, blendMode, 0, 0},
-        { w, y, r, g, b, gasWidth, 0.0f, (u32) PsxDrawMode::Gas, isSemiTrans, isShaded, blendMode, 0, 0},
-        { x, h, r, g, b, 0.0f, gasHeight, (u32) PsxDrawMode::Gas, isSemiTrans, isShaded, blendMode, 0, 0},
-        { w, h, r, g, b, gasWidth, gasHeight, (u32)  PsxDrawMode::Gas, isSemiTrans, isShaded, blendMode, 0, 0}};
+        { x, y, r, g, b, 0.0f, 0.0f, static_cast<u32>(PsxDrawMode::Gas), isSemiTrans, isShaded, blendMode, 0, 0},
+        { w, y, r, g, b, gasWidth, 0.0f, static_cast<u32>(PsxDrawMode::Gas), isSemiTrans, isShaded, blendMode, 0, 0},
+        { x, h, r, g, b, 0.0f, gasHeight, static_cast<u32>(PsxDrawMode::Gas), isSemiTrans, isShaded, blendMode, 0, 0},
+        { w, h, r, g, b, gasWidth, gasHeight, static_cast<u32>(PsxDrawMode::Gas), isSemiTrans, isShaded, blendMode, 0, 0}};
 
     PushVertexData(verts, 4);
 }
@@ -299,8 +299,8 @@ void OpenGLRenderer::Draw(Line_G2& line)
     u32 blendMode = GetTPageBlendMode(mGlobalTPage);
 
     PsxVertexData verts[2] = {
-        { (f32) X0(&line), (f32) Y0(&line), (f32) R0(&line), (f32) G0(&line), (f32) B0(&line), 0.0f, 0.0f, (u32) PsxDrawMode::Flat, isSemiTrans, isShaded, blendMode, 0, 0},
-        { (f32) X1(&line), (f32) Y1(&line), (f32) R1(&line), (f32) G1(&line), (f32) B1(&line), 0.0f, 0.0f, (u32) PsxDrawMode::Flat, isSemiTrans, isShaded, blendMode, 0, 0}};
+        { static_cast<f32>(X0(&line)), static_cast<f32>(Y0(&line)), static_cast<f32>(R0(&line)), static_cast<f32>(G0(&line)), static_cast<f32>(B0(&line)), 0.0f, 0.0f, static_cast<u32>(PsxDrawMode::Flat), isSemiTrans, isShaded, blendMode, 0, 0},
+        { static_cast<f32>(X1(&line)), static_cast<f32>(Y1(&line)), static_cast<f32>(R1(&line)), static_cast<f32>(G1(&line)), static_cast<f32>(B1(&line)), 0.0f, 0.0f, static_cast<u32>(PsxDrawMode::Flat), isSemiTrans, isShaded, blendMode, 0, 0}};
 
     PushLines(verts, 2);
 }
@@ -317,10 +317,10 @@ void OpenGLRenderer::Draw(Line_G4& line)
     u32 blendMode = GetTPageBlendMode(mGlobalTPage);
 
     PsxVertexData verts[4] = {
-        { (f32) X0(&line), (f32) Y0(&line), (f32) R0(&line), (f32) G0(&line), (f32) B0(&line), 0.0f, 0.0f, (u32) PsxDrawMode::Flat, isSemiTrans, isShaded, blendMode, 0, 0},
-        { (f32) X1(&line), (f32) Y1(&line), (f32) R1(&line), (f32) G1(&line), (f32) B1(&line), 0.0f, 0.0f, (u32) PsxDrawMode::Flat, isSemiTrans, isShaded, blendMode, 0, 0},
-        { (f32) X2(&line), (f32) Y2(&line), (f32) R2(&line), (f32) G2(&line), (f32) B2(&line), 0.0f, 0.0f, (u32) PsxDrawMode::Flat, isSemiTrans, isShaded, blendMode, 0, 0},
-        { (f32) X3(&line), (f32) Y3(&line), (f32) R3(&line), (f32) G3(&line), (f32) B3(&line), 0.0f, 0.0f, (u32) PsxDrawMode::Flat, isSemiTrans, isShaded, blendMode, 0, 0}};
+        { static_cast<f32>(X0(&line)), static_cast<f32>(Y0(&line)), static_cast<f32>(R0(&line)), static_cast<f32>(G0(&line)), static_cast<f32>(B0(&line)), 0.0f, 0.0f, static_cast<u32>(PsxDrawMode::Flat), isSemiTrans, isShaded, blendMode, 0, 0},
+        { static_cast<f32>(X1(&line)), static_cast<f32>(Y1(&line)), static_cast<f32>(R1(&line)), static_cast<f32>(G1(&line)), static_cast<f32>(B1(&line)), 0.0f, 0.0f, static_cast<u32>(PsxDrawMode::Flat), isSemiTrans, isShaded, blendMode, 0, 0},
+        { static_cast<f32>(X2(&line)), static_cast<f32>(Y2(&line)), static_cast<f32>(R2(&line)), static_cast<f32>(G2(&line)), static_cast<f32>(B2(&line)), 0.0f, 0.0f, static_cast<u32>(PsxDrawMode::Flat), isSemiTrans, isShaded, blendMode, 0, 0},
+        { static_cast<f32>(X3(&line)), static_cast<f32>(Y3(&line)), static_cast<f32>(R3(&line)), static_cast<f32>(G3(&line)), static_cast<f32>(B3(&line)), 0.0f, 0.0f, static_cast<u32>(PsxDrawMode::Flat), isSemiTrans, isShaded, blendMode, 0, 0}};
 
     PushLines(verts, 4);
 }
@@ -337,9 +337,9 @@ void OpenGLRenderer::Draw(Poly_G3& poly)
     u32 blendMode = GetTPageBlendMode(mGlobalTPage);
 
     PsxVertexData verts[3] = {
-        { (f32) X0(&poly), (f32) Y0(&poly), (f32) R0(&poly), (f32) G0(&poly), (f32) B0(&poly), 0.0f, 0.0f, (u32) PsxDrawMode::Flat, isSemiTrans, isShaded, blendMode, 0, 0},
-        { (f32) X1(&poly), (f32) Y1(&poly), (f32) R1(&poly), (f32) G1(&poly), (f32) B1(&poly), 0.0f, 0.0f, (u32) PsxDrawMode::Flat, isSemiTrans, isShaded, blendMode, 0, 0},
-        { (f32) X2(&poly), (f32) Y2(&poly), (f32) R2(&poly), (f32) G2(&poly), (f32) B2(&poly), 0.0f, 0.0f, (u32) PsxDrawMode::Flat, isSemiTrans, isShaded, blendMode, 0, 0}};
+        { static_cast<f32>(X0(&poly)), static_cast<f32>(Y0(&poly)), static_cast<f32>(R0(&poly)), static_cast<f32>(G0(&poly)), static_cast<f32>(B0(&poly)), 0.0f, 0.0f, static_cast<u32>(PsxDrawMode::Flat), isSemiTrans, isShaded, blendMode, 0, 0},
+        { static_cast<f32>(X1(&poly)), static_cast<f32>(Y1(&poly)), static_cast<f32>(R1(&poly)), static_cast<f32>(G1(&poly)), static_cast<f32>(B1(&poly)), 0.0f, 0.0f, static_cast<u32>(PsxDrawMode::Flat), isSemiTrans, isShaded, blendMode, 0, 0},
+        { static_cast<f32>(X2(&poly)), static_cast<f32>(Y2(&poly)), static_cast<f32>(R2(&poly)), static_cast<f32>(G2(&poly)), static_cast<f32>(B2(&poly)), 0.0f, 0.0f, static_cast<u32>(PsxDrawMode::Flat), isSemiTrans, isShaded, blendMode, 0, 0}};
 
     PushVertexData(verts, 3);
 }
@@ -353,9 +353,9 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
 
     GLTexture2D texture = PrepareTextureFromPoly(poly);
 
-    f32 r = (f32) poly.mBase.header.rgb_code.r;
-    f32 g = (f32) poly.mBase.header.rgb_code.g;
-    f32 b = (f32) poly.mBase.header.rgb_code.b;
+    f32 r = static_cast<f32>(poly.mBase.header.rgb_code.r);
+    f32 g = static_cast<f32>(poly.mBase.header.rgb_code.g);
+    f32 b = static_cast<f32>(poly.mBase.header.rgb_code.b);
 
     bool isSemiTrans = GetPolyIsSemiTrans(&poly);
     bool isShaded = GetPolyIsShaded(&poly);
@@ -364,20 +364,20 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     if (poly.mFg1)
     {
         PsxVertexData verts[4] = {
-            { (f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, r, g, b, 0.0f, 0.0f, (u32) PsxDrawMode::FG1, isSemiTrans, isShaded, blendMode, 0, 0},
-            { (f32) poly.mVerts[0].mVert.x, (f32) poly.mVerts[0].mVert.y, r, g, b, kPsxFramebufferWidth, 0.0f, (u32) PsxDrawMode::FG1, isSemiTrans, isShaded, blendMode, 0, 0},
-            { (f32) poly.mVerts[1].mVert.x, (f32) poly.mVerts[1].mVert.y, r, g, b, 0.0f, kPsxFramebufferHeight, (u32) PsxDrawMode::FG1, isSemiTrans, isShaded, blendMode, 0, 0},
-            { (f32) poly.mVerts[2].mVert.x, (f32) poly.mVerts[2].mVert.y, r, g, b, kPsxFramebufferWidth, kPsxFramebufferHeight, (u32) PsxDrawMode::FG1, isSemiTrans, isShaded, blendMode, 0, 0}};
+            { static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y), r, g, b, 0.0f, 0.0f, static_cast<u32>(PsxDrawMode::FG1), isSemiTrans, isShaded, blendMode, 0, 0},
+            { static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y), r, g, b, kPsxFramebufferWidth, 0.0f, static_cast<u32>(PsxDrawMode::FG1), isSemiTrans, isShaded, blendMode, 0, 0},
+            { static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y), r, g, b, 0.0f, kPsxFramebufferHeight, static_cast<u32>(PsxDrawMode::FG1), isSemiTrans, isShaded, blendMode, 0, 0},
+            { static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y), r, g, b, kPsxFramebufferWidth, kPsxFramebufferHeight, static_cast<u32>(PsxDrawMode::FG1), isSemiTrans, isShaded, blendMode, 0, 0}};
 
         PushVertexData(verts, 4, texture);
     }
     else if (poly.mCam)
     {
         PsxVertexData verts[4] = {
-            { (f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, r, g, b, 0.0f, 0.0f, (u32) PsxDrawMode::Camera, isSemiTrans, isShaded, blendMode, 0, 0},
-            { (f32) poly.mVerts[0].mVert.x, (f32) poly.mVerts[0].mVert.y, r, g, b, kPsxFramebufferWidth, 0.0f, (u32) PsxDrawMode::Camera, isSemiTrans, isShaded, blendMode, 0, 0},
-            { (f32) poly.mVerts[1].mVert.x, (f32) poly.mVerts[1].mVert.y, r, g, b, 0.0f, kPsxFramebufferHeight, (u32) PsxDrawMode::Camera, isSemiTrans, isShaded, blendMode, 0, 0},
-            { (f32) poly.mVerts[2].mVert.x, (f32) poly.mVerts[2].mVert.y, r, g, b, kPsxFramebufferWidth, kPsxFramebufferHeight, (u32) PsxDrawMode::Camera, isSemiTrans, isShaded, blendMode, 0, 0}};
+            { static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y), r, g, b, 0.0f, 0.0f, static_cast<u32>(PsxDrawMode::Camera), isSemiTrans, isShaded, blendMode, 0, 0},
+            { static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y), r, g, b, kPsxFramebufferWidth, 0.0f, static_cast<u32>(PsxDrawMode::Camera), isSemiTrans, isShaded, blendMode, 0, 0},
+            { static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y), r, g, b, 0.0f, kPsxFramebufferHeight, static_cast<u32>(PsxDrawMode::Camera), isSemiTrans, isShaded, blendMode, 0, 0},
+            { static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y), r, g, b, kPsxFramebufferWidth, kPsxFramebufferHeight, static_cast<u32>(PsxDrawMode::Camera), isSemiTrans, isShaded, blendMode, 0, 0}};
 
         PushVertexData(verts, 4, texture);
     }
@@ -405,10 +405,10 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
         }
 
         PsxVertexData verts[4] = {
-            { (f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, r, g, b, u0, v0, (u32) PsxDrawMode::DefaultFT4, isSemiTrans, isShaded, blendMode, palIndex, 0},
-            { (f32) poly.mVerts[0].mVert.x, (f32) poly.mVerts[0].mVert.y, r, g, b, u1, v0, (u32) PsxDrawMode::DefaultFT4, isSemiTrans, isShaded, blendMode, palIndex, 0},
-            { (f32) poly.mVerts[1].mVert.x, (f32) poly.mVerts[1].mVert.y, r, g, b, u0, v1, (u32) PsxDrawMode::DefaultFT4, isSemiTrans, isShaded, blendMode, palIndex, 0},
-            { (f32) poly.mVerts[2].mVert.x, (f32) poly.mVerts[2].mVert.y, r, g, b, u1, v1, (u32) PsxDrawMode::DefaultFT4, isSemiTrans, isShaded, blendMode, palIndex, 0}};
+            { static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y), r, g, b, u0, v0, static_cast<u32>(PsxDrawMode::DefaultFT4), isSemiTrans, isShaded, blendMode, palIndex, 0},
+            { static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y), r, g, b, u1, v0, static_cast<u32>(PsxDrawMode::DefaultFT4), isSemiTrans, isShaded, blendMode, palIndex, 0},
+            { static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y), r, g, b, u0, v1, static_cast<u32>(PsxDrawMode::DefaultFT4), isSemiTrans, isShaded, blendMode, palIndex, 0},
+            { static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y), r, g, b, u1, v1, static_cast<u32>(PsxDrawMode::DefaultFT4), isSemiTrans, isShaded, blendMode, palIndex, 0}};
 
         PushVertexData(verts, 4, texture);
     }
@@ -427,10 +427,10 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
         f32 v1 = V3(&poly);
 
         PsxVertexData verts[4] = {
-            { (f32) poly.mBase.vert.x, (f32) poly.mBase.vert.y, r, g, b, u0, v0, (u32) PsxDrawMode::DefaultFT4, isSemiTrans, isShaded, blendMode, palIndex, 0},
-            { (f32) poly.mVerts[0].mVert.x, (f32) poly.mVerts[0].mVert.y, r, g, b, u1, v0, (u32) PsxDrawMode::DefaultFT4, isSemiTrans, isShaded, blendMode, palIndex, 0},
-            { (f32) poly.mVerts[1].mVert.x, (f32) poly.mVerts[1].mVert.y, r, g, b, u0, v1, (u32) PsxDrawMode::DefaultFT4, isSemiTrans, isShaded, blendMode, palIndex, 0},
-            { (f32) poly.mVerts[2].mVert.x, (f32) poly.mVerts[2].mVert.y, r, g, b, u1, v1, (u32) PsxDrawMode::DefaultFT4, isSemiTrans, isShaded, blendMode, palIndex, 0}};
+            { static_cast<f32>(poly.mBase.vert.x), static_cast<f32>(poly.mBase.vert.y), r, g, b, u0, v0, static_cast<u32>(PsxDrawMode::DefaultFT4), isSemiTrans, isShaded, blendMode, palIndex, 0},
+            { static_cast<f32>(poly.mVerts[0].mVert.x), static_cast<f32>(poly.mVerts[0].mVert.y), r, g, b, u1, v0, static_cast<u32>(PsxDrawMode::DefaultFT4), isSemiTrans, isShaded, blendMode, palIndex, 0},
+            { static_cast<f32>(poly.mVerts[1].mVert.x), static_cast<f32>(poly.mVerts[1].mVert.y), r, g, b, u0, v1, static_cast<u32>(PsxDrawMode::DefaultFT4), isSemiTrans, isShaded, blendMode, palIndex, 0},
+            { static_cast<f32>(poly.mVerts[2].mVert.x), static_cast<f32>(poly.mVerts[2].mVert.y), r, g, b, u1, v1, static_cast<u32>(PsxDrawMode::DefaultFT4), isSemiTrans, isShaded, blendMode, palIndex, 0}};
 
         PushVertexData(verts, 4, texture);
     }
@@ -438,10 +438,10 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     {
         // ScreenWave (Bell Song framebuffer effect)
         PassthruVertexData verts[4] = {
-            { (f32) X0(&poly), (f32) Y0(&poly), (f32) U0(&poly), (f32) V0(&poly) },
-            { (f32) X1(&poly), (f32) Y1(&poly), (f32) U1(&poly), (f32) V1(&poly) },
-            { (f32) X2(&poly), (f32) Y2(&poly), (f32) U2(&poly), (f32) V2(&poly) },
-            { (f32) X3(&poly), (f32) Y3(&poly), (f32) U3(&poly), (f32) V3(&poly) }
+            { static_cast<f32>(X0(&poly)), static_cast<f32>(Y0(&poly)), static_cast<f32>(U0(&poly)), static_cast<f32>(V0(&poly)) },
+            { static_cast<f32>(X1(&poly)), static_cast<f32>(Y1(&poly)), static_cast<f32>(U1(&poly)), static_cast<f32>(V1(&poly)) },
+            { static_cast<f32>(X2(&poly)), static_cast<f32>(Y2(&poly)), static_cast<f32>(U2(&poly)), static_cast<f32>(V2(&poly)) },
+            { static_cast<f32>(X3(&poly)), static_cast<f32>(Y3(&poly)), static_cast<f32>(U3(&poly)), static_cast<f32>(V3(&poly)) }
         };
 
         PushFramebufferVertexData(verts, 4);
@@ -460,10 +460,10 @@ void OpenGLRenderer::Draw(Poly_G4& poly)
     u32 blendMode = GetTPageBlendMode(mGlobalTPage);
 
     PsxVertexData verts[4] = {
-        { (f32) X0(&poly), (f32) Y0(&poly), (f32) R0(&poly), (f32) G0(&poly), (f32) B0(&poly), 0.0f, 0.0f, (u32) PsxDrawMode::Flat, isSemiTrans, isShaded, blendMode, 0, 0},
-        { (f32) X1(&poly), (f32) Y1(&poly), (f32) R1(&poly), (f32) G1(&poly), (f32) B1(&poly), 0.0f, 0.0f, (u32) PsxDrawMode::Flat, isSemiTrans, isShaded, blendMode, 0, 0},
-        { (f32) X2(&poly), (f32) Y2(&poly), (f32) R2(&poly), (f32) G2(&poly), (f32) B2(&poly), 0.0f, 0.0f, (u32) PsxDrawMode::Flat, isSemiTrans, isShaded, blendMode, 0, 0},
-        { (f32) X3(&poly), (f32) Y3(&poly), (f32) R3(&poly), (f32) G3(&poly), (f32) B3(&poly), 0.0f, 0.0f, (u32) PsxDrawMode::Flat, isSemiTrans, isShaded, blendMode, 0, 0}};
+        { static_cast<f32>(X0(&poly)), static_cast<f32>(Y0(&poly)), static_cast<f32>(R0(&poly)), static_cast<f32>(G0(&poly)), static_cast<f32>(B0(&poly)), 0.0f, 0.0f, static_cast<u32>(PsxDrawMode::Flat), isSemiTrans, isShaded, blendMode, 0, 0},
+        { static_cast<f32>(X1(&poly)), static_cast<f32>(Y1(&poly)), static_cast<f32>(R1(&poly)), static_cast<f32>(G1(&poly)), static_cast<f32>(B1(&poly)), 0.0f, 0.0f, static_cast<u32>(PsxDrawMode::Flat), isSemiTrans, isShaded, blendMode, 0, 0},
+        { static_cast<f32>(X2(&poly)), static_cast<f32>(Y2(&poly)), static_cast<f32>(R2(&poly)), static_cast<f32>(G2(&poly)), static_cast<f32>(B2(&poly)), 0.0f, 0.0f, static_cast<u32>(PsxDrawMode::Flat), isSemiTrans, isShaded, blendMode, 0, 0},
+        { static_cast<f32>(X3(&poly)), static_cast<f32>(Y3(&poly)), static_cast<f32>(R3(&poly)), static_cast<f32>(G3(&poly)), static_cast<f32>(B3(&poly)), 0.0f, 0.0f, static_cast<u32>(PsxDrawMode::Flat), isSemiTrans, isShaded, blendMode, 0, 0}};
 
     PushVertexData(verts, 4);
 }
@@ -596,7 +596,7 @@ void OpenGLRenderer::PushFramebufferVertexData(const PassthruVertexData *vertice
     }
 
     // Push indicies for this data
-    u32 nextIndex = (u32) mFbData.size();
+    u32 nextIndex = static_cast<u32>(mFbData.size());
     s32 numTriangles = count - 2;
 
     if (numTriangles == 1)
@@ -662,12 +662,12 @@ void OpenGLRenderer::PushVertexData(PsxVertexData* pVertData, int count, const G
                     InvalidateBatch();
                 }
 
-                targetTexUnit = (u32) mBatchTextures.size();
+                targetTexUnit = static_cast<u32>(mBatchTextures.size());
                 mBatchTextures.push_back(texture);
             }
             else
             {
-                targetTexUnit = (u32) std::distance(mBatchTextures.begin(), iter);
+                targetTexUnit = static_cast<u32>(std::distance(mBatchTextures.begin(), iter));
             }
 
             break;
@@ -699,7 +699,7 @@ void OpenGLRenderer::PushVertexData(PsxVertexData* pVertData, int count, const G
     mBatchBlendMode = blendMode;
 
     // Push indicies for this data
-    u32 nextIndex = (u32) mBatchData.size();
+    u32 nextIndex = static_cast<u32>(mBatchData.size());
     s32 numTriangles = count - 2;
 
     if (numTriangles == 1)
@@ -751,28 +751,33 @@ void OpenGLRenderer::DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height
 
         mFilterFramebuffer.BindAsSourceTextureTo(GL_TEXTURE0);
 
-        texWidth = (f32) mFilterFramebuffer.GetWidth();
-        texHeight = (f32) mFilterFramebuffer.GetHeight();
+        texWidth = static_cast<f32>(mFilterFramebuffer.GetWidth());
+        texHeight = static_cast<f32>(mFilterFramebuffer.GetHeight());
     }
     else
     {
         mPsxFbFramebuffer.BindAsSourceTextureTo(GL_TEXTURE0);
-        texWidth = (f32) mPsxFbFramebuffer.GetWidth();
-        texHeight = (f32) mPsxFbFramebuffer.GetHeight();
+        texWidth = static_cast<f32>(mPsxFbFramebuffer.GetWidth());
+        texHeight = static_cast<f32>(mPsxFbFramebuffer.GetHeight());
     }
 
     // Set up VBOs
     GLuint drawVboId = 0;
     GLuint uvVboId = 0;
 
-    GLfloat drawVertices[] = {
-        (f32) x, (f32) y,
-        (f32) x, (f32) (y + height),
-        (f32) (x + width), (f32) y,
+    f32 fX = static_cast<f32>(x);
+    f32 fY = static_cast<f32>(y);
+    f32 fWidth = static_cast<f32>(width);
+    f32 fHeight = static_cast<f32>(height);
 
-        (f32) (x + width), (f32) y,
-        (f32) x, (f32) (y + height),
-        (f32) (x + width), (f32) (y + height)};
+    GLfloat drawVertices[] = {
+        fX, fY,
+        fX, fY + fHeight,
+        fX + fWidth, fY,
+
+        fX + fWidth, fY,
+        fX, fY + fHeight,
+        fX + fWidth, fY + fHeight};
     GLfloat uvVertices[] = {
         0.0f, texHeight,
         0.0f, 0.0f,
@@ -808,7 +813,7 @@ void OpenGLRenderer::DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height
     mPassthruShader.Use();
 
     mPassthruShader.Uniform1i("texTextureData", 0);
-    mPassthruShader.UniformVec2("vsViewportSize", (f32) viewportW, (f32) viewportH);
+    mPassthruShader.UniformVec2("vsViewportSize", static_cast<f32>(viewportW), static_cast<f32>(viewportH));
     mPassthruShader.Uniform1i("fsFlipUV", false);
     mPassthruShader.UniformVec2("fsTexSize", texWidth, texHeight);
 
@@ -890,7 +895,7 @@ void OpenGLRenderer::InvalidateBatch()
     }
 
     // Bind FG1 layers (if needed)
-    s32 numLayers = (s32) mCurFG1Textures.size();
+    s32 numLayers = static_cast<s32>(mCurFG1Textures.size());
 
     for (int i = 0; i < numLayers; i++)
     {
@@ -901,7 +906,7 @@ void OpenGLRenderer::InvalidateBatch()
 
     // Bind sprite sheets
     f32 texSizes[kSpriteTextureUnitCount * 2] = {};
-    s32 numTextures = (s32) mBatchTextures.size();
+    s32 numTextures = static_cast<s32>(mBatchTextures.size());
 
     for (int i = 0; i < numTextures; i++)
     {
@@ -915,13 +920,13 @@ void OpenGLRenderer::InvalidateBatch()
     mPsxShader.Uniform2fv("fsSpriteSheetSize", kSpriteTextureUnitCount, texSizes);
 
     // Assign blend mode
-    if (mBatchBlendMode <= (u32) TPageAbr::eBlend_3)
+    if (mBatchBlendMode <= static_cast<u32>(TPageAbr::eBlend_3))
     {
-        SetupBlendMode((u16) mBatchBlendMode);
+        SetupBlendMode(static_cast<u16>(mBatchBlendMode));
     }
 
     // Set index data and render
-    GL_VERIFY(glDrawElements(GL_TRIANGLES, (u32) mBatchIndicies.size(), GL_UNSIGNED_INT, NULL));
+    GL_VERIFY(glDrawElements(GL_TRIANGLES, static_cast<u32>(mBatchIndicies.size()), GL_UNSIGNED_INT, NULL));
 
     // Tear down
     GL_VERIFY(glDeleteBuffers(1, &vboId));
@@ -982,7 +987,7 @@ void OpenGLRenderer::RenderFramebufferPolys()
     GL_VERIFY(glEnableVertexAttribArray(1));
     GL_VERIFY(glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(PassthruVertexData), (void*) offsetof(PassthruVertexData, u)));
 
-    GL_VERIFY(glDrawElements(GL_TRIANGLES, (u32) mFbIndicies.size(), GL_UNSIGNED_INT, NULL));
+    GL_VERIFY(glDrawElements(GL_TRIANGLES, static_cast<u32>(mFbIndicies.size()), GL_UNSIGNED_INT, NULL));
 
     GL_VERIFY(glDeleteBuffers(1, &eboId));
     GL_VERIFY(glDeleteBuffers(1, &vboId));

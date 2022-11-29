@@ -38,11 +38,11 @@ endif ()
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
        add_compile_options (-Wall)
        add_compile_options (-Wextra)
-       add_compile_options (-Wpendantic)
+       add_compile_options (-Wpedantic)
 elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
        add_compile_options (-Wall)
        add_compile_options (-Wextra)
-       add_compile_options (-Wpendantic)
+       add_compile_options (-Wpedantic)
 endif ()
 
 add_custom_target(
