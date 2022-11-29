@@ -13,10 +13,10 @@ public:
     GLTexture2D(GLTexture2D&& src);
     ~GLTexture2D();
 
-    GLTexture2D& operator=(GLTexture2D& src);
+    GLTexture2D& operator=(const GLTexture2D& src);
     GLTexture2D& operator=(GLTexture2D&& src);
 
-    bool operator==(const GLTexture2D other);
+    bool operator==(const GLTexture2D& other);
 
     void BindTo(GLenum texUnit);
     u32 GetHeight();

@@ -623,7 +623,7 @@ void OpenGLRenderer::PushFramebufferVertexData(const PassthruVertexData *vertice
     }
 }
 
-void OpenGLRenderer::PushVertexData(PsxVertexData* pVertData, int count, GLTexture2D texture)
+void OpenGLRenderer::PushVertexData(PsxVertexData* pVertData, int count, const GLTexture2D texture)
 {
     if (!mFrameStarted)
     {
@@ -907,8 +907,8 @@ void OpenGLRenderer::InvalidateBatch()
     {
         mBatchTextures[i].BindTo(GL_TEXTURE7 + i);
 
-        texSizes[i * 2] = mBatchTextures[i].GetWidth();
-        texSizes[(i * 2) + 1] = mBatchTextures[i].GetHeight();
+        texSizes[i * 2] = static_cast<f32>(mBatchTextures[i].GetWidth());
+        texSizes[(i * 2) + 1] = static_cast<f32>(mBatchTextures[i].GetHeight());
     }
 
     mPsxShader.Uniform1iv("texSpriteSheets", kSpriteTextureUnitCount, mTextureUnits);

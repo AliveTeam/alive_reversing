@@ -31,12 +31,8 @@ GLTexture2D::GLTexture2D(u32 width, u32 height, GLenum format)
 }
 
 GLTexture2D::GLTexture2D(const GLTexture2D& src)
-    : mFormat(src.mFormat),
-    mGLId(src.mGLId),
-    mHeight(src.mHeight),
-    mWidth(src.mWidth),
-    mIsOriginal(false)
 {
+    *this = src;
 }
 
 GLTexture2D::GLTexture2D(GLTexture2D&& src)
@@ -55,14 +51,11 @@ GLTexture2D::~GLTexture2D()
     if (mGLId && mIsOriginal)
     {
         GL_VERIFY(glDeleteTextures(1, &mGLId));
-
-        mGLId = 0;
-        mIsOriginal = false;
     }
 }
 
 
-GLTexture2D& GLTexture2D::operator=(GLTexture2D& src)
+GLTexture2D& GLTexture2D::operator=(const GLTexture2D& src)
 {
     if (this != &src)
     {
@@ -104,7 +97,7 @@ GLTexture2D& GLTexture2D::operator=(GLTexture2D&& src)
 }
 
 
-bool GLTexture2D::operator==(const GLTexture2D other)
+bool GLTexture2D::operator==(const GLTexture2D& other)
 {
     return mGLId == other.mGLId;
 }
