@@ -179,6 +179,8 @@ void Main_ParseCommandLineArguments(const char_type* pCommandLine)
 #endif
 
     VGA_CreateRenderer();
+
+    PSX_EMU_SetCallBack_4F9430(Game_End_Frame_4950F0);
 }
 
 void Init_GameStates()
@@ -484,8 +486,10 @@ void Game_Run()
 }
 
 
-void Game_Main()
+void Game_Main(const char_type* pCommandLine)
 {
+    GetGameAutoPlayer().ParseCommandLine(pCommandLine);
+
     //Main_ParseCommandLineArguments(pCommandLine);
 
     // Only returns once the engine is shutting down

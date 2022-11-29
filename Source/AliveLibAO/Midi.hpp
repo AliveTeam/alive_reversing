@@ -202,6 +202,8 @@ s32 SFX_SfxDefinition_Play_477330(const relive::SfxDefinition& sfxDef, s16 volLe
 
 void SND_Init_476E40();
 
+void SND_Shutdown_476EC0();
+
 void SND_SEQ_SetVol_477970(SeqId idx, s16 volLeft, s16 volRight);
 
 void SND_StopAll();

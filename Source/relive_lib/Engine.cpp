@@ -4,10 +4,9 @@
 #include "../AliveLibAO/Game.hpp"
 #include "PsxDisplay.hpp"
 #include "../AliveLibAE/VGA.hpp"
-#include "../AliveLibCommon/BaseGameAutoPlayer.hpp"
 
 void SYS_EventsPump();
-BaseGameAutoPlayer& GetGameAutoPlayer();
+
 void Main_ParseCommandLineArguments(const char_type* pCommandLine);
 
 namespace AO {
@@ -26,12 +25,10 @@ void Engine::Run()
     // TODO: HACK mini loop till Game.cpp is merged
     if (mGameType == GameType::eAe)
     {
-        GetGameAutoPlayer().ParseCommandLine(mCommandLine);
         Main_ParseCommandLineArguments(mCommandLine);
     }
     else
     {
-        GetGameAutoPlayer().ParseCommandLine(mCommandLine);
         AO::Main_ParseCommandLineArguments(mCommandLine);
     }
 
@@ -59,11 +56,11 @@ void Engine::Run()
     if (mGameType == GameType::eAe)
     {
         LOG_INFO("AE standalone starting...");
-        Game_Main();
+        Game_Main(mCommandLine);
     }
     else
     {
         LOG_INFO("AO standalone starting...");
-        AO::Game_Main();
+        AO::Game_Main(mCommandLine);
     }
 }

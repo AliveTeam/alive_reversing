@@ -12,10 +12,14 @@ extern bool gLatencyHack;
 
 static s32 sVSyncLastMillisecond_BD0F2C = 0;
 static s32 sLastFrameTimestampMilliseconds_BD0F24 = 0;
+static TPsxEmuCallBack sPsxEmu_put_disp_env_callback_C1D184 = nullptr;
 
 u8 turn_off_rendering_BD0F20 = 0;
 
-s32 Game_End_Frame_4950F0(u32 flags);
+void PSX_EMU_SetCallBack_4F9430(TPsxEmuCallBack fnPtr)
+{
+    sPsxEmu_put_disp_env_callback_C1D184 = fnPtr;
+}
 
 static void PSX_PutDispEnv_Impl_4F5640()
 {
@@ -32,11 +36,14 @@ static void PSX_PutDispEnv_Impl_4F5640()
 
 void PSX_PutDispEnv_4F58E0()
 {
-    if (!Game_End_Frame_4950F0(0))
+    if (!sPsxEmu_put_disp_env_callback_C1D184 || !sPsxEmu_put_disp_env_callback_C1D184(0))
     {
         PSX_PutDispEnv_Impl_4F5640();
 
-        Game_End_Frame_4950F0(1);
+        if (sPsxEmu_put_disp_env_callback_C1D184)
+        {
+            sPsxEmu_put_disp_env_callback_C1D184(1);
+        }
     }
 }
 
@@ -57,14 +64,19 @@ void PSX_SetDefDispEnv_4F55A0(PSX_DISPENV* pOutEnv)
 
 void PSX_PutDispEnv_4F5890()
 {
-    if (Game_End_Frame_4950F0(0))
+    if (sPsxEmu_put_disp_env_callback_C1D184)
     {
-        return;
+        if (sPsxEmu_put_disp_env_callback_C1D184(0))
+        {
+            return;
+        }
     }
 
     PSX_PutDispEnv_Impl_4F5640();
-    Game_End_Frame_4950F0(1);
-
+    if (sPsxEmu_put_disp_env_callback_C1D184)
+    {
+        sPsxEmu_put_disp_env_callback_C1D184(1);
+    }
 }
 
 bool PSX_Rects_overlap_4FA0B0(const PSX_RECT* pRect1, const PSX_RECT* pRect2)
