@@ -150,6 +150,7 @@ void DataConversionUI::VRender(PrimHeader** ppOt)
     sFontDrawScreenSpace = 1;
     mFont.DrawString(ppOt, mCurMessage.c_str(), 20, (240)-15, TPageAbr::eBlend_0, 0, 0, Layer::eLayer_0, 127, 127, 127, 0, FP_FromInteger(1), 640, 0);
     OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_0), &mPoly.mBase.header);
+    sFontDrawScreenSpace = 0;
 }
 
 bool DataConversionUI::ConversionRequired()
