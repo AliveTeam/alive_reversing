@@ -4,10 +4,6 @@
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../AliveLibCommon/FixedPoint_common.hpp"
 
-struct Path_WellBase;
-struct Path_WellLocal;
-struct Path_WellExpress;
-
 class Well final : public BaseGameObject
 {
 public:

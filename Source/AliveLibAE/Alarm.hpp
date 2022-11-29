@@ -2,9 +2,11 @@
 
 #include "../relive_lib/EffectBase.hpp"
 #include "../relive_lib/Layer.hpp"
-#include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
-struct Path_Alarm;
+namespace relive
+{
+    struct Path_Alarm;
+}
 
 class Alarm final : public EffectBase
 {

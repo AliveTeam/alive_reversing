@@ -125,7 +125,6 @@
 
 #include "logger.hpp"
 
-
 #include <cstddef>
 #include <cstring>
 #include <iostream>

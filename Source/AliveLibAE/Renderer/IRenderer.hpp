@@ -1,11 +1,18 @@
 #pragma once
 
-#include "../../AliveLibCommon/Sys_common.hpp"
-#include "../../AliveLibCommon/Primitives_common.hpp"
-#include "../../AliveLibCommon/Psx_common.hpp"
-#include <SDL.h>
+#include "SDL.h"
 
 struct PrimHeader;
+struct Prim_PrimClipper;
+struct Prim_ScreenOffset;
+struct Prim_GasEffect;
+struct Line_G2;
+struct Line_G4;
+struct Poly_G3;
+struct Poly_FT4;
+struct Poly_G4;
+struct SDL_Window;
+using TWindowHandleType = SDL_Window*;
 
 class IRenderer
 {

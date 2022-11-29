@@ -1,5 +1,4 @@
 #include <GL/glew.h>
-#include <SDL.h>
 
 #include "imgui.h"
 #include "imgui_impl_sdl.h"
@@ -9,6 +8,7 @@
 #include "../AliveLibCommon/logger.hpp"
 #include "../AliveLibCommon/Types.hpp"
 #include "GLContext.hpp"
+#include "SDL.h"
 
 GLContext::GLContext(TWindowHandleType window)
 {

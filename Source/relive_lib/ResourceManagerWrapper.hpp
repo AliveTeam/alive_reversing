@@ -1,7 +1,5 @@
 #pragma once
 
-#include "../AliveLibCommon/Types.hpp"
-#include "../AliveLibCommon/AnimResources.hpp"
 #include "data_conversion/AnimationConverter.hpp" // TODO: Don't depend on this
 
 enum class AnimId;

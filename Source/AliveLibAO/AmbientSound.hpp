@@ -1,7 +1,11 @@
 #pragma once
 
 #include "../AliveLibCommon/Function.hpp"
-#include "../relive_lib/data_conversion/relive_tlvs.hpp"
+
+namespace relive
+{
+    class Path_TLV;
+}
 
 enum class CameraPos : s16;
 

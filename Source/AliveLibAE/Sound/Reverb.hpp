@@ -1,7 +1,7 @@
 #pragma once
 
 #include "SoundSDL.hpp"
-#include "Sound.hpp"
+#include "SDL.h"
 
 #if USE_SDL2_SOUND
 
