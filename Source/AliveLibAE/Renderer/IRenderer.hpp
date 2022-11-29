@@ -36,24 +36,6 @@ public:
     static void FreeRenderer();
 
 public:
-    // Recommendations for reserving memory to fit 'peak' amounts of quads
-    // during batching:
-    //   - For regular Poly_FT4s, the peak tends to be about 300 when the game
-    //     is rendering a Spline (chant orb zap made out of ~260 individual
-    //     sprites)
-    //   - For ScreenWave framebuffer effect there are 256 quads
-    //
-    static constexpr s32 kReserveFT4QuadCount = 300;
-    static constexpr s32 kReserveScreenWaveQuadCount = 256;
-
-    // Original game resolution - 640x240
-    static constexpr s32 kPsxFramebufferHeight = 240;
-    static constexpr s32 kPsxFramebufferWidth = 640;
-
-    // Original game target resolution - 640x480
-    static constexpr s32 kTargetFramebufferHeight = 480;
-    static constexpr s32 kTargetFramebufferWidth = 640;
-
     explicit IRenderer(SDL_Window* window)
         : mWindow(window)
     { 
@@ -97,6 +79,25 @@ public:
 
     // Fleech (tounge), DeathGas, ColourfulMeter
     virtual void Draw(Poly_G4& poly) = 0;
+
+protected:
+    // Recommendations for reserving memory to fit 'peak' amounts of quads
+    // during batching:
+    //   - For regular Poly_FT4s, the peak tends to be about 300 when the game
+    //     is rendering a Spline (chant orb zap made out of ~260 individual
+    //     sprites)
+    //   - For ScreenWave framebuffer effect there are 256 quads
+    //
+    static constexpr s32 kReserveFT4QuadCount = 300;
+    static constexpr s32 kReserveScreenWaveQuadCount = 256;
+
+    // Original game resolution - 640x240
+    static constexpr s32 kPsxFramebufferHeight = 240;
+    static constexpr s32 kPsxFramebufferWidth = 640;
+
+    // Original game target resolution - 640x480
+    static constexpr s32 kTargetFramebufferHeight = 480;
+    static constexpr s32 kTargetFramebufferWidth = 640;
 
 protected:
     SDL_Rect GetTargetDrawRect();

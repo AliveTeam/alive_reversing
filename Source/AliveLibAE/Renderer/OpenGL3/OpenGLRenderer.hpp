@@ -21,43 +21,7 @@
 #include "GLShaderProgram.hpp"
 #include "GLTexture2D.hpp"
 
-#define BATCH_VALUE_UNSET 999
-
-#define GL_PSX_DRAW_MODE_FLAT 0
-#define GL_PSX_DRAW_MODE_DEFAULT_FT4 1
-#define GL_PSX_DRAW_MODE_CAM 2
-#define GL_PSX_DRAW_MODE_FG1 3
-#define GL_PSX_DRAW_MODE_GAS 4
-
-#define GL_AVAILABLE_PALETTES 256
-#define GL_PALETTE_DEPTH 256
-
-#define GL_CAM_TEXTURE_LIFETIME 300
-#define GL_SPRITE_TEXTURE_LIFETIME 300
-
-#define GL_USE_NUM_TEXTURE_UNITS 8
-
 enum class AnimId;
-
-struct PsxVertexData final
-{
-    f32 x, y;
-    f32 r, g, b;
-    f32 u, v;
-    u32 drawType, isSemiTrans, isShaded, blendMode;
-    u32 paletteIndex, textureUnitIndex;
-};
-
-struct PassthruVertexData final
-{
-    f32 x, y;
-    f32 u, v;
-};
-
-class OpenGLTextureCache final : public TextureCache<GLTexture2D>
-{
-};
-
 
 class OpenGLRenderer final : public IRenderer
 {
@@ -79,6 +43,45 @@ public:
     void ToggleFilterScreen() override;
 
 private:
+    static constexpr u32 kBatchValueUnset = 999;
+
+    static constexpr u32 kAvailablePalettes = 256;
+    static constexpr u32 kPaletteDepth = 256;
+
+    static constexpr u32 kCamTextureLifetime = 300;
+    static constexpr u32 kSpriteTextureLifetime = 300;
+
+    static constexpr u32 kSpriteTextureUnitCount = 8;
+
+private:
+    enum class PsxDrawMode : u32
+    {
+        Flat = 0,
+        DefaultFT4,
+        Camera,
+        FG1,
+        Gas
+    };
+
+    class OpenGLTextureCache final : public TextureCache<GLTexture2D>
+    {
+    };
+
+    struct PsxVertexData final
+    {
+        f32 x, y;
+        f32 r, g, b;
+        f32 u, v;
+        u32 drawMode, isSemiTrans, isShaded, blendMode;
+        u32 paletteIndex, textureUnitIndex;
+    };
+
+    struct PassthruVertexData final
+    {
+        f32 x, y;
+        f32 u, v;
+    };
+
     struct Stats final
     {
         u32 mCamUploadCount = 0;
@@ -98,15 +101,31 @@ private:
             mInvalidationsCount = 0;
         }
     };
-    Stats mStats;
 
-    bool mFrameStarted = false;
+private:
+    u16 GetTPageBlendMode(u16 tPage);
+    u32 PreparePalette(AnimationPal& pCache);
+    GLTexture2D PrepareTextureFromAnim(Animation& anim);
+    GLTexture2D PrepareTextureFromPoly(Poly_FT4& poly);
 
+    void PushLines(const PsxVertexData* vertices, int count);
+    void PushFramebufferVertexData(const PassthruVertexData* vertices, int count);
+    void PushVertexData(PsxVertexData* pVertData, int count, GLTexture2D texture = {});
+
+    void DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height);
+    bool HasFramebufferPolysToDraw();
+    void InvalidateBatch();
+    void RenderFramebufferPolys();
+    void SetupBlendMode(u16 blendMode);
+    void UpdateFilterFramebuffer();
+
+    void DecreaseResourceLifetimes();
+
+    void DebugWindow();
+
+private:
     GLContext mContext;
-
-    u16 mGlobalTPage = 0;
-
-    // ROZZA STUFF
+    GLuint mVAO = 0;
 
     GLShaderProgram mPassthruShader;
     GLShaderProgram mPassthruFilterShader;
@@ -116,14 +135,24 @@ private:
     GLFramebuffer mPsxFbFramebuffer;
     GLFramebuffer mFilterFramebuffer;
 
-    bool mFramebufferFilter = true;
+    Stats mStats;
 
-    u32 mBatchBlendMode = BATCH_VALUE_UNSET;
+    bool mFrameStarted = false;
+
+    bool mFramebufferFilter = true;
+    u16 mGlobalTPage = 0;
+
+    PaletteCache mPaletteCache;
+    OpenGLTextureCache mTextureCache = {};
+
+    u32 mBatchBlendMode = kBatchValueUnset;
     std::vector<PsxVertexData> mBatchData;
     std::vector<u32> mBatchIndicies;
 
     std::vector<PassthruVertexData> mFbData;
     std::vector<u32> mFbIndicies;
+
+    GLTexture2D mPaletteTexture = {};
 
     GLTexture2D mCurGasTexture = {};
 
@@ -132,33 +161,5 @@ private:
     GLint mFG1Units[4] = {3, 4, 5, 6};
 
     std::vector<GLTexture2D> mBatchTextures;
-    GLint mTextureUnits[GL_USE_NUM_TEXTURE_UNITS];
-
-    void CreateFramebuffer(GLuint* outFramebufferId, GLuint* outTextureId, s32 width, s32 height);
-    void DecreaseResourceLifetimes();
-    void DrawFramebufferToScreen(s32 x, s32 y, s32 width, s32 height);
-    u16 GetTPageBlendMode(u16 tPage);
-    bool HasFramebufferPolysToDraw();
-    void InvalidateBatch();
-    void PushLines(const PsxVertexData* vertices, int count);
-    void PushFramebufferVertexData(const PassthruVertexData* vertices, int count);
-    void PushVertexData(PsxVertexData* pVertData, int count, GLTexture2D texture = {});
-    void RenderFramebufferPolys();
-    void SetupBlendMode(u16 blendMode);
-    void UpdateFilterFramebuffer();
-    
-    u32 PreparePalette(AnimationPal& pCache);
-    GLTexture2D PrepareTextureFromAnim(Animation& anim);
-    GLTexture2D PrepareTextureFromPoly(Poly_FT4& poly);
-
-    // END ROZZA STUFF
-
-    GLuint mVAO = 0;
-
-    GLTexture2D mPaletteTexture;
-    PaletteCache mPaletteCache;
-
-    OpenGLTextureCache mTextureCache;
-
-    void DebugWindow();
+    GLint mTextureUnits[kSpriteTextureUnitCount];
 };

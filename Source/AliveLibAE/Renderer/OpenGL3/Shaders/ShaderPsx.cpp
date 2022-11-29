@@ -249,9 +249,9 @@ void draw_gas()
 
 void main()
 {
-    int drawType = int(fsFlags.x);
+    int drawMode = int(fsFlags.x);
 
-    switch (drawType)
+    switch (drawMode)
     {
         case DRAW_FLAT:
             draw_flat();
