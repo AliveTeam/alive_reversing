@@ -16,6 +16,7 @@
 #include "Map.hpp"
 #include "Path.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
+#include "Game.hpp"
 
 MotionDetectorLaser::MotionDetectorLaser(FP xpos, FP ypos, FP scale, Layer layer)
     : BaseAnimatedWithPhysicsGameObject(0)

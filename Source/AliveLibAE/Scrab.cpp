@@ -20,6 +20,9 @@
 #include "Slurg.hpp"
 #include "Grid.hpp"
 #include "../relive_lib/Collisions.hpp"
+#include "Input.hpp"
+#include "Math.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
 
 const AnimId sScrabMotionAnimIds[40] = {
     AnimId::Scrab_Idle,

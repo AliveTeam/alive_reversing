@@ -25,6 +25,7 @@
 #include "Function.hpp"
 #include "AnimationCallBacks.hpp"
 #include "Path.hpp"
+#include "Game.hpp"
 
 s16 sSlogCount = 0;
 

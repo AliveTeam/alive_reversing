@@ -3,6 +3,7 @@
 #include "../relive_lib/BaseGameObject.hpp"
 #include "Font.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
+#include "../AliveLibCommon/Primitives_common.hpp"
 
 constexpr s16 kMeterBarsXCount = 20;
 

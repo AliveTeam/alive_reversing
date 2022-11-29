@@ -24,7 +24,6 @@
 #include "../relive_lib/ScreenManager.hpp"
 #include "LiftPoint.hpp"
 #include "Lever.hpp"
-#include "../relive_lib/SwitchStates.hpp"
 #include "Bullet.hpp"
 #include "Dove.hpp"
 #include "BulletShell.hpp"
@@ -35,6 +34,11 @@
 #include "AnimationCallBacks.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
 #include <algorithm>
+#include "../AliveLibAE/FixedPoint.hpp"
+#include "Input.hpp"
+#include "Path.hpp"
+#include "../relive_lib/SwitchStates.hpp"
+#include "Game.hpp"
 
 const relive::SfxDefinition kSfxInfoTable_5607E0[17] = {
     {0u, 1u, 58u, 40u, -256, -256},

@@ -6,6 +6,8 @@
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "Sfx.hpp"
+#include "Path.hpp"
+#include "Scrab.hpp"
 
 ScrabSpawner::ScrabSpawner(relive::Path_ScrabSpawner* pTlv, const Guid& tlvId)
     : BaseGameObject(true, 0)

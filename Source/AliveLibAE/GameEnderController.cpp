@@ -12,6 +12,7 @@
 #include "Alarm.hpp"
 #include "Function.hpp"
 #include "PathDataExtensions.hpp"
+#include "Input.hpp"
 
 s16 gFeeco_Restart_KilledMudCount = 0;
 s16 gFeecoRestart_SavedMudCount = 0;

@@ -27,6 +27,7 @@
 #include "Grid.hpp"
 #include "Path.hpp"
 #include "FixedPoint.hpp"
+#include "Game.hpp"
 
 const static TintEntry kCrawlingSligTints[16] = {
     {EReliveLevelIds::eMenu, 127u, 127u, 127u},
