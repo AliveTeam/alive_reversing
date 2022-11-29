@@ -1,16 +1,12 @@
 #include "stdafx.h"
 #include "Psx.hpp"
-#include "Function.hpp"
 #include "Sound/PsxSpuApi.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "VGA.hpp"
 #include "stdlib.hpp"
-#include "Io.hpp"
-#include "PsxRender.hpp"
-#include "PsxRender.hpp"
-#include "Renderer/IRenderer.hpp"
 #include "GameAutoPlayer.hpp"
 #include <gmock/gmock.h>
+#include "Sys.hpp"
 
 extern bool gLatencyHack;
 

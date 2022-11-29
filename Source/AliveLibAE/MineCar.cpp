@@ -17,6 +17,7 @@
 #include "Map.hpp"
 #include "Path.hpp"
 #include "Psx.hpp"
+#include "FixedPoint.hpp"
 
 const FP mineCarHeightUnscaled = FP_FromInteger(60);
 const FP mineCarWidthUnscaled = FP_FromInteger(12);

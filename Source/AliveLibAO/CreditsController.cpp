@@ -1,5 +1,4 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
 #include "CreditsController.hpp"
 #include "Map.hpp"
 #include "Game.hpp"

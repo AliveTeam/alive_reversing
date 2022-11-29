@@ -1,5 +1,4 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
 #include "ScreenShake.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../AliveLibAE/stdlib.hpp"

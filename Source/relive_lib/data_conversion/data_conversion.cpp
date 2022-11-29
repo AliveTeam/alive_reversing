@@ -24,6 +24,7 @@
 #include "PNGFile.hpp"
 #include "AESaveConverter.hpp"
 #include "../BinaryPath.hpp"
+#include "../../AliveLibAE/ResourceManager.hpp"
 
 constexpr u32 kDataVersion = 1;
 

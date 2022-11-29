@@ -19,6 +19,8 @@
 #include "Bullet.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
+#include "FixedPoint.hpp"
+#include "Math.hpp"
 
 void Greeter::LoadAnimations()
 {

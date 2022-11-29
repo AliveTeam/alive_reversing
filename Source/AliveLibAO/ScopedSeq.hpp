@@ -1,7 +1,5 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
-
 enum class CameraPos : s16;
 
 namespace AO {

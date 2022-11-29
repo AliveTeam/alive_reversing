@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "DeathGas.hpp"
-#include "Function.hpp"
 #include "../relive_lib/Events.hpp"
 #include "stdlib.hpp"
 #include "Map.hpp"

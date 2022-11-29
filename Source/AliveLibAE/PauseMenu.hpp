@@ -1,24 +1,11 @@
 #pragma once
 
 #include "../AliveLibCommon/Function.hpp"
-#include "../relive_lib/BaseGameObject.hpp"
 #include "../relive_lib/Animation.hpp"
-#include "Game.hpp"
-#include "Psx.hpp"
 #include "Function.hpp"
-#include "ResourceManager.hpp"
-#include "../relive_lib/PsxDisplay.hpp"
-#include "Input.hpp"
-#include "../relive_lib/ScreenManager.hpp"
-#include "Map.hpp"
-#include "PathData.hpp"
-#include "QuikSave.hpp"
-#include "DDCheat.hpp"
 #include "Font.hpp"
-#include "FixedPoint.hpp"
-#include "Sound/Midi.hpp"
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
-#include "../relive_lib/Layer.hpp"
+
 
 class PauseMenu;
 struct PauseMenuPage;

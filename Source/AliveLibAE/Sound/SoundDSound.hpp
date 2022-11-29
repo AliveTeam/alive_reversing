@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
 #include "Sound.hpp"
 
 #if !USE_SDL2_SOUND

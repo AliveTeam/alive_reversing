@@ -8,7 +8,6 @@
 #include "../relive_lib/Events.hpp"
 #include "PsxRender.hpp"
 #include "Sys.hpp"
-#include "VGA.hpp"
 #include "GameAutoPlayer.hpp"
 #include "../relive_lib/data_conversion/string_util.hpp"
 #include <sstream>

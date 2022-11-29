@@ -9,6 +9,7 @@
 #include "../relive_lib/ObjectIds.hpp"
 #include "PathData.hpp"
 #include "BaseGameAutoPlayer.hpp"
+#include "Math.hpp"
 
 MusicController* gMusicController = nullptr;
 static u32 sMusicControllerBaseTimeStamp = 0;

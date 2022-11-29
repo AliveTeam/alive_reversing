@@ -1,7 +1,6 @@
 #pragma once
 
-#include "BaseAliveGameObject.hpp"
-#include "../AliveLibCommon/Function.hpp"
+#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 
 class AirExplosion final : public BaseAnimatedWithPhysicsGameObject
 {

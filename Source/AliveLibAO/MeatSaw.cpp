@@ -11,6 +11,7 @@
 #include "Math.hpp"
 #include "Blood.hpp"
 #include "../relive_lib/ScreenManager.hpp"
+#include "Path.hpp"
 
 namespace AO {
 

@@ -3,7 +3,6 @@
 #include "HintFly.hpp"
 #include "Math.hpp"
 #include "Sfx.hpp"
-#include "ResourceManager.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "Game.hpp"
@@ -12,6 +11,7 @@
 #include "../AliveLibCommon/PathDataExtensionsTypes.hpp"
 #include "PathData.hpp"
 #include "Path.hpp"
+#include "Map.hpp"
 
 namespace AO {
 

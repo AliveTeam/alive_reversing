@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
-#include "../AliveLibCommon/Function.hpp"
 
 class DeathBirdParticle final : public BaseAnimatedWithPhysicsGameObject
 {

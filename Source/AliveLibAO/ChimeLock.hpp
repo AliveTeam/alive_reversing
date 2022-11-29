@@ -1,9 +1,11 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
 #include "BaseAliveGameObject.hpp"
-#include "Map.hpp"
-#include "Path.hpp"
+
+namespace relive
+{
+    struct Path_ChimeLock;
+}
 
 namespace AO {
 

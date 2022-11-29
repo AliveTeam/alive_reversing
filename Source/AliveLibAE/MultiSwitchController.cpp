@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "MultiSwitchController.hpp"
-#include "Function.hpp"
 #include "Map.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/SwitchStates.hpp"

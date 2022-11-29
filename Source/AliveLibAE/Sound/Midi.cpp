@@ -1,16 +1,11 @@
 #include "../stdafx.h"
 #include "Midi.hpp"
-#include "Function.hpp"
 #include "Sound.hpp"
 #include "../PathData.hpp"
 #include "../ResourceManager.hpp"
-#include "../Game.hpp"
 #include "../stdlib.hpp"
-#include "../Abe.hpp"
 #include "../MusicController.hpp"
 #include "../BackgroundMusic.hpp"
-#include "../Sys.hpp"
-#include "../Io.hpp"
 
 #include "../Sfx.hpp"
 #include "../PathData.hpp"
@@ -19,6 +14,7 @@
 #include "../relive_lib/BinaryPath.hpp"
 #include "../AliveLibAE/AmbientSound.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
+#include "../Math.hpp"
 
 void SFX_SetPitch_4CA510(const relive::SfxDefinition& pSfx, s32 channelsBits, s16 pitch);
 

@@ -1,11 +1,13 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
 #include "ZBall.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Sfx.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "AnimationCallBacks.hpp"
+#include "Path.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
+#include "Map.hpp"
 
 namespace AO {
 

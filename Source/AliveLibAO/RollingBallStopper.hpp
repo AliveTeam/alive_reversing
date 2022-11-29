@@ -1,11 +1,13 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
 #include "BaseAliveGameObject.hpp"
-#include "Map.hpp"
-#include "Path.hpp"
 
 class PathLine;
+
+namespace relive
+{
+    struct Path_RollingBallStopper;
+}
 
 namespace AO {
 

@@ -2,7 +2,6 @@
 
 #include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
-#include "FixedPoint.hpp"
 #include "../AliveLibCommon/Primitives_common.hpp"
 #include "../relive_lib/Layer.hpp"
 

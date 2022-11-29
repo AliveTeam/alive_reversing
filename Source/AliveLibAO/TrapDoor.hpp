@@ -1,11 +1,9 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
-#include "Map.hpp"
 #include "PlatformBase.hpp"
-#include "Path.hpp"
 
 class PathLine;
+class Map;
 
 namespace AO {
 

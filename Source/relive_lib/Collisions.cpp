@@ -3,6 +3,7 @@
 #include "../relive_lib/Math.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
 #include <algorithm>
+#include "../AliveLibAE/FixedPoint.hpp"
 
 Collisions* sCollisions = nullptr;
 

@@ -1,12 +1,14 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
-#include "../AliveLibAE/FixedPoint.hpp"
+#include "../AliveLibCommon/FixedPoint_common.hpp"
+#include "../relive_lib/MapWrapper.hpp"
 
 enum class EReliveLevelIds : s16;
 
 class IBaseAliveGameObject;
+class PathLine;
+struct PSX_RECT;
 
 namespace AO {
 

@@ -11,6 +11,7 @@
 #include "Map.hpp"
 #include "Path.hpp"
 #include "../relive_lib/Collisions.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
 
 Mine* sMineSFXOwner_5C3008 = nullptr;
 

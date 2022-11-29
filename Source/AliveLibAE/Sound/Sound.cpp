@@ -5,7 +5,6 @@
 #include "../Sys.hpp"
 #include <mutex>
 #include "SoundSDL.hpp"
-#include "SoundDSound.hpp"
 #include "SDLSoundBuffer.hpp"
 #include "SDLSoundSystem.hpp"
 #include "PsxSpuApi.hpp"

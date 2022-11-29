@@ -3,7 +3,6 @@
 #include "ParticleBurst.hpp"
 #include "Math.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "ResourceManager.hpp"
 #include "Map.hpp"
 #include "Game.hpp"
 #include "../relive_lib/ScreenManager.hpp"
@@ -13,6 +12,7 @@
 #include "Sfx.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Grid.hpp"
+#include "../relive_lib/AnimationUnknown.hpp"
 
 namespace AO {
 

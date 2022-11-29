@@ -1,5 +1,4 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
 #include "BellHammer.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "Elum.hpp"
@@ -8,6 +7,7 @@
 #include "Sfx.hpp"
 #include "Midi.hpp"
 #include "Grid.hpp"
+#include "Path.hpp"
 
 namespace AO {
 

@@ -3,7 +3,6 @@
 #include "DemoPlayback.hpp"
 #include "Function.hpp"
 #include "Game.hpp"
-#include "ResourceManager.hpp"
 #include "SaveGame.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "Input.hpp"

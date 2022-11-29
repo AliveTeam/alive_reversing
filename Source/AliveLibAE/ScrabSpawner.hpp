@@ -1,8 +1,7 @@
 #pragma once
 
 #include "../relive_lib/BaseGameObject.hpp"
-#include "../AliveLibCommon/Function.hpp"
-#include "Scrab.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 enum class ScrabSpawnerStates : s32
 {

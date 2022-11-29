@@ -1,11 +1,8 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
-#include "FixedPoint.hpp"
-#include "../relive_lib/Primitives.hpp"
 #include "../relive_lib/Layer.hpp"
-#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
+#include "../AliveLibCommon/Primitives_common.hpp"
 
 enum class ThrowableTotalIndicatorState : s16
 {

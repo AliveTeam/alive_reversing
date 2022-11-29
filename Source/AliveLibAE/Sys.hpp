@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
 #include "../AliveLibCommon/Sys_common.hpp"
 
 void Sys_SetWindowText(TWindowHandleType windowHandle, const char_type* title);

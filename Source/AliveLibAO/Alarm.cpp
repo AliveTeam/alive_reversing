@@ -3,7 +3,6 @@
 #include "Game.hpp"
 #include "Map.hpp"
 #include "../relive_lib/DynamicArray.hpp"
-#include "Function.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "CameraSwapper.hpp"

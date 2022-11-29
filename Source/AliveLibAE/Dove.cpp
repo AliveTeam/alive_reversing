@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "Dove.hpp"
-#include "Function.hpp"
 #include "Sound/Midi.hpp"
 #include "Math.hpp"
 #include "Game.hpp"

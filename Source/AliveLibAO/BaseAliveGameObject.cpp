@@ -1,6 +1,5 @@
 #include "stdafx_ao.h"
 #include "BaseAliveGameObject.hpp"
-#include "Function.hpp"
 #include "Map.hpp"
 #include "Abe.hpp"
 #include "PlatformBase.hpp"
@@ -10,8 +9,9 @@
 #include "BirdPortal.hpp"
 #include "Grid.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
-#include "../relive_lib/GameType.hpp"
 #include "../relive_lib/ObjectIds.hpp"
+#include "../AliveLibCommon/FixedPoint_common.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
 
 namespace AO {
 

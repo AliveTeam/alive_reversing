@@ -15,6 +15,8 @@
 #include "Path.hpp"
 #include "PathData.hpp"
 #include "../relive_lib/Collisions.hpp"
+#include "FixedPoint.hpp"
+#include "Math.hpp"
 
 const static AnimId sBoneBagAnimIds[] =
 {

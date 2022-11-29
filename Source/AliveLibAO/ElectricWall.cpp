@@ -11,6 +11,7 @@
 #include "../relive_lib/Events.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "Path.hpp"
+#include "Map.hpp"
 
 namespace AO {
 

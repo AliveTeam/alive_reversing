@@ -1,10 +1,12 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
-#include "FixedPoint.hpp"
 #include "../relive_lib/Animation.hpp"
-#include "../relive_lib/data_conversion/relive_tlvs.hpp"
+
+namespace relive
+{
+    struct Path_Hoist;
+}
 
 struct HoistRockParticle final
 {

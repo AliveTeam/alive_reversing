@@ -12,6 +12,8 @@
 #include "ParticleBurst.hpp"
 #include "Midi.hpp"
 #include "../relive_lib/SwitchStates.hpp"
+#include "Path.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
 
 namespace AO {
 

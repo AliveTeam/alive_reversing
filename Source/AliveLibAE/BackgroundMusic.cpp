@@ -1,10 +1,8 @@
 #include "stdafx.h"
 #include "BackgroundMusic.hpp"
 #include "Sound/Midi.hpp"
-#include "Function.hpp"
 #include "Map.hpp"
 #include "stdlib.hpp"
-#include "PathData.hpp"
 
 s16 sBackgroundMusic_seq_id_560F78 = -1;
 

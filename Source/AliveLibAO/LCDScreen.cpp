@@ -11,7 +11,6 @@
 #include "StringFormatters.hpp"
 #include "Primitives_common.hpp"
 #include "Input.hpp"
-#include "../AliveLibAE/Renderer/IRenderer.hpp"
 #include "../AliveLibCommon/PathDataExtensionsTypes.hpp"
 #include "PathData.hpp"
 #include "Path.hpp"

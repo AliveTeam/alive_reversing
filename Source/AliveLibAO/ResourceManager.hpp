@@ -1,10 +1,7 @@
 #pragma once
 
-#include "../relive_lib/BaseGameObject.hpp"
 #include "../AliveLibCommon/Function.hpp"
-#include "../AliveLibAE/Psx.hpp"
-#include "../AliveLibCommon/AnimResources.hpp"
-#include "Factory.hpp"
+#include "../relive_lib/DynamicArray.hpp"
 
 class Camera;
 

@@ -1,8 +1,6 @@
 #include "stdafx.h"
 #include "ScreenClipper.hpp"
-#include "Function.hpp"
 #include "stdlib.hpp"
-#include "Game.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include <algorithm>

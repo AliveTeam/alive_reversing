@@ -1,10 +1,11 @@
 #include "stdafx.h"
 #include "BulletShell.hpp"
-#include "Function.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "Sfx.hpp"
 #include "Map.hpp"
+#include "FixedPoint.hpp"
+#include "Math.hpp"
 
 static s16 sShellCount = 0;
 

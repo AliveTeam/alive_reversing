@@ -1,10 +1,8 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "../relive_lib/MapWrapper.hpp"
-#include "FlyingSligSpawner.hpp"
-#include "../relive_lib/data_conversion/PathTlvsAE.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 #define SLIG_MOTIONS_ENUM_AE(ENTRY)         \
     ENTRY(M_StandIdle_0_4B4EC0)          \

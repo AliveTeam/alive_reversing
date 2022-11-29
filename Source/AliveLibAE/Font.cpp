@@ -4,6 +4,8 @@
 #include "FixedPoint.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
 #include "../relive_lib/GameType.hpp"
+#include "../AliveLibCommon/Primitives_common.hpp"
+#include "../relive_lib/PsxDisplay.hpp"
 
 s8 sDisableFontFlicker = 0;
 u8 sFontDrawScreenSpace = 0;

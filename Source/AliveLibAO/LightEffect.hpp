@@ -1,7 +1,11 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
-#include "DoorLight.hpp"
+#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
+
+namespace relive
+{
+    struct Path_LightEffect;
+}
 
 namespace AO {
 

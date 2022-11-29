@@ -1,5 +1,2 @@
 #include "../stdafx.h"
-#include "SoundDSound.hpp"
-#include "Function.hpp"
-#include "../Sys.hpp"
 #include "../stdlib.hpp"

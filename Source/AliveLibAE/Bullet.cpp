@@ -11,6 +11,9 @@
 #include "../relive_lib/ScreenManager.hpp"
 #include "Grid.hpp"
 #include "../relive_lib/Collisions.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
+#include "Math.hpp"
+#include "Path.hpp"
 
 Bullet::Bullet(IBaseAliveGameObject* pParent, BulletType type, FP xpos, FP ypos, FP xDist, FP scale, s32 numberOfBullets)
     : BaseGameObject(true, 0)

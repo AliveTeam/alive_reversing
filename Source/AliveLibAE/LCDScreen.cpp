@@ -8,10 +8,11 @@
 #include "Sfx.hpp"
 #include "Game.hpp"
 #include "../AliveLibCommon/PathDataExtensionsTypes.hpp"
-#include "Renderer/IRenderer.hpp"
 #include "Map.hpp"
 #include "Path.hpp"
 #include "Input.hpp"
+#include "../relive_lib/ScreenManager.hpp"
+#include "../relive_lib/PsxDisplay.hpp"
 
 // TODO: Remove spaces and add them at runtime.
 static const char_type* sLCDMessageTable_555768[101] = {

@@ -8,6 +8,8 @@
 #include "../relive_lib/PsxDisplay.hpp"
 #include "ResourceManager.hpp"
 #include "Abe.hpp"
+#include "Input.hpp"
+#include "Game.hpp"
 
 s16 sDoorsOpen_5C1BE6 = 0;
 s32 sTweakX_5C1BD0 = 0;

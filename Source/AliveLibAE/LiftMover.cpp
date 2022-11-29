@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "LiftMover.hpp"
 #include "Function.hpp"
-#include "BaseAliveGameObject.hpp"
 #include "LiftPoint.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/SwitchStates.hpp"

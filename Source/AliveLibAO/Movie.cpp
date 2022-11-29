@@ -1,8 +1,6 @@
 #include "stdafx_ao.h"
 #include "Movie.hpp"
-#include "Function.hpp"
 #include "../AliveLibAE/stdlib.hpp"
-#include "ResourceManager.hpp"
 #include "PSXADPCMDecoder.h"
 #include "PSXMDECDecoder.h"
 #include "Masher.hpp"
@@ -13,6 +11,7 @@
 #include "../AliveLibAE/Input.hpp"
 #include "../AliveLibAE/Sound/SDLSoundBuffer.hpp"
 #include "GameAutoPlayer.hpp"
+#include "Midi.hpp"
 
 #define NO_WAVE
 #include "../AliveLibAE/Sound/Sound.hpp"

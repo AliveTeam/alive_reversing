@@ -25,6 +25,7 @@
 #include "Grid.hpp"
 #include "AnimationCallBacks.hpp"
 #include "../relive_lib/ObjectIds.hpp"
+#include "Path.hpp"
 
 namespace AO {
 

@@ -1,11 +1,12 @@
 #include "stdafx_ao.h"
 #include "RollingBallStopper.hpp"
-#include "Function.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "Sfx.hpp"
 #include "Grid.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
+#include "Path.hpp"
 
 namespace AO {
 

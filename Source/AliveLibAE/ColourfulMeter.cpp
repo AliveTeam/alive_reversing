@@ -1,11 +1,12 @@
 #include "stdafx.h"
 #include "ColourfulMeter.hpp"
-#include "Function.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "Map.hpp"
 #include "../relive_lib/Events.hpp"
 #include "MinesAlarm.hpp"
 #include "Path.hpp"
+#include "../relive_lib/PsxDisplay.hpp"
+#include "../relive_lib/ScreenManager.hpp"
 
 u8 gTotalMeterBars_5C1BFA = 0;
 u16 gbDrawMeterCountDown_5C1BF8 = 0;

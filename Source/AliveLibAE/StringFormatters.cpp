@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "StringFormatters.hpp"
-#include "Function.hpp"
 #include "stdlib.hpp"
 #include "Input.hpp"
 

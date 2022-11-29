@@ -1,10 +1,7 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
-#include "Map.hpp"
-#include "Path.hpp"
-#include "../AliveLibAO/Slig.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 namespace AO {
 

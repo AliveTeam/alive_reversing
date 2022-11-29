@@ -9,6 +9,7 @@
 #include "Sfx.hpp"
 #include "DeathGas.hpp"
 #include "Path.hpp"
+#include "../relive_lib/ScreenManager.hpp"
 
 s32 gGasTimer = 0;
 s16 gGasOn = 0;

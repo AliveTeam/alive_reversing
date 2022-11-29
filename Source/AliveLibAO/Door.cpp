@@ -3,7 +3,6 @@
 #include "Door.hpp"
 #include "Abe.hpp"
 #include "../relive_lib/SwitchStates.hpp"
-#include "ResourceManager.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "Midi.hpp"
@@ -11,6 +10,8 @@
 #include "../relive_lib/Events.hpp"
 #include "MusicTrigger.hpp"
 #include "Grid.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
+#include "Path.hpp"
 
 namespace AO {
 

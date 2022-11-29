@@ -3,9 +3,7 @@
 #include "relive_config.h"
 
 #include "Midi.hpp"
-#include "Function.hpp"
 #include "PathData.hpp"
-#include "ResourceManager.hpp"
 #include "BackgroundMusic.hpp"
 #include "MusicController.hpp"
 #include "AmbientSound.hpp"

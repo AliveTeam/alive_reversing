@@ -1,7 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
-#include "PlatformBase.hpp"
+#include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 
 class GroundExplosion final : public ::BaseAnimatedWithPhysicsGameObject
 {

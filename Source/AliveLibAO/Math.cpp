@@ -1,5 +1,4 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
 #include "Math.hpp"
 #include "../AliveLibAE/Math.hpp"
 #include "../AliveLibAE/FixedPoint.hpp" // TODO: Move Square root funcs

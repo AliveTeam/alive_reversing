@@ -15,6 +15,12 @@
 #include "PathDataExtensions.hpp"
 #include "GameAutoPlayer.hpp"
 #include "EvilFart.hpp"
+#include "../relive_lib/PsxDisplay.hpp"
+#include "DDCheat.hpp"
+#include "Sound/Midi.hpp"
+#include "ResourceManager.hpp"
+#include "../relive_lib/ScreenManager.hpp"
+#include "Game.hpp"
 
 s8 sQuicksave_SaveNextFrame_5CA4D8 = 0;
 s8 sQuicksave_LoadNextFrame_5CA4D9 = 0;

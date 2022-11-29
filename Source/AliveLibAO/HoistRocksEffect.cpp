@@ -5,6 +5,8 @@
 #include "Math.hpp"
 #include "../relive_lib/Collisions.hpp"
 #include "Path.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
+#include "Map.hpp"
 
 namespace AO {
 

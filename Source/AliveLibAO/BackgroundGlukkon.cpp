@@ -9,6 +9,9 @@
 #include "../relive_lib/Events.hpp"
 #include "Game.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
+#include "Path.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
 
 namespace AO {
 

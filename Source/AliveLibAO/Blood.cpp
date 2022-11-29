@@ -1,7 +1,6 @@
 #include "stdafx_ao.h"
 #include "Function.hpp"
 #include "Blood.hpp"
-#include "ResourceManager.hpp"
 #include "../relive_lib/ScreenManager.hpp"
 #include "Game.hpp"
 #include "Math.hpp"

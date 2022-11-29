@@ -1,5 +1,4 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
 #include "Dove.hpp"
 #include "../relive_lib/DynamicArray.hpp"
 #include "../AliveLibAE/stdlib.hpp"
@@ -10,6 +9,8 @@
 #include "../relive_lib/ScreenManager.hpp"
 #include "Sfx.hpp"
 #include "Abe.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
+#include "Path.hpp"
 
 namespace AO {
 

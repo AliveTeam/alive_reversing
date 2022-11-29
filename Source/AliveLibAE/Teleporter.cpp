@@ -14,6 +14,7 @@
 #include "Electrocute.hpp"
 #include "Path.hpp"
 #include "../relive_lib/Collisions.hpp"
+#include "FixedPoint.hpp"
 
 void SetData(Relive_Path_Teleporter_Data& tlvData, const relive::Path_Teleporter& tlv)
 {

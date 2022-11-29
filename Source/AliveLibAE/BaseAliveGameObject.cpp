@@ -1,15 +1,11 @@
 #include "stdafx.h"
-#include "Function.hpp"
 #include "BaseAliveGameObject.hpp"
 #include "../relive_lib/ObjectIds.hpp"
-#include "ResourceManager.hpp"
 #include "Map.hpp"
-#include "../relive_lib/ScreenManager.hpp"
 #include "../relive_lib/Shadow.hpp"
 #include "stdlib.hpp"
 #include "Abe.hpp"
 #include "../relive_lib/Collisions.hpp"
-#include "PathData.hpp"
 #include "PlatformBase.hpp"
 #include "Game.hpp"
 #include "BirdPortal.hpp"
@@ -17,7 +13,7 @@
 #include "Grid.hpp"
 #include "Path.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
-#include "../relive_lib/GameType.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
 
 BaseAliveGameObject::BaseAliveGameObject(s16 resourceArraySize)
     : IBaseAliveGameObject(resourceArraySize)

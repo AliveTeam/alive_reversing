@@ -5,6 +5,7 @@
 #include "../AliveLibAE/PathData.hpp"
 #include "../AliveLibCommon/FatalError.hpp"
 #include "IBaseAliveGameObject.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
 s16 sMap_bDoPurpleLightEffect = 0;
 

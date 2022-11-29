@@ -8,7 +8,6 @@
 #include "Game.hpp"
 #include "Sfx.hpp"
 #include "GasCountDown.hpp"
-#include "Function.hpp"
 #include "Path.hpp"
 
 GasEmitter* sMainGasEmitter = nullptr;

@@ -40,8 +40,10 @@
 #include "../../AliveLibAE/Glukkon.hpp"
 #include "../../AliveLibAE/Fleech.hpp"
 #include "../../AliveLibAE/FlyingSlig.hpp"
+#include "../../AliveLibAE/FlyingSligSpawner.hpp"
 #include "../../AliveLibAE/Abe.hpp"
 #include "../../AliveLibAE/Mudokon.hpp"
+#include "../../AliveLibAE/Scrab.hpp"
 
 // Any enum/struct in the AEData namespace is related to OG data and can't ever be changed
 // otherwise interpreting the OG data will break.

@@ -7,9 +7,11 @@
 #include "ThrowableArray.hpp"
 #include "Game.hpp"
 #include "Grenade.hpp"
-#include "Grid.hpp"
 #include "../relive_lib/ObjectIds.hpp"
 #include "../AliveLibAE/FixedPoint.hpp"
+#include "../relive_lib/data_conversion/relive_tlvs.hpp"
+#include "Path.hpp"
+#include "Grid.hpp"
 
 namespace AO {
 

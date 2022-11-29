@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "GlukkonSwitch.hpp"
-#include "Function.hpp"
 #include "Game.hpp"
 #include "stdlib.hpp"
 #include "Abe.hpp"

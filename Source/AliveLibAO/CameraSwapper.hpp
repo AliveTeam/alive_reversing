@@ -1,8 +1,7 @@
 #pragma once
 
 #include "../relive_lib/BaseGameObject.hpp"
-#include "../AliveLibCommon/Function.hpp"
-#include "Map.hpp"
+#include "../relive_lib/MapWrapper.hpp"
 
 enum class CameraSwapEffects : s16;
 

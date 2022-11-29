@@ -1,5 +1,4 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
 #include "ThrowableTotalIndicator.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "Game.hpp"

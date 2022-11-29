@@ -32,6 +32,7 @@
 #include "Sound/Midi.hpp"
 #include "Grid.hpp"
 #include "../relive_lib/Camera.hpp"
+#include "Path.hpp"
 
 constexpr TGlukkonMotionFn sGlukkonMotionTable[25] = {
     &Glukkon::Motion_0_Idle,

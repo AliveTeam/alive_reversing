@@ -2,7 +2,6 @@
 #include "Spark.hpp"
 #include "Function.hpp"
 #include "Game.hpp"
-#include "ResourceManager.hpp"
 #include "../relive_lib/Particle.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/Events.hpp"

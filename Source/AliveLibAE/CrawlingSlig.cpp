@@ -6,11 +6,9 @@
 #include "../relive_lib/Collisions.hpp"
 #include "Math.hpp"
 #include "Map.hpp"
-#include "PathData.hpp"
 #include "MusicController.hpp"
 #include "Abe.hpp"
 #include "../relive_lib/Events.hpp"
-#include "DDCheat.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "SnoozeParticle.hpp"
 #include "Input.hpp"
@@ -27,6 +25,9 @@
 #include "CrawlingSligButton.hpp"
 #include "Sfx.hpp"
 #include "Grid.hpp"
+#include "Path.hpp"
+#include "FixedPoint.hpp"
+#include "Game.hpp"
 
 const static TintEntry kCrawlingSligTints[16] = {
     {EReliveLevelIds::eMenu, 127u, 127u, 127u},

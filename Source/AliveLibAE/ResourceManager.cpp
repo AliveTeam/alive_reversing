@@ -6,9 +6,7 @@
 #include "../relive_lib/Particle.hpp"
 #include "PsxRender.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
-#include "Sys.hpp"
-#include "GameAutoPlayer.hpp"
-#include "../relive_lib/Camera.hpp"
+#include "BaseGameAutoPlayer.hpp"
 
 ResourceManager* pResourceManager = nullptr;
 

@@ -1,8 +1,6 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
 #include "BaseAliveGameObject.hpp"
-#include "FlyingSligSpawner.hpp"
 #include "Sfx.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 

@@ -11,6 +11,7 @@
 #include "CameraSwapper.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
 #include "../relive_lib/AnimationUnknown.hpp"
+#include "Path.hpp"
 
 namespace AO {
 

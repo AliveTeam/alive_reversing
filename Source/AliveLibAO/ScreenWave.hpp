@@ -1,9 +1,8 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseGameObject.hpp"
 #include "../relive_lib/MapWrapper.hpp"
-#include "../AliveLibAE/FixedPoint.hpp"
+#include "../AliveLibCommon/FixedPoint_common.hpp"
 #include "../relive_lib/Layer.hpp"
 
 enum class EReliveLevelIds : s16;

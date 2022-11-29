@@ -11,6 +11,7 @@
 #include "Abe.hpp"
 #include "Throwable.hpp"
 #include "../relive_lib/Collisions.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
 
 namespace AO {
 

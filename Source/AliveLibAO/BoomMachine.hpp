@@ -1,9 +1,11 @@
 #pragma once
 
-#include "../AliveLibCommon/Function.hpp"
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
-#include "Map.hpp"
-#include "Path.hpp"
+
+namespace relive
+{
+    struct Path_BoomMachine;
+}
 
 namespace AO {
 

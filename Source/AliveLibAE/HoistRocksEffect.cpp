@@ -7,6 +7,8 @@
 #include "Path.hpp"
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 #include "../relive_lib/Collisions.hpp"
+#include "Math.hpp"
+#include "FixedPoint.hpp"
 
 const static AnimId HoistRocksAnimIdTable[4] = 
 {AnimId::HoistRock1,

@@ -19,6 +19,9 @@
 #include "../relive_lib/SwitchStates.hpp"
 #include "Grid.hpp"
 #include "../relive_lib/ObjectIds.hpp"
+#include "../AliveLibAE/FixedPoint.hpp"
+#include "Path.hpp"
+#include "Abe.hpp"
 
 namespace AO {
 

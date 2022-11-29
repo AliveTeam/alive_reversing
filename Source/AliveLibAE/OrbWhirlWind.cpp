@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "OrbWhirlWind.hpp"
 #include "Function.hpp"
-#include "Game.hpp"
 #include "stdlib.hpp"
 #include "../relive_lib/BaseAnimatedWithPhysicsGameObject.hpp"
 

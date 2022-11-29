@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "ThrowableTotalIndicator.hpp"
-#include "Function.hpp"
 #include "Game.hpp"
 #include "../relive_lib/Events.hpp"
 #include "../relive_lib/ScreenManager.hpp"

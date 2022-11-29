@@ -14,6 +14,8 @@
 #include "Map.hpp"
 #include "Path.hpp"
 #include "PathData.hpp"
+#include "FixedPoint.hpp"
+#include "Math.hpp"
 
 const TintEntry kMeatTints_55C254[16] = {
     {EReliveLevelIds::eMenu, 127u, 127u, 127u},

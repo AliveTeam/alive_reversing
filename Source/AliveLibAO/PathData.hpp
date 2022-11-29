@@ -1,8 +1,7 @@
 #pragma once
 
 #include "../AliveLibCommon/Function.hpp"
-#include "Factory.hpp"
-#include "../AliveLibCommon/AddPointer.hpp"
+#include "../AliveLibCommon/Types.hpp"
 
 enum class EReliveLevelIds : s16;
 

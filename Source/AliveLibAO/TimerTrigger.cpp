@@ -1,11 +1,11 @@
 #include "stdafx_ao.h"
-#include "Function.hpp"
 #include "TimerTrigger.hpp"
 #include "../AliveLibAE/stdlib.hpp"
 #include "../relive_lib/Events.hpp"
 #include "Game.hpp"
 #include "../relive_lib/SwitchStates.hpp"
 #include "Path.hpp"
+#include "Map.hpp"
 
 namespace AO {
 
