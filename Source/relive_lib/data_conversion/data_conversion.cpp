@@ -1762,6 +1762,18 @@ u32 DataConversion::DataVersionAE()
     return data_version_from_path(dataDir);
 }
 
+static void ConvertFMVs(const FileSystem::Path& /*dataDir*/, bool isAo)
+{
+    // TODO: Conversion
+    if (!isAo)
+    {
+        FmvInfo* pInfo = Path_Get_FMV_Record(EReliveLevelIds::eMines, 1);
+        if (pInfo)
+        {
+
+        }
+    }
+}
 
 void DataConversion::ConvertDataAO()
 {
@@ -1771,6 +1783,8 @@ void DataConversion::ConvertDataAO()
     dataDir.Append("relive_data");
     dataDir.Append("ao");
     fs.CreateDirectory(dataDir);
+
+    ConvertFMVs(dataDir, true);
 
     // TODO: Prob diff data in AO, check me
     ConvertHardcodedPals(dataDir);
@@ -1805,8 +1819,7 @@ void DataConversion::ConvertDataAE()
     dataDir.Append("ae");
     fs.CreateDirectory(dataDir);
 
- 
-
+    ConvertFMVs(dataDir, false);
     ConvertHardcodedPals(dataDir);
 
     std::vector<u8> fileBuffer;

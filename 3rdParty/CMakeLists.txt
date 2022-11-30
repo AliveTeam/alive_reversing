@@ -1,5 +1,19 @@
 project(Deps VERSION 0.1 LANGUAGES C CXX)
 
+# AV1 video codec
+add_subdirectory(SVT-AV1)
+set_property(TARGET COMMON_C_DEFAULT PROPERTY FOLDER "3rdParty")
+set_property(TARGET COMMON_CODEC PROPERTY FOLDER "3rdParty")
+set_property(TARGET EbVersionHeaderGen PROPERTY FOLDER "3rdParty")
+set_property(TARGET ENCODER_C_DEFAULT PROPERTY FOLDER "3rdParty")
+set_property(TARGET ENCODER_CODEC PROPERTY FOLDER "3rdParty")
+set_property(TARGET ENCODER_GLOBALS PROPERTY FOLDER "3rdParty")
+set_property(TARGET FASTFEAT PROPERTY FOLDER "3rdParty")
+set_property(TARGET SvtAv1Dec PROPERTY FOLDER "3rdParty")
+set_property(TARGET SvtAv1DecApp PROPERTY FOLDER "3rdParty")
+set_property(TARGET SvtAv1Enc PROPERTY FOLDER "3rdParty")
+set_property(TARGET SvtAv1EncApp PROPERTY FOLDER "3rdParty")
+
 # Cinder for lock free circular buffer in audio processing
 add_library(Cinder INTERFACE)
 target_include_directories(Cinder SYSTEM INTERFACE Cinder/)
