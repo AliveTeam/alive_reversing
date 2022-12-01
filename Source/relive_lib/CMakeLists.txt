@@ -107,6 +107,7 @@ target_include_directories(relive_lib PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/../../3rdParty
     ${CMAKE_CURRENT_SOURCE_DIR}/../../3rdParty/aom
+    ${CMAKE_CURRENT_SOURCE_DIR}/../../3rdParty/aom/third_party/libwebm
     ${CMAKE_CURRENT_SOURCE_DIR}/../../3rdParty/json/single_include>
     $<INSTALL_INTERFACE:include>
     PRIVATE src ${CMAKE_BINARY_DIR})
@@ -134,6 +135,8 @@ target_link_libraries(relive_lib
     spng
     miniz
     aom
+    webm
+    aom_common_app_util
     )
 
 export(TARGETS relive_lib FILE relive_lib.cmake)

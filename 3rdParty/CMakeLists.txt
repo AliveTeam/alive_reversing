@@ -7,6 +7,8 @@ set(ENABLE_TOOLS OFF)
 set(CONFIG_ANALYZER OFF)
 set(CONFIG_INSPECTION OFF)
 set(BUILD_SHARED_LIBS OFF)
+set(CONFIG_WEBM_IO ON)
+set(ENABLE_TOOLS ON) # required to get webm project
 add_definitions(-DNOMINMAX)
 set(AOM_TARGET_CPU generic)
 add_subdirectory(aom)
@@ -28,6 +30,10 @@ set_property(TARGET aom_version_check PROPERTY FOLDER "3rdParty")
 set_property(TARGET av1_rc_qmode PROPERTY FOLDER "3rdParty")
 set_property(TARGET dist PROPERTY FOLDER "3rdParty")
 set_property(TARGET yuv PROPERTY FOLDER "3rdParty")
+set_property(TARGET webm PROPERTY FOLDER "3rdParty")
+set_property(TARGET aom_common_app_util PROPERTY FOLDER "3rdParty")
+set_property(TARGET aom_decoder_app_util PROPERTY FOLDER "3rdParty")
+set_property(TARGET aom_encoder_app_util PROPERTY FOLDER "3rdParty")
 
 
 # Cinder for lock free circular buffer in audio processing
