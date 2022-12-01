@@ -85,6 +85,8 @@ SET(relive_lib_src
     data_conversion/AESaveSerialization.hpp
     data_conversion/data_conversion_ui.hpp
     data_conversion/data_conversion_ui.cpp
+    data_conversion/fmv_converter.cpp
+    data_conversion/fmv_converter.hpp
     Engine.hpp
     Engine.cpp
     Layer.hpp

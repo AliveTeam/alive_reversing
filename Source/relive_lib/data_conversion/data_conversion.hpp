@@ -90,7 +90,7 @@ inline const char* ToString(::LevelIds lvlId)
 class DataConversion final
 {
 public:
-    static u32 kVersion;
+    static const u32 kVersion;
 
     u32 DataVersionAO();
     u32 DataVersionAE();
