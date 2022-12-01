@@ -28,3 +28,6 @@
 [submodule "3rdParty/SVT-AV1"]
 	path = 3rdParty/SVT-AV1
 	url = https://github.com/AliveTeam/SVT-AV1.git
+[submodule "3rdParty/aom"]
+	path = 3rdParty/aom
+	url = https://github.com/AliveTeam/aom.git

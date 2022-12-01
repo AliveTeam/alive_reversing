@@ -26,6 +26,16 @@
 #include "../BinaryPath.hpp"
 #include "../../AliveLibAE/ResourceManager.hpp"
 
+#ifdef _MSC_VER
+    #pragma warning(push)
+    #pragma warning(disable : 4505)
+#endif
+#include "aom/aom_encoder.h"
+#include "aom/aomcx.h"
+#ifdef _MSC_VER
+    #pragma warning(pop)
+#endif
+
 constexpr u32 kDataVersion = 1;
 
 static bool ReadLvlFileInto(ReliveAPI::LvlReader& archive, const char_type* fileName, std::vector<u8>& fileBuffer)
@@ -1770,7 +1780,11 @@ static void ConvertFMVs(const FileSystem::Path& /*dataDir*/, bool isAo)
         FmvInfo* pInfo = Path_Get_FMV_Record(EReliveLevelIds::eMines, 1);
         if (pInfo)
         {
-
+            aom_image_t raw;
+            if (!aom_img_alloc(&raw, AOM_IMG_FMT_I420, 640, 240, 1))
+            {
+                ALIVE_FATAL("Failed to allocate image.");
+            }
         }
     }
 }
