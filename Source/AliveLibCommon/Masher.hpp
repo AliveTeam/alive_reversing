@@ -47,6 +47,7 @@ struct Masher_AudioHeader final
 };
 ALIVE_ASSERT_SIZEOF(Masher_AudioHeader, 20);
 
+struct RGBA32;
 
 class AudioDecompressor final
 {
@@ -91,7 +92,7 @@ public:
 
     // Same as 0x528985 in MGSI.exe
     void Decode_4EA670();
-    void VideoFrameDecode_4E6C60(u8* pPixelBuffer);
+    void VideoFrameDecode_4E6C60(RGBA32* pPixelBuffer);
 
     // Same as 0x52B015 in MGSI.exe
     static void DDV_Set_Channels_And_BitsPerSample_4ECFD0(s32 numChannels, s32 bitsPerSample);
@@ -116,9 +117,9 @@ private:
     static u8 Clamp(f32 v);
 
 
-    static void SetElement(s32 x, s32 y, s32 width, s32 height, u16* ptr, u16 value, bool doubleWidth, bool doubleHeight);
+    static void SetElement(s32 x, s32 y, s32 width, s32 height, RGBA32* ptr, const RGBA32& value, bool doubleWidth, bool doubleHeight);
 
-    static void ConvertYuvToRgbAndBlit(u16* pixelBuffer, s32 xoff, s32 yoff, s32 width, s32 height, bool doubleWidth, bool doubleHeight);
+    static void ConvertYuvToRgbAndBlit(RGBA32* pixelBuffer, s32 xoff, s32 yoff, s32 width, s32 height, bool doubleWidth, bool doubleHeight);
 
 
     void* field_0_file_handle;

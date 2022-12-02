@@ -982,7 +982,7 @@ void Masher::Decode_4EA670()
     VideoFrameDecode_4E6C60(nullptr);
 }
 
-void Masher::VideoFrameDecode_4E6C60(u8* pPixelBuffer)
+void Masher::VideoFrameDecode_4E6C60(RGBA32* pPixelBuffer)
 {
     if (!field_61_bHasVideo)
     {
@@ -1055,11 +1055,11 @@ void Masher::VideoFrameDecode_4E6C60(u8* pPixelBuffer)
             if (pPixelBuffer)
             {
                 // TODO: Should probably be using gMasher_pitch_bytes_BB4AF8 ??
-                ConvertYuvToRgbAndBlit((u16*) pPixelBuffer, xoff, yoff,
+                ConvertYuvToRgbAndBlit(pPixelBuffer, xoff, yoff,
                                        640,
-                                       480,
+                                       240,
                                        true,
-                                       true);
+                                       false);
 
                 // pPixelBuffer += gMasher_pitch_bytes_BB4AF8;
             }
@@ -1144,7 +1144,7 @@ u8 Masher::Clamp(f32 v)
     return static_cast<u8>(v);
 }
 
-void Masher::SetElement(s32 x, s32 y, s32 width, s32 height, u16* ptr, u16 value, bool doubleWidth, bool doubleHeight)
+void Masher::SetElement(s32 x, s32 y, s32 width, s32 height, RGBA32* ptr, const RGBA32& value, bool doubleWidth, bool doubleHeight)
 {
     if (doubleWidth)
     {
@@ -1183,7 +1183,7 @@ void Masher::SetElement(s32 x, s32 y, s32 width, s32 height, u16* ptr, u16 value
     }
 }
 
-void Masher::ConvertYuvToRgbAndBlit(u16* pixelBuffer, s32 xoff, s32 yoff, s32 width, s32 height, bool doubleWidth, bool doubleHeight)
+void Masher::ConvertYuvToRgbAndBlit(RGBA32* pixelBuffer, s32 xoff, s32 yoff, s32 width, s32 height, bool doubleWidth, bool doubleHeight)
 {
     // convert the Y1 Y2 Y3 Y4 and Cb and Cr blocks into a 16x16 array of (Y, Cb, Cr) pixels
     struct Macroblock_YCbCr_Struct final
@@ -1236,10 +1236,10 @@ void Masher::ConvertYuvToRgbAndBlit(u16* pixelBuffer, s32 xoff, s32 yoff, s32 wi
             const s32 ypos = y + yoff;
             if (xpos < width && ypos < height)
             {
-                const u16 pixel16Value = RGBConversion::RGB888ToRGB565(Macroblock_RGB[x][y].Red, Macroblock_RGB[x][y].Green, Macroblock_RGB[x][y].Blue);
+                RGBA32 pixel = {Macroblock_RGB[x][y].Red, Macroblock_RGB[x][y].Green, Macroblock_RGB[x][y].Blue, 0 };
                 // Actually is no alpha in FMVs
                 // pixelValue = (pixelValue << 8) + Macroblock_RGB[x][y].A
-                SetElement(xpos, ypos, width, height, pixelBuffer, pixel16Value, doubleWidth, doubleHeight);
+                SetElement(xpos, ypos, width, height, pixelBuffer, pixel, doubleWidth, doubleHeight);
             }
         }
     }

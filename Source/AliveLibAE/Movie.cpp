@@ -12,6 +12,7 @@
 #include "VGA.hpp"
 #include "GameAutoPlayer.hpp"
 #include "Game.hpp"
+#include "Renderer/IRenderer.hpp"
 
 // Inputs on the controller that can be used for aborting skippable movies
 const u32 MOVIE_SKIPPER_GAMEPAD_INPUTS = (InputCommands::Enum::eUnPause_OrConfirm | InputCommands::Enum::eBack | InputCommands::Enum::ePause);
@@ -62,9 +63,9 @@ s32 Masher_ReadNextFrame_4EAC20(Masher* pMasher)
     return pMasher->ReadNextFrame_4E6B30();
 }
 
-void Masher_DecodeVideoFrame_4EAC40(Masher* pMasher, void* pSurface)
+void Masher_DecodeVideoFrame_4EAC40(Masher* pMasher, RGBA32* pSurface)
 {
-    pMasher->VideoFrameDecode_4E6C60((u8*) pSurface);
+    pMasher->VideoFrameDecode_4E6C60(pSurface);
 }
 
 bool bHasAudio_5CA234 = false;
@@ -173,15 +174,22 @@ static Masher* Open_DDV(const char_type* pMovieName)
     return pMasher;
 }
 
-static void Render_DDV_Frame()
+static void Render_DDV_Frame(Poly_FT4* poly)
 {
     // Copy into the emulated vram - when FMV ends the "screen" still have the last video frame "stick"
     // giving us a nice seamless transistion.
     //SDL_Rect bufferSize = {0, 0, 640, 240};
     //SDL_BlitScaled(tmpBmp.field_0_pSurface, nullptr, sPsxVram_C1D160.field_0_pSurface, &bufferSize);
 
+    IRenderer::GetRenderer()->Draw(*poly);
+
     // Copy to full window/primary buffer
     VGA_EndFrame();
+
+    // TODO: PHAT hax just to make FMV do something for now
+    IRenderer& renderer = *IRenderer::GetRenderer();
+
+    renderer.StartFrame();
 }
 
 s8 DDV_Play_Impl_4932E0(const char_type* pMovieName)
@@ -236,18 +244,32 @@ s8 DDV_Play_Impl_4932E0(const char_type* pMovieName)
     //BMP_New_4F1990(&tmpBmp, 640, 480, 15, 0);
 #endif
 
+    CamResource fmvFrame;
+    fmvFrame.mData.mWidth = 640;
+    fmvFrame.mData.mHeight = 240;
+    fmvFrame.mData.mPixels = std::make_shared<std::vector<u8>>();
+    fmvFrame.mData.mPixels->resize(fmvFrame.mData.mWidth * fmvFrame.mData.mHeight * sizeof(RGBA32));
+
+    Poly_FT4 polyFT4 = {};
+    PolyFT4_Init(&polyFT4);
+    SetXYWH(&polyFT4, 0, 0, 640, 240);
+    polyFT4.mCam = &fmvFrame;
+
     if (DDV_StartAudio_493DF0() && Masher_ReadNextFrame_4EAC20(pMasherInstance_5CA1EC) && Masher_ReadNextFrame_4EAC20(pMasherInstance_5CA1EC))
     {
         const s32 movieStartTimeStamp_5CA244 = SYS_GetTicks();
         for (;;)
         {
+            fmvFrame.mUniqueId = {};
+
             fmv_num_read_frames_5CA23C++;
 
             // Lock the back buffer
 
             // Decode the video frame to the bitmap pixel buffer
             //SDL_LockSurface(tmpBmp.field_0_pSurface);
-            //Masher_DecodeVideoFrame_4EAC40(pMasherInstance_5CA1EC, tmpBmp.field_0_pSurface->pixels);
+            Masher_DecodeVideoFrame_4EAC40(pMasherInstance_5CA1EC, reinterpret_cast<RGBA32*>(fmvFrame.mData.mPixels->data()));
+
             //SDL_UnlockSurface(tmpBmp.field_0_pSurface);
 
             if (!bNoAudioOrAudioError_5CA1F4)
@@ -293,7 +315,7 @@ s8 DDV_Play_Impl_4932E0(const char_type* pMovieName)
 
                     DDV_Null_493F30();
 
-                    Render_DDV_Frame();
+                    Render_DDV_Frame(&polyFT4);
 
                     DD_Null_Flip_4940F0();
 
@@ -313,7 +335,7 @@ s8 DDV_Play_Impl_4932E0(const char_type* pMovieName)
                 Input_IsVKPressed_4EDD40(VK_RETURN);
             }
 
-            Render_DDV_Frame();
+            Render_DDV_Frame(&polyFT4);
 
             const s32 bMoreFrames = Masher_ReadNextFrame_4EAC20(pMasherInstance_5CA1EC); // read audio and video frame
             if (bNoAudioOrAudioError_5CA1F4)
@@ -384,7 +406,7 @@ s8 DDV_Play_Impl_4932E0(const char_type* pMovieName)
                 // End of stream
                 DDV_Null_493F30();
 
-                Render_DDV_Frame();
+                Render_DDV_Frame(&polyFT4);
 
                 break;
             }
