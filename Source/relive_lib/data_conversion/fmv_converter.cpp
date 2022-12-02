@@ -18,120 +18,216 @@
 
 #include "aom/common/av1_config.h"
 
+#include "../../AliveLibCommon/Masher.hpp"
+
+// TODO: An interface around masher + mdec reading
+class IDDVReader
+{
+public:
+    IDDVReader()
+    {
+
+    }
+
+    ~IDDVReader()
+    {
+        Masher_DeAlloc(mMasher);
+    }
+
+    virtual bool Open(const char_type* pFileName)
+    {
+        mMasher = Open_DDV(pFileName);
+        return mMasher != nullptr;
+    }
+
+    // TODO: These can change per frame in psx ddv in AO :)
+    u32 FrameWidth() const
+    {
+        return pMasher_video_header->field_4_width;
+    }
+
+    u32 FrameHeight() const
+    {
+        return pMasher_video_header->field_8_height;
+    }
+
+private:
+    Masher* Masher_Alloc(
+        const char_type* pFileName,
+        Masher_Header** ppMasherHeader,
+        Masher_VideoHeader** ppMasherVideoHeader,
+        Masher_AudioHeader** ppMasherAudioHeader,
+        s32* errCode)
+    {
+        Masher* pMasher = relive_new Masher;
+        if (pMasher)
+        {
+            *errCode = pMasher->Init_4E6770(pFileName);
+            if (*errCode)
+            {
+                relive_delete pMasher;
+                return nullptr;
+            }
+            else
+            {
+                *ppMasherHeader = &pMasher->field_4_ddv_header;
+                *ppMasherVideoHeader = &pMasher->field_14_video_header;
+                *ppMasherAudioHeader = &pMasher->field_2C_audio_header;
+                return pMasher;
+            }
+        }
+        else
+        {
+            *errCode = 2;
+            return nullptr;
+        }
+    }
+
+    Masher* Open_DDV(const char_type* pMovieName)
+    {
+        s32 errCode = 0;
+        Masher* pMasher = Masher_Alloc(
+            pMovieName,
+            &pMasher_header,
+            &pMasher_video_header,
+            &pMasher_audio_header,
+            &errCode);
+
+        if (errCode)
+        {
+            return nullptr;
+        }
+        return pMasher;
+    }
+
+    void Masher_DecodeVideoFrame(Masher* pMasher, void* pSurface)
+    {
+        pMasher->VideoFrameDecode_4E6C60((u8*) pSurface);
+    }
+
+    void Masher_DeAlloc(Masher* pMasher)
+    {
+        relive_delete pMasher;
+    }
+
+private:
+    Masher_Header* pMasher_header = nullptr;
+    Masher_VideoHeader* pMasher_video_header = nullptr;
+    Masher_AudioHeader* pMasher_audio_header = nullptr;
+    Masher* mMasher = nullptr;
+};
 
 class FmvConv final
 {
 public:
-    FmvConv(u32 width, u32 height)
-        : mWidth(width)
-        , mHeight(height)
+    explicit FmvConv(IDDVReader& ddvReader)
+        : mDDVReader(ddvReader)
     {
 
     }
 
     void Convert()
     {
-        VideoInfo info;
-        info.width = mWidth;
-        info.height = mHeight;
-
-        FmvInfo* pInfo = Path_Get_FMV_Record(EReliveLevelIds::eMines, 1);
-        if (pInfo)
+        struct VideoInfo final
         {
-            aom_codec_iface_t* encoder = &aom_codec_av1_cx_algo;
-            if (!encoder)
-            {
-                ALIVE_FATAL("Unsupported codec.");
-            }
+            u32 width = 0;
+            u32 height = 0;
+        };
 
-            aom_image_t raw;
-            if (!aom_img_alloc(&raw, AOM_IMG_FMT_YV12, info.width, info.height, 1))
-            {
-                ALIVE_FATAL("Failed to allocate image.");
-            }
+        VideoInfo info;
+        info.width = mDDVReader.FrameWidth();
+        info.height = mDDVReader.FrameHeight();
 
-            aom_codec_enc_cfg_t cfg = {};
-            if (aom_codec_enc_config_default(encoder, &cfg, AOM_USAGE_GOOD_QUALITY))
-            {
-                ALIVE_FATAL("Failed to get default codec config.");
-            }
-            cfg.g_w = info.width;
-            cfg.g_h = info.height;
-            cfg.g_timebase.num = 1;
-            cfg.g_timebase.den = 30; // fps
-            // cfg.rc_target_bitrate = bitrate;
-
-            aom_codec_ctx_t codec = {};
-            if (aom_codec_enc_init(&codec, encoder, &cfg, 0))
-            {
-                ALIVE_FATAL("Failed to initialize encoder");
-            }
-
-            const int speed = 2;
-            if (aom_codec_control(&codec, AOME_SET_CPUUSED, speed))
-            {
-                ALIVE_FATAL("Failed to set cpu-used");
-            }
-
-            FILE* outFile = fopen("test.webm", "wb");
-            if (!outFile)
-            {
-                ALIVE_FATAL("File to open output file");
-            }
-
-            {
-                mkvmuxer::MkvWriter writer(outFile);
-                mkvmuxer::Segment segment;
-                mkv_init(&writer, &segment, &cfg, &codec);
-
-
-                const u32 keyframe_interval = 30;
-                u32 frame_count = 0;
-                u32 frames_encoded = 0;
-                u32 max_frames = 0; // TODO
-
-                // TODO: read yuv frame
-                for (u32 i = 0; i < 20; i++)
-                {
-                    int flags = 0;
-                    if (keyframe_interval > 0 && frame_count % keyframe_interval == 0)
-                    {
-                        flags |= AOM_EFLAG_FORCE_KF;
-                    }
-
-                    encode_frame(&segment, &cfg, &codec, &raw, frame_count++, flags);
-                    frames_encoded++;
-                    if (max_frames > 0 && frames_encoded >= max_frames)
-                    {
-                        // break;
-                    }
-                }
-
-                // Flush encoder.
-                while (encode_frame(&segment, &cfg, &codec, NULL, -1, 0))
-                {
-                    continue;
-                }
-
-                const bool ok = segment.Finalize();
-                if (!ok)
-                {
-                    fprintf(stderr, "webmenc> Segment::Finalize failed.\n");
-                }
-
-                fclose(outFile);
-            }
-
-            aom_img_free(&raw);
+        aom_codec_iface_t* encoder = &aom_codec_av1_cx_algo;
+        if (!encoder)
+        {
+            ALIVE_FATAL("Unsupported codec.");
         }
+
+        aom_image_t raw;
+        if (!aom_img_alloc(&raw, AOM_IMG_FMT_YV12, info.width, info.height, 1))
+        {
+            ALIVE_FATAL("Failed to allocate image.");
+        }
+
+        aom_codec_enc_cfg_t cfg = {};
+        if (aom_codec_enc_config_default(encoder, &cfg, AOM_USAGE_GOOD_QUALITY))
+        {
+            ALIVE_FATAL("Failed to get default codec config.");
+        }
+        cfg.g_w = info.width;
+        cfg.g_h = info.height;
+        cfg.g_timebase.num = 1;
+        cfg.g_timebase.den = 30; // fps
+        // cfg.rc_target_bitrate = bitrate;
+
+        aom_codec_ctx_t codec = {};
+        if (aom_codec_enc_init(&codec, encoder, &cfg, 0))
+        {
+            ALIVE_FATAL("Failed to initialize encoder");
+        }
+
+        const int speed = 2;
+        if (aom_codec_control(&codec, AOME_SET_CPUUSED, speed))
+        {
+            ALIVE_FATAL("Failed to set cpu-used");
+        }
+
+        FILE* outFile = fopen("test.webm", "wb");
+        if (!outFile)
+        {
+            ALIVE_FATAL("File to open output file");
+        }
+
+        {
+            mkvmuxer::MkvWriter writer(outFile);
+            mkvmuxer::Segment segment;
+            mkv_init(&writer, &segment, &cfg, &codec);
+
+
+            const u32 keyframe_interval = 30;
+            u32 frame_count = 0;
+            u32 frames_encoded = 0;
+            u32 max_frames = 0; // TODO
+
+            // TODO: read yuv frame
+            //mDDVReader.ReadVideoFrame();
+
+            for (u32 i = 0; i < 20; i++)
+            {
+                int flags = 0;
+                if (keyframe_interval > 0 && frame_count % keyframe_interval == 0)
+                {
+                    flags |= AOM_EFLAG_FORCE_KF;
+                }
+
+                encode_frame(&segment, &cfg, &codec, &raw, frame_count++, flags);
+                frames_encoded++;
+                if (max_frames > 0 && frames_encoded >= max_frames)
+                {
+                    // break;
+                }
+            }
+
+            // Flush encoder.
+            while (encode_frame(&segment, &cfg, &codec, NULL, -1, 0))
+            {
+                continue;
+            }
+
+            const bool ok = segment.Finalize();
+            if (!ok)
+            {
+                fprintf(stderr, "webmenc> Segment::Finalize failed.\n");
+            }
+
+            fclose(outFile);
+        }
+
+        aom_img_free(&raw);
     }
 
 private:
-    struct VideoInfo final
-    {
-        u32 width = 0;
-        u32 height = 0;
-    };
 
     int mkv_write_block(mkvmuxer::Segment* segment, const aom_codec_enc_cfg_t* cfg, const aom_codec_cx_pkt_t* pkt)
     {
@@ -309,8 +405,7 @@ private:
 private:
     const int kVideoTrackNumber = 1;
     int64_t mLast_pts_ns = 0;
-    u32 mWidth = 0;
-    u32 mHeight = 0;
+    IDDVReader& mDDVReader;
 };
 
 void ConvertFMVs(const FileSystem::Path& /*dataDir*/, bool isAo)
@@ -318,7 +413,15 @@ void ConvertFMVs(const FileSystem::Path& /*dataDir*/, bool isAo)
     // TODO: Conversion
     if (!isAo)
     {
-        FmvConv fmvConv(320, 240);
-        fmvConv.Convert();
+        const FmvInfo* pInfo = Path_Get_FMV_Record(EReliveLevelIds::eMines, 1);
+        if (pInfo)
+        {
+            IDDVReader reader;
+            if (reader.Open(pInfo->field_0_pName))
+            {
+                FmvConv fmvConv(reader);
+                fmvConv.Convert();
+            }
+        }
     }
 }
