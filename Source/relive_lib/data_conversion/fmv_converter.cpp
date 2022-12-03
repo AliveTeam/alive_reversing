@@ -100,9 +100,9 @@ private:
         return pMasher;
     }
 
-    void Masher_DecodeVideoFrame(Masher* pMasher, void* pSurface)
+    void Masher_DecodeVideoFrame(Masher* pMasher, RGBA32* pSurface)
     {
-        pMasher->VideoFrameDecode_4E6C60((u8*) pSurface);
+        pMasher->VideoFrameDecode_4E6C60(pSurface);
     }
 
     void Masher_DeAlloc(Masher* pMasher)
