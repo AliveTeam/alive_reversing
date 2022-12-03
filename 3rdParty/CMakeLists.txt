@@ -35,6 +35,7 @@ set_property(TARGET webm PROPERTY FOLDER "3rdParty")
 set_property(TARGET aom_common_app_util PROPERTY FOLDER "3rdParty")
 set_property(TARGET aom_decoder_app_util PROPERTY FOLDER "3rdParty")
 set_property(TARGET aom_encoder_app_util PROPERTY FOLDER "3rdParty")
+export(TARGETS aom webm aom_common_app_util FILE aom.cmake)
 
 
 # Cinder for lock free circular buffer in audio processing

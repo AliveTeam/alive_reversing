@@ -1,6 +1,8 @@
 version: 1.0.{build}
 
 image: Visual Studio 2022
+shallow_clone: true
+clone_depth: 1
 
 platform: 
  - x86
@@ -23,7 +25,7 @@ build_script:
  - ctest
 
 install:
- - git submodule update --init --recursive
+ - git submodule update --init --recursive --depth=1
  - ps: Start-FileDownload 'https://www.libsdl.org/release/SDL2-devel-2.0.22-VC.zip'
  - 7z x SDL2-devel-2.0.22-VC.zip
 
