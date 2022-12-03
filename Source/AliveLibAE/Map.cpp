@@ -1029,8 +1029,8 @@ BaseGameObject* Map::FMV_Camera_Change(CamResource& ppBits, Map* pMap, EReliveLe
     {
         // Trippe FMV
         FmvInfo* pFmvRec1 = Path_Get_FMV_Record(lvlId, pMap->mFmvBaseId / 10000);
-        FmvInfo* pFmvRec2 = Path_Get_FMV_Record(lvlId, pMap->mFmvBaseId / 100 % 100);
-        FmvInfo* pFmvRec3 = Path_Get_FMV_Record(lvlId, pMap->mFmvBaseId % 100);
+        FmvInfo* pFmvRec2 = Path_Get_FMV_Record(lvlId, pMap->mFmvBaseId % 100);
+        FmvInfo* pFmvRec3 = Path_Get_FMV_Record(lvlId, pMap->mFmvBaseId / 100 % 100);
         sLevelId_dword_5CA408 = static_cast<s32>(MapWrapper::ToAE(lvlId)); // HACK
 
         return relive_new CameraSwapper(ppBits,

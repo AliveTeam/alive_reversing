@@ -1703,8 +1703,8 @@ CameraSwapper* Map::FMV_Camera_Change(CamResource& ppBits, Map* pMap, EReliveLev
     if (fmvBaseId > 10000u)
     {
         FmvInfo* pFmvRec1 = Path_Get_FMV_Record_434680(levelId, fmvBaseId / 10000);
-        FmvInfo* pFmvRec2 = Path_Get_FMV_Record_434680(levelId, fmvBaseId / 100 % 100);
-        FmvInfo* pFmvRec3 = Path_Get_FMV_Record_434680(levelId, fmvBaseId % 100);
+        FmvInfo* pFmvRec2 = Path_Get_FMV_Record_434680(levelId, fmvBaseId % 100);
+        FmvInfo* pFmvRec3 = Path_Get_FMV_Record_434680(levelId, fmvBaseId / 100 % 100);
 
         if (pFmvRec1->field_8_stop_music || pFmvRec2->field_8_stop_music || pFmvRec3->field_8_stop_music)
         {
