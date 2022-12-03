@@ -1042,7 +1042,7 @@ void PauseMenu::VUpdate()
                 && heroState != eAbeMotions::jMotion_81_WellBegin_45C7F0
                 && heroState != eAbeMotions::Motion_82_InsideWellExpress_45CC80
                 && heroState != eAbeMotions::Motion_83_WellExpressShotOut_45CF70
-                && (sControlledCharacter->Type() == ReliveTypes::eEvilFart && static_cast<EvilFart*>(sControlledCharacter)->mState != FartStates::eDechanting_2)
+                && !(sControlledCharacter->Type() == ReliveTypes::eEvilFart && static_cast<EvilFart*>(sControlledCharacter)->mState == FartStates::eDechanting_2)
                 && sActiveHero->mBirdPortalId == Guid{})
             {
                 if (sQuicksave_SaveNextFrame_5CA4D8)
