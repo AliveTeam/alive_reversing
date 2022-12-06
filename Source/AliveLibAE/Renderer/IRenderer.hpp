@@ -33,7 +33,6 @@ protected:
 public:
     enum class Renderers
     {
-        Software,
         DirectX9,
         OpenGL,
     };
