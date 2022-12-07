@@ -33,6 +33,7 @@ protected:
 public:
     enum class Renderers
     {
+        Vulkan,
         DirectX9,
         OpenGL,
     };

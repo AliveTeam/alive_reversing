@@ -2,6 +2,7 @@
 #include "IRenderer.hpp"
 #include "DirectX9/DirectX9Renderer.hpp"
 #include "OpenGL3/OpenGLRenderer.hpp"
+#include "Vulkan/VulkanRenderer.hpp"
 
 #include "../AliveLibCommon/FatalError.hpp"
 #include "../AliveLibCommon/Sys_common.hpp"
@@ -24,6 +25,10 @@ void IRenderer::CreateRenderer(Renderers type, TWindowHandleType window)
     {
         case Renderers::OpenGL:
             gRenderer = new OpenGLRenderer(window);
+            break;
+
+        case Renderers::Vulkan:
+            gRenderer = new VulkanRenderer(window);
             break;
 
 #ifdef _WIN32

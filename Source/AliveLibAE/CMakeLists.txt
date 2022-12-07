@@ -3,6 +3,8 @@ project(AliveLibAE VERSION 0.1 LANGUAGES CXX)
 SET(AliveLibAESrc
     Renderer/IRenderer.hpp
     Renderer/IRenderer.cpp
+    Renderer/Vulkan/VulkanRenderer.hpp
+    Renderer/Vulkan/VulkanRenderer.cpp
     Renderer/DirectX9/DirectX9Renderer.hpp
     Renderer/DirectX9/DirectX9Renderer.cpp
     Renderer/PaletteCache.hpp
