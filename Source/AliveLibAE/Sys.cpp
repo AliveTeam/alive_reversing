@@ -863,7 +863,7 @@ void Sys_SetWindowPos_4EE1B1(s32 width, s32 height)
 
 static s32 Sys_WindowClass_Register_SDL(const char_type* lpWindowName, s32 x, s32 y, s32 nWidth, s32 nHeight)
 {
-    s32 sdlWindowAttributes = SDL_WINDOW_OPENGL;
+    s32 sdlWindowAttributes = SDL_WINDOW_OPENGL /* | SDL_WINDOW_VULKAN*/;
 
     sHwnd_BBB9F4 = SDL_CreateWindow(lpWindowName, x, y, nWidth, nHeight, SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI | sdlWindowAttributes);
 
