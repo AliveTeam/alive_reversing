@@ -30,7 +30,7 @@ HoneySack::HoneySack(relive::Path_HoneySack* pTlv, const Guid& tlvId)
     LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::HoneySack_Hanging));
 
-    mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
+    SetCanExplode(true);
     mTlvInfo = tlvId;
 
     mChaseTime = pTlv->mChaseTime;
@@ -63,7 +63,7 @@ HoneySack::HoneySack(relive::Path_HoneySack* pTlv, const Guid& tlvId)
     }
     else
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
+        SetCanExplode(true);
 
         mState = State::eDripHoney_0;
         mTimer = sGnFrame + 90;
@@ -89,7 +89,7 @@ HoneySack::HoneySack(relive::Path_HoneySack* pTlv, const Guid& tlvId)
 
 HoneySack::~HoneySack()
 {
-    mBaseGameObjectFlags.Clear(Options::eCanExplode_Bit7);
+    SetCanExplode(false);
 
     if (mState == State::eDripHoney_0)
     {
@@ -117,7 +117,7 @@ void HoneySack::VScreenChanged()
 
 void HoneySack::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
-    mBaseGameObjectFlags.Clear(Options::eCanExplode_Bit7);
+    SetCanExplode(false);
     mState = State::eSetFallAnimation_1;
 }
 

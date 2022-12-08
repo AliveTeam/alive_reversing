@@ -61,7 +61,7 @@ BaseAnimatedWithPhysicsGameObject* IsEventInRange(Event eventType, FP xpos, FP y
         return nullptr;
     }
 
-    if (!(pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5)) || !(pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4)))
+    if (!pObj->GetIsBaseAnimatedWithPhysicsObj() || !(pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4)))
     {
         return nullptr;
     }
@@ -96,7 +96,7 @@ BaseAnimatedWithPhysicsGameObject* IsEventInRange(Event eventType, FP xpos, FP y
         return nullptr;
     }
 
-    if (!(pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5)) || !(pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4)))
+    if (!pObj->GetIsBaseAnimatedWithPhysicsObj() || !(pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4)))
     {
         return nullptr;
     }

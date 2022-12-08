@@ -52,7 +52,7 @@ ScreenClipper::ScreenClipper(PSX_Point xy, PSX_Point wh, Layer layer)
 {
     SetType(ReliveTypes::eScreenClipper);
 
-    mBaseGameObjectFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
+    SetUpdateDuringCamSwap(true);
     mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
 
     field_30_rect.x = xy.x;

@@ -304,7 +304,7 @@ PauseMenu::PauseMenu()
 
     SetType(ReliveTypes::ePauseMenu);
     mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
-    mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    SetSurviveDeathReset(true);
     word12C_flags &= ~0xE;
     word12C_flags &= ~1u;
 

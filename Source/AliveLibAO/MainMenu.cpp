@@ -928,7 +928,7 @@ void Menu::FMV_Select_Update()
                             {
                                 if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eUpdatable_Bit2))
                                 {
-                                    if (!pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && (!gNumCamSwappers || pObj->mBaseGameObjectFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
+                                    if (!pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && (!gNumCamSwappers || pObj->GetUpdateDuringCamSwap()))
                                     {
                                         pObj->VUpdate();
                                     }

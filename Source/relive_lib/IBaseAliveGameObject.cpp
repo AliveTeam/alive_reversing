@@ -64,7 +64,7 @@ void IBaseAliveGameObject::OnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicAr
                 break;
             }
 
-            if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5))
+            if (pObjIter->GetIsBaseAnimatedWithPhysicsObj())
             {
                 if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
                 {

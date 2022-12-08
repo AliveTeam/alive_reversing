@@ -34,7 +34,7 @@ void Recorder::SaveObjectStates()
         const s16 objType = static_cast<s16>(BaseGameObject::ToAO(pObj->Type()));
         ::fwrite(&objType, sizeof(s16), 1, mFile.GetFile());
 
-        const u32 isBaseAliveGameObject = pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6);
+        const u32 isBaseAliveGameObject = pObj->GetIsBaseAliveGameObject();
         mFile.Write(isBaseAliveGameObject);
         if (isBaseAliveGameObject)
         {
@@ -59,7 +59,7 @@ bool Player::ValidateBaseAliveGameObject(BaseGameObject* pObj)
     const u32 isBaseAliveGameObject = mFile.ReadU32();
     if (isBaseAliveGameObject)
     {
-        if (!pObj || !pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+        if (!pObj || !pObj->GetIsBaseAliveGameObject())
         {
             if (pObj)
             {

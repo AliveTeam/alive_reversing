@@ -62,7 +62,7 @@ GameSpeak* gEventSystem = nullptr;
 GameSpeak::GameSpeak()
     : BaseGameObject(true, 0)
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9); // Dont destroy on loading save
+    SetSurviveDeathReset(true); // Dont destroy on loading save
     field_2C_event_buffer[0] = -1;
     field_20_last_event = GameSpeakEvents::eNone_m1;
     SetType(ReliveTypes::eGameSpeak);

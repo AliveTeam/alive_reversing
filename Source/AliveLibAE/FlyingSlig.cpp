@@ -158,7 +158,7 @@ FlyingSlig::FlyingSlig(relive::Path_FlyingSlig* pTlv, const Guid& tlvId)
     mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanBePossessed);
     mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanSetOffExplosives);
 
-    mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
+    SetCanExplode(true);
 
     field_14C_timer = 0;
     mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);

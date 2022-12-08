@@ -576,7 +576,7 @@ Abe::Abe()
 {
     SetType(ReliveTypes::eAbe);
 
-    mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    SetSurviveDeathReset(true);
 
     // Set the well level to the current level for the path start quick save
     mDstWellLevel = gMap.mCurrentLevel;
@@ -5140,7 +5140,7 @@ void Abe::Motion_57_Dead_4589A0()
                 sActiveQuicksaveData.field_204_world_info.field_10_controlled_scale != 0 ? FP_FromDouble(1.0) : FP_FromDouble(0.5),
                 0,
                 1,
-                1);
+                true);
             Quicksave_LoadActive();
             return;
         default:
@@ -6062,7 +6062,7 @@ void Abe::Motion_86_HandstoneBegin()
                     GetSpriteScale(),
                     1,
                     0,
-                    0);
+                    false);
 
                 if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
                 {
@@ -6257,7 +6257,7 @@ void Abe::Motion_86_HandstoneBegin()
             pFade->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             mFadeId = Guid{};
 
-            CircularFade* pCircularFade2 = Make_Circular_Fade_4CE8C0(mXPos, mYPos, GetSpriteScale(), 0, 0, 0);
+            CircularFade* pCircularFade2 = Make_Circular_Fade_4CE8C0(mXPos, mYPos, GetSpriteScale(), 0, 0, false);
             if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
             {
                 pCircularFade2->GetAnimation().mFlags.Set(AnimFlags::eFlipX);
@@ -7679,7 +7679,7 @@ void Abe::PickUpThrowabe_Or_PressBomb_454090(FP fpX, s32 fpY, s32 bStandToCrouch
             break;
         }
 
-        if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eInteractive_Bit8))
+        if (pObj->GetInteractive())
         {
             BaseAliveGameObject* pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
             if (fpX >= pAliveObj->mCollectionRect.x && fpX <= pAliveObj->mCollectionRect.w)

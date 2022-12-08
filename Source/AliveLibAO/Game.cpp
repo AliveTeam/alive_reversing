@@ -184,7 +184,7 @@ void Game_Loop()
 
             if (pBaseGameObject->mBaseGameObjectFlags.Get(BaseGameObject::eUpdatable_Bit2)
 			    && !pBaseGameObject->mBaseGameObjectFlags.Get(BaseGameObject::eDead) 
-                && (gNumCamSwappers == 0 || pBaseGameObject->mBaseGameObjectFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
+                && (gNumCamSwappers == 0 || pBaseGameObject->GetUpdateDuringCamSwap()))
             {
                 const s32 updateDelay = pBaseGameObject->UpdateDelay();
                 if (updateDelay <= 0)
@@ -228,11 +228,11 @@ void Game_Loop()
 
             if (pDrawable->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
             {
-                pDrawable->mBaseGameObjectFlags.Clear(BaseGameObject::eCantKill_Bit11);
+                pDrawable->SetCantKill(false);
             }
             else if (pDrawable->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
             {
-                pDrawable->mBaseGameObjectFlags.Set(BaseGameObject::eCantKill_Bit11);
+                pDrawable->SetCantKill(true);
                 pDrawable->VRender(ppOt);
             }
         }

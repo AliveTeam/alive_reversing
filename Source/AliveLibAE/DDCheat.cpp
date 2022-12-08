@@ -166,8 +166,8 @@ void DDCheat::Menu_Movies()
 DDCheat::DDCheat()
     : BaseGameObject(true, 0)
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
-    mBaseGameObjectFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
+    SetSurviveDeathReset(true);
+    SetUpdateDuringCamSwap(true);
     field_3C_flags.Clear(DDCheat::Flags_3C::e3C_Bit4);
     SetType(ReliveTypes::eDDCheat);
     field_24_fn_idx = 0;

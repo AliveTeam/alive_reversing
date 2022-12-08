@@ -58,7 +58,7 @@ void FallingItem::LoadAnimations()
 FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(0)
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
+    SetCanExplode(true);
 
     SetType(ReliveTypes::eRockSpawner);
 
@@ -119,7 +119,7 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
 {
     SetType(ReliveTypes::eRockSpawner);
 
-    mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
+    SetCanExplode(true);
     mTlvId = Guid{};
 
     const s32 lvlIdx = static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel));
@@ -235,7 +235,7 @@ void FallingItem::VUpdate()
         case State::eWaitForIdEnable_0:
             if (mSwitchId && SwitchStates_Get(mSwitchId))
             {
-                mBaseGameObjectFlags.Clear(BaseGameObject::eCanExplode_Bit7);
+                SetCanExplode(false);
                 mState = State::eWaitForFallDelay_2;
                 mVelX = FP_FromInteger(0);
                 mVelY = FP_FromInteger(0);
@@ -249,7 +249,7 @@ void FallingItem::VUpdate()
         // TODO: Must only be set outside of the object
         case State::eGoWaitForDelay_1:
         {
-            mBaseGameObjectFlags.Clear(BaseGameObject::eCanExplode_Bit7);
+            SetCanExplode(false);
             mState = State::eWaitForFallDelay_2;
             mVelX = FP_FromInteger(0);
             mVelY = FP_FromInteger(0);
@@ -397,7 +397,7 @@ void FallingItem::VUpdate()
             else
             {
                 GetAnimation().Set_Animation_Data(GetAnimRes(sFallingItemData[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][0]));
-                mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
+                SetCanExplode(true);
                 mVelY = FP_FromInteger(0);
                 mVelX = FP_FromInteger(0);
                 mYPos = mStartYPos;
@@ -422,7 +422,7 @@ void FallingItem::DamageHitItems()
 
         if (pObj != this)
         {
-            if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6) || pObj->Type() == ReliveTypes::eDrill)
+            if (pObj->GetIsBaseAliveGameObject() || pObj->Type() == ReliveTypes::eDrill)
             {
                 BaseAnimatedWithPhysicsGameObject* pAliveObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
 

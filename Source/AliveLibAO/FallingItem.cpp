@@ -49,7 +49,7 @@ void FallingItem::LoadAnimations()
 FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
-    mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
+    SetCanExplode(true);
 
     SetType(ReliveTypes::eRockSpawner);
 
@@ -157,7 +157,7 @@ void FallingItem::VUpdate()
 
         case State::eGoWaitForDelay_1:
         {
-            mBaseGameObjectFlags.Clear(Options::eCanExplode_Bit7);
+            SetCanExplode(false);
             mState = State::eWaitForFallDelay_2;
             mVelX = FP_FromInteger(0);
             mVelY = FP_FromInteger(0);
@@ -299,7 +299,7 @@ void FallingItem::VUpdate()
             else
             {
                 GetAnimation().Set_Animation_Data(GetAnimRes(sFallingItemData[static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))].mFallingAnimId));
-                mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
+                SetCanExplode(true);
                 mVelY = FP_FromInteger(0);
                 mVelX = FP_FromInteger(0);
                 mYPos = mStartYPos;
@@ -325,7 +325,7 @@ void FallingItem::DamageHitItems()
 
         if (pObj != this)
         {
-            if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+            if (pObj->GetIsBaseAliveGameObject())
             {
                 BaseAnimatedWithPhysicsGameObject* pAliveObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
 

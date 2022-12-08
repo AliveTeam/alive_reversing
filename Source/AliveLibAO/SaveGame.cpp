@@ -41,7 +41,7 @@ void Kill_Objects_451720()
             //Debug_Print_Stub_48DD70("pTask = 0x%lx\n", pObjIter);
 
             // Kill during a reset and there are no references
-            if (!pObj->mBaseGameObjectFlags.Get(BaseGameObject::eSurviveDeathReset_Bit9) && pObj->mBaseGameObjectRefCount == 0)
+            if (!pObj->GetSurviveDeathReset() && pObj->mBaseGameObjectRefCount == 0)
             {
                 // So die
                 j = gBaseGameObjects->RemoveAt(j);

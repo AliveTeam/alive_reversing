@@ -33,7 +33,7 @@ static MovingBomb* sMovingBomb = nullptr;
 MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
     : BaseAliveGameObject()
 {
-    mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
+    SetCanExplode(true);
     SetType(ReliveTypes::eTimedMine);
 
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::MovingBomb));
@@ -182,7 +182,7 @@ void MovingBomb::VRender(PrimHeader** ppOt)
 
 void MovingBomb::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
-    mBaseGameObjectFlags.Clear(Options::eCanExplode_Bit7);
+    SetCanExplode(false);
     field_10C_state = States::eBlowingUp_6;
     mVelY = FP_FromInteger(0);
     field_114_timer = sGnFrame + 1;
@@ -284,7 +284,7 @@ void MovingBomb::VUpdate()
     {
         if (HitObject())
         {
-            mBaseGameObjectFlags.Clear(Options::eCanExplode_Bit7);
+            SetCanExplode(false);
             field_10C_state = States::eBlowingUp_6;
             mVelY = FP_FromInteger(0);
             field_114_timer = sGnFrame + 1;

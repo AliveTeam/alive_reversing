@@ -448,8 +448,8 @@ void Movie::VScreenChanged()
 
 void Movie::Init()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
-    mBaseGameObjectFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
+    SetSurviveDeathReset(true);
+    SetUpdateDuringCamSwap(true);
 
     SetType(ReliveTypes::eMovie);
 

@@ -780,7 +780,7 @@ s16 Scrab::FindAbeOrMud()
             break;
         }
 
-        if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+        if (pObjIter->GetIsBaseAliveGameObject())
         {
             BaseAliveGameObject* pObj = static_cast<BaseAliveGameObject*>(pObjIter);
 

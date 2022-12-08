@@ -37,7 +37,7 @@ UXB::UXB(relive::Path_UXB* pTlv, const Guid& tlvId)
     GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
     GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
 
-    mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
+    SetInteractive(true);
     mCurrentState = UXBState::eDelay;
 
     mPatternLength = pTlv->mPatternLength;
@@ -135,7 +135,7 @@ UXB::UXB(relive::Path_UXB* pTlv, const Guid& tlvId)
     }
 
     const FP gridSnap = ScaleToGridSize(GetSpriteScale());
-    mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
+    SetInteractive(true);
 
     mCollectionRect.x = mXPos - (gridSnap / FP_FromInteger(2));
     mCollectionRect.y = mYPos - gridSnap;
@@ -221,7 +221,7 @@ UXB::~UXB()
 
     mFlashAnim.VCleanUp();
 
-    mBaseGameObjectFlags.Clear(Options::eInteractive_Bit8);
+    SetInteractive(false);
 }
 
 void UXB::VScreenChanged()

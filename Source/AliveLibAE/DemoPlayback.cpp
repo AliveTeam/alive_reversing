@@ -17,7 +17,7 @@ DemoPlayback::DemoPlayback()
     else
     {
         sDemoObj_dword_5D1E20 = this;
-        mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+        SetSurviveDeathReset(true);
 
         // TODO: FIX ME - should pass this resource in
         //u32** ppRes = reinterpret_cast<u32**>(Add_Resource(ResourceManager::Resource_Demo, AEResourceID::kDemoResID));

@@ -201,8 +201,8 @@ Movie::Movie(const char_type* pFmvName)
     , mFmvName(pFmvName)
 {
     LOG_INFO("Create movie %s", mFmvName);
-    mBaseGameObjectFlags.Set(Options::eSurviveDeathReset_Bit9);
-    mBaseGameObjectFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
+    SetSurviveDeathReset(true);
+    SetUpdateDuringCamSwap(true);
 
     SetType(ReliveTypes::eMovie);
 

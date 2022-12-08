@@ -27,7 +27,7 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Rock));
     Animation_Init(GetAnimRes(AnimId::Rock));
 
-    mBaseGameObjectFlags.Clear(BaseGameObject::eInteractive_Bit8);
+    SetInteractive(false);
     GetAnimation().mFlags.Clear(AnimFlags::eRender);
     GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
 
@@ -266,7 +266,7 @@ void Rock::BounceHorizontally( FP hitX, FP hitY )
 //TODO Identical to AO - merge
 s16 Rock::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
 {
-    if (!pObj->mBaseGameObjectFlags.Get(BaseGameObject::eCanExplode_Bit7))
+    if (!pObj->GetCanExplode())
     {
         return 1;
     }
@@ -349,7 +349,7 @@ void Rock::VUpdate()
                     mVelX = FP_FromInteger(0);
                     mCollectionRect.x = mXPos - (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
                     mCollectionRect.w = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2)) + mXPos;
-                    mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8);
+                    SetInteractive(true);
                     mCollectionRect.h = mYPos;
                     mCollectionRect.y = mYPos - ScaleToGridSize(GetSpriteScale());
                     field_11C_state = RockStates::eOnGround_3;
@@ -432,7 +432,7 @@ s32 Rock::VGetSaveState(u8* pSaveBuffer)
     pState->mDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
 
     pState->mLoop = GetAnimation().mFlags.Get(AnimFlags::eLoop);
-    pState->mInteractive = mBaseGameObjectFlags.Get(BaseGameObject::eInteractive_Bit8);
+    pState->mInteractive = GetInteractive();
 
     if (BaseAliveGameObjectCollisionLine)
     {
@@ -480,7 +480,7 @@ s32 Rock::CreateFromSaveState(const u8* pData)
     pRock->GetAnimation().mFlags.Set(AnimFlags::eLoop, pState->mLoop);
 
     pRock->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->mDrawable);
-    pRock->mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8, pState->mInteractive);
+    pRock->SetInteractive(pState->mInteractive);
 
     pRock->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eRestoredFromQuickSave);
 

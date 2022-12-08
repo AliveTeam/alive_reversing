@@ -405,7 +405,7 @@ MusicController::MusicTypes MusicController::static_GetMusicType(u16* seq1, u16*
 MusicController::MusicController()
     : BaseGameObject(true, 0)
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    SetSurviveDeathReset(true);
     field_40_flags_and_idx = -1;
     field_24_currentLevelID = EReliveLevelIds::eNone;
     field_28_object_id = Guid{};

@@ -23,7 +23,7 @@ void Bells::LoadAnimations()
 Bells::Bells(BellSize bellType, FP xpos, FP ypos, FP scale)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    mBaseGameObjectFlags.Clear(Options::eCanExplode_Bit7);
+    SetCanExplode(false);
 
     SetType(ReliveTypes::eBells);
 

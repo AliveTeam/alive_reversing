@@ -74,7 +74,7 @@ static CheatEntry sCheatArray[3] = {
 CheatController::CheatController()
     : BaseGameObject(true, 0)
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    SetSurviveDeathReset(true);
     SetType(ReliveTypes::eNone);
 }
 

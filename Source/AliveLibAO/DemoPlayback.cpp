@@ -17,7 +17,7 @@ DemoPlayback::DemoPlayback(u8** ppPlaybackData, s32 bFromHandStone)
     : BaseGameObject(true, 0)
 {
     mBaseGameObjectFlags.Clear(Options::eDrawable_Bit4);
-    mBaseGameObjectFlags.Set(Options::eSurviveDeathReset_Bit9);
+    SetSurviveDeathReset(true);
     SetType(ReliveTypes::eDemoPlayback);
     field_1C_bFromHandStone = static_cast<s16>(bFromHandStone);
     gDDCheat_FlyingEnabled = false;

@@ -27,13 +27,13 @@ BaseGameObject::BaseGameObject(s16 bAddToObjectList, s16 resourceArraySize)
 
     mBaseGameObjectFlags.Clear(BaseGameObject::Options::eListAddFailed_Bit1);
     mBaseGameObjectFlags.Clear(BaseGameObject::Options::eDead);
-    mBaseGameObjectFlags.Clear(BaseGameObject::Options::eIsBaseAnimatedWithPhysicsObj_Bit5);
-    mBaseGameObjectFlags.Clear(BaseGameObject::Options::eIsBaseAliveGameObject_Bit6);
-    mBaseGameObjectFlags.Clear(BaseGameObject::Options::eCanExplode_Bit7);
-    mBaseGameObjectFlags.Clear(BaseGameObject::Options::eInteractive_Bit8);
-    mBaseGameObjectFlags.Clear(BaseGameObject::Options::eSurviveDeathReset_Bit9);
-    mBaseGameObjectFlags.Clear(BaseGameObject::Options::eUpdateDuringCamSwap_Bit10);
-    mBaseGameObjectFlags.Clear(BaseGameObject::Options::eCantKill_Bit11);
+    mIsBaseAnimatedWithPhysicsObj = false;
+    mIsBaseAliveGameObject = false;
+    mCanExplode = false;
+    mInteractive = false;
+    mSurviveDeathReset = false;
+    mUpdateDuringCamSwap = false;
+    mCantKill = false;
     mBaseGameObjectFlags.Set(BaseGameObject::eUpdatable_Bit2);
 
     if (bAddToObjectList)

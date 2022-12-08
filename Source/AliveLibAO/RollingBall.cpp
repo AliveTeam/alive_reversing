@@ -369,7 +369,7 @@ void RollingBall::CrushThingsInTheWay()
             break;
         }
 
-        if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+        if (pObj->GetIsBaseAliveGameObject())
         {
             const PSX_RECT bOurRect = VGetBoundingRect();
 

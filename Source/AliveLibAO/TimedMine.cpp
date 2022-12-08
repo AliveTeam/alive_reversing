@@ -38,7 +38,7 @@ TimedMine::TimedMine(relive::Path_TimedMine* pTlv, const Guid& tlvId)
     LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::TimedMine_Idle));
 
-    mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
+    SetInteractive(true);
     mTimedMineFlags.Clear(TimedMineFlags::eStickToLiftPoint);
     mSlappedMine = 0;
 
@@ -71,7 +71,7 @@ TimedMine::TimedMine(relive::Path_TimedMine* pTlv, const Guid& tlvId)
     mCollectionRect.w = mXPos + (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
     mCollectionRect.h = mYPos;
 
-    mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
+    SetInteractive(true);
 }
 
 TimedMine::~TimedMine()
@@ -94,7 +94,7 @@ TimedMine::~TimedMine()
         BaseAliveGameObject_PlatformId = Guid{};
     }
 
-    mBaseGameObjectFlags.Clear(BaseGameObject::eInteractive_Bit8);
+    SetInteractive(false);
 }
 
 void TimedMine::VScreenChanged()

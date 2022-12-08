@@ -364,7 +364,7 @@ s32 MusicController::GetMusicTime()
 MusicController::MusicController()
     : BaseGameObject(true, 0)
 {
-    mBaseGameObjectFlags.Set(Options::eSurviveDeathReset_Bit9);
+    SetSurviveDeathReset(true);
     SetType(ReliveTypes::eNone);
 
     field_10_bEnableMusic = 1;

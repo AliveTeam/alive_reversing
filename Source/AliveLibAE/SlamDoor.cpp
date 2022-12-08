@@ -72,7 +72,7 @@ SlamDoor::SlamDoor(relive::Path_SlamDoor* pTlv, const Guid& tlvId)
     LoadAnimations();
 
     mBaseGameObjectTlvInfo = tlvId; // todo: check this
-    mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
+    SetCanExplode(true);
 
     mSwitchId = pTlv->mSwitchId;
 
@@ -408,7 +408,7 @@ void SlamDoor::VUpdate()
         }
     }
 
-    mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7, GetAnimation().mFlags.Get(AnimFlags::eRender));
+    SetCanExplode(GetAnimation().mFlags.Get(AnimFlags::eRender)); // wot?
 }
 
 s32 SlamDoor::VGetSaveState(u8* pSaveBuffer)

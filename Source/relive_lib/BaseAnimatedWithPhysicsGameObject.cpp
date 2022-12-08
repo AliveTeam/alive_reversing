@@ -54,11 +54,11 @@ BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject(s16 resourc
         mRGB.SetRGB(105, 105, 105);
     }
     
-    mBaseGameObjectFlags.Clear(BaseGameObject::eInteractive_Bit8);
-    mBaseGameObjectFlags.Clear(BaseGameObject::eCanExplode_Bit7);
+    SetInteractive(false);
+    SetCanExplode(false);
 
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
-    mBaseGameObjectFlags.Set(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5);
+    SetIsBaseAnimatedWithPhysicsObj(true);
 
     SetSpriteScale(FP_FromInteger(1));
 

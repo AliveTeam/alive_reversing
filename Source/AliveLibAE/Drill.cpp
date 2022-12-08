@@ -634,7 +634,7 @@ s16 Drill::DamageTouchingObjects()
             return 0;
         }
 
-        if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6) || pObj->Type() == ReliveTypes::eRockSpawner)
+        if (pObj->GetIsBaseAliveGameObject() || pObj->Type() == ReliveTypes::eRockSpawner)
         {
             if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
             {

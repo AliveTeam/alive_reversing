@@ -470,7 +470,7 @@ void Slog::Init()
 {
     Animation_Init(GetAnimRes(AnimId::Slog_Idle));
 
-    mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
+    SetCanExplode(true);
     GetAnimation().SetFnPtrArray(kSlog_Anim_Frame_Fns_4CEBF4);
     field_11C_timer = 0;
     field_120 = 0;

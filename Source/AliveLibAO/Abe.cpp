@@ -680,7 +680,7 @@ void Abe::LoadAnimations()
 Abe::Abe()
 {
     SetType(ReliveTypes::eAbe);
-    mBaseGameObjectFlags.Set(Options::eSurviveDeathReset_Bit9);
+    SetSurviveDeathReset(true);
     Init_GameStates();
 
     LoadAnimations();
@@ -1284,7 +1284,7 @@ IBaseAliveGameObject* Abe::FindObjectToPossess_421410()
             break;
         }
 
-        if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+        if (pObj->GetIsBaseAliveGameObject())
         {
             if (pObj->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eCanBePossessed))
             {
@@ -1789,7 +1789,7 @@ void Abe::PickUpThrowabe_Or_PressBomb_428260(FP fpX, s32 fpY, s16 bStandToCrouch
             break;
         }
 
-        if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eInteractive_Bit8))
+        if (pObj->GetInteractive())
         {
             BaseAliveGameObject* pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
             if (fpX >= pAliveObj->mCollectionRect.x && fpX <= pAliveObj->mCollectionRect.w)

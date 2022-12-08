@@ -802,7 +802,7 @@ void Map::GoTo_Camera()
             }
             else if (pBaseGameObj->mBaseGameObjectFlags.Get(BaseGameObject::eUpdatable_Bit2))
             {
-                if (!pBaseGameObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && (!gNumCamSwappers || pBaseGameObj->mBaseGameObjectFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
+                if (!pBaseGameObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && (!gNumCamSwappers || pBaseGameObj->GetUpdateDuringCamSwap()))
                 {
                     if (pBaseGameObj->UpdateDelay() > 0)
                     {
@@ -933,7 +933,7 @@ void Map::GoTo_Camera()
                     break;
                 }
 
-                if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+                if (pObjIter->GetIsBaseAliveGameObject())
                 {
                     auto pBaseAliveGameObj = static_cast<BaseAliveGameObject*>(pObjIter);
                     pBaseAliveGameObj->BaseAliveGameObjectCollisionLine = nullptr;

@@ -71,8 +71,8 @@ ResourceManager::ResourceManager()
     , field_20_files_pending_loading(3)
     , field_48_dArray(3)
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
-    mBaseGameObjectFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
+    SetSurviveDeathReset(true);
+    SetUpdateDuringCamSwap(true);
 
     SetType(ReliveTypes::eResourceManager);
     field_2C_pFileItem = nullptr;

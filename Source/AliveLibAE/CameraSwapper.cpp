@@ -76,7 +76,7 @@ const s32 kSliceWidth = 8;
 
 void CameraSwapper::Init(CamResource& ppCamRes, CameraSwapEffects changeEffect)
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
+    SetUpdateDuringCamSwap(true);
 
     SetType(ReliveTypes::eCameraSwapper);
 

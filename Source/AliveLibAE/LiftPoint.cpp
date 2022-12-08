@@ -727,7 +727,7 @@ void LiftPoint::MoveObjectsOnLift(FP xVelocity)
             // Keep ypos on the platform
             pObj->mYPos = FP_FromInteger(mPlatformBaseCollisionLine->mRect.y);
 
-            if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eInteractive_Bit8))
+            if (pObj->GetInteractive())
             {
                 pObj->mCollectionRect.x = pObj->mXPos - (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
                 pObj->mCollectionRect.y = pObj->mYPos - ScaleToGridSize(GetSpriteScale());

@@ -3965,7 +3965,7 @@ void Scrab::KillTarget(BaseAliveGameObject* pTarget)
 
                 do
                 {
-                    if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+                    if (pObj->GetIsBaseAliveGameObject())
                     {
                         if (pObj != this)
                         {
@@ -4051,7 +4051,7 @@ s16 Scrab::FindAbeOrMud()
             break;
         }
 
-        if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+        if (pObj->GetIsBaseAliveGameObject())
         {
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
             if ((pAliveObj->Type() == ReliveTypes::eRingOrLiftMud || pAliveObj->Type() == ReliveTypes::eMudokon || pAliveObj->Type() == ReliveTypes::eScrab) && (pAliveObj->Type() != ReliveTypes::eScrab || pAliveObj->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::ePossessed)) && CanSeeAbe(pAliveObj) && pAliveObj->mHealth > FP_FromInteger(0) && pAliveObj->GetSpriteScale() == GetSpriteScale())

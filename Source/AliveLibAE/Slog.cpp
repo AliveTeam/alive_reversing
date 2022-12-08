@@ -184,7 +184,7 @@ Slog::Slog(relive::Path_Slog* pTlv, const Guid& tlvId)
     eBit7_Asleep = pTlv->mAsleep == relive::reliveChoice::eYes;
     mCommandedToAttack = false;
 
-    mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
+    SetCanExplode(true);
 
     GetAnimation().mFlags.Set(AnimFlags::eFlipX, pTlv->mFacing == relive::reliveXDirection::eLeft);
 

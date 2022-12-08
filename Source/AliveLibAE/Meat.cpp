@@ -116,7 +116,7 @@ s32 Meat::CreateFromSaveState(const u8* pBuffer)
     pMeat->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->mRender);
 
     pMeat->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->mDrawable);
-    pMeat->mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8, pState->mInteractive);
+    pMeat->SetInteractive(pState->mInteractive);
 
     pMeat->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eRestoredFromQuickSave);
 
@@ -231,7 +231,7 @@ Meat::Meat(FP xpos, FP ypos, s16 count)
     mVelX = FP_FromInteger(0);
     mVelY = FP_FromInteger(0);
     field_128_timer = 0;
-    mBaseGameObjectFlags.Clear(BaseGameObject::eInteractive_Bit8);
+    SetInteractive(false);
 
     GetAnimation().mFlags.Clear(AnimFlags::eRender);
 
@@ -404,7 +404,7 @@ s16 Meat::OnCollision(BaseGameObject* pHit)
 {
     // TODO: Check if pHit type is correct for all throwables
 
-    if (!pHit->mBaseGameObjectFlags.Get(BaseGameObject::eCanExplode_Bit7))
+    if (!pHit->GetCanExplode())
     {
         return 1;
     }
@@ -503,7 +503,7 @@ void Meat::VUpdate()
                     mCollectionRect.w = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2)) + mXPos;
                     mCollectionRect.h = mYPos;
 
-                    mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8);
+                    SetInteractive(true);
                     field_11C_state = MeatStates::eWaitForPickUp_4;
                 }
                 break;
@@ -568,7 +568,7 @@ s32 Meat::VGetSaveState(u8* pSaveBuffer)
     pState->mRender = GetAnimation().mFlags.Get(AnimFlags::eRender);
 
     pState->mDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
-    pState->mInteractive = mBaseGameObjectFlags.Get(BaseGameObject::eInteractive_Bit8);
+    pState->mInteractive = GetInteractive();
 
     if (field_130_pLine)
     {

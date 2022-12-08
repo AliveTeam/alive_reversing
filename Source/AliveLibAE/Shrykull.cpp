@@ -30,7 +30,7 @@ Shrykull::Shrykull()
 
     LoadAnimations();
 
-    mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
+    SetCanExplode(true);
 
     mZapTargetId = Guid{};
     mZapLineId = Guid{};

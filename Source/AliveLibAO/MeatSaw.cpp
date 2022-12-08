@@ -297,7 +297,7 @@ void MeatSaw::GrindUpObjects_439CD0()
             break;
         }
 
-        if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+        if (pObjIter->GetIsBaseAliveGameObject())
         {
             if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
             {

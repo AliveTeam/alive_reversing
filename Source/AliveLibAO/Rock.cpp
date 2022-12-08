@@ -25,7 +25,7 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Rock));
     Animation_Init(GetAnimRes(AnimId::Rock));
 
-    mBaseGameObjectFlags.Clear(Options::eInteractive_Bit8);
+    SetInteractive(false);
     GetAnimation().mFlags.Clear(AnimFlags::eRender);
     GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
 
@@ -128,7 +128,7 @@ void Rock::VUpdate()
                     mCollectionRect.x = mXPos - (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
                     mCollectionRect.w = mXPos + (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
 
-                    mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
+                    SetInteractive(true);
 
                     GetAnimation().mFlags.Clear(AnimFlags::eLoop);
                     mCollectionRect.y = mYPos - ScaleToGridSize(GetSpriteScale());
@@ -336,7 +336,7 @@ void Rock::BounceHorizontally( FP hitX, FP hitY )
 //TODO Identical to AE - merge
 s16 Rock::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
 {
-    if (!pObj->mBaseGameObjectFlags.Get(BaseGameObject::eCanExplode_Bit7))
+    if (!pObj->GetCanExplode())
     {
         return 1;
     }

@@ -195,7 +195,7 @@ void AirExplosion::DealBlastDamage(PSX_RECT* pRect)
             break;
         }
 
-        if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+        if (pObj->GetIsBaseAliveGameObject())
         {
             const PSX_RECT boundRect = pObj->VGetBoundingRect();
             if (PSX_Rects_overlap_no_adjustment(&boundRect, &expandedRect) && mExplosionSize == pObj->GetSpriteScale())

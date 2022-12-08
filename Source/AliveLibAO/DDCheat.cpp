@@ -38,8 +38,8 @@ const TDDCheatFn CheatsFn_4C3150[] = {
 DDCheat::DDCheat()
     : BaseGameObject(true, 0)
 {
-    mBaseGameObjectFlags.Set(Options::eSurviveDeathReset_Bit9);
-    mBaseGameObjectFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
+    SetSurviveDeathReset(true);
+    SetUpdateDuringCamSwap(true);
 
     SetType(ReliveTypes::eDDCheat);
     field_14_SelectedCheat = 0;

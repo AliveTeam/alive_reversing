@@ -64,7 +64,7 @@ Slurg::Slurg(relive::Path_Slurg* pTlv, const Guid& tlvId)
 
     Animation_Init(GetAnimRes(AnimId::Slurg_Move));
 
-    mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
+    SetCanExplode(true);
     SetType(ReliveTypes::eSlurg);
 
     mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);

@@ -9,7 +9,7 @@
 DoorBlocker::DoorBlocker(relive::Path_DoorBlocker* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(0)
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
+    SetCanExplode(true);
 
     mSwitchId = pTlv->mSwitchId;
 

@@ -29,7 +29,7 @@ PauseMenu::PauseMenu()
     SetUpdateDelay(25);
 
     mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
-    mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    SetSurviveDeathReset(true);
 
     gObjListDrawables->Push_Back(this);
     mPal = ResourceManagerWrapper::LoadPal(PalId::MainMenuFont_PauseMenu);

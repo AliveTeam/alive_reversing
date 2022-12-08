@@ -28,7 +28,7 @@ Grenade::Grenade(FP xpos, FP ypos, s16 numGrenades)
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Grenade));
     Animation_Init(GetAnimRes(AnimId::Grenade));
 
-    mBaseGameObjectFlags.Clear(BaseGameObject::eInteractive_Bit8);
+    SetInteractive(false);
     GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
 
     GetAnimation().mFlags.Clear(AnimFlags::eRender);
@@ -107,7 +107,7 @@ void Grenade::VUpdate()
                 mCollectionRect.w = mXPos + (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
                 mCollectionRect.h = mYPos;
 
-	            mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8);
+	            SetInteractive(true);
                 mState = States::eWaitToBeCollected_1;
             }
             break;
@@ -171,7 +171,7 @@ void Grenade::VUpdate()
                 mCollectionRect.w = mXPos + (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
                 mCollectionRect.h = mYPos;
 
-                mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
+                SetInteractive(true);
                 mState = States::eDoesNothing_2;
             }
             break;
@@ -366,7 +366,7 @@ s16 Grenade::InTheAir()
 
 s16 Grenade::OnCollision_BounceOff(BaseGameObject* pHit)
 {
-    if (!pHit->mBaseGameObjectFlags.Get(BaseGameObject::eCanExplode_Bit7))
+    if (!pHit->GetCanExplode())
     {
         return 1;
     }

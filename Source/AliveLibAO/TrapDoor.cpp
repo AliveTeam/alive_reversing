@@ -172,7 +172,7 @@ void TrapDoor::Open()
         }
 
         // Find alive objects.
-        if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+        if (pObj->GetIsBaseAliveGameObject())
         {
             // That are on this trap door.
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);

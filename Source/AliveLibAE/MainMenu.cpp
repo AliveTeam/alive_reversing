@@ -503,7 +503,7 @@ MainMenuController::MainMenuController(relive::Path_TLV* /*pTlv*/, const Guid& t
     : BaseAnimatedWithPhysicsGameObject(0)
 {
     sMainMenuObjectCounter_BB4400++;
-    mBaseGameObjectFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
+    SetUpdateDuringCamSwap(true);
 
     LoadAnimations();
 
@@ -1456,7 +1456,7 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
             {
                 if (pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eUpdatable_Bit2))
                 {
-                    if (!pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && (!gNumCamSwappers || pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
+                    if (!pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && (!gNumCamSwappers || pMovie->GetUpdateDuringCamSwap()))
                     {
                         pMovie->VUpdate();
                     }
@@ -1839,7 +1839,7 @@ MainMenuNextCam MainMenuController::BackStory_Or_NewGame_Update_4D1C60(u32 input
             {
                 if (pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eUpdatable_Bit2))
                 {
-                    if (!(pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && (!gNumCamSwappers || (pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))))
+                    if (!(pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && (!gNumCamSwappers || (pMovie->GetUpdateDuringCamSwap()))))
                     {
                         pMovie->VUpdate();
                     }
@@ -3073,7 +3073,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 {
                     if (pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eUpdatable_Bit2))
                     {
-                        if (pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eDead) == false && (!gNumCamSwappers || pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
+                        if (pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eDead) == false && (!gNumCamSwappers || pMovie->GetUpdateDuringCamSwap()))
                         {
                             pMovie->VUpdate();
                         }
@@ -3097,7 +3097,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 {
                     if (pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eUpdatable_Bit2))
                     {
-                        if (pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eDead) == false && (!gNumCamSwappers || pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
+                        if (pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eDead) == false && (!gNumCamSwappers || pMovie->GetUpdateDuringCamSwap()))
                         {
                             pMovie->VUpdate();
                         }
@@ -3306,7 +3306,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
                 break;
 
             case MainMenuGamespeakAnimIds::eAbe_EnterThroughDoor:
-                mBaseGameObjectFlags.Clear(BaseGameObject::eUpdateDuringCamSwap_Bit10);
+                SetUpdateDuringCamSwap(false);
                 field_22C_T80_animation_delay = 15;
                 [[fallthrough]];
             case MainMenuGamespeakAnimIds::eAbe_EnterThroughDoor2:

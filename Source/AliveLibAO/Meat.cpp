@@ -180,7 +180,7 @@ Meat::Meat(FP xpos, FP ypos, s16 count)
     mVelX = FP_FromInteger(0);
     mVelY = FP_FromInteger(0);
     field_11C_timer = 0;
-    mBaseGameObjectFlags.Clear(BaseGameObject::eInteractive_Bit8);
+    SetInteractive(false);
 
     GetAnimation().mFlags.Clear(AnimFlags::eRender);
     GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
@@ -434,7 +434,7 @@ void Meat::VUpdate()
                     mCollectionRect.w = mXPos + ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2);
                     mCollectionRect.h = mYPos;
 
-                    mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
+                    SetInteractive(true);
                     field_110_state = 4;
                 }
                 break;
@@ -484,7 +484,7 @@ void Meat::VUpdate()
 
 s16 Meat::OnCollision(BaseAnimatedWithPhysicsGameObject* pHit)
 {
-    if (!pHit->mBaseGameObjectFlags.Get(BaseGameObject::eCanExplode_Bit7))
+    if (!pHit->GetCanExplode())
     {
         return 1;
     }

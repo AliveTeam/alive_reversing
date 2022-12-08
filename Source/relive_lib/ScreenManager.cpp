@@ -17,8 +17,8 @@ ScreenManager::ScreenManager(CamResource& camRes, FP_Point* pCameraOffset)
 {
     mCamPos = pCameraOffset;
 
-    mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
-    mBaseGameObjectFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
+    SetSurviveDeathReset(true);
+    SetUpdateDuringCamSwap(true);
 
     Init(camRes);
 }

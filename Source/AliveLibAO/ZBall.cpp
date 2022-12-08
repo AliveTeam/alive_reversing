@@ -26,7 +26,7 @@ void Animation_OnFrame_ZBallSmacker(::BaseGameObject* pObj, u32& idx, const Inde
             break;
         }
 
-        if (pBase->mBaseGameObjectFlags.Get(::BaseGameObject::eIsBaseAliveGameObject_Bit6))
+        if (pBase->GetIsBaseAliveGameObject())
         {
             // If the object is within the ZBall rect then smack it
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pBase);

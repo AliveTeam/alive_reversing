@@ -42,7 +42,7 @@ BaseAliveGameObject::BaseAliveGameObject(s16 resourceArraySize)
 
     gBaseAliveGameObjects->Push_Back(this);
 
-    mBaseGameObjectFlags.Set(BaseGameObject::eIsBaseAliveGameObject_Bit6);
+    SetIsBaseAliveGameObject(true);
 }
 
 BaseAliveGameObject::~BaseAliveGameObject()

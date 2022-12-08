@@ -20,13 +20,6 @@ public:
         eUpdatable_Bit2 = 0x002,
         eDead = 0x004,
         eDrawable_Bit4 = 0x008,
-        eIsBaseAnimatedWithPhysicsObj_Bit5 = 0x010,
-        eIsBaseAliveGameObject_Bit6 = 0x020,
-        eCanExplode_Bit7 = 0x040,
-        eInteractive_Bit8 = 0x080,
-        eSurviveDeathReset_Bit9 = 0x100,
-        eUpdateDuringCamSwap_Bit10 = 0x200,
-        eCantKill_Bit11 = 0x400
     };
 
     BaseGameObject(s16 bAddToObjectList, s16 resourceArraySize);
@@ -80,6 +73,23 @@ public:
 
     PalResource& GetPalRes(PalId palId);
 
+    bool GetDrawable() const { return mDrawable; }
+    void SetDrawable(bool val) { mDrawable = val; }
+    bool GetIsBaseAnimatedWithPhysicsObj() const { return mIsBaseAnimatedWithPhysicsObj; }
+    void SetIsBaseAnimatedWithPhysicsObj(bool val) { mIsBaseAnimatedWithPhysicsObj = val; }
+    bool GetIsBaseAliveGameObject() const { return mIsBaseAliveGameObject; }
+    void SetIsBaseAliveGameObject(bool val) { mIsBaseAliveGameObject = val; }
+    bool GetCanExplode() const { return mCanExplode; }
+    void SetCanExplode(bool val) { mCanExplode = val; }
+    bool GetInteractive() const { return mInteractive; }
+    void SetInteractive(bool val) { mInteractive = val; }
+    bool GetSurviveDeathReset() const { return mSurviveDeathReset; }
+    void SetSurviveDeathReset(bool val) { mSurviveDeathReset = val; }
+    bool GetUpdateDuringCamSwap() const { return mUpdateDuringCamSwap; }
+    void SetUpdateDuringCamSwap(bool val) { mUpdateDuringCamSwap = val; }
+    bool GetCantKill() const { return mCantKill; }
+    void SetCantKill(bool val) { mCantKill = val; }
+
 public:
     BitField16<Options> mBaseGameObjectFlags = {};
 
@@ -95,6 +105,17 @@ private:
     ReliveTypes mBaseGameObjectTypeId = ReliveTypes::eNone;
     s32 mBaseGameObjectUpdateDelay = 0;
 
+    bool mListAddFailed = false;
+    bool mUpdatable = false;
+    bool mDead = false;
+    bool mDrawable = false;
+    bool mIsBaseAnimatedWithPhysicsObj = false;
+    bool mIsBaseAliveGameObject = false;
+    bool mCanExplode = false;
+    bool mInteractive = false;
+    bool mSurviveDeathReset = false;
+    bool mUpdateDuringCamSwap = false;
+    bool mCantKill = false;
 };
 
 class IMap& GetMap();

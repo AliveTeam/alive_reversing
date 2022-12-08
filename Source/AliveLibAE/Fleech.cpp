@@ -1475,7 +1475,7 @@ s16 Fleech::IsScrabOrParamiteNear(FP radius)
             break;
         }
 
-        if (pBaseObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+        if (pBaseObj->GetIsBaseAliveGameObject())
         {
             auto pObj = static_cast<BaseAliveGameObject*>(pBaseObj);
             if ((pObj->Type() == ReliveTypes::eScrab || pObj->Type() == ReliveTypes::eParamite) && pObj->mHealth > FP_FromInteger(0))
@@ -1571,7 +1571,7 @@ void Fleech::Init()
 
     SetType(ReliveTypes::eFleech);
 
-    mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
+    SetCanExplode(true);
     mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanSetOffExplosives);
 
     mShrivelDeath = false;

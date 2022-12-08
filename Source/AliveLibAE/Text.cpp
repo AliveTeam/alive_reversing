@@ -24,7 +24,7 @@ void Text::VScreenChanged()
 Text::Text(const char_type* pMessage, s32 renderCount, s32 bShadow)
     : BaseGameObject(true, 0)
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    SetSurviveDeathReset(true);
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
 
     SetType(ReliveTypes::eText);

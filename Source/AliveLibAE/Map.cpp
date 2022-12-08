@@ -260,7 +260,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
             break;
         }
 
-        if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAnimatedWithPhysicsObj_Bit5))
+        if (pObj->GetIsBaseAnimatedWithPhysicsObj())
         {
             if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
             {
@@ -590,7 +590,7 @@ void Map::GoTo_Camera()
                 break;
             }
 
-            if (pBaseGameObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && pBaseGameObj->mBaseGameObjectFlags.Get(BaseGameObject::eCantKill_Bit11) == false)
+            if (pBaseGameObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && !pBaseGameObj->GetCantKill())
             {
                 i = gBaseGameObjects->RemoveAt(i);
                 relive_delete pBaseGameObj;
@@ -602,7 +602,7 @@ void Map::GoTo_Camera()
             }
             else if (pBaseGameObj->mBaseGameObjectFlags.Get(BaseGameObject::eUpdatable_Bit2))
             {
-                if (!pBaseGameObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && (!gNumCamSwappers || pBaseGameObj->mBaseGameObjectFlags.Get(BaseGameObject::eUpdateDuringCamSwap_Bit10)))
+                if (!pBaseGameObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && (!gNumCamSwappers || pBaseGameObj->GetUpdateDuringCamSwap()))
                 {
                     const s32 updateDelay = pBaseGameObj->UpdateDelay();
                     if (updateDelay > 0)

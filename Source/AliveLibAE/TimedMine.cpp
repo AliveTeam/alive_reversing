@@ -50,7 +50,7 @@ TimedMine::TimedMine(relive::Path_TimedMine* pTlv, const Guid& tlvId)
     LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::TimedMine_Idle));
 
-    mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
+    SetInteractive(true);
     mTimedMineFlags.Clear(TimedMineFlags::eStickToLiftPoint);
     mSlappedMine = 0;
 
@@ -95,7 +95,7 @@ TimedMine::TimedMine(relive::Path_TimedMine* pTlv, const Guid& tlvId)
     SetBaseAnimPaletteTint(sTimedMineTint_550EB8, gMap.mCurrentLevel, PalId::Default); // TODO: Bomb pal removed, check correct
  
     const FP gridSnap = ScaleToGridSize(GetSpriteScale());
-    mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
+    SetInteractive(true);
     mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
 
     mCollectionRect.x = mXPos - (gridSnap / FP_FromDouble(2.0));
@@ -126,7 +126,7 @@ TimedMine::~TimedMine()
         BaseAliveGameObject_PlatformId = Guid{};
     }
 
-    mBaseGameObjectFlags.Clear(BaseGameObject::eInteractive_Bit8);
+    SetInteractive(false);
 }
 
 void TimedMine::VScreenChanged()

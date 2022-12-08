@@ -65,7 +65,7 @@ SecurityClaw::SecurityClaw(relive::Path_SecurityClaw* pTlv, const Guid& tlvId)
 
     LoadAnimations();
 
-    mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
+    SetCanExplode(true);
     mDetectorComeBack = true;
 
     Animation_Init(GetAnimRes(AnimId::Security_Claw_Upper_Rotating));
@@ -114,7 +114,7 @@ SecurityClaw::SecurityClaw(relive::Path_SecurityClaw* pTlv, const Guid& tlvId)
         mClawId = pClaw->mBaseGameObjectId;
     }
 
-    mBaseGameObjectFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
+    SetUpdateDuringCamSwap(true);
     mMotionDetectorArray = nullptr;
     mOrbSoundChannels = 0;
 }
@@ -298,7 +298,7 @@ void SecurityClaw::VUpdate()
                 }
             }
             mState = SecurityClawStates::eIdle_1;
-            mBaseGameObjectFlags.Clear(Options::eUpdateDuringCamSwap_Bit10);
+            SetUpdateDuringCamSwap(false);
             break;
 
         case SecurityClawStates::eIdle_1:

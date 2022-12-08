@@ -50,7 +50,7 @@ Bone::Bone(FP xpos, FP ypos, s16 countId)
     mInitialYPos = ypos;
     mVelX = FP_FromInteger(0);
     mVelY = FP_FromInteger(0);
-    mBaseGameObjectFlags.Clear(BaseGameObject::eInteractive_Bit8);
+    SetInteractive(false);
     mHitObject = false;
 
     GetAnimation().mFlags.Clear(AnimFlags::eRender);
@@ -97,7 +97,7 @@ s32 Bone::CreateFromSaveState(const u8* pData)
     pBone->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->mRender);
 
     pBone->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->mDrawable);
-    pBone->mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8, pState->mInteractive);
+    pBone->SetInteractive(pState->mInteractive);
 
     pBone->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eRestoredFromQuickSave);
 
@@ -182,7 +182,7 @@ bool Bone::VCanThrow()
 
 s16 Bone::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
 {
-    if (!pObj->mBaseGameObjectFlags.Get(BaseGameObject::eCanExplode_Bit7))
+    if (!pObj->GetCanExplode())
     {
         return 1;
     }
@@ -262,7 +262,7 @@ s32 Bone::VGetSaveState(u8* pSaveBuffer)
     pState->mRender = GetAnimation().mFlags.Get(AnimFlags::eRender);
 
     pState->mDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
-    pState->mInteractive = mBaseGameObjectFlags.Get(BaseGameObject::eInteractive_Bit8);
+    pState->mInteractive = GetInteractive();
 
     pState->mHitObject = mHitObject;
 
@@ -479,7 +479,7 @@ void Bone::VUpdate()
                     mCollectionRect.h = mYPos;
 
                     mState = BoneStates::eOnGround_3;
-                    mBaseGameObjectFlags.Set(BaseGameObject::eInteractive_Bit8);
+                    SetInteractive(true);
                     GetAnimation().mFlags.Clear(AnimFlags::eLoop);
                     mShineTimer = sGnFrame;
                     AddToPlatform();

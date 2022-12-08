@@ -43,7 +43,7 @@ BaseAliveGameObject::BaseAliveGameObject()
 
     gBaseAliveGameObjects->Push_Back(this);
 
-    mBaseGameObjectFlags.Set(BaseGameObject::eIsBaseAliveGameObject_Bit6);
+    SetIsBaseAliveGameObject(true);
 }
 
 BaseAliveGameObject::~BaseAliveGameObject()

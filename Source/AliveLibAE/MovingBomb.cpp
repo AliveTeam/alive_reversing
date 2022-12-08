@@ -42,7 +42,7 @@ static MovingBomb* sMovingBomb = nullptr;
 MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
     : BaseAliveGameObject(0)
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
+    SetCanExplode(true);
 
     SetType(ReliveTypes::eTimedMine_or_MovingBomb);
 
@@ -137,7 +137,7 @@ MovingBomb::~MovingBomb()
 
 void MovingBomb::BlowUp()
 {
-    mBaseGameObjectFlags.Clear(BaseGameObject::eCanExplode_Bit7);
+    SetCanExplode(false);
     field_118_state = States::eBlowingUp_6;
     mVelY = FP_FromInteger(0);
     field_120_timer = sGnFrame + 1;

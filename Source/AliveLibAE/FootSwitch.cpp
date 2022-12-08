@@ -231,7 +231,7 @@ BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe()
                 break;
             }
 
-            if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+            if (pObj->GetIsBaseAliveGameObject())
             {
                 auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
 

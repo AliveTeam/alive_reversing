@@ -80,7 +80,7 @@ CameraSwapper::~CameraSwapper()
 
 void CameraSwapper::Init(CamResource& ppCamRes, CameraSwapEffects changeEffect)
 {
-    mBaseGameObjectFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
+    SetUpdateDuringCamSwap(true);
 
     SetType(ReliveTypes::eCameraSwapper);
 

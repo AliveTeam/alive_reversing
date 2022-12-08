@@ -83,7 +83,7 @@ MineCar::MineCar(relive::Path_MineCar* pTlv, const Guid& tlvId, s32 /*a4*/, s32 
 
     LoadAnimation(&mTreadAnim);
 
-    mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
+    SetCanExplode(true);
 
     CreateShadow();
 
@@ -641,7 +641,7 @@ void MineCar::RunThingsOver()
             break;
         }
 
-        if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eIsBaseAliveGameObject_Bit6))
+        if (pObj->GetIsBaseAliveGameObject())
         {
             // You can't run yourself over with a mine car it seems.
             if (pObj->Type() != ReliveTypes::eAbe)

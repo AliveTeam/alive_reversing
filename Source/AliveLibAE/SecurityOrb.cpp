@@ -42,7 +42,7 @@ SecurityOrb::SecurityOrb(relive::Path_SecurityOrb* pTlv, const Guid& tlvId)
 {
     SetType(ReliveTypes::eSecurityOrb);
 
-    mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
+    SetCanExplode(true);
 
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Security_Orb));
     Animation_Init(GetAnimRes(AnimId::Security_Orb));

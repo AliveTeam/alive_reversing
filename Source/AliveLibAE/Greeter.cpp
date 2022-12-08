@@ -56,7 +56,7 @@ Greeter::Greeter(relive::Path_Greeter* pTlv, const Guid& tlvId)
     }
 
 
-    mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
+    SetCanExplode(true);
 
     if (pTlv->mFacing == relive::reliveXDirection::eLeft)
     {

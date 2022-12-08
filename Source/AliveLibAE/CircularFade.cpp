@@ -9,7 +9,7 @@
 CircularFade::CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eUpdateDuringCamSwap_Bit10);
+    SetUpdateDuringCamSwap(true);
 
     if (direction)
     {
@@ -206,7 +206,7 @@ s32 CircularFade::VDone()
     return field_F4_flags.Get(Flags::eBit2_Done);
 }
 
-CircularFade* Make_Circular_Fade_4CE8C0(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone, s8 surviveDeathReset)
+CircularFade* Make_Circular_Fade_4CE8C0(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone, bool surviveDeathReset)
 {
     auto pCircularFade = relive_new CircularFade(xpos, ypos, scale, direction, destroyOnDone);
     if (!pCircularFade)
@@ -214,6 +214,6 @@ CircularFade* Make_Circular_Fade_4CE8C0(FP xpos, FP ypos, FP scale, s16 directio
         return nullptr;
     }
 
-    pCircularFade->mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9, surviveDeathReset);
+    pCircularFade->SetSurviveDeathReset(surviveDeathReset);
     return pCircularFade;
 }

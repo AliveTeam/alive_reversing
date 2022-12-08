@@ -49,7 +49,7 @@ void Shrykull::LoadAnimations()
 Shrykull::Shrykull()
     : BaseAliveGameObject()
 {
-    mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
+    SetCanExplode(true);
     SetType(ReliveTypes::eShrykull);
     
     LoadAnimations();

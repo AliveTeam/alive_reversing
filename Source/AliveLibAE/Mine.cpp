@@ -30,8 +30,8 @@ Mine::Mine(relive::Path_Mine* pPath, const Guid& tlv)
     Animation_Init(GetAnimRes(AnimId::Mine));
 
     mDetonating = false;
-    mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
-    mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
+    SetInteractive(true);
+    SetCanExplode(true);
 
     if (pPath->mScale != relive::reliveScale::eFull)
     {
@@ -88,7 +88,7 @@ Mine::Mine(relive::Path_Mine* pPath, const Guid& tlv)
     }
 
     const FP gridSnap = ScaleToGridSize(GetSpriteScale());
-    mBaseGameObjectFlags.Set(Options::eInteractive_Bit8);
+    SetInteractive(true);
     mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
 
     mCollectionRect.x = mXPos - (gridSnap / FP_FromDouble(2.0));
@@ -110,7 +110,7 @@ Mine::~Mine()
     }
 
     mFlashAnim.VCleanUp();
-    mBaseGameObjectFlags.Clear(BaseGameObject::eInteractive_Bit8);
+    SetInteractive(false);
 
     if (sMineSFXOwner_5C3008 == this)
     {

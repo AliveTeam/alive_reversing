@@ -15,8 +15,8 @@ FG1::FG1(Fg1Resource& pFg1Res, CamResource& camRes)
     , mCamRes(camRes)
 {
     mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
-    mBaseGameObjectFlags.Set(Options::eSurviveDeathReset_Bit9);
-    mBaseGameObjectFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
+    SetSurviveDeathReset(true);
+    SetUpdateDuringCamSwap(true);
 
     SetType(ReliveTypes::eFG1);
 

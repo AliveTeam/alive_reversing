@@ -57,7 +57,7 @@ GameSpeak* gEventSystem = nullptr;
 GameSpeak::GameSpeak()
     : BaseGameObject(true, 0)
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
+    SetSurviveDeathReset(true);
     field_1C_event_buffer[0] = -1;
     field_10_last_event = GameSpeakEvents::eNone_m1;
     SetType(ReliveTypes::eGameSpeak);
