@@ -242,7 +242,7 @@ s16 Elum::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eBeeSwarm:
             if (sControlledCharacter != this)
             {
-                field_170_flags.Set(Elum::Flags_170::eStrugglingWithBees_Bit1);
+                mStrugglingWithBees = true;
             }
             break;
 
@@ -389,7 +389,7 @@ void Elum::CheckLiftPointGoneAndSetCamera()
         if (pPlatform->GetDead())
         {
             VOnTrapDoorOpen();
-            field_170_flags.Set(Elum::Flags_170::eFalling_Bit3);
+            mFalling = true;
         }
 
         if (sControlledCharacter == this)
@@ -774,7 +774,7 @@ void Elum::FindHoney_411600()
 {
     if (GetCurrentMotion() != eElumMotions::Motion_25_LickingHoney)
     {
-        field_170_flags.Clear(Elum::Flags_170::eFoundHoney_Bit4);
+        mFoundHoney = false;
 
         for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
         {
@@ -801,9 +801,9 @@ void Elum::FindHoney_411600()
                         mYPos,
                         0))
                 {
-                    field_12C_honey_xpos = FP_GetExponent(pHoney->mXPos);
-                    field_12E_honey_ypos = FP_GetExponent(pHoney->mYPos);
-                    field_170_flags.Set(Elum::Flags_170::eFoundHoney_Bit4);
+                    mHoneyXPos = FP_GetExponent(pHoney->mXPos);
+                    mHoneyYPos = FP_GetExponent(pHoney->mYPos);
+                    mFoundHoney = true;
                     break;
                 }
             }
@@ -813,7 +813,7 @@ void Elum::FindHoney_411600()
 
 s16 Elum::NearHoney_411DA0()
 {
-    if (field_170_flags.Get(Elum::Flags_170::eFoundHoney_Bit4))
+    if (mFoundHoney)
     {
         auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
         if (pLiftPoint && pLiftPoint->field_10C == 1 && !pLiftPoint->OnAnyFloor())
@@ -822,7 +822,7 @@ s16 Elum::NearHoney_411DA0()
             return 0;
         }
 
-        return abs(FP_GetExponent(mYPos) - field_12E_honey_ypos) <= 24 ? 1 : 0;
+        return abs(FP_GetExponent(mYPos) - mHoneyYPos) <= 24 ? 1 : 0;
     }
     return 0;
 }
@@ -847,7 +847,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
         last_event_v2 = gEventSystem->field_10_last_event;
     }
 
-    if (field_170_flags.Get(Elum::Flags_170::eStrugglingWithBees_Bit1))
+    if (mStrugglingWithBees)
     {
         SetNextMotion(eElumMotions::Motion_1_Idle);
         mBrainIdx = 1;
@@ -1335,14 +1335,14 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
     {
         case 0:
         {
-            if (field_170_flags.Get(Elum::Flags_170::eStrugglingWithBees_Bit1))
+            if (mStrugglingWithBees)
             {
-                field_170_flags.Clear(Elum::Flags_170::eFoundHoney_Bit4);
+                mFoundHoney = false;
                 SetNextMotion(eElumMotions::Motion_29_BeesStruggling);
                 return 5;
             }
 
-            const FP honey_xd = mXPos - FP_FromInteger(field_12C_honey_xpos);
+            const FP honey_xd = mXPos - FP_FromInteger(mHoneyXPos);
             if (honey_xd >= FP_FromInteger(0))
             {
                 if (GetAnimation().GetFlipX())
@@ -1401,7 +1401,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
                 return mBrainSubState;
             }
 
-            const FP honey_xd_1 = mXPos - FP_FromInteger(field_12C_honey_xpos);
+            const FP honey_xd_1 = mXPos - FP_FromInteger(mHoneyXPos);
 
             if (honey_xd_1 >= FP_FromInteger(0))
             {
@@ -1442,8 +1442,8 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
                 return 0;
             }
 
-            if ((mVelX <= FP_FromInteger(0) && mXPos - FP_FromInteger(field_12C_honey_xpos) >= (kGridSize * FP_FromInteger(2))) ||
-                (mVelX >= FP_FromInteger(0) && FP_FromInteger(field_12C_honey_xpos) - mXPos >= (kGridSize * FP_FromInteger(2))))
+            if ((mVelX <= FP_FromInteger(0) && mXPos - FP_FromInteger(mHoneyXPos) >= (kGridSize * FP_FromInteger(2))) ||
+                (mVelX >= FP_FromInteger(0) && FP_FromInteger(mHoneyXPos) - mXPos >= (kGridSize * FP_FromInteger(2))))
             {
                 return mBrainSubState;
             }
@@ -1464,15 +1464,15 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
                 return 0;
             }
 
-            if (!field_170_flags.Get(Elum::Flags_170::eStrugglingWithBees_Bit1))
+            if (!mStrugglingWithBees)
             {
                 return mBrainSubState;
             }
 
-            field_170_flags.Clear(Elum::Flags_170::eFoundHoney_Bit4);
-            field_170_flags.Set(Elum::Flags_170::eStungByBees_Bit2);
+            mFoundHoney = false;
+            mStungByBees = true;
 
-            field_146_honey_ypos = gMap.mCurrentCamera;
+            mHoneyCamera = gMap.mCurrentCamera;
 
             mDontFollowAbe = 0;
 
@@ -1485,7 +1485,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
             {
                 SetNextMotion(eElumMotions::Motion_29_BeesStruggling);
 
-                field_170_flags.Clear(Elum::Flags_170::eStrugglingWithBees_Bit1);
+                mStrugglingWithBees = false;
                 return 5;
             }
             break;
@@ -1493,7 +1493,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
         case 4:
             if (GetCurrentMotion() == eElumMotions::Motion_4_Turn && GetAnimation().GetIsLastFrame())
             {
-                field_170_flags.Clear(Elum::Flags_170::eStrugglingWithBees_Bit1);
+                mStrugglingWithBees = false;
                 SetNextMotion(eElumMotions::Motion_29_BeesStruggling);
                 return 5;
             }
@@ -1514,7 +1514,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
                 return mBrainSubState;
             }
 
-            if (!field_170_flags.Get(Elum::Flags_170::eStrugglingWithBees_Bit1))
+            if (!mStrugglingWithBees)
             {
                 SetNextMotion(eElumMotions::Motion_1_Idle);
                 mBrainIdx = 0;
@@ -1525,7 +1525,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
             {
                 if (Check_IsOnEndOfLine(0, 2))
                 {
-                    field_170_flags.Clear(Elum::Flags_170::eStrugglingWithBees_Bit1);
+                    mStrugglingWithBees = false;
                     SetNextMotion(eElumMotions::Motion_29_BeesStruggling);
                     return 5;
                 }
@@ -1534,7 +1534,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
             {
                 if (Check_IsOnEndOfLine(1, 2))
                 {
-                    field_170_flags.Clear(Elum::Flags_170::eStrugglingWithBees_Bit1);
+                    mStrugglingWithBees = false;
                     SetNextMotion(eElumMotions::Motion_29_BeesStruggling);
                     return 5;
                 }
@@ -1552,13 +1552,13 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
 
             if (WallHit(GetSpriteScale() * FP_FromInteger(25), gridSizeDirected))
             {
-                field_170_flags.Clear(Elum::Flags_170::eStrugglingWithBees_Bit1);
+                mStrugglingWithBees = false;
                 SetNextMotion(eElumMotions::Motion_29_BeesStruggling);
                 return 5;
             }
             else
             {
-                field_170_flags.Clear(Elum::Flags_170::eStrugglingWithBees_Bit1);
+                mStrugglingWithBees = false;
                 SetNextMotion(eElumMotions::Motion_3_WalkLoop);
                 return 7;
             }
@@ -1607,7 +1607,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
                 return mBrainSubState;
             }
 
-            if (!field_170_flags.Get(Elum::Flags_170::eStrugglingWithBees_Bit1))
+            if (!mStrugglingWithBees)
             {
                 SetNextMotion(eElumMotions::Motion_1_Idle);
                 mBrainIdx = 0;
@@ -1618,7 +1618,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
             {
                 if (Check_IsOnEndOfLine(0, 2))
                 {
-                    field_170_flags.Clear(Elum::Flags_170::eStrugglingWithBees_Bit1);
+                    mStrugglingWithBees = false;
                     SetNextMotion(eElumMotions::Motion_44_ScratchBegin);
                     return 9;
                 }
@@ -1627,12 +1627,12 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
             {
                 if (Check_IsOnEndOfLine(1, 2))
                 {
-                    field_170_flags.Clear(Elum::Flags_170::eStrugglingWithBees_Bit1);
+                    mStrugglingWithBees = false;
                     SetNextMotion(eElumMotions::Motion_44_ScratchBegin);
                     return 9;
                 }
             }
-            field_170_flags.Clear(Elum::Flags_170::eStrugglingWithBees_Bit1);
+            mStrugglingWithBees = false;
             SetNextMotion(eElumMotions::Motion_3_WalkLoop);
             return 10;
 
@@ -1750,7 +1750,7 @@ void Elum::Motion_3_WalkLoop()
                 {
                     SetCurrentMotion(eElumMotions::Motion_6_MidWalkToIdle);
                 }
-                else if (sControlledCharacter == this && !field_170_flags.Get(Elum::Flags_170::eFoundHoney_Bit4))
+                else if (sControlledCharacter == this && !mFoundHoney)
                 {
                     MidWalkToNextMotion_412FA0();
                 }
@@ -1818,7 +1818,7 @@ void Elum::Motion_3_WalkLoop()
                 {
                     SetCurrentMotion(eElumMotions::Motion_5_WalkToIdle);
                 }
-                else if (sControlledCharacter == this && !field_170_flags.Get(Elum::Flags_170::eFoundHoney_Bit4))
+                else if (sControlledCharacter == this && !mFoundHoney)
                 {
                     WalkToNextMotion_4130D0();
                 }
@@ -2040,14 +2040,14 @@ void Elum::Motion_10_Yell()
 
     CheckLiftPointGoneAndSetCamera();
 
-    if (GetAnimation().GetCurrentFrame() || !field_170_flags.Get(Elum::Flags_170::eCanSpeak_Bit6))
+    if (GetAnimation().GetCurrentFrame() || !mCanSpeak)
     {
-        field_170_flags.Set(Elum::Flags_170::eCanSpeak_Bit6);
+        mCanSpeak = true;
     }
     else
     {
         Elum_SFX_416E10(ElumSounds::eHowl_2, this);
-        field_170_flags.Clear(Elum::Flags_170::eCanSpeak_Bit6);
+        mCanSpeak = false;
     }
 
     if (GetAnimation().GetIsLastFrame())
@@ -2126,67 +2126,45 @@ void Elum::Motion_13_RunTurnToWalk()
     }
 }
 
-void Elum::Motion_14_Speak()
+void Elum::Speak(EnvironmentSfx speak, bool setYellMotion)
 {
-    if (GetAnimation().GetCurrentFrame() == 3 && field_170_flags.Get(Elum::Flags_170::eCanSpeak_Bit6))
+    if (GetAnimation().GetCurrentFrame() == 3 && mCanSpeak)
     {
-        Environment_SFX_42A220(EnvironmentSfx::eElumOkay_21, 75, 0, this);
-        field_170_flags.Clear(Elum::Flags_170::eCanSpeak_Bit6);
+        Environment_SFX_42A220(speak, 75, 0, this);
+        mCanSpeak = false;
     }
     else
     {
-        field_170_flags.Set(Elum::Flags_170::eCanSpeak_Bit6);
+        mCanSpeak = true;
     }
 
     if (GetAnimation().GetIsLastFrame())
     {
+        if (setYellMotion)
+        {
+            SetNextMotion(eElumMotions::Motion_10_Yell);
+        }
+
         if (!ToNextMotion_4120F0())
         {
             ToIdle();
         }
     }
+}
+
+void Elum::Motion_14_Speak()
+{
+    Speak(EnvironmentSfx::eElumOkay_21, false);
 }
 
 void Elum::Motion_15_Speak()
 {
-    if (GetAnimation().GetCurrentFrame() == 3 && field_170_flags.Get(Elum::Flags_170::eCanSpeak_Bit6))
-    {
-        Environment_SFX_42A220(EnvironmentSfx::eElumHowl_20, 75, 0, this);
-        field_170_flags.Clear(Elum::Flags_170::eCanSpeak_Bit6);
-    }
-    else
-    {
-        field_170_flags.Set(Elum::Flags_170::eCanSpeak_Bit6);
-    }
-    if (GetAnimation().GetIsLastFrame())
-    {
-        if (!ToNextMotion_4120F0())
-        {
-            ToIdle();
-        }
-    }
+    Speak(EnvironmentSfx::eElumHowl_20, false);
 }
 
 void Elum::Motion_16_Speak()
 {
-    if (GetAnimation().GetCurrentFrame() == 3 && field_170_flags.Get(Elum::Flags_170::eCanSpeak_Bit6))
-    {
-        Environment_SFX_42A220(EnvironmentSfx::eElumHowl_20, 75, 0, this);
-        field_170_flags.Clear(Elum::Flags_170::eCanSpeak_Bit6);
-    }
-    else
-    {
-        field_170_flags.Set(Elum::Flags_170::eCanSpeak_Bit6);
-    }
-
-    if (GetAnimation().GetIsLastFrame())
-    {
-        SetNextMotion(eElumMotions::Motion_10_Yell);
-        if (!ToNextMotion_4120F0())
-        {
-            ToIdle();
-        }
-    }
+    Speak(EnvironmentSfx::eElumHowl_20, true);
 }
 
 void Elum::Motion_17_Unknown()
@@ -2243,17 +2221,17 @@ void Elum::Motion_19_Dead()
                 Elum_SFX_416E10(ElumSounds::eHowl_2, this);
             }
 
-            field_170_flags.Clear(Elum::Flags_170::eStrugglingWithBees_Bit1);
-            field_170_flags.Clear(Elum::Flags_170::eFoundHoney_Bit4);
+            mStrugglingWithBees = false;
+            mFoundHoney = false;
             field_110_timer = sGnFrame;
 
             GetAnimation().SetFlipX(sActiveHero->GetAnimation().GetFlipX());
 
-            if (field_170_flags.Get(Elum::Flags_170::eStungByBees_Bit2))
+            if (mStungByBees)
             {
-                if (mContinueCamera < field_146_honey_ypos)
+                if (mContinueCamera < mHoneyCamera)
                 {
-                    field_170_flags.Clear(Elum::Flags_170::eStungByBees_Bit2);
+                    mStungByBees = false;
                 }
             }
 
@@ -2423,16 +2401,16 @@ void Elum::Motion_25_LickingHoney()
                 mYPos)
             == CameraPos::eCamCurrent_0)
         {
-            if (field_170_flags.Get(Elum::Flags_170::eCanSpeak_Bit6))
+            if (mCanSpeak)
             {
                 Elum_SFX_416E10(ElumSounds::eLickingHoney_8, 0);
-                field_170_flags.Clear(Elum::Flags_170::eCanSpeak_Bit6);
+                mCanSpeak = false;
             }
         }
     }
     else
     {
-        field_170_flags.Set(Elum::Flags_170::eCanSpeak_Bit6);
+        mCanSpeak = true;
     }
 
     if (GetAnimation().GetForwardLoopCompleted())
@@ -3331,22 +3309,22 @@ void Elum::VUpdate()
         return;
     }
 
-    if (!(field_170_flags.Get(Elum::Flags_170::eFoundHoney_Bit4) || field_170_flags.Get(Elum::Flags_170::eStungByBees_Bit2)) && mBrainIdx != 1)
+    if (!(mFoundHoney || mStungByBees) && mBrainIdx != 1)
     {
         FindHoney_411600();
     }
 
-    if (field_170_flags.Get(Elum::Flags_170::eChangedPathNotMounted_Bit5))
+    if (mChangedPathNotMounted)
     {
         HandleElumPathTrans_411460();
-        field_170_flags.Clear(Elum::Flags_170::eChangedPathMounted_Bit7);
-        field_170_flags.Clear(Elum::Flags_170::eChangedPathNotMounted_Bit5);
+        mChangedPathMounted = false;
+        mChangedPathNotMounted = false;
     }
 
     if (GetCurrentMotion() == eElumMotions::Motion_19_Dead || mCurrentPath == gMap.mCurrentPath)
     {
         PathLine* pLine = nullptr;
-        if (field_170_flags.Get(Elum::Flags_170::eChangedPathMounted_Bit7))
+        if (mChangedPathMounted)
         {
             FP hitX = {};
             FP hitY = {};
@@ -3368,7 +3346,7 @@ void Elum::VUpdate()
                 BaseAliveGameObjectCollisionLine = nullptr;
                 SetCurrentMotion(eElumMotions::Motion_21_Land);
             }
-            field_170_flags.Clear(Elum::Flags_170::eChangedPathMounted_Bit7);
+            mChangedPathMounted = false;
         }
 
         const auto oldMotion = mCurrentMotion;
@@ -3380,7 +3358,7 @@ void Elum::VUpdate()
             mBrainSubState = InvokeMemberFunction(this, sElum_brain_table_4C52E8, mBrainIdx);
         }
 
-        if (field_170_flags.Get(Elum::Flags_170::eFalling_Bit3))
+        if (mFalling)
         {
             VCheckCollisionLineStillValid(10);
 
@@ -3393,7 +3371,7 @@ void Elum::VUpdate()
 
             if (BaseAliveGameObject_PlatformId != Guid{})
             {
-                field_170_flags.Clear(Elum::Flags_170::eFalling_Bit3);
+                mFalling = false;
             }
         }
 
@@ -3515,7 +3493,7 @@ void Elum::VScreenChanged()
                 {
                     if (mDontFollowAbe != 1 && sControlledCharacter != this && pElumPathTrans->mNextLevel == gMap.mNextLevel && pElumPathTrans->mNextPath == gMap.mNextPath)
                     {
-                        field_170_flags.Set(Elum::Flags_170::eChangedPathNotMounted_Bit5);
+                        mChangedPathNotMounted = true;
                     }
                 }
             }
@@ -3523,13 +3501,13 @@ void Elum::VScreenChanged()
             if (BaseAliveGameObject_PlatformId != Guid{})
             {
                 VOnTrapDoorOpen();
-                field_170_flags.Set(Elum::Flags_170::eFalling_Bit3);
+                mFalling = true;
             }
 
-            if (!field_170_flags.Get(Elum::Flags_170::eChangedPathNotMounted_Bit5))
+            if (!mChangedPathNotMounted)
             {
                 BaseAliveGameObjectCollisionLine = nullptr;
-                field_170_flags.Set(Elum::Flags_170::eChangedPathMounted_Bit7);
+                mChangedPathMounted = true;
             }
         }
     }
@@ -3583,18 +3561,18 @@ Elum::Elum(const Guid& tlvInfo)
 
     mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanSetOffExplosives);
 
-    field_170_flags.Clear(Elum::Flags_170::eStungByBees_Bit2);
-    field_170_flags.Clear(Elum::Flags_170::eFoundHoney_Bit4);
-    field_170_flags.Clear(Elum::Flags_170::eChangedPathNotMounted_Bit5);
-    field_170_flags.Clear(Elum::Flags_170::eChangedPathMounted_Bit7);
+    mStungByBees = false;
+    mFoundHoney = false;
+    mChangedPathNotMounted = false;
+    mChangedPathMounted = false;
 
     gElum = this;
 
     SetCurrentMotion(eElumMotions::Motion_21_Land);
     field_120_bUnknown = 0;
 
-    field_12E_honey_ypos = 0;
-    field_12C_honey_xpos = 0;
+    mHoneyYPos = 0;
+    mHoneyXPos = 0;
 
     mRespawnOnDead = 0;
     field_110_timer = sGnFrame;
@@ -3618,10 +3596,10 @@ Elum::Elum(const Guid& tlvInfo)
     mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
 
 
-    field_170_flags.Clear(Elum::Flags_170::eStrugglingWithBees_Bit1);
-    field_170_flags.Clear(Elum::Flags_170::eFalling_Bit3);
+    mStrugglingWithBees = false;
+    mFalling = false;
 
-    field_170_flags.Clear(Elum::Flags_170::eCanSpeak_Bit6);
+    mCanSpeak = false;
 
     relive_new MusicTrigger(relive::Path_MusicTrigger::MusicTriggerMusicType::eSecretAreaShort, relive::Path_MusicTrigger::TriggeredBy::eTouching, 0, 30);
 

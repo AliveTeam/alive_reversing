@@ -2130,7 +2130,7 @@ s16 Abe::TryMountElum_42E600()
 
             if (gElum->GetCurrentMotion() != eElumMotions::Motion_1_Idle
                 || gElum->mBrainIdx == 1
-                || gElum->field_170_flags.Get(Elum::Flags_170::eStrugglingWithBees_Bit1))
+                || gElum->mStrugglingWithBees)
             {
                 return eAbeMotions::Motion_0_Idle;
             }
@@ -3734,7 +3734,7 @@ void Abe::Motion_2_StandingTurn()
 
             if (gElum)
             {
-                if (gElum->GetCurrentMotion() == eElumMotions::Motion_1_Idle && !(gElum->field_170_flags.Get(Elum::Flags_170::eStrugglingWithBees_Bit1)))
+                if (gElum->GetCurrentMotion() == eElumMotions::Motion_1_Idle && !gElum->mStrugglingWithBees)
                 {
                     mRidingElum = true;
                     mNextMotion = eAbeMotions::Motion_0_Idle;
@@ -6479,7 +6479,7 @@ void Abe::Motion_62_LoadedSaveSpawn()
             }
             gThrowableArray->Add(sActiveHero->field_19C_throwable_count);
         }
-        if (pSaveData->field_264_bInfiniteGrenades == -1)
+        if (pSaveData->mInfiniteGrenades == -1)
         {
             LoadRockTypes(EReliveLevelIds::eRuptureFarmsReturn, 19);
             if (!gThrowableArray)
@@ -6493,7 +6493,7 @@ void Abe::Motion_62_LoadedSaveSpawn()
         {
             gInfiniteGrenades = false;
         }
-        if (pSaveData->field_25A_bElumExists)
+        if (pSaveData->mElumExists)
         {
             if (!gElum)
             {
@@ -6504,32 +6504,32 @@ void Abe::Motion_62_LoadedSaveSpawn()
             {
                 gElum->SetUpdatable(false);
                 gElum->GetAnimation().SetRender(false);
-                gElum->mContinueRect = pSaveData->field_28C_elum_continue_rect;
-                gElum->mPreviousContinueZoneNumber = pSaveData->field_294_continue_zone_number;
-                gElum->mAbeZoneNumber = pSaveData->field_296_elum_zone_number;
-                gElum->mContinuePath = pSaveData->field_298_elum_continue_path;
-                gElum->mContinueLevel = MapWrapper::FromAO(pSaveData->field_29A_continue_level);
-                gElum->mContinueSpriteScale = pSaveData->field_29C_elum_sprite_scale;
-                gElum->mRespawnOnDead = pSaveData->field_25E_bElumRespawnOnDead;
-                gElum->mCurrentLevel = MapWrapper::FromAO(pSaveData->field_260_elum_lvl_number);
-                gElum->mCurrentPath = pSaveData->field_262_elum_path_number;
-                gElum->mXPos = FP_FromInteger(pSaveData->field_268_elum_xpos);
-                gElum->mYPos = FP_FromInteger(pSaveData->field_26C_elum_ypos);
-                gElum->GetAnimation().SetFlipX(pSaveData->field_272_elum_flipX & 1);
+                gElum->mContinueRect = pSaveData->mElum_ContinueRect;
+                gElum->mPreviousContinueZoneNumber = pSaveData->mElum_PreviousContinueZoneNumber;
+                gElum->mAbeZoneNumber = pSaveData->mElum_AbeZoneNumber;
+                gElum->mContinuePath = pSaveData->mElum_ContinuePath;
+                gElum->mContinueLevel = MapWrapper::FromAO(pSaveData->mElum_ContinueLevel);
+                gElum->mContinueSpriteScale = pSaveData->mElum_ContinueSpriteScale;
+                gElum->mRespawnOnDead = pSaveData->mElum_RespawnOnDead;
+                gElum->mCurrentLevel = MapWrapper::FromAO(pSaveData->mElum_CurrentLevel);
+                gElum->mCurrentPath = pSaveData->mElum_CurrentPath;
+                gElum->mXPos = FP_FromInteger(pSaveData->mElum_XPos);
+                gElum->mYPos = FP_FromInteger(pSaveData->mElum_YPos);
+                gElum->GetAnimation().SetFlipX(pSaveData->mElum_FlipX & 1);
                 gElum->mBaseAliveGameObjectLastAnimFrame = 0;
                 gElum->field_120_bUnknown = 1;
-                gElum->mDontFollowAbe = pSaveData->field_276_bDontFollowAbe;
-                gElum->mBrainIdx = pSaveData->field_278_brain_idx;
-                gElum->mBrainSubState = pSaveData->field_27A_elum_brain_state;
-                gElum->field_12C_honey_xpos = static_cast<s16>(pSaveData->field_27C_honey_xpos);
-                gElum->field_146_honey_ypos = pSaveData->field_280_honey_ypos;
+                gElum->mDontFollowAbe = pSaveData->mElum_DontFollowAbe;
+                gElum->mBrainIdx = pSaveData->mElum_BrainIdx;
+                gElum->mBrainSubState = pSaveData->mElum_BrainSubState;
+                gElum->mHoneyXPos = static_cast<s16>(pSaveData->mElum_HoneyXPos);
+                gElum->mHoneyCamera = pSaveData->mElum_HoneyCamera;
 
-                gElum->field_170_flags.Set(Elum::Flags_170::eFoundHoney_Bit4, pSaveData->field_28B_elum_FoundHoney & 1);
-                gElum->field_170_flags.Set(Elum::Flags_170::eFalling_Bit3, pSaveData->field_28A_elum_Falling & 1);
-                gElum->field_170_flags.Set(Elum::Flags_170::eStungByBees_Bit2, pSaveData->field_289_elum_StungByBees & 1);
+                gElum->mFoundHoney = pSaveData->mElum_FoundHoney & 1;
+                gElum->mFalling = pSaveData->mElum_Falling & 1;
+                gElum->mStungByBees = pSaveData->mElum_StungByBees & 1;
                 if (gElum->mCurrentPath == sActiveHero->mCurrentPath)
                 {
-                    if (pSaveData->field_270_elum_line_type != -1)
+                    if (pSaveData->mElum_LineType != -1)
                     {
                         PathLine* pLine = nullptr;
                         FP hitX = {};
@@ -6542,7 +6542,7 @@ void Abe::Motion_62_LoadedSaveSpawn()
                             &pLine,
                             &hitX,
                             &hitY,
-                            CollisionMask(static_cast<eLineTypes>(pSaveData->field_270_elum_line_type))))
+                            CollisionMask(static_cast<eLineTypes>(pSaveData->mElum_LineType))))
                         {
                             gElum->BaseAliveGameObjectCollisionLine = pLine;
                             gElum->SetCurrentMotion(eElumMotions::Motion_1_Idle);
@@ -6561,7 +6561,7 @@ void Abe::Motion_62_LoadedSaveSpawn()
                     gElum->BaseAliveGameObjectCollisionLine = reinterpret_cast<PathLine*>(-2);
                 }
 
-                if (gElum->field_170_flags.Get(Elum::Flags_170::eFoundHoney_Bit4))
+                if (gElum->mFoundHoney)
                 {
                     gElum->SetCurrentMotion(eElumMotions::Motion_25_LickingHoney);
                     gElum->SetPreviousMotion(eElumMotions::Motion_25_LickingHoney);

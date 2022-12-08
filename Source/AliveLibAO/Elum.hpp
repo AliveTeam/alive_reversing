@@ -4,6 +4,8 @@
 
 namespace AO {
 
+enum class EnvironmentSfx : u8;
+
 #define ELUM_MOTIONS_ENUM(ENTRY)                \
     ENTRY(Motion_0_Respawn)              \
     ENTRY(Motion_1_Idle)                 \
@@ -90,17 +92,6 @@ public:
         return static_cast<eElumMotions>(mCurrentMotion);
     }
 
-    enum Flags_170
-    {
-        eStrugglingWithBees_Bit1 = 1,
-        eStungByBees_Bit2 = 2,
-        eFalling_Bit3 = 4, //falling straight down?
-        eFoundHoney_Bit4 = 8,
-        eChangedPathNotMounted_Bit5 = 16,
-        eCanSpeak_Bit6 = 32,
-        eChangedPathMounted_Bit7 = 64,
-    };
-
     static void Spawn(const Guid& tlvInfo);
 
     virtual void VUpdate() override;
@@ -157,6 +148,7 @@ public:
     void Motion_11_Unknown();
     void Motion_12_RunTurn();
     void Motion_13_RunTurnToWalk();
+    void Speak(EnvironmentSfx speak, bool setYellMotion);
     void Motion_14_Speak();
     void Motion_15_Speak();
     void Motion_16_Speak();
@@ -210,20 +202,26 @@ public:
     //s16 field_126_res_idx = 0;
     s16 mBrainIdx = 0;
     s16 mBrainSubState = 0;
-    s16 field_12C_honey_xpos = 0;
-    s16 field_12E_honey_ypos = 0;
+    s16 mHoneyXPos = 0;
+    s16 mHoneyYPos = 0;
     PSX_RECT mContinueRect = {};
     s16 mPreviousContinueZoneNumber = 0;
     s16 mAbeZoneNumber = 0;
     s16 mRespawnOnDead = 0;
-    s16 field_146_honey_ypos = 0;
+    s16 mHoneyCamera = 0;
     s16 mContinuePath = 0;
     EReliveLevelIds mContinueLevel = EReliveLevelIds::eNone;
     s16 mContinueCamera = 0;
     FP mContinueSpriteScale = {};
     s16 field_154_bAbeForcedDownFromElum = 0;
     s32 field_158_last_event_idx = 0;
-    BitField16<Flags_170> field_170_flags = {};
+    bool mStrugglingWithBees = false;
+    bool mStungByBees = false;
+    bool mFalling = false; // falling straight down?
+    bool mFoundHoney = false;
+    bool mChangedPathNotMounted = false;
+    bool mCanSpeak = false;
+    bool mChangedPathMounted = false;
     Guid mTlvId; // never read
 };
 

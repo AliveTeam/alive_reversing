@@ -95,8 +95,8 @@ void SaveGame::LoadFromMemory(SaveData* pData, s32 bKillObjects)
     sActiveHero->mbGotShot = 0;
 
     sActiveHero->field_2A8_flags.Clear(Flags_2A8::e2A8_Bit6_bShrivel);
-    sActiveHero->field_2A8_flags.Set(Flags_2A8::e2A8_Bit12_bParamoniaDone, pData->field_252_paramonia_done & 1);
-    sActiveHero->field_2A8_flags.Set(Flags_2A8::e2A8_eBit13_bScrabaniaDone, pData->field_253_scrabania_done & 1);
+    sActiveHero->field_2A8_flags.Set(Flags_2A8::e2A8_Bit12_bParamoniaDone, pData->mParamoniaDone & 1);
+    sActiveHero->field_2A8_flags.Set(Flags_2A8::e2A8_eBit13_bScrabaniaDone, pData->mScrabaniaDone & 1);
 
     sActiveHero->GetAnimation().SetFlipX(pData->field_23C_ah_flipX & 1);
 
@@ -383,44 +383,44 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
     pSaveData->field_248_gnFrame = sActiveHero->field_114_gnFrame;
     pSaveData->field_24C_field_118 = sActiveHero->field_118_timer;
     pSaveData->field_250_throwable_count = sActiveHero->field_19C_throwable_count;
-    pSaveData->field_253_scrabania_done = sActiveHero->field_2A8_flags.Get(Flags_2A8::e2A8_eBit13_bScrabaniaDone);
-    pSaveData->field_264_bInfiniteGrenades = gInfiniteGrenades ? -1 : 0;
-    pSaveData->field_252_paramonia_done = sActiveHero->field_2A8_flags.Get(Flags_2A8::e2A8_Bit12_bParamoniaDone);
-    pSaveData->field_25A_bElumExists = gElum != nullptr;
+    pSaveData->mScrabaniaDone = sActiveHero->field_2A8_flags.Get(Flags_2A8::e2A8_eBit13_bScrabaniaDone);
+    pSaveData->mInfiniteGrenades = gInfiniteGrenades ? -1 : 0;
+    pSaveData->mParamoniaDone = sActiveHero->field_2A8_flags.Get(Flags_2A8::e2A8_Bit12_bParamoniaDone);
+    pSaveData->mElumExists = gElum != nullptr;
     if (gElum != 0)
     {
-        pSaveData->field_25C_bControllingElum = sControlledCharacter == gElum;
-        pSaveData->field_25E_bElumRespawnOnDead = gElum->mRespawnOnDead;
-        pSaveData->field_28C_elum_continue_rect = gElum->mContinueRect;
-        pSaveData->field_294_continue_zone_number = gElum->mPreviousContinueZoneNumber;
-        pSaveData->field_296_elum_zone_number = gElum->mAbeZoneNumber;
-        pSaveData->field_298_elum_continue_path = gElum->mContinuePath;
-        pSaveData->field_29A_continue_level = MapWrapper::ToAO(gElum->mContinueLevel);
-        pSaveData->field_29C_elum_sprite_scale = gElum->mContinueSpriteScale;
-        pSaveData->field_260_elum_lvl_number = MapWrapper::ToAO(gElum->mCurrentLevel);
-        pSaveData->field_262_elum_path_number = gElum->mCurrentPath;
-        pSaveData->field_268_elum_xpos = FP_GetExponent(gElum->mXPos);
-        pSaveData->field_26C_elum_ypos = FP_GetExponent(gElum->mYPos);
+        pSaveData->mControllingElum = sControlledCharacter == gElum;
+        pSaveData->mElum_RespawnOnDead = gElum->mRespawnOnDead;
+        pSaveData->mElum_ContinueRect = gElum->mContinueRect;
+        pSaveData->mElum_PreviousContinueZoneNumber = gElum->mPreviousContinueZoneNumber;
+        pSaveData->mElum_AbeZoneNumber = gElum->mAbeZoneNumber;
+        pSaveData->mElum_ContinuePath = gElum->mContinuePath;
+        pSaveData->mElum_ContinueLevel = MapWrapper::ToAO(gElum->mContinueLevel);
+        pSaveData->mElum_ContinueSpriteScale = gElum->mContinueSpriteScale;
+        pSaveData->mElum_CurrentLevel = MapWrapper::ToAO(gElum->mCurrentLevel);
+        pSaveData->mElum_CurrentPath = gElum->mCurrentPath;
+        pSaveData->mElum_XPos = FP_GetExponent(gElum->mXPos);
+        pSaveData->mElum_YPos = FP_GetExponent(gElum->mYPos);
         if (gElum->BaseAliveGameObjectCollisionLine)
         {
-            pSaveData->field_270_elum_line_type = gElum->BaseAliveGameObjectCollisionLine->mLineType;
+            pSaveData->mElum_LineType = gElum->BaseAliveGameObjectCollisionLine->mLineType;
         }
         else
         {
-            pSaveData->field_270_elum_line_type = -1;
+            pSaveData->mElum_LineType = -1;
         }
-        pSaveData->field_274_elum_current_motion = gElum->mCurrentMotion;
-        pSaveData->field_272_elum_flipX = gElum->GetAnimation().GetFlipX();
-        pSaveData->field_278_brain_idx = gElum->mBrainIdx;
-        pSaveData->field_276_bDontFollowAbe = gElum->mDontFollowAbe;
-        pSaveData->field_27C_honey_xpos = gElum->field_12C_honey_xpos;
-        pSaveData->field_27A_elum_brain_state = gElum->mBrainSubState;
+        pSaveData->mElum_CurrentMotion = gElum->mCurrentMotion;
+        pSaveData->mElum_FlipX = gElum->GetAnimation().GetFlipX();
+        pSaveData->mElum_BrainIdx = gElum->mBrainIdx;
+        pSaveData->mElum_DontFollowAbe = gElum->mDontFollowAbe;
+        pSaveData->mElum_HoneyXPos = gElum->mHoneyXPos;
+        pSaveData->mElum_BrainSubState = gElum->mBrainSubState;
         pSaveData->field_284_unused = 0;
-        pSaveData->field_280_honey_ypos = gElum->field_146_honey_ypos;
-        pSaveData->field_288_elum_StrugglingWithBees = gElum->field_170_flags.Get(Elum::Flags_170::eStrugglingWithBees_Bit1);
-        pSaveData->field_289_elum_StungByBees = gElum->field_170_flags.Get(Elum::Flags_170::eStungByBees_Bit2);
-        pSaveData->field_28A_elum_Falling = gElum->field_170_flags.Get(Elum::Flags_170::eFalling_Bit3);
-        pSaveData->field_28B_elum_FoundHoney = gElum->field_170_flags.Get(Elum::Flags_170::eFoundHoney_Bit4);
+        pSaveData->mElum_HoneyCamera = gElum->mHoneyCamera;
+        pSaveData->mElum_StrugglingWithBees = gElum->mStrugglingWithBees;
+        pSaveData->mElum_StungByBees = gElum->mStungByBees;
+        pSaveData->mElum_Falling = gElum->mFalling;
+        pSaveData->mElum_FoundHoney = gElum->mFoundHoney;
     }
     if (sGasTimer)
     {
@@ -434,7 +434,7 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
     pSaveData->field_2AE_controller_idx = Input().CurrentController() == InputObject::PadIndex::First ? 0 : 1;
     gMap.SaveBlyData(pSaveData->field_2B0_pSaveBuffer);
 
-    pSaveData->field_200_hashValue = Hash(pSaveData);
+    pSaveData->mSaveHashValue = Hash(pSaveData);
 }
 
 s32 SaveGame::Hash(SaveData* sData)
@@ -469,7 +469,7 @@ s16 SaveGame::LoadFromFile(const char_type* name)
     }
 
     auto hashVal = Hash(&gSaveBuffer_500A18);
-    if (hashVal == gSaveBuffer_500A18.field_200_hashValue)
+    if (hashVal == gSaveBuffer_500A18.mSaveHashValue)
     {
         gSaveBuffer = gSaveBuffer_500A18;
         LoadFromMemory(&gSaveBuffer, 1);
