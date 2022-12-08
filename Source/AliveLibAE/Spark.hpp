@@ -7,15 +7,15 @@
 
 struct SparkRes final
 {
-    FP field_0_x0;
-    FP field_4_y0;
-    FP field_8_x1;
-    FP field_C_y1;
-    u8 field_10_ang;
+    FP mX0;
+    FP mY0;
+    FP mX1;
+    FP mY1;
+    u8 mAng;
     // 3 byte pad
-    FP field_14_radius;
-    FP field_18_len;
-    Line_G2 field_1C_pLineG2s[2];
+    FP mRadius;
+    FP mLen;
+    Line_G2 mLineG2s[2];
 };
 ALIVE_ASSERT_SIZEOF(SparkRes, 0x4C);
 

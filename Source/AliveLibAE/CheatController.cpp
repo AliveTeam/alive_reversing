@@ -9,7 +9,7 @@
 
 CheatController* gCheatController = nullptr;
 
-const InputCommands::Enum sCheatKeyArray_MovieSelect_5515C0[8] = {
+static const InputCommands::Enum sCheatKeyArray_MovieSelect[8] = {
     InputCommands::Enum::eUp,
     InputCommands::Enum::eLeft,
     InputCommands::Enum::eRight,
@@ -19,7 +19,7 @@ const InputCommands::Enum sCheatKeyArray_MovieSelect_5515C0[8] = {
     InputCommands::Enum::eRight,
     InputCommands::Enum::eDown};
 
-const InputCommands::Enum sCheatKeyArray_LevelSelect_5515D0[8] = {
+static const InputCommands::Enum sCheatKeyArray_LevelSelect[8] = {
     InputCommands::Enum::eDown,
     InputCommands::Enum::eRight,
     InputCommands::Enum::eLeft,
@@ -29,7 +29,7 @@ const InputCommands::Enum sCheatKeyArray_LevelSelect_5515D0[8] = {
     InputCommands::Enum::eLeft,
     InputCommands::Enum::eUp};
 
-const InputCommands::Enum sCheatKeyArray_PathSkip_5515E8[6] = {
+static const InputCommands::Enum sCheatKeyArray_PathSkip[6] = {
     InputCommands::Enum::eLeft,
     InputCommands::Enum::eRight,
     InputCommands::Enum::eUp,
@@ -37,23 +37,23 @@ const InputCommands::Enum sCheatKeyArray_PathSkip_5515E8[6] = {
     InputCommands::Enum::eLeft,
     InputCommands::Enum::eRight};
 
-void CheatController_Cheat_FMV_421AD0()
+void CheatController_Cheat_FMV()
 {
     if (gMap.mCurrentCamera == 1)
     {
-        sEnableCheatFMV_5C1BEC = !sEnableCheatFMV_5C1BEC;
+        gEnableCheatFMV = !gEnableCheatFMV;
     }
 }
 
-void CheatController_Cheat_LevelSelect_421B00()
+void CheatController_Cheat_LevelSelect()
 {
     if (gMap.mCurrentCamera == 1)
     {
-        sEnableCheatLevelSelect_5C1BEE = !sEnableCheatLevelSelect_5C1BEE;
+        gEnableCheatLevelSelect = !gEnableCheatLevelSelect;
     }
 }
 
-void CheatController_Cheat_PathSkip_421B30()
+void CheatController_Cheat_PathSkip()
 {
     char_type nameBuffer[20];
 
@@ -65,10 +65,10 @@ void CheatController_Cheat_PathSkip_421B30()
     Quicksave_LoadActive();
 }
 
-CheatEntry sCheatArray_5515F8[] = {
-    {1u, ALIVE_COUNTOF(sCheatKeyArray_MovieSelect_5515C0), sCheatKeyArray_MovieSelect_5515C0, 0, &CheatController_Cheat_FMV_421AD0},
-    {1u, ALIVE_COUNTOF(sCheatKeyArray_LevelSelect_5515D0), sCheatKeyArray_LevelSelect_5515D0, 0, &CheatController_Cheat_LevelSelect_421B00},
-    {0xFFFFFFFE, ALIVE_COUNTOF(sCheatKeyArray_PathSkip_5515E8), sCheatKeyArray_PathSkip_5515E8, 0, &CheatController_Cheat_PathSkip_421B30}};
+static CheatEntry sCheatArray[3] = {
+    {1u, ALIVE_COUNTOF(sCheatKeyArray_MovieSelect), sCheatKeyArray_MovieSelect, 0, &CheatController_Cheat_FMV},
+    {1u, ALIVE_COUNTOF(sCheatKeyArray_LevelSelect), sCheatKeyArray_LevelSelect, 0, &CheatController_Cheat_LevelSelect},
+    {0xFFFFFFFE, ALIVE_COUNTOF(sCheatKeyArray_PathSkip), sCheatKeyArray_PathSkip, 0, &CheatController_Cheat_PathSkip}};
 
 
 CheatController::CheatController()
@@ -76,7 +76,6 @@ CheatController::CheatController()
 {
     mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     SetType(ReliveTypes::eNone);
-    field_20 = 0;
 }
 
 CheatController::~CheatController()
@@ -93,25 +92,25 @@ void CheatController::VUpdate()
         // Only do cheat code check if shift is held
         if (Input().mPads[sCurrentControllerIndex].mPressed & InputCommands::Enum::eRun)
         {
-            for (auto& cheatEntry : sCheatArray_5515F8)
+            for (auto& cheatEntry : sCheatArray)
             {
                 // Bit shift current level for level mask.
-                if ((1 << static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))) & cheatEntry.field_0_level_mask)
+                if ((1 << static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))) & cheatEntry.mLevelMask)
                 {
-                    if (held == cheatEntry.field_8_cheat_code_ary[cheatEntry.field_C_success_idx])
+                    if (held == cheatEntry.mCheatCodeAry[cheatEntry.mSuccessIdx])
                     {
-                        cheatEntry.field_C_success_idx++;
+                        cheatEntry.mSuccessIdx++;
 
                         // Check if we've successfully entered all cheat code keys.
-                        if (cheatEntry.field_C_success_idx >= cheatEntry.field_4_cheat_code_length)
+                        if (cheatEntry.mSuccessIdx >= cheatEntry.mCheatCodeLength)
                         {
-                            cheatEntry.field_C_success_idx = 0;
-                            cheatEntry.field_10_callback();
+                            cheatEntry.mSuccessIdx = 0;
+                            cheatEntry.mCallback();
                         }
                     }
                     else
                     {
-                        cheatEntry.field_C_success_idx = 0;
+                        cheatEntry.mSuccessIdx = 0;
                     }
                 }
             }

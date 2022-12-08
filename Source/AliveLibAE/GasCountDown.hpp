@@ -29,9 +29,9 @@ private:
     s16 mGasXPos = 0;
     s16 mGasYPos = 0;
     s16 mStartTimerSwitchId = 0;
-    s16 field_72_stop_timer_switch_id = 0;
-    s16 mGasTimeLeft = 0;
-    u16 field_76_gas_countdown_timer = 0;
+    s16 mStopTimerSwitchId = 0;
+    s16 mGasTimeLeftSecs = 0;
+    u16 mGasCountdownTimer = 0;
 };
 
 extern s16 gGasOn;

@@ -14,15 +14,13 @@
 
 struct TrapDoor_Data final
 {
-    AnimId field_0_open;
-    AnimId field_4_closed;
-    AnimId field_8_opening;
-    AnimId field_C_closing;
-    //s16 field_10_maxW;
-    //s16 field_12_maxH;
+    AnimId mOpen;
+    AnimId mClosed;
+    AnimId mOpening;
+    AnimId mClosing;
 };
 
-const TrapDoor_Data sTrapDoorData_547B78[18] = {
+static const TrapDoor_Data sTrapDoorData[18] = {
     {AnimId::Trap_Door_Open, AnimId::Trap_Door_Closed, AnimId::Trap_Door_Opening, AnimId::Trap_Door_Closing},
     {AnimId::Trap_Door_Open, AnimId::Trap_Door_Closed, AnimId::Trap_Door_Opening, AnimId::Trap_Door_Closing},
     {AnimId::Trap_Door_Open, AnimId::Trap_Door_Closed, AnimId::Trap_Door_Opening, AnimId::Trap_Door_Closing},
@@ -39,7 +37,7 @@ const TrapDoor_Data sTrapDoorData_547B78[18] = {
     {AnimId::Trap_Door_Open, AnimId::Trap_Door_Closed, AnimId::Trap_Door_Opening, AnimId::Trap_Door_Closing},
     {AnimId::Trap_Door_Open, AnimId::Trap_Door_Closed, AnimId::Trap_Door_Opening, AnimId::Trap_Door_Closing}};
 
-const TintEntry sTrapDoorTints_5639AC[16] = {
+static const TintEntry sTrapDoorTints[16] = {
     {EReliveLevelIds::eMenu, 127u, 127u, 127u},
     {EReliveLevelIds::eMines, 127u, 127u, 127u},
     {EReliveLevelIds::eNecrum, 127u, 127u, 127u},
@@ -86,12 +84,12 @@ TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, const Guid& tlvId)
     if (mStartState == SwitchStates_Get(mSwitchId))
     {
         mState = TrapDoorState::eOpen_2;
-        animId = sTrapDoorData_547B78[levelIdx].field_0_open;
+        animId = sTrapDoorData[levelIdx].mOpen;
     }
     else
     {
         mState = TrapDoorState::eClosed_0;
-        animId = sTrapDoorData_547B78[levelIdx].field_4_closed;
+        animId = sTrapDoorData[levelIdx].mClosed;
     }
 
     mSelfClosing = pTlv->mSelfClosing;
@@ -107,7 +105,7 @@ TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, const Guid& tlvId)
     }
 
     AddDynamicCollision(
-        sTrapDoorData_547B78[levelIdx].field_4_closed,
+        sTrapDoorData[levelIdx].mClosed,
         pTlv,
         tlvId);
 
@@ -121,7 +119,7 @@ TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, const Guid& tlvId)
         mPlatformBaseCollisionLine->mLineType = eLineTypes::eBackgroundDynamicCollision_36;
     }
 
-    SetTint(sTrapDoorTints_5639AC, gMap.mCurrentLevel);
+    SetTint(sTrapDoorTints, gMap.mCurrentLevel);
 
     mTrapDoorX = FP_FromInteger(pTlv->mTopLeftX);
     mTrapDoorY = FP_FromInteger(pTlv->mTopLeftY);
@@ -240,7 +238,7 @@ void TrapDoor::VUpdate()
         {
             Open();
             mState = TrapDoorState::eOpening_1;
-            GetAnimation().Set_Animation_Data(GetAnimRes(sTrapDoorData_547B78[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))].field_8_opening));
+            GetAnimation().Set_Animation_Data(GetAnimRes(sTrapDoorData[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))].mOpening));
 
             if (gMap.mCurrentLevel == EReliveLevelIds::eMines || gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz || gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz_Ender || gMap.mCurrentLevel == EReliveLevelIds::eFeeCoDepot || gMap.mCurrentLevel == EReliveLevelIds::eFeeCoDepot_Ender || gMap.mCurrentLevel == EReliveLevelIds::eBarracks || gMap.mCurrentLevel == EReliveLevelIds::eBarracks_Ender || gMap.mCurrentLevel == EReliveLevelIds::eBrewery || gMap.mCurrentLevel == EReliveLevelIds::eBrewery_Ender)
             {
@@ -264,7 +262,7 @@ void TrapDoor::VUpdate()
 
         if ((mSelfClosing == relive::reliveChoice::eYes && mStayOpenTimeTimer + 1 <= 0) || SwitchStates_Get(mSwitchId) != mStartState)
         {
-            GetAnimation().Set_Animation_Data(GetAnimRes(sTrapDoorData_547B78[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))].field_C_closing));
+            GetAnimation().Set_Animation_Data(GetAnimRes(sTrapDoorData[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))].mClosing));
 
             mState = TrapDoorState::eClosing_3;
 

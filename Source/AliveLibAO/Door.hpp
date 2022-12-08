@@ -26,10 +26,10 @@ public:
     Guid mTlvInfo;
     relive::Path_Door::DoorTypes mDoorType = relive::Path_Door::DoorTypes::eBasicDoor;
     s16 mDoorId = 0;
-    relive::Path_Door::DoorStates field_EC_current_state = relive::Path_Door::DoorStates::eOpen;
+    relive::Path_Door::DoorStates mCurrentState = relive::Path_Door::DoorStates::eOpen;
     relive::reliveChoice mDoorClosed = relive::reliveChoice::eNo;
     s16 mSwitchId = 0;
-    s16 field_F2_hubs_ids[8] = {};
+    s16 mHubIds[8] = {};
 };
 
 } // namespace AO

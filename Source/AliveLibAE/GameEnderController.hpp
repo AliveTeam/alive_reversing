@@ -2,7 +2,7 @@
 
 #include "../relive_lib/BaseGameObject.hpp"
 
-void CreateGameEnderController_43B7A0();
+void CreateGameEnderController();
 
 enum class GameEnderControllerStates : s16
 {
@@ -13,9 +13,6 @@ enum class GameEnderControllerStates : s16
     eGoodEnding_4 = 4,
     eAngelicEnding_5 = 5,
     eAngelicEndingCredits_6 = 6,
-    ePadding_7 = 7,
-    ePadding_8 = 8,
-    ePadding_9 = 9,
 };
 
 struct GameEnderControllerSaveState final

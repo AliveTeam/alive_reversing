@@ -19,30 +19,30 @@ namespace AO {
 
 static FallingItem* sPrimaryFallingItem = nullptr;
 
-const FallingItem_Data sFallingItemData_4BAB20[16] = {
-    {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting, 76, 38}, // menu
-    {AnimId::FallingMeat_Falling, AnimId::FallingMeat_Waiting, 66, 42},       // rupture farms
-    {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting, 76, 38}, // lines
-    {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting, 76, 38}, // forest
-    {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting, 76, 38}, // forest temple
-    {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting, 76, 38}, // stock yards
-    {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting, 76, 38}, // stock yards return
-    {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting, 76, 38}, // removed
-    {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting, 76, 38}, // desert
-    {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting, 76, 38}, // desert temple
-    {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting, 76, 38}, // credits
-    {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting, 76, 38}, // removed
-    {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting, 76, 38}, // board room
-    {AnimId::FallingMeat_Falling, AnimId::FallingMeat_Waiting, 66, 42},       // rupture farms return
-    {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting, 76, 38}, // forest chase
-    {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting, 76, 38}};// desert escape
+static const FallingItem_Data sFallingItemData[16] = {
+    {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting}, // menu
+    {AnimId::FallingMeat_Falling, AnimId::FallingMeat_Waiting},       // rupture farms
+    {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting}, // lines
+    {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting}, // forest
+    {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting}, // forest temple
+    {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting}, // stock yards
+    {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting}, // stock yards return
+    {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting}, // removed
+    {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting}, // desert
+    {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting}, // desert temple
+    {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting}, // credits
+    {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting}, // removed
+    {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting}, // board room
+    {AnimId::FallingMeat_Falling, AnimId::FallingMeat_Waiting},       // rupture farms return
+    {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting}, // forest chase
+    {AnimId::AO_FallingRock_Falling, AnimId::AO_FallingRock_Waiting}};// desert escape
 
 void FallingItem::LoadAnimations()
 {
-    for (u32 i = 0; i < ALIVE_COUNTOF(sFallingItemData_4BAB20); i++)
+    for (u32 i = 0; i < ALIVE_COUNTOF(sFallingItemData); i++)
     {
-        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sFallingItemData_4BAB20[i].field_0_falling_animId));
-        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sFallingItemData_4BAB20[i].field_4_waiting_animId));
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sFallingItemData[i].mFallingAnimId));
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sFallingItemData[i].mWaitingAnimId));
     }
 }
 
@@ -58,7 +58,7 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
     mTlvId = tlvId;
 
     const s32 lvlIdx = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
-    Animation_Init(GetAnimRes(sFallingItemData_4BAB20[lvlIdx].field_0_falling_animId));
+    Animation_Init(GetAnimRes(sFallingItemData[lvlIdx].mFallingAnimId));
 
     GetAnimation().SetRenderLayer(Layer::eLayer_FallingItemDoorFlameRollingBallPortalClip_Half_31);
     if (gMap.mCurrentLevel == EReliveLevelIds::eLines)
@@ -162,7 +162,7 @@ void FallingItem::VUpdate()
             mVelX = FP_FromInteger(0);
             mVelY = FP_FromInteger(0);
 
-            GetAnimation().Set_Animation_Data(GetAnimRes(sFallingItemData_4BAB20[static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))].field_4_waiting_animId));
+            GetAnimation().Set_Animation_Data(GetAnimRes(sFallingItemData[static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))].mWaitingAnimId));
 
             mFallIntervalTimer = sGnFrame + mFallInterval;
             break;
@@ -298,7 +298,7 @@ void FallingItem::VUpdate()
             }
             else
             {
-                GetAnimation().Set_Animation_Data(GetAnimRes(sFallingItemData_4BAB20[static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))].field_0_falling_animId));
+                GetAnimation().Set_Animation_Data(GetAnimRes(sFallingItemData[static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))].mFallingAnimId));
                 mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
                 mVelY = FP_FromInteger(0);
                 mVelX = FP_FromInteger(0);

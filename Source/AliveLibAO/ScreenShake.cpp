@@ -43,7 +43,7 @@ void ScreenShake::VUpdate()
     }
 }
 
-const FP_Point sShakeOffsets[16] = {
+static const FP_Point sShakeOffsets[16] = {
     {FP_FromInteger(0), FP_FromInteger(-1)},
     {FP_FromInteger(-1), FP_FromInteger(0)},
     {FP_FromInteger(1), FP_FromInteger(-1)},

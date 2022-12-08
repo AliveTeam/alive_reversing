@@ -24,13 +24,13 @@
 
 namespace AO {
 
-const TintEntry kSecurityClawTints_4C5488[] = {
+static const TintEntry kSecurityClawTints[] = {
     {EReliveLevelIds::eStockYards, 105u, 55u, 55u},
     {EReliveLevelIds::eStockYardsReturn, 105u, 55u, 55u},
     {EReliveLevelIds::eNone, 127u, 127u, 127u},
 };
 
-const TintEntry kClawTints_4C5498[3] = {
+static const TintEntry kClawTints[3] = {
     {EReliveLevelIds::eStockYards, 80u, 55u, 55u},
     {EReliveLevelIds::eStockYardsReturn, 80u, 55u, 55u},
     {EReliveLevelIds::eNone, 127u, 127u, 127u}};
@@ -66,7 +66,7 @@ SecurityClaw::SecurityClaw(relive::Path_SecurityClaw* pTlv, const Guid& tlvId)
     LoadAnimations();
 
     mBaseGameObjectFlags.Set(Options::eCanExplode_Bit7);
-    field_12C_pDetector = 1;
+    mDetectorComeBack = true;
 
     Animation_Init(GetAnimRes(AnimId::Security_Claw_Upper_Rotating));
 
@@ -86,21 +86,21 @@ SecurityClaw::SecurityClaw(relive::Path_SecurityClaw* pTlv, const Guid& tlvId)
         SetScale(Scale::Fg);
     }
 
-    field_124 = 0; // LOBYTE
+    mAngle = 0;
 
     mXPos = mClawX + ((Math_Sine(0) * GetSpriteScale()) * FP_FromInteger(8)) * FP_FromDouble(0.25);
     mYPos = mClawY + ((Math_Cosine(0) * GetSpriteScale()) * FP_FromInteger(8));
-    SetTint(&kSecurityClawTints_4C5488[0], gMap.mCurrentLevel);
+    SetTint(&kSecurityClawTints[0], gMap.mCurrentLevel);
 
-    field_134_top_left.x = pTlv->mTopLeftX;
-    field_134_top_left.y = pTlv->mTopLeftY;
-    field_138_bottom_right.x = pTlv->mBottomRightX;
-    field_138_bottom_right.y = pTlv->mBottomRightY;
+    mTlvTopLeft.x = pTlv->mTopLeftX;
+    mTlvTopLeft.y = pTlv->mTopLeftY;
+    mTlvBottomRight.x = pTlv->mBottomRightX;
+    mTlvBottomRight.y = pTlv->mBottomRightY;
 
     mAlarmSwitchId = pTlv->mAlarmSwitchId;
     mAlarmDuration = pTlv->mAlarmDuration;
 
-    field_110_state = SecurityClawStates::eCamSwap_0;
+    mState = SecurityClawStates::eCamSwap_0;
 
     auto pClaw = relive_new Claw();
     if (pClaw)
@@ -110,18 +110,18 @@ SecurityClaw::SecurityClaw(relive::Path_SecurityClaw* pTlv, const Guid& tlvId)
 
         pClaw->mXPos = mClawX;
         pClaw->mYPos = mClawY;
-        pClaw->SetTint(&kClawTints_4C5498[0], gMap.mCurrentLevel);
+        pClaw->SetTint(&kClawTints[0], gMap.mCurrentLevel);
         mClawId = pClaw->mBaseGameObjectId;
     }
 
     mBaseGameObjectFlags.Set(Options::eUpdateDuringCamSwap_Bit10);
-    field_13C_pArray = nullptr;
-    field_128_sound_channels = 0;
+    mMotionDetectorArray = nullptr;
+    mOrbSoundChannels = 0;
 }
 
 SecurityClaw::~SecurityClaw()
 {
-    if (field_12C_pDetector)
+    if (mDetectorComeBack)
     {
         Path::TLV_Reset(mTlvInfo, -1, 0, 0);
     }
@@ -137,23 +137,23 @@ SecurityClaw::~SecurityClaw()
         mClawId = {};
     }
 
-    if (field_13C_pArray)
+    if (mMotionDetectorArray)
     {
-        for (s32 i = 0; i < field_13C_pArray->Size(); i++)
+        for (s32 i = 0; i < mMotionDetectorArray->Size(); i++)
         {
-            auto pObjIter = field_13C_pArray->ItemAt(i);
+            auto pObjIter = mMotionDetectorArray->ItemAt(i);
 
-            pObjIter->SetDontComeBack(field_12C_pDetector);
+            pObjIter->SetDontComeBack(mDetectorComeBack);
             pObjIter->mBaseGameObjectRefCount--;
             pObjIter->mBaseGameObjectFlags.Set(Options::eDead);
         }
 
-        relive_delete field_13C_pArray;
+        relive_delete mMotionDetectorArray;
     }
 
-    if (field_128_sound_channels)
+    if (mOrbSoundChannels)
     {
-        SND_Stop_Channels_Mask(field_128_sound_channels);
+        SND_Stop_Channels_Mask(mOrbSoundChannels);
     }
 }
 
@@ -168,7 +168,7 @@ s16 SecurityClaw::VTakeDamage(BaseGameObject* pFrom)
     {
         if (pFrom->Type() == ReliveTypes::eAbilityRing || pFrom->Type() == ReliveTypes::eShrykull)
         {
-            field_12C_pDetector = 0;
+            mDetectorComeBack = false;
             mBaseGameObjectFlags.Set(BaseGameObject::eDead);
 
             relive_new AirExplosion(
@@ -186,7 +186,7 @@ s16 SecurityClaw::VTakeDamage(BaseGameObject* pFrom)
         }
         else
         {
-            field_12C_pDetector = 0;
+            mDetectorComeBack = false;
 
             relive_new Gibs(
                 GibType::Metal_5,
@@ -221,18 +221,18 @@ void SecurityClaw::VUpdate()
 
     if (!(sGnFrame % 20))
     {
-        if (field_128_sound_channels)
+        if (mOrbSoundChannels)
         {
-            SND_Stop_Channels_Mask(field_128_sound_channels);
+            SND_Stop_Channels_Mask(mOrbSoundChannels);
         }
-        field_128_sound_channels = SFX_Play_Pitch(relive::SoundEffects::SecurityOrb, 55, -300);
+        mOrbSoundChannels = SFX_Play_Pitch(relive::SoundEffects::SecurityOrb, 55, -300);
     }
 
     if (sActiveHero == sControlledCharacter)
     {
         if (sActiveHero->mXPos < mClawX)
         {
-            if (FP_GetExponent(mClawX) > field_134_top_left.x)
+            if (FP_GetExponent(mClawX) > mTlvTopLeft.x)
             {
                 mClawX -= FP_FromDouble(0.5);
             }
@@ -240,27 +240,27 @@ void SecurityClaw::VUpdate()
 
         if (sActiveHero->mXPos >= mClawX)
         {
-            if (FP_GetExponent(mClawX) < field_138_bottom_right.x)
+            if (FP_GetExponent(mClawX) < mTlvBottomRight.x)
             {
                 mClawX += FP_FromDouble(0.5);
             }
         }
     }
 
-    mXPos = mClawX + (((Math_Sine(field_124) * GetSpriteScale()) * FP_FromInteger(8)) * FP_FromDouble(0.25));
+    mXPos = mClawX + (((Math_Sine(mAngle) * GetSpriteScale()) * FP_FromInteger(8)) * FP_FromDouble(0.25));
 
-    field_124 += 2;
+    mAngle += 2;
 
-    mYPos = mClawY + ((Math_Cosine(field_124) * GetSpriteScale()) * FP_FromInteger(8));
+    mYPos = mClawY + ((Math_Cosine(mAngle) * GetSpriteScale()) * FP_FromInteger(8));
 
     pClaw->mXPos = mXPos;
     pClaw->mYPos = mYPos;
 
-    if (field_13C_pArray)
+    if (mMotionDetectorArray)
     {
-        for (s32 i = 0; i < field_13C_pArray->Size(); i++)
+        for (s32 i = 0; i < mMotionDetectorArray->Size(); i++)
         {
-            MotionDetector* pObj = field_13C_pArray->ItemAt(i);
+            MotionDetector* pObj = mMotionDetectorArray->ItemAt(i);
             if (!pObj)
             {
                 break;
@@ -271,7 +271,7 @@ void SecurityClaw::VUpdate()
         }
     }
 
-    switch (field_110_state)
+    switch (mState)
     {
         case SecurityClawStates::eCamSwap_0:
             for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
@@ -285,27 +285,27 @@ void SecurityClaw::VUpdate()
                 if (pObjIter->Type() == ReliveTypes::eMotionDetector)
                 {
                     auto pDetector = static_cast<MotionDetector*>(pObjIter);
-                    if (!field_13C_pArray)
+                    if (!mMotionDetectorArray)
                     {
                         GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Security_Claw_Upper_NoRotation));
-                        field_13C_pArray = relive_new DynamicArrayT<MotionDetector>(10);
+                        mMotionDetectorArray = relive_new DynamicArrayT<MotionDetector>(10);
                     }
 
                     pDetector->mXPos = mXPos - FP_FromInteger(1);
                     pDetector->mYPos = mYPos - FP_FromInteger(11);
                     pDetector->mBaseGameObjectRefCount++;
-                    field_13C_pArray->Push_Back(pDetector);
+                    mMotionDetectorArray->Push_Back(pDetector);
                 }
             }
-            field_110_state = SecurityClawStates::eIdle_1;
+            mState = SecurityClawStates::eIdle_1;
             mBaseGameObjectFlags.Clear(Options::eUpdateDuringCamSwap_Bit10);
             break;
 
         case SecurityClawStates::eIdle_1:
             if (EventGet(kEventAbeOhm))
             {
-                field_114_timer = sGnFrame + 20;
-                field_110_state = SecurityClawStates::eDoZapEffects_2;
+                mTimer = sGnFrame + 20;
+                mState = SecurityClawStates::eDoZapEffects_2;
                 pClaw->GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Security_Claw_Lower_Open));
                 SfxPlayMono(relive::SoundEffects::IndustrialNoise3, 60);
                 SFX_Play_Pitch(relive::SoundEffects::IndustrialNoise3, 90, -1000);
@@ -313,7 +313,7 @@ void SecurityClaw::VUpdate()
 
             if (EventGet(kEventShooting))
             {
-                if (!alarmInstanceCount_5076A8)
+                if (!gAlarmInstanceCount)
                 {
                     relive_new Alarm(mAlarmDuration, mAlarmSwitchId, 30, Layer::eLayer_Above_FG1_39);
                 }
@@ -321,7 +321,7 @@ void SecurityClaw::VUpdate()
             break;
 
         case SecurityClawStates::eDoZapEffects_2:
-            if (static_cast<s32>(sGnFrame) > field_114_timer)
+            if (static_cast<s32>(sGnFrame) > mTimer)
             {
                 const PSX_RECT rect = sActiveHero->VGetBoundingRect();
                 const FP hero_mid_x = FP_FromInteger((rect.w + rect.x) / 2);
@@ -371,34 +371,34 @@ void SecurityClaw::VUpdate()
                     }
                 }
 
-                field_110_state = SecurityClawStates::eAnimateClaw_DoFlashAndSound_3;
-                field_114_timer = sGnFrame + 8;
+                mState = SecurityClawStates::eAnimateClaw_DoFlashAndSound_3;
+                mTimer = sGnFrame + 8;
             }
             break;
 
         case SecurityClawStates::eAnimateClaw_DoFlashAndSound_3:
-            if (static_cast<s32>(sGnFrame) == field_114_timer - 5 || static_cast<s32>(sGnFrame) == field_114_timer - 1)
+            if (static_cast<s32>(sGnFrame) == mTimer - 5 || static_cast<s32>(sGnFrame) == mTimer - 1)
             {
                 relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 0, 0);
             }
 
-            if (static_cast<s32>(sGnFrame) == field_114_timer - 4)
+            if (static_cast<s32>(sGnFrame) == mTimer - 4)
             {
                 relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 0, 0, TPageAbr::eBlend_1, 1);
             }
 
-            if (field_114_timer - sGnFrame == 4)
+            if (mTimer - sGnFrame == 4)
             {
                 SfxPlayMono(relive::SoundEffects::Zap1, 0);
             }
-            else if (field_114_timer - sGnFrame == 1)
+            else if (mTimer - sGnFrame == 1)
             {
                 SfxPlayMono(relive::SoundEffects::Zap2, 0);
             }
 
-            if (static_cast<s32>(sGnFrame) > field_114_timer)
+            if (static_cast<s32>(sGnFrame) > mTimer)
             {
-                field_110_state = SecurityClawStates::eIdle_1;
+                mState = SecurityClawStates::eIdle_1;
                 pClaw->GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Security_Claw_Lower_Close));
                 SfxPlayMono(relive::SoundEffects::IndustrialTrigger, 0);
             }

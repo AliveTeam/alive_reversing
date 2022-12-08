@@ -54,9 +54,9 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, 
             {
                 randAng = minAngle + Math_RandomRange(0, static_cast<s16>(maxAngle - minAngle));
             }
-            pSparkIter->field_10_ang = static_cast<u8>(randAng);
-            pSparkIter->field_14_radius = FP_FromInteger(0);
-            pSparkIter->field_18_len = FP_FromInteger(Math_RandomRange(2, 4));
+            pSparkIter->mAng = static_cast<u8>(randAng);
+            pSparkIter->mRadius = FP_FromInteger(0);
+            pSparkIter->mLen = FP_FromInteger(Math_RandomRange(2, 4));
         }
 
         mTimer = sGnFrame + 3;
@@ -121,12 +121,12 @@ void Spark::VUpdate()
             for (s32 idx = 0; idx < mSparkCount; idx++)
             {
                 SparkRes* pSpark = &mSparkRes[idx];
-                pSpark->field_0_x0 = pSpark->field_14_radius * Math_Sine_496DD0(pSpark->field_10_ang);
-                pSpark->field_4_y0 = pSpark->field_14_radius * Math_Cosine_496CD0(pSpark->field_10_ang);
-                pSpark->field_8_x1 = (pSpark->field_14_radius + pSpark->field_18_len) * Math_Sine_496DD0(pSpark->field_10_ang);
-                pSpark->field_C_y1 = (pSpark->field_14_radius + pSpark->field_18_len) * Math_Cosine_496CD0(pSpark->field_10_ang);
-                pSpark->field_14_radius = pSpark->field_18_len + FP_FromInteger(Math_RandomRange(2, 5));
-                pSpark->field_18_len = pSpark->field_18_len + FP_FromInteger(2);
+                pSpark->mX0 = pSpark->mRadius * Math_Sine_496DD0(pSpark->mAng);
+                pSpark->mY0 = pSpark->mRadius * Math_Cosine_496CD0(pSpark->mAng);
+                pSpark->mX1 = (pSpark->mRadius + pSpark->mLen) * Math_Sine_496DD0(pSpark->mAng);
+                pSpark->mY1 = (pSpark->mRadius + pSpark->mLen) * Math_Cosine_496CD0(pSpark->mAng);
+                pSpark->mRadius = pSpark->mLen + FP_FromInteger(Math_RandomRange(2, 5));
+                pSpark->mLen = pSpark->mLen + FP_FromInteger(2);
             }
         }
         else
@@ -155,13 +155,13 @@ void Spark::VRender(PrimHeader** ppOt)
         {
             SparkRes* pSpark = &mSparkRes[i];
 
-            Line_G2* pPrim = &pSpark->field_1C_pLineG2s[gPsxDisplay.mBufferIndex];
+            Line_G2* pPrim = &pSpark->mLineG2s[gPsxDisplay.mBufferIndex];
             LineG2_Init(pPrim);
 
-            const s32 y0 = yOrg + FP_GetExponent(pSpark->field_4_y0 * mSpriteScale);
-            const s32 y1 = yOrg + FP_GetExponent(pSpark->field_C_y1 * mSpriteScale);
-            const s32 x0 = PsxToPCX(xOrg + FP_GetExponent(pSpark->field_0_x0 * mSpriteScale));
-            const s32 x1 = PsxToPCX(xOrg + FP_GetExponent(pSpark->field_8_x1 * mSpriteScale));
+            const s32 y0 = yOrg + FP_GetExponent(pSpark->mY0 * mSpriteScale);
+            const s32 y1 = yOrg + FP_GetExponent(pSpark->mY1 * mSpriteScale);
+            const s32 x0 = PsxToPCX(xOrg + FP_GetExponent(pSpark->mX0 * mSpriteScale));
+            const s32 x1 = PsxToPCX(xOrg + FP_GetExponent(pSpark->mX1 * mSpriteScale));
 
             SetXY0(pPrim, static_cast<s16>(x0), static_cast<s16>(y0));
             SetXY1(pPrim, static_cast<s16>(x1), static_cast<s16>(y1));

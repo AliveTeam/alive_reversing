@@ -18,7 +18,7 @@
 #include "../relive_lib/Collisions.hpp"
 #include "FixedPoint.hpp"
 
-const AnimId sFallingItemData_544DC0[15][2] = {
+static const AnimId sFallingItemData[15][2] = {
     {AnimId::AE_FallingRock_Falling, AnimId::AE_FallingRock_Waiting},
     {AnimId::AE_FallingRock_Falling, AnimId::AE_FallingRock_Waiting},
     {AnimId::AE_FallingRock_Falling, AnimId::AE_FallingRock_Waiting},
@@ -67,7 +67,7 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
     const s32 lvlIdx = static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel));
 
     LoadAnimations();
-    Animation_Init(GetAnimRes(sFallingItemData_544DC0[lvlIdx][0]));
+    Animation_Init(GetAnimRes(sFallingItemData[lvlIdx][0]));
 
     mSwitchId = pTlv->mSwitchId;
 
@@ -124,7 +124,7 @@ FallingItem::FallingItem(relive::Path_FallingItem* pTlv, const Guid& tlvId)
 
     const s32 lvlIdx = static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel));
     LoadAnimations();
-    Animation_Init(GetAnimRes(sFallingItemData_544DC0[lvlIdx][0]));
+    Animation_Init(GetAnimRes(sFallingItemData[lvlIdx][0]));
 
     GetAnimation().SetRenderLayer(Layer::eLayer_FallingItemDoorFlameRollingBallPortalClip_Half_31);
 
@@ -240,7 +240,7 @@ void FallingItem::VUpdate()
                 mVelX = FP_FromInteger(0);
                 mVelY = FP_FromInteger(0);
 
-                GetAnimation().Set_Animation_Data(GetAnimRes(sFallingItemData_544DC0[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]));
+                GetAnimation().Set_Animation_Data(GetAnimRes(sFallingItemData[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]));
 
                 mFallIntervalTimer = sGnFrame + mFallInterval;
             }
@@ -254,7 +254,7 @@ void FallingItem::VUpdate()
             mVelX = FP_FromInteger(0);
             mVelY = FP_FromInteger(0);
 
-            GetAnimation().Set_Animation_Data(GetAnimRes(sFallingItemData_544DC0[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]));
+            GetAnimation().Set_Animation_Data(GetAnimRes(sFallingItemData[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]));
 
             mFallIntervalTimer = sGnFrame + mFallInterval;
             break;
@@ -396,7 +396,7 @@ void FallingItem::VUpdate()
             }
             else
             {
-                GetAnimation().Set_Animation_Data(GetAnimRes(sFallingItemData_544DC0[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][0]));
+                GetAnimation().Set_Animation_Data(GetAnimRes(sFallingItemData[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][0]));
                 mBaseGameObjectFlags.Set(BaseGameObject::eCanExplode_Bit7);
                 mVelY = FP_FromInteger(0);
                 mVelX = FP_FromInteger(0);

@@ -9,7 +9,7 @@ class BaseGameObject;
 class OrbWhirlWindParticle final
 {
 public:
-    OrbWhirlWindParticle(FP xpos, FP ypos, FP scale, s16 bIsMudokonSpirit);
+    OrbWhirlWindParticle(FP xpos, FP ypos, FP scale, bool isMudokonSpirit);
     ~OrbWhirlWindParticle();
 
     s32 IsActive();

@@ -98,8 +98,8 @@ extern bool gDDCheat_FlyingEnabled;
 extern s16 sRescuedMudokons;
 extern s16 sKilledMudokons;
 
-extern s32 sTweakX_5C1BD0;
-extern s32 sTweakY_5C1BD4;
+extern s32 gTweakX;
+extern s32 gTweakY;
 
 extern s16 gVisitedBonewerkz;
 extern s16 gVisitedBarracks;

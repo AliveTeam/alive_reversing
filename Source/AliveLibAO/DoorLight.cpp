@@ -15,20 +15,20 @@
 
 namespace AO {
 
-s32 gNextDoorLightUpdate_4C30A8 = -1;
-s32 gDoorLightUpdateTimer_4FC8A4 = 0;
+static s32 sNextDoorLightUpdate = -1;
+static s32 sDoorLightUpdateTimer = 0;
 
 DoorLight::DoorLight(relive::Path_LightEffect* pTlv, const Guid& tlvId)
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    field_E4_tlvInfo = tlvId;
-    field_E8_width = pTlv->mSize;
-    field_EA_height = pTlv->mSize;
+    mTlvId = tlvId;
+    mWidth = pTlv->mSize;
+    mHeight = pTlv->mSize;
 
     SetType(ReliveTypes::eNone);
-    field_EC_bHasID = 0;
-    field_F0_switch_id = pTlv->mSwitchId;
-    field_EE_switch_value = SwitchStates_Get(pTlv->mSwitchId);
+    mHasSwitchId = false;
+    mSwitchId = pTlv->mSwitchId;
+    mSwitchState = SwitchStates_Get(pTlv->mSwitchId);
 
     s32 xOff = 0;
     switch (pTlv->mType)
@@ -51,14 +51,14 @@ DoorLight::DoorLight(relive::Path_LightEffect* pTlv, const Guid& tlvId)
         {
             mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::FlintGlow));
             Animation_Init(GetAnimRes(AnimId::FlintGlow));
-            field_EC_bHasID = 1;
+            mHasSwitchId = true;
             break;
         }
 
         case relive::Path_LightEffect::Type::Switchable_RedGreenDoorLights:
         {
-            field_E8_width = 0;
-            field_EA_height = 0;
+            mWidth = 0;
+            mHeight = 0;
             if (SwitchStates_Get(pTlv->mSwitchId))
             {
                 mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::GreenDoorLight));
@@ -75,8 +75,8 @@ DoorLight::DoorLight(relive::Path_LightEffect* pTlv, const Guid& tlvId)
 
         case relive::Path_LightEffect::Type::Switchable_RedGreenHubLight:
         {
-            field_E8_width = 0;
-            field_EA_height = 0;
+            mWidth = 0;
+            mHeight = 0;
             if (SwitchStates_Get(pTlv->mSwitchId))
             {
                 mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::GreenHubLight));
@@ -96,10 +96,10 @@ DoorLight::DoorLight(relive::Path_LightEffect* pTlv, const Guid& tlvId)
 
     GetAnimation().mFlags.Set(AnimFlags::eFlipX, pTlv->mDirection == relive::reliveXDirection::eLeft);
 
-    if (gNextDoorLightUpdate_4C30A8 < 0)
+    if (sNextDoorLightUpdate < 0)
     {
-        gNextDoorLightUpdate_4C30A8 = sGnFrame;
-        gDoorLightUpdateTimer_4FC8A4 = gNextDoorLightUpdate_4C30A8 + Math_RandomRange(30, 45);
+        sNextDoorLightUpdate = sGnFrame;
+        sDoorLightUpdateTimer = sNextDoorLightUpdate + Math_RandomRange(30, 45);
     }
 
     GetAnimation().mFlags.Set(AnimFlags::eIgnorePosOffset);
@@ -126,26 +126,26 @@ DoorLight::DoorLight(relive::Path_LightEffect* pTlv, const Guid& tlvId)
 
 DoorLight::~DoorLight()
 {
-    Path::TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mTlvId, -1, 0, 0);
 }
 
 void DoorLight::VScreenChanged()
 {
     mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-    gNextDoorLightUpdate_4C30A8 = -1;
+    sNextDoorLightUpdate = -1;
 }
 
 void DoorLight::VUpdate()
 {
-    if (static_cast<s32>(sGnFrame) > gDoorLightUpdateTimer_4FC8A4)
+    if (static_cast<s32>(sGnFrame) > sDoorLightUpdateTimer)
     {
-        gNextDoorLightUpdate_4C30A8 = sGnFrame + Math_RandomRange(6, 20);
-        gDoorLightUpdateTimer_4FC8A4 = gNextDoorLightUpdate_4C30A8 + Math_RandomRange(30, 45);
+        sNextDoorLightUpdate = sGnFrame + Math_RandomRange(6, 20);
+        sDoorLightUpdateTimer = sNextDoorLightUpdate + Math_RandomRange(30, 45);
         mRGB.SetRGB(32, 32, 32);
     }
-    else if (static_cast<s32>(sGnFrame) >= gNextDoorLightUpdate_4C30A8)
+    else if (static_cast<s32>(sGnFrame) >= sNextDoorLightUpdate)
     {
-        const FP lightAngle = (FP_FromInteger(128) * FP_FromInteger(sGnFrame - gNextDoorLightUpdate_4C30A8) / FP_FromInteger(gDoorLightUpdateTimer_4FC8A4 - gNextDoorLightUpdate_4C30A8));
+        const FP lightAngle = (FP_FromInteger(128) * FP_FromInteger(sGnFrame - sNextDoorLightUpdate) / FP_FromInteger(sDoorLightUpdateTimer - sNextDoorLightUpdate));
 
         const FP lightAngleCosine = -Math_Cosine(FP_GetExponent(lightAngle) & 0xFF);
         const s32 rgbVal = FP_GetExponent(FP_FromInteger(255) * lightAngleCosine) + 32;
@@ -160,13 +160,13 @@ void DoorLight::VUpdate()
             rgb = 255;
         }
 
-        if (field_EC_bHasID)
+        if (mHasSwitchId)
         {
-            if (SwitchStates_Get(field_F0_switch_id))
+            if (SwitchStates_Get(mSwitchId))
             {
-                if (field_EE_switch_value == 0)
+                if (mSwitchState == 0)
                 {
-                    field_EE_switch_value = 1;
+                    mSwitchState = 1;
 
                     if (sControlledCharacter == sActiveHero)
                     {
@@ -201,11 +201,11 @@ void DoorLight::VRender(PrimHeader** ppOt)
         GetAnimation().SetRGB(mRGB.r, mRGB.g, mRGB.b);
 
         GetAnimation().VRender(
-            FP_GetExponent(FP_FromInteger((FP_GetExponent(xpos) - field_E8_width / 2))),
-            FP_GetExponent(FP_FromInteger((FP_GetExponent(ypos) - field_EA_height / 2))),
+            FP_GetExponent(FP_FromInteger((FP_GetExponent(xpos) - mWidth / 2))),
+            FP_GetExponent(FP_FromInteger((FP_GetExponent(ypos) - mHeight / 2))),
             ppOt,
-            field_E8_width,
-            field_EA_height);
+            mWidth,
+            mHeight);
     }
 }
 

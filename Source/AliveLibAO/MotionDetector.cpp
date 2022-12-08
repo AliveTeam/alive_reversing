@@ -35,7 +35,7 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
     mYOffset = 0;
     mRGB.SetRGB(64, 0, 0);
     field_160_bObjectInLaser = 0;
-    field_F6_bDontComeBack = 1;
+    field_F6_bDontComeBack = true;
     field_E4_tlvInfo = tlvId;
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
@@ -115,7 +115,7 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
     field_F2_alarm_switch_id = pTlv->mAlarmSwitchId;
 }
 
-void MotionDetector::SetDontComeBack(s16 bDontComeBack)
+void MotionDetector::SetDontComeBack(bool bDontComeBack)
 {
     field_F6_bDontComeBack = bDontComeBack;
 }
@@ -204,7 +204,7 @@ void MotionDetector::VUpdate()
                         {
                             field_160_bObjectInLaser = true;
 
-                            if (alarmInstanceCount_5076A8 == 0)
+                            if (gAlarmInstanceCount == 0)
                             {
                                 relive_new Alarm(
                                     field_F4_alarm_duration,

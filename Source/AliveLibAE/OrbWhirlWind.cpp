@@ -9,61 +9,61 @@ OrbWhirlWind::OrbWhirlWind(FP xpos, FP ypos, FP scale, bool bIsMudokonSpirit)
 {
     SetType(ReliveTypes::eNone);
 
-    field_6C_xpos = xpos;
-    field_70_ypos = ypos;
-    field_74_scale = scale;
+    mXPos = xpos;
+    mYPos = ypos;
+    mScale = scale;
 
-    field_24_particles_state = ParticlesState::eCreating;
-    field_20_particle_spawn_counter = 0;
+    mState = ParticlesState::eCreating;
+    mParticleSpawnCounter = 0;
 
-    field_26_is_mudokon_spirit = bIsMudokonSpirit;
+    mIsMudokonSpirit = bIsMudokonSpirit;
     gObjListDrawables->Push_Back(this);
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
 
-    field_28_particleIdx = 0;
+    mParticleIdx = 0;
 
-    memset(field_2C_particles, 0, sizeof(field_2C_particles));
+    memset(mOrbParticles, 0, sizeof(mOrbParticles));
 }
 
 void OrbWhirlWind::ToSpin(FP xpos, FP ypos, FP scale, BaseGameObject* pObj)
 {
-    for (s32 i = 0; i < field_28_particleIdx; i++)
+    for (s32 i = 0; i < mParticleIdx; i++)
     {
-        if (field_2C_particles[i])
+        if (mOrbParticles[i])
         {
-            if (!field_2C_particles[i]->IsActive())
+            if (!mOrbParticles[i]->IsActive())
             {
-                field_2C_particles[i]->Spin(xpos, ypos, scale, pObj);
+                mOrbParticles[i]->Spin(xpos, ypos, scale, pObj);
             }
         }
     }
-    field_24_particles_state = ParticlesState::eActive;
+    mState = ParticlesState::eActive;
 }
 
 void OrbWhirlWind::ToStop()
 {
-    for (s32 i = 0; i < field_28_particleIdx; i++)
+    for (s32 i = 0; i < mParticleIdx; i++)
     {
-        if (field_2C_particles[i])
+        if (mOrbParticles[i])
         {
-            if (!field_2C_particles[i]->IsActive())
+            if (!mOrbParticles[i]->IsActive())
             {
-                field_2C_particles[i]->ToStop();
+                mOrbParticles[i]->ToStop();
             }
         }
     }
-    field_24_particles_state = ParticlesState::eActive;
+    mState = ParticlesState::eActive;
 }
 
 void OrbWhirlWind::VRender(PrimHeader** ppOt)
 {
-    for (s32 i = 0; i < field_28_particleIdx; i++)
+    for (s32 i = 0; i < mParticleIdx; i++)
     {
-        if (field_2C_particles[i])
+        if (mOrbParticles[i])
         {
-            if (!field_2C_particles[i]->IsActive())
+            if (!mOrbParticles[i]->IsActive())
             {
-                field_2C_particles[i]->Render(ppOt);
+                mOrbParticles[i]->Render(ppOt);
             }
         }
     }
@@ -71,33 +71,33 @@ void OrbWhirlWind::VRender(PrimHeader** ppOt)
 
 void OrbWhirlWind::VUpdate()
 {
-    if (field_24_particles_state == ParticlesState::eCreating)
+    if (mState == ParticlesState::eCreating)
     {
-        if (!(field_20_particle_spawn_counter % 4))
+        if (!(mParticleSpawnCounter % 4))
         {
             auto pParticle = relive_new OrbWhirlWindParticle(
-			    field_6C_xpos,
-                field_70_ypos,
-                field_74_scale,
-                field_26_is_mudokon_spirit);
-            field_2C_particles[field_28_particleIdx++] = pParticle;
+                mXPos,
+                mYPos,
+                mScale,
+                mIsMudokonSpirit);
+            mOrbParticles[mParticleIdx++] = pParticle;
 
-            if (field_28_particleIdx >= ALIVE_COUNTOF(field_2C_particles))
+            if (mParticleIdx >= ALIVE_COUNTOF(mOrbParticles))
             {
-                field_24_particles_state = ParticlesState::eCreated;
+                mState = ParticlesState::eCreated;
             }
         }
 
-        ++field_20_particle_spawn_counter;
+        ++mParticleSpawnCounter;
     }
-    else if (field_24_particles_state == ParticlesState::eActive)
+    else if (mState == ParticlesState::eActive)
     {
         bool hasInactiveParticles = false;
-        for (s32 i = 0; i < field_28_particleIdx; i++)
+        for (s32 i = 0; i < mParticleIdx; i++)
         {
-            if (field_2C_particles[i])
+            if (mOrbParticles[i])
             {
-                if (!field_2C_particles[i]->IsActive())
+                if (!mOrbParticles[i]->IsActive())
                 {
                     hasInactiveParticles = true;
                     break;
@@ -111,13 +111,13 @@ void OrbWhirlWind::VUpdate()
         }
     }
 
-    for (s32 i = 0; i < field_28_particleIdx; i++)
+    for (s32 i = 0; i < mParticleIdx; i++)
     {
-        if (field_2C_particles[i])
+        if (mOrbParticles[i])
         {
-            if (!field_2C_particles[i]->IsActive())
+            if (!mOrbParticles[i]->IsActive())
             {
-                field_2C_particles[i]->Update();
+                mOrbParticles[i]->Update();
             }
         }
     }
@@ -127,7 +127,7 @@ OrbWhirlWind::~OrbWhirlWind()
 {
     gObjListDrawables->Remove_Item(this);
 
-    for (auto& obj : field_2C_particles)
+    for (auto& obj : mOrbParticles)
     {
         delete obj;
     }

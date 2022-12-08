@@ -9,7 +9,7 @@
 #include "Map.hpp"
 #include "Path.hpp"
 
-u32 sWellRndSeed_563AA0 = 4;
+static u32 sWellRndSeed = 4;
 
 Well::Well(relive::Path_WellBase* pTlv, FP xpos, FP ypos, const Guid& tlvId)
     : BaseGameObject(true, 0)
@@ -129,12 +129,12 @@ void Well::VScreenChanged()
 
 static s16 Well_NextRandom()
 {
-    const auto curRand = sRandomBytes_546744[sWellRndSeed_563AA0];
-    sWellRndSeed_563AA0++;
+    const auto curRand = gRandomBytes[sWellRndSeed];
+    sWellRndSeed++;
 
-    if (sWellRndSeed_563AA0 > 255)
+    if (sWellRndSeed > 255)
     {
-        sWellRndSeed_563AA0 = 0;
+        sWellRndSeed = 0;
     }
 
     return curRand;

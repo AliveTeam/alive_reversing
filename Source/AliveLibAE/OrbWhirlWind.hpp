@@ -24,12 +24,12 @@ public:
     void ToStop();
 
 private:
-    s32 field_20_particle_spawn_counter = 0;
-    ParticlesState field_24_particles_state = ParticlesState::eCreating;
-    s16 field_26_is_mudokon_spirit = 0;
-    s16 field_28_particleIdx = 0;
-    OrbWhirlWindParticle* field_2C_particles[16] = {};
-    FP field_6C_xpos = {};
-    FP field_70_ypos = {};
-    FP field_74_scale = {};
+    s32 mParticleSpawnCounter = 0;
+    ParticlesState mState = ParticlesState::eCreating;
+    bool mIsMudokonSpirit = false;
+    s16 mParticleIdx = 0;
+    OrbWhirlWindParticle* mOrbParticles[16] = {};
+    FP mXPos = {};
+    FP mYPos = {};
+    FP mScale = {};
 };

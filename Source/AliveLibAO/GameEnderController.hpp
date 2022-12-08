@@ -27,6 +27,4 @@ public:
     GameEnderControllerStates mState = GameEnderControllerStates::eInit_0;
 };
 
-
-
 } // namespace AO

@@ -18,7 +18,7 @@
 #include "Path.hpp"
 #include "FixedPoint.hpp"
 
-const TintEntry sSecurityOrbTints_55C1EC[16] = {
+static const TintEntry sSecurityOrbTints[16] = {
     {EReliveLevelIds::eMenu, 127u, 127u, 127u},
     {EReliveLevelIds::eMines, 127u, 127u, 127u},
     {EReliveLevelIds::eNecrum, 137u, 137u, 137u},
@@ -47,7 +47,7 @@ SecurityOrb::SecurityOrb(relive::Path_SecurityOrb* pTlv, const Guid& tlvId)
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Security_Orb));
     Animation_Init(GetAnimRes(AnimId::Security_Orb));
 
-    SetTint(sSecurityOrbTints_55C1EC, gMap.mCurrentLevel);
+    SetTint(sSecurityOrbTints, gMap.mCurrentLevel);
 
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);

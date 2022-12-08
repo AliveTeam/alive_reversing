@@ -53,8 +53,8 @@ void BackgroundAnimation::VUpdate()
     }
     else
     {
-        mXPos = FP_FromInteger(sTweakX_5C1BD0) + mObjectXPos;
-        mYPos = FP_FromInteger(sTweakY_5C1BD4) + mObjectYPos;
+        mXPos = FP_FromInteger(gTweakX) + mObjectXPos;
+        mYPos = FP_FromInteger(gTweakY) + mObjectYPos;
     }
 }
 

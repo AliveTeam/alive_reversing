@@ -150,7 +150,7 @@ void WorkWheel::VUpdate()
         {
             if (gMap.mCurrentLevel == EReliveLevelIds::eBrewery_Ender && mSwitchId == 100)
             {
-                CreateGameEnderController_43B7A0();
+                CreateGameEnderController();
             }
 
             if (mTurnOffTime > 0 && mTurningTime > mTurnOffTime)

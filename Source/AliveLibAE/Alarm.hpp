@@ -13,7 +13,7 @@ class Alarm final : public EffectBase
 public:
     
     Alarm(relive::Path_Alarm* pTlv, const Guid& tlvId);
-    Alarm(s32 durationOffset, s32 switchId, s32 timerOffset, Layer layer);
+    Alarm(s32 durationOffset, u16 switchId, s32 timerOffset, Layer layer);
     ~Alarm();
 
 private:
@@ -25,7 +25,7 @@ private:
     s32 mAlarmPauseTimer = 0;
     s32 mAlarmDurationTimer = 0;
     Guid mAlarmTlvInfo;
-    s16 mAlarmSwitchId = 0;
+    u16 mAlarmSwitchId = 0;
     u16 mAlarmDuration = 0;
     enum class States : s16
     {
@@ -39,5 +39,5 @@ private:
     States mAlarmState = States::eWaitForSwitchEnable_0;
 };
 
-extern s16 alarmInstanceCount_5C1BB4;
-extern Guid sAlarmObjId_550D70;
+extern s16 gAlarmInstanceCount;
+extern Guid gAlarmObjId;

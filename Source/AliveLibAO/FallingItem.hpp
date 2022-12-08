@@ -9,12 +9,9 @@ namespace AO {
 
 struct FallingItem_Data final
 {
-    AnimId field_0_falling_animId;
-    AnimId field_4_waiting_animId;
-    s16 field_8_maxW;
-    s16 field_A_maxH;
+    AnimId mFallingAnimId;
+    AnimId mWaitingAnimId;
 };
-ALIVE_ASSERT_SIZEOF(FallingItem_Data, 0xC);
 
 class FallingItem final : public BaseAliveGameObject
 {

@@ -35,17 +35,17 @@ AirExplosion::AirExplosion(FP xpos, FP ypos, FP scale, bool bSmall)
 
     GetAnimation().mFlags.Clear(AnimFlags::eIsLastFrame);
     GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
-    field_F8_scale = scale;
+    mParticleScale = scale;
     SetScale(scale == FP_FromInteger(1) ? Scale::Fg : Scale::Bg);
     SetSpriteScale(scale * FP_FromInteger(2));
 
     if (mSmallExplosion)
     {
-        field_FC_explosion_size = scale * FP_FromDouble(0.5);
+        mExplosionSize = scale * FP_FromDouble(0.5);
     }
     else
     {
-        field_FC_explosion_size = scale;
+        mExplosionSize = scale;
     }
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
@@ -55,10 +55,10 @@ AirExplosion::AirExplosion(FP xpos, FP ypos, FP scale, bool bSmall)
     relive_new ScreenShake(gExplosionSetEnabled ? false : true, mSmallExplosion);
 
     PSX_RECT rect = {};
-    rect.x = FP_GetExponent(FP_FromInteger(-10) * field_FC_explosion_size);
-    rect.y = FP_GetExponent(FP_FromInteger(-10) * field_FC_explosion_size);
-    rect.w = FP_GetExponent(FP_FromInteger(10) * field_FC_explosion_size);
-    rect.h = FP_GetExponent(FP_FromInteger(10) * field_FC_explosion_size);
+    rect.x = FP_GetExponent(FP_FromInteger(-10) * mExplosionSize);
+    rect.y = FP_GetExponent(FP_FromInteger(-10) * mExplosionSize);
+    rect.w = FP_GetExponent(FP_FromInteger(10) * mExplosionSize);
+    rect.h = FP_GetExponent(FP_FromInteger(10) * mExplosionSize);
 
     DealBlastDamage(&rect);
 
@@ -76,36 +76,36 @@ void AirExplosion::VUpdate()
     switch (GetAnimation().GetCurrentFrame())
     {
         case 2:
-            rect.x = FP_GetExponent(FP_FromInteger(-20) * field_FC_explosion_size);
-            rect.w = FP_GetExponent(FP_FromInteger(20) * field_FC_explosion_size);
-            rect.y = FP_GetExponent(FP_FromInteger(-20) * field_FC_explosion_size);
-            rect.h = FP_GetExponent(FP_FromInteger(10) * field_FC_explosion_size);
+            rect.x = FP_GetExponent(FP_FromInteger(-20) * mExplosionSize);
+            rect.w = FP_GetExponent(FP_FromInteger(20) * mExplosionSize);
+            rect.y = FP_GetExponent(FP_FromInteger(-20) * mExplosionSize);
+            rect.h = FP_GetExponent(FP_FromInteger(10) * mExplosionSize);
             DealBlastDamage(&rect);
             break;
 
         case 4:
         {
             relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, TPageAbr::eBlend_1, 1);
-            rect.x = FP_GetExponent(FP_FromInteger(-38) * field_FC_explosion_size);
-            rect.w = FP_GetExponent(FP_FromInteger(38) * field_FC_explosion_size);
-            rect.y = FP_GetExponent(FP_FromInteger(-38) * field_FC_explosion_size);
-            rect.h = FP_GetExponent(FP_FromInteger(19) * field_FC_explosion_size);
+            rect.x = FP_GetExponent(FP_FromInteger(-38) * mExplosionSize);
+            rect.w = FP_GetExponent(FP_FromInteger(38) * mExplosionSize);
+            rect.y = FP_GetExponent(FP_FromInteger(-38) * mExplosionSize);
+            rect.h = FP_GetExponent(FP_FromInteger(19) * mExplosionSize);
             DealBlastDamage(&rect);
         }
         break;
 
         case 3:
         case 6:
-            rect.x = FP_GetExponent(FP_FromInteger(-60) * field_FC_explosion_size);
-            rect.w = FP_GetExponent(FP_FromInteger(60) * field_FC_explosion_size);
-            rect.y = FP_GetExponent(FP_FromInteger(-60) * field_FC_explosion_size);
-            rect.h = FP_GetExponent(FP_FromInteger(30) * field_FC_explosion_size);
+            rect.x = FP_GetExponent(FP_FromInteger(-60) * mExplosionSize);
+            rect.w = FP_GetExponent(FP_FromInteger(60) * mExplosionSize);
+            rect.y = FP_GetExponent(FP_FromInteger(-60) * mExplosionSize);
+            rect.h = FP_GetExponent(FP_FromInteger(30) * mExplosionSize);
             DealBlastDamage(&rect);
             break;
 
         case 8:
         {
-            relive_new ParticleBurst(mXPos, mYPos, mSmallExplosion ? 6 : 20, field_F8_scale, BurstType::eBigRedSparks_3, mSmallExplosion ? 11 : 13);
+            relive_new ParticleBurst(mXPos, mYPos, mSmallExplosion ? 6 : 20, mParticleScale, BurstType::eBigRedSparks_3, mSmallExplosion ? 11 : 13);
             relive_new Flash(Layer::eLayer_Above_FG1_39, 255, 255, 255, TPageAbr::eBlend_3, 1);
             break;
         }

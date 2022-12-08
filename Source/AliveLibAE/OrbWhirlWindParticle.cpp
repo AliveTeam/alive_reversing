@@ -6,7 +6,7 @@
 #include "stdlib.hpp"
 #include <algorithm>
 
-OrbWhirlWindParticle::OrbWhirlWindParticle(FP xpos, FP ypos, FP scale, s16 bIsMudokonSpirit)
+OrbWhirlWindParticle::OrbWhirlWindParticle(FP xpos, FP ypos, FP scale, bool isMudokonSpirit)
 {
     AnimResource res = ResourceManagerWrapper::LoadAnimation(AnimId::ChantOrb_Particle);
     mAnim.Init(res, nullptr);
@@ -15,7 +15,7 @@ OrbWhirlWindParticle::OrbWhirlWindParticle(FP xpos, FP ypos, FP scale, s16 bIsMu
 
     mAnim.SetRenderLayer(Layer::eLayer_AbeMenu_32);
     mAnim.SetRenderMode(TPageAbr::eBlend_1);
-    if (bIsMudokonSpirit == 1)
+    if (isMudokonSpirit)
     {
         mAnim.mFlags.Clear(AnimFlags::eBlending);
         mAnim.SetRGB(0, 255, 32);

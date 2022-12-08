@@ -134,7 +134,7 @@ enum eFleechBrains
 
 static u8 Fleech_NextRandom()
 {
-    return sRandomBytes_546744[sFleechRandomIdx_5BC20C++];
+    return gRandomBytes[sFleechRandomIdx_5BC20C++];
 }
 
 Fleech::Fleech(relive::Path_Fleech* pTlv, const Guid& tlvId)
@@ -1917,7 +1917,7 @@ void Fleech::ToIdle()
     mVelY = FP_FromInteger(0);
     mCurrentMotion = eFleechMotions::Motion_3_Idle;
     mNextMotion = -1;
-    field_134_unused = 60 * sRandomBytes_546744[sFleechRandomIdx_5BC20C++] / 256 + sGnFrame + 120;
+    field_134_unused = 60 * gRandomBytes[sFleechRandomIdx_5BC20C++] / 256 + sGnFrame + 120;
 }
 
 const relive::SfxDefinition& getSfxDef(FleechSound effectId)

@@ -7,8 +7,8 @@
 #include "Sfx.hpp"
 #include "Path.hpp"
 
-s16 alarmInstanceCount_5C1BB4 = 0;
-Guid sAlarmObjId_550D70 = Guid{};
+s16 gAlarmInstanceCount = 0;
+Guid gAlarmObjId = Guid{};
 
 Alarm::Alarm(relive::Path_Alarm* pTlv, const Guid& tlvId)
     : EffectBase(Layer::eLayer_Above_FG1_39, TPageAbr::eBlend_3)
@@ -30,7 +30,7 @@ Alarm::Alarm(relive::Path_Alarm* pTlv, const Guid& tlvId)
     mAlarmDuration = pTlv->mAlarmDuration;
 }
 
-Alarm::Alarm(s32 durationOffset, s32 switchId, s32 timerOffset, Layer layer)
+Alarm::Alarm(s32 durationOffset, u16 switchId, s32 timerOffset, Layer layer)
     : EffectBase(layer, TPageAbr::eBlend_3)
 {
     SetType(ReliveTypes::eAlarm);
@@ -40,18 +40,18 @@ Alarm::Alarm(s32 durationOffset, s32 switchId, s32 timerOffset, Layer layer)
     mAlarmTlvInfo = Guid{};
     mAlarmPauseTimer = sGnFrame + timerOffset;
     mAlarmDurationTimer = mAlarmPauseTimer + durationOffset;
-    mAlarmSwitchId = static_cast<s16>(switchId);
+    mAlarmSwitchId = switchId;
 
-    alarmInstanceCount_5C1BB4++;
+    gAlarmInstanceCount++;
 
-    if (alarmInstanceCount_5C1BB4 > 1)
+    if (gAlarmInstanceCount > 1)
     {
         // More than one instance, kill self
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
     else
     {
-        sAlarmObjId_550D70 = mBaseGameObjectId;
+        gAlarmObjId = mBaseGameObjectId;
     }
 
     mEffectBaseRed = 0;
@@ -63,12 +63,12 @@ Alarm::~Alarm()
 {
     if (mAlarmState != States::eWaitForSwitchEnable_0)
     {
-        alarmInstanceCount_5C1BB4--;
+        gAlarmInstanceCount--;
     }
 
-    if (sAlarmObjId_550D70 == mBaseGameObjectId)
+    if (gAlarmObjId == mBaseGameObjectId)
     {
-        sAlarmObjId_550D70 = Guid{};
+        gAlarmObjId = Guid{};
     }
 
     if (mAlarmTlvInfo == Guid{})
@@ -118,14 +118,14 @@ void Alarm::VUpdate()
                 return;
             }
 
-            alarmInstanceCount_5C1BB4++;
-            if (alarmInstanceCount_5C1BB4 > 1)
+            gAlarmInstanceCount++;
+            if (gAlarmInstanceCount > 1)
             {
                 mBaseGameObjectFlags.Set(BaseGameObject::eDead);
             }
             else
             {
-                sAlarmObjId_550D70 = mBaseGameObjectId;
+                gAlarmObjId = mBaseGameObjectId;
             }
 
             mAlarmState = States::eEnabling_2;

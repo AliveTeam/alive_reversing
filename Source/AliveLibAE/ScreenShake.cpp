@@ -47,7 +47,7 @@ struct ScreenOffset final
     s8 y;
 };
 
-const ScreenOffset sShakeOffsets[16] = {
+static const ScreenOffset sShakeOffsets[16] = {
     {0, -1},
     {-1, 0},
     {1, -1},

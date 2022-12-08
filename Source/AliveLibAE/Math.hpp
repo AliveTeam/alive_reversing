@@ -22,4 +22,4 @@ s32 Math_SquareRoot_Int_496E70(s32 value);
 FP Math_SquareRoot_FP(FP value);
 
 
-extern u8 sRandomBytes_546744[256];
+extern u8 gRandomBytes[256];

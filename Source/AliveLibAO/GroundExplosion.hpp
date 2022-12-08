@@ -7,13 +7,13 @@ namespace AO {
 class GroundExplosion final : public BaseAnimatedWithPhysicsGameObject
 {
 public:
-    GroundExplosion(FP xpos, FP ypos, FP scale);
-
-    void DealDamageRect(const PSX_RECT* pRect);
-
     virtual void VUpdate() override;
 
-    FP mObjectScale = {};
+    GroundExplosion(FP xpos, FP ypos, FP scale);
+private:
+    void DealDamageRect(const PSX_RECT* pRect);
+
+    FP mBombSpriteScale = {};
 };
 
 } // namespace AO

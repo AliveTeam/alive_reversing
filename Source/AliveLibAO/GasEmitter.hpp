@@ -25,7 +25,7 @@ private:
     s32 mEmitPower = 0;
     FP mEmitterXPos = {};
     FP mEmitterYPos = {};
-    FP field_20_fp_not_used = {};
+    FP mSmokeScale = {};
 };
 
 } // namespace AO

@@ -49,4 +49,3 @@ public:
     s32 mAirStreamSndChannels = 0;
     s32 mCreatedGnFrame = 0;
 };
-ALIVE_ASSERT_SIZEOF(FallingItem, 0x148);

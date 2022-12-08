@@ -34,8 +34,8 @@ MainMenuController* MainMenuController::gMainMenuController = nullptr;
 
 s32 sMainMenuObjectCounter_BB4400 = 0;
 
-s8 sEnableCheatLevelSelect_5C1BEE = 0;
-s8 sEnableCheatFMV_5C1BEC = 0;
+bool gEnableCheatLevelSelect = false;
+bool gEnableCheatFMV = false;
 
 s16 sDemoIdChosenFromDemoMenu_5C1B9E = 0;
 
@@ -580,8 +580,8 @@ MainMenuController::MainMenuController(relive::Path_TLV* /*pTlv*/, const Guid& t
 
     sSavedKilledMudsPerZulag_5C1B50 = {};
 
-    sEnableCheatFMV_5C1BEC = 0;
-    sEnableCheatLevelSelect_5C1BEE = 0;
+    gEnableCheatFMV = false;
+    gEnableCheatLevelSelect = false;
     sKilledMudokons = 0;
     sRescuedMudokons = 0;
     gAttract = 0;
@@ -1351,8 +1351,8 @@ s32 dword_55C128 = 0;
 
 MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
 {
-    sEnableCheatFMV_5C1BEC = 0;
-    sEnableCheatLevelSelect_5C1BEE = 0;
+    gEnableCheatFMV = false;
+    gEnableCheatLevelSelect = false;
 
     if (sMovie_ref_count_BB4AE4 > 0)
     {
@@ -1633,10 +1633,10 @@ MainMenuNextCam MainMenuController::Page_Front_Update_4D0720(u32 input)
         }
     }
 
-    if (sEnableCheatFMV_5C1BEC)
+    if (gEnableCheatFMV)
     {
         // To FMV list menu
-        sEnableCheatFMV_5C1BEC = 0;
+        gEnableCheatFMV = false;
         field_25C_Inside_FMV_Screen = 1;
         pDemosOrFmvs_BB4414.mFmvRec = &sFmvs_561540[0];
         sMenuItemCount_561538 = ALIVE_COUNTOF(sFmvs_561540);
@@ -1647,10 +1647,10 @@ MainMenuNextCam MainMenuController::Page_Front_Update_4D0720(u32 input)
         return MainMenuNextCam(MainMenuCams::eCheatMenu_SelectFMVCam, NO_SELECTABLE_BUTTONS);
     }
 
-    if (sEnableCheatLevelSelect_5C1BEE)
+    if (gEnableCheatLevelSelect)
     {
         // To level select menu
-        sEnableCheatLevelSelect_5C1BEE = 0;
+        gEnableCheatLevelSelect = false;
         field_25E_Inside_CheatLevelSelect_Screen = 1;
         pDemosOrFmvs_BB4414.mDemoRec = &gPerLvlData_561700[0];
         sMenuItemCount_561538 = ALIVE_COUNTOF(gPerLvlData_561700) - 2; // exclude menu and credits levels

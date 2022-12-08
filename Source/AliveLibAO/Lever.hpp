@@ -28,8 +28,8 @@ public:
 
     s16 mSwitchId = 0;
     LeverState mState = LeverState::eWaiting_0;
-    Guid mTlvInfo;
-    s16 field_F0_bPulledFromLeft = 0;
+    Guid mTlvId;
+    bool mPulledFromLeft = false;
     relive::reliveSwitchOp mAction = relive::reliveSwitchOp::eSetTrue;
     relive::Path_Lever::LeverSoundType mOnSound = relive::Path_Lever::LeverSoundType::eNone;
     relive::Path_Lever::LeverSoundType mOffSound = relive::Path_Lever::LeverSoundType::eNone;

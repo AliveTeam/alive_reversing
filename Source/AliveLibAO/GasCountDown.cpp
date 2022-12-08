@@ -35,7 +35,7 @@ GasCountDown::GasCountDown(relive::Path_GasCountDown* pTlv, const Guid& tlvInfo)
 
     gGasOn = 0;
 
-    mGasTimeLeft = 120;
+    mGasTimeLeftSecs = 120;
 
    
     mStartTimerSwitchId = pTlv->mStartTimerSwitchId;
@@ -79,7 +79,7 @@ void GasCountDown::VUpdate()
     if (!sGasTimer)
     {
         // Off/idle
-        mGasTimeLeft = 120;
+        mGasTimeLeftSecs = 120;
     }
     else
     {
@@ -95,10 +95,10 @@ void GasCountDown::VUpdate()
             sGasTimer++;
         }
 
-        const s32 oldTimer = mGasTimeLeft;
+        const s32 oldTimer = mGasTimeLeftSecs;
         const s32 newTimer = 120 - (static_cast<s32>(sGnFrame) - sGasTimer) / 30;
-        mGasTimeLeft = static_cast<s16>(newTimer);
-        if (oldTimer != mGasTimeLeft && mGasTimeLeft > 0)
+        mGasTimeLeftSecs = static_cast<s16>(newTimer);
+        if (oldTimer != mGasTimeLeftSecs && mGasTimeLeftSecs > 0)
         {
             SFX_Play_Pitch(relive::SoundEffects::RedTick, 55, -1000);
         }
@@ -109,9 +109,9 @@ void GasCountDown::VUpdate()
 
 void GasCountDown::DealDamage()
 {
-    if (mGasTimeLeft < 0)
+    if (mGasTimeLeftSecs < 0)
     {
-        if (-mGasTimeLeft > 2)
+        if (-mGasTimeLeftSecs > 2)
         {
             sActiveHero->VTakeDamage(this);
             for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
@@ -128,10 +128,10 @@ void GasCountDown::DealDamage()
                 }
             }
         }
-        mGasTimeLeft = 0;
+        mGasTimeLeftSecs = 0;
     }
 
-    if (!gGasOn && mGasTimeLeft <= 0)
+    if (!gGasOn && mGasTimeLeftSecs <= 0)
     {
         gGasOn = true;
         relive_new DeathGas(Layer::eLayer_Above_FG1_39, 2);
@@ -141,7 +141,7 @@ void GasCountDown::DealDamage()
 void GasCountDown::VRender(PrimHeader** ppOt)
 {
     char_type text[128] = {}; // Bigger buffer to handle large numbers or negative numbers causing a buffer overflow/crash.
-    sprintf(text, "%02d:%02d", mGasTimeLeft / 60, mGasTimeLeft % 60);
+    sprintf(text, "%02d:%02d", mGasTimeLeftSecs / 60, mGasTimeLeftSecs % 60);
     const auto textWidth = mFont.MeasureTextWidth(text);
 
     mFont.DrawString(

@@ -19,18 +19,11 @@ public:
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 
-    s32 field_D4 = 0;
-    s32 field_D8 = 0;
-    s32 field_DC = 0;
-    s32 field_E0 = 0;
-
-    Guid field_E4_tlvInfo;
-    s16 field_E8 = 0;
-    s16 field_EA = 0;
-    s32 field_EC_rnd1= 0;
-    s32 field_F0_rnd2= 0;
-    s32 field_F4_rnd3= 0;
-    s32 field_F8_rnd4= 0;
+    Guid mTlvId;
+    s32 mRnd1 = 0;
+    s32 mRnd2 = 0;
+    s32 mRnd3 = 0;
+    s32 mRnd4 = 0;
 };
 
 } // namespace AO

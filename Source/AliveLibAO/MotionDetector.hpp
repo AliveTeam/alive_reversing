@@ -36,7 +36,7 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
-    void SetDontComeBack(s16 bDontComeBack);
+    void SetDontComeBack(bool bDontComeBack);
 
     Guid field_E4_tlvInfo;
     enum class States : s16
@@ -51,7 +51,7 @@ public:
     u16 field_F0_disable_switch_id = 0;
     s16 field_F2_alarm_switch_id = 0;
     s16 field_F4_alarm_duration = 0;
-    s16 field_F6_bDontComeBack = 0;
+    bool field_F6_bDontComeBack = false;
     FP field_F8_top_left_x = {};
     FP field_FC_top_left_y = {};
     FP field_100_bottom_right_x = {};

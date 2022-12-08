@@ -894,9 +894,6 @@ NLOHMANN_JSON_SERIALIZE_ENUM(GameEnderControllerStates, {
     {GameEnderControllerStates::eGoodEnding_4, "good_ending"},
     {GameEnderControllerStates::eAngelicEnding_5, "angelic_ending"},
     {GameEnderControllerStates::eAngelicEndingCredits_6, "angelic_ending_credits"},
-    {GameEnderControllerStates::ePadding_7, "padding7"},
-    {GameEnderControllerStates::ePadding_8, "padding8"},
-    {GameEnderControllerStates::ePadding_9, "padding9"},
 })
 
 inline void from_json(const nlohmann::json& j, GameEnderControllerSaveState& p)

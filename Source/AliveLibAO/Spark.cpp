@@ -61,9 +61,9 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 min, s32 max)
             {
                 randAng = min + Math_RandomRange(0, static_cast<s16>(max - min));
             }
-            pSparkIter->field_10_ang = static_cast<u8>(randAng);
-            pSparkIter->field_14_radius = FP_FromInteger(0);
-            pSparkIter->field_18_len = FP_FromInteger(Math_RandomRange(2, 4));
+            pSparkIter->mAng = static_cast<u8>(randAng);
+            pSparkIter->mRadius = FP_FromInteger(0);
+            pSparkIter->mLen = FP_FromInteger(Math_RandomRange(2, 4));
         }
 
         mTimer = sGnFrame + 3;
@@ -127,12 +127,12 @@ void Spark::VUpdate()
             }
             for (s32 idx = 0; idx < mSparkCount; idx++)
             {
-                mSparkRes[idx].field_0_x0 = mSparkRes[idx].field_14_radius * Math_Sine(mSparkRes[idx].field_10_ang);
-                mSparkRes[idx].field_4_y0 = mSparkRes[idx].field_14_radius * Math_Cosine(mSparkRes[idx].field_10_ang);
-                mSparkRes[idx].field_8_x1 = (mSparkRes[idx].field_18_len + mSparkRes[idx].field_14_radius) * Math_Sine(mSparkRes[idx].field_10_ang);
-                mSparkRes[idx].field_C_y1 = (mSparkRes[idx].field_18_len + mSparkRes[idx].field_14_radius) * Math_Cosine(mSparkRes[idx].field_10_ang);
-                mSparkRes[idx].field_14_radius = mSparkRes[idx].field_18_len + FP_FromInteger(Math_RandomRange(2, 5));
-                mSparkRes[idx].field_18_len = mSparkRes[idx].field_18_len + FP_FromInteger(2);
+                mSparkRes[idx].mX0 = mSparkRes[idx].mRadius * Math_Sine(mSparkRes[idx].mAng);
+                mSparkRes[idx].mY0 = mSparkRes[idx].mRadius * Math_Cosine(mSparkRes[idx].mAng);
+                mSparkRes[idx].mX1 = (mSparkRes[idx].mLen + mSparkRes[idx].mRadius) * Math_Sine(mSparkRes[idx].mAng);
+                mSparkRes[idx].mY1 = (mSparkRes[idx].mLen + mSparkRes[idx].mRadius) * Math_Cosine(mSparkRes[idx].mAng);
+                mSparkRes[idx].mRadius = mSparkRes[idx].mLen + FP_FromInteger(Math_RandomRange(2, 5));
+                mSparkRes[idx].mLen = mSparkRes[idx].mLen + FP_FromInteger(2);
             }
         }
         else
@@ -159,14 +159,14 @@ void Spark::VRender(PrimHeader** ppOt)
     {
         SparkRes* pSpark = &mSparkRes[i];
 
-        Line_G2* pPrim = &pSpark->field_1C_pLineG2s[gPsxDisplay.mBufferIndex];
+        Line_G2* pPrim = &pSpark->mLineG2s[gPsxDisplay.mBufferIndex];
         LineG2_Init(pPrim);
 
-        const s32 y0 = yOrg + FP_GetExponent(pSpark->field_4_y0 * mSpriteScale);
-        const s32 y1 = yOrg + FP_GetExponent(pSpark->field_C_y1 * mSpriteScale);
+        const s32 y0 = yOrg + FP_GetExponent(pSpark->mY0 * mSpriteScale);
+        const s32 y1 = yOrg + FP_GetExponent(pSpark->mY1 * mSpriteScale);
 
-        const s32 x0 = PsxToPCX(xOrg + FP_GetExponent(pSpark->field_0_x0 * mSpriteScale), 11);
-        const s32 x1 = PsxToPCX(xOrg + FP_GetExponent(pSpark->field_8_x1 * mSpriteScale), 11);
+        const s32 x0 = PsxToPCX(xOrg + FP_GetExponent(pSpark->mX0 * mSpriteScale), 11);
+        const s32 x1 = PsxToPCX(xOrg + FP_GetExponent(pSpark->mX1 * mSpriteScale), 11);
 
         SetXY0(pPrim, static_cast<s16>(x0), static_cast<s16>(y0));
         SetXY1(pPrim, static_cast<s16>(x1), static_cast<s16>(y1));

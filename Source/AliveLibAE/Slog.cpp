@@ -552,7 +552,7 @@ void Slog::Motion_1_Walk()
 
 static u8 Slog_NextRandom()
 {
-    return sRandomBytes_546744[sSlogRandomIdx++];
+    return gRandomBytes[sSlogRandomIdx++];
 }
 
 

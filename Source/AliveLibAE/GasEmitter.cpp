@@ -10,26 +10,23 @@
 #include "GasCountDown.hpp"
 #include "Path.hpp"
 
-GasEmitter* sMainGasEmitter = nullptr;
-u32 sGasEmiterAudioMask = 0;
+static GasEmitter* sMainGasEmitter = nullptr;
+static u32 sGasEmitterAudioMask = 0;
 
 GasEmitter::GasEmitter(relive::Path_GasEmitter* pTlv, const Guid& tlvId)
     : BaseGameObject(true, 0)
 {
     SetType(ReliveTypes::eNone);
 
-    field_28_draw_flipper = 1;
+    mDrawFlipper = 1;
 
-    field_2A_switch_id = pTlv->mSwitchId;
-    field_2C_gas_colour = pTlv->mColour;
+    mSwitchId = pTlv->mSwitchId;
+    mGasColour = pTlv->mColour;
 
     mTlvId = tlvId;
 
     mEmitterXPos = FP_FromInteger(pTlv->mTopLeftX);
     mEmitterYPos = FP_FromInteger(pTlv->mTopLeftY);
-
-    // Probably scale ?
-    field_38_fp_not_used = FP_FromInteger(1);
 
     mEmitPower = Math_NextRandom() % 4;
 }
@@ -41,8 +38,8 @@ GasEmitter::~GasEmitter()
     if (sMainGasEmitter == this)
     {
         sMainGasEmitter = 0;
-        SND_Stop_Channels_Mask(sGasEmiterAudioMask);
-        sGasEmiterAudioMask = 0;
+        SND_Stop_Channels_Mask(sGasEmitterAudioMask);
+        sGasEmitterAudioMask = 0;
     }
 }
 
@@ -51,8 +48,8 @@ void GasEmitter::VStopAudio()
     if (sMainGasEmitter == this)
     {
         sMainGasEmitter = 0;
-        SND_Stop_Channels_Mask(sGasEmiterAudioMask);
-        sGasEmiterAudioMask = 0;
+        SND_Stop_Channels_Mask(sGasEmitterAudioMask);
+        sGasEmitterAudioMask = 0;
     }
 }
 
@@ -63,9 +60,9 @@ void GasEmitter::VScreenChanged()
 
 void GasEmitter::VUpdate()
 {
-    if ((gGasOn && !((sGnFrame + mEmitPower) % 4)) || (SwitchStates_Get(field_2A_switch_id) && field_28_draw_flipper && Math_RandomRange(0, 1)))
+    if ((gGasOn && !((sGnFrame + mEmitPower) % 4)) || (SwitchStates_Get(mSwitchId) && mDrawFlipper && Math_RandomRange(0, 1)))
     {
-        switch (field_2C_gas_colour)
+        switch (mGasColour)
         {
             case relive::Path_GasEmitter::GasColour::eYellow:
                 New_Smoke_Particles(mEmitterXPos, mEmitterYPos, FP_FromDouble(0.5), 1, RGB16{ 128, 128, 32 });
@@ -95,10 +92,10 @@ void GasEmitter::VUpdate()
         {
             SfxPlayMono(relive::SoundEffects::Gas1, 127);
             sMainGasEmitter = this;
-            sGasEmiterAudioMask = SfxPlayMono(relive::SoundEffects::Gas2, 127);
+            sGasEmitterAudioMask = SfxPlayMono(relive::SoundEffects::Gas2, 127);
         }
     }
 
     // Flip the value
-    field_28_draw_flipper = !field_28_draw_flipper;
+    mDrawFlipper = !mDrawFlipper;
 }

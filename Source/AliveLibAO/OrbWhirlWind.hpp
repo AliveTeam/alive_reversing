@@ -29,13 +29,13 @@ public:
     void ToStop();
 
 private:
-    s32 field_10_particle_spawn_counter = 0;
-    ParticlesState field_14_particles_state = ParticlesState::eCreating;
-    s16 field_16_particleIdx = 0;
-    OrbWhirlWindParticle* field_18_particles[16] = {};
-    FP field_58_xpos = {};
-    FP field_5C_ypos = {};
-    FP field_60_scale = {};
+    s32 mParticleSpawnCounter = 0;
+    ParticlesState mState = ParticlesState::eCreating;
+    s16 mParticleIdx = 0;
+    OrbWhirlWindParticle* mOrbParticles[16] = {};
+    FP mXPos = {};
+    FP mYPos = {};
+    FP mScale = {};
 };
 
 } // namespace AO

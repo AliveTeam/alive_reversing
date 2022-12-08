@@ -7318,7 +7318,7 @@ void Abe::Motion_115_DoorExit()
                 if (pObj->Type() == ReliveTypes::eDoor)
                 {
                     Door* pDoor = static_cast<Door*>(pObj);
-                    if (pDoor->field_FA_door_number == field_1A0_door_id)
+                    if (pDoor->mDoorId == field_1A0_door_id)
                     {
                         // And close it
                         pDoor->vClose();

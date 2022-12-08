@@ -12,8 +12,8 @@
 #include "Game.hpp"
 
 s16 sDoorsOpen_5C1BE6 = 0;
-s32 sTweakX_5C1BD0 = 0;
-s32 sTweakY_5C1BD4 = 0;
+s32 gTweakX = 0;
+s32 gTweakY = 0;
 s16 sRescuedMudokons = 0;
 s16 sKilledMudokons = 0;
 
@@ -179,8 +179,8 @@ DDCheat::DDCheat()
     // But, the Exoddus Demo does in fact have the code, so it's possible to reimplement it
     // in the future.
     AddPropertyEntry("Doors Open ", DDCheatValueType::eShort_4, &sDoorsOpen_5C1BE6);
-    AddPropertyEntry("Tweak X ", DDCheatValueType::eInt_6, &sTweakX_5C1BD0);
-    AddPropertyEntry("Tweak Y ", DDCheatValueType::eInt_6, &sTweakY_5C1BD4);
+    AddPropertyEntry("Tweak X ", DDCheatValueType::eInt_6, &gTweakX);
+    AddPropertyEntry("Tweak Y ", DDCheatValueType::eInt_6, &gTweakY);
     AddPropertyEntry("RescuedMudokons ", DDCheatValueType::eShort_4, &sRescuedMudokons);
     AddPropertyEntry("Visited Bonewerks ", DDCheatValueType::eShort_1, &gVisitedBonewerkz);
     AddPropertyEntry("Visited Barracks ", DDCheatValueType::eShort_1, &gVisitedBarracks);

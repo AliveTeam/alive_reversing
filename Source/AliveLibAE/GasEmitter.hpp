@@ -17,10 +17,9 @@ public:
 private:
     Guid mTlvId;
     s32 mEmitPower = 0;
-    s16 field_28_draw_flipper = 0;
-    s16 field_2A_switch_id = 0;
-    relive::Path_GasEmitter::GasColour field_2C_gas_colour = relive::Path_GasEmitter::GasColour::eYellow;
+    s16 mDrawFlipper = 0;
+    s16 mSwitchId = 0;
+    relive::Path_GasEmitter::GasColour mGasColour = relive::Path_GasEmitter::GasColour::eYellow;
     FP mEmitterXPos = {};
     FP mEmitterYPos = {};
-    FP field_38_fp_not_used = {};
 };

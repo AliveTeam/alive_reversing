@@ -12,43 +12,40 @@ namespace AO {
 
 struct Lever_Data final
 {
-    AnimId field_0_idle_animId;
-    s32 field_4_maxW;
-    s32 field_8_maxH;
-    AnimId field_C_pulling_left_animId;
-    AnimId field_10_releasing_left_animId;
-    AnimId field_14_pulling_right_animId;
-    AnimId field_18_releasing_right_animId;
+    AnimId mIdleAnimId;
+    AnimId mPullingLeftAnimId;
+    AnimId mReleasingLeftAnimId;
+    AnimId mPullingRightAnimId;
+    AnimId mReleasingRightAnimId;
 };
-ALIVE_ASSERT_SIZEOF(Lever_Data, 0x1C);
 
-const Lever_Data gLeverData_4BCF40[16] = {
-    {AnimId::Lever_Idle, 66, 41, AnimId::Lever_Pull_Left, AnimId::Lever_Pull_Release_Left, AnimId::Lever_Pull_Right, AnimId::Lever_Pull_Release_Right},                                                                  // menu
-    {AnimId::RuptureFarms_Lever_Idle, 67, 40, AnimId::RuptureFarms_Lever_Pull_Left, AnimId::RuptureFarms_Lever_Pull_Release_Left, AnimId::RuptureFarms_Lever_Pull_Right, AnimId::RuptureFarms_Lever_Pull_Release_Right}, // rupture farms
-    {AnimId::Lines_Lever_Idle, 66, 41, AnimId::Lines_Lever_Pull_Left, AnimId::Lines_Lever_Pull_Release_Left, AnimId::Lines_Lever_Pull_Right, AnimId::Lines_Lever_Pull_Release_Right},                                    // lines
-    {AnimId::Lever_Idle, 66, 41, AnimId::Lever_Pull_Left, AnimId::Lever_Pull_Release_Left, AnimId::Lever_Pull_Right, AnimId::Lever_Pull_Release_Right},                                                                  // forest
-    {AnimId::Lever_Idle, 66, 41, AnimId::Lever_Pull_Left, AnimId::Lever_Pull_Release_Left, AnimId::Lever_Pull_Right, AnimId::Lever_Pull_Release_Right},                                                                  // forest temple
-    {AnimId::Lever_Idle, 66, 41, AnimId::Lever_Pull_Left, AnimId::Lever_Pull_Release_Left, AnimId::Lever_Pull_Right, AnimId::Lever_Pull_Release_Right},                                                                  // stock yards
-    {AnimId::RuptureFarms_Lever_Idle, 67, 40, AnimId::RuptureFarms_Lever_Pull_Left, AnimId::RuptureFarms_Lever_Pull_Release_Left, AnimId::RuptureFarms_Lever_Pull_Right, AnimId::RuptureFarms_Lever_Pull_Release_Right}, // stock yards return
-    {AnimId::Lines_Lever_Idle, 66, 41, AnimId::Lines_Lever_Pull_Left, AnimId::Lines_Lever_Pull_Release_Left, AnimId::Lines_Lever_Pull_Right, AnimId::Lines_Lever_Pull_Release_Right},                                    // removed
-    {AnimId::Lever_Idle, 66, 41, AnimId::Lever_Pull_Left, AnimId::Lever_Pull_Release_Left, AnimId::Lever_Pull_Right, AnimId::Lever_Pull_Release_Right},                                                                  // desert
-    {AnimId::Lever_Idle, 66, 41, AnimId::Lever_Pull_Left, AnimId::Lever_Pull_Release_Left, AnimId::Lever_Pull_Right, AnimId::Lever_Pull_Release_Right},                                                                  // desert temple
-    {AnimId::Lever_Idle, 66, 41, AnimId::Lever_Pull_Left, AnimId::Lever_Pull_Release_Left, AnimId::Lever_Pull_Right, AnimId::Lever_Pull_Release_Right},                                                                  // credits
-    {AnimId::Lever_Idle, 66, 41, AnimId::Lever_Pull_Left, AnimId::Lever_Pull_Release_Left, AnimId::Lever_Pull_Right, AnimId::Lever_Pull_Release_Right},                                                                  // removed
-    {AnimId::RuptureFarms_Lever_Idle, 67, 40, AnimId::RuptureFarms_Lever_Pull_Left, AnimId::RuptureFarms_Lever_Pull_Release_Left, AnimId::RuptureFarms_Lever_Pull_Right, AnimId::RuptureFarms_Lever_Pull_Release_Right}, // board room
-    {AnimId::RuptureFarms_Lever_Idle, 67, 40, AnimId::RuptureFarms_Lever_Pull_Left, AnimId::RuptureFarms_Lever_Pull_Release_Left, AnimId::RuptureFarms_Lever_Pull_Right, AnimId::RuptureFarms_Lever_Pull_Release_Right}, // rupture farms return
-    {AnimId::Lever_Idle, 66, 41, AnimId::Lever_Pull_Left, AnimId::Lever_Pull_Release_Left, AnimId::Lever_Pull_Right, AnimId::Lever_Pull_Release_Right},                                                                  // forest chase
-    {AnimId::Lever_Idle, 66, 41, AnimId::Lever_Pull_Left, AnimId::Lever_Pull_Release_Left, AnimId::Lever_Pull_Right, AnimId::Lever_Pull_Release_Right}};                                                                 // desert escape
+static const Lever_Data sLeverData[16] = {
+    {AnimId::Lever_Idle, AnimId::Lever_Pull_Left, AnimId::Lever_Pull_Release_Left, AnimId::Lever_Pull_Right, AnimId::Lever_Pull_Release_Right},                                                                  // menu
+    {AnimId::RuptureFarms_Lever_Idle, AnimId::RuptureFarms_Lever_Pull_Left, AnimId::RuptureFarms_Lever_Pull_Release_Left, AnimId::RuptureFarms_Lever_Pull_Right, AnimId::RuptureFarms_Lever_Pull_Release_Right}, // rupture farms
+    {AnimId::Lines_Lever_Idle, AnimId::Lines_Lever_Pull_Left, AnimId::Lines_Lever_Pull_Release_Left, AnimId::Lines_Lever_Pull_Right, AnimId::Lines_Lever_Pull_Release_Right},                                    // lines
+    {AnimId::Lever_Idle, AnimId::Lever_Pull_Left, AnimId::Lever_Pull_Release_Left, AnimId::Lever_Pull_Right, AnimId::Lever_Pull_Release_Right},                                                                  // forest
+    {AnimId::Lever_Idle, AnimId::Lever_Pull_Left, AnimId::Lever_Pull_Release_Left, AnimId::Lever_Pull_Right, AnimId::Lever_Pull_Release_Right},                                                                  // forest temple
+    {AnimId::Lever_Idle, AnimId::Lever_Pull_Left, AnimId::Lever_Pull_Release_Left, AnimId::Lever_Pull_Right, AnimId::Lever_Pull_Release_Right},                                                                  // stock yards
+    {AnimId::RuptureFarms_Lever_Idle, AnimId::RuptureFarms_Lever_Pull_Left, AnimId::RuptureFarms_Lever_Pull_Release_Left, AnimId::RuptureFarms_Lever_Pull_Right, AnimId::RuptureFarms_Lever_Pull_Release_Right}, // stock yards return
+    {AnimId::Lines_Lever_Idle, AnimId::Lines_Lever_Pull_Left, AnimId::Lines_Lever_Pull_Release_Left, AnimId::Lines_Lever_Pull_Right, AnimId::Lines_Lever_Pull_Release_Right},                                    // removed
+    {AnimId::Lever_Idle, AnimId::Lever_Pull_Left, AnimId::Lever_Pull_Release_Left, AnimId::Lever_Pull_Right, AnimId::Lever_Pull_Release_Right},                                                                  // desert
+    {AnimId::Lever_Idle, AnimId::Lever_Pull_Left, AnimId::Lever_Pull_Release_Left, AnimId::Lever_Pull_Right, AnimId::Lever_Pull_Release_Right},                                                                  // desert temple
+    {AnimId::Lever_Idle, AnimId::Lever_Pull_Left, AnimId::Lever_Pull_Release_Left, AnimId::Lever_Pull_Right, AnimId::Lever_Pull_Release_Right},                                                                  // credits
+    {AnimId::Lever_Idle, AnimId::Lever_Pull_Left, AnimId::Lever_Pull_Release_Left, AnimId::Lever_Pull_Right, AnimId::Lever_Pull_Release_Right},                                                                  // removed
+    {AnimId::RuptureFarms_Lever_Idle, AnimId::RuptureFarms_Lever_Pull_Left, AnimId::RuptureFarms_Lever_Pull_Release_Left, AnimId::RuptureFarms_Lever_Pull_Right, AnimId::RuptureFarms_Lever_Pull_Release_Right}, // board room
+    {AnimId::RuptureFarms_Lever_Idle, AnimId::RuptureFarms_Lever_Pull_Left, AnimId::RuptureFarms_Lever_Pull_Release_Left, AnimId::RuptureFarms_Lever_Pull_Right, AnimId::RuptureFarms_Lever_Pull_Release_Right}, // rupture farms return
+    {AnimId::Lever_Idle, AnimId::Lever_Pull_Left, AnimId::Lever_Pull_Release_Left, AnimId::Lever_Pull_Right, AnimId::Lever_Pull_Release_Right},                                                                  // forest chase
+    {AnimId::Lever_Idle, AnimId::Lever_Pull_Left, AnimId::Lever_Pull_Release_Left, AnimId::Lever_Pull_Right, AnimId::Lever_Pull_Release_Right}};                                                                 // desert escape
 
 void Lever::LoadAnimations()
 {
-    for (u32 i = 0; i < ALIVE_COUNTOF(gLeverData_4BCF40); i++)
+    for (u32 i = 0; i < ALIVE_COUNTOF(sLeverData); i++)
     {
-        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(gLeverData_4BCF40[i].field_0_idle_animId));
-        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(gLeverData_4BCF40[i].field_10_releasing_left_animId));
-        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(gLeverData_4BCF40[i].field_14_pulling_right_animId));
-        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(gLeverData_4BCF40[i].field_18_releasing_right_animId));
-        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(gLeverData_4BCF40[i].field_C_pulling_left_animId));
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sLeverData[i].mIdleAnimId));
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sLeverData[i].mReleasingLeftAnimId));
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sLeverData[i].mPullingRightAnimId));
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sLeverData[i].mReleasingRightAnimId));
+        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(sLeverData[i].mPullingLeftAnimId));
     }
 }
 
@@ -80,13 +77,13 @@ void Lever::VUpdate()
             mState = LeverState::eFinished_2;
 
             AnimId animId = AnimId::None;
-            if (field_F0_bPulledFromLeft == 0)
+            if (mPulledFromLeft)
             {
-                animId = gLeverData_4BCF40[lvl_idx].field_18_releasing_right_animId;
+                animId = sLeverData[lvl_idx].mReleasingLeftAnimId;
             }
             else
             {
-                animId = gLeverData_4BCF40[lvl_idx].field_10_releasing_left_animId;
+                animId = sLeverData[lvl_idx].mReleasingRightAnimId;
             }
 
             GetAnimation().Set_Animation_Data(GetAnimRes(animId));
@@ -171,7 +168,7 @@ void Lever::VUpdate()
         {
             mState = LeverState::eWaiting_0;
             GetAnimation().Set_Animation_Data(
-                GetAnimRes(gLeverData_4BCF40[static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))].field_0_idle_animId));
+                GetAnimRes(sLeverData[static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))].mIdleAnimId));
         }
     }
 }
@@ -183,7 +180,7 @@ void Lever::VScreenChanged()
 
 Lever::~Lever()
 {
-    Path::TLV_Reset(mTlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mTlvId, -1, 0, 0);
 }
 
 Lever::Lever(relive::Path_Lever* pTlv, const Guid& tlvId)
@@ -194,7 +191,7 @@ Lever::Lever(relive::Path_Lever* pTlv, const Guid& tlvId)
     LoadAnimations();
 
     const s32 lvl_idx = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
-    Animation_Init(GetAnimRes(gLeverData_4BCF40[lvl_idx].field_0_idle_animId));
+    Animation_Init(GetAnimRes(sLeverData[lvl_idx].mIdleAnimId));
 
     GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
 
@@ -221,7 +218,7 @@ Lever::Lever(relive::Path_Lever* pTlv, const Guid& tlvId)
 
     mOnSound = pTlv->mOnSound;
     mOffSound = pTlv->mOffSound;
-    mTlvInfo = tlvId;
+    mTlvId = tlvId;
     mSoundDirection = pTlv->mSoundDirection;
 
     mState = LeverState::eWaiting_0;
@@ -236,14 +233,14 @@ s32 Lever::VPull(s16 bLeftDirection)
         if (bLeftDirection)
         {
             GetAnimation().Set_Animation_Data(
-                GetAnimRes(gLeverData_4BCF40[lvl_idx].field_C_pulling_left_animId));
-            field_F0_bPulledFromLeft = 1;
+                GetAnimRes(sLeverData[lvl_idx].mPullingLeftAnimId));
+            mPulledFromLeft = true;
         }
         else
         {
             GetAnimation().Set_Animation_Data(
-                GetAnimRes(gLeverData_4BCF40[lvl_idx].field_14_pulling_right_animId));
-            field_F0_bPulledFromLeft = 0;
+                GetAnimRes(sLeverData[lvl_idx].mPullingRightAnimId));
+            mPulledFromLeft = false;
         }
     }
     return SwitchStates_Get(mSwitchId);

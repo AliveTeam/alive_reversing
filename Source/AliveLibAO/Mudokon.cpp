@@ -4096,7 +4096,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
             {
                 Mudokon_SFX(MudSounds::eFart_7, 0, field_124_voice_pitch, this);
                 SetNextMotion(eMudMotions::Motion_3_Speak);
-                if (gEnableFartGasCheat == 0)
+                if (!gEnableFartGasCheat)
                 {
                     return field_1B0;
                 }

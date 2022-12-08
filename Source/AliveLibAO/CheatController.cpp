@@ -9,26 +9,26 @@ namespace AO {
 
 CheatController* gCheatController = nullptr;
 
-s16 gEnableFartGasCheat = 0;
-s16 gVoiceCheat = 0;
-s16 gEnableCheatFMV = 0;
-s16 gEnableCheatLevelSelect = 0;
+bool gEnableFartGasCheat = false;
+bool gVoiceCheat = false;
+bool gEnableCheatFMV = false;
+bool gEnableCheatLevelSelect = false;
 
 void CheatController_Cheat_FartGas()
 {
-    gEnableFartGasCheat = gEnableFartGasCheat == 0;
+    gEnableFartGasCheat = !gEnableFartGasCheat;
 }
 
 void CheatController_Cheat_VoiceLocks()
 {
-    gVoiceCheat = gVoiceCheat == 0;
+    gVoiceCheat = !gVoiceCheat;
 }
 
 void CheatController_Cheat_LevelSelect()
 {
     if (gMap.mCurrentCamera == 1)
     {
-        gEnableCheatLevelSelect = gEnableCheatLevelSelect == 0;
+        gEnableCheatLevelSelect = !gEnableCheatLevelSelect;
     }
 }
 
@@ -36,20 +36,18 @@ void CheatController_Cheat_FMV()
 {
     if (gMap.mCurrentCamera == 1)
     {
-        gEnableCheatFMV = gEnableCheatFMV == 0;
+        gEnableCheatFMV = !gEnableCheatFMV;
     }
 }
 
 struct CheatEntry final
 {
-    s32 field_0_level_mask;
-    s32 field_4_cheat_code_length;
-    const InputCommands* field_8_cheat_code_ary;
-    s32 field_C_success_idx;
-    void (*field_10_callback)(void);
+    s32 mLevelMask;
+    s32 mCheatCodeLength;
+    const InputCommands* mCheatCodeAry;
+    s32 mSuccessIdx;
+    void (*mCallBack)(void);
 };
-ALIVE_ASSERT_SIZEOF(CheatEntry, 0x14);
-
 
 const InputCommands sCheatKeyArray_FartGas[] = {
     eThrowItem,
@@ -91,7 +89,7 @@ const InputCommands sCheatKeyArray_LevelSelect[] = {
     eUp,
 };
 
-CheatEntry stru_4C50F8[4] = {
+static CheatEntry sCheatArray[4] = {
     {~0, ALIVE_COUNTOF(sCheatKeyArray_FartGas), sCheatKeyArray_FartGas, 0, &CheatController_Cheat_FartGas},
     {~0, ALIVE_COUNTOF(sCheatKeyArray_VoiceLocks), sCheatKeyArray_VoiceLocks, 0, &CheatController_Cheat_VoiceLocks},
     {1, ALIVE_COUNTOF(sCheatKeyArray_FMV), sCheatKeyArray_FMV, 0, &CheatController_Cheat_FMV},
@@ -102,7 +100,6 @@ CheatController::CheatController()
 {
     mBaseGameObjectFlags.Set(BaseGameObject::eSurviveDeathReset_Bit9);
     SetType(ReliveTypes::eNone);
-    field_10 = 0;
 }
 
 void CheatController::VScreenChanged()
@@ -123,25 +120,25 @@ void CheatController::VUpdate()
         // Only do cheat code check if shift is held
         if (Input().IsAnyPressed(InputCommands::eRun))
         {
-            for (auto& cheatEntry : stru_4C50F8)
+            for (auto& cheatEntry : sCheatArray)
             {
                 // Bit shift current level for level mask.
-                if ((1 << static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))) & cheatEntry.field_0_level_mask)
+                if ((1 << static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))) & cheatEntry.mLevelMask)
                 {
-                    if (held == cheatEntry.field_8_cheat_code_ary[cheatEntry.field_C_success_idx])
+                    if (held == cheatEntry.mCheatCodeAry[cheatEntry.mSuccessIdx])
                     {
-                        cheatEntry.field_C_success_idx++;
+                        cheatEntry.mSuccessIdx++;
 
                         // Check if we've successfully entered all cheat code keys.
-                        if (cheatEntry.field_C_success_idx >= cheatEntry.field_4_cheat_code_length)
+                        if (cheatEntry.mSuccessIdx >= cheatEntry.mCheatCodeLength)
                         {
-                            cheatEntry.field_C_success_idx = 0;
-                            cheatEntry.field_10_callback();
+                            cheatEntry.mSuccessIdx = 0;
+                            cheatEntry.mCallBack();
                         }
                     }
                     else
                     {
-                        cheatEntry.field_C_success_idx = 0;
+                        cheatEntry.mSuccessIdx = 0;
                     }
                 }
             }

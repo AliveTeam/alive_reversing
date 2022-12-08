@@ -11,21 +11,21 @@
 
 namespace AO {
 
-s16 alarmInstanceCount_5076A8 = 0;
+s16 gAlarmInstanceCount = 0;
 
-Alarm::Alarm(s32 duration_timer, s32 switchId, s32 timer, Layer layer)
+Alarm::Alarm(s32 duration_timer, u16 switchId, s32 timer, Layer layer)
     : EffectBase(layer, TPageAbr::eBlend_1)
 {
     mAlarmPauseTimer = timer + sGnFrame;
-    mAlarmSwitchId = static_cast<s16>(switchId);
+    mAlarmSwitchId = switchId;
     SetType(ReliveTypes::eAlarm);
 
     mAlarmRed = 0;
     mAlarmState = States::eAfterConstructed_0;
     mAlarmDurationTimer = mAlarmPauseTimer + duration_timer;
 
-    alarmInstanceCount_5076A8++;
-    if (alarmInstanceCount_5076A8 > 1)
+    gAlarmInstanceCount++;
+    if (gAlarmInstanceCount > 1)
     {
         // More than one instance, kill self
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
@@ -45,7 +45,7 @@ Alarm::Alarm(s32 duration_timer, s32 switchId, s32 timer, Layer layer)
 
 Alarm::~Alarm()
 {
-    alarmInstanceCount_5076A8--;
+    gAlarmInstanceCount--;
     SwitchStates_Set(mAlarmSwitchId, 0);
 }
 

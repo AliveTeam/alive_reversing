@@ -29,17 +29,17 @@ GasPolys gasPolys_5BC6E8 = {};
 Data_Byte sbyte_3_5BD0E8 = {};
 Data_Byte sbyte_1_5BD1E4 = {};
 Data_Byte sbyte_2_5BD218 = {};
-s32 gDeathGasCount_5BD24C = 0;
+s32 gDeathGasCount = 0;
 
 DeathGas::DeathGas(Layer layer, s32 amount)
     : BaseGameObject(true, 0)
 {
-    gDeathGasCount_5BD24C++;
+    gDeathGasCount++;
 
     SetType(ReliveTypes::eMainMenuTransistion); // wot moment
     gObjListDrawables->Push_Back(this);
     mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
-    field_26_flag = 0;
+    mDone = false;
 
     Init_SetTPage(&gGasTPages_5BC6C8[0], 0, 1, PSX_getTPage(TPageAbr::eBlend_1));
     Init_SetTPage(&gGasTPages_5BC6C8[1], 0, 1, PSX_getTPage(TPageAbr::eBlend_1));
@@ -60,9 +60,8 @@ DeathGas::DeathGas(Layer layer, s32 amount)
         }
     }
 
-    field_28_layer = layer;
-    field_20_total = 0;
-    field_22_unused = 0;
+    mLayer = layer;
+    mTotal = 0;
 
     for (s32 i = 0; i < 2; i++)
     {
@@ -76,13 +75,13 @@ DeathGas::DeathGas(Layer layer, s32 amount)
         }
     }
 
-    field_24_amount = static_cast<s16>(amount);
+    mAmount = static_cast<s16>(amount);
 }
 
 DeathGas::~DeathGas()
 {
     gObjListDrawables->Remove_Item(this);
-    gDeathGasCount_5BD24C--;
+    gDeathGasCount--;
 }
 
 void DeathGas::VScreenChanged()
@@ -100,21 +99,19 @@ void DeathGas::VUpdate()
         mBaseGameObjectFlags.Set(BaseGameObject::eDead);
     }
 
-    if (!field_26_flag)
+    if (!mDone)
     {
-        field_20_total += field_24_amount;
+        mTotal += mAmount;
 
-        if (field_20_total > 255)
+        if (mTotal > 255)
         {
-            field_20_total = 255;
+            mTotal = 255;
         }
     }
 }
 
 void DeathGas::VRender(PrimHeader** ppOt)
 {
-    field_22_unused += 2;
-
     for (s32 i = 0; i < 2; i++)
     {
         for (s32 j = 0; j < 5; j++)
@@ -230,22 +227,22 @@ void DeathGas::VRender(PrimHeader** ppOt)
                 x3 += width1;
                 y3 += height1 + 8;
 
-                const s32 yVal = (gPsxDisplay.mHeight + 28) * (255 - field_20_total) / 255;
+                const s32 yVal = (gPsxDisplay.mHeight + 28) * (255 - mTotal) / 255;
 
                 SetXY0(pPoly, static_cast<s16>(x0), static_cast<s16>(y0 - yVal));
                 SetXY1(pPoly, static_cast<s16>(x1), static_cast<s16>(y1 - yVal));
                 SetXY2(pPoly, static_cast<s16>(x2), static_cast<s16>(y2 - yVal));
                 SetXY3(pPoly, static_cast<s16>(x3), static_cast<s16>(y3 - yVal));
 
-                OrderingTable_Add(OtLayer(ppOt, field_28_layer), &pPoly->mBase.header);
+                OrderingTable_Add(OtLayer(ppOt, mLayer), &pPoly->mBase.header);
             }
         }
     }
 
-    OrderingTable_Add(OtLayer(ppOt, field_28_layer), &gGasTPages_5BC6C8[gPsxDisplay.mBufferIndex].mBase);
+    OrderingTable_Add(OtLayer(ppOt, mLayer), &gGasTPages_5BC6C8[gPsxDisplay.mBufferIndex].mBase);
 
-    if (field_20_total >= 255)
+    if (mTotal >= 255)
     {
-        field_26_flag = 1;
+        mDone = true;
     }
 }

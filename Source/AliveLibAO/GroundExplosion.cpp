@@ -28,7 +28,7 @@ GroundExplosion::GroundExplosion(FP xpos, FP ypos, FP scale)
 
     GetAnimation().SetRGB(128, 128, 128);
 
-    mObjectScale = scale;
+    mBombSpriteScale = scale;
 
     if (scale == FP_FromInteger(1))
     {
@@ -51,14 +51,14 @@ GroundExplosion::GroundExplosion(FP xpos, FP ypos, FP scale)
         mXPos,
         mYPos,
         35,
-        mObjectScale,
+        mBombSpriteScale,
         BurstType::eFallingRocks_0);
 
     PSX_RECT damageRect = {
-        FP_GetExponent(FP_FromInteger(-10) * mObjectScale),
-        FP_GetExponent(FP_FromInteger(-10) * mObjectScale),
-        FP_GetExponent(FP_FromInteger(10) * mObjectScale),
-        FP_GetExponent(FP_FromInteger(10) * mObjectScale)};
+        FP_GetExponent(FP_FromInteger(-10) * mBombSpriteScale),
+        FP_GetExponent(FP_FromInteger(-10) * mBombSpriteScale),
+        FP_GetExponent(FP_FromInteger(10) * mBombSpriteScale),
+        FP_GetExponent(FP_FromInteger(10) * mBombSpriteScale)};
     DealDamageRect(&damageRect);
 
     SND_SEQ_PlaySeq_4775A0(SeqId::eExplosion1_21, 1, 1);
@@ -75,26 +75,26 @@ void GroundExplosion::VUpdate()
     switch (GetAnimation().GetCurrentFrame())
     {
         case 0:
-            rect.x = FP_GetExponent(FP_FromInteger(-30) * mObjectScale);
-            rect.w = FP_GetExponent(FP_FromInteger(30) * mObjectScale);
-            rect.y = FP_GetExponent(FP_FromInteger(-20) * mObjectScale);
-            rect.h = FP_GetExponent(FP_FromInteger(20) * mObjectScale);
+            rect.x = FP_GetExponent(FP_FromInteger(-30) * mBombSpriteScale);
+            rect.w = FP_GetExponent(FP_FromInteger(30) * mBombSpriteScale);
+            rect.y = FP_GetExponent(FP_FromInteger(-20) * mBombSpriteScale);
+            rect.h = FP_GetExponent(FP_FromInteger(20) * mBombSpriteScale);
             DealDamageRect(&rect);
             break;
 
         case 1:
-            rect.x = FP_GetExponent(FP_FromInteger(-50) * mObjectScale);
-            rect.w = FP_GetExponent(FP_FromInteger(50) * mObjectScale);
-            rect.y = FP_GetExponent(FP_FromInteger(-30) * mObjectScale);
-            rect.h = FP_GetExponent(FP_FromInteger(30) * mObjectScale);
+            rect.x = FP_GetExponent(FP_FromInteger(-50) * mBombSpriteScale);
+            rect.w = FP_GetExponent(FP_FromInteger(50) * mBombSpriteScale);
+            rect.y = FP_GetExponent(FP_FromInteger(-30) * mBombSpriteScale);
+            rect.h = FP_GetExponent(FP_FromInteger(30) * mBombSpriteScale);
             DealDamageRect(&rect);
             break;
 
         case 2:
-            rect.x = FP_GetExponent(FP_FromInteger(-80) * mObjectScale);
-            rect.w = FP_GetExponent(FP_FromInteger(80) * mObjectScale);
-            rect.y = FP_GetExponent(FP_FromInteger(-40) * mObjectScale);
-            rect.h = FP_GetExponent(FP_FromInteger(40) * mObjectScale);
+            rect.x = FP_GetExponent(FP_FromInteger(-80) * mBombSpriteScale);
+            rect.w = FP_GetExponent(FP_FromInteger(80) * mBombSpriteScale);
+            rect.y = FP_GetExponent(FP_FromInteger(-40) * mBombSpriteScale);
+            rect.h = FP_GetExponent(FP_FromInteger(40) * mBombSpriteScale);
             DealDamageRect(&rect);
             break;
 
@@ -109,10 +109,10 @@ void GroundExplosion::VUpdate()
 
             relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 255u, 255u);
 
-            rect.x = FP_GetExponent(FP_FromInteger(-113) * mObjectScale);
-            rect.w = FP_GetExponent(FP_FromInteger(113) * mObjectScale);
-            rect.y = FP_GetExponent(FP_FromInteger(-50) * mObjectScale);
-            rect.h = FP_GetExponent(FP_FromInteger(50) * mObjectScale);
+            rect.x = FP_GetExponent(FP_FromInteger(-113) * mBombSpriteScale);
+            rect.w = FP_GetExponent(FP_FromInteger(113) * mBombSpriteScale);
+            rect.y = FP_GetExponent(FP_FromInteger(-50) * mBombSpriteScale);
+            rect.h = FP_GetExponent(FP_FromInteger(50) * mBombSpriteScale);
             DealDamageRect(&rect);
             break;
         }

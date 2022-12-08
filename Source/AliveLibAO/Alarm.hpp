@@ -8,7 +8,7 @@ namespace AO {
 class Alarm final : public EffectBase
 {
 public:
-    Alarm(s32 a2, s32 switchId, s32 a4, Layer layer);
+    Alarm(s32 durationOffset, u16 switchId, s32 timer, Layer layer);
     ~Alarm();
 
     virtual void VScreenChanged() override;
@@ -28,9 +28,9 @@ private:
     States mAlarmState = States::eAfterConstructed_0;
     s32 mAlarmPauseTimer = 0;
     s32 mAlarmDurationTimer = 0;
-    s16 mAlarmSwitchId = 0;
+    u16 mAlarmSwitchId = 0;
 };
 
-extern s16 alarmInstanceCount_5076A8;
+extern s16 gAlarmInstanceCount;
 
 } // namespace AO

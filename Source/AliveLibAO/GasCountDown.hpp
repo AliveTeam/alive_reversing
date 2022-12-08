@@ -31,7 +31,7 @@ private:
     s16 mGasXPos = 0;
     s16 mGasYPos = 0;
     u16 mStartTimerSwitchId = 0;
-    s16 mGasTimeLeft = 0;
+    s16 mGasTimeLeftSecs = 0;
 };
 
 extern s16 gGasOn;

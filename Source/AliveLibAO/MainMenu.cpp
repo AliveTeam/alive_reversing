@@ -703,10 +703,10 @@ Menu::Menu(relive::Path_TLV* /*pTlv*/, const Guid& tlvId)
     mToLevelSelect = false;
     mUsingLvlSelectCheat = false;
 
-    gEnableFartGasCheat = 0;
-    gVoiceCheat = 0;
-    gEnableCheatFMV = 0;
-    gEnableCheatLevelSelect = 0;
+    gEnableFartGasCheat = false;
+    gVoiceCheat = false;
+    gEnableCheatFMV = false;
+    gEnableCheatLevelSelect = false;
     sKilledMudokons = 0;
     sRescuedMudokons = 0;
     gRestartRuptureFarmsKilledMuds = 0;
@@ -865,8 +865,8 @@ void Menu::CopyRight_Update()
 
 void Menu::FMV_Select_Update()
 {
-    gEnableCheatFMV = 0;
-    gEnableCheatLevelSelect = 0;
+    gEnableCheatFMV = false;
+    gEnableCheatLevelSelect = false;
 
     if (sMovie_ref_count_9F309C == 0)
     {
@@ -1329,7 +1329,7 @@ void Menu::MainScreen_Update()
 
     if (gEnableCheatFMV)
     {
-        gEnableCheatFMV = 0;
+        gEnableCheatFMV = false;
         mToFmvSelect = true;
         sActiveList = sFmvList;
         sListCount = ALIVE_COUNTOF(sFmvList);
@@ -1363,7 +1363,7 @@ void Menu::MainScreen_Update()
 
     if (gEnableCheatLevelSelect)
     {
-        gEnableCheatLevelSelect = 0;
+        gEnableCheatLevelSelect = false;
         mToLevelSelect = true;
         sActiveList = sLevelList;
         sListCount = ALIVE_COUNTOF(sLevelList);

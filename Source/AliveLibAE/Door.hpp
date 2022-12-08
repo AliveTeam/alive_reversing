@@ -7,7 +7,7 @@ class Door : public ::BaseAnimatedWithPhysicsGameObject
 {
 public:
     Door();
-    Door(relive::Path_Door* pTlvData, const Guid& tlvId);
+    Door(relive::Path_Door* pTlv, const Guid& tlvId);
     ~Door();
 
     void LoadAnimations();
@@ -23,18 +23,18 @@ public:
     virtual void VUpdate() override;
 
 protected:
-    Guid field_F4_tlvInfo;
-    relive::Path_Door::DoorTypes field_F8_door_type = relive::Path_Door::DoorTypes::eBasicDoor;
+    Guid mTlvId;
+    relive::Path_Door::DoorTypes mDoorType = relive::Path_Door::DoorTypes::eBasicDoor;
 
 public:
-    s16 field_FA_door_number = 0;
+    s16 mDoorId = 0;
 
 protected:
-    relive::Path_Door::DoorStates field_FC_current_state = relive::Path_Door::DoorStates::eOpen;
-    relive::Path_Door::DoorStates field_FE_start_state = relive::Path_Door::DoorStates::eOpen;
+    relive::Path_Door::DoorStates mCurrentState = relive::Path_Door::DoorStates::eOpen;
+    relive::Path_Door::DoorStates mStartState = relive::Path_Door::DoorStates::eOpen;
 
-    s16 field_100_switch_id = 0;
-    s16 field_102_hub_ids[8] = {};
+    s16 mSwitchId = 0;
+    s16 mHubIds[8] = {};
 };
 
 class TrainDoor final : public Door

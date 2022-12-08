@@ -7467,7 +7467,7 @@ void Abe::Motion_88_HandstoneBegin()
                         ALIVE_FATAL("never expected eDemoPlaybackStone to be used");
                         /*field_164_pCircularFade->mBaseGameObjectFlags.Set(Options::eDead);
                         field_164_pCircularFade = nullptr;
-                        field_110_state.stone = StoneStates::eFreeDemoPlaybackResources_3;
+                        mState.stone = StoneStates::eFreeDemoPlaybackResources_3;
                         gCounter_507728 = 2;
                         gpDemoPlaybackRes_50772C = ResourceManager::GetLoadedResource(ResourceManager::Resource_Plbk, field_174_pathStone.demoId, 1, 0);
                         if (gpDemoPlaybackRes_50772C)

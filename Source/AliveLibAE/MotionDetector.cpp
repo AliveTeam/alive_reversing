@@ -294,7 +294,7 @@ void MotionDetector::VUpdate()
                         if (pOwner == nullptr)
                         {
                             // Trigger alarms if its not already blasting
-                            if (alarmInstanceCount_5C1BB4 == 0)
+                            if (gAlarmInstanceCount == 0)
                             {
                                 relive_new Alarm(field_10C_alarm_duration, field_10A_alarm_switch_id, 0, Layer::eLayer_Above_FG1_39);
 

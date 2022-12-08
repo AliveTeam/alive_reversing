@@ -17,7 +17,7 @@
 s16 gFeeco_Restart_KilledMudCount = 0;
 s16 gFeecoRestart_SavedMudCount = 0;
 
-void CreateGameEnderController_43B7A0()
+void CreateGameEnderController()
 {
     // Exit if it already exists
     for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
@@ -109,7 +109,7 @@ void GameEnderController::VUpdate()
             {
                 if (pBirdPortal->mState == BirdPortal::PortalStates::CollapseTerminators_10)
                 {
-                    auto pAlarm = sObjectIds.Find_Impl(sAlarmObjId_550D70);
+                    auto pAlarm = sObjectIds.Find_Impl(gAlarmObjId);
                     if (pAlarm)
                     {
                         pAlarm->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
