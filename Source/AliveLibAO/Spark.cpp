@@ -72,8 +72,8 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 min, s32 max)
         auto pParticle = relive_new Particle(xpos, ypos - FP_FromInteger(4), GetAnimRes(AnimId::ChantOrb_Particle_Small));
         if (pParticle)
         {
-            pParticle->GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
-            pParticle->GetAnimation().mFlags.Set(AnimFlags::eBlending);
+            pParticle->GetAnimation().SetSemiTrans(true);
+            pParticle->GetAnimation().SetBlending(true);
 
             pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
             pParticle->GetAnimation().SetRGB(128, 128, 128);

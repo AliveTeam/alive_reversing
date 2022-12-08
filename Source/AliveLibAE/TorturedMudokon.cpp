@@ -86,7 +86,7 @@ void TorturedMudokon::VRender(PrimHeader** ppOt)
         ppOt,
         0,
         0);
-    if (mTearsAnim.mFlags.Get(AnimFlags::eRender))
+    if (mTearsAnim.GetRender())
     {
         mZapAnim.VRender(
             FP_GetExponent(mXPos - pScreenManager->CamXPos()),
@@ -139,7 +139,7 @@ void TorturedMudokon::VUpdate()
             break;
 
         case TorturedMudokonState::eKilled_1:
-            if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+            if (GetAnimation().GetIsLastFrame())
             {
                 SetDead(true);
             }
@@ -152,11 +152,11 @@ void TorturedMudokon::VUpdate()
             break;
     }
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         if (GetAnimation().GetFrameChangeCounter() == GetAnimation().GetFrameDelay())
         {
-            mZapAnim.mFlags.Clear(AnimFlags::eRender);
+            mZapAnim.SetRender(false);
             if (!Math_RandomRange(0, 8))
             {
                 Mudokon_SFX(MudSounds::eNoSad_22, 100, Math_RandomRange(mPainSoundPitch, mPainSoundPitch + 100), 0);
@@ -195,7 +195,7 @@ void TorturedMudokon::VUpdate()
     if (GetAnimation().GetCurrentFrame() == 6 && GetAnimation().GetFrameChangeCounter() == GetAnimation().GetFrameDelay())
     {
         relive_new Flash(Layer::eLayer_Above_FG1_39, rgbBase + 50, rgbBase + 50, rgbBase + 110, TPageAbr::eBlend_1, 1);
-        mZapAnim.mFlags.Set(AnimFlags::eRender);
+        mZapAnim.SetRender(true);
         SfxPlayMono(relive::SoundEffects::ElectricZap, 70);
         const s16 sndRnd = Math_RandomRange(0, 3) - 1;
         if (sndRnd)
@@ -220,8 +220,8 @@ void TorturedMudokon::VUpdate()
     {
         mState = TorturedMudokonState::eReleased_2;
         GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Tortured_Mudokon_Released));
-        mTearsAnim.mFlags.Clear(AnimFlags::eRender);
-        mZapAnim.mFlags.Clear(AnimFlags::eRender);
+        mTearsAnim.SetRender(false);
+        mZapAnim.SetRender(false);
         relive::Path_TLV* pTlv = sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo);
         if (pTlv)
         {

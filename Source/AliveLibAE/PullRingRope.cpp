@@ -49,7 +49,7 @@ PullRingRope::PullRingRope(relive::Path_PullRingRope* pTlv, const Guid& tlvId)
 
     SetTint(sPullRingRopeTints_55FD1C, gMap.mCurrentLevel);
 
-    GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
+    GetAnimation().SetSemiTrans(true);
     mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
     mYPos = FP_FromInteger(pTlv->mTopLeftY + 24);
 

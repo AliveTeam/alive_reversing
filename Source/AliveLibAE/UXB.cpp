@@ -81,7 +81,7 @@ UXB::UXB(relive::Path_UXB* pTlv, const Guid& tlvId)
     Animation_Init(GetAnimRes(AnimId::UXB_Active));
     mLoadedPals.push_back(ResourceManagerWrapper::LoadPal(PalId::GreenFlash));
 
-    GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
+    GetAnimation().SetSemiTrans(true);
     GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
 
     SetTint(sTintMap_UXB_563A3C, gMap.mCurrentLevel);
@@ -203,8 +203,8 @@ void UXB::InitBlinkAnim(Animation* pAnimation)
     if (pAnimation->Init(GetAnimRes(AnimId::Bomb_RedGreenTick), this))
     {
         pAnimation->SetRenderLayer(GetAnimation().GetRenderLayer());
-        pAnimation->mFlags.Set(AnimFlags::eSemiTrans);
-        pAnimation->mFlags.Set(AnimFlags::eBlending);
+        pAnimation->SetSemiTrans(true);
+        pAnimation->SetBlending(true);
         pAnimation->SetSpriteScale(GetSpriteScale());
         pAnimation->SetRGB(128, 128, 128);
         pAnimation->SetRenderMode(TPageAbr::eBlend_1);
@@ -453,7 +453,7 @@ s32 UXB::IsColliding()
             break;
         }
 
-        if (pObj->mBaseAliveGameObjectFlags.Get(eCanSetOffExplosives) && pObj->GetAnimation().mFlags.Get(AnimFlags::eRender))
+        if (pObj->mBaseAliveGameObjectFlags.Get(eCanSetOffExplosives) && pObj->GetAnimation().GetRender())
         {
             const PSX_RECT objBound = pObj->VGetBoundingRect();
 
@@ -472,7 +472,7 @@ s32 UXB::IsColliding()
 
 void UXB::VRender(PrimHeader** ppOt)
 {
-    if (GetAnimation().mFlags.Get(AnimFlags::eRender))
+    if (GetAnimation().GetRender())
     {
         if (gMap.Is_Point_In_Current_Camera(
                 mCurrentLevel,

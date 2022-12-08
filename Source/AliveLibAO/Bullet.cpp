@@ -245,7 +245,7 @@ IBaseAliveGameObject* Bullet::ShootObject(PSX_RECT* pRect)
 
         if (pObjIter != mBulletParent)
         {
-            if (pObjIter->GetAnimation().mFlags.Get(AnimFlags::eRender))
+            if (pObjIter->GetAnimation().GetRender())
             {
                 if ((mBulletType == BulletType::ePossessedSlig_0
                      && (pObjIter->Type() == ReliveTypes::eSlig

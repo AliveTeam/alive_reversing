@@ -60,11 +60,11 @@ Greeter::Greeter(relive::Path_Greeter* pTlv, const Guid& tlvId)
 
     if (pTlv->mFacing == relive::reliveXDirection::eLeft)
     {
-        GetAnimation().mFlags.Set(AnimFlags::eFlipX);
+        GetAnimation().SetFlipX(true);
     }
     else
     {
-        GetAnimation().mFlags.Clear(AnimFlags::eFlipX);
+        GetAnimation().SetFlipX(false);
     }
 
     field_134_speed = FP_FromInteger(pTlv->mMotionDetectorSpeed);
@@ -133,11 +133,11 @@ s32 Greeter::CreateFromSaveState(const u8* pBuffer)
 
         pGreeter->SetDrawable(pState->mDrawable & 1);
 
-        pGreeter->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->mAnimRender & 1);
+        pGreeter->GetAnimation().SetRender(pState->mAnimRender & 1);
 
         if (IsLastFrame(&pGreeter->GetAnimation()))
         {
-            pGreeter->GetAnimation().mFlags.Set(AnimFlags::eIsLastFrame);
+            pGreeter->GetAnimation().SetIsLastFrame(true);
         }
 
         pGreeter->mTlvId = pState->mTlvId;
@@ -187,7 +187,7 @@ s32 Greeter::VGetSaveState(u8* pSaveBuffer)
     pState->mCurrentFrame = static_cast<s16>(GetAnimation().GetCurrentFrame());
     pState->mFrameChangeCounter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
     pState->mDrawable = GetDrawable();
-    pState->mAnimRender = GetAnimation().mFlags.Get(AnimFlags::eRender);
+    pState->mAnimRender = GetAnimation().GetRender();
     pState->mTlvId = mTlvId;
     pState->field_30_last_turn_time = field_124_last_turn_time;
     pState->field_34_timer = field_128_timer;
@@ -283,7 +283,7 @@ void Greeter::BounceBackFromShot()
 {
     mBrainState = GreeterBrainStates::eBrain_5_Knockback;
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().GetFlipX())
     {
         mVelX = FP_FromInteger(-2);
     }
@@ -317,14 +317,14 @@ void Greeter::HandleRollingAlong()
                 break;
 
             case ReliveTypes::eScrabLeftBound:
-                if (!(GetAnimation().mFlags.Get(AnimFlags::eFlipX)) && mBrainState == GreeterBrainStates::eBrain_0_Patrol)
+                if (!(GetAnimation().GetFlipX()) && mBrainState == GreeterBrainStates::eBrain_0_Patrol)
                 {
                     ChangeDirection();
                 }
                 break;
 
             case ReliveTypes::eScrabRightBound:
-                if (GetAnimation().mFlags.Get(AnimFlags::eFlipX) && mBrainState == GreeterBrainStates::eBrain_0_Patrol)
+                if (GetAnimation().GetFlipX() && mBrainState == GreeterBrainStates::eBrain_0_Patrol)
                 {
                     ChangeDirection();
                 }
@@ -344,7 +344,7 @@ void Greeter::HandleRollingAlong()
 
     if (mBrainState == GreeterBrainStates::eBrain_0_Patrol)
     {
-        if ((GetAnimation().mFlags.Get(AnimFlags::eFlipX) && Check_IsOnEndOfLine(0, 1)) || WallHit(GetSpriteScale() * FP_FromInteger(40), mVelX * FP_FromInteger(3)) || (!(GetAnimation().mFlags.Get(AnimFlags::eFlipX)) && Check_IsOnEndOfLine(1, 1)))
+        if ((GetAnimation().GetFlipX() && Check_IsOnEndOfLine(0, 1)) || WallHit(GetSpriteScale() * FP_FromInteger(40), mVelX * FP_FromInteger(3)) || (!(GetAnimation().GetFlipX()) && Check_IsOnEndOfLine(1, 1)))
         {
             ChangeDirection();
         }
@@ -371,11 +371,11 @@ s16 Greeter::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eBullet:
         if (static_cast<Bullet*>(pFrom)->mXDistance <= FP_FromInteger(0))
         {
-            GetAnimation().mFlags.Set(AnimFlags::eFlipX);
+            GetAnimation().SetFlipX(true);
         }
         else
         {
-            GetAnimation().mFlags.Clear(AnimFlags::eFlipX);
+            GetAnimation().SetFlipX(false);
         }
 
         if (++mTimesShot <= 10)
@@ -403,7 +403,7 @@ s16 Greeter::VTakeDamage(BaseGameObject* pFrom)
             return 1;
 
         case ReliveTypes::eElectrocute:
-            GetAnimation().mFlags.Clear(AnimFlags::eRender);
+            GetAnimation().SetRender(false);
             BlowUp();
             return 1;
 
@@ -572,7 +572,7 @@ void Greeter::VUpdate()
             }
 
             mVelY = FP_FromInteger(0);
-            if ((GetAnimation().mFlags.Get(AnimFlags::eFlipX)) == 0)
+            if ((GetAnimation().GetFlipX()) == 0)
             {
                 mVelX = -(GetSpriteScale() * FP_FromInteger(3));
                 if (field_13E_targetOnLeft)
@@ -608,26 +608,26 @@ void Greeter::VUpdate()
             break;
 
         case GreeterBrainStates::eBrain_1_PatrolTurn:
-            if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+            if (GetAnimation().GetIsLastFrame())
             {
                 mBrainState = GreeterBrainStates::eBrain_0_Patrol;
                 GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Greeter_Moving));
                 mVelY = FP_FromInteger(0);
                 field_13E_targetOnLeft = 0;
                 field_140_targetOnRight = 0;
-                if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+                if (GetAnimation().GetFlipX())
                 {
-                    GetAnimation().mFlags.Clear(AnimFlags::eFlipX);
+                    GetAnimation().SetFlipX(false);
                 }
                 else
                 {
-                    GetAnimation().mFlags.Set(AnimFlags::eFlipX);
+                    GetAnimation().SetFlipX(true);
                 }
             }
             break;
 
         case GreeterBrainStates::eBrain_2_Speak:
-            if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+            if (GetAnimation().GetIsLastFrame())
             {
                 mChasing = false;
                 mBrainState = GreeterBrainStates::eBrain_0_Patrol;
@@ -638,7 +638,7 @@ void Greeter::VUpdate()
             break;
 
         case GreeterBrainStates::eBrain_3_ChaseSpeak:
-            if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+            if (GetAnimation().GetIsLastFrame())
             {
                 mChasing = true;
                 mBrainState = GreeterBrainStates::eBrain_4_Chase;
@@ -660,7 +660,7 @@ void Greeter::VUpdate()
             }
 
             mVelX = -(GetSpriteScale() * FP_FromInteger(5));
-            if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+            if (GetAnimation().GetFlipX())
             {
                 mVelX = GetSpriteScale() * FP_FromInteger(5);
             }
@@ -696,7 +696,7 @@ void Greeter::VUpdate()
                 mVelX = FP_FromInteger(0);
             }
 
-            if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+            if (GetAnimation().GetIsLastFrame())
             {
                 RandomishSpeak(GreeterSpeak::eWhat_9);
                 field_128_timer = sGnFrame + Math_RandomRange(160, 200);
@@ -704,17 +704,17 @@ void Greeter::VUpdate()
             break;
 
         case GreeterBrainStates::eBrain_6_ToChase:
-            if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+            if (GetAnimation().GetIsLastFrame())
             {
                 RandomishSpeak(GreeterSpeak::eHi_0);
                 mBrainState = GreeterBrainStates::eBrain_3_ChaseSpeak;
-                if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+                if (GetAnimation().GetFlipX())
                 {
-                    GetAnimation().mFlags.Clear(AnimFlags::eFlipX);
+                    GetAnimation().SetFlipX(false);
                 }
                 else
                 {
-                    GetAnimation().mFlags.Set(AnimFlags::eFlipX);
+                    GetAnimation().SetFlipX(true);
                 }
             }
             break;

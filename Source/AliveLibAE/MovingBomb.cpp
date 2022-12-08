@@ -49,7 +49,7 @@ MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::MovingBomb));
     Animation_Init(GetAnimRes(AnimId::MovingBomb));
 
-    GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
+    GetAnimation().SetSemiTrans(true);
     GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
     field_118_state = States::eTriggeredBySwitch_1;
 
@@ -82,7 +82,7 @@ MovingBomb::MovingBomb(relive::Path_MovingBomb* pTlv, const Guid& tlvId)
     if (pTlv->mTriggeredByAlarm == relive::reliveChoice::eYes)
     {
         field_118_state = States::eTriggeredByAlarm_0;
-        GetAnimation().mFlags.Clear(AnimFlags::eRender);
+        GetAnimation().SetRender(false);
     }
 
     SetTint(&kMovingBombTints_55C734[0], gMap.mCurrentLevel);
@@ -146,7 +146,7 @@ void MovingBomb::BlowUp()
 
 void MovingBomb::VRender(PrimHeader** ot)
 {
-    if (GetAnimation().mFlags.Get(AnimFlags::eRender))
+    if (GetAnimation().GetRender())
     {
         BaseAnimatedWithPhysicsGameObject::VRender(ot);
     }
@@ -205,7 +205,7 @@ s16 MovingBomb::VTakeDamage(BaseGameObject* pFrom)
 
             field_118_state = States::eKillMovingBomb_7;
 
-            GetAnimation().mFlags.Clear(AnimFlags::eRender);
+            GetAnimation().SetRender(false);
             field_120_timer = sGnFrame + 4;
         }
             return 0;
@@ -324,7 +324,7 @@ void MovingBomb::VUpdate()
         case States::eTriggeredByAlarm_0:
             if (EventGet(kEventAlarm))
             {
-                GetAnimation().mFlags.Set(AnimFlags::eRender);
+                GetAnimation().SetRender(true);
                 field_118_state = States::eMoving_2;
             }
             break;
@@ -422,7 +422,7 @@ void MovingBomb::VUpdate()
                     0);
 
                 field_118_state = States::eKillMovingBomb_7;
-                GetAnimation().mFlags.Clear(AnimFlags::eRender);
+                GetAnimation().SetRender(false);
                 field_120_timer = sGnFrame + 4;
             }
             break;

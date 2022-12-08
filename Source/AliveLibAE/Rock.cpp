@@ -28,8 +28,8 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
     Animation_Init(GetAnimRes(AnimId::Rock));
 
     SetInteractive(false);
-    GetAnimation().mFlags.Clear(AnimFlags::eRender);
-    GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
+    GetAnimation().SetRender(false);
+    GetAnimation().SetSemiTrans(false);
 
     mXPos = xpos;
     mYPos = ypos;
@@ -107,7 +107,7 @@ void Rock::VThrow(FP velX, FP velY)
     mVelX = velX;
     mVelY = velY;
 
-    GetAnimation().mFlags.Set(AnimFlags::eRender);
+    GetAnimation().SetRender(true);
 
     if (mBaseThrowableCount == 0)
     {
@@ -353,7 +353,7 @@ void Rock::VUpdate()
                     mCollectionRect.h = mYPos;
                     mCollectionRect.y = mYPos - ScaleToGridSize(GetSpriteScale());
                     field_11C_state = RockStates::eOnGround_3;
-                    GetAnimation().mFlags.Clear(AnimFlags::eLoop);
+                    GetAnimation().SetLoop(false);
                     field_128_shimmer_timer = sGnFrame;
                     return;
                 }
@@ -365,7 +365,7 @@ void Rock::VUpdate()
                 return;
             }
 
-            GetAnimation().mFlags.Set(AnimFlags::eLoop);
+            GetAnimation().SetLoop(true);
             field_11C_state = RockStates::eBouncing_4;
             return;
 
@@ -428,10 +428,10 @@ s32 Rock::VGetSaveState(u8* pSaveBuffer)
 
     pState->field_18_sprite_scale = GetSpriteScale();
 
-    pState->mRender = GetAnimation().mFlags.Get(AnimFlags::eRender);
+    pState->mRender = GetAnimation().GetRender();
     pState->mDrawable = GetDrawable();
 
-    pState->mLoop = GetAnimation().mFlags.Get(AnimFlags::eLoop);
+    pState->mLoop = GetAnimation().GetLoop();
     pState->mInteractive = GetInteractive();
 
     if (BaseAliveGameObjectCollisionLine)
@@ -476,8 +476,8 @@ s32 Rock::CreateFromSaveState(const u8* pData)
     pRock->SetSpriteScale(pState->field_18_sprite_scale);
     pRock->SetScale(pState->field_18_sprite_scale > FP_FromDouble(0.75) ? Scale::Fg : Scale::Bg);
 
-    pRock->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->mRender);
-    pRock->GetAnimation().mFlags.Set(AnimFlags::eLoop, pState->mLoop);
+    pRock->GetAnimation().SetRender(pState->mRender);
+    pRock->GetAnimation().SetLoop(pState->mLoop);
 
     pRock->SetDrawable(pState->mDrawable);
     pRock->SetInteractive(pState->mInteractive);

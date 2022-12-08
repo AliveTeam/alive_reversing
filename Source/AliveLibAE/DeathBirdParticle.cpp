@@ -67,7 +67,7 @@ void DeathBirdParticle::VUpdate()
 
         case States::eTransformStarsToDoves_1:
             // Has the Death "star" finished animating?
-            if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+            if (GetAnimation().GetIsLastFrame())
             {
                 // Yes so magic it into a dove
                 auto pDove = relive_new Dove(
@@ -76,7 +76,7 @@ void DeathBirdParticle::VUpdate()
                     mYPos - FP_FromInteger(15),
                     GetSpriteScale());
 
-                if (pDove->GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+                if (pDove->GetAnimation().GetFlipX())
                 {
                     pDove->mXPos += FP_FromInteger(8);
                 }

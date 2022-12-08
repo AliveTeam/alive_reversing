@@ -48,8 +48,8 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
             {
                 mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Rock_Gib));
                 Animation_Init(GetAnimRes(AnimId::Rock_Gib));
-                GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
-                GetAnimation().mFlags.Set(AnimFlags::eBlending);
+                GetAnimation().SetSemiTrans(false);
+                GetAnimation().SetBlending(true);
                 break;
             }
 
@@ -58,8 +58,8 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
                 mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Stick_Gib));
                 Animation_Init(GetAnimRes(AnimId::Stick_Gib));
                 scale = FP_FromDouble(0.4) * scale;
-                GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
-                GetAnimation().mFlags.Set(AnimFlags::eBlending);
+                GetAnimation().SetSemiTrans(false);
+                GetAnimation().SetBlending(true);
                 break;
             }
 
@@ -67,8 +67,8 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
             {
                 mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::DeathFlare_2));
                 Animation_Init(GetAnimRes(AnimId::DeathFlare_2));
-                GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
-                GetAnimation().mFlags.Set(AnimFlags::eBlending);
+                GetAnimation().SetSemiTrans(true);
+                GetAnimation().SetBlending(true);
                 GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
                 break;
             }
@@ -79,8 +79,8 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
                 Animation_Init(GetAnimRes(AnimId::DeathFlare_2));
 
                 GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
-                GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
-                GetAnimation().mFlags.Clear(AnimFlags::eBlending);
+                GetAnimation().SetSemiTrans(true);
+                GetAnimation().SetBlending(false);
 
                 GetAnimation().SetRGB(254, 148, 18);
                 break;
@@ -90,8 +90,8 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
             {
                 mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Meat_Gib));
                 Animation_Init(GetAnimRes(AnimId::Meat_Gib));
-                GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
-                GetAnimation().mFlags.Set(AnimFlags::eBlending);
+                GetAnimation().SetSemiTrans(false);
+                GetAnimation().SetBlending(true);
                 break;
             }
 
@@ -127,17 +127,17 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
                 field_E8_pRes[i].field_18_animation.SetRenderLayer(GetAnimation().GetRenderLayer());
                 field_E8_pRes[i].field_18_animation.field_6C_scale = FP_FromDouble(0.95) * GetSpriteScale();
 
-                field_E8_pRes[i].field_18_animation.mFlags.Set(AnimFlags::eRender);
+                field_E8_pRes[i].field_18_animation.SetRender(true);
 
-                field_E8_pRes[i].field_18_animation.mFlags.Set(AnimFlags::eSemiTrans, GetAnimation().mFlags.Get(AnimFlags::eSemiTrans));
+                field_E8_pRes[i].field_18_animation.SetSemiTrans(GetAnimation().GetSemiTrans());
 
-                field_E8_pRes[i].field_18_animation.mFlags.Set(AnimFlags::eBlending, GetAnimation().mFlags.Get(AnimFlags::eBlending));
+                field_E8_pRes[i].field_18_animation.SetBlending(GetAnimation().GetBlending());
 
                 if (type == BurstType::eBigPurpleSparks_2)
                 {
                     if (i % 2)
                     {
-                        field_E8_pRes[i].field_18_animation.mFlags.Set(AnimFlags::eBlending);
+                        field_E8_pRes[i].field_18_animation.SetBlending(true);
                     }
                 }
 

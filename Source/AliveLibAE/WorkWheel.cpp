@@ -28,7 +28,7 @@ WorkWheel::WorkWheel(relive::Path_WorkWheel* pTlv, const Guid& tlvId)
 
     Animation_Init(GetAnimRes(AnimId::Work_Wheel_Idle));
 
-    GetAnimation().mFlags.Set(eSemiTrans);
+    GetAnimation().SetSemiTrans(true);
 
     mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);

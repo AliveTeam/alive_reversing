@@ -11,18 +11,18 @@ OrbWhirlWindParticle::OrbWhirlWindParticle(FP xpos, FP ypos, FP scale, bool isMu
     AnimResource res = ResourceManagerWrapper::LoadAnimation(AnimId::ChantOrb_Particle);
     mAnim.Init(res, nullptr);
 
-    mAnim.mFlags.Set(AnimFlags::eSemiTrans);
+    mAnim.SetSemiTrans(true);
 
     mAnim.SetRenderLayer(Layer::eLayer_AbeMenu_32);
     mAnim.SetRenderMode(TPageAbr::eBlend_1);
     if (isMudokonSpirit)
     {
-        mAnim.mFlags.Clear(AnimFlags::eBlending);
+        mAnim.SetBlending(false);
         mAnim.SetRGB(0, 255, 32);
     }
     else
     {
-        mAnim.mFlags.Set(AnimFlags::eBlending);
+        mAnim.SetBlending(true);
         mAnim.SetRGB(80, 80, 80);
     }
 

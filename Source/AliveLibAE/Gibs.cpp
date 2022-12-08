@@ -241,7 +241,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
 
         pPart->mAnimation.SetRenderLayer(GetAnimation().GetRenderLayer());
         pPart->mAnimation.SetSpriteScale(scale);
-        pPart->mAnimation.mFlags.Clear(AnimFlags::eBlending);
+        pPart->mAnimation.SetBlending(false);
 
         pPart->mAnimation.SetRGB(mRGB.r, mRGB.g, mRGB.b);
 
@@ -262,7 +262,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
             pPart->field_14_dz = FP_Abs(Random_40FAF0(scale) / FP_FromInteger(2));
         }
 
-        pPart->mAnimation.mFlags.Clear(AnimFlags::eSemiTrans);
+        pPart->mAnimation.SetSemiTrans(false);
 
         if (headGibRec.mPalOverride == PalId::BlindMud)
         {

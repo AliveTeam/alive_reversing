@@ -42,7 +42,7 @@ Bone::Bone(FP xpos, FP ypos, s16 countId)
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Bone));
     Animation_Init(GetAnimRes(AnimId::Bone));
 
-    GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
+    GetAnimation().SetSemiTrans(false);
 
     mXPos = xpos;
     mYPos = ypos;
@@ -53,7 +53,7 @@ Bone::Bone(FP xpos, FP ypos, s16 countId)
     SetInteractive(false);
     mHitObject = false;
 
-    GetAnimation().mFlags.Clear(AnimFlags::eRender);
+    GetAnimation().SetRender(false);
 
     mTimeToLiveTimer = sGnFrame + 300;
     mBaseThrowableCount = countId;
@@ -93,8 +93,8 @@ s32 Bone::CreateFromSaveState(const u8* pData)
 
     pBone->SetScale(pState->mSpriteScale > FP_FromDouble(0.75) ? Scale::Fg : Scale::Bg);
 
-    pBone->GetAnimation().mFlags.Set(AnimFlags::eLoop, pState->mLoop);
-    pBone->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->mRender);
+    pBone->GetAnimation().SetLoop(pState->mLoop);
+    pBone->GetAnimation().SetRender(pState->mRender);
 
     pBone->SetDrawable(pState->mDrawable);
     pBone->SetInteractive(pState->mInteractive);
@@ -144,7 +144,7 @@ void Bone::VThrow(FP velX, FP velY)
     mVelX = velX;
     mVelY = velY;
 
-    GetAnimation().mFlags.Set(AnimFlags::eRender);
+    GetAnimation().SetRender(true);
 
     if (mBaseThrowableCount == 0)
     {
@@ -258,8 +258,8 @@ s32 Bone::VGetSaveState(u8* pSaveBuffer)
 
     pState->mSpriteScale = GetSpriteScale();
 
-    pState->mLoop = GetAnimation().mFlags.Get(AnimFlags::eLoop);
-    pState->mRender = GetAnimation().mFlags.Get(AnimFlags::eRender);
+    pState->mLoop = GetAnimation().GetLoop();
+    pState->mRender = GetAnimation().GetRender();
 
     pState->mDrawable = GetDrawable();
     pState->mInteractive = GetInteractive();
@@ -480,7 +480,7 @@ void Bone::VUpdate()
 
                     mState = BoneStates::eOnGround_3;
                     SetInteractive(true);
-                    GetAnimation().mFlags.Clear(AnimFlags::eLoop);
+                    GetAnimation().SetLoop(false);
                     mShineTimer = sGnFrame;
                     AddToPlatform();
                     return;
@@ -493,7 +493,7 @@ void Bone::VUpdate()
                 return;
             }
 
-            GetAnimation().mFlags.Set(AnimFlags::eLoop);
+            GetAnimation().SetLoop(true);
             mState = BoneStates::eEdible_4;
         }
             return;
@@ -585,7 +585,7 @@ BoneBag::BoneBag(relive::Path_BoneBag* pTlv, const Guid& tlvId)
 
     LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::BoneBag_Idle));
-    GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
+    GetAnimation().SetSemiTrans(false);
     SetTint(&kBoneTints_550EC0[0], gMap.mCurrentLevel);
 
     mIsBagHit = false;
@@ -663,7 +663,7 @@ void BoneBag::VUpdate()
             return;
         }
 
-        if (!GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+        if (!GetAnimation().GetIsLastFrame())
         {
             return;
         }

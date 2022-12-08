@@ -98,9 +98,9 @@ void SaveGame::LoadFromMemory(SaveData* pData, s32 bKillObjects)
     sActiveHero->field_2A8_flags.Set(Flags_2A8::e2A8_Bit12_bParamoniaDone, pData->field_252_paramonia_done & 1);
     sActiveHero->field_2A8_flags.Set(Flags_2A8::e2A8_eBit13_bScrabaniaDone, pData->field_253_scrabania_done & 1);
 
-    sActiveHero->GetAnimation().mFlags.Set(AnimFlags::eFlipX, pData->field_23C_ah_flipX & 1);
+    sActiveHero->GetAnimation().SetFlipX(pData->field_23C_ah_flipX & 1);
 
-    sActiveHero->GetAnimation().mFlags.Clear(AnimFlags::eRender);
+    sActiveHero->GetAnimation().SetRender(false);
 
     gMap.field_E0_save_data = pData->field_2B0_pSaveBuffer;
 
@@ -377,7 +377,7 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
         pSaveData->field_23A_mode_mask = 0;
     }
     pSaveData->field_22C_ah_health = sActiveHero->mHealth;
-    pSaveData->field_23C_ah_flipX = sActiveHero->GetAnimation().mFlags.Get(AnimFlags::eFlipX);
+    pSaveData->field_23C_ah_flipX = sActiveHero->GetAnimation().GetFlipX();
     pSaveData->field_230_ah_sprite_scale = sActiveHero->GetSpriteScale();
     pSaveData->field_244_stone_state = static_cast<s32>(sActiveHero->field_110_state.raw);
     pSaveData->field_248_gnFrame = sActiveHero->field_114_gnFrame;
@@ -410,7 +410,7 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
             pSaveData->field_270_elum_line_type = -1;
         }
         pSaveData->field_274_elum_current_motion = gElum->mCurrentMotion;
-        pSaveData->field_272_elum_flipX = gElum->GetAnimation().mFlags.Get(AnimFlags::eFlipX);
+        pSaveData->field_272_elum_flipX = gElum->GetAnimation().GetFlipX();
         pSaveData->field_278_brain_idx = gElum->mBrainIdx;
         pSaveData->field_276_bDontFollowAbe = gElum->mDontFollowAbe;
         pSaveData->field_27C_honey_xpos = gElum->field_12C_honey_xpos;

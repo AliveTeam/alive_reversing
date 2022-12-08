@@ -181,7 +181,7 @@ void Elum::VOnTlvCollision(relive::Path_TLV* pTlv)
                 mDontFollowAbe = 0;
             }
             Elum_SFX_416E10(ElumSounds::eHowl_2, this);
-            GetAnimation().mFlags.Clear(AnimFlags::eRender);
+            GetAnimation().SetRender(false);
             SetCurrentMotion(eElumMotions::Motion_20_Fall);
             mHealth = FP_FromInteger(0);
         }
@@ -231,7 +231,7 @@ s16 Elum::VTakeDamage(BaseGameObject* pFrom)
                     mDontFollowAbe = 0;
                 }
 
-                GetAnimation().mFlags.Clear(AnimFlags::eRender);
+                GetAnimation().SetRender(false);
                 GetAnimation().Set_Animation_Data(GetAnimRes(gElumMotionAnimIds[mCurrentMotion]));
             }
             return 1;
@@ -474,7 +474,7 @@ s16 Elum::ToNextMotion_4120F0()
     switch (GetNextMotion())
     {
         case eElumMotions::Motion_3_WalkLoop:
-            if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+            if (GetAnimation().GetFlipX())
             {
                 if (WallHit(GetSpriteScale() * FP_FromInteger(25), ScaleToGridSize(GetSpriteScale())))
                 {
@@ -556,7 +556,7 @@ s16 Elum::ToNextMotionAbeControlled_411E40()
         {
             gridSize = ScaleToGridSize(GetSpriteScale());
 
-            if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+            if (GetAnimation().GetFlipX())
             {
                 SetCurrentMotion(eElumMotions::Motion_4_Turn);
                 return 1;
@@ -566,7 +566,7 @@ s16 Elum::ToNextMotionAbeControlled_411E40()
         {
             gridSize = -ScaleToGridSize(GetSpriteScale());
 
-            if (!GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+            if (!GetAnimation().GetFlipX())
             {
                 SetCurrentMotion(eElumMotions::Motion_4_Turn);
                 return 1;
@@ -598,7 +598,7 @@ s16 Elum::ToNextMotionAbeControlled_411E40()
             return 0;
         }
 
-        if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+        if (GetAnimation().GetFlipX())
         {
             mVelX = GetSpriteScale() * FP_FromInteger(-15);
         }
@@ -617,7 +617,7 @@ void Elum::HandleElumPathTrans_411460()
     PSX_Point camCoords = {};
     gMap.GetCurrentCamCoords(&camCoords);
 
-    if (sActiveHero->GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+    if (sActiveHero->GetAnimation().GetFlipX())
     {
         mXPos = ScaleToGridSize(GetSpriteScale()) + FP_FromInteger(camCoords.x + XGrid_Index_To_XPos(GetSpriteScale(), MaxGridBlocks(GetSpriteScale())));
     }
@@ -919,12 +919,12 @@ s16 Elum::Brain_0_WithoutAbe_416190()
             }
 
             const FP xd = sActiveHero->mXPos - mXPos;
-            if (xd > (kGridSize / FP_FromInteger(2)) && GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+            if (xd > (kGridSize / FP_FromInteger(2)) && GetAnimation().GetFlipX())
             {
                 SetNextMotion(eElumMotions::Motion_4_Turn);
                 return 4;
             }
-            else if (xd < -(kGridSize / FP_FromInteger(2)) && !GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+            else if (xd < -(kGridSize / FP_FromInteger(2)) && !GetAnimation().GetFlipX())
             {
                 SetNextMotion(eElumMotions::Motion_4_Turn);
                 return 4;
@@ -1057,7 +1057,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
             return mBrainSubState;
 
         case 4:
-            if (GetCurrentMotion() != eElumMotions::Motion_4_Turn || !GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+            if (GetCurrentMotion() != eElumMotions::Motion_4_Turn || !GetAnimation().GetIsLastFrame())
             {
                 return mBrainSubState;
             }
@@ -1081,12 +1081,12 @@ s16 Elum::Brain_0_WithoutAbe_416190()
             }
 
             const FP xd_1 = sActiveHero->mXPos - mXPos;
-            if (xd_1 > (kGridSize / FP_FromInteger(2)) && GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+            if (xd_1 > (kGridSize / FP_FromInteger(2)) && GetAnimation().GetFlipX())
             {
                 SetNextMotion(eElumMotions::Motion_4_Turn);
                 return 7;
             }
-            else if (xd_1 < -(kGridSize / FP_FromInteger(2)) && !GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+            else if (xd_1 < -(kGridSize / FP_FromInteger(2)) && !GetAnimation().GetFlipX())
             {
                 SetNextMotion(eElumMotions::Motion_4_Turn);
                 return 7;
@@ -1208,7 +1208,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
                 SetNextMotion(eElumMotions::Motion_14_Speak);
             }
 
-            if (GetCurrentMotion() != eElumMotions::Motion_14_Speak || !GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+            if (GetCurrentMotion() != eElumMotions::Motion_14_Speak || !GetAnimation().GetIsLastFrame())
             {
                 return mBrainSubState;
             }
@@ -1290,7 +1290,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
 
         case 15:
         {
-            if (GetCurrentMotion() != eElumMotions::Motion_4_Turn || !GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+            if (GetCurrentMotion() != eElumMotions::Motion_4_Turn || !GetAnimation().GetIsLastFrame())
             {
                 return mBrainSubState;
             }
@@ -1345,7 +1345,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
             const FP honey_xd = mXPos - FP_FromInteger(field_12C_honey_xpos);
             if (honey_xd >= FP_FromInteger(0))
             {
-                if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+                if (GetAnimation().GetFlipX())
                 {
                     if (honey_xd >= (kGridSize * FP_FromInteger(2)))
                     {
@@ -1369,7 +1369,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
             }
             else
             {
-                if (!GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+                if (!GetAnimation().GetFlipX())
                 {
                     if (honey_xd <= -(kGridSize * FP_FromInteger(2)))
                     {
@@ -1396,7 +1396,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
 
         case 1:
         {
-            if (GetCurrentMotion() != eElumMotions::Motion_4_Turn || !GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+            if (GetCurrentMotion() != eElumMotions::Motion_4_Turn || !GetAnimation().GetIsLastFrame())
             {
                 return mBrainSubState;
             }
@@ -1476,7 +1476,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
 
             mDontFollowAbe = 0;
 
-            if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+            if (GetAnimation().GetFlipX())
             {
                 SetNextMotion(eElumMotions::Motion_4_Turn);
                 return 4;
@@ -1491,7 +1491,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
             break;
 
         case 4:
-            if (GetCurrentMotion() == eElumMotions::Motion_4_Turn && GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+            if (GetCurrentMotion() == eElumMotions::Motion_4_Turn && GetAnimation().GetIsLastFrame())
             {
                 field_170_flags.Clear(Elum::Flags_170::eStrugglingWithBees_Bit1);
                 SetNextMotion(eElumMotions::Motion_29_BeesStruggling);
@@ -1509,7 +1509,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
 
         case 6:
         {
-            if (GetCurrentMotion() != eElumMotions::Motion_46_ScratchEnd || !GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+            if (GetCurrentMotion() != eElumMotions::Motion_46_ScratchEnd || !GetAnimation().GetIsLastFrame())
             {
                 return mBrainSubState;
             }
@@ -1521,7 +1521,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
                 return 0;
             }
 
-            if (!GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+            if (!GetAnimation().GetFlipX())
             {
                 if (Check_IsOnEndOfLine(0, 2))
                 {
@@ -1541,7 +1541,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
             }
 
             FP gridSizeDirected = {};
-            if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+            if (GetAnimation().GetFlipX())
             {
                 gridSizeDirected = -kGridSize;
             }
@@ -1614,7 +1614,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
                 return 0;
             }
 
-            if (!GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+            if (!GetAnimation().GetFlipX())
             {
                 if (Check_IsOnEndOfLine(0, 2))
                 {
@@ -1637,7 +1637,7 @@ s16 Elum::Brain_1_HoneyAddiction_411730()
             return 10;
 
         case 9:
-            if (GetCurrentMotion() != eElumMotions::Motion_46_ScratchEnd || !GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+            if (GetCurrentMotion() != eElumMotions::Motion_46_ScratchEnd || !GetAnimation().GetIsLastFrame())
             {
                 return mBrainSubState;
             }
@@ -1737,7 +1737,7 @@ void Elum::Motion_3_WalkLoop()
             else
             {
                 FP offX_directed = {};
-                if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+                if (GetAnimation().GetFlipX())
                 {
                     offX_directed = -ScaleToGridSize(GetSpriteScale());
                 }
@@ -1805,7 +1805,7 @@ void Elum::Motion_3_WalkLoop()
             else
             {
                 FP offX_directed = {};
-                if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+                if (GetAnimation().GetFlipX())
                 {
                     offX_directed = -ScaleToGridSize(GetSpriteScale());
                 }
@@ -1882,10 +1882,10 @@ void Elum::Motion_4_Turn()
         Environment_SFX_42A220(EnvironmentSfx::eRollingNoise_8, 0, 0x7FFF, this);
     }
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         MapFollowMe(true);
-        GetAnimation().mFlags.Toggle(AnimFlags::eFlipX);
+        GetAnimation().ToggleFlipX();
 
         if (GetNextMotion() == eElumMotions::Motion_29_BeesStruggling)
         {
@@ -1920,7 +1920,7 @@ void Elum::Motion_5_WalkToIdle()
     {
         Elum_SFX_416E10(ElumSounds::eWalkingFootstep_0, 0);
     }
-    else if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    else if (GetAnimation().GetIsLastFrame())
     {
         MapFollowMe(1);
 
@@ -1969,7 +1969,7 @@ void Elum::Motion_6_MidWalkToIdle()
         Elum_SFX_416E10(ElumSounds::eWalkingFootstep_0, 0);
     }
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         MapFollowMe(1);
 
@@ -1999,7 +1999,7 @@ void Elum::Motion_7_IdleToWalk2()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         SetPreviousMotion(eElumMotions::Motion_3_WalkLoop);
         mBaseAliveGameObjectLastAnimFrame = 9;
@@ -2016,7 +2016,7 @@ void Elum::Motion_8_IdleToWalk1()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         SetCurrentMotion(eElumMotions::Motion_3_WalkLoop);
     }
@@ -2028,7 +2028,7 @@ void Elum::Motion_9_ToYell()
 {
     CheckLiftPointGoneAndSetCamera();
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         SetCurrentMotion(eElumMotions::Motion_10_Yell);
     }
@@ -2050,7 +2050,7 @@ void Elum::Motion_10_Yell()
         field_170_flags.Clear(Elum::Flags_170::eCanSpeak_Bit6);
     }
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         if (!ToNextMotion_4120F0())
         {
@@ -2096,11 +2096,11 @@ void Elum::Motion_12_RunTurn()
     SlowOnX_414210(FP_FromDouble(2.125));
 
     if (GetCurrentMotion() == eElumMotions::Motion_12_RunTurn
-        && GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+        && GetAnimation().GetIsLastFrame())
     {
         MapFollowMe(true);
 
-        const FP gridSize = (GetAnimation().mFlags.Get(AnimFlags::eFlipX)) ? ScaleToGridSize(GetSpriteScale()) : -ScaleToGridSize(GetSpriteScale());
+        const FP gridSize = (GetAnimation().GetFlipX()) ? ScaleToGridSize(GetSpriteScale()) : -ScaleToGridSize(GetSpriteScale());
         if (Input().IsAnyPressed(sInputKey_Run))
         {
             mVelX = gridSize / FP_FromInteger(4);
@@ -2119,10 +2119,10 @@ void Elum::Motion_13_RunTurnToWalk()
 
     MoveOnLine(0);
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         SetCurrentMotion(eElumMotions::Motion_3_WalkLoop);
-        GetAnimation().mFlags.Toggle(AnimFlags::eFlipX);
+        GetAnimation().ToggleFlipX();
     }
 }
 
@@ -2138,7 +2138,7 @@ void Elum::Motion_14_Speak()
         field_170_flags.Set(Elum::Flags_170::eCanSpeak_Bit6);
     }
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         if (!ToNextMotion_4120F0())
         {
@@ -2158,7 +2158,7 @@ void Elum::Motion_15_Speak()
     {
         field_170_flags.Set(Elum::Flags_170::eCanSpeak_Bit6);
     }
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         if (!ToNextMotion_4120F0())
         {
@@ -2179,7 +2179,7 @@ void Elum::Motion_16_Speak()
         field_170_flags.Set(Elum::Flags_170::eCanSpeak_Bit6);
     }
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         SetNextMotion(eElumMotions::Motion_10_Yell);
         if (!ToNextMotion_4120F0())
@@ -2196,11 +2196,11 @@ void Elum::Motion_17_Unknown()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         MapFollowMe(1);
 
-        if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+        if (GetAnimation().GetFlipX())
         {
             mVelX = (GetSpriteScale() * FP_FromInteger(-15));
         }
@@ -2247,7 +2247,7 @@ void Elum::Motion_19_Dead()
             field_170_flags.Clear(Elum::Flags_170::eFoundHoney_Bit4);
             field_110_timer = sGnFrame;
 
-            GetAnimation().mFlags.Set(AnimFlags::eFlipX, sActiveHero->GetAnimation().mFlags.Get(AnimFlags::eFlipX));
+            GetAnimation().SetFlipX(sActiveHero->GetAnimation().GetFlipX());
 
             if (field_170_flags.Get(Elum::Flags_170::eStungByBees_Bit2))
             {
@@ -2257,7 +2257,7 @@ void Elum::Motion_19_Dead()
                 }
             }
 
-            GetAnimation().mFlags.Set(AnimFlags::eRender);
+            GetAnimation().SetRender(true);
 
             BaseAliveGameObjectLastLineYPos = mYPos;
             SetCurrentMotion(0);
@@ -2380,7 +2380,7 @@ void Elum::Motion_22_RunOffEdge()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         MapFollowMe(1);
         if (!ToNextMotion_4120F0())
@@ -2400,7 +2400,7 @@ void Elum::Motion_24_JumpToFall()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         SetCurrentMotion(eElumMotions::Motion_21_Land);
     }
@@ -2435,7 +2435,7 @@ void Elum::Motion_25_LickingHoney()
         field_170_flags.Set(Elum::Flags_170::eCanSpeak_Bit6);
     }
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eForwardLoopCompleted))
+    if (GetAnimation().GetForwardLoopCompleted())
     {
         if (GetNextMotion() == eElumMotions::Motion_4_Turn || GetNextMotion() == eElumMotions::Motion_29_BeesStruggling)
         {
@@ -2493,7 +2493,7 @@ void Elum::Motion_29_BeesStruggling()
 
     if (WallHit(
             GetSpriteScale() * FP_FromInteger(25),
-            ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(GetAnimation().mFlags.Get(AnimFlags::eFlipX) != 0 ? -1 : 1)))
+            ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(GetAnimation().GetFlipX() != 0 ? -1 : 1)))
     {
         ToIdle();
         SetNextMotion(-1);
@@ -2501,7 +2501,7 @@ void Elum::Motion_29_BeesStruggling()
     }
 
     SetCurrentMotion(eElumMotions::Motion_8_IdleToWalk2_413270);
-    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().GetFlipX())
     {
         SetNextMotion(-1);
         mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(9));
@@ -2520,9 +2520,9 @@ void Elum::Motion_30_HopBegin()
 
     CheckLiftPointGoneAndSetCamera();
 
-    const FP xpos = GetAnimation().mFlags.Get(AnimFlags::eFlipX) ? GetSpriteScale() * FP_FromInteger(-56) : GetSpriteScale() * FP_FromInteger(56);
-    const FP velX = GetAnimation().mFlags.Get(AnimFlags::eFlipX) ? GetSpriteScale() * FP_FromDouble(-9.85) : GetSpriteScale() * FP_FromDouble(9.85);
-    const FP offX = GetAnimation().mFlags.Get(AnimFlags::eFlipX) ? FP_FromInteger(-56) : FP_FromInteger(56);
+    const FP xpos = GetAnimation().GetFlipX() ? GetSpriteScale() * FP_FromInteger(-56) : GetSpriteScale() * FP_FromInteger(56);
+    const FP velX = GetAnimation().GetFlipX() ? GetSpriteScale() * FP_FromDouble(-9.85) : GetSpriteScale() * FP_FromDouble(9.85);
+    const FP offX = GetAnimation().GetFlipX() ? FP_FromInteger(-56) : FP_FromInteger(56);
 
     if (WallHit(GetSpriteScale() * FP_FromInteger(40), offX))
     {
@@ -2530,7 +2530,7 @@ void Elum::Motion_30_HopBegin()
         return;
     }
 
-    if (!(GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame)))
+    if (!(GetAnimation().GetIsLastFrame()))
     {
         return;
     }
@@ -2636,7 +2636,7 @@ void Elum::Motion_32_HopLand()
 
     CheckLiftPointGoneAndSetCamera();
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         const PSX_RECT bRect = VGetBoundingRect();
 
@@ -2665,10 +2665,10 @@ void Elum::Motion_33_RunJumpBegin()
     {
         ToKnockback();
     }
-    else if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    else if (GetAnimation().GetIsLastFrame())
     {
         FP velX = {};
-        if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+        if (GetAnimation().GetFlipX())
         {
             velX = GetSpriteScale() * FP_FromDouble(-11.43);
         }
@@ -2703,7 +2703,7 @@ void Elum::Motion_35_RunJumpLand()
 
     CheckLiftPointGoneAndSetCamera();
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         const PSX_RECT bRect = VGetBoundingRect();
 
@@ -2715,7 +2715,7 @@ void Elum::Motion_35_RunJumpLand()
         if (sControlledCharacter == this)
         {
             FP offX = {};
-            if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+            if (GetAnimation().GetFlipX())
             {
                 offX = -(GetSpriteScale() * FP_FromDouble(18.75));
             }
@@ -2733,7 +2733,7 @@ void Elum::Motion_35_RunJumpLand()
                 SetPreviousMotion(eElumMotions::Motion_36_RunLoop);
                 mBaseAliveGameObjectLastAnimFrame = 4;
                 field_120_bUnknown = 1;
-                if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+                if (GetAnimation().GetFlipX())
                 {
                     mXPos -= GetSpriteScale() * FP_FromDouble(18.75);
                     mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
@@ -2894,7 +2894,7 @@ void Elum::Motion_37_RunSlideStop()
 
     if (sControlledCharacter == this && GetAnimation().GetCurrentFrame() < 7)
     {
-        if ((GetAnimation().mFlags.Get(AnimFlags::eFlipX) && Input().IsAnyPressed(sInputKey_Right)) || (!GetAnimation().mFlags.Get(AnimFlags::eFlipX) && Input().IsAnyPressed(sInputKey_Left)))
+        if ((GetAnimation().GetFlipX() && Input().IsAnyPressed(sInputKey_Right)) || (!GetAnimation().GetFlipX() && Input().IsAnyPressed(sInputKey_Left)))
         {
             SetPreviousMotion(eElumMotions::Motion_12_RunTurn);
             mBaseAliveGameObjectLastAnimFrame = GetAnimation().GetCurrentFrame();
@@ -2902,7 +2902,7 @@ void Elum::Motion_37_RunSlideStop()
         }
     }
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         MapFollowMe(true);
         if (!ToNextMotion_4120F0())
@@ -2925,10 +2925,10 @@ void Elum::Motion_38_RunTurnToRun()
 
     MoveOnLine(0);
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         SetCurrentMotion(eElumMotions::Motion_36_RunLoop);
-        GetAnimation().mFlags.Toggle(AnimFlags::eFlipX);
+        GetAnimation().ToggleFlipX();
     }
 }
 
@@ -2939,7 +2939,7 @@ void Elum::Motion_39_IdleToRun()
 
     field_10E_pressed |= Input().Pressed();
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         SetCurrentMotion(eElumMotions::Motion_36_RunLoop);
     }
@@ -2954,7 +2954,7 @@ void Elum::Motion_40_WalkToRun()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().GetFlipX())
     {
         mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
     }
@@ -2963,7 +2963,7 @@ void Elum::Motion_40_WalkToRun()
         mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
     }
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         SetCurrentMotion(eElumMotions::Motion_36_RunLoop);
     }
@@ -2978,7 +2978,7 @@ void Elum::Motion_41_MidWalkToRun()
     EventBroadcast(kEventNoise, this);
     EventBroadcast(kEventSuspiciousNoise, this);
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().GetFlipX())
     {
         mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
     }
@@ -2987,7 +2987,7 @@ void Elum::Motion_41_MidWalkToRun()
         mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
     }
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         SetPreviousMotion(eElumMotions::Motion_36_RunLoop);
         mBaseAliveGameObjectLastAnimFrame = 4;
@@ -3005,7 +3005,7 @@ void Elum::Motion_42_RunToWalk()
     field_10E_pressed |= Input().Pressed();
 
     FP velX{};
-    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().GetFlipX())
     {
         velX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(9));
     }
@@ -3016,7 +3016,7 @@ void Elum::Motion_42_RunToWalk()
 
     mVelX = velX;
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         SetCurrentMotion(eElumMotions::Motion_3_WalkLoop);
         VCheckCollisionLineStillValid(10);
@@ -3029,7 +3029,7 @@ void Elum::Motion_42_RunToWalk()
             gPlatformsArray);
 
         FP offX = {};
-        if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+        if (GetAnimation().GetFlipX())
         {
             offX = FP_FromInteger(-2) * ScaleToGridSize(GetSpriteScale());
         }
@@ -3062,7 +3062,7 @@ void Elum::Motion_43_MidRunToWalk()
     field_10E_pressed |= Input().Pressed();
 
     FP velX = {};
-    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().GetFlipX())
     {
         velX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(9));
     }
@@ -3073,7 +3073,7 @@ void Elum::Motion_43_MidRunToWalk()
 
     mVelX = velX;
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         mPreviousMotion = 3;
         mBaseAliveGameObjectLastAnimFrame = 9;
@@ -3089,7 +3089,7 @@ void Elum::Motion_43_MidRunToWalk()
             gPlatformsArray);
 
         FP offX = {};
-        if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+        if (GetAnimation().GetFlipX())
         {
             offX = FP_FromInteger(-2) * ScaleToGridSize(GetSpriteScale());
         }
@@ -3117,7 +3117,7 @@ void Elum::Motion_44_ScratchBegin()
 {
     CheckLiftPointGoneAndSetCamera();
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         SetCurrentMotion(eElumMotions::Motion_45_ScratchLoop);
         if (gMap.GetDirection(mCurrentLevel, mCurrentPath, mXPos, mYPos) == CameraPos::eCamCurrent_0)
@@ -3131,7 +3131,7 @@ void Elum::Motion_45_ScratchLoop()
 {
     CheckLiftPointGoneAndSetCamera();
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         SetCurrentMotion(eElumMotions::Motion_46_ScratchEnd);
     }
@@ -3141,11 +3141,11 @@ void Elum::Motion_46_ScratchEnd()
 {
     CheckLiftPointGoneAndSetCamera();
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         if (GetNextMotion() == eElumMotions::Motion_3_WalkLoop)
         {
-            if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+            if (GetAnimation().GetFlipX())
             {
                 if (!WallHit(GetSpriteScale() * FP_FromInteger(40), -ScaleToGridSize(GetSpriteScale())))
                 {
@@ -3199,7 +3199,7 @@ void Elum::Motion_47_Unknown()
 
     CheckLiftPointGoneAndSetCamera();
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         if (!ToNextMotion_4120F0())
         {
@@ -3239,7 +3239,7 @@ void Elum::Motion_50_Knockback()
         }
     }
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         if (field_110_timer <= static_cast<s32>(sGnFrame))
         {
@@ -3453,13 +3453,13 @@ void Elum::VUpdate()
                     {
                         sActiveHero->mXPos = mXPos;
                         sActiveHero->mYPos = mYPos;
-                        sActiveHero->GetAnimation().mFlags.Set(AnimFlags::eFlipX, GetAnimation().mFlags.Get(AnimFlags::eFlipX));
+                        sActiveHero->GetAnimation().SetFlipX(GetAnimation().GetFlipX());
                     }
                     return;
                 }
             }
 
-            GetAnimation().mFlags.Clear(AnimFlags::eRender);
+            GetAnimation().SetRender(false);
             SetCurrentMotion(eElumMotions::Motion_19_Dead);
             VOnTrapDoorOpen();
         }
@@ -3468,7 +3468,7 @@ void Elum::VUpdate()
         {
             sActiveHero->mXPos = mXPos;
             sActiveHero->mYPos = mYPos;
-            sActiveHero->GetAnimation().mFlags.Set(AnimFlags::eFlipX, GetAnimation().mFlags.Get(AnimFlags::eFlipX));
+            sActiveHero->GetAnimation().SetFlipX(GetAnimation().GetFlipX());
         }
         return;
     }

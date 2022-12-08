@@ -41,7 +41,7 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::MotionDetector_Flare));
     Animation_Init(GetAnimRes(AnimId::MotionDetector_Flare));
 
-    GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
+    GetAnimation().SetSemiTrans(true);
     GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
     GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_36);
 
@@ -103,11 +103,11 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
 
         if (pTlv->mDrawFlare == relive::reliveChoice::eYes)
         {
-            GetAnimation().mFlags.Set(AnimFlags::eRender);
+            GetAnimation().SetRender(true);
         }
         else
         {
-            GetAnimation().mFlags.Clear(AnimFlags::eRender);
+            GetAnimation().SetRender(false);
         }
 
         if (pLaser)
@@ -117,11 +117,11 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
 
             if (SwitchStates_Get(field_108_disable_switch_id) == 0)
             {
-                pLaser->GetAnimation().mFlags.Set(AnimFlags::eRender);
+                pLaser->GetAnimation().SetRender(true);
             }
             else
             {
-                pLaser->GetAnimation().mFlags.Clear(AnimFlags::eRender);
+                pLaser->GetAnimation().SetRender(false);
             }
         }
 
@@ -150,7 +150,7 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
         field_F8_laser_id = pLaserMem->mBaseGameObjectId;
     }
 
-    GetAnimation().mFlags.Set(AnimFlags::eRender);
+    GetAnimation().SetRender(true);
     field_FC_owner_id = pOwner->mBaseGameObjectId;
     field_10A_alarm_switch_id = 0;
     field_10C_alarm_duration = 0;
@@ -218,7 +218,7 @@ s16 MotionDetector::IsInLaser(IBaseAliveGameObject* pWho, IBaseAliveGameObject* 
         return 0;
     }
 
-    if (!(GetAnimation().mFlags.Get(AnimFlags::eRender)))
+    if (!(GetAnimation().GetRender()))
     {
         // Not being rendered so can't set off the motion beam
         return 0;
@@ -250,10 +250,10 @@ void MotionDetector::VUpdate()
             // A laser not part of greeter and disabled, do nothing.
             if (SwitchStates_Get(field_108_disable_switch_id))
             {
-                pLaser->GetAnimation().mFlags.Clear(AnimFlags::eRender);
+                pLaser->GetAnimation().SetRender(false);
                 return;
             }
-            pLaser->GetAnimation().mFlags.Set(AnimFlags::eRender);
+            pLaser->GetAnimation().SetRender(true);
         }
 
         const PSX_RECT bLaserRect = pLaser->VGetBoundingRect();
@@ -316,8 +316,8 @@ void MotionDetector::VUpdate()
                                 pOwner->field_140_targetOnRight = 1;
                             }
 
-                            GetAnimation().mFlags.Clear(AnimFlags::eRender);
-                            pLaser->GetAnimation().mFlags.Clear(AnimFlags::eRender);
+                            GetAnimation().SetRender(false);
+                            pLaser->GetAnimation().SetRender(false);
                         }
                         break;
                     }
@@ -339,15 +339,15 @@ void MotionDetector::VUpdate()
 
             if (pOwner->mBrainState == GreeterBrainStates::eBrain_0_Patrol || pOwner->mBrainState == GreeterBrainStates::eBrain_1_PatrolTurn)
             {
-                GetAnimation().mFlags.Set(AnimFlags::eRender);
-                pLaser->GetAnimation().mFlags.Set(AnimFlags::eRender);
+                GetAnimation().SetRender(true);
+                pLaser->GetAnimation().SetRender(true);
                 pLaser->mYPos = pOwner->mYPos;
             }
 
             if (pOwner->mBrainState == GreeterBrainStates::eBrain_4_Chase || pOwner->mBrainState == GreeterBrainStates::eBrain_6_ToChase)
             {
-                GetAnimation().mFlags.Clear(AnimFlags::eRender);
-                pLaser->GetAnimation().mFlags.Clear(AnimFlags::eRender);
+                GetAnimation().SetRender(false);
+                pLaser->GetAnimation().SetRender(false);
             }
         }
 
@@ -410,7 +410,7 @@ void MotionDetector::VRender(PrimHeader** ppOt)
 {
     BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eRender))
+    if (GetAnimation().GetRender())
     {
         auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find(field_F8_laser_id, ReliveTypes::eRedLaser));
         const PSX_RECT bLaserRect = pLaser->VGetBoundingRect();

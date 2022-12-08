@@ -28,7 +28,7 @@ SecurityDoor::SecurityDoor(relive::Path_SecurityDoor* pTlv, const Guid& tlvId)
 
     Animation_Init(GetAnimRes(AnimId::Security_Door_Idle));
 
-    GetAnimation().mFlags.Clear(AnimFlags::eRender);
+    GetAnimation().SetRender(false);
 
     field_F4_tlvInfo = tlvId;
 
@@ -141,12 +141,12 @@ void SecurityDoor::VUpdate()
 
             if (IsPlayerNear())
             {
-                GetAnimation().mFlags.Set(AnimFlags::eRender);
+                GetAnimation().SetRender(true);
                 field_F8_state = SecurityDoorStates::eSayingHi_2;
             }
             else
             {
-                GetAnimation().mFlags.Clear(AnimFlags::eRender);
+                GetAnimation().SetRender(false);
             }
             return;
 
@@ -300,7 +300,7 @@ void SecurityDoor::VUpdate()
             }
             field_12A_unused = 1;
             SwitchStates_Set(field_FA_switch_id, 1);
-            GetAnimation().mFlags.Clear(AnimFlags::eRender);
+            GetAnimation().SetRender(false);
             SFX_Play_Pitch(relive::SoundEffects::GlukkonSwitchBleh, 127, -700);
             field_F8_state = SecurityDoorStates::eSuccessChime_1;
             field_124_timer = sGnFrame + 15;

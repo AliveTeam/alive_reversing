@@ -1,8 +1,8 @@
 #pragma once
 
 #include "../relive_lib/Animation.hpp"
-#include "../relive_lib/Animation.hpp"
 #include "FixedPoint.hpp"
+#include "../AliveLibCommon/BitField.hpp"
 
 class BaseGameObject;
 

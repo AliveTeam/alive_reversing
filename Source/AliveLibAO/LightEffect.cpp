@@ -25,9 +25,9 @@ LightEffect::LightEffect(relive::Path_LightEffect* pTlv, const Guid& tlvId)
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 
-    GetAnimation().mFlags.Set(AnimFlags::eIgnorePosOffset);
-    GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
-    GetAnimation().mFlags.Set(AnimFlags::eBlending);
+    GetAnimation().SetIgnorePosOffset(true);
+    GetAnimation().SetSemiTrans(true);
+    GetAnimation().SetBlending(true);
 
     GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
     GetAnimation().SetRenderMode(TPageAbr::eBlend_0);

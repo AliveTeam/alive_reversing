@@ -36,8 +36,8 @@ s32 Grenade::CreateFromSaveState(const u8* pBuffer)
     pGrenade->mCurrentLevel = pState->field_1E_lvl_number;
     pGrenade->SetSpriteScale(pState->field_18_sprite_scale);
 
-    pGrenade->GetAnimation().mFlags.Set(AnimFlags::eLoop, pState->mLoop);
-    pGrenade->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->mRender);
+    pGrenade->GetAnimation().SetLoop(pState->mLoop);
+    pGrenade->GetAnimation().SetRender(pState->mRender);
 
     pGrenade->SetDrawable(pState->mDrawable);
     pGrenade->SetInteractive(pState->mInteractive);
@@ -75,9 +75,9 @@ s32 Grenade::VGetSaveState(u8* pSaveBuffer)
     pState->field_1E_lvl_number = mCurrentLevel;
     pState->field_18_sprite_scale = GetSpriteScale();
 
-    pState->mLoop = GetAnimation().mFlags.Get(AnimFlags::eLoop);
+    pState->mLoop = GetAnimation().GetLoop();
     pState->mDrawable = GetDrawable();
-    pState->mRender = GetAnimation().mFlags.Get(AnimFlags::eRender);
+    pState->mRender = GetAnimation().GetRender();
     pState->mInteractive = GetInteractive();
 
     if (BaseAliveGameObjectCollisionLine)
@@ -141,8 +141,8 @@ void Grenade::Init(FP xpos, FP ypos)
 
     SetInteractive(false);
 
-    GetAnimation().mFlags.Clear(AnimFlags::eRender);
-    GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
+    GetAnimation().SetRender(false);
+    GetAnimation().SetSemiTrans(false);
 
     GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
 
@@ -174,7 +174,7 @@ void Grenade::VTimeToExplodeRandom()
 
 void Grenade::VThrow(FP velX, FP velY)
 {
-    GetAnimation().mFlags.Set(AnimFlags::eRender);
+    GetAnimation().SetRender(true);
 
     mVelX = velX;
     mVelY = velY;
@@ -269,7 +269,7 @@ void Grenade::VUpdate()
 
                 if (!BaseAliveGameObjectCollisionLine)
                 {
-                    GetAnimation().mFlags.Set(AnimFlags::eLoop);
+                    GetAnimation().SetLoop(true);
                     mState = GrenadeStates::eFallingToBeCollected_0;
                 }
             }
@@ -284,7 +284,7 @@ void Grenade::VUpdate()
 
                 if (!BaseAliveGameObjectCollisionLine)
                 {
-                    GetAnimation().mFlags.Set(AnimFlags::eLoop);
+                    GetAnimation().SetLoop(true);
                     mState = GrenadeStates::eFalling_4;
                 }
             }
@@ -334,7 +334,7 @@ void Grenade::VUpdate()
             BaseAliveGameObjectCollisionLine = BaseAliveGameObjectCollisionLine->MoveOnLine(&mXPos, &mYPos, mVelX);
             if (!BaseAliveGameObjectCollisionLine)
             {
-                GetAnimation().mFlags.Set(AnimFlags::eLoop);
+                GetAnimation().SetLoop(true);
                 mState = GrenadeStates::eFalling_4;
             }
 
@@ -600,7 +600,7 @@ void Grenade::BlowUp(s16 bSmallExplosion)
         mExplosionId = pExplosion->mBaseGameObjectId;
     }
 
-    GetAnimation().mFlags.Clear(AnimFlags::eRender);
+    GetAnimation().SetRender(false);
 
     mState = GrenadeStates::eWaitForExplodeEnd_6;
 

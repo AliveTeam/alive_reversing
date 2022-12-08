@@ -83,7 +83,7 @@ SlapLock::SlapLock(relive::Path_SlapLock* pTlv, const Guid& tlvId)
         return;
     }
 
-    GetAnimation().mFlags.Clear(AnimFlags::eRender);
+    GetAnimation().SetRender(false);
 
     mTimer1 = sGnFrame + 60;
     mShinyParticleTimer = sGnFrame + 30;
@@ -112,7 +112,7 @@ s32 SlapLock::CreateFromSaveState(const u8* pBuffer)
     auto pSlapLock = relive_new SlapLock(pTlv, pState->mTlvInfo);
     if (pSlapLock)
     {
-        pSlapLock->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->mAnimRender & 1);
+        pSlapLock->GetAnimation().SetRender(pState->mAnimRender & 1);
 
         pSlapLock->mTlvInfo = pState->mTlvInfo;
 
@@ -153,7 +153,7 @@ s32 SlapLock::VGetSaveState(u8* pSaveBuffer)
     auto pState = reinterpret_cast<SlapLockSaveState*>(pSaveBuffer);
 
     pState->mType = ReliveTypes::eSlapLock;
-    pState->mAnimRender = GetAnimation().mFlags.Get(AnimFlags::eRender) & 1;
+    pState->mAnimRender = GetAnimation().GetRender() & 1;
     pState->mTlvInfo = mTlvInfo;
     pState->mTlvState = sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo)->mTlvSpecificMeaning;
     pState->mState = mState;
@@ -261,7 +261,7 @@ void SlapLock::VUpdate()
                     }
                 }
 
-                if (!(GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame)))
+                if (!(GetAnimation().GetIsLastFrame()))
                 {
                     return;
                 }
@@ -274,12 +274,12 @@ void SlapLock::VUpdate()
             }
             case SlapLockStates::eSlapped_2:
             {
-                if (!(GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame)))
+                if (!(GetAnimation().GetIsLastFrame()))
                 {
                     return;
                 }
 
-                GetAnimation().mFlags.Clear(AnimFlags::eRender);
+                GetAnimation().SetRender(false);
 
                 if (mSlapLockTlv->mGiveInvisibilityPowerup == relive::reliveChoice::eNo)
                 {

@@ -123,7 +123,7 @@ SlamDoor::SlamDoor(relive::Path_SlamDoor* pTlv, const Guid& tlvId)
 
     if (mSlamDoorFlags.Get(SlamDoorFlags::eSlamDoorFlipY))
     {
-        GetAnimation().mFlags.Set(AnimFlags::eFlipY);
+        GetAnimation().SetFlipY(true);
         mYOffset = FP_GetExponent(GetSpriteScale() * FP_FromDouble(-68.0));
     }
 
@@ -158,7 +158,7 @@ SlamDoor::SlamDoor(relive::Path_SlamDoor* pTlv, const Guid& tlvId)
         mYPos = hitY;
     }
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().GetFlipX())
     {
         mCollisionX = FP_GetExponent((ScaleToGridSize(GetSpriteScale()) / FP_FromDouble(2.0)) + FP_FromInteger(FP_GetExponent(mXPos)));
     }
@@ -220,7 +220,7 @@ SlamDoor::SlamDoor(relive::Path_SlamDoor* pTlv, const Guid& tlvId)
     }
     else
     {
-        GetAnimation().mFlags.Clear(AnimFlags::eRender);
+        GetAnimation().SetRender(false);
         mCollisionLine1 = 0;
         mCollisionLine2 = 0;
     }
@@ -257,11 +257,11 @@ void SlamDoor::VUpdate()
     const bool stateUnchanged = SwitchStates_Get(mSwitchId) == static_cast<s32>(mSlamDoorFlags.Get(SlamDoorFlags::eOpen));
     if (!mSlamDoorFlags.Get(SlamDoorFlags::eClosed))
     {
-        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().GetIsLastFrame())
         {
-            if (GetAnimation().mFlags.Get(AnimFlags::eRender))
+            if (GetAnimation().GetRender())
             {
-                GetAnimation().mFlags.Clear(AnimFlags::eRender);
+                GetAnimation().SetRender(false);
 
                 if (mSlamDoorFlags.Get(SlamDoorFlags::eDelete))
                 {
@@ -276,7 +276,7 @@ void SlamDoor::VUpdate()
 
     if (mSlamDoorFlags.Get(SlamDoorFlags::eClosed))
     {
-        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().GetIsLastFrame())
         {
             if (!mSlamDoorFlags.Get(SlamDoorFlags::eLastFrame))
             {
@@ -294,7 +294,7 @@ void SlamDoor::VUpdate()
 
         if (stateUnchanged)
         {
-            GetAnimation().mFlags.Set(AnimFlags::eRender);
+            GetAnimation().SetRender(true);
 
             GetAnimation().Set_Animation_Data(GetAnimRes(sSlamDoorAnimIds[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][2]));
 
@@ -344,7 +344,7 @@ void SlamDoor::VUpdate()
                 {
                     break;
                 }
-                if (pObj->GetAnimation().mFlags.Get(AnimFlags::eRender))
+                if (pObj->GetAnimation().GetRender())
                 {
                     if (pObj->Type() != ReliveTypes::eSlamDoor)
                     {
@@ -390,7 +390,7 @@ void SlamDoor::VUpdate()
                 break;
             }
 
-            if (pObj->GetAnimation().mFlags.Get(AnimFlags::eRender))
+            if (pObj->GetAnimation().GetRender())
             {
                 if (pObj->Type() != ReliveTypes::eSlamDoor && pObj->Type() != ReliveTypes::eGrenade)
                 {
@@ -408,7 +408,7 @@ void SlamDoor::VUpdate()
         }
     }
 
-    SetCanExplode(GetAnimation().mFlags.Get(AnimFlags::eRender)); // wot?
+    SetCanExplode(GetAnimation().GetRender()); // wot?
 }
 
 s32 SlamDoor::VGetSaveState(u8* pSaveBuffer)

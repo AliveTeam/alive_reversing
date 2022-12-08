@@ -74,8 +74,8 @@ Mine::Mine(relive::Path_Mine* pPath, const Guid& tlv)
     mExplosionTimer = sGnFrame;
     mFlashAnim.Init(GetAnimRes(AnimId::Mine_Flash), this);
 
-    mFlashAnim.mFlags.Set(AnimFlags::eSemiTrans);
-    mFlashAnim.mFlags.Set(AnimFlags::eBlending);
+    mFlashAnim.SetSemiTrans(true);
+    mFlashAnim.SetBlending(true);
 
     mFlashAnim.SetRenderLayer(GetAnimation().GetRenderLayer());
     mFlashAnim.SetSpriteScale(GetSpriteScale());
@@ -168,7 +168,7 @@ void Mine::VUpdate()
 
 void Mine::VRender(PrimHeader** ppOt)
 {
-    if (GetAnimation().mFlags.Get(AnimFlags::eRender))
+    if (GetAnimation().GetRender())
     {
         if (gMap.Is_Point_In_Current_Camera(
                 mCurrentLevel,
@@ -255,7 +255,7 @@ bool Mine::IsColliding()
         }
 
         // e114_Bit6 May be "can set off explosives?"
-        if (pObj->mBaseAliveGameObjectFlags.Get(eCanSetOffExplosives) && pObj->GetAnimation().mFlags.Get(AnimFlags::eRender))
+        if (pObj->mBaseAliveGameObjectFlags.Get(eCanSetOffExplosives) && pObj->GetAnimation().GetRender())
         {
             const PSX_RECT objBound = pObj->VGetBoundingRect();
 

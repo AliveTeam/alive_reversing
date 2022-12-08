@@ -173,7 +173,7 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
 
     if (!VIsFacingMe(sActiveHero))
     {
-        GetAnimation().mFlags.Toggle(AnimFlags::eFlipX);
+        GetAnimation().ToggleFlipX();
     }
 
     VStackOnObjectsOfType(ReliveTypes::eParamite);
@@ -249,7 +249,7 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
                 GetSpriteScale());
 
             SetDead(true);
-            GetAnimation().mFlags.Clear(AnimFlags::eRender);
+            GetAnimation().SetRender(false);
             mHealth = FP_FromInteger(0);
             return 1;
         }
@@ -396,8 +396,8 @@ void Paramite::VUpdate()
             }
         }
 
-        GetAnimation().mFlags.Clear(AnimFlags::eAnimate);
-        GetAnimation().mFlags.Clear(AnimFlags::eRender);
+        GetAnimation().SetAnimate(false);
+        GetAnimation().SetRender(false);
 
         // TODO: OG freed vram here
     }
@@ -405,8 +405,8 @@ void Paramite::VUpdate()
     {
         // TODO: OG alloc'd vram here
 
-        GetAnimation().mFlags.Set(AnimFlags::eAnimate);
-        GetAnimation().mFlags.Set(AnimFlags::eRender);
+        GetAnimation().SetAnimate(true);
+        GetAnimation().SetRender(true);
 
 
         const auto oldMotion = mCurrentMotion;
@@ -478,8 +478,8 @@ void Paramite::VUpdate()
 
 void Paramite::ToIdle()
 {
-    GetAnimation().mFlags.Clear(AnimFlags::eFlipY);
-    GetAnimation().mFlags.Clear(AnimFlags::eSwapXY);
+    GetAnimation().SetFlipY(false);
+    GetAnimation().SetSwapXY(false);
 
     field_124_XSpeed = FP_FromInteger(0);
     mVelX = FP_FromInteger(0);
@@ -503,7 +503,7 @@ s16 Paramite::ToNextMotion()
             return 1;
 
         case eParamiteMotions::Motion_3_Running:
-            if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+            if (GetAnimation().GetFlipX())
             {
                 mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromDouble(3.5));
                 SetCurrentMotion(eParamiteMotions::Motion_10_RunBegin);
@@ -517,7 +517,7 @@ s16 Paramite::ToNextMotion()
             return 1;
 
         case eParamiteMotions::Motion_2_Walking:
-            if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+            if (GetAnimation().GetFlipX())
             {
                 mVelX = -ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(7);
                 SetCurrentMotion(eParamiteMotions::Motion_1_WalkBegin);
@@ -537,7 +537,7 @@ s16 Paramite::ToNextMotion()
         case eParamiteMotions::Motion_18_RunningAttack:
             SetCurrentMotion(eParamiteMotions::Motion_18_RunningAttack);
             SetNextMotion(-1);
-            if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+            if (GetAnimation().GetFlipX())
             {
                 mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
             }
@@ -912,7 +912,7 @@ s16 Paramite::Brain_0_Patrol()
                 {
                     if (!VIsFacingMe(sActiveHero))
                     {
-                        if ((GetAnimation().mFlags.Get(AnimFlags::eFlipX) && !Check_IsOnEndOfLine(0, 2)) || (!GetAnimation().mFlags.Get(AnimFlags::eFlipX) && !Check_IsOnEndOfLine(1, 2)))
+                        if ((GetAnimation().GetFlipX() && !Check_IsOnEndOfLine(0, 2)) || (!GetAnimation().GetFlipX() && !Check_IsOnEndOfLine(1, 2)))
                         {
                             SetNextMotion(eParamiteMotions::Motion_5_Turn);
                             return Brain_0_Patrol::eBrain0_TurningForAbe_6;
@@ -920,7 +920,7 @@ s16 Paramite::Brain_0_Patrol()
                     }
                     else
                     {
-                        if ((GetAnimation().mFlags.Get(AnimFlags::eFlipX) && !Check_IsOnEndOfLine(1, 2)) || (!GetAnimation().mFlags.Get(AnimFlags::eFlipX) && !Check_IsOnEndOfLine(0, 2)))
+                        if ((GetAnimation().GetFlipX() && !Check_IsOnEndOfLine(1, 2)) || (!GetAnimation().GetFlipX() && !Check_IsOnEndOfLine(0, 2)))
                         {
                             SetNextMotion(eParamiteMotions::Motion_2_Walking);
                             return Brain_0_Patrol::eBrain0_ApproachingAbe_4;
@@ -938,7 +938,7 @@ s16 Paramite::Brain_0_Patrol()
             }
             else if (VIsFacingMe(sActiveHero))
             {
-                if ((GetAnimation().mFlags.Get(AnimFlags::eFlipX) && Check_IsOnEndOfLine(0, 2)) || (!GetAnimation().mFlags.Get(AnimFlags::eFlipX) && Check_IsOnEndOfLine(1, 2)))
+                if ((GetAnimation().GetFlipX() && Check_IsOnEndOfLine(0, 2)) || (!GetAnimation().GetFlipX() && Check_IsOnEndOfLine(1, 2)))
                 {
                     SetNextMotion(eParamiteMotions::Motion_13_GameSpeakBegin);
                     return Brain_0_Patrol::eBrain0_StuckToWall_8;
@@ -950,7 +950,7 @@ s16 Paramite::Brain_0_Patrol()
             }
             else if (!VIsObjNearby(kGridSize * FP_FromInteger(4), sActiveHero))
             {
-                if ((GetAnimation().mFlags.Get(AnimFlags::eFlipX) && Check_IsOnEndOfLine(1, 2)) || (!GetAnimation().mFlags.Get(AnimFlags::eFlipX) && Check_IsOnEndOfLine(0, 2)))
+                if ((GetAnimation().GetFlipX() && Check_IsOnEndOfLine(1, 2)) || (!GetAnimation().GetFlipX() && Check_IsOnEndOfLine(0, 2)))
                 {
                     SetNextMotion(eParamiteMotions::Motion_5_Turn);
                     return Brain_0_Patrol::eBrain0_HittingAbe_7;
@@ -961,7 +961,7 @@ s16 Paramite::Brain_0_Patrol()
             }
             else
             {
-                if ((GetAnimation().mFlags.Get(AnimFlags::eFlipX) && Check_IsOnEndOfLine(1, 2)) || (!GetAnimation().mFlags.Get(AnimFlags::eFlipX) && Check_IsOnEndOfLine(0, 2)))
+                if ((GetAnimation().GetFlipX() && Check_IsOnEndOfLine(1, 2)) || (!GetAnimation().GetFlipX() && Check_IsOnEndOfLine(0, 2)))
                 {
                     SetNextMotion(eParamiteMotions::Motion_5_Turn);
                     return Brain_0_Patrol::eBrain0_HittingAbe_7;
@@ -1201,7 +1201,7 @@ s16 Paramite::Brain_0_Patrol()
             return Brain_0_Patrol::eBrain0_ApproachingAbe_4;
 
         case Brain_0_Patrol::eBrain0_TurningForAbe_6:
-            if (GetCurrentMotion() != eParamiteMotions::Motion_5_Turn || !GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+            if (GetCurrentMotion() != eParamiteMotions::Motion_5_Turn || !GetAnimation().GetIsLastFrame())
             {
                 return mBrainSubState;
             }
@@ -1209,7 +1209,7 @@ s16 Paramite::Brain_0_Patrol()
             return Brain_0_Patrol::eBrain0_IdleForAbe_1;
 
         case Brain_0_Patrol::eBrain0_HittingAbe_7:
-            if (GetCurrentMotion() != eParamiteMotions::Motion_5_Turn || !(GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame)))
+            if (GetCurrentMotion() != eParamiteMotions::Motion_5_Turn || !(GetAnimation().GetIsLastFrame()))
             {
                 return mBrainSubState;
             }
@@ -1265,7 +1265,7 @@ s16 Paramite::Brain_0_Patrol()
 
         case Brain_0_Patrol::eBrain0_Attacking_9:
             if (GetCurrentMotion() != eParamiteMotions::Motion_18_RunningAttack
-                || !(GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame)))
+                || !(GetAnimation().GetIsLastFrame()))
             {
                 return mBrainSubState;
             }
@@ -1316,7 +1316,7 @@ s16 Paramite::Brain_0_Patrol()
 
         case Brain_0_Patrol::eBrain0_IdleAnimation_13:
             if (GetCurrentMotion() != eParamiteMotions::Motion_14_PreHiss
-                || !(GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame)))
+                || !(GetAnimation().GetIsLastFrame()))
             {
                 return mBrainSubState;
             }
@@ -1326,7 +1326,7 @@ s16 Paramite::Brain_0_Patrol()
 
         case Brain_0_Patrol::eBrain0_Turning_14:
             if (GetCurrentMotion() != eParamiteMotions::Motion_5_Turn
-                || !(GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame)))
+                || !(GetAnimation().GetIsLastFrame()))
             {
                 return mBrainSubState;
             }
@@ -1409,7 +1409,7 @@ s16 Paramite::Brain_1_SurpriseWeb()
                     return mBrainSubState;
                 }
             }
-            GetAnimation().mFlags.Clear(AnimFlags::eFlipX);
+            GetAnimation().SetFlipX(false);
             field_114_timer = sGnFrame + mSurpriseWebDelayTimer;
             return Brain_1_SurpriseWeb::eBrain1_StartAnimation_3;
 
@@ -1428,7 +1428,7 @@ s16 Paramite::Brain_1_SurpriseWeb()
                     return mBrainSubState;
                 }
             }
-            GetAnimation().mFlags.Set(AnimFlags::eFlipX);
+            GetAnimation().SetFlipX(true);
             field_114_timer = sGnFrame + mSurpriseWebDelayTimer;
             return Brain_1_SurpriseWeb::eBrain1_StartAnimation_3;
 
@@ -1549,7 +1549,7 @@ s16 Paramite::Brain_2_Struggling()
             case Brain_2_Struggling::eBrain2_Turn_2:
                 if (GetCurrentMotion() == eParamiteMotions::Motion_15_Hiss)
                 {
-                    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+                    if (GetAnimation().GetIsLastFrame())
                     {
                         SetNextMotion(eParamiteMotions::Motion_5_Turn);
                         return Brain_2_Struggling::eBrain2_Death_3;
@@ -1560,7 +1560,7 @@ s16 Paramite::Brain_2_Struggling()
             case Brain_2_Struggling::eBrain2_Death_3:
                 if (GetCurrentMotion() == eParamiteMotions::Motion_5_Turn)
                 {
-                    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+                    if (GetAnimation().GetIsLastFrame())
                     {
                         SetNextMotion(eParamiteMotions::Motion_25_Death);
                         field_114_timer = sGnFrame + 30;
@@ -1695,7 +1695,7 @@ s16 Paramite::Brain_4_ChasingAbe()
                         return Brain_4_ChasingAbe::eBrain4_Eating_13;
                     }
 
-                    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+                    if (GetAnimation().GetFlipX())
                     {
                         if (Check_IsOnEndOfLine(1, 1))
                         {
@@ -1724,7 +1724,7 @@ s16 Paramite::Brain_4_ChasingAbe()
 
         case Brain_4_ChasingAbe::eBrain4_Attacking_1:
             if (GetCurrentMotion() != eParamiteMotions::Motion_18_RunningAttack
-                || !GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+                || !GetAnimation().GetIsLastFrame())
             {
                 return mBrainSubState;
             }
@@ -1747,7 +1747,7 @@ s16 Paramite::Brain_4_ChasingAbe()
                         }
                     }
 
-                    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+                    if (GetAnimation().GetFlipX())
                     {
                         if (Check_IsOnEndOfLine(1, 1))
                         {
@@ -1783,7 +1783,7 @@ s16 Paramite::Brain_4_ChasingAbe()
                         return Brain_4_ChasingAbe::eBrain4_Eating_13;
                     }
 
-                    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+                    if (GetAnimation().GetFlipX())
                     {
                         if (Check_IsOnEndOfLine(1, 1))
                         {
@@ -1828,7 +1828,7 @@ s16 Paramite::Brain_4_ChasingAbe()
 
         case Brain_4_ChasingAbe::eBrain4_CloseAttack_4:
             if (GetCurrentMotion() != eParamiteMotions::Motion_5_Turn
-                || !GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+                || !GetAnimation().GetIsLastFrame())
             {
                 return mBrainSubState;
             }
@@ -1896,7 +1896,7 @@ s16 Paramite::Brain_4_ChasingAbe()
                 return mBrainSubState;
             }
 
-            if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+            if (GetAnimation().GetFlipX())
             {
                 if (Check_IsOnEndOfLine(1, 1))
                 {
@@ -1904,7 +1904,7 @@ s16 Paramite::Brain_4_ChasingAbe()
                     return Brain_4_ChasingAbe::eBrain4_Jumping_8;
                 }
             }
-            else if (!GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+            else if (!GetAnimation().GetFlipX())
             {
                 if (Check_IsOnEndOfLine(0, 1))
                 {
@@ -1918,7 +1918,7 @@ s16 Paramite::Brain_4_ChasingAbe()
 
         case Brain_4_ChasingAbe::eBrain4_QuickAttack_6:
             if (GetCurrentMotion() != eParamiteMotions::Motion_5_Turn
-                || !(GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame)))
+                || !(GetAnimation().GetIsLastFrame()))
             {
                 return mBrainSubState;
             }
@@ -2009,7 +2009,7 @@ s16 Paramite::Brain_4_ChasingAbe()
 
         case Brain_4_ChasingAbe::eBrain4_TurningWhileChasing_9:
             if (GetCurrentMotion() != eParamiteMotions::Motion_5_Turn
-                || !(GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame)))
+                || !(GetAnimation().GetIsLastFrame()))
             {
                 return mBrainSubState;
             }
@@ -2018,7 +2018,7 @@ s16 Paramite::Brain_4_ChasingAbe()
 
         case Brain_4_ChasingAbe::eBrain4_Turning_10:
             if (GetCurrentMotion() != eParamiteMotions::Motion_5_Turn
-                || !GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+                || !GetAnimation().GetIsLastFrame())
             {
                 return mBrainSubState;
             }
@@ -2030,7 +2030,7 @@ s16 Paramite::Brain_4_ChasingAbe()
                 return Brain_4_ChasingAbe::eBrain4_Eating_13;
             }
 
-            if (!GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+            if (!GetAnimation().GetFlipX())
             {
                 if (!Check_IsOnEndOfLine(0, 1))
                 {
@@ -2038,7 +2038,7 @@ s16 Paramite::Brain_4_ChasingAbe()
                     return Brain_4_ChasingAbe::eBrain4_Walking_11;
                 }
             }
-            else if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+            else if (GetAnimation().GetFlipX())
             {
                 if (!Check_IsOnEndOfLine(1, 1))
                 {
@@ -2210,7 +2210,7 @@ s16 Paramite::Brain_5_SpottedMeat()
                 return Brain_5_SpottedMeat::eBrain5_AttentiveToMeat_5;
             }
 
-            if (!GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+            if (!GetAnimation().GetFlipX())
             {
                 if (Check_IsOnEndOfLine(0, 1))
                 {
@@ -2218,7 +2218,7 @@ s16 Paramite::Brain_5_SpottedMeat()
                     return Brain_5_SpottedMeat::eBrain5_Jumping_3;
                 }
             }
-            else if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+            else if (GetAnimation().GetFlipX())
             {
                 if (Check_IsOnEndOfLine(1, 1))
                 {
@@ -2361,7 +2361,7 @@ s16 Paramite::Brain_5_SpottedMeat()
 
         case Brain_5_SpottedMeat::eBrain5_Turning_4:
             if (GetCurrentMotion() != eParamiteMotions::Motion_5_Turn
-                || !GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+                || !GetAnimation().GetIsLastFrame())
             {
                 return mBrainSubState;
             }
@@ -2398,7 +2398,7 @@ s16 Paramite::Brain_5_SpottedMeat()
                 return mBrainSubState;
             }
 
-            if (!GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+            if (!GetAnimation().GetFlipX())
             {
                 if (Check_IsOnEndOfLine(0, 1))
                 {
@@ -2406,7 +2406,7 @@ s16 Paramite::Brain_5_SpottedMeat()
                     return Brain_5_SpottedMeat::eBrain5_Jumping_3;
                 }
             }
-            else if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+            else if (GetAnimation().GetFlipX())
             {
                 if (Check_IsOnEndOfLine(1, 1))
                 {
@@ -2539,7 +2539,7 @@ void Paramite::Motion_1_WalkBegin()
 {
     EventBroadcast(kEventNoise, this);
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().GetFlipX())
     {
         mVelX = GetSpriteScale() * -sWalkBeginVelTable_4BBC88[GetAnimation().GetCurrentFrame()];
     }
@@ -2556,7 +2556,7 @@ void Paramite::Motion_1_WalkBegin()
     {
         MoveOnLine();
 
-        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().GetIsLastFrame())
         {
             SetCurrentMotion(eParamiteMotions::Motion_2_Walking);
         }
@@ -2583,7 +2583,7 @@ void Paramite::Motion_2_Walking()
 {
     EventBroadcast(kEventNoise, this);
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().GetFlipX())
     {
         mVelX = GetSpriteScale() * -sWalkVelTable_4BBC50[GetAnimation().GetCurrentFrame()];
     }
@@ -2638,7 +2638,7 @@ void Paramite::Motion_2_Walking()
             {
                 SetCurrentMotion(eParamiteMotions::Motion_18_RunningAttack);
                 SetNextMotion(-1);
-                if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+                if (GetAnimation().GetFlipX())
                 {
                     mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
                 }
@@ -2685,7 +2685,7 @@ void Paramite::Motion_3_Running()
     EventBroadcast(kEventNoise, this);
 
     FP frameVelx = {};
-    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().GetFlipX())
     {
         frameVelx = GetSpriteScale() * -sRunningTable_4BBCC0[GetAnimation().GetCurrentFrame()];
     }
@@ -2732,7 +2732,7 @@ void Paramite::Motion_3_Running()
             SetCurrentMotion(eParamiteMotions::Motion_18_RunningAttack);
             SetNextMotion(-1);
 
-            if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+            if (GetAnimation().GetFlipX())
             {
                 mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
             }
@@ -2798,7 +2798,7 @@ void Paramite::Motion_3_Running()
             SetCurrentMotion(eParamiteMotions::Motion_18_RunningAttack);
             SetNextMotion(-1);
 
-            if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+            if (GetAnimation().GetFlipX())
             {
                 mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
             }
@@ -2847,9 +2847,9 @@ void Paramite::Motion_5_Turn()
         Sound(ParamiteSpeak::SlightStep_4);
     }
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
-        GetAnimation().mFlags.Toggle(AnimFlags::eFlipX);
+        GetAnimation().ToggleFlipX();
 
         if (ToNextMotion())
         {
@@ -2887,7 +2887,7 @@ void Paramite::Motion_6_Hop()
     EventBroadcast(kEventNoise, this);
 
     FP frameVelX = {};
-    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().GetFlipX())
     {
         frameVelX = (GetSpriteScale() * -sHopVelTable_4BBD28[GetAnimation().GetCurrentFrame()]);
     }
@@ -2969,7 +2969,7 @@ void Paramite::Motion_7_Unknown()
 {
     EventBroadcast(kEventNoise, this);
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().GetFlipX())
     {
         mVelX = GetSpriteScale() * -State_7_Unknown_VelTable_4BBCA8[GetAnimation().GetCurrentFrame()];
     }
@@ -2978,7 +2978,7 @@ void Paramite::Motion_7_Unknown()
         mVelX = GetSpriteScale() * State_7_Unknown_VelTable_4BBCA8[GetAnimation().GetCurrentFrame()];
     }
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         mPreviousMotion = 3;
         mBaseAliveGameObjectLastAnimFrame = 2;
@@ -3004,7 +3004,7 @@ void Paramite::Motion_8_WalkRunTransition()
 {
     EventBroadcast(kEventNoise, this);
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().GetFlipX())
     {
         mVelX = GetSpriteScale() * -sWalkRunTransVelTable_4BBD18[GetAnimation().GetCurrentFrame()];
     }
@@ -3013,7 +3013,7 @@ void Paramite::Motion_8_WalkRunTransition()
         mVelX = GetSpriteScale() * sWalkRunTransVelTable_4BBD18[GetAnimation().GetCurrentFrame()];
     }
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         SetCurrentMotion(eParamiteMotions::Motion_2_Walking);
     }
@@ -3035,7 +3035,7 @@ const FP sWalkEndVelTable_4BBC98[3] = {
 
 void Paramite::Motion_9_WalkEnd()
 {
-    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().GetFlipX())
     {
         mVelX = GetSpriteScale() * -sWalkEndVelTable_4BBC98[GetAnimation().GetCurrentFrame()];
     }
@@ -3053,7 +3053,7 @@ void Paramite::Motion_9_WalkEnd()
         MoveOnLine();
         EventBroadcast(kEventNoise, this);
 
-        if (!GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+        if (!GetAnimation().GetIsLastFrame())
         {
             return;
         }
@@ -3069,7 +3069,7 @@ const FP sRunBeginVelTable_4BBCF8[3] = {
 
 void Paramite::Motion_10_RunBegin()
 {
-    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().GetFlipX())
     {
         mVelX = (GetSpriteScale() * -sRunBeginVelTable_4BBCF8[GetAnimation().GetCurrentFrame()]);
     }
@@ -3078,7 +3078,7 @@ void Paramite::Motion_10_RunBegin()
         mVelX = GetSpriteScale() * sRunBeginVelTable_4BBCF8[GetAnimation().GetCurrentFrame()];
     }
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         mPreviousMotion = 3;
         mBaseAliveGameObjectLastAnimFrame = 2;
@@ -3104,7 +3104,7 @@ const FP sRunEndVelTable_4BBD08[3] = {
 
 void Paramite::Motion_11_RunEnd()
 {
-    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().GetFlipX())
     {
         mVelX = GetSpriteScale() * -sRunEndVelTable_4BBD08[GetAnimation().GetCurrentFrame()];
     }
@@ -3113,7 +3113,7 @@ void Paramite::Motion_11_RunEnd()
         mVelX = GetSpriteScale() * sRunEndVelTable_4BBD08[GetAnimation().GetCurrentFrame()];
     }
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         ToIdle();
     }
@@ -3213,7 +3213,7 @@ void Paramite::Motion_13_GameSpeakBegin()
         }
     }
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         SetCurrentMotion(eParamiteMotions::Motion_14_PreHiss);
     }
@@ -3252,7 +3252,7 @@ void Paramite::Motion_14_PreHiss()
     {
         SetCurrentMotion(eParamiteMotions::Motion_18_RunningAttack);
         SetNextMotion(-1);
-        if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+        if (GetAnimation().GetFlipX())
         {
             mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
         }
@@ -3318,7 +3318,7 @@ void Paramite::Motion_15_Hiss()
     {
         SetCurrentMotion(eParamiteMotions::Motion_18_RunningAttack);
         SetNextMotion(-1);
-        if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+        if (GetAnimation().GetFlipX())
         {
             mVelX = -(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
         }
@@ -3327,7 +3327,7 @@ void Paramite::Motion_15_Hiss()
             mVelX = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(4));
         }
     }
-    else if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    else if (GetAnimation().GetIsLastFrame())
     {
         SetCurrentMotion(eParamiteMotions::Motion_16_PostHiss);
     }
@@ -3352,7 +3352,7 @@ void Paramite::Motion_16_PostHiss()
         }
     }
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         SetCurrentMotion(eParamiteMotions::Motion_14_PreHiss);
     }
@@ -3376,12 +3376,12 @@ void Paramite::Motion_17_GameSpeakEnd()
             }
         }
     }
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         if (!ToNextMotion())
         {
-            GetAnimation().mFlags.Clear(AnimFlags::eFlipY);
-            GetAnimation().mFlags.Clear(AnimFlags::eSwapXY);
+            GetAnimation().SetFlipY(false);
+            GetAnimation().SetSwapXY(false);
             field_124_XSpeed = FP_FromInteger(0);
             mVelX = FP_FromInteger(0);
             mVelY = FP_FromInteger(0);
@@ -3470,7 +3470,7 @@ void Paramite::Motion_18_RunningAttack()
         }
     }
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         ToIdle();
     }
@@ -3550,7 +3550,7 @@ void Paramite::Motion_21_WebLeaveDown()
         Environment_SFX_42A220(EnvironmentSfx::eHitGroundSoft_6, 50, 600, 0);
     }
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         ToIdle();
     }
@@ -3570,7 +3570,7 @@ void Paramite::Motion_22_Unknown()
         sActiveHero->VTakeDamage(this);
     }
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         SetCurrentMotion(eParamiteMotions::Motion_14_PreHiss);
     }

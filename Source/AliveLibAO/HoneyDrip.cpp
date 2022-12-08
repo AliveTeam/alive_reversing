@@ -31,7 +31,7 @@ void HoneyDrip::VUpdate()
         mSoundPlaying = true;
     }
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         SetDead(true);
     }

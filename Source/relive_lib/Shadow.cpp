@@ -19,15 +19,14 @@ Shadow::Shadow()
 
     mAnim.SetRenderMode(TPageAbr::eBlend_2);
 
-    mAnim.mFlags.Clear(AnimFlags::eRender);
-    mAnim.mFlags.Clear(AnimFlags::eBlending);
+    mAnim.SetRender(false);
+    mAnim.SetBlending(false);
 
-    mAnim.mFlags.Set(AnimFlags::eAnimate);
-    mAnim.mFlags.Set(AnimFlags::eLoop);
-    mAnim.mFlags.Set(AnimFlags::eSemiTrans);
-    mAnim.mFlags.Set(AnimFlags::eIsLastFrame);
-    mAnim.mFlags.Set(AnimFlags::eIgnorePosOffset);
-    mAnim.mFlags.Set(AnimFlags::eBit21);
+    mAnim.SetAnimate(true);
+    mAnim.SetLoop(true);
+    mAnim.SetSemiTrans(true);
+    mAnim.SetIsLastFrame(true);
+    mAnim.SetIgnorePosOffset(true);
 }
 
 Shadow::~Shadow()
@@ -77,7 +76,7 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
                 lineWScreen = pLine->mRect.x - camXPos;
             }
 
-            mAnim.mFlags.Set(AnimFlags::eRender);
+            mAnim.SetRender(true);
 
             mXPos = xpos;
 
@@ -144,7 +143,7 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
         else
         {
             // Didn't hit anything so don't draw a shadow
-            mAnim.mFlags.Clear(AnimFlags::eRender);
+            mAnim.SetRender(false);
         }
 
         if (scale == Scale::Fg)

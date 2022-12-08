@@ -31,7 +31,7 @@ GlukkonSwitch::GlukkonSwitch(relive::Path_GlukkonSwitch* pTlv, const Guid& tlvId
 
     Animation_Init(GetAnimRes(AnimId::Security_Door_Idle));
 
-    GetAnimation().mFlags.Clear(AnimFlags::eRender);
+    GetAnimation().SetRender(false);
     field_F4_tlvInfo = tlvId;
     GetAnimation().SetRenderLayer(Layer::eLayer_BeforeWell_22);
 
@@ -150,12 +150,12 @@ void GlukkonSwitch::VUpdate()
 
             if (PlayerNearMe())
             {
-                GetAnimation().mFlags.Set(AnimFlags::eRender);
+                GetAnimation().SetRender(true);
                 field_F8_state = 2;
             }
             else
             {
-                GetAnimation().mFlags.Clear(AnimFlags::eRender);
+                GetAnimation().SetRender(false);
             }
             return;
 

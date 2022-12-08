@@ -33,7 +33,7 @@ public:
         LoadAnimations();
         Animation_Init(GetAnimRes(AnimId::BoomMachine_Nozzle_Idle));
 
-        GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
+        GetAnimation().SetSemiTrans(false);
         mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 
         SetSpriteScale(scale);
@@ -97,7 +97,7 @@ private:
                 break;
 
             case BoomMachineStates::eDropGrenade_3:
-                if (GetAnimation().mFlags.Get(AnimFlags::eForwardLoopCompleted))
+                if (GetAnimation().GetForwardLoopCompleted())
                 {
                     SFX_Play_Pitch(relive::SoundEffects::PickupItem, 127, -900);
 
@@ -109,7 +109,7 @@ private:
                     gpThrowableArray->Add(mGrenadeCount);
 
                     FP directedScale = {};
-                    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+                    if (GetAnimation().GetFlipX())
                     {
                         directedScale = -GetSpriteScale();
                     }
@@ -124,7 +124,7 @@ private:
                         0,
                         nullptr);
  
-                    pGrenade->VThrow((GetAnimation().mFlags.Get(AnimFlags::eFlipX)) != 0 ? -FP_FromDouble(0.75) : FP_FromDouble(0.75), FP_FromInteger(3));
+                    pGrenade->VThrow((GetAnimation().GetFlipX()) != 0 ? -FP_FromDouble(0.75) : FP_FromDouble(0.75), FP_FromInteger(3));
 
                     GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::BoomMachine_Nozzle_Idle));
                     mState = BoomMachineStates::eInactive_0;
@@ -179,7 +179,7 @@ BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId)
         pTlv->mGrenadeAmount);
     if (pNozzle)
     {
-        pNozzle->GetAnimation().mFlags.Set(AnimFlags::eFlipX, pTlv->mNozzleSide == relive::Path_BoomMachine::NozzleSide::eLeft);
+        pNozzle->GetAnimation().SetFlipX(pTlv->mNozzleSide == relive::Path_BoomMachine::NozzleSide::eLeft);
         mNozzleId = pNozzle->mBaseGameObjectId;
     }
 

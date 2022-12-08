@@ -66,7 +66,7 @@ void DoorBlocker::VUpdate()
     {
         if (mDone)
         {
-            if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+            if (GetAnimation().GetIsLastFrame())
             {
                 SetDead(true);
             }

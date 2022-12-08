@@ -34,7 +34,7 @@ Dove::Dove(AnimId animId, const Guid& tlvId, FP scale)
     LoadAnimations();
     Animation_Init(GetAnimRes(animId));
 
-    GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
+    GetAnimation().SetSemiTrans(false);
 
     gDovesArray.Push_Back(this);
 
@@ -54,11 +54,11 @@ Dove::Dove(AnimId animId, const Guid& tlvId, FP scale)
     mVelX = FP_FromInteger(Math_NextRandom() / 12 - 11);
     if (mVelX >= FP_FromInteger(0))
     {
-        GetAnimation().mFlags.Clear(AnimFlags::eFlipX);
+        GetAnimation().SetFlipX(false);
     }
     else
     {
-        GetAnimation().mFlags.Set(AnimFlags::eFlipX);
+        GetAnimation().SetFlipX(true);
     }
 
     mDoveState = State::eOnGround_0;
@@ -90,7 +90,7 @@ Dove::Dove(AnimId animId, FP xpos, FP ypos, FP scale)
     LoadAnimations();
     Animation_Init(GetAnimRes(animId));
 
-    GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
+    GetAnimation().SetSemiTrans(false);
     GetAnimation().SetSpriteScale(scale);
     SetSpriteScale(scale);
 
@@ -106,11 +106,11 @@ Dove::Dove(AnimId animId, FP xpos, FP ypos, FP scale)
     mVelX = FP_FromInteger(Math_NextRandom() / 12 - 11);
     if (scale >= FP_FromInteger(0))
     {
-        GetAnimation().mFlags.Clear(AnimFlags::eFlipX);
+        GetAnimation().SetFlipX(false);
     }
     else
     {
-        GetAnimation().mFlags.Set(AnimFlags::eFlipX);
+        GetAnimation().SetFlipX(true);
     }
 
     mVelY = FP_FromInteger(-4 - ((Math_NextRandom()) & 3));
@@ -292,7 +292,7 @@ void Dove::VUpdate()
                 mVelX = -mVelX;
             }
 
-            GetAnimation().mFlags.Set(AnimFlags::eFlipX, mVelX < FP_FromInteger(0));
+            GetAnimation().SetFlipX(mVelX < FP_FromInteger(0));
             break;
 
         case State::eJoin_2:
@@ -302,7 +302,7 @@ void Dove::VUpdate()
                 SetDead(true);
             }
 
-            const FP k4Directed = GetAnimation().mFlags.Get(AnimFlags::eFlipX) ? FP_FromInteger(4) : FP_FromInteger(-4);
+            const FP k4Directed = GetAnimation().GetFlipX() ? FP_FromInteger(4) : FP_FromInteger(-4);
             mVelX = (k4Directed + mJoinX - mXPos) / FP_FromInteger(8);
             mVelY = (mJoinY - mYPos) / FP_FromInteger(8);
             mXPos += mVelX;

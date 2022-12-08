@@ -423,7 +423,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
             auto pBaseObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
             if (pBaseObj->mVisualFlags.Get(BaseAnimatedWithPhysicsGameObject::VisualFlags::eDoPurpleLightEffect))
             {
-                if (pBaseObj->GetAnimation().mFlags.Get(AnimFlags::eRender))
+                if (pBaseObj->GetAnimation().GetRender())
                 {
                     if (!pBaseObj->GetDead() && pObj != sControlledCharacter)
                     {
@@ -480,7 +480,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                     {
                         break;
                     }
-                    pObj->GetAnimation().mFlags.Clear(AnimFlags::eRender);
+                    pObj->GetAnimation().SetRender(false);
                 }
             }
 
@@ -546,7 +546,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                 {
                     break;
                 }
-                pObj->GetAnimation().mFlags.Set(AnimFlags::eRender);
+                pObj->GetAnimation().SetRender(true);
             }
         }
     }

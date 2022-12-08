@@ -22,7 +22,7 @@ GroundExplosion::GroundExplosion(FP xpos, FP ypos, FP scale)
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::GroundExplosion));
     Animation_Init(GetAnimRes(AnimId::GroundExplosion));
 
-    GetAnimation().mFlags.Clear(AnimFlags::eIsLastFrame);
+    GetAnimation().SetIsLastFrame(false);
 
     GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
 
@@ -148,14 +148,14 @@ void GroundExplosion::VUpdate()
             GetAnimRes(AnimId::GroundExplosion));
         if (pParticle)
         {
-            pParticle->GetAnimation().mFlags.Set(AnimFlags::eFlipX);
+            pParticle->GetAnimation().SetFlipX(true);
             pParticle->mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
             pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
             pParticle->SetSpriteScale(GetSpriteScale() * FP_FromDouble(0.7));
         }
     }
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eForwardLoopCompleted)) // Animation ended
+    if (GetAnimation().GetForwardLoopCompleted()) // Animation ended
     {
         // Time to die
         SetDead(true);

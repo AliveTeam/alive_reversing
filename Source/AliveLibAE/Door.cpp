@@ -327,10 +327,10 @@ Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
 
     if (mCurrentState == relive::Path_Door::DoorStates::eOpen)
     {
-        GetAnimation().mFlags.Clear(AnimFlags::eRender);
+        GetAnimation().SetRender(false);
     }
 
-    GetAnimation().mFlags.Clear(AnimFlags::eAnimate);
+    GetAnimation().SetAnimate(false);
     mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
 }
 
@@ -400,7 +400,7 @@ void Door::VUpdate()
     {
         if (mCurrentState == relive::Path_Door::DoorStates::eClosed && mDoorId == sActiveHero->field_1A0_door_id)
         {
-            GetAnimation().mFlags.Clear(AnimFlags::eRender);
+            GetAnimation().SetRender(false);
             mCurrentState = relive::Path_Door::DoorStates::eOpen;
         }
     }
@@ -433,7 +433,7 @@ void Door::VUpdate()
         switch (mCurrentState)
         {
             case relive::Path_Door::DoorStates::eOpen:
-                GetAnimation().mFlags.Clear(AnimFlags::eRender);
+                GetAnimation().SetRender(false);
 
                 if ((!mStartState && SwitchStates_Get(mSwitchId))
                     || (mStartState == relive::Path_Door::DoorStates::eClosed && !SwitchStates_Get(mSwitchId)))
@@ -448,14 +448,14 @@ void Door::VUpdate()
                         GetAnimation().Set_Animation_Data(GetAnimRes(sDoorAnimIdTable[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][1]));
                     }
 
-                    GetAnimation().mFlags.Clear(AnimFlags::eLoopBackwards);
-                    GetAnimation().mFlags.Set(AnimFlags::eRender);
+                    GetAnimation().SetLoopBackwards(false);
+                    GetAnimation().SetRender(true);
                 }
                 break;
 
             case relive::Path_Door::DoorStates::eClosed:
-                GetAnimation().mFlags.Set(AnimFlags::eRender);
-                GetAnimation().mFlags.Set(AnimFlags::eAnimate);
+                GetAnimation().SetRender(true);
+                GetAnimation().SetAnimate(true);
 
                 if ((mStartState == relive::Path_Door::DoorStates::eClosed && SwitchStates_Get(mSwitchId)) || (mStartState == relive::Path_Door::DoorStates::eOpen && !SwitchStates_Get(mSwitchId)))
                 {
@@ -470,27 +470,27 @@ void Door::VUpdate()
                     }
 
                     GetAnimation().SetFrame(3);
-                    GetAnimation().mFlags.Set(AnimFlags::eLoopBackwards);
-                    GetAnimation().mFlags.Set(AnimFlags::eRender);
+                    GetAnimation().SetLoopBackwards(true);
+                    GetAnimation().SetRender(true);
                     PlaySound();
                 }
                 break;
 
             case relive::Path_Door::DoorStates::eOpening:
-                GetAnimation().mFlags.Set(AnimFlags::eRender);
-                GetAnimation().mFlags.Set(AnimFlags::eAnimate);
+                GetAnimation().SetRender(true);
+                GetAnimation().SetAnimate(true);
 
-                if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+                if (GetAnimation().GetIsLastFrame())
                 {
                     mCurrentState = relive::Path_Door::DoorStates::eOpen;
                 }
                 break;
 
             case relive::Path_Door::DoorStates::eClosing:
-                GetAnimation().mFlags.Set(AnimFlags::eRender);
-                GetAnimation().mFlags.Set(AnimFlags::eAnimate);
+                GetAnimation().SetRender(true);
+                GetAnimation().SetAnimate(true);
 
-                if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+                if (GetAnimation().GetIsLastFrame())
                 {
                     mCurrentState = relive::Path_Door::DoorStates::eClosed;
                     PlaySound();
@@ -543,11 +543,11 @@ TrainDoor::TrainDoor(relive::Path_TrainDoor* pTlv, const Guid& tlvId)
     }
     else
     {
-        GetAnimation().mFlags.Clear(AnimFlags::eAnimate);
-        GetAnimation().mFlags.Clear(AnimFlags::eRender);
+        GetAnimation().SetAnimate(false);
+        GetAnimation().SetRender(false);
         mCurrentState = relive::Path_Door::DoorStates::eOpen;
     }
-    GetAnimation().mFlags.Set(AnimFlags::eFlipX, pTlv->mDirection == relive::reliveXDirection::eRight);
+    GetAnimation().SetFlipX(pTlv->mDirection == relive::reliveXDirection::eRight);
 }
 
 TrainDoor::~TrainDoor()
@@ -571,8 +571,8 @@ void TrainDoor::VUpdate()
         {
             // Then close
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Door_Train_Closing));
-            GetAnimation().mFlags.Set(AnimFlags::eAnimate);
-            GetAnimation().mFlags.Set(AnimFlags::eRender);
+            GetAnimation().SetAnimate(true);
+            GetAnimation().SetRender(true);
             mCurrentState = relive::Path_Door::DoorStates::eClosed;
         }
     }

@@ -38,7 +38,7 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
     const s16 xpos_pc = static_cast<s16>(PsxToPCX(xpos));
     const s16 width_pc = static_cast<s16>(PsxToPCX(width));
 
-    if (!mFlags.Get(AnimFlags::eRender))
+    if (!GetRender())
     {
         return;
     }
@@ -60,7 +60,7 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
 
     FP xOffSet_scaled = {};
     FP yOffset_scaled = {};
-    if (mFlags.Get(AnimFlags::eIgnorePosOffset))
+    if (GetIgnorePosOffset())
     {
         xOffSet_scaled = FP_FromInteger(0);
         yOffset_scaled = FP_FromInteger(0);
@@ -73,8 +73,8 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
 
     Poly_FT4* pPoly = &mOtData[gPsxDisplay.mBufferIndex];
     PolyFT4_Init(pPoly);
-    Poly_Set_SemiTrans(&pPoly->mBase.header, mFlags.Get(AnimFlags::eSemiTrans));
-    Poly_Set_Blending(&pPoly->mBase.header, mFlags.Get(AnimFlags::eBlending));
+    Poly_Set_SemiTrans(&pPoly->mBase.header, GetSemiTrans());
+    Poly_Set_Blending(&pPoly->mBase.header, GetBlending());
 
     SetRGB0(pPoly, mRgb);
 
@@ -109,7 +109,7 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
     }
 
     s16 polyXPos = xpos_pc;
-    const bool kFlipX = mFlags.Get(AnimFlags::eFlipX);
+    const bool kFlipX = GetFlipX();
 
     if (kFlipX)
     {
@@ -121,7 +121,7 @@ void Animation::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 width, s32 he
     }
 
     s16 polyYPos = static_cast<s16>(ypos);
-    const bool kFlipY = mFlags.Get(AnimFlags::eFlipY);
+    const bool kFlipY = GetFlipY();
 
     if (kFlipY)
     {
@@ -172,13 +172,13 @@ void Animation::VDecode()
 
 bool Animation::DecodeCommon()
 {
-    if (mAnimRes.mJsonPtr->mFrames.size() == 1 && mFlags.Get(AnimFlags::eForwardLoopCompleted))
+    if (mAnimRes.mJsonPtr->mFrames.size() == 1 && GetForwardLoopCompleted())
     {
         return false;
     }
 
     bool isLastFrame = false;
-    if (mFlags.Get(AnimFlags::eLoopBackwards))
+    if (GetLoopBackwards())
     {
         // Loop backwards
         const s32 prevFrameNum = --mCurrentFrame;
@@ -186,7 +186,7 @@ bool Animation::DecodeCommon()
 
         if (prevFrameNum < static_cast<s32>(mAnimRes.mJsonPtr->mAttributes.mLoopStartFrame))
         {
-            if (mFlags.Get(AnimFlags::eLoop))
+            if (GetLoop())
             {
                 // Loop to last frame
                 mCurrentFrame = static_cast<s32>(mAnimRes.mJsonPtr->mFrames.size()) - 1;
@@ -216,7 +216,7 @@ bool Animation::DecodeCommon()
         // Animation reached end point
         if (nextFrameNum >= static_cast<s32>(mAnimRes.mJsonPtr->mFrames.size()))
         {
-            if (mFlags.Get(AnimFlags::eLoop))
+            if (GetLoop())
             {
                 // Loop back to loop start frame
                 mCurrentFrame = mAnimRes.mJsonPtr->mAttributes.mLoopStartFrame;
@@ -228,7 +228,7 @@ bool Animation::DecodeCommon()
                 SetFrameChangeCounter(0);
             }
 
-            mFlags.Set(AnimFlags::eForwardLoopCompleted);
+            SetForwardLoopCompleted(true);
         }
 
         // Is last frame ?
@@ -240,11 +240,11 @@ bool Animation::DecodeCommon()
 
     if (isLastFrame)
     {
-        mFlags.Set(AnimFlags::eIsLastFrame);
+        SetIsLastFrame(true);
     }
     else
     {
-        mFlags.Clear(AnimFlags::eIsLastFrame);
+        SetIsLastFrame(false);
     }
 
     return true;
@@ -284,14 +284,14 @@ s16 Animation::Set_Animation_Data(AnimResource& pAnimRes)
 
     mFrameDelay = pAnimRes.mJsonPtr->mAttributes.mFrameRate;
 
-    mFlags.Clear(AnimFlags::eForwardLoopCompleted);
-    mFlags.Clear(AnimFlags::eIsLastFrame);
-    mFlags.Clear(AnimFlags::eLoopBackwards);
-    mFlags.Clear(AnimFlags::eLoop);
+    SetForwardLoopCompleted(false);
+    SetIsLastFrame(false);
+    SetLoopBackwards(false);
+    SetLoop(false);
 
     if (pAnimRes.mJsonPtr->mAttributes.mLoop)
     {
-        mFlags.Set(AnimFlags::eLoop);
+        SetLoop(true);
     }
 
     SetFrameChangeCounter(1);
@@ -308,30 +308,35 @@ s16 Animation::Set_Animation_Data(AnimResource& pAnimRes)
 
 s16 Animation::Init(const AnimResource& ppAnimData, BaseGameObject* pGameObj)
 {
-    mFlags.Raw().all = 0; // TODO extra - init to 0's first - this may be wrong if any bits are explicitly set before this is called
+    // TODO extra - init to 0's first - this may be wrong if any bits are explicitly set before this is called
+    SetAnimate(false);
+    SetRender(false);
+    SetFlipX(false);
+    SetFlipY(false);
+    SetSwapXY(false);
+    SetLoop(false);
+    SetForwardLoopCompleted(false);
+    SetSemiTrans(false);
+    SetBlending(false);
+    SetIsLastFrame(false);
+    SetLoopBackwards(false);
+    SetIgnorePosOffset(false);
 
     mAnimRes = ppAnimData;
     mFnPtrArray = nullptr;
 
     mGameObj = pGameObj;
 
-    mFlags.Clear(AnimFlags::eBit1);
-    mFlags.Clear(AnimFlags::eFlipX);
-    mFlags.Clear(AnimFlags::eFlipY);
-    mFlags.Clear(AnimFlags::eSwapXY);
-    mFlags.Set(AnimFlags::eAnimate);
-    mFlags.Set(AnimFlags::eRender);
+    SetFlipX(false);
+    SetFlipY(false);
+    SetSwapXY(false);
+    SetAnimate(true);
+    SetRender(true);
 
-    mFlags.Set(AnimFlags::eLoop, mAnimRes.mJsonPtr->mAttributes.mLoop);
+    SetLoop(mAnimRes.mJsonPtr->mAttributes.mLoop);
 
-    mFlags.Clear(AnimFlags::eBit10_alternating_flag);
-
-    mFlags.Clear(AnimFlags::eIs16Bit);
-    mFlags.Clear(AnimFlags::eIs8Bit);
-
-
-    mFlags.Clear(AnimFlags::eSemiTrans);
-    mFlags.Set(AnimFlags::eBlending);
+    SetSemiTrans(false);
+    SetBlending(true);
 
     mFrameDelay = mAnimRes.mJsonPtr->mAttributes.mFrameRate;
     SetFrameChangeCounter(1);
@@ -384,7 +389,7 @@ const PerFrameInfo* Animation::Get_FrameHeader(s32 frame)
 void Animation::Get_Frame_Rect(PSX_RECT* pRect)
 {
     Poly_FT4* pPoly = &mOtData[gPsxDisplay.mBufferIndex];
-    if (!mFlags.Get(AnimFlags::eIgnorePosOffset))
+    if (!GetIgnorePosOffset())
     {
         Poly_FT4_Get_Rect(pRect, pPoly);
         return;

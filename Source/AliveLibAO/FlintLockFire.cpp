@@ -88,30 +88,30 @@ FlintLockFire::FlintLockFire(relive::Path_FlintLockFire* pTlv, const Guid& tlvId
     const s32 cur_lvl = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
 
     Animation_Init(GetAnimRes(sFlintLockFireData[cur_lvl].mHammersDisabledAnimId));
-    GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
+    GetAnimation().SetSemiTrans(true);
 
     mGourdAnim.Init(
         GetAnimRes(sFlintLockFireData[cur_lvl].mGourdAnimId),
         this);
 
     mGourdAnim.SetRenderMode(TPageAbr::eBlend_0);
-    mGourdAnim.mFlags.Clear(AnimFlags::eAnimate);
-    mGourdAnim.mFlags.Set(AnimFlags::eSemiTrans);
+    mGourdAnim.SetAnimate(false);
+    mGourdAnim.SetSemiTrans(true);
 
     if (sFlintLockFireData[cur_lvl].mIsFire)
     {
         mFire1Anim.Init(GetAnimRes(AnimId::Fire), this);
         mFire1Anim.SetRenderMode(TPageAbr::eBlend_0);
-        mFire1Anim.mFlags.Clear(AnimFlags::eAnimate);
-        mFire1Anim.mFlags.Clear(AnimFlags::eRender);
-        mFire1Anim.mFlags.Set(AnimFlags::eSemiTrans);
+        mFire1Anim.SetAnimate(false);
+        mFire1Anim.SetRender(false);
+        mFire1Anim.SetSemiTrans(true);
 
         mFire2Anim.Init(GetAnimRes(AnimId::Fire), this);
         mFire2Anim.SetRenderMode(TPageAbr::eBlend_0);
-        mFire2Anim.mFlags.Clear(AnimFlags::eAnimate);
-        mFire2Anim.mFlags.Clear(AnimFlags::eRender);
-        mFire2Anim.mFlags.Set(AnimFlags::eSemiTrans);
-        mFire2Anim.mFlags.Set(AnimFlags::eFlipX);
+        mFire2Anim.SetAnimate(false);
+        mFire2Anim.SetRender(false);
+        mFire2Anim.SetSemiTrans(true);
+        mFire2Anim.SetFlipX(true);
         mFire2Anim.SetFrame(3u);
     }
 
@@ -151,16 +151,16 @@ FlintLockFire::FlintLockFire(relive::Path_FlintLockFire* pTlv, const Guid& tlvId
         GetAnimation().Set_Animation_Data(GetAnimRes(sFlintLockFireData[cur_lvl].mHammersActivatingAnimId));
         GetAnimation().SetFrame(GetAnimation().Get_Frame_Count() - 1);
         GetAnimation().VDecode();
-        GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
-        mGourdAnim.mFlags.Set(AnimFlags::eAnimate);
+        GetAnimation().SetSemiTrans(true);
+        mGourdAnim.SetAnimate(true);
 
         if (sFlintLockFireData[cur_lvl].mIsFire)
         {
-            mFire1Anim.mFlags.Set(AnimFlags::eAnimate);
-            mFire1Anim.mFlags.Set(AnimFlags::eRender);
+            mFire1Anim.SetAnimate(true);
+            mFire1Anim.SetRender(true);
 
-            mFire2Anim.mFlags.Set(AnimFlags::eAnimate);
-            mFire2Anim.mFlags.Set(AnimFlags::eRender);
+            mFire2Anim.SetAnimate(true);
+            mFire2Anim.SetRender(true);
 
             mFireSound = SfxPlayMono(relive::SoundEffects::Fire, 0);
         }
@@ -196,18 +196,18 @@ void FlintLockFire::VUpdate()
                 }
             }
 
-            if (GetAnimation().mFlags.Get(AnimFlags::eForwardLoopCompleted))
+            if (GetAnimation().GetForwardLoopCompleted())
             {
                 mState = States::eActivated_2;
 
-                mGourdAnim.mFlags.Set(AnimFlags::eAnimate);
+                mGourdAnim.SetAnimate(true);
                 if (sFlintLockFireData[cur_lvl].mIsFire)
                 {
-                    mFire1Anim.mFlags.Set(AnimFlags::eAnimate);
-                    mFire1Anim.mFlags.Set(AnimFlags::eRender);
+                    mFire1Anim.SetAnimate(true);
+                    mFire1Anim.SetRender(true);
 
-                    mFire2Anim.mFlags.Set(AnimFlags::eAnimate);
-                    mFire2Anim.mFlags.Set(AnimFlags::eRender);
+                    mFire2Anim.SetAnimate(true);
+                    mFire2Anim.SetRender(true);
 
                     mFireSound = SfxPlayMono(relive::SoundEffects::Fire, 0);
                 }

@@ -213,7 +213,7 @@ void BackgroundGlukkon::VUpdate()
             break;
 
         case BackgroundGlukkon::State::eAfterLaugh_SetSpeakPauseTimer_3:
-            if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+            if (GetAnimation().GetIsLastFrame())
             {
                 GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Background_Glukkon_Idle));
                 field_110_state = BackgroundGlukkon::State::eSetSpeakPauseTimer_1;

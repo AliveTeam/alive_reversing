@@ -75,8 +75,8 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, 
                 ppRes);
             if (pParticle)
             {
-                pParticle->GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
-                pParticle->GetAnimation().mFlags.Set(AnimFlags::eBlending);
+                pParticle->GetAnimation().SetSemiTrans(true);
+                pParticle->GetAnimation().SetBlending(true);
 
                 pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
 

@@ -30,7 +30,7 @@ CircularFade::CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroy
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
 
-    GetAnimation().mFlags.Clear(AnimFlags::eBlending);
+    GetAnimation().SetBlending(false);
     SetSpriteScale(scale * FP_FromInteger(2));
     GetAnimation().SetSpriteScale(scale * FP_FromInteger(2));
 
@@ -111,7 +111,7 @@ void CircularFade::VRender(PrimHeader** ppOt)
     SetRGB1(pTile2, fadeColour, fadeColour, fadeColour);
     SetRGB2(pTile2, fadeColour, fadeColour, fadeColour);
     SetRGB3(pTile2, fadeColour, fadeColour, fadeColour);
-    SetXYWH(pTile2, 0, frameRect.y, GetAnimation().mFlags.Get(AnimFlags::eFlipX) ? frameRect.x + 1 : frameRect.x, frameRect.h - frameRect.y);
+    SetXYWH(pTile2, 0, frameRect.y, GetAnimation().GetFlipX() ? frameRect.x + 1 : frameRect.x, frameRect.h - frameRect.y);
 
     Poly_Set_SemiTrans(&pTile2->mBase.header, 1);
     OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pTile2->mBase.header);

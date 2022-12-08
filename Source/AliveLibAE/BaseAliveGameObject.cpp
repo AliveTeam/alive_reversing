@@ -95,18 +95,14 @@ void BaseAliveGameObject::VOnPathTransition(s32 cameraWorldXPos, s32 cameraWorld
     switch (direction)
     {
         case CameraPos::eCamTop_1:
+        {
             mXPos = FP_FromInteger(cameraWorldXPos + FP_GetExponent(mXPos) % 375);
-            if (GetAnimation().mFlags.Get(AnimFlags::eBit22_DeadMode))
-            {
-                ALIVE_FATAL("Impossible case BaseAliveGameObject::vOnPathTransition_408320 AnimFlags::eBit22_DeadMode");
-            }
-            else
-            {
-                // TODO: This is actually wrong!!
-                const u32 off = GetAnimation().Get_FrameHeader(-1)->mHeight;
-                mYPos = FP_FromInteger(off + cameraWorldYPos + 236);
-            }
+
+            // TODO: This is actually wrong!!
+            const u32 off = GetAnimation().Get_FrameHeader(-1)->mHeight;
+            mYPos = FP_FromInteger(off + cameraWorldYPos + 236);
             break;
+        }
 
         case CameraPos::eCamBottom_2:
             mXPos = FP_FromInteger(cameraWorldXPos + FP_GetExponent(mXPos) % 375);
@@ -264,7 +260,7 @@ BirdPortal* BaseAliveGameObject::VIntoBirdPortal(s16 numGridBlocks)
                 {
                     if (pPortal->mXPos - mXPos <= (ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(numGridBlocks)))
                     {
-                        if (!GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+                        if (!GetAnimation().GetFlipX())
                         {
                             if (FP_Abs(mYPos - pPortal->mHitY) < GetSpriteScale() * FP_FromInteger(10))
                             {
@@ -284,7 +280,7 @@ BirdPortal* BaseAliveGameObject::VIntoBirdPortal(s16 numGridBlocks)
                 {
                     if (mXPos - pPortal->mXPos <= (ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(numGridBlocks)))
                     {
-                        if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+                        if (GetAnimation().GetFlipX())
                         {
                             if (FP_Abs(mYPos - pPortal->mHitY) < (GetSpriteScale() * FP_FromInteger(10)))
                             {
@@ -385,7 +381,7 @@ s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
     gMap.GetCurrentCamCoords(&currentCamXY);
 
     // Gone off the left edge of the current screen
-    if (xposSnapped < currentCamXY.x && (GetAnimation().mFlags.Get(AnimFlags::eFlipX) || mVelX < FP_FromInteger(0)))
+    if (xposSnapped < currentCamXY.x && (GetAnimation().GetFlipX() || mVelX < FP_FromInteger(0)))
     {
         if (sControlledCharacter == this && gMap.SetActiveCameraDelayed(MapDirections::eMapLeft_0, this, -1))
         {
@@ -395,7 +391,7 @@ s16 BaseAliveGameObject::MapFollowMe(s16 snapToGrid)
         }
     }
     // Gone off the right edge of the current screen
-    else if (xposSnapped > currentCamXY.x + 368 && (!(GetAnimation().mFlags.Get(AnimFlags::eFlipX)) || mVelX > FP_FromInteger(0)))
+    else if (xposSnapped > currentCamXY.x + 368 && (!(GetAnimation().GetFlipX()) || mVelX > FP_FromInteger(0)))
     {
         if (sControlledCharacter == this && gMap.SetActiveCameraDelayed(MapDirections::eMapRight_1, this, -1))
         {

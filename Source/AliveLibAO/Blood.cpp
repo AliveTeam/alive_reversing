@@ -23,7 +23,7 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BloodDrop));
     Animation_Init(GetAnimRes(AnimId::BloodDrop));
 
-    GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
+    GetAnimation().SetSemiTrans(false);
     GetAnimation().SetRGB(127, 127, 127);
 
     if (GetSpriteScale() == FP_FromInteger(1))
@@ -57,7 +57,7 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
         const u8 u0 = 0;// mAnim.mVramRect.x & 0x3F;
         const u8 v0 = 0;//mAnim.mVramRect.y & 0xFF;
 
-        GetAnimation().mFlags.Set(AnimFlags::eBlending);
+        GetAnimation().SetBlending(true);
 
         for (s32 i = 0; i < mTotalBloodCount; i++)
         {
@@ -68,7 +68,7 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
                 PolyFT4_Init(pSprt);
                 Poly_Set_SemiTrans(&pSprt->mBase.header, 1);
 
-                if (GetAnimation().mFlags.Get(AnimFlags::eBlending))
+                if (GetAnimation().GetBlending())
                 {
                     Poly_Set_Blending(&pSprt->mBase.header, 1);
                 }
@@ -170,7 +170,7 @@ void Blood::VRender(PrimHeader** ppOt)
 
             SetXYWH(pSprt, x0, y0, static_cast<s16>(pFrameHeader->mWidth - 1), static_cast<s16>(pFrameHeader->mHeight - 1));
 
-            if (!GetAnimation().mFlags.Get(AnimFlags::eBlending))
+            if (!GetAnimation().GetBlending())
             {
                 const auto rgb = GetAnimation().GetRgb();
                 SetRGB0(pSprt, rgb.r, rgb.g, rgb.b);

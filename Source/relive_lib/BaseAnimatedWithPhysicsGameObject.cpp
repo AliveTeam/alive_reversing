@@ -95,7 +95,7 @@ BaseAnimatedWithPhysicsGameObject::~BaseAnimatedWithPhysicsGameObject()
 
 void BaseAnimatedWithPhysicsGameObject::VRender(PrimHeader** ppOt)
 {
-    if (GetAnimation().mFlags.Get(AnimFlags::eRender))
+    if (GetAnimation().GetRender())
     {
         // Only render if in the active level, path and camera
         if (GetMap().mCurrentPath == mCurrentPath
@@ -179,8 +179,8 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init(const AnimResource& res)
         if (added)
         {
             GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
-            GetAnimation().mFlags.Clear(AnimFlags::eBlending);
-            GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
+            GetAnimation().SetBlending(false);
+            GetAnimation().SetSemiTrans(true);
         }
         else
         {
@@ -256,18 +256,18 @@ s16 BaseAnimatedWithPhysicsGameObject::VIsObj_GettingNear_On_X(BaseAnimatedWithP
 s16 BaseAnimatedWithPhysicsGameObject::VIsFacingMe(BaseAnimatedWithPhysicsGameObject* pOther)
 {
     if (pOther->mXPos == mXPos
-        && pOther->GetAnimation().mFlags.Get(AnimFlags::eFlipX) != GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+        && pOther->GetAnimation().GetFlipX() != GetAnimation().GetFlipX())
     {
         // They are in the same spot as us, so they can only be facing us if they are NOT facing the same way.
         // This seems strange but its what causes muds to keep changing direction if you turn while you are stood in the same grid as them.
         return true;
     }
-    else if (pOther->mXPos > mXPos && !GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+    else if (pOther->mXPos > mXPos && !GetAnimation().GetFlipX())
     {
         // They are to the right of us and facing left
         return true;
     }
-    else if (pOther->mXPos < mXPos && GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+    else if (pOther->mXPos < mXPos && GetAnimation().GetFlipX())
     {
         // They are to the left of using and facing right
         return true;
@@ -357,14 +357,14 @@ PSX_RECT BaseAnimatedWithPhysicsGameObject::VGetBoundingRect()
     rect.w = static_cast<s16>(pAnimFrameHeader->mBoundMax.x);
     rect.h = static_cast<s16>(pAnimFrameHeader->mBoundMax.y);
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().GetFlipX())
     {
         std::swap(rect.x, rect.w);
         rect.x = -rect.x;
         rect.w = -rect.w;
     }
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eFlipY))
+    if (GetAnimation().GetFlipY())
     {
         std::swap(rect.y, rect.h);
         rect.y = -rect.y;

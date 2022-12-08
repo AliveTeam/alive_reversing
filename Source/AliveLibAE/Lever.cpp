@@ -44,7 +44,7 @@ Lever::Lever(relive::Path_Lever* pTlv, const Guid& tlvId)
     LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::Lever_Idle));
 
-    GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
+    GetAnimation().SetSemiTrans(true);
     mSwitchId = pTlv->mSwitchId;
     mAction = pTlv->mAction;
     mPulledFromLeft = false;
@@ -128,7 +128,7 @@ void Lever::VUpdate()
             SfxPlayMono(relive::SoundEffects::LeverPull, 0);
         }
 
-        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().GetIsLastFrame())
         {
             if (gMap.mCurrentLevel == EReliveLevelIds::eMines
                 || gMap.mCurrentLevel == EReliveLevelIds::eBonewerkz
@@ -267,7 +267,7 @@ void Lever::VUpdate()
     }
     else if (mState == LeverState::eFinished_2)
     {
-        if (GetAnimation().mFlags.Get(AnimFlags::eForwardLoopCompleted))
+        if (GetAnimation().GetForwardLoopCompleted())
         {
             mState = LeverState::eWaiting_0;
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Lever_Idle));

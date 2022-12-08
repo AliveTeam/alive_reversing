@@ -21,7 +21,7 @@ Water::Water(relive::Path_Water* pTlv, const Guid& tlvId)
 
     Animation_Init(GetAnimRes(AnimId::WaterDrop));
     // mAnim.mFlags.Set(AnimFlags::eBit25_bDecompressDone);
-    GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
+    GetAnimation().SetSemiTrans(false);
 
     field_114_tlvInfo = tlvId;
     mXPos = FP_FromInteger(pTlv->mTopLeftX);

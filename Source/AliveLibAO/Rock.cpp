@@ -26,8 +26,8 @@ Rock::Rock(FP xpos, FP ypos, s16 count)
     Animation_Init(GetAnimRes(AnimId::Rock));
 
     SetInteractive(false);
-    GetAnimation().mFlags.Clear(AnimFlags::eRender);
-    GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
+    GetAnimation().SetRender(false);
+    GetAnimation().SetSemiTrans(false);
 
     mXPos = xpos;
     field_11C_xpos = xpos;
@@ -103,7 +103,7 @@ void Rock::VUpdate()
                 if (!field_114_pLine)
                 {
                     field_110_state = States::eBouncing_4;
-                    GetAnimation().mFlags.Set(AnimFlags::eLoop);
+                    GetAnimation().SetLoop(true);
                 }
             }
             else
@@ -119,7 +119,7 @@ void Rock::VUpdate()
                     if (!field_114_pLine)
                     {
                         field_110_state = States::eBouncing_4;
-                        GetAnimation().mFlags.Set(AnimFlags::eLoop);
+                        GetAnimation().SetLoop(true);
                     }
                 }
                 else
@@ -130,7 +130,7 @@ void Rock::VUpdate()
 
                     SetInteractive(true);
 
-                    GetAnimation().mFlags.Clear(AnimFlags::eLoop);
+                    GetAnimation().SetLoop(false);
                     mCollectionRect.y = mYPos - ScaleToGridSize(GetSpriteScale());
                     mCollectionRect.h = mYPos;
                     field_110_state = States::eOnGround_3;
@@ -201,7 +201,7 @@ void Rock::VThrow(FP velX, FP velY)
     mVelX = velX;
     mVelY = velY;
 
-    GetAnimation().mFlags.Set(AnimFlags::eRender);
+    GetAnimation().SetRender(true);
 
     if (mBaseThrowableCount == 0)
     {

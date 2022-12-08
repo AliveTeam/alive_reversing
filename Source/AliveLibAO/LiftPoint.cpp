@@ -120,7 +120,7 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, Map* pPath, const Guid& tlvId
     MapFollowMe(true);
     const FP newX = mXPos;
 
-    GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
+    GetAnimation().SetSemiTrans(true);
 
     const auto xMovedBy = FP_GetExponent(newX - oldX);
     mPlatformBaseXOffset -= xMovedBy;
@@ -146,9 +146,9 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, Map* pPath, const Guid& tlvId
         field_27A_flags.Clear(Flags::eBit3_bMiddleFloor);
         field_27A_flags.Clear(Flags::eBit2_bTopFloor);
 
-        field_13C_lift_wheel.mFlags.Clear(AnimFlags::eSemiTrans);
-        field_13C_lift_wheel.mFlags.Clear(AnimFlags::eBlending);
-        field_13C_lift_wheel.mFlags.Clear(AnimFlags::eAnimate);
+        field_13C_lift_wheel.SetSemiTrans(false);
+        field_13C_lift_wheel.SetBlending(false);
+        field_13C_lift_wheel.SetAnimate(false);
 
         field_12C_bMoving &= ~1u;
         mVelX = FP_FromInteger(0);
@@ -516,30 +516,30 @@ void LiftPoint::VUpdate()
     pRope1->mYPos = FP_NoFractional((mYPos + FP_25xScale) + (rope1_rope_length - remaining_rope));
 
 
-    field_13C_lift_wheel.mFlags.Set(AnimFlags::eAnimate);
-    field_1D4_pulley_anim.mFlags.Set(AnimFlags::eAnimate);
+    field_13C_lift_wheel.SetAnimate(true);
+    field_1D4_pulley_anim.SetAnimate(true);
 
     if (mVelY == FP_FromInteger(0))
     {
         // Wheels are stopped if not moving
-        field_13C_lift_wheel.mFlags.Clear(AnimFlags::eAnimate);
-        field_1D4_pulley_anim.mFlags.Clear(AnimFlags::eAnimate);
+        field_13C_lift_wheel.SetAnimate(false);
+        field_1D4_pulley_anim.SetAnimate(false);
     }
     else if (mVelY > FP_FromInteger(0))
     {
         // Pulley/lift wheels spin opposite ways for up/down
-        field_13C_lift_wheel.mFlags.Clear(AnimFlags::eLoopBackwards);
-        field_1D4_pulley_anim.mFlags.Set(AnimFlags::eLoopBackwards);
+        field_13C_lift_wheel.SetLoopBackwards(false);
+        field_1D4_pulley_anim.SetLoopBackwards(true);
     }
     else if (mVelY < FP_FromInteger(0))
     {
-        field_13C_lift_wheel.mFlags.Set(AnimFlags::eLoopBackwards);
-        field_1D4_pulley_anim.mFlags.Clear(AnimFlags::eLoopBackwards);
+        field_13C_lift_wheel.SetLoopBackwards(true);
+        field_1D4_pulley_anim.SetLoopBackwards(false);
     }
 
     if (field_13C_lift_wheel.GetCurrentFrame() == 1)
     {
-        if (field_13C_lift_wheel.mFlags.Get(AnimFlags::eAnimate))
+        if (field_13C_lift_wheel.GetAnimate())
         {
             SfxPlayMono(relive::SoundEffects::WheelSqueak, 0);
         }
@@ -714,9 +714,9 @@ void LiftPoint::CreatePulleyIfExists(s16 camX, s16 camY)
 
         field_1D4_pulley_anim.Init(GetAnimRes(sLiftPointData_4BB480[lvl_idx].field_10_lift_top_wheel_anim_id), this);
 
-        field_1D4_pulley_anim.mFlags.Clear(AnimFlags::eSemiTrans);
-        field_1D4_pulley_anim.mFlags.Clear(AnimFlags::eBlending);
-        field_1D4_pulley_anim.mFlags.Clear(AnimFlags::eAnimate);
+        field_1D4_pulley_anim.SetSemiTrans(false);
+        field_1D4_pulley_anim.SetBlending(false);
+        field_1D4_pulley_anim.SetAnimate(false);
 
         field_27A_flags.Set(Flags::eBit5_bHasPulley);
 

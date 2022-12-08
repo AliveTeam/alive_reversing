@@ -128,7 +128,7 @@ TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, const Guid& tlvId)
 
     if (pTlv->mDirection == relive::reliveXDirection::eRight)
     {
-        GetAnimation().mFlags.Set(AnimFlags::eFlipX);
+        GetAnimation().SetFlipX(true);
     }
 
     mPlatformBaseXOffset = FP_GetExponent(FP_FromInteger(pTlv->mTopLeftX) - mXPos);
@@ -249,7 +249,7 @@ void TrapDoor::VUpdate()
         break;
 
     case TrapDoorState::eOpening_1:
-        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().GetIsLastFrame())
         {
             SFX_Play_Camera(relive::SoundEffects::TrapdoorOpen, 70, direction);
             mState = TrapDoorState::eOpen_2;
@@ -275,7 +275,7 @@ void TrapDoor::VUpdate()
         break;
 
     case TrapDoorState::eClosing_3:
-        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().GetIsLastFrame())
         {
             SFX_Play_Camera(relive::SoundEffects::TrapdoorClose, 70, direction);
             Add_To_Collisions_Array();

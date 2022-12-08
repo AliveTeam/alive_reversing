@@ -64,7 +64,7 @@ Shrykull::Shrykull()
     SetScale(sActiveHero->GetScale());
     mState = State::eTransform_0;
 
-    GetAnimation().mFlags.Set(AnimFlags::eFlipX, sActiveHero->GetAnimation().mFlags.Get(AnimFlags::eFlipX));
+    GetAnimation().SetFlipX(sActiveHero->GetAnimation().GetFlipX());
 
     CreateShadow();
 
@@ -86,7 +86,7 @@ bool Shrykull::CanKill(BaseAnimatedWithPhysicsGameObject* pObj)
             || pObj->Type() == ReliveTypes::eBackgroundGlukkon
             || pObj->Type() == ReliveTypes::eSecurityClaw
             || pObj->Type() == ReliveTypes::eSecurityOrb)
-        && pObj->GetAnimation().mFlags.Get(AnimFlags::eRender)
+        && pObj->GetAnimation().GetRender()
         && !pObj->GetDead()
         && gMap.Is_Point_In_Current_Camera(
             pObj->mCurrentLevel,
@@ -126,7 +126,7 @@ void Shrykull::VUpdate()
                 SfxPlayMono(relive::SoundEffects::IngameTransition, 127);
             }
 
-            if (GetAnimation().mFlags.Get(AnimFlags::eForwardLoopCompleted))
+            if (GetAnimation().GetForwardLoopCompleted())
             {
                 GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::ShrykullTransform));
                 mState = State::eZapTargets_1;
@@ -234,7 +234,7 @@ void Shrykull::VUpdate()
             break;
 
         case State::eDetransform_2:
-            if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+            if (GetAnimation().GetIsLastFrame())
             {
                 GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::ShrykullDetransform));
                 mState = State::eFinish_3;
@@ -248,7 +248,7 @@ void Shrykull::VUpdate()
                 SFX_Play_Pitch(relive::SoundEffects::Shrykull2, 127, 0);
             }
 
-            if (GetAnimation().mFlags.Get(AnimFlags::eForwardLoopCompleted))
+            if (GetAnimation().GetForwardLoopCompleted())
             {
                 sActiveHero->ExitShrykull_42F440(mResetRingTimer);
                 SetDead(true);

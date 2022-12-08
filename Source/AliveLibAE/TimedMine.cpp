@@ -193,8 +193,8 @@ void TimedMine::InitTickAnimation()
     if (mTickAnim.Init(GetAnimRes(AnimId::Bomb_RedGreenTick), this))
     {
         mTickAnim.SetRenderLayer(GetAnimation().GetRenderLayer());
-        mTickAnim.mFlags.Set(AnimFlags::eSemiTrans);
-        mTickAnim.mFlags.Set(AnimFlags::eBlending);
+        mTickAnim.SetSemiTrans(true);
+        mTickAnim.SetBlending(true);
         mTickAnim.SetSpriteScale(GetSpriteScale());
         mTickAnim.SetRGB(128, 128, 128);
         mTickAnim.SetRenderMode(TPageAbr::eBlend_1);

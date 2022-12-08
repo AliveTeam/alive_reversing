@@ -19,8 +19,8 @@ void Game_ShowLoadingIcon_445EB0()
     auto pParticle = relive_new Particle(FP_FromInteger(0), FP_FromInteger(0), res);
     if (pParticle)
     {
-        pParticle->GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
-        pParticle->GetAnimation().mFlags.Set(AnimFlags::eBlending);
+        pParticle->GetAnimation().SetSemiTrans(false);
+        pParticle->GetAnimation().SetBlending(true);
 
         pParticle->GetAnimation().SetRenderLayer(Layer::eLayer_0);
 

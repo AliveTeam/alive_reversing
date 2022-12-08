@@ -104,7 +104,7 @@ void MeatSack::VUpdate()
 
     if (field_110_bDoMeatSackIdleAnim == 1)
     {
-        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().GetIsLastFrame())
         {
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MeatSack_Idle));
             field_110_bDoMeatSackIdleAnim = 0;
@@ -182,8 +182,8 @@ Meat::Meat(FP xpos, FP ypos, s16 count)
     field_11C_timer = 0;
     SetInteractive(false);
 
-    GetAnimation().mFlags.Clear(AnimFlags::eRender);
-    GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
+    GetAnimation().SetRender(false);
+    GetAnimation().SetSemiTrans(false);
 
     field_120_deadtimer = sGnFrame + 600;
     field_124_pLine = 0;
@@ -216,7 +216,7 @@ Meat::~Meat()
 
 void Meat::VThrow(FP velX, FP velY)
 {
-    GetAnimation().mFlags.Set(AnimFlags::eRender);
+    GetAnimation().SetRender(true);
 
     mVelX = velX;
     mVelY = velY;
@@ -405,7 +405,7 @@ void Meat::VUpdate()
             case 3:
                 if (FP_Abs(mVelX) < FP_FromInteger(1))
                 {
-                    GetAnimation().mFlags.Clear(AnimFlags::eLoop);
+                    GetAnimation().SetLoop(false);
                 }
 
                 if (FP_Abs(mVelX) >= FP_FromDouble(0.5))
@@ -423,7 +423,7 @@ void Meat::VUpdate()
                     if (!field_124_pLine)
                     {
                         field_110_state = 2;
-                        GetAnimation().mFlags.Set(AnimFlags::eLoop);
+                        GetAnimation().SetLoop(true);
                     }
                 }
                 else

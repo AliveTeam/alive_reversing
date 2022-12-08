@@ -66,7 +66,7 @@ void DemoPlayback::VUpdate()
     {
         case States::eState_0_Init:
             sActiveHero->SetDrawable(true);
-            sActiveHero->GetAnimation().mFlags.Set(AnimFlags::eRender);
+            sActiveHero->GetAnimation().SetRender(true);
 
             Input().SetDemoRes(reinterpret_cast<u32**>(field_14_ppDemoRes));
 

@@ -667,8 +667,8 @@ Menu::Menu(relive::Path_TLV* /*pTlv*/, const Guid& tlvId)
 
     mButtonAnim.Init(GetAnimRes(AnimId::MenuHighlight_Circle), this);
 
-    mButtonAnim.mFlags.Clear(AnimFlags::eBlending);
-    mButtonAnim.mFlags.Set(AnimFlags::eSemiTrans);
+    mButtonAnim.SetBlending(false);
+    mButtonAnim.SetSemiTrans(true);
 
     mButtonAnim.SetRenderLayer(Layer::eLayer_MainMenuButtonBees_38);
     mButtonAnim.SetSpriteScale(GetSpriteScale());
@@ -805,7 +805,7 @@ void Menu::VUpdate()
 void Menu::WaitForDoorToOpen()
 {
     field_204_flags |= 2u;
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::AbeIntro));
         GetAnimation().ReloadPal();
@@ -829,7 +829,7 @@ void Menu::WaitForAbesHeadPoppingThroughDoor()
 
 void Menu::AbePopThroughDoor()
 {
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         // Put abe into the bug eyed idle loop
         GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_IdleBlink));
@@ -1134,7 +1134,7 @@ void Menu::FMV_Or_Level_Select_Render(PrimHeader** ppOt)
 void Menu::SayHelloWaitForLoading()
 {
     // After 1 idle anim loop
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         // Wait for in progress loading (gamespeak ban) to finish
         /*
@@ -1150,7 +1150,7 @@ void Menu::SayHelloWaitForLoading()
 
 void Menu::WaitForAbeSayHello()
 {
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         // Abe has finished saying hello, go to main menu handler
         GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
@@ -1398,7 +1398,7 @@ void Menu::MainScreen_Update()
     // Some sort of idle anim toggling
     if (((field_204_flags) >> 2) & 1)
     {
-        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().GetIsLastFrame())
         {
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
             field_204_flags &= ~4u;
@@ -1407,7 +1407,7 @@ void Menu::MainScreen_Update()
     }
     else if (field_1D8_timer <= static_cast<s32>(sGnFrame))
     {
-        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().GetIsLastFrame())
         {
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_IdleBlink));
             field_204_flags |= 4u;
@@ -1488,7 +1488,7 @@ void Menu::GoToSelectedMenuPage()
 void Menu::WaitForSpeakFinishAndStartChangeEffect()
 {
     // Abe finished speaking?
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         if (mMenuTrans)
         {
@@ -2024,7 +2024,7 @@ void Menu::Options_Update()
     // Some sort of idle anim toggle?
     if (((field_204_flags) >> 2) & 1)
     {
-        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().GetIsLastFrame())
         {
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
             field_204_flags &= ~4u;
@@ -2033,7 +2033,7 @@ void Menu::Options_Update()
     }
     else if (field_1D8_timer <= static_cast<s32>(sGnFrame))
     {
-        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().GetIsLastFrame())
         {
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_IdleBlink));
             field_204_flags |= 4u;
@@ -2043,7 +2043,7 @@ void Menu::Options_Update()
 
 void Menu::Options_WaitForAbeSpeak_Update()
 {
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
         mMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
@@ -2376,7 +2376,7 @@ void Menu::Options_Sound_Update()
     // Idle anim toggle ?
     if (((field_204_flags) >> 2) & 1)
     {
-        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().GetIsLastFrame())
         {
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
             field_204_flags &= ~4u;
@@ -2385,7 +2385,7 @@ void Menu::Options_Sound_Update()
     }
     else if (field_1D8_timer <= static_cast<s32>(sGnFrame))
     {
-        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().GetIsLastFrame())
         {
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_IdleBlink));
             field_204_flags |= 4u;
@@ -2395,7 +2395,7 @@ void Menu::Options_Sound_Update()
 
 void Menu::Options_WaitForAbeSayOK_Update()
 {
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
         mMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);
@@ -2459,7 +2459,7 @@ void Menu::GameSpeak_Update()
             }
         }
 
-        if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+        if (GetAnimation().GetIsLastFrame())
         {
             if (mSelectedButtonIndex.gamespeak_menu == GameSpeakOptions::eChant_8)
             {
@@ -2681,7 +2681,7 @@ void Menu::CycleGameSpeakIdleAnims()
     {
         if ((field_204_flags >> 2) & 1)
         {
-            if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+            if (GetAnimation().GetIsLastFrame())
             {
                 GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
                 field_204_flags &= ~4u;
@@ -2692,7 +2692,7 @@ void Menu::CycleGameSpeakIdleAnims()
         {
             if (field_1D8_timer <= static_cast<s32>(sGnFrame))
             {
-                if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+                if (GetAnimation().GetIsLastFrame())
                 {
                     GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_IdleBlink));
                     field_204_flags |= 4u;
@@ -3563,7 +3563,7 @@ void Menu::Load_BackToMainScreen_Update()
 
 void Menu::GameSpeakBack_WaitForAbeGoodbye_Update()
 {
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MenuAbeSpeak_Idle));
         mMenuTrans->StartTrans_436560(Layer::eLayer_FadeFlash_40, 1, 0, 16);

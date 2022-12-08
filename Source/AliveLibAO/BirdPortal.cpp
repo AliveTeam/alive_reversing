@@ -404,7 +404,7 @@ void BirdPortal::VUpdate()
 
         case PortalStates::CreateTerminators_4:
             EventBroadcast(kEventPortalOpen, this);
-            if (mTerminator1->GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+            if (mTerminator1->GetAnimation().GetIsLastFrame())
             {
                 mTerminator1->GetAnimation().Set_Animation_Data(mTerminator1->GetAnimRes(AnimId::BirdPortal_TerminatorIdle));
                 mTerminator2->GetAnimation().Set_Animation_Data(mTerminator2->GetAnimRes(AnimId::BirdPortal_TerminatorIdle));
@@ -445,7 +445,7 @@ void BirdPortal::VUpdate()
 
                         if (sGnFrame % 2)
                         {
-                            pParticle->GetAnimation().mFlags.Set(AnimFlags::eLoopBackwards);
+                            pParticle->GetAnimation().SetLoopBackwards(true);
                             pParticle->GetAnimation().SetFrame(pParticle->GetAnimation().Get_Frame_Count());
                         }
                     }
@@ -627,7 +627,7 @@ void BirdPortal::VUpdate()
         break;
 
         case PortalStates::PortalExit_CreateTerminators_18:
-            if (mTerminator1->GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+            if (mTerminator1->GetAnimation().GetIsLastFrame())
             {
                 mTerminator1->GetAnimation().Set_Animation_Data(mTerminator1->GetAnimRes(AnimId::BirdPortal_TerminatorIdle));
                 mTerminator2->GetAnimation().Set_Animation_Data(mTerminator2->GetAnimRes(AnimId::BirdPortal_TerminatorIdle));

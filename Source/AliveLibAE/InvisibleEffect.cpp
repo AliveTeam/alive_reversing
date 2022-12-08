@@ -22,11 +22,11 @@ InvisibleEffect::InvisibleEffect(BaseAliveGameObject* pTarget)
 
     field_4A_flags.Clear();
 
-    if (pTarget->GetAnimation().mFlags.Get(AnimFlags::eSemiTrans))
+    if (pTarget->GetAnimation().GetSemiTrans())
     {
         field_4A_flags.Set(Flags_4A::eSemiTrans_Bit1);
     }
-    if (pTarget->GetAnimation().mFlags.Get(AnimFlags::eBlending))
+    if (pTarget->GetAnimation().GetBlending())
     {
         field_4A_flags.Set(Flags_4A::eBlending_Bit2);
     }
@@ -98,8 +98,8 @@ void InvisibleEffect::VUpdate()
 
                 pTarget->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eInvisible);
 
-                pTarget->GetAnimation().mFlags.Clear(AnimFlags::eBlending);
-                pTarget->GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
+                pTarget->GetAnimation().SetBlending(false);
+                pTarget->GetAnimation().SetSemiTrans(true);
                 pTarget->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
 
                 SetUpdateDelay(1);
@@ -233,8 +233,8 @@ void InvisibleEffect::VUpdate()
 
                 //Pal_Set(pTarget->mAnim.mPalVramXY, pTarget->mAnim.mPalDepth, (u8*) field_24_pPal1, &field_28_pal_rect1);
 
-                pTarget->GetAnimation().mFlags.Set(AnimFlags::eSemiTrans, field_4A_flags.Get(Flags_4A::eSemiTrans_Bit1));
-                pTarget->GetAnimation().mFlags.Set(AnimFlags::eBlending, field_4A_flags.Get(Flags_4A::eBlending_Bit2));
+                pTarget->GetAnimation().SetSemiTrans(field_4A_flags.Get(Flags_4A::eSemiTrans_Bit1));
+                pTarget->GetAnimation().SetBlending(field_4A_flags.Get(Flags_4A::eBlending_Bit2));
                 pTarget->GetAnimation().SetRenderMode(field_48_old_render_mode);
 
                 pTarget->mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eInvisible);

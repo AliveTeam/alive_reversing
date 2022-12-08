@@ -44,8 +44,8 @@ void Game_ShowLoadingIcon_482D80()
     Particle* pParticle = relive_new Particle(FP_FromInteger(0), FP_FromInteger(0), ppLoadingAnimRes);
 
     // TODO: May need to clear all other low word bits ?
-    pParticle->GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
-    pParticle->GetAnimation().mFlags.Set(AnimFlags::eBlending);
+    pParticle->GetAnimation().SetSemiTrans(false);
+    pParticle->GetAnimation().SetBlending(true);
 
     pParticle->GetAnimation().SetRenderLayer(Layer::eLayer_0);
 

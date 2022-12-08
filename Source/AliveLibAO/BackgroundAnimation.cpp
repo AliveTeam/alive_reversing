@@ -77,8 +77,8 @@ BackgroundAnimation::BackgroundAnimation(relive::Path_BackgroundAnimation* pTlv,
 
     Animation_Init(res);
 
-    GetAnimation().mFlags.Set(AnimFlags::eSemiTrans, pTlv->mIsSemiTrans == relive::reliveChoice::eYes);
-    GetAnimation().mFlags.Set(AnimFlags::eBlending);
+    GetAnimation().SetSemiTrans(pTlv->mIsSemiTrans == relive::reliveChoice::eYes);
+    GetAnimation().SetBlending(true);
 
     GetAnimation().SetRenderMode(pTlv->mSemiTransMode);
 

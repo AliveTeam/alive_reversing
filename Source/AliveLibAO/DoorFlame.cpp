@@ -30,9 +30,9 @@ public:
 
         mVisualFlags.Set(VisualFlags::eApplyShadowZoneColour);
 
-        GetAnimation().mFlags.Clear(AnimFlags::eBlending);
-        GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
-        GetAnimation().mFlags.Set(AnimFlags::eIgnorePosOffset);
+        GetAnimation().SetBlending(false);
+        GetAnimation().SetSemiTrans(true);
+        GetAnimation().SetIgnorePosOffset(true);
 
         mXPos = xpos;
         mYPos = ypos + FP_FromInteger(4);
@@ -129,7 +129,7 @@ public:
         mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::ChantOrb_Particle_Small));
         Animation_Init(GetAnimRes(AnimId::ChantOrb_Particle_Small));
 
-        GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
+        GetAnimation().SetSemiTrans(true);
 
         mVisualFlags.Set(VisualFlags::eApplyShadowZoneColour);
         GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
@@ -145,8 +145,8 @@ public:
         {
             anim.field_14.field_68_anim_ptr = &GetAnimation();
 
-            anim.field_14.mFlags.Set(AnimFlags::eRender);
-            anim.field_14.mFlags.Set(AnimFlags::eBlending);
+            anim.field_14.SetRender(true);
+            anim.field_14.SetBlending(true);
 
             // TODO: clean this up
             const s32 rndLayer = static_cast<s32>(GetAnimation().GetRenderLayer()) + Math_RandomRange(-1, 1);
@@ -271,7 +271,7 @@ DoorFlame::DoorFlame(relive::Path_DoorFlame* pTlv, const Guid& tlvId)
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Fire));
     Animation_Init(GetAnimRes(AnimId::Fire));
 
-    GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
+    GetAnimation().SetSemiTrans(true);
     mVisualFlags.Set(VisualFlags::eApplyShadowZoneColour);
     GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
     mFrameCount = GetAnimation().Get_Frame_Count();
@@ -311,16 +311,16 @@ DoorFlame::DoorFlame(relive::Path_DoorFlame* pTlv, const Guid& tlvId)
 
     if (SwitchStates_Get(pTlv->mSwitchId))
     {
-        GetAnimation().mFlags.Set(AnimFlags::eRender);
+        GetAnimation().SetRender(true);
         mState = States::eEnabled_1;
     }
     else
     {
-        GetAnimation().mFlags.Clear(AnimFlags::eRender);
+        GetAnimation().SetRender(false);
         mState = States::eDisabled_0;
     }
 
-    GetAnimation().mFlags.Set(AnimFlags::eAnimate);
+    GetAnimation().SetAnimate(true);
     mRandom = Math_NextRandom() & 1;
 
     mFlameSparks = relive_new FlameSparks(mXPos, mYPos);
@@ -364,7 +364,7 @@ void DoorFlame::VUpdate()
     switch (mState)
     {
         case States::eDisabled_0:
-            GetAnimation().mFlags.Clear(AnimFlags::eRender);
+            GetAnimation().SetRender(false);
 
             if (mFlameSparks)
             {
@@ -400,7 +400,7 @@ void DoorFlame::VUpdate()
                 }
             }
 
-            GetAnimation().mFlags.Set(AnimFlags::eRender);
+            GetAnimation().SetRender(true);
             if (mFlameSparks)
             {
                 mFlameSparks->mRender = true;

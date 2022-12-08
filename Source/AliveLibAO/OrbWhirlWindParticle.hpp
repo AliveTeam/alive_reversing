@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../relive_lib/Animation.hpp"
+#include "../AliveLibCommon/BitField.hpp"
 
 class IBaseAliveGameObject;
 

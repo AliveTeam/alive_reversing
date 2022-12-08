@@ -367,7 +367,7 @@ IBaseAliveGameObject* Bullet::ShootObject(PSX_RECT* pRect)
 
         if (pObj != mBulletParent)
         {
-            if (pObj->GetAnimation().mFlags.Get(AnimFlags::eRender))
+            if (pObj->GetAnimation().GetRender())
             {
                 if (gMap.Is_Point_In_Current_Camera(mBulletLevel, mBulletPath, pObj->mXPos, pObj->mYPos, 1))
                 {

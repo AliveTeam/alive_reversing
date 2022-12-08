@@ -44,7 +44,7 @@ ZapLine::ZapLine(FP x1, FP y1, FP x2, FP y2, s32 aliveTime, ZapLineType type, La
         blendMode = TPageAbr::eBlend_1;
     }
 
-    GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
+    GetAnimation().SetSemiTrans(false);
     GetAnimation().SetRenderLayer(layer);
     mNumberOfSprites = mNumberOfSegments * mNumberOfPiecesPerSegment;
 

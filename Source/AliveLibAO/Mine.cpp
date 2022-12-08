@@ -58,8 +58,8 @@ Mine::Mine(relive::Path_Mine* pTlv, const Guid& tlvId)
     mFlashAnim.Init(GetAnimRes(AnimId::Mine_Flash), this);
 
     mFlashAnim.SetRenderLayer(GetAnimation().GetRenderLayer());
-    mFlashAnim.mFlags.Set(AnimFlags::eBlending);
-    mFlashAnim.mFlags.Set(AnimFlags::eSemiTrans);
+    mFlashAnim.SetBlending(true);
+    mFlashAnim.SetSemiTrans(true);
     mFlashAnim.SetSpriteScale(GetSpriteScale());
 
     mFlashAnim.SetRGB(128, 128, 128);
@@ -235,7 +235,7 @@ s16 Mine::IsColliding()
 
         if (pObj->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eCanSetOffExplosives))
         {
-            if (pObj->GetAnimation().mFlags.Get(AnimFlags::eRender))
+            if (pObj->GetAnimation().GetRender())
             {
                 const PSX_RECT bObjRect = pObj->VGetBoundingRect();
 

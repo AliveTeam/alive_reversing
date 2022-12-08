@@ -33,7 +33,7 @@ AirExplosion::AirExplosion(FP xpos, FP ypos, FP scale, bool bSmall)
         Animation_Init(GetAnimRes(AnimId::AirExplosion));
     }
 
-    GetAnimation().mFlags.Clear(AnimFlags::eIsLastFrame);
+    GetAnimation().SetIsLastFrame(false);
     GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
     mParticleScale = scale;
     SetScale(scale == FP_FromInteger(1) ? Scale::Fg : Scale::Bg);
@@ -146,18 +146,18 @@ void AirExplosion::VUpdate()
 
             if (GetAnimation().GetCurrentFrame() == 3)
             {
-                pParticle->GetAnimation().mFlags.Set(AnimFlags::eFlipX);
+                pParticle->GetAnimation().SetFlipX(true);
                 pParticle->SetSpriteScale(GetSpriteScale() * FP_FromDouble(0.5));
             }
             else
             {
-                pParticle->GetAnimation().mFlags.Clear(AnimFlags::eFlipX);
+                pParticle->GetAnimation().SetFlipX(false);
                 pParticle->SetSpriteScale(GetSpriteScale() * FP_FromDouble(0.25));
             }
         }
     }
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eForwardLoopCompleted))
+    if (GetAnimation().GetForwardLoopCompleted())
     {
         SetDead(true);
     }

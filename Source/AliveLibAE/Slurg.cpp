@@ -134,14 +134,14 @@ s32 Slurg::CreateFromSaveState(const u8* pData)
 
     // OG BUG: This wasn't restored
     pSlurg->GetAnimation().SetCurrentFrame(pState->mAnimCurrentFrame);
-    pSlurg->GetAnimation().mFlags.Set(AnimFlags::eFlipX, pState->mFlipX & 1);
-    pSlurg->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->mRender & 1);
+    pSlurg->GetAnimation().SetFlipX(pState->mFlipX & 1);
+    pSlurg->GetAnimation().SetRender(pState->mRender & 1);
 
     pSlurg->SetDrawable(pState->mDrawable & 1);
 
     if (IsLastFrame(&pSlurg->GetAnimation()))
     {
-        pSlurg->GetAnimation().mFlags.Set(AnimFlags::eIsLastFrame);
+        pSlurg->GetAnimation().SetIsLastFrame(true);
     }
 
     pSlurg->mSlurgState = pState->mSlurgState;
@@ -238,7 +238,7 @@ void Slurg::VUpdate()
                 SfxPlayMono(relive::SoundEffects::SlurgPause, 0);
             }
 
-            if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+            if (GetAnimation().GetIsLastFrame())
             {
                 mSlurgState = SlurgStates::eMoving_0;
                 GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Slurg_Move));
@@ -246,7 +246,7 @@ void Slurg::VUpdate()
             break;
 
         case SlurgStates::eBurst_2:
-            if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+            if (GetAnimation().GetIsLastFrame())
             {
                 SetDead(true);
             }
@@ -332,12 +332,12 @@ s32 Slurg::VGetSaveState(u8* pSaveBuffer)
     pState->mYPos = mYPos;
     pState->mVelX = mVelX;
     pState->mSlurgSpriteScale = mSlurgSpriteScale;
-    pState->mFlipX = GetAnimation().mFlags.Get(AnimFlags::eFlipX);
+    pState->mFlipX = GetAnimation().GetFlipX();
     pState->mCurrentMotion = mCurrentMotion;
     pState->mAnimCurrentFrame = static_cast<s16>(GetAnimation().GetCurrentFrame());
     pState->mFrameChangeCounter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
     pState->mDrawable = GetDrawable();
-    pState->mRender = GetAnimation().mFlags.Get(AnimFlags::eRender);
+    pState->mRender = GetAnimation().GetRender();
    // pState->mFrameTableOffset = mAnim.mFrameTableOffset;
     pState->mTlvId = mTlvInfo;
     pState->mSlurgState = mSlurgState;
@@ -348,7 +348,7 @@ s32 Slurg::VGetSaveState(u8* pSaveBuffer)
 
 void Slurg::GoLeft()
 {
-    GetAnimation().mFlags.Clear(AnimFlags::eFlipX);
+    GetAnimation().SetFlipX(false);
     mGoingRight = false;
     mSlurgState = SlurgStates::ePausing_1;
     GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Slurg_Turn_Around));
@@ -356,7 +356,7 @@ void Slurg::GoLeft()
 
 void Slurg::GoRight()
 {
-    GetAnimation().mFlags.Set(AnimFlags::eFlipX);
+    GetAnimation().SetFlipX(true);
     mGoingRight = true;
     mSlurgState = SlurgStates::ePausing_1;
     GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Slurg_Turn_Around));

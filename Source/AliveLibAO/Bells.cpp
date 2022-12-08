@@ -129,7 +129,7 @@ void Bells::VUpdate()
 
 void Bells::PlaySounds()
 {
-    if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+    if (GetAnimation().GetIsLastFrame())
     {
         if (mBellPitch == BellPitch::eLowPitch)
         {

@@ -29,7 +29,7 @@ BulletShell::BulletShell(FP xpos, FP ypos, s32 direction, FP scale)
     }
 
     mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
-    GetAnimation().mFlags.Set(AnimFlags::eFlipX, direction & 1);
+    GetAnimation().SetFlipX(direction & 1);
 
     mFloorBounceCount = 0;
 

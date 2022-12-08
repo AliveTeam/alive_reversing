@@ -96,12 +96,12 @@ ParamiteWebLine::ParamiteWebLine(relive::Path_ParamiteWebLine* pTlv, const Guid&
     {
         for (s32 i = 0; i < field_F4_anim_segment_count; i++)
         {
-            field_FC_pRes[i].mFlags.Set(AnimFlags::eRender);
+            field_FC_pRes[i].SetRender(true);
             field_FC_pRes[i].field_68_anim_ptr = &GetAnimation();
             field_FC_pRes[i].SetRenderLayer(GetAnimation().GetRenderLayer());
             field_FC_pRes[i].field_6C_scale = GetSpriteScale();
-            field_FC_pRes[i].mFlags.Clear(AnimFlags::eSemiTrans);
-            field_FC_pRes[i].mFlags.Clear(AnimFlags::eBlending);
+            field_FC_pRes[i].SetSemiTrans(false);
+            field_FC_pRes[i].SetBlending(false);
         }
     }
 
@@ -116,9 +116,9 @@ ParamiteWebLine::ParamiteWebLine(relive::Path_ParamiteWebLine* pTlv, const Guid&
         field_108_anim_flare.SetSpriteScale(FP_FromDouble(0.3));
         field_108_anim_flare.SetRenderMode(TPageAbr::eBlend_1);
 
-        field_108_anim_flare.mFlags.Clear(AnimFlags::eSemiTrans);
-        field_108_anim_flare.mFlags.Clear(AnimFlags::eBlending);
-        field_108_anim_flare.mFlags.Set(AnimFlags::eSwapXY);
+        field_108_anim_flare.SetSemiTrans(false);
+        field_108_anim_flare.SetBlending(false);
+        field_108_anim_flare.SetSwapXY(true);
 
         field_1A0_pulse_position = field_F8_top;
         field_1A4_delay_counter = Math_RandomRange(0, 10);

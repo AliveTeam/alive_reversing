@@ -58,7 +58,7 @@ Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
     LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::Drill_Vertical_Off));
 
-    GetAnimation().mFlags.Set(AnimFlags::eSemiTrans);
+    GetAnimation().SetSemiTrans(true);
     GetAnimation().SetRenderMode(TPageAbr::eBlend_0);
 
     SetTint(kDrillTints_551548, gMap.mCurrentLevel);
@@ -181,7 +181,7 @@ Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
             break;
 
         case relive::Path_Drill::DrillDirection::eLeft:
-            GetAnimation().mFlags.Set(AnimFlags::eFlipX);
+            GetAnimation().SetFlipX(true);
 
             mAdjustedXPos = FP_FromInteger(pTlv->mBottomRightX - 12);
             mAdjustedYPos = FP_FromInteger(pTlv->mBottomRightY);
@@ -343,7 +343,7 @@ void Drill::VUpdate()
                     case relive::Path_Drill::DrillDirection::eLeft:
                     {
                         GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Drill_Horizontal_On));
-                        GetAnimation().mFlags.Set(AnimFlags::eFlipX);
+                        GetAnimation().SetFlipX(true);
                         break;
                     }
                 }

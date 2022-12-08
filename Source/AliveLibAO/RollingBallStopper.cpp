@@ -32,13 +32,13 @@ RollingBallStopper::RollingBallStopper(relive::Path_RollingBallStopper* pTlv, co
 
     if (pTlv->mStopDirection == relive::reliveXDirection::eLeft)
     {
-        GetAnimation().mFlags.Set(AnimFlags::eFlipX);
+        GetAnimation().SetFlipX(true);
     }
 
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
-    mVelX = GetAnimation().mFlags.Get(AnimFlags::eFlipX) ? FP_FromInteger(22) : FP_FromInteger(-22);
+    mVelX = GetAnimation().GetFlipX() ? FP_FromInteger(22) : FP_FromInteger(-22);
     mVelY = FP_FromInteger(0);
 
     mTlvInfo = tlvId;
@@ -47,7 +47,7 @@ RollingBallStopper::RollingBallStopper(relive::Path_RollingBallStopper* pTlv, co
     if (pTlv->mTlvSpecificMeaning)
     {
         mYPos += GetSpriteScale() * FP_FromInteger(70);
-        if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+        if (GetAnimation().GetFlipX())
         {
             mState = States::eMovingDone;
             mXPos += GetSpriteScale() * FP_FromInteger(35);
@@ -70,7 +70,7 @@ RollingBallStopper::RollingBallStopper(relive::Path_RollingBallStopper* pTlv, co
     mXPos = oldXPos;
 
     FP lineXPos = {};
-    if (GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+    if (GetAnimation().GetFlipX())
     {
         lineXPos = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2)) + FP_NoFractional(oldXPos);
     }

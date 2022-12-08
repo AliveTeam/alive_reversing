@@ -112,8 +112,8 @@ s32 Meat::CreateFromSaveState(const u8* pBuffer)
 
     pMeat->SetSpriteScale(pState->field_18_sprite_scale);
 
-    pMeat->GetAnimation().mFlags.Set(AnimFlags::eLoop, pState->mLoop);
-    pMeat->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->mRender);
+    pMeat->GetAnimation().SetLoop(pState->mLoop);
+    pMeat->GetAnimation().SetRender(pState->mRender);
 
     pMeat->SetDrawable(pState->mDrawable);
     pMeat->SetInteractive(pState->mInteractive);
@@ -163,7 +163,7 @@ void MeatSack::VUpdate()
 
     if (field_11C_bDoMeatSackIdleAnim)
     {
-        if (field_11C_bDoMeatSackIdleAnim == 1 && GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
+        if (field_11C_bDoMeatSackIdleAnim == 1 && GetAnimation().GetIsLastFrame())
         {
             GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MeatSack_Idle));
             field_11C_bDoMeatSackIdleAnim = 0;
@@ -220,7 +220,7 @@ Meat::Meat(FP xpos, FP ypos, s16 count)
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Meat));
     Animation_Init(GetAnimRes(AnimId::Meat));
 
-    GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
+    GetAnimation().SetSemiTrans(false);
 
     mXPos = xpos;
     mYPos = ypos;
@@ -233,7 +233,7 @@ Meat::Meat(FP xpos, FP ypos, s16 count)
     field_128_timer = 0;
     SetInteractive(false);
 
-    GetAnimation().mFlags.Clear(AnimFlags::eRender);
+    GetAnimation().SetRender(false);
 
     field_12C_deadtimer = sGnFrame + 600;
     field_130_pLine = nullptr;
@@ -286,7 +286,7 @@ Meat::~Meat()
 
 void Meat::VThrow(FP velX, FP velY)
 {
-    GetAnimation().mFlags.Set(AnimFlags::eRender);
+    GetAnimation().SetRender(true);
 
     mVelX = velX;
     mVelY = velY;
@@ -473,7 +473,7 @@ void Meat::VUpdate()
             case MeatStates::eBecomeAPickUp_3:
                 if (FP_Abs(mVelX) < FP_FromInteger(1))
                 {
-                    GetAnimation().mFlags.Clear(AnimFlags::eLoop);
+                    GetAnimation().SetLoop(false);
                 }
 
                 if (FP_Abs(mVelX) >= FP_FromDouble(0.5))
@@ -490,7 +490,7 @@ void Meat::VUpdate()
                     field_130_pLine = field_130_pLine->MoveOnLine(&mXPos, &mYPos, mVelX);
                     if (!field_130_pLine)
                     {
-                        GetAnimation().mFlags.Set(AnimFlags::eLoop);
+                        GetAnimation().SetLoop(true);
                         field_11C_state = MeatStates::eBeingThrown_2;
                     }
                 }
@@ -564,8 +564,8 @@ s32 Meat::VGetSaveState(u8* pSaveBuffer)
 
     pState->field_18_sprite_scale = GetSpriteScale();
 
-    pState->mLoop = GetAnimation().mFlags.Get(AnimFlags::eLoop);
-    pState->mRender = GetAnimation().mFlags.Get(AnimFlags::eRender);
+    pState->mLoop = GetAnimation().GetLoop();
+    pState->mRender = GetAnimation().GetRender();
 
     pState->mDrawable = GetDrawable();
     pState->mInteractive = GetInteractive();

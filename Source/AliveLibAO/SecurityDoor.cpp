@@ -41,7 +41,7 @@ SecurityDoor::SecurityDoor(relive::Path_SecurityDoor* pTlv, const Guid& tlvId)
 
     Animation_Init(GetAnimRes(AnimId::Security_Door_Idle));
 
-    GetAnimation().mFlags.Clear(AnimFlags::eRender);
+    GetAnimation().SetRender(false);
 
     field_E4_tlvInfo = tlvId;
 
@@ -122,12 +122,12 @@ void SecurityDoor::VUpdate()
             {
                 if (IsPlayerNear())
                 {
-                    GetAnimation().mFlags.Set(AnimFlags::eRender);
+                    GetAnimation().SetRender(true);
                     field_E8_state = SecurityDoorStates::eSayingHi_2;
                 }
                 else
                 {
-                    GetAnimation().mFlags.Clear(AnimFlags::eRender);
+                    GetAnimation().SetRender(false);
                 }
             }
             break;
@@ -296,7 +296,7 @@ void SecurityDoor::VUpdate()
                 field_11A_unused = static_cast<s16>(MatchBuffer);
                 if (MatchBuffer == GameSpeakMatch::eFullMatch_1 || gVoiceCheat)
                 {
-                    GetAnimation().mFlags.Clear(AnimFlags::eRender);
+                    GetAnimation().SetRender(false);
                     SwitchStates_Set(field_EA_switch_id, 1);
                     SFX_Play_Pitch(relive::SoundEffects::SligBleh, 127, -700);
                     field_E8_state = SecurityDoorStates::eSuccessChime_1;

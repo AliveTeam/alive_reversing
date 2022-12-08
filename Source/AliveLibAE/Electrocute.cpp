@@ -265,7 +265,7 @@ void Electrocute::VUpdate()
                     }
                     else
                     {
-                        pTargetObj->GetAnimation().mFlags.Clear(AnimFlags::eRender);
+                        pTargetObj->GetAnimation().SetRender(false);
                     }
 
                     pTargetObj->mRGB.SetRGB(field_24_r, field_26_g, field_28_b);

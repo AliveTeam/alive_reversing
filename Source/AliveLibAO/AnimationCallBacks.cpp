@@ -36,7 +36,7 @@ void Animation_OnFrame_Slig(::BaseGameObject* pObj, u32&, const IndexedPoint& pD
 
     const FP xOff = pSlig->GetSpriteScale() * FP_FromInteger(pData.mPoint.x);
     const FP yOff = pSlig->GetSpriteScale() * FP_FromInteger(pData.mPoint.y);
-    if (pSlig->GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+    if (pSlig->GetAnimation().GetFlipX())
     {
         relive_new Bullet(
             pSlig,
@@ -115,7 +115,7 @@ void Slog_OnFrame(::BaseGameObject* pObj, u32&, const IndexedPoint& pData)
                 if (pSlog->field_10C_pTarget->VTakeDamage(pSlog))
                 {
                     FP blood_xpos = {};
-                    if (pSlog->GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+                    if (pSlog->GetAnimation().GetFlipX())
                     {
                         blood_xpos = pSlog->mXPos - (pSlog->GetSpriteScale() * FP_FromInteger(pData.mPoint.x));
                     }
@@ -159,7 +159,7 @@ void Abe_OnFrame(::BaseGameObject* pObj, u32&, const IndexedPoint& pData)
     const FP yVel = kAbeVelTable_4C6608[pAbe->field_19D_throw_direction].y * pAbe->GetSpriteScale();
 
     FP directed_x = {};
-    if (sActiveHero->GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+    if (sActiveHero->GetAnimation().GetFlipX())
     {
         xVel = -xVel;
         directed_x = -(pAbe->GetSpriteScale() * FP_FromInteger(pData.mPoint.x));

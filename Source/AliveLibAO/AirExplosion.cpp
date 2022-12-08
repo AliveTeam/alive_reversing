@@ -30,7 +30,7 @@ AirExplosion::AirExplosion(FP xpos, FP ypos, FP exposion_size)
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::AirExplosion));
     Animation_Init(GetAnimRes(AnimId::AirExplosion));
 
-    GetAnimation().mFlags.Clear(AnimFlags::eIsLastFrame);
+    GetAnimation().SetIsLastFrame(false);
     GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
     mExplosionSize = exposion_size;
 
@@ -126,7 +126,7 @@ void AirExplosion::VUpdate()
             }
 
             pParticle->mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
-            pParticle->GetAnimation().mFlags.Clear(AnimFlags::eFlipX);
+            pParticle->GetAnimation().SetFlipX(false);
             pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
             pParticle->SetSpriteScale(GetSpriteScale() * FP_FromDouble(0.25));
         }
@@ -136,7 +136,7 @@ void AirExplosion::VUpdate()
         }
     }
 
-    if (GetAnimation().mFlags.Get(AnimFlags::eForwardLoopCompleted))
+    if (GetAnimation().GetForwardLoopCompleted())
     {
         SetDead(true);
     }

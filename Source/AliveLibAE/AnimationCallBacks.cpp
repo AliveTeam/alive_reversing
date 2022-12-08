@@ -29,7 +29,7 @@ void Animation_OnFrame_Common_4561B0(BaseGameObject* pObjPtr, u32&, const Indexe
     AnimResource ppAnimData = ResourceManagerWrapper::LoadAnimation(AnimId::Dust_Particle);
 
     FP xOff = {};
-    if (pObj->GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+    if (pObj->GetAnimation().GetFlipX())
     {
         xOff = -(pObj->GetSpriteScale() * FP_FromInteger(point.mPoint.x));
     }
@@ -128,7 +128,7 @@ void Animation_OnFrame_FlyingSlig(BaseGameObject* pObjPtr, u32&, const IndexedPo
 
     // flying slig: kVaporResID
     FP xOff = {};
-    if (pObj->GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+    if (pObj->GetAnimation().GetFlipX())
     {
         xOff = -(pObj->GetSpriteScale() * FP_FromInteger(point.mPoint.x));
     }
@@ -183,7 +183,7 @@ void Animation_OnFrame_Slog_4C3030(BaseGameObject* pObjPtr, u32&, const IndexedP
     }
 
     FP bloodX = {};
-    if (pSlog->GetAnimation().mFlags.Get(AnimFlags::eFlipX))
+    if (pSlog->GetAnimation().GetFlipX())
     {
         bloodX = pSlog->mXPos - (pSlog->GetSpriteScale() * FP_FromInteger(point.mPoint.x));
     }

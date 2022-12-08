@@ -144,8 +144,8 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
         pPart->mAnimation.SetRenderLayer(GetAnimation().GetRenderLayer());
         pPart->mAnimation.SetSpriteScale(scale);
 
-        pPart->mAnimation.mFlags.Clear(AnimFlags::eBlending);
-        pPart->mAnimation.mFlags.Clear(AnimFlags::eSemiTrans);
+        pPart->mAnimation.SetBlending(false);
+        pPart->mAnimation.SetSemiTrans(false);
 
         pPart->mAnimation.SetRGB(mRGB.r, mRGB.g, mRGB.b);
 

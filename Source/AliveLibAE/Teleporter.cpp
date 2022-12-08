@@ -212,7 +212,7 @@ void Teleporter::VUpdate()
                 }
             }
 
-            sControlledCharacter->GetAnimation().mFlags.Clear(AnimFlags::eRender);
+            sControlledCharacter->GetAnimation().SetRender(false);
 
             gMap.mTeleporterTransition = 1;
 
@@ -348,7 +348,7 @@ void Teleporter::VUpdate()
             }
 
             field_54_effect_created = 0;
-            sControlledCharacter->GetAnimation().mFlags.Set(AnimFlags::eRender);
+            sControlledCharacter->GetAnimation().SetRender(true);
             sControlledCharacter->mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eTeleporting);
             field_2C_switch_state = SwitchStates_Get(field_34_mTlvData.mSwitchId);
             field_30_state = TeleporterState::eWaitForSwitchOn_0;

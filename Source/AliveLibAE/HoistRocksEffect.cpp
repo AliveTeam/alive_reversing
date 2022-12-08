@@ -67,8 +67,8 @@ HoistRocksEffect::HoistRocksEffect(relive::Path_Hoist* pTlv, const Guid& tlvId)
         }
 
         particle.mAnim.SetRenderMode(TPageAbr::eBlend_0);
-        particle.mAnim.mFlags.Clear(AnimFlags::eBlending);
-        particle.mAnim.mFlags.Set(AnimFlags::eSemiTrans);
+        particle.mAnim.SetBlending(false);
+        particle.mAnim.SetSemiTrans(true);
         particle.mAnim.SetSpriteScale(mSpriteScale);
 
         particle.mState = 0;

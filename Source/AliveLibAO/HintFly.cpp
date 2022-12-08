@@ -1352,7 +1352,7 @@ HintFly::HintFly(relive::Path_HintFly* pTlv, const Guid& tlvId)
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::HintFly));
     Animation_Init(GetAnimRes(AnimId::HintFly));
 
-    GetAnimation().mFlags.Clear(AnimFlags::eSemiTrans);
+    GetAnimation().SetSemiTrans(false);
     field_124_tlvInfo = tlvId;
     field_11E_msg_idx = 0;
 
