@@ -97,12 +97,12 @@ void BulletShell::VUpdate()
 
     if (!gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (mFloorBounceCount >= 3)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 

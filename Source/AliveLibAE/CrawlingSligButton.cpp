@@ -83,7 +83,7 @@ void CrawlingSligButton::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (field_102_in_use == 1)

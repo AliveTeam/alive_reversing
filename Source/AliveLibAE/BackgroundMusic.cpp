@@ -24,7 +24,7 @@ void BackgroundMusic::VUpdate()
         }
         sBackgroundMusic_seq_id_560F78 = field_20_music_id;
     }
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 // In order of functions in the orignal game these are not part of this object

@@ -260,7 +260,7 @@ s32 Fleech::CreateFromSaveState(const u8* pBuffer)
         pFleech->GetAnimation().mFlags.Set(AnimFlags::eFlipX, pState->field_26_bFlipX & 1);
         pFleech->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->field_2E_bRender & 1);
 
-        pFleech->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_2F_bDrawable & 1);
+        pFleech->SetDrawable(pState->field_2F_bDrawable & 1);
 
         if (IsLastFrame(&pFleech->GetAnimation()))
         {
@@ -368,7 +368,7 @@ s32 Fleech::VGetSaveState(u8* pSaveBuffer)
     pState->field_28_current_motion = mCurrentMotion;
     pState->field_2A_anim_current_frame = static_cast<s16>(GetAnimation().GetCurrentFrame());
     pState->field_2C_frame_change_counter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
-    pState->field_2F_bDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
+    pState->field_2F_bDrawable = GetDrawable();
     pState->field_2E_bRender = GetAnimation().mFlags.Get(AnimFlags::eRender);
     pState->mHealth = mHealth;
     pState->mCurrentMotion = mCurrentMotion;
@@ -1208,7 +1208,7 @@ void Fleech::VUpdate()
 
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if ((FP_Abs(mXPos - sControlledCharacter->mXPos) <= FP_FromInteger(750) && FP_Abs(mYPos - sControlledCharacter->mYPos) <= FP_FromInteger(520)) || mPersistant)
@@ -1221,7 +1221,7 @@ void Fleech::VUpdate()
 
         if (mYPos < FP_FromInteger(0))
         {
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
         }
 
         const FP oldY = mYPos;
@@ -1257,7 +1257,7 @@ void Fleech::VUpdate()
     }
     else
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -1445,7 +1445,7 @@ void Fleech::VScreenChanged()
 {
     if (gMap.LevelChanged() || gMap.PathChanged())
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
         field_11C_obj_id = Guid{};
         field_170_danger_obj = Guid{};
     }
@@ -1458,7 +1458,7 @@ void Fleech::VOnTlvCollision(relive::Path_TLV* pTlv)
         if (pTlv->mTlvType == ReliveTypes::eDeathDrop)
         {
             mHealth = FP_FromInteger(0);
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
         }
         pTlv = sPathInfo->TlvGetAt(pTlv, mXPos, mYPos, mXPos, mYPos);
     }
@@ -2150,7 +2150,7 @@ s16 Fleech::VTakeDamage(BaseGameObject* pFrom)
                 FP_FromInteger(0),
                 GetSpriteScale(), 50);
 
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
         }
         break;
 
@@ -2197,13 +2197,13 @@ s16 Fleech::VTakeDamage(BaseGameObject* pFrom)
             SetAnim();
             GetAnimation().mFlags.Set(AnimFlags::eAnimate);
             mShrivelDeath = true;
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
             sFleechCount_5BC20E--;
         }
         break;
 
         case ReliveTypes::eElectrocute:
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
             mHealth = FP_FromInteger(0);
             mBrainState = eFleechBrains::eBrain_3_Death;
             break;
@@ -2608,7 +2608,7 @@ enum Brain_0_Patrol
 s16 Fleech::Brain_0_Patrol()
 {
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_11C_obj_id));
-    if (!pTarget || pTarget->mBaseGameObjectFlags.Get(BaseGameObject::eDead) || pTarget->mHealth <= FP_FromInteger(0) || pTarget->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible))
+    if (!pTarget || pTarget->GetDead() || pTarget->mHealth <= FP_FromInteger(0) || pTarget->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible))
     {
         field_11C_obj_id = Guid{};
         pTarget = nullptr;
@@ -3165,7 +3165,7 @@ s16 Fleech::Brain_1_ChasingAbe()
     auto pObj = static_cast<IBaseAliveGameObject*>(sObjectIds.Find_Impl(field_11C_obj_id));
     if (pObj)
     {
-        if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead) || (IsActiveHero(pObj) && sActiveHero->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible)))
+        if (pObj->GetDead() || (IsActiveHero(pObj) && sActiveHero->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible)))
         {
             field_11C_obj_id = Guid{};
             pObj = nullptr;
@@ -3905,7 +3905,7 @@ s16 Fleech::Brain_2_Scared()
     pDangerObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_170_danger_obj));
     if (pDangerObj)
     {
-        if (pDangerObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+        if (pDangerObj->GetDead())
         {
             field_170_danger_obj = Guid{};
             pDangerObj = 0;
@@ -4277,7 +4277,7 @@ s16 Fleech::Brain_3_Death()
 
     if (GetSpriteScale() < FP_FromInteger(0))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     return 100;

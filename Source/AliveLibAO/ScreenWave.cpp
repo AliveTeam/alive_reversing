@@ -38,7 +38,7 @@ ScreenWave::ScreenWave(FP xpos, FP ypos, Layer layer, FP width, FP speed, s32 ra
     field_14_ppRes = relive_new ScreenWave_Data();
     if (!field_14_ppRes)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
         return;
     }
 
@@ -49,7 +49,7 @@ ScreenWave::ScreenWave(FP xpos, FP ypos, Layer layer, FP width, FP speed, s32 ra
     field_3C_path = gMap.mCurrentPath;
     field_3A_level = gMap.mCurrentLevel;
 
-    mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
+    SetDrawable(true);
     field_18_xpos = xpos;
 
     field_2C = FP_FromInteger(0);
@@ -122,7 +122,7 @@ void ScreenWave::VScreenChanged()
 {
     if (gMap.LevelChanged() || gMap.PathChanged())
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -148,7 +148,7 @@ void ScreenWave::VUpdate()
     }
     else
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 

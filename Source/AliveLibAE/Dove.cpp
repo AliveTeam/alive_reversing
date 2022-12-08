@@ -193,7 +193,7 @@ void Dove::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (!bTheOneControllingTheMusic)
@@ -266,7 +266,7 @@ void Dove::VUpdate()
         {
             if (static_cast<s32>(sGnFrame) > mJoinDeadTimer)
             {
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
             }
 
             FP xOff = {};
@@ -328,7 +328,7 @@ void Dove::VUpdate()
             mYPos,
             0))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 

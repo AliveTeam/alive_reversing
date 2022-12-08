@@ -71,7 +71,7 @@ void GameEnderController::VScreenChanged()
 
     if (gMap.mCurrentLevel != gMap.mNextLevel)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -90,7 +90,7 @@ void GameEnderController::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     switch (mState)
@@ -112,11 +112,11 @@ void GameEnderController::VUpdate()
                     auto pAlarm = sObjectIds.Find_Impl(gAlarmObjId);
                     if (pAlarm)
                     {
-                        pAlarm->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                        pAlarm->SetDead(true);
                     }
 
-                    pBirdPortal->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-                    sActiveHero->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                    pBirdPortal->SetDead(true);
+                    sActiveHero->SetDead(true);
 
                     // Good ending
                     if (sRescuedMudokons >= Path_GoodEndingMuds(gMap.mCurrentLevel, gMap.mCurrentPath))
@@ -127,7 +127,7 @@ void GameEnderController::VUpdate()
 
                         if (gPauseMenu)
                         {
-                            gPauseMenu->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                            gPauseMenu->SetDead(true);
                             gPauseMenu = nullptr;
                         }
 

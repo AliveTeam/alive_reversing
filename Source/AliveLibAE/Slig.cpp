@@ -639,7 +639,7 @@ s32 Slig::VGetSaveState(u8* pSaveBuffer)
     pState->field_26_current_motion = mCurrentMotion;
     pState->field_28_current_frame = static_cast<s16>(GetAnimation().GetCurrentFrame());
     pState->field_2A_frame_change_counter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
-    pState->field_2D_bDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
+    pState->field_2D_bDrawable = GetDrawable();
     pState->field_2C_bRender = GetAnimation().mFlags.Get(AnimFlags::eRender);
     pState->field_30_health = mHealth;
     pState->field_34_current_motion = mCurrentMotion;
@@ -758,7 +758,7 @@ s32 Slig::CreateFromSaveState(const u8* pBuffer)
         pSlig->GetAnimation().SetCurrentFrame(pState->field_28_current_frame);
         pSlig->GetAnimation().SetFrameChangeCounter(pState->field_2A_frame_change_counter);
 
-        pSlig->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_2D_bDrawable & 1);
+        pSlig->SetDrawable(pState->field_2D_bDrawable & 1);
 
         pSlig->GetAnimation().mFlags.Set(AnimFlags::eFlipX, pState->field_24_bFlipX & 1);
         pSlig->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->field_2C_bRender & 1);
@@ -2055,7 +2055,7 @@ void Slig::M_OutToFall_38_4B4570()
     const FP fallDepth = mYPos - BaseAliveGameObjectLastLineYPos;
     if (fallDepth > FP_FromInteger(16 * 640))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (mCurrentMotion == eSligMotions::M_LandingSoft_40_4B4530 && fallDepth > FP_FromInteger(180) && !sPathInfo->TLV_Get_At(FP_GetExponent(mXPos), FP_GetExponent(mYPos), FP_GetExponent(mXPos), FP_GetExponent(mYPos), ReliveTypes::eSoftLanding))
@@ -2433,7 +2433,7 @@ s16 Slig::Brain_Death_0_4BBFB0()
     }
     else if (!GetAnimation().mFlags.Get(AnimFlags::eRender))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (sControlledCharacter == this)
@@ -2455,13 +2455,13 @@ s16 Slig::Brain_Death_0_4BBFB0()
                 mYPos,
                 0))
         {
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
         }
     }
 
     if (GetSpriteScale() < FP_FromInteger(0))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     return 116;
@@ -2476,7 +2476,7 @@ s16 Slig::Brain_ReturnControlToAbeAndDie_1_4BC410()
         gMap.SetActiveCam(mAbeLevel, mAbePath, mAbeCamera, CameraSwapEffects::eInstantChange_0, 0, 0);
     }
 
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
     return 117;
 }
 
@@ -2532,7 +2532,7 @@ s16 Slig::Brain_Possessed_2_4BBCF0()
             {
                 if (sControlledCharacter != this)
                 {
-                    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                    SetDead(true);
                 }
             }
 
@@ -2549,7 +2549,7 @@ s16 Slig::Brain_Possessed_2_4BBCF0()
             {
                 if (sControlledCharacter != this)
                 {
-                    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                    SetDead(true);
                 }
             }
             if (mHealth <= FP_FromInteger(0))
@@ -2629,7 +2629,7 @@ s16 Slig::Brain_DeathDropDeath_3_4BC1E0()
                     sControlledCharacter = sActiveHero;
                     gMap.SetActiveCam(mAbeLevel, mAbePath, mAbeCamera, CameraSwapEffects::eInstantChange_0, 0, 0);
                 }
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
             }
             return mBrainSubState;
 
@@ -2682,7 +2682,7 @@ s16 Slig::Brain_ListeningToGlukkon_4_4B9D20()
 
     mHeardGlukkon = false;
 
-    if (!pGlukkonObj || !pGlukkonObj->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
+    if (!pGlukkonObj || !pGlukkonObj->GetDrawable())
     {
         PauseALittle_4BDD00();
         mNextMotion = eSligMotions::M_SpeakLaugh_24_4B5430;
@@ -3348,7 +3348,7 @@ s16 Slig::Brain_EnemyDead_10_4B3460()
 {
     if (EventGet(kEventDeathReset) && !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
         return 113;
     }
 
@@ -3402,7 +3402,7 @@ s16 Slig::Brain_PanicTurning_12_4BC490()
 {
     if (EventGet(kEventDeathReset) && !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
         return 107;
     }
 
@@ -3698,7 +3698,7 @@ s16 Slig::Brain_Chasing_17_4BCBD0()
 
     if (mCurrentPath != gMap.mCurrentPath || mCurrentLevel != gMap.mCurrentLevel || (EventGet(kEventDeathReset) && !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0)))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
     else if (gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
     {
@@ -3729,7 +3729,7 @@ s16 Slig::Brain_StartChasing_18_4BCEB0()
     {
         if (mCurrentPath != gMap.mCurrentPath || mCurrentLevel != gMap.mCurrentLevel)
         {
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
         }
 
         if (!VIsFacingMe(sControlledCharacter))
@@ -3749,7 +3749,7 @@ s16 Slig::Brain_Turning_19_4BDDD0()
 {
     if (EventGet(kEventDeathReset) && !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
         return 106;
     }
 
@@ -4376,7 +4376,7 @@ s16 Slig::Brain_Sleeping_34_4B9170()
 
     ShouldStillBeAlive_4BBC00();
 
-    if (mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+    if (GetDead())
     {
         const CameraPos direction = gMap.GetDirection(mCurrentLevel, mCurrentPath, mXPos, mYPos);
         Start_Slig_sounds(direction, 0);
@@ -4389,7 +4389,7 @@ s16 Slig::Brain_ChaseAndDisappear_35_4BF640()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (mBrainSubState == Brain_35_ChaseAndDisappear::eBrain35_Summoned_0)
@@ -4425,7 +4425,7 @@ s16 Slig::Brain_ChaseAndDisappear_35_4BF640()
         {
             return mBrainSubState;
         }
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
         mHealth = FP_FromInteger(0);
         return mBrainSubState;
     }
@@ -4794,7 +4794,7 @@ void Slig::VScreenChanged()
 {
     if (gMap.LevelChanged() || (gMap.PathChanged() && this != sControlledCharacter))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -4905,7 +4905,7 @@ void Slig::ShouldStillBeAlive_4BBC00()
             if (field_290_points_count <= 0)
             {
                 // No patrol points, die
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
             }
             else
             {
@@ -4942,7 +4942,7 @@ void Slig::ShouldStillBeAlive_4BBC00()
                     if (!anyPointInCamera)
                     {
                         // No patrol points in current camera
-                        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                        SetDead(true);
                     }
                 }
             }
@@ -5923,7 +5923,7 @@ void Slig::CheckPlatformVanished_4B3640()
     BaseGameObject* pLiftPoint = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
     if (pLiftPoint)
     {
-        if (pLiftPoint->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+        if (pLiftPoint->GetDead())
         {
             // Platform is somehow gone, fall.
             const auto savedMotion = mCurrentMotion;
@@ -6721,7 +6721,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
             {
                 return 1;
             }
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
             mHealth = FP_FromInteger(0);
             EventBroadcast(kEventMudokonComfort, this);
             return 1;

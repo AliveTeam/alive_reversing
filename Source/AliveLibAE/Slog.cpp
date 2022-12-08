@@ -245,7 +245,7 @@ s32 Slog::VGetSaveState(u8* pSaveBuffer)
     pState->mCurrentMotion = mCurrentMotion;
     pState->mCurrentFrame = static_cast<s16>(GetAnimation().GetCurrentFrame());
     pState->mFrameChangeCounter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
-    pState->mDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
+    pState->mDrawable = GetDrawable();
     pState->mRender = GetAnimation().mFlags.Get(AnimFlags::eRender);
     pState->mHealth = mHealth;
     pState->mCurrentMotion2 = mCurrentMotion;
@@ -371,7 +371,7 @@ s32 Slog::CreateFromSaveState(const u8* pBuffer)
         pSlog->GetAnimation().mFlags.Set(AnimFlags::eFlipX, pState->mFlipX & 1);
         pSlog->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->mRender & 1);
 
-        pSlog->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->mDrawable & 1);
+        pSlog->SetDrawable(pState->mDrawable & 1);
 
         if (IsLastFrame(&pSlog->GetAnimation()))
         {
@@ -1274,7 +1274,7 @@ s16 Slog::Brain_0_ListeningToSlig()
     // TODO: OG bug - return never used?
     //sObjectIds.Find_449CF0(field_118);
 
-    if (!pObj || pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+    if (!pObj || pObj->GetDead())
     {
         mAngerLevel = 0;
         mListeningToSligId = Guid{};
@@ -1591,7 +1591,7 @@ s16 Slog::Brain_1_Idle()
     // OG dead code - return never used
     //sObjectIds.Find_449CF0(field_138_bottom_right);
 
-    if (pTarget && pTarget->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+    if (pTarget && pTarget->GetDead())
     {
         mTargetId = Guid{};
     }
@@ -2147,7 +2147,7 @@ s16 Slog::Brain_ChasingAbe_State_13_EatingBone()
                 return mBrainSubState;
             }
 
-            pBone->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            pBone->SetDead(true);
             SetNextMotion(eSlogMotions::Motion_0_Idle);
             mBoneId = Guid{};
             return 2;
@@ -2688,7 +2688,7 @@ s16 Slog::Brain_3_Death()
 
     if (GetSpriteScale() < FP_FromInteger(0))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     return 100;
@@ -2846,7 +2846,7 @@ void Slog::VUpdate()
 
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (FP_Abs(mXPos - sControlledCharacter->mXPos) > FP_FromInteger(750) || FP_Abs(mYPos - sControlledCharacter->mYPos) > FP_FromInteger(390))
@@ -3270,7 +3270,7 @@ void Slog::VOnTlvCollision(relive::Path_TLV* pTlv)
         if (pTlv->mTlvType == ReliveTypes::eDeathDrop)
         {
             mHealth = FP_FromInteger(0);
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
         }
         pTlv = sPathInfo->TlvGetAt(pTlv, mXPos, mYPos, mXPos, mYPos);
     }
@@ -3352,7 +3352,7 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
                                         FP_FromInteger(0),
                                         GetSpriteScale(), 50);
 
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
             break;
         }
 
@@ -3382,7 +3382,7 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eElectrocute:
             mHealth = FP_FromInteger(0);
             mBrainState = 3;
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
             break;
 
         default:

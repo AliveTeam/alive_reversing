@@ -30,9 +30,9 @@ Particle::Particle(FP xpos, FP ypos, AnimResource& res, bool explosionSizeHack)
          Animation_Init(res); // Temp fix - don't crush
     }
 
-    if (mBaseGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
+    if (GetListAddFailed())
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     mXPos = xpos;
@@ -54,7 +54,7 @@ void Particle::VUpdate()
 
     if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 

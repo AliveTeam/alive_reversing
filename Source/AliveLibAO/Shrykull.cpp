@@ -22,7 +22,7 @@ Shrykull::~Shrykull()
     if (mZapLine)
     {
         mZapLine->mBaseGameObjectRefCount--;
-        mZapLine->mBaseGameObjectFlags.Set(Options::eDead);
+        mZapLine->SetDead(true);
     }
 
     if (mZapTarget)
@@ -35,7 +35,7 @@ void Shrykull::VScreenChanged()
 {
     if (gMap.LevelChanged() || gMap.PathChanged())
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -87,7 +87,7 @@ bool Shrykull::CanKill(BaseAnimatedWithPhysicsGameObject* pObj)
             || pObj->Type() == ReliveTypes::eSecurityClaw
             || pObj->Type() == ReliveTypes::eSecurityOrb)
         && pObj->GetAnimation().mFlags.Get(AnimFlags::eRender)
-        && !pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead)
+        && !pObj->GetDead()
         && gMap.Is_Point_In_Current_Camera(
             pObj->mCurrentLevel,
             pObj->mCurrentPath,
@@ -227,7 +227,7 @@ void Shrykull::VUpdate()
             if (mZapLine)
             {
                 mZapLine->mBaseGameObjectRefCount--;
-                mZapLine->mBaseGameObjectFlags.Set(Options::eDead);
+                mZapLine->SetDead(true);
                 mZapLine = nullptr;
             }
             mState = State::eDetransform_2;
@@ -251,7 +251,7 @@ void Shrykull::VUpdate()
             if (GetAnimation().mFlags.Get(AnimFlags::eForwardLoopCompleted))
             {
                 sActiveHero->ExitShrykull_42F440(mResetRingTimer);
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
             }
             break;
 
@@ -270,7 +270,7 @@ void Shrykull::VUpdate()
 
             if (mZapTarget)
             {
-                if (mZapTarget->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+                if (mZapTarget->GetDead())
                 {
                     mZapTarget->mBaseGameObjectRefCount--;
                     mZapTarget = nullptr;

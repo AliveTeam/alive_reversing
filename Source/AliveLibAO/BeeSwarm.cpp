@@ -35,7 +35,7 @@ BeeSwarm::BeeSwarm(FP xpos, FP ypos, FP speed, s32 numBees, s32 totalChaseTime)
     }
     else
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
         numBeesToUse = 1;
     }
 
@@ -89,12 +89,12 @@ void BeeSwarm::VScreenChanged()
 {
     if (gMap.LevelChanged() || gMap.PathChanged())
     {
-        mBaseGameObjectFlags.Set(Options::eDead);
+        SetDead(true);
     }
 
     if (mChaseTarget)
     {
-        if (mChaseTarget->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+        if (mChaseTarget->GetDead())
         {
             mSwarmState = BeeSwarmStates::eFlyAwayAndDie_3;
             mChaseTargetY -= FP_FromInteger(240);
@@ -107,7 +107,7 @@ void BeeSwarm::VScreenChanged()
 
     if (!sActiveHero || (mChaseTarget == sActiveHero && sActiveHero->mCurrentMotion == eAbeMotions::Motion_156_DoorEnter))
     {
-        mBaseGameObjectFlags.Set(Options::eDead);
+        SetDead(true);
     }
 }
 
@@ -151,12 +151,12 @@ void BeeSwarm::VUpdate()
     if (EventGet(kEventDeathReset))
     {
         ToFlyAwayAndDie();
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
         return;
     }
 
     // Chase target has died
-    if (mChaseTarget && mChaseTarget->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+    if (mChaseTarget && mChaseTarget->GetDead())
     {
         ToFlyAwayAndDie();
 
@@ -184,7 +184,7 @@ void BeeSwarm::VUpdate()
                     mYPos,
                     0))
             {
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
             }
             break;
 
@@ -298,7 +298,7 @@ void BeeSwarm::VUpdate()
                 mLineFollowSpeed);
             if (!mLine)
             {
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
             }
             break;
 
@@ -310,7 +310,7 @@ void BeeSwarm::VUpdate()
 
             if (static_cast<s32>(sGnFrame) > mAliveTimer)
             {
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
             }
             break;
 

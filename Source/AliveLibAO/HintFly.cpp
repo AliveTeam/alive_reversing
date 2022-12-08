@@ -1434,7 +1434,7 @@ HintFly::HintFly(relive::Path_HintFly* pTlv, const Guid& tlvId)
     }
     else
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -1453,7 +1453,7 @@ void HintFly::InitParticle(HintFlyParticle* pParticle)
 
 void HintFly::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 HintFly::~HintFly()
@@ -1583,7 +1583,7 @@ void HintFly::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     switch (field_112_state)

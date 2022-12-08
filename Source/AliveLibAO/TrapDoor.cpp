@@ -143,7 +143,7 @@ void TrapDoor::VScreenChanged()
 {
     if (gMap.LevelChanged() || gMap.PathChanged())
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
         if (mSelfClosing == relive::reliveChoice::eYes)
         {
             SwitchStates_Set(mSwitchId, mStartState == 0);
@@ -198,7 +198,7 @@ void TrapDoor::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     const CameraPos direction = gMap.GetDirection(

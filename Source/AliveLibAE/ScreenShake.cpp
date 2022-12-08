@@ -9,7 +9,7 @@
  {
     SetType(ReliveTypes::eScreenShake);
 
-    mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
+    SetDrawable(true);
 
     mSofterShakes = softerShakes;
     mShakeNumber = 16;
@@ -139,7 +139,7 @@ void ScreenShake::VRender(PrimHeader** ppOt)
 
         if (!mShakeNumber)
         {
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
         }
     }
 }

@@ -27,7 +27,7 @@ OneShotSwitchIdSetter::OneShotSwitchIdSetter(Path_OneShotSwitchIdSetter* pTlv, c
 
 void OneShotSwitchIdSetter::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 } // namespace AO

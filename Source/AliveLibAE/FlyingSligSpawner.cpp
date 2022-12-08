@@ -79,11 +79,11 @@ void FlyingSligSpawner::VUpdate()
     }
 
     BaseGameObject* pCurrentSlig = sObjectIds.Find_Impl(field_24_spawned_slig_id);
-    if (!EventGet(kEventDeathReset) && !mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+    if (!EventGet(kEventDeathReset) && !GetDead())
     {
         if (field_3C_bSpawned)
         {
-            if (!pCurrentSlig || pCurrentSlig->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+            if (!pCurrentSlig || pCurrentSlig->GetDead())
             {
                 SwitchStates_Do_Operation(field_28_spawner_switch_id, relive::reliveSwitchOp::eSetFalse);
                 field_24_spawned_slig_id = Guid{};
@@ -101,14 +101,14 @@ void FlyingSligSpawner::VUpdate()
 
             if (!pFlyingSligTlv)
             {
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
                 return;
             }
 
             auto pNewSlig = relive_new FlyingSlig(pFlyingSligTlv, mTlvId);
             if (!pNewSlig)
             {
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
                 return;
             }
 

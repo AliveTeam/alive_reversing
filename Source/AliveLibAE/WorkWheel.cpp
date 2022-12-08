@@ -120,7 +120,7 @@ void WorkWheel::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (mState == WheelStates::eTurning_1)
@@ -169,7 +169,7 @@ void WorkWheel::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath || mState == WheelStates::eIdle_0)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 

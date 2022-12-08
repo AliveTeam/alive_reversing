@@ -86,7 +86,7 @@ ParamiteWebLine::ParamiteWebLine(relive::Path_ParamiteWebLine* pTlv, const Guid&
     }
     else
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     field_F4_anim_segment_count = (field_F6_piece_length + field_FA_bottom - field_F8_top) / field_F6_piece_length;
@@ -125,7 +125,7 @@ ParamiteWebLine::ParamiteWebLine(relive::Path_ParamiteWebLine* pTlv, const Guid&
     }
     else
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eListAddFailed_Bit1);
+        SetListAddFailed(true);
     }
 }
 
@@ -265,5 +265,5 @@ void ParamiteWebLine::VRender(PrimHeader** ppOt)
 
 void ParamiteWebLine::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }

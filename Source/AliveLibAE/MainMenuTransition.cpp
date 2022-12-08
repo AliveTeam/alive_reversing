@@ -52,7 +52,7 @@ MainMenuTransition::MainMenuTransition(Layer layer, s32 fadeDirection, s32 bKill
 
     gObjListDrawables->Push_Back(this);
 
-    mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
+    SetDrawable(true);
 
     Init_SetTPage(&field_22C_tPage[0], 0, 1, PSX_getTPage(abr));
     Init_SetTPage(&field_22C_tPage[1], 0, 1, PSX_getTPage(abr));
@@ -238,7 +238,7 @@ void MainMenuTransition::VRender(PrimHeader** ppOt)
         field_26_bDone = 1;
         if (field_28_bKillOnDone)
         {
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
         }
     }
 }
@@ -252,6 +252,6 @@ void MainMenuTransition::VScreenChanged()
 {
     if (gMap.LevelChanged() || gMap.PathChanged())
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }

@@ -83,7 +83,7 @@ void InvisibleSwitch::VUpdate()
 
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -92,6 +92,6 @@ void InvisibleSwitch::VScreenChanged()
     BaseGameObject::VScreenChanged();
     if (field_38_state != States::eWaitForDelayTimer_1)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }

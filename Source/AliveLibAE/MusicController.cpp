@@ -359,7 +359,7 @@ void MusicController::Shutdown()
 {
     if (gMusicController)
     {
-        gMusicController->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        gMusicController->SetDead(true);
         gMusicController = nullptr;
         //nullsub_8(); // TODO: Check if PSX stub
         //sub_4FBAD0(dword_5C3028); // Some other likely strange PSX specific thing that does nothing

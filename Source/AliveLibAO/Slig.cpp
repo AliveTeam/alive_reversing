@@ -410,7 +410,7 @@ void Slig::VScreenChanged()
     if (gMap.LevelChanged()
         || (gMap.PathChanged() && this != sControlledCharacter))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -886,7 +886,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eElectrocute:
             if (mHealth > FP_FromInteger(0))
             {
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
                 mHealth = FP_FromInteger(0);
                 EventBroadcast(kEventMudokonComfort, sActiveHero);
             }
@@ -1100,7 +1100,7 @@ void Slig::ShouldStillBeAlive()
                 if (field_1F4_points_count <= 0)
                 {
                     // No patrol points, die
-                    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                    SetDead(true);
                 }
                 else
                 {
@@ -1115,7 +1115,7 @@ void Slig::ShouldStillBeAlive()
                         if (i >= field_1F4_points_count)
                         {
                             // No within any out our patrol points, die
-                            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                            SetDead(true);
                             break;
                         }
                         i++;
@@ -1672,7 +1672,7 @@ void Slig::CheckPlatformVanished()
     BaseGameObject* pLiftPoint = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
     if (pLiftPoint)
     {
-        if (pLiftPoint->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+        if (pLiftPoint->GetDead())
         {
             // Platform is somehow gone, fall.
             const auto oldMotion = mCurrentMotion;
@@ -3625,7 +3625,7 @@ void Slig::Motion_39_OutToFall()
     const FP fallDepth = mYPos - BaseAliveGameObjectLastLineYPos;
     if (fallDepth > FP_FromInteger(16 * 640))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (mCurrentMotion == eSligMotions::Motion_41_LandingSoft)
@@ -3974,7 +3974,7 @@ s16 Slig::Brain_Paused()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(Options::eDead);
+        SetDead(true);
     }
 
     switch (mBrainSubState)
@@ -4024,7 +4024,7 @@ s16 Slig::Brain_Paused()
                     mYPos,
                     0))
             {
-                mBaseGameObjectFlags.Set(Options::eDead);
+                SetDead(true);
             }
             return mBrainSubState;
 
@@ -4068,7 +4068,7 @@ s16 Slig::Brain_EnemyDead()
             mYPos,
             0))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
         return 113;
     }
 
@@ -4262,7 +4262,7 @@ s16 Slig::Brain_Sleeping()
 
     ShouldStillBeAlive();
 
-    if (mBaseGameObjectFlags.Get(Options::eDead))
+    if (GetDead())
     {
         Start_Slig_sounds(gMap.GetDirection(
                                      mCurrentLevel,
@@ -4364,7 +4364,7 @@ s16 Slig::Brain_Possessed()
             {
                 if (sControlledCharacter != this)
                 {
-                    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                    SetDead(true);
                 }
             }
 
@@ -4381,7 +4381,7 @@ s16 Slig::Brain_Possessed()
             {
                 if (sControlledCharacter != this)
                 {
-                    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                    SetDead(true);
                 }
             }
 
@@ -4421,7 +4421,7 @@ s16 Slig::Brain_Death_46C3A0()
     }
     else if (!GetAnimation().mFlags.Get(AnimFlags::eRender))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (sControlledCharacter == this)
@@ -4449,13 +4449,13 @@ s16 Slig::Brain_Death_46C3A0()
                 mYPos,
                 0))
         {
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
         }
     }
 
     if (GetSpriteScale() < FP_FromInteger(0))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     return 116;
@@ -4506,7 +4506,7 @@ s16 Slig::Brain_DeathDropDeath()
                     sControlledCharacter = sActiveHero;
                     gMap.SetActiveCam(mAbeLevel, mAbePath, mAbeCamera, CameraSwapEffects::eInstantChange_0, 0, 0);
                 }
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
             }
             return mBrainSubState;
 
@@ -4529,7 +4529,7 @@ s16 Slig::Brain_ReturnControlToAbeAndDie()
             0,
             0);
     }
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
     return 117;
 }
 
@@ -4543,7 +4543,7 @@ s16 Slig::Brain_PanicTurning()
             mYPos,
             0))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
         return 107;
     }
     if (mCurrentMotion != eSligMotions::Motion_5_TurnAroundStanding
@@ -4729,7 +4729,7 @@ s16 Slig::Brain_Chasing()
                 mYPos,
                 0)))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
     else if (gMap.Is_Point_In_Current_Camera(
                  mCurrentLevel,
@@ -4783,7 +4783,7 @@ s16 Slig::Brain_StartChasing()
         if (mCurrentPath != gMap.mCurrentPath
             || mCurrentLevel != gMap.mCurrentLevel)
         {
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
         }
 
         if (!VIsFacingMe(sControlledCharacter))
@@ -4941,7 +4941,7 @@ s16 Slig::Brain_Turning()
             mYPos,
             0))
     {
-        mBaseGameObjectFlags.Set(Options::eDead);
+        SetDead(true);
         return 106;
     }
     if (mCurrentMotion == eSligMotions::Motion_5_TurnAroundStanding
@@ -5375,7 +5375,7 @@ s16 Slig::Brain_ChaseAndDisappear()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (mBrainSubState == Brain_ChaseAndDisappear::eSummoned_0)
@@ -5409,7 +5409,7 @@ s16 Slig::Brain_ChaseAndDisappear()
         {
             return mBrainSubState;
         }
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
         mHealth = FP_FromInteger(0);
         return mBrainSubState;
     }

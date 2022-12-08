@@ -151,7 +151,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
     // The base class renders the head gib
     Animation_Init(GetAnimRes(headGib));
 
-    if (mBaseGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
+    if (GetListAddFailed())
     {
         return;
     }
@@ -177,7 +177,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
     else
     {
         // Not a valid scale
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     field_5D6_bMakeSmaller = bMakeSmaller;
@@ -222,7 +222,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
                     this))
             {
                 mPartsUsedCount = i;
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
                 return;
             }
         }
@@ -234,7 +234,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale, bool b
                     this))
             {
                 mPartsUsedCount = i;
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
                 return;
             }
         }
@@ -314,7 +314,7 @@ void Gibs::VUpdate()
 
     if (static_cast<s32>(sGnFrame) > mAliveTimer)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 

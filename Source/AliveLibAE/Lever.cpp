@@ -110,7 +110,7 @@ void Lever::VScreenChanged()
 {
     if (!mPersistOffscreen || gMap.LevelChanged() || gMap.PathChanged())
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -118,7 +118,7 @@ void Lever::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (mState == LeverState::ePulled_1)

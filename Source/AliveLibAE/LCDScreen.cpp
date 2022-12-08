@@ -198,7 +198,7 @@ LCDScreen::LCDScreen(relive::Path_LCDScreen* params, const Guid& tlvId)
     sFontDrawScreenSpace = 0;
     field_2B4_show_random_message = 1;
     field_2B6_message_rand_min_id = params->mMessageRandMinId;
-    mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
+    SetDrawable(true);
     field_2B8_message_rand_max_id = params->mMessageRandMaxId;
     field_2A8_play_sound_toggle = 0;
     gObjListDrawables->Push_Back(this);
@@ -208,7 +208,7 @@ void LCDScreen::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
 #if LCD_PS1_SPEED
@@ -333,7 +333,7 @@ void LCDScreen::VRender(PrimHeader** ppOt)
 
 void LCDScreen::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 LCDScreen::~LCDScreen()

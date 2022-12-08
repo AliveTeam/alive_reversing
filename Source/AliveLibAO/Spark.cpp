@@ -22,7 +22,7 @@ namespace AO {
 Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 min, s32 max)
     : BaseGameObject(true, 0)
 {
-    mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
+    SetDrawable(true);
 
     SetType(ReliveTypes::eNone);
 
@@ -92,13 +92,13 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 min, s32 max)
     }
     else
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
 Spark::~Spark()
 {
-    if (mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
+    if (GetDrawable())
     {
         gObjListDrawables->Remove_Item(this);
     }
@@ -108,14 +108,14 @@ Spark::~Spark()
 
 void Spark::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 void Spark::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(Options::eDead);
+        SetDead(true);
     }
     if (!gNumCamSwappers)
     {
@@ -137,7 +137,7 @@ void Spark::VUpdate()
         }
         else
         {
-            mBaseGameObjectFlags.Set(Options::eDead);
+            SetDead(true);
         }
     }
 }

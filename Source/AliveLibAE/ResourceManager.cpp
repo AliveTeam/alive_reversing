@@ -62,7 +62,7 @@ void Game_ShowLoadingIcon_482D80()
 
     PSX_SetDefDispEnv_4F55A0(&dispBuffer.mDisplayEnv);
     PSX_PutDispEnv_4F5890();
-    pParticle->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    pParticle->SetDead(true);
     bHideLoadingIcon_5C1BAA = 1;
 }
 

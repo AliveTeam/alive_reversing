@@ -286,7 +286,7 @@ void Drill::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     const CameraPos soundDirection = gMap.GetDirection(mCurrentLevel, mCurrentPath, mXPos, mYPos);
@@ -491,7 +491,7 @@ void Drill::VScreenChanged()
     }
     */
 
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 void Drill::VRender(PrimHeader** ppOt)
@@ -636,7 +636,7 @@ s16 Drill::DamageTouchingObjects()
 
         if (pObj->GetIsBaseAliveGameObject() || pObj->Type() == ReliveTypes::eRockSpawner)
         {
-            if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
+            if (pObj->GetDrawable())
             {
                 if (pObj->Type() != ReliveTypes::eMeat && pObj->Type() != ReliveTypes::eEvilFart && (pObj->Type() != ReliveTypes::eAbe || pObj->mCurrentMotion != eAbeMotions::Motion_68_ToOffScreenHoist_454B80))
                 {

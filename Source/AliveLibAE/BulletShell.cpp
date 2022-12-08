@@ -16,8 +16,8 @@ BulletShell::BulletShell(FP xpos, FP ypos, s16 direction, FP scale)
 
     if (sShellCount >= 11)
     {
-        mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDrawable(false);
+        SetDead(true);
     }
     else
     {
@@ -64,7 +64,7 @@ BulletShell::~BulletShell()
 
 void BulletShell::VUpdate()
 {
-    if (mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+    if (GetDead())
     {
         return;
     }
@@ -116,11 +116,11 @@ void BulletShell::VUpdate()
 
     if (!gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (mFloorBounceCount >= 3)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }

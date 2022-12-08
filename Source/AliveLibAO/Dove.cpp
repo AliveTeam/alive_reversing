@@ -209,7 +209,7 @@ void Dove::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (!bTheOneControllingTheMusic)
@@ -299,7 +299,7 @@ void Dove::VUpdate()
         {
             if (static_cast<s32>(sGnFrame) > mJoinDeadTimer)
             {
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
             }
 
             const FP k4Directed = GetAnimation().mFlags.Get(AnimFlags::eFlipX) ? FP_FromInteger(4) : FP_FromInteger(-4);
@@ -345,13 +345,13 @@ void Dove::VUpdate()
     const s32 doveScreenYPos = FP_GetExponent(FP_Abs(mYPos - pScreenManager->mCamPos->y));
     if (doveScreenYPos > pScreenManager->mCamYOff)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     const s32 doveScreenXPos = FP_GetExponent(FP_Abs(mXPos - pScreenManager->mCamPos->x));
     if (doveScreenXPos > pScreenManager->mCamXOff)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 

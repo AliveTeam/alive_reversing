@@ -58,7 +58,7 @@ CameraSwapper::~CameraSwapper()
 
     if (field_34_pSubObject)
     {
-        field_34_pSubObject->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        field_34_pSubObject->SetDead(true);
     }
 
     if (sMap_bDoPurpleLightEffect)
@@ -95,9 +95,9 @@ void CameraSwapper::Init(CamResource& ppCamRes, CameraSwapEffects changeEffect)
 
     if (gNumCamSwappers != 1)
     {
-        mBaseGameObjectFlags.Clear(BaseGameObject::eUpdatable_Bit2);
-        mBaseGameObjectFlags.Set(BaseGameObject::eListAddFailed_Bit1);
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetUpdatable(false);
+        SetListAddFailed(true);
+        SetDead(true);
 
         // There can only be 1 active at a time
         return;
@@ -110,7 +110,7 @@ void CameraSwapper::Init(CamResource& ppCamRes, CameraSwapEffects changeEffect)
     switch (changeEffect)
     {
         case CameraSwapEffects::eInstantChange_0:
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
             field_34_pSubObject = nullptr;
             return;
 
@@ -258,7 +258,7 @@ void CameraSwapper::Init(CamResource& ppCamRes, CameraSwapEffects changeEffect)
 
 void CameraSwapper::VUpdate()
 {
-    if (mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+    if (GetDead())
     {
         return;
     }
@@ -272,7 +272,7 @@ void CameraSwapper::VUpdate()
             if (field_3A_current_slice < 0 || field_3A_current_slice >= field_3E_total_slices)
             {
                 // All slices done
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
                 return;
             }
 
@@ -294,7 +294,7 @@ void CameraSwapper::VUpdate()
             if (field_3A_current_slice < 0 || field_3A_current_slice >= field_3E_total_slices)
             {
                 // All slices done
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
                 return;
             }
 
@@ -311,7 +311,7 @@ void CameraSwapper::VUpdate()
             if (field_3A_current_slice < 0 || field_3A_current_slice > field_3E_total_slices)
             {
                 // All slices done
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
                 return;
             }
 
@@ -328,7 +328,7 @@ void CameraSwapper::VUpdate()
             if (field_3A_current_slice < 0 || field_3A_current_slice > field_3E_total_slices)
             {
                 // All slices done
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
                 return;
             }
 
@@ -345,7 +345,7 @@ void CameraSwapper::VUpdate()
             if (field_3A_current_slice < 0 || field_3A_current_slice > field_3E_total_slices)
             {
                 // All slices done
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
                 return;
             }
 
@@ -386,7 +386,7 @@ void CameraSwapper::VUpdate()
                 pScreenManager->DecompressCameraToVRam(field_30_ppCamRes);
             }
 
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
         }
         break;
 

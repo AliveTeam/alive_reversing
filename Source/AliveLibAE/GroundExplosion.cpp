@@ -164,7 +164,7 @@ void GroundExplosion::VUpdate()
     if (GetAnimation().mFlags.Get(AnimFlags::eForwardLoopCompleted)) // Animation ended
     {
         // Time to die
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 

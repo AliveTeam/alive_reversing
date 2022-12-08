@@ -133,7 +133,7 @@ void SlapLock::VScreenChanged()
     {
         GiveInvisibility();
     }
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 void SlapLock::GiveInvisibility()
@@ -180,7 +180,7 @@ void SlapLock::VUpdate()
 
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
     else
     {
@@ -444,7 +444,7 @@ s16 SlapLock::VTakeDamage(BaseGameObject* pFrom)
         return 0;
     }
 
-    if (mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+    if (GetDead())
     {
         return 0;
     }

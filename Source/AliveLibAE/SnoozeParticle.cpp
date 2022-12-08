@@ -71,7 +71,7 @@ const PSX_Point explosionVerts[6][2] = {
 SnoozeParticle::SnoozeParticle(FP xpos, FP ypos, Layer layer, FP scale)
     : BaseGameObject(true, 0)
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
+    SetDrawable(true);
 
     SetType(ReliveTypes::eSnoozeParticle);
     gObjListDrawables->Push_Back(this);
@@ -103,7 +103,7 @@ SnoozeParticle::SnoozeParticle(FP xpos, FP ypos, Layer layer, FP scale)
 
 SnoozeParticle::~SnoozeParticle()
 {
-    if (mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
+    if (GetDrawable())
     {
         gObjListDrawables->Remove_Item(this);
     }
@@ -113,7 +113,7 @@ void SnoozeParticle::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
     if (!gNumCamSwappers)
     {
@@ -165,7 +165,7 @@ void SnoozeParticle::VUpdate()
                 else
                 {
                     SfxPlayMono(relive::SoundEffects::ZPop, 0, mSpriteScale);
-                    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                    SetDead(true);
                 }
                 break;
         }
@@ -267,5 +267,5 @@ void SnoozeParticle::VRender(PrimHeader** ppOt)
 
 void SnoozeParticle::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }

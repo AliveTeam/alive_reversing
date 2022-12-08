@@ -103,7 +103,7 @@ SecurityDoor::~SecurityDoor()
 
 void SecurityDoor::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 s16 SecurityDoor::IsPlayerNear()
@@ -128,7 +128,7 @@ void SecurityDoor::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     switch (field_F8_state)

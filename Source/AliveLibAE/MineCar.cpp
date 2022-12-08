@@ -179,7 +179,7 @@ s32 MineCar::CreateFromSaveState(const u8* pBuffer)
         pMineCar->GetAnimation().mFlags.Set(AnimFlags::eFlipX, pState->field_22_xFlip & 1);
         pMineCar->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->field_2E_render & 1);
 
-        pMineCar->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_2F_drawable & 1);
+        pMineCar->SetDrawable(pState->field_2F_drawable & 1);
 
         if (IsLastFrame(&pMineCar->GetAnimation()))
         {
@@ -271,7 +271,7 @@ void MineCar::LoadAnimation(Animation* pAnim)
     }
     else
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eListAddFailed_Bit1);
+        SetListAddFailed(true);
     }
 }
 
@@ -665,7 +665,7 @@ void MineCar::RunThingsOver()
 
 s16 MineCar::VTakeDamage(BaseGameObject* /*pFrom*/)
 {
-    return !mBaseGameObjectFlags.Get(BaseGameObject::eDead);
+    return !GetDead();
 }
 
 s32 MineCar::VGetSaveState(u8* pSaveBuffer)
@@ -693,7 +693,7 @@ s32 MineCar::VGetSaveState(u8* pSaveBuffer)
     pState->field_2A_current_anim_frame = static_cast<s16>(GetAnimation().GetCurrentFrame());
     pState->field_2C_frame_change_counter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
 
-    pState->field_2F_drawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
+    pState->field_2F_drawable = GetDrawable();
     pState->field_22_xFlip = GetAnimation().mFlags.Get(AnimFlags::eFlipX);
     pState->field_2E_render = GetAnimation().mFlags.Get(AnimFlags::eRender);
 
@@ -824,7 +824,7 @@ void MineCar::VUpdate()
 
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     const FP kGridSize = ScaleToGridSize(GetSpriteScale());

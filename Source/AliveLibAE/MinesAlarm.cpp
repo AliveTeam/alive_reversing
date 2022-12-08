@@ -51,7 +51,7 @@ void MinesAlarm::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -59,7 +59,7 @@ void MinesAlarm::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (gExplosionTimer > 0)
@@ -76,6 +76,6 @@ void MinesAlarm::VUpdate()
             relive_new ExplosionSet();
         }
         gExplosionSet->Start();
-        mBaseGameObjectFlags.Clear(BaseGameObject::eUpdatable_Bit2);
+        SetUpdatable(false);
     }
 }

@@ -42,7 +42,7 @@ DeathGas::DeathGas(Layer layer, s32 amount)
 
     SetType(ReliveTypes::eFade); // wot moment
     gObjListDrawables->Push_Back(this);
-    mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
+    SetDrawable(true);
     mDone = false;
 
     for (s32 i = 0; i < 2; i++)
@@ -94,7 +94,7 @@ void DeathGas::VScreenChanged()
 {
     if (gMap.LevelChanged() || gMap.PathChanged() || !sActiveHero)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -102,7 +102,7 @@ void DeathGas::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (!mDone)

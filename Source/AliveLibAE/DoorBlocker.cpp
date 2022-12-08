@@ -38,7 +38,7 @@ DoorBlocker::DoorBlocker(relive::Path_DoorBlocker* pTlv, const Guid& tlvId)
 
     if (SwitchStates_Get(mSwitchId))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
@@ -59,16 +59,16 @@ void DoorBlocker::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
-    if (!mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+    if (!GetDead())
     {
         if (mDone)
         {
             if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
             }
         }
         else if (SwitchStates_Get(mSwitchId))

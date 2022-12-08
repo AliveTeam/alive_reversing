@@ -111,7 +111,7 @@ void HoneySack::VScreenChanged()
 {
     if (gMap.LevelChanged() || gMap.PathChanged())
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -125,12 +125,12 @@ void HoneySack::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(Options::eDead);
+        SetDead(true);
     }
 
     if (mBeeSwarm)
     {
-        if (mBeeSwarm->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+        if (mBeeSwarm->GetDead())
         {
             mBeeSwarm->mBaseGameObjectRefCount--;
             mBeeSwarm = nullptr;
@@ -153,7 +153,7 @@ void HoneySack::VUpdate()
                     mYPos,
                     0))
             {
-                mBaseGameObjectFlags.Set(Options::eDead);
+                SetDead(true);
             }
             break;
 
@@ -217,7 +217,7 @@ void HoneySack::VUpdate()
                 if (mBeeSwarm)
                 {
                     mBeeSwarm->mBaseGameObjectRefCount--;
-                    mBeeSwarm->mBaseGameObjectFlags.Set(Options::eDead);
+                    mBeeSwarm->SetDead(true);
                     mBeeSwarm = nullptr;
                 }
 
@@ -231,7 +231,7 @@ void HoneySack::VUpdate()
 
                     if (pObj->Type() == ReliveTypes::eHoney)
                     {
-                        pObj->mBaseGameObjectFlags.Set(Options::eDead);
+                        pObj->SetDead(true);
                         mHitGround = 1;
                         return;
                     }
@@ -253,7 +253,7 @@ void HoneySack::VUpdate()
 
                     if (pObj->Type() == ReliveTypes::eHoney)
                     {
-                        pObj->mBaseGameObjectFlags.Set(Options::eDead);
+                        pObj->SetDead(true);
                         mHitGround = 1;
                         break;
                     }
@@ -267,7 +267,7 @@ void HoneySack::VUpdate()
                     mYPos,
                     0))
             {
-                mBaseGameObjectFlags.Set(Options::eDead);
+                SetDead(true);
             }
             break;
 

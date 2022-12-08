@@ -157,7 +157,7 @@ void UXB::InitBlinkAnim()
     }
     else
     {
-        mBaseGameObjectFlags.Set(Options::eListAddFailed_Bit1);
+        SetListAddFailed(true);
     }
 }
 
@@ -231,24 +231,24 @@ void UXB::VScreenChanged()
         if (mStartingState == UXBState::eDeactivated && mCurrentState != UXBState::eDeactivated)
         {
             Path::TLV_Reset(mTlvInfo, 1, 1, 0);
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
         }
         else if (mStartingState != UXBState::eDelay || mCurrentState != UXBState::eDeactivated)
         {
             Path::TLV_Reset(mTlvInfo, 0, 1, 0);
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
         }
         else
         {
             Path::TLV_Reset(mTlvInfo, 1, 1, 0);
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
         }
     }
 }
 
 s16 UXB::VTakeDamage(BaseGameObject* pFrom)
 {
-    if (mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+    if (GetDead())
     {
         return 0;
     }
@@ -271,7 +271,7 @@ s16 UXB::VTakeDamage(BaseGameObject* pFrom)
             return 0;
     }
 
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 
     relive_new GroundExplosion(mXPos, mYPos, GetSpriteScale());
 
@@ -285,7 +285,7 @@ void UXB::VOnThrowableHit(BaseGameObject* /*pFrom*/)
 {
     relive_new GroundExplosion(mXPos, mYPos, GetSpriteScale());
     mCurrentState = UXBState::eExploding;
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
     mNextStateTimer = sGnFrame;
 }
 
@@ -375,7 +375,7 @@ void UXB::VUpdate()
             if (sGnFrame >= mNextStateTimer)
             {
                 relive_new GroundExplosion(mXPos, mYPos, GetSpriteScale());
-                mBaseGameObjectFlags.Set(Options::eDead);
+                SetDead(true);
             }
             break;
     }
@@ -399,7 +399,7 @@ void UXB::VUpdate()
             {
                 Path::TLV_Reset(mTlvInfo, 1, 1, 0);
             }
-            mBaseGameObjectFlags.Set(Options::eDead);
+            SetDead(true);
         }
     }
 }

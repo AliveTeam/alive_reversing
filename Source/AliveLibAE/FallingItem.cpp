@@ -191,7 +191,7 @@ void FallingItem::VScreenChanged()
 	|| gMap.mCurrentPath != gMap.mNextPath 
         || mState != State::eFalling_3)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -199,7 +199,7 @@ void FallingItem::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     // The primary item controls the main sound effects, otherwise there would be a crazy amount of smashing sounds
@@ -392,7 +392,7 @@ void FallingItem::VUpdate()
 
             if ((mMaxFallingItems > 0 && mRemainingFallingItems <= 0) || !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mTlvXPos, mTlvYPos, 0))
             {
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
             }
             else
             {

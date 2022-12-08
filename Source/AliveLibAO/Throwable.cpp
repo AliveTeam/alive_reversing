@@ -84,7 +84,7 @@ void BaseThrowable::BaseAddToPlatform()
 
 void BaseThrowable::VToDead()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
     mBaseThrowableDead = true;
 }
 

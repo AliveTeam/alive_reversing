@@ -185,7 +185,7 @@ void Scrab::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (!(field_188_flags & 8))
@@ -333,7 +333,7 @@ s16 Scrab::VTakeDamage(BaseGameObject* pFrom)
                     mVelY,
                     GetSpriteScale());
 
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
                 return 1;
             }
 
@@ -361,7 +361,7 @@ void Scrab::VOnTlvCollision(relive::Path_TLV* pTlv)
         if (pTlv->mTlvType == ReliveTypes::eDeathDrop)
         {
             Scrab_SFX(ScrabSounds::eYell_8, 127, -1000, 0);
-            mBaseGameObjectFlags.Set(Options::eDead);
+            SetDead(true);
             mHealth = FP_FromInteger(0);
         }
 
@@ -380,13 +380,13 @@ void Scrab::VScreenChanged()
     {
         SetTarget(nullptr);
         SetFightTarget(nullptr);
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
     else
     {
         if (mAbeOrMudTarget)
         {
-            if (mAbeOrMudTarget->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+            if (mAbeOrMudTarget->GetDead())
             {
                 SetTarget(nullptr);
                 mNextMotion = eScrabMotions::Motion_1_Stand;
@@ -1967,11 +1967,11 @@ s16 Scrab::Brain_Fighting()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(Options::eDead);
+        SetDead(true);
     }
 
     Scrab* pFighter = mScrabTarget;
-    if (pFighter && (pFighter->mBaseGameObjectFlags.Get(BaseGameObject::eDead) || !VOnSameYLevel(mScrabTarget)))
+    if (pFighter && (pFighter->GetDead() || !VOnSameYLevel(mScrabTarget)))
     {
         SetFightTarget(nullptr);
         field_188_flags &= ~1u;
@@ -2284,7 +2284,7 @@ s16 Scrab::Brain_BatDeath()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     switch (mBrainSubState)
@@ -2359,7 +2359,7 @@ s16 Scrab::Brain_Death()
 
     if (field_118_timer < static_cast<s32>(sGnFrame))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     return 100;
@@ -2375,7 +2375,7 @@ s16 Scrab::Brain_ChasingEnemy()
 
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(Options::eDead);
+        SetDead(true);
     }
 
     auto pFightTarget = FindScrabToFight();
@@ -2388,7 +2388,7 @@ s16 Scrab::Brain_ChasingEnemy()
         return 0;
     }
 
-    if (mAbeOrMudTarget->mBaseGameObjectFlags.Get(BaseGameObject::eDead)
+    if (mAbeOrMudTarget->GetDead()
         || (field_13C_spotting_timer <= static_cast<s32>(sGnFrame)
             && !CanSeeAbe(mAbeOrMudTarget)
             && mAbeOrMudTarget->mHealth > FP_FromInteger(0)
@@ -3050,7 +3050,7 @@ s16 Scrab::Brain_Patrol()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(Options::eDead);
+        SetDead(true);
     }
 
     auto pFightTarget = FindScrabToFight();
@@ -3377,7 +3377,7 @@ s16 Scrab::Brain_WalkAround()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(Options::eDead);
+        SetDead(true);
     }
 
     auto pFightTarget = FindScrabToFight();

@@ -197,7 +197,7 @@ void FootSwitch::VUpdate()
 
             // Have they left the switch or died?
             if (!pLastStoodOnMe || // OG bug: If thing on the switch had died this would de-ref null and crash
-                pLastStoodOnMe->mXPos < FP_FromInteger(bRect.x) || pLastStoodOnMe->mXPos > FP_FromInteger(bRect.w) || pLastStoodOnMe->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+                pLastStoodOnMe->mXPos < FP_FromInteger(bRect.x) || pLastStoodOnMe->mXPos > FP_FromInteger(bRect.w) || pLastStoodOnMe->GetDead())
             {
                 mState = States::eWaitForStepOnMe;
                 GetAnimation().Set_Animation_Data(GetAnimRes(sFootSwitchData_547D60[static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel))][0]));
@@ -213,7 +213,7 @@ void FootSwitch::VUpdate()
 
 void FootSwitch::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe()

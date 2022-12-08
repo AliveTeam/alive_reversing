@@ -215,7 +215,7 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, Map* pPath, const Guid& tlvId
     }
     else
     {
-        mBaseGameObjectFlags.Set(Options::eListAddFailed_Bit1);
+        SetListAddFailed(true);
     }
 }
 
@@ -549,7 +549,7 @@ void LiftPoint::VUpdate()
     {
         if (mPlatformBaseCount <= 0)
         {
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
         }
     }
 }
@@ -671,12 +671,12 @@ void LiftPoint::VScreenChanged()
 
     if (gMap.mCurrentLevel != gMap.mNextLevel)
     {
-        mBaseGameObjectFlags.Set(Options::eDead);
+        SetDead(true);
     }
 
     if (gMap.mCurrentPath != gMap.mNextPath)
     {
-        mBaseGameObjectFlags.Set(Options::eDead);
+        SetDead(true);
     }
 }
 
@@ -734,7 +734,7 @@ void LiftPoint::CreatePulleyIfExists(s16 camX, s16 camY)
 
 LiftPoint::~LiftPoint()
 {
-    if (mBaseGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
+    if (GetListAddFailed())
     {
         return;
     }
@@ -742,13 +742,13 @@ LiftPoint::~LiftPoint()
     if (field_134_pRope2)
     {
         field_134_pRope2->mBaseGameObjectRefCount--;
-        field_134_pRope2->mBaseGameObjectFlags.Set(Options::eDead);
+        field_134_pRope2->SetDead(true);
     }
 
     if (field_138_pRope1)
     {
         field_138_pRope1->mBaseGameObjectRefCount--;
-        field_138_pRope1->mBaseGameObjectFlags.Set(Options::eDead);
+        field_138_pRope1->SetDead(true);
     }
 
     field_134_pRope2 = nullptr;

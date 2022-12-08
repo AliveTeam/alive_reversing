@@ -12,7 +12,7 @@ DemoPlayback::DemoPlayback()
 {
     if (sDemoObj_dword_5D1E20)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
     else
     {
@@ -62,6 +62,6 @@ void DemoPlayback::VUpdate()
         }
 
         gMap.mFreeAllAnimAndPalts = 1;
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }

@@ -92,7 +92,7 @@ void MusicTrigger::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mNextLevel)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -100,7 +100,7 @@ void MusicTrigger::VUpdate()
 {
     if (EventGet(kEventHeroDying))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (field_24_flags.Get(Flags_24::e24_Bit1_TriggeredByTouching))
@@ -127,7 +127,7 @@ void MusicTrigger::VUpdate()
         }
         else
         {
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
         }
     }
     else

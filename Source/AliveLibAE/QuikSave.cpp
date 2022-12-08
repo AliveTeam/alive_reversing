@@ -477,7 +477,7 @@ void Quicksave_SaveToMemory_4C91A0(Quicksave* pSave)
                 break;
             }
 
-            if (!(pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead)))
+            if (!(pObj->GetDead()))
             {
                 pDataIter += pObj->VGetSaveState(pDataIter);
             }

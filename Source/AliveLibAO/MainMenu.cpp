@@ -320,7 +320,7 @@ MainMenuFade::MainMenuFade(s32 xpos, s32 ypos, buttonType buttonType, s32 bDestr
         }
         if (pObj->Type() == ReliveTypes::MainMenuFade && pObj != this && static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj)->mXPos == mXPos && static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj)->mYPos == mYPos)
         {
-            pObj->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            pObj->SetDead(true);
         }
     }
 }
@@ -336,7 +336,7 @@ void MainMenuFade::VUpdate()
 
         if (field_E8_bDestroyOnDone)
         {
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
         }
     }
 
@@ -405,7 +405,7 @@ void MainMenuTransition::VScreenChanged()
 {
     if (gMap.LevelChanged() || gMap.PathChanged())
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -438,7 +438,7 @@ MainMenuTransition::MainMenuTransition(Layer layer, s32 fadeDirection, s32 bKill
 
     gObjListDrawables->Push_Back(this);
 
-    mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
+    SetDrawable(true);
 
     for (s32 i = 0; i < 2; i++)
     {
@@ -603,7 +603,7 @@ void MainMenuTransition::VRender(PrimHeader** ppOt)
         field_16_bDone = 1;
         if (field_18_bKillOnDone)
         {
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
         }
     }
 }
@@ -751,19 +751,19 @@ Menu::~Menu()
 
     if (mMenuTrans)
     {
-        mMenuTrans->mBaseGameObjectFlags.Set(Options::eDead);
+        mMenuTrans->SetDead(true);
         mMenuTrans->mBaseGameObjectRefCount--;
         mMenuTrans = nullptr;
     }
 
     if (mMenuFade1)
     {
-        mMenuFade1->mBaseGameObjectFlags.Set(Options::eDead);
+        mMenuFade1->SetDead(true);
     }
 
     if (mMenuFade2)
     {
-        mMenuFade2->mBaseGameObjectFlags.Set(Options::eDead);
+        mMenuFade2->SetDead(true);
     }
 
     gMainMenuInstanceCount--;
@@ -926,9 +926,9 @@ void Menu::FMV_Select_Update()
 
                             if (pObj->Type() == ReliveTypes::eMovie)
                             {
-                                if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eUpdatable_Bit2))
+                                if (pObj->GetUpdatable())
                                 {
-                                    if (!pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && (!gNumCamSwappers || pObj->GetUpdateDuringCamSwap()))
+                                    if (!pObj->GetDead() && (!gNumCamSwappers || pObj->GetUpdateDuringCamSwap()))
                                     {
                                         pObj->VUpdate();
                                     }
@@ -1171,7 +1171,7 @@ void Menu::ProgressInProgressFilesLoading()
         {
             auto pObj = gLoadingFiles->ItemAt(i);
 
-            if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && pObj->mBaseGameObjectRefCount == 0)
+            if (pObj->GetDead() && pObj->mBaseGameObjectRefCount == 0)
             {
                 i = gLoadingFiles->RemoveAt(i);
                 relive_delete pObj;
@@ -1315,7 +1315,7 @@ void Menu::MainScreen_Update()
             if (mMenuTrans)
             {
                 mMenuTrans->mBaseGameObjectRefCount--;
-                mMenuTrans->mBaseGameObjectFlags.Set(Options::eDead);
+                mMenuTrans->SetDead(true);
             }
 
             mMenuTrans = relive_new MainMenuTransition(Layer::eLayer_FadeFlash_40, 1, 0, 16, TPageAbr::eBlend_1);
@@ -1896,7 +1896,7 @@ void Menu::Loading_Update()
                 }
 
                 mMenuTrans->mBaseGameObjectRefCount--;
-                mMenuTrans->mBaseGameObjectFlags.Set(Options::eDead);
+                mMenuTrans->SetDead(true);
                 mMenuTrans = nullptr;
 
                 /*
@@ -1957,7 +1957,7 @@ void Menu::NewGameStart()
             sActiveHero->mYPos = FP_FromInteger(83);
         }
     }
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 void Menu::Options_Update()
@@ -3131,7 +3131,7 @@ void Menu::LoadSave_Update()
     if (mMenuTrans)
     {
         mMenuTrans->mBaseGameObjectRefCount--;
-        mMenuTrans->mBaseGameObjectFlags.Set(Options::eDead);
+        mMenuTrans->SetDead(true);
         mMenuTrans = nullptr;
     }
 
@@ -3156,7 +3156,7 @@ void Menu::LoadSave_Update()
     {
         mFnUpdate = &Menu::SaveLoadFailed_Update;
         mFnRender = &Menu::SaveLoadFailed_Render;
-        sActiveHero->mBaseGameObjectFlags.Set(Options::eDead);
+        sActiveHero->SetDead(true);
     }
 }
 
@@ -3165,7 +3165,7 @@ void Menu::SaveLoadFailed_Update()
     // Kill the pause menu and stay in this state - have to force restart the game when a save fails to load :)
     if (gPauseMenu)
     {
-        gPauseMenu->mBaseGameObjectFlags.Set(Options::eDead);
+        gPauseMenu->SetDead(true);
         gPauseMenu = nullptr;
     }
 }

@@ -115,7 +115,7 @@ void DataConversionUI::VUpdate()
 
     if (mDone)
     {
-        mBaseGameObjectFlags.Set(Options::eDead);
+        SetDead(true);
     }
 
     SetRGB0(&mPoly, 0, 0, 0);

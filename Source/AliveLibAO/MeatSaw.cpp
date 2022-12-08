@@ -157,7 +157,7 @@ MeatSaw::MeatSaw(relive::Path_MeatSaw* pTlv, const Guid& tlvId)
     }
     else
     {
-        mBaseGameObjectFlags.Set(Options::eListAddFailed_Bit1);
+        SetListAddFailed(true);
     }
 }
 
@@ -166,7 +166,7 @@ void MeatSaw::VScreenChanged()
     if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath || !sControlledCharacter || // Can be nullptr during the game ender
         FP_Abs(sControlledCharacter->mXPos - mXPos) > FP_FromInteger(1024))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -174,7 +174,7 @@ void MeatSaw::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     GrindUpObjects_439CD0();
@@ -299,7 +299,7 @@ void MeatSaw::GrindUpObjects_439CD0()
 
         if (pObjIter->GetIsBaseAliveGameObject())
         {
-            if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
+            if (pObjIter->GetDrawable())
             {
                 // Can't grind meat with a meat saw, that would be grindception
                 if (pObjIter->Type() != ReliveTypes::eMeat)

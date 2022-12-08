@@ -48,7 +48,7 @@ HoistRocksEffect::HoistRocksEffect(relive::Path_Hoist* pTlv, const Guid& tlvId)
 
     if (gObjListDrawables->Push_Back(this))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
+        SetDrawable(true);
     }
 
     for (HoistRockParticle& particle : mRocks)
@@ -189,5 +189,5 @@ void HoistRocksEffect::VRender(PrimHeader** ppOt)
 
 void HoistRocksEffect::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }

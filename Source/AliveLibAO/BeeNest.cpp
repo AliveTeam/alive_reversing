@@ -52,7 +52,7 @@ void BeeNest::VScreenChanged()
             mBeeSwarm->mBaseGameObjectRefCount--;
             mBeeSwarm = nullptr;
         }
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -79,7 +79,7 @@ void BeeNest::VUpdate()
             break;
 
         case BeeNestStates::eResetIfDead_1:
-            if (mBeeSwarm->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+            if (mBeeSwarm->GetDead())
             {
                 mState = BeeNestStates::eWaitForTrigger_0;
                 mBeeSwarm->mBaseGameObjectRefCount--;

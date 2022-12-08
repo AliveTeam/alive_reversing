@@ -115,7 +115,7 @@ s32 Meat::CreateFromSaveState(const u8* pBuffer)
     pMeat->GetAnimation().mFlags.Set(AnimFlags::eLoop, pState->mLoop);
     pMeat->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->mRender);
 
-    pMeat->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->mDrawable);
+    pMeat->SetDrawable(pState->mDrawable);
     pMeat->SetInteractive(pState->mInteractive);
 
     pMeat->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eRestoredFromQuickSave);
@@ -142,7 +142,7 @@ void MeatSack::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (GetAnimation().GetCurrentFrame() == 2)
@@ -207,7 +207,7 @@ void MeatSack::VUpdate()
 
 void MeatSack::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 Meat::Meat(FP xpos, FP ypos, s16 count)
@@ -252,7 +252,7 @@ void Meat::VScreenChanged()
 {
     if (gMap.mCurrentPath != gMap.mNextPath || gMap.mCurrentLevel != gMap.mNextLevel)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -441,7 +441,7 @@ void Meat::VUpdate()
     {
         if (EventGet(kEventDeathReset))
         {
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
         }
 
         switch (field_11C_state)
@@ -465,7 +465,7 @@ void Meat::VUpdate()
                 // TODO: OG bug - why only checking for out of the bottom of the map?? Nades check for death object - probably should check both
                 if (mYPos > FP_FromInteger(gMap.mPathData->field_6_bBottom))
                 {
-                    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                    SetDead(true);
                 }
             }
             break;
@@ -526,7 +526,7 @@ void Meat::VUpdate()
                 }
                 if (field_12C_deadtimer < (s32) sGnFrame)
                 {
-                    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                    SetDead(true);
                 }
                 break;
 
@@ -536,7 +536,7 @@ void Meat::VUpdate()
                 mYPos = mVelY + mYPos;
                 if (!gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
                 {
-                    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                    SetDead(true);
                 }
                 break;
 
@@ -567,7 +567,7 @@ s32 Meat::VGetSaveState(u8* pSaveBuffer)
     pState->mLoop = GetAnimation().mFlags.Get(AnimFlags::eLoop);
     pState->mRender = GetAnimation().mFlags.Get(AnimFlags::eRender);
 
-    pState->mDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
+    pState->mDrawable = GetDrawable();
     pState->mInteractive = GetInteractive();
 
     if (field_130_pLine)

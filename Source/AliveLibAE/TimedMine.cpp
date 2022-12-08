@@ -133,18 +133,18 @@ void TimedMine::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (mSlappedMine != 1)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
 s16 TimedMine::VTakeDamage(BaseGameObject* pFrom)
 {
-    if (mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+    if (GetDead())
     {
         return 0;
     }
@@ -156,7 +156,7 @@ s16 TimedMine::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eAirExplosion:
         case ReliveTypes::eShrykull:
         {
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
             relive_new GroundExplosion(mXPos, mYPos, GetSpriteScale());
             mSlappedMine = 1;
             mExplosionTimer = sGnFrame;
@@ -201,7 +201,7 @@ void TimedMine::InitTickAnimation()
     }
     else
     {
-        mBaseGameObjectFlags.Set(Options::eListAddFailed_Bit1);
+        SetListAddFailed(true);
     }
 }
 
@@ -256,7 +256,7 @@ void TimedMine::VUpdate()
     auto pPlatform = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (!mTimedMineFlags.Get(TimedMineFlags::eStickToLiftPoint))
@@ -298,7 +298,7 @@ void TimedMine::VUpdate()
         if (sGnFrame >= mExplosionTimer)
         {
             relive_new GroundExplosion(mXPos, mYPos, GetSpriteScale());
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
         }
     }
 }
@@ -307,7 +307,7 @@ void TimedMine::VOnThrowableHit(BaseGameObject* /*pHitBy*/)
 {
     relive_new GroundExplosion(mXPos, mYPos, GetSpriteScale());
 
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
     mSlappedMine = 1;
     mExplosionTimer = sGnFrame;
 }

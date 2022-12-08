@@ -236,7 +236,7 @@ void Scrab::VOnTlvCollision(relive::Path_TLV* pTlv)
         if (pTlv->mTlvType == ReliveTypes::eDeathDrop)
         {
             Scrab_SFX(ScrabSounds::eYell_8, 127, -1000, 0);
-            mBaseGameObjectFlags.Set(Options::eDead);
+            SetDead(true);
             mHealth = FP_FromInteger(0);
         }
         else if (pTlv->mTlvType == ReliveTypes::eEnemyStopper)
@@ -299,7 +299,7 @@ s32 Scrab::CreateFromSaveState(const u8* pBuffer)
         pScrab->GetAnimation().SetCurrentFrame(pState->field_2A_current_frame);
         pScrab->GetAnimation().SetFrameChangeCounter(pState->field_2C_frame_change_counter);
 
-        pScrab->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_2F_bDrawable & 1);
+        pScrab->SetDrawable(pState->field_2F_bDrawable & 1);
 
         pScrab->GetAnimation().mFlags.Set(AnimFlags::eFlipX, pState->field_26_bAnimFlipX & 1);
         pScrab->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->field_2E_bAnimRender & 1);
@@ -382,7 +382,7 @@ s32 Scrab::VGetSaveState(u8* pSaveBuffer)
     pState->field_28_current_motion = mCurrentMotion;
     pState->field_2A_current_frame = static_cast<s16>(GetAnimation().GetCurrentFrame());
     pState->field_2C_frame_change_counter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
-    pState->field_2F_bDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
+    pState->field_2F_bDrawable = GetDrawable();
     pState->field_2E_bAnimRender = GetAnimation().mFlags.Get(AnimFlags::eRender);
     pState->field_30_health = mHealth;
     pState->field_34_current_motion = mCurrentMotion;
@@ -640,7 +640,7 @@ void Scrab::VUpdate()
 
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
         return;
     }
 
@@ -781,7 +781,7 @@ void Scrab::VUpdate()
     }
     else
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -1146,7 +1146,7 @@ s16 Scrab::Brain_1_ChasingEnemy()
     }
 
     auto pObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mTargetGuid));
-    if (!pObj || mBaseGameObjectFlags.Get(BaseGameObject::eDead) || (static_cast<s32>(sGnFrame) > field_14C_pause_after_chase_timer && !CanSeeAbe(pObj)))
+    if (!pObj || GetDead() || (static_cast<s32>(sGnFrame) > field_14C_pause_after_chase_timer && !CanSeeAbe(pObj)))
     {
         mTargetGuid = Guid{};
         mNextMotion = eScrabMotions::Motion_0_Stand;
@@ -1584,7 +1584,7 @@ s16 Scrab::Brain_ChasingEnemy_State_2_Running(BaseAliveGameObject* pObj)
 s16 Scrab::Brain_2_Fighting()
 {
     auto pTarget = static_cast<Scrab*>(sObjectIds.Find_Impl(mFightTargetId));
-    if (mBrainSubState != Brain_2_Fighting::eBrain2_Battling_10 && mBrainSubState != Brain_2_Fighting::eBrain2_Victorious_11 && mBrainSubState != Brain_2_Fighting::eBrain2_SmashingOpponent_12 && mBrainSubState != Brain_2_Fighting::eBrain2_VictoryYell_13 && (!pTarget || pTarget->mBaseGameObjectFlags.Get(BaseGameObject::eDead) || (WallHit(GetSpriteScale() * FP_FromInteger(45), pTarget->mXPos - mXPos)) || !VOnSameYLevel(pTarget)))
+    if (mBrainSubState != Brain_2_Fighting::eBrain2_Battling_10 && mBrainSubState != Brain_2_Fighting::eBrain2_Victorious_11 && mBrainSubState != Brain_2_Fighting::eBrain2_SmashingOpponent_12 && mBrainSubState != Brain_2_Fighting::eBrain2_VictoryYell_13 && (!pTarget || pTarget->GetDead() || (WallHit(GetSpriteScale() * FP_FromInteger(45), pTarget->mXPos - mXPos)) || !VOnSameYLevel(pTarget)))
     {
         mNextMotion = eScrabMotions::Motion_0_Stand;
         ToPatrol();
@@ -1895,7 +1895,7 @@ s16 Scrab::Brain_3_Death()
 
     if (field_12C_timer < static_cast<s32>(sGnFrame))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     return 0;
@@ -1914,7 +1914,7 @@ s16 Scrab::Brain_4_ShrinkDeath()
 
     if (field_12C_timer < static_cast<s32>(sGnFrame))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     return 0;
@@ -3504,11 +3504,11 @@ void Scrab::VScreenChanged()
 
     if (gMap.LevelChanged() || gMap.PathChanged())
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
     else if (pChaseTarget)
     {
-        if (pChaseTarget->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+        if (pChaseTarget->GetDead())
         {
             mTargetGuid = Guid{};
             mNextMotion = eScrabMotions::Motion_0_Stand;

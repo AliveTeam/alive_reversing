@@ -75,7 +75,7 @@ void PlatformBase::AddDynamicCollision(AnimId animId, relive::Path_TLV* pTlv, Ma
 
     if (!gPlatformsArray->Push_Back(this))
     {
-        mBaseGameObjectFlags.Set(Options::eListAddFailed_Bit1);
+        SetListAddFailed(true);
     }
 }
 

@@ -34,7 +34,7 @@ void Bullet::VUpdate()
 {
     if (!gMap.Is_Point_In_Current_Camera(mBulletLevel, mBulletPath, mXPos, mYPos, 0) && !gMap.Is_Point_In_Current_Camera(mBulletLevel, mBulletPath, mXPos + FP_FromInteger(10), mYPos, 0) && !gMap.Is_Point_In_Current_Camera(mBulletLevel, mBulletPath, mXPos - FP_FromInteger(10), mYPos, 0))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
         return;
     }
 
@@ -132,7 +132,7 @@ void Bullet::VUpdate()
                                 PlayBulletSounds(vol);
                             }
                         }
-                        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                        SetDead(true);
                         return;
                     }
                 }
@@ -158,7 +158,7 @@ void Bullet::VUpdate()
                 {
                     SfxPlayMono(relive::RandomSfx(relive::SoundEffects::Bullet1, relive::SoundEffects::Bullet2), volume);
                 }
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
                 return;
             }
 
@@ -212,7 +212,7 @@ void Bullet::VUpdate()
                         PlayBulletSounds(vol);
                     }
                 }
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
                 return;
             }
 
@@ -220,7 +220,7 @@ void Bullet::VUpdate()
             {
                 SfxPlayMono(relive::RandomSfx(relive::SoundEffects::Bullet1, relive::SoundEffects::Bullet2), volume);
             }
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
             return;
         }
 
@@ -240,7 +240,7 @@ void Bullet::VUpdate()
                     if (pShootObj->Type() != ReliveTypes::eGreeter && pShootObj->Type() != ReliveTypes::eMineCar)
                     {
                         PlayBulletSounds(90);
-                        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                        SetDead(true);
                         return;
                     }
                 }
@@ -260,7 +260,7 @@ void Bullet::VUpdate()
                 New_Smoke_Particles(hitX, hitY, FP_FromInteger(1), 3, RGB16{ 128, 128, 128 });
             }
             SfxPlayMono(relive::RandomSfx(relive::SoundEffects::Bullet1, relive::SoundEffects::Bullet2), 75);
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
             return;
         }
 
@@ -307,12 +307,12 @@ void Bullet::VUpdate()
                 }
                 SfxPlayMono(relive::RandomSfx(relive::SoundEffects::Bullet1, relive::SoundEffects::Bullet2), 75);
             }
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
             return;
         }
 
         default:
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
             return;
     }
 }

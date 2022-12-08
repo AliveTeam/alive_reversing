@@ -82,7 +82,7 @@ void MeatSack::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (GetAnimation().GetCurrentFrame() == 2)
@@ -158,7 +158,7 @@ void MeatSack::VUpdate()
 
 void MeatSack::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 Meat::Meat(FP xpos, FP ypos, s16 count)
@@ -199,7 +199,7 @@ void Meat::VScreenChanged()
 {
     if (gMap.mCurrentPath != gMap.mNextPath || gMap.mCurrentLevel != gMap.mNextLevel)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -375,7 +375,7 @@ void Meat::VUpdate()
     {
         if (EventGet(kEventDeathReset))
         {
-            mBaseGameObjectFlags.Set(Options::eDead);
+            SetDead(true);
         }
 
         // TODO: states enum
@@ -397,7 +397,7 @@ void Meat::VUpdate()
 
                 if (mYPos > FP_FromInteger(gMap.mPathData->field_A_bBottom))
                 {
-                    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                    SetDead(true);
                 }
                 break;
             }
@@ -456,7 +456,7 @@ void Meat::VUpdate()
                 }
                 if (field_120_deadtimer < static_cast<s32>(sGnFrame))
                 {
-                    mBaseGameObjectFlags.Set(Options::eDead);
+                    SetDead(true);
                 }
                 break;
 
@@ -472,7 +472,7 @@ void Meat::VUpdate()
                         mVelY + mYPos,
                         0))
                 {
-                    mBaseGameObjectFlags.Set(Options::eDead);
+                    SetDead(true);
                 }
                 break;
 

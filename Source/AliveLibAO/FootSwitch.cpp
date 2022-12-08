@@ -75,7 +75,7 @@ void FootSwitch::VUpdate()
         {
             const PSX_RECT bRect = VGetBoundingRect();
 
-            if (mStoodOnMe->mXPos < FP_FromInteger(bRect.x) || mStoodOnMe->mXPos > FP_FromInteger(bRect.w) || mStoodOnMe->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+            if (mStoodOnMe->mXPos < FP_FromInteger(bRect.x) || mStoodOnMe->mXPos > FP_FromInteger(bRect.w) || mStoodOnMe->GetDead())
             {
                 mState = States::eWaitForStepOnMe_0;
                 GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Foot_Switch_Temple));
@@ -91,7 +91,7 @@ void FootSwitch::VUpdate()
 
 void FootSwitch::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 BaseAliveGameObject* FootSwitch::WhoIsStoodOnMe()

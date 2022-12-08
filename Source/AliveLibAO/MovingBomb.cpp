@@ -130,13 +130,13 @@ void MovingBomb::VScreenChanged()
 {
     if (field_12A_persist_offscreen == relive::reliveChoice::eNo || gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
 s16 MovingBomb::VTakeDamage(BaseGameObject* pFrom)
 {
-    if (mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+    if (GetDead())
     {
         return 1;
     }
@@ -277,7 +277,7 @@ void MovingBomb::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(Options::eDead);
+        SetDead(true);
     }
 
     if (field_10C_state == States::eTriggeredByAlarm_0 || field_10C_state == States::eTriggeredBySwitch_1 || field_10C_state == States::eMoving_2 || field_10C_state == States::eStopMoving_3 || field_10C_state == States::eWaitABit_4 || field_10C_state == States::eToMoving_5)
@@ -443,7 +443,7 @@ void MovingBomb::VUpdate()
         case States::eKillMovingBomb_7:
             if (field_114_timer <= static_cast<s32>(sGnFrame))
             {
-                mBaseGameObjectFlags.Set(Options::eDead);
+                SetDead(true);
             }
             break;
 

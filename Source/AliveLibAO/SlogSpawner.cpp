@@ -14,7 +14,7 @@ namespace AO {
 void SlogSpawner::VScreenChanged()
 {
     Path::TLV_Reset(mTlvInfo, mSpawnedSlogsCount, 0, 0);
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 SlogSpawner::SlogSpawner(relive::Path_SlogSpawner* pTlv, const Guid& tlvId)
@@ -40,7 +40,7 @@ void SlogSpawner::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (static_cast<s32>(sGnFrame) > mSpawnTimer && gNumSlogs_9F11C8 < mMaxSlogsAtATime)
@@ -65,7 +65,7 @@ void SlogSpawner::VUpdate()
             if (mSpawnedSlogsCount >= mMaxSlogs)
             {
                 Path::TLV_Reset(mTlvInfo, mSpawnedSlogsCount, 0, 1);
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
             }
         }
     }

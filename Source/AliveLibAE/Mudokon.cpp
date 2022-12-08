@@ -739,7 +739,7 @@ s32 Mudokon::CreateFromSaveState(const u8* pBuffer)
         pMud->GetAnimation().mFlags.Set(AnimFlags::eFlipX, pState->field_22_bFlipX & 1);
         pMud->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->field_2A_bAnimRender & 1);
 
-        pMud->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->field_2B_bDrawable & 1);
+        pMud->SetDrawable(pState->field_2B_bDrawable & 1);
 
         if (IsLastFrame(&pMud->GetAnimation()))
         {
@@ -841,7 +841,7 @@ s32 Mudokon::VGetSaveState(u8* pSaveBuffer)
     pState->field_24_current_motion = mCurrentMotion;
     pState->field_26_anim_current_frame = static_cast<s16>(GetAnimation().GetCurrentFrame());
     pState->field_28_anim_frame_change_counter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
-    pState->field_2B_bDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
+    pState->field_2B_bDrawable = GetDrawable();
     pState->field_2A_bAnimRender = GetAnimation().mFlags.Get(AnimFlags::eRender);
     pState->field_2C_health = mHealth;
     pState->field_30_current_motion = mCurrentMotion;
@@ -998,7 +998,7 @@ void Mudokon::VUpdate()
 
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
         return;
     }
 
@@ -1240,10 +1240,10 @@ void Mudokon::VScreenChanged()
     if (mBrainState == Mud_Brain_State::Brain_0_GiveRings ||
         !mPersistAndResetOffscreen)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
-    if (mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+    if (GetDead())
     {
         // TODO: Duplicated in dtors + other places
         if (mEscaping)
@@ -1418,7 +1418,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                     0);
             }
 
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
             SetPal(Mud_Emotion::eNormal_0);
             EventBroadcast(kEventMudokonDied, sActiveHero);
             return 1;
@@ -1507,7 +1507,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
             mHealth = FP_FromInteger(0);
             EventBroadcast(kEventMudokonDied, this);
             SetPal(Mud_Emotion::eNormal_0);
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
             return 1;
 
         case ReliveTypes::eSlamDoor:
@@ -4706,7 +4706,7 @@ s16 Mudokon::Brain_5_ShrivelDeath()
     // Finally fizzled out
     if (GetSpriteScale() < FP_FromInteger(0))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     return 100;
@@ -4717,12 +4717,12 @@ s16 Mudokon::Brain_6_Escape()
     auto pBirdPortal = static_cast<BirdPortal*>(sObjectIds.Find_Impl(field_11C_bird_portal_id));
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
     else
     {
         bool noBirdPortalOrPortalIsDead = false;
-        if (!pBirdPortal || pBirdPortal->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+        if (!pBirdPortal || pBirdPortal->GetDead())
         {
             noBirdPortalOrPortalIsDead = true;
         }
@@ -4879,7 +4879,7 @@ s16 Mudokon::Brain_7_FallAndSmackDeath()
         {
             Environment_SFX_457A40(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 32767, this);
             relive_new ScreenShake(0, 0);
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
         }
     }
     return mBrainSubState;
@@ -6151,7 +6151,7 @@ void Mudokon::Motion_36_RunJumpMid()
         mNotRescued = false;
         mPersistAndResetOffscreen = false;
 
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
 
         mVelY = FP_FromInteger(0);
         mVelX = FP_FromInteger(0);

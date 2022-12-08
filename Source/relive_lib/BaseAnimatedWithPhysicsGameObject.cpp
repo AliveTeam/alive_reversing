@@ -57,7 +57,7 @@ BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject(s16 resourc
     SetInteractive(false);
     SetCanExplode(false);
 
-    mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
+    SetDrawable(true);
     SetIsBaseAnimatedWithPhysicsObj(true);
 
     SetSpriteScale(FP_FromInteger(1));
@@ -81,9 +81,9 @@ BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject(s16 resourc
 
 BaseAnimatedWithPhysicsGameObject::~BaseAnimatedWithPhysicsGameObject()
 {
-    if (!mBaseGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
+    if (!GetListAddFailed())
     {
-        if (mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
+        if (GetDrawable())
         {
             gObjListDrawables->Remove_Item(this);
             GetAnimation().VCleanUp();
@@ -184,14 +184,14 @@ void BaseAnimatedWithPhysicsGameObject::Animation_Init(const AnimResource& res)
         }
         else
         {
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-            mBaseGameObjectFlags.Set(BaseGameObject::eListAddFailed_Bit1);
+            SetDead(true);
+            SetListAddFailed(true);
         }
     }
     else
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eListAddFailed_Bit1);
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetListAddFailed(true);
+        SetDead(true);
     }
 }
 

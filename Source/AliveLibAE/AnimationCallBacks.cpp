@@ -142,7 +142,7 @@ void Animation_OnFrame_FlyingSlig(BaseGameObject* pObjPtr, u32&, const IndexedPo
 
     if (EventGet(kEventDeathReset))
     {
-        pObj->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        pObj->SetDead(true);
     }
 
     auto pParticle = relive_new Particle(xpos, ypos, pObj->GetAnimRes(AnimId::Vaporize_Particle));

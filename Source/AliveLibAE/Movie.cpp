@@ -478,7 +478,7 @@ void Movie::VUpdate()
     if (GetGameAutoPlayer().IsPlaying() || GetGameAutoPlayer().IsRecording())
     {
         // Skip FMVs in rec/playback mode
-        mBaseGameObjectFlags.Set(BaseGameObject::Options::eDead);
+        SetDead(true);
     }
     else
     {
@@ -514,7 +514,7 @@ void Movie::DeInit()
     gReverbEnabled = wasReverbEnabled;
     #endif
 
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 bool AreMovieSkippingInputsHeld()

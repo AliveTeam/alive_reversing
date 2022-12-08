@@ -17,9 +17,6 @@ public:
     enum Options
     {
         eListAddFailed_Bit1 = 0x001,
-        eUpdatable_Bit2 = 0x002,
-        eDead = 0x004,
-        eDrawable_Bit4 = 0x008,
     };
 
     BaseGameObject(s16 bAddToObjectList, s16 resourceArraySize);
@@ -73,6 +70,12 @@ public:
 
     PalResource& GetPalRes(PalId palId);
 
+    bool GetListAddFailed() const { return mListAddFailed; }
+    void SetListAddFailed(bool val) { mListAddFailed = val; }
+    bool GetUpdatable() const { return mUpdatable; }
+    void SetUpdatable(bool val) { mUpdatable = val; }
+    bool GetDead() const { return mDead; }
+    void SetDead(bool val) { mDead = val; }
     bool GetDrawable() const { return mDrawable; }
     void SetDrawable(bool val) { mDrawable = val; }
     bool GetIsBaseAnimatedWithPhysicsObj() const { return mIsBaseAnimatedWithPhysicsObj; }
@@ -91,8 +94,6 @@ public:
     void SetCantKill(bool val) { mCantKill = val; }
 
 public:
-    BitField16<Options> mBaseGameObjectFlags = {};
-
     Guid mBaseGameObjectId;                  // AE
     Guid mBaseGameObjectTlvInfo;                 // AE
     DynamicArrayT<u8*> field_10_resources_array; // AE

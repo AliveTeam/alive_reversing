@@ -272,7 +272,7 @@ s32 CrawlingSlig::CreateFromSaveState(const u8* pBuffer)
         pCrawlingSlig->GetAnimation().mFlags.Set(AnimFlags::eFlipX, pState->mFlipX & 1);
         pCrawlingSlig->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->mRender & 1);
 
-        pCrawlingSlig->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->mDrawable & 1);
+        pCrawlingSlig->SetDrawable(pState->mDrawable & 1);
 
         if (IsLastFrame(&pCrawlingSlig->GetAnimation()))
         {
@@ -333,7 +333,7 @@ s32 CrawlingSlig::VGetSaveState(u8* pSaveBuffer)
     pState->mCurrentMotion = mCurrentMotion;
     pState->mCurrentFrame = static_cast<s16>(GetAnimation().GetCurrentFrame());
     pState->mFrameChangeCounter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
-    pState->mDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
+    pState->mDrawable = GetDrawable();
     pState->mRender = GetAnimation().mFlags.Get(AnimFlags::eRender);
     pState->mHealth = mHealth;
     pState->mCurrentMotion2 = mCurrentMotion;
@@ -422,7 +422,7 @@ void CrawlingSlig::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
     else
     {
@@ -1149,7 +1149,7 @@ s16 CrawlingSlig::Brain_4_GetKilled()
 
             if (mMultiUseTimer < static_cast<s32>(sGnFrame))
             {
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
             }
             return mBrainSubState;
 
@@ -1196,7 +1196,7 @@ s16 CrawlingSlig::Brain_4_GetKilled()
         case Brain_4_GetKilled::eBrain4_SetDead_3:
             if (static_cast<s32>(sGnFrame) > mMultiUseTimer)
             {
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
             }
             return mBrainSubState;
 
@@ -1254,9 +1254,9 @@ s16 CrawlingSlig::Brain_5_Transformed()
         MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
     }
 
-    if (!pObj || pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+    if (!pObj || pObj->GetDead())
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     return 0;
@@ -1366,7 +1366,7 @@ void CrawlingSlig::Motion_1_UsingButton()
             }
 
             // Final transform
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
             SetBrain(&CrawlingSlig::Brain_5_Transformed);
             mVelY = FP_FromInteger(0);
             mVelX = FP_FromInteger(0);

@@ -143,5 +143,5 @@ StatusLight::~StatusLight()
 
 void StatusLight::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }

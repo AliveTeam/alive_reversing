@@ -93,7 +93,7 @@ void Fade::VRender(PrimHeader** ppOt)
         {
             if (mDestroyOnDone)
             {
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
             }
         }
         else

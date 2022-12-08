@@ -150,7 +150,7 @@ SlingMudokon::~SlingMudokon()
 
 void SlingMudokon::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 void SlingMudokon::VUpdate()
@@ -206,7 +206,7 @@ void SlingMudokon::VCallBrain()
     }
     else
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -614,7 +614,7 @@ s16 SlingMudokon::Brain_1_Spawn()
         case Brain_1_Spawn::eBrain1_Shoot_6:
             if (EventGet(kEventDeathReset))
             {
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
             }
 
             if (field_140_timer > static_cast<s32>(sGnFrame) || sActiveHero->mHealth <= FP_FromInteger(0))
@@ -661,7 +661,7 @@ s16 SlingMudokon::Brain_1_Spawn()
                     field_11E_flags.Set(Flags_11E::eBit1_bDontSetDestroyed);
                 }
 
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
                 New_DestroyOrCreateObject_Particle(mXPos, (GetSpriteScale() * FP_FromInteger(20)) + mYPos, GetSpriteScale());
 
                 relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
@@ -895,7 +895,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
         case 8:
             if (EventGet(kEventDeathReset))
             {
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
             }
 
             if (field_140_timer > static_cast<s32>(sGnFrame) || sActiveHero->mHealth <= FP_FromInteger(0))
@@ -942,7 +942,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
                     field_11E_flags.Set(Flags_11E::eBit1_bDontSetDestroyed);
                 }
 
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
                 New_DestroyOrCreateObject_Particle(mXPos, (GetSpriteScale() * FP_FromInteger(20)) + mYPos, GetSpriteScale());
 
                 relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);

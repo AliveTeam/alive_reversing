@@ -25,9 +25,9 @@ DeathBirdParticle::DeathBirdParticle(FP xpos, FP ypos, s32 startTimer, bool play
 
     Animation_Init(GetAnimRes(AnimId::DeathFlare_1));
 
-    if (mBaseGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
+    if (GetListAddFailed())
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
     else
     {
@@ -88,7 +88,7 @@ void DeathBirdParticle::VUpdate()
                         pDove->mXPos -= FP_FromInteger(8);
                     }
 
-                    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                    SetDead(true);
 
                     pDove->SetSpriteScale(GetSpriteScale());
                     if (mPlaySound)

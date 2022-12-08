@@ -310,7 +310,7 @@ void Movie::VUpdate()
 
     if (GetGameAutoPlayer().IsPlaying() || GetGameAutoPlayer().IsRecording())
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
         return;
     }
 
@@ -320,7 +320,7 @@ void Movie::VUpdate()
     // Bail if failed to open
     if (!hMovieFile)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
         return;
     }
 
@@ -421,7 +421,7 @@ void Movie::VUpdate()
 
     GetMovieIO().mIO_Close(hMovieFile);
 
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 } // namespace AO

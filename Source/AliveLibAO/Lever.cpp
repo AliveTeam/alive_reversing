@@ -53,7 +53,7 @@ void Lever::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (mState == LeverState::ePulled_1)
@@ -175,7 +175,7 @@ void Lever::VUpdate()
 
 void Lever::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 Lever::~Lever()

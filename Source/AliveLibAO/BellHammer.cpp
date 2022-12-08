@@ -67,7 +67,7 @@ BellHammer::~BellHammer()
 
 void BellHammer::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 void BellHammer::VUpdate()

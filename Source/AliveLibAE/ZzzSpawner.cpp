@@ -36,14 +36,14 @@ ZzzSpawner::~ZzzSpawner()
 
 void ZzzSpawner::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 void ZzzSpawner::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (!SwitchStates_Get(mSwitchId) && static_cast<s32>(sGnFrame) > mTimer)

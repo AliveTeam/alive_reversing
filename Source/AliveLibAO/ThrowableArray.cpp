@@ -40,7 +40,7 @@ void LoadRockTypes(EReliveLevelIds levelNumber, u16 path)
 ThrowableArray::ThrowableArray()
     : BaseGameObject(true, 0)
 {
-    mBaseGameObjectFlags.Clear(Options::eUpdatable_Bit2);
+    SetUpdatable(false);
     mCount = 0;
     gThrowableArray = this;
     field_12_flags &= ~7u;
@@ -102,7 +102,7 @@ void ThrowableArray::VUpdate()
         LoadRockTypes(gMap.mCurrentLevel, gMap.mCurrentPath);
         Add(0);
         field_12_flags &= ~1u;
-        mBaseGameObjectFlags.Clear(Options::eUpdatable_Bit2);
+        SetUpdatable(false);
     }
 }
 
@@ -114,7 +114,7 @@ void ThrowableArray::VScreenChanged()
         {
             if (!(field_12_flags & 1))
             {
-                mBaseGameObjectFlags.Set(Options::eUpdatable_Bit2);
+                SetUpdatable(true);
                 field_12_flags |= 1;
                 Remove(0);
             }
@@ -122,7 +122,7 @@ void ThrowableArray::VScreenChanged()
     }
     else
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 

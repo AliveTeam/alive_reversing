@@ -43,7 +43,7 @@ void SligGetPantsAndWings::VUpdate()
     relive::Path_TLV* pTlv = sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo);
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     switch (mState)
@@ -78,7 +78,7 @@ void SligGetPantsAndWings::VUpdate()
 
 void SligGetPantsAndWings::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 SligGetPantsAndWings::~SligGetPantsAndWings()

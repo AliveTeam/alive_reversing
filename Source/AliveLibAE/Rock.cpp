@@ -76,7 +76,7 @@ void Rock::VScreenChanged()
     if (gMap.mCurrentPath != gMap.mNextPath
         || gMap.mCurrentLevel != gMap.mNextLevel)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -126,7 +126,7 @@ void Rock::InTheAir()
 
     if (mVelY > FP_FromInteger(30))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     mVelY += FP_FromDouble(1.01);
@@ -295,7 +295,7 @@ void Rock::VUpdate()
     auto pObj = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eRestoredFromQuickSave))
@@ -404,7 +404,7 @@ void Rock::VUpdate()
             mYPos = mVelY + mYPos;
             if (!gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos + FP_FromInteger(240), 0))
             {
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
             }
             return;
     }
@@ -429,7 +429,7 @@ s32 Rock::VGetSaveState(u8* pSaveBuffer)
     pState->field_18_sprite_scale = GetSpriteScale();
 
     pState->mRender = GetAnimation().mFlags.Get(AnimFlags::eRender);
-    pState->mDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
+    pState->mDrawable = GetDrawable();
 
     pState->mLoop = GetAnimation().mFlags.Get(AnimFlags::eLoop);
     pState->mInteractive = GetInteractive();
@@ -479,7 +479,7 @@ s32 Rock::CreateFromSaveState(const u8* pData)
     pRock->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->mRender);
     pRock->GetAnimation().mFlags.Set(AnimFlags::eLoop, pState->mLoop);
 
-    pRock->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->mDrawable);
+    pRock->SetDrawable(pState->mDrawable);
     pRock->SetInteractive(pState->mInteractive);
 
     pRock->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eRestoredFromQuickSave);

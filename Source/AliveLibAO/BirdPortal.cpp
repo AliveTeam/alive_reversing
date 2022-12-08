@@ -81,21 +81,21 @@ BirdPortal::~BirdPortal()
 {
     if (mTerminator1)
     {
-        mTerminator1->mBaseGameObjectFlags.Set(Options::eDead);
+        mTerminator1->SetDead(true);
     }
     if (mTerminator2)
     {
-        mTerminator2->mBaseGameObjectFlags.Set(Options::eDead);
+        mTerminator2->SetDead(true);
     }
 
     if (mScreenClipper1)
     {
-        mScreenClipper1->mBaseGameObjectFlags.Set(Options::eDead);
+        mScreenClipper1->SetDead(true);
     }
 
     if (mScreenClipper2)
     {
-        mScreenClipper2->mBaseGameObjectFlags.Set(Options::eDead);
+        mScreenClipper2->SetDead(true);
     }
 
     if (mDovesArray)
@@ -109,7 +109,7 @@ BirdPortal::~BirdPortal()
             }
 
             pObj->mBaseGameObjectRefCount--;
-            pObj->mBaseGameObjectFlags.Set(Options::eDead);
+            pObj->SetDead(true);
         }
 
         mDovesArray->field_4_used_size = 0;
@@ -119,7 +119,7 @@ BirdPortal::~BirdPortal()
 
     if (mThrowableTotalIndicator)
     {
-        mThrowableTotalIndicator->mBaseGameObjectFlags.Set(Options::eDead);
+        mThrowableTotalIndicator->SetDead(true);
         mThrowableTotalIndicator->mBaseGameObjectRefCount--;
         mThrowableTotalIndicator = nullptr;
     }
@@ -333,20 +333,20 @@ void BirdPortal::VUpdate()
 
                     if (mThrowableTotalIndicator)
                     {
-                        mThrowableTotalIndicator->mBaseGameObjectFlags.Set(Options::eDead);
+                        mThrowableTotalIndicator->SetDead(true);
                         mThrowableTotalIndicator->mBaseGameObjectRefCount--;
                         mThrowableTotalIndicator = nullptr;
                     }
 
                     SfxPlayMono(relive::SoundEffects::Dove, 70);
-                    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                    SetDead(true);
                 }
             }
             else
             {
                 if (mThrowableTotalIndicator)
                 {
-                    mThrowableTotalIndicator->mBaseGameObjectFlags.Set(Options::eDead);
+                    mThrowableTotalIndicator->SetDead(true);
                     mThrowableTotalIndicator->mBaseGameObjectRefCount--;
                     mThrowableTotalIndicator = nullptr;
                 }
@@ -392,7 +392,7 @@ void BirdPortal::VUpdate()
                     }
 
                     pDove->mBaseGameObjectRefCount--;
-                    pDove->mBaseGameObjectFlags.Set(Options::eDead);
+                    pDove->SetDead(true);
                 }
 
                 mDovesArray->field_4_used_size = 0;
@@ -559,8 +559,8 @@ void BirdPortal::VUpdate()
 
                 mState = PortalStates::StopSound_11;
                 mTimer = sGnFrame + 5;
-                mTerminator1->mBaseGameObjectFlags.Set(Options::eDead);
-                mTerminator2->mBaseGameObjectFlags.Set(Options::eDead);
+                mTerminator1->SetDead(true);
+                mTerminator2->SetDead(true);
                 mTerminator1 = nullptr;
                 mTerminator2 = nullptr;
                 SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 100, -1800);
@@ -606,7 +606,7 @@ void BirdPortal::VUpdate()
             {
                 if (mPortalType == relive::Path_BirdPortal::PortalType::eWorker || mPortalType == relive::Path_BirdPortal::PortalType::eShrykull)
                 {
-                    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                    SetDead(true);
                 }
                 else
                 {
@@ -655,7 +655,7 @@ void BirdPortal::VUpdate()
 
                 if (mScreenClipper1)
                 {
-                    mScreenClipper1->mBaseGameObjectFlags.Set(Options::eDead);
+                    mScreenClipper1->SetDead(true);
                     mScreenClipper1 = nullptr;
                 }
 
@@ -675,7 +675,7 @@ void BirdPortal::VUpdate()
             }
             else
             {
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
             }
             break;
 
@@ -685,7 +685,7 @@ void BirdPortal::VUpdate()
 
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -762,7 +762,7 @@ void BirdPortal::VGiveShrykull(s16 bPlaySound)
 
         if (pObj->Type() == ReliveTypes::eBirdPortalTerminator)
         {
-            pObj->mBaseGameObjectFlags.Set(Options::eDead);
+            pObj->SetDead(true);
         }
     }
 
@@ -776,32 +776,32 @@ void BirdPortal::VScreenChanged()
 {
     if (mState <= PortalStates::IdlePortal_1 || mState >= PortalStates::KillPortalClipper_21 || ((gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath) && (mState != PortalStates::AbeInsidePortal_16 || mPortalType != relive::Path_BirdPortal::PortalType::eAbe || gMap.mNextLevel != mExitLevel || gMap.mNextPath != mExitPath)))
     {
-        mBaseGameObjectFlags.Set(Options::eDead);
+        SetDead(true);
     }
 
-    if (mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+    if (GetDead())
     {
         if (mTerminator1)
         {
-            mTerminator1->mBaseGameObjectFlags.Set(Options::eDead);
+            mTerminator1->SetDead(true);
             mTerminator1 = nullptr;
         }
 
         if (mTerminator2)
         {
-            mTerminator2->mBaseGameObjectFlags.Set(Options::eDead);
+            mTerminator2->SetDead(true);
             mTerminator2 = nullptr;
         }
 
         if (mScreenClipper1)
         {
-            mScreenClipper1->mBaseGameObjectFlags.Set(Options::eDead);
+            mScreenClipper1->SetDead(true);
             mScreenClipper1 = nullptr;
         }
 
         if (mScreenClipper2)
         {
-            mScreenClipper2->mBaseGameObjectFlags.Set(Options::eDead);
+            mScreenClipper2->SetDead(true);
             mScreenClipper2 = nullptr;
         }
     }
@@ -828,10 +828,10 @@ void BirdPortal::VKillPortalClipper()
 {
     if (mScreenClipper1)
     {
-        mScreenClipper1->mBaseGameObjectFlags.Set(Options::eDead);
+        mScreenClipper1->SetDead(true);
         mScreenClipper1 = nullptr;
 
-        mScreenClipper2->mBaseGameObjectFlags.Set(Options::eDead);
+        mScreenClipper2->SetDead(true);
         mScreenClipper2 = nullptr;
     }
 }

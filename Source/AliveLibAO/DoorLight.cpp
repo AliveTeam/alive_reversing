@@ -131,7 +131,7 @@ DoorLight::~DoorLight()
 
 void DoorLight::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
     sNextDoorLightUpdate = -1;
 }
 

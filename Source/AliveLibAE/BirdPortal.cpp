@@ -166,7 +166,7 @@ void BirdPortal::VUpdate()
                 BaseGameObject* pShrykullNumMuds = sObjectIds.Find_Impl(mThrowableIndicatorId);
                 if (pShrykullNumMuds)
                 {
-                    pShrykullNumMuds->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                    pShrykullNumMuds->SetDead(true);
                 }
 
                 for (auto& id : mDoveIds)
@@ -199,10 +199,10 @@ void BirdPortal::VUpdate()
                 BaseGameObject* pThrowableIndicator = sObjectIds.Find_Impl(mThrowableIndicatorId);
                 if (pThrowableIndicator)
                 {
-                    pThrowableIndicator->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                    pThrowableIndicator->SetDead(true);
                 }
                 SfxPlayMono(relive::SoundEffects::Dove, 70, mSpriteScale);
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
             }
             break;
 
@@ -225,7 +225,7 @@ void BirdPortal::VUpdate()
                     BaseGameObject* pDove = sObjectIds.Find_Impl(id);
                     if (pDove)
                     {
-                        pDove->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                        pDove->SetDead(true);
                     }
                 }
                 mState = PortalStates::CreateTerminators_4;
@@ -389,8 +389,8 @@ void BirdPortal::VUpdate()
 
                 mState = PortalStates::StopSound_11;
                 mTimer = sGnFrame + 5;
-                pTerminator1->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
-                pTerminator2->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                pTerminator1->SetDead(true);
+                pTerminator2->SetDead(true);
                 mTerminatorId1 = Guid{};
                 mTerminatorId2 = Guid{};
                 SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 100, -1800, mSpriteScale);
@@ -436,7 +436,7 @@ void BirdPortal::VUpdate()
             {
                 if (mPortalType == relive::Path_BirdPortal::PortalType::eWorker || mPortalType == relive::Path_BirdPortal::PortalType::eShrykull)
                 {
-                    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                    SetDead(true);
                 }
                 else
                 {
@@ -485,12 +485,12 @@ void BirdPortal::VUpdate()
 
                 if (pClipper1)
                 {
-                    pClipper1->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                    pClipper1->SetDead(true);
                 }
 
                 if (pClipper2)
                 {
-                    pClipper2->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                    pClipper2->SetDead(true);
                 }
                 mScreenClipperId1 = Guid{};
                 mScreenClipperId2 = Guid{};
@@ -519,7 +519,7 @@ void BirdPortal::VUpdate()
             }
             else
             {
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
             }
             break;
 
@@ -529,7 +529,7 @@ void BirdPortal::VUpdate()
 
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -616,33 +616,33 @@ void BirdPortal::VScreenChanged()
 
                                                                                                                  (mState != PortalStates::AbeInsidePortal_16 || mPortalType != relive::Path_BirdPortal::PortalType::eAbe || gMap.mNextLevel != mExitLevel || gMap.mNextPath != mExitPath)))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
     BaseGameObject* pTerminator1 = sObjectIds.Find_Impl(mTerminatorId1);
     BaseGameObject* pTerminator2 = sObjectIds.Find_Impl(mTerminatorId2);
     BaseGameObject* pClipper1 = sObjectIds.Find_Impl(mScreenClipperId1);
     BaseGameObject* pClipper2 = sObjectIds.Find_Impl(mScreenClipperId2);
 
-    if (mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+    if (GetDead())
     {
         if (pTerminator1)
         {
-            pTerminator1->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            pTerminator1->SetDead(true);
         }
 
         if (pTerminator2)
         {
-            pTerminator2->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            pTerminator2->SetDead(true);
         }
 
         if (pClipper1)
         {
-            pClipper1->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            pClipper1->SetDead(true);
         }
 
         if (pClipper2)
         {
-            pClipper2->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            pClipper2->SetDead(true);
         }
 
         mTerminatorId1 = Guid{};
@@ -823,10 +823,10 @@ void BirdPortal::VKillPortalClipper()
 
     if (pClipper1)
     {
-        pClipper1->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        pClipper1->SetDead(true);
         if (pClipper2)
         {
-            pClipper2->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            pClipper2->SetDead(true);
         }
     }
 }
@@ -932,25 +932,25 @@ BirdPortal::~BirdPortal()
     BaseGameObject* pTerminator1 = sObjectIds.Find_Impl(mTerminatorId1);
     if (pTerminator1)
     {
-        pTerminator1->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        pTerminator1->SetDead(true);
     }
 
     BaseGameObject* pTerminator2 = sObjectIds.Find_Impl(mTerminatorId2);
     if (pTerminator2)
     {
-        pTerminator2->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        pTerminator2->SetDead(true);
     }
 
     BaseGameObject* pClipper1 = sObjectIds.Find_Impl(mScreenClipperId1);
     if (pClipper1)
     {
-        pClipper1->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        pClipper1->SetDead(true);
     }
 
     BaseGameObject* pClipper2 = sObjectIds.Find_Impl(mScreenClipperId2);
     if (pClipper2)
     {
-        pClipper2->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        pClipper2->SetDead(true);
     }
 
     BaseGameObject* pDoves = sObjectIds.Find_Impl(mDoveIds[0]);
@@ -963,7 +963,7 @@ BirdPortal::~BirdPortal()
                 BaseGameObject* pDove = sObjectIds.Find_Impl(doveId);
                 if (pDove)
                 {
-                    pDove->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                    pDove->SetDead(true);
                 }
             }
         }
@@ -972,7 +972,7 @@ BirdPortal::~BirdPortal()
     BaseGameObject* pThrowableIndicator = sObjectIds.Find_Impl(mThrowableIndicatorId);
     if (pThrowableIndicator)
     {
-        pThrowableIndicator->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        pThrowableIndicator->SetDead(true);
     }
 
     if (mSfxPlaying)
@@ -1005,7 +1005,7 @@ void BirdPortal::KillTerminators()
 
         if (pObj->Type() == ReliveTypes::eBirdPortalTerminator)
         {
-            pObj->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            pObj->SetDead(true);
         }
     }
 }

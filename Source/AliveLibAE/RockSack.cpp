@@ -70,14 +70,14 @@ RockSack::~RockSack()
 
 void RockSack::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 void RockSack::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (GetAnimation().GetCurrentFrame() == 2)

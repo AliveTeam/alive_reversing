@@ -251,7 +251,7 @@ void SlamDoor::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     const bool stateUnchanged = SwitchStates_Get(mSwitchId) == static_cast<s32>(mSlamDoorFlags.Get(SlamDoorFlags::eOpen));
@@ -265,7 +265,7 @@ void SlamDoor::VUpdate()
 
                 if (mSlamDoorFlags.Get(SlamDoorFlags::eDelete))
                 {
-                    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                    SetDead(true);
                 }
                 SFX_Play_Pitch(relive::SoundEffects::DoorEffect, 100, 900);
                 SFX_Play_Pitch(relive::SoundEffects::DoorEffect, 100, -100);

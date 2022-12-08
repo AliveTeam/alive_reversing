@@ -25,7 +25,7 @@ Text::Text(const char_type* pMessage, s32 renderCount, s32 bShadow)
     : BaseGameObject(true, 0)
 {
     SetSurviveDeathReset(true);
-    mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
+    SetDrawable(true);
 
     SetType(ReliveTypes::eText);
 
@@ -51,7 +51,7 @@ Text::Text(const char_type* pMessage, s32 renderCount, s32 bShadow)
 Text::~Text()
 {
     gObjListDrawables->Remove_Item(this);
-    mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
+    SetDrawable(false);
 }
 
 void Text::SetYPos(s32 /*not_used*/, s16 ypos)
@@ -124,7 +124,7 @@ void Text::VRender(PrimHeader** ppOt)
         field_64_render_count--;
         if (field_64_render_count <= 0)
         {
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
         }
     }
 }

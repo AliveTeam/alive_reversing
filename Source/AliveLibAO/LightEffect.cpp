@@ -78,7 +78,7 @@ void LightEffect::VRender(PrimHeader** /*ppOt*/)
 
 void LightEffect::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 

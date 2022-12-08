@@ -386,7 +386,7 @@ void Elum::CheckLiftPointGoneAndSetCamera()
     auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (pPlatform)
     {
-        if (pPlatform->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+        if (pPlatform->GetDead())
         {
             VOnTrapDoorOpen();
             field_170_flags.Set(Elum::Flags_170::eFalling_Bit3);
@@ -3488,7 +3488,7 @@ void Elum::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mNextLevel)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
     else
     {
@@ -3496,11 +3496,11 @@ void Elum::VScreenChanged()
         {
             if (gMap.mCurrentLevel == EReliveLevelIds::eLines)
             {
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
             }
             else if (gMap.mCurrentLevel == EReliveLevelIds::eDesert && gMap.mNextPath == 9)
             {
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
             }
             else if (mCurrentPath == gMap.mCurrentPath)
             {

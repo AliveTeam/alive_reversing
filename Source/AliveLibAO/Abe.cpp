@@ -764,49 +764,49 @@ Abe::~Abe()
     if (mFade)
     {
         mFade->mBaseGameObjectRefCount--;
-        mFade->mBaseGameObjectFlags.Set(Options::eDead);
+        mFade->SetDead(true);
         mFade = nullptr;
     }
 
     if (field_15C_pThrowable)
     {
         field_15C_pThrowable->mBaseGameObjectRefCount--;
-        field_15C_pThrowable->mBaseGameObjectFlags.Set(Options::eDead);
+        field_15C_pThrowable->SetDead(true);
         field_15C_pThrowable = nullptr;
     }
 
     if (field_160_pRope)
     {
         field_160_pRope->mBaseGameObjectRefCount--;
-        field_160_pRope->mBaseGameObjectFlags.Set(Options::eDead);
+        field_160_pRope->SetDead(true);
         field_160_pRope = nullptr;
     }
 
     if (mCircularFade)
     {
         mCircularFade->mBaseGameObjectRefCount--;
-        mCircularFade->mBaseGameObjectFlags.Set(Options::eDead);
+        mCircularFade->SetDead(true);
         mCircularFade = nullptr;
     }
 
     if (field_188_pOrbWhirlWind)
     {
         field_188_pOrbWhirlWind->mBaseGameObjectRefCount--;
-        field_188_pOrbWhirlWind->mBaseGameObjectFlags.Set(Options::eDead);
+        field_188_pOrbWhirlWind->SetDead(true);
         field_188_pOrbWhirlWind = nullptr;
     }
 
     if (field_18C_pObjToPossess)
     {
         field_18C_pObjToPossess->mBaseGameObjectRefCount--;
-        field_18C_pObjToPossess->mBaseGameObjectFlags.Set(Options::eDead);
+        field_18C_pObjToPossess->SetDead(true);
         field_18C_pObjToPossess = nullptr;
     }
 
     if (field_198_pThrowable)
     {
         field_198_pThrowable->mBaseGameObjectRefCount--;
-        field_198_pThrowable->mBaseGameObjectFlags.Set(Options::eDead);
+        field_198_pThrowable->SetDead(true);
         field_198_pThrowable = nullptr;
     }
 
@@ -1192,7 +1192,7 @@ void Abe::FollowLift_42EE90()
     if (pLift)
     {
         mVelY = pLift->mVelY;
-        if (pLift->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+        if (pLift->GetDead())
         {
             pLift->VOnPickUpOrSlapped();
             field_2A8_flags.Set(Flags_2A8::e2A8_Bit1);
@@ -2503,7 +2503,7 @@ void Abe::VScreenChanged()
         if (gMap.mNextLevel == EReliveLevelIds::eCredits || gMap.mNextLevel == EReliveLevelIds::eMenu)
         {
             // Remove Abe for menu/credits levels?
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
         }
     }
 }
@@ -6169,7 +6169,7 @@ void Abe::Motion_60_Dead()
             EventBroadcast(kEventHeroDying, this);
             if (mFade)
             {
-                mFade->mBaseGameObjectFlags.Set(Options::eDead);
+                mFade->SetDead(true);
                 mFade->mBaseGameObjectRefCount--;
             }
             mFade = relive_new Fade(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeIn, 0, 8, TPageAbr::eBlend_2);
@@ -6177,7 +6177,7 @@ void Abe::Motion_60_Dead()
 
             if (mCircularFade)
             {
-                mCircularFade->mBaseGameObjectFlags.Set(Options::eDead);
+                mCircularFade->SetDead(true);
                 mCircularFade = nullptr;
             }
             field_114_gnFrame++;
@@ -6194,7 +6194,7 @@ void Abe::Motion_60_Dead()
                 {
                     if (!gElum->mRespawnOnDead)
                     {
-                        gElum->mBaseGameObjectFlags.Set(Options::eDead);
+                        gElum->SetDead(true);
                     }
                 }
 
@@ -6245,7 +6245,7 @@ void Abe::Motion_61_Respawn()
         // depending on the saved camera number on returning the main menu this can crash. Hack fix it
         // by killing abe so the bad save cant get loaded before we return to the menu.
         LOG_WARNING("Destroying abe to prevent game crash, he isnt supposed to die in a demo!");
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
         sActiveHero = nullptr;
         sControlledCharacter = nullptr;
         return;
@@ -6275,7 +6275,7 @@ void Abe::Motion_61_Respawn()
             {
                 if (pLiftPoint)
                 {
-                    if (pLiftPoint->mBaseGameObjectFlags.Get(Options::eDrawable_Bit4))
+                    if (pLiftPoint->GetDrawable())
                     {
                         pLiftPoint->VRemove(this);
                         BaseAliveGameObject_PlatformId = Guid{};
@@ -6415,7 +6415,7 @@ void Abe::Motion_61_Respawn()
                 MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
                 field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
                 GetAnimation().mFlags.Set(AnimFlags::eRender);
-                mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
+                SetDrawable(true);
                 mCurrentMotion = eAbeMotions::Motion_3_Fall;
 
                 relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
@@ -6502,7 +6502,7 @@ void Abe::Motion_62_LoadedSaveSpawn()
 
             if (gElum)
             {
-                gElum->mBaseGameObjectFlags.Clear(Options::eUpdatable_Bit2);
+                gElum->SetUpdatable(false);
                 gElum->GetAnimation().mFlags.Clear(AnimFlags::eRender);
                 gElum->mContinueRect = pSaveData->field_28C_elum_continue_rect;
                 gElum->mPreviousContinueZoneNumber = pSaveData->field_294_continue_zone_number;
@@ -6567,7 +6567,7 @@ void Abe::Motion_62_LoadedSaveSpawn()
                     gElum->SetPreviousMotion(eElumMotions::Motion_25_LickingHoney);
                 }
                 gElum->MapFollowMe(true);
-                gElum->mBaseGameObjectFlags.Set(Options::eUpdatable_Bit2);
+                gElum->SetUpdatable(true);
                 gElum->GetAnimation().mFlags.Set(AnimFlags::eRender);
             }
         }
@@ -7465,7 +7465,7 @@ void Abe::Motion_88_HandstoneBegin()
                     }
                     case ReliveTypes::eDemoPlaybackStone:
                         ALIVE_FATAL("never expected eDemoPlaybackStone to be used");
-                        /*field_164_pCircularFade->mBaseGameObjectFlags.Set(Options::eDead);
+                        /*field_164_pCircularFade->SetDead(true);
                         field_164_pCircularFade = nullptr;
                         mState.stone = StoneStates::eFreeDemoPlaybackResources_3;
                         gCounter_507728 = 2;
@@ -7480,7 +7480,7 @@ void Abe::Motion_88_HandstoneBegin()
                         GetAnimation().mFlags.Clear(AnimFlags::eRender);
                         field_110_state.stone = StoneStates::eWaitForInput_6;
                         field_16E_cameraIdx = 1;
-                        mCircularFade->mBaseGameObjectFlags.Set(Options::eDead);
+                        mCircularFade->SetDead(true);
                         mCircularFade = 0;
                         mFade = relive_new Fade(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeOut, 0, 8, TPageAbr::eBlend_2);
                         field_190_level = gMap.mCurrentLevel;
@@ -7534,7 +7534,7 @@ void Abe::Motion_88_HandstoneBegin()
         {
             if (sBellSong->mDone)
             {
-                sBellSong->mBaseGameObjectFlags.Set(Options::eDead);
+                sBellSong->SetDead(true);
                 mCircularFade->VFadeIn(0, 0);
                 field_110_state.stone = StoneStates::eHandstoneEnd_5;
             }
@@ -7544,7 +7544,7 @@ void Abe::Motion_88_HandstoneBegin()
         {
             if (mCircularFade->VDone())
             {
-                mCircularFade->mBaseGameObjectFlags.Set(Options::eDead);
+                mCircularFade->SetDead(true);
                 mCurrentMotion = eAbeMotions::Motion_89_HandstoneEnd;
                 mCircularFade = 0;
                 if (sAbeSound_507730)
@@ -7602,7 +7602,7 @@ void Abe::Motion_88_HandstoneBegin()
                 }
                 else
                 {
-                    mFade->mBaseGameObjectFlags.Set(Options::eDead);
+                    mFade->SetDead(true);
                     field_110_state.stone = StoneStates::eWaitForInput_6;
                     field_16E_cameraIdx++;
                     mFade = relive_new Fade(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeOut, 0, 8, TPageAbr::eBlend_2);
@@ -7621,7 +7621,7 @@ void Abe::Motion_88_HandstoneBegin()
             break;
         case StoneStates::eCircularFadeExit_13:
         {
-            mFade->mBaseGameObjectFlags.Set(Options::eDead);
+            mFade->SetDead(true);
             mFade = nullptr;
 
             mCircularFade = relive_new CircularFade(mXPos, mYPos, GetSpriteScale(), 0, 0);
@@ -8377,7 +8377,7 @@ void Abe::Motion_141_BeesStrugglingOnLift()
     pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(12), 0);
 
     mVelY = pLiftPoint->mVelY;
-    if (pLiftPoint->mBaseGameObjectFlags.Get(Options::eDead))
+    if (pLiftPoint->GetDead())
     {
         VOnTrapDoorOpen();
         field_2A8_flags.Set(Flags_2A8::e2A8_Bit1);
@@ -8700,7 +8700,7 @@ void Abe::Motion_150_Chant()
             }
             if (field_18C_pObjToPossess)
             {
-                if (field_18C_pObjToPossess->mBaseGameObjectFlags.Get(Options::eDead))
+                if (field_18C_pObjToPossess->GetDead())
                 {
                     field_18C_pObjToPossess->mBaseGameObjectRefCount--;
                     field_18C_pObjToPossess = nullptr;
@@ -8734,7 +8734,7 @@ void Abe::Motion_150_Chant()
             field_188_pOrbWhirlWind = nullptr;
             if (field_18C_pObjToPossess)
             {
-                if (field_18C_pObjToPossess->mBaseGameObjectFlags.Get(Options::eDead))
+                if (field_18C_pObjToPossess->GetDead())
                 {
                     field_18C_pObjToPossess->mBaseGameObjectRefCount--;
                     field_18C_pObjToPossess = nullptr;

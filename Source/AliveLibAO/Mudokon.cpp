@@ -416,7 +416,7 @@ void Mudokon::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
         return;
     }
 
@@ -567,7 +567,7 @@ void Mudokon::VScreenChanged()
     // Map/overlay changed or mud shouldn't persist
     if (gMap.LevelChanged() || !field_144_flags.Get(Flags_144::e144_Bit6_bPersist))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
         KillBirdPortal();
         KillLiftPoint_194();
         return;
@@ -589,7 +589,7 @@ void Mudokon::VScreenChanged()
         }
 
         // Wasn't a path trans and path changed, die
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
         KillBirdPortal();
         KillLiftPoint_194();
     }
@@ -634,7 +634,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                     FP_FromInteger(0),
                     GetSpriteScale());
 
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
                 EventBroadcast(kEventMudokonDead, sActiveHero);
             }
             return 1;
@@ -682,7 +682,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eElectrocute:
             if (mHealth > FP_FromInteger(0))
             {
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
                 mHealth = FP_FromInteger(0);
             }
             return 1;
@@ -926,7 +926,7 @@ void Mudokon::CheckFloorGone()
     auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (pPlatform)
     {
-        if (pPlatform->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+        if (pPlatform->GetDead())
         {
             VOnTrapDoorOpen();
             field_144_flags.Set(Flags_144::e144_Bit8);
@@ -2233,7 +2233,7 @@ void Mudokon::Motion_44_RunJumpMid()
         field_144_flags.Clear(Flags_144::e144_Bit2);
         field_144_flags.Clear(Flags_144::e144_Bit6_bPersist);
 
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
         mVelY = FP_FromInteger(0);
         mVelX = FP_FromInteger(0);
 
@@ -2692,7 +2692,7 @@ s16 Mudokon::Brain_1_ComingOut()
 
         if (field_190 < FP_FromInteger(0))
         {
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
             SetCurrentMotion(eMudMotions::Motion_0_Idle);
             return 3;
         }
@@ -4178,7 +4178,7 @@ s16 Mudokon::Brain_11_ShrivelDeath()
 
     if (GetSpriteScale() < FP_FromInteger(0))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     return 100;
@@ -4188,12 +4188,12 @@ s16 Mudokon::Brain_12_Escape()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(Options::eDead);
+        SetDead(true);
         return field_1BA_brain_sub_state;
     }
 
     BirdPortal* pPortal = field_1AC_pBirdPortal;
-    if (!pPortal || pPortal->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+    if (!pPortal || pPortal->GetDead())
     {
         sMudRunningToPortalCount_507B94--;
         if (pPortal)
@@ -4334,7 +4334,7 @@ s16 Mudokon::Brain_13_FallAndSmackDeath()
             {
                 Environment_SFX_42A220(EnvironmentSfx::eFallingDeathScreamHitGround_15, 0, 0x7FFF, this);
                 relive_new ScreenShake(0);
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
             }
         }
         return field_1BA_brain_sub_state;

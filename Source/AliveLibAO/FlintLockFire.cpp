@@ -50,7 +50,7 @@ void FlintLockFire::LoadAnimations()
 
 void FlintLockFire::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 void FlintLockFire::VStopAudio()
@@ -171,7 +171,7 @@ void FlintLockFire::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     const s32 cur_lvl = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));

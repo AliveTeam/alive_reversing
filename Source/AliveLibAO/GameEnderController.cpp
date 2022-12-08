@@ -34,7 +34,7 @@ void GameEnderController::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mNextLevel)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -42,7 +42,7 @@ void GameEnderController::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     switch (mState)
@@ -74,7 +74,7 @@ void GameEnderController::VUpdate()
                         if (pObjIter->Type() == ReliveTypes::eParticleBurst || pObjIter->Type() == ReliveTypes::eAlarm || pObjIter->Type() == ReliveTypes::eUXB || pObjIter->Type() == ReliveTypes::eMeatSaw || pObjIter->Type() == ReliveTypes::eSlig || // EvenWurst Wieners fix - uses these extra objects that need to be deleted
                             pObjIter->Type() == ReliveTypes::eSligSpawner || pObjIter->Type() == ReliveTypes::eSlog)
                         {
-                            pObjIter->mBaseGameObjectFlags.Set(Options::eDead);
+                            pObjIter->SetDead(true);
                         }
                     }
 
@@ -89,14 +89,14 @@ void GameEnderController::VUpdate()
 
                         if (gPauseMenu)
                         {
-                            gPauseMenu->mBaseGameObjectFlags.Set(Options::eDead);
+                            gPauseMenu->SetDead(true);
                             gPauseMenu = nullptr;
                         }
 
                         if (sRescuedMudokons >= Path_GetTotalMuds(gMap.mCurrentLevel, gMap.mCurrentPath))
                         {
                             // Perfect ending
-                            sActiveHero->mBaseGameObjectFlags.Set(Options::eDead);
+                            sActiveHero->SetDead(true);
                             gMap.SetActiveCam(EReliveLevelIds::eBoardRoom, 6, 11, CameraSwapEffects::eUnknown_11, 316, 0);
                             mState = GameEnderControllerStates::ePerfectEnding_4;
                         }
@@ -125,7 +125,7 @@ void GameEnderController::VUpdate()
 
                             sKilledMudokons = gRestartRuptureFarmsKilledMuds;
                             sRescuedMudokons = gRestartRuptureFarmsSavedMuds;
-                            sActiveHero->mBaseGameObjectFlags.Set(Options::eDead);
+                            sActiveHero->SetDead(true);
 
                             gMap.SetActiveCam(EReliveLevelIds::eBoardRoom, 6, 9, CameraSwapEffects::eUnknown_11, 304, 0);
 
@@ -134,7 +134,7 @@ void GameEnderController::VUpdate()
                         else
                         {
                             // Bad ending
-                            sActiveHero->mBaseGameObjectFlags.Set(Options::eDead);
+                            sActiveHero->SetDead(true);
 
                             gInfiniteGrenades = false;
 

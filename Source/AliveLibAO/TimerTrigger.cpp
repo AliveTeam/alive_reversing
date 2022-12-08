@@ -88,7 +88,7 @@ void TimerTrigger::VUpdate()
 
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -96,7 +96,7 @@ void TimerTrigger::VScreenChanged()
 {
     if (mState == State::eWaitForEnabled_0 || mState == State::eCheckForStartAgain_2 || gMap.LevelChanged() || gMap.PathChanged())
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 

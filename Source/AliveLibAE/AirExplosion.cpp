@@ -136,9 +136,9 @@ void AirExplosion::VUpdate()
 
         if (pParticle)
         {
-            if (pParticle->mBaseGameObjectFlags.Get(BaseGameObject::eListAddFailed_Bit1))
+            if (pParticle->GetListAddFailed())
             {
-                pParticle->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                pParticle->SetDead(true);
             }
 
             pParticle->mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
@@ -159,7 +159,7 @@ void AirExplosion::VUpdate()
 
     if (GetAnimation().mFlags.Get(AnimFlags::eForwardLoopCompleted))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -167,7 +167,7 @@ void AirExplosion::VScreenChanged()
 {
     if (gMap.mOverlayId != gMap.GetOverlayId())
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 

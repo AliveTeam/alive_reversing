@@ -33,7 +33,7 @@ void HoneyDrip::VUpdate()
 
     if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 

@@ -124,7 +124,7 @@ Well::~Well()
 
 void Well::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 static s16 Well_NextRandom()
@@ -144,7 +144,7 @@ void Well::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
         // Reset well state when Abe dies.
         Path::TLV_Reset(mTlvInfo, -1, 0, 0);
     }

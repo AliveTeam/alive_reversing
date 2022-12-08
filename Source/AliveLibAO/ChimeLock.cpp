@@ -136,17 +136,17 @@ ChimeLock::~ChimeLock()
 {
     if (mLeftBell)
     {
-        mLeftBell->mBaseGameObjectFlags.Set(Options::eDead);
+        mLeftBell->SetDead(true);
     }
 
     if (mCenterBell)
     {
-        mCenterBell->mBaseGameObjectFlags.Set(Options::eDead);
+        mCenterBell->SetDead(true);
     }
 
     if (mRightBell)
     {
-        mRightBell->mBaseGameObjectFlags.Set(Options::eDead);
+        mRightBell->SetDead(true);
     }
 
     Path::TLV_Reset(mTlvId, -1, 0, 0);
@@ -156,26 +156,26 @@ void ChimeLock::VScreenChanged()
 {
     if (mLeftBell)
     {
-        mLeftBell->mBaseGameObjectFlags.Set(Options::eDead);
+        mLeftBell->SetDead(true);
         mLeftBell->mBaseGameObjectRefCount--;
         mLeftBell = nullptr;
     }
 
     if (mCenterBell)
     {
-        mCenterBell->mBaseGameObjectFlags.Set(Options::eDead);
+        mCenterBell->SetDead(true);
         mCenterBell->mBaseGameObjectRefCount--;
         mCenterBell = nullptr;
     }
 
     if (mRightBell)
     {
-        mRightBell->mBaseGameObjectFlags.Set(Options::eDead);
+        mRightBell->SetDead(true);
         mRightBell->mBaseGameObjectRefCount--;
         mRightBell = nullptr;
     }
 
-    mBaseGameObjectFlags.Set(Options::eDead);
+    SetDead(true);
 }
 
 void ChimeLock::VUnPosses()
@@ -320,7 +320,7 @@ void ChimeLock::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(Options::eDead);
+        SetDead(true);
     }
 
     switch (mChimeLockState)

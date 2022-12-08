@@ -85,7 +85,7 @@ void Leaf::VUpdate()
     // Hit the floor, die but only if in background..
     if (bCollision && GetSpriteScale() == FP_FromDouble(0.5) && pLine->mLineType == eLineTypes::eFloor_0)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
         return;
     }
 
@@ -117,12 +117,12 @@ void Leaf::VUpdate()
             mYPos,
             0))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
 void Leaf::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 } // namespace AO

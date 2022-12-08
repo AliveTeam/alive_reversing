@@ -198,7 +198,7 @@ void BoomMachine::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (!mIsButtonOn)
@@ -226,7 +226,7 @@ void BoomMachine::VUpdate()
 
 void BoomMachine::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 bool BoomMachine::VIsButtonOn()
@@ -255,7 +255,7 @@ BoomMachine::~BoomMachine()
     BaseGameObject* pObj = sObjectIds.Find_Impl(mNozzleId);
     if (pObj)
     {
-        pObj->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        pObj->SetDead(true);
     }
     Path::TLV_Reset(mTlvId, -1, 0, 0);
 }

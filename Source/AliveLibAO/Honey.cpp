@@ -26,7 +26,7 @@ Honey::Honey(FP xpos, FP ypos)
 
 void Honey::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
     Path::TLV_Reset(mTlvInfo, -1, 0, 0);
 }
 

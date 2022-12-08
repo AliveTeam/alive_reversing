@@ -81,7 +81,7 @@ void ParamiteWeb::VUpdate()
         field_FA_ttl_remainder -= 8;
         if (field_FA_ttl_remainder <= field_F8_ttl)
         {
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
         }
     }
 }
@@ -90,7 +90,7 @@ void ParamiteWeb::VScreenChanged()
 {
     if (gMap.LevelChanged() || gMap.PathChanged())
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 

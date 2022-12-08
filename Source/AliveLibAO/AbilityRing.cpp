@@ -45,7 +45,7 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ring_type)
     SetType(ReliveTypes::eAbilityRing);
     mRingTargetObjId = Guid{};
     gObjListDrawables->Push_Back(this);
-    mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
+    SetDrawable(true);
 
     mRingPolyBuffer = relive_new AbilityRing_PolyBuffer[64];
     if (mRingPolyBuffer)
@@ -171,7 +171,7 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ring_type)
     }
     else
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -253,7 +253,7 @@ void AbilityRing::VUpdate()
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mRingTargetObjId));
     if (pTarget)
     {
-        if (pTarget->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+        if (pTarget->GetDead())
         {
             mRingTargetObjId = Guid{};
         }
@@ -301,7 +301,7 @@ void AbilityRing::VUpdate()
             }
             else
             {
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
             }
             return;
 
@@ -320,7 +320,7 @@ void AbilityRing::VUpdate()
 
             if (FP_GetExponent(mRingLeft) > mRingFadeoutDistance)
             {
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
             }
             break;
 
@@ -329,7 +329,7 @@ void AbilityRing::VUpdate()
             mRingLeft = mRingRight - mRingThickness;
             if (mRingLeft < FP_FromInteger(0))
             {
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
                 mRingLeft = FP_FromInteger(0);
                 SfxPlayMono(relive::SoundEffects::IngameTransition, 0);
                 relive_new PossessionFlicker(sActiveHero, 8, 255, 128, 128);
@@ -343,7 +343,7 @@ void AbilityRing::VUpdate()
             {
                 if (FP_GetExponent(mRingLeft) > mRingFadeoutDistance)
                 {
-                    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                    SetDead(true);
                 }
             }
             else
@@ -351,7 +351,7 @@ void AbilityRing::VUpdate()
                 mRingLeft = FP_FromInteger(0);
                 if (mRingFadeoutDistance < 0)
                 {
-                    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                    SetDead(true);
                 }
             }
             break;
@@ -362,7 +362,7 @@ void AbilityRing::VUpdate()
 
 void AbilityRing::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 void AbilityRing::CollideWithObjects()
@@ -385,7 +385,7 @@ void AbilityRing::CollideWithObjects()
 
         const PSX_RECT bRect = pObj->VGetBoundingRect();
 
-        if (!(pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead)))
+        if (!(pObj->GetDead()))
         {
             for (auto& rect : mRingCollideRects)
             {

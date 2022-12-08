@@ -53,7 +53,7 @@ void TorturedMudokon::SetupTearsAnimation(Animation* pAnim)
     }
     else
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eListAddFailed_Bit1);
+        SetListAddFailed(true);
     }
 }
 
@@ -69,13 +69,13 @@ void TorturedMudokon::SetupZapAnimation(Animation* pAnim)
     }
     else
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eListAddFailed_Bit1);
+        SetListAddFailed(true);
     }
 }
 
 void TorturedMudokon::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 void TorturedMudokon::VRender(PrimHeader** ppOt)
@@ -114,7 +114,7 @@ void TorturedMudokon::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
         return;
     }
 
@@ -141,7 +141,7 @@ void TorturedMudokon::VUpdate()
         case TorturedMudokonState::eKilled_1:
             if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
             }
             return;
 

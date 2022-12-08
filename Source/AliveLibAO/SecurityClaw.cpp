@@ -133,7 +133,7 @@ SecurityClaw::~SecurityClaw()
     BaseGameObject* pClaw = sObjectIds.Find_Impl(mClawId);
     if (pClaw)
     {
-        pClaw->mBaseGameObjectFlags.Set(Options::eDead);
+        pClaw->SetDead(true);
         mClawId = {};
     }
 
@@ -145,7 +145,7 @@ SecurityClaw::~SecurityClaw()
 
             pObjIter->SetDontComeBack(mDetectorComeBack);
             pObjIter->mBaseGameObjectRefCount--;
-            pObjIter->mBaseGameObjectFlags.Set(Options::eDead);
+            pObjIter->SetDead(true);
         }
 
         relive_delete mMotionDetectorArray;
@@ -159,17 +159,17 @@ SecurityClaw::~SecurityClaw()
 
 void SecurityClaw::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 s16 SecurityClaw::VTakeDamage(BaseGameObject* pFrom)
 {
-    if (!mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+    if (!GetDead())
     {
         if (pFrom->Type() == ReliveTypes::eAbilityRing || pFrom->Type() == ReliveTypes::eShrykull)
         {
             mDetectorComeBack = false;
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
 
             relive_new AirExplosion(
                 mXPos,
@@ -204,7 +204,7 @@ s16 SecurityClaw::VTakeDamage(BaseGameObject* pFrom)
                 FP_FromInteger(0),
                 GetSpriteScale());
 
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
         }
     }
     return 1;
@@ -216,7 +216,7 @@ void SecurityClaw::VUpdate()
 
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (!(sGnFrame % 20))

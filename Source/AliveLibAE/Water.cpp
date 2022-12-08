@@ -121,7 +121,7 @@ Water::Water(relive::Path_Water* pTlv, const Guid& tlvId)
     }
     else
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -164,7 +164,7 @@ void Water::VScreenChanged()
 
     if (gMap.LevelChanged() || gMap.PathChanged())
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -225,7 +225,7 @@ void Water::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (gMap.Is_Point_In_Current_Camera(
@@ -355,7 +355,7 @@ void Water::VUpdate()
                 {
                     if (field_124_tlv_data.mMaxDrops <= 0) // Someone created a water object in the map with no particles.
                     {
-                        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                        SetDead(true);
                     }
                     else
                     {
@@ -371,7 +371,7 @@ void Water::VUpdate()
 
                         if (allParticlesDead)
                         {
-                            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                            SetDead(true);
                         }
                     }
                 }

@@ -110,13 +110,13 @@ void Mine::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath || !(field_1B0_flags & 2))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
 s16 Mine::VTakeDamage(BaseGameObject* pFrom)
 {
-    if (mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+    if (GetDead())
     {
         return 0;
     }
@@ -128,7 +128,7 @@ s16 Mine::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eAirExplosion:
         case ReliveTypes::eShrykull:
         {
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
             relive_new GroundExplosion(mXPos, mYPos, GetSpriteScale());
             mDetonating = true;
             mExplosionTimer = sGnFrame;
@@ -188,7 +188,7 @@ void Mine::VUpdate()
         if (mDetonating == true && static_cast<s32>(sGnFrame) >= mExplosionTimer)
         {
             relive_new GroundExplosion(mXPos, mYPos, GetSpriteScale());
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
         }
     }
     else
@@ -217,7 +217,7 @@ void Mine::VUpdate()
             || mCurrentLevel != gMap.mCurrentLevel
             || mCurrentPath != gMap.mCurrentPath))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 

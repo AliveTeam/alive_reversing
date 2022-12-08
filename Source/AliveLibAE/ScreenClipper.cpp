@@ -11,7 +11,7 @@ ScreenClipper::ScreenClipper(PSX_Point xy, PSX_Point wh, Layer layer)
     SetType(ReliveTypes::eScreenClipper);
 
     SetUpdateDuringCamSwap(true);
-    mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
+    SetDrawable(true);
 
     mRect.x = xy.x;
     mRect.y = xy.y;

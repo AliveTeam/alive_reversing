@@ -131,7 +131,7 @@ s32 Greeter::CreateFromSaveState(const u8* pBuffer)
         pGreeter->GetAnimation().SetCurrentFrame(pState->mCurrentFrame);
         pGreeter->GetAnimation().SetFrameChangeCounter(pState->mFrameChangeCounter);
 
-        pGreeter->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->mDrawable & 1);
+        pGreeter->SetDrawable(pState->mDrawable & 1);
 
         pGreeter->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->mAnimRender & 1);
 
@@ -186,7 +186,7 @@ s32 Greeter::VGetSaveState(u8* pSaveBuffer)
 
     pState->mCurrentFrame = static_cast<s16>(GetAnimation().GetCurrentFrame());
     pState->mFrameChangeCounter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
-    pState->mDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
+    pState->mDrawable = GetDrawable();
     pState->mAnimRender = GetAnimation().mFlags.Get(AnimFlags::eRender);
     pState->mTlvId = mTlvId;
     pState->field_30_last_turn_time = field_124_last_turn_time;
@@ -217,14 +217,14 @@ void Greeter::VScreenChanged()
         const FP xDistFromPlayer = FP_Abs(sControlledCharacter->mXPos - mXPos);
         if (xDistFromPlayer > FP_FromInteger(356))
         {
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
             return;
         }
 
         const FP yDistFromPlayer = FP_Abs(sControlledCharacter->mYPos - mYPos);
         if (yDistFromPlayer > FP_FromInteger(240))
         {
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
             return;
         }
     }
@@ -244,7 +244,7 @@ Greeter::~Greeter()
     BaseGameObject* pMotionDetector = sObjectIds.Find_Impl(field_11C_motionDetectorId);
     if (pMotionDetector)
     {
-        pMotionDetector->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        pMotionDetector->SetDead(true);
     }
 }
 
@@ -267,7 +267,7 @@ void Greeter::BlowUp()
         GetSpriteScale(),
         0);
 
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
     field_12E_bDontSetDestroyed = 0;
 }
 
@@ -361,7 +361,7 @@ void Greeter::HandleRollingAlong()
 
 s16 Greeter::VTakeDamage(BaseGameObject* pFrom)
 {
-    if (mBaseGameObjectFlags.Get(BaseGameObject::eDead) || FP_GetExponent(mHealth) == 0)
+    if (GetDead() || FP_GetExponent(mHealth) == 0)
     {
         return 0;
     }
@@ -555,7 +555,7 @@ void Greeter::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     switch (mBrainState)

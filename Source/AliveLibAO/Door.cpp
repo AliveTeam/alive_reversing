@@ -138,8 +138,8 @@ Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
                 }
                 break;
             }
-            mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDrawable(false);
+            SetDead(true);
             return;
         }
 
@@ -158,8 +158,8 @@ Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
             const AnimRecord& openDoor = AO::AnimRec(sDoorAnimdIdTable[idx][3]);
             if (openDoor.mFrameTableOffset == 0)
             {
-                mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDrawable(false);
+                SetDead(true);
                 return;
             }
 
@@ -271,7 +271,7 @@ Door::~Door()
 
 void Door::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 bool Door::vIsOpen_40E800()
@@ -330,7 +330,7 @@ void Door::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(Options::eDead);
+        SetDead(true);
     }
 
     if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_156_DoorEnter || sActiveHero->mCurrentMotion == eAbeMotions::Motion_157_DoorExit)

@@ -56,7 +56,7 @@ Shrykull::~Shrykull()
     BaseGameObject* pZapLine = sObjectIds.Find_Impl(mZapLineId);
     if (pZapLine)
     {
-        pZapLine->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        pZapLine->SetDead(true);
         mZapLineId = Guid{};
     }
 
@@ -68,7 +68,7 @@ void Shrykull::VScreenChanged()
 {
     if (gMap.LevelChanged() || gMap.PathChanged())
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -95,7 +95,7 @@ bool Shrykull::CanKill(BaseAnimatedWithPhysicsGameObject* pObj)
 {
     return (
                pObj->Type() == ReliveTypes::eTimedMine_or_MovingBomb || pObj->Type() == ReliveTypes::eMine || pObj->Type() == ReliveTypes::eUXB || pObj->Type() == ReliveTypes::eSlig || pObj->Type() == ReliveTypes::eFlyingSlig || pObj->Type() == ReliveTypes::eCrawlingSlig || pObj->Type() == ReliveTypes::eSlog || pObj->Type() == ReliveTypes::eGlukkon || pObj->Type() == ReliveTypes::eSecurityClaw || pObj->Type() == ReliveTypes::eSecurityOrb)
-        && pObj->GetAnimation().mFlags.Get(AnimFlags::eRender) && !pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && gMap.Is_Point_In_Current_Camera(pObj->mCurrentLevel, pObj->mCurrentPath, pObj->mXPos, pObj->mYPos, 0);
+        && pObj->GetAnimation().mFlags.Get(AnimFlags::eRender) && !pObj->GetDead() && gMap.Is_Point_In_Current_Camera(pObj->mCurrentLevel, pObj->mCurrentPath, pObj->mXPos, pObj->mYPos, 0);
 }
 
 void Shrykull::VUpdate()
@@ -209,7 +209,7 @@ void Shrykull::VUpdate()
 
             if (pExistingZapLine)
             {
-                pExistingZapLine->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                pExistingZapLine->SetDead(true);
                 mZapLineId = Guid{};
             }
             mState = State::eDetransform_2;
@@ -244,7 +244,7 @@ void Shrykull::VUpdate()
             if (GetAnimation().mFlags.Get(AnimFlags::eForwardLoopCompleted))
             {
                 sActiveHero->ExitShrykull_45A9D0(mResetRingTimer);
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
             }
             break;
 
@@ -263,7 +263,7 @@ void Shrykull::VUpdate()
 
             if (pExistingBeingZappedObj)
             {
-                if (pExistingBeingZappedObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+                if (pExistingBeingZappedObj->GetDead())
                 {
                     mZapTargetId = Guid{};
                 }

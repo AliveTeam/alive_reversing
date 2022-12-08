@@ -47,7 +47,7 @@ Alarm::Alarm(s32 durationOffset, u16 switchId, s32 timerOffset, Layer layer)
     if (gAlarmInstanceCount > 1)
     {
         // More than one instance, kill self
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
     else
     {
@@ -99,7 +99,7 @@ void Alarm::VUpdate()
         EventBroadcast(kEventAlarm, this);
         if (static_cast<s32>(sGnFrame) > mAlarmDurationTimer)
         {
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
             return;
         }
     }
@@ -109,7 +109,7 @@ void Alarm::VUpdate()
         case States::eWaitForSwitchEnable_0:
             if (EventGet(kEventDeathReset))
             {
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
             }
 
             if (!SwitchStates_Get(mAlarmSwitchId))
@@ -121,7 +121,7 @@ void Alarm::VUpdate()
             gAlarmInstanceCount++;
             if (gAlarmInstanceCount > 1)
             {
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
             }
             else
             {
@@ -137,7 +137,7 @@ void Alarm::VUpdate()
         case States::eAfterConstructed_1: // When not created by a map TLV
             if (EventGet(kEventHeroDying))
             {
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
             }
             else
             {
@@ -206,7 +206,7 @@ void Alarm::VUpdate()
         case States::eDisabled_5:
             if (EventGet(kEventHeroDying))
             {
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
             }
             else
             {

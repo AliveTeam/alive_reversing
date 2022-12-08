@@ -224,7 +224,7 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, const Guid& tlvId)
     }
     else
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eListAddFailed_Bit1);
+        SetListAddFailed(true);
     }
 }
 
@@ -598,7 +598,7 @@ void LiftPoint::VUpdate()
     if ((mCurrentLevel != gMap.mCurrentLevel || mCurrentPath != gMap.mCurrentPath || EventGet(kEventDeathReset))
         && mPlatformBaseCount <= 0)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -742,7 +742,7 @@ void LiftPoint::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -879,13 +879,13 @@ LiftPoint::~LiftPoint()
     BaseGameObject* pRope1 = sObjectIds.Find(field_138_rope1_id, ReliveTypes::eRope);
     if (pRope2)
     {
-        pRope2->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        pRope2->SetDead(true);
         field_134_rope2_id = Guid{};
     }
 
     if (pRope1)
     {
-        pRope1->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        pRope1->SetDead(true);
         field_138_rope1_id = Guid{};
     }
 

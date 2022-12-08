@@ -139,7 +139,7 @@ void RollingBall::VUpdate()
                          mYPos,
                          0))
             {
-                mBaseGameObjectFlags.Set(Options::eDead);
+                SetDead(true);
             }
             return;
 
@@ -226,7 +226,7 @@ void RollingBall::VUpdate()
 
                 relive_new ScreenShake(0);
 
-                mBaseGameObjectFlags.Set(Options::eDead);
+                SetDead(true);
 
                 const CameraPos direction = gMap.GetDirection(mCurrentLevel, mCurrentPath, mXPos, mYPos);
                 SFX_Play_Camera(relive::SoundEffects::IngameTransition, 50, direction);
@@ -258,7 +258,7 @@ void RollingBall::VUpdate()
 
             if (EventGet(kEventDeathReset))
             {
-                mBaseGameObjectFlags.Set(Options::eDead);
+                SetDead(true);
                 CrushThingsInTheWay();
                 return;
             }
@@ -282,7 +282,7 @@ void RollingBall::VUpdate()
                         CrushThingsInTheWay();
                         return;
                     }
-                    mBaseGameObjectFlags.Set(Options::eDead);
+                    SetDead(true);
                 }
                 CrushThingsInTheWay();
                 return;
@@ -330,7 +330,7 @@ void RollingBall::VUpdate()
         case States::eCrushedBees:
             if (mCurrentLevel != gMap.mCurrentLevel || mCurrentPath != gMap.mCurrentPath || EventGet(kEventDeathReset))
             {
-                mBaseGameObjectFlags.Set(Options::eDead);
+                SetDead(true);
             }
             return;
 
@@ -394,7 +394,7 @@ void RollingBall::KillRollingBallShaker()
     {
         auto pShaker = static_cast<RollingBallShaker*>(sObjectIds.Find_Impl(mRollingBallShakerId));
         pShaker->mStopShaking = true;
-        pShaker->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        pShaker->SetDead(true);
         mRollingBallShakerId = {};
     }
 }

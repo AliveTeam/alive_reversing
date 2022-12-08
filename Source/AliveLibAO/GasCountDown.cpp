@@ -27,7 +27,7 @@ GasCountDown::GasCountDown(relive::Path_GasCountDown* pTlv, const Guid& tlvInfo)
     mPal = ResourceManagerWrapper::LoadPal(PalId::LedFont_Red);
     mFontContext.LoadFontType(FontType::LcdFont);
     mFont.Load(5, mPal, &mFontContext);
-    mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
+    SetDrawable(true);
     gObjListDrawables->Push_Back(this);
 
     mGasXPos = FP_GetExponent((FP_FromInteger(pScreenManager->mCamXOff + pTlv->mTopLeftX) - pScreenManager->mCamPos->x));
@@ -49,7 +49,7 @@ GasCountDown::~GasCountDown()
 
 void GasCountDown::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
     if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath)
     {
         sGasTimer = 0;
@@ -60,7 +60,7 @@ void GasCountDown::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (EventGet(kEventDeathResetEnd))

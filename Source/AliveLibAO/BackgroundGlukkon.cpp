@@ -82,12 +82,12 @@ BackgroundGlukkon::BackgroundGlukkon(relive::Path_BackgroundGlukkon* pTlv, const
 
 void BackgroundGlukkon::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 s16 BackgroundGlukkon::VTakeDamage(BaseGameObject* pFrom)
 {
-    if (mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+    if (GetDead())
     {
         return 0;
     }
@@ -119,7 +119,7 @@ s16 BackgroundGlukkon::VTakeDamage(BaseGameObject* pFrom)
             mYPos - (GetSpriteScale() * FP_FromInteger(40)),
             GetSpriteScale());
 
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
     return 1;
 }
@@ -128,7 +128,7 @@ void BackgroundGlukkon::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     switch (field_110_state)

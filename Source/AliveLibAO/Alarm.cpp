@@ -28,7 +28,7 @@ Alarm::Alarm(s32 duration_timer, u16 switchId, s32 timer, Layer layer)
     if (gAlarmInstanceCount > 1)
     {
         // More than one instance, kill self
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     mEffectBaseRed = 0;
@@ -39,7 +39,7 @@ Alarm::Alarm(s32 duration_timer, u16 switchId, s32 timer, Layer layer)
     if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
     {
         gObjListDrawables->Remove_Item(this);
-        mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
+        SetDrawable(false);
     }
 }
 
@@ -63,7 +63,7 @@ void Alarm::VUpdate()
 
     if (mEffectBasePathId != gMap.mCurrentPath || mEffectBaseLevelId != gMap.mCurrentLevel || static_cast<s32>(sGnFrame) > mAlarmDurationTimer)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
         return;
     }
 
@@ -72,7 +72,7 @@ void Alarm::VUpdate()
         case States::eAfterConstructed_0:
             if (EventGet(kEventHeroDying))
             {
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
                 return;
             }
 
@@ -122,7 +122,7 @@ void Alarm::VUpdate()
         case States::eDisabled_4:
             if (EventGet(kEventHeroDying))
             {
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
                 return;
             }
 
@@ -144,7 +144,7 @@ void Alarm::VScreenChanged()
 {
     if (gMap.LevelChanged() || gMap.PathChanged())
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 

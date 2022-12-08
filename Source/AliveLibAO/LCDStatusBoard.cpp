@@ -12,7 +12,7 @@ namespace AO {
 
 void LCDStatusBoard::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 LCDStatusBoard::~LCDStatusBoard()
@@ -33,7 +33,7 @@ LCDStatusBoard::LCDStatusBoard(relive::Path_LCDStatusBoard* pTlv, const Guid& tl
     mRescuedMudsFont.Load(3, mPal, &mFontContext);
     mEmployeesFont.Load(3, mPal, &mFontContext);
 
-    mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
+    SetDrawable(true);
     gObjListDrawables->Push_Back(this);
 
     mXPos = (pScreenManager->mCamXOff + pTlv->mTopLeftX) - FP_GetExponent(pScreenManager->mCamPos->x);
@@ -44,7 +44,7 @@ void LCDStatusBoard::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 

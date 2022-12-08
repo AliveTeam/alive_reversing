@@ -24,14 +24,14 @@ SligSpawner::SligSpawner(relive::Path_TLV* pTlv, relive::Path_Slig_Data* pTlvDat
 
 void SligSpawner::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 void SligSpawner::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (SwitchStates_Get(mSligSpawnerSwitchId))
@@ -48,7 +48,7 @@ void SligSpawner::VUpdate()
             relive_new Slig(pTlv, {});
         }
 
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
         mSpawnerFlags = 0;
     }
 }

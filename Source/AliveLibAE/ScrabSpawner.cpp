@@ -99,11 +99,11 @@ void ScrabSpawner::VUpdate()
     }
 
     auto pExistingSpawnedScrab = static_cast<Scrab*>(sObjectIds.Find_Impl(field_3C_spawned_scrab_id));
-    if (!EventGet(kEventDeathReset) && !(mBaseGameObjectFlags.Get(BaseGameObject::eDead)))
+    if (!EventGet(kEventDeathReset) && !(GetDead()))
     {
         if (field_38_state == ScrabSpawnerStates::eScrabSpawned_1)
         {
-            if (!pExistingSpawnedScrab || pExistingSpawnedScrab->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+            if (!pExistingSpawnedScrab || pExistingSpawnedScrab->GetDead())
             {
                 SwitchStates_Do_Operation(field_24_spawner_switch_id, relive::reliveSwitchOp::eSetFalse);
                 field_3C_spawned_scrab_id = Guid{};
@@ -134,7 +134,7 @@ void ScrabSpawner::VUpdate()
                 }
                 else
                 {
-                    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                    SetDead(true);
                 }
             }
         }

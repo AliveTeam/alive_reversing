@@ -14,7 +14,7 @@ FG1::FG1(Fg1Resource& pFg1Res, CamResource& camRes)
     , mFG1Res(pFg1Res)
     , mCamRes(camRes)
 {
-    mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
+    SetDrawable(true);
     SetSurviveDeathReset(true);
     SetUpdateDuringCamSwap(true);
 
@@ -25,7 +25,7 @@ FG1::FG1(Fg1Resource& pFg1Res, CamResource& camRes)
 
 void FG1::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 void FG1::VRender(PrimHeader** ppOt)

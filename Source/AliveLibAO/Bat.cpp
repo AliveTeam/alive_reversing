@@ -86,7 +86,7 @@ Bat::~Bat()
 
 void Bat::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 void Bat::FlyTo(FP xpos, FP ypos, FP* xSpeed, FP* ySpeed)
@@ -132,7 +132,7 @@ void Bat::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(Options::eDead);
+        SetDead(true);
     }
 
     if (gNumCamSwappers != 0)
@@ -210,7 +210,7 @@ void Bat::VUpdate()
 
             if (!mBatLine)
             {
-                mBaseGameObjectFlags.Set(Options::eDead);
+                SetDead(true);
             }
 
             if (!sActiveHero->field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel))
@@ -261,9 +261,9 @@ void Bat::VUpdate()
 
         case BatStates::eAttackTarget_4:
         {
-            if (mAttackTarget->mBaseGameObjectFlags.Get(BaseGameObject::eDead) || EventGet(kEventDeathReset))
+            if (mAttackTarget->GetDead() || EventGet(kEventDeathReset))
             {
-                mBaseGameObjectFlags.Set(Options::eDead);
+                SetDead(true);
                 return;
             }
 
@@ -298,7 +298,7 @@ void Bat::VUpdate()
             FlyTo(mXPos, mYPos - FP_FromInteger(40), &xSpeed, &ySpeed);
             if (EventGet(kEventDeathReset))
             {
-                mBaseGameObjectFlags.Set(Options::eDead);
+                SetDead(true);
             }
         }
         break;

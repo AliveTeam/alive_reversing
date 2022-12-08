@@ -40,22 +40,22 @@ PossessionFlicker::~PossessionFlicker()
 
 void PossessionFlicker::VScreenChanged()
 {
-    if (field_10_pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+    if (field_10_pObj->GetDead())
     {
         field_10_pObj->mBaseGameObjectRefCount--;
         field_10_pObj = nullptr;
-        mBaseGameObjectFlags.Set(Options::eDead);
+        SetDead(true);
     }
 }
 
 void PossessionFlicker::VUpdate()
 {
     bool bFlicker = false;
-    if (field_10_pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+    if (field_10_pObj->GetDead())
     {
         field_10_pObj->mBaseGameObjectRefCount--;
         field_10_pObj = nullptr;
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
         bFlicker = false;
     }
     else
@@ -80,7 +80,7 @@ void PossessionFlicker::VUpdate()
 
         if (static_cast<s32>(sGnFrame) > field_14_time_to_flicker)
         {
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
         }
     }
 }

@@ -335,14 +335,14 @@ DoorFlame::~DoorFlame()
     if (mFireBackgroundGlow)
     {
         mFireBackgroundGlow->mBaseGameObjectRefCount--;
-        mFireBackgroundGlow->mBaseGameObjectFlags.Set(Options::eDead);
+        mFireBackgroundGlow->SetDead(true);
         mFireBackgroundGlow = nullptr;
     }
 
     if (mFlameSparks)
     {
         mFlameSparks->mBaseGameObjectRefCount--;
-        mFlameSparks->mBaseGameObjectFlags.Set(Options::eDead);
+        mFlameSparks->SetDead(true);
         mFlameSparks = nullptr;
     }
 
@@ -379,7 +379,7 @@ void DoorFlame::VUpdate()
             if (mFireBackgroundGlow)
             {
                 mFireBackgroundGlow->mBaseGameObjectRefCount--;
-                mFireBackgroundGlow->mBaseGameObjectFlags.Set(Options::eDead);
+                mFireBackgroundGlow->SetDead(true);
                 mFireBackgroundGlow = nullptr;
             }
             break;
@@ -435,7 +435,7 @@ void DoorFlame::VUpdate()
             mYPos,
             0))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 

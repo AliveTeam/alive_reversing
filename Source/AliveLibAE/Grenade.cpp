@@ -39,7 +39,7 @@ s32 Grenade::CreateFromSaveState(const u8* pBuffer)
     pGrenade->GetAnimation().mFlags.Set(AnimFlags::eLoop, pState->mLoop);
     pGrenade->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->mRender);
 
-    pGrenade->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->mDrawable);
+    pGrenade->SetDrawable(pState->mDrawable);
     pGrenade->SetInteractive(pState->mInteractive);
 
     pGrenade->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eRestoredFromQuickSave);
@@ -76,7 +76,7 @@ s32 Grenade::VGetSaveState(u8* pSaveBuffer)
     pState->field_18_sprite_scale = GetSpriteScale();
 
     pState->mLoop = GetAnimation().mFlags.Get(AnimFlags::eLoop);
-    pState->mDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
+    pState->mDrawable = GetDrawable();
     pState->mRender = GetAnimation().mFlags.Get(AnimFlags::eRender);
     pState->mInteractive = GetInteractive();
 
@@ -196,7 +196,7 @@ void Grenade::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
     mExplosionId = Guid{};
 }
@@ -208,7 +208,7 @@ void Grenade::VUpdate()
 
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eRestoredFromQuickSave))
@@ -342,7 +342,7 @@ void Grenade::VUpdate()
             break;
 
         case GrenadeStates::eWaitForExplodeEnd_6:
-            if (!pExplosion || pExplosion->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+            if (!pExplosion || pExplosion->GetDead())
             {
                 mState = GrenadeStates::eExploded_7;
                 mExplosionId = Guid{};
@@ -350,7 +350,7 @@ void Grenade::VUpdate()
             break;
 
         case GrenadeStates::eExploded_7:
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
             break;
 
         case GrenadeStates::eDoesNothing_8:
@@ -400,7 +400,7 @@ s16 Grenade::InTheAir(s16 blowUpOnFloorTouch)
     {
         if (BaseAliveGameObjectPathTLV->mTlvType == ReliveTypes::eDeathDrop)
         {
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
             return 1;
         }
 

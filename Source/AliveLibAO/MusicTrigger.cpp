@@ -89,7 +89,7 @@ void MusicTrigger::Init(relive::Path_MusicTrigger::MusicTriggerMusicType type, r
             {
                 if (SwitchStates_Get(switchId))
                 {
-                    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                    SetDead(true);
                 }
             }
             break;
@@ -119,7 +119,7 @@ void MusicTrigger::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mNextLevel)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -127,7 +127,7 @@ void MusicTrigger::VUpdate()
 {
     if (EventGet(kEventHeroDying))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
         if (mTlvId.IsValid())
         {
             Path::TLV_Reset(mTlvId, -1, 0, 0);
@@ -167,7 +167,7 @@ void MusicTrigger::VUpdate()
         {
             if (!SwitchStates_Get(field_1E_switch_id))
             {
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
                 return;
             }
 
@@ -184,7 +184,7 @@ void MusicTrigger::VUpdate()
         }
         else
         {
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
         }
     }
 }

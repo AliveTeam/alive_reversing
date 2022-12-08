@@ -49,7 +49,7 @@ void BackgroundAnimation::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
     else
     {
@@ -60,7 +60,7 @@ void BackgroundAnimation::VUpdate()
 
 void BackgroundAnimation::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 BackgroundAnimation::~BackgroundAnimation()

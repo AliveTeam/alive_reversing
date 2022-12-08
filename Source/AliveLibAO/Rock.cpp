@@ -74,7 +74,7 @@ void Rock::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(Options::eDead);
+        SetDead(true);
     }
 
     switch (field_110_state)
@@ -177,7 +177,7 @@ void Rock::VUpdate()
                     mYPos,
                     0))
             {
-                mBaseGameObjectFlags.Set(Options::eDead);
+                SetDead(true);
             }
             break;
         default:
@@ -191,7 +191,7 @@ void Rock::VScreenChanged()
     if (gMap.mCurrentPath != gMap.mNextPath
         || gMap.mCurrentLevel != gMap.mNextLevel)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -225,7 +225,7 @@ void Rock::InTheAir()
 
     if (mVelY > FP_FromInteger(30))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     mVelY += FP_FromInteger(1);

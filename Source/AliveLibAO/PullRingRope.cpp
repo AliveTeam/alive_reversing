@@ -109,7 +109,7 @@ PullRingRope::~PullRingRope()
 
     if (field_F8_pRope)
     {
-        field_F8_pRope->mBaseGameObjectFlags.Set(Options::eDead);
+        field_F8_pRope->SetDead(true);
         field_F8_pRope->mBaseGameObjectRefCount--;
     }
 }
@@ -118,12 +118,12 @@ void PullRingRope::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (field_F4_pPuller)
     {
-        if (field_F4_pPuller->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+        if (field_F4_pPuller->GetDead())
         {
             field_F4_pPuller->mBaseGameObjectRefCount--;
             field_F4_pPuller = nullptr;
@@ -260,7 +260,7 @@ void PullRingRope::VScreenChanged()
     // If the person pulling the rope is gone then so are we
     if (!field_F4_pPuller)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 

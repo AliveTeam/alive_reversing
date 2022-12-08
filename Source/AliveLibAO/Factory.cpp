@@ -214,7 +214,7 @@ static void Factory_LiftPoint(relive::Path_TLV* pTlv, Map* pMap, const Guid& tlv
                 break;
             }
 
-            if (!pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && pObjIter->Type() == ReliveTypes::eLiftPoint)
+            if (!pObjIter->GetDead() && pObjIter->Type() == ReliveTypes::eLiftPoint)
             {
                 auto pLiftObj = static_cast<LiftPoint*>(pObjIter);
 

@@ -28,7 +28,7 @@ PauseMenu::PauseMenu()
     SetType(ReliveTypes::ePauseMenu);
     SetUpdateDelay(25);
 
-    mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
+    SetDrawable(false);
     SetSurviveDeathReset(true);
 
     gObjListDrawables->Push_Back(this);
@@ -42,7 +42,7 @@ PauseMenu::PauseMenu()
 
 PauseMenu::~PauseMenu()
 {
-    mBaseGameObjectFlags.Clear(Options::eDrawable_Bit4);
+    SetDrawable(false);
     gObjListDrawables->Remove_Item(this);
 }
 
@@ -50,7 +50,7 @@ void PauseMenu::VScreenChanged()
 {
     if (gMap.mNextLevel == EReliveLevelIds::eCredits)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -114,7 +114,7 @@ void PauseMenu::VUpdate()
     {
         SND_StopAll();
         SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
-        mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
+        SetDrawable(true);
         field_11C = 1;
         field_124 = 0;
         field_126_page = PauseMenuPages::ePause_0;
@@ -136,9 +136,9 @@ void PauseMenu::VUpdate()
                 {
                     break;
                 }
-                if (!pObjIter->mBaseGameObjectFlags.Get(Options::eDead))
+                if (!pObjIter->GetDead())
                 {
-                    if (pObjIter->mBaseGameObjectFlags.Get(Options::eDrawable_Bit4))
+                    if (pObjIter->GetDrawable())
                     {
                         pObjIter->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
                     }
@@ -454,11 +454,11 @@ void PauseMenu::VUpdate()
                         SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
                         if (gPauseMenu && gPauseMenu == this)
                         {
-                            gPauseMenu->mBaseGameObjectFlags.Set(Options::eDead);
+                            gPauseMenu->SetDead(true);
                         }
                         else
                         {
-                            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                            SetDead(true);
                         }
                         gPauseMenu = 0;
                         gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, CameraIds::Menu::eMainMenu_1, CameraSwapEffects::eInstantChange_0, 0, 0);
@@ -476,7 +476,7 @@ void PauseMenu::VUpdate()
             if (!field_11C)
             {
                 Input().Update(GetGameAutoPlayer());
-                mBaseGameObjectFlags.Clear(Options::eDrawable_Bit4);
+                SetDrawable(false);
                 break;
             }
         }

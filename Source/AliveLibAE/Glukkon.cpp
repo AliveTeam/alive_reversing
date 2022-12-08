@@ -160,7 +160,7 @@ s32 Glukkon::CreateFromSaveState(const u8* pData)
 
         pGlukkon->GetAnimation().SetCurrentFrame(pSaveState->mCurrentFrame);
         pGlukkon->GetAnimation().SetFrameChangeCounter(pSaveState->mFrameChangeCounter);
-        pGlukkon->mBaseGameObjectFlags.Set(BaseGameObject::Options::eDrawable_Bit4, pSaveState->mDrawable & 1);
+        pGlukkon->SetDrawable(pSaveState->mDrawable & 1);
         pGlukkon->GetAnimation().mFlags.Set(AnimFlags::eFlipX, pSaveState->mFlipX & 1);
         pGlukkon->GetAnimation().mFlags.Set(AnimFlags::eRender, pSaveState->mRender & 1);
 
@@ -306,7 +306,7 @@ s32 Glukkon::VGetSaveState(u8* pSaveBuffer)
     pSaveState->mFrameChangeCounter = static_cast<u16>(GetAnimation().GetFrameChangeCounter());
     pSaveState->mFlipX = GetAnimation().mFlags.Get(AnimFlags::eFlipX);
     pSaveState->mRender = GetAnimation().mFlags.Get(AnimFlags::eRender);
-    pSaveState->mDrawable = mBaseGameObjectFlags.Get(BaseGameObject::Options::eDrawable_Bit4);
+    pSaveState->mDrawable = GetDrawable();
     pSaveState->mHealth = mHealth;
     pSaveState->mCurrentMotion2 = mCurrentMotion;
     pSaveState->mNextMotion = mNextMotion;
@@ -1626,7 +1626,7 @@ s16 Glukkon::Brain_3_PlayerControlled()
 
                 if (pObj->Type() == ReliveTypes::eSlig)
                 {
-                    pObj->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                    pObj->SetDead(true);
                 }
             }
 
@@ -1851,7 +1851,7 @@ s16 Glukkon::Brain_5_WaitToSpawn()
             return mBrainSubState;
         }
 
-        mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
+        SetDrawable(true);
         mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanBePossessed);
 
         SetType(ReliveTypes::eGlukkon);
@@ -1900,7 +1900,7 @@ void Glukkon::Init()
     GetAnimation().mFlags.Set(AnimFlags::eAnimate);
     GetAnimation().mFlags.Set(AnimFlags::eRender);
 
-    mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
+    SetDrawable(true);
 
     SetTint(&kGlukkonTints_5546B4[0], gMap.mCurrentLevel);
     mXPos = FP_FromInteger((mTlvData.mTopLeftX + mTlvData.mBottomRightX) / 2);
@@ -1924,7 +1924,7 @@ void Glukkon::Init()
             GetAnimation().mFlags.Set(AnimFlags::eFlipX);
         }
         mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eCanBePossessed);
-        mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
+        SetDrawable(false);
         SetBrain(&Glukkon::Brain_5_WaitToSpawn);
         mBrainSubState = 0;
         SetType(ReliveTypes::eNone);
@@ -1999,7 +1999,7 @@ Glukkon::~Glukkon()
         Path::TLV_Reset(mTlvId, -1, 0, 0);
     }
 
-    mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4); // Seems wrong to do this here ??
+    SetDrawable(true); // Seems wrong to do this here ??
 
     if (this == sControlledCharacter)
     {
@@ -2045,7 +2045,7 @@ void Glukkon::VUpdate()
 
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
     else
     {
@@ -2749,7 +2749,7 @@ void Glukkon::ToDead()
     if (mTlvData.mSpawnSwitchId == 0)
     {
         // Don't spawn again, dead
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
     else
     {
@@ -2893,7 +2893,7 @@ void Glukkon::VScreenChanged()
     SwitchStates_Do_Operation(mTlvData.mHelpSwitchId, relive::reliveSwitchOp::eSetFalse);
     if (BrainIs(&Glukkon::Brain_5_WaitToSpawn) && !mBrainSubState)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 

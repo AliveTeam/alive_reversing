@@ -55,7 +55,7 @@ const s16 xPositionDeltaEntries_4CF8E0[39] = {
 
 SnoozeParticle::~SnoozeParticle()
 {
-    if (mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
+    if (GetDrawable())
     {
         gObjListDrawables->Remove_Item(this);
     }
@@ -63,13 +63,13 @@ SnoozeParticle::~SnoozeParticle()
 
 void SnoozeParticle::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 SnoozeParticle::SnoozeParticle(FP xpos, FP ypos, Layer layer, FP scale)
     : BaseGameObject(true, 0)
 {
-    mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
+    SetDrawable(true);
 
     SetType(ReliveTypes::eSnoozParticle);
     gObjListDrawables->Push_Back(this);
@@ -104,7 +104,7 @@ void SnoozeParticle::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (!gNumCamSwappers)
@@ -157,7 +157,7 @@ void SnoozeParticle::VUpdate()
                 else
                 {
                     SfxPlayMono(relive::SoundEffects::ZPop, 0);
-                    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                    SetDead(true);
                 }
         }
     }

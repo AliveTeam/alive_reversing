@@ -81,7 +81,7 @@ void OrbWhirlWindParticle::Update()
             }
             else
             {
-                if (!mRingTargetObjId || mRingTargetObjId->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+                if (!mRingTargetObjId || mRingTargetObjId->GetDead())
                 {
                     ToStop();
                 }
@@ -100,7 +100,7 @@ void OrbWhirlWindParticle::Update()
             break;
 
         case State::eFlyToTarget:
-            if (!mRingTargetObjId || mRingTargetObjId->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+            if (!mRingTargetObjId || mRingTargetObjId->GetDead())
             {
                 ToStop();
             }

@@ -54,7 +54,7 @@ void HoistParticle::VUpdate()
                 mYPos,
                 0))
         {
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
         }
     }
     else
@@ -89,7 +89,7 @@ void HoistParticle::VUpdate()
 
 void HoistRocksEffect::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 HoistRocksEffect::~HoistRocksEffect()

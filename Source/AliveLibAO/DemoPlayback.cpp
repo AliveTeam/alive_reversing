@@ -16,7 +16,7 @@ namespace AO {
 DemoPlayback::DemoPlayback(u8** ppPlaybackData, s32 bFromHandStone)
     : BaseGameObject(true, 0)
 {
-    mBaseGameObjectFlags.Clear(Options::eDrawable_Bit4);
+    SetDrawable(false);
     SetSurviveDeathReset(true);
     SetType(ReliveTypes::eDemoPlayback);
     field_1C_bFromHandStone = static_cast<s16>(bFromHandStone);
@@ -26,7 +26,7 @@ DemoPlayback::DemoPlayback(u8** ppPlaybackData, s32 bFromHandStone)
         field_18_ppRes = relive_new SaveData();
         if (!field_18_ppRes)
         {
-            mBaseGameObjectFlags.Clear(Options::eDead);
+            SetDead(false);
         }
         SaveGame::SaveToMemory(field_18_ppRes);
     }
@@ -65,12 +65,12 @@ void DemoPlayback::VUpdate()
     switch (field_10_state)
     {
         case States::eState_0_Init:
-            sActiveHero->mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
+            sActiveHero->SetDrawable(true);
             sActiveHero->GetAnimation().mFlags.Set(AnimFlags::eRender);
 
             Input().SetDemoRes(reinterpret_cast<u32**>(field_14_ppDemoRes));
 
-            mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
+            SetDrawable(true);
             field_10_state = States::eState_1_Playing;
             break;
 
@@ -98,13 +98,13 @@ void DemoPlayback::VUpdate()
 
                 field_10_state = States::eState_2_Done;
                 SetUpdateDelay(2);
-                mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDrawable(false);
+                SetDead(true);
             }
             break;
 
         case States::eState_2_Done:
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
             break;
     }
 }

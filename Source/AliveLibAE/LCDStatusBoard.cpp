@@ -28,7 +28,7 @@ LCDStatusBoard::LCDStatusBoard(relive::Path_LCDStatusBoard* pTlv, const Guid& tl
     mMudsInLevelFont.Load(3, mPal, &mFontContext);
     mMudsInAreaFont.Load(3, mPal, &mFontContext);
 
-    mBaseGameObjectFlags.Set(eDrawable_Bit4);
+    SetDrawable(true);
     gObjListDrawables->Push_Back(this);
     mXPos = FP_GetExponent(FP_FromInteger(static_cast<s32>(pTlv->mTopLeftX)) - pScreenManager->CamXPos());
     mYPos = FP_GetExponent(FP_FromInteger(static_cast<s32>(pTlv->mTopLeftY)) - pScreenManager->CamYPos());
@@ -51,7 +51,7 @@ void LCDStatusBoard::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(eDead);
+        SetDead(true);
     }
 }
 
@@ -157,5 +157,5 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
 
 void LCDStatusBoard::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(eDead);
+    SetDead(true);
 }

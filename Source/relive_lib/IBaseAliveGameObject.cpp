@@ -66,7 +66,7 @@ void IBaseAliveGameObject::OnCollisionWith(PSX_Point xy, PSX_Point wh, DynamicAr
 
             if (pObjIter->GetIsBaseAnimatedWithPhysicsObj())
             {
-                if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
+                if (pObjIter->GetDrawable())
                 {
                     BaseAnimatedWithPhysicsGameObject* pObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObjIter);
                     const PSX_RECT bRect = pObj->VGetBoundingRect();

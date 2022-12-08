@@ -43,11 +43,11 @@ LiftMover::~LiftMover()
 
 void LiftMover::VUpdate()
 {
-    if (mTargetLift && mTargetLift->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+    if (mTargetLift && mTargetLift->GetDead())
     {
         mTargetLift->mBaseGameObjectRefCount--;
         mTargetLift = nullptr;
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
         return;
     }
 
@@ -166,7 +166,7 @@ void LiftMover::VUpdate()
 
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 

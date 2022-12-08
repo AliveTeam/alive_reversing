@@ -187,7 +187,7 @@ Paramite::~Paramite()
 {
     if (mParamiteWeb)
     {
-        mParamiteWeb->mBaseGameObjectFlags.Set(Options::eDead);
+        mParamiteWeb->SetDead(true);
         mParamiteWeb->mBaseGameObjectRefCount--;
         mParamiteWeb = nullptr;
     }
@@ -248,7 +248,7 @@ s16 Paramite::VTakeDamage(BaseGameObject* pFrom)
                 mVelY,
                 GetSpriteScale());
 
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
             GetAnimation().mFlags.Clear(AnimFlags::eRender);
             mHealth = FP_FromInteger(0);
             return 1;
@@ -305,7 +305,7 @@ void Paramite::VOnTlvCollision(relive::Path_TLV* pTlv)
     {
         if (pTlv->mTlvType == ReliveTypes::eDeathDrop)
         {
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
             mHealth = FP_FromInteger(0);
         }
         pTlv = gMap.TLV_Get_At(pTlv, mXPos, mYPos, mXPos, mYPos);
@@ -316,7 +316,7 @@ void Paramite::VScreenChanged()
 {
     if (gMap.LevelChanged() || gMap.PathChanged())
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -372,20 +372,20 @@ void Paramite::VUpdate()
 
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(Options::eDead);
+        SetDead(true);
     }
 
     if (FP_Abs(mXPos - sActiveHero->mXPos) > FP_FromInteger(1536) || FP_Abs(mYPos - sActiveHero->mYPos) > FP_FromInteger(480))
     {
         if (mDeleteWhenOutOfSight == relive::reliveChoice::eYes)
         {
-            mBaseGameObjectFlags.Set(Options::eDead);
+            SetDead(true);
         }
         else
         {
             if (mMeat)
             {
-                if (mMeat->VIsFalling() || mMeat->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+                if (mMeat->VIsFalling() || mMeat->GetDead())
                 {
                     mMeat->mBaseGameObjectRefCount--;
                     mMeat = nullptr;
@@ -838,7 +838,7 @@ s16 Paramite::Brain_0_Patrol()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     const FP kGridSize = ScaleToGridSize(GetSpriteScale());
@@ -1361,7 +1361,7 @@ s16 Paramite::Brain_1_SurpriseWeb()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     switch (mBrainSubState)
@@ -1526,7 +1526,7 @@ s16 Paramite::Brain_2_Struggling()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (IsBeeSwarmChasingMe_4022B0())
@@ -1604,7 +1604,7 @@ s16 Paramite::Brain_3_Death()
 
     if (field_114_timer < (s32) sGnFrame)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     return 100;
@@ -1634,7 +1634,7 @@ s16 Paramite::Brain_4_ChasingAbe()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (mAttackTimer <= static_cast<s32>(sGnFrame)
@@ -2164,10 +2164,10 @@ s16 Paramite::Brain_5_SpottedMeat()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(Options::eDead);
+        SetDead(true);
     }
 
-    if (mMeat->VIsFalling() || mMeat->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+    if (mMeat->VIsFalling() || mMeat->GetDead())
     {
         Sound(ParamiteSpeak::DetectedMeat_7);
         SetBrain(&Paramite::Brain_0_Patrol);
@@ -2459,7 +2459,7 @@ s16 Paramite::Brain_5_SpottedMeat()
             }
 
             mMeat->mBaseGameObjectRefCount--;
-            mMeat->mBaseGameObjectFlags.Set(Options::eDead);
+            mMeat->SetDead(true);
             mMeat = nullptr;
             SetNextMotion(eParamiteMotions::Motion_0_Idle);
             SetBrain(&Paramite::Brain_0_Patrol);

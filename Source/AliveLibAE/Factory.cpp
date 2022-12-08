@@ -289,7 +289,7 @@ static void Factory_LiftPoint(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, 
                 break;
             }
 
-            if (!(pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead)) && pObj->Type() == ReliveTypes::eLiftPoint)
+            if (!(pObj->GetDead()) && pObj->Type() == ReliveTypes::eLiftPoint)
             {
                 // Is there already an existing LiftPoint object for this TLV?
                 LiftPoint* pLiftPoint = static_cast<LiftPoint*>(pObj);

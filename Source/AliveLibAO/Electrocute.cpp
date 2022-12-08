@@ -19,7 +19,7 @@ public:
 
         gObjListDrawables->Push_Back(this);
 
-        mBaseGameObjectFlags.Set(Options::eDrawable_Bit4);
+        SetDrawable(true);
 
         for (auto& palBufferEntry : field_A8_palBuffer)
         {
@@ -130,7 +130,7 @@ Electrocute::~Electrocute()
     {
         if (pPalOverwriter)
         {
-            pPalOverwriter->mBaseGameObjectFlags.Set(Options::eDead);
+            pPalOverwriter->SetDead(true);
         }
     }
 
@@ -146,7 +146,7 @@ void Electrocute::VScreenChanged()
 {
     // If the map has changed or target we are tracking has died then..
     if (gMap.LevelChanged() || gMap.PathChanged()
-        || (field_10_obj_target && field_10_obj_target->mBaseGameObjectFlags.Get(BaseGameObject::eDead)))
+        || (field_10_obj_target && field_10_obj_target->GetDead()))
     {
         Stop();
     }
@@ -158,7 +158,7 @@ void Electrocute::Stop()
     {
         if (pPalOverwriter)
         {
-            pPalOverwriter->mBaseGameObjectFlags.Set(Options::eDead);
+            pPalOverwriter->SetDead(true);
             pPalOverwriter = nullptr;
         }
     }
@@ -182,7 +182,7 @@ void Electrocute::Stop()
         field_10_obj_target->mBaseGameObjectRefCount--;
         field_10_obj_target = nullptr;
 
-        mBaseGameObjectFlags.Set(Options::eDead);
+        SetDead(true);
     }
 }
 
@@ -194,7 +194,7 @@ u32 Pal_Make_Colour(u8 r, u8 g, u8 b, s16 bOpaque)
 
 void Electrocute::VUpdate()
 {
-    if (field_10_obj_target && field_10_obj_target->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+    if (field_10_obj_target && field_10_obj_target->GetDead())
     {
         Stop();
         return;
@@ -273,7 +273,7 @@ void Electrocute::VUpdate()
         break;
 
         case States::eKillElectrocute_3:
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
             break;
 
         default:

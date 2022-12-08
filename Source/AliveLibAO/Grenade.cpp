@@ -86,7 +86,7 @@ void Grenade::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -94,7 +94,7 @@ void Grenade::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(Options::eDead);
+        SetDead(true);
     }
 
     switch (mState)
@@ -228,7 +228,7 @@ void Grenade::VUpdate()
         }
 
         case States::eWaitForExplodeEnd_6:
-            if (mExplosionObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+            if (mExplosionObj->GetDead())
             {
                 mState = States::eExploded_7;
                 mExplosionObj->mBaseGameObjectRefCount--;
@@ -237,7 +237,7 @@ void Grenade::VUpdate()
             break;
 
         case States::eExploded_7:
-            mBaseGameObjectFlags.Set(Options::eDead);
+            SetDead(true);
             break;
 
         default:

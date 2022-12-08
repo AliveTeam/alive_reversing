@@ -303,7 +303,7 @@ PauseMenu::PauseMenu()
     LoadAnimations();
 
     SetType(ReliveTypes::ePauseMenu);
-    mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
+    SetDrawable(false);
     SetSurviveDeathReset(true);
     word12C_flags &= ~0xE;
     word12C_flags &= ~1u;
@@ -330,7 +330,7 @@ PauseMenu::PauseMenu()
 
 PauseMenu::~PauseMenu()
 {
-    mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
+    SetDrawable(false);
 
     gObjListDrawables->Remove_Item(this);
     field_158_animation.VCleanUp();
@@ -346,7 +346,7 @@ void PauseMenu::Init()
     }
     else
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eListAddFailed_Bit1);
+        SetListAddFailed(true);
     }
 }
 
@@ -379,7 +379,7 @@ void PauseMenu::VScreenChanged()
 {
     if (gMap.mNextLevel == EReliveLevelIds::eCredits)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -643,11 +643,11 @@ void PauseMenu::Page_ReallyQuit_Update()
 
         if (gPauseMenu && gPauseMenu == this)
         {
-            gPauseMenu->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            gPauseMenu->SetDead(true);
         }
         else
         {
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
         }
 
         gPauseMenu = 0;
@@ -1096,7 +1096,7 @@ void PauseMenu::VUpdate()
                 SND_StopAll();
                 SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
                 sub_4A2B70();
-                mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
+                SetDrawable(true);
                 field_134_index_main = MainPages::ePage_Continue_0;
                 field_136_unused = 0;
                 word12C_flags = (word12C_flags & ~8) | 1;
@@ -1170,9 +1170,9 @@ void PauseMenu::VUpdate()
                             break;
                         }
 
-                        if (!(pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead)))
+                        if (!(pObj->GetDead()))
                         {
-                            if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
+                            if (pObj->GetDrawable())
                             {
                                 pObj->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
                             }
@@ -1213,7 +1213,7 @@ void PauseMenu::VUpdate()
                 // This call seems redundant as the calle will also update input right after this too
                 Input().Update(GetGameAutoPlayer());
 
-                mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
+                SetDrawable(false);
             }
         }
     }

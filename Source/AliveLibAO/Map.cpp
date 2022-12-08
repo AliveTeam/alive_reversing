@@ -302,7 +302,7 @@ void Map::ScreenChange()
             pItem->VScreenChanged();
 
             // Did the screen change kill the object?
-            if (pItem->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+            if (pItem->GetDead())
             {
                 if (pItem->mBaseGameObjectRefCount == 0)
                 {
@@ -321,7 +321,7 @@ void Map::ScreenChange()
             break;
         }
 
-        if (pItem->mBaseGameObjectFlags.Get(::BaseGameObject::eDead))
+        if (pItem->GetDead())
         {
             if (pItem->mBaseGameObjectRefCount == 0)
             {
@@ -418,14 +418,14 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
             break;
         }
 
-        if (pObj->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
+        if (pObj->GetDrawable())
         {
             auto pBaseObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
             if (pBaseObj->mVisualFlags.Get(BaseAnimatedWithPhysicsGameObject::VisualFlags::eDoPurpleLightEffect))
             {
                 if (pBaseObj->GetAnimation().mFlags.Get(AnimFlags::eRender))
                 {
-                    if (!pBaseObj->mBaseGameObjectFlags.Get(::BaseGameObject::eDead) && pObj != sControlledCharacter)
+                    if (!pBaseObj->GetDead() && pObj != sControlledCharacter)
                     {
                         bool bAdd = false;
                         if (pBaseObj->mCurrentLevel == mCurrentLevel
@@ -492,7 +492,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                     break;
                 }
 
-                if (!pLight->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+                if (!pLight->GetDead())
                 {
                     pLight->VUpdate();
                 }
@@ -507,7 +507,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                     break;
                 }
 
-                if (!pLight->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+                if (!pLight->GetDead())
                 {
                     pLight->GetAnimation().VDecode();
                 }
@@ -521,10 +521,10 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                     break;
                 }
 
-                if (!pDrawable->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+                if (!pDrawable->GetDead())
                 {
                     // TODO: Seems strange to check this flag, how did it get in the drawable list if its not a drawable ??
-                    if (pDrawable->mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
+                    if (pDrawable->GetDrawable())
                     {
                         pDrawable->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
                     }
@@ -790,7 +790,7 @@ void Map::GoTo_Camera()
                 break;
             }
 
-            if (pBaseGameObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && pBaseGameObj->mBaseGameObjectRefCount == 0)
+            if (pBaseGameObj->GetDead() && pBaseGameObj->mBaseGameObjectRefCount == 0)
             {
                 i = gBaseGameObjects->RemoveAt(i);
                 relive_delete pBaseGameObj;
@@ -800,9 +800,9 @@ void Map::GoTo_Camera()
                     break;
                 }
             }
-            else if (pBaseGameObj->mBaseGameObjectFlags.Get(BaseGameObject::eUpdatable_Bit2))
+            else if (pBaseGameObj->GetUpdatable())
             {
-                if (!pBaseGameObj->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && (!gNumCamSwappers || pBaseGameObj->GetUpdateDuringCamSwap()))
+                if (!pBaseGameObj->GetDead() && (!gNumCamSwappers || pBaseGameObj->GetUpdateDuringCamSwap()))
                 {
                     if (pBaseGameObj->UpdateDelay() > 0)
                     {

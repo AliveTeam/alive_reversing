@@ -96,7 +96,7 @@ s32 Bone::CreateFromSaveState(const u8* pData)
     pBone->GetAnimation().mFlags.Set(AnimFlags::eLoop, pState->mLoop);
     pBone->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->mRender);
 
-    pBone->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->mDrawable);
+    pBone->SetDrawable(pState->mDrawable);
     pBone->SetInteractive(pState->mInteractive);
 
     pBone->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eRestoredFromQuickSave);
@@ -221,7 +221,7 @@ s16 Bone::OnCollision(BaseAnimatedWithPhysicsGameObject* pObj)
 
     if (pObj->Type() == ReliveTypes::eMine || pObj->Type() == ReliveTypes::eUXB)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     return 0;
@@ -231,7 +231,7 @@ void Bone::VScreenChanged()
 {
     if (gMap.mCurrentPath != gMap.mNextPath || gMap.mCurrentLevel != gMap.mNextLevel)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -261,7 +261,7 @@ s32 Bone::VGetSaveState(u8* pSaveBuffer)
     pState->mLoop = GetAnimation().mFlags.Get(AnimFlags::eLoop);
     pState->mRender = GetAnimation().mFlags.Get(AnimFlags::eRender);
 
-    pState->mDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
+    pState->mDrawable = GetDrawable();
     pState->mInteractive = GetInteractive();
 
     pState->mHitObject = mHitObject;
@@ -295,7 +295,7 @@ void Bone::InTheAir()
 
     if (mVelY > FP_FromInteger(30))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     mVelY += FP_FromInteger(1);
@@ -431,7 +431,7 @@ void Bone::VUpdate()
     auto pObj = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     switch (mState)
@@ -518,7 +518,7 @@ void Bone::VUpdate()
 
             if (mTimeToLiveTimer < static_cast<s32>(sGnFrame))
             {
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
             }
             return;
 
@@ -533,7 +533,7 @@ void Bone::VUpdate()
 
             if (mYPos > FP_FromInteger(gMap.mPathData->field_6_bBottom))
             {
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
             }
         }
             return;
@@ -544,7 +544,7 @@ void Bone::VUpdate()
             mYPos = mVelY + mYPos;
             if (!gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
             {
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
             }
             return;
     }
@@ -624,7 +624,7 @@ BoneBag::BoneBag(relive::Path_BoneBag* pTlv, const Guid& tlvId)
 
 void BoneBag::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 BoneBag::~BoneBag()
@@ -636,7 +636,7 @@ void BoneBag::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (GetAnimation().GetCurrentFrame() == 2)

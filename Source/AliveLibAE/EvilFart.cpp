@@ -119,7 +119,7 @@ s32 EvilFart::CreateFromSaveState(const u8* pBuffer)
     pFart->GetAnimation().SetCurrentFrame(pState->mCurrentFrame);
     pFart->GetAnimation().SetFrameChangeCounter(pState->mFrameChangeCounter);
 
-    pFart->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->mDrawable & 1);
+    pFart->SetDrawable(pState->mDrawable & 1);
     pFart->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->mAnimRender & 1);
 
     if (IsLastFrame(&pFart->GetAnimation()))
@@ -165,7 +165,7 @@ s32 EvilFart::VGetSaveState(u8* pSaveBuffer)
     pState->mCurrentFrame = static_cast<s16>(GetAnimation().GetCurrentFrame());
     pState->mFrameChangeCounter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
 
-    pState->mDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
+    pState->mDrawable = GetDrawable();
     pState->mAnimRender = GetAnimation().mFlags.Get(AnimFlags::eRender);
 
     pState->mAbeLevel = mAbeLevel;
@@ -271,7 +271,7 @@ void EvilFart::ResetFartColour()
 
 s16 EvilFart::VTakeDamage(BaseGameObject* pFrom)
 {
-    if (mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+    if (GetDead())
     {
         return 0;
     }
@@ -288,7 +288,7 @@ void EvilFart::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (sActiveHero->mCurrentMotion != eAbeMotions::Motion_86_HandstoneBegin)
@@ -303,7 +303,7 @@ void EvilFart::VUpdate()
             BlowUp();
             if (mState == FartStates::eIdle_0)
             {
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
             }
             else
             {
@@ -317,7 +317,7 @@ void EvilFart::VUpdate()
     if (mFartExploded && static_cast<s32>(sGnFrame) > mBackToAbeTimer)
     {
         sControlledCharacter = sActiveHero;
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
         gMap.SetActiveCam(mAbeLevel, mAbePath, mAbeCamera, CameraSwapEffects::eInstantChange_0, 0, 0);
     }
 

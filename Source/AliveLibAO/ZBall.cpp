@@ -124,7 +124,7 @@ void ZBall::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(Options::eDead);
+        SetDead(true);
     }
 
     if (gCenterZBall == this || gOutZBall == this)
@@ -172,7 +172,7 @@ void ZBall::VUpdate()
             mYPos,
             0))
     {
-        mBaseGameObjectFlags.Set(Options::eDead);
+        SetDead(true);
         if (mTlvInfo.IsValid())
         {
             Path::TLV_Reset(mTlvInfo, -1, 0, 0);

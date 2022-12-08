@@ -38,7 +38,7 @@ void Game_ShowLoadingIcon_445EB0()
         PSX_DrawOTag(local_ot);
 
         PSX_PutDispEnv_4F5890();
-        pParticle->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        pParticle->SetDead(true);
         bHideLoadingIcon_5076A0 = true;
     }
 }
@@ -60,12 +60,12 @@ void ResourceManager::LoadingLoop(s16)
                 break;
             }
 
-            if (!pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+            if (!pObjIter->GetDead())
             {
                 pObjIter->VUpdate();
             }
 
-            if (pObjIter->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+            if (pObjIter->GetDead())
             {
                 i = gLoadingFiles->RemoveAt(i);
                 relive_delete pObjIter;

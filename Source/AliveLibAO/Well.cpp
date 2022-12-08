@@ -29,7 +29,7 @@ Well::~Well()
 
 void Well::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 void Well::VRender(PrimHeader** ppOt)
@@ -45,7 +45,7 @@ void Well::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
         Path::TLV_Reset(mTlvInfo, -1, 0, 0);
     }
 

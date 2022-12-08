@@ -134,13 +134,13 @@ MotionDetector::~MotionDetector()
     BaseGameObject* pLaser = sObjectIds.Find_Impl(field_F8_laser_id);
     if (pLaser)
     {
-        pLaser->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        pLaser->SetDead(true);
     }
 }
 
 void MotionDetector::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 void MotionDetector::VUpdate()
@@ -148,7 +148,7 @@ void MotionDetector::VUpdate()
     MotionDetectorLaser* pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find_Impl(field_F8_laser_id));
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (!gNumCamSwappers)

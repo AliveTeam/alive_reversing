@@ -70,7 +70,7 @@ SlapLockWhirlWind::SlapLockWhirlWind(s16 doorNumber, s16 switchId, FP xpos, FP y
     }
     else
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -86,7 +86,7 @@ void SlapLockWhirlWind::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
     else
     {
@@ -101,10 +101,10 @@ void SlapLockWhirlWind::VUpdate()
                     4 * (sGnFrame - mTimer));
             }
 
-            if (!pWhirlWind || pWhirlWind->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+            if (!pWhirlWind || pWhirlWind->GetDead())
             {
                 SwitchStates_Do_Operation(mSwitchId, relive::reliveSwitchOp::eSetTrue);
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
             }
         }
         else if (mState == 0)

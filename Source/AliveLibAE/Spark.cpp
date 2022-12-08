@@ -13,7 +13,7 @@
 Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, SparkType type)
     : BaseGameObject(true, 0)
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
+    SetDrawable(true);
 
     SetType(ReliveTypes::eNone);
 
@@ -97,7 +97,7 @@ Spark::Spark(FP xpos, FP ypos, FP scale, s32 count, s32 minAngle, s32 maxAngle, 
     }
     else
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -105,7 +105,7 @@ void Spark::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (gNumCamSwappers == 0)
@@ -131,7 +131,7 @@ void Spark::VUpdate()
         }
         else
         {
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
         }
     }
 }
@@ -256,12 +256,12 @@ void Spark::VRender(PrimHeader** ppOt)
 
 void Spark::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 Spark::~Spark()
 {
-    if (mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4))
+    if (GetDrawable())
     {
         gObjListDrawables->Remove_Item(this);
     }

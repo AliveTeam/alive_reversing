@@ -39,7 +39,7 @@ void Bullet::VUpdate()
             mYPos,
             0))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
         return;
     }
     const s16 volume = mSpriteScale != FP_FromDouble(0.5) ? 75 : 50;
@@ -100,7 +100,7 @@ void Bullet::VUpdate()
                     {
                         SfxPlayMono(relive::SoundEffects::Bullet2, volume);
                     }
-                    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                    SetDead(true);
                     return;
                 }
             }
@@ -116,7 +116,7 @@ void Bullet::VUpdate()
                     {
                         SfxPlayMono(relive::SoundEffects::Bullet1, volume);
                     }
-                    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                    SetDead(true);
                     return;
                 }
             }
@@ -125,7 +125,7 @@ void Bullet::VUpdate()
             {
                 mSpriteScale == FP_FromInteger(1) ? PlayBulletSounds(90) : PlayBulletSounds(60);
             }
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
             return;
         }
         case BulletType::eZBullet_2:
@@ -165,7 +165,7 @@ void Bullet::VUpdate()
             if (pShotObj && pShotObj->VTakeDamage(this))
             {
                 PlayBulletSounds(90);
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
                 return;
             }
 
@@ -191,7 +191,7 @@ void Bullet::VUpdate()
             {
                 SfxPlayMono(relive::SoundEffects::Bullet2, 75);
             }
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
         }
     }
 }

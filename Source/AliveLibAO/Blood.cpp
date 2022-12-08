@@ -104,7 +104,7 @@ Blood::Blood(FP xpos, FP ypos, FP xOff, FP yOff, FP scale, s32 count)
     }
     else
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -124,7 +124,7 @@ void Blood::VUpdate()
 
         if (mCurrentBloodCount <= 0)
         {
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
             mCurrentBloodCount = 0;
             return;
         }
@@ -183,7 +183,7 @@ void Blood::VRender(PrimHeader** ppOt)
 
 void Blood::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 } // namespace AO

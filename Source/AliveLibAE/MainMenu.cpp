@@ -1454,9 +1454,9 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
 
             while (sMovie_ref_count_BB4AE4)
             {
-                if (pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eUpdatable_Bit2))
+                if (pMovie->GetUpdatable())
                 {
-                    if (!pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && (!gNumCamSwappers || pMovie->GetUpdateDuringCamSwap()))
+                    if (!pMovie->GetDead() && (!gNumCamSwappers || pMovie->GetUpdateDuringCamSwap()))
                     {
                         pMovie->VUpdate();
                     }
@@ -1706,20 +1706,20 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
 
             if (field_208_transition_obj)
             {
-                field_208_transition_obj->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                field_208_transition_obj->SetDead(true);
             }
 
             if (field_20C_pUnused)
             {
-                field_20C_pUnused->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                field_20C_pUnused->SetDead(true);
             }
 
             if (field_210_pUnused)
             {
-                field_210_pUnused->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                field_210_pUnused->SetDead(true);
             }
 
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
 
             sActiveHero->mXPos = FP_FromInteger(0);
             sActiveHero->mYPos = FP_FromInteger(0);
@@ -1797,20 +1797,20 @@ MainMenuNextCam MainMenuController::LoadNewGame_Update_4D0920(u32 /*input*/)
 
     if (field_208_transition_obj)
     {
-        field_208_transition_obj->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        field_208_transition_obj->SetDead(true);
     }
 
     if (field_20C_pUnused)
     {
-        field_20C_pUnused->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        field_20C_pUnused->SetDead(true);
     }
 
     if (field_210_pUnused)
     {
-        field_210_pUnused->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        field_210_pUnused->SetDead(true);
     }
 
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 
     return MainMenuNextCam(MainMenuCams::eNoChange);
 }
@@ -1837,9 +1837,9 @@ MainMenuNextCam MainMenuController::BackStory_Or_NewGame_Update_4D1C60(u32 input
 
             while (sMovie_ref_count_BB4AE4)
             {
-                if (pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eUpdatable_Bit2))
+                if (pMovie->GetUpdatable())
                 {
-                    if (!(pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eDead) && (!gNumCamSwappers || (pMovie->GetUpdateDuringCamSwap()))))
+                    if (!(pMovie->GetDead() && (!gNumCamSwappers || (pMovie->GetUpdateDuringCamSwap()))))
                     {
                         pMovie->VUpdate();
                     }
@@ -1996,17 +1996,17 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
 
         if (field_208_transition_obj)
         {
-            field_208_transition_obj->mBaseGameObjectFlags.Set(Options::eDead);
+            field_208_transition_obj->SetDead(true);
         }
         if (field_20C_pUnused)
         {
-            field_20C_pUnused->mBaseGameObjectFlags.Set(Options::eDead);
+            field_20C_pUnused->SetDead(true);
         }
         if (field_210_pUnused)
         {
-            field_210_pUnused->mBaseGameObjectFlags.Set(Options::eDead);
+            field_210_pUnused->SetDead(true);
         }
-        mBaseGameObjectFlags.Set(Options::eDead);
+        SetDead(true);
 
         demoId = sDemoIdChosenFromDemoMenu_5C1B9E;
         if (gIsDemoStartedManually_5C1B9C)
@@ -3071,9 +3071,9 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 // Run the movie till its done
                 while (sMovie_ref_count_BB4AE4 > 0)
                 {
-                    if (pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eUpdatable_Bit2))
+                    if (pMovie->GetUpdatable())
                     {
-                        if (pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eDead) == false && (!gNumCamSwappers || pMovie->GetUpdateDuringCamSwap()))
+                        if (pMovie->GetDead() == false && (!gNumCamSwappers || pMovie->GetUpdateDuringCamSwap()))
                         {
                             pMovie->VUpdate();
                         }
@@ -3095,9 +3095,9 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
                 // Run the movie till its done
                 while (sMovie_ref_count_BB4AE4 > 0)
                 {
-                    if (pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eUpdatable_Bit2))
+                    if (pMovie->GetUpdatable())
                     {
-                        if (pMovie->mBaseGameObjectFlags.Get(BaseGameObject::eDead) == false && (!gNumCamSwappers || pMovie->GetUpdateDuringCamSwap()))
+                        if (pMovie->GetDead() == false && (!gNumCamSwappers || pMovie->GetUpdateDuringCamSwap()))
                         {
                             pMovie->VUpdate();
                         }

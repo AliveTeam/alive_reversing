@@ -117,7 +117,7 @@ void ZapLine::VScreenChanged()
 {
     if (gMap.LevelChanged() || gMap.PathChanged())
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -322,7 +322,7 @@ void ZapLine::VUpdate()
 
             if (mAliveTimer >= mMaxAliveTime && mZapLineType != ZapLineType::eThin_1)
             {
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
                 return;
             }
 

@@ -114,7 +114,7 @@ void RollingBallStopper::VScreenChanged()
     {
         SwitchStates_Set(mBallSwitchId, 1);
     }
-    mBaseGameObjectFlags.Set(Options::eDead);
+    SetDead(true);
 }
 
 void RollingBallStopper::VUpdate()

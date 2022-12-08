@@ -12,7 +12,7 @@ ScreenShake::ScreenShake(bool enableShakeEvent)
 {
     SetType(ReliveTypes::ScreenShake);
 
-    mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
+    SetDrawable(true);
 
     mShakeNumber = 16;
     mEnableShakeEvent = enableShakeEvent;
@@ -132,7 +132,7 @@ void ScreenShake::VRender(PrimHeader** ppOt)
 
         if (!mShakeNumber)
         {
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
         }
     }
 }

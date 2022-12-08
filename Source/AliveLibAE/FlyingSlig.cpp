@@ -293,7 +293,7 @@ s32 FlyingSlig::CreateFromSaveState(const u8* pBuffer)
 
         pFlyingSlig->GetAnimation().mFlags.Set(AnimFlags::eRender, pSaveState->field_2A_bAnimRender & 1);
         pFlyingSlig->GetAnimation().mFlags.Set(AnimFlags::eFlipX, pSaveState->field_22_bAnimFlipX & 1);
-        pFlyingSlig->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pSaveState->field_2B_bDrawable & 1);
+        pFlyingSlig->SetDrawable(pSaveState->field_2B_bDrawable & 1);
 
         if (IsLastFrame(&pFlyingSlig->GetAnimation()))
         {
@@ -396,7 +396,7 @@ s32 FlyingSlig::VGetSaveState(u8* pSaveBuffer)
     pState->field_26_current_frame = static_cast<s16>(GetAnimation().GetCurrentFrame());
     pState->field_28_frame_change_counter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
 
-    pState->field_2B_bDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
+    pState->field_2B_bDrawable = GetDrawable();
     pState->field_2A_bAnimRender = GetAnimation().mFlags.Get(AnimFlags::eRender);
     pState->field_2C_current_health = mHealth;
     pState->field_30_current_state = mCurrentMotion;
@@ -517,7 +517,7 @@ void FlyingSlig::VScreenChanged()
 {
     if (gMap.LevelChanged() || (gMap.PathChanged() && (this != sControlledCharacter || mPersistant)))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 
@@ -562,7 +562,7 @@ void FlyingSlig::VUpdate()
 
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
     else
     {
@@ -954,7 +954,7 @@ void FlyingSlig::Brain_1_Death()
 {
     if (static_cast<s32>(sGnFrame) >= field_14C_timer)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
         EventBroadcast(kEventMudokonComfort, this);
     }
 }

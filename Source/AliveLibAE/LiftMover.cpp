@@ -62,10 +62,10 @@ void LiftMover::VUpdate()
         field_32_bMoveInProgress = false;
     }
 
-    if (pLift && pLift->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+    if (pLift && pLift->GetDead())
     {
         // Set extra dead for good measure
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
         mTargetLiftId = Guid{};
     }
     else
@@ -191,7 +191,7 @@ void LiftMover::VUpdate()
 
         if (EventGet(kEventDeathReset))
         {
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
         }
     }
 }

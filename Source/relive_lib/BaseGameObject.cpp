@@ -25,8 +25,8 @@ BaseGameObject::BaseGameObject(s16 bAddToObjectList, s16 resourceArraySize)
 
     SetType(ReliveTypes::eNone);
 
-    mBaseGameObjectFlags.Clear(BaseGameObject::Options::eListAddFailed_Bit1);
-    mBaseGameObjectFlags.Clear(BaseGameObject::Options::eDead);
+    mListAddFailed = false;
+    mDead = false;
     mIsBaseAnimatedWithPhysicsObj = false;
     mIsBaseAliveGameObject = false;
     mCanExplode = false;
@@ -34,13 +34,13 @@ BaseGameObject::BaseGameObject(s16 bAddToObjectList, s16 resourceArraySize)
     mSurviveDeathReset = false;
     mUpdateDuringCamSwap = false;
     mCantKill = false;
-    mBaseGameObjectFlags.Set(BaseGameObject::eUpdatable_Bit2);
+    mUpdatable = true;
 
     if (bAddToObjectList)
     {
         if (!gBaseGameObjects->Push_Back(this))
         {
-            mBaseGameObjectFlags.Set(BaseGameObject::eListAddFailed_Bit1);
+            SetListAddFailed(true);
         }
     }
 
@@ -86,7 +86,7 @@ void BaseGameObject::VScreenChanged()
     auto& map = GetMap();
     if (map.LevelChanged() || map.PathChanged())
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 

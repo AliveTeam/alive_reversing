@@ -46,7 +46,7 @@ void Engine::Run()
             SYS_EventsPump();
             gPsxDisplay.RenderOrderingTable();
         }
-        while (!dcu.mBaseGameObjectFlags.Get(BaseGameObject::eDead));
+        while (!dcu.GetDead());
     }
     else
     {

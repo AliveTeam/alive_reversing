@@ -292,7 +292,7 @@ s16 Slog::VTakeDamage(BaseGameObject* pFrom)
                 FP_FromInteger(0),
                 GetSpriteScale(),
                 50);
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
             return 1;
         }
 
@@ -340,7 +340,7 @@ void Slog::VOnTlvCollision(relive::Path_TLV* pTlv)
     {
         if (pTlv->mTlvType == ReliveTypes::eDeathDrop)
         {
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
             mHealth = FP_FromInteger(0);
         }
         pTlv = gMap.TLV_Get_At(pTlv, mXPos, mYPos, mXPos, mYPos);
@@ -351,7 +351,7 @@ void Slog::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     const s16 old_motion = mCurrentMotion;
@@ -778,7 +778,7 @@ void Slog::VScreenChanged()
 {
     if (gMap.LevelChanged() || gMap.PathChanged())
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
 
         if (field_10C_pTarget)
         {
@@ -1768,7 +1768,7 @@ s16 Slog::Brain_0_ListeningToSlig_472450()
         return 99;
     }
 
-    if (field_14C_pSlig->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+    if (field_14C_pSlig->GetDead())
     {
         field_14C_pSlig->mBaseGameObjectRefCount--;
         field_14C_pSlig = nullptr;
@@ -2071,7 +2071,7 @@ s16 Slog::Brain_1_Idle_4719C0()
 {
     if (field_10C_pTarget)
     {
-        if (field_10C_pTarget->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+        if (field_10C_pTarget->GetDead())
         {
             field_10C_pTarget->mBaseGameObjectRefCount--;
             field_10C_pTarget = nullptr;
@@ -2348,7 +2348,7 @@ s16 Slog::Brain_2_ChasingAbe_470F50()
         return 0;
     }
 
-    if (field_10C_pTarget && field_10C_pTarget->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+    if (field_10C_pTarget && field_10C_pTarget->GetDead())
     {
         // Idle
         field_10C_pTarget->mBaseGameObjectRefCount--;
@@ -2747,7 +2747,7 @@ s16 Slog::Brain_3_Dead_4721B0()
 
     if (GetSpriteScale() < FP_FromInteger(0))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
     return 100;
 }

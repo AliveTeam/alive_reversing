@@ -9,7 +9,7 @@ EffectBase::EffectBase(Layer layer, TPageAbr abr)
 {
     SetType(ReliveTypes::eEffectBase);
     gObjListDrawables->Push_Back(this);
-    mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
+    SetDrawable(true);
     mEffectBasePathId = GetMap().mCurrentPath;
     mEffectBaseLevelId = GetMap().mCurrentLevel;
     Init_SetTPage(&mEffectBaseTPage[0], 0, 0, PSX_getTPage(abr));

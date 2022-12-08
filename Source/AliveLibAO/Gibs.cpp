@@ -78,7 +78,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
     else
     {
         // Not a valid scale
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     mVelX = xOff + GibRand(scale);
@@ -126,7 +126,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
             if (!pPart->mAnimation.Init(GetAnimRes(mGibData->mArm), this))
             {
                 mPartsUsedCount = i;
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
                 return;
             }
         }
@@ -136,7 +136,7 @@ Gibs::Gibs(GibType gibType, FP xpos, FP ypos, FP xOff, FP yOff, FP scale)
             if (!pPart->mAnimation.Init(GetAnimRes(mGibData->mBody), this))
             {
                 mPartsUsedCount = i;
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
                 return;
             }
         }
@@ -206,7 +206,7 @@ void Gibs::VUpdate()
 
     if (static_cast<s32>(sGnFrame) > mAliveTimer)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }
 

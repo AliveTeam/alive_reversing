@@ -315,13 +315,13 @@ DoorFlame::~DoorFlame()
 
     if (pFireBackgroundGlow)
     {
-        pFireBackgroundGlow->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        pFireBackgroundGlow->SetDead(true);
         mFireBackgroundGlowId = Guid{};
     }
 
     if (pFlameSparks)
     {
-        pFlameSparks->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        pFlameSparks->SetDead(true);
         mFlameSparksId = Guid{};
     }
 
@@ -345,17 +345,17 @@ void DoorFlame::VScreenChanged()
     BaseGameObject* pFireBackgroundGlow = sObjectIds.Find_Impl(mFireBackgroundGlowId);
     BaseGameObject* pFlameSparks = sObjectIds.Find_Impl(mFlameSparksId);
 
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 
     if (pFireBackgroundGlow)
     {
-        pFireBackgroundGlow->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        pFireBackgroundGlow->SetDead(true);
         mFireBackgroundGlowId = Guid{};
     }
 
     if (pFlameSparks)
     {
-        pFlameSparks->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        pFlameSparks->SetDead(true);
         mFlameSparksId = Guid{};
     }
 }
@@ -382,7 +382,7 @@ void DoorFlame::VUpdate()
 
             if (pFireBackgroundGlow)
             {
-                pFireBackgroundGlow->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                pFireBackgroundGlow->SetDead(true);
                 pFireBackgroundGlow = nullptr;
                 mFireBackgroundGlowId = Guid{};
             }
@@ -439,17 +439,17 @@ void DoorFlame::VUpdate()
             mYPos,
             0))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
 
         if (pFireBackgroundGlow)
         {
-            pFireBackgroundGlow->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            pFireBackgroundGlow->SetDead(true);
             mFireBackgroundGlowId = Guid{};
         }
 
         if (pFlameSparks)
         {
-            pFlameSparks->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            pFlameSparks->SetDead(true);
             mFlameSparksId = Guid{};
         }
     }

@@ -158,21 +158,21 @@ void MovingBomb::VScreenChanged()
 
     if (field_136_persist_offscreen == relive::reliveChoice::eNo)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
         return;
     }
 
     const FP xDelta = FP_Abs(sControlledCharacter->mXPos - mXPos);
     if (xDelta > FP_FromInteger(750))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
         return;
     }
 
     const FP yDelta = FP_Abs(sControlledCharacter->mYPos - mYPos);
     if (yDelta > FP_FromInteger(520))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
         return;
     }
 }
@@ -187,7 +187,7 @@ void MovingBomb::FollowLine()
 
 s16 MovingBomb::VTakeDamage(BaseGameObject* pFrom)
 {
-    if (mBaseGameObjectFlags.Get(BaseGameObject::eDead) || mHealth <= FP_FromInteger(0))
+    if (GetDead() || mHealth <= FP_FromInteger(0))
     {
         return 1;
     }
@@ -260,7 +260,7 @@ void MovingBomb::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (field_118_state < States::eBlowingUp_6)
@@ -430,7 +430,7 @@ void MovingBomb::VUpdate()
         case States::eKillMovingBomb_7:
             if (field_120_timer <= static_cast<s32>(sGnFrame))
             {
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
             }
             break;
 

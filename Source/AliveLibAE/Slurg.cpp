@@ -137,7 +137,7 @@ s32 Slurg::CreateFromSaveState(const u8* pData)
     pSlurg->GetAnimation().mFlags.Set(AnimFlags::eFlipX, pState->mFlipX & 1);
     pSlurg->GetAnimation().mFlags.Set(AnimFlags::eRender, pState->mRender & 1);
 
-    pSlurg->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pState->mDrawable & 1);
+    pSlurg->SetDrawable(pState->mDrawable & 1);
 
     if (IsLastFrame(&pSlurg->GetAnimation()))
     {
@@ -185,7 +185,7 @@ void Slurg::VUpdate()
     const FP oldXPos = mXPos;
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (mMovingTimer == 0)
@@ -248,7 +248,7 @@ void Slurg::VUpdate()
         case SlurgStates::eBurst_2:
             if (GetAnimation().mFlags.Get(AnimFlags::eIsLastFrame))
             {
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
             }
             break;
 
@@ -336,7 +336,7 @@ s32 Slurg::VGetSaveState(u8* pSaveBuffer)
     pState->mCurrentMotion = mCurrentMotion;
     pState->mAnimCurrentFrame = static_cast<s16>(GetAnimation().GetCurrentFrame());
     pState->mFrameChangeCounter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
-    pState->mDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
+    pState->mDrawable = GetDrawable();
     pState->mRender = GetAnimation().mFlags.Get(AnimFlags::eRender);
    // pState->mFrameTableOffset = mAnim.mFrameTableOffset;
     pState->mTlvId = mTlvInfo;

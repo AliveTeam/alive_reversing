@@ -35,14 +35,14 @@ SlogSpawner::SlogSpawner(relive::Path_SlogSpawner* pTlv, const Guid& tlvId)
 void SlogSpawner::VScreenChanged()
 {
     Path::TLV_Reset(mTlvInfo, mSpawnedSlogsCount, 0, 0);
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 void SlogSpawner::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (static_cast<s32>(sGnFrame) > mSpawnTimer && sSlogCount < mMaxSlogsAtATime)
@@ -62,7 +62,7 @@ void SlogSpawner::VUpdate()
             if (mSpawnedSlogsCount >= mMaxSlogs)
             {
                 Path::TLV_Reset(mTlvInfo, mSpawnedSlogsCount, 0, 1);
-                mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                SetDead(true);
             }
         }
     }

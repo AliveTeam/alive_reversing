@@ -566,7 +566,7 @@ void MusicController::Shutdown()
 {
     if (pMusicController_507B98)
     {
-        pMusicController_507B98->mBaseGameObjectFlags.Set(Options::eDead);
+        pMusicController_507B98->SetDead(true);
         pMusicController_507B98 = nullptr;
         //nullsub_5();
         Psx_Root_Counter_Event_Free_49C2B0(psx_root_event_507BA0);

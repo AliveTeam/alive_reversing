@@ -64,7 +64,7 @@ LaughingGas::LaughingGas(Layer layer, s32 /*notUsed*/, relive::Path_LaughingGas*
     field_58_layer = layer;
 
     gObjListDrawables->Push_Back(this);
-    mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4);
+    SetDrawable(true);
 
     field_28_y = FP_GetExponent(FP_FromInteger(pTlv->mTopLeftY) - pScreenManager->CamYPos());
     field_2A_x = FP_GetExponent(PsxToPCX(FP_FromInteger(pTlv->mTopLeftX) - pScreenManager->CamXPos()));
@@ -92,7 +92,7 @@ LaughingGas::~LaughingGas()
 
 void LaughingGas::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 const f32 dword_551C58[7] = {1.0, 5.0, 10.0, 10.0, 5.0, 1.0, 0.0};
@@ -230,7 +230,7 @@ void LaughingGas::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (SwitchStates_Get(field_48_tlv_data.field_2_laughing_gas_switch_id))

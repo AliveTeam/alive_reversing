@@ -233,8 +233,8 @@ Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
     const AnimRecord& openRec = AnimRec(openDoor);
     if (openRec.mFrameTableOffset == 0)
     {
-        mBaseGameObjectFlags.Clear(BaseGameObject::eDrawable_Bit4);
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDrawable(false);
+        SetDead(true);
         return;
     }
 
@@ -393,7 +393,7 @@ void Door::VUpdate()
 {
     if (EventGet(kEventDeathReset))
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 
     if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_114_DoorEnter || sActiveHero->mCurrentMotion == eAbeMotions::Motion_115_DoorExit)
@@ -505,7 +505,7 @@ void Door::VUpdate()
 
 void Door::VScreenChanged()
 {
-    mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+    SetDead(true);
 }
 
 // ================================================================================================

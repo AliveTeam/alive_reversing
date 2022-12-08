@@ -16,6 +16,6 @@ void Flash::VUpdate()
 {
     if (static_cast<s32>(sGnFrame) >= mFlashTime)
     {
-        mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        SetDead(true);
     }
 }

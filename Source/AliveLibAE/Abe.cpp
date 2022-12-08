@@ -658,7 +658,7 @@ Abe::~Abe()
 
     if (pFadeObject)
     {
-        pFadeObject->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        pFadeObject->SetDead(true);
         mFadeId = Guid{};
     }
 
@@ -669,19 +669,19 @@ Abe::~Abe()
 
     if (pPullRope)
     {
-        pPullRope->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        pPullRope->SetDead(true);
         mPullRingRopeId = Guid{};
     }
 
     if (pCircularFade)
     {
-        pCircularFade->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        pCircularFade->SetDead(true);
         mCircularFadeId = Guid{};
     }
 
     if (pOrbWhirlWind)
     {
-        pOrbWhirlWind->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        pOrbWhirlWind->SetDead(true);
         mOrbWhirlWindId = Guid{};
     }
 
@@ -692,13 +692,13 @@ Abe::~Abe()
 
     if (pThrowable)
     {
-        pThrowable->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        pThrowable->SetDead(true);
         mThrowableId = Guid{};
     }
 
     if (pInvisibleEffect)
     {
-        pInvisibleEffect->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+        pInvisibleEffect->SetDead(true);
         mInvisibleEffectId = Guid{};
     }
 
@@ -760,7 +760,7 @@ s32 Abe::CreateFromSaveState(const u8* pData)
 
     sActiveHero->GetAnimation().mFlags.Set(AnimFlags::eFlipX, pSaveState->bAnimFlipX & 1);
     sActiveHero->GetAnimation().mFlags.Set(AnimFlags::eRender, pSaveState->mAnimRender & 1);
-    sActiveHero->mBaseGameObjectFlags.Set(BaseGameObject::eDrawable_Bit4, pSaveState->mIsDrawable & 1);
+    sActiveHero->SetDrawable(pSaveState->mIsDrawable & 1);
 
     sActiveHero->GetAnimation().SetRenderLayer(static_cast<Layer>(pSaveState->mRenderLayer));
 
@@ -1454,7 +1454,7 @@ void Abe::VScreenChanged()
         if (gMap.mNextLevel == EReliveLevelIds::eCredits || gMap.mNextLevel == EReliveLevelIds::eMenu)
         {
             // Remove Abe for menu/credits levels?
-            mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            SetDead(true);
         }
     }
 
@@ -1529,7 +1529,7 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
         pSaveState->mFrameChangeCounter = 1;
     }
 
-    pSaveState->mIsDrawable = mBaseGameObjectFlags.Get(BaseGameObject::eDrawable_Bit4);
+    pSaveState->mIsDrawable = GetDrawable();
     pSaveState->mAnimRender = GetAnimation().mFlags.Get(AnimFlags::eRender);
     pSaveState->mRenderLayer = static_cast<s8>(GetAnimation().GetRenderLayer());
     pSaveState->mHealth = mHealth;
@@ -5095,7 +5095,7 @@ void Abe::Motion_57_Dead_4589A0()
             EventBroadcast(kEventHeroDying, this);
             if (pFade_1)
             {
-                pFade_1->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                pFade_1->SetDead(true);
                 mFadeId = Guid{};
             }
             auto pFade = relive_new Fade(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeIn, false, 8, TPageAbr::eBlend_2);
@@ -5106,7 +5106,7 @@ void Abe::Motion_57_Dead_4589A0()
 
             if (pCircularFade)
             {
-                pCircularFade->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                pCircularFade->SetDead(true);
             }
             ++field_124_timer;
         }
@@ -6154,7 +6154,7 @@ void Abe::Motion_86_HandstoneBegin()
                     GetAnimation().mFlags.Clear(AnimFlags::eRender);
                     mHandStoneCamIdx = 1;
                     field_120_state.stone = StoneStates::eWaitForInput_4;
-                    pCircularFade->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                    pCircularFade->SetDead(true);
                     mCircularFadeId = Guid{};
                     Fade* pFade33 = relive_new Fade(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeOut, 0, 8, TPageAbr::eBlend_2);
                     if (pFade33)
@@ -6182,7 +6182,7 @@ void Abe::Motion_86_HandstoneBegin()
         case StoneStates::eHandstoneEnd_3:
             if (pCircularFade->VDone())
             {
-                pCircularFade->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                pCircularFade->SetDead(true);
                 mCircularFadeId = Guid{};
 
                 mCurrentMotion = eAbeMotions::Motion_87_HandstoneEnd;
@@ -6215,7 +6215,7 @@ void Abe::Motion_86_HandstoneBegin()
                 {
                     field_120_state.stone = StoneStates::eWaitForInput_4;
 
-                    pFade->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+                    pFade->SetDead(true);
                     pFade = relive_new Fade(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeOut, 0, 8, TPageAbr::eBlend_2);
                     if (pFade)
                     {
@@ -6254,7 +6254,7 @@ void Abe::Motion_86_HandstoneBegin()
 
         case StoneStates::eCircularFadeExit_7:
         {
-            pFade->mBaseGameObjectFlags.Set(BaseGameObject::eDead);
+            pFade->SetDead(true);
             mFadeId = Guid{};
 
             CircularFade* pCircularFade2 = Make_Circular_Fade_4CE8C0(mXPos, mYPos, GetSpriteScale(), 0, 0, false);
@@ -6797,7 +6797,7 @@ void Abe::Motion_112_Chant()
                     }
 
                     InvisibleEffect* pInvisible = static_cast<InvisibleEffect*>(sObjectIds.Find_Impl(mInvisibleEffectId));
-                    if (!pInvisible || pInvisible->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+                    if (!pInvisible || pInvisible->GetDead())
                     {
                         pInvisible = relive_new InvisibleEffect(this);
                         mInvisibleEffectId = pInvisible->mBaseGameObjectId;
@@ -6928,7 +6928,7 @@ void Abe::Motion_112_Chant()
 
             if (static_cast<s32>(sGnFrame) <= field_124_timer)
             {
-                if (!pPossessTarget || pPossessTarget->mBaseGameObjectFlags.Get(BaseGameObject::eDead) || pPossessTarget->mHealth <= FP_FromInteger(0) || pPossessTarget->Is_In_Current_Camera() != CameraPos::eCamCurrent_0)
+                if (!pPossessTarget || pPossessTarget->GetDead() || pPossessTarget->mHealth <= FP_FromInteger(0) || pPossessTarget->Is_In_Current_Camera() != CameraPos::eCamCurrent_0)
                 {
                     mCurrentMotion = eAbeMotions::Motion_113_ChantEnd;
                     mPossessedObjectId = Guid{};
@@ -6961,7 +6961,7 @@ void Abe::Motion_112_Chant()
                 return;
             }
 
-            if (pPossessTarget->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+            if (pPossessTarget->GetDead())
             {
                 mPossessedObjectId = Guid{};
             }
@@ -7247,7 +7247,7 @@ void Abe::Motion_114_DoorEnter()
             InvisibleEffect* pInvisibleEffect = static_cast<InvisibleEffect*>(sObjectIds.Find_Impl(mInvisibleEffectId));
             if (pInvisibleEffect)
             {
-                if (!(pInvisibleEffect->mBaseGameObjectFlags.Get(BaseGameObject::eDead)))
+                if (!(pInvisibleEffect->GetDead()))
                 {
                     pInvisibleEffect->ClearInvisibility();
                     mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eInvisible);
@@ -7633,7 +7633,7 @@ void Abe::FleechDeath_459350()
     BaseGameObject* pInvisibleEffect = sObjectIds.Find_Impl(mInvisibleEffectId);
     if (pInvisibleEffect)
     {
-        if (!pInvisibleEffect->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+        if (!pInvisibleEffect->GetDead())
         {
             static_cast<InvisibleEffect*>(pInvisibleEffect)->ClearInvisibility();
             mInvisibleEffectId = Guid{};
@@ -8306,7 +8306,7 @@ void Abe::ToDieFinal_458910()
     InvisibleEffect* pInvisibleEffect = static_cast<InvisibleEffect*>(sObjectIds.Find_Impl(mInvisibleEffectId));
     if (pInvisibleEffect)
     {
-        if (!(pInvisibleEffect->mBaseGameObjectFlags.Get(BaseGameObject::eDead)))
+        if (!(pInvisibleEffect->GetDead()))
         {
             pInvisibleEffect->ClearInvisibility();
             mInvisibleEffectId = Guid{};
@@ -8935,7 +8935,7 @@ void Abe::FollowLift_45A500()
     if (pLift)
     {
         mVelY = pLift->mVelY;
-        if (pLift->mBaseGameObjectFlags.Get(BaseGameObject::eDead))
+        if (pLift->GetDead())
         {
             VOnTrapDoorOpen();
         }
