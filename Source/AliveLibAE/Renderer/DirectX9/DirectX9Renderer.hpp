@@ -2,9 +2,9 @@
 
 #ifdef _WIN32
 
-    #include "IRenderer.hpp"
-    #include "TextureCache.hpp"
-    #include "PaletteCache.hpp"
+    #include "../IRenderer.hpp"
+    #include "../TextureCache.hpp"
+    #include "../PaletteCache.hpp"
 
     #undef DIRECT3D_VERSION
     #define DIRECT3D_VERSION 0x0900

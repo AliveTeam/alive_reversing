@@ -1,16 +1,14 @@
 #pragma once
 
-#include "IRenderer.hpp"
+#include "../IRenderer.hpp"
+#include "../TextureCache.hpp"
+#include "../PaletteCache.hpp"
 
-#define SDL_VERTEX_IS_SUPPORTED SDL_MAJOR_VERSION > 2 || (SDL_MAJOR_VERSION == 2 && (SDL_MINOR_VERSION > 0 || SDL_PATCHLEVEL >= 18))
-
-#if SDL_VERTEX_IS_SUPPORTED
-class SoftwareRenderer : public IRenderer
+class VulkanRenderer final : public IRenderer
 {
 public:
-    SoftwareRenderer(TWindowHandleType window);
-    ~SoftwareRenderer() override;
-
+    explicit VulkanRenderer(TWindowHandleType window);
+    ~VulkanRenderer();
     void Clear(u8 r, u8 g, u8 b) override;
     void StartFrame() override;
     void EndFrame() override;
@@ -25,13 +23,13 @@ public:
     void Draw(Poly_G4& poly) override;
 
 private:
+
     bool mFrameStarted = false;
 
-    SDL_Texture* mBackBufferTexture = nullptr;
-    SDL_Renderer* mRenderer = nullptr;
-    TWindowHandleType mWindow = nullptr;
+    // TODO: Simply down the prim types so we don't need this
+    u16 mGlobalTPage = 0;
 
-    s32 mLastH = 0;
-    s32 mLastW = 0;
+    PaletteCache mPaletteCache;
+    //DirectX9TextureCache mTextureCache;
 };
-#endif
+
