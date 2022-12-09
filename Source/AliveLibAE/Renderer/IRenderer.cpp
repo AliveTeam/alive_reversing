@@ -6,8 +6,7 @@
 
 #include "../AliveLibCommon/FatalError.hpp"
 #include "../AliveLibCommon/Sys_common.hpp"
-
-#include <set>
+#include "../Sys.hpp"
 
 static IRenderer* gRenderer = nullptr;
 
@@ -17,15 +16,19 @@ IRenderer* IRenderer::GetRenderer()
 }
 
 template<typename T>
-static void MakeRenderer(TWindowHandleType window)
+static void MakeRenderer(const std::string& windowTitle, u32 windowAttributes)
 {
     try
     {
-        gRenderer = new T(window);
+        if (Sys_WindowClass_Register(windowTitle.c_str(), 32, 64, 640, 480, windowAttributes))
+        {
+            gRenderer = new T(Sys_GetHWnd());
+        }
     }
     catch (const std::exception& e)
     {
         LOG_ERROR("Failed to create renderer [%s]", e.what());
+        Sys_DestroyWindow();
     }
 }
 
@@ -41,7 +44,7 @@ static void AddRenderer(std::vector<IRenderer::Renderers>& renderers, IRenderer:
     renderers.emplace_back(toAdd);
 }
 
-bool IRenderer::CreateRenderer(Renderers type, TWindowHandleType window)
+bool IRenderer::CreateRenderer(Renderers type, const std::string& windowTitle)
 {
     if (gRenderer)
     {
@@ -61,19 +64,19 @@ bool IRenderer::CreateRenderer(Renderers type, TWindowHandleType window)
         {
             case Renderers::OpenGL:
                 LOG_INFO("Create OpenGL");
-                MakeRenderer<OpenGLRenderer>(window);
+                MakeRenderer<OpenGLRenderer>(windowTitle + " [OpenGL3]", SDL_WINDOW_OPENGL);
                 break;
 
             case Renderers::Vulkan:
                 LOG_INFO("Create Vulkan");
-                MakeRenderer<VulkanRenderer>(window);
+                MakeRenderer<VulkanRenderer>(windowTitle + " [Vulkan]", SDL_WINDOW_VULKAN);
                 break;
 
 #ifdef _WIN32
             // Windows only
             case Renderers::DirectX9:
                 LOG_INFO("Create DirectX9");
-                MakeRenderer<DirectX9Renderer>(window);
+                MakeRenderer<DirectX9Renderer>(windowTitle + " [DirectX9]", 0);
                 break;
 #endif
 

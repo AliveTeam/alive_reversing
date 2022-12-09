@@ -57,7 +57,7 @@ public:
     };
 
     static IRenderer* GetRenderer();
-    static bool CreateRenderer(Renderers type, TWindowHandleType window);
+    static bool CreateRenderer(Renderers type, const std::string& windowTitle);
     static void FreeRenderer();
 
 public:

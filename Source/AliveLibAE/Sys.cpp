@@ -12,9 +12,8 @@
 #include "GameAutoPlayer.hpp"
 
 
-bool sAppIsActivated_BBBA00 = false;
-TWindowHandleType sHwnd_BBB9F4 = nullptr;
-TWindowHandleType hWnd_BBFB04 = nullptr;
+static bool sAppIsActivated_BBBA00 = false;
+static TWindowHandleType sHwnd_BBB9F4 = nullptr;
 
 #if AUTO_SWITCH_CONTROLLER // OG Change - Used for Auto-switching active controller (gamepad/keyboard)
 static int totalConnectedJoysticks = 0;
@@ -29,15 +28,10 @@ void setSaveMenuOpen(bool val)
 }
 #endif
 
-void Sys_Set_Hwnd(TWindowHandleType hwnd)
-{
-    hWnd_BBFB04 = hwnd;
-    // Note: Not setting byte BBE6F8
-}
 
 TWindowHandleType Sys_GetHWnd()
 {
-    return hWnd_BBFB04;
+    return sHwnd_BBB9F4;
 }
 
 bool Sys_IsAnyKeyDown()
@@ -861,19 +855,29 @@ void Sys_SetWindowPos_4EE1B1(s32 width, s32 height)
     SDL_SetWindowPosition(Sys_GetWindowHandle(), 0, 0);
 }
 
-void Sys_WindowClass_Register(LPCSTR lpWindowName, s32 x, s32 y, s32 nWidth, s32 nHeight)
+void Sys_DestroyWindow()
 {
-    s32 sdlWindowAttributes = SDL_WINDOW_OPENGL;
+    if (sHwnd_BBB9F4)
+    {
+        SDL_DestroyWindow(sHwnd_BBB9F4);
+        sHwnd_BBB9F4 = nullptr;
+    }
+}
 
-    sHwnd_BBB9F4 = SDL_CreateWindow(lpWindowName, x, y, nWidth, nHeight, SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI | sdlWindowAttributes);
+bool Sys_WindowClass_Register(LPCSTR lpWindowName, s32 x, s32 y, s32 nWidth, s32 nHeight, s32 extraAttributes)
+{
+    sHwnd_BBB9F4 = SDL_CreateWindow(lpWindowName, x, y, nWidth, nHeight, SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI | extraAttributes);
+    if (sHwnd_BBB9F4)
+    {
+        Input_InitKeyStateArray_4EDD60();
 
-    Input_InitKeyStateArray_4EDD60();
+        SDL_ShowCursor(SDL_DISABLE);
 
-    SDL_ShowCursor(SDL_DISABLE);
+        // Bring to front and give input focus
+        SDL_RaiseWindow(sHwnd_BBB9F4);
 
-    // Bring to front and give input focus
-    SDL_RaiseWindow(sHwnd_BBB9F4);
-
-    // SDL will not send a window focused message on start up, so default to activated
-    sAppIsActivated_BBBA00 = true;
+        // SDL will not send a window focused message on start up, so default to activated
+        sAppIsActivated_BBBA00 = true;
+    }
+    return sHwnd_BBB9F4 != nullptr;
 }

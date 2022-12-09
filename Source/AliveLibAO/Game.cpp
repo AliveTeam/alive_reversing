@@ -56,21 +56,6 @@ void Main_ParseCommandLineArguments(const char_type* pCommandLine)
 {
     IO_Init_494230();
 
-    std::string windowTitle = WindowTitleAO();
-
-    if (GetGameAutoPlayer().IsRecording())
-    {
-        windowTitle += " [Recording]";
-    }
-    else if (GetGameAutoPlayer().IsPlaying())
-    {
-        windowTitle += " [AutoPlay]";
-    }
-
-    Sys_WindowClass_Register(windowTitle.c_str(), 32, 64, 640, 480);
-
-    Sys_Set_Hwnd(Sys_GetWindowHandle());
-
     if (pCommandLine)
     {
         if (_strcmpi(pCommandLine, "-it_is_me_your_father") == 0)
@@ -83,7 +68,7 @@ void Main_ParseCommandLineArguments(const char_type* pCommandLine)
 #endif
     }
 
-    VGA_CreateRenderer();
+    VGA_CreateRenderer(WindowTitleAO());
 
     PSX_EMU_SetCallBack_4F9430(Game_End_Frame_4505D0);
 }
@@ -373,8 +358,6 @@ void Game_Run()
 void Game_Main(const char_type* pCommandLine)
 {
     GetGameAutoPlayer().ParseCommandLine(pCommandLine);
-
-    //Main_ParseCommandLineArguments(pCommandLine);
 
     // Only returns once the engine is shutting down
     Game_Run();

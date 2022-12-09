@@ -264,9 +264,6 @@ void VulkanRenderer::cleanup()
 
     vkDestroySurfaceKHR(instance, surface, nullptr);
     vkDestroyInstance(instance, nullptr);
-
-    SDL_DestroyWindow(window);
-    SDL_Quit();
 }
 
 void VulkanRenderer::recreateSwapChain()

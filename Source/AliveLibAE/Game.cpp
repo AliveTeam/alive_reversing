@@ -139,21 +139,6 @@ void Main_ParseCommandLineArguments(const char_type* pCommandLine)
 {
     IO_Init_494230();
 
-    std::string windowTitle = WindowTitleAE(); //  WindowTitleAO();
-
-    if (GetGameAutoPlayer().IsRecording())
-    {
-        windowTitle += " [Recording]";
-    }
-    else if (GetGameAutoPlayer().IsPlaying())
-    {
-        windowTitle += " [AutoPlay]";
-    }
-
-    Sys_WindowClass_Register(windowTitle.c_str(), 32, 64, 640, 480);
-
-    Sys_Set_Hwnd(Sys_GetWindowHandle());
-
     if (pCommandLine)
     {
         if (strstr(pCommandLine, "-ddfps"))
@@ -176,7 +161,7 @@ void Main_ParseCommandLineArguments(const char_type* pCommandLine)
         gDDCheatOn = true;
 #endif
 
-    VGA_CreateRenderer();
+    VGA_CreateRenderer(WindowTitleAE());
 
     PSX_EMU_SetCallBack_4F9430(Game_End_Frame_4950F0);
 }
