@@ -34,3 +34,9 @@
 [submodule "3rdParty/glm"]
 	path = 3rdParty/glm
 	url = https://github.com/g-truc/glm.git
+[submodule "3rdParty/Vulkan-Headers"]
+	path = 3rdParty/Vulkan-Headers
+	url = https://github.com/KhronosGroup/Vulkan-Headers.git
+[submodule "3rdParty/volk"]
+	path = 3rdParty/volk
+	url = https://github.com/zeux/volk.git

@@ -394,6 +394,8 @@ target_link_libraries(AliveLibAE
     libglew_static
     imgui
     glm
+    volk
+    Vulkan::Headers
     ${WIN32_LIBS}
     ${SDL2_LIBRARIES}
     project_warnings

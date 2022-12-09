@@ -28,9 +28,7 @@ void IRenderer::CreateRenderer(Renderers type, TWindowHandleType window)
             break;
 
         case Renderers::Vulkan:
-            #if USE_VULKAN_CODE
             gRenderer = new VulkanRenderer(window);
-            #endif  
             break;
 
 #ifdef _WIN32

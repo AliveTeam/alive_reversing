@@ -1,7 +1,5 @@
-
 #include "../stdafx.h"
 #include "VulkanRenderer.hpp"
-#if USE_VULKAN_CODE
 
 #include "../../AliveLibCommon/FatalError.hpp"
 #include "../../relive_lib/ResourceManagerWrapper.hpp"
@@ -25,9 +23,6 @@
 #include <limits>
 #include <array>
 #include <set>
-
-#pragma comment(lib, "C://VulkanSDK//1.3.231.1//lib32//vulkan-1.lib")
-
 
 #define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
@@ -598,9 +593,9 @@ void VulkanRenderer::createGraphicsPipeline()
 
     // std::vector<char> fragShaderCode(reinterpret_cast<const char*>(&vertShader1[0]), reinterpret_cast<const char*>(&vertShader1[0]) + (sizeof(vertShader1) * 4));
 
-    // TODO: Move to binary headers
-    auto vertShaderCode = readFile("vert.spv");
-    auto fragShaderCode = readFile("frag.spv");
+
+    auto vertShaderCode = readFile("C:\\Users\\paul\\source\\repos\\ConsoleApplication2\\ConsoleApplication2\\vert.spv");
+    auto fragShaderCode = readFile("C:\\Users\\paul\\source\\repos\\ConsoleApplication2\\ConsoleApplication2\\frag.spv");
 
     VkShaderModule vertShaderModule = createShaderModule(vertShaderCode);
     VkShaderModule fragShaderModule = createShaderModule(fragShaderCode);
@@ -756,7 +751,6 @@ void VulkanRenderer::createCommandPool()
 
 void VulkanRenderer::createTextureImage()
 {
-    // TODO: Remove test hard coded path
     SDL_Surface* bmp = SDL_LoadBMP("C:\\data\\poggins.bmp");
 
     SDL_Surface* tmp = SDL_ConvertSurfaceFormat(bmp, SDL_PIXELFORMAT_XBGR8888, 0);
@@ -1723,5 +1717,3 @@ void VulkanRenderer::DecreaseResourceLifetimes()
     mPaletteCache.ResetUseFlags();
 }
 */
-
-#endif

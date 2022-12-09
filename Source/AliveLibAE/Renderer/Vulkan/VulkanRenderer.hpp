@@ -1,13 +1,11 @@
 #pragma once
-#define USE_VULKAN_CODE 0 // temp build fix for everyone who isn't mr sapps since the include path is hardcoded
-
-#if USE_VULKAN_CODE
 
 #include "../IRenderer.hpp"
 #include "../TextureCache.hpp"
 #include "../PaletteCache.hpp"
 
-#include "C://VulkanSDK//1.3.231.1//Include//vulkan//vulkan.h"
+#include <vulkan/vulkan.h>
+#include <vulkan/vulkan.hpp>
 #include <optional>
 
 class VulkanRenderer final : public IRenderer
@@ -170,5 +168,3 @@ private:
 
     bool framebufferResized = false;
 };
-
-#endif
