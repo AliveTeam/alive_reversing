@@ -78,7 +78,23 @@ public:
     }
 
     virtual void Clear(u8 r, u8 g, u8 b) = 0;
-    virtual void StartFrame() = 0;
+
+    // Derived objects should always call this
+    virtual void StartFrame()
+    {
+        if (mIsFirstStartFrame)
+        {
+            // Make the window visible only on the first frame otherwise you can see
+            // some unclear framebuffer crap for a half second or so
+            SDL_ShowWindow(mWindow);
+
+            // Bring to front and give input focus
+            SDL_RaiseWindow(mWindow);
+
+            mIsFirstStartFrame = false;
+        }
+    }
+
     virtual void EndFrame() = 0;
 
     virtual void SetTPage(u16 tPage) = 0;
@@ -129,6 +145,8 @@ protected:
     Quad2D LineToQuad(Point2D p1, Point2D p2);
 
 protected:
+    bool mIsFirstStartFrame = true;
+
     SDL_Window* mWindow = nullptr;
 
     s32 mOffsetX = 0;

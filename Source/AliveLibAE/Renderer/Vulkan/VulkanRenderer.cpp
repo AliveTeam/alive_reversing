@@ -1620,6 +1620,8 @@ void VulkanRenderer::Clear(u8 /*r*/, u8 /*g*/, u8 /*b*/)
 
 void VulkanRenderer::StartFrame()
 {
+    IRenderer::StartFrame();
+
     if (!mFrameStarted)
     {
         mFrameStarted = true;

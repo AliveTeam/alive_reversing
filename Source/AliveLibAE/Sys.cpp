@@ -866,15 +866,12 @@ void Sys_DestroyWindow()
 
 bool Sys_WindowClass_Register(LPCSTR lpWindowName, s32 x, s32 y, s32 nWidth, s32 nHeight, s32 extraAttributes)
 {
-    sHwnd_BBB9F4 = SDL_CreateWindow(lpWindowName, x, y, nWidth, nHeight, SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI | extraAttributes);
+    sHwnd_BBB9F4 = SDL_CreateWindow(lpWindowName, x, y, nWidth, nHeight, SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_HIDDEN | extraAttributes);
     if (sHwnd_BBB9F4)
     {
         Input_InitKeyStateArray_4EDD60();
 
         SDL_ShowCursor(SDL_DISABLE);
-
-        // Bring to front and give input focus
-        SDL_RaiseWindow(sHwnd_BBB9F4);
 
         // SDL will not send a window focused message on start up, so default to activated
         sAppIsActivated_BBBA00 = true;

@@ -126,6 +126,8 @@ void OpenGLRenderer::Clear(u8 r, u8 g, u8 b)
 
 void OpenGLRenderer::StartFrame()
 {
+    IRenderer::StartFrame();
+
     if (SDL_GetWindowFlags(mWindow) & SDL_WINDOW_MINIMIZED)
     {
         return;

@@ -373,6 +373,8 @@ void DirectX9Renderer::Clear(u8 /*r*/, u8 /*g*/, u8 /*b*/)
 
 void DirectX9Renderer::StartFrame()
 {
+    IRenderer::StartFrame();
+
     if (!mFrameStarted)
     {
         mFrameStarted = true;
