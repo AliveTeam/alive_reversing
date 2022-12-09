@@ -3702,10 +3702,19 @@ void Scrab::SetTarget(BaseAliveGameObject* pTarget)
     }
     else
     {
-        mAbeOrMudTarget = pTarget;
-        mAbeOrMudTarget->mBaseGameObjectRefCount++;
-        //LOG_INFO(this << " set target " << mAbeOrMudTarget << " ref " << (u32) mAbeOrMudTarget->mBaseGameObjectRefCount);
+        if (mAbeOrMudTarget != pTarget)
+        {
+            mAbeOrMudTarget = pTarget;
+            mAbeOrMudTarget->mBaseGameObjectRefCount++;
+            //LOG_INFO(this << " set target " << mAbeOrMudTarget << " ref " << (u32) mAbeOrMudTarget->mBaseGameObjectRefCount);
+        }
+        else
+        {
+            // Don't double ref count else the target will leak, this can be seen as abe not reappearing
+            // in RF return after the bad ending, but other bad things probably happen too.
+            LOG_INFO("Trying to set the same target - ignore");
 
+        }
     }
 }
 
