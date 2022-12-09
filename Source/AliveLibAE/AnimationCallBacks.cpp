@@ -164,7 +164,7 @@ void Animation_OnFrame_Slog_4C3030(BaseGameObject* pObjPtr, u32&, const IndexedP
         return;
     }
 
-    if ((pTarget->Type() == ReliveTypes::eAbe && pTarget->mCurrentMotion == eAbeMotions::Motion_68_ToOffScreenHoist_454B80) || pSlog->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted))
+    if ((pTarget->Type() == ReliveTypes::eAbe && pTarget->mCurrentMotion == eAbeMotions::Motion_68_ToOffScreenHoist_454B80) || pSlog->GetElectrocuted())
     {
         return;
     }

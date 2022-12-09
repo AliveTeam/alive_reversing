@@ -173,7 +173,7 @@ s32 Glukkon::CreateFromSaveState(const u8* pData)
         pGlukkon->mCurrentMotion = pSaveState->mCurrentMotion2;
         pGlukkon->mNextMotion = pSaveState->mNextMotion;
         pGlukkon->BaseAliveGameObjectLastLineYPos = FP_FromInteger(pSaveState->field_38_last_line_ypos);
-        pGlukkon->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eRestoredFromQuickSave);
+        pGlukkon->SetRestoredFromQuickSave(true);
         pGlukkon->field_1D4_timer = pSaveState->field_54_timer;
         pGlukkon->BaseAliveGameObjectCollisionLineType = pSaveState->mLineType;
         pGlukkon->mTlvId = pSaveState->mTlvId;
@@ -193,7 +193,7 @@ s32 Glukkon::CreateFromSaveState(const u8* pData)
         pGlukkon->mKnockbackDelayAfterGettingShotTimer = pSaveState->mKnockbackDelayAfterGettingShotTimer;
         pGlukkon->mGettingShotTimer = pSaveState->mGettingShotTimer;
         pGlukkon->mFadeId = pSaveState->mFadeId;
-        pGlukkon->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanBePossessed, pSaveState->mCanBePossessed);
+        pGlukkon->SetCanBePossessed(pSaveState->mCanBePossessed);
     }
 
     return sizeof(GlukkonSaveState);
@@ -228,7 +228,7 @@ Glukkon::Glukkon(relive::Path_Glukkon* pTlv, const Guid& tlvId)
 
     mTlvData = *pTlv;
 
-    mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanSetOffExplosives);
+    SetCanSetOffExplosives(true);
 
     mTlvId = tlvId;
 
@@ -285,7 +285,7 @@ s32 Glukkon::VGetSaveState(u8* pSaveBuffer)
 {
     GlukkonSaveState* pSaveState = reinterpret_cast<GlukkonSaveState*>(pSaveBuffer);
 
-    if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted))
+    if (GetElectrocuted())
     {
         return 0;
     }
@@ -352,7 +352,7 @@ s32 Glukkon::VGetSaveState(u8* pSaveBuffer)
     pSaveState->mKnockbackDelayAfterGettingShotTimer = mKnockbackDelayAfterGettingShotTimer;
     pSaveState->mGettingShotTimer = mGettingShotTimer;
     pSaveState->mFadeId = mFadeId;
-    pSaveState->mCanBePossessed = mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eCanBePossessed);
+    pSaveState->mCanBePossessed = GetCanBePossessed();
     pSaveState->mCurrentType = Type();
 
     return sizeof(GlukkonSaveState);
@@ -1600,7 +1600,7 @@ s16 Glukkon::Brain_3_PlayerControlled()
 
                 if (static_cast<s32>(sGnFrame) > field_1D4_timer || sActiveHero->mHealth <= FP_FromInteger(0))
                 {
-                    mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::ePossessed);
+                    SetPossessed(false);
                     SetBrain(&Glukkon::Brain_4_Death);
                     mBrainSubState = 2;
                     MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
@@ -1852,7 +1852,7 @@ s16 Glukkon::Brain_5_WaitToSpawn()
         }
 
         SetDrawable(true);
-        mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanBePossessed);
+        SetCanBePossessed(true);
 
         SetType(ReliveTypes::eGlukkon);
 
@@ -1923,7 +1923,7 @@ void Glukkon::Init()
             mXPos += ScaleToGridSize(GetSpriteScale());
             GetAnimation().SetFlipX(true);
         }
-        mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eCanBePossessed);
+        SetCanBePossessed(false);
         SetDrawable(false);
         SetBrain(&Glukkon::Brain_5_WaitToSpawn);
         mBrainSubState = 0;
@@ -1931,7 +1931,7 @@ void Glukkon::Init()
     }
     else
     {
-        mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanBePossessed);
+        SetCanBePossessed(true);
         SetType(ReliveTypes::eGlukkon);
         SetBrain(&Glukkon::Brain_0_Calm_WalkAround);
         mBrainSubState = 0;
@@ -2009,9 +2009,9 @@ Glukkon::~Glukkon()
 
 void Glukkon::VUpdate()
 {
-    if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eRestoredFromQuickSave))
+    if (GetRestoredFromQuickSave())
     {
-        mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eRestoredFromQuickSave);
+        SetRestoredFromQuickSave(false);
         if (BaseAliveGameObjectCollisionLineType == -1)
         {
             BaseAliveGameObjectCollisionLine = nullptr;
@@ -2094,7 +2094,7 @@ void Glukkon::VUpdate()
 void Glukkon::VPossessed()
 {
     SwitchStates_Do_Operation(mTlvData.mHelpSwitchId, relive::reliveSwitchOp::eSetFalse);
-    mBaseAliveGameObjectFlags.Set(AliveObjectFlags::ePossessed);
+    SetPossessed(true);
     mPreventDepossession = 1;
     SetAnim(eGlukkonMotions::Motion_10_ChantShake, true);
     SetBrain(&Glukkon::Brain_3_PlayerControlled);
@@ -2182,7 +2182,7 @@ void Glukkon::HandleInput()
 {
     MapFollowMe(true);
 
-    if (BrainIs(&Glukkon::Brain_3_PlayerControlled) && mBrainSubState == 1 && !(mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eTeleporting)))
+    if (BrainIs(&Glukkon::Brain_3_PlayerControlled) && mBrainSubState == 1 && !(GetTeleporting()))
     {
         const auto inputHeld = Input().mPads[sCurrentControllerIndex].mHeld;
         const auto matchButtons = InputCommands::Enum::eGameSpeak1 | InputCommands::Enum::eGameSpeak2 | InputCommands::Enum::eGameSpeak3 | InputCommands::Enum::eGameSpeak4 | InputCommands::Enum::eGameSpeak5 | InputCommands::Enum::eGameSpeak6 | InputCommands::Enum::eGameSpeak7 | InputCommands::Enum::eGameSpeak8 | InputCommands::Enum::eChant;
@@ -2325,7 +2325,7 @@ void Glukkon::HandleInput()
 s16 Glukkon::ShouldPanic(s16 panicEvenIfNotFacingMe)
 {
     if (IsLineOfSightBetween(this, sControlledCharacter)
-        && !(sControlledCharacter->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible))
+        && !(sControlledCharacter->GetInvisible())
         && !BaseAliveGameObject::IsInInvisibleZone(sControlledCharacter)
         && !EventGet(kEventResetting)
         && gMap.Is_Point_In_Current_Camera(

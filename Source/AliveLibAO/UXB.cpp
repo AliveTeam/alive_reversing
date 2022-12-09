@@ -416,7 +416,7 @@ s16 UXB::IsColliding()
             break;
         }
 
-        if (pObj->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eCanSetOffExplosives))
+        if (pObj->GetCanSetOffExplosives())
         {
             if (pObj->GetAnimation().GetRender())
             {

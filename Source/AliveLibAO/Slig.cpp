@@ -274,9 +274,9 @@ Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
     LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::Slig_Idle));
 
-    mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::ePossessed);
-    mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanBePossessed);
-    mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanSetOffExplosives);
+    SetPossessed(false);
+    SetCanBePossessed(true);
+    SetCanSetOffExplosives(true);
 
     SetType(ReliveTypes::eSlig);
 
@@ -713,7 +713,7 @@ enum Brain_Possessed
 
 void Slig::VPossessed()
 {
-    mBaseAliveGameObjectFlags.Set(AliveObjectFlags::ePossessed);
+    SetPossessed(true);
     mPreventDepossession |= 4u;
     if (mNextMotion != eSligMotions::Motion_36_KnockbackToStand && mNextMotion != eSligMotions::Motion_35_Knockback)
     {

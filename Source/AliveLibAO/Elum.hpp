@@ -98,7 +98,7 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
     virtual void VScreenChanged() override;
 
-    Elum(const Guid& a6);
+    Elum(const Guid& tlvInfo);
     ~Elum();
 
     void LoadAnimations();

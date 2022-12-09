@@ -104,7 +104,7 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
 
     field_12A_res_idx = 0;
 
-    mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanSetOffExplosives);
+    SetCanSetOffExplosives(true);
     field_114_timer = 0;
     mBrainSubState = 0;
     SetNextMotion(eParamiteMotions::Motion_0_Idle);

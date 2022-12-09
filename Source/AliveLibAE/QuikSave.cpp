@@ -513,7 +513,7 @@ void Quicksave_ReadWorldInfo(const Quicksave_WorldInfo* pInfo)
     // Last is read from another field
     sSavedKilledMudsPerZulag_5C1B50.mData[ALIVE_COUNTOF(sSavedKilledMudsPerZulag_5C1B50.mData) - 1] = pInfo->field_17_last_saved_killed_muds_per_path;
 
-    sActiveHero->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eRestoredFromQuickSave);
+    sActiveHero->SetRestoredFromQuickSave(true);
     gZulagNumber = pInfo->field_2C_current_zulag_number;
     sKilledMudokons = pInfo->field_14_killed_muds;
     sRescuedMudokons = pInfo->field_12_saved_muds;

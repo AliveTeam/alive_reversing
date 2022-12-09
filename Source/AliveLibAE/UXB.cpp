@@ -453,7 +453,7 @@ s32 UXB::IsColliding()
             break;
         }
 
-        if (pObj->mBaseAliveGameObjectFlags.Get(eCanSetOffExplosives) && pObj->GetAnimation().GetRender())
+        if (pObj->GetCanSetOffExplosives() && pObj->GetAnimation().GetRender())
         {
             const PSX_RECT objBound = pObj->VGetBoundingRect();
 

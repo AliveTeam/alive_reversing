@@ -272,7 +272,7 @@ s32 Fleech::CreateFromSaveState(const u8* pBuffer)
 
         pFleech->BaseAliveGameObjectLastLineYPos = FP_FromInteger(pState->mLastLineYPos);
 
-        pFleech->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eRestoredFromQuickSave);
+        pFleech->SetRestoredFromQuickSave(true);
 
         pFleech->BaseAliveGameObjectCollisionLineType = pState->mCollisionLineType;
         pFleech->mTlvInfo = pState->mTlvInfo;
@@ -344,7 +344,7 @@ s32 Fleech::CreateFromSaveState(const u8* pBuffer)
 
 s32 Fleech::VGetSaveState(u8* pSaveBuffer)
 {
-    if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted))
+    if (GetElectrocuted())
     {
         return 0;
     }
@@ -1019,7 +1019,7 @@ void Fleech::Motion_13_SettleOnGround()
 
 void Fleech::Motion_14_ExtendTongueFromEnemy()
 {
-    if (field_11C_obj_id == sActiveHero->mBaseGameObjectId && (sActiveHero->CantBeDamaged_44BAB0() || sActiveHero->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible)))
+    if (field_11C_obj_id == sActiveHero->mBaseGameObjectId && (sActiveHero->CantBeDamaged_44BAB0() || sActiveHero->GetInvisible()))
     {
         ToIdle();
     }
@@ -1032,7 +1032,7 @@ void Fleech::Motion_14_ExtendTongueFromEnemy()
 
 void Fleech::Motion_15_RetractTongueFromEnemey()
 {
-    if (IsActiveHero(sObjectIds.Find_Impl(field_11C_obj_id)) && ((sActiveHero->CantBeDamaged_44BAB0()) || sActiveHero->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible)))
+    if (IsActiveHero(sObjectIds.Find_Impl(field_11C_obj_id)) && ((sActiveHero->CantBeDamaged_44BAB0()) || sActiveHero->GetInvisible()))
     {
         sub_42B8C0();
         ToIdle();
@@ -1181,9 +1181,9 @@ Fleech::~Fleech()
 
 void Fleech::VUpdate()
 {
-    if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eRestoredFromQuickSave))
+    if (GetRestoredFromQuickSave())
     {
-        mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eRestoredFromQuickSave);
+        SetRestoredFromQuickSave(false);
         if (BaseAliveGameObjectCollisionLineType == -1)
         {
             BaseAliveGameObjectCollisionLine = nullptr;
@@ -1572,7 +1572,7 @@ void Fleech::Init()
     SetType(ReliveTypes::eFleech);
 
     SetCanExplode(true);
-    mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanSetOffExplosives);
+    SetCanSetOffExplosives(true);
 
     mShrivelDeath = false;
     mScaredSound = false;
@@ -1675,7 +1675,7 @@ void Fleech::ResetTarget()
 
 s16 Fleech::GotNoTarget()
 {
-    return current_target_object_id_551840 == Guid{} && !mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted);
+    return current_target_object_id_551840 == Guid{} && !GetElectrocuted();
 }
 
 void Fleech::SetTarget()
@@ -2210,7 +2210,7 @@ s16 Fleech::VTakeDamage(BaseGameObject* pFrom)
 
         default:
             Sound(FleechSound::Scared_7);
-            mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eElectrocuted);
+            SetElectrocuted(true);
             sub_42B8C0();
             break;
     }
@@ -2250,7 +2250,7 @@ void Fleech::IncreaseAnger()
 
         if (pEvent)
         {
-            if ((!IsActiveHero(pEvent) || !sActiveHero->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible)) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, pEvent->mXPos, pEvent->mYPos, 0))
+            if ((!IsActiveHero(pEvent) || !sActiveHero->GetInvisible()) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, pEvent->mXPos, pEvent->mYPos, 0))
             {
                 field_13E_current_anger += field_142_attack_anger_increaser;
                 if (VOnSameYLevel(static_cast<BaseAnimatedWithPhysicsGameObject*>(pEvent)))
@@ -2272,7 +2272,7 @@ void Fleech::IncreaseAnger()
         {
             if (VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(6),static_cast<BaseAnimatedWithPhysicsGameObject*>(pEvent)))
             {
-                if ((!IsActiveHero(pEvent) || !sActiveHero->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible)) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, pEvent->mXPos, pEvent->mYPos, 0))
+                if ((!IsActiveHero(pEvent) || !sActiveHero->GetInvisible()) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, pEvent->mXPos, pEvent->mYPos, 0))
                 {
                     field_13E_current_anger += field_140_max_anger;
                 }
@@ -2283,7 +2283,7 @@ void Fleech::IncreaseAnger()
 
 s16 Fleech::AngerFleech(IBaseAliveGameObject* pObj)
 {
-    if (!pObj || (IsActiveHero(pObj) && sActiveHero->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible)))
+    if (!pObj || (IsActiveHero(pObj) && sActiveHero->GetInvisible()))
     {
         return false;
     }
@@ -2608,7 +2608,7 @@ enum Brain_0_Patrol
 s16 Fleech::Brain_0_Patrol()
 {
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_11C_obj_id));
-    if (!pTarget || pTarget->GetDead() || pTarget->mHealth <= FP_FromInteger(0) || pTarget->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible))
+    if (!pTarget || pTarget->GetDead() || pTarget->mHealth <= FP_FromInteger(0) || pTarget->GetInvisible())
     {
         field_11C_obj_id = Guid{};
         pTarget = nullptr;
@@ -2872,13 +2872,13 @@ s16 Fleech::Brain_Patrol_State_4(IBaseAliveGameObject* pTarget)
 
     if (pTarget)
     {
-        if (!pTarget->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible) && VOnSameYLevel(pTarget) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, pTarget->mXPos, pTarget->mYPos, 0) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !WallHit(FP_FromInteger(GetSpriteScale() >= FP_FromInteger(1) ? 10 : 5), pTarget->mXPos - mXPos))
+        if (!pTarget->GetInvisible() && VOnSameYLevel(pTarget) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, pTarget->mXPos, pTarget->mYPos, 0) && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0) && !WallHit(FP_FromInteger(GetSpriteScale() >= FP_FromInteger(1) ? 10 : 5), pTarget->mXPos - mXPos))
         {
             field_13E_current_anger = field_142_attack_anger_increaser + 1;
             return Brain_0_Patrol::eAlertedByAbe_8;
         }
 
-        if (field_13E_current_anger > field_142_attack_anger_increaser && !pTarget->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible) && field_170_danger_obj == Guid{})
+        if (field_13E_current_anger > field_142_attack_anger_increaser && !pTarget->GetInvisible() && field_170_danger_obj == Guid{})
         {
             return Brain_0_Patrol::eAlertedByAbe_8;
         }
@@ -3079,7 +3079,7 @@ s16 Fleech::Brain_Patrol_State_7()
 
 s16 Fleech::Brain_Patrol_State_8(IBaseAliveGameObject* pTarget)
 {
-    if (IsActiveHero(pTarget) && sActiveHero->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible))
+    if (IsActiveHero(pTarget) && sActiveHero->GetInvisible())
     {
         return Brain_0_Patrol::State_0_Init;
     }
@@ -3165,7 +3165,7 @@ s16 Fleech::Brain_1_ChasingAbe()
     auto pObj = static_cast<IBaseAliveGameObject*>(sObjectIds.Find_Impl(field_11C_obj_id));
     if (pObj)
     {
-        if (pObj->GetDead() || (IsActiveHero(pObj) && sActiveHero->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible)))
+        if (pObj->GetDead() || (IsActiveHero(pObj) && sActiveHero->GetInvisible()))
         {
             field_11C_obj_id = Guid{};
             pObj = nullptr;

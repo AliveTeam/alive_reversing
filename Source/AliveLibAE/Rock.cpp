@@ -298,9 +298,9 @@ void Rock::VUpdate()
         SetDead(true);
     }
 
-    if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eRestoredFromQuickSave))
+    if (GetRestoredFromQuickSave())
     {
-        mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eRestoredFromQuickSave);
+        SetRestoredFromQuickSave(false);
         if (BaseAliveGameObjectCollisionLineType == -1)
         {
             BaseAliveGameObjectCollisionLine = nullptr;
@@ -482,7 +482,7 @@ s32 Rock::CreateFromSaveState(const u8* pData)
     pRock->SetDrawable(pState->mDrawable);
     pRock->SetInteractive(pState->mInteractive);
 
-    pRock->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eRestoredFromQuickSave);
+    pRock->SetRestoredFromQuickSave(true);
 
     pRock->field_128_shimmer_timer = sGnFrame;
 

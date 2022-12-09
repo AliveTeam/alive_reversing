@@ -105,7 +105,7 @@ Greeter::Greeter(relive::Path_Greeter* pTlv, const Guid& tlvId)
 
     CreateShadow();
 
-    mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanSetOffExplosives);
+    SetCanSetOffExplosives(true);
     mChasing = false;
 }
 
@@ -162,7 +162,7 @@ s32 Greeter::CreateFromSaveState(const u8* pBuffer)
 
 s32 Greeter::VGetSaveState(u8* pSaveBuffer)
 {
-    if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted))
+    if (GetElectrocuted())
     {
         return 0;
     }
@@ -465,7 +465,7 @@ void Greeter::ZapTarget(FP xpos, FP ypos, IBaseAliveGameObject* pTarget)
         BurstType::eBigRedSparks_3,
         11);
 
-    pTarget->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eElectrocuted);
+    pTarget->SetElectrocuted(true);
 
     relive_new Electrocute(pTarget, true, true);
 
@@ -542,7 +542,7 @@ IBaseAliveGameObject* Greeter::GetMudToZap()
             const FP xMid = FP_FromInteger((bRect.x + bRect.w) / 2);
             const FP yMid = FP_FromInteger((bRect.y + bRect.h) / 2);
 
-            if (xMid - mXPos < (GetSpriteScale() * FP_FromInteger(60)) && mXPos - xMid < (GetSpriteScale() * FP_FromInteger(60)) && yMid - (mYPos - FP_FromInteger(4)) < (GetSpriteScale() * FP_FromInteger(60)) && mYPos - FP_FromInteger(4) - yMid < (GetSpriteScale() * FP_FromInteger(60)) && !(sActiveHero->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted)) && !ZapIsNotBlocked(this, pObj))
+            if (xMid - mXPos < (GetSpriteScale() * FP_FromInteger(60)) && mXPos - xMid < (GetSpriteScale() * FP_FromInteger(60)) && yMid - (mYPos - FP_FromInteger(4)) < (GetSpriteScale() * FP_FromInteger(60)) && mYPos - FP_FromInteger(4) - yMid < (GetSpriteScale() * FP_FromInteger(60)) && !(sActiveHero->GetElectrocuted()) && !ZapIsNotBlocked(this, pObj))
             {
                 return pObj;
             }
@@ -670,7 +670,7 @@ void Greeter::VUpdate()
             const FP midX = FP_FromInteger((bRect.x + bRect.w) / 2);
             const FP midY = FP_FromInteger((bRect.y + bRect.h) / 2);
 
-            if (midX - mXPos >= (GetSpriteScale() * FP_FromInteger(60)) || mXPos - midX >= (GetSpriteScale() * FP_FromInteger(60)) || midY - (mYPos - FP_FromInteger(4)) >= (GetSpriteScale() * FP_FromInteger(60)) || mYPos - FP_FromInteger(4) - midY >= (GetSpriteScale() * FP_FromInteger(60)) || sActiveHero->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted) || sActiveHero->CantBeDamaged_44BAB0() || ZapIsNotBlocked(this, sActiveHero))
+            if (midX - mXPos >= (GetSpriteScale() * FP_FromInteger(60)) || mXPos - midX >= (GetSpriteScale() * FP_FromInteger(60)) || midY - (mYPos - FP_FromInteger(4)) >= (GetSpriteScale() * FP_FromInteger(60)) || mYPos - FP_FromInteger(4) - midY >= (GetSpriteScale() * FP_FromInteger(60)) || sActiveHero->GetElectrocuted() || sActiveHero->CantBeDamaged_44BAB0() || ZapIsNotBlocked(this, sActiveHero))
             {
                 IBaseAliveGameObject* pGonnaZapYa = GetMudToZap();
                 if (pGonnaZapYa)

@@ -541,7 +541,7 @@ void AbilityRing::CollideWithObjects(s16 bDealDamage)
                     else if (pObj->Type() == ReliveTypes::eMudokon)
                     {
                         // is the mudokon sick?
-                        if (pObj->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eCanBePossessed))
+                        if (pObj->GetCanBePossessed())
                         {
                             if (pObj->mHealth > FP_FromInteger(0))
                             {
@@ -575,7 +575,7 @@ void AbilityRing::VScreenChanged()
 
             if (pObj->Type() == ReliveTypes::eMudokon)
             {
-                if (pObj->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eCanBePossessed))
+                if (pObj->GetCanBePossessed())
                 {
                     // Only heal alive muds in the same screen
                     if (pObj->Is_In_Current_Camera() == CameraPos::eCamCurrent_0 && pObj->mHealth > FP_FromInteger(0))

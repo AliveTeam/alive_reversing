@@ -184,9 +184,9 @@ void SlapLock::VUpdate()
     }
     else
     {
-        if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eRestoredFromQuickSave))
+        if (GetRestoredFromQuickSave())
         {
-            mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eRestoredFromQuickSave);
+            SetRestoredFromQuickSave(false);
 
             if (mSlapLockTlv->mTlvSpecificMeaning)
             {
@@ -322,7 +322,7 @@ void SlapLock::VUpdate()
                             sActiveHero->mYPos,
                             1)
                         || sActiveHero->mRingPulseTimer
-                        || sActiveHero->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible))
+                        || sActiveHero->GetInvisible())
                     {
                         AbilityRing::Factory(
                             mXPos,
@@ -360,7 +360,7 @@ void SlapLock::VUpdate()
                     return;
                 }
 
-                if (sActiveHero->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible))
+                if (sActiveHero->GetInvisible())
                 {
                     mState = SlapLockStates::eGiveInvisibility_7;
                 }

@@ -42,7 +42,7 @@ s32 Grenade::CreateFromSaveState(const u8* pBuffer)
     pGrenade->SetDrawable(pState->mDrawable);
     pGrenade->SetInteractive(pState->mInteractive);
 
-    pGrenade->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eRestoredFromQuickSave);
+    pGrenade->SetRestoredFromQuickSave(true);
     pGrenade->BaseAliveGameObjectCollisionLineType = pState->field_28_line_type;
     pGrenade->mBaseThrowableCount = pState->field_2A_savedcount;
     pGrenade->mState = pState->field_2C_state;
@@ -211,9 +211,9 @@ void Grenade::VUpdate()
         SetDead(true);
     }
 
-    if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eRestoredFromQuickSave))
+    if (GetRestoredFromQuickSave())
     {
-        mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eRestoredFromQuickSave);
+        SetRestoredFromQuickSave(false);
         if (BaseAliveGameObjectCollisionLineType == -1)
         {
             BaseAliveGameObjectCollisionLine = nullptr;

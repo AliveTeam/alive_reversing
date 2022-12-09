@@ -141,7 +141,7 @@ void Shrykull::VUpdate()
                     break;
                 }
 
-                if (CanKill(pObj) && !pObj->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eZappedByShrykull))
+                if (CanKill(pObj) && !pObj->GetZappedByShrykull())
                 {
                     mZapTargetId = pObj->mBaseGameObjectId;
 
@@ -195,7 +195,7 @@ void Shrykull::VUpdate()
                         FP_FromInteger((ourRect.y + ourRect.h) / 2),
                         RingTypes::eShrykull_Pulse_Large_5, GetSpriteScale());
 
-                    pObj->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eZappedByShrykull);
+                    pObj->SetZappedByShrykull(true);
 
                     SFX_Play_Pitch(relive::SoundEffects::ShrykullZap, 100, 2000);
                     SfxPlayMono(relive::SoundEffects::Zap1, 0);

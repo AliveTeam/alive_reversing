@@ -231,7 +231,7 @@ s32 MineCar::CreateFromSaveState(const u8* pBuffer)
 
         pMineCar->BaseAliveGameObjectLastLineYPos = FP_FromInteger(pState->field_44_last_line_ypos);
 
-        pMineCar->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eRestoredFromQuickSave);
+        pMineCar->SetRestoredFromQuickSave(true);
 
         pMineCar->BaseAliveGameObjectCollisionLineType = pState->field_46_collision_line_type;
         pMineCar->field_118_tlvInfo = pState->field_4C_tlvInfo;
@@ -796,9 +796,9 @@ s32 MineCar::VGetSaveState(u8* pSaveBuffer)
 
 void MineCar::VUpdate()
 {
-    if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eRestoredFromQuickSave))
+    if (GetRestoredFromQuickSave())
     {
-        mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eRestoredFromQuickSave);
+        SetRestoredFromQuickSave(false);
 
         if (BaseAliveGameObjectCollisionLineType != -1)
         {

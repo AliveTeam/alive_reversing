@@ -712,7 +712,7 @@ Abe::Abe()
     mContinueTopLeft = {};
     mContinueBottomRight = {};
     mContinueCamera = -1;
-    mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanSetOffExplosives);
+    SetCanSetOffExplosives(true);
 
     field_2AA_flags.Clear(Flags_2AA::e2AA_Bit1);
     field_2AA_flags.Clear(Flags_2AA::e2AA_Bit2_bSfxPlaying);
@@ -1286,7 +1286,7 @@ IBaseAliveGameObject* Abe::FindObjectToPossess_421410()
 
         if (pObj->GetIsBaseAliveGameObject())
         {
-            if (pObj->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eCanBePossessed))
+            if (pObj->GetCanBePossessed())
             {
                 if (pObj->Type() != ReliveTypes::eSlig || (pObj->Is_In_Current_Camera() == CameraPos::eCamCurrent_0 && pObj->mHealth > FP_FromInteger(0)))
                 {
@@ -2375,7 +2375,7 @@ s16 Abe::RunTryEnterDoor_4259C0()
     {
         return 0;
     }
-    if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted))
+    if (GetElectrocuted())
     {
         return 0;
     }
@@ -2516,7 +2516,7 @@ void Abe::VOnTlvCollision(relive::Path_TLV* pTlv)
         {
             relive::Path_ContinuePoint* pContinuePointTlv = static_cast<relive::Path_ContinuePoint*>(pTlv);
 
-            if ((pContinuePointTlv->mZoneNumber != mContinueZoneNumber || mContinueLevel != gMap.mCurrentLevel) && !mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted) && mCurrentMotion != eAbeMotions::Motion_156_DoorEnter)
+            if ((pContinuePointTlv->mZoneNumber != mContinueZoneNumber || mContinueLevel != gMap.mCurrentLevel) && !GetElectrocuted() && mCurrentMotion != eAbeMotions::Motion_156_DoorEnter)
             {
                 mContinueZoneNumber = pContinuePointTlv->mZoneNumber;
                 mContinueClearFromId = pContinuePointTlv->mClearFromId;
@@ -3135,7 +3135,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
             break;
     }
 
-    if (sControlledCharacter->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::ePossessed))
+    if (sControlledCharacter->GetPossessed())
     {
         if (mHealth == FP_FromInteger(0))
         {
@@ -3364,7 +3364,7 @@ void Abe::Motion_0_Idle()
             {
                 case ReliveTypes::eDoor:
                 {
-                    if (NearDoorIsOpen() && !mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted))
+                    if (NearDoorIsOpen() && !GetElectrocuted())
                     {
                         BaseAliveGameObjectPathTLV = pTlv;
                         field_110_state.raw = 0;
@@ -6351,7 +6351,7 @@ void Abe::Motion_61_Respawn()
             //{
             //    *(_BYTE *) (dword_507720 + 6) |= 4u;
             //}
-            mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eElectrocuted);
+            SetElectrocuted(false);
 
             mFade->Init(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeOut, 1, 8);
             mFade->mBaseGameObjectRefCount--;

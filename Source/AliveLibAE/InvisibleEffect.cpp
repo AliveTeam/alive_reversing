@@ -96,7 +96,7 @@ void InvisibleEffect::VUpdate()
                     mPal2.mPal->mPal[idx2].a = 255;
                 }
 
-                pTarget->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eInvisible);
+                pTarget->SetInvisible(true);
 
                 pTarget->GetAnimation().SetBlending(false);
                 pTarget->GetAnimation().SetSemiTrans(true);
@@ -237,7 +237,7 @@ void InvisibleEffect::VUpdate()
                 pTarget->GetAnimation().SetBlending(field_4A_flags.Get(Flags_4A::eBlending_Bit2));
                 pTarget->GetAnimation().SetRenderMode(field_48_old_render_mode);
 
-                pTarget->mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eInvisible);
+                pTarget->SetInvisible(false);
 
                 SetUpdateDelay(1);
                 relive_new PossessionFlicker(pTarget, 16, 255, 128, 128);

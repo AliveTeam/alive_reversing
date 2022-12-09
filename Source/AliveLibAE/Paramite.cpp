@@ -147,8 +147,8 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
 
     SetTint(&kParamiteTints_55D73C[0], gMap.mCurrentLevel);
 
-    mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanBePossessed);
-    mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanSetOffExplosives);
+    SetCanBePossessed(true);
+    SetCanSetOffExplosives(true);
 
     BaseAliveGameObject_PlatformId = Guid{};
     field_158_next_brain_ret = -1;
@@ -186,7 +186,7 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
     switch (pTlv->mEntranceType)
     {
         case relive::Path_Paramite::EntranceType::eSurpriseWeb:
-            mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eCanBePossessed);
+            SetCanBePossessed(false);
             SetBrain(&Paramite::Brain_3_SurpriseWeb);
             break;
 
@@ -194,7 +194,7 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
             SetBrain(&Paramite::Brain_9_ParamiteSpawn);
             mYPos -= FP_FromInteger(20);
             GetAnimation().SetRender(false);
-            mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eCanBePossessed);
+            SetCanBePossessed(false);
             break;
 
         /*case relive::Path_Paramite::EntranceType::eUnused_ScaleToLeftGridSize:
@@ -202,7 +202,7 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
             mXPos -= ScaleToGridSize(mSpriteScale);
             mAnim.SetFlipX(false);
             mAnim.SetRender(false);
-            mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eCanBePossessed);
+            SetCanBePossessed(false);
             break;
 
         case relive::Path_Paramite::EntranceType::eUnused_ScaleToRightGridSize:
@@ -210,7 +210,7 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
             mXPos += ScaleToGridSize(mSpriteScale);
             mAnim.SetRender(false);
             mAnim.SetFlipX(true);
-            mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eCanBePossessed);
+            SetCanBePossessed(false);
             break;*/
 
         default:
@@ -311,7 +311,7 @@ s32 Paramite::CreateFromSaveState(const u8* pBuffer)
     pParamite->SetCurrentMotion(pState->field_30_current_motion);
     pParamite->SetNextMotion(pState->field_32_next_motion);
     pParamite->BaseAliveGameObjectLastLineYPos = FP_FromInteger(pState->field_34_last_line_ypos);
-    pParamite->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eRestoredFromQuickSave);
+    pParamite->SetRestoredFromQuickSave(true);
     pParamite->BaseAliveGameObjectCollisionLineType = pState->field_36_line_type;
 
     pParamite->mMeatGuid = pState->field_40_meat_id;
@@ -341,7 +341,7 @@ s32 Paramite::CreateFromSaveState(const u8* pBuffer)
     pParamite->mPreventDepossession = pState->mPreventDepossession;
     pParamite->mSpawned = pState->mSpawned;
     pParamite->mAlerted = pState->mAlerted;
-    pParamite->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanBePossessed, pState->mCanBePossessed);
+    pParamite->SetCanBePossessed(pState->mCanBePossessed);
 
     return sizeof(ParamiteSaveState);
 }
@@ -361,7 +361,7 @@ static Guid ResolveId(Guid objId)
 
 s32 Paramite::VGetSaveState(u8* pSaveBuffer)
 {
-    if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted))
+    if (GetElectrocuted())
     {
         return 0;
     }
@@ -721,7 +721,7 @@ s16 Paramite::Brain_Patrol_State_12_Idle(BaseAliveGameObject* pObj)
 
     if (IsActiveHero(pEventNoise) || IsActiveHero(pEventSpeaking))
     {
-        if (sActiveHero->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible))
+        if (sActiveHero->GetInvisible())
         {
             SetNextMotion(sParamitePatrolMotionTable[Math_RandomRange(0, 4)]);
             return ParamiteEnums::Brain_0_Patrol::eBrain0_LookingForInvisibleAbe_15;
@@ -824,7 +824,7 @@ s16 Paramite::Brain_Patrol_State_5_StopApproachingAbe(BaseAliveGameObject* pObj)
         return ParamiteEnums::Brain_0_Patrol::eBrain0_IdleForAbe_1;
     }
 
-    if (pObj->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible))
+    if (pObj->GetInvisible())
     {
         mTargetGuid = Guid{};
         SetNextMotion(eParamiteMotions::Motion_4_Turn);
@@ -899,7 +899,7 @@ s16 Paramite::Brain_Patrol_State_4_ApproachingAbe(BaseAliveGameObject* pObj)
         return ParamiteEnums::Brain_0_Patrol::eBrain0_IdleForAbe_1;
     }
 
-    if (pObj->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible))
+    if (pObj->GetInvisible())
     {
         mTargetGuid = Guid{};
         SetNextMotion(eParamiteMotions::Motion_4_Turn);
@@ -974,7 +974,7 @@ s16 Paramite::Brain_Patrol_State_3_RunningFromAbe(BaseAliveGameObject* pObj)
         return ParamiteEnums::Brain_0_Patrol::eBrain0_IdleForAbe_1;
     }
 
-    if (pObj->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible))
+    if (pObj->GetInvisible())
     {
         mTargetGuid = Guid{};
         SetNextMotion(eParamiteMotions::Motion_4_Turn);
@@ -1041,7 +1041,7 @@ s16 Paramite::Brain_Patrol_State_8_StuckToWall(BaseAliveGameObject* pObj)
         return ParamiteEnums::Brain_0_Patrol::eBrain0_IdleForAbe_1;
     }
 
-    if (pObj->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible))
+    if (pObj->GetInvisible())
     {
         mTargetGuid = Guid{};
         SetNextMotion(eParamiteMotions::Motion_4_Turn);
@@ -1104,7 +1104,7 @@ s16 Paramite::Brain_Patrol_State_1_IdleForAbe(BaseAliveGameObject* pObj)
         pObj = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mTargetGuid));
     }
 
-    if (pObj && pObj->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible))
+    if (pObj && pObj->GetInvisible())
     {
         mTargetGuid = Guid{};
         SetNextMotion(eParamiteMotions::Motion_4_Turn);
@@ -1217,7 +1217,7 @@ s16 Paramite::Brain_Patrol_State_2_FearingAbe(BaseAliveGameObject* pObj)
         return ParamiteEnums::Brain_0_Patrol::eBrain0_IdleForAbe_1;
     }
 
-    if (pObj->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible))
+    if (pObj->GetInvisible())
     {
         mTargetGuid = Guid{};
         SetNextMotion(eParamiteMotions::Motion_4_Turn);
@@ -1355,7 +1355,7 @@ s16 Paramite::Brain_2_ChasingAbe()
         SetDead(true);
     }
 
-    if (pObj && !pObj->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible) && (pObj->Type() != ReliveTypes::eFleech || pObj->mHealth > FP_FromInteger(0)))
+    if (pObj && !pObj->GetInvisible() && (pObj->Type() != ReliveTypes::eFleech || pObj->mHealth > FP_FromInteger(0)))
     {
         if (field_148_timer > static_cast<s32>(sGnFrame) || (VOnSameYLevel(pObj) && GetSpriteScale() == pObj->GetSpriteScale()))
         {
@@ -1980,7 +1980,7 @@ s16 Paramite::Brain_3_SurpriseWeb()
         case ParamiteEnums::Brain_3_SurpriseWeb::eBrain3_Appearing_1:
             if (mSurpriseWebSwitchId != 0 && SwitchStates_Get(mSurpriseWebSwitchId))
             {
-                mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanBePossessed);
+                SetCanBePossessed(true);
                 GetAnimation().SetFlipX(false);
                 field_130_timer = sGnFrame + mSurpriseWebDelayTimer;
                 auto pNewWeb = relive_new ParamiteWeb(mXPos, FP_GetExponent(mYPos) - 20, FP_GetExponent(mYPos) - 10, GetSpriteScale());
@@ -2937,7 +2937,7 @@ s16 Paramite::Brain_9_ParamiteSpawn()
             {
                 mSpawned = true;
                 SfxPlayMono(relive::SoundEffects::ParamiteSpawn, 0);
-                mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanBePossessed);
+                SetCanBePossessed(true);
                 GetAnimation().SetRender(true);
 
                 if (!BaseAliveGameObjectCollisionLine)
@@ -4399,7 +4399,7 @@ void Paramite::Motion_29_GetDepossessedBegin()
         if (static_cast<s32>(sGnFrame) > field_138_depossession_timer)
         {
             sControlledCharacter = sActiveHero;
-            mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::ePossessed);
+            SetPossessed(false);
             SetCurrentMotion(eParamiteMotions::Motion_30_GetDepossessedEnd);
             SetBrain(&Paramite::Brain_0_Patrol);
             mBrainSubState = 0;
@@ -5177,9 +5177,9 @@ void Paramite::HandleBrainsAndMotions()
 
 void Paramite::VUpdate()
 {
-    if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eRestoredFromQuickSave))
+    if (GetRestoredFromQuickSave())
     {
-        mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eRestoredFromQuickSave);
+        SetRestoredFromQuickSave(false);
         if (BaseAliveGameObjectCollisionLineType == -1)
         {
             BaseAliveGameObjectCollisionLine = nullptr;
@@ -5363,7 +5363,7 @@ s16 Paramite::VOnSameYLevel(BaseAnimatedWithPhysicsGameObject* pOther)
 void Paramite::VUnPosses()
 {
     SetNextMotion(eParamiteMotions::Motion_0_Idle);
-    mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::ePossessed);
+    SetPossessed(false);
     field_130_timer = sGnFrame + 180;
     SetBrain(&Paramite::Brain_0_Patrol);
     mBrainSubState = 0;
@@ -5371,7 +5371,7 @@ void Paramite::VUnPosses()
 
 void Paramite::VPossessed()
 {
-    mBaseAliveGameObjectFlags.Set(AliveObjectFlags::ePossessed);
+    SetPossessed(true);
     mPreventDepossession = true;
     SetBrain(&Paramite::Brain_6_Possessed);
     SetNextMotion(eParamiteMotions::Motion_0_Idle);
@@ -5885,7 +5885,7 @@ s16 Paramite::FindTarget()
         }
     }
 
-    if (VOnSameYLevel(sActiveHero) && !sActiveHero->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible) && GetSpriteScale() == sActiveHero->GetSpriteScale() && !WallHit((sActiveHero->GetSpriteScale() * FP_FromInteger(20)), sActiveHero->mXPos - mXPos))
+    if (VOnSameYLevel(sActiveHero) && !sActiveHero->GetInvisible() && GetSpriteScale() == sActiveHero->GetSpriteScale() && !WallHit((sActiveHero->GetSpriteScale() * FP_FromInteger(20)), sActiveHero->mXPos - mXPos))
     {
         mTargetGuid = sActiveHero->mBaseGameObjectId;
         return 1;

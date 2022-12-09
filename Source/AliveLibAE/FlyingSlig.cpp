@@ -155,8 +155,8 @@ FlyingSlig::FlyingSlig(relive::Path_FlyingSlig* pTlv, const Guid& tlvId)
 
     GetAnimation().SetFnPtrArray(kFlyingSlig_Anim_Frames_Fns_55EFC4);
 
-    mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanBePossessed);
-    mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanSetOffExplosives);
+    SetCanBePossessed(true);
+    SetCanSetOffExplosives(true);
 
     SetCanExplode(true);
 
@@ -304,7 +304,7 @@ s32 FlyingSlig::CreateFromSaveState(const u8* pBuffer)
         pFlyingSlig->SetCurrentMotion(pSaveState->field_30_current_state);
         pFlyingSlig->mNextMotion = pSaveState->field_32_delayed_state;
         pFlyingSlig->BaseAliveGameObjectLastLineYPos = FP_FromInteger(pSaveState->field_34_lastLineYPos);
-        pFlyingSlig->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eRestoredFromQuickSave);
+        pFlyingSlig->SetRestoredFromQuickSave(true);
         pFlyingSlig->BaseAliveGameObjectCollisionLineType = -1;
 
         if (pSaveState->field_36_line_idx != -1)
@@ -369,7 +369,7 @@ s32 FlyingSlig::CreateFromSaveState(const u8* pBuffer)
 
 s32 FlyingSlig::VGetSaveState(u8* pSaveBuffer)
 {
-    if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted))
+    if (GetElectrocuted())
     {
         return 0;
     }
@@ -523,9 +523,9 @@ void FlyingSlig::VScreenChanged()
 
 void FlyingSlig::VUpdate()
 {
-    if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eRestoredFromQuickSave))
+    if (GetRestoredFromQuickSave())
     {
-        mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eRestoredFromQuickSave);
+        SetRestoredFromQuickSave(false);
 
         if (!IsPossessed())
         {
@@ -751,8 +751,8 @@ void FlyingSlig::Movement()
     if (mThrowGrenade)
     {
         if (static_cast<s32>(sGnFrame) > field_150_grenade_delay && 
-            (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::ePossessed) || SwitchStates_Get(field_17C_launch_switch_id) ||
-             mBaseAliveGameObjectFlags.Get(AliveObjectFlags::ePossessed)) && CanThrowGrenade())
+            (GetPossessed() || SwitchStates_Get(field_17C_launch_switch_id) ||
+             GetPossessed()) && CanThrowGrenade())
         {
             ThrowGrenade();
         }
@@ -998,7 +998,7 @@ void FlyingSlig::Brain_4_ChasingEnemy()
         return;
     }
 
-    if (EventGet(kEventResetting) || sControlledCharacter->GetSpriteScale() != GetSpriteScale() || IsInInvisibleZone(sControlledCharacter) || sControlledCharacter->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible) || (!IsWallBetween(this, sControlledCharacter) && (!IsActiveHero(sControlledCharacter) || sActiveHero->mCurrentMotion != eAbeMotions::Motion_65_LedgeAscend_4548E0) && sControlledCharacter->Type() != ReliveTypes::eMineCar))
+    if (EventGet(kEventResetting) || sControlledCharacter->GetSpriteScale() != GetSpriteScale() || IsInInvisibleZone(sControlledCharacter) || sControlledCharacter->GetInvisible() || (!IsWallBetween(this, sControlledCharacter) && (!IsActiveHero(sControlledCharacter) || sActiveHero->mCurrentMotion != eAbeMotions::Motion_65_LedgeAscend_4548E0) && sControlledCharacter->Type() != ReliveTypes::eMineCar))
     {
         PatrolDelay();
         return;
@@ -1934,7 +1934,7 @@ s16 FlyingSlig::CanChase(IBaseAliveGameObject* pObj)
         return 1;
     }
 
-    if (VIsFacingMe(pObj) && !IsInInvisibleZone(pObj) && !pObj->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible))
+    if (VIsFacingMe(pObj) && !IsInInvisibleZone(pObj) && !pObj->GetInvisible())
     {
         return 1;
     }
@@ -2541,7 +2541,7 @@ ReliveTypes FlyingSlig::FindLeftOrRightBound(FP xOrY, FP wOrH)
 
 void FlyingSlig::VPossessed()
 {
-    mBaseAliveGameObjectFlags.Set(AliveObjectFlags::ePossessed);
+    SetPossessed(true);
     mSpeaking1 = true;
 
     mAbeLevel = gMap.mCurrentLevel;

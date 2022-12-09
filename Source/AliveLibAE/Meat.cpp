@@ -118,7 +118,7 @@ s32 Meat::CreateFromSaveState(const u8* pBuffer)
     pMeat->SetDrawable(pState->mDrawable);
     pMeat->SetInteractive(pState->mInteractive);
 
-    pMeat->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eRestoredFromQuickSave);
+    pMeat->SetRestoredFromQuickSave(true);
 
     pMeat->field_128_timer = sGnFrame;
     pMeat->BaseAliveGameObjectCollisionLineType = pState->field_28_line_type;

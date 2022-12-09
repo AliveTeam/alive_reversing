@@ -211,7 +211,7 @@ void Electrocute::VUpdate()
                     field_28_b = pTargetObj->mRGB.b;
                 }
 
-                pTargetObj->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eElectrocuting);
+                pTargetObj->SetElectrocuting(true);
 
                 pTargetObj->mRGB.SetRGB(255, 255, 255);
                 field_44_state = States::eAlphaFadeout_1;
@@ -269,7 +269,7 @@ void Electrocute::VUpdate()
                     }
 
                     pTargetObj->mRGB.SetRGB(field_24_r, field_26_g, field_28_b);
-                    pTargetObj->mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eElectrocuting);
+                    pTargetObj->SetElectrocuting(false);
 
                     field_20_target_obj_id = Guid{};
                     field_44_state = States::eKillElectrocute_3;
@@ -318,7 +318,7 @@ void Electrocute::VStop()
                 &field_4C_pal_rect);
             */
             pTarget->mRGB.SetRGB(field_24_r, field_26_g, field_28_b);
-            pTarget->mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eElectrocuting);
+            pTarget->SetElectrocuting(false);
         }
 
         pTarget->VTakeDamage(this);

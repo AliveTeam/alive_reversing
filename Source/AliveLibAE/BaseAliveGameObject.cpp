@@ -18,15 +18,15 @@
 BaseAliveGameObject::BaseAliveGameObject(s16 resourceArraySize)
     : IBaseAliveGameObject(resourceArraySize)
 {
-    mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eCanBePossessed);
-    mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::ePossessed);
-    mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eZappedByShrykull);
-    mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eCanSetOffExplosives);
-    mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eElectrocuted);
-    mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eInvisible);
-    mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eRestoredFromQuickSave);
-    mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eTeleporting);
-    mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eElectrocuting);
+    SetCanBePossessed(false);
+    SetPossessed(false);
+    SetZappedByShrykull(false);
+    SetCanSetOffExplosives(false);
+    SetElectrocuted(false);
+    SetInvisible(false);
+    SetRestoredFromQuickSave(false);
+    SetTeleporting(false);
+    SetElectrocuting(false);
 
     BaseAliveGameObjectPathTLV = nullptr;
     BaseAliveGameObjectCollisionLine = nullptr;

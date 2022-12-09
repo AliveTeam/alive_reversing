@@ -1020,14 +1020,14 @@ void PauseMenu::VUpdate()
         return;
     }
 
-    if (sActiveHero->mHealth <= FP_FromInteger(0) || sActiveHero->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted))
+    if (sActiveHero->mHealth <= FP_FromInteger(0) || sActiveHero->GetElectrocuted())
     {
         pControlledChar = sControlledCharacter;
     }
     else
     {
         pControlledChar = sControlledCharacter;
-        if (!(sControlledCharacter->mBaseAliveGameObjectFlags.Get(eTeleporting)))
+        if (!sControlledCharacter->GetTeleporting())
         {
             const s16 heroState = sActiveHero->mCurrentMotion;
             if (heroState != eAbeMotions::Motion_86_HandstoneBegin
@@ -1074,8 +1074,8 @@ void PauseMenu::VUpdate()
     if (Input().mPads[sCurrentControllerIndex].mHeld & InputCommands::Enum::ePause)
     {
         if (pHero->mHealth > FP_FromInteger(0)
-            && !(pHero->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted))
-            && !(pControlledChar->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eTeleporting)))
+            && !(pHero->GetElectrocuted())
+            && !(pControlledChar->GetTeleporting()))
         {
             const s16 heroState = pHero->mCurrentMotion;
             if (heroState != eAbeMotions::Motion_86_HandstoneBegin

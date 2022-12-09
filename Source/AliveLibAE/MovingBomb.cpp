@@ -221,7 +221,7 @@ s16 MovingBomb::VTakeDamage(BaseGameObject* pFrom)
 
 void MovingBomb::VOnThrowableHit(BaseGameObject* /*pObj*/)
 {
-    if (!mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted))
+    if (!GetElectrocuted())
     {
         BlowUp();
     }
@@ -240,7 +240,7 @@ s16 MovingBomb::HitObject()
 
         if (pObjIter != this)
         {
-            if (pObjIter->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eCanSetOffExplosives))
+            if (pObjIter->GetCanSetOffExplosives())
             {
                 if (pObjIter->mHealth > FP_FromInteger(0))
                 {
@@ -267,7 +267,7 @@ void MovingBomb::VUpdate()
     {
         if (HitObject())
         {
-            if (!mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted))
+            if (!GetElectrocuted())
             {
                 BlowUp();
             }

@@ -158,9 +158,9 @@ Scrab::Scrab(relive::Path_Scrab* pTlv, const Guid& tlvId, relive::Path_ScrabSpaw
     mAttacking = false;
     mForceUpdateAnimation = false;
 
-    mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanBePossessed);
-    mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanSetOffExplosives);
-    mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eRestoredFromQuickSave);
+    SetCanBePossessed(true);
+    SetCanSetOffExplosives(true);
+    SetRestoredFromQuickSave(false);
 
     mPreventDepossession = 0;
     field_16C_input = 0;
@@ -314,7 +314,7 @@ s32 Scrab::CreateFromSaveState(const u8* pBuffer)
         pScrab->mNextMotion = pState->field_36_next_motion;
         pScrab->BaseAliveGameObjectLastLineYPos = FP_FromInteger(pState->field_38_last_line_ypos);
         pScrab->field_130_depossession_timer = pState->field_60_depossession_timer;
-        pScrab->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eRestoredFromQuickSave);
+        pScrab->SetRestoredFromQuickSave(true);
         pScrab->field_12C_timer = pState->field_5C_timer;
         pScrab->BaseAliveGameObjectCollisionLineType = pState->field_3A_line_type;
         pScrab->field_144_tlvInfo = pState->field_44_tlvInfo;
@@ -353,7 +353,7 @@ s32 Scrab::CreateFromSaveState(const u8* pBuffer)
 
 s32 Scrab::VGetSaveState(u8* pSaveBuffer)
 {
-    if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted))
+    if (GetElectrocuted())
     {
         return 0;
     }
@@ -614,9 +614,9 @@ void Scrab::HandleDDCheat()
 
 void Scrab::VUpdate()
 {
-    if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eRestoredFromQuickSave))
+    if (GetRestoredFromQuickSave())
     {
-        mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eRestoredFromQuickSave);
+        SetRestoredFromQuickSave(false);
         if (BaseAliveGameObjectCollisionLineType == -1)
         {
             BaseAliveGameObjectCollisionLine = nullptr;
@@ -877,7 +877,7 @@ s16 Scrab::Brain_0_Patrol()
     {
         auto pOtherScrab = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(mTargetGuid));
         SetBrain(&Scrab::Brain_1_ChasingEnemy);
-        if (pOtherScrab->Type() == ReliveTypes::eScrab && pOtherScrab->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::ePossessed))
+        if (pOtherScrab->Type() == ReliveTypes::eScrab && pOtherScrab->GetPossessed())
         {
             mNextMotion = eScrabMotions::Motion_26_HowlBegin;
             field_150_attack_delay_timer = sGnFrame + 90;
@@ -888,7 +888,7 @@ s16 Scrab::Brain_0_Patrol()
         return Brain_1_ChasingEnemy::eBrain1_Inactive_0;
     }
 
-    if (IsEventInRange(kEventAbeOhm, mXPos, mYPos, EventScale::Both) && !sActiveHero->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible))
+    if (IsEventInRange(kEventAbeOhm, mXPos, mYPos, EventScale::Both) && !sActiveHero->GetInvisible())
     {
         mNextMotion = eScrabMotions::Motion_26_HowlBegin;
         return Scrab_Brain_0_Patrol::eBrain0_Howling_4;
@@ -1154,7 +1154,7 @@ s16 Scrab::Brain_1_ChasingEnemy()
         return Scrab_Brain_0_Patrol::eBrain0_ToMoving_0;
     }
 
-    if (pObj->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible))
+    if (pObj->GetInvisible())
     {
         mTargetGuid = Guid{};
         mNextMotion = eScrabMotions::Motion_26_HowlBegin;
@@ -1521,7 +1521,7 @@ s16 Scrab::Brain_ChasingEnemy_State_2_Running(BaseAliveGameObject* pObj)
     if (VIsFacingMe(pObj))
     {
         if (VIsObjNearby(ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(7), pObj)
-            && pObj->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::ePossessed)
+            && pObj->GetPossessed()
             && pObj->Type() == ReliveTypes::eScrab)
         {
             if (!mShredPowerActive)
@@ -1591,7 +1591,7 @@ s16 Scrab::Brain_2_Fighting()
         return Scrab_Brain_0_Patrol::eBrain0_ToMoving_0;
     }
 
-    if (pTarget && pTarget->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::ePossessed) && mHealth > FP_FromInteger(0) && pTarget->mHealth > FP_FromInteger(0))
+    if (pTarget && pTarget->GetPossessed() && mHealth > FP_FromInteger(0) && pTarget->mHealth > FP_FromInteger(0))
     {
         mTargetGuid = mFightTargetId;
         mFightTargetId = Guid{};
@@ -1926,7 +1926,7 @@ s16 Scrab::Brain_5_Possessed()
     if (sActiveHero->mHealth <= FP_FromInteger(0))
     {
         sControlledCharacter = sActiveHero;
-        mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::ePossessed);
+        SetPossessed(false);
         field_1A2_speak_counter = 0;
         MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
         ToPatrol();
@@ -3050,7 +3050,7 @@ void Scrab::Motion_28_GetDepossessedBegin()
         if (static_cast<s32>(sGnFrame) > field_130_depossession_timer || sActiveHero->mHealth <= FP_FromInteger(0))
         {
             sControlledCharacter = sActiveHero;
-            mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::ePossessed);
+            SetPossessed(false);
             field_1A2_speak_counter = 0;
             MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
             mCurrentMotion = eScrabMotions::Motion_29_GetDepossessedEnd;
@@ -3429,7 +3429,7 @@ BaseAliveGameObject* Scrab::Find_Fleech()
 
 void Scrab::VPossessed()
 {
-    mBaseAliveGameObjectFlags.Set(AliveObjectFlags::ePossessed);
+    SetPossessed(true);
     mPreventDepossession = 1;
     mShredPowerActive = 0;
     mCurrentMotion = eScrabMotions::Motion_22_GetPossessed;
@@ -3980,10 +3980,10 @@ void Scrab::KillTarget(BaseAliveGameObject* pTarget)
                                 const FP xDist = pObj->mXPos - mXPos;
                                 if (!WallHit(GetSpriteScale() * FP_FromInteger(45), xDist))
                                 {
-                                    if (!pObj->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible))
+                                    if (!pObj->GetInvisible())
                                     {
                                         if (pObj->Type() != ReliveTypes::eScrab ||
-                                            !pObj->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::ePossessed) ||
+                                            !pObj->GetPossessed() ||
                                             (pObj->mCurrentMotion != eScrabMotions::Motion_32_AttackSpin &&
                                             (pObj->Type() != ReliveTypes::eFleech || BrainIs(&Scrab::Brain_5_Possessed) || mKillEnemy == Choice_short::eYes_1)))
 
@@ -4034,7 +4034,7 @@ void Scrab::KillTarget(BaseAliveGameObject* pTarget)
 
 s16 Scrab::FindAbeOrMud()
 {
-    if (CanSeeAbe(sActiveHero) && sActiveHero->mHealth > FP_FromInteger(0) && sActiveHero->GetSpriteScale() == GetSpriteScale() && !sActiveHero->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible))
+    if (CanSeeAbe(sActiveHero) && sActiveHero->mHealth > FP_FromInteger(0) && sActiveHero->GetSpriteScale() == GetSpriteScale() && !sActiveHero->GetInvisible())
     {
         if (!WallHit(GetSpriteScale() * FP_FromInteger(45), sActiveHero->mXPos - mXPos))
         {
@@ -4054,7 +4054,7 @@ s16 Scrab::FindAbeOrMud()
         if (pObj->GetIsBaseAliveGameObject())
         {
             auto pAliveObj = static_cast<BaseAliveGameObject*>(pObj);
-            if ((pAliveObj->Type() == ReliveTypes::eRingOrLiftMud || pAliveObj->Type() == ReliveTypes::eMudokon || pAliveObj->Type() == ReliveTypes::eScrab) && (pAliveObj->Type() != ReliveTypes::eScrab || pAliveObj->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::ePossessed)) && CanSeeAbe(pAliveObj) && pAliveObj->mHealth > FP_FromInteger(0) && pAliveObj->GetSpriteScale() == GetSpriteScale())
+            if ((pAliveObj->Type() == ReliveTypes::eRingOrLiftMud || pAliveObj->Type() == ReliveTypes::eMudokon || pAliveObj->Type() == ReliveTypes::eScrab) && (pAliveObj->Type() != ReliveTypes::eScrab || pAliveObj->GetPossessed()) && CanSeeAbe(pAliveObj) && pAliveObj->mHealth > FP_FromInteger(0) && pAliveObj->GetSpriteScale() == GetSpriteScale())
             {
                 if (!WallHit(GetSpriteScale() * FP_FromInteger(45), pAliveObj->mXPos - mXPos))
                 {
@@ -4148,7 +4148,7 @@ Scrab* Scrab::FindScrabToFight()
         {
             auto pScrab = static_cast<Scrab*>(pObj);
 
-            if (pScrab != this && !pScrab->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::ePossessed) && !BrainIs(&Scrab::Brain_3_Death))
+            if (pScrab != this && !pScrab->GetPossessed() && !BrainIs(&Scrab::Brain_3_Death))
             {
                 if (VOnSameYLevel(pScrab))
                 {

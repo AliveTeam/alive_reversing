@@ -254,8 +254,7 @@ bool Mine::IsColliding()
             break;
         }
 
-        // e114_Bit6 May be "can set off explosives?"
-        if (pObj->mBaseAliveGameObjectFlags.Get(eCanSetOffExplosives) && pObj->GetAnimation().GetRender())
+        if (pObj->GetCanSetOffExplosives() && pObj->GetAnimation().GetRender())
         {
             const PSX_RECT objBound = pObj->VGetBoundingRect();
 

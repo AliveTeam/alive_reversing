@@ -450,8 +450,8 @@ Mudokon::Mudokon(relive::Path_Mudokon* pTlv, const Guid& tlvId)
 
     mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
 
-    mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eRestoredFromQuickSave);
-    mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanSetOffExplosives);
+    SetRestoredFromQuickSave(false);
+    SetCanSetOffExplosives(true);
 
     SetTint(kMudTints_55C744, mCurrentLevel);
 
@@ -751,8 +751,8 @@ s32 Mudokon::CreateFromSaveState(const u8* pBuffer)
         pMud->mNextMotion = pState->field_32_next_motion;
         pMud->BaseAliveGameObjectLastLineYPos = FP_FromInteger(pState->field_34_lastLineYPos);
 
-        pMud->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanBePossessed, pState->field_3C_can_be_possessed & 1);
-        pMud->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eRestoredFromQuickSave);
+        pMud->SetCanBePossessed(pState->field_3C_can_be_possessed & 1);
+        pMud->SetRestoredFromQuickSave(true);
 
         pMud->BaseAliveGameObjectCollisionLineType = pState->field_36_line_type;
         pMud->field_11C_bird_portal_id = pState->field_4C_portal_id;
@@ -813,7 +813,7 @@ s32 Mudokon::CreateFromSaveState(const u8* pBuffer)
 
 s32 Mudokon::VGetSaveState(u8* pSaveBuffer)
 {
-    if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted))
+    if (GetElectrocuted())
     {
         return 0;
     }
@@ -849,7 +849,7 @@ s32 Mudokon::VGetSaveState(u8* pSaveBuffer)
     pState->field_34_lastLineYPos = FP_GetExponent(BaseAliveGameObjectLastLineYPos);
     pState->field_36_line_type = -1;
 
-    pState->field_3C_can_be_possessed = mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eCanBePossessed);
+    pState->field_3C_can_be_possessed = GetCanBePossessed();
 
     if (BaseAliveGameObjectCollisionLine)
     {
@@ -923,9 +923,9 @@ s32 Mudokon::VGetSaveState(u8* pSaveBuffer)
 
 void Mudokon::VUpdate()
 {
-    if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eRestoredFromQuickSave))
+    if (GetRestoredFromQuickSave())
     {
-        mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eRestoredFromQuickSave);
+        SetRestoredFromQuickSave(false);
         if (BaseAliveGameObjectCollisionLineType != -1)
         {
             sCollisions->Raycast(
@@ -1198,7 +1198,7 @@ Mudokon::~Mudokon()
         field_11C_bird_portal_id = Guid{};
     }
 
-    if (!mNotRescued || mHealth <= FP_FromInteger(0) || mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted))
+    if (!mNotRescued || mHealth <= FP_FromInteger(0) || GetElectrocuted())
     {
         Path::TLV_Reset(field_118_tlvInfo, -1, 0, 1);
     }
@@ -5187,7 +5187,7 @@ s16 Mudokon::Brain_9_Sick()
             // Causes mud lag
             AddAlerted();
 
-            mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanBePossessed);
+            SetCanBePossessed(true);
             return Brain_9_Sick::eBrain9_Idle_1;
 
         case Brain_9_Sick::eBrain9_Idle_1:
@@ -5207,7 +5207,7 @@ s16 Mudokon::Brain_9_Sick()
 
             if (field_180_emo_tbl != Mud_Emotion::eSick_7)
             {
-                mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eCanBePossessed);
+                SetCanBePossessed(false);
                 mNextMotion = eMudMotions::Motion_0_Idle;
                 relive_new PossessionFlicker(this, 8, 155, 255, 32);
                 return Brain_9_Sick::eBrain9_StandingUp_3;

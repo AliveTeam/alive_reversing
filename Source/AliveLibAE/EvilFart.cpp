@@ -75,9 +75,9 @@ EvilFart::EvilFart()
     
     GetAnimation().SetSemiTrans(true);
 
-    mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::ePossessed);
-    mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanBePossessed);
-    mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eInvisible);
+    SetPossessed(false);
+    SetCanBePossessed(true);
+    SetInvisible(true);
 
     ResetFartColour();
 
@@ -245,7 +245,7 @@ void EvilFart::InputControlFart()
 
 void EvilFart::VPossessed()
 {
-    mBaseAliveGameObjectFlags.Set(AliveObjectFlags::ePossessed);
+    SetPossessed(true);
     GetAnimation().SetSemiTrans(true);
 
     mPossessedAliveTimer = 900;

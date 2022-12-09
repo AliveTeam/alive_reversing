@@ -138,7 +138,7 @@ void Teleporter::VUpdate()
                 return;
             }
 
-            if (sControlledCharacter->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eTeleporting))
+            if (sControlledCharacter->GetTeleporting())
             {
                 return;
             }
@@ -147,7 +147,7 @@ void Teleporter::VUpdate()
             field_50_objId = Teleporter::Create_ElectrocuteEffect()->mBaseGameObjectId;
 
             SFX_Play_Pitch(relive::SoundEffects::Zap1, 60, -400);
-            sControlledCharacter->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eTeleporting);
+            sControlledCharacter->SetTeleporting(true);
 
             SpawnRingSparks(&field_34_mTlvData);
         }
@@ -349,7 +349,7 @@ void Teleporter::VUpdate()
 
             field_54_effect_created = 0;
             sControlledCharacter->GetAnimation().SetRender(true);
-            sControlledCharacter->mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eTeleporting);
+            sControlledCharacter->SetTeleporting(false);
             field_2C_switch_state = SwitchStates_Get(field_34_mTlvData.mSwitchId);
             field_30_state = TeleporterState::eWaitForSwitchOn_0;
         }

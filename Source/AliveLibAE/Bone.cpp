@@ -99,7 +99,7 @@ s32 Bone::CreateFromSaveState(const u8* pData)
     pBone->SetDrawable(pState->mDrawable);
     pBone->SetInteractive(pState->mInteractive);
 
-    pBone->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eRestoredFromQuickSave);
+    pBone->SetRestoredFromQuickSave(true);
 
     pBone->mShineTimer = sGnFrame;
 

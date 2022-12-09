@@ -216,7 +216,7 @@ static u8 sSlogRandomIdx = 0;
 
 s32 Slog::VGetSaveState(u8* pSaveBuffer)
 {
-    if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted))
+    if (GetElectrocuted())
     {
         return 0;
     }
@@ -382,7 +382,7 @@ s32 Slog::CreateFromSaveState(const u8* pBuffer)
         pSlog->mCurrentMotion = pState->mCurrentMotion2;
         pSlog->mNextMotion = pState->mNextMotion;
         pSlog->BaseAliveGameObjectLastLineYPos = FP_FromInteger(pState->mLastLineYPos);
-        pSlog->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eRestoredFromQuickSave);
+        pSlog->SetRestoredFromQuickSave(true);
         pSlog->BaseAliveGameObjectCollisionLineType = pState->mCollisionLineType;
         pSlog->mTargetId = pState->mTargetId;
         pSlog->mBrainState = pState->mBrainState;
@@ -2761,7 +2761,7 @@ void Slog::Init()
     SetType(ReliveTypes::eSlog);
     Animation_Init(GetAnimRes(AnimId::Slog_Idle));
 
-    mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanSetOffExplosives);
+    SetCanSetOffExplosives(true);
 
     mShot = false;
     mHitByAbilityRing = false;
@@ -2819,9 +2819,9 @@ void Slog::Init()
 
 void Slog::VUpdate()
 {
-    if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eRestoredFromQuickSave))
+    if (GetRestoredFromQuickSave())
     {
-        mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eRestoredFromQuickSave);
+        SetRestoredFromQuickSave(false);
         if (BaseAliveGameObjectCollisionLineType == -1)
         {
             BaseAliveGameObjectCollisionLine = nullptr;

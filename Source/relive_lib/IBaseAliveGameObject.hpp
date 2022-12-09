@@ -4,19 +4,6 @@
 
 class PathLine;
 
-enum AliveObjectFlags
-{
-    eCanBePossessed = 0x4,
-    ePossessed = 0x8,
-    eZappedByShrykull = 0x10,
-    eCanSetOffExplosives = 0x20,
-    eElectrocuted = 0x40,
-    eInvisible = 0x80,
-    eRestoredFromQuickSave = 0x100,
-    eTeleporting = 0x200,
-    eElectrocuting = 0x400,
-};
-
 // Temp glue interface to make BaseAliveGameObject common piece by piece
 class IBaseAliveGameObject : public BaseAnimatedWithPhysicsGameObject
 {
@@ -65,6 +52,24 @@ public:
         mPreviousMotion = static_cast<s16>(motion);
     }
 
+    bool GetCanBePossessed() const { return mCanBePossessed; }
+    void SetCanBePossessed(bool val) { mCanBePossessed = val; }
+    bool GetPossessed() const { return mPossessed; }
+    void SetPossessed(bool val) { mPossessed = val; }
+    bool GetZappedByShrykull() const { return mZappedByShrykull; }
+    void SetZappedByShrykull(bool val) { mZappedByShrykull = val; }
+    bool GetCanSetOffExplosives() const { return mCanSetOffExplosives; }
+    void SetCanSetOffExplosives(bool val) { mCanSetOffExplosives = val; }
+    bool GetElectrocuted() const { return mElectrocuted; }
+    void SetElectrocuted(bool val) { mElectrocuted = val; }
+    bool GetInvisible() const { return mInvisible; }
+    void SetInvisible(bool val) { mInvisible = val; }
+    bool GetRestoredFromQuickSave() const { return mRestoredFromQuickSave; }
+    void SetRestoredFromQuickSave(bool val) { mRestoredFromQuickSave = val; }
+    bool GetTeleporting() const { return mTeleporting; }
+    void SetTeleporting(bool val) { mTeleporting = val; }
+    bool GetElectrocuting() const { return mElectrocuting; }
+    void SetElectrocuting(bool val) { mElectrocuting = val; }
 protected:
 
     template <class T>
@@ -96,9 +101,19 @@ public:
 
     bool mbGotShot = false;
     bool mbMotionChanged = false;
-    BitField16<AliveObjectFlags> mBaseAliveGameObjectFlags = {};
     Guid BaseAliveGameObject_PlatformId;
     s16 field_EC_bBeesCanChase = 0;      // AO only: can the bees attack - can be above the value 1 but bee swarm only checks for non zero
+
+private:
+    bool mCanBePossessed = false;
+    bool mPossessed = false;
+    bool mZappedByShrykull = false;
+    bool mCanSetOffExplosives = false;
+    bool mElectrocuted = false;
+    bool mInvisible = false;
+    bool mRestoredFromQuickSave = false;
+    bool mTeleporting = false;
+    bool mElectrocuting = false;
 };
 
 extern DynamicArrayT<IBaseAliveGameObject>* gBaseAliveGameObjects;

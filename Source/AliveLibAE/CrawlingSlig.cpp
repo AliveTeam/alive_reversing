@@ -150,7 +150,7 @@ CrawlingSlig::CrawlingSlig(relive::Path_CrawlingSlig* pTlv, const Guid& guid)
 
     SetTint(&kCrawlingSligTints[0], gMap.mCurrentLevel);
 
-    mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanBePossessed);
+    SetCanBePossessed(true);
 
     field_11C_mPal = std::make_shared<AnimationPal>();
 
@@ -283,7 +283,7 @@ s32 CrawlingSlig::CreateFromSaveState(const u8* pBuffer)
         pCrawlingSlig->mCurrentMotion = pState->mCurrentMotion2;
         pCrawlingSlig->mNextMotion = pState->mNextMotion;
         pCrawlingSlig->BaseAliveGameObjectLastLineYPos = FP_FromInteger(pState->mLastLineYPos);
-        pCrawlingSlig->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eRestoredFromQuickSave);
+        pCrawlingSlig->SetRestoredFromQuickSave(true);
         pCrawlingSlig->mMultiUseTimer = pState->mMultiUseTimer;
         pCrawlingSlig->BaseAliveGameObjectCollisionLineType = pState->mCollisionLineType;
         pCrawlingSlig->mGuid = pState->mCrawlingSligTlvId;
@@ -305,7 +305,7 @@ s32 CrawlingSlig::CreateFromSaveState(const u8* pBuffer)
 
 s32 CrawlingSlig::VGetSaveState(u8* pSaveBuffer)
 {
-    if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted))
+    if (GetElectrocuted())
     {
         return 0;
     }
@@ -379,7 +379,7 @@ s32 CrawlingSlig::VGetSaveState(u8* pSaveBuffer)
 
 void CrawlingSlig::VPossessed()
 {
-    mBaseAliveGameObjectFlags.Set(AliveObjectFlags::ePossessed);
+    SetPossessed(true);
     mChanting = true;
     Set_AnimAndMotion(CrawlingSligMotion::Motion_12_Shaking, true);
     SetBrain(&CrawlingSlig::Brain_3_Possessed);
@@ -426,9 +426,9 @@ void CrawlingSlig::VUpdate()
     }
     else
     {
-        if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eRestoredFromQuickSave))
+        if (GetRestoredFromQuickSave())
         {
-            mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eRestoredFromQuickSave);
+            SetRestoredFromQuickSave(false);
             if (BaseAliveGameObjectCollisionLineType == -1)
             {
                 BaseAliveGameObjectCollisionLine = 0;
@@ -1074,7 +1074,7 @@ s16 CrawlingSlig::Brain_3_Possessed()
                 }
 
                 sControlledCharacter = sActiveHero;
-                mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::ePossessed);
+                SetPossessed(false);
                 gMap.SetActiveCam(mAbeLevel, mAbePath, mAbeCamera, CameraSwapEffects::eInstantChange_0, 0, 0);
                 SetBrain(&CrawlingSlig::Brain_4_GetKilled);
                 MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
@@ -1310,7 +1310,7 @@ void CrawlingSlig::Motion_1_UsingButton()
 
                     if (BrainIs(&CrawlingSlig::Brain_3_Possessed))
                     {
-                        pWalkingSlig->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::ePossessed);
+                        pWalkingSlig->SetPossessed(true);
                         pWalkingSlig->mAbeLevel = mAbeLevel;
                         pWalkingSlig->mAbePath = mAbePath;
                         pWalkingSlig->mAbeCamera = mAbeCamera;
@@ -1342,7 +1342,7 @@ void CrawlingSlig::Motion_1_UsingButton()
                     if (BrainIs(&CrawlingSlig::Brain_3_Possessed))
                     {
                         pFlyingSlig->ToPlayerControlled();
-                        pFlyingSlig->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::ePossessed);
+                        pFlyingSlig->SetPossessed(true);
                         pFlyingSlig->mAbeLevel = mAbeLevel;
                         pFlyingSlig->mAbePath = mAbePath;
                         pFlyingSlig->mAbeCamera = mAbeCamera;

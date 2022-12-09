@@ -320,7 +320,7 @@ void Slurg::VOnTlvCollision(relive::Path_TLV* pTlv)
 
 s32 Slurg::VGetSaveState(u8* pSaveBuffer)
 {
-    if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted))
+    if (GetElectrocuted())
     {
         return 0;
     }

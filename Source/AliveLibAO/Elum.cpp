@@ -3559,7 +3559,7 @@ Elum::Elum(const Guid& tlvInfo)
         GetAnimation().SetRenderLayer(Layer::eLayer_ZapLinesMudsElum_Half_9);
     }
 
-    mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanSetOffExplosives);
+    SetCanSetOffExplosives(true);
 
     mStungByBees = false;
     mFoundHoney = false;

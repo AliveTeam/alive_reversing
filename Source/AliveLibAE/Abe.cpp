@@ -316,7 +316,7 @@ s32 Environment_SFX_457A40(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseA
             sndVolume = Math_RandomRange(54, 58);
             if (pAliveObj)
             {
-                if (pAliveObj->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible))
+                if (pAliveObj->GetInvisible())
                 {
                     sndVolume *= 3;
                 }
@@ -335,7 +335,7 @@ s32 Environment_SFX_457A40(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseA
 
             if (pAliveObj)
             {
-                if (pAliveObj->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible))
+                if (pAliveObj->GetInvisible())
                 {
                     sndVolume *= 3;
                 }
@@ -610,7 +610,7 @@ Abe::Abe()
     mMudomoDone = false;
     mDoQuicksave = false;
 
-    mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanSetOffExplosives);
+    SetCanSetOffExplosives(true);
 
     mPreventChanting = true;
     mLandSoftly = true;
@@ -849,9 +849,9 @@ s32 Abe::CreateFromSaveState(const u8* pData)
     sActiveHero->mBirdPortalSubState = static_cast<PortalSubStates>(pSaveState->mBirdPortalSubState);
     sActiveHero->mBirdPortalId = pSaveState->mBirdPortalId;
 
-    sActiveHero->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eElectrocuted, pSaveState->mIsElectrocuted & 1);
-    sActiveHero->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eInvisible, pSaveState->mIsInvisible & 1);
-    sActiveHero->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eTeleporting, pSaveState->mTeleporting);
+    sActiveHero->SetElectrocuted(pSaveState->mIsElectrocuted & 1);
+    sActiveHero->SetInvisible(pSaveState->mIsInvisible & 1);
+    sActiveHero->SetTeleporting(pSaveState->mTeleporting);
 
     sActiveHero->mReturnToPreviousMotion = pSaveState->mReturnToPreviousMotion;
     sActiveHero->mShrivel = pSaveState->mShrivel;
@@ -861,7 +861,7 @@ s32 Abe::CreateFromSaveState(const u8* pData)
 
     sActiveHero->mPlayLedgeGrabSounds = pSaveState->mPlayLedgeGrabSounds;
     sActiveHero->mHaveHealing = pSaveState->mHaveHealing;
-    sActiveHero->mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eTeleporting, pSaveState->mTeleporting);
+    sActiveHero->SetTeleporting(pSaveState->mTeleporting);
 
     sActiveHero->mMudomoDone = pSaveState->mMudomoDone;
 
@@ -958,13 +958,13 @@ void Abe::VUpdate()
 {
     if (gAbeInvincible)
     {
-        mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eElectrocuted);
+        SetElectrocuted(false);
         mHealth = FP_FromDouble(1.0);
     }
 
-    if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eRestoredFromQuickSave))
+    if (GetRestoredFromQuickSave())
     {
-        mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eRestoredFromQuickSave);
+        SetRestoredFromQuickSave(false);
         if (BaseAliveGameObjectCollisionLineType != -1)
         {
             sCollisions->Raycast(
@@ -991,7 +991,7 @@ void Abe::VUpdate()
         mSlappableOrPickupId = BaseGameObject::RefreshId(mSlappableOrPickupId);
         mWorkWheelId = BaseGameObject::RefreshId(mWorkWheelId);
 
-        if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible))
+        if (GetInvisible())
         {
             if (!mInvisibilityTimer)
             {
@@ -1047,7 +1047,7 @@ void Abe::VUpdate()
         const FP oldYPos = mYPos;
         InvokeMemberFunction(this, sAbeMotionMachineTable_554910, motion_idx);
 
-        if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eRestoredFromQuickSave) || mShrivel)
+        if (GetRestoredFromQuickSave() || mShrivel)
         {
             return;
         }
@@ -1468,7 +1468,7 @@ void Abe::VScreenChanged()
         }
     }
 
-    if (gMap.mCurrentLevel != gMap.mNextLevel && !(mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eRestoredFromQuickSave)))
+    if (gMap.mCurrentLevel != gMap.mNextLevel && !(GetRestoredFromQuickSave()))
     {
         for (s8& val : sSavedKilledMudsPerZulag_5C1B50.mData)
         {
@@ -1495,7 +1495,7 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
     pSaveState->mGreen = mRGB.g;
     pSaveState->mBlue = mRGB.b;
 
-    if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuting))
+    if (GetElectrocuting())
     {
         for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
         {
@@ -1537,9 +1537,9 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
     pSaveState->mNextMotion = mNextMotion;
     pSaveState->mLastLineYPos = FP_GetExponent(BaseAliveGameObjectLastLineYPos);
 
-    pSaveState->mIsElectrocuted = mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted);
+    pSaveState->mIsElectrocuted = GetElectrocuted();
 
-    pSaveState->mIsInvisible = mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible);
+    pSaveState->mIsInvisible = GetInvisible();
 
     if (BaseAliveGameObjectCollisionLine)
     {
@@ -1693,9 +1693,9 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
     pSaveState->mThrowDirection = mThrowDirection;
     pSaveState->mBirdPortalSubState = static_cast<u16>(mBirdPortalSubState);
 
-    pSaveState->mIsElectrocuted = mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted);
-    pSaveState->mIsInvisible = mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eInvisible);
-    pSaveState->mTeleporting = sActiveHero->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eTeleporting);
+    pSaveState->mIsElectrocuted = GetElectrocuted();
+    pSaveState->mIsInvisible = GetInvisible();
+    pSaveState->mTeleporting = sActiveHero->GetTeleporting();
 
     pSaveState->mReturnToPreviousMotion = mReturnToPreviousMotion;
     pSaveState->mShrivel = mShrivel;
@@ -1705,7 +1705,7 @@ s32 Abe::VGetSaveState(u8* pSaveBuffer)
 
     pSaveState->mPlayLedgeGrabSounds = mPlayLedgeGrabSounds;
     pSaveState->mHaveHealing = mHaveHealing;
-    pSaveState->mTeleporting =  mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eTeleporting);
+    pSaveState->mTeleporting =  GetTeleporting();
     pSaveState->mMudancheeDone = mMudancheeDone;
     pSaveState->mMudomoDone = mMudomoDone;
 
@@ -1740,7 +1740,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
         return 0;
     }
 
-    if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eTeleporting))
+    if (GetTeleporting())
     {
         return 0;
     }
@@ -2085,7 +2085,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
             break;
     }
 
-    if (sControlledCharacter->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::ePossessed))
+    if (sControlledCharacter->GetPossessed())
     {
         if (mHealth == FP_FromInteger(0))
         {
@@ -2113,7 +2113,7 @@ void Abe::VOnTlvCollision(relive::Path_TLV* pTlv)
             if (pContinuePoint->mTlvSpecificMeaning == 0)
             {
                 if ((pContinuePoint->mScale != relive::Path_ContinuePoint::Scale::eHalf || GetSpriteScale() == FP_FromInteger(1)) && (pContinuePoint->mScale != relive::Path_ContinuePoint::Scale::eFull || GetSpriteScale() == FP_FromDouble(0.5))
-                    && mHealth > FP_FromInteger(0) && !(mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted)))
+                    && mHealth > FP_FromInteger(0) && !(GetElectrocuted()))
                 {
                     pContinuePoint->mTlvSpecificMeaning = 1;
                     mDoQuicksave = true;
@@ -2174,7 +2174,7 @@ IBaseAliveGameObject* Abe::FindObjectToPossess_44B7B0()
             break;
         }
 
-        if (pObj->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eCanBePossessed))
+        if (pObj->GetCanBePossessed())
         {
             switch (pObj->Type())
             {
@@ -2539,7 +2539,7 @@ void Abe::Motion_0_Idle_44EEB0()
             switch (pTlv->mTlvType)
             {
                 case ReliveTypes::eDoor:
-                    if (NearDoorIsOpen_44EE10() && !mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted))
+                    if (NearDoorIsOpen_44EE10() && !GetElectrocuted())
                     {
                         BaseAliveGameObjectPathTLV = pTlv;
                         field_120_state.door = AbeDoorStates::eAbeComesIn_0;
@@ -2558,7 +2558,7 @@ void Abe::Motion_0_Idle_44EEB0()
 
                 case ReliveTypes::eWellLocal:
                 {
-                    if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eTeleporting))
+                    if (GetTeleporting())
                     {
                         break;
                     }
@@ -2577,7 +2577,7 @@ void Abe::Motion_0_Idle_44EEB0()
 
                 case ReliveTypes::eWellExpress:
                 {
-                    if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eTeleporting))
+                    if (GetTeleporting())
                     {
                         break;
                     }
@@ -5377,7 +5377,7 @@ void Abe::Motion_67_LedgeHang_454E20()
 {
     GetShadow()->mShadowAtBottom = true;
     const s32 pressed = Input().mPads[sCurrentControllerIndex].mPressed;
-    if (sInputKey_Up & pressed || mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eTeleporting))
+    if (sInputKey_Up & pressed || GetTeleporting())
     {
         mCurrentMotion = eAbeMotions::Motion_65_LedgeAscend_4548E0;
     }
@@ -5474,7 +5474,7 @@ void Abe::Motion_69_LedgeHangWobble_454EF0()
 
     // Going up the ledge on wobble?
     const u32 pressed = Input().mPads[sCurrentControllerIndex].mPressed;
-    if (sInputKey_Up & pressed || mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eTeleporting))
+    if (sInputKey_Up & pressed || GetTeleporting())
     {
         mPlayLedgeGrabSounds = false;
         mCurrentMotion = eAbeMotions::Motion_65_LedgeAscend_4548E0;
@@ -5572,7 +5572,7 @@ void Abe::Motion_71_Knockback_455090()
     {
         if (!mbMotionChanged &&(BaseAliveGameObjectCollisionLine || !(GetAnimation().GetRender())))
         {
-            if (mHealth > FP_FromInteger(0) || gAbeInvincible || mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted))
+            if (mHealth > FP_FromInteger(0) || gAbeInvincible || GetElectrocuted())
             {
                 mCurrentMotion = eAbeMotions::Motion_72_KnockbackGetUp_455340;
             }
@@ -6450,7 +6450,7 @@ void Abe::Motion_99_LeverUse()
 {
     if (GetAnimation().GetIsLastFrame())
     {
-        if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eTeleporting))
+        if (GetTeleporting())
         {
             mCurrentMotion = eAbeMotions::Motion_34_DunnoBegin_44ECF0;
         }
@@ -6820,7 +6820,7 @@ void Abe::Motion_112_Chant()
 
                             if (pObjIter->Type() == ReliveTypes::eMudokon)
                             {
-                                if (pObjIter->mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eCanBePossessed)) // TODO: Is sick flag ?
+                                if (pObjIter->GetCanBePossessed()) // TODO: Is sick flag ?
                                 {
                                     if (pObjIter->Is_In_Current_Camera() == CameraPos::eCamCurrent_0 && pObjIter->mHealth > FP_FromInteger(0))
                                     {
@@ -7250,7 +7250,7 @@ void Abe::Motion_114_DoorEnter()
                 if (!(pInvisibleEffect->GetDead()))
                 {
                     pInvisibleEffect->ClearInvisibility();
-                    mBaseAliveGameObjectFlags.Clear(AliveObjectFlags::eInvisible);
+                    SetInvisible(false);
                     mInvisibleEffectId = Guid{};
                     mInvisibilityTimer = 0;
                 }
@@ -8217,7 +8217,7 @@ s16 Abe::RunTryEnterDoor_451220()
         return 0;
     }
 
-    if (mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted))
+    if (GetElectrocuted())
     {
         return 0;
     }
@@ -8255,7 +8255,7 @@ s16 Abe::RunTryEnterDoor_451220()
 
 s16 Abe::RunTryEnterWell_451060()
 {
-    if (!Input().isPressed(sInputKey_Up) || mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted) || GetAnimation().GetCurrentFrame() < 4)
+    if (!Input().isPressed(sInputKey_Up) || GetElectrocuted() || GetAnimation().GetCurrentFrame() < 4)
     {
         return 0;
     }
@@ -8268,7 +8268,7 @@ s16 Abe::RunTryEnterWell_451060()
         ReliveTypes::eWellLocal));
     if (pWellLocal)
     {
-        if (!(mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eTeleporting)))
+        if (!(GetTeleporting()))
         {
             if ((pWellLocal->mScale == relive::reliveScale::eFull && GetSpriteScale() == FP_FromInteger(1)) || (pWellLocal->mScale == relive::reliveScale::eHalf && GetSpriteScale() == FP_FromDouble(0.5)))
             {
@@ -8287,7 +8287,7 @@ s16 Abe::RunTryEnterWell_451060()
         ReliveTypes::eWellExpress));
     if (pWellExpress)
     {
-        if (!(mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eTeleporting)))
+        if (!(GetTeleporting()))
         {
             if ((pWellExpress->mScale == relive::reliveScale::eFull && GetSpriteScale() == FP_FromInteger(1)) || (pWellExpress->mScale == relive::reliveScale::eHalf && GetSpriteScale() == FP_FromDouble(0.5)))
             {
@@ -8488,7 +8488,7 @@ s16 Abe::CantBeDamaged_44BAB0()
     }
 
     // TODO: Unknown what this is checking, condition should probably be inverted.
-    if ((!mShrivel && GetAnimation().GetRender()) || mBaseAliveGameObjectFlags.Get(AliveObjectFlags::eElectrocuted))
+    if ((!mShrivel && GetAnimation().GetRender()) || GetElectrocuted())
     {
         return false;
     }

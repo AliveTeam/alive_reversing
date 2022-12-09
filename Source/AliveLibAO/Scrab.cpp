@@ -77,7 +77,7 @@ Scrab::Scrab(relive::Path_Scrab* pTlv, const Guid& tlvId)
 
     Animation_Init(GetAnimRes(AnimId::Scrab_Idle));
 
-    mBaseAliveGameObjectFlags.Set(AliveObjectFlags::eCanSetOffExplosives);
+    SetCanSetOffExplosives(true);
 
     field_118_timer = 0;
 
