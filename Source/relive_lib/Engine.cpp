@@ -4,6 +4,7 @@
 #include "../AliveLibAO/Game.hpp"
 #include "PsxDisplay.hpp"
 #include "../AliveLibAE/VGA.hpp"
+#include "../AliveLibCommon/BaseGameAutoPlayer.hpp"
 
 void SYS_EventsPump();
 
@@ -20,9 +21,15 @@ Engine::Engine(GameType gameType, const char_type* pCommandLine)
 
 }
 
+void PSX_PutDispEnv_4F5890();
+
 void Engine::Run()
 {
     // TODO: HACK mini loop till Game.cpp is merged
+
+    gPsxDisplay.Init();
+
+    GetGameAutoPlayer().ParseCommandLine(mCommandLine);
     if (mGameType == GameType::eAe)
     {
         Main_ParseCommandLineArguments(mCommandLine);
@@ -32,7 +39,9 @@ void Engine::Run()
         AO::Main_ParseCommandLineArguments(mCommandLine);
     }
 
-    gPsxDisplay.Init();
+    // Moved from PsxDisplay init to prevent desync
+    PSX_PutDispEnv_4F5890();
+
     DataConversionUI dcu(mGameType);
     if (dcu.ConversionRequired())
     {
@@ -53,14 +62,15 @@ void Engine::Run()
         LOG_INFO("Data is up to date, skip conversion");
     }
 
+   
     if (mGameType == GameType::eAe)
     {
         LOG_INFO("AE standalone starting...");
-        Game_Main(mCommandLine);
+        Game_Main();
     }
     else
     {
         LOG_INFO("AO standalone starting...");
-        AO::Game_Main(mCommandLine);
+        AO::Game_Main();
     }
 }

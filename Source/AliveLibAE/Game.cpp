@@ -469,12 +469,8 @@ void Game_Run()
 }
 
 
-void Game_Main(const char_type* pCommandLine)
+void Game_Main()
 {
-    GetGameAutoPlayer().ParseCommandLine(pCommandLine);
-
-    //Main_ParseCommandLineArguments(pCommandLine);
-
     // Only returns once the engine is shutting down
     Game_Run();
 
