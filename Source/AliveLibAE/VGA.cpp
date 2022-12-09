@@ -25,6 +25,7 @@ void VGA_CreateRenderer()
         VGA_Shutdown();
     }
 
+    //IRenderer::CreateRenderer(IRenderer::Renderers::Vulkan, Sys_GetHWnd());
     //IRenderer::CreateRenderer(IRenderer::Renderers::DirectX9, Sys_GetHWnd());
     IRenderer::CreateRenderer(IRenderer::Renderers::OpenGL, Sys_GetHWnd());
     IRenderer::GetRenderer()->Clear(0, 0, 0);
