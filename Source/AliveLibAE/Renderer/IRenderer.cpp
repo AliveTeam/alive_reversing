@@ -7,6 +7,8 @@
 #include "../AliveLibCommon/FatalError.hpp"
 #include "../AliveLibCommon/Sys_common.hpp"
 
+#include <set>
+
 static IRenderer* gRenderer = nullptr;
 
 IRenderer* IRenderer::GetRenderer()
@@ -14,34 +16,78 @@ IRenderer* IRenderer::GetRenderer()
     return gRenderer;
 }
 
-void IRenderer::CreateRenderer(Renderers type, TWindowHandleType window)
+template<typename T>
+static void MakeRenderer(TWindowHandleType window)
+{
+    try
+    {
+        gRenderer = new T(window);
+    }
+    catch (const std::exception& e)
+    {
+        LOG_ERROR("Failed to create renderer [%s]", e.what());
+    }
+}
+
+static void AddRenderer(std::vector<IRenderer::Renderers>& renderers, IRenderer::Renderers toAdd)
+{
+    for (auto r : renderers)
+    {
+        if (r == toAdd)
+        {
+            return;
+        }
+    }
+    renderers.emplace_back(toAdd);
+}
+
+bool IRenderer::CreateRenderer(Renderers type, TWindowHandleType window)
 {
     if (gRenderer)
     {
         ALIVE_FATAL("Renderer already created");
     }
 
-    switch (type)
-    {
-        case Renderers::OpenGL:
-            gRenderer = new OpenGLRenderer(window);
-            break;
+    std::vector<Renderers> creationOrder{type};
+    AddRenderer(creationOrder, Renderers::Vulkan);
+#ifdef _WIN32
+    AddRenderer(creationOrder, Renderers::DirectX9);
+#endif
+    AddRenderer(creationOrder, Renderers::OpenGL);
 
-        case Renderers::Vulkan:
-            gRenderer = new VulkanRenderer(window);
-            break;
+    for (Renderers typeToCreate : creationOrder)
+    {
+        switch (typeToCreate)
+        {
+            case Renderers::OpenGL:
+                LOG_INFO("Create OpenGL");
+                MakeRenderer<OpenGLRenderer>(window);
+                break;
+
+            case Renderers::Vulkan:
+                LOG_INFO("Create Vulkan");
+                MakeRenderer<VulkanRenderer>(window);
+                break;
 
 #ifdef _WIN32
-        // Windows only
-        case Renderers::DirectX9:
-            gRenderer = new DirectX9Renderer(window);
-            break;
+            // Windows only
+            case Renderers::DirectX9:
+                LOG_INFO("Create DirectX9");
+                MakeRenderer<DirectX9Renderer>(window);
+                break;
 #endif
 
-        default:
-            ALIVE_FATAL("Unknown or unsupported renderer type");
+            default:
+                ALIVE_FATAL("Unknown or unsupported renderer type");
+                break;
+        }
+
+        if (gRenderer)
+        {
             break;
+        }
     }
+    return gRenderer != nullptr;
 }
 
 void IRenderer::FreeRenderer()

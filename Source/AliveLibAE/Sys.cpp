@@ -861,9 +861,9 @@ void Sys_SetWindowPos_4EE1B1(s32 width, s32 height)
     SDL_SetWindowPosition(Sys_GetWindowHandle(), 0, 0);
 }
 
-static s32 Sys_WindowClass_Register_SDL(const char_type* lpWindowName, s32 x, s32 y, s32 nWidth, s32 nHeight)
+void Sys_WindowClass_Register(LPCSTR lpWindowName, s32 x, s32 y, s32 nWidth, s32 nHeight)
 {
-    s32 sdlWindowAttributes = SDL_WINDOW_OPENGL /* | SDL_WINDOW_VULKAN*/;
+    s32 sdlWindowAttributes = SDL_WINDOW_OPENGL;
 
     sHwnd_BBB9F4 = SDL_CreateWindow(lpWindowName, x, y, nWidth, nHeight, SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI | sdlWindowAttributes);
 
@@ -876,12 +876,4 @@ static s32 Sys_WindowClass_Register_SDL(const char_type* lpWindowName, s32 x, s3
 
     // SDL will not send a window focused message on start up, so default to activated
     sAppIsActivated_BBBA00 = true;
-
-    return 0;
-}
-
-
-s32 Sys_WindowClass_Register(LPCSTR lpWindowName, s32 x, s32 y, s32 nWidth, s32 nHeight)
-{
-    return Sys_WindowClass_Register_SDL(lpWindowName, x, y, nWidth, nHeight);
 }

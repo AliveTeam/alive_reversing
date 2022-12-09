@@ -1524,14 +1524,14 @@ std::vector<const char*> VulkanRenderer::getRequiredExtensions()
     uint32_t glfwExtensionCount = 0;
     if (!SDL_Vulkan_GetInstanceExtensions(window, &glfwExtensionCount, nullptr))
     {
-        ALIVE_FATAL(SDL_GetError());
+        throw RendererException(SDL_GetError());
     }
 
     std::vector<const char*> extensions;
     extensions.resize(glfwExtensionCount);
     if (!SDL_Vulkan_GetInstanceExtensions(window, &glfwExtensionCount, extensions.data()))
     {
-        ALIVE_FATAL(SDL_GetError());
+        throw RendererException(SDL_GetError());
     }
 
     if (enableValidationLayers)
@@ -1601,8 +1601,9 @@ bool VulkanRenderer::checkValidationLayerSupport()
 
 
 VulkanRenderer::VulkanRenderer(TWindowHandleType window)
-  : IRenderer(window),
-    mPaletteCache(256), window(window)
+    : IRenderer(window)
+    , mPaletteCache(256)
+    , window(window)
 {
     initVulkan();
 }

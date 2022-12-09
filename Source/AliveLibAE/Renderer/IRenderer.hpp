@@ -14,8 +14,26 @@ struct Poly_G4;
 struct SDL_Window;
 using TWindowHandleType = SDL_Window*;
 
-class IRenderer
+class RendererException final : public std::exception
 {
+public:
+    explicit RendererException(char const* const message) noexcept
+        : mMessage(message)
+    {
+
+    }
+
+    [[nodiscard]] virtual char const* what() const
+    {
+         return mMessage;
+    }
+
+private:
+    const char* mMessage = nullptr;
+};
+
+class IRenderer
+    {
 protected:
     struct Point2D
     {
@@ -39,7 +57,7 @@ public:
     };
 
     static IRenderer* GetRenderer();
-    static void CreateRenderer(Renderers type, TWindowHandleType window);
+    static bool CreateRenderer(Renderers type, TWindowHandleType window);
     static void FreeRenderer();
 
 public:
