@@ -1,4 +1,7 @@
 #pragma once
+#define USE_VULKAN_CODE 0 // temp build fix for everyone who isn't mr sapps since the include path is hardcoded
+
+#if USE_VULKAN_CODE
 
 #include "../IRenderer.hpp"
 #include "../TextureCache.hpp"
@@ -168,3 +171,4 @@ private:
     bool framebufferResized = false;
 };
 
+#endif

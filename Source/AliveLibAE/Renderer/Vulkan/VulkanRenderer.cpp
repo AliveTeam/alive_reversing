@@ -1,5 +1,8 @@
+
 #include "../stdafx.h"
 #include "VulkanRenderer.hpp"
+#if USE_VULKAN_CODE
+
 #include "../../AliveLibCommon/FatalError.hpp"
 #include "../../relive_lib/ResourceManagerWrapper.hpp"
 #include "../../relive_lib/Animation.hpp"
@@ -1720,3 +1723,5 @@ void VulkanRenderer::DecreaseResourceLifetimes()
     mPaletteCache.ResetUseFlags();
 }
 */
+
+#endif
