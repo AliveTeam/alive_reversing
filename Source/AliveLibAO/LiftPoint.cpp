@@ -141,16 +141,16 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, Map* pPath, const Guid& tlvId
 
         field_13C_lift_wheel.SetSpriteScale(GetSpriteScale());
 
-        field_27A_flags.Clear(Flags::eBit6_bMoveToFloorLevel);
-        field_27A_flags.Clear(Flags::eBit4_bBottomFloor);
-        field_27A_flags.Clear(Flags::eBit3_bMiddleFloor);
-        field_27A_flags.Clear(Flags::eBit2_bTopFloor);
+        mMoveToFloorLevel = false;
+        mBottomFloor = false;
+        mMiddleFloor = false;
+        mTopFloor = false;
 
         field_13C_lift_wheel.SetSemiTrans(false);
         field_13C_lift_wheel.SetBlending(false);
         field_13C_lift_wheel.SetAnimate(false);
 
-        field_12C_bMoving &= ~1u;
+        mMoving = false;
         mVelX = FP_FromInteger(0);
         field_13C_lift_wheel.SetRGB(128, 128, 128);
         field_13C_lift_wheel.SetRenderMode(TPageAbr::eBlend_0);
@@ -188,7 +188,7 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, Map* pPath, const Guid& tlvId
         field_134_pRope2->mYPos = FP_NoFractional(mYPos + v29 + (FP_FromInteger(25) * GetSpriteScale()) + FP_FromInteger(field_134_pRope2->field_E6_rope_length));
         field_138_pRope1->mYPos = FP_NoFractional(mYPos + v29 - (FP_FromInteger(25) * GetSpriteScale()) + FP_FromInteger(field_138_pRope1->field_E6_rope_length));
 
-        field_27A_flags.Clear(Flags::eBit5_bHasPulley);
+        mHasPulley = false;
 
         CreatePulleyIfExists(0, 0);
 
@@ -198,20 +198,20 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, Map* pPath, const Guid& tlvId
         switch (mLiftPointStopType)
         {
             case relive::Path_LiftPoint::LiftPointStopType::eTopFloor:
-                field_27A_flags.Set(Flags::eBit2_bTopFloor);
+                mTopFloor = true;
                 break;
 
             case relive::Path_LiftPoint::LiftPointStopType::eBottomFloor:
-                field_27A_flags.Set(Flags::eBit4_bBottomFloor);
+                mBottomFloor = true;
                 break;
 
             case relive::Path_LiftPoint::LiftPointStopType::eMiddleFloor:
-                field_27A_flags.Set(Flags::eBit3_bMiddleFloor);
+                mMiddleFloor = true;
                 break;
         }
 
-        field_27A_flags.Clear(Flags::eBit8_KeepOnMiddleFloor);
-        field_27A_flags.Set(Flags::eBit7_bIgnoreLiftMover);
+        mKeepOnMiddleFloor = false;
+        mIgnoreLiftMover = true;
     }
     else
     {
@@ -225,7 +225,7 @@ void LiftPoint::Move(FP xSpeed, FP ySpeed, s32 /*not_used*/)
     mVelY = ySpeed;
     if (FP_GetExponent(xSpeed) || FP_GetExponent(ySpeed))
     {
-        field_12C_bMoving |= 1u;
+        mMoving = true;
     }
 }
 
@@ -239,7 +239,7 @@ void LiftPoint::StayOnFloor(s16 floor, relive::Path_LiftPoint* pLiftTlv)
         SFX_Play_Pitch(relive::SoundEffects::LiftStop, 80, -2000);
     }
 
-    field_12C_bMoving &= ~1u;
+    mMoving = false;
     pLiftTlv->mTlvSpecificMeaning = 3;
     pLiftTlv->mLiftPointId = field_278_lift_point_id;
     mVelY = FP_FromInteger(0);
@@ -258,17 +258,17 @@ void LiftPoint::Sub_Unknown(relive::Path_TLV* pTlv)
 
 bool LiftPoint::OnTopFloor() const
 {
-    return field_27A_flags.Get(Flags::eBit2_bTopFloor) && !field_27A_flags.Get(Flags::eBit6_bMoveToFloorLevel);
+    return mTopFloor && !mMoveToFloorLevel;
 }
 
 bool LiftPoint::OnBottomFloor() const
 {
-    return field_27A_flags.Get(Flags::eBit4_bBottomFloor) && !field_27A_flags.Get(Flags::eBit6_bMoveToFloorLevel);
+    return mBottomFloor && !mMoveToFloorLevel;
 }
 
 bool LiftPoint::OnMiddleFloor() const
 {
-    return field_27A_flags.Get(Flags::eBit3_bMiddleFloor) && !field_27A_flags.Get(Flags::eBit6_bMoveToFloorLevel);
+    return mMiddleFloor && !mMoveToFloorLevel;
 }
 
 bool LiftPoint::OnAnyFloor() const
@@ -279,14 +279,14 @@ bool LiftPoint::OnAnyFloor() const
 
 bool LiftPoint::OnAFloorLiftMoverCanUse() const
 {
-    return (OnMiddleFloor() && !field_27A_flags.Get(Flags::eBit7_bIgnoreLiftMover)) || OnBottomFloor() || OnTopFloor();
+    return (OnMiddleFloor() && !mIgnoreLiftMover) || OnBottomFloor() || OnTopFloor();
 }
 
 void LiftPoint::VUpdate()
 {
-    if (field_12C_bMoving & 1)
+    if (mMoving)
     {
-        if (field_27A_flags.Get(Flags::eBit6_bMoveToFloorLevel))
+        if (mMoveToFloorLevel)
         {
             const bool bOnFloor = field_270_floorYLevel == mYPos;
             const FP distToFloor = field_270_floorYLevel - mYPos;
@@ -310,14 +310,14 @@ void LiftPoint::VUpdate()
                 {
                     mVelY = -(FP_FromInteger(2) * GetSpriteScale());
                 }
-                field_12C_bMoving |= 1u;
+                mMoving = true;
             }
             else
             {
                 mYPos = field_270_floorYLevel;
                 mVelY = FP_FromInteger(0);
-                field_12C_bMoving &= ~1u;
-                field_27A_flags.Clear(Flags::eBit6_bMoveToFloorLevel);
+                mMoving = false;
+                mMoveToFloorLevel = false;
                 SfxPlayMono(relive::SoundEffects::LiftStop, 0);
                 SFX_Play_Pitch(relive::SoundEffects::LiftStop, 80, -2000);
                 EventBroadcast(kEventNoise, this);
@@ -354,11 +354,11 @@ void LiftPoint::VUpdate()
 
             if (pLiftTlv && pLiftTlv->mIsStartPoint == relive::reliveChoice::eYes)
             {
-                field_27A_flags.Set(Flags::eBit7_bIgnoreLiftMover);
+                mIgnoreLiftMover = true;
             }
             else
             {
-                field_27A_flags.Clear(Flags::eBit7_bIgnoreLiftMover);
+                mIgnoreLiftMover = false;
             }
 
             if (pLiftTlv)
@@ -385,25 +385,25 @@ void LiftPoint::VUpdate()
                         if (mVelY != FP_FromInteger(0) || (distanceToFloor <= kMinus25Scaled) || distanceToFloor >= k30Scaled)
                         {
                             pLiftTlv->mTlvSpecificMeaning = 1;
-                            field_27A_flags.Clear(Flags::eBit2_bTopFloor);
+                            mTopFloor = false;
                         }
                         else
                         {
-                            field_27A_flags.Set(Flags::eBit6_bMoveToFloorLevel);
-                            field_12C_bMoving |= 1u;
+                            mMoveToFloorLevel = true;
+                            mMoving = true;
                             mYPos = field_270_floorYLevel - distanceToFloor;
 
                             pLiftTlv->mTlvSpecificMeaning = 3;
 
                             pLiftTlv->mLiftPointId = field_278_lift_point_id;
-                            field_27A_flags.Set(Flags::eBit2_bTopFloor);
+                            mTopFloor = true;
                         }
                     }
                     else if (mVelY + lineY <= FP_FromInteger(pTlvIter->mTopLeftY))
                     {
-                        StayOnFloor(field_27A_flags.Get(Flags::eBit2_bTopFloor), pLiftTlv);
+                        StayOnFloor(mTopFloor, pLiftTlv);
 
-                        field_27A_flags.Set(Flags::eBit2_bTopFloor);
+                        mTopFloor = true;
                     }
                     break;
 
@@ -413,24 +413,24 @@ void LiftPoint::VUpdate()
                         if (mVelY != FP_FromInteger(0) || (distanceToFloor <= kMinus25Scaled) || distanceToFloor >= k30Scaled)
                         {
                             pLiftTlv->mTlvSpecificMeaning = 1;
-                            field_27A_flags.Clear(Flags::eBit4_bBottomFloor);
+                            mBottomFloor = false;
                         }
                         else
                         {
-                            field_12C_bMoving |= 1u;
-                            field_27A_flags.Set(Flags::eBit6_bMoveToFloorLevel);
+                            mMoving = true;
+                            mMoveToFloorLevel = true;
                             mYPos = field_270_floorYLevel - distanceToFloor;
 
                             pLiftTlv->mTlvSpecificMeaning = 3;
 
                             pLiftTlv->mLiftPointId = field_278_lift_point_id;
-                            field_27A_flags.Set(Flags::eBit4_bBottomFloor);
+                            mBottomFloor = true;
                         }
                     }
                     else if (mVelY + lineY >= FP_FromInteger(pTlvIter->mTopLeftY))
                     {
-                        StayOnFloor(field_27A_flags.Get(Flags::eBit4_bBottomFloor), pLiftTlv);
-                        field_27A_flags.Set(Flags::eBit4_bBottomFloor);
+                        StayOnFloor(mBottomFloor, pLiftTlv);
+                        mBottomFloor = true;
                     }
                     break;
 
@@ -441,22 +441,22 @@ void LiftPoint::VUpdate()
                     }
                     else
                     {
-                        if (field_27A_flags.Get(Flags::eBit8_KeepOnMiddleFloor))
+                        if (mKeepOnMiddleFloor)
                         {
-                            StayOnFloor(field_27A_flags.Get(Flags::eBit3_bMiddleFloor), pLiftTlv);
-                            field_27A_flags.Clear(Flags::eBit8_KeepOnMiddleFloor);
+                            StayOnFloor(mMiddleFloor, pLiftTlv);
+                            mKeepOnMiddleFloor = false;
                         }
 
                         if (mVelY == FP_FromInteger(0))
                         {
-                            field_12C_bMoving |= 1u;
-                            field_27A_flags.Set(Flags::eBit6_bMoveToFloorLevel);
+                            mMoving = true;
+                            mMoveToFloorLevel = true;
                             mYPos = field_270_floorYLevel - distanceToFloor;
                         }
 
                         pLiftTlv->mTlvSpecificMeaning = 3;
                         pLiftTlv->mLiftPointId = field_278_lift_point_id;
-                        field_27A_flags.Set(Flags::eBit3_bMiddleFloor);
+                        mMiddleFloor = true;
                     }
                     break;
 
@@ -466,9 +466,9 @@ void LiftPoint::VUpdate()
                         pLiftTlv->mTlvSpecificMeaning = 1;
                     }
 
-                    field_27A_flags.Clear(Flags::eBit2_bTopFloor);
-                    field_27A_flags.Clear(Flags::eBit3_bMiddleFloor);
-                    field_27A_flags.Clear(Flags::eBit4_bBottomFloor);
+                    mTopFloor = false;
+                    mMiddleFloor = false;
+                    mBottomFloor = false;
                     break;
 
                 default:
@@ -501,7 +501,7 @@ void LiftPoint::VUpdate()
     pRope2->field_F2_bottom = FP_GetExponent(pColliRectY + FP_25xScale);
     pRope1->field_F2_bottom = FP_GetExponent(pColliRectY + FP_25xScale);
 
-    if (field_27A_flags.Get(Flags::eBit5_bHasPulley))
+    if (mHasPulley)
     {
         const FP pulley_ypos = FP_FromInteger(field_26E_pulley_ypos);
 
@@ -599,7 +599,7 @@ void LiftPoint::VRender(PrimHeader** ppOt)
                 PSX_RECT liftWheelRect = {};
                 field_13C_lift_wheel.Get_Frame_Rect(&liftWheelRect);
 
-                if (field_27A_flags.Get(Flags::eBit5_bHasPulley))
+                if (mHasPulley)
                 {
                     const FP pulley_xpos = FP_FromInteger(field_26C_pulley_xpos);
                     const FP pulley_ypos = FP_FromInteger(field_26E_pulley_ypos);
@@ -664,7 +664,7 @@ void LiftPoint::MoveObjectsOnLift(FP xVelocity)
 
 void LiftPoint::VScreenChanged()
 {
-    if (!field_27A_flags.Get(Flags::eBit5_bHasPulley))
+    if (!mHasPulley)
     {
         CreatePulleyIfExists(0, -1);
     }
@@ -718,7 +718,7 @@ void LiftPoint::CreatePulleyIfExists(s16 camX, s16 camY)
         field_1D4_pulley_anim.SetBlending(false);
         field_1D4_pulley_anim.SetAnimate(false);
 
-        field_27A_flags.Set(Flags::eBit5_bHasPulley);
+        mHasPulley = true;
 
         field_1D4_pulley_anim.SetRGB(128, 128, 128);
 
@@ -771,7 +771,7 @@ LiftPoint::~LiftPoint()
 
     field_13C_lift_wheel.VCleanUp();
 
-    if (field_27A_flags.Get(Flags::eBit5_bHasPulley))
+    if (mHasPulley)
     {
         field_1D4_pulley_anim.VCleanUp();
     }

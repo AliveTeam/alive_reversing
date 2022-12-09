@@ -23,7 +23,7 @@ OrbWhirlWindParticle::OrbWhirlWindParticle(FP xpos, FP ypos, FP scale)
     mAnim.SetRGB(80, 80, 80);
 
     mAnim.SetFrame(Math_RandomRange(0, static_cast<s16>(mAnim.Get_Frame_Count() - 1)));
-    mFlags.Clear(Flags::eIsActive);
+    mIsActive = false;
     mState = State::eStart;
     mRenderAngle = Math_RandomRange(0, 255);
     mCounter = 1;
@@ -40,7 +40,7 @@ OrbWhirlWindParticle::OrbWhirlWindParticle(FP xpos, FP ypos, FP scale)
 
 s32 OrbWhirlWindParticle::IsActive()
 {
-    return mFlags.Get(Flags::eIsActive);
+    return mIsActive;
 }
 
 void OrbWhirlWindParticle::Spin(FP xpos, FP ypos, IBaseAliveGameObject* pObj)
@@ -140,7 +140,7 @@ void OrbWhirlWindParticle::Update()
         case State::eSpinAtTarget:
             if (static_cast<s32>(sGnFrame) >= mPositionTimer)
             {
-                SetActive(IsActive() ? 0 : 1);
+                mIsActive = !mIsActive;
             }
 
             mYPosMid = (mScaleOffsetSpinAtTarget * Math_Cosine(FP_GetExponent(FP_FromInteger(128) * FP_FromInteger(32 - (mPositionTimer + sGnFrame)) / FP_FromInteger(32)) & 0xFF)) + mYPosOffset2;
@@ -151,7 +151,7 @@ void OrbWhirlWindParticle::Update()
         case State::eStop:
             if (static_cast<s32>(sGnFrame) >= mPositionTimer)
             {
-                SetActive(IsActive() ? 0 : 1);
+                mIsActive = !mIsActive;
             }
             CalculateRenderProperties(0);
             break;
@@ -212,18 +212,6 @@ void OrbWhirlWindParticle::CalculateRenderProperties(s16 bStarted)
     else
     {
         mAnim.SetRenderLayer(Layer::eLayer_AbeMenu_Half_13);
-    }
-}
-
-void OrbWhirlWindParticle::SetActive(u8 active)
-{
-    if (active)
-    {
-        mFlags.Set(Flags::eIsActive);
-    }
-    else
-    {
-        mFlags.Clear(Flags::eIsActive);
     }
 }
 

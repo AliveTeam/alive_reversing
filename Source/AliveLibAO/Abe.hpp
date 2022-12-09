@@ -194,36 +194,6 @@ class BaseThrowable;
 class Rope;
 class Bullet;
 
-enum Flags_2A8
-{
-    e2A8_Bit1 = 0x1,
-    e2A8_Bit2_return_to_previous_motion = 0x2,
-    e2A8_Bit3_WalkToRun = 0x4,
-    e2A8_Bit4_snap_abe = 0x8,
-    e2A8_Bit5 = 0x10,
-    e2A8_Bit6_bShrivel = 0x20,
-    e2A8_Bit7 = 0x40,
-    e2A8_Bit8_bLandSoft = 0x80,
-    e2A8_Bit9 = 0x100,
-    e2A8_Bit10 = 0x200,
-    e2A8_Bit11_bLaughAtChantEnd = 0x400,
-    e2A8_Bit12_bParamoniaDone = 0x800,
-    e2A8_eBit13_bScrabaniaDone = 0x1000,
-    e2A8_eBit14_bGotShrykullFromBigFace = 0x2000,
-    e2A8_eBit15_bGiveShrykullFromBigFace = 0x4000,
-    eAbeSpawnDir = 0x8000,
-};
-
-// elum flags?
-enum Flags_2AA
-{
-    e2AA_Bit1 = 0x1,
-    e2AA_Bit2_bSfxPlaying = 0x2,
-    e2AA_Bit3_ElumMountBegin = 0x4,
-    e2AA_Bit4_ElumMountEnd = 0x8,
-    e2AA_Bit5_ElumUnmountBegin = 0x10
-};
-
 enum class StoneStates : s16
 {
     eHandstoneStart_0 = 0,
@@ -598,8 +568,22 @@ public:
     s8 field_19D_throw_direction = 0;
     PortalSubStates field_19E_portal_sub_state = PortalSubStates::eJumpingInsidePortal_0;
     BirdPortal* field_1A0_portal = nullptr;
-    BitField16<Flags_2A8> field_2A8_flags = {};
-    BitField16<Flags_2AA> field_2AA_flags = {};
+    bool mReturnToPreviousMotion = false;
+    bool mWalkToRun = false;
+    bool mSnapAbe = false;
+    bool mShrivel = false;
+    bool mBlockChanting = false;
+    bool mLandSoft = false;
+    bool mLaughAtChantEnd = false;
+    bool mParamoniaDone = false;
+    bool mScrabaniaDone = false;
+    bool mGotShrykullFromBigFace = false;
+    bool mGiveShrykullFromBigFace = false;
+    bool mAbeRespawnFlipX = false;
+    bool mSfxPlaying = false;
+    bool mElumMountBegin = false;
+    bool mElumMountEnd = false;
+    bool mElumUnmountBegin = false;
     SaveData* field_2AC_pSaveData = nullptr;
     bool mRidingElum = false;
 };

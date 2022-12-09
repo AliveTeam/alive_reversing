@@ -17,7 +17,7 @@ namespace AO {
 
 MeatSaw::~MeatSaw()
 {
-    if (field_1A8_flags.Get(flags_1A8::eBit1_ResetOffscreen) && SwitchStates_Get(field_EE_switch_id) != field_F2_switch_value)
+    if (mResetOffscreen && SwitchStates_Get(field_EE_switch_id) != field_F2_switch_value)
     {
         Path::TLV_Reset(field_100_tlvInfo, 1, 0, 0);
     }
@@ -75,18 +75,18 @@ MeatSaw::MeatSaw(relive::Path_MeatSaw* pTlv, const Guid& tlvId)
 
     if (pTlv->mType == relive::Path_MeatSaw::Type::eAutomatic)
     {
-        field_1A8_flags.Set(flags_1A8::eBit1_ResetOffscreen);
-        field_1A8_flags.Clear(flags_1A8::eBit2_SwitchIdMeatSaw);
+        mResetOffscreen = true;
+        mUsesSwitchId = false;
     }
     else if (pTlv->mType == relive::Path_MeatSaw::Type::eSwitchId)
     {
-        field_1A8_flags.Set(flags_1A8::eBit1_ResetOffscreen);
-        field_1A8_flags.Set(flags_1A8::eBit2_SwitchIdMeatSaw);
+        mResetOffscreen = true;
+        mUsesSwitchId = true;
     }
     else // eAutomaticPersistOffscreen_0
     {
-        field_1A8_flags.Clear(flags_1A8::eBit1_ResetOffscreen);
-        field_1A8_flags.Clear(flags_1A8::eBit2_SwitchIdMeatSaw);
+        mResetOffscreen = false;
+        mUsesSwitchId = false;
     }
 
     field_EA_speed1 = pTlv->mSpeed;
@@ -200,20 +200,20 @@ void MeatSaw::VUpdate()
     switch (field_E4_state)
     {
         case MeatSawStates::eIdle_0:
-            if ((field_104_idle_timer <= static_cast<s32>(sGnFrame) || (field_1A8_flags.Get(flags_1A8::eBit2_SwitchIdMeatSaw))) &&
-                (!field_1A8_flags.Get(flags_1A8::eBit1_ResetOffscreen) || SwitchStates_Get(field_EE_switch_id) == field_F0_switch_value))
+            if ((field_104_idle_timer <= static_cast<s32>(sGnFrame) || mUsesSwitchId) &&
+                (!mResetOffscreen || SwitchStates_Get(field_EE_switch_id) == field_F0_switch_value))
             {
                 field_E4_state = MeatSawStates::eGoingDown_1;
                 GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MeatSaw_Moving));
-                field_1A8_flags.Clear(flags_1A8::eBit3_AutomaticMeatSawIsDown);
+                mAutomaticMeatSawIsDown = false;
                 field_E8_speed2 = field_EA_speed1;
                 field_108_SFX_timer = sGnFrame + 2;
             }
             else
             {
-                if (field_1A8_flags.Get(flags_1A8::eBit1_ResetOffscreen))
+                if (mResetOffscreen)
                 {
-                    if (!field_1A8_flags.Get(flags_1A8::eBit2_SwitchIdMeatSaw))
+                    if (!mUsesSwitchId)
                     {
                         if (field_EC_off_speed)
                         {
@@ -221,7 +221,7 @@ void MeatSaw::VUpdate()
                             {
                                 field_E4_state = MeatSawStates::eGoingDown_1;
                                 GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MeatSaw_Moving));
-                                field_1A8_flags.Set(flags_1A8::eBit3_AutomaticMeatSawIsDown);
+                                mAutomaticMeatSawIsDown = true;
                                 field_E8_speed2 = field_EC_off_speed;
                                 field_108_SFX_timer = sGnFrame + 2;
                             }
@@ -260,7 +260,7 @@ void MeatSaw::VUpdate()
                 field_E4_state = MeatSawStates::eIdle_0;
                 s16 minRnd = 0;
                 s16 maxRnd = 0;
-                if (field_1A8_flags.Get(flags_1A8::eBit3_AutomaticMeatSawIsDown))
+                if (mAutomaticMeatSawIsDown)
                 {
                     maxRnd = field_FC_automatic_max_time_off;
                     minRnd = field_FA_automatic_min_time_off;
@@ -273,7 +273,7 @@ void MeatSaw::VUpdate()
 
                 field_104_idle_timer = sGnFrame + Math_RandomRange(minRnd, maxRnd);
                 GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::MeatSaw_Idle));
-                if (field_1A8_flags.Get(flags_1A8::eBit2_SwitchIdMeatSaw))
+                if (mUsesSwitchId)
                 {
                     SwitchStates_Set(field_EE_switch_id, field_F0_switch_value == 0 ? 1 : 0);
                 }

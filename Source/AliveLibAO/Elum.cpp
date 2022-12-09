@@ -2200,7 +2200,7 @@ void Elum::Motion_19_Dead()
 {
     if (sActiveHero->mHealth > FP_FromInteger(0))
     {
-        if (!sActiveHero->field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel) && sActiveHero->field_2A8_flags.Get(Flags_2A8::e2A8_Bit8_bLandSoft) /* && field_104_pending_resource_count == 0*/)
+        if (!sActiveHero->mShrivel && sActiveHero->mLandSoft /* && field_104_pending_resource_count == 0*/)
         {
             mXPos = FP_FromInteger(mContinueRect.x);
             mYPos = FP_FromInteger(mContinueRect.y);

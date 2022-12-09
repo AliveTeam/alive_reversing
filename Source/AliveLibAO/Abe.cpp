@@ -647,7 +647,7 @@ void Abe::VOnTrapDoorOpen()
     PlatformBase* pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (pPlatform)
     {
-        if (!field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel))
+        if (!mShrivel)
         {
             VSetMotion(eAbeMotions::Motion_93_WalkOffEdge);
         }
@@ -714,11 +714,9 @@ Abe::Abe()
     mContinueCamera = -1;
     SetCanSetOffExplosives(true);
 
-    field_2AA_flags.Clear(Flags_2AA::e2AA_Bit1);
-    field_2AA_flags.Clear(Flags_2AA::e2AA_Bit2_bSfxPlaying);
-    field_2AA_flags.Clear(Flags_2AA::e2AA_Bit3_ElumMountBegin);
-    field_2AA_flags.Clear(Flags_2AA::e2AA_Bit4_ElumMountEnd);
-    field_2AA_flags.Clear(Flags_2AA::e2AA_Bit5_ElumUnmountBegin);
+    mSfxPlaying = false;
+    mElumMountEnd = false;
+    mElumUnmountBegin = false;
 
     mContinueSpriteScale = GetSpriteScale();
     mContinueLevel = gMap.mCurrentLevel;
@@ -729,8 +727,18 @@ Abe::Abe()
     field_150_saved_ring_timer = 0;
     field_154_bSavedHaveShrykull = 0;
 
-    field_2A8_flags.Raw().all = 0;
-    field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
+    mReturnToPreviousMotion = false;
+    mWalkToRun = false;
+    mSnapAbe = false;
+    mShrivel = false;
+    mBlockChanting = false;
+    mLaughAtChantEnd = false;
+    mParamoniaDone = false;
+    mScrabaniaDone = false;
+    mGotShrykullFromBigFace = false;
+    mGiveShrykullFromBigFace = false;
+    mAbeRespawnFlipX = false;
+    mLandSoft = true;
 
     // Changes Abe's "default" colour depending on the level we are in
     SetTint(sAbeTints_4C6438, gMap.mCurrentLevel);
@@ -822,258 +830,255 @@ const u32 sAbe_yVel_table_4BB138[8] = {0, 4294705152, 4294705152, 4294705152, 0,
 
 void Abe::VUpdate()
 {
-    if (!field_2AA_flags.Get(Flags_2AA::e2AA_Bit1))
+    if (gAbeInvulnerableCheat)
     {
-        if (gAbeInvulnerableCheat)
+        mHealth = FP_FromInteger(1);
+    }
+
+    if (!Input_IsChanting())
+    {
+        mBlockChanting = false;
+    }
+
+    if (gDDCheat_FlyingEnabled && sControlledCharacter == this)
+    {
+        VOnTrapDoorOpen();
+
+        const FP old_y = mYPos;
+        mShrivel = false;
+        BaseAliveGameObjectLastLineYPos = old_y;
+        mCurrentMotion = eAbeMotions::Motion_87_ToFall;
+        BaseAliveGameObjectCollisionLine = nullptr;
+
+        if (Input().IsAnyPressed(0xF000u))
         {
-            mHealth = FP_FromInteger(1);
-        }
+            const s32 dir = Input().Dir();
+            mVelX = FP_FromRaw(sAbe_xVel_table_4BB118[dir] * 2);
+            mVelY = FP_FromRaw(sAbe_yVel_table_4BB138[dir]);
 
-        if (!Input_IsChanting())
-        {
-            field_2A8_flags.Clear(Flags_2A8::e2A8_Bit7);
-        }
-
-        if (gDDCheat_FlyingEnabled && sControlledCharacter == this)
-        {
-            VOnTrapDoorOpen();
-
-            const FP old_y = mYPos;
-            field_2A8_flags.Clear(Flags_2A8::e2A8_Bit6_bShrivel);
-            BaseAliveGameObjectLastLineYPos = old_y;
-            mCurrentMotion = eAbeMotions::Motion_87_ToFall;
-            BaseAliveGameObjectCollisionLine = nullptr;
-
-            if (Input().IsAnyPressed(0xF000u))
+            if (Input().IsAnyPressed(sInputKey_Run))
             {
-                const s32 dir = Input().Dir();
-                mVelX = FP_FromRaw(sAbe_xVel_table_4BB118[dir] * 2);
-                mVelY = FP_FromRaw(sAbe_yVel_table_4BB138[dir]);
-
-                if (Input().IsAnyPressed(sInputKey_Run))
-                {
-                    mVelX += FP_FromRaw(sAbe_xVel_table_4BB118[dir]);
-                    mVelY += FP_FromRaw(sAbe_yVel_table_4BB138[dir]);
-                }
-
-                mXPos += mVelX;
-                mYPos += mVelY;
-
-                PSX_Point mapSize = {};
-                gMap.Get_map_size(&mapSize);
-
-                if (mXPos < FP_FromInteger(0))
-                {
-                    mXPos = FP_FromInteger(0);
-                }
-
-                if (mXPos >= FP_FromInteger(mapSize.x))
-                {
-                    mXPos = FP_FromInteger(mapSize.x) - FP_FromInteger(1);
-                }
-
-                if (mYPos < FP_FromInteger(0))
-                {
-                    mYPos = FP_FromInteger(0);
-                }
-
-                if (mYPos >= FP_FromInteger(mapSize.y))
-                {
-                    mYPos = FP_FromInteger(mapSize.y) - FP_FromInteger(1);
-                    SetActiveCameraDelayedFromDir();
-                    return;
-                }
+                mVelX += FP_FromRaw(sAbe_xVel_table_4BB118[dir]);
+                mVelY += FP_FromRaw(sAbe_yVel_table_4BB138[dir]);
             }
-            else
+
+            mXPos += mVelX;
+            mYPos += mVelY;
+
+            PSX_Point mapSize = {};
+            gMap.Get_map_size(&mapSize);
+
+            if (mXPos < FP_FromInteger(0))
             {
-                mVelX = FP_FromInteger(0);
-                mVelY = FP_FromInteger(0);
+                mXPos = FP_FromInteger(0);
             }
-            SetActiveCameraDelayedFromDir();
+
+            if (mXPos >= FP_FromInteger(mapSize.x))
+            {
+                mXPos = FP_FromInteger(mapSize.x) - FP_FromInteger(1);
+            }
+
+            if (mYPos < FP_FromInteger(0))
+            {
+                mYPos = FP_FromInteger(0);
+            }
+
+            if (mYPos >= FP_FromInteger(mapSize.y))
+            {
+                mYPos = FP_FromInteger(mapSize.y) - FP_FromInteger(1);
+                SetActiveCameraDelayedFromDir();
+                return;
+            }
         }
         else
         {
-            GetAnimation().SetAnimate(true);
+            mVelX = FP_FromInteger(0);
+            mVelY = FP_FromInteger(0);
+        }
+        SetActiveCameraDelayedFromDir();
+    }
+    else
+    {
+        GetAnimation().SetAnimate(true);
 
 
-            // Execute the current state
-            s16 motion_idx = mCurrentMotion;
-            const FP oldX = mXPos;
-            const FP oldY = mYPos;
+        // Execute the current state
+        s16 motion_idx = mCurrentMotion;
+        const FP oldX = mXPos;
+        const FP oldY = mYPos;
 
-            InvokeMemberFunction(this, sAbeMotionMachineTable_4C5F08, motion_idx);
+        InvokeMemberFunction(this, sAbeMotionMachineTable_4C5F08, motion_idx);
 
-            if (BaseAliveGameObjectCollisionLine)
+        if (BaseAliveGameObjectCollisionLine)
+        {
+            // Snap to a whole number so we are "on" the line
+            mYPos = FP_NoFractional(mYPos);
+        }
+
+        if (!mShrivel)
+        {
+            // Did position change?
+            if (oldX != mXPos || oldY != mYPos || sControlledCharacter == gElum)
             {
-                // Snap to a whole number so we are "on" the line
-                mYPos = FP_NoFractional(mYPos);
+                // Get the TLV we are on
+                BaseAliveGameObjectPathTLV = gMap.TLV_Get_At(
+                    nullptr,
+                    mXPos,
+                    mYPos,
+                    mXPos,
+                    mYPos);
+
+                VOnTlvCollision(BaseAliveGameObjectPathTLV);
             }
 
-            if (!field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel))
+            if (mbGotShot)
             {
-                // Did position change?
-                if (oldX != mXPos || oldY != mYPos || sControlledCharacter == gElum)
-                {
-                    // Get the TLV we are on
-                    BaseAliveGameObjectPathTLV = gMap.TLV_Get_At(
-                        nullptr,
-                        mXPos,
-                        mYPos,
-                        mXPos,
-                        mYPos);
-
-                    VOnTlvCollision(BaseAliveGameObjectPathTLV);
-                }
-
-                if (mbGotShot)
-                {
-                    motion_idx = field_112_prev_motion;
-                    ToKnockback_422D90(1, 0);
-                    mCurrentMotion = motion_idx;
-                    mNextMotion = 0;
-                    field_112_prev_motion = 0;
-                    mbMotionChanged = true;
-                    mbGotShot = false;
+                motion_idx = field_112_prev_motion;
+                ToKnockback_422D90(1, 0);
+                mCurrentMotion = motion_idx;
+                mNextMotion = 0;
+                field_112_prev_motion = 0;
+                mbMotionChanged = true;
+                mbGotShot = false;
 #if ORIGINAL_GAME_FIXES || ORIGINAL_GAME_FIX_DEATH_DELAY_AO
-                    field_2A8_flags.Clear(Flags_2A8::e2A8_Bit2_return_to_previous_motion); // OG Change - Fixes "Death Delay Glitch"
+                mReturnToPreviousMotion = false; // OG Change - Fixes "Death Delay Glitch"
 #endif
-                }
+            }
 
-                if (EventGet(kEventScreenShake))
+            if (EventGet(kEventScreenShake))
+            {
+                if (IsStanding_41FC10())
                 {
-                    if (IsStanding_41FC10())
-                    {
-                        ToKnockback_422D90(1, 0);
-                    }
+                    ToKnockback_422D90(1, 0);
                 }
+            }
 
-                if (motion_idx != mCurrentMotion || mbMotionChanged)
+            if (motion_idx != mCurrentMotion || mbMotionChanged)
+            {
+                mbMotionChanged = false;
+
+                if (mCurrentMotion != eAbeMotions::Motion_15_Null && !mShrivel)
                 {
-                    mbMotionChanged = false;
-
-                    if (mCurrentMotion != eAbeMotions::Motion_15_Null && !field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel))
-                    {
-                        GetAnimation().Set_Animation_Data(GetAnimRes(sAbeMotionAnimIds[mCurrentMotion]));
-
-                        field_12C_timer = sGnFrame;
-
-                        if (motion_idx == eAbeMotions::Motion_15_Null || motion_idx == eAbeMotions::Motion_62_LoadedSaveSpawn)
-                        {
-                            GetAnimation().SetFrame(mBaseAliveGameObjectLastAnimFrame);
-                        }
-                    }
-                }
-                else if (field_2A8_flags.Get(Flags_2A8::e2A8_Bit2_return_to_previous_motion))
-                {
-                    mCurrentMotion = mPreviousMotion;
                     GetAnimation().Set_Animation_Data(GetAnimRes(sAbeMotionAnimIds[mCurrentMotion]));
 
                     field_12C_timer = sGnFrame;
-                    GetAnimation().SetFrame(mBaseAliveGameObjectLastAnimFrame);
-                    field_2A8_flags.Clear(Flags_2A8::e2A8_Bit2_return_to_previous_motion);
-                }
 
-                if (field_11C_regen_health_timer <= static_cast<s32>(sGnFrame) && mHealth > FP_FromInteger(0))
-                {
-                    mHealth = FP_FromInteger(1);
-                }
-
-                if (field_168_ring_pulse_timer)
-                {
-                    if (GetAnimation().GetRender())
+                    if (motion_idx == eAbeMotions::Motion_15_Null || motion_idx == eAbeMotions::Motion_62_LoadedSaveSpawn)
                     {
-                        if (static_cast<s32>(sGnFrame) <= field_168_ring_pulse_timer || field_16C_bHaveShrykull)
-                        {
-                            if (!(sGnFrame % 32))
-                            {
-                                const PSX_RECT bRect = VGetBoundingRect();
-                                AbilityRing::Factory(
-                                    FP_FromInteger((bRect.w + bRect.x) / 2),
-                                    FP_FromInteger((bRect.h + bRect.y) / 2),
-                                    field_16C_bHaveShrykull != 0 ? RingTypes::eShrykull_Pulse_Small_4 : RingTypes::eExplosive_Pulse_0);
-                                SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 25, 2650);
-                            }
-                        }
-                        else
-                        {
-                            field_168_ring_pulse_timer = 0;
-                        }
+                        GetAnimation().SetFrame(mBaseAliveGameObjectLastAnimFrame);
                     }
                 }
+            }
+            else if (mReturnToPreviousMotion)
+            {
+                mCurrentMotion = mPreviousMotion;
+                GetAnimation().Set_Animation_Data(GetAnimRes(sAbeMotionAnimIds[mCurrentMotion]));
 
-                if (EventGet(kEventMudokonDead))
-                {
-                    field_130_say = 16;
-                    field_134_auto_say_timer = sGnFrame + Math_RandomRange(22, 30);
-                    relive_new MusicTrigger(relive::Path_MusicTrigger::MusicTriggerMusicType::eDeathDrumShort, relive::Path_MusicTrigger::TriggeredBy::eTouching, 0, 90);
-                }
+                field_12C_timer = sGnFrame;
+                GetAnimation().SetFrame(mBaseAliveGameObjectLastAnimFrame);
+                mReturnToPreviousMotion = false;
+            }
 
-                if (field_130_say >= 0 && static_cast<s32>(sGnFrame) >= field_134_auto_say_timer)
+            if (field_11C_regen_health_timer <= static_cast<s32>(sGnFrame) && mHealth > FP_FromInteger(0))
+            {
+                mHealth = FP_FromInteger(1);
+            }
+
+            if (field_168_ring_pulse_timer)
+            {
+                if (GetAnimation().GetRender())
                 {
-                    if (gMap.Is_Point_In_Current_Camera(
-                            mCurrentLevel,
-                            mCurrentPath,
-                            mXPos,
-                            mYPos,
-                            0))
+                    if (static_cast<s32>(sGnFrame) <= field_168_ring_pulse_timer || field_16C_bHaveShrykull)
                     {
-                        if (mCurrentMotion != eAbeMotions::Motion_150_Chant
-                            && mCurrentMotion != eAbeMotions::Motion_7_Speak
-                            && mCurrentMotion != eAbeMotions::Motion_8_Speak
-                            && mCurrentMotion != eAbeMotions::Motion_9_Speak
-                            && mCurrentMotion != eAbeMotions::Motion_10_Speak
-                            && mCurrentMotion != eAbeMotions::Motion_11_Speak
-                            && mCurrentMotion != eAbeMotions::Motion_12_Speak
-                            && mCurrentMotion != eAbeMotions::Motion_13_Speak
-                            && mCurrentMotion != eAbeMotions::Motion_14_Speak)
+                        if (!(sGnFrame % 32))
                         {
-                            if (mCurrentMotion == eAbeMotions::Motion_0_Idle || mCurrentMotion == eAbeMotions::Motion_15_Null)
-                            {
-                                mbMotionChanged = true;
-                                if (field_130_say == 5 || field_130_say == 16)
-                                {
-                                    mCurrentMotion = eAbeMotions::Motion_10_Speak;
-                                }
-                                else
-                                {
-                                    mCurrentMotion = eAbeMotions::Motion_9_Speak;
-                                }
-                            }
-                            if (field_130_say == 5)
-                            {
-                                EventBroadcast(kEventMudokonComfort, sActiveHero);
-                            }
-                            Mudokon_SFX(static_cast<MudSounds>(field_130_say), 0, 0, this);
+                            const PSX_RECT bRect = VGetBoundingRect();
+                            AbilityRing::Factory(
+                                FP_FromInteger((bRect.w + bRect.x) / 2),
+                                FP_FromInteger((bRect.h + bRect.y) / 2),
+                                field_16C_bHaveShrykull != 0 ? RingTypes::eShrykull_Pulse_Small_4 : RingTypes::eExplosive_Pulse_0);
+                            SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 25, 2650);
                         }
                     }
-                    field_130_say = -1;
-                }
-
-                if (field_2A8_flags.Get(Flags_2A8::e2A8_Bit12_bParamoniaDone) && field_2A8_flags.Get(Flags_2A8::e2A8_eBit13_bScrabaniaDone))
-                {
-                    if (!field_2A8_flags.Get(Flags_2A8::e2A8_eBit15_bGiveShrykullFromBigFace) && gMap.mNextLevel == EReliveLevelIds::eLines)
+                    else
                     {
-                        LOG_INFO("Set e2A8_eBit15_bGiveShrykullFromBigFace");
-                        field_2A8_flags.Set(Flags_2A8::e2A8_eBit15_bGiveShrykullFromBigFace);
+                        field_168_ring_pulse_timer = 0;
                     }
                 }
+            }
 
-                if (field_2A8_flags.Get(Flags_2A8::e2A8_eBit15_bGiveShrykullFromBigFace))
+            if (EventGet(kEventMudokonDead))
+            {
+                field_130_say = 16;
+                field_134_auto_say_timer = sGnFrame + Math_RandomRange(22, 30);
+                relive_new MusicTrigger(relive::Path_MusicTrigger::MusicTriggerMusicType::eDeathDrumShort, relive::Path_MusicTrigger::TriggeredBy::eTouching, 0, 90);
+            }
+
+            if (field_130_say >= 0 && static_cast<s32>(sGnFrame) >= field_134_auto_say_timer)
+            {
+                if (gMap.Is_Point_In_Current_Camera(
+                        mCurrentLevel,
+                        mCurrentPath,
+                        mXPos,
+                        mYPos,
+                        0))
                 {
-                    static bool bLogged = false;
-                    if (!bLogged)
+                    if (mCurrentMotion != eAbeMotions::Motion_150_Chant
+                        && mCurrentMotion != eAbeMotions::Motion_7_Speak
+                        && mCurrentMotion != eAbeMotions::Motion_8_Speak
+                        && mCurrentMotion != eAbeMotions::Motion_9_Speak
+                        && mCurrentMotion != eAbeMotions::Motion_10_Speak
+                        && mCurrentMotion != eAbeMotions::Motion_11_Speak
+                        && mCurrentMotion != eAbeMotions::Motion_12_Speak
+                        && mCurrentMotion != eAbeMotions::Motion_13_Speak
+                        && mCurrentMotion != eAbeMotions::Motion_14_Speak)
                     {
-                        LOG_INFO("Have e2A8_eBit15_bGiveShrykullFromBigFace %d", static_cast<s32>(gMap.mCurrentLevel));
-                        bLogged = true;
+                        if (mCurrentMotion == eAbeMotions::Motion_0_Idle || mCurrentMotion == eAbeMotions::Motion_15_Null)
+                        {
+                            mbMotionChanged = true;
+                            if (field_130_say == 5 || field_130_say == 16)
+                            {
+                                mCurrentMotion = eAbeMotions::Motion_10_Speak;
+                            }
+                            else
+                            {
+                                mCurrentMotion = eAbeMotions::Motion_9_Speak;
+                            }
+                        }
+                        if (field_130_say == 5)
+                        {
+                            EventBroadcast(kEventMudokonComfort, sActiveHero);
+                        }
+                        Mudokon_SFX(static_cast<MudSounds>(field_130_say), 0, 0, this);
                     }
+                }
+                field_130_say = -1;
+            }
 
-                    if (!field_2A8_flags.Get(Flags_2A8::e2A8_eBit14_bGotShrykullFromBigFace) && gMap.mCurrentLevel == EReliveLevelIds::eLines)
-                    {
-                        LOG_INFO("Set mHaveShrykull true");
-                        field_16C_bHaveShrykull = true;
-                        field_168_ring_pulse_timer = sGnFrame + 32000;
-                        field_2A8_flags.Set(Flags_2A8::e2A8_eBit14_bGotShrykullFromBigFace);
-                    }
+            if (mParamoniaDone && mScrabaniaDone)
+            {
+                if (!mGiveShrykullFromBigFace && gMap.mNextLevel == EReliveLevelIds::eLines)
+                {
+                    LOG_INFO("Set mGiveShrykullFromBigFace");
+                    mGiveShrykullFromBigFace = true;
+                }
+            }
+
+            if (mGiveShrykullFromBigFace)
+            {
+                static bool bLogged = false;
+                if (!bLogged)
+                {
+                    LOG_INFO("Have mGiveShrykullFromBigFace %d", static_cast<s32>(gMap.mCurrentLevel));
+                    bLogged = true;
+                }
+
+                if (!mGotShrykullFromBigFace && gMap.mCurrentLevel == EReliveLevelIds::eLines)
+                {
+                    LOG_INFO("Set mHaveShrykull true");
+                    field_16C_bHaveShrykull = true;
+                    field_168_ring_pulse_timer = sGnFrame + 32000;
+                    mGotShrykullFromBigFace = true;
                 }
             }
         }
@@ -1083,7 +1088,7 @@ void Abe::VUpdate()
 void Abe::VRender(PrimHeader** ppOt)
 {
     // When in death shrivel don't reset scale else can't shrivel into a black blob
-    if (!(field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel)))
+    if (!mShrivel)
     {
         GetAnimation().SetSpriteScale(GetSpriteScale());
     }
@@ -1096,31 +1101,22 @@ void Abe::VRender(PrimHeader** ppOt)
 
 void Abe::FreeElumRes_420F80()
 {
-    if (mCurrentMotion == eAbeMotions::Motion_139_ElumMountBegin)
-    {
-        field_2AA_flags.Set(Flags_2AA::e2AA_Bit3_ElumMountBegin);
-    }
-    else
-    {
-        field_2AA_flags.Clear(Flags_2AA::e2AA_Bit3_ElumMountBegin);
-    }
-
     if (mCurrentMotion == eAbeMotions::Motion_136_ElumMountEnd)
     {
-        field_2AA_flags.Set(Flags_2AA::e2AA_Bit4_ElumMountEnd);
+        mElumMountEnd = true;
     }
     else
     {
-        field_2AA_flags.Clear(Flags_2AA::e2AA_Bit4_ElumMountEnd);
+        mElumMountEnd = false;
     }
 
     if (mCurrentMotion == eAbeMotions::Motion_137_ElumUnmountBegin)
     {
-        field_2AA_flags.Set(Flags_2AA::e2AA_Bit5_ElumUnmountBegin);
+        mElumUnmountBegin = true;
     }
     else
     {
-        field_2AA_flags.Clear(Flags_2AA::e2AA_Bit5_ElumUnmountBegin);
+        mElumUnmountBegin = false;
     }
 
     ElumFree_4228F0();
@@ -1128,7 +1124,7 @@ void Abe::FreeElumRes_420F80()
 
 void Abe::ToDeathDropFall_42C3D0()
 {
-    field_2A8_flags.Set(Flags_2A8::e2A8_Bit6_bShrivel);
+    mShrivel = true;
     mCurrentMotion = eAbeMotions::Motion_59_DeathDropFall;
     field_114_gnFrame = 0;
     mHealth = FP_FromInteger(0);
@@ -1195,7 +1191,6 @@ void Abe::FollowLift_42EE90()
         if (pLift->GetDead())
         {
             pLift->VOnPickUpOrSlapped();
-            field_2A8_flags.Set(Flags_2A8::e2A8_Bit1);
         }
         SetActiveCameraDelayedFromDir();
     }
@@ -1235,7 +1230,7 @@ s16 Abe::RunTryEnterWell_425880()
         if ((pWellLocal->mScale == relive::reliveScale::eFull && GetSpriteScale() == FP_FromInteger(1)) ||
             (pWellLocal->mScale == relive::reliveScale::eHalf && GetSpriteScale() == FP_FromDouble(0.5)))
         {
-            field_2A8_flags.Clear(Flags_2A8::e2A8_Bit4_snap_abe);
+            mSnapAbe = false;
             BaseAliveGameObjectPathTLV = pWellLocal;
             mCurrentMotion = eAbeMotions::Motion_77_WellBegin;
             return 1;
@@ -1253,7 +1248,7 @@ s16 Abe::RunTryEnterWell_425880()
         if ((pWellExpress->mScale == relive::reliveScale::eFull && GetSpriteScale() == FP_FromInteger(1)) ||
             (pWellExpress->mScale == relive::reliveScale::eHalf && GetSpriteScale() == FP_FromDouble(0.5)))
         {
-            field_2A8_flags.Clear(Flags_2A8::e2A8_Bit4_snap_abe);
+            mSnapAbe = false;
             BaseAliveGameObjectPathTLV = pWellExpress;
             mCurrentMotion = eAbeMotions::Motion_80_430EF0;
         }
@@ -1300,7 +1295,7 @@ IBaseAliveGameObject* Abe::FindObjectToPossess_421410()
 
 void Abe::ToDieFinal_42C400()
 {
-    field_2A8_flags.Set(Flags_2A8::e2A8_Bit6_bShrivel);
+    mShrivel = true;
     mCurrentMotion = eAbeMotions::Motion_60_Dead;
     field_114_gnFrame = 0;
     mHealth = FP_FromInteger(0);
@@ -1312,9 +1307,8 @@ void Abe::ToKnockback_422D90(s16 bKnockbackSound, s16 bDelayedAnger)
     if (sControlledCharacter->Type() != ReliveTypes::eSlig || mHealth <= FP_FromInteger(0))
     {
         SND_Seq_Stop_477A60(SeqId::eMudokonChant1_11);
-        field_2AA_flags.Clear(Flags_2AA::e2AA_Bit3_ElumMountBegin);
-        field_2AA_flags.Clear(Flags_2AA::e2AA_Bit4_ElumMountEnd);
-        field_2AA_flags.Clear(Flags_2AA::e2AA_Bit5_ElumUnmountBegin);
+        mElumMountEnd = false;
+        mElumUnmountBegin = false;
 
         if (field_188_pOrbWhirlWind)
         {
@@ -1475,7 +1469,7 @@ void Abe::MoveForward_422FC0()
 
 void Abe::ElumFree_4228F0()
 {
-    if (field_2AA_flags.Get(Flags_2AA::e2AA_Bit4_ElumMountEnd))
+    if (mElumMountEnd)
     {
         if (gElum->GetCurrentMotion() != eElumMotions::Motion_1_Idle)
         {
@@ -1483,7 +1477,7 @@ void Abe::ElumFree_4228F0()
         }
     }
 
-    if (field_2AA_flags.Get(Flags_2AA::e2AA_Bit5_ElumUnmountBegin))
+    if (mElumUnmountBegin)
     {
         if (gElum->GetCurrentMotion() != eElumMotions::Motion_1_Idle)
         {
@@ -2073,7 +2067,7 @@ void Abe::ToNewElumSyncMotion(s32 elum_frame)
 
 void Abe::SetActiveControlledCharacter_421480()
 {
-    field_2A8_flags.Set(Flags_2A8::e2A8_Bit7);
+    mBlockChanting = true;
     sControlledCharacter = this;
 }
 
@@ -2463,7 +2457,7 @@ s16 Abe::MoveLiftUpOrDown_42F190(FP yVelocity)
         }
     }
 
-    if (Input().Pressed() && pLiftPoint->OnAnyFloor() && !(pLiftPoint->field_12C_bMoving & 1))
+    if (Input().Pressed() && pLiftPoint->OnAnyFloor() && !pLiftPoint->mMoving)
     {
         return eAbeMotions::Motion_134_LiftGrabEnd;
     }
@@ -2528,7 +2522,7 @@ void Abe::VOnTlvCollision(relive::Path_TLV* pTlv)
                 mContinueBottomRight.y = pContinuePointTlv->mBottomRightY;
                 mContinueSpriteScale = GetSpriteScale();
 
-                field_2A8_flags.Set(Flags_2A8::eAbeSpawnDir, pContinuePointTlv->mAbeSpawnDir == relive::Path_ContinuePoint::spawnDirection::eLeft);
+                mAbeRespawnFlipX = pContinuePointTlv->mAbeSpawnDir == relive::Path_ContinuePoint::spawnDirection::eLeft;
 
                 const s32 bHaveShry = field_168_ring_pulse_timer - sGnFrame;
                 field_150_saved_ring_timer = bHaveShry < 0 ? 0 : bHaveShry;
@@ -2727,7 +2721,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
             return 0;
     }
 
-    if (gAbeInvulnerableCheat || field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel) || !GetAnimation().GetRender())
+    if (gAbeInvulnerableCheat || mShrivel || !GetAnimation().GetRender())
     {
         return 0;
     }
@@ -3140,7 +3134,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
         if (mHealth == FP_FromInteger(0))
         {
             sControlledCharacter->VUnPosses();
-            field_2A8_flags.Set(Flags_2A8::e2A8_Bit7);
+            mBlockChanting = true;
             sControlledCharacter = this;
         }
     }
@@ -3209,7 +3203,7 @@ void Abe::TryHoist_423420()
 void Abe::Motion_0_Idle()
 {
     FollowLift_42EE90();
-    if (Input_IsChanting() && !field_2A8_flags.Get(Flags_2A8::e2A8_Bit7))
+    if (Input_IsChanting() && !mBlockChanting)
     {
         if (field_168_ring_pulse_timer && field_16C_bHaveShrykull)
         {
@@ -3387,7 +3381,7 @@ void Abe::Motion_0_Idle()
                     {
                         break;
                     }
-                    field_2A8_flags.Clear(Flags_2A8::e2A8_Bit4_snap_abe);
+                    mSnapAbe = false;
                     BaseAliveGameObjectPathTLV = pTlv;
                     mCurrentMotion = eAbeMotions::Motion_77_WellBegin;
                     return;
@@ -3400,7 +3394,7 @@ void Abe::Motion_0_Idle()
                     {
                         break;
                     }
-                    field_2A8_flags.Clear(Flags_2A8::e2A8_Bit4_snap_abe);
+                    mSnapAbe = false;
                     BaseAliveGameObjectPathTLV = pTlv;
                     mCurrentMotion = eAbeMotions::Motion_80_430EF0;
                     return;
@@ -3625,9 +3619,9 @@ void Abe::Motion_1_WalkLoop()
             case 5:
                 Environment_SFX_42A220(EnvironmentSfx::eWalkingFootstep_1, 0, 0x7FFF, this);
 
-                if (!field_2A8_flags.Get(Flags_2A8::e2A8_Bit3_WalkToRun))
+                if (!mWalkToRun)
                 {
-                    field_2A8_flags.Set(Flags_2A8::e2A8_Bit3_WalkToRun);
+                    mWalkToRun = true;
                     MapFollowMe(1);
                 }
 
@@ -3644,9 +3638,9 @@ void Abe::Motion_1_WalkLoop()
             case 14:
                 Environment_SFX_42A220(EnvironmentSfx::eWalkingFootstep_1, 0, 0x7FFF, this);
 
-                if (!field_2A8_flags.Get(Flags_2A8::e2A8_Bit3_WalkToRun))
+                if (!mWalkToRun)
                 {
-                    field_2A8_flags.Set(Flags_2A8::e2A8_Bit3_WalkToRun);
+                    mWalkToRun = true;
                     MapFollowMe(1);
                 }
 
@@ -3661,7 +3655,7 @@ void Abe::Motion_1_WalkLoop()
                 break;
 
             default:
-                field_2A8_flags.Clear(Flags_2A8::e2A8_Bit3_WalkToRun);
+                mWalkToRun = false;
                 break;
         }
     }
@@ -3817,7 +3811,7 @@ void Abe::Motion_3_Fall()
                 if ((pWellBase->mScale == relive::reliveScale::eFull && GetSpriteScale() == FP_FromInteger(1)) ||
                     (pWellBase->mScale == relive::reliveScale::eHalf && GetSpriteScale() == FP_FromDouble(0.5)))
                 {
-                    field_2A8_flags.Set(Flags_2A8::e2A8_Bit4_snap_abe);
+                    mSnapAbe = true;
                     mCurrentMotion = eAbeMotions::Motion_74_JumpIntoWell;
                     return;
                 }
@@ -3851,7 +3845,7 @@ void Abe::Motion_3_Fall()
                     FP_GetExponent(mYPos),
                     ReliveTypes::eSoftLanding));
 
-                if (field_2A8_flags.Get(Flags_2A8::e2A8_Bit8_bLandSoft)
+                if (mLandSoft
                     || (pSoftLanding && mHealth > FP_FromInteger(0))
                     || ((mYPos - BaseAliveGameObjectLastLineYPos) < (GetSpriteScale() * FP_FromInteger(180))
                         && (mHealth > FP_FromInteger(0) || gAbeInvulnerableCheat)))
@@ -4652,7 +4646,7 @@ void Abe::Motion_27_RunSlideStop()
             }
             else if ((GetAnimation().GetFlipX() && Input().IsAnyPressed(sInputKey_Right)) || (!GetAnimation().GetFlipX() && Input().IsAnyPressed(sInputKey_Left)))
             {
-                field_2A8_flags.Set(Flags_2A8::e2A8_Bit2_return_to_previous_motion);
+                mReturnToPreviousMotion = true;
                 mPreviousMotion = eAbeMotions::Motion_28_RunTurn;
                 mBaseAliveGameObjectLastAnimFrame = GetAnimation().GetCurrentFrame();
             }
@@ -4937,7 +4931,7 @@ void Abe::Motion_31_HopLand()
 
     if (GetAnimation().GetCurrentFrame() == 2 && Input().IsAnyPressed(sInputKey_Hop))
     {
-        field_2A8_flags.Set(Flags_2A8::e2A8_Bit2_return_to_previous_motion);
+        mReturnToPreviousMotion = true;
         mPreviousMotion = eAbeMotions::Motion_29_HopBegin;
         mBaseAliveGameObjectLastAnimFrame = 5;
     }
@@ -5320,9 +5314,9 @@ void Abe::Motion_35_RunLoop()
 
     if (GetAnimation().GetCurrentFrame() == 0 || GetAnimation().GetCurrentFrame() == 8)
     {
-        if (!field_2A8_flags.Get(e2A8_Bit3_WalkToRun))
+        if (!mWalkToRun)
         {
-            field_2A8_flags.Set(e2A8_Bit3_WalkToRun);
+            mWalkToRun = true;
             MapFollowMe(true);
         }
 
@@ -5333,9 +5327,9 @@ void Abe::Motion_35_RunLoop()
         Environment_SFX_42A220(EnvironmentSfx::eRunningFootstep_2, 0, 0x7FFF, this);
 
         // Snap
-        if (!field_2A8_flags.Get(e2A8_Bit3_WalkToRun))
+        if (!mWalkToRun)
         {
-            field_2A8_flags.Set(e2A8_Bit3_WalkToRun);
+            mWalkToRun = true;
             MapFollowMe(true);
         }
 
@@ -5415,7 +5409,7 @@ void Abe::Motion_35_RunLoop()
     }
     else
     {
-        field_2A8_flags.Clear(e2A8_Bit3_WalkToRun);
+        mWalkToRun = false;
     }
 }
 
@@ -5699,7 +5693,7 @@ void Abe::Motion_45_MidWalkToSneak()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        field_2A8_flags.Set(Flags_2A8::e2A8_Bit2_return_to_previous_motion);
+        mReturnToPreviousMotion = true;
         mPreviousMotion = 42;
         mBaseAliveGameObjectLastAnimFrame = 10;
     }
@@ -5730,7 +5724,7 @@ void Abe::Motion_46_MidSneakToWalk()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        field_2A8_flags.Set(Flags_2A8::e2A8_Bit2_return_to_previous_motion);
+        mReturnToPreviousMotion = true;
         mPreviousMotion = 1;
         mBaseAliveGameObjectLastAnimFrame = 9;
     }
@@ -5850,7 +5844,7 @@ void Abe::Motion_51_MidWalkToRun()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        field_2A8_flags.Set(Flags_2A8::e2A8_Bit2_return_to_previous_motion);
+        mReturnToPreviousMotion = true;
         mPreviousMotion = 35;
         mBaseAliveGameObjectLastAnimFrame = 8;
     }
@@ -5915,7 +5909,7 @@ void Abe::Motion_53_MidRunToWalk()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        field_2A8_flags.Set(Flags_2A8::e2A8_Bit2_return_to_previous_motion);
+        mReturnToPreviousMotion = true;
         mPreviousMotion = 1;
         mBaseAliveGameObjectLastAnimFrame = 9;
     }
@@ -6066,7 +6060,7 @@ void Abe::Motion_59_DeathDropFall()
         }
         else if (static_cast<s32>(sGnFrame) >= field_118_timer)
         {
-            field_2A8_flags.Set(Flags_2A8::e2A8_Bit6_bShrivel);
+            mShrivel = true;
             mCurrentMotion = eAbeMotions::Motion_60_Dead;
             field_114_gnFrame = 0;
             mHealth = FP_FromInteger(0);
@@ -6316,7 +6310,7 @@ void Abe::Motion_61_Respawn()
 
             BaseAliveGameObjectLastLineYPos = mYPos;
 
-            GetAnimation().SetFlipX(field_2A8_flags.Get(Flags_2A8::eAbeSpawnDir));
+            GetAnimation().SetFlipX(mAbeRespawnFlipX);
             MapFollowMe(true);
             SetTint(sAbeTints_4C6438, gMap.mCurrentLevel);
             if (gElum)
@@ -6413,14 +6407,14 @@ void Abe::Motion_61_Respawn()
                 GetShadow()->mEnabled = true;
                 GetShadow()->mShadowAtBottom = false;
                 MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
-                field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
+                mLandSoft = true;
                 GetAnimation().SetRender(true);
                 SetDrawable(true);
                 mCurrentMotion = eAbeMotions::Motion_3_Fall;
 
                 relive_new Flash(Layer::eLayer_Above_FG1_39, 255u, 0, 255u);
                 mbGotShot = false;
-                field_2A8_flags.Clear(Flags_2A8::e2A8_Bit6_bShrivel);
+                mShrivel = false;
                 field_114_gnFrame = sGnFrame;
             }
             break;
@@ -6461,7 +6455,7 @@ void Abe::Motion_62_LoadedSaveSpawn()
         {
             sActiveHero->mCurrentMotion = eAbeMotions::Motion_3_Fall;
         }
-        sActiveHero->field_2A8_flags.Clear(Flags_2A8::e2A8_Bit8_bLandSoft);
+        sActiveHero->mLandSoft = false;
         sActiveHero->BaseAliveGameObjectLastLineYPos = sActiveHero->mYPos;
         sActiveHero->field_110_state.raw = static_cast<s16>(pSaveData->field_244_stone_state);
         sActiveHero->field_114_gnFrame = pSaveData->field_248_gnFrame;
@@ -6709,23 +6703,23 @@ void Abe::Motion_68_LedgeHangWobble()
 {
     if (GetAnimation().GetCurrentFrame() == 0)
     {
-        if (!field_2AA_flags.Get(Flags_2AA::e2AA_Bit2_bSfxPlaying))
+        if (!mSfxPlaying)
         {
-            field_2AA_flags.Set(Flags_2AA::e2AA_Bit2_bSfxPlaying);
+            mSfxPlaying = true;
             Environment_SFX_42A220(EnvironmentSfx::eWalkingFootstep_1, 0, 127, this);
         }
     }
     else if (GetAnimation().GetCurrentFrame() == 2)
     {
-        if (!field_2AA_flags.Get(Flags_2AA::e2AA_Bit2_bSfxPlaying))
+        if (!mSfxPlaying)
         {
-            field_2AA_flags.Set(Flags_2AA::e2AA_Bit2_bSfxPlaying);
+            mSfxPlaying = true;
             Mudokon_SFX(MudSounds::eBeesStruggle_18, 45, -200, this);
         }
     }
     else
     {
-        field_2AA_flags.Clear(Flags_2AA::e2AA_Bit2_bSfxPlaying);
+        mSfxPlaying = false;
     }
 
     EventBroadcast(kEventNoise, this);
@@ -6735,14 +6729,14 @@ void Abe::Motion_68_LedgeHangWobble()
 
     if (Input().IsAnyPressed(sInputKey_Up))
     {
-        field_2AA_flags.Clear(Flags_2AA::e2AA_Bit2_bSfxPlaying);
+        mSfxPlaying = false;
         mCurrentMotion = eAbeMotions::Motion_64_LedgeAscend;
     }
     else
     {
         if (Input().IsAnyPressed(sInputKey_Down))
         {
-            field_2AA_flags.Clear(Flags_2AA::e2AA_Bit2_bSfxPlaying);
+            mSfxPlaying = false;
 
             VOnTrapDoorOpen();
             BaseAliveGameObjectCollisionLine = nullptr;
@@ -6754,7 +6748,7 @@ void Abe::Motion_68_LedgeHangWobble()
         }
         else if (GetAnimation().GetIsLastFrame())
         {
-            field_2AA_flags.Clear(Flags_2AA::e2AA_Bit2_bSfxPlaying);
+            mSfxPlaying = false;
             mCurrentMotion = eAbeMotions::Motion_66_LedgeHang;
         }
     }
@@ -7037,12 +7031,12 @@ void Abe::Motion_78_InsideWellLocal()
 
         field_120_x_vel_slow_by = FP_FromInteger(0);
 
-        if (field_2A8_flags.Get(Flags_2A8::e2A8_Bit4_snap_abe))
+        if (mSnapAbe)
         {
             // Snap to exit point
             mVelX = (GetSpriteScale() * (FP_FromInteger(pWellBase->mExitX) / FP_FromInteger(100)));
             mVelY = (GetSpriteScale() * (FP_FromInteger(pWellBase->mExitY) / FP_FromInteger(100)));
-            field_2A8_flags.Clear(Flags_2A8::e2A8_Bit4_snap_abe);
+            mSnapAbe = false;
         }
         else
         {
@@ -7161,7 +7155,7 @@ void Abe::Motion_81_InsideWellExpress()
     }
 
 
-    if (field_2A8_flags.Get(Flags_2A8::e2A8_Bit4_snap_abe))
+    if (mSnapAbe)
     {
         mCurrentMotion = eAbeMotions::Motion_78_InsideWellLocal;
         return;
@@ -7189,30 +7183,30 @@ void Abe::Motion_81_InsideWellExpress()
     {
         if (field_190_level == EReliveLevelIds::eForest)
         {
-            if (field_2A8_flags.Get(Flags_2A8::e2A8_Bit12_bParamoniaDone))
+            if (mParamoniaDone)
             {
-                field_2A8_flags.Set(Flags_2A8::e2A8_Bit3_WalkToRun);
+                mWalkToRun = true;
                 field_114_gnFrame = 0;
                 mCurrentMotion = eAbeMotions::Motion_78_InsideWellLocal;
                 Motion_78_InsideWellLocal();
                 return;
             }
             LOG_INFO("set bParamoniaDone");
-            field_2A8_flags.Set(Flags_2A8::e2A8_Bit12_bParamoniaDone);
+            mParamoniaDone = true;
         }
 
         if (field_190_level == EReliveLevelIds::eDesert)
         {
-            if (field_2A8_flags.Get(Flags_2A8::e2A8_eBit13_bScrabaniaDone))
+            if (mScrabaniaDone)
             {
-                field_2A8_flags.Set(Flags_2A8::e2A8_Bit3_WalkToRun);
+                mWalkToRun = true;
                 field_114_gnFrame = 0;
                 mCurrentMotion = eAbeMotions::Motion_78_InsideWellLocal;
                 Motion_78_InsideWellLocal();
                 return;
             }
             LOG_INFO("set bScrabinaDone");
-            field_2A8_flags.Set(Flags_2A8::e2A8_eBit13_bScrabaniaDone);
+            mScrabaniaDone = true;
         }
     }
     if (field_190_level != gMap.mCurrentLevel
@@ -7236,7 +7230,7 @@ void Abe::Motion_81_InsideWellExpress()
         mVelX = FP_FromInteger(0);
         mVelY = FP_FromInteger(0);
         mYPos = mYPos - mVelY;
-        field_2A8_flags.Set(Flags_2A8::e2A8_Bit3_WalkToRun);
+        mWalkToRun = true;
         mCurrentMotion = eAbeMotions::Motion_78_InsideWellLocal;
     }
 }
@@ -7290,7 +7284,7 @@ void Abe::Motion_82_WellExpressShotOut()
         BaseAliveGameObjectPathTLV = pWell;
         mXPos = FP_FromInteger((pWell->mTopLeftX + pWell->mBottomRightX) / 2);
         mYPos = FP_FromInteger(pWell->mBottomRightY);
-        field_2A8_flags.Set(Flags_2A8::e2A8_Bit4_snap_abe);
+        mSnapAbe = true;
     }
     else
     {
@@ -7747,13 +7741,13 @@ void Abe::Motion_98_LandSoft()
 
     if (GetAnimation().GetCurrentFrame() == 2)
     {
-        if (!(field_2A8_flags.Get(Flags_2A8::e2A8_Bit8_bLandSoft)))
+        if (!mLandSoft)
         {
             EventBroadcast(kEventNoise, this);
             EventBroadcast(kEventSuspiciousNoise, this);
         }
 
-        field_2A8_flags.Clear(Flags_2A8::e2A8_Bit8_bLandSoft);
+        mLandSoft = false;
 
         if (mPreviousMotion == eAbeMotions::Motion_3_Fall)
         {
@@ -8202,40 +8196,40 @@ void Abe::Motion_136_ElumMountEnd()
     switch (GetAnimation().GetCurrentFrame())
     {
         case 0:
-            if (!field_2AA_flags.Get(Flags_2AA::e2AA_Bit2_bSfxPlaying))
+            if (!mSfxPlaying)
             {
-                field_2AA_flags.Set(Flags_2AA::e2AA_Bit2_bSfxPlaying);
+                mSfxPlaying = true;
                 SfxPlayMono(relive::SoundEffects::AbeGenericMovement, 0, GetSpriteScale());
             }
             break;
 
         case 5:
-            if (!field_2AA_flags.Get(Flags_2AA::e2AA_Bit2_bSfxPlaying))
+            if (!mSfxPlaying)
             {
-                field_2AA_flags.Set(Flags_2AA::e2AA_Bit2_bSfxPlaying);
+                mSfxPlaying = true;
                 Environment_SFX_42A220(EnvironmentSfx::eExhaustingElumMount_16, 0, 0x7FFF, this);
             }
             break;
 
         case 12:
-            if (!field_2AA_flags.Get(Flags_2AA::e2AA_Bit2_bSfxPlaying))
+            if (!mSfxPlaying)
             {
-                field_2AA_flags.Set(Flags_2AA::e2AA_Bit2_bSfxPlaying);
+                mSfxPlaying = true;
                 Environment_SFX_42A220(EnvironmentSfx::eMountElumSmackNoise_17, 0, 0x7FFF, this);
                 SfxPlayMono(relive::SoundEffects::MountingElum, 0, GetSpriteScale());
             }
             break;
 
         case 15:
-            if (!field_2AA_flags.Get(Flags_2AA::e2AA_Bit2_bSfxPlaying))
+            if (!mSfxPlaying)
             {
-                field_2AA_flags.Set(Flags_2AA::e2AA_Bit2_bSfxPlaying);
+                mSfxPlaying = true;
                 Environment_SFX_42A220(EnvironmentSfx::eElumGetMountedNoise_18, 0, 0x7FFF, this);
             }
             break;
 
         default:
-            field_2AA_flags.Clear(Flags_2AA::e2AA_Bit2_bSfxPlaying);
+            mSfxPlaying = false;
             break;
     }
 
@@ -8262,39 +8256,39 @@ void Abe::Motion_138_ElumUnmountEnd()
     switch (GetAnimation().GetCurrentFrame())
     {
         case 4:
-            if (!field_2AA_flags.Get(Flags_2AA::e2AA_Bit2_bSfxPlaying))
+            if (!mSfxPlaying)
             {
-                field_2AA_flags.Set(Flags_2AA::e2AA_Bit2_bSfxPlaying);
+                mSfxPlaying = true;
                 SfxPlayMono(relive::SoundEffects::AbeGenericMovement, 17, GetSpriteScale());
             }
             break;
 
         case 12:
-            if (!field_2AA_flags.Get(Flags_2AA::e2AA_Bit2_bSfxPlaying))
+            if (!mSfxPlaying)
             {
-                field_2AA_flags.Set(Flags_2AA::e2AA_Bit2_bSfxPlaying);
+                mSfxPlaying = true;
                 Environment_SFX_42A220(EnvironmentSfx::eExhaustingElumMount_16, 0, 0x7FFF, this);
             }
             break;
 
         case 19:
-            if (!field_2AA_flags.Get(Flags_2AA::e2AA_Bit2_bSfxPlaying))
+            if (!mSfxPlaying)
             {
-                field_2AA_flags.Set(Flags_2AA::e2AA_Bit2_bSfxPlaying);
+                mSfxPlaying = true;
                 Environment_SFX_42A220(EnvironmentSfx::eElumGetMountedNoise_18, 0, 0x7FFF, this);
             }
             break;
 
         case 20:
-            if (!field_2AA_flags.Get(Flags_2AA::e2AA_Bit2_bSfxPlaying))
+            if (!mSfxPlaying)
             {
-                field_2AA_flags.Set(Flags_2AA::e2AA_Bit2_bSfxPlaying);
+                mSfxPlaying = true;
                 SfxPlayMono(relive::SoundEffects::MountingElum, 0, GetSpriteScale());
             }
             break;
 
         default:
-            field_2AA_flags.Clear(Flags_2AA::e2AA_Bit2_bSfxPlaying);
+            mSfxPlaying = false;
             break;
     }
 
@@ -8374,7 +8368,6 @@ void Abe::Motion_141_BeesStrugglingOnLift()
     if (pLiftPoint->GetDead())
     {
         VOnTrapDoorOpen();
-        field_2A8_flags.Set(Flags_2A8::e2A8_Bit1);
     }
     SetActiveCameraDelayedFromDir();
 
@@ -8742,7 +8735,7 @@ void Abe::Motion_150_Chant()
                 field_18C_pObjToPossess = nullptr;
                 if (sControlledCharacter->Type() == ReliveTypes::eSlig)
                 {
-                    field_2A8_flags.Set(Flags_2A8::e2A8_Bit11_bLaughAtChantEnd);
+                    mLaughAtChantEnd = true;
                 }
 
                 relive_new PossessionFlicker(sControlledCharacter, 60, 128, 255, 255);
@@ -8807,11 +8800,11 @@ void Abe::Motion_151_ChantEnd()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        if (field_2A8_flags.Get(Flags_2A8::e2A8_Bit11_bLaughAtChantEnd))
+        if (mLaughAtChantEnd)
         {
             mCurrentMotion = eAbeMotions::Motion_12_Speak;
             Mudokon_SFX(MudSounds::eLaugh1_8, 0, 0, this);
-            field_2A8_flags.Clear(Flags_2A8::e2A8_Bit11_bLaughAtChantEnd);
+            mLaughAtChantEnd = false;
         }
         else
         {

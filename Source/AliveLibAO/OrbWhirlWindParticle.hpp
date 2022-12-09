@@ -21,14 +21,9 @@ public:
 
 private:
     void CalculateRenderProperties(s16 bStarted);
-    void SetActive(u8 active);
 
 private:
-    enum Flags
-    {
-        eIsActive = 0x1
-    };
-    BitField16<Flags> mFlags = {};
+    bool mIsActive = false;
     Animation mAnim;
     FP mXPosRenderOffset = {};
     FP mYPosRenderOffset = {};

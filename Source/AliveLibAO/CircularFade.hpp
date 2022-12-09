@@ -14,19 +14,13 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
     // New virtuals
-    virtual s8 VFadeIn(u8 direction, s8 destroyOnDone);
+    virtual void VFadeIn(u8 direction, s8 destroyOnDone);
     virtual s32 VDone();
 
 private:
-    s32 field_D4[4] = {};
-    enum Flags
-    {
-        eBit1_FadeIn = 0x1,
-        eBit2_Done = 0x2,
-        eBit3_DestroyOnDone = 0x4,
-        eBit4_NeverSet = 0x8
-    };
-    BitField16<Flags> field_E4_flags = {};
+    bool mFadeIn = false;
+    bool mDone = false;
+    bool mDestroyOnDone = false;
     Poly_G4 field_E8[2] = {};
     Poly_G4 field_110[2] = {};
     Poly_G4 field_138[2] = {};

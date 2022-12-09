@@ -128,7 +128,7 @@ void DDCheat::VUpdate()
                 pAbe->mXPos = FP_FromInteger(point.x + 448);
                 pAbe->mYPos = FP_FromInteger(point.y + 180);
                 pAbe->mCurrentMotion = eAbeMotions::Motion_3_Fall;
-                pAbe->field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
+                pAbe->mLandSoft = true;
                 pAbe->mCurrentLevel = MapWrapper::FromAO(static_cast<LevelIds>(level_4C315C));
                 pAbe->mCurrentPath = static_cast<s16>(path_4C3160);
                 gDDCheat_FlyingEnabled = true;
@@ -145,7 +145,7 @@ void DDCheat::VUpdate()
                     gDDCheat_FlyingEnabled = cheat_enabled == false;
                     if (gDDCheat_FlyingEnabled)
                     {
-                        pAbe->field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
+                        pAbe->mLandSoft = true;
                         showDebugCreatureInfo_5076E0 = 0;
                         sControlledCharacter->BaseAliveGameObjectCollisionLine = nullptr;
                         sControlledCharacter->BaseAliveGameObjectLastLineYPos = sControlledCharacter->mYPos;
@@ -179,7 +179,7 @@ void DDCheat::VUpdate()
         {
             if (pAbe)
             {
-                pAbe->field_2A8_flags.Set(Flags_2A8::e2A8_Bit8_bLandSoft);
+                pAbe->mLandSoft = true;
             }
 
             if (sControlledCharacter)

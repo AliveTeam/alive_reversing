@@ -96,7 +96,7 @@ void LiftMover::VUpdate()
         case 1:
             if (!pLiftPoint->OnAnyFloor())
             {
-                pLiftPoint->field_27A_flags.Set(LiftPoint::Flags::eBit8_KeepOnMiddleFloor);
+                pLiftPoint->mKeepOnMiddleFloor = true;
                 mState = 2;
             }
             else
@@ -134,7 +134,7 @@ void LiftMover::VUpdate()
             }
             else
             {
-                pLiftPoint->field_27A_flags.Set(LiftPoint::Flags::eBit8_KeepOnMiddleFloor);
+                pLiftPoint->mKeepOnMiddleFloor = true;
                 mState = 4;
             }
             break;

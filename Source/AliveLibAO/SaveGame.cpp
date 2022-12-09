@@ -94,9 +94,9 @@ void SaveGame::LoadFromMemory(SaveData* pData, s32 bKillObjects)
     sActiveHero->field_19C_throwable_count = static_cast<s8>(pData->field_250_throwable_count); // TODO: Type check when other save func done
     sActiveHero->mbGotShot = 0;
 
-    sActiveHero->field_2A8_flags.Clear(Flags_2A8::e2A8_Bit6_bShrivel);
-    sActiveHero->field_2A8_flags.Set(Flags_2A8::e2A8_Bit12_bParamoniaDone, pData->mParamoniaDone & 1);
-    sActiveHero->field_2A8_flags.Set(Flags_2A8::e2A8_eBit13_bScrabaniaDone, pData->mScrabaniaDone & 1);
+    sActiveHero->mShrivel = false;
+    sActiveHero->mParamoniaDone = pData->mParamoniaDone & 1;
+    sActiveHero->mScrabaniaDone = pData->mScrabaniaDone & 1;
 
     sActiveHero->GetAnimation().SetFlipX(pData->field_23C_ah_flipX & 1);
 
@@ -383,9 +383,9 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
     pSaveData->field_248_gnFrame = sActiveHero->field_114_gnFrame;
     pSaveData->field_24C_field_118 = sActiveHero->field_118_timer;
     pSaveData->field_250_throwable_count = sActiveHero->field_19C_throwable_count;
-    pSaveData->mScrabaniaDone = sActiveHero->field_2A8_flags.Get(Flags_2A8::e2A8_eBit13_bScrabaniaDone);
+    pSaveData->mScrabaniaDone = sActiveHero->mScrabaniaDone;
     pSaveData->mInfiniteGrenades = gInfiniteGrenades ? -1 : 0;
-    pSaveData->mParamoniaDone = sActiveHero->field_2A8_flags.Get(Flags_2A8::e2A8_Bit12_bParamoniaDone);
+    pSaveData->mParamoniaDone = sActiveHero->mParamoniaDone;
     pSaveData->mElumExists = gElum != nullptr;
     if (gElum != 0)
     {

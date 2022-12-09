@@ -2929,7 +2929,7 @@ void Slig::Motion_8_Unknown()
             mCurrentMotion = mPreviousMotion;
             if (pLiftPoint)
             {
-                pLiftPoint->field_12C_bMoving |= 1u;
+                pLiftPoint->mMoving = true;
             }
         }
         else
@@ -5380,7 +5380,7 @@ s16 Slig::Brain_ChaseAndDisappear()
 
     if (mBrainSubState == Brain_ChaseAndDisappear::eSummoned_0)
     {
-        if (gNumCamSwappers > 0 || sActiveHero->field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel))
+        if (gNumCamSwappers > 0 || sActiveHero->mShrivel)
         {
             return mBrainSubState;
         }

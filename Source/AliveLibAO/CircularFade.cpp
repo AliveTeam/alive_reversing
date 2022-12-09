@@ -132,11 +132,11 @@ void CircularFade::VRender(PrimHeader** ppOt)
     OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pTile3->mBase.header);
     OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &field_188_tPage[gPsxDisplay.mBufferIndex].mBase);
 
-    if ((field_1A8_fade_colour == 255 && field_E4_flags.Get(CircularFade::eBit1_FadeIn)) || (field_1A8_fade_colour == 0 && !field_E4_flags.Get(CircularFade::eBit1_FadeIn)))
+    if ((field_1A8_fade_colour == 255 && mFadeIn) || (field_1A8_fade_colour == 0 && !mFadeIn))
     {
-        field_E4_flags.Set(CircularFade::eBit2_Done);
+        mDone = true;
 
-        if (field_E4_flags.Get(CircularFade::eBit3_DestroyOnDone))
+        if (mDestroyOnDone)
         {
             SetDead(true);
         }
@@ -145,10 +145,10 @@ void CircularFade::VRender(PrimHeader** ppOt)
 
 void CircularFade::VUpdate()
 {
-    if ((!field_E4_flags.Get(Flags::eBit4_NeverSet) && !field_E4_flags.Get(Flags::eBit2_Done)))
+    if (!mDone)
     {
         field_1A8_fade_colour += field_1AA_speed;
-        if (field_E4_flags.Get(Flags::eBit1_FadeIn))
+        if (mFadeIn)
         {
             if (field_1A8_fade_colour > 255)
             {
@@ -162,16 +162,15 @@ void CircularFade::VUpdate()
     }
 }
 
-s8 CircularFade::VFadeIn(u8 direction, s8 destroyOnDone) // TODO: Likely no return
+void CircularFade::VFadeIn(u8 direction, s8 destroyOnDone)
 {
-    field_E4_flags.Set(Flags::eBit1_FadeIn, direction);
+    mFadeIn = direction;
 
-    field_E4_flags.Clear(Flags::eBit2_Done);
-    field_E4_flags.Clear(Flags::eBit4_NeverSet);
+    mDone = false;
 
-    field_E4_flags.Set(Flags::eBit3_DestroyOnDone, destroyOnDone);
+    mDestroyOnDone = destroyOnDone;
 
-    if (field_E4_flags.Get(Flags::eBit1_FadeIn))
+    if (mFadeIn)
     {
         field_1AA_speed = 12;
     }
@@ -179,7 +178,6 @@ s8 CircularFade::VFadeIn(u8 direction, s8 destroyOnDone) // TODO: Likely no retu
     {
         field_1AA_speed = -12;
     }
-    return static_cast<s8>(field_E4_flags.Raw().all);
 }
 
 void CircularFade::VScreenChanged()
@@ -189,7 +187,7 @@ void CircularFade::VScreenChanged()
 
 s32 CircularFade::VDone()
 {
-    return field_E4_flags.Get(Flags::eBit2_Done);
+    return mDone;
 }
 
 } // namespace AO

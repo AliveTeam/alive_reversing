@@ -272,7 +272,7 @@ void RollingBall::VUpdate()
                 {
                     if (gMap.mCurrentLevel == EReliveLevelIds::eForestTemple
                         && gMap.mCurrentPath == 2
-                        && !sActiveHero->field_2A8_flags.Get(Flags_2A8::e2A8_Bit6_bShrivel))
+                        && !sActiveHero->mShrivel)
                     {
                         GetAnimation().SetAnimate(false);
                         mXPos = FP_FromInteger(2522);

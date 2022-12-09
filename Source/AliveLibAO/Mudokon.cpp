@@ -158,11 +158,11 @@ Mudokon::Mudokon(relive::Path_TLV* pTlv, const Guid& tlvId)
     SetCanSetOffExplosives(true);
     mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
 
-    field_144_flags.Clear(Flags_144::e144_Bit6_bPersist);
-    field_144_flags.Clear(Flags_144::e144_Bit7);
-    field_144_flags.Clear(Flags_144::e144_Bit8);
-    field_144_flags.Clear(Flags_144::e144_Bit9);
-    field_144_flags.Clear(Flags_144::e144_Bit10_give_ring_without_password);
+    mPersist = false;
+    mBit7_Unknown = false;
+    mBit8_Unknown = false;
+    mAlerted = false;
+    mGiveRingWithoutPassword = false;
 
     field_1B6 = 0;
     field_198_abe_must_face_mud = 0;
@@ -184,9 +184,8 @@ Mudokon::Mudokon(relive::Path_TLV* pTlv, const Guid& tlvId)
             field_18C_how_far_to_walk = FP_FromInteger(liftMudTlv->mHowFarToWalk);
             field_110_lift_switch_id = liftMudTlv->mLiftSwitchId;
 
-            field_144_flags.Set(Flags_144::e144_Bit5_unused, liftMudTlv->mFacing == relive::Path_LiftMudokon::Direction::eLeft);
-            field_144_flags.Clear(Flags_144::e144_Bit4_bSnapToGrid);
-            field_144_flags.Clear(Flags_144::e144_Bit11_bDeaf);
+            mSnapToGrid = false;
+            mDeaf = false;
 
             GetAnimation().SetFlipX(liftMudTlv->mFacing == relive::Path_LiftMudokon::Direction::eLeft);
 
@@ -229,9 +228,9 @@ Mudokon::Mudokon(relive::Path_TLV* pTlv, const Guid& tlvId)
             field_1A4_code_converted = Code_Convert(ringMudTlv->mCode1, ringMudTlv->mCode2);
             field_1A8_code_length = Code_Length(field_1A4_code_converted);
 
-            field_144_flags.Set(Flags_144::e144_Bit10_give_ring_without_password, ringMudTlv->mGiveRingWithoutPassword == relive::reliveChoice::eYes);
-            field_144_flags.Clear(Flags_144::e144_Bit4_bSnapToGrid);
-            field_144_flags.Clear(Flags_144::e144_Bit11_bDeaf);
+            mGiveRingWithoutPassword = ringMudTlv->mGiveRingWithoutPassword == relive::reliveChoice::eYes;
+            mSnapToGrid = false;
+            mDeaf = false;
 
 
             scale = ringMudTlv->mScale;
@@ -263,9 +262,9 @@ Mudokon::Mudokon(relive::Path_TLV* pTlv, const Guid& tlvId)
             GetAnimation().SetFlipX(mudTlv->mFacing == relive::reliveXDirection::eLeft);
 
             // TODO: Check these as well
-            field_144_flags.Set(Flags_144::e144_Bit11_bDeaf, mudTlv->mDeaf == relive::reliveChoice::eYes);
-            field_144_flags.Set(Flags_144::e144_Bit6_bPersist, mudTlv->mPersistAndResetOffscreen == relive::reliveChoice::eYes);
-            field_144_flags.Set(Flags_144::e144_Bit4_bSnapToGrid);
+            mDeaf = mudTlv->mDeaf == relive::reliveChoice::eYes;
+            mPersist = mudTlv->mPersistAndResetOffscreen == relive::reliveChoice::eYes;
+            mSnapToGrid = true;
 
             field_1B4_idle_time = 0;
 
@@ -323,21 +322,19 @@ Mudokon::Mudokon(relive::Path_TLV* pTlv, const Guid& tlvId)
 
     if (field_1B8_brain_state == 9 || field_1B8_brain_state == 8)
     {
-        field_144_flags.Set(Flags_144::e144_Bit7);
-        MapFollowMe(field_144_flags.Get(Flags_144::e144_Bit4_bSnapToGrid));
+        mBit7_Unknown = true;
+        MapFollowMe(mSnapToGrid);
     }
     else
     {
-        field_144_flags.Clear(Flags_144::e144_Bit7);
+        mBit7_Unknown = false;
     }
 
-    field_144_flags.Set(Flags_144::e144_Bit2);
+    mBit2_Unknown = true;
 
-    field_19A = 99;
-    field_19C = 99;
     field_1BA_brain_sub_state = 0;
     field_1A0 = 0;
-    field_10C = tlvId;
+    mTlvId = tlvId;
     field_1C4_bDoPathTrans = false;
 
     if (field_188 == 6)
@@ -365,13 +362,13 @@ Mudokon::~Mudokon()
     KillBirdPortal();
     KillLiftPoint_194();
 
-    if (!field_144_flags.Get(Flags_144::e144_Bit2) || mHealth <= FP_FromInteger(0) || GetElectrocuted())
+    if (!mBit2_Unknown || mHealth <= FP_FromInteger(0) || GetElectrocuted())
     {
-        Path::TLV_Reset(field_10C, -1, 0, 1);
+        Path::TLV_Reset(mTlvId, -1, 0, 1);
     }
     else
     {
-        Path::TLV_Reset(field_10C, -1, 0, 0);
+        Path::TLV_Reset(mTlvId, -1, 0, 0);
     }
 
     /*
@@ -565,7 +562,7 @@ void Mudokon::VUpdateResBlock()
 void Mudokon::VScreenChanged()
 {
     // Map/overlay changed or mud shouldn't persist
-    if (gMap.LevelChanged() || !field_144_flags.Get(Flags_144::e144_Bit6_bPersist))
+    if (gMap.LevelChanged() || !mPersist)
     {
         SetDead(true);
         KillBirdPortal();
@@ -690,7 +687,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
         case ReliveTypes::eSlog:
             if (mHealth > FP_FromInteger(0))
             {
-                field_144_flags.Clear(Flags_144::e144_Bit6_bPersist);
+                mPersist = false;
                 mHealth = FP_FromInteger(0);
                 field_1B8_brain_state = 11;
                 field_1C0_timer = sGnFrame + 90;
@@ -712,7 +709,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
                 {
                     Mudokon_SFX(MudSounds::eKnockbackOuch_10, 0, 1000, this);
                     Environment_SFX_42A220(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, this);
-                    field_144_flags.Clear(Flags_144::e144_Bit6_bPersist);
+                    mPersist = false;
                     mHealth = FP_FromInteger(0);
                     field_1B8_brain_state = 11;
                     field_1C0_timer = sGnFrame + 90;
@@ -739,7 +736,7 @@ s16 Mudokon::VTakeDamage(BaseGameObject* pFrom)
 
                 if (mHealth <= FP_FromInteger(0))
                 {
-                    field_144_flags.Clear(Flags_144::e144_Bit6_bPersist);
+                    mPersist = false;
                     field_1B8_brain_state = 11;
                     field_1C0_timer = sGnFrame + 90;
                 }
@@ -752,7 +749,7 @@ s16 Mudokon::DoSmashDamage()
 {
     if (mHealth > FP_FromInteger(0))
     {
-        field_144_flags.Clear(Flags_144::e144_Bit6_bPersist);
+        mPersist = false;
         field_1C0_timer = sGnFrame + 90;
         mHealth = FP_FromInteger(0);
         field_1B8_brain_state = 11;
@@ -915,7 +912,6 @@ void Mudokon::ToStand()
     GetAnimation().SetFlipY(false);
     GetAnimation().SetSwapXY(false);
     field_11C = FP_FromInteger(0);
-    field_120_unused = 0;
     mVelX = FP_FromInteger(0);
     mVelY = FP_FromInteger(0);
     SetCurrentMotion(eMudMotions::Motion_0_Idle);
@@ -929,12 +925,12 @@ void Mudokon::CheckFloorGone()
         if (pPlatform->GetDead())
         {
             VOnTrapDoorOpen();
-            field_144_flags.Set(Flags_144::e144_Bit8);
+            mBit8_Unknown = true;
         }
     }
     else
     {
-        if (field_144_flags.Get(Flags_144::e144_Bit8))
+        if (mBit8_Unknown)
         {
             Motion_51_Fall();
         }
@@ -966,7 +962,7 @@ void Mudokon::ToKnockback()
             mXPos += mVelX - (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
         }
     }
-    MapFollowMe(field_144_flags.Get(Flags_144::e144_Bit4_bSnapToGrid));
+    MapFollowMe(mSnapToGrid);
 
     mVelX = FP_FromInteger(0);
 
@@ -1044,7 +1040,7 @@ void Mudokon::MoveOnLine()
     }
     else
     {
-        field_11C = FP_FromInteger(0); // TODO: is 0 wrong? check AE
+        field_11C = FP_FromInteger(0); // TODO: is 0 wrong? AE sets 0.3 - check IDA/OG bug in AO?
         BaseAliveGameObjectLastLineYPos = mYPos;
         SetCurrentMotion(eMudMotions::Motion_49_WalkOffEdge);
         mXPos = old_xpos + mVelX;
@@ -1103,7 +1099,7 @@ GameSpeakEvents Mudokon::LastGameSpeak()
             mXPos,
             mYPos,
             1)
-        || field_144_flags.Get(Flags_144::e144_Bit11_bDeaf))
+        || mDeaf)
     {
         return GameSpeakEvents::eNone_m1;
     }
@@ -1127,20 +1123,20 @@ GameSpeakEvents Mudokon::LastGameSpeak()
 
 void Mudokon::AddAlerted()
 {
-    if (!field_144_flags.Get(Flags_144::e144_Bit9))
+    if (!mAlerted)
     {
         sAlertedMudCount_507B90++;
-        field_144_flags.Set(Flags_144::e144_Bit9);
+        mAlerted = true;
     }
 }
 
 
 void Mudokon::RemoveAlerted()
 {
-    if (field_144_flags.Get(Flags_144::e144_Bit9))
+    if (mAlerted)
     {
         sAlertedMudCount_507B90--;
-        field_144_flags.Clear(Flags_144::e144_Bit9);
+        mAlerted = false;
     }
 }
 
@@ -1185,7 +1181,7 @@ void Mudokon::VOnTrapDoorOpen()
     {
         if (mbGotShot)
         {
-            field_144_flags.Set(Flags_144::e144_Bit8);
+            mBit8_Unknown = true;
         }
         else
         {
@@ -1325,10 +1321,10 @@ void Mudokon::Motion_1_WalkLoop()
 
                 case 5:
                     Environment_SFX_42A220(EnvironmentSfx::eWalkingFootstep_1, 0, 0x7FFF, this);
-                    if (!field_144_flags.Get(Flags_144::e144_Bit7))
+                    if (!mBit7_Unknown)
                     {
-                        field_144_flags.Set(Flags_144::e144_Bit7);
-                        MapFollowMe(field_144_flags.Get(Flags_144::e144_Bit4_bSnapToGrid));
+                        mBit7_Unknown = true;
+                        MapFollowMe(mSnapToGrid);
                     }
 
                     if (GetNextMotion() == eMudMotions::Motion_29_RunLoop)
@@ -1353,10 +1349,10 @@ void Mudokon::Motion_1_WalkLoop()
 
                 case 14:
                     Environment_SFX_42A220(EnvironmentSfx::eWalkingFootstep_1, 0, 0x7FFF, this);
-                    if (!field_144_flags.Get(Flags_144::e144_Bit7))
+                    if (!mBit7_Unknown)
                     {
-                        field_144_flags.Set(Flags_144::e144_Bit7);
-                        MapFollowMe(field_144_flags.Get(Flags_144::e144_Bit4_bSnapToGrid));
+                        mBit7_Unknown = true;
+                        MapFollowMe(mSnapToGrid);
                     }
 
                     if (GetNextMotion() == eMudMotions::Motion_29_RunLoop)
@@ -1372,7 +1368,7 @@ void Mudokon::Motion_1_WalkLoop()
                     break;
 
                 default:
-                    field_144_flags.Clear(Flags_144::e144_Bit7);
+                    mBit7_Unknown = false;
                     break;
             }
         }
@@ -1467,7 +1463,7 @@ void Mudokon::Motion_8_WalkToIdle()
 
         if (GetAnimation().GetIsLastFrame())
         {
-            MapFollowMe(field_144_flags.Get(Flags_144::e144_Bit4_bSnapToGrid));
+            MapFollowMe(mSnapToGrid);
             ToStand();
         }
     }
@@ -1499,7 +1495,7 @@ void Mudokon::Motion_11_Null()
 void Mudokon::Motion_12_LiftUse()
 {
     auto pLiftPoint = static_cast<LiftPoint*>(field_194_pLiftPoint);
-    if (!pLiftPoint->OnAnyFloor() || pLiftPoint->field_27A_flags.Get(LiftPoint::Flags::eBit7_bIgnoreLiftMover))
+    if (!pLiftPoint->OnAnyFloor() || pLiftPoint->mIgnoreLiftMover)
     {
         pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(3), 0);
     }
@@ -1516,7 +1512,7 @@ void Mudokon::Motion_13_LiftGrabBegin()
     if (GetAnimation().GetIsLastFrame())
     {
         SetCurrentMotion(mNextMotion);
-        field_194_pLiftPoint->field_27A_flags.Set(LiftPoint::Flags::eBit8_KeepOnMiddleFloor);
+        field_194_pLiftPoint->mKeepOnMiddleFloor = true;
     }
 }
 
@@ -1773,10 +1769,10 @@ void Mudokon::Motion_29_RunLoop()
     {
         if (GetAnimation().GetCurrentFrame() == 0 || GetAnimation().GetCurrentFrame() == 8)
         {
-            if (!field_144_flags.Get(Flags_144::e144_Bit7))
+            if (!mBit7_Unknown)
             {
-                field_144_flags.Set(Flags_144::e144_Bit7);
-                MapFollowMe(field_144_flags.Get(Flags_144::e144_Bit4_bSnapToGrid));
+                mBit7_Unknown = true;
+                MapFollowMe(mSnapToGrid);
             }
 
             if (GetNextMotion() == eMudMotions::Motion_44_RunJumpMid)
@@ -1788,10 +1784,10 @@ void Mudokon::Motion_29_RunLoop()
         else if (GetAnimation().GetCurrentFrame() == 4 || GetAnimation().GetCurrentFrame() == 12)
         {
             Environment_SFX_42A220(EnvironmentSfx::eRunningFootstep_2, 0, 0x7FFF, this);
-            if (!field_144_flags.Get(Flags_144::e144_Bit7))
+            if (!mBit7_Unknown)
             {
-                field_144_flags.Set(Flags_144::e144_Bit7);
-                MapFollowMe(field_144_flags.Get(Flags_144::e144_Bit4_bSnapToGrid));
+                mBit7_Unknown = true;
+                MapFollowMe(mSnapToGrid);
             }
 
             switch (GetNextMotion())
@@ -1835,7 +1831,7 @@ void Mudokon::Motion_29_RunLoop()
         }
         else
         {
-            field_144_flags.Clear(Flags_144::e144_Bit7);
+            mBit7_Unknown = false;
         }
     }
 }
@@ -1918,7 +1914,7 @@ void Mudokon::Motion_32_RunSlideStop()
             if (GetAnimation().GetIsLastFrame())
             {
                 Environment_SFX_42A220(EnvironmentSfx::eWalkingFootstep_1, 0, 0x7FFF, this);
-                MapFollowMe(field_144_flags.Get(Flags_144::e144_Bit4_bSnapToGrid));
+                MapFollowMe(mSnapToGrid);
                 ToStand();
             }
         }
@@ -1942,7 +1938,7 @@ void Mudokon::Motion_33_RunSlideTurn()
         {
             if (GetAnimation().GetIsLastFrame())
             {
-                MapFollowMe(field_144_flags.Get(Flags_144::e144_Bit4_bSnapToGrid));
+                MapFollowMe(mSnapToGrid);
 
                 if (GetAnimation().GetFlipX())
                 {
@@ -2002,7 +1998,7 @@ void Mudokon::Motion_35_SneakLoop()
 
                 case 6:
                     Environment_SFX_42A220(EnvironmentSfx::eSneakFootstep_3, 0, 0x7FFF, this);
-                    MapFollowMe(field_144_flags.Get(Flags_144::e144_Bit4_bSnapToGrid));
+                    MapFollowMe(mSnapToGrid);
 
                     if (GetNextMotion() == eMudMotions::Motion_1_WalkLoop || GetNextMotion() == eMudMotions::Motion_29_RunLoop)
                     {
@@ -2021,7 +2017,7 @@ void Mudokon::Motion_35_SneakLoop()
 
                 case 16:
                     Environment_SFX_42A220(EnvironmentSfx::eSneakFootstep_3, 0, 0x7FFF, this);
-                    MapFollowMe(field_144_flags.Get(Flags_144::e144_Bit4_bSnapToGrid));
+                    MapFollowMe(mSnapToGrid);
 
                     if (GetNextMotion() == eMudMotions::Motion_1_WalkLoop || GetNextMotion() == eMudMotions::Motion_29_RunLoop)
                     {
@@ -2165,7 +2161,7 @@ void Mudokon::Motion_41_SneakToIdle()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        MapFollowMe(field_144_flags.Get(Flags_144::e144_Bit4_bSnapToGrid));
+        MapFollowMe(mSnapToGrid);
         ToStand();
     }
 }
@@ -2176,7 +2172,7 @@ void Mudokon::Motion_42_MidSneakToIdle()
 
     if (GetAnimation().GetIsLastFrame())
     {
-        MapFollowMe(field_144_flags.Get(Flags_144::e144_Bit4_bSnapToGrid));
+        MapFollowMe(mSnapToGrid);
         ToStand();
     }
 }
@@ -2230,8 +2226,8 @@ void Mudokon::Motion_44_RunJumpMid()
 
     if ((mVelX > FP_FromInteger(0) && (FP_FromInteger(bRect.x) > field_1AC_pBirdPortal->mXPos)) || ((mVelX < FP_FromInteger(0) && FP_FromInteger(bRect.w) < field_1AC_pBirdPortal->mXPos)))
     {
-        field_144_flags.Clear(Flags_144::e144_Bit2);
-        field_144_flags.Clear(Flags_144::e144_Bit6_bPersist);
+        mBit2_Unknown = false;
+        mPersist = false;
 
         SetDead(true);
         mVelY = FP_FromInteger(0);
@@ -2413,7 +2409,7 @@ void Mudokon::Motion_51_Fall()
                 BaseAliveGameObjectCollisionLine = pLine;
                 mXPos = hitX;
                 mYPos = hitY;
-                MapFollowMe(field_144_flags.Get(Flags_144::e144_Bit4_bSnapToGrid));
+                MapFollowMe(mSnapToGrid);
                 if (mYPos - BaseAliveGameObjectLastLineYPos > FP_FromInteger(240))
                 {
                     BaseAliveGameObjectLastLineYPos += FP_FromInteger(240);
@@ -2427,7 +2423,7 @@ void Mudokon::Motion_51_Fall()
                 {
                     mHealth = FP_FromInteger(0);
                     ToKnockback();
-                    field_144_flags.Clear(Flags_144::e144_Bit6_bPersist);
+                    mPersist = false;
                     field_1B8_brain_state = 11;
                     field_1C0_timer = sGnFrame + 90;
                     SetCurrentMotion(eMudMotions::Motion_46_FallLandDie);
@@ -2613,7 +2609,7 @@ void Mudokon::Motion_62_PoisonGasDeath()
 {
     if (GetAnimation().GetIsLastFrame())
     {
-        field_144_flags.Clear(Flags_144::e144_Bit6_bPersist);
+        mPersist = false;
         mHealth = FP_FromInteger(0);
         field_1B8_brain_state = 11;
         field_1C0_timer = sGnFrame + 90;
@@ -2674,7 +2670,7 @@ s16 Mudokon::Brain_1_ComingOut()
     {
         if (GetCurrentMotion() == eMudMotions::Motion_1_WalkLoop)
         {
-            field_144_flags.Clear(Flags_144::e144_Bit2);
+            mBit2_Unknown = false;
             field_190 = field_18C_how_far_to_walk;
             return 2;
         }
@@ -2705,7 +2701,7 @@ s16 Mudokon::Brain_2_SingSequenceIdle()
     switch (field_1BA_brain_sub_state)
     {
         case 0:
-            if (field_144_flags.Get(Flags_144::e144_Bit10_give_ring_without_password))
+            if (mGiveRingWithoutPassword)
             {
                 field_1B8_brain_state = field_188;
                 return 0;
@@ -3577,7 +3573,7 @@ s16 Mudokon::Brain_10_ListeningToAbe()
     switch (field_1BA_brain_sub_state)
     {
         case 0:
-            field_144_flags.Set(Flags_144::e144_Bit6_bPersist);
+            mPersist = true;
             SetNextMotion(-1);
             SetCurrentMotion(eMudMotions::Motion_0_Idle);
             field_1B0 = -1;
@@ -4201,7 +4197,7 @@ s16 Mudokon::Brain_12_Escape()
             pPortal->mBaseGameObjectRefCount--;
         }
 
-        field_144_flags.Set(Flags_144::e144_Bit6_bPersist);
+        mPersist = true;
         field_1AC_pBirdPortal = nullptr;
         SetNextMotion(eMudMotions::Motion_0_Idle);
         field_1B8_brain_state = 10;

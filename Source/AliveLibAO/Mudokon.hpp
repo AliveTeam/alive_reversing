@@ -220,57 +220,35 @@ public:
     s16 Brain_14_Chant();
     s16 Brain_15_Choke();
 
-    Guid field_10C;
+    Guid mTlvId;
     s16 field_110_lift_switch_id = 0;
-    s16 field_112 = 0;
     s32 field_114 = 0;
     s32 field_118 = 0;
     FP field_11C = {};
-    s32 field_120_unused = 0;
     s16 field_124_voice_pitch = 0;
     s16 field_126_input = 0;
     s32 field_128 = 0;
     u8 field_12C[16] = {};
     s16 field_13C = 0;
     s16 field_13E = 0;
-    s32 field_140 = 0;
-
-    enum Flags_144
-    {
-        e144_Bit1 = 0x1,
-        e144_Bit2 = 0x2,
-        e144_Bit3 = 0x4,
-        e144_Bit4_bSnapToGrid = 0x8,
-        e144_Bit5_unused = 0x10,
-        e144_Bit6_bPersist = 0x20,
-        e144_Bit7 = 0x40,
-        e144_Bit8 = 0x80,
-        e144_Bit9 = 0x100,
-        e144_Bit10_give_ring_without_password = 0x200,
-        e144_Bit11_bDeaf = 0x400,
-        e144_Bit12 = 0x800,
-        e144_eBit13 = 0x1000,
-        e144_eBit14 = 0x2000,
-        e144_eBit15 = 0x4000,
-        e144_eBit16 = 0x8000,
-    };
-    BitField16<Flags_144> field_144_flags = {};
-
-    s16 field_146 = 0;
+    bool mBit2_Unknown = false;
+    bool mSnapToGrid = false;
+    bool mPersist = false;
+    bool mBit7_Unknown = false;
+    bool mBit8_Unknown = false;
+    bool mAlerted = false;
+    bool mGiveRingWithoutPassword = false;
+    bool mDeaf = false;
     Mudokon_Resources field_148_res_array = {};
     s16 field_184 = 0;
     relive::reliveChoice mGivePassword = relive::reliveChoice::eNo;
     s16 field_188 = 0;
-    s16 field_18A = 0;
     FP field_18C_how_far_to_walk = {};
     FP field_190 = {};
     LiftPoint* field_194_pLiftPoint = nullptr;
     s16 field_198_abe_must_face_mud = 0;
-    s16 field_19A = 0;
-    s16 field_19C = 0;
     s16 field_19E_code_idx = 0;
     s16 field_1A0 = 0;
-    s16 field_1A2 = 0;
     s32 field_1A4_code_converted = 0;
     s16 field_1A8_code_length = 0;
     u16 field_1AA_ring_timeout = 0;
@@ -282,10 +260,8 @@ public:
     s16 field_1B8_brain_state = 0;
     s16 field_1BA_brain_sub_state = 0;
     s16 field_1BC = 0;
-    s16 field_1BE = 0;
     s32 field_1C0_timer = 0;
     s16 field_1C4_bDoPathTrans = 0;
-    s16 field_1C6 = 0;
 };
 
 } // namespace AO

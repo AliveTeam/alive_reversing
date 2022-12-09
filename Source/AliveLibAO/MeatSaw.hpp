@@ -22,12 +22,13 @@ public:
     MeatSaw(relive::Path_MeatSaw* pTlv, const Guid& tlvId);
     ~MeatSaw();
 
-    void LoadAnimations();
 
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
+private:
+    void LoadAnimations();
     void GrindUpObjects_439CD0();
 
     MeatSawStates field_E4_state = MeatSawStates::eIdle_0;
@@ -48,14 +49,9 @@ public:
     s32 field_108_SFX_timer = 0;
     s32 field_10C_FrameCount = 0;
     Animation field_110_anim;
-
-    enum flags_1A8
-    {
-        eBit1_ResetOffscreen = 0x1,
-        eBit2_SwitchIdMeatSaw = 0x2,
-        eBit3_AutomaticMeatSawIsDown = 0x4
-    };
-    BitField16<flags_1A8> field_1A8_flags = {};
+    bool mResetOffscreen = false;
+    bool mUsesSwitchId = false;
+    bool mAutomaticMeatSawIsDown = false;
 };
 
 

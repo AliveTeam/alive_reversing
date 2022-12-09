@@ -937,7 +937,7 @@ void BirdPortal::VGetMapChange(EReliveLevelIds* level, u16* path, u16* camera, C
     }
 
     // Negative cases - dead code ??
-    if (sActiveHero->field_2A8_flags.Get(Flags_2A8::e2A8_Bit12_bParamoniaDone) && sActiveHero->field_2A8_flags.Get(Flags_2A8::e2A8_eBit13_bScrabaniaDone))
+    if (sActiveHero->mParamoniaDone && sActiveHero->mScrabaniaDone)
     {
         *movieId = 1617 - (10000 * mMovieId);
         *screenChangeEffect = CameraSwapEffects::ePlay1FMV_5;

@@ -46,7 +46,7 @@ CircularFade::CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroy
 
 CircularFade::~CircularFade()
 {
-    if (!(field_F4_flags.Get(Flags::eBit2_Done)))
+    if (!mDone)
     {
         --gNumCamSwappers;
     }
@@ -140,15 +140,15 @@ void CircularFade::VRender(PrimHeader** ppOt)
 
     OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &field_198_tPages[gPsxDisplay.mBufferIndex].mBase);
 
-    if ((field_1B8_fade_colour == 255 && field_F4_flags.Get(Flags::eBit1_FadeIn)) || (field_1B8_fade_colour == 0 && !(field_F4_flags.Get(Flags::eBit1_FadeIn))))
+    if ((field_1B8_fade_colour == 255 && mFadeIn) || (field_1B8_fade_colour == 0 && !mFadeIn))
     {
-        if (!(field_F4_flags.Get(Flags::eBit2_Done)))
+        if (!mDone)
         {
-            field_F4_flags.Set(Flags::eBit2_Done);
+            mDone = true;
             --gNumCamSwappers;
         }
 
-        if (field_F4_flags.Get(Flags::eBit3_DestroyOnDone))
+        if (mDestroyOnDone)
         {
             SetDead(true);
         }
@@ -157,10 +157,10 @@ void CircularFade::VRender(PrimHeader** ppOt)
 
 void CircularFade::VUpdate()
 {
-    if ((!field_F4_flags.Get(Flags::eBit4_NeverSet) && !field_F4_flags.Get(Flags::eBit2_Done)))
+    if (!mDone)
     {
         field_1B8_fade_colour += field_1BA_speed;
-        if (field_F4_flags.Get(Flags::eBit1_FadeIn))
+        if (mFadeIn)
         {
             if (field_1B8_fade_colour > 255)
             {
@@ -174,18 +174,17 @@ void CircularFade::VUpdate()
     }
 }
 
-s32 CircularFade::VFadeIn(s16 direction, s8 destroyOnDone) // TODO: Likely no return
+void CircularFade::VFadeIn(s16 direction, s8 destroyOnDone)
 {
     gNumCamSwappers++;
 
-    field_F4_flags.Set(Flags::eBit1_FadeIn, direction);
+    mFadeIn = direction;
 
-    field_F4_flags.Clear(Flags::eBit2_Done);
-    field_F4_flags.Clear(Flags::eBit4_NeverSet);
+    mDone = false;
 
-    field_F4_flags.Set(Flags::eBit3_DestroyOnDone, destroyOnDone);
+    mDestroyOnDone = destroyOnDone;
 
-    if (field_F4_flags.Get(Flags::eBit1_FadeIn))
+    if (mFadeIn)
     {
         field_1BA_speed = 12;
     }
@@ -193,7 +192,6 @@ s32 CircularFade::VFadeIn(s16 direction, s8 destroyOnDone) // TODO: Likely no re
     {
         field_1BA_speed = -12;
     }
-    return field_F4_flags.Raw().all;
 }
 
 void CircularFade::VScreenChanged()
@@ -203,7 +201,7 @@ void CircularFade::VScreenChanged()
 
 s32 CircularFade::VDone()
 {
-    return field_F4_flags.Get(Flags::eBit2_Done);
+    return mDone;
 }
 
 CircularFade* Make_Circular_Fade_4CE8C0(FP xpos, FP ypos, FP scale, s16 direction, s8 destroyOnDone, bool surviveDeathReset)
