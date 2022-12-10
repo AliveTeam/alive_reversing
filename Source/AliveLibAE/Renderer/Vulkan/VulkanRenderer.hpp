@@ -1,5 +1,5 @@
 #pragma once
-
+#define VK_NO_PROTOTYPES 
 #include "../IRenderer.hpp"
 #include "../TextureCache.hpp"
 #include "../PaletteCache.hpp"

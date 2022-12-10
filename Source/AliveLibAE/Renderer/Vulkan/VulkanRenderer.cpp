@@ -30,6 +30,7 @@
 
 #include "fragment_shader.h"
 #include "vertex_shader.h"
+#include <volk\volk.h>
 
 const uint32_t WIDTH = 640;
 const uint32_t HEIGHT = 480;
