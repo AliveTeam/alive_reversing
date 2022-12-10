@@ -82,7 +82,7 @@ private:
     void createGraphicsPipeline();
     void createFramebuffers();
     void createCommandPool();
-    void createTextureImage();
+    void createTextureImage(const char* bmpName, VkImage& textureImage, VkDeviceMemory& deviceMemory);
     void createTextureImageView();
     void createTextureSampler();
     VkImageView createImageView(VkImage image, VkFormat format);
@@ -146,6 +146,10 @@ private:
 
     VkImage mTextureImage;
     VkDeviceMemory mTextureImageMemory;
+
+    VkImage mTextureImage2;
+    VkDeviceMemory mTextureImageMemory2;
+
     VkImageView mTextureImageView;
     VkSampler mTextureSampler;
 
