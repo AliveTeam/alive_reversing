@@ -146,18 +146,6 @@ const static std::vector<uint16_t> gIndices = {
 };
 
 
-void VulkanRenderer::initWindow()
-{
-    window = SDL_CreateWindow("Hello Vulkan", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                              WIDTH, HEIGHT, SDL_WINDOW_VULKAN | SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_RESIZABLE);
-
-    if (window == NULL)
-    {
-        SDL_LogMessage(SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO, SDL_GetError());
-        SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, "Window Error", SDL_GetError(), NULL);
-    }
-}
-
 void VulkanRenderer::framebufferResizeCallback()
 {
     // TODO: redundant
@@ -291,10 +279,10 @@ void VulkanRenderer::cleanup()
 void VulkanRenderer::recreateSwapChain()
 {
     int width = 0, height = 0;
-    SDL_Vulkan_GetDrawableSize(window, &width, &height);
+    SDL_Vulkan_GetDrawableSize(mWindow, &width, &height);
     while (width == 0 || height == 0)
     {
-        SDL_Vulkan_GetDrawableSize(window, &width, &height);
+        SDL_Vulkan_GetDrawableSize(mWindow, &width, &height);
 
         // TODO: Seems like el hacko ??
         // glfwWaitEvents();
@@ -383,7 +371,7 @@ void VulkanRenderer::setupDebugMessenger()
 
 void VulkanRenderer::createSurface()
 {
-    if (!SDL_Vulkan_CreateSurface(window, instance, &surface))
+    if (!SDL_Vulkan_CreateSurface(mWindow, instance, &surface))
     {
         throw std::runtime_error("failed to create window surface!");
     }
@@ -1444,7 +1432,7 @@ VkExtent2D VulkanRenderer::chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capa
     else
     {
         int width, height;
-        SDL_Vulkan_GetDrawableSize(window, &width, &height);
+        SDL_Vulkan_GetDrawableSize(mWindow, &width, &height);
 
         VkExtent2D actualExtent = {
             static_cast<uint32_t>(width),
@@ -1561,14 +1549,14 @@ VulkanRenderer::QueueFamilyIndices VulkanRenderer::findQueueFamilies(VkPhysicalD
 std::vector<const char*> VulkanRenderer::getRequiredExtensions()
 {
     uint32_t glfwExtensionCount = 0;
-    if (!SDL_Vulkan_GetInstanceExtensions(window, &glfwExtensionCount, nullptr))
+    if (!SDL_Vulkan_GetInstanceExtensions(mWindow, &glfwExtensionCount, nullptr))
     {
         throw RendererException(SDL_GetError());
     }
 
     std::vector<const char*> extensions;
     extensions.resize(glfwExtensionCount);
-    if (!SDL_Vulkan_GetInstanceExtensions(window, &glfwExtensionCount, extensions.data()))
+    if (!SDL_Vulkan_GetInstanceExtensions(mWindow, &glfwExtensionCount, extensions.data()))
     {
         throw RendererException(SDL_GetError());
     }
@@ -1642,7 +1630,6 @@ bool VulkanRenderer::checkValidationLayerSupport()
 VulkanRenderer::VulkanRenderer(TWindowHandleType window)
     : IRenderer(window)
     , mPaletteCache(256)
-    , window(window)
 {
     const VkResult result = volkInitialize();
     if (result != VK_SUCCESS)
