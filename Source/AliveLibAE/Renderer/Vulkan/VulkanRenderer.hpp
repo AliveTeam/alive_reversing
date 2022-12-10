@@ -1,9 +1,11 @@
 #pragma once
-#define VK_NO_PROTOTYPES 
 #include "../IRenderer.hpp"
 #include "../TextureCache.hpp"
 #include "../PaletteCache.hpp"
 
+#include <volk/volk.h>
+
+#define VK_NO_PROTOTYPES 
 #include <vulkan/vulkan.h>
 #include <vulkan/vulkan.hpp>
 #include <optional>

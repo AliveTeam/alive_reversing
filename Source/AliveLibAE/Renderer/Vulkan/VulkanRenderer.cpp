@@ -29,7 +29,7 @@
 
 #include "fragment_shader.h"
 #include "vertex_shader.h"
-#include <volk/volk.h>
+
 
 const uint32_t WIDTH = 640;
 const uint32_t HEIGHT = 480;
@@ -149,7 +149,6 @@ void VulkanRenderer::framebufferResizeCallback()
 
 void VulkanRenderer::initVulkan()
 {
-    volkInitialize();
     createInstance();
     setupDebugMessenger();
     createSurface();
@@ -336,6 +335,8 @@ void VulkanRenderer::createInstance()
     {
         throw std::runtime_error("failed to create instance!");
     }
+
+    volkLoadInstance(instance);
 }
 
 void VulkanRenderer::populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo)
@@ -1606,6 +1607,11 @@ VulkanRenderer::VulkanRenderer(TWindowHandleType window)
     , mPaletteCache(256)
     , window(window)
 {
+    const VkResult result = volkInitialize();
+    if (result != VK_SUCCESS)
+    {
+        throw RendererException("volkInitialize failed");
+    }
     initVulkan();
 }
 
