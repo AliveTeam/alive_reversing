@@ -151,6 +151,7 @@ private:
     VkDeviceMemory mTextureImageMemory2;
 
     VkImageView mTextureImageView;
+    VkImageView mTextureImageView2;
     VkSampler mTextureSampler;
 
     VkBuffer mVertexBuffer;
