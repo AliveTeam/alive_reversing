@@ -1,10 +1,9 @@
-#include "../stdafx.h"
 #include "VulkanRenderer.hpp"
 
-#include "../../AliveLibCommon/FatalError.hpp"
-#include "../../relive_lib/ResourceManagerWrapper.hpp"
-#include "../../relive_lib/Animation.hpp"
-#include "../Font.hpp"
+#include "../../../AliveLibCommon/FatalError.hpp"
+#include "../../../relive_lib/ResourceManagerWrapper.hpp"
+#include "../../../relive_lib/Animation.hpp"
+#include "../../Font.hpp"
 #include <SDL_syswm.h>
 #include <cmath>
 
@@ -30,7 +29,7 @@
 
 #include "fragment_shader.h"
 #include "vertex_shader.h"
-#include <volk\volk.h>
+#include <volk/volk.h>
 
 const uint32_t WIDTH = 640;
 const uint32_t HEIGHT = 480;
@@ -150,6 +149,7 @@ void VulkanRenderer::framebufferResizeCallback()
 
 void VulkanRenderer::initVulkan()
 {
+    volkInitialize();
     createInstance();
     setupDebugMessenger();
     createSurface();

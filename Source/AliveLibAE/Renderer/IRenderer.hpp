@@ -23,7 +23,7 @@ public:
 
     }
 
-    [[nodiscard]] virtual char const* what() const
+    [[nodiscard]] virtual const char* what() const noexcept override
     {
          return mMessage;
     }

@@ -1,8 +1,10 @@
 project(Deps VERSION 0.1 LANGUAGES C CXX)
 
 add_subdirectory(Vulkan-Headers)
+export(TARGETS Vulkan-Headers FILE Vulkan-Headers.cmake)
 add_subdirectory(volk)
 set_property(TARGET volk PROPERTY FOLDER "3rdParty")
+export(TARGETS volk FILE volk.cmake)
 
 set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
 set(ENABLE_DOCS OFF)
