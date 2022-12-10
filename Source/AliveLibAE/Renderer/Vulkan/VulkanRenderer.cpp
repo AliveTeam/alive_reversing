@@ -119,14 +119,21 @@ struct UniformBufferObject
     alignas(16) glm::mat4 proj;
 };
 
-const static std::vector<Vertex> vertices = {
-    {{0.0f, 480.0f}, {1.0f, 1.0f, 1.0f}, {1.0f, 0.0f}},
-    {{640.0f, 480.0f}, {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}},
-    {{640.0f, 0.0f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}},
+const static std::vector<Vertex> vertices2 = {
+    {{0.0f, 480.0f / 2.0f}, {1.0f, 1.0f, 1.0f}, {1.0f, 0.0f}},
+    {{640.0f / 2.0f, 480.0f / 2.0f}, {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}},
+    {{640.0f / 2.0f, 0.0f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}},
     {{0.0f, 0.0f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f}}};
 
-const static std::vector<uint16_t> gIndices = {
-    0, 1, 2, 2, 3, 0};
+const static std::vector<Vertex> vertices = {
+    {{0.0f + 50.0f, (480.0f / 2.0f) + 150.0f}, {1.0f, 1.0f, 1.0f}, {1.0f, 0.0f}},
+    {{(640.0f / 2.0f) - 50.0f, (480.0f / 2.0f) + 150.0f}, {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}},
+    {{(640.0f / 2.0f) - 50.0f, 0.0f + 150.0f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}},
+    {{0.0f + 50.0f, 0.0f + 150.0f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f}}};
+
+
+
+const static std::vector<uint16_t> gIndices = { 0, 1, 2, 2, 3, 0};
 
 
 void VulkanRenderer::initWindow()
@@ -229,25 +236,25 @@ void VulkanRenderer::cleanup()
 
     for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
     {
-        vkDestroyBuffer(device, uniformBuffers[i], nullptr);
-        vkFreeMemory(device, uniformBuffersMemory[i], nullptr);
+        vkDestroyBuffer(device, mUniformBuffers[i], nullptr);
+        vkFreeMemory(device, mUniformBuffersMemory[i], nullptr);
     }
 
     vkDestroyDescriptorPool(device, descriptorPool, nullptr);
 
-    vkDestroySampler(device, textureSampler, nullptr);
-    vkDestroyImageView(device, textureImageView, nullptr);
+    vkDestroySampler(device, mTextureSampler, nullptr);
+    vkDestroyImageView(device, mTextureImageView, nullptr);
 
-    vkDestroyImage(device, textureImage, nullptr);
-    vkFreeMemory(device, textureImageMemory, nullptr);
+    vkDestroyImage(device, mTextureImage, nullptr);
+    vkFreeMemory(device, mTextureImageMemory, nullptr);
 
     vkDestroyDescriptorSetLayout(device, descriptorSetLayout, nullptr);
 
-    vkDestroyBuffer(device, indexBuffer, nullptr);
-    vkFreeMemory(device, indexBufferMemory, nullptr);
+    vkDestroyBuffer(device, mIndexBuffer, nullptr);
+    vkFreeMemory(device, mIndexBufferMemory, nullptr);
 
-    vkDestroyBuffer(device, vertexBuffer, nullptr);
-    vkFreeMemory(device, vertexBufferMemory, nullptr);
+    vkDestroyBuffer(device, mVertexBuffer, nullptr);
+    vkFreeMemory(device, mVertexBufferMemory, nullptr);
 
     for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
     {
@@ -590,13 +597,7 @@ void VulkanRenderer::createDescriptorSetLayout()
 
 void VulkanRenderer::createGraphicsPipeline()
 {
-    // std::vector<char> vertShaderCode(sizeof(fragShader1) * 4);
-    // memcpy(vertShaderCode.data(), fragShader1, vertShaderCode.size());
-
-    // std::vector<char> fragShaderCode(reinterpret_cast<const char*>(&vertShader1[0]), reinterpret_cast<const char*>(&vertShader1[0]) + (sizeof(vertShader1) * 4));
-
-
-    auto fragShaderCode = std::vector<char>(std::begin(fragment_shader), std::end(fragment_shader)); // // readFile("C:\\Users\\paul\\source\\repos\\ConsoleApplication2\\ConsoleApplication2\\vert.spv");
+    auto fragShaderCode = std::vector<char>(std::begin(fragment_shader), std::end(fragment_shader));
     auto vertShaderCode  = std::vector<char>(std::begin(vertex_shader), std::end(vertex_shader));
 
     VkShaderModule vertShaderModule = createShaderModule(vertShaderCode);
@@ -778,12 +779,12 @@ void VulkanRenderer::createTextureImage()
     vkUnmapMemory(device, stagingBufferMemory);
 
 
-    createImage(bmp->w, bmp->h, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, textureImage, textureImageMemory);
+    createImage(bmp->w, bmp->h, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_TILING_OPTIMAL, VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, mTextureImage, mTextureImageMemory);
 
-    transitionImageLayout(textureImage, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
-    copyBufferToImage(stagingBuffer, textureImage, static_cast<uint32_t>(bmp->w), static_cast<uint32_t>(bmp->h));
+    transitionImageLayout(mTextureImage, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_UNDEFINED, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
+    copyBufferToImage(stagingBuffer, mTextureImage, static_cast<uint32_t>(bmp->w), static_cast<uint32_t>(bmp->h));
     SDL_FreeSurface(bmp);
-    transitionImageLayout(textureImage, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
+    transitionImageLayout(mTextureImage, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL);
 
     vkDestroyBuffer(device, stagingBuffer, nullptr);
     vkFreeMemory(device, stagingBufferMemory, nullptr);
@@ -791,7 +792,7 @@ void VulkanRenderer::createTextureImage()
 
 void VulkanRenderer::createTextureImageView()
 {
-    textureImageView = createImageView(textureImage, VK_FORMAT_R8G8B8A8_SRGB);
+    mTextureImageView = createImageView(mTextureImage, VK_FORMAT_R8G8B8A8_SRGB);
 }
 
 void VulkanRenderer::createTextureSampler()
@@ -814,7 +815,7 @@ void VulkanRenderer::createTextureSampler()
     samplerInfo.compareOp = VK_COMPARE_OP_ALWAYS;
     samplerInfo.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;
 
-    if (vkCreateSampler(device, &samplerInfo, nullptr, &textureSampler) != VK_SUCCESS)
+    if (vkCreateSampler(device, &samplerInfo, nullptr, &mTextureSampler) != VK_SUCCESS)
     {
         throw std::runtime_error("failed to create texture sampler!");
     }
@@ -969,9 +970,9 @@ void VulkanRenderer::createVertexBuffer()
     memcpy(data, vertices.data(), (size_t) bufferSize);
     vkUnmapMemory(device, stagingBufferMemory);
 
-    createBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, vertexBuffer, vertexBufferMemory);
+    createBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, mVertexBuffer, mVertexBufferMemory);
 
-    copyBuffer(stagingBuffer, vertexBuffer, bufferSize);
+    copyBuffer(stagingBuffer, mVertexBuffer, bufferSize);
 
     vkDestroyBuffer(device, stagingBuffer, nullptr);
     vkFreeMemory(device, stagingBufferMemory, nullptr);
@@ -990,9 +991,9 @@ void VulkanRenderer::createIndexBuffer()
     memcpy(data, gIndices.data(), (size_t) bufferSize);
     vkUnmapMemory(device, stagingBufferMemory);
 
-    createBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, indexBuffer, indexBufferMemory);
+    createBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, mIndexBuffer, mIndexBufferMemory);
 
-    copyBuffer(stagingBuffer, indexBuffer, bufferSize);
+    copyBuffer(stagingBuffer, mIndexBuffer, bufferSize);
 
     vkDestroyBuffer(device, stagingBuffer, nullptr);
     vkFreeMemory(device, stagingBufferMemory, nullptr);
@@ -1002,15 +1003,15 @@ void VulkanRenderer::createUniformBuffers()
 {
     VkDeviceSize bufferSize = sizeof(UniformBufferObject);
 
-    uniformBuffers.resize(MAX_FRAMES_IN_FLIGHT);
-    uniformBuffersMemory.resize(MAX_FRAMES_IN_FLIGHT);
-    uniformBuffersMapped.resize(MAX_FRAMES_IN_FLIGHT);
+    mUniformBuffers.resize(MAX_FRAMES_IN_FLIGHT);
+    mUniformBuffersMemory.resize(MAX_FRAMES_IN_FLIGHT);
+    mUniformBuffersMapped.resize(MAX_FRAMES_IN_FLIGHT);
 
     for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
     {
-        createBuffer(bufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, uniformBuffers[i], uniformBuffersMemory[i]);
+        createBuffer(bufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, mUniformBuffers[i], mUniformBuffersMemory[i]);
 
-        vkMapMemory(device, uniformBuffersMemory[i], 0, bufferSize, 0, &uniformBuffersMapped[i]);
+        vkMapMemory(device, mUniformBuffersMemory[i], 0, bufferSize, 0, &mUniformBuffersMapped[i]);
     }
 }
 
@@ -1052,14 +1053,14 @@ void VulkanRenderer::createDescriptorSets()
     for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++)
     {
         VkDescriptorBufferInfo bufferInfo{};
-        bufferInfo.buffer = uniformBuffers[i];
+        bufferInfo.buffer = mUniformBuffers[i];
         bufferInfo.offset = 0;
         bufferInfo.range = sizeof(UniformBufferObject);
 
         VkDescriptorImageInfo imageInfo{};
         imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-        imageInfo.imageView = textureImageView;
-        imageInfo.sampler = textureSampler;
+        imageInfo.imageView = mTextureImageView;
+        imageInfo.sampler = mTextureSampler;
 
         std::array<VkWriteDescriptorSet, 2> descriptorWrites{};
 
@@ -1229,11 +1230,11 @@ void VulkanRenderer::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t
     scissor.extent = swapChainExtent;
     vkCmdSetScissor(commandBuffer, 0, 1, &scissor);
 
-    VkBuffer vertexBuffers[] = {vertexBuffer};
+    VkBuffer vertexBuffers[] = {mVertexBuffer};
     VkDeviceSize offsets[] = {0};
     vkCmdBindVertexBuffers(commandBuffer, 0, 1, vertexBuffers, offsets);
 
-    vkCmdBindIndexBuffer(commandBuffer, indexBuffer, 0, VK_INDEX_TYPE_UINT16);
+    vkCmdBindIndexBuffer(commandBuffer, mIndexBuffer, 0, VK_INDEX_TYPE_UINT16);
 
     vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelineLayout, 0, 1, &descriptorSets[currentFrame], 0, nullptr);
 
@@ -1281,7 +1282,7 @@ void VulkanRenderer::updateUniformBuffer(uint32_t currentImage)
     ubo.view = glm::lookAt(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
     ubo.proj = glm::ortho(0.0F, 640.0f, 480.0f, 0.0F);
 
-    memcpy(uniformBuffersMapped[currentImage], &ubo, sizeof(ubo));
+    memcpy(mUniformBuffersMapped[currentImage], &ubo, sizeof(ubo));
 }
 
 void VulkanRenderer::drawFrame()
