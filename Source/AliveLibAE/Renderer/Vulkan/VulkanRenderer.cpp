@@ -28,6 +28,9 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "fragment_shader.h"
+#include "vertex_shader.h"
+
 const uint32_t WIDTH = 640;
 const uint32_t HEIGHT = 480;
 
@@ -591,8 +594,8 @@ void VulkanRenderer::createGraphicsPipeline()
     // std::vector<char> fragShaderCode(reinterpret_cast<const char*>(&vertShader1[0]), reinterpret_cast<const char*>(&vertShader1[0]) + (sizeof(vertShader1) * 4));
 
 
-    auto vertShaderCode = readFile("C:\\Users\\paul\\source\\repos\\ConsoleApplication2\\ConsoleApplication2\\vert.spv");
-    auto fragShaderCode = readFile("C:\\Users\\paul\\source\\repos\\ConsoleApplication2\\ConsoleApplication2\\frag.spv");
+    auto fragShaderCode = std::vector<char>(std::begin(fragment_shader), std::end(fragment_shader)); // // readFile("C:\\Users\\paul\\source\\repos\\ConsoleApplication2\\ConsoleApplication2\\vert.spv");
+    auto vertShaderCode  = std::vector<char>(std::begin(vertex_shader), std::end(vertex_shader));
 
     VkShaderModule vertShaderModule = createShaderModule(vertShaderCode);
     VkShaderModule fragShaderModule = createShaderModule(fragShaderCode);
