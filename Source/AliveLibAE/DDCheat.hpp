@@ -66,9 +66,9 @@ private:
 
     static void AddPropertyEntry(const char_type* text, DDCheatValueType valueType, DDCheatValue valuePtr);
 
-    s16 field_24_fn_idx = 0;
-    s16 field_26_next_fn_idx = 0;
-    s32 field_38_input_pressed = 0;
+    s16 mFnIdx = 0;
+    s16 mNextFnIdx = 0;
+    s32 mInputPressed = 0;
     bool mUnknown1 = false;
     bool mTeleporting = false;
 };
@@ -76,8 +76,8 @@ private:
 
 extern bool gDDCheat_FlyingEnabled;
 
-extern s16 sRescuedMudokons;
-extern s16 sKilledMudokons;
+extern s16 gRescuedMudokons;
+extern s16 gKilledMudokons;
 
 extern s32 gTweakX;
 extern s32 gTweakY;
@@ -85,4 +85,4 @@ extern s32 gTweakY;
 extern s16 gVisitedBonewerkz;
 extern s16 gVisitedBarracks;
 extern s16 gVisitedFeecoEnder;
-extern bool sDDCheat_ShowAI_Info;
+extern bool gDDCheat_ShowAI_Info;

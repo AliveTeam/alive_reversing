@@ -14,11 +14,6 @@ struct PrimHeader;
 class BaseGameObject
 {
 public:
-    enum Options
-    {
-        eListAddFailed_Bit1 = 0x001,
-    };
-
     BaseGameObject(s16 bAddToObjectList, s16 resourceArraySize);
 
 
@@ -96,7 +91,7 @@ public:
 public:
     Guid mBaseGameObjectId;                  // AE
     Guid mBaseGameObjectTlvInfo;                 // AE
-    DynamicArrayT<u8*> field_10_resources_array; // AE
+    DynamicArrayT<u8*> mBaseGameObjectResArray; // AE
     std::vector<AnimResource> mLoadedAnims;
     std::vector<PalResource> mLoadedPals;
 

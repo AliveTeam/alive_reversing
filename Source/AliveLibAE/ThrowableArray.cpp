@@ -74,7 +74,7 @@ void ThrowableArray::Remove(s16 count)
     {
         if (mUnknown1 && mUnknown2)
         {
-            FreeResourceArray_49AEC0(&field_10_resources_array);
+            FreeResourceArray_49AEC0(&mBaseGameObjectResArray);
             mUnknown2 = false;
         }
     }

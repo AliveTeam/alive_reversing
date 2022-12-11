@@ -112,7 +112,7 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
         maxWidth = std::max(font4Width, maxWidth);
 
         // Rescued Mudokons
-        sprintf(text, "%3d", sRescuedMudokons);
+        sprintf(text, "%3d", gRescuedMudokons);
         const s32 font2Width = mRescuedMudsFont.MeasureTextWidth(text);
         mRescuedMudsFont.DrawString(
             ppOt,
@@ -133,7 +133,7 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
         maxWidth = std::max(font2Width, maxWidth);
 
         // Killed mudokons
-        sprintf(text, "%3d", sKilledMudokons);
+        sprintf(text, "%3d", gKilledMudokons);
         const s32 font1Width = mKilledMudsFont.MeasureTextWidth(text);
         mKilledMudsFont.DrawString(
             ppOt,

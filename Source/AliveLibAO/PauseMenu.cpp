@@ -479,8 +479,6 @@ void PauseMenu::VUpdate()
     }
 }
 
-s8 byte_A88B90 = 0;
-
 PauseMenu::PauseEntry pauseEntries_4CDE50[6] = {
     {184, 85, "CONTINUE", 128u, 16u, 255u, '\x01'},
     {184, 110, "SAVE", 128u, 16u, 255u, '\x01'},

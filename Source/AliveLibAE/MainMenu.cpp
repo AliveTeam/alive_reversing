@@ -580,8 +580,8 @@ MainMenuController::MainMenuController(relive::Path_TLV* /*pTlv*/, const Guid& t
 
     gEnableCheatFMV = false;
     gEnableCheatLevelSelect = false;
-    sKilledMudokons = 0;
-    sRescuedMudokons = 0;
+    gKilledMudokons = 0;
+    gRescuedMudokons = 0;
     gAttract = 0;
     sSavedKilledMudsPerZulag_5C1B50.mData[ALIVE_COUNTOF(sSavedKilledMudsPerZulag_5C1B50.mData) - 1] = 0;
     gFeeco_Restart_KilledMudCount = 0;
@@ -1169,7 +1169,7 @@ static void RenderScrollableTextEntries(
         s32 v9 = entryPicker + i;
         if (v9 >= 0 && v9 < totalItemsCount)
         {
-            field_234_pStr = stringList[v9].field_0_fileName;
+            field_234_pStr = stringList[v9].mFileName;
             s32 currEntryWidth = field_120_font.MeasureScaledTextWidth(field_234_pStr, FP_FromInteger(1));
 
             //Entry X alignment (of questionable quality) for long words
@@ -1497,10 +1497,10 @@ void MainMenuController::tLoadGame_Render_4D44D0(PrimHeader** ot)
 {
     s32 polyOffset = 0;
     RenderScrollableTextEntries(
-        ot, sSavedGameToLoadIdx_BB43FC, sSelectedSavedGameIdx_BB43E8, sTotalSaveFilesCount_BB43E0,
-        sTextYPos_BB43F0, dword_BB43E4, field_234_pStr, sSaveFileRecords_BB31D8, field_120_font, polyOffset);
+        ot, gSavedGameToLoadIdx, sSelectedSavedGameIdx_BB43E8, gTotalSaveFilesCount,
+        sTextYPos_BB43F0, dword_BB43E4, field_234_pStr, gSaveFileRecords, field_120_font, polyOffset);
 
-    if (sTotalSaveFilesCount_BB43E0 <= 0) // max save files count
+    if (gTotalSaveFilesCount <= 0) // max save files count
     {
         DrawMenuStringWithShadow(ot, field_120_font, "No Saved Games", 120, 110, 255, 218, 140, polyOffset);
     }
@@ -2027,7 +2027,7 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
 
         if (gIsDemoStartedManually_5C1B9C)
         {
-            sActiveQuicksaveData.field_200_accumulated_obj_count = 1024;
+            gActiveQuicksaveData.field_200_accumulated_obj_count = 1024;
         }
         Quicksave_LoadActive();
     }
@@ -2145,7 +2145,7 @@ MainMenuNextCam MainMenuController::tLoadGame_Input_4D3EF0(u32 input)
     // Down a single save
     else if (input & InputCommands::Enum::eDown)
     {
-        if (sSelectedSavedGameIdx_BB43E8 < sTotalSaveFilesCount_BB43E0 - 1 && !sTextYPos_BB43F0.fpValue)
+        if (sSelectedSavedGameIdx_BB43E8 < gTotalSaveFilesCount - 1 && !sTextYPos_BB43F0.fpValue)
         {
             sSelectedSavedGameIdx_BB43E8++;
             indexChanged = true;
@@ -2168,14 +2168,14 @@ MainMenuNextCam MainMenuController::tLoadGame_Input_4D3EF0(u32 input)
     else if (input & InputCommands::Enum::ePageDown)
     {
         // Page down overflow
-        if (sSelectedSavedGameIdx_BB43E8 < sTotalSaveFilesCount_BB43E0 - 3 && !sTextYPos_BB43F0.fpValue)
+        if (sSelectedSavedGameIdx_BB43E8 < gTotalSaveFilesCount - 3 && !sTextYPos_BB43F0.fpValue)
         {
             sSelectedSavedGameIdx_BB43E8 += 3;
             indexChanged = true;
         }
         else
         {
-            sSelectedSavedGameIdx_BB43E8 = sTotalSaveFilesCount_BB43E0 - 1;
+            sSelectedSavedGameIdx_BB43E8 = gTotalSaveFilesCount - 1;
             indexChanged = true;
         }
     }
@@ -2188,7 +2188,7 @@ MainMenuNextCam MainMenuController::tLoadGame_Input_4D3EF0(u32 input)
     if (input & InputCommands::Enum::eUnPause_OrConfirm)
     {
         // No save to load, go back
-        if (sTotalSaveFilesCount_BB43E0 == 0)
+        if (gTotalSaveFilesCount == 0)
         {
             // Go back to start page
             mLoadingSave = false;
@@ -2198,7 +2198,7 @@ MainMenuNextCam MainMenuController::tLoadGame_Input_4D3EF0(u32 input)
 
         // Load selected save
         char_type filename[40] = {};
-        strcpy(filename, sSaveFileRecords_BB31D8[sSavedGameToLoadIdx_BB43FC].field_0_fileName);
+        strcpy(filename, gSaveFileRecords[gSavedGameToLoadIdx].mFileName);
         strcat(filename, ".sav");
 
         std::string strPath = filename;
@@ -2209,7 +2209,7 @@ MainMenuNextCam MainMenuController::tLoadGame_Input_4D3EF0(u32 input)
             return MainMenuNextCam(MainMenuCams::eNoChange);
         }
 
-        IO_Read(hFile, &sActiveQuicksaveData, sizeof(Quicksave), 1u);
+        IO_Read(hFile, &gActiveQuicksaveData, sizeof(Quicksave), 1u);
         IO_Close(hFile);
 
         mLoadingSave = true;
@@ -2225,7 +2225,7 @@ void MainMenuController::tLoadGame_Load_4D42F0()
     field_230_target_entry_index = 0;
     field_1FC_button_index = NO_SELECTABLE_BUTTONS;
     Quicksave_FindSaves();
-    sSelectedSavedGameIdx_BB43E8 = sSavedGameToLoadIdx_BB43FC;
+    sSelectedSavedGameIdx_BB43E8 = gSavedGameToLoadIdx;
     field_1F4_credits_next_frame = 0;
 }
 

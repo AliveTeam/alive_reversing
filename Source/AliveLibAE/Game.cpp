@@ -168,8 +168,8 @@ void Main_ParseCommandLineArguments(const char_type* pCommandLine)
 
 void Init_GameStates()
 {
-    sKilledMudokons = gFeeco_Restart_KilledMudCount;
-    sRescuedMudokons = gFeecoRestart_SavedMudCount;
+    gKilledMudokons = gFeeco_Restart_KilledMudCount;
+    gRescuedMudokons = gFeecoRestart_SavedMudCount;
 
     gGasOn = 0;
     gGasTimer = 0;

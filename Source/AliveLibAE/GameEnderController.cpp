@@ -63,7 +63,7 @@ void GameEnderController::VScreenChanged()
 {
     if (mState != GameEnderControllerStates::eInit_0)
     {
-        if (sRescuedMudokons < 150)
+        if (gRescuedMudokons < 150)
         {
             SwitchStates_Set(100u, 0);
         }
@@ -119,7 +119,7 @@ void GameEnderController::VUpdate()
                     sActiveHero->SetDead(true);
 
                     // Good ending
-                    if (sRescuedMudokons >= Path_GoodEndingMuds(gMap.mCurrentLevel, gMap.mCurrentPath))
+                    if (gRescuedMudokons >= Path_GoodEndingMuds(gMap.mCurrentLevel, gMap.mCurrentPath))
                     {
                         gAbeInvincible = false;
                         gFeeco_Restart_KilledMudCount = 0;
@@ -131,7 +131,7 @@ void GameEnderController::VUpdate()
                             gPauseMenu = nullptr;
                         }
 
-                        if (sRescuedMudokons >= Path_GetTotalMuds(gMap.mCurrentLevel, gMap.mCurrentPath))
+                        if (gRescuedMudokons >= Path_GetTotalMuds(gMap.mCurrentLevel, gMap.mCurrentPath))
                         {
                             // Perfect ending
                             gMap.SetActiveCam(EReliveLevelIds::eBrewery_Ender, 1, 17, CameraSwapEffects::eUnknown_11, 17, 0);
@@ -146,7 +146,7 @@ void GameEnderController::VUpdate()
                     }
                     else
                     {
-                        if (sKilledMudokons >= Path_BadEndingMuds(gMap.mCurrentLevel, gMap.mCurrentPath))
+                        if (gKilledMudokons >= Path_BadEndingMuds(gMap.mCurrentLevel, gMap.mCurrentPath))
                         {
                             // Very bad ending
                             gAbeInvincible = true;
@@ -159,8 +159,8 @@ void GameEnderController::VUpdate()
                             gAbeInvincible = false;
                             gMap.SetActiveCam(EReliveLevelIds::eBrewery_Ender, 1, 16, CameraSwapEffects::eUnknown_11, 18, 0);
                             mState = GameEnderControllerStates::eBadEnding_3;
-                            sRescuedMudokons = gFeecoRestart_SavedMudCount;
-                            sKilledMudokons = gFeeco_Restart_KilledMudCount;
+                            gRescuedMudokons = gFeecoRestart_SavedMudCount;
+                            gKilledMudokons = gFeeco_Restart_KilledMudCount;
                         }
                         gVisitedBonewerkz = false;
                         gVisitedBarracks = false;

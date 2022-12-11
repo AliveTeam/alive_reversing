@@ -748,8 +748,8 @@ s32 Abe::CreateFromSaveState(const u8* pData)
     {
         u32 id = sAbeResourceIDTable_554D60[sActiveHero->field_128.field_10_resource_index];
         // ResourceManager::LoadResourceFile_49C170(sAbe_ResNames_545830[sActiveHero->field_128.field_10_resource_index], 0);
-        sActiveHero->field_10_resources_array.SetAt(sActiveHero->field_128.field_10_resource_index, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, id, true, false));
-        animFromState = sActiveHero->field_10_resources_array.ItemAt(sActiveHero->field_128.field_10_resource_index);
+        sActiveHero->mBaseGameObjectResArray.SetAt(sActiveHero->field_128.field_10_resource_index, ResourceManager::GetLoadedResource(ResourceManager::Resource_Animation, id, true, false));
+        animFromState = sActiveHero->mBaseGameObjectResArray.ItemAt(sActiveHero->field_128.field_10_resource_index);
     }*/
 
     sActiveHero->GetAnimation().Set_Animation_Data(sActiveHero->GetAnimRes(sAbeAnimIdTable[sActiveHero->mCurrentMotion]));
@@ -798,7 +798,7 @@ s32 Abe::CreateFromSaveState(const u8* pData)
 
     if (sActiveHero->mRingPulseTimer && sActiveHero->mHaveShrykull)
     {
-        if (!sActiveHero->field_10_resources_array.ItemAt(25))
+        if (!sActiveHero->mBaseGameObjectResArray.ItemAt(25))
         {
 
             
@@ -806,7 +806,7 @@ s32 Abe::CreateFromSaveState(const u8* pData)
     }
     else
     {
-        if (sActiveHero->field_10_resources_array.ItemAt(25))
+        if (sActiveHero->mBaseGameObjectResArray.ItemAt(25))
         {
             sActiveHero->Free_Shrykull_Resources_45AA90();
         }
@@ -1014,7 +1014,7 @@ void Abe::VUpdate()
         mPreventChanting = false;
     }
 
-    const s32 totalAliveSavedMuds = sRescuedMudokons - sKilledMudokons;
+    const s32 totalAliveSavedMuds = gRescuedMudokons - gKilledMudokons;
     if (totalAliveSavedMuds > 0)
     {
         // "Happy" voice
@@ -1278,10 +1278,10 @@ void Abe::VUpdate()
         if (mDoQuicksave)
         {
             mDoQuicksave = false;
-            sActiveQuicksaveData.field_204_world_info.mSaveFileId = mSaveFileId;
-            Quicksave_SaveWorldInfo(&sActiveQuicksaveData.field_244_restart_path_world_info);
-            VGetSaveState(reinterpret_cast<u8*>(&sActiveQuicksaveData.field_284_restart_path_abe_state));
-            sActiveQuicksaveData.field_35C_restart_path_switch_states = gSwitchStates;
+            gActiveQuicksaveData.field_204_world_info.mSaveFileId = mSaveFileId;
+            Quicksave_SaveWorldInfo(&gActiveQuicksaveData.field_244_restart_path_world_info);
+            VGetSaveState(reinterpret_cast<u8*>(&gActiveQuicksaveData.field_284_restart_path_abe_state));
+            gActiveQuicksaveData.field_35C_restart_path_switch_states = gSwitchStates;
             DoQuicksave();
         }
     }
@@ -2249,11 +2249,11 @@ IBaseAliveGameObject* Abe::FindObjectToPossess_44B7B0()
 
 void Abe::Free_Resources_44D420()
 {
-    if (field_10_resources_array.field_4_used_size)
+    if (mBaseGameObjectResArray.field_4_used_size)
     {
-        if (field_10_resources_array.ItemAt(0))
+        if (mBaseGameObjectResArray.ItemAt(0))
         {
-            field_10_resources_array.SetAt(0, nullptr);
+            mBaseGameObjectResArray.SetAt(0, nullptr);
         }
     }
 }
@@ -2279,11 +2279,11 @@ bool Abe::IsStanding_449D30()
 
 void Abe::Free_Shrykull_Resources_45AA90()
 {
-    field_10_resources_array.SetAt(25, nullptr);
+    mBaseGameObjectResArray.SetAt(25, nullptr);
 
-    field_10_resources_array.SetAt(26, nullptr);
+    mBaseGameObjectResArray.SetAt(26, nullptr);
 
-    field_10_resources_array.SetAt(27, nullptr);
+    mBaseGameObjectResArray.SetAt(27, nullptr);
 }
 
 
@@ -3571,9 +3571,9 @@ void Abe::Motion_17_CrouchIdle_456BC0()
                 mHasEvilFart = 0;
                 Create_Fart_421D20();
 
-                if (field_10_resources_array.ItemAt(22))
+                if (mBaseGameObjectResArray.ItemAt(22))
                 {
-                    field_10_resources_array.SetAt(22, nullptr);
+                    mBaseGameObjectResArray.SetAt(22, nullptr);
                 }
             }
             else
@@ -5135,9 +5135,9 @@ void Abe::Motion_57_Dead_4589A0()
                 return;
             }
             Make_Circular_Fade_4CE8C0(
-                FP_FromInteger(sActiveQuicksaveData.field_204_world_info.field_C_controlled_x),
-                FP_FromInteger(sActiveQuicksaveData.field_204_world_info.field_E_controlled_y),
-                sActiveQuicksaveData.field_204_world_info.field_10_controlled_scale != 0 ? FP_FromDouble(1.0) : FP_FromDouble(0.5),
+                FP_FromInteger(gActiveQuicksaveData.field_204_world_info.field_C_controlled_x),
+                FP_FromInteger(gActiveQuicksaveData.field_204_world_info.field_E_controlled_y),
+                gActiveQuicksaveData.field_204_world_info.field_10_controlled_scale != 0 ? FP_FromDouble(1.0) : FP_FromDouble(0.5),
                 0,
                 1,
                 true);

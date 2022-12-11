@@ -19,17 +19,14 @@ enum PauseMenuAlign
 
 struct PauseMenuPageEntry final
 {
-    s16 field_0_unknown2;
-    s16 field_2_x;
+    s16 mX;
     s16 y;
-    s16 field_6_unknown;
-    const char_type* field_8_text;
-    u8 field_C_r;
-    u8 field_D_g;
-    u8 field_E_b;
-    u8 field_F_alignment;
+    const char_type* mText;
+    u8 mRed;
+    u8 mGreen;
+    u8 mBlue;
+    u8 mAlignment;
 };
-ALIVE_ASSERT_SIZEOF(PauseMenuPageEntry, 0x10);
 
 class PauseMenu final : public ::BaseAnimatedWithPhysicsGameObject
 {
@@ -48,10 +45,10 @@ public:
     void Init();
 
     void Page_Main_Update();
-    void Page_Base_Render(PrimHeader** ot, PauseMenuPage* mp);
+    void Page_Base_Render(PrimHeader** ot, PauseMenuPage* pPage);
 
     void Page_ControlsActions_Update();
-    void Page_ReallyQuit_Update();
+    void Page_QuitConfirmation_Update();
 
     void Page_Save_Update();
     void Page_Save_Render(PrimHeader** ot, PauseMenuPage* pPage);
@@ -60,25 +57,21 @@ public:
     void Page_Status_Render(PrimHeader** ot, PauseMenuPage* pPage);
 
     void Page_Load_Update();
-    void Page_Load_Render(PrimHeader** ot, PauseMenuPage* mp);
+    void Page_Load_Render(PrimHeader** ot, PauseMenuPage* pPage);
 
     using t_PmPage_Update = decltype(&PauseMenu::Page_Main_Update);
     using t_PmPage_Render = decltype(&PauseMenu::Page_Base_Render);
 
     struct PauseMenuPage final
     {
-        t_PmPage_Update field_0_fn_update;
-        t_PmPage_Render field_4_fn_render;
-        PauseMenuPageEntry* field_8_menu_items;
-        s16 field_C_selected_index;
-        s8 field_E_background_r;
-        s8 field_F_background_g;
-        s8 field_10_background_b;
-        s8 field_11_padding;
-        s8 field_12_padding;
-        s8 field_13_padding;
+        t_PmPage_Update mFnUpdate;
+        t_PmPage_Render mFnRender;
+        PauseMenuPageEntry* mMenuItems;
+        s16 mSelectedIndex;
+        s8 mBgRed;
+        s8 mBgGreen;
+        s8 mBgBlue;
     };
-    ALIVE_ASSERT_SIZEOF(PauseMenu::PauseMenuPage, 0x14);
 
 private:
     void RestartPath();
@@ -86,10 +79,9 @@ private:
 public:
     FontContext mFontContext;
     PalResource mPal;
-    AliveFont field_F4_font = {};
-    s16 word12C_flags = 0;
-    s16 field_12E_selected_glow = 0;
-    s16 field_130_selected_glow_counter = 0;
+    AliveFont mFont = {};
+    s16 mSelectedGlow = 0;
+    s16 mSelectedGlowCounter = 0;
 
     enum MainPages : s16
     {
@@ -103,8 +95,8 @@ public:
         ePage_Quit_7 = 7,
     };
 
-    /*MainPages*/ s16 field_134_index_main = 0;
-    s16 field_138_control_action_page_index = 0;
+    /*MainPages*/ s16 mMainPage = 0;
+    s16 mControlActionPageIndex = 0;
 
     enum class SaveState : s16
     {
@@ -112,16 +104,16 @@ public:
         DoSave_4 = 4,
         SaveConfirmOverwrite_8 = 8,
     };
-    SaveState field_13C_save_state = SaveState::ReadingInput_0;
+    SaveState mSaveState = SaveState::ReadingInput_0;
 
-    s16 field_142_poly_offset = 0;
-    PauseMenu::PauseMenuPage field_144_active_menu = {};
-    Animation field_158_animation = {};
-    Prim_SetTPage field_1F0_primitives[2] = {};
-    Poly_G4 field_210_polygons[2] = {};
+    s16 mPolyOffset = 0;
+    PauseMenu::PauseMenuPage mActiveMenu = {};
+    Animation mMudIconAnim = {};
+    Prim_SetTPage mPrimitives[2] = {};
+    Poly_G4 mPolyG4s[2] = {};
+    bool mPauseRenderLoop = false;
 };
 
 extern PauseMenu* gPauseMenu;
 extern bool gQuicksave_SaveNextFrame;
 extern bool gQuicksave_LoadNextFrame;
-extern u8 pauseMenuFontPal[32];

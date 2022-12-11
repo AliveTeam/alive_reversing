@@ -1167,7 +1167,7 @@ Mudokon::~Mudokon()
     if (mHealth <= FP_FromInteger(0))
     {
         // TODO: Refactor all access to helpers
-        sKilledMudokons++;
+        gKilledMudokons++;
         if (gZulagNumber < ALIVE_COUNTOF(sSavedKilledMudsPerZulag_5C1B50.mData))
         {
             sSavedKilledMudsPerZulag_5C1B50.mData[gZulagNumber]++;
@@ -6160,7 +6160,7 @@ void Mudokon::Motion_36_RunJumpMid()
 
         relive_new MusicTrigger(relive::Path_MusicTrigger::MusicTriggerMusicType::eChime, relive::Path_MusicTrigger::TriggeredBy::eTimer, 0, 0);
 
-        sRescuedMudokons++;
+        gRescuedMudokons++;
 
         if (gZulagNumber < ALIVE_COUNTOF(sSavedKilledMudsPerZulag_5C1B50.mData))
         {

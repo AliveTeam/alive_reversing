@@ -58,10 +58,10 @@ void CheatController_Cheat_PathSkip()
     char_type nameBuffer[20];
 
     DestroyObjects_4A1F20();
-    sprintf(nameBuffer, "NXTP%04d.SAV", sActiveQuicksaveData.field_204_world_info.mSaveFileId);
+    sprintf(nameBuffer, "NXTP%04d.SAV", gActiveQuicksaveData.field_204_world_info.mSaveFileId);
 
-    //memcpy(&sActiveQuicksaveData, res.data(), sizeof(sActiveQuicksaveData));
-    sActiveQuicksaveData.field_200_accumulated_obj_count = 1024;
+    //memcpy(&gActiveQuicksaveData, res.data(), sizeof(gActiveQuicksaveData));
+    gActiveQuicksaveData.field_200_accumulated_obj_count = 1024;
     Quicksave_LoadActive();
 }
 

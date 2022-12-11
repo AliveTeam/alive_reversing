@@ -25,266 +25,242 @@
 bool gQuicksave_SaveNextFrame = false;
 bool gQuicksave_LoadNextFrame = false;
 
-char_type sScreenStringBuffer_5C92F0[16] = {0};
+static char_type sScreenStringBuffer[16] = {0};
 
 
-char_type sSaveString_5C931C[32] = {};
+static char_type sSaveString[32] = {};
 
 // Menu Text Data
 
-PauseMenuPageEntry PauseMenu__PageEntryList_Main_55E1C8[11] = {
-    {2, 184, 48, 0, "continue", 128u, 16u, 255u, 1u},
-    {2, 184, 70, 0, "quiksave", 128u, 16u, 255u, 1u},
-    {2, 184, 92, 0, "controls", 128u, 16u, 255u, 1u},
-    {2, 184, 114, 0, "status", 128u, 16u, 255u, 1u},
-    {2, 184, 136, 0, "save", 128u, 16u, 255u, 1u},
-    {2, 184, 158, 0, "load", 128u, 16u, 255u, 1u},
-    {2, 184, 180, 0, "restart path", 128u, 16u, 255u, 1u},
-    {2, 184, 202, 0, "quit", 128u, 16u, 255u, 1u},
-    {1, 184, 16, 0, "paused", 128u, 16u, 255u, 1u},
-    {1, 280, 16, 0, sScreenStringBuffer_5C92F0, 128u, 16u, 255u, 0u},
-    {0, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u}};
+static PauseMenuPageEntry sMainPageEntries[11] = {
+    {184, 48, "continue", 128u, 16u, 255u, 1u},
+    {184, 70, "quiksave", 128u, 16u, 255u, 1u},
+    {184, 92, "controls", 128u, 16u, 255u, 1u},
+    {184, 114, "status", 128u, 16u, 255u, 1u},
+    {184, 136, "save", 128u, 16u, 255u, 1u},
+    {184, 158, "load", 128u, 16u, 255u, 1u},
+    {184, 180, "restart path", 128u, 16u, 255u, 1u},
+    {184, 202, "quit", 128u, 16u, 255u, 1u},
+    {184, 16, "paused", 128u, 16u, 255u, 1u},
+    {280, 16, sScreenStringBuffer, 128u, 16u, 255u, 0u},
+    {0, 0, nullptr, 0u, 0u, 0u, 0u}};
 
 
-PauseMenuPageEntry PauseMenu__PageEntryList_ControlActions_55d820[17] = {
-    {2, 184, 205, 0, "more", 128, 16, 255, Centre},
-    {1, 184, 20, 0, "Actions", 127, 127, 127, Centre},
-    {1, 180, 50, 0, kRun "+" kLeft kRight, 160, 160, 160, Right},
-    {1, 180, 70, 0, kSneak "+" kLeft kRight, 160, 160, 160, Right},
-    {1, 180, 90, 0, kJump, 160, 160, 160, Right},
-    {1, 180, 110, 0, kThrow "+" kDPad, 160, 160, 160, Right},
-    {1, 180, 135, 0, kDown, 160, 160, 160, Right},
-    {1, 180, 150, 0, kAction, 160, 160, 160, Right},
-    {1, 180, 173, 0, kUp, 160, 160, 160, Right},
-    {1, 200, 50, 0, "run", 128, 16, 255, Left},
-    {1, 200, 70, 0, "sneak", 128, 16, 255, Left},
-    {1, 200, 90, 0, "jump", 128, 16, 255, Left},
-    {1, 200, 110, 0, "throw", 128, 16, 255, Left},
-    {1, 200, 130, 0, "crouch", 128, 16, 255, Left},
-    {1, 200, 150, 0, "action", 128, 16, 255, Left},
-    {1, 200, 170, 0, "hoist " kHoistZTurn " zturn", 128, 16, 255, Left},
-    {1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u}};
+static PauseMenuPageEntry sControlActionsEntries[17] = {
+    {184, 205, "more", 128, 16, 255, Centre},
+    {184, 20, "Actions", 127, 127, 127, Centre},
+    {180, 50, kRun "+" kLeft kRight, 160, 160, 160, Right},
+    {180, 70, kSneak "+" kLeft kRight, 160, 160, 160, Right},
+    {180, 90, kJump, 160, 160, 160, Right},
+    {180, 110, kThrow "+" kDPad, 160, 160, 160, Right},
+    {180, 135, kDown, 160, 160, 160, Right},
+    {180, 150, kAction, 160, 160, 160, Right},
+    {180, 173, kUp, 160, 160, 160, Right},
+    {200, 50, "run", 128, 16, 255, Left},
+    {200, 70, "sneak", 128, 16, 255, Left},
+    {200, 90, "jump", 128, 16, 255, Left},
+    {200, 110, "throw", 128, 16, 255, Left},
+    {200, 130, "crouch", 128, 16, 255, Left},
+    {200, 150, "action", 128, 16, 255, Left},
+    {200, 170, "hoist " kHoistZTurn " zturn", 128, 16, 255, Left},
+    {0, 0, nullptr, 0u, 0u, 0u, 0u}};
 
-PauseMenuPageEntry PauseMenu__PageEntryList_GameSpeak_55d930[21] = {
-    {2, 184, 205, 0, "more", 128, 16, 255, Centre},
-    {1, 184, 20, 0, "GameSpeak", 127, 127, 127, Centre},
-    {1, 184, 55, 0, kChant, 160, 160, 160, Centre},
-    {1, 184, 75, 0, "chant", 128, 16, 255, Centre},
-    {1, 110, 104, 0, "hello", 128, 16, 255, Left},
-    {1, 110, 126, 0, "follow me", 128, 16, 255, Left},
-    {1, 110, 148, 0, "wait", 128, 16, 255, Left},
-    {1, 110, 170, 0, "work", 128, 16, 255, Left},
-    {1, 278, 104, 0, "anger", 128, 16, 255, Left},
-    {1, 278, 126, 0, "all 'ya", 128, 16, 255, Left},
-    {1, 278, 148, 0, "sympathy", 128, 16, 255, Left},
-    {1, 278, 170, 0, "stop it!", 128, 16, 255, Left},
-    {1, 90, 104, 0, kHello, 160, 160, 160, Right},
-    {1, 90, 126, 0, kFollowMe, 160, 160, 160, Right},
-    {1, 90, 148, 0, kWait, 160, 160, 160, Right},
-    {1, 90, 170, 0, kWork, 160, 160, 160, Right},
-    {1, 260, 104, 0, kAnger, 160, 160, 160, Right},
-    {1, 260, 126, 0, kAllYa, 160, 160, 160, Right},
-    {1, 260, 148, 0, kSorry, 160, 160, 160, Right},
-    {1, 260, 170, 0, kStopIt, 160, 160, 160, Right},
-    {1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u}};
+static PauseMenuPageEntry sAbeGameSpeakEntries[21] = {
+    {184, 205, "more", 128, 16, 255, Centre},
+    {184, 20, "GameSpeak", 127, 127, 127, Centre},
+    {184, 55, kChant, 160, 160, 160, Centre},
+    {184, 75, "chant", 128, 16, 255, Centre},
+    {110, 104, "hello", 128, 16, 255, Left},
+    {110, 126, "follow me", 128, 16, 255, Left},
+    {110, 148, "wait", 128, 16, 255, Left},
+    {110, 170, "work", 128, 16, 255, Left},
+    {278, 104, "anger", 128, 16, 255, Left},
+    {278, 126, "all 'ya", 128, 16, 255, Left},
+    {278, 148, "sympathy", 128, 16, 255, Left},
+    {278, 170, "stop it!", 128, 16, 255, Left},
+    {90, 104, kHello, 160, 160, 160, Right},
+    {90, 126, kFollowMe, 160, 160, 160, Right},
+    {90, 148, kWait, 160, 160, 160, Right},
+    {90, 170, kWork, 160, 160, 160, Right},
+    {260, 104, kAnger, 160, 160, 160, Right},
+    {260, 126, kAllYa, 160, 160, 160, Right},
+    {260, 148, kSorry, 160, 160, 160, Right},
+    {260, 170, kStopIt, 160, 160, 160, Right},
+    {0, 0, nullptr, 0u, 0u, 0u, 0u}};
 
-PauseMenuPageEntry PauseMenu__PageEntryList_SligSpeak_55da80[19] = {
-    {2, 184, 205, 0, "more", 128, 16, 255, Centre},
-    {1, 184, 20, 0, "SligSpeak", 127, 127, 127, Centre},
-    {1, 110, 104, 0, "hi", 128, 16, 255, Left},
-    {1, 110, 126, 0, "here boy", 128, 16, 255, Left},
-    {1, 110, 148, 0, "freeze", 128, 16, 255, Left},
-    {1, 110, 170, 0, "get 'im", 128, 16, 255, Left},
-    {1, 278, 104, 0, "s'mo bs", 128, 16, 255, Left},
-    {1, 278, 126, 0, "bs", 128, 16, 255, Left},
-    {1, 278, 148, 0, "look out", 128, 16, 255, Left},
-    {1, 278, 170, 0, "laugh", 128, 16, 255, Left},
-    {1, 90, 104, 0, kHello, 160, 160, 160, Right},
-    {1, 90, 126, 0, kFollowMe, 160, 160, 160, Right},
-    {1, 90, 148, 0, kWait, 160, 160, 160, Right},
-    {1, 90, 170, 0, kWork, 160, 160, 160, Right},
-    {1, 260, 104, 0, kAnger, 160, 160, 160, Right},
-    {1, 260, 126, 0, kAllYa, 160, 160, 160, Right},
-    {1, 260, 148, 0, kSorry, 160, 160, 160, Right},
-    {1, 260, 170, 0, kStopIt, 160, 160, 160, Right},
-    {1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u}};
+static PauseMenuPageEntry sSligGameSpeakEntries[19] = {
+    {184, 205, "more", 128, 16, 255, Centre},
+    {184, 20, "SligSpeak", 127, 127, 127, Centre},
+    {110, 104, "hi", 128, 16, 255, Left},
+    {110, 126, "here boy", 128, 16, 255, Left},
+    {110, 148, "freeze", 128, 16, 255, Left},
+    {110, 170, "get 'im", 128, 16, 255, Left},
+    {278, 104, "s'mo bs", 128, 16, 255, Left},
+    {278, 126, "bs", 128, 16, 255, Left},
+    {278, 148, "look out", 128, 16, 255, Left},
+    {278, 170, "laugh", 128, 16, 255, Left},
+    {90, 104, kHello, 160, 160, 160, Right},
+    {90, 126, kFollowMe, 160, 160, 160, Right},
+    {90, 148, kWait, 160, 160, 160, Right},
+    {90, 170, kWork, 160, 160, 160, Right},
+    {260, 104, kAnger, 160, 160, 160, Right},
+    {260, 126, kAllYa, 160, 160, 160, Right},
+    {260, 148, kSorry, 160, 160, 160, Right},
+    {260, 170, kStopIt, 160, 160, 160, Right},
+    {0, 0, nullptr, 0u, 0u, 0u, 0u}};
 
-PauseMenuPageEntry PauseMenu__PageEntryList_GlukkonSpeak_55dbb0[19] = {
-    {2, 184, 205, 0, "more", 128, 16, 255, Centre},
-    {1, 184, 20, 0, "GlukkonSpeak", 127, 127, 127, Centre},
-    {1, 110, 104, 0, "hey!", 128, 16, 255, Left},
-    {1, 110, 126, 0, "commere", 128, 16, 255, Left},
-    {1, 110, 148, 0, "stay here", 128, 16, 255, Left},
-    {1, 110, 170, 0, "do it!", 128, 16, 255, Left},
-    {1, 278, 104, 0, "kill'em!", 128, 16, 255, Left},
-    {1, 278, 126, 0, "all o'ya", 128, 16, 255, Left},
-    {1, 278, 148, 0, "help!", 128, 16, 255, Left},
-    {1, 278, 170, 0, "laugh", 128, 16, 255, Left},
-    {1, 90, 104, 0, kHello, 160, 160, 160, Right},
-    {1, 90, 126, 0, kFollowMe, 160, 160, 160, Right},
-    {1, 90, 148, 0, kWait, 160, 160, 160, Right},
-    {1, 90, 170, 0, kWork, 160, 160, 160, Right},
-    {1, 260, 104, 0, kAnger, 160, 160, 160, Right},
-    {1, 260, 126, 0, kAllYa, 160, 160, 160, Right},
-    {1, 260, 148, 0, kSorry, 160, 160, 160, Right},
-    {1, 260, 170, 0, kStopIt, 160, 160, 160, Right},
-    {1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u}};
+static PauseMenuPageEntry sGlukkonGameSpeakEntries[19] = {
+    {184, 205, "more", 128, 16, 255, Centre},
+    {184, 20, "GlukkonSpeak", 127, 127, 127, Centre},
+    {110, 104, "hey!", 128, 16, 255, Left},
+    {110, 126, "commere", 128, 16, 255, Left},
+    {110, 148, "stay here", 128, 16, 255, Left},
+    {110, 170, "do it!", 128, 16, 255, Left},
+    {278, 104, "kill'em!", 128, 16, 255, Left},
+    {278, 126, "all o'ya", 128, 16, 255, Left},
+    {278, 148, "help!", 128, 16, 255, Left},
+    {278, 170, "laugh", 128, 16, 255, Left},
+    {90, 104, kHello, 160, 160, 160, Right},
+    {90, 126, kFollowMe, 160, 160, 160, Right},
+    {90, 148, kWait, 160, 160, 160, Right},
+    {90, 170, kWork, 160, 160, 160, Right},
+    {260, 104, kAnger, 160, 160, 160, Right},
+    {260, 126, kAllYa, 160, 160, 160, Right},
+    {260, 148, kSorry, 160, 160, 160, Right},
+    {260, 170, kStopIt, 160, 160, 160, Right},
+    {0, 0, nullptr, 0u, 0u, 0u, 0u}};
 
-PauseMenuPageEntry PauseMenu__PageEntryList_ParamiteSpeak_55dce0[15] = {
-    {2, 184, 205, 0, "more", 128, 16, 255, Centre},
-    {1, 184, 20, 0, "ParamiteSpeak", 127, 127, 127, Centre},
-    {1, 110, 104, 0, "howdy", 128, 16, 255, Left},
-    {1, 110, 126, 0, "c'mon", 128, 16, 255, Left},
-    {1, 110, 148, 0, "stay", 128, 16, 255, Left},
-    {1, 110, 170, 0, "do it", 128, 16, 255, Left},
-    {1, 278, 104, 0, "attack", 128, 16, 255, Left},
-    {1, 278, 126, 0, "all a ya!", 128, 16, 255, Left},
-    {1, 90, 104, 0, kHello, 160, 160, 160, Right},
-    {1, 90, 126, 0, kFollowMe, 160, 160, 160, Right},
-    {1, 90, 148, 0, kWait, 160, 160, 160, Right},
-    {1, 90, 170, 0, kWork, 160, 160, 160, Right},
-    {1, 260, 104, 0, kAnger, 160, 160, 160, Right},
-    {1, 260, 126, 0, kAllYa, 160, 160, 160, Right},
-    {1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u}};
+static PauseMenuPageEntry sParamiteGameSpeakEntries[15] = {
+    {184, 205, "more", 128, 16, 255, Centre},
+    {184, 20, "ParamiteSpeak", 127, 127, 127, Centre},
+    {110, 104, "howdy", 128, 16, 255, Left},
+    {110, 126, "c'mon", 128, 16, 255, Left},
+    {110, 148, "stay", 128, 16, 255, Left},
+    {110, 170, "do it", 128, 16, 255, Left},
+    {278, 104, "attack", 128, 16, 255, Left},
+    {278, 126, "all a ya!", 128, 16, 255, Left},
+    {90, 104, kHello, 160, 160, 160, Right},
+    {90, 126, kFollowMe, 160, 160, 160, Right},
+    {90, 148, kWait, 160, 160, 160, Right},
+    {90, 170, kWork, 160, 160, 160, Right},
+    {260, 104, kAnger, 160, 160, 160, Right},
+    {260, 126, kAllYa, 160, 160, 160, Right},
+    {0, 0, nullptr, 0u, 0u, 0u, 0u}};
 
-PauseMenuPageEntry PauseMenu__PageEntryList_ScrabSpeak_55ddd0[7] = {
-    {2, 184, 205, 0, "exit", 128, 16, 255, Centre},
-    {1, 184, 20, 0, "ScrabSpeak", 127, 127, 127, Centre},
-    {1, 110, 104, 0, "shred power", 128, 16, 255, Left},
-    {1, 110, 126, 0, "howl", 128, 16, 255, Left},
-    {1, 90, 104, 0, kHello, 160, 160, 160, Right},
-    {1, 90, 126, 0, kFollowMe, 160, 160, 160, Right},
-    {1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u}};
+static PauseMenuPageEntry sScrabGameSpeakEntries[7] = {
+    {184, 205, "exit", 128, 16, 255, Centre},
+    {184, 20, "ScrabSpeak", 127, 127, 127, Centre},
+    {110, 104, "shred power", 128, 16, 255, Left},
+    {110, 126, "howl", 128, 16, 255, Left},
+    {90, 104, kHello, 160, 160, 160, Right},
+    {90, 126, kFollowMe, 160, 160, 160, Right},
+    {0, 0, nullptr, 0u, 0u, 0u, 0u}};
 
-PauseMenuPageEntry PauseMenu__PageEntryList_Save_55e4c8[4] = {
-    {1, 184, 120, 0, sSaveString_5C931C, 128, 16, 255, Centre},
-    {1, 184, 180, 0, "Enter   Save", 128, 16, 255, Centre},
-    {1, 184, 205, 0, "Esc   Cancel", 128, 16, 255, Centre},
-    {1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u}};
+static PauseMenuPageEntry sSavePageEntries[4] = {
+    {184, 120, sSaveString, 128, 16, 255, Centre},
+    {184, 180, "Enter   Save", 128, 16, 255, Centre},
+    {184, 205, "Esc   Cancel", 128, 16, 255, Centre},
+    {0, 0, nullptr, 0u, 0u, 0u, 0u}};
 
-PauseMenuPageEntry PauseMenu__PageEntryList_ReallyQuit_55e278[3] = {
-    {1, 184, 110, 0, "REALLY QUIT?", 128, 16, 255, Centre},
-    {1, 184, 135, 0, "Enter yes   Esc no", 160, 160, 160, Centre},
-    {1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u}};
+static PauseMenuPageEntry sQuitConfirmationEntries[3] = {
+    {184, 110, "REALLY QUIT?", 128, 16, 255, Centre},
+    {184, 135, "Enter yes   Esc no", 160, 160, 160, Centre},
+    {0, 0, nullptr, 0u, 0u, 0u, 0u}};
 
-PauseMenuPageEntry PauseMenu__PageEntryList_Status_55e738[1] = {
-    {1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u}};
+static PauseMenuPageEntry sStatusPageEntries[1] = {
+    {0, 0, nullptr, 0u, 0u, 0u, 0u}};
 
-PauseMenuPageEntry PauseMenu__PageEntryList_Load_55e3a0[9] = {
-    {1, 184, 5, 0, "", 128, 16, 255, Centre},
-    {1, 184, 30, 0, "", 128, 16, 255, Centre},
-    {1, 184, 55, 0, "", 128, 16, 255, Centre},
-    {1, 184, 80, 0, "", 128, 16, 255, Centre},
-    {1, 184, 105, 0, "", 128, 16, 255, Centre},
-    {1, 184, 130, 0, "", 128, 16, 255, Centre},
-    {1, 184, 188, 0, "", 128, 16, 255, Centre},
-    {1, 184, 213, 0, "Esc  Cancel        F6  Load QuikSave", 128, 16, 255, Centre},
-    {1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u}};
+static PauseMenuPageEntry sLoadPageEntries[9] = {
+    {184, 5, "", 128, 16, 255, Centre},
+    {184, 30, "", 128, 16, 255, Centre},
+    {184, 55, "", 128, 16, 255, Centre},
+    {184, 80, "", 128, 16, 255, Centre},
+    {184, 105, "", 128, 16, 255, Centre},
+    {184, 130, "", 128, 16, 255, Centre},
+    {184, 188, "", 128, 16, 255, Centre},
+    {184, 213, "Esc  Cancel        F6  Load QuikSave", 128, 16, 255, Centre},
+    {0, 0, nullptr, 0u, 0u, 0u, 0u}};
 
 
 // Menu Pages
 
-PauseMenu::PauseMenuPage sPM_Page_Main_5465B0 = {
+static const PauseMenu::PauseMenuPage sMainMenuPage = {
     &PauseMenu::Page_Main_Update,
     &PauseMenu::Page_Base_Render,
-    PauseMenu__PageEntryList_Main_55E1C8,
+    sMainPageEntries,
     0,
     100u,
     100u,
-    100u,
-    0u,
-    0u,
-    0u};
+    100u};
 
-PauseMenu::PauseMenuPage sPM_Page_Controls_Actions_546610 = {
+static const PauseMenu::PauseMenuPage sControlActionsMenuPage = {
     &PauseMenu::Page_ControlsActions_Update,
     &PauseMenu::Page_Base_Render,
-    PauseMenu__PageEntryList_ControlActions_55d820,
+    sControlActionsEntries,
     0,
     100u,
     100u,
-    100u,
-    0u,
-    0u,
-    0u};
+    100u};
 
-PauseMenu::PauseMenuPage sPM_Page_ReallyQuit_5465E0 = {
-    &PauseMenu::Page_ReallyQuit_Update,
+static const PauseMenu::PauseMenuPage sQuitConfirmationMenuPage = {
+    &PauseMenu::Page_QuitConfirmation_Update,
     &PauseMenu::Page_Base_Render,
-    PauseMenu__PageEntryList_ReallyQuit_55e278,
+    sQuitConfirmationEntries,
     -1,
     100u,
     100u,
-    100u,
-    0u,
-    0u,
-    0u};
+    100u};
 
-PauseMenu::PauseMenuPage sPM_Page_Load_546628 = {
+static const PauseMenu::PauseMenuPage sLoadMenuPage = {
     &PauseMenu::Page_Load_Update,
     &PauseMenu::Page_Load_Render,
-    PauseMenu__PageEntryList_Load_55e3a0,
+    sLoadPageEntries,
     0,
     static_cast<s8>(160u),
     static_cast<s8>(160u),
-    static_cast<s8>(160u),
-    0u,
-    0u,
-    0u};
+    static_cast<s8>(160u)};
 
-PauseMenuPageEntry PauseMenu__PageEntryList_Save_55E4C8[4] = {
-    {1, 184, 120, 0, sSaveString_5C931C, 128u, 16u, 255u, 1u},
-    {1, 184, 180, 0, "Enter   Save", 128u, 16u, 255u, 1u},
-    {1, 184, 205, 0, "Esc   Cancel", 128u, 16u, 255u, 1u},
-    {1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u}};
+static PauseMenuPageEntry sOverwriteSaveEntries[2] = {
+    {184, 180, "Enter Overwrite  Esc Cancel", 160u, 160u, 160u, 1u},
+    {0, 0, nullptr, 0u, 0u, 0u, 0u}};
 
-PauseMenuPageEntry PauseMenu__PageEntryList_Save_Overwrite_Confirm_55E508[2] = {
-    {1, 184, 180, 0, "Enter Overwrite  Esc Cancel", 160u, 160u, 160u, 1u},
-    {1, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u}};
-
-PauseMenu::PauseMenuPage sPM_Page_Save_5465C8 = {
+static const PauseMenu::PauseMenuPage sSaveMenuPage = {
     &PauseMenu::Page_Save_Update,
     &PauseMenu::Page_Save_Render,
-    &PauseMenu__PageEntryList_Save_55E4C8[0],
+    &sSavePageEntries[0],
     0,
     static_cast<s8>(160u),
     static_cast<s8>(160u),
-    static_cast<s8>(160u),
-    0,
-    0,
-    0};
+    static_cast<s8>(160u)};
 
-char_type sPauseMenu_Of300Mudokons_55E718[32] = {};
-char_type sHasBeenTerminated_55E738[56] = {};
+static char_type sSavedMudokonsText[32] = {};
+static char_type sTerminatedMudokonsText[56] = {};
 
-PauseMenuPageEntry sStatusEntries_55E758[6] = {
-    {2, 184, 205, 0, "EXIT", 128u, 16u, 255u, 1u},
-    {1, 184, 20, 0, "ABE'S STATUS", 127u, 127u, 127u, 1u},
-    {1, 184, 145, 0, sPauseMenu_Of300Mudokons_55E718, 128u, 16u, 255u, 1u},
-    {1, 184, 170, 0, sHasBeenTerminated_55E738, 128u, 16u, 255u, 1u},
-    {1, 184, 120, 0, "YOU HAVE RESCUED", 128u, 16u, 255u, 1u},
-    {0, 0, 0, 0, nullptr, 0u, 0u, 0u, 0u}};
+static PauseMenuPageEntry sStatusEntries[6] = {
+    {184, 205, "EXIT", 128u, 16u, 255u, 1u},
+    {184, 20, "ABE'S STATUS", 127u, 127u, 127u, 1u},
+    {184, 145, sSavedMudokonsText, 128u, 16u, 255u, 1u},
+    {184, 170, sTerminatedMudokonsText, 128u, 16u, 255u, 1u},
+    {184, 120, "YOU HAVE RESCUED", 128u, 16u, 255u, 1u},
+    {0, 0, nullptr, 0u, 0u, 0u, 0u}};
 
-PauseMenu::PauseMenuPage sPM_Page_Status_5465F8 = {
+PauseMenu::PauseMenuPage sStatusMenuPage = {
     &PauseMenu::Page_Status_Update,
     &PauseMenu::Page_Status_Render,
-    &sStatusEntries_55E758[0],
+    &sStatusEntries[0],
     0,
     100u,
     100u,
-    100u,
-    0u,
-    0u,
-    0u};
+    100u};
 
-PauseMenuPageEntry* sControlActionsPages_55DE40[6] =
+static PauseMenuPageEntry* sAllControlEntries[6] =
 {
-    PauseMenu__PageEntryList_ControlActions_55d820,
-    PauseMenu__PageEntryList_GameSpeak_55d930,
-    PauseMenu__PageEntryList_SligSpeak_55da80,
-    PauseMenu__PageEntryList_GlukkonSpeak_55dbb0,
-    PauseMenu__PageEntryList_ParamiteSpeak_55dce0,
-    PauseMenu__PageEntryList_ScrabSpeak_55ddd0
+    sControlActionsEntries,
+    sAbeGameSpeakEntries,
+    sSligGameSpeakEntries,
+    sGlukkonGameSpeakEntries,
+    sParamiteGameSpeakEntries,
+    sScrabGameSpeakEntries
 };
 
 void PauseMenu::LoadAnimations()
@@ -305,19 +281,18 @@ PauseMenu::PauseMenu()
     SetType(ReliveTypes::ePauseMenu);
     SetDrawable(false);
     SetSurviveDeathReset(true);
-    word12C_flags &= ~0xE;
-    word12C_flags &= ~1u;
+    mPauseRenderLoop = false;
 
     SetUpdateDelay(25);
 
     gObjListDrawables->Push_Back(this);
 
-    field_138_control_action_page_index = 0;
-    field_13C_save_state = SaveState::ReadingInput_0;
+    mControlActionPageIndex = 0;
+    mSaveState = SaveState::ReadingInput_0;
 
     mFontContext.LoadFontType(FontType::PauseMenu);
     mPal = ResourceManagerWrapper::LoadPal(PalId::MainMenuFont_PauseMenu);
-    field_F4_font.Load(256, mPal, &mFontContext);
+    mFont.Load(256, mPal, &mFontContext);
 
     Init();
 
@@ -329,16 +304,16 @@ PauseMenu::~PauseMenu()
     SetDrawable(false);
 
     gObjListDrawables->Remove_Item(this);
-    field_158_animation.VCleanUp();
+    mMudIconAnim.VCleanUp();
 }
 
 void PauseMenu::Init()
 {
-    if (field_158_animation.Init(GetAnimRes(AnimId::NormalMudIcon), this))
+    if (mMudIconAnim.Init(GetAnimRes(AnimId::NormalMudIcon), this))
     {
-        this->field_158_animation.SetRenderLayer(GetAnimation().GetRenderLayer());
-        this->field_158_animation.SetSpriteScale(GetSpriteScale());
-        this->field_158_animation.SetRGB(127, 127, 127);
+        mMudIconAnim.SetRenderLayer(GetAnimation().GetRenderLayer());
+        mMudIconAnim.SetSpriteScale(GetSpriteScale());
+        mMudIconAnim.SetRGB(127, 127, 127);
     }
     else
     {
@@ -348,20 +323,20 @@ void PauseMenu::Init()
 
 void PauseMenu::VRender(PrimHeader** ot)
 {
-    field_142_poly_offset = 0;
+    mPolyOffset = 0;
 
     // Render the page
-    (this->*field_144_active_menu.field_4_fn_render)(ot, &field_144_active_menu);
+    (this->*mActiveMenu.mFnRender)(ot, &mActiveMenu);
 
     // Draw a full screen polygon that "dims" out the screen while paused
-    Prim_SetTPage* pTPage = &field_1F0_primitives[gPsxDisplay.mBufferIndex];
-    Poly_G4* pPolys = &field_210_polygons[gPsxDisplay.mBufferIndex];
+    Prim_SetTPage* pTPage = &mPrimitives[gPsxDisplay.mBufferIndex];
+    Poly_G4* pPolys = &mPolyG4s[gPsxDisplay.mBufferIndex];
     PolyG4_Init(pPolys);
     Poly_Set_SemiTrans(&pPolys->mBase.header, true);
     Poly_Set_Blending(&pPolys->mBase.header, false);
-    SetRGB0(pPolys, field_144_active_menu.field_E_background_r, field_144_active_menu.field_F_background_g, field_144_active_menu.field_10_background_b);
-    SetRGB1(pPolys, field_144_active_menu.field_E_background_r, field_144_active_menu.field_F_background_g, field_144_active_menu.field_10_background_b);
-    SetRGB2(pPolys, field_144_active_menu.field_E_background_r, field_144_active_menu.field_F_background_g, field_144_active_menu.field_10_background_b);
+    SetRGB0(pPolys, mActiveMenu.mBgRed, mActiveMenu.mBgGreen, mActiveMenu.mBgBlue);
+    SetRGB1(pPolys, mActiveMenu.mBgRed, mActiveMenu.mBgGreen, mActiveMenu.mBgBlue);
+    SetRGB2(pPolys, mActiveMenu.mBgRed, mActiveMenu.mBgGreen, mActiveMenu.mBgBlue);
     SetXY0(pPolys, 0, 0);
     SetXY1(pPolys, 640, 0);
     SetXY2(pPolys, 0, 240);
@@ -379,27 +354,27 @@ void PauseMenu::VScreenChanged()
     }
 }
 
-void PauseMenu::Page_Base_Render(PrimHeader** ot, PauseMenu::PauseMenuPage* mp)
+void PauseMenu::Page_Base_Render(PrimHeader** ot, PauseMenu::PauseMenuPage* pPage)
 {
     s32 i = 0;
-    PauseMenuPageEntry* e = &mp->field_8_menu_items[i];
+    PauseMenuPageEntry* e = &pPage->mMenuItems[i];
 
-    while (e->field_8_text)
+    while (e->mText)
     {
         char_type textFormatted[128];
-        String_FormatString(e->field_8_text, textFormatted, 128, 1);
+        String_FormatString(e->mText, textFormatted, 128, 1);
 
         auto glow = 0;
-        if (mp->field_C_selected_index == i)
+        if (pPage->mSelectedIndex == i)
         {
-            glow = field_12E_selected_glow;
+            glow = mSelectedGlow;
         }
 
-        auto x = e->field_2_x;
+        auto x = e->mX;
 
-        if (e->field_F_alignment != 0)
+        if (e->mAlignment != 0)
         {
-            s16 textMeasure = static_cast<s16>(field_F4_font.MeasureTextWidth(textFormatted));
+            s16 textMeasure = static_cast<s16>(mFont.MeasureTextWidth(textFormatted));
 
             if (textMeasure >= 608)
             {
@@ -407,7 +382,7 @@ void PauseMenu::Page_Base_Render(PrimHeader** ot, PauseMenu::PauseMenuPage* mp)
             }
             else
             {
-                if (e->field_F_alignment != 2)
+                if (e->mAlignment != 2)
                 {
                     textMeasure /= 2;
                 }
@@ -415,7 +390,7 @@ void PauseMenu::Page_Base_Render(PrimHeader** ot, PauseMenu::PauseMenuPage* mp)
             }
         }
 
-        field_142_poly_offset = static_cast<s16>(field_F4_font.DrawString(
+        mPolyOffset = static_cast<s16>(mFont.DrawString(
             ot,
             textFormatted,
             x,            // X
@@ -424,15 +399,15 @@ void PauseMenu::Page_Base_Render(PrimHeader** ot, PauseMenu::PauseMenuPage* mp)
             1,
             0,
             Layer::eLayer_Menu_41,
-            static_cast<s8>(glow + e->field_C_r),
-            static_cast<s8>(glow + e->field_D_g),
-            static_cast<s8>(glow + e->field_E_b),
-            field_142_poly_offset,
+            static_cast<s8>(glow + e->mRed),
+            static_cast<s8>(glow + e->mGreen),
+            static_cast<s8>(glow + e->mBlue),
+            mPolyOffset,
             FP_FromDouble(1.0),
             640,
             0));
 
-        e = &mp->field_8_menu_items[++i];
+        e = &pPage->mMenuItems[++i];
     }
 }
 
@@ -442,15 +417,15 @@ void PauseMenu::RestartPath()
 
     Quicksave_SaveSwitchResetterStates();
 
-    gSwitchStates = sActiveQuicksaveData.field_35C_restart_path_switch_states;
+    gSwitchStates = gActiveQuicksaveData.field_35C_restart_path_switch_states;
 
-    Abe::CreateFromSaveState(sActiveQuicksaveData.field_284_restart_path_abe_state);
-    Quicksave_ReadWorldInfo(&sActiveQuicksaveData.field_244_restart_path_world_info);
+    Abe::CreateFromSaveState(gActiveQuicksaveData.field_284_restart_path_abe_state);
+    Quicksave_ReadWorldInfo(&gActiveQuicksaveData.field_244_restart_path_world_info);
 
     gMap.SetActiveCam(
-        MapWrapper::FromAE(sActiveQuicksaveData.field_244_restart_path_world_info.field_4_level),
-        sActiveQuicksaveData.field_244_restart_path_world_info.field_6_path,
-        sActiveQuicksaveData.field_244_restart_path_world_info.field_8_cam,
+        MapWrapper::FromAE(gActiveQuicksaveData.field_244_restart_path_world_info.field_4_level),
+        gActiveQuicksaveData.field_244_restart_path_world_info.field_6_path,
+        gActiveQuicksaveData.field_244_restart_path_world_info.field_8_cam,
         CameraSwapEffects::eInstantChange_0,
         1,
         1);
@@ -459,8 +434,8 @@ void PauseMenu::RestartPath()
     if (sActiveHero->mBaseThrowableCount)
     {
         LoadRockTypes_49AB30(
-            MapWrapper::FromAE(sActiveQuicksaveData.field_244_restart_path_world_info.field_4_level),
-            sActiveQuicksaveData.field_244_restart_path_world_info.field_6_path);
+            MapWrapper::FromAE(gActiveQuicksaveData.field_244_restart_path_world_info.field_4_level),
+            gActiveQuicksaveData.field_244_restart_path_world_info.field_6_path);
 
         if (!gpThrowableArray)
         {
@@ -470,7 +445,7 @@ void PauseMenu::RestartPath()
         gpThrowableArray->Add(sActiveHero->mBaseThrowableCount);
     }
 
-    word12C_flags &= ~1;
+    mPauseRenderLoop = false;
     SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 3400);
     GetSoundAPI().SND_Restart();
 }
@@ -482,42 +457,42 @@ void PauseMenu::Page_Main_Update()
 {
     if (Input().isHeld(InputCommands::Enum::eDown))
     {
-        if (++field_134_index_main > MainPages::ePage_Quit_7)
+        if (++mMainPage > MainPages::ePage_Quit_7)
         {
-            field_134_index_main = MainPages::ePage_Continue_0;
+            mMainPage = MainPages::ePage_Continue_0;
         }
         SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 45, 400);
     }
 
     if (Input().isHeld(InputCommands::Enum::eUp))
     {
-        if (--field_134_index_main < MainPages::ePage_Continue_0)
+        if (--mMainPage < MainPages::ePage_Continue_0)
         {
-            field_134_index_main = MainPages::ePage_Quit_7;
+            mMainPage = MainPages::ePage_Quit_7;
         }
         SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 45, 400);
     }
 
-    field_144_active_menu.field_C_selected_index = field_134_index_main;
+    mActiveMenu.mSelectedIndex = mMainPage;
 
     if (Input().isHeld(InputCommands::Enum::eBack))
     {
-        word12C_flags &= ~1u;
+        mPauseRenderLoop = false;
         SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
         GetSoundAPI().SND_Restart();
     }
     else if (Input().isHeld(InputCommands::Enum::eUnPause_OrConfirm))
     {
-        switch (field_134_index_main)
+        switch (mMainPage)
         {
             case MainPages::ePage_Continue_0:
-                word12C_flags &= ~1u;
+                mPauseRenderLoop = false;
                 SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
                 GetSoundAPI().SND_Restart();
                 return;
 
             case MainPages::ePage_QuickSave_1:
-                word12C_flags &= ~1u;
+                mPauseRenderLoop = false;
                 SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
                 GetSoundAPI().SND_Restart();
                 DoQuicksave();
@@ -527,32 +502,30 @@ void PauseMenu::Page_Main_Update()
 #if DEVELOPER_MODE
                 devMenu.Activate();
 #else
-                field_144_active_menu = sPM_Page_Controls_Actions_546610;
-                field_138_control_action_page_index = 0;
+                mActiveMenu = sControlActionsMenuPage;
+                mControlActionPageIndex = 0;
 #endif
                 break;
 
             case MainPages::ePage_Status_3:
-                field_144_active_menu = sPM_Page_Status_5465F8;
+                mActiveMenu = sStatusMenuPage;
                 break;
 
             case MainPages::ePage_Save_4:
-                field_144_active_menu = sPM_Page_Save_5465C8;
+                mActiveMenu = sSaveMenuPage;
                 SfxPlayMono(relive::SoundEffects::IngameTransition, 90);
-                field_13C_save_state = SaveState::ReadingInput_0;
-                word12C_flags &= ~0xA;
-                word12C_flags |= 0x400;
+                mSaveState = SaveState::ReadingInput_0;
                 DoQuicksave();
                 // Set the default save name to be the current level/path/camera
                 Path_Format_CameraName(
-                    sSaveString_5C931C,
+                    sSaveString,
                     gMap.mCurrentLevel,
                     gMap.mCurrentPath,
                     gMap.mCurrentCamera);
                 // Null terminate it
-                sSaveString_5C931C[8] = 0;
+                sSaveString[8] = 0;
                 // Append the editor arrow s8
-                strcat(sSaveString_5C931C, sArrowStr_55E398);
+                strcat(sSaveString, sArrowStr_55E398);
 
 #if ORIGINAL_PS1_BEHAVIOR // OG Change - Allow for exiting save menu using controller
                 setSaveMenuOpen(true); // Sets saveMenuOpen bool to true, instead of disabling input
@@ -563,11 +536,9 @@ void PauseMenu::Page_Main_Update()
 
             case MainPages::ePage_Load_5:
                 Quicksave_FindSaves();
-                field_144_active_menu = sPM_Page_Load_546628;
+                mActiveMenu = sLoadMenuPage;
                 SfxPlayMono(relive::SoundEffects::IngameTransition, 90);
-                word12C_flags &= ~0xA;
-                field_13C_save_state = SaveState::ReadingInput_0;
-                word12C_flags |= 0x400;
+                mSaveState = SaveState::ReadingInput_0;
                 return;
 
             case MainPages::ePage_RestartPath_6:
@@ -575,8 +546,8 @@ void PauseMenu::Page_Main_Update()
                 return;
 
             case MainPages::ePage_Quit_7:
-                field_144_active_menu = sPM_Page_ReallyQuit_5465E0;
-                field_134_index_main = MainPages::ePage_Continue_0;
+                mActiveMenu = sQuitConfirmationMenuPage;
+                mMainPage = MainPages::ePage_Continue_0;
                 break;
 
             default:
@@ -591,38 +562,38 @@ void PauseMenu::Page_ControlsActions_Update()
 {
     if (Input().isHeld(InputCommands::Enum::eBack))
     {
-        field_144_active_menu = sPM_Page_Main_5465B0;
+        mActiveMenu = sMainMenuPage;
         SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
     }
 
     if (Input().isHeld(0x100000))
     {
-        const s32 prev = ++field_138_control_action_page_index;
+        const s32 prev = ++mControlActionPageIndex;
         if (prev < 6)
         {
-            field_144_active_menu.field_8_menu_items = sControlActionsPages_55DE40[prev];
+            mActiveMenu.mMenuItems = sAllControlEntries[prev];
             SfxPlayMono(relive::SoundEffects::IngameTransition, 90);
         }
         else
         {
-            field_138_control_action_page_index = 0;
-            field_144_active_menu = sPM_Page_Main_5465B0;
+            mControlActionPageIndex = 0;
+            mActiveMenu = sMainMenuPage;
             SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
         }
     }
 }
 
-void PauseMenu::Page_ReallyQuit_Update()
+void PauseMenu::Page_QuitConfirmation_Update()
 {
     if (Input().isHeld(InputCommands::Enum::eBack))
     {
-        field_144_active_menu = sPM_Page_Main_5465B0;
+        mActiveMenu = sMainMenuPage;
         SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
     }
 
     if (Input().isHeld(0x100000))
     {
-        word12C_flags &= ~1u;
+        mPauseRenderLoop = false;
         SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
 
         if (gPauseMenu && gPauseMenu == this)
@@ -647,9 +618,9 @@ void PauseMenu::Page_Save_Update()
 
     char_type newInput[2] = {};
     char_type savFileName[40] = {};
-    if (field_13C_save_state == SaveState::DoSave_4)
+    if (mSaveState == SaveState::DoSave_4)
     {
-        strcpy(savFileName, sSaveString_5C931C);
+        strcpy(savFileName, sSaveString);
         strcat(savFileName, ".sav");
         if (access_impl(savFileName, 4) || bWriteSaveFile_5C937C) // check file is writable
         {
@@ -657,34 +628,34 @@ void PauseMenu::Page_Save_Update()
             FILE* hFile = fopen(savFileName, "wb");
             if (hFile)
             {
-                fwrite(&sActiveQuicksaveData, sizeof(Quicksave), 1u, hFile);
+                fwrite(&gActiveQuicksaveData, sizeof(Quicksave), 1u, hFile);
                 fclose(hFile);
-                sSavedGameToLoadIdx_BB43FC = 0;
+                gSavedGameToLoadIdx = 0;
             }
-            word12C_flags &= ~1u;
+            mPauseRenderLoop = false;
             SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
             GetSoundAPI().SND_Restart();
         }
         else
         {
-            field_13C_save_state = SaveState::SaveConfirmOverwrite_8;
+            mSaveState = SaveState::SaveConfirmOverwrite_8;
         }
     }
-    else if (field_13C_save_state == SaveState::SaveConfirmOverwrite_8)
+    else if (mSaveState == SaveState::SaveConfirmOverwrite_8)
     {
         if (Input().isHeld(InputCommands::Enum::eUnPause_OrConfirm))
         {
             // Enter - do the save and don't return to the confirm overwrite
             SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
-            field_13C_save_state = SaveState::DoSave_4;
+            mSaveState = SaveState::DoSave_4;
             bWriteSaveFile_5C937C = true;
         }
         else if (Input().isHeld(InputCommands::Enum::eBack))
         {
             // Escape - cancel save
             SfxPlayMono(relive::SoundEffects::IngameTransition, 90);
-            field_13C_save_state = SaveState::ReadingInput_0;
-            strcat(sSaveString_5C931C, sArrowStr_55E398);
+            mSaveState = SaveState::ReadingInput_0;
+            strcat(sSaveString, sArrowStr_55E398);
 #if ORIGINAL_PS1_BEHAVIOR // OG Change - Allow for exiting save menu using controller
             setSaveMenuOpen(true); // Sets saveMenuOpen bool to true, instead of disabling input
 #else
@@ -693,7 +664,7 @@ void PauseMenu::Page_Save_Update()
         }
         return;
     }
-    else if (field_13C_save_state == SaveState::ReadingInput_0)
+    else if (mSaveState == SaveState::ReadingInput_0)
     {
 #if ORIGINAL_PS1_BEHAVIOR // OG Change - Exit save menu using controller
         u32 lastPressed = Input_GetLastPressedKey_492610();
@@ -724,7 +695,7 @@ void PauseMenu::Page_Save_Update()
         newInput[0] = static_cast<s8>(lastPressed);
         newInput[1] = 0;
 
-        const size_t stringLen = strlen(sSaveString_5C931C);
+        const size_t stringLen = strlen(sSaveString);
 
         switch (lastPressed)
         {
@@ -733,7 +704,7 @@ void PauseMenu::Page_Save_Update()
             // Escape - cancel
             case VK_ESCAPE:
                 SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
-                field_144_active_menu = sPM_Page_Main_5465B0;
+                mActiveMenu = sMainMenuPage;
                 Input_Reset_492660();
                 return;
 
@@ -743,8 +714,8 @@ void PauseMenu::Page_Save_Update()
                 {
                     // Replace arrow with null terminator
                     SfxPlayMono(relive::SoundEffects::IngameTransition, 90);
-                    sSaveString_5C931C[stringLen - 1] = 0;
-                    field_13C_save_state = SaveState::DoSave_4;
+                    sSaveString[stringLen - 1] = 0;
+                    mSaveState = SaveState::DoSave_4;
                     Input_Reset_492660();
                     return;
                 }
@@ -756,8 +727,8 @@ void PauseMenu::Page_Save_Update()
                 if (stringLen > 1)
                 {
                     // Replace last s8 with arrow
-                    sSaveString_5C931C[stringLen - 2] = kArrowChar;
-                    sSaveString_5C931C[stringLen - 1] = 0;
+                    sSaveString[stringLen - 2] = kArrowChar;
+                    sSaveString[stringLen - 1] = 0;
                     SfxPlayMono(relive::SoundEffects::PickupItem, 0);
                     return;
                 }
@@ -769,7 +740,7 @@ void PauseMenu::Page_Save_Update()
         if (strspn(newInput, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 !-"))
         {
             // Don't allow space at the start of the name, and don't allow 2 constitutive spaces.
-            if (newInput[0] == ' ' && (stringLen == 1 || sSaveString_5C931C[stringLen - 2] == newInput[0]))
+            if (newInput[0] == ' ' && (stringLen == 1 || sSaveString[stringLen - 2] == newInput[0]))
             {
                 SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 30, 2600);
             }
@@ -781,9 +752,9 @@ void PauseMenu::Page_Save_Update()
             // Append new input s8
             else
             {
-                sSaveString_5C931C[stringLen - 1] = newInput[0]; // Replace arrow with input
-                sSaveString_5C931C[stringLen] = kArrowChar;      // Replace null with arrow
-                sSaveString_5C931C[stringLen + 1] = 0;           // Append new null
+                sSaveString[stringLen - 1] = newInput[0]; // Replace arrow with input
+                sSaveString[stringLen] = kArrowChar;      // Replace null with arrow
+                sSaveString[stringLen + 1] = 0;           // Append new null
                 SfxPlayMono(relive::SoundEffects::RockBounce, 0);
             }
         }
@@ -794,14 +765,11 @@ void PauseMenu::Page_Save_Update()
     }
 }
 
-PauseMenu::PauseMenuPage sOverwriteSaveConfirmPage_55E560 = {
+static PauseMenu::PauseMenuPage sOverwriteSaveMenuPage = {
     &PauseMenu::Page_Save_Update,
     &PauseMenu::Page_Save_Render,
-    PauseMenu__PageEntryList_Save_Overwrite_Confirm_55E508,
+    sOverwriteSaveEntries,
     -1,
-    0u,
-    0u,
-    0u,
     0u,
     0u,
     0u};
@@ -809,8 +777,8 @@ PauseMenu::PauseMenuPage sOverwriteSaveConfirmPage_55E560 = {
 
 void PauseMenu::Page_Save_Render(PrimHeader** ot, PauseMenuPage* pPage)
 {
-    PauseMenuPage* pPageToRender = &sOverwriteSaveConfirmPage_55E560;
-    if (field_13C_save_state != SaveState::SaveConfirmOverwrite_8)
+    PauseMenuPage* pPageToRender = &sOverwriteSaveMenuPage;
+    if (mSaveState != SaveState::SaveConfirmOverwrite_8)
     {
         pPageToRender = pPage;
     }
@@ -823,7 +791,7 @@ void PauseMenu::Page_Status_Update()
     if (Input().isHeld(0x300000))
     {
         // Go back to the main page
-        field_144_active_menu = sPM_Page_Main_5465B0;
+        mActiveMenu = sMainMenuPage;
         SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
     }
 }
@@ -831,8 +799,8 @@ void PauseMenu::Page_Status_Update()
 void PauseMenu::Page_Status_Render(PrimHeader** ot, PauseMenuPage* pPage)
 {
     // Render the status icon
-    field_158_animation.SetRenderLayer(Layer::eLayer_Menu_41);
-    field_158_animation.VRender(180, 100, ot, 0, 0);
+    mMudIconAnim.SetRenderLayer(Layer::eLayer_Menu_41);
+    mMudIconAnim.VRender(180, 100, ot, 0, 0);
 
     // Render the text
     Page_Base_Render(ot, pPage);
@@ -847,7 +815,7 @@ void PauseMenu::Page_Load_Update()
     {
         Quicksave_LoadActive();
         gQuicksave_LoadNextFrame = false;
-        word12C_flags &= ~1u;
+        mPauseRenderLoop = false;
     }
 
     const u32 inputHeld = Input().mPads[sCurrentControllerIndex].mHeld;
@@ -856,9 +824,9 @@ void PauseMenu::Page_Load_Update()
     if (inputHeld & InputCommands::Enum::eUp)
     {
         // Don't underflow
-        if (sSavedGameToLoadIdx_BB43FC > 0)
+        if (gSavedGameToLoadIdx > 0)
         {
-            sSavedGameToLoadIdx_BB43FC--;
+            gSavedGameToLoadIdx--;
         }
         SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 35, 400);
         return;
@@ -868,9 +836,9 @@ void PauseMenu::Page_Load_Update()
     if (inputHeld & InputCommands::Enum::eDown)
     {
         // Don't overflow
-        if (sSavedGameToLoadIdx_BB43FC < sTotalSaveFilesCount_BB43E0 - 1)
+        if (gSavedGameToLoadIdx < gTotalSaveFilesCount - 1)
         {
-            sSavedGameToLoadIdx_BB43FC++;
+            gSavedGameToLoadIdx++;
         }
         SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 35, 400);
         return;
@@ -879,12 +847,12 @@ void PauseMenu::Page_Load_Update()
     // Page up saves
     if (inputHeld & 0x20000000)
     {
-        sSavedGameToLoadIdx_BB43FC -= 4;
+        gSavedGameToLoadIdx -= 4;
 
         // Don't underflow
-        if (sSavedGameToLoadIdx_BB43FC < 0)
+        if (gSavedGameToLoadIdx < 0)
         {
-            sSavedGameToLoadIdx_BB43FC = 0;
+            gSavedGameToLoadIdx = 0;
         }
 
         SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 35, 400);
@@ -895,10 +863,10 @@ void PauseMenu::Page_Load_Update()
     if (inputHeld & 0x40000000)
     {
         // Don't overflow
-        sSavedGameToLoadIdx_BB43FC += 4;
-        if (sSavedGameToLoadIdx_BB43FC > sTotalSaveFilesCount_BB43E0 - 1)
+        gSavedGameToLoadIdx += 4;
+        if (gSavedGameToLoadIdx > gTotalSaveFilesCount - 1)
         {
-            sSavedGameToLoadIdx_BB43FC = sTotalSaveFilesCount_BB43E0 - 1;
+            gSavedGameToLoadIdx = gTotalSaveFilesCount - 1;
         }
         SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 35, 400);
         return;
@@ -907,20 +875,20 @@ void PauseMenu::Page_Load_Update()
     // Load save (enter)
     if (inputHeld & InputCommands::Enum::eUnPause_OrConfirm)
     {
-        field_144_active_menu = sPM_Page_Main_5465B0;
+        mActiveMenu = sMainMenuPage;
 
-        if (sTotalSaveFilesCount_BB43E0)
+        if (gTotalSaveFilesCount)
         {
-            strcpy(saveFileName, sSaveFileRecords_BB31D8[sSavedGameToLoadIdx_BB43FC].field_0_fileName);
+            strcpy(saveFileName, gSaveFileRecords[gSavedGameToLoadIdx].mFileName);
             strcat(saveFileName, ".sav");
             FILE* hFile = ::fopen(saveFileName, "rb");
             if (hFile)
             {
-                ::fread(&sActiveQuicksaveData, sizeof(Quicksave), 1u, hFile);
+                ::fread(&gActiveQuicksaveData, sizeof(Quicksave), 1u, hFile);
                 sActiveHero->mXPos = FP_FromInteger(0);
                 sActiveHero->mYPos = FP_FromInteger(0);
                 Quicksave_LoadActive();
-                word12C_flags &= ~1u;
+                mPauseRenderLoop = false;
                 // TODO: OG bug, file handle is leaked
                 ::fclose(hFile);
             }
@@ -930,15 +898,15 @@ void PauseMenu::Page_Load_Update()
     // Go back (esc)
     else if (inputHeld & InputCommands::Enum::eBack)
     {
-        field_144_active_menu = sPM_Page_Main_5465B0;
+        mActiveMenu = sMainMenuPage;
         SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
     }
     // Delete (del)
     else if (inputHeld & 0x10000000)
     {
-        if (sTotalSaveFilesCount_BB43E0)
+        if (gTotalSaveFilesCount)
         {
-            strcpy(saveFileName, sSaveFileRecords_BB31D8[sSavedGameToLoadIdx_BB43FC].field_0_fileName);
+            strcpy(saveFileName, gSaveFileRecords[gSavedGameToLoadIdx].mFileName);
             strcat(saveFileName, ".sav");
             relive_remove(saveFileName);
             Quicksave_FindSaves();
@@ -946,47 +914,41 @@ void PauseMenu::Page_Load_Update()
     }
 }
 
-void PauseMenu::Page_Load_Render(PrimHeader** ot, PauseMenuPage* mp)
+void PauseMenu::Page_Load_Render(PrimHeader** ot, PauseMenuPage* pPage)
 {
-    s32 saveIdx = sSavedGameToLoadIdx_BB43FC - 2;
+    s32 saveIdx = gSavedGameToLoadIdx - 2;
     for (s32 i = 0; i < 6; i++)
     {
-        if (saveIdx < 0 || saveIdx >= sTotalSaveFilesCount_BB43E0)
+        if (saveIdx < 0 || saveIdx >= gTotalSaveFilesCount)
         {
             // When at the top of the list set the first 2 entries to a blank, and when at the end of the list set the
             // remaining save text slots to blank.
-            PauseMenu__PageEntryList_Load_55e3a0[i].field_8_text = "";
+            sLoadPageEntries[i].mText = "";
         }
         else
         {
-            PauseMenu__PageEntryList_Load_55e3a0[i].field_8_text = sSaveFileRecords_BB31D8[saveIdx].field_0_fileName;
+            sLoadPageEntries[i].mText = gSaveFileRecords[saveIdx].mFileName;
         }
         saveIdx++;
     }
 
-    if (sTotalSaveFilesCount_BB43E0 > 0)
+    if (gTotalSaveFilesCount > 0)
     {
         // This has to be set every time there is at least one save,
         // otherwise a call to this function with no saves hides this row forever
-        PauseMenu__PageEntryList_Load_55e3a0[6].field_8_text = kUp " " kDown " Select    Enter Load    Del Delete";
+        sLoadPageEntries[6].mText = kUp " " kDown " Select    Enter Load    Del Delete";
     }
     else
     {
-        PauseMenu__PageEntryList_Load_55e3a0[4].field_8_text = "No Saved Games";
+        sLoadPageEntries[4].mText = "No Saved Games";
 
         // hide row that displays hotkeys for selecting/loading/deleting saves, since there are no saves
-        PauseMenu__PageEntryList_Load_55e3a0[6].field_8_text = "";
+        sLoadPageEntries[6].mText = "";
     }
 
-    mp->field_C_selected_index = 2;
+    pPage->mSelectedIndex = 2;
 
-    Page_Base_Render(ot, mp);
-}
-
-u16 sub_4A2B70()
-{
-    
-    return 1;
+    Page_Base_Render(ot, pPage);
 }
 
 void PauseMenu::VUpdate()
@@ -1074,64 +1036,60 @@ void PauseMenu::VUpdate()
             {
                 SND_StopAll();
                 SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
-                sub_4A2B70();
                 SetDrawable(true);
-                field_134_index_main = MainPages::ePage_Continue_0;
-                word12C_flags = (word12C_flags & ~8) | 1;
-                field_12E_selected_glow = 40;
-                field_130_selected_glow_counter = 8;
+                mMainPage = MainPages::ePage_Continue_0;
+                mPauseRenderLoop = true;
+                mSelectedGlow = 40;
+                mSelectedGlowCounter = 8;
                 Path_Format_CameraName(
-                    sScreenStringBuffer_5C92F0,
+                    sScreenStringBuffer,
                     gMap.mCurrentLevel,
                     gMap.mCurrentPath,
                     gMap.mCurrentCamera);
 
-                // TODO: never read ??
-                //byte_5C92F8 = 0;
-
-                for (size_t i = 0; i < strlen(sScreenStringBuffer_5C92F0); i++)
+                for (size_t i = 0; i < strlen(sScreenStringBuffer); i++)
                 {
-                    s8 currentCamChar = sScreenStringBuffer_5C92F0[i];
+                    s8 currentCamChar = sScreenStringBuffer[i];
                     if (currentCamChar == '.') // Chop off .CAM
                     {
-                        sScreenStringBuffer_5C92F0[i] = 0;
+                        sScreenStringBuffer[i] = 0;
                         break;
                     }
 
                     if (currentCamChar >= '0' && currentCamChar <= '9')
                     {
                         // "Lower" case numbers in the font atlas
-                        sScreenStringBuffer_5C92F0[i] = currentCamChar - 58;
+                        sScreenStringBuffer[i] = currentCamChar - 58;
                     }
                     else
                     {
-                        sScreenStringBuffer_5C92F0[i] = static_cast<s8>(::tolower(currentCamChar));
+                        sScreenStringBuffer[i] = static_cast<s8>(::tolower(currentCamChar));
                     }
                 }
 
-                sprintf(sPauseMenu_Of300Mudokons_55E718, "%d OF %d MUDOKONS", sRescuedMudokons, Path_GetTotalMuds(gMap.mCurrentLevel, gMap.mCurrentPath));
-                sprintf(sHasBeenTerminated_55E738, "%d HA%s BEEN TERMINATED", sKilledMudokons, (sKilledMudokons != 1) ? "VE" : "S");
+                sprintf(sSavedMudokonsText, "%d OF %d MUDOKONS", gRescuedMudokons, Path_GetTotalMuds(gMap.mCurrentLevel, gMap.mCurrentPath));
+                sprintf(sTerminatedMudokonsText, "%d HA%s BEEN TERMINATED", gKilledMudokons, (gKilledMudokons != 1) ? "VE" : "S");
 
                 if (sActiveHero->field_128.mMood == Mud_Emotion::eNormal_0)
                 {
-                    field_158_animation.Set_Animation_Data(GetAnimRes(AnimId::NormalMudIcon));
+                    mMudIconAnim.Set_Animation_Data(GetAnimRes(AnimId::NormalMudIcon));
                 }
                 else if (sActiveHero->field_128.mMood == Mud_Emotion::eSad_3)
                 {
-                    field_158_animation.Set_Animation_Data(GetAnimRes(AnimId::AngryMudIcon));
+                    mMudIconAnim.Set_Animation_Data(GetAnimRes(AnimId::AngryMudIcon));
                 }
                 else if (sActiveHero->field_128.mMood == Mud_Emotion::eHappy_5)
                 {
-                    field_158_animation.Set_Animation_Data(GetAnimRes(AnimId::HappyMudIcon));
+                    mMudIconAnim.Set_Animation_Data(GetAnimRes(AnimId::HappyMudIcon));
                 }
 
-                field_158_animation.ReloadPal();
+                mMudIconAnim.ReloadPal();
 
                 sDisableFontFlicker = 1;
-                field_144_active_menu = sPM_Page_Main_5465B0;
+                mActiveMenu = sMainMenuPage;
 
                 // Start pause menu update/render loop
-                while (word12C_flags & 1)
+                while (mPauseRenderLoop)
                 {
                     if (pResourceManager)
                     {
@@ -1162,30 +1120,30 @@ void PauseMenu::VUpdate()
                     gPsxDisplay.RenderOrderingTable();
                     Input().Update(GetGameAutoPlayer());
 
-                    if (field_130_selected_glow_counter > 0)
+                    if (mSelectedGlowCounter > 0)
                     {
-                        field_12E_selected_glow += 8;
+                        mSelectedGlow += 8;
                     }
 
-                    if (field_12E_selected_glow <= 120 || field_130_selected_glow_counter <= 0)
+                    if (mSelectedGlow <= 120 || mSelectedGlowCounter <= 0)
                     {
-                        if (field_130_selected_glow_counter <= 0)
+                        if (mSelectedGlowCounter <= 0)
                         {
-                            field_12E_selected_glow -= 8;
-                            if (field_12E_selected_glow < 40)
+                            mSelectedGlow -= 8;
+                            if (mSelectedGlow < 40)
                             {
-                                field_130_selected_glow_counter = -field_130_selected_glow_counter;
-                                field_12E_selected_glow += field_130_selected_glow_counter;
+                                mSelectedGlowCounter = -mSelectedGlowCounter;
+                                mSelectedGlow += mSelectedGlowCounter;
                             }
                         }
                     }
                     else
                     {
-                        field_130_selected_glow_counter = -field_130_selected_glow_counter;
-                        field_12E_selected_glow += field_130_selected_glow_counter;
+                        mSelectedGlowCounter = -mSelectedGlowCounter;
+                        mSelectedGlow += mSelectedGlowCounter;
                     }
 
-                    (this->*field_144_active_menu.field_0_fn_update)();
+                    (this->*mActiveMenu.mFnUpdate)();
                 }
 
                 // This call seems redundant as the calle will also update input right after this too

@@ -410,7 +410,7 @@ void CrawlingSlig::UpdateAnimBlock()
 
 u8** CrawlingSlig::GetAnimBlock(s32 /*currentMotion*/)
 {
-    return field_10_resources_array.ItemAt(0);
+    return mBaseGameObjectResArray.ItemAt(0);
 }
 
 s16 CrawlingSlig::NextRandom()

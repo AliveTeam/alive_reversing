@@ -5126,7 +5126,7 @@ void Paramite::HandleBrainsAndMotions()
     const auto oldMotion = mCurrentMotion;
     mBrainSubState = (this->*mBrainState)();
 
-    if (sDDCheat_ShowAI_Info)
+    if (gDDCheat_ShowAI_Info)
     {
         DDCheat::DebugStr(
             "Paramite %d %d %d %d\n",
@@ -5483,33 +5483,33 @@ u8** Paramite::ResBlockForMotion(s16 motion)
     const auto paramiteMotion = static_cast<eParamiteMotions>(motion);
     if (paramiteMotion < eParamiteMotions::Motion_20_GameSpeakBegin)
     {
-        return field_10_resources_array.ItemAt(0);
+        return mBaseGameObjectResArray.ItemAt(0);
     }
     if (paramiteMotion < eParamiteMotions::Motion_31_RunningAttack)
     {
-        return field_10_resources_array.ItemAt(5);
+        return mBaseGameObjectResArray.ItemAt(5);
     }
     if (paramiteMotion < eParamiteMotions::Motion_32_Empty)
     {
-        return field_10_resources_array.ItemAt(14);
+        return mBaseGameObjectResArray.ItemAt(14);
     }
     if (paramiteMotion < eParamiteMotions::Motion_40_Eating)
     {
-        return field_10_resources_array.ItemAt(4);
+        return mBaseGameObjectResArray.ItemAt(4);
     }
     if (paramiteMotion < eParamiteMotions::Motion_41_Death)
     {
-        return field_10_resources_array.ItemAt(1);
+        return mBaseGameObjectResArray.ItemAt(1);
     }
     if (paramiteMotion < eParamiteMotions::Motion_42_Squawk)
     {
-        return field_10_resources_array.ItemAt(15);
+        return mBaseGameObjectResArray.ItemAt(15);
     }
     if (paramiteMotion >= eParamiteMotions::Motion_43_Attack)
     {
-        return field_10_resources_array.ItemAt(motion >= 44 ? 0 : 9);
+        return mBaseGameObjectResArray.ItemAt(motion >= 44 ? 0 : 9);
     }
-    return field_10_resources_array.ItemAt(10);
+    return mBaseGameObjectResArray.ItemAt(10);
 }
 
 void Paramite::VOnTlvCollision(relive::Path_TLV* pTlv)

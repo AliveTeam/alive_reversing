@@ -43,6 +43,5 @@ public:
 };
 
 extern PauseMenu* gPauseMenu;
-extern s8 byte_A88B90;
 
 } // namespace AO

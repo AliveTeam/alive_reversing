@@ -2002,7 +2002,7 @@ s32 Fleech::Sound(FleechSound soundId)
 
 u8** Fleech::ResBlockForMotion(s32 /*motion*/)
 {
-    return field_10_resources_array.ItemAt(0);
+    return mBaseGameObjectResArray.ItemAt(0);
 }
 
 s16 Fleech::CanMove()

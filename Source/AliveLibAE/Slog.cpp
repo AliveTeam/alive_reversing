@@ -2700,36 +2700,36 @@ u8** Slog::ResBlockForMotion(s16 motion)
     if (slogMotion < eSlogMotions::Motion_14_AngryBark)
     {
         field_130_motion_resource_block_index = 0;
-        return field_10_resources_array.ItemAt(field_130_motion_resource_block_index);
+        return mBaseGameObjectResArray.ItemAt(field_130_motion_resource_block_index);
     }
 
     if (slogMotion < eSlogMotions::Motion_18_JumpForwards)
     {
         field_130_motion_resource_block_index = 1;
-        return field_10_resources_array.ItemAt(field_130_motion_resource_block_index);
+        return mBaseGameObjectResArray.ItemAt(field_130_motion_resource_block_index);
     }
 
     if (slogMotion < eSlogMotions::Motion_21_Dying)
     {
         field_130_motion_resource_block_index = 2;
-        return field_10_resources_array.ItemAt(field_130_motion_resource_block_index);
+        return mBaseGameObjectResArray.ItemAt(field_130_motion_resource_block_index);
     }
 
     if (slogMotion < eSlogMotions::Motion_22_Scratch)
     {
         field_130_motion_resource_block_index = 3;
-        return field_10_resources_array.ItemAt(field_130_motion_resource_block_index);
+        return mBaseGameObjectResArray.ItemAt(field_130_motion_resource_block_index);
     }
 
     if (motion < 24) // last + 1
     {
         field_130_motion_resource_block_index = 4;
-        return field_10_resources_array.ItemAt(field_130_motion_resource_block_index);
+        return mBaseGameObjectResArray.ItemAt(field_130_motion_resource_block_index);
     }
     else
     {
         field_130_motion_resource_block_index = 0;
-        return field_10_resources_array.ItemAt(field_130_motion_resource_block_index);
+        return mBaseGameObjectResArray.ItemAt(field_130_motion_resource_block_index);
     }
 }
 
@@ -2864,7 +2864,7 @@ void Slog::VUpdate()
 
         const auto oldMotion = mCurrentMotion;
         mBrainSubState = InvokeMemberFunction(this, sSlogBrainTable, mBrainState);
-        if (sDDCheat_ShowAI_Info)
+        if (gDDCheat_ShowAI_Info)
         {
             DDCheat::DebugStr("Slog:  Motion=%d  BrainState=%d\n", mCurrentMotion, mBrainSubState);
         }

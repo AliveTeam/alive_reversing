@@ -11,39 +11,36 @@
 #include "Input.hpp"
 #include "Game.hpp"
 
-s16 sDoorsOpen_5C1BE6 = 0;
+static s16 sDoorsOpen = 0;
 s32 gTweakX = 0;
 s32 gTweakY = 0;
-s16 sRescuedMudokons = 0;
-s16 sKilledMudokons = 0;
+s16 gRescuedMudokons = 0;
+s16 gKilledMudokons = 0;
 
 s16 gVisitedBonewerkz = 0;
 s16 gVisitedBarracks = 0;
 s16 gVisitedFeecoEnder = 0;
 
-u16 sTeleport_Level_550F5C = 0;
-u16 sTeleport_Path_550F5E = 0;
-u16 sTeleport_Cam_550F60 = 0;
+static u16 sTeleport_Level = 0;
+static u16 sTeleport_Path = 0;
+static u16 sTeleport_Cam = 0;
 
 bool gDDCheat_FlyingEnabled = false;
-bool sDDCheat_ShowAI_Info = false;
-bool sDDCheat_AlwaysShow_5BC000 = false;
-s32 sDDCheat_Unknown_5BC004 = 0;
-u32 sDDCheat_PrevDebugInput_5BBFF4 = 0;
-s32 sDDCheat_DebugInputDelay_550FA8 = 0;
+bool gDDCheat_ShowAI_Info = false;
+static bool sDDCheat_AlwaysShow = false;
+static s32 sDDCheat_Unknown_5BC004 = 0;
+static u32 sDDCheat_PrevDebugInput = 0;
+static s32 sDDCheat_DebugInputDelay = 0;
 
 using TDDCheatMenu = decltype(&DDCheat::Menu_Teleport);
 
 #define DDCHEAT_MENU_COUNT 2
-TDDCheatMenu sDDCheat_FnTable_550F50[DDCHEAT_MENU_COUNT] = {
+static TDDCheatMenu sDDCheat_FnTable[DDCHEAT_MENU_COUNT] = {
     &DDCheat::Menu_Teleport,
     &DDCheat::Menu_Movies,
 };
 
-s32 sDDCheat_Unused2_AB49FC = 0;
-s32 sDDCheat_Unused1_AB4A00 = 0;
-
-s16 sDDCheat_MovieSelectIdx_5BBFF0 = 0;
+static s16 sDDCheat_MovieSelectIdx = 0;
 extern u32 sLevelId_dword_5CA408;
 
 struct DDCheatProperties final
@@ -78,89 +75,89 @@ const char_type* sTeleportLevelNameTable_550F64[17] = {
 void DDCheat::Menu_Teleport()
 {
     DebugStr("\n[Teleport]\n");
-    DebugStr("Level (1,2):         %s\n", sTeleportLevelNameTable_550F64[sTeleport_Level_550F5C]);
-    DebugStr("Path    (Up/Down):   %d\n", sTeleport_Path_550F5E);
-    DebugStr("Camera (Left/Right): %d\n", sTeleport_Cam_550F60);
+    DebugStr("Level (1,2):         %s\n", sTeleportLevelNameTable_550F64[sTeleport_Level]);
+    DebugStr("Path    (Up/Down):   %d\n", sTeleport_Path);
+    DebugStr("Camera (Left/Right): %d\n", sTeleport_Cam);
     DebugStr("Teleport = Enter Reset = Alt\n");
 
-    if (field_38_input_pressed & InputCommands::Enum::eGameSpeak1)
+    if (mInputPressed & InputCommands::Enum::eGameSpeak1)
     {
-        if (sTeleport_Level_550F5C)
-            --sTeleport_Level_550F5C;
+        if (sTeleport_Level)
+            --sTeleport_Level;
     }
-    else if (field_38_input_pressed & InputCommands::Enum::eGameSpeak2)
+    else if (mInputPressed & InputCommands::Enum::eGameSpeak2)
     {
-        if (sTeleport_Level_550F5C < static_cast<s32>(LevelIds::eCredits_16))
+        if (sTeleport_Level < static_cast<s32>(LevelIds::eCredits_16))
         {
-            ++sTeleport_Level_550F5C;
+            ++sTeleport_Level;
         }
     }
-    else if (field_38_input_pressed & InputCommands::Enum::eUp)
+    else if (mInputPressed & InputCommands::Enum::eUp)
     {
-        ++sTeleport_Path_550F5E;
+        ++sTeleport_Path;
     }
-    else if (field_38_input_pressed & InputCommands::Enum::eDown)
+    else if (mInputPressed & InputCommands::Enum::eDown)
     {
-        if (sTeleport_Path_550F5E > 1)
+        if (sTeleport_Path > 1)
         {
-            --sTeleport_Path_550F5E;
+            --sTeleport_Path;
         }
     }
-    else if (field_38_input_pressed & InputCommands::Enum::eLeft)
+    else if (mInputPressed & InputCommands::Enum::eLeft)
     {
-        if (sTeleport_Cam_550F60 > 1)
+        if (sTeleport_Cam > 1)
         {
-            --sTeleport_Cam_550F60;
+            --sTeleport_Cam;
         }
     }
-    else if (field_38_input_pressed & InputCommands::Enum::eRight)
+    else if (mInputPressed & InputCommands::Enum::eRight)
     {
-        ++sTeleport_Cam_550F60;
+        ++sTeleport_Cam;
     }
-    else if (field_38_input_pressed & InputCommands::Enum::eSneak)
+    else if (mInputPressed & InputCommands::Enum::eSneak)
     {
-        sTeleport_Level_550F5C = static_cast<s32>(gMap.mCurrentLevel);
-        sTeleport_Path_550F5E = gMap.mCurrentPath;
-        sTeleport_Cam_550F60 = gMap.mCurrentCamera;
+        sTeleport_Level = static_cast<s32>(gMap.mCurrentLevel);
+        sTeleport_Path = gMap.mCurrentPath;
+        sTeleport_Cam = gMap.mCurrentCamera;
     }
-    else if (field_38_input_pressed & InputCommands::Enum::eUnPause_OrConfirm)
+    else if (mInputPressed & InputCommands::Enum::eUnPause_OrConfirm)
     {
         gDDCheat_FlyingEnabled = true;
 
-        gMap.SetActiveCam(MapWrapper::FromAE(static_cast<LevelIds>(sTeleport_Level_550F5C)), sTeleport_Path_550F5E, sTeleport_Cam_550F60, CameraSwapEffects::eInstantChange_0, 0, 0);
+        gMap.SetActiveCam(MapWrapper::FromAE(static_cast<LevelIds>(sTeleport_Level)), sTeleport_Path, sTeleport_Cam, CameraSwapEffects::eInstantChange_0, 0, 0);
         mTeleporting = true;
     }
 }
 
 void DDCheat::Menu_Movies()
 {
-    if (field_38_input_pressed & InputCommands::Enum::eLeft)
+    if (mInputPressed & InputCommands::Enum::eLeft)
     {
-        sDDCheat_MovieSelectIdx_5BBFF0--;
+        sDDCheat_MovieSelectIdx--;
     }
-    else if (field_38_input_pressed & InputCommands::Enum::eRight)
+    else if (mInputPressed & InputCommands::Enum::eRight)
     {
-        sDDCheat_MovieSelectIdx_5BBFF0++;
-    }
-
-    if (Path_Get_FMV_Record(gMap.mCurrentLevel, sDDCheat_MovieSelectIdx_5BBFF0)->field_4_id <= 0)
-    {
-        sDDCheat_MovieSelectIdx_5BBFF0 = 1;
+        sDDCheat_MovieSelectIdx++;
     }
 
-    if (field_38_input_pressed & InputCommands::Enum::eDown)
+    if (Path_Get_FMV_Record(gMap.mCurrentLevel, sDDCheat_MovieSelectIdx)->field_4_id <= 0)
     {
-        Path_Get_FMV_Record(gMap.mCurrentLevel, sDDCheat_MovieSelectIdx_5BBFF0)->field_4_id--;
+        sDDCheat_MovieSelectIdx = 1;
     }
-    if (field_38_input_pressed & InputCommands::Enum::eUp)
+
+    if (mInputPressed & InputCommands::Enum::eDown)
     {
-        FmvInfo* movieToPlayInfo = Path_Get_FMV_Record(gMap.mCurrentLevel, sDDCheat_MovieSelectIdx_5BBFF0);
+        Path_Get_FMV_Record(gMap.mCurrentLevel, sDDCheat_MovieSelectIdx)->field_4_id--;
+    }
+    if (mInputPressed & InputCommands::Enum::eUp)
+    {
+        FmvInfo* movieToPlayInfo = Path_Get_FMV_Record(gMap.mCurrentLevel, sDDCheat_MovieSelectIdx);
         sLevelId_dword_5CA408 = static_cast<s32>(MapWrapper::ToAE(gMap.mCurrentLevel));
         relive_new Movie(movieToPlayInfo->field_0_pName);
     }
 
-    const FmvInfo* fmvInfo = Path_Get_FMV_Record(gMap.mCurrentLevel, sDDCheat_MovieSelectIdx_5BBFF0);
-    DDCheat::DebugStr("\n<- Movie -> %d %d %s \n", sDDCheat_MovieSelectIdx_5BBFF0, fmvInfo->field_4_id, fmvInfo->field_0_pName);
+    const FmvInfo* fmvInfo = Path_Get_FMV_Record(gMap.mCurrentLevel, sDDCheat_MovieSelectIdx);
+    DDCheat::DebugStr("\n<- Movie -> %d %d %s \n", sDDCheat_MovieSelectIdx, fmvInfo->field_4_id, fmvInfo->field_0_pName);
 }
 
 DDCheat::DDCheat()
@@ -169,7 +166,7 @@ DDCheat::DDCheat()
     SetSurviveDeathReset(true);
     SetUpdateDuringCamSwap(true);
     SetType(ReliveTypes::eDDCheat);
-    field_24_fn_idx = 0;
+    mFnIdx = 0;
 
     ClearProperties();
 
@@ -177,10 +174,10 @@ DDCheat::DDCheat()
     // There's no code using any of this in the retail final build as the compiler occluded it.
     // But, the Exoddus Demo does in fact have the code, so it's possible to reimplement it
     // in the future.
-    AddPropertyEntry("Doors Open ", DDCheatValueType::eShort_4, &sDoorsOpen_5C1BE6);
+    AddPropertyEntry("Doors Open ", DDCheatValueType::eShort_4, &sDoorsOpen);
     AddPropertyEntry("Tweak X ", DDCheatValueType::eInt_6, &gTweakX);
     AddPropertyEntry("Tweak Y ", DDCheatValueType::eInt_6, &gTweakY);
-    AddPropertyEntry("RescuedMudokons ", DDCheatValueType::eShort_4, &sRescuedMudokons);
+    AddPropertyEntry("RescuedMudokons ", DDCheatValueType::eShort_4, &gRescuedMudokons);
     AddPropertyEntry("Visited Bonewerks ", DDCheatValueType::eShort_1, &gVisitedBonewerkz);
     AddPropertyEntry("Visited Barracks ", DDCheatValueType::eShort_1, &gVisitedBarracks);
     AddPropertyEntry("Visited Feeco Ender ", DDCheatValueType::eShort_1, &gVisitedFeecoEnder);
@@ -241,8 +238,8 @@ void DDCheat::VUpdate()
                 sActiveHero->mYPos = FP_FromInteger(pos.y + 60);
                 sActiveHero->mCurrentMotion = 3;
                 sActiveHero->mLandSoftly = true;
-                sActiveHero->mCurrentLevel = MapWrapper::FromAE(static_cast<LevelIds>(sTeleport_Level_550F5C));
-                sActiveHero->mCurrentPath = sTeleport_Path_550F5E;
+                sActiveHero->mCurrentLevel = MapWrapper::FromAE(static_cast<LevelIds>(sTeleport_Level));
+                sActiveHero->mCurrentPath = sTeleport_Path;
                 gDDCheat_FlyingEnabled = false;
                 sControlledCharacter->BaseAliveGameObjectCollisionLine = nullptr;
                 sControlledCharacter->BaseAliveGameObjectLastLineYPos = sControlledCharacter->mYPos;
@@ -279,7 +276,7 @@ void DDCheat::VUpdate()
                 sControlledCharacter->BaseAliveGameObjectLastLineYPos = sControlledCharacter->mYPos;
             }
 
-            sDDCheat_ShowAI_Info = false;
+            gDDCheat_ShowAI_Info = false;
         }
 
         // Unused
@@ -293,7 +290,7 @@ void DDCheat::VUpdate()
         //    }
         //}
 
-        if (gDDCheat_FlyingEnabled || sDDCheat_ShowAI_Info || sDDCheat_AlwaysShow_5BC000)
+        if (gDDCheat_FlyingEnabled || gDDCheat_ShowAI_Info || sDDCheat_AlwaysShow)
         {
             DebugStr(
                 "\n%sP%dC%d gnframe=%5d",
@@ -311,18 +308,17 @@ void DDCheat::VUpdate()
             {
                 if (activePadPressed & InputCommands::Enum::eDoAction)
                 {
-                    sDDCheat_ShowAI_Info = !sDDCheat_ShowAI_Info;
+                    gDDCheat_ShowAI_Info = !gDDCheat_ShowAI_Info;
                 }
 
                 if ((activePadPressed & InputCommands::Enum::eThrowItem) != 0)
                 {
                     sPeakedManagedMemUsage_AB4A08 = sManagedMemoryUsedSize_AB4A04;
-                    sDDCheat_Unused1_AB4A00 = sDDCheat_Unused2_AB49FC;
                 }
 
                 if (activePadPressed & InputCommands::Enum::eHop)
                 {
-                    sDDCheat_AlwaysShow_5BC000 = !sDDCheat_AlwaysShow_5BC000;
+                    sDDCheat_AlwaysShow = !sDDCheat_AlwaysShow;
                 }
 
                 if (IsActiveHero(sControlledCharacter))
@@ -339,23 +335,23 @@ void DDCheat::VUpdate()
             DebugStr_4F5560("\nPeak: %ikb", sPeakedManagedMemUsage_AB4A08 / 1024);*/
         }
 
-        field_38_input_pressed = Input().mPads[sCurrentControllerIndex == 0].mHeld;
-        if (sDDCheat_PrevDebugInput_5BBFF4 == Input().mPads[sCurrentControllerIndex == 0].mPressed
-            && sDDCheat_PrevDebugInput_5BBFF4)
+        mInputPressed = Input().mPads[sCurrentControllerIndex == 0].mHeld;
+        if (sDDCheat_PrevDebugInput == Input().mPads[sCurrentControllerIndex == 0].mPressed
+            && sDDCheat_PrevDebugInput)
         {
-            if (!--sDDCheat_DebugInputDelay_550FA8)
+            if (!--sDDCheat_DebugInputDelay)
             {
-                field_38_input_pressed = sDDCheat_PrevDebugInput_5BBFF4;
-                sDDCheat_DebugInputDelay_550FA8 = 2;
+                mInputPressed = sDDCheat_PrevDebugInput;
+                sDDCheat_DebugInputDelay = 2;
             }
         }
         else
         {
-            sDDCheat_PrevDebugInput_5BBFF4 = Input().mPads[sCurrentControllerIndex == 0].mPressed;
-            sDDCheat_DebugInputDelay_550FA8 = 10;
+            sDDCheat_PrevDebugInput = Input().mPads[sCurrentControllerIndex == 0].mPressed;
+            sDDCheat_DebugInputDelay = 10;
         }
 
-        if (field_38_input_pressed & InputCommands::Enum::ePause)
+        if (mInputPressed & InputCommands::Enum::ePause)
         {
             mUnknown1 = !mUnknown1;
         }
@@ -364,45 +360,45 @@ void DDCheat::VUpdate()
         {
             if (Input().mPads[sCurrentControllerIndex == 0].mPressed & InputCommands::Enum::eCheatMode)
             {
-                field_24_fn_idx = 0;
+                mFnIdx = 0;
             }
-            else if (field_38_input_pressed & InputCommands::Enum::eCheatMode)
+            else if (mInputPressed & InputCommands::Enum::eCheatMode)
             {
-                field_26_next_fn_idx = field_24_fn_idx;
+                mNextFnIdx = mFnIdx;
             }
 
             // Using hop instead looks like the only way to actually change the menu properly
             if (Input().mPads[sCurrentControllerIndex == 0].mPressed & InputCommands::Enum::eHop /*field_3C_flags & 2*/)
             {
-                if (field_38_input_pressed & InputCommands::Enum::eDown)
+                if (mInputPressed & InputCommands::Enum::eDown)
                 {
-                    field_26_next_fn_idx++;
+                    mNextFnIdx++;
                 }
-                else if (field_38_input_pressed & InputCommands::Enum::eUp)
+                else if (mInputPressed & InputCommands::Enum::eUp)
                 {
-                    field_26_next_fn_idx--;
-                }
-
-                if (field_38_input_pressed & InputCommands::Enum::eUnPause_OrConfirm)
-                {
-                    //field_24_fn_idx = field_26_next_fn_idx; TODO
+                    mNextFnIdx--;
                 }
 
-                if (field_26_next_fn_idx < 0)
+                if (mInputPressed & InputCommands::Enum::eUnPause_OrConfirm)
                 {
-                    field_26_next_fn_idx = DDCHEAT_MENU_COUNT - 1;
+                    //mFnIdx = mNextFnIdx; TODO
                 }
 
-                if (field_26_next_fn_idx >= DDCHEAT_MENU_COUNT)
+                if (mNextFnIdx < 0)
                 {
-                    field_26_next_fn_idx = 0;
+                    mNextFnIdx = DDCHEAT_MENU_COUNT - 1;
                 }
 
-                field_24_fn_idx = field_26_next_fn_idx; // Always set new func index
+                if (mNextFnIdx >= DDCHEAT_MENU_COUNT)
+                {
+                    mNextFnIdx = 0;
+                }
+
+                mFnIdx = mNextFnIdx; // Always set new func index
             }
             else
             {
-                (*this.*(sDDCheat_FnTable_550F50)[field_24_fn_idx])();
+                (*this.*(sDDCheat_FnTable)[mFnIdx])();
             }
         }
     }

@@ -4754,7 +4754,7 @@ void Slig::VUpdate()
             vShot_4B2EA0();
         }
 
-        if (sDDCheat_ShowAI_Info)
+        if (gDDCheat_ShowAI_Info)
         {
             DDCheat::DebugStr("Slig %d %d %d %d\n", mBrainSubState, field_120_timer, mCurrentMotion, mNextMotion);
         }

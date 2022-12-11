@@ -681,7 +681,7 @@ void Scrab::VUpdate()
 
             mBrainSubState = (this->*mBrainState)();
 
-            if (sDDCheat_ShowAI_Info)
+            if (gDDCheat_ShowAI_Info)
             {
                 DDCheat::DebugStr(
                     "Scrab %d %d %d %d\n",
@@ -3495,7 +3495,7 @@ u8** Scrab::ResBlockForMotion(s16 motion)
     {
         field_140_motion_resource_block_index = 3;
     }
-    return field_10_resources_array.ItemAt(field_140_motion_resource_block_index);
+    return mBaseGameObjectResArray.ItemAt(field_140_motion_resource_block_index);
 }
 
 void Scrab::VScreenChanged()
