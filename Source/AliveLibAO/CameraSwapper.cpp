@@ -92,7 +92,7 @@ void CameraSwapper::Init(CamResource& ppCamRes, CameraSwapEffects changeEffect)
     }
     else
     {
-        pScreenManager->DecompressCameraToVRam(ppCamRes);
+        gScreenManager->DecompressCameraToVRam(ppCamRes);
     }
 
     gNumCamSwappers++;
@@ -392,10 +392,10 @@ void CameraSwapper::VUpdate()
             // Now apply the camera we where storing now that the movie is finished
             if (field_20_ppCamRes.mData.mPixels)
             {
-                pScreenManager->DecompressCameraToVRam(field_20_ppCamRes);
+                gScreenManager->DecompressCameraToVRam(field_20_ppCamRes);
             }
 
-            pScreenManager->EnableRendering();
+            gScreenManager->EnableRendering();
             SetDead(true);
         }
         break;
@@ -408,7 +408,7 @@ void CameraSwapper::VUpdate()
             }
             else
             {
-                pScreenManager->DisableRendering();
+                gScreenManager->DisableRendering();
             }
 
             // When no movie is playing start the next one
@@ -427,7 +427,7 @@ void CameraSwapper::VUpdate()
             }
             else
             {
-                pScreenManager->DisableRendering();
+                gScreenManager->DisableRendering();
             }
 
             // When no movie is playing start the next one

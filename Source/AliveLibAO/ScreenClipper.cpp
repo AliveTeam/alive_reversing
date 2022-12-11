@@ -21,10 +21,10 @@ void ScreenClipper::VRender(PrimHeader** ppOt)
 {
     PSX_RECT clipRect = {};
 
-    clipRect.x = field_30_rect.x;
-    clipRect.y = field_30_rect.y;
-    clipRect.w = field_30_rect.w - field_30_rect.x;
-    clipRect.h = field_30_rect.h - field_30_rect.y;
+    clipRect.x = mRect.x;
+    clipRect.y = mRect.y;
+    clipRect.w = mRect.w - mRect.x;
+    clipRect.h = mRect.h - mRect.y;
 
     if (gPsxDisplay.mBufferIndex)
     {
@@ -32,9 +32,9 @@ void ScreenClipper::VRender(PrimHeader** ppOt)
         clipRect.y += gPsxDisplay.mHeight;
     }
 
-    Prim_PrimClipper* pClipper = &field_10_clippers[gPsxDisplay.mBufferIndex];
+    Prim_PrimClipper* pClipper = &mClippers[gPsxDisplay.mBufferIndex];
     Init_PrimClipper(pClipper, &clipRect);
-    OrderingTable_Add(OtLayer(ppOt, field_38_ot_layer), &pClipper->mBase);
+    OrderingTable_Add(OtLayer(ppOt, mOtLayer), &pClipper->mBase);
 }
 
 void ScreenClipper::VUpdate()
@@ -55,24 +55,24 @@ ScreenClipper::ScreenClipper(PSX_Point xy, PSX_Point wh, Layer layer)
     SetUpdateDuringCamSwap(true);
     SetDrawable(true);
 
-    field_30_rect.x = xy.x;
-    field_30_rect.y = xy.y;
+    mRect.x = xy.x;
+    mRect.y = xy.y;
 
-    field_30_rect.w = wh.x;
-    field_30_rect.h = wh.y;
+    mRect.w = wh.x;
+    mRect.h = wh.y;
 
-    field_38_ot_layer = layer;
+    mOtLayer = layer;
 
     gObjListDrawables->Push_Back(this);
 }
 
 void ScreenClipper::Update_Clip_Rect(PSX_Point xy, PSX_Point wh)
 {
-    field_30_rect.x = std::min(xy.x, field_30_rect.x);
-    field_30_rect.y = std::min(xy.y, field_30_rect.y);
+    mRect.x = std::min(xy.x, mRect.x);
+    mRect.y = std::min(xy.y, mRect.y);
 
-    field_30_rect.w = std::max(wh.x, field_30_rect.w);
-    field_30_rect.h = std::max(wh.y, field_30_rect.h);
+    mRect.w = std::max(wh.x, mRect.w);
+    mRect.h = std::max(wh.y, mRect.h);
 }
 
 } // namespace AO

@@ -94,10 +94,10 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
 
 void ZapLine::CalculateSourceAndDestinationPositions(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest)
 {
-    mXPosSrc = FP_GetExponent(xPosSource - pScreenManager->CamXPos());
-    mYPosSrc = FP_GetExponent(yPosSource - pScreenManager->CamYPos());
-    mXPosDst = FP_GetExponent(xPosDest - pScreenManager->CamXPos());
-    mYPosDst = FP_GetExponent(yPosDest - pScreenManager->CamYPos());
+    mXPosSrc = FP_GetExponent(xPosSource - gScreenManager->CamXPos());
+    mYPosSrc = FP_GetExponent(yPosSource - gScreenManager->CamYPos());
+    mXPosDst = FP_GetExponent(xPosDest - gScreenManager->CamXPos());
+    mYPosDst = FP_GetExponent(yPosDest - gScreenManager->CamYPos());
 
     mXPosSrc = PsxToPCX(mXPosSrc, 11);
     mXPosDst = PsxToPCX(mXPosDst, 11);

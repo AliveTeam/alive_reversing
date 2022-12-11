@@ -247,12 +247,12 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
 
     GetAnimation().SetSpriteScale(GetSpriteScale());
 
-    const FP_Point* pCamPos = pScreenManager->mCamPos;
-    const FP screen_left = pCamPos->x - FP_FromInteger(pScreenManager->mCamXOff);
-    const FP screen_right = pCamPos->x + FP_FromInteger(pScreenManager->mCamXOff);
+    const FP_Point* pCamPos = gScreenManager->mCamPos;
+    const FP screen_left = pCamPos->x - FP_FromInteger(gScreenManager->mCamXOff);
+    const FP screen_right = pCamPos->x + FP_FromInteger(gScreenManager->mCamXOff);
 
-    const FP screen_top = pCamPos->y + FP_FromInteger(pScreenManager->mCamYOff);
-    const FP screen_bottom = pCamPos->y - FP_FromInteger(pScreenManager->mCamYOff);
+    const FP screen_top = pCamPos->y + FP_FromInteger(gScreenManager->mCamYOff);
+    const FP screen_bottom = pCamPos->y - FP_FromInteger(gScreenManager->mCamYOff);
 
     bool bFirst = true;
     for (s32 i = 0; i < field_EC_count; i++)

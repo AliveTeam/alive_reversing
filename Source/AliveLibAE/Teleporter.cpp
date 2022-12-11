@@ -38,10 +38,10 @@ Teleporter::Teleporter(relive::Path_Teleporter* pTlv, const Guid& tlvId)
     SetData(field_34_mTlvData, *pTlv);
     mTlvId = tlvId;
 
-    field_24_global_y1 = FP_GetExponent((FP_FromInteger(pTlv->mTopLeftY) - pScreenManager->CamYPos()));
-    field_28_global_y2 = FP_GetExponent((FP_FromInteger(pTlv->mBottomRightY) - pScreenManager->CamYPos()));
-    field_26_global_x1 = FP_GetExponent((FP_FromInteger(pTlv->mTopLeftX) - pScreenManager->CamXPos()));
-    field_2A_global_x2 = FP_GetExponent((FP_FromInteger(pTlv->mBottomRightX) - pScreenManager->CamXPos()));
+    field_24_global_y1 = FP_GetExponent((FP_FromInteger(pTlv->mTopLeftY) - gScreenManager->CamYPos()));
+    field_28_global_y2 = FP_GetExponent((FP_FromInteger(pTlv->mBottomRightY) - gScreenManager->CamYPos()));
+    field_26_global_x1 = FP_GetExponent((FP_FromInteger(pTlv->mTopLeftX) - gScreenManager->CamXPos()));
+    field_2A_global_x2 = FP_GetExponent((FP_FromInteger(pTlv->mBottomRightX) - gScreenManager->CamXPos()));
 
     field_2C_switch_state = SwitchStates_Get(field_34_mTlvData.mSwitchId);
 

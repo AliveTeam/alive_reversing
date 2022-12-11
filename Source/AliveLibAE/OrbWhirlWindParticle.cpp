@@ -178,25 +178,25 @@ void OrbWhirlWindParticle::Update()
 
 void OrbWhirlWindParticle::Render(PrimHeader** ppOt)
 {
-    const FP x = std::min(pScreenManager->CamXPos(),
-                          pScreenManager->CamXPos() + FP_FromInteger(367));
+    const FP x = std::min(gScreenManager->CamXPos(),
+                          gScreenManager->CamXPos() + FP_FromInteger(367));
 
-    const FP w = std::max(pScreenManager->CamXPos(),
-                          pScreenManager->CamXPos() + FP_FromInteger(367));
+    const FP w = std::max(gScreenManager->CamXPos(),
+                          gScreenManager->CamXPos() + FP_FromInteger(367));
 
-    const FP y = std::min(pScreenManager->CamYPos(),
-                          pScreenManager->CamYPos() + FP_FromInteger(239));
+    const FP y = std::min(gScreenManager->CamYPos(),
+                          gScreenManager->CamYPos() + FP_FromInteger(239));
 
-    const FP h = std::max(pScreenManager->CamYPos(),
-                          pScreenManager->CamYPos() + FP_FromInteger(239));
+    const FP h = std::max(gScreenManager->CamYPos(),
+                          gScreenManager->CamYPos() + FP_FromInteger(239));
 
     if (mXPosRenderOffset >= x && mXPosRenderOffset <= w)
     {
         if (mYPosRenderOffset + FP_FromInteger(5) >= y && mYPosRenderOffset + FP_FromInteger(5) <= h)
         {
             mAnim.SetSpriteScale(mRenderAsScale);
-            const FP xpos = mXPosRenderOffset - pScreenManager->CamXPos();
-            const FP ypos = mYPosRenderOffset - pScreenManager->CamYPos() + FP_FromInteger(5);
+            const FP xpos = mXPosRenderOffset - gScreenManager->CamXPos();
+            const FP ypos = mYPosRenderOffset - gScreenManager->CamYPos() + FP_FromInteger(5);
 
             mAnim.VRender(
                 FP_GetExponent(xpos),

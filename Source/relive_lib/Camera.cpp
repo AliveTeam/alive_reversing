@@ -3,10 +3,8 @@
 #include "FG1.hpp"
 
 Camera::Camera()
-    : field_0(3)
 {
     field_1A_level = EReliveLevelIds::eNone;
-    field_30_flags &= ~1u;
 }
 
 Camera::~Camera()

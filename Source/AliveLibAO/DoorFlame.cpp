@@ -62,9 +62,9 @@ public:
         GetAnimation().Get_Frame_Width_Height(&frameW, &frameH);
         GetAnimation().Get_Frame_Offset(&xy.x, &xy.y);
 
-        const auto& pCamPos = pScreenManager->mCamPos;
-        const FP screenX = FP_FromInteger(pScreenManager->mCamXOff) + mXPos - pCamPos->x;
-        const FP screenY = FP_FromInteger(pScreenManager->mCamYOff) + mYPos - pCamPos->y;
+        const auto& pCamPos = gScreenManager->mCamPos;
+        const FP screenX = FP_FromInteger(gScreenManager->mCamXOff) + mXPos - pCamPos->x;
+        const FP screenY = FP_FromInteger(gScreenManager->mCamYOff) + mYPos - pCamPos->y;
 
         const FP frameWScaled = (FP_FromInteger(frameW) * GetSpriteScale());
         const FP frameHScaled = (FP_FromInteger(frameH) * GetSpriteScale());
@@ -221,12 +221,12 @@ private:
             {
                 GetAnimation().SetRGB(240, 32, 32);
 
-                const FP_Point* pCamPos = pScreenManager->mCamPos;
+                const FP_Point* pCamPos = gScreenManager->mCamPos;
 
-                const FP screen_left = pCamPos->x - FP_FromInteger(pScreenManager->mCamXOff);
-                const FP screen_right = pCamPos->x + FP_FromInteger(pScreenManager->mCamXOff);
-                const FP screen_top = pCamPos->y - FP_FromInteger(pScreenManager->mCamYOff);
-                const FP screen_bottom = pCamPos->y + FP_FromInteger(pScreenManager->mCamYOff);
+                const FP screen_left = pCamPos->x - FP_FromInteger(gScreenManager->mCamXOff);
+                const FP screen_right = pCamPos->x + FP_FromInteger(gScreenManager->mCamXOff);
+                const FP screen_top = pCamPos->y - FP_FromInteger(gScreenManager->mCamYOff);
+                const FP screen_bottom = pCamPos->y + FP_FromInteger(gScreenManager->mCamYOff);
 
                 GetAnimation().VRender(
                     FP_GetExponent(PsxToPCX(mXPos - screen_left)),

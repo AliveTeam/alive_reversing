@@ -30,8 +30,8 @@ LCDStatusBoard::LCDStatusBoard(relive::Path_LCDStatusBoard* pTlv, const Guid& tl
 
     SetDrawable(true);
     gObjListDrawables->Push_Back(this);
-    mXPos = FP_GetExponent(FP_FromInteger(static_cast<s32>(pTlv->mTopLeftX)) - pScreenManager->CamXPos());
-    mYPos = FP_GetExponent(FP_FromInteger(static_cast<s32>(pTlv->mTopLeftY)) - pScreenManager->CamYPos());
+    mXPos = FP_GetExponent(FP_FromInteger(static_cast<s32>(pTlv->mTopLeftX)) - gScreenManager->CamXPos());
+    mYPos = FP_GetExponent(FP_FromInteger(static_cast<s32>(pTlv->mTopLeftY)) - gScreenManager->CamYPos());
     gMudokonsInArea = pTlv->mNumberOfMuds;
     mHideBoard = static_cast<s16>(pTlv->mHideBoard);
     gZulagNumber = static_cast<s8>(pTlv->mZulagNumber);

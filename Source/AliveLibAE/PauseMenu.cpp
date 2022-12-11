@@ -22,8 +22,8 @@
 #include "../relive_lib/ScreenManager.hpp"
 #include "Game.hpp"
 
-s8 sQuicksave_SaveNextFrame_5CA4D8 = 0;
-s8 sQuicksave_LoadNextFrame_5CA4D9 = 0;
+bool gQuicksave_SaveNextFrame = false;
+bool gQuicksave_LoadNextFrame = false;
 
 char_type sScreenStringBuffer_5C92F0[16] = {0};
 
@@ -297,8 +297,8 @@ void PauseMenu::LoadAnimations()
 PauseMenu::PauseMenu()
     : BaseAnimatedWithPhysicsGameObject(0)
 {
-    sQuicksave_SaveNextFrame_5CA4D8 = 0;
-    sQuicksave_LoadNextFrame_5CA4D9 = 0;
+    gQuicksave_SaveNextFrame = false;
+    gQuicksave_LoadNextFrame = false;
 
     LoadAnimations();
 
@@ -843,10 +843,10 @@ void PauseMenu::Page_Load_Update()
     char_type saveFileName[40] = {};
 
     // When F6 is pressed
-    if (sQuicksave_LoadNextFrame_5CA4D9)
+    if (gQuicksave_LoadNextFrame)
     {
         Quicksave_LoadActive();
-        sQuicksave_LoadNextFrame_5CA4D9 = 0;
+        gQuicksave_LoadNextFrame = false;
         word12C_flags &= ~1u;
     }
 
@@ -1024,27 +1024,27 @@ void PauseMenu::VUpdate()
                 && !(sControlledCharacter->Type() == ReliveTypes::eEvilFart && static_cast<EvilFart*>(sControlledCharacter)->mState == FartStates::eDechanting_2)
                 && sActiveHero->mBirdPortalId == Guid{})
             {
-                if (sQuicksave_SaveNextFrame_5CA4D8)
+                if (gQuicksave_SaveNextFrame)
                 {
                     DoQuicksave();
                     pHero = sActiveHero;
                     pControlledChar = sControlledCharacter;
-                    sQuicksave_SaveNextFrame_5CA4D8 = 0;
-                    sQuicksave_LoadNextFrame_5CA4D9 = 0;
+                    gQuicksave_SaveNextFrame = false;
+                    gQuicksave_LoadNextFrame = false;
                 }
-                else if (sQuicksave_LoadNextFrame_5CA4D9)
+                else if (gQuicksave_LoadNextFrame)
                 {
                     Quicksave_LoadActive();
                     SND_SEQ_Stop(SeqId::MudokonChant1_10);
                     pHero = sActiveHero;
                     pControlledChar = sControlledCharacter;
-                    sQuicksave_SaveNextFrame_5CA4D8 = 0;
-                    sQuicksave_LoadNextFrame_5CA4D9 = 0;
+                    gQuicksave_SaveNextFrame = false;
+                    gQuicksave_LoadNextFrame = false;
                 }
                 else
                 {
-                    sQuicksave_SaveNextFrame_5CA4D8 = 0;
-                    sQuicksave_LoadNextFrame_5CA4D9 = 0;
+                    gQuicksave_SaveNextFrame = false;
+                    gQuicksave_LoadNextFrame = false;
                 }
             }
         }
@@ -1157,7 +1157,7 @@ void PauseMenu::VUpdate()
                         }
                     }
 
-                    pScreenManager->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
+                    gScreenManager->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
 
                     gPsxDisplay.RenderOrderingTable();
                     Input().Update(GetGameAutoPlayer());

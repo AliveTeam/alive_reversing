@@ -656,7 +656,7 @@ void Scrab::VUpdate()
                 GetAnimation().SetRender(true);
             }
 
-            if (!Input_IsChanting_45F260())
+            if (!Input_IsChanting())
             {
                 mPreventDepossession = 0;
             }
@@ -1964,7 +1964,7 @@ void Scrab::Motion_0_Stand()
             return;
         }
 
-        if (Input_IsChanting_45F260() && !mPreventDepossession)
+        if (Input_IsChanting() && !mPreventDepossession)
         {
             field_130_depossession_timer = sGnFrame + 30;
             SfxPlayMono(relive::SoundEffects::PossessEffect, 0);
@@ -3032,7 +3032,7 @@ void Scrab::Motion_28_GetDepossessedBegin()
 
         if (GetAnimation().GetIsLastFrame())
         {
-            if (!Input_IsChanting_45F260())
+            if (!Input_IsChanting())
             {
                 mCurrentMotion = eScrabMotions::Motion_29_GetDepossessedEnd;
             }

@@ -54,8 +54,8 @@ ScreenWave::ScreenWave(FP xpos, FP ypos, Layer layer, FP width, FP speed, s32 ra
 
     field_2C = FP_FromInteger(0);
 
-    field_36_screen_xpos = FP_GetExponent(xpos) - FP_GetExponent(pScreenManager->CamXPos());
-    field_38_screen_ypos = FP_GetExponent(ypos) - FP_GetExponent(pScreenManager->CamYPos());
+    field_36_screen_xpos = FP_GetExponent(xpos) - FP_GetExponent(gScreenManager->CamXPos());
+    field_38_screen_ypos = FP_GetExponent(ypos) - FP_GetExponent(gScreenManager->CamYPos());
 
     // TODO: This needs to be checked, my brain melted halfway
     const s16 v1 = static_cast<s16>(std::abs(field_36_screen_xpos) + std::abs(field_38_screen_ypos));

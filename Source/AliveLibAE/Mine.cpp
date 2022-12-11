@@ -13,7 +13,7 @@
 #include "../relive_lib/Collisions.hpp"
 #include "../AliveLibAE/FixedPoint.hpp"
 
-Mine* sMineSFXOwner_5C3008 = nullptr;
+static Mine* sMinePlayingSound = nullptr;
 
 void Mine::LoadAnimations()
 {
@@ -81,10 +81,10 @@ Mine::Mine(relive::Path_Mine* pPath, const Guid& tlv)
     mFlashAnim.SetSpriteScale(GetSpriteScale());
     mFlashAnim.SetRGB(128, 128, 128);
 
-    mPersistOffscree = false;
+    mPersistOffscreen = false;
     if (pPath->mPersistOffscreen == relive::reliveChoice::eYes)
     {
-        mPersistOffscree = true;
+        mPersistOffscreen = true;
     }
 
     const FP gridSnap = ScaleToGridSize(GetSpriteScale());
@@ -112,9 +112,9 @@ Mine::~Mine()
     mFlashAnim.VCleanUp();
     SetInteractive(false);
 
-    if (sMineSFXOwner_5C3008 == this)
+    if (sMinePlayingSound == this)
     {
-        sMineSFXOwner_5C3008 = nullptr;
+        sMinePlayingSound = nullptr;
     }
 }
 
@@ -138,16 +138,16 @@ void Mine::VUpdate()
     else
     {
         if (GetAnimation().GetCurrentFrame() == 1
-            && (!sMineSFXOwner_5C3008 || sMineSFXOwner_5C3008 == this))
+            && (!sMinePlayingSound || sMinePlayingSound == this))
         {
             if (onScreen)
             {
                 SfxPlayMono(relive::SoundEffects::RedTick, 35);
-                sMineSFXOwner_5C3008 = this;
+                sMinePlayingSound = this;
             }
             else
             {
-                sMineSFXOwner_5C3008 = nullptr;
+                sMinePlayingSound = nullptr;
             }
         }
         if (Mine::IsColliding())
@@ -177,8 +177,8 @@ void Mine::VRender(PrimHeader** ppOt)
                 mYPos,
                 0))
         {
-            this->mFlashAnim.VRender(FP_GetExponent(mXPos - pScreenManager->CamXPos()),
-                                                     FP_GetExponent(FP_FromInteger(mYOffset) + mYPos - pScreenManager->CamYPos()),
+            this->mFlashAnim.VRender(FP_GetExponent(mXPos - gScreenManager->CamXPos()),
+                                                     FP_GetExponent(FP_FromInteger(mYOffset) + mYPos - gScreenManager->CamYPos()),
                                                      ppOt,
                                                      0,
                                                      0);
@@ -192,7 +192,7 @@ void Mine::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mNextLevel
         || gMap.mCurrentPath != gMap.mNextPath
-        || !mPersistOffscree)
+        || !mPersistOffscreen)
     {
         SetDead(true);
     }

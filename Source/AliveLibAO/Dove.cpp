@@ -342,14 +342,14 @@ void Dove::VUpdate()
             break;
     }
 
-    const s32 doveScreenYPos = FP_GetExponent(FP_Abs(mYPos - pScreenManager->mCamPos->y));
-    if (doveScreenYPos > pScreenManager->mCamYOff)
+    const s32 doveScreenYPos = FP_GetExponent(FP_Abs(mYPos - gScreenManager->mCamPos->y));
+    if (doveScreenYPos > gScreenManager->mCamYOff)
     {
         SetDead(true);
     }
 
-    const s32 doveScreenXPos = FP_GetExponent(FP_Abs(mXPos - pScreenManager->mCamPos->x));
-    if (doveScreenXPos > pScreenManager->mCamXOff)
+    const s32 doveScreenXPos = FP_GetExponent(FP_Abs(mXPos - gScreenManager->mCamPos->x));
+    if (doveScreenXPos > gScreenManager->mCamXOff)
     {
         SetDead(true);
     }

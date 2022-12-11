@@ -479,7 +479,7 @@ void EvilFart::VUpdate()
             mYPos += mVelY;
         }
 
-        if (!Input_IsChanting_45F260())
+        if (!Input_IsChanting())
         {
             mPossessed = false;
         }
@@ -489,7 +489,7 @@ void EvilFart::VUpdate()
         GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
         if (mVelX == FP_FromInteger(0) && mVelY == FP_FromInteger(0))
         {
-            if (Input_IsChanting_45F260())
+            if (Input_IsChanting())
             {
                 if (!mPossessed)
                 {
@@ -507,7 +507,7 @@ void EvilFart::VUpdate()
 
     if (mState == FartStates::eDechanting_2)
     {
-        if (!Input_IsChanting_45F260())
+        if (!Input_IsChanting())
         {
             mState = FartStates::eFlying_1;
             return;

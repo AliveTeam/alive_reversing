@@ -37,8 +37,8 @@ BrewMachine::BrewMachine(relive::Path_BrewMachine* pTlv, const Guid& tlvId)
         mTotalBrewCount = savedBrewCount;
     }
 
-    mTextX = FP_GetExponent((FP_FromInteger(pTlv->mTopLeftX + 5) - pScreenManager->CamXPos()));
-    mTextY = FP_GetExponent((FP_FromInteger(pTlv->mTopLeftY + 10) - pScreenManager->CamYPos()));
+    mTextX = FP_GetExponent((FP_FromInteger(pTlv->mTopLeftX + 5) - gScreenManager->CamXPos()));
+    mTextY = FP_GetExponent((FP_FromInteger(pTlv->mTopLeftY + 10) - gScreenManager->CamYPos()));
     mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
 

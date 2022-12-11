@@ -178,8 +178,8 @@ void HoistRocksEffect::VRender(PrimHeader** ppOt)
         if (particle.mState)
         {
             particle.mAnim.VRender(
-                FP_GetExponent(particle.mXPos - pScreenManager->CamXPos()),
-                FP_GetExponent(particle.mYPos - pScreenManager->CamYPos()),
+                FP_GetExponent(particle.mXPos - gScreenManager->CamXPos()),
+                FP_GetExponent(particle.mYPos - gScreenManager->CamYPos()),
                 ppOt,
                 0,
                 0);

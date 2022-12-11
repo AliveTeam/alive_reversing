@@ -50,8 +50,8 @@ void LightEffect::VRender(PrimHeader** /*ppOt*/)
     /*
     if (gNumCamSwappers == 0)
     {
-        const FP xpos = FP_FromInteger(pScreenManager->mCamXOff) + mXPos - pScreenManager->mCamPos->x;
-        const FP ypos = FP_FromInteger(pScreenManager->mCamYOff) + mYPos - pScreenManager->mCamPos->y;
+        const FP xpos = FP_FromInteger(gScreenManager->mCamXOff) + mXPos - gScreenManager->mCamPos->x;
+        const FP ypos = FP_FromInteger(gScreenManager->mCamYOff) + mYPos - gScreenManager->mCamPos->y;
 
         mAnim.mRed = static_cast<u8>(mRGB.r/4);
         mAnim.mGreen = static_cast<u8>(mRGB.g/4);
@@ -66,12 +66,12 @@ void LightEffect::VRender(PrimHeader** /*ppOt*/)
 
         PSX_RECT rect = {};
         mAnim.Get_Frame_Rect(&rect);
-        pScreenManager->InvalidateRect_406E40(
+        gScreenManager->InvalidateRect_406E40(
             rect.x,
             rect.y,
             rect.w,
             rect.h,
-            pScreenManager->mIdx);
+            gScreenManager->mIdx);
     }
     */
 }

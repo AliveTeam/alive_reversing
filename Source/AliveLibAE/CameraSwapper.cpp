@@ -88,7 +88,7 @@ void CameraSwapper::Init(CamResource& ppCamRes, CameraSwapEffects changeEffect)
     }
     else
     {
-        pScreenManager->DecompressCameraToVRam(ppCamRes);
+        gScreenManager->DecompressCameraToVRam(ppCamRes);
     }
 
     gNumCamSwappers++;
@@ -383,7 +383,7 @@ void CameraSwapper::VUpdate()
             // Now apply the camera we where storing now that the movie is finished
             if (field_30_ppCamRes.mData.mPixels)
             {
-                pScreenManager->DecompressCameraToVRam(field_30_ppCamRes);
+                gScreenManager->DecompressCameraToVRam(field_30_ppCamRes);
             }
 
             SetDead(true);

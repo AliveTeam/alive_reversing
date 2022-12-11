@@ -122,6 +122,6 @@ public:
 };
 
 extern PauseMenu* gPauseMenu;
-extern s8 sQuicksave_SaveNextFrame_5CA4D8;
-extern s8 sQuicksave_LoadNextFrame_5CA4D9;
+extern bool gQuicksave_SaveNextFrame;
+extern bool gQuicksave_LoadNextFrame;
 extern u8 pauseMenuFontPal[32];

@@ -3339,7 +3339,7 @@ s16 Mudokon::Brain_ListeningToAbe_State_4()
         {
             mNextMotion = eMudMotions::Motion_0_Idle;
         }
-        if (mYPos > pScreenManager->CamYPos() + FP_FromInteger(260) && field_180_emo_tbl != Mud_Emotion::eWired_6)
+        if (mYPos > gScreenManager->CamYPos() + FP_FromInteger(260) && field_180_emo_tbl != Mud_Emotion::eWired_6)
         {
             mFollowingAbe = false;
             if (mChiselMud)
@@ -3868,7 +3868,7 @@ s16 Mudokon::Brain_ListeningToAbe_State_6()
 
 s16 Mudokon::Brain_ListeningToAbe_State_7()
 {
-    if (mYPos > pScreenManager->CamYPos() + FP_FromInteger(260) && field_180_emo_tbl != Mud_Emotion::eWired_6)
+    if (mYPos > gScreenManager->CamYPos() + FP_FromInteger(260) && field_180_emo_tbl != Mud_Emotion::eWired_6)
     {
         mFollowingAbe = false;
         if (mChiselMud)

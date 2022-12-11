@@ -66,8 +66,10 @@ Mine::Mine(relive::Path_Mine* pTlv, const Guid& tlvId)
 
     mFlashAnim.SetRenderMode(TPageAbr::eBlend_0);
 
-    // TODO
-    field_1B0_flags = 2 * (pTlv->mPersistOffscreen == relive::reliveChoice::eYes) | (field_1B0_flags & ~2);
+    if (pTlv->mPersistOffscreen == relive::reliveChoice::eYes)
+    {
+        mPersistOffscreen = true;
+    }
 
     if (gMap.mCurrentLevel == EReliveLevelIds::eStockYards || gMap.mCurrentLevel == EReliveLevelIds::eStockYardsReturn)
     {
@@ -108,7 +110,7 @@ Mine::~Mine()
 
 void Mine::VScreenChanged()
 {
-    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath || !(field_1B0_flags & 2))
+    if (gMap.mCurrentLevel != gMap.mNextLevel || gMap.mCurrentPath != gMap.mNextPath || !mPersistOffscreen)
     {
         SetDead(true);
     }
@@ -165,8 +167,8 @@ void Mine::VRender(PrimHeader** ppOt)
             0))
     {
         mFlashAnim.VRender(
-            FP_GetExponent(mXPos + (FP_FromInteger(pScreenManager->mCamXOff) - pScreenManager->mCamPos->x)),
-            FP_GetExponent(mYPos + (FP_FromInteger(pScreenManager->mCamYOff + mYOffset)) - pScreenManager->mCamPos->y),
+            FP_GetExponent(mXPos + (FP_FromInteger(gScreenManager->mCamXOff) - gScreenManager->mCamPos->x)),
+            FP_GetExponent(mYPos + (FP_FromInteger(gScreenManager->mCamYOff + mYOffset)) - gScreenManager->mCamPos->y),
             ppOt,
             0,
             0);

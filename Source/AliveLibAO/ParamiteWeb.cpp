@@ -104,11 +104,11 @@ void ParamiteWeb::VRender(PrimHeader** ppOt)
     {
         if (mXPos >= FP_FromInteger(camCoords.x) && mXPos <= FP_FromInteger(camCoords.x + 1024))
         {
-            const FP cam_y = pScreenManager->mCamPos->y;
-            const FP cam_x = pScreenManager->mCamPos->x;
+            const FP cam_y = gScreenManager->mCamPos->y;
+            const FP cam_x = gScreenManager->mCamPos->x;
 
-            s16 minY = FP_GetExponent(FP_FromInteger(pScreenManager->mCamYOff + field_E8_ttl) - cam_y);
-            s16 maxY = FP_GetExponent(FP_FromInteger(pScreenManager->mCamYOff + field_EA_ttl_remainder) - cam_y);
+            s16 minY = FP_GetExponent(FP_FromInteger(gScreenManager->mCamYOff + field_E8_ttl) - cam_y);
+            s16 maxY = FP_GetExponent(FP_FromInteger(gScreenManager->mCamYOff + field_EA_ttl_remainder) - cam_y);
 
             s16 ypos_int = FP_GetExponent(mYPos);
             if (ypos_int > field_EA_ttl_remainder)
@@ -116,13 +116,13 @@ void ParamiteWeb::VRender(PrimHeader** ppOt)
                 ypos_int = field_EA_ttl_remainder + (ypos_int - field_EA_ttl_remainder) % field_E6_segment_length;
             }
 
-            const s16 x_start = PsxToPCX<s16>(FP_GetExponent(mXPos + FP_FromInteger(pScreenManager->mCamXOff) - cam_x));
+            const s16 x_start = PsxToPCX<s16>(FP_GetExponent(mXPos + FP_FromInteger(gScreenManager->mCamXOff) - cam_x));
 
-            s16 y_start = FP_GetExponent(FP_FromInteger(pScreenManager->mCamYOff + ypos_int) - cam_y);
+            s16 y_start = FP_GetExponent(FP_FromInteger(gScreenManager->mCamYOff + ypos_int) - cam_y);
             if (mYOffset + y_start > 240)
             {
                 y_start = y_start % field_E6_segment_length + 240;
-                ypos_int = FP_GetExponent(cam_y + FP_FromInteger(y_start - pScreenManager->mCamYOff));
+                ypos_int = FP_GetExponent(cam_y + FP_FromInteger(y_start - gScreenManager->mCamYOff));
             }
 
             if (minY < 0)

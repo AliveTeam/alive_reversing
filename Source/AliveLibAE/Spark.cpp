@@ -148,8 +148,8 @@ void Spark::VRender(PrimHeader** ppOt)
         PSX_Point xy = {32767, 32767};
         PSX_Point wh = {-32767, -32767};
 
-        const s32 xOrg = FP_GetExponent(mXPos) - FP_GetExponent(pScreenManager->CamXPos());
-        const s32 yOrg = FP_GetExponent(mYPos) - FP_GetExponent(pScreenManager->CamYPos());
+        const s32 xOrg = FP_GetExponent(mXPos) - FP_GetExponent(gScreenManager->CamXPos());
+        const s32 yOrg = FP_GetExponent(mYPos) - FP_GetExponent(gScreenManager->CamYPos());
 
         for (s32 i = 0; i < mSparkCount; i++)
         {

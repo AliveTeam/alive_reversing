@@ -61,8 +61,8 @@ void CircularFade::VRender(PrimHeader** ppOt)
     GetAnimation().SetRGB(fade_rgb, fade_rgb, fade_rgb);
 
     GetAnimation().VRender(
-        FP_GetExponent(FP_FromInteger(mXOffset) + mXPos - pScreenManager->CamXPos()),
-        FP_GetExponent(FP_FromInteger(mYOffset) + mYPos - pScreenManager->CamYPos()),
+        FP_GetExponent(FP_FromInteger(mXOffset) + mXPos - gScreenManager->CamXPos()),
+        FP_GetExponent(FP_FromInteger(mYOffset) + mYPos - gScreenManager->CamYPos()),
         ppOt,
         0,
         0);

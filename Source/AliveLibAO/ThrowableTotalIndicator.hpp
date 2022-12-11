@@ -42,6 +42,6 @@ private:
     s16 mFade = 0;
 };
 
-extern u16 bThrowableIndicatorExists_504C70;
+extern u16 gThrowableIndicatorExists;
 
 } // namespace AO

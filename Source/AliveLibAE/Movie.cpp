@@ -432,9 +432,9 @@ s8 DDV_Play_Impl_4932E0(const char_type* pMovieName)
 
 s8 DDV_Play(const char_type* pDDVName)
 {
-    sMovieSoundEntry_5CA230 = &fmv_sound_entry_5CA208;
+    gMovieSoundEntry = &fmv_sound_entry_5CA208;
     const s8 ret = DDV_Play_Impl_4932E0(pDDVName);
-    sMovieSoundEntry_5CA230 = nullptr;
+    gMovieSoundEntry = nullptr;
     return ret;
 }
 
@@ -522,7 +522,7 @@ bool AreMovieSkippingInputsHeld()
     if (sJoystickEnabled)
     {
         // OG bugfix - previously controllers couldn't skip movies
-        return (Input_Read_Pad_4FA9C0(sCurrentControllerIndex) & MOVIE_SKIPPER_GAMEPAD_INPUTS) != 0;
+        return (Input_Read_Pad(sCurrentControllerIndex) & MOVIE_SKIPPER_GAMEPAD_INPUTS) != 0;
     }
     else
     {

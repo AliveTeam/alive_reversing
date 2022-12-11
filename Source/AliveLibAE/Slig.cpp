@@ -547,8 +547,8 @@ void renderWithGlowingEyes(PrimHeader** ot, BaseAliveGameObject* actor, std::sha
             }
 
             actor->GetAnimation().VRender(
-                FP_GetExponent(FP_FromInteger(actor->mXOffset) + actor->mXPos - pScreenManager->CamXPos()),
-                FP_GetExponent(FP_FromInteger(actor->mYOffset) + actor->mYPos - pScreenManager->CamYPos()),
+                FP_GetExponent(FP_FromInteger(actor->mXOffset) + actor->mXPos - gScreenManager->CamXPos()),
+                FP_GetExponent(FP_FromInteger(actor->mYOffset) + actor->mYPos - gScreenManager->CamYPos()),
                 ot,
                 0,
                 0);
@@ -861,7 +861,7 @@ void Slig::M_StandIdle_0_4B4EC0()
     {
         if (sControlledCharacter == this && mHealth > FP_FromInteger(0))
         {
-            if (Input_IsChanting_45F260())
+            if (Input_IsChanting())
             {
                 if (!(mPreventDepossession & 1))
                 {
@@ -1946,7 +1946,7 @@ void Slig::M_Depossessing_36_4B7F30()
     {
         if (GetAnimation().GetIsLastFrame())
         {
-            if (!Input_IsChanting_45F260())
+            if (!Input_IsChanting())
             {
                 mCurrentMotion = eSligMotions::M_DepossessingAbort_16_4B8250;
             }
@@ -4730,7 +4730,7 @@ void Slig::VUpdate()
         BaseAliveGameObjectCollisionLineType = 0;
     }
 
-    if (!Input_IsChanting_45F260())
+    if (!Input_IsChanting())
     {
         mPreventDepossession &= ~1u;
     }
@@ -5371,7 +5371,7 @@ s16 Slig::GetNextMotionIncGameSpeak_4B5080(s32 input)
 {
     if (sControlledCharacter == this && mHealth > FP_FromInteger(0))
     {
-        if (Input_IsChanting_45F260())
+        if (Input_IsChanting())
         {
             if (mPreventDepossession & 1)
             {

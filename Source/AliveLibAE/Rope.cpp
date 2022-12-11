@@ -128,8 +128,8 @@ void Rope::VRender(PrimHeader** ppOt)
         // In the current camera x range?
         if (mXPos >= FP_FromInteger(camPos.x) && mXPos <= FP_FromInteger(camPos.x + 375))
         {
-            const FP camXPos = pScreenManager->CamXPos();
-            const FP camYPos = pScreenManager->CamYPos();
+            const FP camXPos = gScreenManager->CamXPos();
+            const FP camYPos = gScreenManager->CamYPos();
 
             s16 minY = FP_GetExponent(FP_FromInteger(field_102_top) - camYPos);
             s16 maxY = FP_GetExponent(FP_FromInteger(field_106_bottom) - camYPos);

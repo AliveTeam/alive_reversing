@@ -187,7 +187,7 @@ void Map::Shutdown()
         }
     }
 
-    pScreenManager = nullptr;
+    gScreenManager = nullptr;
 
     // Free 
     relive_delete sPathInfo;
@@ -360,7 +360,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                 }
             }
 
-            pScreenManager->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
+            gScreenManager->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
             SYS_EventsPump();
             gPsxDisplay.RenderOrderingTable();
         }
@@ -794,9 +794,9 @@ void Map::GoTo_Camera()
     Map::Load_Path_Items(field_2C_camera_array[2], LoadMode::ConstructObject_0);
 
     // Create the screen manager if it hasn't already been done (probably should have always been done by this point though?)
-    if (!pScreenManager)
+    if (!gScreenManager)
     {
-        pScreenManager = relive_new ScreenManager(field_2C_camera_array[0]->field_C_pCamRes, &field_24_camera_offset);
+        gScreenManager = relive_new ScreenManager(field_2C_camera_array[0]->field_C_pCamRes, &field_24_camera_offset);
     }
 
     sPathInfo->Loader_4DB800(mCamIdxOnX, mCamIdxOnY, LoadMode::ConstructObject_0, ReliveTypes::eNone); // none = load all
@@ -821,8 +821,8 @@ void Map::GoTo_Camera()
 
     if (mCameraSwapEffect == CameraSwapEffects::eUnknown_11)
     {
-        pScreenManager->DecompressCameraToVRam(field_2C_camera_array[0]->field_C_pCamRes);
-        pScreenManager->EnableRendering();
+        gScreenManager->DecompressCameraToVRam(field_2C_camera_array[0]->field_C_pCamRes);
+        gScreenManager->EnableRendering();
     }
 
     if (prevLevelId != mCurrentLevel)
@@ -911,9 +911,9 @@ void Map::TLV_Reset(const Guid& tlvId, s16 hiFlags, s8 bSetCreated, s8 bSetDestr
 void Map::CreateScreenTransistionForTLV(relive::Path_TLV* pTlv)
 {
     // TODO: Refactor
-    const s16 doorYDiff = static_cast<s16>(pTlv->mTopLeftY - FP_GetExponent(pScreenManager->CamYPos()));
+    const s16 doorYDiff = static_cast<s16>(pTlv->mTopLeftY - FP_GetExponent(gScreenManager->CamYPos()));
     const s16 midX = (pTlv->mTopLeftX + pTlv->mBottomRightX) / 2;
-    const s16 rightPos = static_cast<s16>(midX - FP_GetExponent(pScreenManager->CamXPos()));
+    const s16 rightPos = static_cast<s16>(midX - FP_GetExponent(gScreenManager->CamXPos()));
     relive_new CameraSwapper(field_2C_camera_array[0]->field_C_pCamRes, mCameraSwapEffect, rightPos, doorYDiff);
 }
 
@@ -1113,7 +1113,7 @@ Camera* Map::Create_Camera(s16 xpos, s16 ypos, s32 /*a4*/)
     newCamera->mCamXOff = xpos;
     newCamera->mCamYOff = ypos;
 
-    newCamera->field_30_flags &= -1;
+    newCamera->mCamResLoaded = false;
 
     newCamera->field_1A_level = mCurrentLevel;
     newCamera->field_18_path = mCurrentPath;
@@ -1135,7 +1135,7 @@ void Map::Load_Path_Items(Camera* pCamera, LoadMode loadMode)
     }
 
     // Is camera resource loaded check
-    if (!(pCamera->field_30_flags & 1))
+    if (!pCamera->mCamResLoaded)
     {
         if (loadMode == LoadMode::ConstructObject_0)
         {
@@ -1149,7 +1149,7 @@ void Map::Load_Path_Items(Camera* pCamera, LoadMode loadMode)
         {
             // Blocking camera load
             // ResourceManager::LoadResourceFile_49C170(pCamera->field_1E_cam_name, pCamera);
-            pCamera->field_30_flags |= 1;
+            pCamera->mCamResLoaded = true;
             // pCamera->field_C_pCamRes = ResourceManagerWrapper::LoadCam(pCamera->field_1A_level, pCamera->field_18_path, pCamera->field_1C_camera_number);
 
             sPathInfo->Loader_4DB800(pCamera->mCamXOff, pCamera->mCamYOff, LoadMode::LoadResource_2, ReliveTypes::eNone); // none = load all

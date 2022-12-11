@@ -146,9 +146,9 @@ void TimedMine::VRender(PrimHeader** ppOt)
             0))
     {
         mTickAnim.VRender(
-            FP_GetExponent(mXPos + FP_FromInteger(pScreenManager->mCamXOff) - pScreenManager->mCamPos->x),
-            FP_GetExponent(mYPos + FP_FromInteger(pScreenManager->mCamYOff - FP_GetExponent(GetSpriteScale() * FP_FromInteger(14)))
-                           - pScreenManager->mCamPos->y),
+            FP_GetExponent(mXPos + FP_FromInteger(gScreenManager->mCamXOff) - gScreenManager->mCamPos->x),
+            FP_GetExponent(mYPos + FP_FromInteger(gScreenManager->mCamYOff - FP_GetExponent(GetSpriteScale() * FP_FromInteger(14)))
+                           - gScreenManager->mCamPos->y),
             ppOt,
             0,
             0);

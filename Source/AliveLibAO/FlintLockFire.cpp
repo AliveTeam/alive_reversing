@@ -272,34 +272,34 @@ void FlintLockFire::VRender(PrimHeader** ppOt)
             mFire2Anim.SetRGB(r, g, b);
 
             mFire2Anim.VRender(
-                FP_GetExponent(mXPos + (FP_FromInteger(pScreenManager->mCamXOff)) - pScreenManager->mCamPos->x),
-                FP_GetExponent(mYPos + (FP_FromInteger(pScreenManager->mCamYOff + mYOffset - 28)) - pScreenManager->mCamPos->y),
+                FP_GetExponent(mXPos + (FP_FromInteger(gScreenManager->mCamXOff)) - gScreenManager->mCamPos->x),
+                FP_GetExponent(mYPos + (FP_FromInteger(gScreenManager->mCamYOff + mYOffset - 28)) - gScreenManager->mCamPos->y),
                 ppOt,
                 0,
                 0);
 
             mFire1Anim.VRender(
-                FP_GetExponent(mXPos + (FP_FromInteger(pScreenManager->mCamXOff - 3)) - pScreenManager->mCamPos->x),
-                FP_GetExponent(mYPos + (FP_FromInteger(pScreenManager->mCamYOff + mYOffset - 28)) - pScreenManager->mCamPos->y),
+                FP_GetExponent(mXPos + (FP_FromInteger(gScreenManager->mCamXOff - 3)) - gScreenManager->mCamPos->x),
+                FP_GetExponent(mYPos + (FP_FromInteger(gScreenManager->mCamYOff + mYOffset - 28)) - gScreenManager->mCamPos->y),
                 ppOt,
                 0,
                 0);
         }
 
         GetAnimation().VRender(
-            FP_GetExponent(mXPos + FP_FromInteger(pScreenManager->mCamXOff) - pScreenManager->mCamPos->x),
-            FP_GetExponent(mYPos + (FP_FromInteger(mYOffset + pScreenManager->mCamYOff)) - pScreenManager->mCamPos->y),
+            FP_GetExponent(mXPos + FP_FromInteger(gScreenManager->mCamXOff) - gScreenManager->mCamPos->x),
+            FP_GetExponent(mYPos + (FP_FromInteger(mYOffset + gScreenManager->mCamYOff)) - gScreenManager->mCamPos->y),
             ppOt,
             0,
             0);
 
         mGourdAnim.VRender(
             FP_GetExponent(mXPos
-                           + FP_FromInteger(pScreenManager->mCamXOff)
-                           - pScreenManager->mCamPos->x),
+                           + FP_FromInteger(gScreenManager->mCamXOff)
+                           - gScreenManager->mCamPos->x),
             FP_GetExponent(mYPos
-                           + (FP_FromInteger(mYOffset + pScreenManager->mCamYOff))
-                           - pScreenManager->mCamPos->y),
+                           + (FP_FromInteger(mYOffset + gScreenManager->mCamYOff))
+                           - gScreenManager->mCamPos->y),
             ppOt,
             0,
             0);

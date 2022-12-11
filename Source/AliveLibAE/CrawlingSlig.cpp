@@ -451,7 +451,7 @@ void CrawlingSlig::VUpdate()
             mSligButtonId = RefreshId(mSligButtonId);
         }
 
-        if (!Input_IsChanting_45F260())
+        if (!Input_IsChanting())
         {
             mChanting = false;
         }
@@ -1046,7 +1046,7 @@ s16 CrawlingSlig::Brain_3_Possessed()
             return Brain_2_Possessed::eBrain3_Possessed_1;
 
         case Brain_2_Possessed::eBrain3_Possessed_1:
-            if (!Input_IsChanting_45F260() || mChanting)
+            if (!Input_IsChanting() || mChanting)
             {
                 return mBrainSubState;
             }
@@ -1056,7 +1056,7 @@ s16 CrawlingSlig::Brain_3_Possessed()
             return Brain_2_Possessed::eBrain3_Unpossessing_2;
 
         case Brain_2_Possessed::eBrain3_Unpossessing_2:
-            if (Input_IsChanting_45F260())
+            if (Input_IsChanting())
             {
                 if (!(static_cast<s32>(sGnFrame) % 4))
                 {

@@ -1009,7 +1009,7 @@ void Abe::VUpdate()
         mHealth = FP_FromDouble(1.0);
     }
 
-    if (!Input_IsChanting_45F260())
+    if (!Input_IsChanting())
     {
         mPreventChanting = false;
     }
@@ -1855,7 +1855,7 @@ s16 Abe::VTakeDamage(BaseGameObject* pFrom)
             // The zap makes Abe drop his stuff everywhere
             for (s32 i = 0; i < mBaseThrowableCount; i++)
             {
-                BaseThrowable* pThrowable = Make_Throwable_49AF30(
+                BaseThrowable* pThrowable = Make_Throwable(
                     mXPos,
                     mYPos - FP_FromInteger(30),
                     0);
@@ -2347,7 +2347,7 @@ static bool isEdgeGrabbable(relive::Path_Edge* pEdge, BaseAliveGameObject* pObj)
 
 void Abe::Motion_0_Idle_44EEB0()
 {
-    if (Input_IsChanting_45F260() && !mPreventChanting)
+    if (Input_IsChanting() && !mPreventChanting)
     {
         if (mRingPulseTimer && mHaveShrykull)
         {
@@ -2702,13 +2702,13 @@ void Abe::Motion_0_Idle_44EEB0()
         {
             if (mBaseThrowableCount > 0 || gInfiniteThrowables)
             {
-                mThrowableId = Make_Throwable_49AF30(
+                mThrowableId = Make_Throwable(
                                              mXPos,
                                              mYPos - FP_FromInteger(40),
                                              0)
                                              ->mBaseGameObjectId;
 
-                if (!bThrowableIndicatorExists_5C112C)
+                if (!gThrowableIndicatorExists)
                 {
                     const FP xOffSet = ((GetAnimation().GetFlipX()) ? FP_FromInteger(15) : FP_FromInteger(-15)) * GetSpriteScale();
                     relive_new ThrowableTotalIndicator(
@@ -3529,8 +3529,8 @@ void Abe::Motion_17_CrouchIdle_456BC0()
         && mCurrentMotion == eAbeMotions::Motion_17_CrouchIdle_456BC0
         && (mBaseThrowableCount > 0 || gInfiniteThrowables))
     {
-        mThrowableId = Make_Throwable_49AF30(mXPos, mYPos - FP_FromInteger(40), 0)->mBaseGameObjectId;
-        if (!bThrowableIndicatorExists_5C112C)
+        mThrowableId = Make_Throwable(mXPos, mYPos - FP_FromInteger(40), 0)->mBaseGameObjectId;
+        if (!gThrowableIndicatorExists)
         {
             const FP yOff = mYPos + (GetSpriteScale() * FP_FromInteger(-30));
             const FP xOff = GetSpriteScale() * (GetAnimation().GetFlipX() ? FP_FromInteger(-10) : FP_FromInteger(10));
@@ -6141,7 +6141,7 @@ void Abe::Motion_86_HandstoneBegin()
             {
                 if (mHandStoneType == ReliveTypes::eMovieHandStone)
                 {
-                    pScreenManager->EnableRendering();
+                    gScreenManager->EnableRendering();
 
                     FmvInfo* pFmvRec = Path_Get_FMV_Record(gMap.mCurrentLevel, mFmvId);
                     sLevelId_dword_5CA408 = static_cast<u32>(MapWrapper::ToAE(gMap.mCurrentLevel));
@@ -6172,8 +6172,8 @@ void Abe::Motion_86_HandstoneBegin()
             if (sMovie_ref_count_BB4AE4 == 0)
             {
                 gPsxDisplay.PutCurrentDispEnv();
-                pScreenManager->DecompressCameraToVRam(gMap.field_2C_camera_array[0]->field_C_pCamRes);
-                pScreenManager->EnableRendering();
+                gScreenManager->DecompressCameraToVRam(gMap.field_2C_camera_array[0]->field_C_pCamRes);
+                gScreenManager->EnableRendering();
                 pCircularFade->VFadeIn(0, 0);
                 field_120_state.stone = StoneStates::eHandstoneEnd_3;
             }
@@ -6848,7 +6848,7 @@ void Abe::Motion_112_Chant()
             }
 
             // Stopped chanting?
-            if ((GetAnimation().GetIsLastFrame() || GetAnimation().GetCurrentFrame() == 3) && !Input_IsChanting_45F260())
+            if ((GetAnimation().GetIsLastFrame() || GetAnimation().GetCurrentFrame() == 3) && !Input_IsChanting())
             {
                 mCurrentMotion = eAbeMotions::Motion_113_ChantEnd;
                 mPossessedObjectId = Guid{};
@@ -7715,7 +7715,7 @@ void Abe::PickUpThrowabe_Or_PressBomb_454090(FP fpX, s32 fpY, s32 bStandToCrouch
             case ReliveTypes::eRock:
                 mCurrentMotion = eAbeMotions::Motion_111_PickupItem;
                 mBaseThrowableCount += static_cast<s8>(static_cast<BaseThrowable*>(pSlappableOrCollectable)->VGetCount()); // TODO: Check types are correct.
-                if (!bThrowableIndicatorExists_5C112C)
+                if (!gThrowableIndicatorExists)
                 {
                     const FP yoff = (GetSpriteScale() * FP_FromInteger(-30)) + mYPos;
                     const FP xoff = GetSpriteScale() * FP_FromInteger(0);
@@ -8325,7 +8325,7 @@ void Abe::ToDieFinal_458910()
 s16 Abe::DoGameSpeak_45AB70(s32 input)
 {
     s16 nextMotion = -1;
-    if (Input_IsChanting_45F260())
+    if (Input_IsChanting())
     {
         // Fixes an OG bug where Abe doesn't transform into Shrykull when you immediately chant after using GameSpeak.
         if (!(mRingPulseTimer && mHaveShrykull))

@@ -46,11 +46,10 @@ public:
     s32 field_124_code1 = 0;
     s16 field_128_idx = 0;
     s32 field_12C_timer = 0;
-    bool mSongMatching = false;
+    bool mHasBellSong = false;
     s16 mSolveSwitchId = 0;
     s16 field_134_pressed = 0;
     s16 mUnpossessionCountdown = 0;
-    s16 field_138_flags = 0;
     FP mTargetX = {};
     FP mTargetY = {};
     FP mBallStartX = {};
@@ -78,6 +77,8 @@ public:
         eUnused_4 = 4
     };
     BellPositions field_164_ChimeLock_num[2] = {};
+    bool mCanUnpossess = false;
+    bool mHitAllBells = false;
 };
 
 } // namespace AO

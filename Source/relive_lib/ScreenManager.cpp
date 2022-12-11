@@ -5,7 +5,7 @@
 #include "Layer.hpp"
 #include "Primitives.hpp"
 
-ScreenManager* pScreenManager = nullptr;
+ScreenManager* gScreenManager = nullptr;
 
 void ScreenManager::DecompressCameraToVRam(CamResource& camRes)
 {

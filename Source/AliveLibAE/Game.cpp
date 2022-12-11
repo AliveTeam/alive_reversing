@@ -128,7 +128,7 @@ s32 Game_End_Frame_4950F0(u32 flags)
     Draw_Debug_Strings_4F2800();
     ++sFrameCount_5CA300;
 
-    if (Sys_PumpMessages_4EE4F4())
+    if (Sys_PumpMessages())
     {
         exit(0);
     }
@@ -207,7 +207,7 @@ void Init_Sound_DynamicArrays_And_Others()
 
 void SYS_EventsPump()
 {
-    if (Sys_PumpMessages_4EE4F4())
+    if (Sys_PumpMessages())
     {
         exit(0);
     }
@@ -326,7 +326,7 @@ void Game_Loop()
         GetGameAutoPlayer().SyncPoint(SyncPoints::DrawAllEnd);
 
         DebugFont_Flush();
-        pScreenManager->VRender(ppOt);
+        gScreenManager->VRender(ppOt);
         SYS_EventsPump(); // Exit checking?
 
         GetGameAutoPlayer().SyncPoint(SyncPoints::RenderOT);
@@ -428,7 +428,7 @@ void Game_Run()
 
     // Not technically needed yet but will de-sync if not instantiated here
     CamResource nullCamRes;
-    pScreenManager = relive_new ScreenManager(nullCamRes, &gMap.field_24_camera_offset);
+    gScreenManager = relive_new ScreenManager(nullCamRes, &gMap.field_24_camera_offset);
 
     Input_Init();
 

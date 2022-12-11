@@ -1134,13 +1134,13 @@ void FlyingSlig::Brain_12_Possessed()
 
     if (!mChanting)
     {
-        if (Input_IsChanting_45F260())
+        if (Input_IsChanting())
         {
             ToChantShake();
         }
     }
 
-    if (!Input_IsChanting_45F260())
+    if (!Input_IsChanting())
     {
         mChanting = false;
     }
@@ -1159,7 +1159,7 @@ void FlyingSlig::Brain_13_Possession()
 
 void FlyingSlig::Brain_14_DePossession()
 {
-    if (!Input_IsChanting_45F260())
+    if (!Input_IsChanting())
     {
         ToPlayerControlled();
         return;

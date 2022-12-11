@@ -52,11 +52,11 @@ void Bullet::VUpdate()
             if (mXDistance > FP_FromInteger(0))
             {
                 shootRect.x = FP_GetExponent(mXPos);
-                shootRect.w = FP_GetExponent(pScreenManager->CamXPos() + FP_FromInteger(640));
+                shootRect.w = FP_GetExponent(gScreenManager->CamXPos() + FP_FromInteger(640));
             }
             else
             {
-                shootRect.x = FP_GetExponent(pScreenManager->CamXPos());
+                shootRect.x = FP_GetExponent(gScreenManager->CamXPos());
                 shootRect.w = FP_GetExponent(mXPos);
             }
 
@@ -230,7 +230,7 @@ void Bullet::VUpdate()
             PSX_RECT rect = {};
             rect.x = static_cast<s16>(xSnapped - 25);
             rect.w = static_cast<s16>(xSnapped - 25 + 50);
-            rect.y = FP_GetExponent(pScreenManager->CamYPos());
+            rect.y = FP_GetExponent(gScreenManager->CamYPos());
             rect.h = static_cast<s16>(rect.y + 240);
             IBaseAliveGameObject* pShootObj = ShootObject(&rect);
             if (pShootObj)

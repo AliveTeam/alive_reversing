@@ -258,8 +258,8 @@ void LCDScreen::VUpdate()
         sFontDrawScreenSpace = 0;
     }
 
-    auto screenLeft = field_2C0_tlv.mTopLeftX - FP_GetExponent(pScreenManager->CamXPos());
-    auto screenRight = field_2C0_tlv.mBottomRightX - FP_GetExponent(pScreenManager->CamXPos());
+    auto screenLeft = field_2C0_tlv.mTopLeftX - FP_GetExponent(gScreenManager->CamXPos());
+    auto screenRight = field_2C0_tlv.mBottomRightX - FP_GetExponent(gScreenManager->CamXPos());
 
     sFontDrawScreenSpace = 1;
     auto slicedText = field_60_font.SliceText(
@@ -286,10 +286,10 @@ void LCDScreen::VRender(PrimHeader** ppOt)
 {
     if (gNumCamSwappers == 0)
     {
-        const s32 screenX = field_2C0_tlv.mTopLeftX - FP_GetExponent(pScreenManager->CamXPos());
-        const s32 screenY = ((field_2C0_tlv.mTopLeftY + field_2C0_tlv.mBottomRightY) / 2 - FP_GetExponent(pScreenManager->CamYPos())) - 7;
+        const s32 screenX = field_2C0_tlv.mTopLeftX - FP_GetExponent(gScreenManager->CamXPos());
+        const s32 screenY = ((field_2C0_tlv.mTopLeftY + field_2C0_tlv.mBottomRightY) / 2 - FP_GetExponent(gScreenManager->CamYPos())) - 7;
         const s32 screenXWorld = PsxToPCX(screenX);
-        const s32 maxWidth = field_2C0_tlv.mBottomRightX - FP_GetExponent(pScreenManager->CamXPos());
+        const s32 maxWidth = field_2C0_tlv.mBottomRightX - FP_GetExponent(gScreenManager->CamXPos());
 
         PSX_RECT clipRect = {
             0,

@@ -1277,8 +1277,8 @@ void Fleech::RenderEx(PrimHeader** ot)
         FP tongueBlock_X[5] = {};
         FP tongueBlock_Y[5] = {};
 
-        const s16 camX = FP_GetExponent(pScreenManager->CamXPos());
-        const s16 camY = FP_GetExponent(pScreenManager->CamYPos());
+        const s16 camX = FP_GetExponent(gScreenManager->CamXPos());
+        const s16 camY = FP_GetExponent(gScreenManager->CamYPos());
 
         tongueBlock_X[0] = FP_FromInteger(mTongueOriginX - camX);
         tongueBlock_Y[0] = FP_FromInteger(mTongueOriginY - camY);

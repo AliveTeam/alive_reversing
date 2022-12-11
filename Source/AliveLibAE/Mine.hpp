@@ -32,5 +32,5 @@ public:
     Guid mTlvId;
     u32 mExplosionTimer = 0;
     Animation mFlashAnim;
-    bool mPersistOffscree = false;
+    bool mPersistOffscreen = false;
 };

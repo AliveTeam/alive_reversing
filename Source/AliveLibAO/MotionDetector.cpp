@@ -280,9 +280,9 @@ void MotionDetector::VRender(PrimHeader** ppOt)
 
     if (!SwitchStates_Get(field_F0_disable_switch_id))
     {
-        const s16 screen_top = FP_GetExponent(pScreenManager->mCamPos->y - FP_FromInteger(pScreenManager->mCamYOff));
+        const s16 screen_top = FP_GetExponent(gScreenManager->mCamPos->y - FP_FromInteger(gScreenManager->mCamYOff));
 
-        const s16 screen_left = FP_GetExponent(pScreenManager->mCamPos->x - FP_FromInteger(pScreenManager->mCamXOff));
+        const s16 screen_left = FP_GetExponent(gScreenManager->mCamPos->x - FP_FromInteger(gScreenManager->mCamXOff));
 
         auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find_Impl(field_F8_laser_id));
         const PSX_RECT bLaserRect = pLaser->VGetBoundingRect();

@@ -380,8 +380,8 @@ void MineCar::VRender(PrimHeader** ppOt)
         if (gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos + FP_FromInteger(30), mYPos, 0) || gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos - (GetSpriteScale() * FP_FromInteger(60)), 0) || gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos - FP_FromInteger(30), mYPos, 0))
         {
             mTreadAnim.VRender(
-                FP_GetExponent(mXPos - pScreenManager->CamXPos()),
-                FP_GetExponent(mYPos - pScreenManager->CamYPos()),
+                FP_GetExponent(mXPos - gScreenManager->CamXPos()),
+                FP_GetExponent(mYPos - gScreenManager->CamYPos()),
                 ppOt,
                 0,
                 0);

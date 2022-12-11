@@ -195,8 +195,8 @@ void DoorLight::VRender(PrimHeader** ppOt)
 {
     if (gNumCamSwappers == 0)
     {
-        const FP xpos = FP_FromInteger(pScreenManager->mCamXOff) + mXPos - pScreenManager->mCamPos->x;
-        const FP ypos = FP_FromInteger(pScreenManager->mCamYOff) + mYPos - pScreenManager->mCamPos->y;
+        const FP xpos = FP_FromInteger(gScreenManager->mCamXOff) + mXPos - gScreenManager->mCamPos->x;
+        const FP ypos = FP_FromInteger(gScreenManager->mCamYOff) + mYPos - gScreenManager->mCamPos->y;
 
         GetAnimation().SetRGB(mRGB.r, mRGB.g, mRGB.b);
 

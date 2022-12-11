@@ -482,8 +482,8 @@ void UXB::VRender(PrimHeader** ppOt)
                 0))
         {
             mFlashAnim.VRender(
-                FP_GetExponent((mXPos - pScreenManager->CamXPos())),
-                FP_GetExponent((mYPos - pScreenManager->CamYPos() - FP_NoFractional(GetSpriteScale() * FP_FromInteger(17)))),
+                FP_GetExponent((mXPos - gScreenManager->CamXPos())),
+                FP_GetExponent((mYPos - gScreenManager->CamYPos() - FP_NoFractional(GetSpriteScale() * FP_FromInteger(17)))),
                 ppOt,
                 0,
                 0);

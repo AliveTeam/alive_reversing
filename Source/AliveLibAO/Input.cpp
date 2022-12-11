@@ -467,7 +467,7 @@ u16 InputObject::Held(PadIndex padIx) const
 
 u32 InputObject::Input_Read_Pad(u32 padIdx)
 {
-    return Input_Read_Pad_4FA9C0(padIdx);
+    return ::Input_Read_Pad(padIdx);
 }
 
 u16 InputObject::Released() const
@@ -477,12 +477,12 @@ u16 InputObject::Released() const
 
 bool Input_IsChanting()
 {
-    return Input_IsChanting_45F260();
+    return ::Input_IsChanting();
 }
 
 void Input_SetKeyState(s32 key, s8 bIsDown)
 {
-    Input_SetKeyState_4EDD80(key, bIsDown);
+    ::Input_SetKeyState(key, bIsDown);
 }
 
 s8 Input_IsVKPressed(s32 key)

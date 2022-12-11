@@ -748,8 +748,8 @@ MainMenuNextCam MainMenuController::AbeSpeak_Update_4D2D20(u32 input_held)
             const s16 randX = Math_RandomRange(-40, 40) + 184;
             const s16 randY = Math_RandomRange(30, 90);
 
-            const FP xpos = pScreenManager->CamXPos() + FP_FromDouble(randX);
-            FP ypos = pScreenManager->CamYPos() + FP_FromDouble(randY);
+            const FP xpos = gScreenManager->CamXPos() + FP_FromDouble(randX);
+            FP ypos = gScreenManager->CamYPos() + FP_FromDouble(randY);
             ypos.fpValue += 0x44D60C; // TODO: 68.83 ??
             Particle* pParticle = relive_new Particle(xpos,
                     ypos, GetAnimRes(AnimId::OptionChantOrb_Particle));
@@ -1461,8 +1461,8 @@ MainMenuNextCam MainMenuController::Page_FMV_Level_Update_4D4AB0(u32 input_held)
                 }
             }
             gPsxDisplay.PutCurrentDispEnv();
-            pScreenManager->DecompressCameraToVRam(gMap.field_2C_camera_array[0]->field_C_pCamRes);
-            pScreenManager->EnableRendering();
+            gScreenManager->DecompressCameraToVRam(gMap.field_2C_camera_array[0]->field_C_pCamRes);
+            gScreenManager->EnableRendering();
             GetSoundAPI().SND_Restart();
         }
         else
@@ -1845,8 +1845,8 @@ MainMenuNextCam MainMenuController::BackStory_Or_NewGame_Update_4D1C60(u32 input
             }
 
             gPsxDisplay.PutCurrentDispEnv();
-            pScreenManager->DecompressCameraToVRam(gMap.field_2C_camera_array[0]->field_C_pCamRes);
-            pScreenManager->EnableRendering();
+            gScreenManager->DecompressCameraToVRam(gMap.field_2C_camera_array[0]->field_C_pCamRes);
+            gScreenManager->EnableRendering();
             GetSoundAPI().SND_Restart();
             field_1FC_button_index = 1; // Select start game
             return MainMenuNextCam(MainMenuCams::eNoChange);
@@ -2662,7 +2662,7 @@ MainMenuNextCam MainMenuController::HandleGameSpeakInput(u32 input_held, std::fu
         return MainMenuNextCam(MainMenuCams::eNoChange);
     }
 
-    if (Input_IsChanting_45F260())
+    if (Input_IsChanting())
     {
         field_230_target_entry_index = 1;
         return fnOnGameSpeak(InputCommands::Enum::eChant);
@@ -3313,7 +3313,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
                 break;
 
             case MainMenuGamespeakAnimIds::eAbe_Chant:
-                if (Input_IsChanting_45F260())
+                if (Input_IsChanting())
                 {
                     Set_Anim_4D05E0(0); // what??
                 }

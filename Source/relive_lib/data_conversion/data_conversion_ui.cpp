@@ -60,7 +60,7 @@ DataConversionUI::DataConversionUI(GameType gameType)
     BaseAnimatedWithPhysicsGameObject::MakeArray(); // Makes drawables
     AnimationBase::CreateAnimationArray();
     CamResource nullCamRes;
-    pScreenManager = relive_new ScreenManager(nullCamRes, &gMap.field_24_camera_offset);
+    gScreenManager = relive_new ScreenManager(nullCamRes, &gMap.field_24_camera_offset);
 
     mLcdScreenParams.mTopLeftX = 100;
     mLcdScreenParams.mBottomRightX = 300;

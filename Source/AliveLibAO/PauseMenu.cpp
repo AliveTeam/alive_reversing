@@ -142,7 +142,7 @@ void PauseMenu::VUpdate()
                     }
                 }
             }
-            pScreenManager->VRender(
+            gScreenManager->VRender(
                 gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
             gPsxDisplay.RenderOrderingTable();
             Input().Update(GetGameAutoPlayer());

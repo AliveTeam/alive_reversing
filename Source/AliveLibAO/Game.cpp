@@ -224,7 +224,7 @@ void Game_Loop()
         GetGameAutoPlayer().SyncPoint(SyncPoints::DrawAllEnd);
 
         DebugFont_Flush();
-        pScreenManager->VRender(ppOt);
+        gScreenManager->VRender(ppOt);
         SYS_EventsPump(); // Exit checking?
 
         GetGameAutoPlayer().SyncPoint(SyncPoints::RenderOT);

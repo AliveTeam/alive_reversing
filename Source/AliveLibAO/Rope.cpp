@@ -132,11 +132,11 @@ void Rope::VRender(PrimHeader** ppOt)
         {
             if (mXPos >= FP_FromInteger(camPos.x) && mXPos <= FP_FromInteger(camPos.x + 1024))
             {
-                const FP camYPos = pScreenManager->mCamPos->y;
+                const FP camYPos = gScreenManager->mCamPos->y;
 
-                s32 minY = FP_GetExponent((FP_FromInteger(pScreenManager->mCamYOff + field_EE_top))
+                s32 minY = FP_GetExponent((FP_FromInteger(gScreenManager->mCamYOff + field_EE_top))
                                           - camYPos);
-                s32 maxY = FP_GetExponent((FP_FromInteger(pScreenManager->mCamYOff + field_F2_bottom))
+                s32 maxY = FP_GetExponent((FP_FromInteger(gScreenManager->mCamYOff + field_F2_bottom))
                                           - camYPos);
 
                 s16 ypos = FP_GetExponent(mYPos);
@@ -146,17 +146,17 @@ void Rope::VRender(PrimHeader** ppOt)
                 }
 
                 s16 screenX = PsxToPCX(
-                    FP_GetExponent(mXPos + FP_FromInteger(pScreenManager->mCamXOff) - pScreenManager->mCamPos->x),
+                    FP_GetExponent(mXPos + FP_FromInteger(gScreenManager->mCamXOff) - gScreenManager->mCamPos->x),
                     11);
                 s16 screenY = FP_GetExponent(
-                    (FP_FromInteger(pScreenManager->mCamYOff + ypos))
+                    (FP_FromInteger(gScreenManager->mCamYOff + ypos))
                     - camYPos);
 
                 if (mYOffset + screenY > 240)
                 {
                     screenY = screenY % field_E6_rope_length + 240;
-                    ypos = FP_GetExponent(pScreenManager->mCamPos->y
-                                          + FP_FromInteger(screenY - pScreenManager->mCamYOff));
+                    ypos = FP_GetExponent(gScreenManager->mCamPos->y
+                                          + FP_FromInteger(screenY - gScreenManager->mCamYOff));
                 }
                 if (minY < 0)
                 {

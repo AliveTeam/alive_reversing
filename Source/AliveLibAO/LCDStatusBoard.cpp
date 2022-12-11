@@ -36,8 +36,8 @@ LCDStatusBoard::LCDStatusBoard(relive::Path_LCDStatusBoard* pTlv, const Guid& tl
     SetDrawable(true);
     gObjListDrawables->Push_Back(this);
 
-    mXPos = (pScreenManager->mCamXOff + pTlv->mTopLeftX) - FP_GetExponent(pScreenManager->mCamPos->x);
-    mYPos = (pScreenManager->mCamYOff + pTlv->mTopLeftY) - FP_GetExponent(pScreenManager->mCamPos->y);
+    mXPos = (gScreenManager->mCamXOff + pTlv->mTopLeftX) - FP_GetExponent(gScreenManager->mCamPos->x);
+    mYPos = (gScreenManager->mCamYOff + pTlv->mTopLeftY) - FP_GetExponent(gScreenManager->mCamPos->y);
 }
 
 void LCDStatusBoard::VUpdate()

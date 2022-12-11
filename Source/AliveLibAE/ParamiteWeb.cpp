@@ -102,8 +102,8 @@ void ParamiteWeb::VRender(PrimHeader** ppOt)
     {
         if (mXPos >= FP_FromInteger(camCoords.x) && mXPos <= FP_FromInteger(camCoords.x + 1024))
         {
-            const FP cam_y = pScreenManager->CamYPos();
-            const FP cam_x = pScreenManager->CamXPos();
+            const FP cam_y = gScreenManager->CamYPos();
+            const FP cam_x = gScreenManager->CamXPos();
 
             s16 minY = FP_GetExponent(FP_FromInteger(field_F8_ttl) - cam_y);
             s16 maxY = FP_GetExponent(FP_FromInteger(field_FA_ttl_remainder) - cam_y);

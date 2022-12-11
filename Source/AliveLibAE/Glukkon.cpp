@@ -1551,7 +1551,7 @@ s16 Glukkon::Brain_3_PlayerControlled()
                 mTlvData.mGlukkonType != relive::Path_Glukkon::GlukkonTypes::eStoryPhleg) ||
                 !SwitchStates_Get(mTlvData.mPlayMovieSwitchId))
             {
-                if (Input_IsChanting_45F260() && GetCurrentMotion() != eGlukkonMotions::Motion_4_Jump && !mPreventDepossession)
+                if (Input_IsChanting() && GetCurrentMotion() != eGlukkonMotions::Motion_4_Jump && !mPreventDepossession)
                 {
                     field_1D4_timer = sGnFrame + 30;
                     SfxPlayMono(relive::SoundEffects::PossessEffect, 0);
@@ -1583,7 +1583,7 @@ s16 Glukkon::Brain_3_PlayerControlled()
             return 3;
 
         case 2:
-            if (Input_IsChanting_45F260()
+            if (Input_IsChanting()
                 || ((mTlvData.mGlukkonType == relive::Path_Glukkon::GlukkonTypes::eStoryAslik || mTlvData.mGlukkonType == relive::Path_Glukkon::GlukkonTypes::eStoryDripik || mTlvData.mGlukkonType == relive::Path_Glukkon::GlukkonTypes::eStoryPhleg)
                     && SwitchStates_Get(mTlvData.mPlayMovieSwitchId)))
             {
@@ -1635,7 +1635,7 @@ s16 Glukkon::Brain_3_PlayerControlled()
 
         case 4:
         {
-            pScreenManager->DisableRendering();
+            gScreenManager->DisableRendering();
             sLevelId_dword_5CA408 = static_cast<u32>(MapWrapper::ToAE(gMap.mCurrentLevel));
 
             const FmvInfo* pFmvRec = Path_Get_FMV_Record(gMap.mCurrentLevel, mTlvData.mMovieId);
@@ -1649,7 +1649,7 @@ s16 Glukkon::Brain_3_PlayerControlled()
                 return mBrainSubState;
             }
             gPsxDisplay.PutCurrentDispEnv();
-            pScreenManager->DecompressCameraToVRam(gMap.field_2C_camera_array[0]->field_C_pCamRes);
+            gScreenManager->DecompressCameraToVRam(gMap.field_2C_camera_array[0]->field_C_pCamRes);
             if (pFade)
             {
                 pFade->Init(Layer::eLayer_FadeFlash_40, FadeOptions::eFadeOut, 1, 8);
@@ -1658,7 +1658,7 @@ s16 Glukkon::Brain_3_PlayerControlled()
 
         case 6:
             GetSoundAPI().SND_Restart();
-            pScreenManager->EnableRendering();
+            gScreenManager->EnableRendering();
             field_1D4_timer = sGnFrame + 30;
             SfxPlayMono(relive::SoundEffects::PossessEffect, 0);
             SetAnim(eGlukkonMotions::Motion_10_ChantShake, true);
@@ -2049,7 +2049,7 @@ void Glukkon::VUpdate()
     }
     else
     {
-        if (!Input_IsChanting_45F260())
+        if (!Input_IsChanting())
         {
             mPreventDepossession = 0;
         }

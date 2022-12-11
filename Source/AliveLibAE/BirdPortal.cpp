@@ -447,7 +447,7 @@ void BirdPortal::VUpdate()
 
         case PortalStates::PortalExit_SetPosition_17:
         {
-            pScreenManager->EnableRendering();
+            gScreenManager->EnableRendering();
 
             CreateTerminators();
 
@@ -768,12 +768,12 @@ s16 BirdPortal::VPortalClipper(s16 bIgnoreClipping)
         xy.x = 0;
         xy.y = 0;
 
-        wh.x = PsxToPCX(FP_GetExponent(mXPos - pScreenManager->CamXPos()), 11);
+        wh.x = PsxToPCX(FP_GetExponent(mXPos - gScreenManager->CamXPos()), 11);
         wh.y = 240;
     }
     else
     {
-        xy.x = PsxToPCX(FP_GetExponent(mXPos - pScreenManager->CamXPos()), 11);
+        xy.x = PsxToPCX(FP_GetExponent(mXPos - gScreenManager->CamXPos()), 11);
         xy.y = 0;
 
         wh.x = 640;

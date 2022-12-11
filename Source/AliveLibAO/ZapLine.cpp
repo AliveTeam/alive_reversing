@@ -96,10 +96,10 @@ ZapLine::ZapLine(FP x1, FP y1, FP x2, FP y2, s32 aliveTime, ZapLineType type, La
 
 void ZapLine::CalculateSourceAndDestinationPositions(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest)
 {
-    mXPosSrc = FP_GetExponent(xPosSource - (pScreenManager->mCamPos->x - FP_FromInteger(pScreenManager->mCamXOff)));
-    mYPosSrc = FP_GetExponent(yPosSource - (pScreenManager->mCamPos->y - FP_FromInteger(pScreenManager->mCamYOff)));
-    mXPosDst = FP_GetExponent(xPosDest - (pScreenManager->mCamPos->x - FP_FromInteger(pScreenManager->mCamXOff)));
-    mYPosDst = FP_GetExponent(yPosDest - (pScreenManager->mCamPos->y - FP_FromInteger(pScreenManager->mCamYOff)));
+    mXPosSrc = FP_GetExponent(xPosSource - (gScreenManager->mCamPos->x - FP_FromInteger(gScreenManager->mCamXOff)));
+    mYPosSrc = FP_GetExponent(yPosSource - (gScreenManager->mCamPos->y - FP_FromInteger(gScreenManager->mCamYOff)));
+    mXPosDst = FP_GetExponent(xPosDest - (gScreenManager->mCamPos->x - FP_FromInteger(gScreenManager->mCamXOff)));
+    mYPosDst = FP_GetExponent(yPosDest - (gScreenManager->mCamPos->y - FP_FromInteger(gScreenManager->mCamYOff)));
 
     mXPosSrc = PsxToPCX(mXPosSrc, 11);
     mXPosDst = PsxToPCX(mXPosDst, 11);

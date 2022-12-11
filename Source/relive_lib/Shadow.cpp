@@ -46,7 +46,7 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
         if (mShadowAtBottom)
         {
             // Get the bottom of the object
-            objY = FP_FromInteger(frameRect->h) + pScreenManager->CamYPos();
+            objY = FP_FromInteger(frameRect->h) + gScreenManager->CamYPos();
         }
         else
         {
@@ -66,7 +66,7 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
                 &hitY,
                 scale == Scale::Fg ? kFgFloorCeilingOrWalls : kBgFloorCeilingOrWalls)) // NOTE: AO didn't check ceilings
         {
-            const s16 camXPos = FP_GetExponent(pScreenManager->CamXPos());
+            const s16 camXPos = FP_GetExponent(gScreenManager->CamXPos());
             s16 lineXScreen = pLine->mRect.x - camXPos;
             s16 lineWScreen = pLine->mRect.w - camXPos;
 
@@ -92,16 +92,16 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
             if (objX < lineXScreen)
             {
                 if (sCollisions->Raycast(
-                        FP_NoFractional(pScreenManager->CamXPos()) + (FP_FromInteger(lineXScreen - 1)) - FP_FromInteger(4),
+                        FP_NoFractional(gScreenManager->CamXPos()) + (FP_FromInteger(lineXScreen - 1)) - FP_FromInteger(4),
                         hitY - FP_FromInteger(2),
-                        FP_NoFractional(pScreenManager->CamXPos()) + (FP_FromInteger(lineXScreen - 1)) - FP_FromInteger(4),
+                        FP_NoFractional(gScreenManager->CamXPos()) + (FP_FromInteger(lineXScreen - 1)) - FP_FromInteger(4),
                         hitY + FP_FromInteger(2),
                         &pLine,
                         &hitX,
                         &hitY,
                         lineType)) // NOTE: AO didn't check ceilings
                 {
-                    lineXScreen = std::min(pLine->mRect.x, pLine->mRect.w) - FP_GetExponent(pScreenManager->CamXPos());
+                    lineXScreen = std::min(pLine->mRect.x, pLine->mRect.w) - FP_GetExponent(gScreenManager->CamXPos());
                 }
             }
 
@@ -109,16 +109,16 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
             if (objW > lineWScreen)
             {
                 if (sCollisions->Raycast(
-                        FP_NoFractional(pScreenManager->CamXPos()) + (FP_FromInteger(lineWScreen + 1)) + FP_FromInteger(4),
+                        FP_NoFractional(gScreenManager->CamXPos()) + (FP_FromInteger(lineWScreen + 1)) + FP_FromInteger(4),
                         hitY - FP_FromInteger(2),
-                        FP_NoFractional(pScreenManager->CamXPos()) + (FP_FromInteger(lineWScreen + 1)) + FP_FromInteger(4),
+                        FP_NoFractional(gScreenManager->CamXPos()) + (FP_FromInteger(lineWScreen + 1)) + FP_FromInteger(4),
                         hitY + FP_FromInteger(2),
                         &pLine,
                         &hitX,
                         &hitY,
                         lineType))
                 {
-                    lineWScreen = std::max(pLine->mRect.x, pLine->mRect.w) - FP_GetExponent(pScreenManager->CamXPos());
+                    lineWScreen = std::max(pLine->mRect.x, pLine->mRect.w) - FP_GetExponent(gScreenManager->CamXPos());
                 }
             }
 
@@ -136,7 +136,7 @@ void Shadow::Calculate_Position(FP xpos, FP ypos, PSX_RECT* frameRect, FP sprite
                 height = 6;
             }
 
-            const s16 finalYPos = FP_GetExponent(mYPos - pScreenManager->CamYPos()) - height / 2;
+            const s16 finalYPos = FP_GetExponent(mYPos - gScreenManager->CamYPos()) - height / 2;
             mY1 = finalYPos;
             mY2 = finalYPos + height;
         }

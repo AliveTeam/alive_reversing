@@ -66,11 +66,11 @@ LaughingGas::LaughingGas(Layer layer, s32 /*notUsed*/, relive::Path_LaughingGas*
     gObjListDrawables->Push_Back(this);
     SetDrawable(true);
 
-    field_28_y = FP_GetExponent(FP_FromInteger(pTlv->mTopLeftY) - pScreenManager->CamYPos());
-    field_2A_x = FP_GetExponent(PsxToPCX(FP_FromInteger(pTlv->mTopLeftX) - pScreenManager->CamXPos()));
+    field_28_y = FP_GetExponent(FP_FromInteger(pTlv->mTopLeftY) - gScreenManager->CamYPos());
+    field_2A_x = FP_GetExponent(PsxToPCX(FP_FromInteger(pTlv->mTopLeftX) - gScreenManager->CamXPos()));
 
-    field_2C_h = FP_GetExponent(FP_FromInteger(pTlv->mBottomRightY) - pScreenManager->CamYPos());
-    field_2E_w = FP_GetExponent(PsxToPCX(FP_FromInteger(pTlv->mBottomRightX) - pScreenManager->CamXPos()));
+    field_2C_h = FP_GetExponent(FP_FromInteger(pTlv->mBottomRightY) - gScreenManager->CamYPos());
+    field_2E_w = FP_GetExponent(PsxToPCX(FP_FromInteger(pTlv->mBottomRightX) - gScreenManager->CamXPos()));
 
     field_31F8_w_count = (field_2E_w - field_2A_x) / 4;
     field_31FC_h_count = (field_2C_h - field_28_y + 2) / 2;

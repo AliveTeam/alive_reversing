@@ -30,8 +30,8 @@ GasCountDown::GasCountDown(relive::Path_GasCountDown* pTlv, const Guid& tlvInfo)
     SetDrawable(true);
     gObjListDrawables->Push_Back(this);
 
-    mGasXPos = FP_GetExponent((FP_FromInteger(pScreenManager->mCamXOff + pTlv->mTopLeftX) - pScreenManager->mCamPos->x));
-    mGasYPos = FP_GetExponent((FP_FromInteger(pScreenManager->mCamYOff + pTlv->mTopLeftY)) - pScreenManager->mCamPos->y);
+    mGasXPos = FP_GetExponent((FP_FromInteger(gScreenManager->mCamXOff + pTlv->mTopLeftX) - gScreenManager->mCamPos->x));
+    mGasYPos = FP_GetExponent((FP_FromInteger(gScreenManager->mCamYOff + pTlv->mTopLeftY)) - gScreenManager->mCamPos->y);
 
     gGasOn = 0;
 

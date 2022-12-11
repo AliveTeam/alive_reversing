@@ -633,8 +633,8 @@ void LiftPoint::VRender(PrimHeader** ppOt)
             if (gMap.mCurrentLevel != EReliveLevelIds::eNecrum && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
             {
                 field_13C_lift_wheel.VRender(
-                    FP_GetExponent(mXPos - pScreenManager->CamXPos() + (FP_FromInteger(3) * GetSpriteScale())),
-                    FP_GetExponent(mYPos - pScreenManager->CamYPos() + (FP_FromInteger(-5) * GetSpriteScale())),
+                    FP_GetExponent(mXPos - gScreenManager->CamXPos() + (FP_FromInteger(3) * GetSpriteScale())),
+                    FP_GetExponent(mYPos - gScreenManager->CamYPos() + (FP_FromInteger(-5) * GetSpriteScale())),
                     ppOt,
                     0,
                     0);
@@ -667,8 +667,8 @@ void LiftPoint::VRender(PrimHeader** ppOt)
                     field_1D4_pulley_anim.SetRGB(r, g, b);
 
                     field_1D4_pulley_anim.VRender(
-                        FP_GetExponent(FP_FromInteger(field_26C_pulley_xpos) - pScreenManager->CamXPos()),
-                        FP_GetExponent(FP_FromInteger(field_26E_pulley_ypos) - pScreenManager->CamYPos()),
+                        FP_GetExponent(FP_FromInteger(field_26C_pulley_xpos) - gScreenManager->CamXPos()),
+                        FP_GetExponent(FP_FromInteger(field_26E_pulley_ypos) - gScreenManager->CamYPos()),
                         ppOt,
                         0,
                         0);
@@ -684,8 +684,8 @@ void LiftPoint::VRender(PrimHeader** ppOt)
             if (gMap.mCurrentLevel == EReliveLevelIds::eNecrum && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
             {
                 field_13C_lift_wheel.VRender(
-                    FP_GetExponent(mXPos - pScreenManager->CamXPos() + (FP_FromInteger(3) * GetSpriteScale())),
-                    FP_GetExponent(mYPos - pScreenManager->CamYPos() + (FP_FromInteger(-5) * GetSpriteScale())),
+                    FP_GetExponent(mXPos - gScreenManager->CamXPos() + (FP_FromInteger(3) * GetSpriteScale())),
+                    FP_GetExponent(mYPos - gScreenManager->CamYPos() + (FP_FromInteger(-5) * GetSpriteScale())),
                     ppOt,
                     0,
                     0);

@@ -231,12 +231,12 @@ void Gibs::VRender(PrimHeader** ppOt)
     // Head part rendering
     BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
 
-    const FP_Point* pCamPos = pScreenManager->mCamPos;
-    const FP left = pCamPos->x - FP_FromInteger(pScreenManager->mCamXOff);
-    const FP right = pCamPos->x + FP_FromInteger(pScreenManager->mCamXOff);
+    const FP_Point* pCamPos = gScreenManager->mCamPos;
+    const FP left = pCamPos->x - FP_FromInteger(gScreenManager->mCamXOff);
+    const FP right = pCamPos->x + FP_FromInteger(gScreenManager->mCamXOff);
 
-    const FP up = pCamPos->y - FP_FromInteger(pScreenManager->mCamYOff);
-    const FP down = pCamPos->y + FP_FromInteger(pScreenManager->mCamYOff);
+    const FP up = pCamPos->y - FP_FromInteger(gScreenManager->mCamYOff);
+    const FP down = pCamPos->y + FP_FromInteger(gScreenManager->mCamYOff);
 
     for (s32 i = 0; i < mPartsUsedCount; i++)
     {

@@ -588,10 +588,10 @@ void LiftPoint::VRender(PrimHeader** ppOt)
                 field_13C_lift_wheel.VRender(
                     FP_GetExponent(mXPos
                                    + xOff
-                                   + FP_FromInteger(pScreenManager->mCamXOff) - pScreenManager->mCamPos->x),
+                                   + FP_FromInteger(gScreenManager->mCamXOff) - gScreenManager->mCamPos->x),
                     FP_GetExponent(mYPos
                                    + yOff
-                                   + FP_FromInteger(pScreenManager->mCamYOff) - pScreenManager->mCamPos->y),
+                                   + FP_FromInteger(gScreenManager->mCamYOff) - gScreenManager->mCamPos->y),
                     ppOt,
                     0,
                     0);
@@ -625,8 +625,8 @@ void LiftPoint::VRender(PrimHeader** ppOt)
                         field_1D4_pulley_anim.SetRGB(r, g, b);
 
                         field_1D4_pulley_anim.VRender(
-                            FP_GetExponent(pulley_xpos + FP_FromInteger(pScreenManager->mCamXOff) - pScreenManager->mCamPos->x),
-                            FP_GetExponent(pulley_ypos + FP_FromInteger(pScreenManager->mCamYOff) - pScreenManager->mCamPos->y),
+                            FP_GetExponent(pulley_xpos + FP_FromInteger(gScreenManager->mCamXOff) - gScreenManager->mCamPos->x),
+                            FP_GetExponent(pulley_ypos + FP_FromInteger(gScreenManager->mCamYOff) - gScreenManager->mCamPos->y),
                             ppOt,
                             0,
                             0);

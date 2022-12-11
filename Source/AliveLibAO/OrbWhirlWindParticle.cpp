@@ -165,13 +165,13 @@ void OrbWhirlWindParticle::Render(PrimHeader** ppOt)
 {
     mAnim.SetSpriteScale(mRenderAsScale);
 
-    const s16 xpos = FP_GetExponent(FP_FromInteger(pScreenManager->mCamXOff)
+    const s16 xpos = FP_GetExponent(FP_FromInteger(gScreenManager->mCamXOff)
                                     + mXPosRenderOffset
-                                    - pScreenManager->mCamPos->x);
+                                    - gScreenManager->mCamPos->x);
 
-    const s16 ypos = FP_GetExponent(FP_FromInteger(pScreenManager->mCamYOff + 5)
+    const s16 ypos = FP_GetExponent(FP_FromInteger(gScreenManager->mCamYOff + 5)
                                     + mYPosRenderOffset
-                                    - pScreenManager->mCamPos->y);
+                                    - gScreenManager->mCamPos->y);
 
     mAnim.VRender(
         xpos,

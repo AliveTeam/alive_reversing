@@ -1824,7 +1824,7 @@ void Abe::PickUpThrowabe_Or_PressBomb_428260(FP fpX, s32 fpY, s16 bStandToCrouch
                 mCurrentMotion = eAbeMotions::Motion_149_PickupItem;
                 field_19C_throwable_count += static_cast<s8>(static_cast<BaseThrowable*>(field_15C_pThrowable)->VGetCount());
 
-                if (!bThrowableIndicatorExists_504C70)
+                if (!gThrowableIndicatorExists)
                 {
                     const FP v16 = (GetSpriteScale() * FP_FromInteger(-30)) + mYPos;
                     relive_new ThrowableTotalIndicator(
@@ -2540,7 +2540,7 @@ void Abe::VOnTlvCollision(relive::Path_TLV* pTlv)
 
                 SaveGame::SaveToMemory(&gSaveBuffer);
 
-                const FP camXPos = FP_NoFractional(pScreenManager->CamXPos());
+                const FP camXPos = FP_NoFractional(gScreenManager->CamXPos());
 
                 FP indicator_xpos = {};
                 if (mXPos - camXPos >= FP_FromInteger(384 / 2)) // mid screen x
@@ -3455,7 +3455,7 @@ void Abe::Motion_0_Idle()
                     mYPos - FP_FromInteger(40),
                     0);
 
-                if (bThrowableIndicatorExists_504C70 == 0)
+                if (gThrowableIndicatorExists == 0)
                 {
                     const FP xOffSet = GetAnimation().GetFlipX() ? FP_FromInteger(15) : FP_FromInteger(-15) * GetSpriteScale();
 
@@ -4346,7 +4346,7 @@ void Abe::Motion_19_CrouchIdle()
                     mYPos - FP_FromInteger(40),
                     0);
 
-                if (!bThrowableIndicatorExists_504C70)
+                if (!gThrowableIndicatorExists)
                 {
                     const FP yOff = mYPos + (GetSpriteScale() * FP_FromInteger(-30));
                     const FP xOff = GetSpriteScale() * (GetAnimation().GetFlipX() ? FP_FromInteger(-10) : FP_FromInteger(10));
@@ -6359,8 +6359,8 @@ void Abe::Motion_61_Respawn()
         {
             if (static_cast<s32>(sGnFrame) > field_118_timer)
             {
-                auto xDiff = pScreenManager->CamXPos();
-                auto yDiff = pScreenManager->CamYPos();
+                auto xDiff = gScreenManager->CamXPos();
+                auto yDiff = gScreenManager->CamYPos();
 
                 for (s32 i = 0; i < 8; i++)
                 {
@@ -7496,8 +7496,8 @@ void Abe::Motion_88_HandstoneBegin()
             if (sMovie_ref_count_9F309C == 0)
             {
                 gPsxDisplay.PutCurrentDispEnv();
-                pScreenManager->DecompressCameraToVRam(gMap.field_2C_camera_array[0]->field_C_pCamRes);
-                pScreenManager->EnableRendering();
+                gScreenManager->DecompressCameraToVRam(gMap.field_2C_camera_array[0]->field_C_pCamRes);
+                gScreenManager->EnableRendering();
                 mCircularFade->VFadeIn(0, 0);
                 field_110_state.stone = StoneStates::eHandstoneEnd_5;
             }

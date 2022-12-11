@@ -184,8 +184,8 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
     if (gNumCamSwappers == 0)
     {
         GetAnimation().SetSpriteScale(GetSpriteScale());
-        const FP camX = pScreenManager->CamXPos();
-        const FP camY = pScreenManager->CamYPos();
+        const FP camX = gScreenManager->CamXPos();
+        const FP camY = gScreenManager->CamYPos();
 
         for (s32 i = 0; i < field_FC_number_of_particles; i++)
         {

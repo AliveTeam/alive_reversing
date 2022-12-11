@@ -126,8 +126,8 @@ void BaseAnimatedWithPhysicsGameObject::VRender(PrimHeader** ppOt)
             if (GetGameType() == GameType::eAe)
             {
                 GetAnimation().VRender(
-                    FP_GetExponent((FP_FromInteger(mXOffset) + mXPos - pScreenManager->CamXPos())),
-                    FP_GetExponent((FP_FromInteger(mYOffset) + mYPos - pScreenManager->CamYPos())),
+                    FP_GetExponent((FP_FromInteger(mXOffset) + mXPos - gScreenManager->CamXPos())),
+                    FP_GetExponent((FP_FromInteger(mYOffset) + mYPos - gScreenManager->CamYPos())),
                     ppOt,
                     0,
                     0);
@@ -135,10 +135,10 @@ void BaseAnimatedWithPhysicsGameObject::VRender(PrimHeader** ppOt)
             else
             {
                 GetAnimation().VRender(
-                    FP_GetExponent((FP_FromInteger(pScreenManager->mCamXOff + mXOffset))
-                                   + mXPos - pScreenManager->mCamPos->x),
-                    FP_GetExponent((FP_FromInteger(pScreenManager->mCamYOff + mYOffset))
-                                   + mYPos - pScreenManager->mCamPos->y),
+                    FP_GetExponent((FP_FromInteger(gScreenManager->mCamXOff + mXOffset))
+                                   + mXPos - gScreenManager->mCamPos->x),
+                    FP_GetExponent((FP_FromInteger(gScreenManager->mCamYOff + mYOffset))
+                                   + mYPos - gScreenManager->mCamPos->y),
                     ppOt,
                     0,
                     0);

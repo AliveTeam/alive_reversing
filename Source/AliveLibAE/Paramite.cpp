@@ -3056,7 +3056,7 @@ void Paramite::Motion_0_Idle()
         return;
     }
 
-    if (Input_IsChanting_45F260() && !mPreventDepossession)
+    if (Input_IsChanting() && !mPreventDepossession)
     {
         SetCurrentMotion(eParamiteMotions::Motion_29_GetDepossessedBegin);
         field_138_depossession_timer = sGnFrame + 30;
@@ -4380,7 +4380,7 @@ void Paramite::Motion_29_GetDepossessedBegin()
     {
         if (GetAnimation().GetIsLastFrame())
         {
-            if (!Input_IsChanting_45F260())
+            if (!Input_IsChanting())
             {
                 SetCurrentMotion(eParamiteMotions::Motion_30_GetDepossessedEnd);
             }
@@ -5269,7 +5269,7 @@ void Paramite::VUpdate()
             GetAnimation().SetAnimate(true);
         }
 
-        if (!Input_IsChanting_45F260())
+        if (!Input_IsChanting())
         {
             mPreventDepossession = false;
         }

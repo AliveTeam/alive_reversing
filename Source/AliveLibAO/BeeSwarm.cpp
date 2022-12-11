@@ -535,10 +535,10 @@ void BeeSwarm::VRender(PrimHeader** ppOt)
     GetAnimation().SetRGB(mRGB.r, mRGB.g, mRGB.b);
     GetAnimation().SetSpriteScale(GetSpriteScale());
 
-    const auto campos_x_delta = pScreenManager->mCamPos->x - FP_FromInteger(pScreenManager->mCamXOff);
-    const auto campos_y_delta = pScreenManager->mCamPos->y - FP_FromInteger(pScreenManager->mCamYOff);
-    const auto cam_x_abs = pScreenManager->mCamPos->x + FP_FromInteger(pScreenManager->mCamXOff);
-    const auto cam_y_abs = pScreenManager->mCamPos->y + FP_FromInteger(pScreenManager->mCamYOff);
+    const auto campos_x_delta = gScreenManager->mCamPos->x - FP_FromInteger(gScreenManager->mCamXOff);
+    const auto campos_y_delta = gScreenManager->mCamPos->y - FP_FromInteger(gScreenManager->mCamYOff);
+    const auto cam_x_abs = gScreenManager->mCamPos->x + FP_FromInteger(gScreenManager->mCamXOff);
+    const auto cam_y_abs = gScreenManager->mCamPos->y + FP_FromInteger(gScreenManager->mCamYOff);
 
     PSX_Point xy = {32767, 32767};
     PSX_Point wh = {-32767, -32767};

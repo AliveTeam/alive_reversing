@@ -1085,7 +1085,7 @@ s32 Input_Convert_KeyboardGamePadInput_To_Internal_Format_492150()
     f32 pY2 = 0.0f;
     f32 pX2 = 0.0f;
 
-    if (Sys_IsAppActive_4EDF30())
+    if (Sys_IsAppActive())
     {
         for (s32 i = 0; i < 256; i++)
         {
@@ -1641,7 +1641,7 @@ void Input_Reset_492660()
     Input_InitKeyStateArray_4EDD60();
 }
 
-u32 Input_IsChanting_45F260()
+u32 Input_IsChanting()
 {
     return (Input().mPads[0].mPressed & InputCommands::Enum::eChant) == InputCommands::Enum::eChant;
 }
@@ -1652,7 +1652,7 @@ void Input_InitKeyStateArray_4EDD60()
     memset(sInputKeyStates_BD2F60, 0, 256u);
 }
 
-void Input_SetKeyState_4EDD80(s32 key, s8 bIsDown)
+void Input_SetKeyState(s32 key, s8 bIsDown)
 {
     if (bIsDown)
     {
@@ -1679,7 +1679,7 @@ bool Input_IsVKPressed_4EDD40(s32 key)
     return true;
 }
 
-s32 Input_Read_Pad_4FA9C0(s32 padNum)
+s32 Input_Read_Pad(s32 padNum)
 {
     if (!sReadPadEnable_BD1874 || (padNum != 0) != (Input_GetKeyState_4EDD20(VK_F2) != 0))
     {

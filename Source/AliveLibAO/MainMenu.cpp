@@ -938,8 +938,8 @@ void Menu::FMV_Select_Update()
                     }
 
                     gPsxDisplay.PutCurrentDispEnv();
-                    pScreenManager->DecompressCameraToVRam(gMap.field_2C_camera_array[0]->field_C_pCamRes);
-                    pScreenManager->EnableRendering();
+                    gScreenManager->DecompressCameraToVRam(gMap.field_2C_camera_array[0]->field_C_pCamRes);
+                    gScreenManager->EnableRendering();
                     SND_Restart();
                 }
                 else
@@ -2443,8 +2443,8 @@ void Menu::GameSpeak_Update()
     {
         if (mSelectedButtonIndex.gamespeak_menu == GameSpeakOptions::eChant_8 && !(sGnFrame % 8))
         {
-            const FP screen_y = pScreenManager->mCamPos->y - FP_FromInteger(pScreenManager->mCamYOff);
-            const FP screen_x = pScreenManager->mCamPos->x - FP_FromInteger(pScreenManager->mCamXOff);
+            const FP screen_y = gScreenManager->mCamPos->y - FP_FromInteger(gScreenManager->mCamYOff);
+            const FP screen_x = gScreenManager->mCamPos->x - FP_FromInteger(gScreenManager->mCamXOff);
 
             const FP x = screen_x + (FP_FromInteger(Math_RandomRange(-40, 40) + 184));
             const FP y = screen_y + (FP_FromInteger(162 - Math_RandomRange(30, 90)));

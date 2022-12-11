@@ -26,8 +26,8 @@ ColourfulMeter::ColourfulMeter(relive::Path_ColourfulMeter* pTlv, const Guid& tl
     SetDrawable(true);
     gObjListDrawables->Push_Back(this);
 
-    mTextX = FP_GetExponent((FP_FromInteger(pTlv->mTopLeftX)) - pScreenManager->CamXPos());
-    mTextY = FP_GetExponent((FP_FromInteger(pTlv->mTopLeftY)) - pScreenManager->CamYPos());
+    mTextX = FP_GetExponent((FP_FromInteger(pTlv->mTopLeftX)) - gScreenManager->CamXPos());
+    mTextY = FP_GetExponent((FP_FromInteger(pTlv->mTopLeftY)) - gScreenManager->CamYPos());
 
     mSwitchId = pTlv->mSwitchId;
     field_80 = 0;
@@ -171,8 +171,8 @@ const PSX_Point stru_5543F0[kMeterBarsXCount] = {
 
 void ColourfulMeter::VRender(PrimHeader** ppOt)
 {
-    const s16 screenXOff = FP_GetExponent(pScreenManager->CamXPos() + FP_FromInteger(4));
-    const s16 screenYOff = FP_GetExponent(pScreenManager->CamYPos() + FP_FromInteger(4));
+    const s16 screenXOff = FP_GetExponent(gScreenManager->CamXPos() + FP_FromInteger(4));
+    const s16 screenYOff = FP_GetExponent(gScreenManager->CamYPos() + FP_FromInteger(4));
 
     for (s16 poly_idx = 0; poly_idx < mPolysToRenderCount && poly_idx < kMeterBarsXCount - 1; poly_idx++)
     {

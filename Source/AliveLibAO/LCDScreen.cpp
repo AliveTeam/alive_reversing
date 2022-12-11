@@ -271,14 +271,14 @@ void LCDScreen::VUpdate()
     }
     sFontDrawScreenSpace = 1;
 
-    auto screenLeft = field_2BC_tlv->mTopLeftX - FP_GetExponent(pScreenManager->mCamPos->x);
-    auto screenRight = field_2BC_tlv->mBottomRightX - FP_GetExponent(pScreenManager->mCamPos->x);
+    auto screenLeft = field_2BC_tlv->mTopLeftX - FP_GetExponent(gScreenManager->mCamPos->x);
+    auto screenRight = field_2BC_tlv->mBottomRightX - FP_GetExponent(gScreenManager->mCamPos->x);
 
     const char_type* slicedText = field_60_font.SliceText(
         field_A0_message,
-        PsxToPCX(screenLeft - pScreenManager->mCamXOff, 11) - field_2B0_x_offset,
+        PsxToPCX(screenLeft - gScreenManager->mCamXOff, 11) - field_2B0_x_offset,
         FP_FromInteger(1),
-        screenRight - pScreenManager->mCamXOff);
+        screenRight - gScreenManager->mCamXOff);
     sFontDrawScreenSpace = 0;
     if (slicedText != field_A4_message_cutoff_ptr)
     {
@@ -294,13 +294,13 @@ void LCDScreen::VRender(PrimHeader** ppOt)
 {
     if (gNumCamSwappers == 0)
     {
-        const FP_Point* camPos = pScreenManager->mCamPos;
+        const FP_Point* camPos = gScreenManager->mCamPos;
 
         auto endY = field_2BC_tlv->mTopLeftY + field_2BC_tlv->mBottomRightY;
-        auto endX = pScreenManager->mCamXOff + field_2BC_tlv->mBottomRightX;
+        auto endX = gScreenManager->mCamXOff + field_2BC_tlv->mBottomRightX;
 
-        const s32 screenX = field_2BC_tlv->mTopLeftX - FP_GetExponent(camPos->x - FP_FromInteger(pScreenManager->mCamXOff));
-        const s32 screenY = endY / 2 - FP_GetExponent(camPos->y - FP_FromInteger(pScreenManager->mCamYOff)) - 7;
+        const s32 screenX = field_2BC_tlv->mTopLeftX - FP_GetExponent(camPos->x - FP_FromInteger(gScreenManager->mCamXOff));
+        const s32 screenY = endY / 2 - FP_GetExponent(camPos->y - FP_FromInteger(gScreenManager->mCamYOff)) - 7;
         const s32 maxWidth = FP_GetExponent(FP_FromInteger(endX) - camPos->x);
 
         PSX_RECT clipRect = {

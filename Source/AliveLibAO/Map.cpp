@@ -371,7 +371,7 @@ void Map::Shutdown()
         }
     }
 
-    pScreenManager = nullptr;
+    gScreenManager = nullptr;
 
     Reset();
 }
@@ -531,7 +531,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
                 }
             }
 
-            pScreenManager->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
+            gScreenManager->VRender(gPsxDisplay.mDrawEnvs[gPsxDisplay.mBufferIndex].mOrderingTable);
             SYS_EventsPump();
             gPsxDisplay.RenderOrderingTable();
         }
@@ -998,9 +998,9 @@ void Map::GoTo_Camera()
     Load_Path_Items(field_2C_camera_array[1], LoadMode::ConstructObject_0);
     Load_Path_Items(field_2C_camera_array[2], LoadMode::ConstructObject_0);
 
-    if (!pScreenManager)
+    if (!gScreenManager)
     {
-        pScreenManager = relive_new ScreenManager(field_2C_camera_array[0]->field_C_pCamRes, &field_2C_camera_offset);
+        gScreenManager = relive_new ScreenManager(field_2C_camera_array[0]->field_C_pCamRes, &field_2C_camera_offset);
     }
 
     Loader(mCamIdxOnX, mCamIdxOnY, LoadMode::ConstructObject_0, ReliveTypes::eNone); // none = load all
@@ -1027,8 +1027,8 @@ void Map::GoTo_Camera()
 
     if (mCameraSwapEffect == CameraSwapEffects::eUnknown_11)
     {
-        pScreenManager->DecompressCameraToVRam(field_2C_camera_array[0]->field_C_pCamRes);
-        pScreenManager->EnableRendering();
+        gScreenManager->DecompressCameraToVRam(field_2C_camera_array[0]->field_C_pCamRes);
+        gScreenManager->EnableRendering();
     }
 
     if (mCameraSwapEffect != CameraSwapEffects::ePlay1FMV_5 && mCameraSwapEffect != CameraSwapEffects::eUnknown_11)
@@ -1041,9 +1041,9 @@ void Map::GoTo_Camera()
                 pTlvIter = static_cast<relive::Path_Door*>(Path_TLV::TLV_Next_Of_Type_446500(pTlvIter, ReliveTypes::eDoor));
             }
 
-            const auto pCamPos = pScreenManager->mCamPos;
-            const auto xpos = pScreenManager->mCamXOff + ((pTlvIter->mTopLeftX + pTlvIter->mBottomRightX) / 2) - FP_GetExponent(pCamPos->x);
-            const auto ypos = pScreenManager->mCamYOff + pTlvIter->mTopLeftY - FP_GetExponent(pCamPos->y);
+            const auto pCamPos = gScreenManager->mCamPos;
+            const auto xpos = gScreenManager->mCamXOff + ((pTlvIter->mTopLeftX + pTlvIter->mBottomRightX) / 2) - FP_GetExponent(pCamPos->x);
+            const auto ypos = gScreenManager->mCamYOff + pTlvIter->mTopLeftY - FP_GetExponent(pCamPos->y);
             relive_new CameraSwapper(
                 field_2C_camera_array[0]->field_C_pCamRes,
                 mCameraSwapEffect,
@@ -1531,7 +1531,7 @@ void Map::Load_Path_Items(Camera* pCamera, LoadMode loadMode)
     }
 
     // Is camera resource loaded check
-    if (!(pCamera->field_30_flags & 1))
+    if (!pCamera->mCamResLoaded)
     {
         if (loadMode == LoadMode::ConstructObject_0)
         {
@@ -1554,7 +1554,7 @@ void Map::Load_Path_Items(Camera* pCamera, LoadMode loadMode)
             pCamera->field_C_ppBits = ResourceManager::GetLoadedResource(ResourceManager::Resource_Bits, pCamera->field_10_resId, 1, 0);
             */
 
-            pCamera->field_30_flags |= 1u;
+            pCamera->mCamResLoaded = true;
 
             Loader(pCamera->mCamXOff, pCamera->mCamYOff, LoadMode::LoadResource_2, ReliveTypes::eNone); // none = load all
         }
@@ -1586,10 +1586,6 @@ Camera* Map::Create_Camera(s16 xpos, s16 ypos, s32 /*a4*/)
         {
             auto pTemp = field_40_stru_5[i];
             field_40_stru_5[i] = nullptr;
-            if (sActiveHero && sActiveHero->mCurrentMotion == eAbeMotions::Motion_61_Respawn)
-            {
-                pTemp->field_30_flags |= 2u;
-            }
             return pTemp;
         }
     }
@@ -1614,7 +1610,7 @@ Camera* Map::Create_Camera(s16 xpos, s16 ypos, s32 /*a4*/)
     newCamera->mCamXOff = xpos;
     newCamera->mCamYOff = ypos;
 
-    newCamera->field_30_flags &= ~1u;
+    newCamera->mCamResLoaded = false;
 
     newCamera->field_1A_level = mCurrentLevel;
     newCamera->field_18_path = mCurrentPath;

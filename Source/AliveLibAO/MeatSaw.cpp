@@ -364,11 +364,11 @@ void MeatSaw::VRender(PrimHeader** ppOt)
 
         field_110_anim.VRender(
             FP_GetExponent(mXPos
-                           + FP_FromInteger(pScreenManager->mCamXOff)
-                           - pScreenManager->mCamPos->x),
+                           + FP_FromInteger(gScreenManager->mCamXOff)
+                           - gScreenManager->mCamPos->x),
             FP_GetExponent(mYPos
-                           + (FP_FromInteger(pScreenManager->mCamYOff + field_E6_max_rise_time))
-                           - pScreenManager->mCamPos->y),
+                           + (FP_FromInteger(gScreenManager->mCamYOff + field_E6_max_rise_time))
+                           - gScreenManager->mCamPos->y),
             ppOt,
             0,
             0);

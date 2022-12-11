@@ -17,7 +17,6 @@ public:
 public:
     static void On_Loaded(Camera* pCamera);
 
-    DynamicArrayT<u8*> field_0;
     CamResource field_C_pCamRes;
     s32 field_10_camera_resource_id = 0;
     s16 mCamXOff = 0;
@@ -26,5 +25,5 @@ public:
     EReliveLevelIds field_1A_level;
     s16 field_1C_camera_number = 0;
     char_type field_1E_cam_name[16] = {};
-    s16 field_30_flags = 0;
+    bool mCamResLoaded = false;
 };

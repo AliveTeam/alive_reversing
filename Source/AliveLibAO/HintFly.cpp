@@ -1423,8 +1423,8 @@ HintFly::HintFly(relive::Path_HintFly* pTlv, const Guid& tlvId)
         }
 
 
-        field_114_xScreen = FP_GetExponent(mXPos + FP_FromInteger(pScreenManager->mCamXOff) - pScreenManager->mCamPos->x);
-        field_116_yScreen = FP_GetExponent(mYPos + FP_FromInteger(pScreenManager->mCamYOff) - pScreenManager->mCamPos->y);
+        field_114_xScreen = FP_GetExponent(mXPos + FP_FromInteger(gScreenManager->mCamXOff) - gScreenManager->mCamPos->x);
+        field_116_yScreen = FP_GetExponent(mYPos + FP_FromInteger(gScreenManager->mCamYOff) - gScreenManager->mCamPos->y);
 
         for (s32 i = 0; i < field_118_counter; i++)
         {

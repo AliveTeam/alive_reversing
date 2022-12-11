@@ -5,7 +5,7 @@
 
 class BaseThrowable;
 
-BaseThrowable* Make_Throwable_49AF30(FP xpos, FP ypos, s16 count);
+BaseThrowable* Make_Throwable(FP xpos, FP ypos, s16 count);
 
 // NOTE: This base type must exist but seems to have been decimated by the compiler, so this contains pure virtuals for
 // non common virtuals, and virtuals for common virtuals.
@@ -33,5 +33,5 @@ protected:
     s16 mBaseThrowableDead = 0;
 };
 
-extern u16 gInfiniteThrowables;
-extern const AETypes throwable_types_55FAFC[252];
+extern bool gInfiniteThrowables;
+extern const AETypes gThrowableFromOverlayId[252];

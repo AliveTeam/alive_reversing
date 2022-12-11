@@ -415,8 +415,8 @@ void MotionDetector::VRender(PrimHeader** ppOt)
         auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find(field_F8_laser_id, ReliveTypes::eRedLaser));
         const PSX_RECT bLaserRect = pLaser->VGetBoundingRect();
 
-        const FP camXFp = pScreenManager->CamXPos();
-        const FP camYFp = pScreenManager->CamYPos();
+        const FP camXFp = gScreenManager->CamXPos();
+        const FP camYFp = gScreenManager->CamYPos();
 
         const s16 screenX = FP_GetExponent(mXPos) - FP_GetExponent(camXFp);
 

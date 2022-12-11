@@ -81,16 +81,16 @@ void TorturedMudokon::VScreenChanged()
 void TorturedMudokon::VRender(PrimHeader** ppOt)
 {
     mTearsAnim.VRender(
-        FP_GetExponent(mXPos - pScreenManager->CamXPos()),
-        FP_GetExponent(mYPos - pScreenManager->CamYPos()),
+        FP_GetExponent(mXPos - gScreenManager->CamXPos()),
+        FP_GetExponent(mYPos - gScreenManager->CamYPos()),
         ppOt,
         0,
         0);
     if (mTearsAnim.GetRender())
     {
         mZapAnim.VRender(
-            FP_GetExponent(mXPos - pScreenManager->CamXPos()),
-            FP_GetExponent(mYPos - pScreenManager->CamYPos()),
+            FP_GetExponent(mXPos - gScreenManager->CamXPos()),
+            FP_GetExponent(mYPos - gScreenManager->CamYPos()),
             ppOt,
             0,
             0);

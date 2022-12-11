@@ -61,8 +61,8 @@ public:
         GetAnimation().Get_Frame_Width_Height(&frameW, &frameH);
         GetAnimation().Get_Frame_Offset(&xy.x, &xy.y);
 
-        const FP screenX = mXPos - pScreenManager->CamXPos();
-        const FP screenY = mYPos - pScreenManager->CamYPos();
+        const FP screenX = mXPos - gScreenManager->CamXPos();
+        const FP screenY = mYPos - gScreenManager->CamYPos();
 
         const FP frameWScaled = (FP_FromInteger(frameW) * GetSpriteScale());
         const FP frameHScaled = (FP_FromInteger(frameH) * GetSpriteScale());
@@ -228,8 +228,8 @@ private:
                 GetAnimation().SetRGB(240, 32, 32);
 
                 GetAnimation().VRender(
-                    FP_GetExponent(mXPos - pScreenManager->CamXPos()),
-                    FP_GetExponent(mYPos - pScreenManager->CamYPos()),
+                    FP_GetExponent(mXPos - gScreenManager->CamXPos()),
+                    FP_GetExponent(mYPos - gScreenManager->CamYPos()),
                     ppOt,
                     0,
                     0);
@@ -239,13 +239,13 @@ private:
                     if (anim.field_12_bVisible)
                     {
                         // In screen bounds?
-                        if (anim.x >= pScreenManager->CamXPos() && anim.x <= pScreenManager->CamXPos() + FP_FromInteger(368))
+                        if (anim.x >= gScreenManager->CamXPos() && anim.x <= gScreenManager->CamXPos() + FP_FromInteger(368))
                         {
-                            if (anim.y >= pScreenManager->CamYPos() && anim.y <= pScreenManager->CamYPos() + FP_FromInteger(240))
+                            if (anim.y >= gScreenManager->CamYPos() && anim.y <= gScreenManager->CamYPos() + FP_FromInteger(240))
                             {
                                 anim.field_14.VRender(
-                                    FP_GetExponent(anim.x - pScreenManager->CamXPos()),
-                                    FP_GetExponent(anim.y - pScreenManager->CamYPos()),
+                                    FP_GetExponent(anim.x - gScreenManager->CamXPos()),
+                                    FP_GetExponent(anim.y - gScreenManager->CamYPos()),
                                     ppOt, 0, 0);
                             }
                         }
