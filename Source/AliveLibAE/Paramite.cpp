@@ -2002,12 +2002,12 @@ s16 Paramite::Brain_3_SurpriseWeb()
             break;
 
         case ParamiteEnums::Brain_3_SurpriseWeb::eBrain3_StateLoop1_3:
-            pExistingWeb->field_FA_ttl_remainder = FP_GetExponent(FP_Abs(mYPos)) - 10;
-            pExistingWeb->mYPos = FP_FromInteger(pExistingWeb->field_FA_ttl_remainder);
+            pExistingWeb->mTtlRemainder = FP_GetExponent(FP_Abs(mYPos)) - 10;
+            pExistingWeb->mYPos = FP_FromInteger(pExistingWeb->mTtlRemainder);
             if (GetCurrentMotion() == eParamiteMotions::Motion_0_Idle)
             {
                 auto pWeb = static_cast<ParamiteWeb*>(sObjectIds.Find_Impl(mWebGuid));
-                pWeb->field_104_bEnabled = true;
+                pWeb->mEnabled = true;
                 mWebGuid = Guid{};
                 SetBrain(&Paramite::Brain_0_Patrol);
                 return ParamiteEnums::Brain_0_Patrol::eBrain0_Inactive_0;
@@ -2021,8 +2021,8 @@ s16 Paramite::Brain_3_SurpriseWeb()
             return ParamiteEnums::Brain_3_SurpriseWeb::eBrain3_StateLoop2_4;
 
         case ParamiteEnums::Brain_3_SurpriseWeb::eBrain3_StateLoop2_4:
-            pExistingWeb->field_FA_ttl_remainder = FP_GetExponent(FP_Abs(mYPos)) - 10;
-            pExistingWeb->mYPos = FP_FromInteger(pExistingWeb->field_FA_ttl_remainder);
+            pExistingWeb->mTtlRemainder = FP_GetExponent(FP_Abs(mYPos)) - 10;
+            pExistingWeb->mYPos = FP_FromInteger(pExistingWeb->mTtlRemainder);
             if (GetCurrentMotion() != eParamiteMotions::Motion_0_Idle)
             {
                 if (mVelY <= (GetSpriteScale() * FP_FromInteger(-1)))
@@ -2038,7 +2038,7 @@ s16 Paramite::Brain_3_SurpriseWeb()
             else
             {
                 auto pWeb = static_cast<ParamiteWeb*>(sObjectIds.Find_Impl(mWebGuid));
-                pWeb->field_104_bEnabled = true;
+                pWeb->mEnabled = true;
                 mWebGuid = Guid{};
                 SetBrain(&Paramite::Brain_0_Patrol);
                 return ParamiteEnums::Brain_0_Patrol::eBrain0_Inactive_0;
@@ -3001,12 +3001,12 @@ s16 Paramite::Brain_9_ParamiteSpawn()
             break;
 
         case ParamiteEnums::Brain_9_ParamiteSpawn::eBrain9_DescendLoop1_4:
-            pExistingWeb->field_FA_ttl_remainder = FP_GetExponent(FP_Abs(mYPos)) - 10;
-            pExistingWeb->mYPos = FP_FromInteger(pExistingWeb->field_FA_ttl_remainder);
+            pExistingWeb->mTtlRemainder = FP_GetExponent(FP_Abs(mYPos)) - 10;
+            pExistingWeb->mYPos = FP_FromInteger(pExistingWeb->mTtlRemainder);
             if (GetCurrentMotion() == eParamiteMotions::Motion_0_Idle)
             {
                 mBrainSubState = ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingIdle_1;
-                pExistingWeb->field_104_bEnabled = 1;
+                pExistingWeb->mEnabled = true;
                 mWebGuid = Guid{};
                 SetBrain(&Paramite::Brain_8_ControlledByGameSpeak);
             }
@@ -3022,12 +3022,12 @@ s16 Paramite::Brain_9_ParamiteSpawn()
             break;
 
         case ParamiteEnums::Brain_9_ParamiteSpawn::eBrain9_DescendLoop2_5:
-            pExistingWeb->field_FA_ttl_remainder = FP_GetExponent(FP_Abs(mYPos)) - 10;
-            pExistingWeb->mYPos = FP_FromInteger(pExistingWeb->field_FA_ttl_remainder);
+            pExistingWeb->mTtlRemainder = FP_GetExponent(FP_Abs(mYPos)) - 10;
+            pExistingWeb->mYPos = FP_FromInteger(pExistingWeb->mTtlRemainder);
             if (GetCurrentMotion() == eParamiteMotions::Motion_0_Idle)
             {
                 mBrainSubState = ParamiteEnums::Brain_8_ControlledByGameSpeak::eBrain8_FollowingIdle_1;
-                pExistingWeb->field_104_bEnabled = 1;
+                pExistingWeb->mEnabled = true;
                 mWebGuid = Guid{};
                 SetBrain(&Paramite::Brain_8_ControlledByGameSpeak);
             }

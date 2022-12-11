@@ -15,7 +15,7 @@
 #include "../relive_lib/Collisions.hpp"
 #include "../AliveLibAE/FixedPoint.hpp"
 
-static TintEntry sTimedMineTint_550EB8[16] = {
+static TintEntry sTimedMineTint[16] = {
     {EReliveLevelIds::eMenu, 127u, 127u, 127u},
     {EReliveLevelIds::eMines, 127u, 127u, 127u},
     {EReliveLevelIds::eNecrum, 127u, 127u, 127u},
@@ -92,7 +92,7 @@ TimedMine::TimedMine(relive::Path_TimedMine* pTlv, const Guid& tlvId)
 
     mTlvInfo = tlvId;
     mExplosionTimer = sGnFrame;
-    SetBaseAnimPaletteTint(sTimedMineTint_550EB8, gMap.mCurrentLevel, PalId::Default); // TODO: Bomb pal removed, check correct
+    SetBaseAnimPaletteTint(sTimedMineTint, gMap.mCurrentLevel, PalId::Default); // TODO: Bomb pal removed, check correct
  
     const FP gridSnap = ScaleToGridSize(GetSpriteScale());
     SetInteractive(true);

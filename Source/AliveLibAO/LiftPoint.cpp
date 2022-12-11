@@ -154,7 +154,7 @@ LiftPoint::LiftPoint(relive::Path_LiftPoint* pTlv, Map* pPath, const Guid& tlvId
         mVelX = FP_FromInteger(0);
         field_13C_lift_wheel.SetRGB(128, 128, 128);
         field_13C_lift_wheel.SetRenderMode(TPageAbr::eBlend_0);
-        field_10C = 1;
+        mUnknown = 1;
 
         mVelY = FP_FromInteger(0);
         mLiftPointStopType = relive::Path_LiftPoint::LiftPointStopType::eStartPointOnly;

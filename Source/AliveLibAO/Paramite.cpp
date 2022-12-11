@@ -1442,11 +1442,11 @@ s16 Paramite::Brain_1_SurpriseWeb()
             return Brain_1_SurpriseWeb::eBrain1_StateLoop1_4;
 
         case Brain_1_SurpriseWeb::eBrain1_StateLoop1_4:
-            mParamiteWeb->field_EA_ttl_remainder = FP_GetExponent(FP_Abs(mYPos)) - 10;
-            mParamiteWeb->mYPos = FP_FromInteger(mParamiteWeb->field_EA_ttl_remainder);
+            mParamiteWeb->mTtlRemainder = FP_GetExponent(FP_Abs(mYPos)) - 10;
+            mParamiteWeb->mYPos = FP_FromInteger(mParamiteWeb->mTtlRemainder);
             if (GetCurrentMotion() == eParamiteMotions::Motion_0_Idle)
             {
-                mParamiteWeb->field_F0_bEnabled = true;
+                mParamiteWeb->mEnabled = true;
                 mParamiteWeb->mBaseGameObjectRefCount--;
                 mParamiteWeb = nullptr;
                 SetBrain(&Paramite::Brain_0_Patrol);
@@ -1461,8 +1461,8 @@ s16 Paramite::Brain_1_SurpriseWeb()
             return Brain_1_SurpriseWeb::eBrain1_StateLoop2_5;
 
         case Brain_1_SurpriseWeb::eBrain1_StateLoop2_5:
-            mParamiteWeb->field_EA_ttl_remainder = FP_GetExponent(FP_Abs(mYPos)) - 10;
-            mParamiteWeb->mYPos = FP_FromInteger(mParamiteWeb->field_EA_ttl_remainder);
+            mParamiteWeb->mTtlRemainder = FP_GetExponent(FP_Abs(mYPos)) - 10;
+            mParamiteWeb->mYPos = FP_FromInteger(mParamiteWeb->mTtlRemainder);
             if (GetCurrentMotion() != eParamiteMotions::Motion_0_Idle)
             {
                 if (mVelY <= (GetSpriteScale() * FP_FromInteger(-1)))
@@ -1477,7 +1477,7 @@ s16 Paramite::Brain_1_SurpriseWeb()
             }
             else
             {
-                mParamiteWeb->field_F0_bEnabled = true;
+                mParamiteWeb->mEnabled = true;
                 mParamiteWeb->mBaseGameObjectRefCount--;
                 mParamiteWeb = nullptr;
                 SetBrain(&Paramite::Brain_0_Patrol);

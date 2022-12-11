@@ -2,7 +2,7 @@
 #include "Fade.hpp"
 #include "stdlib.hpp"
 
-s32 sIsFadingOut_5BC204 = 0;
+static bool sIsFadingOut = false;
 
 
 Fade::Fade(Layer layer, FadeOptions fade, bool destroyOnDone, s32 speed, TPageAbr abr)
@@ -52,7 +52,7 @@ void Fade::Init(Layer layer, FadeOptions fade, bool destroyOnDone, s32 speed)
         mSpeed = speed;
     }
 
-    sIsFadingOut_5BC204 = true;
+    sIsFadingOut = true;
 }
 
 void Fade::VUpdate()
@@ -89,7 +89,7 @@ void Fade::VRender(PrimHeader** ppOt)
         (mCurrentFadeRGB == 0 && mFadeOption == FadeOptions::eFadeOut))
     {
         mDone = true;
-        if (!sIsFadingOut_5BC204)
+        if (!sIsFadingOut)
         {
             if (mDestroyOnDone)
             {
@@ -98,7 +98,7 @@ void Fade::VRender(PrimHeader** ppOt)
         }
         else
         {
-            sIsFadingOut_5BC204 = false;
+            sIsFadingOut = false;
         }
     }
 }

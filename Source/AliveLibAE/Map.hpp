@@ -99,7 +99,7 @@ public:
 };
 
 extern Map gMap;
-extern s16 sMap_bDoPurpleLightEffect;
+extern bool gMap_bDoPurpleLightEffect;
 extern const CameraSwapEffects kPathChangeEffectToInternalScreenChangeEffect[10];
 
 s32 MaxGridBlocks(FP scale);

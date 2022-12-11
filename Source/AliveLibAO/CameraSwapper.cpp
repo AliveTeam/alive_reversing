@@ -20,7 +20,7 @@ namespace AO {
 
 s16 gNumCamSwappers = 0;
 
-CameraSwapper::CameraSwapper(CamResource& ppBits, bool bPutDispEnv1, const char_type* pFmv1, bool bPutDispEnv2, const char_type* pFmv2, bool bPutDispEnv3, const char_type* pFmv3)
+CameraSwapper::CameraSwapper(CamResource& camRes, bool bPutDispEnv1, const char_type* pFmv1, bool bPutDispEnv2, const char_type* pFmv2, bool bPutDispEnv3, const char_type* pFmv3)
     : BaseGameObject(true, 0)
 {
     mFmvs[0] = pFmv1;
@@ -34,43 +34,43 @@ CameraSwapper::CameraSwapper(CamResource& ppBits, bool bPutDispEnv1, const char_
 
     if (mFmvs[0] && mFmvs[1] && mFmvs[2])
     {
-        Init(ppBits, CameraSwapEffects::ePlay3FMVs_10);
+        Init(camRes, CameraSwapEffects::ePlay3FMVs_10);
     }
     else if (pFmv1 && pFmv2)
     {
-        Init(ppBits, CameraSwapEffects::ePlay2FMVs_9);
+        Init(camRes, CameraSwapEffects::ePlay2FMVs_9);
     }
     else
     {
-        Init(ppBits, CameraSwapEffects::ePlay1FMV_5);
+        Init(camRes, CameraSwapEffects::ePlay1FMV_5);
     }
 
     relive_new Movie(mFmvs[0]);
 
-    field_3C_movie_bPutDispEnv = mPutDispEnv[0];
+    mMoviePutDispEnv = mPutDispEnv[0];
 }
 
-CameraSwapper::CameraSwapper(CamResource& ppBits, CameraSwapEffects changeEffect, s32 xpos, s32 ypos)
+CameraSwapper::CameraSwapper(CamResource& camRes, CameraSwapEffects changeEffect, s32 xpos, s32 ypos)
     : BaseGameObject(true, 0)
 {
-    field_40_ypos_converted = static_cast<s16>(ypos);
-    field_3E_xpos_converted = static_cast<s16>(PsxToPCX(xpos));
-    Init(ppBits, changeEffect);
+    mYPosConverted = static_cast<s16>(ypos);
+    mXPosConverted = static_cast<s16>(PsxToPCX(xpos));
+    Init(camRes, changeEffect);
 }
 
 CameraSwapper::~CameraSwapper()
 {
     gNumCamSwappers--;
 
-    if (field_24_pSubObject)
+    if (mScreenClipper)
     {
-        field_24_pSubObject->SetDead(true);
+        mScreenClipper->SetDead(true);
     }
 
-    if (sMap_bDoPurpleLightEffect)
+    if (gMap_bDoPurpleLightEffect)
     {
         gMap.RemoveObjectsWithPurpleLight(0);
-        sMap_bDoPurpleLightEffect = false;
+        gMap_bDoPurpleLightEffect = false;
     }
 
     BackgroundMusic::Play();
@@ -78,21 +78,21 @@ CameraSwapper::~CameraSwapper()
     gMap.Start_Sounds_For_Objects_In_Near_Cameras();
 }
 
-void CameraSwapper::Init(CamResource& ppCamRes, CameraSwapEffects changeEffect)
+void CameraSwapper::Init(CamResource& camRes, CameraSwapEffects changeEffect)
 {
     SetUpdateDuringCamSwap(true);
 
     SetType(ReliveTypes::eCameraSwapper);
 
-    field_24_pSubObject = nullptr;
+    mScreenClipper = nullptr;
 
     if (changeEffect == CameraSwapEffects::ePlay1FMV_5 || changeEffect == CameraSwapEffects::ePlay2FMVs_9 || changeEffect == CameraSwapEffects::ePlay3FMVs_10)
     {
-        field_20_ppCamRes = ppCamRes;
+        mCamRes = camRes;
     }
     else
     {
-        gScreenManager->DecompressCameraToVRam(ppCamRes);
+        gScreenManager->DecompressCameraToVRam(camRes);
     }
 
     gNumCamSwappers++;
@@ -107,23 +107,23 @@ void CameraSwapper::Init(CamResource& ppCamRes, CameraSwapEffects changeEffect)
         return;
     }
 
-    field_28_changeEffect = changeEffect;
+    mCamChangeEffect = changeEffect;
 
     PSX_Point xy = {};
     PSX_Point wh = {};
 
-    switch (field_28_changeEffect)
+    switch (mCamChangeEffect)
     {
         case CameraSwapEffects::eInstantChange_0:
             SetDead(true);
-            field_24_pSubObject = nullptr;
+            mScreenClipper = nullptr;
             break;
 
         case CameraSwapEffects::eLeftToRight_1:
-            field_46_slice_width = 48; // 384 / 8 ?
-            field_2C_slices_per_tick = -1;
-            field_2E_total_slices = gPsxDisplay.mWidth / field_46_slice_width;
-            field_2A_current_slice = field_2E_total_slices;
+            mSliceWidth = 48; // 384 / 8 ?
+            mSlicesPerTick = -1;
+            mTotalSlices = gPsxDisplay.mWidth / mSliceWidth;
+            mCurrentSlice = mTotalSlices;
 
             xy.y = 0;
             xy.x = gPsxDisplay.mWidth;
@@ -131,14 +131,14 @@ void CameraSwapper::Init(CamResource& ppCamRes, CameraSwapEffects changeEffect)
             wh.x = gPsxDisplay.mWidth;
             wh.y = gPsxDisplay.mHeight;
 
-            field_24_pSubObject = relive_new ScreenClipper(xy, wh, Layer::eLayer_0);
+            mScreenClipper = relive_new ScreenClipper(xy, wh, Layer::eLayer_0);
             break;
 
         case CameraSwapEffects::eRightToLeft_2:
-            field_46_slice_width = 48;
-            field_2C_slices_per_tick = 1;
-            field_2E_total_slices = gPsxDisplay.mWidth / field_46_slice_width + 1;
-            field_2A_current_slice = -1;
+            mSliceWidth = 48;
+            mSlicesPerTick = 1;
+            mTotalSlices = gPsxDisplay.mWidth / mSliceWidth + 1;
+            mCurrentSlice = -1;
 
             xy.y = 0;
             xy.x = 0;
@@ -146,14 +146,14 @@ void CameraSwapper::Init(CamResource& ppCamRes, CameraSwapEffects changeEffect)
             wh.x = 0;
             wh.y = gPsxDisplay.mHeight;
 
-            field_24_pSubObject = relive_new ScreenClipper(xy, wh, Layer::eLayer_0);
+            mScreenClipper = relive_new ScreenClipper(xy, wh, Layer::eLayer_0);
             break;
 
         case CameraSwapEffects::eTopToBottom_3:
-            field_46_slice_width = 30; // 240 / 8 ?
-            field_2C_slices_per_tick = -1;
-            field_2E_total_slices = gPsxDisplay.mHeight / field_46_slice_width;
-            field_2A_current_slice = field_2E_total_slices;
+            mSliceWidth = 30; // 240 / 8 ?
+            mSlicesPerTick = -1;
+            mTotalSlices = gPsxDisplay.mHeight / mSliceWidth;
+            mCurrentSlice = mTotalSlices;
 
             xy.x = 0;
             xy.y = gPsxDisplay.mHeight;
@@ -161,14 +161,14 @@ void CameraSwapper::Init(CamResource& ppCamRes, CameraSwapEffects changeEffect)
             wh.x = gPsxDisplay.mWidth;
             wh.y = gPsxDisplay.mHeight;
 
-            field_24_pSubObject = relive_new ScreenClipper(xy, wh, Layer::eLayer_0);
+            mScreenClipper = relive_new ScreenClipper(xy, wh, Layer::eLayer_0);
             break;
 
         case CameraSwapEffects::eBottomToTop_4:
-            field_46_slice_width = 30; // 240 / 8 ?
-            field_2C_slices_per_tick = 1;
-            field_2E_total_slices = gPsxDisplay.mHeight / field_46_slice_width;
-            field_2A_current_slice = -1;
+            mSliceWidth = 30; // 240 / 8 ?
+            mSlicesPerTick = 1;
+            mTotalSlices = gPsxDisplay.mHeight / mSliceWidth;
+            mCurrentSlice = -1;
 
             xy.x = 0;
             xy.y = 0;
@@ -176,14 +176,14 @@ void CameraSwapper::Init(CamResource& ppCamRes, CameraSwapEffects changeEffect)
             wh.x = gPsxDisplay.mWidth;
             wh.y = 0;
 
-            field_24_pSubObject = relive_new ScreenClipper(xy, wh, Layer::eLayer_0);
+            mScreenClipper = relive_new ScreenClipper(xy, wh, Layer::eLayer_0);
             break;
 
         case CameraSwapEffects::eVerticalSplit_6:
-            field_46_slice_width = 24; // ??
-            field_2C_slices_per_tick = 1;
-            field_2E_total_slices = (gPsxDisplay.mWidth / 2) / field_46_slice_width;
-            field_2A_current_slice = 0;
+            mSliceWidth = 24; // ??
+            mSlicesPerTick = 1;
+            mTotalSlices = (gPsxDisplay.mWidth / 2) / mSliceWidth;
+            mCurrentSlice = 0;
 
             xy.x = gPsxDisplay.mWidth / 2;
             xy.y = 0;
@@ -191,14 +191,14 @@ void CameraSwapper::Init(CamResource& ppCamRes, CameraSwapEffects changeEffect)
             wh.x = gPsxDisplay.mWidth / 2;
             wh.y = gPsxDisplay.mHeight;
 
-            field_24_pSubObject = relive_new ScreenClipper(xy, wh, Layer::eLayer_0);
+            mScreenClipper = relive_new ScreenClipper(xy, wh, Layer::eLayer_0);
             break;
 
         case CameraSwapEffects::eHorizontalSplit_7:
-            field_46_slice_width = 15; // ??
-            field_2C_slices_per_tick = 1;
-            field_2E_total_slices = (gPsxDisplay.mHeight / 2) / field_46_slice_width;
-            field_2A_current_slice = 0;
+            mSliceWidth = 15; // ??
+            mSlicesPerTick = 1;
+            mTotalSlices = (gPsxDisplay.mHeight / 2) / mSliceWidth;
+            mCurrentSlice = 0;
 
             xy.x = 0;
             xy.y = gPsxDisplay.mHeight / 2;
@@ -206,44 +206,44 @@ void CameraSwapper::Init(CamResource& ppCamRes, CameraSwapEffects changeEffect)
             wh.x = gPsxDisplay.mWidth;
             wh.y = gPsxDisplay.mHeight / 2;
 
-            field_24_pSubObject = relive_new ScreenClipper(xy, wh, Layer::eLayer_0);
+            mScreenClipper = relive_new ScreenClipper(xy, wh, Layer::eLayer_0);
             break;
 
         case CameraSwapEffects::eBoxOut_8:
         {
-            field_42_XSlices = 24; // ??
-            field_44_YSlices = 15; // ??
+            mXSlices = 24; // ??
+            mYSlices = 15; // ??
 
-            s16 xDiff = gPsxDisplay.mWidth - field_3E_xpos_converted;
-            if (xDiff <= field_3E_xpos_converted)
+            s16 xDiff = gPsxDisplay.mWidth - mXPosConverted;
+            if (xDiff <= mXPosConverted)
             {
-                xDiff = field_3E_xpos_converted;
+                xDiff = mXPosConverted;
             }
 
-            s16 yDiff = gPsxDisplay.mHeight - field_40_ypos_converted;
-            if (yDiff <= field_40_ypos_converted)
+            s16 yDiff = gPsxDisplay.mHeight - mYPosConverted;
+            if (yDiff <= mYPosConverted)
             {
-                yDiff = field_40_ypos_converted;
+                yDiff = mYPosConverted;
             }
 
             s16 startingSlice = 0;
-            if ((xDiff / field_42_XSlices) <= (yDiff / field_44_YSlices))
+            if ((xDiff / mXSlices) <= (yDiff / mYSlices))
             {
-                startingSlice = yDiff / field_44_YSlices;
+                startingSlice = yDiff / mYSlices;
             }
             else
             {
-                startingSlice = xDiff / field_42_XSlices;
+                startingSlice = xDiff / mXSlices;
             }
 
-            field_2C_slices_per_tick = 1;
-            field_2E_total_slices = startingSlice + 1;
-            field_2A_current_slice = 0;
+            mSlicesPerTick = 1;
+            mTotalSlices = startingSlice + 1;
+            mCurrentSlice = 0;
 
             xy.x = gPsxDisplay.mWidth - 1;
             xy.y = gPsxDisplay.mHeight - 1;
 
-            field_24_pSubObject = relive_new ScreenClipper(xy, PSX_Point{ 1, 1 }, Layer::eLayer_0);
+            mScreenClipper = relive_new ScreenClipper(xy, PSX_Point{ 1, 1 }, Layer::eLayer_0);
 
             // "Whoosh" door sound effect
             SfxPlayMono(relive::SoundEffects::IngameTransition, 127);
@@ -253,8 +253,8 @@ void CameraSwapper::Init(CamResource& ppCamRes, CameraSwapEffects changeEffect)
         case CameraSwapEffects::ePlay1FMV_5:
         case CameraSwapEffects::ePlay2FMVs_9:
         case CameraSwapEffects::ePlay3FMVs_10:
-            field_24_pSubObject = relive_new ScreenClipper(PSX_Point{ 0, 0 }, PSX_Point{ 1, 1 }, Layer::eLayer_0);
-            field_2A_current_slice = 0;
+            mScreenClipper = relive_new ScreenClipper(PSX_Point{ 0, 0 }, PSX_Point{ 1, 1 }, Layer::eLayer_0);
+            mCurrentSlice = 0;
             break;
 
         default:
@@ -269,7 +269,7 @@ void CameraSwapper::VUpdate()
         return;
     }
 
-    switch (field_28_changeEffect)
+    switch (mCamChangeEffect)
     {
         case CameraSwapEffects::eInstantChange_0:
             SetDead(true);
@@ -278,101 +278,101 @@ void CameraSwapper::VUpdate()
         case CameraSwapEffects::eLeftToRight_1:
         case CameraSwapEffects::eRightToLeft_2:
         {
-            field_2A_current_slice += field_2C_slices_per_tick;
-            if (field_2A_current_slice < 0 || field_2A_current_slice >= field_2E_total_slices)
+            mCurrentSlice += mSlicesPerTick;
+            if (mCurrentSlice < 0 || mCurrentSlice >= mTotalSlices)
             {
                 // All slices done
                 SetDead(true);
                 return;
             }
 
-            const s16 xpos = field_46_slice_width * field_2A_current_slice;
-            s16 width = field_46_slice_width * (field_2A_current_slice + 1);
+            const s16 xpos = mSliceWidth * mCurrentSlice;
+            s16 width = mSliceWidth * (mCurrentSlice + 1);
             if (width > gPsxDisplay.mWidth - 1)
             {
                 width = gPsxDisplay.mWidth - 1;
             }
 
-            field_24_pSubObject->Update_Clip_Rect({xpos, 0}, {static_cast<s16>(width + 1), static_cast<s16>(gPsxDisplay.mHeight)});
+            mScreenClipper->Update_Clip_Rect({xpos, 0}, {static_cast<s16>(width + 1), static_cast<s16>(gPsxDisplay.mHeight)});
         }
         break;
 
         case CameraSwapEffects::eTopToBottom_3:
         case CameraSwapEffects::eBottomToTop_4:
         {
-            field_2A_current_slice += field_2C_slices_per_tick;
-            if (field_2A_current_slice < 0 || field_2A_current_slice >= field_2E_total_slices)
+            mCurrentSlice += mSlicesPerTick;
+            if (mCurrentSlice < 0 || mCurrentSlice >= mTotalSlices)
             {
                 // All slices done
                 SetDead(true);
                 return;
             }
 
-            const s16 ypos = field_46_slice_width * field_2A_current_slice;
-            s16 height = field_46_slice_width * (field_2A_current_slice + 1);
-            field_24_pSubObject->Update_Clip_Rect({0, ypos}, {static_cast<s16>(gPsxDisplay.mWidth), height});
+            const s16 ypos = mSliceWidth * mCurrentSlice;
+            s16 height = mSliceWidth * (mCurrentSlice + 1);
+            mScreenClipper->Update_Clip_Rect({0, ypos}, {static_cast<s16>(gPsxDisplay.mWidth), height});
         }
         break;
 
         case CameraSwapEffects::eVerticalSplit_6:
         {
-            field_2A_current_slice += field_2C_slices_per_tick;
-            if (field_2A_current_slice < 0 || field_2A_current_slice > field_2E_total_slices)
+            mCurrentSlice += mSlicesPerTick;
+            if (mCurrentSlice < 0 || mCurrentSlice > mTotalSlices)
             {
                 // All slices done
                 SetDead(true);
                 return;
             }
 
-            const s16 xpos = field_46_slice_width * field_2A_current_slice;
+            const s16 xpos = mSliceWidth * mCurrentSlice;
             const s16 halfDisplayWidth = gPsxDisplay.mWidth / 2;
 
-            field_24_pSubObject->Update_Clip_Rect({static_cast<s16>(halfDisplayWidth - xpos), 0}, {static_cast<s16>(xpos + halfDisplayWidth + 1), static_cast<s16>(gPsxDisplay.mHeight)});
+            mScreenClipper->Update_Clip_Rect({static_cast<s16>(halfDisplayWidth - xpos), 0}, {static_cast<s16>(xpos + halfDisplayWidth + 1), static_cast<s16>(gPsxDisplay.mHeight)});
         }
         break;
 
         case CameraSwapEffects::eHorizontalSplit_7:
         {
-            field_2A_current_slice += field_2C_slices_per_tick;
-            if (field_2A_current_slice < 0 || field_2A_current_slice > field_2E_total_slices)
+            mCurrentSlice += mSlicesPerTick;
+            if (mCurrentSlice < 0 || mCurrentSlice > mTotalSlices)
             {
                 // All slices done
                 SetDead(true);
                 return;
             }
 
-            const s16 ypos = field_46_slice_width * field_2A_current_slice;
+            const s16 ypos = mSliceWidth * mCurrentSlice;
             const s16 halfDisplayHeight = gPsxDisplay.mHeight / 2;
 
-            field_24_pSubObject->Update_Clip_Rect({0, static_cast<s16>(halfDisplayHeight - ypos)}, {640, static_cast<s16>(halfDisplayHeight + ypos)});
+            mScreenClipper->Update_Clip_Rect({0, static_cast<s16>(halfDisplayHeight - ypos)}, {640, static_cast<s16>(halfDisplayHeight + ypos)});
         }
         break;
 
         case CameraSwapEffects::eBoxOut_8:
         {
-            field_2A_current_slice += field_2C_slices_per_tick;
-            if (field_2A_current_slice < 0 || field_2A_current_slice > field_2E_total_slices)
+            mCurrentSlice += mSlicesPerTick;
+            if (mCurrentSlice < 0 || mCurrentSlice > mTotalSlices)
             {
                 // All slices done
                 SetDead(true);
                 return;
             }
 
-            const s16 xSlicePos = field_2A_current_slice * field_42_XSlices;
-            const s16 width = (field_3E_xpos_converted + xSlicePos > gPsxDisplay.mWidth) ? gPsxDisplay.mWidth : field_3E_xpos_converted + xSlicePos;
+            const s16 xSlicePos = mCurrentSlice * mXSlices;
+            const s16 width = (mXPosConverted + xSlicePos > gPsxDisplay.mWidth) ? gPsxDisplay.mWidth : mXPosConverted + xSlicePos;
 
-            const s16 ySlicePos = field_2A_current_slice * field_44_YSlices;
-            const s16 height = (ySlicePos + field_40_ypos_converted > gPsxDisplay.mHeight) ? gPsxDisplay.mHeight : ySlicePos + field_40_ypos_converted;
+            const s16 ySlicePos = mCurrentSlice * mYSlices;
+            const s16 height = (ySlicePos + mYPosConverted > gPsxDisplay.mHeight) ? gPsxDisplay.mHeight : ySlicePos + mYPosConverted;
 
             PSX_Point rect_xy = {};
-            rect_xy.x = (field_3E_xpos_converted - xSlicePos <= 0) ? 0 : field_3E_xpos_converted - xSlicePos;
-            rect_xy.y = (field_40_ypos_converted - ySlicePos <= 0) ? 0 : field_40_ypos_converted - ySlicePos;
+            rect_xy.x = (mXPosConverted - xSlicePos <= 0) ? 0 : mXPosConverted - xSlicePos;
+            rect_xy.y = (mYPosConverted - ySlicePos <= 0) ? 0 : mYPosConverted - ySlicePos;
 
             PSX_Point rect_wh = {};
             rect_wh.x = width + 1;
             rect_wh.y = height;
 
-            field_24_pSubObject->Update_Clip_Rect(rect_xy, rect_wh);
+            mScreenClipper->Update_Clip_Rect(rect_xy, rect_wh);
         }
         break;
 
@@ -384,15 +384,15 @@ void CameraSwapper::VUpdate()
                 return;
             }
 
-            if (field_3C_movie_bPutDispEnv == 1)
+            if (mMoviePutDispEnv)
             {
                 //gPsxDisplay.PutCurrentDispEnv();
             }
 
             // Now apply the camera we where storing now that the movie is finished
-            if (field_20_ppCamRes.mData.mPixels)
+            if (mCamRes.mData.mPixels)
             {
-                gScreenManager->DecompressCameraToVRam(field_20_ppCamRes);
+                gScreenManager->DecompressCameraToVRam(mCamRes);
             }
 
             gScreenManager->EnableRendering();
@@ -402,9 +402,9 @@ void CameraSwapper::VUpdate()
 
         // TODO: 2 and 3 FMV cases can be de-duped
         case CameraSwapEffects::ePlay2FMVs_9:
-            if (field_2A_current_slice < 1)
+            if (mCurrentSlice < 1)
             {
-                field_2A_current_slice++;
+                mCurrentSlice++;
             }
             else
             {
@@ -415,15 +415,15 @@ void CameraSwapper::VUpdate()
             if (sMovie_ref_count_9F309C == 0)
             {
                 relive_new Movie(mFmvs[1]);
-                field_28_changeEffect = CameraSwapEffects::ePlay1FMV_5;
-                field_3C_movie_bPutDispEnv = mPutDispEnv[2];
+                mCamChangeEffect = CameraSwapEffects::ePlay1FMV_5;
+                mMoviePutDispEnv = mPutDispEnv[2];
             }
             break;
 
         case CameraSwapEffects::ePlay3FMVs_10:
-            if (field_2A_current_slice < 1)
+            if (mCurrentSlice < 1)
             {
-                field_2A_current_slice++;
+                mCurrentSlice++;
             }
             else
             {
@@ -434,8 +434,8 @@ void CameraSwapper::VUpdate()
             if (sMovie_ref_count_9F309C == 0)
             {
                 relive_new Movie(mFmvs[2]);
-                field_28_changeEffect = CameraSwapEffects::ePlay2FMVs_9;
-                field_3C_movie_bPutDispEnv = mPutDispEnv[1];
+                mCamChangeEffect = CameraSwapEffects::ePlay2FMVs_9;
+                mMoviePutDispEnv = mPutDispEnv[1];
             }
             break;
 

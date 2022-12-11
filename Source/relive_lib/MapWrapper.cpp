@@ -7,7 +7,7 @@
 #include "IBaseAliveGameObject.hpp"
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 
-s16 sMap_bDoPurpleLightEffect = 0;
+bool gMap_bDoPurpleLightEffect = false;
 
 
 // Map Path_ChangeTLV::field_18_wipe to CameraSwapEffects
@@ -269,11 +269,11 @@ s16 IMap::SetActiveCameraDelayed(MapDirections direction, IBaseAliveGameObject* 
     mMapDirection = direction;
     mAliveObj = pObj;
     mCamState = CamChangeStates::eSliceCam_1;
-    sMap_bDoPurpleLightEffect = 0;
+    gMap_bDoPurpleLightEffect = false;
 
     if (convertedSwapEffect == CameraSwapEffects::ePlay1FMV_5 || convertedSwapEffect == CameraSwapEffects::eUnknown_11)
     {
-        sMap_bDoPurpleLightEffect = 1;
+        gMap_bDoPurpleLightEffect = true;
     }
 
     return 1;

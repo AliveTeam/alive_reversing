@@ -30,7 +30,6 @@ ColourfulMeter::ColourfulMeter(relive::Path_ColourfulMeter* pTlv, const Guid& tl
     mTextY = FP_GetExponent((FP_FromInteger(pTlv->mTopLeftY)) - gScreenManager->CamYPos());
 
     mSwitchId = pTlv->mSwitchId;
-    field_80 = 0;
     mNumberOfMeterBars = pTlv->mNumberOfMeterBars;
     field_82_bar_count = kMeterBarsXCount / mNumberOfMeterBars + 1;
 
@@ -119,7 +118,6 @@ void ColourfulMeter::VUpdate()
             if (SwitchStates_Get(mSwitchId))
             {
                 gTotalMeterBars_5C1BFA++;
-                field_80 = 1;
                 mStartingSwitchState = 1;
             }
         }

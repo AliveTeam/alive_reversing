@@ -18,8 +18,7 @@ public:
     void AddDynamicCollision(AnimId animId, relive::Path_TLV* pTlv, Map* pMap, const Guid& tlvId);
     void SyncCollisionLinePosition();
 
-    s32 field_10C = 0;
-    s32 field_110 = 0;
+    s32 mUnknown = 0;
     s32 mPlatformBaseCount = 0;
     s16 mPlatformBaseXOffset = 0;
     s16 mPlatformBaseWidthOffset = 0;

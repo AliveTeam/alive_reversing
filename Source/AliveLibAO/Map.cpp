@@ -284,7 +284,7 @@ void Map::ScreenChange()
         return;
     }
 
-    if (sMap_bDoPurpleLightEffect && mCurrentLevel != EReliveLevelIds::eBoardRoom)
+    if (gMap_bDoPurpleLightEffect && mCurrentLevel != EReliveLevelIds::eBoardRoom)
     {
         RemoveObjectsWithPurpleLight(1);
     }
@@ -331,7 +331,7 @@ void Map::ScreenChange()
         }
     }
 
-    if (sMap_bDoPurpleLightEffect || mNextLevel != mCurrentLevel)
+    if (gMap_bDoPurpleLightEffect || mNextLevel != mCurrentLevel)
     {
         if (mNextLevel != mCurrentLevel)
         {
@@ -393,11 +393,11 @@ s16 Map::SetActiveCam(EReliveLevelIds level, s16 path, s16 cam, CameraSwapEffect
 
     if (screenChangeEffect == CameraSwapEffects::ePlay1FMV_5 || screenChangeEffect == CameraSwapEffects::eUnknown_11)
     {
-        sMap_bDoPurpleLightEffect = 1;
+        gMap_bDoPurpleLightEffect = true;
     }
     else
     {
-        sMap_bDoPurpleLightEffect = 0;
+        gMap_bDoPurpleLightEffect = false;
     }
 
     return 1;

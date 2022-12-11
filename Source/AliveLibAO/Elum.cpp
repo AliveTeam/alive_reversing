@@ -540,7 +540,7 @@ s16 Elum::ToNextMotionAbeControlled_411E40()
     auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (pPlatform && pPlatform->Type() == ReliveTypes::eLiftPoint)
     {
-        if (pPlatform->field_10C == 1)
+        if (pPlatform->mUnknown == 1)
         {
             if (!static_cast<LiftPoint*>(pPlatform)->OnAnyFloor())
             {
@@ -816,7 +816,7 @@ s16 Elum::NearHoney_411DA0()
     if (mFoundHoney)
     {
         auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
-        if (pLiftPoint && pLiftPoint->field_10C == 1 && !pLiftPoint->OnAnyFloor())
+        if (pLiftPoint && pLiftPoint->mUnknown == 1 && !pLiftPoint->OnAnyFloor())
         {
             // We're on a lift that isn't on a floor
             return 0;
@@ -933,7 +933,7 @@ s16 Elum::Brain_0_WithoutAbe_416190()
             auto pPlatform = static_cast<PlatformBase*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
             if (pPlatform)
             {
-                if (pPlatform->field_10C == 1)
+                if (pPlatform->mUnknown == 1)
                 {
                     auto pLift = static_cast<LiftPoint*>(pPlatform);
                     if (!pLift->OnAnyFloor()) // TODO: Check logic

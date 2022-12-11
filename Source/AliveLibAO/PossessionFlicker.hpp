@@ -16,16 +16,16 @@ public:
     ~PossessionFlicker();
 
 private:
-    IBaseAliveGameObject* field_10_pObj = nullptr;
-    s32 field_14_time_to_flicker = 0;
+    IBaseAliveGameObject* mTargetObj = nullptr;
+    s32 mTimeToFlicker = 0;
 
-    s16 field_18_r = 0;
-    s16 field_1A_g = 0;
-    s16 field_1C_b = 0;
+    s16 mNewRed = 0;
+    s16 mNewGreen = 0;
+    s16 mNewBlue = 0;
 
-    s16 field_1E_old_r = 0;
-    s16 field_20_old_g = 0;
-    s16 field_22_old_b = 0;
+    s16 mOldRed = 0;
+    s16 mOldGreen = 0;
+    s16 mOldBlue = 0;
 };
 
 } // namespace AO

@@ -18,9 +18,9 @@ public:
     virtual void VMarkAsPulled();
 
 private:
-    s32 field_F4_stay_in_state_ticks = 0;
-    Guid field_F8_rope_id;
-    Guid field_FC_ring_puller_id;
+    s32 mStayInStateTicks = 0;
+    Guid mRopeId;
+    Guid mRingPullerId;
     enum class States : s16
     {
         eIdle_0 = 0,
@@ -28,12 +28,12 @@ private:
         eTriggerEvent_2 = 2,
         eReturnToIdle_3 = 3
     };
-    States field_100_state = States::eIdle_0;
-    s16 field_102_switch_id = 0;
-    relive::reliveSwitchOp field_104_action = relive::reliveSwitchOp::eSetTrue;
-    relive::Path_PullRingRope::PullRingSwitchSound field_106_on_sound = relive::Path_PullRingRope::PullRingSwitchSound::eNone;
-    relive::Path_PullRingRope::PullRingSwitchSound field_108_off_sound = relive::Path_PullRingRope::PullRingSwitchSound::eNone;
-    relive::Path_PullRingRope::PullRingSoundDirection field_10A_sound_direction = relive::Path_PullRingRope::PullRingSoundDirection::eLeftAndRight;
-    s32 field_10C_is_pulled = 0;
-    Guid field_110_tlvInfo;
+    States mState = States::eIdle_0;
+    s16 mSwitchId = 0;
+    relive::reliveSwitchOp mAction = relive::reliveSwitchOp::eSetTrue;
+    relive::Path_PullRingRope::PullRingSwitchSound mOnSound = relive::Path_PullRingRope::PullRingSwitchSound::eNone;
+    relive::Path_PullRingRope::PullRingSwitchSound mOffSound = relive::Path_PullRingRope::PullRingSwitchSound::eNone;
+    relive::Path_PullRingRope::PullRingSoundDirection mSoundDirection = relive::Path_PullRingRope::PullRingSoundDirection::eLeftAndRight;
+    bool mIsPulled = false;
+    Guid mTlvId;
 };

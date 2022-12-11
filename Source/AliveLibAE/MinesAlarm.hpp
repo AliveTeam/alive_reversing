@@ -5,7 +5,6 @@
 struct MinesAlarmSaveState final
 {
     ReliveTypes mType;
-    s16 field_2_pad;
     s32 mExplosionTimer;
 };
 

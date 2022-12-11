@@ -32,7 +32,6 @@ private:
     s16 mNumberOfMeterBars = 0;
     s16 mMinesAlarmCountdown = 0;
     s16 mStartingSwitchState = 0;
-    s16 field_80 = 0;
     s16 field_82_bar_count = 0;
     relive::reliveChoice mStartFilled = relive::reliveChoice::eNo;
     Poly_G4 field_88_polyG4s[2][kMeterBarsXCount] = {};

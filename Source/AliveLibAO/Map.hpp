@@ -156,4 +156,4 @@ s32 MaxGridBlocks(FP scale);
 
 } // namespace AO
 
-extern s16 sMap_bDoPurpleLightEffect;
+extern bool gMap_bDoPurpleLightEffect;
