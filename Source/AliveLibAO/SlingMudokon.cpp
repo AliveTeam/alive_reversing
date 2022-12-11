@@ -120,15 +120,13 @@ SlingMudokon::SlingMudokon(relive::Path_SlingMudokon* pTlv, const Guid& tlvId)
     field_13A_brain_sub_state = 0;
     field_15A_bCodeMatches = 0;
 
-    field_11E_flags.Clear(Flags_11E::eBit2_unused);
-    field_11E_flags.Clear(Flags_11E::eBit4_bAbeGettingCloser);
-
-    field_11E_flags.Set(Flags_11E::eBit1_bDontSetDestroyed);
+    mAbeGettingCloser = false;
+    mDontSetDestroyed = true;
 }
 
 SlingMudokon::~SlingMudokon()
 {
-    if (field_11E_flags.Get(Flags_11E::eBit1_bDontSetDestroyed))
+    if (mDontSetDestroyed)
     {
         Path::TLV_Reset(mTlvId, -1, 0, 0);
     }
@@ -488,7 +486,7 @@ s16 SlingMudokon::Brain_0_GiveCode()
             return field_13A_brain_sub_state;
     }
 
-    field_11E_flags.Set(Flags_11E::eBit4_bAbeGettingCloser);
+    mAbeGettingCloser = true;
     field_138_brain_state = field_154_previous_brain_state;
     LOG_INFO("field_156_always_4 = %d", field_156_always_4);
     return field_156_always_4;
@@ -572,7 +570,7 @@ s16 SlingMudokon::Brain_1_Spawn()
                 SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 0, -600);
                 return Brain_1_Spawn::eBrain1_DisappearAsDoves_7;
             }
-            else if (field_11E_flags.Get(Flags_11E::eBit4_bAbeGettingCloser))
+            else if (mAbeGettingCloser)
             {
                 SetNextMotion(eSlingMudMotions::Motion_1_Angry);
                 field_140_timer = sGnFrame + 40;
@@ -589,7 +587,7 @@ s16 SlingMudokon::Brain_1_Spawn()
         case Brain_1_Spawn::eBrain1_PrepareToShoot_5:
             if (VIsObjNearby((ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(4)), sActiveHero))
             {
-                field_11E_flags.Set(Flags_11E::eBit1_bDontSetDestroyed);
+                mDontSetDestroyed = true;
                 SetNextMotion(eSlingMudMotions::Motion_3_ShootStart);
                 field_140_timer = sGnFrame + 15;
                 return Brain_1_Spawn::eBrain1_Shoot_6;
@@ -603,7 +601,7 @@ s16 SlingMudokon::Brain_1_Spawn()
             {
                 if (field_140_timer <= static_cast<s32>(sGnFrame))
                 {
-                    field_11E_flags.Clear(Flags_11E::eBit4_bAbeGettingCloser);
+                    mAbeGettingCloser = false;
                     field_140_timer = sGnFrame + 40;
                     SetNextMotion(eSlingMudMotions::Motion_5_AngryToIdle);
                     return Brain_1_Spawn::eBrain1_GetAngry_3;
@@ -652,14 +650,7 @@ s16 SlingMudokon::Brain_1_Spawn()
 
                 GetAnimation().SetRender(false);
 
-                if (field_15A_bCodeMatches)
-                {
-                    field_11E_flags.Clear(Flags_11E::eBit1_bDontSetDestroyed);
-                }
-                else
-                {
-                    field_11E_flags.Set(Flags_11E::eBit1_bDontSetDestroyed);
-                }
+                mDontSetDestroyed = field_15A_bCodeMatches ? false : true;
 
                 SetDead(true);
                 New_DestroyOrCreateObject_Particle(mXPos, (GetSpriteScale() * FP_FromInteger(20)) + mYPos, GetSpriteScale());
@@ -877,7 +868,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
         case 7:
             if (VIsObjNearby((ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(4)), sActiveHero))
             {
-                field_11E_flags.Set(Flags_11E::eBit1_bDontSetDestroyed);
+                mDontSetDestroyed = true;
                 SetNextMotion(eSlingMudMotions::Motion_3_ShootStart);
                 field_140_timer = sGnFrame + 15;
                 return 8;
@@ -933,14 +924,7 @@ s16 SlingMudokon::Brain_2_AskForPassword()
 
                 GetAnimation().SetRender(false);
 
-                if (field_15A_bCodeMatches)
-                {
-                    field_11E_flags.Clear(Flags_11E::eBit1_bDontSetDestroyed);
-                }
-                else
-                {
-                    field_11E_flags.Set(Flags_11E::eBit1_bDontSetDestroyed);
-                }
+                mDontSetDestroyed = field_15A_bCodeMatches ? false : true;
 
                 SetDead(true);
                 New_DestroyOrCreateObject_Particle(mXPos, (GetSpriteScale() * FP_FromInteger(20)) + mYPos, GetSpriteScale());

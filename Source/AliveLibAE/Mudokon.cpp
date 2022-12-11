@@ -448,7 +448,7 @@ Mudokon::Mudokon(relive::Path_Mudokon* pTlv, const Guid& tlvId)
 
     GetAnimation().SetSemiTrans(true);
 
-    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
+    SetDoPurpleLightEffect(true);
 
     SetRestoredFromQuickSave(false);
     SetCanSetOffExplosives(true);

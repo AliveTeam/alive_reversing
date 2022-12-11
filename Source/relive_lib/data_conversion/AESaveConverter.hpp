@@ -1075,7 +1075,7 @@ struct FleechSaveState final
     static ::FleechSaveState From(const FleechSaveState& data)
     {
         ::FleechSaveState d;
-        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
+        d.mType = BaseGameObject::FromAE(data.field_0_type);
         d.field_2 = data.field_2;
         d.field_4_obj_id = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
         d.mXPos = data.mXPos;
@@ -1085,15 +1085,15 @@ struct FleechSaveState final
         d.mPathNumber = data.mPathNumber;
         d.mLvlNumber = MapWrapper::FromAESaveData(data.mLvlNumber);
         d.mSpriteScale = data.mSpriteScale;
-        d.mRingRed = data.mRingRed;
-        d.mRingGreen = data.mRingGreen;
-        d.mRingBlue = data.mRingBlue;
-        d.field_26_bFlipX = data.field_26_bFlipX;
+        d.mRed = data.mRingRed;
+        d.mGreen = data.mRingGreen;
+        d.mBlue = data.mRingBlue;
+        d.mFlipX = data.field_26_bFlipX;
         d.field_28_current_motion = data.field_28_current_motion;
         d.field_2A_anim_current_frame = data.field_2A_anim_current_frame;
         d.field_2C_frame_change_counter = data.field_2C_frame_change_counter;
-        d.field_2E_bRender = data.field_2E_bRender;
-        d.field_2F_bDrawable = data.field_2F_bDrawable;
+        d.mRender = data.field_2E_bRender;
+        d.mDrawable = data.field_2F_bDrawable;
         d.mHealth = data.mHealth;
         d.mCurrentMotion = data.mCurrentMotion;
         d.mNextMotion = data.mNextMotion;
@@ -1111,8 +1111,8 @@ struct FleechSaveState final
         d.mTongueDestinationX = data.mTongueDestinationX;
         d.mTongueDestinationY = data.mTongueDestinationY;
         d.field_5A = data.field_5A;
-        d.field_5C_tongue_active_flag = data.field_5C_tongue_active_flag;
-        d.field_5D_render_flag = data.field_5D_render_flag;
+        d.mTongueActive = data.field_5C_tongue_active_flag;
+        d.mRenderTongue = data.field_5D_render_flag;
         d.field_5E_brain_state = data.field_5E_brain_state;
         d.field_60_state = data.field_60_state;
         d.field_62 = data.field_62;

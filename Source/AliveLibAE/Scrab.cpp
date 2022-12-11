@@ -217,7 +217,7 @@ Scrab::Scrab(relive::Path_Scrab* pTlv, const Guid& tlvId, relive::Path_ScrabSpaw
 
     SetTint(&sScrabTints_560260[0], gMap.mCurrentLevel);
 
-    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
+    SetDoPurpleLightEffect(true);
 
     field_14C_pause_after_chase_timer = 0;
     field_150_attack_delay_timer = 0;

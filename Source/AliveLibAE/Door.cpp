@@ -331,7 +331,7 @@ Door::Door(relive::Path_Door* pTlv, const Guid& tlvId)
     }
 
     GetAnimation().SetAnimate(false);
-    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
+    SetDoPurpleLightEffect(true);
 }
 
 bool Door::vIsOpen()

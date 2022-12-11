@@ -413,11 +413,11 @@ MusicController::MusicController()
     field_42_type = MusicTypes::eNone_0;
     field_30_music_time = 0;
 
-    field_58_flags.Clear(Flags_58::e58_Dead_Bit3);
-    field_58_flags.Set(Flags_58::e58_MusicEnabled_Bit1);
-    field_58_flags.Set(Flags_58::e58_ScreenChanged_Bit2);
-    field_58_flags.Set(Flags_58::e58_Bit4);
-    field_58_flags.Set(Flags_58::e58_AmbientMusicEnabled_Bit5);
+    mMusicDead = false;
+    mMusicEnabled = true;
+    mScreenChanged = true;
+    mUnknown4 = true;
+    mAmbientMusicEnabled = true;
 
     field_34_music_start_time = 0;
     field_48_last_music_frame = 0;
@@ -451,13 +451,12 @@ void MusicController::EnableMusic(s16 bEnable)
     MusicController::UpdateMusicTime();
 
     // If enable flag has changed
-    if (field_58_flags.Get(Flags_58::e58_MusicEnabled_Bit1) != enableMusic)
+    if (mMusicEnabled != enableMusic)
     {
-        // Flip the flag
-        field_58_flags.Toggle(Flags_58::e58_MusicEnabled_Bit1);
+        mMusicEnabled = !mMusicEnabled;
 
         // Is it enabled?
-        if (field_58_flags.Get(Flags_58::e58_MusicEnabled_Bit1))
+        if (mMusicEnabled)
         {
             // Yes enable volume
             SetMusicVolumeDelayed(field_20_vol, 0);
@@ -468,7 +467,7 @@ void MusicController::EnableMusic(s16 bEnable)
 
             if (field_42_type == MusicTypes::eTension_4 || field_42_type == MusicTypes::eIntenseChase_7 || field_42_type == MusicTypes::ePossessed_9)
             {
-                field_58_flags.Set(Flags_58::e58_UnPause_Bit6);
+                mUnPause = true;
             }
         }
         else
@@ -556,7 +555,7 @@ void MusicController::UpdateVolumeState()
 
 void MusicController::VScreenChanged()
 {
-    field_58_flags.Set(Flags_58::e58_ScreenChanged_Bit2);
+    mScreenChanged = true;
 }
 
 void MusicController::VUpdate()
@@ -565,21 +564,21 @@ void MusicController::VUpdate()
 
     if (EventGet(kEventDeathReset))
     {
-        field_58_flags.Set(Flags_58::e58_Dead_Bit3);
+        mMusicDead = true;
         field_28_object_id = sActiveHero->mBaseGameObjectId;
     }
 
-    if (field_58_flags.Get(Flags_58::e58_ScreenChanged_Bit2))
+    if (mScreenChanged)
     {
-        field_58_flags.Clear(Flags_58::e58_ScreenChanged_Bit2);
+        mScreenChanged = false;
 
         if (gMap.mCurrentLevel != field_24_currentLevelID)
         {
             field_44 = 0;
             field_3C_unused = 1;
             field_30_music_time = 0;
-            field_58_flags.Clear(Flags_58::e58_Dead_Bit3);
-            field_58_flags.Set(Flags_58::e58_Bit4);
+            mMusicDead = false;
+            mUnknown4 = true;
             field_48_last_music_frame = sMusicTime;
             field_28_object_id = Guid{};
 
@@ -597,8 +596,7 @@ void MusicController::VUpdate()
 
             field_24_currentLevelID = gMap.mCurrentLevel;
 
-            // music on flag ?
-            if (field_58_flags.Get(Flags_58::e58_MusicEnabled_Bit1))
+            if (mMusicEnabled)
             {
                 SetMusicVolumeDelayed(field_20_vol, 0);
                 PlayMusic(MusicTypes::eNone_0, 0, 1, 0);
@@ -613,7 +611,7 @@ void MusicController::VUpdate()
 
     UpdateVolumeState();
 
-    if (field_58_flags.Get(Flags_58::e58_MusicEnabled_Bit1))
+    if (mMusicEnabled)
     {
         UpdateMusic();
         UpdateAmbiance();
@@ -640,21 +638,21 @@ void MusicController::PlayMusic(MusicTypes typeToSet, const BaseGameObject* pObj
 
             if (field_28_object_id != Guid{} && field_28_object_id == pObj->mBaseGameObjectId)
             {
-                field_58_flags.Clear(Flags_58::e58_Dead_Bit3);
-                field_58_flags.Set(Flags_58::e58_Dead_Bit3, (bFlag4 & 1));
+                mMusicDead = false;
+                mMusicDead = (bFlag4 & 1) ? true : false;
             }
 
-            if (!(field_58_flags.Get(Flags_58::e58_UnPause_Bit6)))
+            if (!(mUnPause))
             {
-                field_58_flags.Clear(Flags_58::e58_UnPause_Bit6);
-                field_58_flags.Set(Flags_58::e58_UnPause_Bit6, (bFlag0x20 & 1));
+                mUnPause = false;
+                mUnPause = (bFlag0x20 & 1) ? true : false;
             }
             return;
         }
 
         if (!pObj)
         {
-            if (field_58_flags.Get(Flags_58::e58_Dead_Bit3))
+            if (mMusicDead)
             {
                 return;
             }
@@ -664,17 +662,17 @@ void MusicController::PlayMusic(MusicTypes typeToSet, const BaseGameObject* pObj
                 field_28_object_id = Guid{};
             }
 
-            field_58_flags.Set(Flags_58::e58_UnPause_Bit6);
+            mUnPause = true;
             field_48_last_music_frame = sMusicTime;
             field_42_type = typeToSet;
             field_44 = 0;
         }
-        else if (pObj->mBaseGameObjectId == field_28_object_id || field_28_object_id == Guid{} || (!(field_58_flags.Get(Flags_58::e58_Dead_Bit3)) && (bFlag4 || typeToSet >= field_42_type)))
+        else if (pObj->mBaseGameObjectId == field_28_object_id || field_28_object_id == Guid{} || (!mMusicDead && (bFlag4 || typeToSet >= field_42_type)))
         {
             field_28_object_id = pObj->mBaseGameObjectId;
-            field_58_flags.Clear(Flags_58::e58_Dead_Bit3);
-            field_58_flags.Set(Flags_58::e58_Dead_Bit3, (bFlag4 & 1));
-            field_58_flags.Set(Flags_58::e58_UnPause_Bit6);
+            mMusicDead = false;
+            mMusicDead = (bFlag4 & 1) ? true : false;
+            mUnPause = true;
             field_48_last_music_frame = sMusicTime;
             field_42_type = typeToSet;
             field_44 = 0;
@@ -689,7 +687,7 @@ void MusicController::UpdateMusic()
 
     if (field_40_flags_and_idx < 0
         || !SND_SsIsEos_DeInlined(field_40_flags_and_idx)
-        || (field_58_flags.Get(Flags_58::e58_UnPause_Bit6)
+        || (mUnPause
             && (field_42_type == MusicTypes::eChime_2
                 || field_42_type == MusicTypes::eDrumAmbience_3
                 || field_42_type == MusicTypes::eDeathDrumShort_10
@@ -707,12 +705,12 @@ void MusicController::UpdateMusic()
         switch (field_42_type)
         {
             case MusicTypes::eChime_2: // Silence/base line only?
-                field_58_flags.Clear(Flags_58::e58_AmbientMusicEnabled_Bit5);
+                mAmbientMusicEnabled = false;
                 field_3C_unused = 1;
                 SetMusicVolumeDelayed(field_22_vol, 0);
                 break;
             case MusicTypes::eDrumAmbience_3: // The rupture farms screen change random ambiance?
-                if (field_58_flags.Get(Flags_58::e58_UnPause_Bit6))
+                if (mUnPause)
                 {
                     idx = Math_RandomRange(0, 1);
                 }
@@ -720,7 +718,7 @@ void MusicController::UpdateMusic()
                 {
                     idx = -1;
                 }
-                field_58_flags.Clear(Flags_58::e58_AmbientMusicEnabled_Bit5);
+                mAmbientMusicEnabled = false;
                 field_3C_unused = 1;
                 SetMusicVolumeDelayed(field_22_vol, 0);
                 break;
@@ -741,71 +739,71 @@ void MusicController::UpdateMusic()
                 }
                 idx = pRecord->field_0_seq_id_idx;
                 field_3C_unused = pRecord->field_1_unused;
-                field_58_flags.Clear(Flags_58::e58_AmbientMusicEnabled_Bit5);
-                field_58_flags.Set(Flags_58::e58_AmbientMusicEnabled_Bit5, (pRecord->field_2_bAmbient_music_enabled == AmbientMusic::eOn));
+                mAmbientMusicEnabled = false;
+                mAmbientMusicEnabled = pRecord->field_2_bAmbient_music_enabled == AmbientMusic::eOn ? true : false;
                 SetMusicVolumeDelayed(sSeqData_558D50.mSeqs[stru_55D008[pRecord->field_0_seq_id_idx].field_0_idx].field_9_volume, 0);
                 break;
             case MusicTypes::eIntenseChase_7: // chase music
                 pRecord = &slogChase_55D3E0[static_cast<s32>(MapWrapper::ToAE(field_24_currentLevelID))];
                 idx = pRecord->field_0_seq_id_idx;
                 field_3C_unused = pRecord->field_1_unused;
-                field_58_flags.Clear(Flags_58::e58_AmbientMusicEnabled_Bit5);
-                field_58_flags.Set(Flags_58::e58_AmbientMusicEnabled_Bit5, (pRecord->field_2_bAmbient_music_enabled == AmbientMusic::eOn));
+                mAmbientMusicEnabled = false;
+                mAmbientMusicEnabled = pRecord->field_2_bAmbient_music_enabled == AmbientMusic::eOn ? true : false;
                 SetMusicVolumeDelayed(sSeqData_558D50.mSeqs[stru_55D008[idx].field_0_idx].field_9_volume, 0);
                 break;
             case MusicTypes::eSoftChase_8: // slig chase?
                 pRecord = &chase_55D314[static_cast<s32>(MapWrapper::ToAE(field_24_currentLevelID))];
                 field_3C_unused = pRecord->field_1_unused;
                 idx = pRecord->field_0_seq_id_idx;
-                field_58_flags.Clear(Flags_58::e58_AmbientMusicEnabled_Bit5);
-                field_58_flags.Set(Flags_58::e58_AmbientMusicEnabled_Bit5, (pRecord->field_2_bAmbient_music_enabled == AmbientMusic::eOn));
+                mAmbientMusicEnabled = false;
+                mAmbientMusicEnabled = pRecord->field_2_bAmbient_music_enabled == AmbientMusic::eOn ? true : false;
                 SetMusicVolumeDelayed(sSeqData_558D50.mSeqs[stru_55D008[idx].field_0_idx].field_9_volume, 0);
                 break;
             case MusicTypes::ePossessed_9: // slig possesed
-                if (field_58_flags.Get(Flags_58::e58_UnPause_Bit6))
+                if (mUnPause)
                 {
                     pRecord = &possessed_55D358[static_cast<s32>(MapWrapper::ToAE(field_24_currentLevelID))];
                     field_3C_unused = pRecord->field_1_unused;
                     idx = possessed_55D358[static_cast<s32>(MapWrapper::ToAE(field_24_currentLevelID))].field_0_seq_id_idx;
-                    field_58_flags.Clear(Flags_58::e58_AmbientMusicEnabled_Bit5);
-                    field_58_flags.Set(Flags_58::e58_AmbientMusicEnabled_Bit5, (pRecord->field_2_bAmbient_music_enabled == AmbientMusic::eOn));
+                    mAmbientMusicEnabled = false;
+                    mAmbientMusicEnabled = pRecord->field_2_bAmbient_music_enabled == AmbientMusic::eOn ? true : false;
                     SetMusicVolumeDelayed(sSeqData_558D50.mSeqs[stru_55D008[idx].field_0_idx].field_9_volume, 0);
                 }
                 else
                 {
-                    field_58_flags.Set(Flags_58::e58_AmbientMusicEnabled_Bit5);
+                    mAmbientMusicEnabled = true;
                     field_3C_unused = 20;
                     SetMusicVolumeDelayed(field_20_vol, 30);
-                    field_58_flags.Set(Flags_58::e58_Bit7);
+                    mUnknown7 = true;
                 }
                 break;
             case MusicTypes::eDeathDrumShort_10: // Death jingle s16
                 field_3C_unused = 1;
-                idx = field_58_flags.Get(Flags_58::e58_UnPause_Bit6) ? 2 : -1;
-                field_58_flags.Clear(Flags_58::e58_AmbientMusicEnabled_Bit5);
+                idx = mUnPause ? 2 : -1;
+                mAmbientMusicEnabled = false;
                 SetMusicVolumeDelayed(field_22_vol, 0);
                 break;
             case MusicTypes::eDeathLong_11: // Death jingle long
                 field_3C_unused = 1;
-                idx = field_58_flags.Get(Flags_58::e58_UnPause_Bit6) ? 3 : -1;
-                field_58_flags.Clear(Flags_58::e58_AmbientMusicEnabled_Bit5);
+                idx = mUnPause ? 3 : -1;
+                mAmbientMusicEnabled = false;
                 SetMusicVolumeDelayed(field_22_vol, 0);
                 break;
             case MusicTypes::eSecretAreaShort_12: // secret area s16
                 field_3C_unused = 120;
-                idx = field_58_flags.Get(Flags_58::e58_UnPause_Bit6) ? 4 : -1;
-                field_58_flags.Clear(Flags_58::e58_AmbientMusicEnabled_Bit5);
+                idx = mUnPause ? 4 : -1;
+                mAmbientMusicEnabled = false;
                 SetMusicVolumeDelayed(127, 0);
                 break;
             case MusicTypes::eSecretAreaLong_13: // secret area long
                 field_3C_unused = 120;
-                idx = field_58_flags.Get(Flags_58::e58_UnPause_Bit6) ? 5 : -1;
-                field_58_flags.Clear(Flags_58::e58_AmbientMusicEnabled_Bit5);
+                idx = mUnPause ? 5 : -1;
+                mAmbientMusicEnabled = false;
                 SetMusicVolumeDelayed(80, 0);
                 break;
             default: // no change ?
                 SetMusicVolumeDelayed(field_20_vol, 30);
-                field_58_flags.Set(Flags_58::e58_AmbientMusicEnabled_Bit5);
+                mAmbientMusicEnabled = true;
                 field_3C_unused = unused_55D468[static_cast<s32>(MapWrapper::ToAE(field_24_currentLevelID))];
                 break;
         }
@@ -825,17 +823,17 @@ void MusicController::UpdateMusic()
 
         field_38_unused = sMusicTime;
 
-        if (field_58_flags.Get(Flags_58::e58_UnPause_Bit6))
+        if (mUnPause)
         {
-            field_58_flags.Clear(Flags_58::e58_UnPause_Bit6);
+            mUnPause = false;
 
-            if (field_58_flags.Get(Flags_58::e58_Bit7))
+            if (mUnknown7)
             {
-                field_58_flags.Clear(Flags_58::e58_Bit7);
+                mUnknown7 = false;
             }
             else
             {
-                field_58_flags.Set(Flags_58::e58_Bit4);
+                mUnknown4 = true;
             }
         }
     }
@@ -843,17 +841,17 @@ void MusicController::UpdateMusic()
 
 void MusicController::UpdateAmbiance()
 {
-    if (field_58_flags.Get(Flags_58::e58_AmbientMusicEnabled_Bit5) || (field_2C_flags_and_seq_idx < 0))
+    if (mAmbientMusicEnabled || (field_2C_flags_and_seq_idx < 0))
     {
-        if (field_58_flags.Get(Flags_58::e58_Bit4))
+        if (mUnknown4)
         {
             field_30_music_time = 0;
-            field_58_flags.Clear(Flags_58::e58_Bit4);
+            mUnknown4 = false;
             field_34_music_start_time = sMusicTime;
         }
 
         s32 musicTime = sMusicTime;
-        if (sMusicTime >= field_30_music_time && field_58_flags.Get(Flags_58::e58_AmbientMusicEnabled_Bit5))
+        if (sMusicTime >= field_30_music_time && mAmbientMusicEnabled)
         {
             if (field_2C_flags_and_seq_idx > 0)
             {

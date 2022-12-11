@@ -473,7 +473,7 @@ Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
         mXOffset = 0;
     }
 
-    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
+    SetDoPurpleLightEffect(true);
 
     CreateShadow();
 }

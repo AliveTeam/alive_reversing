@@ -250,17 +250,17 @@ s32 Fleech::CreateFromSaveState(const u8* pBuffer)
         pFleech->mCurrentLevel = pState->mLvlNumber;
         pFleech->SetSpriteScale(pState->mSpriteScale);
 
-        pFleech->mRGB.SetRGB(pState->mRingRed, pState->mRingGreen, pState->mRingBlue);
+        pFleech->mRGB.SetRGB(pState->mRed, pState->mGreen, pState->mBlue);
 
         pFleech->mCurrentMotion = pState->field_28_current_motion;
         pFleech->GetAnimation().Set_Animation_Data(pFleech->GetAnimRes(sFleechAnimFromMotion[pFleech->mCurrentMotion]));
         pFleech->GetAnimation().SetCurrentFrame(pState->field_2A_anim_current_frame);
         pFleech->GetAnimation().SetFrameChangeCounter(pState->field_2C_frame_change_counter);
 
-        pFleech->GetAnimation().SetFlipX(pState->field_26_bFlipX & 1);
-        pFleech->GetAnimation().SetRender(pState->field_2E_bRender & 1);
+        pFleech->GetAnimation().SetFlipX(pState->mFlipX);
+        pFleech->GetAnimation().SetRender(pState->mRender);
 
-        pFleech->SetDrawable(pState->field_2F_bDrawable & 1);
+        pFleech->SetDrawable(pState->mDrawable);
 
         if (IsLastFrame(&pFleech->GetAnimation()))
         {
@@ -288,8 +288,8 @@ s32 Fleech::CreateFromSaveState(const u8* pBuffer)
         pFleech->mTongueDestinationY = pState->mTongueDestinationY;
         pFleech->field_188 = pState->field_5A;
 
-        pFleech->mTongueFlags.Set(TongueFlags::eTongueActive, pState->field_5C_tongue_active_flag & 1);
-        pFleech->mTongueFlags.Set(TongueFlags::eRender, pState->field_5D_render_flag & 1);
+        pFleech->mTongueActive = pState->mTongueActive;
+        pFleech->mRenderTongue = pState->mRenderTongue;
 
         pFleech->mBrainState = pState->field_5E_brain_state;
         pFleech->mBrainSubState = pState->field_60_state;
@@ -351,7 +351,7 @@ s32 Fleech::VGetSaveState(u8* pSaveBuffer)
 
     auto pState = reinterpret_cast<FleechSaveState*>(pSaveBuffer);
 
-    pState->field_0_type = ReliveTypes::eFleech;
+    pState->mType = ReliveTypes::eFleech;
     pState->field_4_obj_id = mBaseGameObjectTlvInfo;
     pState->mXPos = mXPos;
     pState->mYPos = mYPos;
@@ -361,15 +361,15 @@ s32 Fleech::VGetSaveState(u8* pSaveBuffer)
     pState->mPathNumber = mCurrentPath;
     pState->mLvlNumber = mCurrentLevel;
     pState->mSpriteScale = GetSpriteScale();
-    pState->mRingRed = mRGB.r;
-    pState->mRingGreen = mRGB.g;
-    pState->mRingBlue = mRGB.b;
-    pState->field_26_bFlipX = GetAnimation().GetFlipX();
+    pState->mRed = mRGB.r;
+    pState->mGreen = mRGB.g;
+    pState->mBlue = mRGB.b;
+    pState->mFlipX = GetAnimation().GetFlipX();
     pState->field_28_current_motion = mCurrentMotion;
     pState->field_2A_anim_current_frame = static_cast<s16>(GetAnimation().GetCurrentFrame());
     pState->field_2C_frame_change_counter = static_cast<s16>(GetAnimation().GetFrameChangeCounter());
-    pState->field_2F_bDrawable = GetDrawable();
-    pState->field_2E_bRender = GetAnimation().GetRender();
+    pState->mDrawable = GetDrawable();
+    pState->mRender = GetAnimation().GetRender();
     pState->mHealth = mHealth;
     pState->mCurrentMotion = mCurrentMotion;
     pState->mNextMotion = mNextMotion;
@@ -421,8 +421,8 @@ s32 Fleech::VGetSaveState(u8* pSaveBuffer)
     pState->mTongueDestinationX = mTongueDestinationX;
     pState->mTongueDestinationY = mTongueDestinationY;
     pState->field_5A = field_188;
-    pState->field_5C_tongue_active_flag = mTongueFlags.Get(TongueFlags::eTongueActive);
-    pState->field_5D_render_flag = mTongueFlags.Get(TongueFlags::eRender);
+    pState->mTongueActive = mTongueActive;
+    pState->mRenderTongue = mRenderTongue;
     pState->field_5E_brain_state = mBrainState;
     pState->field_60_state = mBrainSubState;
     pState->field_64_shrivel_timer = field_12C_shrivel_timer - sGnFrame;
@@ -1272,7 +1272,7 @@ void Fleech::VRender(PrimHeader** ot)
 
 void Fleech::RenderEx(PrimHeader** ot)
 {
-    if (mTongueFlags.Get(Fleech::TongueFlags::eRender))
+    if (mRenderTongue)
     {
         FP tongueBlock_X[5] = {};
         FP tongueBlock_Y[5] = {};
@@ -1577,7 +1577,7 @@ void Fleech::Init()
     mShrivelDeath = false;
     mScaredSound = false;
 
-    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
+    SetDoPurpleLightEffect(true);
 
     field_12C_shrivel_timer = 0;
     mBrainSubState = 0;
@@ -1628,8 +1628,8 @@ void Fleech::Init()
 
 void Fleech::InitTonguePolys()
 {
-    mTongueFlags.Clear(TongueFlags::eTongueActive);
-    mTongueFlags.Clear(TongueFlags::eRender);
+    mTongueActive = false;
+    mRenderTongue = false;
 
     mTongueOriginX = FP_GetExponent(mXPos);
     mTongueOriginY = FP_GetExponent(FP_FromInteger(2) * ((FP_FromInteger(GetSpriteScale() >= FP_FromInteger(1) ? -10 : -5)) + mYPos));
@@ -1685,7 +1685,7 @@ void Fleech::SetTarget()
 
 void Fleech::TongueHangingFromWall(s16 target_x, s16 target_y)
 {
-    mTongueFlags.Set(TongueFlags::eRender);
+    mRenderTongue = true;
     mTongueState = 2;
     mTongueDestinationY = target_y;
     mTongueDestinationX = target_x;
@@ -1697,23 +1697,23 @@ void Fleech::TongueUpdate()
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_11C_obj_id));
     if (!gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
     {
-        mTongueFlags.Clear(TongueFlags::eRender);
+        mRenderTongue = false;
     }
 
     switch (mTongueState)
     {
         case 1:
-            mTongueFlags.Clear(TongueFlags::eTongueActive);
-            mTongueFlags.Clear(TongueFlags::eRender);
+            mTongueActive = false;
+            mRenderTongue = false;
             return;
 
         case 2:
         case 4:
-            mTongueFlags.Set(TongueFlags::eRender);
+            mRenderTongue = true;
             return;
 
         case 3:
-            mTongueFlags.Set(TongueFlags::eRender);
+            mRenderTongue = true;
             switch (mTongueSubState++)
             {
                 case 0:
@@ -1741,7 +1741,7 @@ void Fleech::TongueUpdate()
                 case 5:
                     field_188 = 0;
                     mTongueState = 4;
-                    mTongueFlags.Clear(TongueFlags::eTongueActive);
+                    mTongueActive = false;
                     break;
                 default:
                     break;
@@ -1758,7 +1758,7 @@ void Fleech::TongueUpdate()
             {
                 const PSX_RECT bRect = pTarget->VGetBoundingRect();
 
-                mTongueFlags.Set(TongueFlags::eRender);
+                mRenderTongue = true;
                 mEnemyXPos = FP_GetExponent(pTarget->mXPos);
                 mEnemyYPos = (bRect.y + bRect.h) >> 1;
                 mTongueDestinationY = (bRect.y + bRect.h) >> 1;
@@ -1822,7 +1822,7 @@ void Fleech::TongueUpdate()
                 }
                 else
                 {
-                    mTongueFlags.Clear(TongueFlags::eTongueActive);
+                    mTongueActive = false;
                     mTongueState = 1;
                 }
             }
@@ -1856,7 +1856,7 @@ void Fleech::TongueUpdate()
                         break;
 
                     case 6:
-                        mTongueFlags.Clear(TongueFlags::eRender);
+                        mRenderTongue = false;
                         mTongueState = 8;
                         pTarget->GetAnimation().SetRender(false);
                         pTarget->mXPos = mXPos;
@@ -1883,7 +1883,7 @@ void Fleech::TongueUpdate()
             return;
 
         case 8:
-            mTongueFlags.Clear(TongueFlags::eTongueActive);
+            mTongueActive = false;
             mTongueState = 1;
             return;
 
@@ -1895,7 +1895,7 @@ void Fleech::TongueUpdate()
                 mEnemyYPos = (bRect.y + bRect.h) >> 1;
                 mTongueDestinationX = FP_GetExponent((mXPos + pTarget->mXPos) * FP_FromDouble(0.5));
                 mTongueDestinationY = (bRect.y + bRect.h) >> 1;
-                mTongueFlags.Clear(TongueFlags::eTongueActive);
+                mTongueActive = false;
                 mTongueState = 1;
             }
             else
@@ -2300,7 +2300,7 @@ s16 Fleech::AngerFleech(IBaseAliveGameObject* pObj)
 
 s32 Fleech::TongueActive()
 {
-    return mTongueFlags.Get(TongueFlags::eTongueActive);
+    return mTongueActive;
 }
 
 void Fleech::PullTargetIn()
@@ -2308,8 +2308,8 @@ void Fleech::PullTargetIn()
     auto pTarget = static_cast<BaseAliveGameObject*>(sObjectIds.Find_Impl(field_11C_obj_id));
     if (pTarget)
     {
-        mTongueFlags.Set(TongueFlags::eTongueActive);
-        mTongueFlags.Set(TongueFlags::eRender);
+        mTongueActive = true;
+        mRenderTongue = true;
         mTongueState = 6;
         mTongueSubState = 0;
 
@@ -2336,15 +2336,15 @@ void Fleech::sub_42B8C0()
     }
     else
     {
-        mTongueFlags.Clear(TongueFlags::eRender);
+        mRenderTongue = false;
         mTongueState = 1;
     }
 }
 
 void Fleech::sub_42BA10()
 {
-    mTongueFlags.Set(TongueFlags::eTongueActive);
-    mTongueFlags.Set(TongueFlags::eRender);
+    mTongueActive = true;
+    mRenderTongue = true;
     mTongueState = 3;
     mTongueSubState = 0;
     mTongueDestinationX = FP_GetExponent(((FP_FromInteger(field_160_hoistX)) + mXPos) / FP_FromInteger(2));

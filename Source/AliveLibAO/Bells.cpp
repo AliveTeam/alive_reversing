@@ -46,7 +46,7 @@ Bells::Bells(BellSize bellType, FP xpos, FP ypos, FP scale)
             break;
     }
 
-    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+    SetApplyShadowZoneColour(false);
     SetSpriteScale(scale);
 
     mXPos = xpos;

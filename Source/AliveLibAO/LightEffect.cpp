@@ -23,7 +23,7 @@ LightEffect::LightEffect(relive::Path_LightEffect* pTlv, const Guid& tlvId)
     mRnd3 = Math_RandomRange(96, 128);
     mRnd4 = Math_RandomRange(190, 255);
 
-    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+    SetApplyShadowZoneColour(false);
 
     GetAnimation().SetIgnorePosOffset(true);
     GetAnimation().SetSemiTrans(true);

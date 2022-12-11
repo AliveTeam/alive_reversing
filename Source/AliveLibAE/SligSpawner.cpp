@@ -23,12 +23,12 @@ SligSpawner::SligSpawner(relive::Path_Slig* pTlv, const Guid& tlvId)
     mTlvInfo = tlvId;
     mPathTlv = *pTlv;
 
-    mSpawnerFlags.Set(SpawnerFlags::eBit1_DontDestroyTLV);
+    mDontDestroyTLV = true;
 
     mSligSpawnerSwitchId = pTlv->mData.mSligSpawnerSwitchId;
     mFindSpawnedSlig = 0;
 
-    mSpawnerFlags.Set(SpawnerFlags::eBit2_UnlimitedSpawns, pTlv->mData.mUnlimitedSpawns == relive::reliveChoice::eYes);
+    mUnlimitedSpawns = pTlv->mData.mUnlimitedSpawns == relive::reliveChoice::eYes ? true : false;
 
     mState = SpawnerStates::eInactive_0;
     mSpawnedSligId = Guid{};
@@ -36,7 +36,7 @@ SligSpawner::SligSpawner(relive::Path_Slig* pTlv, const Guid& tlvId)
 
 SligSpawner::~SligSpawner()
 {
-    if (mSpawnerFlags.Get(SpawnerFlags::eBit1_DontDestroyTLV))
+    if (mDontDestroyTLV)
     {
         Path::TLV_Reset(mTlvInfo, -1, 0, 0);
     }
@@ -112,10 +112,10 @@ void SligSpawner::VUpdate()
                 SfxPlayMono(relive::SoundEffects::SligSpawn, 0);
             }
 
-            if (!mSpawnerFlags.Get(SpawnerFlags::eBit2_UnlimitedSpawns))
+            if (!mUnlimitedSpawns)
             {
                 SetDead(true);
-                mSpawnerFlags.Clear(SpawnerFlags::eBit1_DontDestroyTLV);
+                mDontDestroyTLV = false;
             }
         }
     }

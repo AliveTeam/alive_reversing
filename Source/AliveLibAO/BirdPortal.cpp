@@ -55,7 +55,7 @@ BirdPortalTerminator::BirdPortalTerminator(FP xpos, FP ypos, FP scale, relive::P
         GetAnimation().SetRenderLayer(Layer::eLayer_Above_FG1_Half_20);
     }
 
-    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+    SetApplyShadowZoneColour(false);
 
     mYPos = ypos;
     mXPos = xpos;
@@ -438,7 +438,7 @@ void BirdPortal::VUpdate()
 
                     if (pParticle)
                     {
-                        pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
+                        pParticle->SetApplyShadowZoneColour(false);
                         pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
                         pParticle->SetType(ReliveTypes::eBirdPortalTerminator);
                         pParticle->SetSpriteScale(mSpriteScale);
@@ -552,7 +552,7 @@ void BirdPortal::VUpdate()
                     GetAnimRes(AnimId::BirdPortal_Flash));
                 if (pParticle_1)
                 {
-                    pParticle_1->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
+                    pParticle_1->SetApplyShadowZoneColour(false);
                     pParticle_1->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
                     pParticle_1->SetSpriteScale(mSpriteScale);
                 }

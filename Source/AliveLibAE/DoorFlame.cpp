@@ -27,7 +27,7 @@ public:
         mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Door_FireBackgroundGlow));
         Animation_Init(GetAnimRes(AnimId::Door_FireBackgroundGlow));
 
-        mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+        SetApplyShadowZoneColour(false);
 
         GetAnimation().SetBlending(false);
         GetAnimation().SetSemiTrans(true);
@@ -131,7 +131,7 @@ public:
 
         GetAnimation().SetSemiTrans(true);
 
-        mVisualFlags.Set(VisualFlags::eApplyShadowZoneColour);
+        SetApplyShadowZoneColour(true);
         GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
 
         mXPos = xpos;
@@ -272,7 +272,7 @@ DoorFlame::DoorFlame(relive::Path_DoorFlame* pTlv, const Guid& tlvId)
     Animation_Init(GetAnimRes(AnimId::Fire));
 
     GetAnimation().SetSemiTrans(true);
-    mVisualFlags.Set(VisualFlags::eApplyShadowZoneColour);
+    SetApplyShadowZoneColour(true);
     GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
     mFrameCount = static_cast<s16>(GetAnimation().Get_Frame_Count());
     GetAnimation().SetFrame(Math_RandomRange(0, mFrameCount - 1));

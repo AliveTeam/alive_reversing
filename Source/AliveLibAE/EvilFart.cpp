@@ -32,7 +32,7 @@ EvilFart::EvilFart()
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Fart));
     Animation_Init(GetAnimRes(AnimId::Fart));
 
-    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+    SetApplyShadowZoneColour(false);
 
     SetSpriteScale(sActiveHero->GetSpriteScale());
 

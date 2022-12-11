@@ -35,7 +35,7 @@ AirExplosion::AirExplosion(FP xpos, FP ypos, FP exposion_size)
     mExplosionSize = exposion_size;
 
     SetSpriteScale(exposion_size * FP_FromInteger(2));
-    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+    SetApplyShadowZoneColour(false);
     mYPos = ypos;
     mXPos = xpos;
 
@@ -125,7 +125,7 @@ void AirExplosion::VUpdate()
                 pParticle->SetDead(true);
             }
 
-            pParticle->mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+            pParticle->SetApplyShadowZoneColour(false);
             pParticle->GetAnimation().SetFlipX(false);
             pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
             pParticle->SetSpriteScale(GetSpriteScale() * FP_FromDouble(0.25));

@@ -35,12 +35,8 @@ public:
 private:
     Guid mTlvInfo;
     s16 mSligSpawnerSwitchId = 0;
-    enum SpawnerFlags : s16
-    {
-        eBit1_DontDestroyTLV = 0x1,
-        eBit2_UnlimitedSpawns = 0x2,
-    };
-    BitField16<SpawnerFlags> mSpawnerFlags = {};
+    bool mDontDestroyTLV = false;
+    bool mUnlimitedSpawns = false;
     relive::Path_TLV mPathTlv = {};
     SpawnerStates mState = SpawnerStates::eInactive_0;
     Guid mSpawnedSligId;

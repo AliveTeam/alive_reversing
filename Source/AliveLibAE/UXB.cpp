@@ -190,7 +190,7 @@ UXB::UXB(relive::Path_UXB* pTlv, const Guid& tlvId)
 
     const FP gridSnap = ScaleToGridSize(GetSpriteScale());
     SetInteractive(true);
-    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
+    SetDoPurpleLightEffect(true);
 
     mCollectionRect.x = mXPos - (gridSnap / FP_FromInteger(2));
     mCollectionRect.y = mYPos - gridSnap;

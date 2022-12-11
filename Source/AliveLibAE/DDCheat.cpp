@@ -128,7 +128,7 @@ void DDCheat::Menu_Teleport()
         gDDCheat_FlyingEnabled = true;
 
         gMap.SetActiveCam(MapWrapper::FromAE(static_cast<LevelIds>(sTeleport_Level_550F5C)), sTeleport_Path_550F5E, sTeleport_Cam_550F60, CameraSwapEffects::eInstantChange_0, 0, 0);
-        field_3C_flags.Set(DDCheat::Flags_3C::eOnTeleport_Bit3);
+        mTeleporting = true;
     }
 }
 
@@ -168,7 +168,6 @@ DDCheat::DDCheat()
 {
     SetSurviveDeathReset(true);
     SetUpdateDuringCamSwap(true);
-    field_3C_flags.Clear(DDCheat::Flags_3C::e3C_Bit4);
     SetType(ReliveTypes::eDDCheat);
     field_24_fn_idx = 0;
 
@@ -231,9 +230,9 @@ void DDCheat::VUpdate()
 
     if (gDDCheatOn)
     {
-        if (field_3C_flags.Get(DDCheat::Flags_3C::eOnTeleport_Bit3))
+        if (mTeleporting)
         {
-            field_3C_flags.Clear(DDCheat::Flags_3C::eOnTeleport_Bit3);
+            mTeleporting = false;
             if (sActiveHero)
             {
                 PSX_Point pos;
@@ -247,7 +246,7 @@ void DDCheat::VUpdate()
                 gDDCheat_FlyingEnabled = false;
                 sControlledCharacter->BaseAliveGameObjectCollisionLine = nullptr;
                 sControlledCharacter->BaseAliveGameObjectLastLineYPos = sControlledCharacter->mYPos;
-                field_3C_flags.Clear(DDCheat::Flags_3C::e3C_Bit1);
+                mUnknown1 = false;
             }
         }
 
@@ -358,10 +357,10 @@ void DDCheat::VUpdate()
 
         if (field_38_input_pressed & InputCommands::Enum::ePause)
         {
-            field_3C_flags.Toggle(DDCheat::Flags_3C::e3C_Bit1);
+            mUnknown1 = !mUnknown1;
         }
 
-        if (field_3C_flags.Get(DDCheat::Flags_3C::e3C_Bit1))
+        if (mUnknown1)
         {
             if (Input().mPads[sCurrentControllerIndex == 0].mPressed & InputCommands::Enum::eCheatMode)
             {
@@ -369,7 +368,6 @@ void DDCheat::VUpdate()
             }
             else if (field_38_input_pressed & InputCommands::Enum::eCheatMode)
             {
-                field_3C_flags.Toggle(DDCheat::Flags_3C::e3C_Bit2);
                 field_26_next_fn_idx = field_24_fn_idx;
             }
 
@@ -388,7 +386,6 @@ void DDCheat::VUpdate()
                 if (field_38_input_pressed & InputCommands::Enum::eUnPause_OrConfirm)
                 {
                     //field_24_fn_idx = field_26_next_fn_idx; TODO
-                    field_3C_flags.Clear(DDCheat::Flags_3C::e3C_Bit2);
                 }
 
                 if (field_26_next_fn_idx < 0)

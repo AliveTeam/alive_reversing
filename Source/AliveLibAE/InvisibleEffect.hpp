@@ -8,13 +8,6 @@ class BaseAliveGameObject;
 class InvisibleEffect final : public BaseGameObject
 {
 public:
-    enum Flags_4A
-    {
-        eSemiTrans_Bit1 = 0x1,
-        eBlending_Bit2 = 0x2,
-        eIsInvisible_Bit3 = 0x4 //TODO @ 100% Remove it - Never actually checked for
-    };
-
     enum class InvisibleState : u16
     {
         eSetRenderMode1_0 = 0,
@@ -51,5 +44,7 @@ private:
 
     Guid field_44_objId;
     TPageAbr field_48_old_render_mode = TPageAbr::eBlend_0;
-    BitField16<Flags_4A> field_4A_flags = {};
+    bool mSemiTrans = false;
+    bool mBlending = false;
+    bool mIsInvisible = false;
 };

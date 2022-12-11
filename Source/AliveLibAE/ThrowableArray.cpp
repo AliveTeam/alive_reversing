@@ -59,9 +59,6 @@ ThrowableArray::ThrowableArray()
     SetUpdatable(false);
     mCount = 0;
     gpThrowableArray = this;
-    field_22_flags.Clear(Flags_22::eBit1_Unknown);
-    field_22_flags.Clear(Flags_22::eBit2_Unknown);
-    field_22_flags.Clear(Flags_22::eBit3_Unknown);
 }
 
 ThrowableArray::~ThrowableArray()
@@ -75,10 +72,10 @@ void ThrowableArray::Remove(s16 count)
     mCount -= count;
     if (mCount > 0)
     {
-        if (field_22_flags.Get(Flags_22::eBit1_Unknown) && field_22_flags.Get(Flags_22::eBit2_Unknown))
+        if (mUnknown1 && mUnknown2)
         {
             FreeResourceArray_49AEC0(&field_10_resources_array);
-            field_22_flags.Clear(Flags_22::eBit2_Unknown);
+            mUnknown2 = false;
         }
     }
     else
@@ -89,11 +86,11 @@ void ThrowableArray::Remove(s16 count)
 
 void ThrowableArray::VUpdate()
 {
-    if (field_22_flags.Get(Flags_22::eBit1_Unknown))
+    if (mUnknown1)
     {
         LoadRockTypes_49AB30(gMap.mCurrentLevel, gMap.mCurrentPath);
         Add(0);
-        field_22_flags.Clear(Flags_22::eBit1_Unknown);
+        mUnknown1 = false;
         SetUpdatable(false);
     }
 }
@@ -112,10 +109,10 @@ void ThrowableArray::VScreenChanged()
     {
         if (throwable_types_55FAFC[gMap.mOverlayId] != throwable_types_55FAFC[gMap.GetOverlayId()])
         {
-            if (!(field_22_flags.Get(Flags_22::eBit1_Unknown)))
+            if (!mUnknown1)
             {
                 SetUpdatable(true);
-                field_22_flags.Set(Flags_22::eBit1_Unknown);
+                mUnknown1 = true;
                 Remove(0);
             }
         }
@@ -133,19 +130,9 @@ void ThrowableArray::Add(s16 count)
         SetDead(false);
     }
 
-    if (mCount == 0)
+    if (mCount == 0 || mUnknown1)
     {
-        if (!field_22_flags.Get(Flags_22::eBit3_Unknown))
-        {
-
-
-            field_22_flags.Set(Flags_22::eBit3_Unknown);
-        }
-    }
-
-    if (mCount == 0 || field_22_flags.Get(Flags_22::eBit1_Unknown))
-    {
-        if (!field_22_flags.Get(Flags_22::eBit2_Unknown))
+        if (!mUnknown2)
         {
             switch (throwable_types_55FAFC[gMap.mOverlayId])
             {
@@ -168,7 +155,7 @@ void ThrowableArray::Add(s16 count)
                     break;
             }
 
-            field_22_flags.Set(Flags_22::eBit2_Unknown);
+            mUnknown2 = true;
         }
     }
 

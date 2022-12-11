@@ -89,7 +89,7 @@ Mine::Mine(relive::Path_Mine* pPath, const Guid& tlv)
 
     const FP gridSnap = ScaleToGridSize(GetSpriteScale());
     SetInteractive(true);
-    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
+    SetDoPurpleLightEffect(true);
 
     mCollectionRect.x = mXPos - (gridSnap / FP_FromDouble(2.0));
     mCollectionRect.y = mYPos - gridSnap;

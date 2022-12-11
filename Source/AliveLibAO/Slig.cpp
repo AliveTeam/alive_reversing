@@ -348,7 +348,7 @@ Slig::Slig(relive::Path_Slig* pTlv, const Guid& tlvId)
 
     VStackOnObjectsOfType(ReliveTypes::eSlig);
 
-    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
+    SetDoPurpleLightEffect(true);
 
     CreateShadow();
 }

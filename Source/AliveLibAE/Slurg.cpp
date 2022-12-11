@@ -116,7 +116,7 @@ Slurg::Slurg(relive::Path_Slurg* pTlv, const Guid& tlvId)
     }
 
     VStackOnObjectsOfType(ReliveTypes::eSlurg);
-    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
+    SetDoPurpleLightEffect(true);
     CreateShadow();
 }
 

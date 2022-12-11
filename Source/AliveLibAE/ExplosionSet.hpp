@@ -34,14 +34,9 @@ private:
     s16 field_56_asset_interval = 0;
     s16 field_58_grid_spacing = 0;
     s16 field_5A_increasing_grid_spacing = 0;
-
-    enum Flags_5C
-    {
-        eBit1_spawn_assets = 0x1,
-        eBit2_flipX = 0x2,
-        eBit3_Active = 0x4
-    };
-    BitField16<Flags_5C> field_5C_flags = {};
+    bool mSpawnAssets = false;
+    bool mFlipX = false;
+    bool mActive = false;
 };
 
 extern ExplosionSet* gExplosionSet;

@@ -565,7 +565,7 @@ inline void from_json(const nlohmann::json& j, EvilFartSaveState& p)
 inline void to_json(nlohmann::json& j, const FleechSaveState& p)
 {
     j = nlohmann::json{
-        {"type", p.field_0_type},
+        {"type", p.mType},
         {"field_2", p.field_2},
         {"field_4_obj_id", p.field_4_obj_id},
         {"xpos", p.mXPos},
@@ -575,15 +575,15 @@ inline void to_json(nlohmann::json& j, const FleechSaveState& p)
         {"path_number", p.mPathNumber},
         {"lvl_number", p.mLvlNumber},
         {"sprite_scale", p.mSpriteScale},
-        {"ring_red", p.mRingRed},
-        {"ring_green", p.mRingGreen},
-        {"ring_blue", p.mRingBlue},
-        {"flip_x", p.field_26_bFlipX},
+        {"red", p.mRed},
+        {"green", p.mGreen},
+        {"blue", p.mBlue},
+        {"flip_x", p.mFlipX},
         {"current_motion", p.field_28_current_motion},
         {"anim_current_frame", p.field_2A_anim_current_frame},
         {"frame_change_counter", p.field_2C_frame_change_counter},
-        {"render", p.field_2E_bRender},
-        {"drawable", p.field_2F_bDrawable},
+        {"render", p.mRender},
+        {"drawable", p.mDrawable},
         {"health", p.mHealth},
         {"current_motion", p.mCurrentMotion},
         {"next_motion", p.mNextMotion},
@@ -601,8 +601,8 @@ inline void to_json(nlohmann::json& j, const FleechSaveState& p)
         {"tongue_destination_x", p.mTongueDestinationX},
         {"tongue_destination_y", p.mTongueDestinationY},
         {"field_5a", p.field_5A},
-        {"tongue_active_flag", p.field_5C_tongue_active_flag},
-        {"render_flag", p.field_5D_render_flag},
+        {"tongue_active_flag", p.mTongueActive},
+        {"render_flag", p.mRenderTongue},
         {"brain_state", p.field_5E_brain_state},
         {"state", p.field_60_state},
         {"field_62", p.field_62},
@@ -650,7 +650,7 @@ inline void to_json(nlohmann::json& j, const FleechSaveState& p)
 
 inline void from_json(const nlohmann::json& j, FleechSaveState& p)
 {
-    j.at("type").get_to(p.field_0_type);
+    j.at("type").get_to(p.mType);
     j.at("field_2").get_to(p.field_2);
     j.at("field_4_obj_id").get_to(p.field_4_obj_id);
     j.at("xpos").get_to(p.mXPos);
@@ -660,15 +660,15 @@ inline void from_json(const nlohmann::json& j, FleechSaveState& p)
     j.at("path_number").get_to(p.mPathNumber);
     j.at("lvl_number").get_to(p.mLvlNumber);
     j.at("sprite_scale").get_to(p.mSpriteScale);
-    j.at("ring_red").get_to(p.mRingRed);
-    j.at("ring_green").get_to(p.mRingGreen);
-    j.at("ring_blue").get_to(p.mRingBlue);
-    j.at("flip_x").get_to(p.field_26_bFlipX);
+    j.at("red").get_to(p.mRed);
+    j.at("green").get_to(p.mGreen);
+    j.at("blue").get_to(p.mBlue);
+    j.at("flip_x").get_to(p.mFlipX);
     j.at("current_motion").get_to(p.field_28_current_motion);
     j.at("anim_current_frame").get_to(p.field_2A_anim_current_frame);
     j.at("frame_change_counter").get_to(p.field_2C_frame_change_counter);
-    j.at("render").get_to(p.field_2E_bRender);
-    j.at("drawable").get_to(p.field_2F_bDrawable);
+    j.at("render").get_to(p.mRender);
+    j.at("drawable").get_to(p.mDrawable);
     j.at("health").get_to(p.mHealth);
     j.at("current_motion").get_to(p.mCurrentMotion);
     j.at("next_motion").get_to(p.mNextMotion);
@@ -686,8 +686,8 @@ inline void from_json(const nlohmann::json& j, FleechSaveState& p)
     j.at("tongue_destination_x").get_to(p.mTongueDestinationX);
     j.at("tongue_destination_y").get_to(p.mTongueDestinationY);
     j.at("field_5a").get_to(p.field_5A);
-    j.at("tongue_active_flag").get_to(p.field_5C_tongue_active_flag);
-    j.at("render_flag").get_to(p.field_5D_render_flag);
+    j.at("tongue_active_flag").get_to(p.mTongueActive);
+    j.at("render_flag").get_to(p.mRenderTongue);
     j.at("brain_state").get_to(p.field_5E_brain_state);
     j.at("state").get_to(p.field_60_state);
     j.at("field_62").get_to(p.field_62);

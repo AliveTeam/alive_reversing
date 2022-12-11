@@ -47,7 +47,7 @@ MineCar::MineCar(relive::Path_MineCar* pTlv, const Guid& tlvId, s32 /*a4*/, s32 
     mXPos = FP_FromInteger(pTlv->mTopLeftX);
     mYPos = FP_FromInteger(pTlv->mTopLeftY);
 
-    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
+    SetDoPurpleLightEffect(true);
     field_1BE_unused = 0;
     GetAnimation().SetRenderLayer(Layer::eLayer_Shadow_26);
     SetSpriteScale(FP_FromInteger(1));
@@ -364,7 +364,7 @@ void MineCar::VRender(PrimHeader** ppOt)
 
         const PSX_RECT bRect = VGetBoundingRect();
 
-        if (mVisualFlags.Get(VisualFlags::eApplyShadowZoneColour))
+        if (GetApplyShadowZoneColour())
         {
             ShadowZone::ShadowZones_Calculate_Colour(
                 FP_GetExponent(mXPos),

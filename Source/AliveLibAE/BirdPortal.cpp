@@ -268,7 +268,7 @@ void BirdPortal::VUpdate()
 
                         if (pParticle)
                         {
-                            pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
+                            pParticle->SetApplyShadowZoneColour(false);
                             pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
                             pParticle->SetType(ReliveTypes::eBirdPortalTerminator);
                             pParticle->SetSpriteScale(mSpriteScale);
@@ -384,7 +384,7 @@ void BirdPortal::VUpdate()
                     pTerminator2->mYPos,
                     GetAnimRes(AnimId::BirdPortal_Flash));
                 pParticle->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
-                pParticle->mVisualFlags.Clear(BaseAnimatedWithPhysicsGameObject::VisualFlags::eApplyShadowZoneColour);
+                pParticle->SetApplyShadowZoneColour(false);
                 pParticle->SetSpriteScale(mSpriteScale);
 
                 mState = PortalStates::StopSound_11;
@@ -1077,7 +1077,7 @@ BirdPortalTerminator::BirdPortalTerminator(FP xpos, FP ypos, FP scale, relive::P
         GetAnimation().SetRenderLayer(Layer::eLayer_Above_FG1_Half_20);
     }
 
-    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+    SetApplyShadowZoneColour(false);
 
     mYPos = ypos;
     mXPos = xpos;

@@ -29,9 +29,9 @@ MusicTrigger::MusicTrigger(relive::Path_MusicTrigger::MusicTriggerMusicType musi
 
 void MusicTrigger::Init(relive::Path_MusicTrigger::MusicTriggerMusicType musicType, relive::Path_MusicTrigger::TriggeredBy triggeredBy, s16 musicDelay)
 {
-    field_24_flags.Clear(Flags_24::e24_Bit1_TriggeredByTouching);
-    field_24_flags.Clear(Flags_24::e24_Bit2_TriggeredByTimer);
-    field_24_flags.Clear(Flags_24::e24_Bit3_SetMusicToNoneOnDtor);
+    mTriggeredByTouching = false;
+    mTriggeredByTimer = false;
+    mSetMusicToNoneOnDtor = false;
 
     SetType(ReliveTypes::eMusicTrigger);
     field_28_counter = 0;
@@ -52,11 +52,11 @@ void MusicTrigger::Init(relive::Path_MusicTrigger::MusicTriggerMusicType musicTy
             break;
         case relive::Path_MusicTrigger::MusicTriggerMusicType::eSoftChase:
             field_26_music_type = MusicController::MusicTypes::eSoftChase_8;
-            field_24_flags.Set(Flags_24::e24_Bit3_SetMusicToNoneOnDtor);
+            mSetMusicToNoneOnDtor = true;
             break;
         case relive::Path_MusicTrigger::MusicTriggerMusicType::eIntenseChase:
             field_26_music_type = MusicController::MusicTypes::eIntenseChase_7;
-            field_24_flags.Set(Flags_24::e24_Bit3_SetMusicToNoneOnDtor);
+            mSetMusicToNoneOnDtor = true;
             break;
         case relive::Path_MusicTrigger::MusicTriggerMusicType::eChime:
             field_26_music_type = MusicController::MusicTypes::eChime_2;
@@ -76,13 +76,13 @@ void MusicTrigger::Init(relive::Path_MusicTrigger::MusicTriggerMusicType musicTy
     }
     else if (triggeredBy == relive::Path_MusicTrigger::TriggeredBy::eTouching)
     {
-        field_24_flags.Set(Flags_24::e24_Bit1_TriggeredByTouching);
+        mTriggeredByTouching = true;
     }
 }
 
 MusicTrigger::~MusicTrigger()
 {
-    if (field_24_flags.Get(Flags_24::e24_Bit3_SetMusicToNoneOnDtor))
+    if (mSetMusicToNoneOnDtor)
     {
         MusicController::static_PlayMusic(MusicController::MusicTypes::eNone_0, this, 0, 0);
     }
@@ -103,27 +103,27 @@ void MusicTrigger::VUpdate()
         SetDead(true);
     }
 
-    if (field_24_flags.Get(Flags_24::e24_Bit1_TriggeredByTouching))
+    if (mTriggeredByTouching)
     {
         FP xpos = sControlledCharacter->mXPos;
         FP ypos = sControlledCharacter->mYPos;
 
         if (xpos >= FP_FromInteger(field_2C_tl.x) && xpos <= FP_FromInteger(field_30_br.x) && (ypos >= FP_FromInteger(field_2C_tl.y) && ypos <= FP_FromInteger(field_30_br.y)))
         {
-            field_24_flags.Clear(Flags_24::e24_Bit1_TriggeredByTouching);
-            MusicController::static_PlayMusic(field_26_music_type, this, field_24_flags.Get(Flags_24::e24_Bit3_SetMusicToNoneOnDtor), 1);
-            field_24_flags.Set(Flags_24::e24_Bit2_TriggeredByTimer);
+            mTriggeredByTouching = false;
+            MusicController::static_PlayMusic(field_26_music_type, this, mSetMusicToNoneOnDtor, 1);
+            mTriggeredByTimer = true;
             if (field_28_counter >= 0)
             {
                 field_28_counter += sGnFrame;
             }
         }
     }
-    else if (field_24_flags.Get(Flags_24::e24_Bit2_TriggeredByTimer))
+    else if (mTriggeredByTimer)
     {
         if (field_28_counter < 0 || static_cast<s32>(sGnFrame) < field_28_counter)
         {
-            MusicController::static_PlayMusic(field_26_music_type, this, field_24_flags.Get(Flags_24::e24_Bit3_SetMusicToNoneOnDtor), 0);
+            MusicController::static_PlayMusic(field_26_music_type, this, mSetMusicToNoneOnDtor, 0);
         }
         else
         {
@@ -132,8 +132,8 @@ void MusicTrigger::VUpdate()
     }
     else
     {
-        MusicController::static_PlayMusic(field_26_music_type, this, field_24_flags.Get(Flags_24::e24_Bit3_SetMusicToNoneOnDtor), 1);
-        field_24_flags.Set(Flags_24::e24_Bit2_TriggeredByTimer);
+        MusicController::static_PlayMusic(field_26_music_type, this, mSetMusicToNoneOnDtor, 1);
+        mTriggeredByTimer = true;
         field_28_counter += sGnFrame;
     }
 }

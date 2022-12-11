@@ -40,7 +40,7 @@ Greeter::Greeter(relive::Path_Greeter* pTlv, const Guid& tlvId)
     LoadAnimations();
     Animation_Init(GetAnimRes(AnimId::Greeter_Moving));
 
-    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
+    SetDoPurpleLightEffect(true);
 
     if (pTlv->mScale != relive::reliveScale::eFull)
     {

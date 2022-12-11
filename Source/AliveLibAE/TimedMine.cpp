@@ -96,7 +96,7 @@ TimedMine::TimedMine(relive::Path_TimedMine* pTlv, const Guid& tlvId)
  
     const FP gridSnap = ScaleToGridSize(GetSpriteScale());
     SetInteractive(true);
-    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
+    SetDoPurpleLightEffect(true);
 
     mCollectionRect.x = mXPos - (gridSnap / FP_FromDouble(2.0));
     mCollectionRect.y = mYPos - gridSnap;

@@ -104,7 +104,7 @@ DoorLight::DoorLight(relive::Path_LightEffect* pTlv, const Guid& tlvId)
 
     GetAnimation().SetIgnorePosOffset(true);
 
-    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+    SetApplyShadowZoneColour(false);
     GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
     GetAnimation().SetRenderMode(TPageAbr::eBlend_3);
 

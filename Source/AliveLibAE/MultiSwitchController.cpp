@@ -10,7 +10,7 @@
 MultiSwitchController::MultiSwitchController(relive::Path_MultiSwitchController* pTlv, const Guid& tlvId)
     : BaseGameObject(true, 0)
 {
-    field_40_flags.Clear(Flags_40::eBit1_is_on);
+    mIsOn = false;
     mBaseGameObjectTlvInfo = tlvId;
     mTlvInfo = tlvId;
 
@@ -52,7 +52,7 @@ void MultiSwitchController::VUpdate()
         SetDead(true);
     }
 
-    if (field_40_flags.Get(Flags_40::eBit1_is_on))
+    if (mIsOn)
     {
         WaitingForAllOff();
     }
@@ -129,7 +129,7 @@ void MultiSwitchController::WaitingForAllOn()
         if (field_38_all_switches_on_or_off_time - field_34_last_switch_on_time <= mOnOffDelay)
         {
             SwitchStates_Do_Operation(mOutputSwitchId, mAction);
-            field_40_flags.Set(Flags_40::eBit1_is_on);
+            mIsOn = true;
             field_34_last_switch_on_time = 0;
             field_38_all_switches_on_or_off_time = 0;
         }
@@ -261,7 +261,7 @@ void MultiSwitchController::WaitingForAllOff()
         if (field_38_all_switches_on_or_off_time - field_34_last_switch_on_time <= mOnOffDelay)
         {
             SwitchStates_Do_Operation(mOutputSwitchId, mAction);
-            field_40_flags.Clear(Flags_40::eBit1_is_on);
+            mIsOn = false;
             field_34_last_switch_on_time = 0;
         }
         // TODO: OG bug, why is this always reset ??

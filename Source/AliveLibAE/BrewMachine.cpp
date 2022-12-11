@@ -18,7 +18,7 @@ BrewMachine::BrewMachine(relive::Path_BrewMachine* pTlv, const Guid& tlvId)
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::BrewMachine_Button));
     Animation_Init(GetAnimRes(AnimId::BrewMachine_Button));
 
-    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+    SetApplyShadowZoneColour(false);
     mTlvInfo = tlvId;
     GetAnimation().SetRenderLayer(Layer::eLayer_Well_23);
     mRemainingBrewCount = pTlv->mBrewCount;

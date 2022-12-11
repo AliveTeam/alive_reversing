@@ -161,7 +161,7 @@ FlyingSlig::FlyingSlig(relive::Path_FlyingSlig* pTlv, const Guid& tlvId)
     SetCanExplode(true);
 
     field_14C_timer = 0;
-    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
+    SetDoPurpleLightEffect(true);
 
     field_15C_voice_pitch_min = 45 * ((Math_NextRandom() % 5) - 2);
 

@@ -11,26 +11,6 @@ enum class LevelIds : s16;
 class MusicController final : public BaseGameObject
 {
 public:
-    enum Flags_58
-    {
-        e58_MusicEnabled_Bit1 = 0x1,
-        e58_ScreenChanged_Bit2 = 0x2,
-        e58_Dead_Bit3 = 0x4,
-        e58_Bit4 = 0x8,
-        e58_AmbientMusicEnabled_Bit5 = 0x10,
-        e58_UnPause_Bit6 = 0x20,
-        e58_Bit7 = 0x40,
-        e58_Bit8 = 0x80,
-        e58_Bit9 = 0x100,
-        e58_Bit10 = 0x200,
-        e58_Bit11 = 0x400,
-        e58_Bit12 = 0x800,
-        e58_eBit13 = 0x1000,
-        e58_eBit14 = 0x2000,
-        e58_eBit15 = 0x4000,
-        e58_eBit16 = 0x8000,
-    };
-
     enum class MusicTypes : s16
     {
         eTypeNull = -1,
@@ -94,7 +74,13 @@ private:
     u16 field_50_current_vol = 0;
     u16 field_52_target_volume = 0;
     u32 field_54_music_volume_change_time = 0;
-    BitField16<Flags_58> field_58_flags = {};
+    bool mMusicEnabled = false;
+    bool mScreenChanged = false;
+    bool mMusicDead = false;
+    bool mUnknown4 = false;
+    bool mAmbientMusicEnabled = false;
+    bool mUnPause = false;
+    bool mUnknown7 = false;
 };
 
 

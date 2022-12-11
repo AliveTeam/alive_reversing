@@ -66,16 +66,8 @@ public:
     Guid mTlvId;
     s32 mCodeConverted = 0;
     s16 mCodeLength = 0;
-
-    enum Flags_11E
-    {
-        eBit1_bDontSetDestroyed = 0x1,
-        eBit2_unused = 0x2,
-        eBit3_padding = 0x4,
-        eBit4_bAbeGettingCloser = 0x8
-    };
-    BitField16<Flags_11E> field_11E_flags = {};
-
+    bool mDontSetDestroyed = false;
+    bool mAbeGettingCloser = false;
     s32 field_120_last_event_idx = 0;
     u8 field_124_code_buffer[16] = {};
     s16 field_134_buffer_start = 0;

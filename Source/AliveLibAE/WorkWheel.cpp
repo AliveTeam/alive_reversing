@@ -76,7 +76,7 @@ WorkWheel::WorkWheel(relive::Path_WorkWheel* pTlv, const Guid& tlvId)
     }
 
 
-    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
+    SetDoPurpleLightEffect(true);
     mState = WheelStates::eIdle_0;
     mTlvInfo = tlvId;
 }

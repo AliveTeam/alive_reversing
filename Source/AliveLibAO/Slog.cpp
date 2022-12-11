@@ -489,7 +489,7 @@ void Slog::Init()
     field_10C_pTarget = 0;
 
     SetCanSetOffExplosives(true);
-    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
+    SetDoPurpleLightEffect(true);
 
     field_178_bShot = 0;
     field_16C_pUnknown = nullptr;

@@ -80,12 +80,26 @@ public:
     RGB16 mRGB;
     s16 mYOffset = 0;
     s16 mXOffset = 0;
-    enum VisualFlags : s16
+
+    const bool& GetApplyShadowZoneColour() const
     {
-        eApplyShadowZoneColour = 0x1,
-        eDoPurpleLightEffect = 0x2
-    };
-    BitField16<VisualFlags> mVisualFlags = {};
+        return mApplyShadowZoneColour;
+    }
+
+    void SetApplyShadowZoneColour(bool val)
+    {
+        mApplyShadowZoneColour = val;
+    }
+
+    const bool& GetDoPurpleLightEffect() const
+    {
+        return mDoPurpleLightEffect;
+    }
+
+    void SetDoPurpleLightEffect(bool val)
+    {
+        mDoPurpleLightEffect = val;
+    }
 
     const Shadow* GetShadow() const
     {
@@ -128,6 +142,8 @@ private:
     Animation mAnim = {};
     Scale mScale = Scale::Fg;
     FP mSpriteScale = {};
+    bool mApplyShadowZoneColour = false;
+    bool mDoPurpleLightEffect = false;
 
 protected:
     Shadow* mShadow = nullptr;

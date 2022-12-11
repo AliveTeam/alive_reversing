@@ -145,7 +145,7 @@ Scrab::Scrab(relive::Path_Scrab* pTlv, const Guid& tlvId)
         field_188_flags |= 8u;
     }
 
-    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
+    SetDoPurpleLightEffect(true);
 
     mRGB.SetRGB(127, 127, 127);
 

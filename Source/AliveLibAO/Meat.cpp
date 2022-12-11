@@ -37,7 +37,7 @@ MeatSack::MeatSack(relive::Path_MeatSack* pTlv, const Guid& tlvId)
 
     Animation_Init(GetAnimRes(AnimId::MeatSack_Idle));
 
-    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+    SetApplyShadowZoneColour(false);
     field_10C_tlvInfo = tlvId;
 
     field_110_bDoMeatSackIdleAnim = 0;

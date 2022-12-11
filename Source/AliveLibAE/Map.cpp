@@ -268,7 +268,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
 
                 const PSX_RECT objRect = pBaseObj->VGetBoundingRect();
 
-                if (pBaseObj->mVisualFlags.Get(BaseAnimatedWithPhysicsGameObject::VisualFlags::eDoPurpleLightEffect))
+                if (pBaseObj->GetDoPurpleLightEffect())
                 {
                     if (pBaseObj->GetAnimation().GetRender())
                     {

@@ -32,8 +32,8 @@ void BaseAnimatedWithPhysicsGameObject::FreeArray()
 BaseAnimatedWithPhysicsGameObject::BaseAnimatedWithPhysicsGameObject(s16 resourceArraySize)
     : BaseGameObject(true, resourceArraySize)
 {
-    mVisualFlags.Clear(VisualFlags::eDoPurpleLightEffect);
-    mVisualFlags.Set(VisualFlags::eApplyShadowZoneColour);
+    mDoPurpleLightEffect = false;
+    mApplyShadowZoneColour = true;
 
     mCurrentPath = GetMap().mCurrentPath;
     mCurrentLevel = GetMap().mCurrentLevel;
@@ -110,7 +110,7 @@ void BaseAnimatedWithPhysicsGameObject::VRender(PrimHeader** ppOt)
 
             const PSX_RECT boundingRect = VGetBoundingRect();
 
-            if (mVisualFlags.Get(VisualFlags::eApplyShadowZoneColour))
+            if (mApplyShadowZoneColour)
             {
                 ShadowZone::ShadowZones_Calculate_Colour(
                     FP_GetExponent(mXPos),         // Left side

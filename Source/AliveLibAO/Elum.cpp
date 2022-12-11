@@ -3593,7 +3593,7 @@ Elum::Elum(const Guid& tlvInfo)
     mBrainIdx = 0;
     mBrainSubState = 0;
 
-    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
+    SetDoPurpleLightEffect(true);
 
 
     mStrugglingWithBees = false;

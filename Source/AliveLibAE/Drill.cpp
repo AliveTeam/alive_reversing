@@ -64,24 +64,24 @@ Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
     SetTint(kDrillTints_551548, gMap.mCurrentLevel);
     relive::Path_Drill tlvData = *pTlv;
 
-    field_128_flags.Clear(Flags::eBit2_ToggleStartState_StartOn);
-    field_128_flags.Clear(Flags::eBit5_SpeedChanged);
-    field_128_flags.Clear(Flags::eBit4_Toggle);
+    mToggleStartState_StartOn = false;
+    mSpeedChange = false;
+    mToggle = false;
 
     if (tlvData.mStartStateOn == relive::reliveChoice::eYes)
     {
-        field_128_flags.Clear(Flags::eBit1_StartOff);
+        mStartOff = false;
     }
     else
     {
-        field_128_flags.Set(Flags::eBit1_StartOff);
+        mStartOff = true;
     }
 
     mDrillSwitchId = tlvData.mSwitchId;
 
-    if (SwitchStates_Get(mDrillSwitchId) && field_128_flags.Get(Flags::eBit1_StartOff))
+    if (SwitchStates_Get(mDrillSwitchId) && mStartOff)
     {
-        field_128_flags.Set(Flags::eBit2_ToggleStartState_StartOn);
+        mToggleStartState_StartOn = true;
     }
 
     if (tlvData.mScale == relive::reliveScale::eFull)
@@ -100,16 +100,16 @@ Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
     mDrillDirection = tlvData.mDrillDirection;
     if (tlvData.mStartPositionBottom == relive::reliveChoice::eYes)
     {
-        field_128_flags.Set(Flags::eBit6_StartPosIsBottom);
+        mStartPosIsBottom = true;
     }
     else
     {
-        field_128_flags.Clear(Flags::eBit6_StartPosIsBottom);
+        mStartPosIsBottom = false;
     }
 
-    if (field_128_flags.Get(Flags::eBit2_ToggleStartState_StartOn))
+    if (mToggleStartState_StartOn)
     {
-        if (field_128_flags.Get(Flags::eBit6_StartPosIsBottom))
+        if (mStartPosIsBottom)
         {
             mState = DrillStates::State_2_GoingUp;
         }
@@ -133,7 +133,7 @@ Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
             mXPos = mAdjustedXPos;
             mAdjustedYPos = FP_FromInteger(pTlv->mBottomRightY);
 
-            if (field_128_flags.Get(Flags::eBit2_ToggleStartState_StartOn))
+            if (mToggleStartState_StartOn)
             {
                 GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Drill_Vertical_On));
             }
@@ -143,7 +143,7 @@ Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
             }
 
             mDrillDistance = pTlv->mBottomRightY - pTlv->mTopLeftY;
-            if (field_128_flags.Get(Flags::eBit6_StartPosIsBottom))
+            if (mStartPosIsBottom)
             {
                 mXYOff = FP_FromInteger(0);
             }
@@ -159,7 +159,7 @@ Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
             mAdjustedYPos = FP_FromInteger(pTlv->mBottomRightY);
             mYPos = mAdjustedYPos;
 
-            if (field_128_flags.Get(Flags::eBit2_ToggleStartState_StartOn))
+            if (mToggleStartState_StartOn)
             {
                 GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Drill_Horizontal_On));
             }
@@ -169,7 +169,7 @@ Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
             }
 
             mDrillDistance = pTlv->mBottomRightX - pTlv->mTopLeftX;
-            if (field_128_flags.Get(Flags::eBit6_StartPosIsBottom))
+            if (mStartPosIsBottom)
             {
                 mXYOff = FP_FromInteger(0);
             }
@@ -187,7 +187,7 @@ Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
             mAdjustedYPos = FP_FromInteger(pTlv->mBottomRightY);
             mYPos = mAdjustedYPos;
 
-            if (field_128_flags.Get(Flags::eBit2_ToggleStartState_StartOn))
+            if (mToggleStartState_StartOn)
             {
                 GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Drill_Horizontal_On));
             }
@@ -197,7 +197,7 @@ Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
             }
 
             mDrillDistance = pTlv->mBottomRightX - pTlv->mTopLeftX;
-            if (field_128_flags.Get(Flags::eBit6_StartPosIsBottom))
+            if (mStartPosIsBottom)
             {
                 mXYOff = FP_FromInteger(0);
             }
@@ -214,18 +214,18 @@ Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
     switch (tlvData.mDrillBehavior)
     {
         case relive::Path_Drill::DrillBehavior::eToggle:
-            field_128_flags.Set(Flags::eBit3_UseId);
-            field_128_flags.Clear(Flags::eBit4_Toggle);
+            mUseId = true;
+            mToggle = false;
             break;
 
         case relive::Path_Drill::DrillBehavior::eUse:
-            field_128_flags.Set(Flags::eBit3_UseId);
-            field_128_flags.Set(Flags::eBit4_Toggle);
+            mUseId = true;
+            mToggle = true;
             break;
 
         default:
-            field_128_flags.Clear(Flags::eBit3_UseId);
-            field_128_flags.Clear(Flags::eBit4_Toggle);
+            mUseId = false;
+            mToggle = false;
             break;
     }
 
@@ -294,9 +294,9 @@ void Drill::VUpdate()
     switch (mState)
     {
         case DrillStates::State_0_Restart_Cycle:
-            if (Expired(mOffTimer) || field_128_flags.Get(eBit4_Toggle))
+            if (Expired(mOffTimer) || mToggle)
             {
-                if ((!field_128_flags.Get(Flags::eBit3_UseId)) || (!!SwitchStates_Get(mDrillSwitchId) == (field_128_flags.Get(eBit1_StartOff))))
+                if (!mUseId || (!!SwitchStates_Get(mDrillSwitchId) == mStartOff))
                 {
                     mState = DrillStates::State_1_Going_Down;
 
@@ -315,14 +315,14 @@ void Drill::VUpdate()
                         }
                     }
 
-                    field_128_flags.Clear(Flags::eBit5_SpeedChanged);
+                    mSpeedChange = false;
                     mCurrentSpeed = mInitialSpeed;
                     mAudioChannelsMask = SFX_Play_Camera(relive::SoundEffects::DrillMovement, 25, soundDirection);
                     return;
                 }
             }
 
-            if (field_128_flags.Get(Flags::eBit3_UseId) && !field_128_flags.Get(Flags::eBit4_Toggle) && FP_GetExponent(mOffSpeed) > 0 && Expired(mOffTimer))
+            if (mUseId && !mToggle && FP_GetExponent(mOffSpeed) > 0 && Expired(mOffTimer))
             {
                 mState = DrillStates::State_1_Going_Down;
 
@@ -348,7 +348,7 @@ void Drill::VUpdate()
                     }
                 }
 
-                field_128_flags.Set(Flags::eBit5_SpeedChanged);
+                mSpeedChange = true;
                 mCurrentSpeed = mOffSpeed;
                 mAudioChannelsMask = SFX_Play_Camera(relive::SoundEffects::DrillMovement, 25, soundDirection);
             }
@@ -393,7 +393,7 @@ void Drill::VUpdate()
 
                 s16 max_off = 0;
                 s16 min_off = 0;
-                if (field_128_flags.Get(Flags::eBit5_SpeedChanged))
+                if (mSpeedChange)
                 {
                     max_off = field_102_max_off_time_speed_change;
                     min_off = field_100_min_off_time_speed_change;
@@ -415,9 +415,9 @@ void Drill::VUpdate()
                     GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::Drill_Horizontal_Off));
                 }
 
-                if (field_128_flags.Get(eBit4_Toggle))
+                if (mToggle)
                 {
-                    SwitchStates_Set(mDrillSwitchId, !field_128_flags.Get(eBit1_StartOff));
+                    SwitchStates_Set(mDrillSwitchId, !mStartOff);
                 }
             }
 
@@ -434,7 +434,7 @@ Drill::~Drill()
         mAudioChannelsMask = 0;
     }
 
-    if (field_128_flags.Get(Flags::eBit3_UseId) && !!SwitchStates_Get(mDrillSwitchId) != field_128_flags.Get(Flags::eBit1_StartOff))
+    if (mUseId && !!SwitchStates_Get(mDrillSwitchId) != mStartOff)
     {
         Path::TLV_Reset(mTlvInfo, 1, 0, 0);
     }
@@ -448,7 +448,7 @@ void Drill::VScreenChanged()
 {
     if (mState != DrillStates::State_0_Restart_Cycle)
     {
-        if (field_128_flags.Get(Flags::eBit6_StartPosIsBottom))
+        if (mStartPosIsBottom)
         {
             mXYOff = FP_FromInteger(0);
         }

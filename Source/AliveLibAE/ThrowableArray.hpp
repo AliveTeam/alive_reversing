@@ -34,13 +34,9 @@ public:
     s16 mCount = 0;
 
 private:
-    enum Flags_22
-    {
-        eBit1_Unknown = 0x1,
-        eBit2_Unknown = 0x2,
-        eBit3_Unknown = 0x4,
-    };
-    BitField16<Flags_22> field_22_flags = {};
+    bool mUnknown1 = false;
+    bool mUnknown2 = false;
+    bool mUnknown3 = false;
     DynamicArrayT<u8*> field_24_throwables;
 };
 

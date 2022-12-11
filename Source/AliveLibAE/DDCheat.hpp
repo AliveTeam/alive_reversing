@@ -60,26 +60,6 @@ public:
     static void DebugStr(const char_type* pFormatStr, ...);
 
 private:
-    enum Flags_3C
-    {
-        e3C_Bit1 = 0x1,
-        e3C_Bit2 = 0x2,
-        eOnTeleport_Bit3 = 0x4,
-        e3C_Bit4 = 0x8,
-        e3C_Bit5 = 0x10,
-        e3C_Bit6 = 0x20,
-        e3C_Bit7 = 0x40,
-        e3C_Bit8 = 0x80,
-        e3C_Bit9 = 0x100,
-        e3C_Bit10 = 0x200,
-        e3C_Bit11 = 0x400,
-        e3C_Bit12 = 0x800,
-        e3C_eBit13 = 0x1000,
-        e3C_eBit14 = 0x2000,
-        e3C_eBit15 = 0x4000,
-        e3C_eBit16 = 0x8000
-    };
-
     virtual void VUpdate() override;
     virtual void VScreenChanged() override
     { }
@@ -89,7 +69,8 @@ private:
     s16 field_24_fn_idx = 0;
     s16 field_26_next_fn_idx = 0;
     s32 field_38_input_pressed = 0;
-    BitField16<Flags_3C> field_3C_flags = {};
+    bool mUnknown1 = false;
+    bool mTeleporting = false;
 };
 
 

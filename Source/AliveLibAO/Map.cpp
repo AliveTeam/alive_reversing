@@ -421,7 +421,7 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
         if (pObj->GetDrawable())
         {
             auto pBaseObj = static_cast<BaseAnimatedWithPhysicsGameObject*>(pObj);
-            if (pBaseObj->mVisualFlags.Get(BaseAnimatedWithPhysicsGameObject::VisualFlags::eDoPurpleLightEffect))
+            if (pBaseObj->GetDoPurpleLightEffect())
             {
                 if (pBaseObj->GetAnimation().GetRender())
                 {

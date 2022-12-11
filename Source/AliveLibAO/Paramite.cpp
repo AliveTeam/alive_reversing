@@ -178,7 +178,7 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
 
     VStackOnObjectsOfType(ReliveTypes::eParamite);
 
-    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
+    SetDoPurpleLightEffect(true);
 
     CreateShadow();
 }

@@ -47,7 +47,7 @@ StatusLight::StatusLight(relive::Path_StatusLight* pTlv, const Guid& tlvId)
 
     Animation_Init(GetAnimRes(AnimId::Status_Light_Red));
 
-    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+    SetApplyShadowZoneColour(false);
     GetAnimation().SetRender(false);
 
     mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);

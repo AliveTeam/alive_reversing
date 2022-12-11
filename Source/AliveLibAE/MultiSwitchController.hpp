@@ -29,9 +29,5 @@ private:
     s32 field_34_last_switch_on_time = 0;
     s32 field_38_all_switches_on_or_off_time = 0;
     s32 mOnOffDelay = 0;
-    enum Flags_40
-    {
-        eBit1_is_on = 0x1,
-    };
-    BitField16<Flags_40> field_40_flags = {};
+    bool mIsOn = false;
 };

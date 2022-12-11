@@ -52,7 +52,7 @@ MeatSack::MeatSack(relive::Path_MeatSack* pTlv, const Guid& tlvId)
     Animation_Init(GetAnimRes(AnimId::MeatSack_Idle));
     SetTint(&kMeatTints_55C254[0], gMap.mCurrentLevel);
 
-    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+    SetApplyShadowZoneColour(false);
     field_118_tlvInfo = tlvId;
 
     field_11C_bDoMeatSackIdleAnim = 0;

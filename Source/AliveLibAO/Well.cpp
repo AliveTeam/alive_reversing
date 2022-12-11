@@ -94,7 +94,7 @@ void Well::WellExpress_Init(relive::Path_WellExpress* pTlv, FP /*xpos*/, FP ypos
         GetAnimation().SetSemiTrans(false);
     }
 
-    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+    SetApplyShadowZoneColour(false);
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
@@ -138,7 +138,7 @@ void Well::WellLocal_Init(relive::Path_WellLocal* pTlv, FP /*xpos*/, FP ypos)
     Animation_Init(ResourceManagerWrapper::LoadAnimation(anim.mId));
     GetAnimation().SetSemiTrans(false);
 
-    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+    SetApplyShadowZoneColour(false);
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {

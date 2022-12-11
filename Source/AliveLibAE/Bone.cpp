@@ -594,7 +594,7 @@ BoneBag::BoneBag(relive::Path_BoneBag* pTlv, const Guid& tlvId)
     mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
     mYPos = FP_FromInteger(pTlv->mBottomRightY);
 
-    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+    SetApplyShadowZoneColour(false);
 
     mVelX = FP_FromRaw(pTlv->mVelX << 8);
     mVelY = FP_FromRaw(-256 * pTlv->mVelY); // TODO: << 8 negated ??

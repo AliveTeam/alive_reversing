@@ -41,7 +41,7 @@ DoorBlocker::DoorBlocker(relive::Path_DoorBlocker* pTlv, const Guid& tlvId)
         SetDead(true);
     }
 
-    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
+    SetDoPurpleLightEffect(true);
 }
 
 DoorBlocker::~DoorBlocker()

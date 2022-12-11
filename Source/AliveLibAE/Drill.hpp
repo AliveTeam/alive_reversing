@@ -59,14 +59,10 @@ private:
     FP mCurrentSpeed = {};
     FP mOffSpeed = {};
     FP mXYOff = {};
-    enum Flags
-    {
-        eBit1_StartOff = 0x1,
-        eBit2_ToggleStartState_StartOn = 0x2,
-        eBit3_UseId = 0x4,
-        eBit4_Toggle = 0x8,
-        eBit5_SpeedChanged = 0x10,
-        eBit6_StartPosIsBottom = 0x20,
-    };
-    BitField16<Flags> field_128_flags = {};
+    bool mStartOff = false;
+    bool mToggleStartState_StartOn = false;
+    bool mUseId = false;
+    bool mToggle = false;
+    bool mSpeedChange = false;
+    bool mStartPosIsBottom = false;
 };

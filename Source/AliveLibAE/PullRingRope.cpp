@@ -91,7 +91,7 @@ PullRingRope::PullRingRope(relive::Path_PullRingRope* pTlv, const Guid& tlvId)
         pRope->mYPos = FP_NoFractional(mYPos - (GetSpriteScale() * FP_FromInteger(16)));
     }
 
-    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
+    SetDoPurpleLightEffect(true);
 }
 
 PullRingRope::~PullRingRope()

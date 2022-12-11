@@ -28,7 +28,7 @@ BulletShell::BulletShell(FP xpos, FP ypos, s32 direction, FP scale)
         GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_Half_17);
     }
 
-    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+    SetApplyShadowZoneColour(false);
     GetAnimation().SetFlipX(direction & 1);
 
     mFloorBounceCount = 0;

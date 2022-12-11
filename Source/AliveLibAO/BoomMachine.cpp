@@ -131,7 +131,7 @@ BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId)
 
     Animation_Init(GetAnimRes(AnimId::BoomMachine_Button_On));
 
-    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+    SetApplyShadowZoneColour(false);
     mTlvId = tlvId;
     GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
 
@@ -160,7 +160,7 @@ BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId)
 
         pNozzle->GetAnimation().SetSemiTrans(false);
         pNozzle->SetSpriteScale(GetSpriteScale());
-        pNozzle->mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+        pNozzle->SetApplyShadowZoneColour(false);
         pNozzle->mState = BoomMachineStates::eInactive_0;
         pNozzle->mXPos = mXPos + (directedScale * FP_FromInteger(30));
         pNozzle->mYPos = mYPos + (GetSpriteScale() * FP_FromInteger(-30));

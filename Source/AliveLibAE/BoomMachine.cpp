@@ -34,7 +34,7 @@ public:
         Animation_Init(GetAnimRes(AnimId::BoomMachine_Nozzle_Idle));
 
         GetAnimation().SetSemiTrans(false);
-        mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+        SetApplyShadowZoneColour(false);
 
         SetSpriteScale(scale);
 
@@ -156,7 +156,7 @@ BoomMachine::BoomMachine(relive::Path_BoomMachine* pTlv, const Guid& tlvId)
 
     Animation_Init(GetAnimRes(AnimId::BoomMachine_Button_Off));
 
-    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+    SetApplyShadowZoneColour(false);
     mTlvId = tlvId;
     GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
 

@@ -2767,7 +2767,7 @@ void Slog::Init()
     mHitByAbilityRing = false;
     mHungry = true;
 
-    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
+    SetDoPurpleLightEffect(true);
     GetAnimation().SetFnPtrArray(kSlog_Anim_Frame_Fns_55EFBC);
     mMultiUseTimer = 0;
     mBrainSubState = 0;

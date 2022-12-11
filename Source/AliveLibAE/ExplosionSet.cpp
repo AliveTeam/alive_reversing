@@ -32,7 +32,7 @@ ExplosionSet::ExplosionSet()
         field_44_start_delay = 0;
         field_46_spacing_multiplicator = 0;
         gExplosionSetEnabled = false;
-        field_5C_flags.Clear(Flags_5C::eBit3_Active);
+        mActive = false;
         gObjListDrawables->Push_Back(this);
     }
 }
@@ -56,8 +56,8 @@ void ExplosionSet::Init(relive::Path_ExplosionSet* pTlv)
 
     field_44_start_delay = pTlv->mStartDelay;
 
-    field_5C_flags.Set(Flags_5C::eBit1_spawn_assets, pTlv->mSpawnAssets == relive::reliveChoice::eYes);
-    field_5C_flags.Set(Flags_5C::eBit2_flipX, pTlv->mStartDirection == relive::reliveXDirection::eRight);
+    mSpawnAssets = pTlv->mSpawnAssets == relive::reliveChoice::eYes ? true : false;
+    mFlipX = pTlv->mStartDirection == relive::reliveXDirection::eRight ? true : false;
     field_56_asset_interval = pTlv->mAssetInterval;
     field_58_grid_spacing = FP_GetExponent(FP_FromInteger(pTlv->mGridSpacing) * ScaleToGridSize(field_50_scale));
     field_5A_increasing_grid_spacing = FP_GetExponent(FP_FromInteger(pTlv->mIncreasingGridSpacing) * ScaleToGridSize(field_50_scale));
@@ -68,7 +68,7 @@ void ExplosionSet::Init(relive::Path_ExplosionSet* pTlv)
         gExplosionSetEnabled = static_cast<s16>(pTlv->mStartEnabled);
     }
 
-    field_5C_flags.Set(Flags_5C::eBit3_Active);
+    mActive = true;
     field_46_spacing_multiplicator = 0;
 }
 
@@ -82,7 +82,7 @@ void ExplosionSet::VScreenChanged()
 {
     if (gMap.mCurrentLevel == gMap.mNextLevel && gMap.mCurrentPath == gMap.mNextPath)
     {
-        field_5C_flags.Clear(Flags_5C::eBit3_Active);
+        mActive = false;
     }
     else
     {
@@ -144,7 +144,7 @@ void ExplosionSet::VUpdate()
             field_42 = -field_42;
         }
 
-        if (field_5C_flags.Get(Flags_5C::eBit3_Active) && field_5C_flags.Get(Flags_5C::eBit1_spawn_assets))
+        if (mActive && mSpawnAssets)
         {
             if (field_44_start_delay > 0)
             {
@@ -153,7 +153,7 @@ void ExplosionSet::VUpdate()
             }
 
             s16 xpos = 0;
-            if (field_5C_flags.Get(Flags_5C::eBit2_flipX))
+            if (mFlipX)
             {
                 xpos = field_48_tlv_rect.w + field_48_tlv_rect.x - (field_46_spacing_multiplicator * field_5A_increasing_grid_spacing) - field_58_grid_spacing;
                 if (xpos <= field_48_tlv_rect.x)
@@ -187,7 +187,7 @@ void ExplosionSet::VUpdate()
     }
     else
     {
-        if (field_5C_flags.Get(Flags_5C::eBit3_Active))
+        if (mActive)
         {
             if (field_54_switch_id > 0)
             {

@@ -28,7 +28,7 @@ CircularFade::CircularFade(FP xpos, FP ypos, FP scale, s16 direction, s8 destroy
     mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(AnimId::Circular_Fade));
     Animation_Init(GetAnimRes(AnimId::Circular_Fade));
 
-    mVisualFlags.Clear(VisualFlags::eApplyShadowZoneColour);
+    SetApplyShadowZoneColour(false);
 
     GetAnimation().SetBlending(false);
     SetSpriteScale(scale * FP_FromInteger(2));

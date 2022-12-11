@@ -146,7 +146,7 @@ TrapDoor::TrapDoor(relive::Path_TrapDoor* pTlv, const Guid& tlvId)
     mBoundingRect.w = pTlv->mBottomRightX;
     mBoundingRect.h = pTlv->mBottomRightY;
 
-    mVisualFlags.Set(VisualFlags::eDoPurpleLightEffect);
+    SetDoPurpleLightEffect(true);
     mStayOpenTime = pTlv->mStayOpenTime;
 }
 
