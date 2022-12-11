@@ -22,8 +22,8 @@ private:
     bool mTriggeredByTouching = false;
     bool mTriggeredByTimer = false;
     bool mSetMusicToNoneOnDtor = false;
-    MusicController::MusicTypes field_26_music_type = MusicController::MusicTypes::eNone_0;
-    s32 field_28_counter = 0;
-    PSX_Point field_2C_tl = {};
-    PSX_Point field_30_br = {};
+    MusicController::MusicTypes mMusicType = MusicController::MusicTypes::eNone_0;
+    s32 mCounter = 0;
+    PSX_Point mTlvTopLeft = {};
+    PSX_Point mTlvBottomRight = {};
 };

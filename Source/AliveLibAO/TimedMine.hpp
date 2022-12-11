@@ -9,11 +9,6 @@ namespace relive
 
 namespace AO {
 
-enum TimedMineFlags
-{
-    eStickToLiftPoint = 0x1
-};
-
 class TimedMine final : public BaseAliveGameObject
 {
 public:
@@ -40,7 +35,7 @@ public:
     Animation mTickAnim = {};
     u32 mOldGnFrame = 0;
     u32 mSingleTickTimer = 0;
-    BitField32<TimedMineFlags> mTimedMineFlags = {};
+    bool mStickToLiftPoint = false;
 };
 
 } // namespace AO

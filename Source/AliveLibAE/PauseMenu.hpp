@@ -65,10 +65,6 @@ public:
     using t_PmPage_Update = decltype(&PauseMenu::Page_Main_Update);
     using t_PmPage_Render = decltype(&PauseMenu::Page_Base_Render);
 
-    // DEVELOPER MODE STUFF
-    void CustomPauseMenuUpdate();
-    ///////////////////////
-
     struct PauseMenuPage final
     {
         t_PmPage_Update field_0_fn_update;
@@ -94,7 +90,6 @@ public:
     s16 word12C_flags = 0;
     s16 field_12E_selected_glow = 0;
     s16 field_130_selected_glow_counter = 0;
-    s16 field_132_padding = 0;
 
     enum MainPages : s16
     {
@@ -109,9 +104,7 @@ public:
     };
 
     /*MainPages*/ s16 field_134_index_main = 0;
-    s16 field_136_unused = 0;
     s16 field_138_control_action_page_index = 0;
-    s16 field_13A_unused = 0;
 
     enum class SaveState : s16
     {
@@ -121,14 +114,11 @@ public:
     };
     SaveState field_13C_save_state = SaveState::ReadingInput_0;
 
-    s16 field_13E_unused = 0;
-    s16 field_140_unused = 0;
     s16 field_142_poly_offset = 0;
     PauseMenu::PauseMenuPage field_144_active_menu = {};
     Animation field_158_animation = {};
     Prim_SetTPage field_1F0_primitives[2] = {};
     Poly_G4 field_210_polygons[2] = {};
-    Prim_SetTPage field_248_padding[2] = {};
 };
 
 extern PauseMenu* gPauseMenu;

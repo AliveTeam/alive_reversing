@@ -81,10 +81,10 @@ Mine::Mine(relive::Path_Mine* pPath, const Guid& tlv)
     mFlashAnim.SetSpriteScale(GetSpriteScale());
     mFlashAnim.SetRGB(128, 128, 128);
 
-    field_1BC_flags.Clear(Mine_Flags_1BC::eBit1_PersistOffscreen);
+    mPersistOffscree = false;
     if (pPath->mPersistOffscreen == relive::reliveChoice::eYes)
     {
-        field_1BC_flags.Set(Mine_Flags_1BC::eBit1_PersistOffscreen);
+        mPersistOffscree = true;
     }
 
     const FP gridSnap = ScaleToGridSize(GetSpriteScale());
@@ -192,7 +192,7 @@ void Mine::VScreenChanged()
 {
     if (gMap.mCurrentLevel != gMap.mNextLevel
         || gMap.mCurrentPath != gMap.mNextPath
-        || !field_1BC_flags.Get(Mine_Flags_1BC::eBit1_PersistOffscreen))
+        || !mPersistOffscree)
     {
         SetDead(true);
     }

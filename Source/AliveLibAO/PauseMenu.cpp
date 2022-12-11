@@ -35,7 +35,6 @@ PauseMenu::PauseMenu()
     mPal = ResourceManagerWrapper::LoadPal(PalId::MainMenuFont_PauseMenu);
     mFontContext.LoadFontType(FontType::PauseMenu);
     field_E4_font.Load(175, mPal, &mFontContext);
-    field_130 = 0;
     field_11C = 0;
     sDisableFontFlicker = false;
 }
@@ -119,7 +118,6 @@ void PauseMenu::VUpdate()
         field_124 = 0;
         field_126_page = PauseMenuPages::ePause_0;
         Reset_Unknown_45A5B0();
-        field_132_always_0 = 0;
         field_11E_selected_glow = 52;
         field_120_selected_glow_counter = 8;
 
@@ -233,7 +231,6 @@ void PauseMenu::VUpdate()
                             {
                                 field_126_page = PauseMenuPages::eSave_1;
                                 field_12C = 0;
-                                field_12E = 0;
                                 field_134 = 1;
                                 SfxPlayMono(relive::SoundEffects::IngameTransition, 90);
                                 s32 tmp = static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel));
@@ -309,8 +306,6 @@ void PauseMenu::VUpdate()
                             {
                                 SaveGame::SaveToFile(&saveNameBuffer_5080C6.characters[2]);
                                 field_12C = 5;
-                                field_12A = 13;
-                                field_122 = 120;
                             }
                         }
                         else if (field_12C == 5)
@@ -366,7 +361,6 @@ void PauseMenu::VUpdate()
                             SfxPlayMono(relive::SoundEffects::IngameTransition, 90);
                             saveNameBuffer_5080C6.characters[string_len_no_nullterminator + 1] = 0;
                             field_12C = 4;
-                            field_12A = 11;
                             field_134 = 1;
                             Input_Reset();
                             break;
@@ -580,7 +574,7 @@ void PauseMenu::DrawEntries(PrimHeader** ppOt, PauseEntry* entry, s16 selectedEn
     for (s16 entryId = 0; entry[entryId].field_4_strBuf; ++entryId)
     {
         s16 colourOffset;
-        if (entryId == selectedEntryId && (field_126_page != 1 || field_132_always_0))
+        if (entryId == selectedEntryId && field_126_page != 1)
         {
             colourOffset = field_11E_selected_glow;
         }

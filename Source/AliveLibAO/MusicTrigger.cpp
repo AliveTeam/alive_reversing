@@ -26,44 +26,47 @@ MusicTrigger::MusicTrigger(relive::Path_MusicTrigger* pTlv, const Guid& tlvId)
 
 void MusicTrigger::Init(relive::Path_MusicTrigger::MusicTriggerMusicType type, relive::Path_MusicTrigger::TriggeredBy triggeredBy, u16 switchId, s16 delay)
 {
-    field_14_flags &= ~7u;
+    mSetMusicToNoneOnDtor = false;
+    mUnknown = false;
+    mHasSwitchId = false;
+
     SetType(ReliveTypes::eNone);
 
     switch (type)
     {
         case relive::Path_MusicTrigger::MusicTriggerMusicType::eDrumAmbience:
-            field_1C_music_type = MusicController::MusicTypes::eDrumAmbience_3;
-            field_18_counter = 400;
+            mMusicType = MusicController::MusicTypes::eDrumAmbience_3;
+            mCounter = 400;
             break;
 
         case relive::Path_MusicTrigger::MusicTriggerMusicType::eDeathDrumShort:
-            field_1C_music_type = MusicController::MusicTypes::eDeathDrumShort_13;
-            field_18_counter = 30;
+            mMusicType = MusicController::MusicTypes::eDeathDrumShort_13;
+            mCounter = 30;
             break;
 
         case relive::Path_MusicTrigger::MusicTriggerMusicType::eSecretAreaLong:
-            field_1C_music_type = MusicController::MusicTypes::eSecretAreaLong_16;
-            field_18_counter = 30;
+            mMusicType = MusicController::MusicTypes::eSecretAreaLong_16;
+            mCounter = 30;
             break;
 
         case relive::Path_MusicTrigger::MusicTriggerMusicType::eSoftChase:
-            field_1C_music_type = MusicController::MusicTypes::eSlogChase_5;
-            field_14_flags |= 4;
+            mMusicType = MusicController::MusicTypes::eSlogChase_5;
+            mSetMusicToNoneOnDtor = true;
             break;
 
         case relive::Path_MusicTrigger::MusicTriggerMusicType::eIntenseChase:
-            field_1C_music_type = MusicController::MusicTypes::eIntenseChase_8;
-            field_14_flags |= 4;
+            mMusicType = MusicController::MusicTypes::eIntenseChase_8;
+            mSetMusicToNoneOnDtor = true;
             break;
 
         case relive::Path_MusicTrigger::MusicTriggerMusicType::eChime:
-            field_1C_music_type = MusicController::MusicTypes::eChime_2;
-            field_18_counter = delay;
+            mMusicType = MusicController::MusicTypes::eChime_2;
+            mCounter = delay;
             break;
 
         case relive::Path_MusicTrigger::MusicTriggerMusicType::eSecretAreaShort:
-            field_1C_music_type = MusicController::MusicTypes::eSecretAreaShort_15;
-            field_18_counter = 30;
+            mMusicType = MusicController::MusicTypes::eSecretAreaShort_15;
+            mCounter = 30;
             break;
 
         default:
@@ -81,10 +84,10 @@ void MusicTrigger::Init(relive::Path_MusicTrigger::MusicTriggerMusicType type, r
             break;
 
         case relive::Path_MusicTrigger::TriggeredBy::eSwitchId: // removed in AE
-            field_14_flags |= 1u;
-            field_1E_switch_id = switchId;
+            mHasSwitchId = true;;
+            mSwitchId = switchId;
             SetUpdateDelay(0);
-            field_18_counter = delay;
+            mCounter = delay;
             if (switchId > 1)
             {
                 if (SwitchStates_Get(switchId))
@@ -95,10 +98,10 @@ void MusicTrigger::Init(relive::Path_MusicTrigger::MusicTriggerMusicType type, r
             break;
 
         case relive::Path_MusicTrigger::TriggeredBy::eUnknown: // removed in AE
-            field_14_flags |= 1u;
-            field_1E_switch_id = switchId;
+            mHasSwitchId = true;
+            mSwitchId = switchId;
             SetUpdateDelay(0);
-            field_18_counter = -1;
+            mCounter = -1;
             break;
 
         default:
@@ -108,7 +111,7 @@ void MusicTrigger::Init(relive::Path_MusicTrigger::MusicTriggerMusicType type, r
 
 MusicTrigger::~MusicTrigger()
 {
-    if (field_14_flags & 4)
+    if (mSetMusicToNoneOnDtor)
     {
         MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, this, 0, 0);
     }
@@ -134,53 +137,49 @@ void MusicTrigger::VUpdate()
         }
     }
 
-    if (field_14_flags & 1)
+    if (mHasSwitchId)
     {
-        if (SwitchStates_Get(field_1E_switch_id))
+        if (SwitchStates_Get(mSwitchId))
         {
-            field_14_flags &= ~1u;
+            mHasSwitchId = false;
 
-            MusicController::static_PlayMusic(
-                field_1C_music_type,
-                this,
-                ((u8) field_14_flags >> 2) & 1,
-                1);
-            field_14_flags |= 2u;
+            MusicController::static_PlayMusic(mMusicType, this, mSetMusicToNoneOnDtor, 1);
+            mUnknown = true;
 
-            if (field_18_counter >= 0)
+            if (mCounter >= 0)
             {
-                field_18_counter += sGnFrame;
+                mCounter += sGnFrame;
             }
         }
     }
     else
     {
-        if (!(field_14_flags & 2))
+        if (!mUnknown)
         {
-            MusicController::static_PlayMusic(field_1C_music_type, this, (field_14_flags >> 2) & 1, 1);
-            field_14_flags |= 2u;
-            field_18_counter += sGnFrame;
+            MusicController::static_PlayMusic(mMusicType, this, mSetMusicToNoneOnDtor, 1);
+            mUnknown = true;
+            mCounter += sGnFrame;
             return;
         }
 
-        if (field_18_counter < 0)
+        if (mCounter < 0)
         {
-            if (!SwitchStates_Get(field_1E_switch_id))
+            if (!SwitchStates_Get(mSwitchId))
             {
                 SetDead(true);
                 return;
             }
 
-            if (field_18_counter < 0)
+            if (mCounter < 0)
             {
-                MusicController::static_PlayMusic(field_1C_music_type, this, (field_14_flags >> 2) & 1, 0);
+                MusicController::static_PlayMusic(mMusicType, this, mSetMusicToNoneOnDtor, 0);
                 return;
             }
         }
 
-        if (static_cast<s32>(sGnFrame) < field_18_counter)
+        if (static_cast<s32>(sGnFrame) < mCounter)
         {
-            MusicController::static_PlayMusic(field_1C_music_type, this, (field_14_flags >> 2) & 1, 0);
+            MusicController::static_PlayMusic(mMusicType, this, mSetMusicToNoneOnDtor, 0);
         }
         else
         {

@@ -51,7 +51,7 @@ TimedMine::TimedMine(relive::Path_TimedMine* pTlv, const Guid& tlvId)
     Animation_Init(GetAnimRes(AnimId::TimedMine_Idle));
 
     SetInteractive(true);
-    mTimedMineFlags.Clear(TimedMineFlags::eStickToLiftPoint);
+    mStickToLiftPoint = false;
     mSlappedMine = 0;
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
@@ -210,7 +210,7 @@ void TimedMine::StickToLiftPoint()
     FP hitX = {};
     FP hitY = {};
     PathLine* pLine = nullptr;
-    mTimedMineFlags.Set(TimedMineFlags::eStickToLiftPoint);
+    mStickToLiftPoint = true;
     if (sCollisions->Raycast(
             mXPos,
             mYPos - FP_FromInteger(20),
@@ -259,7 +259,7 @@ void TimedMine::VUpdate()
         SetDead(true);
     }
 
-    if (!mTimedMineFlags.Get(TimedMineFlags::eStickToLiftPoint))
+    if (!mStickToLiftPoint)
     {
         StickToLiftPoint();
     }

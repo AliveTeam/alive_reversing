@@ -9,12 +9,6 @@ namespace relive
     struct Path_Mine;
 }
 
-enum Mine_Flags_1BC
-{
-    eBit0_Unused = 0x1,
-    eBit1_PersistOffscreen = 0x2
-};
-
 class Mine final : public BaseAliveGameObject
 {
 public:
@@ -38,5 +32,5 @@ public:
     Guid mTlvId;
     u32 mExplosionTimer = 0;
     Animation mFlashAnim;
-    BitField32<Mine_Flags_1BC> field_1BC_flags = {};
+    bool mPersistOffscree = false;
 };

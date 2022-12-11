@@ -312,12 +312,8 @@ PauseMenu::PauseMenu()
 
     gObjListDrawables->Push_Back(this);
 
-    field_136_unused = 0;
     field_138_control_action_page_index = 0;
-    field_13A_unused = 0;
     field_13C_save_state = SaveState::ReadingInput_0;
-    field_13E_unused = 0;
-    field_140_unused = 0;
 
     mFontContext.LoadFontType(FontType::PauseMenu);
     mPal = ResourceManagerWrapper::LoadPal(PalId::MainMenuFont_PauseMenu);
@@ -531,26 +527,21 @@ void PauseMenu::Page_Main_Update()
 #if DEVELOPER_MODE
                 devMenu.Activate();
 #else
-                field_136_unused = 1;
                 field_144_active_menu = sPM_Page_Controls_Actions_546610;
                 field_138_control_action_page_index = 0;
 #endif
                 break;
 
             case MainPages::ePage_Status_3:
-                field_136_unused = 3;
                 field_144_active_menu = sPM_Page_Status_5465F8;
                 break;
 
             case MainPages::ePage_Save_4:
-                field_136_unused = 5;
                 field_144_active_menu = sPM_Page_Save_5465C8;
                 SfxPlayMono(relive::SoundEffects::IngameTransition, 90);
                 field_13C_save_state = SaveState::ReadingInput_0;
                 word12C_flags &= ~0xA;
-                field_13E_unused = -1;
                 word12C_flags |= 0x400;
-                field_13A_unused = 0;
                 DoQuicksave();
                 // Set the default save name to be the current level/path/camera
                 Path_Format_CameraName(
@@ -572,14 +563,11 @@ void PauseMenu::Page_Main_Update()
 
             case MainPages::ePage_Load_5:
                 Quicksave_FindSaves();
-                field_136_unused = 4;
                 field_144_active_menu = sPM_Page_Load_546628;
                 SfxPlayMono(relive::SoundEffects::IngameTransition, 90);
                 word12C_flags &= ~0xA;
                 field_13C_save_state = SaveState::ReadingInput_0;
                 word12C_flags |= 0x400;
-                field_13E_unused = -1;
-                field_13A_unused = 0;
                 return;
 
             case MainPages::ePage_RestartPath_6:
@@ -587,7 +575,6 @@ void PauseMenu::Page_Main_Update()
                 return;
 
             case MainPages::ePage_Quit_7:
-                field_136_unused = 2;
                 field_144_active_menu = sPM_Page_ReallyQuit_5465E0;
                 field_134_index_main = MainPages::ePage_Continue_0;
                 break;
@@ -604,7 +591,6 @@ void PauseMenu::Page_ControlsActions_Update()
 {
     if (Input().isHeld(InputCommands::Enum::eBack))
     {
-        field_136_unused = 0;
         field_144_active_menu = sPM_Page_Main_5465B0;
         SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
     }
@@ -620,7 +606,6 @@ void PauseMenu::Page_ControlsActions_Update()
         else
         {
             field_138_control_action_page_index = 0;
-            field_136_unused = 0;
             field_144_active_menu = sPM_Page_Main_5465B0;
             SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
         }
@@ -631,7 +616,6 @@ void PauseMenu::Page_ReallyQuit_Update()
 {
     if (Input().isHeld(InputCommands::Enum::eBack))
     {
-        field_136_unused = 0;
         field_144_active_menu = sPM_Page_Main_5465B0;
         SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
     }
@@ -749,7 +733,6 @@ void PauseMenu::Page_Save_Update()
             // Escape - cancel
             case VK_ESCAPE:
                 SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
-                field_136_unused = 0;
                 field_144_active_menu = sPM_Page_Main_5465B0;
                 Input_Reset_492660();
                 return;
@@ -840,7 +823,6 @@ void PauseMenu::Page_Status_Update()
     if (Input().isHeld(0x300000))
     {
         // Go back to the main page
-        field_136_unused = 0;
         field_144_active_menu = sPM_Page_Main_5465B0;
         SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
     }
@@ -925,8 +907,6 @@ void PauseMenu::Page_Load_Update()
     // Load save (enter)
     if (inputHeld & InputCommands::Enum::eUnPause_OrConfirm)
     {
-        field_136_unused = 0;
-        
         field_144_active_menu = sPM_Page_Main_5465B0;
 
         if (sTotalSaveFilesCount_BB43E0)
@@ -950,7 +930,6 @@ void PauseMenu::Page_Load_Update()
     // Go back (esc)
     else if (inputHeld & InputCommands::Enum::eBack)
     {
-        field_136_unused = 0;
         field_144_active_menu = sPM_Page_Main_5465B0;
         SFX_Play_Pitch(relive::SoundEffects::PossessEffect, 40, 2400);
     }
@@ -1098,7 +1077,6 @@ void PauseMenu::VUpdate()
                 sub_4A2B70();
                 SetDrawable(true);
                 field_134_index_main = MainPages::ePage_Continue_0;
-                field_136_unused = 0;
                 word12C_flags = (word12C_flags & ~8) | 1;
                 field_12E_selected_glow = 40;
                 field_130_selected_glow_counter = 8;

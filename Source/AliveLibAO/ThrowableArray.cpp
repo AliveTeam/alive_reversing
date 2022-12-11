@@ -43,7 +43,9 @@ ThrowableArray::ThrowableArray()
     SetUpdatable(false);
     mCount = 0;
     gThrowableArray = this;
-    field_12_flags &= ~7u;
+    mUnknown1 = false;
+    mUnknown2 = false;
+    mUnknown3 = false;
 }
 
 ThrowableArray::~ThrowableArray()
@@ -62,20 +64,20 @@ void ThrowableArray::Remove(s16 count)
 
     if (mCount > 0)
     {
-        if (!(field_12_flags & 1))
+        if (!mUnknown1)
         {
             return;
         }
     }
     else
     {
-        if (field_12_flags & 4)
+        if (mUnknown3)
         {
-            field_12_flags &= ~4;
+            mUnknown3 = false;
         }
     }
 
-    if (field_12_flags & 2)
+    if (mUnknown2)
     {
         switch (gThrowableFromOverlayId[gMap.mOverlayId])
         {
@@ -91,17 +93,17 @@ void ThrowableArray::Remove(s16 count)
             default:
                 break;
         }
-        field_12_flags &= ~2;
+        mUnknown2 = false;
     }
 }
 
 void ThrowableArray::VUpdate()
 {
-    if (field_12_flags & 1)
+    if (mUnknown1)
     {
         LoadRockTypes(gMap.mCurrentLevel, gMap.mCurrentPath);
         Add(0);
-        field_12_flags &= ~1u;
+        mUnknown1 = false;
         SetUpdatable(false);
     }
 }
@@ -112,10 +114,10 @@ void ThrowableArray::VScreenChanged()
     {
         if (gThrowableFromOverlayId[gMap.mOverlayId] != gThrowableFromOverlayId[gMap.GetOverlayId()])
         {
-            if (!(field_12_flags & 1))
+            if (!mUnknown1)
             {
                 SetUpdatable(true);
-                field_12_flags |= 1;
+                mUnknown1 = true;
                 Remove(0);
             }
         }
@@ -130,15 +132,15 @@ void ThrowableArray::Add(s16 count)
 {
     if (mCount == 0)
     {
-        if (!(field_12_flags & 4))
+        if (!mUnknown3)
         {
-            field_12_flags |= 4;
+            mUnknown3 = true;
         }
     }
 
-    if (mCount == 0 || (field_12_flags & 1))
+    if (mCount == 0 || mUnknown1)
     {
-        if (!(field_12_flags & 2))
+        if (!mUnknown2)
         {
             switch (gThrowableFromOverlayId[gMap.mOverlayId])
             {
@@ -155,7 +157,7 @@ void ThrowableArray::Add(s16 count)
                     break;
             }
 
-            field_12_flags |= 2;
+            mUnknown2 = true;
         }
     }
 
