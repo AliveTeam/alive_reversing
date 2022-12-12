@@ -36,7 +36,7 @@ PauseMenu::PauseMenu()
     mFontContext.LoadFontType(FontType::PauseMenu);
     field_E4_font.Load(175, mPal, &mFontContext);
     field_11C = 0;
-    sDisableFontFlicker = false;
+    gDisableFontFlicker = false;
 }
 
 PauseMenu::~PauseMenu()
@@ -124,7 +124,7 @@ void PauseMenu::VUpdate()
         // This is bad, let's nuke it later :)
         while (1)
         {
-            sDisableFontFlicker = 1;
+            gDisableFontFlicker = true;
             SYS_EventsPump();
 
             for (s32 idx = 0; idx < gObjListDrawables->Size(); idx++)
@@ -475,7 +475,7 @@ void PauseMenu::VUpdate()
             }
         }
 
-        sDisableFontFlicker = 0;
+        gDisableFontFlicker = false;
     }
 }
 

@@ -17,7 +17,7 @@ public:
     bool isLinkedAndDisabled(s16 switchId);
 
 private:
-    Guid field_F4_tlvInfo;
+    Guid mTlvId;
     s16 mInputSwitchId = 0;
     s16 mLinkedStatusLightSwitchId1 = 0;
     s16 mLinkedStatusLightSwitchId2 = 0;
@@ -25,6 +25,6 @@ private:
     s16 mLinkedStatusLightSwitchId4 = 0;
     s16 mLinkedStatusLightSwitchId5 = 0;
     relive::reliveChoice mIgnoreGridSnapping = relive::reliveChoice::eNo;
-    FP field_108_xpos = {};
-    FP field_10C_ypos = {};
+    FP mUntweakedXPos = {};
+    FP mUntweakedYPos = {};
 };

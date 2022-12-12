@@ -121,10 +121,10 @@ void Spark::VUpdate()
             for (s32 idx = 0; idx < mSparkCount; idx++)
             {
                 SparkRes* pSpark = &mSparkRes[idx];
-                pSpark->mX0 = pSpark->mRadius * Math_Sine_496DD0(pSpark->mAng);
-                pSpark->mY0 = pSpark->mRadius * Math_Cosine_496CD0(pSpark->mAng);
-                pSpark->mX1 = (pSpark->mRadius + pSpark->mLen) * Math_Sine_496DD0(pSpark->mAng);
-                pSpark->mY1 = (pSpark->mRadius + pSpark->mLen) * Math_Cosine_496CD0(pSpark->mAng);
+                pSpark->mX0 = pSpark->mRadius * Math_Sine(pSpark->mAng);
+                pSpark->mY0 = pSpark->mRadius * Math_Cosine(pSpark->mAng);
+                pSpark->mX1 = (pSpark->mRadius + pSpark->mLen) * Math_Sine(pSpark->mAng);
+                pSpark->mY1 = (pSpark->mRadius + pSpark->mLen) * Math_Cosine(pSpark->mAng);
                 pSpark->mRadius = pSpark->mLen + FP_FromInteger(Math_RandomRange(2, 5));
                 pSpark->mLen = pSpark->mLen + FP_FromInteger(2);
             }

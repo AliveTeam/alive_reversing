@@ -41,7 +41,7 @@ struct AOGameInfo
     u32* gnFrame;          // 4
     AO::Abe** pAbe;        // 5
     s32 abeYOffSet;        // 6
-    s8* isGameRunning;     // 7
+    bool* isGameRunning;     // 7
     s8* isGameBeaten;      // 8
 };
 
@@ -57,7 +57,7 @@ struct AEGameInfo
     u32* gnFrame;       // 5
     Abe** pAbe;         // 6
     s32 abeYOffSet;     // 7
-    s8* isPaused;       // 8
+    bool* isPaused;       // 8
 };
 
 extern "C"
@@ -87,7 +87,7 @@ extern "C"
         &sGnFrame,
         &sActiveHero,
         offsetof(Abe, mYPos),
-        & sDisableFontFlicker};
+        &gDisableFontFlicker};
 
     const void* GetAeInfo()
     {
@@ -104,7 +104,7 @@ extern "C"
         &::sGnFrame,
         &AO::sActiveHero,
         offsetof(AO::Abe, mYPos) + sizeof(s16), // +2 for exp only
-        &sDisableFontFlicker,
+        &gDisableFontFlicker,
         &gSwitchStates.mData[70]};
 
     const void* GetAoInfo()

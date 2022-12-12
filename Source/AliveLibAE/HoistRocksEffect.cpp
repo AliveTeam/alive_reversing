@@ -16,7 +16,7 @@ AnimId::HoistRock2,
 AnimId::HoistRock3,
 AnimId::HoistRock1};
 
-const static s16 word_5556F0[12] = {5, 0, 10, 0, 30, 0, 5, 0, 0, 0, 0, 0};
+const static s16 sRndValues[12] = {5, 0, 10, 0, 30, 0, 5, 0, 0, 0, 0, 0};
 
 void HoistRocksEffect::LoadAnimations()
 {
@@ -120,7 +120,7 @@ void HoistRocksEffect::VUpdate()
 
             const s32 randomAnimAndUpdate = 2 * Math_RandomRange(0, 3);
             mRocks[idx].mAnim.Set_Animation_Data(mLoadedAnims[randomAnimAndUpdate / 2]);
-            mTimer = sGnFrame + Math_RandomRange(word_5556F0[randomAnimAndUpdate], 2 * word_5556F0[randomAnimAndUpdate]);
+            mTimer = sGnFrame + Math_RandomRange(sRndValues[randomAnimAndUpdate], 2 * sRndValues[randomAnimAndUpdate]);
         }
     }
 

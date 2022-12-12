@@ -156,8 +156,8 @@ void MainMenuTransition::VRender(PrimHeader** ppOt)
     }
 
     s32 op1 = currentValue << 12;
-    s32 val1 = Math_Cosine_496CD0(field_colour_fade_value).fpValue;
-    s32 val2 = Math_Sine_496DD0(field_colour_fade_value).fpValue;
+    s32 val1 = Math_Cosine(field_colour_fade_value).fpValue;
+    s32 val2 = Math_Sine(field_colour_fade_value).fpValue;
     s32 r0g0 = -64 / ((v5 >> 2) + 1);
     for (s32 i = 0; i < 8; i++)
     {

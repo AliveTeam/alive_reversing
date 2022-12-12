@@ -132,8 +132,8 @@ void OrbWhirlWindParticle::Update()
                     const FP v25 = FP_FromInteger(16 - (mPositionTimer - sGnFrame)) / FP_FromInteger(16);
                     mXPosOffset2 = ((xpos - mXPosOffset) * v25) + mXPosOffset;
                     mYPosOffset2 = ((ypos - mYPosOffset) * v25) + mYPosOffset;
-                    mXPosMid = (FP_FromInteger(32) * mCurrentScale) * Math_Sine_496DF0(FP_FromInteger(128) * v25) + mXPosOffset2;
-                    mYPosMid = (FP_FromInteger(32) * mCurrentScale) * Math_Cosine_496D60(FP_FromInteger(128) * v25) + mYPosOffset2;
+                    mXPosMid = (FP_FromInteger(32) * mCurrentScale) * Math_Sine(FP_FromInteger(128) * v25) + mXPosOffset2;
+                    mYPosMid = (FP_FromInteger(32) * mCurrentScale) * Math_Cosine(FP_FromInteger(128) * v25) + mYPosOffset2;
                 }
                 else
                 {
@@ -158,7 +158,7 @@ void OrbWhirlWindParticle::Update()
                 mIsActive = true;
             }
 
-            mYPosMid = (mScaleOffsetSpinAtTarget * Math_Cosine_496D60((FP_FromInteger(128) * FP_FromInteger(32 - (mPositionTimer - sGnFrame)) / FP_FromInteger(32)))) + mYPosOffset2;
+            mYPosMid = (mScaleOffsetSpinAtTarget * Math_Cosine((FP_FromInteger(128) * FP_FromInteger(32 - (mPositionTimer - sGnFrame)) / FP_FromInteger(32)))) + mYPosOffset2;
             mRadiusX -= mRadiusOffsetX;
             CalculateRenderProperties(1);
             break;
@@ -230,8 +230,8 @@ void OrbWhirlWindParticle::CalculateRenderProperties(s16 bStarted)
         mRadiusX += FP_FromInteger(4);
     }
 
-    mXPosRenderOffset = ((mCurrentScale * mRadiusX) * Math_Sine_496DD0(static_cast<u8>(mRenderAngle))) + mXPosMid;
-    mYPosRenderOffset = ((mCurrentScale * mRadiusY) * Math_Cosine_496CD0(static_cast<u8>(mRenderAngle))) + mYPosMid;
+    mXPosRenderOffset = ((mCurrentScale * mRadiusX) * Math_Sine(static_cast<u8>(mRenderAngle))) + mXPosMid;
+    mYPosRenderOffset = ((mCurrentScale * mRadiusY) * Math_Cosine(static_cast<u8>(mRenderAngle))) + mYPosMid;
     mRenderAsScale = mCurrentScale * mRandomScale;
 
     if (mCurrentScale > FP_FromDouble(0.599)) // TODO: Check VS 39321

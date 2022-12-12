@@ -159,7 +159,7 @@ void GasCountDown::VRender(PrimHeader** ppOt)
         0,
         FP_FromInteger(1),
         textWidth + mGasXPos,
-        sDisableFontFlicker ? 0 : 50);
+        gDisableFontFlicker ? 0 : 50);
 }
 
 } // namespace AO

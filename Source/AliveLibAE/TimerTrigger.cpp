@@ -27,7 +27,7 @@ TimerTrigger::TimerTrigger(relive::Path_TimerTrigger* pTlv, const Guid& tlvId)
 
 void TimerTrigger::ToggleAllIds()
 {
-    for (auto& id : mOutputSwitchIds)
+    for (const auto& id : mOutputSwitchIds)
     {
         if (id != 0)
         {

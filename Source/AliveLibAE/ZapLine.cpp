@@ -172,9 +172,9 @@ void ZapLine::CalculateThickSpriteSegmentPositions()
     for (s32 i = 1; i < mNumberOfSegments - 1; i++)
     {
         const u8 ang = static_cast<u8>(angExtra + 18 * i);
-        mSpriteSegmentPositions[i].x = FP_FromInteger(Math_NextRandom() % v5) + (Math_Cosine_496CD0(ang) * xDiffDiv) + FP_FromInteger(mXPosSrc) + (FP_FromInteger(i) * xDiff) - FP_FromInteger(v6);
+        mSpriteSegmentPositions[i].x = FP_FromInteger(Math_NextRandom() % v5) + (Math_Cosine(ang) * xDiffDiv) + FP_FromInteger(mXPosSrc) + (FP_FromInteger(i) * xDiff) - FP_FromInteger(v6);
 
-        mSpriteSegmentPositions[i].y = FP_FromInteger(Math_NextRandom() % v5) + (Math_Cosine_496CD0(ang) * yDiffDiv) + FP_FromInteger(mYPosSrc) + (FP_FromInteger(i) * yDiff) - FP_FromInteger(v6);
+        mSpriteSegmentPositions[i].y = FP_FromInteger(Math_NextRandom() % v5) + (Math_Cosine(ang) * yDiffDiv) + FP_FromInteger(mYPosSrc) + (FP_FromInteger(i) * yDiff) - FP_FromInteger(v6);
     }
 
 }

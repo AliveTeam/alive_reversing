@@ -219,7 +219,7 @@ void ColourfulMeter::VRender(PrimHeader** ppOt)
         const s32 textWidth = mFont.MeasureTextWidth(text);
 
         s16 colourRand = 50;
-        if (sDisableFontFlicker)
+        if (gDisableFontFlicker)
         {
             colourRand = 0;
         }

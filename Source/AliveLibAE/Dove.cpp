@@ -158,8 +158,8 @@ void Dove::AsACircle(FP xpos, FP ypos, u8 angle)
     mDoveState = State::eCircle_3;
 
     // TODO: Result thrown away.. some old removed behavior ??
-    //(Math_Sine_496DD0(mAngle) * FP_FromInteger(30)) * mSpriteScale;
-    //(Math_Cosine_496CD0(mAngle) * FP_FromInteger(35)) * mSpriteScale;
+    //(Math_Sine(mAngle) * FP_FromInteger(30)) * mSpriteScale;
+    //(Math_Cosine(mAngle) * FP_FromInteger(35)) * mSpriteScale;
 }
 
 void Dove::AsJoin(FP xpos, FP ypos)
@@ -290,8 +290,8 @@ void Dove::VUpdate()
             mAngle += 4;
 
             // Spin around this point
-            mXPos = ((Math_Sine_496DD0(mAngle) * FP_FromInteger(30)) * GetSpriteScale()) + mJoinX;
-            mYPos = ((Math_Cosine_496CD0(mAngle) * FP_FromInteger(35)) * GetSpriteScale()) + mJoinY;
+            mXPos = ((Math_Sine(mAngle) * FP_FromInteger(30)) * GetSpriteScale()) + mJoinX;
+            mYPos = ((Math_Cosine(mAngle) * FP_FromInteger(35)) * GetSpriteScale()) + mJoinY;
             return;
 
         case State::eAlmostACircle_4:
@@ -313,8 +313,8 @@ void Dove::VUpdate()
                 }
             }
             mAngle += 4;
-            mXPos = ((Math_Sine_496DD0(mAngle) * FP_FromInteger(sAbePortalWidth)) * GetSpriteScale()) + mJoinX;
-            mYPos = ((Math_Cosine_496CD0(mAngle) * FP_FromInteger(35)) * GetSpriteScale()) + mJoinY;
+            mXPos = ((Math_Sine(mAngle) * FP_FromInteger(sAbePortalWidth)) * GetSpriteScale()) + mJoinX;
+            mYPos = ((Math_Cosine(mAngle) * FP_FromInteger(35)) * GetSpriteScale()) + mJoinY;
             return;
 
         default:

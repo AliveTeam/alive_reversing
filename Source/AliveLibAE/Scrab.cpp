@@ -3953,7 +3953,7 @@ void Scrab::KillTarget(BaseAliveGameObject* pTarget)
                 {
                     bKillSpecific = true;
                 }
-                else if (gBaseAliveGameObjects->field_4_used_size > 0)
+                else if (gBaseAliveGameObjects->mUsedSize > 0)
                 {
                     list_idx = 1;
                     pObj = gBaseAliveGameObjects->ItemAt(0);

@@ -5,7 +5,7 @@
 #include "../relive_lib/Events.hpp"
 #include "../AliveLibAE/FixedPoint.hpp"
 
-DynamicArrayT<ShadowZone>* sShadowZoneArray;
+static DynamicArrayT<ShadowZone>* sShadowZoneArray;
 
 void ShadowZone::MakeArray()
 {
@@ -23,32 +23,29 @@ ShadowZone::ShadowZone(relive::Path_ShadowZone* pTlv, const Guid& tlvId)
 {
     sShadowZoneArray->Push_Back(this);
 
-    field_16_path = GetMap().mCurrentPath;
-    field_14_level = GetMap().mCurrentLevel;
-
     mTlvId = tlvId;
 
-    field_20_mid_x = pTlv->Width() / 2;
-    field_22_mid_y = pTlv->Height() / 2;
+    mMidX = pTlv->Width() / 2;
+    mMidY = pTlv->Height() / 2;
 
-    field_18_centre_x = field_20_mid_x + pTlv->mTopLeftX;
-    field_1A_centre_y = field_22_mid_y + pTlv->mTopLeftY;
+    mCentreX = mMidX + pTlv->mTopLeftX;
+    mCentreY = mMidY + pTlv->mTopLeftY;
 
-    field_1C_centre_mid_x = field_20_mid_x - 75;
-    if (field_1C_centre_mid_x < 0)
+    mCentreMidX = mMidX - 75;
+    if (mCentreMidX < 0)
     {
-        field_1C_centre_mid_x = 0;
+        mCentreMidX = 0;
     }
 
-    field_1E_centre_mid_y = field_22_mid_y - 75;
-    if (field_1E_centre_mid_y < 0)
+    mCentreMidY = mMidY - 75;
+    if (mCentreMidY < 0)
     {
-        field_1E_centre_mid_y = 0;
+        mCentreMidY = 0;
     }
 
-    field_28_r = FP_FromInteger(pTlv->mRGB.r);
-    field_2C_g = FP_FromInteger(pTlv->mRGB.g);
-    field_30_b = FP_FromInteger(pTlv->mRGB.b);
+    mRed = FP_FromInteger(pTlv->mRGB.r);
+    mGreen = FP_FromInteger(pTlv->mRGB.g);
+    mBlue = FP_FromInteger(pTlv->mRGB.b);
 
     mScale = pTlv->mScale;
 }
@@ -70,14 +67,14 @@ void ShadowZone::ShadowZones_Calculate_Colour(s32 xpos, s32 ypos, Scale scale, s
             // TODO: This was probably a reference, refactor later
             pShadow->GetColourAmount(&amount, static_cast<s16>(xpos), static_cast<s16>(ypos));
 
-            *r = FP_GetExponent(FP_FromInteger(*r) + (pShadow->field_28_r * amount));
-            *b = FP_GetExponent(FP_FromInteger(*b) + (pShadow->field_30_b * amount));
+            *r = FP_GetExponent(FP_FromInteger(*r) + (pShadow->mRed * amount));
+            *b = FP_GetExponent(FP_FromInteger(*b) + (pShadow->mBlue * amount));
 
             // NOTE: Never seems to be enabled, a debugging feature so instead of being hidden
             // in the shadow zones you appear green.
             //if (!word_5076F4))
             {
-                *g = FP_GetExponent(FP_FromInteger(*g) + (pShadow->field_2C_g * amount));
+                *g = FP_GetExponent(FP_FromInteger(*g) + (pShadow->mGreen * amount));
             }
         }
     }
@@ -152,21 +149,21 @@ void ShadowZone::VUpdate()
 
 void ShadowZone::GetColourAmount(FP* pOut, s16 xpos, s16 ypos)
 {
-    const s32 deltaX = abs(xpos - field_18_centre_x);
-    const s32 deltaY = abs(ypos - field_1A_centre_y);
+    const s32 deltaX = abs(xpos - mCentreX);
+    const s32 deltaY = abs(ypos - mCentreY);
 
-    if (deltaX > field_20_mid_x || deltaY > field_22_mid_y)
+    if (deltaX > mMidX || deltaY > mMidY)
     {
         // Not in range
         *pOut = FP_FromInteger(0);
     }
     else
     {
-        if (deltaX > field_1C_centre_mid_x)
+        if (deltaX > mCentreMidX)
         {
             // Partly in range
-            const FP midXDistance = FP_FromInteger(field_20_mid_x - field_1C_centre_mid_x);
-            const FP value = midXDistance - FP_FromInteger(deltaX - field_1C_centre_mid_x);
+            const FP midXDistance = FP_FromInteger(mMidX - mCentreMidX);
+            const FP value = midXDistance - FP_FromInteger(deltaX - mCentreMidX);
 
             *pOut = value / midXDistance;
         }

@@ -65,7 +65,7 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
         s32 maxWidth = mMudsInLevelFont.MeasureTextWidth(text);
 
         s16 flickerAmount = 50; // ax
-        if (sDisableFontFlicker)
+        if (gDisableFontFlicker)
         {
             flickerAmount = 0;
         }

@@ -1478,7 +1478,7 @@ static void ConvertFont(const FileSystem::Path& dataDir, const std::string& file
 
      for (s32 i = 0; i < 16; i++)
      {
-         RGBA32 pixel = RGBConversion::RGBA555ToRGBA888Components(fontFile->field_8_palette[i]);
+         RGBA32 pixel = RGBConversion::RGBA555ToRGBA888Components(fontFile->mPalette[i]);
 
          pal.mPal[i].r = pixel.r;
          pal.mPal[i].g = pixel.g;
@@ -1493,8 +1493,8 @@ static void ConvertFont(const FileSystem::Path& dataDir, const std::string& file
      std::size_t dst = 0;
      while (dst < newData.size())
      {
-         newData[dst++] = (fontFile->field_28_pixel_buffer[src] & 0xF);
-         newData[dst++] = ((fontFile->field_28_pixel_buffer[src++] & 0xF0) >> 4);
+         newData[dst++] = (fontFile->mPixelBuffer[src] & 0xF);
+         newData[dst++] = ((fontFile->mPixelBuffer[src++] & 0xF0) >> 4);
      }
 
      if (!isPauseMenuFont)

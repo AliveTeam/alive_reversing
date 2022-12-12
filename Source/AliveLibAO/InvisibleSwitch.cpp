@@ -15,38 +15,38 @@ namespace AO {
 InvisibleSwitch::InvisibleSwitch(relive::Path_InvisibleSwitch* pTlv, const Guid& tlvId)
     : BaseGameObject(true, 0)
 {
-    field_14_tlvInfo = tlvId;
-    field_10_switch_id = pTlv->mSwitchId;
-    field_12_action = pTlv->mAction;
-    field_28_state = States::eWaitForTrigger_0;
-    field_1C_delay = pTlv->mActivationDelay;
-    field_20_top_left.x = pTlv->mTopLeftX;
-    field_20_top_left.y = pTlv->mTopLeftY;
-    field_24_bottom_right.x = pTlv->mBottomRightX;
-    field_24_bottom_right.y = pTlv->mBottomRightY;
+    mTlvId = tlvId;
+    mSwitchId = pTlv->mSwitchId;
+    mAction = pTlv->mAction;
+    mState = States::eWaitForTrigger_0;
+    mActivationDelay = pTlv->mActivationDelay;
+    mTlvTopLeft.x = pTlv->mTopLeftX;
+    mTlvTopLeft.y = pTlv->mTopLeftY;
+    mTlvBottomRight.x = pTlv->mBottomRightX;
+    mTlvBottomRight.y = pTlv->mBottomRightY;
     mSetOffAlarm = pTlv->mSetOffAlarm;
-    field_2C_scale = pTlv->mScale;
+    mScale = pTlv->mScale;
 }
 
 InvisibleSwitch::~InvisibleSwitch()
 {
-    Path::TLV_Reset(field_14_tlvInfo, -1, 0, 0);
+    Path::TLV_Reset(mTlvId, -1, 0, 0);
 }
 
 void InvisibleSwitch::VUpdate()
 {
-    switch (field_28_state)
+    switch (mState)
     {
         case States::eWaitForTrigger_0:
         {
             // sControlledCharacter can be nullptr during the game ender
             // Within X bounds?
             const FP charXPos = sControlledCharacter->mXPos;
-            if (sControlledCharacter && charXPos >= FP_FromInteger(field_20_top_left.x) && charXPos <= FP_FromInteger(field_24_bottom_right.x))
+            if (sControlledCharacter && charXPos >= FP_FromInteger(mTlvTopLeft.x) && charXPos <= FP_FromInteger(mTlvBottomRight.x))
             {
                 // Within Y bounds?
                 const FP charYPos = sControlledCharacter->mYPos;
-                if (charYPos >= FP_FromInteger(field_20_top_left.y) && charYPos <= FP_FromInteger(field_24_bottom_right.y))
+                if (charYPos >= FP_FromInteger(mTlvTopLeft.y) && charYPos <= FP_FromInteger(mTlvBottomRight.y))
                 {
                     // TODO: ???
                     if (sControlledCharacter != sActiveHero
@@ -54,12 +54,12 @@ void InvisibleSwitch::VUpdate()
                             && sActiveHero->mCurrentMotion != eAbeMotions::Motion_156_DoorEnter))
                     {
                         // Scale matches ?
-                        if (field_2C_scale == relive::Path_InvisibleSwitch::InvisibleSwitchScale::eAny
-                            || (field_2C_scale == relive::Path_InvisibleSwitch::InvisibleSwitchScale::eHalf && sControlledCharacter->GetSpriteScale() == FP_FromDouble(0.5))
-                            || (field_2C_scale == relive::Path_InvisibleSwitch::InvisibleSwitchScale::eFull && sControlledCharacter->GetSpriteScale() == FP_FromInteger(1)))
+                        if (mScale == relive::Path_InvisibleSwitch::InvisibleSwitchScale::eAny
+                            || (mScale == relive::Path_InvisibleSwitch::InvisibleSwitchScale::eHalf && sControlledCharacter->GetSpriteScale() == FP_FromDouble(0.5))
+                            || (mScale == relive::Path_InvisibleSwitch::InvisibleSwitchScale::eFull && sControlledCharacter->GetSpriteScale() == FP_FromInteger(1)))
                         {
-                            field_28_state = States::eWaitForDelayTimer_1;
-                            field_18_delay_timer = sGnFrame + field_1C_delay;
+                            mState = States::eWaitForDelayTimer_1;
+                            mDelayTimer = sGnFrame + mActivationDelay;
                         }
                     }
                 }
@@ -68,14 +68,14 @@ void InvisibleSwitch::VUpdate()
         }
 
         case States::eWaitForDelayTimer_1:
-            if (field_18_delay_timer <= static_cast<s32>(sGnFrame))
+            if (mDelayTimer <= static_cast<s32>(sGnFrame))
             {
-                SwitchStates_Do_Operation(field_10_switch_id, field_12_action);
+                SwitchStates_Do_Operation(mSwitchId, mAction);
                 if (mSetOffAlarm == relive::reliveChoice::eYes)
                 {
                     relive_new Alarm(150, 0, 30, Layer::eLayer_Above_FG1_39);
                 }
-                field_28_state = States::eWaitForTrigger_0;
+                mState = States::eWaitForTrigger_0;
             }
             break;
     }
@@ -93,7 +93,7 @@ void InvisibleSwitch::VScreenChanged()
         SetDead(true);
     }
 
-    if (field_28_state != States::eWaitForDelayTimer_1)
+    if (mState != States::eWaitForDelayTimer_1)
     {
         SetDead(true);
     }

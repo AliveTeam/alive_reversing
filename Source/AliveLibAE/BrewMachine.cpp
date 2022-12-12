@@ -76,7 +76,7 @@ void BrewMachine::VRender(PrimHeader** ppOt)
         sprintf(text, "%02d", mTotalBrewCount);
         const s32 textWidth = mFont.MeasureTextWidth(text);
         s16 flickerAmount = 50;
-        if (sDisableFontFlicker)
+        if (gDisableFontFlicker)
         {
             flickerAmount = 0;
         }

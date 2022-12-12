@@ -2649,7 +2649,7 @@ void MainMenuController::tLoadGame_Unload_4D4360()
 
 void MainMenuController::Game_Force_Quit_Load_4D1A90()
 {
-    sBreakGameLoop = true;
+    gBreakGameLoop = true;
 }
 
 MainMenuNextCam MainMenuController::HandleGameSpeakInput(u32 input_held, std::function<MainMenuNextCam(InputCommands::Enum cmd)> fnOnGameSpeak)
@@ -3595,8 +3595,8 @@ void MainMenuController::DrawMenuText_4D20D0(const MainMenuText* array, PrimHead
 
     const FP text_ypos = FP_FromInteger(-10) * fontScale; // -655360
 
-    const u8 oldDrawInScreenSpace = sFontDrawScreenSpace;
-    sFontDrawScreenSpace = 1;
+    const bool oldDrawInScreenSpace = gFontDrawScreenSpace;
+    gFontDrawScreenSpace = true;
 
     *polyIndex = font->DrawString(
         ot,
@@ -3615,5 +3615,5 @@ void MainMenuController::DrawMenuText_4D20D0(const MainMenuText* array, PrimHead
         640,
         0);
 
-    sFontDrawScreenSpace = oldDrawInScreenSpace;
+    gFontDrawScreenSpace = oldDrawInScreenSpace;
 }

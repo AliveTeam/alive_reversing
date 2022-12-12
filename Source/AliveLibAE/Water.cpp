@@ -206,8 +206,8 @@ void Water::Add_Water_Particle()
         const FP rand2 = FP_FromRaw(Math_NextRandom() << 8);
         const FP xRand = (rand2 * field_118_radius) + FP_FromInteger(1);
 
-        pWaterRes->field_0_xpos = (Math_Sine_496DD0(rand1) * xRand) + field_11C_centre;
-        pWaterRes->field_8_zpos = (Math_Cosine_496CD0(rand1) * rand2) * field_118_radius;
+        pWaterRes->field_0_xpos = (Math_Sine(rand1) * xRand) + field_11C_centre;
+        pWaterRes->field_8_zpos = (Math_Cosine(rand1) * rand2) * field_118_radius;
         pWaterRes->field_4_ypos = FP_FromInteger(field_104_top_left.y);
 
         pWaterRes->field_C_delta_x = field_134_emit_x_vel;

@@ -184,9 +184,9 @@ LCDScreen::LCDScreen(relive::Path_LCDScreen* pTlv, const Guid& tlvId)
     field_2D8_message_rand_min = pTlv->mMessageRandMinId;
     field_2DC_message_rand_max = pTlv->mMessageRandMaxId;
 
-    sFontDrawScreenSpace = 1;
+    gFontDrawScreenSpace = true;
     field_2B4_character_width = field_60_font.MeasureCharacterWidth(field_AC_message_buffer[0]);
-    sFontDrawScreenSpace = 0;
+    gFontDrawScreenSpace = false;
 
     field_2D4 = 0;
     gObjListDrawables->Push_Back(this);
@@ -243,7 +243,7 @@ void LCDScreen::VUpdate()
                 }
 
                  // Change pal
-                field_60_font.field_34_FontContext->field_C_resource_id.mCurPal = mPal2.mPal;
+                field_60_font.mFontContext->mFntResource.mCurPal = mPal2.mPal;
             }
             else
             {
@@ -263,13 +263,13 @@ void LCDScreen::VUpdate()
                 }
 
                 // Change pal
-                field_60_font.field_34_FontContext->field_C_resource_id.mCurPal = mPal1.mPal;
+                field_60_font.mFontContext->mFntResource.mCurPal = mPal1.mPal;
             }
         }
-        sFontDrawScreenSpace = 1;
+        gFontDrawScreenSpace = true;
         field_2B4_character_width = field_60_font.MeasureCharacterWidth(*field_A0_message);
     }
-    sFontDrawScreenSpace = 1;
+    gFontDrawScreenSpace = true;
 
     auto screenLeft = field_2BC_tlv->mTopLeftX - FP_GetExponent(gScreenManager->mCamPos->x);
     auto screenRight = field_2BC_tlv->mBottomRightX - FP_GetExponent(gScreenManager->mCamPos->x);
@@ -279,7 +279,7 @@ void LCDScreen::VUpdate()
         PsxToPCX(screenLeft - gScreenManager->mCamXOff, 11) - field_2B0_x_offset,
         FP_FromInteger(1),
         screenRight - gScreenManager->mCamXOff);
-    sFontDrawScreenSpace = 0;
+    gFontDrawScreenSpace = false;
     if (slicedText != field_A4_message_cutoff_ptr)
     {
         field_A4_message_cutoff_ptr = slicedText;
@@ -316,7 +316,7 @@ void LCDScreen::VRender(PrimHeader** ppOt)
         OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_BeforeWell_22), &pClippers->mBase);
 
         auto fontFlickerAmount = 50;
-        if (sDisableFontFlicker)
+        if (gDisableFontFlicker)
         {
             fontFlickerAmount = 0;
         }
@@ -325,7 +325,7 @@ void LCDScreen::VRender(PrimHeader** ppOt)
             fontFlickerAmount = 40;
         }
 
-        sFontDrawScreenSpace = 1;
+        gFontDrawScreenSpace = true;
         field_60_font.DrawString(
             ppOt,
             field_A0_message,
@@ -342,7 +342,7 @@ void LCDScreen::VRender(PrimHeader** ppOt)
             FP_FromInteger(1),
             maxWidth,
             static_cast<s16>(fontFlickerAmount));
-        sFontDrawScreenSpace = 0;
+        gFontDrawScreenSpace = false;
 
         PSX_RECT clipRect2 = {};
 

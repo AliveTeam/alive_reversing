@@ -18,32 +18,29 @@ enum class GrenadeStates : s16
 
 struct GrenadeSaveState final
 {
-    ReliveTypes field_0_type;
-    s16 field_2_pad;
-    Guid field_4_obj_id;
-    FP field_8_xpos;
-    FP field_C_ypos;
-    FP field_10_velx;
-    FP field_14_vely;
-    FP field_18_sprite_scale;
-    s16 field_1C_path_number;
-    EReliveLevelIds field_1E_lvl_number;
+    ReliveTypes mType;
+    Guid mTlvInfo;
+    FP mXPos;
+    FP mYPos;
+    FP mVelX;
+    FP mVelY;
+    FP mSpriteScale;
+    s16 mCurrentPath;
+    EReliveLevelIds mCurrentLevel;
     bool mRender;
     bool mDrawable;
     bool mLoop;
     bool mInteractive;
     bool mExplodeNow;
     bool mBlowUpOnCollision;
-    s16 field_22_padding;
-    Guid field_24_base_id;
-    s16 field_28_line_type;
-    s16 field_2A_savedcount;
-    GrenadeStates field_2C_state;
-    s16 field_2E;
-    s16 field_30_explode_timer;
-    s16 field_32_padding;
-    FP field_34_xpos;
-    FP field_38_ypos;
+    Guid mPlatformId;
+    s16 mCollisionLineType;
+    s16 mThrowableCount;
+    GrenadeStates mState;
+    s16 mBounceCount;
+    s16 mExplodeCountdown;
+    FP mPreviousXPos;
+    FP mPreviousYPos;
 };
 
 class Grenade final : public BaseThrowable
@@ -90,7 +87,7 @@ private:
     Guid mExplosionId;
     GrenadeStates mState = GrenadeStates::eFallingToBeCollected_0;
     s16 mExplodeCountdown = 0;
-    s16 field_124 = 0;
+    s16 mBounceCount = 0;
     FP mPreviousXPos = {};
     FP mPreviousYPos = {};
     bool mBlowUpOnCollision = false;

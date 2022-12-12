@@ -904,7 +904,7 @@ void Fleech::Motion_12_Climb()
             field_164_always_0--;
         }
 
-        const FP xOff = (Math_Cosine_496CD0(field_166_angle) * (field_16C_hoistX_distance * ((mYPos - FP_FromInteger(field_162_hoistY)) / field_168_hoistY_distance)));
+        const FP xOff = (Math_Cosine(field_166_angle) * (field_16C_hoistX_distance * ((mYPos - FP_FromInteger(field_162_hoistY)) / field_168_hoistY_distance)));
 
         FP pX1 = {};
         if (xOff < FP_FromInteger(0))
@@ -1106,7 +1106,7 @@ void Fleech::Motion_17_SleepingWithTongue()
             Sound(FleechSound::SleepingInhale_3);
         }
 
-        mXPos = FP_FromInteger(field_160_hoistX) + (Math_Cosine_496CD0(field_166_angle) * FP_FromInteger(4)) - FP_FromInteger(mXOffset);
+        mXPos = FP_FromInteger(field_160_hoistX) + (Math_Cosine(field_166_angle) * FP_FromInteger(4)) - FP_FromInteger(mXOffset);
         field_166_angle += 2;
     }
 }
@@ -1288,16 +1288,16 @@ void Fleech::RenderEx(PrimHeader** ot)
         const FP distanceX_squared = (tongueBlock_X[0] - tongueBlock_X[4]) * (tongueBlock_X[0] - tongueBlock_X[4]);
         const FP distanceY_squared = (tongueBlock_Y[0] - tongueBlock_Y[4]) * (tongueBlock_Y[0] - tongueBlock_Y[4]);
         const FP distanceXY_squareRoot = Math_SquareRoot_FP_Wrapper(distanceY_squared + distanceX_squared);
-        const FP Tan_fp = Math_Tan_496F70(
+        const FP Tan_fp = Math_Tan(
             tongueBlock_Y[0] - tongueBlock_Y[4],
             tongueBlock_X[4] - tongueBlock_X[0]);
-        const FP distanceCosine = Math_Cosine_496CD0(static_cast<u8>(FP_GetExponent(Tan_fp)));
-        const FP SineTan = Math_Sine_496DD0(static_cast<u8>(FP_GetExponent(Tan_fp)));
+        const FP distanceCosine = Math_Cosine(static_cast<u8>(FP_GetExponent(Tan_fp)));
+        const FP SineTan = Math_Sine(static_cast<u8>(FP_GetExponent(Tan_fp)));
 
         for (s32 i = 0; i < 4; i++)
         {
             const FP distanceXY_squareRoot_multiplied = distanceXY_squareRoot * FP_FromInteger(i + 1) * FP_FromDouble(0.25);
-            const FP cosineIt_times_field188 = Math_Cosine_496CD0(static_cast<u8>(32 * (i + 1))) * FP_FromInteger(field_188);
+            const FP cosineIt_times_field188 = Math_Cosine(static_cast<u8>(32 * (i + 1))) * FP_FromInteger(field_188);
             tongueBlock_X[i + 1] = tongueBlock_X[0] + SineTan * distanceXY_squareRoot_multiplied - cosineIt_times_field188 * distanceCosine;
             tongueBlock_Y[i + 1] = tongueBlock_Y[0] + SineTan * cosineIt_times_field188 + distanceCosine * distanceXY_squareRoot_multiplied;
         }

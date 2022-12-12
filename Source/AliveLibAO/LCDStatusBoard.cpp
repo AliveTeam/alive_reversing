@@ -54,7 +54,7 @@ void LCDStatusBoard::VRender(PrimHeader** ppOt)
     sprintf(text, "%02d", Path_GetTotalMuds(gMap.mCurrentLevel, gMap.mCurrentPath) - sRescuedMudokons - sKilledMudokons);
 
     const s16 w1 = static_cast<s16>(mEmployeesFont.MeasureTextWidth(text));
-    const s16 colourRange = sDisableFontFlicker ? 0 : 50;
+    const s16 colourRange = gDisableFontFlicker ? 0 : 50;
     mEmployeesFont.DrawString(
         ppOt,
         text,

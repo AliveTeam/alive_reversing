@@ -380,8 +380,8 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
         }
     }
 
-    pObjectsWithLightsArray->field_4_used_size = 0;
-    pPurpleLightArray->field_4_used_size = 0;
+    pObjectsWithLightsArray->mUsedSize = 0;
+    pPurpleLightArray->mUsedSize = 0;
 
     relive_delete pObjectsWithLightsArray;
     relive_delete pPurpleLightArray;

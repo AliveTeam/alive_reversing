@@ -219,9 +219,9 @@ extern s32 gAccumulatedObjectCount;
 void Quicksave_LoadFromMemory_4C95A0(Quicksave* quicksaveData)
 {
     gAccumulatedObjectCount = quicksaveData->field_200_accumulated_obj_count;
-    DestroyObjects_4A1F20();
+    DestroyObjects();
     EventsReset();
-    bSkipGameObjectUpdates = 1;
+    gSkipGameObjectUpdates = true;
     Quicksave_ReadWorldInfo(&quicksaveData->field_204_world_info);
     gSwitchStates = quicksaveData->field_45C_switch_states;
     gMap.mRestoreQuickSaveData = reinterpret_cast<u8*>(quicksaveData->field_55C_objects_state_data);

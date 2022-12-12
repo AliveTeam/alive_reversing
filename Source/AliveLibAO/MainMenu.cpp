@@ -3631,8 +3631,8 @@ void Menu::RenderElement(s32 xpos, s32 ypos, s32 input_command, PrimHeader** ot,
     const s16 text_y = static_cast<s16>(ypos + FP_GetExponent((FP_FromInteger(-9) * scale_fp)) + 1);
     const s16 converted_x = static_cast<s16>(PsxToPCX(xpos - text_width / 2, 11));
 
-    const u8 bOldValue = sFontDrawScreenSpace;
-    sFontDrawScreenSpace = 1;
+    const bool bOldValue = gFontDrawScreenSpace;
+    gFontDrawScreenSpace = true;
 
     s32 offset = pFont->DrawString(
         ot,
@@ -3687,7 +3687,7 @@ void Menu::RenderElement(s32 xpos, s32 ypos, s32 input_command, PrimHeader** ot,
         640,
         0);
 
-    sFontDrawScreenSpace = bOldValue;
+    gFontDrawScreenSpace = bOldValue;
 }
 
 } // namespace AO

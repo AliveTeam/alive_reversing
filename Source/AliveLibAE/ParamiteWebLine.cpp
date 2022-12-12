@@ -230,7 +230,7 @@ void ParamiteWebLine::VRender(PrimHeader** ppOt)
                 }
                 const FP bottomDiff = FP_FromInteger(field_FA_bottom - field_106_wobble_pos);
                 const FP ang = FP_FromInteger(field_FA_bottom - render_ypos) * FP_FromInteger(128);
-                xVal = mXPos - (Math_Cosine_496D60(ang / bottomDiff) * FP_FromInteger(word_563A8C[field_104_wobble_idx]));
+                xVal = mXPos - (Math_Cosine(ang / bottomDiff) * FP_FromInteger(word_563A8C[field_104_wobble_idx]));
             }
             else
             {
@@ -240,7 +240,7 @@ void ParamiteWebLine::VRender(PrimHeader** ppOt)
                 }
                 const FP topDiff = FP_FromInteger(field_106_wobble_pos - field_F8_top);
                 const FP ang = FP_FromInteger(field_106_wobble_pos - render_ypos) * FP_FromInteger(128);
-                xVal = (Math_Cosine_496D60(ang / topDiff) * FP_FromInteger(word_563A8C[field_104_wobble_idx])) + mXPos;
+                xVal = (Math_Cosine(ang / topDiff) * FP_FromInteger(word_563A8C[field_104_wobble_idx])) + mXPos;
             }
         }
 

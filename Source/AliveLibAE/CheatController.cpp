@@ -57,7 +57,7 @@ void CheatController_Cheat_PathSkip()
 {
     char_type nameBuffer[20];
 
-    DestroyObjects_4A1F20();
+    DestroyObjects();
     sprintf(nameBuffer, "NXTP%04d.SAV", gActiveQuicksaveData.field_204_world_info.mSaveFileId);
 
     //memcpy(&gActiveQuicksaveData, res.data(), sizeof(gActiveQuicksaveData));

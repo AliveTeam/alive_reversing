@@ -551,8 +551,8 @@ void Map::RemoveObjectsWithPurpleLight(s16 bMakeInvisible)
         }
     }
 
-    pObjectsWithLightsArray->field_4_used_size = 0;
-    pPurpleLightArray->field_4_used_size = 0;
+    pObjectsWithLightsArray->mUsedSize = 0;
+    pPurpleLightArray->mUsedSize = 0;
 
     relive_delete pObjectsWithLightsArray;
     relive_delete pPurpleLightArray;
@@ -1083,9 +1083,9 @@ void Map::Create_FG1s()
     Camera* pCamera = field_2C_camera_array[0];
     pCamera->CreateFG1();
     /*
-    for (s32 i = 0; i < pCamera->field_0_array.Size(); i++)
+    for (s32 i = 0; i < pCamera->mArray.Size(); i++)
     {
-        u8** ppRes = pCamera->field_0_array.ItemAt(i);
+        u8** ppRes = pCamera->mArray.ItemAt(i);
         if (!ppRes)
         {
             break;

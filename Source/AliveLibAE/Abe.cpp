@@ -2249,7 +2249,7 @@ IBaseAliveGameObject* Abe::FindObjectToPossess_44B7B0()
 
 void Abe::Free_Resources_44D420()
 {
-    if (mBaseGameObjectResArray.field_4_used_size)
+    if (mBaseGameObjectResArray.mUsedSize)
     {
         if (mBaseGameObjectResArray.ItemAt(0))
         {
@@ -4994,7 +4994,7 @@ void Abe::Motion_57_Dead_4589A0()
         }
         else if (pLiftPoint->Type() == ReliveTypes::eLiftPoint)
         {
-            static_cast<LiftPoint*>(pLiftPoint)->vMove_4626A0(FP_FromInteger(0), FP_FromInteger(0), 0);
+            static_cast<LiftPoint*>(pLiftPoint)->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
         }
     }
 
@@ -6699,7 +6699,7 @@ void Abe::Motion_110_ZShot()
             BaseGameObject* pLiftPoint = sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId);
             if (pLiftPoint->Type() == ReliveTypes::eLiftPoint)
             {
-                static_cast<LiftPoint*>(pLiftPoint)->vMove_4626A0(FP_FromInteger(0), FP_FromInteger(0), 0);
+                static_cast<LiftPoint*>(pLiftPoint)->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
             }
             VOnTrapDoorOpen();
         }
@@ -7433,7 +7433,7 @@ void Abe::Motion_121_LiftGrabBegin()
     auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (pLiftPoint)
     {
-        pLiftPoint->vMove_4626A0(FP_FromInteger(0), FP_FromInteger(0), 0);
+        pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
     }
 
     mVelY = FP_FromInteger(0);
@@ -7461,7 +7461,7 @@ void Abe::Motion_123_LiftGrabIdle()
 
     if (pLiftPoint)
     {
-        pLiftPoint->vMove_4626A0(FP_FromInteger(0), FP_FromInteger(0), 0);
+        pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
     }
 
     mVelY = FP_FromInteger(0);
@@ -8951,7 +8951,7 @@ s16 Abe::MoveLiftUpOrDown_45A7E0(FP yVelocity)
         return eAbeMotions::Motion_123_LiftGrabIdle;
     }
 
-    pLiftPoint->vMove_4626A0(FP_FromInteger(0), yVelocity, 0);
+    pLiftPoint->Move(FP_FromInteger(0), yVelocity, 0);
     FollowLift_45A500();
 
     if (sControlledCharacter == this && !(GetAnimation().GetIsLastFrame()) && GetAnimation().GetCurrentFrame() != 5)
@@ -9003,7 +9003,7 @@ s16 Abe::MoveLiftUpOrDown_45A7E0(FP yVelocity)
         return eAbeMotions::Motion_122_LiftGrabEnd;
     }
 
-    pLiftPoint->vMove_4626A0(FP_FromInteger(0), FP_FromInteger(0), 0);
+    pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
     return eAbeMotions::Motion_123_LiftGrabIdle;
 }
 

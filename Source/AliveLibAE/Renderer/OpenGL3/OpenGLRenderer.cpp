@@ -416,7 +416,7 @@ void OpenGLRenderer::Draw(Poly_FT4& poly)
     }
     else if (poly.mFont)
     {
-        FontResource& fontRes = poly.mFont->field_C_resource_id;
+        FontResource& fontRes = poly.mFont->mFntResource;
         std::shared_ptr<TgaData> pTga = fontRes.mTgaPtr;
 
         auto pPal = fontRes.mCurPal;
@@ -550,17 +550,17 @@ GLTexture2D OpenGLRenderer::PrepareTextureFromPoly(Poly_FT4& poly)
     }
     else if (poly.mFont)
     {
-        texture = mTextureCache.GetCachedTexture(poly.mFont->field_C_resource_id.mUniqueId.Id(), kSpriteTextureLifetime);
+        texture = mTextureCache.GetCachedTexture(poly.mFont->mFntResource.mUniqueId.Id(), kSpriteTextureLifetime);
 
         if (!texture.IsValid())
         {
-            std::shared_ptr<TgaData> pTga = poly.mFont->field_C_resource_id.mTgaPtr;
+            std::shared_ptr<TgaData> pTga = poly.mFont->mFntResource.mTgaPtr;
 
             GLTexture2D fontTex(pTga->mWidth, pTga->mHeight, GL_RED);
 
             fontTex.LoadImage(pTga->mPixels.data());
 
-            texture = mTextureCache.Add(poly.mFont->field_C_resource_id.mUniqueId.Id(), kSpriteTextureLifetime, std::move(fontTex));
+            texture = mTextureCache.Add(poly.mFont->mFntResource.mUniqueId.Id(), kSpriteTextureLifetime, std::move(fontTex));
 
             mStats.mFontUploadCount++;
         }

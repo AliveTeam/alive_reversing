@@ -200,10 +200,10 @@ void ThrowableTotalIndicator::VUpdate()
     {
         case ThrowableTotalIndicatorState::eCreated:
         {
-            mXPos = mStartXPos - (FP_FromInteger(12) * Math_Sine_496DD0(static_cast<u8>(2 * sGnFrame)));
-            mYPos = (FP_FromInteger(12) * Math_Cosine_496CD0(static_cast<u8>(2 * sGnFrame))) + mStartYPos;
+            mXPos = mStartXPos - (FP_FromInteger(12) * Math_Sine(static_cast<u8>(2 * sGnFrame)));
+            mYPos = (FP_FromInteger(12) * Math_Cosine(static_cast<u8>(2 * sGnFrame))) + mStartYPos;
 
-            const s16 rgb = FP_GetExponent(FP_FromInteger(48) * Math_Sine_496DD0(static_cast<u8>(3 * sGnFrame))) + 80;
+            const s16 rgb = FP_GetExponent(FP_FromInteger(48) * Math_Sine(static_cast<u8>(3 * sGnFrame))) + 80;
 
             mRGB.SetRGB(rgb, rgb, rgb);
         }

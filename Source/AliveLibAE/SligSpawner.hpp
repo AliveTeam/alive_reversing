@@ -13,10 +13,8 @@ enum class SpawnerStates : s16
 struct SligSpawnerSaveState final
 {
     ReliveTypes mType;
-    s16 padding1;
     Guid mTlvId;
     SpawnerStates mState;
-    s16 padding2;
     Guid mSpawnedSligId;
 };
 

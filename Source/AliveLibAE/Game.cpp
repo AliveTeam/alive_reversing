@@ -40,9 +40,9 @@ u32 sGnFrame = 0;
 // Arrays of things
 DynamicArrayT<BaseGameObject>* gPlatformsArray = nullptr;
 
-s16 sBreakGameLoop = 0;
+bool gBreakGameLoop = false;
 s16 gNumCamSwappers = 0;
-s16 bSkipGameObjectUpdates = 0;
+bool gSkipGameObjectUpdates = false;
 
 bool sCommandLine_ShowFps = false;
 bool gDDCheatOn = false;
@@ -57,7 +57,7 @@ u16 gAttract = 0;
 Abe* sActiveHero = nullptr;
 
 
-void DestroyObjects_4A1F20()
+void DestroyObjects()
 {
     pResourceManager->LoadingLoop(false);
     for (s32 iterations = 0; iterations < 2; iterations++)
@@ -111,7 +111,7 @@ void Draw_Debug_Strings_4F2800()
     // TODO
 }
 
-s32 Game_End_Frame_4950F0(u32 flags)
+s32 Game_End_Frame(u32 flags)
 {
     if (flags & 1)
     {
@@ -163,7 +163,7 @@ void Main_ParseCommandLineArguments(const char_type* pCommandLine)
 
     VGA_CreateRenderer(WindowTitleAE());
 
-    PSX_EMU_SetCallBack_4F9430(Game_End_Frame_4950F0);
+    PSX_EMU_SetCallBack_4F9430(Game_End_Frame);
 }
 
 void Init_GameStates()
@@ -248,7 +248,7 @@ void Game_Shutdown()
 
 void Game_Loop()
 {
-    sBreakGameLoop = 0;
+    gBreakGameLoop = false;
     bool bPauseMenuObjectFound = false;
     while (!gBaseGameObjects->IsEmpty())
     {
@@ -256,7 +256,7 @@ void Game_Loop()
 
         EventsResetActive();
         Slurg::Clear_Slurg_Step_Watch_Points();
-        bSkipGameObjectUpdates = 0;
+        gSkipGameObjectUpdates = false;
 
         // Update objects
         GetGameAutoPlayer().SyncPoint(SyncPoints::ObjectsUpdateStart);
@@ -264,7 +264,7 @@ void Game_Loop()
         {
             BaseGameObject* pBaseGameObject = gBaseGameObjects->ItemAt(baseObjIdx);
 
-            if (!pBaseGameObject || bSkipGameObjectUpdates)
+            if (!pBaseGameObject || gSkipGameObjectUpdates)
             {
                 break;
             }
@@ -368,7 +368,7 @@ void Game_Loop()
             sGnFrame++;
         }
 
-        if (sBreakGameLoop)
+        if (gBreakGameLoop)
         {
             GetGameAutoPlayer().SyncPoint(SyncPoints::MainLoopExit);
             break;

@@ -296,7 +296,7 @@ PauseMenu::PauseMenu()
 
     Init();
 
-    sDisableFontFlicker = 0;
+    gDisableFontFlicker = false;
 }
 
 PauseMenu::~PauseMenu()
@@ -413,7 +413,7 @@ void PauseMenu::Page_Base_Render(PrimHeader** ot, PauseMenu::PauseMenuPage* pPag
 
 void PauseMenu::RestartPath()
 {
-    DestroyObjects_4A1F20();
+    DestroyObjects();
 
     Quicksave_SaveSwitchResetterStates();
 
@@ -1085,7 +1085,7 @@ void PauseMenu::VUpdate()
 
                 mMudIconAnim.ReloadPal();
 
-                sDisableFontFlicker = 1;
+                gDisableFontFlicker = true;
                 mActiveMenu = sMainMenuPage;
 
                 // Start pause menu update/render loop
@@ -1153,7 +1153,7 @@ void PauseMenu::VUpdate()
             }
         }
     }
-    sDisableFontFlicker = 0;
+    gDisableFontFlicker = false;
 }
 
 PauseMenu* gPauseMenu = nullptr;

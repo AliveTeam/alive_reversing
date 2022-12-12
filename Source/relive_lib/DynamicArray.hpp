@@ -16,20 +16,20 @@ public:
 
     bool IsEmpty() const
     {
-        return field_4_used_size == 0;
+        return mUsedSize == 0;
     }
 
     s32 Size() const
     {
-        return field_4_used_size;
+        return mUsedSize;
     }
 
     s32 RemoveAt(s32 idx)
     {
-        field_4_used_size--;
+        mUsedSize--;
 
         // Overwrite the items to remove with the item from the end
-        field_0_array[idx] = field_0_array[field_4_used_size];
+        mArray[idx] = mArray[mUsedSize];
 
         return idx - 1;
     }
@@ -39,15 +39,14 @@ public:
 
 protected:
     void Remove_Item(void* pItemToRemove);
-    void** field_0_array = nullptr;
+    void** mArray = nullptr;
 
 public:
-    s16 field_4_used_size = 0;
+    s16 mUsedSize = 0;
 
 private:
-    s16 field_6_max_size = 0;
-    s16 field_8_expand_size = 0;
-    // padding
+    s16 mMaxSize = 0;
+    s16 mExpandSizeBy = 0;
 };
 
 // Typed wrapper for DynamicArray
@@ -69,11 +68,11 @@ public:
 
     T* ItemAt(s32 idx)
     {
-        return reinterpret_cast<T*>(field_0_array[idx]);
+        return reinterpret_cast<T*>(mArray[idx]);
     }
 
     void SetAt(s32 idx, T* itemToSet)
     {
-        field_0_array[idx] = itemToSet;
+        mArray[idx] = itemToSet;
     }
 };

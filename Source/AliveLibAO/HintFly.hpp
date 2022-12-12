@@ -30,9 +30,8 @@ public:
     void FormWordAndAdvanceToNextWord();
     void UpdateParticles();
 
-    s32 field_D4[4] = {};
-    HintFlyParticle* field_E8_pRes = nullptr;
-    s32 field_10C_timer = 0;
+    HintFlyParticle* mHintFlyParticle = nullptr;
+    s32 mTimer = 0;
 
     enum class State : s16
     {
@@ -44,16 +43,16 @@ public:
         eState_5 = 5,
         eState_6 = 6,
     };
-    State field_112_state = State::eState_0;
-    s16 field_114_xScreen = 0;
-    s16 field_116_yScreen = 0;
-    s16 field_118_counter = 0;
-    s16 field_11A_msg_len = 0;
-    s16 field_11C_message_id = 0;
-    s16 field_11E_msg_idx = 0;
-    s16 field_120_idx = 0;
-    s16 field_122_target_count = 0;
-    Guid field_124_tlvInfo;
+    State mState = State::eState_0;
+    s16 mScreenX = 0;
+    s16 mScreenY = 0;
+    s16 mCounter = 0;
+    s16 mMsgLength = 0;
+    s16 mMessageId = 0;
+    s16 mMsgIdx = 0;
+    s16 mHintFlyIdx = 0;
+    s16 mTargetCount = 0;
+    Guid mTlvId;
 };
 
 } // namespace AO

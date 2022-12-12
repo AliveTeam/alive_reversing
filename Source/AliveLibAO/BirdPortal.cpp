@@ -112,7 +112,7 @@ BirdPortal::~BirdPortal()
             pObj->SetDead(true);
         }
 
-        mDovesArray->field_4_used_size = 0;
+        mDovesArray->mUsedSize = 0;
 
         relive_delete mDovesArray;
     }
@@ -327,7 +327,7 @@ void BirdPortal::VUpdate()
                         pDove->FlyAway(1);
                     }
 
-                    mDovesArray->field_4_used_size = 0;
+                    mDovesArray->mUsedSize = 0;
                     relive_delete mDovesArray;
                     mDovesArray = nullptr;
 
@@ -395,7 +395,7 @@ void BirdPortal::VUpdate()
                     pDove->SetDead(true);
                 }
 
-                mDovesArray->field_4_used_size = 0;
+                mDovesArray->mUsedSize = 0;
                 relive_delete mDovesArray;
                 mDovesArray = nullptr;
                 mState = PortalStates::CreateTerminators_4;

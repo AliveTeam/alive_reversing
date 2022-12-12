@@ -2218,7 +2218,7 @@ void Slig::M_LiftGrip_46_4B3700()
     auto pLiftPoint = static_cast<LiftPoint*>(sObjectIds.Find_Impl(BaseAliveGameObject_PlatformId));
     if (pLiftPoint)
     {
-        pLiftPoint->vMove_4626A0(FP_FromInteger(0), FP_FromInteger(0), 0);
+        pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
         mVelY = FP_FromInteger(0);
         if (GetAnimation().GetIsLastFrame())
         {
@@ -2285,7 +2285,7 @@ void Slig::M_LiftGripping_48_4B3850()
     {
         CheckPlatformVanished_4B3640();
 
-        pLiftPoint->vMove_4626A0(FP_FromInteger(0), FP_FromInteger(0), 0);
+        pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
         mVelY = FP_FromInteger(0);
 
         if (Input().isPressed(sInputKey_Up))
@@ -5954,7 +5954,7 @@ s16 Slig::MoveLift_4B3990(FP ySpeed)
         return eSligMotions::M_LiftGripping_48_4B3850;
     }
 
-    pLiftPoint->vMove_4626A0(FP_FromInteger(0), ySpeed, 0);
+    pLiftPoint->Move(FP_FromInteger(0), ySpeed, 0);
     CheckPlatformVanished_4B3640();
     mVelY = pLiftPoint->mVelY;
 
@@ -6014,7 +6014,7 @@ s16 Slig::MoveLift_4B3990(FP ySpeed)
         return eSligMotions::M_LiftUngrip_47_4B3820;
     }
 
-    pLiftPoint->vMove_4626A0(FP_FromInteger(0), FP_FromInteger(0), 0);
+    pLiftPoint->Move(FP_FromInteger(0), FP_FromInteger(0), 0);
     return eSligMotions::M_LiftGripping_48_4B3850;
 }
 

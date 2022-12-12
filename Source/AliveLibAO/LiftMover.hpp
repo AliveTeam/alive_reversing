@@ -13,6 +13,16 @@ namespace AO {
 
 class LiftPoint;
 
+enum class LiftMoverStates : s16
+{
+    eInactive_0 = 0,
+    eStartMovingDown_1 = 1,
+    eMovingDown_2 = 2,
+    eStartMovingUp_3 = 3,
+    eMovingUp_4 = 4,
+    eMovingDone_5 = 5,
+};
+
 class LiftMover final : public ::BaseGameObject
 {
 public:
@@ -23,12 +33,12 @@ public:
 
     LiftPoint* FindLiftPointWithId(s16 id);
 
-    u16 field_10_lift_mover_switch_id = 0;
+    u16 mLiftMoverSwitchId = 0;
     s16 mTargetLiftPointId = 0;
-    Guid field_14_tlvInfo;
+    Guid mTlvId;
     BaseGameObject* mTargetLift = nullptr; // TODO: LiftPoint* or actually no because it can be a platform as well?
     FP mLiftSpeed = {};
-    s16 mState = 0;
+    LiftMoverStates mState = LiftMoverStates::eInactive_0;
 };
 
 } // namespace AO

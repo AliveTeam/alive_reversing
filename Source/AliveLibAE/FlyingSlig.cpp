@@ -594,7 +594,7 @@ void FlyingSlig::sub_4348A0()
     sub_437C70(BaseAliveGameObjectCollisionLine);
     const s16 v5 = FP_GetExponent(mYPos - field_1A4_rect.y);
     const s16 v6 = FP_GetExponent(mXPos - field_1A4_rect.x);
-    field_194 = FP_FromInteger(Math_SquareRoot_Int_496E70(v5 * v5 + v6 * v6));
+    field_194 = FP_FromInteger(Math_SquareRoot_Int(v5 * v5 + v6 * v6));
     mUnknown2 = field_118_data.mFacing == relive::reliveXDirection::eLeft;
 }
 
@@ -691,7 +691,7 @@ void FlyingSlig::Movement()
     }
     else
     {
-        const s32 newVel = Math_SquareRoot_Int_496E70(FP_GetExponent((mVelY * mVelY) + (mVelX * mVelX)));
+        const s32 newVel = Math_SquareRoot_Int(FP_GetExponent((mVelY * mVelY) + (mVelX * mVelX)));
         if (FP_Abs(FP_FromInteger(newVel)) > FP_FromDouble(0.05))
         {
             mVelX = mVelX - ((mVelX / FP_FromInteger(newVel)) * field_2B4_max_slow_down) + field_184_xSpeed;
@@ -711,7 +711,7 @@ void FlyingSlig::Movement()
             }
         }
 
-        const FP v15 = FP_FromInteger(Math_SquareRoot_Int_496E70(FP_GetExponent((mVelY * mVelY) + (mVelX * mVelX))));
+        const FP v15 = FP_FromInteger(Math_SquareRoot_Int(FP_GetExponent((mVelY * mVelY) + (mVelX * mVelX))));
         if (v15 > field_2A8_max_x_speed)
         {
             mVelX = ((mVelX / v15) * field_2A8_max_x_speed);
@@ -2505,7 +2505,7 @@ s16 FlyingSlig::sub_437C70(PathLine* pLine)
 
     field_182_bound1 = FindLeftOrRightBound(field_1A4_rect.w, field_1A4_rect.h);
     field_180_bound2 = FindLeftOrRightBound(field_1A4_rect.x, field_1A4_rect.y);
-    field_1BC = Math_Tan_496F70(field_1A4_rect.y - field_1A4_rect.h, field_1A4_rect.w - field_1A4_rect.x);
+    field_1BC = Math_Tan(field_1A4_rect.y - field_1A4_rect.h, field_1A4_rect.w - field_1A4_rect.x);
 
     field_1C0 = field_1BC + FP_FromInteger(128);
 
@@ -2682,13 +2682,13 @@ s16 FlyingSlig::sub_436C60(PSX_RECT* pRect, s16 arg_4)
             FP sqrt2 = {};
             if (bRightInRect)
             {
-                sqrt1 = FP_FromInteger(Math_SquareRoot_Int_496E70(
+                sqrt1 = FP_FromInteger(Math_SquareRoot_Int(
                     FP_GetExponent(yOff1 - field_1A4_rect.y) * (FP_GetExponent(yOff1 - field_1A4_rect.y)) + FP_GetExponent(rRight - field_1A4_rect.x) * (FP_GetExponent(rRight - field_1A4_rect.x))));
             }
 
             if (bLeftInRect)
             {
-                const s32 sqrt2_int = Math_SquareRoot_Int_496E70(
+                const s32 sqrt2_int = Math_SquareRoot_Int(
                     FP_GetExponent(yOff2 - field_1A4_rect.y) * (FP_GetExponent(yOff2 - field_1A4_rect.y)) + FP_GetExponent(rLeft - field_1A4_rect.x) * (FP_GetExponent(rLeft - field_1A4_rect.x)));
 
                 sqrt2 = FP_FromInteger(sqrt2_int);
@@ -2836,7 +2836,7 @@ bool FlyingSlig::sub_436B20()
 
 void FlyingSlig::sub_4373B0()
 {
-    const FP calc = Math_Tan_496F70(mYPos - sControlledCharacter->mYPos, sControlledCharacter->mXPos - mXPos);
+    const FP calc = Math_Tan(mYPos - sControlledCharacter->mYPos, sControlledCharacter->mXPos - mXPos);
     FP value1 = FP_Abs(field_1BC - calc);
     if (value1 > FP_FromInteger(128))
     {

@@ -503,7 +503,7 @@ PathLine* PathLine::MoveOnLine(FP* pXPos, FP* pYPos, const FP distToMove)
         }
         else
         {
-            squareRoot = FP_FromInteger(Math_SquareRoot_Int_496E70(
+            squareRoot = FP_FromInteger(Math_SquareRoot_Int(
                 FP_GetExponent(xDiff) * FP_GetExponent(xDiff) + FP_GetExponent(yDiff) * FP_GetExponent(yDiff)));
         }
 
