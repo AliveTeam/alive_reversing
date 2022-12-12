@@ -122,7 +122,7 @@ void Teleporter::VUpdate()
 
             mSwitchState = SwitchStates_Get(mTlvData.mSwitchId);
 
-            if (!sPathInfo->TLV_Get_At(
+            if (!gPathInfo->TLV_Get_At(
                     FP_GetExponent(sControlledCharacter->mXPos),
                     FP_GetExponent(sControlledCharacter->mYPos),
                     FP_GetExponent(sControlledCharacter->mXPos),
@@ -235,14 +235,14 @@ void Teleporter::VUpdate()
         {
             gMap.mTeleporterTransition = 0;
 
-            relive::Path_Teleporter* pTeleporterTlv = static_cast<relive::Path_Teleporter*>(sPathInfo->TLV_First_Of_Type_In_Camera(ReliveTypes::eTeleporter, 0));
+            relive::Path_Teleporter* pTeleporterTlv = static_cast<relive::Path_Teleporter*>(gPathInfo->TLV_First_Of_Type_In_Camera(ReliveTypes::eTeleporter, 0));
             Relive_Path_Teleporter_Data tlvData = {};
             SetData(tlvData, *pTeleporterTlv);
             if (tlvData.mTeleporterId != mTlvData.mOtherTeleporterId)
             {
                 while (pTeleporterTlv)
                 {
-                    pTeleporterTlv = static_cast<relive::Path_Teleporter*>(sPathInfo->TLV_Next_Of_Type(pTeleporterTlv, ReliveTypes::eTeleporter));
+                    pTeleporterTlv = static_cast<relive::Path_Teleporter*>(gPathInfo->TLV_Next_Of_Type(pTeleporterTlv, ReliveTypes::eTeleporter));
                     SetData(tlvData, *pTeleporterTlv);
 
                     if (tlvData.mTeleporterId == mTlvData.mOtherTeleporterId)

@@ -448,7 +448,7 @@ s32 SlamDoor::CreateFromSaveState(const u8* pData)
 {
     const SlamDoorSaveState* pSaveState = reinterpret_cast<const SlamDoorSaveState*>(pData);
 
-    relive_new SlamDoor(static_cast<relive::Path_SlamDoor*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->mTlvInfo)), pSaveState->mTlvInfo);
+    relive_new SlamDoor(static_cast<relive::Path_SlamDoor*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->mTlvInfo)), pSaveState->mTlvInfo);
 
     return sizeof(SlamDoorSaveState);
 }

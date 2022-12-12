@@ -35,7 +35,7 @@ s32 LiftMover::CreateFromSaveState(const u8* pData)
 {
     auto pState = reinterpret_cast<const LiftMoverSaveState*>(pData);
 
-    relive::Path_LiftMover* pTlv = static_cast<relive::Path_LiftMover*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvId));
+    relive::Path_LiftMover* pTlv = static_cast<relive::Path_LiftMover*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvId));
     auto pLiftMover = relive_new LiftMover(pTlv, pState->mTlvId);
     if (pLiftMover)
     {

@@ -323,7 +323,7 @@ bool Bullet::InZBulletCover(FP xpos, FP ypos, const PSX_RECT& objRect)
     while (1)
     {
         // Go to the next entry (or first if first call).
-        pZCover = sPathInfo->TlvGetAt(
+        pZCover = gPathInfo->TlvGetAt(
             pZCover,
             xpos,
             ypos,

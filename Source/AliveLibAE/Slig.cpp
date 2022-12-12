@@ -713,7 +713,7 @@ s32 Slig::VGetSaveState(u8* pSaveBuffer)
 s32 Slig::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const SligSaveState*>(pBuffer);
-    auto pTlv = static_cast<relive::Path_Slig*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_5C_tlvInfo));
+    auto pTlv = static_cast<relive::Path_Slig*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_5C_tlvInfo));
 
     auto pSlig = relive_new Slig(pTlv, pState->field_5C_tlvInfo);
     if (pSlig)
@@ -1851,7 +1851,7 @@ void Slig::M_Knockback_34_4B68A0()
             mCurrentMotion = eSligMotions::M_Knockback_34_4B68A0;
             field_12C_timer = sGnFrame + 10;
             if (mYPos - BaseAliveGameObjectLastLineYPos > FP_FromInteger(180)
-                && !sPathInfo->TLV_Get_At(
+                && !gPathInfo->TLV_Get_At(
                     FP_GetExponent(mXPos),
                     FP_GetExponent(mYPos),
                     FP_GetExponent(mXPos),
@@ -2058,7 +2058,7 @@ void Slig::M_OutToFall_38_4B4570()
         SetDead(true);
     }
 
-    if (mCurrentMotion == eSligMotions::M_LandingSoft_40_4B4530 && fallDepth > FP_FromInteger(180) && !sPathInfo->TLV_Get_At(FP_GetExponent(mXPos), FP_GetExponent(mYPos), FP_GetExponent(mXPos), FP_GetExponent(mYPos), ReliveTypes::eSoftLanding))
+    if (mCurrentMotion == eSligMotions::M_LandingSoft_40_4B4530 && fallDepth > FP_FromInteger(180) && !gPathInfo->TLV_Get_At(FP_GetExponent(mXPos), FP_GetExponent(mYPos), FP_GetExponent(mXPos), FP_GetExponent(mYPos), ReliveTypes::eSoftLanding))
     {
         mCurrentMotion = eSligMotions::M_LandingFatal_41_4B4680;
         field_12C_timer = sGnFrame + 30;
@@ -2991,10 +2991,10 @@ s16 Slig::Brain_ListenToGlukkon_Moving(BaseAliveGameObject* pGlukkonObj)
         return Brain_ListeningToGlukkon_States::IdleListening_1;
     }
 
-    if (field_160_last_event_index != gEventSystem->field_28_last_event_index)
+    if (field_160_last_event_index != gEventSystem->mLastEventIndex)
     {
-        field_160_last_event_index = gEventSystem->field_28_last_event_index;
-        if (gEventSystem->field_20_last_event == GameSpeakEvents::Glukkon_StayHere_38 && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
+        field_160_last_event_index = gEventSystem->mLastEventIndex;
+        if (gEventSystem->mLastEvent == GameSpeakEvents::eGlukkon_StayHere_38 && gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
         {
             mFollowGlukkon = false;
             NextCommand_4B9A00(Brain_ListeningToGlukkon_GlukkonCommands::Stay_2, Brain_ListeningToGlukkon_States::IdleListening_1);
@@ -3115,30 +3115,30 @@ s16 Slig::Brain_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, Pla
             return mBrainSubState;
         }
 
-        if (glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40)
+        if (glukkonSpeak == GameSpeakEvents::eGlukkon_AllOYa_40)
         {
             NextCommand_4B9A00(Brain_ListeningToGlukkon_GlukkonCommands::HeyOrAllYa_0, Brain_ListeningToGlukkon_States::IdleListening_1);
         }
         else
         {
-            if (glukkonSpeak == GameSpeakEvents::Glukkon_Laugh_43)
+            if (glukkonSpeak == GameSpeakEvents::eGlukkon_Laugh_43)
             {
                 NextCommand_4B9A00(Brain_ListeningToGlukkon_GlukkonCommands::AfterShootOrLaugh_6, Brain_ListeningToGlukkon_States::IdleListening_1);
             }
             else
             {
-                if (!mGlukkonCalledAllOYa || glukkonSpeak == GameSpeakEvents::Glukkon_Hey_36)
+                if (!mGlukkonCalledAllOYa || glukkonSpeak == GameSpeakEvents::eGlukkon_Hey_36)
                 {
                     if (!HeardGlukkonToListenTo_4B9690(glukkonSpeak))
                     {
-                        mGlukkonCalledAllOYa = glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40 ? true : false;
+                        mGlukkonCalledAllOYa = glukkonSpeak == GameSpeakEvents::eGlukkon_AllOYa_40 ? true : false;
                         return mBrainSubState;
                     }
                 }
 
                 switch (glukkonSpeak)
                 {
-                    case GameSpeakEvents::Glukkon_Hey_36:
+                    case GameSpeakEvents::eGlukkon_Hey_36:
                         if (!VIsFacingMe(pGlukkonObj))
                         {
                             mNextMotion = eSligMotions::M_TurnAroundStanding_5_4B6390;
@@ -3146,7 +3146,7 @@ s16 Slig::Brain_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, Pla
                         NextCommand_4B9A00(Brain_ListeningToGlukkon_GlukkonCommands::HeyOrAllYa_0, Brain_ListeningToGlukkon_States::IdleListening_1);
                         break;
 
-                    case GameSpeakEvents::Glukkon_DoIt_37:
+                    case GameSpeakEvents::eGlukkon_DoIt_37:
                         if (pPlatformObj && pPlatformObj->Type() == ReliveTypes::eLiftPoint)
                         {
                             const FP scaled_2 = (ScaleToGridSize(GetSpriteScale()) / FP_FromInteger(2));
@@ -3171,7 +3171,7 @@ s16 Slig::Brain_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, Pla
                                 }
 
                                 mBrainSubState = Brain_ListeningToGlukkon_States::IdleListening_1;
-                                mGlukkonCalledAllOYa = glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40 ? true : false;
+                                mGlukkonCalledAllOYa = glukkonSpeak == GameSpeakEvents::eGlukkon_AllOYa_40 ? true : false;
                                 return mBrainSubState;
                             }
                         }
@@ -3179,7 +3179,7 @@ s16 Slig::Brain_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, Pla
                         if (FindObjectOfType(ReliveTypes::eLever, ScaleToGridSize(GetSpriteScale()) + mXPos, mYPos - FP_FromInteger(5)) || FindObjectOfType(ReliveTypes::eLever, mXPos - ScaleToGridSize(GetSpriteScale()), mYPos - FP_FromInteger(5)))
                         {
                             mBrainSubState = Brain_ListeningToGlukkon_States::PullingLever_6;
-                            mGlukkonCalledAllOYa = glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40 ? true : false;
+                            mGlukkonCalledAllOYa = glukkonSpeak == GameSpeakEvents::eGlukkon_AllOYa_40 ? true : false;
                             return mBrainSubState;
                         }
 
@@ -3192,7 +3192,7 @@ s16 Slig::Brain_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, Pla
                                 NextCommand_4B9A00(Brain_ListeningToGlukkon_GlukkonCommands::DoitGunReload_7, Brain_ListeningToGlukkon_States::LostAttention_9);
                                 mBrainSubState = Brain_ListeningToGlukkon_States::Speaking_4;
                                 --sSligsUnderControlCount_BAF7E8;
-                                mGlukkonCalledAllOYa = glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40 ? true : false;
+                                mGlukkonCalledAllOYa = glukkonSpeak == GameSpeakEvents::eGlukkon_AllOYa_40 ? true : false;
                                 return mBrainSubState;
                             }
                         }
@@ -3200,22 +3200,22 @@ s16 Slig::Brain_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, Pla
                         mNextMotion = eSligMotions::M_Beat_51_4B6C00;
 
                         mBrainSubState = Brain_ListeningToGlukkon_States::IdleListening_1;
-                        mGlukkonCalledAllOYa = glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40 ? true : false;
+                        mGlukkonCalledAllOYa = glukkonSpeak == GameSpeakEvents::eGlukkon_AllOYa_40 ? true : false;
                         return mBrainSubState;
 
-                    case GameSpeakEvents::Glukkon_StayHere_38:
+                    case GameSpeakEvents::eGlukkon_StayHere_38:
                         mFollowGlukkon = false;
                         NextCommand_4B9A00(Brain_ListeningToGlukkon_GlukkonCommands::Stay_2, Brain_ListeningToGlukkon_States::IdleListening_1);
                         break;
 
-                    case GameSpeakEvents::Glukkon_Commere_39:
+                    case GameSpeakEvents::eGlukkon_Commere_39:
                         mFollowGlukkon = true;
                         if (VIsObjNearby(gridSize, pGlukkonObj))
                         {
                             if (!VIsObjNearby(gridSize * FP_FromDouble(0.5), pGlukkonObj))
                             {
                                 mBrainSubState = Brain_ListeningToGlukkon_States::NextToLeverThroughComeHere_3;
-                                mGlukkonCalledAllOYa = glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40 ? true : false;
+                                mGlukkonCalledAllOYa = glukkonSpeak == GameSpeakEvents::eGlukkon_AllOYa_40 ? true : false;
                                 return mBrainSubState;
                             }
                         }
@@ -3224,7 +3224,7 @@ s16 Slig::Brain_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, Pla
                         {
                             mFollowGlukkon = false;
                             mBrainSubState = Brain_ListeningToGlukkon_States::StoppingOnLift_7;
-                            mGlukkonCalledAllOYa = glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40 ? true : false;
+                            mGlukkonCalledAllOYa = glukkonSpeak == GameSpeakEvents::eGlukkon_AllOYa_40 ? true : false;
                             return mBrainSubState;
                         }
 
@@ -3242,20 +3242,20 @@ s16 Slig::Brain_ListenToGlukkon_IdleListen(BaseAliveGameObject* pGlukkonObj, Pla
                         }
                         break;
 
-                    case GameSpeakEvents::Glukkon_KillEm_44:
+                    case GameSpeakEvents::eGlukkon_KillEm_44:
                         mBrainSubState = Brain_ListeningToGlukkon_States::Shooting_8;
                         field_120_timer = sGnFrame + 25;
-                        mGlukkonCalledAllOYa = glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40 ? true : false;
+                        mGlukkonCalledAllOYa = glukkonSpeak == GameSpeakEvents::eGlukkon_AllOYa_40 ? true : false;
                         return mBrainSubState;
 
                     default:
-                        mGlukkonCalledAllOYa = glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40 ? true : false;
+                        mGlukkonCalledAllOYa = glukkonSpeak == GameSpeakEvents::eGlukkon_AllOYa_40 ? true : false;
                         return mBrainSubState;
                 }
             }
         }
         mBrainSubState = Brain_ListeningToGlukkon_States::Speaking_4;
-        mGlukkonCalledAllOYa = glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40 ? true : false;
+        mGlukkonCalledAllOYa = glukkonSpeak == GameSpeakEvents::eGlukkon_AllOYa_40 ? true : false;
         return mBrainSubState;
     }
 
@@ -4520,7 +4520,7 @@ void Slig::Init()
     {
         for (s16 xCam = -3; xCam < 4; xCam++)
         {
-            relive::Path_TLV* pTlvIter = sPathInfo->Get_First_TLV_For_Offsetted_Camera(xCam, yCam);
+            relive::Path_TLV* pTlvIter = gPathInfo->Get_First_TLV_For_Offsetted_Camera(xCam, yCam);
             while (pTlvIter)
             {
                 bool addPoint = false;
@@ -4584,7 +4584,7 @@ Slig::~Slig()
         }
     }
 
-    relive::Path_TLV* pTlv = sPathInfo->TLV_From_Offset_Lvl_Cam(field_118_tlvInfo);
+    relive::Path_TLV* pTlv = gPathInfo->TLV_From_Offset_Lvl_Cam(field_118_tlvInfo);
     if (pTlv)
     {
         if (pTlv->mTlvType != ReliveTypes::eSligGetPants && pTlv->mTlvType != ReliveTypes::eSligSpawner)
@@ -4766,7 +4766,7 @@ void Slig::VUpdate()
 
         if (oldXPos != mXPos || oldYPos != mYPos)
         {
-            BaseAliveGameObjectPathTLV = sPathInfo->TlvGetAt(
+            BaseAliveGameObjectPathTLV = gPathInfo->TlvGetAt(
                 nullptr,
                 mXPos,
                 mYPos,
@@ -4840,7 +4840,7 @@ void Slig::VOnTlvCollision(relive::Path_TLV* pTlv)
                 EventBroadcast(kEventMudokonComfort, this);
             }
         }
-        pTlv = sPathInfo->TlvGetAt(pTlv, mXPos, mYPos, mXPos, mYPos);
+        pTlv = gPathInfo->TlvGetAt(pTlv, mXPos, mYPos, mXPos, mYPos);
     }
 }
 
@@ -4876,7 +4876,7 @@ void Slig::WakeUp_4B93B0()
     SetBrain(&Slig::Brain_WakingUp_31_4B9390);
 
     MusicController::static_PlayMusic(MusicController::MusicTypes::eTension_4, this, 0, 0);
-    relive::Path_TLV* pTlv = sPathInfo->TLV_Get_At(
+    relive::Path_TLV* pTlv = gPathInfo->TLV_Get_At(
         mSligTlv.mTopLeftX,
         mSligTlv.mTopLeftY,
         mSligTlv.mTopLeftX,
@@ -5437,16 +5437,16 @@ s16 Slig::GetNextMotionIncGameSpeak_4B5080(s32 input)
         switch (mNextMotion)
         {
             case eSligMotions::M_SpeakHereBoy_20_4B5330:
-                event = GameSpeakEvents::Slig_HereBoy_28;
+                event = GameSpeakEvents::eSlig_HereBoy_28;
                 break;
             case eSligMotions::M_SpeakHi_21_4B53D0:
-                event = GameSpeakEvents::Slig_Hi_27;
+                event = GameSpeakEvents::eSlig_Hi_27;
                 break;
             case eSligMotions::M_SpeakFreeze_22_4B53F0:
-                event = GameSpeakEvents::Slig_Freeze_31;
+                event = GameSpeakEvents::eSlig_Freeze_31;
                 break;
             case eSligMotions::M_SpeakGetHim_23_4B5410:
-                event = GameSpeakEvents::Slig_GetEm_29;
+                event = GameSpeakEvents::eSlig_GetEm_29;
                 break;
             case eSligMotions::M_SpeakLaugh_24_4B5430:
                 event = GameSpeakEvents::Slig_Laugh_8;
@@ -5586,10 +5586,10 @@ GameSpeakEvents Slig::LastGlukkonSpeak_4B3090()
         return GameSpeakEvents::eNone_m1;
     }
 
-    const s32 last_event_idx = gEventSystem->field_28_last_event_index;
+    const s32 last_event_idx = gEventSystem->mLastEventIndex;
     if (field_160_last_event_index == last_event_idx)
     {
-        if (gEventSystem->field_20_last_event == GameSpeakEvents::eNone_m1)
+        if (gEventSystem->mLastEvent == GameSpeakEvents::eNone_m1)
         {
             return GameSpeakEvents::eNone_m1;
         }
@@ -5601,7 +5601,7 @@ GameSpeakEvents Slig::LastGlukkonSpeak_4B3090()
 
     field_160_last_event_index = last_event_idx;
 
-    return gEventSystem->field_20_last_event;
+    return gEventSystem->mLastEvent;
 }
 
 s16 Slig::ListenToGlukkonCommands_4B95D0()
@@ -5612,14 +5612,14 @@ s16 Slig::ListenToGlukkonCommands_4B95D0()
         return 0;
     }
 
-    if (glukkonSpeak == GameSpeakEvents::Glukkon_Hey_36)
+    if (glukkonSpeak == GameSpeakEvents::eGlukkon_Hey_36)
     {
-        if (!HeardGlukkonToListenTo_4B9690(GameSpeakEvents::Glukkon_Hey_36))
+        if (!HeardGlukkonToListenTo_4B9690(GameSpeakEvents::eGlukkon_Hey_36))
         {
             return 0;
         }
     }
-    else if (glukkonSpeak != GameSpeakEvents::Glukkon_AllOYa_40)
+    else if (glukkonSpeak != GameSpeakEvents::eGlukkon_AllOYa_40)
     {
         return 0;
     }
@@ -5628,7 +5628,7 @@ s16 Slig::ListenToGlukkonCommands_4B95D0()
 
     field_208_glukkon_obj_id = sControlledCharacter->mBaseGameObjectId;
 
-    if (glukkonSpeak == GameSpeakEvents::Glukkon_AllOYa_40)
+    if (glukkonSpeak == GameSpeakEvents::eGlukkon_AllOYa_40)
     {
         mGlukkonCalledAllOYa = true;
     }
@@ -5718,13 +5718,13 @@ void Slig::TurnOrSayWhat_4BEBC0()
 
 void Slig::GameSpeakResponse_4BF470()
 {
-    const s32 lastIdx = gEventSystem->field_28_last_event_index;
+    const s32 lastIdx = gEventSystem->mLastEventIndex;
 
     GameSpeakEvents speak = GameSpeakEvents::eNone_m1;
 
     if (field_160_last_event_index == lastIdx)
     {
-        if (gEventSystem->field_20_last_event == GameSpeakEvents::eNone_m1)
+        if (gEventSystem->mLastEvent == GameSpeakEvents::eNone_m1)
         {
             speak = GameSpeakEvents::eNone_m1;
         }
@@ -5736,13 +5736,12 @@ void Slig::GameSpeakResponse_4BF470()
     else
     {
         field_160_last_event_index = lastIdx;
-        speak = gEventSystem->field_20_last_event;
+        speak = gEventSystem->mLastEvent;
     }
 
     switch (speak)
     {
         case GameSpeakEvents::eUnknown_1:
-        case GameSpeakEvents::eUnknown_2:
             if (!(Math_NextRandom() & 4))
             {
                 field_294_next_gamespeak_motion = eSligMotions::M_SpeakBullshit1_25_4B5450;
@@ -5753,13 +5752,9 @@ void Slig::GameSpeakResponse_4BF470()
             }
             break;
 
-        case GameSpeakEvents::eFart_3:
-        case GameSpeakEvents::eUnknown_4:
+        case GameSpeakEvents::eAbe_Fart_3:
         case GameSpeakEvents::Slig_Laugh_8:
-        case GameSpeakEvents::eUnknown_14:
-        case GameSpeakEvents::eUnknown_15:
-        case GameSpeakEvents::Slig_GetEm_29:
-        case GameSpeakEvents::eUnknown_34:
+        case GameSpeakEvents::eSlig_GetEm_29:
             field_294_next_gamespeak_motion = eSligMotions::M_Blurgh_31_4B5510;
             return;
 
@@ -5782,13 +5777,13 @@ void Slig::GameSpeakResponse_4BF470()
             field_294_next_gamespeak_motion = eSligMotions::M_SpeakBullshit2_27_4B5490;
             break;
 
-        case GameSpeakEvents::eHello_9:
-        case GameSpeakEvents::Slig_Hi_27:
+        case GameSpeakEvents::eAbe_Hello_9:
+        case GameSpeakEvents::eSlig_Hi_27:
             field_294_next_gamespeak_motion = eSligMotions::M_SpeakHi_21_4B53D0;
             break;
 
-        case GameSpeakEvents::eFollowMe_10:
-        case GameSpeakEvents::eWait_12:
+        case GameSpeakEvents::eAbe_FollowMe_10:
+        case GameSpeakEvents::eAbe_Wait_12:
             if (Math_NextRandom() & 8)
             {
                 field_294_next_gamespeak_motion = eSligMotions::M_SpeakBullshit1_25_4B5450;
@@ -5799,19 +5794,9 @@ void Slig::GameSpeakResponse_4BF470()
             }
             break;
 
-        case GameSpeakEvents::eAnger_11:
-        case GameSpeakEvents::eUnknown_13:
-        case GameSpeakEvents::eUnknown_16:
-        case GameSpeakEvents::eUnknown_17:
-        case GameSpeakEvents::eUnknown_18:
-        case GameSpeakEvents::eUnknown_19:
-        case GameSpeakEvents::eUnknown_20:
-        case GameSpeakEvents::eUnknown_25:
-        case GameSpeakEvents::eUnknown_26:
-        case GameSpeakEvents::eUnknown_30:
-        case GameSpeakEvents::Slig_Freeze_31:
-        case GameSpeakEvents::eUnknown_32:
-        case GameSpeakEvents::eUnknown_35:
+        case GameSpeakEvents::eAbe_Anger_11:
+        case GameSpeakEvents::eSlig_Freeze_31:
+        case GameSpeakEvents::eGlukkon_None_35:
             field_294_next_gamespeak_motion = eSligMotions::M_SpeakLaugh_24_4B5430;
             break;
 
@@ -6070,7 +6055,7 @@ s16 Slig::HandleEnemyStopper_4BBA00(s32 gridBlocks)
     }
 
     const FP width = ScaleToGridSize(GetSpriteScale()) * FP_FromInteger(directedGirdBlocks) + mXPos;
-    auto pTlv = static_cast<relive::Path_EnemyStopper*>(sPathInfo->TLV_Get_At(
+    auto pTlv = static_cast<relive::Path_EnemyStopper*>(gPathInfo->TLV_Get_At(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(width),
@@ -6383,7 +6368,7 @@ s16 Slig::IsAbeEnteringDoor_4BB990(IBaseAliveGameObject* pThis)
 s16 Slig::FindSwitch_4B9A50()
 {
     const s16 yPos = FP_GetExponent(mYPos - FP_FromInteger(5));
-    if (sPathInfo->TLV_Get_At(FP_GetExponent(mXPos), yPos, FP_GetExponent(mXPos), yPos, ReliveTypes::eLever))
+    if (gPathInfo->TLV_Get_At(FP_GetExponent(mXPos), yPos, FP_GetExponent(mXPos), yPos, ReliveTypes::eLever))
     {
         return 0;
     }
@@ -6394,7 +6379,7 @@ s16 Slig::FindSwitch_4B9A50()
         xOff = -xOff;
     }
 
-    return sPathInfo->TLV_Get_At(
+    return gPathInfo->TLV_Get_At(
                FP_GetExponent(FP_Abs(mXPos) + xOff),
                yPos,
                FP_GetExponent(FP_Abs(mXPos) + xOff),
@@ -6474,7 +6459,7 @@ s16 Slig::HeardGlukkonToListenTo_4B9690(GameSpeakEvents glukkonSpeak)
         if (pObj != this && pObj->Type() == ReliveTypes::eSlig)
         {
             auto* pOtherSlig = static_cast<Slig*>(pObj);
-            if (pOtherSlig->GetSpriteScale() == sControlledCharacter->GetSpriteScale() && gMap.Is_Point_In_Current_Camera(pOtherSlig->mCurrentLevel, pOtherSlig->mCurrentPath, pOtherSlig->mXPos, pOtherSlig->mYPos, 0) && NearOrFacingActiveChar_4B9930(pOtherSlig) && (glukkonSpeak == GameSpeakEvents::Glukkon_Hey_36 || pOtherSlig->BrainIs(&Slig::Brain_ListeningToGlukkon_4_4B9D20)))
+            if (pOtherSlig->GetSpriteScale() == sControlledCharacter->GetSpriteScale() && gMap.Is_Point_In_Current_Camera(pOtherSlig->mCurrentLevel, pOtherSlig->mCurrentPath, pOtherSlig->mXPos, pOtherSlig->mYPos, 0) && NearOrFacingActiveChar_4B9930(pOtherSlig) && (glukkonSpeak == GameSpeakEvents::eGlukkon_Hey_36 || pOtherSlig->BrainIs(&Slig::Brain_ListeningToGlukkon_4_4B9D20)))
             {
                 if (VIsObjNearby(ScaleToGridSize(GetSpriteScale()) * FP_FromDouble(0.5), pOtherSlig))
                 {
@@ -6547,7 +6532,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
                     relive::Path_TLV* pTlvIter = nullptr;
                     for (;;)
                     {
-                        pTlvIter = sPathInfo->TlvGetAt(pTlvIter, mXPos, rectY, mXPos, rectY);
+                        pTlvIter = gPathInfo->TlvGetAt(pTlvIter, mXPos, rectY, mXPos, rectY);
                         if (!pTlvIter)
                         {
                             break;

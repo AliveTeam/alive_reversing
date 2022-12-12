@@ -85,7 +85,7 @@ void Map::Reset()
 
 void Map::Init(EReliveLevelIds level, s16 path, s16 camera, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange)
 {
-    sPathInfo = relive_new Path();
+    gPathInfo = relive_new Path();
 
     field_2C_camera_array[0] = nullptr;
     field_2C_camera_array[1] = nullptr;
@@ -190,8 +190,8 @@ void Map::Shutdown()
     gScreenManager = nullptr;
 
     // Free 
-    relive_delete sPathInfo;
-    sPathInfo = nullptr;
+    relive_delete gPathInfo;
+    gPathInfo = nullptr;
 
     Reset();
 }
@@ -392,7 +392,7 @@ void Map::Handle_PathTransition()
     relive::Path_PathTransition* pTlv = nullptr;
     if (mAliveObj)
     {
-        pTlv = static_cast<relive::Path_PathTransition*>(sPathInfo->TLV_Get_At(
+        pTlv = static_cast<relive::Path_PathTransition*>(gPathInfo->TLV_Get_At(
             FP_GetExponent(mAliveObj->mXPos),
             FP_GetExponent(mAliveObj->mYPos),
             FP_GetExponent(mAliveObj->mXPos),
@@ -660,7 +660,7 @@ void Map::GoTo_Camera()
             {
                 SND_Reset();
                 FreePathResourceBlocks();
-                sPathInfo->Free();
+                gPathInfo->Free();
             }
 
         }
@@ -710,7 +710,7 @@ void Map::GoTo_Camera()
     const PathBlyRec* pPathRec_1 = Path_Get_Bly_Record(mNextLevel, mNextPath);
     mPathData = pPathRec_1->field_4_pPathData;
 
-    sPathInfo->Init(
+    gPathInfo->Init(
         mPathData,
         mNextLevel,
         mNextPath,
@@ -799,7 +799,7 @@ void Map::GoTo_Camera()
         gScreenManager = relive_new ScreenManager(field_2C_camera_array[0]->field_C_pCamRes, &field_24_camera_offset);
     }
 
-    sPathInfo->Loader_4DB800(mCamIdxOnX, mCamIdxOnY, LoadMode::ConstructObject_0, ReliveTypes::eNone); // none = load all
+    gPathInfo->Loader_4DB800(mCamIdxOnX, mCamIdxOnY, LoadMode::ConstructObject_0, ReliveTypes::eNone); // none = load all
 
     if (prevPathId != mCurrentPath || prevLevelId != mCurrentLevel)
     {
@@ -837,7 +837,7 @@ void Map::GoTo_Camera()
             // TODO: Add template helpers
 
             // Door transition
-            relive::Path_Door* pDoorTlv = static_cast<relive::Path_Door*>(sPathInfo->TLV_First_Of_Type_In_Camera(ReliveTypes::eDoor, 0));
+            relive::Path_Door* pDoorTlv = static_cast<relive::Path_Door*>(gPathInfo->TLV_First_Of_Type_In_Camera(ReliveTypes::eDoor, 0));
             while (pDoorTlv->mDoorId != sActiveHero->field_1A0_door_id)
             {
                 pDoorTlv = static_cast<relive::Path_Door*>(Path::TLV_Next_Of_Type(pDoorTlv, ReliveTypes::eDoor));
@@ -856,7 +856,7 @@ void Map::GoTo_Camera()
                 // TODO: Add template helpers
 
                 // Teleporter transition
-                relive::Path_Teleporter* pTeleporterTlv = static_cast<relive::Path_Teleporter*>(sPathInfo->TLV_First_Of_Type_In_Camera(ReliveTypes::eTeleporter, 0));
+                relive::Path_Teleporter* pTeleporterTlv = static_cast<relive::Path_Teleporter*>(gPathInfo->TLV_First_Of_Type_In_Camera(ReliveTypes::eTeleporter, 0));
                 while (pTeleporterTlv->mTeleporterId != sActiveHero->field_1A0_door_id)
                 {
                     pTeleporterTlv = static_cast<relive::Path_Teleporter*>(Path::TLV_Next_Of_Type(pTeleporterTlv, ReliveTypes::eTeleporter));
@@ -1073,7 +1073,7 @@ Camera* Map::Create_Camera(s16 xpos, s16 ypos, s32 /*a4*/)
     }
 
     // Check max bounds
-    if (xpos >= sPathInfo->mCamsOnX || ypos >= sPathInfo->mCamsOnY)
+    if (xpos >= gPathInfo->mCamsOnX || ypos >= gPathInfo->mCamsOnY)
     {
         return nullptr;
     }
@@ -1143,7 +1143,7 @@ void Map::Load_Path_Items(Camera* pCamera, LoadMode loadMode)
             // ResourceManager::LoadResourceFile_49C130(pCamera->field_1E_cam_name, Camera::On_Loaded, pCamera, pCamera);
             pCamera->field_C_pCamRes = ResourceManagerWrapper::LoadCam(pCamera->field_1A_level, pCamera->field_18_path, pCamera->field_1C_camera_number);
 
-            sPathInfo->Loader_4DB800(pCamera->mCamXOff, pCamera->mCamYOff, LoadMode::LoadResourceFromList_1, ReliveTypes::eNone); // none = load all
+            gPathInfo->Loader_4DB800(pCamera->mCamXOff, pCamera->mCamYOff, LoadMode::LoadResourceFromList_1, ReliveTypes::eNone); // none = load all
         }
         else
         {
@@ -1152,7 +1152,7 @@ void Map::Load_Path_Items(Camera* pCamera, LoadMode loadMode)
             pCamera->mCamResLoaded = true;
             // pCamera->field_C_pCamRes = ResourceManagerWrapper::LoadCam(pCamera->field_1A_level, pCamera->field_18_path, pCamera->field_1C_camera_number);
 
-            sPathInfo->Loader_4DB800(pCamera->mCamXOff, pCamera->mCamYOff, LoadMode::LoadResource_2, ReliveTypes::eNone); // none = load all
+            gPathInfo->Loader_4DB800(pCamera->mCamXOff, pCamera->mCamYOff, LoadMode::LoadResource_2, ReliveTypes::eNone); // none = load all
         }
 
     }
@@ -1171,7 +1171,7 @@ void Map::LoadResource(const char_type* /*pFileName*/, s32 /*type*/, s32 /*resou
 
 relive::Path_TLV* Map::VTLV_Get_At(s16 xpos, s16 ypos, s16 width, s16 height, ReliveTypes typeToFind)
 {
-    return sPathInfo->TLV_Get_At(xpos, ypos, width, height, typeToFind);
+    return gPathInfo->TLV_Get_At(xpos, ypos, width, height, typeToFind);
 }
 
 Map gMap = {};

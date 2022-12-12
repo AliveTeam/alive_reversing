@@ -149,7 +149,7 @@ struct Path_TLV
     s16 mLength;
     TlvTypes32 mTlvType32;
     s32 field_8;                 // only ever used as some sort of hacky memory overwrite check, always 0 in the Path data
-    PSX_Point field_C_sound_pos; // a completely pointless copy of mTopLeft, the data is always the same in all released Paths
+    PSX_Point mSoundPos; // a completely pointless copy of mTopLeft, the data is always the same in all released Paths
     PSX_Point mTopLeft;
     PSX_Point mBottomRight;
 

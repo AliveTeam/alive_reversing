@@ -255,7 +255,7 @@ Drill::Drill(relive::Path_Drill* pTlv, const Guid& tlvId)
 s32 Drill::CreateFromSaveState(const u8* pData)
 {
     const DrillSaveState* pState = reinterpret_cast<const DrillSaveState*>(pData);
-    auto pTlv = static_cast<relive::Path_Drill*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->mDrillTlvId));
+    auto pTlv = static_cast<relive::Path_Drill*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mDrillTlvId));
     auto pDrill = relive_new Drill(pTlv, pState->mDrillTlvId);
 
     if (pState->mState != DrillStates::State_0_Restart_Cycle)

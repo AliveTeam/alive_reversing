@@ -119,11 +119,11 @@ void GlukkonSwitch::VUpdate()
         SetDead(true);
     }
 
-    const s32 lastEventIdx = gEventSystem->field_28_last_event_index;
+    const s32 lastEventIdx = gEventSystem->mLastEventIndex;
     GameSpeakEvents lastEventIdx2 = GameSpeakEvents::eNone_m1;
     if (mLastEventIdx == lastEventIdx)
     {
-        if (gEventSystem->field_20_last_event == GameSpeakEvents::eNone_m1)
+        if (gEventSystem->mLastEvent == GameSpeakEvents::eNone_m1)
         {
             lastEventIdx2 = GameSpeakEvents::eNone_m1;
         }
@@ -135,7 +135,7 @@ void GlukkonSwitch::VUpdate()
     else
     {
         mLastEventIdx = lastEventIdx;
-        lastEventIdx2 = gEventSystem->field_20_last_event;
+        lastEventIdx2 = gEventSystem->mLastEvent;
     }
 
     switch (mState)
@@ -193,14 +193,14 @@ void GlukkonSwitch::VUpdate()
             }
             else
             {
-                if (lastEventIdx2 == GameSpeakEvents::Glukkon_Hey_36)
+                if (lastEventIdx2 == GameSpeakEvents::eGlukkon_Hey_36)
                 {
                     mState = 4;
                     mTimer = sGnFrame + 30;
                 }
                 else
                 {
-                    if (lastEventIdx2 < GameSpeakEvents::Glukkon_Hey_36)
+                    if (lastEventIdx2 < GameSpeakEvents::eGlukkon_Hey_36)
                     {
                         mState = 8;
                         mTimer = sGnFrame + 30;
@@ -237,12 +237,12 @@ void GlukkonSwitch::VUpdate()
                         mTimer = sGnFrame + 15;
                     }
                 }
-                else if (lastEventIdx2 == GameSpeakEvents::Glukkon_DoIt_37)
+                else if (lastEventIdx2 == GameSpeakEvents::eGlukkon_DoIt_37)
                 {
                     mState = 6;
                     mTimer = sGnFrame + 30;
                 }
-                else if (lastEventIdx2 < GameSpeakEvents::Glukkon_Hey_36)
+                else if (lastEventIdx2 < GameSpeakEvents::eGlukkon_Hey_36)
                 {
                     mState = 8;
                     mTimer = sGnFrame + 30;

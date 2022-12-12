@@ -259,7 +259,7 @@ s32 FlyingSlig::CreateFromSaveState(const u8* pBuffer)
 {
     auto pSaveState = reinterpret_cast<const FlyingSligSaveState*>(pBuffer);
 
-    auto pTlv = static_cast<relive::Path_FlyingSlig*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->field_3C_tlvInfo));
+    auto pTlv = static_cast<relive::Path_FlyingSlig*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->field_3C_tlvInfo));
 
     auto pFlyingSlig = relive_new FlyingSlig(pTlv, pSaveState->field_3C_tlvInfo);
     if (pFlyingSlig)
@@ -496,7 +496,7 @@ FlyingSlig::~FlyingSlig()
         }
     }
 
-    relive::Path_TLV* pTlv = sPathInfo->TLV_From_Offset_Lvl_Cam(field_148_tlvInfo);
+    relive::Path_TLV* pTlv = gPathInfo->TLV_From_Offset_Lvl_Cam(field_148_tlvInfo);
     if (pTlv)
     {
         if (pTlv->mTlvType != ReliveTypes::eSligGetWings && pTlv->mTlvType != ReliveTypes::eFlyingSligSpawner)
@@ -867,7 +867,7 @@ s16 FlyingSlig::VTakeDamage(BaseGameObject* pFrom)
                 relive::Path_TLV* pTlv = nullptr;
                 do
                 {
-                    pTlv = sPathInfo->TlvGetAt(pTlv,
+                    pTlv = gPathInfo->TlvGetAt(pTlv,
                                                                  mXPos,
                                                                  FP_FromInteger(bRect.y),
                                                                  mXPos,
@@ -1511,13 +1511,13 @@ void FlyingSlig::Motion_8_GameSpeak()
             switch (field_17D_next_speak)
             {
                 case SligSpeak::eHi_0:
-                    gEventSystem->PushEvent(GameSpeakEvents::Slig_Hi_27);
+                    gEventSystem->PushEvent(GameSpeakEvents::eSlig_Hi_27);
                     break;
                 case SligSpeak::eHereBoy_1:
-                    gEventSystem->PushEvent(GameSpeakEvents::Slig_HereBoy_28);
+                    gEventSystem->PushEvent(GameSpeakEvents::eSlig_HereBoy_28);
                     break;
                 case SligSpeak::eGetHim_2:
-                    gEventSystem->PushEvent(GameSpeakEvents::Slig_GetEm_29);
+                    gEventSystem->PushEvent(GameSpeakEvents::eSlig_GetEm_29);
                     break;
                 case SligSpeak::eLaugh_3:
                     gEventSystem->PushEvent(GameSpeakEvents::Slig_Laugh_8);
@@ -1532,7 +1532,7 @@ void FlyingSlig::Motion_8_GameSpeak()
                     gEventSystem->PushEvent(GameSpeakEvents::Slig_BS2_7);
                     break;
                 case SligSpeak::eFreeze_8:
-                    gEventSystem->PushEvent(GameSpeakEvents::Slig_Freeze_31);
+                    gEventSystem->PushEvent(GameSpeakEvents::eSlig_Freeze_31);
                     break;
                 default:
                     break;
@@ -2528,11 +2528,11 @@ ReliveTypes FlyingSlig::FindLeftOrRightBound(FP xOrY, FP wOrH)
     // TODO: Check left is really Abs'd.
     ReliveTypes found_type = ReliveTypes::eNone;
 
-    if (sPathInfo->TLV_Get_At(FP_GetExponent(FP_Abs(left)), FP_GetExponent(top), FP_GetExponent(right), FP_GetExponent(bottom), ReliveTypes::eSligBoundLeft))
+    if (gPathInfo->TLV_Get_At(FP_GetExponent(FP_Abs(left)), FP_GetExponent(top), FP_GetExponent(right), FP_GetExponent(bottom), ReliveTypes::eSligBoundLeft))
     {
         found_type = ReliveTypes::eSligBoundLeft;
     }
-    else if (sPathInfo->TLV_Get_At(FP_GetExponent(left), FP_GetExponent(top), FP_GetExponent(right), FP_GetExponent(bottom), ReliveTypes::eSligBoundRight))
+    else if (gPathInfo->TLV_Get_At(FP_GetExponent(left), FP_GetExponent(top), FP_GetExponent(right), FP_GetExponent(bottom), ReliveTypes::eSligBoundRight))
     {
         found_type = ReliveTypes::eSligBoundRight;
     }

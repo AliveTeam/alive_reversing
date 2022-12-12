@@ -115,7 +115,7 @@ const TintEntry kGlukkonTints_5546B4[16] = {
 s32 Glukkon::CreateFromSaveState(const u8* pData)
 {
     const GlukkonSaveState* pSaveState = reinterpret_cast<const GlukkonSaveState*>(pData);
-    auto pTlv = static_cast<relive::Path_Glukkon*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->mTlvId));
+    auto pTlv = static_cast<relive::Path_Glukkon*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->mTlvId));
 
     auto pGlukkon = relive_new Glukkon(pTlv, pSaveState->mTlvId);
     if (pGlukkon)
@@ -785,46 +785,43 @@ void Glukkon::Motion_11_Speak1()
                 switch (mSpeak)
                 {
                     case GlukkonSpeak::Hey_0:
-                        evToBePushed = GameSpeakEvents::Glukkon_Hey_36;
+                        evToBePushed = GameSpeakEvents::eGlukkon_Hey_36;
                         break;
                     case GlukkonSpeak::DoIt_1:
-                        evToBePushed = GameSpeakEvents::Glukkon_DoIt_37;
+                        evToBePushed = GameSpeakEvents::eGlukkon_DoIt_37;
                         break;
                     case GlukkonSpeak::StayHere_2:
-                        evToBePushed = GameSpeakEvents::Glukkon_StayHere_38;
+                        evToBePushed = GameSpeakEvents::eGlukkon_StayHere_38;
                         break;
                     case GlukkonSpeak::Commere_3:
-                        evToBePushed = GameSpeakEvents::Glukkon_Commere_39;
+                        evToBePushed = GameSpeakEvents::eGlukkon_Commere_39;
                         break;
                     case GlukkonSpeak::AllOYa_4:
-                        evToBePushed = GameSpeakEvents::Glukkon_AllOYa_40;
+                        evToBePushed = GameSpeakEvents::eGlukkon_AllOYa_40;
                         break;
                     case GlukkonSpeak::Heh_5:
-                        evToBePushed = GameSpeakEvents::Glukkon_Heh_41;
+                        evToBePushed = GameSpeakEvents::eGlukkon_Heh_41;
                         break;
                     case GlukkonSpeak::Help_6:
-                        evToBePushed = GameSpeakEvents::Glukkon_Help_42;
+                        evToBePushed = GameSpeakEvents::eGlukkon_Help_42;
                         break;
                     case GlukkonSpeak::Laugh_7:
-                        evToBePushed = GameSpeakEvents::Glukkon_Laugh_43;
+                        evToBePushed = GameSpeakEvents::eGlukkon_Laugh_43;
                         break;
                     case GlukkonSpeak::KillEm_8:
-                        evToBePushed = GameSpeakEvents::Glukkon_KillEm_44;
+                        evToBePushed = GameSpeakEvents::eGlukkon_KillEm_44;
                         break;
                     case GlukkonSpeak::Unused_9:
-                        evToBePushed = GameSpeakEvents::Glukkon_Unknown_45;
-                        break;
-                    case GlukkonSpeak::Unused_10:
-                        evToBePushed = GameSpeakEvents::Glukkon_Unknown_46;
+                        evToBePushed = GameSpeakEvents::eGlukkon_Unknown_45;
                         break;
                     case GlukkonSpeak::What_11:
-                        evToBePushed = GameSpeakEvents::Glukkon_What_47;
+                        evToBePushed = GameSpeakEvents::eGlukkon_What_47;
                         break;
                     default:
-                        evToBePushed = GameSpeakEvents::eUnknown_35; //GlukkonSpeak::None
+                        evToBePushed = GameSpeakEvents::eGlukkon_None_35;
                         break;
                 }
-                if (evToBePushed != GameSpeakEvents::eUnknown_35)
+                if (evToBePushed != GameSpeakEvents::eGlukkon_None_35)
                 {
                     gEventSystem->PushEvent(evToBePushed);
                 }
@@ -1644,7 +1641,7 @@ s16 Glukkon::Brain_3_PlayerControlled()
             return 5;
 
         case 5:
-            if (sMovie_ref_count_BB4AE4)
+            if (gMovieRefCount)
             {
                 return mBrainSubState;
             }
@@ -2071,7 +2068,7 @@ void Glukkon::VUpdate()
 
         if (oldXPos != mXPos || oldYPos != mYPos)
         {
-            relive::Path_TLV* pTlv = sPathInfo->TlvGetAt(
+            relive::Path_TLV* pTlv = gPathInfo->TlvGetAt(
                 nullptr,
                 mXPos,
                 mYPos,
@@ -2162,7 +2159,6 @@ void Glukkon::Speak(GlukkonSpeak speak)
         case GlukkonSpeak::AllOYa_4:
         case GlukkonSpeak::KillEm_8:
         case GlukkonSpeak::Unused_9:
-        case GlukkonSpeak::Unused_10:
             SetNextMotion(eGlukkonMotions::Motion_12_Speak2);
             mSpeak = speak;
             break;
@@ -2397,7 +2393,7 @@ s16 Glukkon::PathBlocked(FP /*a2*/, s16 checkBounds)
         return 1;
     }
 
-    BaseAliveGameObjectPathTLV = sPathInfo->TLV_Get_At(
+    BaseAliveGameObjectPathTLV = gPathInfo->TLV_Get_At(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos), // TODO Abs() ??
         FP_GetExponent(mXPos + gridSize),
@@ -2411,7 +2407,7 @@ s16 Glukkon::PathBlocked(FP /*a2*/, s16 checkBounds)
         return 1;
     }
 
-    BaseAliveGameObjectPathTLV = sPathInfo->TLV_Get_At(
+    BaseAliveGameObjectPathTLV = gPathInfo->TLV_Get_At(
         FP_GetExponent(mXPos),
         FP_GetExponent(mYPos),
         FP_GetExponent(mXPos + gridSize),
@@ -2431,7 +2427,7 @@ s16 Glukkon::PathBlocked(FP /*a2*/, s16 checkBounds)
         return 0;
     }
 
-    if (sPathInfo->TLV_Get_At(
+    if (gPathInfo->TLV_Get_At(
             FP_GetExponent(mXPos),
             FP_GetExponent(mYPos), // TODO: Abs() ??
             FP_GetExponent(mXPos + gridSize),
@@ -2784,7 +2780,7 @@ void Glukkon::VOnTlvCollision(relive::Path_TLV* pTlv)
             }
         }
 
-        pTlv = sPathInfo->TlvGetAt(
+        pTlv = gPathInfo->TlvGetAt(
             pTlv,
             mXPos,
             mYPos,

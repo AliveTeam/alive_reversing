@@ -38,7 +38,7 @@ public:
 
     void SetDontComeBack(bool bDontComeBack);
 
-    Guid field_E4_tlvInfo;
+    Guid mTlvId;
     enum class States : s16
     {
         eMoveRight_0 = 0,
@@ -46,21 +46,21 @@ public:
         eMoveLeft_2 = 2,
         eWaitThenMoveRight_3 = 3
     };
-    States field_E8_state = States::eMoveRight_0;
-    s32 field_EC_timer = 0;
-    u16 field_F0_disable_switch_id = 0;
-    s16 field_F2_alarm_switch_id = 0;
-    s16 field_F4_alarm_duration = 0;
-    bool field_F6_bDontComeBack = false;
-    FP field_F8_top_left_x = {};
-    FP field_FC_top_left_y = {};
-    FP field_100_bottom_right_x = {};
-    FP field_104_bottom_right_y = {};
-    Guid field_F8_laser_id;
-    Poly_G3 field_10C_prims[2] = {};
-    Prim_SetTPage field_13C_tPage[2] = {};
-    FP field_15C_speed = {};
-    s16 field_160_bObjectInLaser = 0;
+    States mState = States::eMoveRight_0;
+    s32 mPauseTimer = 0;
+    u16 mDisableSwitchId = 0;
+    s16 mAlarmSwitchId = 0;
+    s16 mAlarmDuration = 0;
+    bool mDontComeBack = false;
+    FP mTopLeftX = {};
+    FP mTopLeftY = {};
+    FP mBottomRightX = {};
+    FP mBottomRightY = {};
+    Guid mLaserId;
+    Poly_G3 mPrims[2] = {};
+    Prim_SetTPage mTPage[2] = {};
+    FP mSpeed = {};
+    bool mObjectInLaser = false;
 };
 
 } // namespace AO

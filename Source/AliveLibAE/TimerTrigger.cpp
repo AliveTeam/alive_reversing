@@ -97,7 +97,7 @@ s32 TimerTrigger::CreateFromSaveState(const u8* pData)
 {
     auto pState = reinterpret_cast<const TimerTriggerSaveState*>(pData);
 
-    relive::Path_TimerTrigger* pTlv = static_cast<relive::Path_TimerTrigger*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvId));
+    relive::Path_TimerTrigger* pTlv = static_cast<relive::Path_TimerTrigger*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvId));
     auto pTimerTrigger = relive_new TimerTrigger(pTlv, pState->mTlvId);
     if (pTimerTrigger)
     {

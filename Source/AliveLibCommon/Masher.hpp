@@ -79,20 +79,20 @@ class Masher final
 {
 public:
     // Same as 0x523FA0 in MGSI.exe
-    s32 Init_4E6770(const char_type* movieFileName);
+    s32 Init(const char_type* movieFileName);
 
     // Same as 0x524214 in MGSI.exe
     ~Masher();
 
     // Same as 0x52427C in MGSI.exe
-    s32 ReadNextFrame_4E6B30();
+    s32 ReadNextFrame();
 
     // Same as 0x52897C in MSGI.exe
     static s32 ReadNextFrameToMemory_4EAC30(Masher* pMasher);
 
     // Same as 0x528985 in MGSI.exe
     void Decode_4EA670();
-    void VideoFrameDecode_4E6C60(RGBA32* pPixelBuffer);
+    void VideoFrameDecode(RGBA32* pPixelBuffer);
 
     // Same as 0x52B015 in MGSI.exe
     static void DDV_Set_Channels_And_BitsPerSample_4ECFD0(s32 numChannels, s32 bitsPerSample);

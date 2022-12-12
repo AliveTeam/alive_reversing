@@ -209,7 +209,7 @@ void AirExplosion::DealBlastDamage(PSX_RECT* pRect)
         }
     }
 
-    auto pTlv = static_cast<relive::Path_Slig*>(sPathInfo->TLV_Get_At(
+    auto pTlv = static_cast<relive::Path_Slig*>(gPathInfo->TLV_Get_At(
         expandedRect.x,
         expandedRect.y,
         expandedRect.w,

@@ -317,7 +317,7 @@ static void Factory_LiftPoint(relive::Path_TLV* pTlv, Path*, const Guid& tlvId, 
             s16 pointNumber = 1;
             while (pointNumber < 8)
             {
-                relive::Path_TLV* pTlvIter = sPathInfo->Get_First_TLV_For_Offsetted_Camera(
+                relive::Path_TLV* pTlvIter = gPathInfo->Get_First_TLV_For_Offsetted_Camera(
                     0,
                     pointNumber / 2 * (pointNumber % 2 != 0 ? -1 : 1));
 
@@ -789,7 +789,7 @@ static void Factory_SligBoundLeft(relive::Path_TLV* pTlv, Path*, const Guid& /*t
 
         for (s16 camX_idx = -2; camX_idx < 3; camX_idx++)
         {
-            relive::Path_TLV* pTlvIter = sPathInfo->Get_First_TLV_For_Offsetted_Camera(camX_idx, 0);
+            relive::Path_TLV* pTlvIter = gPathInfo->Get_First_TLV_For_Offsetted_Camera(camX_idx, 0);
             pTlvIter = FindMatchingSligTLV(pTlvIter, pBound);
             if (pTlvIter)
             {

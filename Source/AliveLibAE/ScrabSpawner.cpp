@@ -36,7 +36,7 @@ ScrabSpawner::ScrabSpawner(relive::Path_ScrabSpawner* pTlv, const Guid& tlvId)
 s32 ScrabSpawner::CreateFromSaveState(const u8* pBuffer)
 {
     const auto pState = reinterpret_cast<const ScrabSpawnerSaveState*>(pBuffer);
-    auto pTlv = static_cast<relive::Path_ScrabSpawner*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_4_tlvInfo));
+    auto pTlv = static_cast<relive::Path_ScrabSpawner*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_4_tlvInfo));
     auto pScrabSpawner = relive_new ScrabSpawner(pTlv, pState->field_4_tlvInfo);
     if (pScrabSpawner)
     {
@@ -114,7 +114,7 @@ void ScrabSpawner::VUpdate()
         {
             if (SwitchStates_Get(field_24_spawner_switch_id))
             {
-                auto pTlv = static_cast<relive::Path_ScrabSpawner*>(sPathInfo->TLV_Get_At(
+                auto pTlv = static_cast<relive::Path_ScrabSpawner*>(gPathInfo->TLV_Get_At(
                     field_28_tlv_data.mTopLeftX,
                     field_28_tlv_data.mTopLeftY,
                     field_28_tlv_data.mTopLeftX,

@@ -53,8 +53,8 @@ void TlvObjectBaseAO::InstanceFromJsonBase(const jsonxx::Object& obj)
     mPSelfTlv->mBottomRight.x += mPSelfTlv->mTopLeft.x;
     mPSelfTlv->mBottomRight.y += mPSelfTlv->mTopLeft.y;
 
-    mPSelfTlv->field_C_sound_pos.x = mPSelfTlv->mTopLeft.x;
-    mPSelfTlv->field_C_sound_pos.y = mPSelfTlv->mTopLeft.y;
+    mPSelfTlv->mSoundPos.x = mPSelfTlv->mTopLeft.x;
+    mPSelfTlv->mSoundPos.y = mPSelfTlv->mTopLeft.y;
 }
 
 void TlvObjectBaseAO::InstanceToJsonBase(jsonxx::Object& ret)

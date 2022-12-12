@@ -149,9 +149,9 @@ void SecurityDoor::VUpdate()
         case SecurityDoorStates::eListeningForHi_3:
         {
             GameSpeakEvents last_event = {};
-            if (field_F4_event_idx == gEventSystem->field_18_last_event_index)
+            if (field_F4_event_idx == gEventSystem->mLastEventIndex)
             {
-                if (gEventSystem->field_10_last_event == GameSpeakEvents::eNone_m1)
+                if (gEventSystem->mLastEvent == GameSpeakEvents::eNone_m1)
                 {
                     last_event = GameSpeakEvents::eNone_m1;
                 }
@@ -162,8 +162,8 @@ void SecurityDoor::VUpdate()
             }
             else
             {
-                last_event = gEventSystem->field_10_last_event;
-                field_F4_event_idx = gEventSystem->field_18_last_event_index;
+                last_event = gEventSystem->mLastEvent;
+                field_F4_event_idx = gEventSystem->mLastEventIndex;
             }
 
             if (last_event == GameSpeakEvents::Slig_Hi_23)
@@ -196,16 +196,16 @@ void SecurityDoor::VUpdate()
             const GameSpeakEvents code = Code_LookUp(field_EC_code_converted, field_118_max_idx, field_F0_code_len);
             switch (code)
             {
-                case GameSpeakEvents::eUnknown_5:
+                case GameSpeakEvents::eSlig_Bullshit1_5:
                     Slig::Slig_GameSpeak_SFX(SligSpeak::eBullshit_4, 127, -100, 0);
                     break;
                 case GameSpeakEvents::Slig_LookOut_6:
                     Slig::Slig_GameSpeak_SFX(SligSpeak::eLookOut_5, 127, -100, 0);
                     break;
-                case GameSpeakEvents::eUnknown_7:
+                case GameSpeakEvents::eSlig_Bullshit2_7:
                     Slig::Slig_GameSpeak_SFX(SligSpeak::eBullshit2_6, 127, -100, 0);
                     break;
-                case GameSpeakEvents::eUnknown_8:
+                case GameSpeakEvents::eSlig_Laugh_8:
                     Slig::Slig_GameSpeak_SFX(SligSpeak::eHereBoy_1, 127, -100, 0);
                     break;
                 default:
@@ -246,9 +246,9 @@ void SecurityDoor::VUpdate()
             }
 
             GameSpeakEvents last_event = {};
-            if (field_F4_event_idx == gEventSystem->field_18_last_event_index)
+            if (field_F4_event_idx == gEventSystem->mLastEventIndex)
             {
-                if (gEventSystem->field_10_last_event == GameSpeakEvents::eNone_m1)
+                if (gEventSystem->mLastEvent == GameSpeakEvents::eNone_m1)
                 {
                     last_event = GameSpeakEvents::eNone_m1;
                 }
@@ -259,8 +259,8 @@ void SecurityDoor::VUpdate()
             }
             else
             {
-                last_event = gEventSystem->field_10_last_event;
-                field_F4_event_idx = gEventSystem->field_18_last_event_index;
+                last_event = gEventSystem->mLastEvent;
+                field_F4_event_idx = gEventSystem->mLastEventIndex;
             }
 
             if (last_event != GameSpeakEvents::eNone_m1)
@@ -273,9 +273,9 @@ void SecurityDoor::VUpdate()
         case SecurityDoorStates::eCheckingIfPasswordMatches_9:
         {
             GameSpeakEvents last_event = {};
-            if (field_F4_event_idx == gEventSystem->field_18_last_event_index)
+            if (field_F4_event_idx == gEventSystem->mLastEventIndex)
             {
-                if (gEventSystem->field_10_last_event == GameSpeakEvents::eNone_m1)
+                if (gEventSystem->mLastEvent == GameSpeakEvents::eNone_m1)
                 {
                     last_event = GameSpeakEvents::eNone_m1;
                 }
@@ -286,8 +286,8 @@ void SecurityDoor::VUpdate()
             }
             else
             {
-                field_F4_event_idx = gEventSystem->field_18_last_event_index;
-                last_event = gEventSystem->field_10_last_event;
+                field_F4_event_idx = gEventSystem->mLastEventIndex;
+                last_event = gEventSystem->mLastEvent;
             }
 
             if (last_event == GameSpeakEvents::eNone_m1)

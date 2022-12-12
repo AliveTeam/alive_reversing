@@ -52,7 +52,7 @@ BrewMachine::~BrewMachine()
 
 void BrewMachine::VUpdate()
 {
-    relive::Path_BrewMachine* pTlv = static_cast<relive::Path_BrewMachine*>(sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo));
+    relive::Path_BrewMachine* pTlv = static_cast<relive::Path_BrewMachine*>(gPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo));
     if (mTotalBrewCount > 0)
     {
         pTlv->mTlvSpecificMeaning = static_cast<u8>(mTotalBrewCount);

@@ -7,7 +7,7 @@ namespace AO {
 void Decompress_Type_2(const u8* pInput, u8* pOutput, s32 decompressedLen)
 {
     // Exactly the same as AE
-    CompressionType2_Decompress_40AA50(pInput, pOutput, decompressedLen);
+    CompressionType2_Decompress(pInput, pOutput, decompressedLen);
 }
 
 template <typename T>
@@ -111,7 +111,7 @@ void Decompress_Type_3(const u8* pInput, u8* pOutput, s32 totalLen, s32 out_len)
 void Decompress_Type_4Or5(const u8* pInput, u8* pOutput)
 {
     // Exactly the same as AE
-    CompressionType_4Or5_Decompress_4ABAB0(pInput, pOutput);
+    CompressionType_4Or5_Decompress(pInput, pOutput);
 }
 
 } // namespace AO

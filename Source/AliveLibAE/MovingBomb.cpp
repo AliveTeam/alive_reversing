@@ -344,7 +344,7 @@ void MovingBomb::VUpdate()
 
             FollowLine();
 
-            BaseAliveGameObjectPathTLV = sPathInfo->TLV_Get_At(
+            BaseAliveGameObjectPathTLV = gPathInfo->TLV_Get_At(
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),
@@ -386,7 +386,7 @@ void MovingBomb::VUpdate()
 
             FollowLine();
 
-            BaseAliveGameObjectPathTLV = sPathInfo->TLV_Get_At(
+            BaseAliveGameObjectPathTLV = gPathInfo->TLV_Get_At(
                 FP_GetExponent(mXPos),
                 FP_GetExponent(mYPos),
                 FP_GetExponent(mXPos),

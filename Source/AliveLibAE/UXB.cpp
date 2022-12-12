@@ -513,7 +513,7 @@ s32 UXB::CreateFromSaveState(const u8* __pSaveState)
 {
     const UXBSaveState* pSaveState = reinterpret_cast<const UXBSaveState*>(__pSaveState);
 
-    relive::Path_UXB* uxbPath = reinterpret_cast<relive::Path_UXB*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->mTlvInfo));
+    relive::Path_UXB* uxbPath = reinterpret_cast<relive::Path_UXB*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->mTlvInfo));
 
     UXB* pUXB = relive_new UXB(uxbPath, pSaveState->mTlvInfo);
 

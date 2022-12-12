@@ -166,12 +166,12 @@ void SecurityDoor::VUpdate()
             return;
         }
         case SecurityDoorStates::eListeningForHi_3:
-            if (field_104_event_idx != gEventSystem->field_28_last_event_index)
+            if (field_104_event_idx != gEventSystem->mLastEventIndex)
             {
-                field_104_event_idx = gEventSystem->field_28_last_event_index;
-                if (gEventSystem->field_20_last_event != GameSpeakEvents::eNone_m1 && gEventSystem->field_20_last_event != GameSpeakEvents::eSameAsLast_m2)
+                field_104_event_idx = gEventSystem->mLastEventIndex;
+                if (gEventSystem->mLastEvent != GameSpeakEvents::eNone_m1 && gEventSystem->mLastEvent != GameSpeakEvents::eSameAsLast_m2)
                 {
-                    if (gEventSystem->field_20_last_event == GameSpeakEvents::Slig_Hi_27)
+                    if (gEventSystem->mLastEvent == GameSpeakEvents::eSlig_Hi_27)
                     {
                         field_F8_state = SecurityDoorStates::eWaitingToSayPassword_4;
                         field_124_timer = sGnFrame + 30;
@@ -246,12 +246,12 @@ void SecurityDoor::VUpdate()
         case SecurityDoorStates::eListeningForPassword_9:
             if (static_cast<s32>(sGnFrame) <= field_124_timer)
             {
-                if (field_104_event_idx != gEventSystem->field_28_last_event_index)
+                if (field_104_event_idx != gEventSystem->mLastEventIndex)
                 {
-                    field_104_event_idx = gEventSystem->field_28_last_event_index;
-                    if (gEventSystem->field_20_last_event != GameSpeakEvents::eNone_m1 && gEventSystem->field_20_last_event != GameSpeakEvents::eSameAsLast_m2)
+                    field_104_event_idx = gEventSystem->mLastEventIndex;
+                    if (gEventSystem->mLastEvent != GameSpeakEvents::eNone_m1 && gEventSystem->mLastEvent != GameSpeakEvents::eSameAsLast_m2)
                     {
-                        field_11A_event_idx = static_cast<s16>(gEventSystem->field_28_last_event_index);
+                        field_11A_event_idx = static_cast<s16>(gEventSystem->mLastEventIndex);
                         field_F8_state = SecurityDoorStates::eCheckingIfPasswordMatches_10;
                     }
                 }
@@ -278,12 +278,12 @@ void SecurityDoor::VUpdate()
                     break;
 
                 case GameSpeakMatch::ePartMatch_2:
-                    if (field_104_event_idx != gEventSystem->field_28_last_event_index)
+                    if (field_104_event_idx != gEventSystem->mLastEventIndex)
                     {
-                        field_104_event_idx = gEventSystem->field_28_last_event_index;
+                        field_104_event_idx = gEventSystem->mLastEventIndex;
                     }
 
-                    if (gEventSystem->field_20_last_event == GameSpeakEvents::eNone_m1)
+                    if (gEventSystem->mLastEvent == GameSpeakEvents::eNone_m1)
                     {
                         field_F8_state = SecurityDoorStates::eFailure_12;
                         field_124_timer = sGnFrame;

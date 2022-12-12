@@ -12,18 +12,18 @@ Fade::Fade(Layer layer, FadeOptions fade, bool destroyOnDone, s32 speed, TPageAb
 
     if (fade == FadeOptions::eFadeIn)
     {
-        mCurrentFadeRGB = 0;
+        mFadeColour = 0;
     }
     else if (fade == FadeOptions::eFadeOut)
     {
-        mCurrentFadeRGB = 255;
+        mFadeColour = 255;
     }
 
     Init(layer, fade, destroyOnDone, speed);
 
-    mEffectBaseBlue = mCurrentFadeRGB;
-    mEffectBaseGreen = mCurrentFadeRGB;
-    mEffectBaseRed = mCurrentFadeRGB;
+    mEffectBaseBlue = mFadeColour;
+    mEffectBaseGreen = mFadeColour;
+    mEffectBaseRed = mFadeColour;
 }
 
 Fade::~Fade()
@@ -59,19 +59,19 @@ void Fade::VUpdate()
 {
     if (!mDone)
     {
-        mCurrentFadeRGB += mSpeed;
+        mFadeColour += mSpeed;
         if (mFadeOption == FadeOptions::eFadeIn)
         {
-            if (mCurrentFadeRGB > 255)
+            if (mFadeColour > 255)
             {
-                mCurrentFadeRGB = 255;
+                mFadeColour = 255;
             }
         }
         else if (mFadeOption == FadeOptions::eFadeOut)
         {
-            if (mCurrentFadeRGB < 0)
+            if (mFadeColour < 0)
             {
-                mCurrentFadeRGB = 0;
+                mFadeColour = 0;
             }
         }
     }
@@ -79,14 +79,14 @@ void Fade::VUpdate()
 
 void Fade::VRender(PrimHeader** ppOt)
 {
-    mEffectBaseBlue = mCurrentFadeRGB;
-    mEffectBaseGreen = mCurrentFadeRGB;
-    mEffectBaseRed = mCurrentFadeRGB;
+    mEffectBaseBlue = mFadeColour;
+    mEffectBaseGreen = mFadeColour;
+    mEffectBaseRed = mFadeColour;
 
     EffectBase::VRender(ppOt);
 
-    if ((mCurrentFadeRGB == 255 && mFadeOption == FadeOptions::eFadeIn) ||
-        (mCurrentFadeRGB == 0 && mFadeOption == FadeOptions::eFadeOut))
+    if ((mFadeColour == 255 && mFadeOption == FadeOptions::eFadeIn) ||
+        (mFadeColour == 0 && mFadeOption == FadeOptions::eFadeOut))
     {
         mDone = true;
         if (!sIsFadingOut)

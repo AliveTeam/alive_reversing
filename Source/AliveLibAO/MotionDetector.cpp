@@ -34,9 +34,9 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
     GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_36);
     mYOffset = 0;
     mRGB.SetRGB(64, 0, 0);
-    field_160_bObjectInLaser = 0;
-    field_F6_bDontComeBack = true;
-    field_E4_tlvInfo = tlvId;
+    mObjectInLaser = false;
+    mDontComeBack = true;
+    mTlvId = tlvId;
 
     if (pTlv->mScale == relive::reliveScale::eHalf)
     {
@@ -47,21 +47,21 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
         SetSpriteScale(FP_FromInteger(1));
     }
 
-    field_F8_top_left_x = FP_FromInteger(pTlv->mTopLeftX);
-    field_100_bottom_right_x = FP_FromInteger(pTlv->mBottomRightX);
+    mTopLeftX = FP_FromInteger(pTlv->mTopLeftX);
+    mBottomRightX = FP_FromInteger(pTlv->mBottomRightX);
 
-    field_FC_top_left_y = FP_FromInteger(pTlv->mTopLeftY);
-    field_104_bottom_right_y = FP_FromInteger(pTlv->mBottomRightY);
+    mTopLeftY = FP_FromInteger(pTlv->mTopLeftY);
+    mBottomRightY = FP_FromInteger(pTlv->mBottomRightY);
 
     mXPos = FP_FromInteger(pTlv->mDeviceX);
     mYPos = FP_FromInteger(pTlv->mDeviceY);
 
-    field_15C_speed = FP_FromRaw(pTlv->mSpeedx256 << 8);
+    mSpeed = FP_FromRaw(pTlv->mSpeedx256 << 8);
 
     MotionDetectorLaser* pMotionDetectors = nullptr;
     if (pTlv->mInitialMoveDirection == relive::Path_MotionDetector::InitialMoveDirection::eRight)
     {
-        field_E8_state = States::eMoveRight_0;
+        mState = States::eMoveRight_0;
         pMotionDetectors = relive_new MotionDetectorLaser();
         if (pMotionDetectors)
         {
@@ -72,17 +72,17 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
             pMotionDetectors->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
             pMotionDetectors->GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_36);
 
-            pMotionDetectors->mXPos = field_F8_top_left_x;
-            pMotionDetectors->mYPos = field_104_bottom_right_y;
+            pMotionDetectors->mXPos = mTopLeftX;
+            pMotionDetectors->mYPos = mBottomRightY;
 
             pMotionDetectors->SetSpriteScale(GetSpriteScale());
             pMotionDetectors->mYOffset = 0;
-            field_F8_laser_id = pMotionDetectors->mBaseGameObjectId;
+            mLaserId = pMotionDetectors->mBaseGameObjectId;
         }
     }
     else if (pTlv->mInitialMoveDirection == relive::Path_MotionDetector::InitialMoveDirection::eLeft)
     {
-        field_E8_state = States::eMoveLeft_2;
+        mState = States::eMoveLeft_2;
         pMotionDetectors = relive_new MotionDetectorLaser();
         if (pMotionDetectors)
         {
@@ -92,11 +92,11 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
             
             pMotionDetectors->GetAnimation().SetRenderMode(TPageAbr::eBlend_1);
             pMotionDetectors->GetAnimation().SetRenderLayer(Layer::eLayer_Foreground_36);
-            pMotionDetectors->mXPos = field_100_bottom_right_x;
-            pMotionDetectors->mYPos = field_104_bottom_right_y;
+            pMotionDetectors->mXPos = mBottomRightX;
+            pMotionDetectors->mYPos = mBottomRightY;
             pMotionDetectors->SetSpriteScale(GetSpriteScale());
             pMotionDetectors->mYOffset = 0;
-            field_F8_laser_id = pMotionDetectors->mBaseGameObjectId;
+            mLaserId = pMotionDetectors->mBaseGameObjectId;
         }
     }
     else
@@ -104,34 +104,34 @@ MotionDetector::MotionDetector(relive::Path_MotionDetector* pTlv, const Guid& tl
         ALIVE_FATAL("couldn't find start move direction for motion detector");
     }
 
-    field_F0_disable_switch_id = pTlv->mDisableSwitchId;
+    mDisableSwitchId = pTlv->mDisableSwitchId;
 
-    pMotionDetectors->GetAnimation().SetRender(SwitchStates_Get(field_F0_disable_switch_id) == 0);
+    pMotionDetectors->GetAnimation().SetRender(SwitchStates_Get(mDisableSwitchId) == 0);
 
     GetAnimation().SetRender(pTlv->mDrawFlare == relive::reliveChoice::eYes);
 
-    field_F4_alarm_duration = pTlv->mAlarmDuration;
+    mAlarmDuration = pTlv->mAlarmDuration;
 
-    field_F2_alarm_switch_id = pTlv->mAlarmSwitchId;
+    mAlarmSwitchId = pTlv->mAlarmSwitchId;
 }
 
 void MotionDetector::SetDontComeBack(bool bDontComeBack)
 {
-    field_F6_bDontComeBack = bDontComeBack;
+    mDontComeBack = bDontComeBack;
 }
 
 MotionDetector::~MotionDetector()
 {
-    if (field_F6_bDontComeBack)
+    if (mDontComeBack)
     {
-        Path::TLV_Reset(field_E4_tlvInfo, -1, 0, 0);
+        Path::TLV_Reset(mTlvId, -1, 0, 0);
     }
     else
     {
-        Path::TLV_Reset(field_E4_tlvInfo, -1, 0, 1);
+        Path::TLV_Reset(mTlvId, -1, 0, 1);
     }
 
-    BaseGameObject* pLaser = sObjectIds.Find_Impl(field_F8_laser_id);
+    BaseGameObject* pLaser = sObjectIds.Find_Impl(mLaserId);
     if (pLaser)
     {
         pLaser->SetDead(true);
@@ -145,7 +145,7 @@ void MotionDetector::VScreenChanged()
 
 void MotionDetector::VUpdate()
 {
-    MotionDetectorLaser* pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find_Impl(field_F8_laser_id));
+    MotionDetectorLaser* pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find_Impl(mLaserId));
     if (EventGet(kEventDeathReset))
     {
         SetDead(true);
@@ -153,7 +153,7 @@ void MotionDetector::VUpdate()
 
     if (!gNumCamSwappers)
     {
-        if (SwitchStates_Get(field_F0_disable_switch_id))
+        if (SwitchStates_Get(mDisableSwitchId))
         {
             pLaser->GetAnimation().SetRender(false);
         }
@@ -163,7 +163,7 @@ void MotionDetector::VUpdate()
 
             const PSX_RECT laserRect = pLaser->VGetBoundingRect();
 
-            field_160_bObjectInLaser = false;
+            mObjectInLaser = false;
 
             for (s32 i = 0; i < gBaseAliveGameObjects->Size(); i++)
             {
@@ -202,13 +202,13 @@ void MotionDetector::VUpdate()
 
                         if (alarm)
                         {
-                            field_160_bObjectInLaser = true;
+                            mObjectInLaser = true;
 
                             if (gAlarmInstanceCount == 0)
                             {
                                 relive_new Alarm(
-                                    field_F4_alarm_duration,
-                                    field_F2_alarm_switch_id,
+                                    mAlarmDuration,
+                                    mAlarmSwitchId,
                                     0,
                                     Layer::eLayer_Above_FG1_39);
 
@@ -223,45 +223,45 @@ void MotionDetector::VUpdate()
             }
 
 
-            switch (field_E8_state)
+            switch (mState)
             {
                 case States::eMoveRight_0:
-                    if (pLaser->mXPos >= field_100_bottom_right_x)
+                    if (pLaser->mXPos >= mBottomRightX)
                     {
-                        field_E8_state = States::eWaitThenMoveLeft_1;
-                        field_EC_timer = sGnFrame + 15;
+                        mState = States::eWaitThenMoveLeft_1;
+                        mPauseTimer = sGnFrame + 15;
                         SfxPlayMono(relive::SoundEffects::MenuNavigation, 0);
                     }
                     else
                     {
-                        pLaser->mXPos += field_15C_speed;
+                        pLaser->mXPos += mSpeed;
                     }
                     break;
 
                 case States::eWaitThenMoveLeft_1:
-                    if (static_cast<s32>(sGnFrame) > field_EC_timer)
+                    if (static_cast<s32>(sGnFrame) > mPauseTimer)
                     {
-                        field_E8_state = States::eMoveLeft_2;
+                        mState = States::eMoveLeft_2;
                     }
                     break;
 
                 case States::eMoveLeft_2:
-                    if (pLaser->mXPos <= field_F8_top_left_x)
+                    if (pLaser->mXPos <= mTopLeftX)
                     {
-                        field_E8_state = States::eWaitThenMoveRight_3;
-                        field_EC_timer = sGnFrame + 15;
+                        mState = States::eWaitThenMoveRight_3;
+                        mPauseTimer = sGnFrame + 15;
                         SfxPlayMono(relive::SoundEffects::MenuNavigation, 0);
                     }
                     else
                     {
-                        pLaser->mXPos -= field_15C_speed;
+                        pLaser->mXPos -= mSpeed;
                     }
                     break;
 
                 case States::eWaitThenMoveRight_3:
-                    if (static_cast<s32>(sGnFrame) > field_EC_timer)
+                    if (static_cast<s32>(sGnFrame) > mPauseTimer)
                     {
-                        field_E8_state = States::eMoveRight_0;
+                        mState = States::eMoveRight_0;
                     }
                     break;
 
@@ -278,13 +278,13 @@ void MotionDetector::VRender(PrimHeader** ppOt)
     BaseAnimatedWithPhysicsGameObject::VRender(ppOt);
     mXPos -= FP_FromInteger(11);
 
-    if (!SwitchStates_Get(field_F0_disable_switch_id))
+    if (!SwitchStates_Get(mDisableSwitchId))
     {
         const s16 screen_top = FP_GetExponent(gScreenManager->mCamPos->y - FP_FromInteger(gScreenManager->mCamYOff));
 
         const s16 screen_left = FP_GetExponent(gScreenManager->mCamPos->x - FP_FromInteger(gScreenManager->mCamXOff));
 
-        auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find_Impl(field_F8_laser_id));
+        auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find_Impl(mLaserId));
         const PSX_RECT bLaserRect = pLaser->VGetBoundingRect();
 
         const s16 x0 = static_cast<s16>(PsxToPCX(FP_GetExponent(mXPos) - screen_left, 11));
@@ -293,7 +293,7 @@ void MotionDetector::VRender(PrimHeader** ppOt)
         const s16 y2 = y1 + bLaserRect.y - bLaserRect.h;
         const s16 x1 = static_cast<s16>(PsxToPCX(FP_GetExponent(pLaser->mXPos) - screen_left, 11));
 
-        Poly_G3* pPrim = &field_10C_prims[gPsxDisplay.mBufferIndex];
+        Poly_G3* pPrim = &mPrims[gPsxDisplay.mBufferIndex];
         PolyG3_Init(pPrim);
 
         SetXY0(pPrim, x0, y0);
@@ -309,8 +309,8 @@ void MotionDetector::VRender(PrimHeader** ppOt)
         OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pPrim->mBase.header);
 
         // Add tpage
-        Init_SetTPage(&field_13C_tPage[gPsxDisplay.mBufferIndex], PSX_getTPage(field_160_bObjectInLaser != 0 ? TPageAbr::eBlend_1 : TPageAbr::eBlend_3)); // When detected transparency is off, gives the "solid red" triangle
-        OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &field_13C_tPage[gPsxDisplay.mBufferIndex].mBase);
+        Init_SetTPage(&mTPage[gPsxDisplay.mBufferIndex], PSX_getTPage(mObjectInLaser != 0 ? TPageAbr::eBlend_1 : TPageAbr::eBlend_3)); // When detected transparency is off, gives the "solid red" triangle
+        OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &mTPage[gPsxDisplay.mBufferIndex].mBase);
     }
 }
 

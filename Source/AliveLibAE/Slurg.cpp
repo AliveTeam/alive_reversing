@@ -123,7 +123,7 @@ Slurg::Slurg(relive::Path_Slurg* pTlv, const Guid& tlvId)
 s32 Slurg::CreateFromSaveState(const u8* pData)
 {
     auto pState = reinterpret_cast<const SlurgSaveState*>(pData);
-    auto pTlv = static_cast<relive::Path_Slurg*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvId));
+    auto pTlv = static_cast<relive::Path_Slurg*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvId));
 
     auto pSlurg = relive_new Slurg(pTlv, pState->mTlvId);
 
@@ -258,7 +258,7 @@ void Slurg::VUpdate()
 
     if (oldXPos != mXPos)
     {
-        mSlurgTlv = sPathInfo->TlvGetAt(
+        mSlurgTlv = gPathInfo->TlvGetAt(
             nullptr,
             mXPos,
             mYPos,
@@ -299,7 +299,7 @@ void Slurg::VOnTlvCollision(relive::Path_TLV* pTlv)
                 GoRight();
             }
         }
-        pTlv = sPathInfo->TlvGetAt(pTlv, mXPos, mYPos, mXPos, mYPos);
+        pTlv = gPathInfo->TlvGetAt(pTlv, mXPos, mYPos, mXPos, mYPos);
     }
 
     if (mGoingRight)

@@ -868,7 +868,7 @@ void Menu::FMV_Select_Update()
     gEnableCheatFMV = false;
     gEnableCheatLevelSelect = false;
 
-    if (sMovie_ref_count_9F309C == 0)
+    if (gMovieRefCount == 0)
     {
         if (Input().IsAnyPressed(InputObject::PadIndex::First, InputCommands::eUp)) // TODO: Input constants
         {
@@ -914,7 +914,7 @@ void Menu::FMV_Select_Update()
                     const FmvInfo* pFmvRec = Path_Get_FMV_Record_434680(sActiveList[mSelectedButtonIndex.raw].mLevel, sActiveList[mSelectedButtonIndex.raw].mFmvId);
                     relive_new Movie(pFmvRec->field_0_pName);
 
-                    while (sMovie_ref_count_9F309C)
+                    while (gMovieRefCount)
                     {
                         for (s32 i = 0; i < gBaseGameObjects->Size(); i++)
                         {

@@ -292,7 +292,7 @@ void TrapDoor::VUpdate()
 s32 TrapDoor::CreateFromSaveState(const u8* pData)
 {
     auto pState = reinterpret_cast<const TrapDoorSaveState*>(pData);
-    auto pTlv = static_cast<relive::Path_TrapDoor*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvId));
+    auto pTlv = static_cast<relive::Path_TrapDoor*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvId));
 
     auto pTrapDoor = relive_new TrapDoor(pTlv, pState->mTlvId);
     if (pTrapDoor)

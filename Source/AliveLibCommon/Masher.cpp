@@ -736,7 +736,7 @@ static void Populate_Y_C_Tables(int quantScale)
     }
 }
 
-s32 Masher::Init_4E6770(const char_type* movieFileName)
+s32 Masher::Init(const char_type* movieFileName)
 {
     field_40_video_frame_to_decode = nullptr;
     field_44_decoded_frame_data_buffer = nullptr;
@@ -916,7 +916,7 @@ Masher::~Masher()
     }
 }
 
-s32 Masher::ReadNextFrame_4E6B30()
+s32 Masher::ReadNextFrame()
 {
     // Read next frame data if we are not at the end
     if (field_68_frame_number < field_4_ddv_header.field_C_number_of_frames)
@@ -979,10 +979,10 @@ s32 Masher::ReadNextFrameToMemory_4EAC30(Masher* pMasher)
 void Masher::Decode_4EA670()
 {
     // This seems to be used to just skip data without rendering ??
-    VideoFrameDecode_4E6C60(nullptr);
+    VideoFrameDecode(nullptr);
 }
 
-void Masher::VideoFrameDecode_4E6C60(RGBA32* pPixelBuffer)
+void Masher::VideoFrameDecode(RGBA32* pPixelBuffer)
 {
     if (!field_61_bHasVideo)
     {

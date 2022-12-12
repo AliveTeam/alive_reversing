@@ -50,12 +50,8 @@ enum class GlukkonSpeak : s8
     Help_6 = 6,
     Laugh_7 = 7,
     KillEm_8 = 8,
-    Unused_9 = 9,
-    Unused_10 = 10,
-    What_11 = 11,
-    Unused_12 = 12,
-    Unused_13 = 13,
-    Unused_14 = 14
+    Unused_9 = 9, // no sound
+    What_11 = 11
 };
 
 enum class LevelIds : s16;

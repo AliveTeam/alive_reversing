@@ -1525,14 +1525,14 @@ s16 Slig::GetNextMotionIncGameSpeak(u16 input)
 
         if (input & sInputKey_GameSpeak3)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::eUnknown_27);
+            gEventSystem->VPushEvent(GameSpeakEvents::eSlig_Freeze_27);
             Slig_GameSpeak_SFX(SligSpeak::eFreeze_8, 0, mGameSpeakPitchMin, this);
             return eSligMotions::Motion_23_SpeakFreeze;
         }
 
         if (input & sInputKey_GameSpeak4)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::eUnknown_25);
+            gEventSystem->VPushEvent(GameSpeakEvents::eSlig_GetHim_25);
             Slig_GameSpeak_SFX(SligSpeak::eGetHim_2, 0, mGameSpeakPitchMin, this);
             return eSligMotions::Motion_24_SpeakGetHim;
         }
@@ -1542,14 +1542,14 @@ s16 Slig::GetNextMotionIncGameSpeak(u16 input)
     {
         if (input & sInputKey_GameSpeak8)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::eUnknown_8);
+            gEventSystem->VPushEvent(GameSpeakEvents::eSlig_Laugh_8);
             Slig_GameSpeak_SFX(SligSpeak::eLaugh_7, 0, mGameSpeakPitchMin, this);
             return eSligMotions::Motion_25_SpeakLaugh;
         }
 
         if (input & sInputKey_GameSpeak6)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::eUnknown_5);
+            gEventSystem->VPushEvent(GameSpeakEvents::eSlig_Bullshit1_5);
             Slig_GameSpeak_SFX(SligSpeak::eBullshit_4, 0, mGameSpeakPitchMin, this);
             return eSligMotions::Motion_26_SpeakBullshit1;
         }
@@ -1563,7 +1563,7 @@ s16 Slig::GetNextMotionIncGameSpeak(u16 input)
 
         if (input & sInputKey_GameSpeak5)
         {
-            gEventSystem->VPushEvent(GameSpeakEvents::eUnknown_7);
+            gEventSystem->VPushEvent(GameSpeakEvents::eSlig_Bullshit2_7);
             Slig_GameSpeak_SFX(SligSpeak::eBullshit2_6, 0, mGameSpeakPitchMin, this);
             return eSligMotions::Motion_28_SpeakBullshit2;
         }
@@ -1752,10 +1752,10 @@ void Slig::GameSpeakResponse()
 {
     GameSpeakEvents speak = GameSpeakEvents::eNone_m1;
 
-    const s32 lastIdx = gEventSystem->field_18_last_event_index;
+    const s32 lastIdx = gEventSystem->mLastEventIndex;
     if (field_15C_last_event_index == lastIdx)
     {
-        if (gEventSystem->field_10_last_event == GameSpeakEvents::eNone_m1)
+        if (gEventSystem->mLastEvent == GameSpeakEvents::eNone_m1)
         {
             speak = GameSpeakEvents::eNone_m1;
         }
@@ -1767,13 +1767,13 @@ void Slig::GameSpeakResponse()
     else
     {
         field_15C_last_event_index = lastIdx;
-        speak = gEventSystem->field_10_last_event;
+        speak = gEventSystem->mLastEvent;
     }
 
     switch (speak)
     {
-        case GameSpeakEvents::eWhistleHigh_1:
-        case GameSpeakEvents::eWhistleLow_2:
+        case GameSpeakEvents::eAbe_WhistleHigh_1:
+        case GameSpeakEvents::eAbe_WhistleLow_2:
             if (!(Math_NextRandom() & 4))
             {
                 field_258_next_gamespeak_motion = eSligMotions::Motion_26_SpeakBullshit1;
@@ -1784,17 +1784,14 @@ void Slig::GameSpeakResponse()
             }
             break;
 
-        case GameSpeakEvents::eFart_3:
-        case GameSpeakEvents::eLaugh_4:
-        case GameSpeakEvents::eUnknown_8:
-        case GameSpeakEvents::eUnknown_14:
-        case GameSpeakEvents::eUnknown_15:
-        case GameSpeakEvents::eUnknown_25:
-        case GameSpeakEvents::eUnknown_30:
+        case GameSpeakEvents::eAbe_Fart_3:
+        case GameSpeakEvents::eAbe_Laugh_4:
+        case GameSpeakEvents::eSlig_Laugh_8:
+        case GameSpeakEvents::eSlig_GetHim_25:
             field_258_next_gamespeak_motion = eSligMotions::Motion_32_Blurgh;
             return;
 
-        case GameSpeakEvents::eUnknown_5:
+        case GameSpeakEvents::eSlig_Bullshit1_5:
             field_258_next_gamespeak_motion = eSligMotions::Motion_26_SpeakBullshit1;
             break;
 
@@ -1809,17 +1806,17 @@ void Slig::GameSpeakResponse()
             }
             break;
 
-        case GameSpeakEvents::eUnknown_7:
+        case GameSpeakEvents::eSlig_Bullshit2_7:
             field_258_next_gamespeak_motion = eSligMotions::Motion_28_SpeakBullshit2;
             break;
 
-        case GameSpeakEvents::eHello_9:
+        case GameSpeakEvents::eAbe_Hello_9:
         case GameSpeakEvents::Slig_Hi_23:
             field_258_next_gamespeak_motion = eSligMotions::Motion_22_SpeakHi;
             break;
 
-        case GameSpeakEvents::eFollowMe_10:
-        case GameSpeakEvents::eWait_12:
+        case GameSpeakEvents::eAbe_FollowMe_10:
+        case GameSpeakEvents::eAbe_Wait_12:
             if (Math_NextRandom() & 8)
             {
                 field_258_next_gamespeak_motion = eSligMotions::Motion_26_SpeakBullshit1;
@@ -1830,19 +1827,8 @@ void Slig::GameSpeakResponse()
             }
             break;
 
-        case GameSpeakEvents::eAnger_11:
-        case GameSpeakEvents::eUnknown_13:
-        case GameSpeakEvents::eUnknown_16:
-        case GameSpeakEvents::eUnknown_17:
-        case GameSpeakEvents::eUnknown_18:
-        case GameSpeakEvents::eUnknown_19:
-        case GameSpeakEvents::eUnknown_20:
-        case GameSpeakEvents::eUnknown_21:
-        case GameSpeakEvents::eUnknown_22:
-        case GameSpeakEvents::eUnknown_26:
-        case GameSpeakEvents::eUnknown_27:
-        case GameSpeakEvents::eUnknown_28:
-        case GameSpeakEvents::eUnknown_31:
+        case GameSpeakEvents::eAbe_Anger_11:
+        case GameSpeakEvents::eSlig_Freeze_27:
             field_258_next_gamespeak_motion = eSligMotions::Motion_25_SpeakLaugh;
             break;
 
@@ -4825,6 +4811,7 @@ s16 Slig::Brain_Idle()
         Slig::RespondToEnemyOrPatrol();
         return 104;
     }
+
     if (sActiveHero->mHealth <= FP_FromInteger(0))
     {
         ToAbeDead();
@@ -4849,6 +4836,7 @@ s16 Slig::Brain_Idle()
                 return 104;
             }
         }
+
         if (sControlledCharacter->Type() == ReliveTypes::eSlig)
         {
             if (mCurrentMotion)
@@ -4856,33 +4844,8 @@ s16 Slig::Brain_Idle()
                 ShouldStillBeAlive();
                 return 104;
             }
-            if (gEventSystem->field_10_last_event == GameSpeakEvents::eUnknown_29)
-            {
-                auto pTlv = static_cast<relive::Path_Lever*>(gMap.VTLV_Get_At(
-                    FP_GetExponent(mXPos),
-                    FP_GetExponent(mYPos),
-                    FP_GetExponent(mXPos),
-                    FP_GetExponent(mYPos),
-                    ReliveTypes::eLever));
-                if (pTlv)
-                {
-                    FP kScaleGrid = ScaleToGridSize(GetSpriteScale());
-                    if ((FP_FromInteger(FP_GetExponent(mXPos) - pTlv->mTopLeftX) < kScaleGrid && !(GetAnimation().GetFlipX())) || (FP_FromInteger(pTlv->mBottomRightX - FP_GetExponent(mXPos)) < kScaleGrid && GetAnimation().GetFlipX()))
-                    {
-                        auto pSwitch = static_cast<Lever*>(FindObjectOfType(
-                            ReliveTypes::eLever,
-                            mXPos + kScaleGrid,
-                            mYPos - FP_FromInteger(5)));
-                        if (pSwitch)
-                        {
-                            pSwitch->VPull(mXPos < pSwitch->mXPos ? true : false);
-                        }
-                        mNextMotion = eSligMotions::State_46_PullLever_46A590;
-                        return 104;
-                    }
-                }
-            }
         }
+
         if (mCurrentMotion == eSligMotions::Motion_0_StandIdle && field_114_timer <= static_cast<s32>(sGnFrame))
         {
             mNextMotion = eSligMotions::Motion_5_TurnAroundStanding;
@@ -4892,6 +4855,7 @@ s16 Slig::Brain_Idle()
         ShouldStillBeAlive();
         return 104;
     }
+
     if (pEvent != sControlledCharacter)
     {
         if (Math_NextRandom() >= 192u)
@@ -4899,6 +4863,7 @@ s16 Slig::Brain_Idle()
             return 104;
         }
     }
+
     if (VIsFacingMe(sControlledCharacter))
     {
         if (!EventGet(kEventSpeaking) || IsInInvisibleZone(sControlledCharacter))
@@ -4923,6 +4888,7 @@ s16 Slig::Brain_Idle()
         GameSpeakResponse();
         field_114_timer = static_cast<s32>(sGnFrame) + 20;
     }
+
     if (!VIsFacingMe(sControlledCharacter))
     {
         mNextMotion = eSligMotions::Motion_5_TurnAroundStanding;

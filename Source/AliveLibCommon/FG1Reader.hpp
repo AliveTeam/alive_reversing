@@ -107,7 +107,7 @@ public:
                         pDecompressionBuffer = Allocate(pChunkIter->field_2_layer_or_decompressed_size);
 
                         // Decompress into it
-                        CompressionType_4Or5_Decompress(reinterpret_cast<const u8*>(pChunkIter) + sizeof(Fg1Chunk), *pDecompressionBuffer);
+                        CompressionType_4Or5_Decompress_Impl(reinterpret_cast<const u8*>(pChunkIter) + sizeof(Fg1Chunk), *pDecompressionBuffer);
 
                         // Compressed data size + header size
                         const s32 sizeToSkipBytes = pChunkIter->field_4_xpos_or_compressed_size + sizeof(Fg1Chunk);

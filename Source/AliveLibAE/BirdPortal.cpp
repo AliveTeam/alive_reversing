@@ -669,7 +669,7 @@ void BirdPortal::VStopAudio()
 s32 BirdPortal::VGetSaveState(u8* pBuffer)
 {
     auto pState = reinterpret_cast<BirdPortalSaveState*>(pBuffer);
-    auto pTlv = static_cast<relive::Path_BirdPortal*>(sPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo));
+    auto pTlv = static_cast<relive::Path_BirdPortal*>(gPathInfo->TLV_From_Offset_Lvl_Cam(mTlvInfo));
 
     s16 numMudsForShrykull = 0;
     if (pTlv)
@@ -693,7 +693,7 @@ void BirdPortal::VRender(PrimHeader** /*ppOt*/)
 s32 BirdPortal::CreateFromSaveState(const u8* pBuffer)
 {
     auto pSaveState = reinterpret_cast<const BirdPortalSaveState*>(pBuffer);
-    auto pTlv = static_cast<relive::Path_BirdPortal*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->mTlvInfo));
+    auto pTlv = static_cast<relive::Path_BirdPortal*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pSaveState->mTlvInfo));
     if (!pTlv)
     {
         return sizeof(BirdPortalSaveState);
@@ -851,7 +851,7 @@ void BirdPortal::VExitPortal()
     mCurrentPath = gMap.mCurrentPath;
     mCurrentLevel = gMap.mCurrentLevel;
 
-    auto pPortalExitTlv = static_cast<relive::Path_BirdPortalExit*>(sPathInfo->TLV_First_Of_Type_In_Camera(ReliveTypes::eBirdPortalExit, 0));
+    auto pPortalExitTlv = static_cast<relive::Path_BirdPortalExit*>(gPathInfo->TLV_First_Of_Type_In_Camera(ReliveTypes::eBirdPortalExit, 0));
     if (pPortalExitTlv)
     {
         // TODO: Clean up this hack by having a better way to match "any" type of line

@@ -112,7 +112,7 @@ Greeter::Greeter(relive::Path_Greeter* pTlv, const Guid& tlvId)
 s32 Greeter::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const GreeterSaveState*>(pBuffer);
-    auto pTlv = static_cast<relive::Path_Greeter*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvId));
+    auto pTlv = static_cast<relive::Path_Greeter*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->mTlvId));
 
     auto pGreeter = relive_new Greeter(pTlv, pState->mTlvId);
     if (pGreeter)
@@ -153,7 +153,7 @@ s32 Greeter::CreateFromSaveState(const u8* pBuffer)
 
         auto pDetector = static_cast<MotionDetector*>(sObjectIds.Find_Impl(pGreeter->field_11C_motionDetectorId));
 
-        auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find_Impl(pDetector->field_F8_laser_id));
+        auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find_Impl(pDetector->mLaserId));
         pLaser->mXPos = pState->mMotionLaserXPos;
     }
 
@@ -202,7 +202,7 @@ s32 Greeter::VGetSaveState(u8* pSaveBuffer)
     pState->field_48_targetOnRight = field_140_targetOnRight;
 
     auto pMotionDetector = static_cast<MotionDetector*>(sObjectIds.Find_Impl(field_11C_motionDetectorId));
-    auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find_Impl(pMotionDetector->field_F8_laser_id));
+    auto pLaser = static_cast<MotionDetectorLaser*>(sObjectIds.Find_Impl(pMotionDetector->mLaserId));
     pState->mMotionLaserXPos = pLaser->mXPos;
 
     return sizeof(GreeterSaveState);
@@ -304,7 +304,7 @@ void Greeter::BounceBackFromShot()
 void Greeter::HandleRollingAlong()
 {
     for (relive::Path_TLV* pTlv = field_138_pTlv; pTlv;
-         pTlv = sPathInfo->TlvGetAt(pTlv,
+         pTlv = gPathInfo->TlvGetAt(pTlv,
                                                       mVelX + mXPos + mVelX,
                                                       mVelY + mYPos + mVelY,
                                                       mVelX + mXPos + mVelX,
@@ -774,7 +774,7 @@ void Greeter::VUpdate()
                           + mYPos
                           + mVelY;
 
-            field_138_pTlv = sPathInfo->TlvGetAt(nullptr, xpos, ypos, xpos, ypos);
+            field_138_pTlv = gPathInfo->TlvGetAt(nullptr, xpos, ypos, xpos, ypos);
             HandleRollingAlong();
         }
     }
@@ -782,7 +782,7 @@ void Greeter::VUpdate()
     bool collisionCheck = true;
     if (mBrainState == GreeterBrainStates::eBrain_7_Fall)
     {
-        field_138_pTlv = sPathInfo->TlvGetAt(
+        field_138_pTlv = gPathInfo->TlvGetAt(
             nullptr,
             mXPos,
             mYPos,

@@ -21,13 +21,13 @@ private:
     bool mFadeIn = false;
     bool mDone = false;
     bool mDestroyOnDone = false;
-    Poly_G4 field_E8[2] = {};
-    Poly_G4 field_110[2] = {};
-    Poly_G4 field_138[2] = {};
-    Poly_G4 field_160[2] = {};
-    Prim_SetTPage field_188_tPage[2] = {};
-    s16 field_1A8_fade_colour = 0;
-    s16 field_1AA_speed = 0;
+    Poly_G4 mTile1[2] = {};
+    Poly_G4 mTile2[2] = {};
+    Poly_G4 mTile3[2] = {};
+    Poly_G4 mTile4[2] = {};
+    Prim_SetTPage mTPages[2] = {};
+    s16 mFadeColour = 0;
+    s16 mSpeed = 0;
 };
 
 } // namespace AO

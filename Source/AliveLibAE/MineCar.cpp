@@ -115,7 +115,7 @@ const AnimId sMineCarAnimIdTable[7] = {
 s32 MineCar::CreateFromSaveState(const u8* pBuffer)
 {
     auto pState = reinterpret_cast<const MineCarSaveState*>(pBuffer);
-    auto pTlv = static_cast<relive::Path_MineCar*>(sPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_4C_tlvInfo));
+    auto pTlv = static_cast<relive::Path_MineCar*>(gPathInfo->TLV_From_Offset_Lvl_Cam(pState->field_4C_tlvInfo));
 
     auto pMineCar = relive_new MineCar(pTlv, pState->field_4C_tlvInfo, 0, 0, 0);
     if (pMineCar)

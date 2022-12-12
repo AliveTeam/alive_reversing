@@ -59,7 +59,7 @@ s16 BaseAliveGameObject::IsInInvisibleZone(IBaseAliveGameObject* pObj)
 
     const PSX_RECT bRect = pObj->VGetBoundingRect();
 
-    relive::Path_TLV* pTlv = sPathInfo->TLV_Get_At(
+    relive::Path_TLV* pTlv = gPathInfo->TLV_Get_At(
         bRect.x,
         bRect.y,
         bRect.w,
@@ -80,7 +80,7 @@ s16 BaseAliveGameObject::IsInInvisibleZone(IBaseAliveGameObject* pObj)
         }
 
         // Check for stacked/overlaping TLV's
-        pTlv = sPathInfo->TlvGetAt(pTlv,
+        pTlv = gPathInfo->TlvGetAt(pTlv,
                                                      FP_FromInteger(bRect.x),
                                                      FP_FromInteger(bRect.y),
                                                      FP_FromInteger(bRect.w),
