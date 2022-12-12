@@ -2094,7 +2094,7 @@ s16 Paramite::Brain_5_SpottedMeat()
         return ParamiteEnums::Brain_0_Patrol::eBrain0_Inactive_0;
     }
 
-    if (pMeat->field_130_pLine)
+    if (pMeat->mPathLine)
     {
         if (FP_Abs(pMeat->mYPos - mYPos) > FP_FromInteger(20))
         {
@@ -2206,7 +2206,7 @@ s16 Paramite::Brain_SpottedMeat_State_5_AttentiveToMeat(Meat* pMeat)
         return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_Walking_2;
     }
 
-    if (!pMeat->field_130_pLine || !BaseAliveGameObjectCollisionLine)
+    if (!pMeat->mPathLine || !BaseAliveGameObjectCollisionLine)
     {
         return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_AttentiveToMeat_5;
     }
@@ -2289,7 +2289,7 @@ s16 Paramite::Brain_SpottedMeat_State_2_Walking(Meat* pMeat)
         return mBrainSubState;
     }
 
-    if (pMeat->field_130_pLine)
+    if (pMeat->mPathLine)
     {
         SetNextMotion(eParamiteMotions::Motion_40_Eating);
         field_130_timer = sGnFrame + mMeatEatingTime;
@@ -2335,7 +2335,7 @@ s16 Paramite::Brain_SpottedMeat_State_1_Running(Meat* pMeat)
 
     if (VIsObjNearby(GetSpriteScale() * FP_FromInteger(40), pMeat))
     {
-        if (pMeat->field_130_pLine)
+        if (pMeat->mPathLine)
         {
             SetNextMotion(eParamiteMotions::Motion_40_Eating);
             field_130_timer = sGnFrame + mMeatEatingTime;
@@ -2403,7 +2403,7 @@ s16 Paramite::Brain_SpottedMeat_State_0_Idle(Meat* pMeat)
             return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_Walking_2;
         }
 
-        if (!pMeat->field_130_pLine || !BaseAliveGameObjectCollisionLine)
+        if (!pMeat->mPathLine || !BaseAliveGameObjectCollisionLine)
         {
             SetNextMotion(eParamiteMotions::Motion_0_Idle);
             return ParamiteEnums::Brain_5_SpottedMeat::eBrain5_AttentiveToMeat_5;
@@ -5325,7 +5325,7 @@ Meat* Paramite::FindMeat()
             {
                 if (gMap.Is_Point_In_Current_Camera(pMeat->mCurrentLevel, pMeat->mCurrentPath, pMeat->mXPos, pMeat->mYPos, 0) && !WallHit(mYPos, pMeat->mXPos - mXPos))
                 {
-                    if (!pMeat->field_130_pLine)
+                    if (!pMeat->mPathLine)
                     {
                         return pMeat;
                     }

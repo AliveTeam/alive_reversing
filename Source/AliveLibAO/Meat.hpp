@@ -21,13 +21,12 @@ public:
     virtual void VScreenChanged() override;
     virtual void VUpdate() override;
 
-    Guid field_10C_tlvInfo;
-    s16 field_110_bDoMeatSackIdleAnim = 0;
-    s16 field_112_num_items = 0;
-    s16 field_114_bPlayWobbleSound = 0;
-    s16 field_116_always_0 = 0;
-    FP field_118_velX = FP_FromInteger(0);
-    FP field_11C_velY = FP_FromInteger(0);
+    Guid mTlvId;
+    bool mDoMeatSackIdleAnim = false;
+    s16 mMeatAmount = 0;
+    bool mPlayWobbleSound = false;
+    FP mTlvVelX = {};
+    FP mTlvVelY = {};
 };
 
 
@@ -47,22 +46,25 @@ public:
     virtual void VOnTrapDoorOpen() override;
     virtual s16 VGetCount() override;
 
-    void InTheAir();
-    void AddToPlatform();
-    s16 OnCollision(BaseAnimatedWithPhysicsGameObject* pObj);
-
     s16 VOnPlatformIntersection(BaseAnimatedWithPhysicsGameObject* pPlatform) override
     {
         return OnCollision(pPlatform);
     }
 
-    s16 field_110_state = 0;
-    s16 field_112 = 0;
-    FP field_114_xpos = {};
-    FP field_118_ypos = {};
-    s32 field_11C_timer = 0;
-    s32 field_120_deadtimer = 0;
-    PathLine* field_124_pLine = nullptr;
+private:
+    void InTheAir();
+    void AddToPlatform();
+    s16 OnCollision(BaseAnimatedWithPhysicsGameObject* pObj);
+
+private:
+    s16 mState = 0; // TODO: enum - we can probably use the AE enum
+    FP mPreviousXPos = {};
+    FP mPreviousYPos = {};
+    s32 mShimmerTimer = 0;
+    s32 mDeadTimer = 0;
+
+public:
+    PathLine* mPathLine = nullptr;
 };
 
 

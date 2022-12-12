@@ -894,7 +894,7 @@ void Map::GoTo_Camera()
     mCurrentPath = mNextPath;
     mCurrentLevel = mNextLevel;
 
-    const PathBlyRec* pPathRecord = Path_Get_Bly_Record_434650(mNextLevel, mNextPath);
+    const PathBlyRec* pPathRecord = AO::Path_Get_Bly_Record(mNextLevel, mNextPath);
     mPathData = pPathRecord->field_4_pPathData;
     field_24_max_cams_x = (mPathData->field_8_bTop - mPathData->field_4_bLeft) / mPathData->field_C_grid_width;
     field_26_max_cams_y = (mPathData->field_A_bBottom - mPathData->field_6_bRight) / mPathData->field_E_grid_height;
@@ -1061,7 +1061,7 @@ void Map::GoTo_Camera()
 
 s16 Map::GetOverlayId()
 {
-    return Path_Get_Bly_Record_434650(mNextLevel, mNextPath)->field_C_overlay_id;
+    return AO::Path_Get_Bly_Record(mNextLevel, mNextPath)->mOverlayId;
 }
 
 relive::Path_TLV* Map::Get_First_TLV_For_Offsetted_Camera(s16 cam_x_idx, s16 cam_y_idx)
@@ -1109,7 +1109,7 @@ void Map::SaveBlyData(u8* pSaveBuffer)
     u8* pAfterSwitchStates = pSaveBuffer + sizeof(gSwitchStates.mData);
     for (s16 i = 1; i < AO::Path_Get_Num_Paths(mCurrentLevel); i++)
     {
-        const PathBlyRec* pPathRec = Path_Get_Bly_Record_434650(mCurrentLevel, i);
+        const PathBlyRec* pPathRec = AO::Path_Get_Bly_Record(mCurrentLevel, i);
         if (pPathRec->field_0_blyName)
         {
             BinaryPath* ppPathRes = GetPathResourceBlockPtr(i); // TODO: Is this actually the id ??
@@ -1159,7 +1159,7 @@ void Map::RestoreBlyData(const u8* pSaveData)
         BinaryPath* ppPathRes = GetPathResourceBlockPtr(i);
         if (ppPathRes)
         {
-            const PathBlyRec* pPathRec = Path_Get_Bly_Record_434650(mCurrentLevel, i);
+            const PathBlyRec* pPathRec = AO::Path_Get_Bly_Record(mCurrentLevel, i);
             if (pPathRec->field_0_blyName)
             {
                 for (auto& cam : ppPathRes->GetCameras())

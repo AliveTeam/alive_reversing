@@ -2570,26 +2570,26 @@ struct MeatSaveState final
     static ::MeatSaveState From(const MeatSaveState& data)
     {
         ::MeatSaveState d;
-        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
-        d.field_4_obj_id = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
-        d.field_8_xpos = data.field_8_xpos;
-        d.field_C_ypos = data.field_C_ypos;
-        d.field_10_velx = data.field_10_velx;
-        d.field_14_vely = data.field_14_vely;
-        d.field_18_sprite_scale = data.field_18_sprite_scale;
-        d.field_1C_path_number = data.field_1C_path_number;
-        d.field_1E_lvl_number = MapWrapper::FromAESaveData(data.field_1E_lvl_number);
+        d.mType = BaseGameObject::FromAE(data.field_0_type);
+        d.mTlvId = Guid::NewGuidFromTlvInfo(data.field_4_obj_id);
+        d.mXPos = data.field_8_xpos;
+        d.mYPos = data.field_C_ypos;
+        d.mVelX = data.field_10_velx;
+        d.mVelY = data.field_14_vely;
+        d.mSpriteScale = data.field_18_sprite_scale;
+        d.mCurrentPath = data.field_1C_path_number;
+        d.mCurrentLevel = MapWrapper::FromAESaveData(data.field_1E_lvl_number);
         d.mRender = data.field_20_flags.Get(MeatStateFlags::eBit1_bRender);
         d.mDrawable = data.field_20_flags.Get(MeatStateFlags::eBit2_bDrawable);
         d.mLoop = data.field_20_flags.Get(MeatStateFlags::eBit3_bLoop);
         d.mInteractive = data.field_20_flags.Get(MeatStateFlags::eBit4_bInteractive);
-        d.field_24_base_id = Guid::NewGuidFromTlvInfo(data.field_24_base_id);
-        d.field_28_line_type = data.field_28_line_type;
-        d.field_2A_count = data.field_2A_count;
-        d.field_2C_state = From(data.field_2C_state);
-        d.field_30_xpos = data.field_30_xpos;
-        d.field_34_ypos = data.field_34_ypos;
-        d.field_38_deadtimer = data.field_38_deadtimer;
+        d.mPlatformId = Guid::NewGuidFromTlvInfo(data.field_24_base_id);
+        d.mLineType = data.field_28_line_type;
+        d.mThrowableCount = data.field_2A_count;
+        d.mState = From(data.field_2C_state);
+        d.mPreviousXPos = data.field_30_xpos;
+        d.mPreviousYPos = data.field_34_ypos;
+        d.mDeadTimer = data.field_38_deadtimer;
         return d;
     }
 
@@ -2891,7 +2891,7 @@ struct ThrowableArraySaveState final
     static ::ThrowableArraySaveState From(const ThrowableArraySaveState& data)
     {
         ::ThrowableArraySaveState d;
-        d.field_2_item_count = data.field_2_item_count;
+        d.mCount = data.field_2_item_count;
         return d;
     }
 };

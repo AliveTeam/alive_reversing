@@ -406,7 +406,7 @@ void Movie::VUpdate()
         }
 
         SYS_EventsPump();
-        PSX_VSync_4F6170(0);
+        PSX_VSync(0);
     }
 
     if (fmv_sound_entry.field_4_pDSoundBuffer)

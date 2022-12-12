@@ -24,9 +24,8 @@ public:
 public:
     s16 mCount = 0;
 private:
-    bool mUnknown1 = false;
-    bool mUnknown2 = false;
-    bool mUnknown3 = false;
+    bool mThrowableTypeChanged = false;
+    bool mNewThrowableTypeLoaded = false;
 };
 
 extern ThrowableArray* gThrowableArray;

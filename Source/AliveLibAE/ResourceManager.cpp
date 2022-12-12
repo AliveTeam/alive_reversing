@@ -99,7 +99,7 @@ void ResourceManager::LoadingLoop(s16 )
     {
         SYS_EventsPump();
         VUpdate(); // vLoadFile_StateMachine_464A70 - process loading of files
-        PSX_VSync_4F6170(0);
+        PSX_VSync(0);
         const s32 ticks = loading_ticks_5C1BAC++ + 1;
         if (bShowLoadingIcon && !bHideLoadingIcon_5C1BAA && ticks > 180)
         {

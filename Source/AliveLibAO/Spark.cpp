@@ -192,7 +192,7 @@ void Spark::VRender(PrimHeader** ppOt)
     }
 
     Prim_SetTPage* pTPage = &mTPage[gPsxDisplay.mBufferIndex];
-    Init_SetTPage(pTPage, 1, 0, PSX_getTPage(TPageAbr::eBlend_1));
+    Init_SetTPage(pTPage, PSX_getTPage(TPageAbr::eBlend_1));
     OrderingTable_Add(OtLayer(ppOt, mLayer), &pTPage->mBase);
 }
 

@@ -337,7 +337,7 @@ void ThrowableTotalIndicator::VRender(PrimHeader** ppOt)
         OrderingTable_Add(OtLayer(ppOt, mOtLayer), &pLine->mBase.header);
     }
 
-    Init_SetTPage(&mTPage[gPsxDisplay.mBufferIndex], 1, 0, PSX_getTPage(TPageAbr::eBlend_1));
+    Init_SetTPage(&mTPage[gPsxDisplay.mBufferIndex], PSX_getTPage(TPageAbr::eBlend_1));
     OrderingTable_Add(OtLayer(ppOt, mOtLayer), &mTPage->mBase);
 }
 

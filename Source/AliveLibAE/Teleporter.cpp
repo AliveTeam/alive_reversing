@@ -34,22 +34,16 @@ void SetData(Relive_Path_Teleporter_Data& tlvData, const relive::Path_Teleporter
 Teleporter::Teleporter(relive::Path_Teleporter* pTlv, const Guid& tlvId)
     : BaseGameObject(true, 0)
 {
-    field_4C_pTlv = pTlv; // TODO: Don't think this is used, and it can become a dangling ptr?
-    SetData(field_34_mTlvData, *pTlv);
+    SetData(mTlvData, *pTlv);
     mTlvId = tlvId;
 
-    field_24_global_y1 = FP_GetExponent((FP_FromInteger(pTlv->mTopLeftY) - gScreenManager->CamYPos()));
-    field_28_global_y2 = FP_GetExponent((FP_FromInteger(pTlv->mBottomRightY) - gScreenManager->CamYPos()));
-    field_26_global_x1 = FP_GetExponent((FP_FromInteger(pTlv->mTopLeftX) - gScreenManager->CamXPos()));
-    field_2A_global_x2 = FP_GetExponent((FP_FromInteger(pTlv->mBottomRightX) - gScreenManager->CamXPos()));
+    mSwitchState = SwitchStates_Get(mTlvData.mSwitchId);
 
-    field_2C_switch_state = SwitchStates_Get(field_34_mTlvData.mSwitchId);
+    mEffectsCreated = false;
 
-    field_54_effect_created = 0;
-
-    field_32_bDestroySelf = 0;
-    field_30_state = TeleporterState::eWaitForSwitchOn_0;
-    field_50_objId = Guid{};
+    mDestroySelf = false;
+    mState = TeleporterState::eWaitForSwitchOn_0;
+    mElectrocuteId = Guid{};
 }
 
 Teleporter::~Teleporter()
@@ -63,7 +57,7 @@ void Teleporter::VScreenChanged()
     {
         SetDead(true);
     }
-    field_32_bDestroySelf = 1;
+    mDestroySelf = true;
 }
 
 Electrocute* Teleporter::Create_ElectrocuteEffect()
@@ -71,7 +65,7 @@ Electrocute* Teleporter::Create_ElectrocuteEffect()
     return relive_new Electrocute(sControlledCharacter, true, false);
 }
 
-const PSX_Point kSparkOffs_563988[8] = {
+static const PSX_Point kSparkOffs[8] = {
     {-15, 46},
     {-20, 29},
     {-15, 12},
@@ -89,7 +83,7 @@ void Teleporter::SpawnRingSparks(Relive_Path_Teleporter_Data* pTlvData)
     const s16 xOrg = pTlvData->mElectricX - abeSpawnPos.x;
     const s16 yOrg = pTlvData->mElectricY - abeSpawnPos.y;
 
-    for (auto& sparkOffs : kSparkOffs_563988)
+    for (auto& sparkOffs : kSparkOffs)
     {
         s32 sparkX = 0;
         s32 sparkY = 0;
@@ -110,23 +104,23 @@ void Teleporter::SpawnRingSparks(Relive_Path_Teleporter_Data* pTlvData)
 
 void Teleporter::VUpdate()
 {
-    Electrocute* pObj = static_cast<Electrocute*>(sObjectIds.Find(field_50_objId, ReliveTypes::eElectrocute));
+    Electrocute* pObj = static_cast<Electrocute*>(sObjectIds.Find(mElectrocuteId, ReliveTypes::eElectrocute));
 
-    switch (field_30_state)
+    switch (mState)
     {
         case TeleporterState::eWaitForSwitchOn_0:
         {
-            if (field_32_bDestroySelf)
+            if (mDestroySelf)
             {
                 SetDead(true);
             }
 
-            if (SwitchStates_Get(field_34_mTlvData.mSwitchId) == field_2C_switch_state)
+            if (SwitchStates_Get(mTlvData.mSwitchId) == mSwitchState)
             {
                 return;
             }
 
-            field_2C_switch_state = SwitchStates_Get(field_34_mTlvData.mSwitchId);
+            mSwitchState = SwitchStates_Get(mTlvData.mSwitchId);
 
             if (!sPathInfo->TLV_Get_At(
                     FP_GetExponent(sControlledCharacter->mXPos),
@@ -143,13 +137,13 @@ void Teleporter::VUpdate()
                 return;
             }
 
-            field_30_state = TeleporterState::eIntoTeleporter_1;
-            field_50_objId = Teleporter::Create_ElectrocuteEffect()->mBaseGameObjectId;
+            mState = TeleporterState::eIntoTeleporter_1;
+            mElectrocuteId = Teleporter::Create_ElectrocuteEffect()->mBaseGameObjectId;
 
             SFX_Play_Pitch(relive::SoundEffects::Zap1, 60, -400);
             sControlledCharacter->SetTeleporting(true);
 
-            SpawnRingSparks(&field_34_mTlvData);
+            SpawnRingSparks(&mTlvData);
         }
         break;
 
@@ -157,19 +151,19 @@ void Teleporter::VUpdate()
         {
             if (pObj)
             {
-                if (pObj->VSub_4E6630() || field_54_effect_created)
+                if (pObj->VSub_4E6630() || mEffectsCreated)
                 {
-                    if (!(pObj->GetDead()))
+                    if (!pObj->GetDead())
                     {
                         return;
                     }
                 }
 
                 // Only create the effects once (disable this if you like a crazy amount of sparks and things)
-                if (!field_54_effect_created)
+                if (!mEffectsCreated)
                 {
                     // Spawn the falling "red" sparks from Abe's feet that appear after you enter the teleporter
-                    if (field_34_mTlvData.mScale != relive::reliveScale::eFull)
+                    if (mTlvData.mScale != relive::reliveScale::eFull)
                     {
                         // Steam/smoke effect at Abe's body
                         New_Smoke_Particles(
@@ -203,7 +197,7 @@ void Teleporter::VUpdate()
                                                                     BurstType::eBigRedSparks_3,
                                                                     9);
                     }
-                    field_54_effect_created = 1;
+                    mEffectsCreated = true;
                 }
 
                 if (!(pObj->GetDead()))
@@ -216,7 +210,7 @@ void Teleporter::VUpdate()
 
             gMap.mTeleporterTransition = 1;
 
-            const CameraSwapEffects effect = kPathChangeEffectToInternalScreenChangeEffect[field_34_mTlvData.mWipeEffect];
+            const CameraSwapEffects effect = kPathChangeEffectToInternalScreenChangeEffect[mTlvData.mWipeEffect];
             s16 bForceChange = 0;
             if (effect == CameraSwapEffects::ePlay1FMV_5 || effect == CameraSwapEffects::eUnknown_11)
             {
@@ -224,16 +218,16 @@ void Teleporter::VUpdate()
             }
 
             gMap.SetActiveCam(
-                field_34_mTlvData.mDestLevel,
-                field_34_mTlvData.mDestPath,
-                field_34_mTlvData.mDestCamera,
+                mTlvData.mDestLevel,
+                mTlvData.mDestPath,
+                mTlvData.mDestCamera,
                 effect,
-                field_34_mTlvData.mMovieId,
+                mTlvData.mMovieId,
                 bForceChange);
 
             sControlledCharacter->SetUpdateDelay(3);
-            sActiveHero->field_1A0_door_id = field_34_mTlvData.mOtherTeleporterId;
-            field_30_state = TeleporterState::eTeleporting_2;
+            sActiveHero->field_1A0_door_id = mTlvData.mOtherTeleporterId;
+            mState = TeleporterState::eTeleporting_2;
         }
         break;
 
@@ -244,14 +238,14 @@ void Teleporter::VUpdate()
             relive::Path_Teleporter* pTeleporterTlv = static_cast<relive::Path_Teleporter*>(sPathInfo->TLV_First_Of_Type_In_Camera(ReliveTypes::eTeleporter, 0));
             Relive_Path_Teleporter_Data tlvData = {};
             SetData(tlvData, *pTeleporterTlv);
-            if (tlvData.mTeleporterId != field_34_mTlvData.mOtherTeleporterId)
+            if (tlvData.mTeleporterId != mTlvData.mOtherTeleporterId)
             {
                 while (pTeleporterTlv)
                 {
                     pTeleporterTlv = static_cast<relive::Path_Teleporter*>(sPathInfo->TLV_Next_Of_Type(pTeleporterTlv, ReliveTypes::eTeleporter));
                     SetData(tlvData, *pTeleporterTlv);
 
-                    if (tlvData.mTeleporterId == field_34_mTlvData.mOtherTeleporterId)
+                    if (tlvData.mTeleporterId == mTlvData.mOtherTeleporterId)
                     {
                         break;
                     }
@@ -312,7 +306,7 @@ void Teleporter::VUpdate()
                 sControlledCharacter->mYPos = FP_FromInteger(pTeleporterTlv->mTopLeftY);
                 sControlledCharacter->BaseAliveGameObjectLastLineYPos = sControlledCharacter->mYPos;
             }
-            field_30_state = TeleporterState::eOutOfTeleporter_4;
+            mState = TeleporterState::eOutOfTeleporter_4;
         }
         break;
 
@@ -347,11 +341,11 @@ void Teleporter::VUpdate()
                                                             9);
             }
 
-            field_54_effect_created = 0;
+            mEffectsCreated = false;
             sControlledCharacter->GetAnimation().SetRender(true);
             sControlledCharacter->SetTeleporting(false);
-            field_2C_switch_state = SwitchStates_Get(field_34_mTlvData.mSwitchId);
-            field_30_state = TeleporterState::eWaitForSwitchOn_0;
+            mSwitchState = SwitchStates_Get(mTlvData.mSwitchId);
+            mState = TeleporterState::eWaitForSwitchOn_0;
         }
         break;
     }

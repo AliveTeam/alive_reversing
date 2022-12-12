@@ -444,7 +444,7 @@ void MotionDetector::VRender(PrimHeader** ppOt)
         // Add tpage
         const s32 tpage = PSX_getTPage(field_178_bObjectInLaser != 0 ? TPageAbr::eBlend_1 : TPageAbr::eBlend_3); // When detected transparency is off, gives the "solid red" triangle
         Prim_SetTPage* pTPage = &field_154_tPage[gPsxDisplay.mBufferIndex];
-        Init_SetTPage(pTPage, 0, 0, tpage);
+        Init_SetTPage(pTPage, tpage);
         OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pTPage->mBase);
     }
 }

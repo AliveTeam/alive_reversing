@@ -652,7 +652,7 @@ Meat* Paramite::FindMeat()
                         0)
                     && !WallHit(mYPos, pMeat->mXPos - mXPos))
                 {
-                    if (!pMeat->field_124_pLine)
+                    if (!pMeat->mPathLine)
                     {
                         return pMeat;
                     }
@@ -2177,7 +2177,7 @@ s16 Paramite::Brain_5_SpottedMeat()
         return Brain_0_Patrol::eBrain0_Inactive_0;
     }
 
-    if (mMeat->field_124_pLine)
+    if (mMeat->mPathLine)
     {
         if (FP_Abs(mMeat->mYPos - mYPos) > FP_FromInteger(20))
         {
@@ -2241,7 +2241,7 @@ s16 Paramite::Brain_5_SpottedMeat()
                     return Brain_5_SpottedMeat::eBrain5_Walking_2;
                 }
 
-                if (!mMeat->field_124_pLine || !BaseAliveGameObjectCollisionLine)
+                if (!mMeat->mPathLine || !BaseAliveGameObjectCollisionLine)
                 {
                     SetNextMotion(eParamiteMotions::Motion_0_Idle);
                     return Brain_5_SpottedMeat::eBrain5_AttentiveToMeat_5;
@@ -2289,7 +2289,7 @@ s16 Paramite::Brain_5_SpottedMeat()
 
             if (VIsObjNearby(GetSpriteScale() * FP_FromInteger(40), mMeat))
             {
-                if (mMeat->field_124_pLine)
+                if (mMeat->mPathLine)
                 {
                     SetNextMotion(eParamiteMotions::Motion_23_Eating);
                     field_114_timer = sGnFrame + mMeatEatingTime;
@@ -2343,7 +2343,7 @@ s16 Paramite::Brain_5_SpottedMeat()
                 return mBrainSubState;
             }
 
-            if (mMeat->field_124_pLine)
+            if (mMeat->mPathLine)
             {
                 SetNextMotion(eParamiteMotions::Motion_23_Eating);
                 field_114_timer = sGnFrame + mMeatEatingTime;
@@ -2427,7 +2427,7 @@ s16 Paramite::Brain_5_SpottedMeat()
                 return Brain_5_SpottedMeat::eBrain5_Walking_2;
             }
 
-            if (!mMeat->field_124_pLine || !BaseAliveGameObjectCollisionLine)
+            if (!mMeat->mPathLine || !BaseAliveGameObjectCollisionLine)
             {
                 return Brain_5_SpottedMeat::eBrain5_AttentiveToMeat_5;
             }

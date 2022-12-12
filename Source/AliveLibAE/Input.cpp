@@ -279,7 +279,7 @@ void Input_GetJoyState_SDL(f32* pX1, f32* pY1, f32* pX2, f32* pY2, u32* pButtons
         // 9 Start
 
         static f32 vibrationAmount = 0.0f;
-        s32 screenShake = std::max(abs(sScreenXOffSet_BD30E4), abs(sScreenYOffset_BD30A4));
+        s32 screenShake = std::max(abs(gScreenXOffset), abs(gScreenYOffset));
 
         if (screenShake > 0)
         {

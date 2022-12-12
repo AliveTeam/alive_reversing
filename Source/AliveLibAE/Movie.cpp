@@ -399,7 +399,7 @@ s8 DDV_Play_Impl_4932E0(const char_type* pMovieName)
             }
 
             SYS_EventsPump();
-            PSX_VSync_4F6170(0);
+            PSX_VSync(0);
 
             if (!bMoreFrames)
             {
@@ -506,7 +506,7 @@ void Movie::VUpdate()
 
 void Movie::DeInit()
 {
-    PSX_VSync_4F6170(2);
+    PSX_VSync(2);
 
     --sMovie_ref_count_BB4AE4;
 

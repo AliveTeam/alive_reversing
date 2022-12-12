@@ -341,7 +341,7 @@ void PauseMenu::VRender(PrimHeader** ot)
     SetXY1(pPolys, 640, 0);
     SetXY2(pPolys, 0, 240);
     SetXY3(pPolys, 640, 240);
-    Init_SetTPage(pTPage, 0, 0, PSX_getTPage(TPageAbr::eBlend_2));
+    Init_SetTPage(pTPage, PSX_getTPage(TPageAbr::eBlend_2));
     OrderingTable_Add(OtLayer(ot, Layer::eLayer_Menu_41), &pPolys->mBase.header);
     OrderingTable_Add(OtLayer(ot, Layer::eLayer_Menu_41), &pTPage->mBase);
 }
@@ -433,7 +433,7 @@ void PauseMenu::RestartPath()
     gMap.mForceLoad = true;
     if (sActiveHero->mBaseThrowableCount)
     {
-        LoadRockTypes_49AB30(
+        LoadRockTypes(
             MapWrapper::FromAE(gActiveQuicksaveData.field_244_restart_path_world_info.field_4_level),
             gActiveQuicksaveData.field_244_restart_path_world_info.field_6_path);
 

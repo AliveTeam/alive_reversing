@@ -9,7 +9,7 @@
 
 ThrowableArray* gpThrowableArray = nullptr;
 
-void FreeResourceArray_49AEC0(DynamicArrayT<u8*>* pArray)
+void FreeResourceArray(DynamicArrayT<u8*>* pArray)
 {
     while (pArray->Size())
     {
@@ -18,10 +18,10 @@ void FreeResourceArray_49AEC0(DynamicArrayT<u8*>* pArray)
     }
 }
 
-void LoadRockTypes_49AB30(EReliveLevelIds levelNumber, u16 pathNumber)
+void LoadRockTypes(EReliveLevelIds levelNumber, u16 pathNumber)
 {
     bool bDoLoadingLoop = false;
-    const u8 throwableTypeIdx = Path_Get_Bly_Record(levelNumber, pathNumber)->field_C_overlay_id & 0xFF;
+    const u8 throwableTypeIdx = Path_Get_Bly_Record(levelNumber, pathNumber)->mOverlayId & 0xFF;
 
     switch (gThrowableFromOverlayId[throwableTypeIdx])
     {
@@ -64,7 +64,7 @@ ThrowableArray::ThrowableArray()
 ThrowableArray::~ThrowableArray()
 {
     gpThrowableArray = nullptr;
-    FreeResourceArray_49AEC0(&field_24_throwables);
+    FreeResourceArray(&field_24_throwables);
 }
 
 void ThrowableArray::Remove(s16 count)
@@ -72,10 +72,10 @@ void ThrowableArray::Remove(s16 count)
     mCount -= count;
     if (mCount > 0)
     {
-        if (mUnknown1 && mUnknown2)
+        if (mThrowableTypeChanged && mNewThrowableTypeLoaded)
         {
-            FreeResourceArray_49AEC0(&mBaseGameObjectResArray);
-            mUnknown2 = false;
+            FreeResourceArray(&mBaseGameObjectResArray);
+            mNewThrowableTypeLoaded = false;
         }
     }
     else
@@ -86,11 +86,11 @@ void ThrowableArray::Remove(s16 count)
 
 void ThrowableArray::VUpdate()
 {
-    if (mUnknown1)
+    if (mThrowableTypeChanged)
     {
-        LoadRockTypes_49AB30(gMap.mCurrentLevel, gMap.mCurrentPath);
+        LoadRockTypes(gMap.mCurrentLevel, gMap.mCurrentPath);
         Add(0);
-        mUnknown1 = false;
+        mThrowableTypeChanged = false;
         SetUpdatable(false);
     }
 }
@@ -99,7 +99,7 @@ s32 ThrowableArray::VGetSaveState(u8* pSaveBuffer)
 {
     ThrowableArraySaveState* pState = reinterpret_cast<ThrowableArraySaveState*>(pSaveBuffer);
     pState->mType = ReliveTypes::eThrowableArray;
-    pState->field_2_item_count = mCount;
+    pState->mCount = mCount;
     return sizeof(ThrowableArraySaveState);
 }
 
@@ -109,10 +109,10 @@ void ThrowableArray::VScreenChanged()
     {
         if (gThrowableFromOverlayId[gMap.mOverlayId] != gThrowableFromOverlayId[gMap.GetOverlayId()])
         {
-            if (!mUnknown1)
+            if (!mThrowableTypeChanged)
             {
                 SetUpdatable(true);
-                mUnknown1 = true;
+                mThrowableTypeChanged = true;
                 Remove(0);
             }
         }
@@ -130,9 +130,9 @@ void ThrowableArray::Add(s16 count)
         SetDead(false);
     }
 
-    if (mCount == 0 || mUnknown1)
+    if (mCount == 0 || mThrowableTypeChanged)
     {
-        if (!mUnknown2)
+        if (!mNewThrowableTypeLoaded)
         {
             switch (gThrowableFromOverlayId[gMap.mOverlayId])
             {
@@ -155,7 +155,7 @@ void ThrowableArray::Add(s16 count)
                     break;
             }
 
-            mUnknown2 = true;
+            mNewThrowableTypeLoaded = true;
         }
     }
 
@@ -164,9 +164,9 @@ void ThrowableArray::Add(s16 count)
 
 s32 ThrowableArray::CreateFromSaveState(const u8* pState)
 {
-    LoadRockTypes_49AB30(gMap.mCurrentLevel, gMap.mCurrentPath);
+    LoadRockTypes(gMap.mCurrentLevel, gMap.mCurrentPath);
     auto pArray = relive_new ThrowableArray();
-    pArray->Add(reinterpret_cast<const ThrowableArraySaveState*>(pState)->field_2_item_count);
+    pArray->Add(reinterpret_cast<const ThrowableArraySaveState*>(pState)->mCount);
     return sizeof(ThrowableArraySaveState);
 }
 

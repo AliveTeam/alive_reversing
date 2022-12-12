@@ -166,7 +166,7 @@ AbilityRing::AbilityRing(FP xpos, FP ypos, RingTypes ring_type)
                 SetRGB3(pPoly, mRingRed & 255, mRingGreen & 255, mRingBlue & 255);
                 Poly_Set_SemiTrans(&pPoly->mBase.header, mRingSemiTrans);
             }
-            Init_SetTPage(&mRingPrimSetTPage[y], 0, 0, PSX_getTPage(TPageAbr::eBlend_1));
+            Init_SetTPage(&mRingPrimSetTPage[y], PSX_getTPage(TPageAbr::eBlend_1));
         }
     }
     else

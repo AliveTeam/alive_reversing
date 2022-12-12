@@ -3341,7 +3341,7 @@ void Abe::Motion_14_HoistIdle_452440()
             {
                 if (gMap.SetActiveCameraDelayed(MapDirections::eMapTop_2, this, -1))
                 {
-                    PSX_Prevent_Rendering_4945B0();
+                    PSX_Prevent_Rendering();
                     mCurrentMotion = eAbeMotions::Motion_68_ToOffScreenHoist_454B80;
                     return;
                 }

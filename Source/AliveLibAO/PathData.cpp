@@ -814,7 +814,7 @@ static PathRootContainer gMapData_4CAB58 = {
      {g_F2_Paths_4C8DE0, g_F2_Fmvs_4C8A70, g_F2_SoundBlock_4C8E80, "F2SEQ.BSQ", 23, 6, "F4", 9, 0, 23, "\\F4.LVL;1", 22, "\\F4.OVL;1", 21, "\\F2.MOV;1", "F2.IDX", "F4PATH.BND"},
      {g_D2_Paths_4C95E0, g_D2_Fmvs_4C9270, g_D2_SoundBlock_4C96A0, "D2SEQ.BSQ", 23, 1, "D7", 11, 0, 35, "\\D7.LVL;1", 34, "\\D7.OVL;1", 33, "\\D2.MOV;1", "D2.IDX", "D7PATH.BND"}}};
 
-const PathBlyRec* Path_Get_Bly_Record_434650(EReliveLevelIds level, u16 path)
+const PathBlyRec* Path_Get_Bly_Record(EReliveLevelIds level, u16 path)
 {
     return &gMapData_4CAB58.paths[static_cast<s32>(MapWrapper::ToAO(level))].field_0_pBlyArrayPtr[path];
 }

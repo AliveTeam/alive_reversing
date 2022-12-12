@@ -5,13 +5,13 @@
 
 enum class LevelIds : s16;
 
-void FreeResourceArray_49AEC0(DynamicArrayT<u8*>* pArray);
-void LoadRockTypes_49AB30(EReliveLevelIds levelNumber, u16 pathNumber);
+void FreeResourceArray(DynamicArrayT<u8*>* pArray);
+void LoadRockTypes(EReliveLevelIds levelNumber, u16 pathNumber);
 
 struct ThrowableArraySaveState final
 {
     ReliveTypes mType;
-    s16 field_2_item_count;
+    s16 mCount;
 };
 
 class ThrowableArray final : public BaseGameObject
@@ -34,9 +34,8 @@ public:
     s16 mCount = 0;
 
 private:
-    bool mUnknown1 = false;
-    bool mUnknown2 = false;
-    bool mUnknown3 = false;
+    bool mThrowableTypeChanged = false;
+    bool mNewThrowableTypeLoaded = false;
     DynamicArrayT<u8*> field_24_throwables;
 };
 

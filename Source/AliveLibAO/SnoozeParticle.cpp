@@ -272,7 +272,7 @@ void SnoozeParticle::VRender(PrimHeader** ppOt)
     }
     Prim_SetTPage* thisTPage = &field_1B4_tPage[bufIdx];
     const s32 tPage = PSX_getTPage(TPageAbr::eBlend_1);
-    Init_SetTPage(thisTPage, 1, 0, tPage);
+    Init_SetTPage(thisTPage, tPage);
     OrderingTable_Add(OtLayer(ppOt, mOtLayer), &thisTPage->mBase);
 }
 

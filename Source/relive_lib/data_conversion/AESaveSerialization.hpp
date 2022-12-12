@@ -1761,51 +1761,51 @@ NLOHMANN_JSON_SERIALIZE_ENUM(MeatStates, {
 inline void to_json(nlohmann::json& j, const MeatSaveState& p)
 {
     j = nlohmann::json{
-        {"type", p.field_0_type},
-        {"obj_id", p.field_4_obj_id},
-        {"field_8_xpos", p.field_8_xpos},
-        {"field_C_ypos", p.field_C_ypos},
-        {"velx", p.field_10_velx},
-        {"vely", p.field_14_vely},
-        {"sprite_scale", p.field_18_sprite_scale},
-        {"path_number", p.field_1C_path_number},
-        {"lvl_number", p.field_1E_lvl_number},
+        {"type", p.mType},
+        {"tlv_id", p.mTlvId},
+        {"xpos", p.mXPos},
+        {"ypos", p.mYPos},
+        {"velx", p.mVelX},
+        {"vely", p.mVelY},
+        {"sprite_scale", p.mSpriteScale},
+        {"current_path", p.mCurrentPath},
+        {"current_level", p.mCurrentLevel},
         {"render", p.mRender},
         {"drawable", p.mDrawable},
         {"loop", p.mLoop},
         {"interactive", p.mInteractive},
-        {"base_id", p.field_24_base_id},
-        {"line_type", p.field_28_line_type},
-        {"count", p.field_2A_count},
-        {"state", p.field_2C_state},
-        {"field_30_xpos", p.field_30_xpos},
-        {"field_34_ypos", p.field_34_ypos},
-        {"deadtimer", p.field_38_deadtimer},
+        {"platform_id", p.mPlatformId},
+        {"line_type", p.mLineType},
+        {"throwable_count", p.mThrowableCount},
+        {"state", p.mState},
+        {"previous_xpos", p.mPreviousXPos},
+        {"previous_ypos", p.mPreviousYPos},
+        {"dead_timer", p.mDeadTimer},
     };
 }
 
 inline void from_json(const nlohmann::json& j, MeatSaveState& p)
 {
-    j.at("type").get_to(p.field_0_type);
-    j.at("obj_id").get_to(p.field_4_obj_id);
-    j.at("field_8_xpos").get_to(p.field_8_xpos);
-    j.at("field_C_ypos").get_to(p.field_C_ypos);
-    j.at("velx").get_to(p.field_10_velx);
-    j.at("vely").get_to(p.field_14_vely);
-    j.at("sprite_scale").get_to(p.field_18_sprite_scale);
-    j.at("path_number").get_to(p.field_1C_path_number);
-    j.at("lvl_number").get_to(p.field_1E_lvl_number);
+    j.at("type").get_to(p.mType);
+    j.at("tlv_id").get_to(p.mTlvId);
+    j.at("xpos").get_to(p.mXPos);
+    j.at("ypos").get_to(p.mYPos);
+    j.at("velx").get_to(p.mVelX);
+    j.at("vely").get_to(p.mVelY);
+    j.at("sprite_scale").get_to(p.mSpriteScale);
+    j.at("current_path").get_to(p.mCurrentPath);
+    j.at("current_level").get_to(p.mCurrentLevel);
     j.at("render").get_to(p.mRender);
     j.at("drawable").get_to(p.mDrawable);
     j.at("loop").get_to(p.mLoop);
     j.at("interactive").get_to(p.mInteractive);
-    j.at("base_id").get_to(p.field_24_base_id);
-    j.at("line_type").get_to(p.field_28_line_type);
-    j.at("count").get_to(p.field_2A_count);
-    j.at("state").get_to(p.field_2C_state);
-    j.at("field_30_xpos").get_to(p.field_30_xpos);
-    j.at("field_34_ypos").get_to(p.field_34_ypos);
-    j.at("deadtimer").get_to(p.field_38_deadtimer);
+    j.at("platform_id").get_to(p.mPlatformId);
+    j.at("line_type").get_to(p.mLineType);
+    j.at("throwable_count").get_to(p.mThrowableCount);
+    j.at("state").get_to(p.mState);
+    j.at("previous_xpos").get_to(p.mPreviousXPos);
+    j.at("previous_ypos").get_to(p.mPreviousYPos);
+    j.at("dead_timer").get_to(p.mDeadTimer);
 }
 
 NLOHMANN_JSON_SERIALIZE_ENUM(MineCarStates, {

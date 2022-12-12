@@ -1435,7 +1435,7 @@ void Fleech::RenderEx(PrimHeader** ot)
             OrderingTable_Add(OtLayer(ot, GetAnimation().GetRenderLayer()), &currTonguePoly2->mBase.header);
         }
         const s32 tPage = PSX_getTPage(TPageAbr::eBlend_0);
-        Init_SetTPage(&field_40C[gPsxDisplay.mBufferIndex], 1, 0, tPage);
+        Init_SetTPage(&field_40C[gPsxDisplay.mBufferIndex], tPage);
         OrderingTable_Add(OtLayer(ot, GetAnimation().GetRenderLayer()), &field_40C[gPsxDisplay.mBufferIndex].mBase);
         return;
     }

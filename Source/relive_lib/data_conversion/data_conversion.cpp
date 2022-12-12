@@ -931,7 +931,7 @@ static void ConvertPath(FileSystem& fs, const FileSystem::Path& path, const Reli
 
     if (isAo)
     {
-        const AO::PathBlyRec* pBlyRec = AO::Path_Get_Bly_Record_434650(reliveLvl, static_cast<u16>(pathBndChunk.Id()));
+        const AO::PathBlyRec* pBlyRec = AO::Path_Get_Bly_Record(reliveLvl, static_cast<u16>(pathBndChunk.Id()));
 
         // Save cameras and map objects
         width = (pBlyRec->field_4_pPathData->field_8_bTop - pBlyRec->field_4_pPathData->field_4_bLeft) / pBlyRec->field_4_pPathData->field_C_grid_width;
@@ -1075,7 +1075,7 @@ static void SaveLevelInfoJson(const FileSystem::Path& dataDir, EReliveLevelIds /
                             {
                                 rBlyRec.field_4_pPathData = &GetPathData(lvlIdx)[pExt->mPathId];
                                 // HACK: Set throwable type in this path to grenades
-                                rBlyRec.field_C_overlay_id = 3;
+                                rBlyRec.mOverlayId = 3;
                                 rPath.field_18_num_paths++;
                             }
                             PathData& rPathData = *rBlyRec.field_4_pPathData;
@@ -1162,7 +1162,7 @@ static void SaveLevelInfoJson(const FileSystem::Path& dataDir, EReliveLevelIds /
                             {
                                 rBlyRec.field_4_pPathData = &GetPathData(lvlIdx)[pExt->mPathId];
                                 // HACK: Set throwable type in this path to grenades
-                                rBlyRec.field_C_overlay_id = 100;
+                                rBlyRec.mOverlayId = 100;
                                 rPath.field_18_num_paths++;
                             }
                             PathData& rPathData = *rBlyRec.field_4_pPathData;

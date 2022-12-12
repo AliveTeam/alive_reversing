@@ -442,7 +442,7 @@ MainMenuTransition::MainMenuTransition(Layer layer, s32 fadeDirection, s32 bKill
 
     for (s32 i = 0; i < 2; i++)
     {
-        Init_SetTPage(&field_21C_tPage[i], 0, 1, PSX_getTPage(abr));
+        Init_SetTPage(&field_21C_tPage[i], PSX_getTPage(abr));
     }
 
     for (s32 i = 0; i < 8; i++)
@@ -3441,7 +3441,7 @@ void Menu::ToggleMotions_Update()
             // Go to game speak toggle
             mFnUpdate = &Menu::Toggle_Motions_Screens_Update;
             mSelectedButtonIndex.motions_menu = MotionsOptions::eGameSpeak_1;
-            PSX_Prevent_Rendering_4945B0();
+            PSX_Prevent_Rendering();
             SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 45, 400);
         }
 
@@ -3482,7 +3482,7 @@ void Menu::Toggle_Motions_Screens_Update()
 
             mFnUpdate = &Menu::ToggleMotions_Update;
             mSelectedButtonIndex.motions_menu = MotionsOptions::eMotions_0;
-            PSX_Prevent_Rendering_4945B0();
+            PSX_Prevent_Rendering();
             SFX_Play_Pitch(relive::SoundEffects::MenuNavigation, 45, 400);
         }
 

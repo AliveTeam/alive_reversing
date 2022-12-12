@@ -13,7 +13,7 @@ ThrowableArray* gThrowableArray = nullptr;
 void LoadRockTypes(EReliveLevelIds levelNumber, u16 path)
 {
     bool bDoLoadingLoop = false;
-    const u8 throwableTypeIdx = Path_Get_Bly_Record_434650(levelNumber, path)->field_C_overlay_id & 0xFF;
+    const u8 throwableTypeIdx = Path_Get_Bly_Record(levelNumber, path)->mOverlayId & 0xFF;
 
     switch (gThrowableFromOverlayId[throwableTypeIdx])
     {
@@ -43,9 +43,8 @@ ThrowableArray::ThrowableArray()
     SetUpdatable(false);
     mCount = 0;
     gThrowableArray = this;
-    mUnknown1 = false;
-    mUnknown2 = false;
-    mUnknown3 = false;
+    mThrowableTypeChanged = false;
+    mNewThrowableTypeLoaded = false;
 }
 
 ThrowableArray::~ThrowableArray()
@@ -64,20 +63,13 @@ void ThrowableArray::Remove(s16 count)
 
     if (mCount > 0)
     {
-        if (!mUnknown1)
+        if (!mThrowableTypeChanged)
         {
             return;
         }
     }
-    else
-    {
-        if (mUnknown3)
-        {
-            mUnknown3 = false;
-        }
-    }
 
-    if (mUnknown2)
+    if (mNewThrowableTypeLoaded)
     {
         switch (gThrowableFromOverlayId[gMap.mOverlayId])
         {
@@ -93,17 +85,17 @@ void ThrowableArray::Remove(s16 count)
             default:
                 break;
         }
-        mUnknown2 = false;
+        mNewThrowableTypeLoaded = false;
     }
 }
 
 void ThrowableArray::VUpdate()
 {
-    if (mUnknown1)
+    if (mThrowableTypeChanged)
     {
         LoadRockTypes(gMap.mCurrentLevel, gMap.mCurrentPath);
         Add(0);
-        mUnknown1 = false;
+        mThrowableTypeChanged = false;
         SetUpdatable(false);
     }
 }
@@ -114,10 +106,10 @@ void ThrowableArray::VScreenChanged()
     {
         if (gThrowableFromOverlayId[gMap.mOverlayId] != gThrowableFromOverlayId[gMap.GetOverlayId()])
         {
-            if (!mUnknown1)
+            if (!mThrowableTypeChanged)
             {
                 SetUpdatable(true);
-                mUnknown1 = true;
+                mThrowableTypeChanged = true;
                 Remove(0);
             }
         }
@@ -130,17 +122,9 @@ void ThrowableArray::VScreenChanged()
 
 void ThrowableArray::Add(s16 count)
 {
-    if (mCount == 0)
+    if (mCount == 0 || mThrowableTypeChanged)
     {
-        if (!mUnknown3)
-        {
-            mUnknown3 = true;
-        }
-    }
-
-    if (mCount == 0 || mUnknown1)
-    {
-        if (!mUnknown2)
+        if (!mNewThrowableTypeLoaded)
         {
             switch (gThrowableFromOverlayId[gMap.mOverlayId])
             {
@@ -157,7 +141,7 @@ void ThrowableArray::Add(s16 count)
                     break;
             }
 
-            mUnknown2 = true;
+            mNewThrowableTypeLoaded = true;
         }
     }
 

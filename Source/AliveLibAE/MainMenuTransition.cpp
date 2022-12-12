@@ -54,8 +54,8 @@ MainMenuTransition::MainMenuTransition(Layer layer, s32 fadeDirection, s32 bKill
 
     SetDrawable(true);
 
-    Init_SetTPage(&field_22C_tPage[0], 0, 1, PSX_getTPage(abr));
-    Init_SetTPage(&field_22C_tPage[1], 0, 1, PSX_getTPage(abr));
+    Init_SetTPage(&field_22C_tPage[0], PSX_getTPage(abr));
+    Init_SetTPage(&field_22C_tPage[1], PSX_getTPage(abr));
 
     for (s32 i = 0; i < 8; i++)
     {

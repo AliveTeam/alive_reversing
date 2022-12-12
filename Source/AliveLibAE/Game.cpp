@@ -115,7 +115,7 @@ s32 Game_End_Frame(u32 flags)
 {
     if (flags & 1)
     {
-        turn_off_rendering_BD0F20 = 0;
+        gTurnOffRendering = false;
         return 0;
     }
 
@@ -148,7 +148,7 @@ void Main_ParseCommandLineArguments(const char_type* pCommandLine)
 
         if (strstr(pCommandLine, "-ddnoskip"))
         {
-            sCommandLine_NoFrameSkip = true;
+            gCommandLine_NoFrameSkip = true;
         }
 
         if (strstr(pCommandLine, "-ddcheat") || _strcmpi(pCommandLine, "-it_is_me_your_father") == 0)
@@ -378,7 +378,7 @@ void Game_Loop()
 
     } // Main loop end
 
-    PSX_VSync_4F6170(0);
+    PSX_VSync(0);
 
     // Destroy all game objects
     for (s32 i = 0; i < gBaseGameObjects->Size(); i++)

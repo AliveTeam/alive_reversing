@@ -165,7 +165,7 @@ void LaughingGas::VRender(PrimHeader** ppOt)
     {
         if (field_19C_pMem)
         {
-            if (sbDisplayRenderFrame)
+            if (gDisplayRenderFrame)
             {
                 DoRender();
             }
