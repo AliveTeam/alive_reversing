@@ -71,6 +71,7 @@
 #include "../relive_lib/ShadowZone.hpp"
 #include "LiftPoint.hpp"
 #include "RockSack.hpp"
+#include "MeatSack.hpp"
 
 namespace AO {
 

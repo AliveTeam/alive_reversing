@@ -197,6 +197,8 @@ SET(AliveLibSrcAO
    ElectricWall.cpp
    Meat.hpp
    Meat.cpp
+   MeatSack.hpp
+   MeatSack.cpp
    CreditsController.hpp
    CreditsController.cpp
    ScreenClipper.hpp

@@ -18,21 +18,6 @@
 #include "FixedPoint.hpp"
 #include "Math.hpp"
 
-const static AnimId sBoneBagAnimIds[] =
-{
-    AnimId::BoneBag_Idle,
-    AnimId::BoneBag_SoftHit,
-    AnimId::BoneBag_HardHit
-};
-
-void BoneBag::LoadAnimations()
-{
-    for (auto& animId : sBoneBagAnimIds)
-    {
-        mLoadedAnims.push_back(ResourceManagerWrapper::LoadAnimation(animId));
-    }
-}
-
 Bone::Bone(FP xpos, FP ypos, s16 countId)
     : BaseThrowable(0)
 {
@@ -55,7 +40,7 @@ Bone::Bone(FP xpos, FP ypos, s16 countId)
 
     GetAnimation().SetRender(false);
 
-    mTimeToLiveTimer = sGnFrame + 300;
+    mDeadTimer = sGnFrame + 300;
     mBaseThrowableCount = countId;
     mState = BoneStates::eSpawned_0;
     mVolumeModifier = 0;
@@ -101,7 +86,7 @@ s32 Bone::CreateFromSaveState(const u8* pData)
 
     pBone->SetRestoredFromQuickSave(true);
 
-    pBone->mShineTimer = sGnFrame;
+    pBone->mShimmerTimer = sGnFrame;
 
     pBone->BaseAliveGameObjectCollisionLineType = pState->mCollisionLineType;
     pBone->mBaseThrowableCount = pState->mBaseThrowableCount;
@@ -111,7 +96,7 @@ s32 Bone::CreateFromSaveState(const u8* pData)
     pBone->mInitialXPos = pState->mInitialXPos;
     pBone->mInitialYPos = pState->mInitialYPos;
 
-    pBone->mTimeToLiveTimer = pState->mTimeToLiveTimer;
+    pBone->mDeadTimer = pState->mTimeToLiveTimer;
 
     pBone->mHitObject = false;
     if (pState->mHitObject)
@@ -283,7 +268,7 @@ s32 Bone::VGetSaveState(u8* pSaveBuffer)
     pState->mInitialXPos = mInitialXPos;
 
     pState->mInitialYPos = mInitialYPos;
-    pState->mTimeToLiveTimer = mTimeToLiveTimer;
+    pState->mTimeToLiveTimer = mDeadTimer;
 
     return sizeof(BoneSaveState);
 }
@@ -481,7 +466,7 @@ void Bone::VUpdate()
                     mState = BoneStates::eOnGround_3;
                     SetInteractive(true);
                     GetAnimation().SetLoop(false);
-                    mShineTimer = sGnFrame;
+                    mShimmerTimer = sGnFrame;
                     AddToPlatform();
                     return;
                 }
@@ -501,10 +486,10 @@ void Bone::VUpdate()
         case BoneStates::eOnGround_3:
             if (gMap.Is_Point_In_Current_Camera(mCurrentLevel, mCurrentPath, mXPos, mYPos, 0))
             {
-                mTimeToLiveTimer = sGnFrame + 300;
+                mDeadTimer = sGnFrame + 300;
             }
 
-            if (static_cast<s32>(sGnFrame) > mShineTimer && !pObj)
+            if (static_cast<s32>(sGnFrame) > mShimmerTimer && !pObj)
             {
                 // For the shiny star twinkle effect.
                 New_TintShiny_Particle(
@@ -513,10 +498,10 @@ void Bone::VUpdate()
                     FP_FromDouble(0.3),
                     Layer::eLayer_Foreground_36);
 
-                mShineTimer = (Math_NextRandom() % 16) + sGnFrame + 60;
+                mShimmerTimer = (Math_NextRandom() % 16) + sGnFrame + 60;
             }
 
-            if (mTimeToLiveTimer < static_cast<s32>(sGnFrame))
+            if (mDeadTimer < static_cast<s32>(sGnFrame))
             {
                 SetDead(true);
             }
@@ -557,174 +542,4 @@ s16 Bone::VGetCount()
         return 1;
     }
     return mBaseThrowableCount;
-}
-
-const TintEntry kBoneTints_550EC0[16] = {
-    {EReliveLevelIds::eMenu, 127u, 127u, 127u},
-    {EReliveLevelIds::eMines, 127u, 127u, 127u},
-    {EReliveLevelIds::eNecrum, 137u, 137u, 137u},
-    {EReliveLevelIds::eMudomoVault, 127u, 127u, 127u},
-    {EReliveLevelIds::eMudancheeVault, 127u, 127u, 127u},
-    {EReliveLevelIds::eFeeCoDepot, 127u, 127u, 127u},
-    {EReliveLevelIds::eBarracks, 127u, 127u, 127u},
-    {EReliveLevelIds::eMudancheeVault_Ender, 127u, 127u, 127u},
-    {EReliveLevelIds::eBonewerkz, 127u, 127u, 127u},
-    {EReliveLevelIds::eBrewery, 127u, 127u, 127u},
-    {EReliveLevelIds::eBrewery_Ender, 127u, 127u, 127u},
-    {EReliveLevelIds::eMudomoVault_Ender, 127u, 127u, 127u},
-    {EReliveLevelIds::eFeeCoDepot_Ender, 127u, 127u, 127u},
-    {EReliveLevelIds::eBarracks_Ender, 127u, 127u, 127u},
-    {EReliveLevelIds::eBonewerkz_Ender, 127u, 127u, 127u},
-    {EReliveLevelIds::eCredits, 127u, 127u, 127u}};
-
-
-BoneBag::BoneBag(relive::Path_BoneBag* pTlv, const Guid& tlvId)
-    : BaseAliveGameObject(0)
-{
-    SetType(ReliveTypes::eBoneBag);
-
-    LoadAnimations();
-    Animation_Init(GetAnimRes(AnimId::BoneBag_Idle));
-    GetAnimation().SetSemiTrans(false);
-    SetTint(&kBoneTints_550EC0[0], gMap.mCurrentLevel);
-
-    mIsBagHit = false;
-    mTlvInfo = tlvId;
-
-    mXPos = FP_FromInteger((pTlv->mTopLeftX + pTlv->mBottomRightX) / 2);
-    mYPos = FP_FromInteger(pTlv->mBottomRightY);
-
-    SetApplyShadowZoneColour(false);
-
-    mVelX = FP_FromRaw(pTlv->mVelX << 8);
-    mVelY = FP_FromRaw(-256 * pTlv->mVelY); // TODO: << 8 negated ??
-
-    if (pTlv->mBoneFallDirection == relive::reliveXDirection::eLeft)
-    {
-        mVelX = -mVelX;
-    }
-
-    if (pTlv->mScale == relive::reliveScale::eHalf)
-    {
-        SetSpriteScale(FP_FromDouble(0.5));
-        SetScale(Scale::Bg);
-    }
-    else if (pTlv->mScale == relive::reliveScale::eFull)
-    {
-        SetSpriteScale(FP_FromInteger(1));
-        SetScale(Scale::Fg);
-    }
-
-    mBoneAmount = pTlv->mBoneAmount;
-    mAllowSound = true;
-    mForcePlayWobbleSound = true;
-
-    CreateShadow();
-}
-
-void BoneBag::VScreenChanged()
-{
-    SetDead(true);
-}
-
-BoneBag::~BoneBag()
-{
-    Path::TLV_Reset(mTlvInfo, -1, 0, 0);
-}
-
-void BoneBag::VUpdate()
-{
-    if (EventGet(kEventDeathReset))
-    {
-        SetDead(true);
-    }
-
-    if (GetAnimation().GetCurrentFrame() == 2)
-    {
-        if (mAllowSound)
-        {
-            if (Math_NextRandom() < 40 || mForcePlayWobbleSound)
-            {
-                mAllowSound = false;
-                mForcePlayWobbleSound = false;
-                SFX_Play_Pitch(relive::SoundEffects::SackWobble, 24, Math_RandomRange(-2400, -2200));
-            }
-        }
-    }
-    else
-    {
-        mAllowSound = false;
-    }
-
-    if (mIsBagHit)
-    {
-        if (mIsBagHit != 1)
-        {
-            return;
-        }
-
-        if (!GetAnimation().GetIsLastFrame())
-        {
-            return;
-        }
-
-        GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::BoneBag_Idle));
-        mIsBagHit = false;
-        return;
-    }
-
-    if (GetAnimation().GetFrameChangeCounter() == 0)
-    {
-        GetAnimation().SetFrameChangeCounter(Math_RandomRange(2, 10));
-    }
-
-    const PSX_RECT bPlayerRect = sActiveHero->VGetBoundingRect();
-    const PSX_RECT bRect = VGetBoundingRect();
-
-    if (bRect.x <= bPlayerRect.w && bRect.w >= bPlayerRect.x && bRect.h >= bPlayerRect.y && bRect.y <= bPlayerRect.h && GetSpriteScale() == sActiveHero->GetSpriteScale())
-    {
-        if (gpThrowableArray)
-        {
-            if (gpThrowableArray->mCount)
-            {
-                if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_31_RunJumpMid_452C10)
-                {
-                    GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::BoneBag_HardHit));
-                }
-                else
-                {
-                    GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::BoneBag_SoftHit));
-                }
-                mIsBagHit = true;
-                return;
-            }
-        }
-        else
-        {
-            gpThrowableArray = relive_new ThrowableArray();
-        }
-
-        gpThrowableArray->Add(mBoneAmount);
-
-        auto pBone = relive_new Bone(mXPos, mYPos - FP_FromInteger(30), mBoneAmount);
-
-        pBone->SetSpriteScale(GetSpriteScale());
-        pBone->SetScale(GetScale());
-
-        pBone->VThrow(mVelX, mVelY);
-
-        SfxPlayMono(relive::SoundEffects::SackHit, 0);
-        Environment_SFX_457A40(EnvironmentSfx::eDeathNoise_7, 0, 0x7FFF, 0);
-
-        if (sActiveHero->mCurrentMotion == eAbeMotions::Motion_31_RunJumpMid_452C10)
-        {
-            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::BoneBag_HardHit));
-        }
-        else
-        {
-            GetAnimation().Set_Animation_Data(GetAnimRes(AnimId::BoneBag_SoftHit));
-        }
-
-        mIsBagHit = true;
-    }
 }

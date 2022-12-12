@@ -2,11 +2,6 @@
 
 #include "Throwable.hpp"
 
-namespace relive
-{
-    struct Path_MeatSack;
-}
-
 enum class MeatStates : s16
 {
     eCreated_0 = 0,
@@ -81,22 +76,3 @@ public:
     PathLine* mPathLine = nullptr;
 };
 
-class MeatSack final : public BaseAliveGameObject
-{
-public:
-    MeatSack(relive::Path_MeatSack* pTlv, const Guid& tlvId);
-    ~MeatSack();
-
-    void LoadAnimations();
-
-    virtual void VScreenChanged() override;
-    virtual void VUpdate() override;
-
-private:
-    Guid mTlvId;
-    bool mDoMeatSackIdleAnim = false;
-    s16 mMeatAmount = 0;
-    bool mPlayWobbleSound = false;
-    FP mTlvVelX = {};
-    FP mTlvVelY = {};
-};

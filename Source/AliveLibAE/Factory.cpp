@@ -81,6 +81,8 @@
 #include "LaughingGas.hpp"
 #include "ResourceManager.hpp"
 #include "Game.hpp"
+#include "MeatSack.hpp"
+#include "BoneBag.hpp"
 
 template <size_t arraySize>
 struct CompileTimeResourceList final
