@@ -2938,7 +2938,7 @@ void Slog::Sfx(SlogSound effectId)
     PSX_RECT pRect = {};
     gMap.Get_Camera_World_Rect(direction, &pRect);
 
-    const s16 defaultSndIdxVol = effectDef.field_C_default_volume;
+    const s16 defaultSndIdxVol = effectDef.mDefaultVolume;
     volumeRight = defaultSndIdxVol;
     switch (direction)
     {
@@ -2976,8 +2976,8 @@ void Slog::Sfx(SlogSound effectId)
             effectDef,
             volumeLeft,
             volumeRight,
-            effectDef.field_E_pitch_min + 1524,
-            effectDef.field_10_pitch_max + 1524);
+            effectDef.mPitchMin + 1524,
+            effectDef.mPitchMax + 1524);
     }
     else
     {
@@ -2985,8 +2985,8 @@ void Slog::Sfx(SlogSound effectId)
             effectDef,
             volumeLeft,
             volumeRight,
-            effectDef.field_E_pitch_min,
-            effectDef.field_10_pitch_max);
+            effectDef.mPitchMin,
+            effectDef.mPitchMax);
     }
 }
 

@@ -1335,7 +1335,7 @@ static void Factory_DemoSpawnPoint(relive::Path_TLV*, Path*, const Guid& /*tlvId
     {
         if (gAttract)
         {
-            if (!sDemoObj_dword_5D1E20)
+            if (!gActiveDemoPlayback)
             {
                 relive_new DemoPlayback();
             }

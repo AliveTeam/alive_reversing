@@ -23,17 +23,17 @@ public:
     void Start();
 
 private:
-    Prim_ScreenOffset field_20[2] = {};
-    s16 field_40 = 0;
-    s16 field_42 = 0;
-    s16 field_44_start_delay = 0;
-    s16 field_46_spacing_multiplicator = 0;
-    PSX_RECT field_48_tlv_rect = {};
-    FP field_50_scale = {};
-    s16 field_54_switch_id = 0;
-    s16 field_56_asset_interval = 0;
-    s16 field_58_grid_spacing = 0;
-    s16 field_5A_increasing_grid_spacing = 0;
+    Prim_ScreenOffset mScreenOffset[2] = {};
+    s16 mScreenShakeIdx = 0;
+    s16 mScreenShakeIdxModifier = 0;
+    s16 mStartDelay = 0;
+    s16 mSpacingMultiplicator = 0;
+    PSX_RECT mTlvRect = {};
+    FP mSpriteScale = {};
+    s16 mSwitchId = 0;
+    s16 mAssetInterval = 0;
+    s16 mGridSpacing = 0;
+    s16 mIncreasingGridSpacing = 0;
     bool mSpawnAssets = false;
     bool mFlipX = false;
     bool mActive = false;

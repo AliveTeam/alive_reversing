@@ -6,16 +6,16 @@
 
 struct ZapLineSprites final
 {
-    Poly_FT4 field_0_sprts[2];
+    Poly_FT4 mSprts[2];
 };
 ALIVE_ASSERT_SIZEOF(ZapLineSprites, 0x30);
 
 // TODO: Give better names to the ZapPoint fields.
 struct ZapPoint final
 {
-    FP field_0_part_1;
-    FP field_4_part_2;
-    FP field_8_part_3;
+    FP mPart1;
+    FP mPart2;
+    FP mPart3;
 };
 ALIVE_ASSERT_SIZEOF(ZapPoint, 0xC);
 

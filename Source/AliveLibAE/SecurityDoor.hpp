@@ -39,18 +39,17 @@ private:
     s16 IsPlayerNear();
 
 private:
-    Guid field_F4_tlvInfo;
-    SecurityDoorStates field_F8_state = SecurityDoorStates::eInactive_0;
-    s16 field_FA_switch_id = 0;
-    s32 field_FC_code_converted = 0;
-    s16 field_100_code_len = 0;
-    s32 field_104_event_idx = 0;
-    u8 field_108_stru[16] = {};
-    s16 field_118_max_idx = 0;
-    s16 field_11A_event_idx = 0;
-    PSX_Point field_11C_top_left = {};
-    PSX_Point field_120_bottom_right = {};
-    s32 field_124_timer = 0;
-    s16 field_128_max_idx = 0;
-    s16 field_12A_unused = 0; // Gets set to 1 in vUpdate, but isn't used anywhere else. -- Nemin (6/7/2020)
+    Guid mTlvId;
+    SecurityDoorStates mState = SecurityDoorStates::eInactive_0;
+    s16 mSwitchId = 0;
+    s32 mCodeConverted = 0;
+    s16 mCodeLength = 0;
+    s32 mLastEventIdx = 0;
+    u8 mPasswordBuffer[16] = {};
+    s16 mMaxIdx = 0; // TODO: better name
+    s16 mBufferStartIdx = 0;
+    PSX_Point mTlvTopLeft = {};
+    PSX_Point mTlvBottomRight = {};
+    s32 mTimer = 0;
+    s16 mMaxIdx2 = 0; // TODO: better name
 };

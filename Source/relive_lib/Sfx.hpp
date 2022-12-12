@@ -7,12 +7,12 @@ namespace relive {
 
 struct SfxDefinition final
 {
-    s32 field_0_block_idx;
-    s32 field_4_program;
-    s32 field_8_note;
-    s16 field_C_default_volume;
-    s16 field_E_pitch_min;
-    s16 field_10_pitch_max;
+    s32 mBlockIdx;
+    s32 mProgram;
+    s32 mNote;
+    s16 mDefaultVolume;
+    s16 mPitchMin;
+    s16 mPitchMax;
 };
 
 enum class SoundEffects

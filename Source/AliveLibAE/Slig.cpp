@@ -64,7 +64,7 @@ void Slig_SoundEffect_4BFFE0(SligSfx effect, BaseAliveGameObject* pObj)
     const relive::SfxDefinition& pEffect = kSfxInfoTable_5607E0[static_cast<s32>(effect)];
     s16 vLeft = 0;
     s16 vRight = 0;
-    if (Calc_Slig_Sound_Direction_4C01B0(pObj, 0, pEffect, &vLeft, &vRight))
+    if (Calc_Slig_Sound_Direction(pObj, 0, pEffect, &vLeft, &vRight))
     {
         s16 pitch = 0;
         if (effect == SligSfx::ePropeller1_9 || effect == SligSfx::ePropeller2_10 || effect == SligSfx::ePropeller3_11)
@@ -79,7 +79,7 @@ void Slig_SoundEffect_4BFFE0(SligSfx effect, BaseAliveGameObject* pObj)
         }
         else
         {
-            pitch = Math_RandomRange(pEffect.field_E_pitch_min, pEffect.field_10_pitch_max);
+            pitch = Math_RandomRange(pEffect.mPitchMin, pEffect.mPitchMax);
         }
         SFX_SfxDefinition_Play_Stereo(pEffect, vLeft, vRight, pitch, pitch);
     }
@@ -2203,7 +2203,7 @@ void Slig::M_PullLever_45_4B8950()
     {
         if (GetTeleporting())
         {
-            Slig_GameSpeak_SFX_4C04F0(SligSpeak::eBlurgh_11, 0, field_11E_pitch_min, this);
+            Slig_GameSpeak_SFX(SligSpeak::eBlurgh_11, 0, field_11E_pitch_min, this);
             mCurrentMotion = eSligMotions::M_Blurgh_31_4B5510;
         }
         else
@@ -2485,7 +2485,7 @@ s16 Slig::Brain_Possessed_2_4BBCF0()
     switch (mBrainSubState)
     {
         case Brain_2_Possessed::eBrain2_StartPossession_0:
-            Slig_GameSpeak_SFX_4C04F0(SligSpeak::eHelp_10, 0, field_11E_pitch_min, this);
+            Slig_GameSpeak_SFX(SligSpeak::eHelp_10, 0, field_11E_pitch_min, this);
             mBrainSubState = 1;
             mHealth = FP_FromInteger(0);
             mCurrentMotion = eSligMotions::M_Possess_37_4B72C0;
@@ -2514,13 +2514,13 @@ s16 Slig::Brain_Possessed_2_4BBCF0()
                 {
                     field_120_timer = sGnFrame + 20;
                     mCurrentMotion = eSligMotions::M_SpeakHi_21_4B53D0;
-                    Slig_GameSpeak_SFX_4C04F0(SligSpeak::eHi_0, 0, field_11E_pitch_min, this);
+                    Slig_GameSpeak_SFX(SligSpeak::eHi_0, 0, field_11E_pitch_min, this);
                 }
                 else
                 {
                     field_120_timer = sGnFrame + 20;
                     mCurrentMotion = eSligMotions::M_SpeakLaugh_24_4B5430;
-                    Slig_GameSpeak_SFX_4C04F0(SligSpeak::eLaugh_3, 0, field_11E_pitch_min, this);
+                    Slig_GameSpeak_SFX(SligSpeak::eLaugh_3, 0, field_11E_pitch_min, this);
                 }
                 mBrainSubState = Brain_2_Possessed::eBrain2_PossessionSpeak_3;
                 return mBrainSubState;
@@ -2587,7 +2587,7 @@ s16 Slig::Brain_DeathDropDeath_3_4BC1E0()
     switch (mBrainSubState)
     {
         case Brain_3_DeathDropDeath::eBrain3_SayHelpOnce_0:
-            Slig_GameSpeak_SFX_4C04F0(SligSpeak::eHelp_10, 0, field_11E_pitch_min, this);
+            Slig_GameSpeak_SFX(SligSpeak::eHelp_10, 0, field_11E_pitch_min, this);
             field_120_timer = sGnFrame + 60;
             return Brain_3_DeathDropDeath::eBrain3_SayHelpAndDie_1;
 
@@ -2597,7 +2597,7 @@ s16 Slig::Brain_DeathDropDeath_3_4BC1E0()
             {
                 if (!((field_120_timer - sGnFrame) % 15))
                 {
-                    Slig_GameSpeak_SFX_4C04F0(
+                    Slig_GameSpeak_SFX(
                         SligSpeak::eHelp_10,
                         static_cast<s16>(2 * ((field_120_timer & 0xFFFF) - sGnFrame)),
                         field_11E_pitch_min,
@@ -5249,7 +5249,7 @@ void Slig::PullLever()
         return;
     }
 
-    Slig_GameSpeak_SFX_4C04F0(SligSpeak::eWhat_9, 0, field_11E_pitch_min, this);
+    Slig_GameSpeak_SFX(SligSpeak::eWhat_9, 0, field_11E_pitch_min, this);
     mCurrentMotion = eSligMotions::M_SpeakWhat_29_4B54D0;
 }
 
@@ -5352,14 +5352,14 @@ s16 Slig::HandlePlayerControlled_4B7800()
 
         if (Input().isHeld(sInputKey_Up))
         {
-            Slig_GameSpeak_SFX_4C04F0(SligSpeak::eWhat_9, 0, field_11E_pitch_min, this);
+            Slig_GameSpeak_SFX(SligSpeak::eWhat_9, 0, field_11E_pitch_min, this);
             mCurrentMotion = eSligMotions::M_SpeakWhat_29_4B54D0;
             return 1;
         }
     }
     else if (Input().isHeld(sInputKey_FartRoll | sInputKey_Hop))
     {
-        Slig_GameSpeak_SFX_4C04F0(SligSpeak::eBlurgh_11, 0, field_11E_pitch_min, this);
+        Slig_GameSpeak_SFX(SligSpeak::eBlurgh_11, 0, field_11E_pitch_min, this);
         mCurrentMotion = eSligMotions::M_Blurgh_31_4B5510;
         return 1;
     }
@@ -5508,7 +5508,7 @@ s16 Slig::GetNextMotionIncGameSpeak_4B5080(s32 input)
                 break;
         }
 
-        Slig_GameSpeak_SFX_4C04F0(speak, 0, field_11E_pitch_min, this);
+        Slig_GameSpeak_SFX(speak, 0, field_11E_pitch_min, this);
         mCurrentMotion = mNextMotion;
         mNextMotion = -1;
         return mCurrentMotion;
@@ -6618,7 +6618,7 @@ s16 Slig::VTakeDamage(BaseGameObject* pFrom)
         }
 
         case ReliveTypes::eElectricWall:
-            Slig_GameSpeak_SFX_4C04F0(SligSpeak::eHelp_10, 0, field_11E_pitch_min, this);
+            Slig_GameSpeak_SFX(SligSpeak::eHelp_10, 0, field_11E_pitch_min, this);
             return 1;
 
         case ReliveTypes::eAbe:

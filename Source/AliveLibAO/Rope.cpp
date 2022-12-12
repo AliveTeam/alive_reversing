@@ -108,9 +108,9 @@ Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
         {
             AnimationUnknown* pSegment = &field_E8_pRopeRes[i];
             pSegment->SetRender(true);
-            pSegment->field_68_anim_ptr = &GetAnimation();
+            pSegment->mAnimPtr = &GetAnimation();
             pSegment->SetRenderLayer(GetAnimation().GetRenderLayer());
-            pSegment->field_6C_scale = scale;
+            pSegment->mSpriteScale = scale;
             pSegment->SetSemiTrans(false);
             pSegment->SetBlending(false);
         }
@@ -194,7 +194,7 @@ void Rope::VRender(PrimHeader** ppOt)
                         field_E8_pRopeRes[idx].GetRenderedSize(&rect);
 
                         ClipPoly_Vertically_4584B0(
-                            &field_E8_pRopeRes[idx].field_10_polys[gPsxDisplay.mBufferIndex],
+                            &field_E8_pRopeRes[idx].mPolys[gPsxDisplay.mBufferIndex],
                             minY + mYOffset,
                             maxY + mYOffset);
 

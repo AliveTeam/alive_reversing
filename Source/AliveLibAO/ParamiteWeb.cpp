@@ -60,9 +60,9 @@ ParamiteWeb::ParamiteWeb(FP xpos, s32 bottom, s32 top, FP scale)
         {
             AnimationUnknown* pSegment = &mWebRes[i];
             pSegment->SetRender(true);
-            pSegment->field_68_anim_ptr = &GetAnimation();
+            pSegment->mAnimPtr = &GetAnimation();
             pSegment->SetRenderLayer(GetAnimation().GetRenderLayer());
-            pSegment->field_6C_scale = GetSpriteScale();
+            pSegment->mSpriteScale = GetSpriteScale();
             pSegment->SetSemiTrans(false);
             pSegment->SetBlending(false);
         }
@@ -147,7 +147,7 @@ void ParamiteWeb::VRender(PrimHeader** ppOt)
                     ShadowZone::ShadowZones_Calculate_Colour(FP_GetExponent(mXPos), ypos_int - (idx * mSegmentLength), GetScale(), &r, &g, &b);
                     mWebRes[idx].SetRGB(r, g, b);
                     mWebRes[idx].VRender(x_start, y_start + mYOffset, ppOt, 0, 0);
-                    ClipPoly_Vertically_4584B0(&mWebRes[idx].field_10_polys[gPsxDisplay.mBufferIndex], mYOffset + minY, mYOffset + maxY);
+                    ClipPoly_Vertically_4584B0(&mWebRes[idx].mPolys[gPsxDisplay.mBufferIndex], mYOffset + minY, mYOffset + maxY);
                     y_start -= mSegmentLength;
                     if (y_start < minY)
                     {

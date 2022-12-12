@@ -5,7 +5,7 @@
 
 void AnimationUnknown::VCleanUp()
 {
-    field_68_anim_ptr = nullptr;
+    mAnimPtr = nullptr;
 }
 void AnimationUnknown::VDecode()
 {
@@ -14,13 +14,13 @@ void AnimationUnknown::VDecode()
 
 void AnimationUnknown::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 /*width*/, s32 /*height*/)
 {
-    Poly_FT4* pPoly = &field_10_polys[gPsxDisplay.mBufferIndex];
+    Poly_FT4* pPoly = &mPolys[gPsxDisplay.mBufferIndex];
     if (GetRender())
     {
         // Copy from animation to local
-        *pPoly = field_68_anim_ptr->mOtData[gPsxDisplay.mBufferIndex];
+        *pPoly = mAnimPtr->mOtData[gPsxDisplay.mBufferIndex];
 
-        const PerFrameInfo* pFrameInfoHeader = field_68_anim_ptr->Get_FrameHeader(-1);
+        const PerFrameInfo* pFrameInfoHeader = mAnimPtr->Get_FrameHeader(-1);
 
         s32 frameH = pFrameInfoHeader->mHeight;
         s32 frameW = pFrameInfoHeader->mWidth;
@@ -28,13 +28,13 @@ void AnimationUnknown::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 /*widt
         s32 frameOffX = pFrameInfoHeader->mXOffset;
         s32 frameOffY = pFrameInfoHeader->mYOffset;
 
-        if (field_6C_scale != FP_FromInteger(1))
+        if (mSpriteScale != FP_FromInteger(1))
         {
-            frameOffX = FP_GetExponent(FP_FromInteger(frameOffX) * field_6C_scale);
-            frameOffY = FP_GetExponent(FP_FromInteger(frameOffY) * field_6C_scale);
+            frameOffX = FP_GetExponent(FP_FromInteger(frameOffX) * mSpriteScale);
+            frameOffY = FP_GetExponent(FP_FromInteger(frameOffY) * mSpriteScale);
 
-            frameH = FP_GetExponent(FP_FromInteger(frameH) * field_6C_scale);
-            frameW = FP_GetExponent(FP_FromInteger(frameW) * field_6C_scale);
+            frameH = FP_GetExponent(FP_FromInteger(frameH) * mSpriteScale);
+            frameW = FP_GetExponent(FP_FromInteger(frameW) * mSpriteScale);
 
         }
 
@@ -44,11 +44,11 @@ void AnimationUnknown::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 /*widt
         // TODO: Factor out when file formats are converted
         const bool isAe = GetGameType() == GameType::eAe;
         s32 xConverted = isAe ? PsxToPCX(xpos) : xpos;
-        if (field_68_anim_ptr->GetSwapXY())
+        if (mAnimPtr->GetSwapXY())
         {
-            if (field_68_anim_ptr->GetFlipY())
+            if (mAnimPtr->GetFlipY())
             {
-                if (field_68_anim_ptr->GetFlipX())
+                if (mAnimPtr->GetFlipX())
                 {
                     polyX = xConverted - frameOffY - frameH;
                 }
@@ -60,7 +60,7 @@ void AnimationUnknown::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 /*widt
             }
             else
             {
-                if (field_68_anim_ptr->GetFlipX())
+                if (mAnimPtr->GetFlipX())
                 {
                     polyX = xConverted - frameOffY - frameH;
                 }
@@ -71,9 +71,9 @@ void AnimationUnknown::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 /*widt
                 polyY = ypos - frameOffX - frameW;
             }
         }
-        else if (field_68_anim_ptr->GetFlipY())
+        else if (mAnimPtr->GetFlipY())
         {
-            if (field_68_anim_ptr->GetFlipX())
+            if (mAnimPtr->GetFlipX())
             {
                 polyX = xConverted - frameOffX - frameW;
             }
@@ -85,7 +85,7 @@ void AnimationUnknown::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 /*widt
         }
         else
         {
-            if (field_68_anim_ptr->GetFlipX())
+            if (mAnimPtr->GetFlipX())
             {
                 polyX = xConverted - frameOffX - frameW;
             }
@@ -109,13 +109,13 @@ void AnimationUnknown::VRender(s32 xpos, s32 ypos, PrimHeader** ppOt, s16 /*widt
 
 
         // TODO: Or pass this mAnimRes ?
-        SetPrimExtraPointerHack(pPoly, &field_68_anim_ptr->mAnimRes);
+        SetPrimExtraPointerHack(pPoly, &mAnimPtr->mAnimRes);
         OrderingTable_Add(OtLayer(ppOt, GetRenderLayer()), &pPoly->mBase.header);
     }
 }
 
 void AnimationUnknown::GetRenderedSize(PSX_RECT* pRect)
 {
-    Poly_FT4_Get_Rect(pRect, &field_10_polys[gPsxDisplay.mBufferIndex]);
+    Poly_FT4_Get_Rect(pRect, &mPolys[gPsxDisplay.mBufferIndex]);
 }
 

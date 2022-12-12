@@ -2635,12 +2635,12 @@ const relive::SfxDefinition stepSfx_554840[3] = {
 void Glukkon::PlaySound(s32 sndIdx, Glukkon* pGlukkon)
 {
     s32 volumeLeft, volumeRight;
-    s32 defaultSndIdxVol = stepSfx_554840[sndIdx].field_C_default_volume;
+    s32 defaultSndIdxVol = stepSfx_554840[sndIdx].mDefaultVolume;
 
     s16 pitch;
     if (sndIdx || !pGlukkon)
     {
-        pitch = Math_RandomRange(stepSfx_554840[sndIdx].field_E_pitch_min, stepSfx_554840[sndIdx].field_10_pitch_max);
+        pitch = Math_RandomRange(stepSfx_554840[sndIdx].mPitchMin, stepSfx_554840[sndIdx].mPitchMax);
     }
     else
     {
@@ -2812,7 +2812,7 @@ void Glukkon::PlaySound_GameSpeak(GlukkonSpeak sndIdx, s16 volume, s16 pitch, Gl
     s16 calcedVolume = volume;
     if (!calcedVolume)
     {
-        calcedVolume = gameSpeak_554858[sndIdxShort].field_C_default_volume;
+        calcedVolume = gameSpeak_554858[sndIdxShort].mDefaultVolume;
     }
     if (pGlukkon)
     {

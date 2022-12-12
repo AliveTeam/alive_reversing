@@ -143,7 +143,7 @@ public:
 
         for (auto& anim : mSparks)
         {
-            anim.field_14.field_68_anim_ptr = &GetAnimation();
+            anim.field_14.mAnimPtr = &GetAnimation();
 
             anim.field_14.SetRender(true);
             anim.field_14.SetBlending(true);
@@ -151,7 +151,7 @@ public:
             // TODO: clean this up
             const s32 rndLayer = static_cast<s32>(GetAnimation().GetRenderLayer()) + Math_RandomRange(-1, 1);
             anim.field_14.SetRenderLayer(static_cast<Layer>(rndLayer));
-            anim.field_14.field_6C_scale = GetSpriteScale();
+            anim.field_14.mSpriteScale = GetSpriteScale();
 
             anim.x = mXPos;
             anim.y = mYPos;

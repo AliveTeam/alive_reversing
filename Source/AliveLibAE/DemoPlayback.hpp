@@ -13,5 +13,5 @@ public:
 
 };
 
-extern DemoPlayback* sDemoObj_dword_5D1E20;
-extern s16 gIsDemoStartedManually_5C1B9C;
+extern DemoPlayback* gActiveDemoPlayback;
+extern s16 gIsDemoStartedManually;

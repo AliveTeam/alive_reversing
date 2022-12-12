@@ -102,7 +102,7 @@ void SaveGame::LoadFromMemory(SaveData* pData, s32 bKillObjects)
 
     sActiveHero->GetAnimation().SetRender(false);
 
-    gMap.field_E0_save_data = pData->field_2B0_pSaveBuffer;
+    gMap.mSaveData = pData->field_2B0_pSaveBuffer;
 
     if (sActiveHero->field_168_ring_pulse_timer)
     {

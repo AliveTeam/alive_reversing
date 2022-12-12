@@ -5,18 +5,18 @@
 #include "Map.hpp"
 #include "stdlib.hpp"
 
-DemoPlayback* sDemoObj_dword_5D1E20 = nullptr;
+DemoPlayback* gActiveDemoPlayback = nullptr;
 
 DemoPlayback::DemoPlayback()
     : BaseGameObject(true, 0)
 {
-    if (sDemoObj_dword_5D1E20)
+    if (gActiveDemoPlayback)
     {
         SetDead(true);
     }
     else
     {
-        sDemoObj_dword_5D1E20 = this;
+        gActiveDemoPlayback = this;
         SetSurviveDeathReset(true);
 
         // TODO: FIX ME - should pass this resource in
@@ -34,9 +34,9 @@ void DemoPlayback::VScreenChanged()
 
 DemoPlayback::~DemoPlayback()
 {
-    if (sDemoObj_dword_5D1E20 == this)
+    if (gActiveDemoPlayback == this)
     {
-        sDemoObj_dword_5D1E20 = nullptr;
+        gActiveDemoPlayback = nullptr;
     }
 }
 
@@ -50,7 +50,7 @@ void DemoPlayback::VUpdate()
     if (!Input().Is_Demo_Playing_45F220())
     {
         // demo finished playing, go back to the appropriate menu
-        if (gIsDemoStartedManually_5C1B9C)
+        if (gIsDemoStartedManually)
         {
             // go back to the demo selection menu
             gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, 30, CameraSwapEffects::eInstantChange_0, 0, 0);
@@ -61,7 +61,7 @@ void DemoPlayback::VUpdate()
             gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
         }
 
-        gMap.mFreeAllAnimAndPalts = 1;
+        gMap.mFreeAllAnimAndPalts = true;
         SetDead(true);
     }
 }

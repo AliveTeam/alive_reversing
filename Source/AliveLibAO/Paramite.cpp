@@ -738,7 +738,7 @@ void Paramite::Sound(ParamiteSpeak idx)
         mXPos,
         mYPos);
 
-    s16 volRight = stru_4CDD98[static_cast<s16>(idx)].field_C_default_volume;
+    s16 volRight = stru_4CDD98[static_cast<s16>(idx)].mDefaultVolume;
     s16 volLeft = 0;
 
     PSX_RECT rect = {};
@@ -753,7 +753,7 @@ void Paramite::Sound(ParamiteSpeak idx)
         case CameraPos::eCamTop_1:
         case CameraPos::eCamBottom_2:
         {
-            const FP tempVol = (FP_FromRaw(stru_4CDD98[static_cast<s16>(idx)].field_C_default_volume) / FP_FromInteger(3));
+            const FP tempVol = (FP_FromRaw(stru_4CDD98[static_cast<s16>(idx)].mDefaultVolume) / FP_FromInteger(3));
             volLeft = FP_GetExponent(tempVol);
             volRight = FP_GetExponent(tempVol);
             break;

@@ -37,20 +37,19 @@ public:
 
     bool IsPlayerNear();
 
-    Guid field_E4_tlvInfo;
-    s16 field_E8_state = 0;
-    s16 field_EA_switch_id = 0;
-    s32 field_EC_code_converted = 0;
-    s16 field_F0_code_len = 0;
-    s32 field_F4_event_idx = 0;
-    u8 field_F8_stru[16] = {};
-    s16 field_108_max_idx = 0;
-    s16 field_10A_event_idx = 0;
-    PSX_Point field_10C_top_left = {};
-    PSX_Point field_110_bottom_right = {};
-    s32 field_114_timer = 0;
-    s16 field_118_max_idx = 0;
-    s16 field_11A_unused = 0;
+    Guid mTlvId;
+    SecurityDoorStates mState = SecurityDoorStates::eInactive_0;
+    s16 mSwitchId = 0;
+    s32 mCodeConverted = 0;
+    s16 mCodeLength = 0;
+    s32 mLastEventIdx = 0;
+    u8 mPasswordBuffer[16] = {};
+    s16 mMaxIdx = 0; // TODO: better name
+    s16 mBufferStartIdx = 0;
+    PSX_Point mTlvTopLeft = {};
+    PSX_Point mTlvBottomRight = {};
+    s32 mTimer = 0;
+    s16 mMaxIdx2 = 0; // TODO: better name
 };
 
 } // namespace AO

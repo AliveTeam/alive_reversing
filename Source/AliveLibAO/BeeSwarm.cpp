@@ -494,8 +494,8 @@ void BeeSwarm::VUpdate()
         pBee->field_10_anim.SetRender(true);
         pBee->field_10_anim.SetBlending(true); // TODO: or higher byte
 
-        pBee->field_10_anim.field_68_anim_ptr = &GetAnimation();
-        pBee->field_10_anim.field_6C_scale = GetSpriteScale();
+        pBee->field_10_anim.mAnimPtr = &GetAnimation();
+        pBee->field_10_anim.mSpriteScale = GetSpriteScale();
 
         pBee->field_10_anim.SetRenderLayer(Layer::eLayer_MainMenuButtonBees_38);
 

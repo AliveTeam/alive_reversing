@@ -500,12 +500,12 @@ s32 Environment_SFX_42A220(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseA
             {
                 v4 = SFX_SfxDefinition_Play_Mono(
                     sSFXList_4C6638[2],
-                    sSFXList_4C6638[2].field_C_default_volume / 2,
+                    sSFXList_4C6638[2].mDefaultVolume / 2,
                     pitchMin,
                     0x7FFF);
                 v5 = SFX_SfxDefinition_Play_Mono(
                     sSFXList_4C6638[48],
-                    sSFXList_4C6638[18].field_C_default_volume / 2,
+                    sSFXList_4C6638[18].mDefaultVolume / 2,
                     pitchMin,
                     0x7FFF);
             }
@@ -578,7 +578,7 @@ s32 Environment_SFX_42A220(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseA
     }
     if (volume == 0)
     {
-        volume = sSFXList_4C6638[sndIndex].field_C_default_volume;
+        volume = sSFXList_4C6638[sndIndex].mDefaultVolume;
     }
     if (pAliveObj)
     {
@@ -617,7 +617,7 @@ s32 Mudokon_SFX(MudSounds idx, s32 volume, s32 pitch, BaseAliveGameObject* pHero
         auto idxShort = static_cast<s16>(idx);
         if (volume == 0)
         {
-            volume = sSFXList_4C6638[idxShort + 30].field_C_default_volume;
+            volume = sSFXList_4C6638[idxShort + 30].mDefaultVolume;
         }
         if (pHero)
         {

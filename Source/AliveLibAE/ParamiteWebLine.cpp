@@ -97,9 +97,9 @@ ParamiteWebLine::ParamiteWebLine(relive::Path_ParamiteWebLine* pTlv, const Guid&
         for (s32 i = 0; i < field_F4_anim_segment_count; i++)
         {
             field_FC_pRes[i].SetRender(true);
-            field_FC_pRes[i].field_68_anim_ptr = &GetAnimation();
+            field_FC_pRes[i].mAnimPtr = &GetAnimation();
             field_FC_pRes[i].SetRenderLayer(GetAnimation().GetRenderLayer());
-            field_FC_pRes[i].field_6C_scale = GetSpriteScale();
+            field_FC_pRes[i].mSpriteScale = GetSpriteScale();
             field_FC_pRes[i].SetSemiTrans(false);
             field_FC_pRes[i].SetBlending(false);
         }
@@ -254,7 +254,7 @@ void ParamiteWebLine::VRender(PrimHeader** ppOt)
             ppOt, 0, 0);
 
         ClipPoly_Vertically_4A09E0(
-            &field_FC_pRes[idx].field_10_polys[gPsxDisplay.mBufferIndex],
+            &field_FC_pRes[idx].mPolys[gPsxDisplay.mBufferIndex],
             FP_GetExponent(FP_FromInteger(field_F8_top) - gScreenManager->CamYPos()),
             FP_GetExponent(FP_FromInteger(field_FA_bottom) - gScreenManager->CamYPos()));
 

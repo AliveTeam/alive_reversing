@@ -204,11 +204,11 @@ void Slig::Slig_SoundEffect(SligSfx sfxIdx)
     auto sfxIdxInt = static_cast<s32>(sfxIdx);
     if (GetSpriteScale() == FP_FromInteger(1))
     {
-        volRight = sSligSounds_4CFB30[sfxIdxInt].field_C_default_volume;
+        volRight = sSligSounds_4CFB30[sfxIdxInt].mDefaultVolume;
     }
     else
     {
-        volRight = sSligSounds_4CFB30[sfxIdxInt].field_C_default_volume / 2;
+        volRight = sSligSounds_4CFB30[sfxIdxInt].mDefaultVolume / 2;
     }
     gMap.Get_Camera_World_Rect(dir, &worldRect);
     switch (dir)
@@ -221,7 +221,7 @@ void Slig::Slig_SoundEffect(SligSfx sfxIdx)
         case CameraPos::eCamTop_1:
         case CameraPos::eCamBottom_2:
         {
-            volLeft = sSligSounds_4CFB30[sfxIdxInt].field_C_default_volume * 2 / 3;
+            volLeft = sSligSounds_4CFB30[sfxIdxInt].mDefaultVolume * 2 / 3;
             volRight = volLeft;
             break;
         }
@@ -248,8 +248,8 @@ void Slig::Slig_SoundEffect(SligSfx sfxIdx)
         volRight = volRight * 2 / 3;
     }
     auto pitch = Math_RandomRange(
-        sSligSounds_4CFB30[sfxIdxInt].field_E_pitch_min,
-        sSligSounds_4CFB30[sfxIdxInt].field_E_pitch_min);
+        sSligSounds_4CFB30[sfxIdxInt].mPitchMin,
+        sSligSounds_4CFB30[sfxIdxInt].mPitchMin);
     SFX_SfxDefinition_Play_477330(sSligSounds_4CFB30[sfxIdxInt], static_cast<s16>(volLeft), static_cast<s16>(volRight), pitch, pitch);
 }
 
@@ -1607,7 +1607,7 @@ void Slig::Slig_GameSpeak_SFX(SligSpeak effectId, s32 defaultVol, s32 pitch_min,
     s32 volume = defaultVol;
     if (defaultVol == 0)
     {
-        volume = sSligSounds2[static_cast<s32>(effectId)].field_C_default_volume;
+        volume = sSligSounds2[static_cast<s32>(effectId)].mDefaultVolume;
     }
     if (pObj)
     {

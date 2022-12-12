@@ -1929,7 +1929,7 @@ void Menu::NewGameStart()
         mBaseGameObjectRefCount++;
         // TODO: The ctor of the playback should load the demo res itself
         u8** ppRes = nullptr; //ResourceManager::GetLoadedResource(ResourceManager::Resource_Plbk, gJoyResId, 1, 0);
-        relive_new DemoPlayback(ppRes, 0);
+        relive_new DemoPlayback(ppRes);
         mBaseGameObjectRefCount--;
     }
     else

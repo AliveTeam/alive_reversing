@@ -6155,7 +6155,7 @@ void Paramite::Sound(ParamiteSpeak soundId, s16 pitch_min)
     s16 volRight = 0;
     if (soundId == ParamiteSpeak::Howdy_5)
     {
-        volRight = paramite_stru_55D7C0[5].field_C_default_volume;
+        volRight = paramite_stru_55D7C0[5].mDefaultVolume;
         if (sControlledCharacter == this)
         {
             volRight *= 3;
@@ -6167,7 +6167,7 @@ void Paramite::Sound(ParamiteSpeak soundId, s16 pitch_min)
     }
     else
     {
-        volRight = paramite_stru_55D7C0[static_cast<s32>(soundId)].field_C_default_volume;
+        volRight = paramite_stru_55D7C0[static_cast<s32>(soundId)].mDefaultVolume;
     }
 
     if (GetSpriteScale() == FP_FromDouble(0.5))
@@ -6188,7 +6188,7 @@ void Paramite::Sound(ParamiteSpeak soundId, s16 pitch_min)
         case CameraPos::eCamTop_1:
         case CameraPos::eCamBottom_2:
         {
-            const s16 v12 = FP_GetExponent(FP_FromRaw(paramite_stru_55D7C0[static_cast<s32>(soundId)].field_C_default_volume) / FP_FromInteger(3));
+            const s16 v12 = FP_GetExponent(FP_FromRaw(paramite_stru_55D7C0[static_cast<s32>(soundId)].mDefaultVolume) / FP_FromInteger(3));
             volLeft = v12;
             volRight = v12;
             break;

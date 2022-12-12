@@ -428,7 +428,7 @@ void Game_Run()
 
     // Not technically needed yet but will de-sync if not instantiated here
     CamResource nullCamRes;
-    gScreenManager = relive_new ScreenManager(nullCamRes, &gMap.field_24_camera_offset);
+    gScreenManager = relive_new ScreenManager(nullCamRes, &gMap.mCameraOffset);
 
     Input_Init();
 

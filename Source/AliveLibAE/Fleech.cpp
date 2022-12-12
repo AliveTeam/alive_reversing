@@ -1931,13 +1931,13 @@ static const relive::SfxDefinition& GetRandomizedSound(FleechSound soundId, s16&
     {
         const s32 rndIdx = Math_RandomRange(14, 16);
         const relive::SfxDefinition& effectDef = getSfxDef(static_cast<FleechSound>(rndIdx));
-        defaultSndIdxVol = effectDef.field_C_default_volume + Math_RandomRange(-10, 10);
+        defaultSndIdxVol = effectDef.mDefaultVolume + Math_RandomRange(-10, 10);
         return effectDef;
     }
     else
     {
         const relive::SfxDefinition& effectDef = getSfxDef(soundId);
-        defaultSndIdxVol = effectDef.field_C_default_volume;
+        defaultSndIdxVol = effectDef.mDefaultVolume;
         return effectDef;
     }
 }
@@ -1996,8 +1996,8 @@ s32 Fleech::Sound(FleechSound soundId)
         effectDef,
         volumeLeft,
         volumeRight,
-        effectDef.field_E_pitch_min,
-        effectDef.field_10_pitch_max);
+        effectDef.mPitchMin,
+        effectDef.mPitchMax);
 }
 
 u8** Fleech::ResBlockForMotion(s32 /*motion*/)

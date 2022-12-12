@@ -123,9 +123,9 @@ ParticleBurst::ParticleBurst(FP xpos, FP ypos, s32 particleCount, FP scale, Burs
 
             for (s32 i = 0; i < particleCount; i++)
             {
-                field_E8_pRes[i].field_18_animation.field_68_anim_ptr = &GetAnimation();
+                field_E8_pRes[i].field_18_animation.mAnimPtr = &GetAnimation();
                 field_E8_pRes[i].field_18_animation.SetRenderLayer(GetAnimation().GetRenderLayer());
-                field_E8_pRes[i].field_18_animation.field_6C_scale = FP_FromDouble(0.95) * GetSpriteScale();
+                field_E8_pRes[i].field_18_animation.mSpriteScale = FP_FromDouble(0.95) * GetSpriteScale();
 
                 field_E8_pRes[i].field_18_animation.SetRender(true);
 
@@ -277,7 +277,7 @@ void ParticleBurst::VRender(PrimHeader** ppOt)
                 }
                 else
                 {
-                    pItem->field_18_animation.field_6C_scale = FP_FromInteger(100) / (pItem->field_8_z + FP_FromInteger(300));
+                    pItem->field_18_animation.mSpriteScale = FP_FromInteger(100) / (pItem->field_8_z + FP_FromInteger(300));
                     pItem->field_18_animation.VRender(
                         FP_GetExponent(PsxToPCX(pItem->x - screen_left, FP_FromInteger(11))),
                         FP_GetExponent(pItem->y - screen_bottom),

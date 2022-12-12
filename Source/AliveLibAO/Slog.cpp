@@ -660,7 +660,7 @@ void Slog::Sfx(s32 soundId)
     s32 volumeRight = 0;
 
     const relive::SfxDefinition& sndDef = sSlogSfx_4CFE40[static_cast<s32>(soundId)];
-    const auto defaultSndIdxVol = sndDef.field_C_default_volume;
+    const auto defaultSndIdxVol = sndDef.mDefaultVolume;
     if (GetSpriteScale() == FP_FromInteger(1))
     {
         volumeRight = defaultSndIdxVol;
@@ -711,8 +711,8 @@ void Slog::Sfx(s32 soundId)
     SFX_SfxDefinition_Play_477330(sndDef,
                                   static_cast<s16>(volumeLeft),
                                   static_cast<s16>(volumeRight),
-                                  static_cast<s16>(sndDef.field_E_pitch_min),
-                                  static_cast<s16>(sndDef.field_10_pitch_max));
+                                  static_cast<s16>(sndDef.mPitchMin),
+                                  static_cast<s16>(sndDef.mPitchMax));
 }
 
 s16 Slog::IsPlayerNear()

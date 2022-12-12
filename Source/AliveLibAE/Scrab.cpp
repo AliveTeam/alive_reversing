@@ -3874,7 +3874,7 @@ s32 Scrab::Scrab_SFX(ScrabSounds soundId, s32 vol, s32 pitch, s16 applyDirection
         mYPos);
 
     const relive::SfxDefinition& effectDef = getSfxDef(soundId);
-    const s16 defaultSndIdxVol = effectDef.field_C_default_volume;
+    const s16 defaultSndIdxVol = effectDef.mDefaultVolume;
 
     volumeRight = static_cast<s16>(vol);
     if (vol <= 0)

@@ -23,7 +23,7 @@ s32 SFX_Play_Camera(relive::SoundEffects sfxId, s16 volume, CameraPos direction,
 {
     if (!volume)
     {
-        volume = relive::GetSfx(sfxId).field_C_default_volume;
+        volume = relive::GetSfx(sfxId).mDefaultVolume;
     }
 
     switch (direction)
@@ -42,7 +42,7 @@ s32 SFX_Play_Camera(relive::SoundEffects sfxId, s16 volume, CameraPos direction,
     }
 }
 
-const relive::SfxDefinition sSligGameSpeakEntries_560868[21] = {
+static const relive::SfxDefinition sSligGameSpeakEntries[21] = {
     {0u, 25u, 60u, 127u, 0, 0},
     {0u, 25u, 62u, 127u, 0, 0},
     {0u, 25u, 61u, 115u, 0, 0},
@@ -65,11 +65,11 @@ const relive::SfxDefinition sSligGameSpeakEntries_560868[21] = {
     {0u, 0u, 0u, 0u, 0, 0},
     {0u, 0u, 0u, 0u, 0, 0}};
 
-s16 Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysicsGameObject* pObj, s16 defaultVol, const relive::SfxDefinition& pSfx, s16* pLeftVol, s16* pRightVol)
+s16 Calc_Slig_Sound_Direction(BaseAnimatedWithPhysicsGameObject* pObj, s16 defaultVol, const relive::SfxDefinition& pSfx, s16* pLeftVol, s16* pRightVol)
 {
     if (defaultVol == 0)
     {
-        defaultVol = pSfx.field_C_default_volume;
+        defaultVol = pSfx.mDefaultVolume;
     }
 
     if (pObj)
@@ -143,15 +143,15 @@ s16 Calc_Slig_Sound_Direction_4C01B0(BaseAnimatedWithPhysicsGameObject* pObj, s1
     }
 }
 
-void Slig_GameSpeak_SFX_4C04F0(SligSpeak effectId, s16 defaultVol, s16 pitch_min, BaseAnimatedWithPhysicsGameObject* pObj)
+void Slig_GameSpeak_SFX(SligSpeak effectId, s16 defaultVol, s16 pitch_min, BaseAnimatedWithPhysicsGameObject* pObj)
 {
     const s32 idx = static_cast<s32>(effectId);
-    assert(idx < ALIVE_COUNTOF(sSligGameSpeakEntries_560868));
-    const relive::SfxDefinition& pEffect = sSligGameSpeakEntries_560868[idx];
+    assert(idx < ALIVE_COUNTOF(sSligGameSpeakEntries));
+    const relive::SfxDefinition& pEffect = sSligGameSpeakEntries[idx];
 
     s16 volLeft = 0;
     s16 volRight = 0;
-    if (Calc_Slig_Sound_Direction_4C01B0(pObj, defaultVol, pEffect, &volLeft, &volRight))
+    if (Calc_Slig_Sound_Direction(pObj, defaultVol, pEffect, &volLeft, &volRight))
     {
         SFX_SfxDefinition_Play_Stereo(pEffect, volLeft, volRight, pitch_min, pitch_min);
     }

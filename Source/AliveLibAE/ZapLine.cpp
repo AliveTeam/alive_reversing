@@ -70,7 +70,7 @@ ZapLine::ZapLine(FP xPosSource, FP yPosSource, FP xPosDest, FP yPosDest, s32 ali
         {
             for (s32 k = 0; k < mNumberOfPiecesPerSegment; k++)
             {
-                Poly_FT4* pSprt = &mSprites[(j * mNumberOfPiecesPerSegment) + k].field_0_sprts[i];
+                Poly_FT4* pSprt = &mSprites[(j * mNumberOfPiecesPerSegment) + k].mSprts[i];
                 PolyFT4_Init(pSprt);
 
                 Poly_Set_SemiTrans(&pSprt->mBase.header, 1);
@@ -207,9 +207,9 @@ void ZapLine::CalculateZapPoints()
     for (s32 i = 0; i < mNumberOfPiecesPerSegment; i++)
     {
         const FP accSqrd = (acc * acc);
-        mZapPoints[i].field_0_part_1 = accSqrd - FP_FromRaw(2 * acc.fpValue) + FP_FromInteger(1);
-        mZapPoints[i].field_4_part_2 = -FP_FromRaw(2 * accSqrd.fpValue) + FP_FromRaw(2 * acc.fpValue) + FP_FromInteger(1);
-        mZapPoints[i].field_8_part_3 = accSqrd;
+        mZapPoints[i].mPart1 = accSqrd - FP_FromRaw(2 * acc.fpValue) + FP_FromInteger(1);
+        mZapPoints[i].mPart2 = -FP_FromRaw(2 * accSqrd.fpValue) + FP_FromRaw(2 * acc.fpValue) + FP_FromInteger(1);
+        mZapPoints[i].mPart3 = accSqrd;
         acc += delta;
     }
 }
@@ -231,13 +231,13 @@ void ZapLine::CalculateSpritePositionsInner(s32 idx1, s32 idx2, s32 idx3, s16 id
 
         pItem->x = FP_GetExponent(
             FP_FromRaw((
-                           (mZapPoints[i].field_8_part_3 * x3) + (mZapPoints[i].field_4_part_2 * x2) + (mZapPoints[i].field_0_part_1 * x1))
+                           (mZapPoints[i].mPart3 * x3) + (mZapPoints[i].mPart2 * x2) + (mZapPoints[i].mPart1 * x1))
                            .fpValue
                        >> 1));
 
         pItem->y = FP_GetExponent(
             FP_FromRaw((
-                           (mZapPoints[i].field_8_part_3 * y3) + (mZapPoints[i].field_4_part_2 * y2) + (mZapPoints[i].field_0_part_1 * y1))
+                           (mZapPoints[i].mPart3 * y3) + (mZapPoints[i].mPart2 * y2) + (mZapPoints[i].mPart1 * y1))
                            .fpValue
                        >> 1));
     }
@@ -250,7 +250,7 @@ void ZapLine::UpdateSpriteVertexPositions()
         for (s32 j = 0; j < mNumberOfPiecesPerSegment; j++)
         {
             const auto pPoint = &mSpritePositions[j + (i * mNumberOfPiecesPerSegment)];
-            Poly_FT4* pSprt = &mSprites->field_0_sprts[j + (i * mNumberOfPiecesPerSegment)];
+            Poly_FT4* pSprt = &mSprites->mSprts[j + (i * mNumberOfPiecesPerSegment)];
             
             const s16 w1 = static_cast<s16>(abs(X0(&pSprt[0]) - X3(&pSprt[0])));
             const s16 h1 = static_cast<s16>(abs(Y0(&pSprt[0]) - Y3(&pSprt[0])));
@@ -359,7 +359,7 @@ void ZapLine::VRender(PrimHeader** ppOt)
         {
             for (s32 j = 0; j < mNumberOfPiecesPerSegment; j++)
             {
-                Poly_FT4* pSprt = &mSprites->field_0_sprts[j + (i * mNumberOfPiecesPerSegment)];
+                Poly_FT4* pSprt = &mSprites->mSprts[j + (i * mNumberOfPiecesPerSegment)];
                 OrderingTable_Add(OtLayer(ppOt, GetAnimation().GetRenderLayer()), &pSprt[bufferIdx].mBase.header);
             }
         }

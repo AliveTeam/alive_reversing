@@ -79,8 +79,8 @@ void Map::Reset()
 
     ClearPathResourceBlocks();
 
-    mFreeAllAnimAndPalts = 0;
-    mRestoreQuickSaveData = 0;
+    mFreeAllAnimAndPalts = false;
+    mSaveData = 0;
 }
 
 void Map::Init(EReliveLevelIds level, s16 path, s16 camera, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange)
@@ -736,8 +736,8 @@ void Map::GoTo_Camera()
         }
     }
 
-    field_24_camera_offset.x = FP_FromInteger(mCamIdxOnX * mPathData->field_A_grid_width);
-    field_24_camera_offset.y = FP_FromInteger(mCamIdxOnY * mPathData->field_C_grid_height);
+    mCameraOffset.x = FP_FromInteger(mCamIdxOnX * mPathData->field_A_grid_width);
+    mCameraOffset.y = FP_FromInteger(mCamIdxOnY * mPathData->field_C_grid_height);
 
     // If map has changed then load new collision info
     if (prevPathId != mCurrentPath || prevLevelId != mCurrentLevel)
@@ -746,10 +746,10 @@ void Map::GoTo_Camera()
         sCollisions = relive_new Collisions(GetPathResourceBlockPtr(mCurrentPath)->GetCollisions());
     }
 
-    if (mRestoreQuickSaveData)
+    if (mSaveData)
     {
-        QuikSave_RestoreBlyData(mRestoreQuickSaveData);
-        mRestoreQuickSaveData = nullptr;
+        QuikSave_RestoreBlyData(mSaveData);
+        mSaveData = nullptr;
     }
 
     // Copy camera array and blank out the source
@@ -796,7 +796,7 @@ void Map::GoTo_Camera()
     // Create the screen manager if it hasn't already been done (probably should have always been done by this point though?)
     if (!gScreenManager)
     {
-        gScreenManager = relive_new ScreenManager(field_2C_camera_array[0]->field_C_pCamRes, &field_24_camera_offset);
+        gScreenManager = relive_new ScreenManager(field_2C_camera_array[0]->field_C_pCamRes, &mCameraOffset);
     }
 
     gPathInfo->Loader_4DB800(mCamIdxOnX, mCamIdxOnY, LoadMode::ConstructObject_0, ReliveTypes::eNone); // none = load all
@@ -994,8 +994,8 @@ CameraPos Map::Rect_Location_Relative_To_Active_Camera(const PSX_RECT* pRect, s1
         return CameraPos::eCamNone_5;
     }
 
-    const s32 camX = FP_GetExponent(field_24_camera_offset.x);
-    const s32 camY = FP_GetExponent(field_24_camera_offset.y);
+    const s32 camX = FP_GetExponent(mCameraOffset.x);
+    const s32 camY = FP_GetExponent(mCameraOffset.y);
 
     if (pRect->x > (camX + 368))
     {

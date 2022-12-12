@@ -224,7 +224,7 @@ void Quicksave_LoadFromMemory_4C95A0(Quicksave* quicksaveData)
     gSkipGameObjectUpdates = true;
     Quicksave_ReadWorldInfo(&quicksaveData->field_204_world_info);
     gSwitchStates = quicksaveData->field_45C_switch_states;
-    gMap.mRestoreQuickSaveData = reinterpret_cast<u8*>(quicksaveData->field_55C_objects_state_data);
+    gMap.mSaveData = reinterpret_cast<u8*>(quicksaveData->field_55C_objects_state_data);
     gMap.SetActiveCam(
         MapWrapper::FromAE(quicksaveData->field_204_world_info.field_4_level),
         quicksaveData->field_204_world_info.field_6_path,

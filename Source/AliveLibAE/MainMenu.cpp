@@ -1917,7 +1917,7 @@ s8 MainMenuController::checkIfDemoFileExists_4D1430(char_type* input)
 
 // true if demo was started manually from the demos menu,
 // false if demo was started automatically due to idling
-s16 gIsDemoStartedManually_5C1B9C = false;
+s16 gIsDemoStartedManually = false;
 
 u8 sCurrentDemoIdForIdlingDemoPlayback_5C1BA2 = 0;
 MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
@@ -1927,7 +1927,7 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
     if (mLoading)
     {
         s16 demoId = sDemoIdChosenFromDemoMenu_5C1B9E;
-        if (!gIsDemoStartedManually_5C1B9C)
+        if (!gIsDemoStartedManually)
         {
             demoId = sCurrentDemoIdForIdlingDemoPlayback_5C1BA2;
         }
@@ -1945,14 +1945,14 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
         while (!MainMenuController::checkIfDemoFileExists_4D1430(lvFilenameNoPrefix) && !MainMenuController::checkIfDemoFileExists_4D1430(lvFilename))
         {
             sLevelId_dword_5CA408 = levelId;
-            if (gIsDemoStartedManually_5C1B9C)
+            if (gIsDemoStartedManually)
             {
                 dword_55C128 = -1;
             }
             if (!Display_Full_Screen_Message_Blocking(Path_Get_Unknown(sDemos_5617F0[demoId].field_4_level), MessageType::eSkipDemo_2))
             {
                 field_1F8_page_timeout = 0;
-                if (gIsDemoStartedManually_5C1B9C)
+                if (gIsDemoStartedManually)
                 {
                     return MainMenuNextCam(MainMenuCams::eDemoSelectionCam);
                 }
@@ -2007,7 +2007,7 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
         SetDead(true);
 
         demoId = sDemoIdChosenFromDemoMenu_5C1B9E;
-        if (gIsDemoStartedManually_5C1B9C)
+        if (gIsDemoStartedManually)
         {
             // play the manually picked demo
             demoId = sDemoIdChosenFromDemoMenu_5C1B9E;
@@ -2025,7 +2025,7 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
         char_type file[32] = {};
         sprintf(file, "ATTR%04d.SAV", sDemos_5617F0[demoId].field_A_id);
 
-        if (gIsDemoStartedManually_5C1B9C)
+        if (gIsDemoStartedManually)
         {
             gActiveQuicksaveData.field_200_accumulated_obj_count = 1024;
         }
@@ -2041,7 +2041,7 @@ MainMenuNextCam MainMenuController::LoadDemo_Update_4D1040(u32)
 MainMenuNextCam MainMenuController::DemoSelect_Update_4D0E10(u32 input)
 {
     gAttract = 0;
-    gIsDemoStartedManually_5C1B9C = false;
+    gIsDemoStartedManually = false;
 
     s32 input_or_field_204 = input;
     if (field_204_prev_pressed && field_204_prev_pressed == Input().mPads[sCurrentControllerIndex].mPressed)
@@ -2113,7 +2113,7 @@ MainMenuNextCam MainMenuController::DemoSelect_Update_4D0E10(u32 input)
     if (input_or_field_204 & InputCommands::Enum::eUnPause_OrConfirm)
     {
         // selected a demo for playing
-        gIsDemoStartedManually_5C1B9C = true;
+        gIsDemoStartedManually = true;
         sDemoIdChosenFromDemoMenu_5C1B9E = field_230_target_entry_index;
         return MainMenuNextCam(MainMenuCams::eDemoIsLoading_ShaddapCam, NO_SELECTABLE_BUTTONS); //Enter Pressed
     }
@@ -2546,7 +2546,7 @@ MainMenuNextCam MainMenuController::RemapInput_Update_4D1820(u32 input)
             return MainMenuNextCam(MainMenuCams::eNoChange);
         }
 
-        if (field_208_transition_obj->field_26_bDone)
+        if (field_208_transition_obj->mDone)
         {
             dword_BB43F8 = 3;
             if (Input_Remap_492680(kIdxToInput_561F14[sButtonToRemapIdx_BB43EC]))
@@ -3116,7 +3116,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
             {
             case camTransEffectState::eDone_0:
             case camTransEffectState::eDone_2:
-                if (field_208_transition_obj->field_26_bDone)
+                if (field_208_transition_obj->mDone)
                 {
                     break;
                 }
@@ -3246,7 +3246,7 @@ s32 MainMenuController::ChangeScreenAndIntroLogic_4CF640()
             }
 
             if ((field_21C_camSwapEffectState == camTransEffectState::eDone_0 || field_21C_camSwapEffectState == camTransEffectState::eDone_2) 
-                && !field_208_transition_obj->field_26_bDone)
+                && !field_208_transition_obj->mDone)
             {
                 return 1;
             }
@@ -3457,7 +3457,7 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
                                 break;
 
                             case eSligSpeak:
-                                Slig_GameSpeak_SFX_4C04F0(static_cast<SligSpeak>(sMainMenuFrameTable_561CC8[field_228_res_idx].field_6_sound), 0, 0, 0);
+                                Slig_GameSpeak_SFX(static_cast<SligSpeak>(sMainMenuFrameTable_561CC8[field_228_res_idx].field_6_sound), 0, 0, 0);
                                 mGameSpeakPlaying = true;
                                 break;
 
@@ -3469,8 +3469,8 @@ void MainMenuController::AnimationAndSoundLogic_4CFE80()
                             case eScrabSpeak:
                                 SFX_SfxDefinition_Play_Stereo(
                                     mainMenu_sScrabSfx_560330[sound],
-                                    mainMenu_sScrabSfx_560330[sound].field_C_default_volume,
-                                    mainMenu_sScrabSfx_560330[sound].field_C_default_volume,
+                                    mainMenu_sScrabSfx_560330[sound].mDefaultVolume,
+                                    mainMenu_sScrabSfx_560330[sound].mDefaultVolume,
                                     0x7FFF,
                                     0x7FFF);
                                 mGameSpeakPlaying = true;
@@ -3542,7 +3542,7 @@ void MainMenuController::DrawMenuText_4D20D0(const MainMenuText* array, PrimHead
     const bool bSpeak2 = strstr(array->field_8_text, kSpeak2) != 0;
 
     char_type textBuffer[32] = {};
-    String_FormatString(array->field_8_text, textBuffer, ALIVE_COUNTOF(textBuffer), array->field_14 == 0);
+    String_FormatString(array->field_8_text, textBuffer, array->field_14 == 0);
 
     if (op2)
     {

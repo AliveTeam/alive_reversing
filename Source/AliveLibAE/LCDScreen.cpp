@@ -189,7 +189,7 @@ LCDScreen::LCDScreen(relive::Path_LCDScreen* params, const Guid& tlvId)
 
     //field_A0_message = "                               THIS IS A TEST";
 
-    String_FormatString(field_A0_message, field_A8_message_buffer, 512, 1);
+    String_FormatString(field_A0_message, field_A8_message_buffer, 1);
     field_A0_message = field_A8_message_buffer;
     field_A4_message_cutoff_ptr = nullptr;
     field_2AC_x_offset = 0;
@@ -249,7 +249,7 @@ void LCDScreen::VUpdate()
                 field_60_font.mFontContext->mFntResource.mCurPal = mPal1.mPal;
             }
 
-            String_FormatString(field_A0_message, field_A8_message_buffer, 512, 1);
+            String_FormatString(field_A0_message, field_A8_message_buffer, 1);
             field_A0_message = field_A8_message_buffer;
         }
 

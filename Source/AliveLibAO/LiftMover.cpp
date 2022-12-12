@@ -72,9 +72,9 @@ void LiftMover::VUpdate()
                     {
                         // Load lift point objects (I guess in case for some reason it got unloaded ??)
                         // AE doesn't do this.
-                        for (s16 y = 0; y < gMap.field_26_max_cams_y; y++)
+                        for (s16 y = 0; y < gMap.mMaxCamsY; y++)
                         {
-                            for (s16 x = 0; x < gMap.field_24_max_cams_x; x++)
+                            for (s16 x = 0; x < gMap.mMaxCamsX; x++)
                             {
                                 gMap.Loader(x, y, LoadMode::ConstructObject_0, ReliveTypes::eLiftPoint);
                             }

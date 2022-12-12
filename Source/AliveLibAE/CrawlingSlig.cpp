@@ -565,7 +565,7 @@ void CrawlingSlig::VOnTlvCollision(relive::Path_TLV* pTlv)
                 mVelY = FP_FromInteger(0);
                 mVelX = FP_FromInteger(0);
                 EventBroadcast(kEventMudokonComfort, this);
-                Slig_GameSpeak_SFX_4C04F0(SligSpeak::eHelp_10, 0, 0, this);
+                Slig_GameSpeak_SFX(SligSpeak::eHelp_10, 0, 0, this);
                 mMultiUseTimer = sGnFrame + 60;
             }
         }
@@ -602,7 +602,7 @@ s16 CrawlingSlig::VTakeDamage(BaseGameObject* pFrom)
                 return 1;
 
             case ReliveTypes::eElectricWall:
-                Slig_GameSpeak_SFX_4C04F0(SligSpeak::eHelp_10, 0, 0, this);
+                Slig_GameSpeak_SFX(SligSpeak::eHelp_10, 0, 0, this);
                 return 1;
 
             case ReliveTypes::eSlig:
@@ -619,7 +619,7 @@ s16 CrawlingSlig::VTakeDamage(BaseGameObject* pFrom)
                 }
 
                 Set_AnimAndMotion(CrawlingSligMotion::Motion_7_ToShakingToIdle, true);
-                Slig_GameSpeak_SFX_4C04F0(SligSpeak::eHelp_10, 0, 0, this);
+                Slig_GameSpeak_SFX(SligSpeak::eHelp_10, 0, 0, this);
 
                 if (BrainIs(&CrawlingSlig::Brain_2_PanicGetALocker))
                 {
@@ -1213,7 +1213,7 @@ s16 CrawlingSlig::Brain_4_GetKilled()
             {
                 if (!(static_cast<s32>(mMultiUseTimer - sGnFrame) % 15))
                 {
-                    Slig_GameSpeak_SFX_4C04F0(
+                    Slig_GameSpeak_SFX(
                         SligSpeak::eHelp_10,
                         // TODO: revisit the logic below
                         static_cast<s16>(2 * (mMultiUseTimer & (0xFFFF - sGnFrame))),
@@ -1534,7 +1534,7 @@ void CrawlingSlig::Motion_8_Speaking()
     {
         if (gMap.mCurrentPath == mCurrentPath && gMap.mCurrentLevel == mCurrentLevel && Is_In_Current_Camera() == CameraPos::eCamCurrent_0)
         {
-            Slig_GameSpeak_SFX_4C04F0(mSpeak, 0, 0, this);
+            Slig_GameSpeak_SFX(mSpeak, 0, 0, this);
         }
         mSpeak = SligSpeak::eNone;
     }
@@ -1683,7 +1683,7 @@ void CrawlingSlig::Motion_16_IdleToPushingWall()
 {
     if (GetAnimation().GetIsLastFrame())
     {
-        Slig_GameSpeak_SFX_4C04F0(static_cast<SligSpeak>(Math_RandomRange(static_cast<s32>(SligSpeak::eOuch1_13), static_cast<s32>(SligSpeak::eOuch2_14))), 0, 0, this);
+        Slig_GameSpeak_SFX(static_cast<SligSpeak>(Math_RandomRange(static_cast<s32>(SligSpeak::eOuch1_13), static_cast<s32>(SligSpeak::eOuch2_14))), 0, 0, this);
         Set_AnimAndMotion(CrawlingSligMotion::Motion_10_PushingWall, true);
     }
 }
@@ -1875,7 +1875,7 @@ s16 CrawlingSlig::CanCrawl()
         Set_AnimAndMotion(CrawlingSligMotion::Motion_10_PushingWall, true);
         const s32 snappedX = SnapToXGrid(GetSpriteScale(), FP_GetExponent(mXPos));
         mVelX = ((FP_FromInteger(snappedX) - mXPos) / FP_FromInteger(4));
-        Slig_GameSpeak_SFX_4C04F0(static_cast<SligSpeak>(Math_RandomRange(static_cast<s32>(SligSpeak::eOuch1_13), static_cast<s32>(SligSpeak::eOuch2_14))), 0, 0, this);
+        Slig_GameSpeak_SFX(static_cast<SligSpeak>(Math_RandomRange(static_cast<s32>(SligSpeak::eOuch1_13), static_cast<s32>(SligSpeak::eOuch2_14))), 0, 0, this);
         return false;
     }
     else

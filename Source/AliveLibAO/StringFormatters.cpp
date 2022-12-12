@@ -4,7 +4,7 @@
 
 namespace AO {
 
-const s32 dword_4CEE78[30] = {
+static const s32 sInputTable[30] = {
     // NOTE: diversion from OG!
     // the sneak - speak1 and run - speak2 pairs are now decoupled
     // so that they can each be remapped to separate buttons
@@ -39,7 +39,7 @@ const s32 dword_4CEE78[30] = {
     0,
     0};
 
-const char_type* kButtonNamesOrAtlasNums_4CEDA8[] = {
+static const char_type* kButtonNamesOrAtlasNums[] = {
     "esc",
     "tab",
     "alt",
@@ -121,15 +121,15 @@ void String_FormatString(const char_type* pInput, char_type* pOutput)
             // NOTE: diversion from OG!
             if (in_char == kAO_ConfirmContinue[0])
             {
-                pConverted = Input_GetButtonString(static_cast<InputCommands>(dword_4CEE78[in_char_m6]));
+                pConverted = Input_GetButtonString(static_cast<InputCommands>(sInputTable[in_char_m6]));
             }
             else if (in_char_m6 < 0 || in_char_m6 >= 14)
             {
-                pConverted = kButtonNamesOrAtlasNums_4CEDA8[in_char_m6];
+                pConverted = kButtonNamesOrAtlasNums[in_char_m6];
             }
             else
             {
-                pConverted = Input_GetButtonString(static_cast<InputCommands>(dword_4CEE78[in_char_m6]));
+                pConverted = Input_GetButtonString(static_cast<InputCommands>(sInputTable[in_char_m6]));
             }
 
             strcpy(pOutIter, pConverted);

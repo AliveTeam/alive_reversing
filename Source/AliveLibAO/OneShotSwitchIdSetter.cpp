@@ -17,7 +17,7 @@ OneShotSwitchIdSetter::OneShotSwitchIdSetter(Path_OneShotSwitchIdSetter* pTlv, c
 
     if (!SwitchStates_Get(236))
     {
-        for (auto id : pTlv->field_18_ids_to_clear)
+        for (auto id : pTlv->mIdsToClear)
         {
             SwitchStates_Do_Operation(id, relive::reliveSwitchOp::eSetTrue);
         }

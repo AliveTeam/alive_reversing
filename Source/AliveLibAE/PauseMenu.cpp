@@ -362,7 +362,7 @@ void PauseMenu::Page_Base_Render(PrimHeader** ot, PauseMenu::PauseMenuPage* pPag
     while (e->mText)
     {
         char_type textFormatted[128];
-        String_FormatString(e->mText, textFormatted, 128, 1);
+        String_FormatString(e->mText, textFormatted, 1);
 
         auto glow = 0;
         if (pPage->mSelectedIndex == i)
@@ -605,9 +605,9 @@ void PauseMenu::Page_QuitConfirmation_Update()
             SetDead(true);
         }
 
-        gPauseMenu = 0;
+        gPauseMenu = nullptr;
         gMap.SetActiveCam(EReliveLevelIds::eMenu, 1, 1, CameraSwapEffects::eInstantChange_0, 0, 0);
-        gMap.mFreeAllAnimAndPalts = 1;
+        gMap.mFreeAllAnimAndPalts = true;
         sCurrentControllerIndex = 0;
     }
 }

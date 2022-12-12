@@ -31,7 +31,7 @@ public:
     void BecomeInvisible();
 
 private:
-    InvisibleState field_20_state_or_op = InvisibleState::eSetRenderMode1_0;
+    InvisibleState mState = InvisibleState::eSetRenderMode1_0;
 
     //u16* field_24_pPal1 = nullptr;
     //PSX_RECT field_28_pal_rect1 = {};
@@ -42,8 +42,8 @@ private:
 
     u8 mTransitionFrameCount = 0;
 
-    Guid field_44_objId;
-    TPageAbr field_48_old_render_mode = TPageAbr::eBlend_0;
+    Guid mTargetId;
+    TPageAbr mOldRenderMode = TPageAbr::eBlend_0;
     bool mSemiTrans = false;
     bool mBlending = false;
     bool mIsInvisible = false;

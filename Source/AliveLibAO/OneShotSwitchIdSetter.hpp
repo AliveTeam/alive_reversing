@@ -8,7 +8,7 @@ namespace AO {
 
 struct Path_OneShotSwitchIdSetter final : public Path_TLV
 {
-    s16 field_18_ids_to_clear[8];
+    s16 mIdsToClear[8];
 };
 ALIVE_ASSERT_SIZEOF_ALWAYS(Path_OneShotSwitchIdSetter, 0x28);
 

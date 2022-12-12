@@ -253,8 +253,8 @@ void Map::Reset()
 
     ClearPathResourceBlocks();
 
-    field_DC_free_all_anim_and_palts = 0;
-    field_E0_save_data = 0;
+    mFreeAllAnimAndPalts = false;
+    mSaveData = 0;
 }
 
 void Map::Init(EReliveLevelIds level, s16 path, s16 camera, CameraSwapEffects screenChangeEffect, s16 fmvBaseId, s16 forceChange)
@@ -873,9 +873,9 @@ void Map::GoTo_Camera()
             gSwitchStates.mData[i] = 0;
         }
 
-        if (field_DC_free_all_anim_and_palts)
+        if (mFreeAllAnimAndPalts)
         {
-            field_DC_free_all_anim_and_palts = false;
+            mFreeAllAnimAndPalts = false;
         }
     }
 
@@ -888,7 +888,7 @@ void Map::GoTo_Camera()
     const auto old_current_path = mCurrentPath;
     const auto old_current_level = mCurrentLevel;
 
-    field_DA_bMapChanged = mNextPath != old_current_path || mNextLevel != mCurrentLevel;
+    mMapChanged = mNextPath != old_current_path || mNextLevel != mCurrentLevel;
 
     mCurrentCamera = mNextCamera;
     mCurrentPath = mNextPath;
@@ -896,8 +896,8 @@ void Map::GoTo_Camera()
 
     const PathBlyRec* pPathRecord = AO::Path_Get_Bly_Record(mNextLevel, mNextPath);
     mPathData = pPathRecord->field_4_pPathData;
-    field_24_max_cams_x = (mPathData->field_8_bTop - mPathData->field_4_bLeft) / mPathData->field_C_grid_width;
-    field_26_max_cams_y = (mPathData->field_A_bBottom - mPathData->field_6_bRight) / mPathData->field_E_grid_height;
+    mMaxCamsX = (mPathData->field_8_bTop - mPathData->field_4_bLeft) / mPathData->field_C_grid_width;
+    mMaxCamsY = (mPathData->field_A_bBottom - mPathData->field_6_bRight) / mPathData->field_E_grid_height;
 
     char_type camNameBuffer[20] = {};
     Path_Format_CameraName_4346B0(camNameBuffer, mNextLevel, mNextPath, mNextCamera);
@@ -917,8 +917,8 @@ void Map::GoTo_Camera()
     }
 
 
-    field_2C_camera_offset.x = FP_FromInteger(mCamIdxOnX * mPathData->field_C_grid_width + 440);
-    field_2C_camera_offset.y = FP_FromInteger(mCamIdxOnY * mPathData->field_E_grid_height + 240);
+    mCameraOffset.x = FP_FromInteger(mCamIdxOnX * mPathData->field_C_grid_width + 440);
+    mCameraOffset.y = FP_FromInteger(mCamIdxOnY * mPathData->field_E_grid_height + 240);
 
     if (old_current_path != mCurrentPath || old_current_level != mCurrentLevel)
     {
@@ -951,10 +951,10 @@ void Map::GoTo_Camera()
         sCollisions = relive_new Collisions(GetPathResourceBlockPtr(mCurrentPath)->GetCollisions());
     }
 
-    if (field_E0_save_data)
+    if (mSaveData)
     {
-        RestoreBlyData(field_E0_save_data);
-        field_E0_save_data = nullptr;
+        RestoreBlyData(mSaveData);
+        mSaveData = nullptr;
     }
 
     // Copy camera array and blank out the source
@@ -1000,7 +1000,7 @@ void Map::GoTo_Camera()
 
     if (!gScreenManager)
     {
-        gScreenManager = relive_new ScreenManager(field_2C_camera_array[0]->field_C_pCamRes, &field_2C_camera_offset);
+        gScreenManager = relive_new ScreenManager(field_2C_camera_array[0]->field_C_pCamRes, &mCameraOffset);
     }
 
     Loader(mCamIdxOnX, mCamIdxOnY, LoadMode::ConstructObject_0, ReliveTypes::eNone); // none = load all
@@ -1069,7 +1069,7 @@ relive::Path_TLV* Map::Get_First_TLV_For_Offsetted_Camera(s16 cam_x_idx, s16 cam
     const auto camX = cam_x_idx + mCamIdxOnX;
     const auto camY = cam_y_idx + mCamIdxOnY;
 
-    if (camX >= field_24_max_cams_x || camX < 0 || camY >= field_26_max_cams_y || camY < 0)
+    if (camX >= mMaxCamsX || camX < 0 || camY >= mMaxCamsY || camY < 0)
     {
         return nullptr;
     }
@@ -1314,19 +1314,19 @@ CameraPos Map::Rect_Location_Relative_To_Active_Camera(const PSX_RECT* pRect, s1
         yTweak = FP_FromInteger(120);
     }
 
-    if (pRect->x > FP_GetExponent(field_2C_camera_offset.x + xTweak))
+    if (pRect->x > FP_GetExponent(mCameraOffset.x + xTweak))
     {
         return CameraPos::eCamRight_4;
     }
 
-    if (pRect->y > FP_GetExponent(field_2C_camera_offset.y + yTweak))
+    if (pRect->y > FP_GetExponent(mCameraOffset.y + yTweak))
     {
         return CameraPos::eCamBottom_2;
     }
 
-    if (pRect->w >= FP_GetExponent(field_2C_camera_offset.x - xTweak))
+    if (pRect->w >= FP_GetExponent(mCameraOffset.x - xTweak))
     {
-        if (pRect->h < FP_GetExponent(field_2C_camera_offset.y - yTweak))
+        if (pRect->h < FP_GetExponent(mCameraOffset.y - yTweak))
         {
             return CameraPos::eCamTop_1;
         }
@@ -1371,12 +1371,12 @@ relive::Path_TLV* Map::VTLV_Get_At(s16 xpos, s16 ypos, s16 width, s16 height, Re
     const s32 grid_cell_x = (right / mPathData->field_C_grid_width);
 
     // Check within map bounds
-    if (grid_cell_x >= field_24_max_cams_x)
+    if (grid_cell_x >= mMaxCamsX)
     {
         return nullptr;
     }
 
-    if (grid_cell_y >= field_26_max_cams_y)
+    if (grid_cell_y >= mMaxCamsY)
     {
         return nullptr;
     }
@@ -1432,7 +1432,7 @@ relive::Path_TLV* Map::TLV_Get_At(relive::Path_TLV* pTlv, FP xpos, FP ypos, FP w
         const auto camX = xpos_converted / pPathData->field_C_grid_width;
         const auto camY = ypos_converted / pPathData->field_E_grid_height;
 
-        if (camX >= field_24_max_cams_x || camY >= field_26_max_cams_y)
+        if (camX >= mMaxCamsX || camY >= mMaxCamsY)
         {
             return nullptr;
         }
@@ -1570,7 +1570,7 @@ Camera* Map::Create_Camera(s16 xpos, s16 ypos, s32 /*a4*/)
     }
 
     // Check max bounds
-    if (xpos >= field_24_max_cams_x || ypos >= field_26_max_cams_y)
+    if (xpos >= mMaxCamsX || ypos >= mMaxCamsY)
     {
         return nullptr;
     }

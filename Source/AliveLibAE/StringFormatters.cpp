@@ -3,7 +3,7 @@
 #include "stdlib.hpp"
 #include "Input.hpp"
 
-void String_FormatString(const char_type* src, char_type* dst, s32 /*bufferLen*/, s8 isAbeMotionsMenuWithAController)
+void String_FormatString(const char_type* src, char_type* dst, s8 isAbeMotionsMenuWithAController)
 {
     const char_type* pSrcIter = src;
     char_type* pDstIter = dst;

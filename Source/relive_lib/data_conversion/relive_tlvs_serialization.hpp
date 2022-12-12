@@ -1888,16 +1888,16 @@ inline void to_json(nlohmann::json& j, const Path_MovingBombStopper& p)
     j = nlohmann::json{
         {"tlv_type", "moving_bomb_stopper"},
         {"base", ToBase(p)},
-        {"min", p.mMinDelay},
-        {"max", p.mMaxDelay},
+        {"min_stop_time", p.mMinStopTime},
+        {"max_stop_time", p.mMaxStopTime},
     };
 }
 
 inline void from_json(const nlohmann::json& j, Path_MovingBombStopper& p)
 {
     j.at("base").get_to(ToBase(p));
-    j.at("min").get_to(p.mMinDelay);
-    j.at("max").get_to(p.mMaxDelay);
+    j.at("min_stop_time").get_to(p.mMinStopTime);
+    j.at("max_stop_time").get_to(p.mMaxStopTime);
 }
 
 // Path_DoorFlame

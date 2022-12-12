@@ -6,7 +6,7 @@
 
 namespace AO {
 
-const relive::SfxDefinition sSfxEntries_4CCA38[] = {
+static const relive::SfxDefinition sSfxEntries[] = {
     {0, 0, 36, 75, 0, 0},           // Unknown_0 = 0,
     {0, 0, 66, 75, 0, 0},           // Bullet1_1 = 1,
     {0, 0, 67, 75, 0, 0},           // Bullet2_2 = 2,
@@ -122,7 +122,7 @@ const relive::SfxDefinition sSfxEntries_4CCA38[] = {
     {0, 64, 39, 90, -1000, -1000}}; // SligBleh_112 = 112
 }
 
-const relive::SfxDefinition sSfxEntries_55C2A0[] = {
+static const relive::SfxDefinition sSfxEntries[] = {
     {0u, 0u, 66u, 75u, 0, 0},          // Bullet1_0 = 0,
     {0u, 0u, 67u, 75u, 0, 0},          // Bullet2_1 = 1,
     {0u, 0u, 72u, 55u, 0, 0},          // GreenTick_2 = 2,
@@ -1224,11 +1224,11 @@ const relive::SfxDefinition& relive::GetSfx(relive::SoundEffects sfx)
 {
     if (GetGameType() == GameType::eAo)
     {
-        return AO::sSfxEntries_4CCA38[static_cast<u32>(ToAo(sfx))];
+        return AO::sSfxEntries[static_cast<u32>(ToAo(sfx))];
     }
     else
     {
-        return sSfxEntries_55C2A0[static_cast<u32>(ToAe(sfx))];
+        return sSfxEntries[static_cast<u32>(ToAe(sfx))];
     }
 }
 
@@ -1248,11 +1248,11 @@ s32 relive::SFX_Play_Pitch(relive::SoundEffects sfxId, s32 volume, s32 pitch, FP
 {
     if (!volume)
     {
-        volume = relive::GetSfx(sfxId).field_C_default_volume;
+        volume = relive::GetSfx(sfxId).mDefaultVolume;
     }
     if (scale == FP_FromDouble(0.5))
     {
-        volume = 2 * relive::GetSfx(sfxId).field_C_default_volume / 3;
+        volume = 2 * relive::GetSfx(sfxId).mDefaultVolume / 3;
     }
     return SFX_SfxDefinition_Play_Mono(relive::GetSfx(sfxId), volume, pitch, pitch);
 }
@@ -1261,7 +1261,7 @@ s32 relive::SfxPlayMono(relive::SoundEffects sfxId, s32 volume, FP scale)
 {
     if (!volume)
     {
-        volume = relive::GetSfx(sfxId).field_C_default_volume;
+        volume = relive::GetSfx(sfxId).mDefaultVolume;
     }
     if (scale == FP_FromDouble(0.5))
     {

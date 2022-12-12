@@ -359,7 +359,7 @@ s32 Environment_SFX_457A40(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseA
             }
             else
             {
-                return SFX_SfxDefinition_Play_Mono(sSFXList_555160[2], sSFXList_555160[2].field_C_default_volume / 2, static_cast<s16>(pitchMin), 0x7FFF) | SFX_SfxDefinition_Play_Mono(sAbeSFXList_555250[16], sSFXList_555160[16].field_C_default_volume / 2, static_cast<s16>(pitchMin), 0x7FFF);
+                return SFX_SfxDefinition_Play_Mono(sSFXList_555160[2], sSFXList_555160[2].mDefaultVolume / 2, static_cast<s16>(pitchMin), 0x7FFF) | SFX_SfxDefinition_Play_Mono(sAbeSFXList_555250[16], sSFXList_555160[16].mDefaultVolume / 2, static_cast<s16>(pitchMin), 0x7FFF);
             }
 
         case EnvironmentSfx::eHitGroundSoft_6:
@@ -429,7 +429,7 @@ s32 Environment_SFX_457A40(EnvironmentSfx sfxId, s32 volume, s32 pitchMin, BaseA
 
     if (!sndVolume)
     {
-        sndVolume = sSFXList_555160[sndIndex].field_C_default_volume;
+        sndVolume = sSFXList_555160[sndIndex].mDefaultVolume;
     }
 
     if (!pAliveObj)
@@ -9139,7 +9139,7 @@ void Mudokon_SFX(MudSounds idx, s16 volume, s32 pitch, BaseAliveGameObject* pHer
             auto idxToVal = static_cast<u8>(idx);
             if (!volume)
             {
-                volume = sAbeSFXList_555250[idxToVal].field_C_default_volume;
+                volume = sAbeSFXList_555250[idxToVal].mDefaultVolume;
             }
 
             // OG bug - isn't null checked in other cases before de-ref?

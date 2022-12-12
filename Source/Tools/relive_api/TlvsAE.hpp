@@ -1495,8 +1495,8 @@ struct Path_MovingBombStopper final : public ReliveAPI::TlvObjectBaseAE
 {
     CTOR_AE(Path_MovingBombStopper, "MovingBombStopper", TlvTypes::MovingBombStopper_53)
     {
-        ADD("Min Delay", mTlv.mMinDelay);
-        ADD("Max Delay", mTlv.mMaxDelay);
+        ADD("Min Delay", mTlv.mMinStopTime);
+        ADD("Max Delay", mTlv.mMaxStopTime);
     }
 };
 
