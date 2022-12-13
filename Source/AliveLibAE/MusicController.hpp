@@ -63,8 +63,6 @@ private:
     s16 field_2C_flags_and_seq_idx = 0;
     u32 field_30_music_time = 0;
     u32 field_34_music_start_time = 0;
-    u32 field_38_unused = 0;
-    u32 field_3C_unused = 0;
     s16 field_40_flags_and_idx = 0;
     MusicTypes field_42_type = MusicTypes::eNone_0;
     s32 field_44 = 0;

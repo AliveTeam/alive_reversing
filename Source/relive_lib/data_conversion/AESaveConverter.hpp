@@ -2096,13 +2096,13 @@ struct LiftPointSaveState final
     static ::LiftPointSaveState From(const LiftPointSaveState& data)
     {
         ::LiftPointSaveState d;
-        d.field_0_type = BaseGameObject::FromAE(data.field_0_type);
-        d.field_4_xpos = data.field_4_xpos;
-        d.field_8_ypos = data.field_8_ypos;
-        d.field_C_tlvInfo = Guid::NewGuidFromTlvInfo(data.field_C_tlvInfo);
-        d.field_10_pTlv = Guid::NewGuidFromTlvInfo(data.field_10_pTlv);
-        d.field_14_floorYLevel = data.field_14_floorYLevel;
-        d.field_18_lift_point_stop_type = From(data.field_18_lift_point_stop_type);
+        d.mType = BaseGameObject::FromAE(data.field_0_type);
+        d.mXPos = data.field_4_xpos;
+        d.mYPos = data.field_8_ypos;
+        d.mPlatformId = Guid::NewGuidFromTlvInfo(data.field_C_tlvInfo);
+        d.mTlvId = Guid::NewGuidFromTlvInfo(data.field_10_pTlv);
+        d.mFloorLevelY = data.field_14_floorYLevel;
+        d.mLiftPointStopType = From(data.field_18_lift_point_stop_type);
         d.mMoving = data.field_1A.Get(Flags::eBit1_bMoving);
         d.mTopFloor = data.field_1A.Get(Flags::eBit2_bTopFloor);
         d.mMiddleFloor = data.field_1A.Get(Flags::eBit3_bMiddleFloor);

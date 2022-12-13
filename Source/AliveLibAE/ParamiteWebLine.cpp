@@ -253,7 +253,7 @@ void ParamiteWebLine::VRender(PrimHeader** ppOt)
             FP_GetExponent(FP_FromInteger(render_ypos) - gScreenManager->CamYPos()),
             ppOt, 0, 0);
 
-        ClipPoly_Vertically_4A09E0(
+        ClipPoly_Vertically(
             &field_FC_pRes[idx].mPolys[gPsxDisplay.mBufferIndex],
             FP_GetExponent(FP_FromInteger(field_F8_top) - gScreenManager->CamYPos()),
             FP_GetExponent(FP_FromInteger(field_FA_bottom) - gScreenManager->CamYPos()));

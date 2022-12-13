@@ -147,7 +147,7 @@ void ParamiteWeb::VRender(PrimHeader** ppOt)
                     ShadowZone::ShadowZones_Calculate_Colour(FP_GetExponent(mXPos), ypos_int - (idx * mSegmentLength), GetScale(), &r, &g, &b);
                     mWebRes[idx].SetRGB(r, g, b);
                     mWebRes[idx].VRender(x_start, y_start + mYOffset, ppOt, 0, 0);
-                    ClipPoly_Vertically_4584B0(&mWebRes[idx].mPolys[gPsxDisplay.mBufferIndex], mYOffset + minY, mYOffset + maxY);
+                    ClipPoly_Vertically(&mWebRes[idx].mPolys[gPsxDisplay.mBufferIndex], mYOffset + minY, mYOffset + maxY);
                     y_start -= mSegmentLength;
                     if (y_start < minY)
                     {

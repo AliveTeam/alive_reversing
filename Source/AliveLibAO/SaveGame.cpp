@@ -18,12 +18,11 @@ Save_PSX_Header sSaveHeader2_4CF2B0 = {};
 Save_PSX_Header sSaveHeader1_4BC250 = {};
 u16 bUseAltSaveHeader_5076B4 = 0;
 
-u32 dword_500C18 = 0;
-SaveData gSaveBuffer_500A18 = {};
+static SaveData sSaveToLoadBuffer = {};
 
 SaveData gSaveBuffer = {};
 
-void Kill_Objects_451720()
+void Kill_Objects()
 {
     ResourceManager::LoadingLoop(0);
 
@@ -60,45 +59,45 @@ void SaveGame::LoadFromMemory(SaveData* pData, s32 bKillObjects)
 
     if (bKillObjects)
     {
-        Kill_Objects_451720();
+        Kill_Objects();
     }
 
     bUseAltSaveHeader_5076B4 = pData->field_2AC_bUseAltSaveHeader;
 
     sControlledCharacter = sActiveHero;
 
-    sActiveHero->mContinueZoneNumber = pData->field_204_zone_number;
-    sActiveHero->mContinueClearFromId = pData->field_206_clear_from_id;
-    sActiveHero->mContinueClearToId = pData->field_208_clear_to_id;
-    sActiveHero->mContinueTopLeft = pData->field_20A_zone_top_left;
-    sActiveHero->mContinueBottomRight = pData->field_20E_zone_bottom_right;
-    sActiveHero->mContinueLevel = MapWrapper::FromAO(pData->field_212_saved_level);
-    sActiveHero->mContinuePath = pData->field_214_saved_path;
-    sActiveHero->mContinueCamera = pData->field_216_saved_camera;
-    sActiveHero->mContinueSpriteScale = pData->field_218_saved_sprite_scale;
+    sActiveHero->mContinueZoneNumber = pData->mContinuePoint_ZoneNumber;
+    sActiveHero->mContinueClearFromId = pData->mContinuePoint_ClearFromId;
+    sActiveHero->mContinueClearToId = pData->mContinuePoint_ClearToId;
+    sActiveHero->mContinueTopLeft = pData->mContinuePoint_TopLeft;
+    sActiveHero->mContinueBottomRight = pData->mContinuePoint_BottomRight;
+    sActiveHero->mContinueLevel = MapWrapper::FromAO(pData->mContinuePoint_Level);
+    sActiveHero->mContinuePath = pData->mContinuePoint_Path;
+    sActiveHero->mContinueCamera = pData->mContinuePoint_Camera;
+    sActiveHero->mContinueSpriteScale = pData->mContinuePoint_SpriteScale;
     sActiveHero->field_150_saved_ring_timer = pData->field_21C_saved_ring_timer;
-    sActiveHero->field_154_bSavedHaveShrykull = pData->field_220_bSavedHaveShrykull;
+    sActiveHero->field_154_bSavedHaveShrykull = pData->mActiveHero_SavedHaveShrykull;
     sActiveHero->field_168_ring_pulse_timer = pData->field_254_ring_pulse_timer;
-    sActiveHero->field_16C_bHaveShrykull = pData->field_258_bHaveShrykull;
+    sActiveHero->field_16C_bHaveShrykull = pData->mActiveHero_HaveShrykull;
 
-    sRescuedMudokons = pData->field_2A0_rescued_mudokons;
-    sKilledMudokons = pData->field_2A2_killed_mudokons;
+    sRescuedMudokons = pData->mRescuedMudokons;
+    sKilledMudokons = pData->mKilledMudokons;
 
     gRestartRuptureFarmsSavedMuds = pData->field_2A4_restartRuptureFarmsSavedMudokons;
-    gRestartRuptureFarmsKilledMuds = pData->field_2A6_restartRuptureFarmsKilledMudokons;
+    gRestartRuptureFarmsKilledMuds = pData->mRestartRuptureFarmsKilledMuds;
 
     sActiveHero->mHealth = FP_FromInteger(1);
     sActiveHero->field_11C_regen_health_timer = sGnFrame;
-    sActiveHero->SetSpriteScale(pData->field_230_ah_sprite_scale);
+    sActiveHero->SetSpriteScale(pData->mActiveHero_SpriteScale);
     sActiveHero->field_118_timer = pData->field_24C_field_118;
     sActiveHero->field_19C_throwable_count = static_cast<s8>(pData->field_250_throwable_count); // TODO: Type check when other save func done
     sActiveHero->mbGotShot = 0;
 
     sActiveHero->mShrivel = false;
-    sActiveHero->mParamoniaDone = pData->mParamoniaDone & 1;
-    sActiveHero->mScrabaniaDone = pData->mScrabaniaDone & 1;
+    sActiveHero->mParamoniaDone = pData->mActiveHero_ParamoniaDone & 1;
+    sActiveHero->mScrabaniaDone = pData->mActiveHero_ScrabaniaDone & 1;
 
-    sActiveHero->GetAnimation().SetFlipX(pData->field_23C_ah_flipX & 1);
+    sActiveHero->GetAnimation().SetFlipX(pData->mActiveHero_FlipX & 1);
 
     sActiveHero->GetAnimation().SetRender(false);
 
@@ -140,9 +139,9 @@ void SaveGame::LoadFromMemory(SaveData* pData, s32 bKillObjects)
     MusicController::static_PlayMusic(MusicController::MusicTypes::eType0, sActiveHero, 0, 0);
 
     gMap.SetActiveCam(
-        MapWrapper::FromAO(pData->field_234_current_level),
-        pData->field_236_current_path,
-        pData->field_238_current_camera,
+        MapWrapper::FromAO(pData->mCurrentLevel),
+        pData->mCurrentPath,
+        pData->mCurrentCamera,
         CameraSwapEffects::eInstantChange_0,
         0,
         1);
@@ -154,113 +153,6 @@ const s8 word_4BC670[6][8] = {
     {0x05, 0x07, 0x09, 0x0C, 0x0D, 0x00, 0x00, 0x00},
     {0x04, 0x08, 0x0B, 0x0E, 0x00, 0x00, 0x00, 0x00},
     {0x4F, 0x50, 0x51, 0x52, 0x53, 0x54, 0x55, 0x56}};
-
-// The text in the PSX save is in Shift JS encoding:
-// https://github.com/python/pythontestdotnet/blob/master/www/unicode/SHIFTJIS.TXT
-
-const u8 byte_4BC450[] = {
-    0x82, 0x71, // R
-    0x82, 0x95, // u
-    0x82, 0x90, // p
-    0x82, 0x94, // t
-    0x82, 0x95, // u
-    0x82, 0x92, // r
-    0x82, 0x85, // e
-    0x82, 0x65, // f
-    0x82, 0x81, // a
-    0x82, 0x92, // r
-    0x82, 0x8D, // m
-    0x82, 0x93, // s
-    0x81, 0x40, // space
-    0x81, 0x40, // space
-    0x81, 0x40, // space
-    0x81, 0x40, // space
-    0x81, 0x40, // space
-    0x00, 0x00,
-    0x00, 0x00,
-    0x00, 0x00};
-
-const u8 byte_4BC478[] = {
-    0x82, 0x71, 0x82, 0x95, 0x82, 0x90, 0x82, 0x94, 0x82, 0x95,
-    0x82, 0x92, 0x82, 0x85, 0x82, 0x65, 0x82, 0x81, 0x82, 0x92,
-    0x82, 0x8D, 0x82, 0x93, 0x81, 0x40, 0x82, 0x68, 0x82, 0x68,
-    0x81, 0x40, 0x81, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-
-const u8 byte_4BC4A0[] = {
-    0x82, 0x73, 0x82, 0x88, 0x82, 0x85, 0x81, 0x40, 0x82, 0x61,
-    0x82, 0x8F, 0x82, 0x81, 0x82, 0x92, 0x82, 0x84, 0x82, 0x92,
-    0x82, 0x8F, 0x82, 0x8F, 0x82, 0x8D, 0x81, 0x40, 0x81, 0x40,
-    0x81, 0x40, 0x81, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-
-const u8 byte_4BC4C8[] = {
-    0x82, 0x6F, 0x82, 0x81, 0x82, 0x92, 0x82, 0x81, 0x82, 0x8D,
-    0x82, 0x8F, 0x82, 0x8E, 0x82, 0x89, 0x82, 0x81, 0x81, 0x40,
-    0x81, 0x40, 0x81, 0x40, 0x81, 0x40, 0x81, 0x40, 0x81, 0x40,
-    0x81, 0x40, 0x81, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-
-const u8 byte_4BC4F0[] = {
-    0x82, 0x6F, 0x82, 0x81, 0x82, 0x92, 0x82, 0x81, 0x82, 0x8D,
-    0x82, 0x8F, 0x82, 0x8E, 0x82, 0x89, 0x82, 0x81, 0x82, 0x8E,
-    0x81, 0x40, 0x82, 0x73, 0x82, 0x85, 0x82, 0x8D, 0x82, 0x90,
-    0x82, 0x8C, 0x82, 0x85, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-
-const u8 byte_4BC518[] = {
-    0x82, 0x6F, 0x82, 0x81, 0x82, 0x92, 0x82, 0x81, 0x82, 0x8D,
-    0x82, 0x8F, 0x82, 0x8E, 0x82, 0x89, 0x82, 0x81, 0x82, 0x8E,
-    0x81, 0x40, 0x82, 0x6D, 0x82, 0x85, 0x82, 0x93, 0x82, 0x94,
-    0x82, 0x93, 0x81, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-
-const u8 byte_4BC540[] = {
-    0x82, 0x72, 0x82, 0x83, 0x82, 0x92, 0x82, 0x81, 0x82, 0x82,
-    0x82, 0x81, 0x82, 0x8E, 0x82, 0x89, 0x82, 0x81, 0x81, 0x40,
-    0x81, 0x40, 0x81, 0x40, 0x81, 0x40, 0x81, 0x40, 0x81, 0x40,
-    0x81, 0x40, 0x81, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-
-const u8 byte_4BC568[] = {
-    0x82, 0x72, 0x82, 0x83, 0x82, 0x92, 0x82, 0x81, 0x82, 0x82,
-    0x82, 0x81, 0x82, 0x8E, 0x82, 0x89, 0x82, 0x81, 0x82, 0x8E,
-    0x81, 0x40, 0x82, 0x73, 0x82, 0x85, 0x82, 0x8D, 0x82, 0x90,
-    0x82, 0x8C, 0x82, 0x85, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-
-const u8 byte_4BC590[] = {
-    0x82, 0x72, 0x82, 0x83, 0x82, 0x92, 0x82, 0x81, 0x82, 0x82,
-    0x82, 0x81, 0x82, 0x8E, 0x82, 0x89, 0x82, 0x81, 0x82, 0x8E,
-    0x81, 0x40, 0x82, 0x6D, 0x82, 0x85, 0x82, 0x93, 0x82, 0x94,
-    0x82, 0x93, 0x81, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-
-const u8 byte_4BC5B8[] = {
-    0x82, 0x72, 0x82, 0x94, 0x82, 0x8F, 0x82, 0x83, 0x82, 0x8B,
-    0x82, 0x99, 0x82, 0x81, 0x82, 0x92, 0x82, 0x84, 0x81, 0x40,
-    0x82, 0x64, 0x82, 0x93, 0x82, 0x83, 0x82, 0x81, 0x82, 0x90,
-    0x82, 0x85, 0x81, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-
-const u8 byte_4BC5E0[] = {
-    0x82, 0x72, 0x82, 0x94, 0x82, 0x8F, 0x82, 0x83, 0x82, 0x8B,
-    0x82, 0x99, 0x82, 0x81, 0x82, 0x92, 0x82, 0x84, 0x81, 0x40,
-    0x82, 0x64, 0x82, 0x93, 0x82, 0x83, 0x82, 0x81, 0x82, 0x90,
-    0x82, 0x85, 0x81, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
-
-const u8 byte_4BC608[] = {
-    0x82, 0x72, 0x82, 0x94, 0x82, 0x8F, 0x82, 0x83, 0x82, 0x8B,
-    0x82, 0x99, 0x82, 0x81, 0x82, 0x92, 0x82, 0x84, 0x81, 0x40,
-    0x82, 0x71, 0x82, 0x85, 0x82, 0x94, 0x82, 0x95, 0x82, 0x92,
-    0x82, 0x8E, 0x81, 0x40, 0x00, 0x00};
-
-using byteArray = decltype(byte_4BC450);
-const u8* encodedLevelNames_4BC62C[] = {
-    nullptr,
-    byte_4BC450,
-    byte_4BC5B8,
-    byte_4BC4C8,
-    byte_4BC4F0,
-    byte_4BC5E0,
-    byte_4BC608,
-    nullptr,
-    byte_4BC540,
-    byte_4BC568,
-    nullptr,
-    nullptr,
-    byte_4BC4A0};
 
 const char_type* rawLevelNames[] = {
     nullptr,
@@ -318,13 +210,13 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
         pHeaderToUse = &sSaveHeader2_4CF2B0;
     }
 
-    pSaveData->field_0_header = *pHeaderToUse;
+    pSaveData->mSavePsxHeader = *pHeaderToUse;
 
     auto lvName = rawLevelNames[static_cast<s32>(MapWrapper::ToAO(gMap.mCurrentLevel))];
     if (lvName != nullptr)
     {
         memcpy(
-            reinterpret_cast<s8*>(&pSaveData->field_0_header.field_0_frame_1_name[4]),
+            reinterpret_cast<s8*>(&pSaveData->mSavePsxHeader.field_0_frame_1_name[4]),
             lvName,
             18);
     }
@@ -336,38 +228,38 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
         if (path_id != -1)
         {
             // - (minus sign)
-            pSaveData->field_0_header.field_0_frame_1_name[44] = 0x81u;
-            pSaveData->field_0_header.field_0_frame_1_name[45] = 0x7C;
+            pSaveData->mSavePsxHeader.field_0_frame_1_name[44] = 0x81u;
+            pSaveData->mSavePsxHeader.field_0_frame_1_name[45] = 0x7C;
 
             // 0x8250 = 1
-            pSaveData->field_0_header.field_0_frame_1_name[46] = 0x82u;
-            pSaveData->field_0_header.field_0_frame_1_name[47] = static_cast<s8>(path_id + 0x50);
+            pSaveData->mSavePsxHeader.field_0_frame_1_name[46] = 0x82u;
+            pSaveData->mSavePsxHeader.field_0_frame_1_name[47] = static_cast<s8>(path_id + 0x50);
         }
     }
-    pSaveData->field_234_current_level = MapWrapper::ToAO(gMap.mCurrentLevel);
-    pSaveData->field_206_clear_from_id = sActiveHero->mContinueClearFromId;
-    pSaveData->field_20A_zone_top_left = sActiveHero->mContinueTopLeft;
-    pSaveData->field_20E_zone_bottom_right = sActiveHero->mContinueBottomRight;
-    pSaveData->field_204_zone_number = sActiveHero->mContinueZoneNumber;
-    pSaveData->field_212_saved_level = MapWrapper::ToAO(sActiveHero->mContinueLevel);
-    pSaveData->field_208_clear_to_id = sActiveHero->mContinueClearToId;
-    pSaveData->field_216_saved_camera = sActiveHero->mContinueCamera;
+    pSaveData->mCurrentLevel = MapWrapper::ToAO(gMap.mCurrentLevel);
+    pSaveData->mContinuePoint_ClearFromId = sActiveHero->mContinueClearFromId;
+    pSaveData->mContinuePoint_TopLeft = sActiveHero->mContinueTopLeft;
+    pSaveData->mContinuePoint_BottomRight = sActiveHero->mContinueBottomRight;
+    pSaveData->mContinuePoint_ZoneNumber = sActiveHero->mContinueZoneNumber;
+    pSaveData->mContinuePoint_Level = MapWrapper::ToAO(sActiveHero->mContinueLevel);
+    pSaveData->mContinuePoint_ClearToId = sActiveHero->mContinueClearToId;
+    pSaveData->mContinuePoint_Camera = sActiveHero->mContinueCamera;
     pSaveData->field_21C_saved_ring_timer = sActiveHero->field_150_saved_ring_timer;
-    pSaveData->field_214_saved_path = sActiveHero->mContinuePath;
+    pSaveData->mContinuePoint_Path = sActiveHero->mContinuePath;
     pSaveData->field_254_ring_pulse_timer = sActiveHero->field_168_ring_pulse_timer;
-    pSaveData->field_218_saved_sprite_scale = sActiveHero->mContinueSpriteScale;
-    pSaveData->field_2A0_rescued_mudokons = sRescuedMudokons;
-    pSaveData->field_220_bSavedHaveShrykull = sActiveHero->field_154_bSavedHaveShrykull;
+    pSaveData->mContinuePoint_SpriteScale = sActiveHero->mContinueSpriteScale;
+    pSaveData->mRescuedMudokons = sRescuedMudokons;
+    pSaveData->mActiveHero_SavedHaveShrykull = sActiveHero->field_154_bSavedHaveShrykull;
     pSaveData->field_2A4_restartRuptureFarmsSavedMudokons = gRestartRuptureFarmsSavedMuds;
-    pSaveData->field_258_bHaveShrykull = sActiveHero->field_16C_bHaveShrykull;
-    pSaveData->field_236_current_path = gMap.mCurrentPath;
-    pSaveData->field_2A2_killed_mudokons = sKilledMudokons;
-    pSaveData->field_238_current_camera = gMap.mCurrentCamera;
-    pSaveData->field_2A6_restartRuptureFarmsKilledMudokons = gRestartRuptureFarmsKilledMuds;
-    pSaveData->field_240_last_anim_frame = static_cast<u16>(sActiveHero->GetAnimation().GetCurrentFrame());
-    pSaveData->field_23E_current_motion = sActiveHero->mCurrentMotion;
-    pSaveData->field_224_xpos = FP_GetExponent(sActiveHero->mXPos);
-    pSaveData->field_228_ypos = FP_GetExponent(sActiveHero->mYPos);
+    pSaveData->mActiveHero_HaveShrykull = sActiveHero->field_16C_bHaveShrykull;
+    pSaveData->mCurrentPath = gMap.mCurrentPath;
+    pSaveData->mKilledMudokons = sKilledMudokons;
+    pSaveData->mCurrentCamera = gMap.mCurrentCamera;
+    pSaveData->mRestartRuptureFarmsKilledMuds = gRestartRuptureFarmsKilledMuds;
+    pSaveData->mActiveHero_CurrentFrame = static_cast<u16>(sActiveHero->GetAnimation().GetCurrentFrame());
+    pSaveData->mActiveHero_CurrentMotion = sActiveHero->mCurrentMotion;
+    pSaveData->mActiveHero_XPos = FP_GetExponent(sActiveHero->mXPos);
+    pSaveData->mActiveHero_YPos = FP_GetExponent(sActiveHero->mYPos);
     if (sActiveHero->BaseAliveGameObjectCollisionLine)
     {
         pSaveData->field_23A_mode_mask = sActiveHero->BaseAliveGameObjectCollisionLine->mLineType;
@@ -376,16 +268,16 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
     {
         pSaveData->field_23A_mode_mask = 0;
     }
-    pSaveData->field_22C_ah_health = sActiveHero->mHealth;
-    pSaveData->field_23C_ah_flipX = sActiveHero->GetAnimation().GetFlipX();
-    pSaveData->field_230_ah_sprite_scale = sActiveHero->GetSpriteScale();
+    pSaveData->mActiveHero_Health = sActiveHero->mHealth;
+    pSaveData->mActiveHero_FlipX = sActiveHero->GetAnimation().GetFlipX();
+    pSaveData->mActiveHero_SpriteScale = sActiveHero->GetSpriteScale();
     pSaveData->field_244_stone_state = static_cast<s32>(sActiveHero->field_110_state.raw);
     pSaveData->field_248_gnFrame = sActiveHero->field_114_gnFrame;
     pSaveData->field_24C_field_118 = sActiveHero->field_118_timer;
     pSaveData->field_250_throwable_count = sActiveHero->field_19C_throwable_count;
-    pSaveData->mScrabaniaDone = sActiveHero->mScrabaniaDone;
+    pSaveData->mActiveHero_ScrabaniaDone = sActiveHero->mScrabaniaDone;
     pSaveData->mInfiniteGrenades = gInfiniteGrenades ? -1 : 0;
-    pSaveData->mParamoniaDone = sActiveHero->mParamoniaDone;
+    pSaveData->mActiveHero_ParamoniaDone = sActiveHero->mParamoniaDone;
     pSaveData->mElumExists = gElum != nullptr;
     if (gElum != 0)
     {
@@ -431,7 +323,7 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
         pSaveData->field_2A8_gasTimer = 0;
     }
     pSaveData->field_2AC_bUseAltSaveHeader = bUseAltSaveHeader_5076B4;
-    pSaveData->field_2AE_controller_idx = Input().CurrentController() == InputObject::PadIndex::First ? 0 : 1;
+    pSaveData->mCurrentControllerIdx = Input().CurrentController() == InputObject::PadIndex::First ? 0 : 1;
     gMap.SaveBlyData(pSaveData->field_2B0_pSaveBuffer);
 
     pSaveData->mSaveHashValue = Hash(pSaveData);
@@ -439,7 +331,7 @@ void SaveGame::SaveToMemory(SaveData* pSaveData)
 
 s32 SaveGame::Hash(SaveData* sData)
 {
-    auto table = reinterpret_cast<s32*>(&sData->field_204_zone_number);
+    auto table = reinterpret_cast<s32*>(&sData->mContinuePoint_ZoneNumber);
     s32 counter = 0;
     for (s32 hashIter = 1919; hashIter > 0; hashIter--)
     {
@@ -461,22 +353,22 @@ s16 SaveGame::LoadFromFile(const char_type* name)
     {
         return 0;
     }
-    const auto readVar = fread(&gSaveBuffer_500A18, 1, sizeof(SaveData), file);
+    const auto readVar = fread(&sSaveToLoadBuffer, 1, sizeof(SaveData), file);
     fclose(file);
     if (readVar != sizeof(SaveData))
     {
         return 0;
     }
 
-    auto hashVal = Hash(&gSaveBuffer_500A18);
-    if (hashVal == gSaveBuffer_500A18.mSaveHashValue)
+    auto hashVal = Hash(&sSaveToLoadBuffer);
+    if (hashVal == sSaveToLoadBuffer.mSaveHashValue)
     {
-        gSaveBuffer = gSaveBuffer_500A18;
+        gSaveBuffer = sSaveToLoadBuffer;
         LoadFromMemory(&gSaveBuffer, 1);
-        gSaveBuffer.field_238_current_camera = gSaveBuffer.field_216_saved_camera;
+        gSaveBuffer.mCurrentCamera = gSaveBuffer.mContinuePoint_Camera;
         Input().SetCurrentController(InputObject::PadIndex::First);
-        gSaveBuffer.field_234_current_level = gSaveBuffer.field_212_saved_level;
-        gSaveBuffer.field_236_current_path = gSaveBuffer.field_214_saved_path;
+        gSaveBuffer.mCurrentLevel = gSaveBuffer.mContinuePoint_Level;
+        gSaveBuffer.mCurrentPath = gSaveBuffer.mContinuePoint_Path;
         return 1;
     }
     else

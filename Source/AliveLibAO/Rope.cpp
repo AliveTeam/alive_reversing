@@ -11,7 +11,7 @@
 
 namespace AO {
 
-void ClipPoly_Vertically_4584B0(Poly_FT4* pPoly, s32 minY, s32 maxY)
+void ClipPoly_Vertically(Poly_FT4* pPoly, s32 minY, s32 maxY)
 {
     const s32 d1 = minY - Y0(pPoly);
     const s16 polyHeight = Y3(pPoly) - Y0(pPoly);
@@ -37,7 +37,7 @@ void ClipPoly_Vertically_4584B0(Poly_FT4* pPoly, s32 minY, s32 maxY)
 
 Rope::~Rope()
 {
-    relive_delete[] field_E8_pRopeRes;
+    relive_delete[] mRopeAnim;
 }
 
 Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
@@ -49,11 +49,11 @@ Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
 
     if (scale == FP_FromInteger(1))
     {
-        field_E6_rope_length = 15;
+        mRopeLength = 15;
     }
     else
     {
-        field_E6_rope_length = 7;
+        mRopeLength = 7;
     }
 
     switch (gMap.mCurrentLevel)
@@ -92,21 +92,19 @@ Rope::Rope(s32 left, s32 top, s32 bottom, FP scale)
 
     GetAnimation().SetRGB(128, 128, 128);
 
-    field_F2_bottom = static_cast<s16>(bottom);
-    field_E4_rope_segment_count = 240 / field_E6_rope_length + 1;
+    mBottom = static_cast<s16>(bottom);
+    mRopeSegmentCount = 240 / mRopeLength + 1;
 
     mXPos = FP_FromInteger(left);
     mYPos = FP_FromInteger(bottom);
-    field_EC_left = static_cast<s16>(left);
-    field_F0_right = static_cast<s16>(left);
-    field_EE_top = static_cast<s16>(top);
+    mTop = static_cast<s16>(top);
 
-    field_E8_pRopeRes = relive_new AnimationUnknown[field_E4_rope_segment_count];
-    if (field_E8_pRopeRes)
+    mRopeAnim = relive_new AnimationUnknown[mRopeSegmentCount];
+    if (mRopeAnim)
     {
-        for (s32 i = 0; i < field_E4_rope_segment_count; i++)
+        for (s32 i = 0; i < mRopeSegmentCount; i++)
         {
-            AnimationUnknown* pSegment = &field_E8_pRopeRes[i];
+            AnimationUnknown* pSegment = &mRopeAnim[i];
             pSegment->SetRender(true);
             pSegment->mAnimPtr = &GetAnimation();
             pSegment->SetRenderLayer(GetAnimation().GetRenderLayer());
@@ -134,15 +132,15 @@ void Rope::VRender(PrimHeader** ppOt)
             {
                 const FP camYPos = gScreenManager->mCamPos->y;
 
-                s32 minY = FP_GetExponent((FP_FromInteger(gScreenManager->mCamYOff + field_EE_top))
+                s32 minY = FP_GetExponent((FP_FromInteger(gScreenManager->mCamYOff + mTop))
                                           - camYPos);
-                s32 maxY = FP_GetExponent((FP_FromInteger(gScreenManager->mCamYOff + field_F2_bottom))
+                s32 maxY = FP_GetExponent((FP_FromInteger(gScreenManager->mCamYOff + mBottom))
                                           - camYPos);
 
                 s16 ypos = FP_GetExponent(mYPos);
-                if (ypos > field_F2_bottom)
+                if (ypos > mBottom)
                 {
-                    ypos = field_F2_bottom + ((ypos - field_F2_bottom) % field_E6_rope_length);
+                    ypos = mBottom + ((ypos - mBottom) % mRopeLength);
                 }
 
                 s16 screenX = PsxToPCX(
@@ -154,7 +152,7 @@ void Rope::VRender(PrimHeader** ppOt)
 
                 if (mYOffset + screenY > 240)
                 {
-                    screenY = screenY % field_E6_rope_length + 240;
+                    screenY = screenY % mRopeLength + 240;
                     ypos = FP_GetExponent(gScreenManager->mCamPos->y
                                           + FP_FromInteger(screenY - gScreenManager->mCamYOff));
                 }
@@ -170,35 +168,35 @@ void Rope::VRender(PrimHeader** ppOt)
                 GetAnimation().VRender(640, 240, ppOt, 0, 0);
                 if (screenY >= minY)
                 {
-                    for (s32 idx = 0; idx < field_E4_rope_segment_count; idx++)
+                    for (s32 idx = 0; idx < mRopeSegmentCount; idx++)
                     {
                         s16 r = 128;
                         s16 g = 128;
                         s16 b = 128;
                         ShadowZone::ShadowZones_Calculate_Colour(
                             FP_GetExponent(mXPos),
-                            ypos - (idx * field_E6_rope_length),
+                            ypos - (idx * mRopeLength),
                             GetScale(),
                             &r,
                             &g,
                             &b);
 
-                        field_E8_pRopeRes[idx].SetRGB(r, g, b);
+                        mRopeAnim[idx].SetRGB(r, g, b);
 
-                        field_E8_pRopeRes[idx].VRender(
+                        mRopeAnim[idx].VRender(
                             screenX,
                             mYOffset + screenY,
                             ppOt, 0, 0);
 
                         PSX_RECT rect = {};
-                        field_E8_pRopeRes[idx].GetRenderedSize(&rect);
+                        mRopeAnim[idx].GetRenderedSize(&rect);
 
-                        ClipPoly_Vertically_4584B0(
-                            &field_E8_pRopeRes[idx].mPolys[gPsxDisplay.mBufferIndex],
+                        ClipPoly_Vertically(
+                            &mRopeAnim[idx].mPolys[gPsxDisplay.mBufferIndex],
                             minY + mYOffset,
                             maxY + mYOffset);
 
-                        screenY -= field_E6_rope_length;
+                        screenY -= mRopeLength;
                         if (screenY < minY)
                         {
                             break;

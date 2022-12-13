@@ -67,25 +67,6 @@ struct MusicController_Record final
 };
 ALIVE_ASSERT_SIZEOF(MusicController_Record, 0x4);
 
-const u8 unused_55D468[17] = {
-    16u,
-    20u,
-    16u,
-    16u,
-    16u,
-    20u,
-    20u,
-    28u,
-    20u,
-    20u,
-    16u,
-    28u,
-    28u,
-    28u,
-    28u,
-    20u,
-    16u};
-
 const MusicController_Record tension_55D2D0[17] = {
     {SeqId::BonewerkzEnderChase2_111, 16u, AmbientMusic::eOff, 0u},
     {SeqId::BonewerkzChase2_104, 20u, AmbientMusic::eOff, 0u},
@@ -421,7 +402,6 @@ MusicController::MusicController()
 
     field_34_music_start_time = 0;
     field_48_last_music_frame = 0;
-    field_38_unused = 0;
     field_4C_state = 0;
 
     field_4E_starting_volume = 0;
@@ -433,7 +413,6 @@ MusicController::MusicController()
 
     field_20_vol = 100;
     field_22_vol = 127;
-    field_3C_unused = 1;
 }
 
 
@@ -575,7 +554,6 @@ void MusicController::VUpdate()
         if (gMap.mCurrentLevel != field_24_currentLevelID)
         {
             field_44 = 0;
-            field_3C_unused = 1;
             field_30_music_time = 0;
             mMusicDead = false;
             mUnknown4 = true;
@@ -706,7 +684,6 @@ void MusicController::UpdateMusic()
         {
             case MusicTypes::eChime_2: // Silence/base line only?
                 mAmbientMusicEnabled = false;
-                field_3C_unused = 1;
                 SetMusicVolumeDelayed(field_22_vol, 0);
                 break;
             case MusicTypes::eDrumAmbience_3: // The rupture farms screen change random ambiance?
@@ -719,7 +696,6 @@ void MusicController::UpdateMusic()
                     idx = -1;
                 }
                 mAmbientMusicEnabled = false;
-                field_3C_unused = 1;
                 SetMusicVolumeDelayed(field_22_vol, 0);
                 break;
             case MusicTypes::eTension_4:          // danger near music - when slig is near
@@ -738,7 +714,6 @@ void MusicController::UpdateMusic()
                     pRecord = &slogChaseTension_55D424[static_cast<s32>(MapWrapper::ToAE(field_24_currentLevelID))];
                 }
                 idx = pRecord->field_0_seq_id_idx;
-                field_3C_unused = pRecord->field_1_unused;
                 mAmbientMusicEnabled = false;
                 mAmbientMusicEnabled = pRecord->field_2_bAmbient_music_enabled == AmbientMusic::eOn ? true : false;
                 SetMusicVolumeDelayed(sSeqData_558D50.mSeqs[stru_55D008[pRecord->field_0_seq_id_idx].field_0_idx].field_9_volume, 0);
@@ -746,14 +721,12 @@ void MusicController::UpdateMusic()
             case MusicTypes::eIntenseChase_7: // chase music
                 pRecord = &slogChase_55D3E0[static_cast<s32>(MapWrapper::ToAE(field_24_currentLevelID))];
                 idx = pRecord->field_0_seq_id_idx;
-                field_3C_unused = pRecord->field_1_unused;
                 mAmbientMusicEnabled = false;
                 mAmbientMusicEnabled = pRecord->field_2_bAmbient_music_enabled == AmbientMusic::eOn ? true : false;
                 SetMusicVolumeDelayed(sSeqData_558D50.mSeqs[stru_55D008[idx].field_0_idx].field_9_volume, 0);
                 break;
             case MusicTypes::eSoftChase_8: // slig chase?
                 pRecord = &chase_55D314[static_cast<s32>(MapWrapper::ToAE(field_24_currentLevelID))];
-                field_3C_unused = pRecord->field_1_unused;
                 idx = pRecord->field_0_seq_id_idx;
                 mAmbientMusicEnabled = false;
                 mAmbientMusicEnabled = pRecord->field_2_bAmbient_music_enabled == AmbientMusic::eOn ? true : false;
@@ -763,7 +736,6 @@ void MusicController::UpdateMusic()
                 if (mUnPause)
                 {
                     pRecord = &possessed_55D358[static_cast<s32>(MapWrapper::ToAE(field_24_currentLevelID))];
-                    field_3C_unused = pRecord->field_1_unused;
                     idx = possessed_55D358[static_cast<s32>(MapWrapper::ToAE(field_24_currentLevelID))].field_0_seq_id_idx;
                     mAmbientMusicEnabled = false;
                     mAmbientMusicEnabled = pRecord->field_2_bAmbient_music_enabled == AmbientMusic::eOn ? true : false;
@@ -772,31 +744,26 @@ void MusicController::UpdateMusic()
                 else
                 {
                     mAmbientMusicEnabled = true;
-                    field_3C_unused = 20;
                     SetMusicVolumeDelayed(field_20_vol, 30);
                     mUnknown7 = true;
                 }
                 break;
             case MusicTypes::eDeathDrumShort_10: // Death jingle s16
-                field_3C_unused = 1;
                 idx = mUnPause ? 2 : -1;
                 mAmbientMusicEnabled = false;
                 SetMusicVolumeDelayed(field_22_vol, 0);
                 break;
             case MusicTypes::eDeathLong_11: // Death jingle long
-                field_3C_unused = 1;
                 idx = mUnPause ? 3 : -1;
                 mAmbientMusicEnabled = false;
                 SetMusicVolumeDelayed(field_22_vol, 0);
                 break;
             case MusicTypes::eSecretAreaShort_12: // secret area s16
-                field_3C_unused = 120;
                 idx = mUnPause ? 4 : -1;
                 mAmbientMusicEnabled = false;
                 SetMusicVolumeDelayed(127, 0);
                 break;
             case MusicTypes::eSecretAreaLong_13: // secret area long
-                field_3C_unused = 120;
                 idx = mUnPause ? 5 : -1;
                 mAmbientMusicEnabled = false;
                 SetMusicVolumeDelayed(80, 0);
@@ -804,7 +771,6 @@ void MusicController::UpdateMusic()
             default: // no change ?
                 SetMusicVolumeDelayed(field_20_vol, 30);
                 mAmbientMusicEnabled = true;
-                field_3C_unused = unused_55D468[static_cast<s32>(MapWrapper::ToAE(field_24_currentLevelID))];
                 break;
         }
 
@@ -820,8 +786,6 @@ void MusicController::UpdateMusic()
             field_40_flags_and_idx = -1;
             field_44 = 0;
         }
-
-        field_38_unused = sMusicTime;
 
         if (mUnPause)
         {

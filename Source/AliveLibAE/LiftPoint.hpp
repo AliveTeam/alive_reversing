@@ -5,14 +5,13 @@
 
 struct LiftPointSaveState final
 {
-    ReliveTypes field_0_type;
-    s16 field_2_pad;
-    FP field_4_xpos;
-    FP field_8_ypos;
-    Guid field_C_tlvInfo;
-    Guid field_10_pTlv;
-    FP field_14_floorYLevel;
-    relive::Path_LiftPoint::LiftPointStopType field_18_lift_point_stop_type;
+    ReliveTypes mType;
+    FP mXPos;
+    FP mYPos;
+    Guid mPlatformId;
+    Guid mTlvId;
+    FP mFloorLevelY;
+    relive::Path_LiftPoint::LiftPointStopType mLiftPointStopType;
     bool mMoving;
     bool mTopFloor;
     bool mMiddleFloor;
@@ -48,25 +47,25 @@ public:
 
 private:
     void MoveObjectsOnLift(FP xVelocity);
-    static void sub_461000(relive::Path_TLV* pTlv);
+    static void ClearTlvFlags(relive::Path_TLV* pTlv);
     void vStayOnFloor(bool floor, relive::Path_LiftPoint* pTlv);
 
     void CreatePulleyIfExists();
 
 public:
-    u8 field_278_lift_point_id = 0;
+    u8 mLiftPointId = 0;
     bool mMoving = false;
 
 private:
-    relive::Path_LiftPoint::LiftPointStopType field_130_lift_point_stop_type = relive::Path_LiftPoint::LiftPointStopType::eTopFloor;
-    Guid field_134_rope2_id;
-    Guid field_138_rope1_id;
-    Animation field_13C_lift_wheel = {};
-    Animation field_1D4_pulley_anim = {};
-    s16 field_26C_pulley_xpos = 0;
-    s16 field_26E_pulley_ypos = 0;
-    FP field_270_floorYLevel = {};
-    Guid field_27C_pTlv;
+    relive::Path_LiftPoint::LiftPointStopType mLiftPointStopType = relive::Path_LiftPoint::LiftPointStopType::eTopFloor;
+    Guid mRopeId2;
+    Guid mRopeId1;
+    Animation mLiftWheelAnim = {};
+    Animation mPulleyAnim = {};
+    s16 mPulleyXPos = 0;
+    s16 mPulleyYPos = 0;
+    FP mFloorLevelY = {};
+    Guid mTlvId;
     bool mTopFloor = false;
     bool mMiddleFloor = false;
     bool mBottomFloor = false;

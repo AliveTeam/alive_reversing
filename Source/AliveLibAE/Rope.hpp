@@ -14,15 +14,13 @@ public:
     virtual void VRender(PrimHeader** ppOt) override;
 
 private:
-    s16 field_F4_rope_segment_count = 0;
+    s16 mRopeSegmentCount = 0;
 
 public:
-    s16 field_F6_rope_length = 0;
-    AnimationUnknown* field_FC_pRopeRes = nullptr;
-    s16 field_100_left = 0;
-    s16 field_102_top = 0;
-    s16 field_104_right = 0;
-    s16 field_106_bottom = 0;
+    s16 mRopeLength = 0;
+    AnimationUnknown* mRopeAnim = nullptr;
+    s16 mTop = 0;
+    s16 mBottom = 0;
 };
 
-void ClipPoly_Vertically_4A09E0(Poly_FT4* pPoly, s32 minY, s32 maxY);
+void ClipPoly_Vertically(Poly_FT4* pPoly, s32 minY, s32 maxY);

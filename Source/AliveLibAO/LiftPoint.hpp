@@ -18,7 +18,7 @@ public:
     void LoadAnimations();
     void Move(FP xSpeed, FP ySpeed, s32 not_used);
     void StayOnFloor(s16 floor, relive::Path_LiftPoint* pTlv);
-    void Sub_Unknown(relive::Path_TLV* pTlv);
+    void ClearTlvFlags(relive::Path_TLV* pTlv);
     bool OnTopFloor() const;
     bool OnBottomFloor() const;
     bool OnMiddleFloor() const;
@@ -33,21 +33,19 @@ public:
     void MoveObjectsOnLift(FP xVelocity);
 
     bool mMoving = false;
-    s16 field_278_lift_point_id = 0;
+    s16 mLiftPointId = 0;
     bool mKeepOnMiddleFloor = false;
     bool mIgnoreLiftMover = false;
 private:
 
-    s16 field_12E = 0;
     relive::Path_LiftPoint::LiftPointStopType mLiftPointStopType = relive::Path_LiftPoint::LiftPointStopType::eTopFloor;
-    s16 field_132 = 0;
-    Rope* field_134_pRope2 = nullptr;
-    Rope* field_138_pRope1 = nullptr;
-    Animation field_13C_lift_wheel;
-    Animation field_1D4_pulley_anim;
-    s16 field_26C_pulley_xpos = 0;
-    s16 field_26E_pulley_ypos = 0;
-    FP field_270_floorYLevel = {};
+    Rope* mRope2 = nullptr;
+    Rope* mRope1 = nullptr;
+    Animation mLiftWheelAnim;
+    Animation mPulleyAnim;
+    s16 mPulleyXPos = 0;
+    s16 mPulleyYPos = 0;
+    FP mFloorLevelY = {};
     bool mTopFloor = false;
     bool mMiddleFloor = false;
     bool mBottomFloor = false;

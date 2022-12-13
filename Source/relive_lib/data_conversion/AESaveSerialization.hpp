@@ -1422,13 +1422,13 @@ inline void from_json(const nlohmann::json& j, AbeSaveState& p)
 inline void to_json(nlohmann::json& j, const LiftPointSaveState& p)
 {
     j = nlohmann::json{
-        {"type", p.field_0_type},
-        {"xpos", p.field_4_xpos},
-        {"ypos", p.field_8_ypos},
-        {"tlv_info", p.field_C_tlvInfo},
-        {"tlv", p.field_10_pTlv},
-        {"floor_y_level", p.field_14_floorYLevel},
-        {"lift_point_stop_type", p.field_18_lift_point_stop_type},
+        {"type", p.mType},
+        {"xpos", p.mXPos},
+        {"ypos", p.mYPos},
+        {"platform_id", p.mPlatformId},
+        {"tlv_id", p.mTlvId},
+        {"floor_level_y", p.mFloorLevelY},
+        {"lift_point_stop_type", p.mLiftPointStopType},
         {"moving", p.mMoving},
         {"top_floor", p.mTopFloor},
         {"middle_floor", p.mMiddleFloor},
@@ -1440,13 +1440,13 @@ inline void to_json(nlohmann::json& j, const LiftPointSaveState& p)
 
 inline void from_json(const nlohmann::json& j, LiftPointSaveState& p)
 {
-    j.at("type").get_to(p.field_0_type);
-    j.at("xpos").get_to(p.field_4_xpos);
-    j.at("ypos").get_to(p.field_8_ypos);
-    j.at("tlv_info").get_to(p.field_C_tlvInfo);
-    j.at("tlv").get_to(p.field_10_pTlv);
-    j.at("floor_y_level").get_to(p.field_14_floorYLevel);
-    j.at("lift_point_stop_type").get_to(p.field_18_lift_point_stop_type);
+    j.at("type").get_to(p.mType);
+    j.at("xpos").get_to(p.mXPos);
+    j.at("ypos").get_to(p.mYPos);
+    j.at("platform_id").get_to(p.mPlatformId);
+    j.at("tlv_id").get_to(p.mTlvId);
+    j.at("floor_level_y").get_to(p.mFloorLevelY);
+    j.at("lift_point_stop_type").get_to(p.mLiftPointStopType);
     j.at("moving").get_to(p.mMoving);
     j.at("top_floor").get_to(p.mTopFloor);
     j.at("middle_floor").get_to(p.mMiddleFloor);

@@ -3159,7 +3159,7 @@ s16 Mudokon::Brain_5_LiftUse()
             if (pObj->Type() == ReliveTypes::eLiftPoint)
             {
                 auto pLiftPoint = static_cast<LiftPoint*>(pObj);
-                if (field_110_lift_switch_id == pLiftPoint->field_278_lift_point_id)
+                if (field_110_lift_switch_id == pLiftPoint->mLiftPointId)
                 {
                     field_194_pLiftPoint = pLiftPoint;
                     pObj->mBaseGameObjectRefCount++;

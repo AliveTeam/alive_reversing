@@ -224,7 +224,7 @@ LiftPoint* LiftMover::GetLiftPoint()
         if (pObj->Type() == ReliveTypes::eLiftPoint)
         {
             LiftPoint* pLift = static_cast<LiftPoint*>(pObj);
-            if (mTargetLiftPointId == pLift->field_278_lift_point_id)
+            if (mTargetLiftPointId == pLift->mLiftPointId)
             {
                 mTargetLiftId = pObj->mBaseGameObjectId;
                 return pLift;

@@ -183,7 +183,7 @@ LiftPoint* LiftMover::FindLiftPointWithId(s16 id)
         if (pItem->Type() == ReliveTypes::eLiftPoint)
         {
             auto pLiftPoint = static_cast<LiftPoint*>(pItem);
-            if (pLiftPoint->field_278_lift_point_id == id)
+            if (pLiftPoint->mLiftPointId == id)
             {
                 return pLiftPoint;
             }

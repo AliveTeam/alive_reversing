@@ -6289,7 +6289,7 @@ void Abe::Motion_61_Respawn()
                 SaveGame::LoadFromMemory(&gSaveBuffer, 0);
                 if (field_19C_throwable_count)
                 {
-                    LoadRockTypes(MapWrapper::FromAO(gSaveBuffer.field_234_current_level), gSaveBuffer.field_236_current_path);
+                    LoadRockTypes(MapWrapper::FromAO(gSaveBuffer.mCurrentLevel), gSaveBuffer.mCurrentPath);
                     if (!gThrowableArray)
                     {
                         gThrowableArray = relive_new ThrowableArray();
@@ -6431,8 +6431,8 @@ void Abe::Motion_62_LoadedSaveSpawn()
     if (field_114_gnFrame)
     {
         auto pSaveData = field_2AC_pSaveData;
-        mYPos = FP_FromInteger(pSaveData->field_228_ypos);
-        mXPos = FP_FromInteger(pSaveData->field_224_xpos);
+        mYPos = FP_FromInteger(pSaveData->mActiveHero_YPos);
+        mXPos = FP_FromInteger(pSaveData->mActiveHero_XPos);
 
         PathLine* pLine2 = nullptr;
         FP hitX2 = {};
@@ -6459,15 +6459,15 @@ void Abe::Motion_62_LoadedSaveSpawn()
         sActiveHero->BaseAliveGameObjectLastLineYPos = sActiveHero->mYPos;
         sActiveHero->field_110_state.raw = static_cast<s16>(pSaveData->field_244_stone_state);
         sActiveHero->field_114_gnFrame = pSaveData->field_248_gnFrame;
-        sActiveHero->mBaseAliveGameObjectLastAnimFrame = pSaveData->field_240_last_anim_frame;
-        sActiveHero->GetAnimation().SetFlipX(pSaveData->field_23C_ah_flipX & 1);
+        sActiveHero->mBaseAliveGameObjectLastAnimFrame = pSaveData->mActiveHero_CurrentFrame;
+        sActiveHero->GetAnimation().SetFlipX(pSaveData->mActiveHero_FlipX & 1);
         sActiveHero->MapFollowMe(true);
         sActiveHero->GetAnimation().SetRender(true);
         if (sActiveHero->field_19C_throwable_count)
         {
             if (!gThrowableArray)
             {
-                LoadRockTypes(MapWrapper::FromAO(gSaveBuffer.field_234_current_level), gSaveBuffer.field_236_current_path);
+                LoadRockTypes(MapWrapper::FromAO(gSaveBuffer.mCurrentLevel), gSaveBuffer.mCurrentPath);
 
                 gThrowableArray = relive_new ThrowableArray();
             }
