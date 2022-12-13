@@ -55,6 +55,8 @@ SET(AliveLibSrcAO
    LCDScreen.cpp
    MainMenu.hpp
    MainMenu.cpp
+   MainMenuTransition.hpp
+   MainMenuTransition.cpp
    Mine.hpp
    Mine.cpp
    Door.hpp

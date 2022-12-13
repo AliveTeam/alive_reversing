@@ -4,7 +4,6 @@
 #include "stdlib.hpp"
 #include "Game.hpp"
 #include "Map.hpp"
-#include "MainMenu.hpp"
 #include "QuikSave.hpp"
 
 CheatController* gCheatController = nullptr;

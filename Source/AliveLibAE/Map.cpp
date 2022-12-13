@@ -24,6 +24,7 @@
 #include "Path.hpp"
 #include "FixedPoint.hpp"
 #include "../relive_lib/PsxDisplay.hpp"
+#include "Factory.hpp"
 
 #include "../relive_lib/data_conversion/relive_tlvs.hpp"
 #include "../AliveLibCommon/FatalError.hpp"

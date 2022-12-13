@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../AliveLibCommon/Types.hpp"
-#include "../AliveLibCommon/BitField.hpp"
 #include "DynamicArray.hpp"
 #include "../relive_lib/data_conversion/guid.hpp"
 #include "../relive_lib/ResourceManagerWrapper.hpp"
