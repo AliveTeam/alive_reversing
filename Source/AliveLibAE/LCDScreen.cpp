@@ -78,7 +78,7 @@ static const char_type* sLCDMessageTable[101] = {
     "                               Sneak to shadows by holding " kSneak " while you move.   Stand still in shadows while Slig is facing you, or you will be seen.  Sneak behind Slig when it walks away from you.",
     "                               To get a rock from the rock sack, stand under it and press " kUp ".   To pick up a rock, crouch next to it and press " kAction ".   To throw the rock, hold " kThrow ", then press any directional button.   Different directions will throw at different angles.",
     "                               Practice throwing here. You can stand on the arrow and hit every mine.   It is possible to throw while crouching.",
-    "                               To alert a Mudokon, mSay hello by pressing " kHello ".   Then, talk to Mudokons by pressing " kHello ", " kFollowMe ", " kWait ", " kWork ", " kAnger ", " kAllYa ", " kSorry " or " kStopIt ".   Experiment!",
+    "                               To alert a Mudokon, say hello by pressing " kHello ".   Then, talk to Mudokons by pressing " kHello ", " kFollowMe ", " kWait ", " kWork ", " kAnger ", " kAllYa ", " kSorry " or " kStopIt ".   Experiment!",
     "                               Possess Sligs by chanting.   Chant by holding " kChant ".",
     "                               To help Mudokons escape from slavery chant when you see a circle of birds.   To chant, hold " kChant ".",
     "                               To roll, first crouch by pressing " kDown ".   Then roll left or right by pressing " kLeft " or " kRight ".",
