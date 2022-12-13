@@ -70,6 +70,8 @@ public:
     void SetTeleporting(bool val) { mTeleporting = val; }
     const bool& GetElectrocuting() const { return mElectrocuting; }
     void SetElectrocuting(bool val) { mElectrocuting = val; }
+    const bool& GetCanBeesChase() const { return mCanBeesChase; }
+    void SetCanBeesChase(bool val) { mCanBeesChase = val; }
 protected:
 
     template <class T>
@@ -102,7 +104,6 @@ public:
     bool mbGotShot = false;
     bool mbMotionChanged = false;
     Guid BaseAliveGameObject_PlatformId;
-    s16 field_EC_bBeesCanChase = 0;      // AO only: can the bees attack - can be above the value 1 but bee swarm only checks for non zero
 
 private:
     bool mCanBePossessed = false;
@@ -114,6 +115,8 @@ private:
     bool mRestoredFromQuickSave = false;
     bool mTeleporting = false;
     bool mElectrocuting = false;
+    bool mCanBeesChase = false;      // AO only: can the bees attack - can be above the value 1 but bee swarm only checks for non zero
+
 };
 
 extern DynamicArrayT<IBaseAliveGameObject>* gBaseAliveGameObjects;

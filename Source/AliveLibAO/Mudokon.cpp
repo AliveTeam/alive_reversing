@@ -145,7 +145,7 @@ Mudokon::Mudokon(relive::Path_TLV* pTlv, const Guid& tlvId)
     field_1C0_timer = 0;
     field_1B8_brain_state = 0;
     field_1BA_brain_sub_state = 0;
-    field_EC_bBeesCanChase = 3;
+    SetCanBeesChase(true);
     field_1BC = 0;
     field_124_voice_pitch = 0;
     field_148_res_array = {};

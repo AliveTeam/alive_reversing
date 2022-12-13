@@ -15,7 +15,7 @@
 #include "../relive_lib/PsxDisplay.hpp"
 
 // TODO: Remove spaces and add them at runtime.
-static const char_type* sLCDMessageTable_555768[101] = {
+static const char_type* sLCDMessageTable[101] = {
     "",
     "                               SoulStorm Mining Company is an equal opportunity employer.",
     "                               Work! Do it!",
@@ -146,61 +146,65 @@ public:
             }
         }
 
-        if (msgId < ALIVE_COUNTOF(sLCDMessageTable_555768))
+        if (msgId < ALIVE_COUNTOF(sLCDMessageTable))
         {
-            return sLCDMessageTable_555768[msgId];
+            return sLCDMessageTable[msgId];
         }
         else
         {
             LOG_WARNING("LCD message out of bounds using original message table id: %d", msgId);
-            return sLCDMessageTable_555768[0];
+            return sLCDMessageTable[0];
         }
     }
 };
 static LCDMessages gLCDMessages;
 
-LCDScreen::LCDScreen(relive::Path_LCDScreen* params, const Guid& tlvId)
+LCDScreen::LCDScreen(relive::Path_LCDScreen* pTlv, const Guid& tlvId)
     : BaseGameObject(true, 0)
 {
     mBaseGameObjectTlvInfo = tlvId;
 
-    field_2C0_tlv = *params;
+    mTlvTopLeft.x = pTlv->mTopLeftX;
+    mTlvTopLeft.y = pTlv->mTopLeftY;
 
-    field_2AA_message_1_id = params->mMessageId1;
-    field_2B0_message_2_id = params->mMessageId2;
-    field_2B2_toggle_message_switch_id = static_cast<u16>(params->mToggleMessageSwitchId);
-    field_2BC_tlv_item_info = tlvId;
+    mTlvBottomRight.x = pTlv->mBottomRightX;
+    mTlvBottomRight.y = pTlv->mBottomRightY;
+
+    mMessageId1 = pTlv->mMessageId1;
+    mMessageId2 = pTlv->mMessageId2;
+    mToggleMessageSwitchId = static_cast<u16>(pTlv->mToggleMessageSwitchId);
+    mTlvId = tlvId;
 
     mFontContext.LoadFontType(FontType::LcdFont);
 
     mPal1 = ResourceManagerWrapper::LoadPal(PalId::LedFont_1);
     mPal2 = ResourceManagerWrapper::LoadPal(PalId::LedFont_2);
 
-    field_60_font.Load(60, mPal1, &mFontContext);
+    mFont.Load(60, mPal1, &mFontContext);
 
-    if (SwitchStates_Get(field_2B2_toggle_message_switch_id))
+    if (SwitchStates_Get(mToggleMessageSwitchId))
     {
-        field_A0_message = gLCDMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, field_2B0_message_2_id);
+        mActiveMessage = gLCDMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, mMessageId2);
     }
     else
     {
-        field_A0_message = gLCDMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, field_2AA_message_1_id);
+        mActiveMessage = gLCDMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, mMessageId1);
     }
 
-    //field_A0_message = "                               THIS IS A TEST";
+    //mActiveMessage = "                               THIS IS A TEST";
 
-    String_FormatString(field_A0_message, field_A8_message_buffer, 1);
-    field_A0_message = field_A8_message_buffer;
-    field_A4_message_cutoff_ptr = nullptr;
-    field_2AC_x_offset = 0;
+    String_FormatString(mActiveMessage, mMessageBuffer, 1);
+    mActiveMessage = mMessageBuffer;
+    mMessageCutoffPtr = nullptr;
+    mOffsetX = 0;
     gFontDrawScreenSpace = true;
-    field_2AE_character_width = static_cast<u16>(field_60_font.MeasureCharacterWidth(*field_A0_message) + 2);
+    mCharacterWidth = static_cast<u16>(mFont.MeasureCharacterWidth(*mActiveMessage) + 2);
     gFontDrawScreenSpace = false;
-    field_2B4_show_random_message = 1;
-    field_2B6_message_rand_min_id = params->mMessageRandMinId;
+    mShowRandomMessage = true;
+    mMessageRandMinId = pTlv->mMessageRandMinId;
     SetDrawable(true);
-    field_2B8_message_rand_max_id = params->mMessageRandMaxId;
-    field_2A8_play_sound_toggle = 0;
+    mMessageRandMaxId = pTlv->mMessageRandMaxId;
+    mPlayLetterSound = false;
     gObjListDrawables->Push_Back(this);
 }
 
@@ -212,69 +216,69 @@ void LCDScreen::VUpdate()
     }
 
 #if LCD_PS1_SPEED
-    field_2AC_x_offset += 6;
+    mOffsetX += 6;
 #else
-    field_2AC_x_offset += 3;
+    mOffsetX += 3;
 #endif
 
-    if (field_2AC_x_offset > field_2AE_character_width)
+    if (mOffsetX > mCharacterWidth)
     {
-        field_2AC_x_offset -= field_2AE_character_width;
-        s8 lastChar = *field_A0_message;
-        field_A0_message++; // Offset s8 index
+        mOffsetX -= mCharacterWidth;
+        s8 lastChar = *mActiveMessage;
+        mActiveMessage++; // Offset s8 index
 
         if (lastChar == 0)
         {
-            if (field_2B4_show_random_message == 1)
+            if (mShowRandomMessage)
             {
-                field_2B4_show_random_message = 0;
-                field_A0_message = gLCDMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, Math_RandomRange(field_2B6_message_rand_min_id, field_2B8_message_rand_max_id));
+                mShowRandomMessage = false;
+                mActiveMessage = gLCDMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, Math_RandomRange(mMessageRandMinId, mMessageRandMaxId));
 
                 // Change pal
-                field_60_font.mFontContext->mFntResource.mCurPal = mPal2.mPal;
+                mFont.mFontContext->mFntResource.mCurPal = mPal2.mPal;
             }
             else
             {
-                field_2B4_show_random_message = 1;
-                if (SwitchStates_Get(field_2B2_toggle_message_switch_id))
+                mShowRandomMessage = true;
+                if (SwitchStates_Get(mToggleMessageSwitchId))
                 {
-                    field_A0_message = gLCDMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, field_2B0_message_2_id);
+                    mActiveMessage = gLCDMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, mMessageId2);
                 }
                 else
                 {
-                    field_A0_message = gLCDMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, field_2AA_message_1_id);
+                    mActiveMessage = gLCDMessages.GetMessage(gMap.mCurrentLevel, gMap.mCurrentPath, mMessageId1);
                 }
 
                 // Change pal
-                field_60_font.mFontContext->mFntResource.mCurPal = mPal1.mPal;
+                mFont.mFontContext->mFntResource.mCurPal = mPal1.mPal;
             }
 
-            String_FormatString(field_A0_message, field_A8_message_buffer, 1);
-            field_A0_message = field_A8_message_buffer;
+            String_FormatString(mActiveMessage, mMessageBuffer, 1);
+            mActiveMessage = mMessageBuffer;
         }
 
         gFontDrawScreenSpace = true;
-        field_2AE_character_width = static_cast<u16>(field_60_font.MeasureCharacterWidth(*field_A0_message) + 2);
+        mCharacterWidth = static_cast<u16>(mFont.MeasureCharacterWidth(*mActiveMessage) + 2);
         gFontDrawScreenSpace = false;
     }
 
-    auto screenLeft = field_2C0_tlv.mTopLeftX - FP_GetExponent(gScreenManager->CamXPos());
-    auto screenRight = field_2C0_tlv.mBottomRightX - FP_GetExponent(gScreenManager->CamXPos());
+    auto screenLeft = mTlvTopLeft.x - FP_GetExponent(gScreenManager->CamXPos());
+    auto screenRight = mTlvBottomRight.x - FP_GetExponent(gScreenManager->CamXPos());
 
     gFontDrawScreenSpace = true;
-    auto slicedText = field_60_font.SliceText(
-        field_A0_message,
-        PCToPsxX(screenLeft) - field_2AC_x_offset,
+    auto slicedText = mFont.SliceText(
+        mActiveMessage,
+        PCToPsxX(screenLeft) - mOffsetX,
         FP_FromInteger(1),
         screenRight);
     gFontDrawScreenSpace = false;
-    if (slicedText != field_A4_message_cutoff_ptr)
+    if (slicedText != mMessageCutoffPtr)
     {
-        field_2A8_play_sound_toggle = !field_2A8_play_sound_toggle;
-        field_A4_message_cutoff_ptr = slicedText;
+        mPlayLetterSound = !mPlayLetterSound;
+        mMessageCutoffPtr = slicedText;
         if (*slicedText != ' ')
         {
-            if (field_2A8_play_sound_toggle)
+            if (mPlayLetterSound)
             {
                 SfxPlayMono(relive::SoundEffects::LCDScreen, 0);
             }
@@ -286,10 +290,10 @@ void LCDScreen::VRender(PrimHeader** ppOt)
 {
     if (gNumCamSwappers == 0)
     {
-        const s32 screenX = field_2C0_tlv.mTopLeftX - FP_GetExponent(gScreenManager->CamXPos());
-        const s32 screenY = ((field_2C0_tlv.mTopLeftY + field_2C0_tlv.mBottomRightY) / 2 - FP_GetExponent(gScreenManager->CamYPos())) - 7;
+        const s32 screenX = mTlvTopLeft.x - FP_GetExponent(gScreenManager->CamXPos());
+        const s32 screenY = ((mTlvTopLeft.y + mTlvBottomRight.y) / 2 - FP_GetExponent(gScreenManager->CamYPos())) - 7;
         const s32 screenXWorld = PsxToPCX(screenX);
-        const s32 maxWidth = field_2C0_tlv.mBottomRightX - FP_GetExponent(gScreenManager->CamXPos());
+        const s32 maxWidth = mTlvBottomRight.x - FP_GetExponent(gScreenManager->CamXPos());
 
         PSX_RECT clipRect = {
             0,
@@ -297,14 +301,14 @@ void LCDScreen::VRender(PrimHeader** ppOt)
             640,
             240};
 
-        Init_PrimClipper(&field_20_prim_clippers[0][gPsxDisplay.mBufferIndex], &clipRect);
-        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_RopeWebDrillMeatSaw_24), &field_20_prim_clippers[0][gPsxDisplay.mBufferIndex].mBase);
+        Init_PrimClipper(&mPrimClippers[0][gPsxDisplay.mBufferIndex], &clipRect);
+        OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_RopeWebDrillMeatSaw_24), &mPrimClippers[0][gPsxDisplay.mBufferIndex].mBase);
 
         gFontDrawScreenSpace = true;
-        field_60_font.DrawString(
+        mFont.DrawString(
             ppOt,
-            field_A0_message,
-            static_cast<s16>(screenXWorld - field_2AC_x_offset),
+            mActiveMessage,
+            static_cast<s16>(screenXWorld - mOffsetX),
             static_cast<s16>(screenY),
             TPageAbr::eBlend_1,
             1,
@@ -325,7 +329,7 @@ void LCDScreen::VRender(PrimHeader** ppOt)
             static_cast<s16>(PsxToPCX(maxWidth - screenX)),
             48};
 
-        auto* clipper = &field_20_prim_clippers[1][gPsxDisplay.mBufferIndex];
+        auto* clipper = &mPrimClippers[1][gPsxDisplay.mBufferIndex];
         Init_PrimClipper(clipper, &clipRect);
         OrderingTable_Add(OtLayer(ppOt, Layer::eLayer_RopeWebDrillMeatSaw_24), &clipper->mBase);
     }
@@ -339,5 +343,5 @@ void LCDScreen::VScreenChanged()
 LCDScreen::~LCDScreen()
 {
     gObjListDrawables->Remove_Item(this);
-    Path::TLV_Reset(field_2BC_tlv_item_info, -1, 0, 0);
+    Path::TLV_Reset(mTlvId, -1, 0, 0);
 }

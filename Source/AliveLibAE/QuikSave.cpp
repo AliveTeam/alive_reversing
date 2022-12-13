@@ -518,8 +518,8 @@ void Quicksave_ReadWorldInfo(const Quicksave_WorldInfo* pInfo)
     gKilledMudokons = pInfo->field_14_killed_muds;
     gRescuedMudokons = pInfo->field_12_saved_muds;
     gMudokonsInArea = pInfo->field_16_muds_in_area; // TODO: Check types
-    gTotalMeterBars_5C1BFA = pInfo->field_2D_total_meter_bars;
-    gbDrawMeterCountDown_5C1BF8 = pInfo->field_30_bDrawMeterCountDown;
+    gTotalMeterBars = pInfo->field_2D_total_meter_bars;
+    gbDrawMeterCountDown = pInfo->field_30_bDrawMeterCountDown;
     gGasTimer = pInfo->mGasTimer;
     gAbeInvincible = pInfo->mAbeInvincible;
     gVisitedBonewerkz = pInfo->mVisitedBonewerkz;
@@ -549,8 +549,8 @@ void Quicksave_SaveWorldInfo(Quicksave_WorldInfo* pInfo)
     pInfo->field_12_saved_muds = gRescuedMudokons;
     pInfo->field_14_killed_muds = gKilledMudokons;
     pInfo->field_16_muds_in_area = static_cast<s8>(gMudokonsInArea); // TODO: Check types
-    pInfo->field_2D_total_meter_bars = gTotalMeterBars_5C1BFA;
-    pInfo->field_30_bDrawMeterCountDown = gbDrawMeterCountDown_5C1BF8;
+    pInfo->field_2D_total_meter_bars = gTotalMeterBars;
+    pInfo->field_30_bDrawMeterCountDown = gbDrawMeterCountDown;
     pInfo->mAbeInvincible = gAbeInvincible;
     pInfo->mVisitedBonewerkz = gVisitedBonewerkz;
     pInfo->mVisitedBarracks = gVisitedBarracks;

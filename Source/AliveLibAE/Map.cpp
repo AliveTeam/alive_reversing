@@ -797,7 +797,7 @@ void Map::GoTo_Camera()
     // Create the screen manager if it hasn't already been done (probably should have always been done by this point though?)
     if (!gScreenManager)
     {
-        gScreenManager = relive_new ScreenManager(field_2C_camera_array[0]->field_C_pCamRes, &mCameraOffset);
+        gScreenManager = relive_new ScreenManager(field_2C_camera_array[0]->mCamRes, &mCameraOffset);
     }
 
     gPathInfo->Loader_4DB800(mCamIdxOnX, mCamIdxOnY, LoadMode::ConstructObject_0, ReliveTypes::eNone); // none = load all
@@ -817,12 +817,12 @@ void Map::GoTo_Camera()
 
     if (mCameraSwapEffect == CameraSwapEffects::ePlay1FMV_5)
     {
-        Map::FMV_Camera_Change(field_2C_camera_array[0]->field_C_pCamRes, this, mNextLevel);
+        Map::FMV_Camera_Change(field_2C_camera_array[0]->mCamRes, this, mNextLevel);
     }
 
     if (mCameraSwapEffect == CameraSwapEffects::eUnknown_11)
     {
-        gScreenManager->DecompressCameraToVRam(field_2C_camera_array[0]->field_C_pCamRes);
+        gScreenManager->DecompressCameraToVRam(field_2C_camera_array[0]->mCamRes);
         gScreenManager->EnableRendering();
     }
 
@@ -850,7 +850,7 @@ void Map::GoTo_Camera()
         {
             if (!mTeleporterTransition)
             {
-                relive_new CameraSwapper(field_2C_camera_array[0]->field_C_pCamRes, mCameraSwapEffect, 368 / 2, 240 / 2);
+                relive_new CameraSwapper(field_2C_camera_array[0]->mCamRes, mCameraSwapEffect, 368 / 2, 240 / 2);
             }
             else
             {
@@ -915,7 +915,7 @@ void Map::CreateScreenTransistionForTLV(relive::Path_TLV* pTlv)
     const s16 doorYDiff = static_cast<s16>(pTlv->mTopLeftY - FP_GetExponent(gScreenManager->CamYPos()));
     const s16 midX = (pTlv->mTopLeftX + pTlv->mBottomRightX) / 2;
     const s16 rightPos = static_cast<s16>(midX - FP_GetExponent(gScreenManager->CamXPos()));
-    relive_new CameraSwapper(field_2C_camera_array[0]->field_C_pCamRes, mCameraSwapEffect, rightPos, doorYDiff);
+    relive_new CameraSwapper(field_2C_camera_array[0]->mCamRes, mCameraSwapEffect, rightPos, doorYDiff);
 }
 
 void Map::Get_map_size(PSX_Point* pPoint)
@@ -1083,8 +1083,8 @@ Camera* Map::Create_Camera(s16 xpos, s16 ypos, s32 /*a4*/)
     for (s32 i = 0; i < ALIVE_COUNTOF(field_40_stru_5); i++)
     {
         if (field_40_stru_5[i]
-            && field_40_stru_5[i]->field_1A_level == mCurrentLevel
-            && field_40_stru_5[i]->field_18_path == mCurrentPath
+            && field_40_stru_5[i]->mLevel == mCurrentLevel
+            && field_40_stru_5[i]->mPath == mCurrentPath
             && field_40_stru_5[i]->mCamXOff == xpos
             && field_40_stru_5[i]->mCamYOff == ypos)
         {
@@ -1107,23 +1107,23 @@ Camera* Map::Create_Camera(s16 xpos, s16 ypos, s32 /*a4*/)
     Camera* newCamera = relive_new Camera();
 
     // Copy in the camera name from the Path resource and append .CAM
-    memset(newCamera->field_1E_cam_name, 0, sizeof(newCamera->field_1E_cam_name));
-    strncpy(newCamera->field_1E_cam_name, pCamName, ALIVE_COUNTOF(CameraName::name));
-    strcat(newCamera->field_1E_cam_name, ".CAM");
+    memset(newCamera->mCamName, 0, sizeof(newCamera->mCamName));
+    strncpy(newCamera->mCamName, pCamName, ALIVE_COUNTOF(CameraName::name));
+    strcat(newCamera->mCamName, ".CAM");
 
     newCamera->mCamXOff = xpos;
     newCamera->mCamYOff = ypos;
 
     newCamera->mCamResLoaded = false;
 
-    newCamera->field_1A_level = mCurrentLevel;
-    newCamera->field_18_path = mCurrentPath;
+    newCamera->mLevel = mCurrentLevel;
+    newCamera->mPath = mCurrentPath;
 
     // Calculate hash/resource ID of the camera
-    newCamera->field_10_camera_resource_id = 1 * (pCamName[7] - '0') + 10 * (pCamName[6] - '0') + 100 * (pCamName[4] - '0') + 1000 * (pCamName[3] - '0');
+    newCamera->mCameraResourceId = 1 * (pCamName[7] - '0') + 10 * (pCamName[6] - '0') + 100 * (pCamName[4] - '0') + 1000 * (pCamName[3] - '0');
 
     // Convert the 2 digit camera number string to an integer
-    newCamera->field_1C_camera_number = 1 * (pCamName[7] - '0') + 10 * (pCamName[6] - '0');
+    newCamera->mCamera = 1 * (pCamName[7] - '0') + 10 * (pCamName[6] - '0');
 
     return newCamera;
 }
@@ -1141,17 +1141,17 @@ void Map::Load_Path_Items(Camera* pCamera, LoadMode loadMode)
         if (loadMode == LoadMode::ConstructObject_0)
         {
             // Async camera load
-            // ResourceManager::LoadResourceFile_49C130(pCamera->field_1E_cam_name, Camera::On_Loaded, pCamera, pCamera);
-            pCamera->field_C_pCamRes = ResourceManagerWrapper::LoadCam(pCamera->field_1A_level, pCamera->field_18_path, pCamera->field_1C_camera_number);
+            // ResourceManager::LoadResourceFile_49C130(pCamera->mCamName, Camera::On_Loaded, pCamera, pCamera);
+            pCamera->mCamRes = ResourceManagerWrapper::LoadCam(pCamera->mLevel, pCamera->mPath, pCamera->mCamera);
 
             gPathInfo->Loader_4DB800(pCamera->mCamXOff, pCamera->mCamYOff, LoadMode::LoadResourceFromList_1, ReliveTypes::eNone); // none = load all
         }
         else
         {
             // Blocking camera load
-            // ResourceManager::LoadResourceFile_49C170(pCamera->field_1E_cam_name, pCamera);
+            // ResourceManager::LoadResourceFile_49C170(pCamera->mCamName, pCamera);
             pCamera->mCamResLoaded = true;
-            // pCamera->field_C_pCamRes = ResourceManagerWrapper::LoadCam(pCamera->field_1A_level, pCamera->field_18_path, pCamera->field_1C_camera_number);
+            // pCamera->mCamRes = ResourceManagerWrapper::LoadCam(pCamera->mLevel, pCamera->mPath, pCamera->mCamera);
 
             gPathInfo->Loader_4DB800(pCamera->mCamXOff, pCamera->mCamYOff, LoadMode::LoadResource_2, ReliveTypes::eNone); // none = load all
         }

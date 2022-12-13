@@ -174,8 +174,8 @@ void Init_GameStates()
     gGasOn = 0;
     gGasTimer = 0;
 
-    gbDrawMeterCountDown_5C1BF8 = false;
-    gTotalMeterBars_5C1BFA = 0;
+    gbDrawMeterCountDown = false;
+    gTotalMeterBars = 0;
 
     gAbeInvincible = false;
 

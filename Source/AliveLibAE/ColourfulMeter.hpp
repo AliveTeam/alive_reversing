@@ -28,14 +28,14 @@ private:
     s16 mSwitchId = 0;
     s16 mTlvX = 0;
     s16 mTlvY = 0;
-    s16 field_78_count = 0;
+    s16 mCount = 0;
     s16 mNumberOfMeterBars = 0;
     s16 mMinesAlarmCountdown = 0;
     s16 mStartingSwitchState = 0;
-    s16 field_82_bar_count = 0;
+    s16 mBarCount = 0;
     relive::reliveChoice mStartFilled = relive::reliveChoice::eNo;
-    Poly_G4 field_88_polyG4s[2][kMeterBarsXCount] = {};
+    Poly_G4 mPolyG4s[2][kMeterBarsXCount] = {};
 };
 
-extern u8 gTotalMeterBars_5C1BFA;
-extern u16 gbDrawMeterCountDown_5C1BF8;
+extern u8 gTotalMeterBars;
+extern bool gbDrawMeterCountDown;

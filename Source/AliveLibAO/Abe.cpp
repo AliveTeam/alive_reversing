@@ -755,7 +755,7 @@ Abe::Abe()
     field_160_pRope = nullptr;
     field_130_say = -1;
     field_134_auto_say_timer = 0;
-    field_EC_bBeesCanChase = 1;
+    SetCanBeesChase(true);
 
     // Set Abe to be the current player controlled object
     sControlledCharacter = this;
@@ -7496,7 +7496,7 @@ void Abe::Motion_88_HandstoneBegin()
             if (gMovieRefCount == 0)
             {
                 gPsxDisplay.PutCurrentDispEnv();
-                gScreenManager->DecompressCameraToVRam(gMap.field_2C_camera_array[0]->field_C_pCamRes);
+                gScreenManager->DecompressCameraToVRam(gMap.field_2C_camera_array[0]->mCamRes);
                 gScreenManager->EnableRendering();
                 mCircularFade->VFadeIn(0, 0);
                 field_110_state.stone = StoneStates::eHandstoneEnd_5;
@@ -8342,7 +8342,7 @@ void Abe::Motion_139_ElumMountBegin()
         field_1A4_resources.res[61] = {};
         field_104_pending_resource_count = 1;
 
-        ResourceManager::LoadResourceFile("ABEWELM.BND", BaseAliveGameObject::OnResourceLoaded_4019A0, this);
+        ResourceManager::LoadResourceFile("ABEWELM.BND", BaseAliveGameObject::OnResourceLoaded, this);
         */
         VOnTrapDoorOpen();
         mCurrentMotion = eAbeMotions::Motion_136_ElumMountEnd;

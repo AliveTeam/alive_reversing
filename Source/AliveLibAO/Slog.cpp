@@ -477,7 +477,7 @@ void Slog::Init()
     field_124 = -1;
     field_116_brain_sub_state = 0;
     mNextMotion = -1;
-    field_EC_bBeesCanChase = 3;
+    SetCanBeesChase(true);
     field_13C_res_idx = 0;
     SetType(ReliveTypes::eSlog);
     BaseAliveGameObject_PlatformId = Guid{};

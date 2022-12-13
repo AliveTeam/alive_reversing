@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../relive_lib/BaseGameObject.hpp"
-#include "Map.hpp"
+#include "PathData.hpp"
 #include "Font.hpp"
 #include "../AliveLibCommon/Primitives_common.hpp"
 
@@ -26,22 +26,23 @@ public:
     virtual void VUpdate() override;
     virtual void VRender(PrimHeader** ppOt) override;
 
+private:
+    Prim_PrimClipper mPrimClippers[2][2] = {};
+    FontContext mFontContext;
+    AliveFont mFont;
+    char_type* mActiveMessage = nullptr;
+    const char_type* mMessageCutoffPtr = nullptr;
+    char_type mMessageBuffer[512] = {};
+    s32 mMessageId1 = 0;
+    s32 mOffsetX = 0;
+    s32 mCharacterWidth = 0;
+    Guid mTlvId;
+    s32 mShowRandomMessage = 0;
+    s16 mMessageRandMinId = 0;
+    s16 mMessageRandMaxId = 0;
+    PSX_Point mTlvTopLeft = {};
+    PSX_Point mTlvBottomRight = {};
 
-    Prim_PrimClipper field_10_prim_clippers[2][2] = {};
-    FontContext field_50_FontContext;
-    AliveFont field_60_font;
-    char_type* field_A0_message = nullptr;
-    const char_type* field_A4_message_cutoff_ptr = nullptr;
-    s32 field_A8 = 0;
-    char_type field_AC_message_buffer[512] = {};
-    s32 field_2AC_message_1_id = 0;
-    s32 field_2B0_x_offset = 0;
-    s32 field_2B4_character_width = 0;
-    Guid field_2B8_tlv_item_info;
-    relive::Path_TLV* field_2BC_tlv = {};
-    s32 field_2D4 = 0;
-    s16 field_2D8_message_rand_min = 0;
-    s16 field_2DC_message_rand_max = 0;
     PalResource mPal1;
     PalResource mPal2;
 };

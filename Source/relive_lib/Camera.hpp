@@ -17,13 +17,13 @@ public:
 public:
     static void On_Loaded(Camera* pCamera);
 
-    CamResource field_C_pCamRes;
-    s32 field_10_camera_resource_id = 0;
+    CamResource mCamRes;
+    s32 mCameraResourceId = 0;
     s16 mCamXOff = 0;
     s16 mCamYOff = 0;
-    s16 field_18_path = 0;
-    EReliveLevelIds field_1A_level;
-    s16 field_1C_camera_number = 0;
-    char_type field_1E_cam_name[16] = {};
+    s16 mPath = 0;
+    EReliveLevelIds mLevel;
+    s16 mCamera = 0;
+    char_type mCamName[16] = {};
     bool mCamResLoaded = false;
 };

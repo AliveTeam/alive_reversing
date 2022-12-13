@@ -454,12 +454,12 @@ void Elum::SetAbeAsPlayer(s16 abeMotion)
 
     ResourceManager::LoadResourceFile(
         "ELMALONE.BAN",
-        BaseAliveGameObject::OnResourceLoaded_4019A0,
+        BaseAliveGameObject::OnResourceLoaded,
         this);
 
     ResourceManager::LoadResourceFile(
         "ELMPRMNT.BAN",
-        BaseAliveGameObject::OnResourceLoaded_4019A0,
+        BaseAliveGameObject::OnResourceLoaded,
         this);
     */
 }
@@ -3583,7 +3583,7 @@ Elum::Elum(const Guid& tlvInfo)
     mDontFollowAbe = 0;
     field_124_bShould_IdleToWalk1 = 1;
     field_10E_pressed = 0;
-    field_EC_bBeesCanChase = 2;
+    SetCanBeesChase(true);
     mBaseAliveGameObjectLastAnimFrame = 0;
 
     mPreviousContinueZoneNumber = 0;

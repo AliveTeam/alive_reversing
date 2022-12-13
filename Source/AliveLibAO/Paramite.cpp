@@ -108,7 +108,7 @@ Paramite::Paramite(relive::Path_Paramite* pTlv, const Guid& tlvId)
     field_114_timer = 0;
     mBrainSubState = 0;
     SetNextMotion(eParamiteMotions::Motion_0_Idle);
-    field_EC_bBeesCanChase = 3;
+    SetCanBeesChase(true);
 
     SetCurrentMotion(eParamiteMotions::Motion_0_Idle);
     field_140_use_prev_motion = 0;
