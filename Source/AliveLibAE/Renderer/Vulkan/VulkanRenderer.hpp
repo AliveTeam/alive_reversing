@@ -8,6 +8,7 @@
 #define VK_NO_PROTOTYPES 
 #include <vulkan/vulkan.h>
 #include <vulkan/vulkan.hpp>
+#include <vulkan/vulkan_raii.hpp>
 #include <optional>
 
 class VulkanRenderer final : public IRenderer
@@ -31,9 +32,9 @@ public:
 private:
     struct SwapChainSupportDetails
     {
-        VkSurfaceCapabilitiesKHR capabilities;
-        std::vector<VkSurfaceFormatKHR> formats;
-        std::vector<VkPresentModeKHR> presentModes;
+        vk::SurfaceCapabilitiesKHR capabilities;
+        std::vector<vk::SurfaceFormatKHR> formats;
+        std::vector<vk::PresentModeKHR> presentModes;
     };
 
     struct QueueFamilyIndices
@@ -67,7 +68,6 @@ private:
 
     void createInstance();
 
-    void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
     void setupDebugMessenger();
 
     void createSurface();
@@ -81,93 +81,93 @@ private:
     void createGraphicsPipeline();
     void createFramebuffers();
     void createCommandPool();
-    void createTextureImage(const char* bmpName, VkImage& textureImage, VkDeviceMemory& deviceMemory);
+    void createTextureImage(const char* bmpName, std::unique_ptr<vk::raii::Image>& textureImage, std::unique_ptr<vk::raii::DeviceMemory>& deviceMemory);
     void createTextureImageView();
     void createTextureSampler();
-    VkImageView createImageView(VkImage image, VkFormat format);
-    void createImage(uint32_t width, uint32_t height, VkFormat format, VkImageTiling tiling, VkImageUsageFlags usage, VkMemoryPropertyFlags properties, VkImage& image, VkDeviceMemory& imageMemory);
-    // TODO: nuke dead params
-    void transitionImageLayout(VkImage image, VkFormat /*format*/, VkImageLayout oldLayout, VkImageLayout newLayout);
-    void copyBufferToImage(VkBuffer buffer, VkImage image, uint32_t width, uint32_t height);
+    vk::raii::ImageView createImageView(vk::Image image, vk::Format format);
+    std::pair<std::unique_ptr<vk::raii::Image>, std::unique_ptr<vk::raii::DeviceMemory>> createImage(uint32_t width, uint32_t height, vk::Format format, vk::ImageTiling tiling, vk::ImageUsageFlags usage, vk::MemoryPropertyFlags properties);
+    void transitionImageLayout(vk::Image image, vk::ImageLayout oldLayout, vk::ImageLayout newLayout);
+    void copyBufferToImage(vk::Buffer buffer, vk::Image image, uint32_t width, uint32_t height);
     void createVertexBuffer();
     void createIndexBuffer();
     void createUniformBuffers();
     void createDescriptorPool();
     void createDescriptorSets();
-    void createBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
-    VkCommandBuffer beginSingleTimeCommands();
-    void endSingleTimeCommands(VkCommandBuffer commandBuffer);
-    void copyBuffer(VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
-    uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
+    std::pair<std::unique_ptr<vk::raii::Buffer>, std::unique_ptr<vk::raii::DeviceMemory>> createBuffer(vk::DeviceSize size, vk::BufferUsageFlags usage, vk::MemoryPropertyFlags properties);
+    vk::raii::CommandBuffer beginSingleTimeCommands();
+    void endSingleTimeCommands(vk::raii::CommandBuffer& commandBuffer);
+    void copyBuffer(vk::Buffer srcBuffer, vk::Buffer dstBuffer, vk::DeviceSize size);
+    uint32_t findMemoryType(uint32_t typeFilter, vk::MemoryPropertyFlags properties);
     void createCommandBuffers();
-    void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
+    void recordCommandBuffer(vk::raii::CommandBuffer& commandBuffer, uint32_t imageIndex);
     void createSyncObjects();
     void updateUniformBuffer(uint32_t currentImage);
     void drawFrame();
-    VkShaderModule createShaderModule(const std::vector<char>& code);
-    VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
-    VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
+    vk::raii::ShaderModule createShaderModule(const std::vector<char>& code);
+    vk::SurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<vk::SurfaceFormatKHR>& availableFormats);
+    vk::PresentModeKHR chooseSwapPresentMode(const std::vector<vk::PresentModeKHR>& availablePresentModes);
     VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
-    SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice vkDevice);
-    bool isDeviceSuitable(VkPhysicalDevice vkDevice);
-    bool checkDeviceExtensionSupport(VkPhysicalDevice vkDevice);
-    QueueFamilyIndices findQueueFamilies(VkPhysicalDevice vkDevice);
+    SwapChainSupportDetails querySwapChainSupport(vk::raii::PhysicalDevice& vkDevice);
+    bool isDeviceSuitable(vk::raii::PhysicalDevice& vkDevice);
+    bool checkDeviceExtensionSupport(vk::raii::PhysicalDevice& vkDevice);
+    QueueFamilyIndices findQueueFamilies(vk::raii::PhysicalDevice& vkDevice);
     std::vector<const char*> getRequiredExtensions();
     bool checkValidationLayerSupport();
     static std::vector<char> readFile(const std::string& filename);
     static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT /*messageSeverity*/, VkDebugUtilsMessageTypeFlagsEXT /*messageType*/, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* /*pUserData*/);
 
-    VkInstance instance;
-    VkDebugUtilsMessengerEXT debugMessenger;
-    VkSurfaceKHR surface;
+    std::unique_ptr<vk::raii::Context> mContext;
+    std::unique_ptr<vk::raii::Instance> instance;
+    std::unique_ptr<vk::raii::DebugUtilsMessengerEXT> debugMessenger;
+    std::unique_ptr<vk::raii::SurfaceKHR> surface;
 
-    VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
-    VkDevice device;
+    std::unique_ptr<vk::raii::PhysicalDevice> physicalDevice;
+    std::unique_ptr<vk::raii::Device> device;
 
-    VkQueue graphicsQueue;
-    VkQueue presentQueue;
+    std::unique_ptr<vk::raii::Queue> graphicsQueue;
+    std::unique_ptr<vk::raii::Queue> presentQueue;
 
-    VkSwapchainKHR swapChain;
-    std::vector<VkImage> swapChainImages;
-    VkFormat swapChainImageFormat;
-    VkExtent2D swapChainExtent;
-    std::vector<VkImageView> swapChainImageViews;
-    std::vector<VkFramebuffer> swapChainFramebuffers;
+    std::unique_ptr<vk::raii::SwapchainKHR> swapChain;
+    std::vector<vk::Image> swapChainImages;
+    vk::Format swapChainImageFormat;
+    vk::Extent2D swapChainExtent;
+    std::vector<vk::raii::ImageView> swapChainImageViews;
+    std::vector<vk::raii::Framebuffer> swapChainFramebuffers;
 
-    VkRenderPass renderPass;
-    VkDescriptorSetLayout descriptorSetLayout;
-    VkPipelineLayout pipelineLayout;
-    VkPipeline graphicsPipeline;
+    std::unique_ptr<vk::raii::RenderPass> renderPass;
+    std::unique_ptr<vk::raii::DescriptorSetLayout> descriptorSetLayout;
+    std::unique_ptr<vk::raii::PipelineLayout> pipelineLayout;
+    std::unique_ptr<vk::raii::Pipeline> graphicsPipeline;
 
-    VkCommandPool commandPool;
+    std::unique_ptr<vk::raii::CommandPool> commandPool;
 
-    VkImage mTextureImage;
-    VkDeviceMemory mTextureImageMemory;
+    std::unique_ptr<vk::raii::Image> mTextureImage;
+    std::unique_ptr<vk::raii::DeviceMemory> mTextureImageMemory;
 
-    VkImage mTextureImage2;
-    VkDeviceMemory mTextureImageMemory2;
+    std::unique_ptr<vk::raii::Image> mTextureImage2;
+    std::unique_ptr<vk::raii::DeviceMemory> mTextureImageMemory2;
 
-    VkImageView mTextureImageView;
-    VkImageView mTextureImageView2;
-    VkSampler mTextureSampler;
+    std::unique_ptr<vk::raii::ImageView> mTextureImageView;
+    std::unique_ptr<vk::raii::ImageView> mTextureImageView2;
+    std::unique_ptr<vk::raii::Sampler> mTextureSampler;
 
-    VkBuffer mVertexBuffer;
-    VkDeviceMemory mVertexBufferMemory;
-    VkBuffer mIndexBuffer;
-    VkDeviceMemory mIndexBufferMemory;
+    std::unique_ptr<vk::raii::Buffer> mVertexBuffer;
+    std::unique_ptr<vk::raii::DeviceMemory> mVertexBufferMemory;
+    std::unique_ptr<vk::raii::Buffer> mIndexBuffer;
+    std::unique_ptr<vk::raii::DeviceMemory> mIndexBufferMemory;
 
-    std::vector<VkBuffer> mUniformBuffers;
-    std::vector<VkDeviceMemory> mUniformBuffersMemory;
+    std::vector<std::unique_ptr<vk::raii::Buffer>> mUniformBuffers;
+    std::vector<std::unique_ptr<vk::raii::DeviceMemory>> mUniformBuffersMemory;
     std::vector<void*> mUniformBuffersMapped;
 
-    VkDescriptorPool descriptorPool;
-    std::vector<VkDescriptorSet> descriptorSets;
+    std::unique_ptr<vk::raii::DescriptorPool> descriptorPool;
+    std::vector<vk::raii::DescriptorSet> descriptorSets;
 
-    std::vector<VkCommandBuffer> commandBuffers;
+    std::vector<std::unique_ptr<vk::raii::CommandBuffer>> commandBuffers;
 
-    std::vector<VkSemaphore> imageAvailableSemaphores;
-    std::vector<VkSemaphore> renderFinishedSemaphores;
-    std::vector<VkFence> inFlightFences;
+    std::vector<vk::raii::Semaphore> imageAvailableSemaphores;
+    std::vector<vk::raii::Semaphore> renderFinishedSemaphores;
+    std::vector<vk::raii::Fence> inFlightFences;
     uint32_t currentFrame = 0;
 
     bool framebufferResized = false;
